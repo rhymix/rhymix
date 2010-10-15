@@ -439,11 +439,16 @@
                 $value = $val['value'];
 
                 if($output->column_type[$name]!='number') {
+
 					$value = $this->addQuotes($value);
 					if($value){
-						$value = "'".$this->addQuotes($value)."'";
+						$value = "'".$value."'";
 					}else{
-						$value = 'null';
+						if($val['notnull']=='notnull') {
+							$value = "''";
+						} else {
+							$value = 'null';
+						}
 					}
 
                 } elseif(!$value || is_numeric($value)) $value = (int)$value;
