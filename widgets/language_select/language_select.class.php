@@ -18,6 +18,8 @@
             // 템플릿의 스킨 경로를 지정 (skin, colorset에 따른 값을 설정)
             $tpl_path = sprintf('%sskins/%s', $this->widget_path, $args->skin);
             $tpl_file = 'language_select';
+			
+			Context::set('colorset', $args->colorset);
 
             // 템플릿 컴파일
             $oTemplate = &TemplateHandler::getInstance();
