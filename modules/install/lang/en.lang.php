@@ -503,18 +503,18 @@ EndOfLicense;
     $lang->cmd_ignore = 'Ignore';
 
     $lang->db_desc = array(
-        'mysql' => 'Using mysql*() function to use mysql DB.<br />Transaction is disabled because DB file is created by myisam.',
-        'mysqli' => 'Using mysqli*() function to use mysql DB.',
-        'mysql_innodb' => 'Using innodb to use mysql DB.<br />Transaction is enabled for innodb',
-        'sqlite2' => 'Supporting sqlite2 which saves the data into the file.<br />When installing, DB file should be created at unreachable place from web.<br />(Never got tested on stabilization)',
-        'sqlite3_pdo' => 'Suppots sqlite3 by PHP\'s PDO.<br />When installing, DB file should be created at unreachable place from web.',
-        'cubrid' => 'Use CUBRID DB.  <a href="http://www.xpressengine.com/?mid=manual&pageid=2880556" onclick="window.open(this.href);return false;" class="manual">manual</a>',
-        'mssql' => 'Use MSSQL DB',
-        'postgresql' => 'Use PostgreSql DB.',
-        'firebird' => 'Use firebird DB.',
+        'mysql' => 'Use MySQL as database with mysql*() functions in php.<br />Transactions will not be processed since DB file is created in myisam.',
+        'mysqli' => 'Use MySQL as database with mysqli*() functions in php.<br />Transactions will not be processed since DB file is created in myisam',
+        'mysql_innodb' => 'Use MySQL as database with innodb.<br />Transactions will be processed with innodb',
+        'sqlite2' => 'Use sqlite2 as database which saves the data as files.<br />DB file <b>must not be</b> accessible from the web.<br />(Never been tested for stabilization)',
+        'sqlite3_pdo' => 'Use sqlite3 as database with supports from PDO of php.<br />DB file <b>must not be</b> accessible from the web.',
+        'cubrid' => 'Use CUBRID as database. See <a href="http://www.xpressengine.com/?mid=manual&pageid=2880556" onclick="window.open(this.href);return false;" class="manual">manual</a> for more info',
+        'mssql' => 'Use MSSQL as database',
+        'postgresql' => 'Use PostgreSql as database.',
+        'firebird' => 'Use Firebird as database.<br />You can create database with (create database "/path/dbname.fdb" page_size=8192 default character set UTF-8;)',
     );
 
-    $lang->form_title = 'Please input DB &amp; Admin information';
+    $lang->form_title = 'Database &amp; Administrator Information';
     $lang->db_title = 'Please input DB information';
     $lang->db_type = 'DB Type';
     $lang->select_db_type = 'Please select the DB you want to use.';
@@ -523,8 +523,8 @@ EndOfLicense;
     $lang->db_userid = 'DB ID';
     $lang->db_password = 'DB Password';
     $lang->db_database = 'DB Database';
-    $lang->db_database_file = 'DB Database file';
-    $lang->db_table_prefix = 'Table header';
+    $lang->db_database_file = 'DB Database File';
+    $lang->db_table_prefix = 'Table Header';
 
     $lang->admin_title = 'Administrator Info';
 
