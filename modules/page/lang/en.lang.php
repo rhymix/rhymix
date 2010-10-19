@@ -11,5 +11,5 @@
     $lang->cmd_page_create = 'Create a Page';
     $lang->page_caching_interval = "Caching Time";
     $lang->about_page_caching_interval = "The unit is minute, and it displays temporary saved data for assigned time.<br />It is recommended to cache for proper time if a lot of resources are needed when displaying other servers' data or information.<br />A value of 0 will not cache.";
-	$lang->about_mcontent = 'This is the page for the mobile view. If you do not write this page, the mobile view display reoragnized PC view\'s page.';
+	$lang->about_mcontent = 'This is the page you will see from mobile devices. If you have not set this page, rearranged default page will be displayed.';
 ?>
