@@ -445,7 +445,7 @@
                 $column_list[] = '`'.$name.'`';
                 $value_list[] = $value;
             }
-
+		}
 
         /**
          * @brief updateAct 처리
