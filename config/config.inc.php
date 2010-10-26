@@ -20,6 +20,11 @@
      **/
     define('_XE_PATH_', str_replace('config/config.inc.php', '', str_replace('\\', '/', __FILE__)));
 
+	/**
+	 * @brief 쿠키 이외의 값에서도 세션을 인식할 수 있도록 함(파일업로드 등에서의 문제 수정)
+	 **/
+	ini_set('session.use_only_cookies', 0);
+
     /**
      * @brief 기본 설정에 우선하는 사용자 설정 파일
      * config/config.user.inc.php 파일에 아래 내용을 저장하면 됨

@@ -35,11 +35,6 @@
      **/
     define('__ZBXE__', true);
 
-	/**
-	 * @brief 쿠키 이외의 값에서도 세션을 인식할 수 있도록 함(파일업로드 등에서의 문제 수정)
-	 **/
-	ini_set('session.use_only_cookies', 0);
-
     /**
      * @brief 필요한 설정 파일들을 include
      **/
