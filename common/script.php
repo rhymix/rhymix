@@ -53,7 +53,7 @@ function getMtime($file){
 function getMaxMtime($list){
 	$mtime = array();
 	foreach($list as $file) $mtime[] = getMtime($file);
-	return max($mtime);
+	return count($mtime)?max($mtime):0;
 }
 
 // check
