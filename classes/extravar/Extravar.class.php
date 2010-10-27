@@ -177,11 +177,14 @@
          * @brief type에 따른 form을 리턴
          **/
         function getFormHTML() {
+			static $id_num = 1000;
+
             $type = $this->type;
             $name = $this->name;
             $value = $this->_getTypeValue($this->type, $this->value);
             $default = $this->_getTypeValue($this->type, $this->default);
             $column_name = 'extra_vars'.$this->idx;
+			$tmp_id = $column_name.'-'.$id_num++;
 
             $buff = '';
             switch($type) {
@@ -214,7 +217,11 @@
                         foreach($default as $v) {
                             if($value && in_array($v, $value)) $checked = ' checked="checked"';
                             else $checked = '';
-                            $buff .='<li><input type="checkbox" name="'.$column_name.'" value="'.htmlspecialchars($v).'" '.$checked.' />'.$v.'</li>';
+
+							// Temporary ID for labeling
+							$tmp_id = $column_name.'-'.$id_num++;
+
+                            $buff .='<li><input type="checkbox" name="'.$column_name.'" id="'.$tmp_id.'" value="'.htmlspecialchars($v).'" '.$checked.' /><label for="'.$tmp_id.'">'.$v.'</label></li>';
                         }
                         $buff .= '</ul>';
                     break;
@@ -236,7 +243,11 @@
                         foreach($default as $v) {
                             if($value && in_array($v,$value)) $checked = ' checked="checked"';
                             else $checked = '';
-                            $buff .= '<li><input type="radio" name="'.$column_name.'" '.$checked.' value="'.$v.'"  class="radio" />'.$v.'</li>';
+
+							// Temporary ID for labeling
+							$tmp_id = $column_name.'-'.$id_num++;
+
+                            $buff .= '<li><input type="radio" name="'.$column_name.'" id="'.$tmp_id.'" '.$checked.' value="'.$v.'"  class="radio" /><label for="'.$tmp_id.'">'.$v.'</label></li>';
                         }
                         $buff .= '</ul>';
                     break;
