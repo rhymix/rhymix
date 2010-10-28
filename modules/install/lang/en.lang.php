@@ -534,7 +534,7 @@ EndOfLicense;
     $lang->use_rewrite = 'Rewrite Mod';
     $lang->use_sso = 'Single Sign On';
     $lang->about_rewrite = "If web server provides rewrite mod, long URL such as http://blah/?document_srl=123 can be shortened like http://blah/123";
-	$lang->about_sso = '사용자가 한 번만 로그인하면 기본 사이트와 가상 사이트에 동시에 로그인이 되는 기능입니다. 가상 사이트를 사용할 때만 필요합니다.';
+	$lang->about_sso = 'SSO will enable users to sign in just once for both default and virtual site. You will need this only if you are using virtual sites.';
     $lang->time_zone = 'Time Zone';
     $lang->about_time_zone = "If the server time and the time on your location don't accord each other, you can set the time as same as your location by using time zone ";
     $lang->qmail_compatibility = 'Enable Qmail';
