@@ -536,6 +536,7 @@ EndOfLicense;
     $lang->use_rewrite = 'Использовать модуль перезаписи (rewrite mod)';
     $lang->use_sso = 'SSO';
     $lang->about_rewrite = "Если сервер предлагает rewrite mod, длинные URL такие как  http://blah/?document_srl=123 могут быть сокращены до http://blah/123";
+	$lang->about_sso = '사용자가 한 번만 로그인하면 기본 사이트와 가상 사이트에 동시에 로그인이 되는 기능입니다. 가상 사이트를 사용할 때만 필요합니다.';
     $lang->time_zone = 'Часовой пояс';
     $lang->about_time_zone = "Если серверное время и Ваше локальное время не совпадают, Вы можете установить такое же время, как Ваше локальное, используя часовой пояс";
     $lang->qmail_compatibility = 'Qmail 호환';

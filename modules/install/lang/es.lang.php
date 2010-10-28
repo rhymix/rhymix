@@ -533,6 +533,7 @@ EndOfLicense;
     $lang->use_rewrite = 'Usar rewrite mod';
     $lang->use_sso = 'SSO';
     $lang->about_rewrite = "Si el servidor de la web soporte rewrite mod, URL largas como http://bla/?documento_srl=123 puede abreviarse como  http://bla/123";
+	$lang->about_sso = '사용자가 한 번만 로그인하면 기본 사이트와 가상 사이트에 동시에 로그인이 되는 기능입니다. 가상 사이트를 사용할 때만 필요합니다.';
     $lang->time_zone = 'La Hora por Zona';
     $lang->about_time_zone = "Si la hora del servidor y la hora de su ubicación es diferente, Usted puede elegir la hora por zona para corregir";
     $lang->qmail_compatibility = 'Compatible con Qmail';

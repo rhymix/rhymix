@@ -535,6 +535,7 @@ EndOfLicense;
     $lang->use_rewrite = 'Rewrite';
     $lang->use_sso = 'SSO';
     $lang->about_rewrite = '如主機支援 rewrite 模組並選擇此項，可以簡化複雜的網址。<br />例如，『http://域名/?document_srl=123』可簡化成『http://域名/123』。';
+	$lang->about_sso = '사용자가 한 번만 로그인하면 기본 사이트와 가상 사이트에 동시에 로그인이 되는 기능입니다. 가상 사이트를 사용할 때만 필요합니다.';
     $lang->time_zone = '時區';
     $lang->about_time_zone = '主機時間和您所處的時間有差異時，可以設置時區來滿足你所需要的時間顯示。';
     $lang->qmail_compatibility = 'Qmail互換';
