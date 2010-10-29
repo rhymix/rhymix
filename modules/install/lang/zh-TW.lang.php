@@ -469,7 +469,7 @@ DAMAGES.
 
 EndOfLicense;
 
-    $lang->install_condition_title = '確認安裝時必須要具備的條件';
+    $lang->install_condition_title = '確認安裝時必備的條件';
 
     $lang->install_checklist_title = array(
 			'php_version' => 'PHP版本',
@@ -531,15 +531,15 @@ EndOfLicense;
 
     $lang->env_title = '環境設置';
     $lang->use_optimizer = 'Optimizer';
-    $lang->about_optimizer = '使用Optimizer可以對大部分的『CSS/JS』檔案進行整合/壓縮傳送使之加快網站訪問速度。<br />只是有時會發生小小的問題。這時候請暫時不要使用 Optimizer。';
+    $lang->about_optimizer = '使用 Optimizer 可對大部分的『CSS/JS』檔案進行整合/壓縮加快網站訪問速度。<br />只是有時會發生小小的問題，這時候請暫時不要使用 Optimizer 功能。';
     $lang->use_rewrite = 'Rewrite';
-    $lang->use_sso = 'SSO';
-    $lang->about_rewrite = '如主機支援 rewrite 模組並選擇此項，可以簡化複雜的網址。<br />例如，『http://域名/?document_srl=123』可簡化成『http://域名/123』。';
-	$lang->about_sso = '사용자가 한 번만 로그인하면 기본 사이트와 가상 사이트에 동시에 로그인이 되는 기능입니다. 가상 사이트를 사용할 때만 필요합니다.';
+    $lang->use_sso = '單一登入';
+    $lang->about_rewrite = '如果支援 rewrite 功能，可縮短冗長的網址。<br />例>『http://域名/?document_srl=123』縮短成『http://域名/123』。';
+	$lang->about_sso = '此功能可讓用戶只需登入一次即可訪問多個網站。 使用虛擬網站，這將會是很重要的功能。';
     $lang->time_zone = '時區';
     $lang->about_time_zone = '主機時間和您所處的時間有差異時，可以設置時區來滿足你所需要的時間顯示。';
     $lang->qmail_compatibility = 'Qmail互換';
-    $lang->about_qmail_compatibility = '支援無法識別 CRLF 為換行符的 Qmail 等MTA，也能發送電子郵件。';
+    $lang->about_qmail_compatibility = '支援無法識別 CRLF 為換行符的 Qmail 等 MTA，也能發送電子郵件。';
 
     $lang->about_database_file = 'Sqlite是保存資料於檔案中。資料庫的檔案位置應該放在 web 不能訪問的地方。<br/><span style="color:red">資料檔案應放在具有 707 權限的位置。</span>';
 
