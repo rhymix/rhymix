@@ -535,7 +535,7 @@ EndOfLicense;
     $lang->use_rewrite = 'Rewrite';
     $lang->use_sso = '單一登入';
     $lang->about_rewrite = '如果支援 rewrite 功能，可縮短冗長的網址。<br />例>『http://域名/?document_srl=123』縮短成『http://域名/123』。';
-	$lang->about_sso = '此功能可讓用戶只需登入一次即可訪問多個網站。 使用虛擬網站，這將會是很重要的功能。';
+	$lang->about_sso = '此功能可讓用戶只需登入一次即可訪問多個網站。<br />使用虛擬網站，這將會是很重要的功能。';
     $lang->time_zone = '時區';
     $lang->about_time_zone = '主機時間和您所處的時間有差異時，可以設置時區來滿足你所需要的時間顯示。';
     $lang->qmail_compatibility = 'Qmail互換';
