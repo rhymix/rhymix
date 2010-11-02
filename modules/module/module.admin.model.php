@@ -125,7 +125,8 @@
                     $type = $val->type;
                     if($skin_vars[$name]) $value = $skin_vars[$name]->value;
                     else $value = '';
-                    if($type=="checkbox" && !$value) $value = array();
+                    if($type=="checkbox") $value = $value?unserialize($value):array();
+
                     $skin_info->extra_vars[$key]->value= $value;
                 }
             }

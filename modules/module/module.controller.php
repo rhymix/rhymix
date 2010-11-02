@@ -480,7 +480,8 @@
                 // 스킨 정보 필드에 메뉴 항목(stdClass)을 저장해놓은 경우가 있어
                 // 1.2.0 이상 버전으로 업그레이드한 후 모듈 업데이트할 때
                 // 오류가 발생하는 문제 수정
-                if (is_array($val) || is_object($val)) continue;
+                if (is_object($val)) continue;
+                if (is_array($val)) $val = serialize($val);
 
                 $args->name = trim($key);
                 $args->value = trim($val);

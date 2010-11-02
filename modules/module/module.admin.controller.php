@@ -242,7 +242,7 @@
 
                         // 업로드 되지 않았다면 이전 데이터를 그대로 사용
                         if(!$image_obj['tmp_name']) {
-                            $obj->{$vars->name} = $module_info->{$vars->name};
+                            $obj->{$vars->name} = $skin_vars[$vars->name]->value;
                             continue;
                         }
 
