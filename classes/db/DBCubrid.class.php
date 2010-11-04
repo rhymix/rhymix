@@ -1097,6 +1097,13 @@
 
             $virtual_no = $total_count - ($page - 1) * $list_count;
             while($tmp = cubrid_fetch ($result, CUBRID_OBJECT)) {
+                if($tmp)
+                {
+                    foreach($tmp as $k => $v)
+                    {
+                        $tmp->{$k} = rtrim($v);
+                    }
+                }
                 $data[$virtual_no--] = $tmp;
             }
 
