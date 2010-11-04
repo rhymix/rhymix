@@ -28,12 +28,12 @@
 	<div class="tool"> 
 		<a href="#edit" class="skip">{$lang->edit->jumptoedit}</a> 
 		<div class="t1"> 
-			<button type="button" class="mo"><span>확장기능 더보기/접기</span></button> 
+			<button type="button" class="mo"><span>{$lang->edit->extension}</span></button> 
 			<ul class="u1"> 
-				<li class="ti al"><a href="#xdmw_attachList" class="tb"><span>첨부목록 <em>[<strong>0</strong>]</em></span></a></li> 
-				<li class="ti img"><button type="button" class="tb"><span>이미지 <em>[<strong>0</strong>]</em></span></button></li> 
-				<li class="ti mov"><button type="button" class="tb"><span>동영상 <em>[<strong>0</strong>]</em></span></button></li> 
-				<li class="ti file"><button type="button" class="tb"><span>파일 <em>[<strong>0</strong>]</em></span></button></li> 
+				<li class="ti al"><a href="#xdmw_attachList" class="tb"><span>{$lang->file_list} <em>[<strong>0</strong>]</em></span></a></li> 
+				<li class="ti img"><button type="button" class="tb"><span>{$lang->edit->image} <em>[<strong>0</strong>]</em></span></button></li> 
+				<li class="ti mov"><button type="button" class="tb"><span>{$lang->edit->multimedia} <em>[<strong>0</strong>]</em></span></button></li> 
+				<li class="ti file"><button type="button" class="tb"><span>{$lang->file} <em>[<strong>0</strong>]</em></span></button></li> 
 			</ul> 
             <!--@if($enable_component && false)-->
 			<!-- editor components -->
@@ -46,39 +46,28 @@
 			<!--@end-->
 		</div> 
 		<div class="t2"> 
-			<button type="button" class="mo"><span>확장기능 더보기/접기</span></button> 
+			<button type="button" class="mo"><span>{$lang->edit->extension}</span></button> 
 			<ul class="u1"> 
-				<li class="ti ud disable"><button type="button" class="tb tn ud"><span>되돌리기 Ctrl+Z</span></button></li> 
-				<li class="ti rd disable"><button type="button" class="tb tn rd da"><span>다시실행 Ctrl+Y</span></button></li> 
+				<li class="ti ud disable"><button type="button" class="tb tn ud"><span>{$lang->edit->undo} Ctrl+Z</span></button></li> 
+				<li class="ti rd disable"><button type="button" class="tb tn rd da"><span>{$lang->edit->redo} Ctrl+Y</span></button></li> 
 			</ul> 
 			<ul class="u2"> 
-				<li class="ti hx"><button type="button" class="tb ty">형식</button> 
+				<li class="ti hx"><button type="button" class="tb ty">{$lang->edit->header}</button> 
 					<ul class="lr"> 
-						<li class="h1"><button type="button" title="Ctrl+1">제목1</button></li> 
-						<li class="h2"><button type="button" title="Ctrl+2">제목2</button></li> 
-						<li class="h3"><button type="button" title="Ctrl+3">제목3</button></li> 
-						<li class="h4"><button type="button" title="Ctrl+4">제목4</button></li> 
-						<li class="h5"><button type="button" title="Ctrl+5">제목5</button></li> 
-						<li class="h6"><button type="button" title="Ctrl+6">제목6</button></li> 
+						<!--@foreach($lang->edit->header_list as $key=>$obj)-->
+						<li class="{$key}"><button type="button" title="Ctrl+1">{$obj}</button></li> 
+						<!--@end-->
 						<li class="h7"><button type="button" title="Ctrl+7">문단</button></li> 
 					</ul> 
 				</li> 
-				<li class="ti ff"><button type="button" class="tb ty">글꼴</button> 
+				<li class="ti ff"><button type="button" class="tb ty">{$lang->edit->fontname}</button> 
 					<ul class="lr"> 
-						<li><button type="button" style="font-family:Gulim, 굴림, sans-serif">굴림</button></li> 
-						<li><button type="button" style="font-family:Dotum, 돋움, sans-serif">돋움</button></li> 
-						<li><button type="button" style="font-family:NanumGothic, 나눔고딕, serif">나눔고딕</button></li> 
-						<li><button type="button" style="font-family:Batang, 바탕, serif">바탕</button></li> 
-						<li><button type="button" style="font-family:Arial, Helvetica, sans-serif">Arial</button></li> 
-						<li><button type="button" style="font-family:'Arial Black', Gadget, sans-serif">Arial Black</button></li> 
-						<li><button type="button" style="font-family:Tahoma, Geneva, sans-serif">Tahoma</button></li> 
-						<li><button type="button" style="font-family:Verdana, Geneva, sans-serif">Verdana</button></li> 
-						<li><button type="button" style="font-family:Tahoma, Geneva, sans-serif">Sans-serif</button></li> 
-						<li><button type="button" style="font-family:'MS Serif', 'New York', serif">Serif</button></li> 
-						<li><button type="button" style="font-family:'Lucida Console', Monaco, monospace">Monospace</button></li> 
+						<!--@foreach($lang->edit->fontlist as $key=>$obj)-->
+						<li><button type="button" style="font-family:{$key}">{$obj}</button></li> 
+						<!--@end-->
 					</ul> 
 				</li> 
-				<li class="ti fs"><button type="button" class="tb ty">크기</button> 
+				<li class="ti fs"><button type="button" class="tb ty">{$lang->edit->fontsize}</button> 
 					<ul class="lr"> 
 						<li><button type="button" style="font-size:9px">9px</button></li> 
 						<li><button type="button" style="font-size:10px">10px</button></li> 
@@ -92,7 +81,7 @@
 						<li><button type="button" style="font-size:32px">32px</button></li> 
 					</ul>
 				</li> 
-				<li class="ti lh"><button type="button" class="tb ty">줄간격</button> 
+				<li class="ti lh"><button type="button" class="tb ty">{$lang->edit->lineheight}</button> 
 					<ul class="lr"> 
 						<li><button type="button">100%</button></li> 
 						<li><button type="button">120%</button></li> 
@@ -104,14 +93,14 @@
 				</li> 
 			</ul> 
 			<ul class="u3"> 
-				<li class="ti bd"><button type="button" class="tb ty bd"><span>굵게 Ctrl+B</span></button></li> 
-				<li class="ti ue"><button type="button" class="tb ty ue"><span>밑줄 Ctrl+U</span></button></li> 
-				<li class="ti ic"><button type="button" class="tb ty ic"><span>기울임 Ctrl+I</span></button></li> 
-				<li class="ti se"><button type="button" class="tb ty se"><span>취소 Ctrl+D</span></button></li> 
-				<li class="ti cr"><button type="button" class="tb ty cr"><span>글꼴색/배경색</span></button> 
+				<li class="ti bd"><button type="button" class="tb ty bd"><span>{$lang->edit->bold} Ctrl+B</span></button></li> 
+				<li class="ti ue"><button type="button" class="tb ty ue"><span>{$lang->edit->underline} Ctrl+U</span></button></li> 
+				<li class="ti ic"><button type="button" class="tb ty ic"><span>{$lang->edit->italic} Ctrl+I</span></button></li> 
+				<li class="ti se"><button type="button" class="tb ty se"><span>{$lang->edit->strike} Ctrl+D</span></button></li> 
+				<li class="ti cr"><button type="button" class="tb ty cr"><span>{$lang->edit->fontcolor}</span></button> 
 					<div class="lr"> 
 						<fieldset class="fc"> 
-							<legend>글꼴색</legend> 
+							<legend>{$lang->edit->fontcolor}</legend> 
 							<ul> 
 								<li><button type="button" style="background-color:#ff0000"><span>#ff0000</span></button></li> 
 								<li><button type="button" style="background-color:#ff6c00"><span>#ff6c00</span></button></li> 
@@ -188,7 +177,7 @@
 							</div> 
 						</fieldset> 
 						<fieldset class="bc"> 
-							<legend>배경색</legend> 
+							<legend>{$lang->edit->fontbgcolor}</legend> 
 							<ul> 
 								<li><button type="button" style="background-color:#ff0000"><span>#ff0000</span></button></li> 
 								<li><button type="button" style="background-color:#ff6c00"><span>#ff6c00</span></button></li> 
@@ -265,50 +254,50 @@
 							</div> 
 						</fieldset> 
 						<fieldset class="pv"> 
-							<legend>미리보기</legend> 
+							<legend>{$lang->cmd_preview}</legend> 
 							<p><span class="pv">무궁화 꽃이 피었습니다</span></p> 
 						</fieldset> 
-						<button type="button" class="btn" title="Enter">입력</button> 
+						<button type="button" class="btn" title="Enter">{$lang->cmd_apply}</button> 
 					</div> 
 				</li> 
-				<li class="ti sp"><button type="button" class="tb ty sp"><span>위첨자</span></button></li> 
-				<li class="ti sb"><button type="button" class="tb ty sb"><span>아래첨자</span></button></li> 
+				<li class="ti sp"><button type="button" class="tb ty sp"><span>{$lang->edit->sup}</span></button></li> 
+				<li class="ti sb"><button type="button" class="tb ty sb"><span>{$lang->edit->sub}</span></button></li> 
 			</ul> 
 			<ul class="u4"> 
-				<li class="ti al"><button type="button" class="tb ty al"><span>왼쪽정렬</span></button></li> 
-				<li class="ti ac"><button type="button" class="tb ty ac"><span>가운데정렬</span></button></li> 
-				<li class="ti ar"><button type="button" class="tb ty ar"><span>오른쪽정렬</span></button></li> 
-				<li class="ti aj"><button type="button" class="tb ty aj"><span>양쪽정렬</span></button></li> 
-				<li class="ti ol"><button type="button" class="tb ty ol"><span>순차목록</span></button></li> 
-				<li class="ti ul"><button type="button" class="tb ty ul"><span>비순차목록</span></button></li> 
-				<li class="ti od disable"><button type="button" class="tb tn od"><span>내어쓰기 Ctrl+(Left Arrow Key)</span></button></li> 
-				<li class="ti id"><button type="button" class="tb ty id"><span>들여쓰기 Ctrl+(Right Arrow Key)</span></button></li> 
-				<li class="ti qm"><button type="button" class="tb ty qm"><span>인용</span></button></li> 
+				<li class="ti al"><button type="button" class="tb ty al"><span>{$lang->edit->align_left}</span></button></li> 
+				<li class="ti ac"><button type="button" class="tb ty ac"><span>{$lang->edit->align_center}</span></button></li> 
+				<li class="ti ar"><button type="button" class="tb ty ar"><span>{$lang->edit->align_right}</span></button></li> 
+				<li class="ti aj"><button type="button" class="tb ty aj"><span>{$lang->edit->align_justify}</span></button></li> 
+				<li class="ti ol"><button type="button" class="tb ty ol"><span>{$lang->edit->list_number}</span></button></li> 
+				<li class="ti ul"><button type="button" class="tb ty ul"><span>{$lang->edit->list_bullet}</span></button></li> 
+				<li class="ti od disable"><button type="button" class="tb tn od"><span>{$lang->edit->remove_indent} Ctrl+(Left Arrow Key)</span></button></li> 
+				<li class="ti id"><button type="button" class="tb ty id"><span>{$lang->edit->add_indent} Ctrl+(Right Arrow Key)</span></button></li> 
+				<li class="ti qm"><button type="button" class="tb ty qm"><span>{$lang->edit->blockquote}</span></button></li> 
 				<li class="ti bx"><button type="button" class="tb ty bx"><span>글상자</span></button></li> 
 			</ul> 
 			<ul class="u5"> 
-				<li class="ti er"><button type="button" class="tb tn er"><span>서식 지우기</span></button></li> 
+				<li class="ti er"><button type="button" class="tb tn er"><span>{$lang->edit->remove_format}</span></button></li> 
 			</ul> 
 			<ul class="u6"> 
-				<li class="ti ur"><button type="button" class="tb ty ur"><span>링크</span></button> 
+				<li class="ti ur"><button type="button" class="tb ty ur"><span>{$lang->edit->url}</span></button> 
 					<div class="lr"> 
 						<fieldset> 
 							<input name="" type="text" class="itx" title="URL 입력" value="http://" /> 
 							<span class="nw"> 
 								<input name="" type="checkbox" value="" class="icx" id="nw" /> 
-								<label for="nw">새창</label> 
+								<label for="nw">{$lang->edit->target_blank}</label> 
 							</span> 
 							<span class="btnArea"> 
-								<button type="button" class="btn strong">적용</button> 
-								<button type="button" class="btn">취소</button> 
+								<button type="button" class="btn strong">{$lang->cmd_apply}</button> 
+								<button type="button" class="btn">{$lang->cmd_cancel}</button> 
 							</span> 
 						</fieldset> 
 					</div> 
 				</li> 
-				<li class="ti sc"><button type="button" class="tb ty sc"><span>특수문자</span></button> 
+				<li class="ti sc"><button type="button" class="tb ty sc"><span>{$lang->edit->special_character}</span></button> 
 					<div class="lr"> 
 						<ul> 
-							<li class="li li1 active"><button type="button" class="tab">일반기호</button> 
+							<li class="li li1 active"><button type="button" class="tab">{$lang->edit->symbol}</button> 
 								<ul> 
 									<li><button type="button">｛</button></li> 
 									<li><button type="button">｝</button></li> 
@@ -462,7 +451,7 @@
 									<li><button type="button">♀</button></li> 
 								</ul> 
 							</li> 
-							<li class="li li2"><button type="button" class="tab">숫자와 단위</button> 
+							<li class="li li2"><button type="button" class="tab">{$lang->edit->number_unit}</button> 
 								<ul> 
 									<li><button type="button">½</button></li> 
 									<li><button type="button">⅓</button></li> 
@@ -594,7 +583,7 @@
 									<li><button type="button">㏆</button></li> 
 								</ul> 
 							</li> 
-							<li class="li li3"><button type="button" class="tab">원,괄호</button> 
+							<li class="li li3"><button type="button" class="tab">{$lang->edit->circle_bracket}</button> 
 								<ul> 
 									<li><button type="button">㉠</button></li> 
 									<li><button type="button">㉡</button></li> 
@@ -736,7 +725,7 @@
 									<li><button type="button">⒂</button></li> 
 								</ul> 
 							</li> 
-							<li class="li li4"><button type="button" class="tab">한글</button> 
+							<li class="li li4"><button type="button" class="tab">{$lang->edit->korean}</button> 
 								<ul> 
 									<li><button type="button">ㄱ</button></li> 
 									<li><button type="button">ㄲ</button></li> 
@@ -833,7 +822,7 @@
 									<li><button type="button">ㆎ</button></li> 
 								</ul> 
 							</li> 
-							<li class="li li5"><button type="button" class="tab">그리스,라틴어</button> 
+							<li class="li li5"><button type="button" class="tab">{$lang->edit->greece}, {$lang->edit->Latin}</button> 
 								<ul> 
 									<li><button type="button">Α</button></li> 
 									<li><button type="button">Β</button></li> 
@@ -954,7 +943,7 @@
 									<li><button type="button">я</button></li> 
 								</ul> 
 							</li> 
-							<li class="li li6"><button type="button" class="tab">일본어</button> 
+							<li class="li li6"><button type="button" class="tab">{$lang->edit->japan}</button> 
 								<ul> 
 									<li><button type="button">ぁ</button></li> 
 									<li><button type="button">あ</button></li> 
@@ -1131,16 +1120,16 @@
 						<fieldset> 
 							<input name="" type="text" class="itx" title="URL 입력" /> 
 							<span class="btnArea"> 
-								<button type="button" class="btn strong">적용</button> 
-								<button type="button" class="btn">취소</button> 
+								<button type="button" class="btn strong">{$lang->cmd_apply}</button> 
+								<button type="button" class="btn">{$lang->cmd_cancel}</button> 
 							</span> 
 						</fieldset> 
 					</div> 
 				</li> 
-				<li class="ti te"><button type="button" class="tb ty te"><span>표</span></button> 
+				<li class="ti te"><button type="button" class="tb ty te"><span>{$lang->edit->table}</span></button> 
 					<div class="lr"> 
 						<fieldset class="pv"> 
-							<legend>미리보기</legend> 
+							<legend>{$lang->cmd_preview}</legend> 
 							<div class="xdcs"> 
 								<table border="1" cellpadding="1" cellspacing="0" class="ts" style="caption-side:top; width:100%;"> 
 									<caption style="text-align:left">Caption</caption> 
@@ -1204,8 +1193,8 @@
 							</table> 
 						</fieldset> 
 						<div class="btnArea"> 
-							<button type="button" class="btn strong">적용</button> 
-							<button type="button" class="btn">취소</button> 
+							<button type="button" class="btn strong">{$lang->cmd_apply}</button> 
+							<button type="button" class="btn">{$lang->cancel}</button> 
 						</div> 
 					</div> 
 				</li> 
@@ -1285,50 +1274,50 @@
 		<!-- Attach List --> 
 		<div class="item al"> 
 			<div class="iHead"> 
-				<h2>첨부목록 <em>[<strong>0</strong>]</em></h2> 
+				<h2>{$lang->file_list} <em>[<strong>0</strong>]</em></h2> 
 			</div> 
 			<div class="iBody"> 
 				<div class="sn img none"> 
-					<p class="label">이미지</p> 
+					<p class="label">{$lang->edit->image}</p> 
 					<ul> 
 						<li> 
 							<button type="button" class="ob"><img src="about:blank" alt="" /></button> 
-							<button type="button" class="ctr ins">본문에 넣기</button> 
-							<button type="button" class="ctr del">삭제</button> 
+							<button type="button" class="ctr ins">{$lang->edit->link_file}</button> 
+							<button type="button" class="ctr del">{$lang->cmd_delete}</button> 
 							<input name="" type="checkbox" value="" class="icx" id="img1" /> <label for="img1">@exThumbH.jpg</label> 
 						</li> 
 					</ul> 
 					<p class="task"> 
-						<button type="button" class="all">모두선택</button> 
+						<button type="button" class="all">{$lang->cmd_select_all}</button> 
 						<button type="button" class="insert">선택넣기</button> 
 					</p> 
 					<p class="nofile">첨부된 이미지가 없습니다.</p>
 				</div> 
 				<div class="sn mov none"> 
-					<p class="label">동영상</p> 
+					<p class="label">{$lang->edit->multimedia}</p> 
 					<ul></ul> 
 					<p class="task"> 
-						<button type="button" class="all">모두선택</button> 
+						<button type="button" class="all">{$lang->cmd_select_all}</button> 
 						<button type="button" class="insert">선택넣기</button> 
 					</p> 
-					<p class="nofile">첨부된 이미지가 없습니다.</p>
+					<p class="nofile">첨부된 동영상이 없습니다.</p>
 				</div> 
 				<div class="sn file none"> 
-					<p class="label">파일</p> 
+					<p class="label">{$lang->file}</p> 
 					<ul></ul> 
 					<p class="task"> 
-						<button type="button" class="all">모두선택</button> 
+						<button type="button" class="all">{$lang->cmd_select_all}</button> 
 						<button type="button" class="insert">선택넣기</button> 
 					</p> 
-					<p class="nofile">첨부된 이미지가 없습니다.</p>
+					<p class="nofile">첨부된 파일이 없습니다.</p>
 				</div> 
 			</div> 
 			<div class="iFoot"> 
 				<div class="btnArea fl"> 
-					<button type="button" class="btn at strong">파일 업로드하기</button> 
+					<button type="button" class="btn at strong">{$lang->edit->upload_file}</button> 
 				</div> 
 				<div class="btnArea fr"> 
-					<button type="button" class="btn cs">첨부목록 닫기</button> 
+					<button type="button" class="btn cs">{$lang->cmd_close}</button> 
 				</div> 
 			</div> 
 		</div> 
