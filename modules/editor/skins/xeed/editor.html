@@ -1,0 +1,1348 @@
+<!--// 스킨 css 로드 -->
+<!--%import("xd.css")-->
+<!--%import("xdcs.css")-->
+
+<!--// 기본 JS 로드 -->
+<!--%import("../../tpl/js/editor_common.js")-->
+
+<!--// 기본 js/언어파일 로드 -->
+<!--%import("js/xeed.js")-->
+<!--%import("js/xe_interface.js")-->
+
+<!--@if(true)-->
+	<!--%load_js_plugin("uploader")-->
+<!--@end-->
+
+<!--@if($enable_autosave)-->
+<!-- Auto-saving fields -->
+<input type="hidden" name="_saved_doc_title" value="{htmlspecialchars($saved_doc->title)}" />
+<input type="hidden" name="_saved_doc_content" value="{htmlspecialchars($saved_doc->content)}" />
+<input type="hidden" name="_saved_doc_message" value="{$lang->msg_load_saved_doc}" />
+<!--@end-->
+
+<!-- {{{ Editor HTML -->
+<!-- XEED --> 
+<textarea id="xeed-{$editor_sequence}" cols="80" rows="10"></textarea>
+<div class="xd"> 
+	<!-- tool --> 
+	<div class="tool"> 
+		<a href="#edit" class="skip">{$lang->edit->jumptoedit}</a> 
+		<div class="t1"> 
+			<button type="button" class="mo"><span>확장기능 더보기/접기</span></button> 
+			<ul class="u1"> 
+				<li class="ti al"><a href="#xdmw_attachList" class="tb"><span>첨부목록 <em>[<strong>0</strong>]</em></span></a></li> 
+				<li class="ti img"><button type="button" class="tb"><span>이미지 <em>[<strong>0</strong>]</em></span></button></li> 
+				<li class="ti mov"><button type="button" class="tb"><span>동영상 <em>[<strong>0</strong>]</em></span></button></li> 
+				<li class="ti file"><button type="button" class="tb"><span>파일 <em>[<strong>0</strong>]</em></span></button></li> 
+			</ul> 
+            <!--@if($enable_component && false)-->
+			<!-- editor components -->
+			<ul class="u2">
+			<!--@foreach($component_list as $component_name => $component)-->
+			<li class="ti"><button type="button" class="tb" title="{$component->title}" id="component_{$editor_sequence}_{$component_name}"><!-- <img src="../../components/{$component_name}/component_icon.gif" width="13" height="12" /> --><span>{$component->title}</span></button></li>
+			<!--@end-->
+			</ul>
+			<!-- //editor components -->
+			<!--@end-->
+		</div> 
+		<div class="t2"> 
+			<button type="button" class="mo"><span>확장기능 더보기/접기</span></button> 
+			<ul class="u1"> 
+				<li class="ti ud disable"><button type="button" class="tb tn ud"><span>되돌리기 Ctrl+Z</span></button></li> 
+				<li class="ti rd disable"><button type="button" class="tb tn rd da"><span>다시실행 Ctrl+Y</span></button></li> 
+			</ul> 
+			<ul class="u2"> 
+				<li class="ti hx"><button type="button" class="tb ty">형식</button> 
+					<ul class="lr"> 
+						<li class="h1"><button type="button" title="Ctrl+1">제목1</button></li> 
+						<li class="h2"><button type="button" title="Ctrl+2">제목2</button></li> 
+						<li class="h3"><button type="button" title="Ctrl+3">제목3</button></li> 
+						<li class="h4"><button type="button" title="Ctrl+4">제목4</button></li> 
+						<li class="h5"><button type="button" title="Ctrl+5">제목5</button></li> 
+						<li class="h6"><button type="button" title="Ctrl+6">제목6</button></li> 
+						<li class="h7"><button type="button" title="Ctrl+7">문단</button></li> 
+					</ul> 
+				</li> 
+				<li class="ti ff"><button type="button" class="tb ty">글꼴</button> 
+					<ul class="lr"> 
+						<li><button type="button" style="font-family:Gulim, 굴림, sans-serif">굴림</button></li> 
+						<li><button type="button" style="font-family:Dotum, 돋움, sans-serif">돋움</button></li> 
+						<li><button type="button" style="font-family:NanumGothic, 나눔고딕, serif">나눔고딕</button></li> 
+						<li><button type="button" style="font-family:Batang, 바탕, serif">바탕</button></li> 
+						<li><button type="button" style="font-family:Arial, Helvetica, sans-serif">Arial</button></li> 
+						<li><button type="button" style="font-family:'Arial Black', Gadget, sans-serif">Arial Black</button></li> 
+						<li><button type="button" style="font-family:Tahoma, Geneva, sans-serif">Tahoma</button></li> 
+						<li><button type="button" style="font-family:Verdana, Geneva, sans-serif">Verdana</button></li> 
+						<li><button type="button" style="font-family:Tahoma, Geneva, sans-serif">Sans-serif</button></li> 
+						<li><button type="button" style="font-family:'MS Serif', 'New York', serif">Serif</button></li> 
+						<li><button type="button" style="font-family:'Lucida Console', Monaco, monospace">Monospace</button></li> 
+					</ul> 
+				</li> 
+				<li class="ti fs"><button type="button" class="tb ty">크기</button> 
+					<ul class="lr"> 
+						<li><button type="button" style="font-size:9px">9px</button></li> 
+						<li><button type="button" style="font-size:10px">10px</button></li> 
+						<li><button type="button" style="font-size:11px">11px</button></li> 
+						<li><button type="button" style="font-size:12px">12px</button></li> 
+						<li><button type="button" style="font-size:13px">13px</button></li> 
+						<li><button type="button" style="font-size:14px">14px</button></li> 
+						<li><button type="button" style="font-size:16px">16px</button></li> 
+						<li><button type="button" style="font-size:18px">18px</button></li> 
+						<li><button type="button" style="font-size:24px">24px</button></li> 
+						<li><button type="button" style="font-size:32px">32px</button></li> 
+					</ul>
+				</li> 
+				<li class="ti lh"><button type="button" class="tb ty">줄간격</button> 
+					<ul class="lr"> 
+						<li><button type="button">100%</button></li> 
+						<li><button type="button">120%</button></li> 
+						<li><button type="button">140%</button></li> 
+						<li><button type="button">160%</button></li> 
+						<li><button type="button">180%</button></li> 
+						<li><button type="button">200%</button></li> 
+					</ul> 
+				</li> 
+			</ul> 
+			<ul class="u3"> 
+				<li class="ti bd"><button type="button" class="tb ty bd"><span>굵게 Ctrl+B</span></button></li> 
+				<li class="ti ue"><button type="button" class="tb ty ue"><span>밑줄 Ctrl+U</span></button></li> 
+				<li class="ti ic"><button type="button" class="tb ty ic"><span>기울임 Ctrl+I</span></button></li> 
+				<li class="ti se"><button type="button" class="tb ty se"><span>취소 Ctrl+D</span></button></li> 
+				<li class="ti cr"><button type="button" class="tb ty cr"><span>글꼴색/배경색</span></button> 
+					<div class="lr"> 
+						<fieldset class="fc"> 
+							<legend>글꼴색</legend> 
+							<ul> 
+								<li><button type="button" style="background-color:#ff0000"><span>#ff0000</span></button></li> 
+								<li><button type="button" style="background-color:#ff6c00"><span>#ff6c00</span></button></li> 
+								<li><button type="button" style="background-color:#ffaa00"><span>#ffaa00</span></button></li> 
+								<li><button type="button" style="background-color:#ffef00"><span>#ffef00</span></button></li> 
+								<li><button type="button" style="background-color:#a6cf00"><span>#a6cf00</span></button></li> 
+								<li><button type="button" style="background-color:#009e25"><span>#009e25</span></button></li> 
+								<li><button type="button" style="background-color:#00b0a2"><span>#00b0a2</span></button></li> 
+								<li><button type="button" style="background-color:#0075c8"><span>#0075c8</span></button></li> 
+								<li><button type="button" style="background-color:#3a32c3"><span>#3a32c3</span></button></li> 
+								<li><button type="button" style="background-color:#7820b9"><span>#7820b9</span></button></li> 
+								<li><button type="button" style="background-color:#ef007c"><span>#ef007c</span></button></li> 
+								<li><button type="button" style="background-color:#000000"><span>#000000</span></button></li> 
+								<li><button type="button" style="background-color:#252525"><span>#252525</span></button></li> 
+								<li><button type="button" style="background-color:#464646"><span>#464646</span></button></li> 
+								<li><button type="button" style="background-color:#636363"><span>#636363</span></button></li> 
+								<li><button type="button" style="background-color:#7d7d7d"><span>#7d7d7d</span></button></li> 
+								<li><button type="button" style="background-color:#9a9a9a"><span>#9a9a9a</span></button></li> 
+								<li><button type="button" style="background-color:#ffe8e8"><span>#ffe8e8</span></button></li> 
+								<li><button type="button" style="background-color:#f7e2d2"><span>#f7e2d2</span></button></li> 
+								<li><button type="button" style="background-color:#f5eddc"><span>#f5eddc</span></button></li> 
+								<li><button type="button" style="background-color:#f5f4e0"><span>#f5f4e0</span></button></li> 
+								<li><button type="button" style="background-color:#edf2c2"><span>#edf2c2</span></button></li> 
+								<li><button type="button" style="background-color:#def7e5"><span>#def7e5</span></button></li> 
+								<li><button type="button" style="background-color:#d9eeec"><span>#d9eeec</span></button></li> 
+								<li><button type="button" style="background-color:#c9e0f0"><span>#c9e0f0</span></button></li> 
+								<li><button type="button" style="background-color:#d6d4eb"><span>#d6d4eb</span></button></li> 
+								<li><button type="button" style="background-color:#e7dbed"><span>#e7dbed</span></button></li> 
+								<li><button type="button" style="background-color:#f1e2ea"><span>#f1e2ea</span></button></li> 
+								<li><button type="button" style="background-color:#acacac"><span>#acacac</span></button></li> 
+								<li><button type="button" style="background-color:#c2c2c2"><span>#c2c2c2</span></button></li> 
+								<li><button type="button" style="background-color:#cccccc"><span>#cccccc</span></button></li> 
+								<li><button type="button" style="background-color:#e1e1e1"><span>#e1e1e1</span></button></li> 
+								<li><button type="button" style="background-color:#ebebeb"><span>#ebebeb</span></button></li> 
+								<li><button type="button" style="background-color:#ffffff"><span>#ffffff</span></button></li> 
+								<li><button type="button" style="background-color:#e97d81"><span>#e97d81</span></button></li> 
+								<li><button type="button" style="background-color:#e19b73"><span>#e19b73</span></button></li> 
+								<li><button type="button" style="background-color:#d1b274"><span>#d1b274</span></button></li> 
+								<li><button type="button" style="background-color:#cfcca2"><span>#cfcca2</span></button></li> 
+								<li><button type="button" style="background-color:#cfcca2"><span>#cfcca2</span></button></li> 
+								<li><button type="button" style="background-color:#61b977"><span>#61b977</span></button></li> 
+								<li><button type="button" style="background-color:#53aea8"><span>#53aea8</span></button></li> 
+								<li><button type="button" style="background-color:#518fbb"><span>#518fbb</span></button></li> 
+								<li><button type="button" style="background-color:#6a65bb"><span>#6a65bb</span></button></li> 
+								<li><button type="button" style="background-color:#9a54ce"><span>#9a54ce</span></button></li> 
+								<li><button type="button" style="background-color:#e573ae"><span>#e573ae</span></button></li> 
+								<li><button type="button" style="background-color:#5a504b"><span>#5a504b</span></button></li> 
+								<li><button type="button" style="background-color:#767b86"><span>#767b86</span></button></li> 
+								<li><button type="button" style="background-color:#00ffff"><span>#00ffff</span></button></li> 
+								<li><button type="button" style="background-color:#00ff00"><span>#00ff00</span></button></li> 
+								<li><button type="button" style="background-color:#a0f000"><span>#a0f000</span></button></li> 
+								<li><button type="button" style="background-color:#ffff00"><span>#ffff00</span></button></li> 
+								<li><button type="button" style="background-color:#951015"><span>#951015</span></button></li> 
+								<li><button type="button" style="background-color:#6e391a"><span>#6e391a</span></button></li> 
+								<li><button type="button" style="background-color:#785c25"><span>#785c25</span></button></li> 
+								<li><button type="button" style="background-color:#5f5b25"><span>#5f5b25</span></button></li> 
+								<li><button type="button" style="background-color:#4c511f"><span>#4c511f</span></button></li> 
+								<li><button type="button" style="background-color:#1c4827"><span>#1c4827</span></button></li> 
+								<li><button type="button" style="background-color:#0d514c"><span>#0d514c</span></button></li> 
+								<li><button type="button" style="background-color:#1b496a"><span>#1b496a</span></button></li> 
+								<li><button type="button" style="background-color:#2b285f"><span>#2b285f</span></button></li> 
+								<li><button type="button" style="background-color:#45245b"><span>#45245b</span></button></li> 
+								<li><button type="button" style="background-color:#721947"><span>#721947</span></button></li> 
+								<li><button type="button" style="background-color:#352e2c"><span>#352e2c</span></button></li> 
+								<li><button type="button" style="background-color:#3c3f45"><span>#3c3f45</span></button></li> 
+								<li><button type="button" style="background-color:#00aaff"><span>#00aaff</span></button></li> 
+								<li><button type="button" style="background-color:#0000ff"><span>#0000ff</span></button></li> 
+								<li><button type="button" style="background-color:#a800ff"><span>#a800ff</span></button></li> 
+								<li><button type="button" style="background-color:#ff00ff"><span>#ff00ff</span></button></li> 
+							</ul> 
+							<div class="liow"> 
+								<label for="fci">글꼴색 직접입력</label> 
+								<input name="" type="text" id="fci" class="itx" /> 
+							</div> 
+						</fieldset> 
+						<fieldset class="bc"> 
+							<legend>배경색</legend> 
+							<ul> 
+								<li><button type="button" style="background-color:#ff0000"><span>#ff0000</span></button></li> 
+								<li><button type="button" style="background-color:#ff6c00"><span>#ff6c00</span></button></li> 
+								<li><button type="button" style="background-color:#ffaa00"><span>#ffaa00</span></button></li> 
+								<li><button type="button" style="background-color:#ffef00"><span>#ffef00</span></button></li> 
+								<li><button type="button" style="background-color:#a6cf00"><span>#a6cf00</span></button></li> 
+								<li><button type="button" style="background-color:#009e25"><span>#009e25</span></button></li> 
+								<li><button type="button" style="background-color:#00b0a2"><span>#00b0a2</span></button></li> 
+								<li><button type="button" style="background-color:#0075c8"><span>#0075c8</span></button></li> 
+								<li><button type="button" style="background-color:#3a32c3"><span>#3a32c3</span></button></li> 
+								<li><button type="button" style="background-color:#7820b9"><span>#7820b9</span></button></li> 
+								<li><button type="button" style="background-color:#ef007c"><span>#ef007c</span></button></li> 
+								<li><button type="button" style="background-color:#000000"><span>#000000</span></button></li> 
+								<li><button type="button" style="background-color:#252525"><span>#252525</span></button></li> 
+								<li><button type="button" style="background-color:#464646"><span>#464646</span></button></li> 
+								<li><button type="button" style="background-color:#636363"><span>#636363</span></button></li> 
+								<li><button type="button" style="background-color:#7d7d7d"><span>#7d7d7d</span></button></li> 
+								<li><button type="button" style="background-color:#9a9a9a"><span>#9a9a9a</span></button></li> 
+								<li><button type="button" style="background-color:#ffe8e8"><span>#ffe8e8</span></button></li> 
+								<li><button type="button" style="background-color:#f7e2d2"><span>#f7e2d2</span></button></li> 
+								<li><button type="button" style="background-color:#f5eddc"><span>#f5eddc</span></button></li> 
+								<li><button type="button" style="background-color:#f5f4e0"><span>#f5f4e0</span></button></li> 
+								<li><button type="button" style="background-color:#edf2c2"><span>#edf2c2</span></button></li> 
+								<li><button type="button" style="background-color:#def7e5"><span>#def7e5</span></button></li> 
+								<li><button type="button" style="background-color:#d9eeec"><span>#d9eeec</span></button></li> 
+								<li><button type="button" style="background-color:#c9e0f0"><span>#c9e0f0</span></button></li> 
+								<li><button type="button" style="background-color:#d6d4eb"><span>#d6d4eb</span></button></li> 
+								<li><button type="button" style="background-color:#e7dbed"><span>#e7dbed</span></button></li> 
+								<li><button type="button" style="background-color:#f1e2ea"><span>#f1e2ea</span></button></li> 
+								<li><button type="button" style="background-color:#acacac"><span>#acacac</span></button></li> 
+								<li><button type="button" style="background-color:#c2c2c2"><span>#c2c2c2</span></button></li> 
+								<li><button type="button" style="background-color:#cccccc"><span>#cccccc</span></button></li> 
+								<li><button type="button" style="background-color:#e1e1e1"><span>#e1e1e1</span></button></li> 
+								<li><button type="button" style="background-color:#ebebeb"><span>#ebebeb</span></button></li> 
+								<li><button type="button" style="background-color:#ffffff"><span>#ffffff</span></button></li> 
+								<li><button type="button" style="background-color:#e97d81"><span>#e97d81</span></button></li> 
+								<li><button type="button" style="background-color:#e19b73"><span>#e19b73</span></button></li> 
+								<li><button type="button" style="background-color:#d1b274"><span>#d1b274</span></button></li> 
+								<li><button type="button" style="background-color:#cfcca2"><span>#cfcca2</span></button></li> 
+								<li><button type="button" style="background-color:#cfcca2"><span>#cfcca2</span></button></li> 
+								<li><button type="button" style="background-color:#61b977"><span>#61b977</span></button></li> 
+								<li><button type="button" style="background-color:#53aea8"><span>#53aea8</span></button></li> 
+								<li><button type="button" style="background-color:#518fbb"><span>#518fbb</span></button></li> 
+								<li><button type="button" style="background-color:#6a65bb"><span>#6a65bb</span></button></li> 
+								<li><button type="button" style="background-color:#9a54ce"><span>#9a54ce</span></button></li> 
+								<li><button type="button" style="background-color:#e573ae"><span>#e573ae</span></button></li> 
+								<li><button type="button" style="background-color:#5a504b"><span>#5a504b</span></button></li> 
+								<li><button type="button" style="background-color:#767b86"><span>#767b86</span></button></li> 
+								<li><button type="button" style="background-color:#00ffff"><span>#00ffff</span></button></li> 
+								<li><button type="button" style="background-color:#00ff00"><span>#00ff00</span></button></li> 
+								<li><button type="button" style="background-color:#a0f000"><span>#a0f000</span></button></li> 
+								<li><button type="button" style="background-color:#ffff00"><span>#ffff00</span></button></li> 
+								<li><button type="button" style="background-color:#951015"><span>#951015</span></button></li> 
+								<li><button type="button" style="background-color:#6e391a"><span>#6e391a</span></button></li> 
+								<li><button type="button" style="background-color:#785c25"><span>#785c25</span></button></li> 
+								<li><button type="button" style="background-color:#5f5b25"><span>#5f5b25</span></button></li> 
+								<li><button type="button" style="background-color:#4c511f"><span>#4c511f</span></button></li> 
+								<li><button type="button" style="background-color:#1c4827"><span>#1c4827</span></button></li> 
+								<li><button type="button" style="background-color:#0d514c"><span>#0d514c</span></button></li> 
+								<li><button type="button" style="background-color:#1b496a"><span>#1b496a</span></button></li> 
+								<li><button type="button" style="background-color:#2b285f"><span>#2b285f</span></button></li> 
+								<li><button type="button" style="background-color:#45245b"><span>#45245b</span></button></li> 
+								<li><button type="button" style="background-color:#721947"><span>#721947</span></button></li> 
+								<li><button type="button" style="background-color:#352e2c"><span>#352e2c</span></button></li> 
+								<li><button type="button" style="background-color:#3c3f45"><span>#3c3f45</span></button></li> 
+								<li><button type="button" style="background-color:#00aaff"><span>#00aaff</span></button></li> 
+								<li><button type="button" style="background-color:#0000ff"><span>#0000ff</span></button></li> 
+								<li><button type="button" style="background-color:#a800ff"><span>#a800ff</span></button></li> 
+								<li><button type="button" style="background-color:#ff00ff"><span>#ff00ff</span></button></li> 
+							</ul> 
+							<div class="liow"> 
+								<label for="bci">배경색 직접입력</label> 
+								<input name="" type="text" id="bci" class="itx" /> 
+							</div> 
+						</fieldset> 
+						<fieldset class="pv"> 
+							<legend>미리보기</legend> 
+							<p><span class="pv">무궁화 꽃이 피었습니다</span></p> 
+						</fieldset> 
+						<button type="button" class="btn" title="Enter">입력</button> 
+					</div> 
+				</li> 
+				<li class="ti sp"><button type="button" class="tb ty sp"><span>위첨자</span></button></li> 
+				<li class="ti sb"><button type="button" class="tb ty sb"><span>아래첨자</span></button></li> 
+			</ul> 
+			<ul class="u4"> 
+				<li class="ti al"><button type="button" class="tb ty al"><span>왼쪽정렬</span></button></li> 
+				<li class="ti ac"><button type="button" class="tb ty ac"><span>가운데정렬</span></button></li> 
+				<li class="ti ar"><button type="button" class="tb ty ar"><span>오른쪽정렬</span></button></li> 
+				<li class="ti aj"><button type="button" class="tb ty aj"><span>양쪽정렬</span></button></li> 
+				<li class="ti ol"><button type="button" class="tb ty ol"><span>순차목록</span></button></li> 
+				<li class="ti ul"><button type="button" class="tb ty ul"><span>비순차목록</span></button></li> 
+				<li class="ti od disable"><button type="button" class="tb tn od"><span>내어쓰기 Ctrl+(Left Arrow Key)</span></button></li> 
+				<li class="ti id"><button type="button" class="tb ty id"><span>들여쓰기 Ctrl+(Right Arrow Key)</span></button></li> 
+				<li class="ti qm"><button type="button" class="tb ty qm"><span>인용</span></button></li> 
+				<li class="ti bx"><button type="button" class="tb ty bx"><span>글상자</span></button></li> 
+			</ul> 
+			<ul class="u5"> 
+				<li class="ti er"><button type="button" class="tb tn er"><span>서식 지우기</span></button></li> 
+			</ul> 
+			<ul class="u6"> 
+				<li class="ti ur"><button type="button" class="tb ty ur"><span>링크</span></button> 
+					<div class="lr"> 
+						<fieldset> 
+							<input name="" type="text" class="itx" title="URL 입력" value="http://" /> 
+							<span class="nw"> 
+								<input name="" type="checkbox" value="" class="icx" id="nw" /> 
+								<label for="nw">새창</label> 
+							</span> 
+							<span class="btnArea"> 
+								<button type="button" class="btn strong">적용</button> 
+								<button type="button" class="btn">취소</button> 
+							</span> 
+						</fieldset> 
+					</div> 
+				</li> 
+				<li class="ti sc"><button type="button" class="tb ty sc"><span>특수문자</span></button> 
+					<div class="lr"> 
+						<ul> 
+							<li class="li li1 active"><button type="button" class="tab">일반기호</button> 
+								<ul> 
+									<li><button type="button">｛</button></li> 
+									<li><button type="button">｝</button></li> 
+									<li><button type="button">〔</button></li> 
+									<li><button type="button">〕</button></li> 
+									<li><button type="button">〈</button></li> 
+									<li><button type="button">〉</button></li> 
+									<li><button type="button">《</button></li> 
+									<li><button type="button">》</button></li> 
+									<li><button type="button">「</button></li> 
+									<li><button type="button">」</button></li> 
+									<li><button type="button">『</button></li> 
+									<li><button type="button">』</button></li> 
+									<li><button type="button">【</button></li> 
+									<li><button type="button">】</button></li> 
+									<li><button type="button">'</button></li> 
+									<li><button type="button">'</button></li> 
+									<li><button type="button">"</button></li> 
+									<li><button type="button">"</button></li> 
+									<li><button type="button">、</button></li> 
+									<li><button type="button">。</button></li> 
+									<li><button type="button">·</button></li> 
+									<li><button type="button">‥</button></li> 
+									<li><button type="button">…</button></li> 
+									<li><button type="button">§</button></li> 
+									<li><button type="button">※</button></li> 
+									<li><button type="button">☆</button></li> 
+									<li><button type="button">★</button></li> 
+									<li><button type="button">○</button></li> 
+									<li><button type="button">●</button></li> 
+									<li><button type="button">◎</button></li> 
+									<li><button type="button">◇</button></li> 
+									<li><button type="button">◆</button></li> 
+									<li><button type="button">□</button></li> 
+									<li><button type="button">■</button></li> 
+									<li><button type="button">△</button></li> 
+									<li><button type="button">▲</button></li> 
+									<li><button type="button">▽</button></li> 
+									<li><button type="button">▼</button></li> 
+									<li><button type="button">◁</button></li> 
+									<li><button type="button">◀</button></li> 
+									<li><button type="button">▷</button></li> 
+									<li><button type="button">▶</button></li> 
+									<li><button type="button">♤</button></li> 
+									<li><button type="button">♠</button></li> 
+									<li><button type="button">♡</button></li> 
+									<li><button type="button">♥</button></li> 
+									<li><button type="button">♧</button></li> 
+									<li><button type="button">♣</button></li> 
+									<li><button type="button">⊙</button></li> 
+									<li><button type="button">◈</button></li> 
+									<li><button type="button">▣</button></li> 
+									<li><button type="button">◐</button></li> 
+									<li><button type="button">◑</button></li> 
+									<li><button type="button">▒</button></li> 
+									<li><button type="button">▤</button></li> 
+									<li><button type="button">▥</button></li> 
+									<li><button type="button">▨</button></li> 
+									<li><button type="button">▧</button></li> 
+									<li><button type="button">▦</button></li> 
+									<li><button type="button">▩</button></li> 
+									<li><button type="button">±</button></li> 
+									<li><button type="button">×</button></li> 
+									<li><button type="button">÷</button></li> 
+									<li><button type="button">≠</button></li> 
+									<li><button type="button">≤</button></li> 
+									<li><button type="button">≥</button></li> 
+									<li><button type="button">∞</button></li> 
+									<li><button type="button">∴</button></li> 
+									<li><button type="button">°</button></li> 
+									<li><button type="button">′</button></li> 
+									<li><button type="button">″</button></li> 
+									<li><button type="button">∠</button></li> 
+									<li><button type="button">⊥</button></li> 
+									<li><button type="button">⌒</button></li> 
+									<li><button type="button">∂</button></li> 
+									<li><button type="button">≡</button></li> 
+									<li><button type="button">≒</button></li> 
+									<li><button type="button">≪</button></li> 
+									<li><button type="button">≫</button></li> 
+									<li><button type="button">√</button></li> 
+									<li><button type="button">∽</button></li> 
+									<li><button type="button">∝</button></li> 
+									<li><button type="button">∵</button></li> 
+									<li><button type="button">∫</button></li> 
+									<li><button type="button">∬</button></li> 
+									<li><button type="button">∈</button></li> 
+									<li><button type="button">∋</button></li> 
+									<li><button type="button">⊆</button></li> 
+									<li><button type="button">⊇</button></li> 
+									<li><button type="button">⊂</button></li> 
+									<li><button type="button">⊃</button></li> 
+									<li><button type="button">∪</button></li> 
+									<li><button type="button">∩</button></li> 
+									<li><button type="button">∧</button></li> 
+									<li><button type="button">∨</button></li> 
+									<li><button type="button">￢</button></li> 
+									<li><button type="button">⇒</button></li> 
+									<li><button type="button">⇔</button></li> 
+									<li><button type="button">∀</button></li> 
+									<li><button type="button">∃</button></li> 
+									<li><button type="button">´</button></li> 
+									<li><button type="button">～</button></li> 
+									<li><button type="button">ˇ</button></li> 
+									<li><button type="button">˘</button></li> 
+									<li><button type="button">˝</button></li> 
+									<li><button type="button">˚</button></li> 
+									<li><button type="button">˙</button></li> 
+									<li><button type="button">¸</button></li> 
+									<li><button type="button">˛</button></li> 
+									<li><button type="button">¡</button></li> 
+									<li><button type="button">¿</button></li> 
+									<li><button type="button">ː</button></li> 
+									<li><button type="button">∮</button></li> 
+									<li><button type="button">∑</button></li> 
+									<li><button type="button">∏</button></li> 
+									<li><button type="button">♭</button></li> 
+									<li><button type="button">♩</button></li> 
+									<li><button type="button">♪</button></li> 
+									<li><button type="button">♬</button></li> 
+									<li><button type="button">㉿</button></li> 
+									<li><button type="button">→</button></li> 
+									<li><button type="button">←</button></li> 
+									<li><button type="button">↑</button></li> 
+									<li><button type="button">↓</button></li> 
+									<li><button type="button">↔</button></li> 
+									<li><button type="button">↕</button></li> 
+									<li><button type="button">↗</button></li> 
+									<li><button type="button">↙</button></li> 
+									<li><button type="button">↖</button></li> 
+									<li><button type="button">↘</button></li> 
+									<li><button type="button">㈜</button></li> 
+									<li><button type="button">№</button></li> 
+									<li><button type="button">㏇</button></li> 
+									<li><button type="button">&trade;</button></li> 
+									<li><button type="button">㏂</button></li> 
+									<li><button type="button">㏘</button></li> 
+									<li><button type="button">℡</button></li> 
+									<li><button type="button">♨</button></li> 
+									<li><button type="button">☏</button></li> 
+									<li><button type="button">☎</button></li> 
+									<li><button type="button">☜</button></li> 
+									<li><button type="button">☞</button></li> 
+									<li><button type="button">¶</button></li> 
+									<li><button type="button">†</button></li> 
+									<li><button type="button">‡</button></li> 
+									<li><button type="button">&reg;</button></li> 
+									<li><button type="button">ª</button></li> 
+									<li><button type="button">º</button></li> 
+									<li><button type="button">♂</button></li> 
+									<li><button type="button">♀</button></li> 
+								</ul> 
+							</li> 
+							<li class="li li2"><button type="button" class="tab">숫자와 단위</button> 
+								<ul> 
+									<li><button type="button">½</button></li> 
+									<li><button type="button">⅓</button></li> 
+									<li><button type="button">⅔</button></li> 
+									<li><button type="button">¼</button></li> 
+									<li><button type="button">¾</button></li> 
+									<li><button type="button">⅛</button></li> 
+									<li><button type="button">⅜</button></li> 
+									<li><button type="button">⅝</button></li> 
+									<li><button type="button">⅞</button></li> 
+									<li><button type="button">¹</button></li> 
+									<li><button type="button">²</button></li> 
+									<li><button type="button">³</button></li> 
+									<li><button type="button">⁴</button></li> 
+									<li><button type="button">ⁿ</button></li> 
+									<li><button type="button">₁</button></li> 
+									<li><button type="button">₂</button></li> 
+									<li><button type="button">₃</button></li> 
+									<li><button type="button">₄</button></li> 
+									<li><button type="button">Ⅰ</button></li> 
+									<li><button type="button">Ⅱ</button></li> 
+									<li><button type="button">Ⅲ</button></li> 
+									<li><button type="button">Ⅳ</button></li> 
+									<li><button type="button">Ⅴ</button></li> 
+									<li><button type="button">Ⅵ</button></li> 
+									<li><button type="button">Ⅶ</button></li> 
+									<li><button type="button">Ⅷ</button></li> 
+									<li><button type="button">Ⅸ</button></li> 
+									<li><button type="button">Ⅹ</button></li> 
+									<li><button type="button">ⅰ</button></li> 
+									<li><button type="button">ⅱ</button></li> 
+									<li><button type="button">ⅲ</button></li> 
+									<li><button type="button">ⅳ</button></li> 
+									<li><button type="button">ⅴ</button></li> 
+									<li><button type="button">ⅵ</button></li> 
+									<li><button type="button">ⅶ</button></li> 
+									<li><button type="button">ⅷ</button></li> 
+									<li><button type="button">ⅸ</button></li> 
+									<li><button type="button">ⅹ</button></li> 
+									<li><button type="button">￦</button></li> 
+									<li><button type="button">$</button></li> 
+									<li><button type="button">￥</button></li> 
+									<li><button type="button">￡</button></li> 
+									<li><button type="button">€</button></li> 
+									<li><button type="button">℃</button></li> 
+									<li><button type="button">Å</button></li> 
+									<li><button type="button">℉</button></li> 
+									<li><button type="button">￠</button></li> 
+									<li><button type="button">¤</button></li> 
+									<li><button type="button">‰</button></li> 
+									<li><button type="button">㎕</button></li> 
+									<li><button type="button">㎖</button></li> 
+									<li><button type="button">㎗</button></li> 
+									<li><button type="button">ℓ</button></li> 
+									<li><button type="button">㎘</button></li> 
+									<li><button type="button">㏄</button></li> 
+									<li><button type="button">㎣</button></li> 
+									<li><button type="button">㎤</button></li> 
+									<li><button type="button">㎥</button></li> 
+									<li><button type="button">㎦</button></li> 
+									<li><button type="button">㎙</button></li> 
+									<li><button type="button">㎚</button></li> 
+									<li><button type="button">㎛</button></li> 
+									<li><button type="button">㎜</button></li> 
+									<li><button type="button">㎝</button></li> 
+									<li><button type="button">㎞</button></li> 
+									<li><button type="button">㎟</button></li> 
+									<li><button type="button">㎠</button></li> 
+									<li><button type="button">㎡</button></li> 
+									<li><button type="button">㎢</button></li> 
+									<li><button type="button">㏊</button></li> 
+									<li><button type="button">㎍</button></li> 
+									<li><button type="button">㎎</button></li> 
+									<li><button type="button">㎏</button></li> 
+									<li><button type="button">㏏</button></li> 
+									<li><button type="button">㎈</button></li> 
+									<li><button type="button">㎉</button></li> 
+									<li><button type="button">㏈</button></li> 
+									<li><button type="button">㎧</button></li> 
+									<li><button type="button">㎨</button></li> 
+									<li><button type="button">㎰</button></li> 
+									<li><button type="button">㎱</button></li> 
+									<li><button type="button">㎲</button></li> 
+									<li><button type="button">㎳</button></li> 
+									<li><button type="button">㎴</button></li> 
+									<li><button type="button">㎵</button></li> 
+									<li><button type="button">㎶</button></li> 
+									<li><button type="button">㎷</button></li> 
+									<li><button type="button">㎸</button></li> 
+									<li><button type="button">㎹</button></li> 
+									<li><button type="button">㎀</button></li> 
+									<li><button type="button">㎁</button></li> 
+									<li><button type="button">㎂</button></li> 
+									<li><button type="button">㎃</button></li> 
+									<li><button type="button">㎄</button></li> 
+									<li><button type="button">㎺</button></li> 
+									<li><button type="button">㎻</button></li> 
+									<li><button type="button">㎼</button></li> 
+									<li><button type="button">㎽</button></li> 
+									<li><button type="button">㎾</button></li> 
+									<li><button type="button">㎿</button></li> 
+									<li><button type="button">㎐</button></li> 
+									<li><button type="button">㎑</button></li> 
+									<li><button type="button">㎒</button></li> 
+									<li><button type="button">㎓</button></li> 
+									<li><button type="button">㎔</button></li> 
+									<li><button type="button">Ω</button></li> 
+									<li><button type="button">㏀</button></li> 
+									<li><button type="button">㏁</button></li> 
+									<li><button type="button">㎊</button></li> 
+									<li><button type="button">㎋</button></li> 
+									<li><button type="button">㎌</button></li> 
+									<li><button type="button">㏖</button></li> 
+									<li><button type="button">㏅</button></li> 
+									<li><button type="button">㎭</button></li> 
+									<li><button type="button">㎮</button></li> 
+									<li><button type="button">㎯</button></li> 
+									<li><button type="button">㏛</button></li> 
+									<li><button type="button">㎩</button></li> 
+									<li><button type="button">㎪</button></li> 
+									<li><button type="button">㎫</button></li> 
+									<li><button type="button">㎬</button></li> 
+									<li><button type="button">㏝</button></li> 
+									<li><button type="button">㏐</button></li> 
+									<li><button type="button">㏓</button></li> 
+									<li><button type="button">㏃</button></li> 
+									<li><button type="button">㏉</button></li> 
+									<li><button type="button">㏜</button></li> 
+									<li><button type="button">㏆</button></li> 
+								</ul> 
+							</li> 
+							<li class="li li3"><button type="button" class="tab">원,괄호</button> 
+								<ul> 
+									<li><button type="button">㉠</button></li> 
+									<li><button type="button">㉡</button></li> 
+									<li><button type="button">㉢</button></li> 
+									<li><button type="button">㉣</button></li> 
+									<li><button type="button">㉤</button></li> 
+									<li><button type="button">㉥</button></li> 
+									<li><button type="button">㉦</button></li> 
+									<li><button type="button">㉧</button></li> 
+									<li><button type="button">㉨</button></li> 
+									<li><button type="button">㉩</button></li> 
+									<li><button type="button">㉪</button></li> 
+									<li><button type="button">㉫</button></li> 
+									<li><button type="button">㉬</button></li> 
+									<li><button type="button">㉭</button></li> 
+									<li><button type="button">㉮</button></li> 
+									<li><button type="button">㉯</button></li> 
+									<li><button type="button">㉰</button></li> 
+									<li><button type="button">㉱</button></li> 
+									<li><button type="button">㉲</button></li> 
+									<li><button type="button">㉳</button></li> 
+									<li><button type="button">㉴</button></li> 
+									<li><button type="button">㉵</button></li> 
+									<li><button type="button">㉶</button></li> 
+									<li><button type="button">㉷</button></li> 
+									<li><button type="button">㉸</button></li> 
+									<li><button type="button">㉹</button></li> 
+									<li><button type="button">㉺</button></li> 
+									<li><button type="button">㉻</button></li> 
+									<li><button type="button">ⓐ</button></li> 
+									<li><button type="button">ⓑ</button></li> 
+									<li><button type="button">ⓒ</button></li> 
+									<li><button type="button">ⓓ</button></li> 
+									<li><button type="button">ⓔ</button></li> 
+									<li><button type="button">ⓕ</button></li> 
+									<li><button type="button">ⓖ</button></li> 
+									<li><button type="button">ⓗ</button></li> 
+									<li><button type="button">ⓘ</button></li> 
+									<li><button type="button">ⓙ</button></li> 
+									<li><button type="button">ⓚ</button></li> 
+									<li><button type="button">ⓛ</button></li> 
+									<li><button type="button">ⓜ</button></li> 
+									<li><button type="button">ⓝ</button></li> 
+									<li><button type="button">ⓞ</button></li> 
+									<li><button type="button">ⓟ</button></li> 
+									<li><button type="button">ⓠ</button></li> 
+									<li><button type="button">ⓡ</button></li> 
+									<li><button type="button">ⓢ</button></li> 
+									<li><button type="button">ⓣ</button></li> 
+									<li><button type="button">ⓤ</button></li> 
+									<li><button type="button">ⓥ</button></li> 
+									<li><button type="button">ⓦ</button></li> 
+									<li><button type="button">ⓧ</button></li> 
+									<li><button type="button">ⓨ</button></li> 
+									<li><button type="button">ⓩ</button></li> 
+									<li><button type="button">①</button></li> 
+									<li><button type="button">②</button></li> 
+									<li><button type="button">③</button></li> 
+									<li><button type="button">④</button></li> 
+									<li><button type="button">⑤</button></li> 
+									<li><button type="button">⑥</button></li> 
+									<li><button type="button">⑦</button></li> 
+									<li><button type="button">⑧</button></li> 
+									<li><button type="button">⑨</button></li> 
+									<li><button type="button">⑩</button></li> 
+									<li><button type="button">⑪</button></li> 
+									<li><button type="button">⑫</button></li> 
+									<li><button type="button">⑬</button></li> 
+									<li><button type="button">⑭</button></li> 
+									<li><button type="button">⑮</button></li> 
+									<li><button type="button">㈀</button></li> 
+									<li><button type="button">㈁</button></li> 
+									<li><button type="button">㈂</button></li> 
+									<li><button type="button">㈃</button></li> 
+									<li><button type="button">㈄</button></li> 
+									<li><button type="button">㈅</button></li> 
+									<li><button type="button">㈆</button></li> 
+									<li><button type="button">㈇</button></li> 
+									<li><button type="button">㈈</button></li> 
+									<li><button type="button">㈉</button></li> 
+									<li><button type="button">㈊</button></li> 
+									<li><button type="button">㈋</button></li> 
+									<li><button type="button">㈌</button></li> 
+									<li><button type="button">㈍</button></li> 
+									<li><button type="button">㈎</button></li> 
+									<li><button type="button">㈏</button></li> 
+									<li><button type="button">㈐</button></li> 
+									<li><button type="button">㈑</button></li> 
+									<li><button type="button">㈒</button></li> 
+									<li><button type="button">㈓</button></li> 
+									<li><button type="button">㈔</button></li> 
+									<li><button type="button">㈕</button></li> 
+									<li><button type="button">㈖</button></li> 
+									<li><button type="button">㈗</button></li> 
+									<li><button type="button">㈘</button></li> 
+									<li><button type="button">㈙</button></li> 
+									<li><button type="button">㈚</button></li> 
+									<li><button type="button">㈛</button></li> 
+									<li><button type="button">⒜</button></li> 
+									<li><button type="button">⒝</button></li> 
+									<li><button type="button">⒞</button></li> 
+									<li><button type="button">⒟</button></li> 
+									<li><button type="button">⒠</button></li> 
+									<li><button type="button">⒡</button></li> 
+									<li><button type="button">⒢</button></li> 
+									<li><button type="button">⒣</button></li> 
+									<li><button type="button">⒤</button></li> 
+									<li><button type="button">⒥</button></li> 
+									<li><button type="button">⒦</button></li> 
+									<li><button type="button">⒧</button></li> 
+									<li><button type="button">⒨</button></li> 
+									<li><button type="button">⒩</button></li> 
+									<li><button type="button">⒪</button></li> 
+									<li><button type="button">⒫</button></li> 
+									<li><button type="button">⒬</button></li> 
+									<li><button type="button">⒭</button></li> 
+									<li><button type="button">⒮</button></li> 
+									<li><button type="button">⒯</button></li> 
+									<li><button type="button">⒰</button></li> 
+									<li><button type="button">⒱</button></li> 
+									<li><button type="button">⒲</button></li> 
+									<li><button type="button">⒳</button></li> 
+									<li><button type="button">⒴</button></li> 
+									<li><button type="button">⒵</button></li> 
+									<li><button type="button">⑴</button></li> 
+									<li><button type="button">⑵</button></li> 
+									<li><button type="button">⑶</button></li> 
+									<li><button type="button">⑷</button></li> 
+									<li><button type="button">⑸</button></li> 
+									<li><button type="button">⑹</button></li> 
+									<li><button type="button">⑺</button></li> 
+									<li><button type="button">⑻</button></li> 
+									<li><button type="button">⑼</button></li> 
+									<li><button type="button">⑽</button></li> 
+									<li><button type="button">⑾</button></li> 
+									<li><button type="button">⑿</button></li> 
+									<li><button type="button">⒀</button></li> 
+									<li><button type="button">⒁</button></li> 
+									<li><button type="button">⒂</button></li> 
+								</ul> 
+							</li> 
+							<li class="li li4"><button type="button" class="tab">한글</button> 
+								<ul> 
+									<li><button type="button">ㄱ</button></li> 
+									<li><button type="button">ㄲ</button></li> 
+									<li><button type="button">ㄳ</button></li> 
+									<li><button type="button">ㄴ</button></li> 
+									<li><button type="button">ㄵ</button></li> 
+									<li><button type="button">ㄶ</button></li> 
+									<li><button type="button">ㄷ</button></li> 
+									<li><button type="button">ㄸ</button></li> 
+									<li><button type="button">ㄹ</button></li> 
+									<li><button type="button">ㄺ</button></li> 
+									<li><button type="button">ㄻ</button></li> 
+									<li><button type="button">ㄼ</button></li> 
+									<li><button type="button">ㄽ</button></li> 
+									<li><button type="button">ㄾ</button></li> 
+									<li><button type="button">ㄿ</button></li> 
+									<li><button type="button">ㅀ</button></li> 
+									<li><button type="button">ㅁ</button></li> 
+									<li><button type="button">ㅂ</button></li> 
+									<li><button type="button">ㅃ</button></li> 
+									<li><button type="button">ㅄ</button></li> 
+									<li><button type="button">ㅅ</button></li> 
+									<li><button type="button">ㅆ</button></li> 
+									<li><button type="button">ㅇ</button></li> 
+									<li><button type="button">ㅈ</button></li> 
+									<li><button type="button">ㅉ</button></li> 
+									<li><button type="button">ㅊ</button></li> 
+									<li><button type="button">ㅋ</button></li> 
+									<li><button type="button">ㅌ</button></li> 
+									<li><button type="button">ㅍ</button></li> 
+									<li><button type="button">ㅎ</button></li> 
+									<li><button type="button">ㅏ</button></li> 
+									<li><button type="button">ㅐ</button></li> 
+									<li><button type="button">ㅑ</button></li> 
+									<li><button type="button">ㅒ</button></li> 
+									<li><button type="button">ㅓ</button></li> 
+									<li><button type="button">ㅔ</button></li> 
+									<li><button type="button">ㅕ</button></li> 
+									<li><button type="button">ㅖ</button></li> 
+									<li><button type="button">ㅗ</button></li> 
+									<li><button type="button">ㅘ</button></li> 
+									<li><button type="button">ㅙ</button></li> 
+									<li><button type="button">ㅚ</button></li> 
+									<li><button type="button">ㅛ</button></li> 
+									<li><button type="button">ㅜ</button></li> 
+									<li><button type="button">ㅝ</button></li> 
+									<li><button type="button">ㅞ</button></li> 
+									<li><button type="button">ㅟ</button></li> 
+									<li><button type="button">ㅠ</button></li> 
+									<li><button type="button">ㅡ</button></li> 
+									<li><button type="button">ㅢ</button></li> 
+									<li><button type="button">ㅣ</button></li> 
+									<li><button type="button">ㅥ</button></li> 
+									<li><button type="button">ㅦ</button></li> 
+									<li><button type="button">ㅧ</button></li> 
+									<li><button type="button">ㅨ</button></li> 
+									<li><button type="button">ㅩ</button></li> 
+									<li><button type="button">ㅪ</button></li> 
+									<li><button type="button">ㅫ</button></li> 
+									<li><button type="button">ㅬ</button></li> 
+									<li><button type="button">ㅭ</button></li> 
+									<li><button type="button">ㅮ</button></li> 
+									<li><button type="button">ㅯ</button></li> 
+									<li><button type="button">ㅰ</button></li> 
+									<li><button type="button">ㅱ</button></li> 
+									<li><button type="button">ㅲ</button></li> 
+									<li><button type="button">ㅳ</button></li> 
+									<li><button type="button">ㅴ</button></li> 
+									<li><button type="button">ㅵ</button></li> 
+									<li><button type="button">ㅶ</button></li> 
+									<li><button type="button">ㅷ</button></li> 
+									<li><button type="button">ㅸ</button></li> 
+									<li><button type="button">ㅹ</button></li> 
+									<li><button type="button">ㅺ</button></li> 
+									<li><button type="button">ㅻ</button></li> 
+									<li><button type="button">ㅼ</button></li> 
+									<li><button type="button">ㅽ</button></li> 
+									<li><button type="button">ㅾ</button></li> 
+									<li><button type="button">ㅿ</button></li> 
+									<li><button type="button">ㆀ</button></li> 
+									<li><button type="button">ㆁ</button></li> 
+									<li><button type="button">ㆂ</button></li> 
+									<li><button type="button">ㆃ</button></li> 
+									<li><button type="button">ㆄ</button></li> 
+									<li><button type="button">ㆅ</button></li> 
+									<li><button type="button">ㆆ</button></li> 
+									<li><button type="button">ㆇ</button></li> 
+									<li><button type="button">ㆈ</button></li> 
+									<li><button type="button">ㆉ</button></li> 
+									<li><button type="button">ㆊ</button></li> 
+									<li><button type="button">ㆋ</button></li> 
+									<li><button type="button">ㆌ</button></li> 
+									<li><button type="button">ㆍ</button></li> 
+									<li><button type="button">ㆎ</button></li> 
+								</ul> 
+							</li> 
+							<li class="li li5"><button type="button" class="tab">그리스,라틴어</button> 
+								<ul> 
+									<li><button type="button">Α</button></li> 
+									<li><button type="button">Β</button></li> 
+									<li><button type="button">Γ</button></li> 
+									<li><button type="button">Δ</button></li> 
+									<li><button type="button">Ε</button></li> 
+									<li><button type="button">Ζ</button></li> 
+									<li><button type="button">Η</button></li> 
+									<li><button type="button">Θ</button></li> 
+									<li><button type="button">Ι</button></li> 
+									<li><button type="button">Κ</button></li> 
+									<li><button type="button">Λ</button></li> 
+									<li><button type="button">Μ</button></li> 
+									<li><button type="button">Ν</button></li> 
+									<li><button type="button">Ξ</button></li> 
+									<li><button type="button">Ο</button></li> 
+									<li><button type="button">Π</button></li> 
+									<li><button type="button">Ρ</button></li> 
+									<li><button type="button">Σ</button></li> 
+									<li><button type="button">Τ</button></li> 
+									<li><button type="button">Υ</button></li> 
+									<li><button type="button">Φ</button></li> 
+									<li><button type="button">Χ</button></li> 
+									<li><button type="button">Ψ</button></li> 
+									<li><button type="button">Ω</button></li> 
+									<li><button type="button">α</button></li> 
+									<li><button type="button">β</button></li> 
+									<li><button type="button">γ</button></li> 
+									<li><button type="button">δ</button></li> 
+									<li><button type="button">ε</button></li> 
+									<li><button type="button">ζ</button></li> 
+									<li><button type="button">η</button></li> 
+									<li><button type="button">θ</button></li> 
+									<li><button type="button">ι</button></li> 
+									<li><button type="button">κ</button></li> 
+									<li><button type="button">λ</button></li> 
+									<li><button type="button">μ</button></li> 
+									<li><button type="button">ν</button></li> 
+									<li><button type="button">ξ</button></li> 
+									<li><button type="button">ο</button></li> 
+									<li><button type="button">π</button></li> 
+									<li><button type="button">ρ</button></li> 
+									<li><button type="button">σ</button></li> 
+									<li><button type="button">τ</button></li> 
+									<li><button type="button">υ</button></li> 
+									<li><button type="button">φ</button></li> 
+									<li><button type="button">χ</button></li> 
+									<li><button type="button">ψ</button></li> 
+									<li><button type="button">ω</button></li> 
+									<li><button type="button">Æ</button></li> 
+									<li><button type="button">Ð</button></li> 
+									<li><button type="button">Ħ</button></li> 
+									<li><button type="button">Ĳ</button></li> 
+									<li><button type="button">Ŀ</button></li> 
+									<li><button type="button">Ł</button></li> 
+									<li><button type="button">Ø</button></li> 
+									<li><button type="button">Œ</button></li> 
+									<li><button type="button">Þ</button></li> 
+									<li><button type="button">Ŧ</button></li> 
+									<li><button type="button">Ŋ</button></li> 
+									<li><button type="button">æ</button></li> 
+									<li><button type="button">đ</button></li> 
+									<li><button type="button">ð</button></li> 
+									<li><button type="button">ħ</button></li> 
+									<li><button type="button">I</button></li> 
+									<li><button type="button">ĳ</button></li> 
+									<li><button type="button">ĸ</button></li> 
+									<li><button type="button">ŀ</button></li> 
+									<li><button type="button">ł</button></li> 
+									<li><button type="button">ł</button></li> 
+									<li><button type="button">œ</button></li> 
+									<li><button type="button">ß</button></li> 
+									<li><button type="button">þ</button></li> 
+									<li><button type="button">ŧ</button></li> 
+									<li><button type="button">ŋ</button></li> 
+									<li><button type="button">ŉ</button></li> 
+									<li><button type="button">Б</button></li> 
+									<li><button type="button">Г</button></li> 
+									<li><button type="button">Д</button></li> 
+									<li><button type="button">Ё</button></li> 
+									<li><button type="button">Ж</button></li> 
+									<li><button type="button">З</button></li> 
+									<li><button type="button">И</button></li> 
+									<li><button type="button">Й</button></li> 
+									<li><button type="button">Л</button></li> 
+									<li><button type="button">П</button></li> 
+									<li><button type="button">Ц</button></li> 
+									<li><button type="button">Ч</button></li> 
+									<li><button type="button">Ш</button></li> 
+									<li><button type="button">Щ</button></li> 
+									<li><button type="button">Ъ</button></li> 
+									<li><button type="button">Ы</button></li> 
+									<li><button type="button">Ь</button></li> 
+									<li><button type="button">Э</button></li> 
+									<li><button type="button">Ю</button></li> 
+									<li><button type="button">Я</button></li> 
+									<li><button type="button">б</button></li> 
+									<li><button type="button">в</button></li> 
+									<li><button type="button">г</button></li> 
+									<li><button type="button">д</button></li> 
+									<li><button type="button">ё</button></li> 
+									<li><button type="button">ж</button></li> 
+									<li><button type="button">з</button></li> 
+									<li><button type="button">и</button></li> 
+									<li><button type="button">й</button></li> 
+									<li><button type="button">л</button></li> 
+									<li><button type="button">п</button></li> 
+									<li><button type="button">ф</button></li> 
+									<li><button type="button">ц</button></li> 
+									<li><button type="button">ч</button></li> 
+									<li><button type="button">ш</button></li> 
+									<li><button type="button">щ</button></li> 
+									<li><button type="button">ъ</button></li> 
+									<li><button type="button">ы</button></li> 
+									<li><button type="button">ь</button></li> 
+									<li><button type="button">э</button></li> 
+									<li><button type="button">ю</button></li> 
+									<li><button type="button">я</button></li> 
+								</ul> 
+							</li> 
+							<li class="li li6"><button type="button" class="tab">일본어</button> 
+								<ul> 
+									<li><button type="button">ぁ</button></li> 
+									<li><button type="button">あ</button></li> 
+									<li><button type="button">ぃ</button></li> 
+									<li><button type="button">い</button></li> 
+									<li><button type="button">ぅ</button></li> 
+									<li><button type="button">う</button></li> 
+									<li><button type="button">ぇ</button></li> 
+									<li><button type="button">え</button></li> 
+									<li><button type="button">ぉ</button></li> 
+									<li><button type="button">お</button></li> 
+									<li><button type="button">か</button></li> 
+									<li><button type="button">が</button></li> 
+									<li><button type="button">き</button></li> 
+									<li><button type="button">ぎ</button></li> 
+									<li><button type="button">く</button></li> 
+									<li><button type="button">ぐ</button></li> 
+									<li><button type="button">け</button></li> 
+									<li><button type="button">げ</button></li> 
+									<li><button type="button">こ</button></li> 
+									<li><button type="button">ご</button></li> 
+									<li><button type="button">さ</button></li> 
+									<li><button type="button">ざ</button></li> 
+									<li><button type="button">し</button></li> 
+									<li><button type="button">じ</button></li> 
+									<li><button type="button">す</button></li> 
+									<li><button type="button">ず</button></li> 
+									<li><button type="button">せ</button></li> 
+									<li><button type="button">ぜ</button></li> 
+									<li><button type="button">そ</button></li> 
+									<li><button type="button">ぞ</button></li> 
+									<li><button type="button">た</button></li> 
+									<li><button type="button">だ</button></li> 
+									<li><button type="button">ち</button></li> 
+									<li><button type="button">ぢ</button></li> 
+									<li><button type="button">っ</button></li> 
+									<li><button type="button">つ</button></li> 
+									<li><button type="button">づ</button></li> 
+									<li><button type="button">て</button></li> 
+									<li><button type="button">で</button></li> 
+									<li><button type="button">と</button></li> 
+									<li><button type="button">ど</button></li> 
+									<li><button type="button">な</button></li> 
+									<li><button type="button">に</button></li> 
+									<li><button type="button">ぬ</button></li> 
+									<li><button type="button">ね</button></li> 
+									<li><button type="button">の</button></li> 
+									<li><button type="button">は</button></li> 
+									<li><button type="button">ば</button></li> 
+									<li><button type="button">ぱ</button></li> 
+									<li><button type="button">ひ</button></li> 
+									<li><button type="button">び</button></li> 
+									<li><button type="button">ぴ</button></li> 
+									<li><button type="button">ふ</button></li> 
+									<li><button type="button">ぶ</button></li> 
+									<li><button type="button">ぷ</button></li> 
+									<li><button type="button">へ</button></li> 
+									<li><button type="button">べ</button></li> 
+									<li><button type="button">ぺ</button></li> 
+									<li><button type="button">ほ</button></li> 
+									<li><button type="button">ぼ</button></li> 
+									<li><button type="button">ぽ</button></li> 
+									<li><button type="button">ま</button></li> 
+									<li><button type="button">み</button></li> 
+									<li><button type="button">む</button></li> 
+									<li><button type="button">め</button></li> 
+									<li><button type="button">も</button></li> 
+									<li><button type="button">ゃ</button></li> 
+									<li><button type="button">や</button></li> 
+									<li><button type="button">ゅ</button></li> 
+									<li><button type="button">ゆ</button></li> 
+									<li><button type="button">ょ</button></li> 
+									<li><button type="button">よ</button></li> 
+									<li><button type="button">ら</button></li> 
+									<li><button type="button">り</button></li> 
+									<li><button type="button">る</button></li> 
+									<li><button type="button">れ</button></li> 
+									<li><button type="button">ろ</button></li> 
+									<li><button type="button">ゎ</button></li> 
+									<li><button type="button">わ</button></li> 
+									<li><button type="button">ゐ</button></li> 
+									<li><button type="button">ゑ</button></li> 
+									<li><button type="button">を</button></li> 
+									<li><button type="button">ん</button></li> 
+									<li><button type="button">ァ</button></li> 
+									<li><button type="button">ア</button></li> 
+									<li><button type="button">ィ</button></li> 
+									<li><button type="button">イ</button></li> 
+									<li><button type="button">ゥ</button></li> 
+									<li><button type="button">ウ</button></li> 
+									<li><button type="button">ェ</button></li> 
+									<li><button type="button">エ</button></li> 
+									<li><button type="button">ォ</button></li> 
+									<li><button type="button">オ</button></li> 
+									<li><button type="button">カ</button></li> 
+									<li><button type="button">ガ</button></li> 
+									<li><button type="button">キ</button></li> 
+									<li><button type="button">ギ</button></li> 
+									<li><button type="button">ク</button></li> 
+									<li><button type="button">グ</button></li> 
+									<li><button type="button">ケ</button></li> 
+									<li><button type="button">ゲ</button></li> 
+									<li><button type="button">コ</button></li> 
+									<li><button type="button">ゴ</button></li> 
+									<li><button type="button">サ</button></li> 
+									<li><button type="button">ザ</button></li> 
+									<li><button type="button">シ</button></li> 
+									<li><button type="button">ジ</button></li> 
+									<li><button type="button">ス</button></li> 
+									<li><button type="button">ズ</button></li> 
+									<li><button type="button">セ</button></li> 
+									<li><button type="button">ゼ</button></li> 
+									<li><button type="button">ソ</button></li> 
+									<li><button type="button">ゾ</button></li> 
+									<li><button type="button">タ</button></li> 
+									<li><button type="button">ダ</button></li> 
+									<li><button type="button">チ</button></li> 
+									<li><button type="button">ヂ</button></li> 
+									<li><button type="button">ッ</button></li> 
+									<li><button type="button">ツ</button></li> 
+									<li><button type="button">ヅ</button></li> 
+									<li><button type="button">テ</button></li> 
+									<li><button type="button">デ</button></li> 
+									<li><button type="button">ト</button></li> 
+									<li><button type="button">ド</button></li> 
+									<li><button type="button">ナ</button></li> 
+									<li><button type="button">ニ</button></li> 
+									<li><button type="button">ヌ</button></li> 
+									<li><button type="button">ネ</button></li> 
+									<li><button type="button">ノ</button></li> 
+									<li><button type="button">ハ</button></li> 
+									<li><button type="button">バ</button></li> 
+									<li><button type="button">パ</button></li> 
+									<li><button type="button">ヒ</button></li> 
+									<li><button type="button">ビ</button></li> 
+									<li><button type="button">ピ</button></li> 
+									<li><button type="button">フ</button></li> 
+									<li><button type="button">ブ</button></li> 
+									<li><button type="button">プ</button></li> 
+									<li><button type="button">ヘ</button></li> 
+									<li><button type="button">ベ</button></li> 
+									<li><button type="button">ペ</button></li> 
+									<li><button type="button">ホ</button></li> 
+									<li><button type="button">ボ</button></li> 
+									<li><button type="button">ポ</button></li> 
+									<li><button type="button">マ</button></li> 
+									<li><button type="button">ミ</button></li> 
+									<li><button type="button">ム</button></li> 
+									<li><button type="button">メ</button></li> 
+									<li><button type="button">モ</button></li> 
+									<li><button type="button">ャ</button></li> 
+									<li><button type="button">ヤ</button></li> 
+									<li><button type="button">ュ</button></li> 
+									<li><button type="button">ユ</button></li> 
+									<li><button type="button">ョ</button></li> 
+									<li><button type="button">ヨ</button></li> 
+									<li><button type="button">ラ</button></li> 
+									<li><button type="button">リ</button></li> 
+									<li><button type="button">ル</button></li> 
+									<li><button type="button">レ</button></li> 
+									<li><button type="button">ロ</button></li> 
+									<li><button type="button">ヮ</button></li> 
+									<li><button type="button">ワ</button></li> 
+									<li><button type="button">ヰ</button></li> 
+									<li><button type="button">ヱ</button></li> 
+									<li><button type="button">ヲ</button></li> 
+									<li><button type="button">ン</button></li> 
+									<li><button type="button">ヴ</button></li> 
+									<li><button type="button">ヵ</button></li> 
+									<li><button type="button">ヶ</button></li> 
+								</ul> 
+							</li> 
+						</ul> 
+						<fieldset> 
+							<input name="" type="text" class="itx" title="URL 입력" /> 
+							<span class="btnArea"> 
+								<button type="button" class="btn strong">적용</button> 
+								<button type="button" class="btn">취소</button> 
+							</span> 
+						</fieldset> 
+					</div> 
+				</li> 
+				<li class="ti te"><button type="button" class="tb ty te"><span>표</span></button> 
+					<div class="lr"> 
+						<fieldset class="pv"> 
+							<legend>미리보기</legend> 
+							<div class="xdcs"> 
+								<table border="1" cellpadding="1" cellspacing="0" class="ts" style="caption-side:top; width:100%;"> 
+									<caption style="text-align:left">Caption</caption> 
+									<tr> 
+										<td>TD</td> 
+										<td>TD</td> 
+										<td>TD</td> 
+									</tr> 
+									<tr> 
+										<td>TD</td> 
+										<td>TD</td> 
+										<td>TD</td> 
+									</tr> 
+									<tr> 
+										<td>TD</td> 
+										<td>TD</td> 
+										<td>TD</td> 
+									</tr> 
+								</table> 
+							</div> 
+						</fieldset> 
+						<fieldset class="cn"> 
+							<legend>표 제목(caption) 및 배치</legend> 
+							<div class="liow"> 
+								<label for="cn">표 제목(caption)</label> 
+								<input name="" type="text" id="cn" class="itx" /> 
+								<ul> 
+									<li class="tl selected"><button type="button"><span>상단좌측</span></button></li> 
+									<li class="tc"><button type="button"><span>상단중앙</span></button></li> 
+									<li class="tr"><button type="button"><span>상단우측</span></button></li> 
+									<li class="bl"><button type="button"><span>하단좌측</span></button></li> 
+									<li class="bc"><button type="button"><span>하단중앙</span></button></li> 
+									<li class="br"><button type="button"><span>하단우측</span></button></li> 
+								</ul> 
+							</div> 
+						</fieldset> 
+						<fieldset class="th"> 
+							<legend>머리글 셀(th)</legend> 
+							<ul> 
+								<li class="no selected"><button type="button"><span>없음</span></button></li> 
+								<li class="lt"><button type="button"><span>왼쪽</span></button></li> 
+								<li class="tp"><button type="button"><span>위쪽</span></button></li> 
+								<li class="bh"><button type="button"><span>모두</span></button></li> 
+							</ul> 
+						</fieldset> 
+						<fieldset class="wh"> 
+							<legend>표 크기</legend> 
+							<table> 
+								<tr> 
+									<th scope="row"><label for="xdtCol">행(col)</label></th> 
+									<td><input name="" type="text" id="xdtCol" class="itx" value="3" /></td> 
+								</tr> 
+								<tr> 
+									<th scope="row"><label for="xdtRow">열(row)</label></th> 
+									<td><input name="" type="text" id="xdtRow" class="itx" value="3" /></td> 
+								</tr> 
+								<tr> 
+									<th><label for="xdtWidth">표 폭</label></th> 
+									<td><input name="" type="text" id="xdtWidth" class="itx" value="100" /> <button type="button" class="selected">%</button> <button type="button">px</button></td> 
+								</tr> 
+							</table> 
+						</fieldset> 
+						<div class="btnArea"> 
+							<button type="button" class="btn strong">적용</button> 
+							<button type="button" class="btn">취소</button> 
+						</div> 
+					</div> 
+				</li> 
+				<!---
+				<li class="ti cm disable"><button type="button" class="tb tn cm"><span>셀 합치기</span></button></li> 
+				<li class="ti cs disable"><button type="button" class="tb tn cs"><span>열 나누기</span></button></li> 
+				<li class="ti rs disable"><button type="button" class="tb tn rs"><span>행 나누기</span></button></li> 
+				-->
+				<!--
+				<li class="ti tc disable"><button type="button" class="tb tn tc"><span>목차 넣기</span></button></li> 
+				-->
+				<!--
+				<li class="ti fr"><button type="button" class="tb ty fr"><span>찾기/바꾸기</span></button> 
+					<div class="lr"> 
+						<fieldset class="find"> 
+							<legend>찾기</legend> 
+							<div class="liow"> 
+								<label for="find">찾을단어</label> 
+								<input name="" type="text" class="itx" id="find" /> 
+								<button type="button" class="btn">찾기</button> 
+							</div> 
+						</fieldset> 
+						<fieldset class="replace"> 
+							<legend>찾아 바꾸기</legend> 
+							<div class="liow"> 
+								<label for="findAnd">찾을단어</label> 
+								<input name="" type="text" class="itx" id="findAnd" /> 
+								<button type="button" class="btn">찾기</button> 
+							</div> 
+							<div class="liow"> 
+								<label for="replace">바꿀단어</label> 
+								<input name="" type="text" class="itx" id="replace" /> 
+								<button type="button" class="btn strong">바꾸기</button> 
+							</div> 
+							<button type="button" class="btn strong frAll">모두 찾아 바꾸기</button> 
+						</fieldset> 
+					</div> 
+				</li> 
+				-->
+			</ul> 
+		</div> 
+	</div> 
+	<!-- /tool --> 
+	
+	<!-- edit --> 
+	<div class="edit"> 
+		<div class="xdcs" title="Enter는 줄바꿈, Shift+Enter는 문단바꿈입니다."></div> 
+	</div> 
+	<!-- /edit --> 
+	
+	<!-- Time --> 
+	<div class="time"> 
+		<p>글을 쓰기 시작한지 <strong>1시간</strong>이 지났습니다. 마지막 저장 시간은 <strong>10분 전</strong> 입니다.</p> 
+	</div> 
+	<!-- /Time --> 
+	
+	<!-- mode --> 
+	<div class="mode"> 
+		<button type="button" class="resize"><span>입력창 크기 조절</span></button> 
+		<div class="autoResize"> 
+			<input name="" type="checkbox" value="" class="icx" id="autoResize" /> 
+			<label for="autoResize">Auto Resize</label> 
+		</div> 
+		<ul> 
+			<li class="wysiwyg active"><button type="button" class="wysiwyg">WYSIWYG</button></li> 
+			<li class="html"><button type="button" class="html">HTML</button></li> 
+		</ul> 
+	</div> 
+	<!-- /mode --> 
+</div> 
+<!-- /XEED --> 
+ 
+<!-- XDMW(XEED Modal Windowed) --> 
+<div class="xdmw"> 
+	<div class="bg"><iframe frameborder="0" title="Blank Frame"></iframe></div> 
+	<div class="fg"> 
+		<!-- Attach List --> 
+		<div class="item al"> 
+			<div class="iHead"> 
+				<h2>첨부목록 <em>[<strong>0</strong>]</em></h2> 
+			</div> 
+			<div class="iBody"> 
+				<div class="sn img none"> 
+					<p class="label">이미지</p> 
+					<ul> 
+						<li> 
+							<button type="button" class="ob"><img src="about:blank" alt="" /></button> 
+							<button type="button" class="ctr ins">본문에 넣기</button> 
+							<button type="button" class="ctr del">삭제</button> 
+							<input name="" type="checkbox" value="" class="icx" id="img1" /> <label for="img1">@exThumbH.jpg</label> 
+						</li> 
+					</ul> 
+					<p class="task"> 
+						<button type="button" class="all">모두선택</button> 
+						<button type="button" class="insert">선택넣기</button> 
+					</p> 
+					<p class="nofile">첨부된 이미지가 없습니다.</p>
+				</div> 
+				<div class="sn mov none"> 
+					<p class="label">동영상</p> 
+					<ul></ul> 
+					<p class="task"> 
+						<button type="button" class="all">모두선택</button> 
+						<button type="button" class="insert">선택넣기</button> 
+					</p> 
+					<p class="nofile">첨부된 이미지가 없습니다.</p>
+				</div> 
+				<div class="sn file none"> 
+					<p class="label">파일</p> 
+					<ul></ul> 
+					<p class="task"> 
+						<button type="button" class="all">모두선택</button> 
+						<button type="button" class="insert">선택넣기</button> 
+					</p> 
+					<p class="nofile">첨부된 이미지가 없습니다.</p>
+				</div> 
+			</div> 
+			<div class="iFoot"> 
+				<div class="btnArea fl"> 
+					<button type="button" class="btn at strong">파일 업로드하기</button> 
+				</div> 
+				<div class="btnArea fr"> 
+					<button type="button" class="btn cs">첨부목록 닫기</button> 
+				</div> 
+			</div> 
+		</div> 
+		<!-- /Attach List --> 
+	</div> 
+</div> 
+<!-- /XDMW(XEED Modal Windowed) -->
+<!-- }}} Editor HTML -->
+
+<!-- Activate Editor -->
+<script type="text/javascript">//<![CDATA[
+	var editor_path = '{$editor_path}';
+	var xeed_path   = '{$editor_path}';
+	var auto_saved_msg = '{$lang->msg_auto_saved}';
+	var oEditor = editorStart_xe('{$editor_sequence}', '{$editor_primary_key_name}', '{$editor_content_key_name}', '{$editor_height}', '{$colorset}', '{$content_style}', '{$content_font}', '{$content_font_size}');
+//]]></script>
+<!-- // Activate Editor -->

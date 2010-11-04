@@ -1,0 +1,22 @@
+@charset "utf-8";
+/* XDCS = Xpress eDitor Content Style */
+.xdcs{ font-size:12px; line-height:1.5; overflow:hidden !important; *zoom:1;}
+.xdcs .h1{ font-size:24px; margin:1em 0;}
+.xdcs .h2{ font-size:20px; margin:1em 0;}
+.xdcs .h3{ font-size:18px; margin:1em 0;}
+.xdcs .h4{ font-size:16px; margin:1em 0;}
+.xdcs .h5{ font-size:14px; margin:1em 0;}
+.xdcs .h6{ font-size:12px; margin:1em 0;}
+.xdcs .bq{ border-left:3px solid #ccc; padding-left:1em; margin:1em 0;}
+.xdcs .bx{ border:1px dotted #999; margin:1em 0; padding:0 2em; background:#fafafa;}
+.xdcs .ts,
+.xdcs .ts th,
+.xdcs .ts td{ border:1px solid #bbb;}
+.xdcs .ts caption{ font-weight:bold;}
+.xdcs .ts th,
+.xdcs .ts td{ padding:2px 5px;}
+.xdcs .ts{ border-collapse:collapse; margin:1em 0;}
+.xdcs .ts th{ text-align:left; background-color:#fafafa;}
+.xdcs .ts td{ text-align:left;}
+.xdcs .toc{ margin:1em 0; border:1px solid #ddd; background:#fafafa;}
+.xdcs .toc ul ul{ padding-left:1em; margin:0;}
