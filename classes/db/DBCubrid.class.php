@@ -797,6 +797,18 @@
                 return ($this->_getNavigationData($table_list, $columns,
                     $left_join, $condition, $output));
 
+			if($output->order) {
+				$conditions = $this->getConditionList($output);
+				if(in_array('list_order', $conditions) || in_array('update_order', $conditions)) {
+					foreach($output->order as $key => $val) {
+						$col = $val[0];
+						if(!in_array($col, array('list_order','update_order'))) continue;
+						if($condition) $condition .= sprintf(' and %s < 2100000000 ', $col);
+						else $condition = sprintf(' where %s < 2100000000 ', $col);
+					}
+				}
+			}
+
             $query = sprintf ("select %s from %s %s %s", $columns,
                 implode (',',$table_list), implode (' ',$left_join),
                 $condition);
@@ -999,6 +1011,18 @@
             // 페이지 변수를 체크
             if ($page > $total_page) $page = $total_page;
             $start_count = ($page - 1) * $list_count;
+
+			if($output->order) {
+				$conditions = $this->getConditionList($output);
+				if(in_array('list_order', $conditions) || in_array('update_order', $conditions)) {
+					foreach($output->order as $key => $val) {
+						$col = $val[0];
+						if(!in_array($col, array('list_order','update_order'))) continue;
+						if($condition) $condition .= sprintf(' and %s < 2100000000 ', $col);
+						else $condition = sprintf(' where %s < 2100000000 ', $col);
+					}
+				}
+			}
 
             $query = sprintf ("select %s from %s %s %s", $columns,
                 implode (',', $table_list), implode(' ', $left_join), $condition);
