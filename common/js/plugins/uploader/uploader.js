@@ -443,7 +443,7 @@ runtimes.flash = {
 		var self = this;
 		var rand = random();
 		var name = 'xe_flashuploader_object'+rand;
-		var swf  = '/common/swf/uploader.swf';
+		var swf  = (window.request_uri||'/')+'common/js/plugins/uploader/uploader.swf?'+rand;
 
 		if (!window.xe_flashuploaders) window.xe_flashuploaders = [];
 
@@ -454,6 +454,7 @@ runtimes.flash = {
 			var oh = b.offsetHeight;
 			var ot = b.offsetTop;
 			var ol = b.offsetLeft;
+			var $div, flash, css;
 
 			if (typeof uploader.flashindex == 'undefined') {
 				uploader.flashindex = xe_flashuploaders.length;
@@ -477,11 +478,11 @@ runtimes.flash = {
 				});
 			}
 
-			var flash = $.browser.msie?window[name]:document[name];
-			var css   = {position:'absolute',width:ow+'px',height:oh+'px',left:ol+'px',top:ot+'px',margin:0,padding:0,overflow:'hidden'};
+			div   = $('#'+name+'-container');
+			css   = {position:'absolute',width:ow+'px',height:oh+'px',left:ol+'px',top:ot+'px',margin:0,padding:0,overflow:'hidden'};
 
-			if (!flash) {
-				var div = $('<div />').css(css).appendTo(op);
+			if (!div.length) {
+				div = $('<div />').attr('id', name+'-container').css(css).appendTo(op);
 				div[0].innerHTML = ''
 						+ '<object id="'+name+'" classid="clsid:D27CDB6E-AE6D-11CF-96B8-444553540000" width="100%" height="100%">'
 						+ '<param name="movie" value="'+swf+'" />'
@@ -490,11 +491,14 @@ runtimes.flash = {
 						+ '<embed src="'+swf+'" width="100%" height="100%" name="'+name+'" type="application/x-shockwave-flash" pluginpage="http://www.macromedia.com/go/getflashplayer" wmode="transparent" allowscriptaccess="always" />'
 						+ '</object>';
 
-				flash = $.browser.msie?window[name]:document[name];
 			}
+
+			flash = window[name] || document[name];
 
 			if (!uploader.flash) {
 				try {
+					if (!flash) throw '';
+
 					var _settings = {};
 					var pass_keys = ['filters','params','url'];
 
@@ -511,6 +515,7 @@ runtimes.flash = {
 					return setTimeout(arguments.callee, 10);
 				}
 			}
+
 			if (uploader.flash) {
 				uploader.flash_box.css(css);
 				uploader.flash.setIndex(uploader.flashindex);
