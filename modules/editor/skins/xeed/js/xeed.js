@@ -333,12 +333,11 @@ Xeed = xe.createApp('Xeed', {
 	 * @brief Set focus
 	 */
 	API_SET_FOCUS : function(sender, params) {
-		var sel = this.getSelection();
+		var self = this, sel = this.getSelection();
 
 		if (sel) return;
 
 		this.$richedit.focus();
-
 	},
 	
 	/**
@@ -1291,7 +1290,7 @@ LineBreak = xe.createPlugin('LineBreak', {
 
 		// find block parent
 		$node = $node.parentsUntil('.'+_xr_).filter(function(){ return rx_block.test(this[_nn_])  });
-		$node = $node.length?$node.eq(0):$($.merge(sibling(sc,1), [sc], sibilng(sc))).wrap('<p>').parent();
+		$node = $node.length?$node.eq(0):$($.merge(sibling(sc,1), [sc], sibling(sc))).wrap('<p>').parent();
 
 		// wrap with '<p>' in a table cell
 		if ($node.is('td,th')) $node = $node.wrapInner('<p>').children(0);
