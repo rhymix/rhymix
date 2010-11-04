@@ -23,7 +23,7 @@ function editorStart_xe(editor_seq, primary_key, content_key, editor_height, col
 	xe.registerApp(xeed);
 
 	// 자동 저장 사용
-	if (as=form.elements['_saved_doc_title']) {
+	if (as=$form[0].elements['_saved_doc_title']) {
 		//xeed.registerPlugin(new xe.XE_AutoSave(oIRTextarea, elAppContainer));
 	}
 
