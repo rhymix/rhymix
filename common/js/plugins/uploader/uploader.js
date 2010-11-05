@@ -275,10 +275,9 @@ runtimes.html5 = {
 
 		// when file is selected
 		function onselect() {
-
 			var files = $.grep(this.files, function(file) {
 				var ext  = (file.fileName.match(/\.([^\.]+)$/)[1] || '').toLowerCase();
-				return ($.inArray(ext,filter) != -1);
+				return (!filter.length || $.inArray(ext,filter) != -1);
 			});
 
 			if (files.length) {
