@@ -348,7 +348,7 @@
                 $target_columns = array ($target_columns);
             }
 
-            $query = sprintf ("create %s index \"%s\" on \"%s%s\" (%s);", $is_unique?'unique':'', $index_name, $this->prefix, $table_name, '"'.implode('","',$target_columns).'"');
+            $query = sprintf ("create %s index \"%s\" on \"%s%s\" (%s);", $is_unique?'unique':'', $this->prefix .$index_name, $this->prefix, $table_name, '"'.implode('","',$target_columns).'"');
             
             $this->_query ($query);
         }
@@ -358,7 +358,7 @@
          **/
         function dropIndex ($table_name, $index_name, $is_unique = false) 
         {
-            $query = sprintf ("drop %s index \"%s\" on \"%s%s\"", $is_unique?'unique':'', $index_name, $this->prefix, $table_name);
+            $query = sprintf ("drop %s index \"%s\" on \"%s%s\"", $is_unique?'unique':'', $this->prefix .$index_name, $this->prefix, $table_name);
             
             $this->_query($query);
         }
@@ -368,7 +368,7 @@
          **/
         function isIndexExists ($table_name, $index_name) 
         {
-            $query = sprintf ("select \"index_name\" from \"db_index\" where ".  "\"class_name\" = '%s%s' and \"index_name\" = '%s' ", $this->prefix, $table_name, $index_name);
+            $query = sprintf ("select \"index_name\" from \"db_index\" where ".  "\"class_name\" = '%s%s' and \"index_name\" = '%s' ", $this->prefix, $table_name, $this->prefix .$index_name);
             $result = $this->_query ($query);
             
             if ($this->isError ()) return false;
@@ -501,7 +501,7 @@
             {
                 foreach ($unique_list as $key => $val) 
                 {
-                    $query = sprintf ("create unique index \"%s\" on \"%s\" ".  "(%s);", $key, $table_name, '"'.implode('","', $val).'"');
+                    $query = sprintf ("create unique index \"%s\" on \"%s\" ".  "(%s);", $this->prefix .$key, $table_name, '"'.implode('","', $val).'"');
                     $this->_query ($query);
                 }
             }
@@ -510,7 +510,7 @@
             {
                 foreach ($index_list as $key => $val) 
                 {
-                    $query = sprintf ("create index \"%s\" on \"%s\" (%s);", $key, $table_name, '"'.implode('","',$val).'"');
+                    $query = sprintf ("create index \"%s\" on \"%s\" (%s);", $this->prefix .$key, $table_name, '"'.implode('","',$val).'"');
                     $this->_query ($query);
                 }
             }
