@@ -232,7 +232,7 @@
 
 	$lang->edit->fontcolor_input = '글자 색 직접입력';
 	$lang->edit->fontbgcolor_input = '글자 배경색 직접입력';
-	$lang->edit->pangram = '무궁화 꽃이 피었습니다';
+	$lang->edit->pangram = '무궁화 꽃이 피었습니다.';
 
 	$lang->edit->table_caption_position = '표 제목(caption) 및 배치';
 	$lang->edit->table_caption = '표 제목(caption)';
