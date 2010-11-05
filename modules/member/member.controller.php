@@ -1631,6 +1631,7 @@
 
             // DB에 입력
             $args->member_srl = getNextSequence();
+			$args->list_order = -1 * $args->member_srl;
             if($args->password && !$password_is_hashed) $args->password = md5($args->password);
             elseif(!$args->password) unset($args->password);
 

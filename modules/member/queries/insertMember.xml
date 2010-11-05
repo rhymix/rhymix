@@ -25,5 +25,6 @@
         <column name="is_admin" var="is_admin" default="N" />
         <column name="description" var="description" />
         <column name="extra_vars" var="extra_vars" />
+        <column name="list_order" var="list_order" />
     </columns>
 </query>
