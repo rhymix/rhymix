@@ -30,12 +30,7 @@
             // 카운터에 site_srl추가
             $oDB = &DB::getInstance();
             if(!$oDB->isColumnExists('counter_log', 'site_srl')) return true;
-            if ($db_info->db_type == 'cubrid') {
-              if(!$oDB->isIndexExists('counter_log', $oDB->prefix.'counter_log_idx_site_counter_log')) return true;
-            }
-            else {
-              if(!$oDB->isIndexExists('counter_log','idx_site_counter_log')) return true;
-	    }
+            if(!$oDB->isIndexExists('counter_log','idx_site_counter_log')) return true;
             return false;
         }
 
@@ -46,16 +41,8 @@
             $db_info = Context::getDBInfo ();
             // 카운터에 site_srl추가
             $oDB = &DB::getInstance();
-            if(!$oDB->isColumnExists('counter_log', 'site_srl')) 
-                $oDB->addColumn('counter_log','site_srl','number',11,0,true);
-            if ($db_info->db_type == 'cubrid') {
-              if(!$oDB->isIndexExists('counter_log',$oDB->prefix.'counter_log_idx_site_counter_log')) 
-                  $oDB->addIndex('counter_log',$oDB->prefix.'counter_log_idx_site_counter_log',array('site_srl','ipaddress'),false);
-            }
-            else {
-              if(!$oDB->isIndexExists('counter_log','idx_site_counter_log')) 
-                  $oDB->addIndex('counter_log','idx_site_counter_log',array('site_srl','ipaddress'),false);
-            }
+            if(!$oDB->isColumnExists('counter_log', 'site_srl')) $oDB->addColumn('counter_log','site_srl','number',11,0,true);
+            if(!$oDB->isIndexExists('counter_log','idx_site_counter_log')) $oDB->addIndex('counter_log','idx_site_counter_log',array('site_srl','ipaddress'),false);
 
             return new Object(0, 'success_updated');
         }
