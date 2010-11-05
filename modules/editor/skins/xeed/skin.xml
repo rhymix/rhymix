@@ -2,16 +2,21 @@
 <skin version="0.2">
     <title xml:lang="ko">XEED Skin</title>
 	<title xml:lang="en">XEED Skin</title>
+    <title xml:lang="zh-TW">XEED 面板</title>
     <description xml:lang="ko">
         XpressEditor based on SmartEditor Basic by 행복한고니
     </description>
 	<description xml:lang="en">
         XpressEditor based on SmartEditor Basic by 행복한고니
     </description>
+    <description xml:lang="zh-TW">
+        XpressEditor 是 행복한고니 基於 SmartEditor 開發而成。
+    </description>
     <version>0.5.0</version>
     <date>2009-03-22</date>
     <author email_address="gonom9@gmail.com" link="http://mygony.com">
         <name xml:lang="ko">행복한고니</name>
         <name xml:lang="en">행복한고니</name>
+        <name xml:lang="zh-TW">행복한고니</name>
     </author>
 </skin>
