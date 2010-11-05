@@ -466,7 +466,7 @@ runtimes.flash = {
 						var old_length = uploader.files.length;
 
 						$.each(files, function() {
-							uploader.files.push(new File(this, this.fileSize))
+							uploader.files.push(new File(this, this.size))
 						});
 
 						uploader.cast('ON_SELECT', [uploader.files, old_length]);
@@ -564,9 +564,6 @@ runtimes.flash = {
 
 		(function uploadNext(){
 			var file = files.shift();
-			uploader.flash.startUpload(file.object.index);
-
-			uploader.cast('ON_STARTONE', [file]);
 
 			function nextOrFinish() {
 				if (files.length) {
@@ -596,6 +593,10 @@ runtimes.flash = {
 				file.status = 'FAILED';
 				nextOrFinish();
 			};
+
+			uploader.flash.startUpload(file.object.index);
+
+			uploader.cast('ON_STARTONE', [file]);
 		})();
 	},
 	stop : function(uploader, settings) {
