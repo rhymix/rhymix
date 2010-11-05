@@ -2113,7 +2113,8 @@ FileUpload = xe.createPlugin('FileUpload', {
 					function(){
 						var $this = $(this), $item = $this.parent(), file_url = $this.parent().data('url');
 
-						self.cast('INSERT_FILE_INTO', [$item.attr('type'), file_url, $item.find('label').text()]);
+						self.cast('INSERT_FILE_INTO', [$item.attr('_type'), file_url, $item.find('label').text()]);
+						return false;
 					}
 				)
 				.delegate('button.ctr.del', 'click',
@@ -2121,6 +2122,7 @@ FileUpload = xe.createPlugin('FileUpload', {
 						var $this = $(this), $item = $this.parent(), file_srl = $this.parent().attr('file_srl');
 
 						self.cast('DELETE_FILE', [file_srl]);
+						return false;
 					}
 				);
 
@@ -2144,7 +2146,14 @@ FileUpload = xe.createPlugin('FileUpload', {
 				self.$btns[this] = $tb.find('>div.t1 li.'+this).children('a,button');
 			});
 
-			this.$btns.al.click(function(){ self.cast('SHOW_FILE_MODAL'); return false; });
+			this.$btns.al.mousedown(function(){
+				self.selection = self.oApp.getSelection();
+			});
+
+			this.$btns.al.click(function(){
+				self.cast('SHOW_FILE_MODAL');
+				return false;
+			});
 		}
 	},
 	deactivate : function() {
@@ -2158,7 +2167,7 @@ FileUpload = xe.createPlugin('FileUpload', {
 		this.$btns = [];
 	},
 	createItem : function(file) {
-		var $item, ext, id = 'xeed-id-'+(this._index++);
+		var $item, ext, id = 'xeed-id-'+(this._index++), type;
 
 		ext = file.name.match(/\.([a-z0-9]+)$/i)[1] || '';
 		ext = ext.toLowerCase();
@@ -2174,7 +2183,7 @@ FileUpload = xe.createPlugin('FileUpload', {
 			.find('button.ob > img').attr('alt', file.name).end()
 			.find('label').text(file.name).attr('for', id).end()
 			.find('input:checkbox').attr('id', id).end()
-			.attr('type', type).attr('ext', ext);
+			.attr('ext', ext).attr('_type', type);
 
 		if (type == 'file') {
 			$item.find('>button:first').addClass(ext).empty().text(file.name);
@@ -2193,7 +2202,7 @@ FileUpload = xe.createPlugin('FileUpload', {
 
 		for(i=0,c=types.length; i<c; i++) {
 			$area  = this.$file_list.filter('.'+types[i]);
-			$items = $area.find('li[type]');
+			$items = $area.find('li[_type]');
 			$items.length?$area.removeClass('none'):$area.addClass('none');
 
 			$tb.find('li.ti.'+types[i]).find('em > strong').text($items.length);
@@ -2230,7 +2239,7 @@ FileUpload = xe.createPlugin('FileUpload', {
 
 				for(i=old_len,c=files.length; i < c; i++) {
 					$item = self.createItem(files[i]).addClass('uploading').attr('_key', self.getKey(files[i]));
-					type  = $item.attr('type');
+					type  = $item.attr('_type');
 					$list = self.$file_list.filter('.'+type).append($item);
 
 					($ob = $item.find('>button.ob'))
@@ -2283,7 +2292,7 @@ FileUpload = xe.createPlugin('FileUpload', {
 
 						$item = self.$file_list.find('li[_key='+k+']');
 
-						if ($item.attr('type') == 'img') {
+						if ($item.attr('_type') == 'img') {
 							$item.find('button.ob > img')
 								.load(function(){
 									if(this.width > this.height){
@@ -2338,16 +2347,26 @@ FileUpload = xe.createPlugin('FileUpload', {
 	 * @brief Insert a file into the rich editor
 	 */
 	API_INSERT_FILE_INTO : function(sender, params) {
-		var type = params[0], url = params[1], name = params[2], code, sel = this.selection || this.oApp.getSelection();
+		var type = params[0], url = params[1], name = params[2], code, sel;
 
-		if (!sel) return;
 		if (type == 'img') {
 			code = '<img src="'+url+'" alt="'+name+'" />';
 		} else {
 			code = '<a href="'+url+'">'+name+'</a>';
 		}
 
-		sel.pasteHTML(code);
+		sel = this.selection || this.oApp.getSelection();
+
+		if (sel) {
+			sel.pasteHTML(code);
+		} else if(this.oApp.$richedit.is(':visible')){
+			this.oApp.$richedit.append(code);
+			
+			sel = this.oApp.getEmptySelection();
+			sel.selectNode(this.oApp.$richedit[0].lastChild);
+		}
+		sel.collapseToEnd();
+		sel.select();
 	},
 	/**
 	 * @brief Delete a file
