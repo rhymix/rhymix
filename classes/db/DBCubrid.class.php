@@ -260,7 +260,7 @@
 
             $result = $this->_query ($query);
 
-            if (cubrid_num_rows ($result) > 0)
+            if (cubrid_num_rows($result) > 0)
             {
                 $output = true;
             }
@@ -501,7 +501,7 @@
             {
                 foreach ($unique_list as $key => $val) 
                 {
-                    $query = sprintf ("create unique index \"%s_%s\" on \"%s\" ".  "(%s);", $table_name, $key, $table_name, '"'.implode('","', $val).'"');
+                    $query = sprintf ("create unique index \"%s\" on \"%s\" ".  "(%s);", $key, $table_name, '"'.implode('","', $val).'"');
                     $this->_query ($query);
                 }
             }
@@ -510,7 +510,7 @@
             {
                 foreach ($index_list as $key => $val) 
                 {
-                    $query = sprintf ("create index \"%s_%s\" on \"%s\" (%s);", $table_name, $key, $table_name, '"'.implode('","',$val).'"');
+                    $query = sprintf ("create index \"%s\" on \"%s\" (%s);", $key, $table_name, '"'.implode('","',$val).'"');
                     $this->_query ($query);
                 }
             }
