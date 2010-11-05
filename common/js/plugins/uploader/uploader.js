@@ -443,7 +443,7 @@ runtimes.flash = {
 		var self = this;
 		var rand = random();
 		var name = 'xe_flashuploader_object'+rand;
-		var swf  = (window.request_uri||'/')+'common/js/plugins/uploader/uploader.swf?'+rand;
+		var swf  = (window.request_uri||'/')+'common/js/plugins/uploader/uploader.swf';
 
 		if (!window.xe_flashuploaders) window.xe_flashuploaders = [];
 
