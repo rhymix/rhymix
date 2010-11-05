@@ -230,19 +230,19 @@
 	$lang->edit->image_align = '이미지 정렬';
 	$lang->edit->attached_files = '첨부 파일';
 
-	$lang->edit->fontcolor_input = '폰트색 직접입력';
-	$lang->edit->fontbgcolor_input = '배경색 직접입력';
+	$lang->edit->fontcolor_input = '글자 색 직접입력';
+	$lang->edit->fontbgcolor_input = '글자 배경색 직접입력';
 	$lang->edit->pangram = '무궁화 꽃이 피었습니다';
 
 	$lang->edit->table_caption_position = '표 제목(caption) 및 배치';
 	$lang->edit->table_caption = '표 제목(caption)';
-	$lang->edit->table_header = '머리글 셀(th)';
+	$lang->edit->table_header = '머릿글 칸(th)';
 	$lang->edit->table_header_none = '없음';
 	$lang->edit->table_header_left = '왼쪽';
 	$lang->edit->table_header_top = '위쪽';
 	$lang->edit->table_header_both = '모두';
 	$lang->edit->table_size = '표 크기';
-	$lang->edit->table_width = '표 폭';
+	$lang->edit->table_width = '표 너비';
 
 	$lang->edit->no_image = '첨부된 이미지가 없습니다.';
 	$lang->edit->no_multimedia = '첨부된 동영상이 없습니다.';
