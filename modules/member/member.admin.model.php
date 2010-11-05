@@ -51,22 +51,22 @@
                             $args->s_email_address = $search_keyword;
                         break;
                     case 'regdate' :
-                            $args->s_regdate = ereg_replace("[^0-9]","",$search_keyword);
+                            $args->s_regdate = preg_replace("/[^0-9]/","",$search_keyword);
                         break;
                     case 'regdate_more' :
-                            $args->s_regdate_more = substr(ereg_replace("[^0-9]","",$search_keyword) . '00000000000000',0,14);
+                            $args->s_regdate_more = substr(preg_replace("/[^0-9]/","",$search_keyword) . '00000000000000',0,14);
                         break;
                     case 'regdate_less' :
-                            $args->s_regdate_less = substr(ereg_replace("[^0-9]","",$search_keyword) . '00000000000000',0,14);
+                            $args->s_regdate_less = substr(preg_replace("/[^0-9]/","",$search_keyword) . '00000000000000',0,14);
                         break;
                     case 'last_login' :
                             $args->s_last_login = $search_keyword;
                         break;
                     case 'last_login_more' :
-                            $args->s_last_login_more = substr(ereg_replace("[^0-9]","",$search_keyword) . '00000000000000',0,14);
+                            $args->s_last_login_more = substr(preg_replace("/[^0-9]/","",$search_keyword) . '00000000000000',0,14);
                         break;
                     case 'last_login_less' :
-                            $args->s_last_login_less = substr(ereg_replace("[^0-9]","",$search_keyword) . '00000000000000',0,14);
+                            $args->s_last_login_less = substr(preg_replace("/[^0-9]/","",$search_keyword) . '00000000000000',0,14);
                         break;
                     case 'extra_vars' :
                             $args->s_extra_vars = ereg_replace("[^0-9]","",$search_keyword);
@@ -75,8 +75,13 @@
             }
 
             // selected_group_srl이 있으면 query id를 변경 (table join때문에)
+            $sort_order = Context::get('sort_order');
             $sort_index = Context::get('sort_index');
-            if($sort_index != 'last_login') $sort_index = "member_srl";
+            if($sort_index != 'last_login') {
+				$sort_index = "list_order";
+			}else{
+				$sort_order = 'desc';
+			}
             if($args->selected_group_srl) {
                 $query_id = 'member.getMemberListWithinGroup';
                 $args->sort_index = "member.".$sort_index;
@@ -84,8 +89,7 @@
                 $query_id = 'member.getMemberList';
                 $args->sort_index = $sort_index; 
             }
-            $sort_order = Context::get('sort_order');
-            if($sort_order != "asc") $sort_order = "desc";
+            if($sort_order != "desc") $sort_order = "asc";
             $args->sort_order = $sort_order;
             Context::set('sort_order', $sort_order);
 
@@ -93,7 +97,8 @@
             $args->page = Context::get('page');
             $args->list_count = 40;
             $args->page_count = 10;
-            return executeQuery($query_id, $args);
+            $output = executeQuery($query_id, $args);
+			return $output;
         }
 
         /**

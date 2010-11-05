@@ -22,4 +22,5 @@
 	<column name="is_admin" type="char" size="1" default="N" index="idx_is_admin" />
 	<column name="description" type="text" />
 	<column name="extra_vars" type="text" />
+    <column name="list_order" type="number" size="11" notnull="notnull" index="idx_list_order" />
 </table>
