@@ -172,7 +172,7 @@
 								<li><button type="button" style="background-color:#ff00ff"><span>#ff00ff</span></button></li> 
 							</ul> 
 							<div class="liow"> 
-								<label for="fci">글꼴색 직접입력</label> 
+								<label for="fci">{$lang->edit->fontcolor_input}</label> 
 								<input name="" type="text" id="fci" class="itx" /> 
 							</div> 
 						</fieldset> 
@@ -249,13 +249,13 @@
 								<li><button type="button" style="background-color:#ff00ff"><span>#ff00ff</span></button></li> 
 							</ul> 
 							<div class="liow"> 
-								<label for="bci">배경색 직접입력</label> 
+								<label for="bci">{$lang->edit->fontbgcolor_input}</label> 
 								<input name="" type="text" id="bci" class="itx" /> 
 							</div> 
 						</fieldset> 
 						<fieldset class="pv"> 
 							<legend>{$lang->cmd_preview}</legend> 
-							<p><span class="pv">무궁화 꽃이 피었습니다</span></p> 
+							<p><span class="pv">{$lang->edit->pangram}</span></p> 
 						</fieldset> 
 						<button type="button" class="btn" title="Enter">{$lang->cmd_apply}</button> 
 					</div> 
@@ -1152,9 +1152,9 @@
 							</div> 
 						</fieldset> 
 						<fieldset class="cn"> 
-							<legend>표 제목(caption) 및 배치</legend> 
+							<legend>{$lang->edit->table_caption_position}</legend> 
 							<div class="liow"> 
-								<label for="cn">표 제목(caption)</label> 
+								<label for="cn">{$lang->edit->table_caption}</label> 
 								<input name="" type="text" id="cn" class="itx" /> 
 								<ul> 
 									<li class="tl selected"><button type="button"><span>상단좌측</span></button></li> 
@@ -1167,34 +1167,34 @@
 							</div> 
 						</fieldset> 
 						<fieldset class="th"> 
-							<legend>머리글 셀(th)</legend> 
+							<legend>{$lang->edit->table_header}</legend> 
 							<ul> 
-								<li class="no selected"><button type="button"><span>없음</span></button></li> 
-								<li class="lt"><button type="button"><span>왼쪽</span></button></li> 
-								<li class="tp"><button type="button"><span>위쪽</span></button></li> 
-								<li class="bh"><button type="button"><span>모두</span></button></li> 
+								<li class="no selected"><button type="button"><span>{$lang->edit->table_header_none}</span></button></li> 
+								<li class="lt"><button type="button"><span>{$lang->edit->table_header_left}</span></button></li> 
+								<li class="tp"><button type="button"><span>{$lang->edit->table_header_top}</span></button></li> 
+								<li class="bh"><button type="button"><span>{$lang->edit->table_header_both}</span></button></li> 
 							</ul> 
 						</fieldset> 
 						<fieldset class="wh"> 
-							<legend>표 크기</legend> 
+							<legend>{$lang->edit->table_size}</legend> 
 							<table> 
 								<tr> 
-									<th scope="row"><label for="xdtCol">행(col)</label></th> 
+									<th scope="row"><label for="xdtCol">{$lang->edit->row}</label></th> 
 									<td><input name="" type="text" id="xdtCol" class="itx" value="3" /></td> 
 								</tr> 
 								<tr> 
-									<th scope="row"><label for="xdtRow">열(row)</label></th> 
+									<th scope="row"><label for="xdtRow">{$lang->edit->col}</label></th> 
 									<td><input name="" type="text" id="xdtRow" class="itx" value="3" /></td> 
 								</tr> 
 								<tr> 
-									<th><label for="xdtWidth">표 폭</label></th> 
+									<th><label for="xdtWidth">{$lang->edit->table_width}</label></th> 
 									<td><input name="" type="text" id="xdtWidth" class="itx" value="100" /> <button type="button" class="selected">%</button> <button type="button">px</button></td> 
 								</tr> 
 							</table> 
 						</fieldset> 
 						<div class="btnArea"> 
 							<button type="button" class="btn strong">{$lang->cmd_apply}</button> 
-							<button type="button" class="btn">{$lang->cancel}</button> 
+							<button type="button" class="btn">{$lang->cmd_cancel}</button> 
 						</div> 
 					</div> 
 				</li> 
@@ -1289,27 +1289,27 @@
 					</ul> 
 					<p class="task"> 
 						<button type="button" class="all">{$lang->cmd_select_all}</button> 
-						<button type="button" class="insert">선택넣기</button> 
+						<button type="button" class="insert">{$lang->edit->insert_selected}</button> 
 					</p> 
-					<p class="nofile">첨부된 이미지가 없습니다.</p>
+					<p class="nofile">{$lang->edit->no_image}</p>
 				</div> 
 				<div class="sn mov none"> 
 					<p class="label">{$lang->edit->multimedia}</p> 
 					<ul></ul> 
 					<p class="task"> 
 						<button type="button" class="all">{$lang->cmd_select_all}</button> 
-						<button type="button" class="insert">선택넣기</button> 
+						<button type="button" class="insert">{$lang->edit->insert_selected}</button> 
 					</p> 
-					<p class="nofile">첨부된 동영상이 없습니다.</p>
+					<p class="nofile">{$lang->edit->no_multimedia}</p>
 				</div> 
 				<div class="sn file none"> 
 					<p class="label">{$lang->file}</p> 
 					<ul></ul> 
 					<p class="task"> 
 						<button type="button" class="all">{$lang->cmd_select_all}</button> 
-						<button type="button" class="insert">선택넣기</button> 
+						<button type="button" class="insert">{$lang->edit->insert_selected}</button> 
 					</p> 
-					<p class="nofile">첨부된 파일이 없습니다.</p>
+					<p class="nofile">{$lang->edit->no_attachment}</p>
 				</div> 
 			</div> 
 			<div class="iFoot"> 
