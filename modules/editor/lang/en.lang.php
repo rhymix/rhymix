@@ -228,7 +228,7 @@
 	$lang->edit->image_align = 'Image Alignment';
 	$lang->edit->attached_files = 'Attachments';
 
-	$lang->edit->fontcolor_input = 'Custom Font Color';
+	$lang->edit->fontcolor_input = 'Custom Text Color';
 	$lang->edit->fontbgcolor_input = 'Custom Background Color';
 	$lang->edit->pangram = 'The quick brown fox jumps over the lazy dog';
 
@@ -236,8 +236,8 @@
 	$lang->edit->table_caption = 'Table Caption';
 	$lang->edit->table_header = 'Table Header';
 	$lang->edit->table_header_none = 'none';
-	$lang->edit->table_header_left = 'top';
-	$lang->edit->table_header_top = 'left';
+	$lang->edit->table_header_left = 'left';
+	$lang->edit->table_header_top = 'top';
 	$lang->edit->table_header_both = 'both';
 	$lang->edit->table_size = 'Table Size';
 	$lang->edit->table_width = 'Table Width';
