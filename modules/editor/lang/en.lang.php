@@ -246,4 +246,6 @@
 	$lang->edit->no_multimedia = 'There is no videos uploaded.';
 	$lang->edit->no_attachment = 'There is no files uploaded.';
 	$lang->edit->insert_selected = 'Insert Selected';
+
+	$lang->edit->fieldset = 'Fieldset';
 ?>

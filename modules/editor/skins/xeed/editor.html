@@ -93,11 +93,11 @@
 				</li> 
 			</ul> 
 			<ul class="u3"> 
-				<li class="ti bd"><button type="button" class="tb ty bd"><span>{$lang->edit->bold} Ctrl+B</span></button></li> 
-				<li class="ti ue"><button type="button" class="tb ty ue"><span>{$lang->edit->underline} Ctrl+U</span></button></li> 
-				<li class="ti ic"><button type="button" class="tb ty ic"><span>{$lang->edit->italic} Ctrl+I</span></button></li> 
-				<li class="ti se"><button type="button" class="tb ty se"><span>{$lang->edit->strike} Ctrl+D</span></button></li> 
-				<li class="ti cr"><button type="button" class="tb ty cr"><span>{$lang->edit->fontcolor}</span></button> 
+				<li class="ti bd"><button type="button" class="tb ty bd" title="{$lang->edit->bold} (Ctrl+B)"><span>{$lang->edit->bold} Ctrl+B</span></button></li> 
+				<li class="ti ue"><button type="button" class="tb ty ue" title="{$lang->edit->underline} (Ctrl+U)"><span>{$lang->edit->underline} Ctrl+U</span></button></li> 
+				<li class="ti ic"><button type="button" class="tb ty ic" title="{$lang->edit->italic} (Ctrl+I)"><span>{$lang->edit->italic} Ctrl+I</span></button></li> 
+				<li class="ti se"><button type="button" class="tb ty se" title="{$lang->edit->strike} (Ctrl+D)"><span>{$lang->edit->strike} Ctrl+D</span></button></li> 
+				<li class="ti cr"><button type="button" class="tb ty cr" title="{$lang->edit->fontcolor}"><span>{$lang->edit->fontcolor}</span></button> 
 					<div class="lr"> 
 						<fieldset class="fc"> 
 							<legend>{$lang->edit->fontcolor}</legend> 
@@ -260,26 +260,26 @@
 						<button type="button" class="btn" title="Enter">{$lang->cmd_apply}</button> 
 					</div> 
 				</li> 
-				<li class="ti sp"><button type="button" class="tb ty sp"><span>{$lang->edit->sup}</span></button></li> 
-				<li class="ti sb"><button type="button" class="tb ty sb"><span>{$lang->edit->sub}</span></button></li> 
+				<li class="ti sp"><button type="button" class="tb ty sp" title="{$lang->edit->sup}"><span>{$lang->edit->sup}</span></button></li> 
+				<li class="ti sb"><button type="button" class="tb ty sb" title="{$lang->edit->sub}"><span>{$lang->edit->sub}</span></button></li> 
 			</ul> 
 			<ul class="u4"> 
-				<li class="ti al"><button type="button" class="tb ty al"><span>{$lang->edit->align_left}</span></button></li> 
-				<li class="ti ac"><button type="button" class="tb ty ac"><span>{$lang->edit->align_center}</span></button></li> 
-				<li class="ti ar"><button type="button" class="tb ty ar"><span>{$lang->edit->align_right}</span></button></li> 
-				<li class="ti aj"><button type="button" class="tb ty aj"><span>{$lang->edit->align_justify}</span></button></li> 
-				<li class="ti ol"><button type="button" class="tb ty ol"><span>{$lang->edit->list_number}</span></button></li> 
-				<li class="ti ul"><button type="button" class="tb ty ul"><span>{$lang->edit->list_bullet}</span></button></li> 
-				<li class="ti od disable"><button type="button" class="tb tn od"><span>{$lang->edit->remove_indent} Ctrl+(Left Arrow Key)</span></button></li> 
-				<li class="ti id"><button type="button" class="tb ty id"><span>{$lang->edit->add_indent} Ctrl+(Right Arrow Key)</span></button></li> 
-				<li class="ti qm"><button type="button" class="tb ty qm"><span>{$lang->edit->blockquote}</span></button></li> 
-				<li class="ti bx"><button type="button" class="tb ty bx"><span>글상자</span></button></li> 
+				<li class="ti al"><button type="button" class="tb ty al" title="{$lang->edit->align_left}"><span>{$lang->edit->align_left}</span></button></li> 
+				<li class="ti ac"><button type="button" class="tb ty ac" title="{$lang->edit->align_center}"><span>{$lang->edit->align_center}</span></button></li> 
+				<li class="ti ar"><button type="button" class="tb ty ar" title="{$lang->edit->align_right}"><span>{$lang->edit->align_right}</span></button></li> 
+				<li class="ti aj"><button type="button" class="tb ty aj" title="{$lang->edit->align_justify}"><span>{$lang->edit->align_justify}</span></button></li> 
+				<li class="ti ol"><button type="button" class="tb ty ol" title="{$lang->edit->list_number}"><span>{$lang->edit->list_number}</span></button></li> 
+				<li class="ti ul"><button type="button" class="tb ty ul" title="{$lang->edit->list_bullet}"><span>{$lang->edit->list_bullet}</span></button></li> 
+				<li class="ti od disable"><button type="button" class="tb tn od" title="{$lang->edit->remove_indent} Ctrl+(Left Arrow Key)"><span>{$lang->edit->remove_indent} Ctrl+(Left Arrow Key)</span></button></li> 
+				<li class="ti id"><button type="button" class="tb ty id" title="{$lang->edit->add_indent} Ctrl+(Right Arrow Key)"><span>{$lang->edit->add_indent} Ctrl+(Right Arrow Key)</span></button></li> 
+				<li class="ti qm"><button type="button" class="tb ty qm" title="{$lang->edit->blockquote}"><span>{$lang->edit->blockquote}</span></button></li> 
+				<li class="ti bx"><button type="button" class="tb ty bx" title="{$lang->edit->fieldset}"><span>{$lang->edit->fieldset}</span></button></li> 
 			</ul> 
 			<ul class="u5"> 
-				<li class="ti er"><button type="button" class="tb tn er"><span>{$lang->edit->remove_format}</span></button></li> 
+				<li class="ti er"><button type="button" class="tb tn er" title="{$lang->edit->remove_format}"><span>{$lang->edit->remove_format}</span></button></li> 
 			</ul> 
 			<ul class="u6"> 
-				<li class="ti ur"><button type="button" class="tb ty ur"><span>{$lang->edit->url}</span></button> 
+				<li class="ti ur"><button type="button" class="tb ty ur" title="{$lang->edit->url}"><span>{$lang->edit->url}</span></button> 
 					<div class="lr"> 
 						<fieldset> 
 							<input name="" type="text" class="itx" title="input URL" value="http://" /> 
@@ -294,7 +294,7 @@
 						</fieldset> 
 					</div> 
 				</li> 
-				<li class="ti sc"><button type="button" class="tb ty sc"><span>{$lang->edit->special_character}</span></button> 
+				<li class="ti sc"><button type="button" class="tb ty sc" title="{$lang->edit->special_character}"><span>{$lang->edit->special_character}</span></button> 
 					<div class="lr"> 
 						<ul> 
 							<li class="li li1 active"><button type="button" class="tab">{$lang->edit->symbol}</button> 
@@ -1120,13 +1120,13 @@
 						<fieldset> 
 							<input name="" type="text" class="itx" title="input URL" /> 
 							<span class="btnArea"> 
-								<button type="button" class="btn strong">{$lang->cmd_apply}</button> 
-								<button type="button" class="btn">{$lang->cmd_cancel}</button> 
+								<button type="button" class="btn strong" title="{$lang->cmd_apply}">{$lang->cmd_apply}</button> 
+								<button type="button" class="btn" title="{$lang->cmd_cancel}">{$lang->cmd_cancel}</button> 
 							</span> 
 						</fieldset> 
 					</div> 
 				</li> 
-				<li class="ti te"><button type="button" class="tb ty te"><span>{$lang->edit->table}</span></button> 
+				<li class="ti te"><button type="button" class="tb ty te" title="{$lang->edit->table}"><span>{$lang->edit->table}</span></button> 
 					<div class="lr"> 
 						<fieldset class="pv"> 
 							<legend>{$lang->cmd_preview}</legend> 
@@ -1169,10 +1169,10 @@
 						<fieldset class="th"> 
 							<legend>{$lang->edit->table_header}</legend> 
 							<ul> 
-								<li class="no selected"><button type="button"><span>{$lang->edit->table_header_none}</span></button></li> 
-								<li class="lt"><button type="button"><span>{$lang->edit->table_header_left}</span></button></li> 
-								<li class="tp"><button type="button"><span>{$lang->edit->table_header_top}</span></button></li> 
-								<li class="bh"><button type="button"><span>{$lang->edit->table_header_both}</span></button></li> 
+								<li class="no selected"><button type="button" title="{$lang->edit->table_header_none}"><span>{$lang->edit->table_header_none}</span></button></li> 
+								<li class="lt"><button type="button" title="{$lang->edit->table_header_left}"><span>{$lang->edit->table_header_left}</span></button></li> 
+								<li class="tp"><button type="button" title="{$lang->edit->table_header_top}"><span>{$lang->edit->table_header_top}</span></button></li> 
+								<li class="bh"><button type="button" title="{$lang->edit->table_header_both}"><span>{$lang->edit->table_header_both}</span></button></li> 
 							</ul> 
 						</fieldset> 
 						<fieldset class="wh"> 
@@ -1193,8 +1193,8 @@
 							</table> 
 						</fieldset> 
 						<div class="btnArea"> 
-							<button type="button" class="btn strong">{$lang->cmd_apply}</button> 
-							<button type="button" class="btn">{$lang->cmd_cancel}</button> 
+							<button type="button" class="btn strong" title="{$lang->cmd_apply}">{$lang->cmd_apply}</button> 
+							<button type="button" class="btn" title="{$lang->cmd_cancel}">{$lang->cmd_cancel}</button> 
 						</div> 
 					</div> 
 				</li> 
@@ -1259,8 +1259,8 @@
 			<label for="autoResize">Auto Resize</label> 
 		</div> 
 		<ul> 
-			<li class="wysiwyg active"><button type="button" class="wysiwyg">{$lang->edit->rich_editor}</button></li> 
-			<li class="html"><button type="button" class="html">{$lang->edit->html_editor}</button></li> 
+			<li class="wysiwyg active"><button type="button" class="wysiwyg" title="{$lang->edit->rich_editor}">{$lang->edit->rich_editor}</button></li> 
+			<li class="html"><button type="button" class="html" title="{$lang->edit->html_editor}">{$lang->edit->html_editor}</button></li> 
 		</ul> 
 	</div> 
 	<!-- /mode --> 
@@ -1282,14 +1282,14 @@
 					<ul> 
 						<li> 
 							<button type="button" class="ob"><img src="about:blank" alt="" /></button> 
-							<button type="button" class="ctr ins">{$lang->edit->link_file}</button> 
-							<button type="button" class="ctr del">{$lang->cmd_delete}</button> 
+							<button type="button" class="ctr ins" title="{$lang->edit->link_file}">{$lang->edit->link_file}</button> 
+							<button type="button" class="ctr del" title="{$lang->cmd_delete}">{$lang->cmd_delete}</button> 
 							<input name="" type="checkbox" value="" class="icx" id="img1" /> <label for="img1">@exThumbH.jpg</label> 
 						</li> 
 					</ul> 
 					<p class="task"> 
-						<button type="button" class="all">{$lang->cmd_select_all}</button> 
-						<button type="button" class="insert">{$lang->edit->insert_selected}</button> 
+						<button type="button" class="all" title="{$lang->cmd_select_all}">{$lang->cmd_select_all}</button> 
+						<button type="button" class="insert" title="{$lang->edit->insert_selected}">{$lang->edit->insert_selected}</button> 
 					</p> 
 					<p class="nofile">{$lang->edit->no_image}</p>
 				</div> 
@@ -1297,8 +1297,8 @@
 					<p class="label">{$lang->edit->multimedia}</p> 
 					<ul></ul> 
 					<p class="task"> 
-						<button type="button" class="all">{$lang->cmd_select_all}</button> 
-						<button type="button" class="insert">{$lang->edit->insert_selected}</button> 
+						<button type="button" class="all" title="{$lang->cmd_select_all}">{$lang->cmd_select_all}</button> 
+						<button type="button" class="insert" title="{$lang->edit->insert_selected}">{$lang->edit->insert_selected}</button> 
 					</p> 
 					<p class="nofile">{$lang->edit->no_multimedia}</p>
 				</div> 
@@ -1306,18 +1306,18 @@
 					<p class="label">{$lang->file}</p> 
 					<ul></ul> 
 					<p class="task"> 
-						<button type="button" class="all">{$lang->cmd_select_all}</button> 
-						<button type="button" class="insert">{$lang->edit->insert_selected}</button> 
+						<button type="button" class="all" title="{$lang->cmd_select_all}">{$lang->cmd_select_all}</button> 
+						<button type="button" class="insert" title="{$lang->edit->insert_selected}">{$lang->edit->insert_selected}</button> 
 					</p> 
 					<p class="nofile">{$lang->edit->no_attachment}</p>
 				</div> 
 			</div> 
 			<div class="iFoot"> 
 				<div class="btnArea fl"> 
-					<button type="button" class="btn at strong">{$lang->edit->upload_file}</button> 
+					<button type="button" class="btn at strong" title="{$lang->edit->upload_file}">{$lang->edit->upload_file}</button> 
 				</div> 
 				<div class="btnArea fr"> 
-					<button type="button" class="btn cs">{$lang->cmd_close}</button> 
+					<button type="button" class="btn cs" title="{$lang->cmd_close}">{$lang->cmd_close}</button> 
 				</div> 
 			</div> 
 		</div> 
