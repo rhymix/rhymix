@@ -1033,6 +1033,14 @@ Font = xe.createPlugin('Font', {
 					self.cast('HIDE_COLOR_LAYER');
 
 					return false;
+				})
+				.end()
+			.find(':text')
+				.focus(function(){
+					$(this).prev().hide();
+				})
+				.blur(function(){
+					if (!$.trim(this.value)) $(this).prev().show();
 				});
 	},
 	deactivate : function() {
@@ -2342,6 +2350,12 @@ FileUpload = xe.createPlugin('FileUpload', {
 	 * @params Array of file info. file info = { id : 0, name : '', path : '', size : 0 };
 	 */
 	API_ADD_FILE_LIST : function(sender, params) {
+		var i, c, files = params[0];
+
+		for(i=0,c=files.length; i < c; i++) {
+		}
+
+		this.updateCount();
 	},
 	/**
 	 * @brief Insert a file into the rich editor
