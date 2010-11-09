@@ -158,7 +158,10 @@
             if(isSiteID($domain)) {
                 $oModuleModel = &getModel('module');
                 if($oModuleModel->isIDExists($domain, 0)) return new Object(-1,'msg_already_registed_vid');
+            }else{
+                $domain = strtolower($domain);
             }
+            
             $args->site_srl = getNextSequence();
             $args->domain = preg_replace('/\/$/','',$domain);
             $args->index_module_srl = $index_module_srl;
@@ -183,6 +186,11 @@
                 $info = $oModuleModel->getSiteInfoByDomain($args->domain);
                 if($info->site_srl && $info->site_srl != $args->site_srl) return new Object(-1,'msg_already_registed_domain');
                 if(isSiteID($args->domain) && $oModuleModel->isIDExists($args->domain)) return new Object(-1,'msg_already_registed_vid');
+
+                if(!isSiteID($args->domain)) {
+                    $args->domain = strtolower($args->domain);
+                }
+
             }
             $output = executeQuery('module.updateSite', $args);
             return $output;
