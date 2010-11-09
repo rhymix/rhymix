@@ -237,12 +237,58 @@
          **/
         function getNextSequence() 
         {
+			$this->_makeSequence();
+
             $query = sprintf ("select \"%ssequence\".\"nextval\" as \"seq\" from db_root", $this->prefix);
             $result = $this->_query($query);
             $output = $this->_fetch($result);
             
             return $output->seq;
         }
+
+        /**
+         * @brief 마이그레이션시 sequence  가 없을 경우 생성 
+         **/
+        function _makeSequence()
+        {
+            if($_GOBALS['XE_EXISTS_SEQUENCE']) return;
+
+            // check cubrid serial
+            $query = sprintf('select count(*) as "count" from "db_serial" where name=\'%ssequence\'', $this->prefix);
+            $result = $this->_query($query);
+            $output = $this->_fetch($result);
+
+            // if do not create serial
+            if($output->count==0)
+            {
+                $query = sprintf('select max(a.srl) as srl from 
+                                ( select max(document_srl) as srl from %sdocuments
+                                UNION
+                                select max(comment_srl) as srl from %scomments
+                                UNION
+                                select max(member_srl) as srl from %smember
+                                ) as "a"',$this->prefix,$this->prefix,$this->prefix);
+
+                $result = $this->_query($query);
+                $output = $this->_fetch($result);
+                $srl = $output->srl;
+                if($srl<1)
+                {
+                    $start = 1; 
+                }
+                else
+                {
+                    $start = $srl + 1000000;
+                }
+
+                // create sequence
+                $query = sprintf('create serial "%ssequence start with %s increment by 1 minvalue 1 maxvalue 10000000000000000000000000000000000000 nocycle;', $this->prefix, $start);
+                $this->_query($query);
+            }
+
+            $_GOBALS['XE_EXISTS_SEQUENCE'] = true;
+        }
+
 
         /**
          * @brief 테이블 기생성 여부 return
@@ -284,6 +330,11 @@
 
             $query = sprintf ("alter class \"%s%s\" add \"%s\" ", $this->prefix, $table_name, $column_name);
             
+			if ($type == 'char' || $type == 'varchar')
+			{
+				if($size) $size = $size * 3;
+			}
+
             if ($size)
             {
                 $query .= sprintf ("%s(%s) ", $type, $size);
@@ -465,6 +516,12 @@
                 {
                     $default = sprintf ("'%s'", $default);
                 }
+
+                if ($type == 'varchar' || $type == 'char') 
+                {
+                    if($size) $size = $size * 3;
+                }
+
 
                 $column_schema[] = sprintf ('"%s" %s%s %s %s',
                                     $name,
