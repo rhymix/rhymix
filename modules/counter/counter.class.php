@@ -26,11 +26,11 @@
          * @brief 설치가 이상이 없는지 체크하는 method
          **/
         function checkUpdate() {
-	    $db_info = Context::getDbInfo ();
             // 카운터에 site_srl추가
             $oDB = &DB::getInstance();
             if(!$oDB->isColumnExists('counter_log', 'site_srl')) return true;
             if(!$oDB->isIndexExists('counter_log','idx_site_counter_log')) return true;
+            
             return false;
         }
 
@@ -38,7 +38,6 @@
          * @brief 업데이트 실행
          **/
         function moduleUpdate() {
-            $db_info = Context::getDBInfo ();
             // 카운터에 site_srl추가
             $oDB = &DB::getInstance();
             if(!$oDB->isColumnExists('counter_log', 'site_srl')) $oDB->addColumn('counter_log','site_srl','number',11,0,true);

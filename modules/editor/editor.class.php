@@ -47,7 +47,6 @@
          * @brief 설치가 이상이 없는지 체크하는 method
          **/
         function checkUpdate() {
-            $db_info = Context::getDBInfo ();
             $oModuleModel = &getModel('module');
 
             $oDB = &DB::getInstance();
@@ -77,7 +76,6 @@
          * @brief 업데이트 실행
          **/
         function moduleUpdate() {
-            $db_info = Context::getDBInfo ();
             $oModuleModel = &getModel('module');
             $oModuleController = &getController('module');
 
