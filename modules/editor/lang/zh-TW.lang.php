@@ -224,31 +224,31 @@
 	$lang->edit->paging_next_help = '往下一頁';
 
 	$lang->edit->toc = '目錄';
-	$lang->edit->close_help = '關閉使用手冊';
+	$lang->edit->close_help = '關閉';
 
 	$lang->edit->confirm_submit_without_saving = '有內容尚未儲存。\\n是否要繼續進行?';
 
 	$lang->edit->image_align = '圖片對齊';
 	$lang->edit->attached_files = '附加檔案';
 
-	$lang->edit->fontcolor_input = '폰트색 직접입력';
-	$lang->edit->fontbgcolor_input = '배경색 직접입력';
-	$lang->edit->pangram = '무궁화 꽃이 피었습니다';
+	$lang->edit->fontcolor_input = '自訂文字顏色';
+	$lang->edit->fontbgcolor_input = '自訂背景顏色';
+	$lang->edit->pangram = '實際範例';
 
-	$lang->edit->table_caption_position = '표 제목(caption) 및 배치';
-	$lang->edit->table_caption = '표 제목(caption)';
-	$lang->edit->table_header = '머리글 셀(th)';
-	$lang->edit->table_header_none = '없음';
-	$lang->edit->table_header_left = '왼쪽';
-	$lang->edit->table_header_top = '위쪽';
-	$lang->edit->table_header_both = '모두';
-	$lang->edit->table_size = '표 크기';
-	$lang->edit->table_width = '표 폭';
+	$lang->edit->table_caption_position = '標籤位置';
+	$lang->edit->table_caption = '表格標籤(caption)';
+	$lang->edit->table_header = '標頭';
+	$lang->edit->table_header_none = '無';
+	$lang->edit->table_header_left = '左側';
+	$lang->edit->table_header_top = '頂端';
+	$lang->edit->table_header_both = '兩者';
+	$lang->edit->table_size = '大小';
+	$lang->edit->table_width = '寬度';
 
-	$lang->edit->no_image = '첨부된 이미지가 없습니다.';
-	$lang->edit->no_multimedia = '첨부된 동영상이 없습니다.';
-	$lang->edit->no_attachment = '첨부된 파일이 없습니다.';
-	$lang->edit->insert_selected = '선택 넣기';
+	$lang->edit->no_image = '目前沒有圖片';
+	$lang->edit->no_multimedia = '目前沒有影片';
+	$lang->edit->no_attachment = '目前沒有附檔';
+	$lang->edit->insert_selected = '插入所選';
 
-	$lang->edit->fieldset = '글상자';
+	$lang->edit->fieldset = '區域';
 ?>
