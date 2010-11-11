@@ -125,7 +125,18 @@
             
             if (!is_numeric ($string)) 
             {
-                $string = str_replace("'","''",$string);
+            /*
+                if ($this->isConnected())
+                {
+                    $string = cubrid_real_escape_string($string);
+                }
+                else
+                {
+                    $string = str_replace("'","\'",$string);
+                }
+                */
+
+                    $string = str_replace("'","''",$string);
             }
             
             return $string;
@@ -179,10 +190,14 @@
 
             // 쿼리 문 실행
             $result = @cubrid_execute ($this->fd, $query);
-
+            //if(!$result){ debugPrint('result null: ' .$query); }
             // 오류 체크
             if (cubrid_error_code ()) {
-                $this->setError (cubrid_error_code (), cubrid_error_msg ());
+                $code = cubrid_error_code ();
+                $msg = cubrid_error_msg ();
+                
+                //debugPrint('query error :  '. $code.', msg:'. $msg .', ' .$query);
+                $this->setError ($code, $msg);
             }
 
             // 쿼리 실행 종료를 알림
@@ -305,7 +320,7 @@
             }
 
             $result = $this->_query ($query);
-
+            //if(!$result) debugPrint($query);
             if (cubrid_num_rows($result) > 0)
             {
                 $output = true;
@@ -325,8 +340,8 @@
          **/
         function addColumn($table_name, $column_name, $type = 'number', $size = '', $default = '', $notnull = false) 
         {
-            $type = $this->column_type[$type];
-            if (strtoupper ($type) == 'INTEGER') $size = '';
+            $type = strtoupper($this->column_type[$type]);
+            if ($type == 'INTEGER') $size = '';
 
             $query = sprintf ("alter class \"%s%s\" add \"%s\" ", $this->prefix, $table_name, $column_name);
             
@@ -346,7 +361,7 @@
             
             if ($default) 
             {
-                if ($type == 'number' || $type == 'bignumber') 
+                if ($type == 'INTEGER' || $type == 'BIGINT' || $type=='INT') 
                 {
                     $query .= sprintf ("default %d ", $default);
                 }
@@ -357,7 +372,7 @@
             }
             
             if ($notnull) $query .= "not null ";
-
+            
             $this->_query ($query);
         }
 
@@ -695,47 +710,37 @@
             {
                 $name = $val['name'];
                 $value = $val['value'];
-                if ($this->getColumnType ($output->column_type, $name) != 'number') 
+                //if ($this->getColumnType ($output->column_type, $name) != 'number') 
+                if ($output->column_type[$name] != 'number') 
                 {
-                    $clen = strlen ($value);
-                    if ($clen <= $this->cutlen)
+                    
+                    if(!is_null($value))
                     {
-                        $value = "'".$this->addQuotes($value)."'";
+						$value = "'" . $this->addQuotes($value) ."'";
                     }
-                    else 
+                    else
                     {
-                        $wrk = "";
-                        $off = 0;
-                        while ($off < $clen) 
-                        {
-                            $wlen = $clen - $off;
-                            if ($wlen > $this->cutlen) $wlen = $this->cutlen;
-                            if ($off > 0) $wrk .= "+\n";
-                            $wrk .= "'".$this->addQuotes (substr ($value, $off, $wlen))."'";
-                            $off += $wlen;
-                        }
-                        $value = $wrk;
-                    }
+                        if($val['notnull']=='notnull') {
+							$value = "''";
+						} else {
+							//$value = 'null';
+							$value = "''";
+						}
 
-                    if (!$value) $value = 'null';
+                    }
                 }
                 elseif (!$value || is_numeric ($value)) 
                 {
                     $value = (int) $value;
                 }
 
-                if (strpos ($name, '.') === false) 
-                {
-                    $column_list[] = '"'.$name.'"';
-                }
-                else
-                {
-                    $column_list[] = $name;
-                }
+                $column_list[] = '"'.$name.'"';
                 $value_list[] = $value;
             }
 
             $query = sprintf ("insert into %s (%s) values (%s);", implode(',', $table_list), implode(',', $column_list), implode(',', $value_list));
+
+			$query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
 			$result = $this->_query ($query);
 			if ($result && !$this->transaction_started) 
             {
@@ -786,26 +791,7 @@
                     if ($output->column_type[$name] != 'number') 
                     {
                         $check_column = false;
-                        $clen=strlen($value);
-                        if ($clen <= $this->cutlen)
-                        {
-                            $value = "'".$this->addQuotes ($value)."'";
-                        }
-                        else 
-                        {
-                            $wrk = "";
-                            $off = 0;
-                            while ($off < $clen) 
-                            {
-                                $wlen=$clen-$off;
-                                if ($wlen > $this->cutlen) $wlen=$this->cutlen;
-                                if ($off > 0) $wrk .= "+\n";
-                                $wrk .= "'".$this->addQuotes (substr($value, $off,
-                                    $wlen))."'";
-                                $off += $wlen;
-                            }
-                            $value = $wrk;
-                        }
+                        $value = "'".$this->addQuotes ($value)."'";
                     }
                     elseif (!$value || is_numeric ($value))
                     {
@@ -1223,6 +1209,8 @@
                 {
                     $count_query = sprintf('select count(*) as "count" from (%s) xet', $count_query);
                 }
+
+                $count_query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
                 $result = $this->_query($count_query);
                 $count_output = $this->_fetch($result);
                 $total_count = (int)$count_output->count;
@@ -1356,7 +1344,7 @@
                 }
                 $data[$virtual_no--] = $tmp;
             }
-
+            
             $buff = new Object ();
             $buff->total_count = $total_count;
             $buff->total_page = $total_page;
