@@ -135,8 +135,10 @@
     $lang->edit->multimedia = 'Movie';
     $lang->edit->emoticon = 'Emoticon';
 
+	$lang->edit->file = '파일';
     $lang->edit->upload = 'Вложение';
     $lang->edit->upload_file = 'Прикрепить файл';
+	$lang->edit->upload_list = '첨부 목록';
     $lang->edit->link_file = 'Вставить в содержание';
     $lang->edit->delete_selected = 'Удалить выбранное';
 

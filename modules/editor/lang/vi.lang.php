@@ -135,8 +135,10 @@
     $lang->edit->multimedia = 'Chèn Media';
     $lang->edit->emoticon = 'Diễn tả cảm xúc';
 
+	$lang->edit->file = '파일';
     $lang->edit->upload = 'Đính kèm';
     $lang->edit->upload_file = 'Đính kèm';
+	$lang->edit->upload_list = '첨부 목록';
     $lang->edit->link_file = 'Chèn vào bài viết';
     $lang->edit->delete_selected = 'Xóa lựa chọn';
 

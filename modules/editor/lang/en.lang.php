@@ -132,8 +132,10 @@
     $lang->edit->multimedia = 'Movie';
     $lang->edit->emoticon = 'Emoticon';
 
+	$lang->edit->file = '파일';
     $lang->edit->upload = 'Attachment';
     $lang->edit->upload_file = 'Attach';
+	$lang->edit->upload_list = '첨부 목록';
     $lang->edit->link_file = 'Insert to Content';
     $lang->edit->delete_selected = 'Delete Selected';
 

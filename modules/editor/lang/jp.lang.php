@@ -135,8 +135,10 @@
 	$lang->edit->multimedia = '動画';
 	$lang->edit->emoticon = '絵文字';
 
+	$lang->edit->file = '파일';
 	$lang->edit->upload = '添付';
 	$lang->edit->upload_file = 'ファイル添付';
+	$lang->edit->upload_list = '첨부 목록';
 	$lang->edit->link_file = 'テキスト挿入';
 	$lang->edit->delete_selected = '選択リスト削除';
 

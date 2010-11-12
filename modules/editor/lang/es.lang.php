@@ -128,8 +128,10 @@
     $lang->edit->multimedia = 'Movie';
     $lang->edit->emoticon = 'Emoticon';
 
+	$lang->edit->file = '파일';
     $lang->edit->upload = 'Adjuntar';
     $lang->edit->upload_file = 'Archivo adjunto';
+	$lang->edit->upload_list = '첨부 목록';
     $lang->edit->link_file = 'Insertar en el contenido del documento';
     $lang->edit->delete_selected = 'Eliminar lo seleccionado';
 

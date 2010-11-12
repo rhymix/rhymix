@@ -135,8 +135,10 @@
     $lang->edit->multimedia = '视频';
     $lang->edit->emoticon = '表情图标';
 
+	$lang->edit->file = '파일';
     $lang->edit->upload = '上传';
     $lang->edit->upload_file = '上传附件';
+	$lang->edit->upload_list = '첨부 목록';
     $lang->edit->link_file = '插入附件';
     $lang->edit->delete_selected = '删除所选';
 
