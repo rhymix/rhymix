@@ -35,9 +35,6 @@
                 return;
             }
 
-            $oModuleModel = &getModel('module');
-			$oModuleModel->loadModuleExtends();
-
             // Set variables from request arguments
             if(!$module) $this->module = Context::get('module');
             else $this->module = $module;

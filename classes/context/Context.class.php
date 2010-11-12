@@ -135,6 +135,9 @@
 
             // set authentication information in Context and session  
             if(Context::isInstalled()) {
+				$oModuleModel = &getModel('module');
+				$oModuleModel->loadModuleExtends();
+
                 $oMemberModel = &getModel('member');
                 $oMemberController = &getController('member');
 
