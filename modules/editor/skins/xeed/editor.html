@@ -30,10 +30,10 @@
 		<div class="t1"> 
 			<button type="button" class="mo"><span>{$lang->edit->extension}</span></button> 
 			<ul class="u1"> 
-				<li class="ti al"><a href="#xdmw_attachList" class="tb"><span>{$lang->file_list} <em>[<strong>0</strong>]</em></span></a></li> 
-				<li class="ti img"><button type="button" class="tb"><span>{$lang->edit->image} <em>[<strong>0</strong>]</em></span></button></li> 
-				<li class="ti mov"><button type="button" class="tb"><span>{$lang->edit->multimedia} <em>[<strong>0</strong>]</em></span></button></li> 
-				<li class="ti file"><button type="button" class="tb"><span>{$lang->file} <em>[<strong>0</strong>]</em></span></button></li> 
+				<li class="ti al"><a href="#xdal" class="tb"><span>{$lang->edit->upload_list} <em>[<strong>0</strong>]</em></span></a></li> 
+				<li class="ti img"><a href="#xdal" class="tb"><span>{$lang->edit->image} <em>[<strong>0</strong>]</em></span></a></li> 
+				<li class="ti mov"><a href="#xdal" class="tb"><span>{$lang->edit->multimedia} <em>[<strong>0</strong>]</em></span></a></li> 
+				<li class="ti file"><a href="#xdal" class="tb"><span>{$lang->edit->file} <em>[<strong>0</strong>]</em></span></a></li> 
 			</ul> 
             <!--@if($enable_component && false)-->
 			<!-- editor components -->
@@ -1267,64 +1267,61 @@
 </div> 
 <!-- /XEED --> 
  
-<!-- XDMW(XEED Modal Windowed) --> 
-<div class="xdmw"> 
-	<div class="bg"><iframe frameborder="0" title="Blank Frame"></iframe></div> 
-	<div class="fg"> 
-		<!-- Attach List --> 
-		<div class="item al"> 
-			<div class="iHead"> 
-				<h2>{$lang->file_list} <em>[<strong>0</strong>]</em></h2> 
+<!-- XD Layer Window --> 
+<div class="xdlw"> 
+	<!-- Attach List -->
+	<div class="xdal" id="xdal">
+		<div class="iHead"> 
+			<h2>{$lang->edit->upload_list} <em>[<strong>0</strong>]</em></h2> 
+		</div> 
+		<div class="iBody"> 
+			<div class="sn img none"> 
+				<p class="label">{$lang->edit->image}</p> 
+				<ul> 
+					<li> 
+						<button type="button" class="ob"><img src="about:blank" alt="" /></button> 
+						<button type="button" class="ctr ins" title="{$lang->edit->link_file}">{$lang->edit->link_file}</button> 
+						<button type="button" class="ctr del" title="{$lang->cmd_delete}">{$lang->cmd_delete}</button> 
+						<input name="" type="checkbox" value="" class="icx" id="img1" /> <label for="img1">@exThumbH.jpg</label> 
+					</li> 
+				</ul> 
+				<p class="task"> 
+					<button type="button" class="all" title="{$lang->cmd_select_all}">{$lang->cmd_select_all}</button> 
+					<button type="button" class="insert" title="{$lang->edit->insert_selected}">{$lang->edit->insert_selected}</button> 
+				</p> 
+				<p class="nofile">{$lang->edit->no_image}</p>
 			</div> 
-			<div class="iBody"> 
-				<div class="sn img none"> 
-					<p class="label">{$lang->edit->image}</p> 
-					<ul> 
-						<li> 
-							<button type="button" class="ob"><img src="about:blank" alt="" /></button> 
-							<button type="button" class="ctr ins" title="{$lang->edit->link_file}">{$lang->edit->link_file}</button> 
-							<button type="button" class="ctr del" title="{$lang->cmd_delete}">{$lang->cmd_delete}</button> 
-							<input name="" type="checkbox" value="" class="icx" id="img1" /> <label for="img1">@exThumbH.jpg</label> 
-						</li> 
-					</ul> 
-					<p class="task"> 
-						<button type="button" class="all" title="{$lang->cmd_select_all}">{$lang->cmd_select_all}</button> 
-						<button type="button" class="insert" title="{$lang->edit->insert_selected}">{$lang->edit->insert_selected}</button> 
-					</p> 
-					<p class="nofile">{$lang->edit->no_image}</p>
-				</div> 
-				<div class="sn mov none"> 
-					<p class="label">{$lang->edit->multimedia}</p> 
-					<ul></ul> 
-					<p class="task"> 
-						<button type="button" class="all" title="{$lang->cmd_select_all}">{$lang->cmd_select_all}</button> 
-						<button type="button" class="insert" title="{$lang->edit->insert_selected}">{$lang->edit->insert_selected}</button> 
-					</p> 
-					<p class="nofile">{$lang->edit->no_multimedia}</p>
-				</div> 
-				<div class="sn file none"> 
-					<p class="label">{$lang->file}</p> 
-					<ul></ul> 
-					<p class="task"> 
-						<button type="button" class="all" title="{$lang->cmd_select_all}">{$lang->cmd_select_all}</button> 
-						<button type="button" class="insert" title="{$lang->edit->insert_selected}">{$lang->edit->insert_selected}</button> 
-					</p> 
-					<p class="nofile">{$lang->edit->no_attachment}</p>
-				</div> 
+			<div class="sn mov none"> 
+				<p class="label">{$lang->edit->multimedia}</p> 
+				<ul></ul> 
+				<p class="task"> 
+					<button type="button" class="all" title="{$lang->cmd_select_all}">{$lang->cmd_select_all}</button> 
+					<button type="button" class="insert" title="{$lang->edit->insert_selected}">{$lang->edit->insert_selected}</button> 
+				</p> 
+				<p class="nofile">{$lang->edit->no_multimedia}</p>
 			</div> 
-			<div class="iFoot"> 
-				<div class="btnArea fl"> 
-					<button type="button" class="btn at strong" title="{$lang->edit->upload_file}">{$lang->edit->upload_file}</button> 
-				</div> 
-				<div class="btnArea fr"> 
-					<button type="button" class="btn cs" title="{$lang->cmd_close}">{$lang->cmd_close}</button> 
-				</div> 
+			<div class="sn file none"> 
+				<p class="label">{$lang->file}</p> 
+				<ul></ul> 
+				<p class="task"> 
+					<button type="button" class="all" title="{$lang->cmd_select_all}">{$lang->cmd_select_all}</button> 
+					<button type="button" class="insert" title="{$lang->edit->insert_selected}">{$lang->edit->insert_selected}</button> 
+				</p> 
+				<p class="nofile">{$lang->edit->no_attachment}</p>
 			</div> 
 		</div> 
-		<!-- /Attach List --> 
-	</div> 
+		<div class="iFoot"> 
+			<div class="btnArea fl"> 
+				<button type="button" class="btn at strong" title="{$lang->edit->upload_file}">{$lang->edit->upload_file}</button> 
+			</div> 
+			<div class="btnArea fr"> 
+				<button type="button" class="btn cs" title="{$lang->cmd_close}">{$lang->cmd_close}</button> 
+			</div> 
+		</div> 
+	</div>
+	<!-- /Attach List -->
 </div> 
-<!-- /XDMW(XEED Modal Windowed) -->
+<!-- /XD Layer Window --> 
 <!-- }}} Editor HTML -->
 
 <!-- Activate Editor -->

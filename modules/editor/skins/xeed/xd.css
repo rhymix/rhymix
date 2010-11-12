@@ -1,3 +1,4 @@
+@charset "utf-8";
 /* XEED Start */
 
 /* Reset */
@@ -8,7 +9,7 @@ body{ height:100%;}
 .xd .mode ul{ margin:0; padding:0; list-style:none;}
 .xd .tool button,
 .xd .mode button,
-.xdmw button{ position:relative; border:0; margin:0; padding:0; background-color:transparent; overflow:visible; cursor:pointer;}
+.xdlw button{ position:relative; border:0; margin:0; padding:0; background-color:transparent; overflow:visible; cursor:pointer;}
 .xd .tool em{ font-style:normal;}
 .xd .tool img{ border:0;}
 .xd .tool .itx{ border:1px solid #c7c7c7; background:transparent; padding:2px 4px; _margin:-1px 0; height:15px; font-size:12px; vertical-align:top;}
@@ -16,15 +17,15 @@ body{ height:100%;}
 .xd .tool .itx.focus{ border-color:#999; box-shadow:0 0 2px #bbb; -moz-box-shadow:0 0 2px #bbb; -webkit-box-shadow:0 0 2px #bbb;}
 .xd .tool .icx,
 .xd .mode .icx,
-.xdmw .icx{ width:13px; height:13px; vertical-align:middle; margin:0 2px 0 0; padding:0;}
+.xdlw .icx{ width:13px; height:13px; vertical-align:middle; margin:0 2px 0 0; padding:0;}
 .xd .tool .btn,
-.xdmw .btn{ border:1px solid #b5b5b5; font-size:12px; padding:0 4px; height:21px; _height:20px; vertical-align:top; cursor:pointer;}
+.xdlw .btn{ border:1px solid #b5b5b5; font-size:12px; padding:0 4px; height:21px; _height:20px; vertical-align:top; cursor:pointer;}
 .xd .tool fieldset{ border:0; margin:0; padding:0;}
 .xd .tool label,
 .xd .mode label,
-.xdmw label{ cursor:pointer;}
+.xdlw label{ cursor:pointer;}
 .xd .tool .strong,
-.xdmw .strong{ font-weight:bold;}
+.xdlw .strong{ font-weight:bold;}
 
 /* Background */
 .xd .tool,
@@ -41,28 +42,28 @@ body{ height:100%;}
 .xd .t2 .u6 .sc .lr .li ul,
 .xd .t2 .u6 .te .lr .cn li button,
 .xd .t2 .u6 .te .lr .th li button,
-.xdmw .iHead,
-.xdmw .iFoot,
-.xdmw .iHead h2,
-.xdmw .iFoot .btn,
-.xdmw .al .label,
-.xdmw .al .sn .ctr,
-.xdmw .al .file li .ob,
-.xdmw .al .sn .task .all,
-.xdmw .al .sn .task .insert{ background-image:url(xd.gif); background-repeat:no-repeat;}
+.xdlw .iHead,
+.xdlw .iFoot,
+.xdlw .iHead h2,
+.xdlw .iFoot .btn,
+.xdlw .label,
+.xdlw .sn .ctr,
+.xdlw .file li .ob,
+.xdlw .sn .task .all,
+.xdlw .sn .task .insert{ background-image:url(xd.gif); background-repeat:no-repeat;}
 
 /* Font Family */
 .xd .tool .t1 .tb,
 .xd .tool .t2 .hx .lr button,
 .xd .tool .t2 .u6 .sc .lr .tab,
-.xd .edit{ font-family:Dotum, ë‹ì›€, Tahoma, Geneva, sans-serif;}
+.xd .edit{ font-family:Dotum, 돋움, Tahoma, Geneva, sans-serif;}
 .xd .tool .itx,
 .xd .tool .t2 .u6 .te .lr .cn li button,
 .xd .tool .t2 .u6 .te .lr .wh td button,
 .xd .mode ul button,
 .xd .mode .autoResize label,
-.xdmw .item .iHead h2 em,
-.xdmw label{ font-family:Tahoma, Geneva, sans-serif;}
+.xdlw .iHead h2 em,
+.xdlw label{ font-family:Tahoma, Geneva, sans-serif;}
 
 /* Hidden Text */
 .xd .tool .mo span,
@@ -113,10 +114,11 @@ body{ height:100%;}
 .xd .t1 .u1 .tb span{ padding-left:21px;}
 .xd .t1 .u1 .tb em{ color:#ccc;}
 .xd .t1 .u1 .tb em strong{ color:#f60;}
-.xd .t1 .u1 .al a{ background-position:6px -253px; cursor:pointer;}
-.xd .t1 .u1 .img .tb{ background-position:6px -283px;}
-.xd .t1 .u1 .mov .tb{ background-position:6px -313px;}
-.xd .t1 .u1 .file .tb{ background-position:6px -343px;}
+.xd .t1 .u1 .al .tb{ background:none;}
+.xd .t1 .u1 .al .tb span{ padding-left:10px;}
+.xd .t1 .u1 .img .tb{ background-position:5px -282px;}
+.xd .t1 .u1 .mov .tb{ background-position:6px -312px;}
+.xd .t1 .u1 .file .tb{ background-position:6px -342px;}
 
 /* Tool - 2 */
 .xd .t2{ position:relative; z-index:2; border-top:1px solid #e0dedf; border-bottom:1px solid #b5b5b5; padding:5px 10px 0 5px; margin:-1px 0 0 0; *zoom:1;}
@@ -335,92 +337,87 @@ body{ height:100%;}
 .xd .edit .xdcs{ position:relative; overflow:hidden !important; padding:20px 25px; cursor:text;}
 .xd .edit .xdsc{ border:0; padding:20px 25px; overflow:auto; background:transparent; font:12px "Courier New", Courier, monospace;}
 
-/* XDMW(XD Modal Windowed Layer) */
-.xdmw{ display:none; position:fixed; _position:absolute; top:0; left:0; width:100%; height:100%; z-index:1000;}
-.xdmw .bg{ position:absolute; top:0; left:0; width:100%; height:100%; background:#000; opacity:.5; filter:alpha(opacity=50); -ms-filter:"alpha(opacity=50)";}
-.xdmw .bg iframe{ border:0; width:100%; height:100%; display:none; _display:block; filter:alpha(opacity=0);}
-.xdmw .fg{ position:relative; top:10%; margin:0 auto; padding:37px 0 41px 0; width:80%; height:70%; background:#fff; border:3px solid #666; box-shadow:0 0 10px #000; -moz-box-shadow:0 0 10px #000; -webkit-box-shadow:0 0 10px #000;}
-.xdmw .item{ position:relative; width:100%; height:100%; font-size:12px;}
-.xdmw .item img{ border:0;}
-.xdmw .item .iHead{ position:absolute; top:-37px; left:0; width:100%; background-position:0 -1140px; background-repeat:repeat-x; border-bottom:1px solid #ccc; font-size:12px; padding:10px 0; *zoom:1;}
-.xdmw .item .iHead:after{ content:""; display:block; clear:both;}
-.xdmw .item .iHead h2{ float:left; _display:inline; margin:0 0 0 20px; padding:0 0 0 20px; background-position:0 -257px; font-size:12px; height:16px; line-height:16px;}
-.xdmw .item .iHead h2 em{ font-weight:normal; font-style:normal; color:#ccc;}
-.xdmw .item .iHead h2 strong{ color:#f60;}
-.xdmw .item .iBody{ position:relative; width:100%; height:100%; overflow:auto;}
-.xdmw .item .iBody .sn{ margin:0 20px; padding:20px 0; *zoom:1;}
-.xdmw .item .iBody .sn:after{ content:""; display:block; clear:both;}
-.xdmw .item .iFoot{ position:absolute; width:100%; height:21px; line-height:21px; left:0; bottom:-41px; padding:10px 0; border-top:1px solid #ccc; background-position:0 -1140px; background-repeat:repeat-x;}
-.xdmw .item .iFoot .btnArea{ margin:0 20px; *zoom:1;}
-.xdmw .item .iFoot .btnArea:after{ content:""; display:block; clear:both;}
-.xdmw .item .iFoot .btnArea.fl{ float:left;}
-.xdmw .item .iFoot .btnArea.fr{ float:right;}
+/* XD Layer Window */
+.xdlw{ display:none; position:absolute; top:50%; left:50%; z-index:1000;}
+.xdlw img{ border:0;}
+.xdlw .iHead{ background-position:0 -1140px; background-repeat:repeat-x; border-bottom:1px solid #ccc; font-size:12px; padding:10px 0; *zoom:1;}
+.xdlw .iHead:after{ content:""; display:block; clear:both;}
+.xdlw .iHead h2{ float:left; _display:inline; margin:0 0 0 20px; padding:0 0 0 20px; background-position:0 -257px; font-size:12px; height:16px; line-height:16px;}
+.xdlw .iHead h2 em{ font-weight:normal; font-style:normal; color:#ccc;}
+.xdlw .iHead h2 strong{ color:#f60;}
+.xdlw .iBody{ position:relative;}
+.xdlw .iBody:after{ content:""; display:block; clear:both;}
+.xdlw .iFoot{ height:21px; line-height:21px; padding:10px 0; border-top:1px solid #ccc; background-position:0 -1140px; background-repeat:repeat-x;}
+.xdlw .iFoot .btnArea{ margin:0 20px; *zoom:1;}
+.xdlw .iFoot .btnArea:after{ content:""; display:block; clear:both;}
+.xdlw .iFoot .btnArea.fl{ float:left;}
+.xdlw .iFoot .btnArea.fr{ float:right;}
 
-/* XDMW - AL(Attached List) */
-.xdmw .al{ display:none;}
-.xdmw .al.open{ display:block;}
-.xdmw .al .label{ width:275px; line-height:30px; font-weight:bold; margin:0; padding:0 0 0 24px;}
-.xdmw .al .img .label{ background-position:0 -282px;}
-.xdmw .al .mov .label{ background-position:0 -312px;}
-.xdmw .al .file .label{ background-position:0 -342px;}
-.xdmw .al .sn{ position:relative; border-bottom:1px solid #ddd;}
-.xdmw .al .sn ul{ margin:0; padding:0; *zoom:1;}
-.xdmw .al .sn ul:after{ content:""; display:block; clear:both;}
-.xdmw .al .sn li{ position:relative; display:inline-block; *display:inline; *zoom:1; vertical-align:top; margin:0 10px 10px 0;}
-.xdmw .al .sn .ob{ position:relative; display:block; text-decoration:none; white-space:nowrap; font-size:0; width:100px; height:100px; margin:0 0 5px 0; border:1px solid #ddd; text-align:center; line-height:98px;}
-.xdmw .al .sn .ob img{ vertical-align:middle;}
-.xdmw .al .sn .ob.ed{ background-color:#eee;}
-.xdmw .al .sn .ctr{ position:absolute; display:block; left:0; border:1px solid #bbb; font-size:12px; white-space:nowrap; background-position:0 -1140px; background-color:#f4f4f4; opacity:0; filter:alpha(opacity=0); -ms-filter:"alpha(opacity=0)"; box-shadow:0 0 2px #bbb; -moz-box-shadow:0 0 2px #bbb; -webkit-box-shadow:0 0 2px #bbb;}
-.xdmw .al .sn .ctr.show{opacity:1; filter:alpha(opacity=100); -ms-filter:"alpha(opacity=100)";}
-.xdmw .al .sn .ins{ width:100px; height:100px; top:0;}
-.xdmw .al .sn .del{ height:26px; top:74px; padding:0 5px;}
-.xdmw .al .sn .task{ position:absolute; top:27px; right:0; margin:0;}
-.xdmw .al .sn .task button{ padding:0 0 0 15px; font-size:12px;}
-.xdmw .al .sn .task .all{ background-position:-586px -260px;}
-.xdmw .al .sn .task .insert{ background-position:-586px -288px;}
-.xdmw .al .sn .task .up{ padding:0; border-bottom:1px solid;}
-.xdmw .al .sn .progress{ display:none; width:80px; background:#ddd;}
-.xdmw .al .sn .progress .bar{ display:block; background:#999; height:6px;}
-.xdmw .al .sn .uploading .progress{ display:inline-block;}
-.xdmw .al .sn .nofile{ display:none; position:absolute; top:27px; right:0; margin:0; text-align:center; color:#767676;}
-.xdmw .al .sn .nofile .up{ font-size:12px; border-bottom:1px solid;}
-.xdmw .al .none .task{ display:none;}
-.xdmw .al .none .nofile{ display:block;}
-.xdmw .al .file .ob{ text-indent:-900px;}
-.xdmw .al .file .uploading .ob{ text-indent:0px; background-image:none;}
-.xdmw .al .file .pdf{ background-position:0 -400px;}
-.xdmw .al .file .doc,
-.xdmw .al .file .docx{ background-position:-100px -400px;}
-.xdmw .al .file .hwp{ background-position:-200px -400px;}
-.xdmw .al .file .ppt,
-.xdmw .al .file .ppt{ background-position:-300px -400px;}
-.xdmw .al .file .pps{ background-position:-400px -400px;}
-.xdmw .al .file .txt{ background-position:-500px -400px;}
-.xdmw .al .file .rtf{ background-position:0 -500px;}
-.xdmw .al .file .xls,
-.xdmw .al .file .xlsx{ background-position:-100px -500px;}
-.xdmw .al .file .png{ background-position:-200px -500px;}
-.xdmw .al .file .jpg{ background-position:-300px -500px;}
-.xdmw .al .file .gif{ background-position:-400px -500px;}
-.xdmw .al .file .bmp{ background-position:-500px -500px;}
-.xdmw .al .file .tif{ background-position:0 -600px;}
-.xdmw .al .file .raw{ background-position:-100px -600px;}
-.xdmw .al .file .avi{ background-position:-200px -600px;}
-.xdmw .al .file .wmv{ background-position:-300px -600px;}
-.xdmw .al .file .mov{ background-position:-400px -600px;}
-.xdmw .al .file .mpg{ background-position:-500px -600px;}
-.xdmw .al .file .flv{ background-position:0 -700px;}
-.xdmw .al .file .divx{ background-position:-100px -700px;}
-.xdmw .al .file .mp3{ background-position:-200px -700px;}
-.xdmw .al .file .wma{ background-position:-300px -700px;}
-.xdmw .al .file .wav{ background-position:-400px -700px;}
-.xdmw .al .file .aac{ background-position:-500px -700px;}
-.xdmw .al .file .flac{ background-position:0 -800px;}
-.xdmw .al .file .psd{ background-position:-100px -800px;}
-.xdmw .al .file .ai{ background-position:-200px -800px;}
-.xdmw .al .file .svg{ background-position:-300px -800px;}
-.xdmw .al .file .xml{ background-position:-400px -800px;}
-.xdmw .al .file .html{ background-position:-500px -800px;}
-.xdmw .al .file .css{ background-position:0 -900px;}
-.xdmw .al .file .iso{ background-position:-100px -900px;}
-.xdmw .al .file .zip{ background-position:-200px -900px;}
+/* XD Layer Window - AL(Attached List) */
+.xdal{ display:none; width:780px; margin:-170px 0 0 -390px; background:#fff; border:3px solid #666; box-shadow:0 0 10px #999; -moz-box-shadow:0 0 10px #999; -webkit-box-shadow:0 0 10px #999;}
+.xdal .iBody{ height:300px;}
+.xdal .label{ width:275px; line-height:30px; font-weight:bold; margin:0; padding:0 0 0 24px;}
+.xdal .img .label{ background-position:0 -282px;}
+.xdal .mov .label{ background-position:0 -312px;}
+.xdal .file .label{ background-position:0 -342px;}
+.xdal .sn{ position:relative; padding:15px 20px; width:215px; float:left; border-left:1px solid #ddd; overflow:hidden;}
+.xdal .sn ul{ margin:0; padding:0; *zoom:1;}
+.xdal .sn ul:after{ content:""; display:block; clear:both;}
+.xdal .sn li{ position:relative; list-style:none; vertical-align:top; margin:0 10px 10px 0;}
+.xdal .sn .ob{ position:relative; display:block; text-decoration:none; white-space:nowrap; font-size:0; width:100px; height:100px; overflow:hidden; margin:0 0 5px 0; border:1px solid #ddd; text-align:center; line-height:98px;}
+.xdal .sn .ob img{ vertical-align:middle;}
+.xdal .sn .ob.ed{ background-color:#eee;}
+.xdal .sn .ctr{ position:absolute; display:block; left:0; border:1px solid #bbb; font-size:12px; white-space:nowrap; background-position:0 -1140px; background-color:#f4f4f4; opacity:0; filter:alpha(opacity=0); -ms-filter:"alpha(opacity=0)"; box-shadow:0 0 2px #bbb; -moz-box-shadow:0 0 2px #bbb; -webkit-box-shadow:0 0 2px #bbb;}
+.xdal .sn .ctr.show{opacity:1; filter:alpha(opacity=100); -ms-filter:"alpha(opacity=100)";}
+.xdal .sn .ins{ width:100px; height:100px; top:0;}
+.xdal .sn .del{ height:26px; top:74px; padding:0 5px;}
+.xdal .sn .task{ position:absolute; top:27px; right:0; margin:0;}
+.xdal .sn .task button{ padding:0 0 0 15px; font-size:12px;}
+.xdal .sn .task .all{ background-position:-586px -260px;}
+.xdal .sn .task .insert{ background-position:-586px -288px;}
+.xdal .sn .task .up{ padding:0; border-bottom:1px solid;}
+.xdal .sn .progress{ display:none; width:80px; background:#ddd;}
+.xdal .sn .progress .bar{ display:block; background:#999; height:6px;}
+.xdal .sn .uploading .progress{ display:inline-block;}
+.xdal .sn .nofile{ display:none; position:absolute; top:27px; right:0; margin:0; text-align:center; color:#767676;}
+.xdal .sn .nofile .up{ font-size:12px; border-bottom:1px solid;}
+.xdal .none .task{ display:none;}
+.xdal .none .nofile{ display:block;}
+.xdal .file .ob{ text-indent:-900px;}
+.xdal .file .uploading .ob{ text-indent:0px; background-image:none;}
+.xdal .file .pdf{ background-position:0 -400px;}
+.xdal .file .doc,
+.xdal .file .docx{ background-position:-100px -400px;}
+.xdal .file .hwp{ background-position:-200px -400px;}
+.xdal .file .ppt,
+.xdal .file .ppt{ background-position:-300px -400px;}
+.xdal .file .pps{ background-position:-400px -400px;}
+.xdal .file .txt{ background-position:-500px -400px;}
+.xdal .file .rtf{ background-position:0 -500px;}
+.xdal .file .xls,
+.xdal .file .xlsx{ background-position:-100px -500px;}
+.xdal .file .png{ background-position:-200px -500px;}
+.xdal .file .jpg{ background-position:-300px -500px;}
+.xdal .file .gif{ background-position:-400px -500px;}
+.xdal .file .bmp{ background-position:-500px -500px;}
+.xdal .file .tif{ background-position:0 -600px;}
+.xdal .file .raw{ background-position:-100px -600px;}
+.xdal .file .avi{ background-position:-200px -600px;}
+.xdal .file .wmv{ background-position:-300px -600px;}
+.xdal .file .mov{ background-position:-400px -600px;}
+.xdal .file .mpg{ background-position:-500px -600px;}
+.xdal .file .flv{ background-position:0 -700px;}
+.xdal .file .divx{ background-position:-100px -700px;}
+.xdal .file .mp3{ background-position:-200px -700px;}
+.xdal .file .wma{ background-position:-300px -700px;}
+.xdal .file .wav{ background-position:-400px -700px;}
+.xdal .file .aac{ background-position:-500px -700px;}
+.xdal .file .flac{ background-position:0 -800px;}
+.xdal .file .psd{ background-position:-100px -800px;}
+.xdal .file .ai{ background-position:-200px -800px;}
+.xdal .file .svg{ background-position:-300px -800px;}
+.xdal .file .xml{ background-position:-400px -800px;}
+.xdal .file .html{ background-position:-500px -800px;}
+.xdal .file .css{ background-position:0 -900px;}
+.xdal .file .iso{ background-position:-100px -900px;}
+.xdal .file .zip{ background-position:-200px -900px;}
