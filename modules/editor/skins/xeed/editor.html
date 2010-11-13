@@ -1157,12 +1157,12 @@
 								<label for="cn">{$lang->edit->table_caption}</label> 
 								<input name="" type="text" id="cn" class="itx" /> 
 								<ul> 
-									<li class="tl selected"><button type="button"><span>상단좌측</span></button></li> 
-									<li class="tc"><button type="button"><span>상단중앙</span></button></li> 
-									<li class="tr"><button type="button"><span>상단우측</span></button></li> 
-									<li class="bl"><button type="button"><span>하단좌측</span></button></li> 
-									<li class="bc"><button type="button"><span>하단중앙</span></button></li> 
-									<li class="br"><button type="button"><span>하단우측</span></button></li> 
+									<li class="tl selected"><button type="button" title="{$lang->edit->upper_left}"><span>{$lang->edit->upper_left}</span></button></li> 
+									<li class="tc"><button type="button" title="{$lang->edit->upper_center}"><span>{$lang->edit->upper_center}</span></button></li> 
+									<li class="tr"><button type="button" title="{$lang->edit->upper_right}"><span>{$lang->edit->upper_right}</span></button></li> 
+									<li class="bl"><button type="button" title="{$lang->edit->bottom_left}"><span>{$lang->edit->bottom_left}</span></button></li> 
+									<li class="bc"><button type="button" title="{$lang->edit->bottom_center}"><span>{$lang->edit->bottom_center}</span></button></li> 
+									<li class="br"><button type="button" title="{$lang->edit->bottom_right}"><span>{$lang->edit->bottom_right}</span></button></li> 
 								</ul> 
 							</div> 
 						</fieldset> 
@@ -1253,7 +1253,7 @@
 	
 	<!-- mode --> 
 	<div class="mode"> 
-		<button type="button" class="resize"><span>입력창 크기 조절</span></button> 
+		<button type="button" class="resize" title="{$lang->edit->edit_height_control}"><span>{$lang->edit->edit_height_control}</span></button> 
 		<div class="autoResize"> 
 			<input name="" type="checkbox" value="" class="icx" id="autoResize" /> 
 			<label for="autoResize">Auto Resize</label> 

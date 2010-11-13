@@ -132,10 +132,10 @@
     $lang->edit->multimedia = 'Movie';
     $lang->edit->emoticon = 'Emoticon';
 
-	$lang->edit->file = '파일';
+	$lang->edit->file = 'Files';
     $lang->edit->upload = 'Attachment';
     $lang->edit->upload_file = 'Attach';
-	$lang->edit->upload_list = '첨부 목록';
+	$lang->edit->upload_list = 'Attachment List';
     $lang->edit->link_file = 'Insert to Content';
     $lang->edit->delete_selected = 'Delete Selected';
 
@@ -243,6 +243,13 @@
 	$lang->edit->table_header_both = 'both';
 	$lang->edit->table_size = 'Table Size';
 	$lang->edit->table_width = 'Table Width';
+
+	$lang->edit->upper_left = 'Upper Left';
+	$lang->edit->upper_center = 'Upper Center';
+	$lang->edit->upper_right = 'Upper Right';
+	$lang->edit->bottom_left = 'Bottom Left';
+	$lang->edit->bottom_center = 'Bottom Center';
+	$lang->edit->bottom_right = 'Bottom Right';
 
 	$lang->edit->no_image = 'There is no images uploaded.';
 	$lang->edit->no_multimedia = 'There is no videos uploaded.';

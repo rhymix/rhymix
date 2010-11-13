@@ -246,6 +246,13 @@
 	$lang->edit->table_size = '표 크기';
 	$lang->edit->table_width = '표 너비';
 
+	$lang->edit->upper_left = '상단좌측';
+	$lang->edit->upper_center = '상단중앙';
+	$lang->edit->upper_right = '상단우측';
+	$lang->edit->bottom_left = '하단좌측';
+	$lang->edit->bottom_center = '하단중앙';
+	$lang->edit->bottom_right = '하단우측';
+
 	$lang->edit->no_image = '첨부된 이미지가 없습니다.';
 	$lang->edit->no_multimedia = '첨부된 동영상이 없습니다.';
 	$lang->edit->no_attachment = '첨부된 파일이 없습니다.';

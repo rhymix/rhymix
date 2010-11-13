@@ -247,6 +247,13 @@
 	$lang->edit->table_size = '大小';
 	$lang->edit->table_width = '寬度';
 
+	$lang->edit->upper_left = '상단좌측';
+	$lang->edit->upper_center = '상단중앙';
+	$lang->edit->upper_right = '상단우측';
+	$lang->edit->bottom_left = '하단좌측';
+	$lang->edit->bottom_center = '하단중앙';
+	$lang->edit->bottom_right = '하단우측';
+
 	$lang->edit->no_image = '目前沒有圖片';
 	$lang->edit->no_multimedia = '目前沒有影片';
 	$lang->edit->no_attachment = '目前沒有附檔';
