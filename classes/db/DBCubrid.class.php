@@ -73,7 +73,7 @@
             $this->database = $db_info->db_database;
             $this->port = $db_info->db_port;
             $this->prefix = $db_info->db_table_prefix;
-            
+
             if (!substr($this->prefix, -1) != '_') $this->prefix .= '_';
         }
 
@@ -89,14 +89,13 @@
             $this->fd = @cubrid_connect ($this->hostname, $this->port, $this->database, $this->userid, $this->password);
 
             // 접속체크
-            if (!$this->fd) 
-            {
+            if (!$this->fd) {
                 $this->setError (-1, 'database connect fail');
                 return $this->is_connected = false;
             }
 
             $this->is_connected = true;
-			$this->password = md5 ($this->password);
+            $this->password = md5 ($this->password);
         }
 
         /**
@@ -105,7 +104,7 @@
         function close() 
         {
             if (!$this->isConnected ()) return;
-            
+
             @cubrid_commit ($this->fd);
             @cubrid_disconnect ($this->fd);
             $this->transaction_started = false;
@@ -117,28 +116,25 @@
         function addQuotes($string) 
         {
             if (!$this->fd) return $string;
-            
-            if (version_compare (PHP_VERSION, "5.9.0", "<") && get_magic_quotes_gpc ()) 
-            { 
+
+            if (version_compare (PHP_VERSION, "5.9.0", "<") &&
+              get_magic_quotes_gpc ()) { 
                 $string = stripslashes (str_replace ("\\","\\\\", $string));
             }
-            
-            if (!is_numeric ($string)) 
-            {
+
+            if (!is_numeric ($string)) {
             /*
-                if ($this->isConnected())
-                {
+                if ($this->isConnected()) {
                     $string = cubrid_real_escape_string($string);
                 }
-                else
-                {
+                else {
                     $string = str_replace("'","\'",$string);
                 }
                 */
 
-                    $string = str_replace("'","''",$string);
+                $string = str_replace("'","''",$string);
             }
-            
+
             return $string;
         }
 
@@ -166,8 +162,9 @@
          **/
         function commit() 
         {
-            if (!$force && (!$this->isConnected () || !$this->transaction_started)) return;
-            
+            if (!$force && (!$this->isConnected () ||
+              !$this->transaction_started)) return;
+
             @cubrid_commit($this->fd);
             $this->transaction_started = false;
         }
@@ -195,7 +192,7 @@
             if (cubrid_error_code ()) {
                 $code = cubrid_error_code ();
                 $msg = cubrid_error_msg ();
-                
+
                 //debugPrint('query error :  '. $code.', msg:'. $msg .', ' .$query);
                 $this->setError ($code, $msg);
             }
@@ -217,31 +214,26 @@
             $col_types = cubrid_column_types ($result);
             $col_names = cubrid_column_names ($result);
             $max = count ($col_types);
-            
-            for ($count = 0; $count < $max; $count++) 
-            {
-                if (preg_match ("/^char/", $col_types[$count]) > 0) 
-                {
+
+            for ($count = 0; $count < $max; $count++) {
+                if (preg_match ("/^char/", $col_types[$count]) > 0) {
                     $char_type_fields[] = $col_names[$count];
                 }
             }
 
-            while ($tmp = cubrid_fetch ($result, CUBRID_OBJECT)) 
-            {
-                if (is_array ($char_type_fields)) 
-                {
-                    foreach ($char_type_fields as $val) 
-                    {
+            while ($tmp = cubrid_fetch ($result, CUBRID_OBJECT)) {
+                if (is_array ($char_type_fields)) {
+                    foreach ($char_type_fields as $val) {
                         $tmp->{$val} = rtrim ($tmp->{$val});
                     }
                 }
-                
+
                 $output[] = $tmp;
             }
-            
+
             unset ($char_type_fields);
 
-            if($result) cubrid_close_request($result);
+            if ($result) cubrid_close_request($result);
 
             if (count ($output) == 1) return $output[0];
             return $output;
@@ -252,12 +244,12 @@
          **/
         function getNextSequence() 
         {
-			$this->_makeSequence();
+            $this->_makeSequence();
 
             $query = sprintf ("select \"%ssequence\".\"nextval\" as \"seq\" from db_root", $this->prefix);
             $result = $this->_query($query);
             $output = $this->_fetch($result);
-            
+
             return $output->seq;
         }
 
@@ -274,25 +266,23 @@
             $output = $this->_fetch($result);
 
             // if do not create serial
-            if($output->count==0)
-            {
-                $query = sprintf('select max(a.srl) as srl from 
-                                ( select max(document_srl) as srl from %sdocuments
-                                UNION
-                                select max(comment_srl) as srl from %scomments
-                                UNION
-                                select max(member_srl) as srl from %smember
-                                ) as "a"',$this->prefix,$this->prefix,$this->prefix);
+            if ($output->count==0) {
+                $query = sprintf('select max("a"."srl") as "srl" from '.
+                                 '( select max("document_srl") as "srl" from '.
+                                 '"%sdocuments" UNION '.
+                                 'select max("comment_srl") as "srl" from '.
+                                 '"%scomments" UNION '.
+                                 'select max("member_srl") as "srl" from '.
+                                 '"%smember"'.
+                                  ') as "a"', $this->prefix, $this->prefix, $this->prefix);
 
                 $result = $this->_query($query);
                 $output = $this->_fetch($result);
                 $srl = $output->srl;
-                if($srl<1)
-                {
+                if ($srl<1) {
                     $start = 1; 
                 }
-                else
-                {
+                else {
                     $start = $srl + 1000000;
                 }
 
@@ -310,23 +300,19 @@
          **/
         function isTableExists ($target_name) 
         {
-            if($target_name == 'sequence')
-            {
+            if($target_name == 'sequence') {
                 $query = sprintf ("select \"name\" from \"db_serial\" where \"name\" = '%s%s'", $this->prefix, $target_name);
             }
-            else
-            {
+            else {
                 $query = sprintf ("select \"class_name\" from \"db_class\" where \"class_name\" = '%s%s'", $this->prefix, $target_name);
             }
 
             $result = $this->_query ($query);
             //if(!$result) debugPrint($query);
-            if (cubrid_num_rows($result) > 0)
-            {
+            if (cubrid_num_rows($result) > 0) {
                 $output = true;
             }
-            else
-            {
+            else {
                 $output = false;
             }
 
@@ -344,35 +330,29 @@
             if ($type == 'INTEGER') $size = '';
 
             $query = sprintf ("alter class \"%s%s\" add \"%s\" ", $this->prefix, $table_name, $column_name);
-            
-			if ($type == 'char' || $type == 'varchar')
-			{
-				if($size) $size = $size * 3;
-			}
 
-            if ($size)
-            {
+            if ($type == 'char' || $type == 'varchar') {
+                if ($size) $size = $size * 3;
+            }
+
+            if ($size) {
                 $query .= sprintf ("%s(%s) ", $type, $size);
             }
-            else
-            {
+            else {
                 $query .= sprintf ("%s ", $type);
             }
-            
-            if ($default) 
-            {
-                if ($type == 'INTEGER' || $type == 'BIGINT' || $type=='INT') 
-                {
+
+            if ($default) {
+                if ($type == 'INTEGER' || $type == 'BIGINT' || $type=='INT') {
                     $query .= sprintf ("default %d ", $default);
                 }
-                else
-                {
+                else {
                     $query .= sprintf ("default '%s' ", $default);
                 }
             }
-            
+
             if ($notnull) $query .= "not null ";
-            
+
             $this->_query ($query);
         }
 
@@ -382,7 +362,7 @@
         function dropColumn ($table_name, $column_name) 
         {
             $query = sprintf ("alter class \"%s%s\" drop \"%s\" ", $this->prefix, $table_name, $column_name);
-            
+
             $this->_query ($query);
         }
 
@@ -393,12 +373,12 @@
         {
             $query = sprintf ("select \"attr_name\" from \"db_attribute\" where ".  "\"attr_name\" ='%s' and \"class_name\" = '%s%s'", $column_name, $this->prefix, $table_name);
             $result = $this->_query ($query);
-            
+
             if (cubrid_num_rows ($result) > 0) $output = true;
             else $output = false;
 
             if ($result) cubrid_close_request ($result);
-            
+
             return $output;
         }
 
@@ -409,13 +389,12 @@
          **/
         function addIndex ($table_name, $index_name, $target_columns, $is_unique = false) 
         {
-            if (!is_array ($target_columns)) 
-            {
+            if (!is_array ($target_columns)) {
                 $target_columns = array ($target_columns);
             }
 
             $query = sprintf ("create %s index \"%s\" on \"%s%s\" (%s);", $is_unique?'unique':'', $this->prefix .$index_name, $this->prefix, $table_name, '"'.implode('","',$target_columns).'"');
-            
+
             $this->_query ($query);
         }
 
@@ -425,7 +404,7 @@
         function dropIndex ($table_name, $index_name, $is_unique = false) 
         {
             $query = sprintf ("drop %s index \"%s\" on \"%s%s\"", $is_unique?'unique':'', $this->prefix .$index_name, $this->prefix, $table_name);
-            
+
             $this->_query($query);
         }
 
@@ -436,11 +415,11 @@
         {
             $query = sprintf ("select \"index_name\" from \"db_index\" where ".  "\"class_name\" = '%s%s' and \"index_name\" = '%s' ", $this->prefix, $table_name, $this->prefix .$index_name);
             $result = $this->_query ($query);
-            
+
             if ($this->isError ()) return false;
-            
+
             $output = $this->_fetch ($result);
-            
+
             if (!$output) return false;
             return true;
         }
@@ -461,7 +440,7 @@
             if (!file_exists ($file_name)) return;
             // xml 파일을 읽음
             $buff = FileHandler::readFile ($file_name);
-            
+
             return $this->_createTable ($buff);
         }
 
@@ -482,10 +461,11 @@
             $table_name = $xml_obj->table->attrs->name;
 
             // 만약 테이블 이름이 sequence라면 serial 생성
-            if ($table_name == 'sequence') 
-            {
-                $query = sprintf ('create serial "%s" start with 1 increment by '.  '1 minvalue 1 maxvalue 10000000000000000000000000000000000000'.  ' nocycle;', $this->prefix.$table_name);
-                
+            if ($table_name == 'sequence') {
+                $query = sprintf ('create serial "%s" start with 1 increment by 1'.
+                                  ' minvalue 1 '.
+                                  'maxvalue 10000000000000000000000000000000000000'.  ' nocycle;', $this->prefix.$table_name);
+
                 return $this->_query($query);
             }
 
@@ -496,12 +476,10 @@
             $query = sprintf ('create class "%s";', $table_name);
             $this->_query ($query);
 
-            if (!is_array ($xml_obj->table->column)) 
-            {
+            if (!is_array ($xml_obj->table->column)) {
                 $columns[] = $xml_obj->table->column;
             }
-            else
-            {
+            else {
                 $columns = $xml_obj->table->column;
             }
 
@@ -517,8 +495,7 @@
                 $unique = $column->attrs->unique;
                 $default = $column->attrs->default;
 
-                switch ($this->column_type[$type]) 
-                {
+                switch ($this->column_type[$type]) {
                     case 'integer' :
                         $size = null;
                         break;
@@ -527,13 +504,12 @@
                         break;
                 }
 
-                if (isset ($default) && ($type == 'varchar' || $type == 'char' || $type == 'text' || $type == 'tinytext' || $type == 'bigtext')) 
-                {
+                if (isset ($default) && ($type == 'varchar' || $type == 'char' ||
+                  $type == 'text' || $type == 'tinytext' || $type == 'bigtext')) {
                     $default = sprintf ("'%s'", $default);
                 }
 
-                if ($type == 'varchar' || $type == 'char') 
-                {
+                if ($type == 'varchar' || $type == 'char') {
                     if($size) $size = $size * 3;
                 }
 
@@ -543,19 +519,15 @@
                                     $this->column_type[$type],
                                     $size?'('.$size.')':'',
                                     isset($default)?"default ".$default:'',
-                                    $notnull?'not null':''
-                                );
+                                    $notnull?'not null':'');
 
-                if ($primary_key)
-                {
+                if ($primary_key) {
                     $primary_list[] = $name;
                 }
-                else if ($unique)
-                {
+                else if ($unique) {
                     $unique_list[$unique][] = $name;
                 }
-                else if ($index)
-                {
+                else if ($index) {
                     $index_list[$index][] = $name;
                 }
             }
@@ -563,25 +535,20 @@
             $query .= implode (',', $column_schema).';';
             $this->_query ($query);
 
-            if (count ($primary_list)) 
-            {
+            if (count ($primary_list)) {
                 $query = sprintf ("alter class \"%s\" add attribute constraint ".  "\"pkey_%s\" PRIMARY KEY(%s);", $table_name, $table_name, '"'.implode('","',$primary_list).'"');
                 $this->_query ($query);
             }
 
-            if (count ($unique_list)) 
-            {
-                foreach ($unique_list as $key => $val) 
-                {
+            if (count ($unique_list)) {
+                foreach ($unique_list as $key => $val) {
                     $query = sprintf ("create unique index \"%s\" on \"%s\" ".  "(%s);", $this->prefix .$key, $table_name, '"'.implode('","', $val).'"');
                     $this->_query ($query);
                 }
             }
 
-            if (count ($index_list)) 
-            {
-                foreach ($index_list as $key => $val) 
-                {
+            if (count ($index_list)) {
+                foreach ($index_list as $key => $val) {
                     $query = sprintf ("create index \"%s\" on \"%s\" (%s);", $this->prefix .$key, $table_name, '"'.implode('","',$val).'"');
                     $this->_query ($query);
                 }
@@ -596,20 +563,18 @@
             if (!$output->conditions) return;
             $condition = $this->_getCondition ($output->conditions, $output->column_type, &$output);
             if ($condition) $condition = ' where '.$condition;
-            
+
             return $condition;
         }
 
         function _getCondition ($conditions, $column_type, &$output) 
         {
             $condition = '';
-            
-            foreach ($conditions as $val) 
-            {
+
+            foreach ($conditions as $val) {
                 $sub_condition = '';
-                
-                foreach ($val['condition'] as $v) 
-                {
+
+                foreach ($val['condition'] as $v) {
                     if (!isset ($v['value'])) continue;
                     if ($v['value'] === '') continue;
                     if (!in_array (gettype ($v['value']), array ('string', 'integer', 'double'))) continue;
@@ -619,80 +584,64 @@
                     $value = $v['value'];
                     $type = $this->getColumnType ($column_type, $name);
                     $pipe = $v['pipe'];
-
                     $value = $this->getConditionValue ($name, $value, $operation, $type, $column_type);
-                    
-                    if (!$value) 
-                    {
+
+                    if (!$value) {
                         $value = $v['value'];
-                        if (strpos ($value, '('))
-                        { 
+                        if (strpos ($value, '(')) { 
                             $valuetmp = $value;
                         }
-                        elseif (strpos ($value, ".") === false)
-                        {
+                        elseif (strpos ($value, ".") === false) {
                             $valuetmp = $value;
                         }
-                        else
-                        {
+                        else {
                             $valuetmp = '"'.str_replace('.', '"."', $value).'"';
                         }
                     } 
-                    else 
-                    {
+                    else {
                         $tmp = explode('.',$value);
 
-                        if(count($tmp)==2)
-                        {
+                        if (count($tmp)==2) {
                             $table = $tmp[0];
                             $column = $tmp[1];
 
-                            if($column_type[$column] && (in_array($table,$output->tables) || array_key_exists($table,$output->tables)))
-                            {
-                                $valuetmp = sprintf('"%s"."%s"',$table,$column);
+                            if ($column_type[$column] && (in_array ($table, $output->tables) ||
+                              array_key_exists($table, $output->tables))) {
+                                $valuetmp = sprintf('"%s"."%s"', $table, $column);
                             }
-                            else
-                            {
+                            else {
                                 $valuetmp = $value;
                             }
                         }
-                        else
-                        {
+                        else {
                             $valuetmp = $value;
                         }
                     }
-                    
-                    
-                    if (strpos ($name, '(') > 0)
-                    {
+
+                    if (strpos ($name, '(') > 0) {
                         $nametmp = $name;
                     }
-                    elseif (strpos ($name, ".") === false) 
-                    {
+                    elseif (strpos ($name, ".") === false) {
                         $nametmp = '"'.$name.'"';
                     }
-                    else
-                    {
+                    else {
                         $nametmp = '"'.str_replace('.', '"."', $name).'"';
                     }
                     $str = $this->getConditionPart ($nametmp, $valuetmp, $operation);
                     if ($sub_condition) $sub_condition .= ' '.$pipe.' ';
                     $sub_condition .= $str;
                 }
-                
-                if ($sub_condition)
-                {
-                    if ($condition && $val['pipe']) 
-                    {
+
+                if ($sub_condition) {
+                    if ($condition && $val['pipe']) {
                         $condition .= ' '.$val['pipe'].' ';
                     }
                     $condition .= '('.$sub_condition.')';
                 }
             }
-            
+
             return $condition;
         }
-
 
         /**
          * @brief insertAct 처리
@@ -700,37 +649,30 @@
         function _executeInsertAct ($output) 
         {
             // 테이블 정리
-            foreach ($output->tables as $val) 
-            {
+            foreach ($output->tables as $val) {
                 $table_list[] = '"'.$this->prefix.$val.'"';
             }
 
             // 컬럼 정리
-            foreach ($output->columns as $key => $val) 
-            {
+            foreach ($output->columns as $key => $val) {
                 $name = $val['name'];
                 $value = $val['value'];
                 //if ($this->getColumnType ($output->column_type, $name) != 'number') 
-                if ($output->column_type[$name] != 'number') 
-                {
-                    
-                    if(!is_null($value))
-                    {
-						$value = "'" . $this->addQuotes($value) ."'";
+                if ($output->column_type[$name] != 'number') {
+                    if (!is_null($value)) {
+                        $value = "'" . $this->addQuotes($value) ."'";
                     }
-                    else
-                    {
-                        if($val['notnull']=='notnull') {
-							$value = "''";
-						} else {
-							//$value = 'null';
-							$value = "''";
-						}
-
+                    else {
+                        if ($val['notnull']=='notnull') {
+                            $value = "''";
+                        }
+                        else {
+                            //$value = 'null';
+                            $value = "''";
+                        }
                     }
                 }
-                elseif (!$value || is_numeric ($value)) 
-                {
+                elseif (!$value || is_numeric ($value)) {
                     $value = (int) $value;
                 }
 
@@ -740,14 +682,13 @@
 
             $query = sprintf ("insert into %s (%s) values (%s);", implode(',', $table_list), implode(',', $column_list), implode(',', $value_list));
 
-			$query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
-			$result = $this->_query ($query);
-			if ($result && !$this->transaction_started) 
-            {
+            $query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
+            $result = $this->_query ($query);
+            if ($result && !$this->transaction_started) {
                 @cubrid_commit ($this->fd);
             }
-            
-			return $result;
+
+            return $result;
         }
 
         /**
@@ -756,48 +697,40 @@
         function _executeUpdateAct ($output) 
         {
             // 테이블 정리
-            foreach ($output->tables as $key => $val) 
-            {
+            foreach ($output->tables as $key => $val) {
                 $table_list[] = '"'.$this->prefix.$val.'" as "'.$key.'"';
             }
 
-			$check_click_count = true;
+            $check_click_count = true;
 
             // 컬럼 정리
-            foreach ($output->columns as $key => $val) 
-            {
+            foreach ($output->columns as $key => $val) {
                 if (!isset ($val['value'])) continue;
                 $name = $val['name'];
                 $value = $val['value'];
-		
-				if (substr ($value, -2) != '+1' || $output->column_type[$name] != 'number') 
-                { 
+
+                if (substr ($value, -2) != '+1' || $output->column_type[$name] != 'number') { 
                     $check_click_count = false;
                 }
 
-                for ($i = 0; $i < $key; $i++) 
-                {
+                for ($i = 0; $i < $key; $i++) {
                     /* 한문장에 같은 속성에 대한 중복 설정은 큐브리드에서는 허용치 않음 */
                     if ($output->columns[$i]['name'] == $name) break;
                 }
                 if ($i < $key) continue; // 중복이 발견되면 이후의 설정은 무시
 
-                if (strpos ($name, '.') !== false && strpos ($value, '.') !== false) 
-                { 
+                if (strpos ($name, '.') !== false && strpos ($value, '.') !== false) { 
                     $column_list[] = $name.' = '.$value;
                 }
-                else 
-                {
-                    if ($output->column_type[$name] != 'number') 
-                    {
+                else {
+                    if ($output->column_type[$name] != 'number') {
                         $check_column = false;
                         $value = "'".$this->addQuotes ($value)."'";
                     }
-                    elseif (!$value || is_numeric ($value))
-                    {
+                    elseif (!$value || is_numeric ($value)) {
                         $value = (int) $value;
                     }
-                    
+
                     $column_list[] = sprintf ("\"%s\" = %s", $name, $value);
                 }
             }
@@ -805,61 +738,49 @@
             // 조건절 정리
             $condition = $this->getCondition ($output);
 
-			$check_click_count_condition = false;	
-			if ($check_click_count) 
-            {
-				foreach ($output->conditions as $val) 
-                {
-					if ($val['pipe'] == 'or') 
-                    {
-						$check_click_count_condition = false;
-						break;
-					}
-                    
-					foreach ($val['condition'] as $v) 
-                    {
-						if ($v['operation'] == 'equal')
-                        {
+            $check_click_count_condition = false;
+            if ($check_click_count) {
+                foreach ($output->conditions as $val) {
+                    if ($val['pipe'] == 'or') {
+                        $check_click_count_condition = false;
+                        break;
+                    }
+
+                    foreach ($val['condition'] as $v) {
+                        if ($v['operation'] == 'equal') {
                             $check_click_count_condition = true;
-						}
-                        else
-                        {
-							if ($v['operation'] == 'in' && !strpos ($v['value'], ',')) 
-                            { 
+                        }
+                        else {
+                            if ($v['operation'] == 'in' && !strpos ($v['value'], ',')) { 
                                 $check_click_count_condition = true;
                             }
-							else
-                            {
+                            else {
                                 $check_click_count_condition = false;
                             }
-						}
+                        }
 
-						if ($v['pipe'] == 'or') 
-                        {
-							$check_click_count_condition = false;
-							break;
-						}
-					}
-				}
-			}
+                        if ($v['pipe'] == 'or') {
+                            $check_click_count_condition = false;
+                            break;
+                        }
+                    }
+                }
+            }
 
-			if ($check_click_count&& $check_click_count_condition && count ($output->tables) == 1 && count ($output->conditions) > 0 && count ($output->groups) == 0 && count ($output->order) == 0) 
-            { 
-                foreach ($output->columns as $v)
-                {
+            if ($check_click_count&& $check_click_count_condition && count ($output->tables) == 1 && count ($output->conditions) > 0 && count ($output->groups) == 0 && count ($output->order) == 0) { 
+                foreach ($output->columns as $v) {
                     $incr_columns[] = 'incr("'.$v['name'].'")';
-				}
-                
+                }
+
                 $query = sprintf ('select %s from %s %s', join (',', $incr_columns), implode(',', $table_list), $condition);
             }
-            else 
-            {
+            else {
                 $query = sprintf ("update %s set %s %s", implode (',', $table_list), implode (',', $column_list), $condition);
-			}
+            }
 
             $result = $this->_query ($query);
             if ($result && !$this->transaction_started) @cubrid_commit ($this->fd);
-            
+
             return $result;
         }
 
@@ -869,8 +790,7 @@
         function _executeDeleteAct ($output) 
         {
             // 테이블 정리
-            foreach ($output->tables as $val) 
-            {
+            foreach ($output->tables as $val) {
                 $table_list[] = '"'.$this->prefix.$val.'"';
             }
 
@@ -880,7 +800,7 @@
             $query = sprintf ("delete from %s %s", implode (',',$table_list), $condition);
             $result = $this->_query ($query);
             if ($result && !$this->transaction_started) @cubrid_commit ($this->fd);
-            
+
             return $result;
         }
 
@@ -894,8 +814,7 @@
         {
             // 테이블 정리
             $table_list = array ();
-            foreach ($output->tables as $key => $val) 
-            {
+            foreach ($output->tables as $key => $val) {
                 $table_list[] = '"'.$this->prefix.$val.'" as "'.$key.'"';
             }
 
@@ -903,59 +822,45 @@
             // why???
             $left_tables = (array) $output->left_tables;
 
-            foreach ($left_tables as $key => $val) 
-            {
+            foreach ($left_tables as $key => $val) {
                 $condition = $this->_getCondition ($output->left_conditions[$key], $output->column_type, &$output);
-                if ($condition) 
-                {
+                if ($condition) {
                     $left_join[] = $val.' "'.$this->prefix.$output->_tables[$key].  '" "'.$key.'" on ('.$condition.')';
                 }
             }
 
-            if (!$output->columns) 
-            {
+            if (!$output->columns) {
                 $columns = '*';
             } 
-            else 
-            {
+            else {
                 $column_list = array ();
-                foreach ($output->columns as $key => $val) 
-                {
+                foreach ($output->columns as $key => $val) {
                     $name = $val['name'];
 
                     $click_count = '%s';
-                    if ($val['click_count'] && count ($output->conditions) > 0) 
-                    {
+                    if ($val['click_count'] && count ($output->conditions) > 0) {
                         $click_count = 'incr(%s)';
                     }
-					
+
                     $alias = $val['alias'] ? sprintf ('"%s"', $val['alias']) : null;
-                    
-                    if ($name == '*') 
-                    {
+
+                    if ($name == '*') {
                         $column_list[] = $name;
                     }
-                    elseif (strpos ($name, '.') === false && strpos ($name, '(') === false) 
-                    { 
+                    elseif (strpos ($name, '.') === false && strpos ($name, '(') === false) { 
                         $name = sprintf ($click_count,$name);
-                        if ($alias)
-                        {
+                        if ($alias) {
                             $column_list[] = sprintf('"%s" as %s', $name, $alias);
                         }
-                        else
-                        {
+                        else {
                             $column_list[] = sprintf ('"%s"', $name);
                         }
                     } 
-                    else 
-                    {
-                        if (strpos ($name, '.') != false) 
-                        {
+                    else {
+                        if (strpos ($name, '.') != false) {
                             list ($prefix, $name) = explode('.', $name);
-                            if (($now_matchs = preg_match_all ("/\(/", $prefix, $xtmp)) > 0) 
-                            {
-                                if ($now_matchs == 1) 
-                                {
+                            if (($now_matchs = preg_match_all ("/\(/", $prefix, $xtmp)) > 0) {
+                                if ($now_matchs == 1) {
                                     $tmpval = explode ("(", $prefix);
                                     $tmpval[1] = sprintf ('"%s"', $tmpval[1]);
                                     $prefix = implode ("(", $tmpval);
@@ -964,8 +869,7 @@
                                     $name = implode (")", $tmpval);
                                 }
                             }
-                            else 
-                            {
+                            else {
                                 $prefix = sprintf ('"%s"', $prefix);
                                 $name = ($name == '*') ? $name : sprintf('"%s"',$name);
                             }
@@ -973,38 +877,32 @@
                             $now_matchs = null;
                             $column_list[] = sprintf ($click_count, sprintf ('%s.%s', $prefix, $name)) .  ($alias ? sprintf (' as %s',$alias) : '');
                         }
-                        elseif (($now_matchs = preg_match_all ("/\(/", $name, $xtmp)) > 0) 
-                        {
-                            if ($now_matchs == 1 && preg_match ("/[a-zA-Z0-9]*\(\*\)/", $name) < 1) 
-                            {
+                        elseif (($now_matchs = preg_match_all ("/\(/", $name, $xtmp)) > 0) {
+                            if ($now_matchs == 1 && preg_match ("/[a-zA-Z0-9]*\(\*\)/", $name) < 1) {
                                 $open_pos = strpos ($name, "(");
                                 $close_pos = strpos ($name, ")");
-                                
-                                if (preg_match ("/,/", $name)) 
-                                {
+
+                                if (preg_match ("/,/", $name)) {
                                     $tmp_func_name = sprintf ('%s', substr ($name, 0, $open_pos));
                                     $tmp_params = sprintf ('%s', substr ($name, $open_pos + 1, $close_pos - $open_pos - 1));
                                     $tmpval = null;
                                     $tmpval = explode (',', $tmp_params);
-                                    
-                                    foreach ($tmpval as $tmp_param) 
-                                    {
+
+                                    foreach ($tmpval as $tmp_param) {
                                         $tmp_param_list[] = (!is_numeric ($tmp_param)) ? sprintf ('"%s"', $tmp_param) : $tmp_param;
                                     }
-                                    
+
                                     $tmpval = implode (',', $tmp_param_list);
                                     $name = sprintf ('%s(%s)', $tmp_func_name, $tmpval);
                                 }
-                                else 
-                                {
+                                else {
                                     $name = sprintf ('%s("%s")', substr ($name, 0, $open_pos), substr ($name, $open_pos + 1, $close_pos - $open_pos - 1));
                                 }
                             }
-                            
+
                             $column_list[] = sprintf ($click_count, $name).  ($alias ? sprintf (' as %s', $alias) : '');
                         } 
-                        else 
-                        {
+                        else {
                             $column_list[] = sprintf($click_count, $name).  ($alias ? sprintf(' as %s',$alias) : '');
                         }
                     }
@@ -1014,44 +912,36 @@
 
             $condition = $this->getCondition ($output);
 
-            if ($output->list_count && $output->page)
-            {
+            if ($output->list_count && $output->page) {
                 return ($this->_getNavigationData($table_list, $columns, $left_join, $condition, $output));
             }
-            
-			if($output->order) 
-            {
-				$conditions = $this->getConditionList($output);
-				//if(in_array('list_order', $conditions) || in_array('update_order', $conditions)) {
-					foreach($output->order as $key => $val) 
-                    {
-						$col = $val[0];
-						if(!in_array($col, array('list_order','update_order'))) continue;
-						if($condition) $condition .= sprintf(' and %s < 2100000000 ', $col);
-						else $condition = sprintf(' where %s < 2100000000 ', $col);
-					}
-				//}
-			}
+
+            if ($output->order) {
+                $conditions = $this->getConditionList($output);
+                //if(in_array('list_order', $conditions) || in_array('update_order', $conditions)) {
+                    foreach($output->order as $key => $val) {
+                        $col = $val[0];
+                        if(!in_array($col, array('list_order','update_order'))) continue;
+                        if ($condition) $condition .= sprintf(' and %s < 2100000000 ', $col);
+                        else $condition = sprintf(' where %s < 2100000000 ', $col);
+                    }
+                //}
+            }
 
             $query = sprintf ("select %s from %s %s %s", $columns, implode (',',$table_list), implode (' ',$left_join), $condition);
 
-            if (count ($output->groups)) 
-            {
-                foreach ($output->groups as $key => $value) 
-                {
-                    if (strpos ($value, '.')) 
-                    {
+            if (count ($output->groups)) {
+                foreach ($output->groups as $key => $value) {
+                    if (strpos ($value, '.')) {
                         $tmp = explode ('.', $value);
                         $tmp[0] = sprintf ('"%s"', $tmp[0]);
                         $tmp[1] = sprintf ('"%s"', $tmp[1]);
                         $value = implode ('.', $tmp);
                     }
-                    elseif (strpos ($value, '('))
-                    {
+                    elseif (strpos ($value, '(')) {
                         $value = $value;
                     }
-                    else
-                    {
+                    else {
                         $value = sprintf ('"%s"', $value);
                     }
                     $output->groups[$key] = $value;
@@ -1060,15 +950,12 @@
             }
 
             // list_count를 사용할 경우 적용
-            if ($output->list_count['value']) 
-            {
+            if ($output->list_count['value']) {
                 $start_count = 0;
                 $list_count = $output->list_count['value'];
 
-                if ($output->order) 
-                {
-                  foreach ($output->order as $val) 
-                  {
+                if ($output->order) {
+                  foreach ($output->order as $val) {
                       if (strpos ($val[0], '.')) {
                           $tmpval = explode ('.', $val[0]);
                           $tmpval[0] = sprintf ('"%s"', $tmpval[0]);
@@ -1084,33 +971,24 @@
                       $query .= ' order by '.implode(',', $index_list);
                       $query = sprintf ('%s for orderby_num() between %d and %d', $query, $start_count + 1, $list_count + $start_count);
                 }
-                else 
-                {
-                    if (count ($output->groups))
-                    {
+                else {
+                    if (count ($output->groups)) {
                         $query = sprintf ('%s having groupby_num() between %d'.  ' and %d', $query, $start_count + 1, $list_count + $start_count);
                     }
-                    else
-                    {
-                        if ($condition) 
-                        {
+                    else {
+                        if ($condition) {
                             $query = sprintf ('%s and inst_num() between %d'.  ' and %d', $query, $start_count + 1, $list_count + $start_count);
                         }
-                        else 
-                        {
+                        else {
                             $query = sprintf ('%s where inst_num() between %d'.  ' and %d', $query, $start_count + 1, $list_count + $start_count);
                         }
                     }
                 }
             }
-            else 
-            {
-                if ($output->order) 
-                {
-                    foreach ($output->order as $val) 
-                    {
-                        if (strpos ($val[0], '.')) 
-                        {
+            else {
+                if ($output->order) {
+                    foreach ($output->order as $val) {
+                        if (strpos ($val[0], '.')) {
                             $tmpval = explode ('.', $val[0]);
                             $tmpval[0] = sprintf ('"%s"', $tmpval[0]);
                             $tmpval[1] = sprintf ('"%s"', $tmpval[1]);
@@ -1121,22 +999,21 @@
                         else $val[0] = sprintf ('"%s"', $val[0]);
                         $index_list[] = sprintf('%s %s', $val[0], $val[1]);
                     }
-                    
-                    if (count ($index_list)) 
-                    {
+
+                    if (count ($index_list)) {
                         $query .= ' order by '.implode(',', $index_list);
                     }
                 }
             }
 
-			$query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
+            $query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
             $result = $this->_query ($query);
             if ($this->isError ()) return;
             $data = $this->_fetch ($result);
 
             $buff = new Object ();
             $buff->data = $data;
-            
+
             return $buff;
         }
 
@@ -1202,11 +1079,9 @@
 
             $count_condition = count($output->groups) ? sprintf('%s group by %s', $condition, implode(', ', $output->groups)) : $condition;
             $total_count = $this->getCountCache($output->tables, $count_condition);
-            if($total_count === false) 
-            {
+            if ($total_count === false) {
                 $count_query = sprintf('select count(*) as "count" from %s %s %s', implode(', ', $table_list), implode(' ', $left_join), $count_condition);
-                if (count($output->groups))
-                {
+                if (count($output->groups)) {
                     $count_query = sprintf('select count(*) as "count" from (%s) xet', $count_query);
                 }
 
@@ -1218,19 +1093,17 @@
             }
 
             $list_count = $output->list_count['value'];
-            if(!$list_count) $list_count = 20;
+            if (!$list_count) $list_count = 20;
             $page_count = $output->page_count['value'];
-            if(!$page_count) $page_count = 10;
+            if (!$page_count) $page_count = 10;
             $page = $output->page['value'];
-            if(!$page) $page = 1;
+            if (!$page) $page = 1;
 
             // 전체 페이지를 구함
-            if ($total_count)
-            {
+            if ($total_count) {
                 $total_page = (int) (($total_count - 1) / $list_count) + 1;
             }
-            else
-            {
+            else {
                 $total_page = 1;
             }
 
@@ -1238,28 +1111,23 @@
             if ($page > $total_page) $page = $total_page;
             $start_count = ($page - 1) * $list_count;
 
-			if($output->order) 
-            {
-				$conditions = $this->getConditionList($output);
-				//if(in_array('list_order', $conditions) || in_array('update_order', $conditions)) {
-					foreach($output->order as $key => $val) 
-                    {
-						$col = $val[0];
-						if(!in_array($col, array('list_order','update_order'))) continue;
-						if($condition) $condition .= sprintf(' and %s < 2100000000 ', $col);
-						else $condition = sprintf(' where %s < 2100000000 ', $col);
-					}
-				//}
-			}
+            if ($output->order) {
+                $conditions = $this->getConditionList($output);
+                //if(in_array('list_order', $conditions) || in_array('update_order', $conditions)) {
+                    foreach ($output->order as $key => $val) {
+                        $col = $val[0];
+                        if(!in_array($col, array('list_order','update_order'))) continue;
+                        if($condition) $condition .= sprintf(' and %s < 2100000000 ', $col);
+                        else $condition = sprintf(' where %s < 2100000000 ', $col);
+                    }
+                //}
+            }
 
             $query = sprintf ("select %s from %s %s %s", $columns, implode (',', $table_list), implode(' ', $left_join), $condition);
 
-            if (count ($output->groups))
-            {
-                foreach ($output->groups as $key => $value) 
-                {
-                    if (strpos ($value, '.')) 
-                    {
+            if (count ($output->groups)) {
+                foreach ($output->groups as $key => $value) {
+                    if (strpos ($value, '.')) {
                         $tmp = explode ('.', $value);
                         $tmp[0] = sprintf ('"%s"', $tmp[0]);
                         $tmp[1] = sprintf ('"%s"', $tmp[1]);
@@ -1269,16 +1137,13 @@
                     else $value = sprintf ('"%s"', $value);
                     $output->groups[$key] = $value;
                 }
-                
+
                 $query .= sprintf (' group by %s', implode (',', $output->groups));
             }
 
-            if ($output->order) 
-            {
-                foreach ($output->order as $val) 
-                {
-                    if (strpos ($val[0], '.')) 
-                    {
+            if ($output->order) {
+                foreach ($output->order as $val) {
+                    if (strpos ($val[0], '.')) {
                         $tmpval = explode ('.', $val[0]);
                         $tmpval[0] = sprintf ('"%s"', $tmpval[0]);
                         $tmpval[1] = sprintf ('"%s"', $tmpval[1]);
@@ -1289,38 +1154,31 @@
                     else $val[0] = sprintf ('"%s"', $val[0]);
                     $index_list[] = sprintf ('%s %s', $val[0], $val[1]);
                 }
-                
-                if (count ($index_list)) 
-                {
+
+                if (count ($index_list)) {
                     $query .= ' order by '.implode(',', $index_list);
                 }
-                
+
                 $query = sprintf ('%s for orderby_num() between %d and %d', $query, $start_count + 1, $list_count + $start_count);
             }
-            else 
-            {
-                if (count($output->groups)) 
-                {
+            else {
+                if (count($output->groups)) {
                     $query = sprintf ('%s having groupby_num() between %d and %d', $query, $start_count + 1, $list_count + $start_count);
                 }
-                else 
-                {
-                    if ($condition) 
-                    {
+                else {
+                    if ($condition) {
                         $query = sprintf ('%s and inst_num() between %d and %d', $query, $start_count + 1, $list_count + $start_count);
                     }
-                    else
-                    {
+                    else {
                         $query = sprintf('%s where inst_num() between %d and %d', $query, $start_count + 1, $list_count + $start_count);
                     }
                 }
             }
 
-			$query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
+            $query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
             $result = $this->_query ($query);
-            
-            if ($this->isError ()) 
-            {
+
+            if ($this->isError ()) {
                 $buff = new Object ();
                 $buff->total_count = 0;
                 $buff->total_page = 0;
@@ -1328,23 +1186,20 @@
                 $buff->data = array ();
 
                 $buff->page_navigation = new PageHandler ($total_count, $total_page, $page, $page_count);
-                
+
                 return $buff;
             }
 
             $virtual_no = $total_count - ($page - 1) * $list_count;
-            while($tmp = cubrid_fetch ($result, CUBRID_OBJECT)) 
-            {
-                if($tmp)
-                {
-                    foreach($tmp as $k => $v)
-                    {
+            while ($tmp = cubrid_fetch ($result, CUBRID_OBJECT)) {
+                if ($tmp) {
+                    foreach ($tmp as $k => $v) {
                         $tmp->{$k} = rtrim($v);
                     }
                 }
                 $data[$virtual_no--] = $tmp;
             }
-            
+
             $buff = new Object ();
             $buff->total_count = $total_count;
             $buff->total_page = $total_page;
