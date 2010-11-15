@@ -540,6 +540,7 @@
             // 필수 정보들을 미리 추출
             $args = Context::gets('user_id','user_name','nick_name','homepage','blog','birthday','email_address','password','allow_mailing','find_account_question','find_account_answer');
             $args->member_srl = getNextSequence();
+			$args->list_order = -1 * $args->member_srl;
 
             // 넘어온 모든 변수중에서 몇가지 불필요한 것들 삭제
             $all_args = Context::getRequestVars();
