@@ -2095,10 +2095,10 @@ FileUpload = xe.createPlugin('FileUpload', {
 	activate : function() {
 		var self = this, app = this.oApp, $tb = app.$toolbar;
 
-		this.$modal_box = app.$root.find('div.xdlw');
+		this.$modal_box = app.$root.find('div.xdmw');
 
 		if (this.$modal_box.length) {
-			this.$attach_list = this.$modal_box.find('div.xdal');
+			this.$attach_list = this.$modal_box.find('div.al');
 			this.$attach_list
 				.mousedown(function(event){ event.stopPropagation(); })
 				.find('button.btn.cs')
@@ -2304,9 +2304,9 @@ FileUpload = xe.createPlugin('FileUpload', {
 							$item.find('button.ob > img')
 								.load(function(){
 									if(this.width > this.height){
-										$(this).css('width', '98px');
+										$(this).css('width', '100%');
 									} else {
-										$(this).css('height', '98px');
+										$(this).css('height', '100%');
 									}
 								})
 								.attr('src', f.download_url);
