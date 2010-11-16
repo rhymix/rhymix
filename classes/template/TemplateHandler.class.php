@@ -351,8 +351,8 @@
 				$next = substr($buff,$pos);
 
 				$pre_pos = strrpos($pre, '<');
-				$np = strpos($next,'"');
-				$next_pos = strpos(substr($next,$np), '>')+$np+1;
+				$np = strpos($next,'"',strpos($next,'"')+1);
+				$next_pos = strpos(substr($next,$np), '>')+$np;
 
 				$tag = substr($pre, $pre_pos). substr($next, 0, $next_pos);
 				$pre = substr($pre, 0, $pre_pos);
