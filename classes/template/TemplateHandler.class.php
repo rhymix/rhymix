@@ -351,7 +351,8 @@
 				$next = substr($buff,$pos);
 
 				$pre_pos = strrpos($pre, '<');
-				$next_pos = strpos($next, '<');
+				$np = strpos($next,'"');
+				$next_pos = strpos(substr($next,$np), '>')+$np+1;
 
 				$tag = substr($pre, $pre_pos). substr($next, 0, $next_pos);
 				$pre = substr($pre, 0, $pre_pos);
@@ -387,7 +388,8 @@
 						$tmp_buff = substr($next, 0, $close_pos+strlen('</'.$tag_name.'>'));
 						$tag .= $tmp_buff;
 						$next = substr($next, strlen($tmp_buff));
-						if(false === strpos($tmp_buff, '<'.$tag_name)) break;
+
+						if(substr_count($tag, '<'.$tag_name) == substr_count($tag,'</'.$tag_name)) break;
 					}
 					$buff = $pre.$tag_head.$tag.$tag_tail.$next;
 				}
