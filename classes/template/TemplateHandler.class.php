@@ -351,8 +351,10 @@
 				$next = substr($buff,$pos);
 
 				$pre_pos = strrpos($pre, '<');
-				$np = strpos($next,'"',strpos($next,'"')+1);
-				$next_pos = strpos(substr($next,$np), '>')+$np+1;
+
+				preg_match('/<(\/|[a-z])/i',$next,$m);
+				if(!$m[0]) return $buff;
+				$next_pos = strpos($next, $m[0]);
 
 				$tag = substr($pre, $pre_pos). substr($next, 0, $next_pos);
 				$pre = substr($pre, 0, $pre_pos);
