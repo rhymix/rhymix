@@ -258,6 +258,7 @@
 	$lang->edit->no_multimedia = '첨부된 동영상이 없습니다.';
 	$lang->edit->no_attachment = '첨부된 파일이 없습니다.';
 	$lang->edit->insert_selected = '선택 넣기';
+	$lang->edit->delete_selected = '선택 삭제';
 
 	$lang->edit->fieldset = '글상자';
 ?>

@@ -258,6 +258,7 @@
 	$lang->edit->no_multimedia = '目前沒有影片';
 	$lang->edit->no_attachment = '目前沒有附檔';
 	$lang->edit->insert_selected = '插入所選';
+	$lang->edit->delete_selected = '선택 삭제';
 
 	$lang->edit->fieldset = '區域';
 ?>

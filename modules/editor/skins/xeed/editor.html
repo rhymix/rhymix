@@ -1272,7 +1272,10 @@
 	<!-- Attach List -->
 	<div class="xdal" id="xdal">
 		<div class="iHead"> 
-			<h2>{$lang->edit->upload_list} <em>[<strong>0</strong>]</em></h2> 
+			<h2>{$lang->edit->upload_list} <em>[<strong>0</strong>]</em></h2>
+			<div class="btnArea fr">
+				<button type="button" class="btn cs" title="{$lang->cmd_close}">{$lang->cmd_close}</button>
+			</div>
 		</div> 
 		<div class="iBody"> 
 			<div class="sn img none"> 
@@ -1280,14 +1283,15 @@
 				<ul> 
 					<li> 
 						<button type="button" class="ob"><img src="about:blank" alt="" /></button> 
-						<button type="button" class="ctr ins" title="{$lang->edit->link_file}">{$lang->edit->link_file}</button> 
-						<button type="button" class="ctr del" title="{$lang->cmd_delete}">{$lang->cmd_delete}</button> 
+						<button type="button" class="ctr ins">{$lang->edit->link_file}</button>
+						<button type="button" class="ctr del" title="{$lang->cmd_delete}">X</button> <br />
 						<input name="" type="checkbox" value="" class="icx" id="img1" /> <label for="img1">@exThumbH.jpg</label> 
 					</li> 
 				</ul> 
 				<p class="task"> 
-					<button type="button" class="all" title="{$lang->cmd_select_all}">{$lang->cmd_select_all}</button> 
-					<button type="button" class="insert" title="{$lang->edit->insert_selected}">{$lang->edit->insert_selected}</button> 
+					<button type="button" class="all">{$lang->cmd_select_all}</button> 
+					<button type="button" class="insert">{$lang->edit->insert_selected}</button> 
+					<button type="button" class="delete">{$lang->edit->delete_selected}</button> 
 				</p> 
 				<p class="nofile">{$lang->edit->no_image}</p>
 			</div> 
@@ -1297,6 +1301,7 @@
 				<p class="task"> 
 					<button type="button" class="all" title="{$lang->cmd_select_all}">{$lang->cmd_select_all}</button> 
 					<button type="button" class="insert" title="{$lang->edit->insert_selected}">{$lang->edit->insert_selected}</button> 
+					<button type="button" class="delete">{$lang->edit->delete_selected}</button> 
 				</p> 
 				<p class="nofile">{$lang->edit->no_multimedia}</p>
 			</div> 
@@ -1306,16 +1311,14 @@
 				<p class="task"> 
 					<button type="button" class="all" title="{$lang->cmd_select_all}">{$lang->cmd_select_all}</button> 
 					<button type="button" class="insert" title="{$lang->edit->insert_selected}">{$lang->edit->insert_selected}</button> 
+					<button type="button" class="delete">{$lang->edit->delete_selected}</button> 
 				</p> 
 				<p class="nofile">{$lang->edit->no_attachment}</p>
 			</div> 
 		</div> 
 		<div class="iFoot"> 
-			<div class="btnArea fl"> 
-				<button type="button" class="btn at strong" title="{$lang->edit->upload_file}">{$lang->edit->upload_file}</button> 
-			</div> 
 			<div class="btnArea fr"> 
-				<button type="button" class="btn cs" title="{$lang->cmd_close}">{$lang->cmd_close}</button> 
+				<button type="button" class="btn at strong" title="{$lang->edit->upload_file}">{$lang->edit->upload_file}</button> 
 			</div> 
 		</div> 
 	</div>

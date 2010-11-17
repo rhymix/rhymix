@@ -2114,9 +2114,11 @@ FileUpload = xe.createPlugin('FileUpload', {
 						$par.find('button.ctr').addClass('show');
 					}
 				)
+				.delegate('button.ctr', 'focus', function(){ $(this).mouseover() })
 				.delegate('button.ctr', 'mouseout',
 					function(){ $(this).parent().find('button.ctr').removeClass('show'); }
 				)
+				.delegate('button.ctr', 'blur', function(){ $(this).mouseout() })
 				.delegate('button.ctr.ins', 'click',
 					function(){
 						var $this = $(this), $item = $this.parent(), file_url = $this.parent().data('url');
