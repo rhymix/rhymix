@@ -534,7 +534,7 @@ EndOfLicense;
     $lang->use_rewrite = 'リライト・モジュールを使用';
     $lang->use_sso = 'SSO';
     $lang->about_rewrite = 'Webサーバで「リライト・モジュール（mod_rewrite）」をサポートしている場合は、「http://アドレス/?document_srl=123」のようなアドレスを動的だけど「http://アドレス/123」のように静的なページに見せることが出来ます。';
-	$lang->about_sso = '사용자가 한 번만 로그인하면 기본 사이트와 가상 사이트에 동시에 로그인이 되는 기능입니다. 가상 사이트를 사용할 때만 필요합니다.';
+	$lang->about_sso = 'ユーザが一度のログインで基本サイトと仮想サイトに同時にログインされる機能です。仮想サイトの機能を使用してない場合、設定する必要がありません。';
     $lang->time_zone = 'タイムゾーン';
     $lang->about_time_zone = 'サーバの設定時間とサービスしているローカル時間との差がある場合、タイムゾーンを指定して表示時間を合わせることが出来ます。';
     $lang->qmail_compatibility = 'Qmail 互換';
