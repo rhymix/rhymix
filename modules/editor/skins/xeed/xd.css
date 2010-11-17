@@ -340,7 +340,7 @@ body{ height:100%;}
 /* XD Layer Window */
 .xdlw{ display:none; position:absolute; top:50%; left:50%; z-index:1000; color:#000;}
 .xdlw img{ border:0;}
-.xdlw .iHead{ background-position:0 -1140px; background-repeat:repeat-x; border-bottom:1px solid #ccc; font-size:12px; padding:10px 0; *zoom:1;}
+.xdlw .iHead{ background-position:0 -1140px; background-repeat:repeat-x; border-bottom:1px solid #ccc; font-size:12px; padding:10px 0; *zoom:1; cursor:move;}
 .xdlw .iHead:after{ content:""; display:block; clear:both;}
 .xdlw .iHead h2{ float:left; _display:inline; margin:0 0 0 20px; padding:0 0 0 20px; background-position:0 -257px; font-size:12px; height:16px; line-height:16px;}
 .xdlw .iHead h2 em{ font-weight:normal; font-style:normal; color:#ccc;}
@@ -349,14 +349,14 @@ body{ height:100%;}
 .xdlw .iHead .btnArea.fr{ float:right;}
 .xdlw .iBody{ position:relative;}
 .xdlw .iBody:after{ content:""; display:block; clear:both;}
-.xdlw .iFoot{ height:21px; line-height:21px; padding:10px 0; border-top:1px solid #ccc; background-position:0 -1140px; background-repeat:repeat-x;}
+.xdlw .iFoot{ height:21px; line-height:21px; padding:10px 0; border-top:1px solid #ccc; background-position:0 -1140px; background-repeat:repeat-x; cursor:move;}
 .xdlw .iFoot .btnArea{ margin:0 20px; *zoom:1;}
 .xdlw .iFoot .btnArea:after{ content:""; display:block; clear:both;}
 .xdlw .iFoot .btnArea.fl{ float:left;}
 .xdlw .iFoot .btnArea.fr{ float:right;}
 
 /* XD Layer Window - AL(Attached List) */
-.xdal{ display:none; width:780px; margin:-170px 0 0 -390px; background:#fff; border:3px solid #666; box-shadow:0 0 10px #999; -moz-box-shadow:0 0 10px #999; -webkit-box-shadow:0 0 10px #999;}
+.xdal{ display:none; width:780px; margin:-210px 0 0 -390px; background:#fff; border:3px solid #666; box-shadow:0 0 10px #999; -moz-box-shadow:0 0 10px #999; -webkit-box-shadow:0 0 10px #999;}
 .xdal .label{ width:190px; line-height:30px; font-weight:bold; margin:0; padding:0 0 0 24px;}
 .xdal .img .label{ background-position:0 -282px;}
 .xdal .mov .label{ background-position:0 -312px;}
