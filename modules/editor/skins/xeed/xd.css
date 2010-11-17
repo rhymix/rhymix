@@ -369,14 +369,11 @@ body{ height:100%;}
 .xdal .sn .ob img{ vertical-align:middle;}
 .xdal .sn .ob.ed{ background-color:#eee;}
 .xdal .sn .ctr{ position:absolute; top:8px; font-size:11px; white-space:nowrap; color:#666;}
-.xdal .sn .ctr.show{}
 .xdal .sn .ins{ right:20px;}
 .xdal .sn .del{ right:0; font-weight:bold;}
 .xdal .sn .task{ margin:0 10px 0 0; padding:8px 0 0 0; border-top:1px dotted #ccc;}
 .xdal .sn .task button{ padding:0 3px; height:21px; font-size:11px; border:1px solid #b5b5b5;}
 .xdal .sn .task .all{ padding-left:15px; background-position:-583px -257px;}
-.xdal .sn .task .insert{}
-.xdal .sn .task .delete{}
 .xdal .sn .task .up{ padding:0; border-bottom:1px solid;}
 .xdal .sn .progress{ display:none; width:40px; background:#ddd;}
 .xdal .sn .progress .bar{ display:block; background:#23cb24; height:6px;}
