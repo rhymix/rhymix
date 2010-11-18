@@ -309,7 +309,7 @@
             if(!file_exists($cache_file)) return new Object(-1, 'msg_invalid_queryid');
 
             if($source_args) $args = @clone($source_args);
-$this->source_args = $args;
+
             $output = @include($cache_file);
 
             if( (is_a($output, 'Object') || is_subclass_of($output, 'Object')) && !$output->toBool()) return $output;
