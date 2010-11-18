@@ -29,9 +29,10 @@ body{height:100%}
 .xd .tool,
 .xd .mode,
 .xd .resize,
-.xd .tool .mo,
 .xd .t1 .u1,
-.xd .t1 .u1 .tb,
+.xd .t1 .u1 .tb .img,
+.xd .t1 .u1 .tb .media,
+.xd .t1 .u1 .tb .file,
 .xd .t1 .u2,
 .xd .t2 .tb,
 .xd .t2 .btn,
@@ -44,17 +45,19 @@ body{height:100%}
 .xdlw .iFoot,
 .xdlw .iHead h2,
 .xdlw .btn,
-.xdlw .label,
-.xdlw .movie .ob,
-.xdlw .file .ob,
-.xdlw .sn .task .all{background-image:url(xd.gif);background-repeat:no-repeat}
+.xdal .label,
+.xdal .movie .ob,
+.xdal .file .ob,
+.xdal .sn .task .all,
+.xdal .sn .ctr{background-image:url(xd.gif);background-repeat:no-repeat}
 /* Font Family */
 .xd .tool .t1 .tb,
 .xd .tool .t2 .hx .lr button,
 .xd .tool .t2 .u6 .sc .lr .tab,
 .xd .edit,
 .xdal .sn .ctr,
-.xdal .sn .task button{font-family:Dotum, 돋움, Tahoma, Geneva, sans-serif}
+.xdal .sn .task button,
+.xdal .iFoot .info{font-family:Dotum, 돋움, Tahoma, Geneva, sans-serif}
 .xd .tool .itx,
 .xd .tool .t2 .u6 .te .lr .cn li button,
 .xd .tool .t2 .u6 .te .lr .wh td button,
@@ -63,11 +66,14 @@ body{height:100%}
 .xdlw .iHead h2 em,
 .xdlw label{font-family:Tahoma, Geneva, sans-serif}
 /* Hidden Text */
-.xd .tool .mo span,
-.xd .tool .t2 .tb span,
-.xd .tool .t2 .u3 .cr .lr li button span,
-.xd .tool .t2 .u6 .te .lr .cn button span,
-.xd .mode .resize span{position:absolute;top:0;left:0;width:1px;height:1px;overflow:hidden;font-size:0;line-height:0;z-index:-1}
+.xd .t1 .tb .img span,
+.xd .t1 .tb .media span,
+.xd .t1 .tb .file span,
+.xd .t2 .tb span,
+.xd .t2 .u3 .cr .lr li button span,
+.xd .t2 .u6 .te .lr .cn button span,
+.xd .mode .resize span,
+.xdal .sn .ctr span{position:absolute;top:0;left:0;width:1px;height:1px;overflow:hidden;font-size:0;line-height:0;z-index:-1}
 /* Label Input OverWrap */
 .xd .tool .liow{position:relative;background:#fff}
 .xd .tool .liow label{position:absolute;top:4px;left:6px;white-space:nowrap}
@@ -86,7 +92,6 @@ body{height:100%}
 .xd .mode ul button{padding:0 10px;font-size:11px}
 /* Tool - Common */
 .xd .tool{background-position:0 -1140px;background-repeat:repeat-x;background-color:#f4f4f4;position:relative;z-index:3}
-.xd .tool .mo{display:none;position:absolute;top:0;right:0;height:25px;width:16px;background-position:-300px -252px}
 .xd .skip{position:absolute;display:block;top:0;left:0;width:1px;height:1px;overflow:hidden;color:#333;text-indent:1em;text-decoration:none;font-size:12px}
 .xd .skip:hover,
 .xd .skip:active,
@@ -95,59 +100,26 @@ body{height:100%}
 .xd .t1{position:relative;z-index:2;padding:0 15px 0 0;border-bottom:1px solid #e0dedf;*zoom:1}
 .xd .t1:after{content:"";display:block;clear:both}
 .xd .t1 .u1,
-.xd .t1 .u2{background-repeat:repeat-x;background-position:0 -1140px;position:relative;left:-1px;float:left;border:1px solid #e0dedf;border-bottom:0;border-left:0;margin:-1px 0 0 0}
-.xd .t1.c2 .u2{display:none}
-.xd .t1.ca .u1,
-.xd .t1.ca .u2{display:block}
-.xd .t1 .ti{float:left}
+.xd .t1 .u2{background-repeat:repeat-x;background-position:0 -1140px;float:left;display:inline;border:1px solid #e0dedf;border-bottom:0;border-left:0;margin:-1px 0 0 -1px}
+.xd .t1 .ti{float:left; border-left:1px solid #ddd;}
 .xd .t1 .ti.active{background-color:#e8e8e8;border:1px solid #e0dedf;border-top:0;border-bottom:0;margin:0 -1px}
-.xd .t1 .tb{display:inline-block;height:26px;line-height:26px;font-size:11px;text-decoration:none;vertical-align:top;color:#000}
-.xd .t1 .tb span{display:inline-block;padding:0 5px;white-space:nowrap;text-shadow:1px 1px 0 #f8f8f8}
-.xd .t1 .u1 .tb span{padding-left:21px}
-.xd .t1 .u1 .tb em{color:#ccc}
-.xd .t1 .u1 .tb em strong{color:#f60}
-.xd .t1 .u1 .al .tb{background:none}
-.xd .t1 .u1 .al .tb span{padding-left:10px}
-.xd .t1 .u1 .img .tb{background-position:5px -282px}
-.xd .t1 .u1 .mov .tb{background-position:6px -312px}
-.xd .t1 .u1 .file .tb{background-position:6px -342px}
+.xd .t1 .tb{display:inline-block;padding:0 8px;height:26px;line-height:26px;font-size:11px;text-decoration:none;vertical-align:top;color:#000}
+.xd .t1 .tb span{display:inline-block;white-space:nowrap;text-shadow:1px 1px 0 #f8f8f8}
+.xd .t1 .u1 .tb strong{color:#f60}
+.xd .t1 .u1 .al .tb span{ padding:0 0 0 22px;}
+.xd .t1 .u1 .al .tb .all{ padding:0;}
+.xd .t1 .u1 .al .img{background-position:5px -282px}
+.xd .t1 .u1 .al .media{background-position:6px -312px}
+.xd .t1 .u1 .al .file{background-position:6px -342px}
 /* Tool - 2 */
 .xd .t2{position:relative;z-index:2;border-top:1px solid #e0dedf;border-bottom:1px solid #b5b5b5;padding:5px 10px 0 5px;margin:-1px 0 0 0;*zoom:1}
 .xd .t2:after{content:"";display:block;clear:both}
-.xd .t2 .mo{top:3px}
 .xd .t2 .u1,
 .xd .t2 .u2,
 .xd .t2 .u3,
 .xd .t2 .u4,
 .xd .t2 .u5,
 .xd .t2 .u6{float:left;position:relative;margin:0 5px 0 0;padding:0 0 5px 0;*zoom:1}
-.xd .t2 .u1:after,
-.xd .t2 .u2:after,
-.xd .t2 .u3:after,
-.xd .t2 .u4:after,
-.xd .t2 .u5:after,
-.xd .t2 .u6:after{content:"";display:block;clear:both}
-.xd .t2.c23456 .u2,
-.xd .t2.c23456 .u3,
-.xd .t2.c23456 .u4,
-.xd .t2.c23456 .u5,
-.xd .t2.c23456 .u6,
-.xd .t2.c3456 .u3,
-.xd .t2.c3456 .u4,
-.xd .t2.c3456 .u5,
-.xd .t2.c3456 .u6,
-.xd .t2.c456 .u4,
-.xd .t2.c456 .u5,
-.xd .t2.c456 .u6,
-.xd .t2.c56 .u5,
-.xd .t2.c56 .u6,
-.xd .t2.c6 .u6{display:none}
-.xd .t2.ca .u1,
-.xd .t2.ca .u2,
-.xd .t2.ca .u3,
-.xd .t2.ca .u4,
-.xd .t2.ca .u5,
-.xd .t2.ca .u6{display:block}
 .xd .t2 .ti{float:left;border:1px solid #b5b5b5;margin:0 -1px 0 0;font-size:0;position:relative}
 .xd .t2 .ti.hover{border-color:#666;z-index:100;box-shadow:0 0 2px #bbb;-moz-box-shadow:0 0 2px #bbb;-webkit-box-shadow:0 0 2px #bbb}
 .xd .t2 .ti.active{border-color:#333;z-index:100}
@@ -331,42 +303,35 @@ body{height:100%}
 .xdlw .iHead .btnArea.fr{float:right}
 .xdlw .iBody{position:relative}
 .xdlw .iBody:after{content:"";display:block;clear:both}
-.xdlw .iFoot{height:21px;line-height:21px;padding:10px 0;border-top:1px solid #ccc;background-position:0 -1140px;background-repeat:repeat-x;cursor:move}
+.xdlw .iFoot{padding:10px 0;border-top:1px solid #ccc;background-position:0 -1140px;background-repeat:repeat-x;cursor:move}
+.xdlw .iFoot:after{content:"";display:block;clear:both}
 .xdlw .iFoot .btnArea{margin:0 20px;*zoom:1}
 .xdlw .iFoot .btnArea:after{content:"";display:block;clear:both}
 .xdlw .iFoot .btnArea.fl{float:left}
 .xdlw .iFoot .btnArea.fr{float:right}
 /* XD Layer Window - AL(Attached List) */
 .xdal{display:none;width:780px;margin:-210px 0 0 -390px;background:#fff;border:3px solid #666;box-shadow:0 0 10px #999;-moz-box-shadow:0 0 10px #999;-webkit-box-shadow:0 0 10px #999}
-.xdal .label{width:190px;line-height:30px;font-weight:bold;margin:0;padding:0 0 0 24px}
-.xdal .img .label{background-position:0 -282px}
-.xdal .movie .label{background-position:0 -312px}
-.xdal .file .label{background-position:0 -342px}
-.xdal .sn{position:relative;padding:15px 0 15px 20px;width:239px;height:300px;float:left;border-left:1px solid #ddd;overflow:auto;overflow-x:hidden}
-.xdal .focusImg .sn,
-.xdal .focusMov .sn,
-.xdal .focusFile .sn{opacity:.4;filter:alpha(opacity=40;)}
-.xdal .focusImg .img,
-.xdal .focusMov .movie,
-.xdal .focusFile .file{border:3px solid #ddd;width:237px;padding:12px 0 12px 17px;opacity:1;filter:alpha(opacity=100;);box-shadow:inset 0 0 3px #000;-moz-box-shadow:inset 0 0 3px #000;-webkit-box-shadow:inset 0 0 3px #000;}
-.xdal .sn ul{margin:0 10px 0 0;padding:0;*zoom:1}
+.xdal .iFoot .info{ margin:0; float:left; font-size:11px; line-height:normal; padding:0 0 0 20px; color:#666;}
+.xdal .label{line-height:30px;font-weight:bold;margin:0;padding:0 0 0 24px;font-size:12px;}
+.xdal .img .label{background-position:0 -280px}
+.xdal .movie .label{background-position:0 -310px}
+.xdal .file .label{background-position:0 -340px}
+.xdal .sn{position:relative;padding:10px 20px 15px 20px;width:219px;float:left;border-left:1px solid #ddd}
+.xdal .sn .nofile{display:none;padding:1em 0; margin:0; color:#767676;border-top:1px dotted #ccc;}
+.xdal .sn ul{height:290px; margin:0;padding:0;*zoom:1;overflow:auto;overflow-x:hidden;border-top:1px dotted #ccc;}
 .xdal .sn ul:after{content:"";display:block;clear:both}
-.xdal .sn li{position:relative;list-style:none;vertical-align:top;margin:0;padding:8px 0;border-top:1px dotted #ccc;color:#666}
+.xdal .sn li{position:relative;top:-1px; list-style:none;vertical-align:top;margin:0;padding:8px 0;border-top:1px dotted #ccc;color:#666}
 .xdal .sn .ob{position:relative;text-decoration:none;white-space:nowrap;font-size:0;width:60px;height:60px;overflow:hidden;margin:0 0 5px 0;border:1px solid #ddd;text-align:center;vertical-align:top;line-height:58px;background:#fff}
 .xdal .sn .ob img{vertical-align:middle}
-.xdal .sn .ob.ed{background-color:#eee}
-.xdal .sn .ctr{position:absolute;top:8px;font-size:11px;white-space:nowrap;color:#666}
-.xdal .sn .ins{right:20px}
-.xdal .sn .del{right:0;font-weight:bold}
+.xdal .sn .ctr{position:absolute;top:8px; width:30px; height:30px;font-size:11px;white-space:nowrap;color:#666}
+.xdal .sn .ins{right:35px;background-position:-510px -250px;}
+.xdal .sn .del{right:5px;background-position:-540px -250px;}
 .xdal .sn .task{margin:0 10px 0 0;padding:8px 0 0 0;border-top:1px dotted #ccc}
-.xdal .sn .task button{padding:0 3px;height:21px;font-size:11px;border:1px solid #b5b5b5}
+.xdal .sn .task button{padding:0 3px; margin:0 0 2px 0;height:21px;font-size:11px;border:1px solid #b5b5b5}
 .xdal .sn .task .all{padding-left:15px;background-position:-583px -257px}
-.xdal .sn .task .up{padding:0;border-bottom:1px solid}
 .xdal .sn .progress{display:none;width:40px;background:#ddd}
 .xdal .sn .progress .bar{display:block;background:#23cb24;height:6px}
 .xdal .sn .uploading .progress{display:inline-block}
-.xdal .sn .nofile{display:none;color:#767676}
-.xdal .sn .nofile .up{font-size:12px;border-bottom:1px solid}
 .xdal .none .task{display:none}
 .xdal .none .nofile{display:block}
 .xdal .file .ob{text-indent:-900px}

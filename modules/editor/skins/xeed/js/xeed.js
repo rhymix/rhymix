@@ -2306,9 +2306,9 @@ FileUpload = xe.createPlugin('FileUpload', {
 							$item.find('button.ob > img')
 								.load(function(){
 									if(this.width > this.height){
-										$(this).css('width', '100%');
+										$(this).css('width', '54px');
 									} else {
-										$(this).css('height', '100%');
+										$(this).css('height', '54px');
 									}
 								})
 								.attr('src', f.download_url);

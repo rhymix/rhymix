@@ -28,25 +28,27 @@
 	<div class="tool"> 
 		<a href="#edit" class="skip">{$lang->edit->jumptoedit}</a> 
 		<div class="t1"> 
-			<button type="button" class="mo"><span>{$lang->edit->extension}</span></button> 
 			<ul class="u1"> 
-				<li class="ti al"><a href="#xdal" class="tb"><span>{$lang->edit->upload_list} <em>[<strong>0</strong>]</em></span></a></li> 
-				<li class="ti img"><a href="#xdal" class="tb"><span>{$lang->edit->image} <em>[<strong>0</strong>]</em></span></a></li> 
-				<li class="ti mov"><a href="#xdal" class="tb"><span>{$lang->edit->multimedia} <em>[<strong>0</strong>]</em></span></a></li> 
-				<li class="ti file"><a href="#xdal" class="tb"><span>{$lang->edit->file} <em>[<strong>0</strong>]</em></span></a></li> 
+				<li class="ti al">
+					<a href="#xdal" class="tb">
+						<span class="all">{$lang->edit->upload_list}</span>
+						<span class="img"><span>{$lang->edit->image}</span><strong>0</strong></span>
+						<span class="media"><span>{$lang->edit->multimedia}</span><strong>0</strong></span> 
+						<span class="file"><span>{$lang->edit->file}</span><strong>0</strong></span> 
+					</a>
+				</li>
 			</ul> 
             <!--@if($enable_component)-->
 			<!-- editor components -->
 			<ul class="u2">
-			<!--@foreach($component_list as $component_name => $component)-->
-			<li class="ti"><button type="button" class="tb" title="{$component->title}" id="component_{$editor_sequence}_{$component_name}"><!-- <img src="../../components/{$component_name}/component_icon.gif" width="13" height="12" /> --><span>{$component->title}</span></button></li>
-			<!--@end-->
+				<!--@foreach($component_list as $component_name => $component)-->
+				<li class="ti"><a href="#please_valid_url" class="tb" id="component_{$editor_sequence}_{$component_name}">{$component->title}</a></li>
+				<!--@end-->
 			</ul>
 			<!-- //editor components -->
 			<!--@end-->
 		</div> 
 		<div class="t2"> 
-			<button type="button" class="mo"><span>{$lang->edit->extension}</span></button> 
 			<ul class="u1"> 
 				<li class="ti ud disable"><button type="button" class="tb tn ud"><span>{$lang->edit->undo} Ctrl+Z</span></button></li> 
 				<li class="ti rd disable"><button type="button" class="tb tn rd da"><span>{$lang->edit->redo} Ctrl+Y</span></button></li> 
@@ -1277,14 +1279,15 @@
 				<button type="button" class="btn cs" title="{$lang->cmd_close}">{$lang->cmd_close}</button>
 			</div>
 		</div> 
-		<div class="iBody focusMov"> 
+		<div class="iBody"> 
 			<div class="sn img none"> 
-				<p class="label">{$lang->edit->image}</p> 
+				<h3 class="label">{$lang->edit->image}</h3> 
+				<p class="nofile">{$lang->edit->no_image}</p>
 				<ul> 
 					<li> 
 						<button type="button" class="ob"><img src="about:blank" alt="" /></button> 
-						<button type="button" class="ctr ins">{$lang->edit->link_file}</button>
-						<button type="button" class="ctr del" title="{$lang->cmd_delete}">X</button> <br />
+						<button type="button" class="ctr ins" title="{$lang->edit->link_file}"><span>{$lang->edit->link_file}</span></button>
+						<button type="button" class="ctr del" title="{$lang->cmd_delete}"><span>{$lang->cmd_delete}</span></button> <br />
 						<input name="" type="checkbox" value="" class="icx" id="img1" /> <label for="img1">@exThumbH.jpg</label> 
 					</li> 
 				</ul> 
@@ -1293,30 +1296,30 @@
 					<button type="button" class="insert">{$lang->edit->insert_selected}</button> 
 					<button type="button" class="delete">{$lang->edit->delete_selected}</button> 
 				</p> 
-				<p class="nofile">{$lang->edit->no_image}</p>
 			</div> 
 			<div class="sn movie none"> 
-				<p class="label">{$lang->edit->multimedia}</p> 
+				<h3 class="label">{$lang->edit->multimedia}</h3> 
+				<p class="nofile">{$lang->edit->no_multimedia}</p>
 				<ul></ul> 
 				<p class="task"> 
 					<button type="button" class="all" title="{$lang->cmd_select_all}">{$lang->cmd_select_all}</button> 
 					<button type="button" class="insert" title="{$lang->edit->insert_selected}">{$lang->edit->insert_selected}</button> 
 					<button type="button" class="delete">{$lang->edit->delete_selected}</button> 
 				</p> 
-				<p class="nofile">{$lang->edit->no_multimedia}</p>
 			</div> 
 			<div class="sn file none"> 
-				<p class="label">{$lang->edit->file}</p> 
+				<h3 class="label">{$lang->edit->file}</h3> 
+				<p class="nofile">{$lang->edit->no_attachment}</p>
 				<ul></ul> 
 				<p class="task"> 
 					<button type="button" class="all" title="{$lang->cmd_select_all}">{$lang->cmd_select_all}</button> 
 					<button type="button" class="insert" title="{$lang->edit->insert_selected}">{$lang->edit->insert_selected}</button> 
 					<button type="button" class="delete">{$lang->edit->delete_selected}</button> 
 				</p> 
-				<p class="nofile">{$lang->edit->no_attachment}</p>
 			</div> 
 		</div> 
-		<div class="iFoot"> 
+		<div class="iFoot">
+			<p class="info">{$upload_status}</p>
 			<div class="btnArea fr"> 
 				<button type="button" class="btn at strong" title="{$lang->edit->upload_file}">{$lang->edit->upload_file}</button> 
 			</div> 
