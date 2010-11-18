@@ -1,4 +1,7 @@
 <?php 
+if(!in_array($_SERVER['REMOTE_ADDR'], array('119.205.243.47','119.205.243.46','111.91.137.60','10.64.86.68','10.64.176.52'))) {
+//     header('location: ./work.html');    exit;
+}
     /**
      * @file  index.php
      * @author NHN (developers@xpressengine.com)

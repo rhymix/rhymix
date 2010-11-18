@@ -187,13 +187,18 @@
 
             // 쿼리 문 실행
             $result = @cubrid_execute ($this->fd, $query);
-            //if(!$result){ debugPrint('result null: ' .$query); }
+            if(!$result){ 
+            
+            debugPrint('result null: ' .$query); 
+            debugPrint($this->source_args); 
+            }
             // 오류 체크
             if (cubrid_error_code ()) {
                 $code = cubrid_error_code ();
                 $msg = cubrid_error_msg ();
 
-                //debugPrint('query error :  '. $code.', msg:'. $msg .', ' .$query);
+                debugPrint('query error :  '. $code.', msg:'. $msg .', ' .$query);
+                debugPrint($this->source_args); 
                 $this->setError ($code, $msg);
             }
 
