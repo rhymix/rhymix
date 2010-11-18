@@ -1,39 +1,52 @@
-function insertEmoticon(obj) {
-    if(typeof(opener)=='undefined') return;
+jQuery(function($){
 
-    var url = obj.src.replace(request_uri,'');
-	var text = "<img src=\""+url+"\" alt=\"emoticon\">";
-	
-    opener.editorFocus(opener.editorPrevSrl);
+var is_popup = window._isPoped;
 
-    var iframe_obj = opener.editorGetIFrame(opener.editorPrevSrl)
+/**
+ * @brief Get emoticon list by name
+ * @params String emoticon name
+ */
+function getEmoticons(emoName) {
+	var params    = {component:'emoticon', emoticon:emoName, method:'getEmoticonList'};
+	var resp_tags = 'error message emoticons'.split(' ');
 
-    opener.editorReplaceHTML(iframe_obj, text);
-    self.focus();
+	exec_xml('editor', 'procEditorCall', params, completeGetEmoticons, resp_tags);
 }
 
-/* 선택된 이모티콘 목록을 가져옴 */
-function getEmoticons(emoticon) {
-  var params = new Array();
-  params['component'] = "emoticon";
-  params['emoticon'] = emoticon;
-  params['method'] = "getEmoticonList";
-
-  var response_tags = new Array('error','message','emoticons');
-  exec_xml('editor', 'procEditorCall', params, completeGetEmoticons, response_tags);
-}
-
+/**
+ * @brief Load callback
+ */
 function completeGetEmoticons(ret_obj) {
     var emoticons = ret_obj['emoticons'].split("\n");
+    var html = [];
 
-    var zone = xGetElementById("popBody");
-    var html = "";
     for(var i=0;i<emoticons.length;i++) {
-        html += '<img src="./modules/editor/components/emoticon/tpl/images/'+emoticons[i]+'" onclick="insertEmoticon(this);return false;" class="emoticon" />';
+		html[html.length] = '<img src="./modules/editor/components/emoticon/tpl/images/'+emoticons[i]+'" class="emoticon" />';
     }
-    xInnerHtml(zone, html);
-    setFixedPopupSize();
-    setTimeout(setFixedPopupSize,1000);
+	jQuery('#popBody').html(html).delegate('img.emoticon', 'click', insertEmoticon);
+
+	if (_isPoped) {
+		setFixedPopupSize();
+		setTimeout(setFixedPopupSize,1000);
+	}
 }
 
-jQuery(window).load(function() { getEmoticons('msn'); });
+/**
+ * @brief  Insert a selected emoticon into the document
+ * @params Event jQuery event
+ */
+function insertEmoticon(event) {
+	var url, html, iframe, win = is_popup?opener:window;
+
+	if(!win) return;
+
+	win.editorFocus(opener.editorPrevSrl);
+	win.editorRelKeys[opener.editorPrevSrl].pasteHTML(html);
+
+	if (is_popup) self.focus();
+}
+
+// load default emoticon set
+getEmoticons('msn');
+
+});
