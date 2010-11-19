@@ -261,4 +261,5 @@
 	$lang->edit->delete_selected = '선택 삭제';
 
 	$lang->edit->fieldset = '區域';
+	$lang->edit->paragraph = '문단';
 ?>

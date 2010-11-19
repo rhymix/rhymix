@@ -258,4 +258,5 @@
 	$lang->edit->delete_selected = 'Delete Selected';
 
 	$lang->edit->fieldset = 'Fieldset';
+	$lang->edit->paragraph = 'Paragraph';
 ?>

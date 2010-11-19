@@ -254,4 +254,5 @@
 	$lang->edit->delete_selected = '선택 삭제';
 
 	$lang->edit->fieldset = '글상자';
+	$lang->edit->paragraph = '문단';
 ?>
