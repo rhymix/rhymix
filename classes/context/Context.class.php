@@ -1167,6 +1167,7 @@
          * @brief js file을 추가
          **/
         function _addJsFile($file, $targetie = '',$index=null,$type="head") {
+			if($type != 'body') $type = 'head';
             if(strpos($file,'://')===false && $file{0}!='/' && $file{0}!='.') $file = './'.$file;
 			$file = preg_replace('@/\./|(?<!:)\/\/@', '/', $file);
             while(strpos($file,'/../')) $file = preg_replace('/\/([^\/]+)\/\.\.\//s','/',$file,1);
@@ -1357,7 +1358,7 @@
                 $filename = trim($list[$i]);
                 if(!$filename) continue;
                 if(substr($filename,0,2)=='./') $filename = substr($filename,2);
-                if(preg_match('/\.js$/i',$filename)) $this->_addJsFile($plugin_path.$filename, '', null);
+                if(preg_match('/\.js$/i',$filename)) $this->_addJsFile($plugin_path.$filename, '', null, 'body');
                 elseif(preg_match('/\.css$/i',$filename)) $this->_addCSSFile($plugin_path.$filename, 'all','', null);
             }
 

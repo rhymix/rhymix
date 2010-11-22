@@ -40,7 +40,7 @@
 				if(Context::getRequestMethod()!='XMLRPC' && Context::getRequestMethod()!=='JSON')
 				{
 					Context::addHtmlHeader('<script type="text/javascript"> var captchaTargetAct = new Array("'.implode('","',$target_acts).'"); </script>');
-					Context::addJsFile('./addons/captcha/captcha.js',false);
+					Context::addJsFile('./addons/captcha/captcha.js',false, '', null, 'body');
 				}
 
 				// 게시판/ 이슈트래커의 글쓰기/댓글쓰기 액션 호출시 세션 비교
