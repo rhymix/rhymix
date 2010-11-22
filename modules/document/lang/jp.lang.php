@@ -95,6 +95,6 @@
         'trash_ipaddress' => '削除者のIPアドレス',
     );
 
-    $lang->success_trashed = "Successfully moved to trashcan";
-    $lang->msg_not_selected_document = '선택된 문서가 없습니다.';
+    $lang->success_trashed = "ごみ箱に移動させました。";
+    $lang->msg_not_selected_document = '選択された書き込みがありません。';
 ?>
