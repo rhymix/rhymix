@@ -139,10 +139,10 @@
     $lang->edit->multimedia = '影片';
     $lang->edit->emoticon = '表情符號';
 
-	$lang->edit->file = '파일';
+	$lang->edit->file = '檔案';
     $lang->edit->upload = '上傳';
     $lang->edit->upload_file = '上傳附檔';
-	$lang->edit->upload_list = '첨부 목록';
+	$lang->edit->upload_list = '檔案列表';
     $lang->edit->link_file = '插入檔案';
     $lang->edit->delete_selected = '刪除所選';
 
@@ -251,18 +251,18 @@
 	$lang->edit->table_size = '大小';
 	$lang->edit->table_width = '寬度';
 
-	$lang->edit->upper_left = '상단좌측';
-	$lang->edit->upper_center = '상단중앙';
-	$lang->edit->upper_right = '상단우측';
-	$lang->edit->bottom_left = '하단좌측';
-	$lang->edit->bottom_center = '하단중앙';
-	$lang->edit->bottom_right = '하단우측';
+	$lang->edit->upper_left = '左上方';
+	$lang->edit->upper_center = '正上方';
+	$lang->edit->upper_right = '右上方';
+	$lang->edit->bottom_left = '左下方';
+	$lang->edit->bottom_center = '正下方';
+	$lang->edit->bottom_right = '右下方';
 
 	$lang->edit->no_image = '目前沒有圖片';
 	$lang->edit->no_multimedia = '目前沒有影片';
 	$lang->edit->no_attachment = '目前沒有附檔';
 	$lang->edit->insert_selected = '插入所選';
-	$lang->edit->delete_selected = '선택 삭제';
+	$lang->edit->delete_selected = '刪除所選';
 
 	$lang->edit->fieldset = '區域';
 	$lang->edit->paragraph = '문단';
