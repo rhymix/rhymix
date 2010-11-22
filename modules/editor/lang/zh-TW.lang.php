@@ -85,7 +85,11 @@
     $lang->edit->submit = '確認';
 
     $lang->edit->fontcolor = '文字顏色';
+	$lang->edit->fontcolor_apply = '글자 색 적용';
+	$lang->edit->fontcolor_more = '글자 색 더보기';
     $lang->edit->fontbgcolor = '背景顏色';
+	$lang->edit->fontbgcolor_apply = '글자 배경색 적용';
+	$lang->edit->fontbgcolor_more = '글자 배경색 더보기';
     $lang->edit->bold = '粗體';
     $lang->edit->italic = '斜體';
     $lang->edit->underline = '底線';

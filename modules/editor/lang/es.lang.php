@@ -82,7 +82,11 @@
     $lang->edit->submit = 'Confirmar';
 
     $lang->edit->fontcolor = 'Text Color';
+	$lang->edit->fontcolor_apply = '글자 색 적용';
+	$lang->edit->fontcolor_more = '글자 색 더보기';
     $lang->edit->fontbgcolor = 'Background Color';
+	$lang->edit->fontbgcolor_apply = '글자 배경색 적용';
+	$lang->edit->fontbgcolor_more = '글자 배경색 더보기';
     $lang->edit->bold = 'Bold';
     $lang->edit->italic = 'Italic';
     $lang->edit->underline = 'Underline';
