@@ -218,8 +218,6 @@
             if(file_exists($db_config_file)) @include($db_config_file);
 
             if(!$db_info->time_zone) $db_info->time_zone = date("O");
-            if(!$db_info->use_optimizer || $db_info->use_optimizer != 'N') $db_info->use_optimizer = 'Y';
-            else $db_info->use_optimizer = 'N';
             if(!$db_info->qmail_compatibility || $db_info->qmail_compatibility != 'Y') $db_info->qmail_compatibility = 'N';
             else $db_info->qmail_compatibility = 'Y';
             if(!$db_info->use_ssl) $db_info->use_ssl = 'none';
@@ -1160,15 +1158,15 @@
         /**
          * @brief js file을 추가
          **/
-        function addJsFile($file, $optimized = true, $targetie = '',$index=null) {
+        function addJsFile($file, $optimized = false, $targetie = '',$index=null) {
             $oContext = &Context::getInstance();
-            return $oContext->_addJsFile($file, $optimized, $targetie,$index);
+            return $oContext->_addJsFile($file, $targetie,$index);
         }
 
         /**
          * @brief js file을 추가
          **/
-        function _addJsFile($file, $optimized = true, $targetie = '',$index=null) {
+        function _addJsFile($file, $targetie = '',$index=null) {
             if(strpos($file,'://')===false && $file{0}!='/' && $file{0}!='.') $file = './'.$file;
 			$file = preg_replace('@/\./|(?<!:)\/\/@', '/', $file);
             while(strpos($file,'/../')) $file = preg_replace('/\/([^\/]+)\/\.\.\//s','/',$file,1);
@@ -1177,23 +1175,23 @@
 
             if(is_null($index)) $index=count($this->js_files);
             for($i=$index;array_key_exists($i,$this->js_files);$i++);
-            $this->js_files[$i] = array('file' => $file, 'optimized' => $optimized, 'targetie' => $targetie);
+            $this->js_files[$i] = array('file' => $file, 'targetie' => $targetie);
         }
 
         /**
          * @brief js file을 제거
          **/
-        function unloadJsFile($file, $optimized = true, $targetie = '') {
+        function unloadJsFile($file, $optimized = false, $targetie = '') {
             $oContext = &Context::getInstance();
-            return $oContext->_unloadJsFile($file, $optimized, $targetie);
+            return $oContext->_unloadJsFile($file, $targetie);
         }
 
         /**
          * @brief js file을 제거
          **/
-        function _unloadJsFile($file, $optimized, $targetie) {
+        function _unloadJsFile($file, $targetie) {
             foreach($this->js_files as $key => $val) {
-                if(realpath($val['file'])==realpath($file) && $val['optimized'] == $optimized && $val['targetie'] == $targetie) {
+                if(realpath($val['file'])==realpath($file) && $val['targetie'] == $targetie) {
                     unset($this->js_files[$key]);
                     return;
                 }
@@ -1250,23 +1248,22 @@
          * @brief js file 목록을 return
          **/
         function _getJsFile() {
-            require_once(_XE_PATH_."classes/optimizer/Optimizer.class.php");
-            $oOptimizer = new Optimizer();
-            return $oOptimizer->getOptimizedFiles($this->_getUniqueFileList($this->js_files), "js");
+            $files = $this->_getUniqueFileList($this->js_files);
+			return $files;
         }
 
         /**
          * @brief CSS file 추가
          **/
-        function addCSSFile($file, $optimized = true, $media = 'all', $targetie = '',$index = null) {
+        function addCSSFile($file, $optimized = false, $media = 'all', $targetie = '',$index = null) {
             $oContext = &Context::getInstance();
-            return $oContext->_addCSSFile($file, $optimized, $media, $targetie,$index);
+            return $oContext->_addCSSFile($file, $media, $targetie,$index);
         }
 
         /**
          * @brief CSS file 추가
          **/
-        function _addCSSFile($file, $optimized = true, $media = 'all', $targetie = '', $index = null) {
+        function _addCSSFile($file, $media = 'all', $targetie = '', $index = null) {
             if(strpos($file,'://')===false && substr($file,0,1)!='/' && substr($file,0,1)!='.') $file = './'.$file;
             $file = str_replace(array('/./','//'),'/',$file);
             while(strpos($file,'/../')) $file = preg_replace('/\/([^\/]+)\/\.\.\//s','/',$file,1);
@@ -1277,23 +1274,23 @@
             for($i=$index;array_key_exists($i,$this->css_files);$i++);
 
             //if(preg_match('/^http:\/\//i',$file)) $file = str_replace(realpath("."), ".", realpath($file));
-            $this->css_files[$i] = array('file' => $file, 'optimized' => $optimized, 'media' => $media, 'targetie' => $targetie);
+            $this->css_files[$i] = array('file' => $file, 'media' => $media, 'targetie' => $targetie);
         }
 
         /**
          * @brief css file을 제거
          **/
-        function unloadCSSFile($file, $optimized = true, $media = 'all', $targetie = '') {
+        function unloadCSSFile($file, $optimized = false, $media = 'all', $targetie = '') {
             $oContext = &Context::getInstance();
-            return $oContext->_unloadCSSFile($file, $optimized, $media, $targetie);
+            return $oContext->_unloadCSSFile($file, $media, $targetie);
         }
 
         /**
          * @brief css file을 제거
          **/
-        function _unloadCSSFile($file, $optimized, $media, $targetie) {
+        function _unloadCSSFile($file, $media, $targetie) {
             foreach($this->css_files as $key => $val) {
-                if(realpath($val['file'])==realpath($file) && $val['optimized'] == $optimized && $val['media'] == $media && $val['targetie'] == $targetie) {
+                if(realpath($val['file'])==realpath($file) && $val['media'] == $media && $val['targetie'] == $targetie) {
                     unset($this->css_files[$key]);
                     return;
                 }
@@ -1324,9 +1321,8 @@
          * @brief CSS file 목록 return
          **/
         function _getCSSFile() {
-            require_once(_XE_PATH_."classes/optimizer/Optimizer.class.php");
-            $oOptimizer = new Optimizer();
-            return $oOptimizer->getOptimizedFiles($this->_getUniqueFileList($this->css_files), "css");
+            $files = $this->_getUniqueFileList($this->css_files);
+			return $files;
         }
 
         /**
@@ -1354,8 +1350,8 @@
                 $filename = trim($list[$i]);
                 if(!$filename) continue;
                 if(substr($filename,0,2)=='./') $filename = substr($filename,2);
-                if(preg_match('/\.js$/i',$filename)) $this->_addJsFile($plugin_path.$filename, true, '', null);
-                elseif(preg_match('/\.css$/i',$filename)) $this->_addCSSFile($plugin_path.$filename, true, 'all','', null);
+                if(preg_match('/\.js$/i',$filename)) $this->_addJsFile($plugin_path.$filename, '', null);
+                elseif(preg_match('/\.css$/i',$filename)) $this->_addCSSFile($plugin_path.$filename, 'all','', null);
             }
 
             if(is_dir($plugin_path.'lang')) $this->_loadLang($plugin_path.'lang');

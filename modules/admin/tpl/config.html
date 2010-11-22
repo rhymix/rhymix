@@ -52,14 +52,6 @@
             <input type="text" name="_target_module" id="_target_module" class="inputTypeText w300" value="{$start_module->mid} ({htmlspecialchars($start_module->browser_title)})" readonly="readonly" /><a href="{getUrl('','module','module','act','dispModuleSelectList','id','target_module','type','single')}" onclick="popopen(this.href,'ModuleSelect');return false;" class="button green"><span>{$lang->cmd_select}</span></a>
         </td>
     </tr>
-
-    <tr>
-        <th><div>{$lang->use_optimizer}</div></th>
-        <td>
-            <input type="checkbox" name="use_optimizer" value="Y"  <!--@if($use_optimizer!='N')-->checked="checked"<!--@end--> />
-            <p>{$lang->about_optimizer}</p>
-        </td>
-    </tr>
     <tr>
         <th><div>Language</div></th>
         <td>
