@@ -1158,15 +1158,15 @@
         /**
          * @brief js file을 추가
          **/
-        function addJsFile($file, $optimized = false, $targetie = '',$index=null) {
+        function addJsFile($file, $optimized = false, $targetie = '',$index=null, $type="head") {
             $oContext = &Context::getInstance();
-            return $oContext->_addJsFile($file, $targetie,$index);
+            return $oContext->_addJsFile($file, $targetie,$index,$type);
         }
 
         /**
          * @brief js file을 추가
          **/
-        function _addJsFile($file, $targetie = '',$index=null) {
+        function _addJsFile($file, $targetie = '',$index=null,$type="head") {
             if(strpos($file,'://')===false && $file{0}!='/' && $file{0}!='.') $file = './'.$file;
 			$file = preg_replace('@/\./|(?<!:)\/\/@', '/', $file);
             while(strpos($file,'/../')) $file = preg_replace('/\/([^\/]+)\/\.\.\//s','/',$file,1);
@@ -1175,7 +1175,7 @@
 
             if(is_null($index)) $index=count($this->js_files);
             for($i=$index;array_key_exists($i,$this->js_files);$i++);
-            $this->js_files[$i] = array('file' => $file, 'targetie' => $targetie);
+            $this->js_files[$i] = array('file' => $file, 'targetie' => $targetie, 'type'=> $type);
         }
 
         /**
@@ -1230,6 +1230,7 @@
             {
                 if(in_array($files[$i]['file'], $filenames))
                     unset($files[$i]);
+
                 $filenames[] = $files[$i]['file'];
             }
 
@@ -1239,17 +1240,23 @@
         /**
          * @brief js file 목록을 return
          **/
-        function getJsFile() {
+        function getJsFile($type='head') {
             $oContext = &Context::getInstance();
-            return $oContext->_getJsFile();
+            return $oContext->_getJsFile($type);
         }
 
         /**
          * @brief js file 목록을 return
          **/
-        function _getJsFile() {
+        function _getJsFile($type) {
+			$_files = array();
             $files = $this->_getUniqueFileList($this->js_files);
-			return $files;
+			foreach($files as $k => $v)
+			{
+				if($v['type'] == $type) $_files[] = $v;
+			}
+
+			return $_files;
         }
 
         /**

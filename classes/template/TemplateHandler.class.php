@@ -179,7 +179,7 @@
             $buff = preg_replace('!(\n?)( *?)<\!--//(.*?)-->!is', '', $buff);
 
             // import xml filter/ css/ js/ files <!--%import("filename"[,optimized=true|false][,media="media"][,targetie="lt IE 6|IE 7|gte IE 8|..."])--> (media is applied to only css)
-            $buff = preg_replace_callback('!<\!--%import\(\"([^\"]*?)\"(,optimized\=(true|false))?(,media\=\"([^\"]*)\")?(,targetie=\"([^\"]*)\")?\)-->!is', array($this, '_compileImportCode'), $buff);
+            $buff = preg_replace_callback('!<\!--%import\(\"([^\"]*?)\"(,optimized\=(true|false))?(,media\=\"([^\"]*)\")?(,targetie=\"([^\"]*)\")?(,index=\"([^\"]*)\")?(,type=\"([^\"]*)\")?\)-->!is', array($this, '_compileImportCode'), $buff);
 
             // unload css/ js <!--%unload("filename"[,optimized=true|false][,media="media"][,targetie="lt IE 6|IE 7|gte IE 8|..."])--> (media is applied to only css)
             $buff = preg_replace_callback('!<\!--%unload\(\"([^\"]*?)\"(,optimized\=(true|false))?(,media\=\"([^\"]*)\")?(,targetie=\"([^\"]*)\")?\)-->!is', array($this, '_compileUnloadCode'), $buff);
@@ -725,6 +725,11 @@
             if(!$targetie) $targetie = '';
             else $optimized = 'false';
 
+            if(isset($matches[9])) $index = intval($matches[9]);
+			if(!$index) $index = null;
+            if(isset($matches[11])) $type = strtolower(trim($matches[11]));
+			if($type!='body') $type = 'head';
+
             // if given_file ends with lang, load language pack
             if(substr($given_file, -4)=='lang') {
                 if(substr($given_file,0,2)=='./') $given_file = substr($given_file, 2);
@@ -778,10 +783,10 @@
                     // js file
                     case 'js' :
                             if(preg_match('/^(http|\/)/i',$source_filename)) {
-                                $output = sprintf('<?php Context::addJsFile("%s", %s, "%s"); ?>', $source_filename, 'false', $targetie);
+                                $output = sprintf('<?php Context::addJsFile("%s", %s, "%s"); ?>', $source_filename, 'false', $targetie, $index, $type);
                             } else {
                                 $meta_file = sprintf('%s%s', $base_path, $filename);
-                                $output = sprintf('<?php Context::addJsFile("%s%s", %s, "%s"); ?>', $base_path, $filename, $optimized, $targetie);
+                                $output = sprintf('<?php Context::addJsFile("%s%s", %s, "%s"); ?>', $base_path, $filename, $optimized, $targetie, $index, $type);
                             }
                         break;
                 }
