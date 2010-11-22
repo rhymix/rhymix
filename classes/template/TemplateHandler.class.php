@@ -786,7 +786,7 @@
                                 $output = sprintf('<?php Context::addJsFile("%s", %s, "%s"); ?>', $source_filename, 'false', $targetie, $index, $type);
                             } else {
                                 $meta_file = sprintf('%s%s', $base_path, $filename);
-                                $output = sprintf('<?php Context::addJsFile("%s%s", %s, "%s"); ?>', $base_path, $filename, $optimized, $targetie, $index, $type);
+                                $output = sprintf('<?php Context::addJsFile("%s%s", %s, "%s", %s, %s, "%s"); ?>', $base_path, $filename, $optimized, $targetie, $index, $type);
                             }
                         break;
                 }
