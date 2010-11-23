@@ -73,7 +73,7 @@ body{height:100%}
 .xd .t2 .u3 .cr .lr li button span,
 .xd .t2 .u6 .te .lr .cn button span,
 .xd .mode .resize span,
-.xdal .sn .ctr span{position:absolute;top:0;left:0;width:1px;height:1px;overflow:hidden;font-size:0;line-height:0;z-index:-1}
+.xdal .sn .ctr span{position:absolute;top:0;left:0;width:1px;height:1px;overflow:hidden;font-size:0;line-height:0;z-index:-1;}
 /* Label Input OverWrap */
 .xd .tool .liow{position:relative;background:#fff;margin:0 0 8px 0}
 .xd .tool .liow label{position:absolute;top:4px;left:6px;white-space:nowrap}
@@ -100,18 +100,17 @@ body{height:100%}
 .xd .t1{position:relative;z-index:2;padding:0 15px 0 0;border-bottom:1px solid #e0dedf;*zoom:1}
 .xd .t1:after{content:"";display:block;clear:both}
 .xd .t1 .u1,
-.xd .t1 .u2{ margin:0 0 -1px 0;background-repeat:repeat-x;background-position:0 -1140px;float:left;display:inline;}
-.xd .t1 .ti{float:left; display:inline; border:1px solid #e0dedf; margin:-1px 0 0 -1px;}
+.xd .t1 .u2{margin:0 0 -1px 0;background-repeat:repeat-x;background-position:0 -1140px;float:left;display:inline}
+.xd .t1 .ti{float:left;display:inline;border:1px solid #e0dedf;margin:-1px 0 0 -1px}
 .xd .t1 .ti.active{background-color:#e8e8e8;border:1px solid #e0dedf;border-top:0;border-bottom:0;margin:0 -1px}
-.xd .t1 .tb{display:inline-block;white-space:nowrap;padding:0 8px;height:26px;line-height:26px;font-size:11px;text-decoration:none;vertical-align:top;color:#000; letter-spacing:-1px;}
-.xd .t1 .tb span{display:inline-block}
+.xd .t1 .tb{display:inline-block;white-space:nowrap;padding:0 8px;height:26px;line-height:26px;font-size:11px;text-decoration:none;vertical-align:top;color:#000;letter-spacing:-1px}
+.xd .t1 .tb span{display:block;float:left}
 .xd .t1 .u1 .tb strong{color:#f60}
-.xd .t1 .u1 .al .tb span{ padding:0 0 0 22px}
-.xd .t1 .u1 .al .tb .all{ padding:0;}
+.xd .t1 .u1 .al .tb span{padding:0 0 0 22px}
+.xd .t1 .u1 .al .tb .all{padding:0}
 .xd .t1 .u1 .al .img{background-position:5px -282px}
 .xd .t1 .u1 .al .media{background-position:6px -312px}
 .xd .t1 .u1 .al .file{background-position:6px -342px}
-.xd .t1 .u2{}
 /* Tool - 2 */
 .xd .t2{position:relative;z-index:2;border-top:1px solid #e0dedf;border-bottom:1px solid #b5b5b5;padding:5px 10px 0 5px;margin:-1px 0 0 0;*zoom:1}
 .xd .t2:after{content:"";display:block;clear:both}
@@ -124,8 +123,8 @@ body{height:100%}
 .xd .t2 .ti{float:left;border:1px solid #b5b5b5;margin:0 -1px 0 0;font-size:0;position:relative}
 .xd .t2 .ti.hover{border-color:#666;z-index:100;box-shadow:0 0 2px #bbb;-moz-box-shadow:0 0 2px #bbb;-webkit-box-shadow:0 0 2px #bbb}
 .xd .t2 .ti.active{border-color:#333;z-index:100}
-.xd .t2 .tb{width:20px;height:19px;line-height:19px;overflow:visible;_overflow-y:hidden;vertical-align:top;background-position:0 -60px;letter-spacing:-1px;}
-.xd .t2 .tb.more{ width:10px; background-position:-140px -40px !important; border-left:1px solid #ddd}
+.xd .t2 .tb{width:20px;height:19px;line-height:19px;overflow:visible;_overflow-y:hidden;vertical-align:top;background-position:0 -60px;letter-spacing:-1px}
+.xd .t2 .tb.more{width:10px;background-position:-140px -40px !important;border-left:1px solid #ddd}
 .xd .t2 .u2 .tb{width:auto;height:19px;line-height:19px;font-size:12px;padding:0 12px 0 4px;background-position:right 0;text-shadow:1px 1px 0 #eee}
 .xd .t2 .u2 .active .tb{background-position:right -20px}
 .xd .t2 .disable{opacity:.3;filter:alpha(opacity=30);-ms-filter:"alpha(opacity=30)";border-color:#b5b5b5 !important;box-shadow:none !important;-moz-box-shadow:none !important;-webkit-box-shadow:none !important}
@@ -205,7 +204,7 @@ body{height:100%}
 .xd .t2 .u2 .lr .h6 button{font-size:12px}
 /* Layer - u3 (cr) */
 .xd .t2 .u3 .cr .lr fieldset{position:relative}
-.xd .t2 .u3 .cr .lr legend{font-size:12px;font-weight:bold;margin:0;padding:0;display:block;line-height:normal; width:auto;height:auto;position:static;}
+.xd .t2 .u3 .cr .lr legend{font-size:12px;font-weight:bold;margin:0;padding:0;display:block;line-height:normal;width:auto;height:auto;position:static}
 .xd .t2 .u3 .cr .lr .ct,
 .xd .t2 .u3 .cr .lr .cx{width:204px;position:relative;*zoom:1}
 .xd .t2 .u3 .cr .lr .ct:after,
@@ -242,7 +241,7 @@ body{height:100%}
 /* Layer - u6 (te) */
 .xd .t2 .u6 .te .lr{left:auto;right:-1px}
 .xd .t2 .u6 .te .lr fieldset{position:relative;width:280px;padding:0 0 10px 0}
-.xd .t2 .u6 .te .lr legend{font-size:12px;font-weight:bold;margin:0;padding:10px 0 0 0;display:block;line-height:normal; width:auto;height:auto;position:static;}
+.xd .t2 .u6 .te .lr legend{font-size:12px;font-weight:bold;margin:0;padding:10px 0 0 0;display:block;line-height:normal;width:auto;height:auto;position:static}
 .xd .t2 .u6 .te .lr .pv{border-bottom:1px solid #ddd}
 .xd .t2 .u6 .te .lr .pv legend{padding:0}
 .xd .t2 .u6 .te .lr .pv .xdcs{background:#fff;line-height:1.5;margin:0 -10px;padding:1px 10px;box-shadow:inset 0 0 3px #999;-moz-box-shadow:inset 0 0 3px #999;-webkit-box-shadow:inset 0 0 3px #999}
@@ -267,9 +266,9 @@ body{height:100%}
 .xd .t2 .u6 .te .lr .th li button{font-size:12px;width:70px;height:55px}
 .xd .t2 .u6 .te .lr .th li.selected{background-color:#ddd}
 .xd .t2 .u6 .te .lr .th li.no button{background-position:-283px -275px}
-.xd .t2 .u6 .te .lr .th li.lt button{background-position:-433px -275px;}
-.xd .t2 .u6 .te .lr .th li.tp button{background-position:-283px -335px;}
-.xd .t2 .u6 .te .lr .th li.bh button{background-position:-433px -335px;}
+.xd .t2 .u6 .te .lr .th li.lt button{background-position:-433px -275px}
+.xd .t2 .u6 .te .lr .th li.tp button{background-position:-283px -335px}
+.xd .t2 .u6 .te .lr .th li.bh button{background-position:-433px -335px}
 .xd .t2 .u6 .te .lr .th li span{display:inline-block;padding-top:26px}
 .xd .t2 .u6 .te .lr .wh{border-bottom:1px solid #ddd}
 .xd .t2 .u6 .te .lr .wh table{border:0;width:100%}
@@ -283,7 +282,7 @@ body{height:100%}
 /* Layer - u6 (fr) */
 .xd .t2 .u6 .fr .lr{left:auto;right:-1px}
 .xd .t2 .u6 .fr .lr fieldset{position:relative}
-.xd .t2 .u6 .fr .lr legend{font-size:12px;font-weight:bold;margin:0;display:block;line-height:normal; width:auto;height:auto;position:static;}
+.xd .t2 .u6 .fr .lr legend{font-size:12px;font-weight:bold;margin:0;display:block;line-height:normal;width:auto;height:auto;position:static}
 .xd .t2 .u6 .fr .lr .itx{width:120px;padding-right:70px}
 .xd .t2 .u6 .fr .lr .find{border-bottom:1px solid #ddd;padding:0 0 10px 0}
 .xd .t2 .u6 .fr .lr .find .btn{position:absolute;top:0;right:0;z-index:3}
@@ -315,23 +314,23 @@ body{height:100%}
 .xdlw .iFoot .btnArea.fr{float:right}
 /* XD Layer Window - AL(Attached List) */
 .xdal{display:none;width:780px;margin:-210px 0 0 -390px;background:#fff;border:3px solid #666;box-shadow:0 0 10px #999;-moz-box-shadow:0 0 10px #999;-webkit-box-shadow:0 0 10px #999}
-.xdal .iFoot .info{ margin:0; float:left; font-size:11px; line-height:normal; padding:0 0 0 20px; color:#666;}
-.xdal .label{line-height:30px;font-weight:bold;margin:0;padding:0 0 0 24px;font-size:12px;}
+.xdal .iFoot .info{margin:0;float:left;font-size:11px;line-height:normal;padding:0 0 0 20px;color:#666}
+.xdal .label{line-height:30px;font-weight:bold;margin:0;padding:0 0 0 24px;font-size:12px}
 .xdal .img .label{background-position:0 -280px}
 .xdal .movie .label{background-position:0 -310px}
 .xdal .file .label{background-position:0 -340px}
 .xdal .sn{position:relative;padding:10px 20px 15px 20px;width:219px;float:left;border-left:1px solid #ddd}
-.xdal .sn .nofile{display:none;padding:1em 0; margin:0; color:#767676;border-top:1px dotted #ccc;}
-.xdal .sn ul{height:290px; margin:0;padding:0;*zoom:1;overflow:auto;overflow-x:hidden;border-top:1px dotted #ccc;}
+.xdal .sn .nofile{display:none;padding:1em 0;margin:0;color:#767676;border-top:1px dotted #ccc}
+.xdal .sn ul{height:290px;margin:0;padding:0;*zoom:1;overflow:auto;overflow-x:hidden;border-top:1px dotted #ccc}
 .xdal .sn ul:after{content:"";display:block;clear:both}
-.xdal .sn li{position:relative;top:-1px; list-style:none;vertical-align:top;margin:0;padding:8px 0;border-top:1px dotted #ccc;color:#666}
+.xdal .sn li{position:relative;top:-1px;list-style:none;vertical-align:top;margin:0;padding:8px 0;border-top:1px dotted #ccc;color:#666}
 .xdal .sn .ob{position:relative;text-decoration:none;white-space:nowrap;font-size:0;width:60px;height:60px;overflow:hidden;margin:0 0 5px 0;border:1px solid #ddd;text-align:center;vertical-align:top;line-height:58px;background:#fff}
 .xdal .sn .ob img{vertical-align:middle}
-.xdal .sn .ctr{position:absolute;top:8px; width:30px; height:30px;font-size:11px;white-space:nowrap;color:#666}
-.xdal .sn .ins{right:35px;background-position:-510px -250px;}
-.xdal .sn .del{right:5px;background-position:-540px -250px;}
+.xdal .sn .ctr{position:absolute;top:8px;width:30px;height:30px;font-size:11px;white-space:nowrap;color:#666}
+.xdal .sn .ins{right:35px;background-position:-510px -250px}
+.xdal .sn .del{right:5px;background-position:-540px -250px}
 .xdal .sn .task{margin:0 10px 0 0;padding:8px 0 0 0;border-top:1px dotted #ccc}
-.xdal .sn .task button{padding:0 3px; margin:0 0 2px 0;height:21px;font-size:11px;border:1px solid #b5b5b5}
+.xdal .sn .task button{padding:0 3px;margin:0 0 2px 0;height:21px;font-size:11px;border:1px solid #b5b5b5}
 .xdal .sn .task .all{padding-left:15px;background-position:-583px -257px}
 .xdal .sn .progress{display:none;width:40px;background:#ddd}
 .xdal .sn .progress .bar{display:block;background:#23cb24;height:6px}
