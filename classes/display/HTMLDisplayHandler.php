@@ -140,8 +140,8 @@ class HTMLDisplayHandler {
 		$oContext->_addJsFile("./common/js/x.js", '', -100000);
 		$oContext->_addJsFile("./common/js/common.js", '', -100000);
 		$oContext->_addJsFile("./common/js/js_app.js", '', -100000);
-		$oContext->_addJsFile("./common/js/xml_handler.js", '', -100000, 'body');
-		$oContext->_addJsFile("./common/js/xml_js_filter.js", '', -100000, 'body');
+		$oContext->_addJsFile("./common/js/xml_handler.js", '', -100000);
+		$oContext->_addJsFile("./common/js/xml_js_filter.js", '', -100000);
 		$oContext->_addCSSFile("./common/css/default.css", 'all', '', -100000);
 		$oContext->_addCSSFile("./common/css/button.css", 'all', '', -100000);
 
