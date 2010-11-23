@@ -42,7 +42,7 @@
 			<!-- editor components -->
 			<ul class="u2">
 				<!--@foreach($component_list as $component_name => $component)-->
-				<li class="ti"><a href="#please_valid_url" class="tb" id="component_{$editor_sequence}_{$component_name}">{$component->title}</a></li>
+				<li class="ti"><a href="{getUrl('module','editor','act','dispEditorPopup','editor_sequence', $editor_sequence, 'component', $component_name)}" target="_blank" class="tb" id="component_{$editor_sequence}_{$component_name}" title="{$component->title}">{$component->title}</a></li>
 				<!--@end-->
 			</ul>
 			<!-- //editor components -->
@@ -50,26 +50,26 @@
 		</div> 
 		<div class="t2"> 
 			<ul class="u1"> 
-				<li class="ti ud disable"><button type="button" class="tb tn ud"><span>{$lang->edit->undo} Ctrl+Z</span></button></li> 
-				<li class="ti rd disable"><button type="button" class="tb tn rd da"><span>{$lang->edit->redo} Ctrl+Y</span></button></li> 
+				<li class="ti ud disable"><button type="button" class="tb ud"><span>{$lang->edit->undo} Ctrl+Z</span></button></li> 
+				<li class="ti rd disable"><button type="button" class="tb rd da"><span>{$lang->edit->redo} Ctrl+Y</span></button></li> 
 			</ul> 
 			<ul class="u2"> 
-				<li class="ti hx"><button type="button" class="tb ty">{$lang->edit->header}</button> 
+				<li class="ti hx"><button type="button" class="tb">{$lang->edit->header}</button> 
 					<ul class="lr"> 
 						<!--@foreach($lang->edit->header_list as $key=>$obj)-->
 						<li class="{$key}"><button type="button" title="Ctrl+1">{$obj}</button></li> 
 						<!--@end-->
-						<li class="h7"><button type="button" title="Ctrl+7">문단</button></li> 
+						<li class="h7"><button type="button" title="Ctrl+7">{$lang->edit->paragraph}</button></li> 
 					</ul> 
 				</li> 
-				<li class="ti ff"><button type="button" class="tb ty">{$lang->edit->fontname}</button> 
+				<li class="ti ff"><button type="button" class="tb">{$lang->edit->fontname}</button> 
 					<ul class="lr"> 
 						<!--@foreach($lang->edit->fontlist as $key=>$obj)-->
 						<li><button type="button" style="font-family:{$key}">{$obj}</button></li> 
 						<!--@end-->
 					</ul> 
 				</li> 
-				<li class="ti fs"><button type="button" class="tb ty">{$lang->edit->fontsize}</button> 
+				<li class="ti fs"><button type="button" class="tb">{$lang->edit->fontsize}</button> 
 					<ul class="lr"> 
 						<li><button type="button" style="font-size:9px">9px</button></li> 
 						<li><button type="button" style="font-size:10px">10px</button></li> 
@@ -83,7 +83,7 @@
 						<li><button type="button" style="font-size:32px">32px</button></li> 
 					</ul>
 				</li> 
-				<li class="ti lh"><button type="button" class="tb ty">{$lang->edit->lineheight}</button> 
+				<li class="ti lh"><button type="button" class="tb">{$lang->edit->lineheight}</button> 
 					<ul class="lr"> 
 						<li><button type="button">100%</button></li> 
 						<li><button type="button">120%</button></li> 
@@ -95,15 +95,17 @@
 				</li> 
 			</ul> 
 			<ul class="u3"> 
-				<li class="ti bd"><button type="button" class="tb ty bd" title="{$lang->edit->bold} (Ctrl+B)"><span>{$lang->edit->bold} Ctrl+B</span></button></li> 
-				<li class="ti ue"><button type="button" class="tb ty ue" title="{$lang->edit->underline} (Ctrl+U)"><span>{$lang->edit->underline} Ctrl+U</span></button></li> 
-				<li class="ti ic"><button type="button" class="tb ty ic" title="{$lang->edit->italic} (Ctrl+I)"><span>{$lang->edit->italic} Ctrl+I</span></button></li> 
-				<li class="ti se"><button type="button" class="tb ty se" title="{$lang->edit->strike} (Ctrl+D)"><span>{$lang->edit->strike} Ctrl+D</span></button></li> 
-				<li class="ti cr"><button type="button" class="tb ty cr" title="{$lang->edit->fontcolor}"><span>{$lang->edit->fontcolor}</span></button> 
+				<li class="ti bd"><button type="button" class="tb bd" title="{$lang->edit->bold} (Ctrl+B)"><span>{$lang->edit->bold} Ctrl+B</span></button></li> 
+				<li class="ti ue"><button type="button" class="tb ue" title="{$lang->edit->underline} (Ctrl+U)"><span>{$lang->edit->underline} Ctrl+U</span></button></li> 
+				<li class="ti ic"><button type="button" class="tb ic" title="{$lang->edit->italic} (Ctrl+I)"><span>{$lang->edit->italic} Ctrl+I</span></button></li> 
+				<li class="ti se"><button type="button" class="tb se" title="{$lang->edit->strike} (Ctrl+D)"><span>{$lang->edit->strike} Ctrl+D</span></button></li> 
+				<li class="ti cr fc">
+					<button type="button" class="tb cr fc" title="{$lang->edit->fontcolor_apply}" style="background-color:#74c600"><span>{$lang->edit->fontcolor_apply}</span></button> 
+					<button type="button" class="tb more" title="{$lang->edit->fontcolor_more}"><span>{$lang->edit->fontcolor_more}</span></button> 
 					<div class="lr"> 
-						<fieldset class="fc"> 
+						<fieldset> 
 							<legend>{$lang->edit->fontcolor}</legend> 
-							<ul> 
+							<ul class="ct"> 
 								<li><button type="button" style="background-color:#ff0000"><span>#ff0000</span></button></li> 
 								<li><button type="button" style="background-color:#ff6c00"><span>#ff6c00</span></button></li> 
 								<li><button type="button" style="background-color:#ffaa00"><span>#ffaa00</span></button></li> 
@@ -173,115 +175,131 @@
 								<li><button type="button" style="background-color:#a800ff"><span>#a800ff</span></button></li> 
 								<li><button type="button" style="background-color:#ff00ff"><span>#ff00ff</span></button></li> 
 							</ul> 
-							<div class="liow"> 
-								<label for="fci">{$lang->edit->fontcolor_input}</label> 
-								<input name="" type="text" id="fci" class="itx" /> 
-							</div> 
 						</fieldset> 
-						<fieldset class="bc"> 
-							<legend>{$lang->edit->fontbgcolor}</legend> 
-							<ul> 
-								<li><button type="button" style="background-color:#ff0000"><span>#ff0000</span></button></li> 
-								<li><button type="button" style="background-color:#ff6c00"><span>#ff6c00</span></button></li> 
-								<li><button type="button" style="background-color:#ffaa00"><span>#ffaa00</span></button></li> 
-								<li><button type="button" style="background-color:#ffef00"><span>#ffef00</span></button></li> 
-								<li><button type="button" style="background-color:#a6cf00"><span>#a6cf00</span></button></li> 
-								<li><button type="button" style="background-color:#009e25"><span>#009e25</span></button></li> 
-								<li><button type="button" style="background-color:#00b0a2"><span>#00b0a2</span></button></li> 
-								<li><button type="button" style="background-color:#0075c8"><span>#0075c8</span></button></li> 
-								<li><button type="button" style="background-color:#3a32c3"><span>#3a32c3</span></button></li> 
-								<li><button type="button" style="background-color:#7820b9"><span>#7820b9</span></button></li> 
-								<li><button type="button" style="background-color:#ef007c"><span>#ef007c</span></button></li> 
-								<li><button type="button" style="background-color:#000000"><span>#000000</span></button></li> 
-								<li><button type="button" style="background-color:#252525"><span>#252525</span></button></li> 
-								<li><button type="button" style="background-color:#464646"><span>#464646</span></button></li> 
-								<li><button type="button" style="background-color:#636363"><span>#636363</span></button></li> 
-								<li><button type="button" style="background-color:#7d7d7d"><span>#7d7d7d</span></button></li> 
-								<li><button type="button" style="background-color:#9a9a9a"><span>#9a9a9a</span></button></li> 
-								<li><button type="button" style="background-color:#ffe8e8"><span>#ffe8e8</span></button></li> 
-								<li><button type="button" style="background-color:#f7e2d2"><span>#f7e2d2</span></button></li> 
-								<li><button type="button" style="background-color:#f5eddc"><span>#f5eddc</span></button></li> 
-								<li><button type="button" style="background-color:#f5f4e0"><span>#f5f4e0</span></button></li> 
-								<li><button type="button" style="background-color:#edf2c2"><span>#edf2c2</span></button></li> 
-								<li><button type="button" style="background-color:#def7e5"><span>#def7e5</span></button></li> 
-								<li><button type="button" style="background-color:#d9eeec"><span>#d9eeec</span></button></li> 
-								<li><button type="button" style="background-color:#c9e0f0"><span>#c9e0f0</span></button></li> 
-								<li><button type="button" style="background-color:#d6d4eb"><span>#d6d4eb</span></button></li> 
-								<li><button type="button" style="background-color:#e7dbed"><span>#e7dbed</span></button></li> 
-								<li><button type="button" style="background-color:#f1e2ea"><span>#f1e2ea</span></button></li> 
-								<li><button type="button" style="background-color:#acacac"><span>#acacac</span></button></li> 
-								<li><button type="button" style="background-color:#c2c2c2"><span>#c2c2c2</span></button></li> 
-								<li><button type="button" style="background-color:#cccccc"><span>#cccccc</span></button></li> 
-								<li><button type="button" style="background-color:#e1e1e1"><span>#e1e1e1</span></button></li> 
-								<li><button type="button" style="background-color:#ebebeb"><span>#ebebeb</span></button></li> 
-								<li><button type="button" style="background-color:#ffffff"><span>#ffffff</span></button></li> 
-								<li><button type="button" style="background-color:#e97d81"><span>#e97d81</span></button></li> 
-								<li><button type="button" style="background-color:#e19b73"><span>#e19b73</span></button></li> 
-								<li><button type="button" style="background-color:#d1b274"><span>#d1b274</span></button></li> 
-								<li><button type="button" style="background-color:#cfcca2"><span>#cfcca2</span></button></li> 
-								<li><button type="button" style="background-color:#cfcca2"><span>#cfcca2</span></button></li> 
-								<li><button type="button" style="background-color:#61b977"><span>#61b977</span></button></li> 
-								<li><button type="button" style="background-color:#53aea8"><span>#53aea8</span></button></li> 
-								<li><button type="button" style="background-color:#518fbb"><span>#518fbb</span></button></li> 
-								<li><button type="button" style="background-color:#6a65bb"><span>#6a65bb</span></button></li> 
-								<li><button type="button" style="background-color:#9a54ce"><span>#9a54ce</span></button></li> 
-								<li><button type="button" style="background-color:#e573ae"><span>#e573ae</span></button></li> 
-								<li><button type="button" style="background-color:#5a504b"><span>#5a504b</span></button></li> 
-								<li><button type="button" style="background-color:#767b86"><span>#767b86</span></button></li> 
-								<li><button type="button" style="background-color:#00ffff"><span>#00ffff</span></button></li> 
-								<li><button type="button" style="background-color:#00ff00"><span>#00ff00</span></button></li> 
-								<li><button type="button" style="background-color:#a0f000"><span>#a0f000</span></button></li> 
-								<li><button type="button" style="background-color:#ffff00"><span>#ffff00</span></button></li> 
-								<li><button type="button" style="background-color:#951015"><span>#951015</span></button></li> 
-								<li><button type="button" style="background-color:#6e391a"><span>#6e391a</span></button></li> 
-								<li><button type="button" style="background-color:#785c25"><span>#785c25</span></button></li> 
-								<li><button type="button" style="background-color:#5f5b25"><span>#5f5b25</span></button></li> 
-								<li><button type="button" style="background-color:#4c511f"><span>#4c511f</span></button></li> 
-								<li><button type="button" style="background-color:#1c4827"><span>#1c4827</span></button></li> 
-								<li><button type="button" style="background-color:#0d514c"><span>#0d514c</span></button></li> 
-								<li><button type="button" style="background-color:#1b496a"><span>#1b496a</span></button></li> 
-								<li><button type="button" style="background-color:#2b285f"><span>#2b285f</span></button></li> 
-								<li><button type="button" style="background-color:#45245b"><span>#45245b</span></button></li> 
-								<li><button type="button" style="background-color:#721947"><span>#721947</span></button></li> 
-								<li><button type="button" style="background-color:#352e2c"><span>#352e2c</span></button></li> 
-								<li><button type="button" style="background-color:#3c3f45"><span>#3c3f45</span></button></li> 
-								<li><button type="button" style="background-color:#00aaff"><span>#00aaff</span></button></li> 
-								<li><button type="button" style="background-color:#0000ff"><span>#0000ff</span></button></li> 
-								<li><button type="button" style="background-color:#a800ff"><span>#a800ff</span></button></li> 
-								<li><button type="button" style="background-color:#ff00ff"><span>#ff00ff</span></button></li> 
-							</ul> 
-							<div class="liow"> 
-								<label for="bci">{$lang->edit->fontbgcolor_input}</label> 
-								<input name="" type="text" id="bci" class="itx" /> 
-							</div> 
-						</fieldset> 
-						<fieldset class="pv"> 
-							<legend>{$lang->cmd_preview}</legend> 
-							<p><span class="pv">{$lang->edit->pangram}</span></p> 
-						</fieldset> 
-						<button type="button" class="btn" title="Enter">{$lang->cmd_apply}</button> 
 					</div> 
 				</li> 
-				<li class="ti sp"><button type="button" class="tb ty sp" title="{$lang->edit->sup}"><span>{$lang->edit->sup}</span></button></li> 
-				<li class="ti sb"><button type="button" class="tb ty sb" title="{$lang->edit->sub}"><span>{$lang->edit->sub}</span></button></li> 
+				<li class="ti cr bc">
+					<button type="button" class="tb cr bc" title="{$lang->edit->fontbgcolor_apply}" style="background-color:#74c600"><span>{$lang->edit->fontbgcolor_apply}</span></button> 
+					<button type="button" class="tb more" title="{$lang->edit->fontbgcolor_more}"><span>{$lang->edit->fontbgcolor_more}</span></button> 
+					<div class="lr"> 
+						<fieldset> 
+							<legend>{$lang->edit->fontbgcolor}</legend> 
+							<ul class="cx">
+								<li><button type="button" style="background-color:#000000;color:#fff">#000000</button></li>
+								<li><button type="button" style="background-color:#333333;color:#fff">#333333</button></li>
+								<li><button type="button" style="background-color:#666666;color:#fff">#666666</button></li>
+								<li><button type="button" style="background-color:#B82200;color:#fff">#B82200</button></li>
+								<li><button type="button" style="background-color:#FF3000;color:#fff">#FF3000</button></li>
+								<li><button type="button" style="background-color:#FF6947;color:#fff">#FF6947</button></li>
+								<li><button type="button" style="background-color:#457700;color:#fff">#457700</button></li>
+								<li><button type="button" style="background-color:#61A500;color:#fff">#61A500</button></li>
+								<li><button type="button" style="background-color:#74C600;color:#fff">#74C600</button></li>
+								<li><button type="button" style="background-color:#006CA7;color:#fff">#006CA7</button></li>
+								<li><button type="button" style="background-color:#0092E0;color:#fff">#0092E0</button></li>
+								<li><button type="button" style="background-color:#33BAFF;color:#fff">#33BAFF</button></li>
+								<li><button type="button" style="background-color:#005147;color:#fff">#005147</button></li>
+								<li><button type="button" style="background-color:#006F61;color:#fff">#006F61</button></li>
+								<li><button type="button" style="background-color:#51A59A;color:#fff">#51A59A</button></li>
+								<li><button type="button" style="background-color:#A1005A;color:#fff">#A1005A</button></li>
+								<li><button type="button" style="background-color:#E60081;color:#fff">#E60081</button></li>
+								<li><button type="button" style="background-color:#FF2DA4;color:#fff">#FF2DA4</button></li>
+								<li><button type="button" style="background-color:#DDDDDD;color:#000">#DDDDDD</button></li>
+								<li><button type="button" style="background-color:#EEEEEE;color:#000">#EEEEEE</button></li>
+								<li><button type="button" style="background-color:#FFFFFF;color:#000">#FFFFFF</button></li>
+							</ul>
+							<ul class="ct"> 
+								<li><button type="button" style="background-color:#ff0000"><span>#ff0000</span></button></li> 
+								<li><button type="button" style="background-color:#ff6c00"><span>#ff6c00</span></button></li> 
+								<li><button type="button" style="background-color:#ffaa00"><span>#ffaa00</span></button></li> 
+								<li><button type="button" style="background-color:#ffef00"><span>#ffef00</span></button></li> 
+								<li><button type="button" style="background-color:#a6cf00"><span>#a6cf00</span></button></li> 
+								<li><button type="button" style="background-color:#009e25"><span>#009e25</span></button></li> 
+								<li><button type="button" style="background-color:#00b0a2"><span>#00b0a2</span></button></li> 
+								<li><button type="button" style="background-color:#0075c8"><span>#0075c8</span></button></li> 
+								<li><button type="button" style="background-color:#3a32c3"><span>#3a32c3</span></button></li> 
+								<li><button type="button" style="background-color:#7820b9"><span>#7820b9</span></button></li> 
+								<li><button type="button" style="background-color:#ef007c"><span>#ef007c</span></button></li> 
+								<li><button type="button" style="background-color:#000000"><span>#000000</span></button></li> 
+								<li><button type="button" style="background-color:#252525"><span>#252525</span></button></li> 
+								<li><button type="button" style="background-color:#464646"><span>#464646</span></button></li> 
+								<li><button type="button" style="background-color:#636363"><span>#636363</span></button></li> 
+								<li><button type="button" style="background-color:#7d7d7d"><span>#7d7d7d</span></button></li> 
+								<li><button type="button" style="background-color:#9a9a9a"><span>#9a9a9a</span></button></li> 
+								<li><button type="button" style="background-color:#ffe8e8"><span>#ffe8e8</span></button></li> 
+								<li><button type="button" style="background-color:#f7e2d2"><span>#f7e2d2</span></button></li> 
+								<li><button type="button" style="background-color:#f5eddc"><span>#f5eddc</span></button></li> 
+								<li><button type="button" style="background-color:#f5f4e0"><span>#f5f4e0</span></button></li> 
+								<li><button type="button" style="background-color:#edf2c2"><span>#edf2c2</span></button></li> 
+								<li><button type="button" style="background-color:#def7e5"><span>#def7e5</span></button></li> 
+								<li><button type="button" style="background-color:#d9eeec"><span>#d9eeec</span></button></li> 
+								<li><button type="button" style="background-color:#c9e0f0"><span>#c9e0f0</span></button></li> 
+								<li><button type="button" style="background-color:#d6d4eb"><span>#d6d4eb</span></button></li> 
+								<li><button type="button" style="background-color:#e7dbed"><span>#e7dbed</span></button></li> 
+								<li><button type="button" style="background-color:#f1e2ea"><span>#f1e2ea</span></button></li> 
+								<li><button type="button" style="background-color:#acacac"><span>#acacac</span></button></li> 
+								<li><button type="button" style="background-color:#c2c2c2"><span>#c2c2c2</span></button></li> 
+								<li><button type="button" style="background-color:#cccccc"><span>#cccccc</span></button></li> 
+								<li><button type="button" style="background-color:#e1e1e1"><span>#e1e1e1</span></button></li> 
+								<li><button type="button" style="background-color:#ebebeb"><span>#ebebeb</span></button></li> 
+								<li><button type="button" style="background-color:#ffffff"><span>#ffffff</span></button></li> 
+								<li><button type="button" style="background-color:#e97d81"><span>#e97d81</span></button></li> 
+								<li><button type="button" style="background-color:#e19b73"><span>#e19b73</span></button></li> 
+								<li><button type="button" style="background-color:#d1b274"><span>#d1b274</span></button></li> 
+								<li><button type="button" style="background-color:#cfcca2"><span>#cfcca2</span></button></li> 
+								<li><button type="button" style="background-color:#cfcca2"><span>#cfcca2</span></button></li> 
+								<li><button type="button" style="background-color:#61b977"><span>#61b977</span></button></li> 
+								<li><button type="button" style="background-color:#53aea8"><span>#53aea8</span></button></li> 
+								<li><button type="button" style="background-color:#518fbb"><span>#518fbb</span></button></li> 
+								<li><button type="button" style="background-color:#6a65bb"><span>#6a65bb</span></button></li> 
+								<li><button type="button" style="background-color:#9a54ce"><span>#9a54ce</span></button></li> 
+								<li><button type="button" style="background-color:#e573ae"><span>#e573ae</span></button></li> 
+								<li><button type="button" style="background-color:#5a504b"><span>#5a504b</span></button></li> 
+								<li><button type="button" style="background-color:#767b86"><span>#767b86</span></button></li> 
+								<li><button type="button" style="background-color:#00ffff"><span>#00ffff</span></button></li> 
+								<li><button type="button" style="background-color:#00ff00"><span>#00ff00</span></button></li> 
+								<li><button type="button" style="background-color:#a0f000"><span>#a0f000</span></button></li> 
+								<li><button type="button" style="background-color:#ffff00"><span>#ffff00</span></button></li> 
+								<li><button type="button" style="background-color:#951015"><span>#951015</span></button></li> 
+								<li><button type="button" style="background-color:#6e391a"><span>#6e391a</span></button></li> 
+								<li><button type="button" style="background-color:#785c25"><span>#785c25</span></button></li> 
+								<li><button type="button" style="background-color:#5f5b25"><span>#5f5b25</span></button></li> 
+								<li><button type="button" style="background-color:#4c511f"><span>#4c511f</span></button></li> 
+								<li><button type="button" style="background-color:#1c4827"><span>#1c4827</span></button></li> 
+								<li><button type="button" style="background-color:#0d514c"><span>#0d514c</span></button></li> 
+								<li><button type="button" style="background-color:#1b496a"><span>#1b496a</span></button></li> 
+								<li><button type="button" style="background-color:#2b285f"><span>#2b285f</span></button></li> 
+								<li><button type="button" style="background-color:#45245b"><span>#45245b</span></button></li> 
+								<li><button type="button" style="background-color:#721947"><span>#721947</span></button></li> 
+								<li><button type="button" style="background-color:#352e2c"><span>#352e2c</span></button></li> 
+								<li><button type="button" style="background-color:#3c3f45"><span>#3c3f45</span></button></li> 
+								<li><button type="button" style="background-color:#00aaff"><span>#00aaff</span></button></li> 
+								<li><button type="button" style="background-color:#0000ff"><span>#0000ff</span></button></li> 
+								<li><button type="button" style="background-color:#a800ff"><span>#a800ff</span></button></li> 
+								<li><button type="button" style="background-color:#ff00ff"><span>#ff00ff</span></button></li> 
+							</ul> 
+						</fieldset> 
+					</div> 
+				</li> 
+				<li class="ti sp"><button type="button" class="tb sp" title="{$lang->edit->sup}"><span>{$lang->edit->sup}</span></button></li> 
+				<li class="ti sb"><button type="button" class="tb sb" title="{$lang->edit->sub}"><span>{$lang->edit->sub}</span></button></li> 
 			</ul> 
 			<ul class="u4"> 
-				<li class="ti al"><button type="button" class="tb ty al" title="{$lang->edit->align_left}"><span>{$lang->edit->align_left}</span></button></li> 
-				<li class="ti ac"><button type="button" class="tb ty ac" title="{$lang->edit->align_center}"><span>{$lang->edit->align_center}</span></button></li> 
-				<li class="ti ar"><button type="button" class="tb ty ar" title="{$lang->edit->align_right}"><span>{$lang->edit->align_right}</span></button></li> 
-				<li class="ti aj"><button type="button" class="tb ty aj" title="{$lang->edit->align_justify}"><span>{$lang->edit->align_justify}</span></button></li> 
-				<li class="ti ol"><button type="button" class="tb ty ol" title="{$lang->edit->list_number}"><span>{$lang->edit->list_number}</span></button></li> 
-				<li class="ti ul"><button type="button" class="tb ty ul" title="{$lang->edit->list_bullet}"><span>{$lang->edit->list_bullet}</span></button></li> 
-				<li class="ti od disable"><button type="button" class="tb tn od" title="{$lang->edit->remove_indent} Ctrl+(Left Arrow Key)"><span>{$lang->edit->remove_indent} Ctrl+(Left Arrow Key)</span></button></li> 
-				<li class="ti id"><button type="button" class="tb ty id" title="{$lang->edit->add_indent} Ctrl+(Right Arrow Key)"><span>{$lang->edit->add_indent} Ctrl+(Right Arrow Key)</span></button></li> 
-				<li class="ti qm"><button type="button" class="tb ty qm" title="{$lang->edit->blockquote}"><span>{$lang->edit->blockquote}</span></button></li> 
-				<li class="ti bx"><button type="button" class="tb ty bx" title="{$lang->edit->fieldset}"><span>{$lang->edit->fieldset}</span></button></li> 
+				<li class="ti al"><button type="button" class="tb al" title="{$lang->edit->align_left}"><span>{$lang->edit->align_left}</span></button></li> 
+				<li class="ti ac"><button type="button" class="tb ac" title="{$lang->edit->align_center}"><span>{$lang->edit->align_center}</span></button></li> 
+				<li class="ti ar"><button type="button" class="tb ar" title="{$lang->edit->align_right}"><span>{$lang->edit->align_right}</span></button></li> 
+				<li class="ti aj"><button type="button" class="tb aj" title="{$lang->edit->align_justify}"><span>{$lang->edit->align_justify}</span></button></li> 
+				<li class="ti ol"><button type="button" class="tb ol" title="{$lang->edit->list_number}"><span>{$lang->edit->list_number}</span></button></li> 
+				<li class="ti ul"><button type="button" class="tb ul" title="{$lang->edit->list_bullet}"><span>{$lang->edit->list_bullet}</span></button></li> 
+				<li class="ti od disable"><button type="button" class="tb od" title="{$lang->edit->remove_indent} Ctrl+(Left Arrow Key)"><span>{$lang->edit->remove_indent} Ctrl+(Left Arrow Key)</span></button></li> 
+				<li class="ti id"><button type="button" class="tb id" title="{$lang->edit->add_indent} Ctrl+(Right Arrow Key)"><span>{$lang->edit->add_indent} Ctrl+(Right Arrow Key)</span></button></li> 
+				<li class="ti qm"><button type="button" class="tb qm" title="{$lang->edit->blockquote}"><span>{$lang->edit->blockquote}</span></button></li> 
+				<li class="ti bx"><button type="button" class="tb bx" title="{$lang->edit->fieldset}"><span>{$lang->edit->fieldset}</span></button></li> 
 			</ul> 
 			<ul class="u5"> 
-				<li class="ti er"><button type="button" class="tb tn er" title="{$lang->edit->remove_format}"><span>{$lang->edit->remove_format}</span></button></li> 
+				<li class="ti er"><button type="button" class="tb er" title="{$lang->edit->remove_format}"><span>{$lang->edit->remove_format}</span></button></li> 
 			</ul> 
 			<ul class="u6"> 
-				<li class="ti ur"><button type="button" class="tb ty ur" title="{$lang->edit->url}"><span>{$lang->edit->url}</span></button> 
+				<li class="ti ur"><button type="button" class="tb ur" title="{$lang->edit->url}"><span>{$lang->edit->url}</span></button> 
 					<div class="lr"> 
 						<fieldset> 
 							<input name="" type="text" class="itx" title="input URL" value="http://" /> 
@@ -296,7 +314,7 @@
 						</fieldset> 
 					</div> 
 				</li> 
-				<li class="ti sc"><button type="button" class="tb ty sc" title="{$lang->edit->special_character}"><span>{$lang->edit->special_character}</span></button> 
+				<li class="ti sc"><button type="button" class="tb sc" title="{$lang->edit->special_character}"><span>{$lang->edit->special_character}</span></button> 
 					<div class="lr"> 
 						<ul> 
 							<li class="li li1 active"><button type="button" class="tab">{$lang->edit->symbol}</button> 
@@ -1128,7 +1146,7 @@
 						</fieldset> 
 					</div> 
 				</li> 
-				<li class="ti te"><button type="button" class="tb ty te" title="{$lang->edit->table}"><span>{$lang->edit->table}</span></button> 
+				<li class="ti te"><button type="button" class="tb te" title="{$lang->edit->table}"><span>{$lang->edit->table}</span></button> 
 					<div class="lr"> 
 						<fieldset class="pv"> 
 							<legend>{$lang->cmd_preview}</legend> 
@@ -1200,15 +1218,11 @@
 						</div> 
 					</div> 
 				</li> 
-				<!---
+<!--
 				<li class="ti cm disable"><button type="button" class="tb tn cm"><span>셀 합치기</span></button></li> 
 				<li class="ti cs disable"><button type="button" class="tb tn cs"><span>열 나누기</span></button></li> 
 				<li class="ti rs disable"><button type="button" class="tb tn rs"><span>행 나누기</span></button></li> 
-				-->
-				<!--
 				<li class="ti tc disable"><button type="button" class="tb tn tc"><span>목차 넣기</span></button></li> 
-				-->
-				<!--
 				<li class="ti fr"><button type="button" class="tb ty fr"><span>찾기/바꾸기</span></button> 
 					<div class="lr"> 
 						<fieldset class="find"> 
@@ -1235,7 +1249,7 @@
 						</fieldset> 
 					</div> 
 				</li> 
-				-->
+-->
 			</ul> 
 		</div> 
 	</div> 
