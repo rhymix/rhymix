@@ -141,7 +141,7 @@
             $value = $this->_getTypeValue($this->type, $this->value);
             switch($this->type) {
                 case 'homepage' :
-                        return ($value)?sprintf('<a href="%s" onclick="window.open(this.href); return false;">%s</a>', $value, $value):"";
+                        return ($value)?(sprintf('<a href="%s" onclick="window.open(this.href); return false;">%s</a>', $value, strlen($value)>60?substr($value,0,40).'...'.substr($value,-10):$value)):"";
                 case 'email_address' :
                         return ($value)?sprintf('<a href="mailto:%s">%s</a>', $value, $value):"";
                     break;
