@@ -18,6 +18,7 @@
 	$lang->downloaded_list = 'Lista de la descarga';
     $lang->layout_preview_content = 'Los contenidos son mostrados aquí';
     $lang->not_apply_menu = 'Aplicar Diseños';
+	$lang->layout_management = '레이아웃 관리';
   
     $lang->cmd_move_to_installed_list = "Ver la lista creada";
   

@@ -18,6 +18,7 @@
     $lang->downloaded_list = 'Список закачек';
     $lang->layout_preview_content = 'Содержимое отображается здесь';
     $lang->not_apply_menu = 'Применить лейауты';
+	$lang->layout_management = '레이아웃 관리';
 
     $lang->cmd_move_to_installed_list = "Просмотреть созданный список";
 

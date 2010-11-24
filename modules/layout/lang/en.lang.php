@@ -18,6 +18,7 @@
     $lang->downloaded_list = 'Download List';
     $lang->layout_preview_content = 'The content gets displayed here';
     $lang->not_apply_menu = 'Apply Layouts En Bloc';
+	$lang->layout_management = 'Layout Management';
 
     $lang->cmd_move_to_installed_list = "View Created Layouts";
 

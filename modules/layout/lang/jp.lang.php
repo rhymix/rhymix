@@ -18,6 +18,7 @@
     $lang->downloaded_list = 'ダウンロードリスト';
     $lang->layout_preview_content = '内容が出力される部分です。';
     $lang->not_apply_menu = 'レイアウトの一括適用';
+	$lang->layout_management = '레이아웃 관리';
 
     $lang->cmd_move_to_installed_list = '作成されたリスト表示';
 

@@ -18,6 +18,7 @@
     $lang->downloaded_list = '下载目录';
     $lang->layout_preview_content = '显示内容的部分。';
     $lang->not_apply_menu = '布局共享';
+	$lang->layout_management = '레이아웃 관리';
 
     $lang->cmd_move_to_installed_list = "查看生成目录";
 

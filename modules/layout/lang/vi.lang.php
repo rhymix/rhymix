@@ -20,6 +20,7 @@
     $lang->downloaded_list = 'Danh sách Download';
     $lang->layout_preview_content = 'Khu vực nội dung sẽ hiển thị.';
     $lang->not_apply_menu = 'Áp dụng giao diện';
+	$lang->layout_management = '레이아웃 관리';
 
     $lang->cmd_move_to_installed_list = "Danh sách đã tạo";
 
