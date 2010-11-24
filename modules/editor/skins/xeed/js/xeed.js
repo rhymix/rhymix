@@ -108,7 +108,6 @@ Xeed = xe.createApp('Xeed', {
 		this.registerPlugin(new SChar);
 		this.registerPlugin(new Table);
 		this.registerPlugin(new URL);
-		this.registerPlugin(new AutoSave);
 		this.registerPlugin(new FileUpload);
 		this.registerPlugin(new Clear);
 
@@ -125,6 +124,16 @@ Xeed = xe.createApp('Xeed', {
 	getOption : function(key) {
 		var v = this._options[key];
 		if (is_def(v)) return v;
+	},
+	
+	/**
+	 * @brief Set option
+	 * @param key String option key
+	 * @param key Variant option value
+	 * @syntax oApp.setOption('keyName', 'value')
+	 */
+	setOption : function(key, val) {
+		try { this._options[key] = val; }catch(e){};
 	},
 
 	/**
@@ -188,6 +197,20 @@ Xeed = xe.createApp('Xeed', {
 
 	getOnetimeId : function() {
 		return 'xeed' + Math.ceil(Math.random() * 1000) + (''+(new Date).getTime()).substr(8);
+	},
+
+	/**
+	 * @brief Fake interface for editor_common.js
+	 */
+	getFrame : function(seq) {
+		var self = this;
+	
+		return {
+			editor_sequence : seq,
+			getSelectedHTML : function(){},
+			setFocus    : function(){ self.cast('SET_FOCUS');  },
+			replaceHTML : function(html){ self.cast('PASTE_HTML', [html]) }
+		};
 	},
 
 	/**
@@ -2849,25 +2872,43 @@ Table = xe.createPlugin('Table', {
  * {{{ AutoSave
  */
 AutoSave = xe.createPlugin('AutoSave', {
-	_enable : false,
-	$bar    : null,
-	$text   : null,
+	_enable     : false,
+	_start_time : null,
+	_save_time  : null,
+	$bar        : null,
+	$text       : null,
 
 	init : function(){ },
 	activate : function() {
-		var app = this.oApp;
+		var self = this, app = this.oApp, $form;
+		
+		// start time
+		this._start_time = (new Date).getTime();
 
 		// set default option
 		app.setDefault('use_autosave', false);
 		this._enable = app.getOption('use_autosave');
 
-		this.$bar = this.oApp.$root.find('div.time').hide();
+		this.$bar = this.oApp.$root.find('div.time').hide().click(function(){ $(this).slideUp(300) });
+
+		if (this._enable && window.editorEnableAutoSave) {
+			$form = $(app.$textarea[0].form);
+			editorEnableAutoSave($form[0], $form.attr('editor_sequence'), function(params){ self._save_callback(params) });
+		}
 	},
 	deactivate : function() {
+		this.$bar.unbind();
+	},
+	_save_callback : function(params) {
+		this.$bar.slideDown(300);
 	},
 	API_EXEC_AUTOSAVE : function() {
+		_editorAutoSave(true, this._save_callback);
 	},
 	API_ENABLE_AUTOSAVE : function(sender, params) {
+		var b = this._enable = !!params[0];
+		
+		app.setOption('use_autosave', b);
 	}
 });
 /**
@@ -4740,6 +4781,7 @@ else xe.Xeed = Xeed;
 
 xe.W3CDOMRange = W3CDOMRange;
 xe.HuskyRange  = HuskyRange;
+xe.Xeed.AutoSave = AutoSave;
 
 // run callback functions
 if ($.isArray(xe.Xeed.callbacks) && xe.Xeed.callbacks.length) {

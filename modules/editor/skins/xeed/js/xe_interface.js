@@ -4,7 +4,7 @@ if (!window.xe)  xe = {};
 if (!xe.Editors) xe.Editors = [];
 
 function editorStart_xe(editor_seq, primary_key, content_key, editor_height, colorset, content_style, content_font, content_font_size) {
-	var $textarea, $form, $input, saved_str, xeed, as;
+	var $textarea, $form, $input, saved_str, xeed, opt = {};
 
 	if(typeof(colorset)=='undefined') colorset = 'white';
 	if(typeof(content_style)=='undefined') content_style = 'xeStyle';
@@ -17,15 +17,13 @@ function editorStart_xe(editor_seq, primary_key, content_key, editor_height, col
 
 	if($input[0]) $textarea.val($input.remove().val()).attr('name', content_key);
 	$textarea.attr('name', content_key);
+	
+	// Use auto save feature?
+	opt.use_autosave = !!$form[0].elements['_saved_doc_title'];
 
 	// create an editor
-	xe.Editors[editor_seq] = xeed = new xe.Xeed($textarea);
+	xe.Editors[editor_seq] = xeed = new xe.Xeed($textarea, opt);
 	xe.registerApp(xeed);
-
-	// 자동 저장 사용
-	if (as=$form[0].elements['_saved_doc_title']) {
-		//xeed.registerPlugin(new xe.XE_AutoSave(oIRTextarea, elAppContainer));
-	}
 
 	// Set standard API
 	editorRelKeys[editor_seq] = {
@@ -35,6 +33,9 @@ function editorStart_xe(editor_seq, primary_key, content_key, editor_height, col
 		func      : function(){ return xeed.cast('GET_CONTENT'); },
 		pasteHTML : function(text){ xeed.cast('PASTE_HTML', [text]); }
 	};
+	
+	// Auto save
+	if (opt.use_autosave) xeed.registerPlugin(new xe.Xeed.AutoSave());
 
 	return xeed;
 }
