@@ -411,7 +411,7 @@
 			}
 
 			$target = $m[1];
-			if(substr($target,0,1)=='/')
+            if(substr($target,0,1)=='/')
 			{
 				$target = substr($target,1);
 				$pos = strrpos('/',$target);
@@ -456,9 +456,14 @@
 			$base_path = $this->path;
 
 			$target = $attrs['target'];
-			if(substr($target,0,2)=='./') $target = substr($target,2);
-			if(!substr($target,0,1)!='/') $target = $web_path.$target;
+            if(!preg_match('/^(http|https)/i',$target)) 
+            {
+                if(substr($target,0,2)=='./') $target = substr($target,2);
+                if(!substr($target,0,1)!='/') $target = $web_path.$target;
+            }
 
+			if(!$attrs['index']) $attrs['index'] = 'null';
+			if($attrs['type']!='body') $attrs['type'] = 'head';
 
             // if target ends with lang, load language pack
             if(substr($target, -4)=='lang') {
@@ -468,7 +473,8 @@
 
 			// otherwise try to load xml, css, js file
 			} else {
-				if(substr($target,0,1)!='/') $source_filename = $base_path.$target;
+				if(preg_match('/^(http|https)/i',$target)) $source_filename = $target;
+				else if(substr($target,0,1)!='/') $source_filename = $base_path.$target;
 				else $source_filename = $target;
 
 				// get filename and path
@@ -503,15 +509,15 @@
 						break;
 					// css file
 					case 'css' :
-							if(!preg_match('/^(http|\/)/i',$source_filename)) $source_filename = $this->path.$filename;
+							if(!preg_match('/^(http|https|\/)/i',$source_filename)) $source_filename = $this->path.$filename;
 							if($type == 'unload') $output = '<?php Context::unloadCSSFile("'.$source_filename.'"); ?>';
-							else $output = '<?php Context::addCSSFile("'.$source_filename.'"); ?>';
+							else $output = '<?php Context::addCSSFile("'.$source_filename.'",false,"'.$attrs['media'].'","'.$attrs['targetie'].'",'.$attrs['index'].'); ?>';
 						break;
 					// js file
 					case 'js' :
-							if(!preg_match('/^(http|\/)/i',$source_filename)) $source_filename = $this->path.$filename;
+							if(!preg_match('/^(http|https|\/)/i',$source_filename)) $source_filename = $this->path.$filename;
 							if($type == 'unload') $output = '<?php Context::unloadJsFile("'.$source_filename.'"); ?>';
-							else $output = '<?php Context::addJsFile("'.$source_filename.'"); ?>';
+							else $output = '<?php Context::addJsFile("'.$source_filename.'",false,"'.$attrs['targetie'].'",'.$attrs['index'].',"'.$attrs['type'].'"); ?>';
 						break;
 				}
 			}
@@ -738,8 +744,9 @@
 
             // otherwise try to load xml, css, js file
             } else {
-                if(preg_match('/^(http|https|\/)/i',$given_file)) $source_filename = $given_file;
-                else $source_filename = sprintf("%s%s",$base_path, $given_file);
+				if(preg_match('/^(http|https):/i',$given_file)) $source_filename = $given_file;
+                elseif(substr($given_file,0,1)!='/') $source_filename = sprintf("%s%s",$base_path, $given_file);
+                else $source_filename = $given_file;
 
                 // get filename and path
                 $tmp_arr = explode("/",$source_filename);
@@ -773,12 +780,12 @@
                         break;
                     // css file
                     case 'css' :
-                        $output = sprintf('<?php Context::addCSSFile("%s", %s, "%s", "%s", %s); ?>', $source_filename, 'false', $media, $targetie, $index);
+                                $output = sprintf('<?php Context::addCSSFile("%s", %s, "%s", "%s", %s); ?>', $source_filename, 'false', $media, $targetie, $index);
                         break;
                     // js file
                     case 'js' :
-                        $output = sprintf('<?php Context::addJsFile("%s", %s, "%s", %s,"%s"); ?>', $source_filename, 'false', $targetie, $index, $type);
-                       break;
+                                $output = sprintf('<?php Context::addJsFile("%s", %s, "%s", %s,"%s"); ?>', $source_filename, 'false', $targetie, $index, $type);
+                        break;
                 }
             }
 
@@ -832,7 +839,7 @@
             switch($ext) {
                 // css file
                 case 'css' :
-                        if(preg_match('/^(http|\/)/i',$source_filename)) {
+                        if(preg_match('/^(http|https|\/)/i',$source_filename)) {
                             $output = sprintf('<?php Context::unloadCSSFile("%s", %s, "%s", "%s"); ?>', $source_filename, 'false', $media, $targetie);
                         } else {
                             $meta_file = sprintf('%s%s', $base_path, $filename);
@@ -841,7 +848,7 @@
                     break;
                 // js file
                 case 'js' :
-                        if(preg_match('/^(http|\/)/i',$source_filename)) {
+                        if(preg_match('/^(http|https|\/)/i',$source_filename)) {
                             $output = sprintf('<?php Context::unloadJsFile("%s", %s, "%s"); ?>', $source_filename, 'false', $targetie);
                         } else {
                             $meta_file = sprintf('%s%s', $base_path, $filename);
