@@ -187,13 +187,11 @@
 
             // 쿼리 문 실행
             $result = @cubrid_execute ($this->fd, $query);
-            //if(!$result){ debugPrint('result null: ' .$query); }
             // 오류 체크
             if (cubrid_error_code ()) {
                 $code = cubrid_error_code ();
                 $msg = cubrid_error_msg ();
 
-                //debugPrint('query error :  '. $code.', msg:'. $msg .', ' .$query);
                 $this->setError ($code, $msg);
             }
 
@@ -308,7 +306,6 @@
             }
 
             $result = $this->_query ($query);
-            //if(!$result) debugPrint($query);
             if (cubrid_num_rows($result) > 0) {
                 $output = true;
             }
@@ -577,7 +574,7 @@
                 foreach ($val['condition'] as $v) {
                     if (!isset ($v['value'])) continue;
                     if ($v['value'] === '') continue;
-                    if (!in_array (gettype ($v['value']), array ('string', 'integer', 'double'))) continue;
+                    if(!in_array(gettype($v['value']), array('string', 'integer', 'double', 'array'))) continue;
 
                     $name = $v['column'];
                     $operation = $v['operation'];
