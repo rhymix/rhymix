@@ -780,11 +780,21 @@
                         break;
                     // css file
                     case 'css' :
+                            if(preg_match('/^(http|\/)/i',$source_filename)) {
                                 $output = sprintf('<?php Context::addCSSFile("%s", %s, "%s", "%s", %s); ?>', $source_filename, 'false', $media, $targetie, $index);
+                            } else {
+                                $meta_file = sprintf('%s%s', $base_path, $filename);
+                                $output = sprintf('<?php Context::addCSSFile("%s%s", %s, "%s", "%s", %s); ?>', $base_path, $filename, $optimized, $media, $targetie, $index);
+                            }
                         break;
                     // js file
                     case 'js' :
+                            if(preg_match('/^(http|\/)/i',$source_filename)) {
                                 $output = sprintf('<?php Context::addJsFile("%s", %s, "%s", %s,"%s"); ?>', $source_filename, 'false', $targetie, $index, $type);
+                            } else {
+                                $meta_file = sprintf('%s%s', $base_path, $filename);
+                                $output = sprintf('<?php Context::addJsFile("%s%s", %s, "%s", %s, "%s"); ?>', $base_path, $filename, $optimized, $targetie, $index, $type);
+                            }
                         break;
                 }
             }
@@ -842,7 +852,6 @@
                         if(preg_match('/^(http|https|\/)/i',$source_filename)) {
                             $output = sprintf('<?php Context::unloadCSSFile("%s", %s, "%s", "%s"); ?>', $source_filename, 'false', $media, $targetie);
                         } else {
-                            $meta_file = sprintf('%s%s', $base_path, $filename);
                             $output = sprintf('<?php Context::unloadCSSFile("%s%s", %s, "%s", "%s"); ?>', $base_path, $filename, $optimized, $media, $targetie);
                         }
                     break;
@@ -851,7 +860,6 @@
                         if(preg_match('/^(http|https|\/)/i',$source_filename)) {
                             $output = sprintf('<?php Context::unloadJsFile("%s", %s, "%s"); ?>', $source_filename, 'false', $targetie);
                         } else {
-                            $meta_file = sprintf('%s%s', $base_path, $filename);
                             $output = sprintf('<?php Context::unloadJsFile("%s%s", %s, "%s"); ?>', $base_path, $filename, $optimized, $targetie);
                         }
                     break;
