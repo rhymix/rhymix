@@ -738,8 +738,8 @@
 
             // otherwise try to load xml, css, js file
             } else {
-                if(substr($given_file,0,1)!='/') $source_filename = sprintf("%s%s",$base_path, $given_file);
-                else $source_filename = $given_file;
+                if(preg_match('/^(http|https|\/)/i',$given_file)) $source_filename = $given_file;
+                else $source_filename = sprintf("%s%s",$base_path, $given_file);
 
                 // get filename and path
                 $tmp_arr = explode("/",$source_filename);
@@ -773,22 +773,12 @@
                         break;
                     // css file
                     case 'css' :
-                            if(preg_match('/^(http|\/)/i',$source_filename)) {
-                                $output = sprintf('<?php Context::addCSSFile("%s", %s, "%s", "%s", %s); ?>', $source_filename, 'false', $media, $targetie, $index);
-                            } else {
-                                $meta_file = sprintf('%s%s', $base_path, $filename);
-                                $output = sprintf('<?php Context::addCSSFile("%s%s", %s, "%s", "%s", %s); ?>', $base_path, $filename, 'false', $media, $targetie, $index);
-                            }
+                        $output = sprintf('<?php Context::addCSSFile("%s", %s, "%s", "%s", %s); ?>', $source_filename, 'false', $media, $targetie, $index);
                         break;
                     // js file
                     case 'js' :
-                            if(preg_match('/^(http|\/)/i',$source_filename)) {
-                                $output = sprintf('<?php Context::addJsFile("%s", %s, "%s", %s,"%s"); ?>', $source_filename, 'false', $targetie, $index, $type);
-                            } else {
-                                $meta_file = sprintf('%s%s', $base_path, $filename);
-                                $output = sprintf('<?php Context::addJsFile("%s%s", %s, "%s", %s, "%s"); ?>', $base_path, $filename, 'false', $targetie, $index, $type);
-                            }
-                        break;
+                        $output = sprintf('<?php Context::addJsFile("%s", %s, "%s", %s,"%s"); ?>', $source_filename, 'false', $targetie, $index, $type);
+                       break;
                 }
             }
 
