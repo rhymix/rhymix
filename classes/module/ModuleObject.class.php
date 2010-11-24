@@ -244,6 +244,14 @@
             // stop_proc==true이면 그냥 패스
             if($this->stop_proc) return false;
 
+            // trigger call
+            $triggerOutput = ModuleHandler::triggerCall('moduleObject.proc', 'before', $this);
+            if(!$triggerOutput->toBool()) {
+                $this->setError($triggerOutput->getError());
+                $this->setMessage($triggerOutput->getMessage());
+                return false;
+            }
+
             // addon 실행(called_position 를 before_module_proc로 하여 호출)
             $called_position = 'before_module_proc';
             $oAddonController = &getController('addon');
@@ -266,8 +274,15 @@
 			else {
 				return false;
 			}
-			
 
+            // trigger call
+            $triggerOutput = ModuleHandler::triggerCall('moduleObject.proc', 'after', $this);
+            if(!$triggerOutput->toBool()) {
+                $this->setError($triggerOutput->getError());
+                $this->setMessage($triggerOutput->getMessage());
+                return false;
+            }
+			
             // addon 실행(called_position 를 after_module_proc로 하여 호출)
             $called_position = 'after_module_proc';
             $oAddonController = &getController('addon');
