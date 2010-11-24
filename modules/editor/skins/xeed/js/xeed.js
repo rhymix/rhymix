@@ -70,7 +70,8 @@ Xeed = xe.createApp('Xeed', {
 			.keydown(function(event){ self.cast('ON_KEYDOWN', [event]) });
 		this.$root.find('>div.xd').show();
 		this.$toolbar  = this.$root.find('>div.xd>div.tool');
-		this.$toolbar.find('>a:first').attr('href', '#'+tmpId);
+		this.$toolbar
+			.find('>a:first').attr('href', '#'+tmpId).end();
 
 		// legacy mode for firefox
 		try { d.execCommand('styleWithCSS', false, false); } catch(e){};
@@ -243,6 +244,16 @@ Xeed = xe.createApp('Xeed', {
 
 		// If the rich editor is hidden, put the content into the textarea too.
 		if ($rich.is(':hidden')) this.$textarea.val( this.cast('GET_CONTENT', [0, true]) );
+	},
+
+	/**
+	 * @brief Paste html code
+	 *
+	 */
+	API_PASTE_HTML : function(sender, params) {
+		var html = params[0], sel = this.getSelection();
+
+		if (sel) sel.pasteHTML(html);
 	},
 
 	/**
@@ -479,7 +490,7 @@ Block = xe.createPlugin('BlockCommand', {
 		this.$btns = {};
 	},
 	activate : function() {
-		var self = this, app = this.oApp, $tb = app.$toolbar, np = navigator.platform;
+		var self = this, app = this.oApp, $tb = app.$toolbar, $li, np = navigator.platform, i, c, lines;
 
 		if (!$tb) return;
 
@@ -502,7 +513,12 @@ Block = xe.createPlugin('BlockCommand', {
 
 		// line-height
 		this.$line_btn   = $tb.find('li.lh:first>button').mousedown(function(){ self.cast('TOGGLE_LINEHEIGHT_LAYER'); return false; });
-		this.$line_layer = this.$line_btn.next('ul.lr')
+		this.$line_layer = this.$line_btn.next('ul.lr');
+		lines = ($li=this.$line_layer.find('>li').remove()).text().split(';');
+		for(i=0, c=lines.length; i < c; i++) {
+			this.$line_layer.append( $li.clone(true).find('>button').text(lines[i]).end() );
+		}
+		this.$line_layer
 			.find('>li>button')
 				.hover(
 					function(){ $(this[_pn_]).addClass('hover') },
@@ -928,10 +944,12 @@ Font = xe.createPlugin('Font', {
 	selection : null, // preserved selection
 	$ff_layer : null, // font famliy layer
 	$fs_layer : null, // font size layer
-	$cr_layer : null, // color layer
+	$fc_layer : null, // font color layer
+	$bc_layer : null, // background color layer
 	$ff_btn   : null,
 	$fs_btn   : null,
-	$cr_btn   : null,
+	$fc_btn   : null,
+	$bc_btn   : null,
 
 	init : function() {
 		var self = this;
@@ -939,26 +957,30 @@ Font = xe.createPlugin('Font', {
 		this._fn = {
 			ff : function(){ self.cast('TOGGLE_FONTFAMILY_LAYER'); return false; },
 			fs : function(){ self.cast('TOGGLE_FONTSIZE_LAYER'); return false; },
-			cr : function(){ self.cast('TOGGLE_COLOR_LAYER'); return false; },
 			hover : function(){ $(this).parent().addClass('hover'); return false; },
 			out   : function(){ $(this).parent().removeClass('hover'); return false; }
 		};
 	},
 	activate : function() {
-		var self = this, $tb = this.oApp.$toolbar, $pv, $col, $bgcol, col, bgcol, _bc_ = 'background-color';
+		var self = this, $tb = this.oApp.$toolbar, $tmp, $clone, $pv, $col, $bgcol, col, bgcol, fs, i, c, _bc_ = 'background-color';
 
 		// buttons
 		this.$ff_btn = $tb.find('li.ff > button:first').mousedown(this._fn.ff);
 		this.$fs_btn = $tb.find('li.fs > button:first').mousedown(this._fn.fs);
-		this.$cr_btn = $tb.find('li.cr > button:first').mousedown(this._fn.cr);
+		this.$fc_btn = $tb.find('li.cr.fc > button')
+			.eq(0).mousedown(function(){ self.cast('EXEC_FONTCOLOR', [$(this).css('background-color')]); return false; }).end()
+			.eq(1).mousedown(function(){ self.cast('TOGGLE_FONTCOLOR_LAYER'); return false; }).end();
+		this.$bc_btn = $tb.find('li.cr.bc > button')
+			.eq(0).mousedown(function(){ self.cast('EXEC_FONTBGCOLOR', [$(this).css('background-color')]); return false; }).end()
+			.eq(1).mousedown(function(){ self.cast('TOGGLE_BGCOLOR_LAYER'); return false; }).end();
 
 		// layers
-		this.$ff_layer   = this.$ff_btn.next('.lr');
-		this.$fs_layer   = this.$fs_btn.next('.lr');
-		this.$cr_layer   = this.$cr_btn.next('.lr').mousedown(function(event){ event.stopPropagation() });
-		this.$cr_preview = $pv = this.$cr_layer.find('>.pv span');
+		this.$ff_layer = this.$ff_btn.next('.lr');
+		this.$fs_layer = this.$fs_btn.next('.lr');
+		this.$fc_layer = this.$fc_btn.next('.lr').mousedown(function(event){ event.stopPropagation() });
+		this.$bc_layer = this.$bc_btn.next('.lr').mousedown(function(event){ event.stopPropagation() });
 
-		// items
+		// font-family items
 		this.$ff_layer.find('button')
 			.hover(this._fn.hover, this._fn.out)
 			.click(function(){
@@ -967,6 +989,12 @@ Font = xe.createPlugin('Font', {
 				return false;
 			});
 
+		// font-size items
+		$tmp = this.$fs_layer.find('>li').remove();
+		fs   = $tmp.text().split(';');
+		for(i=0, c=fs.length; i < c; i++) {
+			this.$fs_layer.append( $tmp.clone(true).find('>button').css('font-size', fs[i]).text(fs[i]).end() );
+		}
 		this.$fs_layer.find('button')
 			.hover(this._fn.hover, this._fn.out)
 			.click(function(){
@@ -974,83 +1002,53 @@ Font = xe.createPlugin('Font', {
 				self.cast('HIDE_FONTSIZE_LAYER');
 				return false;
 			});
-
-		$col = this.$cr_layer.find('>.fc input[type=text]')
-			.focus(function(){ })
-			.blur(function(){ })
-			.keypress(function(){ });
-
-		$bgcol = this.$cr_layer.find('>.bc input[type=text]')
-			.focus(function(){ })
-			.blur(function(){ })
-			.keypress(function(){ });
-
-		this.$cr_layer
-			.find('>.fc button')
-				.hover(
-					function(){ $pv.css('color', $(this).css(_bc_));  },
-					function(){ $pv.css('color', $pv.data('col')); }
-				)
-				.click(function(){
-					var val = $(this).css(_bc_);
-
-					if (col && val == col) {
-						self.cast('EXEC_FONTCOLOR', [val]);
-						self.cast('HIDE_COLOR_LAYER');
-					} else {
-						$pv.data('col', col=val).css('color', val);
-						$col.val(self.toHex(val)).prev('label').hide();
-						setTimeout(function(){ col = '' }, 500);
+			
+		// color items
+		$tb.find('li.cr')
+			.find('ul.ct,ul.cx')
+				.each(function(){
+					var $this = $(this), $li = $this.find('>li').remove(), $clone_li, $span, $btn, colors,i,c,types;
+					
+					colors = $li.text().split(';');
+					for(i=0,c=colors.length; i < c; i++) {
+						types = colors[i].split(':');
+						$clone_li = $li.clone(true);
+						$btn  = $clone_li.find('>button');
+						$span = $btn.find('>span');
+						
+						(($span.length)?$span:$btn).text('#'+types[0]);
+						
+						$btn.css('background-color', '#'+types[0]);
+						if (types[1]) $btn.css('color', '#'+types[1]);
+						
+						$this.append($clone_li);
 					}
-					return false;
 				})
 				.end()
-			.find('>.bc button')
-				.hover(
-					function(){ $pv.css(_bc, $(this).css(_bc_)); },
-					function(){ $pv.css(_bc_, $pv.data('bgcol'));  }
-				)
-				.click(function(){
-					var $this = $(this), val = $this.css(_bc_);
-
-					if (bgcol && val == bgcol) {
-						self.cast('EXEC_FONTBGCOLOR', [val]);
-						self.cast('HIDE_COLOR_LAYER');
-					} else {
-						$pv.data('bgcol', bgcol=val).css(_bc_, val);
-						$bgcol.val(self.toHex(val)).prev('label').hide();
-						setTimeout(function(){ bgcol = '' }, 500);
-					}
+			.filter('.fc').find('li > button')
+				.mousedown(function(){
+					self.cast('EXEC_FONTCOLOR', [$(this).css('background-color'), true]);
+					self.cast('HIDE_FONTCOLOR_LAYER');
 					return false;
 				})
-				.end()
-			.find('>button')
-				.click(function(){
-					var col = $pv.data('col'), bgcol = $pv.data('bgcol');
-
-					if (col) self.cast('EXEC_FONTCOLOR', [col]);
-					if (bgcol) self.cast('EXEC_FONTBGCOLOR', [bgcol]);
-					self.cast('HIDE_COLOR_LAYER');
-
+				.end().end()
+			.filter('.bc').find('li > button')
+				.mousedown(function(){
+					self.cast('EXEC_FONTBGCOLOR', [$(this).css('background-color'), true]);
+					self.cast('HIDE_BGCOLOR_LAYER');
 					return false;
-				})
-				.end()
-			.find(':text')
-				.focus(function(){
-					$(this).prev().hide();
-				})
-				.blur(function(){
-					if (!$.trim(this.value)) $(this).prev().show();
 				});
 	},
 	deactivate : function() {
 		this.$ff_btn.unbind('mousedown');
 		this.$fs_btn.unbind('mousedown');
-		this.$cr_btn.unbind('mousedown');
+		this.$fc_btn.unbind('mousedown');
+		this.$bc_btn.unbind('mousedown');
 
 		this.$ff_layer.find('button').unbind();
 		this.$fs_layer.find('button').unbind();
-		this.$cr_layer.find('button,input').unbind();
+		this.$fc_layer.find('button').unbind();
+		this.$bc_layer.find('button').unbind();
 	},
 	showLayer : function($layer) {
 		if (!$layer || $layer.hasClass('open')) return;
@@ -1121,11 +1119,13 @@ Font = xe.createPlugin('Font', {
 	/**
 	 * @brief Set font color
 	 * @param String indicates color
+	 * @param Bool
 	 */
 	API_EXEC_FONTCOLOR : function(sender, params) {
 		if(!params[0]) return;
 
 		this.cast('EXEC_FONTSTYLE', [{color:params[0]}]);
+		if(params[1]) this.$fc_btn.eq(0).css('background-color', params[0]);
 
 		// save undo point
 		this.cast('SAVE_UNDO_POINT');
@@ -1133,11 +1133,13 @@ Font = xe.createPlugin('Font', {
 	/**
 	 * @breif Set font background color
 	 * @param String indicates background color
+	 * @param Bool
 	 */
 	API_EXEC_FONTBGCOLOR : function(sender, params) {
 		if(!params[0]) return;
 
 		this.cast('EXEC_FONTSTYLE', [{backgroundColor:params[0]}]);
+		if(params[1]) this.$bc_btn.eq(0).css('background-color', params[0]);
 
 		// save undo point
 		this.cast('SAVE_UNDO_POINT');
@@ -1196,29 +1198,48 @@ Font = xe.createPlugin('Font', {
 		this.toggleLayer(this.$fs_layer, 'FONTSIZE');
 	},
 	/**
-	 * @brief Show color layer
+	 * @brief Show fontcolor layer
 	 */
-	API_SHOW_COLOR_LAYER : function(sender, params) {
-		this.showLayer(this.$cr_layer);
+	API_SHOW_FONTCOLOR_LAYER : function(sender, params) {
+		this.showLayer(this.$fc_layer);
 	},
 	/**
-	 * @brief Hide color layer
+	 * @brief Hide fontcolor layer
 	 */
-	API_HIDE_COLOR_LAYER : function(sender, params) {
-		this.hideLayer(this.$cr_layer);
+	API_HIDE_FONTCOLOR_LAYER : function(sender, params) {
+		this.hideLayer(this.$fc_layer);
 	},
 	/**
-	 * @brief Toggle color layer
+	 * @brief Toggle fontcolor layer
 	 */
-	API_TOGGLE_COLOR_LAYER : function(sender, params) {
-		this.toggleLayer(this.$cr_layer, 'COLOR');
+	API_TOGGLE_FONTCOLOR_LAYER : function(sender, params) {
+		this.toggleLayer(this.$fc_layer, 'FONTCOLOR');
+	},
+	/**
+	 * @brief Show bgcolor layer
+	 */
+	API_SHOW_BGCOLOR_LAYER : function(sender, params) {
+		this.showLayer(this.$bc_layer);
+	},
+	/**
+	 * @brief Hide bgcolor layer
+	 */
+	API_HIDE_BGCOLOR_LAYER : function(sender, params) {
+		this.hideLayer(this.$bc_layer);
+	},
+	/**
+	 * @brief Toggle bgcolor layer
+	 */
+	API_TOGGLE_BGCOLOR_LAYER : function(sender, params) {
+		this.toggleLayer(this.$bc_layer, 'BGCOLOR');
 	},
 	API_HIDE_ALL_LAYER : function(sender, params) {
-		var $ff = this.$ff_layer, $fs = this.$fs_layer, $cr = this.$cr_layer, except = params[0];
+		var $ff = this.$ff_layer, $fs = this.$fs_layer, $fc = this.$fc_layer, $bc = this.$bc_layer, except = params[0];
 
 		if ($ff && $ff[0] != except) this.cast('HIDE_FONTFAMILY_LAYER');
 		if ($fs && $fs[0] != except) this.cast('HIDE_FONTSIZE_LAYER');
-		if ($cr && $cr[0] != except) this.cast('HIDE_COLOR_LAYER');
+		if ($fc && $fc[0] != except) this.cast('HIDE_FONTCOLOR_LAYER');
+		if ($bc && $bc[0] != except) this.cast('HIDE_BGCOLOR_LAYER');
 	}
 });
 /**
@@ -1991,6 +2012,16 @@ SChar = xe.createPlugin('SChar', {
 		this.$btn   = $tb.find('button.sc').mousedown(function(){ self.cast('TOGGLE_SCHAR_LAYER'); return false; });
 		this.$layer = this.$btn.next('div.lr')
 			.mousedown(function(event){ event.stopPropagation(); })
+			.find('li.li').each(function(){
+				var $this = $(this), $ul = $this.find('>ul'), $li = $ul.find('li').remove(), i, c, chars;
+				
+				chars = $li.text();
+				
+				for(i=0, c=chars.length; i < c; i++) {
+					$ul.append( $li.clone(true).find('>button').text(chars.substr(i,1)).end() );
+				}
+			})
+			.end()
 			.find('button.tab')
 				.mousedown(function(){
 					self.$layer.find('li.li').removeClass('active');
@@ -2010,6 +2041,12 @@ SChar = xe.createPlugin('SChar', {
 				}
 			});
 
+		this.$layer.find('li.li').each(function(){
+			var $this = $(this), $li ;
+			
+			$this.find('li')
+		});
+			
 		this.$btns = this.$layer.find('button.btn')
 			.each(function(i){
 				var $this = $(this);
