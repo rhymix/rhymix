@@ -296,7 +296,7 @@ body{height:100%}
 /* XD Layer Window */
 .xdlw{display:none;position:absolute;top:50%;left:50%;z-index:1000;color:#000}
 .xdlw img{border:0}
-.xdlw .iHead{background-position:0 -1140px;background-repeat:repeat-x;border-bottom:1px solid #ccc;font-size:12px;padding:10px 0;*zoom:1;cursor:move}
+.xdlw .iHead{background-position:0 -1140px;background-repeat:repeat-x;border-bottom:1px solid #ccc;font-size:12px;padding:10px 0;*zoom:1;cursor:move;overflow:hidden}
 .xdlw .iHead:after{content:"";display:block;clear:both}
 .xdlw .iHead h2{float:left;_display:inline;margin:0 0 0 20px;padding:0 0 0 20px;background-position:0 -257px;font-size:12px;height:16px;line-height:16px}
 .xdlw .iHead h2 em{font-weight:normal;font-style:normal;color:#ccc}
@@ -323,7 +323,7 @@ body{height:100%}
 .xdal .sn ul{height:290px;margin:0;padding:0;*zoom:1;overflow:auto;overflow-x:hidden;border-top:1px dotted #ccc}
 .xdal .sn ul:after{content:"";display:block;clear:both}
 .xdal .sn li{position:relative;top:-1px;list-style:none;vertical-align:top;margin:0;padding:8px 0;border-top:1px dotted #ccc;color:#666}
-.xdal .sn .ob{position:relative;text-decoration:none;white-space:nowrap;font-size:0;width:60px;height:60px;overflow:hidden;margin:0 0 5px 0;border:1px solid #ddd;text-align:center;vertical-align:top;line-height:58px;background:#fff}
+.xdal .sn .ob{position:relative;text-decoration:none;white-space:nowrap;font-size:0;width:60px;height:60px;overflow:hidden;margin:0 0 5px 0;border:1px solid #ddd;text-align:center;vertical-align:top;line-height:58px;background-color:#fff}
 .xdal .sn .ob img{vertical-align:middle}
 .xdal .sn .ctr{position:absolute;top:8px;width:30px;height:30px;font-size:11px;white-space:nowrap;color:#666}
 .xdal .sn .ins{right:35px;background-position:-510px -250px}
@@ -348,6 +348,7 @@ body{height:100%}
 .xdal .file .txt{background-position:-520px -420px}
 .xdal .file .rtf{background-position:-20px -520px}
 .xdal .file .xls,
+.xdal .file .csv,
 .xdal .file .xlsx{background-position:-120px -520px}
 .xdal .file .png{background-position:-220px -520px}
 .xdal .file .jpg{background-position:-320px -520px}
@@ -374,6 +375,7 @@ body{height:100%}
 .xdal .file .css{background-position:-20px -920px}
 .xdal .file .iso{background-position:-120px -920px}
 .xdal .file .zip{background-position:-220px -920px}
+.xdal .file .etc{background-position:-320px -920px}
 /* XDCS = Xpress eDitor Content Style */
 .xdcs{font-size:12px;line-height:1.5;overflow:hidden !important;*zoom:1}
 .xdcs .h1{font-size:24px;margin:1em 0}
