@@ -374,7 +374,12 @@ body{height:100%}
 .xdal .file .html{background-position:-520px -820px}
 .xdal .file .css{background-position:-20px -920px}
 .xdal .file .iso{background-position:-120px -920px}
-.xdal .file .zip{background-position:-220px -920px}
+.xdal .file .zip,
+.xdal .file .tar,
+.xdal .file .gz,
+.xdal .file .alz,
+.xdal .file .rar
+{background-position:-220px -920px}
 .xdal .file .etc{background-position:-320px -920px}
 /* XDCS = Xpress eDitor Content Style */
 .xdcs{font-size:12px;line-height:1.5;overflow:hidden !important;*zoom:1}
