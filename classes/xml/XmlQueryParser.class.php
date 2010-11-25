@@ -179,8 +179,8 @@
 			{
 				foreach($arg_list as $arg)
 				{
-					$pre_buff .= 'if(is_object($args->'.$arg.')){ $args->'.$arg.' = get_method_vars($args->'.$arg.'); }'. "\n";
-					$pre_buff .= 'if(is_array($args->'.$arg.')){ if(count($args->'.$arg.')>0) { $args->'.$arg.' = join(",",$args->'.$arg.'); } else { unset($args->'.$arg.'); }};'."\n";
+					$pre_buff .= 'if(is_object($args->'.$arg.')){ $args->'.$arg.' = array_values(get_method_vars($args->'.$arg.')); }'. "\n";
+					$pre_buff .= 'if(is_array($args->'.$arg.') && count($args->'.$arg.')==0){ unset($args->'.$arg.'); };'."\n";
 				}
 			}
 
