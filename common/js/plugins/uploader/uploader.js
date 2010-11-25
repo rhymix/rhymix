@@ -350,26 +350,36 @@ runtimes.html5 = {
 		(function uploadNext() {
 			var file = files.shift();
 			var req  = uploader.request = new XMLHttpRequest();
-			var data = '';
 			var bndr = '--------------xe-boundary'+random();
-			var bin  = file.object.getAsBinary();
-			var gap  = 0;
+			var compatFF, data, bin, gap = 0;
 
-			$.each(settings.params, function(key, val) {
+			// Firefox compatible mode
+			compatFF = typeof(file.object.getAsBinary) == 'function';
+
+			if (compatFF) {
+				data = '';
+				$.each(settings.params, function(key, val) {
+					data += '--'+bndr+'\r\n';
+					data += 'Content-Disposition: form-data; name="'+key+'"\r\n\r\n';
+					data += val+'\r\n';
+				});
+
 				data += '--'+bndr+'\r\n';
-				data += 'Content-Disposition: form-data; name="'+key+'"\r\n\r\n';
-				data += val+'\r\n';
-			});
+				data += 'Content-Disposition: form-data; name="Filedata"; filename="'+file.name+'"\r\n';
+				data += 'Content-Type: application/octet-stream\r\n\r\n';
+				data += bin;
+				data += '\r\n';
+				data += '--'+bndr+'--\r\n';
 
-			data += '--'+bndr+'\r\n';
-			data += 'Content-Disposition: form-data; name="Filedata"; filename="'+file.name+'"\r\n';
-			data += 'Content-Type: application/octet-stream\r\n\r\n';
-			data += bin;
-			data += '\r\n';
-			data += '--'+bndr+'--\r\n';
-
-			bin = null;
-			gap  = data.length - file.object.fileSize;
+				bin = null;
+				gap = data.length - file.object.fileSize;
+			} else {
+				data = new FormData();
+				$.each(settings.params, function(key, val) {
+					data.append(key, val);
+				});
+				data.append('Filedata', file.object);
+			}
 
 			uploader.cast('ON_STARTONE', [file]);
 
@@ -417,10 +427,12 @@ runtimes.html5 = {
 			}
 
 			req.open('POST', settings.url);
-			req.setRequestHeader('Content-Type', 'multipart/form-data; boundary='+bndr);
-
-			if (req.sendAsBinary) req.sendAsBinary(data);
-			else req.send(data);
+			if (compatFF) {
+				req.setRequestHeader('Content-Type', 'multipart/form-data; boundary='+bndr);
+				req.sendAsBinary(data);
+			} else {
+				req.send(data);
+			}
 		})();
 	},
 	stop : function(uploader, settings) {
