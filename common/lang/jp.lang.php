@@ -259,7 +259,7 @@
     $lang->confirm_move = '移動しますか？';
     $lang->confirm_reset = '初期化しますか？';
     $lang->confirm_leave = '退会しますか？';
-    $lang->confirm_update = 'Are you sure to update?';
+    $lang->confirm_update = '更新しますか？';
 
     $lang->column_type = 'タイプ';
     $lang->column_type_list['text'] = '入力フィールド(text)';
@@ -285,7 +285,7 @@
     $lang->ftp = 'FTP';
     $lang->ftp_host = 'FTP hostname';
     $lang->ftp_port = 'FTPポート番号（port）';
-    $lang->about_ftp_password = 'FTP password will not be stored';
+    $lang->about_ftp_password = 'FTP情報は保存されません。';
     $lang->cmd_check_ftp_connect = 'FTP接続をテストする';
     $lang->about_ftp_info = "
         FTP情報は次の場合、利用されます。<br />
@@ -302,9 +302,9 @@
     $lang->msg_ftp_chmod_fail = 'FTPを用いたディレクトリパーミッション(permission)変更に失敗しました。FTPサーバーの設定を再度ご確認下さい。';
     $lang->msg_ftp_connect_success = 'FTP接続に成功しました。';
 
-    $lang->ftp_path_title = 'FTP 경로 정보 입력';
-    $lang->msg_ftp_installed_realpath = '설치된 XE의 절대경로';
-    $lang->msg_ftp_installed_ftp_realpath = '설치된 XE의 FTP 절대경로 설정';
+    $lang->ftp_path_title = 'FTP経路情報入力';
+    $lang->msg_ftp_installed_realpath = '設置されたXEの絶対経路';
+    $lang->msg_ftp_installed_ftp_realpath = '設置されたXEのFTP絶対経路設定';
 
 
     // xml filterで用いられているjavascript用のアラートメッセージ
@@ -320,5 +320,5 @@
     $lang->filter->invalid_alpha_number = '%sの形式が正しくありません。半角英数で入力して下さい。';
     $lang->filter->invalid_number = '%sの形式が正しくありません。半角数字で入力して下さい。';
 
-    $lang->security_warning_embed = "Due to security concern, administrators are not allowed to view embedded items.<BR /> To view them, please use another non-administrator ID.";
+    $lang->security_warning_embed = "保安のため、管理者IDではEMBEDを見ることが出来ません。<br />他のIDでログインして下さい。";
 ?>
