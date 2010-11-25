@@ -12,4 +12,5 @@
     $lang->page_caching_interval = 'キャッシング時間設定';
     $lang->about_page_caching_interval = '分単位で指定出来、設定された時間の間は、臨時保存されたデータを出力します。<br />他のサーバの情報を出力したり、データを出力する際、リソースが多く使われるため、数分単位でキャッシングすることをお勧めします。<br />「0」に指定するとキャッシングされません。';
 	$lang->about_mcontent = 'This is the page for the mobile view. If you do not write this page, the mobile view display reoragnized PC view\'s page.';
+	$lang->page_management = 'ページ管理';
 ?>
