@@ -432,16 +432,28 @@
                         $value = '%'.$value.'%';
                     break;
                 case 'notin' :
-						if(!is_array($value)) $value = array($value);
-			            $value = $this->addQuotesArray($value);
-						if($type=='number') return join(',',$value);
-						else return "'". join("','",$value)."'";
+						if(is_array($value))
+						{
+							$value = $this->addQuotesArray($value);
+							if($type=='number') return join(',',$value);
+							else return "'". join("','",$value)."'";
+						}
+						else
+						{
+							return $value;
+						}
                     break;
                 case 'in' :
-						if(!is_array($value)) $value = array($value);
-			            $value = $this->addQuotesArray($value);
-						if($type=='number') return join(',',$value);
-						else return "'". join("','",$value)."'";
+						if(is_array($value))
+						{
+							$value = $this->addQuotesArray($value);
+							if($type=='number') return join(',',$value);
+							else return "'". join("','",$value)."'";
+						}
+						else
+						{
+							return $value;
+						}
                     break;
                 case 'between' :
 						if(!is_array($value)) $value = array($value);
