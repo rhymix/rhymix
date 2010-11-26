@@ -48,7 +48,7 @@ body{height:100%}
 .xdlw .iHead h2,
 .xdlw .btn,
 .xdal .label,
-.xdal .movie .ob,
+.xdal .media .ob,
 .xdal .file .ob,
 .xdal .sn .task .all,
 .xdal .sn .ctr{background-image:url(xd.gif);background-repeat:no-repeat}
@@ -318,7 +318,7 @@ body{height:100%}
 .xdal .iFoot .info{margin:0;float:left;font-size:11px;line-height:normal;padding:0 0 0 20px;color:#666}
 .xdal .label{line-height:30px;font-weight:bold;margin:0;padding:0 0 0 24px;font-size:12px}
 .xdal .img .label{background-position:0 -280px}
-.xdal .movie .label{background-position:0 -310px}
+.xdal .media .label{background-position:0 -310px}
 .xdal .file .label{background-position:0 -340px}
 .xdal .sn{position:relative;padding:10px 20px 15px 20px;width:219px;float:left;border-left:1px solid #ddd}
 .xdal .sn .nofile{display:none;padding:1em 0;margin:0;color:#767676;border-top:1px dotted #ccc}
@@ -358,12 +358,12 @@ body{height:100%}
 .xdal .file .bmp{background-position:-520px -520px}
 .xdal .file .tif{background-position:-20px -620px}
 .xdal .file .raw{background-position:-120px -620px}
-.xdal .movie .avi{background-position:-220px -620px}
-.xdal .movie .wmv{background-position:-320px -620px}
-.xdal .movie .mov{background-position:-420px -620px}
-.xdal .movie .mpg{background-position:-520px -620px}
-.xdal .movie .flv{background-position:-20px -720px}
-.xdal .movie .divx{background-position:-120px -720px}
+.xdal .media .avi{background-position:-220px -620px}
+.xdal .media .wmv{background-position:-320px -620px}
+.xdal .media .mov{background-position:-420px -620px}
+.xdal .media .mpg{background-position:-520px -620px}
+.xdal .media .flv{background-position:-20px -720px}
+.xdal .media .divx{background-position:-120px -720px}
 .xdal .file .mp3{background-position:-220px -720px}
 .xdal .file .wma{background-position:-320px -720px}
 .xdal .file .wav{background-position:-420px -720px}
