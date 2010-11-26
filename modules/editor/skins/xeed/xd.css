@@ -3,7 +3,9 @@
 /* Reset */
 html,
 body{height:100%}
-.xd{display:none;position:relative;margin:1em 0;border:1px solid #b5b5b5;overflow:hidden;z-index:1;*zoom:1;color:#000}
+.xd{display:none;position:relative;margin:1em 0;border:1px solid #b5b5b5;z-index:1;*zoom:1;color:#000}
+.xd legend{visibility:visible}
+.xd fieldset{*zoom:1}
 .xd .tool ul,
 .xd .mode ul{margin:0;padding:0;list-style:none}
 .xd .tool button,
@@ -205,7 +207,7 @@ body{height:100%}
 .xd .t2 .u3 .cr .lr fieldset{position:relative}
 .xd .t2 .u3 .cr .lr legend{font-size:12px;font-weight:bold;margin:0;padding:0;display:block;line-height:normal;width:auto;height:auto;position:static}
 .xd .t2 .u3 .cr .lr .ct,
-.xd .t2 .u3 .cr .lr .cx{width:204px;position:relative;*zoom:1}
+.xd .t2 .u3 .cr .lr .cx{width:204px;position:relative;*zoom:1;overflow:hidden}
 .xd .t2 .u3 .cr .lr .ct:after,
 .xd .t2 .u3 .cr .lr .cx:after{content:"";display:block;clear:both}
 .xd .t2 .u3 .cr .lr .ct li,
@@ -373,14 +375,14 @@ body{height:100%}
 .xdal .file .xml{background-position:-420px -820px}
 .xdal .file .html{background-position:-520px -820px}
 .xdal .file .css{background-position:-20px -920px}
-.xdal .file .iso{background-position:-120px -920px}
+.xdal .file .js{background-position:-120px -920px}
+.xdal .file .iso{background-position:-220px -920px}
 .xdal .file .zip,
 .xdal .file .tar,
 .xdal .file .gz,
 .xdal .file .alz,
-.xdal .file .rar
-{background-position:-220px -920px}
-.xdal .file .etc{background-position:-320px -920px}
+.xdal .file .rar{background-position:-320px -920px}
+.xdal .file .etc{background-position:-420px -920px}
 /* XDCS = Xpress eDitor Content Style */
 .xdcs{font-size:12px;line-height:1.5;overflow:hidden !important;*zoom:1}
 .xdcs .h1{font-size:24px;margin:1em 0}
