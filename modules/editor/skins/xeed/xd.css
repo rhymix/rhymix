@@ -338,7 +338,8 @@ body{height:100%}
 .xdal .sn .uploading .progress{display:inline-block}
 .xdal .none .task{display:none}
 .xdal .none .nofile{display:block}
-.xdal .file .ob{text-indent:-900px}
+.xdal .file .ob,
+.xdal .media .ob{text-indent:-900px}
 .xdal .file .uploading .ob{text-indent:0;background-image:none}
 .xdal .file .pdf{background-position:-20px -420px}
 .xdal .file .doc,
