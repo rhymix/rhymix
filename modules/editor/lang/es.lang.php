@@ -259,4 +259,14 @@
 
 	$lang->edit->fieldset = '글상자';
 	$lang->edit->paragraph = '문단';
+	
+	$lang->edit->autosave_format = '글을 쓰기 시작한지 <strong>%s</strong>이 지났습니다. 마지막 저장 시간은 <strong>%s</strong> 입니다.';
+	$lang->edit->autosave_hour = '%d시간';
+	$lang->edit->autosave_hours = '%d시간';
+	$lang->edit->autosave_min = '%d분';
+	$lang->edit->autosave_mins = '%d분';
+	$lang->edit->autosave_hour_ago = '%d시간 전';
+	$lang->edit->autosave_hours_ago = '%d시간 전';
+	$lang->edit->autosave_min_ago = '%d분 전';
+	$lang->edit->autosave_mins_ago = '%d분 전';
 ?>
