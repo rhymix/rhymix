@@ -2444,28 +2444,7 @@ FileUpload = xe.createPlugin('FileUpload', {
 					mid    : current_mid
 				};
 
-				function callback(ret) {
-					if (!ret.files || !ret.files.item) return;
-					if (!$.isArray(ret.files.item)) ret.files.item = [ret.files.item];
-					if (!primary.value && ret.upload_target_srl) primary.value = ret.upload_target_srl;
-
-					var i, c, f, k, $item;
-					for(i=0,c=ret.files.item.length; i < c; i++) {
-						f = ret.files.item[i];
-						k = f.source_filename.toLowerCase()+'-'+f.file_size;
-
-						$item = self.$file_list.find('li[_key='+k+']');
-
-						if ($item.attr('_type') == 'img') {
-							$item.find('button.ob > img')
-								.load(function(){ $(this).css((this.width>this.height)?'width':'height', '54px'); })
-								.attr('src', f.download_url);
-						}
-						$item.attr('file_srl', f.file_srl).data('url', f.download_url);
-					}
-				}
-
-				$.exec_xml('file', 'getFileList', params, bind(this, this._callbackFileList), ['error', 'message', 'files', 'left_size', 'editor_sequence', 'upload_target_srl', 'upload_status']);
+				$.exec_xml('file', 'getFileList', params, bind(self, self._callbackFileList), ['error', 'message', 'files', 'left_size', 'editor_sequence', 'upload_target_srl', 'upload_status']);
 			}
 
 			uploader = xe.createUploader(
