@@ -38,7 +38,7 @@ function editorEnableAutoSave(fo_obj, editor_sequence, callback) {
     editorAutoSaveObj = {"fo_obj":fo_obj, "editor_sequence":editor_sequence, "title":title, "content":content, locked:false};
 
 	clearTimeout(editorEnableAutoSave.timer);
-    editorEnableAutoSave.timer = setTimeout(function(){_editorAutoSave(false, callback)}, 5000);
+    editorEnableAutoSave.timer = setTimeout(function(){_editorAutoSave(false, callback)}, 50000);
 }
 editorEnableAutoSave.timer = null;
 
