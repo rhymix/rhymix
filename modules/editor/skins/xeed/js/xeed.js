@@ -2941,6 +2941,7 @@ Table = xe.createPlugin('Table', {
  */
 AutoSave = xe.createPlugin('AutoSave', {
 	_enable     : false,
+	_timer      : null,
 	_start_time : null,
 	_save_time  : null,
 	$bar        : null,
@@ -2966,9 +2967,41 @@ AutoSave = xe.createPlugin('AutoSave', {
 	},
 	deactivate : function() {
 		this.$bar.unbind();
+		clearTimeout(this._timer);
 	},
 	_save_callback : function(params) {
+		var self = this;
+	
+		this._save_time = (new Date).getTime();
+	
 		this.$bar.slideDown(300);
+		this._update_message();
+
+		this._timer = setInterval(function(){self._update_message()}, 5000);
+	},
+	_update_message : function() {
+		var msg = lang.autosave_format, now = (new Date).getTime(), write_interval, save_interval, write_msg, save_msg;
+		
+		write_interval = Math.floor( (now - this._start_time)/1000/60 );
+		save_interval  = Math.floor( (now - this._save_time)/1000/60 );
+		
+		if (write_interval < 60) {
+			write_msg = ((write_interval>1)?lang.autosave_mins:lang.autosave_min).replace('%d', write_interval);
+		} else {
+			write_interval = Math.floor(write_interval/60);
+			write_msg = ((write_interval>1)?lang.autosave_hours:lang.autosave_hour).replace('%d', write_interval);
+		}
+		
+		if (save_interval < 60) {
+			save_msg = ((save_interval>1)?lang.autosave_mins_ago:lang.autosave_min_ago).replace('%d', save_interval);
+		} else {
+			save_interval = Math.floor(write_interval/60);
+			save_msg = ((save_interval>1)?lang.autosave_hours_ago:lang.autosave_hour_ago).replace('%d', save_interval);
+		}
+		
+		msg = msg.replace('%s', write_msg).replace('%s', save_msg);
+		
+		this.$bar.find('>p').html(msg);
 	},
 	API_EXEC_AUTOSAVE : function() {
 		_editorAutoSave(true, this._save_callback);
