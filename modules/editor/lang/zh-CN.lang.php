@@ -275,4 +275,6 @@
 	$lang->edit->autosave_hours_ago = '%d시간 전';
 	$lang->edit->autosave_min_ago = '%d분 전';
 	$lang->edit->autosave_mins_ago = '%d분 전';
+	
+	$lang->edit->upload_not_enough_quota   = '허용된 용량이 부족하여 파일을 첨부할 수 없습니다.';
 ?>

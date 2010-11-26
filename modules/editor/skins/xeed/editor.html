@@ -390,11 +390,17 @@ var xeed_path   = '{$editor_path}';
 var auto_saved_msg = '{$lang->msg_auto_saved}';
 var oEditor = editorStart_xe('{$editor_sequence}', '{$editor_primary_key_name}', '{$editor_content_key_name}', '{$editor_height}', '{$colorset}', '{$content_style}', '{$content_font}', '{$content_font_size}');
 
+// upload settings
+try {
+	oEditor.setOption('allowed_filesize', '{$file_config->allowed_filesize}');
+	oEditor.setOption('allowed_filetypes', '{$file_config->allowed_filetypes}');
+} catch(e){}
+
 window.lang = jQuery.extend(window.lang||{}, {
 	<!--@foreach($lang->edit as $key=>$val)-->
 	<!--@if(strpos($key,'autosave')===0)-->'{$key}':'{$val}',<!--@end-->
 	<!--@end-->
-	'_':'_'
+	'upload_not_enough_quota':'{$lang->edit->upload_not_enough_quota}'
 });
 //]]></script>
 <!-- // Activate Editor -->

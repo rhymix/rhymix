@@ -2146,6 +2146,8 @@ FileUpload = xe.createPlugin('FileUpload', {
 	esc_fn     : null,
 	selection  : null,
 	_index     : 0,
+	_left_size : 0,
+	_total_size : 0,
 
 	init : function(){
 		var self = this;
@@ -2321,6 +2323,24 @@ FileUpload = xe.createPlugin('FileUpload', {
 			$tb.find('a.tb span.'+types[i]+' strong').text($items.length);
 		}
 	},
+	updateFileSize : function(total_size) {
+		var $info = this.$modal_box.find('p.info'), html = $info.html(), units = 'B KB MB GB TB'.split(' ');
+		
+		if (!is_def(total_size)) {
+			total_size = 0;
+			this.$file_list.find('li[_key]').each(function(){
+				if (/\-([0-9]+)$/.test($(this).attr('_key'))) total_size += parseInt(RegExp.$1,10);
+			});
+		}
+		
+		// size
+		while((units.length > 1) && total_size > 1024) {
+			units.shift();
+			total_size /= 1024;
+		}
+		
+		$info.html( html.replace(/([0-9.]+)([a-zA-Z]+)\s*\//, total_size.toFixed(2)+units[0]+'/') );
+	},
 	updateFileList : function() {
 		var self = this, params = {}, $form, seq, primary, target_srl;
 
@@ -2342,6 +2362,8 @@ FileUpload = xe.createPlugin('FileUpload', {
 	_callbackFileList : function(ret) {
 		var i, c, f, k, primary, $item, $list, seq = ret.editor_sequence;
 
+		this._left_size = parseInt(ret.left_size) || 0;
+		
 		if (!ret.files || !ret.files.item) return;
 		if (!seq || !editorRelKeys[seq] || !(primary = editorRelKeys[seq].primary)) return;
 		if (!$.isArray(ret.files.item)) ret.files.item = [ret.files.item];
@@ -2371,6 +2393,7 @@ FileUpload = xe.createPlugin('FileUpload', {
 		}
 		
 		this.updateCount();
+		this.updateFileSize();
 	},
 	API_SHOW_FILE_MODAL : function() {
 		var self = this, uploader, file_group = [], $form, params, seq;
@@ -2399,7 +2422,23 @@ FileUpload = xe.createPlugin('FileUpload', {
 
 			// file onselect event
 			function file_onselect(files, old_len) {
-				var html, $ob, i, c, $list, $item, type;
+				var html, $ob, i, c, $list, $item, type, limit_size = self.oApp.getOption('allowed_filesize'), total_size = 0, over = false;
+				
+				// size check
+				for(i=old_len,c=files.length; i < c; i++) {
+					if (files[i].size > limit_size) {
+						over = true;
+						break;
+					}
+					total_size += files[i].size;
+				}
+				
+				if (total_size > self._left_size) over = true;
+				if (over) {
+					alert(lang.upload_not_enough_quota);
+					while(old_len != files.length) files.pop();
+					return;
+				}
 
 				for(i=old_len,c=files.length; i < c; i++) {
 					$item = self.createItem(files[i]).addClass('uploading').attr('_key', self.getKey(files[i]));
@@ -2428,6 +2467,9 @@ FileUpload = xe.createPlugin('FileUpload', {
 
 				if ($item.attr('_type') == 'img') {
 				}
+				
+				self._total_size += file.size;
+				self.updateFileSize(self._total_size);
 
 				$ob.html($ob.data('html')).parent().removeClass('uploading');
 			}
@@ -2521,8 +2563,10 @@ FileUpload = xe.createPlugin('FileUpload', {
 
 				self.$file_list.find(selector.join(',')).remove();
 
-				self.updateCount();
 				if ($.isFunction(callback)) callback();
+				
+				self.updateCount();
+				self.updateFileSize();
 			}
 		}
 		
