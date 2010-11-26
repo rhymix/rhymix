@@ -82,7 +82,7 @@ body{height:100%}
 .xd .tool .liow label{position:absolute;top:4px;left:6px;white-space:nowrap}
 .xd .tool .liow .itx{position:relative;z-index:2;background:transparent}
 /* Time */
-.xd .time{font-size:12px;background:#fcfcfc;border-top:1px solid #ddd}
+.xd .time{font-size:12px;background:#fcfcfc;border-top:1px solid #ddd;display:none;}
 .xd .time p{margin:0;padding:6px 10px;color:#666;text-align:center}
 /* Mode */
 .xd .mode{position:relative;z-index:1;background-position:0 -1140px;background-repeat:repeat-x;border-top:1px solid #b5b5b5;*zoom:1}
