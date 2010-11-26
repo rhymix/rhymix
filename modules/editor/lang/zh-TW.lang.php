@@ -85,11 +85,11 @@
     $lang->edit->submit = '確認';
 
     $lang->edit->fontcolor = '文字顏色';
-	$lang->edit->fontcolor_apply = '글자 색 적용';
-	$lang->edit->fontcolor_more = '글자 색 더보기';
+	$lang->edit->fontcolor_apply = '套用文字顏色';
+	$lang->edit->fontcolor_more = '更多文字顏色';
     $lang->edit->fontbgcolor = '背景顏色';
-	$lang->edit->fontbgcolor_apply = '글자 배경색 적용';
-	$lang->edit->fontbgcolor_more = '글자 배경색 더보기';
+	$lang->edit->fontbgcolor_apply = '套用背景顏色';
+	$lang->edit->fontbgcolor_more = '更多背景顏色';
     $lang->edit->bold = '粗體';
     $lang->edit->italic = '斜體';
     $lang->edit->underline = '底線';
@@ -265,7 +265,7 @@
 	$lang->edit->delete_selected = '刪除所選';
 
 	$lang->edit->fieldset = '區域';
-	$lang->edit->paragraph = '문단';
+	$lang->edit->paragraph = '段落';
 	
 	$lang->edit->autosave_format = '글을 쓰기 시작한지 <strong>%s</strong>이 지났습니다. 마지막 저장 시간은 <strong>%s</strong> 입니다.';
 	$lang->edit->autosave_hour = '%d시간';
