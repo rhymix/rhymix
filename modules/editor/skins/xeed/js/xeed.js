@@ -2352,6 +2352,7 @@ FileUpload = xe.createPlugin('FileUpload', {
 			k = f.source_filename.toLowerCase()+'-'+f.file_size;
 			
 			f.name = f.source_filename;
+			f.size = f.file_size;
 
 			$item = this.$file_list.find('li[_key='+k+']');
 			
@@ -2498,13 +2499,15 @@ FileUpload = xe.createPlugin('FileUpload', {
 	 * @brief Insert a file into the rich editor
 	 */
 	API_INSERT_FILE_INTO : function(sender, params) {
-		var type = params[0], url = params[1], name = params[2], code, ext, sel;
+		var type = params[0], url = params[1], name = params[2], ext, sel;
 
 		if (type == 'img') {
-			code = '<img src="'+url+'" alt="'+name+'" />';
+			code = '<img src="'+url+'" alt="'+name+'" />\n';
 		} else if (type == 'media') {
-			alert(name);
-		} else {
+			code = '<img src="./common/tpl/images/blank.gif" editor_component="multimedia_link" multimedia_src="'+url+'" width="400" height="320" style="display:block;width:400px;height:320px;border:2px dotted #4371B9;background:url(./modules/editor/components/multimedia_link/tpl/multimedia_link_component.gif) no-repeat center;" auto_start="false" alt="" class="_resizable" />';
+		}
+		
+		if (!code) {
 			code = '<a href="'+url+'">'+name+'</a>';
 		}
 
