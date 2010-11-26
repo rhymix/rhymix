@@ -23,7 +23,7 @@ function completeGetEmoticons(ret_obj) {
     for(var i=0;i<emoticons.length;i++) {
 		html[html.length] = '<img src="./modules/editor/components/emoticon/tpl/images/'+emoticons[i]+'" class="emoticon" />';
     }
-	jQuery('#popBody').html(html).delegate('img.emoticon', 'click', insertEmoticon);
+	jQuery('#popBody').html(html.join('')).find('img.emoticon').click(insertEmoticon);
 
 	if (_isPoped) {
 		setFixedPopupSize();
@@ -35,15 +35,19 @@ function completeGetEmoticons(ret_obj) {
  * @brief  Insert a selected emoticon into the document
  * @params Event jQuery event
  */
-function insertEmoticon(event) {
+function insertEmoticon() {
 	var url, html, iframe, win = is_popup?opener:window;
 
 	if(!win) return;
 
-	win.editorFocus(opener.editorPrevSrl);
-	win.editorRelKeys[opener.editorPrevSrl].pasteHTML(html);
+	html = '<img src="'+this.src+'" class="emoticon" />';
 
-	if (is_popup) self.focus();
+	win.editorFocus(win.editorPrevSrl);
+	win.editorRelKeys[win.editorPrevSrl].pasteHTML(html);
+
+	if (is_popup) window.focus();
+
+	return false;
 }
 
 // load default emoticon set
