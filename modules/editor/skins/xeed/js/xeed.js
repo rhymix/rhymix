@@ -1025,23 +1025,24 @@ Font = xe.createPlugin('Font', {
 				self.cast('HIDE_FONTSIZE_LAYER');
 				return false;
 			});
-			
+
 		// color items
 		$tb.find('li.cr')
 			.find('ul.ct,ul.cx')
 				.each(function(){
+				
 					var $this = $(this), $li = $this.find('>li').remove(), $clone_li, $span, $btn, colors,i,c,types;
 					
 					colors = $li.text().split(';');
 					for(i=0,c=colors.length; i < c; i++) {
-						types = colors[i].split(':');
+						types = $.trim(colors[i]).split(':');
 						$clone_li = $li.clone(true);
 						$btn  = $clone_li.find('>button');
 						$span = $btn.find('>span');
-						
+					
 						(($span.length)?$span:$btn).text('#'+types[0]);
-						
-						$btn.css('background-color', '#'+types[0]);
+
+						$btn.css('backgroundColor', '#'+types[0]);
 						if (types[1]) $btn.css('color', '#'+types[1]);
 						
 						$this.append($clone_li);
@@ -2138,7 +2139,7 @@ SChar = xe.createPlugin('SChar', {
  * {{{ FileUpload
  */
 FileUpload = xe.createPlugin('FileUpload', {
-	$btns      : null,
+	$btn       : null,
 	$modal_box : null,
 	$template  : null,
 	$file_list : null,
@@ -2149,7 +2150,6 @@ FileUpload = xe.createPlugin('FileUpload', {
 	init : function(){
 		var self = this;
 
-		this.$btns  = [];
 		this.esc_fn = function(event){ if(event.keyCode == 27) self.cast('HIDE_FILE_MODAL'); };
 	},
 	activate : function() {
@@ -2166,19 +2166,6 @@ FileUpload = xe.createPlugin('FileUpload', {
 
 			// show and hide function button on hover
 			this.$file_list = this.$attach_list.find('div.sn')
-				.delegate('button.ctr', 'mouseover',
-					function(){
-						var $par = $(this).parent();
-
-						if ($par.is('.uploading')) return;
-						$par.find('button.ctr').addClass('show');
-					}
-				)
-				.delegate('button.ctr', 'focus', function(){ $(this).mouseover() })
-				.delegate('button.ctr', 'mouseout',
-					function(){ $(this).parent().find('button.ctr').removeClass('show'); }
-				)
-				.delegate('button.ctr', 'blur', function(){ $(this).mouseout() })
 				.delegate('button.ctr.ins', 'click',
 					function(){
 						var $this = $(this), $item = $this.parent(), file_url = $this.parent().data('url');
@@ -2197,34 +2184,41 @@ FileUpload = xe.createPlugin('FileUpload', {
 				);
 
 			this.$template = this.$file_list.eq(0).find('>ul:first>li:first').remove();
+			
+			this.$attach_list.find('p.task button')
+				.filter('.all') // select all
+					.click(function(){
+						$(this).parents('div.sn:first').find('li > :checkbox:not([disabled])').attr('checked', 'checked');
+					})
+					.end()
+				.filter('.insert') // insert
+					.click(function(){
+						$(this).parents('div.sn:first').find('li > :checked:not([disabled])').prevAll('button.ins').click();
+					})
+					.end()
+				.filter('.delete') // delete
+					.click(function(){
+						var file_srls = [];
 
-			// select all
-			this.$attach_list.find('p.task button.all')
-				.click(function(){
-					$(this).parents('div.sn:first').find('li > input:checkbox:not([disabled])').attr('checked', 'checked');
-				});
-
-			// insert selected files
-			this.$attach_list.find('p.task button.insert')
-				.click(function(){
-					var $list = $(this).parents('div.sn:first').find('li > input:checked:not([disabled])');
-				});
+						$(this).parents('div.sn:first').find('li:has(:checked:not([disabled]))').each(function(){ file_srls.push($(this).attr('file_srl')) });
+						
+						self.cast('DELETE_FILE', [file_srls]);
+						return false;
+					})
+					.end();
 		}
 
 		if ($tb) {
-			$.each(['al','img','mov','file'], function(){
-				self.$btns[this] = $tb.find('>div.t1 li.'+this).children('a,button');
-			});
-
-			this.$btns.al.mousedown(function(){
-				self.selection = self.oApp.getSelection();
-			});
-
-			this.$btns.al.click(function(){
-				self.cast('SHOW_FILE_MODAL');
-				return false;
-			});
+			this.$btn = $tb.find('>div.t1>ul.u1 a.tb')
+				.mousedown(function(){ self.selection = self.oApp.getSelection(); })
+				.click(function(){ self.cast('SHOW_FILE_MODAL'); return false; });
 		}
+		
+		// make it draggable
+		this.$modal_box.find('.iHead, .iFoot').mousedown(bind(this, this._dragStart));
+
+		// update filelist
+		$(function(){ self.updateFileList() });
 	},
 	deactivate : function() {
 		this.$attach_list.unbind()
@@ -2235,19 +2229,68 @@ FileUpload = xe.createPlugin('FileUpload', {
 		// buttons
 		$.each(this.$btns, function(key){ this.unbind('click'); });
 		this.$btns = [];
+		
+		// modal box
+		this.$modal_box.unbind();
+	},
+	_dragStart : function(event) {
+		var $realwin = this.$modal_box.find('>.xdal'), m_left, m_top, fn;
+		
+		if ($(event.target).is('a,button,input')) return;
+		
+		fn = {
+			move : bind(this, this._dragMove),
+			up   : bind(this, this._dragEnd)
+		};
+	
+		this.$modal_box.data('draggable', true).data('drag_fn', fn);
+		
+		$(document).mousemove(fn.move).mouseup(fn.up);
+			
+		m_left = parseInt($realwin.css('margin-left'), 10);
+		m_top  = parseInt($realwin.css('margin-top'), 10);
+			
+		this.$modal_box
+			.data('dragstart_pos', [event.pageX, event.pageY])
+			.data('dragstart_margin', [m_left, m_top]);
+
+		return false;
+	},
+	_dragMove : function(event) {
+		var $real_win, start_pos, start_margin, new_margin;
+
+		if (!this.$modal_box.data('draggable')) return;
+
+		$realwin = this.$modal_box.find('>.xdal');
+
+		start_pos = this.$modal_box.data('dragstart_pos');
+		start_margin = this.$modal_box.data('dragstart_margin');
+		
+		$realwin.css({
+			'margin-left' : (start_margin[0]+event.pageX-start_pos[0])+'px',
+			'margin-top'  : (start_margin[1]+event.pageY-start_pos[1])+'px'
+		});
+		
+		return false;
+	},
+	_dragEnd : function(event) {
+		var fn = this.$modal_box.data('drag_fn');
+	
+		$(document).unbind('mousemove', fn.move).unbind('mouseup', fn.up);
+		this.$modal_box.data('draggable', false);
 	},
 	createItem : function(file) {
-		var $item, ext, id = 'xeed-id-'+(this._index++), type;
+		var $item, ext, match, id = 'xeed-id-'+(this._index++), type, file_types;
 
-		ext = file.name.match(/\.([a-z0-9]+)$/i)[1] || '';
+		ext = (match = file.name.match(/\.([a-z0-9]+)$/i))?match[1]||'':'';
 		ext = ext.toLowerCase();
+		
+		file_types = 'pdf doc docx hwp ppt pps pptx txt rtf xls xlsx csv bmp tif raw avi wmv mov mpg flv divx mp3 wma wav aac flac psd ai svg xml html css js iso zip rar alz gz tar'.split(' ');
 
 		// get file type
-		if ($.inArray(ext, ['gif','jpg','jpeg','png']) > -1) type = 'img';
-		else if ($.inArray(ext, ['avi','mov','mpg','wmv','flv']) > -1) type = 'mov';
+		if ($.inArray(ext, 'gif jpg jpeg png'.split(' ')) > -1) type = 'img';
+		else if ($.inArray(ext, 'avi mov mpg wmv flv mp3 wma wav'.split(' ')) > -1) type = 'media';
 		else type = 'file';
-
-		if ($.inArray(ext, ['pptx','xlsx','docx']) > -1) ext = ext.substr(0,3);
 
 		$item = this.$template.clone()
 			.find('button.ob > img').attr('alt', file.name).end()
@@ -2255,7 +2298,8 @@ FileUpload = xe.createPlugin('FileUpload', {
 			.find('input:checkbox').attr('id', id).end()
 			.attr('ext', ext).attr('_type', type);
 
-		if (type == 'file') {
+		if (type == 'file' || type == 'media') {
+			if ($.inArray(ext, file_types) < 0) ext = 'etc';
 			$item.find('>button:first').addClass(ext).empty().text(file.name);
 		}
 
@@ -2265,18 +2309,67 @@ FileUpload = xe.createPlugin('FileUpload', {
 		return file.name.toLowerCase()+'-'+file.size;
 	},
 	updateCount : function() {
-		var $items = this.$file_list.find('li[type]'), $tb = this.oApp.$toolbar, $area, types = ['img','mov','file'], i, c;
+		var $items = this.$file_list.find('li[_type]'), $tb = this.oApp.$toolbar, $area, types = ['img','media','file'], i, c;
 
 		this.$modal_box.find('h2 strong').text($items.length);
-		$tb.find('li.ti.al em > strong').text($items.length);
 
 		for(i=0,c=types.length; i<c; i++) {
 			$area  = this.$file_list.filter('.'+types[i]);
 			$items = $area.find('li[_type]');
 			$items.length?$area.removeClass('none'):$area.addClass('none');
 
-			$tb.find('li.ti.'+types[i]).find('em > strong').text($items.length);
+			$tb.find('a.tb span.'+types[i]+' strong').text($items.length);
 		}
+	},
+	updateFileList : function() {
+		var self = this, params = {}, $form, seq, primary, target_srl;
+
+		// get form
+		$form = this.oApp.$textarea.parents('form:first');
+		seq   = $form.attr('editor_sequence');
+
+		// document serial number
+		primary = editorRelKeys[seq].primary;
+
+		params = {
+			editor_sequence   : $form.attr('editor_sequence'),
+			upload_target_srl : primary.value,
+			mid : current_mid
+		};
+
+		$.exec_xml('file', 'getFileList', params, bind(this, this._callbackFileList), ['error', 'message', 'files', 'left_size', 'editor_sequence', 'upload_target_srl', 'upload_status']);
+	},
+	_callbackFileList : function(ret) {
+		var i, c, f, k, primary, $item, $list, seq = ret.editor_sequence;
+
+		if (!ret.files || !ret.files.item) return;
+		if (!seq || !editorRelKeys[seq] || !(primary = editorRelKeys[seq].primary)) return;
+		if (!$.isArray(ret.files.item)) ret.files.item = [ret.files.item];
+		if (!primary.value && ret.upload_target_srl) primary.value = ret.upload_target_srl;
+
+		for(i=0,c=ret.files.item.length; i < c; i++) {
+			f = ret.files.item[i];
+			k = f.source_filename.toLowerCase()+'-'+f.file_size;
+			
+			f.name = f.source_filename;
+
+			$item = this.$file_list.find('li[_key='+k+']');
+			
+			if (!$item.length) {
+				$item = this.createItem(f).attr('_key', this.getKey(f));
+				$list = this.$file_list.filter('.'+$item.attr('_type')).find('ul').append($item).end();
+			}
+
+			if ($item.attr('_type') == 'img') {
+				$item.find('button.ob > img')
+					.load(function(){ $(this).css((this.width>this.height)?'width':'height', '54px'); })
+					.attr('src', f.download_url);
+			}
+
+			$item.attr('file_srl', f.file_srl).data('url', f.download_url);
+		}
+		
+		this.updateCount();
 	},
 	API_SHOW_FILE_MODAL : function() {
 		var self = this, uploader, file_group = [], $form, params, seq;
@@ -2332,7 +2425,7 @@ FileUpload = xe.createPlugin('FileUpload', {
 				var $item = self.$file_list.find('li[_key='+self.getKey(file)+']'),
 					$ob   = $item.find('>button.ob');
 
-				if ($item.attr('type') == 'img') {
+				if ($item.attr('_type') == 'img') {
 				}
 
 				$ob.html($ob.data('html')).parent().removeClass('uploading');
@@ -2364,20 +2457,14 @@ FileUpload = xe.createPlugin('FileUpload', {
 
 						if ($item.attr('_type') == 'img') {
 							$item.find('button.ob > img')
-								.load(function(){
-									if(this.width > this.height){
-										$(this).css('width', '54px');
-									} else {
-										$(this).css('height', '54px');
-									}
-								})
+								.load(function(){ $(this).css((this.width>this.height)?'width':'height', '54px'); })
 								.attr('src', f.download_url);
 						}
 						$item.attr('file_srl', f.file_srl).data('url', f.download_url);
 					}
 				}
 
-				$.exec_xml('file', 'getFileList', params, callback, ['error', 'message', 'files', 'left_size', 'editor_sequence', 'upload_target_srl', 'upload_status']);
+				$.exec_xml('file', 'getFileList', params, bind(this, this._callbackFileList), ['error', 'message', 'files', 'left_size', 'editor_sequence', 'upload_target_srl', 'upload_status']);
 			}
 
 			uploader = xe.createUploader(
@@ -2408,25 +2495,15 @@ FileUpload = xe.createPlugin('FileUpload', {
 		}
 	},
 	/**
-	 * @brief Add file to the list
-	 * @params Array of file info. file info = { id : 0, name : '', path : '', size : 0 };
-	 */
-	API_ADD_FILE_LIST : function(sender, params) {
-		var i, c, files = params[0];
-
-		for(i=0,c=files.length; i < c; i++) {
-		}
-
-		this.updateCount();
-	},
-	/**
 	 * @brief Insert a file into the rich editor
 	 */
 	API_INSERT_FILE_INTO : function(sender, params) {
-		var type = params[0], url = params[1], name = params[2], code, sel;
+		var type = params[0], url = params[1], name = params[2], code, ext, sel;
 
 		if (type == 'img') {
 			code = '<img src="'+url+'" alt="'+name+'" />';
+		} else if (type == 'media') {
+			alert(name);
 		} else {
 			code = '<a href="'+url+'">'+name+'</a>';
 		}
@@ -2448,17 +2525,26 @@ FileUpload = xe.createPlugin('FileUpload', {
 	 * @brief Delete a file
 	 */
 	API_DELETE_FILE : function(sender, params) {
-		var self = this, file_srl = params[0], $item = this.$file_list.find('li[file_srl='+file_srl+']'), i, c;
+		var self = this, file_srl = params[0], callback = params[1], $item, i, c;
 
-		function callback(ret){
+		function _callback(ret){
+			var i, c, selector=[];
+		
 			if (ret && ret.error && ret.error == 0) {
-				$item.remove();
+				if (!$.isArray(file_srl)) file_srl = [file_srl];
+				
+				for(i=0,c=file_srl.length; i < c; i++) {
+					selector.push('li[file_srl='+file_srl[i]+']');
+				}
+
+				self.$file_list.find(selector.join(',')).remove();
 
 				self.updateCount();
+				if ($.isFunction(callback)) callback();
 			}
 		}
-
-		$.exec_xml('file', 'procFileDelete', {file_srls:file_srl, editor_sequence:1}, callback);
+		
+		$.exec_xml('file', 'procFileDelete', {file_srls:file_srl, editor_sequence:1}, _callback);
 	}
 });
 /**
@@ -2879,7 +2965,7 @@ AutoSave = xe.createPlugin('AutoSave', {
 	$text       : null,
 
 	init : function(){ },
-	activate : function() {
+	activate : function(){
 		var self = this, app = this.oApp, $form;
 		
 		// start time
