@@ -61,6 +61,7 @@ body{height:100%}
 .xdal .sn .task button,
 .xdal .iFoot .info{font-family:돋움, Dotum, Tahoma, Geneva, sans-serif}
 .xd .tool .itx,
+.xd .tool .t2 .u3 .cr .lr .cx li button,
 .xd .tool .t2 .u6 .te .lr .cn li button,
 .xd .tool .t2 .u6 .te .lr .wh td button,
 .xd .mode ul button,
@@ -106,7 +107,7 @@ body{height:100%}
 .xd .t1 .ti{float:left;display:inline;border:1px solid #e0dedf;margin:-1px 0 0 -1px}
 .xd .t1 .ti.active{background-color:#e8e8e8;border:1px solid #e0dedf;border-top:0;border-bottom:0;margin:0 -1px}
 .xd .t1 .tb{display:inline-block;white-space:nowrap;padding:0 8px;height:26px;line-height:26px;font-size:11px;text-decoration:none;vertical-align:top;color:#000;letter-spacing:-1px}
-.xd .t1 .tb span{display:block;float:left}
+.xd .t1 .tb span{display:block;float:left;cursor:pointer}
 .xd .t1 .u1 .tb strong{color:#f60}
 .xd .t1 .u1 .al .tb span{padding:0 0 0 22px}
 .xd .t1 .u1 .al .tb .all{padding:0}
@@ -215,7 +216,7 @@ body{height:100%}
 .xd .t2 .u3 .cr .lr .ct li button{display:block;position:relative;overflow:hidden;width:11px;height:11px;vertical-align:top}
 .xd .t2 .u3 .cr .lr .ct li.active button,
 .xd .t2 .u3 .cr .lr .ct li.hover button{background-position:-330px -260px}
-.xd .t2 .u3 .cr .lr .cx li button{display:block;position:relative;overflow:hidden;width:67px;height:18px;font-size:11px;text-align:left}
+.xd .t2 .u3 .cr .lr .cx li button{display:block;position:relative;overflow:hidden;width:67px;height:18px;font-size:11px;line-height:18px;text-align:left;*padding:0 4px;}
 /* Layer - u6 (ur) */
 .xd .t2 .u6 .ur .lr{width:260px;left:auto;right:-1px}
 .xd .t2 .u6 .ur .lr fieldset:after{content:"";display:block;clear:both}
@@ -295,7 +296,7 @@ body{height:100%}
 .xd .edit .xdcs{position:relative;overflow:hidden !important;padding:20px 25px;cursor:text;outline:none}
 .xd .edit .xdsc{border:0;padding:20px 25px;overflow:auto;background:transparent;font:12px "Courier New", Courier, monospace}
 /* XD Layer Window */
-.xdlw{display:none;position:absolute;top:50%;left:50%;z-index:1000;color:#000}
+.xdlw{display:none;position:absolute;top:0;left:0;z-index:1000;color:#000;overflow:visible;width:100%;height:100%;}
 .xdlw img{border:0}
 .xdlw .iHead{background-position:0 -1140px;background-repeat:repeat-x;border-bottom:1px solid #ccc;font-size:12px;padding:10px 0;*zoom:1;cursor:move;overflow:hidden}
 .xdlw .iHead:after{content:"";display:block;clear:both}
@@ -304,7 +305,7 @@ body{height:100%}
 .xdlw .iHead h2 strong{color:#f60}
 .xdlw .iHead .btnArea{margin:0 20px;*zoom:1}
 .xdlw .iHead .btnArea.fr{float:right}
-.xdlw .iBody{position:relative}
+.xdlw .iBody{position:relative;*zoom:1}
 .xdlw .iBody:after{content:"";display:block;clear:both}
 .xdlw .iFoot{padding:10px 0;border-top:1px solid #ccc;background-position:0 -1140px;background-repeat:repeat-x;cursor:move}
 .xdlw .iFoot:after{content:"";display:block;clear:both}
@@ -313,7 +314,7 @@ body{height:100%}
 .xdlw .iFoot .btnArea.fl{float:left}
 .xdlw .iFoot .btnArea.fr{float:right}
 /* XD Layer Window - AL(Attached List) */
-.xdal{display:none;width:780px;margin:-210px 0 0 -390px;background:#fff;border:3px solid #666;box-shadow:0 0 10px #999;-moz-box-shadow:0 0 10px #999;-webkit-box-shadow:0 0 10px #999}
+.xdal{display:none;width:780px;margin:100px auto 0 auto;background:#fff;border:3px solid #666;box-shadow:0 0 10px #999;-moz-box-shadow:0 0 10px #999;-webkit-box-shadow:0 0 10px #999}
 .xdal .iFoot .info{margin:0;float:left;font-size:11px;line-height:normal;padding:0 0 0 20px;color:#666}
 .xdal .label{line-height:30px;font-weight:bold;margin:0;padding:0 0 0 24px;font-size:12px}
 .xdal .img .label{background-position:0 -280px}
