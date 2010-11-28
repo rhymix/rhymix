@@ -18,7 +18,7 @@
     $lang->downloaded_list = '版面選擇';
     $lang->layout_preview_content = '顯示內容的部分。';
     $lang->not_apply_menu = '套用版面';
-	$lang->layout_management = '레이아웃 관리';
+	$lang->layout_management = '版面管理';
 
     $lang->cmd_move_to_installed_list = "檢視建立列表";
 

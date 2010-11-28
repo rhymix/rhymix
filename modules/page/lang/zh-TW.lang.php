@@ -12,5 +12,5 @@
     $lang->page_caching_interval = "暫存時間設置";
     $lang->about_page_caching_interval = "單位為分。暫存時間內頁面將輸出臨時儲存的資料。<br />輸出外部主機訊息或資料時，如消耗資源很大，盡量把暫存時間設大一點。<br />『0』表示不暫存。";
 	$lang->about_mcontent = '此頁面為手機瀏覽頁面。如果沒有編輯此頁面，則會將預設頁面改編重新顯示。';
-	$lang->page_management = '페이지 관리';
+	$lang->page_management = '頁面管理';
 ?>
