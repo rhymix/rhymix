@@ -76,13 +76,14 @@ body{height:100%}
 .xd .t2 .u3 .cr .lr li button span,
 .xd .t2 .u6 .te .lr .cn button span,
 .xd .mode .resize span,
-.xdal .sn .ctr span{position:absolute;top:0;left:0;width:1px;height:1px;overflow:hidden;font-size:0;line-height:0;z-index:-1;}
+.xdal .sn .ctr span{position:absolute;top:0;left:0;width:1px;height:1px;overflow:hidden;font-size:0;line-height:0;z-index:-1}
 /* Label Input OverWrap */
+.xd .tool legend{_color:#000 !important}
 .xd .tool .liow{position:relative;background:#fff;margin:0 0 8px 0}
 .xd .tool .liow label{position:absolute;top:4px;left:6px;white-space:nowrap}
 .xd .tool .liow .itx{position:relative;z-index:2;background:transparent}
 /* Time */
-.xd .time{font-size:12px;background:#fcfcfc;border-top:1px solid #ddd;display:none;}
+.xd .time{font-size:12px;background:#fcfcfc;border-top:1px solid #ddd;display:none}
 .xd .time p{margin:0;padding:6px 10px;color:#666;text-align:center}
 /* Mode */
 .xd .mode{position:relative;z-index:1;background-position:0 -1140px;background-repeat:repeat-x;border-top:1px solid #b5b5b5;*zoom:1}
@@ -103,8 +104,8 @@ body{height:100%}
 .xd .t1{position:relative;z-index:2;padding:0 15px 0 0;border-bottom:1px solid #e0dedf;*zoom:1}
 .xd .t1:after{content:"";display:block;clear:both}
 .xd .t1 .u1,
-.xd .t1 .u2{margin:0 0 -1px 0;background-repeat:repeat-x;background-position:0 -1140px;float:left;display:inline}
-.xd .t1 .ti{float:left;display:inline;border:1px solid #e0dedf;margin:-1px 0 0 -1px}
+.xd .t1 .u2{margin:0 0 -1px 0;_margin-top:-1px;background-repeat:repeat-x;background-position:0 -1140px;float:left;_float:none;display:inline;*zoom:1}
+.xd .t1 .ti{float:left;display:inline;border:1px solid #e0dedf;margin:-1px 0 0 -1px;_margin-top:0;_margin-bottom:-1px;*zoom:1}
 .xd .t1 .ti.active{background-color:#e8e8e8;border:1px solid #e0dedf;border-top:0;border-bottom:0;margin:0 -1px}
 .xd .t1 .tb{display:inline-block;white-space:nowrap;padding:0 8px;height:26px;line-height:26px;font-size:11px;text-decoration:none;vertical-align:top;color:#000;letter-spacing:-1px}
 .xd .t1 .tb span{display:block;float:left;cursor:pointer}
@@ -122,7 +123,7 @@ body{height:100%}
 .xd .t2 .u3,
 .xd .t2 .u4,
 .xd .t2 .u5,
-.xd .t2 .u6{float:left;position:relative;margin:0 5px 0 0;padding:0 0 5px 0;*zoom:1}
+.xd .t2 .u6{float:left;_float:none;display:inline;position:relative;margin:0 5px 0 0;padding:0 0 5px 0;*zoom:1}
 .xd .t2 .ti{float:left;border:1px solid #b5b5b5;margin:0 -1px 0 0;font-size:0;position:relative}
 .xd .t2 .ti.hover{border-color:#666;z-index:100;box-shadow:0 0 2px #bbb;-moz-box-shadow:0 0 2px #bbb;-webkit-box-shadow:0 0 2px #bbb}
 .xd .t2 .ti.active{border-color:#333;z-index:100}
@@ -216,7 +217,7 @@ body{height:100%}
 .xd .t2 .u3 .cr .lr .ct li button{display:block;position:relative;overflow:hidden;width:11px;height:11px;vertical-align:top}
 .xd .t2 .u3 .cr .lr .ct li.active button,
 .xd .t2 .u3 .cr .lr .ct li.hover button{background-position:-330px -260px}
-.xd .t2 .u3 .cr .lr .cx li button{display:block;position:relative;overflow:hidden;width:67px;height:18px;font-size:11px;line-height:18px;text-align:left;*padding:0 4px;}
+.xd .t2 .u3 .cr .lr .cx li button{display:block;position:relative;overflow:hidden;width:67px;height:18px;font-size:11px;line-height:18px;text-align:left;*padding:0 4px}
 /* Layer - u6 (ur) */
 .xd .t2 .u6 .ur .lr{width:260px;left:auto;right:-1px}
 .xd .t2 .u6 .ur .lr fieldset:after{content:"";display:block;clear:both}
@@ -240,8 +241,8 @@ body{height:100%}
 .xd .t2 .u6 .sc .lr .btnArea{position:absolute;top:0;right:0}
 .xd .t2 .u6 .sc .lr .btn{float:left;margin:0 0 0 -1px;display:inline}
 /* Layer - u6 (te) */
-.xd .t2 .u6 .te .lr{left:auto;right:-1px}
-.xd .t2 .u6 .te .lr fieldset{position:relative;width:280px;padding:0 0 10px 0}
+.xd .t2 .u6 .te .lr{left:auto;right:-1px;width:280px}
+.xd .t2 .u6 .te .lr fieldset{position:relative;padding:0 0 10px 0}
 .xd .t2 .u6 .te .lr legend{font-size:12px;font-weight:bold;margin:0;padding:10px 0 0 0;display:inline;line-height:normal;width:auto;height:auto;position:static}
 .xd .t2 .u6 .te .lr .pv{border-bottom:1px solid #ddd}
 .xd .t2 .u6 .te .lr .pv legend{padding:0}
@@ -296,7 +297,7 @@ body{height:100%}
 .xd .edit .xdcs{position:relative;overflow:hidden !important;padding:20px 25px;cursor:text;outline:none}
 .xd .edit .xdsc{border:0;padding:20px 25px;overflow:auto;background:transparent;font:12px "Courier New", Courier, monospace}
 /* XD Layer Window */
-.xdlw{display:none;position:absolute;top:0;left:0;z-index:1000;color:#000;overflow:visible;width:100%;height:100%;}
+.xdlw{display:none;position:absolute;top:0;left:0;z-index:1000;color:#000;overflow:visible;width:100%;height:100%}
 .xdlw img{border:0}
 .xdlw .iHead{background-position:0 -1140px;background-repeat:repeat-x;border-bottom:1px solid #ccc;font-size:12px;padding:10px 0;*zoom:1;cursor:move;overflow:hidden}
 .xdlw .iHead:after{content:"";display:block;clear:both}
