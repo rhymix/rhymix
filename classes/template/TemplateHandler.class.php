@@ -318,7 +318,7 @@
 						$tmp_buff = substr($next, 0, $close_pos+strlen('</'.$tag_name.'>'));
 						$tag .= $tmp_buff;
 						$next = substr($next, strlen($tmp_buff));
-						if(false === strpos($tmp_buff, '<'.$tag_name)) break;
+						if(substr_count($tag, '<'.$tag_name) == substr_count($tag,'</'.$tag_name)) break;
 					}
 				}
 
