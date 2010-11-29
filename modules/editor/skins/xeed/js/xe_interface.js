@@ -27,6 +27,10 @@ function editorStart_xe(editor_seq, primary_key, content_key, editor_height, col
 	// create an editor
 	xe.Editors[editor_seq] = xeed = new xe.Xeed($textarea, opt);
 	xe.registerApp(xeed);
+	
+	// filters
+	xeed.cast('REGISTER_FILTER', ['r2t', plz_standard]);
+	//xeed.cast('REGISTER_FILTER', ['r2t', remove_baseurl]);
 
 	// Set standard API
 	editorRelKeys[editor_seq] = {
@@ -41,6 +45,39 @@ function editorStart_xe(editor_seq, primary_key, content_key, editor_height, col
 	if (opt.use_autosave) xeed.registerPlugin(new xe.Xeed.AutoSave());
 
 	return xeed;
+}
+
+// standard filters
+function plz_standard(code) {
+	var single_tags = 'img input'.split(' ');
+
+	code = code.replace(/<(\/)?([A-Za-z0-9:]+)(.*?)(\s*\/?)>/g, function(m0,is_close,tag,attrs,closing){
+		tag = tag.toLowerCase();
+		
+		attrs = attrs.replace(/([\w:-]\s*)=(?:([^"' \t\r\n]+)|\s*("[^"]*")|\s*('[^']*'))/g, function(m0,name,m2,m3,m4){
+			var val = m2||m3||m4;
+
+			if (m3||m4) val = val.substr(1,val.length-2);
+		
+			return $.trim(name.toLowerCase())+'='+'"'+val+'"';
+		});
+
+		if (attrs=$.trim(attrs)) attrs = ' '+attrs;
+	
+		closing = $.trim(closing);
+		if (!is_close && !closing && $.inArray(tag, single_tags) != -1) closing = ' /';
+
+		return '<'+(is_close||'')+tag+attrs+closing+'>';
+	});
+
+	return code;
+}
+
+// remove base url
+function remove_baseurl(code) {
+	var reg = new RegExp(' (href|src)\s*=\s*(["\'])?'+request_uri.replace('\\', '\\\\'), 'ig');
+
+	return code.replace(reg, function(m0,m1,m2){ return ' '+m1+'='+m2; });
 }
 
 window.editorStart_xe = editorStart_xe;

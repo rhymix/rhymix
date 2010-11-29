@@ -1601,24 +1601,36 @@ Hotkey = xe.createPlugin('Hotkey', {
 
 /**
  * {{{ Content Filter plugin
+ * When you call GET_CONTENT message,
+ *  If you using the richedit: rich content -> r2t filter -> text content -> out filter -> output
+ *  If you using the textarea: text content -> out filter -> output
+ * When you call SET_CONTENT message,
+ *  If you using the richedit: input -> in filter -> text content -> t2r filter -> rich content
+ *  If you using the textarea: input -> in filter -> text content
  */
 Filter = xe.createPlugin('ContentFilter', {
 	_in  : [], // input filters
 	_out : [], // output filters
+	_r2t : [], // rich2text filters
+	_t2r : [], // text2rich filters
+	_types : [], // valid types
+	
 	init : function() {
 		this._in  = [];
 		this._out = [];
+		this._r2t = [];
+		this._t2r = [];
 	},
-
+	activate : function(){ },
 	/**
 	 * @brief Register a filter
-	 * @params type Filter type string. 'in', 'out', 
+	 * @params type Filter type string. 'in', 'out', 'r2t', 't2r'
 	 * @params func Filter function
 	 */
 	API_REGISTER_FILTER : function(sender, params) {
 		var type = params[0], func = params[1];
 
-		if (type != 'in' || type != 'out') return;
+		if (!$.isArray(this['_'+type]) || !$.isFunction(func)) return;
 		this['_'+type].push(func);
 	},
 
@@ -1630,7 +1642,7 @@ Filter = xe.createPlugin('ContentFilter', {
 	API_UNREGISTER_FILTER : function(sender, params) {
 		var type = params[0], func = params[1], pool, newPool=[], i, c;
 
-		if (type != 'in' || type != 'out') return;
+		if (!$.isArray(this['_'+type])) return;
 		for(i=0,pool=this['_'+type],c=pool.length; i < c; i++) {
 			if (pool[i] !== func) newPool.push(pool[i]);
 		}
@@ -1641,14 +1653,26 @@ Filter = xe.createPlugin('ContentFilter', {
 	 * @brief Run input filters before SET_CONTENT
 	 */
 	API_BEFORE_SET_CONTENT : function(sender, params) {
-		for(var i=0,c=this._in.length; i < c; i++) params[0] = this._in[i](params[0]);
+		var i,c;
+	
+		for(i=0,c=this._in.length; i < c; i++) params[0] = this._in[i](params[0]);
+		for(i=0,c=this._t2r.length; i < c; i++) params[0] = this._t2r[i](params[0]);
+	},
+	
+	API_BEFORE_SET_CONTENT_HTML : function(sender, params) {
+		for(i=0,c=this._r2t.length; i < c; i++) params[0] = this._r2t[i](params[0]);
 	},
 
 	/**
 	 * @brief Run output filters before GET_CONTENT
 	 */
 	API_BEFORE_GET_CONTENT : function(sender, params) {
-		for(var i=0,c=this._out.length; i < c; i++) params[0] = this._out[i](params[0]);
+		var i,c,m = this.cast('GET_EDITMODE') || '';
+
+		if (m == 'wysiwyg') {
+			for(i=0,c=this._r2t.length; i < c; i++) params[0] = this._r2t[i](params[0]);
+		}
+		for(i=0,c=this._out.length; i < c; i++) params[0] = this._out[i](params[0]);
 	}
 });
 /**
@@ -1722,6 +1746,12 @@ EditMode = xe.createPlugin('EditMode', {
 	 */
 	API_SET_CONTENT_HTML : function(sender, params) {
 		this.oApp.$textarea.val( params[0]||'' );
+	},
+	/**
+	 * @brief Get editing mode
+	 */
+	API_GET_EDITMODE : function(sender, params) {
+		return this.oApp.$richedit.is(':visible')?'wysiwyg':'html';
 	}
 });
 /**
@@ -2083,18 +2113,21 @@ SChar = xe.createPlugin('SChar', {
 
 				if (i == 0) {
 					$this.click(function(){
-						var sel = self.sel, dt, rt;
+						var chars, dt, rt;
 
 						dt = d.documentElement.scrollTop;
 						rt = app.$richedit[0][_pn_].scrollTop;
-
-						sel.pasteHTML(self.$text.val());
+						
+						chars = self.$text.val();
+						
+						if (self.sel) self.sel.pasteHTML(chars);
+						else self.cast('PASTE_HTML', [chars]);
 
 						self.sel = null;
 						self.cast('HIDE_SCHAR_LAYER');
 
 						app.$richedit.focus();
-						sel.select();
+						if (self.sel) self.sel.select();
 
 						if (dt != d.documentElement.scrollTop) d.documentElement.scrollTop = dt;
 						if (rt != app.$richedit[0][_pn_].scrollTop) app.$richedit[0][_pn_].scrollTop = rt;
@@ -2115,9 +2148,9 @@ SChar = xe.createPlugin('SChar', {
 		var sel; 
 
 		if (!this.$layer || this.$layer.hasClass('open')) return;
-		if (!(sel=this.oApp.getSelection())) return;
+		//if (!(sel=this.oApp.getSelection())) return;
 
-		this.sel = sel; // save selection
+		this.sel = this.oApp.getSelection(); // save selection
 		this.$btn.parent().addClass('active');
 		this.$layer.addClass('open');
 	},
