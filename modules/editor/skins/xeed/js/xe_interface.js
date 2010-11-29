@@ -30,7 +30,7 @@ function editorStart_xe(editor_seq, primary_key, content_key, editor_height, col
 	
 	// filters
 	xeed.cast('REGISTER_FILTER', ['r2t', plz_standard]);
-	//xeed.cast('REGISTER_FILTER', ['r2t', remove_baseurl]);
+	xeed.cast('REGISTER_FILTER', ['r2t', remove_baseurl]);
 
 	// Set standard API
 	editorRelKeys[editor_seq] = {
