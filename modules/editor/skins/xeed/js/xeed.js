@@ -43,9 +43,13 @@ Xeed = xe.createApp('Xeed', {
 
 		// Options
 		opts = $.extend({
+			height : 200,
 			minHeight : 400
 		}, options);
 		this._options = opts;
+		
+		// min height
+		if (opts.minHeight > opts.height) opts.minHeight = opts.height;
 
 		//
 		if ($obj.is('textarea')) {
@@ -1729,7 +1733,7 @@ EditMode = xe.createPlugin('EditMode', {
  */
 Resize = xe.createPlugin('Resize', {
 	_fn : null,
-	prev_height : 400,
+	prev_height : 0,
 	$resize_bar : null,
 	$auto_check : null,
 	$container  : null,
@@ -1789,6 +1793,8 @@ Resize = xe.createPlugin('Resize', {
 	},
 	activate : function() {
 		var $root = this.oApp.$root, chk;
+		
+		if (!this.prev_height) this.prev_height = this.oApp.getOption('height');
 
 		this.$container  = this.oApp.$richedit.parent();
 		this.$resize_bar = $root.find('button.resize').mousedown(this._fn.down);

@@ -20,6 +20,9 @@ function editorStart_xe(editor_seq, primary_key, content_key, editor_height, col
 	
 	// Use auto save feature?
 	opt.use_autosave = !!$form[0].elements['_saved_doc_title'];
+	
+	// min height
+	if (editor_height) opt.height = parseInt(editor_height) || 200;
 
 	// create an editor
 	xe.Editors[editor_seq] = xeed = new xe.Xeed($textarea, opt);
