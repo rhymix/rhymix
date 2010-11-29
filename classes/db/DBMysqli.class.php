@@ -144,10 +144,11 @@
 
             // 쿼리 문 실행
             $result = mysqli_query($this->fd,$query);
-
             // 오류 체크
 			$error = mysqli_error($this->fd);
-            if($error) $this->setError(mysqli_errno($this->fd), $error);
+            if($error){
+				$this->setError(mysqli_errno($this->fd), $error);
+			}
 
             // 쿼리 실행 종료를 알림
             $this->actFinish();
@@ -445,6 +446,9 @@
                 $column_list[] = '`'.$name.'`';
                 $value_list[] = $value;
             }
+
+            $query = sprintf("insert into %s (%s) values (%s);", implode(',',$table_list), implode(',',$column_list), implode(',', $value_list));
+            return $this->_query($query);
 		}
 
         /**
