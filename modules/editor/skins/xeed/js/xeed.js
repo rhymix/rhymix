@@ -2251,6 +2251,8 @@ FileUpload = xe.createPlugin('FileUpload', {
 			
 		m_left = parseInt($realwin.css('margin-left'), 10);
 		m_top  = parseInt($realwin.css('margin-top'), 10);
+		
+		if (isNaN(m_left)) m_left = $realwin[0].offsetLeft;
 			
 		this.$modal_box
 			.data('dragstart_pos', [event.pageX, event.pageY])
