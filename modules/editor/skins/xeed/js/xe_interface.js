@@ -49,10 +49,11 @@ function editorStart_xe(editor_seq, primary_key, content_key, editor_height, col
 
 // standard filters
 function plz_standard(code) {
-	var single_tags = 'img input'.split(' ');
+	var single_tags = 'area br col hr img input param'.split(' '), replaces = {b:'strong',i:'em'};
 
 	code = code.replace(/<(\/)?([A-Za-z0-9:]+)(.*?)(\s*\/?)>/g, function(m0,is_close,tag,attrs,closing){
 		tag = tag.toLowerCase();
+		if (replaces[tag]) tag = replaces[tag];
 		
 		attrs = attrs.replace(/([\w:-]\s*)=(?:([^"' \t\r\n]+)|\s*("[^"]*")|\s*('[^']*'))/g, function(m0,name,m2,m3,m4){
 			var val = m2||m3||m4;
