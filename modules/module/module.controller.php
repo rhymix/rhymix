@@ -187,7 +187,7 @@
                 if($info->site_srl && $info->site_srl != $args->site_srl) return new Object(-1,'msg_already_registed_domain');
                 if(isSiteID($args->domain) && $oModuleModel->isIDExists($args->domain)) return new Object(-1,'msg_already_registed_vid');
 
-                if(!isSiteID($args->domain)) {
+                if($args->domain && !isSiteID($args->domain)) {
                     $args->domain = strtolower($args->domain);
                 }
 
