@@ -367,7 +367,7 @@ runtimes.html5 = {
 				data += '--'+bndr+'\r\n';
 				data += 'Content-Disposition: form-data; name="Filedata"; filename="'+file.name+'"\r\n';
 				data += 'Content-Type: application/octet-stream\r\n\r\n';
-				data += bin;
+				data += file.object.getAsBinary();
 				data += '\r\n';
 				data += '--'+bndr+'--\r\n';
 
