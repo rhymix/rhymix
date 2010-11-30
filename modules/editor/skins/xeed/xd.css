@@ -196,7 +196,7 @@ body{height:100%}
 .xd .t2 .lr.open{display:block}
 /* Layer - u2 (hx, ff, fs, lh) */
 .xd .t2 .u2 .lr{padding:2px}
-.xd .t2 .u2 .lr li{margin:0 !important;padding:0 !important}
+.xd .t2 .u2 .lr li{margin:0 !important;padding:0 !important;border:0 !important}
 .xd .t2 .u2 .lr li.hover{background:#ebebeb}
 .xd .t2 .u2 .lr button{display:block;white-space:nowrap;text-align:left;font-size:12px;padding:2px 10px}
 .xd .t2 .u2 .hx .lr button{font-weight:bold}
