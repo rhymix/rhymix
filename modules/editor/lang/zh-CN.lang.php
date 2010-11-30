@@ -85,7 +85,11 @@
     $lang->edit->submit = '确认';
 
     $lang->edit->fontcolor = '文本颜色';
+	$lang->edit->fontcolor_apply = '글자 색 적용';
+	$lang->edit->fontcolor_more = '글자 색 더보기';
     $lang->edit->fontbgcolor = '背景颜色';
+	$lang->edit->fontbgcolor_apply = '글자 배경색 적용';
+	$lang->edit->fontbgcolor_more = '글자 배경색 더보기';
     $lang->edit->bold = '粗体';
     $lang->edit->italic = '斜体';
     $lang->edit->underline = '下划线';
@@ -135,8 +139,10 @@
     $lang->edit->multimedia = '视频';
     $lang->edit->emoticon = '表情图标';
 
+	$lang->edit->file = '파일';
     $lang->edit->upload = '上传';
     $lang->edit->upload_file = '上传附件';
+	$lang->edit->upload_list = '첨부 목록';
     $lang->edit->link_file = '插入附件';
     $lang->edit->delete_selected = '删除所选';
 
@@ -229,4 +235,46 @@
 
     $lang->edit->image_align = '图片对齐';
     $lang->edit->attached_files = '附件';
+
+	$lang->edit->fontcolor_input = '폰트색 직접입력';
+	$lang->edit->fontbgcolor_input = '배경색 직접입력';
+	$lang->edit->pangram = '무궁화 꽃이 피었습니다';
+
+	$lang->edit->table_caption_position = '표 제목(caption) 및 배치';
+	$lang->edit->table_caption = '표 제목(caption)';
+	$lang->edit->table_header = '머리글 셀(th)';
+	$lang->edit->table_header_none = '없음';
+	$lang->edit->table_header_left = '왼쪽';
+	$lang->edit->table_header_top = '위쪽';
+	$lang->edit->table_header_both = '모두';
+	$lang->edit->table_size = '표 크기';
+	$lang->edit->table_width = '표 폭';
+
+	$lang->edit->upper_left = '상단좌측';
+	$lang->edit->upper_center = '상단중앙';
+	$lang->edit->upper_right = '상단우측';
+	$lang->edit->bottom_left = '하단좌측';
+	$lang->edit->bottom_center = '하단중앙';
+	$lang->edit->bottom_right = '하단우측';
+
+	$lang->edit->no_image = '첨부된 이미지가 없습니다.';
+	$lang->edit->no_multimedia = '첨부된 동영상이 없습니다.';
+	$lang->edit->no_attachment = '첨부된 파일이 없습니다.';
+	$lang->edit->insert_selected = '선택 넣기';
+	$lang->edit->delete_selected = '선택 삭제';
+
+	$lang->edit->fieldset = '글상자';
+	$lang->edit->paragraph = '문단';
+	
+	$lang->edit->autosave_format = '글을 쓰기 시작한지 <strong>%s</strong>이 지났습니다. 마지막 저장 시간은 <strong>%s</strong> 입니다.';
+	$lang->edit->autosave_hour = '%d시간';
+	$lang->edit->autosave_hours = '%d시간';
+	$lang->edit->autosave_min = '%d분';
+	$lang->edit->autosave_mins = '%d분';
+	$lang->edit->autosave_hour_ago = '%d시간 전';
+	$lang->edit->autosave_hours_ago = '%d시간 전';
+	$lang->edit->autosave_min_ago = '%d분 전';
+	$lang->edit->autosave_mins_ago = '%d분 전';
+	
+	$lang->edit->upload_not_enough_quota   = '허용된 용량이 부족하여 파일을 첨부할 수 없습니다.';
 ?>

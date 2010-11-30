@@ -70,9 +70,7 @@
          * @return true: OK, false: redirected 
          **/
         function init() {
-            $oModuleModel = &getModel('module');
-			$oModuleModel->loadModuleExtends();
-
+			$oModuleModel = &getModel('module');
             $site_module_info = Context::get('site_module_info');
 
             if(!$this->document_srl && $this->mid && $this->entry) {
@@ -283,6 +281,7 @@
 					if($this->module == "admin" && $type == "view")
 					{
 						$oMemberModel = &getModel('member');
+
 						$logged_info = $oMemberModel->getLoggedInfo();
 						if($logged_info->is_admin=='Y') {
 							$orig_module->loadSideBar();
@@ -426,22 +425,19 @@
          * @remarks if there exists a module instance created before, returns it.
          **/
         function &getModuleInstance($module, $type = 'view', $kind = '') {
+
 			$parent_module = $module;
             if(__DEBUG__==3) $start_time = getMicroTime();
 
-            if($kind != 'admin') $kind = 'svc';
-
-			if(is_array($GLOBALS['__MODULE_EXTEND__'])) {
-				$extend_module = $GLOBALS['__MODULE_EXTEND__'][$module.'.'.($kind=='svc'?'':'admin').'.'.$type];
-				if($extend_module && file_exists(FileHandler::getRealPath(ModuleHandler::getModulePath($extend_module)))) {
-					$module = $extend_module;
-				}else{
-					unset($extend_module);
-				}
+			$key = $module.'.'.($kind!='admin'?'':'admin').'.'.$type;
+			if(is_array($GLOBALS['__MODULE_EXTEND__']) && array_key_exists($key, $GLOBALS['__MODULE_EXTEND__'])) {
+				$module = $extend_module = $GLOBALS['__MODULE_EXTEND__'][$key];
+			}else{
+				unset($parent_module);
 			}
 
             $class_path = ModuleHandler::getModulePath($module);
-            if(!is_dir(_XE_PATH_.$class_path)) return NULL;
+            if(!is_dir(FileHandler::getRealPath($class_path))) return NULL;
 
             // if there is no instance of the module in global variable, create a new one 
             if(!$GLOBALS['_loaded_module'][$module][$type][$kind]) {
@@ -457,48 +453,50 @@
                     case 'controller' :
                             if($kind == 'admin') {
                                 $instance_name = sprintf("%sAdmin%s",$module,"Controller");
-                                $class_file = sprintf('%s%s%s.admin.%s.php', _XE_PATH_, $class_path, $module, $type);
+                                $class_file = sprintf('%s%s.admin.%s.php', $class_path, $module, $type);
                             } else {
                                 $instance_name = sprintf("%s%s",$module,"Controller");
-                                $class_file = sprintf('%s%s%s.%s.php', _XE_PATH_, $class_path, $module, $type);
+                                $class_file = sprintf('%s%s.%s.php', $class_path, $module, $type);
                             }
                         break;
                     case 'model' :
                             if($kind == 'admin') {
                                 $instance_name = sprintf("%sAdmin%s",$module,"Model");
-                                $class_file = sprintf('%s%s%s.admin.%s.php', _XE_PATH_, $class_path, $module, $type);
+                                $class_file = sprintf('%s%s.admin.%s.php', $class_path, $module, $type);
                             } else {
                                 $instance_name = sprintf("%s%s",$module,"Model");
-                                $class_file = sprintf('%s%s%s.%s.php', _XE_PATH_, $class_path, $module, $type);
+                                $class_file = sprintf('%s%s.%s.php', $class_path, $module, $type);
                             }
                         break;
                     case 'api' :
                             $instance_name = sprintf("%s%s",$module,"API");
-                            $class_file = sprintf('%s%s%s.api.php', _XE_PATH_, $class_path, $module);
+                            $class_file = sprintf('%s%s.api.php', $class_path, $module);
                         break;
                     case 'wap' :
                             $instance_name = sprintf("%s%s",$module,"WAP");
-                            $class_file = sprintf('%s%s%s.wap.php', _XE_PATH_, $class_path, $module);
+                            $class_file = sprintf('%s%s.wap.php', $class_path, $module);
                         break;
 					case 'mobile' :
 							$instance_name = sprintf("%s%s",$module,"Mobile");
-							$class_file = sprintf("%s%s%s.mobile.php", _XE_PATH_, $class_path, $module);
+							$class_file = sprintf("%s%s.mobile.php", $class_path, $module);
 						break;
                     case 'class' :
                             $instance_name = $module;
-                            $class_file = sprintf('%s%s%s.class.php', _XE_PATH_, $class_path, $module);
+                            $class_file = sprintf('%s%s.class.php', $class_path, $module);
                         break;
                     default :
                             $type = 'view';
                             if($kind == 'admin') {
                                 $instance_name = sprintf("%sAdmin%s",$module,"View");
-                                $class_file = sprintf('%s%s%s.admin.view.php', _XE_PATH_, $class_path, $module, $type);
+                                $class_file = sprintf('%s%s.admin.view.php', $class_path, $module, $type);
                             } else {
                                 $instance_name = sprintf("%s%s",$module,"View");
-                                $class_file = sprintf('%s%s%s.view.php', _XE_PATH_, $class_path, $module, $type);
+                                $class_file = sprintf('%s%s.view.php', $class_path, $module, $type);
                             }
                         break;
                 }
+
+				$class_file = FileHandler::getRealPath($class_file);
 
                 // Get the name of the class file
                 if(!file_exists($class_file)) return NULL;

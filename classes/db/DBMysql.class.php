@@ -403,7 +403,7 @@
                 foreach($val['condition'] as $v) {
                     if(!isset($v['value'])) continue;
                     if($v['value'] === '') continue;
-                    if(!in_array(gettype($v['value']), array('string', 'integer', 'double'))) continue;
+                    if(!in_array(gettype($v['value']), array('string', 'integer', 'double', 'array'))) continue;
 
                     $name = $v['column'];
                     $operation = $v['operation'];
@@ -437,9 +437,20 @@
             foreach($output->columns as $key => $val) {
                 $name = $val['name'];
                 $value = $val['value'];
+
                 if($output->column_type[$name]!='number') {
-                    $value = "'".$this->addQuotes($value)."'";
-                    if(!$value) $value = 'null';
+
+					if(!is_null($value)){
+						$value = "'" . $this->addQuotes($value) ."'";
+					}else{
+						if($val['notnull']=='notnull') {
+							$value = "''";
+						} else {
+							//$value = 'null';
+							$value = "''";
+						}
+					}
+
                 } elseif(!$value || is_numeric($value)) $value = (int)$value;
 
                 $column_list[] = '`'.$name.'`';

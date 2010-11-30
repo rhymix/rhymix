@@ -18,6 +18,7 @@
     $lang->downloaded_list = 'ダウンロードリスト';
     $lang->layout_preview_content = '内容が出力される部分です。';
     $lang->not_apply_menu = 'レイアウトの一括適用';
+	$lang->layout_management = 'レイアウト管理';
 
     $lang->cmd_move_to_installed_list = '作成されたリスト表示';
 
@@ -110,8 +111,8 @@
         'attribute' => 'ウィジェットを除いた各領域はすべて背景の色・イメージ・文字のテキスト色(「a」タグを含む)の指定が可能です。',
 
     );
-	$lang->mobile_layout_list = "Mobile Layout List";
-	$lang->mobile_downloaded_list = "Downloaded Mobile Layouts";
-	$lang->apply_mobile_view = "Apply Mobile View";
-	$lang->about_apply_mobile_view = "All connected module use mobile view to display when accessing with mobile device.";
+	$lang->mobile_layout_list = "モバイルレイアウトリスト";
+	$lang->mobile_downloaded_list = "ダウンロードしたモバイルレイアウト";
+	$lang->apply_mobile_view = "モバイルスキン使用";
+	$lang->about_apply_mobile_view = "活性化すると連結されている全てのモジュールでモバイルスキンが適用されます。";
 ?>

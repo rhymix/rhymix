@@ -99,18 +99,18 @@
                 </select>
 
             <!--@elseif($val->type=="checkbox")-->
-                <!--@foreach($val->default as $k=>$v)-->
+                <!--@foreach($val->options as $k=>$v)-->
                 <span>
-                    <input type="checkbox" name="{$val->name}[]" value="{$v}" id="ch_{$key}_{$k}" <!--@if(in_array($v, $val->value))-->checked="checked"<!--@end--> class="checkbox" /> 
-                    <label for="ch_{$key}_{$k}">{$v}</label>
+                    <input type="checkbox" name="{$val->name}[]" value="{$v->value}" id="ch_{$key}_{$k}" <!--@if(in_array($v->value, $val->value))-->checked="checked"<!--@end--> class="checkbox" /> 
+                    <label for="ch_{$key}_{$k}">{$v->value}</label>
                 </span>
                 <!--@end-->
 
             <!--@elseif($val->type=="radio")-->
-                <!--@foreach($val->default as $k=>$v)-->
+                <!--@foreach($val->options as $k=>$v)-->
                 <span>
-                    <input type="radio" name="{$val->name}" value="{$v}" id="ch_{$key}_{$k}" <!--@if($v==$val->value)-->checked="checked"<!--@end-->/> 
-                    <label for="ch_{$key}_{$k}">{$v}</label>
+                    <input type="radio" name="{$val->name}" value="{$v->value}" id="ch_{$key}_{$k}" <!--@if($v->value==$val->value)-->checked="checked"<!--@end-->/> 
+                    <label for="ch_{$key}_{$k}">{$v->value}</label>
                 </span>
                 <!--@end-->
 

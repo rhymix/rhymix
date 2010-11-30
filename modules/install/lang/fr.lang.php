@@ -537,6 +537,7 @@ EndOfLicense;
     $lang->use_rewrite = 'Utiliser mode de récrire(rewrite mod)';
     $lang->use_sso = 'SSO';
     $lang->about_rewrite = "Si le serveur de web est capable d'utiliser le mode de récrire, URL longue comme http://murmure/?document_srl=123 peut être abrégé comme http://murmure/123";
+	$lang->about_sso = '사용자가 한 번만 로그인하면 기본 사이트와 가상 사이트에 동시에 로그인이 되는 기능입니다. 가상 사이트를 사용할 때만 필요합니다.';
     $lang->time_zone = 'Fuseau horaire';
     $lang->about_time_zone = "Si l'heure de serveur et celle de votre emplacement ne s'accordent pas,  vous pouvez remettre l'heure comme le même heure de votre lieu en configurant le fuseau horaire ";
     $lang->qmail_compatibility = 'Compatible avec Qmail';

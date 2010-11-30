@@ -75,5 +75,15 @@
 
     <div id="waitingforserverresponse"></div>
 
+{@ $js_body_files = Context::getJsFile('body') }
+<!--@foreach($js_body_files as $key => $js_file)-->
+<!--@if($js_file['targetie'])-->
+    <!--[if {$js_file['targetie']}]>
+<!--@end-->
+    <script type="text/javascript" src="{$js_file['file']}"></script>
+<!--@if($js_file['targetie'])-->
+    <![endif]-->
+<!--@end-->
+<!--@end-->
 </body>
 </html>

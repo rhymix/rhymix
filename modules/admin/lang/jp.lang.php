@@ -78,15 +78,16 @@
     $lang->about_server_ports = '一般的に使われているHTTPの80、HTTPSの443以外の他のポートを使うために、ポートを指定して下さい。';
     $lang->use_db_session = 'DBで認証セッション管理';
     $lang->about_db_session = '認証の時に使われるPHPセッションをDBで使う機能です。<br />ウェブサーバーの負荷が低いサイトではこの機能をオフにすることでむしろサイトのレスポンスが向上されることもあります。<br />また、この機能をオンにすると、「現在ログイン中の会員」の機能が不可になります。';
-    $lang->sftp = "Use SFTP";
-    $lang->ftp_get_list = "Get List";
-    $lang->ftp_remove_info = 'Remove FTP Info.';
-	$lang->msg_ftp_invalid_path = 'Failed to read the specified FTP Path.';
-	$lang->msg_self_restart_cache_engine = 'Please restart Memcached or cache daemon.';
-	$lang->mobile_view = 'Use Mobile View';
-	$lang->about_mobile_view = 'If accessing with a smartphone, display content with mobile layout.';
-    $lang->autoinstall = 'イージーインストール';
+    $lang->sftp = "SFTP使用";
+    $lang->ftp_get_list = "ディレクトリ目録要請";
+    $lang->ftp_remove_info = 'FTP情報削除';
+	$lang->msg_ftp_invalid_path = '指定されたFTPパスへのアクセスに失敗しました。';
+	$lang->msg_self_restart_cache_engine = 'メムキャッシュドまたはキャッシュデーモンを再起動して下さい。';
+	$lang->mobile_view = 'モバイルスキン使用';
+	$lang->about_mobile_view = 'スマート携帯などを通じてサイトに接続した場合、モバイル画面に最適化されたレイアウトを使用するように設定します。';
 
-    $lang->last_week = 'Last week';
-    $lang->this_week = 'This week';
+	$lang->autoinstall = 'イージーインストール';
+
+    $lang->last_week = '先週';
+    $lang->this_week = '今週';
 ?>

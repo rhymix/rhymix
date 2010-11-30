@@ -23,7 +23,7 @@
             $args->type = $type;
             $args->act = $act;
 
-            $output = executeQuery('module.insertActionFoward', $args);
+            $output = executeQuery('module.insertActionForward', $args);
             return $output;
         }
 
@@ -35,7 +35,7 @@
             $args->type = $type;
             $args->act = $act;
 
-            $output = executeQuery('module.deleteActionFoward', $args);
+            $output = executeQuery('module.deleteActionForward', $args);
             return $output;
         }
 
@@ -83,8 +83,9 @@
          *
          **/
 		function insertModuleExtend($parent_module, $extend_module, $type, $kind=''){
-			if($kind!='admin') $kind = '';
-			if(!in_array($type,array('model','controller','view')) || !in_array($kind,array('svc','admin'))) return;
+			if($kind != 'admin') $kind = '';
+			if(!in_array($type,array('model','controller','view','api','mobile'))) return false;
+			if(in_array($parent_module, array('module','addon','widget','layout'))) return false;
 
 			$cache_file = './files/config/module_extend.php';
 			FileHandler::removeFile($cache_file);
@@ -94,8 +95,10 @@
             $args->type = $type;
             $args->kind = $kind;
 
+            $output = executeQuery('module.getModuleExtendCount', $args);
+			if($output->data->count>0) return false;
+
             $output = executeQuery('module.insertModuleExtend', $args);
-			
 			return $output;
 		}
 
@@ -155,7 +158,10 @@
             if(isSiteID($domain)) {
                 $oModuleModel = &getModel('module');
                 if($oModuleModel->isIDExists($domain, 0)) return new Object(-1,'msg_already_registed_vid');
+            }else{
+                $domain = strtolower($domain);
             }
+            
             $args->site_srl = getNextSequence();
             $args->domain = preg_replace('/\/$/','',$domain);
             $args->index_module_srl = $index_module_srl;
@@ -180,6 +186,11 @@
                 $info = $oModuleModel->getSiteInfoByDomain($args->domain);
                 if($info->site_srl && $info->site_srl != $args->site_srl) return new Object(-1,'msg_already_registed_domain');
                 if(isSiteID($args->domain) && $oModuleModel->isIDExists($args->domain)) return new Object(-1,'msg_already_registed_vid');
+
+                if($args->domain && !isSiteID($args->domain)) {
+                    $args->domain = strtolower($args->domain);
+                }
+
             }
             $output = executeQuery('module.updateSite', $args);
             return $output;
@@ -477,7 +488,8 @@
                 // 스킨 정보 필드에 메뉴 항목(stdClass)을 저장해놓은 경우가 있어
                 // 1.2.0 이상 버전으로 업그레이드한 후 모듈 업데이트할 때
                 // 오류가 발생하는 문제 수정
-                if (is_array($val) || is_object($val)) continue;
+                if (is_object($val)) continue;
+                if (is_array($val)) $val = serialize($val);
 
                 $args->name = trim($key);
                 $args->value = trim($val);

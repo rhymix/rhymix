@@ -85,7 +85,11 @@
     $lang->edit->submit = '確認';
 
     $lang->edit->fontcolor = '文字顏色';
+	$lang->edit->fontcolor_apply = '套用文字顏色';
+	$lang->edit->fontcolor_more = '更多文字顏色';
     $lang->edit->fontbgcolor = '背景顏色';
+	$lang->edit->fontbgcolor_apply = '套用背景顏色';
+	$lang->edit->fontbgcolor_more = '更多背景顏色';
     $lang->edit->bold = '粗體';
     $lang->edit->italic = '斜體';
     $lang->edit->underline = '底線';
@@ -135,8 +139,10 @@
     $lang->edit->multimedia = '影片';
     $lang->edit->emoticon = '表情符號';
 
+	$lang->edit->file = '檔案';
     $lang->edit->upload = '上傳';
     $lang->edit->upload_file = '上傳附檔';
+	$lang->edit->upload_list = '檔案列表';
     $lang->edit->link_file = '插入檔案';
     $lang->edit->delete_selected = '刪除所選';
 
@@ -224,10 +230,52 @@
 	$lang->edit->paging_next_help = '往下一頁';
 
 	$lang->edit->toc = '目錄';
-	$lang->edit->close_help = '關閉使用手冊';
+	$lang->edit->close_help = '關閉';
 
 	$lang->edit->confirm_submit_without_saving = '有內容尚未儲存。\\n是否要繼續進行?';
 
 	$lang->edit->image_align = '圖片對齊';
 	$lang->edit->attached_files = '附加檔案';
+
+	$lang->edit->fontcolor_input = '自訂文字顏色';
+	$lang->edit->fontbgcolor_input = '自訂背景顏色';
+	$lang->edit->pangram = '實際範例';
+
+	$lang->edit->table_caption_position = '標籤位置';
+	$lang->edit->table_caption = '表格標籤(caption)';
+	$lang->edit->table_header = '標頭';
+	$lang->edit->table_header_none = '無';
+	$lang->edit->table_header_left = '左側';
+	$lang->edit->table_header_top = '頂端';
+	$lang->edit->table_header_both = '兩者';
+	$lang->edit->table_size = '大小';
+	$lang->edit->table_width = '寬度';
+
+	$lang->edit->upper_left = '左上方';
+	$lang->edit->upper_center = '正上方';
+	$lang->edit->upper_right = '右上方';
+	$lang->edit->bottom_left = '左下方';
+	$lang->edit->bottom_center = '正下方';
+	$lang->edit->bottom_right = '右下方';
+
+	$lang->edit->no_image = '目前沒有圖片';
+	$lang->edit->no_multimedia = '目前沒有影片';
+	$lang->edit->no_attachment = '目前沒有附檔';
+	$lang->edit->insert_selected = '插入所選';
+	$lang->edit->delete_selected = '刪除所選';
+
+	$lang->edit->fieldset = '區域';
+	$lang->edit->paragraph = '段落';
+	
+	$lang->edit->autosave_format = '글을 쓰기 시작한지 <strong>%s</strong>이 지났습니다. 마지막 저장 시간은 <strong>%s</strong> 입니다.';
+	$lang->edit->autosave_hour = '%d시간';
+	$lang->edit->autosave_hours = '%d시간';
+	$lang->edit->autosave_min = '%d분';
+	$lang->edit->autosave_mins = '%d분';
+	$lang->edit->autosave_hour_ago = '%d시간 전';
+	$lang->edit->autosave_hours_ago = '%d시간 전';
+	$lang->edit->autosave_min_ago = '%d분 전';
+	$lang->edit->autosave_mins_ago = '%d분 전';
+	
+	$lang->edit->upload_not_enough_quota   = '허용된 용량이 부족하여 파일을 첨부할 수 없습니다.';
 ?>

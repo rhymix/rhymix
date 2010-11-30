@@ -18,6 +18,7 @@
     $lang->downloaded_list = 'Liste disponibles';
     $lang->layout_preview_content = 'Le contenu sera exposé ici.';
     $lang->not_apply_menu = 'Appliquer le Mise en Page sur tous les menus';
+	$lang->layout_management = '레이아웃 관리';
 
     $lang->cmd_move_to_installed_list = "Mises en Page créés";
 

@@ -1,0 +1,8 @@
+<query id="updateMemberListOrderAll" action="update">
+    <tables>
+        <table name="member" />
+    </tables>
+    <columns>
+        <column name="list_order" notnull="notnull" var="list_order" default="multiply(-1)" />
+    </columns>
+</query>

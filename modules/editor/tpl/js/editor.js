@@ -14,11 +14,11 @@
 
 // editor_sequence값에 해당하는 textarea object를 return
 function editorGetTextArea(editor_sequence) {
-    return xGetElementById( 'editor_textarea_' + editor_sequence );
+    return jQuery('#editor_textarea_' + editor_sequence)[0];
 }
 
 function editorGetPreviewArea(editor_sequence) {
-    return xGetElementById( 'editor_preview_' + editor_sequence );
+    return jQuery( '#editor_preview_' + editor_sequence )[0];
 }
 
 // editor_sequence에 해당하는 form문 구함
@@ -42,25 +42,23 @@ function editorGetContent_xe(editor_sequence) {
     } else {
         var iframe_obj = editorGetIFrame(editor_sequence);
         if(!iframe_obj) return "";
-        html = xInnerHtml(iframe_obj.contentWindow.document.body).replace(/^<br([^>]*)>$/i,'');
+        html = jQuery(iframe_obj.contentWindow.document.body).html().replace(/^<br([^>]*)>$/i,'');
     }
     return html;
 }
 
 // 에디터 내의 선택된 부분의 NODE를 return
 function editorGetSelectedNode(editor_sequence) {
-    var iframe_obj = editorGetIFrame(editor_sequence);
-    if(xIE4Up) {
-        var range = iframe_obj.contentWindow.document.selection.createRange();
-        var div = xCreateElement('div');
-        xInnerHtml(div, range.htmlText);
-        var node = div.firstChild;
-        return node;
+    var iframe_obj = editorGetIFrame(editor_sequence), w, range;
+
+	w = iframe_obj.contentWindow;
+
+    if(w.document.selection) {
+        range = w.document.selection.createRange();
+        return jQuery('<div />').html(range.htmlText)[0].firstChild;
     } else {
-        var range = iframe_obj.contentWindow.getSelection().getRangeAt(0);
-        var node = xCreateElement('div');
-        node.appendChild(range.cloneContents());
-        return node.firstChild;
+        range = w.getSelection().getRangeAt(0);
+        return jQuery('<div />').append(range.cloneContents())[0].firstChild;
     }
 }
 
@@ -76,8 +74,7 @@ function editorStart(editor_sequence, primary_key, content_key, editor_height, f
     // iframe obj를 찾음
     var iframe_obj = editorGetIFrame(editor_sequence);
     if(!iframe_obj) return;
-    xWidth(iframe_obj.parentNode, '100%');
-    iframe_obj.style.width = '100%';
+	jQuery(iframe_obj).css('width', '100%'),parent().css('width', '100%');
 
     // 현 에디터를 감싸고 있는 form문을 찾음
     var fo_obj = editorGetForm(editor_sequence);
@@ -525,14 +522,7 @@ function closeEditorInfo(editor_sequence) {
 
 
 function showEditorHelp(e,editor_sequence){
-    var oid = 'helpList_'+editor_sequence;
-
-    if(xGetElementById(oid).className =='helpList'){
-
-        xGetElementById(oid).className = 'helpList open';
-    }else{
-        xGetElementById(oid).className = 'helpList';
-    }
+	jQuery('#helpList_'+editor_sequence).toggleClass('open');
 }
 
 function showEditorExtension(evt,editor_sequence){

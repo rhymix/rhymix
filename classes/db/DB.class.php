@@ -286,7 +286,7 @@
             else $cache_time = -1;
 
             // if there is no cache file or is not new, find original xml query file and parse it
-            if($cache_time < filemtime($xml_file) || $cache_time < filemtime(_XE_PATH_.'classes/db/DB.class.php')) {
+            if($cache_time < filemtime($xml_file) || $cache_time < filemtime(_XE_PATH_.'classes/db/DB.class.php') || $cache_time < filemtime(_XE_PATH_.'classes/xml/XmlQueryParser.class.php')) {
                 require_once(_XE_PATH_.'classes/xml/XmlQueryParser.class.php');
                 $oParser = new XmlQueryParser();
                 $oParser->parse($query_id, $xml_file, $cache_file);
@@ -404,34 +404,72 @@
          * @remarks if $type is not 'number', call addQuotes() and wrap with ' '
          **/
         function getConditionValue($name, $value, $operation, $type, $column_type) {
-            if($type == 'number') {
+
+            if(!in_array($operation,array('in','notin','between')) && $type == 'number') {
+				if(is_array($value)){
+					$value = join(',',$value);
+				}
                 if(strpos($value, ',') === false && strpos($value, '(') === false) return (int)$value;
                 return $value;
             }
-
-            if(strpos($name, '.') !== false && strpos($value, '.') !== false) {
+			
+            if(!is_array($value) && strpos($name, '.') !== false && strpos($value, '.') !== false) {
                 list($table_name, $column_name) = explode('.', $value);
                 if($column_type[$column_name]) return $value;
             }
 
-            $value = preg_replace('/(^\'|\'$){1}/', '', $value);
-
             switch($operation) {
                 case 'like_prefix' :
+						if(!is_array($value)) $value = preg_replace('/(^\'|\'$){1}/', '', $value);
                         $value = $value.'%';
                     break;
                 case 'like_tail' :
+						if(!is_array($value)) $value = preg_replace('/(^\'|\'$){1}/', '', $value);
                         $value = '%'.$value;
                     break;
                 case 'like' :
+						if(!is_array($value)) $value = preg_replace('/(^\'|\'$){1}/', '', $value);
                         $value = '%'.$value.'%';
                     break;
                 case 'notin' :
-                        return "'".$value."'";
+						if(is_array($value))
+						{
+							$value = $this->addQuotesArray($value);
+							if($type=='number') return join(',',$value);
+							else return "'". join("','",$value)."'";
+						}
+						else
+						{
+							return $value;
+						}
                     break;
                 case 'in' :
-                        return "'".$value."'";
+						if(is_array($value))
+						{
+							$value = $this->addQuotesArray($value);
+							if($type=='number') return join(',',$value);
+							else return "'". join("','",$value)."'";
+						}
+						else
+						{
+							return $value;
+						}
                     break;
+                case 'between' :
+						if(!is_array($value)) $value = array($value);
+			            $value = $this->addQuotesArray($value);
+						if($type!='number')
+						{
+							foreach($value as $k=>$v)
+							{
+								$value[$k] = "'".$v."'";
+							}
+						}
+
+						return $value;
+                    break;
+				default:
+					if(!is_array($value)) $value = preg_replace('/(^\'|\'$){1}/', '', $value);
             }
 
             return "'".$this->addQuotes($value)."'";
@@ -461,6 +499,11 @@
                         if(!isset($value)) return;
                         if($value === '') return;
                         if(!in_array(gettype($value), array('string', 'integer'))) return;
+				break;
+                case 'between' :
+					if(!is_array($value)) return;
+					if(count($value)!=2) return;
+
             }
 
             switch($operation) {
@@ -499,6 +542,9 @@
                 case 'null' :
                         return $name.' is null';
                     break;
+				case 'between' :
+                        return $name.' between ' . $value[0] . ' and ' . $value[1];
+					break;
             }
         }
 
@@ -624,5 +670,22 @@
             $query = sprintf("drop table %s%s", $this->prefix, $table_name);
             $this->_query($query);
         }
+
+		function addQuotesArray($arr)
+		{
+			if(is_array($arr))
+			{
+				foreach($arr as $k => $v)
+				{
+					$arr[$k] = $this->addQuotes($v);
+				}
+			}
+			else
+			{
+				$arr = $this->addQuotes($arr);
+			}
+
+			return $arr;
+		}
     }
 ?>

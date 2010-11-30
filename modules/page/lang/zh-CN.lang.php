@@ -12,4 +12,5 @@
     $lang->page_caching_interval = "缓冲时间设置";
     $lang->about_page_caching_interval = "单位为分。缓冲时间间隔内页面将输出临时储存的数据。<br />显示外链服务器信息或数据时，如消耗资源很大，尽量把缓冲时间设置为大一点的相应值。<br />0 表示无缓冲。";
     $lang->about_mcontent = '此页为移动版页面，如您没有对此页面进行布局，它会自动将PC版页面数据重排序显示。';
+	$lang->page_management = '페이지 관리';
 ?>

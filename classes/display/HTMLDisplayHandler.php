@@ -136,21 +136,20 @@ class HTMLDisplayHandler {
 	{
 		$oContext =& Context::getInstance();
 		// add common JS/CSS files
-		$oContext->_addJsFile("./common/js/jquery.js", true, '', -100000);
-		//$oContext->_addJsFile("./common/js/jquery-1.4.2-full.js", true, '', -100000);
-		$oContext->_addJsFile("./common/js/x.js", true, '', -100000);
-		$oContext->_addJsFile("./common/js/common.js", true, '', -100000);
-		$oContext->_addJsFile("./common/js/js_app.js", true, '', -100000);
-		$oContext->_addJsFile("./common/js/xml_handler.js", true, '', -100000);
-		$oContext->_addJsFile("./common/js/xml_js_filter.js", true, '', -100000);
-		$oContext->_addCSSFile("./common/css/default.css", true, 'all', '', -100000);
-		$oContext->_addCSSFile("./common/css/button.css", true, 'all', '', -100000);
+		$oContext->_addJsFile("./common/js/jquery.js", '', -100000);
+		$oContext->_addJsFile("./common/js/x.js", '', -100000);
+		$oContext->_addJsFile("./common/js/common.js", '', -100000);
+		$oContext->_addJsFile("./common/js/js_app.js", '', -100000);
+		$oContext->_addJsFile("./common/js/xml_handler.js", '', -100000);
+		$oContext->_addJsFile("./common/js/xml_js_filter.js", '', -100000);
+		$oContext->_addCSSFile("./common/css/default.css", 'all', '', -100000);
+		$oContext->_addCSSFile("./common/css/button.css", 'all', '', -100000);
 
 		// for admin page, add admin css
 		if(Context::get('module')=='admin' || strpos(Context::get('act'),'Admin')>0){
-			$oContext->_addCSSFile("./modules/admin/tpl/css/font.css", true, 'all', '',10000);
-			$oContext->_addCSSFile("./modules/admin/tpl/css/pagination.css", true, 'all', '', 100001);
-			$oContext->_addCSSFile("./modules/admin/tpl/css/admin.css", true, 'all', '', 100002);
+			$oContext->_addCSSFile("./modules/admin/tpl/css/font.css", 'all', '',10000);
+			$oContext->_addCSSFile("./modules/admin/tpl/css/pagination.css", 'all', '', 100001);
+			$oContext->_addCSSFile("./modules/admin/tpl/css/admin.css", 'all', '', 100002);
 		}
 	}
 }

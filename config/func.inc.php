@@ -488,7 +488,7 @@
      * ./files/_debug_message.php 파일에 $buff 내용을 출력한다.
      * tail -f ./files/_debug_message.php 하여 계속 살펴 볼 수 있다
      **/
-    function debugPrint($debug_output = null, $display_option = true) {
+    function debugPrint($debug_output = null, $display_option = true, $file = '_debug_message.php') {
         if(!(__DEBUG__ & 1)) return;
 
         static $firephp;
@@ -523,7 +523,7 @@
             if(__DEBUG_PROTECT__ === 1 && __DEBUG_PROTECT_IP__ != $_SERVER['REMOTE_ADDR']) {
                 return;
             }
-            $debug_file = _XE_PATH_.'files/_debug_message.php';
+            $debug_file = _XE_PATH_.'files/'.$file;
             if(function_exists("memory_get_usage"))
             {
                 $debug_output = sprintf("[%s %s:%d] - mem(%s)\n%s\n", date('Y-m-d H:i:s'), $file_name, $line_num, FileHandler::filesize(memory_get_usage()), print_r($debug_output, true));

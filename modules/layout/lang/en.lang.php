@@ -17,15 +17,16 @@
     $lang->menu_count = 'Menus';
     $lang->downloaded_list = 'Download List';
     $lang->layout_preview_content = 'The content gets displayed here';
-    $lang->not_apply_menu = 'Apply Layouts';
+    $lang->not_apply_menu = 'Apply Layouts En Bloc';
+	$lang->layout_management = 'Layout Management';
 
-    $lang->cmd_move_to_installed_list = "View created list";
+    $lang->cmd_move_to_installed_list = "View Created Layouts";
 
     $lang->about_downloaded_layouts = "List of downloaded layouts";
     $lang->about_title = 'Please input the title that is easy to verify when connecting to module';
-    $lang->about_not_apply_menu = 'All connected module\'s layout will be changed by checking this option.';
+    $lang->about_not_apply_menu = 'Layouts of all modules connected via menu will be changed en bloc by checking this option.';
 
-    $lang->about_layout = "Layout module helps you to create the site's layout easily.<br />By using layout setting and menu connection, website's completed shape will be displayed with various modules.<br />* Those layouts which are unabled to delete or modify are the blog or other module's layout. ";
+    $lang->about_layout = "Layout module helps you to create the site's layout easily.<br />By using layout setting and menu connection, website's completed shape will be displayed with various modules.<br />* Layouts which you cannot delete are the default layouts of blogs or other moduels, thus you have to delete them from their setting pages. ";
     $lang->about_layout_code = 
         "It will be applied to the service when you save the layout code after editing it.
         Please first preview your code and then save it.
@@ -33,9 +34,9 @@
 
     $lang->layout_export = 'Export';
     $lang->layout_btn_export = 'Download My Layout';
-    $lang->about_layout_export = 'Export currently editted layout.';
+    $lang->about_layout_export = 'Export currently edited layout.';
     $lang->layout_import = 'Import';
-    $lang->about_layout_import = 'Original layout will be deleted when you import. Please export current layout before importing.';
+    $lang->about_layout_import = 'Previously modified layout will be deleted when you import a new one. Please export current layout for a backup before importing.';
 
     $lang->layout_manager = array(
         0  => 'Layout Manager',

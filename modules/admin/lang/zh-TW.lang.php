@@ -56,10 +56,10 @@
     $lang->msg_default_act_is_null = '沒有指定預設管理員的動作，是無法新增到快速選單的。';
 
     $lang->welcome_to_xe = 'XE管理頁面';
-    $lang->about_lang_env = "可以設置顯示語言給首次訪問的使用者。修改語言環境後，請按[儲存]按鈕進行儲存。";
+    $lang->about_lang_env = "請選擇預設語言。選擇完畢後，請按[儲存]按鈕。";
 
     $lang->xe_license = 'XE遵循 GPL 協議';
-    $lang->about_shortcut = '可以刪除新增到常用模組中的快捷選單。';
+    $lang->about_shortcut = '可以刪除新增到常用模組中的快速選單。';
 
     $lang->yesterday = "昨天";
     $lang->today = "今天";
@@ -75,7 +75,7 @@
     );
     $lang->about_use_ssl = "選擇手動時，在會員註冊或修改資料等動作時才會使用 SSL 功能。<br/>選擇開啟時，所有的服務都會使用 SSL 功能。";
     $lang->server_ports = "主機埠口";
-    $lang->about_server_ports = "HTTP預設埠口是『80』、HTTPS是『443』，如果想使用其他的埠口的話，請自行設定。";
+    $lang->about_server_ports = "HTTP、HTTPS預設埠口分別是『80』、『443』<br />如果想使用其他的埠口的話，請自行設定。";
     $lang->use_db_session = 'DB session認證';
     $lang->about_db_session = '使用 PHP session 進行 DB 認證。<br/>關閉此功能對於負荷較低的網站可提高效率。<br/>使用此功能會無法統計線上人數。';
     $lang->sftp = "使用 SFTP";

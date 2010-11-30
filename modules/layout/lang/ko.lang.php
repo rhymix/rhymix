@@ -18,6 +18,7 @@
     $lang->downloaded_list = '다운로드 목록';
     $lang->layout_preview_content = '내용이 출력되는 부분입니다.';
     $lang->not_apply_menu = '레이아웃 일괄 적용';
+	$lang->layout_management = '레이아웃 관리';
 
     $lang->cmd_move_to_installed_list = '생성된 목록 보기';
 

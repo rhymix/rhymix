@@ -299,10 +299,15 @@
          * @brief 특정 module extend 가져옴
          **/
 		function getModuleExtend($parent_module, $type, $kind='') {
-			$module_extend_info = $this->loadModuleExtends();
-			$extend = $module_extend_info[$parent_module.'.'.$kind.'.'.$type];
+			$key = $parent_module.'.'.$kind.'.'.$type;
 
-			return $extend;
+			$module_extend_info = $this->loadModuleExtends();
+			if(array_key_exists($key, $module_extend_info))
+			{
+				return $module_extend_info[$key];
+			}
+
+			return false;
 		}
 
         /**
@@ -320,11 +325,11 @@
 					$output = executeQueryArray('module.getModuleExtend');
 					if($output->data){
 						foreach($output->data as $v){
-							$arr[] = sprintf("'%s.%s.%s' => '%s'", $v->parent_module, $v->type, $v->kind, $v->extend_module);
+							$arr[] = sprintf("'%s.%s.%s' => '%s'", $v->parent_module, $v->kind, $v->type, $v->extend_module);
 						}
 					}
 
-					$str = '<?PHP $__module_extend_info__=array(%s); return $__module_extend_info__; ?>';
+					$str = '<?PHP return array(%s); ?>';
 					$str = sprintf($str, join(',',$arr));
 
 					FileHandler::writeFile($cache_file, $str);

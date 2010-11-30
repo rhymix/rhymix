@@ -19,7 +19,11 @@ function editorGetContent(editor_sequence) {
 function editorFocus(editor_sequence) {
 	try {
 		var iframe_obj = editorGetIFrame(editor_sequence);
-		iframe_obj.contentWindow.focus();
+		if (jQuery.isFunction(iframe_obj.setFocus)) {
+			iframe_obj.setFocus();
+		} else {
+			iframe_obj.contentWindow.focus();
+		}
 	} catch(e){}
 }
 
@@ -27,20 +31,27 @@ function editorFocus(editor_sequence) {
  * 자동 저장 기능
  **/
 // 자동 저장 활성화 시키는 함수 (50초마다 자동저장)
-function editorEnableAutoSave(fo_obj, editor_sequence) {
-    var title = fo_obj.title.value;
+function editorEnableAutoSave(fo_obj, editor_sequence, callback) {
+    var title   = fo_obj.title.value;
     var content = editorRelKeys[editor_sequence]['content'].value;
+
     editorAutoSaveObj = {"fo_obj":fo_obj, "editor_sequence":editor_sequence, "title":title, "content":content, locked:false};
-    setTimeout('_editorAutoSave()', 50000);
+
+	clearTimeout(editorEnableAutoSave.timer);
+    editorEnableAutoSave.timer = setTimeout(function(){_editorAutoSave(false, callback)}, 50000);
 }
+editorEnableAutoSave.timer = null;
 
 // ajax를 이용하여 editor.procEditorSaveDoc 호출하여 자동 저장시킴 exe는 강제 코드
-function _editorAutoSave(exe) {
+function _editorAutoSave(exe, callback) {
     var fo_obj = editorAutoSaveObj.fo_obj;
     var editor_sequence = editorAutoSaveObj.editor_sequence;
 
     // 50초마다 동기화를 시킴 강제 실행은 제외
-    if(!exe) setTimeout('_editorAutoSave()', 50000);
+    if(!exe) {
+		clearTimeout(editorEnableAutoSave.timer);
+		editorEnableAutoSave.timer = setTimeout(function(){ _editorAutoSave(exe, callback) }, 50000);
+	}
 
     // 현재 자동저장중이면 중지
     if(editorAutoSaveObj.locked == true) return;
@@ -58,28 +69,37 @@ function _editorAutoSave(exe) {
 
     // 내용이 이전에 저장하였던 것과 다르면 자동 저장을 함 또는 강제 저장 설정시 자동 저장
     if(title != editorAutoSaveObj.title || content != editorAutoSaveObj.content || exe) {
-        var params = new Array();
+        var params, oDate = new Date();
 
-        params["title"] = title;
-        params["content"] = content;
-        params["mid"] = current_mid;
-        params["document_srl"] = editorRelKeys[editor_sequence]['primary'].value;
+        params = {
+			title   : title,
+			content : content,
+			mid     : current_mid,
+			document_srl : editorRelKeys[editor_sequence]['primary'].value
+		};
 
-        editorAutoSaveObj.title = title;
+        editorAutoSaveObj.title   = title;
         editorAutoSaveObj.content = content;
 
-        var obj   = jQuery("#editor_autosaved_message_"+editor_sequence);
-        var oDate = new Date();
-
         // 메시지 만들어서 보여줌
-        obj.text(oDate.getHours()+':'+oDate.getMinutes()+' '+auto_saved_msg).show(300);
+        jQuery("#editor_autosaved_message_"+editor_sequence).text(oDate.getHours()+':'+oDate.getMinutes()+' '+auto_saved_msg).show(300);
 
         // 현재 자동저장중임을 설정
         editorAutoSaveObj.locked = true;
 
         // 서버 호출 (서버와 교신중이라는 메세지를 보이지 않도록 함)
         show_waiting_message = false;
-        exec_xml("editor","procEditorSaveDoc", params, function() { editorAutoSaveObj.locked = false; } );
+        exec_xml(
+			"editor",
+			"procEditorSaveDoc",
+			params,
+			function() {
+				var arg = jQuery.extend({}, params, {auto_saved_msg:auto_saved_msg});
+			
+				editorAutoSaveObj.locked = false;
+				if(jQuery.isFunction(callback)) callback(arg);
+			}
+		);
         show_waiting_message = true;
     }
 }
@@ -98,7 +118,7 @@ function editorRemoveSavedDoc() {
 // editor_sequence값에 해당하는 iframe의 object를 return
 function editorGetIFrame(editor_sequence) {
     if(editorRelKeys != undefined && editorRelKeys[editor_sequence] != undefined && editorRelKeys[editor_sequence]['editor'] != undefined)
-		return editorRelKeys[editor_sequence]['editor'].getFrame();
+		return editorRelKeys[editor_sequence]['editor'].getFrame(editor_sequence);
     return document.getElementById( 'editor_iframe_'+ editor_sequence );
 }
 function editorGetTextarea(editor_sequence) {
@@ -136,9 +156,9 @@ function editorEventCheck(e) {
     var info = target_id.split('_');
     if(info[0]!="component") return;
     var editor_sequence = info[1];
-    var component_name = target_id.replace(/^component_([0-9]+)_/,'');
-    if(!editor_sequence || !component_name) return;
+    var component_name = target_id.replace(/^component_[0-9]+_/,'');
 
+    if(!editor_sequence || !component_name) return;
     if(editorMode[editor_sequence]=='html') return;
 
     switch(component_name) {
@@ -166,13 +186,13 @@ function editorEventCheck(e) {
         case 'RemoveFormat' :
         case 'Subscript' :
         case 'Superscript' :
-                editorDo(component_name, '', editor_sequence);
+            editorDo(component_name, '', editor_sequence);
             break;
 
         // 추가 컴포넌트의 경우 서버에 요청을 시도
         default :
-                openComponent(component_name, editor_sequence);
-            break;
+			openComponent(component_name, editor_sequence);
+			return false;
     }
 
     return;
@@ -273,21 +293,21 @@ function editorReplaceHTML(iframe_obj, html) {
     html = html.replace(hrefPathRegx, 'href="'+request_uri+'?$3"');
 
     // 에디터가 활성화 되어 있는지 확인 후 비활성화시 활성화
-    var editor_sequence = iframe_obj.contentWindow.document.body.getAttribute("editor_sequence");
+    var editor_sequence = iframe_obj.editor_sequence || iframe_obj.contentWindow.document.body.getAttribute("editor_sequence");
 
     // iframe 에디터에 포커스를 둠
-    iframe_obj.contentWindow.focus();
-
-    if(xIE4Up) {
+	try { iframe_obj.contentWindow.focus(); }catch(e){};
+	
+	if (jQuery.isFunction(iframe_obj.replaceHTML)) {
+		iframe_obj.replaceHTML(html);
+	} else if(xIE4Up) {
         var range = iframe_obj.contentWindow.document.selection.createRange();
         if(range.pasteHTML) {
             range.pasteHTML(html);
         } else if(editorPrevNode) {
             editorPrevNode.outerHTML = html;
         }
-
     } else {
-
         try {
             if(iframe_obj.contentWindow.getSelection().focusNode.tagName == "HTML") {
                 var range = iframe_obj.contentDocument.createRange();
@@ -302,14 +322,15 @@ function editorReplaceHTML(iframe_obj, html) {
         } catch(e) {
             xInnerHtml(iframe_obj.contentWindow.document.body, html+xInnerHtml(iframe_obj.contentWindow.document.body));
         }
-
     }
 }
 
 // 에디터 내의 선택된 부분의 html 코드를 return
 function editorGetSelectedHtml(editor_sequence) {
     var iframe_obj = editorGetIFrame(editor_sequence);
-    if(xIE4Up) {
+	if (jQuery.isFunction(iframe_obj.getSelectedHTML)) {
+		return iframe_obj.getSelectedHTML();
+    } else if(xIE4Up) {
         var range = iframe_obj.contentWindow.document.selection.createRange();
         var html = range.htmlText;
         return html;

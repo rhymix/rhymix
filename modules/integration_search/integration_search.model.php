@@ -16,10 +16,16 @@
          * @brief 게시글 검색
          **/
         function getDocuments($target, $module_srls_list, $search_target, $search_keyword, $page=1, $list_count = 20) {
-            if(is_array($module_srls_list)) $module_srls = implode(',',$module_srls_list);
-            else $module_srls = $module_srls_list;
-            if($target == 'exclude') $args->exclude_module_srl = $module_srls;
-            else $args->module_srl = $module_srls;
+            if(is_array($module_srls_list)) $module_srls_list = implode(',',$module_srls_list);
+
+            if($target == 'exclude') {
+				$module_srls_list .= ',0'; // exclude 'trash'
+				if ($module_srls_list{0} == ',') $module_srls_list = substr($module_srls_list, 1);
+            	$args->exclude_module_srl = $module_srls_list;
+            } else {
+            	$args->module_srl = $module_srls_list;
+            	$args->exclude_module_srl = '0'; // exclude 'trash'
+            }
 
             $args->page = $page;
             $args->list_count = $list_count;
@@ -32,6 +38,7 @@
 
             // 대상 문서들을 가져옴
             $oDocumentModel = &getModel('document');
+
             return $oDocumentModel->getDocumentList($args);
         }
 

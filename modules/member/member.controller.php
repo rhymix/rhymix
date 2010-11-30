@@ -540,6 +540,7 @@
             // 필수 정보들을 미리 추출
             $args = Context::gets('user_id','user_name','nick_name','homepage','blog','birthday','email_address','password','allow_mailing','find_account_question','find_account_answer');
             $args->member_srl = getNextSequence();
+			$args->list_order = -1 * $args->member_srl;
 
             // 넘어온 모든 변수중에서 몇가지 불필요한 것들 삭제
             $all_args = Context::getRequestVars();
@@ -613,6 +614,7 @@
             unset($all_args->body);
             unset($all_args->accept_agreement);
             unset($all_args->signature);
+            unset($all_args->_filter);
 
             // 모든 request argument에서 필수 정보만 제외 한 후 추가 데이터로 입력
             $extra_vars = delObjectVars($all_args, $args);
@@ -1050,11 +1052,14 @@
 			// 임시비밀번호로 변경 및 비밀번호 변경시간을 1로 설정
 			$args->member_srl = $member_srl;
 			list($usec, $sec) = explode(" ", microtime()); 
-			$args->temp_password = substr(md5($user_id . $member_info->find_account_answer. $usec . $sec),0,20);
-			$args->change_password_date = '1';
-			$this->updateMemberPassword($args);
+			$temp_password = substr(md5($user_id . $member_info->find_account_answer. $usec . $sec),0,15);
 
-			$_SESSION['xe_temp_password_'.$user_id] = $args->temp_password;
+			$args->password = $temp_password;
+			$args->change_password_date = '1';
+			$output = $this->updateMemberPassword($args);
+			if(!$output->toBool()) return $output;
+
+			$_SESSION['xe_temp_password_'.$user_id] = $temp_password;
 
 			$this->add('user_id',$user_id);
         }
@@ -1627,6 +1632,7 @@
 
             // DB에 입력
             $args->member_srl = getNextSequence();
+			$args->list_order = -1 * $args->member_srl;
             if($args->password && !$password_is_hashed) $args->password = md5($args->password);
             elseif(!$args->password) unset($args->password);
 

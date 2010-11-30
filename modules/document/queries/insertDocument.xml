@@ -25,7 +25,7 @@
         <column name="user_id" var="user_id" default="" />
         <column name="user_name" var="user_name" default="" />
         <column name="email_address" var="email_address" filter="email" maxlength="250" />
-        <column name="homepage" var="homepage" filter="homepage" maxlength="250" />
+        <column name="homepage" var="homepage" filter="homepage" default="" maxlength="250" />
         <column name="tags" var="tags" />
         <column name="extra_vars" var="extra_vars" />
         <column name="regdate" var="regdate" default="curdate()" />

@@ -84,7 +84,7 @@
     $lang->author = 'Developer';
     $lang->password = 'Password';
     $lang->password1 = 'Password';
-    $lang->password2 = 'Confirm Password';
+    $lang->password2 = 'Retype Password';
     $lang->admin_id = 'Admin ID';
     $lang->writer = 'Author';
     $lang->user_name = 'User Name';

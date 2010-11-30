@@ -1,13 +1,13 @@
 RewriteEngine On
 
 # reserve XE Layout Template Source File (*.html)
-RewriteRule ^layouts/(.+)/(.+)\.html$ ./index.php [L]
+RewriteRule ^(layouts|m.layouts)/(.+)/(.+)\.html$ ./index.php [L]
 
 # static files
 RewriteCond %{SCRIPT_FILENAME} !-f
 RewriteRule ^(.+)/files/(member_extra_info|attach|cache|faceOff)/(.*) ./files/$2/$3 [L]
 RewriteCond %{SCRIPT_FILENAME} !-f
-RewriteRule ^([a-zA-Z0-9_]+)(/[a-zA-Z0-9_]+(/entry)?)?/(files|modules|common|widgets|widgetStyle|layouts|addons)/(.*) ./$4/$5 [L]
+RewriteRule ^(.+)/(files|modules|common|widgets|widgetStyle|layouts|m.layouts|addons)/(.*) ./$2/$3 [L]
 
 # rss , blogAPI
 RewriteRule ^(rss|atom)$ ./index.php?module=rss&act=$1 [L]

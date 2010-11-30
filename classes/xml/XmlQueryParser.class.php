@@ -173,6 +173,17 @@
                 $buff .= ' );'."\n";
             }
 
+			// args 변수 확인
+			$arg_list = $this->getArguments();
+			if($arg_list)
+			{
+				foreach($arg_list as $arg)
+				{
+					$pre_buff .= 'if(is_object($args->'.$arg.')){ $args->'.$arg.' = array_values(get_method_vars($args->'.$arg.')); }'. "\n";
+					$pre_buff .= 'if(is_array($args->'.$arg.') && count($args->'.$arg.')==0){ unset($args->'.$arg.'); };'."\n";
+				}
+			}
+
             // order 정리
             if($output->order) {
                 $buff .= '$output->order = array(';
@@ -446,6 +457,8 @@
                             if($v->notnull) $this->notnull_list[] = $v->var;
                             if($v->default) $buff .= sprintf('array("column"=>"%s", "value"=>$args->%s?$args->%s:%s,"pipe"=>"%s","operation"=>"%s",),%s', $v->column, $v->var, $v->var, $v->default, $v->pipe, $v->operation, "\n");
                             else $buff .= sprintf('array("column"=>"%s", "value"=>$args->%s,"pipe"=>"%s","operation"=>"%s",),%s', $v->column, $v->var, $v->pipe, $v->operation, "\n");
+
+							$this->addArguments($v->var);
                         } else {
                             $buff .= sprintf('array("column"=>"%s", "value"=>"%s","pipe"=>"%s","operation"=>"%s",),%s', $v->column, $v->var, $v->pipe, $v->operation, "\n");
                         }
@@ -459,6 +472,15 @@
             return $buff;
         }
 
+		function addArguments($args_name)
+		{
+			$this->args[] = $args_name;
+		}
+		
+		function getArguments()
+		{
+			return $this->args;
+		}
 
         /**
         * @brief returns predefined default values correspoding to given parameters 

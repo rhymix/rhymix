@@ -85,7 +85,11 @@
 	$lang->edit->submit = '送信';
 
 	$lang->edit->fontcolor = 'テキストの色';
+	$lang->edit->fontcolor_apply = 'テキスト色適用';
+	$lang->edit->fontcolor_more = '他のテキスト色';
 	$lang->edit->fontbgcolor = 'テキストの背景色';
+	$lang->edit->fontbgcolor_apply = 'テキスト背景色適用';
+	$lang->edit->fontbgcolor_more = '他のテキスト背景色';
 	$lang->edit->bold = '太字';
 	$lang->edit->italic = '斜体';
 	$lang->edit->underline = '下線';
@@ -121,7 +125,7 @@
 	$lang->edit->help_align_left = 'テキストを左揃えで表示します。';
 	$lang->edit->help_align_center = 'テキストを中央揃えで表示します。';
 	$lang->edit->help_align_right = 'テキストを右揃えで表示します。';
-	$lang->edit->help_align_justify = 'Align justity';
+	$lang->edit->help_align_justify = 'テキストを両端揃えで表示します。';
 	$lang->edit->help_add_indent = 'インデントを増やします。';
 	$lang->edit->help_remove_indent = 'インデントを減らします。';
 	$lang->edit->help_list_number = '番号付リスト';
@@ -135,8 +139,10 @@
 	$lang->edit->multimedia = '動画';
 	$lang->edit->emoticon = '絵文字';
 
+	$lang->edit->file = 'ファイル';
 	$lang->edit->upload = '添付';
 	$lang->edit->upload_file = 'ファイル添付';
+	$lang->edit->upload_list = '添付リスト';
 	$lang->edit->link_file = 'テキスト挿入';
 	$lang->edit->delete_selected = '選択リスト削除';
 
@@ -227,6 +233,48 @@
 
 	$lang->edit->confirm_submit_without_saving = 'まだ保存してない内容があります。\\nそのまま転送して宜しいでしょうか？';
 
-	$lang->edit->image_align = '이미지 정렬';
-	$lang->edit->attached_files = '첨부 파일';
+	$lang->edit->image_align = 'イメージの配置';
+	$lang->edit->attached_files = '添付ファイル';
+
+	$lang->edit->fontcolor_input = 'テキスト色直接入力';
+	$lang->edit->fontbgcolor_input = 'テキスト背景色直接入力';
+	$lang->edit->pangram = '무궁화 꽃이 피었습니다';
+
+	$lang->edit->table_caption_position = 'キャプションの配置';
+	$lang->edit->table_caption = '表のキャプション';
+	$lang->edit->table_header = '머리글 셀(th)';
+	$lang->edit->table_header_none = 'なし';
+	$lang->edit->table_header_left = '左';
+	$lang->edit->table_header_top = '上';
+	$lang->edit->table_header_both = '両方';
+	$lang->edit->table_size = '表の大きさ';
+	$lang->edit->table_width = '表幅';
+
+	$lang->edit->upper_left = '上端左';
+	$lang->edit->upper_center = '上端中央';
+	$lang->edit->upper_right = '上端右';
+	$lang->edit->bottom_left = '下端左';
+	$lang->edit->bottom_center = '下端中央';
+	$lang->edit->bottom_right = '下端右';
+
+	$lang->edit->no_image = '添付されたイメージがありません。';
+	$lang->edit->no_multimedia = '添付された動画がありません。';
+	$lang->edit->no_attachment = '添付されたファイルがありません。';
+	$lang->edit->insert_selected = '選択挿入';
+	$lang->edit->delete_selected = '選択削除';
+
+	$lang->edit->fieldset = 'テキストボックス';
+	$lang->edit->paragraph = '段落';
+	
+	$lang->edit->autosave_format = '글을 쓰기 시작한지 <strong>%s</strong>이 지났습니다. 마지막 저장 시간은 <strong>%s</strong> 입니다.';
+	$lang->edit->autosave_hour = '%d시간';
+	$lang->edit->autosave_hours = '%d시간';
+	$lang->edit->autosave_min = '%d분';
+	$lang->edit->autosave_mins = '%d분';
+	$lang->edit->autosave_hour_ago = '%d시간 전';
+	$lang->edit->autosave_hours_ago = '%d시간 전';
+	$lang->edit->autosave_min_ago = '%d분 전';
+	$lang->edit->autosave_mins_ago = '%d분 전';
+	
+	$lang->edit->upload_not_enough_quota   = '허용된 용량이 부족하여 파일을 첨부할 수 없습니다.';
 ?>

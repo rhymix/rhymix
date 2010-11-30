@@ -13,12 +13,17 @@
      * @brief XE의 전체 버전 표기
      * 이 파일의 수정이 없더라도 공식 릴리즈시에 수정되어 함께 배포되어야 함
      **/
-    define('__ZBXE_VERSION__', '1.4.4.1');
+    define('__ZBXE_VERSION__', '1.4.4.2');
 
     /**
      * @brief zbXE가 설치된 장소의 base path를 구함
      **/
     define('_XE_PATH_', str_replace('config/config.inc.php', '', str_replace('\\', '/', __FILE__)));
+
+	/**
+	 * @brief 쿠키 이외의 값에서도 세션을 인식할 수 있도록 함(파일업로드 등에서의 문제 수정)
+	 **/
+	ini_set('session.use_only_cookies', 0);
 
     /**
      * @brief 기본 설정에 우선하는 사용자 설정 파일

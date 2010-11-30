@@ -538,6 +538,7 @@ EndOfLicense;
     $lang->use_rewrite = 'Mod Rewrite';
     $lang->use_sso = 'SSO';
     $lang->about_rewrite = "Nếu Host của bạn hỗ trợ Mod Rewrite, khi địa chỉ có dạng <b>http://blah/?document_srl=123</b> sẽ được rút ngắn thành <b>http://blah/123</b>";
+	$lang->about_sso = '사용자가 한 번만 로그인하면 기본 사이트와 가상 사이트에 동시에 로그인이 되는 기능입니다. 가상 사이트를 사용할 때만 필요합니다.';
     $lang->time_zone = 'Múi giờ';
     $lang->about_time_zone = "Nếu thời gian của khu vực bạn không tự động cập nhật. Bạn có thể chọn thời gian để hiển thị cho Website.";
     $lang->qmail_compatibility = 'Mở Qmail';

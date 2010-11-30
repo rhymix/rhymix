@@ -144,10 +144,11 @@
 
             // 쿼리 문 실행
             $result = mysqli_query($this->fd,$query);
-
             // 오류 체크
 			$error = mysqli_error($this->fd);
-            if($error) $this->setError(mysqli_errno($this->fd), $error);
+            if($error){
+				$this->setError(mysqli_errno($this->fd), $error);
+			}
 
             // 쿼리 실행 종료를 알림
             $this->actFinish();
@@ -392,7 +393,7 @@
                 foreach($val['condition'] as $v) {
                     if(!isset($v['value'])) continue;
                     if($v['value'] === '') continue;
-                    if(!in_array(gettype($v['value']), array('string', 'integer', 'double'))) continue;
+                    if(!in_array(gettype($v['value']), array('string', 'integer', 'double', 'array'))) continue;
 
                     $name = $v['column'];
                     $operation = $v['operation'];
@@ -422,23 +423,33 @@
                 $table_list[] = '`'.$this->prefix.$val.'`';
             }
 
-            // 컬럼 정리
+            // 컬럼 정리 
             foreach($output->columns as $key => $val) {
                 $name = $val['name'];
                 $value = $val['value'];
 
                 if($output->column_type[$name]!='number') {
-                    $value = "'".$this->addQuotes($value)."'";
-                    if(!$value) $value = 'null';
+
+					if(!is_null($value)){
+						$value = "'" . $this->addQuotes($value) ."'";
+					}else{
+						if($val['notnull']=='notnull') {
+							$value = "''";
+						} else {
+							//$value = 'null';
+							$value = "''";
+						}
+					}
+
                 } elseif(!$value || is_numeric($value)) $value = (int)$value;
+
                 $column_list[] = '`'.$name.'`';
                 $value_list[] = $value;
             }
 
-            $query = sprintf("insert into %s (%s) values (%s)", implode(',',$table_list), implode(',',$column_list), implode(',', $value_list));
-
+            $query = sprintf("insert into %s (%s) values (%s);", implode(',',$table_list), implode(',',$column_list), implode(',', $value_list));
             return $this->_query($query);
-        }
+		}
 
         /**
          * @brief updateAct 처리

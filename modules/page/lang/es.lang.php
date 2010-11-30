@@ -12,4 +12,5 @@
     $lang->cmd_page_modify = "Modificar";
     $lang->cmd_page_create = '페이지 생성';
 	$lang->about_mcontent = 'This is the page for the mobile view. If you do not write this page, the mobile view display reoragnized PC view\'s page.';
+	$lang->page_management = '페이지 관리';
 ?>

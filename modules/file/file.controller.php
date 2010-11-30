@@ -21,6 +21,11 @@
          * sync이상없도록 함
          **/
         function procFileUpload() {
+            $file_info = Context::get('Filedata');
+
+            // 정상적으로 업로드된 파일이 아니면 오류 출력
+            if(!is_uploaded_file($file_info['tmp_name'])) exit();
+
             // 기본적으로 필요한 변수 설정
             $oFileModel = &getModel('file');
             $editor_sequence = Context::get('editor_sequence');
@@ -36,10 +41,6 @@
             // 세션정보에도 정의되지 않았다면 새로 생성
             if(!$upload_target_srl) $_SESSION['upload_info'][$editor_sequence]->upload_target_srl = $upload_target_srl = getNextSequence();
 
-            $file_info = Context::get('Filedata');
-
-            // 정상적으로 업로드된 파일이 아니면 오류 출력
-            if(!is_uploaded_file($file_info['tmp_name'])) exit();
 
             return $this->insertFile($file_info, $module_srl, $upload_target_srl);
         }
@@ -403,10 +404,13 @@
                 $file_info['name'] = str_replace(array('<','>'),array('%3C','%3E'),$file_info['name']);
 
                 $path = sprintf("./files/attach/images/%s/%s", $module_srl,getNumberingPath($upload_target_srl,3));
-                $filename = $path.$file_info['name'];
+
+				// 파일 이름에서 특수문자를 _로 변환
+				$_filename = preg_replace('/[#$&*?+%"\']/', '_', $file_info['name']);
+                $filename  = $path.$_filename;
                 $idx = 1;
                 while(file_exists($filename)) {
-                    $filename = $path.preg_replace('/\.([a-z0-9]+)$/i','_'.$idx.'.$1',$file_info['name']);
+                    $filename = $path.preg_replace('/\.([a-z0-9]+)$/i','_'.$idx.'.$1',$_filename);
                     $idx++;
                 }
                 $direct_download = 'Y';

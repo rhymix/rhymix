@@ -96,7 +96,7 @@
             if(!$document_srl) return new documentItem();
 
             if(!isset($GLOBALS['XE_DOCUMENT_LIST'][$document_srl])) {
-                $oDocument = new documentItem($document_srl, true);
+                $oDocument = new documentItem($document_srl, $load_extra_vars);
                 $GLOBALS['XE_DOCUMENT_LIST'][$document_srl] = $oDocument;
                 if($load_extra_vars) $this->setToAllDocumentExtraVars();
             }

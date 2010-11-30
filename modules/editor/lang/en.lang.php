@@ -82,7 +82,11 @@
     $lang->edit->submit = 'Submit';
 
     $lang->edit->fontcolor = 'Text Color';
+	$lang->edit->fontcolor_apply = 'Apply Text Color';
+	$lang->edit->fontcolor_more = 'More Text Color';
     $lang->edit->fontbgcolor = 'Background Color';
+	$lang->edit->fontbgcolor_apply = 'Apply Background Color';
+	$lang->edit->fontbgcolor_more = 'More Background Color';
     $lang->edit->bold = 'Bold';
     $lang->edit->italic = 'Italic';
     $lang->edit->underline = 'Underline';
@@ -132,8 +136,10 @@
     $lang->edit->multimedia = 'Movie';
     $lang->edit->emoticon = 'Emoticon';
 
+	$lang->edit->file = 'Files';
     $lang->edit->upload = 'Attachment';
     $lang->edit->upload_file = 'Attach';
+	$lang->edit->upload_list = 'Attachment List';
     $lang->edit->link_file = 'Insert to Content';
     $lang->edit->delete_selected = 'Delete Selected';
 
@@ -227,4 +233,46 @@
 
 	$lang->edit->image_align = 'Image Alignment';
 	$lang->edit->attached_files = 'Attachments';
+
+	$lang->edit->fontcolor_input = 'Custom Text Color';
+	$lang->edit->fontbgcolor_input = 'Custom Background Color';
+	$lang->edit->pangram = 'The quick brown fox jumps over the lazy dog';
+
+	$lang->edit->table_caption_position = 'Table Caption &amp; Position';
+	$lang->edit->table_caption = 'Table Caption';
+	$lang->edit->table_header = 'Table Header';
+	$lang->edit->table_header_none = 'none';
+	$lang->edit->table_header_left = 'left';
+	$lang->edit->table_header_top = 'top';
+	$lang->edit->table_header_both = 'both';
+	$lang->edit->table_size = 'Table Size';
+	$lang->edit->table_width = 'Table Width';
+
+	$lang->edit->upper_left = 'Upper Left';
+	$lang->edit->upper_center = 'Upper Center';
+	$lang->edit->upper_right = 'Upper Right';
+	$lang->edit->bottom_left = 'Bottom Left';
+	$lang->edit->bottom_center = 'Bottom Center';
+	$lang->edit->bottom_right = 'Bottom Right';
+
+	$lang->edit->no_image = 'There is no images uploaded.';
+	$lang->edit->no_multimedia = 'There is no videos uploaded.';
+	$lang->edit->no_attachment = 'There is no files uploaded.';
+	$lang->edit->insert_selected = 'Insert Selected';
+	$lang->edit->delete_selected = 'Delete Selected';
+
+	$lang->edit->fieldset = 'Fieldset';
+	$lang->edit->paragraph = 'Paragraph';
+	
+	$lang->edit->autosave_format = '글을 쓰기 시작한지 <strong>%s</strong>이 지났습니다. 마지막 저장 시간은 <strong>%s</strong> 입니다.';
+	$lang->edit->autosave_hour = '%d시간';
+	$lang->edit->autosave_hours = '%d시간';
+	$lang->edit->autosave_min = '%d분';
+	$lang->edit->autosave_mins = '%d분';
+	$lang->edit->autosave_hour_ago = '%d시간 전';
+	$lang->edit->autosave_hours_ago = '%d시간 전';
+	$lang->edit->autosave_min_ago = '%d분 전';
+	$lang->edit->autosave_mins_ago = '%d분 전';
+	
+	$lang->edit->upload_not_enough_quota   = '허용된 용량이 부족하여 파일을 첨부할 수 없습니다.';
 ?>
