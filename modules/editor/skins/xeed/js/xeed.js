@@ -530,11 +530,14 @@ Block = xe.createPlugin('BlockCommand', {
 					function(){ $(this[_pn_]).removeClass('hover') }
 				)
 				.each(function(){
-					var $this = $(this);
+					var $this = $(this), num;
 					if (!/(?:^|\s)h([1-7])(?:\s|$)/i.test($this.parent().attr('class'))) return true;
-					if (np && !np.indexOf('Mac')) $this.attr('title', 'CTRL+COMMAND+'+RegExp.$1);
+					
+					num = RegExp.$1;
+					if (np && !np.indexOf('Mac')) $this.attr('title', 'Ctrl+Command+'+num);
+					else $this.attr('title', 'Ctrl+'+num);
 
-					self.cast('REGISTER_COMMAND', [this, 'ctrl+'+RegExp.$1, 'EXEC_HEADING', [RegExp.$1]]);
+					self.cast('REGISTER_COMMAND', [this, 'ctrl+'+num, 'EXEC_HEADING', [num]]);
 				})
 				.end();
 
