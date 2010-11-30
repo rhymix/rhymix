@@ -428,10 +428,14 @@
 
         function getExtraEidValue($eid) {
             $extra_vars = $this->getExtraVars();
-            // eid 명칭으로 확장변수 처리
-            foreach($extra_vars as $idx => $key) {
-                $extra_eid[$key->eid] = $key;
-            }
+			
+			if($extra_vars)
+			{
+				// eid 명칭으로 확장변수 처리
+				foreach($extra_vars as $idx => $key) {
+					$extra_eid[$key->eid] = $key;
+				}
+			}
             return $extra_eid[$eid]->value;
         }
 
