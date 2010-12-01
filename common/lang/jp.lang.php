@@ -302,9 +302,9 @@
     $lang->msg_ftp_chmod_fail = 'FTPを用いたディレクトリパーミッション(permission)変更に失敗しました。FTPサーバーの設定を再度ご確認下さい。';
     $lang->msg_ftp_connect_success = 'FTP接続に成功しました。';
 
-    $lang->ftp_path_title = 'FTP経路情報入力';
-    $lang->msg_ftp_installed_realpath = '設置されたXEの絶対経路';
-    $lang->msg_ftp_installed_ftp_realpath = '設置されたXEのFTP絶対経路設定';
+    $lang->ftp_path_title = 'FTPパス情報入力';
+    $lang->msg_ftp_installed_realpath = 'インストールされたXEの絶対パス';
+    $lang->msg_ftp_installed_ftp_realpath = 'インストールされたXEのFTP絶対パス設定';
 
 
     // xml filterで用いられているjavascript用のアラートメッセージ
