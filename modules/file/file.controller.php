@@ -375,6 +375,9 @@
             $trigger_obj->upload_target_srl = $upload_target_srl;
             $output = ModuleHandler::triggerCall('file.insertFile', 'before', $trigger_obj);
             if(!$output->toBool()) return $output;
+			
+			// A workaround for Firefox upload bug
+			if (preg_match('/^=\?UTF-8\?B\?(.+)\?=$/i', $file_info['name'], $match)) $file_info['name'] = base64_decode($match[1]);
 
             if(!$manual_insert) {
                 // 첨부파일 설정 가져옴
