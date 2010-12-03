@@ -23,6 +23,7 @@ var d = document, fn, dp, dc,
 	_iso_ = 'iStartOffset',
 	_oec_ = 'oEndContainer',
 	_ieo_ = 'iEndOffset',
+	_ol_  = 'offsetLeft',
 	_xr_  = '_xeed_root',
 	rx_root = new RegExp('(?:^|\\s)'+_xr_+'(?:\\s|$)'),
     Xeed, XHTMLT, Simple, Block, Font, Filter, EditMode, LineBreak, Resize, UndoRedo, SChar, Table, URL, AutoSave, FindReplace, Clear, DOMFix;
@@ -169,8 +170,8 @@ Xeed = xe.createApp('Xeed', {
 		var range = this.getEmptySelection(), xr = '.'+_xr_, $p;
 
 		// this may throw an exception if the selected is area is not yet shown
-		//try{ range.setFromSelection(); }catch(e){};
-		range.setFromSelection();
+		try{ range.setFromSelection(); }catch(e){ return null; };
+		//range.setFromSelection();
 
 		$p = $(range[_ca_]);
 		if ( $p.is(xr) || $p.parents(xr+':first').length ) return range;
@@ -2183,7 +2184,7 @@ SChar = xe.createPlugin('SChar', {
 		if (this.$text)  this.$text.unbind();
 	},
 	API_SHOW_SCHAR_LAYER : function() {
-		var sel, $layer = this.$layer;
+		var sel, li, offset, $layer = this.$layer;
 
 		this.cast('HIDE_ALL_LAYER', [$layer[0]]);
 
@@ -2194,6 +2195,10 @@ SChar = xe.createPlugin('SChar', {
 		this.$btn.parent().addClass('active');
 
 		$layer.addClass('open');
+		
+		li     = this.$btn.parents('li:first')[0];
+		offset = li[_ol_] + li[_pn_][_ol_];
+		($layer.width() > offset)?$layer.addClass('right'):$layer.removeClass('right');
 	},
 	API_HIDE_SCHAR_LAYER : function() {
 		if (!this.$layer || !this.$layer.hasClass('open')) return;
@@ -2332,7 +2337,7 @@ FileUpload = xe.createPlugin('FileUpload', {
 		m_left = parseInt($realwin.css('margin-left'), 10);
 		m_top  = parseInt($realwin.css('margin-top'), 10);
 
-		if (isNaN(m_left)) m_left = $realwin[0].offsetLeft;
+		if (isNaN(m_left)) m_left = $realwin[0][_ol_];
 
 		this.$modal_box
 			.data('dragstart_pos', [event.pageX, event.pageY])
@@ -2731,7 +2736,7 @@ URL = xe.createPlugin('URL', {
 		this.cast('HIDE_URL_LAYER');
 	},
 	API_SHOW_URL_LAYER : function() {
-		var sel, $node;
+		var sel, li, offset, $node;
 
 		if (!this.$layer || this.$layer.hasClass('open')) return;
 		if (!(sel = this.oApp.getSelection())) return;
@@ -2749,6 +2754,10 @@ URL = xe.createPlugin('URL', {
 			this.$text.val('http://');
 			this.$chk[0].checked = false;
 		}
+		
+		li     = this.$btn.parents('li:first')[0];
+		offset = li[_ol_] + li[_pn_][_ol_];
+		(this.$layer.width() > offset)?this.$layer.addClass('right'):this.$layer.removeClass('right');
 
 		this.$text.focus().select();
 	},
@@ -2979,12 +2988,16 @@ Table = xe.createPlugin('Table', {
 		sel.collapseToEnd();
 	},
 	API_SHOW_TABLE_LAYER : function(sender, params) {
-		var $layer = this.$layer;
+		var $layer = this.$layer, li, offset;
 
 		if (!$layer || $layer.hasClass('open')) return;
 
 		this.selection = this.oApp.getSelection();
 		$layer.addClass('open').parent('li').addClass('active');
+		
+		li     = this.$btns.te.parents('li:first')[0];
+		offset = li[_ol_] + li[_pn_][_ol_];
+		($layer.width() > offset)?$layer.addClass('right'):$layer.removeClass('right');
 
 		this.cast('HIDE_ALL_LAYER', [$layer[0]]);
 	},
