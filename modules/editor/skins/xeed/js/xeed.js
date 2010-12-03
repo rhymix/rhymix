@@ -47,7 +47,7 @@ Xeed = xe.createApp('Xeed', {
 			minHeight : 400
 		}, options);
 		this._options = opts;
-		
+
 		// min height
 		if (opts.minHeight > opts.height) opts.minHeight = opts.height;
 
@@ -61,6 +61,7 @@ Xeed = xe.createApp('Xeed', {
 		}
 
 		// Convert to wysiwyg editor
+
 		this.$textarea = $text;
 		this.$root     = $text.parent();
 		this.$richedit = this.$root.find('div.edit>div.xdcs:first');
@@ -129,7 +130,7 @@ Xeed = xe.createApp('Xeed', {
 		var v = this._options[key];
 		if (is_def(v)) return v;
 	},
-	
+
 	/**
 	 * @brief Set option
 	 * @param key String option key
@@ -208,7 +209,7 @@ Xeed = xe.createApp('Xeed', {
 	 */
 	getFrame : function(seq) {
 		var self = this;
-	
+
 		return {
 			editor_sequence : seq,
 			getSelectedHTML : function(){},
@@ -345,7 +346,7 @@ Xeed = xe.createApp('Xeed', {
 
 		// unregister ui event
 		if (selector) {
-			($btn = is_str(selector)?this.$toolbar.find(selector):$(selector)).unbind('click'); 
+			($btn = is_str(selector)?this.$toolbar.find(selector):$(selector)).unbind('click');
 		}
 	},
 
@@ -377,7 +378,7 @@ Xeed = xe.createApp('Xeed', {
 
 		this.$richedit.focus();
 	},
-	
+
 	/**
 	 * @brief Fire event on keydown
 	 * @param event object
@@ -476,7 +477,7 @@ Simple = xe.createPlugin('SimpleCommand', {
 		// empty button list
 		self.$btns = {};
 	},
-	
+
 	API_ON_CHANGE_NODE : function(sender, params) {
 		var self = this, node = params[0];
 
@@ -532,7 +533,7 @@ Block = xe.createPlugin('BlockCommand', {
 				.each(function(){
 					var $this = $(this), num;
 					if (!/(?:^|\s)h([1-7])(?:\s|$)/i.test($this.parent().attr('class'))) return true;
-					
+
 					num = RegExp.$1;
 					if (np && !np.indexOf('Mac')) $this.attr('title', 'Ctrl+Command+'+num);
 					else $this.attr('title', 'Ctrl+'+num);
@@ -593,15 +594,15 @@ Block = xe.createPlugin('BlockCommand', {
 
 		if (!sel) return ret;
 
-		nodes   = sel.collapsed?[sel.getStartNode()]:sel.getNodes();
+		nodes = sel.collapsed?[sel[_sc_]]:sel.getNodes();
 
 		$(nodes).each(function(i,node){
 			var name;
 
-			while(node[_pn_]) {
+			while(node && node[_pn_]) {
 				name = node[_nn_].toLowerCase();
 
-				if (/^t(able|body|foot|head|r)$/i.test(name)) {
+				if (/^t(able|body|foot|head|r)$/.test(name)) {
 					node = node[_pn_];
 					continue;
 				}
@@ -613,12 +614,29 @@ Block = xe.createPlugin('BlockCommand', {
 				}
 
 				if (rx_root.test(node[_pn_].className || '')) {
-					if (name != 'br') {
-						if (node[_nt_] == 3) node = $(node).wrap('<p>')[0][_pn_];
-						if (node[_nt_] == 1) node.className += ' '+_xs_;
+					var nodes = [], n=node, $p;
 
-						ret.push(node);
+					// get all non-block previous siblings
+					while(n[_ps_]){
+						if (is_block(n[_ps_])) break;
+						nodes.push(n[_ps_]);
+						n = n[_ps_];
 					}
+					nodes.reverse();
+
+					// current node
+					nodes.push(n=node);
+
+					// get all non-block next siblings
+					while(n[_ns_]) {
+						if (is_block(n[_ns_])) break;
+						nodes.push(n[_ns_]);
+						n = n[_ns_];
+					}
+
+					$p = $('<p />').addClass(_xs_);
+					node[_pn_].insertBefore($p[0], nodes[0]);
+					ret.push($p.append(nodes).get(0));
 					break;
 				}
 
@@ -632,8 +650,10 @@ Block = xe.createPlugin('BlockCommand', {
 				var $this = $(this);
 				return !$this.is('.'+_xr_) && !$this.parentsUntil('.'+_xr_).filter('.'+_xs_).length;
 			});
-	
+
 		$ret.removeClass(_xs_).each(function(){ if (!this.className) $(this).removeAttr('class') });
+
+		sel.select();
 
 		return $.makeArray($.unique(ret));
 	},
@@ -697,7 +717,9 @@ Block = xe.createPlugin('BlockCommand', {
 	fireChangeNode : function(sel) {
 		var self = this, _sel = sel || this.oApp.getSelection();
 
-		setTimeout(function(){ self.cast('ON_CHANGE_NODE', [_sel[_sc_]]) }, 0);
+		setTimeout(function(){
+			if (_sel && _sel[_sc_]) self.cast('ON_CHANGE_NODE', [_sel[_sc_]])
+		}, 0);
 	},
 	/**
 	 * @brief Quotes selection
@@ -743,7 +765,7 @@ Block = xe.createPlugin('BlockCommand', {
 		this.fireChangeNode(sel);
 	},
 	/**
-	 * @brief 
+	 * @brief
 	 */
 	API_EXEC_BOX : function(sender, params) {
 		var self = this, sel = this.oApp.getSelection(), start, end, ancestor, match, $bx, _bx_ = 'div.bx';
@@ -784,7 +806,7 @@ Block = xe.createPlugin('BlockCommand', {
 		this.fireChangeNode(sel);
 	},
 	API_EXEC_INDENT : function(sender, params) {
-		var parents = this.getBlockParents();
+		var sel = this.oApp.getSelection(), parents = this.getBlockParents();
 
 		$(parents).each(function(){
 			var $this = $(this), left = parseInt($this.css('margin-left'), 10);
@@ -798,9 +820,10 @@ Block = xe.createPlugin('BlockCommand', {
 		this.cast('SAVE_UNDO_POINT');
 
 		this.fireChangeNode();
+		try { sel.select() } catch(e){};
 	},
 	API_EXEC_OUTDENT : function(sender, params) {
-		var parents = this.getBlockParents();
+		var sel = this.oApp.getSelection(), parents = this.getBlockParents();
 
 		$(parents).each(function(){
 			var $this = $(this), left = parseInt($this.css('margin-left'), 10);
@@ -817,6 +840,7 @@ Block = xe.createPlugin('BlockCommand', {
 		this.cast('SAVE_UNDO_POINT');
 
 		this.fireChangeNode();
+		try { sel.select() } catch(e){};
 	},
 	/**
 	 * @brief
@@ -1037,21 +1061,21 @@ Font = xe.createPlugin('Font', {
 		$tb.find('li.cr')
 			.find('ul.ct,ul.cx')
 				.each(function(){
-				
+
 					var $this = $(this), $li = $this.find('>li').remove(), $clone_li, $span, $btn, colors,i,c,types;
-					
+
 					colors = $li.text().split(';');
 					for(i=0,c=colors.length; i < c; i++) {
 						types = $.trim(colors[i]).split(':');
 						$clone_li = $li.clone(true);
 						$btn  = $clone_li.find('>button');
 						$span = $btn.find('>span');
-					
+
 						(($span.length)?$span:$btn).text('#'+types[0]);
 
 						$btn.css('backgroundColor', '#'+types[0]);
 						if (types[1]) $btn.css('color', '#'+types[1]);
-						
+
 						$this.append($clone_li);
 					}
 				})
@@ -1291,9 +1315,9 @@ LineBreak = xe.createPlugin('LineBreak', {
 	},
 	activate : function() {
 		this.oApp.$richedit.keydown(this._fn);
-		
+
 		// If you pres Enter key, <br> will be inserted by default.
-		this.oApp.setDefault('force_br', true); 
+		this.oApp.setDefault('force_br', true);
 	},
 	deactivate : function() {
 		this.oApp.$richedit.unbind('keydown', this._fn);
@@ -1317,14 +1341,14 @@ LineBreak = xe.createPlugin('LineBreak', {
 		return false;
 	},
 	wrapBlock : function(sel) {
-		var self = this, sc, so, eo, $node, $clone, $bookmark, last, _xb_ = '_xeed_tmp_bookmark';
+		var self = this, sc, so, eo, nodes, $node, $clone, $bookmark, last, _xb_ = '_xeed_tmp_bookmark';
 
 		// collect all sibling
 		function sibling(node, prev) {
 			var s, ret = [];
 
 			while(s=node[prev?_ps_:_ns_]) {
-				if (s[_nt_] == 3 || (s[_nt_] == 1 && !rx_block.test(s[_nn_]))) ret.push(s);
+				if (s[_nt_] == 3 || (s[_nt_] == 1 && !is_block(s))) ret.push(s);
 				node = s;
 			}
 
@@ -1350,7 +1374,13 @@ LineBreak = xe.createPlugin('LineBreak', {
 
 		// find block parent
 		$node = $node.parentsUntil('.'+_xr_).filter(function(){ return rx_block.test(this[_nn_])  });
-		$node = $node.length?$node.eq(0):$($.merge(sibling(sc,1), [sc], sibling(sc))).wrap('<p>').parent();
+		if ($node.length) {
+			$node = $node.eq(0);
+		} else {
+			nodes = $.merge(sibling(sc,1), [sc], sibling(sc));
+			nodes[0][_pn_].insertBefore(($node=$('<p />')).get(0), nodes[0]);
+			$node.append(nodes);
+		}
 
 		// wrap with '<p>' in a table cell
 		if ($node.is('td,th')) $node = $node.wrapInner('<p>').children(0);
@@ -1410,7 +1440,7 @@ LineBreak = xe.createPlugin('LineBreak', {
 		if (!$.browser.msie) {
 			if (!$br[0][_ns_]) $br.after(d.createTextNode(invisibleCh));
 			if ($.browser.safari) {
-				// TODO : remove broken character which is displayed only in Safari. 
+				// TODO : remove broken character which is displayed only in Safari.
 			}
 		}
 
@@ -1617,7 +1647,7 @@ Filter = xe.createPlugin('ContentFilter', {
 	_r2t : [], // rich2text filters
 	_t2r : [], // text2rich filters
 	_types : [], // valid types
-	
+
 	init : function() {
 		this._in  = [];
 		this._out = [];
@@ -1657,11 +1687,11 @@ Filter = xe.createPlugin('ContentFilter', {
 	 */
 	API_BEFORE_SET_CONTENT : function(sender, params) {
 		var i,c;
-	
+
 		for(i=0,c=this._in.length; i < c; i++) params[0] = this._in[i](params[0]);
 		for(i=0,c=this._t2r.length; i < c; i++) params[0] = this._t2r[i](params[0]);
 	},
-	
+
 	API_BEFORE_SET_CONTENT_HTML : function(sender, params) {
 		for(i=0,c=this._r2t.length; i < c; i++) params[0] = this._r2t[i](params[0]);
 	},
@@ -1826,7 +1856,7 @@ Resize = xe.createPlugin('Resize', {
 	},
 	activate : function() {
 		var $root = this.oApp.$root, chk;
-		
+
 		if (!this.prev_height) this.prev_height = this.oApp.getOption('height');
 
 		this.$container  = this.oApp.$richedit.parent();
@@ -1948,7 +1978,7 @@ UndoRedo = xe.createPlugin('UndoRedo', {
 		if ($undo && $undo[0]) {
 			fn = (index > 0 && len)?'removeClass':'addClass';
 			$undo.parent()[fn]('disable');
-		} 
+		}
 
 		if ($redo && $redo[0]) {
 			fn = (index+1 < len)?'removeClass':'addClass';
@@ -2075,14 +2105,20 @@ SChar = xe.createPlugin('SChar', {
 		this.$btn   = $tb.find('button.sc').mousedown(function(){ self.cast('TOGGLE_SCHAR_LAYER'); return false; });
 		this.$layer = this.$btn.next('div.lr')
 			.mousedown(function(event){ event.stopPropagation(); })
-			.find('li.li').each(function(){
-				var $this = $(this), $ul = $this.find('>ul'), $li = $ul.find('li').remove(), i, c, chars;
-				
-				chars = $li.text();
-				
-				for(i=0, c=chars.length; i < c; i++) {
-					$ul.append( $li.clone(true).find('>button').text(chars.substr(i,1)).end() );
-				}
+			.find('li.li').each(function(i){
+				var $this = $(this), $ul = $this.find('>ul'), $li = $ul.find('li').remove(), chars, format;
+
+				chars  = $li.text();
+				format = $('<ul>').append($li.clone(true).find('>button').text('{1}').end()).html();
+
+				setTimeout(function(){
+					var code = [];
+					for(var i=0, c=chars.length; i < c; i++) {
+						code[i] = format.replace('{1}', chars.substr(i,1));
+					}
+					$ul.html(code.join(''));
+					$ul.find('button').click(function(){ self.$text[0].value += $(this).text(); });
+				}, (i+1)*100);
 			})
 			.end()
 			.find('button.tab')
@@ -2091,9 +2127,6 @@ SChar = xe.createPlugin('SChar', {
 					$(this[_pn_]).addClass('active');
 				})
 				.click(function(){ $(this).mousedown() })
-				.end()
-			.find('li>button:not(.tab)')
-				.click(function(event){ self.$text[0].value += $(this).text(); })
 				.end();
 
 		this.$text = this.$layer.find('input:text')
@@ -2106,10 +2139,10 @@ SChar = xe.createPlugin('SChar', {
 
 		this.$layer.find('li.li').each(function(){
 			var $this = $(this), $li ;
-			
+
 			$this.find('li')
 		});
-			
+
 		this.$btns = this.$layer.find('button.btn')
 			.each(function(i){
 				var $this = $(this);
@@ -2120,9 +2153,9 @@ SChar = xe.createPlugin('SChar', {
 
 						dt = d.documentElement.scrollTop;
 						rt = app.$richedit[0][_pn_].scrollTop;
-						
+
 						chars = self.$text.val();
-						
+
 						if (self.sel) self.sel.pasteHTML(chars);
 						else self.cast('PASTE_HTML', [chars]);
 
@@ -2148,14 +2181,17 @@ SChar = xe.createPlugin('SChar', {
 		if (this.$text)  this.$text.unbind();
 	},
 	API_SHOW_SCHAR_LAYER : function() {
-		var sel; 
+		var sel, $layer = this.$layer;
 
-		if (!this.$layer || this.$layer.hasClass('open')) return;
+		this.cast('HIDE_ALL_LAYER', [$layer[0]]);
+
+		if (!$layer || $layer.hasClass('open')) return;
 		//if (!(sel=this.oApp.getSelection())) return;
 
 		this.sel = this.oApp.getSelection(); // save selection
 		this.$btn.parent().addClass('active');
-		this.$layer.addClass('open');
+
+		$layer.addClass('open');
 	},
 	API_HIDE_SCHAR_LAYER : function() {
 		if (!this.$layer || !this.$layer.hasClass('open')) return;
@@ -2228,7 +2264,7 @@ FileUpload = xe.createPlugin('FileUpload', {
 				);
 
 			this.$template = this.$file_list.eq(0).find('>ul:first>li:first').remove();
-			
+
 			this.$attach_list.find('p.task button')
 				.filter('.all') // select all
 					.click(function(){
@@ -2245,7 +2281,7 @@ FileUpload = xe.createPlugin('FileUpload', {
 						var file_srls = [];
 
 						$(this).parents('div.sn:first').find('li:has(:checked:not([disabled]))').each(function(){ file_srls.push($(this).attr('file_srl')) });
-						
+
 						self.cast('DELETE_FILE', [file_srls]);
 						return false;
 					})
@@ -2257,7 +2293,7 @@ FileUpload = xe.createPlugin('FileUpload', {
 				.mousedown(function(){ self.selection = self.oApp.getSelection(); })
 				.click(function(){ self.cast('SHOW_FILE_MODAL'); return false; });
 		}
-		
+
 		// make it draggable
 		this.$modal_box.find('.iHead, .iFoot').mousedown(bind(this, this._dragStart));
 
@@ -2273,29 +2309,29 @@ FileUpload = xe.createPlugin('FileUpload', {
 		// buttons
 		$.each(this.$btns, function(key){ this.unbind('click'); });
 		this.$btns = [];
-		
+
 		// modal box
 		this.$modal_box.unbind();
 	},
 	_dragStart : function(event) {
 		var $realwin = this.$modal_box.find('>.xdal'), m_left, m_top, fn;
-		
+
 		if ($(event.target).is('a,button,input')) return;
-		
+
 		fn = {
 			move : bind(this, this._dragMove),
 			up   : bind(this, this._dragEnd)
 		};
-	
+
 		this.$modal_box.data('draggable', true).data('drag_fn', fn);
-		
+
 		$(document).mousemove(fn.move).mouseup(fn.up);
-			
+
 		m_left = parseInt($realwin.css('margin-left'), 10);
 		m_top  = parseInt($realwin.css('margin-top'), 10);
-		
+
 		if (isNaN(m_left)) m_left = $realwin[0].offsetLeft;
-			
+
 		this.$modal_box
 			.data('dragstart_pos', [event.pageX, event.pageY])
 			.data('dragstart_margin', [m_left, m_top]);
@@ -2311,17 +2347,17 @@ FileUpload = xe.createPlugin('FileUpload', {
 
 		start_pos = this.$modal_box.data('dragstart_pos');
 		start_margin = this.$modal_box.data('dragstart_margin');
-		
+
 		$realwin.css({
 			'margin-left' : (start_margin[0]+event.pageX-start_pos[0])+'px',
 			'margin-top'  : (start_margin[1]+event.pageY-start_pos[1])+'px'
 		});
-		
+
 		return false;
 	},
 	_dragEnd : function(event) {
 		var fn = this.$modal_box.data('drag_fn');
-	
+
 		$(document).unbind('mousemove', fn.move).unbind('mouseup', fn.up);
 		this.$modal_box.data('draggable', false);
 	},
@@ -2330,7 +2366,7 @@ FileUpload = xe.createPlugin('FileUpload', {
 
 		ext = (match = file.name.match(/\.([a-z0-9]+)$/i))?match[1]||'':'';
 		ext = ext.toLowerCase();
-		
+
 		file_types = 'pdf doc docx hwp ppt pps pptx txt rtf xls xlsx csv bmp tif raw avi wmv mov mpg flv divx mp3 wma wav aac flac psd ai svg xml html css js iso zip rar alz gz tar'.split(' ');
 
 		// get file type
@@ -2369,20 +2405,20 @@ FileUpload = xe.createPlugin('FileUpload', {
 	},
 	updateFileSize : function(total_size) {
 		var $info = this.$modal_box.find('p.info'), html = $info.html(), units = 'B KB MB GB TB'.split(' ');
-		
+
 		if (!is_def(total_size)) {
 			total_size = 0;
 			this.$file_list.find('li[_key]').each(function(){
 				if (/\-([0-9]+)$/.test($(this).attr('_key'))) total_size += parseInt(RegExp.$1,10);
 			});
 		}
-		
+
 		// size
 		while((units.length > 1) && total_size > 1024) {
 			units.shift();
 			total_size /= 1024;
 		}
-		
+
 		$info.html( html.replace(/([0-9.]+)([a-zA-Z]+)\s*\//, total_size.toFixed(2)+units[0]+'/') );
 	},
 	updateFileList : function() {
@@ -2407,7 +2443,7 @@ FileUpload = xe.createPlugin('FileUpload', {
 		var i, c, f, k, primary, $item, $list, seq = ret.editor_sequence;
 
 		this._left_size = parseInt(ret.left_size) || 0;
-		
+
 		if (!ret.files || !ret.files.item) return;
 		if (!seq || !editorRelKeys[seq] || !(primary = editorRelKeys[seq].primary)) return;
 		if (!$.isArray(ret.files.item)) ret.files.item = [ret.files.item];
@@ -2416,12 +2452,12 @@ FileUpload = xe.createPlugin('FileUpload', {
 		for(i=0,c=ret.files.item.length; i < c; i++) {
 			f = ret.files.item[i];
 			k = f.source_filename.toLowerCase()+'-'+f.file_size;
-			
+
 			f.name = f.source_filename;
 			f.size = f.file_size;
 
 			$item = this.$file_list.find('li[_key='+k+']');
-			
+
 			if (!$item.length) {
 				$item = this.createItem(f).attr('_key', this.getKey(f));
 				$list = this.$file_list.filter('.'+$item.attr('_type')).find('ul').append($item).end();
@@ -2435,7 +2471,7 @@ FileUpload = xe.createPlugin('FileUpload', {
 
 			$item.attr('file_srl', f.file_srl).data('url', f.download_url);
 		}
-		
+
 		this.updateCount();
 		this.updateFileSize();
 	},
@@ -2467,7 +2503,7 @@ FileUpload = xe.createPlugin('FileUpload', {
 			// file onselect event
 			function file_onselect(files, old_len) {
 				var html, $ob, i, c, $list, $item, type, limit_size = self.oApp.getOption('allowed_filesize'), total_size = 0, over = false;
-				
+
 				// size check
 				for(i=old_len,c=files.length; i < c; i++) {
 					if (files[i].size > limit_size) {
@@ -2476,7 +2512,7 @@ FileUpload = xe.createPlugin('FileUpload', {
 					}
 					total_size += files[i].size;
 				}
-				
+
 				if (total_size > self._left_size) over = true;
 				if (over) {
 					alert(lang.upload_not_enough_quota);
@@ -2511,7 +2547,7 @@ FileUpload = xe.createPlugin('FileUpload', {
 
 				if ($item.attr('_type') == 'img') {
 				}
-				
+
 				self._total_size += file.size;
 				self.updateFileSize(self._total_size);
 
@@ -2523,7 +2559,7 @@ FileUpload = xe.createPlugin('FileUpload', {
 
 				// document serial number
 				primary = editorRelKeys[seq].primary;
-				
+
 				params = {
 					editor_sequence   : $form.attr('editor_sequence'),
 					upload_target_srl : primary.value,
@@ -2571,7 +2607,7 @@ FileUpload = xe.createPlugin('FileUpload', {
 		} else if (type == 'media') {
 			code = '<img src="./common/tpl/images/blank.gif" editor_component="multimedia_link" multimedia_src="'+url+'" width="400" height="320" style="display:block;width:400px;height:320px;border:2px dotted #4371B9;background:url(./modules/editor/components/multimedia_link/tpl/multimedia_link_component.gif) no-repeat center;" auto_start="false" alt="" class="_resizable" />';
 		}
-		
+
 		if (!code) {
 			code = '<a href="'+url+'">'+name+'</a>';
 		}
@@ -2582,7 +2618,7 @@ FileUpload = xe.createPlugin('FileUpload', {
 			sel.pasteHTML(code);
 		} else if(this.oApp.$richedit.is(':visible')){
 			this.oApp.$richedit.append(code);
-			
+
 			sel = this.oApp.getEmptySelection();
 			sel.selectNode(this.oApp.$richedit[0].lastChild);
 		}
@@ -2597,10 +2633,10 @@ FileUpload = xe.createPlugin('FileUpload', {
 
 		function _callback(ret){
 			var i, c, selector=[];
-		
+
 			if (ret && ret.error && ret.error == 0) {
 				if (!$.isArray(file_srl)) file_srl = [file_srl];
-				
+
 				for(i=0,c=file_srl.length; i < c; i++) {
 					selector.push('li[file_srl='+file_srl[i]+']');
 				}
@@ -2608,12 +2644,12 @@ FileUpload = xe.createPlugin('FileUpload', {
 				self.$file_list.find(selector.join(',')).remove();
 
 				if ($.isFunction(callback)) callback();
-				
+
 				self.updateCount();
 				self.updateFileSize();
 			}
 		}
-		
+
 		$.exec_xml('file', 'procFileDelete', {file_srls:file_srl, editor_sequence:1}, _callback);
 	}
 });
@@ -2722,7 +2758,7 @@ URL = xe.createPlugin('URL', {
 	},
 	API_TOGGLE_URL_LAYER : function() {
 		if (!this.$layer) return;
-		
+
 		this.cast( (this.$layer.hasClass('open')?'HIDE':'SHOW')+'_URL_LAYER' );
 	},
 	API_HIDE_ALL_LAYER : function() {
@@ -2743,7 +2779,7 @@ Table = xe.createPlugin('Table', {
 	$th_btns   : null,
 	$unit_btns : null,
 	selection  : null,
-	
+
 	selector   : '.xeed_selected_cell',
 	cell_selector : '',
 	cmd : {
@@ -2947,6 +2983,8 @@ Table = xe.createPlugin('Table', {
 
 		this.selection = this.oApp.getSelection();
 		$layer.addClass('open').parent('li').addClass('active');
+
+		this.cast('HIDE_ALL_LAYER', [$layer[0]]);
 	},
 	API_HIDE_TABLE_LAYER : function(sender, params) {
 		var $layer = this.$layer;
@@ -3038,7 +3076,7 @@ AutoSave = xe.createPlugin('AutoSave', {
 	init : function(){ },
 	activate : function(){
 		var self = this, app = this.oApp, $form;
-		
+
 		// start time
 		this._start_time = (new Date).getTime();
 
@@ -3059,9 +3097,9 @@ AutoSave = xe.createPlugin('AutoSave', {
 	},
 	_save_callback : function(params) {
 		var self = this;
-	
+
 		this._save_time = (new Date).getTime();
-	
+
 		this.$bar.slideDown(300);
 		this._update_message();
 
@@ -3069,26 +3107,26 @@ AutoSave = xe.createPlugin('AutoSave', {
 	},
 	_update_message : function() {
 		var msg = lang.autosave_format, now = (new Date).getTime(), write_interval, save_interval, write_msg, save_msg;
-		
+
 		write_interval = Math.floor( (now - this._start_time)/1000/60 );
 		save_interval  = Math.floor( (now - this._save_time)/1000/60 );
-		
+
 		if (write_interval < 60) {
 			write_msg = ((write_interval>1)?lang.autosave_mins:lang.autosave_min).replace('%d', write_interval);
 		} else {
 			write_interval = Math.floor(write_interval/60);
 			write_msg = ((write_interval>1)?lang.autosave_hours:lang.autosave_hour).replace('%d', write_interval);
 		}
-		
+
 		if (save_interval < 60) {
 			save_msg = ((save_interval>1)?lang.autosave_mins_ago:lang.autosave_min_ago).replace('%d', save_interval);
 		} else {
 			save_interval = Math.floor(write_interval/60);
 			save_msg = ((save_interval>1)?lang.autosave_hours_ago:lang.autosave_hour_ago).replace('%d', save_interval);
 		}
-		
+
 		msg = msg.replace('%s', write_msg).replace('%s', save_msg);
-		
+
 		this.$bar.find('>p').html(msg);
 	},
 	API_EXEC_AUTOSAVE : function() {
@@ -3096,7 +3134,7 @@ AutoSave = xe.createPlugin('AutoSave', {
 	},
 	API_ENABLE_AUTOSAVE : function(sender, params) {
 		var b = this._enable = !!params[0];
-		
+
 		app.setOption('use_autosave', b);
 	}
 });
@@ -3126,7 +3164,7 @@ Clear = xe.createPlugin('Clear', {
 		}
 	},
 	API_EXEC_CLEAR : function() {
-		var sel = this.oApp.getSelection(), $div, node, par, content, after;
+		var sel = this.oApp.getSelection(), node, par, content, after;
 
 		if (!sel || sel.collapsed) return;
 
@@ -3134,7 +3172,7 @@ Clear = xe.createPlugin('Clear', {
 		content = sel.extractContents();
 		sel.select();
 
-		// TODO : get nearest parent
+		// get nearest parent
 		node = sel.startContainer;
 		par  = null;
 		while(par = node[_pn_]) {
@@ -3145,8 +3183,7 @@ Clear = xe.createPlugin('Clear', {
 			node = par;
 		}
 
-		$div = $('<div />').appendTo(document).append(content);
-		content = $div.remove().text();
+		content = $('<div />').appendTo(document).append(content).remove().text();
 
 		sel.setEndAfter(par.lastChild);
 		after = sel.extractContents();
@@ -3154,6 +3191,10 @@ Clear = xe.createPlugin('Clear', {
 		content = document.createTextNode(content);
 		par.appendChild(content);
 		par.appendChild(after);
+
+		// save undo point
+		this.cast('SAVE_UNDO_POINT');
+		//this.fireChangeNode(sel);
 	}
 });
 /**
@@ -3588,7 +3629,7 @@ $.extend(W3CDOMRange.prototype, {
 
 		if(this[_sc_][_nt_] == 3) {
 			oParentContainer = dp(this[_sc_]);
-			
+
 			// Fix Opera bug : How can a text node is a child node of the other text node?
 			while(oParentContainer[_nt_] == 3) oParentContainer = oParentContainer[_pn_];
 
@@ -4939,7 +4980,7 @@ function is_def(v){ return typeof(v)!='undefined'; };
 function is_str(v){ return typeof(v)=='string'; };
 
 // filter
-function array_filter(arr, fn) { 
+function array_filter(arr, fn) {
 	var ret=[], i, c;
 
 	for(i=0,c=arr.length; i < c; i++) {
