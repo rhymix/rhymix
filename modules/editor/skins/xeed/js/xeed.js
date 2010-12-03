@@ -117,6 +117,7 @@ Xeed = xe.createApp('Xeed', {
 		this.registerPlugin(new Clear);
 
 		// set content
+		if (!content) content = '<br />';
 		setTimeout(function(){ self.cast('SET_CONTENT', [content]) }, 0);
 	},
 
@@ -376,6 +377,7 @@ Xeed = xe.createApp('Xeed', {
 
 		if (sel) return;
 
+		if (!this.$richedit.html()) this.cast('SET_CONTENT', ['<br />']);
 		this.$richedit.focus();
 	},
 
