@@ -364,8 +364,8 @@ runtimes.html5 = {
 					data += val+'\r\n';
 				});
 
-				// Firefox has a bug that regonises some unicode filename as invalid string.
-				// So, I make a workaround to encode the filename by RFC2231
+				// Firefox had a bug that recognises some unicode filename as invalid string.
+				// So, I made a workaround to encode the filename by RFC2231
 				data += '--'+bndr+'\r\n';
 				data += 'Content-Disposition: form-data; name="Filedata"; filename="=?UTF-8?B?'+Base64.encode(file.name)+'?="\r\n';
 				data += 'Content-Type: application/octet-stream\r\n\r\n';
