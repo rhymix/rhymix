@@ -154,11 +154,11 @@
 			// loop 템플릿 문법을 변환
 			$buff = $this->_replaceLoop($buff);
 
-			// |cond 템플릿 문법을 변환
-			$buff = preg_replace_callback("/<\/?(\w+)((\s+\w+(\s*=\s*(?:\".*?\"|'.*?'|[^'\">\s]+))?)+\s*|\s*)\/?>/i", array($this, '_replacePipeCond'), $buff);
-
 			// cond 템플릿 문법을 변환
 			$buff = $this->_replaceCond($buff);
+
+			// |cond 템플릿 문법을 변환
+			$buff = preg_replace_callback("/<\/?(\w+)((\s+\w+(\s*=\s*(?:\".*?\"|'.*?'|[^'\">\s]+))?)+\s*|\s*)\/?>/i", array($this, '_replacePipeCond'), $buff);
 
 			// include 태그의 변환
 			$buff = preg_replace_callback('!<include ([^>]+)>!is', array($this, '_replaceInclude'), $buff);
@@ -332,9 +332,11 @@
 		 **/
 		function _replacePipeCond($matches)
 		{
-			while(strpos($matches[0],'|cond="')!==false) {
-				if(preg_match('/ (\w+)=\"([^\"]+)\"\|cond=\"([^\"]+)\"/is', $matches[0], $m))
-					$matches[0] = str_replace($m[0], sprintf('<?php if(%s) {?> %s="%s"<?}?>', $m[3], $m[1], $m[2]), $matches[0]);
+			if(strpos($matches[0],'|cond')!==false) {
+				while(strpos($matches[0],'|cond="')!==false) {
+					if(preg_match('/ (\w+)=\"([^\"]+)\"\|cond=\"([^\"]+)\"/is', $matches[0], $m))
+						$matches[0] = str_replace($m[0], sprintf('<?php if(%s) {?> %s="%s"<?}?>', $m[3], $m[1], $m[2]), $matches[0]);
+				}
 			}
 
 			return $matches[0];
