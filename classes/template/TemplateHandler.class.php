@@ -229,17 +229,20 @@
          **/
 		function _replacePath($matches) 
 		{
-			$path = trim($matches[3]);
-
-			if(substr($path,0,1)=='/' || substr($path,0,1)=='{' || strpos($path,'://')!==false) return $matches[0];
-
-			if(substr($path,0,2)=='./') $path = substr($path,2);
-			$target = $this->web_path.$path;
-			while(strpos($target,'/../')!==false) 
-			{
-				$target = preg_replace('/\/([^\/]+)\/\.\.\//','/',$target);
+			preg_match_all('/src="([^"]*?)"/is', $matches[0], $m);
+			for($i=0,$c=count($m[0]);$i<$c;$i++) {
+				$path = trim($m[1][$i]);
+				if(substr($path,0,1)=='/' || substr($path,0,1)=='{' || strpos($path,'://')!==false) continue;
+				if(substr($path,0,2)=='./') $path = substr($path,2);
+				$target = $this->web_path.$path;
+				while(strpos($target,'/../')!==false) 
+				{
+					$target = preg_replace('/\/([^\/]+)\/\.\.\//','/',$target);
+				}
+				$target = str_replace('/./','/',$target);
+				$matches[0] = str_replace($m[0][$i], 'src="'.$target.'"', $matches[0]);
 			}
-			return '<'.$matches[1].$matches[2].'src="'.$target.'"';
+			return $matches[0];
 		}
 
 		/**
