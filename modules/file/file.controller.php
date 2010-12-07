@@ -377,7 +377,9 @@
             if(!$output->toBool()) return $output;
 			
 			// A workaround for Firefox upload bug
-			if (preg_match('/^=\?UTF-8\?B\?(.+)\?=$/i', $file_info['name'], $match)) $file_info['name'] = base64_decode($match[1]);
+			if (preg_match('/^=\?UTF-8\?B\?(.+)\?=$/i', $file_info['name'], $match)) {
+				$file_info['name'] = base64_decode(strtr($match[1], ':', '/'));
+			}
 
             if(!$manual_insert) {
                 // 첨부파일 설정 가져옴
@@ -401,9 +403,9 @@
             }
 
             // 이미지인지 기타 파일인지 체크하여 upload path 지정
-            if(preg_match("/\.(jpg|jpeg|gif|png|wmv|wma|mpg|mpeg|avi|swf|flv|mp1|mp2|mp3|mp4|asf|wav|asx|mid|midi|asf|mov|moov|qt|rm|ram|ra|rmm|m4v)$/i", $file_info['name'])) {
+            if(preg_match("/\.(jpe?g|gif|png|wm[va]|mpe?g|avi|swf|flv|mp[1-4]|as[fx]|wav|midi?|moo?v|qt|r[am]{1,2}|m4v)$/i", $file_info['name'])) {
                 // direct 파일에 해킹을 의심할 수 있는 확장자가 포함되어 있으면 바로 삭제함
-                $file_info['name'] = preg_replace('/\.(php|phtm|html|htm|cgi|pl|exe|jsp|asp|inc)/i', '$0-x',$file_info['name']);
+                $file_info['name'] = preg_replace('/\.(php|phtm|html?|cgi|pl|exe|jsp|asp|inc)/i', '$0-x',$file_info['name']);
                 $file_info['name'] = str_replace(array('<','>'),array('%3C','%3E'),$file_info['name']);
 
                 $path = sprintf("./files/attach/images/%s/%s", $module_srl,getNumberingPath($upload_target_srl,3));
