@@ -1307,6 +1307,8 @@ LineBreak = xe.createPlugin('LineBreak', {
 		
 		event.shiftKey ? this.wrapBlock(sel) : this.insertBR(sel);
 		event.keyCode = 0;
+		
+		this.cast('SAVE_UNDO_POINT');
 
 		return false;
 	},
