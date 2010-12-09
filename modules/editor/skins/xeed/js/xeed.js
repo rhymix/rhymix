@@ -3176,37 +3176,38 @@ Clear = xe.createPlugin('Clear', {
 		}
 	},
 	API_EXEC_CLEAR : function() {
-		var sel = this.oApp.getSelection(), node, par, content, after;
+		var self = this, sel = this.oApp.getSelection(), sc, ec, so, eo, bl, nd, nodes, i, c, next, $pn;
 
 		if (!sel || sel.collapsed) return;
 
-		// get content
-		content = sel.extractContents();
-		sel.select();
+		// split text nodes
+		nodes = sel.getTextNodes(true);
+		
+		// get current position
+		sc = sel[_sc_]; so = sel[_so_];
+		ec = sel[_ec_]; eo = sel[_eo_];
+		
+		// start
+		for(i=0,c=nodes.length;i<c;i++) {
+			nd = nodes[i];
+			bl = get_block_parent(nd);
 
-		// get nearest parent
-		node = sel.startContainer;
-		par  = null;
-		while(par = node[_pn_]) {
-			if (rx_block.test(par.nodeName) || rx_root.test(par.className)) {
-				break;
+			while(nd[_pn_] != bl) {
+				next = siblings(nd);
+
+				$pn = $(nd[_pn_]);
+				if (next.length) $pn.after($pn.clone().empty().append(next));
+				$pn.after(nd);
 			}
-
-			node = par;
 		}
 
-		content = $('<div />').appendTo(document).append(content).remove().text();
-
-		sel.setEndAfter(par.lastChild);
-		after = sel.extractContents();
-
-		content = document.createTextNode(content);
-		par.appendChild(content);
-		par.appendChild(after);
+		sel.setStart(sc, so);
+		sel.setEnd(ec, eo);
+		sel.select();
 
 		// save undo point
 		this.cast('SAVE_UNDO_POINT');
-		//this.fireChangeNode(sel);
+		setTimeout(function(){ if (sel && sel[_sc_]) self.cast('ON_CHANGE_NODE', [sel[_sc_]]) }, 0);
 	}
 });
 /**
@@ -4328,21 +4329,14 @@ $.extend(HuskyRange.prototype, W3CDOMRange.prototype, {
 		return oNewParent;
 	},
 
-	isRangeInRange : function(oAnoterRange, bIncludePartlySelected){
-		var startToStart = this.compareBoundaryPoints(this.START_TO_START, oAnoterRange);
-		var startToEnd = this.compareBoundaryPoints(this.START_TO_END, oAnoterRange);
-		var endToStart = this.compareBoundaryPoints(this.END_TO_START, oAnoterRange);
-		var endToEnd = this.compareBoundaryPoints(this.END_TO_END, oAnoterRange);
+	isRangeInRange : function(oAnotherRange, bIncludePartlySelected){
+		var startToStart = this.compareBoundaryPoints(this.START_TO_START, oAnotherRange);
+		var startToEnd = this.compareBoundaryPoints(this.START_TO_END, oAnotherRange);
+		var endToStart = this.compareBoundaryPoints(this.END_TO_START, oAnotherRange);
+		var endToEnd = this.compareBoundaryPoints(this.END_TO_END, oAnotherRange);
 
 		if(startToStart <= 0 && endToEnd >= 0) return true;
-
-		if(bIncludePartlySelected){
-			if(startToEnd == 1) return false;
-			if(endToStart == -1) return false;
-			return true;
-		}
-
-		return false;
+		return bIncludePartlySelected && (startToEnd != 1 && endToStart != -1);
 	},
 
 	isNodeInRange : function(oNode, bIncludePartlySelected, bContentOnly){
@@ -5051,7 +5045,7 @@ function get_valid_parent(par, childName) {
 	return par;
 };
 
-// collect all sibling
+// collect all inline sibling
 function siblings(node, prev) {
 	var s, ret = [];
 
