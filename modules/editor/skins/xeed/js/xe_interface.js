@@ -31,6 +31,8 @@ function editorStart_xe(editor_seq, primary_key, content_key, editor_height, col
 	// filters
 	xeed.cast('REGISTER_FILTER', ['r2t', plz_standard]);
 	xeed.cast('REGISTER_FILTER', ['r2t', remove_baseurl]);
+	xeed.cast('REGISTER_FILTER', ['in', inline_styled['in']]);
+	xeed.cast('REGISTER_FILTER', ['out', inline_styled['out']]);
 
 	// Set standard API
 	editorRelKeys[editor_seq] = {
@@ -80,6 +82,23 @@ function remove_baseurl(code) {
 
 	return code.replace(reg, function(m0,m1,m2){ return ' '+m1+'='+m2; });
 }
+
+// inline styled box
+var inline_styled = {
+	'in' : function(code) {
+		return code.replace(/<(div|blockquote)(?:[^>]*) class="(bx|bq)"(?:[^>]*)>/ig, '<$1 class="$2">');
+	},
+	'out' : function(code) {
+		return code.replace(/<(div|blockquote)(?:[^>]*) class="(bx|bq)"(?:[^>]*)>/ig, function(a,tag,cls){
+			if (tag == 'div' && cls == 'bx') {
+				return '<'+tag+' class="'+cls+'" style="background:#fafafa;border:1px dotted #999;margin:1em 0;padding:0 2em">';
+			} else if (tag == 'blockquote' && cls == 'bq') {
+				return '<'+tag+' class="'+cls+'" style="border-left:3px solid #ccc;margin:1em 0;padding-left:1em">';
+			}
+			return a;
+		});
+	}
+};
 
 window.editorStart_xe = editorStart_xe;
 
