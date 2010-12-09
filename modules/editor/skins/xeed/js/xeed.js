@@ -1436,7 +1436,7 @@ LineBreak = xe.createPlugin('LineBreak', {
 
 		// <br> timer
 		if (!this._in_br) {
-			$br.after( $a = $('<a>A</a>') );
+			$br.after( $a = $('<a>|</a>') );
 			this._scrollIntoView($a[0]);
 			$a.remove();
 		
