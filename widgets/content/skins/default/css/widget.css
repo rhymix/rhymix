@@ -32,7 +32,7 @@ ul.widgetA li { margin:0; padding:0; list-style:none; }
 .widgetTableA td .category{ padding-right:5px; font-weight:normal;}
 .widgetTableA td .replyNum a{ font:10px Tahoma;}
 .widgetTableA td .trackbackNum a{ font:10px Tahoma;}
-.widgetTableA td.author{}
+.widgetTableA td.summary{ white-space:normal;}
 .widgetTableA td.time{ font-size:11px; font-family:Tahoma;} 
 
 
