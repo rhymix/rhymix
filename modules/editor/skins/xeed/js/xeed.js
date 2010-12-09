@@ -683,17 +683,6 @@ Block = xe.createPlugin('BlockCommand', {
 		});
 		$node.children().unwrap();
 	},
-	/**
-	 * @brief Get a valid parent (evaluate with XHTML)
-	 * @param par Element initial parent node
-	 * @param childName String child node name
-	 */
-	getValidParent : function(par, childName) {
-		while(!XHTMLT[par[_pn_][_nn_].toLowerCase()][childName]) {
-			par = par[_pn_];
-		}
-		return par;
-	},
 	fireChangeNode : function(sel) {
 		var self = this, _sel = sel || this.oApp.getSelection();
 
@@ -721,7 +710,7 @@ Block = xe.createPlugin('BlockCommand', {
 
 		// get block-level common ancestor
 		ancestor = sel.commonAncestorContainer;
-		start    = this.getValidParent(get_block_parent(get_child(start, ancestor)), 'blockquote');
+		start    = get_valid_parent(get_block_parent(get_child(start, ancestor)), 'blockquote');
 		end      = sel.collapsed?start:get_child(sel.getEndNode(), start[_pn_]);
 
 		// remove quote blocks in a selection
@@ -764,7 +753,7 @@ Block = xe.createPlugin('BlockCommand', {
 
 		// get block-level common ancestor
 		ancestor = sel.commonAncestorContainer;
-		start    = this.getValidParent(get_block_parent(get_child(start, ancestor)), 'div');
+		start    = get_valid_parent(get_block_parent(get_child(start, ancestor)), 'div');
 		end      = sel.collapsed?start:get_child(sel.getEndNode(), start[_pn_]);
 
 		// remove box in a selection
@@ -1315,7 +1304,7 @@ LineBreak = xe.createPlugin('LineBreak', {
 		}
 		if (!this.oApp.getOption('force_br')) return;
 		if (!(sel = this.oApp.getSelection())) return;
-
+		
 		event.shiftKey ? this.wrapBlock(sel) : this.insertBR(sel);
 		event.keyCode = 0;
 
@@ -1434,7 +1423,8 @@ LineBreak = xe.createPlugin('LineBreak', {
 				}
 			}
 
-			$block = $(block).after($p=$('<p />'));
+			$p = ($block=$(block)).is('li')?$block.clone().empty():$('<p />');
+			$block.after($p);
 			$p.append(siblings($br[0]));
 
 			$prev_br.remove();
@@ -5019,6 +5009,18 @@ function get_child(node, container) {
 		if (node[_pn_] == container) return node;
 		node = node[_pn_];
 	}
+};
+
+/**
+ * @brief Get a valid parent (evaluate with XHTML)
+ * @param par Element initial parent node
+ * @param childName String child node name
+ */
+function get_valid_parent(par, childName) {
+	while(!XHTMLT[par[_pn_][_nn_].toLowerCase()][childName]) {
+		par = par[_pn_];
+	}
+	return par;
 };
 
 // collect all sibling
