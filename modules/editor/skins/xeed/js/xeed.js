@@ -122,7 +122,7 @@ Xeed = xe.createApp('Xeed', {
 		this.registerPlugin(new Clear);
 
 		// set content
-		if (!content) content = '<br />';
+		if (!$.browser.msie && !content) content = '<br />';
 		setTimeout(function(){ self.cast('SET_CONTENT', [content]) }, 0);
 	},
 
@@ -403,9 +403,13 @@ Xeed = xe.createApp('Xeed', {
 		var self = this, sel = this.getSelection();
 
 		if (sel) return;
+		if (!$.browser.msie && !this.$richedit.html()) this.cast('SET_CONTENT', ['<br />']);
 
-		if (!this.$richedit.html()) this.cast('SET_CONTENT', ['<br />']);
 		this.$richedit.focus();
+
+		sel = this.getEmptySelection();
+		sel.selectNodeContents(this.$richedit[0]);
+		sel.select();
 	},
 
 	/**
@@ -1393,7 +1397,7 @@ LineBreak = xe.createPlugin('LineBreak', {
 		sel.select();
 	},
 	insertBR : function(sel) {
-		var self = this, $br = $('<br>'), st, block, child, $par, $p, $prev_br, $clone, $block;
+		var self = this, $br = $('<br>'), st, block, child, nd, top, $par, $p, $prev_br, $clone, $block, $a, $rich, $ctn;
 
 		// insert Node
 		sel.insertNode($br[0]);
@@ -1432,8 +1436,10 @@ LineBreak = xe.createPlugin('LineBreak', {
 
 		// <br> timer
 		if (!this._in_br) {
-			try { $br[0].scrollIntoView() } catch(e){};
-
+			$br.after( $a = $('<a>A</a>') );
+			this._scrollIntoView($a[0]);
+			$a.remove();
+		
 			this._in_br = true;
 			this._br_timer = setTimeout(function(){ self._in_br = false; }, 500);
 			return;
@@ -1468,6 +1474,23 @@ LineBreak = xe.createPlugin('LineBreak', {
 
 		this._in_br = false;
 		clearTimeout(this._br_timer);
+	},
+	_scrollIntoView : function(nd) {
+		var $rich, $ctn, top, sctop;
+
+		top = nd.offsetHeight;
+		while(!rx_root.test(nd.className||'')) {
+			top += nd.offsetTop;
+			nd  =  nd.offsetParent;
+		}
+
+		// rich editor and container
+		$rich = this.oApp.$richedit;
+		$ctn  = $rich.parent();
+
+		// scrolltop
+		sctop = top - $ctn.height() + parseInt($rich.css('padding-top'));
+		if ($ctn[0].scrollTop < sctop) $ctn[0].scrollTop = sctop;
 	}
 });
 /**
