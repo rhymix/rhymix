@@ -1415,6 +1415,8 @@ LineBreak = xe.createPlugin('LineBreak', {
 
 		// <br> timer
 		if (!this._in_br) {
+			try { $br[0].scrollIntoView() } catch(e){};
+
 			this._in_br = true;
 			this._br_timer = setTimeout(function(){ self._in_br = false; }, 500);
 			return;
