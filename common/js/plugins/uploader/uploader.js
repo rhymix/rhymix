@@ -461,7 +461,7 @@ runtimes.flash = {
 		if (!window.xe_flashuploaders) window.xe_flashuploaders = [];
 
 		function make_button(event) {
-			var b  = settings.browse.get(0);
+			var b  = this;
 			var op = b.offsetParent;
 			var ow = b.offsetWidth;
 			var oh = b.offsetHeight;
