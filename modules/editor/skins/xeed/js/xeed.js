@@ -683,28 +683,6 @@ Block = xe.createPlugin('BlockCommand', {
 		});
 		$node.children().unwrap();
 	},
-	getBlockParent : function(node) {
-		var name;
-
-		while(!rx_block.test(node[_nn_])) {
-			if (rx_root.test(node[_pn_].className)) break;
-			node = node[_pn_];
-		}
-
-		if (!rx_block.test(node[_nn_])) {
-			node = $(node).wrap('<p />').parent().get(0);
-		}
-
-		return node;
-	},
-	getChild : function(node, container) {
-		if (node == container) return node;
-
-		while(node) {
-			if (node[_pn_] == container) return node;
-			node = node[_pn_];
-		}
-	},
 	/**
 	 * @brief Get a valid parent (evaluate with XHTML)
 	 * @param par Element initial parent node
@@ -716,7 +694,6 @@ Block = xe.createPlugin('BlockCommand', {
 		}
 		return par;
 	},
-
 	fireChangeNode : function(sel) {
 		var self = this, _sel = sel || this.oApp.getSelection();
 
@@ -744,8 +721,8 @@ Block = xe.createPlugin('BlockCommand', {
 
 		// get block-level common ancestor
 		ancestor = sel.commonAncestorContainer;
-		start    = this.getValidParent(this.getBlockParent(this.getChild(start, ancestor)), 'blockquote');
-		end      = sel.collapsed?start:this.getChild(sel.getEndNode(), start[_pn_]);
+		start    = this.getValidParent(get_block_parent(get_child(start, ancestor)), 'blockquote');
+		end      = sel.collapsed?start:get_child(sel.getEndNode(), start[_pn_]);
 
 		// remove quote blocks in a selection
 		$(sel.getNodes()).filter(_bq_).each(function(){ self.unwrap(this) });
@@ -787,8 +764,8 @@ Block = xe.createPlugin('BlockCommand', {
 
 		// get block-level common ancestor
 		ancestor = sel.commonAncestorContainer;
-		start    = this.getValidParent(this.getBlockParent(this.getChild(start, ancestor)), 'div');
-		end      = sel.collapsed?start:this.getChild(sel.getEndNode(), start[_pn_]);
+		start    = this.getValidParent(get_block_parent(get_child(start, ancestor)), 'div');
+		end      = sel.collapsed?start:get_child(sel.getEndNode(), start[_pn_]);
 
 		// remove box in a selection
 		$(sel.getNodes()).filter(_bx_).each(function(){ self.unwrap(this) });
@@ -1340,25 +1317,12 @@ LineBreak = xe.createPlugin('LineBreak', {
 		if (!(sel = this.oApp.getSelection())) return;
 
 		event.shiftKey ? this.wrapBlock(sel) : this.insertBR(sel);
+		event.keyCode = 0;
 
 		return false;
 	},
 	wrapBlock : function(sel) {
 		var self = this, sc, so, eo, nodes, $node, $clone, $bookmark, last, _xb_ = '_xeed_tmp_bookmark';
-
-		// collect all sibling
-		function sibling(node, prev) {
-			var s, ret = [];
-
-			while(s=node[prev?_ps_:_ns_]) {
-				if (s[_nt_] == 3 || (s[_nt_] == 1 && !is_block(s))) ret.push(s);
-				node = s;
-			}
-
-			if (prev) ret = ret.reverse();
-
-			return ret;
-		}
 
 		// delete contents
 		sel.deleteContents();
@@ -1380,7 +1344,7 @@ LineBreak = xe.createPlugin('LineBreak', {
 		if ($node.length) {
 			$node = $node.eq(0);
 		} else {
-			nodes = $.merge(sibling(sc,1), [sc], sibling(sc));
+			nodes = $.merge(siblings(sc,1), [sc], siblings(sc));
 			nodes[0][_pn_].insertBefore(($node=$('<p />')).get(0), nodes[0]);
 			$node.append(nodes);
 		}
@@ -1412,7 +1376,7 @@ LineBreak = xe.createPlugin('LineBreak', {
 		sel.select();
 	},
 	insertBR : function(sel) {
-		var self = this, $br = $('<br>'), st, $par, $p;
+		var self = this, $br = $('<br>'), st, block, child, $par, $p, $prev_br, $clone, $block;
 
 		// insert Node
 		sel.insertNode($br[0]);
@@ -1457,14 +1421,27 @@ LineBreak = xe.createPlugin('LineBreak', {
 		}
 
 		if ($br && $br.prev().is('br')) {
-			$p   = $('<p>'+invisibleCh+'</p>');
-			$par = $br.parentsUntil('.'+_xr_);
+			$prev_br = $br.prev();
+			block    = get_block_parent($prev_br[0]);
 
-			$par.length ? $par.eq(-1).after($p) : $br.after($p);
+			if (is_ancestor_of(block, $br[0])) {
+				while(block != $br[0][_pn_]) {
+					$clone = $br.parent().clone().html('');
+					$clone.append(siblings($br[0]));
+					$br.parent().after($clone).after($br);
+				}
+			}
 
-			$br.prev('br').remove().end().remove();
+			$block = $(block).after($p=$('<p />'));
+			$p.append(siblings($br[0]));
 
-			sel.setStart($p[0], 0);
+			$prev_br.remove();
+			$br.remove();
+
+			if (!$block.html()) $block.html(invisibleCh);
+			if (!$p.html()) $p.html(invisibleCh);
+
+			sel.selectNodeContents($p[0]);
 			sel.collapseToStart();
 			sel.select();
 		}
@@ -2195,7 +2172,7 @@ SChar = xe.createPlugin('SChar', {
 		this.$btn.parent().addClass('active');
 
 		$layer.addClass('open');
-		
+
 		li     = this.$btn.parents('li:first')[0];
 		offset = li[_ol_] + li[_pn_][_ol_];
 		($layer.width() > offset)?$layer.addClass('right'):$layer.removeClass('right');
@@ -2754,7 +2731,7 @@ URL = xe.createPlugin('URL', {
 			this.$text.val('http://');
 			this.$chk[0].checked = false;
 		}
-		
+
 		li     = this.$btn.parents('li:first')[0];
 		offset = li[_ol_] + li[_pn_][_ol_];
 		(this.$layer.width() > offset)?this.$layer.addClass('right'):this.$layer.removeClass('right');
@@ -2994,7 +2971,7 @@ Table = xe.createPlugin('Table', {
 
 		this.selection = this.oApp.getSelection();
 		$layer.addClass('open').parent('li').addClass('active');
-		
+
 		li     = this.$btns.te.parents('li:first')[0];
 		offset = li[_ol_] + li[_pn_][_ol_];
 		($layer.width() > offset)?$layer.addClass('right'):$layer.removeClass('right');
@@ -5014,6 +4991,54 @@ function node_index(node) {
 	}
 
 	return -1;
+};
+
+// block parent
+function get_block_parent(nd) {
+	while(!is_block(nd)) {
+		if (rx_root.test(nd[_pn_].className)) break;
+		nd = nd[_pn_];
+	}
+
+	if (!is_block(nd)) {
+		var ss = $.merge(siblings(nd,1),nd,siblings(nd)), $p = $('<p />');
+
+		nd[_pn_].insertBefore($p[0], nd);
+		nd = $p.append(ss)[0];
+	}
+
+	return nd;
+};
+
+function get_child(node, container) {
+	if (node == container) return node;
+
+	while(node) {
+		if (node[_pn_] == container) return node;
+		node = node[_pn_];
+	}
+};
+
+// collect all sibling
+function siblings(node, prev) {
+	var s, ret = [];
+
+	while(s=node[prev?_ps_:_ns_]) {
+		if (is_block(s)) break;
+		if (s[_nt_] == 3 || s[_nt_] == 1) ret.push(s);
+		node = s;
+	}
+
+	if (prev) ret = ret.reverse();
+
+	return ret;
+};
+
+function is_ancestor_of(anc, desc) {
+	while(desc && !rx_root.test(desc.className||'')) {
+		if ((desc=desc[_pn_]) == anc) return true;
+	}
+	return false;
 };
 
 /**
