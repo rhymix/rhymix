@@ -29,6 +29,7 @@ body{height:100%}
 .xdlw .strong{font-weight:bold}
 /* Background */
 .xd .tool,
+.xd .mo,
 .xd .mode,
 .xd .resize,
 .xd .t1 .u1,
@@ -69,6 +70,7 @@ body{height:100%}
 .xdlw .iHead h2 em,
 .xdlw label{font-family:Tahoma, Geneva, sans-serif}
 /* Hidden Text */
+.xd .tool .mo span,
 .xd .t1 .tb .img span,
 .xd .t1 .tb .media span,
 .xd .t1 .tb .file span,
@@ -96,6 +98,7 @@ body{height:100%}
 .xd .mode ul button{padding:0 10px;font-size:11px}
 /* Tool - Common */
 .xd .tool{background-position:0 -1140px;background-repeat:repeat-x;background-color:#f4f4f4;position:relative;z-index:3}
+.xd .tool .mo{display:none;position:absolute;top:0;right:0;height:25px;width:16px;background-position:-300px -252px}
 .xd .skip{position:absolute;display:block;top:0;left:0;width:1px;height:1px;overflow:hidden;color:#333;text-indent:1em;text-decoration:none;font-size:12px}
 .xd .skip:hover,
 .xd .skip:active,
@@ -103,6 +106,7 @@ body{height:100%}
 /* Tool - 1 */
 .xd .t1{position:relative;z-index:2;padding:0 15px 0 0;border-bottom:1px solid #e0dedf;*zoom:1}
 .xd .t1:after{content:"";display:block;clear:both}
+.xd .t1 .mo{top:0}
 .xd .t1 .u1,
 .xd .t1 .u2{margin:0 0 -1px 0;_margin-top:-1px;background-repeat:repeat-x;background-position:0 -1140px;float:left;_float:none;display:inline;*zoom:1}
 .xd .t1 .ti{float:left;display:inline;border:1px solid #e0dedf;margin:-1px 0 0 -1px;_margin-top:0;_margin-bottom:-1px;*zoom:1}
@@ -118,6 +122,7 @@ body{height:100%}
 /* Tool - 2 */
 .xd .t2{position:relative;z-index:2;border-top:1px solid #e0dedf;border-bottom:1px solid #b5b5b5;padding:5px 10px 0 5px;margin:-1px 0 0 0;*zoom:1}
 .xd .t2:after{content:"";display:block;clear:both}
+.xd .t2 .mo{top:3px}
 .xd .t2 .u1,
 .xd .t2 .u2,
 .xd .t2 .u3,

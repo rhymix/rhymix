@@ -23,6 +23,7 @@
 	<div class="tool">
 		<a href="#edit" class="skip">{$lang->edit->jumptoedit}</a>
 		<div class="t1">
+			<button type="button" class="mo"><span>기능 더보기/접기</span></button>
 			<ul class="u1">
 				<li class="ti al">
 					<a href="#xdal" class="tb">
@@ -35,15 +36,16 @@
 			</ul>
             <!--@if($enable_component)-->
 			<!-- editor components -->
+			<!--@foreach($component_list as $component_name => $component)-->
 			<ul class="u2">
-				<!--@foreach($component_list as $component_name => $component)-->
 				<li class="ti"><a href="{getUrl('module','editor','act','dispEditorPopup','editor_sequence', $editor_sequence, 'component', $component_name)}" target="_blank" class="tb" id="component_{$editor_sequence}_{$component_name}" title="{$component->title}">{$component->title}</a></li>
-				<!--@end-->
 			</ul>
+			<!--@end-->
 			<!-- //editor components -->
 			<!--@end-->
 		</div>
 		<div class="t2">
+			<button type="button" class="mo"><span>기능 더보기/접기</span></button>
 			<ul class="u1">
 				<li class="ti ud disable"><button type="button" class="tb ud"><span>{$lang->edit->undo} Ctrl+Z</span></button></li>
 				<li class="ti rd disable"><button type="button" class="tb rd da"><span>{$lang->edit->redo} Ctrl+Y</span></button></li>

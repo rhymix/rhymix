@@ -100,6 +100,10 @@ Xeed = xe.createApp('Xeed', {
 		this.$toolbar
 		    .delegate('li.ti>button', 'mouseover', function(){ $(this[_pn_]).addClass('hover') })
 		    .delegate('li.ti>button', 'mouseout', function(){ $(this[_pn_]).removeClass('hover') });
+			
+		// window resize
+		$(window).resize(bind(this,this._onresize)).load(bind(this,this._onresize));
+		this.$toolbar.find('button.mo').click(function(){ $(this).nextAll('ul._overflow').toggle(); });
 
 		// register plugins
 		this.registerPlugin(new Hotkey); // Hotkey must be the first
@@ -218,6 +222,28 @@ Xeed = xe.createApp('Xeed', {
 			setFocus    : function(){ self.cast('SET_FOCUS');  },
 			replaceHTML : function(html){ self.cast('PASTE_HTML', [html]) }
 		};
+	},
+	
+	_onresize : function() {
+		var $tb = this.$toolbar, $t1 = $tb.find('>.t1'), $t2 = $tb.find('>.t2'), $t1_mo, $t2_mo, base_top;
+		
+		base_top = $t1.find('>ul').removeClass('_overflow').show().get(0).offsetTop;
+		$t1_mo   = $t1.find('>button.mo').hide();
+		$.each($t1.find('>ul').get().reverse(), function(){
+			if (this.offsetTop > base_top) {
+				$(this).addClass('_overflow').hide();
+				$t1_mo.show();
+			}
+		});
+
+		base_top = $t2.find('>ul').removeClass('_overflow').show().get(0).offsetTop;
+		$t2_mo = $t2.find('>button.mo').hide();
+		$.each($t2.find('>ul').get().reverse(), function(){
+			if (this.offsetTop > base_top) {
+				$(this).addClass('_overflow').hide();
+				$t2_mo.show();
+			}
+		});
 	},
 
 	/**
