@@ -96,6 +96,21 @@ Xeed = xe.createApp('Xeed', {
 			}
 		});
 
+		// focusing workaround
+		if ($.browser.opera || $.browser.msie) {
+			this.$richedit.parent()
+				.mouseover(function(){
+					var $box = $(this), $rich = self.$richedit;
+
+					if ($rich.outerHeight() < $box.height()) {
+						$rich
+							.height($box.height()-parseInt($rich.css('padding-top'))-parseInt($rich.css('padding-bottom')))
+							.mouseout(function(){ $rich.css('height', '') })
+							.focus(function(){ $rich.css('height', '') });
+					}
+				});
+		}
+
 		// button hover event
 		this.$toolbar
 		    .delegate('li.ti>button', 'mouseover', function(){ $(this[_pn_]).addClass('hover') })
@@ -406,10 +421,6 @@ Xeed = xe.createApp('Xeed', {
 		if (!$.browser.msie && !this.$richedit.html()) this.cast('SET_CONTENT', ['<br />']);
 
 		this.$richedit.focus();
-
-		sel = this.getEmptySelection();
-		sel.selectNodeContents(this.$richedit[0]);
-		sel.select();
 	},
 
 	/**
