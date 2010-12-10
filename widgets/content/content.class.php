@@ -228,6 +228,7 @@
 
             // 글 목록을 구함
             $obj->module_srl = $args->module_srl;
+            $obj->category_srl = $args->category_srl;
             $obj->sort_index = $args->order_target;
             $obj->order_type = $args->order_type=="desc"?"asc":"desc";
             $obj->list_count = $args->list_count * $args->page_count;
