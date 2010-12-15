@@ -181,7 +181,6 @@
                     $visitors[$val->regdate] += $val->unique_visitor;
                 }
             }
-
             $status->week_max = 0;
             if(count($visitors)) {
                 foreach($visitors as $key => $val) {
@@ -189,7 +188,7 @@
                 }
             }
 
-            for($i=$start_time;$i<$end_time;$i+=60*60*24) {
+            for($i=$start_time;$i<=$end_time;$i+=60*60*24) {
 				$status->thisWeekSum += $visitors[date("Ymd",$i)];
                 $status->week[date("Y.m.d",$i)]->this = (int)$visitors[date("Ymd",$i)];
                 $status->week[date("Y.m.d",$i)]->last = (int)$visitors[date("Ymd",$i-60*60*24*7)];
@@ -349,7 +348,7 @@
             Context::set('start_module', $output->data);
 
             Context::set('status', $status);
-
+debugPrint($status);
             Context::set('layout','none');
             $this->setTemplateFile('index');
         }
