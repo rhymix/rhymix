@@ -2903,8 +2903,8 @@ Table = xe.createPlugin('Table', {
 
 			$fieldset = $layer.find('fieldset.wh');
 			$input    = $fieldset.find('input:text');
-			cfg.cols  = $input.eq(0).val() - 0;
-			cfg.rows  = $input.eq(1).val() - 0;
+			cfg.rows  = $input.eq(0).val() - 0;
+			cfg.cols  = $input.eq(1).val() - 0;
 			cfg.width = $input.eq(2).val() - 0 + $fieldset.find('button.selected').text();
 
 			self.cast('EXEC_TABLE', [cfg]);
