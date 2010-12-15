@@ -348,7 +348,6 @@
             Context::set('start_module', $output->data);
 
             Context::set('status', $status);
-debugPrint($status);
             Context::set('layout','none');
             $this->setTemplateFile('index');
         }
