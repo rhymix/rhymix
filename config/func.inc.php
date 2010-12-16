@@ -628,14 +628,32 @@
          * 이미지나 동영상등의 태그에서 src에 관리자 세션을 악용하는 코드를 제거
          * - 취약점 제보 : 김상원님
          **/
-        $content = preg_replace_callback("!<([a-z]+)(.*?)>!is", removeSrcHack, $content);
+        $content = preg_replace_callback("!<(/?)([a-z]+)(.*?)>!is", removeSrcHack, $content);
+
+		// xmp tag 확인 및 추가
+		$content = checkXmpTag($content);
 
         return $content;
     }
 
+    /**
+     * @brief xmp tag 확인 및 닫히지 않은 경우 추가
+     **/
+	function checkXmpTag($content) {
+		if(($start_xmp = strrpos($content, '<xmp>')) !==false) {
+			if(($close_xmp = strrpos($content, '</xmp>')) === false) $content .= '</xmp>';
+			else if($close_xmp < $start_xmp) $content .= '</xmp>';
+		}
+		
+		return $content;
+	}
 
     function removeSrcHack($matches) {
-        $tag = strtolower(trim($matches[1]));
+        $tag = strtolower(trim($matches[2]));
+		
+		// xmp tag 정리
+		if($tag=='xmp') return '<'.$matches[1].'xmp>';
+ 		if($matches[1]=='/') return $matches[0];
 
         //$buff = trim(preg_replace('/(\/>|>)/','/>',$matches[0]));
         $buff = $matches[0];
@@ -647,13 +665,13 @@
 		if(!$xml_doc) return sprintf("<%s>", $tag);
 
         // src값에 module=admin이라는 값이 입력되어 있으면 이 값을 무효화 시킴
-        $src = $xml_doc->{$tag}->attrs->src;
-        $dynsrc = $xml_doc->{$tag}->attrs->dynsrc;
-        $lowsrc = $xml_doc->{$tag}->attrs->lowsrc;
-        $href = $xml_doc->{$tag}->attrs->href;
-		$data = $xml_doc->{$tag}->attrs->data;
-		$background = $xml_doc->{$tag}->attrs->background;
-		$style = $xml_doc->{$tag}->attrs->style;
+        $src = $xml_doc->attrs->src;
+        $dynsrc = $xml_doc->attrs->dynsrc;
+        $lowsrc = $xml_doc->attrs->lowsrc;
+        $href = $xml_doc->attrs->href;
+		$data = $xml_doc->attrs->data;
+		$background = $xml_doc->attrs->background;
+		$style = $xml_doc->attrs->style;
 		if($style) {
 			$url = preg_match_all('/url\s*\(([^\)]+)\)/is', $style, $matches2);
 			if(count($matches2[0]))
@@ -665,6 +683,9 @@
 			}
 		}
         if(_isHackedSrc($src) || _isHackedSrc($dynsrc) || _isHackedSrc($lowsrc) || _isHackedSrc($href) || _isHackedSrc($data) || _isHackedSrc($background) || _isHackedSrcExp($style)) return sprintf("<%s>",$tag);
+
+		if($tag=='param' && $xml_doc->attrs->value && preg_match('/^javascript:/i',$xml_doc->attrs->value)) return sprintf("<%s>",$tag);
+		if($tag=='object' && $xml_doc->attrs->data && preg_match('/^javascript:/i',$xml_doc->attrs->data)) return sprintf("<%s>",$tag);
 
         return $buff;
     }
@@ -722,7 +743,7 @@
 		
 		// attribute on* remove
 		if(preg_match('/^on(click|load|unload|blur|dbclick|focus|resize|keypress|keyup|keydown|mouseover|mouseout|mouseup|select|change|error)/',preg_replace('/[^a-zA-Z_]/','',$key))) return '';
-        
+       
 		$output = sprintf('%s=%s', $key, $val);
 
 		return $output;
