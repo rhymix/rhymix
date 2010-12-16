@@ -552,6 +552,7 @@
             unset($all_args->body);
             unset($all_args->accept_agreement);
             unset($all_args->signature);
+			unset($all_args->password2);
 
             // 메일 인증 기능 사용시 회원 상태를 denied로 설정
             if ($config->enable_confirm == 'Y') $args->denied = 'Y';
