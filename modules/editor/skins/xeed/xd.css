@@ -98,7 +98,8 @@ body{height:100%}
 .xd .mode ul button{padding:0 10px;font-size:11px}
 /* Tool - Common */
 .xd .tool{background-position:0 -1140px;background-repeat:repeat-x;background-color:#f4f4f4;position:relative;z-index:3}
-.xd .tool .mo{display:none;position:absolute;top:0;right:0;height:25px;width:16px;background-position:-300px -252px}
+.xd .tool .mo{display:none;position:absolute;top:0;right:0;height:25px;width:16px;background-position:-450px -250px}
+.xd .tool .mo.mopen{background-position:-466px -250px}
 .xd .skip{position:absolute;display:block;top:0;left:0;width:1px;height:1px;overflow:hidden;color:#333;text-indent:1em;text-decoration:none;font-size:12px}
 .xd .skip:hover,
 .xd .skip:active,
