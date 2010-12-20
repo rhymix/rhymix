@@ -118,7 +118,7 @@ Xeed = xe.createApp('Xeed', {
 			
 		// window resize
 		$(window).resize(bind(this,this._onresize)).load(bind(this,this._onresize));
-		this.$toolbar.find('button.mo').click(function(){ $(this).nextAll('ul._overflow').toggle(); });
+		this.$toolbar.find('button.mo').click(function(){ $(this).toggleClass('mopen').nextAll('ul._overflow').toggle(); });
 
 		// register plugins
 		this.registerPlugin(new Hotkey); // Hotkey must be the first
