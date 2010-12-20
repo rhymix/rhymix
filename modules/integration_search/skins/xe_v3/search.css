@@ -1,0 +1,65 @@
+@charset "utf-8";
+/* content */
+.content{ margin:0 60px; font-size:12px; font-family:돋움, Dotum, Tahoma, Geneva, sans-serif;}
+/* isForm */
+.isForm{ margin:0 0 25px 0; padding:0;}
+.isForm .itx{ vertical-align:top; padding:5px; height:22px; width:288px; border:3px solid #6c58cf; font-size:14px; color:#666; font-weight:bold; _margin:-1px 0;}
+.isForm .btn,
+.isForm .btn input{ position:relative; display:inline-block; height:38px; line-height:38px; padding:0; overflow:visible; background:transparent url(btnSearch.gif) no-repeat; cursor:pointer;}
+.isForm .btn{ background-position:0 0; vertical-align:top; margin:0 2px 0 0;}
+.isForm .btn input{ padding:0 15px 0 30px; left:2px; background-position:right 0; border:0; font-weight:bold; font-size:16px; color:#fff; font-family:나눔고딕, NanumGothic, "맑은 고딕", "MalgunGhotic";}
+/* isTab */
+.isTab{ margin:0 0 25px 0; padding:0; list-style:none; zoom:1; border-bottom:1px solid #999;}
+.isTab:after{ content:""; display:block; clear:both;}
+.isTab li{ position:relative; float:left; margin:0 2px 0 0; border:1px solid #e0e0e0; border-top:0; border-bottom:0;}
+.isTab li.on{ border:1px solid #999; border-top:0; border-bottom:1px solid #fff; margin-bottom:-1px;}
+.isTab li a{ position:relative; top:-1px; border-top:1px solid #e0e0e0; float:left; height:25px; line-height:25px; padding:0 25px; font-size:13px; font-family:나눔고딕, NanumGothic, "맑은 고딕", "MalgunGhotic"; text-decoration:none; color:#666; font-weight:bold;}
+.isTab li.on a{ color:#000; top:-1px; border-top:1px solid #999;}
+/* sTitle */
+.sTitle{ position:relative; margin:0 6px 0 0; padding:0 0 0 25px; background:#6d6e72; height:25px; line-height:25px; color:#fff; zoom:1;}
+.sTitle:after{ content:""; display:block; clear:both;}
+.sTitle h2{ float:left; font-size:12px; margin:0;}
+.sTitle em{ font-style:normal;}
+.sTitle ul{ float:right; white-space:nowrap; padding:0 25px 0 0; margin:0; list-style:none;}
+.sTitle li{ display:inline; margin:0 0 0 14px;}
+.sTitle a{ color:#eee}
+/* noResult */
+.noResult{ margin:10px 25px 25px 25px;}
+.noResult h2{ font-size:12px;}
+/* sResult */
+.sResult{ margin:0 10px; padding:10px 0 0 0; list-style:none;}
+.sResult li{ border-bottom:1px dashed #c7c7c7; padding:12px 15px; zoom:1;}
+.sResult li:after{ content:""; display:block; clear:both;}
+.sResult .thumb{ float:left; margin:0 20px 0 0; padding:3px; border:1px solid #ddd;}
+.sResult .thumb img{ width:102px; height:72px;}
+.sResult h3{ margin:0; font-size:12px;}
+.sResult h3 a{ color:#333; text-decoration:none;}
+.sResult h3 em{ font-style:normal; color:#767676;}
+.sResult .meta{ margin:10px 0; font-size:11px; color:#767676;}
+.sResult .meta .item{ display:inline-block; height:12px; border-left:1px dotted #bcbcbc; padding:0 6px 0 10px;}
+.sResult .meta .item:first-child{ padding-left:0; border:0;}
+.sResult .summary{ margin:0; color:#666; line-height:18px;}
+.sResult .summary a{ color:#666; text-decoration:none;}
+.sResult a:hover,
+.sResult a:active,
+.sResult a:focus{ text-decoration:underline;}
+/* isMore */
+.isMore{ text-align:right; margin:10px 10px 25px 10px;}
+.isMore a{ font-size:11px; color:#333; text-decoration:none;}
+/* Pagination */
+.pagination{ padding:20px 0; text-align:center; line-height:normal;}
+.pagination a,
+.pagination strong{ position:relative; color:#767676; font:bold 12px/16px Tahoma, Sans-serif; vertical-align:top; display:inline-block; text-decoration:none; padding:1px 8px; margin:0 -3px; border-left:1px solid #ccc; border-right:1px solid #ccc; background-color:#fff; z-index:2;}
+.pagination a:hover,
+.pagination a:active,
+.pagination a:focus{ background-color:#f8f8f8;}
+.pagination strong{ color:#4e3db4;}
+.pagination .direction{ font-weight:normal; color:#767676; text-decoration:none !important; border:0; z-index:1;}
+.pagination .direction:hover,
+.pagination .direction:active,
+.pagination .direction:focus{ color:#333; background-color:#fff;}
+.pagination .prev{ border-left:0;}
+.pagination .next{ border-right:0;}
+.pagination .direction span{ position:relative; display:inline-block; width:0; height:0; font-size:0; line-height:0; vertical-align:top; top:4px;}
+.pagination .prev span{ border:3px solid; border-top:solid #fff; border-bottom:solid #fff; border-left:0; margin-right:1px; *left:-4px;}
+.pagination .next span{ border:3px solid; border-top:solid #fff; border-bottom:solid #fff; border-right:0; margin-left:1px;}

@@ -1,0 +1,25 @@
+<include target="header.html" cond="$where=='file'" />
+<div class="sTitle">
+	<h2>{$lang->file} <em>({number_format($output->total_count)})</em></h2>
+</div>
+<div class="noResult" cond="!count($output->data)">
+	<h2>{$lang->msg_no_result}</h2>
+</div>
+<ul class="sResult" cond="count($output->data)">
+	<li loop="$output->data=>$no,$file">
+		<h3><a href="{$file->url}" target="_blank">{$file->filename}</a> <em>({FileHandler::filesize($file->file_size)})</em></h3>
+		<p class="meta">
+			<span class="item"><strong>{$lang->writer}</strong> : {$file->nick_name}</span>
+			<span class="item">{$file->regdate}</span>
+			<span class="item">{number_format($file->download_count)}</span>
+		</p>
+	</li>
+</ul>
+<div class="pagination" cond="$where=='file'&&$output->page_navigation&&count($output->data)">
+	<a href="{getUrl('page','')}" class="direction prev"><span></span><span></span> {$lang->first_page}</a> 
+	<block loop="$page_no=$output->page_navigation->getNextPage()">
+		<strong cond="$page==$page_no">{$page_no}</strong> 
+		<a cond="$page!=$page_no" href="{getUrl('page',$page_no)}">{$page_no}</a>
+	</block>
+	<a href="{getUrl('page',$output->page_navigation->last_page)}" class="direction next"|cond="!$last_division">{$lang->last_page} <span></span><span></span></a>
+</div>
