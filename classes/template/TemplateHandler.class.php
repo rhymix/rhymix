@@ -478,15 +478,15 @@
 
 			// otherwise try to load xml, css, js file
 			} else {
-				if(preg_match('/^(http|https)/i',$target)) $source_filename = $target;
-				else if(substr($target,0,1)!='/') $source_filename = $base_path.$target;
+				if(substr($target,0,1)!='/') $source_filename = $base_path.$target;
 				else $source_filename = $target;
+				$source_filename = str_replace(array('/./','//'),'/',$source_filename);
 
 				// get filename and path
 				$tmp_arr = explode("/",$source_filename);
 				$filename = array_pop($tmp_arr);
 
-				$base_path = implode("/",$tmp_arr)."/";
+				//$base_path = implode("/",$tmp_arr)."/";
 
 				// get the ext
 				$tmp_arr = explode(".",$filename);
@@ -496,6 +496,7 @@
 				switch($ext) {
 					// xml js filter
 					case 'xml' :
+							if(preg_match('/^(http|https)/i',$source_filename)) return;
 							// create an instance of XmlJSFilter class, then create js and handle Context::addJsFile
 							$output = sprintf(
 								'<?php%s'.
@@ -505,7 +506,7 @@
 								'?>%s',
 								"\n",
 								"\n",
-								$this->path,
+								dirname($base_path . $attrs['target']).'/',
 								$filename,
 								"\n",
 								"\n",
@@ -514,18 +515,17 @@
 						break;
 					// css file
 					case 'css' :
-							if(!preg_match('/^(http|https|\/)/i',$source_filename)) $source_filename = $this->path.$filename;
 							if($type == 'unload') $output = '<?php Context::unloadCSSFile("'.$source_filename.'"); ?>';
 							else $output = '<?php Context::addCSSFile("'.$source_filename.'",false,"'.$attrs['media'].'","'.$attrs['targetie'].'",'.$attrs['index'].'); ?>';
 						break;
 					// js file
 					case 'js' :
-							if(!preg_match('/^(http|https|\/)/i',$source_filename)) $source_filename = $this->path.$filename;
 							if($type == 'unload') $output = '<?php Context::unloadJsFile("'.$source_filename.'"); ?>';
 							else $output = '<?php Context::addJsFile("'.$source_filename.'",false,"'.$attrs['targetie'].'",'.$attrs['index'].',"'.$attrs['type'].'"); ?>';
 						break;
 				}
 			}
+
 			return $output;
 		}
 
