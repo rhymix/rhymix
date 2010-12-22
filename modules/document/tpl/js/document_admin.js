@@ -1,6 +1,6 @@
 
 /**
- * @brief 모든 생성된 썸네일 삭제하는 액션 호출
+ * @brief 모든 생성된 섬네일 삭제하는 액션 호출
  **/
 function doDeleteAllThumbnail() {
     exec_xml('document','procDocumentAdminDeleteAllThumbnail', [], completeDeleteAllThumbnail);

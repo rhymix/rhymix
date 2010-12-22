@@ -534,12 +534,12 @@
                 $thumbnail_type = $config->thumbnail_type;
             }
 
-            // 썸네일 정보 정의
+            // 섬네일 정보 정의
             $thumbnail_path = sprintf('files/cache/thumbnails/%s',getNumberingPath($this->document_srl, 3));
             $thumbnail_file = sprintf('%s%dx%d.%s.jpg', $thumbnail_path, $width, $height, $thumbnail_type);
             $thumbnail_url  = Context::getRequestUri().$thumbnail_file;
 
-            // 썸네일 파일이 있을 경우 파일의 크기가 0 이면 return false 아니면 경로 return
+            // 섬네일 파일이 있을 경우 파일의 크기가 0 이면 return false 아니면 경로 return
             if(file_exists($thumbnail_file)) {
                 if(filesize($thumbnail_file)<1) return false;
                 else return $thumbnail_url;
@@ -598,10 +598,10 @@
             }
             if($is_tmp_file) FileHandler::removeFile($source_file);
 
-            // 썸네일 생성 성공시 경로 return
+            // 섬네일 생성 성공시 경로 return
             if($output) return $thumbnail_url;
 
-            // 차후 다시 썸네일 생성을 시도하지 않기 위해 빈 파일을 생성
+            // 차후 다시 섬네일 생성을 시도하지 않기 위해 빈 파일을 생성
             else FileHandler::writeFile($thumbnail_file, '','w');
 
             return;
