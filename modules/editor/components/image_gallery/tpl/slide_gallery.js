@@ -29,7 +29,7 @@ function slide_gallery_add_image(srl, image_url) {
     obj.image.src = image_url;
     //if(!obj.image.width) return;
 
-    // 썸네일 이미지를 미리 로딩
+    // 섬네일 이미지를 미리 로딩
     obj.thumbnail = new Image();
     obj.thumbnail.src = image_url;
     obj.thumbnail.style.cursor = "pointer";
@@ -39,7 +39,7 @@ function slide_gallery_add_image(srl, image_url) {
     obj.thumbnail.style.opacity = 0.5;
     obj.thumbnail.style.filter = "alpha(opacity=50)";
 
-    // 썸네일 클릭시 메인 이미지로 바꾸어줌
+    // 섬네일 클릭시 메인 이미지로 바꾸어줌
     xAddEventListener(obj.thumbnail, "mousedown", function() { display_gallery_image(obj) });
 
     // 생성된 객체를 slide_gallery_images[이미지갤러리쇼 고유번호]에 추가
@@ -55,10 +55,10 @@ function start_slide_gallery() {
         // 등록된 이미지가 없으면 pass~
         if(!slide_gallery_images[srl].length) continue;
 
-        // 메인이미지가 나올 곳과 썸네일이 노출될 곳의 객체를 구함
+        // 메인이미지가 나올 곳과 섬네일이 노출될 곳의 객체를 구함
         var zone_thumbnail = xGetElementById('zone_thumbnail_'+srl);
 
-        // 썸네일 출력
+        // 섬네일 출력
         for(var i=0; i<slide_gallery_images[srl].length;i++) {
             zone_thumbnail.appendChild(slide_gallery_images[srl][i].thumbnail);
         }
@@ -78,7 +78,7 @@ function display_gallery_image(obj, is_first_display) {
     // 처음으로 요청되는지에 대한 검사
     if(typeof(is_first_display)=="undefined") is_first_display = false;
 
-    // 썸네일 영역
+    // 섬네일 영역
     var zone_thumbnail = xGetElementById('zone_thumbnail_'+obj.srl);
 
     // 슬라이드 갤러리의 영역
@@ -144,7 +144,7 @@ function display_gallery_image(obj, is_first_display) {
     var next_idx = obj.idx+1;
     if(slide_gallery_images[obj.srl].length<=next_idx) next_idx = 0;
 
-    // srl의 모든 썸네일의 투명도 조절
+    // srl의 모든 섬네일의 투명도 조절
     for(var i=0; i<slide_gallery_images[obj.srl].length;i++) {
         if(i==obj.idx) {
             slide_gallery_images[obj.srl][i].thumbnail.style.opacity = 1;
@@ -187,7 +187,7 @@ function gallery_view_next(srl) {
     display_gallery_image(slide_gallery_images[srl][idx]);
 }
 
-// 썸네일 보기
+// 섬네일 보기
 function gallery_view_thumbnail(srl) {
     var thumbnail_zone = xGetElementById("zone_thumbnail_"+srl);
     if(thumbnail_zone.style.display == "none") thumbnail_zone.style.display = "block";

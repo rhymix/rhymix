@@ -23,5 +23,5 @@
 
     $lang->cmd_gallery_prev = '이전 그림 보기';
     $lang->cmd_gallery_next = '다음 그림 보기';
-    $lang->cmd_gallery_thumbnail = '썸네일 보기';
+    $lang->cmd_gallery_thumbnail = '섬네일 보기';
 ?>
