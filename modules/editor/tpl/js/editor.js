@@ -74,7 +74,7 @@ function editorStart(editor_sequence, primary_key, content_key, editor_height, f
     // iframe obj를 찾음
     var iframe_obj = editorGetIFrame(editor_sequence);
     if(!iframe_obj) return;
-	jQuery(iframe_obj).css('width', '100%'),parent().css('width', '100%');
+	jQuery(iframe_obj).css('width', '100%').parent().css('width', '100%');
 
     // 현 에디터를 감싸고 있는 form문을 찾음
     var fo_obj = editorGetForm(editor_sequence);
