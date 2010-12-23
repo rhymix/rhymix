@@ -991,8 +991,8 @@
             Context::set('member_info', $member_info);
 
             $member_config = $oModuleModel->getModuleConfig('member');
-            if(!$member_config->skin) $this->member_config->skin = "default";
-            if(!$member_config->colorset) $this->member_config->colorset = "white";
+            if(!$member_config->skin) $member_config->skin = "default";
+            if(!$member_config->colorset) $member_config->colorset = "white";
 
             Context::set('member_config', $member_config);
 
