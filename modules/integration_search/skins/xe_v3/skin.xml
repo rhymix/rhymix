@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<skin version="0.2">
+    <title xml:lang="ko">XE Official v3</title>
+    <description xml:lang="ko">XE Official v3 통합검색 스킨 입니다</description>
+    <version>0.1</version>
+    <date>2010-12-24</date>
+    <author email_address="developers@xpressengine.com" link="http://xpressengine.com/">
+        <name xml:lang="ko">NHN</name>
+    </author>
+	<extra_vars>
+		<var name="browser_title" type="text">
+            <title xml:lang="ko">문서의 제목</title>
+            <description xml:lang="ko">제목 표시줄에 문서의 제목을 표시합니다.</description>
+		</var>
+	</extra_vars>
+</skin>

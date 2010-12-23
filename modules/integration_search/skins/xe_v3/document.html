@@ -1,0 +1,34 @@
+<include target="header.html" cond="$where=='document'" />
+<div class="sTitle">
+	<h2>{$lang->document} <em>({number_format($output->total_count)})</em></h2>
+	<ul>
+		<li loop="$lang->is_search_option['document']=>$key,$val" value="{$key}" class="on"|cond="$search_target==$key"><a href="{getUrl('where','document','search_target',$key,'page',1,'division','')}">{$val}</a></li>
+	</ul>
+</div>
+<div class="noResult" cond="!count($output->data)">
+	<h2>{$lang->msg_no_result}</h2>
+	<p cond="$last_division">{$lang->msg_document_more_search}</p>
+	<p cond="$last_division"><a href="{getUrl('where','document','page',1,'document_srl','','search_target',$search_target,'is_keyword',$is_keyword,'division',$last_division,'last_division','')}">{$lang->cmd_search_next}</a></p>
+</div>
+<ul class="sResult" cond="count($output->data)">
+	<li loop="$output->data=>$no,$document">
+		<a cond="$document->thumbnailExists(102,72)" class="thumb" href="{getUrl('','document_srl',$document->document_srl)}" target="_blank"><img src="{$document->getThumbnail(102,72)}" alt="" width="102" height="72" /></a>
+		<h3><a href="{getUrl('','document_srl',$document->document_srl)}" target="_blank">{$document->getTitle()}</a> <em cond="$document->getCommentCount()">[{$document->getCommentCount()}]</em></h3>
+		<p class="meta">
+			<span class="item"><strong>{$lang->readed_count}</strong> : {$document->get('readed_count')}</span>
+			<span class="item" cond="$document->get('voted_count')"><strong>{$lang->voted_count}</strong> : {$document->get('voted_count')}</span>
+			<span class="item"><strong>{$lang->writer}</strong> : {$document->getNickName()}</span>
+			<span class="item">{$document->getRegdate("Y-m-d")}</span>
+		</p>
+		<p class="summary">{$document->getSummary(200)}</p>
+	</li>
+</ul>
+<div class="pagination" cond="$where=='document'&&$output->page_navigation&&count($output->data)">
+	<a href="{getUrl('page','')}" class="direction prev"><span></span><span></span> {$lang->first_page}</a> 
+	<block loop="$page_no=$output->page_navigation->getNextPage()">
+		<strong cond="$page==$page_no">{$page_no}</strong> 
+		<a cond="$page!=$page_no" href="{getUrl('page',$page_no)}">{$page_no}</a>
+	</block>
+	<a href="{getUrl('page',$output->page_navigation->last_page)}" class="direction next"|cond="!$last_division">{$lang->last_page} <span></span><span></span></a>
+	<a cond="$last_division" href="{getUrl('page',1,'document_srl','','search_target',$search_target,'is_keyword',$is_keyword,'division',$last_division,'last_division','')}" class="direction next">{$lang->cmd_search_next} <span></span><span></span></a>
+</div>
