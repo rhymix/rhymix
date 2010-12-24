@@ -210,6 +210,7 @@
     $lang->no_article = 'There exists no article';
 
 	$lang->find_account_question = '비밀번호 찾기 질문/답변';
+	$lang->find_account_answer = '비밀번호 찾기 답변';
 	$lang->about_find_account_question = '가입시 아이디와 이메일, 질문/답변으로 임시 비밀번호를 발급 받을 수 있습니다.';
 	/*
 	$lang->find_account_question_items = array(''

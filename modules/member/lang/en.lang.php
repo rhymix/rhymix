@@ -212,6 +212,7 @@
     $lang->no_article = 'There exists no article';
 
 	$lang->find_account_question = 'Question for a temporary password.';
+	$lang->find_account_answer = 'Answer for a temporary password.';
 	$lang->about_find_account_question = 'You can get a temporary password by your ID, email address, and the answer for the question you set.';
 	$lang->find_account_question_items = array(''
 										,'What is your alternate email address?'

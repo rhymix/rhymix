@@ -213,6 +213,8 @@
     $lang->no_article = '主題不存在';
 
 	$lang->find_account_question = '密碼提示問答';
+	$lang->find_account_answer = '비밀번호 찾기 답변';
+
 	$lang->about_find_account_question = '可透過帳號、電子郵件和設定提示問答來獲得臨時密碼。';
 	$lang->find_account_question_items = array(''
 										,'其他電子郵件?'

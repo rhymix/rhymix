@@ -213,6 +213,7 @@
     $lang->no_article = '書き込みがありません。';
 
 	$lang->find_account_question = '秘密質問';
+	$lang->find_account_answer = '비밀번호 찾기 답변';
 	$lang->about_find_account_question = '登録した時、入力したIDとメールアドレス、秘密質問の答えで仮のパスワードをもらえる事ができます。';
 
 
