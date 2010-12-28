@@ -11,7 +11,7 @@
 .widgetContainer a:active,
 .widgetContainer a:focus{ text-decoration:underline;}
 .widgetContainer img{ border:0;}
-.widgetContainer sup{ position:relative; line-height:1; display:inline-block; margin:-5px 0; *padding:0 1px;}
+.widgetContainer em{ position:relative; line-height:1; display:inline-block; margin:-5px 0; *padding:0 1px; font-style:normal;}
 .widgetContainer form{ margin:0; padding:0;}
 .widgetContainer fieldset{ border:0; margin:0; padding:0;}
 
