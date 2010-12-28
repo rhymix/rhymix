@@ -566,7 +566,7 @@
             if($_SESSION['readed_document'][$document_srl]) return false;
 
             // 글의 작성 ip와 현재 접속자의 ip가 동일하면 패스
-            if($document->ipaddress == $_SERVER['REMOTE_ADDR']) {
+            if($oDocument->get('ipaddress') == $_SERVER['REMOTE_ADDR']) {
                 $_SESSION['readed_document'][$document_srl] = true;
                 return false;
             }
