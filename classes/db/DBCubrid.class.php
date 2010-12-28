@@ -256,7 +256,7 @@
          **/
         function _makeSequence()
         {
-            if($_GOBALS['XE_EXISTS_SEQUENCE']) return;
+            if($_GLOBALS['XE_EXISTS_SEQUENCE']) return;
 
             // check cubrid serial
             $query = sprintf('select count(*) as "count" from "db_serial" where name=\'%ssequence\'', $this->prefix);
