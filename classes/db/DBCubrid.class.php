@@ -289,7 +289,7 @@
                 $this->_query($query);
             }
 
-            $_GOBALS['XE_EXISTS_SEQUENCE'] = true;
+            $_GLOBALS['XE_EXISTS_SEQUENCE'] = true;
         }
 
 
