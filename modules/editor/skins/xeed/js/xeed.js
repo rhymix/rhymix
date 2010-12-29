@@ -54,15 +54,12 @@ Xeed = xe.createApp('Xeed', {
 
 		//
 		if ($obj.is('textarea')) {
-			$text   = $obj;
-			content = $obj.val();
+			$text = $obj;
 		} else {
-			$text   = $obj.before('<textarea>').hide().prev();
-			content = $obj.html();
+			$text = $obj.before('<textarea>').hide().prev().val($obj.html());
 		}
 
 		// Convert to wysiwyg editor
-
 		this.$textarea = $text;
 		this.$root     = $text.parent();
 		this.$richedit = this.$root.find('div.edit>div.xdcs:first');
@@ -137,8 +134,8 @@ Xeed = xe.createApp('Xeed', {
 		this.registerPlugin(new Clear);
 
 		// set content
-		if (!$.browser.msie && !content) content = '<br />';
-		setTimeout(function(){ self.cast('SET_CONTENT', [content]) }, 0);
+		if (!$.browser.msie && !$text.val()) $text.val('<br />');
+		setTimeout(function(){ self.cast('SET_CONTENT', [$text.val()]) }, 0);
 	},
 
 	/**
@@ -3121,7 +3118,7 @@ AutoSave = xe.createPlugin('AutoSave', {
 
 	init : function(){ },
 	activate : function(){
-		var self = this, app = this.oApp, $form;
+		var self = this, app = this.oApp, $form, title, content;
 
 		// start time
 		this._start_time = (new Date).getTime();
@@ -3131,10 +3128,23 @@ AutoSave = xe.createPlugin('AutoSave', {
 		this._enable = app.getOption('use_autosave');
 
 		this.$bar = this.oApp.$root.find('div.time').hide().click(function(){ $(this).slideUp(300) });
+		$form = $(app.$textarea[0].form);
 
 		if (this._enable && window.editorEnableAutoSave) {
-			$form = $(app.$textarea[0].form);
 			editorEnableAutoSave($form[0], $form.attr('editor_sequence'), function(params){ self._save_callback(params) });
+		}
+
+		// restore saved content
+		title   = $form[0]._saved_doc_title.value;
+		content = $form[0]._saved_doc_content.value;
+
+		if (title || content) {
+			if (confirm($form[0]._saved_doc_message.value)) {
+				$form.find('input[name=title]').val(title);
+				app.$textarea.val(content);
+			} else {
+				editorRemoveSavedDoc();
+			}
 		}
 	},
 	deactivate : function() {
