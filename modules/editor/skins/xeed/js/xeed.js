@@ -1761,6 +1761,10 @@ EditMode = xe.createPlugin('EditMode', {
 
 		app.$textarea.hide();
 		app.$richedit.show();
+
+		if (/iPod|iPhone|Android|BlackBerry|SymbianOS|SCH\-M[0-9]+/.test(navigator.userAgent)) {
+			this.$btn_html.mousedown();
+		}
 	},
 	deactivate : function() {
 		this.$btn_wysiwyg.unbind('mousedown');
