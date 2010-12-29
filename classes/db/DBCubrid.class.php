@@ -264,7 +264,7 @@
             $output = $this->_fetch($result);
 
             // if do not create serial
-            if ($output->count==0) {
+            if ($output->count == 0) {
                 $query = sprintf('select max("a"."srl") as "srl" from '.
                                  '( select max("document_srl") as "srl" from '.
                                  '"%sdocuments" UNION '.
@@ -277,7 +277,7 @@
                 $result = $this->_query($query);
                 $output = $this->_fetch($result);
                 $srl = $output->srl;
-                if ($srl<1) {
+                if ($srl < 1) {
                     $start = 1; 
                 }
                 else {
@@ -285,7 +285,7 @@
                 }
 
                 // create sequence
-                $query = sprintf('create serial "%ssequence start with %s increment by 1 minvalue 1 maxvalue 10000000000000000000000000000000000000 nocycle;', $this->prefix, $start);
+                $query = sprintf('create serial "%ssequence" start with %s increment by 1 minvalue 1 maxvalue 10000000000000000000000000000000000000 nocycle;', $this->prefix, $start);
                 $this->_query($query);
             }
 
