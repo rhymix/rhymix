@@ -1447,7 +1447,7 @@ LineBreak = xe.createPlugin('LineBreak', {
 			$br.after( $a = $('<a>|</a>') );
 			this._scrollIntoView($a[0]);
 			$a.remove();
-		
+
 			this._in_br = true;
 			this._br_timer = setTimeout(function(){ self._in_br = false; }, 500);
 			return;
@@ -1473,10 +1473,12 @@ LineBreak = xe.createPlugin('LineBreak', {
 			$br.remove();
 
 			if (!$block.html()) $block.html(invisibleCh);
-			if (!$p.html()) $p.html(invisibleCh);
+			$p.prepend(d.createTextNode(invisibleCh));
 
-			sel.selectNodeContents($p[0]);
-			sel.collapseToStart();
+			//sel.selectNode($p[0].firstChild);
+			sel.setStart($p[0].firstChild, 0);
+			sel.setEnd($p[0].firstChild, 1);
+			sel.collapseToEnd();
 			sel.select();
 		}
 
