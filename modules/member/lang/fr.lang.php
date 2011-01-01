@@ -20,7 +20,7 @@
     $lang->invalid_authorization = 'Le compte n\'est pas encore certifié.';
     $lang->invalid_user_id= "C'est un compte qui n'existe pas.";
     $lang->invalid_password = 'C\'est un mot de passe invalide';
-	$lang->invalid_new_password = '이전 비밀번호와 같습니다.';
+    $lang->invalid_new_password = '이전 비밀번호와 같습니다.';
     $lang->allow_mailing = 'Inscrire au Mailing';
     $lang->denied = 'Arrêté à utiliser';
     $lang->is_admin = 'Permission Superadministrative';
@@ -41,19 +41,19 @@
     $lang->group_image_mark_max_width = 'Largeur Maximum';
     $lang->group_image_mark_max_height = 'Hauteur Maximum';
     $lang->group_image_mark_order = '그룹 이미지 마크 순서';
-	$lang->signature_max_height = 'Hauteur Maximum de la Signature';
+    $lang->signature_max_height = 'Hauteur Maximum de la Signature';
     $lang->enable_openid = 'Permettre OpenID';
     $lang->enable_join = 'Permettre l\'inscription';
     $lang->enable_confirm = 'Utiliser Authentification par mél';
-	$lang->enable_ssl = 'Utiliser SSL';
-	$lang->security_sign_in = 'Ouvrir une Session en utilisant sécurité rehaussé';
+    $lang->enable_ssl = 'Utiliser SSL';
+    $lang->security_sign_in = 'Ouvrir une Session en utilisant sécurité rehaussé';
     $lang->limit_day = 'Jour de Limite Temporaire';
     $lang->limit_date = 'Jour de Limite';
     $lang->after_login_url = 'URL après la connexion';
     $lang->after_logout_url = 'URL après la déconnexion ';
     $lang->redirect_url = 'URL après l\'Inscription';
     $lang->agreement = 'Accord de l\'Inscription comme Membre';
-	$lang->accept_agreement = 'D\'accord';
+    $lang->accept_agreement = 'D\'accord';
     $lang->member_info = 'Information de Membre';
     $lang->current_password = 'Mot de Passe courant';
     $lang->openid = 'OpenID';
@@ -97,7 +97,7 @@
     $lang->cmd_view_member_info = 'Voir Mon Information';
     $lang->cmd_leave = 'Quitter';
     $lang->cmd_find_member_account = 'J\'ai perdu le compte / le mot de passe';
-	$lang->cmd_resend_auth_mail = '인증 메일 재발송';
+    $lang->cmd_resend_auth_mail = '인증 메일 재발송';
 
     $lang->cmd_member_list = 'Liste de Membres';
     $lang->cmd_module_config = 'Configuration par Défaut';
@@ -205,37 +205,37 @@
 
     $lang->about_find_member_account = 'L\information de votre compte sera annoncé par le mél sur l\'inscription. <br />Entrez l\'adresse mél que vous avez entré sur l\'inscription et appuyez le bouton "Recherce l\'Information du Compte".<br />';
 
-	$lang->about_member = "C'est le module pour administrer des membres avec lequel vous pouvez créer/modifier/supprimer des membres ou administrer les groupes et la formule d'inscription.\nVous pouvez administrer membres par création un nouveau groupe, ou gagner les informations additionnelles par l'administration la formule d'inscrioption.";
+    $lang->about_member = "C'est le module pour administrer des membres avec lequel vous pouvez créer/modifier/supprimer des membres ou administrer les groupes et la formule d'inscription.\nVous pouvez administrer membres par création un nouveau groupe, ou gagner les informations additionnelles par l'administration la formule d'inscrioption.";
     $lang->about_find_member_account = 'Your account info will be noticed by registered email address.<br />Please input email address which you have input on registration, and press "Find Account Info" button.<br />';
-	$lang->about_ssl_port = 'Please input if you are using different SSL port with default one';
+    $lang->about_ssl_port = 'Please input if you are using different SSL port with default one';
     $lang->add_openid = 'Add OpenID';
 
-	$lang->about_resend_auth_mail = 'You can request for authentication mail if you have failed before.';
+    $lang->about_resend_auth_mail = 'You can request for authentication mail if you have failed before.';
     $lang->no_article = 'There exists no article';
 
-	$lang->find_account_question = '비밀번호 찾기 질문/답변';
-	$lang->find_account_answer = '비밀번호 찾기 답변';
-	$lang->about_find_account_question = '가입시 아이디와 이메일, 질문/답변으로 임시 비밀번호를 발급 받을 수 있습니다.';
-	/*
-	$lang->find_account_question_items = array(''
-										,'다른 이메일 주소는?'
-										,'나의 보물 1호는?'
-										,'나의 출신 초등학교는?'
-										,'나의 출신 고향은?'
-										,'나의 이상형은?'
-										,'어머니 성함은?'
-										,'아버지 성함은?'
-										,'가장 좋아하는 색깔은?'
-										,'가장 좋아하는 음식은?'
-										);
+    $lang->find_account_question = '비밀번호 찾기 질문/답변';
+    $lang->find_account_answer = '비밀번호 찾기 답변';
+    $lang->about_find_account_question = '가입시 아이디와 이메일, 질문/답변으로 임시 비밀번호를 발급 받을 수 있습니다.';
+    /*
+    $lang->find_account_question_items = array(''
+                                        ,'다른 이메일 주소는?'
+                                        ,'나의 보물 1호는?'
+                                        ,'나의 출신 초등학교는?'
+                                        ,'나의 출신 고향은?'
+                                        ,'나의 이상형은?'
+                                        ,'어머니 성함은?'
+                                        ,'아버지 성함은?'
+                                        ,'가장 좋아하는 색깔은?'
+                                        ,'가장 좋아하는 음식은?'
+                                        );
 */
-	$lang->temp_password = '임시 비밀번호';
-	$lang->cmd_get_temp_password = '임시 비밀번호 발급';
-	$lang->about_get_temp_password = '로그인 후 비밀번호 변경해 주세요.';
-	$lang->msg_question_not_exists = '등록한 비밀번호 찾기 질문/답변이 없습니다.';
-	$lang->msg_answer_not_matches = '비밀번호 찾기 질문/답변 또는 정보가 올바르지 않습니다.';
+    $lang->temp_password = '임시 비밀번호';
+    $lang->cmd_get_temp_password = '임시 비밀번호 발급';
+    $lang->about_get_temp_password = '로그인 후 비밀번호 변경해 주세요.';
+    $lang->msg_question_not_exists = '등록한 비밀번호 찾기 질문/답변이 없습니다.';
+    $lang->msg_answer_not_matches = '비밀번호 찾기 질문/답변 또는 정보가 올바르지 않습니다.';
 
-	$lang->change_password_date = '비밀번호 갱신주기';
-	$lang->about_change_password_date = '일정기간이 지나면 비밀번호 변경을 하도록 유도하는 기능입니다. (사용하지 않음 : 0 입력) ';
+    $lang->change_password_date = '비밀번호 갱신주기';
+    $lang->about_change_password_date = '일정기간이 지나면 비밀번호 변경을 하도록 유도하는 기능입니다. (사용하지 않음 : 0 입력) ';
 
 ?>

@@ -20,7 +20,7 @@
     $lang->invalid_authorization = '還沒有認證！';
     $lang->invalid_user_id= '該帳號不存在，請檢查您的輸入是否有誤！';
     $lang->invalid_password = '您的密碼不正確！';
-	$lang->invalid_new_password = '新密碼不能與舊密碼相同';
+    $lang->invalid_new_password = '新密碼不能與舊密碼相同';
     $lang->allow_mailing = '接收郵件';
     $lang->denied = '禁止使用';
     $lang->is_admin = '最高管理權限';
@@ -97,7 +97,7 @@
     $lang->cmd_view_member_info = '檢視會員資料';
     $lang->cmd_leave = '退出';
     $lang->cmd_find_member_account = '查詢帳號/密碼';
-	$lang->cmd_resend_auth_mail = '重寄認證郵件';
+    $lang->cmd_resend_auth_mail = '重寄認證郵件';
 
     $lang->cmd_member_list = '會員列表';
     $lang->cmd_module_config = '基本設置';
@@ -209,32 +209,32 @@
     $lang->about_ssl_port = '請輸入想要使用 SSL 預設埠口以外的埠口。';
     $lang->add_openid = '新增 OpenID';
 
-	$lang->about_resend_auth_mail = '如果沒有收到認證郵件可以再重寄一次。';
+    $lang->about_resend_auth_mail = '如果沒有收到認證郵件可以再重寄一次。';
     $lang->no_article = '主題不存在';
 
-	$lang->find_account_question = '密碼提示問答';
-	$lang->find_account_answer = '비밀번호 찾기 답변';
+    $lang->find_account_question = '密碼提示問答';
+    $lang->find_account_answer = '비밀번호 찾기 답변';
 
-	$lang->about_find_account_question = '可透過帳號、電子郵件和設定提示問答來獲得臨時密碼。';
-	$lang->find_account_question_items = array(''
-										,'其他電子郵件?'
-										,'我最愛的是?'
-										,'我讀的國小是?'
-										,'我的出生地?'
-										,'我的理想?'
-										,'母親的姓名?'
-										,'父親的姓名?'
-										,'最喜歡的顏色?'
-										,'最愛的食物是?'
-										);
+    $lang->about_find_account_question = '可透過帳號、電子郵件和設定提示問答來獲得臨時密碼。';
+    $lang->find_account_question_items = array(''
+                                        ,'其他電子郵件?'
+                                        ,'我最愛的是?'
+                                        ,'我讀的國小是?'
+                                        ,'我的出生地?'
+                                        ,'我的理想?'
+                                        ,'母親的姓名?'
+                                        ,'父親的姓名?'
+                                        ,'最喜歡的顏色?'
+                                        ,'最愛的食物是?'
+                                        );
 
-	$lang->temp_password = '臨時密碼';
-	$lang->cmd_get_temp_password = '取得臨時密碼';
-	$lang->about_get_temp_password = '請再登入後變更密碼。';
-	$lang->msg_question_not_exists = '尚未輸入提示問答';
-	$lang->msg_answer_not_matches = '答案不正確';
+    $lang->temp_password = '臨時密碼';
+    $lang->cmd_get_temp_password = '取得臨時密碼';
+    $lang->about_get_temp_password = '請再登入後變更密碼。';
+    $lang->msg_question_not_exists = '尚未輸入提示問答';
+    $lang->msg_answer_not_matches = '答案不正確';
 
-	$lang->change_password_date = '密碼更新';
-	$lang->about_change_password_date = '可設定密碼更新週期，將會定期通知更換密碼。 (設為零則不使用)';
+    $lang->change_password_date = '密碼更新';
+    $lang->about_change_password_date = '可設定密碼更新週期，將會定期通知更換密碼。 (設為零則不使用)';
 
 ?>

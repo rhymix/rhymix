@@ -78,10 +78,10 @@
             $sort_order = Context::get('sort_order');
             $sort_index = Context::get('sort_index');
             if($sort_index != 'last_login') {
-				$sort_index = "list_order";
-			}else{
-				$sort_order = 'desc';
-			}
+                $sort_index = "list_order";
+            }else{
+                $sort_order = 'desc';
+            }
             if($args->selected_group_srl) {
                 $query_id = 'member.getMemberListWithinGroup';
                 $args->sort_index = "member.".$sort_index;
@@ -98,7 +98,7 @@
             $args->list_count = 40;
             $args->page_count = 10;
             $output = executeQuery($query_id, $args);
-			return $output;
+            return $output;
         }
 
         /**

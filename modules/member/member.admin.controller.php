@@ -17,7 +17,7 @@
          * @brief 사용자 추가 (관리자용)
          **/
         function procMemberAdminInsert() {
-			if(Context::getRequestMethod() == "GET") return new Object(-1, "msg_invalid_request");
+            if(Context::getRequestMethod() == "GET") return new Object(-1, "msg_invalid_request");
             // 필수 정보들을 미리 추출
             $args = Context::gets('member_srl','user_id','user_name','nick_name','homepage','blog','birthday','email_address','password','allow_mailing','allow_message','denied','is_admin','description','group_srl_list','limit_date');
 
@@ -108,10 +108,10 @@
             if($args->image_name!='Y') $args->image_name = 'N';
             if($args->image_mark!='Y') $args->image_mark = 'N';
             if($args->group_image_mark!='Y') $args->group_image_mark = 'N';
-			if($args->signature!='Y') $args->signature = 'N';
+            if($args->signature!='Y') $args->signature = 'N';
             if(!trim(strip_tags($args->agreement))) $args->agreement = null;
             $args->limit_day = (int)$args->limit_day;
-			if(!$args->change_password_date) $args->change_password_date = 0; 
+            if(!$args->change_password_date) $args->change_password_date = 0; 
 
             $oMemberController = &getController('member');
             $output = $oMemberController->setMemberConfig($args);

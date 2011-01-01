@@ -36,23 +36,22 @@
             $config = $oModuleModel->getModuleConfig('member');
             if($config->after_login_url) $this->setRedirectUrl($config->after_login_url);
 
-			// 설정된 change_password_date 확인
-			$limit_date = $config->change_password_date;
+            // 설정된 change_password_date 확인
+            $limit_date = $config->change_password_date;
 
-			// change_password_date가 설정되어 있으면 확인
-			if($limit_date > 0) {
-				$oMemberModel = &getModel('member');
-				$member_info = $oMemberModel->getMemberInfoByUserID($user_id);
-				if($member_info->change_password_date < date('YmdHis', strtotime('-'.$limit_date.' day')) ){
-					$this->setRedirectUrl(getNotEncodedUrl('','vid',Context::get('vid'),'mid',Context::get('mid'),'act','dispMemberModifyPassword'));
-				}
-			}
+            // change_password_date가 설정되어 있으면 확인
+            if ($limit_date > 0) {
+                $oMemberModel = &getModel('member');
+                $member_info = $oMemberModel->getMemberInfoByUserID($user_id);
+                if ($member_info->change_password_date < date ('YmdHis', strtotime ('-' . $limit_date . ' day'))) {
+                    $this->setRedirectUrl(getNotEncodedUrl('','vid',Context::get('vid'),'mid',Context::get('mid'),'act','dispMemberModifyPassword'));
+                }
+            }
 
             $redirect_url = Context::get('redirect_url'); 
-			if($output->toBool() && Context::getRequestMethod() == "POST" && $redirect_url)
-			{
-                header("location:" . $redirect_url);
-			}
+            if ($output->toBool () && Context::getRequestMethod () == "POST" && $redirect_url) {
+                header ("location:" . $redirect_url);
+            }
 
             return $output;
         }
@@ -523,24 +522,24 @@
          * @brief 회원 가입
          **/
         function procMemberInsert() {
-			if(Context::getRequestMethod() == "GET") return new Object(-1, "msg_invalid_request");
-            $oMemberModel = &getModel('member');
-            $config = $oMemberModel->getMemberConfig();
+            if (Context::getRequestMethod () == "GET") return new Object (-1, "msg_invalid_request");
+            $oMemberModel = &getModel ('member');
+            $config = $oMemberModel->getMemberConfig ();
 
             // before 트리거 호출
-            $trigger_output = ModuleHandler::triggerCall('member.procMemberInsert', 'before', $config);
-            if(!$trigger_output->toBool()) return $trigger_output;
+            $trigger_output = ModuleHandler::triggerCall ('member.procMemberInsert', 'before', $config);
+            if (!$trigger_output->toBool ()) return $trigger_output;
 
             // 관리자가 회원가입을 허락하였는지 검사
-            if($config->enable_join != 'Y') return $this->stop('msg_signup_disabled');
+            if ($config->enable_join != 'Y') return $this->stop ('msg_signup_disabled');
 
             // 약관에 동의하였는지 검사 (약관이 있을 경우만)
-            if($config->agreement && Context::get('accept_agreement')!='Y') return $this->stop('msg_accept_agreement');
+            if ($config->agreement && Context::get('accept_agreement')!='Y') return $this->stop('msg_accept_agreement');
 
             // 필수 정보들을 미리 추출
             $args = Context::gets('user_id','user_name','nick_name','homepage','blog','birthday','email_address','password','allow_mailing','find_account_question','find_account_answer');
             $args->member_srl = getNextSequence();
-			$args->list_order = -1 * $args->member_srl;
+            $args->list_order = -1 * $args->member_srl;
 
             // 넘어온 모든 변수중에서 몇가지 불필요한 것들 삭제
             $all_args = Context::getRequestVars();
@@ -552,7 +551,7 @@
             unset($all_args->body);
             unset($all_args->accept_agreement);
             unset($all_args->signature);
-			unset($all_args->password2);
+            unset($all_args->password2);
 
             // 메일 인증 기능 사용시 회원 상태를 denied로 설정
             if ($config->enable_confirm == 'Y') $args->denied = 'Y';
@@ -670,7 +669,7 @@
             if(!$oMemberModel->isValidPassword($member_info->password, $current_password)) return new Object(-1, 'invalid_password');
 
             // 이전 비밀번호와 같은지 확인
-			if($current_password == $password) return new Object(-1, 'invalid_new_password');
+            if ($current_password == $password) return new Object(-1, 'invalid_new_password');
 
             // member_srl의 값에 따라 insert/update
             $args->member_srl = $member_srl;
@@ -999,9 +998,8 @@
             $tpl_path = sprintf('%sskins/%s', $this->module_path, $member_config->skin);
             if(!is_dir($tpl_path)) $tpl_path = sprintf('%sskins/%s', $this->module_path, 'default');
 
-            $find_url = getFullUrl('','module','member','act','procMemberAuthAccount','member_srl',$member_info->member_srl, 'auth_key',$args->auth_key);
-            Context::set('find_url',$find_url);
-
+            $find_url = getFullUrl ('', 'module', 'member', 'act', 'procMemberAuthAccount', 'member_srl', $member_info->member_srl, 'auth_key', $args->auth_key);
+            Context::set('find_url', $find_url);
 
             $oTemplate = &TemplateHandler::getInstance();
             $content = $oTemplate->compile($tpl_path, 'find_member_account_mail');
@@ -1030,8 +1028,8 @@
         function procMemberFindAccountByQuestion() {
             $email_address = Context::get('email_address');
             $user_id = Context::get('user_id');
-			$find_account_question = trim(Context::get('find_account_question'));
-			$find_account_answer = trim(Context::get('find_account_answer'));
+            $find_account_question = trim(Context::get('find_account_question'));
+            $find_account_answer = trim(Context::get('find_account_answer'));
 
             if(!$user_id || !$email_address || !$find_account_question || !$find_account_answer) return new Object(-1, 'msg_invalid_request');
 
@@ -1045,24 +1043,24 @@
             // 회원의 정보를 가져옴
             $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
 
-			// 질문 응답이 없으면 
-			if(!$member_info->find_account_question || !$member_info->find_account_answer) return new Object(-1, 'msg_question_not_exists');
+            // 질문 응답이 없으면 
+            if (!$member_info->find_account_question || !$member_info->find_account_answer) return new Object(-1, 'msg_question_not_exists');
 
-			if(trim($member_info->find_account_question) != $find_account_question || trim($member_info->find_account_answer) != $find_account_answer) return new Object(-1, 'msg_answer_not_matches');
+            if(trim($member_info->find_account_question) != $find_account_question || trim($member_info->find_account_answer) != $find_account_answer) return new Object(-1, 'msg_answer_not_matches');
 
-			// 임시비밀번호로 변경 및 비밀번호 변경시간을 1로 설정
-			$args->member_srl = $member_srl;
-			list($usec, $sec) = explode(" ", microtime()); 
-			$temp_password = substr(md5($user_id . $member_info->find_account_answer. $usec . $sec),0,15);
+            // 임시비밀번호로 변경 및 비밀번호 변경시간을 1로 설정
+            $args->member_srl = $member_srl;
+            list($usec, $sec) = explode(" ", microtime()); 
+            $temp_password = substr(md5($user_id . $member_info->find_account_answer. $usec . $sec),0,15);
 
-			$args->password = $temp_password;
-			$args->change_password_date = '1';
-			$output = $this->updateMemberPassword($args);
-			if(!$output->toBool()) return $output;
+            $args->password = $temp_password;
+            $args->change_password_date = '1';
+            $output = $this->updateMemberPassword($args);
+            if(!$output->toBool()) return $output;
 
-			$_SESSION['xe_temp_password_'.$user_id] = $temp_password;
+            $_SESSION['xe_temp_password_'.$user_id] = $temp_password;
 
-			$this->add('user_id',$user_id);
+            $this->add('user_id',$user_id);
         }
 
         /**
@@ -1110,8 +1108,8 @@
          * 메일에 등록된 링크를 선택시 호출되는 method로 비밀번호를 바꾸고 인증을 시켜버림
          **/
         function procMemberUpdateAuthMail() {
-        	$member_srl = Context::get('member_srl');
-        	if(!$member_srl) return new Object(-1, 'msg_invalid_request');
+            $member_srl = Context::get('member_srl');
+            if(!$member_srl) return new Object(-1, 'msg_invalid_request');
 
             $oMemberModel = &getModel('member');
 
@@ -1188,9 +1186,9 @@
             $member_info = $oMemberModel->getMemberSrlByEmailAddress($email_address);
             if(!$member_info) return $this->stop('msg_not_exists_member');
 
-			$member_info = $oMemberModel->getMemberInfoByMemberSrl($member_info);
+            $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_info);
 
-			// 이전에 인증 메일을 보냈는지 확인
+            // 이전에 인증 메일을 보냈는지 확인
             $chk_args->member_srl = $member_info->member_srl;
             $output = executeQuery('member.chkAuthMail', $chk_args);
             if($output->toBool() && $output->data->count == '0') return new Object(-1, 'msg_invalid_request');
@@ -1215,7 +1213,7 @@
             $auth_url = getFullUrl('','module','member','act','procMemberAuthAccount','member_srl',$member_info->member_srl, 'auth_key',$auth_info->auth_key);
             Context::set('auth_url', $auth_url);
 
-	        $oTemplate = &TemplateHandler::getInstance();
+            $oTemplate = &TemplateHandler::getInstance();
             $content = $oTemplate->compile($tpl_path, 'confirm_member_account_mail');
 
             // 사이트 웹마스터 정보를 구함
@@ -1299,7 +1297,7 @@
          **/
         function putSignature($member_srl, $signature) {
             $signature = trim(removeHackTag($signature));
-			$signature = preg_replace('/<(\/?)(embed|object|param)/is', '&lt;$1$2', $signature);
+            $signature = preg_replace('/<(\/?)(embed|object|param)/is', '&lt;$1$2', $signature);
 
             $check_signature = trim(str_replace(array('&nbsp;',"\n","\r"),'',strip_tags($signature,'<img><object>')));
             $path = sprintf('files/member_extra_info/signature/%s/', getNumberingPath($member_srl));
@@ -1328,15 +1326,15 @@
             $args->group_srl = $group_srl;
             if($site_srl) $args->site_srl = $site_srl;
 
-			$oModel =& getModel('member');
-			$groups = $oModel->getMemberGroups($member_srl, $site_srl, true);
-			if($groups[$group_srl]) return new Object();
+            $oModel =& getModel('member');
+            $groups = $oModel->getMemberGroups($member_srl, $site_srl, true);
+            if($groups[$group_srl]) return new Object();
 
             // 추가
             $output = executeQuery('member.addMemberToGroup',$args);
             $output2 = ModuleHandler::triggerCall('member.addMemberToGroup', 'after', $args);
 
-			return $output;
+            return $output;
         }
 
         /**
@@ -1393,36 +1391,36 @@
                 return;
             }
 
-			$do_auto_login = false;
+            $do_auto_login = false;
 
             // 정보를 바탕으로 키값 비교
             $key = md5($user_id.$password.$_SERVER['REMOTE_ADDR']);
 
             if($key == $args->autologin_key) {
 
-				// 설정된 change_password_date 확인
-				$oModuleModel = &getModel('module');
-	            $member_config = $oModuleModel->getModuleConfig('member');
-				$limit_date = $member_config->change_password_date;
+                // 설정된 change_password_date 확인
+                $oModuleModel = &getModel('module');
+                $member_config = $oModuleModel->getModuleConfig('member');
+                $limit_date = $member_config->change_password_date;
 
-				// change_password_date가 설정되어 있으면 확인
-				if($limit_date > 0) {
-					$oMemberModel = &getModel('member');
-					$member_info = $oMemberModel->getMemberInfoByUserID($user_id);
+                // change_password_date가 설정되어 있으면 확인
+                if($limit_date > 0) {
+                    $oMemberModel = &getModel('member');
+                    $member_info = $oMemberModel->getMemberInfoByUserID($user_id);
 
-					if($member_info->change_password_date >= date('YmdHis', strtotime('-'.$limit_date.' day')) ){
-						$do_auto_login = true;
-					}
+                    if($member_info->change_password_date >= date('YmdHis', strtotime('-'.$limit_date.' day')) ){
+                        $do_auto_login = true;
+                    }
 
-				} else {
-					$do_auto_login = true;
-				}
+                } else {
+                    $do_auto_login = true;
+                }
             }
-			
-			
-			if($do_auto_login) {
-				$output = $this->doLogin($user_id);
-			} else {
+            
+            
+            if($do_auto_login) {
+                $output = $this->doLogin($user_id);
+            } else {
                 executeQuery('member.deleteAutologin', $args);
                 setCookie('xeak',null,time()+60*60*24*365, '/');
             }
@@ -1633,7 +1631,7 @@
 
             // DB에 입력
             $args->member_srl = getNextSequence();
-			$args->list_order = -1 * $args->member_srl;
+            $args->list_order = -1 * $args->member_srl;
             if($args->password && !$password_is_hashed) $args->password = md5($args->password);
             elseif(!$args->password) unset($args->password);
 
@@ -1686,19 +1684,19 @@
                 Context::set('auth_args', $auth_args);
                 Context::set('member_info', $args);
 
-	            $member_config = $oModuleModel->getModuleConfig('member');
-	            if(!$member_config->skin) $member_config->skin = "default";
-	            if(!$member_config->colorset) $member_config->colorset = "white";
+                $member_config = $oModuleModel->getModuleConfig('member');
+                if(!$member_config->skin) $member_config->skin = "default";
+                if(!$member_config->colorset) $member_config->colorset = "white";
 
-	            Context::set('member_config', $member_config);
+                Context::set('member_config', $member_config);
 
-	            $tpl_path = sprintf('%sskins/%s', $this->module_path, $member_config->skin);
-	            if(!is_dir($tpl_path)) $tpl_path = sprintf('%sskins/%s', $this->module_path, 'default');
+                $tpl_path = sprintf('%sskins/%s', $this->module_path, $member_config->skin);
+                if(!is_dir($tpl_path)) $tpl_path = sprintf('%sskins/%s', $this->module_path, 'default');
 
                 $auth_url = getFullUrl('','module','member','act','procMemberAuthAccount','member_srl',$args->member_srl, 'auth_key',$auth_args->auth_key);
                 Context::set('auth_url', $auth_url);
 
-	            $oTemplate = &TemplateHandler::getInstance();
+                $oTemplate = &TemplateHandler::getInstance();
                 $content = $oTemplate->compile($tpl_path, 'confirm_member_account_mail');
 
                 // 사이트 웹마스터 정보를 구함
@@ -1837,7 +1835,7 @@
          * @brief member 비밀번호 수정
          **/
         function updateMemberPassword($args) {
-			$output = executeQuery('member.updateChangePasswordDate', $args);
+            $output = executeQuery('member.updateChangePasswordDate', $args);
             $args->password = md5($args->password);
             return executeQuery('member.updateMemberPassword', $args);
         }
