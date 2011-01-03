@@ -742,7 +742,7 @@
 		if($close_tag) $val .= ' /';
 		
 		// attribute on* remove
-		if(preg_match('/^on(click|load|unload|blur|dbclick|focus|resize|keypress|keyup|keydown|mouseover|mouseout|mouseup|select|change|error)/',preg_replace('/[^a-zA-Z_]/','',$key))) return '';
+		if(preg_match('/^on([a-z]+)/',preg_replace('/[^a-zA-Z_]/','',$key))) return '';
        
 		$output = sprintf('%s=%s', $key, $val);
 
