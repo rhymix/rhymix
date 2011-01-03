@@ -1310,7 +1310,7 @@
             $xml_buff = sprintf(
                 '<?php '.
                 'define(\'__ZBXE__\', true); '.
-                'require_once(\'../../../config/config.inc.php\'); '.
+                'require_once(\''.FileHandler::getRealPath('./config/config.inc.php').'\'); '.
                 '$oContext = &Context::getInstance(); '.
                 '$oContext->init(); '.
                 'header("Content-Type: text/xml; charset=UTF-8"); '.
