@@ -1,4 +1,4 @@
-<query id="updateDocumentSync" action="select">
+<query id="getDocumentMemberSrlWithUserID" action="select">
 	<tables>
 		<table name="documents" alias="documents" />
 		<table name="member" alias="member" />

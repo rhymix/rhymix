@@ -1,6 +1,6 @@
-<query id="updateDocumentSync" action="select">
+<query id="getCommentMemberSrlWithUserID" action="select">
 	<tables>
-		<table name="comment" alias="comment" />
+		<table name="comments" alias="comments" />
 		<table name="member" alias="member" />
 	</tables>
 	<columns>
@@ -8,7 +8,7 @@
 		<column name="member.user_id" alias="user_id" />
 	</columns>
 	<conditions>
-		<condition operation="equal" column="comment.user_id" default="member.user_id" filter="userid" />
+		<condition operation="equal" column="comments.user_id" default="member.user_id" filter="userid" />
 	</conditions>
 	<group>
 		<group column="member_srl" />
