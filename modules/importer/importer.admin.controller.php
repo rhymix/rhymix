@@ -31,12 +31,12 @@
 				$output = executeQuery('importer.updateCommentSync');
 			}
 			else {
-				$output = executeQueryArray ('importer.getDocumentMemberSrlWithUserID')->data;
-				if (is_array ($output) && count ($output)) {
+				$output = executeQueryArray ('importer.getDocumentMemberSrlWithUserID');
+				if (is_array ($output->data) && count ($output->data)) {
 					$success_count = 0;
 					$error_count = 0;
 					$total_count = 0;
-					foreach ($output as $val) {
+					foreach ($output->data as $val) {
 						$args->user_id = $val->user_id;
 						$args->member_srl = $val->member_srl;
 						$tmp = executeQuery ('importer.updateDocumentSyncForCUBRID', $args);
@@ -50,12 +50,12 @@
 					}
 				} // documents section
 
-				$output = executeQueryArray ('importer.getCommentMemberSrlWithUserID')->data;
-				if (is_array ($output) && count ($output)) {
+				$output = executeQueryArray ('importer.getCommentMemberSrlWithUserID');
+				if (is_array ($output->data) && count ($output->data)) {
 					$success_count = 0;
 					$error_count = 0;
 					$total_count = 0;
-					foreach ($output as $val) {
+					foreach ($output->data as $val) {
 						$args->user_id = $val->user_id;
 						$args->member_srl = $val->member_srl;
 						$tmp = executeQuery ('importer.updateCommentSyncForCUBRID', $args);

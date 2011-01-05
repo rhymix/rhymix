@@ -1,7 +1,7 @@
 <query id="getCommentMemberSrlWithUserID" action="select">
 	<tables>
-		<table name="comments" alias="comments" />
 		<table name="member" alias="member" />
+		<table name="comments" alias="comments" />
 	</tables>
 	<columns>
 		<column name="member.member_srl" alias="member_srl" />
@@ -10,9 +10,9 @@
 	<conditions>
 		<condition operation="equal" column="comments.user_id" default="member.user_id" filter="userid" />
 	</conditions>
-	<group>
+	<groups>
 		<group column="member_srl" />
-	</group>
+	</groups>
 	<navigation>
 		<index var="member_srl" default="member_srl" order="asc" />
 	</navigation>
