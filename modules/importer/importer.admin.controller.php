@@ -27,15 +27,12 @@
 			  CUBRID를 사용하지 않는 경우에만 보편적인 기존 질의문을 사용합니다. */
 			$db_info = Context::getDBInfo ();
 			if ($db_info->db_type != "cubrid") {
-				debugPrint ("importer: DEBUG - Non CUBRID DBMS detected.");
 				$output = executeQuery('importer.updateDocumentSync');
 				$output = executeQuery('importer.updateCommentSync');
 			}
 			else {
-				debugPrint ("importer: DEBUG - CUBRID DBMS detected.");
-				$output = executeQueryArray ('importer.getDocumentMemberSrlWithUserID');
+				$output = executeQueryArray ('importer.getDocumentMemberSrlWithUserID')->data;
 				if (is_array ($output) && count ($output)) {
-					debugPrint ("importer: DEBUG - collect userid-membersrl pair for documents success.");
 					$success_count = 0;
 					$error_count = 0;
 					$total_count = 0;
@@ -51,16 +48,10 @@
 						}
 						$total_count++;
 					}
-					debugPrint ("importer: Statistics of change owner for documents.\n".
-						sprintf ("Total: %d, Success: %d, Error: %d.",
-							$total_count, $success_count, $error_count
-						)
-					);
 				} // documents section
 
-				$output = executeQueryArray ('importer.getCommentMemberSrlWithUserID');
+				$output = executeQueryArray ('importer.getCommentMemberSrlWithUserID')->data;
 				if (is_array ($output) && count ($output)) {
-					debugPrint ("importer: DEBUG - collect userid-membersrl pair for comments success.");
 					$success_count = 0;
 					$error_count = 0;
 					$total_count = 0;
@@ -76,11 +67,6 @@
 						}
 						$total_count++;
 					}
-					debugPrint ("importer: Statistics of change owner for documents.\n".
-						sprintf ("Total: %d, Success: %d, Error: %d.",
-							$total_count, $success_count, $error_count
-						)
-					);
 				} // comments section
 			}
 
