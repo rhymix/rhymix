@@ -23,11 +23,15 @@
          * @brief 회원정보와 게시물 정보를 싱크
          **/
         function procImporterAdminSync() {
-            // 게시물정보 싱크
-            $output = executeQuery('importer.updateDocumentSync');
-
-            // 댓글정보 싱크
-            $output = executeQuery('importer.updateCommentSync');
+			/* DBMS가 CUBRID인 경우 MySQL과 동일한 방법으로는 문서 및 댓글에 대한 사용자 정보를 동기화 할 수 없으므로 예외 처리 합니다.
+			  CUBRID를 사용하지 않는 경우에만 보편적인 기존 질의문을 사용합니다. */
+			$db_info = Context::getDBInfo ();
+			if ($db_info->db_type != "cubrid") {
+				$output = executeQuery('importer.updateDocumentSync');
+				$output = executeQuery('importer.updateCommentSync');
+			}
+			else {
+			}
 
             $this->setMessage('msg_sync_completed');
         }
