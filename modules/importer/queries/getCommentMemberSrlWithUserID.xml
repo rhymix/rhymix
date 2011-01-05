@@ -1,6 +1,6 @@
 <query id="updateDocumentSync" action="select">
 	<tables>
-		<table name="comment" alias="documents" />
+		<table name="comment" alias="comment" />
 		<table name="member" alias="member" />
 	</tables>
 	<columns>
