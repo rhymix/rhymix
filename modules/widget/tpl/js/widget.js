@@ -214,7 +214,7 @@ function getWidgetCode(childObj, widget) {
  **/
 // 팝업 띄움
 function doAddContent(mid) {
-    var url = request_uri.setQuery('module','widget').setQuery('act','dispWidgetAdminAddContent').setQuery('module_srl',zoneModuleSrl);
+    var url = request_uri.setQuery('module','widget').setQuery('act','dispWidgetAdminAddContent').setQuery('module_srl',zoneModuleSrl).setQuery('mid',mid);
     popopen(url, "addContent");
 }
 
@@ -492,7 +492,7 @@ function doCheckWidget(e) {
         var widget = p_obj.getAttribute("widget");
         if(!widget) return;
         selectedWidget = p_obj;
-        if(widget == 'widgetContent') popopen(request_uri+"?module=widget&act=dispWidgetAdminAddContent&module_srl="+zoneModuleSrl+"&document_srl="+p_obj.getAttribute("document_srl"), "addContent");
+        if(widget == 'widgetContent') popopen(request_uri+"?module=widget&act=dispWidgetAdminAddContent&module_srl="+zoneModuleSrl+"&document_srl="+p_obj.getAttribute("document_srl")+'&mid='+current_mid, "addContent");
         else popopen(request_uri+"?module=widget&act=dispWidgetGenerateCodeInPage&selected_widget="+widget+"&widgetstyle="+widgetstyle,'GenerateCodeInPage');
         return;
 
