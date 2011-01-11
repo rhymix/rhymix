@@ -15,5 +15,6 @@
         <action name="procPointAdminReset" type="controller" standalone="true" />
 
         <action name="procPointAdminReCal" type="controller" standalone="true" />
+        <action name="getMembersPointInfo" type="model" standalone="true" />
     </actions>
 </module>

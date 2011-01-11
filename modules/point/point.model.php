@@ -55,6 +55,30 @@
             return $level;
         }
 
+		function getMembersPointInfo()
+		{
+			$member_srls = Context::get('member_srls');
+			$member_srls = explode(',',$member_srls);
+			if(count($member_srls)==0) return;
+			array_unique($member_srls);
+
+			$oModuleModel = &getModel('module');
+			$config = $oModuleModel->getModuleConfig('point');
+
+			$info = array();
+			foreach($member_srls as $v)
+			{
+				$obj = new stdClass;
+				$obj->point = $this->getPoint($v);
+				$obj->level = $this->getLevel($obj->point, $config->level_step);
+				$obj->member_srl = $v;
+				$info[] = $obj;
+			}
+
+			$this->add('point_info',$info);
+		}
+
+
         /**
          * @brief 포인트 순 회원목록 가져오기
          **/
