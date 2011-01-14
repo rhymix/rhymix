@@ -7,7 +7,7 @@
 
 .poll_table td.l { border-left:1px solid #E5E5E5; }
 .poll_table td.r { border-right:1px solid #E5E5E5; }
-.poll_table td.content { padding:18px 13px 18px 13px; }
+.poll_table td.content { padding:18px 13px 18px 13px; width:auto; }
 
 .poll_table td.poll_button { border:1px solid #E5E5E5; border-bottom:none; background-color:#F6F6F5; }
 .poll_table td.poll_button div { padding:5px 0 2px 0; text-align:center;}
