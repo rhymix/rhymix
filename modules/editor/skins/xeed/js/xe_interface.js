@@ -31,7 +31,8 @@ function editorStart_xe(editor_seq, primary_key, content_key, editor_height, col
 	// filters
 	xeed.cast('REGISTER_FILTER', ['r2t', plz_standard]);
 	xeed.cast('REGISTER_FILTER', ['r2t', remove_baseurl]);
-	xeed.cast('REGISTER_FILTER', ['in', inline_styled['in']]);
+	xeed.cast('REGISTER_FILTER', ['r2t', unwrap_single_para]);
+	xeed.cast('REGISTER_FILTER', ['in',  inline_styled['in']]);
 	xeed.cast('REGISTER_FILTER', ['out', inline_styled['out']]);
 
 	// Set standard API
@@ -82,6 +83,17 @@ function remove_baseurl(code) {
 
 	return code.replace(reg, function(m0,m1,m2){ return ' '+m1+'='+m2; });
 }
+
+// unwrap single paragraph
+function unwrap_single_para(code) {
+	var match = $.trim(code).match(/<p[\s>]/g);
+
+	if (match && match.length == 1) {
+		code = code.replace(/<\/?p(?:\s[^>]+)?>/g, '');
+	}
+
+	return code;
+};
 
 // inline styled box
 var inline_styled = {
