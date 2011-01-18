@@ -1442,6 +1442,9 @@ LineBreak = xe.createPlugin('LineBreak', {
 
 		sel.select();
 
+		/**
+		 * twice enter function is currently disabled
+		 *
 		// <br> timer
 		if (!this._in_br) {
 			$br.after( $a = $('<a>|</a>') );
@@ -1475,7 +1478,6 @@ LineBreak = xe.createPlugin('LineBreak', {
 			if (!$block.html()) $block.html(invisibleCh);
 			$p.prepend(d.createTextNode(invisibleCh));
 
-			//sel.selectNode($p[0].firstChild);
 			sel.setStart($p[0].firstChild, 0);
 			sel.setEnd($p[0].firstChild, 1);
 			sel.collapseToEnd();
@@ -1484,6 +1486,7 @@ LineBreak = xe.createPlugin('LineBreak', {
 
 		this._in_br = false;
 		clearTimeout(this._br_timer);
+		*/
 	},
 	_scrollIntoView : function(nd) {
 		var $rich, $ctn, top, sctop;
@@ -2279,6 +2282,9 @@ FileUpload = xe.createPlugin('FileUpload', {
 		this.$modal_box = app.$root.find('div.xdlw');
 
 		if (this.$modal_box.length) {
+			// #19473993 - move the file window to document's end
+			this.$modal_box.appendTo(document.body);
+
 			this.$attach_list = this.$modal_box.find('div.xdal');
 			this.$attach_list
 				.mousedown(function(event){ event.stopPropagation(); })
