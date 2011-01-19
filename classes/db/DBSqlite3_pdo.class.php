@@ -581,31 +581,30 @@
             }
 
 
+            $click_count = array();
+            if(!$output->columns) $output->columns = array('*');
 
-            if(!$output->columns) {
-                $columns = '*';
-            } else {
-                $column_list = array();
-                foreach($output->columns as $key => $val) {
-                    $name = $val['name'];
-                    $alias = $val['alias'];
-                    if($val['click_count']) $click_count[] = $val['name'];
+			$column_list = array();
+			foreach($output->columns as $key => $val) {
+				$name = $val['name'];
+				$alias = $val['alias'];
+				if($val['click_count']) $click_count[] = $val['name'];
 
-                    if(substr($name,-1) == '*') {
-                        $column_list[] = $name;
-                    } elseif(strpos($name,'.')===false && strpos($name,'(')===false) {
-                        if($alias) $column_list[] = sprintf('%s as %s', $name, $alias);
-                        else $column_list[] = sprintf('%s',$name);
-                    } else {
-                        if($alias) $column_list[] = sprintf('%s as %s', $name, $alias);
-                        else $column_list[] = sprintf('%s',$name);
-                    }
-                }
-                $columns = implode(',',$column_list);
-            }
+				if(substr($name,-1) == '*') {
+					$column_list[] = $name;
+				} elseif(strpos($name,'.')===false && strpos($name,'(')===false) {
+					if($alias) $column_list[$alias] = sprintf('%s as %s', $name, $alias);
+					else $column_list[] = sprintf('%s',$name);
+				} else {
+					if($alias) $column_list[$alias] = sprintf('%s as %s', $name, $alias);
+					else $column_list[] = sprintf('%s',$name);
+				}
+			}
+			$columns = implode(',',$column_list);
 
             $condition = $this->getCondition($output);
 
+			$output->column_list = $column_list;
             if($output->list_count && $output->page) return $this->_getNavigationData($table_list, $columns, $left_join, $condition, $output);
 
             // list_order, update_order 로 정렬시에 인덱스 사용을 위해 condition에 쿼리 추가
@@ -621,17 +620,31 @@
                 }
             }
 
-            $query = sprintf("select %s from %s %s %s", $columns, implode(',',$table_list),implode(' ',$left_join), $condition);
-
-            if(count($output->groups)) $query .= sprintf(' group by %s', implode(',',$output->groups));
+            if(count($output->groups)){
+				$groupby_query = sprintf(' group by %s', implode(',',$output->groups));
+				if(count($output->arg_columns))
+				{
+					foreach($output->groups as $group)
+					{
+						if($column_list[$group]) $output->arg_columns[] = $column_list[$group];
+					}
+				}
+			}
 
             if($output->order) {
                 foreach($output->order as $key => $val) {
                     $index_list[] = sprintf('%s %s', $val[0], $val[1]);
+					if(count($output->arg_columns) && $column_list[$val[0]]) $output->arg_columns[] = $column_list[$val[0]];
                 }
-                if(count($index_list)) $query .= ' order by '.implode(',',$index_list);
+                if(count($index_list)) $orderby_query = ' order by '.implode(',',$index_list);
             }
 
+			if(count($output->arg_columns))
+			{
+				$columns = join(',',$output->arg_columns);
+			}
+
+            $query = sprintf("select %s from %s %s %s %s", $columns, implode(',',$table_list),implode(' ',$left_join), $condition, $groupby_query.$orderby_query);
             // list_count를 사용할 경우 적용
             if($output->list_count['value']) $query = sprintf('%s limit %d', $query, $output->list_count['value']);
 
@@ -660,6 +673,7 @@
         function _getNavigationData($table_list, $columns, $left_join, $condition, $output) {
             require_once(_XE_PATH_.'classes/page/PageHandler.class.php');
 
+			$column_list = $output->column_list;
             /*
             // group by 절이 포함된 SELECT 쿼리의 전체 갯수를 구하기 위한 수정
             // 정상적인 동작이 확인되면 주석으로 막아둔 부분으로 대체합니다.
@@ -679,14 +693,10 @@
 
             // 전체 개수를 구함
             $count_query = sprintf("select count(*) as count from %s %s %s", implode(',',$table_list),implode(' ',$left_join), $condition);
-            $total_count = $this->getCountCache($output->tables, $condition);
-            if($total_count === false) {
-				$count_query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id . ' count(*)'):'';
-                $this->_prepare($count_query);
-                $count_output = $this->_execute();
-                $total_count = (int)$count_output->count;
-                $this->putCountCache($output->tables, $condition, $total_count);
-            }
+			$count_query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id . ' count(*)'):'';
+			$this->_prepare($count_query);
+			$count_output = $this->_execute();
+			$total_count = (int)$count_output->count;
 
             $list_count = $output->list_count['value'];
             if(!$list_count) $list_count = 20;
@@ -716,16 +726,29 @@
                 }
             }
 
-            $query = sprintf("select %s from %s %s %s", $columns, implode(',',$table_list), implode(' ',$left_join), $condition);
-
-            if(count($output->groups)) $query .= sprintf(' group by %s', implode(',',$output->groups));
+            if(count($output->groups)){
+				$groupby_query = sprintf(' group by %s', implode(',',$output->groups));
+				if(count($output->arg_columns))
+				{
+					foreach($output->groups as $group)
+					{
+						if($column_list[$group]) $output->arg_columns[] = $column_list[$group];
+					}
+				}
+			}
 
             if($output->order) {
                 foreach($output->order as $key => $val) {
                     $index_list[] = sprintf('%s %s', $val[0], $val[1]);
+					if(count($output->arg_columns) && $column_list[$val[0]]) $output->arg_columns[] = $column_list[$val[0]];
                 }
-                if(count($index_list)) $query .= ' order by '.implode(',',$index_list);
+                if(count($index_list)) $orderby_query = ' order by '.implode(',',$index_list);
             }
+
+			if(count($output->arg_columns))
+			{
+				$columns = join(',',$output->arg_columns);
+			}
 
             // return 결과물 생성
             $buff = new Object();
@@ -736,6 +759,7 @@
             $buff->page_navigation = new PageHandler($total_count, $total_page, $page, $page_count);
 
             // 쿼리 실행
+            $query = sprintf("select %s from %s %s %s %s", $columns, implode(',',$table_list),implode(' ',$left_join), $condition, $groupby_query.$orderby_query);
             $query = sprintf('%s limit %d, %d', $query, $start_count, $list_count);
 			$query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id):'';
 

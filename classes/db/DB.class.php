@@ -243,7 +243,7 @@
          * @return result of query
          * @remarks this function finds xml file or cache file of $query_id, compiles it and then execute it
          **/
-        function executeQuery($query_id, $args = NULL) {
+        function executeQuery($query_id, $args = NULL, $arg_columns = NULL) {
             if(!$query_id) return new Object(-1, 'msg_invalid_queryid');
             $this->query_id = $query_id;
 
@@ -267,7 +267,7 @@
             $cache_file = $this->checkQueryCacheFile($query_id, $xml_file);
 
             // execute query
-            return $this->_executeQuery($cache_file, $args, $query_id);
+            return $this->_executeQuery($cache_file, $args, $query_id, $arg_columns);
         }
 
 
@@ -303,7 +303,7 @@
          * @param[in] $query_id query id
          * @return result of query
          **/
-        function _executeQuery($cache_file, $source_args, $query_id) {
+        function _executeQuery($cache_file, $source_args, $query_id, $arg_columns) {
             global $lang;
 
             if(!file_exists($cache_file)) return new Object(-1, 'msg_invalid_queryid');
@@ -314,7 +314,7 @@
 
             if( (is_a($output, 'Object') || is_subclass_of($output, 'Object')) && !$output->toBool()) return $output;
             $output->_tables = ($output->_tables && is_array($output->_tables)) ? $output->_tables : array();
-
+			
             // execute appropriate query
             switch($output->action) {
                 case 'insert' :
@@ -330,9 +330,11 @@
                         $output = $this->_executeDeleteAct($output);
                     break;
                 case 'select' :
+						$output->arg_columns = is_array($arg_columns)?$arg_columns:array();
                         $output = $this->_executeSelectAct($output);
                     break;
             }
+			
             if($this->isError()) $output = $this->getError();
             else if(!is_a($output, 'Object') && !is_subclass_of($output, 'Object')) $output = new Object();
             $output->add('_query', $this->query);

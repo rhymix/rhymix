@@ -826,89 +826,90 @@
                 }
             }
 
-            if (!$output->columns) {
-                $columns = '*';
-            } 
-            else {
-                $column_list = array ();
-                foreach ($output->columns as $key => $val) {
-                    $name = $val['name'];
+            if(!$output->columns) $output->columns = array('*');
 
-                    $click_count = '%s';
-                    if ($val['click_count'] && count ($output->conditions) > 0) {
-                        $click_count = 'incr(%s)';
-                    }
+			$column_list = array ();
+			foreach ($output->columns as $key => $val) {
+				$name = $val['name'];
 
-                    $alias = $val['alias'] ? sprintf ('"%s"', $val['alias']) : null;
+				$click_count = '%s';
+				if ($val['click_count'] && count ($output->conditions) > 0) {
+					$click_count = 'incr(%s)';
+				}
 
-                    if ($name == '*') {
-                        $column_list[] = $name;
-                    }
-                    elseif (strpos ($name, '.') === false && strpos ($name, '(') === false) { 
-                        $name = sprintf ($click_count,$name);
-                        if ($alias) {
-                            $column_list[] = sprintf('"%s" as %s', $name, $alias);
-                        }
-                        else {
-                            $column_list[] = sprintf ('"%s"', $name);
-                        }
-                    } 
-                    else {
-                        if (strpos ($name, '.') != false) {
-                            list ($prefix, $name) = explode('.', $name);
-                            if (($now_matchs = preg_match_all ("/\(/", $prefix, $xtmp)) > 0) {
-                                if ($now_matchs == 1) {
-                                    $tmpval = explode ("(", $prefix);
-                                    $tmpval[1] = sprintf ('"%s"', $tmpval[1]);
-                                    $prefix = implode ("(", $tmpval);
-                                    $tmpval = explode (")", $name);
-                                    $tmpval[0] = sprintf ('"%s"', $tmpval[0]);
-                                    $name = implode (")", $tmpval);
-                                }
-                            }
-                            else {
-                                $prefix = sprintf ('"%s"', $prefix);
-                                $name = ($name == '*') ? $name : sprintf('"%s"',$name);
-                            }
-                            $xtmp = null;
-                            $now_matchs = null;
-                            $column_list[] = sprintf ($click_count, sprintf ('%s.%s', $prefix, $name)) .  ($alias ? sprintf (' as %s',$alias) : '');
-                        }
-                        elseif (($now_matchs = preg_match_all ("/\(/", $name, $xtmp)) > 0) {
-                            if ($now_matchs == 1 && preg_match ("/[a-zA-Z0-9]*\(\*\)/", $name) < 1) {
-                                $open_pos = strpos ($name, "(");
-                                $close_pos = strpos ($name, ")");
+				$alias = $val['alias'] ? sprintf ('"%s"', $val['alias']) : null;
 
-                                if (preg_match ("/,/", $name)) {
-                                    $tmp_func_name = sprintf ('%s', substr ($name, 0, $open_pos));
-                                    $tmp_params = sprintf ('%s', substr ($name, $open_pos + 1, $close_pos - $open_pos - 1));
-                                    $tmpval = null;
-                                    $tmpval = explode (',', $tmp_params);
+				if ($name == '*') {
+					$column_list[] = $name;
+				}
+				elseif (strpos ($name, '.') === false && strpos ($name, '(') === false) { 
+					$name = sprintf ($click_count,$name);
+					if ($alias) {
+						$column_list[$alias] = sprintf('"%s" as %s', $name, $alias);
+					}
+					else {
+						$column_list[] = sprintf ('"%s"', $name);
+					}
+				} 
+				else {
+					if (strpos ($name, '.') != false) {
+						list ($prefix, $name) = explode('.', $name);
+						if (($now_matchs = preg_match_all ("/\(/", $prefix, $xtmp)) > 0) {
+							if ($now_matchs == 1) {
+								$tmpval = explode ("(", $prefix);
+								$tmpval[1] = sprintf ('"%s"', $tmpval[1]);
+								$prefix = implode ("(", $tmpval);
+								$tmpval = explode (")", $name);
+								$tmpval[0] = sprintf ('"%s"', $tmpval[0]);
+								$name = implode (")", $tmpval);
+							}
+						}
+						else {
+							$prefix = sprintf ('"%s"', $prefix);
+							$name = ($name == '*') ? $name : sprintf('"%s"',$name);
+						}
+						$xtmp = null;
+						$now_matchs = null;
+						if($alias) $column_list[$val['alias]']] = sprintf ($click_count, sprintf ('%s.%s', $prefix, $name)) .  ($alias ? sprintf (' as %s',$alias) : '');
+						else $column_list[] = sprintf ($click_count, sprintf ('%s.%s', $prefix, $name));
+					}
+					elseif (($now_matchs = preg_match_all ("/\(/", $name, $xtmp)) > 0) {
+						if ($now_matchs == 1 && preg_match ("/[a-zA-Z0-9]*\(\*\)/", $name) < 1) {
+							$open_pos = strpos ($name, "(");
+							$close_pos = strpos ($name, ")");
 
-                                    foreach ($tmpval as $tmp_param) {
-                                        $tmp_param_list[] = (!is_numeric ($tmp_param)) ? sprintf ('"%s"', $tmp_param) : $tmp_param;
-                                    }
+							if (preg_match ("/,/", $name)) {
+								$tmp_func_name = sprintf ('%s', substr ($name, 0, $open_pos));
+								$tmp_params = sprintf ('%s', substr ($name, $open_pos + 1, $close_pos - $open_pos - 1));
+								$tmpval = null;
+								$tmpval = explode (',', $tmp_params);
 
-                                    $tmpval = implode (',', $tmp_param_list);
-                                    $name = sprintf ('%s(%s)', $tmp_func_name, $tmpval);
-                                }
-                                else {
-                                    $name = sprintf ('%s("%s")', substr ($name, 0, $open_pos), substr ($name, $open_pos + 1, $close_pos - $open_pos - 1));
-                                }
-                            }
+								foreach ($tmpval as $tmp_param) {
+									$tmp_param_list[] = (!is_numeric ($tmp_param)) ? sprintf ('"%s"', $tmp_param) : $tmp_param;
+								}
 
-                            $column_list[] = sprintf ($click_count, $name).  ($alias ? sprintf (' as %s', $alias) : '');
-                        } 
-                        else {
-                            $column_list[] = sprintf($click_count, $name).  ($alias ? sprintf(' as %s',$alias) : '');
-                        }
-                    }
-                }
+								$tmpval = implode (',', $tmp_param_list);
+								$name = sprintf ('%s(%s)', $tmp_func_name, $tmpval);
+							}
+							else {
+								$name = sprintf ('%s("%s")', substr ($name, 0, $open_pos), substr ($name, $open_pos + 1, $close_pos - $open_pos - 1));
+							}
+						}
+
+						if($alias) $column_list[$val['alias']] = sprintf ($click_count, $name).  ($alias ? sprintf (' as %s', $alias) : '');
+						else $column_list[] = sprintf ($click_count, $name);
+					} 
+					else {
+						if($alias) $column_list[$val['alias']] = sprintf($click_count, $name).  ($alias ? sprintf(' as %s',$alias) : '');
+						else $column_list[] = sprintf($click_count, $name);
+					}
+				}
                 $columns = implode (',', $column_list);
             }
 
             $condition = $this->getCondition ($output);
 
+			$output->column_list = $column_list;
             if ($output->list_count && $output->page) {
                 return ($this->_getNavigationData($table_list, $columns, $left_join, $condition, $output));
             }
@@ -925,7 +926,6 @@
                 //}
             }
 
-            $query = sprintf ("select %s from %s %s %s", $columns, implode (',',$table_list), implode (' ',$left_join), $condition);
 
             if (count ($output->groups)) {
                 foreach ($output->groups as $key => $value) {
@@ -942,9 +942,16 @@
                         $value = sprintf ('"%s"', $value);
                     }
                     $output->groups[$key] = $value;
+
+
+					if(count($output->arg_columns))
+					{
+						if($column_list[$value]) $output->arg_columns[] = $column_list[$value];
+					}
                 }
-                $query .= sprintf (' group by %s', implode(',', $output->groups));
+                $gourpby_query = sprintf ('group by %s', implode(',', $output->groups));
             }
+
 
             // list_count를 사용할 경우 적용
             if ($output->list_count['value']) {
@@ -965,19 +972,19 @@
                       $index_list[] = sprintf('%s %s', $val[0], $val[1]);
                   }
                   if (count($index_list))
-                      $query .= ' order by '.implode(',', $index_list);
-                      $query = sprintf ('%s for orderby_num() between %d and %d', $query, $start_count + 1, $list_count + $start_count);
+                      $orderby_query = ' order by '.implode(',', $index_list);
+                      $orderby_query = sprintf ('%s for orderby_num() between %d and %d', $orderby_query, $start_count + 1, $list_count + $start_count);
                 }
                 else {
                     if (count ($output->groups)) {
-                        $query = sprintf ('%s having groupby_num() between %d'.  ' and %d', $query, $start_count + 1, $list_count + $start_count);
+                        $orderby_query = sprintf ('%s having groupby_num() between %d'.  ' and %d', $orderby_query, $start_count + 1, $list_count + $start_count);
                     }
                     else {
                         if ($condition) {
-                            $query = sprintf ('%s and inst_num() between %d'.  ' and %d', $query, $start_count + 1, $list_count + $start_count);
+                            $orderby_query = sprintf ('%s and inst_num() between %d'.  ' and %d', $orderby_query, $start_count + 1, $list_count + $start_count);
                         }
                         else {
-                            $query = sprintf ('%s where inst_num() between %d'.  ' and %d', $query, $start_count + 1, $list_count + $start_count);
+                            $orderby_query = sprintf ('%s where inst_num() between %d'.  ' and %d', $orderby_query, $start_count + 1, $list_count + $start_count);
                         }
                     }
                 }
@@ -995,13 +1002,22 @@
                         elseif ($val[0] == 'count') $val[0] = 'count (*)';
                         else $val[0] = sprintf ('"%s"', $val[0]);
                         $index_list[] = sprintf('%s %s', $val[0], $val[1]);
+
+						if(count($output->arg_columns) && $column_list[$val]) $output->arg_columns[] = $column_list[$key];
                     }
 
                     if (count ($index_list)) {
-                        $query .= ' order by '.implode(',', $index_list);
+                        $orderby_query = ' order by '.implode(',', $index_list);
                     }
                 }
             }
+
+			if(count($output->arg_columns))
+			{
+				$columns = '"' . join('","',$output->arg_columns) . '"';
+			}
+
+            $query = sprintf ("select %s from %s %s %s %s", $columns, implode (',',$table_list), implode (' ',$left_join), $condition, $groupby_query.$orderby_query);
 
             $query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
             $result = $this->_query ($query);
@@ -1074,20 +1090,18 @@
         function _getNavigationData ($table_list, $columns, $left_join, $condition, $output) {
             require_once (_XE_PATH_.'classes/page/PageHandler.class.php');
 
-            $count_condition = count($output->groups) ? sprintf('%s group by %s', $condition, implode(', ', $output->groups)) : $condition;
-            $total_count = $this->getCountCache($output->tables, $count_condition);
-            if ($total_count === false) {
-                $count_query = sprintf('select count(*) as "count" from %s %s %s', implode(', ', $table_list), implode(' ', $left_join), $count_condition);
-                if (count($output->groups)) {
-                    $count_query = sprintf('select count(*) as "count" from (%s) xet', $count_query);
-                }
+			$column_list = $output->column_list;
 
-                $count_query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
-                $result = $this->_query($count_query);
-                $count_output = $this->_fetch($result);
-                $total_count = (int)$count_output->count;
-                $this->putCountCache($output->tables, $count_condition, $total_count);
-            }
+            $count_condition = count($output->groups) ? sprintf('%s group by %s', $condition, implode(', ', $output->groups)) : $condition;
+			$count_query = sprintf('select count(*) as "count" from %s %s %s', implode(', ', $table_list), implode(' ', $left_join), $count_condition);
+			if (count($output->groups)) {
+				$count_query = sprintf('select count(*) as "count" from (%s) xet', $count_query);
+			}
+
+			$count_query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
+			$result = $this->_query($count_query);
+			$count_output = $this->_fetch($result);
+			$total_count = (int)$count_output->count;
 
             $list_count = $output->list_count['value'];
             if (!$list_count) $list_count = 20;
@@ -1120,7 +1134,6 @@
                 //}
             }
 
-            $query = sprintf ("select %s from %s %s %s", $columns, implode (',', $table_list), implode(' ', $left_join), $condition);
 
             if (count ($output->groups)) {
                 foreach ($output->groups as $key => $value) {
@@ -1135,7 +1148,7 @@
                     $output->groups[$key] = $value;
                 }
 
-                $query .= sprintf (' group by %s', implode (',', $output->groups));
+                $groupby_query = sprintf (' group by %s', implode (',', $output->groups));
             }
 
             if ($output->order) {
@@ -1153,25 +1166,31 @@
                 }
 
                 if (count ($index_list)) {
-                    $query .= ' order by '.implode(',', $index_list);
+                    $orderby_query = ' order by '.implode(',', $index_list);
                 }
 
-                $query = sprintf ('%s for orderby_num() between %d and %d', $query, $start_count + 1, $list_count + $start_count);
+                $orderby_query = sprintf ('%s for orderby_num() between %d and %d', $orderby_query, $start_count + 1, $list_count + $start_count);
             }
             else {
                 if (count($output->groups)) {
-                    $query = sprintf ('%s having groupby_num() between %d and %d', $query, $start_count + 1, $list_count + $start_count);
+                    $orderby_query = sprintf ('%s having groupby_num() between %d and %d', $orderby_query, $start_count + 1, $list_count + $start_count);
                 }
                 else {
                     if ($condition) {
-                        $query = sprintf ('%s and inst_num() between %d and %d', $query, $start_count + 1, $list_count + $start_count);
+                        $orderby_query = sprintf ('%s and inst_num() between %d and %d', $orderby_query, $start_count + 1, $list_count + $start_count);
                     }
                     else {
-                        $query = sprintf('%s where inst_num() between %d and %d', $query, $start_count + 1, $list_count + $start_count);
+                        $orderby_query = sprintf('%s where inst_num() between %d and %d', $orderby_query, $start_count + 1, $list_count + $start_count);
                     }
                 }
             }
 
+			if(count($output->arg_columns))
+			{
+				$columns = '"' . join('","',$output->arg_columns) . '"';
+			}
+
+            $query = sprintf ("select %s from %s %s %s %s", $columns, implode (',',$table_list), implode (' ',$left_join), $condition, $groupby_query.$orderby_query);
             $query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
             $result = $this->_query ($query);
 

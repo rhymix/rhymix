@@ -822,13 +822,14 @@
                     if($alias == "")
                         $column_list[] = $this->autoQuotes($name);
                     else
-                        $column_list[] = sprintf("%s as \"%s\"", $this->autoQuotes($name), $alias);
+                        $column_list[$alias] = sprintf("%s as \"%s\"", $this->autoQuotes($name), $alias);
                 }
                 $columns = implode(',',$column_list);
             }
 
             $condition = $this->getCondition($output);
 
+			$output->column_list = $column_list;
             if($output->list_count && $output->page) return $this->_getNavigationData($table_list, $columns, $left_join, $condition, $output);
 
             // list_order, update_order 로 정렬시에 인덱스 사용을 위해 condition에 쿼리 추가
@@ -848,24 +849,29 @@
             if($output->list_count['value']) $limit = sprintf('FIRST %d', $output->list_count['value']);
             else $limit = '';
 
-            $query = sprintf("select %s from %s %s %s", $columns, implode(',',$table_list),implode(' ',$left_join), $condition);
 
             if($output->groups) {
                 foreach($output->groups as $key => $val) {
                     $group_list[] = $this->autoQuotes($val);
+					if($column_list[$val]) $output->arg_columns[] = $column_list[$val];
                 }
-                if(count($group_list)) $query .= sprintf(" group by %s", implode(",",$group_list));
+                if(count($group_list)) $groupby_query = sprintf(" group by %s", implode(",",$group_list));
             }
 
             if($output->order) {
                 foreach($output->order as $key => $val) {
                     $index_list[] = sprintf("%s %s", $this->autoQuotes($val[0]), $val[1]);
+					if(count($output->arg_columns) && $column_list[$val[0]]) $output->arg_columns[] = $column_list[$val[0]];
                 }
-                if(count($index_list)) $query .= sprintf(" order by %s", implode(",",$index_list));
+                if(count($index_list)) $orderby_query = sprintf(" order by %s", implode(",",$index_list));
             }
 
+			if(count($output->arg_columns))
+			{
+				$columns = '"' . join('","',$output->arg_columns) . '"';
+			}
+            $query = sprintf("select %s from %s %s %s %s", $columns, implode(',',$table_list),implode(' ',$left_join), $condition, $groupby_query.$orderby_query);
             $query .= ";";
-
 			$query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id):'';
             $result = $this->_query($query);
             if($this->isError()) {
@@ -896,10 +902,14 @@
         function _getNavigationData($table_list, $columns, $left_join, $condition, $output) {
             require_once(_XE_PATH_.'classes/page/PageHandler.class.php');
 
+			$column_list = $output->column_list;
+
             $query_groupby = '';
             if ($output->groups) {
-                foreach ($output->groups as $key => $val)
+                foreach ($output->groups as $key => $val){
                     $group_list[] = $this->autoQuotes($val);
+					if($column_list[$val]) $output->arg_columns[] = $column_list[$val];
+				}
                 if (count($group_list)) $query_groupby = sprintf(" GROUP BY %s", implode(", ", $group_list));
             }
 
@@ -922,16 +932,12 @@
 
             // 전체 개수를 구함
             $count_query = sprintf("select count(*) as \"count\" from %s %s %s", implode(',',$table_list),implode(' ',$left_join), $condition);
-            $total_count = $this->getCountCache($output->tables, $condition);
-            if($total_count === false) {
-				$count_query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id . ' count(*)'):'';
-                $result = $this->_query($count_query);
-                $count_output = $this->_fetch($result);
-                if(!$this->transaction_started) @ibase_commit($this->fd);
+			$count_query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id . ' count(*)'):'';
+			$result = $this->_query($count_query);
+			$count_output = $this->_fetch($result);
+			if(!$this->transaction_started) @ibase_commit($this->fd);
 
-                $total_count = (int)$count_output->count;
-                $this->putCountCache($output->tables, $condition, $total_count);
-            }
+			$total_count = (int)$count_output->count;
 
             $list_count = $output->list_count['value'];
             if(!$list_count) $list_count = 20;
@@ -962,17 +968,17 @@
             }
 
             $limit = sprintf('FIRST %d SKIP %d ', $list_count, $start_count);
-            $query = sprintf('SELECT %s %s FROM %s %s %s', $limit, $columns, implode(',',$table_list), implode(' ',$left_join), $condition);
 
-            if (strlen($query_groupby)) $query .= $query_groupby;
 
             if($output->order) {
                 foreach($output->order as $key => $val) {
                     $index_list[] = sprintf("%s %s", $this->autoQuotes($val[0]), $val[1]);
+					if(count($output->arg_columns) && $column_list[$val[0]]) $output->arg_columns[] = $column_list[$val[0]];
                 }
-                if(count($index_list)) $query .= sprintf(" ORDER BY %s", implode(",",$index_list));
+                if(count($index_list)) $orderby_query = sprintf(" ORDER BY %s", implode(",",$index_list));
             }
 
+            $query = sprintf('SELECT %s %s FROM %s %s %s, %s', $limit, $columns, implode(',',$table_list), implode(' ',$left_join), $condition, $groupby_query.$orderby_query);
             $query .= ";";
 			$query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id):'';
             $result = $this->_query($query);
