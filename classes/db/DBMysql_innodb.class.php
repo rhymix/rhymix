@@ -534,7 +534,7 @@
 
             $left_join = array();
             // why???
-            $left_tables= (array)$output->left_tables;
+            f(!$output->columns) $output->columns = array('*');$left_tables= (array)$output->left_tables;
 
             foreach($left_tables as $key => $val) {
                 $condition = $this->_getCondition($output->left_conditions[$key],$output->column_type);
@@ -543,27 +543,26 @@
                 }
             }
 
-            if(!$output->columns) {
-                $columns = '*';
-            } else {
-                $column_list = array();
-                foreach($output->columns as $key => $val) {
-                    $name = $val['name'];
-                    $alias = $val['alias'];
-                    if($val['click_count']) $click_count[] = $val['name'];
+            $click_count = array();
+            if(!$output->columns) $output->columns = array('*');
 
-                    if(substr($name,-1) == '*') {
-                        $column_list[] = $name;
-                    } elseif(strpos($name,'.')===false && strpos($name,'(')===false) {
-                        if($alias) $column_list[] = sprintf('`%s` as `%s`', $name, $alias);
-                        else $column_list[] = sprintf('`%s`',$name);
-                    } else {
-                        if($alias) $column_list[] = sprintf('%s as `%s`', $name, $alias);
-                        else $column_list[] = sprintf('%s',$name);
-                    }
-                }
-                $columns = implode(',',$column_list);
-            }
+			$column_list = array();
+			foreach($output->columns as $key => $val) {
+				$name = $val['name'];
+				$alias = $val['alias'];
+				if($val['click_count']) $click_count[] = $val['name'];
+
+				if(substr($name,-1) == '*') {
+					$column_list[] = $name;
+				} elseif(strpos($name,'.')===false && strpos($name,'(')===false) {
+					if($alias) $column_list[] = sprintf('`%s` as `%s`', $name, $alias);
+					else $column_list[] = sprintf('`%s`',$name);
+				} else {
+					if($alias) $column_list[] = sprintf('%s as `%s`', $name, $alias);
+					else $column_list[] = sprintf('%s',$name);
+				}
+			}
+			$columns = implode(',',$column_list);
 
             $condition = $this->getCondition($output);
 
