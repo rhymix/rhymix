@@ -668,32 +668,32 @@ class DBPostgresql extends DB
             }
         }
 
+		$click_count = array();
+		if(!$output->columns){
+			$output->columns = array(array('name'=>'*'));
+		}
 
-        if (!$output->columns) {
-            $columns = '*';
-        } else {
-            $column_list = array();
-            foreach ($output->columns as $key => $val) {
-                $name = $val['name'];
-                $alias = $val['alias'];
-                if($val['click_count']) $click_count[] = $val['name'];
+		$column_list = array();
+		foreach ($output->columns as $key => $val) {
+			$name = $val['name'];
+			$alias = $val['alias'];
+			if($val['click_count']) $click_count[] = $val['name'];
 
-                if (substr($name, -1) == '*') {
-                    $column_list[] = $name;
-                } elseif (strpos($name, '.') === false && strpos($name, '(') === false) {
-                    if ($alias)
-                        $column_list[$alias] = sprintf('%s as %s', $name, $alias);
-                    else
-                        $column_list[] = sprintf('%s', $name);
-                } else {
-                    if ($alias)
-                        $column_list[$alias] = sprintf('%s as %s', $name, $alias);
-                    else
-                        $column_list[] = sprintf('%s', $name);
-                }
-            }
-            $columns = implode(',', $column_list);
-        }
+			if (substr($name, -1) == '*') {
+				$column_list[] = $name;
+			} elseif (strpos($name, '.') === false && strpos($name, '(') === false) {
+				if ($alias)
+					$column_list[$alias] = sprintf('%s as %s', $name, $alias);
+				else
+					$column_list[] = sprintf('%s', $name);
+			} else {
+				if ($alias)
+					$column_list[$alias] = sprintf('%s as %s', $name, $alias);
+				else
+					$column_list[] = sprintf('%s', $name);
+			}
+		}
+		$columns = implode(',', $column_list);
 
         $condition = $this->getCondition($output);
 

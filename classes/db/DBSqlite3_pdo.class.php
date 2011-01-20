@@ -582,7 +582,9 @@
 
 
             $click_count = array();
-            if(!$output->columns) $output->columns = array('*');
+            if(!$output->columns){
+				$output->columns = array(array('name'=>'*'));
+			}
 
 			$column_list = array();
 			foreach($output->columns as $key => $val) {

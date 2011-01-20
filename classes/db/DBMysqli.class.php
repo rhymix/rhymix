@@ -523,7 +523,9 @@
             }
 
             $click_count = array();
-            if(!$output->columns) $output->columns = array('*');
+            if(!$output->columns){
+				$output->columns = array(array('name'=>'*'));
+			}
 
 			$column_list = array();
 			foreach($output->columns as $key => $val) {
@@ -586,13 +588,16 @@
             // list_count를 사용할 경우 적용
             if($output->list_count['value']) $query = sprintf('%s limit %d', $query, $output->list_count['value']);
 
-
 			if(count($output->arg_columns))
 			{
-				$columns = '`' . join('`,`',$output->arg_columns) . '`';
+				$columns = array();
+				foreach($output->arg_columns as $col){
+					if(strpos($col,'`')===false && strpos($col,' ')==false) $columns[] = '`'.$col.'`'; 
+					else $columns[] = $col;
+				}
+				
+				$columns = join(',',$columns);
 			}
-
-
             $query = sprintf("select %s from %s %s %s %s", $columns, implode(',',$table_list),implode(' ',$left_join), $condition, $groupnby_query.$orderby_query);
 
 			$query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id):'';
@@ -682,10 +687,15 @@
                 if(count($index_list)) $orderby_query = ' order by '.implode(',',$index_list);
             }
 
-
 			if(count($output->arg_columns))
 			{
-				$columns = '`' . join('`,`',$output->arg_columns) . '`';
+				$columns = array();
+				foreach($output->arg_columns as $col){
+					if(strpos($col,'`')===false && strpos($col,' ')==false) $columns[] = '`'.$col.'`'; 
+					else $columns[] = $col;
+				}
+				
+				$columns = join(',',$columns);
 			}
 
             $query = sprintf("select %s from %s %s %s %s", $columns, implode(',',$table_list), implode(' ',$left_join), $condition, $groupby_query.$orderby_query);

@@ -639,7 +639,11 @@
                 }
             }
 
-            if(!$output->columns) $output->columns = array('*');
+            $click_count = array();
+            if(!$output->columns){
+				$output->columns = array(array('name'=>'*'));
+			}
+
 			$column_list = array();
 			foreach($output->columns as $key => $val) {
 				$name = $val['name'];
@@ -696,7 +700,13 @@
 
 			if(count($output->arg_columns))
 			{
-				$columns = '[' . join('],[',$output->arg_columns) . ']';
+				$columns = array();
+				foreach($output->arg_columns as $col){
+					if(strpos($col,'[')===false && strpos($col,' ')==false) $columns[] = '['.$col.']'; 
+					else $columns[] = $col;
+				}
+				
+				$columns = join(',',$columns);
 			}
 
             $query = sprintf("%s from %s %s %s %s", $columns, implode(',',$table_list),implode(' ',$left_join), $condition, $groupby_query.$orderby_query);
@@ -812,7 +822,13 @@
 
 			if(count($output->arg_columns))
 			{
-				$columns = '[' . join('],[',$output->arg_columns) . ']';
+				$columns = array();
+				foreach($output->arg_columns as $col){
+					if(strpos($col,'[')===false && strpos($col,' ')==false) $columns[] = '['.$col.']'; 
+					else $columns[] = $col;
+				}
+				
+				$columns = join(',',$columns);
 			}
 
             if($start_count<1) {

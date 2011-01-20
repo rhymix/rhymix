@@ -809,23 +809,23 @@
                 }
             }
 
+            $click_count = array();
+            if(!$output->columns){
+				$output->columns = array(array('name'=>'*'));
+			}
 
-            if(!$output->columns) {
-                $columns = '*';
-            } else {
-                $column_list = array();
-                foreach($output->columns as $key => $val) {
-                    $name = $val['name'];
-                    $alias = $val['alias'];
-                    if($val['click_count']) $click_count[] = $val['name'];
+			$column_list = array();
+			foreach($output->columns as $key => $val) {
+				$name = $val['name'];
+				$alias = $val['alias'];
+				if($val['click_count']) $click_count[] = $val['name'];
 
-                    if($alias == "")
-                        $column_list[] = $this->autoQuotes($name);
-                    else
-                        $column_list[$alias] = sprintf("%s as \"%s\"", $this->autoQuotes($name), $alias);
-                }
-                $columns = implode(',',$column_list);
-            }
+				if($alias == "")
+					$column_list[] = $this->autoQuotes($name);
+				else
+					$column_list[$alias] = sprintf("%s as \"%s\"", $this->autoQuotes($name), $alias);
+			}
+			$columns = implode(',',$column_list);
 
             $condition = $this->getCondition($output);
 
@@ -868,8 +868,15 @@
 
 			if(count($output->arg_columns))
 			{
-				$columns = '"' . join('","',$output->arg_columns) . '"';
+				$columns = array();
+				foreach($output->arg_columns as $col){
+					if(strpos($col,'"')===false && strpos($col,' ')==false) $columns[] = '"'.$col.'"'; 
+					else $columns[] = $col;
+				}
+				
+				$columns = join(',',$columns);
 			}
+
             $query = sprintf("select %s from %s %s %s %s", $columns, implode(',',$table_list),implode(' ',$left_join), $condition, $groupby_query.$orderby_query);
             $query .= ";";
 			$query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id):'';
@@ -977,6 +984,17 @@
                 }
                 if(count($index_list)) $orderby_query = sprintf(" ORDER BY %s", implode(",",$index_list));
             }
+
+			if(count($output->arg_columns))
+			{
+				$columns = array();
+				foreach($output->arg_columns as $col){
+					if(strpos($col,'"')===false && strpos($col,' ')==false) $columns[] = '"'.$col.'"'; 
+					else $columns[] = $col;
+				}
+				
+				$columns = join(',',$columns);
+			}
 
             $query = sprintf('SELECT %s %s FROM %s %s %s, %s', $limit, $columns, implode(',',$table_list), implode(' ',$left_join), $condition, $groupby_query.$orderby_query);
             $query .= ";";
