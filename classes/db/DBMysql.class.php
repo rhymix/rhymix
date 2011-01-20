@@ -719,7 +719,6 @@
                 if(count($index_list)) $orderby_query = ' order by '.implode(',',$index_list);
             }
 
-
 			if(count($output->arg_columns))
 			{
 				$columns = array();

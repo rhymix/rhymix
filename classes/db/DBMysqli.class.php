@@ -585,9 +585,6 @@
                 if(count($index_list)) $orderby_query = ' order by '.implode(',',$index_list);
             }
 
-            // list_count를 사용할 경우 적용
-            if($output->list_count['value']) $query = sprintf('%s limit %d', $query, $output->list_count['value']);
-
 			if(count($output->arg_columns))
 			{
 				$columns = array();
@@ -598,12 +595,16 @@
 				
 				$columns = join(',',$columns);
 			}
+
             $query = sprintf("select %s from %s %s %s %s", $columns, implode(',',$table_list),implode(' ',$left_join), $condition, $groupnby_query.$orderby_query);
 
+            // list_count를 사용할 경우 적용
+            if($output->list_count['value']) $query = sprintf('%s limit %d', $query, $output->list_count['value']);
+
 			$query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id):'';
+
             $result = $this->_query($query);
             if($this->isError()) return;
-
             if(count($click_count) && count($output->conditions)){
                 $_query = '';
                 foreach($click_count as $k => $c) $_query .= sprintf(',%s=%s+1 ',$c,$c);
@@ -615,6 +616,7 @@
 
             $buff = new Object();
             $buff->data = $data;
+
             return $buff;
         }
 
@@ -637,7 +639,6 @@
 			$result = $this->_query($count_query);
 			$count_output = $this->_fetch($result);
 			$total_count = (int)$count_output->count;
-			$this->putCountCache($output->tables, $count_condition, $total_count);
 
             $list_count = $output->list_count['value'];
             if(!$list_count) $list_count = 20;
