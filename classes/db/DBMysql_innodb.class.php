@@ -534,7 +534,7 @@
 
             $left_join = array();
             // why???
-            f(!$output->columns) $output->columns = array('*');$left_tables= (array)$output->left_tables;
+            if(!$output->columns) $output->columns = array('*');$left_tables= (array)$output->left_tables;
 
             foreach($left_tables as $key => $val) {
                 $condition = $this->_getCondition($output->left_conditions[$key],$output->column_type);
