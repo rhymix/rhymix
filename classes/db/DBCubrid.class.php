@@ -814,7 +814,6 @@
             foreach ($output->tables as $key => $val) {
                 $table_list[] = '"'.$this->prefix.$val.'" as "'.$key.'"';
             }
-
             $left_join = array ();
             // why???
             $left_tables = (array) $output->left_tables;
@@ -841,6 +840,7 @@
 				}
 
 				$alias = $val['alias'] ? sprintf ('"%s"', $val['alias']) : null;
+				$_alias = $val['alias'];
 
 				if ($name == '*') {
 					$column_list[] = $name;
@@ -873,7 +873,7 @@
 						}
 						$xtmp = null;
 						$now_matchs = null;
-						if($alias) $column_list[$val['alias]']] = sprintf ($click_count, sprintf ('%s.%s', $prefix, $name)) .  ($alias ? sprintf (' as %s',$alias) : '');
+						if($alias) $column_list[$_alias] = sprintf ($click_count, sprintf ('%s.%s', $prefix, $name)) .  ($alias ? sprintf (' as %s',$alias) : '');
 						else $column_list[] = sprintf ($click_count, sprintf ('%s.%s', $prefix, $name));
 					}
 					elseif (($now_matchs = preg_match_all ("/\(/", $name, $xtmp)) > 0) {
@@ -899,11 +899,11 @@
 							}
 						}
 
-						if($alias) $column_list[$val['alias']] = sprintf ($click_count, $name).  ($alias ? sprintf (' as %s', $alias) : '');
+						if($alias) $column_list[$_alias] = sprintf ($click_count, $name).  ($alias ? sprintf (' as %s', $alias) : '');
 						else $column_list[] = sprintf ($click_count, $name);
 					} 
 					else {
-						if($alias) $column_list[$val['alias']] = sprintf($click_count, $name).  ($alias ? sprintf(' as %s',$alias) : '');
+						if($alias) $column_list[$_alias] = sprintf($click_count, $name).  ($alias ? sprintf(' as %s',$alias) : '');
 						else $column_list[] = sprintf($click_count, $name);
 					}
 				}
@@ -1015,11 +1015,12 @@
                 }
             }
 
+
 			if(count($output->arg_columns))
 			{
 				$columns = array();
 				foreach($output->arg_columns as $col){
-					if(strpos($col,'"')===false) $columns[] = '"'.$col.'"'; 
+					if(strpos($col,'"')===false && strpos($col,' ')===false) $columns[] = '"'.$col.'"'; 
 					else $columns[] = $col;
 				}
 				
@@ -1027,7 +1028,6 @@
 			}
 
             $query = sprintf ("select %s from %s %s %s %s", $columns, implode (',',$table_list), implode (' ',$left_join), $condition, $groupby_query.$orderby_query);
-
             $query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
             $result = $this->_query ($query);
             if ($this->isError ()) return;
