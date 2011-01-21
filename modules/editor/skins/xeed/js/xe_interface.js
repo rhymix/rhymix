@@ -35,8 +35,9 @@ function editorStart_xe(editor_seq, primary_key, content_key, editor_height, col
 	xeed.cast('REGISTER_FILTER', ['in',  inline_styled['in']]);
 	xeed.cast('REGISTER_FILTER', ['out', inline_styled['out']]);
 	xeed.cast('REGISTER_FILTER', ['r2t', auto_br.br2ln]);
-	xeed.cast('REGISTER_FILTER', ['out', auto_br.ln2br]);
+	xeed.cast('REGISTER_FILTER', ['in',  auto_br.br2ln]);
 	xeed.cast('REGISTER_FILTER', ['t2r', auto_br.ln2br]);
+	xeed.cast('REGISTER_FILTER', ['out', auto_br.ln2br]);
 
 	// Set standard API
 	editorRelKeys[editor_seq] = {
