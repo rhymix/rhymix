@@ -155,7 +155,7 @@
             $this->actStart($query);
 
             // 쿼리 문 실행
-            $result = @mysql_query($query, $this->fd);
+            $result = @$this->mysql_query($query, $this->fd);
 
             // 오류 체크
             if(mysql_error($this->fd)) $this->setError(mysql_errno($this->fd), mysql_error($this->fd));
@@ -172,7 +172,7 @@
          **/
         function _fetch($result) {
             if(!$this->isConnected() || $this->isError() || !$result) return;
-            while($tmp = mysql_fetch_object($result)) {
+            while($tmp = $this->db_fetch_object($result)) {
                 $output[] = $tmp;
             }
             if(count($output)==1) return $output[0];
@@ -185,7 +185,7 @@
         function getNextSequence() {
             $query = sprintf("insert into `%ssequence` (seq) values ('0')", $this->prefix);
             $this->_query($query);
-            $sequence = mysql_insert_id($this->fd);
+            $sequence = $this->db_insert_id();
             if($sequence % 10000 == 0) {
               $query = sprintf("delete from  `%ssequence` where seq < %d", $this->prefix, $sequence);
               $this->_query($query);
@@ -747,10 +747,10 @@
             }
 
             $virtual_no = $total_count - ($page-1)*$list_count;
-            while($tmp = mysql_fetch_object($result)) {
+			$data = array();
+            while($tmp = $this->db_fetch_object($result)) {
                 $data[$virtual_no--] = $tmp;
             }
-
             $buff = new Object();
             $buff->total_count = $total_count;
             $buff->total_page = $total_page;
@@ -760,5 +760,15 @@
             $buff->page_navigation = new PageHandler($total_count, $total_page, $page, $page_count);
             return $buff;
         }
+
+		function db_insert_id()
+		{
+            return mysql_insert_id($this->fd);
+		}
+
+		function db_fetch_object(&$result)
+		{
+			return mysql_fetch_object($result);
+		}
     }
 ?>
