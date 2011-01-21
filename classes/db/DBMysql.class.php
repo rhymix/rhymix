@@ -155,7 +155,7 @@
             $this->actStart($query);
 
             // 쿼리 문 실행
-            $result = @$this->mysql_query($query, $this->fd);
+            $result = @mysql_query($query, $this->fd);
 
             // 오류 체크
             if(mysql_error($this->fd)) $this->setError(mysql_errno($this->fd), mysql_error($this->fd));
