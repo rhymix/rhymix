@@ -119,10 +119,13 @@ var inline_styled = {
 // auto_br
 var auto_br = {
 	'br2ln' : function(code) {
-		return $.trim(code.replace(/<br ?\/?>/ig, '\n'));
+		return code.replace(/<br ?\/?>/ig, '\n');
 	},
 	'ln2br' : function(code) {
-		return code.replace(/(^|[^>])\s*\r?\n\s*([^<])/g, '$1<br />$2');
+		return code.replace(/(>)?[ \t]*((?:\r?\n[ \t]*)+)[ \t]*(<)?/g, function(m0,m1,m2,m3){
+			if ( !m1 || !m3 ) m2 = m2.replace(/\r?\n/g, '<br />');
+			return (m1||'')+m2+(m3||'');
+		});
 	}
 };
 

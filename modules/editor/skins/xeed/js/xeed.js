@@ -286,31 +286,12 @@ Xeed = xe.createApp('Xeed', {
 	 * As a workaround, I used manually appending DOM objects instead of setting html.
 	 */
 	API_SET_CONTENT : function(sender, params) {
-		var $rich, $cur;
-
-		$rich = this.$richedit.empty();
-
-		$('<div>'+params[0]+'</div>')
-			.contents()
-			.each(function(){
-				if (is_block(this)) {
-					$rich.append(this);
-					$cur = null;
-
-					return true;
-				}
-
-				if (this[_nt_] == 3 && /^\s*$/.test(this.nodeValue)) return true;
-
-				if (!$cur) {
-					$cur = $(this).wrap('<p />').parent().appendTo($rich);
-				} else {
-					$cur.append(this);
-				}
-			});
-
 		// If the rich editor is hidden, put the content into the textarea too.
-		if ($rich.is(':hidden')) this.$textarea.val( this.cast('GET_CONTENT', [0, true]) );
+		if (this.$richedit.is(':hidden')) {
+			this.$textarea.val(params[0]);
+		} else {
+			this.$richedit.html(params[0]);
+		}
 	},
 
 	/**
@@ -1719,9 +1700,12 @@ Filter = xe.createPlugin('ContentFilter', {
 	 * @brief Run input filters before SET_CONTENT
 	 */
 	API_BEFORE_SET_CONTENT : function(sender, params) {
-		var i,c;
+		var i,c,m = this.cast('GET_EDITMODE') || '';
 
-		for(i=0,c=this._in.length; i < c; i++) params[0] = this._in[i](params[0]);
+		if (sender.getName() != 'EditMode') {
+			for(i=0,c=this._in.length; i < c; i++) params[0] = this._in[i](params[0]);
+		}
+
 		for(i=0,c=this._t2r.length; i < c; i++) params[0] = this._t2r[i](params[0]);
 	},
 
@@ -1773,7 +1757,7 @@ EditMode = xe.createPlugin('EditMode', {
 		this.$btn_html.unbind('mousedown');
 	},
 	API_MODE_WYSIWYG : function(sender, params) {
-		var app = this.oApp;
+		var app = this.oApp, param;
 
 		if (app.$richedit.is(':visible')) return true;
 
@@ -2047,7 +2031,7 @@ UndoRedo = xe.createPlugin('UndoRedo', {
 		// delete redo history
 		if (index+1 < history.length) history = history.slice(0, index+1);
 
-		item.content  = this.cast('GET_CONTENT');
+		item.content  = $rich.html();
 		if (sel) {
 			item.bookmark = sel.getXPathBookmark();
 		} else {
