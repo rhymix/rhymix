@@ -26,7 +26,7 @@ var d = document, fn, dp, dc,
 	_ol_  = 'offsetLeft',
 	_xr_  = '_xeed_root',
 	rx_root = new RegExp('(?:^|\\s)'+_xr_+'(?:\\s|$)'),
-    Xeed, XHTMLT, Simple, Block, Font, Filter, EditMode, LineBreak, Resize, UndoRedo, SChar, Table, URL, AutoSave, FindReplace, Clear, DOMFix;
+    Xeed, XHTMLT, Simple, Block, Font, Filter, EditMode, LineBreak, Resize, UndoRedo, Table, URL, AutoSave, FindReplace, Clear, DOMFix;
 
 Xeed = xe.createApp('Xeed', {
 	$textarea : null,
@@ -127,7 +127,6 @@ Xeed = xe.createApp('Xeed', {
 		this.registerPlugin(new LineBreak);
 		this.registerPlugin(new Resize);
 		this.registerPlugin(new UndoRedo);
-		this.registerPlugin(new SChar);
 		this.registerPlugin(new Table);
 		this.registerPlugin(new URL);
 		this.registerPlugin(new FileUpload);
@@ -2118,137 +2117,6 @@ UndoRedo = xe.createPlugin('UndoRedo', {
 		if (sender != this && this.oApp.$richedit.is(':visible')) {
 			this.cast('SAVE_UNDO_POINT');
 		}
-	}
-});
-/**
- * }}}
- */
-
-/**
- * {{{ SChar
- */
-SChar = xe.createPlugin('SChar', {
-	$btn   : null,
-	$layer : null,
-	$text  : null,
-	$btns  : null,
-
-	init : function(){
-	},
-	activate : function() {
-		var self=this, app = this.oApp, $tb = app.$toolbar;
-
-		if (!$tb) return;
-
-		this.$btn   = $tb.find('button.sc').mousedown(function(){ self.cast('TOGGLE_SCHAR_LAYER'); return false; });
-		this.$layer = this.$btn.next('div.lr')
-			.mousedown(function(event){ event.stopPropagation(); })
-			.find('li.li').each(function(i){
-				var $this = $(this), $ul = $this.find('>ul'), $li = $ul.find('li').remove(), chars, format;
-
-				chars  = $li.text();
-				format = $('<ul>').append($li.clone(true).find('>button').text('{1}').end()).html();
-
-				setTimeout(function(){
-					var code = [];
-					for(var i=0, c=chars.length; i < c; i++) {
-						code[i] = format.replace('{1}', chars.substr(i,1));
-					}
-					$ul.html(code.join(''));
-					$ul.find('button').click(function(){ self.$text[0].value += $(this).text(); });
-				}, (i+1)*100);
-			})
-			.end()
-			.find('button.tab')
-				.mousedown(function(){
-					self.$layer.find('li.li').removeClass('active');
-					$(this[_pn_]).addClass('active');
-				})
-				.click(function(){ $(this).mousedown() })
-				.end();
-
-		this.$text = this.$layer.find('input:text')
-			.keypress(function(event){
-				if (event.keyCode == 13) {
-					self.$btns.eq(0).click();
-					return false;
-				}
-			});
-
-		this.$layer.find('li.li').each(function(){
-			var $this = $(this), $li ;
-
-			$this.find('li')
-		});
-
-		this.$btns = this.$layer.find('button.btn')
-			.each(function(i){
-				var $this = $(this);
-
-				if (i == 0) {
-					$this.click(function(){
-						var chars, dt, rt;
-
-						dt = d.documentElement.scrollTop;
-						rt = app.$richedit[0][_pn_].scrollTop;
-
-						chars = self.$text.val();
-
-						if (self.sel) self.sel.pasteHTML(chars);
-						else self.cast('PASTE_HTML', [chars]);
-
-						self.sel = null;
-						self.cast('HIDE_SCHAR_LAYER');
-
-						app.$richedit.focus();
-						if (self.sel) self.sel.select();
-
-						if (dt != d.documentElement.scrollTop) d.documentElement.scrollTop = dt;
-						if (rt != app.$richedit[0][_pn_].scrollTop) app.$richedit[0][_pn_].scrollTop = rt;
-					});
-				} else {
-					$this.click(function(){
-						self.cast('HIDE_SCHAR_LAYER');
-					});
-				}
-			});
-	},
-	deactivate : function() {
-		if (this.$btn) this.$btn.unbind('mousedown');
-		if (this.$layer) this.$layer.unbind('mousedown').find('button,input').unbind();
-		if (this.$text)  this.$text.unbind();
-	},
-	API_SHOW_SCHAR_LAYER : function() {
-		var sel, li, offset, $layer = this.$layer;
-
-		this.cast('HIDE_ALL_LAYER', [$layer[0]]);
-
-		if (!$layer || $layer.hasClass('open')) return;
-		//if (!(sel=this.oApp.getSelection())) return;
-
-		this.sel = this.oApp.getSelection(); // save selection
-		this.$btn.parent().addClass('active');
-
-		$layer.addClass('open');
-
-		li     = this.$btn.parents('li:first')[0];
-		offset = li[_ol_] + li[_pn_][_ol_];
-		($layer.width() > offset)?$layer.addClass('right'):$layer.removeClass('right');
-	},
-	API_HIDE_SCHAR_LAYER : function() {
-		if (!this.$layer || !this.$layer.hasClass('open')) return;
-
-		this.$btn.parent().removeClass('active');
-		this.$layer.removeClass('open');
-	},
-	/**
-	 * @brief Toggle special chars layer
-	 */
-	API_TOGGLE_SCHAR_LAYER : function() {
-		this.cast( (this.$layer.hasClass('open')?'HIDE':'SHOW')+'_SCHAR_LAYER' );
-	},
-	API_HIDE_ALL_LAYER : function(sender, params) {
-		if (sender != this) this.cast('HIDE_SCHAR_LAYER');
 	}
 });
 /**
