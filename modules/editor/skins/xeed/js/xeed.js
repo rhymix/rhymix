@@ -631,72 +631,70 @@ Block = xe.createPlugin('BlockCommand', {
 		});
 	},
 	getBlockParents : function() {
-		var sel = this.oApp.getSelection(), nodes, ret = [], $ret, _xs_ = '_xeed_tmp_selection';
+		var sel = this.oApp.getSelection(), re = this.oApp.$richedit[0], ret = [], sc, ec, sp, ep, ca, ls, le;
 
-		if (!sel) return ret;
+		if (!sel) return;
+		
+		function lineStopper(node){
+			return (is_block(node) || node[_nn_].toLowerCase() == 'br');
+		};
+		
+		function splitFrom(node, prev) {
+			var s = prev?_ps_:_ns_, nds, $pn, $cn, del=1;
 
-		nodes = sel.collapsed?[sel[_sc_]]:sel.getNodes();
+			if (rx_root.test(node[_pn_].className) && !is_block(node)) {
+				nds = siblings(node, 1);
+				nds.push(node);
+				nds = nds.concat(siblings(node, 0));
 
-		$(nodes).each(function(i,node){
-			var name;
+				$(nds[0]).before($cn=$('<div />'));
+				$cn.append(nds);
+				$cn = null;
+			}
 
-			while(node && node[_pn_]) {
-				name = node[_nn_].toLowerCase();
+			while(node !== ca && !rx_root(node[_pn_].className)) {
+				if (node[s]) {
+					if (del) del = 0;
+					nds = siblings(node, prev, function(){ return 0 });
 
-				if (/^t(able|body|foot|head|r)$/.test(name)) {
-					node = node[_pn_];
-					continue;
-				}
+					$pn = $(node[_pn_]);
+					$cn = $pn.clone().empty();
 
-				if (is_block(node)) {
-					if (node[_nt_] == 1) node.className += ' '+_xs_;
-					ret.push(node);
-					break;
-				}
-
-				if (rx_root.test(node[_pn_].className || '')) {
-					var nodes = [], n=node, $p;
-
-					// get all non-block previous siblings
-					while(n[_ps_]){
-						if (is_block(n[_ps_])) break;
-						nodes.push(n[_ps_]);
-						n = n[_ps_];
-					}
-					nodes.reverse();
-
-					// current node
-					nodes.push(n=node);
-
-					// get all non-block next siblings
-					while(n[_ns_]) {
-						if (is_block(n[_ns_])) break;
-						nodes.push(n[_ns_]);
-						n = n[_ns_];
-					}
-
-					$p = $('<p />').addClass(_xs_);
-					node[_pn_].insertBefore($p[0], nodes[0]);
-					ret.push($p.append(nodes).get(0));
-					break;
+					$pn[prev?'before':'after']($cn);
+					$cn.append(nds);
 				}
 
 				node = node[_pn_];
 			}
-		});
 
-		$ret = $(ret);
+			if ($cn && del) $cn.remove();
+		};
 
-		ret = $ret.filter(function(){
-				var $this = $(this);
-				return !$this.is('.'+_xr_) && !$this.parentsUntil('.'+_xr_).filter('.'+_xs_).length;
-			});
+		ca = get_block_parent(sel[_ca_]);
+		sc = sel[_sc_]; sp = get_block_parent(sc); sc = get_child(sc, sp);
+		ec = sel[_ec_]; ep = get_block_parent(ec); ec = get_child(ec, ep);
 
-		$ret.removeClass(_xs_).each(function(){ if (!this.className) $(this).removeAttr('class') });
+		// find line start
+		ls = siblings(sc, 1, lineStopper).shift() || sc;
+		if (ls[_ps_] && ls[_ps_][_nn_].toLowerCase() == 'br') $(ls[_ps_]).remove();
+		splitFrom(ls, 1);
 
-		sel.select();
+		// find line end
+		le = siblings(ec, 0, lineStopper).pop() || ec;
+		if (le[_ns_] && le[_ns_][_nn_].toLowerCase() == 'br') $(le[_ns_]).remove();
+		splitFrom(le, 0);
 
-		return $.makeArray($.unique(ret));
+		sc = get_block_parent(get_child(ls, ca));
+		ec = get_block_parent(get_child(le, ca));
+		
+		ret = [sc];
+
+		if (sc !== ec) {
+			ret = ret.concat(siblings(sc, 0, function(nd){ return (nd !== ec) }));
+		}
+
+		return ret;
+	
 	},
 	match : function(node, selector) {
 		var $node = $(node);
@@ -5102,11 +5100,13 @@ function get_valid_parent(par, childName) {
 };
 
 // collect all inline sibling
-function siblings(node, prev) {
+function siblings(node, prev, stopper) {
 	var s, ret = [];
+	
+	if (!stopper) stopper = is_block;
 
 	while(s=node[prev?_ps_:_ns_]) {
-		if (is_block(s)) break;
+		if (stopper(s)) break;
 		if (s[_nt_] == 3 || s[_nt_] == 1) ret.push(s);
 		node = s;
 	}
