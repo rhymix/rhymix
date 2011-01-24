@@ -1,8 +1,5 @@
-<!--%import("./js/content_widget.js")-->
-
-<!--@if($colorset == "black" || $colorset == "white")-->
-    <!--%import("./css/widget.css")-->
-<!--@end-->
+<load target="./js/content_widget.js" cond="$widget_info->page_count > 1" />
+<load target="./css/widget.css" cond="$colorset == 'black' || $colorset == 'white'" />
 
 <div class="widgetContainer<!--@if($colorset=="black")--> black<!--@end-->">
     <!--@if($widget_info->tab_type  == "tab_left")-->
