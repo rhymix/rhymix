@@ -8,6 +8,7 @@
     <title xml:lang="es">Sistema de Punto</title>
     <title xml:lang="ru">Система поитов</title>
     <title xml:lang="zh-TW">點數系統</title>
+    <title xml:lang="tr">Puanlama Sistemi</title>
     <description xml:lang="ko">
         글작성/삭제/댓글작성/삭제시에 포인트를 부여할 수 있습니다.
         포인트마다 레벨을 지정하여 사용자 이름 앞에 아이콘을 표시할 수도 있습니다.
@@ -27,6 +28,11 @@
         You can grant point on writing/deleting/adding comments/deleting comments.
         You can also display point icon in front of user name by selecting level on each point.
         But to enable these functions, you need to activate point related addons.
+    </description>
+    <description xml:lang="tr">
+        Yorum yazmaya/silmeye/yorum eklemeye/yorum silmeye puan atayabilirsiniz.
+        Her puanın seviyesini seçerek, kullanıcı isimlerinin başında puan simgesi gösterebilirsiniz.
+        Bu özellikleri mümkün kılmak için, puanlamayla alakalı eklentileri etkinleştirmeniz gerekmektedir.
     </description>
     <description xml:lang="vi">
         Bạn có thể cho hay trừ điểm của các thành viên khi Gửi bài, Xóa bài, Thêm bình luận, Xóa bình luận.
@@ -61,5 +67,6 @@
         <name xml:lang="es">NHN</name>
         <name xml:lang="ru">NHN</name>
         <name xml:lang="zh-TW">NHN</name>
+        <name xml:lang="tr">NHN</name>
     </author>
 </module>

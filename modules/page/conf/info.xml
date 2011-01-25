@@ -8,6 +8,7 @@
     <title xml:lang="es">Página</title>
     <title xml:lang="ru">Страницы</title>
     <title xml:lang="zh-TW">頁面</title>
+    <title xml:lang="tr">Sayfa</title>
     <description xml:lang="ko">페이지를 제작하여 컨텐츠로 연결할 수 있는 모듈</description>
     <description xml:lang="zh-CN">制作页面并能连接到内容区的模块。</description>
     <description xml:lang="jp">ページを作成してコンテンツとしてリンク出来るようにするモジュールです。</description>
@@ -16,6 +17,7 @@
     <description xml:lang="es">Este módulo is para crear página para enlazar con contenidos.</description>
     <description xml:lang="ru">Этот модуль служит для создания страниц, чтобы связать их с содержимым.</description>
     <description xml:lang="zh-TW">製作頁面並連結內容的模組。</description>
+    <description xml:lang="tr">Bu modül içeriklere bağlanacak sayfaları oluşturmak içindir.</description>
     <version>0.1</version>
     <date>2007-02-28</date>
     <category>service</category>
@@ -29,5 +31,6 @@
         <name xml:lang="es">NHN</name>
         <name xml:lang="ru">NHN</name>
         <name xml:lang="zh-TW">NHN</name>
+        <name xml:lang="tr">NHN</name>
     </author>
 </module>

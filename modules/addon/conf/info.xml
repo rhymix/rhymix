@@ -9,6 +9,7 @@
     <title xml:lang="fr">Additions</title>
     <title xml:lang="ru">Аддон</title>
     <title xml:lang="zh-TW">附加元件</title>
+    <title xml:lang="tr">Eklenti</title>
     <description xml:lang="ko">애드온을 등록하거나 사용/미사용을 설정하는 애드온 관리 모듈입니다.</description>
     <description xml:lang="en">This module is for maintaining addons which can toggle use and disuse states.</description>
     <description xml:lang="vi">Module này dành cho việc bảo trì những Addon đang sử dụng và không sử dụng.</description>
@@ -18,6 +19,7 @@
     <description xml:lang="fr">Ce module est pour les Additions de maintien qui peuvent basculer des états d'utilisation et de désuétude. </description>
     <description xml:lang="ru">Этот модуль служит для управления аддонами, использование которых Вы можете включать и выключать.</description>
     <description xml:lang="zh-TW">設定附加元件「登錄、啟用、禁用」的管理模組。</description>
+    <description xml:lang="tr">Bu modül, kullanımı değişebilecek veya kullanım dışı kalabilecek eklentileri korumak içindir.</description>
     <version>0.1</version>
     <date>2007-02-28</date>
     <category>utility</category>
@@ -32,5 +34,6 @@
         <name xml:lang="fr">NHN</name>
         <name xml:lang="ru">NHN</name>
         <name xml:lang="zh-TW">NHN</name>
+        <name xml:lang="tr">NHN</name>
     </author>
 </module>
