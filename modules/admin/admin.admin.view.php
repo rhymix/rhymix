@@ -213,34 +213,6 @@
 
             Context::set('status', $status);
 
-            // 최근글 추출
-			$oDocumentModel = &getModel('document');
-            $doc_args->sort_index = 'list_order';
-            $doc_args->order_type = 'asc';
-            $doc_args->list_count = 3;
-            $output = $oDocumentModel->getDocumentList($doc_args, false, false);
-            Context::set('newest_documents', $output->data);
-
-            // 최근 댓글 추출
-			$oCommentModel = &getModel('comment');
-            $com_args->sort_index = 'list_order';
-            $com_args->order_type = 'asc';
-            $com_args->list_count = 5;
-            $output = $oCommentModel->getTotalCommentList($com_args);
-            Context::set('newest_comments', $output->data);
-
-
-
-
-
-
-
-
-
-
-
-
-
             // Get statistics
             $args->date = date("Ymd000000", time()-60*60*24);
             $today = date("Ymd");
