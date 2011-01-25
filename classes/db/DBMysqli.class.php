@@ -1,5 +1,5 @@
 <?php
-	require('DBMysql.class.php');
+	require_once('DBMysql.class.php');
     /**
      * @class DBMysqli
      * @author NHN (developers@xpressengine.com)

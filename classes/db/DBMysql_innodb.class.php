@@ -1,5 +1,5 @@
 <?php
-	require('DBMysql.class.php');
+	require_once('DBMysql.class.php');
 
     /**
      * @class DBMysql_innodb
