@@ -506,14 +506,21 @@
             global $lang;
 			if(!is_object($lang)) $lang = new stdClass;
             if(!$this->lang_type) return;
+
             if(substr($path,-1)!='/') $path .= '/';
-            $filename = sprintf('%s%s.lang.php', $path, $this->lang_type);
-            if(!file_exists($filename)) $filename = sprintf('%s%s.lang.php', $path, 'ko');
-            if(!file_exists($filename)) return;
+			$path_tpl = $path.'%s.lang.php';
+            $filename = sprintf($path_tpl, $this->lang_type);
+			$langs    = array('ko','en'); // this will be configurable.
+			while(!is_readable($filename) && $langs[0]) {
+				$filename = sprintf($path_tpl, array_shift($langs));
+			}
+            if(!is_readable($filename)) return;
+
             if(!is_array($this->loaded_lang_files)) $this->loaded_lang_files = array();
             if(in_array($filename, $this->loaded_lang_files)) return;
             $this->loaded_lang_files[] = $filename;
-            if(file_exists($filename)) @include($filename);
+
+            @include($filename);
         }
 
         /**
