@@ -18,10 +18,10 @@
         /**
          * PDO 사용시 필요한 변수들
          **/
-        var $handler = NULL;
-        var $stmt = NULL;
-        var $bind_idx = 0;
-        var $bind_vars = array();
+        var $handler      = NULL;
+        var $stmt         = NULL;
+        var $bind_idx     = 0;
+        var $bind_vars    = array();
 
         /**
          * @brief sqlite3 에서 사용될 column type
@@ -31,13 +31,13 @@
          **/
         var $column_type = array(
             'bignumber' => 'INTEGER',
-            'number' => 'INTEGER',
-            'varchar' => 'VARHAR',
-            'char' => 'CHAR',
-            'text' => 'TEXT',
-            'bigtext' => 'TEXT',
-            'date' => 'VARCHAR(14)',
-            'float' => 'REAL',
+            'number'    => 'INTEGER',
+            'varchar'   => 'VARHAR',
+            'char'      => 'CHAR',
+            'text'      => 'TEXT',
+            'bigtext'   => 'TEXT',
+            'date'      => 'VARCHAR(14)',
+            'float'     => 'REAL',
         );
 
         /**
@@ -52,8 +52,7 @@
          * @brief 설치 가능 여부를 return
          **/
         function isSupported() {
-            if(!class_exists('PDO')) return false;
-            return true;
+            return class_exists('PDO');
         }
 
         /**
@@ -74,14 +73,15 @@
             if(!$this->database) return;
 
             // 데이터 베이스 파일 접속 시도
-            $this->handler = new PDO('sqlite:'.$this->database);
-
-            if(!file_exists($this->database) || $error) {
-                $this->setError(-1,'permission denied to access database');
-                //$this->setError(-1,$error);
-                $this->is_connected = false;
-                return;
-            }
+			try {
+				// PDO is only supported with PHP5,
+				// so it is allowed to use try~catch statment in this class.
+				$this->handler = new PDO('sqlite:'.$this->database);
+			} catch (PDOException $e) {
+				$this->setError(-1, 'Connection failed: '.$e->getMessage());
+				$this->is_connected = false;
+				return;
+			}
 
             // 접속체크
             $this->is_connected = true;
@@ -92,7 +92,7 @@
          * @brief DB접속 해제
          **/
         function close() {
-            if(!$this->isConnected()) return;
+            if(!$this->is_connected) return;
             $this->commit();
         }
 
@@ -100,7 +100,7 @@
          * @brief 트랜잭션 시작
          **/
         function begin() {
-            if(!$this->isConnected() || $this->transaction_started) return;
+            if(!$this->is_connected || $this->transaction_started) return;
             if($this->handler->beginTransaction()) $this->transaction_started = true;
         }
 
@@ -108,7 +108,7 @@
          * @brief 롤백
          **/
         function rollback() {
-            if(!$this->isConnected() || !$this->transaction_started) return;
+            if(!$this->is_connected || !$this->transaction_started) return;
             $this->handler->rollBack();
             $this->transaction_started = false;
         }
@@ -117,7 +117,7 @@
          * @brief 커밋
          **/
         function commit($force = false) {
-            if(!$force && (!$this->isConnected() || !$this->transaction_started)) return;
+            if(!$force && (!$this->is_connected || !$this->transaction_started)) return;
             $this->handler->commit();
             $this->transaction_started = false;
         }
@@ -135,7 +135,7 @@
          * @brief : 쿼리문의 prepare
          **/
         function _prepare($query) {
-            if(!$this->isConnected()) return;
+            if(!$this->is_connected) return;
 
             // 쿼리 시작을 알림
             $this->actStart($query);
@@ -154,7 +154,7 @@
          * @brief : stmt에 binding params
          **/
         function _bind($val) {
-            if(!$this->isConnected() || !$this->stmt) return;
+            if(!$this->is_connected || !$this->stmt) return;
 
             $this->bind_idx ++;
             $this->bind_vars[] = $val;
@@ -165,7 +165,7 @@
          * @brief : prepare된 쿼리의 execute
          **/
         function _execute() {
-            if(!$this->isConnected() || !$this->stmt) return;
+            if(!$this->is_connected || !$this->stmt) return;
 
             $this->stmt->execute();
 
