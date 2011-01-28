@@ -952,7 +952,7 @@
 						if($column_list[$value]) $output->arg_columns[] = $column_list[$value];
 					}
                 }
-                $gourpby_query = sprintf ('group by %s', implode(',', $output->groups));
+                $groupby_query = sprintf ('group by %s', implode(',', $output->groups));
             }
 
 
