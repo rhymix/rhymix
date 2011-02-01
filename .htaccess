@@ -2,6 +2,10 @@ RewriteEngine On
 
 # reserve XE Layout Template Source File (*.html)
 RewriteRule ^(layouts|m.layouts)/(.+)/(.+)\.html$ ./index.php [L]
+# conf, query, schema
+RewriteRule ^(modules|addons|widgets)/(.+)/(conf|queries|schemas)/(.+)\.xml$ ./index.php [L]
+# skin
+RewriteRule ^modules/(.+)/skins/(.+)/(.+)\.html$ ./index.php [L]
 
 # static files
 RewriteCond %{SCRIPT_FILENAME} !-f
