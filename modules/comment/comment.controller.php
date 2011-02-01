@@ -439,32 +439,35 @@
          * @brief 해당 comment의 추천수 증가
          **/
         function updateVotedCount($comment_srl, $point = 1) {
-            if($point > 0) $failed_voted = 'failed_voted';
-            else $failed_voted = 'failed_blamed';
+            if($point > 0) {
+                $failed_voted = 'failed_voted';
+                $success_message = 'success_voted';
+            } else {
+                $failed_voted = 'failed_blamed';
+                $success_message = 'success_blamed';
+            }
 
             // 세션 정보에 추천 정보가 있으면 중단
-            if($_SESSION['voted_comment'][$comment_srl]) return new Object(-1, 'failed_voted');
+            if($_SESSION['voted_comment'][$comment_srl]) return new Object(-1, $failed_voted);
 
-            // 문서 원본을 가져옴
             $oCommentModel = &getModel('comment');
             $oComment = $oCommentModel->getComment($comment_srl, false, false);
 
             // 글의 작성 ip와 현재 접속자의 ip가 동일하면 패스
             if($oComment->get('ipaddress') == $_SERVER['REMOTE_ADDR']) {
                 $_SESSION['voted_comment'][$comment_srl] = true;
-                return new Object(-1, 'failed_voted');
+                return new Object(-1, $failed_voted);
             }
 
             // comment의 작성자가 회원일때 조사
             if($oComment->get('member_srl')) {
-                // member model 객체 생성
                 $oMemberModel = &getModel('member');
                 $member_srl = $oMemberModel->getLoggedMemberSrl();
 
                 // 글쓴이와 현재 로그인 사용자의 정보가 일치하면 읽었다고 생각하고 세션 등록후 패스
                 if($member_srl && $member_srl == $oComment->get('member_srl')) {
                     $_SESSION['voted_comment'][$comment_srl] = true;
-                    return new Object(-1, 'failed_voted');
+                    return new Object(-1, $failed_voted);
                 }
             }
 
@@ -480,17 +483,14 @@
             // 로그 정보에 추천 로그가 있으면 세션 등록후 패스
             if($output->data->count) {
                 $_SESSION['voted_comment'][$comment_srl] = true;
-                return new Object(-1, 'failed_voted');
+                return new Object(-1, $failed_voted);
             }
 
             // 추천수 업데이트
-            if($point < 0)
-            {
+            if($point < 0) {
                 $args->blamed_count = $oComment->get('blamed_count') + $point;
                 $output = executeQuery('comment.updateBlamedCount', $args);
-            }
-            else
-            {
+            } else {
                 $args->voted_count = $oComment->get('voted_count') + $point;
                 $output = executeQuery('comment.updateVotedCount', $args);
             }
@@ -503,10 +503,7 @@
             $_SESSION['voted_comment'][$comment_srl] = true;
 
             // 결과 리턴
-            if($point > 0)
-                return new Object(0, 'success_voted');
-            else
-                return new Object(0, 'success_blamed');
+            return new Object(0, $success_message);
         }
 
         /**
