@@ -97,11 +97,36 @@
     <!--@elseif($var->type == "select")-->
         <select name="{$name}">
             <!--@foreach($var->options as $key => $val)-->
-            <option value="{$key}" <!--@if($key==$var->value)-->selected="selected"<!--@end-->>{$val}</option>
+            <option value="{$key}" <!--@if($key==$var->value)-->selected="selected"<!--@end-->>{$val->val}</option>
             <!--@end-->
         </select>
-    <!--@end-->
-        <p>{$var->description}</p>
+
+    <!--@elseif($var->type == "radio")-->
+        <!--@foreach($var->options as $key => $val)-->
+            <!--@if($val->thumbnail)-->
+            {@ $_img_info = getImageSize($val->thumbnail); $_height = $_img_info[1]+40; $_width = $_img_info[0]+20; $_talign = "center"; }
+            <!--@else-->
+            {@ $_width = 200; $_height = 20; $_talign = "left"; }
+            <!--@end-->
+
+            <!--@if($var->thumbnail_exist)-->
+            <div style="float:left;text-align:{$_talign};margin-bottom:1em;width:{$_width}px;height:{$_height}px;margin-right:10px;">
+            <!--@endif-->
+
+            <label>
+            <input type="radio" name="colorset" value="{$key}" /> {$val->val}
+            <!--@if($val->thumbnail)-->
+                <br />
+                <img src="../../../{$val->thumbnail}" alt="{$val->val}" style="border:1px solid #888888;padding:2px;margin:2px;"/>
+            <!--@endif-->
+            </label>
+
+            <!--@if($var->thumbnail_exist)-->
+            </div>
+            <!--@endif-->
+        <!--@endforeach-->
+    <!--@endif-->
+        <p style="clear:both;">{$var->description}</p>
     </td>
 </tr>
 <!--@end-->
