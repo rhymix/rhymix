@@ -62,8 +62,11 @@
 <!--@foreach($selected_layout->extra_var as $name => $var)-->
 
 <!--@if($var->group && ((!$group) || $group != $var->group))-->
+</table>
+
 {@$group = $var->group}
-<tr><th colspan="2" class="title">{$group}</th></tr>
+<h4 class="xeAdmin">{$group}</h4>
+<table cellspacing="0" class="rowTable">
 <!--@end-->
 
 <tr>
@@ -98,10 +101,10 @@
     </td>
 </tr>
 <!--@end-->
+</table>
 
-<!--@if($var->group)-->
-<!--@end-->
-
+<h4 class="xeAdmin">{$lang->menu}</h4>
+<table cellspacing="0" class="rowTable">
 <!--@foreach($selected_layout->menu as $menu_name => $menu_info)-->
 <tr class="row{$cycle_idx}">
     <th scope="row"><div>{$menu_info->title}<br />({$menu_name})</div></th>
@@ -132,17 +135,15 @@
     </td>
 </tr>
 <!--@end-->
-		
-
-<tr class="row2">
-    <th colspan="2" class="button">
-        <span class="button black strong"><input type="submit" value="{$lang->cmd_save}" /></span>
-        <!--@if($module=="admin")-->
-        <a href="{getUrl('act','dispLayoutAdminContent')}" class="button"><span>{$lang->cmd_list}</span></a>
-        <!--@else-->
-        <a href="{getUrl('act','')}" class="button"><span>{$lang->cmd_back}</span></a>
-        <!--@end-->
-    </th>
-</tr>
 </table>
+
+<div class="buttonArea">
+    <span class="button black strong"><input type="submit" value="{$lang->cmd_save}" /></span>
+    <!--@if($module=="admin")-->
+    <a href="{getUrl('act','dispLayoutAdminContent')}" class="button"><span>{$lang->cmd_list}</span></a>
+    <!--@else-->
+    <a href="{getUrl('act','')}" class="button"><span>{$lang->cmd_back}</span></a>
+    <!--@end-->
+</div>
+
 <iframe name="hidden_iframe" frameborder="0" style="display:none"></iframe>
