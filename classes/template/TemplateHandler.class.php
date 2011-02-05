@@ -515,17 +515,26 @@
 						break;
 					// css file
 					case 'css' :
-							if($type == 'unload') $output = '<?php Context::unloadCSSFile("'.$source_filename.'"); ?>';
-							else $output = '<?php Context::addCSSFile("'.$source_filename.'",false,"'.$attrs['media'].'","'.$attrs['targetie'].'",'.$attrs['index'].'); ?>';
+							if($type == 'unload') {
+								$output = '<?php Context::unloadCSSFile("'.$source_filename.'"); ?>';
+							} else {
+								$meta_file = $source_filename;
+								$output = '<?php Context::addCSSFile("'.$source_filename.'",false,"'.$attrs['media'].'","'.$attrs['targetie'].'",'.$attrs['index'].'); ?>';
+							}
 						break;
 					// js file
 					case 'js' :
-							if($type == 'unload') $output = '<?php Context::unloadJsFile("'.$source_filename.'"); ?>';
-							else $output = '<?php Context::addJsFile("'.$source_filename.'",false,"'.$attrs['targetie'].'",'.$attrs['index'].',"'.$attrs['type'].'"); ?>';
+							if($type == 'unload') {
+								$output = '<?php Context::unloadJsFile("'.$source_filename.'"); ?>';
+							} else {
+								$meta_file = $source_filename;
+								$output = '<?php Context::addJsFile("'.$source_filename.'",false,"'.$attrs['targetie'].'",'.$attrs['index'].',"'.$attrs['type'].'"); ?>';
+							}
 						break;
 				}
 			}
 
+			if($meta_file) $output = '<!--Meta:'.$meta_file.'-->'.$output;
 			return $output;
 		}
 
