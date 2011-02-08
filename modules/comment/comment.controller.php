@@ -236,7 +236,9 @@
                 // 원본 댓글이 있고 원본 댓글에 알림(notify_message)가 있으면 메세지 보냄
                 if($obj->parent_srl) {
                     $oParent = $oCommentModel->getComment($obj->parent_srl);
-                    $oParent->notify(Context::getLang('comment'), $obj->content);
+					if ($oParent->get('member_srl') != $oDocument->get('member_srl')) {
+						$oParent->notify(Context::getLang('comment'), $obj->content);
+					}
                 }
             }
 
