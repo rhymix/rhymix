@@ -2497,7 +2497,7 @@ FileUpload = xe.createPlugin('FileUpload', {
 	 * @brief Insert a file into the rich editor
 	 */
 	API_INSERT_FILE_INTO : function(sender, params) {
-		var type = params[0], url = params[1], name = params[2], ext, sel;
+		var type = params[0], url = params[1], name = params[2], ext, sel, code;
 
 		if (type == 'img') {
 			code = '<img src="'+url+'" alt="'+name+'" />\n';
