@@ -338,7 +338,7 @@
 			if(strpos($matches[0],'|cond')!==false) {
 				while(strpos($matches[0],'|cond="')!==false) {
 					if(preg_match('/ (\w+)=\"([^\"]+)\"\|cond=\"([^\"]+)\"/is', $matches[0], $m))
-						$matches[0] = str_replace($m[0], sprintf('<?php if(%s) {?> %s="%s"<?}?>', $m[3], $m[1], $m[2]), $matches[0]);
+						$matches[0] = str_replace($m[0], sprintf('<?php if(%s) {?> %s="%s"<?php }?>', $m[3], $m[1], $m[2]), $matches[0]);
 				}
 			}
 
