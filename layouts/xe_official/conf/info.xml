@@ -9,6 +9,7 @@
     <title xml:lang="zh-CN">XE 官方网站布局</title>
     <title xml:lang="zh-TW">XE 官方網站版面</title>
     <title xml:lang="vi">Giao diện chính thức của XE</title>
+    <title xml:lang="tr">XE Resmi Websitesi Yerleşim Düzeni</title>
     <description xml:lang="ko">
         XE 공식 사이트 레이아웃입니다.
         제작 : NHN
@@ -45,6 +46,10 @@
         Đây là giao diện chính thức của XE.
         제작 : NHN
     </description>
+	<description xml:lang="tr">
+        Bu yerleşim düzeni, XE'nin resmi website yerleşim düzenidir.
+        제작 : NHN
+    </description>    
     <version>0.1</version>
     <date>2007-08-01</date>
     <link>http://xpressengine.com/</link>
@@ -58,7 +63,8 @@
         <name xml:lang="es">NHN</name>
         <name xml:lang="zh-CN">NHN</name>
         <name xml:lang="zh-TW">NHN</name>
-	<name xml:lang="vi">NHN</name>
+		<name xml:lang="vi">NHN</name>
+		<name xml:lang="tr">NHN</name>
     </author>
 
     <extra_vars>
@@ -72,6 +78,7 @@
             <title xml:lang="ru">Colorset</title>
             <title xml:lang="es">Set de colores</title>
 	   		<title xml:lang="vi">Màu sắc</title>
+	   		<title xml:lang="tr">Renk ayarı</title>
             <description xml:lang="ko">원하시는 컬러셋을 선택해주세요.</description>
             <description xml:lang="jp">希望するカラーセットを選択して下さい。</description>
             <description xml:lang="zh-CN">请选择颜色。</description>
@@ -81,6 +88,7 @@
             <description xml:lang="ru">Выберите colorset хотите.</description>
             <description xml:lang="es">Seleccione set de colores que desea.</description>
 	    <description xml:lang="vi">Hãy chọn màu sắc bạn muốn.</description>
+	    <description xml:lang="tr">Lütfen kullanmak istediğiniz renk ayarını seçiniz.</description>
             <options value="default">
                 <title xml:lang="ko">기본</title>
                 <title xml:lang="jp">デフォルト</title>
@@ -91,6 +99,7 @@
                 <title xml:lang="zh-CN">默认</title>
                 <title xml:lang="zh-TW">預設</title>
 		<title xml:lang="vi">Cơ bản</title>
+        <title xml:lang="tr">Temel</title>
             </options>
             <options value="black">
                 <title xml:lang="ko">검은색</title>
@@ -102,6 +111,7 @@
                 <title xml:lang="zh-CN">黑色</title>
                 <title xml:lang="zh-TW">黑色</title>
 				<title xml:lang="vi">Black</title>
+				<title xml:lang="tr">Siyah</title>
             </options>
             <options value="white">
                 <title xml:lang="ko">하얀색</title>
@@ -113,6 +123,7 @@
                 <title xml:lang="zh-CN">白色</title>
                 <title xml:lang="zh-TW">白色</title>
 				<title xml:lang="vi">White</title>
+                <title xml:lang="tr">Beyaz</title>
             </options>
         </var>
         <var name="logo_image" type="image">
@@ -125,6 +136,7 @@
             <title xml:lang="ru">Изображения логотипа</title>
             <title xml:lang="es">Imagen del logotipo</title>
 	    	<title xml:lang="vi">Hình Logo</title>
+            <title xml:lang="tr">Logo resmi</title>
             <description xml:lang="ko">레이아웃의 상단에 표시될 로고이미지를 입력하세요. (세로길이가 23px인 투명이미지가 가장 어울립니다)</description>
             <description xml:lang="jp">レイアウトの上段に表示されるロゴイメージを入力して下さい。 (縦幅が23pxである透明イメージをお勧めします。。)</description>
             <description xml:lang="zh-CN">请输入显示在布局顶部的LOGO图片(高度为23px的透明图片为适)。</description>
@@ -134,6 +146,7 @@
             <description xml:lang="ru">Введите логотип изображение, которое будет отображаться в верхней части формы. (Прозрачный изображение с высотой 23px рекомендуется.)</description>
             <description xml:lang="es">Ingresar una imagen para logotipo. ( Se recomienda una imagen de fondo transparente con una altura de 23px.</description>
 	    	<description xml:lang="vi">Hãy chọn Logo hiển thị phía trên cùng của giao diện. (Đề nghị: Hình ảnh có nền trong suốt và kích thước 23px.)</description>
+            <description xml:lang="tr">Lütfen yerleşim düzeninin üst kısmında görüntülenecek bir resim girişi yapınız. (23px uzunluğunda net bir resim seçmeniz önerilir)</description>
         </var>
         <var name="index_url" type="text">
             <title xml:lang="ko">홈 페이지 URL</title>
@@ -145,6 +158,7 @@
             <title xml:lang="ru">Домашняя страница URL</title>
             <title xml:lang="es">URL de la página web</title>
 	    	<title xml:lang="vi">URL Trang chủ</title>
+	    	<title xml:lang="tr">Anasayfa URL'si</title>
             <description xml:lang="ko">로고를 클릭시에 이동할 홈 페이지 URL을 입력해 주세요.</description>
             <description xml:lang="jp">ロゴをクリックした時に移動するホームページのURLを入力して下さい。</description>
             <description xml:lang="zh-CN">点击网站LOGO时要移动的页面URL。</description>
@@ -154,6 +168,7 @@
             <description xml:lang="ru">Пожалуйста, введите URL для перенаправления, когда пользователь нажимает логотип</description>
             <description xml:lang="es">Ingresar el URL de la página web para redireccionar al pulsar el logotipo</description>
 	    	<description xml:lang="vi">Hãy nhập địa chỉ bạn muốn chuyển đến khi bấm vào Logo</description>
+            <description xml:lang="tr">Lütfen kullanıcılar resme tıkladıkları zaman yönlendirilecekleri bir URL giriniz.</description>
              </var>
         <var name="background_image" type="image">
             <title xml:lang="ko">배경 이미지</title>
@@ -165,6 +180,7 @@
             <title xml:lang="ru">Фоновое изображение</title>
             <title xml:lang="es">Imagen de fondo</title>
 	    	<title xml:lang="vi">Hình nền</title>
+	    	<title xml:lang="tr">Arkaplan Resmi</title>
             <description xml:lang="ko">배경 이미지를 사용하시려면 등록해주세요.</description>
             <description xml:lang="jp">背景イメージを使う場合は、登録して下さい。</description>
             <description xml:lang="zh-CN">要想使用背景图片请在这里上传。</description>
@@ -173,7 +189,8 @@
             <description xml:lang="ge">Bitte geben Sie, wenn Sie verwenden wollen Hintergrundbild.</description>
             <description xml:lang="ru">Введите, если вы хотите использовать фоновое изображение.</description>
             <description xml:lang="es">Ingresar imagen de fondo si desea usar.</description>
-	    <description xml:lang="vi">Hãy nhập hình nền nếu bạn muốn sử dụng.</description>
+	        <description xml:lang="vi">Hãy nhập hình nền nếu bạn muốn sử dụng.</description>
+	        <description xml:lang="tr">Eğer arkaplan resmi kullanmak istiyorsanız, lütfen resim girişi yapınız.</description>
         </var>
     </extra_vars>
 
@@ -188,6 +205,7 @@
             <title xml:lang="ru">Верхнее меню</title>
             <title xml:lang="es">Menú Principal</title>
 	    	<title xml:lang="vi">Menu trên</title>
+            <title xml:lang="tr">Ana Menü</title>
         </menu>
         <menu name="bottom_menu" maxdepth="1">
             <title xml:lang="ko">하단 메뉴 </title>
@@ -199,6 +217,7 @@
             <title xml:lang="ru">Внизу меню</title>
             <title xml:lang="es">Menú Inferior </title>
 	    	<title xml:lang="vi">Menu dưới</title>
+	    	<title xml:lang="tr">Alt Menü</title>
         </menu>
     </menus>
 </layout>
