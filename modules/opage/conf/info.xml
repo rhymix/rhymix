@@ -17,7 +17,7 @@
     <description xml:lang="es">외부페이지를 XE내부로 삽입시키는 모듈</description>
     <description xml:lang="ru">Модуль для вставки внешних страниц внутрь Zeroboard XE.</description>
     <description xml:lang="zh-TW">可將外部頁面插入至XE裡面的模組。</description>
-    <description xml:lang="tr">Harici sayfaları, Zeroboard XE\'nin içine yerleştirmek için olan modüldür.</description>
+    <description xml:lang="tr">Harici sayfaları, Zeroboard XE\'nin içine yerleştirmek için kullanılan modüldür.</description>
     <version>0.1</version>
     <date>2007-09-17</date>
     <category>service</category>

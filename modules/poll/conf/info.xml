@@ -17,7 +17,7 @@
     <description xml:lang="es">Este módulo es para manejar las encuestas.</description>
     <description xml:lang="ru">Этот модуль служит для управления опросами.</description>
     <description xml:lang="zh-TW">管理投票調查的模組。</description>
-    <description xml:lang="tr">Bu modül, oylamaları düzenlemek içindir.</description>
+    <description xml:lang="tr">Oylamaları düzenlemek için kullanılan modüldür.</description>
     <version>0.1</version>
     <date>2007-02-28</date>
     <category>content</category>

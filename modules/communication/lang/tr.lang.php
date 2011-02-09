@@ -6,7 +6,7 @@
      **/
 
     $lang->communication = 'İletişim';
-    $lang->about_communication = 'İletişim modülü, üyelerin mesajlaşması ve arkadaşlarla iletişimi için kullanılan modüldür.';
+    $lang->about_communication = 'İletişim modülü; üyelerin, mesajlaşması ve arkadaşlarıyla iletişimleri için kullanılan modüldür.';
 
     $lang->allow_message = 'Receive Messages';
     $lang->allow_message_type = array(

@@ -17,16 +17,16 @@
     $lang->allow_outlink_site = 'İzin Verilmiş Siteler';
     $lang->allow_outlink_format = 'İzin Verilmiş Biçimler';
     $lang->allowed_filesize = 'En büyük dosya boyutu';
-    $lang->allowed_attach_size = 'En çok Ek Sayısı';
+    $lang->allowed_attach_size = 'En büyük ek boyutu';
     $lang->allowed_filetypes = 'İzin Verilmiş Uzantılar';
     $lang->enable_download_group = 'İzin Verilen Grupları İndir';
 
     $lang->about_allow_outlink = 'Dış bağlantıları kapatabilirsiniz. (*.wmv, *.mp3 gibi ortam dosyaları hariç)';
-    $lang->about_allow_outlink_format = 'Bu biçimlere her zaman izin verilecektir. Lütfen çoklu giriş için nokta(,) kullanınız.<br />örn.)hwp,doc,zip,pdf';
+    $lang->about_allow_outlink_format = 'Bu biçimlere her zaman izin verilecektir. Lütfen çoklu giriş için virgül(,) kullanınız.<br />örn.)hwp,doc,zip,pdf';
     $lang->about_allow_outlink_site = 'Bu sitelere her zaman izin verilecektir. Lütfen çoklu giriş için yeni satır kullanınız.<br />örn.)http://xpressengine.com/';
-	$lang->about_allowed_filesize = 'Her dosya için dosya boyut limiti atayabilirsiniz. (Yöneticiler dışında)';
-    $lang->about_allowed_attach_size = 'Her belge için dosya boyutu limiti atayabilirsiniz. (Yöneticiler dışında)';
-    $lang->about_allowed_filetypes = 'Sadece izin verilen uzantılar iliştirilebilir. Bir uzantıya izin vermek için, "*.[uzantı]" komutunu kullanınız. Birden fazla eklentiye izin vermek için, her uzantının arasına ";" koyunuz.<br />örn.) *.* veya *.jpg;*.gif;<br />(Yöneticiler dışında)';
+	$lang->about_allowed_filesize = 'Her dosya için dosya boyut limiti atayabilirsiniz. (Yöneticiler için limitsizdir)';
+    $lang->about_allowed_attach_size = 'Her belge için dosya boyutu limiti atayabilirsiniz. (Yöneticiler için limitsizdir)';
+    $lang->about_allowed_filetypes = 'Sadece izin verilen uzantılar iliştirilebilir. Bir uzantıya izin vermek için, "*.[uzantı]" komutunu kullanınız. Birden fazla eklentiye izin vermek için, her uzantının arasına ";" koyunuz.<br />örn.) *.* veya *.jpg;*.gif;<br />(Yöneticilerin tercihleri sınırlandırılmaz)';
 
     $lang->cmd_delete_checked_file = 'Seçilen Parça(lar) Silinsin';
     $lang->cmd_move_to_document = 'Belgeye Taşı';

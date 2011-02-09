@@ -26,7 +26,7 @@
     $lang->about_title = 'Modüle bağlanılacağı zaman kolayca doğrulanacak başlığı giriniz';
     $lang->about_not_apply_menu = 'Menüyle bağlanmış modüllerin yerleşim düzenlerinin hepsi bu seçenekle değiştirilecketir.';
 
-    $lang->about_layout = "Yerleşim düzeni modülü size, sitenin yerleşim düzenini kolayca oluşturmanıza yardımcı olur.<br />Yerleşim düzeni ayarını ve menü bağlantısı kullanınca, websitelerin çeşitli modüllerle tamamlanmış şekilleri görüntülenecektir.<br />* Blogların veya diğer modüllerin varsayılan yerleşim düzenlerini silemezseniz; onları, kendi ayar sayfalarından silmeniz gerekmektedir. ";
+    $lang->about_layout = "Yerleşim düzeni (layout) modülü size, sitenin yerleşim düzenini kolayca oluşturma imkanı sunar.<br />Yerleşim düzeni ayarını ve menü bağlantısını kullandığınzda, websitelerin çeşitli modüllerle tamamlanmış şekilleri gösterilecektir.<br />* Blogların veya diğer modüllerin varsayılan yerleşim düzenlerini silemezseniz; onları, kendi ayar sayfalarından silmeniz gerekmektedir. ";
     $lang->about_layout_code = 
         "Yerleşim düzeni kodunu düzenledikten sonra kaydettiğinizde, hizmete girecektir.
         Lütfen önce kodunuzun önizlemesini yapın ve sonra kaydedin.
@@ -59,10 +59,10 @@
         17 => 'Sağ',
         18 => 'Tümü',
         19 => 'Yerleşim Düzeni',
-        20 => 'Grafik bileşeni(widget) ekle',
-        21 => 'İçerik Grafik bileşeni ekle',
+        20 => 'Widget ekle',
+        21 => 'İçerik Widgetı ekle',
         22 => 'Öznitelik',
-        23 => 'Grafik Bileşeni Tarzı',
+        23 => 'Widget Tarzı',
         24 => 'Düzenle',
         25 => 'Sil',
         26 => 'Hizala',
@@ -105,15 +105,15 @@
     $lang->about_faceoff = array(
         'title' => 'XpressEngine FaceOff Yerleşim Düzeni Yöneticisi',
         'description' => 'FaceOff Yerleşim Düzeni Yöneticisi, tarayıcınızı kullanarak kolayca yerleşim düzenini tasarlamanıza yardımcı olacaktır.<br/>Lütfen kendi yerleşim düzeninize, aşağıda da gösterildiği gibi, bileşenler ve özellikler tasarlayınız.',
-        'layout' => 'FaceOff yukardaki gibi bir HTML yapısına sahiptir.<br/>Tasarlamak için Style kullanabilir ya da CSS ile ayarlayabilirsiniz.<br/>Extension(e1, e2), Neck ve Knee den grafik bileşeni ekleyebilirsiniz.<br/>Aynı zamanda Body, Layout, Header, Body, Footer; Style tarafından tasarlanabilir, ve İçerik, içeriği gösterecektir.',
+        'layout' => 'FaceOff yukardaki gibi bir HTML yapısına sahiptir.<br/>Tasarlamak için Style kullanabilir ya da CSS ile ayarlayabilirsiniz.<br/>Extension(e1, e2), Neck ve Knee den widget ekleyebilirsiniz.<br/>Aynı zamanda Body, Layout, Header, Body, Footer; Style tarafından tasarlanabilir, ve İçerik, içeriği gösterecektir.',
         'setting' => 'Sol üsteki menüyü açıklayalım..<br/><ul><li>Kaydet : Mevcut ayarları kaydeder.</li><li>İptal : Mevcut ayarlardan vazgeçer ve geri döner.</li><li>Sıfırla : Mevcut ayarları temizler</li><li>Biçim : Biçim, Sabit/ Değişken/ Sabit+Değişken(İçerik).</li><li>Yerleştir : 2 Uzantı ve İçerik yerleştirir.</li><li>Hizala : Yerleşim düzeninin konumunu hizalar.</li></ul>',
-        'hotkey' => 'Yerleşim düzenini kısayol tuşlarıyla daha kolay tasarlayabilirsiniz.<br/><ul><li>sekme tuşu(tab) : Bir grafik bileşeni seçilmedikçe; Header, Body, Footer sırasıyla seçilecektir. Eğer seçilmezse, bir sonraki grafik bileşeni seçilecektir.</li><li>Shift + sekme tuşu : Sekme tuşunun tersi hareket gerçekleştirir.</li><li>Esc : Eğer hiçbir şey seçilmediyse, Neck, Extension(e1,e2),Knee sırasıyla seçilecektir, eğer bir grafik bileşeni seçilmişse, grafik bileşeni alanı seçilecektir.</li><li>Yön Tuşları : Eğer bir grafik bileşeni seçiliyse, yön tuşları grafik bileşenini uygulanan yönlere hareket ettirecektir</li></ul>',
-        'attribute' => 'Grafik bileşeni harici, tüm alanların arkaplan rengini/resmini ve yazı rengini(<a> etiketi de dahil) ayarlayabilirsiniz.',
+        'hotkey' => 'Yerleşim düzenini kısayol tuşlarıyla daha kolay tasarlayabilirsiniz.<br/><ul><li>sekme tuşu(tab) : Bir widget seçilmedikçe; Header, Body, Footer sırasıyla seçilecektir. Eğer seçilmezse, bir sonraki widget seçilecektir.</li><li>Shift + sekme tuşu : Sekme tuşunun tersi hareket gerçekleştirir.</li><li>Esc : Eğer hiçbir şey seçilmediyse, Neck, Extension(e1,e2),Knee sırasıyla seçilecektir, eğer bir widget seçilmişse, widget alanı seçilecektir.</li><li>Yön Tuşları : Eğer bir widget seçiliyse, yön tuşları widget uygulanan yönlere hareket ettirecektir</li></ul>',
+        'attribute' => 'Widget harici, tüm alanların arkaplan rengini/resmini ve yazı rengini(<a> etiketi de dahil) ayarlayabilirsiniz.',
 
     );
 
 	$lang->mobile_layout_list = "Hareketli Yerleşim Düzeni Listesi";
 	$lang->mobile_downloaded_list = "İndirilmiş Hareketli Yerleşim Düzenleri";
-	$lang->apply_mobile_view = "Hareketli Görünüşü Uygula";
-	$lang->about_apply_mobile_view = "Hareketli cihazlarla bağlanırken, bağlı tüm modüller hareketli görünüşe geçerler.";
+	$lang->apply_mobile_view = "Hareketli Görünümü Uygula";
+	$lang->about_apply_mobile_view = "Hareketli cihazlarla bağlanırken, bağlı tüm modüller hareketli görünüme geçerler.";
 ?>

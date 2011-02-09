@@ -35,7 +35,7 @@
 
 	$lang->cmd_toggle_checked_document = 'Seçili ögeleri ters çevir';
     $lang->cmd_delete_checked_document = 'Seçilenleri Sil';
-    $lang->cmd_document_do = 'İstiyorum';
+    $lang->cmd_document_do = 'Şunu yap';
 
     $lang->msg_cart_is_null = 'Lütfen silinecek makaleleri seçiniz';
     $lang->msg_category_not_moved = 'Taşınamıyor';
@@ -67,7 +67,7 @@
 
     $lang->alias = "Diğer Adıyla";
     $lang->history = "Geçmiş";
-    $lang->about_use_history = "Geçmiş, belgeleri önceki değişikliklerine döndürebilir.";
+    $lang->about_use_history = "Geçmiş, belgeleri önceki değişikliklerine dönüştürmek içindir.";
     $lang->trace_only = "Sadece izleme";
 
     $lang->cmd_trash = 'Çöp Kutusu';

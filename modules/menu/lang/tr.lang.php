@@ -10,7 +10,7 @@
 
     $lang->menu = 'Menü'; 
     $lang->menu_count = 'Menü numarası';
-    $lang->menu_management = 'Menu Yönetimi';
+    $lang->menu_management = 'Menü Yönetimi';
     $lang->depth = 'Adım';
     $lang->parent_menu_name = 'Üst Menü İsmi';
     $lang->menu_name = 'Menü İsmi';
@@ -39,7 +39,7 @@
     $lang->msg_cannot_delete_for_child = 'Altmenüleri olan bir menü silinemez.';
 
     $lang->about_title = 'Modüle bağlanacakken, kolayca onaylanacak başlık giriniz.';
-    $lang->about_menu_management = "Menü yönetimi size, seçili yerleşim düzeninde menü oluşturma imkani verir.\nAyarlanmış derinlikte menü oluşturabilir ve menüye tıklayarak detaylı bilgi girebilirsiniz.\nDosya resmine tıklayınca menü genişletilecektir.\nEğer menü normal görüntülenmiyorsa, \"önbellek dosyasını tekrar oluştur\" tuşuna basarak bilgiyi tazeleyiniz.\n* Menü, derinlik limitini geçecek şekilde oluşturulduysa, düzgün gösterilmeyebilir.";
+    $lang->about_menu_management = "Menü yönetimi size, seçili yerleşim düzeninde menü oluşturma imkani sunar.\nAyarlanmış derinlikte menü oluşturabilir ve menüye tıklayarak detaylı menü bilgisi girebilirsiniz.\nDosya resmine tıklayınca menü genişletilecektir.\nEğer menü normal görüntülenmiyorsa, \"önbellek dosyasını tekrar oluştur\" tuşuna basarak bilgiyi tazeleyiniz.\n* Menü, derinlik limitini geçecek şekilde oluşturulduysa, düzgün gösterilmeyebilir.";
     $lang->about_menu_name = 'İsim, eğer yönetici tuşu veya resimli tuş değilse, menü ismi olarak görünecektir.';
     $lang->about_menu_url = "Menü seçildiğindeki menü URLsidir.<br />Sadece diğer menüye köprü olacak id değerini girebilirsiniz.<br />Eğer hiçbir içerik yoksa, menüye tıklasanız da hiçbir eylem gerçekleşmeyecektir.";
     $lang->about_menu_open_window = 'Menüye tıkladığında, sayfanın yeni pencerede açılmasını belirleyebilirsiniz.';

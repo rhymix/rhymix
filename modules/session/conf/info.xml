@@ -21,7 +21,7 @@
     </description>
     <description xml:lang="tr">
         Bu modül oturum verisini yönetir.
-        Siz sadece oturum ayarı veya kullanımı değil ayrıca oturum bilgilerini kullanan kullanıcıların oturum-seviyesi verilerini de elde edeceksiniz.You will get not only session setting or using but also session-level data such as visitors by using session data.
+        Siz sadece oturum ayarı veya kullanımı değil ayrıca oturum bilgilerini kullanan kullanıcıların oturum-seviyesi verilerini de elde edeceksiniz.
     </description>
     <description xml:lang="vi">Module này quản lý dữ liệu Session.
         Bạn không phải chỉ duy nhất thiết lập Session hay sử dụng, Cấp độ của Session phụ thuộc vào lượng người truy cập trên Website của bạn.

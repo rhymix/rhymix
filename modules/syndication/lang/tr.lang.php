@@ -1,6 +1,6 @@
 <?php
     $lang->syndication = 'İçerik Paylaşımı';
-    $lang->about_syndication = 'İçerik Paylaşımı, adı "sendikasyon" olan standard bir protokole bağlı arama hizmeti sunucularıyla iletişime geçer, ve her türlü bilgiye ulaşmayı daha kolay hale getirir.<br/>Askari gerekliliklerle arama hizmeti sunucusunu içeriklerle uygun hale getirir.';
+    $lang->about_syndication = 'İçerik Paylaşımı, adı "sendikasyon" olan standard bir protokole bağlı arama hizmeti sunucularıyla iletişime geçer ve her türlü bilgiye ulaşmayı daha kolay hale getirir.<br/>Gerekli olan şeyleri en aza indirerek, arama hizmeti sunucusunu içeriklerle uygun hale getirir.';
 
     $lang->syndication_service = 'İçerik Paylaşım Hizmeti';
     $lang->about_syndication_service = 'İçerik Paylaşım Hizmeti, sendikasyon hizmetlerini standard bir protokole göre sağlar.<br/>Tercih edilen(edilmeyen) hizmetlerin Ping sonuçlarını başvurarak alabilirsiniz.';

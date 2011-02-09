@@ -22,7 +22,7 @@
 
     $lang->about_component = 'Bileşen hakkında';
     $lang->about_component_grant = 'Seçilen grup(lar), editörün genişletilmiş bileşenlerini kullanabilirler.<br />(Eğer tüm grupların bu yetkiye sahip olmasını istiyorsanız, boş bırakınız)';
-    $lang->about_component_mid = 'Editör bileşenlerinin hedefleri seçebilir.<br />(Hiçbir şey seçilmediğinde, tüm hedefler seçilecektir)';
+    $lang->about_component_mid = 'Hedef editör bileşenlerini seçebilirsiniz.<br />(Hiçbir şey seçilmediğinde, tüm hedefler seçilecektir)';
 
     $lang->msg_component_is_not_founded = 'Editör bileşeni %s bulunamıyor';
     $lang->msg_component_is_inserted = 'Seçilen bileşen zaten eklenmiş durumda';
@@ -31,7 +31,7 @@
     $lang->msg_load_saved_doc = "Kendiliğinden kaydolan bir makale mevcut. Bunu kurtarmak ister misiniz?\nOtomatik kaydolan taslak, geçerli makaleyi kaydedince, çıkartılacaktır";
     $lang->msg_auto_saved = 'Kendiliğinden Kaydedildi';
 
-    $lang->cmd_disable = 'Etkin Değil';
+    $lang->cmd_disable = 'Devre Dışı';
     $lang->cmd_enable = 'Etkin';
 
     $lang->editor_skin = 'Editor Dış Görünümü';

@@ -7,7 +7,7 @@
 
     $lang->cmd_generate_code = 'Kod Üret';
 
-    $lang->widget_name = 'Widget(Görsel Bileşen) Adı';
+    $lang->widget_name = 'Widget Adı';
     $lang->widget_maker = 'Geliştirici';
     $lang->widget_license = 'Lisans';
     $lang->widget_history = 'Güncelleme Tarihi';
@@ -42,7 +42,7 @@
 
     $lang->about_widget_code = 'Kod üretip şablon dosyaya eklemek için lütfen ilk olarak gerekli değeri girin ve ardından [Kod Üret]e tıklayın.';
     $lang->about_widget_code_in_page = 'Gerekli değerleri girdikten sonra widget kodunu sayfaya eklemek için [Ekle]ye tıklayın.';
-    $lang->about_widget = "Widget,yerleşim düzeninde veya sayfa modülünde kullanılan küçük bir serbest uygulamadır.\n Dahili modüle bağlanabileceği gibi, harici açık api lerlede bağlantı kurabilir. Yapılandırma ayarları yoluyla, geniş bir uygulama alanı vardır. \n  [Kodu Üret] fonksiyonunu kullanarak, XE sayfa modülüne veya yerleşim düzeni modülüne ihtiyaç duymadan widget ekleyebilirsiniz.";
+    $lang->about_widget = "Widget, yerleşim düzeninde veya sayfa modülünde kullanılan küçük bir serbest uygulamadır.\n Dahili modüle bağlanabileceği gibi, harici açık apilerle de bağlantı kurabilir. Yapılandırma ayarları yoluyla, geniş bir uygulama alanı vardır. \n  [Kod Üret] fonksiyonunu kullanarak, XE sayfa modülüne veya yerleşim düzeni modülüne ihtiyaç duymadan widget ekleyebilirsiniz.";
 
     $lang->cmd_content_insert = "İçeriği kendiniz ekleyin.";
     $lang->cmd_box_widget_insert = "Kutu widgetını ekleyin.";

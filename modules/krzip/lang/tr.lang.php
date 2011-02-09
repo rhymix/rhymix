@@ -8,8 +8,8 @@
     // normal words
     $lang->krzip = "Kore Zip Kodu";
     $lang->krzip_server_hostname = "Posta kodu kontrolü için olan sunucu ismi";
-    $lang->krzip_server_port = "Posta kodu kontrolü için olan sunucu ismi";
-    $lang->krzip_server_query = "Posta kodu kontrolü için olan sunucu ismi";
+    $lang->krzip_server_port = "Posta kodu kontrolü için olan sunucu portu";
+    $lang->krzip_server_query = "Posta kodu kontrolü için olan sorgu urlsi";
 
     // descriptions
     $lang->about_krzip_server_hostname = "Lütfen posta kodu kontrolü ve alınan sonuç listesi için sunucu alan adını giriniz";

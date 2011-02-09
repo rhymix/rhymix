@@ -6,7 +6,7 @@
      **/
 
     // words for action, which is basically used
-    $lang->cmd_write = 'Yaz';
+    $lang->cmd_write = 'Yeni';
     $lang->cmd_reply = 'Cevapla';
     $lang->cmd_delete = 'Sil';
     $lang->cmd_modify = 'Değiştir';
@@ -17,10 +17,10 @@
     $lang->cmd_prev = 'Önceki';
     $lang->cmd_next = 'Sonraki';
     $lang->cmd_send_trackback = 'Geri izleme Gönder';
-    $lang->cmd_registration = $lang->cmd_submit = 'Teslim et';
+    $lang->cmd_registration = $lang->cmd_submit = 'Gönder';
     $lang->cmd_comment_registration = 'Yorum Ekle';
     $lang->cmd_insert = 'Ekle';
-    $lang->cmd_save = 'Kayıt et';
+    $lang->cmd_save = 'Gönder';
     $lang->cmd_load = 'Yükle';
     $lang->cmd_input = 'Veri gir';
     $lang->cmd_search = 'Ara';
@@ -28,7 +28,7 @@
     $lang->cmd_replace = 'Değiştir';
     $lang->cmd_confirm = 'Doğrula';
     $lang->cmd_cancel = 'İptal et';
-    $lang->cmd_back = 'Geri git';
+    $lang->cmd_back = 'Önceki Sayfa';
     $lang->cmd_vote = 'Tavsiye et';
     $lang->cmd_vote_down = 'Eleştir';
     $lang->cmd_declare = 'Bildir';
@@ -40,8 +40,8 @@
     $lang->cmd_move_down = 'Aşağı';
     $lang->cmd_add_indent = 'Satırbaşı';
     $lang->cmd_remove_indent = 'Çıkıntı';
-    $lang->cmd_management = 'Yönet';
-    $lang->cmd_make = 'Oluştur';
+    $lang->cmd_management = 'Yönetimi';
+    $lang->cmd_make = 'Yeni Oluştur';
     $lang->cmd_select = 'Seç';
     $lang->cmd_select_all = 'Tümünü Seç';
     $lang->cmd_unselect_all = 'Tümünü Seçimden çıkart';
@@ -66,31 +66,31 @@
     $lang->cmd_layout_setup = 'Yerleşim düzenini yapılandır';
     $lang->cmd_layout_edit = 'Yerleşim düzeninin düzenle';
     $lang->cmd_search_by_ipaddress = 'IP Adresiyle ara';
-    $lang->cmd_add_ip_to_spamfilter = 'Spamfilter\'a IP ekle';
+    $lang->cmd_add_ip_to_spamfilter = 'Spamfilter\'a IPyi ekle';
 
     $lang->enable = 'Seçilir kıl';
     $lang->disable = 'Seçilemez kıl';
 
     // Essential Words
     $lang->menu = 'Menü';
-    $lang->no = 'Hayır';
+    $lang->no = 'No';
     $lang->notice = 'Duyuru';
     $lang->secret = 'Gizli';
     $lang->category = $lang->category_srl = 'Kategori';
-    $lang->none_category = 'Kategorisiz';
-    $lang->none_image = 'Resim bulunmuyor';
+    $lang->none_category = 'Kategori Yok';
+    $lang->none_image = 'Resim bulunmamaktadır';
     $lang->document_srl = 'Belge No';
     $lang->user_id = 'Kullanıcı Kimliği';
     $lang->author = 'Geliştirici';
     $lang->password = 'Şifre';
     $lang->password1 = 'Şifre';
-    $lang->password2 = 'Şifreyi tekrar yaz';
+    $lang->password2 = 'Şifreyi Doğrula';
     $lang->admin_id = 'Yönetici Kimliği';
     $lang->writer = 'Yazar';
     $lang->user_name = 'Kullanıcı Adı';
     $lang->nick_name = 'Takma Ad';
-    $lang->email_address = 'Eposta';
-    $lang->homepage = 'Anasayfa';
+    $lang->email_address = 'E-posta';
+    $lang->homepage = 'Websayfası';
     $lang->blog = 'Blog';
     $lang->birthday = 'Doğum günü';
     $lang->browser_title = 'Tarayıcı Başlığı';
@@ -119,25 +119,25 @@
     $lang->notify = 'Bildirim';
     $lang->order_target = 'Hedefi hizala';
     $lang->order_type = 'Sıralama Şekli';
-    $lang->order_asc = 'artır';
-    $lang->order_desc = 'azalt';
-    $lang->file = 'dosya';
+    $lang->order_asc = 'Artan';
+    $lang->order_desc = 'Azalan';
+    $lang->file = 'Dosya';
 
     $lang->mid = 'Modül Adı';
     $lang->sid = 'Site Adı';
     $lang->layout = 'Yerleşim düzeni';
 	$lang->mobile_layout = 'Hareketli Yerleşim düzeni';
-    $lang->widget = 'Görsel Bileşen';
+    $lang->widget = 'Widget';
     $lang->module = 'Modül';
     $lang->skin = 'Dış Görünüm';
-    $lang->mobile_skin = 'Hareketli dış görünüm';
-    $lang->colorset = 'Renk kurulum';
+    $lang->mobile_skin = 'Hareketli Dış Görünümü';
+    $lang->colorset = 'Renk kurulumu';
     $lang->extra_vars = 'Ek değişkenler';
 
     $lang->domain = "Alan adı";
     $lang->url = "URL";
     $lang->document_url = 'Yazı URL\'si';
-    $lang->trackback_url = 'Geri izleme URL\'si';
+    $lang->trackback_url = 'Geri İzleme URL\'si';
     $lang->blog_name = 'Blog Başlığı';
     $lang->excerpt = 'Alıntı';
 
@@ -145,7 +145,7 @@
     $lang->page_count = 'Sayfa Sayısı';
     $lang->list_count = 'Liste Sayısı';
     $lang->search_list_count = 'Liste Sayısı ara';
-    $lang->readed_count = 'Görünümler';
+    $lang->readed_count = 'Görüntülenme';
     $lang->voted_count = 'Oylar';
     $lang->comment_count = 'Yorumlar';
     $lang->member_count = 'Üye sayısı';
@@ -167,12 +167,12 @@
     $lang->member_manager = 'Üye Ayarları';
     $lang->layout_manager = 'Yerleşim düzeni ayarları';
 
-    $lang->use = 'Kullan';
-    $lang->notuse = 'Kullanma';
-    $lang->not_exists = "bulunmuyor";
+    $lang->use = 'Etkin';
+    $lang->notuse = 'Devredışı';
+    $lang->not_exists = "mevcut değil";
 
-    $lang->public = 'genel';
-    $lang->private = 'özel';
+    $lang->public = 'Genel';
+    $lang->private = 'Özel';
 
     $lang->unit_sec = 'sn';
     $lang->unit_min = 'dk';
@@ -226,7 +226,7 @@
     $lang->msg_invalid_format = 'Geçersiz Biçim';
 
     $lang->msg_not_permitted_act = 'İstenilen eylemi gerçekleştirmeye yetkiniz yok.';
-    $lang->msg_module_is_not_exists = "İstenilen modül bulunamadı.\nLütfen yöneticinizle görüşün.";
+    $lang->msg_module_is_not_exists = "İstenilen modül bulunamadı.\nLütfen site yöneticisine bildirin.";
     $lang->msg_module_is_not_standalone = 'İstenilen modül bağımsız çalışamaz.';
     $lang->msg_default_url_is_not_defined = 'Varsayılan URL tanımlı değil.';
 
@@ -262,7 +262,7 @@
     $lang->column_type = 'Sütun Türü';
     $lang->column_type_list['text'] = 'tek satırlık metin';
     $lang->column_type_list['homepage'] = 'url';
-    $lang->column_type_list['email_address'] = 'eposta';
+    $lang->column_type_list['email_address'] = 'e-posta';
     $lang->column_type_list['tel'] = 'telefon numarası';
     $lang->column_type_list['textarea'] = 'çok satırlı metin alanı';
     $lang->column_type_list['checkbox'] = 'onay kutusu (çoklu seçim)';
@@ -283,7 +283,7 @@
     $lang->ftp = 'FTP';
     $lang->ftp_host = 'FTP sistem adı';
     $lang->ftp_port = 'FTP portu';
-    $lang->about_ftp_password = 'FTP şifresi saklanmayacak.';
+    $lang->about_ftp_password = 'FTP şifresi saklanmayacaktır.';
     $lang->cmd_check_ftp_connect = 'FTP Bağlantısını kontrol ediniz';
     $lang->about_ftp_info = "
         FTP hesap bilgileri aşağıdaki durumlarda kullanılabilir. <br />

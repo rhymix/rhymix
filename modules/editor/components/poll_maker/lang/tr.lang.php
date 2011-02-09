@@ -6,12 +6,12 @@
      **/
 
     $lang->poll_title = "Başlık";
-    $lang->poll_item = "Parçalar";
+    $lang->poll_item = "Parça";
     $lang->poll_stop_date = "Sonlandırma Tarihi";
     $lang->poll_chk_count = "Denetlenen Parça Sayısı";
 
     $lang->cmd_add_poll = "Oylama Ekle";
-    $lang->cmd_del_poll = "Delete Poll";
+    $lang->cmd_del_poll = "Parçayı Sil";
     $lang->cmd_add_item = "Parça Ekle";
 
     $lang->msg_poll_cannot_modify = "Oylamayı düzenleyemezsiniz. Yeni oylama oluşturmak için, oylamanın silinmesi gerekiyor.";

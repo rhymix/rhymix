@@ -27,7 +27,7 @@
     $lang->skin_history = 'Güncelleştirme Geçmişi';
     $lang->module_copy = "Çoğaltma Modülü";
     $lang->module_selector = "Modül Seçini";
-    $lang->do_selected = "İstiyorum";
+    $lang->do_selected = "Şunu yap";
     $lang->bundle_setup = "Toplu Ayar";
     $lang->bundle_addition_setup = "Toplu Ek Ayar";
     $lang->bundle_grant_setup = "Toplu Yetki Ayarı";
@@ -37,7 +37,7 @@
     $lang->access_type = 'Erişim Türü';
     $lang->access_domain = 'Alan adıyla';
     $lang->access_vid = 'Site kimliğiyle';
-    $lang->about_domain = "Birden fazla sanal website oluşturabilmek için, her birinin kendi alanadına ihtiyacı vardır.<br />Alt-alanadı (önr., aaa.bbb.com of bbb.com) da kullanılabilir. XE\'nin de içinde kurulu olduğu yolun adresini giriniz. <br /> örn.) www.xpressengine.com/xe";
+    $lang->about_domain = "Birden fazla sanal website oluşturabilmek için, her birinin kendi alanadına ihtiyacı vardır.<br />Alt-alanadı (örn., aaa.bbb.com of bbb.com) da kullanılabilir. XE'nin de içinde kurulu olduğu yolun adresini giriniz. <br /> örn.) www.xpressengine.com/xe";
     $lang->about_vid = 'Kullanıcılar, http://XEaddress/ID adresiyle ulaşabilirler. Varolan bir modül adıyla(mid) aynı olan site kimliği kullanamazsınız .<br />Site kimliği bir harfle başlamaladır . Alfabetik karakterler, sayılar ve _ işareti site kimliği için kullanılabilir.';
     $lang->msg_already_registed_vid = 'Önceden kaydedilmiş site kimliği. Lütfen başka bir kimlik giriniz.';
     $lang->msg_already_registed_domain = "Bu alanadı önceden kullanıldı. Lütfen farklı bir alanadı giriniz.";
@@ -74,22 +74,22 @@
 	$lang->msg_limit_mid ="Sadece harfler+[harfler+sayılar+_] modül ismi olarak kullanılabilir.";
     $lang->msg_extra_name_exists = 'Önceden kayıtlı değişken isim. Lütfen başka bir tane giriniz.';
 
-    $lang->about_browser_title = "Tarayıcı başlığında gösterilecektir. Aynı zamanda RSS/Geriİzlenim(trackback)\'de de kullanılacaktır.";
-    $lang->about_mid = "Modül ismi http://address/?mid=ModuleName gibi kullanılacaktır.\n(Sadece ingilizce harfler + [ingilizce harflere, sayılara, ve altçizgiye (_)] izin verilmiştir. Azami uzunluk 40 karakter.)";
+    $lang->about_browser_title = "Bu girdi tarayıcı başlığında gösterilecektir. Aynı zamanda RSS/Geri İzleme(trackback)\'de de kullanılacaktır.";
+    $lang->about_mid = "Modül ismi, http://adres/?mid=Modulismi şeklinde kullanılacaktır.\n(Sadece ingilizce harflere + [ingilizce harflere, sayılara, ve altçizgiye (_)] izin verilmiştir. Azami uzunluk 40 karakterdir.)";
     $lang->about_default = "İşaretlenmişse, modül kimlik değeri(mid=Değer Yok) olmadan siteye erişirken varsayılan kullanılacaktır.";
-    $lang->about_module_category = "Size, modül kategorisi yoluyla yönetme imkanı sunar.\n Modül Yöneticisi için URL: <a href=\"./?module=admin&amp;act=dispModuleAdminCategory\">Manage module > Modül Kategorisi </a>.";
-    $lang->about_description= 'Sadece yönetici için olan açıklamadır.';
+    $lang->about_module_category = "Size, modül kategorisi yoluyla yönetme imkanı sunar.\n Modül Yöneticisi için URL: <a href=\"./?module=admin&amp;act=dispModuleAdminCategory\">Manage module > Modül Kategorisi</a>dir.";
+    $lang->about_description= 'Sadece yöneticilerin görebileceği açıklamadır.';
     $lang->about_default = 'Eğer işaretlenmişse, kullanıcılar siteye modül kimlik değeri (mid=değer yok) olmadan erişirken bu modül görüntülenecektir .';
-    $lang->about_header_text = 'İçerikler, modülün üst kısmında gösterilecektir.(html etiketleri etkin)';
-    $lang->about_footer_text = 'İçerikler, modülün alt kısmında gösterilecektir.(html etiketleri etkin)';
-    $lang->about_skin = 'Modül dış görünümü seçebilirsiniz.';
-    $lang->about_use_category = 'İşaretlendiyse, kategori özelliği etkinleştirilecektir.';
+    $lang->about_header_text = 'Modülün üst kısmında gösterilecek içeriklerdir.(html etiketleri etkin)';
+    $lang->about_footer_text = 'Modülün alt kısmında gösterilecek içeriklerdir.(html etiketleri etkin)';
+    $lang->about_skin = 'Modül dış görünümünü seçebilirsiniz.';
+    $lang->about_use_category = 'İşaretlediğiniz taktirde, kategori özelliği etkinleştirilecektir.';
     $lang->about_list_count = 'Sayfada gösterilecek makalelerin sayı üstsınırını ayarlayabilirsiniz.(varsayılan : 20)';
 	$lang->about_search_list_count = 'Kategori veya arama özelliğini kullanırken gösterilecek makalelerin sayısını ayarlayabilirsiniz. (varsayılan : 20)';
     $lang->about_page_count = 'Sayfanın alt kısmında sayfa geçiş linklerinin sayısını ayarlayabilirsiniz.(varsayılan : 10)';
-    $lang->about_admin_id = 'Modüle, tam yetkisi olan bir yönetici atayabilirsiniz.';
-    $lang->about_grant = 'Belirli bir nesne için tüm yetkileri kapatırsanız, siteye giriş yapmamış üyeler yetki sahibi olacaklardır.';
-    $lang->about_grant_deatil = 'Kayıtlı kullanıcı, sanal sitelere kayıt olmuş kullanıcı demektir (örn., cafeXE).';
+    $lang->about_admin_id = 'Modüle tam yetkisi olan bir yönetici atayabilirsiniz.';
+    $lang->about_grant = 'Belirli bir nesne için tüm yetkileri kapatırsanız, siteye üye girişi yapmamış üyeler yetki sahibi olacaklardır.';
+    $lang->about_grant_deatil = 'Kayıtlı kullanıcı, sanal sitelere (örn., cafeXE) kayıt olmuş kullanıcı demektir .';
     $lang->about_module = "XE, temel kitaplık dışında, modüllerden oluşmaktadır.\n [Modül Yönetimi] modülü, size kurulu tüm modülleri gösterecek ve onları yönetmenize yardımcı olacaktır.";
 
 	$lang->about_extra_vars_default_value = 'Eğer çoklu varsayılan değerler gerekiyorsa,	 onları virgülle(,) köprüleyebilirsiniz.';

@@ -6,7 +6,7 @@
      **/
 
     $lang->page = "Sayfa";
-    $lang->about_page = "Eksiksiz sayfa oluşturabileceğiniz bir blog modülüdür.\nEnson veya diğer grafik bileşenlerini(widget) kullanarak, dinamik sayfa oluşturabilirsiniz. Editör bileşeni yoluyla, çok farklı sayıda sayfalar oluşturabilirsiniz.\nURL\'si diğer modülleriyle aynıdır(mid=module name).\n Varsayılan olarak seçilirse, sitenin anasayfası olacaktır.";
+    $lang->about_page = "Eksiksiz sayfa oluşturabileceğiniz bir blog modülüdür.\nEnson veya diğer widgetları kullanarak, dinamik sayfa oluşturabilirsiniz. Editör bileşeni yoluyla, çok farklı sayıda sayfalar oluşturabilirsiniz.\nURL\'si diğer modülleriyle aynıdır(mid=module name).\n Varsayılan olarak seçilirse, sitenin anasayfası olacaktır.";
     $lang->cmd_page_modify = "Değiştir";
     $lang->cmd_page_create = 'Sayfa Oluştur';
     $lang->page_caching_interval = "Önbelleğe Alma Zamanı";

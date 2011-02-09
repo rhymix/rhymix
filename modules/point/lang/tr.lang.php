@@ -8,28 +8,28 @@
     $lang->point = "Puan"; 
     $lang->level = "Seviye"; 
 
-    $lang->about_point_module = "Yorum yazmaya/silmeye/yorum eklemeye/yorum silmeye puan atayabilirsiniz.";
+    $lang->about_point_module = "Yazmaya/silmeye, yorum eklemeye/yorum silmeye puan atayabilirsiniz.";
     $lang->about_act_config = "Pano/blog gibi her modülün, \"yazma/silme/yorum ekleme/yorum silme gibi kendi eylemleri bulunmaktadır. \".<br />Pano/blog harici, puan sistemli link modüllerine davranış değerleri ekleyebilirsiniz.<br />Virgül(,) çoklu değerleri ayıracaktır."; 
 
     $lang->max_level = 'Azami Seviye';
-    $lang->about_max_level = 'Azami seviyeyi ayarlayabilirsiniz. Seviye simgelerine değer verirken dikkate alınmalıdır. 1000 vereceğiniz en yüksek değerdir.'; 
+    $lang->about_max_level = 'Azami seviyeyi ayarlayabilirsiniz. Seviye simgelerine değer verirken dikkate alınmalıdır. Verebileceğiniz en yüksek değer 1000dir.'; 
 
     $lang->level_icon = 'Seviye Simgesi';
-    $lang->about_level_icon = 'Seviye simgesi yolu "./module/point/icons/[level].gif" olmalı. Azami seviye farklı simge setiyle gösterilebilir. Bu yüzden lütfen dikkatli olunuz.'; 
+    $lang->about_level_icon = 'Seviye simgesi yolu "./module/point/icons/[seviye].gif" olmalıdır. Azami seviye farklı simge setiyle gösterilebilir. Bu yüzden lütfen dikkatli olunuz.'; 
 
     $lang->point_name = 'Puan Adı';
-    $lang->about_point_name = 'Puan için bir isim veya birim verebilirsiniz'; 
+    $lang->about_point_name = 'Puan için bir isim veya birim belirleyebilirsiniz'; 
 
     $lang->level_point = 'Seviye Puanı';
     $lang->about_level_point = 'Puan herhangi bir seviyeye gelince veya bir puan seviyesinin altına düşünce, seviye otomatik ayarlanacaktır.'; 
 
     $lang->disable_download = 'İndirmeleri Yasakla';
-    $lang->about_disable_download = "Yeterli puan olmadığı zaman indirmeleri yasaklayacaktır. (Resim dosyaları harici)"; 
+    $lang->about_disable_download = "Yeterli puan olmadığı zaman indirme yapamayacaklardır. (Resim dosyaları harici)"; 
     $lang->disable_read_document = 'Okumayı Yasakla';
-    $lang->about_disable_read_document = 'Kullanıcılar yeterli puanları olmadığında, makaleleri okuyamayacaklardır.';
+    $lang->about_disable_read_document = 'Kullanıcıların yeterli puanı olmadığında, makaleleri okuyamayacaklardır.';
 
     $lang->level_point_calc = 'Puan başına Puan Hesaplaması';
-    $lang->expression = 'Lütfen seviye değişkenini kullanarak Javascript formülü ekleyiniz <b>i</b>. örn) Math.pow(i, 2) * 90';
+    $lang->expression = 'Lütfen seviye değişkenini kullanarak Javascript formülü ekleyiniz <b></b>. örn) Math.pow(i, 2) * 90';
     $lang->cmd_exp_calc = 'Hesapla';
     $lang->cmd_exp_reset = 'Sıfırla';
 
@@ -43,12 +43,12 @@
 
     $lang->about_module_point = "Her modül için puan ayarlayabilirsiniz. Hiçbir değer atanmayan modüller varsayılan puan sistemini kullanacaktır.<br />Tersi hareket durumunda tüm puanlar iade edilecektir.";
 
-    $lang->point_signup = 'Kayıt';
+    $lang->point_signup = 'Kayıt Olmaya';
     $lang->point_insert_document = 'Yazıya';
     $lang->point_delete_document = 'Silmeye';
     $lang->point_insert_comment = 'Yorum Eklemeye';
     $lang->point_delete_comment = 'Yorum Silmeye';
-    $lang->point_upload_file = 'Karşıya Yüklemeye';
+    $lang->point_upload_file = 'Karşıya Yüklemeye (upload)';
     $lang->point_delete_file = 'Dosyaları Silmeye';
     $lang->point_download_file = 'Dosyaları İndirmeye (resimler hariç)';
     $lang->point_read_document = 'Okumaya';

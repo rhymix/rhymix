@@ -38,7 +38,7 @@
     
     $lang->item_module = "Modül Listesi";
     $lang->item_addon  = "Eklenti Listesi";
-    $lang->item_widget = "Grafik Bileşeni (widget) Listesi";
+    $lang->item_widget = "Widget Listesi";
     $lang->item_layout = "Yerleşim Düzeni Listesi";
 
     $lang->module_name = "Modül İsmi";
@@ -51,7 +51,7 @@
     $lang->cmd_shortcut_management = "Menü Düzenle";
 
     $lang->msg_is_not_administrator = 'Sadece Yöneticiler';
-    $lang->msg_manage_module_cannot_delete = 'Modüllerin, eklentilerin, yerleşim düzenlerinin, grafik bileşenlerinin kısayolları silinemez.';
+    $lang->msg_manage_module_cannot_delete = 'Modüllerin, eklentilerin, yerleşim düzenlerinin, widgetların kısayolları silinemez.';
     $lang->msg_default_act_is_null = 'Kısayol varsayılan yönetici eylemi ayarlanmadığından kayıt edilemiyor.';
 
     $lang->welcome_to_xe = 'XE Yönetici Sayfasına Hoşgeldiniz';
@@ -84,7 +84,7 @@
 	$lang->msg_ftp_invalid_path = 'Belirtilen FTP Yolunu okuma işlemi başarız oldu.';
 	$lang->msg_self_restart_cache_engine = 'Lütfen önbellek geri plan yordamını veya Memcached\' ı yeniden başlatınız.';
 	$lang->mobile_view = 'Hareketli Görünümü';
-	$lang->about_mobile_view = 'Hareketli görünümü, mobil cihazla giriş yapılırken en iyi yerleşim düzenini gösterecektir.';
+	$lang->about_mobile_view = 'Hareketli görünümü, mobil cihazlarla giriş yapılırken, mobil cihazlara uygun en iyi yerleşim düzenini göstermek içindir.';
     $lang->autoinstall = 'KolayKurulum';
 
     $lang->last_week = 'Geçen Hafta';

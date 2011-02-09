@@ -5,7 +5,7 @@
      * @brief  English Language Pack
      **/
 
-    $lang->addon = "Eklenti";
+    $lang->addon = "Eklentiler";
 
     $lang->addon_info = 'Eklenti Özeti';
     $lang->addon_maker = 'Eklenti Tasarımcısı';

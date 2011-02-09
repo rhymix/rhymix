@@ -30,7 +30,7 @@
         But to enable these functions, you need to activate point related addons.
     </description>
     <description xml:lang="tr">
-        Yorum yazmaya/silmeye/yorum eklemeye/yorum silmeye puan atayabilirsiniz.
+        Yazmaya/silmeye, yorum eklemeye/yorum silmeye puan atayabilirsiniz.
         Her puanın seviyesini seçerek, kullanıcı isimlerinin başında puan simgesi gösterebilirsiniz.
         Bu özellikleri mümkün kılmak için, puanlamayla alakalı eklentileri etkinleştirmeniz gerekmektedir.
     </description>

@@ -19,9 +19,9 @@
     $lang->description_ftp_note = "Eğer FTP düzeni ayarlanmadıysa, kurulum çalışmayacaktır.Lütfen FTP bilgisini yapılandırınız.";
     $lang->description_update = "Eğer KolayKurulum modülünü kullanmadan programları kurduysanız ya da güncelleştirdiyseniz, lütfen yeni bilgiyi uyarlamak için güncelleştir tuşuna basınız.";
     $lang->install = "Kurulum";
-    $lang->update = "Güncelleme";
+    $lang->update = "Güncelle";
     $lang->current_version = "Sürüm";
-    $lang->depending_programs = "Bu program için şu programlar gereklidir : ";
+    $lang->depending_programs = "Bu program için aşağıdaki program(lar) gereklidir : ";
     $lang->require_update = "Güncelleme gerekmektedir.";
     $lang->require_installation = "Kurulum gerekmektedir.";
     $lang->description_install = "KolayKurulum, bu program için gerekli olan tüm diğer programları kurup/güncelleştirecektir.";
@@ -29,7 +29,7 @@
     $lang->path = "Yol";
     $lang->cmd_download = "İndirme";
     $lang->view_installed_packages = "Kurulmuş Paketler";
-    $lang->msg_ftp_password_input = "Lütfen FTP şifresi giriniz.";
+    $lang->msg_ftp_password_input = "Lütfen FTP şifresini giriniz.";
 	$lang->dependant_list = "Mevcut pakete bağlı paket listesi";
 	$lang->description_uninstall = "Paket kaldırılacaktır. Modüller için, tüm veriler silinecektir.";
 ?>
