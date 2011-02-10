@@ -895,26 +895,24 @@ var TextWriter = xe.createPlugin('TextWriter', {
 		obj.children('div._txt').each(function(){
 			var div = $(this), node = null;
 
-			div
-				.contents()
-					.each(function(){
-						var $this = $(this);
+			div.contents().each(function(){
+				var t = $(this);
 
-						if(this.nodeType == 3 || $this.is('br,a,b,i,s,u,sub,sup,em,strong,span,img,font')) {
-							if( $this.is('br,img') || $.trim($this.text()) ) {
-								if(!node) div.before(node = $('<p>'));
-								node.append(this);
-							} else {
-								$this.remove();
-							}
-							return true;
-						}
+				if(this.nodeType == 3 || t.is('br,a,b,i,s,u,sub,sup,em,strong,span,img,font')) {
+					if( t.is('br,img') || $.trim(t.text()) ) {
+						if(!node) div.before(node = $('<p>'));
+						node.append(this);
+					} else {
+						t.remove();
+					}
+					return true;
+				}
 
-						div.before($this);
-						node = null;
-					})
-					.end()
-				.remove();
+				div.before(t);
+				node = null;
+			});
+
+			div.remove();
 		});
 	},
 	API_OPEN_TXT_EDITOR : function(sender, params) {
@@ -963,7 +961,6 @@ var TextWriter = xe.createPlugin('TextWriter', {
 
 		if(save) {
 			var newBox  = $('<div>').html( cfg.xpress.getIR() );
-			if (newBox.find('>p'))
 			box.remove();
 			this.cast('SAVE_PARAGRAPH', [seq, cfg.editor, box=newBox, 'TXT']);
 		} else {
