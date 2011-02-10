@@ -32,6 +32,7 @@
 	 *      3) alpha : check if the value is consists of alphabatic characters.
 	 *      4) number : check if the value is consists of numerical digits
 	 *      5) equalto = target : indicate that values in the form should be equal to those in target
+	 *      6) pattern_id/regex pattern/[i] : check the value using custom regular expression.
 	 *
 	 * - parameter - param
 	 *  name = key : indicate that a new array, 'key' will be created and a value will be assigned to it
@@ -43,7 +44,7 @@
 	 **/
                 
 	class XmlJsFilter extends XmlParser {
-        var $version = '0.2.4';
+        var $version = '0.2.5';
 		var $compiled_path = './files/cache/js_filter_compiled/'; ///< 컴파일된 캐시 파일이 놓일 위치
 		var $xml_file = NULL; ///< 대상 xml 파일
 		var $js_file = NULL; ///< 컴파일된 js 파일
@@ -81,11 +82,11 @@
 			$xml_obj = parent::parse($buff);
 
 			// XmlJsFilter는 filter_name, field, parameter 3개의 데이터를 핸들링
-			$filter_name = $xml_obj->filter->attrs->name;
-			$confirm_msg_code = $xml_obj->filter->attrs->confirm_msg_code;
-			$module = $xml_obj->filter->attrs->module;
-			$act = $xml_obj->filter->attrs->act;
-			$extend_filter = $xml_obj->filter->attrs->extend_filter;
+			$filter_name       = $xml_obj->filter->attrs->name;
+			$confirm_msg_code  = $xml_obj->filter->attrs->confirm_msg_code;
+			$module            = $xml_obj->filter->attrs->module;
+			$act               = $xml_obj->filter->attrs->act;
+			$extend_filter     = $xml_obj->filter->attrs->extend_filter;
 
 			$field_node = $xml_obj->filter->form->node;
 			if($field_node && !is_array($field_node)) $field_node = array($field_node);
@@ -127,26 +128,13 @@
 				}
 			}
 
-			$callback_func = $xml_obj->filter->response->attrs->callback_func;
-			if(!$callback_func) $callback_func = "filterAlertMessage";
-
 			// 언어 입력을 위한 사용되는 필드 조사
-			$target_list = array();
+			$target_list      = array();
 			$target_type_list = array();
 
-			// js function 을 만들기 시작
-			$js_doc = array();
-			$js_doc[] = "function {$filter_name}(fo_obj){";
-			$js_doc[] = "\tvar validator = xe.getApp('validator')[0];";
-			$js_doc[] = "\tif(!validator) return false;";
-			$js_doc[] = "\tif(!fo_obj.elements['_filter']) jQuery(fo_obj).prepend('<input type=\"hidden\" name=\"_filter\" value=\"\" />');";
-			$js_doc[] = "\tfo_obj.elements['_filter'].value = '{$filter_name}';";
-
-			$jsdoc = array();
-			$jsdoc[] = '(function($){';
-			$jsdoc[] = "\tvar validator = xe.getApp('Validator')[0];";
-			$jsdoc[] = "\tif(!validator) return false;";
-			$jsdoc[] = "\tvalidator.cast('ADD_FILTER', ['{$filter_name}', {";
+			// javascript contents
+			$js_rules       = array();
+			$js_messages    = array();
 
 			$fields = array();
 
@@ -157,18 +145,20 @@
 					$attrs = $node->attrs;
 					$target = trim($attrs->target);
 					if(!$target) continue;
-					$filter = $attrs->filter;
 
+					$attrs->filter  = trim($attrs->filter);
 					$attrs->equalto = trim($attrs->equalto);
 
 					$field = array();
+
 					if($attrs->required == 'true') $field[] = 'required:true';
-					if($attrs->minlength > 0) $field[] = 'minlength:'.$attrs->minlength;
-					if($attrs->maxlength > 0) $field[] = 'maxlength:'.$attrs->maxlength;
-					if($attrs->equalto) $field[] = "equalto:'{$attrs->equalto}'";
-					if($attrs->filter) $field[] = "rule:'{$attrs->filter}'";
+					if($attrs->minlength > 0)      $field[] = 'minlength:'.$attrs->minlength;
+					if($attrs->maxlength > 0)      $field[] = 'maxlength:'.$attrs->maxlength;
+					if($attrs->equalto)            $field[] = "equalto:'{$attrs->equalto}'";
+					if($attrs->filter)             $field[] = "rule:'{$attrs->filter}'";
+
 					$s_field = implode(',', $field);
-					$fields[] = "\t\t'{$target}': {{$s_field}}";
+					$fields[] = "'{$target}': {{$s_field}}";
 
 					if(!in_array($target, $target_list)) $target_list[] = $target;
 					if(!$target_type_list[$target]) $target_type_list[$target] = $filter;
@@ -178,18 +168,20 @@
 			// extend_filter_item 체크
 			for($i=0;$i<$extend_filter_count;$i++) {
 				$filter_item = $extend_filter_list[$i];
-				$target = trim($filter_item->name);
+				$target      = trim($filter_item->name);
+
 				if(!$target) continue;
-				$type = $filter_item->type;
-				$required = $filter_item->required?'true':'false';
+
+				$type     = $filter_item->type;
+				$required = ($filter_item->required == 'true');
 
 				// extend filter item의 type으로 filter를 구함
 				$types = array('homepage'=>'homepage', 'email_address'=>'email');
 				$filter = $types[$type]?$types[$type]:'';
 
 				$field = array();
-				if($filter_item->required == 'true') $field[] = 'required:true';
-				if($filter) $field[] = "rule:'{$filter}'";
+				if($required) $field[] = 'required:true';
+				if($filter)   $field[] = "rule:'{$filter}'";
 				$s_field = implode(',', $field);
 				$fields[] = "\t\t'{$target}' : {{$s_field}}";
 
@@ -197,31 +189,18 @@
 				if(!$target_type_list[$target]) $target_type_list[$target] = $type;
 			}
 
-			$jsdoc[] = implode(",\n", $fields);
-			$jsdoc[] = "\t}]);";
-
-			// javascript callback function
-			$js_doc[] = "\tvalidator.cast('ADD_CALLBACK', ['{$filter_name}', function(form){";
-			$js_doc[] = "\t\tvar params={}, responses=[], elms=form.elements, data=jQuery(form).serializeArray();";
-			$js_doc[] = "\t\tjQuery.each(data, function(i, field){";
-			$js_doc[] = "\t\t\tvar val = jQuery.trim(field.value);";
-			$js_doc[] = "\t\t\tif(!val) return true;";
-			$js_doc[] = "\t\t\tif(/\[\]$/.test(field.name)) field.name = field.name.replace(/\[\]$/, '');";
-			$js_doc[] = "\t\t\tif(params[field.name]) params[field.name] += '|@|'+val;";
-			$js_doc[] = "\t\t\telse params[field.name] = field.value;";
-			$js_doc[] = "\t\t});";
-
 			// 데이터를 만들기 위한 parameter script 생성
+			$rename_params   = array();
 			$parameter_count = count($parameter_param);
 			if($parameter_count) {
 				// 기본 필터 내용의 parameter로 구성
 				foreach($parameter_param as $key =>$param) {
-					$attrs = $param->attrs;
-					$name = trim($attrs->name);
+					$attrs  = $param->attrs;
+					$name   = trim($attrs->name);
 					$target = trim($attrs->target);
 
 					//if($name && $target && ($name != $target)) $js_doc[] = "\t\tparams['{$name}'] = params['{$target}']; delete params['{$target}'];";
-					if($name && $target && ($name != $target)) $js_doc[] = "\t\tif(params['{$target}']) { params['{$name}'] = params['{$target}']; delete params['{$target}']; }";
+					if($name && $target && ($name != $target)) $rename_params[] = "'{$target}':'{$name}'";
 					if($name && !in_array($name, $target_list)) $target_list[] = $name;
 				}
 
@@ -243,19 +222,13 @@
 				$name = $attrs->name;
 				$responses[] = "'{$name}'";
 			}
-			$js_doc[] = "\t\tresponses = [".implode(',', $responses)."];";
 
-			if ($confirm_msg_code) $js_doc[] = sprintf("\t\tif(!confirm('%s')) return false;", $lang->{$confirm_msg_code});
-
-			$js_doc[] = "\t\texec_xml('{$module}','{$act}', params, {$callback_func}, responses, params, form);";
-			$js_doc[] = "\t}]);";
-
-			// form 필드 lang 값을 기록
+			// lang : form field description
 			$target_count = count($target_list);
 			for($i=0;$i<$target_count;$i++) {
 				$target = $target_list[$i];
 				if(!$lang->{$target}) $lang->{$target} = $target;
-				$jsdoc[] = sprintf("\tvalidator.cast('ADD_MESSAGE', ['%s', '%s']);", $target, str_replace('\'', '\\\'', $lang->{$target}));
+				$js_messages[] = sprintf("v.cast('ADD_MESSAGE',['%s','%s']);", $target, addslashes($lang->{$target}));
 			}
 
 			// target type을 기록
@@ -268,24 +241,30 @@
 			}
 			*/
 
-			// 에러 메세지를 기록
+			// lang : error message
 			foreach($lang->filter as $key => $val) {
 				if(!$val) $val = $key;
-				$jsdoc[] = sprintf("\tvalidator.cast('ADD_MESSAGE', ['%s', '%s']);", $key, $val); 
-				//$jsdoc[] = sprintf("\tvalidator.cast('ADD_MESSAGE', ['%s', '%s']);", $key, str_replace('\'', '\\\'', $val));
+				$js_messages[] = sprintf("v.cast('ADD_MESSAGE',['%s','%s']);", $key, $val);
 			}
 
+			$callback_func = $xml_obj->filter->response->attrs->callback_func;
+			if(!$callback_func) $callback_func = "filterAlertMessage";
+
+			$confirm_msg = '';
+			if ($confirm_msg_code) $confirm_msg = $lang->{$confirm_msg_code};
+			
+			$jsdoc   = array();
+			$jsdoc[] = "function {$filter_name}(form){ return legacy_filter('{$filter_name}', form, '{$module}', '{$act}', {$callback_func}, [".implode(',', $responses)."], '".addslashes($confirm_msg)."', {".implode(',', $rename_params)."}) };";
+			$jsdoc[] = '(function($){';
+			$jsdoc[] = "\tvar v=xe.getApp('validator')[0];if(!v)return false;";
+			$jsdoc[] = "\t".'v.cast("ADD_FILTER", ["'.$filter_name.'", {'.implode(',', $fields).'}]);';
+			$jsdoc[] = "\t".implode("\n\t", $js_rules);
+			$jsdoc[] = "\t".implode("\n\t", $js_messages);
 			$jsdoc[] = '})(jQuery);';
-
-			$js_doc[] = "\tvalidator.cast('VALIDATE', [fo_obj,'{$filter_name}']);";
-			$js_doc[] = "\treturn false;";
-			$js_doc[] = "};\n";
-
-			$js_doc = implode("\n", $js_doc);
-			$jsdoc = implode("\n", $jsdoc);
+			$jsdoc   = implode("\n", $jsdoc);
 
 			// js파일 생성
-			FileHandler::writeFile($this->js_file, $js_doc."\n".$jsdoc);
+			FileHandler::writeFile($this->js_file, $jsdoc);
 		}
 
 		/**
