@@ -111,13 +111,15 @@ var Validator = xe.createApp('Validator', {
 				if (eq_val != val) return (result = (!!self.cast('ALERT', [form, name, 'equalto']) && false));
 			}
 
-			$.each(rule, function() {
-				var ret = self.cast('APPLY_RULE', [this, val]);
-				if (!ret) {
-					self.cast('ALERT', [form, name, 'invalid_'+this]);
-					return (result = false);
-				}
-			});
+			if (rule) {
+				$.each(rule, function() {
+					var ret = self.cast('APPLY_RULE', [this, val]);
+					if (!ret) {
+						self.cast('ALERT', [form, name, 'invalid_'+this]);
+						return (result = false);
+					}
+				});
+			}
 
 			if (!result) return false;
 		});
@@ -178,7 +180,7 @@ var Validator = xe.createApp('Validator', {
 		delete extras[name];
 	},
 	API_APPLY_RULE : function(sender, params) {
-		var name  = params[0].toLowerCase();
+		var name  = params[0];
 		var value = params[1];
 
 		if (typeof(rules[name]) == 'undefined') return true; // no filter
@@ -294,8 +296,35 @@ function filterAlertMessage(ret_obj) {
  * @brief Function to process filters
  * @deprecated
  */
-function procFilter(fo_obj, filter_func)
-{
-	filter_func(fo_obj);
+function procFilter(form, filter_func) {
+	filter_func(form);
+	return false;
+}
+
+function legacy_filter(filter_name, form, module, act, callback, responses, confirm_msg) {
+	var v = xe.getApp('validator')[0], $ = jQuery, args = [];
+
+	if (!v) return false;
+
+	if (!form.elements['_filter']) $(form).prepend('<input type="hidden" name="_filter" />');
+	form.elements['_filter'].value = filter_name;
+
+	args[0] = filter_name;
+	args[1] = function(f) {
+		var params = {}, res = [], elms = f.elements, data = $(f).serializeArray();
+		$.each(data, function(i, field) {
+			var v = $.trim(field.value);
+			if(!v) return false;
+			if(/\[\]$/.test(field.name)) field.name = field.name.replace(/\[\]$/, '');
+			if(params[field.name]) params[field.name] += '|@|'+v;
+			else params[field.name] = field.value;
+		});
+		if (confirm_msg && !confirm(confirm_msg)) return false;
+		exec_xml(module, act, params, callback, responses, params, form);
+	};
+	
+	v.cast('ADD_CALLBACK', args);
+	v.cast('VALIDATE', [form, filter_name]);
+
 	return false;
 }
