@@ -112,8 +112,10 @@ var Validator = xe.createApp('Validator', {
 			}
 
 			if (rule) {
-				$.each(rule, function() {
-					var ret = self.cast('APPLY_RULE', [this, val]);
+				$.each(rule, function(i,r) {
+					if (!r) return true;
+
+					var ret = self.cast('APPLY_RULE', [r, val]);
 					if (!ret) {
 						self.cast('ALERT', [form, name, 'invalid_'+this]);
 						return (result = false);
@@ -314,11 +316,13 @@ function legacy_filter(filter_name, form, module, act, callback, responses, conf
 		var params = {}, res = [], elms = f.elements, data = $(f).serializeArray();
 		$.each(data, function(i, field) {
 			var v = $.trim(field.value);
-			if(!v) return false;
+			if(!v) return true;
 			if(/\[\]$/.test(field.name)) field.name = field.name.replace(/\[\]$/, '');
 			if(params[field.name]) params[field.name] += '|@|'+v;
 			else params[field.name] = field.value;
+			
 		});
+
 		if (confirm_msg && !confirm(confirm_msg)) return false;
 		exec_xml(module, act, params, callback, responses, params, form);
 	};
