@@ -11,8 +11,6 @@
 
     class ModuleHandler extends Handler {
 
-        var $oModule = NULL; ///< Module Instance
-
         var $module = NULL; ///< Module
         var $act = NULL; ///< action
         var $mid = NULL; ///< Module ID
