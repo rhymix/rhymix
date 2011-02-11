@@ -455,17 +455,34 @@
 
         // 년도가 1970년 이전이면 별도 처리
         if((int)substr($str,0,4) < 1970) {
-            $hour = (int)substr($str,8,2);
-            $min = (int)substr($str,10,2);
-            $sec = (int)substr($str,12,2);
-            $year = (int)substr($str,0,4);
+            $hour  = (int)substr($str,8,2);
+            $min   = (int)substr($str,10,2);
+            $sec   = (int)substr($str,12,2);
+            $year  = (int)substr($str,0,4);
             $month = (int)substr($str,4,2);
-            $day = (int)substr($str,6,2);
-            $string = str_replace(
-                        array('Y','m','d','H','h','i','s','a','M', 'F'),
-                        array($year,$month,$day,$hour,$hour/12,$min,$sec,($hour <= 12) ? 'am' : 'pm',getMonthName($month), getMonthName($month,false)),
-                        $format
-                    );
+            $day   = (int)substr($str,6,2);
+
+			// leading zero?
+			$lz = create_function('$n', 'return ($n>9?"":"0").$n;');
+
+			$trans = array(
+				'Y'=>$year,
+				'y'=>$lz($year%100),
+				'm'=>$lz($month),
+				'n'=>$month,
+				'd'=>$lz($day),
+				'j'=>$day,
+				'G'=>$hour,
+				'H'=>$lz($hour),
+				'g'=>$hour%12,
+				'h'=>$lz($hour%12),
+				'i'=>$lz($min),
+				's'=>$lz($sec),
+				'M'=>getMonthName($month),
+				'F'=>getMonthName($month,false)
+			);
+
+            $string = strtr($format, $trans);
         } else {
             // 1970년 이후라면 ztime()함수로 unixtime을 구하고 date함수로 처리
             $string = date($format, ztime($str));
