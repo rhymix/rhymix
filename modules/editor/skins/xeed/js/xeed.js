@@ -2133,7 +2133,7 @@ FileUpload = xe.createPlugin('FileUpload', {
 
 		if (this.$modal_box.length) {
 			// #19473993 - move the file window to document's end
-			this.$modal_box.appendTo(document.body);
+			jQuery(function(){ self.$modal_box.appendTo(document.body) });
 
 			this.$attach_list = this.$modal_box.find('div.xdal');
 			this.$attach_list
