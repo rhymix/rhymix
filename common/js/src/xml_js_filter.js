@@ -303,7 +303,7 @@ function procFilter(form, filter_func) {
 	return false;
 }
 
-function legacy_filter(filter_name, form, module, act, callback, responses, confirm_msg) {
+function legacy_filter(filter_name, form, module, act, callback, responses, confirm_msg, rename_params) {
 	var v = xe.getApp('validator')[0], $ = jQuery, args = [];
 
 	if (!v) return false;
@@ -315,12 +315,13 @@ function legacy_filter(filter_name, form, module, act, callback, responses, conf
 	args[1] = function(f) {
 		var params = {}, res = [], elms = f.elements, data = $(f).serializeArray();
 		$.each(data, function(i, field) {
-			var v = $.trim(field.value);
-			if(!v) return true;
-			if(/\[\]$/.test(field.name)) field.name = field.name.replace(/\[\]$/, '');
-			if(params[field.name]) params[field.name] += '|@|'+v;
-			else params[field.name] = field.value;
+			var v = $.trim(field.value), n = field.name;
+			if(!v || !n) return true;
+			if(rename_params[n]) n = rename_params[n];
 			
+			if(/\[\]$/.test(n)) n = n.replace(/\[\]$/, '');
+			if(params[n]) params[n] += '|@|'+v;
+			else params[n] = field.value;			
 		});
 
 		if (confirm_msg && !confirm(confirm_msg)) return false;
