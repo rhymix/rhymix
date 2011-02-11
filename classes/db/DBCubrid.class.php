@@ -457,6 +457,9 @@
             // 테이블 생성 schema 작성
             $table_name = $xml_obj->table->attrs->name;
 
+			// if the table already exists exit function
+            if ($this->isTableExists($table_name)) return;
+
             // 만약 테이블 이름이 sequence라면 serial 생성
             if ($table_name == 'sequence') {
                 $query = sprintf ('create serial "%s" start with 1 increment by 1'.
@@ -466,7 +469,6 @@
                 return $this->_query($query);
             }
 
-            if ($this->isTableExists ($table_name)) return;
 
             $table_name = $this->prefix.$table_name;
 
