@@ -60,8 +60,8 @@
                 if(!file_exists($class_file)) new Object(-1, 'msg_db_not_setted');
 
                 require_once($class_file);
-                $eval_str = sprintf('$GLOBALS[\'__DB__\'][\''.$db_type.'\'] = new %s();', $class_name);
-                eval($eval_str);
+				$get_db = create_function('', sprintf('$GLOBALS["__DB__"]["%s"] = new %s();', $db_type, $class_name));
+				$get_db();
             }
 
             return $GLOBALS['__DB__'][$db_type];
