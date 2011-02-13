@@ -560,7 +560,7 @@
         function getCondition ($output)
         {
             if (!$output->conditions) return;
-            $condition = $this->_getCondition ($output->conditions, $output->column_type, &$output);
+            $condition = $this->_getCondition ($output->conditions, $output->column_type, $output);
             if ($condition) $condition = ' where '.$condition;
 
             return $condition;
@@ -821,7 +821,7 @@
             $left_tables = (array) $output->left_tables;
 
             foreach ($left_tables as $key => $val) {
-                $condition = $this->_getCondition ($output->left_conditions[$key], $output->column_type, &$output);
+                $condition = $this->_getCondition ($output->left_conditions[$key], $output->column_type, $output);
                 if ($condition) {
                     $left_join[] = $val.' "'.$this->prefix.$output->_tables[$key].  '" "'.$key.'" on ('.$condition.')';
                 }
