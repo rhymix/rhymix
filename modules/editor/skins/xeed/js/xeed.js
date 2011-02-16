@@ -2373,9 +2373,11 @@ FileUpload = xe.createPlugin('FileUpload', {
 		this.updateFileSize();
 	},
 	API_SHOW_FILE_MODAL : function() {
-		var self = this, uploader, file_group = [], $form, params, seq;
+		var self = this, uploader, file_group = [], $form, params, seq, offset_top;
+		
+		offset_top = this.$btn.offset().top;
 
-		this.$modal_box.show();
+		this.$modal_box.css('top', offset_top+13).show();
 		this.$attach_list.show();
 
 		// register ESC hotkey
