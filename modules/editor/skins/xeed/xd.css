@@ -1,8 +1,7 @@
 @charset "utf-8";
 /* XEED - NHN (developers@xpressengine.com) */
 /* Reset */
-html,
-body{height:100%}
+
 .xd{display:none;position:relative;margin:1em 0;border:1px solid #e0dedf;z-index:1;*zoom:1;color:#000}
 .xd legend{visibility:visible}
 .xd fieldset{*zoom:1}
