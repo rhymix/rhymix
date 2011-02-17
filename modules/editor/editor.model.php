@@ -518,8 +518,8 @@
 
                 // 클래스 파일을 읽은 후 객체 생성
                 require_once($class_file);
-                $tmp_fn = create_function('', sprintf('return new %s("%s","%s");', $component, $editor_sequence, $class_path));
-				$oComponent = $tmp_fn();
+                $tmp_fn = create_function('$seq,$path', "return new {$component}(\$seq,\$path);");
+				$oComponent = $tmp_fn($editor_sequence, $class_path);
                 if(!$oComponent) return new Object(-1, sprintf(Context::getLang('msg_component_is_not_founded'), $component));
 
                 // 설정 정보를 추가
