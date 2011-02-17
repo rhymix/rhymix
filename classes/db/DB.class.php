@@ -107,8 +107,8 @@
 
                 unset($oDB);
                 require_once($class_file);
-                $eval_str = sprintf('$oDB = new %s();', $class_name);
-                eval($eval_str);
+				$tmp_fn = create_function('', "return new {$class_name}();");
+				$oDB    = $tmp_fn();
 
                 if(!$oDB) continue;
 
