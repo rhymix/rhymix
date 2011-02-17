@@ -607,8 +607,8 @@
                 require_once($class_file);
             
                 // 객체 생성
-                $eval_str = sprintf('$oWidget = new %s();', $widget);
-                @eval($eval_str);
+				$tmp_fn  = create_function('', "return new {$widget}()");
+				$oWidget = $tmp_fn();
                 if(!is_object($oWidget)) return sprintf(Context::getLang('msg_widget_object_is_null'), $widget);
 
                 if(!method_exists($oWidget, 'proc')) return sprintf(Context::getLang('msg_widget_proc_is_null'), $widget);
