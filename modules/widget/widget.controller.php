@@ -607,7 +607,7 @@
                 require_once($class_file);
             
                 // 객체 생성
-				$tmp_fn  = create_function('', "return new {$widget}()");
+				$tmp_fn  = create_function('', "return new {$widget}();");
 				$oWidget = $tmp_fn();
                 if(!is_object($oWidget)) return sprintf(Context::getLang('msg_widget_object_is_null'), $widget);
 
