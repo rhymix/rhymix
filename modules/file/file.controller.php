@@ -230,7 +230,13 @@
             header('Content-Disposition: attachment; filename="'.$filename.'"'); 
             header("Content-Transfer-Encoding: binary\n"); 
 
-            fpassthru($fp); 
+			// if file size is lager than 10MB, use fread function (#18675748)
+			if (filesize($uploaded_filename) > pow(1024, 10240)) {
+				while(!feof($fp)) echo fread($fp, 1024);
+				fclose($fp);
+			} else {
+				fpassthru($fp); 
+			}
 
             // 이상이 없으면 download_count 증가
             $args->file_srl = $file_srl;
