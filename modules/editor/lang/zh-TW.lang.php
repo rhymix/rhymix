@@ -278,4 +278,5 @@
 	$lang->edit->autosave_mins_ago = '%d分前';
 	
 	$lang->edit->upload_not_enough_quota   = '已超過上傳大小限制無法上傳附檔。';
+	$lang->edit->break_or_paragraph = 'Enter는 줄바꿈, Shift+Enter는 문단바꿈입니다.';
 ?>

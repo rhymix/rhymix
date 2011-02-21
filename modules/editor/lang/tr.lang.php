@@ -275,4 +275,5 @@
 	$lang->edit->autosave_mins_ago = '%ddakika önce';
 	
 	$lang->edit->upload_not_enough_quota   = 'Yeteri boş alan bulunmadığından, karşıya yükleme yapılamıyor.';
+	$lang->edit->break_or_paragraph = 'Enter는 줄바꿈, Shift+Enter는 문단바꿈입니다.';
 ?>

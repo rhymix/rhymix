@@ -275,4 +275,5 @@
 	$lang->edit->autosave_mins_ago = '%d minutes ago';
 	
 	$lang->edit->upload_not_enough_quota   = 'You cannot attach more.';
+	$lang->edit->break_or_paragraph = 'Enter는 줄바꿈, Shift+Enter는 문단바꿈입니다.';
 ?>
