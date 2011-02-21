@@ -435,6 +435,19 @@
 			$point = Context::get('point');
 			if($point != -1) $point = 1;
 
+			$oCommentModel = &getModel('comment');
+            $oComment = $oCommentModel->getComment($comment_srl, false, false);
+			$module_srl = $oComment->get('module_srl');
+			if(!$module_srl) return new Object(-1, 'msg_invalid_request');
+
+			$oModuleModel = &getModel('module');
+            $comment_config = $oModuleModel->getModulePartConfig('comment',$module_srl);
+			if($point == -1){
+				if($comment_config->use_vote_down!='S') return new Object(-1, 'msg_invalid_request');
+			}else{
+				if($comment_config->use_vote_up!='S') return new Object(-1, 'msg_invalid_request');
+			}
+
 			$args->comment_srl = $comment_srl;
 			$args->point = $point;
 

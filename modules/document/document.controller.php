@@ -1658,11 +1658,9 @@
 
             $document_config->use_vote_up = Context::get('use_vote_up');
 			if(!$document_config->use_vote_up) $document_config->use_vote_up = 'Y';
-            if($document_config->use_vote_up!='Y') $document_config->use_vote_up = 'N';
 
             $document_config->use_vote_down = Context::get('use_vote_down');
             if(!$document_config->use_vote_down) $document_config->use_vote_down = 'Y';
-            if($document_config->use_vote_down!='Y') $document_config->use_vote_down = 'N';
 
             $oModuleController = &getController('module');
             for($i=0;$i<count($module_srl);$i++) {

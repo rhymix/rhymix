@@ -95,4 +95,5 @@
 
     $lang->success_trashed = "Başarıyla silindi";
     $lang->msg_not_selected_document = 'Hiçbir makale seçilmedi.';
+	$lang->show_voted_member = '사용자 노출';
 ?>

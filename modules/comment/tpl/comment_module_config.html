@@ -18,6 +18,7 @@
         <td>
 		    <select name="use_vote_up" class="w100">
                 <option value="Y" <!--@if($comment_config->use_vote_up=='Y')-->selected="selected"<!--@end-->>{$lang->use}</option>
+                <option value="S" <!--@if($comment_config->use_vote_up=='S')-->selected="selected"<!--@end-->>{$lang->show_voted_member}</option>
                 <option value="N" <!--@if($comment_config->use_vote_up=='N')-->selected="selected"<!--@end-->>{$lang->notuse}</option>
             </select>
         </td>
@@ -27,6 +28,7 @@
         <td>
 		    <select name="use_vote_down" class="w100">
                 <option value="Y" <!--@if($comment_config->use_vote_down=='Y')-->selected="selected"<!--@end-->>{$lang->use}</option>
+                <option value="S" <!--@if($comment_config->use_vote_down=='S')-->selected="selected"<!--@end-->>{$lang->show_voted_member}</option>
                 <option value="N" <!--@if($comment_config->use_vote_down=='N')-->selected="selected"<!--@end-->>{$lang->notuse}</option>
             </select>
         </td>

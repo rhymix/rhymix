@@ -619,11 +619,9 @@
 
 			$comment_config->use_vote_up = Context::get('use_vote_up');
 			if(!$comment_config->use_vote_up) $comment_config->use_vote_up = 'Y';
-            if($comment_config->use_vote_up!='Y') $comment_config->use_vote_up = 'N';
 
             $comment_config->use_vote_down = Context::get('use_vote_down');
             if(!$comment_config->use_vote_down) $comment_config->use_vote_down = 'Y';
-            if($comment_config->use_vote_down!='Y') $comment_config->use_vote_down = 'N';
 
             for($i=0;$i<count($module_srl);$i++) {
                 $srl = trim($module_srl[$i]);

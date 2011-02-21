@@ -1045,6 +1045,19 @@
 			$point = Context::get('point');
 			if($point != -1) $point = 1;
 
+			$oDocumentModel = &getModel('document');
+            $oDocument = $oDocumentModel->getDocument($document_srl, false, false);
+			$module_srl = $oDocument->get('module_srl');
+			if(!$module_srl) return new Object(-1, 'msg_invalid_request');
+
+			$oModuleModel = &getModel('module');
+            $document_config = $oModuleModel->getModulePartConfig('document',$module_srl);
+			if($point == -1){
+				if($document_config->use_vote_down!='S') return new Object(-1, 'msg_invalid_request');
+			}else{
+				if($document_config->use_vote_up!='S') return new Object(-1, 'msg_invalid_request');
+			}
+
 			$args->document_srl = $document_srl;
 			$args->point = $point;
 

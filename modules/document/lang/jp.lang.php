@@ -97,4 +97,5 @@
 
     $lang->success_trashed = "ごみ箱に移動させました。";
     $lang->msg_not_selected_document = '選択された書き込みがありません。';
+	$lang->show_voted_member = '사용자 노출';
 ?>
