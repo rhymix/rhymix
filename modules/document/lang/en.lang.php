@@ -95,5 +95,5 @@
 
     $lang->success_trashed = "Successfully moved to trashcan";
     $lang->msg_not_selected_document = 'There is no selected article.';
-	$lang->show_voted_member = '사용자 노출';
+	$lang->show_voted_member = 'Show Voters';
 ?>
