@@ -22,6 +22,15 @@
             $document_srl = Context::get('target_srl');
             if(!$document_srl) return new Object(-1, 'msg_invalid_request');
 
+			$oDocumentModel = &getModel('document');
+            $oDocument = $oDocumentModel->getDocument($document_srl, false, false);
+			$module_srl = $oDocument->get('module_srl');
+			if(!$module_srl) return new Object(-1, 'msg_invalid_request');
+
+			$oModuleModel = &getModel('module');
+            $document_config = $oModuleModel->getModulePartConfig('document',$module_srl);
+			if($document_config->use_vote_up=='N') return new Object(-1, 'msg_invalid_request');
+
             $point = 1;
             return $this->updateVotedCount($document_srl, $point);
         }
@@ -44,6 +53,15 @@
 
             $document_srl = Context::get('target_srl');
             if(!$document_srl) return new Object(-1, 'msg_invalid_request');
+
+			$oDocumentModel = &getModel('document');
+            $oDocument = $oDocumentModel->getDocument($document_srl, false, false);
+			$module_srl = $oDocument->get('module_srl');
+			if(!$module_srl) return new Object(-1, 'msg_invalid_request');
+
+			$oModuleModel = &getModel('module');
+            $document_config = $oModuleModel->getModulePartConfig('document',$module_srl);
+			if($document_config->use_vote_down=='N') return new Object(-1, 'msg_invalid_request');
 
             $point = -1;
             return $this->updateVotedCount($document_srl, $point);
@@ -1637,6 +1655,14 @@
             $document_config = null;
             $document_config->use_history = Context::get('use_history');
             if(!$document_config->use_history) $document_config->use_history = 'N';
+
+            $document_config->use_vote_up = Context::get('use_vote_up');
+			if(!$document_config->use_vote_up) $document_config->use_vote_up = 'Y';
+            if($document_config->use_vote_up!='Y') $document_config->use_vote_up = 'N';
+
+            $document_config->use_vote_down = Context::get('use_vote_down');
+            if(!$document_config->use_vote_down) $document_config->use_vote_down = 'Y';
+            if($document_config->use_vote_down!='Y') $document_config->use_vote_down = 'N';
 
             $oModuleController = &getController('module');
             for($i=0;$i<count($module_srl);$i++) {

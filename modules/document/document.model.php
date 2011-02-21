@@ -494,13 +494,25 @@
             // 회원이어야만 가능한 기능
             if($logged_info->member_srl) {
 
-                // 추천 버튼 추가
-                $url = sprintf("doCallModuleAction('document','procDocumentVoteUp','%s')", $document_srl);
-                $oDocumentController->addDocumentPopupMenu($url,'cmd_vote','./modules/document/tpl/icons/vote_up.gif','javascript');
+				$oDocumentModel = &getModel('document');
+				$oDocument = $oDocumentModel->getDocument($document_srl, false, false);
+				$module_srl = $oDocument->get('module_srl');
+				$member_srl = $oDocument->get('member_srl');
+				if(!$module_srl) return new Object(-1, 'msg_invalid_request');
 
-                // 비추천 버튼 추가
-                $url= sprintf("doCallModuleAction('document','procDocumentVoteDown','%s')", $document_srl);
-                $oDocumentController->addDocumentPopupMenu($url,'cmd_vote_down','./modules/document/tpl/icons/vote_down.gif','javascript');
+				$oModuleModel = &getModel('module');
+				$document_config = $oModuleModel->getModulePartConfig('document',$module_srl);
+				if($document_config->use_vote_up!='N' && $member_srl!=$logged_info->member_srl){
+					// 추천 버튼 추가
+					$url = sprintf("doCallModuleAction('document','procDocumentVoteUp','%s')", $document_srl);
+					$oDocumentController->addDocumentPopupMenu($url,'cmd_vote','./modules/document/tpl/icons/vote_up.gif','javascript');
+				}
+
+				if($document_config->use_vote_down!='N' && $member_srl!=$logged_info->member_srl){
+					// 비추천 버튼 추가
+					$url= sprintf("doCallModuleAction('document','procDocumentVoteDown','%s')", $document_srl);
+					$oDocumentController->addDocumentPopupMenu($url,'cmd_vote_down','./modules/document/tpl/icons/vote_down.gif','javascript');
+				}
 
                 // 신고 기능 추가
                 $url = sprintf("doCallModuleAction('document','procDocumentDeclare','%s')", $document_srl);
@@ -1025,5 +1037,29 @@
             return $output;
         }
 
+		function getDocumentVotedMemberList()
+		{
+			$document_srl = Context::get('document_srl');
+			if(!$document_srl) return new Object(-1,'msg_invalid_request');
+
+			$point = Context::get('point');
+			if($point != -1) $point = 1;
+
+			$args->document_srl = $document_srl;
+			$args->point = $point;
+
+			$output = executeQueryArray('document.getVotedMemberList',$args);
+			if(!$output->toBool()) return $output;
+
+			$oMemberModel = &getModel('member');
+			if($output->data){
+				foreach($output->data as $k => $d){
+					$profile_image = $oMemberModel->getProfileImage($d->member_srl);
+					$output->data[$k]->src = $profile_image->src;
+				}
+			}
+
+			$this->add('voted_member_list',$output->data);
+		}
     }
 ?>

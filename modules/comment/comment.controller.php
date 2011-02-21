@@ -22,6 +22,15 @@
             $comment_srl = Context::get('target_srl');
             if(!$comment_srl) return new Object(-1, 'msg_invalid_request');
 
+			$oCommentModel = &getModel('comment');
+            $oComment = $oCommentModel->getComment($comment_srl, false, false);
+			$module_srl = $oComment->get('module_srl');
+			if(!$module_srl) return new Object(-1, 'msg_invalid_request');
+
+			$oModuleModel = &getModel('module');
+            $comment_config = $oModuleModel->getModulePartConfig('comment',$module_srl);
+			if($comment_config->use_vote_up=='N') return new Object(-1, 'msg_invalid_request');
+
             $point = 1;
             return $this->updateVotedCount($comment_srl, $point);
         }
@@ -34,6 +43,15 @@
 
             $comment_srl = Context::get('target_srl');
             if(!$comment_srl) return new Object(-1, 'msg_invalid_request');
+
+			$oCommentModel = &getModel('comment');
+            $oComment = $oCommentModel->getComment($comment_srl, false, false);
+			$module_srl = $oComment->get('module_srl');
+			if(!$module_srl) return new Object(-1, 'msg_invalid_request');
+
+			$oModuleModel = &getModel('module');
+            $comment_config = $oModuleModel->getModulePartConfig('comment',$module_srl);
+			if($comment_config->use_vote_down=='N') return new Object(-1, 'msg_invalid_request');
 
             $point = -1;
             return $this->updateVotedCount($comment_srl, $point);
@@ -596,20 +614,28 @@
             if(preg_match('/^([0-9,]+)$/',$module_srl)) $module_srl = explode(',',$module_srl);
             else $module_srl = array($module_srl);
 
-            $comment_count = (int)Context::get('comment_count');
+            $comment_config->comment_count = (int)Context::get('comment_count');
+			if(!$comment_config->comment_count) $comment_config->comment_count = 50;
+
+			$comment_config->use_vote_up = Context::get('use_vote_up');
+			if(!$comment_config->use_vote_up) $comment_config->use_vote_up = 'Y';
+            if($comment_config->use_vote_up!='Y') $comment_config->use_vote_up = 'N';
+
+            $comment_config->use_vote_down = Context::get('use_vote_down');
+            if(!$comment_config->use_vote_down) $comment_config->use_vote_down = 'Y';
+            if($comment_config->use_vote_down!='Y') $comment_config->use_vote_down = 'N';
 
             for($i=0;$i<count($module_srl);$i++) {
                 $srl = trim($module_srl[$i]);
                 if(!$srl) continue;
-                $output = $this->setCommentModuleConfig($srl,$comment_count);
+                $output = $this->setCommentModuleConfig($srl,$comment_config);
             }
 
             $this->setError(-1);
             $this->setMessage('success_updated');
         }
 
-		function setCommentModuleConfig($srl, $comment_count=50){
-			$comment_config->comment_count = $comment_count;
+		function setCommentModuleConfig($srl, $comment_config){
             $oModuleController = &getController('module');
 			$oModuleController->insertModulePartConfig('comment',$srl,$comment_config);
             return new Object();
