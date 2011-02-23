@@ -18,7 +18,7 @@ var Validator = xe.createApp('Validator', {
 	init : function() {
 		// {{{ add filters
 		// email
-		var regEmail = /^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)*$/;
+		var regEmail = /^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/;
 		this.cast('ADD_RULE', ['email', regEmail]);
 		this.cast('ADD_RULE', ['email_address', regEmail]);
 
@@ -247,6 +247,9 @@ var EditorStub = xe.createPlugin('editor_stub', {
 		var form = params[0];
 		var seq  = form.getAttribute('editor_sequence');
 
+		// bug fix for IE6,7
+		if (typeof seq == 'object') seq = seq.value;
+
 		if (seq) {
 			try {
 				editorRelKeys[seq].content.value = editorRelKeys[seq].func(seq) || '';
@@ -304,7 +307,7 @@ function procFilter(form, filter_func) {
 }
 
 function legacy_filter(filter_name, form, module, act, callback, responses, confirm_msg, rename_params) {
-	var v = xe.getApp('validator')[0], $ = jQuery, args = [];
+	var v = xe.getApp('Validator')[0], $ = jQuery, args = [];
 
 	if (!v) return false;
 
@@ -327,7 +330,7 @@ function legacy_filter(filter_name, form, module, act, callback, responses, conf
 		if (confirm_msg && !confirm(confirm_msg)) return false;
 		exec_xml(module, act, params, callback, responses, params, form);
 	};
-	
+
 	v.cast('ADD_CALLBACK', args);
 	v.cast('VALIDATE', [form, filter_name]);
 
