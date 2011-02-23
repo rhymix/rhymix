@@ -81,12 +81,16 @@
 			// xml parsing
 			$xml_obj = parent::parse($buff);
 
+			$attrs = $xml_obj->filter->attrs;
+			$rules = $xml_obj->filter->rules;
+
 			// XmlJsFilter는 filter_name, field, parameter 3개의 데이터를 핸들링
-			$filter_name       = $xml_obj->filter->attrs->name;
-			$confirm_msg_code  = $xml_obj->filter->attrs->confirm_msg_code;
-			$module            = $xml_obj->filter->attrs->module;
-			$act               = $xml_obj->filter->attrs->act;
-			$extend_filter     = $xml_obj->filter->attrs->extend_filter;
+			$filter_name       = $attrs->name;
+			$confirm_msg_code  = $attrs->confirm_msg_code;
+			$module            = $attrs->module;
+			$act               = $attrs->act;
+			$extend_filter     = $attrs->extend_filter;
+			
 
 			$field_node = $xml_obj->filter->form->node;
 			if($field_node && !is_array($field_node)) $field_node = array($field_node);
@@ -137,28 +141,39 @@
 			$js_messages    = array();
 
 			$fields = array();
+			debugPrint('compile!');
+			// create custom rule
+			if ($rules && $rules->rule) {
+				if (!is_array($rules->rule)) $rules->rule = array($rules->rule);
+				foreach($rules->rule as $r) {
+					if ($r->attrs->type == 'regex') {
+						$js_rules[] = "v.cast('ADD_RULE', ['{$r->attrs->name}', {$r->body}]);";
+					}
+				}
+				debugPrint($rules);
+			}
 
 			// field, 즉 체크항목의 script 생성
 			$node_count = count($field_node);
 			if($node_count) {
 				foreach($field_node as $key =>$node) {
-					$attrs = $node->attrs;
+					$attrs  = $node->attrs;
 					$target = trim($attrs->target);
+
 					if(!$target) continue;
 
-					$attrs->filter  = trim($attrs->filter);
-					$attrs->equalto = trim($attrs->equalto);
+					$rule    = trim($attrs->rule?$attrs->rule:$attrs->filter);
+					$equalto = trim($attrs->equalto);
 
 					$field = array();
 
 					if($attrs->required == 'true') $field[] = 'required:true';
 					if($attrs->minlength > 0)      $field[] = 'minlength:'.$attrs->minlength;
 					if($attrs->maxlength > 0)      $field[] = 'maxlength:'.$attrs->maxlength;
-					if($attrs->equalto)            $field[] = "equalto:'{$attrs->equalto}'";
-					if($attrs->filter)             $field[] = "rule:'{$attrs->filter}'";
+					if($equalto) $field[] = "equalto:'{$attrs->equalto}'";
+					if($rule)    $field[] = "rule:'{$rule}'";
 
-					$s_field = implode(',', $field);
-					$fields[] = "'{$target}': {{$s_field}}";
+					$fields[] = "'{$target}': {".implode(',', $field)."}";
 
 					if(!in_array($target, $target_list)) $target_list[] = $target;
 					if(!$target_type_list[$target]) $target_type_list[$target] = $filter;
@@ -166,24 +181,23 @@
 			}
 
 			// extend_filter_item 체크
+			$rule_types = array('homepage'=>'homepage', 'email_address'=>'email');
+			
 			for($i=0;$i<$extend_filter_count;$i++) {
 				$filter_item = $extend_filter_list[$i];
 				$target      = trim($filter_item->name);
 
 				if(!$target) continue;
 
-				$type     = $filter_item->type;
+				// extend filter item의 type으로 rule을 구함
+				$type  = $filter_item->type;
+				$rule  = $rule_types[$type]?$rule_types[$type]:'';
 				$required = ($filter_item->required == 'true');
-
-				// extend filter item의 type으로 filter를 구함
-				$types = array('homepage'=>'homepage', 'email_address'=>'email');
-				$filter = $types[$type]?$types[$type]:'';
 
 				$field = array();
 				if($required) $field[] = 'required:true';
-				if($filter)   $field[] = "rule:'{$filter}'";
-				$s_field = implode(',', $field);
-				$fields[] = "\t\t'{$target}' : {{$s_field}}";
+				if($rule)     $field[] = "rule:'{$rule}'";
+				$fields[] = "\t\t'{$target}' : {".implode(',', $field)."}";
 
 				if(!in_array($target, $target_list)) $target_list[] = $target;
 				if(!$target_type_list[$target]) $target_type_list[$target] = $type;
@@ -200,7 +214,7 @@
 					$target = trim($attrs->target);
 
 					//if($name && $target && ($name != $target)) $js_doc[] = "\t\tparams['{$name}'] = params['{$target}']; delete params['{$target}'];";
-					if($name && $target && ($name != $target)) $rename_params[] = "'{$target}':'{$name}'";
+					if($name && $target && ($name != $target))  $rename_params[] = "'{$target}':'{$name}'";
 					if($name && !in_array($name, $target_list)) $target_list[] = $name;
 				}
 
