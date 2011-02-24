@@ -82,9 +82,9 @@
         var margin = parseInt($form.find('#image_margin').val(), 10);
 
         if($form.find('#align_normal').attr('checked') == true) align = '';
-        else if($form.find('#align_left').attr('checked') == true) align = 'float: left';
-        else if($form.find('#align_middle').attr('checked') == true) align = 'vertical-align: middle';
-        else if($form.find('#align_right').attr('checked') == true) align = 'float: right';
+        else if($form.find('#align_left').attr('checked') == true) align = 'left';
+        else if($form.find('#align_middle').attr('checked') == true) align = 'middle';
+        else if($form.find('#align_right').attr('checked') == true) align = 'right';
 
 
         var width = $form.find('#width').val();
@@ -117,6 +117,11 @@
             img_style.border = border+'px solid';
         }
         if(margin) img_attrs.margin = margin;
+        if(align == 'left' || align == 'right') {
+            img_style.float = align;
+        } else if(align == 'middle')  {
+            img_style.verticalAlign = align;
+        }
 
         $component.find('img').attr(img_attrs);
         $component.find('img').css(img_style);
