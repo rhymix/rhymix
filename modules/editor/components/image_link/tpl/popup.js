@@ -171,6 +171,11 @@
         $form = $('#fo');
         $form.find('#btn_insert').click(insertImage);
         if(typeof(opener) != "undefined") getImage();
+		$form.find('#image_url').blur(getImageScale);
+		$form.find('#get_scale').click(getImageScale);
+		$form.find('#width').blur(function() { setScale('width') });
+		$form.find('#height').blur(function() { setScale('height') });
+
     });
 
 }) (jQuery);
