@@ -248,7 +248,7 @@ var EditorStub = xe.createPlugin('editor_stub', {
 		var seq  = form.getAttribute('editor_sequence');
 
 		// bug fix for IE6,7
-		if (typeof seq == 'object') seq = seq.value;
+		if (seq && typeof seq == 'object') seq = seq.value;
 
 		if (seq) {
 			try {
