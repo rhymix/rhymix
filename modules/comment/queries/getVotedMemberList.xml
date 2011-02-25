@@ -9,8 +9,9 @@
     </columns>
     <conditions>
         <condition operation="equal" column="voted_log.comment_srl" var="comment_srl" filter="number" notnull="notnull" />
-        <condition operation="equal" column="voted_log.point" var="point" notnull="notnull" pipe="and" />
         <condition operation="equal" column="voted_log.member_srl" default="member.member_srl" pipe="and" />
+        <condition operation="more" column="voted_log.point" var="more_point" pipe="and" />
+        <condition operation="below" column="voted_log.point" var="below_point" pipe="and" />
     </conditions>
     <navigation>
         <index var="sort_index" default="voted_log.regdate" order="desc" />

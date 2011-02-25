@@ -444,13 +444,13 @@
             $comment_config = $oModuleModel->getModulePartConfig('comment',$module_srl);
 			if($point == -1){
 				if($comment_config->use_vote_down!='S') return new Object(-1, 'msg_invalid_request');
+				$args->below_point = 0;
 			}else{
 				if($comment_config->use_vote_up!='S') return new Object(-1, 'msg_invalid_request');
+				$args->more_point = 0;
 			}
 
 			$args->comment_srl = $comment_srl;
-			$args->point = $point;
-
 			$output = executeQueryArray('comment.getVotedMemberList',$args);
 			if(!$output->toBool()) return $output;
 

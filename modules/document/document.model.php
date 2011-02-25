@@ -1054,12 +1054,13 @@
             $document_config = $oModuleModel->getModulePartConfig('document',$module_srl);
 			if($point == -1){
 				if($document_config->use_vote_down!='S') return new Object(-1, 'msg_invalid_request');
+				$args->below_point = 0;
 			}else{
 				if($document_config->use_vote_up!='S') return new Object(-1, 'msg_invalid_request');
+				$args->more_point = 0;
 			}
 
 			$args->document_srl = $document_srl;
-			$args->point = $point;
 
 			$output = executeQueryArray('document.getVotedMemberList',$args);
 			if(!$output->toBool()) return $output;
