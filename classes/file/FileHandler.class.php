@@ -430,7 +430,7 @@
         {
             if(!function_exists('memory_get_usage')) return true;
             $K64 = 65536;
-            $TWEAKFACTOR = 1.5;
+            $TWEAKFACTOR = 2.0;
             $channels = $imageInfo['channels'];
             if(!$channels) $channels = 6; //for png
             $memoryNeeded = round( ($imageInfo[0] * $imageInfo[1] * $imageInfo['bits'] * $channels / 8 + $K64 ) * $TWEAKFACTOR );
