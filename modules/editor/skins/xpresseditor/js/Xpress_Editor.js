@@ -822,6 +822,7 @@ xe.W3CDOMRange = $.Class({
 	// for <div id="a"><div id="b"></div></div><div id="c"></div>, _getNodesBetween(b, c) will yield to b, "a" and c
 	_getNodesBetween : function(oStartNode, oEndNode){
 		var aNodesBetween = [];
+		this._nNodesBetweenLen = 0;
 
 		if(!oStartNode || !oEndNode) return aNodesBetween;
 
@@ -837,10 +838,9 @@ xe.W3CDOMRange = $.Class({
 		var oNextToChk = oNode.nextSibling;
 
 		while(!oNextToChk){
-			if(!xe.DOMFix.parentNode(oNode)) return false;
-			oNode = xe.DOMFix.parentNode(oNode);
+			if(!(oNode = xe.DOMFix.parentNode(oNode))) return false;
 
-			aNodesBetween[aNodesBetween.length] = oNode;
+			aNodesBetween[this._nNodesBetweenLen++] = oNode;
 
 			if(oNode == oEndNode) return false;
 
@@ -866,7 +866,7 @@ xe.W3CDOMRange = $.Class({
 			}
 		}
 
-		aNodesBetween[aNodesBetween.length] = oNode;
+		aNodesBetween[this._nNodesBetweenLen++] = oNode;
 
 		if(bEndFound) return false;
 		if(oNode == oEndNode) return false;
@@ -1356,32 +1356,42 @@ xe.XpressRange = $.Class({
 
 		var aAllNodes = this._getNodesInRange();
 		var aResult = [];
+		var nResult = 0;
 
-		var oNode, iStartRelPos, iEndRelPos, oSpan, iSIdx, iEIdx;
-		var nInitialLength = aAllNodes.length;
+		var oNode, oTmpNode, iStartRelPos, iEndRelPos, oSpan, iSIdx, iEIdx, oParentNode;
+		var nInitialLength  = aAllNodes.length;
+		var arAllBottmNodes = $(aAllNodes).filter(function(){ return !!this.childNodes.length });
+
 		for(var i=0; i<nInitialLength; i++){
 			oNode = aAllNodes[i];
 
-			if(!oNode) continue;
-			if(oNode.nodeType != 3) continue;
-			if(oNode.nodeValue == "") continue;
+			if(!oNode || oNode.nodeType != 3 || oNode.nodeValue == '') continue;
+			
+			oParentNode = xe.DOMFix.parentNode(oNode);
 
-			if(xe.DOMFix.parentNode(oNode).tagName == "SPAN"){
+			if(oParentNode.tagName == "SPAN"){
 				// check if the SPAN element is fully contained
-				iSIdx = $.inArray(this._getVeryFirstRealChild(xe.DOMFix.parentNode(oNode.parentNode)), aAllNodes);
-				iEIdx = $.inArray(this._getVeryLastRealChild(xe.DOMFix.parentNode(oNode)), aAllNodes);
+				// do quick checks before trying indexOf() because indexOf() function is very slow
+				oTmpNode = this._getVeryFirstRealChild(oParentNode);
+				if(oTmpNode == oNode) iSIdx = 1;
+				else iSIdx = arAllBottmNodes.indexOf(oTmpNode);
+
+				if(iSIdx != -1){
+					oTmpNode = this._getVeryLastRealChild(oParentNode);
+					if(oTmpNode == oNode) iEIdx = 1;
+					else iEIdx = arAllBottmNodes.indexOf(oTmpNode);
+				}
 
 				if(iSIdx != -1 && iEIdx != -1){
-					aResult[aResult.length] = xe.DOMFix.parentNode(oNode);
+					aResult[nResult++] = oParentNode;
 					continue;
 				}
 			}
 
 			oSpan = this._document.createElement("SPAN");
-			xe.DOMFix.parentNode(oNode).insertBefore(oSpan, oNode);
+			oParentNode.insertBefore(oSpan, oNode);
 			oSpan.appendChild(oNode);
-			aResult[aResult.length] = oSpan;
-			aAllNodes[aAllNodes.length] = oSpan;
+			aResult[nResult++] = oSpan;
 
 			if(sNewSpanMarker) oSpan.setAttribute(sNewSpanMarker, "true");
 		}
@@ -5004,7 +5014,6 @@ xe.XE_Hyperlink = $.Class({
 		this.oApp.registerBrowserEvent(this.oBtnConfirm, "mousedown", "XE_APPLY_HYPERLINK");
 		this.oApp.registerBrowserEvent(this.oBtnCancel, "mousedown", "HIDE_ACTIVE_LAYER");
 		this.oApp.registerBrowserEvent(this.oLinkInput, "keydown", "EVENT_XE_HYPERLINK_KEYDOWN");
-		//this.oApp.registerBrowserEvent(this.oLinkInput
 
 		this.oApp.exec("REGISTER_UI_EVENT", ["hyperlink", "click", "XE_TOGGLE_HYPERLINK_LAYER"]);
 	},
@@ -5036,48 +5045,36 @@ xe.XE_Hyperlink = $.Class({
 	},
 
 	$ON_XE_APPLY_HYPERLINK : function(){
-		var sURL = this.oLinkInput.value;
+		var sURL = this.oLinkInput.value, newWin = this.oCbNewWin.checked, sTarget = newWin?'_blank':'';
 
 		this.oApp.exec("FOCUS", []);
 		this.oSelection = this.oApp.getSelection();
-
-		//if(this._validateURL(sURL)){
-		var sTarget = "";
-		if(this.oCbNewWin.checked)
-			sTarget = "_blank";
-		else
-			sTarget = "_self";
 
 		if(this.oSelection.collapsed){
 			var str = "<a href='" + sURL + "' target="+sTarget+">" + sURL + "</a>";
 			this.oSelection.pasteHTML(str);
 		}else{
 			var nSession = Math.ceil(Math.random()*10000);
-			var arg = ( sURL == "" ? ["unlink"] : ["createLink", false, this.sATagMarker+nSession+sURL] );
+			var sMarker  = this.sATagMarker+nSession;
+			var arg = ( sURL == "" ? ["unlink"] : ["createLink", false, sMarker+sURL] );
 			this.oApp.exec("EXECCOMMAND", arg);
 
-			this.oSelection.setFromSelection();
-
+			try { this.oSelection.setFromSelection() }catch(e){};
 			var oDoc = this.oApp.getWYSIWYGDocument();
-			var aATags = oDoc.body.getElementsByTagName("A");
-			var nLen = aATags.length;
-			var rxMarker = new RegExp(this.sRXATagMarker+nSession, "i");
-			var elATag;
-			for(var i=0; i<nLen; i++){
-				elATag = aATags[i];
-				if(elATag.href && elATag.href.match(rxMarker)){
-					elATag.href = elATag.href.replace(rxMarker, "");
-					elATag.target = sTarget;
-				}
-			}
+			$(oDoc.body.getElementsByTagName("A"))
+				.filter('[href^="'+sMarker+'"]')
+					.attr('href', function(){
+							var rx = new RegExp('^'+sMarker.replace(/([\.\\])/g, '\\$1'), 'i');
+
+							if (sTarget) $(this).attr('target', sTarget);
+							else $(this).removeAttr('target');
+
+							return this.href.replace(rx, '');
+						});
 		}
 		this.oApp.exec("HIDE_ACTIVE_LAYER");
 
-		setTimeout($.fnBind(function(){this.oSelection.select()}, this), 0);
-		//}else{
-			//alert(this.oApp.$MSG("XE_Hyperlink.invalidURL"));
-			//this.oLinkInput.focus();
-		//}
+		setTimeout($.fnBind(function(){try{this.oSelection.select()}catch(e){}}, this), 0);
 	},
 
 	_validateURL : function(sURL){
