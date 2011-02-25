@@ -141,7 +141,7 @@
 			$js_messages    = array();
 
 			$fields = array();
-			debugPrint('compile!');
+
 			// create custom rule
 			if ($rules && $rules->rule) {
 				if (!is_array($rules->rule)) $rules->rule = array($rules->rule);
@@ -150,7 +150,6 @@
 						$js_rules[] = "v.cast('ADD_RULE', ['{$r->attrs->name}', {$r->body}]);";
 					}
 				}
-				debugPrint($rules);
 			}
 
 			// field, 즉 체크항목의 script 생성
