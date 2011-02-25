@@ -99,7 +99,7 @@
 				$this->lang_type = $this->get('l');
 				if($_COOKIE['lang_type'] != $this->lang_type)
 				{
-					setcookie('lang_type', $this->lang_type);
+					setcookie('lang_type', $this->lang_type, time()+3600*24*1000, '/');
 				}
 			}
             else if($_COOKIE['lang_type']) $this->lang_type = $_COOKIE['lang_type'];
