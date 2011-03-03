@@ -837,6 +837,7 @@ Block = xe.createPlugin('BlockCommand', {
 		if (!sel) return false;
 
 		nodes = this.getBlockParents();
+		console.log(nodes);
 		n     = parseInt(params[0], 10);
 
 		for(i=0,c=nodes.length; i<c; i++) {
@@ -1190,8 +1191,9 @@ Font = xe.createPlugin('Font', {
 	 */
 	API_EXEC_FONTSTYLE : function(sender, params) {
 		var sel = this.oApp.getSelection(), styles = params[0], span, val;
-
-		if (sel.collapsed) {
+		
+		if(!sel) return;
+		if(sel.collapsed) {
 		}
 
 		sel.styleRange(styles);
@@ -1777,6 +1779,11 @@ EditMode = xe.createPlugin('EditMode', {
 
 		app.$textarea.show().css('height', '100%').css('width', '100%').css('border',0);
 		app.$richedit.hide().parent().css('overflow','hidden');
+
+		// Fix IE6 and 7 rendering bug
+		if ($.browser.msie && $.browser.version < 8) {
+			app.$textarea.css('height', app.$textarea.parent().height());
+		}
 
 		// set active button
 		this.$btn_wysiwyg_p.removeClass('active');
