@@ -630,13 +630,15 @@
             $widgetstyle_info = $oWidgetModel->getWidgetStyleInfo($widgetStyle);
             if(!$widgetstyle_info) return $widget_content_body;
 
-            $widgetstyle_extar_var_key = get_object_vars($widgetstyle_info);
-            if(count($widgetstyle_extar_var_key['extra_var'])){
-                foreach($widgetstyle_extar_var_key['extra_var'] as $key => $val){
-                    $widgetstyle_extar_var->{$key} =  $args->{$key};
+            $widgetstyle_extra_var_key = get_object_vars($widgetstyle_info);
+            if(count($widgetstyle_extra_var_key['extra_var'])){
+                foreach($widgetstyle_extra_var_key['extra_var'] as $key => $val){
+                    $widgetstyle_extra_var->{$key} =  $args->{$key};
                 }
             }
-            Context::set('widgetstyle_extar_var', $widgetstyle_extar_var);
+            Context::set('widgetstyle_extra_var', $widgetstyle_extra_var);
+			// #18994272 오타를 수정했으나 하위 호환성을 위해 남겨둠 - deprecated
+            Context::set('widgetstyle_extar_var', $widgetstyle_extra_var);
 
             if($javascript_mode && $widget=='widgetBox'){
                 Context::set('widget_content', '<div class="widget_inner">'.$widget_content_body.'</div>');
