@@ -253,7 +253,7 @@
             return htmlspecialchars($content);
         }
 
-        function getContent($add_popup_menu = true, $add_content_info = true, $resource_realpath = false, $add_xe_content_class = true) {
+        function getContent($add_popup_menu = true, $add_content_info = true, $resource_realpath = false, $add_xe_content_class = true, $stripEmbedTagException = false) {
             if(!$this->document_srl) return;
 
             if($this->isSecret() && !$this->isGranted() && !$this->isAccessible()) return Context::getLang('msg_is_secret');
@@ -261,7 +261,7 @@
             $_SESSION['accessible'][$this->document_srl] = true;
 
             $content = $this->get('content');
-            stripEmbedTagForAdmin($content, $this->get('member_srl'));
+            if(!$stripEmbedTagException) stripEmbedTagForAdmin($content, $this->get('member_srl'));
 
             // rewrite모듈을 사용하면 링크 재정의
             $oContext = &Context::getInstance();
