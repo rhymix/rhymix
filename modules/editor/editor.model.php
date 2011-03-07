@@ -510,6 +510,9 @@
          * @brief component의 객체 생성
          **/
         function getComponentObject($component, $editor_sequence = 0, $site_srl = 0) {
+
+			if(!is_string($component) || !is_int($editor_sequence) || !is_int($site_srl)) return;
+
             if(!$this->loaded_component_list[$component][$editor_sequence]) {
                 // 해당 컴포넌트의 객체를 생성해서 실행
                 $class_path = sprintf('%scomponents/%s/', $this->module_path, $component);
