@@ -267,7 +267,7 @@
 	$lang->edit->fieldset = '區域';
 	$lang->edit->paragraph = '段落';
 	
-	$lang->edit->autosave_format = '글을 쓰기 시작한지 <strong>%s</strong>이 지났습니다. 마지막 저장 시간은 <strong>%s</strong> 입니다.';
+	$lang->edit->autosave_format = '正在編寫 <strong>%s</strong> 最後儲存時間 <strong>%s</strong> ';
 	$lang->edit->autosave_hour = '%d小時';
 	$lang->edit->autosave_hours = '%d小時';
 	$lang->edit->autosave_min = '%d分';
@@ -278,5 +278,5 @@
 	$lang->edit->autosave_mins_ago = '%d分前';
 	
 	$lang->edit->upload_not_enough_quota   = '已超過上傳大小限制無法上傳附檔。';
-	$lang->edit->break_or_paragraph = 'Enter는 줄바꿈, Shift+Enter는 문단바꿈입니다.';
+	$lang->edit->break_or_paragraph = '按 Enter鍵換行，按 Shift+Enter分隔段落。;
 ?>

@@ -97,5 +97,5 @@
 
     $lang->success_trashed = "成功地移到垃圾桶";
     $lang->msg_not_selected_document = '尚未選擇主題';
-	$lang->show_voted_member = '사용자 노출';
+	$lang->show_voted_member = '投票會員';
 ?>
