@@ -90,7 +90,6 @@ function editorStart_xe(editor_sequence, primary_key, content_key, editor_height
 		oEditor.registerPlugin(new xe.XE_UndoRedo());
 		oEditor.registerPlugin(new xe.XE_Table(elAppContainer));
 		oEditor.registerPlugin(new xe.XE_Hyperlink(elAppContainer));
-		oEditor.registerPlugin(new xe.XE_FindReplacePlugin(elAppContainer));
 		oEditor.registerPlugin(new xe.XE_FormatWithSelectUI(elAppContainer));
 		oEditor.registerPlugin(new xe.XE_SCharacter(elAppContainer));
 	}
