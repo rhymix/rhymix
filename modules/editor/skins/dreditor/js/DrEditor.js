@@ -226,6 +226,7 @@ var DrEditor = xe.createApp('DrEditor', {
 		var seq = params[0];
 		var box = configs[seq].editArea.contents().clone();
 		var dum = $('<div>').append(box);
+		var htm = '';
 
 		// remove no-content area
 		dum.find('>div.wArea,>div.eArea>div.drag_handle,>div.eArea>button.del').remove();
@@ -233,7 +234,20 @@ var DrEditor = xe.createApp('DrEditor', {
 		// getting content
 		this.cast('GETTING_CONTENT', [seq, dum]);
 
-		return dum.html();
+		htm = dum
+				.html()
+				.replace(
+					/<(img|br)([^>]*)\/?>/gi,
+					function(m0,m1,m2){
+						var ret = ['<'+m1];
+						(m2 = $.trim(m2))?ret.push(m2):0;
+						ret.push('/>');
+
+						return ret.join(' ');
+					}
+				);
+
+		return htm;
 	},
 	API_SET_CONTENT : function(sender, params) {
 		var seq = params[0];
