@@ -50,8 +50,10 @@
             if(!Context::get('is_logged')) return false;
 
             $logged_info = Context::get('logged_info');
-
             if($logged_info->is_admin == 'Y') return true;
+
+			$grant = Context::get('grant');
+			if($grant->manager) return true;
 
             if($this->get('member_srl') && ($this->get('member_srl') == $logged_info->member_srl || $this->get('member_srl')*-1 == $logged_info->member_srl)) return true;
 
