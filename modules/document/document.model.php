@@ -201,72 +201,9 @@
             $use_division = false;
 
             // 검색 옵션 정리
-            $search_target = $obj->search_target;
-            $search_keyword = $obj->search_keyword;
-            if($search_target && $search_keyword) {
-                switch($search_target) {
-                    case 'title' :
-                    case 'content' :
-                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
-                            $args->{"s_".$search_target} = $search_keyword;
-                            $use_division = true;
-                        break;
-                    case 'title_content' :
-                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
-                            $args->s_title = $search_keyword;
-                            $args->s_content = $search_keyword;
-                            $use_division = true;
-                        break;
-                    case 'user_id' :
-                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
-                            $args->s_user_id = $search_keyword;
-                            $args->sort_index = 'documents.'.$args->sort_index;
-                        break;
-                    case 'user_name' :
-                    case 'nick_name' :
-                    case 'email_address' :
-                    case 'homepage' :
-                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
-                            $args->{"s_".$search_target} = $search_keyword;
-                        break;
-                    case 'is_notice' :
-                    case 'is_secret' :
-                            if($search_keyword=='N') $args->{"s_".$search_target} = 'N';
-                            elseif($search_keyword=='Y') $args->{"s_".$search_target} = 'Y';
-                            else $args->{"s_".$search_target} = '';
-                        break;
-                    case 'member_srl' :
-                    case 'readed_count' :
-                    case 'voted_count' :
-                    case 'comment_count' :
-                    case 'trackback_count' :
-                    case 'uploaded_count' :
-                            $args->{"s_".$search_target} = (int)$search_keyword;
-                        break;
-                    case 'regdate' :
-                    case 'last_update' :
-                    case 'ipaddress' :
-                            $args->{"s_".$search_target} = $search_keyword;
-                        break;
-                    case 'comment' :
-                            $args->s_comment = $search_keyword;
-                            $query_id = 'document.getDocumentListWithinComment';
-                            $use_division = true;
-                        break;
-                    case 'tag' :
-                            $args->s_tags = str_replace(' ','%',$search_keyword);
-                            $query_id = 'document.getDocumentListWithinTag';
-                        break;
-                    default :
-                            if(strpos($search_target,'extra_vars')!==false) {
-                                $args->var_idx = substr($search_target, strlen('extra_vars'));
-                                $args->var_value = str_replace(' ','%',$search_keyword);
-                                $args->sort_index = 'documents.'.$args->sort_index;
-                                $query_id = 'document.getDocumentListWithExtraVars';
-                            }
-                        break;
-                }
-            }
+            $searchOpt->search_target = $obj->search_target;
+            $searchOpt->search_keyword = $obj->search_keyword;
+			$this->_setSearchOption($searchOpt, &$args, &$query_id, &$use_division);
 
             /**
              * division은 list_order의 asc 정렬일때만 사용할 수 있음
@@ -605,6 +542,11 @@
             $args->module_srl = $oDocument->get('module_srl');
             $args->sort_index = $opt->sort_index;
             $args->order_type = $opt->order_type;
+
+            // 검색 옵션 정리
+            $searchOpt->search_target = $opt->search_target;
+            $searchOpt->search_keyword = $opt->search_keyword;
+			$this->_setSearchOption($searchOpt, &$args, &$query_id, &$use_division);
 
             // 전체 갯수를 구한후 해당 글의 페이지를 검색
             $output = executeQuery('document.getDocumentPage', $args);
@@ -1074,6 +1016,82 @@
 			}
 
 			$this->add('voted_member_list',$output->data);
+		}
+
+        /**
+         * @brief 게시물 목록의 검색 옵션을 Setting함(2011.03.08 - cherryfilter)
+		 * page변수가 없는 상태에서 page 값을 알아오는 method(getDocumentPage)는 검색하지 않은 값을 return해서 검색한 값을 가져오도록 검색옵션이 추가 됨.
+		 * 검색옵션의 중복으로 인해 private method로 별도 분리
+         **/
+		function _setSearchOption($searchOpt, &$args, &$query_id, &$use_division)
+		{
+			$search_target = $searchOpt->search_target;
+			$search_keyword = $searchOpt->search_keyword;
+
+            if($search_target && $search_keyword) {
+                switch($search_target) {
+                    case 'title' :
+                    case 'content' :
+                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
+                            $args->{"s_".$search_target} = $search_keyword;
+                            $use_division = true;
+                        break;
+                    case 'title_content' :
+                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
+                            $args->s_title = $search_keyword;
+                            $args->s_content = $search_keyword;
+                            $use_division = true;
+                        break;
+                    case 'user_id' :
+                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
+                            $args->s_user_id = $search_keyword;
+                            $args->sort_index = 'documents.'.$args->sort_index;
+                        break;
+                    case 'user_name' :
+                    case 'nick_name' :
+                    case 'email_address' :
+                    case 'homepage' :
+                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
+                            $args->{"s_".$search_target} = $search_keyword;
+                        break;
+                    case 'is_notice' :
+                    case 'is_secret' :
+                            if($search_keyword=='N') $args->{"s_".$search_target} = 'N';
+                            elseif($search_keyword=='Y') $args->{"s_".$search_target} = 'Y';
+                            else $args->{"s_".$search_target} = '';
+                        break;
+                    case 'member_srl' :
+                    case 'readed_count' :
+                    case 'voted_count' :
+                    case 'comment_count' :
+                    case 'trackback_count' :
+                    case 'uploaded_count' :
+                            $args->{"s_".$search_target} = (int)$search_keyword;
+                        break;
+                    case 'regdate' :
+                    case 'last_update' :
+                    case 'ipaddress' :
+                            $args->{"s_".$search_target} = $search_keyword;
+                        break;
+                    case 'comment' :
+                            $args->s_comment = $search_keyword;
+                            $query_id = 'document.getDocumentListWithinComment';
+                            $use_division = true;
+                        break;
+                    case 'tag' :
+                            $args->s_tags = str_replace(' ','%',$search_keyword);
+                            $query_id = 'document.getDocumentListWithinTag';
+                        break;
+                    default :
+                            if(strpos($search_target,'extra_vars')!==false) {
+                                $args->var_idx = substr($search_target, strlen('extra_vars'));
+                                $args->var_value = str_replace(' ','%',$search_keyword);
+                                $args->sort_index = 'documents.'.$args->sort_index;
+                                $query_id = 'document.getDocumentListWithExtraVars';
+                            }
+                        break;
+                }
+            }
 		}
     }
 ?>
