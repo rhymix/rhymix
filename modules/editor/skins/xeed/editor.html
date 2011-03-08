@@ -22,9 +22,9 @@
 	<!-- tool -->
 	<div class="tool">
 		<a href="#edit" class="skip">{$lang->edit->jumptoedit}</a>
-		<div class="t1">
+		<div class="t1" cond="$allow_file_upload || $enable_component">
 			<button type="button" class="mo"><span>{$lang->edit->toolbar_moreless}</span></button>
-			<ul class="u1">
+			<ul class="u1" cond="$allow_file_upload">
 				<li class="ti al">
 					<a href="#xdal" class="tb">
 						<span class="all">{$lang->edit->upload_list}</span>
@@ -34,15 +34,15 @@
 					</a>
 				</li>
 			</ul>
-            <!--@if($enable_component)-->
 			<!-- editor components -->
+			<block cond="$enable_component">
 			<!--@foreach($component_list as $component_name => $component)-->
 			<ul class="u2">
 				<li class="ti"><a href="{getUrl('module','editor','act','dispEditorPopup','editor_sequence', $editor_sequence, 'component', $component_name)}" target="_blank" class="tb" id="component_{$editor_sequence}_{$component_name}" title="{$component->title}">{$component->title}</a></li>
 			</ul>
 			<!--@end-->
+			</block>
 			<!-- //editor components -->
-			<!--@end-->
 		</div>
 		<div class="t2">
 			<button type="button" class="mo"><span>{$lang->edit->toolbar_moreless}</span></button>
