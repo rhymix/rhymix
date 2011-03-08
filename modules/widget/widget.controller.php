@@ -555,6 +555,7 @@
                             $attribute = array();
                             if($args) {
                                 foreach($args as $key => $val) {
+									if(!is_string($val . "")) continue;
                                     if(in_array($key, array('class','style','widget_padding_top','widget_padding_right','widget_padding_bottom','widget_padding_left','widget'))) continue;
                                     if(strlen($val)==0) continue;
                                     if(strpos($val,'|@|')>0) $val = str_replace('|@|',',',$val);
