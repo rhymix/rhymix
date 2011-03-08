@@ -464,7 +464,7 @@
             if(!preg_match('/^(http|https)/i',$target)) 
             {
                 if(substr($target,0,2)=='./') $target = substr($target,2);
-                if(!substr($target,0,1)!='/') $target = $web_path.$target;
+                if(substr($target,0,1)!='/') $target = $web_path.$target;
             }
 
 			if(!$attrs['index']) $attrs['index'] = 'null';
