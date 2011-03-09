@@ -600,7 +600,9 @@
                 $obj->readed_count = base64_decode($xmlDoc->post->readed_count->body);
                 $obj->voted_count = base64_decode($xmlDoc->post->voted_count->body);
                 $obj->password = base64_decode($xmlDoc->post->password->body);
-                $obj->user_name = $obj->nick_name = base64_decode($xmlDoc->post->nick_name->body);
+                $obj->user_name = base64_decode($xmlDoc->post->user_name->body);
+                $obj->nick_name = base64_decode($xmlDoc->post->nick_name->body);
+				if(!$obj->user_name) $obj->user_name = $obj->nick_name;
                 $obj->user_id = base64_decode($xmlDoc->post->user_id->body);
                 $obj->email_address = base64_decode($xmlDoc->post->email->body);
                 $obj->homepage = base64_decode($xmlDoc->post->homepage->body);
@@ -781,7 +783,9 @@
                     $obj->content = base64_decode($xmlDoc->comment->content->body);
                     $obj->voted_count = base64_decode($xmlDoc->comment->voted_count->body);
                     $obj->password = base64_decode($xmlDoc->comment->password->body);
-                    $obj->user_name = $obj->nick_name = base64_decode($xmlDoc->comment->nick_name->body);
+                    $obj->user_name =base64_decode($xmlDoc->comment->user_name->body);
+                    $obj->nick_name = base64_decode($xmlDoc->comment->nick_name->body);
+                    if(!$obj->user_name) $obj->user_name = $obj->nick_name;
                     $obj->user_id = base64_decode($xmlDoc->comment->user_id->body);
                     $obj->member_srl = 0;
                     $obj->email_address = base64_decode($xmlDoc->comment->email->body);
