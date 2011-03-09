@@ -84,6 +84,10 @@
 
                 // 내용 처리
                 if($vars[-2][$user_lang_code]) $GLOBALS['XE_DOCUMENT_LIST'][$document_srl]->add('content',$vars[-2][$user_lang_code]);
+			
+                if($vars[-1][$user_lang_code] || $vars[-2][$user_lang_code]){ 
+					unset($checked_documents[$document_srl]);
+				}
 
                 $GLOBALS['XE_EXTRA_VARS'][$document_srl] = $evars->getExtraVars();
             }
