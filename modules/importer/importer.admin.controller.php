@@ -599,6 +599,7 @@
                 $obj->content = base64_decode($xmlDoc->post->content->body);
                 $obj->readed_count = base64_decode($xmlDoc->post->readed_count->body);
                 $obj->voted_count = base64_decode($xmlDoc->post->voted_count->body);
+                $obj->blamed_count = base64_decode($xmlDoc->post->blamed_count->body);
                 $obj->password = base64_decode($xmlDoc->post->password->body);
                 $obj->user_name = base64_decode($xmlDoc->post->user_name->body);
                 $obj->nick_name = base64_decode($xmlDoc->post->nick_name->body);
@@ -782,6 +783,7 @@
                     $obj->notify_message = base64_decode($xmlDoc->comment->notify_message->body)=='Y'?'Y':'N';
                     $obj->content = base64_decode($xmlDoc->comment->content->body);
                     $obj->voted_count = base64_decode($xmlDoc->comment->voted_count->body);
+                    $obj->blamed_count = base64_decode($xmlDoc->comment->blamed_count->body);
                     $obj->password = base64_decode($xmlDoc->comment->password->body);
                     $obj->user_name =base64_decode($xmlDoc->comment->user_name->body);
                     $obj->nick_name = base64_decode($xmlDoc->comment->nick_name->body);
