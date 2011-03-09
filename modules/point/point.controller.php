@@ -372,7 +372,7 @@
             // 포인트가 없으면 다운로드가 안되도록 하였으면 비로그인 회원일 경우 중지
             if(!Context::get('is_logged'))
 			{
-				if($config->disable_download == 'Y') return new Object(-1,'msg_not_permitted_download');
+				if($config->disable_download == 'Y' && isset($module_config['download_file'])) return new Object(-1,'msg_not_permitted_download');
 				else return new Object();
 			}
 
