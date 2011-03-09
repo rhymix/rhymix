@@ -619,8 +619,6 @@
 
             $check_files = false;
 
-            $content = $this->get('content');
-
             // 비밀글 체크
             if($this->isSecret()) $buffs[] = "secret";
 
@@ -630,6 +628,9 @@
             // 새글 체크
             if($this->get('regdate')>$time_check) $buffs[] = "new";
             else if($this->get('last_update')>$time_check) $buffs[] = "update";
+
+            /*
+            $content = $this->get('content');
 
             // 사진 이미지 체크
             preg_match_all('!<img([^>]*?)>!is', $content, $matches);
@@ -646,6 +647,7 @@
                 $buffs[] = "movie";
                 $check_files = true;
             }
+            */
 
             // 첨부파일 체크
             if($this->hasUploadedFiles()) $buffs[] = "file";
