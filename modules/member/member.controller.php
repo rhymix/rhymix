@@ -1781,6 +1781,7 @@
             else $args->password = $member_info->password;
             if(!$args->user_name) $args->user_name = $member_info->user_name;
 
+			if(!$args->description) $args->description = '';
             $output = executeQuery('member.updateMember', $args);
             if(!$output->toBool()) {
                 $oDB->rollback();
