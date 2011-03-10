@@ -112,6 +112,15 @@
     }
 
     /**
+     * @brief module의 mobile 객체 생성용
+     * @param module_name 모듈이름
+     * @return module mobile instance
+     **/
+    function &getMobile($module_name) {
+        return getModule($module_name, 'mobile');
+    }
+
+    /**
      * @brief module의 admin view 객체 생성용
      * @param module_name 모듈이름
      * @return module admin view instance
