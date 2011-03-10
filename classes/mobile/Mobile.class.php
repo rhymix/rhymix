@@ -15,7 +15,7 @@ class Mobile {
 	}
 
 	function _isFromMobilePhone() {
-		if(isset($this->ismobile)) return $this->ismobile;
+		if($this->ismobile !== null) return $this->ismobile;
 		$db_info = Context::getDBInfo();
 		if($db_info->use_mobile_view != "Y" || Context::get('full_browse') || $_COOKIE["FullBrowse"])
 		{
@@ -23,27 +23,33 @@ class Mobile {
 		}
 		else
 		{
+			$xe_web_path = Context::pathToUrl(_XE_PATH_);
+
 			$m = Context::get('m');
-			if($m == "1") {
-				$_COOKIE["mobile"] = true;
-				setcookie("mobile", true);
-				$this->ismobile = true;
+			if(strlen($m)==1) {
+				if($m == "1") {
+					$_COOKIE["mobile"] = 'true';
+					setcookie("mobile", 'true', 0, $xe_web_path);
+					$this->ismobile = true;
+				}
+				else if($m == "0") {
+					$_COOKIE["mobile"] = 'false';
+					setcookie("mobile", 'false', 0, $xe_web_path);
+					$this->ismobile = false;
+				}
 			}
-			else if($m === "0") {
-				$_COOKIE["mobile"] = false;
-				setcookie("mobile", false);
-				$this->ismobile = false;
+			else if(isset($_COOKIE["mobile"])) {
+				if($_COOKIE['mobile']  == 'true') {
+					$this->ismobile = true;
+				}
+				else if($_COOKIE["mobile"] == 'false') {
+					$this->ismobile = false;
+				} 
 			}
-			else if($_COOKIE["mobile"] == true) {
-				$this->ismobile = true;
-			}
-			else if($_COOKIE["mobile"] == false) {
-				$this->ismobile = false;
-			} 
 			else {
 				if(preg_match('/(iPod|iPhone|Android|BlackBerry|SymbianOS|SCH\-M[0-9]+)/',$_SERVER['HTTP_USER_AGENT']))
 				{
-					setcookie("mobile", true);
+					setcookie("mobile", 'true', 0, $xe_web_path);
 					$this->ismobile = true;
 				}
 			}
