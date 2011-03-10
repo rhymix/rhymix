@@ -42,7 +42,9 @@ class Mobile {
 				if($_COOKIE['mobile']  == 'true') {
 					$this->ismobile = true;
 				}
-				else if($_COOKIE["mobile"] == 'false') {
+				else {
+					$_COOKIE["mobile"] = 'false';
+					setcookie("mobile", 'false', 0, $xe_web_path);
 					$this->ismobile = false;
 				} 
 			}
