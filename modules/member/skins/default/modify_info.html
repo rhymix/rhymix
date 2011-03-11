@@ -218,19 +218,19 @@
             <!--// 한국 주소 검색 -->
             <!--@elseif($val->column_type == 'kr_zip')-->
                 <div class="krZip">
-                    <div class="item" id="zone_address_1_{$val->column_name}" style="display:<!--@if($val->value[0])-->block<!--@else-->none<!--@end-->;">
-                        <input type="text" name="{$val->column_name}" value="{$val->value[0]}" class="iText w300"/>
-                        <span class="button"><button type="button" onclick="doHideKrZipList('{$val->column_name}');">{$lang->cmd_modify}</button></span>
+                    <div class="item" id="zone_address_search_{$val->column_name}" style="display:<!--@if($val->value[0])-->none<!--@else-->block<!--@end-->;">
+						<label for="kr_address1" class="iLabel">{$lang->msg_kr_address}</label>
+                        <input type="text" name="_tmp_address_search_{$val->column_name}" class="iText w300" value="" />
+                        <span class="button"><button type="button" onclick="doSearchKrZip('{$val->column_name}');">{$lang->cmd_search}</button></span>
                     </div>
                     <div class="item" id="zone_address_list_{$val->column_name}" style="display:none">
                         <select name="_tmp_address_list_{$val->column_name}" class="w300"></select>
                         <span class="button"><button type="button" onclick="doSelectKrZip('{$val->column_name}');">{$lang->cmd_select}</button></span>
                         <span class="button"><button type="button" onclick="doHideKrZipList('{$val->column_name}');">{$lang->cmd_cancel}</button></span>
                     </div>
-                    <div class="item" id="zone_address_search_{$val->column_name}" style="display:<!--@if($val->value[0])-->none<!--@else-->block<!--@end-->;">
-						<label for="kr_address1" class="iLabel">{$lang->msg_kr_address}</label>
-                        <input type="text" name="_tmp_address_search_{$val->column_name}" class="iText w300" value="" />
-                        <span class="button"><button type="button" onclick="doSearchKrZip('{$val->column_name}');">{$lang->cmd_search}</button></span>
+                    <div class="item" id="zone_address_1_{$val->column_name}" style="display:<!--@if($val->value[0])-->block<!--@else-->none<!--@end-->;">
+                        <input type="text" name="{$val->column_name}" value="{$val->value[0]}" class="iText w300"/>
+                        <span class="button"><button type="button" onclick="doHideKrZipList('{$val->column_name}');">{$lang->cmd_modify}</button></span>
                     </div>
                     <div class="item address2">
 						<label for="kr_address2" class="iLabel">{$lang->msg_kr_address_etc}</label>
