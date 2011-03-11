@@ -237,4 +237,5 @@
     $lang->about_change_password_date = '일정기간이 지나면 비밀번호 변경을 하도록 유도하는 기능입니다. (사용하지 않음 : 0 입력) ';
 	$lang->msg_kr_address = '읍, 면, 동 이름으로 검색하세요.';
 	$lang->msg_kr_address_etc = '나머지 주소(번지)를 입력하세요.';
+	$lang->cmd_search_again   = '다시 검색';
 ?>

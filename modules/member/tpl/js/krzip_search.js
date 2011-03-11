@@ -82,3 +82,56 @@ jQuery(function($){
 		})
 		.blur();
 });
+
+(function($){
+
+$.krzip = function(column_name) {
+	var $search_zone, $select_zone;
+
+	// search zone
+	($search_zone = $('#zone_address_search_'+column_name))
+		.find(':text')
+			.keypress(function(event){
+				if(event.keyCode!=13) return;
+				$search_zone.find('button').click();
+				return false;
+			})
+			.end()
+		.find('button')
+			.click(function(){
+				var val    = $.trim($search_zone.find(':text').val());
+				var params = {
+					addr : val,
+					column_name : column_name
+				};
+				var response_tags = ['error','message','address_list'];
+
+				if (!val) return false;
+
+				function callback(ret_obj) {
+					var addr_list = ret_obj['address_list'] || '';
+
+					if(!addr_list) return alert(alert_msg['address']) || false;
+
+					$search_zone.hide();
+					$select_zone.show();
+
+					addr_list = $.map( addr_list.split('\n'), function(addr){return '<option value="'+addr+'">'+addr+'</option>'} );
+					$('#address_list_'+column_name).html(addr_list.join('\n')).focus().get(0).selectedIndex = 0;
+				}
+
+				exec_xml('krzip', 'getKrzipCodeList', params, callback, response_tags, params);
+
+				return false;
+			});
+
+	// select zone
+	($select_zone = $('#zone_address_list_'+column_name))
+		.find('button')
+			.click(function(){
+				$search_zone.show().find(':text').val('').focus();
+				$select_zone.hide();
+			});
+}
+
+})(jQuery);
