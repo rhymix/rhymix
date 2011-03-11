@@ -278,5 +278,5 @@
 	$lang->edit->autosave_mins_ago = '%d分前';
 	
 	$lang->edit->upload_not_enough_quota   = '已超過上傳大小限制無法上傳附檔。';
-	$lang->edit->break_or_paragraph = '按 Enter鍵換行，按 Shift+Enter分隔段落。;
+	$lang->edit->break_or_paragraph = '按 Enter鍵換行，按 Shift+Enter分隔段落。';
 ?>
