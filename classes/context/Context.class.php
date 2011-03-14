@@ -885,7 +885,7 @@
                 if(is_array($args_list) && $args_list[0]=='') array_shift($args_list);
             } else {
                 // Otherwise, make GET variables into array
-                $get_vars = get_object_vars($this->get_vars);
+                $get_vars = $_GET;
             }
 
             // arrange args_list
@@ -948,7 +948,7 @@
                             $query .= ($query?'&':'').$key.'='.urlencode($val);
                         }
                     }
-                    if($query) $query = '?'.$query;
+                    if($query) $query = 'index.php?'.$query;
                 }
             }
             
