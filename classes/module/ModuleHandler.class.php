@@ -318,7 +318,7 @@
         function displayContent($oModule = NULL) {
             // If the module is not set or not an object, set error
             if(!$oModule || !is_object($oModule)) {
-                $this->error = 'msg_module_is_not_exists';
+                $this->error = 'msg_module_does_not_exists';
             }
 
             // If connection to DB has a problem even though it's not install module, set error
