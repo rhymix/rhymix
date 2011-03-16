@@ -26,6 +26,8 @@ class Context {
 	var $ssl_actions = array(); ///< list of actions to be sent via ssl (it is used by javascript xml handler for ajax)
 	var $js_files    = array(); ///< list of javascript files used for display
 	var $css_files   = array(); ///< list of css files used for display
+	var $js_files_map  = array(); ///< hash map of javascript files. The file name is used as a key
+	var $css_files_map = array(); ///< hash map of css files. The file name is used as a key
 
 	var $html_header = NULL;    ///< script codes in <head>..</head>
 	var $body_class  = array();  ///< classnames of <body>
@@ -975,23 +977,35 @@ class Context {
 	}
 
 	/**
+	 * @brief normalize file path
+	 * @return normalized file path
+	 */
+	function normalizeFilePath($file) {
+		if(strpos($file,'://')===false && $file{0}!='/' && $file{0}!='.') $file = './'.$file;
+		$file = preg_replace('@/\./|(?<!:)\/\/@', '/', $file);
+		while(strpos($file,'/../')) $file = preg_replace('/\/([^\/]+)\/\.\.\//s','/',$file,1);
+
+		return $file;
+	}
+
+	/**
 	 * @brief js file을 추가
 	 **/
-	function addJsFile($file, $optimized = false, $targetie = '',$index=null, $type="head") {
+	function addJsFile($file, $optimized = false, $targetie = '',$index=null, $type='head') {
 		$self = ($this instanceof Context)?$this:Context::getInstance();
 
 		$avail_types = array('head', 'body');
 		if(!in_array($type, $avail_types)) $type = $avail_types[0];
 
-		if(strpos($file,'://')===false && $file{0}!='/' && $file{0}!='.') $file = './'.$file;
-		$file = preg_replace('@/\./|(?<!:)\/\/@', '/', $file);
-		while(strpos($file,'/../')) $file = preg_replace('/\/([^\/]+)\/\.\.\//s','/',$file,1);
+		$file = $self->normalizeFilePath($file);
 
-		if(in_array($file, $self->js_files)) return;
+		// Is this file already registered?
+		if ($self->js_files_map[$file]) return;
+		$self->js_files_map[$file] = 1;
 
-		if(is_null($index)) $index=count($self->js_files);
-		for($i=$index;array_key_exists($i,$self->js_files);$i++);
-		$self->js_files[$i] = array('file'=>$file, 'targetie'=>$targetie, 'type'=>$type);
+		if(is_null($index)) $index = count($self->js_files);
+		while($self->js_files[$index++]);
+		$self->js_files[--$index] = array('file'=>$file, 'targetie'=>$targetie, 'type'=>$type);
 	}
 
 	/**
@@ -1005,6 +1019,7 @@ class Context {
 		foreach($self->js_files as $key=>$val) {
 			if(realpath($val['file'])==$realfile && $val['targetie'] == $targetie) {
 				unset($self->js_files[$key]);
+				unset($self->js_files_map[$val['file']]);
 				return;
 			}
 		}
@@ -1016,6 +1031,7 @@ class Context {
 	function unloadAllJsFiles() {
 		$self = ($this instanceof Context)?$this:Context::getInstance();
 		$self->js_files = array();
+		$self->js_files_map = array();
 	}
 
 	/**
@@ -1025,19 +1041,17 @@ class Context {
 		$oXmlFilter = new XmlJSFilter($path, $filename);
 		$oXmlFilter->compile();
 	}
-
 	/**
 	 * @brief array_unique와 동작은 동일하나 file 첨자에 대해서만 동작함
-	 **/
+ 	 **/
 	function _getUniqueFileList($files) {
 		ksort($files);
 		$files = array_values($files);
 		$filenames = array();
 		$size = count($files);
-		for($i = 0; $i < $size; ++ $i) {
-			if(in_array($files[$i]['file'], $filenames))
-				unset($files[$i]);
-
+		for($i = 0; $i < $size; ++ $i)
+		{
+			if(in_array($files[$i]['file'], $filenames)) unset($files[$i]);
 			$filenames[] = $files[$i]['file'];
 		}
 
@@ -1050,9 +1064,10 @@ class Context {
 	function getJsFile($type='head') {
 		$self = ($this instanceof Context)?$this:Context::getInstance();
 
+		ksort($self->js_files);
+
 		$ret   = array();
-		$files = $self->_getUniqueFileList($self->js_files);
-		foreach($files as $key=>$val) {
+		foreach($self->js_files as $key=>$val) {
 			if($val['type'] == $type) $ret[] = $val;
 		}
 
@@ -1065,16 +1080,15 @@ class Context {
 	function addCSSFile($file, $optimized = false, $media = 'all', $targetie = '',$index = null) {
 		$self = ($this instanceof Context)?$this:Context::getInstance();
 
-		if(strpos($file,'://')===false && substr($file,0,1)!='/' && substr($file,0,1)!='.') $file = './'.$file;
-		$file = str_replace(array('/./','//'),'/',$file);
-		while(strpos($file,'/../')) $file = preg_replace('/\/([^\/]+)\/\.\.\//s','/',$file,1);
+		$file = $self->normalizeFilePath($file);
 
-		if(in_array($file, $self->css_files)) return;
+		// Is this file already registered?
+		if ($self->css_files_map[$file]) return;
+		$self->css_files_map[$file] = 1;
 
-		if(is_null($index)) $index=count($self->css_files);
-		for($i=$index;array_key_exists($i,$self->css_files);$i++);
-
-		$self->css_files[$i] = array('file' => $file, 'media' => $media, 'targetie' => $targetie);
+		if(is_null($index)) $index = count($self->css_files);
+		while($self->css_files[$index++]);
+		$self->css_files[--$index] = array('file'=>$file, 'targetie'=>$targetie, 'media'=>$media);
 	}
 
 	/**
@@ -1088,6 +1102,7 @@ class Context {
 		foreach($self->css_files as $key => $val) {
 			if(realpath($val['file'])==$realfile && $val['media'] == $media && $val['targetie'] == $targetie) {
 				unset($self->css_files[$key]);
+				unset($self->css_files_map[$val['file']]);
 				return;
 			}
 		}
@@ -1099,6 +1114,7 @@ class Context {
 	function unloadAllCSSFiles() {
 		$self = ($this instanceof Context)?$this:Context::getInstance();
 		$self->css_files = array();
+		$self->css_files_map = array();
 	}
 
 	/**
@@ -1106,8 +1122,8 @@ class Context {
 	 **/
 	function getCSSFile() {
 		$self = ($this instanceof Context)?$this:Context::getInstance();
-		$files = $self->_getUniqueFileList($self->css_files);
-		return $files;
+		ksort($self->css_files);
+		return array_values($self->css_files);
 	}
 
 	/**
@@ -1132,8 +1148,8 @@ class Context {
 			if(!$filename) continue;
 
 			if(substr($filename,0,2)=='./') $filename = substr($filename,2);
-			if(preg_match('/\.js$/i',  $filename))     $self->addJsFile($plugin_path.$filename, '', null, 'body');
-			elseif(preg_match('/\.css$/i', $filename)) $self->addCSSFile($plugin_path.$filename, 'all', '', null);
+			if(preg_match('/\.js$/i',  $filename))     $self->addJsFile($plugin_path.$filename, false, '', null, 'body');
+			elseif(preg_match('/\.css$/i', $filename)) $self->addCSSFile($plugin_path.$filename, false, 'all', '', null);
 		}
 
 		if(is_dir($plugin_path.'lang')) $self->loadLang($plugin_path.'lang');
