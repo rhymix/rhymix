@@ -30,6 +30,7 @@
             $oFileModel = &getModel('file');
             $editor_sequence = Context::get('editor_sequence');
             $upload_target_srl = intval(Context::get('uploadTargetSrl'));
+            if(!$upload_target_srl) $upload_target_srl = intval(Context::get('upload_target_srl'));
             $module_srl = $this->module_srl;
 
             // 업로드 권한이 없거나 정보가 없을시 종료
@@ -55,6 +56,7 @@
             $callback = Context::get('callback');
             $module_srl = $this->module_srl;
             $upload_target_srl = intval(Context::get('uploadTargetSrl'));
+            if(!$upload_target_srl) $upload_target_srl = intval(Context::get('upload_target_srl'));
 
             // 업로드 권한이 없거나 정보가 없을시 종료
             if(!$_SESSION['upload_info'][$editor_sequence]->enabled) exit();
