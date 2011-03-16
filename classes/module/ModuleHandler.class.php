@@ -145,7 +145,7 @@
             $this->module_info->mid = $this->mid;
 
             // Still no module? it's an error
-            if(!$this->module) $this->error = 'msg_module_is_not_exists';
+            if(!$this->module) $this->error = 'msg_module_does_not_exist';
 
             // If mid exists, set mid into context
             if($this->mid) Context::set('mid', $this->mid, true);
@@ -193,7 +193,7 @@
 
             // still no act means error
             if(!$this->act) {
-                $this->error = 'msg_module_is_not_exists';
+                $this->error = 'msg_module_does_not_exist';
                 return;
             }
 
