@@ -1043,6 +1043,7 @@ class Context {
 	}
 	/**
 	 * @brief array_unique와 동작은 동일하나 file 첨자에 대해서만 동작함
+	 * @deprecated
  	 **/
 	function _getUniqueFileList($files) {
 		ksort($files);
