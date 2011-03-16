@@ -47,6 +47,14 @@
             $this->_setDBInfo();
             $this->_connect();
         }
+		
+		/**
+		 * @brief create an instance of this class
+		 */
+		function create()
+		{
+			return new DBSqlite3_pdo;
+		}
 
         /**
          * @brief 설치 가능 여부를 return
@@ -806,4 +814,6 @@
             return $buff;
         }
     }
+
+return new DBSqlite3_pdo;
 ?>

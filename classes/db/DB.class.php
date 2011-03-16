@@ -55,13 +55,13 @@
             if(!$db_type && Context::isInstalled()) return new Object(-1, 'msg_db_not_setted');
 
             if(!$GLOBALS['__DB__']) {
-                $class_name = sprintf("DB%s%s", strtoupper(substr($db_type, 0, 1)), strtolower(substr($db_type,1)));
-                $class_file = sprintf("%sclasses/db/%s.class.php", _XE_PATH_, $class_name);
+                $class_name = 'DB'.ucfirst($db_type);
+                $class_file = _XE_PATH_."classes/db/$class_name.class.php";
                 if(!file_exists($class_file)) new Object(-1, 'msg_db_not_setted');
 
-                require_once($class_file);
-				$get_db = create_function('', sprintf('$GLOBALS["__DB__"]["%s"] = new %s();', $db_type, $class_name));
-				$get_db();
+				// get a singletone instance of the database driver class
+				require_once($class_file);
+                $GLOBALS['__DB__'][$db_type] = call_user_func(array($class_name, 'create'));
             }
 
             return $GLOBALS['__DB__'][$db_type];

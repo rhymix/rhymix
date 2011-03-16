@@ -44,6 +44,10 @@
             $this->_setDBInfo();
             $this->_connect();
         }
+		
+		function create() {
+			return new DBMysql;
+		}
 
         /**
          * @brief 설치 가능 여부를 return

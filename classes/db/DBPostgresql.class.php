@@ -50,6 +50,14 @@ class DBPostgresql extends DB
         $this->_setDBInfo();
         $this->_connect();
     }
+	
+	/**
+	 * @brief create an instance of this class
+	 */
+	function create()
+	{
+		return new DBPostgresql;
+	}
 
     /**
      * @brief 설치 가능 여부를 return
@@ -927,4 +935,6 @@ class DBPostgresql extends DB
         return $buff;
     }
 }
+
+return new DBPostgresql;
 ?>

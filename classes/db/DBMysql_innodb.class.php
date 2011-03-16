@@ -19,6 +19,14 @@
             $this->_setDBInfo();
             $this->_connect();
         }
+		
+		/**
+		 * @brief create an instance of this class
+		 */
+		function create()
+		{
+			return new DBMysql_innodb;
+		}
 
         /**
          * @brief DB접속 해제
@@ -151,4 +159,6 @@
             if(!$output) return false;
         }
     }
+
+return new DBMysql_innodb;
 ?>

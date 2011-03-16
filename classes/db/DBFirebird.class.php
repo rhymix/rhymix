@@ -45,6 +45,14 @@
             $this->_setDBInfo();
             $this->_connect();
         }
+		
+		/**
+		 * @brief create an instance of this class
+		 */
+		function create()
+		{
+			return new DBFireBird;
+		}
 
         /**
          * @brief 설치 가능 여부를 return
@@ -1057,4 +1065,6 @@
             return $buff;
         }
     }
+
+return new DBFireBird;
 ?>

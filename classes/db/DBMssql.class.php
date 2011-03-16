@@ -42,6 +42,14 @@
             $this->_setDBInfo();
             $this->_connect();
         }
+		
+		/**
+		 * @brief create an instance of this class
+		 */
+		function create()
+		{
+			return new DBMssql;
+		}
 
         /**
          * @brief 설치 가능 여부를 return
@@ -895,4 +903,6 @@
         }
 
     }
+
+return new DBMssql;
 ?>

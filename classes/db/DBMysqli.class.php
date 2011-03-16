@@ -27,6 +27,14 @@
             if(!function_exists('mysqli_connect')) return false;
             return true;
         }
+		
+		/**
+		 * @brief create an instance of this class
+		 */
+		function create()
+		{
+			return new DBMysqli;
+		}
 
         /**
          * @brief DB 접속
@@ -110,4 +118,6 @@
 			return mysqli_fetch_object($result);
 		}
     }
+
+return new DBMysqli;
 ?>
