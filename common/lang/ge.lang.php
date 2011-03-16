@@ -226,7 +226,7 @@ $lang->msg_fail_to_request_open = 'Fail to open your request';
 $lang->msg_invalid_format = 'Invalid Format';
 
 $lang->msg_not_permitted_act = 'Sie haben keine Berechtigung zur Ausführung angeforderte Aktion';
-$lang->msg_module_does_not_exists = "요청하신 모듈을 찾을 수 없습니다.\n사이트 관리자에게 모듈 점검 요청 바랍니다";
+$lang->msg_module_does_not_exist = "요청하신 모듈을 찾을 수 없습니다.\n사이트 관리자에게 모듈 점검 요청 바랍니다";
 $lang->msg_module_is_not_standalone = 'Gewünschte Modul kann nicht ausgeführt werden unabhängig';
 $lang->msg_default_url_is_not_defined = '기본 URL이 정해지지 않아서 동작을 중지합니다';
 

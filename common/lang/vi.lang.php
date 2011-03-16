@@ -220,7 +220,7 @@ $lang->msg_not_founded = 'Không tìm thấy.';
 $lang->msg_no_result = 'Không có kết quả nào được tìm thấy.';
 
 $lang->msg_not_permitted_act = 'Bạn không được phép làm việc này.';
-$lang->msg_module_does_not_exists = 'Không tìm thấy Module yêu cầu';
+$lang->msg_module_does_not_exist = 'Không tìm thấy Module yêu cầu';
 $lang->msg_module_is_not_standalone = 'Module yêu cầu không thể thực hiện độc lập.';
 
 $lang->success_registed = 'Chúc mừng bạn đã đăng kí thành công!';

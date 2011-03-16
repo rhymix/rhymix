@@ -228,7 +228,7 @@ $lang->msg_fail_to_request_open = 'Холболт амжилтгvй боллоо
 $lang->msg_invalid_format = 'Буруу хэлбэр байна.';
 
 $lang->msg_not_permitted_act = 'Хүсэлт гаргасан үйлдлийг хэрэгжүүлэх эрх байхгүй.';
-$lang->msg_module_does_not_exists = 'Хүссэн модиулыг олж чадсангүй';
+$lang->msg_module_does_not_exist = 'Хүссэн модиулыг олж чадсангүй';
 $lang->msg_module_is_not_standalone = 'Хүсэлт гаргасан модиул нь бие даан хэрэгжих боломжгүй';
 
 $lang->success_registed = 'Бүртгэгдсэн';

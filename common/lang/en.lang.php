@@ -226,7 +226,7 @@ $lang->msg_fail_to_request_open = 'Fail to open your request';
 $lang->msg_invalid_format = 'Invalid Format';
 
 $lang->msg_not_permitted_act = 'You do not have permission to execute requested action';
-$lang->msg_module_does_not_exists = "Couldn't find the requested module.\nPlease contact the administrator.";
+$lang->msg_module_does_not_exist = "Couldn't find the requested module.\nPlease contact the administrator.";
 $lang->msg_module_is_not_standalone = 'Requested module cannot be executed independently';
 $lang->msg_default_url_is_not_defined = 'Default URL is not defined';
 

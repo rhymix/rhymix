@@ -226,7 +226,7 @@ $lang->msg_fail_to_request_open = 'リクエストのアクセスに失敗しま
 $lang->msg_invalid_format = '正しくないフォーマットです。';
 
 $lang->msg_not_permitted_act = '現在の操作は実行する権限がありません。';
-$lang->msg_module_does_not_exists = "動作に必要なモジュールが見つかりません。\nサイト管理者へモジュールの点検をお問い合わせ下さい。";
+$lang->msg_module_does_not_exist = "動作に必要なモジュールが見つかりません。\nサイト管理者へモジュールの点検をお問い合わせ下さい。";
 $lang->msg_module_is_not_standalone = 'このモジュールはスタンドアローンでは作動しません。';
 $lang->msg_default_url_is_not_defined = 'デフォルトURLが定められてないため、動作を中止します。';
 

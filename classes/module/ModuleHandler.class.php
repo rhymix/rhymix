@@ -59,7 +59,7 @@
             // execute addon (before module initialization)
             $called_position = 'before_module_init';
             $oAddonController = &getController('addon');
-            $addon_file = $oAddonController->getCacheFilePath(Mobile::isFromMobilePhone()?"mobile":"pc");
+            $addon_file = $oAddonController->getCacheFilePath(Mobile::isFromMobilePhone()?'mobile':'pc');
             @include($addon_file);
         }
 
@@ -186,7 +186,7 @@
             // If not installed yet, modify act 
             if($this->module=="install") {
                 if(!$this->act || !$xml_info->action->{$this->act}) $this->act = $xml_info->default_index_act;
-            } 
+            }
 
             // if act exists, find type of the action, if not use default index act
             if(!$this->act) $this->act = $xml_info->default_index_act;
@@ -223,7 +223,7 @@
 			}
 
 			if(!is_object($oModule)) {
-				$this->error = 'msg_module_is_not_exists';
+				$this->error = 'msg_module_does_not_exist';
 				return;
 			}
 

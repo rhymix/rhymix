@@ -226,7 +226,7 @@ $lang->msg_fail_to_request_open = 'İsteğiniz gerçekleşmedi.';
 $lang->msg_invalid_format = 'Geçersiz Biçim';
 
 $lang->msg_not_permitted_act = 'İstenilen eylemi gerçekleştirmeye yetkiniz yok.';
-$lang->msg_module_does_not_exists = "İstenilen modül bulunamadı.\nLütfen site yöneticisine bildirin.";
+$lang->msg_module_does_not_exist = "İstenilen modül bulunamadı.\nLütfen site yöneticisine bildirin.";
 $lang->msg_module_is_not_standalone = 'İstenilen modül bağımsız çalışamaz.';
 $lang->msg_default_url_is_not_defined = 'Varsayılan URL tanımlı değil.';
 
