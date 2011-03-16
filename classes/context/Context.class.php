@@ -550,8 +550,12 @@ class Context {
 	function getResponseMethod() {
 		$self = ($this instanceof Context)?$this:Context::getInstance();
 
+		if($self->response_method) return $self->response_method;
+
+		$method  = $self->getRequestMethod();
 		$methods = array('HTML','XMLRPC','JSON');
-		return in_array($self->response_method, $method)?$self->response_method:$methods[0];
+
+		return in_array($method, $methods)?$method:$methods[0];
 	}
 
 	/**
@@ -977,8 +981,8 @@ class Context {
 		$self = ($this instanceof Context)?$this:Context::getInstance();
 
 		$avail_types = array('head', 'body');
-
 		if(!in_array($type, $avail_types)) $type = $avail_types[0];
+
 		if(strpos($file,'://')===false && $file{0}!='/' && $file{0}!='.') $file = './'.$file;
 		$file = preg_replace('@/\./|(?<!:)\/\/@', '/', $file);
 		while(strpos($file,'/../')) $file = preg_replace('/\/([^\/]+)\/\.\.\//s','/',$file,1);
