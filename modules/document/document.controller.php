@@ -745,15 +745,23 @@
 
             $obj->member_srl = $oDocument->get('member_srl');
             $obj->module_srl = $oDocument->get('module_srl');
+            $obj->document_srl = $oDocument->get('document_srl');
+            $obj->update_target = ($point < 0) ? 'blamed_count' : 'voted_count';
             $obj->point = $point;
+            $obj->before_point = ($point < 0) ? $oDocument->get('blamed_count') : $oDocument->get('voted_count');
+            $obj->after_point = ($point < 0) ? $args->blamed_count : $args->voted_count;
             $output = ModuleHandler::triggerCall('document.updateVotedCount', 'after', $obj);
             if(!$output->toBool()) return $output;
 
             // 결과 리턴
             if($point > 0)
+            {
                 return new Object(0, 'success_voted');
+            }
             else
+            {
                 return new Object(0, 'success_blamed');
+            }
         }
 
         /**
