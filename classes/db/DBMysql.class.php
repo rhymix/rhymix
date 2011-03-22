@@ -775,4 +775,6 @@
 			return mysql_fetch_object($result);
 		}
     }
+
+return new DBMysql;
 ?>
