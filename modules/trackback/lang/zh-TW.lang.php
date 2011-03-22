@@ -13,6 +13,7 @@
     $lang->send_trackback_url = '發送網址';
     $lang->msg_trackback_url_is_invalid = '發送錯誤！';
     $lang->msg_trackback_send_success = '成功發送。';
+	$lang->msg_trackback_send_failed = '엮인글 발송을 실패하였습니다.';
 
     $lang->search_target_list = array(
         'url' => '目標網址',

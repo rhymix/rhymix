@@ -16,6 +16,7 @@
 	$lang->send_trackback_url = 'Địa chỉ muốn gửi';
     $lang->msg_trackback_url_is_invalid = 'Địa chỉ muốn gửi không hợp lệ';
     $lang->msg_trackback_send_success = 'Đã gửi thành công.';
+	$lang->msg_trackback_send_failed = '엮인글 발송을 실패하였습니다.';
 
     $lang->search_target_list = array(
         'url' => 'URL muốn gửi',

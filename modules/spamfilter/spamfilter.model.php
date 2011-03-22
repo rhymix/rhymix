@@ -125,10 +125,6 @@
          * @brief 특정 글에 이미 엮인글이 등록되어 있는지 확인
          **/
         function isInsertedTrackback($document_srl) {
-            $config = $this->getConfig();
-            $check_trackback = $config->check_trackback=='Y'?true:false;
-            if(!$check_trackback) return new Object();
-
             $oTrackbackModel = &getModel('trackback');
             $count = $oTrackbackModel->getTrackbackCountByIPAddress($document_srl, $_SERVER['REMOTE_ADDR']);
             if($count>0) return new Object(-1, 'msg_alert_trackback_denied');
