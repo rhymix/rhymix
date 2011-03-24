@@ -108,7 +108,7 @@
          **/
 		function deleteModuleExtend($parent_module, $extend_module, $type, $kind=''){
 			$cache_file = './files/config/module_extend.php';
-			FileHandler::deleteFile($cache_file);
+			FileHandler::removeFile($cache_file);
 
             $args->parent_module = $parent_module;
             $args->extend_module = $extend_module;

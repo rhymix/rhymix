@@ -20,7 +20,7 @@
     $lang->invalid_authorization = 'No está certificado';
     $lang->invalid_user_id= "Este ID no existe";
     $lang->invalid_password = 'Contraseña incorrecta';
-	$lang->invalid_new_password = '이전 비밀번호와 같습니다.';
+    $lang->invalid_new_password = '이전 비밀번호와 같습니다.';
     $lang->allow_mailing = 'Registro del envío de mail';
     $lang->denied = 'Prohibido';
     $lang->is_admin = 'Atribución del administrador superior';
@@ -70,7 +70,7 @@
 
     $lang->about_keep_signed = '브라우저를 닫더라도 로그인이 계속 유지될 수 있습니다.\n\n로그인 유지 기능을 사용할 경우 다음 접속부터는 로그인을 하실 필요가 없습니다.\n\n단, 게임방, 학교 등 공공장소에서 이용시 개인정보가 유출될 수 있으니 꼭 로그아웃을 해주세요';
     $lang->about_keep_warning = '브라우저를 닫더라도 로그인이 계속 유지될 수 있습니다. 로그인 유지 기능을 사용할 경우 다음 접속부터는 로그인을 하실 필요가 없습니다. 단, 게임방, 학교 등 공공장소에서 이용 시 개인정보가 유출될 수 있으니 꼭 로그아웃을 해주세요.';
-	$lang->about_webmaster_name = 'Por favor, webmaster de entrada el nombre que se utilizará para la autenticación de los correos u otros sitio de la administración. (Por defecto: webmaster)';
+    $lang->about_webmaster_name = 'Por favor, webmaster de entrada el nombre que se utilizará para la autenticación de los correos u otros sitio de la administración. (Por defecto: webmaster)';
     $lang->about_webmaster_email = 'Introduzca la dirección de correo electrónico webmaster.';
 
     $lang->search_target_list = array(
@@ -203,34 +203,35 @@
 
     $lang->about_member = "Esto es un módulo para crear/modificar/eliminar usuarios y manejar grupos o el formato del registro.\n Usted puede manejar usuarios creando nuevos grupos, y obtener información adicional manejando el formato del registro";
     $lang->about_find_member_account = 'Su información de la cuenta será observado por dirección de correo electrónico registrada. <br /> Introduce la dirección de correo electrónico que usted tiene de entrada en el registro, y pulse "Buscar" Información de la cuenta ". <br />';
-	$lang->about_ssl_port = 'Please input if you are using different SSL port with default one';
+    $lang->about_ssl_port = 'Please input if you are using different SSL port with default one';
     $lang->add_openid = 'Add OpenID';
 
-	$lang->about_resend_auth_mail = 'You can request for authentication mail if you have failed before.';
+    $lang->about_resend_auth_mail = 'You can request for authentication mail if you have failed before.';
     $lang->no_article = 'There exists no article';
 
-	$lang->find_account_question = '비밀번호 찾기 질문/답변';
-	$lang->about_find_account_question = '가입시 아이디와 이메일, 질문/답변으로 임시 비밀번호를 발급 받을 수 있습니다.';
-	/*
-	$lang->find_account_question_items = array(''
-										,'다른 이메일 주소는?'
-										,'나의 보물 1호는?'
-										,'나의 출신 초등학교는?'
-										,'나의 출신 고향은?'
-										,'나의 이상형은?'
-										,'어머니 성함은?'
-										,'아버지 성함은?'
-										,'가장 좋아하는 색깔은?'
-										,'가장 좋아하는 음식은?'
-										);
+    $lang->find_account_question = '비밀번호 찾기 질문/답변';
+    $lang->find_account_answer = '비밀번호 찾기 답변';
+    $lang->about_find_account_question = '가입시 아이디와 이메일, 질문/답변으로 임시 비밀번호를 발급 받을 수 있습니다.';
+    /*
+    $lang->find_account_question_items = array(''
+                                        ,'다른 이메일 주소는?'
+                                        ,'나의 보물 1호는?'
+                                        ,'나의 출신 초등학교는?'
+                                        ,'나의 출신 고향은?'
+                                        ,'나의 이상형은?'
+                                        ,'어머니 성함은?'
+                                        ,'아버지 성함은?'
+                                        ,'가장 좋아하는 색깔은?'
+                                        ,'가장 좋아하는 음식은?'
+                                        );
 */
-	$lang->temp_password = '임시 비밀번호';
-	$lang->cmd_get_temp_password = '임시 비밀번호 발급';
-	$lang->about_get_temp_password = '로그인 후 비밀번호 변경해 주세요.';
-	$lang->msg_question_not_exists = '등록한 비밀번호 찾기 질문/답변이 없습니다.';
-	$lang->msg_answer_not_matches = '비밀번호 찾기 질문/답변 또는 정보가 올바르지 않습니다.';
+    $lang->temp_password = '임시 비밀번호';
+    $lang->cmd_get_temp_password = '임시 비밀번호 발급';
+    $lang->about_get_temp_password = '로그인 후 비밀번호 변경해 주세요.';
+    $lang->msg_question_not_exists = '등록한 비밀번호 찾기 질문/답변이 없습니다.';
+    $lang->msg_answer_not_matches = '비밀번호 찾기 질문/답변 또는 정보가 올바르지 않습니다.';
 
-	$lang->change_password_date = '비밀번호 갱신주기';
-	$lang->about_change_password_date = '일정기간이 지나면 비밀번호 변경을 하도록 유도하는 기능입니다. (사용하지 않음 : 0 입력) ';
+    $lang->change_password_date = '비밀번호 갱신주기';
+    $lang->about_change_password_date = '일정기간이 지나면 비밀번호 변경을 하도록 유도하는 기능입니다. (사용하지 않음 : 0 입력) ';
 
 ?>

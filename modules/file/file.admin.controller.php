@@ -113,6 +113,16 @@
             if($download_grant) $file_config->download_grant = explode('|@|',$download_grant);
             else $file_config->download_grant = array();
 
+			//관리자가 허용한 첨부파일의 사이즈가 php.ini의 값보다 큰지 확인하기 - by ovclas
+			$userFileAllowSize = $this->_changeBytes($file_config->allowed_filesize.'M');
+			$userAttachAllowSize = $this->_changeBytes($file_config->allowed_attach_size.'M');
+			$iniPostMaxSize = $this->_changeBytes(ini_get('post_max_size'));
+			$iniUploadMaxSize = $this->_changeBytes(ini_get('upload_max_filesize'));
+			$iniMinSzie = min($iniPostMaxSize, $iniUploadMaxSize);
+
+			if($userFileAllowSize > $iniMinSzie || $userAttachAllowSize > $iniMinSzie)
+				return new Object(-1, 'input size over than config in php.ini');
+
             $oModuleController = &getController('module');
             for($i=0;$i<count($module_srl);$i++) {
                 $srl = trim($module_srl[$i]);
@@ -123,5 +133,19 @@
             $this->setError(-1);
             $this->setMessage('success_updated');
         }
+
+		/**
+		 * @brief php.ini에서 가져온 값의 형식이 M과 같을경우 byte로 바꿔주기
+		 **/
+		function _changeBytes($size_str)
+		{
+			switch (substr ($size_str, -1))
+			{
+				case 'M': case 'm': return (int)$size_str * 1048576;
+				case 'K': case 'k': return (int)$size_str * 1024;
+				case 'G': case 'g': return (int)$size_str * 1073741824;
+				default: return $size_str;
+			}
+		}
     }
 ?>

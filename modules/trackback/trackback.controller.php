@@ -298,13 +298,18 @@
             // 결과를 기다림 (특정 서버의 경우 EOF가 떨어지지 않을 수가 있음
             while(!feof($fp)) {
                 $line = trim(fgets($fp, 4096));
-                if(preg_match("/^<error>/i",$line)) break;
+                if(preg_match("/^<error>/i",$line)){
+					$error = preg_replace('/[^0-9]/','',$line);
+					break;
+				}
             }
 
             // socket 닫음
             fclose($fp);
 
-            return new Object(0, 'msg_trackback_send_success');
+			if($error == "0") return new Object(0, 'msg_trackback_send_success');
+			
+			return new Object(-1, 'msg_trackback_send_failed');
         }
 
         /**

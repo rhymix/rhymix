@@ -35,6 +35,7 @@
         <action name="dispDocumentAdminTrashList" type="view" standalone="true" />
 
         <action name="getDocumentCategoryTplInfo" type="model" standalone="true" />
+        <action name="getDocumentVotedMemberList" type="model" standalone="true" />
 
         <action name="procDocumentInsertCategory" type="controller" standalone="true" />
         <action name="procDocumentDeleteCategory" type="controller" standalone="true" />
@@ -52,5 +53,6 @@
         <action name="procDocumentAdminInsertConfig" type="controller" standalone="true" />
         <action name="procDocumentAdminDeleteAllThumbnail" type="controller" standalone="true" />
         <action name="procDocumentAdminCancelDeclare" type="controller" standalone="true" />
+	
     </actions>
 </module>

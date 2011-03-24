@@ -50,6 +50,13 @@
         </td>
     </tr>
 	<tr>
+		<th scope="row"><div>{$lang->mobile_view}</div></th>
+		<td>
+			<input type="checkbox" name="use_mobile" value="Y" <!--@if($module_info->use_mobile == "Y")-->checked="checked"<!--@end--> />
+			<p>{$lang->about_mobile_view}</p>
+		</td>
+	</tr>
+	<tr>
 	<th scope="row"><div>{$lang->mobile_layout}</div></th>
 	<td>
 	<select name="mlayout_srl">

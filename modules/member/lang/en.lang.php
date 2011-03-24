@@ -71,7 +71,7 @@
 
     $lang->about_keep_signed = 'You will be still signed in even when the browser is closed.\n\nIt is not recommended to use this if you are using a public computer for your personal information could be violated';
     $lang->about_keep_warning = 'You will be still signed in even when the browser is closed. It is not recommended to use this if you are using a public computer for your personal information could be violated';
-	$lang->about_webmaster_name = "Please input webmaster's name which will be used for verification mails or other site administration. (default : webmaster)";
+    $lang->about_webmaster_name = "Please input webmaster's name which will be used for verification mails or other site administration. (default : webmaster)";
     $lang->about_webmaster_email = "Please input webmaster's email address.";
 
     $lang->search_target_list = array(
@@ -97,7 +97,7 @@
     $lang->cmd_view_member_info = 'Member Info';
     $lang->cmd_leave = 'Leave';
     $lang->cmd_find_member_account = 'Find Account Info';
-	$lang->cmd_resend_auth_mail = 'Request for Activation Mail';
+    $lang->cmd_resend_auth_mail = 'Request for Activation Mail';
 
     $lang->cmd_member_list = 'Member List';
     $lang->cmd_module_config = 'Default Setting';
@@ -205,31 +205,32 @@
 
     $lang->about_member = "Member module will help you create, modify and remove members and manage groups or sign up form.\nYou can add a custom group to manage members, and also get additional information by modifying sign up form.";
     $lang->about_find_member_account = 'Your account info will be noticed by registered email address.<br />Please input email address which you have input on registration, and press "Find Account Info" button.<br />';
-	$lang->about_ssl_port = 'Please input if you are using non-default SSL port';
+    $lang->about_ssl_port = 'Please input if you are using non-default SSL port';
     $lang->add_openid = 'Add OpenID';
 
-	$lang->about_resend_auth_mail = 'You can request for activation mail if you have not activated before';
+    $lang->about_resend_auth_mail = 'You can request for activation mail if you have not activated before';
     $lang->no_article = 'There exists no article';
 
-	$lang->find_account_question = 'Question for a temporary password.';
-	$lang->about_find_account_question = 'You can get a temporary password by your ID, email address, and the answer for the question you set.';
-	$lang->find_account_question_items = array(''
-										,'What is your alternate email address?'
-										,'What is your favorite thing?'
-										,'What elementary school did you graduate?'
-										,'Where is your hometown?'
-										,'What is your ideal match?'
-										,"What is your mother's name?"
-										,"What is your father's name?"
-										,'What is your favorite color?'
-										,'What is your favorite food?'
-										);
-	$lang->temp_password = 'Temporary password';
-	$lang->cmd_get_temp_password = 'Get a temporary password';
-	$lang->about_get_temp_password = 'Change your password after you logged in.';
-	$lang->msg_question_not_exists = 'You haven`t set your question for a temporary password.';
-	$lang->msg_answer_not_matches = 'Your answer for the question is not correct.';
+    $lang->find_account_question = 'Question for a temporary password.';
+    $lang->find_account_answer = 'Answer for a temporary password.';
+    $lang->about_find_account_question = 'You can get a temporary password by your ID, email address, and the answer for the question you set.';
+    $lang->find_account_question_items = array(''
+                                        ,'What is your alternate email address?'
+                                        ,'What is your favorite thing?'
+                                        ,'What elementary school did you graduate?'
+                                        ,'Where is your hometown?'
+                                        ,'What is your ideal match?'
+                                        ,"What is your mother's name?"
+                                        ,"What is your father's name?"
+                                        ,'What is your favorite color?'
+                                        ,'What is your favorite food?'
+                                        );
+    $lang->temp_password = 'Temporary password';
+    $lang->cmd_get_temp_password = 'Get a temporary password';
+    $lang->about_get_temp_password = 'Change your password after you logged in.';
+    $lang->msg_question_not_exists = 'You haven`t set your question for a temporary password.';
+    $lang->msg_answer_not_matches = 'Your answer for the question is not correct.';
 
-	$lang->change_password_date = 'Password renewal cycle';
-	$lang->about_change_password_date = 'If you set a value to this, you will be notified to change your password periodically. (if set to 0, disabled)';
+    $lang->change_password_date = 'Password renewal cycle';
+    $lang->about_change_password_date = 'If you set a value to this, you will be notified to change your password periodically. (if set to 0, disabled)';
 ?>

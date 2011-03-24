@@ -30,7 +30,7 @@
             $args->list_count = (int)$args->list_count;
             if(!$args->list_count) $args->list_count = 5;
 
-            // 썸네일 컬럼 수
+            // 섬네일 컬럼 수
             $args->cols_list_count = (int)$args->cols_list_count;
             if(!$args->cols_list_count) $args->cols_list_count = 5;
 
@@ -43,13 +43,13 @@
             // 최근 글 표시 시간
             if(!$args->duration_new) $args->duration_new = 12;
 
-            // 썸네일 생성 방법
+            // 섬네일 생성 방법
             if(!$args->thumbnail_type) $args->thumbnail_type = 'crop';
 
-            // 썸네일 가로 크기
+            // 섬네일 가로 크기
             if(!$args->thumbnail_width) $args->thumbnail_width = 100;
 
-            // 썸네일 세로 크기
+            // 섬네일 세로 크기
             if(!$args->thumbnail_height) $args->thumbnail_height = 75;
 
             // 보기 옵션
@@ -228,6 +228,7 @@
 
             // 글 목록을 구함
             $obj->module_srl = $args->module_srl;
+            $obj->category_srl = $args->category_srl;
             $obj->sort_index = $args->order_target;
             $obj->order_type = $args->order_type=="desc"?"asc":"desc";
             $obj->list_count = $args->list_count * $args->page_count;

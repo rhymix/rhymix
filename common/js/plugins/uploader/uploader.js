@@ -364,8 +364,10 @@ runtimes.html5 = {
 					data += val+'\r\n';
 				});
 
+				// Firefox had a bug that recognises some unicode filename as invalid string.
+				// So, I made a workaround to encode the filename by RFC2231
 				data += '--'+bndr+'\r\n';
-				data += 'Content-Disposition: form-data; name="Filedata"; filename="'+file.name+'"\r\n';
+				data += 'Content-Disposition: form-data; name="Filedata"; filename="=?UTF-8?B?'+Base64.encode(file.name).replace(/\//g, ':')+'?="\r\n';
 				data += 'Content-Type: application/octet-stream\r\n\r\n';
 				data += file.object.getAsBinary();
 				data += '\r\n';
@@ -459,7 +461,7 @@ runtimes.flash = {
 		if (!window.xe_flashuploaders) window.xe_flashuploaders = [];
 
 		function make_button(event) {
-			var b  = settings.browse.get(0);
+			var b  = this;
 			var op = b.offsetParent;
 			var ow = b.offsetWidth;
 			var oh = b.offsetHeight;

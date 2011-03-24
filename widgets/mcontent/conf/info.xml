@@ -6,12 +6,14 @@
     <title xml:lang="zh-CN">全局内容控件</title>
     <title xml:lang="zh-TW">內容</title>
     <title xml:lang="jp">コンテンツウィジェット</title>
+    <title xml:lang="tr">Mobil İçerik Görsel Bileşeni</title>
     <description xml:lang="ko">게시판, 코멘트, 첨부파일 등 Content를 출력하는 위젯입니다.</description>
     <description xml:lang="en">This widget displays Content such as articles, comments, or attached files.</description>
 	<description xml:lang="vi">Widget này sẽ hiển thị những bài viết, bình luận, File đính kèm.</description>
     <description xml:lang="zh-CN">以各种样式显示主题，评论，附件等站内内容的全局控件。</description>
     <description xml:lang="zh-TW">這個 Widget 可輸出討論板、評論，附加檔案等內容。</description>
     <description xml:lang="jp">掲示板の書き込み、コメント、添付ファイルなどコンテンツを出力するウィジェットです。</description>
+    <description xml:lang="tr">Bu görsel bileşen, yazılar, yorumlar ve ekli dosyalar gibi İçerikleri görüntüler.</description>
     <version>0.1</version>
     <date>2009-03-16</date>
 
@@ -24,6 +26,7 @@
         <name xml:lang="es">NHN</name>
         <name xml:lang="ru">NHN</name>
         <name xml:lang="zh-TW">NHN</name>
+        <name xml:lang="tr">NHN</name>
     </author>
 
     <extra_vars>
@@ -35,6 +38,7 @@
                 <name xml:lang="zh-CN">对象</name>
                 <name xml:lang="zh-TW">目標</name>
                 <name xml:lang="jp">抽出対象</name>
+                <name xml:lang="tr">Hedef</name>
             <options>
                 <value>document</value>
                 <name xml:lang="ko">게시물</name>
@@ -43,6 +47,7 @@
                 <name xml:lang="zh-CN">主题</name>
 				<name xml:lang="zh-TW">主題</name>
                 <name xml:lang="jp">書き込み</name>
+                <name xml:lang="tr">Yazı</name>
             </options>
             <options>
                 <value>comment</value>
@@ -52,6 +57,7 @@
                 <name xml:lang="zh-CN">评论</name>
 				<name xml:lang="zh-TW">評論</name>
                 <name xml:lang="jp">コメント</name>
+                <name xml:lang="tr">Yorum</name>
             </options>
             <options>
                 <value>image</value>
@@ -61,6 +67,7 @@
                 <name xml:lang="zh-CN">图片</name>
 				<name xml:lang="zh-TW">圖片</name>
                 <name xml:lang="jp">添付イメージ</name>
+                <name xml:lang="tr">Ekli Resim</name>
             </options>
             <options>
                 <value>trackback</value>
@@ -70,6 +77,7 @@
                 <name xml:lang="zh-CN">引用</name>
 				<name xml:lang="zh-TW">引用</name>
                 <name xml:lang="jp">トラックバック</name>
+                <name xml:lang="tr">Geri izleme</name>
             </options>
             <options>
                 <value>rss</value>
@@ -79,6 +87,7 @@
                 <name xml:lang="zh-CN">Feed (RSS/ATOM)</name>
 				<name xml:lang="zh-TW">Feed (RSS/ATOM)</name>
                 <name xml:lang="jp">Feed (RSS/ATOM)</name>
+                <name xml:lang="tr">Feed (RSS/ATOM)</name>
             </options>
         </var>
         <var id="list_type">
@@ -89,6 +98,7 @@
             <name xml:lang="zh-CN">内容样式</name>
             <name xml:lang="zh-TW">內容樣式</name>
             <name xml:lang="jp">内容のタイプ</name>
+            <name xml:lang="tr">İçerik Şekli</name>
             <options>
                 <value>normal</value>
                 <name xml:lang="ko">제목</name>
@@ -97,6 +107,7 @@
                 <name xml:lang="zh-CN">标题</name>
                 <name xml:lang="zh-TW">標題</name>
                 <name xml:lang="jp">タイトル</name>
+                <name xml:lang="tr">Başlık</name>
             </options>
             <options>
                 <value>image_title</value>
@@ -106,6 +117,7 @@
                 <name xml:lang="zh-CN">图片+标题</name>
                 <name xml:lang="zh-TW">圖片+標題</name>
                 <name xml:lang="jp">画像+タイトル</name>
+                <name xml:lang="tr">Resim+Başlık</name>
             </options>
             <options>
                 <value>image_title_content</value>
@@ -115,6 +127,7 @@
                 <name xml:lang="zh-CN">图片+标题+内容</name>
                 <name xml:lang="zh-TW">圖片+標題+內容</name>
                 <name xml:lang="jp">画像+タイトル+内容</name>
+                <name xml:lang="tr">Resim+Başlık+İçerik</name>
             </options>
         </var>
         <var id="option_view">
@@ -125,6 +138,7 @@
             <name xml:lang="zh-CN">显示项及顺序</name>
             <name xml:lang="zh-TW">顯示項目順序</name>
             <name xml:lang="jp">表示項目、および順番</name>
+            <name xml:lang="tr">Hedef Gösterim &amp; Sırası</name>
             <options default="false" init="true">
                 <value>title</value>
                 <name xml:lang="ko">제목</name>
@@ -133,6 +147,7 @@
                 <name xml:lang="zh-CN">标题</name>
                 <name xml:lang="zh-TW">標題</name>
                 <name xml:lang="jp">タイトル</name>
+                <name xml:lang="tr">Başlık</name>
             </options>
             <options>
                 <value>thumbnail</value>
@@ -142,6 +157,7 @@
                 <name xml:lang="zh-CN">缩略图</name>
                 <name xml:lang="zh-TW">縮圖</name>
                 <name xml:lang="jp">サムネール</name>
+                <name xml:lang="tr">Küçük Resim</name>
             </options>
             <options init="true">
                 <value>regdate</value>
@@ -151,6 +167,7 @@
                 <name xml:lang="zh-CN">发布日期</name>
                 <name xml:lang="zh-TW">發表日期</name>
                 <name xml:lang="jp">登録日</name>
+                <name xml:lang="tr">Kayıt Tarihi</name>
             </options>
             <options init="true">
                 <value>nickname</value>
@@ -160,6 +177,7 @@
                 <name xml:lang="zh-CN">发布者</name>
                 <name xml:lang="zh-TW">作者</name>
                 <name xml:lang="jp">登録者</name>
+                <name xml:lang="tr">Yazar</name>
             </options>
             <options>
                 <value>content</value>
@@ -169,6 +187,7 @@
                 <name xml:lang="zh-CN">内容</name>
                 <name xml:lang="zh-TW">內容</name>
                 <name xml:lang="jp">内容</name>
+                <name xml:lang="tr">İçerik</name>
             </options>
         </var>
         <var id="show_browser_title">
@@ -179,6 +198,7 @@
             <name xml:lang="zh-CN">显示版面名称</name>
             <name xml:lang="zh-TW">討論板名稱</name>
             <name xml:lang="jp">掲示板名の表示</name>
+            <name xml:lang="tr">Makale İsmini Görüntüle</name>
             <options>
                 <value>Y</value>
                 <name xml:lang="ko">출력</name>
@@ -187,6 +207,7 @@
                 <name xml:lang="zh-CN">显示</name>
                 <name xml:lang="zh-TW">顯示</name>
                 <name xml:lang="jp">表示</name>
+                <name xml:lang="tr">Görüntüle</name>
             </options>
             <options>
                 <value>N</value>
@@ -196,6 +217,7 @@
                 <name xml:lang="zh-CN">不显示</name>
                 <name xml:lang="zh-TW">不顯示</name>
                 <name xml:lang="jp">表示しない</name>
+                <name xml:lang="tr">Görüntüleme</name>
             </options>
         </var>
         <var id="show_comment_count">
@@ -206,6 +228,7 @@
             <name xml:lang="zh-CN">显示评论数</name>
             <name xml:lang="zh-TW">評論數</name>
             <name xml:lang="jp">コメント数</name>
+            <name xml:lang="tr">Yorum Sayısı</name>
             <options>
                 <value>Y</value>
                 <name xml:lang="ko">출력</name>
@@ -214,6 +237,7 @@
                 <name xml:lang="zh-CN">显示</name>
                 <name xml:lang="zh-TW">顯示</name>
                 <name xml:lang="jp">表示</name>
+                <name xml:lang="tr">Görüntüle</name>
             </options>
             <options>
                 <value>N</value>
@@ -223,6 +247,7 @@
                 <name xml:lang="zh-CN">不显示</name>
                 <name xml:lang="zh-TW">不顯示</name>
                 <name xml:lang="jp">表示しない</name>
+                <name xml:lang="tr">Görüntüleme</name>
             </options>
         </var>
         <var id="show_trackback_count">
@@ -233,6 +258,7 @@
             <name xml:lang="zh-CN">显示引用数</name>
             <name xml:lang="zh-TW">引用數</name>
             <name xml:lang="jp">トラックバック数の表示</name>
+            <name xml:lang="tr">Geri izleme</name>
             <options>
                 <value>Y</value>
                 <name xml:lang="ko">출력</name>
@@ -241,6 +267,7 @@
                 <name xml:lang="zh-CN">显示</name>
                 <name xml:lang="zh-TW">顯示</name>
                 <name xml:lang="jp">表示</name>
+                <name xml:lang="tr">Görüntüle</name>
             </options>
             <options>
                 <value>N</value>
@@ -250,6 +277,7 @@
                 <name xml:lang="zh-CN">不显示</name>
                 <name xml:lang="zh-TW">不顯示</name>
                 <name xml:lang="jp">表示しない</name>
+                <name xml:lang="tr">Görüntüleme</name>
             </options>
         </var>
         <var id="show_category">
@@ -260,6 +288,7 @@
             <name xml:lang="zh-CN">显示分类</name>
             <name xml:lang="zh-TW">分類</name>
             <name xml:lang="jp">カテゴリ表示</name>
+            <name xml:lang="tr">Kategori</name>
             <options>
                 <value>Y</value>
                 <name xml:lang="ko">출력</name>
@@ -268,6 +297,7 @@
                 <name xml:lang="zh-CN">显示</name>
                 <name xml:lang="zh-TW">顯示</name>
                 <name xml:lang="jp">表示</name>
+                <name xml:lang="tr">Görüntüle</name>
             </options>
             <options>
                 <value>N</value>
@@ -277,6 +307,7 @@
                 <name xml:lang="zh-CN">不显示</name>
                 <name xml:lang="zh-TW">不顯示</name>
                 <name xml:lang="jp">表示しない</name>
+                <name xml:lang="tr">Görüntüleme</name>
             </options>
         </var>
         <var id="order_target">
@@ -289,6 +320,7 @@
             <name xml:lang="es">Objetivo para ser ordenados</name>
             <name xml:lang="ru">Назначение для сортировки</name>
             <name xml:lang="zh-TW">排列順序</name>
+            <name xml:lang="tr">Sıralanacak Hedef</name>
             <description xml:lang="ko">등록된 순서 또는 변경된 순서로 정렬을 할 수 있습니다.</description>
             <description xml:lang="zh-CN">可以按照指定的顺序进行排序。</description>
             <description xml:lang="jp">登録順、または変更順にソートします。</description>
@@ -297,6 +329,7 @@
             <description xml:lang="es">La lista de los documentos recientes pueden ser ordenados en el orden del agregado o en el de modificados.</description>
             <description xml:lang="ru">Список последних статей может быть отсортирован по дате размещения или изменения.</description>
             <description xml:lang="zh-TW">按照指定的順序進行排列。</description>
+            <description xml:lang="tr">En yeni makale listesi, gönderilme sırasına veya değiştirilme sırasına göre sıralanabilir.</description>
             <options>
                 <value>list_order</value>
                 <name xml:lang="ko">최신 등록순</name>
@@ -307,6 +340,7 @@
                 <name xml:lang="es">Orden de agregados recientemente</name>
                 <name xml:lang="ru">Порядок размещенных статей</name>
                 <name xml:lang="zh-TW">最新發表</name>
+                <name xml:lang="tr">En Son Gönderim Sırası</name>
             </options>
             <options>
                 <value>update_order</value>
@@ -318,6 +352,7 @@
                 <name xml:lang="es">Orden de modificados recientemente</name>
                 <name xml:lang="ru">Порядок измененных статей</name>
                 <name xml:lang="zh-TW">最新修改</name>
+                <name xml:lang="tr">En Son Değiştirilme Sırası</name>
             </options>
         </var>
         <var id="order_type">
@@ -330,6 +365,7 @@
             <name xml:lang="es">Tipo de ordenamiento</name>
             <name xml:lang="ru">Тип сортировки</name>
             <name xml:lang="zh-TW">排列方式</name>
+            <name xml:lang="tr">Sıralama Şekli</name>
             <description xml:lang="ko">정렬대상을 내림차순 또는 올림차순으로 정렬할 수 있습니다.</description>
             <description xml:lang="zh-CN">对其排序对象可进行升序/降序方式排序。</description>
             <description xml:lang="jp">ソートタイプを、降順、または昇順に設定します。</description>
@@ -338,6 +374,7 @@
             <description xml:lang="es">Usted puede ordenar los documentos en orden acendente o en orden descendente.</description>
             <description xml:lang="ru">Вы можете сортировать статьи в порядке возрастания или убывания.</description>
             <description xml:lang="zh-TW">可選擇升冪/降冪的方式對所選目標進行排列。</description>
+            <description xml:lang="tr">Hedef yazıları, azalan veya artan sıraya göre sıralayabilirsiniz.</description>
             <options>
                 <value>desc</value>
                 <name xml:lang="ko">내림차순</name>
@@ -348,6 +385,7 @@
                 <name xml:lang="es">Orden Descendente</name>
                 <name xml:lang="ru">По убыванию</name>
                 <name xml:lang="zh-TW">降冪</name>
+                <name xml:lang="tr">Azalan Sıra</name>
             </options>
             <options>
                 <value>asc</value>
@@ -359,6 +397,7 @@
                 <name xml:lang="es">Orden Acendente</name>
                 <name xml:lang="ru">По возрастанию</name>
                 <name xml:lang="zh-TW">升冪</name>
+                <name xml:lang="tr">Artan Sıra</name>
             </options>
         </var>
         <var id="list_count">
@@ -371,6 +410,7 @@
             <name xml:lang="es">Número de la lista</name>
             <name xml:lang="ru">Число списка</name>
             <name xml:lang="zh-TW">目錄數</name>
+            <name xml:lang="tr">Liste Sayısı</name>
             <description xml:lang="ko">출력될 목록의 수를 정하실 수 있습니다. (기본 5개)</description>
             <description xml:lang="zh-CN">可设置要显示的目录数。 (默认为5个)</description>
             <description xml:lang="jp">出力するリスト数を指定します（デフォルト5個）。</description>
@@ -379,6 +419,7 @@
             <description xml:lang="es">Usted puede definir el número de los documentos a mostrar. (predefinido: 5)</description>
             <description xml:lang="ru">Вы можете выбрать число списка статей для отображения. (стандарт: 5)</description>
             <description xml:lang="zh-TW">設置要顯示的目錄數。(預設是5個)</description>
+            <description xml:lang="tr">Görüntülenecek makalelerin sayısını belirleyebilirsiniz. (varsayılan değer 5'tir)</description>
         </var>
         <var id="subject_cut_size">
             <type>text</type>
@@ -390,6 +431,7 @@
             <name xml:lang="es">Número de letras del título</name>
             <name xml:lang="ru">Длина темы</name>
             <name xml:lang="zh-TW">標題字數</name>
+            <name xml:lang="tr">Konu Uzunluğu</name>
             <description xml:lang="ko">제목 글자수를 지정할 수 있습니다. (0또는 비워주시면 자르지 않습니다)</description>
             <description xml:lang="jp">タイトルの文字数を設定します（「0」または空欄の場合は、文字数を制限しません）。</description>
             <description xml:lang="zh-CN">可以设置标题的字数。(0或留空为不限)</description>
@@ -398,6 +440,7 @@
             <description xml:lang="es">El largo del título puede ser asignado. (valor 0 o en blanco no restringe el largo)</description>
             <description xml:lang="ru">Длина темы может быть присвоена. (0 или пустое значение не будут ограничивать длину)</description>
             <description xml:lang="zh-TW">可設置標題的字數。(0或留白為不限制)</description>
+            <description xml:lang="tr">Konu uzunluğu belirlenebilir. (0 değeri veya boş bırakmak, uzunluğu sınırlandırmaz.)</description>
         </var>
         <var id="content_cut_size">
             <type>text</type>
@@ -407,6 +450,7 @@
             <name xml:lang="jp">内容の文字数</name>
 		    <name xml:lang="zh-CN">内容摘要字数</name>
 		    <name xml:lang="zh-TW">內容字數</name>
+		    <name xml:lang="tr">İçerik Uzunluğu</name>
         </var>
         <var id="module_srls">
             <type>module_srl_list</type>
@@ -418,6 +462,7 @@
             <name xml:lang="es">Módulo Objetivo</name>
             <name xml:lang="ru">Модуль назначения</name>
             <name xml:lang="zh-TW">目標模組</name>
+            <name xml:lang="tr">Hedef Modül</name>
             <description xml:lang="ko">선택하신 모듈에 등록된 글을 대상으로 합니다.</description>
             <description xml:lang="jp">チェックされたモジュールに登録されたコンテンツ（書き込み）を対象とします。</description>
             <description xml:lang="zh-CN">将把所选模块当中的主题作为对象。</description>
@@ -426,6 +471,7 @@
             <description xml:lang="es">El objetivo de los documentos agregados serán los del módulo selccionado.</description>
             <description xml:lang="ru">Статьи назначения для сортировки будут теми, что были размещены в выбранном модуле.</description>
             <description xml:lang="zh-TW">把所選擇的模組作為目標。</description>
+            <description xml:lang="tr">Sıralanacak hedef makaleler, seçili modüle gönderilenlerdir.</description>
         </var>
         <var id="rss_url0">
             <type>text</type>
@@ -436,6 +482,7 @@
             <name xml:lang="vi">Feed(RSS/ATOM) URL</name>
             <name xml:lang="ru">Feed(RSS/ATOM) URL</name>
             <name xml:lang="zh-TW">Feed(RSS/ATOM) URL</name>
+            <name xml:lang="tr">Feed(RSS/ATOM) URL</name>
             <description xml:lang="ko">피드 주소는 타입이 지원하는 문서 형식일 경우에만 등록 됩니다.
             (지원 문서 형식 : RSS 2.0, RSS 1.0, ATOM 1.0)</description>
 	    	<description xml:lang="zh-CN">请输入RSS格式地址。
@@ -445,6 +492,8 @@
             (サポートする文書形式 : RSS 2.0, RSS 1.0, ATOM 1.0)</description>
             <description xml:lang="zh-TW">請輸入 RSS 位址。
             (支援檔案格式 : RSS 2.0, RSS 1.0, ATOM 1.0)</description>
+            <description xml:lang="tr">Lütfen RSS biçiminin adresini giriniz.
+            (支持文档格式 : RSS 2.0, RSS 1.0, ATOM 1.0)</description>
         </var>
         <var id="rss_url1">
             <type>text</type>
@@ -455,6 +504,7 @@
             <name xml:lang="vi">Feed(RSS/ATOM) URL</name>
             <name xml:lang="ru">Feed(RSS/ATOM) URL</name>
             <name xml:lang="zh-TW">Feed(RSS/ATOM) URL</name>
+            <name xml:lang="tr">Feed(RSS/ATOM) URL</name>
         </var>
         <var id="rss_url2">
             <type>text</type>
@@ -465,6 +515,7 @@
             <name xml:lang="vi">Feed(RSS/ATOM) URL</name>
             <name xml:lang="ru">Feed(RSS/ATOM) URL</name>
             <name xml:lang="zh-TW">Feed(RSS/ATOM) URL</name>
+            <name xml:lang="tr">Feed(RSS/ATOM) URL</name>
         </var>
         <var id="rss_url3">
             <type>text</type>
@@ -475,6 +526,7 @@
             <name xml:lang="vi">Feed(RSS/ATOM) URL</name>
             <name xml:lang="ru">Feed(RSS/ATOM) URL</name>
             <name xml:lang="zh-TW">Feed(RSS/ATOM) URL</name>
+            <name xml:lang="tr">Feed(RSS/ATOM) URL</name>
         </var>
         <var id="rss_url4">
             <type>text</type>
@@ -485,6 +537,7 @@
             <name xml:lang="vi">Feed(RSS/ATOM) URL</name>
             <name xml:lang="ru">Feed(RSS/ATOM) URL</name>
             <name xml:lang="zh-TW">Feed(RSS/ATOM) URL</name>
+            <name xml:lang="tr">Feed(RSS/ATOM) URL</name>
         </var>
     </extra_vars>
 </widget>

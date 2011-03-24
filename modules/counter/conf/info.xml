@@ -8,6 +8,7 @@
     <title xml:lang="jp">アクセスカウンター</title>
     <title xml:lang="ru">Базовый счетчик</title>
     <title xml:lang="zh-TW">基本統計</title>
+    <title xml:lang="tr">Sayaç</title>
     <description xml:lang="ko">기본 접속 통계 프로그램입니다.</description>
     <description xml:lang="zh-CN">默认访问统计程序。</description>
     <description xml:lang="en">Basic connection statistics program.</description>
@@ -16,6 +17,7 @@
     <description xml:lang="jp">デフォルトアクセス統計のプログラムです。</description>
     <description xml:lang="ru">Базовая программа статистики подключений.</description>
     <description xml:lang="zh-TW">預設的統計程式。</description>
+    <description xml:lang="tr">Temel bağlantı istatistik programı.</description>
     <version>0.1</version>
     <date>2007-02-28</date>
     <category>statistics</category>
@@ -29,5 +31,6 @@
         <name xml:lang="jp">NHN</name>
         <name xml:lang="ru">NHN</name>
         <name xml:lang="zh-TW">NHN</name>
+        <name xml:lang="tr">NHN</name>
     </author>
 </module>

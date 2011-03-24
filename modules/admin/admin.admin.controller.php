@@ -77,7 +77,7 @@
             $oMemberController = &getController('member');
             $oMemberController->procMemberLogout();
 
-			header('Location: '.getUrl('module','admin','act',''));
+			header('Location: '.getNotEncodedUrl('', 'module','admin'));
         }
     }
 ?>

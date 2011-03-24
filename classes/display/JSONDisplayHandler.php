@@ -6,7 +6,7 @@ class JSONDisplayHandler {
 		$variables = $oModule->getVariables();
 		$variables['error'] = $oModule->getError();
 		$variables['message'] = $oModule->getMessage();
-		$json = preg_replace("(\r\n|\n)",'\n',json_encode2($variables));
+		$json = str_replace(array("\r\n","\n","\t"),array('\n','\n','\t'),json_encode2($variables));
 		return $json;
 	}
 }

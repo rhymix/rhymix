@@ -29,10 +29,9 @@ var calledArgs = null;
 					_object_ = '<embed src="'+_swfURL_+'" quality="high" wmode="window" allowFullScreen="false" bgcolor="#ffffff" width="0" height="0" name="captcha_audio" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" />'; 
 				}
 
-				captchaXE = $('<div id="captcha_layer" style="position:fixed; _position:absolute; top:0; left:0; width:100%; height:100%;display:none;z-index:10">').appendTo(document.body);
+				captchaXE = $('<div id="captcha_layer" style="position:fixed; top:0; left:0; width:100%; height:100%;display:none;z-index:10">').appendTo(document.body);
 
-                var $div = $('<div style="position:absolute; top:0; left:0; width:100%; height:100%; background:#000; opacity:.5; filter:alpha(opacity=50);"></div>'+
-							'<div style="z-index:1000;position:absolute; width:310px; margin:-105px 0 0 -105px; top:50%; left:50%; background:#fff; border:3px solid #ccc;">'+
+                var $div = $('<div style="z-index:1000;position:absolute; width:310px; margin:-105px 0 0 -105px; top:50%; left:50%; background:#fff; border:3px solid #ccc;">'+
 								'<form method="post" action="">'+
 									'<div style="position:relative; margin:25px 20px 15px 20px">'+
 										'<img src="about:blank" id="captcha_image" alt="CAPTCHA" width="240" height="50" style="display:block; width:240px; height:50px; border:1px solid #b0b0b0" />'+

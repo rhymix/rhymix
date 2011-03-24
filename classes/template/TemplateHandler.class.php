@@ -83,7 +83,7 @@
 			$this->init($tpl_path, $tpl_filename, $tpl_file);
 
             // if target file does not exist exit
-            if(!$this->file || !file_exists($this->file)) return sprintf('Err : "%s" template file is not exists.', $this->file);
+            if(!$this->file || !file_exists($this->file)) return sprintf('Err : "%s" template file does not exists.', $this->file);
 
             $source_template_mtime = filemtime($this->file);
 			$latest_mtime = $source_template_mtime>$this->handler_mtime?$source_template_mtime:$this->handler_mtime;
@@ -154,11 +154,11 @@
 			// loop 템플릿 문법을 변환
 			$buff = $this->_replaceLoop($buff);
 
-			// |cond 템플릿 문법을 변환
-			$buff = preg_replace_callback("/<\/?(\w+)((\s+\w+(\s*=\s*(?:\".*?\"|'.*?'|[^'\">\s]+))?)+\s*|\s*)\/?>/i", array($this, '_replacePipeCond'), $buff);
-
 			// cond 템플릿 문법을 변환
 			$buff = $this->_replaceCond($buff);
+
+			// |cond 템플릿 문법을 변환
+			$buff = preg_replace_callback("/<\/?(\w+)((\s+\w+(\s*=\s*(?:\".*?\"|'.*?'|[^'\">\s]+))?)+\s*|\s*)\/?>/i", array($this, '_replacePipeCond'), $buff);
 
 			// include 태그의 변환
 			$buff = preg_replace_callback('!<include ([^>]+)>!is', array($this, '_replaceInclude'), $buff);
@@ -229,17 +229,20 @@
          **/
 		function _replacePath($matches) 
 		{
-			$path = trim($matches[3]);
-
-			if(substr($path,0,1)=='/' || substr($path,0,1)=='{' || strpos($path,'://')!==false) return $matches[0];
-
-			if(substr($path,0,2)=='./') $path = substr($path,2);
-			$target = $this->web_path.$path;
-			while(strpos($target,'/../')!==false) 
-			{
-				$target = preg_replace('/\/([^\/]+)\/\.\.\//','/',$target);
+			preg_match_all('/src="([^"]*?)"/is', $matches[0], $m);
+			for($i=0,$c=count($m[0]);$i<$c;$i++) {
+				$path = trim($m[1][$i]);
+				if(substr($path,0,1)=='/' || substr($path,0,1)=='{' || strpos($path,'://')!==false) continue;
+				if(substr($path,0,2)=='./') $path = substr($path,2);
+				$target = $this->web_path.$path;
+				while(strpos($target,'/../')!==false) 
+				{
+					$target = preg_replace('/\/([^\/]+)\/\.\.\//','/',$target);
+				}
+				$target = str_replace('/./','/',$target);
+				$matches[0] = str_replace($m[0][$i], 'src="'.$target.'"', $matches[0]);
 			}
-			return '<'.$matches[1].$matches[2].'src="'.$target.'"';
+			return $matches[0];
 		}
 
 		/**
@@ -332,9 +335,11 @@
 		 **/
 		function _replacePipeCond($matches)
 		{
-			while(strpos($matches[0],'|cond="')!==false) {
-				if(preg_match('/ (\w+)=\"([^\"]+)\"\|cond=\"([^\"]+)\"/is', $matches[0], $m))
-					$matches[0] = str_replace($m[0], sprintf('<?php if(%s) {?> %s="%s"<?}?>', $m[3], $m[1], $m[2]), $matches[0]);
+			if(strpos($matches[0],'|cond')!==false) {
+				while(strpos($matches[0],'|cond="')!==false) {
+					if(preg_match('/ (\w+)=\"([^\"]+)\"\|cond=\"([^\"]+)\"/is', $matches[0], $m))
+						$matches[0] = str_replace($m[0], sprintf('<?php if(%s) {?> %s="%s"<?php }?>', $m[3], $m[1], $m[2]), $matches[0]);
+				}
 			}
 
 			return $matches[0];
@@ -459,7 +464,7 @@
             if(!preg_match('/^(http|https)/i',$target)) 
             {
                 if(substr($target,0,2)=='./') $target = substr($target,2);
-                if(!substr($target,0,1)!='/') $target = $web_path.$target;
+                if(substr($target,0,1)!='/') $target = $web_path.$target;
             }
 
 			if(!$attrs['index']) $attrs['index'] = 'null';
@@ -473,15 +478,15 @@
 
 			// otherwise try to load xml, css, js file
 			} else {
-				if(preg_match('/^(http|https)/i',$target)) $source_filename = $target;
-				else if(substr($target,0,1)!='/') $source_filename = $base_path.$target;
+				if(substr($target,0,1)!='/') $source_filename = $base_path.$target;
 				else $source_filename = $target;
+				$source_filename = str_replace(array('/./','//'),'/',$source_filename);
 
 				// get filename and path
 				$tmp_arr = explode("/",$source_filename);
 				$filename = array_pop($tmp_arr);
 
-				$base_path = implode("/",$tmp_arr)."/";
+				//$base_path = implode("/",$tmp_arr)."/";
 
 				// get the ext
 				$tmp_arr = explode(".",$filename);
@@ -491,6 +496,7 @@
 				switch($ext) {
 					// xml js filter
 					case 'xml' :
+							if(preg_match('/^(http|https)/i',$source_filename)) return;
 							// create an instance of XmlJSFilter class, then create js and handle Context::addJsFile
 							$output = sprintf(
 								'<?php%s'.
@@ -500,7 +506,7 @@
 								'?>%s',
 								"\n",
 								"\n",
-								$this->path,
+								dirname($base_path . $attrs['target']).'/',
 								$filename,
 								"\n",
 								"\n",
@@ -509,18 +515,26 @@
 						break;
 					// css file
 					case 'css' :
-							if(!preg_match('/^(http|https|\/)/i',$source_filename)) $source_filename = $this->path.$filename;
-							if($type == 'unload') $output = '<?php Context::unloadCSSFile("'.$source_filename.'"); ?>';
-							else $output = '<?php Context::addCSSFile("'.$source_filename.'",false,"'.$attrs['media'].'","'.$attrs['targetie'].'",'.$attrs['index'].'); ?>';
+							if($type == 'unload') {
+								$output = '<?php Context::unloadCSSFile("'.$source_filename.'"); ?>';
+							} else {
+								$meta_file = $source_filename;
+								$output = '<?php Context::addCSSFile("'.$source_filename.'",false,"'.$attrs['media'].'","'.$attrs['targetie'].'",'.$attrs['index'].'); ?>';
+							}
 						break;
 					// js file
 					case 'js' :
-							if(!preg_match('/^(http|https|\/)/i',$source_filename)) $source_filename = $this->path.$filename;
-							if($type == 'unload') $output = '<?php Context::unloadJsFile("'.$source_filename.'"); ?>';
-							else $output = '<?php Context::addJsFile("'.$source_filename.'",false,"'.$attrs['targetie'].'",'.$attrs['index'].',"'.$attrs['type'].'"); ?>';
+							if($type == 'unload') {
+								$output = '<?php Context::unloadJsFile("'.$source_filename.'"); ?>';
+							} else {
+								$meta_file = $source_filename;
+								$output = '<?php Context::addJsFile("'.$source_filename.'",false,"'.$attrs['targetie'].'",'.$attrs['index'].',"'.$attrs['type'].'"); ?>';
+							}
 						break;
 				}
 			}
+
+			if($meta_file) $output = '<!--Meta:'.$meta_file.'-->'.$output;
 			return $output;
 		}
 

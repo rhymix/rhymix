@@ -1,10 +1,10 @@
-<!--%import("filter/update_menu_title.xml")-->
-<!--%import("filter/insert_menu_item.xml")-->
-<!--%import("filter/delete_menu_item.xml")-->
-<!--%import("filter/move_menu_item.xml")-->
+<load target="filter/update_menu_title.xml" />
+<load target="filter/insert_menu_item.xml" />
+<load target="filter/delete_menu_item.xml" />
+<load target="filter/move_menu_item.xml" />
 
-<!--%import("js/menu_tree.js")-->
-<!--%import("js/menu_admin.js")-->
+<load target="js/menu_admin.js" type="body" />
+<load target="js/menu_tree.js" type="body" />
 
 <!--// tree javascript plugin load -->
 <!--%load_js_plugin("ui.tree")-->
@@ -88,7 +88,9 @@ var simpleTreeCollection;
 var max_menu_depth = 999;
 var xml_url = "{$menu_info->xml_file}";
 var lang_confirm_delete = "{$lang->confirm_delete}";
-doMoveMenuInfo();
-Tree(xml_url);
+jQuery(function(){
+	doMoveMenuInfo();
+	Tree(xml_url);
+});
 //]]>
 </script>

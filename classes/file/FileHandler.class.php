@@ -122,11 +122,11 @@
         /**
          * @brief remove a file
          * @param[in] $file_name path of target file
-         * @return none
+         * @return returns true on success or false on failure.
          **/
         function removeFile($file_name) {
             $file_name = FileHandler::getRealPath($file_name);
-            if(file_exists($file_name)) @unlink($file_name);
+			return (file_exists($file_name) && @unlink($file_name));
         }
 
         /**
@@ -134,13 +134,24 @@
          * @param[in] $source path of source file
          * @param[in] $target path of target file
          * @remarks In order to move a file, use this function.
-         * @return none
+         * @return returns true on success or false on failure.
          **/
         function rename($source, $target) {
             $source = FileHandler::getRealPath($source);
             $target = FileHandler::getRealPath($target);
-            @rename($source, $target);
+            return @rename($source, $target);
         }
+
+		/**
+		 * @brief Move a file
+         * @param[in] $source path of source file
+         * @param[in] $target path of target file
+         * @return returns true on success or false on failure.
+		 */
+		function moveFile($source, $target) {
+			$source = FileHandler::getRealPath($source);
+			return (file_exists($source) && FileHandler::removeFile($target) && FileHandler::rename($source, $target));
+		}
 
         /**
          * @brief move a directory 
@@ -430,7 +441,7 @@
         {
             if(!function_exists('memory_get_usage')) return true;
             $K64 = 65536;
-            $TWEAKFACTOR = 1.5;
+            $TWEAKFACTOR = 2.0;
             $channels = $imageInfo['channels'];
             if(!$channels) $channels = 6; //for png
             $memoryNeeded = round( ($imageInfo[0] * $imageInfo[1] * $imageInfo['bits'] * $channels / 8 + $K64 ) * $TWEAKFACTOR );
@@ -449,12 +460,12 @@
          * @param[in] $thumbnail_type thumbnail type(crop, ratio)
          * @return true: success, false: failed 
          **/
-        function createImageFile($source_file, $target_file, $resize_width = 0, $resize_height = 0, $target_type = '', $thumbnail_type = 'crop') {
+        function createImageFile($source_file, $target_file, $resize_width = 0, $resize_height = 0, $target_type = '', $thumbnail_type = 'crop', $engine = 'gd') {
             $source_file = FileHandler::getRealPath($source_file);
             $target_file = FileHandler::getRealPath($target_file);
 
-            if(!file_exists($source_file)) return;
-            if(!$resize_width) $resize_width = 100;
+            if(!is_readable($source_file)) return false;
+            if(!$resize_width)  $resize_width = 100;
             if(!$resize_height) $resize_height = $resize_width;
 
             // retrieve source image's information
@@ -462,48 +473,42 @@
             if(!FileHandler::checkMemoryLoadImage($imageInfo)) return false;
             list($width, $height, $type, $attrs) = $imageInfo;
 
-            if($width<1 || $height<1) return;
+            if($width<1 || $height<1) return false;
+			$types = array(1=>'gif', 'jpg', 'png', 'bmp');
+			$type  = $types[$type]?$types[$type]:'';
 
-            switch($type) {
-                case '1' :
-                        $type = 'gif';
-                    break;
-                case '2' :
-                        $type = 'jpg';
-                    break;
-                case '3' :
-                        $type = 'png';
-                    break;
-                case '6' :
-                        $type = 'bmp';
-                    break;
-                default :
-                        return;
-                    break;
-            }
+			if (!$type) return false;
 
-            // if original image is larger than specified size to resize, calculate the ratio 
-            if($resize_width > 0 && $width >= $resize_width) $width_per = $resize_width / $width;
-            else $width_per = 1;
-
-            if($resize_height>0 && $height >= $resize_height) $height_per = $resize_height / $height;
-            else $height_per = 1;
-
-            if($thumbnail_type == 'ratio') {
-                if($width_per>$height_per) $per = $height_per;
-                else $per = $width_per;
-                $resize_width = $width * $per;
-                $resize_height = $height * $per;
-            } else {
-                if($width_per < $height_per) $per = $height_per;
-                else $per = $width_per;
-            }
-
-            if(!$per) $per = 1;
+			// calculate target size
+			$w_ratio = min($resize_width  / $width,  1);
+			$h_ratio = min($resize_height / $height, 1);
+			$ratio   = ($thumbnail_type=='ratio')?min($w_ratio, $h_ratio):max($w_ratio, $h_ratio);
+			$thumb_w = (int)($ratio * $width);
+			$thumb_h = (int)($ratio * $height);
 
             // get type of target file
-            if(!$target_type) $target_type = $type;
-            $target_type = strtolower($target_type);
+			$target_type = strtolower($target_type?$target_type:$type);
+
+			// get image processing engine
+			$engines = array('gd', 'imagick', 'gmagick');
+			$engine  = strtolower($engine);
+			if(!in_array($engine, $engines)) $engine = 'gd';
+
+			if($engine == 'gd') {
+				// thumbnail image resource
+				$thumb = null;
+
+				if(function_exists('imagecreatetruecolor')) $thumb = imagecreatetruecolor($resize_width, $resize_height);
+				elseif(function_exists('imagecreate'))      $thumb = imagecreate($resize_width, $resize_height);
+
+				if (!$thumb) return false;
+			} elseif($engine == 'imagick' && class_exists('Imagick')) {
+			} elseif($engine == 'gd' && class_exists('Gmagick')) {
+			}
+			
+			//
+			// 여기까지 했음!
+			//
 
             // create temporary image with target size
             if(function_exists('imagecreatetruecolor')) $thumb = imagecreatetruecolor($resize_width, $resize_height);
@@ -639,14 +644,14 @@
 
         /**
          * @brief return file object 
-         * @param[in] $file_name target file name
+         * @param[in] $filename target file name
          * @param[in] $mode file mode for fopen
          * @remarks if the directory of the file does not exist, create it.
          * @return file object 
          **/
-        function openFile($file_name, $mode)
+        function openFile($filename, $mode)
         {
-            $pathinfo = pathinfo($file_name);
+            $pathinfo = pathinfo($filename);
             $path = $pathinfo['dirname'];
             if(!is_dir($path)) FileHandler::makeDir($path);
 
@@ -654,5 +659,15 @@
             $file_object = new FileObject($file_name, $mode);
             return $file_object;
         }
+
+		/**
+		 * @brief  check whether the given file has the content.
+		 * @param[in] $file_name target file name
+		 * @return return true if the file exists and contains something.
+		 */
+		function hasContent($filename)
+		{
+			return (is_readable($filename) && !!filesize($filename));
+		}
     }
 ?>

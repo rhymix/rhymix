@@ -8,6 +8,7 @@
     <title xml:lang="es">Por defecto piel</title>
     <title xml:lang="ru">기본 스킨</title>
     <title xml:lang="zh-TW">預設面板</title>
+    <title xml:lang="tr">Varsayılan Dış Görünüm</title>
     <description xml:lang="ko">
         NHN (developers@xpressengine.com)
     </description>
@@ -32,6 +33,9 @@
     <description xml:lang="zh-TW">
         NHN (developers@xpressengine.com)
     </description>
+    <description xml:lang="tr">
+        NHN (developers@xpressengine.com)
+    </description>
     <version>0.1</version>
     <date>2008-05-28</date>
 
@@ -44,6 +48,7 @@
         <name xml:lang="es">NHN</name>
         <name xml:lang="ru">NHN</name>
         <name xml:lang="zh-TW">NHN</name>
+        <name xml:lang="tr">NHN</name>
     </author>
 
     <colorset>
@@ -56,6 +61,7 @@
             <title xml:lang="es">Por defecto</title>
             <title xml:lang="ru">умолчанию</title>
             <title xml:lang="zh-TW">預設</title>
+            <title xml:lang="tr">varsayılan</title>
         </color>
         <color name="cyan" src="screenshot/cyan.gif">
           <title xml:lang="ko">청록색</title>
@@ -66,6 +72,7 @@
           <title xml:lang="es">Cian</title>
           <title xml:lang="ru">бирюзовый</title>
           <title xml:lang="zh-TW">青綠色</title>
+          <title xml:lang="tr">Deniz Mavisi</title>
         </color>
         <color name="green" src="screenshot/green.gif">
           <title xml:lang="ko">초록색</title>
@@ -76,6 +83,7 @@
           <title xml:lang="es">Verde</title>
           <title xml:lang="ru">зеленый</title>
           <title xml:lang="zh-TW">綠色</title>
+          <title xml:lang="tr">Yeşil</title>
         </color>
         <color name="red" src="screenshot/red.gif">
           <title xml:lang="ko">빨간색</title>
@@ -86,6 +94,7 @@
           <title xml:lang="es">Roja</title>
           <title xml:lang="ru">красный</title>
           <title xml:lang="zh-TW">紅色</title>
+          <title xml:lang="tr">Kırmızı</title>
         </color>
         <color name="purple" src="screenshot/purple.gif">
           <title xml:lang="ko">보라색</title>
@@ -96,6 +105,7 @@
           <title xml:lang="es">Púrpura</title>
           <title xml:lang="ru">Лиловый</title>
           <title xml:lang="zh-TW">紫色</title>
+          <title xml:lang="tr">Mor</title>
         </color>
         <color name="black" src="screenshot/black.gif">
             <title xml:lang="ko">검은색</title>
@@ -106,6 +116,7 @@
             <title xml:lang="es">Negro</title>
             <title xml:lang="zh-CN">黑色</title>
             <title xml:lang="zh-TW">黑色</title>
+            <title xml:lang="tr">Siyah</title>
         </color>
     </colorset>
 </skin>

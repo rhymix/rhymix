@@ -18,6 +18,8 @@
 
 
 <table cellspacing="0" class="rowTable">
+<col width="200" />
+<col width="*" />
 <tr>
     <th scope="row"><div>{$lang->layout}</div></th>
     <td class="wide">{$selected_layout->title} ver {$selected_layout->version} ({$selected_layout->layout})</td>
@@ -62,8 +64,13 @@
 <!--@foreach($selected_layout->extra_var as $name => $var)-->
 
 <!--@if($var->group && ((!$group) || $group != $var->group))-->
+</table>
+
 {@$group = $var->group}
-<tr><th colspan="2" class="title">{$group}</th></tr>
+<h4 class="xeAdmin">{$group}</h4>
+<table cellspacing="0" class="rowTable">
+<col width="200" />
+<col width="*" />
 <!--@end-->
 
 <tr>
@@ -90,18 +97,45 @@
     <!--@elseif($var->type == "select")-->
         <select name="{$name}">
             <!--@foreach($var->options as $key => $val)-->
-            <option value="{$key}" <!--@if($key==$var->value)-->selected="selected"<!--@end-->>{$val}</option>
+            <option value="{$key}" <!--@if($key==$var->value)-->selected="selected"<!--@end-->>{$val->val}</option>
             <!--@end-->
         </select>
-    <!--@end-->
-        <p>{$var->description}</p>
+
+    <!--@elseif($var->type == "radio")-->
+        <!--@foreach($var->options as $key => $val)-->
+            <!--@if($val->thumbnail)-->
+            {@ $_img_info = getImageSize($val->thumbnail); $_height = $_img_info[1]+40; $_width = $_img_info[0]+20; $_talign = "center"; }
+            <!--@else-->
+            {@ $_width = 200; $_height = 20; $_talign = "left"; }
+            <!--@end-->
+
+            <!--@if($var->thumbnail_exist)-->
+            <div style="float:left;text-align:{$_talign};margin-bottom:1em;width:{$_width}px;height:{$_height}px;margin-right:10px;">
+            <!--@endif-->
+
+            <label>
+            <input type="radio" name="colorset" value="{$key}" /> {$val->val}
+            <!--@if($val->thumbnail)-->
+                <br />
+                <img src="../../../{$val->thumbnail}" alt="{$val->val}" style="border:1px solid #888888;padding:2px;margin:2px;"/>
+            <!--@endif-->
+            </label>
+
+            <!--@if($var->thumbnail_exist)-->
+            </div>
+            <!--@endif-->
+        <!--@endforeach-->
+    <!--@endif-->
+        <p style="clear:both;">{$var->description}</p>
     </td>
 </tr>
 <!--@end-->
+</table>
 
-<!--@if($var->group)-->
-<!--@end-->
-
+<h4 class="xeAdmin">{$lang->menu}</h4>
+<table cellspacing="0" class="rowTable">
+<col width="200" />
+<col width="*" />
 <!--@foreach($selected_layout->menu as $menu_name => $menu_info)-->
 <tr class="row{$cycle_idx}">
     <th scope="row"><div>{$menu_info->title}<br />({$menu_name})</div></th>
@@ -132,17 +166,15 @@
     </td>
 </tr>
 <!--@end-->
-		
-
-<tr class="row2">
-    <th colspan="2" class="button">
-        <span class="button black strong"><input type="submit" value="{$lang->cmd_save}" /></span>
-        <!--@if($module=="admin")-->
-        <a href="{getUrl('act','dispLayoutAdminContent')}" class="button"><span>{$lang->cmd_list}</span></a>
-        <!--@else-->
-        <a href="{getUrl('act','')}" class="button"><span>{$lang->cmd_back}</span></a>
-        <!--@end-->
-    </th>
-</tr>
 </table>
+
+<div class="buttonArea">
+    <span class="button black strong"><input type="submit" value="{$lang->cmd_save}" /></span>
+    <!--@if($module=="admin")-->
+    <a href="{getUrl('act','dispLayoutAdminContent')}" class="button"><span>{$lang->cmd_list}</span></a>
+    <!--@else-->
+    <a href="{getUrl('act','')}" class="button"><span>{$lang->cmd_back}</span></a>
+    <!--@end-->
+</div>
+
 <iframe name="hidden_iframe" frameborder="0" style="display:none"></iframe>

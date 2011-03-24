@@ -41,7 +41,7 @@ function start_list_gallery() {
       // 등록된 이미지가 없으면 pass~
       if(!list_gallery_images[srl].length) continue;
 
-      // 메인이미지가 나올 곳과 썸네일이 노출될 곳의 객체를 구함
+      // 메인이미지가 나올 곳과 섬네일이 노출될 곳의 객체를 구함
       var zone = xGetElementById('zone_list_gallery_'+srl);
 
       // 갤러리 외부 박스보다 이미지가 클 경우 resizing시킴 

@@ -167,7 +167,7 @@
             // 변수 정리
             if($type) $title = "[".$type."] ";
             $title .= cut_str(strip_tags($content), 10, '...');
-            $content = sprintf('%s<br /><br />from : <a href="%s" onclick="window.open(this.href);return false;">%s</a>',$content, getFullUrl('','document_srl',$this->document_srl), getFullUrl('','document_srl',$this->document_srl));
+            $content = sprintf('%s<br /><br />from : <a href="%s" target="_blank">%s</a>',$content, getFullUrl('','document_srl',$this->document_srl), getFullUrl('','document_srl',$this->document_srl));
             $receiver_srl = $this->get('member_srl');
             $sender_member_srl = $logged_info->member_srl;
 
@@ -253,7 +253,7 @@
             return htmlspecialchars($content);
         }
 
-        function getContent($add_popup_menu = true, $add_content_info = true, $resource_realpath = false, $add_xe_content_class = true) {
+        function getContent($add_popup_menu = true, $add_content_info = true, $resource_realpath = false, $add_xe_content_class = true, $stripEmbedTagException = false) {
             if(!$this->document_srl) return;
 
             if($this->isSecret() && !$this->isGranted() && !$this->isAccessible()) return Context::getLang('msg_is_secret');
@@ -261,7 +261,7 @@
             $_SESSION['accessible'][$this->document_srl] = true;
 
             $content = $this->get('content');
-            stripEmbedTagForAdmin($content, $this->get('member_srl'));
+            if(!$stripEmbedTagException) stripEmbedTagForAdmin($content, $this->get('member_srl'));
 
             // rewrite모듈을 사용하면 링크 재정의
             $oContext = &Context::getInstance();
@@ -534,12 +534,12 @@
                 $thumbnail_type = $config->thumbnail_type;
             }
 
-            // 썸네일 정보 정의
+            // 섬네일 정보 정의
             $thumbnail_path = sprintf('files/cache/thumbnails/%s',getNumberingPath($this->document_srl, 3));
             $thumbnail_file = sprintf('%s%dx%d.%s.jpg', $thumbnail_path, $width, $height, $thumbnail_type);
             $thumbnail_url  = Context::getRequestUri().$thumbnail_file;
 
-            // 썸네일 파일이 있을 경우 파일의 크기가 0 이면 return false 아니면 경로 return
+            // 섬네일 파일이 있을 경우 파일의 크기가 0 이면 return false 아니면 경로 return
             if(file_exists($thumbnail_file)) {
                 if(filesize($thumbnail_file)<1) return false;
                 else return $thumbnail_url;
@@ -598,10 +598,10 @@
             }
             if($is_tmp_file) FileHandler::removeFile($source_file);
 
-            // 썸네일 생성 성공시 경로 return
+            // 섬네일 생성 성공시 경로 return
             if($output) return $thumbnail_url;
 
-            // 차후 다시 썸네일 생성을 시도하지 않기 위해 빈 파일을 생성
+            // 차후 다시 섬네일 생성을 시도하지 않기 위해 빈 파일을 생성
             else FileHandler::writeFile($thumbnail_file, '','w');
 
             return;
@@ -619,8 +619,6 @@
 
             $check_files = false;
 
-            $content = $this->get('content');
-
             // 비밀글 체크
             if($this->isSecret()) $buffs[] = "secret";
 
@@ -630,6 +628,9 @@
             // 새글 체크
             if($this->get('regdate')>$time_check) $buffs[] = "new";
             else if($this->get('last_update')>$time_check) $buffs[] = "update";
+
+            /*
+            $content = $this->get('content');
 
             // 사진 이미지 체크
             preg_match_all('!<img([^>]*?)>!is', $content, $matches);
@@ -646,6 +647,7 @@
                 $buffs[] = "movie";
                 $check_files = true;
             }
+            */
 
             // 첨부파일 체크
             if($this->hasUploadedFiles()) $buffs[] = "file";

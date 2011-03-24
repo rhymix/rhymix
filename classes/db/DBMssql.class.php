@@ -42,6 +42,14 @@
             $this->_setDBInfo();
             $this->_connect();
         }
+		
+		/**
+		 * @brief create an instance of this class
+		 */
+		function create()
+		{
+			return new DBMssql;
+		}
 
         /**
          * @brief 설치 가능 여부를 return
@@ -639,31 +647,33 @@
                 }
             }
 
-            if(!$output->columns) {
-                $columns = '*';
-            } else {
-                $column_list = array();
-                foreach($output->columns as $key => $val) {
-                    $name = $val['name'];
-					if(preg_match('/^substr\(/i',$name)) $name = preg_replace('/^substr\(/i','substring(',$name);
-                    $alias = $val['alias'];
-                    if($val['click_count']) $click_count[] = $val['name'];
+            $click_count = array();
+            if(!$output->columns){
+				$output->columns = array(array('name'=>'*'));
+			}
 
-                    if(substr($name,-1) == '*') {
-                        $column_list[] = $name;
-                    } elseif(strpos($name,'.')===false && strpos($name,'(')===false) {
-                        if($alias) $column_list[] = sprintf('[%s] as [%s]', $name, $alias);
-                        else $column_list[] = sprintf('[%s]',$name);
-                    } else {
-                        if($alias) $column_list[] = sprintf('%s as [%s]', $name, $alias);
-                        else $column_list[] = sprintf('%s',$name);
-                    }
-                }
-                $columns = implode(',',$column_list);
-            }
+			$column_list = array();
+			foreach($output->columns as $key => $val) {
+				$name = $val['name'];
+				if(preg_match('/^substr\(/i',$name)) $name = preg_replace('/^substr\(/i','substring(',$name);
+				$alias = $val['alias'];
+				if($val['click_count']) $click_count[] = $val['name'];
+
+				if(substr($name,-1) == '*') {
+					$column_list[] = $name;
+				} elseif(strpos($name,'.')===false && strpos($name,'(')===false) {
+					if($alias) $column_list[$alias] = sprintf('[%s] as [%s]', $name, $alias);
+					else $column_list[] = sprintf('[%s]',$name);
+				} else {
+					if($alias) $column_list[$alias] = sprintf('%s as [%s]', $name, $alias);
+					else $column_list[] = sprintf('%s',$name);
+				}
+			}
+			$columns = implode(',',$column_list);
 
             $condition = $this->getCondition($output);
 		
+			$output->column_list = $column_list;
             if($output->list_count && $output->page) return $this->_getNavigationData($table_list, $columns, $left_join, $condition, $output);
 
             // list_order, update_order 로 정렬시에 인덱스 사용을 위해 condition에 쿼리 추가
@@ -679,26 +689,35 @@
                 }
             }
 
-            $query = sprintf("%s from %s %s %s", $columns, implode(',',$table_list),implode(' ',$left_join), $condition);
-
 			if(count($output->groups)){
 				foreach($output->groups as $k => $v ){
 					if(preg_match('/^substr\(/i',$v)) $output->groups[$k] = preg_replace('/^substr\(/i','substring(',$v);
+					if($column_list[$v]) $output->arg_columns[] = $column_list[$v];
 				}
-				$query .= sprintf(' group by %s', implode(',',$output->groups));
+				$groupby_query = sprintf(' group by %s', implode(',',$output->groups));
 			}
-			
-				
-            
 
             if($output->order && !preg_match('/count\(\*\)/i',$columns) ) {
                 foreach($output->order as $key => $val) {
 					if(preg_match('/^substr\(/i',$val[0])) $name = preg_replace('/^substr\(/i','substring(',$val[0]);
                     $index_list[] = sprintf('%s %s', $val[0], $val[1]);
+					if(count($output->arg_columns) && $column_list[$val[0]]) $output->arg_columns[] = $column_list[$val[0]];
                 }
-                if(count($index_list)) $query .= ' order by '.implode(',',$index_list);
+                if(count($index_list)) $orderby_query = ' order by '.implode(',',$index_list);
             }
 
+			if(count($output->arg_columns))
+			{
+				$columns = array();
+				foreach($output->arg_columns as $col){
+					if(strpos($col,'[')===false && strpos($col,' ')==false) $columns[] = '['.$col.']'; 
+					else $columns[] = $col;
+				}
+				
+				$columns = join(',',$columns);
+			}
+
+            $query = sprintf("%s from %s %s %s %s", $columns, implode(',',$table_list),implode(' ',$left_join), $condition, $groupby_query.$orderby_query);
             // list_count를 사용할 경우 적용
             if($output->list_count['value']) $query = sprintf('select top %d %s', $output->list_count['value'], $query);
 			else $query = "select ".$query;
@@ -729,33 +748,31 @@
         function _getNavigationData($table_list, $columns, $left_join, $condition, $output) {
             require_once(_XE_PATH_.'classes/page/PageHandler.class.php');
 
+			$column_list = $output->column_list;
+
             // 전체 개수를 구함
 			if(count($output->groups)){
 				foreach($output->groups as $k => $v ){
 					if(preg_match('/^substr\(/i',$v)) $output->groups[$k] = preg_replace('/^substr\(/i','substring(',$v);
+					if($column_list[$v]) $output->arg_columns[] = $column_list[$v];
 				}
 				$count_condition = sprintf('%s group by %s', $condition, implode(', ', $output->groups));
 			}else{
 				$count_condition = $condition;
 			}
 			
-            
-            $total_count = $this->getCountCache($output->tables, $count_condition);
-            if($total_count === false) {
-                $count_query = sprintf("select count(*) as count from %s %s %s", implode(', ', $table_list), implode(' ', $left_join), $count_condition);
-                if (count($output->groups)) $count_query = sprintf('select count(*) as count from (%s) xet', $count_query);
-				
-				$param = $this->param;
+			$count_query = sprintf("select count(*) as count from %s %s %s", implode(', ', $table_list), implode(' ', $left_join), $count_condition);
+			if (count($output->groups)) $count_query = sprintf('select count(*) as count from (%s) xet', $count_query);
+			
+			$param = $this->param;
 
-				$count_query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id . ' count(*)'):'';
-				$result = $this->_query($count_query);
-				
-				$this->param = $param;
-				$count_output = $this->_fetch($result);
+			$count_query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id . ' count(*)'):'';
+			$result = $this->_query($count_query);
+			
+			$this->param = $param;
+			$count_output = $this->_fetch($result);
 
-				$total_count = (int)$count_output->count;
-                $this->putCountCache($output->tables, $count_condition, $total_count);
-            }
+			$total_count = (int)$count_output->count;
 
             $list_count = $output->list_count['value'];
             if(!$list_count) $list_count = 20;
@@ -785,13 +802,14 @@
                 }
             }
 			
-
             // group by 절 추가
 			if(count($output->groups)){
 				foreach($output->groups as $k => $v ){
 					if(preg_match('/^substr\(/i',$v)) $output->groups[$k] = preg_replace('/^substr\(/i','substring(',$v);
+					if($column_list[$v]) $output->arg_columns[] = $column_list[$v];
 				}
-				$group .= sprintf('group by %s', implode(',',$output->groups));
+
+				$group = sprintf('group by %s', implode(',',$output->groups));
 			}
 			
             // order 절 추가
@@ -801,6 +819,7 @@
 					if(preg_match('/^substr\(/i',$val[0])) $name = preg_replace('/^substr\(/i','substring(',$val[0]);
                     $order_targets[$val[0]] = $val[1];
                     $index_list[] = sprintf('%s %s', $val[0], $val[1]);
+					if(count($output->arg_columns) && $column_list[$val[0]]) $output->arg_columns[] = $column_list[$val[0]];
                 }
                 if(count($index_list)) $order .= 'order by '.implode(',',$index_list);
             }
@@ -808,6 +827,17 @@
                 if(in_array('list_order',$conditions)) $order_targets['list_order'] = 'asc';
                 else $order_targets['xe_seq'] = 'desc';
             }
+
+			if(count($output->arg_columns))
+			{
+				$columns = array();
+				foreach($output->arg_columns as $col){
+					if(strpos($col,'[')===false && strpos($col,' ')==false) $columns[] = '['.$col.']'; 
+					else $columns[] = $col;
+				}
+				
+				$columns = join(',',$columns);
+			}
 
             if($start_count<1) {
                 $query = sprintf('select top %d %s from %s %s %s %s %s', $list_count, $columns, implode(',',$table_list), implode(' ',$left_join), $condition, $group, $order);
@@ -873,4 +903,6 @@
         }
 
     }
+
+return new DBMssql;
 ?>

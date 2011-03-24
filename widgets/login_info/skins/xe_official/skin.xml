@@ -6,6 +6,7 @@
     <title xml:lang="vi">Skin hiển thị thông tin đăng nhập</title>
     <title xml:lang="zh-CN">XE 官方网站登陆表单皮肤</title>
     <title xml:lang="zh-TW">XE 官方網站登入面板</title>
+    <title xml:lang="tr">XE Resmi Giriş Bilgilerini Görüntüle.</title>
     <description xml:lang="ko">
         XE 공식 레이아웃에 적합한 로그인 정보 출력 위젯입니다.
 		제작 : NHN
@@ -30,6 +31,10 @@
         適合XE 官方網站登入面板。
 		제작 : NHN
     </description>
+    <description xml:lang="tr">
+        Bu görsel bileşen, XE Resmi yerleşim düzeni için uygun giriş bilgisidir.
+		제작 : NHN
+    </description>
     <version>0.1</version>
     <date>2007-02-28</date>
     <link>http://xpressengine.com/</link>
@@ -41,6 +46,7 @@
         <name xml:lang="vi">NHN</name>
         <name xml:lang="zh-CN">NHN</name>
         <name xml:lang="zh-TW">NHN</name>
+        <name xml:lang="tr">NHN</name>
     </author>
 
     <colorset>
@@ -51,6 +57,7 @@
             <title xml:lang="en">default</title>
             <title xml:lang="vi">Mặc định</title>
             <title xml:lang="zh-TW">預設</title>
+            <title xml:lang="tr">Varsayılan</title>
         </color>
         <color name="white">
             <title xml:lang="ko">하얀색</title>
@@ -59,6 +66,7 @@
             <title xml:lang="vi">White</title>
             <title xml:lang="zh-CN">白色</title>
             <title xml:lang="zh-TW">白色</title>
+            <title xml:lang="tr">Beyaz</title>
         </color>
         <color name="black">
             <title xml:lang="ko">검은색</title>
@@ -67,6 +75,7 @@
             <title xml:lang="vi">Black</title>
             <title xml:lang="zh-CN">黑色</title>
             <title xml:lang="zh-TW">黑色</title>
+            <title xml:lang="tr">Siyah</title>
         </color>
     </colorset>
 </skin>

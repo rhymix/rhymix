@@ -84,6 +84,10 @@
 
                 // 내용 처리
                 if($vars[-2][$user_lang_code]) $GLOBALS['XE_DOCUMENT_LIST'][$document_srl]->add('content',$vars[-2][$user_lang_code]);
+			
+                if($vars[-1][$user_lang_code] || $vars[-2][$user_lang_code]){ 
+					unset($checked_documents[$document_srl]);
+				}
 
                 $GLOBALS['XE_EXTRA_VARS'][$document_srl] = $evars->getExtraVars();
             }
@@ -201,72 +205,9 @@
             $use_division = false;
 
             // 검색 옵션 정리
-            $search_target = $obj->search_target;
-            $search_keyword = $obj->search_keyword;
-            if($search_target && $search_keyword) {
-                switch($search_target) {
-                    case 'title' :
-                    case 'content' :
-                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
-                            $args->{"s_".$search_target} = $search_keyword;
-                            $use_division = true;
-                        break;
-                    case 'title_content' :
-                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
-                            $args->s_title = $search_keyword;
-                            $args->s_content = $search_keyword;
-                            $use_division = true;
-                        break;
-                    case 'user_id' :
-                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
-                            $args->s_user_id = $search_keyword;
-                            $args->sort_index = 'documents.'.$args->sort_index;
-                        break;
-                    case 'user_name' :
-                    case 'nick_name' :
-                    case 'email_address' :
-                    case 'homepage' :
-                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
-                            $args->{"s_".$search_target} = $search_keyword;
-                        break;
-                    case 'is_notice' :
-                    case 'is_secret' :
-                            if($search_keyword=='N') $args->{"s_".$search_target} = 'N';
-                            elseif($search_keyword=='Y') $args->{"s_".$search_target} = 'Y';
-                            else $args->{"s_".$search_target} = '';
-                        break;
-                    case 'member_srl' :
-                    case 'readed_count' :
-                    case 'voted_count' :
-                    case 'comment_count' :
-                    case 'trackback_count' :
-                    case 'uploaded_count' :
-                            $args->{"s_".$search_target} = (int)$search_keyword;
-                        break;
-                    case 'regdate' :
-                    case 'last_update' :
-                    case 'ipaddress' :
-                            $args->{"s_".$search_target} = $search_keyword;
-                        break;
-                    case 'comment' :
-                            $args->s_comment = $search_keyword;
-                            $query_id = 'document.getDocumentListWithinComment';
-                            $use_division = true;
-                        break;
-                    case 'tag' :
-                            $args->s_tags = str_replace(' ','%',$search_keyword);
-                            $query_id = 'document.getDocumentListWithinTag';
-                        break;
-                    default :
-                            if(strpos($search_target,'extra_vars')!==false) {
-                                $args->var_idx = substr($search_target, strlen('extra_vars'));
-                                $args->var_value = str_replace(' ','%',$search_keyword);
-                                $args->sort_index = 'documents.'.$args->sort_index;
-                                $query_id = 'document.getDocumentListWithExtraVars';
-                            }
-                        break;
-                }
-            }
+            $searchOpt->search_target = $obj->search_target;
+            $searchOpt->search_keyword = $obj->search_keyword;
+			$this->_setSearchOption($searchOpt, &$args, &$query_id, &$use_division);
 
             /**
              * division은 list_order의 asc 정렬일때만 사용할 수 있음
@@ -494,13 +435,25 @@
             // 회원이어야만 가능한 기능
             if($logged_info->member_srl) {
 
-                // 추천 버튼 추가
-                $url = sprintf("doCallModuleAction('document','procDocumentVoteUp','%s')", $document_srl);
-                $oDocumentController->addDocumentPopupMenu($url,'cmd_vote','./modules/document/tpl/icons/vote_up.gif','javascript');
+				$oDocumentModel = &getModel('document');
+				$oDocument = $oDocumentModel->getDocument($document_srl, false, false);
+				$module_srl = $oDocument->get('module_srl');
+				$member_srl = $oDocument->get('member_srl');
+				if(!$module_srl) return new Object(-1, 'msg_invalid_request');
 
-                // 비추천 버튼 추가
-                $url= sprintf("doCallModuleAction('document','procDocumentVoteDown','%s')", $document_srl);
-                $oDocumentController->addDocumentPopupMenu($url,'cmd_vote_down','./modules/document/tpl/icons/vote_down.gif','javascript');
+				$oModuleModel = &getModel('module');
+				$document_config = $oModuleModel->getModulePartConfig('document',$module_srl);
+				if($document_config->use_vote_up!='N' && $member_srl!=$logged_info->member_srl){
+					// 추천 버튼 추가
+					$url = sprintf("doCallModuleAction('document','procDocumentVoteUp','%s')", $document_srl);
+					$oDocumentController->addDocumentPopupMenu($url,'cmd_vote','./modules/document/tpl/icons/vote_up.gif','javascript');
+				}
+
+				if($document_config->use_vote_down!='N' && $member_srl!=$logged_info->member_srl){
+					// 비추천 버튼 추가
+					$url= sprintf("doCallModuleAction('document','procDocumentVoteDown','%s')", $document_srl);
+					$oDocumentController->addDocumentPopupMenu($url,'cmd_vote_down','./modules/document/tpl/icons/vote_down.gif','javascript');
+				}
 
                 // 신고 기능 추가
                 $url = sprintf("doCallModuleAction('document','procDocumentDeclare','%s')", $document_srl);
@@ -593,6 +546,11 @@
             $args->module_srl = $oDocument->get('module_srl');
             $args->sort_index = $opt->sort_index;
             $args->order_type = $opt->order_type;
+
+            // 검색 옵션 정리
+            $searchOpt->search_target = $opt->search_target;
+            $searchOpt->search_keyword = $opt->search_keyword;
+			$this->_setSearchOption($searchOpt, &$args, &$query_id, &$use_division);
 
             // 전체 갯수를 구한후 해당 글의 페이지를 검색
             $output = executeQuery('document.getDocumentPage', $args);
@@ -1025,5 +983,119 @@
             return $output;
         }
 
+		function getDocumentVotedMemberList()
+		{
+			$document_srl = Context::get('document_srl');
+			if(!$document_srl) return new Object(-1,'msg_invalid_request');
+
+			$point = Context::get('point');
+			if($point != -1) $point = 1;
+
+			$oDocumentModel = &getModel('document');
+            $oDocument = $oDocumentModel->getDocument($document_srl, false, false);
+			$module_srl = $oDocument->get('module_srl');
+			if(!$module_srl) return new Object(-1, 'msg_invalid_request');
+
+			$oModuleModel = &getModel('module');
+            $document_config = $oModuleModel->getModulePartConfig('document',$module_srl);
+			if($point == -1){
+				if($document_config->use_vote_down!='S') return new Object(-1, 'msg_invalid_request');
+				$args->below_point = 0;
+			}else{
+				if($document_config->use_vote_up!='S') return new Object(-1, 'msg_invalid_request');
+				$args->more_point = 0;
+			}
+
+			$args->document_srl = $document_srl;
+
+			$output = executeQueryArray('document.getVotedMemberList',$args);
+			if(!$output->toBool()) return $output;
+
+			$oMemberModel = &getModel('member');
+			if($output->data){
+				foreach($output->data as $k => $d){
+					$profile_image = $oMemberModel->getProfileImage($d->member_srl);
+					$output->data[$k]->src = $profile_image->src;
+				}
+			}
+
+			$this->add('voted_member_list',$output->data);
+		}
+
+        /**
+         * @brief 게시물 목록의 검색 옵션을 Setting함(2011.03.08 - cherryfilter)
+		 * page변수가 없는 상태에서 page 값을 알아오는 method(getDocumentPage)는 검색하지 않은 값을 return해서 검색한 값을 가져오도록 검색옵션이 추가 됨.
+		 * 검색옵션의 중복으로 인해 private method로 별도 분리
+         **/
+		function _setSearchOption($searchOpt, &$args, &$query_id, &$use_division)
+		{
+			$search_target = $searchOpt->search_target;
+			$search_keyword = $searchOpt->search_keyword;
+
+            if($search_target && $search_keyword) {
+                switch($search_target) {
+                    case 'title' :
+                    case 'content' :
+                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
+                            $args->{"s_".$search_target} = $search_keyword;
+                            $use_division = true;
+                        break;
+                    case 'title_content' :
+                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
+                            $args->s_title = $search_keyword;
+                            $args->s_content = $search_keyword;
+                            $use_division = true;
+                        break;
+                    case 'user_id' :
+                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
+                            $args->s_user_id = $search_keyword;
+                            $args->sort_index = 'documents.'.$args->sort_index;
+                        break;
+                    case 'user_name' :
+                    case 'nick_name' :
+                    case 'email_address' :
+                    case 'homepage' :
+                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
+                            $args->{"s_".$search_target} = $search_keyword;
+                        break;
+                    case 'is_notice' :
+                    case 'is_secret' :
+                            if($search_keyword=='N') $args->{"s_".$search_target} = 'N';
+                            elseif($search_keyword=='Y') $args->{"s_".$search_target} = 'Y';
+                            else $args->{"s_".$search_target} = '';
+                        break;
+                    case 'member_srl' :
+                    case 'readed_count' :
+                    case 'voted_count' :
+                    case 'comment_count' :
+                    case 'trackback_count' :
+                    case 'uploaded_count' :
+                            $args->{"s_".$search_target} = (int)$search_keyword;
+                        break;
+                    case 'regdate' :
+                    case 'last_update' :
+                    case 'ipaddress' :
+                            $args->{"s_".$search_target} = $search_keyword;
+                        break;
+                    case 'comment' :
+                            $args->s_comment = $search_keyword;
+                            $query_id = 'document.getDocumentListWithinComment';
+                            $use_division = true;
+                        break;
+                    case 'tag' :
+                            $args->s_tags = str_replace(' ','%',$search_keyword);
+                            $query_id = 'document.getDocumentListWithinTag';
+                        break;
+                    default :
+                            if(strpos($search_target,'extra_vars')!==false) {
+                                $args->var_idx = substr($search_target, strlen('extra_vars'));
+                                $args->var_value = str_replace(' ','%',$search_keyword);
+                                $args->sort_index = 'documents.'.$args->sort_index;
+                                $query_id = 'document.getDocumentListWithExtraVars';
+                            }
+                        break;
+                }
+            }
+		}
     }
 ?>

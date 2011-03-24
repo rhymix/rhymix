@@ -6,12 +6,14 @@
     <title xml:lang="vi">Dòng đơn giản</title>
     <title xml:lang="zh-TW">簡單樣式</title>
     <title xml:lang="jp">シンプルストロング</title>
+    <title xml:lang="tr">Basit Sıra</title>
     <description xml:lang="ko">선 하나만으로 꾸며진 위젯스타일 입니다.</description>
     <description xml:lang="zh-CN">简易细线控件样式。</description>
     <description xml:lang="en">A widget style decorated with one simple line.</description>
     <description xml:lang="vi">Widget được trang trí với một dòng đơn giản.</description>
     <description xml:lang="zh-TW">簡單的 Widget 線條樣式。</description>
     <description xml:lang="jp">線一つだけのウィジェットスタイルです。</description>
+    <description xml:lang="tr">Tek bir basit sırayla düzenlenmiş görsel bileşen şekli.</description>
     <version>0.1</version>
     <date>2009-02-03</date>
     <preview>preview.gif</preview>
@@ -19,10 +21,11 @@
     <author email_address="developers@xpressengine.com" link="http://xpressengine.com/">
         <name xml:lang="ko">NHN</name>
         <name xml:lang="en">NHN</name>
-	<name xml:lang="vi">NHN</name>
+		<name xml:lang="vi">NHN</name>
         <name xml:lang="zh-CN">NHN</name>
         <name xml:lang="zh-TW">NHN</name>
         <name xml:lang="jp">NHN</name>
+        <name xml:lang="tr">NHN</name>
     </author>
 
     <extra_vars>
@@ -33,12 +36,14 @@
             <title xml:lang="zh-CN">颜色</title>
             <title xml:lang="zh-TW">顏色</title>
             <title xml:lang="jp">カラーセット</title>
+            <title xml:lang="tr">Renk ayarı</title>
             <description xml:lang="ko">컬러셋을 지정해주세요</description>
             <description xml:lang="en">Choose colorset</description>
 	    <description xml:lang="vi">Lựa chọn màu sắc</description>
             <description xml:lang="zh-CN">请指定适当的颜色。</description>
             <description xml:lang="zh-TW">請選擇顏色。</description>
             <description xml:lang="jp">カラーセットを指定して下さい。</description>
+            <description xml:lang="tr">Renk ayarını seç.</description>
             <options>
                 <name xml:lang="ko">하얀색</name>
                 <name xml:lang="en">White</name>
@@ -46,6 +51,7 @@
                 <name xml:lang="zh-CN">白色</name>
                 <name xml:lang="zh-TW">白色</name>
                 <name xml:lang="jp">白</name>
+                <name xml:lang="tr">Beyaz</name>
                 <value>white</value>
             </options>
             <options>
@@ -55,6 +61,7 @@
                 <name xml:lang="zh-CN">黑色</name>
                 <name xml:lang="zh-TW">黑色</name>
                 <name xml:lang="jp">黒</name>
+                <name xml:lang="tr">Siyah</name>
                 <value>black</value>
             </options>
         </var>
@@ -65,12 +72,14 @@
             <name xml:lang="zh-CN">栏目名</name>
             <name xml:lang="zh-TW">標題</name>
             <name xml:lang="jp">タイトル</name>
+            <name xml:lang="tr">Başlık</name>
             <description xml:lang="ko">제목 텍스트</description>
             <description xml:lang="en">Title text</description>
 	    <description xml:lang="vi">Chữ của tiêu đề</description>
             <description xml:lang="zh-CN">请输入栏目名。</description>
             <description xml:lang="zh-TW">請輸入標題。</description>
             <description xml:lang="jp">「タイトル」のテキスト</description>
+            <description xml:lang="tr">Başlık Metni</description>
         </var>
         <var name="ws_more_url" type="text">
             <name xml:lang="ko">더보기 URL</name>
@@ -79,26 +88,30 @@
             <name xml:lang="zh-CN">查看更多(链接)</name>
             <name xml:lang="zh-TW">more URL</name>
             <name xml:lang="jp">「もっと見る」URL</name>
+            <name xml:lang="tr">Daha fazla URL</name>
             <description xml:lang="ko">http:// 포함한 URL를 등록합니다.</description>
 	    <description xml:lang="zh-CN">请输入包含http://的URL地址。</description>
 	    <description xml:lang="zh-TW">請輸入http://以外的URL網址。</description>
             <description xml:lang="en">Destination of a link 'more'. Register an URL including http://</description>
 	    <description xml:lang="vi">Địa chỉ trang sẽ chuyển đến khi bấm vào Xem thêm (Bao gồm cả http://)</description>
             <description xml:lang="jp">「http://」を含んだURLを登録します。</description>
+            <description xml:lang="tr">Bağlantı hedefi 'daha fazlası'.  http:// içeren bir URL girişi yapınız.</description>
         </var>
         <var name="ws_more_text" type="text">
             <name xml:lang="ko">더보기 텍스트</name>
             <name xml:lang="en">more Text</name>
-	    <name xml:lang="vi">Chữ của Xem thêm</name>
+	    	<name xml:lang="vi">Chữ của Xem thêm</name>
             <name xml:lang="zh-CN">查看更多(文本)</name>
             <name xml:lang="zh-TW">more TEXT</name>
             <name xml:lang="jp">「もっと見る」テキスト</name>
+            <name xml:lang="tr">Daha fazla metin</name>
             <description xml:lang="ko">더보기 텍스트</description>
             <description xml:lang="en">Text for a link 'more'</description>
             <description xml:lang="zh-CN">文本格式的"查看更多"。</description>
-	    <description xml:lang="vi">Có thể dùng những từ khác thay cho từ Xem thêm</description>
+		    <description xml:lang="vi">Có thể dùng những từ khác thay cho từ Xem thêm</description>
             <description xml:lang="zh-TW">純文字格式。</description>
             <description xml:lang="jp">「もっと見る」テキスト</description>
+            <description xml:lang="tr">Bağlantı için metin 'daha fazlası'</description>
        </var>
     </extra_vars>
 </widgetstyle>

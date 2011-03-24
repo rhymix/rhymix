@@ -23,11 +23,52 @@
          * @brief 회원정보와 게시물 정보를 싱크
          **/
         function procImporterAdminSync() {
-            // 게시물정보 싱크
-            $output = executeQuery('importer.updateDocumentSync');
+			/* DBMS가 CUBRID인 경우 MySQL과 동일한 방법으로는 문서 및 댓글에 대한 사용자 정보를 동기화 할 수 없으므로 예외 처리 합니다.
+			  CUBRID를 사용하지 않는 경우에만 보편적인 기존 질의문을 사용합니다. */
+			$db_info = Context::getDBInfo ();
+			if ($db_info->db_type != "cubrid") {
+				$output = executeQuery('importer.updateDocumentSync');
+				$output = executeQuery('importer.updateCommentSync');
+			}
+			else {
+				$output = executeQueryArray ('importer.getDocumentMemberSrlWithUserID');
+				if (is_array ($output->data) && count ($output->data)) {
+					$success_count = 0;
+					$error_count = 0;
+					$total_count = 0;
+					foreach ($output->data as $val) {
+						$args->user_id = $val->user_id;
+						$args->member_srl = $val->member_srl;
+						$tmp = executeQuery ('importer.updateDocumentSyncForCUBRID', $args);
+						if ($tmp->toBool () === true) {
+							$success_count++;
+						}
+						else {
+							$error_count++;
+						}
+						$total_count++;
+					}
+				} // documents section
 
-            // 댓글정보 싱크
-            $output = executeQuery('importer.updateCommentSync');
+				$output = executeQueryArray ('importer.getCommentMemberSrlWithUserID');
+				if (is_array ($output->data) && count ($output->data)) {
+					$success_count = 0;
+					$error_count = 0;
+					$total_count = 0;
+					foreach ($output->data as $val) {
+						$args->user_id = $val->user_id;
+						$args->member_srl = $val->member_srl;
+						$tmp = executeQuery ('importer.updateCommentSyncForCUBRID', $args);
+						if ($tmp->toBool () === true) {
+							$success_count++;
+						}
+						else {
+							$error_count++;
+						}
+						$total_count++;
+					}
+				} // comments section
+			}
 
             $this->setMessage('msg_sync_completed');
         }
@@ -558,8 +599,11 @@
                 $obj->content = base64_decode($xmlDoc->post->content->body);
                 $obj->readed_count = base64_decode($xmlDoc->post->readed_count->body);
                 $obj->voted_count = base64_decode($xmlDoc->post->voted_count->body);
+                $obj->blamed_count = base64_decode($xmlDoc->post->blamed_count->body);
                 $obj->password = base64_decode($xmlDoc->post->password->body);
-                $obj->user_name = $obj->nick_name = base64_decode($xmlDoc->post->nick_name->body);
+                $obj->user_name = base64_decode($xmlDoc->post->user_name->body);
+                $obj->nick_name = base64_decode($xmlDoc->post->nick_name->body);
+				if(!$obj->user_name) $obj->user_name = $obj->nick_name;
                 $obj->user_id = base64_decode($xmlDoc->post->user_id->body);
                 $obj->email_address = base64_decode($xmlDoc->post->email->body);
                 $obj->homepage = base64_decode($xmlDoc->post->homepage->body);
@@ -739,8 +783,11 @@
                     $obj->notify_message = base64_decode($xmlDoc->comment->notify_message->body)=='Y'?'Y':'N';
                     $obj->content = base64_decode($xmlDoc->comment->content->body);
                     $obj->voted_count = base64_decode($xmlDoc->comment->voted_count->body);
+                    $obj->blamed_count = base64_decode($xmlDoc->comment->blamed_count->body);
                     $obj->password = base64_decode($xmlDoc->comment->password->body);
-                    $obj->user_name = $obj->nick_name = base64_decode($xmlDoc->comment->nick_name->body);
+                    $obj->user_name =base64_decode($xmlDoc->comment->user_name->body);
+                    $obj->nick_name = base64_decode($xmlDoc->comment->nick_name->body);
+                    if(!$obj->user_name) $obj->user_name = $obj->nick_name;
                     $obj->user_id = base64_decode($xmlDoc->comment->user_id->body);
                     $obj->member_srl = 0;
                     $obj->email_address = base64_decode($xmlDoc->comment->email->body);

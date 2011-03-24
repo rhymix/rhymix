@@ -8,6 +8,7 @@
     <title xml:lang="es">Muestra la información de la conección</title>
     <title xml:lang="ru">Отображение информации при входе на сайт</title>
     <title xml:lang="zh-TW">登入資料</title>
+    <title xml:lang="tr">Giriş Bilgileri</title>
     <description xml:lang="ko">로그인 폼이나 로그인 정보를 출력합니다</description>
     <description xml:lang="zh-CN">显示登陆表单或登陆信息。</description>
     <description xml:lang="jp">ログインフォームまたはログイン情報を表示します。</description>
@@ -16,6 +17,7 @@
     <description xml:lang="es">Este widget muestra la forma de la conección y la información de la conección.</description>
     <description xml:lang="ru">Этот виджет отображает форму логина или информацию входа.</description>
     <description xml:lang="zh-TW">可顯示登入表格或登入資料。</description>
+    <description xml:lang="tr">Bu görsel bileşen giriş şeklini veya giriş bilgilerini görüntüler.</description>
     <version>0.1</version>
     <date>2007-02-28</date>
 
@@ -28,6 +30,7 @@
         <name xml:lang="es">NHN</name>
         <name xml:lang="ru">NHN</name>
         <name xml:lang="zh-TW">NHN</name>
+        <name xml:lang="tr">NHN</name>
     </author>
     <extra_vars />
 </widget>

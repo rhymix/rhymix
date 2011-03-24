@@ -555,8 +555,9 @@
                             $attribute = array();
                             if($args) {
                                 foreach($args as $key => $val) {
+									if(!is_string($val . "")) continue;
                                     if(in_array($key, array('class','style','widget_padding_top','widget_padding_right','widget_padding_bottom','widget_padding_left','widget'))) continue;
-                                    if(strlen($val)==0) continue;
+                                    if(!is_string($val) || strlen($val)==0) continue;
                                     if(strpos($val,'|@|')>0) $val = str_replace('|@|',',',$val);
                                     $attribute[] = sprintf('%s="%s"', $key, str_replace('"','\"',$val));
                                 }
@@ -607,8 +608,8 @@
                 require_once($class_file);
             
                 // 객체 생성
-                $eval_str = sprintf('$oWidget = new %s();', $widget);
-                @eval($eval_str);
+				$tmp_fn  = create_function('', "return new {$widget}();");
+				$oWidget = $tmp_fn();
                 if(!is_object($oWidget)) return sprintf(Context::getLang('msg_widget_object_is_null'), $widget);
 
                 if(!method_exists($oWidget, 'proc')) return sprintf(Context::getLang('msg_widget_proc_is_null'), $widget);
@@ -630,13 +631,15 @@
             $widgetstyle_info = $oWidgetModel->getWidgetStyleInfo($widgetStyle);
             if(!$widgetstyle_info) return $widget_content_body;
 
-            $widgetstyle_extar_var_key = get_object_vars($widgetstyle_info);
-            if(count($widgetstyle_extar_var_key['extra_var'])){
-                foreach($widgetstyle_extar_var_key['extra_var'] as $key => $val){
-                    $widgetstyle_extar_var->{$key} =  $args->{$key};
+            $widgetstyle_extra_var_key = get_object_vars($widgetstyle_info);
+            if(count($widgetstyle_extra_var_key['extra_var'])){
+                foreach($widgetstyle_extra_var_key['extra_var'] as $key => $val){
+                    $widgetstyle_extra_var->{$key} =  $args->{$key};
                 }
             }
-            Context::set('widgetstyle_extar_var', $widgetstyle_extar_var);
+            Context::set('widgetstyle_extra_var', $widgetstyle_extra_var);
+			// #18994272 오타를 수정했으나 하위 호환성을 위해 남겨둠 - deprecated
+            Context::set('widgetstyle_extar_var', $widgetstyle_extra_var);
 
             if($javascript_mode && $widget=='widgetBox'){
                 Context::set('widget_content', '<div class="widget_inner">'.$widget_content_body.'</div>');

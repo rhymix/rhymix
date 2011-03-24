@@ -20,7 +20,7 @@
     $lang->invalid_authorization = 'Вы не авторизированы';
     $lang->invalid_user_id= "Указанный ID не существует";
     $lang->invalid_password = 'Неверный пароль';
-	$lang->invalid_new_password = '이전 비밀번호와 같습니다.';
+    $lang->invalid_new_password = '이전 비밀번호와 같습니다.';
     $lang->allow_mailing = 'Получать рассылки';
     $lang->denied = 'Отменить пользование';
     $lang->is_admin = 'Суперадминистративные права';
@@ -41,7 +41,7 @@
     $lang->group_image_mark_max_width = 'Макс. ширина';
     $lang->group_image_mark_max_height = 'Макс. высота';
     $lang->group_image_mark_order = 'Group Image Mark Order';
-	$lang->signature_max_height = 'Max Signature Height';
+    $lang->signature_max_height = 'Max Signature Height';
     $lang->enable_openid = 'Включить открытый ID (OpenID)';
     $lang->enable_join = 'Разрешение на регистрацию';
     $lang->enable_confirm = 'Активация по email';
@@ -72,7 +72,7 @@
     $lang->about_keep_signed = 'Вы будете в состоянии логин, даже при закрытии окна браузера.\n\nЕсли вы пользуетесь общественным компьютером, сделайте выход в целях сохранения персональных данных';    
     $lang->about_keep_warning = 'Вы будете в состоянии логин, даже при закрытии окна браузера.Если вы пользуетесь общественным компьютером, сделайте выход в целях сохранения персональных данных';   
     $lang->about_webmaster_name = "Пожалуйста, введите имя вебмастера, которое будет использоваться для авторизационных писем или другого адиминистрирования сайта. (по умолчанию : webmaster)";
-	$lang->about_webmaster_email = "Пожалуйста, введите email адрес вебмастера.";
+    $lang->about_webmaster_email = "Пожалуйста, введите email адрес вебмастера.";
 
     $lang->search_target_list = array(
         'user_id' => 'ID',
@@ -97,7 +97,7 @@
     $lang->cmd_view_member_info = 'Личная информация';
     $lang->cmd_leave = 'Удалить аккаунт';
     $lang->cmd_find_member_account = 'Найти ID/пароль';
-	$lang->cmd_resend_auth_mail = 'Послать email для авторизации';
+    $lang->cmd_resend_auth_mail = 'Послать email для авторизации';
 
     $lang->cmd_member_list = 'Список пользователей';
     $lang->cmd_module_config = 'Стандартные настройки';
@@ -128,7 +128,7 @@
     $lang->msg_confirm_account_comment = 'Подтвердите авторизацию, кликнув на ссылку ниже';
     $lang->msg_auth_mail_sent = 'Письмо с регистрационной информацией отправлено для %s. Пожалуйста, проверьте Вашу почту';
     $lang->msg_confirm_mail_sent = 'Письмо для авторизации отправлено для %s. Пожалуйста, проверьте Вашу почту';
-	$lang->msg_invalid_auth_key = 'Неверный запрос на авторизацию.<br />Пожалуйста, попытайтеть найти информацию аккаунта или свяжитесь с администратором.';
+    $lang->msg_invalid_auth_key = 'Неверный запрос на авторизацию.<br />Пожалуйста, попытайтеть найти информацию аккаунта или свяжитесь с администратором.';
     $lang->msg_success_authed = 'Ваш аккаунт был успешно авторизован.\nВход произведен. Пожалуйста, измените пароль на Ваш собственный.';
     $lang->msg_success_confirmed = 'Авторизация Вашего аккаунта прошла успешно';
 
@@ -152,8 +152,8 @@
     $lang->msg_not_uploaded_image_name = 'Невозможно зарегистрировать имя фотографии';
     $lang->msg_not_uploaded_image_mark = 'Невозможно зарегистрировать марку фотографии';
     $lang->msg_not_uploaded_group_image_mark = 'Невозможно зарегистрировать марку изображения группы';
-	
-	$lang->msg_accept_agreement = 'Вы должны принять Соглашение';
+    
+    $lang->msg_accept_agreement = 'Вы должны принять Соглашение';
 
     $lang->msg_user_denied = 'Введенный ID запрещен';
     $lang->msg_user_not_confirmed = 'Вы еще не прошли авторизацию, проверьте свою почту';
@@ -197,7 +197,7 @@
     $lang->about_group_image_mark = 'Возможно использование групповой марки перед именем';
     $lang->about_profile_image = 'Позволить пользователям использовать изображения профиля';
     $lang->about_signature_max_height = 'Возможно установить лимит подписи. (0 Если оставите пустым, то лимита не будет.)';
-	$lang->about_accept_agreement = 'Я прочитал соглашение полностью и согласен';
+    $lang->about_accept_agreement = 'Я прочитал соглашение полностью и согласен';
 
     $lang->about_member_default = 'При регистрации устанавливается стандартная группа';
 
@@ -209,31 +209,32 @@
     $lang->about_ssl_port = 'Please input if you are using different SSL port with default one';
     $lang->add_openid = 'Добавить OpenID';
 
-	$lang->about_resend_auth_mail = 'Вы можете получить снова письмо для авторизации, если еще не получили.';
+    $lang->about_resend_auth_mail = 'Вы можете получить снова письмо для авторизации, если еще не получили.';
     $lang->no_article = 'Записей нет';
 
-	$lang->find_account_question = '비밀번호 찾기 질문/답변';
-	$lang->about_find_account_question = '가입시 아이디와 이메일, 질문/답변으로 임시 비밀번호를 발급 받을 수 있습니다.';
-	/*
-	$lang->find_account_question_items = array(''
-										,'다른 이메일 주소는?'
-										,'나의 보물 1호는?'
-										,'나의 출신 초등학교는?'
-										,'나의 출신 고향은?'
-										,'나의 이상형은?'
-										,'어머니 성함은?'
-										,'아버지 성함은?'
-										,'가장 좋아하는 색깔은?'
-										,'가장 좋아하는 음식은?'
-										);
+    $lang->find_account_question = '비밀번호 찾기 질문/답변';
+    $lang->find_account_answer = '비밀번호 찾기 답변';
+    $lang->about_find_account_question = '가입시 아이디와 이메일, 질문/답변으로 임시 비밀번호를 발급 받을 수 있습니다.';
+    /*
+    $lang->find_account_question_items = array(''
+                                        ,'다른 이메일 주소는?'
+                                        ,'나의 보물 1호는?'
+                                        ,'나의 출신 초등학교는?'
+                                        ,'나의 출신 고향은?'
+                                        ,'나의 이상형은?'
+                                        ,'어머니 성함은?'
+                                        ,'아버지 성함은?'
+                                        ,'가장 좋아하는 색깔은?'
+                                        ,'가장 좋아하는 음식은?'
+                                        );
 */
-	$lang->temp_password = '임시 비밀번호';
-	$lang->cmd_get_temp_password = '임시 비밀번호 발급';
-	$lang->about_get_temp_password = '로그인 후 비밀번호 변경해 주세요.';
-	$lang->msg_question_not_exists = '등록한 비밀번호 찾기 질문/답변이 없습니다.';
-	$lang->msg_answer_not_matches = '비밀번호 찾기 질문/답변 또는 정보가 올바르지 않습니다.';
+    $lang->temp_password = '임시 비밀번호';
+    $lang->cmd_get_temp_password = '임시 비밀번호 발급';
+    $lang->about_get_temp_password = '로그인 후 비밀번호 변경해 주세요.';
+    $lang->msg_question_not_exists = '등록한 비밀번호 찾기 질문/답변이 없습니다.';
+    $lang->msg_answer_not_matches = '비밀번호 찾기 질문/답변 또는 정보가 올바르지 않습니다.';
 
-	$lang->change_password_date = '비밀번호 갱신주기';
-	$lang->about_change_password_date = '일정기간이 지나면 비밀번호 변경을 하도록 유도하는 기능입니다. (사용하지 않음 : 0 입력) ';
+    $lang->change_password_date = '비밀번호 갱신주기';
+    $lang->about_change_password_date = '일정기간이 지나면 비밀번호 변경을 하도록 유도하는 기능입니다. (사용하지 않음 : 0 입력) ';
 
 ?>

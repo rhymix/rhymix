@@ -112,6 +112,15 @@
     }
 
     /**
+     * @brief module의 mobile 객체 생성용
+     * @param module_name 모듈이름
+     * @return module mobile instance
+     **/
+    function &getMobile($module_name) {
+        return getModule($module_name, 'mobile');
+    }
+
+    /**
      * @brief module의 admin view 객체 생성용
      * @param module_name 모듈이름
      * @return module admin view instance
@@ -455,17 +464,34 @@
 
         // 년도가 1970년 이전이면 별도 처리
         if((int)substr($str,0,4) < 1970) {
-            $hour = (int)substr($str,8,2);
-            $min = (int)substr($str,10,2);
-            $sec = (int)substr($str,12,2);
-            $year = (int)substr($str,0,4);
+            $hour  = (int)substr($str,8,2);
+            $min   = (int)substr($str,10,2);
+            $sec   = (int)substr($str,12,2);
+            $year  = (int)substr($str,0,4);
             $month = (int)substr($str,4,2);
-            $day = (int)substr($str,6,2);
-            $string = str_replace(
-                        array('Y','m','d','H','h','i','s','a','M', 'F'),
-                        array($year,$month,$day,$hour,$hour/12,$min,$sec,($hour <= 12) ? 'am' : 'pm',getMonthName($month), getMonthName($month,false)),
-                        $format
-                    );
+            $day   = (int)substr($str,6,2);
+
+			// leading zero?
+			$lz = create_function('$n', 'return ($n>9?"":"0").$n;');
+
+			$trans = array(
+				'Y'=>$year,
+				'y'=>$lz($year%100),
+				'm'=>$lz($month),
+				'n'=>$month,
+				'd'=>$lz($day),
+				'j'=>$day,
+				'G'=>$hour,
+				'H'=>$lz($hour),
+				'g'=>$hour%12,
+				'h'=>$lz($hour%12),
+				'i'=>$lz($min),
+				's'=>$lz($sec),
+				'M'=>getMonthName($month),
+				'F'=>getMonthName($month,false)
+			);
+
+            $string = strtr($format, $trans);
         } else {
             // 1970년 이후라면 ztime()함수로 unixtime을 구하고 date함수로 처리
             $string = date($format, ztime($str));
@@ -628,14 +654,32 @@
          * 이미지나 동영상등의 태그에서 src에 관리자 세션을 악용하는 코드를 제거
          * - 취약점 제보 : 김상원님
          **/
-        $content = preg_replace_callback("!<([a-z]+)(.*?)>!is", removeSrcHack, $content);
+        $content = preg_replace_callback("!<(/?)([a-z]+)(.*?)>!is", removeSrcHack, $content);
+
+		// xmp tag 확인 및 추가
+		$content = checkXmpTag($content);
 
         return $content;
     }
 
+    /**
+     * @brief xmp tag 확인 및 닫히지 않은 경우 추가
+     **/
+	function checkXmpTag($content) {
+		if(($start_xmp = strrpos($content, '<xmp>')) !==false) {
+			if(($close_xmp = strrpos($content, '</xmp>')) === false) $content .= '</xmp>';
+			else if($close_xmp < $start_xmp) $content .= '</xmp>';
+		}
+		
+		return $content;
+	}
 
     function removeSrcHack($matches) {
-        $tag = strtolower(trim($matches[1]));
+        $tag = strtolower(trim($matches[2]));
+		
+		// xmp tag 정리
+		if($tag=='xmp') return '<'.$matches[1].'xmp>';
+ 		if($matches[1]=='/') return $matches[0];
 
         //$buff = trim(preg_replace('/(\/>|>)/','/>',$matches[0]));
         $buff = $matches[0];
@@ -647,13 +691,13 @@
 		if(!$xml_doc) return sprintf("<%s>", $tag);
 
         // src값에 module=admin이라는 값이 입력되어 있으면 이 값을 무효화 시킴
-        $src = $xml_doc->{$tag}->attrs->src;
-        $dynsrc = $xml_doc->{$tag}->attrs->dynsrc;
-        $lowsrc = $xml_doc->{$tag}->attrs->lowsrc;
-        $href = $xml_doc->{$tag}->attrs->href;
-		$data = $xml_doc->{$tag}->attrs->data;
-		$background = $xml_doc->{$tag}->attrs->background;
-		$style = $xml_doc->{$tag}->attrs->style;
+        $src = $xml_doc->attrs->src;
+        $dynsrc = $xml_doc->attrs->dynsrc;
+        $lowsrc = $xml_doc->attrs->lowsrc;
+        $href = $xml_doc->attrs->href;
+		$data = $xml_doc->attrs->data;
+		$background = $xml_doc->attrs->background;
+		$style = $xml_doc->attrs->style;
 		if($style) {
 			$url = preg_match_all('/url\s*\(([^\)]+)\)/is', $style, $matches2);
 			if(count($matches2[0]))
@@ -665,6 +709,9 @@
 			}
 		}
         if(_isHackedSrc($src) || _isHackedSrc($dynsrc) || _isHackedSrc($lowsrc) || _isHackedSrc($href) || _isHackedSrc($data) || _isHackedSrc($background) || _isHackedSrcExp($style)) return sprintf("<%s>",$tag);
+
+		if($tag=='param' && $xml_doc->attrs->value && preg_match('/^javascript:/i',$xml_doc->attrs->value)) return sprintf("<%s>",$tag);
+		if($tag=='object' && $xml_doc->attrs->data && preg_match('/^javascript:/i',$xml_doc->attrs->data)) return sprintf("<%s>",$tag);
 
         return $buff;
     }
@@ -721,8 +768,8 @@
 		if($close_tag) $val .= ' /';
 		
 		// attribute on* remove
-		if(preg_match('/^on(click|load|unload|blur|dbclick|focus|resize|keypress|keyup|keydown|mouseover|mouseout|mouseup|select|change|error)/',preg_replace('/[^a-zA-Z_]/','',$key))) return '';
-        
+		if(preg_match('/^on([a-z]+)/i',preg_replace('/[^a-zA-Z_]/','',$key))) return '';
+       
 		$output = sprintf('%s=%s', $key, $val);
 
 		return $output;

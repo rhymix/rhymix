@@ -822,6 +822,7 @@ xe.W3CDOMRange = $.Class({
 	// for <div id="a"><div id="b"></div></div><div id="c"></div>, _getNodesBetween(b, c) will yield to b, "a" and c
 	_getNodesBetween : function(oStartNode, oEndNode){
 		var aNodesBetween = [];
+		this._nNodesBetweenLen = 0;
 
 		if(!oStartNode || !oEndNode) return aNodesBetween;
 
@@ -837,10 +838,9 @@ xe.W3CDOMRange = $.Class({
 		var oNextToChk = oNode.nextSibling;
 
 		while(!oNextToChk){
-			if(!xe.DOMFix.parentNode(oNode)) return false;
-			oNode = xe.DOMFix.parentNode(oNode);
+			if(!(oNode = xe.DOMFix.parentNode(oNode))) return false;
 
-			aNodesBetween[aNodesBetween.length] = oNode;
+			aNodesBetween[this._nNodesBetweenLen++] = oNode;
 
 			if(oNode == oEndNode) return false;
 
@@ -866,7 +866,7 @@ xe.W3CDOMRange = $.Class({
 			}
 		}
 
-		aNodesBetween[aNodesBetween.length] = oNode;
+		aNodesBetween[this._nNodesBetweenLen++] = oNode;
 
 		if(bEndFound) return false;
 		if(oNode == oEndNode) return false;
@@ -1356,32 +1356,42 @@ xe.XpressRange = $.Class({
 
 		var aAllNodes = this._getNodesInRange();
 		var aResult = [];
+		var nResult = 0;
 
-		var oNode, iStartRelPos, iEndRelPos, oSpan, iSIdx, iEIdx;
-		var nInitialLength = aAllNodes.length;
+		var oNode, oTmpNode, iStartRelPos, iEndRelPos, oSpan, iSIdx, iEIdx, oParentNode;
+		var nInitialLength  = aAllNodes.length;
+		var arAllBottmNodes = $(aAllNodes).filter(function(){ return !!this.childNodes.length });
+
 		for(var i=0; i<nInitialLength; i++){
 			oNode = aAllNodes[i];
 
-			if(!oNode) continue;
-			if(oNode.nodeType != 3) continue;
-			if(oNode.nodeValue == "") continue;
+			if(!oNode || oNode.nodeType != 3 || oNode.nodeValue == '') continue;
+			
+			oParentNode = xe.DOMFix.parentNode(oNode);
 
-			if(xe.DOMFix.parentNode(oNode).tagName == "SPAN"){
+			if(oParentNode.tagName == "SPAN"){
 				// check if the SPAN element is fully contained
-				iSIdx = $.inArray(this._getVeryFirstRealChild(xe.DOMFix.parentNode(oNode.parentNode)), aAllNodes);
-				iEIdx = $.inArray(this._getVeryLastRealChild(xe.DOMFix.parentNode(oNode)), aAllNodes);
+				// do quick checks before trying indexOf() because indexOf() function is very slow
+				oTmpNode = this._getVeryFirstRealChild(oParentNode);
+				if(oTmpNode == oNode) iSIdx = 1;
+				else iSIdx = arAllBottmNodes.indexOf(oTmpNode);
+
+				if(iSIdx != -1){
+					oTmpNode = this._getVeryLastRealChild(oParentNode);
+					if(oTmpNode == oNode) iEIdx = 1;
+					else iEIdx = arAllBottmNodes.indexOf(oTmpNode);
+				}
 
 				if(iSIdx != -1 && iEIdx != -1){
-					aResult[aResult.length] = xe.DOMFix.parentNode(oNode);
+					aResult[nResult++] = oParentNode;
 					continue;
 				}
 			}
 
 			oSpan = this._document.createElement("SPAN");
-			xe.DOMFix.parentNode(oNode).insertBefore(oSpan, oNode);
+			oParentNode.insertBefore(oSpan, oNode);
 			oSpan.appendChild(oNode);
-			aResult[aResult.length] = oSpan;
-			aAllNodes[aAllNodes.length] = oSpan;
+			aResult[nResult++] = oSpan;
 
 			if(sNewSpanMarker) oSpan.setAttribute(sNewSpanMarker, "true");
 		}
@@ -1887,187 +1897,6 @@ xe.DOMFix = new ($.Class({
 		return aResult;
 	}
 }))();
-/**
- * @fileOverview This file contains a function that takes care of various operations related to find and replace
- * @name N_FindReplace.js
- */
-xe.FindReplace = $.Class({
-	sKeyword : "",
-	window : null,
-	document : null,
-	bBrowserSupported : false,
-
-	// true if End Of Contents is reached during last execution of find
-	bEOC : false,
-
-	$init : function(win){
-		this.window = win;
-		this.document = this.window.document;
-
-		if(this.document.domain != this.document.location.hostname){
-			if($.browser.mozilla && $.browser.nVersion < 3){
-				this.bBrowserSupported = false;
-				this.find = function(){return 3};
-				return;
-			}
-		}
-
-		this.bBrowserSupported = true;
-	},
-
-	// 0: found
-	// 1: not found
-	// 2: keyword required
-	// 3: browser not supported
-	find : function(sKeyword, bCaseMatch, bBackwards, bWholeWord){
-		var bSearchResult, bFreshSearch;
-
-		this.window.focus();
-
-		if(!sKeyword) return 2;
-
-		// try find starting from current cursor position
-		this.bEOC = false;
-		bSearchResult = this.findNext(sKeyword, bCaseMatch, bBackwards, bWholeWord);
-		if(bSearchResult) return 0;
-
-		// end of the contents could have been reached so search again from the beginning
-		this.bEOC = true;
-		bSearchResult = this.findNew(sKeyword, bCaseMatch, bBackwards, bWholeWord);
-
-		if(bSearchResult) return 0;
-
-		return 1;
-	},
-
-	findNew : function (sKeyword, bCaseMatch, bBackwards, bWholeWord){
-		this.findReset();
-		return this.findNext(sKeyword, bCaseMatch, bBackwards, bWholeWord);
-	},
-
-	findNext : function(sKeyword, bCaseMatch, bBackwards, bWholeWord){
-		var bSearchResult;
-		bCaseMatch = bCaseMatch || false;
-		bWholeWord = bWholeWord || false;
-		bBackwards = bBackwards || false;
-
-		if(this.window.find){
-			var bWrapAround = false;
-			return this.window.find(sKeyword, bCaseMatch, bBackwards, bWrapAround, bWholeWord);
-		}
-
-		// IE solution
-		if(this.document.body.createTextRange){
-			var iOption = 0;
-			if(bBackwards) iOption += 1;
-			if(bWholeWord) iOption += 2;
-			if(bCaseMatch) iOption += 4;
-
-			this.window.focus();
-			this._range = this.document.selection.createRangeCollection().item(0);
-			this._range.collapse(false);
-			bSearchResult = this._range.findText(sKeyword, 1, iOption);
-
-			this._range.select();
-			return bSearchResult;
-		}
-
-		return false;
-	},
-
-	findReset : function() {
-		if (this.window.find){
-			this.window.getSelection().removeAllRanges();
-			return;
-		}
-
-		// IE solution
-		if(this.document.body.createTextRange){
-			this._range = this.document.body.createTextRange();
-			this._range.collapse(true);
-			this._range.select();
-		}
-	},
-
-	// 0: replaced & next word found
-	// 1: replaced & next word not found
-	// 2: not replaced & next word found
-	// 3: not replaced & next word not found
-	// 4: sOriginalWord required
-	replace : function(sOriginalWord, Replacement, bCaseMatch, bBackwards, bWholeWord){
-		if(!sOriginalWord) return 4;
-
-		var oSelection = new xe.XpressRange(this.window);
-		oSelection.setFromSelection();
-
-		bCaseMatch = bCaseMatch || false;
-		var bMatch, selectedText = oSelection.toString();
-		if(bCaseMatch)
-			bMatch = (selectedText == sOriginalWord);
-		else
-			bMatch = (selectedText.toLowerCase() == sOriginalWord.toLowerCase());
-
-		if(!bMatch)
-			return this.find(sOriginalWord, bCaseMatch, bBackwards, bWholeWord)+2;
-
-		if(typeof Replacement == "function"){
-			// the returned oSelection must contain the replacement
-			oSelection = Replacement(oSelection);
-		}else{
-			oSelection.pasteHTML(Replacement);
-		}
-
-		// force it to find the NEXT occurance of sOriginalWord
-		oSelection.select();
-
-		return this.find(sOriginalWord, bCaseMatch, bBackwards, bWholeWord);
-	},
-
-	// returns number of replaced words
-	// -1 : if original word is not given
-	replaceAll : function(sOriginalWord, Replacement, bCaseMatch, bWholeWord){
-		if(!sOriginalWord) return -1;
-
-		var bBackwards = false;
-
-		var iReplaceResult;
-		var iResult = 0;
-		var win = this.window;
-		var oSelection = new xe.XpressRange(this.window);
-		oSelection.setFromSelection();
-		var sBookmark = oSelection.placeStringBookmark();
-
-		this.bEOC = false;
-		while(!this.bEOC){
-			iReplaceResult = this.replace(sOriginalWord, Replacement, bCaseMatch, bBackwards, bWholeWord);
-			if(iReplaceResult == 0 || iReplaceResult == 1) iResult++;
-		}
-
-		var startingPointReached = function(){
-			var oCurSelection = new xe.XpressRange(win);
-			oCurSelection.setFromSelection();
-
-			oSelection.moveToBookmark(sBookmark);
-			var pos = oSelection.compareBoundaryPoints(xe.W3CDOMRange.START_TO_END, oCurSelection);
-
-			if(pos == 1) return false;
-			return true;
-		}
-
-		iReplaceResult = 0;
-		this.bEOC = false;
-		while(!startingPointReached() && iReplaceResult == 0 && !this.bEOC){
-			iReplaceResult = this.replace(sOriginalWord, Replacement, bCaseMatch, bBackwards, bWholeWord);
-			if(iReplaceResult == 0 || iReplaceResult == 1) iResult++;
-		}
-
-		oSelection.moveToBookmark(sBookmark);
-		oSelection.select();
-		oSelection.removeStringBookmark(sBookmark);
-
-		return iResult;
-	}
-});
 
 /**
  * @fileOverview This file contains a function that takes care of the draggable layers
@@ -4800,184 +4629,6 @@ xe.XE_UndoRedo = $.Class({
 //}
 //{
 /**
- * @fileOverview This file contains Xpress plugin that takes care of the operations related to Find/Replace
- * @name hp_XE_FindReplacePlugin.js
- */
-xe.XE_FindReplacePlugin = $.Class({
-	name : "XE_FindReplacePlugin",
-	oEditingWindow : null,
-	oFindReplace :  null,
-	oUILayer : null,
-	bFindMode : true,
-
-	$init : function(oAppContainer){
-		this._assignHTMLObjects(oAppContainer);
-	},
-
-	_assignHTMLObjects : function(oAppContainer){
-		oAppContainer = $.$(oAppContainer) || document;
-
-		this.oEditingWindow = $("IFRAME", oAppContainer).get(0);
-		this.oUILayer = $("DIV.xpress_xeditor_findAndReplace_layer", oAppContainer).get(0);
-
-		var oTmp = $("LI", this.oUILayer).get();
-
-		this.oFindTab = oTmp[0];
-		this.oReplaceTab = oTmp[1];
-
-		oTmp = $(".container > .bx", this.oUILayer).get();
-
-		this.oFindInputSet = oTmp[0];
-		this.oReplaceInputSet = oTmp[1];
-
-		this.oFindInput_Keyword = $("INPUT", this.oFindInputSet).get(0);
-
-		oTmp = $("INPUT", this.oReplaceInputSet).get();
-		this.oReplaceInput_Original = oTmp[0];
-		this.oReplaceInput_Replacement = oTmp[1];
-
-		this.oFindNextButton = $("BUTTON.find_next", this.oUILayer).get(0);
-		this.oCancelButton = $("BUTTON.cancel", this.oUILayer).get(0);
-
-		this.oReplaceButton = $("BUTTON.replace", this.oUILayer).get(0);
-		this.oReplaceAllButton = $("BUTTON.replace_all", this.oUILayer).get(0);
-
-		this.aCloseButtons = $("BUTTON.close", this.oUILayer).get();
-		this.aCloseButtons[this.aCloseButtons.length] = this.oCancelButton;
-	},
-
-	$ON_MSG_APP_READY : function(){
-		// the right document will be available only when the src is completely loaded
-		if(this.oEditingWindow && this.oEditingWindow.tagName == "IFRAME")
-			this.oEditingWindow = this.oEditingWindow.contentWindow;
-
-		this.oFindReplace = new xe.FindReplace(this.oEditingWindow);
-		if(!this.oFindReplace.bBrowserSupported){
-			this.oApp.exec("DISABLE_UI", ["find_replace"]);
-			return;
-		}
-
-		for(var i=0; i<this.aCloseButtons.length; i++){
-			var func = $.fnBind(this.oApp.exec, this.oApp, "HIDE_DIALOG_LAYER", [this.oUILayer]);
-			$(this.aCloseButtons[i]).bind("click", func);
-		}
-
-		$(this.oFindTab).bind("mousedown", $.fnBind(this.oApp.exec, this.oApp, "SHOW_FIND", []));
-		$(this.oReplaceTab).bind("mousedown", $.fnBind(this.oApp.exec, this.oApp, "SHOW_REPLACE", []));
-
-		$(this.oFindNextButton).bind("click", $.fnBind(this.oApp.exec, this.oApp, "FIND", []));
-		$(this.oReplaceButton).bind("click", $.fnBind(this.oApp.exec, this.oApp, "REPLACE", []));
-		$(this.oReplaceAllButton).bind("click", $.fnBind(this.oApp.exec, this.oApp, "REPLACE_ALL", []));
-
-		this.oApp.exec("REGISTER_UI_EVENT", ["findAndReplace", "click", "SHOW_FIND_REPLACE_LAYER"]);
-	},
-
-	$ON_SHOW_ACTIVE_LAYER : function(){
-		this.oApp.exec("HIDE_DIALOG_LAYER", [this.oUILayer]);
-	},
-
-	$ON_SHOW_FIND_REPLACE_LAYER : function(){
-		this.oApp.exec("SHOW_DIALOG_LAYER", [this.oUILayer]);
-		this.oApp.exec("POSITION_TOOLBAR_LAYER", [this.oUILayer]);
-		this.oApp.exec("HIDE_CURRENT_ACTIVE_LAYER", []);
-	},
-
-	$ON_SHOW_FIND : function(){
-		this.bFindMode = true;
-
-		$(this.oFindTab).addClass("on");
-		$(this.oReplaceTab).removeClass("on");
-
-		$(this.oFindNextButton).removeClass("normal");
-		$(this.oFindNextButton).addClass("strong");
-
-		this.oFindInputSet.style.display = "block";
-		this.oReplaceInputSet.style.display = "none";
-
-		this.oReplaceButton.style.display = "none";
-		this.oReplaceAllButton.style.display = "none";
-
-		$(this.oUILayer).removeClass("replace");
-		$(this.oUILayer).addClass("find");
-
-		this.oFindInput_Keyword.value = this.oReplaceInput_Original.value;
-	},
-
-	$ON_SHOW_REPLACE : function(){
-		this.bFindMode = false;
-
-		$(this.oFindTab).removeClass("on");
-		$(this.oReplaceTab).addClass("on");
-
-		$(this.oFindNextButton).removeClass("strong");
-		$(this.oFindNextButton).addClass("normal");
-
-		this.oFindInputSet.style.display = "none";
-		this.oReplaceInputSet.style.display = "block";
-
-		this.oReplaceButton.style.display = "inline";
-		this.oReplaceAllButton.style.display = "inline";
-
-		$(this.oUILayer).removeClass("find");
-		$(this.oUILayer).addClass("replace");
-
-		this.oReplaceInput_Original.value = this.oFindInput_Keyword.value;
-	},
-
-	$ON_FIND : function(){
-		var sKeyword;
-		if(this.bFindMode)
-			sKeyword = this.oFindInput_Keyword.value;
-		else
-			sKeyword = this.oReplaceInput_Original.value;
-
-		switch(this.oFindReplace.find(sKeyword, false)){
-			case 1:
-				alert(this.oApp.$MSG("XE_FindReplace.keywordNotFound"));
-				break;
-			case 2:
-				alert(this.oApp.$MSG("XE_FindReplace.keywordMissing"));
-				break;
-		}
-	},
-
-	$ON_REPLACE : function(){
-		var sOriginal = this.oReplaceInput_Original.value;
-		var sReplacement = this.oReplaceInput_Replacement.value;
-
-		this.oApp.exec("RECORD_UNDO_BEFORE_ACTION", ["REPLACE"]);
-		var iReplaceResult = this.oFindReplace.replace(sOriginal, sReplacement, false);
-		this.oApp.exec("RECORD_UNDO_AFTER_ACTION", ["REPLACE"]);
-
-		switch(iReplaceResult){
-			case 1:
-			case 3:
-				alert(this.oApp.$MSG("XE_FindReplace.keywordNotFound"));
-				break;
-			case 4:
-				alert(this.oApp.$MSG("XE_FindReplace.keywordMissing"));
-				break;
-		}
-	},
-
-	$ON_REPLACE_ALL : function(){
-		var sOriginal = this.oReplaceInput_Original.value;
-		var sReplacement = this.oReplaceInput_Replacement.value;
-
-		this.oApp.exec("RECORD_UNDO_BEFORE_ACTION", ["REPLACE ALL"]);
-		var iReplaceAllResult = this.oFindReplace.replaceAll(sOriginal, sReplacement, false);
-		this.oApp.exec("RECORD_UNDO_AFTER_ACTION", ["REPLACE ALL"]);
-
-		if(iReplaceAllResult<0){
-			alert(this.oApp.$MSG("XE_FindReplace.keywordMissing"));
-		}else{
-			alert(this.oApp.$MSG("XE_FindReplace.replaceAllResultP1")+iReplaceAllResult+this.oApp.$MSG("XE_FindReplace.replaceAllResultP2"));
-		}
-	}
-});
-//}
-//{
-/**
  * @fileOverview This file contains Xpress plugin that takes care of the operations related to hyperlink
  * @name hp_XE_Hyperlink.js
  */
@@ -5004,7 +4655,6 @@ xe.XE_Hyperlink = $.Class({
 		this.oApp.registerBrowserEvent(this.oBtnConfirm, "mousedown", "XE_APPLY_HYPERLINK");
 		this.oApp.registerBrowserEvent(this.oBtnCancel, "mousedown", "HIDE_ACTIVE_LAYER");
 		this.oApp.registerBrowserEvent(this.oLinkInput, "keydown", "EVENT_XE_HYPERLINK_KEYDOWN");
-		//this.oApp.registerBrowserEvent(this.oLinkInput
 
 		this.oApp.exec("REGISTER_UI_EVENT", ["hyperlink", "click", "XE_TOGGLE_HYPERLINK_LAYER"]);
 	},
@@ -5036,48 +4686,36 @@ xe.XE_Hyperlink = $.Class({
 	},
 
 	$ON_XE_APPLY_HYPERLINK : function(){
-		var sURL = this.oLinkInput.value;
+		var sURL = this.oLinkInput.value, newWin = this.oCbNewWin.checked, sTarget = newWin?'_blank':'';
 
 		this.oApp.exec("FOCUS", []);
 		this.oSelection = this.oApp.getSelection();
-
-		//if(this._validateURL(sURL)){
-		var sTarget = "";
-		if(this.oCbNewWin.checked)
-			sTarget = "_blank";
-		else
-			sTarget = "_self";
 
 		if(this.oSelection.collapsed){
 			var str = "<a href='" + sURL + "' target="+sTarget+">" + sURL + "</a>";
 			this.oSelection.pasteHTML(str);
 		}else{
 			var nSession = Math.ceil(Math.random()*10000);
-			var arg = ( sURL == "" ? ["unlink"] : ["createLink", false, this.sATagMarker+nSession+sURL] );
+			var sMarker  = this.sATagMarker+nSession;
+			var arg = ( sURL == "" ? ["unlink"] : ["createLink", false, sMarker+sURL] );
 			this.oApp.exec("EXECCOMMAND", arg);
 
-			this.oSelection.setFromSelection();
-
+			try { this.oSelection.setFromSelection() }catch(e){};
 			var oDoc = this.oApp.getWYSIWYGDocument();
-			var aATags = oDoc.body.getElementsByTagName("A");
-			var nLen = aATags.length;
-			var rxMarker = new RegExp(this.sRXATagMarker+nSession, "i");
-			var elATag;
-			for(var i=0; i<nLen; i++){
-				elATag = aATags[i];
-				if(elATag.href && elATag.href.match(rxMarker)){
-					elATag.href = elATag.href.replace(rxMarker, "");
-					elATag.target = sTarget;
-				}
-			}
+			$(oDoc.body.getElementsByTagName("A"))
+				.filter('[href^="'+sMarker+'"]')
+					.attr('href', function(){
+							var rx = new RegExp('^'+sMarker.replace(/([\.\\])/g, '\\$1'), 'i');
+
+							if (sTarget) $(this).attr('target', sTarget);
+							else $(this).removeAttr('target');
+
+							return this.href.replace(rx, '');
+						});
 		}
 		this.oApp.exec("HIDE_ACTIVE_LAYER");
 
-		setTimeout($.fnBind(function(){this.oSelection.select()}, this), 0);
-		//}else{
-			//alert(this.oApp.$MSG("XE_Hyperlink.invalidURL"));
-			//this.oLinkInput.focus();
-		//}
+		setTimeout($.fnBind(function(){try{this.oSelection.select()}catch(e){}}, this), 0);
 	},
 
 	_validateURL : function(sURL){
@@ -5414,12 +5052,7 @@ var oMessageMap = {
 	'XE_EditingAreaManager.onExit' : '%uB0B4%uC6A9%uC774%20%uBCC0%uACBD%uB418%uC5C8%uC2B5%uB2C8%uB2E4.',
 	'XE_FontColor.invalidColorCode' : '%uC0C9%uC0C1%20%uCF54%uB4DC%uB97C%20%uC62C%uBC14%uB974%uAC8C%20%uC785%uB825%uD558%uC5EC%20%uC8FC%uC2DC%uAE30%20%uBC14%uB78D%uB2C8%uB2E4.\n\n%uC608%29%20%23000000%2C%20%23FF0000%2C%20%23FFFFFF%2C%20%23ffffff%2C%20ffffff',
 	'XE_BGColor.invalidColorCode' : '%uC0C9%uC0C1%20%uCF54%uB4DC%uB97C%20%uC62C%uBC14%uB974%uAC8C%20%uC785%uB825%uD558%uC5EC%20%uC8FC%uC2DC%uAE30%20%uBC14%uB78D%uB2C8%uB2E4.\n\n%uC608%29%20%23000000%2C%20%23FF0000%2C%20%23FFFFFF%2C%20%23ffffff%2C%20ffffff',
-	'XE_Hyperlink.invalidURL' : '%uC785%uB825%uD558%uC2E0%20URL%uC774%20%uC62C%uBC14%uB974%uC9C0%20%uC54A%uC2B5%uB2C8%uB2E4.',
-	'XE_FindReplace.keywordMissing' : '%uCC3E%uC73C%uC2E4%20%uB2E8%uC5B4%uB97C%20%uC785%uB825%uD574%20%uC8FC%uC138%uC694.',
-	'XE_FindReplace.keywordNotFound' : '%uCC3E%uC73C%uC2E4%20%uB2E8%uC5B4%uAC00%20%uC5C6%uC2B5%uB2C8%uB2E4.',
-	'XE_FindReplace.replaceAllResultP1' : '%uC77C%uCE58%uD558%uB294%20%uB0B4%uC6A9%uC774%20%uCD1D%20',
-	'XE_FindReplace.replaceAllResultP2' : '%uAC74%20%uBC14%uB00C%uC5C8%uC2B5%uB2C8%uB2E4.',
-	'XE_FindReplace.notSupportedBrowser' : '%uD604%uC7AC%20%uC0AC%uC6A9%uD558%uACE0%20%uACC4%uC2E0%20%uBE0C%uB77C%uC6B0%uC800%uC5D0%uC11C%uB294%20%uC0AC%uC6A9%uD558%uC2E4%uC218%20%uC5C6%uB294%20%uAE30%uB2A5%uC785%uB2C8%uB2E4.%5Cn%uC774%uC6A9%uC5D0%20%uBD88%uD3B8%uC744%20%uB4DC%uB824%20%uC8C4%uC1A1%uD569%uB2C8%uB2E4.'
+	'XE_Hyperlink.invalidURL' : '%uC785%uB825%uD558%uC2E0%20URL%uC774%20%uC62C%uBC14%uB974%uC9C0%20%uC54A%uC2B5%uB2C8%uB2E4.'
 };
 xe.XpressCore.oMessageMap = oMessageMap;
 /**
@@ -5519,127 +5152,42 @@ xe.XE_XHTMLFormatter = $.Class({
 
 		// remove all useless tag and enclose tags
 		regex = /<(\/)?([:\w\/-]+)(.*?)>/ig;
-		sContent = sContent.replace(regex, function(m0,m1,m2,m3){
+		sContent = sContent.replace(regex, function(m0,closing,tag,attrs){
 			var m3s = [];
 			var state = '';
 
-			m1 = m1 || '';
-			m2 = m2.toLowerCase();
-			m3 = $.trim(m3 || '');
+			closing = closing || '';
+			tag     = tag.toLowerCase();
+			attrs   = $.trim(attrs || '');
 
-			if (!m1) {
-				if ($.inArray(m2,lonely_tags) >= 0) {
-					var len = m3.length;
-					if (m2 == 'br') m3 = '';
-					if (!m3 || m3.substring(len-1,len) != '/') m3 += '/';
+			if (!closing) {
+				if ($.inArray(tag,lonely_tags) >= 0) {
+					var len = attrs.length;
+					if (tag == 'br') attrs = '';
+					if (!attrs || attrs.substring(len-1,len) != '/') attrs += '/';
 
-					return '<'+m2+' '+m3+'>';
-				}
-
-				/*
-				if (replace_tags[m2]) {
-					stack.push({tag:m2, state:'deleted'});
-
-					m2 = replace_tags[m2];
-					state = 'inserted';
-				} else if (m2 == 'font') {
-					stack.push({tag:m2, state:'deleted'});
-
-					m2 = 'span';
-					m3s = [];
-					if (regex_font_color.test(m3)) m3s.push('color:'+(RegExp.$1||RegExp.$2||RegExp.$3)+';');
-					if (regex_font_face.test(m3)) m3s.push('font-family:'+(RegExp.$1||RegExp.$2||RegExp.$3)+';');
-
-					m3 = m3s.length?'style="'+m3s.join('')+'"':'';
-					state = 'inserted';
-				} else if (m2 == 'center') {
-					stack.push({tag:m2, state:'deleted'});
-
-					m2 = 'div'
-					m3 = 'style="text-align:center"';
-
-					state = 'inserted';
-				} else if (m2 == 'span') {
-					var style = '';
-
-					if (!m3) {
-						stack.push({tag:m3, state:'deleted'});
-						return '';
-					}
-
-					if (regex_style.test(m3)) {
-						var tmpstack = [];
-						var tmptag   = '';
-
-						style = RegExp.$1||RegExp.$2||RegExp.$3;
-						m3 = m3.replace(regex_style, '');
-
-						if (regex_font_weight.test(style)) {
-							if (RegExp.$1 == 'bold' || RegExp.$1 == 'bolder') {
-								style = style.replace(regex_font_weight, '');
-								tmpstack.push({tag:'strong', state:'inserted'});
-								tmptag += '<strong>';
-							}
-						}
-
-						if (regex_font_style.test(style)) {
-							style = style.replace(regex_font_style, '');
-							tmpstack.push({tag:'em', state:'inserted'});
-							tmptag += '<em>';
-						}
-
-						if (regex_font_decoration.test(style)) {
-							var deco_css = ' '+RegExp.$1.toLowerCase()+' ';
-
-							if (deco_css.indexOf('underline ') > 0) {
-								deco_css = deco_css.replace('underline ', '');
-								tmpstack.push({tag:'u', state:'inserted'});
-								tmptag += '<u>';
-							}
-
-							if (deco_css.indexOf('line-through ') > 0) {
-								deco_css = deco_css.replace('line-through ', '');
-								tmpstack.push({tag:'del', state:'inserted'});
-								tmptag += '<del>';
-							}
-
-							deco_css = $.trim(deco_css);
-							style = style.replace(regex_font_decoration, (deco_css?'text-decoration:'+deco_css+';':''));
-						}
-
-						style = $.trim(style);
-
-						stack.push({tag:m2, state:(!m3&&!style?'deleted':'')});
-						stack = stack.concat(tmpstack);
-
-						return (!m3&&!style?'':'<span '+m3+' style="'+style+'">')+tmptag;
-					}
+					return '<'+tag+' '+$.trim(attrs)+'>';
 				} else {
-					state = ($.inArray(m2,allow_tags) < 0)?'deleted':'';
-					if (state == 'deleted') return '';
+					stack[stack.length] = {tag:tag, state:state};
 				}
-				*/
-
-				stack.push({tag:m2, state:state});
 			} else {
 				var tags = [], t = '';
 
+				// remove unnecessary closing tag
 				if (!stack.length) return '';
 
 				do {
 					t = stack.pop();
-					if (t.state != 'inserted' && t.tag != m2) {
-						stack.push(t);
-						return tags.join('');
-					}
+					if (t.tag != tag) continue;
 					if (t.state != 'deleted') tags.push('</'+t.tag+'>');
-				} while(stack.length && t.tag != m2);
+				} while(stack.length && t.tag != tag);
 
 				return tags.join('');
 			}
 
-			return '<'+m1+m2+(m3?' '+m3:'')+'>';
+			return '<'+closing+tag+(attrs?' '+attrs:'')+'>';
 		});
+		/*
 		if (stack.length) {
 			var t = '';
 
@@ -5648,6 +5196,7 @@ xe.XE_XHTMLFormatter = $.Class({
 				if (t.state != 'deleted') sContent += '</'+t.tag+'>';
 			} while(stack.length);
 		}
+		*/
 
 		return sContent;
 	},

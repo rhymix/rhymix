@@ -8,7 +8,11 @@
      **/
 
     if($called_position == 'after_module_proc' && Context::getResponseMethod()=="HTML") {
-        Context::loadJavascriptPlugin('ui');
-        Context::addJsFile('./addons/resize_image/js/resize_image.min.js',false, '',null, 'body');
+		if(Mobile::isFromMobilePhone()) {
+			Context::addCssFile('./addons/resize_image/css/resize_image.mobile.css');
+		} else { 
+			Context::loadJavascriptPlugin('ui');
+			Context::addJsFile('./addons/resize_image/js/resize_image.min.js',false, '',null, 'body');
+		}
     }
 ?>

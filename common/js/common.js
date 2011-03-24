@@ -3,7 +3,6 @@
  * @author NHN (developers@xpressengine.com)
  * @brief 몇가지 유용한 & 기본적으로 자주 사용되는 자바스크립트 함수들 모음
  **/
-
 if(jQuery)jQuery.noConflict();(function($){var UA=navigator.userAgent.toLowerCase();$.os={Linux:/linux/.test(UA),Unix:/x11/.test(UA),Mac:/mac/.test(UA),Windows:/win/.test(UA)};$.os.name=($.os.Windows)?'Windows':($.os.Linux)?'Linux':($.os.Unix)?'Unix':($.os.Mac)?'Mac':'';window.XE={loaded_popup_menus:new Array(),addedDocument:new Array(),checkboxToggleAll:function(){var itemName='cart';var options={wrap:null,checked:'toggle',doClick:false};switch(arguments.length){case 1:if(typeof(arguments[0])=="string"){itemName=arguments[0];}else{$.extend(options,arguments[0]||{});}
 break;case 2:itemName=arguments[0];$.extend(options,arguments[1]||{});}
 if(options.doClick==true)options.checked=null;if(typeof(options.wrap)=="string")options.wrap='#'+options.wrap;if(options.wrap){var obj=$(options.wrap).find('input[name='+itemName+']:checkbox');}else{var obj=$('input[name='+itemName+']:checkbox');}
@@ -18,8 +17,7 @@ if(!menu_id)return;var tmp_arr=menu_id.split('_');var module_name=tmp_arr[0];var
 show_waiting_message=false;exec_xml(module_name,action_name,params,XE.displayPopupMenu,response_tags,params);show_waiting_message=true;});if($.browser.msie){$('select').each(function(i,sels){var disabled_exists=false;var first_enable=new Array();for(var j=0;j<sels.options.length;j++){if(sels.options[j].disabled){sels.options[j].style.color='#CCCCCC';disabled_exists=true;}else{first_enable[i]=(first_enable[i]>-1)?first_enable[i]:j;}}
 if(!disabled_exists)return;sels.oldonchange=sels.onchange;sels.onchange=function(){if(this.options[this.selectedIndex].disabled){this.selectedIndex=first_enable[i];}else{if(this.oldonchange)this.oldonchange();}};if(sels.selectedIndex>=0&&sels.options[sels.selectedIndex].disabled)sels.onchange();});}
 var drEditorFold=$('.xe_content .fold_button');if(drEditorFold.size()){var fold_container=$('div.fold_container',drEditorFold);$('button.more',drEditorFold).click(function(){$(this).hide().next('button').show().parent().next(fold_container).show();});$('button.less',drEditorFold).click(function(){$(this).hide().prev('button').show().parent().next(fold_container).hide();});}});String.prototype.getQuery=function(key){var idx=this.indexOf('?');if(idx==-1)return null;var query_string=this.substr(idx+1,this.length);var args={};query_string.replace(/([^=]+)=([^&]*)(&|$)/g,function(){args[arguments[1]]=arguments[2];});var q=args[key];if(typeof(q)=="undefined")q="";return q;}
-String.prototype.setQuery=function(key,val){var idx=this.indexOf('?');var uri=this;uri=uri.replace(/#$/,'');if(idx!=-1){uri=this.substr(0,idx);var query_string=this.substr(idx+1,this.length);var args=new Array();query_string.replace(/([^=]+)=([^&]*)(&|$)/g,function(){args[arguments[1]]=arguments[2];});args[key]=val;var q_list=new Array();for(var i in args){if(!args.hasOwnProperty(i))continue;var arg=args[i];if(!arg.toString().trim())continue;arg=decodeURI(arg);q_list[q_list.length]=i+'='+arg;}
-uri=uri+"?"+q_list.join("&");}else{if(val.toString().trim())uri=uri+"?"+key+"="+val;}
+String.prototype.setQuery=function(key,val){var idx=this.indexOf('?');var uri=this.replace(/#$/,'');if(idx!=-1){var query_string=uri.substr(idx+1,this.length),args={},q_list=[];uri=this.substr(0,idx);query_string.replace(/([^=]+)=([^&]*)(&|$)/g,function(all,key,val){args[key]=val;});args[key]=val;jQuery.each(args,function(key,val){if(!jQuery.trim(val))return;q_list.push(key+'='+decodeURI(val));});query_string=q_list.join('&');uri=uri+(query_string?'?'+query_string:'');}else{if(val.toString().trim())uri=uri+"?"+key+"="+val;}
 var re=/https:\/\/([^:\/]+)(:\d+|)/i;var check=re.exec(uri);if(check)
 {var toReplace="http://"+check[1];if(typeof(http_port)!='undefined'&&http_port!=80)
 {toReplace+=":"+http_port;}
@@ -63,8 +61,8 @@ function doCallModuleAction(module,action,target_srl){var params=new Array();par
 function completeCallModuleAction(ret_obj,response_tags){if(ret_obj['message']!='success')alert(ret_obj['message']);location.reload();}
 function completeMessage(ret_obj){alert(ret_obj['message']);location.reload();}
 function doChangeLangType(obj){if(typeof(obj)=="string"){setLangType(obj);}else{var val=obj.options[obj.selectedIndex].value;setLangType(val);}
-location.reload();}
-function setLangType(lang_type){var expire=new Date();expire.setTime(expire.getTime()+(7000*24*3600000));xSetCookie('lang_type',lang_type,expire,'/');}
+location.href=location.href.setQuery('l','');}
+function setLangType(lang_type){var expire=new Date();expire.setTime(expire.getTime()+(7000*24*3600000));setCookie('lang_type',lang_type,expire,'/');}
 function doDocumentPreview(obj){var fo_obj=obj;while(fo_obj.nodeName!="FORM"){fo_obj=fo_obj.parentNode;}
 if(fo_obj.nodeName!="FORM")return;var editor_sequence=fo_obj.getAttribute('editor_sequence');var content=editorGetContent(editor_sequence);var win=window.open("","previewDocument","toolbars=no,width=700px;height=800px,scrollbars=yes,resizable=yes");var dummy_obj=jQuery("#previewDocument");if(!dummy_obj.length){jQuery('<form id="previewDocument" target="previewDocument" method="post" action="'+request_uri+'">'+'<input type="hidden" name="module" value="document" />'+'<input type="hidden" name="act" value="dispDocumentPreview" />'+'<input type="hidden" name="content" />'+'</form>').appendTo(document.body);dummy_obj=jQuery("#previewDocument")[0];}
 if(dummy_obj){dummy_obj.content.value=content;dummy_obj.submit();}}
@@ -109,5 +107,7 @@ function GetObjLeft(obj){return jQuery(obj).offset().left;}
 function GetObjTop(obj){return jQuery(obj).offset().top;}
 function replaceOuterHTML(obj,html){jQuery(obj).replaceWith(html);}
 function getOuterHTML(obj){return jQuery(obj).html().trim();}
+function setCookie(name,value,expire,path){var s_cookie=name+"="+escape(value)+
+((!expire)?"":("; expires="+expire.toGMTString()))+"; path="+((!path)?"/":path);document.cookie=s_cookie;}
 jQuery(function(){jQuery(".lang_code").each(function()
 {var objText=jQuery(this);var targetName=objText.attr("id");if(typeof(targetName)=="undefined")targetName=objText.attr("name");if(typeof(targetName)=="undefined")return;objText.after("<a href='"+request_uri.setQuery('module','module').setQuery('act','dispModuleAdminLangcode').setQuery('target',targetName)+"' class='buttonSet buttonSetting' onclick='popopen(this.href);return false;'><span>find_langcode</span></a>");});});

@@ -78,7 +78,6 @@
 .e2 .section .date{ background:url(../img/lineVrText.gif) no-repeat left center; font-size:9px; padding-left:5px;}
 .e2 .section .contentBox { padding:10px 0; margin:0 0 20px 0; border-bottom:1px solid #ccc;}
 
-.e2 table th{ white-space:nowrap;}
 .e2 table tbody td{ text-align:left; word-break:break-all; -ms-word-break:break-all; }
 
 #xeAdmin .localNavigation { position:relative; border-bottom:1px solid #ccc; *zoom:1; margin:0 0 40px 0; padding:0; font-size:12px;}

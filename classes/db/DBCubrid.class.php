@@ -6,11 +6,11 @@
      * @version 0.1p1
      *
      * CUBRID2008 R1.3 에 대응하도록 수정 Prototype (prototype@cubrid.com) / 09.02.23
-     * 7.3 ~ 2008 R1.3 까지 테스트 완료함. 
+     * 7.3 ~ 2008 R1.3 까지 테스트 완료함.
      * 기본 쿼리만 사용하였기에 특화된 튜닝이 필요
      **/
 
-    class DBCubrid extends DB 
+    class DBCubrid extends DB
     {
 
         /**
@@ -46,16 +46,24 @@
         /**
          * @brief constructor
          **/
-        function DBCubrid() 
+        function DBCubrid()
         {
             $this->_setDBInfo();
             $this->_connect();
         }
+		
+		/**
+		 * @brief create an instance of this class
+		 */
+		function create()
+		{
+			return new DBCubrid;
+		}
 
         /**
          * @brief 설치 가능 여부를 return
          **/
-        function isSupported() 
+        function isSupported()
         {
             if (!function_exists('cubrid_connect')) return false;
             return true;
@@ -64,7 +72,7 @@
         /**
          * @brief DB정보 설정 및 connect/ close
          **/
-        function _setDBInfo() 
+        function _setDBInfo()
         {
             $db_info = Context::getDBInfo();
             $this->hostname = $db_info->db_hostname;
@@ -101,7 +109,7 @@
         /**
          * @brief DB접속 해제
          **/
-        function close() 
+        function close()
         {
             if (!$this->isConnected ()) return;
 
@@ -113,12 +121,12 @@
         /**
          * @brief 쿼리에서 입력되는 문자열 변수들의 quotation 조절
          **/
-        function addQuotes($string) 
+        function addQuotes($string)
         {
             if (!$this->fd) return $string;
 
             if (version_compare (PHP_VERSION, "5.9.0", "<") &&
-              get_magic_quotes_gpc ()) { 
+              get_magic_quotes_gpc ()) {
                 $string = stripslashes (str_replace ("\\","\\\\", $string));
             }
 
@@ -141,7 +149,7 @@
         /**
          * @brief 트랜잭션 시작
          **/
-        function begin() 
+        function begin()
         {
             if (!$this->isConnected () || $this->transaction_started) return;
             $this->transaction_started = true;
@@ -150,7 +158,7 @@
         /**
          * @brief 롤백
          **/
-        function rollback() 
+        function rollback()
         {
             if (!$this->isConnected () || !$this->transaction_started) return;
             @cubrid_rollback ($this->fd);
@@ -160,7 +168,7 @@
         /**
          * @brief 커밋
          **/
-        function commit() 
+        function commit()
         {
             if (!$force && (!$this->isConnected () ||
               !$this->transaction_started)) return;
@@ -178,7 +186,7 @@
          *         row이면 object\n
          *         return\n
          **/
-        function _query($query) 
+        function _query($query)
         {
             if (!$query || !$this->isConnected ()) return;
 
@@ -205,7 +213,7 @@
         /**
          * @brief 결과를 fetch
          **/
-        function _fetch($result) 
+        function _fetch($result)
         {
             if (!$this->isConnected() || $this->isError() || !$result) return;
 
@@ -240,7 +248,7 @@
         /**
          * @brief 1씩 증가되는 sequence 값을 return (cubrid의 auto_increment는 sequence테이블에서만 사용)
          **/
-        function getNextSequence() 
+        function getNextSequence()
         {
             $this->_makeSequence();
 
@@ -252,11 +260,11 @@
         }
 
         /**
-         * @brief 마이그레이션시 sequence  가 없을 경우 생성 
+         * @brief 마이그레이션시 sequence  가 없을 경우 생성
          **/
         function _makeSequence()
         {
-            if($_GOBALS['XE_EXISTS_SEQUENCE']) return;
+            if($_GLOBALS['XE_EXISTS_SEQUENCE']) return;
 
             // check cubrid serial
             $query = sprintf('select count(*) as "count" from "db_serial" where name=\'%ssequence\'', $this->prefix);
@@ -264,7 +272,7 @@
             $output = $this->_fetch($result);
 
             // if do not create serial
-            if ($output->count==0) {
+            if ($output->count == 0) {
                 $query = sprintf('select max("a"."srl") as "srl" from '.
                                  '( select max("document_srl") as "srl" from '.
                                  '"%sdocuments" UNION '.
@@ -277,26 +285,26 @@
                 $result = $this->_query($query);
                 $output = $this->_fetch($result);
                 $srl = $output->srl;
-                if ($srl<1) {
-                    $start = 1; 
+                if ($srl < 1) {
+                    $start = 1;
                 }
                 else {
                     $start = $srl + 1000000;
                 }
 
                 // create sequence
-                $query = sprintf('create serial "%ssequence start with %s increment by 1 minvalue 1 maxvalue 10000000000000000000000000000000000000 nocycle;', $this->prefix, $start);
+                $query = sprintf('create serial "%ssequence" start with %s increment by 1 minvalue 1 maxvalue 10000000000000000000000000000000000000 nocycle;', $this->prefix, $start);
                 $this->_query($query);
             }
 
-            $_GOBALS['XE_EXISTS_SEQUENCE'] = true;
+            $_GLOBALS['XE_EXISTS_SEQUENCE'] = true;
         }
 
 
         /**
          * @brief 테이블 기생성 여부 return
          **/
-        function isTableExists ($target_name) 
+        function isTableExists ($target_name)
         {
             if($target_name == 'sequence') {
                 $query = sprintf ("select \"name\" from \"db_serial\" where \"name\" = '%s%s'", $this->prefix, $target_name);
@@ -321,7 +329,7 @@
         /**
          * @brief 특정 테이블에 특정 column 추가
          **/
-        function addColumn($table_name, $column_name, $type = 'number', $size = '', $default = '', $notnull = false) 
+        function addColumn($table_name, $column_name, $type = 'number', $size = '', $default = '', $notnull = false)
         {
             $type = strtoupper($this->column_type[$type]);
             if ($type == 'INTEGER') $size = '';
@@ -356,7 +364,7 @@
         /**
          * @brief 특정 테이블에 특정 column 제거
          **/
-        function dropColumn ($table_name, $column_name) 
+        function dropColumn ($table_name, $column_name)
         {
             $query = sprintf ("alter class \"%s%s\" drop \"%s\" ", $this->prefix, $table_name, $column_name);
 
@@ -366,7 +374,7 @@
         /**
          * @brief 특정 테이블의 column의 정보를 return
          **/
-        function isColumnExists ($table_name, $column_name) 
+        function isColumnExists ($table_name, $column_name)
         {
             $query = sprintf ("select \"attr_name\" from \"db_attribute\" where ".  "\"attr_name\" ='%s' and \"class_name\" = '%s%s'", $column_name, $this->prefix, $table_name);
             $result = $this->_query ($query);
@@ -384,7 +392,7 @@
          * $target_columns = array(col1, col2)
          * $is_unique? unique : none
          **/
-        function addIndex ($table_name, $index_name, $target_columns, $is_unique = false) 
+        function addIndex ($table_name, $index_name, $target_columns, $is_unique = false)
         {
             if (!is_array ($target_columns)) {
                 $target_columns = array ($target_columns);
@@ -398,7 +406,7 @@
         /**
          * @brief 특정 테이블의 특정 인덱스 삭제
          **/
-        function dropIndex ($table_name, $index_name, $is_unique = false) 
+        function dropIndex ($table_name, $index_name, $is_unique = false)
         {
             $query = sprintf ("drop %s index \"%s\" on \"%s%s\"", $is_unique?'unique':'', $this->prefix .$index_name, $this->prefix, $table_name);
 
@@ -408,7 +416,7 @@
         /**
          * @brief 특정 테이블의 index 정보를 return
          **/
-        function isIndexExists ($table_name, $index_name) 
+        function isIndexExists ($table_name, $index_name)
         {
             $query = sprintf ("select \"index_name\" from \"db_index\" where ".  "\"class_name\" = '%s%s' and \"index_name\" = '%s' ", $this->prefix, $table_name, $this->prefix .$index_name);
             $result = $this->_query ($query);
@@ -424,7 +432,7 @@
         /**
          * @brief xml 을 받아서 테이블을 생성
          **/
-        function createTableByXml ($xml_doc) 
+        function createTableByXml ($xml_doc)
         {
             return $this->_createTable ($xml_doc);
         }
@@ -432,7 +440,7 @@
         /**
          * @brief xml 을 받아서 테이블을 생성
          **/
-        function createTableByXmlFile ($file_name) 
+        function createTableByXmlFile ($file_name)
         {
             if (!file_exists ($file_name)) return;
             // xml 파일을 읽음
@@ -457,6 +465,9 @@
             // 테이블 생성 schema 작성
             $table_name = $xml_obj->table->attrs->name;
 
+			// if the table already exists exit function
+            if ($this->isTableExists($table_name)) return;
+
             // 만약 테이블 이름이 sequence라면 serial 생성
             if ($table_name == 'sequence') {
                 $query = sprintf ('create serial "%s" start with 1 increment by 1'.
@@ -466,7 +477,6 @@
                 return $this->_query($query);
             }
 
-            if ($this->isTableExists ($table_name)) return;
 
             $table_name = $this->prefix.$table_name;
 
@@ -555,16 +565,16 @@
         /**
          * @brief 조건문 작성하여 return
          **/
-        function getCondition ($output) 
+        function getCondition ($output)
         {
             if (!$output->conditions) return;
-            $condition = $this->_getCondition ($output->conditions, $output->column_type, &$output);
+            $condition = $this->_getCondition ($output->conditions, $output->column_type, $output);
             if ($condition) $condition = ' where '.$condition;
 
             return $condition;
         }
 
-        function _getCondition ($conditions, $column_type, &$output) 
+        function _getCondition ($conditions, $column_type, &$output)
         {
             $condition = '';
 
@@ -585,7 +595,7 @@
 
                     if (!$value) {
                         $value = $v['value'];
-                        if (strpos ($value, '(')) { 
+                        if (strpos ($value, '(')) {
                             $valuetmp = $value;
                         }
                         elseif (strpos ($value, ".") === false) {
@@ -594,7 +604,7 @@
                         else {
                             $valuetmp = '"'.str_replace('.', '"."', $value).'"';
                         }
-                    } 
+                    }
                     else {
                         $tmp = explode('.',$value);
 
@@ -643,7 +653,7 @@
         /**
          * @brief insertAct 처리
          **/
-        function _executeInsertAct ($output) 
+        function _executeInsertAct ($output)
         {
             // 테이블 정리
             foreach ($output->tables as $val) {
@@ -654,7 +664,7 @@
             foreach ($output->columns as $key => $val) {
                 $name = $val['name'];
                 $value = $val['value'];
-                //if ($this->getColumnType ($output->column_type, $name) != 'number') 
+                //if ($this->getColumnType ($output->column_type, $name) != 'number')
                 if ($output->column_type[$name] != 'number') {
                     if (!is_null($value)) {
                         $value = "'" . $this->addQuotes($value) ."'";
@@ -691,7 +701,7 @@
         /**
          * @brief updateAct 처리
          **/
-        function _executeUpdateAct ($output) 
+        function _executeUpdateAct ($output)
         {
             // 테이블 정리
             foreach ($output->tables as $key => $val) {
@@ -706,7 +716,7 @@
                 $name = $val['name'];
                 $value = $val['value'];
 
-                if (substr ($value, -2) != '+1' || $output->column_type[$name] != 'number') { 
+                if (substr ($value, -2) != '+1' || $output->column_type[$name] != 'number') {
                     $check_click_count = false;
                 }
 
@@ -716,7 +726,7 @@
                 }
                 if ($i < $key) continue; // 중복이 발견되면 이후의 설정은 무시
 
-                if (strpos ($name, '.') !== false && strpos ($value, '.') !== false) { 
+                if (strpos ($name, '.') !== false && strpos ($value, '.') !== false) {
                     $column_list[] = $name.' = '.$value;
                 }
                 else {
@@ -748,7 +758,7 @@
                             $check_click_count_condition = true;
                         }
                         else {
-                            if ($v['operation'] == 'in' && !strpos ($v['value'], ',')) { 
+                            if ($v['operation'] == 'in' && !strpos ($v['value'], ',')) {
                                 $check_click_count_condition = true;
                             }
                             else {
@@ -764,7 +774,7 @@
                 }
             }
 
-            if ($check_click_count&& $check_click_count_condition && count ($output->tables) == 1 && count ($output->conditions) > 0 && count ($output->groups) == 0 && count ($output->order) == 0) { 
+            if ($check_click_count&& $check_click_count_condition && count ($output->tables) == 1 && count ($output->conditions) > 0 && count ($output->groups) == 0 && count ($output->order) == 0) {
                 foreach ($output->columns as $v) {
                     $incr_columns[] = 'incr("'.$v['name'].'")';
                 }
@@ -784,7 +794,7 @@
         /**
          * @brief deleteAct 처리
          **/
-        function _executeDeleteAct ($output) 
+        function _executeDeleteAct ($output)
         {
             // 테이블 정리
             foreach ($output->tables as $val) {
@@ -807,101 +817,104 @@
          * select의 경우 특정 페이지의 목록을 가져오는 것을 편하게 하기 위해\n
          * navigation이라는 method를 제공
          **/
-        function _executeSelectAct ($output) 
+        function _executeSelectAct ($output)
         {
             // 테이블 정리
             $table_list = array ();
             foreach ($output->tables as $key => $val) {
                 $table_list[] = '"'.$this->prefix.$val.'" as "'.$key.'"';
             }
-
             $left_join = array ();
             // why???
             $left_tables = (array) $output->left_tables;
 
             foreach ($left_tables as $key => $val) {
-                $condition = $this->_getCondition ($output->left_conditions[$key], $output->column_type, &$output);
+                $condition = $this->_getCondition ($output->left_conditions[$key], $output->column_type, $output);
                 if ($condition) {
                     $left_join[] = $val.' "'.$this->prefix.$output->_tables[$key].  '" "'.$key.'" on ('.$condition.')';
                 }
             }
 
-            if (!$output->columns) {
-                $columns = '*';
-            } 
-            else {
-                $column_list = array ();
-                foreach ($output->columns as $key => $val) {
-                    $name = $val['name'];
+            $click_count = array();
+            if(!$output->columns){
+                $output->columns = array(array('name'=>'*'));
+            }
 
-                    $click_count = '%s';
-                    if ($val['click_count'] && count ($output->conditions) > 0) {
-                        $click_count = 'incr(%s)';
+            $column_list = array ();
+            foreach ($output->columns as $key => $val) {
+                $name = $val['name'];
+
+                $click_count = '%s';
+                if ($val['click_count'] && count ($output->conditions) > 0) {
+                    $click_count = 'incr(%s)';
+                }
+
+                $alias = $val['alias'] ? sprintf ('"%s"', $val['alias']) : null;
+                $_alias = $val['alias'];
+
+                if ($name == '*') {
+                    $column_list[] = $name;
+                }
+                elseif (strpos ($name, '.') === false && strpos ($name, '(') === false) {
+                    $name = sprintf ($click_count,$name);
+                    if ($alias) {
+                        $column_list[$alias] = sprintf('"%s" as %s', $name, $alias);
                     }
-
-                    $alias = $val['alias'] ? sprintf ('"%s"', $val['alias']) : null;
-
-                    if ($name == '*') {
-                        $column_list[] = $name;
+                    else {
+                        $column_list[] = sprintf ('"%s"', $name);
                     }
-                    elseif (strpos ($name, '.') === false && strpos ($name, '(') === false) { 
-                        $name = sprintf ($click_count,$name);
-                        if ($alias) {
-                            $column_list[] = sprintf('"%s" as %s', $name, $alias);
+                }
+                else {
+                    if (strpos ($name, '.') != false) {
+                        list ($prefix, $name) = explode('.', $name);
+                        if (($now_matchs = preg_match_all ("/\(/", $prefix, $xtmp)) > 0) {
+                            if ($now_matchs == 1) {
+                                $tmpval = explode ("(", $prefix);
+                                $tmpval[1] = sprintf ('"%s"', $tmpval[1]);
+                                $prefix = implode ("(", $tmpval);
+                                $tmpval = explode (")", $name);
+                                $tmpval[0] = sprintf ('"%s"', $tmpval[0]);
+                                $name = implode (")", $tmpval);
+                            }
                         }
                         else {
-                            $column_list[] = sprintf ('"%s"', $name);
+                            $prefix = sprintf ('"%s"', $prefix);
+                            $name = ($name == '*') ? $name : sprintf('"%s"',$name);
                         }
-                    } 
-                    else {
-                        if (strpos ($name, '.') != false) {
-                            list ($prefix, $name) = explode('.', $name);
-                            if (($now_matchs = preg_match_all ("/\(/", $prefix, $xtmp)) > 0) {
-                                if ($now_matchs == 1) {
-                                    $tmpval = explode ("(", $prefix);
-                                    $tmpval[1] = sprintf ('"%s"', $tmpval[1]);
-                                    $prefix = implode ("(", $tmpval);
-                                    $tmpval = explode (")", $name);
-                                    $tmpval[0] = sprintf ('"%s"', $tmpval[0]);
-                                    $name = implode (")", $tmpval);
+                        $xtmp = null;
+                        $now_matchs = null;
+                        if($alias) $column_list[$_alias] = sprintf ($click_count, sprintf ('%s.%s', $prefix, $name)) .  ($alias ? sprintf (' as %s',$alias) : '');
+                        else $column_list[] = sprintf ($click_count, sprintf ('%s.%s', $prefix, $name));
+                    }
+                    elseif (($now_matchs = preg_match_all ("/\(/", $name, $xtmp)) > 0) {
+                        if ($now_matchs == 1 && preg_match ("/[a-zA-Z0-9]*\(\*\)/", $name) < 1) {
+                            $open_pos = strpos ($name, "(");
+                            $close_pos = strpos ($name, ")");
+
+                            if (preg_match ("/,/", $name)) {
+                                $tmp_func_name = sprintf ('%s', substr ($name, 0, $open_pos));
+                                $tmp_params = sprintf ('%s', substr ($name, $open_pos + 1, $close_pos - $open_pos - 1));
+                                $tmpval = null;
+                                $tmpval = explode (',', $tmp_params);
+
+                                foreach ($tmpval as $tmp_param) {
+                                    $tmp_param_list[] = (!is_numeric ($tmp_param)) ? sprintf ('"%s"', $tmp_param) : $tmp_param;
                                 }
+
+                                $tmpval = implode (',', $tmp_param_list);
+                                $name = sprintf ('%s(%s)', $tmp_func_name, $tmpval);
                             }
                             else {
-                                $prefix = sprintf ('"%s"', $prefix);
-                                $name = ($name == '*') ? $name : sprintf('"%s"',$name);
+                                $name = sprintf ('%s("%s")', substr ($name, 0, $open_pos), substr ($name, $open_pos + 1, $close_pos - $open_pos - 1));
                             }
-                            $xtmp = null;
-                            $now_matchs = null;
-                            $column_list[] = sprintf ($click_count, sprintf ('%s.%s', $prefix, $name)) .  ($alias ? sprintf (' as %s',$alias) : '');
                         }
-                        elseif (($now_matchs = preg_match_all ("/\(/", $name, $xtmp)) > 0) {
-                            if ($now_matchs == 1 && preg_match ("/[a-zA-Z0-9]*\(\*\)/", $name) < 1) {
-                                $open_pos = strpos ($name, "(");
-                                $close_pos = strpos ($name, ")");
 
-                                if (preg_match ("/,/", $name)) {
-                                    $tmp_func_name = sprintf ('%s', substr ($name, 0, $open_pos));
-                                    $tmp_params = sprintf ('%s', substr ($name, $open_pos + 1, $close_pos - $open_pos - 1));
-                                    $tmpval = null;
-                                    $tmpval = explode (',', $tmp_params);
-
-                                    foreach ($tmpval as $tmp_param) {
-                                        $tmp_param_list[] = (!is_numeric ($tmp_param)) ? sprintf ('"%s"', $tmp_param) : $tmp_param;
-                                    }
-
-                                    $tmpval = implode (',', $tmp_param_list);
-                                    $name = sprintf ('%s(%s)', $tmp_func_name, $tmpval);
-                                }
-                                else {
-                                    $name = sprintf ('%s("%s")', substr ($name, 0, $open_pos), substr ($name, $open_pos + 1, $close_pos - $open_pos - 1));
-                                }
-                            }
-
-                            $column_list[] = sprintf ($click_count, $name).  ($alias ? sprintf (' as %s', $alias) : '');
-                        } 
-                        else {
-                            $column_list[] = sprintf($click_count, $name).  ($alias ? sprintf(' as %s',$alias) : '');
-                        }
+                        if($alias) $column_list[$_alias] = sprintf ($click_count, $name).  ($alias ? sprintf (' as %s', $alias) : '');
+                        else $column_list[] = sprintf ($click_count, $name);
+                    }
+                    else {
+                        if($alias) $column_list[$_alias] = sprintf($click_count, $name).  ($alias ? sprintf(' as %s',$alias) : '');
+                        else $column_list[] = sprintf($click_count, $name);
                     }
                 }
                 $columns = implode (',', $column_list);
@@ -909,6 +922,7 @@
 
             $condition = $this->getCondition ($output);
 
+            $output->column_list = $column_list;
             if ($output->list_count && $output->page) {
                 return ($this->_getNavigationData($table_list, $columns, $left_join, $condition, $output));
             }
@@ -925,7 +939,6 @@
                 //}
             }
 
-            $query = sprintf ("select %s from %s %s %s", $columns, implode (',',$table_list), implode (' ',$left_join), $condition);
 
             if (count ($output->groups)) {
                 foreach ($output->groups as $key => $value) {
@@ -942,9 +955,16 @@
                         $value = sprintf ('"%s"', $value);
                     }
                     $output->groups[$key] = $value;
+
+
+                    if(count($output->arg_columns))
+                    {
+                        if($column_list[$value]) $output->arg_columns[] = $column_list[$value];
+                    }
                 }
-                $query .= sprintf (' group by %s', implode(',', $output->groups));
+                $groupby_query = sprintf ('group by %s', implode(',', $output->groups));
             }
+
 
             // list_count를 사용할 경우 적용
             if ($output->list_count['value']) {
@@ -965,19 +985,19 @@
                       $index_list[] = sprintf('%s %s', $val[0], $val[1]);
                   }
                   if (count($index_list))
-                      $query .= ' order by '.implode(',', $index_list);
-                      $query = sprintf ('%s for orderby_num() between %d and %d', $query, $start_count + 1, $list_count + $start_count);
+                      $orderby_query = ' order by '.implode(',', $index_list);
+                      $orderby_query = sprintf ('%s for orderby_num() between %d and %d', $orderby_query, $start_count + 1, $list_count + $start_count);
                 }
                 else {
                     if (count ($output->groups)) {
-                        $query = sprintf ('%s having groupby_num() between %d'.  ' and %d', $query, $start_count + 1, $list_count + $start_count);
+                        $orderby_query = sprintf ('%s having groupby_num() between %d'.  ' and %d', $orderby_query, $start_count + 1, $list_count + $start_count);
                     }
                     else {
                         if ($condition) {
-                            $query = sprintf ('%s and inst_num() between %d'.  ' and %d', $query, $start_count + 1, $list_count + $start_count);
+                            $orderby_query = sprintf ('%s and inst_num() between %d'.  ' and %d', $orderby_query, $start_count + 1, $list_count + $start_count);
                         }
                         else {
-                            $query = sprintf ('%s where inst_num() between %d'.  ' and %d', $query, $start_count + 1, $list_count + $start_count);
+                            $orderby_query = sprintf ('%s where inst_num() between %d'.  ' and %d', $orderby_query, $start_count + 1, $list_count + $start_count);
                         }
                     }
                 }
@@ -995,14 +1015,29 @@
                         elseif ($val[0] == 'count') $val[0] = 'count (*)';
                         else $val[0] = sprintf ('"%s"', $val[0]);
                         $index_list[] = sprintf('%s %s', $val[0], $val[1]);
+
+                        if(count($output->arg_columns) && $column_list[$val]) $output->arg_columns[] = $column_list[$key];
                     }
 
                     if (count ($index_list)) {
-                        $query .= ' order by '.implode(',', $index_list);
+                        $orderby_query = ' order by '.implode(',', $index_list);
                     }
                 }
             }
 
+
+            if(count($output->arg_columns))
+            {
+                $columns = array();
+                foreach($output->arg_columns as $col){
+                    if(strpos($col,'"')===false && strpos($col,' ')===false) $columns[] = '"'.$col.'"';
+                    else $columns[] = $col;
+                }
+
+                $columns = join(',',$columns);
+            }
+
+            $query = sprintf ("select %s from %s %s %s %s", $columns, implode (',',$table_list), implode (' ',$left_join), $condition, $groupby_query.$orderby_query);
             $query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
             $result = $this->_query ($query);
             if ($this->isError ()) return;
@@ -1074,20 +1109,18 @@
         function _getNavigationData ($table_list, $columns, $left_join, $condition, $output) {
             require_once (_XE_PATH_.'classes/page/PageHandler.class.php');
 
-            $count_condition = count($output->groups) ? sprintf('%s group by %s', $condition, implode(', ', $output->groups)) : $condition;
-            $total_count = $this->getCountCache($output->tables, $count_condition);
-            if ($total_count === false) {
-                $count_query = sprintf('select count(*) as "count" from %s %s %s', implode(', ', $table_list), implode(' ', $left_join), $count_condition);
-                if (count($output->groups)) {
-                    $count_query = sprintf('select count(*) as "count" from (%s) xet', $count_query);
-                }
+            $column_list = $output->column_list;
 
-                $count_query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
-                $result = $this->_query($count_query);
-                $count_output = $this->_fetch($result);
-                $total_count = (int)$count_output->count;
-                $this->putCountCache($output->tables, $count_condition, $total_count);
+            $count_condition = count($output->groups) ? sprintf('%s group by %s', $condition, implode(', ', $output->groups)) : $condition;
+            $count_query = sprintf('select count(*) as "count" from %s %s %s', implode(', ', $table_list), implode(' ', $left_join), $count_condition);
+            if (count($output->groups)) {
+                $count_query = sprintf('select count(*) as "count" from (%s) xet', $count_query);
             }
+
+            $count_query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
+            $result = $this->_query($count_query);
+            $count_output = $this->_fetch($result);
+            $total_count = (int)$count_output->count;
 
             $list_count = $output->list_count['value'];
             if (!$list_count) $list_count = 20;
@@ -1120,7 +1153,6 @@
                 //}
             }
 
-            $query = sprintf ("select %s from %s %s %s", $columns, implode (',', $table_list), implode(' ', $left_join), $condition);
 
             if (count ($output->groups)) {
                 foreach ($output->groups as $key => $value) {
@@ -1135,7 +1167,7 @@
                     $output->groups[$key] = $value;
                 }
 
-                $query .= sprintf (' group by %s', implode (',', $output->groups));
+                $groupby_query = sprintf (' group by %s', implode (',', $output->groups));
             }
 
             if ($output->order) {
@@ -1153,25 +1185,37 @@
                 }
 
                 if (count ($index_list)) {
-                    $query .= ' order by '.implode(',', $index_list);
+                    $orderby_query = ' order by '.implode(',', $index_list);
                 }
 
-                $query = sprintf ('%s for orderby_num() between %d and %d', $query, $start_count + 1, $list_count + $start_count);
+                $orderby_query = sprintf ('%s for orderby_num() between %d and %d', $orderby_query, $start_count + 1, $list_count + $start_count);
             }
             else {
                 if (count($output->groups)) {
-                    $query = sprintf ('%s having groupby_num() between %d and %d', $query, $start_count + 1, $list_count + $start_count);
+                    $orderby_query = sprintf ('%s having groupby_num() between %d and %d', $orderby_query, $start_count + 1, $list_count + $start_count);
                 }
                 else {
                     if ($condition) {
-                        $query = sprintf ('%s and inst_num() between %d and %d', $query, $start_count + 1, $list_count + $start_count);
+                        $orderby_query = sprintf ('%s and inst_num() between %d and %d', $orderby_query, $start_count + 1, $list_count + $start_count);
                     }
                     else {
-                        $query = sprintf('%s where inst_num() between %d and %d', $query, $start_count + 1, $list_count + $start_count);
+                        $orderby_query = sprintf('%s where inst_num() between %d and %d', $orderby_query, $start_count + 1, $list_count + $start_count);
                     }
                 }
             }
 
+            if(count($output->arg_columns))
+            {
+                $columns = array();
+                foreach($output->arg_columns as $col){
+                    if(strpos($col,'"')===false) $columns[] = '"'.$col.'"';
+                    else $columns[] = $col;
+                }
+
+                $columns = join(',',$columns);
+            }
+
+            $query = sprintf ("select %s from %s %s %s %s", $columns, implode (',',$table_list), implode (' ',$left_join), $condition, $groupby_query.$orderby_query);
             $query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
             $result = $this->_query ($query);
 
@@ -1208,4 +1252,6 @@
             return $buff;
         }
     }
+
+return new DBCubrid;
 ?>

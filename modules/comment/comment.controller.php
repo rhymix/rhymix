@@ -22,6 +22,15 @@
             $comment_srl = Context::get('target_srl');
             if(!$comment_srl) return new Object(-1, 'msg_invalid_request');
 
+			$oCommentModel = &getModel('comment');
+            $oComment = $oCommentModel->getComment($comment_srl, false, false);
+			$module_srl = $oComment->get('module_srl');
+			if(!$module_srl) return new Object(-1, 'msg_invalid_request');
+
+			$oModuleModel = &getModel('module');
+            $comment_config = $oModuleModel->getModulePartConfig('comment',$module_srl);
+			if($comment_config->use_vote_up=='N') return new Object(-1, 'msg_invalid_request');
+
             $point = 1;
             return $this->updateVotedCount($comment_srl, $point);
         }
@@ -34,6 +43,15 @@
 
             $comment_srl = Context::get('target_srl');
             if(!$comment_srl) return new Object(-1, 'msg_invalid_request');
+
+			$oCommentModel = &getModel('comment');
+            $oComment = $oCommentModel->getComment($comment_srl, false, false);
+			$module_srl = $oComment->get('module_srl');
+			if(!$module_srl) return new Object(-1, 'msg_invalid_request');
+
+			$oModuleModel = &getModel('module');
+            $comment_config = $oModuleModel->getModulePartConfig('comment',$module_srl);
+			if($comment_config->use_vote_down=='N') return new Object(-1, 'msg_invalid_request');
 
             $point = -1;
             return $this->updateVotedCount($comment_srl, $point);
@@ -236,7 +254,9 @@
                 // 원본 댓글이 있고 원본 댓글에 알림(notify_message)가 있으면 메세지 보냄
                 if($obj->parent_srl) {
                     $oParent = $oCommentModel->getComment($obj->parent_srl);
-                    $oParent->notify(Context::getLang('comment'), $obj->content);
+					if ($oParent->get('member_srl') != $oDocument->get('member_srl')) {
+						$oParent->notify(Context::getLang('comment'), $obj->content);
+					}
                 }
             }
 
@@ -439,32 +459,35 @@
          * @brief 해당 comment의 추천수 증가
          **/
         function updateVotedCount($comment_srl, $point = 1) {
-            if($point > 0) $failed_voted = 'failed_voted';
-            else $failed_voted = 'failed_blamed';
+            if($point > 0) {
+                $failed_voted = 'failed_voted';
+                $success_message = 'success_voted';
+            } else {
+                $failed_voted = 'failed_blamed';
+                $success_message = 'success_blamed';
+            }
 
             // 세션 정보에 추천 정보가 있으면 중단
-            if($_SESSION['voted_comment'][$comment_srl]) return new Object(-1, 'failed_voted');
+            if($_SESSION['voted_comment'][$comment_srl]) return new Object(-1, $failed_voted);
 
-            // 문서 원본을 가져옴
             $oCommentModel = &getModel('comment');
             $oComment = $oCommentModel->getComment($comment_srl, false, false);
 
             // 글의 작성 ip와 현재 접속자의 ip가 동일하면 패스
             if($oComment->get('ipaddress') == $_SERVER['REMOTE_ADDR']) {
                 $_SESSION['voted_comment'][$comment_srl] = true;
-                return new Object(-1, 'failed_voted');
+                return new Object(-1, $failed_voted);
             }
 
             // comment의 작성자가 회원일때 조사
             if($oComment->get('member_srl')) {
-                // member model 객체 생성
                 $oMemberModel = &getModel('member');
                 $member_srl = $oMemberModel->getLoggedMemberSrl();
 
                 // 글쓴이와 현재 로그인 사용자의 정보가 일치하면 읽었다고 생각하고 세션 등록후 패스
                 if($member_srl && $member_srl == $oComment->get('member_srl')) {
                     $_SESSION['voted_comment'][$comment_srl] = true;
-                    return new Object(-1, 'failed_voted');
+                    return new Object(-1, $failed_voted);
                 }
             }
 
@@ -480,17 +503,14 @@
             // 로그 정보에 추천 로그가 있으면 세션 등록후 패스
             if($output->data->count) {
                 $_SESSION['voted_comment'][$comment_srl] = true;
-                return new Object(-1, 'failed_voted');
+                return new Object(-1, $failed_voted);
             }
 
             // 추천수 업데이트
-            if($point < 0)
-            {
+            if($point < 0) {
                 $args->blamed_count = $oComment->get('blamed_count') + $point;
                 $output = executeQuery('comment.updateBlamedCount', $args);
-            }
-            else
-            {
+            } else {
                 $args->voted_count = $oComment->get('voted_count') + $point;
                 $output = executeQuery('comment.updateVotedCount', $args);
             }
@@ -503,10 +523,7 @@
             $_SESSION['voted_comment'][$comment_srl] = true;
 
             // 결과 리턴
-            if($point > 0)
-                return new Object(0, 'success_voted');
-            else
-                return new Object(0, 'success_blamed');
+            return new Object(0, $success_message);
         }
 
         /**
@@ -597,20 +614,26 @@
             if(preg_match('/^([0-9,]+)$/',$module_srl)) $module_srl = explode(',',$module_srl);
             else $module_srl = array($module_srl);
 
-            $comment_count = (int)Context::get('comment_count');
+            $comment_config->comment_count = (int)Context::get('comment_count');
+			if(!$comment_config->comment_count) $comment_config->comment_count = 50;
+
+			$comment_config->use_vote_up = Context::get('use_vote_up');
+			if(!$comment_config->use_vote_up) $comment_config->use_vote_up = 'Y';
+
+            $comment_config->use_vote_down = Context::get('use_vote_down');
+            if(!$comment_config->use_vote_down) $comment_config->use_vote_down = 'Y';
 
             for($i=0;$i<count($module_srl);$i++) {
                 $srl = trim($module_srl[$i]);
                 if(!$srl) continue;
-                $output = $this->setCommentModuleConfig($srl,$comment_count);
+                $output = $this->setCommentModuleConfig($srl,$comment_config);
             }
 
             $this->setError(-1);
             $this->setMessage('success_updated');
         }
 
-		function setCommentModuleConfig($srl, $comment_count=50){
-			$comment_config->comment_count = $comment_count;
+		function setCommentModuleConfig($srl, $comment_config){
             $oModuleController = &getController('module');
 			$oModuleController->insertModulePartConfig('comment',$srl,$comment_config);
             return new Object();

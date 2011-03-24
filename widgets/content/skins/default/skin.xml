@@ -5,6 +5,7 @@
     <title xml:lang="zh-CN">全局内容控件默认皮肤</title>
     <title xml:lang="zh-TW">内容預設面板</title>
     <title xml:lang="jp">コンテンツウィジェットのデフォルトスキン</title>
+    <title xml:lang="tr">Genel içerik durumunda varsayılan dış görünüm.</title>
     <description xml:lang="ko">Content 위젯 기본 스킨 입니다.
     NHN (developers@xpressengine.com)
     </description>
@@ -20,6 +21,9 @@
     <description xml:lang="jp">コンテンツウィジェットのデフォルトスキン
     NHN (developers@xpressengine.com)
     </description>
+    <description xml:lang="tr">Genel içerik durumunda varsayılan dış görünüm.
+    NHN (developers@xpressengine.com)
+    </description>
     <version>0.1</version>
     <date>2009-02-10</date>
     <link>http://xpressengine.com/</link>
@@ -31,6 +35,7 @@
         <name xml:lang="vi">NHN</name>
         <name xml:lang="zh-CN">NHN</name>
         <name xml:lang="zh-TW">NHN</name>
+        <name xml:lang="tr">NHN</name>
     </author>
 
     <colorset>
@@ -41,6 +46,7 @@
             <title xml:lang="en">White Background</title>
             <title xml:lang="vi">Nền sáng</title>
             <title xml:lang="zh-TW">白色背景</title>
+            <title xml:lang="tr">Beyaz Arkaplan</title>
         </color>
         <color name="black">
             <title xml:lang="ko">어두운 바탕용</title>
@@ -49,6 +55,7 @@
             <title xml:lang="en">Dark Background</title>
             <title xml:lang="vi">Nền tối</title>
             <title xml:lang="zh-TW">黑色背景</title>
+            <title xml:lang="tr">Siyah Arkaplan</title>
         </color>
         <color name="layout">
             <title xml:lang="ko">레이아웃에 맞춤</title>
@@ -56,6 +63,7 @@
             <title xml:lang="zh-CN">随布局</title>
             <title xml:lang="en">레이아웃에 맞춤</title>
             <title xml:lang="zh-TW">隨版面</title>
+            <title xml:lang="tr">Yerleşim Düzeni</title>
         </color>
     </colorset>
 </skin>

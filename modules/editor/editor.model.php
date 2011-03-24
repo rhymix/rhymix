@@ -510,6 +510,8 @@
          * @brief component의 객체 생성
          **/
         function getComponentObject($component, $editor_sequence = 0, $site_srl = 0) {
+			if(!preg_match('/^[a-zA-Z0-9_-]+$/',$component) || !preg_match('/^[0-9]+$/', $editor_sequence . $site_srl)) return;
+
             if(!$this->loaded_component_list[$component][$editor_sequence]) {
                 // 해당 컴포넌트의 객체를 생성해서 실행
                 $class_path = sprintf('%scomponents/%s/', $this->module_path, $component);
@@ -518,8 +520,8 @@
 
                 // 클래스 파일을 읽은 후 객체 생성
                 require_once($class_file);
-                $eval_str = sprintf('$oComponent = new %s("%s","%s");', $component, $editor_sequence, $class_path);
-                @eval($eval_str);
+                $tmp_fn = create_function('$seq,$path', "return new {$component}(\$seq,\$path);");
+				$oComponent = $tmp_fn($editor_sequence, $class_path);
                 if(!$oComponent) return new Object(-1, sprintf(Context::getLang('msg_component_is_not_founded'), $component));
 
                 // 설정 정보를 추가

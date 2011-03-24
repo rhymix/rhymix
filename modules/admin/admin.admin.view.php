@@ -181,7 +181,6 @@
                     $visitors[$val->regdate] += $val->unique_visitor;
                 }
             }
-
             $status->week_max = 0;
             if(count($visitors)) {
                 foreach($visitors as $key => $val) {
@@ -189,7 +188,7 @@
                 }
             }
 
-            for($i=$start_time;$i<$end_time;$i+=60*60*24) {
+            for($i=$start_time;$i<=$end_time;$i+=60*60*24) {
 				$status->thisWeekSum += $visitors[date("Ymd",$i)];
                 $status->week[date("Y.m.d",$i)]->this = (int)$visitors[date("Ymd",$i)];
                 $status->week[date("Y.m.d",$i)]->last = (int)$visitors[date("Ymd",$i-60*60*24*7)];
@@ -213,34 +212,6 @@
             $status->trackback_count = $output->data->count;
 
             Context::set('status', $status);
-
-            // 최근글 추출
-			$oDocumentModel = &getModel('document');
-            $doc_args->sort_index = 'list_order';
-            $doc_args->order_type = 'asc';
-            $doc_args->list_count = 3;
-            $output = $oDocumentModel->getDocumentList($doc_args, false, false);
-            Context::set('newest_documents', $output->data);
-
-            // 최근 댓글 추출
-			$oCommentModel = &getModel('comment');
-            $com_args->sort_index = 'list_order';
-            $com_args->order_type = 'asc';
-            $com_args->list_count = 5;
-            $output = $oCommentModel->getTotalCommentList($com_args);
-            Context::set('newest_comments', $output->data);
-
-
-
-
-
-
-
-
-
-
-
-
 
             // Get statistics
             $args->date = date("Ymd000000", time()-60*60*24);
@@ -349,7 +320,6 @@
             Context::set('start_module', $output->data);
 
             Context::set('status', $status);
-
             Context::set('layout','none');
             $this->setTemplateFile('index');
         }

@@ -8,6 +8,7 @@
     <title xml:lang="jp">韓国郵便番号</title>
     <title xml:lang="ru">Корейский почтовый индекс</title>
     <title xml:lang="zh-TW">韓國郵編 </title>
+    <title xml:lang="tr">Kore Posta Kodu </title>
     <description xml:lang="ko">
         XE 운영하는 우편번호서버를 이용하여 우편번호 검색을 합니다.
         우편번호 검색 서버는 설정을 통해 변경하실 수 있습니다.
@@ -27,6 +28,10 @@
     <description xml:lang="zh-CN">
         利用XE运营的邮编服务器搜索邮编。
         通过设置可以修改邮编搜索服务器。
+    </description>
+    <description xml:lang="tr">
+    XE tarafından yönetilen posta kodu sunucusuyla posta kodu araması.
+    Posta kodu sunucusunu ayarlardan değiştirebilirsiniz.    
     </description>
     <description xml:lang="jp">
         XEで運用している郵便番号サーバを利用して韓国の郵便番号を検索します。
@@ -53,5 +58,6 @@
         <name xml:lang="jp">NHN</name>
         <name xml:lang="ru">NHN</name>
         <name xml:lang="zh-TW">NHN</name>
+        <name xml:lang="tr">NHN</name>
     </author>
 </module>

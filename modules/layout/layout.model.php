@@ -220,8 +220,21 @@
 
                             if(!is_array($options)) $options = array($options);
                             $options_count = count($options);
-                            for($j=0;$j<$options_count;$j++) {
-                                $buff .= sprintf('$layout_info->extra_var->%s->options["%s"] = "%s";', $var->attrs->name, $options[$j]->attrs->value, $options[$j]->title->body);
+                            $thumbnail_exist = false;
+                            for($j=0; $j < $options_count; $j++) {
+                                $thumbnail = $options[$j]->attrs->src;
+                                if($thumbnail) {
+                                    $thumbnail = $layout_path.$thumbnail;
+                                    if(file_exists($thumbnail)) {
+                                        $buff .= sprintf('$layout_info->extra_var->%s->options["%s"]->thumbnail = "%s";', $var->attrs->name, $options[$j]->attrs->value, $thumbnail);
+                                        if(!$thumbnail_exist) {
+                                            $buff .= sprintf('$layout_info->extra_var->%s->thumbnail_exist = true;', $var->attrs->name);
+                                            $thumbnail_exist = true;
+                                        }
+                                    }
+                                }
+                                $buff .= sprintf('$layout_info->extra_var->%s->options["%s"]->val = "%s";', $var->attrs->name, $options[$j]->attrs->value, $options[$j]->title->body);
+
                             }
                         }
                     }

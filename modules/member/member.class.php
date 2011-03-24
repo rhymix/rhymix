@@ -149,11 +149,11 @@
             // password 유효기간을 위한 추가
             if(!$oDB->isColumnExists("member", "change_password_date")) return true;
 
-			// 비밀번호 찾기 질문/답변을 위한 추가
-			if(!$oDB->isColumnExists("member", "find_account_question")) return true;
-			if(!$oDB->isColumnExists("member", "find_account_answer")) return true;
+            // 비밀번호 찾기 질문/답변을 위한 추가
+            if(!$oDB->isColumnExists("member", "find_account_question")) return true;
+            if(!$oDB->isColumnExists("member", "find_account_answer")) return true;
 
-			if(!$oDB->isColumnExists("member", "list_order")) return true;
+            if(!$oDB->isColumnExists("member", "list_order")) return true;
             if(!$oDB->isIndexExists("member","idx_list_order")) return true;
 
             return false;
@@ -198,28 +198,28 @@
             // password 유효기간을 위한 추가
             if(!$oDB->isColumnExists("member", "change_password_date")) {
                 $oDB->addColumn("member", "change_password_date", "date");
-				executeQuery('member.updateAllChangePasswordDate');
+                executeQuery('member.updateAllChangePasswordDate');
             }
 
-			// 비밀번호 찾기 질문/답변을 위한 추가
-			if(!$oDB->isColumnExists("member", "find_account_question")) {
-				$oDB->addColumn("member", "find_account_question", "number", 11);
-			}
-			if(!$oDB->isColumnExists("member", "find_account_answer")) {
-				$oDB->addColumn("member", "find_account_answer", "varchar", 250);
-			}
+            // 비밀번호 찾기 질문/답변을 위한 추가
+            if(!$oDB->isColumnExists("member", "find_account_question")) {
+                $oDB->addColumn("member", "find_account_question", "number", 11);
+            }
+            if(!$oDB->isColumnExists("member", "find_account_answer")) {
+                $oDB->addColumn("member", "find_account_answer", "varchar", 250);
+            }
 
-			if(!$oDB->isColumnExists("member", "list_order")) {
-				$oDB->addColumn("member", "list_order", "number", 11);
-				set_time_limit(0);
-				$args->list_order = 'member_srl';
-				executeQuery('member.updateMemberListOrderAll',$args);
-				executeQuery('member.updateMemberListOrderAll');
-			}
-			
+            if(!$oDB->isColumnExists("member", "list_order")) {
+                $oDB->addColumn("member", "list_order", "number", 11);
+                set_time_limit(0);
+                $args->list_order = 'member_srl';
+                executeQuery('member.updateMemberListOrderAll',$args);
+                executeQuery('member.updateMemberListOrderAll');
+            }
+            
             if(!$oDB->isIndexExists("member","idx_list_order")) {
-				$oDB->addIndex("member","idx_list_order", array("list_order"));
-			}
+                $oDB->addIndex("member","idx_list_order", array("list_order"));
+            }
 
             return new Object(0, 'success_updated');
         }

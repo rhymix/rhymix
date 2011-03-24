@@ -13,6 +13,7 @@
 	$lang->send_trackback_url = 'Destination URL';
     $lang->msg_trackback_url_is_invalid = 'Destination URL is invalid';
     $lang->msg_trackback_send_success = 'Sent successfully';
+	$lang->msg_trackback_send_failed = 'Failed to send';
 
     $lang->search_target_list = array(
         'url' => 'Target URL',

@@ -278,4 +278,5 @@
 	$lang->edit->autosave_mins_ago = '%d분 전';
 	
 	$lang->edit->upload_not_enough_quota   = '허용된 용량이 부족하여 파일을 첨부할 수 없습니다.';
+	$lang->edit->break_or_paragraph = 'Enter는 줄바꿈, Shift+Enter는 문단바꿈입니다.';
 ?>

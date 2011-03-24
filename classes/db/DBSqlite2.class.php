@@ -41,6 +41,14 @@
             $this->_setDBInfo();
             $this->_connect();
         }
+		
+		/**
+		 * @brief create an instance of this class
+		 */
+		function create()
+		{
+			return new DBSqlite2;
+		}
 
         /**
          * @brief 설치 가능 여부를 return
@@ -563,6 +571,7 @@
 
             $condition = $this->getCondition($output);
 
+			$output->column_list = $column_list;
             if($output->list_count && $output->page) return $this->_getNavigationData($table_list, $columns,  $left_join, $condition, $output);
 
             // list_order, update_order 로 정렬시에 인덱스 사용을 위해 condition에 쿼리 추가
@@ -618,6 +627,7 @@
       function _getNavigationData($table_list, $columns, $left_join, $condition, $output) {
             require_once(_XE_PATH_.'classes/page/PageHandler.class.php');
 
+			$column_list = $output->column_list;
             /*
             // group by 절이 포함된 SELECT 쿼리의 전체 갯수를 구하기 위한 수정
             // 정상적인 동작이 확인되면 주석으로 막아둔 부분으로 대체합니다.
@@ -637,16 +647,10 @@
 
             // 전체 개수를 구함
             $count_query = sprintf("select count(*) as count from %s %s %s", implode(',',$table_list),implode(' ',$left_join), $condition);
-
-            $total_count = $this->getCountCache($output->tables, $condition);
-
-            if($total_count === false) {
-				$count_query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id . ' count(*)'):'';
-                $result = $this->_query($count_query);
-                $count_output = $this->_fetch($result);
-                $total_count = (int)$count_output->count;
-                $this->putCountCache($output->tables, $condition, $total_count);
-            }
+			$count_query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id . ' count(*)'):'';
+			$result = $this->_query($count_query);
+			$count_output = $this->_fetch($result);
+			$total_count = (int)$count_output->count;
 
             $list_count = $output->list_count['value'];
             if(!$list_count) $list_count = 20;
@@ -726,4 +730,6 @@
             return $buff;
         }
     }
+
+return new DBSqlite2;
 ?>

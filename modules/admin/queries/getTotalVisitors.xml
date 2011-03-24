@@ -5,4 +5,7 @@
     <columns>
         <column name="sum(unique_visitor)" alias="count" />
     </columns>
+	<conditions>
+        <condition operation="more" column="regdate" default="1" />
+	</conditions>
 </query>

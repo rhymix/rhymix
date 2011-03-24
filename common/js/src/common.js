@@ -285,26 +285,22 @@ String.prototype.getQuery = function(key) {
  **/
 String.prototype.setQuery = function(key, val) {
     var idx = this.indexOf('?');
-    var uri = this;
-    uri = uri.replace(/#$/,'');
+    var uri = this.replace(/#$/, '');
 
     if(idx != -1) {
-        uri = this.substr(0, idx);
-        var query_string = this.substr(idx+1, this.length);
-        var args = new Array();
-        query_string.replace(/([^=]+)=([^&]*)(&|$)/g, function() { args[arguments[1]] = arguments[2]; });
+        var query_string = uri.substr(idx+1, this.length), args = {}, q_list = [];
+		uri = this.substr(0, idx);
+        query_string.replace(/([^=]+)=([^&]*)(&|$)/g, function(all,key,val) { args[key] = val; });
 
         args[key] = val;
 
-        var q_list = new Array();
-        for(var i in args) {
-        if( !args.hasOwnProperty(i) ) continue;
-            var arg = args[i];
-            if(!arg.toString().trim()) continue;
-            arg = decodeURI(arg);
-            q_list[q_list.length] = i+'='+arg;
-        }
-        uri = uri+"?"+q_list.join("&");
+		jQuery.each(args, function(key,val){
+			if (!jQuery.trim(val)) return;
+			q_list.push(key+'='+decodeURI(val));
+		});
+
+		query_string = q_list.join('&');
+		uri = uri+(query_string?'?'+query_string:'');
     } else {
         if(val.toString().trim()) uri = uri+"?"+key+"="+val;
     }
@@ -585,12 +581,12 @@ function doChangeLangType(obj) {
         var val = obj.options[obj.selectedIndex].value;
         setLangType(val);
     }
-    location.reload();
+	location.href = location.href.setQuery('l', '');
 }
 function setLangType(lang_type) {
     var expire = new Date();
     expire.setTime(expire.getTime()+ (7000 * 24 * 3600000));
-    xSetCookie('lang_type', lang_type, expire, '/');
+    setCookie('lang_type', lang_type, expire, '/');
 }
 
 /* 미리보기 */
@@ -965,6 +961,14 @@ function replaceOuterHTML(obj, html) {
 
 function getOuterHTML(obj) {
     return jQuery(obj).html().trim();
+}
+
+function setCookie(name, value, expire, path) {
+	var s_cookie = name + "=" + escape(value) +
+		((!expire) ? "" : ("; expires=" + expire.toGMTString())) +
+		"; path=" + ((!path) ? "/" : path);
+
+	document.cookie = s_cookie;
 }
 
 jQuery(function(){

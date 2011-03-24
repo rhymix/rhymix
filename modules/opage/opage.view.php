@@ -115,7 +115,7 @@
                 // 상대경로를 절대경로로 변경
                 $path_info = pathinfo($path);
                 $this->path = str_replace('\\', '/', realpath($path_info['dirname'])).'/';
-                $content = preg_replace_callback('/(src=|href=|url\()("|\')?([^"\'\)]+)("|\'\))?/is',array($this,'_replacePath'),$content);
+                $content = preg_replace_callback('/(target=|src=|href=|url\()("|\')?([^"\'\)]+)("|\'\))?/is',array($this,'_replacePath'),$content);
                 $content = preg_replace_callback('/(<!--%import\()(\")([^"]+)(\")/is',array($this,'_replacePath'),$content);
 
                 FileHandler::writeFile($cache_file, $content);
@@ -157,7 +157,9 @@
 
             if(substr($val,0,2)=='./') $val = substr($val,2);
 			$p = Context::pathToUrl($this->path);
-            return sprintf("%s%s%s%s",$matches[1],$matches[2],$p.$val,$matches[4]);
+            $path = sprintf("%s%s%s%s",$matches[1],$matches[2],$p.$val,$matches[4]);
+
+			return $path;
         }
 
     }

@@ -1,5 +1,4 @@
 <!--%import("../../tpl/js/signup_check.js")-->
-<!--%import("../../tpl/js/krzip_search.js")-->
 <!--%import("filter/signup.xml")-->
 
 <!--// datepicker javascript plugin load -->
@@ -28,32 +27,32 @@
     </tr>
     <tr>
         <th><div>{$lang->user_id} <span class="require">*</span></div></th>
-        <td class="wide"><input type="text" name="user_id" value="" class="inputTypeText"/> <p>{$lang->about_user_id}</p> </td>
+        <td class="wide"><input type="text" name="user_id" value="" class="iText"/> <p>{$lang->about_user_id}</p> </td>
     </tr>
     <tr>
         <th><div>{$lang->password} <span class="require">*</span></div></th>
-        <td><input type="password" name="password1" value="" class="inputTypeText"/><p>{$lang->about_password}</p></td>
+        <td><input type="password" name="password1" value="" class="iText"/><p>{$lang->about_password}</p></td>
     </tr>
     <tr>
         <th><div>{$lang->password2} <span class="require">*</span></div></th>
-        <td><input type="password" name="password2" value="" class="inputTypeText"/></td>
+        <td><input type="password" name="password2" value="" class="iText"/></td>
     </tr>
     <tr>
         <th><div>{$lang->user_name} <span class="require">*</span></div></th>
         <td>
-            <input type="text" name="user_name" value="" class="inputTypeText"/><p>{$lang->about_user_name}</p>
+            <input type="text" name="user_name" value="" class="iText"/><p>{$lang->about_user_name}</p>
         </td>
     </tr>
     <tr>
         <th><div>{$lang->nick_name} <span class="require">*</span></div></th>
         <td>
-            <input type="text" name="nick_name" value="" class="inputTypeText"/><p>{$lang->about_nick_name}</p>
+            <input type="text" name="nick_name" value="" class="iText"/><p>{$lang->about_nick_name}</p>
         </td>
     </tr>
     <tr>
         <th><div>{$lang->email_address} <span class="require">*</span></div></th>
         <td>
-            <input type="text" name="email_address" value="" class="inputTypeText"/><p>{$lang->about_email_address}</p>
+            <input type="text" name="email_address" value="" class="iText"/><p>{$lang->about_email_address}</p>
         </td>
     </tr>
 	<!--@if(count($lang->find_account_question_items)>1)-->
@@ -66,27 +65,27 @@
 			<!--@end-->
 			</select>
             <br />
-			<input type="text" name="find_account_answer" value="" class="inputTypeText w300"/>
+			<input type="text" name="find_account_answer" value="" class="iText w300"/>
         </td>
     </tr>
 	<!--@end-->
     <tr>
         <th><div>{$lang->homepage}</div></th>
         <td>
-            <input type="text" name="homepage" value="" class="inputTypeText"/><p>{$lang->about_homepage}</p>
+            <input type="text" name="homepage" value="" class="iText"/><p>{$lang->about_homepage}</p>
         </td>
     </tr>
     <tr>
         <th><div>{$lang->blog}</div></th>
         <td>
-            <input type="text" name="blog" value="" class="inputTypeText"/><p>{$lang->about_blog_url}</p>
+            <input type="text" name="blog" value="" class="iText"/><p>{$lang->about_blog_url}</p>
         </td>
     </tr>
     <tr>
         <th><div>{$lang->birthday}</div></th>
         <td>
             <input type="hidden" name="birthday" id="date_birthday" value="" />
-            <input type="text" value="" readonly="readonly" class="inputDate inputTypeText" />
+            <input type="text" value="" readonly="readonly" class="inputDate iText" />
 			<span class="button"><input type="button" value="{$lang->cmd_delete}" class="dateRemover" /></span>
 			<p>{$lang->about_birthday}</p>
         </td>
@@ -109,25 +108,25 @@
         <td>
             <!--// 일반 text -->
             <!--@if($val->column_type == 'text')-->
-                <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value)}" class="inputTypeText w400" />
+                <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value)}" class="iText w400" />
 
             <!--// 홈페이지 주소 -->
             <!--@elseif($val->column_type == 'homepage')-->
-                <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value)}" class="inputTypeText w400" />
+                <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value)}" class="iText w400" />
 
             <!--// Email 주소 -->
             <!--@elseif($val->column_type == 'email_address')-->
-                <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value)}" class="inputTypeText w400" />
+                <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value)}" class="iText w400" />
 
             <!--// 전화번호 -->
             <!--@elseif($val->column_type == 'tel')-->
-                <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value[0])}" size="4" class="inputTypeText" />
-                <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value[1])}" size="4" class="inputTypeText" />
-                <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value[2])}" size="4" class="inputTypeText" />
+                <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value[0])}" size="4" class="iText" />
+                <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value[1])}" size="4" class="iText" />
+                <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value[2])}" size="4" class="iText" />
 
             <!--// textarea -->
             <!--@elseif($val->column_type == 'textarea')-->
-                <textarea name="{$val->column_name}" class="inputTypeTextArea w400">{htmlspecialchars($val->value)}</textarea>
+                <textarea name="{$val->column_name}" class="iTextArea w400">{htmlspecialchars($val->value)}</textarea>
 
             <!--// 다중 선택 -->
             <!--@elseif($val->column_type == 'checkbox')-->
@@ -162,25 +161,22 @@
             <!--// 한국 주소 검색 -->
             <!--@elseif($val->column_type == 'kr_zip')-->
                 <div class="krZip">
-                    <div id="zone_address_1_{$val->column_name}" style="display:<!--@if($val->value[0])-->inline<!--@else-->none<!--@end-->;">
-                        <input type="text" name="{$val->column_name}" value="{$val->value[0]}" class="inputTypeText w400"/>
-                        <a href="#" onclick="doHideKrZipList('{$val->column_name}'); return false;" class="button"><span>{$lang->cmd_cancel}</span></a>
+                    <div class="item" id="zone_address_search_{$val->column_name}" style="display:none"|cond="$val->value[0]">
+						<label for="krzip_address1_{$val->column_name}" class="iLabel">{$lang->msg_kr_address}</label>
+                        <input type="text" id="krzip_address1_{$val->column_name}" class="iText w200" value="" />
+                        <span class="button"><button type="button">{$lang->cmd_search}</button></span>
                     </div>
-                    <div id="zone_address_list_{$val->column_name}" style="display:none">
-                        <select name="_tmp_address_list_{$val->column_name}" class="w300"></select>
-                        <a href="#" onclick="doSelectKrZip('{$val->column_name}'); return false;" class="button"><span>{$lang->cmd_select}</span></a>
-                        <a href="#" onclick="doHideKrZipList('{$val->column_name}'); return false;" class="button"><span>{$lang->cmd_cancel}</span></a>
+                    <div class="item" id="zone_address_list_{$val->column_name}" style="display:none">
+                        <select name="{$val->column_name}" id="address_list_{$val->column_name}" class="w300"></select>
+                        <span class="button"><button type="button">{$lang->cmd_search_again}</button></span>
                     </div>
-                    <div id="zone_address_search_{$val->column_name}" style="display:<!--@if($val->value[0])-->none<!--@else-->inline<!--@end-->;">
-                        <input type="text" name="_tmp_address_search_{$val->column_name}" class="inputTypeText w400" value="" />
-                        <a href="#" onclick="doSearchKrZip('{$val->column_name}'); return false;" class="button"><span>{$lang->cmd_search}</span></a>
-                    </div>
-
-                    <div class="address2">
-                        <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value[1])}" class="inputTypeText w400" />
+                    <div class="item address2">
+						<label for="krzip_address2_{$val->column_name}" class="iLabel">{$lang->msg_kr_address_etc}</label>
+                        <input type="text" name="{$val->column_name}" id="krzip_address2_{$val->column_name}" value="{htmlspecialchars($val->value[1])}" class="iText w300" />
                     </div>
                 </div>
-
+				<load target="../../tpl/js/krzip_search.js" type="body" />
+				<script type="text/javascript">jQuery(function($){ $.krzip('{$val->column_name}') });</script>
             <!--// 일본 주소 검색 -->
             <!--@elseif($val->column_type == 'jp_zip')-->
                 <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value)}" />
@@ -188,7 +184,7 @@
             <!--// 날짜 입력 -->
             <!--@elseif($val->column_type == 'date')-->
                 <input type="hidden" name="{$val->column_name}" id="date_{$val->column_name}" value="{$val->value}" />
-                <input type="text" class="inputDate inputTypeText" value="{zdate($val->value,'Y-m-d')}" readonly="readonly" />
+                <input type="text" class="inputDate iText" value="{zdate($val->value,'Y-m-d')}" readonly="readonly" />
 				<span class="button"><input type="button" value="{$lang->cmd_delete}" class="dateRemover" /></span>
             <!--@end-->
 

@@ -267,7 +267,10 @@
                             $this->installModule($module, sprintf('./modules/%s', $module));
 
                             $oModule = &getClass($module);
-                            if($oModule->checkUpdate()) $oModule->moduleUpdate();
+							if($oModule && method_exists($oModule, 'checkUpdate') && method_exists($oModule, 'moduleUpdate'))
+							{
+								if($oModule->checkUpdate()) $oModule->moduleUpdate();
+							}
                         }
                     }
                 }

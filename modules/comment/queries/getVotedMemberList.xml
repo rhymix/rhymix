@@ -1,0 +1,19 @@
+<query id="getVotedMemberList" action="select">
+    <tables>
+        <table name="comment_voted_log" alias="voted_log" />
+        <table name="member" alias="member" />
+    </tables>
+    <columns>
+        <column name="member.member_srl" alias="member_srl" />
+        <column name="member.nick_name" alias="nick_name" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="voted_log.comment_srl" var="comment_srl" filter="number" notnull="notnull" />
+        <condition operation="equal" column="voted_log.member_srl" default="member.member_srl" pipe="and" />
+        <condition operation="more" column="voted_log.point" var="more_point" pipe="and" />
+        <condition operation="below" column="voted_log.point" var="below_point" pipe="and" />
+    </conditions>
+    <navigation>
+        <index var="sort_index" default="voted_log.regdate" order="desc" />
+    </navigation>
+</query>

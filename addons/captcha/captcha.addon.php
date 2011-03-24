@@ -31,6 +31,7 @@
 				$logged_info = Context::get('logged_info');
 				if($logged_info->is_admin == 'Y' || $logged_info->is_site_admin) return false;
 				if($this->addon_info->target != 'all' && Context::get('is_logged')) return false;
+				if($_SESSION['captcha_authed']) return false;
 
 				$target_acts = array('procBoardInsertDocument','procBoardInsertComment','procIssuetrackerInsertIssue','procIssuetrackerInsertHistory','procTextyleInsertComment');
 				if($this->addon_info->apply_find_account=='apply') $target_acts[] = 'procMemberFindAccount';
@@ -227,7 +228,7 @@
 				if($_SESSION['captcha_authed']) return false;
 
                 if(strtoupper($_SESSION['captcha_keyword']) == strtoupper(Context::get('secret_text'))) $_SESSION['captcha_authed'] = true;
-                else $_SESSION['captcha_authed'] = false;
+                else unset($_SESSION['captcha_authed']);
 
                 header("Content-Type: text/xml; charset=UTF-8");
                 header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");

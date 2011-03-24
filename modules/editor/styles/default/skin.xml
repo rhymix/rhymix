@@ -6,6 +6,7 @@
     <title xml:lang="vi">XE Mặc định</title>
     <title xml:lang="jp">XEデフォルトスタイル</title>
     <title xml:lang="zh-TW">XE預設樣式</title>
+    <title xml:lang="tr">XE Varsayılan Form</title>
     <description xml:lang="ko">
         XE 기본 문서 서식입니다.
         있는 그대로 표시가 될 뿐 편집/ 출력시 아무런 영향을 끼치지 않습니다.
@@ -26,6 +27,10 @@
         XEの基本ドキュメント書式です。
         そのまま表示されるだけで、編集・出力には影響しません。
     </description>
+    <description xml:lang="tr">
+        XE varsayılan belge tarzı.
+       Olduğu gibi gösterir, düzenlemeye / yazdırmaya etki etmez.
+    </description>
     <description xml:lang="vi">
         Trang mẫu mặc định của XE.
         Nó sẽ hiển thị trong phần sửa đổi bài viết và không ảnh hưởng đến bất cứ chức năng nào cả.
@@ -39,5 +44,6 @@
         <name xml:lang="jp">NHN</name>
         <name xml:lang="en">NHN</name>
         <name xml:lang="vi">NHN</name>
+        <name xml:lang="tr">NHN</name>
     </author>
 </skin>

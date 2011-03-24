@@ -18,7 +18,7 @@ var Validator = xe.createApp('Validator', {
 	init : function() {
 		// {{{ add filters
 		// email
-		var regEmail = /^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)*$/;
+		var regEmail = /^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/;
 		this.cast('ADD_RULE', ['email', regEmail]);
 		this.cast('ADD_RULE', ['email_address', regEmail]);
 
@@ -111,13 +111,17 @@ var Validator = xe.createApp('Validator', {
 				if (eq_val != val) return (result = (!!self.cast('ALERT', [form, name, 'equalto']) && false));
 			}
 
-			$.each(rule, function() {
-				var ret = self.cast('APPLY_RULE', [this, val]);
-				if (!ret) {
-					self.cast('ALERT', [form, name, 'invalid_'+this]);
-					return (result = false);
-				}
-			});
+			if (rule) {
+				$.each(rule, function(i,r) {
+					if (!r) return true;
+
+					var ret = self.cast('APPLY_RULE', [r, val]);
+					if (!ret) {
+						self.cast('ALERT', [form, name, 'invalid_'+this]);
+						return (result = false);
+					}
+				});
+			}
 
 			if (!result) return false;
 		});
@@ -178,7 +182,7 @@ var Validator = xe.createApp('Validator', {
 		delete extras[name];
 	},
 	API_APPLY_RULE : function(sender, params) {
-		var name  = params[0].toLowerCase();
+		var name  = params[0];
 		var value = params[1];
 
 		if (typeof(rules[name]) == 'undefined') return true; // no filter
@@ -243,6 +247,9 @@ var EditorStub = xe.createPlugin('editor_stub', {
 		var form = params[0];
 		var seq  = form.getAttribute('editor_sequence');
 
+		// bug fix for IE6,7
+		if (seq && typeof seq == 'object') seq = seq.value;
+
 		if (seq) {
 			try {
 				editorRelKeys[seq].content.value = editorRelKeys[seq].func(seq) || '';
@@ -294,8 +301,38 @@ function filterAlertMessage(ret_obj) {
  * @brief Function to process filters
  * @deprecated
  */
-function procFilter(fo_obj, filter_func)
-{
-	filter_func(fo_obj);
+function procFilter(form, filter_func) {
+	filter_func(form);
+	return false;
+}
+
+function legacy_filter(filter_name, form, module, act, callback, responses, confirm_msg, rename_params) {
+	var v = xe.getApp('Validator')[0], $ = jQuery, args = [];
+
+	if (!v) return false;
+
+	if (!form.elements['_filter']) $(form).prepend('<input type="hidden" name="_filter" />');
+	form.elements['_filter'].value = filter_name;
+
+	args[0] = filter_name;
+	args[1] = function(f) {
+		var params = {}, res = [], elms = f.elements, data = $(f).serializeArray();
+		$.each(data, function(i, field) {
+			var v = $.trim(field.value), n = field.name;
+			if(!v || !n) return true;
+			if(rename_params[n]) n = rename_params[n];
+			
+			if(/\[\]$/.test(n)) n = n.replace(/\[\]$/, '');
+			if(params[n]) params[n] += '|@|'+v;
+			else params[n] = field.value;			
+		});
+
+		if (confirm_msg && !confirm(confirm_msg)) return false;
+		exec_xml(module, act, params, callback, responses, params, form);
+	};
+
+	v.cast('ADD_CALLBACK', args);
+	v.cast('VALIDATE', [form, filter_name]);
+
 	return false;
 }

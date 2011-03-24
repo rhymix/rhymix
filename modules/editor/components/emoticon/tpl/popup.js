@@ -52,5 +52,6 @@ function insertEmoticon() {
 
 // load default emoticon set
 getEmoticons('msn');
+$('#selectEmoticonList').change(function(){ getEmoticons(this.value) });
 
 });

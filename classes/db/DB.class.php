@@ -55,13 +55,13 @@
             if(!$db_type && Context::isInstalled()) return new Object(-1, 'msg_db_not_setted');
 
             if(!$GLOBALS['__DB__']) {
-                $class_name = sprintf("DB%s%s", strtoupper(substr($db_type, 0, 1)), strtolower(substr($db_type,1)));
-                $class_file = sprintf("%sclasses/db/%s.class.php", _XE_PATH_, $class_name);
-                if(!file_exists($class_file)) new Object(-1, 'msg_db_not_setted');
+                $class_name = 'DB'.ucfirst($db_type);
+                $class_file = _XE_PATH_."classes/db/$class_name.class.php";
+                if(!file_exists($class_file)) return new Object(-1, 'msg_db_not_setted');
 
-                require_once($class_file);
-                $eval_str = sprintf('$GLOBALS[\'__DB__\'][\''.$db_type.'\'] = new %s();', $class_name);
-                eval($eval_str);
+				// get a singletone instance of the database driver class
+				require_once($class_file);
+                $GLOBALS['__DB__'][$db_type] = call_user_func(array($class_name, 'create'));
             }
 
             return $GLOBALS['__DB__'][$db_type];
@@ -107,8 +107,8 @@
 
                 unset($oDB);
                 require_once($class_file);
-                $eval_str = sprintf('$oDB = new %s();', $class_name);
-                eval($eval_str);
+				$tmp_fn = create_function('', "return new {$class_name}();");
+				$oDB    = $tmp_fn();
 
                 if(!$oDB) continue;
 
@@ -243,7 +243,7 @@
          * @return result of query
          * @remarks this function finds xml file or cache file of $query_id, compiles it and then execute it
          **/
-        function executeQuery($query_id, $args = NULL) {
+        function executeQuery($query_id, $args = NULL, $arg_columns = NULL) {
             if(!$query_id) return new Object(-1, 'msg_invalid_queryid');
             $this->query_id = $query_id;
 
@@ -267,7 +267,7 @@
             $cache_file = $this->checkQueryCacheFile($query_id, $xml_file);
 
             // execute query
-            return $this->_executeQuery($cache_file, $args, $query_id);
+            return $this->_executeQuery($cache_file, $args, $query_id, $arg_columns);
         }
 
 
@@ -303,7 +303,7 @@
          * @param[in] $query_id query id
          * @return result of query
          **/
-        function _executeQuery($cache_file, $source_args, $query_id) {
+        function _executeQuery($cache_file, $source_args, $query_id, $arg_columns) {
             global $lang;
 
             if(!file_exists($cache_file)) return new Object(-1, 'msg_invalid_queryid');
@@ -314,7 +314,7 @@
 
             if( (is_a($output, 'Object') || is_subclass_of($output, 'Object')) && !$output->toBool()) return $output;
             $output->_tables = ($output->_tables && is_array($output->_tables)) ? $output->_tables : array();
-
+			
             // execute appropriate query
             switch($output->action) {
                 case 'insert' :
@@ -330,9 +330,11 @@
                         $output = $this->_executeDeleteAct($output);
                     break;
                 case 'select' :
+						$output->arg_columns = is_array($arg_columns)?$arg_columns:array();
                         $output = $this->_executeSelectAct($output);
                     break;
             }
+			
             if($this->isError()) $output = $this->getError();
             else if(!is_a($output, 'Object') && !is_subclass_of($output, 'Object')) $output = new Object();
             $output->add('_query', $this->query);

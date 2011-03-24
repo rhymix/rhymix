@@ -53,5 +53,10 @@
             if($this->point > $this->page_count || $page > $this->last_page) $page = 0;
             return $page;
         }
+		
+		function getPage($offset) 
+		{
+			return max(min($this->cur_page + $offset, $this->total_page), '');
+		}
     }
 ?>

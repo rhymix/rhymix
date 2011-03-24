@@ -27,9 +27,9 @@ function editorStart_xe(editor_sequence, primary_key, content_key, editor_height
 	textarea.hide().css('width', '99%').before(iframe).after(htmlsrc);
 
 	// create an editor
-	var oEditor		  = new xe.XpressCore();
+	var oEditor		     = new xe.XpressCore();
 	var oWYSIWYGIFrame   = iframe.get(0);
-	var oIRTextarea	  = textarea.get(0);
+	var oIRTextarea	     = textarea.get(0);
 	var oHTMLSrcTextarea = htmlsrc.get(0);
 	var elAppContainer   = jQuery('.xpress-editor', form).get(0);
 
@@ -90,7 +90,6 @@ function editorStart_xe(editor_sequence, primary_key, content_key, editor_height
 		oEditor.registerPlugin(new xe.XE_UndoRedo());
 		oEditor.registerPlugin(new xe.XE_Table(elAppContainer));
 		oEditor.registerPlugin(new xe.XE_Hyperlink(elAppContainer));
-		oEditor.registerPlugin(new xe.XE_FindReplacePlugin(elAppContainer));
 		oEditor.registerPlugin(new xe.XE_FormatWithSelectUI(elAppContainer));
 		oEditor.registerPlugin(new xe.XE_SCharacter(elAppContainer));
 	}
@@ -263,12 +262,11 @@ xe.XE_GET_WYSYWYG_CONTENT = jQuery.Class({
 	replaceHTTP2XE : function(content) {
 		// src, href, url에서 http로 시작하는 full path를 XE 상대경로로 변경
 		content = content.replace(/(src=|href=|url\()("|\')*([^"\'\)]+)("|\'|\))*(\s|>|\))*/ig, function(m0,m1,m2,m3,m4,m5) {
-			var uriReg = new RegExp('^'+request_uri.replace('\/','\\/'),'ig');
-			if(m1=="url(") { m2=''; m4=')'; } else { if(typeof(m2)=='undefined') m2 = '"'; if(typeof(m4)=='undefined') m4 = '"'; if(typeof(m5)=='undefined') m5 = ''; }
-			var val = jQuery.trim(m3);
-			if(uriReg.test(val)) val = val.replace(uriReg,'');
-			else val = m3;
-			return m1+m2+val+m4+m5;
+			var uriReg = new RegExp('^'+request_uri.replace('\/','\\/'),'ig'), val;
+			if(m1=="url(") { m2=''; m4=')'; } else { m2 = m2 || '"'; m4 = m4 || '"'; }
+			val = uriReg.test(val=jQuery.trim(m3))?val.replace(uriReg,''):m3;
+
+			return m1+m2+val+m4+(m5||'');
 		});
 		return content;
 	}

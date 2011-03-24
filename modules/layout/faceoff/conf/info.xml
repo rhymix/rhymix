@@ -5,11 +5,13 @@
     <title xml:lang="zh-CN">XE Face off官方布局</title>
     <title xml:lang="zh-TW">XE Face off 版面</title>
     <title xml:lang="jp">XE Face offレイアウト</title>
+    <title xml:lang="tr">XE Face off Yerleşim Düzeni</title>
     <description xml:lang="ko">XE FaceOff 레이아웃입니다.</description>
     <description xml:lang="vi">Giao diện của XE FaceOff.</description>
     <description xml:lang="zh-CN">XE Face off官方布局。</description>
     <description xml:lang="zh-TW">XE FaceOff版面</description>
     <description xml:lang="jp">XE FaceOffレイアウトです。</description>
+    <description xml:lang="tr">XE FaceOff Yerleşim Düzeni</description>
     <version>0.1</version>
     <date>2009-01-02</date>
     <author email_address="developers@xpressengine.com" link="http://xpressengine.com/">
@@ -22,6 +24,7 @@
         <name xml:lang="es">NHN</name>
         <name xml:lang="zh-CN">NHN</name>
         <name xml:lang="zh-TW">NHN</name>
+        <name xml:lang="tr">NHN</name>
     </author>
     <extra_vars>
         <var name="index_url" type="text">
@@ -34,6 +37,7 @@
             <title xml:lang="ge">Homepage URL</title>
             <title xml:lang="ru">Домашняя страница URL</title>
             <title xml:lang="es">URL de la página web</title>
+            <title xml:lang="tr">Anasayfa URLsi</title>
             <description xml:lang="ko">로고를 클릭시에 이동할 홈 페이지 URL을 입력해 주세요.</description>
             <description xml:lang="jp">ロゴをクリックした際に移動するホームページのURLを入力して下さい。</description>
             <description xml:lang="zh-CN">点击网站LOGO时要移动的页面URL。</description>
@@ -43,6 +47,7 @@
             <description xml:lang="ge">Bitte geben Sie die URL umzuleiten, wenn Benutzer klickt das Logo</description>
             <description xml:lang="ru">Пожалуйста, введите URL для перенаправления, когда пользователь нажимает логотип</description>
             <description xml:lang="es">Ingresar el URL de la página web para redireccionar al pulsar el logotipo</description>
+            <description xml:lang="tr">Lütfen kullanıcılar logoyu tıkladıklarında yönlendirilecekleri bir URL adresi giriniz</description>
         </var>
         <var name="logo_image" type="image">
             <title xml:lang="ko">로고이미지</title>
@@ -54,6 +59,7 @@
             <title xml:lang="ge">Logobildes</title>
             <title xml:lang="ru">Изображения логотипа</title>
             <title xml:lang="es">Imagen del logotipo</title>
+            <title xml:lang="tr">Logo Resmi</title>
             <description xml:lang="ko">레이아웃의 상단에 표시될 로고이미지를 입력하세요. (세로길이가 23px인 투명이미지가 가장 어울립니다)</description>
             <description xml:lang="jp">レイアウトの上段に表示されるロゴイメージを入力して下さい。 (縦幅が23pxである透明イメージが最も合います。)</description>
             <description xml:lang="zh-CN">请输入显示在布局顶部的LOGO图片。(高度为23px的透明图片为适。)</description>
@@ -63,6 +69,7 @@
             <description xml:lang="ge">Bitte geben Sie ein Logo das Bild wird auf dem oberen Layout. (Transparent Bild mit einer Höhe von 23px wird empfohlen).</description>
             <description xml:lang="ru">Введите логотип изображение, которое будет отображаться в верхней части формы. (Прозрачный изображение с высотой 23px рекомендуется.)</description>
             <description xml:lang="es">Ingresar una imagen para logotipo. ( Se recomienda una imagen de fondo transparente con una altura de 23px.</description>
+            <description xml:lang="tr">Lütfen yerleşim düzeninin üst kısmında görüntülenecek logo girdisinde bulununuz. (Saydam resim için 23px önerilen uzunluktur.)</description>
         </var>
         <var name="logo_text" type="text">
             <title xml:lang="ko">로고 글자</title>
@@ -74,6 +81,7 @@
             <title xml:lang="ge">LOGO Zeichen </title>
             <title xml:lang="ru">LOGO символов </title>
             <title xml:lang="es">LOGO caracteres </title>
+            <title xml:lang="en">LOGO Karakterleri</title>
             <description xml:lang="ko">레이아웃의 상단에 표시될 로고 글자를 입력해주세요. 로고 이미지가 있으면 표시되지 않습니다.</description>
             <description xml:lang="jp">レイアウトの上部に表示されるロゴの文字を入力して下さい。ロゴ画像がある場合は表示されません。</description>
             <description xml:lang="zh-CN">请输入网站标题(如已经使用了LOGO图片，此标题将不会显示出来)。</description>
@@ -83,6 +91,7 @@
             <description xml:lang="ge">Logo am oberen Rand des Displays Layout, geben Sie bitte die Buchstaben. Wenn das Bild nicht das Logo.</description>
             <description xml:lang="ru">Логотип на верхней части дисплея формата, пожалуйста, введите буквы. Если изображение не отображается логотип.</description>
             <description xml:lang="es">Logo en la parte superior de la pantalla de diseño, por favor, introduzca las letras. Si la imagen no se muestra el logotipo.</description>
+            <description xml:lang="tr">Lütfen logonun görüntülenemediği durumlarda, yerleşim düzeninin üstünde görüntülenecek harfleri giriniz.</description>
         </var>
         <var name="copyright_text" type="text"> 
             <title xml:lang="ko">카피라이트 문구</title>
@@ -94,6 +103,7 @@
             <title xml:lang="ge">Copyright Stationery </title>
             <title xml:lang="ru">Copyright Канцтовары</title>
             <title xml:lang="es">Papel del derecho de autor</title>
+            <title xml:lang="tr">Telif Hakkı Belgesi</title>
             <description xml:lang="ko">하단에 표시될 카피라이트 문구를 설정할 수 있습니다</description>
             <description xml:lang="jp">レイアウトの下部に表示されるcopyrightフレーズを入力して下さい。</description>
             <description xml:lang="zh-CN">请输入网站版权文档。</description>
@@ -103,6 +113,7 @@
             <description xml:lang="ge">Layout angezeigt, im unteren Teil der Urheberrechtsschutz bitte.</description>
             <description xml:lang="ru">Макет отображается в нижней части авторских прав, пожалуйста.</description>
             <description xml:lang="es">Diseño de muestra en la parte inferior de la nota de copyright, por favor.</description>
+            <description xml:lang="tr">Telif hakkı bildiriminin altında görüntülenecek olan yerleşim düzeni</description>
         </var>
     </extra_vars>
     <menus>
@@ -116,6 +127,7 @@
             <title xml:lang="ge">Top Menü</title>
             <title xml:lang="ru">Верхнее меню</title>
             <title xml:lang="es">Menú Principal</title>
+            <title xml:lang="tr">Ana menü</title>
         </menu>
     </menus>
 </layout>

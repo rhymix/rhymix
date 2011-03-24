@@ -37,13 +37,23 @@
             // 회원이어야만 가능한 기능
             if($logged_info->member_srl) {
 
-                // 추천 버튼 추가
-                $url = sprintf("doCallModuleAction('comment','procCommentVoteUp','%s')", $comment_srl);
-                $oCommentController->addCommentPopupMenu($url,'cmd_vote','./modules/document/tpl/icons/vote_up.gif','javascript');
+				$oCommentModel = &getModel('comment');
+				$oComment = $oCommentModel->getComment($comment_srl, false, false);
+				$module_srl = $oComment->get('module_srl');
+				$member_srl = $oComment->get('member_srl');
 
-                // 비추천 버튼 추가
-                $url = sprintf("doCallModuleAction('comment','procCommentVoteDown','%s')", $comment_srl);
-                $oCommentController->addCommentPopupMenu($url,'cmd_vote_down','./modules/document/tpl/icons/vote_down.gif','javascript');
+				$oModuleModel = &getModel('module');
+				$comment_config = $oModuleModel->getModulePartConfig('document',$module_srl);
+				if($comment_config->use_vote_up!='N' && $member_srl!=$logged_info->member_srl){
+					// 추천 버튼 추가
+					$url = sprintf("doCallModuleAction('comment','procCommentVoteUp','%s')", $comment_srl);
+					$oCommentController->addCommentPopupMenu($url,'cmd_vote','./modules/document/tpl/icons/vote_up.gif','javascript');
+				}
+				if($comment_config->use_vote_down!='N' && $member_srl!=$logged_info->member_srl){
+					// 비추천 버튼 추가
+					$url = sprintf("doCallModuleAction('comment','procCommentVoteDown','%s')", $comment_srl);
+					$oCommentController->addCommentPopupMenu($url,'cmd_vote_down','./modules/document/tpl/icons/vote_down.gif','javascript');
+				}
 
                 // 신고 기능 추가
                 $url = sprintf("doCallModuleAction('comment','procCommentDeclare','%s')", $comment_srl);
@@ -417,5 +427,42 @@
             return $comment_config;
         }
 
+		function getCommentVotedMemberList()
+		{
+			$comment_srl = Context::get('comment_srl');
+			if(!$comment_srl) return new Object(-1,'msg_invalid_request');
+
+			$point = Context::get('point');
+			if($point != -1) $point = 1;
+
+			$oCommentModel = &getModel('comment');
+            $oComment = $oCommentModel->getComment($comment_srl, false, false);
+			$module_srl = $oComment->get('module_srl');
+			if(!$module_srl) return new Object(-1, 'msg_invalid_request');
+
+			$oModuleModel = &getModel('module');
+            $comment_config = $oModuleModel->getModulePartConfig('comment',$module_srl);
+			if($point == -1){
+				if($comment_config->use_vote_down!='S') return new Object(-1, 'msg_invalid_request');
+				$args->below_point = 0;
+			}else{
+				if($comment_config->use_vote_up!='S') return new Object(-1, 'msg_invalid_request');
+				$args->more_point = 0;
+			}
+
+			$args->comment_srl = $comment_srl;
+			$output = executeQueryArray('comment.getVotedMemberList',$args);
+			if(!$output->toBool()) return $output;
+
+			$oMemberModel = &getModel('member');
+			if($output->data){
+				foreach($output->data as $k => $d){
+					$profile_image = $oMemberModel->getProfileImage($d->member_srl);
+					$output->data[$k]->src = $profile_image->src;
+				}
+			}
+
+			$this->add('voted_member_list',$output->data);
+		}
     }
 ?>

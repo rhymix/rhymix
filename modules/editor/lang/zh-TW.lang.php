@@ -45,7 +45,7 @@
 
     $lang->about_editor_skin = '選擇編輯器面板。';
     $lang->about_content_style = '修改內容時，可指定要顯示的內容樣式';
-    $lang->about_content_font = '修改內容時，可指定要顯示的內容字體。<br/>如果沒有指定的話，以系統預設為主。<br/> 以，(逗號)區分多個字體。';
+    $lang->about_content_font = '修改內容時，可指定要顯示的內容字體。<br/>如果沒有指定的話，以系統預設為主。<br/> 以逗號(，)區分多個字體。';
 	$lang->about_content_font_size = '修改內容時，可指定要顯示的內容字體大小。<br/>請輸入單位，像是12px, 1em等。';
     $lang->about_upload_file_grant = '設置上傳檔案的權限(全部解除為無限制)。';
     $lang->about_default_component_grant = '設置編輯器預設組件的使用權限(全部解除為無限制)。';
@@ -267,15 +267,16 @@
 	$lang->edit->fieldset = '區域';
 	$lang->edit->paragraph = '段落';
 	
-	$lang->edit->autosave_format = '글을 쓰기 시작한지 <strong>%s</strong>이 지났습니다. 마지막 저장 시간은 <strong>%s</strong> 입니다.';
-	$lang->edit->autosave_hour = '%d시간';
-	$lang->edit->autosave_hours = '%d시간';
-	$lang->edit->autosave_min = '%d분';
-	$lang->edit->autosave_mins = '%d분';
-	$lang->edit->autosave_hour_ago = '%d시간 전';
-	$lang->edit->autosave_hours_ago = '%d시간 전';
-	$lang->edit->autosave_min_ago = '%d분 전';
-	$lang->edit->autosave_mins_ago = '%d분 전';
+	$lang->edit->autosave_format = '正在編寫 <strong>%s</strong> 最後儲存時間 <strong>%s</strong> ';
+	$lang->edit->autosave_hour = '%d小時';
+	$lang->edit->autosave_hours = '%d小時';
+	$lang->edit->autosave_min = '%d分';
+	$lang->edit->autosave_mins = '%d分';
+	$lang->edit->autosave_hour_ago = '%d小時前';
+	$lang->edit->autosave_hours_ago = '%d小時前';
+	$lang->edit->autosave_min_ago = '%d分前';
+	$lang->edit->autosave_mins_ago = '%d分前';
 	
-	$lang->edit->upload_not_enough_quota   = '허용된 용량이 부족하여 파일을 첨부할 수 없습니다.';
+	$lang->edit->upload_not_enough_quota   = '已超過上傳大小限制無法上傳附檔。';
+	$lang->edit->break_or_paragraph = '按 Enter鍵換行，按 Shift+Enter分隔段落。';
 ?>

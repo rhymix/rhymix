@@ -264,15 +264,16 @@
 	$lang->edit->fieldset = 'Fieldset';
 	$lang->edit->paragraph = 'Paragraph';
 	
-	$lang->edit->autosave_format = '글을 쓰기 시작한지 <strong>%s</strong>이 지났습니다. 마지막 저장 시간은 <strong>%s</strong> 입니다.';
-	$lang->edit->autosave_hour = '%d시간';
-	$lang->edit->autosave_hours = '%d시간';
-	$lang->edit->autosave_min = '%d분';
-	$lang->edit->autosave_mins = '%d분';
-	$lang->edit->autosave_hour_ago = '%d시간 전';
-	$lang->edit->autosave_hours_ago = '%d시간 전';
-	$lang->edit->autosave_min_ago = '%d분 전';
-	$lang->edit->autosave_mins_ago = '%d분 전';
+	$lang->edit->autosave_format = 'You are writing for <strong>%s</strong>. Your article was saved <strong>%s</strong> recently.';
+	$lang->edit->autosave_hour = '%d hour';
+	$lang->edit->autosave_hours = '%d hours';
+	$lang->edit->autosave_min = '%d minute';
+	$lang->edit->autosave_mins = '%d minutes';
+	$lang->edit->autosave_hour_ago = '%d hour ago';
+	$lang->edit->autosave_hours_ago = '%d hours ago';
+	$lang->edit->autosave_min_ago = '%d minute ago';
+	$lang->edit->autosave_mins_ago = '%d minutes ago';
 	
-	$lang->edit->upload_not_enough_quota   = '허용된 용량이 부족하여 파일을 첨부할 수 없습니다.';
+	$lang->edit->upload_not_enough_quota   = 'You cannot attach more.';
+	$lang->edit->break_or_paragraph = 'Enter는 줄바꿈, Shift+Enter는 문단바꿈입니다.';
 ?>

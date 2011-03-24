@@ -1,5 +1,5 @@
-<!--%import("js/counter_admin.js")-->
-<!--%import("css/counter.css")-->
+<load target="js/counter_admin.js" />
+<load target="counter.css" />
 
 <!--// datepicker javascript plugin load -->
 <!--%load_js_plugin("ui.datepicker")-->
@@ -87,7 +87,7 @@
 <table cellspacing="0" class="rowTable">
 <!--@foreach($detail_status->list as $key => $val)-->
     <!--@if($detail_status->sum>0)-->
-        {@$percent = sprintf("%0.2f", $val / $detail_status->sum * 100 )}
+        {@$percent   = sprintf("%0.2f", $val / $detail_status->sum * 100 )}
         {@$img_width = sprintf("%d", $val / $detail_status->max * 100 )}
     <!--@else-->
         {@$percent = 0}
@@ -125,14 +125,13 @@
         </div>
     </th>
     <!--@end-->
+	{@ $img_width = (int)$percent; $img_width = $img_width?$img_width.'%':'3px'; }
     <td class="wide">
-        {@$img_percent = $img_width-30}
-        <!--@if($img_percent<1)-->
-            <img class="graphHr" style="width:3px;" alt="" src="./images/iconBar.gif" />
-        <!--@else-->
-            <img class="graphHr" style="width:{$img_percent}%;" alt="" src="./images/iconBar.gif" />
-        <!--@end-->
-        {number_format($val)}({$percent}%)
+		<div class="barContainer">
+			<span class="graphHr" style="width:{$img_width}">
+				<span>{number_format($val)}({$percent}%)</span>
+			</span>
+		</div>
     </td>
 </tr>
 <!--@end-->

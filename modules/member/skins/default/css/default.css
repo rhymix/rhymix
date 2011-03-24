@@ -11,6 +11,7 @@
 #memberModule p.summary.red { color:#A54D4D; }
 #memberModule p.summary.red a { text-decoration:none; color:#A54D4D; }
 #memberModule div.infoText { color:#888;}
+#memberModule select{ font-size:12px}
 
 #memberModule .agreementBox { border:1px solid #CCC; margin:10px 0 0 0; padding:10px; border-bottom:none; height:200px; overflow-y:scroll;}
 #memberModule .agreementButton { background-color:#EFEFEF; padding:10px; border:1px solid #CCC; border-top:none; margin-bottom:10px;}
@@ -71,7 +72,7 @@
 #memberModule .crossTable th.title,
 #memberModule .colTable th.title { padding:10px; font-weight:bold; text-align:center; border-bottom:1px solid #DDD;  background:url(../img/bgTab.gif) repeat-x left bottom;}
 
-#memberModule p { color:#AAA; margin:3px 0 0 0; padding:0;}
+#memberModule p { color:#666; margin:3px 0 0 0; padding:0;}
 #dummy_check_nick_name { color:red; margin:3px 0 0 0; padding:0; }
 #memberModule .require { color:red; font-size:10px; font-family:tahoma; font-weight:bold; margin-left:5px; }
 #memberModule .publicItem { margin:5px 0 0 0; padding:0; color:#aaa; }
@@ -120,7 +121,9 @@
 #memberModule .memberSmallBox .help a{ color:#666; text-decoration:underline;}
 #memberModule .memberSmallBox .buttonArea{ position:absolute; top:10px; left:260px;}
 
-
-
 #memberModule ul.checkbox,
 #memberModule ul.radio { list-style:none; margin:0; padding:0; }
+
+#memberModule .item{ position:relative; margin:0 0 4px 0}
+#memberModule .iLabel{display:block; position:static; left:5px; top:6px; white-space:nowrap; color:#666;}
+#memberModule .iText{position:relative; height:14px; padding:4px 5px; font:12px Tahoma; height:14px; color:#666; border:1px solid #b7b7b7; border-right-color:#e1e1e1; border-bottom-color:#e1e1e1; background:transparent;}

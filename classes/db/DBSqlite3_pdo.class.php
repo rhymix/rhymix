@@ -18,10 +18,10 @@
         /**
          * PDO 사용시 필요한 변수들
          **/
-        var $handler = NULL;
-        var $stmt = NULL;
-        var $bind_idx = 0;
-        var $bind_vars = array();
+        var $handler      = NULL;
+        var $stmt         = NULL;
+        var $bind_idx     = 0;
+        var $bind_vars    = array();
 
         /**
          * @brief sqlite3 에서 사용될 column type
@@ -31,13 +31,13 @@
          **/
         var $column_type = array(
             'bignumber' => 'INTEGER',
-            'number' => 'INTEGER',
-            'varchar' => 'VARHAR',
-            'char' => 'CHAR',
-            'text' => 'TEXT',
-            'bigtext' => 'TEXT',
-            'date' => 'VARCHAR(14)',
-            'float' => 'REAL',
+            'number'    => 'INTEGER',
+            'varchar'   => 'VARHAR',
+            'char'      => 'CHAR',
+            'text'      => 'TEXT',
+            'bigtext'   => 'TEXT',
+            'date'      => 'VARCHAR(14)',
+            'float'     => 'REAL',
         );
 
         /**
@@ -47,13 +47,20 @@
             $this->_setDBInfo();
             $this->_connect();
         }
+		
+		/**
+		 * @brief create an instance of this class
+		 */
+		function create()
+		{
+			return new DBSqlite3_pdo;
+		}
 
         /**
          * @brief 설치 가능 여부를 return
          **/
         function isSupported() {
-            if(!class_exists('PDO')) return false;
-            return true;
+            return class_exists('PDO');
         }
 
         /**
@@ -74,14 +81,15 @@
             if(!$this->database) return;
 
             // 데이터 베이스 파일 접속 시도
-            $this->handler = new PDO('sqlite:'.$this->database);
-
-            if(!file_exists($this->database) || $error) {
-                $this->setError(-1,'permission denied to access database');
-                //$this->setError(-1,$error);
-                $this->is_connected = false;
-                return;
-            }
+			try {
+				// PDO is only supported with PHP5,
+				// so it is allowed to use try~catch statment in this class.
+				$this->handler = new PDO('sqlite:'.$this->database);
+			} catch (PDOException $e) {
+				$this->setError(-1, 'Connection failed: '.$e->getMessage());
+				$this->is_connected = false;
+				return;
+			}
 
             // 접속체크
             $this->is_connected = true;
@@ -92,7 +100,7 @@
          * @brief DB접속 해제
          **/
         function close() {
-            if(!$this->isConnected()) return;
+            if(!$this->is_connected) return;
             $this->commit();
         }
 
@@ -100,7 +108,7 @@
          * @brief 트랜잭션 시작
          **/
         function begin() {
-            if(!$this->isConnected() || $this->transaction_started) return;
+            if(!$this->is_connected || $this->transaction_started) return;
             if($this->handler->beginTransaction()) $this->transaction_started = true;
         }
 
@@ -108,7 +116,7 @@
          * @brief 롤백
          **/
         function rollback() {
-            if(!$this->isConnected() || !$this->transaction_started) return;
+            if(!$this->is_connected || !$this->transaction_started) return;
             $this->handler->rollBack();
             $this->transaction_started = false;
         }
@@ -117,7 +125,7 @@
          * @brief 커밋
          **/
         function commit($force = false) {
-            if(!$force && (!$this->isConnected() || !$this->transaction_started)) return;
+            if(!$force && (!$this->is_connected || !$this->transaction_started)) return;
             $this->handler->commit();
             $this->transaction_started = false;
         }
@@ -135,7 +143,7 @@
          * @brief : 쿼리문의 prepare
          **/
         function _prepare($query) {
-            if(!$this->isConnected()) return;
+            if(!$this->is_connected) return;
 
             // 쿼리 시작을 알림
             $this->actStart($query);
@@ -154,7 +162,7 @@
          * @brief : stmt에 binding params
          **/
         function _bind($val) {
-            if(!$this->isConnected() || !$this->stmt) return;
+            if(!$this->is_connected || !$this->stmt) return;
 
             $this->bind_idx ++;
             $this->bind_vars[] = $val;
@@ -165,7 +173,7 @@
          * @brief : prepare된 쿼리의 execute
          **/
         function _execute() {
-            if(!$this->isConnected() || !$this->stmt) return;
+            if(!$this->is_connected || !$this->stmt) return;
 
             $this->stmt->execute();
 
@@ -581,31 +589,32 @@
             }
 
 
+            $click_count = array();
+            if(!$output->columns){
+				$output->columns = array(array('name'=>'*'));
+			}
 
-            if(!$output->columns) {
-                $columns = '*';
-            } else {
-                $column_list = array();
-                foreach($output->columns as $key => $val) {
-                    $name = $val['name'];
-                    $alias = $val['alias'];
-                    if($val['click_count']) $click_count[] = $val['name'];
+			$column_list = array();
+			foreach($output->columns as $key => $val) {
+				$name = $val['name'];
+				$alias = $val['alias'];
+				if($val['click_count']) $click_count[] = $val['name'];
 
-                    if(substr($name,-1) == '*') {
-                        $column_list[] = $name;
-                    } elseif(strpos($name,'.')===false && strpos($name,'(')===false) {
-                        if($alias) $column_list[] = sprintf('%s as %s', $name, $alias);
-                        else $column_list[] = sprintf('%s',$name);
-                    } else {
-                        if($alias) $column_list[] = sprintf('%s as %s', $name, $alias);
-                        else $column_list[] = sprintf('%s',$name);
-                    }
-                }
-                $columns = implode(',',$column_list);
-            }
+				if(substr($name,-1) == '*') {
+					$column_list[] = $name;
+				} elseif(strpos($name,'.')===false && strpos($name,'(')===false) {
+					if($alias) $column_list[$alias] = sprintf('%s as %s', $name, $alias);
+					else $column_list[] = sprintf('%s',$name);
+				} else {
+					if($alias) $column_list[$alias] = sprintf('%s as %s', $name, $alias);
+					else $column_list[] = sprintf('%s',$name);
+				}
+			}
+			$columns = implode(',',$column_list);
 
             $condition = $this->getCondition($output);
 
+			$output->column_list = $column_list;
             if($output->list_count && $output->page) return $this->_getNavigationData($table_list, $columns, $left_join, $condition, $output);
 
             // list_order, update_order 로 정렬시에 인덱스 사용을 위해 condition에 쿼리 추가
@@ -621,17 +630,31 @@
                 }
             }
 
-            $query = sprintf("select %s from %s %s %s", $columns, implode(',',$table_list),implode(' ',$left_join), $condition);
-
-            if(count($output->groups)) $query .= sprintf(' group by %s', implode(',',$output->groups));
+            if(count($output->groups)){
+				$groupby_query = sprintf(' group by %s', implode(',',$output->groups));
+				if(count($output->arg_columns))
+				{
+					foreach($output->groups as $group)
+					{
+						if($column_list[$group]) $output->arg_columns[] = $column_list[$group];
+					}
+				}
+			}
 
             if($output->order) {
                 foreach($output->order as $key => $val) {
                     $index_list[] = sprintf('%s %s', $val[0], $val[1]);
+					if(count($output->arg_columns) && $column_list[$val[0]]) $output->arg_columns[] = $column_list[$val[0]];
                 }
-                if(count($index_list)) $query .= ' order by '.implode(',',$index_list);
+                if(count($index_list)) $orderby_query = ' order by '.implode(',',$index_list);
             }
 
+			if(count($output->arg_columns))
+			{
+				$columns = join(',',$output->arg_columns);
+			}
+
+            $query = sprintf("select %s from %s %s %s %s", $columns, implode(',',$table_list),implode(' ',$left_join), $condition, $groupby_query.$orderby_query);
             // list_count를 사용할 경우 적용
             if($output->list_count['value']) $query = sprintf('%s limit %d', $query, $output->list_count['value']);
 
@@ -660,6 +683,7 @@
         function _getNavigationData($table_list, $columns, $left_join, $condition, $output) {
             require_once(_XE_PATH_.'classes/page/PageHandler.class.php');
 
+			$column_list = $output->column_list;
             /*
             // group by 절이 포함된 SELECT 쿼리의 전체 갯수를 구하기 위한 수정
             // 정상적인 동작이 확인되면 주석으로 막아둔 부분으로 대체합니다.
@@ -679,14 +703,10 @@
 
             // 전체 개수를 구함
             $count_query = sprintf("select count(*) as count from %s %s %s", implode(',',$table_list),implode(' ',$left_join), $condition);
-            $total_count = $this->getCountCache($output->tables, $condition);
-            if($total_count === false) {
-				$count_query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id . ' count(*)'):'';
-                $this->_prepare($count_query);
-                $count_output = $this->_execute();
-                $total_count = (int)$count_output->count;
-                $this->putCountCache($output->tables, $condition, $total_count);
-            }
+			$count_query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id . ' count(*)'):'';
+			$this->_prepare($count_query);
+			$count_output = $this->_execute();
+			$total_count = (int)$count_output->count;
 
             $list_count = $output->list_count['value'];
             if(!$list_count) $list_count = 20;
@@ -716,16 +736,29 @@
                 }
             }
 
-            $query = sprintf("select %s from %s %s %s", $columns, implode(',',$table_list), implode(' ',$left_join), $condition);
-
-            if(count($output->groups)) $query .= sprintf(' group by %s', implode(',',$output->groups));
+            if(count($output->groups)){
+				$groupby_query = sprintf(' group by %s', implode(',',$output->groups));
+				if(count($output->arg_columns))
+				{
+					foreach($output->groups as $group)
+					{
+						if($column_list[$group]) $output->arg_columns[] = $column_list[$group];
+					}
+				}
+			}
 
             if($output->order) {
                 foreach($output->order as $key => $val) {
                     $index_list[] = sprintf('%s %s', $val[0], $val[1]);
+					if(count($output->arg_columns) && $column_list[$val[0]]) $output->arg_columns[] = $column_list[$val[0]];
                 }
-                if(count($index_list)) $query .= ' order by '.implode(',',$index_list);
+                if(count($index_list)) $orderby_query = ' order by '.implode(',',$index_list);
             }
+
+			if(count($output->arg_columns))
+			{
+				$columns = join(',',$output->arg_columns);
+			}
 
             // return 결과물 생성
             $buff = new Object();
@@ -736,6 +769,7 @@
             $buff->page_navigation = new PageHandler($total_count, $total_page, $page, $page_count);
 
             // 쿼리 실행
+            $query = sprintf("select %s from %s %s %s %s", $columns, implode(',',$table_list),implode(' ',$left_join), $condition, $groupby_query.$orderby_query);
             $query = sprintf('%s limit %d, %d', $query, $start_count, $list_count);
 			$query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id):'';
 
@@ -780,4 +814,6 @@
             return $buff;
         }
     }
+
+return new DBSqlite3_pdo;
 ?>
