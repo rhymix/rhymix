@@ -48,7 +48,7 @@ class Context {
 	var $is_uploaded = false;   ///< true if attached file exists
 
 	/**
-	 * @brief return static context object (Singleton)
+	 * @brief returns static context object (Singleton)
 	 * @return object
 	 * @remarks it's to use Context without declaration of an object
 	 **/
@@ -313,7 +313,7 @@ class Context {
 
 	/**
 	 * @brief Single Sign On (SSO)
-	 * @return true if module handleing is necessary in the control path of current request
+	 * @return true if module handling is necessary in the control path of current request
 	 **/
 	function checkSSO() {
 		// pass if it's not GET request or XE is not yet installed
@@ -417,6 +417,10 @@ class Context {
 
 		return $self->site_title;
 	}
+	/**
+	 * @deprecated
+	 */
+	function _getBrowserTitle() { return $this->getBrowserTitle(); }
 
 	/**
 	 * @brief load language file according to language type
@@ -538,7 +542,7 @@ class Context {
 	 * @param[in] $method response method (HTML/XMLRPC/JSON)
 	 * @return none
 	 **/
-	function setResponseMethod($method = "HTML") {
+	function setResponseMethod($method='HTML') {
 		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
 
 		$methods = array('HTML','XMLRPC','JSON');
@@ -1119,7 +1123,7 @@ class Context {
 	}
 
 	/**
-	 * @brief CSS file 목록 return
+	 * @brief return a list of css files
 	 **/
 	function getCSSFile() {
 		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
@@ -1191,7 +1195,7 @@ class Context {
 	}
 
 	/**
-	 * @brief BodyHeader 추가
+	 * @brief add BodyHeader
 	 **/
 	function addBodyHeader($header) {
 		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
@@ -1199,7 +1203,7 @@ class Context {
 	}
 
 	/**
-	 * @brief BodyHeader return
+	 * @brief returns BodyHeader
 	 **/
 	function getBodyHeader() {
 		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
@@ -1207,7 +1211,7 @@ class Context {
 	}
 
 	/**
-	 * @brief HtmlFooter 추가
+	 * @brief add HtmlFooter
 	 **/
 	function addHtmlFooter($footer) {
 		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
@@ -1215,7 +1219,7 @@ class Context {
 	}
 
 	/**
-	 * @brief HtmlFooter return
+	 * @brief returns HtmlFooter
 	 **/
 	function getHtmlFooter() {
 		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
@@ -1223,23 +1227,22 @@ class Context {
 	}
 
 	/**
-	 * @brief db설정내용이 저장되어 있는 config file의 path를 return
+	 * @brief returns the path of the config file that contains database settings
 	 **/
 	function getConfigFile() {
 		return _XE_PATH_."files/config/db.config.php";
 	}
 
 	/**
-	 * @brief ftp설정내용이 저장되어 있는 config file의 path를 return
+	 * @brief returns the path of the config file that contains FTP settings
 	 **/
 	function getFTPConfigFile() {
 		return _XE_PATH_."files/config/ftp.config.php";
 	}
 
 	/**
-	 * @brief 설치가 되어 있는지에 대한 체크
-	 *
-	 * 단순히 db config 파일의 존재 유무로 설치 여부를 체크한다
+	 * @brief Checks whether XE is installed
+	 * @return true if the config file exists, otherwise false.
 	 **/
 	function isInstalled() {
 		return FileHandler::hasContent(Context::getConfigFile());
@@ -1253,7 +1256,8 @@ class Context {
 	}
 
 	/**
-	 * @brief rewrite mod 사용에 대한 변수 return
+	 * @brief Check whether it is allowed to use rewrite mod
+	 * @return true if it is allowed to use rewrite mod, otherwise false
 	 **/
 	function isAllowRewrite() {
 		$oContext = &Context::getInstance();
@@ -1261,7 +1265,7 @@ class Context {
 	}
 
 	/**
-	 * @brief 로컬 경로를 웹 경로로 변경
+	 * @brief Converts a local path into an URL
 	 */
 	function pathToUrl($path) {
 		$xe   = _XE_PATH_;
