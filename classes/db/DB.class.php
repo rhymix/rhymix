@@ -57,7 +57,7 @@
             if(!$GLOBALS['__DB__']) {
                 $class_name = 'DB'.ucfirst($db_type);
                 $class_file = _XE_PATH_."classes/db/$class_name.class.php";
-                if(!file_exists($class_file)) new Object(-1, 'msg_db_not_setted');
+                if(!file_exists($class_file)) return new Object(-1, 'msg_db_not_setted');
 
 				// get a singletone instance of the database driver class
 				require_once($class_file);
