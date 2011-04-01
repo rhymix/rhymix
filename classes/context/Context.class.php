@@ -24,8 +24,6 @@ class Context {
 	var $ftp_info = NULL;       ///< FTP info.
 
 	var $ssl_actions = array(); ///< list of actions to be sent via ssl (it is used by javascript xml handler for ajax)
-	var $js_files    = array(); ///< list of javascript files used for display
-	var $css_files   = array(); ///< list of css files used for display
 	var $js_files_map  = array(); ///< hash map of javascript files. The file name is used as a key
 	var $css_files_map = array(); ///< hash map of css files. The file name is used as a key
 
@@ -1002,14 +1000,10 @@ class Context {
 		if(!in_array($type, $avail_types)) $type = $avail_types[0];
 
 		$file = $self->normalizeFilePath($file);
-
+		
 		// Is this file already registered?
-		if ($self->js_files_map[$file]) return;
-		$self->js_files_map[$file] = 1;
-
-		if(is_null($index)) $index = count($self->js_files);
-		while($self->js_files[$index++]);
-		$self->js_files[--$index] = array('file'=>$file, 'targetie'=>$targetie, 'type'=>$type);
+		if (!is_array($map[$type])) $map[$type] = array();
+		if (!isset($map[$type][$key]) || (int)$map[$type][$key] > (int)$index) $map[$type][$key] = (int)$index+count($map[$type])/1000-1;
 	}
 
 	/**
@@ -1087,13 +1081,7 @@ class Context {
 
 		$file = $self->normalizeFilePath($file);
 
-		// Is this file already registered?
-		if ($self->css_files_map[$file]) return;
-		$self->css_files_map[$file] = 1;
-
-		if(is_null($index)) $index = count($self->css_files);
-		while($self->css_files[$index++]);
-		$self->css_files[--$index] = array('file'=>$file, 'targetie'=>$targetie, 'media'=>$media);
+		if (!isset($map[$key]) || (int)$map[$key] > (int)$index) $map[$key] = (int)$index+count($map)/100-1;
 	}
 
 	/**
