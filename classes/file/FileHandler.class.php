@@ -459,12 +459,12 @@
          * @param[in] $thumbnail_type thumbnail type(crop, ratio)
          * @return true: success, false: failed 
          **/
-        function createImageFile($source_file, $target_file, $resize_width = 0, $resize_height = 0, $target_type = '', $thumbnail_type = 'crop', $engine = 'gd') {
+        function createImageFile($source_file, $target_file, $resize_width = 0, $resize_height = 0, $target_type = '', $thumbnail_type = 'crop') {
             $source_file = FileHandler::getRealPath($source_file);
             $target_file = FileHandler::getRealPath($target_file);
 
-            if(!is_readable($source_file)) return false;
-            if(!$resize_width)  $resize_width = 100;
+            if(!file_exists($source_file)) return;
+            if(!$resize_width) $resize_width = 100;
             if(!$resize_height) $resize_height = $resize_width;
 
             // retrieve source image's information
@@ -472,42 +472,48 @@
             if(!FileHandler::checkMemoryLoadImage($imageInfo)) return false;
             list($width, $height, $type, $attrs) = $imageInfo;
 
-            if($width<1 || $height<1) return false;
-			$types = array(1=>'gif', 'jpg', 'png', 'bmp');
-			$type  = $types[$type]?$types[$type]:'';
+            if($width<1 || $height<1) return;
 
-			if (!$type) return false;
+            switch($type) {
+                case '1' :
+                        $type = 'gif';
+                    break;
+                case '2' :
+                        $type = 'jpg';
+                    break;
+                case '3' :
+                        $type = 'png';
+                    break;
+                case '6' :
+                        $type = 'bmp';
+                    break;
+                default :
+                        return;
+                    break;
+            }
 
-			// calculate target size
-			$w_ratio = min($resize_width  / $width,  1);
-			$h_ratio = min($resize_height / $height, 1);
-			$ratio   = ($thumbnail_type=='ratio')?min($w_ratio, $h_ratio):max($w_ratio, $h_ratio);
-			$thumb_w = (int)($ratio * $width);
-			$thumb_h = (int)($ratio * $height);
+            // if original image is larger than specified size to resize, calculate the ratio 
+            if($resize_width > 0 && $width >= $resize_width) $width_per = $resize_width / $width;
+            else $width_per = 1;
+
+            if($resize_height>0 && $height >= $resize_height) $height_per = $resize_height / $height;
+            else $height_per = 1;
+
+            if($thumbnail_type == 'ratio') {
+                if($width_per>$height_per) $per = $height_per;
+                else $per = $width_per;
+                $resize_width = $width * $per;
+                $resize_height = $height * $per;
+            } else {
+                if($width_per < $height_per) $per = $height_per;
+                else $per = $width_per;
+            }
+
+            if(!$per) $per = 1;
 
             // get type of target file
-			$target_type = strtolower($target_type?$target_type:$type);
-
-			// get image processing engine
-			$engines = array('gd', 'imagick', 'gmagick');
-			$engine  = strtolower($engine);
-			if(!in_array($engine, $engines)) $engine = 'gd';
-
-			if($engine == 'gd') {
-				// thumbnail image resource
-				$thumb = null;
-
-				if(function_exists('imagecreatetruecolor')) $thumb = imagecreatetruecolor($resize_width, $resize_height);
-				elseif(function_exists('imagecreate'))      $thumb = imagecreate($resize_width, $resize_height);
-
-				if (!$thumb) return false;
-			} elseif($engine == 'imagick' && class_exists('Imagick')) {
-			} elseif($engine == 'gd' && class_exists('Gmagick')) {
-			}
-			
-			//
-			// 여기까지 했음!
-			//
+            if(!$target_type) $target_type = $type;
+            $target_type = strtolower($target_type);
 
             // create temporary image with target size
             if(function_exists('imagecreatetruecolor')) $thumb = imagecreatetruecolor($resize_width, $resize_height);
@@ -596,7 +602,6 @@
 
             return true;
         }
-
 
         /**
          * @brief reads ini file, and puts result into array
