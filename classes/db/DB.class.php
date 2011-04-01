@@ -80,10 +80,6 @@
             $this->cache_file = _XE_PATH_.$this->cache_file;
         }
 
-		function create() {
-			return new DB;
-		}
-
         /**
          * @brief returns list of supported db
          * @return list of supported db
