@@ -34,22 +34,12 @@
             }
 
             // Set variables from request arguments
-            if(!$module) $this->module = Context::get('module');
-            else $this->module = $module;
-
-            if(!$act) $this->act = Context::get('act');
-            else $this->act = $act;
-
-            if(!$mid) $this->mid = Context::get('mid');
-            else $this->mid = $mid;
-
-            if(!$document_srl) $this->document_srl = (int)Context::get('document_srl');
-            else $this->document_srl = (int)$document_srl;
-
-            if(!$module_srl) $this->module_srl = (int)Context::get('module_srl');
-            else $this->module_srl = (int)$module_srl;
-
-            $this->entry = Context::convertEncodingStr(Context::get('entry'));
+            $this->module = $module?$module:Context::get('module');
+            $this->act    = $act?$act:Context::get('act');
+            $this->mid    = $mid?$mid:Context::get('mid');
+            $this->document_srl = $document_srl?(int)$document_srl:(int)Context::get('document_srl');
+            $this->module_srl   = $module_srl?(int)$module_srl:(int)Context::get('module_srl');
+            $this->entry  = Context::convertEncodingStr(Context::get('entry'));
 
             // Validate variables to prevent XSS
             if($this->module && !preg_match("/^([a-z0-9\_\-]+)$/i",$this->module)) die(Context::getLang("msg_invalid_request"));
