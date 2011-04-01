@@ -41,7 +41,7 @@
     require('./config/config.inc.php');
 
     /**
-     * @brief Context 객체를 생성하여 초기화
+     * @brief create and initialize a Context object
      * 모든 Request Argument/ 환경변수등을 세팅
      **/
     $oContext = &Context::getInstance();
