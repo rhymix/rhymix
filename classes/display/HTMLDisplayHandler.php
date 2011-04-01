@@ -21,7 +21,7 @@ class HTMLDisplayHandler {
 			if(Context::get('layout') != 'none') {
 				if(__DEBUG__==3) $start = getMicroTime();
 
-				Context::set('content', $output);
+				Context::set('content', $output, false);
 
 				$layout_path = $oModule->getLayoutPath();
 				$layout_file = $oModule->getLayoutFile();
