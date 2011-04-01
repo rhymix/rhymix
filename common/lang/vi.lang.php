@@ -309,4 +309,5 @@ $lang->filter->invalid_alpha_number = "Định dạng của %s không hợp lệ
 $lang->filter->invalid_number = "Định dạng của %s không hợp lệ. Chỉ sử dụng các chữ số";
 
 $lang->security_warning_embed = "Vì vấn đề bảo mật, nên Administrator không được phép xem các mục đã nhúng mã.<BR /> Để xem được chúng, hãy sử dụng một tên truy cập khác không có quyền quản trị.";
+$lang->msg_pc_to_mobile = '이 페이지는 모바일 보기가 있습니다. 모바일 보기로 이동하시겠습니까?';
 ?>

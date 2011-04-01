@@ -418,8 +418,11 @@
 
                 $path = sprintf("./files/attach/images/%s/%s", $module_srl,getNumberingPath($upload_target_srl,3));
 
-				// 파일 이름에서 특수문자를 _로 변환
-				$_filename = preg_replace('/[#$&*?+%"\']/', '_', $file_info['name']);
+				// special character to '_'
+				// change to md5 file name. because window php bug. window php is not recognize unicode character file name - by cherryfilter
+				$ext = substr(strrchr($file_info['name'],'.'),1);
+				//$_filename = preg_replace('/[#$&*?+%"\']/', '_', $file_info['name']);
+				$_filename = md5(crypt(rand(1000000,900000), rand(0,100))).'.'.$ext;
                 $filename  = $path.$_filename;
                 $idx = 1;
                 while(file_exists($filename)) {
@@ -440,13 +443,11 @@
             if($manual_insert) {
                 @copy($file_info['tmp_name'], $filename);
                 if(!file_exists($filename)) {
-                    $ext = substr(strrchr($file_info['name'],'.'),1);
                     $filename = $path. md5(crypt(rand(1000000,900000).$file_info['name'])).'.'.$ext;
                     @copy($file_info['tmp_name'], $filename);
                 }
             } else {
                 if(!@move_uploaded_file($file_info['tmp_name'], $filename)) {
-                    $ext = substr(strrchr($file_info['name'],'.'),1);
                     $filename = $path. md5(crypt(rand(1000000,900000).$file_info['name'])).'.'.$ext;
                     if(!@move_uploaded_file($file_info['tmp_name'], $filename))  return new Object(-1,'msg_file_upload_error');
                 }

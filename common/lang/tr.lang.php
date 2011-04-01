@@ -319,4 +319,5 @@ $lang->filter->invalid_alpha_number = " %s biçimi geçersiz. Lütfen harfleri v
 $lang->filter->invalid_number = "%s biçimi geçersiz . Lütfen sadece numaraları kullanın.";
 
 $lang->security_warning_embed = "Güvenlik nedeniyle, yöneticiler yerleşik öğeleri görüntülemeye yetkili değildirler.<BR /> Yerleşik öğeleri görüntüleyebilmek için, lütfen yönetici olmayan bir hesap kullanın.";
+$lang->msg_pc_to_mobile = '이 페이지는 모바일 보기가 있습니다. 모바일 보기로 이동하시겠습니까?';
 ?>

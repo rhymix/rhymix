@@ -36,7 +36,7 @@
     define('__ZBXE__', true);
 
     /**
-     * @brief 필요한 설정 파일들을 include
+     * @brief 필요한 설정 파일들을 include 
      **/
     require('./config/config.inc.php');
 

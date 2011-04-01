@@ -321,4 +321,5 @@ $lang->filter->invalid_alpha_number = '%sの形式が正しくありません。
 $lang->filter->invalid_number = '%sの形式が正しくありません。半角数字で入力して下さい。';
 
 $lang->security_warning_embed = "保安のため、管理者IDではEMBEDを見ることが出来ません。<br />他のIDでログインして下さい。";
+$lang->msg_pc_to_mobile = '이 페이지는 모바일 보기가 있습니다. 모바일 보기로 이동하시겠습니까?';
 ?>

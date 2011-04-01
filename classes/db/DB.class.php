@@ -67,6 +67,10 @@
             return $GLOBALS['__DB__'][$db_type];
         }
 
+		function create() {
+			return new DB;
+		}
+
         /**
          * @brief constructor
          * @return none

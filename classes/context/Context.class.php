@@ -842,7 +842,7 @@ class Context {
 		// optional SSL use
 		} elseif($_use_ssl == 'optional') {
 			$ssl_mode = RELEASE_SSL;
-			if($get_vars['act'] && $self->_isExistsSSLAction($get_vars['act'])) $ssl_mode = ENFORCE_SSL;
+			if($get_vars['act'] && $self->isExistsSSLAction($get_vars['act'])) $ssl_mode = ENFORCE_SSL;
 			$query = $self->getRequestUri($ssl_mode, $domain).$query;
 		// no SSL
 		} else {

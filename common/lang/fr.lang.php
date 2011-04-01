@@ -317,4 +317,5 @@ $lang->filter->invalid_korean_number = "La format de %s n\'est pas convenable. E
 $lang->filter->invalid_alpha = "La format de %s n\'est pas convenable. Entrez seulement en alphabet, S.V.P.";
 $lang->filter->invalid_alpha_number = "La format de %s n\'est pas convenable. Entrez seulement des lettres d\'alphabet ou des chiffres.";
 $lang->filter->invalid_number = "La format de %s n\'est pas convenable. Entrez seulement des chiffres.";
+$lang->msg_pc_to_mobile = '이 페이지는 모바일 보기가 있습니다. 모바일 보기로 이동하시겠습니까?';
 ?>

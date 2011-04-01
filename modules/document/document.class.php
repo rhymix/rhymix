@@ -105,6 +105,9 @@
             if(!$oDB->isColumnExists("document_extra_keys","eid")) return true;
             if(!$oDB->isColumnExists("document_extra_vars","eid")) return true;
 
+            // 2011. 03. 30 Cubrid index 추가 요청
+            if(!$oDB->isIndexExists("document_extra_vars", "idx_document_list_order")) return true;
+
             return false;
         }
 
@@ -236,6 +239,11 @@
                         $output = executeQuery('document.updateDocumentExtraVarEid', $args);
                     }
                 }
+            }
+
+            // 2011. 03. 30 Cubrid index 추가 요청
+            if(!$oDB->isIndexExists("document_extra_vars", "idx_document_list_order")) {
+                $oDB->addIndex("document_extra_vars", "idx_document_list_order", array("document_srl","module_srl","var_idx"), false);
             }
 
             return new Object(0,'success_updated');

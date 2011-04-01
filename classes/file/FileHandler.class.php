@@ -6,7 +6,6 @@
     **/
 
     class FileHandler extends Handler {
-
         /**
          * @brief changes path of target file, directory into absolute path
          * @param[in] $source path

@@ -1,36 +1,28 @@
-// Hide And Show Toggle
-var cc=0
-function hideShow(id) {
-    if (cc==0) {
-        cc=1
-        document.getElementById(id).style.display="none";
-    } else {
-        cc=0
-        document.getElementById(id).style.display="block";
-    }
-}
-
-// Show And Hide Toggle
-var cc=0
-function showHide(id) {
-    if (cc==0) {
-        cc=1
-        document.getElementById(id).style.display="block";
-    } else {
-        cc=0
-        document.getElementById(id).style.display="none";
-    }
-}
-
-// Local Navigation Toggle
-function lnbToggle(id) {
-	for(num=1; num<=3; num++) document.getElementById('D3MG'+num).style.display='none'; //D4MG1~D4MG3 까지 숨긴 다음
-	document.getElementById(id).style.display='block'; //해당 ID만 보임
-}
-
-// IS
-function chkIsKind(key, value) {
-    showHide('selectOrder');
-    xGetElementById('search_target'+key).checked = true;
-    xInnerHtml('search_target_label', value);
-}
+jQuery(function($){
+	// Language Select
+	$('.language>.toggle').click(function(){
+		$('.selectLang').toggle();
+	});
+    // Global Navigation Bar
+    var gMenu = $('.header>div.gnb');
+    var gItem = gMenu.find('>ul>li');
+    var ggItem = gMenu.find('>ul>li>ul>li');
+    var lastEvent = null;
+    gItem.find('>ul').hide();
+	gItem.filter(':first').addClass('first');
+    function gMenuToggle(){
+        var t = $(this);
+        if (t.next('ul').is(':hidden') || t.next('ul').length == 0) {
+            gItem.find('>ul').slideUp(200);
+            gItem.find('a').removeClass('hover');
+            t.next('ul').slideDown(200);
+            t.addClass('hover');            
+        }; 
+    };
+    function gMenuOut(){
+        gItem.find('ul').slideUp(200);
+        gItem.find('a').removeClass('hover');
+    };
+    gItem.find('>a').mouseover(gMenuToggle).focus(gMenuToggle);
+    gItem.mouseleave(gMenuOut);
+});

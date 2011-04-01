@@ -3,7 +3,7 @@
  */
 function completeInstalled(ret_obj) {
     alert(ret_obj["message"]);
-    location.href = "./index.php?module=admin";
+    location.href = "./index.php";
 }
 
 /**

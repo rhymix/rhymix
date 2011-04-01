@@ -60,6 +60,14 @@ class Mobile {
 		return $this->ismobile;
 	}
 
+	function isMobileCheckByAgent()
+	{
+		if(preg_match('/(iPod|iPhone|Android|BlackBerry|SymbianOS|SCH\-M[0-9]+)/',$_SERVER['HTTP_USER_AGENT']))
+			return true;
+		else
+			return false;
+	}
+
 	function setMobile($ismobile)
 	{
 		$oMobile =& Mobile::getInstance();

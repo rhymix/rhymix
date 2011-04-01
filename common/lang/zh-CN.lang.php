@@ -320,4 +320,5 @@ $lang->filter->invalid_alpha_number = '%s只能输入英文或数字';
 $lang->filter->invalid_number = '%s只能输入数字';
 
 $lang->security_warning_embed = "由于安全问题，不允许用系统管理员ID操作embed对象，请使用其他拥有管理权限的ID操作。";
+$lang->msg_pc_to_mobile = '이 페이지는 모바일 보기가 있습니다. 모바일 보기로 이동하시겠습니까?';
 ?>
