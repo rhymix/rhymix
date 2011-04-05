@@ -35,6 +35,7 @@
 
                 if($mtime + $interval*60 > time()) {
                     $page_content = FileHandler::readFile($cache_file); 
+					$page_content = preg_replace('@<\!--#Meta:@', '<!--Meta:', $page_content);
                 } else {
                     $oWidgetController = &getController('widget');
                     $page_content = $oWidgetController->transWidgetCode($this->module_info->content);
