@@ -1,4 +1,4 @@
-<load target="./js/content_widget.js" cond="$widget_info->page_count > 1" />
+<load target="./js/content_widget.js" cond="$widget_info->page_count || count($widget_info->tab)" />
 <load target="./css/widget.css" cond="$colorset == 'black' || $colorset == 'white'" />
 
 <div class="widgetContainer<!--@if($colorset=="black")--> black<!--@end-->">
