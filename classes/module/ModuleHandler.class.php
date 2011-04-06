@@ -294,6 +294,13 @@
             $this->module_info->module_type = $type;
             $oModule->setModuleInfo($this->module_info, $xml_info);
 
+			if($type == "view" && $this->module_info->use_mobile == "Y" && Mobile::isMobileCheckByAgent())
+			{
+				global $lang;
+				$footer = '<div style="margin:1em 0;padding:.5em;background:#333;border:1px solid #666;border-left:0;border-right:0"><p style="color:#fff;text-align:center;margin:1em 0">'.$lang->msg_pc_to_mobile.' <a href="'.getUrl('m', '1').'" style="color:#FF0; font-weight:bold">'.$lang->cmd_move.'</a></p></div>';
+				Context::addHtmlFooter($footer);
+			}
+
             // execute the action, and if failed, set error
             if(!$oModule->proc()) $this->error = $oModule->getMessage();
 

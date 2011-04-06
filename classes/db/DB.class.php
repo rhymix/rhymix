@@ -372,6 +372,7 @@
                     break;
                 case 'number' :
                 case 'numbers' :
+						if(is_array($val)) $val = join(',', $val);
                         if(!preg_match('/^(-?)[0-9]+(,\-?[0-9]+)*$/is', $val)) return new Object(-1, sprintf($lang->filter->invalid_number, $lang->{$key} ? $lang->{$key} : $key));
                     break;
                 case 'alpha' :

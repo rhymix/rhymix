@@ -70,7 +70,7 @@ class HTMLDisplayHandler {
 		$output = preg_replace_callback('!<style(.*?)<\/style>!is', array($this,'_moveStyleToHeader'), $output);
 
 		// 메타 파일 변경 (캐싱기능등으로 인해 위젯등에서 <!--Meta:경로--> 태그를 content에 넣는 경우가 있음
-		$output = preg_replace_callback('/<!--Meta:([a-z0-9\_\/\.\@]+)-->/is', array($this,'_transMeta'), $output);
+		$output = preg_replace_callback('/<!--(#)?Meta:([a-z0-9\_\/\.\@]+)-->/is', array($this,'_transMeta'), $output);
 
 		// rewrite module 사용시 생기는 상대경로에 대한 처리를 함
 		if(Context::isAllowRewrite()) {
@@ -128,8 +128,9 @@ class HTMLDisplayHandler {
 	 * @param[in] $oModule the module object
 	 **/
 	function _transMeta($matches) {
-		if(substr($matches[1],'-4')=='.css') Context::addCSSFile($matches[1]);
-		elseif(substr($matches[1],'-3')=='.js') Context::addJSFile($matches[1]);
+		if($matches[1]) return '';
+		if(substr($matches[2],'-4')=='.css') Context::addCSSFile($matches[2]);
+		elseif(substr($matches[2],'-3')=='.js') Context::addJSFile($matches[2]);
 	}
 
 	function _loadJSCSS()

@@ -370,7 +370,10 @@
 
                 // 수정 시간을 비교해서 캐싱중이어야 하거나 widget.controller.php 파일보다 나중에 만들어 졌다면 캐시값을 return
                 if($filemtime + $widget_cache * 60 > time() && $filemtime > filemtime(_XE_PATH_.'modules/widget/widget.controller.php')) {
-                    return FileHandler::readFile($cache_file);
+					$cache_body = FileHandler::readFile($cache_file);
+					$cache_body = preg_replace('@<\!--#Meta:@', '<!--Meta:', $cache_body);
+
+                    return $cache_body;
                 }
             }
 
@@ -534,6 +537,7 @@
                             if($args) {
                                 foreach($args as $key => $val) {
                                     if(in_array($key, array('class','style','widget_padding_top','widget_padding_right','widget_padding_bottom','widget_padding_left','widget','widgetstyle','document_srl'))) continue;
+                                    if(!is_numeric($val) && (!is_string($val) || strlen($val)==0)) continue;
                                     if(strpos($val,'|@|')>0) $val = str_replace('|@|',',',$val);
                                     $attribute[] = sprintf('%s="%s"', $key, str_replace('"','\"',$val));
                                 }
@@ -554,10 +558,10 @@
                             // args 정리
                             $attribute = array();
                             if($args) {
+								$allowed_key = array('class','style','widget_padding_top','widget_padding_right','widget_padding_bottom','widget_padding_left','widget');
                                 foreach($args as $key => $val) {
-									if(!is_string($val . "")) continue;
-                                    if(in_array($key, array('class','style','widget_padding_top','widget_padding_right','widget_padding_bottom','widget_padding_left','widget'))) continue;
-                                    if(!is_string($val) || strlen($val)==0) continue;
+                                    if(in_array($key, $allowed_key)) continue;
+                                    if(!is_numeric($val) && (!is_string($val) || strlen($val)==0)) continue;
                                     if(strpos($val,'|@|')>0) $val = str_replace('|@|',',',$val);
                                     $attribute[] = sprintf('%s="%s"', $key, str_replace('"','\"',$val));
                                 }
