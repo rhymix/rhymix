@@ -3,20 +3,20 @@
      * @class  moduleAdminModel
      * @author NHN (developers@xpressengine.com)
      * @version 0.1
-     * @brief  module 모듈의 AdminModel class
+     * @brief AdminModel class of the "module" module
      **/
 
     class moduleAdminModel extends module {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
         }
 
         /**
-         * @brief module_srl (,콤마로 연결된)로 대상 모듈들의 목록을 return)
-         * 모듈 선택기(ModuleSelector)에서 사용됨
+         * @brief Return a list of target modules by using module_srls separated by comma(,)
+         * Used in the ModuleSelector
          **/
         function getModuleAdminModuleList() {
             $args->module_srls = Context::get('module_srls');
@@ -47,15 +47,14 @@
         }
 
         /**
-         * @brief 공통 :: 모듈의 모듈 권한 출력 페이지
-         * 모듈의 모듈 권한 출력은 모든 모듈에서 module instance를 이용할때 사용할 수 있음
+         * @brief Common:: module's permission displaying page in the module
+         * Available when using module instance in all the modules
          **/
         function getModuleGrantHTML($module_srl, $source_grant_list) {
 
             $oModuleModel = &getModel('module');
             $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
-
-            // access, manager 권한은 가상 권한으로 설정
+            // Grant virtual permission for access and manager
             $grant_list->access->title = Context::getLang('grant_access');
             $grant_list->access->default = 'guest';
             if(count($source_grant_list)) {
@@ -68,8 +67,7 @@
             $grant_list->manager->title = Context::getLang('grant_manager');
             $grant_list->manager->default = 'manager';
             Context::set('grant_list', $grant_list);
-
-            // 현재 모듈에 설정된 권한 그룹을 가져옴
+            // Get a permission group granted to the current module
             $default_grant = array();
             $args->module_srl = $module_srl;
             $output = executeQueryArray('module.getModuleGrants', $args);
@@ -87,22 +85,20 @@
             Context::set('selected_group', $selected_group);
             Context::set('default_grant', $default_grant);
             Context::set('module_srl', $module_srl);
-            // 현재 모듈에 설정된 관리자 아이디를 추출
+            // Extract admin ID set in the current module
             $admin_member = $oModuleModel->getAdminId($module_srl);
             Context::set('admin_member', $admin_member);
-
-            // 그룹을 가져옴
+            // Get a list of groups
             $oMemberModel = &getModel('member');
             $group_list = $oMemberModel->getGroups($module_info->site_srl);
             Context::set('group_list', $group_list);
-
-            // grant 정보를 추출
+            // Get information of module_grants
             $oTemplate = &TemplateHandler::getInstance();
             return $oTemplate->compile($this->module_path.'tpl', 'module_grants');
         }
 
         /**
-         * @brief 공통 :: 모듈의 스킨 설정 출력 페이지
+         * @brief Common:: skin setting page for the module
          **/
         function getModuleSkinHTML($module_srl) {
             $oModuleModel = &getModel('module');
@@ -111,11 +107,9 @@
 
             $skin = $module_info->skin;
             $module_path = './modules/'.$module_info->module;
-
-            // 스킨의 XML 정보를 구함
+            // Get XML information of the skin
             $skin_info = $oModuleModel->loadSkinInfo($module_path, $skin);
-
-            // DB에 설정된 스킨 정보를 구함
+            // Get skin information set in DB
             $skin_vars = $oModuleModel->getModuleSkinVars($module_srl);
 
             if(count($skin_info->extra_vars)) {
@@ -141,8 +135,8 @@
         }
 
         /**
-         * @brief 특정 언어 코드에 대한 값들을 가져오기
-         * lang_code를 직접 기입하면 해당 언어코드에 대해서만 가져오고 값이 없으면 $name을 그대로 return
+         * @brief Get values for a particular language code
+         * Return its corresponding value if lang_code is specified. Otherwise return $name.
          **/
         function getLangCode($site_srl, $name) {
             $lang_supported = Context::get('lang_supported');
@@ -176,7 +170,7 @@
         }
 
         /**
-         * @brief 모듈 언어를 ajax로 요청시 return
+         * @brief Return if the module language in ajax is requested 
          **/
         function getModuleAdminLangCode() {
             $name = Context::get('name');

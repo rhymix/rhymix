@@ -2,33 +2,32 @@
     /**
      * @class  spamfilterAdminController
      * @author NHN (developers@xpressengine.com)
-     * @brief  spamfilter 모듈의 admin controller class
+     * @brief The admin controller class of the spamfilter module
      **/
 
     class spamfilterAdminController extends spamfilter {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
         }
 
         /**
-         * @brief 스팸필터 설정
+         * @brief Spam filter configurations
          **/
         function procSpamfilterAdminInsertConfig() {
-            // 기본 정보를 받음
+            // Get the default information
             $args = Context::gets('interval','limit_count','check_trackback');
             if($args->check_trackback!='Y') $args->check_trackback = 'N';
-
-            // module Controller 객체 생성하여 입력
+            // Create and insert the module Controller object
             $oModuleController = &getController('module');
             $output = $oModuleController->insertModuleConfig('spamfilter',$args);
             return $output;
         }
         
         /**
-         * @brief 금지 IP등록
+         * @brief Register the banned IP address
          **/
         function procSpamfilterAdminInsertDeniedIP() {
             $ipaddress = Context::get('ipaddress');
@@ -39,7 +38,7 @@
         }
 
         /**
-         * @brief 금지 IP삭제
+         * @brief Delete the banned IP
          **/
         function procSpamfilterAdminDeleteDeniedIP() {
             $ipaddress = Context::get('ipaddress');
@@ -47,7 +46,7 @@
         }
         
         /**
-         * @brief 금지 Word등록
+         * @brief Register the prohibited word
          **/
         function procSpamfilterAdminInsertDeniedWord() {
             $word = Context::get('word');
@@ -55,7 +54,7 @@
         }
 
         /**
-         * @brief 금지 Word삭제
+         * @brief Delete the prohibited Word
          **/
         function procSpamfilterAdminDeleteDeniedWord() {
             $word = base64_decode(Context::get('word'));
@@ -63,8 +62,8 @@
         }
 
         /**
-         * @brief IP 제거
-         * 스패머로 등록된 IP를 제거
+         * @brief Delete IP
+         * Remove the IP address which was previously registered as a spammers
          **/
         function deleteIP($ipaddress) {
             if(!$ipaddress) return;
@@ -74,8 +73,8 @@
         }
 
         /**
-         * @brief 스팸단어 등록
-         * 등록된 단어가 포함된 글은 스팸글로 간주
+         * @brief Register the spam word
+         * The post, which contains the newly registered spam word, should be considered as a spam
          **/
         function insertWord($word) {
             if(!$word) return;
@@ -85,8 +84,8 @@
         }
 
         /**
-         * @brief 스팸단어 제거
-         * 스팸 단어로 등록된 단어 제거
+         * @brief Remove the spam word
+         * Remove the word which was previously registered as a spam word
          **/
         function deleteWord($word) {
             if(!$word) return;

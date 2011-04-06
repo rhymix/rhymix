@@ -2,23 +2,22 @@
     /**
      * @class  commentAdminController
      * @author NHN (developers@xpressengine.com)
-     * @brief  comment 모듈의 admin controller class
+     * @brief admin controller class of the comment module
      **/
 
     class commentAdminController extends comment {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
         }
 
         /**
-         * @brief 관리자 페이지에서 선택된 댓글들을 삭제
+         * @brief Delete the selected comment from the administrator page
          **/
         function procCommentAdminDeleteChecked() {
-
-            // 선택된 글이 없으면 오류 표시
+            // Error display if none is selected
             $cart = Context::get('cart');
             if(!$cart) return $this->stop('msg_cart_is_null');
             $comment_srl_list= explode('|@|', $cart);
@@ -28,8 +27,7 @@
             $oCommentController = &getController('comment');
 
             $deleted_count = 0;
-
-            // 글삭제
+            // Delete the comment posting
             for($i=0;$i<$comment_count;$i++) {
                 $comment_srl = trim($comment_srl_list[$i]);
                 if(!$comment_srl) continue;
@@ -44,7 +42,7 @@
         }
 
         /**
-         * @brief 신고대상을 취소 시킴
+         * @brief cancel the blacklist of abused comments reported by other users
          **/
         function procCommentAdminCancelDeclare() {
             $comment_srl = trim(Context::get('comment_srl'));
@@ -57,7 +55,7 @@
         }
 
         /**
-         * @brief 특정 모듈의 모든 댓글 삭제
+         * @brief delete all comments of the specific module
          **/
         function deleteModuleComments($module_srl) {
             $args->module_srl = $module_srl;

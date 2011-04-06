@@ -2,27 +2,26 @@
     /**
      * @class  krzipAdminView
      * @author NHN (developers@xpressengine.com)
-     * @brief  krzip 모듈의 admin view class
+     * @brief admin view class of the krzip module 
      **/
 
     class krzipAdminView extends krzip {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
         }
 
         /**
-         * @brief 설정
+         * @brief Configuration
          **/
         function dispKrzipAdminConfig() {
-            // 설정 정보를 받아옴 (module model 객체를 이용)
+            // Get configurations (using module model object)
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('krzip');
             Context::set('config',$config);
-
-            // 템플릿 파일 지정
+            // Set a template file
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('index');
         }

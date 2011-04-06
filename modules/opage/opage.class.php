@@ -2,43 +2,43 @@
     /**
      * @class  opage
      * @author NHN (developers@xpressengine.com)
-     * @brief  opage 모듈의 high class
+     * @brief high class of opage module
      **/
 
     class opage extends ModuleObject {
 
         /**
-         * @brief 설치시 추가 작업이 필요할시 구현
+         * @brief Implement if additional tasks are necessary when installing
          **/
         function moduleInstall() {
-            // opage 에서 사용할 cache디렉토리 생성
+            // Create cache directory to use in the opage
             FileHandler::makeDir('./files/cache/opage');
 
             return new Object();
         }
 
         /**
-         * @brief 설치가 이상이 없는지 체크하는 method
+         * @brief a method to check if successfully installed
          **/
         function checkUpdate() {
-            // cache 디렉토리가 없으면 바로 디렉토리 생성
+            // Create a directory ditectly if no cache directory exists
             if(!is_dir('./files/cache/opage')) FileHandler::makeDir('./files/cache/opage');
 
             return false;
         }
 
         /**
-         * @brief 업데이트 실행
+         * @brief Update
          **/
         function moduleUpdate() {
             return new Object(0, 'success_updated');
         }
 
         /**
-         * @brief 캐시 파일 재생성
+         * @brief Re-generate the cache file
          **/
         function recompileCache() {
-            // 외부 페이지 캐시 파일 삭제
+            // Remove cache file for external pages
             FileHandler::removeFilesInDir("./files/cache/opage");
         }
     }

@@ -2,17 +2,16 @@
     /**
      * @class  poll_maker
      * @author NHN (developers@xpressengine.com)
-     * @brief  에디터에서 url링크하는 기능 제공. 
+     * @brief Editor provides the ability to link to the url.
      **/
 
     class poll_maker extends EditorHandler { 
-
-        // editor_sequence 는 에디터에서 필수로 달고 다녀야 함....
+        // editor_sequence from the editor must attend mandatory wearing ....
         var $editor_sequence = 0;
         var $component_path = '';
 
         /**
-         * @brief editor_sequence과 컴포넌트의 경로를 받음
+         * @brief editor_sequence and components out of the path
          **/
         function poll_maker($editor_sequence, $component_path) {
             $this->editor_sequence = $editor_sequence;
@@ -20,15 +19,14 @@
         }
 
         /**
-         * @brief popup window요청시 popup window에 출력할 내용을 추가하면 된다
+         * @brief popup window to display in popup window request is to add content
          **/
         function getPopupContent() {
-            // 설문조사 스킨을 구함
+            // Wanted Skins survey
             $oModuleModel = &getModel('module');
             $skin_list = $oModuleModel->getSkins("./modules/poll/");
             Context::set('skin_list', $skin_list);
-
-            // 템플릿을 미리 컴파일해서 컴파일된 소스를 return
+            // Pre-compiled source code to compile template return to
             $tpl_path = $this->component_path.'tpl';
             $tpl_file = 'popup.html';
 
@@ -37,10 +35,10 @@
         }
 
         /**
-         * @brief 에디터 컴포넌트가 별도의 고유 코드를 이용한다면 그 코드를 html로 변경하여 주는 method
+         * @brief Editor of the components separately if you use a unique code to the html code for a method to change
          *
-         * 이미지나 멀티미디어, 설문등 고유 코드가 필요한 에디터 컴포넌트는 고유코드를 내용에 추가하고 나서
-         * DocumentModule::transContent() 에서 해당 컴포넌트의 transHtml() method를 호출하여 고유코드를 html로 변경
+         * Images and multimedia, seolmundeung unique code is required for the editor component added to its own code, and then
+         * DocumentModule:: transContent() of its components transHtml() method call to change the html code for your own
          **/
         function transHTML($xml_obj) {
             $poll_srl = $xml_obj->attrs->poll_srl;
@@ -51,8 +49,7 @@
             $width = $matches[2];
             if(!$width) $width = 400;
             $style = sprintf('width:%dpx', $width);
-
-            // poll model 객체 생성해서 html 얻어와서 return
+            // poll model object creation to come get it return html
             $oPollModel = &getModel('poll');
             return $oPollModel->getPollHtml($poll_srl, $style, $skin);
         }

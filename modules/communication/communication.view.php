@@ -2,13 +2,13 @@
     /**
      * @class  communicationView
      * @author NHN (developers@xpressengine.com)
-     * @brief  communication module의 View class
+     * @brief View class of communication module
      **/
 
     class communicationView extends communication {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
             $oCommunicationModel = &getModel('communication');
@@ -23,14 +23,13 @@
         }
 
         /**
-         * @brief 쪽지함 출력
+         * @brief Display message box
          **/
         function dispCommunicationMessages() {
-            // 로그인이 되어 있지 않으면 오류 표시
+            // Error appears if not logged-in
             if(!Context::get('is_logged')) return $this->stop('msg_not_logged');
             $logged_info = Context::get('logged_info');
-
-            // 변수 설정
+            // Set the variables
             $message_srl = Context::get('message_srl');
             $message_type = Context::get('message_type');
             if(!in_array($message_type, array('R','S','T'))) {
@@ -39,8 +38,7 @@
             }
 
             $oCommunicationModel = &getModel('communication');
-
-            // message_srl이 있으면 내용 추출
+            // extract contents if message_srl exists
             if($message_srl) {
                 $message = $oCommunicationModel->getSelectedMessage($message_srl);
                 if($message->message_srl == $message_srl && ($message->receiver_srl == $logged_info->member_srl || $message->sender_srl == $logged_info->member_srl) ) {
@@ -48,11 +46,9 @@
 					Context::set('message', $message);
 				}
             }
-
-            // 목록 추출
+            // Extract a list
             $output = $oCommunicationModel->getMessages($message_type);
-
-            // 템플릿에 쓰기 위해서 context::set
+            // set a template file
             Context::set('total_count', $output->total_count);
             Context::set('total_page', $output->total_page);
             Context::set('page', $output->page);
@@ -63,25 +59,23 @@
         }
 
         /**
-         * @brief 새 쪽지 보여줌
+         * @brief display a new message
          **/
         function dispCommunicationNewMessage() {
             $this->setLayoutFile('popup_layout');
-
-            // 로그인이 되어 있지 않으면 오류 표시
+            // Error appears if not logged-in
             if(!Context::get('is_logged')) return $this->stop('msg_not_logged');
             $logged_info = Context::get('logged_info');
 
             $oCommunicationModel = &getModel('communication');
-
-            // 새 쪽지를 가져옴
+            // get a new message
             $message = $oCommunicationModel->getNewMessage();
             if($message) {
 				stripEmbedTagForAdmin($message->content, $message->sender_srl);
 				Context::set('message', $message);
 			}
             
-            // 플래그 삭제
+            // Delete a flag
             $flag_path = './files/communication_extra_info/new_message_flags/'.getNumberingPath($logged_info->member_srl);
             $flag_file = sprintf('%s%s', $flag_path, $logged_info->member_srl);
             FileHandler::removeFile($flag_file);
@@ -90,22 +84,19 @@
         }
 
         /**
-         * @brief 쪽지 발송 출력
+         * @brief Display message sending
          **/
         function dispCommunicationSendMessage() {
             $this->setLayoutFile("popup_layout");
             $oCommunicationModel = &getModel('communication');
             $oMemberModel = &getModel('member');
-
-            // 로그인이 되어 있지 않으면 오류 표시
+            // Error appears if not logged-in
             if(!Context::get('is_logged')) return $this->stop('msg_not_logged');
             $logged_info = Context::get('logged_info');
-
-            // 쪽지 받을 사용자 정보 구함
+            // get receipient's information 
             $receiver_srl = Context::get('receiver_srl');
             if(!$receiver_srl || $logged_info->member_srl == $receiver_srl) return $this->stop('msg_not_logged');
-
-            // 답글 쪽지일 경우 원본 메세지의 글번호를 구함
+            // get message_srl of the original message if it is a reply
             $message_srl = Context::get('message_srl');
             if($message_srl) {
                 $source_message = $oCommunicationModel->getSelectedMessage($message_srl);
@@ -118,8 +109,7 @@
 
             $receiver_info = $oMemberModel->getMemberInfoByMemberSrl($receiver_srl);
             Context::set('receiver_info', $receiver_info);
-
-            // 에디터 모듈의 getEditor를 호출하여 서명용으로 세팅
+            // set a signiture by calling getEditor of the editor module
             $oEditorModel = &getModel('editor');
             $option->primary_key_name = 'receiver_srl';
             $option->content_key_name = 'content';
@@ -139,21 +129,19 @@
         }
 
         /**
-         * @brief 친구 목록 보기
+         * @brief display a list of friends
          **/
         function dispCommunicationFriend() {
-            // 로그인이 되어 있지 않으면 오류 표시
+            // Error appears if not logged-in
             if(!Context::get('is_logged')) return $this->stop('msg_not_logged');
 
             $oCommunicationModel = &getModel('communication');
-
-            // 그룹 목록을 가져옴
+            // get a group list
             $tmp_group_list = $oCommunicationModel->getFriendGroups();
             $group_count = count($tmp_group_list);
             for($i=0;$i<$group_count;$i++) $friend_group_list[$tmp_group_list[$i]->friend_group_srl] = $tmp_group_list[$i];
             Context::set('friend_group_list', $friend_group_list);
-
-            // 친구 목록을 가져옴
+            // get a list of friends
             $friend_group_srl = Context::get('friend_group_srl');
             $output = $oCommunicationModel->getFriends($friend_group_srl);
             $friend_count = count($output->data);
@@ -165,8 +153,7 @@
                     $output->data[$key]->group_title = $group_title;
                 }
             }
-
-            // 템플릿에 쓰기 위해서 context::set
+            // set a template file
             Context::set('total_count', $output->total_count);
             Context::set('total_page', $output->total_page);
             Context::set('page', $output->page);
@@ -177,26 +164,23 @@
         }
 
         /**
-         * @brief 친구 추가
+         * @brief Add a friend
          **/
         function dispCommunicationAddFriend() {
             $this->setLayoutFile("popup_layout");
-
-            // 로그인이 되어 있지 않으면 오류 표시
+            // error appears if not logged-in
             if(!Context::get('is_logged')) return $this->stop('msg_not_logged');
             $logged_info = Context::get('logged_info');
 
             $target_srl = Context::get('target_srl');
             if(!$target_srl) return $this->stop('msg_invalid_request');
-
-            // 대상 회원의 정보를 구함
+            // get information of the member
             $oMemberModel = &getModel('member');
             $oCommunicationModel = &getModel('communication');
             $communication_info = $oMemberModel->getMemberInfoByMemberSrl($target_srl);
             if($communication_info->member_srl != $target_srl) return $this->stop('msg_invalid_request');
             Context::set('target_info', $communication_info);
-
-            // 그룹의 목록을 구함
+            // get a group list
             $friend_group_list = $oCommunicationModel->getFriendGroups();
             Context::set('friend_group_list', $friend_group_list);
 
@@ -204,16 +188,14 @@
         }
 
         /**
-         * @brief 친구 그룹 추가
+         * @brief Add a group of friends
          **/
         function dispCommunicationAddFriendGroup() {
             $this->setLayoutFile("popup_layout");
-
-            // 로그인이 되어 있지 않으면 오류 표시
+            // error apprears if not logged-in
             if(!Context::get('is_logged')) return $this->stop('msg_not_logged');
             $logged_info = Context::get('logged_info');
-
-            // 그룹 번호가 넘어오면 수정모드로..
+            // change to edit mode when getting the group_srl
             $friend_group_srl = Context::get('friend_group_srl');
             if($friend_group_srl) {
                 $oCommunicationModel = &getModel('communication');

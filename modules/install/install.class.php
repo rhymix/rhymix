@@ -2,34 +2,34 @@
     /**
      * @class  install
      * @author NHN (developers@xpressengine.com)
-     * @brief  install module의 high class
+     * @brief install module of the high class
      **/
 
     class install extends ModuleObject {
 
         /**
-         * @brief 설치시 추가 작업이 필요할시 구현
+         * @brief Implement if additional tasks are necessary when installing
          **/
         function moduleInstall() {
             return new Object();
         }
 
         /**
-         * @brief 설치가 이상이 없는지 체크하는 method
+         * @brief a method to check if successfully installed
          **/
         function checkUpdate() {
             return false;
         }
 
         /**
-         * @brief 업데이트 실행
+         * @brief Execute update
          **/
         function moduleUpdate() {
             return new Object();
         }
 
         /**
-         * @brief 캐시 파일 재생성
+         * @brief Re-generate the cache file
          **/
         function recompileCache() {
         }

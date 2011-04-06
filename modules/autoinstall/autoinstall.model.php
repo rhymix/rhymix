@@ -2,7 +2,7 @@
     /**
      * @class  autoinstallModel
      * @author NHN (developers@xpressengine.com)
-     * @brief  autoinstall 모듈의 Model class
+     * @brief Model class of the autoinstall module
      **/
 
     class autoinstallModel extends autoinstall {

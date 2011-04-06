@@ -150,8 +150,7 @@
             $oAddonModel = &getAdminModel('addon');
             $addon_list = $oAddonModel->getAddonList();
             Context::set('addon_list', $addon_list);
-
-            // 방문자수
+            // Visitors
             $time = time();
             $w = date("D");
             while(date("D",$time) != "Sat") {
@@ -193,20 +192,17 @@
                 $status->week[date("Y.m.d",$i)]->this = (int)$visitors[date("Ymd",$i)];
                 $status->week[date("Y.m.d",$i)]->last = (int)$visitors[date("Ymd",$i-60*60*24*7)];
             }
-
-            // 각종 통계 정보를 구함
+            // Wanted various statistical information
             $output = executeQuery('admin.getTotalVisitors');
             $status->total_visitor = $output->data->count;
             $output = executeQuery('admin.getTotalSiteVisitors');
             $status->total_visitor += $output->data->count;
             $status->visitor = $visitors[date("Ymd")];
-
-            // 오늘의 댓글 수
+            // Today's Number of Comments
             $args->regdate = date("Ymd");
             $output = executeQuery('admin.getTodayCommentCount', $args);
             $status->comment_count = $output->data->count;
-
-            // 오늘의 엮인글 수
+            // Today Wed yeokingeul
             $args->regdate = date("Ymd");
             $output = executeQuery('admin.getTodayTrackbackCount', $args);
             $status->trackback_count = $output->data->count;

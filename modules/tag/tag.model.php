@@ -2,20 +2,20 @@
     /**
      * @class  tagModel
      * @author NHN (developers@xpressengine.com)
-     * @brief  tag 모듈의 model class
+     * @brief tag model class of the module
      **/
 
     class tagModel extends tag {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
         }
 
         /**
-         * @brief 태그 목록을 가져옴
-         * 지정된 모듈의 태그를 개수가 많은 순으로 추출
+         * @brief Imported Tag List
+         * Many of the specified module in order to extract the number of tags
          **/
         function getTagList($obj) {
             if($obj->mid) {
@@ -23,8 +23,7 @@
                 $obj->module_srl = $oModuleModel->getModuleSrlByMid($obj->mid);
                 unset($obj->mid);
             }
-
-            // 넘어온 module_srl은 array일 수도 있기에 array인지를 체크 
+            // Module_srl passed the array may be a check whether the array
             if(is_array($obj->module_srl)) $args->module_srl = implode(',', $obj->module_srl);
             else $args->module_srl = $obj->module_srl;
             $args->list_count = $obj->list_count;
@@ -38,7 +37,7 @@
 
 
         /**
-         * @brief tag로 document_srl를 가져오기
+         * @brief document_srl the import tag
          **/
 		function getDocumentSrlByTag($obj){
 			if(is_array($obj->module_srl)) $args->module_srl = implode(',', $obj->module_srl);
@@ -52,7 +51,7 @@
 		}
 
         /**
-         * @brief document 에서 사용된 tag 가져오기
+         * @brief document used in the import tag
          **/
 		function getDocumentsTagList($obj){
 			if(is_array($obj->document_srl)) $args->document_srl = implode(',', $obj->document_srl);
@@ -65,7 +64,7 @@
 		}
 
 		/**
-		 * @brief 특정tag과 함께 사용된 tag목록
+		 * @brief Tag is used with a particular tag list
 		 **/
 		function getTagWithUsedList($obj){
 			if(is_array($obj->module_srl)) $args->module_srl = implode(',', $obj->module_srl);

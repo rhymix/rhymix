@@ -2,14 +2,14 @@
     /**
      * @class  memberAPI
      * @author NHN (developers@xpressengine.com)
-     * @brief  member 모듈의 View Action에 대한 API 처리
+     * @brief API Processing of View Action in the member module
      **/
 
     class memberAPI extends member {
 
 
         /**
-         * @brief 컨텐츠 목록
+         * @brief Content List
          **/
         function dispSavedDocumentList(&$oModule) {
             $document_list = $this->arrangeContentList(Context::get('document_list'));

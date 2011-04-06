@@ -2,7 +2,7 @@
     /**
      * @class  autoinstallAdminView
      * @author NHN (developers@xpressengine.com)
-     * @brief  autoinstall 모듈의 admin view class
+     * @brief admin view class in the autoinstall module 
      **/
 
 

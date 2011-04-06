@@ -2,13 +2,13 @@
     /**
      * @class  pageAPI
      * @author NHN (developers@xpressengine.com)
-     * @brief  page 모듈의 View Action에 대한 API 처리
+     * @brief View Action page for the module API processing
      **/
 
     class pageAPI extends page {
 
         /**
-         * @brief 페이지 내용
+         * @brief Page information
          **/
         function dispPageIndex(&$oModule) {
 			$page_content = Context::get('page_content');

@@ -4,20 +4,18 @@
     /**
      * @file image_name.addon.php
      * @author NHN (developers@xpressengine.com)
-     * @brief 사용자의 이미지이름/ 이미지마크등을 출력
+     * @brief Display user image name/image mark
      *
-     * <div class="member_회원번호">....</div> 로 정의가 된 부분을 찾아 회원번호를 구해서 
-     * 이미지이름, 이미지마크가 있는지를 확인하여 있으면 내용을 변경해버립니다.
+     * Find member_srl in the part with <div class="member_회원번호"> .... </div>
+     * Check if ther is image name and image mark. Then change it.
      **/
 
     /**
-     * 출력되기 바로 직전일 경우에 이미지이름/이미지마크등을 변경
+     * Just before displaying, change image name/ image mark
      **/
     if($called_position != "before_display_content" || Context::get('act')=='dispPageAdminContentModify') return;
-
-    // 회원 이미지이름/ 마크/ 찾아서 대체할 함수를 담고 있는 파일을 include
+    // Include a file having functions to replace member image name/mark
     require_once('./addons/member_extra_info/member_extra_info.lib.php');
-
-    // 1. 출력문서중에서 <div class="member_번호">content</div>를 찾아 MemberController::transImageName() 를 이용하여 이미지이름/마크로 변경
+    // 1. Find a part <div class="member_번호"> content </div> in the output document, change it to image name/mark by using MemberController::transImageName()
     $output = preg_replace_callback('!<(div|span|a)([^\>]*)member_([0-9]+)([^\>]*)>(.*?)\<\/(div|span|a)\>!is', 'memberTransImageName', $output);
 ?>

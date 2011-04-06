@@ -2,21 +2,21 @@
     /**
      * @class  importerAdminView
      * @author NHN (developers@xpressengine.com)
-     * @brief  importer 모듈의 admin view class
+     * @brief admin view class of the importer module 
      **/
 
     class importerAdminView extends importer {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          *
-         * importer 모듈은 일반 사용과 관리자용으로 나누어진다.\n
+         * Importer module is divided by general use and administrative use \n
          **/
         function init() {
         }
 
         /**
-         * @brief XML 파일을 업로드하는 form 출력
+         * @brief Display a form to upload the xml file
          **/
         function dispImporterAdminContent() {
             $this->setTemplatePath($this->module_path.'tpl');

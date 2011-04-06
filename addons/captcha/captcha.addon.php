@@ -4,8 +4,8 @@
     /**
      * @file captcha.addon.php
      * @author NHN (developers@xpressengine.com)
-     * @brief 특정 action을 실행할때 captcha를 띄우도록 함
-	 *        영어 알파벳을 입력, 음성기능 추가
+     * @brief Captcha for a particular action
+	 * English alphabets and voice verification added
      **/
 
 	if(!class_exists('AddonCaptcha'))
@@ -43,8 +43,8 @@
 					Context::addHtmlHeader('<script type="text/javascript"> var captchaTargetAct = new Array("'.implode('","',$target_acts).'"); </script>');
 					Context::addJsFile('./addons/captcha/captcha.js',false, '', null, 'body');
 				}
-
-				// 게시판/ 이슈트래커의 글쓰기/댓글쓰기 액션 호출시 세션 비교
+				// compare session when calling actions such as writing a post or a comment on the board/issue tracker module
+				
 				if(!$_SESSION['captcha_authed'] && in_array(Context::get('act'), $target_acts)) {
 					Context::loadLang('./addons/captcha/lang');
 					$ModuleHandler->error = "captcha_denied";
@@ -56,11 +56,11 @@
 			function before_module_init_setCaptchaSession()
 			{
 				if($_SESSION['captcha_authed']) return false;
-
-				// 언어파일 로드
+				// Load language files
+				
 				Context::loadLang(_XE_PATH_.'addons/captcha/lang');
-
-				// 키워드 생성
+				// Generate keywords
+				
 				$arr = range('A','Y');
 				shuffle($arr);
 				$arr = array_slice($arr,0,6);
@@ -106,31 +106,31 @@
 			{
 				$arr = array();
 				for($i=0,$c=strlen($string);$i<$c;$i++) $arr[] = $string{$i};
-
-				// 글자 하나 사이즈
+				// Font site
+				
 				$w = 18;
 				$h = 25;
-
-				// 글자 수
+				// Character length
+				
 				$c = count($arr);
-
-				// 글자 이미지
+				// Character image
+				
 				$im = array();
-
-				// 총사이즈로 바탕 이미지 생성
+				// Create an image by total size
+				
 				$im[] = imagecreate(($w+2)*count($arr), $h);
 
 				$deg = range(-30,30);
 				shuffle($deg);
-
-				// 글자별 이미지 생성
+				// Create an image for each letter
+				
 				foreach($arr as $i => $str)
 				{
 					$im[$i+1] = @imagecreate($w, $h);
 					$background_color = imagecolorallocate($im[$i+1], 255, 255, 255);
 					$text_color = imagecolorallocate($im[$i+1], 0, 0, 0);
-
-					// 글자폰트(사이즈) 조절
+					// Control font size
+					
 					$ran = range(1,20);
 					shuffle($ran);
 
@@ -148,22 +148,23 @@
 					}
 				}
 				
-				// 각글자 이미지를 합침
+				// Combine images of each character
+				
 				for($i=1;$i<count($im);$i++)
 				{
 					imagecopy($im[0],$im[$i],(($w+2)*($i-1)),0,0,0,$w,$h);
 					imagedestroy($im[$i]);
 				}
-
-				// 이미지 확대
+				// Larger image
+				
 				$big_count = 2;
 				$big = imagecreatetruecolor(($w+2)*$big_count*$c, $h*$big_count);
 				imagecopyresized($big, $im[0], 0, 0, 0, 0, ($w+2)*$big_count*$c, $h*$big_count, ($w+2)*$c, $h);
 				imagedestroy($im[0]);
 
 				if(function_exists('imageantialias')) imageantialias($big,true);
-
-				// 배경 라인 및 점찍기
+				// Background line
+				
 				$line_color = imagecolorallocate($big, 0, 0, 0);
 
 				$w = ($w+2)*$big_count*$c;
@@ -207,8 +208,8 @@
 				{
 					$_data = FileHandler::readFile(sprintf($_audio, $string{$i}));
 
-					$start = rand(5, 68); // 해더 4바이트, 데이터 영역 64바이트 정도 랜덤하게 시작
-					$datalen = strlen($_data) - $start - 256; // 마지막 unchanged 256 바이트 
+					$start = rand(5, 68); // Random start in 4-byte header and 64 byte data
+					$datalen = strlen($_data) - $start - 256; // Last unchanged 256 bytes
 
 					for($j=$start;$j<$datalen;$j+=64)
 					{

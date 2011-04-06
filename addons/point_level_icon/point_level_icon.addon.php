@@ -4,12 +4,11 @@
     /**
      * @file point.addon.php
      * @author NHN (developers@xpressengine.com)
-     * @brief 포인트 레벨 아이콘 표시 애드온
+     * @brief Icon-on-point level
      *
-     * 포인트 시스템 사용중일때 사용자 이름 앞에 포인트 레벨 아이콘을 표시합니다.
+     * Display point level icon before user name when point system is enabled.
      **/
-
-    // before_display_content 가 아니면 return
+    // return unless before_display_content
     if($called_position != "before_display_content" || Context::get('act')=='dispPageAdminContentModify') return;
 
     require_once('./addons/point_level_icon/point_level_icon.lib.php');

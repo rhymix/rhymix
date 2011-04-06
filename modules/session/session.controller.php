@@ -2,13 +2,13 @@
     /**
      * @class  sessionController
      * @author NHN (developers@xpressengine.com)
-     * @brief  session 모듈의 controller class
+     * @brief The controller class of the session module
      **/
 
     class sessionController extends session {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
         }

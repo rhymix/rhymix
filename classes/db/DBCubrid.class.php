@@ -2,34 +2,34 @@
     /**
      * @class DBCubrid
      * @author NHN (developers@xpressengine.com)
-     * @brief Cubrid DBMS를 이용하기 위한 class
+     * @brief Cubrid DBMS to use the class
      * @version 0.1p1
      *
-     * CUBRID2008 R1.3 에 대응하도록 수정 Prototype (prototype@cubrid.com) / 09.02.23
-     * 7.3 ~ 2008 R1.3 까지 테스트 완료함.
-     * 기본 쿼리만 사용하였기에 특화된 튜닝이 필요
+     * Modified to work with CUBRID2008 R1.3 verion by Prototype (prototype@cubrid.com)/09.02.23
+     * Test completed for CUBRID 7.3 ~ 2008 R1.3 versions.
+     * Only basic query used so query tunning and optimization needed
      **/
 
     class DBCubrid extends DB
     {
 
         /**
-         * @brief Cubrid DB에 접속하기 위한 정보
+         * @brief CUBRID DB connection information
          **/
         var $hostname = '127.0.0.1'; ///< hostname
         var $userid = NULL; ///< user id
         var $password = NULL; ///< password
         var $database = NULL; ///< database
         var $port = 33000; ///< db server port
-        var $prefix = 'xe'; ///< XE에서 사용할 테이블들의 prefix  (한 DB에서 여러개의 XE 설치 가능)
-        var $cutlen = 12000; ///< 큐브리드의 최대 상수 크기(스트링이 이보다 크면 '...'+'...' 방식을 사용해야 한다
+        var $prefix = 'xe'; // / <prefix of XE tables(One more XE can be installed on a single DB)
+        var $cutlen = 12000; // /< max size of constant in CUBRID(if string is larger than this, '...'+'...' should be used)
         var $comment_syntax = '/* %s */';
 
         /**
-         * @brief cubrid에서 사용될 column type
+         * @brief column type used in CUBRID
          *
-         * column_type은 schema/query xml에서 공통 선언된 type을 이용하기 때문에
-         * 각 DBMS에 맞게 replace 해주어야 한다
+         * column_type should be replaced for each DBMS's type
+         * becasue it uses commonly defined type in the schema/query xml
          **/
         var $column_type = array(
             'bignumber' => 'numeric(20)',
@@ -61,7 +61,7 @@
 		}
 
         /**
-         * @brief 설치 가능 여부를 return
+         * @brief Return if installable
          **/
         function isSupported()
         {
@@ -70,7 +70,7 @@
         }
 
         /**
-         * @brief DB정보 설정 및 connect/ close
+         * @brief DB settings and connect/close
          **/
         function _setDBInfo()
         {
@@ -86,17 +86,17 @@
         }
 
         /**
-         * @brief DB 접속
+         * @brief DB Connection
          **/
         function _connect()
         {
-            // db 정보가 없으면 무시
+            // ignore if db information not exists
             if (!$this->hostname || !$this->userid || !$this->password || !$this->database || !$this->port) return;
 
-            // 접속시도
+            // attempts to connect
             $this->fd = @cubrid_connect ($this->hostname, $this->port, $this->database, $this->userid, $this->password);
 
-            // 접속체크
+            // check connections
             if (!$this->fd) {
                 $this->setError (-1, 'database connect fail');
                 return $this->is_connected = false;
@@ -107,7 +107,7 @@
         }
 
         /**
-         * @brief DB접속 해제
+         * @brief DB disconnect
          **/
         function close()
         {
@@ -119,7 +119,7 @@
         }
 
         /**
-         * @brief 쿼리에서 입력되는 문자열 변수들의 quotation 조절
+         * @brief handles quatation of the string variables from the query
          **/
         function addQuotes($string)
         {
@@ -147,7 +147,7 @@
         }
 
         /**
-         * @brief 트랜잭션 시작
+         * @brief Begin transaction
          **/
         function begin()
         {
@@ -156,7 +156,7 @@
         }
 
         /**
-         * @brief 롤백
+         * @brief Rollback
          **/
         function rollback()
         {
@@ -166,7 +166,7 @@
         }
 
         /**
-         * @brief 커밋
+         * @brief Commit
          **/
         function commit()
         {
@@ -178,24 +178,24 @@
         }
 
         /**
-         * @brief : 쿼리문의 실행 및 결과의 fetch 처리
+         * @brief : executing the query and fetching the result
          *
-         * query : query문 실행하고 result return\n
-         * fetch : reutrn 된 값이 없으면 NULL\n
-         *         rows이면 array object\n
-         *         row이면 object\n
-         *         return\n
+         * query: run a query and return the result\n
+         * fetch: NULL if no value returned \n
+         *        array object if rows returned \n
+         *        object if a row returned \n
+         *        return\n
          **/
         function _query($query)
         {
             if (!$query || !$this->isConnected ()) return;
 
-            // 쿼리 시작을 알림
+            // Notify to start a query execution 
             $this->actStart ($query);
 
-            // 쿼리 문 실행
+            // Execute the query
             $result = @cubrid_execute ($this->fd, $query);
-            // 오류 체크
+            // error check
             if (cubrid_error_code ()) {
                 $code = cubrid_error_code ();
                 $msg = cubrid_error_msg ();
@@ -203,15 +203,15 @@
                 $this->setError ($code, $msg);
             }
 
-            // 쿼리 실행 종료를 알림
+            // Notify to complete a query execution
             $this->actFinish ();
 
-            // 결과 리턴
+            // Return the result
             return $result;
         }
 
         /**
-         * @brief 결과를 fetch
+         * @brief Fetch the result
          **/
         function _fetch($result)
         {
@@ -246,7 +246,7 @@
         }
 
         /**
-         * @brief 1씩 증가되는 sequence 값을 return (cubrid의 auto_increment는 sequence테이블에서만 사용)
+         * @brief return the sequence value incremented by 1(auto_increment column only used in the CUBRID sequence table)
          **/
         function getNextSequence()
         {
@@ -260,7 +260,7 @@
         }
 
         /**
-         * @brief 마이그레이션시 sequence  가 없을 경우 생성
+         * @brief return if the table already exists
          **/
         function _makeSequence()
         {
@@ -302,7 +302,7 @@
 
 
         /**
-         * @brief 테이블 기생성 여부 return
+         * brief return a table if exists
          **/
         function isTableExists ($target_name)
         {
@@ -327,7 +327,7 @@
         }
 
         /**
-         * @brief 특정 테이블에 특정 column 추가
+         * @brief add a column to the table
          **/
         function addColumn($table_name, $column_name, $type = 'number', $size = '', $default = '', $notnull = false)
         {
@@ -362,7 +362,7 @@
         }
 
         /**
-         * @brief 특정 테이블에 특정 column 제거
+         * @brief drop a column from the table
          **/
         function dropColumn ($table_name, $column_name)
         {
@@ -372,7 +372,7 @@
         }
 
         /**
-         * @brief 특정 테이블의 column의 정보를 return
+         * @brief return column information of the table
          **/
         function isColumnExists ($table_name, $column_name)
         {
@@ -388,7 +388,7 @@
         }
 
         /**
-         * @brief 특정 테이블에 특정 인덱스 추가
+         * @brief add an index to the table
          * $target_columns = array(col1, col2)
          * $is_unique? unique : none
          **/
@@ -404,7 +404,7 @@
         }
 
         /**
-         * @brief 특정 테이블의 특정 인덱스 삭제
+         * @brief drop an index from the table
          **/
         function dropIndex ($table_name, $index_name, $is_unique = false)
         {
@@ -414,7 +414,7 @@
         }
 
         /**
-         * @brief 특정 테이블의 index 정보를 return
+         * @brief return index information of the table
          **/
         function isIndexExists ($table_name, $index_name)
         {
@@ -430,7 +430,7 @@
         }
 
         /**
-         * @brief xml 을 받아서 테이블을 생성
+         * @brief creates a table by using xml file
          **/
         function createTableByXml ($xml_doc)
         {
@@ -438,19 +438,19 @@
         }
 
         /**
-         * @brief xml 을 받아서 테이블을 생성
+         * @brief creates a table by using xml file
          **/
         function createTableByXmlFile ($file_name)
         {
             if (!file_exists ($file_name)) return;
-            // xml 파일을 읽음
+            // read xml file
             $buff = FileHandler::readFile ($file_name);
 
             return $this->_createTable ($buff);
         }
 
         /**
-         * @brief schema xml을 이용하여 create class query생성
+         * @brief create table by using the schema xml
          *
          * type : number, varchar, tinytext, text, bigtext, char, date, \n
          * opt : notnull, default, size\n
@@ -461,14 +461,13 @@
             // xml parsing
             $oXml = new XmlParser();
             $xml_obj = $oXml->parse($xml_doc);
-
-            // 테이블 생성 schema 작성
+            // Create a table schema
             $table_name = $xml_obj->table->attrs->name;
 
 			// if the table already exists exit function
             if ($this->isTableExists($table_name)) return;
 
-            // 만약 테이블 이름이 sequence라면 serial 생성
+            // If the table name is sequence, it creates a serial
             if ($table_name == 'sequence') {
                 $query = sprintf ('create serial "%s" start with 1 increment by 1'.
                                   ' minvalue 1 '.
@@ -563,7 +562,7 @@
         }
 
         /**
-         * @brief 조건문 작성하여 return
+         * @brief return the condition
          **/
         function getCondition ($output)
         {
@@ -651,16 +650,16 @@
         }
 
         /**
-         * @brief insertAct 처리
+         * @brief handles insertAct
          **/
         function _executeInsertAct ($output)
         {
-            // 테이블 정리
+            // tables
             foreach ($output->tables as $val) {
                 $table_list[] = '"'.$this->prefix.$val.'"';
             }
 
-            // 컬럼 정리
+            // columns
             foreach ($output->columns as $key => $val) {
                 $name = $val['name'];
                 $value = $val['value'];
@@ -699,18 +698,18 @@
         }
 
         /**
-         * @brief updateAct 처리
+         * @brief handles updateAct
          **/
         function _executeUpdateAct ($output)
         {
-            // 테이블 정리
+            // tables
             foreach ($output->tables as $key => $val) {
                 $table_list[] = '"'.$this->prefix.$val.'" as "'.$key.'"';
             }
 
             $check_click_count = true;
 
-            // 컬럼 정리
+            // columns
             foreach ($output->columns as $key => $val) {
                 if (!isset ($val['value'])) continue;
                 $name = $val['name'];
@@ -721,10 +720,10 @@
                 }
 
                 for ($i = 0; $i < $key; $i++) {
-                    /* 한문장에 같은 속성에 대한 중복 설정은 큐브리드에서는 허용치 않음 */
+                    // not allows to define the same property repeatedly in a single query in CUBRID
                     if ($output->columns[$i]['name'] == $name) break;
                 }
-                if ($i < $key) continue; // 중복이 발견되면 이후의 설정은 무시
+                if ($i < $key) continue; // ignore the rest of properties if duplicated property found
 
                 if (strpos ($name, '.') !== false && strpos ($value, '.') !== false) {
                     $column_list[] = $name.' = '.$value;
@@ -742,7 +741,7 @@
                 }
             }
 
-            // 조건절 정리
+            // conditional clause
             $condition = $this->getCondition ($output);
 
             $check_click_count_condition = false;
@@ -792,16 +791,16 @@
         }
 
         /**
-         * @brief deleteAct 처리
+         * @brief handles deleteAct
          **/
         function _executeDeleteAct ($output)
         {
-            // 테이블 정리
+            // tables
             foreach ($output->tables as $val) {
                 $table_list[] = '"'.$this->prefix.$val.'"';
             }
 
-            // 조건절 정리
+            // Conditional clauses
             $condition = $this->getCondition ($output);
 
             $query = sprintf ("delete from %s %s", implode (',',$table_list), $condition);
@@ -812,14 +811,14 @@
         }
 
         /**
-         * @brief selectAct 처리
+         * @brief Handle selectAct
          *
-         * select의 경우 특정 페이지의 목록을 가져오는 것을 편하게 하기 위해\n
-         * navigation이라는 method를 제공
+         * to get a specific page list easily in select statement,\n
+         * a method, navigation, is used 
          **/
         function _executeSelectAct ($output)
         {
-            // 테이블 정리
+            // tables
             $table_list = array ();
             foreach ($output->tables as $key => $val) {
                 $table_list[] = '"'.$this->prefix.$val.'" as "'.$key.'"';
@@ -966,7 +965,7 @@
             }
 
 
-            // list_count를 사용할 경우 적용
+            // apply when using list_count
             if ($output->list_count['value']) {
                 $start_count = 0;
                 $list_count = $output->list_count['value'];
@@ -1050,7 +1049,7 @@
         }
 
         /**
-         * @brief 현재 시점의 Stack trace를 보여줌.결과를 fetch
+         * @brief displays the current stack trace. Fetch the result
          **/
         function backtrace ()
         {
@@ -1102,9 +1101,9 @@
         }
 
         /**
-         * @brief query xml에 navigation 정보가 있을 경우 페이징 관련 작업을 처리한다
+         * @brief paginates when navigation info exists in the query xml
          *
-         * 그닥 좋지는 않은 구조이지만 편리하다.. -_-;
+         * it is convenient although its structure is not good .. -_-;
          **/
         function _getNavigationData ($table_list, $columns, $left_join, $condition, $output) {
             require_once (_XE_PATH_.'classes/page/PageHandler.class.php');
@@ -1129,7 +1128,7 @@
             $page = $output->page['value'];
             if (!$page) $page = 1;
 
-            // 전체 페이지를 구함
+            // total pages
             if ($total_count) {
                 $total_page = (int) (($total_count - 1) / $list_count) + 1;
             }
@@ -1137,7 +1136,7 @@
                 $total_page = 1;
             }
 
-            // 페이지 변수를 체크
+            // check the page variables
             if ($page > $total_page) $page = $total_page;
             $start_count = ($page - 1) * $list_count;
 

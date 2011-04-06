@@ -4,10 +4,10 @@
     /**
      * @file ./addons/blogapi/blogapi.func.php
      * @author NHN (developers@xpressengine.com)
-     * @brief blogapi구현을 위한 함수 모음집
+     * @brief Function collections for the implementation of blogapi
      **/
     
-    // 오류 표시
+    // Error messages
     function getXmlRpcFailure($error, $message) {
         return 
             sprintf(
@@ -16,8 +16,7 @@
                 htmlspecialchars($message)
             );
     }
-
-    // 결과 표시
+    // Display results
     function getXmlRpcResponse($params) {
         $buff = '<?xml version="1.0" encoding="utf-8"?>'."\n<methodResponse><params>";
         $buff .= _getEncodedVal($params);
@@ -25,8 +24,7 @@
 
         return $buff;
     }
-
-    // 인코딩 처리 
+    // Encoding
     function _getEncodedVal($val, $is_sub_set = false) {
         if(is_int($val)) $buff = sprintf("<value><i4>%d</i4></value>", $val);
         elseif(is_string($val)&&preg_match('/^([0-9]+)T([0-9\:]+)$/', $val)) $buff = sprintf("<value><dateTime.iso8601>%s</dateTime.iso8601></value>\n", $val);
@@ -53,8 +51,7 @@
         if(!$is_sub_set) return sprintf("<param>\n%s</param>", $buff);
         return $buff;
     }
-
-    // 결과 출력
+    // Display the result
     function printContent($content) {
         header("Content-Type: text/xml; charset=UTF-8");
         header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");

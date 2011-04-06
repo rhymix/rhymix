@@ -2,22 +2,22 @@
     /**
      * @class  fileAdminModel
      * @author NHN (developers@xpressengine.com)
-     * @brief  file 모듈의 admin model 클래스
+     * @brief admin model class of the file module
      **/
 
     class fileAdminModel extends file {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
         }
 
         /**
-         * @brief 모든 첨부파일을 시간 역순으로 가져옴 (관리자용)
+         * @brief Get all the attachments in order by time descending (for administrators)
          **/
         function getFileList($obj) {
-            // 검색 옵션 정리
+            // Search options
             $search_target = $obj->search_target?$obj->search_target:trim(Context::get('search_target'));
             $search_keyword = $obj->search_keyword?$obj->search_keyword:trim(Context::get('search_keyword'));
 
@@ -59,27 +59,22 @@
                         break;
                 }
             }
-
-            // 유효/대기 상태 설정
+            // Set valid/invalid state
             if($obj->isvalid == 'Y') $args->isvalid = 'Y';
             elseif($obj->isvalid == 'N') $args->isvalid = 'N';
-
-            // 멀티미디어/ 일반 상태 설정
+            // Set multimedia/common file
             if($obj->direct_download == 'Y') $args->direct_download = 'Y';
             elseif($obj->direct_download == 'N') $args->direct_download= 'N';
-
-            // 변수 설정
+            // Set variables
             $args->sort_index = $obj->sort_index;
             $args->page = $obj->page?$obj->page:1;
             $args->list_count = $obj->list_count?$obj->list_count:20;
             $args->page_count = $obj->page_count?$obj->page_count:10;
             $args->s_module_srl = $obj->module_srl;
             $args->exclude_module_srl = $obj->exclude_module_srl;
-
-            // file.getFileList쿼리 실행
+            // Execute the file.getFileList query
             $output = executeQuery('file.getFileList', $args);
-
-            // 결과가 없거나 오류 발생시 그냥 return
+            // Return if no result or an error occurs
             if(!$output->toBool()||!count($output->data)) return $output;
 
             $oFileModel = &getModel('file');

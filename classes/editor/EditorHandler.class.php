@@ -2,15 +2,15 @@
     /**
     * @class EditorHandler
     * @author NHN (developers@xpressengine.com)
-    * @brief edit component의 상위 클래스임
+    * @brief superclass of the edit component
     *
-    * 주로 하는 일은 컴포넌트 요청시 컴포넌트에서 필요로 하는 변수를 세팅해준다
+    * set up the component variables
     **/
 
     class EditorHandler extends Object {
 
         /**
-         * @brief 컴포넌트의 xml및 관련 정보들을 설정
+         * @brief set the xml and other information of the component
          **/
         function setInfo($info) {
             Context::set('component_info', $info);

@@ -2,31 +2,29 @@
     /**
      * @class  counter
      * @author NHN (developers@xpressengine.com)
-     * @brief  counter 모듈의 high class
+     * @brief high class of counter module
      **/
 
     class counter extends ModuleObject {
 
         /**
-         * @brief 설치시 추가 작업이 필요할시 구현
+         * @brief Implement if additional tasks are necessary when installing
          **/
         function moduleInstall() {
             $oCounterController = &getController('counter');
-
-            // 0 일자로 기록될 전체 방문 기록 row 추가
+            // add a row for the total visit history 
             //$oCounterController->insertTotalStatus();
-
-            // 오늘자 row입력
+            // add a row for today's status
             //$oCounterController->insertTodayStatus();
 
             return new Object();
         }
 
         /**
-         * @brief 설치가 이상이 없는지 체크하는 method
+         * @brief method if successfully installed
          **/
         function checkUpdate() {
-            // 카운터에 site_srl추가
+            // Add site_srl to the counter
             $oDB = &DB::getInstance();
             if(!$oDB->isColumnExists('counter_log', 'site_srl')) return true;
             if(!$oDB->isIndexExists('counter_log','idx_site_counter_log')) return true;
@@ -35,10 +33,10 @@
         }
 
         /**
-         * @brief 업데이트 실행
+         * @brief Update
          **/
         function moduleUpdate() {
-            // 카운터에 site_srl추가
+            // Add site_srl to the counter
             $oDB = &DB::getInstance();
             if(!$oDB->isColumnExists('counter_log', 'site_srl')) $oDB->addColumn('counter_log','site_srl','number',11,0,true);
             if(!$oDB->isIndexExists('counter_log','idx_site_counter_log')) $oDB->addIndex('counter_log','idx_site_counter_log',array('site_srl','ipaddress'),false);
@@ -47,7 +45,7 @@
         }
 
         /**
-         * @brief 캐시 파일 재생성
+         * @brief re-generate the cache file
          **/
         function recompileCache() {
         }

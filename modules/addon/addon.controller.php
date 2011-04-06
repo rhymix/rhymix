@@ -2,20 +2,20 @@
     /**
      * @class  addonController
      * @author NHN (developers@xpressengine.com)
-     * @brief  addon 모듈의 controller class
+     * @brief addon module's controller class
      **/
 
 
     class addonController extends addon {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
         }
 
         /**
-         * @brief 메인/ 가상 사이트별 애드온 캐시 파일의 위치를 구함
+         * @brief Main/Virtual-specific add-on file, the location of the cache Wanted
          **/
         function getCacheFilePath($type = "pc") {
             $site_module_info = Context::get('site_module_info');
@@ -36,7 +36,7 @@
 
 
         /**
-         * @brief 애드온 mid 추가 설정 
+         * @brief Add-on mid settings
          **/
         function _getMidList($selected_addon, $site_srl = 0) {
 
@@ -48,11 +48,10 @@
 
 
         /**
-         * @brief 애드온 mid 추가 설정 
+         * @brief Add-on mid settings
          **/
         function _setAddMid($selected_addon,$mid, $site_srl=0) {
-
-            // 요청된 애드온의 정보를 구함
+            // Wanted to add the requested information
             $mid_list = $this->_getMidList($selected_addon, $site_srl);
 
             $mid_list[] = $mid;
@@ -62,11 +61,10 @@
 
 
         /**
-         * @brief 애드온 mid 추가 설정 
+         * @brief Add-on mid settings
          **/
         function _setDelMid($selected_addon,$mid,$site_srl=0) {
-
-            // 요청된 애드온의 정보를 구함
+            // Wanted to add the requested information
             $mid_list = $this->_getMidList($selected_addon,$site_srl);
 
             $new_mid_list = array();
@@ -83,7 +81,7 @@
         }
 
         /**
-         * @brief 애드온 mid 추가 설정 
+         * @brief Add-on mid settings
          **/
         function _setMid($selected_addon,$mid_list,$site_srl=0) {
             $args->mid_list =  join('|@|',$mid_list);
@@ -93,7 +91,7 @@
 
 
         /**
-         * @brief 애드온 mid 추가
+         * @brief Add mid-on
          **/
         function procAddonSetupAddonAddMid() {
             $site_module_info = Context::get('site_module_info');
@@ -105,7 +103,7 @@
         }
 
         /**
-         * @brief 애드온 mid 삭제
+         * @brief Add mid Delete
          **/
         function procAddonSetupAddonDelMid() {
             $site_module_info = Context::get('site_module_info');
@@ -118,10 +116,10 @@
         }
 
         /**
-         * @brief 캐시 파일 생성
+         * @brief Re-generate the cache file
          **/
         function makeCacheFile($site_srl = 0, $type = "pc") {
-            // 모듈에서 애드온을 사용하기 위한 캐시 파일 생성
+            // Add-on module for use in creating the cache file
             $buff = "";
             $oAddonModel = &getAdminModel('addon');
             $addon_list = $oAddonModel->getInsertedAddons($site_srl, $type);
@@ -155,7 +153,7 @@
         }
 
         /**
-         * @brief 애드온 설정
+         * @brief Add-On Set
          **/
         function doSetup($addon, $extra_vars,$site_srl=0) {
             if($extra_vars->mid_list) $extra_vars->mid_list = explode('|@|', $extra_vars->mid_list);
@@ -167,7 +165,7 @@
         }
 
         /**
-         * @brief 가상 사이트에서의 애드온 정보 제거
+         * @brief Remove add-on information in the virtual site
          **/
         function removeAddonConfig($site_srl) {
             $addon_path = _XE_PATH_.'files/cache/addons/';

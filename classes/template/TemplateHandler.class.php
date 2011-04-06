@@ -151,22 +151,22 @@
 			// replace value of src in img/input/script tag
 			$buff = preg_replace_callback('/<(img|input|script)([^>]*)src="([^"]*?)"/is', array($this, '_replacePath'), $buff);
 
-			// loop 템플릿 문법을 변환
+			// replace the loop template syntax
 			$buff = $this->_replaceLoop($buff);
 
-			// cond 템플릿 문법을 변환
+			// |replace the cond template syntax
 			$buff = $this->_replaceCond($buff);
 
-			// |cond 템플릿 문법을 변환
+			// replace the cond template syntax
 			$buff = preg_replace_callback("/<\/?(\w+)((\s+\w+(\s*=\s*(?:\".*?\"|'.*?'|[^'\">\s]+))?)+\s*|\s*)\/?>/i", array($this, '_replacePipeCond'), $buff);
 
-			// include 태그의 변환
+			// replace the include tags
 			$buff = preg_replace_callback('!<include ([^>]+)>!is', array($this, '_replaceInclude'), $buff);
 
-			// unload/ load 태그의 변환
+			// replace unload/load tags
 			$buff = preg_replace_callback('!<(unload|load) ([^>]+)>!is', array($this, '_replaceLoad'), $buff);
 
-			// 가상 태그인 block의 변환
+			// replace block which is a virtual tag
 			$buff = preg_replace('/<block([ ]*)>|<\/block>/is','',$buff);
 
             // replace include <!--#include($filename)-->
@@ -190,7 +190,7 @@
             // replace variables
             $buff = preg_replace_callback('/\{[^@^ ]([^\{\}\n]+)\}/i', array($this, '_compileVarToContext'), $buff);
 
-			// PHP 변수형의 변환 ($문자등을 공유 context로 변환)
+			// replace PHP variable types(converts characters like $ into shared context)
 			$buff = $this->_replaceVarInPHP($buff);
 
             // replace parts not displaying results
@@ -246,7 +246,7 @@
 		}
 
 		/**
-		 * @brief loop 문법의 변환
+		 * @brief replace loop syntax
 		 **/
 		function _replaceLoop($buff)
 		{
@@ -331,7 +331,7 @@
 		}
 
 		/**
-		 * @brief pipe cond, |cond= 의 변환
+		 * @brief replace pipe cond and |cond= 
 		 **/
 		function _replacePipeCond($matches)
 		{
@@ -346,7 +346,7 @@
 		}
 
 		/**
-		 * @brief cond 문법의 변환
+		 * @brief replace cond syntax
 		 **/
 		function _replaceCond($buff)
 		{
@@ -406,7 +406,7 @@
 		}
 
 		/**
-		 * @brief 다른 template파일을 include하는 include tag의 변환
+		 * @brief replace include tags which include other template files
 		 **/
 		function _replaceInclude($matches) 
 		{
@@ -442,7 +442,7 @@
 		}
 
 		/**
-		 * @brief load 태그의 변환
+		 * @brief replace load tags
 		 **/
 		function _replaceLoad($matches) {
 			$output = $matches[0];
@@ -539,7 +539,7 @@
 		}
 
 		/**
-		 * @brief $문자 의 PHP 변수 변환
+		 * @brief replace PHP variables of $ character
 		 **/
 		function _replaceVarInPHP($buff) {
 			$head = $tail = '';
@@ -558,7 +558,7 @@
 
 
 		/**
-		 * @brief php5의 class::$변수명의 경우 context를 사용하지 않아야 하기에 함수로 대체
+		 * @brief if class::$variable_name in php5, replace the function not to use context
 		 **/
 		function _replaceVarString($matches)
 		{

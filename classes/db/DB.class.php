@@ -241,7 +241,7 @@
         }
 
         /**
-         * @brief query xml 파일을 실행하여 결과를 return
+         * @brief Run the result of the query xml file
          * @param[in] $query_id query id (module.queryname
          * @param[in] $args arguments for query
          * @return result of query

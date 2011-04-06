@@ -2,7 +2,7 @@
     /**
      * @class extract 
      * @author NHN (developers@xpressengine.com)
-     * @brief  대용량의 xml파일을 특정 태그를 중심으로 개별 파일로 저장하는 클래스
+     * @brief Class to save each file by using tags in the large xml
      **/
     class extract {
         var $key = '';
@@ -26,7 +26,7 @@
         var $index = 0;
 
         /**
-         * @brief 생성자, 대상 파일이름과 시작-끝 태그명, 그리고 각 개별 아이템 태그명을 인자로 받음
+         * @brief Get arguments for constructor, file name, start tag, end tag, tag name for each item
          **/
         function set($filename, $startTag, $endTag, $itemTag, $itemEndTag) {
             $this->filename = $filename;
@@ -47,18 +47,16 @@
         }
 
         /**
-         * @brief 지정된 파일의 지시자를 염
+         * @brief Open an indicator of the file
          **/
         function openFile() {
             FileHandler::removeFile($this->cache_index_file);
             $this->index_fd = fopen($this->cache_index_file,"a");
-
-            // local 파일일 경우 
+            // If local file
             if(!preg_match('/^http:/i',$this->filename)) {
                 if(!file_exists($this->filename)) return new Object(-1,'msg_no_xml_file');
                 $this->fd = fopen($this->filename,"r");
-
-            // remote 파일일 경우
+            // If remote file
             } else {
                 $url_info = parse_url($this->filename);
                 if(!$url_info['port']) $url_info['port'] = 80;
@@ -66,8 +64,7 @@
 
                 $this->fd = @fsockopen($url_info['host'], $url_info['port']);
                 if(!$this->fd) return new Object(-1,'msg_no_xml_file');
-
-                // 한글 파일이 있으면 한글파일 부분만 urlencode하여 처리 (iconv 필수)
+                // If the file name contains Korean, do urlencode(iconv required)
                 $path = $url_info['path'];
                 if(preg_match('/[\xEA-\xED][\x80-\xFF]{2}/', $path)&&function_exists('iconv')) {
                     $path_list = explode('/',$path);

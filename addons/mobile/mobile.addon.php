@@ -4,58 +4,47 @@
     /**
      * @file mobile.addon.php
      * @author NHN (developers@xpressengine.com)
-     * @brief 모바일XE 애드온
+     * @brief Mobile XE add-on
      *
-     * 헤더정보를 가로채서 모바일에서의 접속일 경우 WAP 태그로 컨텐츠를 출력함
+     * If a mobile connection is made (see the header information), display contents with WAP tags
      *
-     * 동작 시점
+     * Time to call
      *
-     * before_module_proc > 모바일 처리를 위해 모듈의 일반 설정을 변경해야 할 경우 호출
+     * before_module_proc > call when changing general settings for mobile
      *
-     * after_module_proc > 모바일 컨텐츠 출력
-     * 동작 조건
+     * after_module_proc > display mobile content
+     * Condition
      **/
-
-    // 관리자 페이지는 무시
+    // Ignore admin page
     if(Context::get('module')=='admin') return;
-
-    // 동작 시점 관리
+    // Manage when to call it
     if($called_position != 'before_module_proc' && $called_position != 'after_module_proc' ) return;
-
-    // 모바일 브라우저가 아니라면 무시
+    // Ignore if not mobile browser
     require_once(_XE_PATH_.'addons/mobile/classes/mobile.class.php');
     if(!mobileXE::getBrowserType()) return;
-
-    // mobile instance 생성
+    // Generate mobile instance
     $oMobile = &mobileXE::getInstance();
     if(!$oMobile) return;
-
-    // 애드온 설정에서 지정된 charset으로 지정
+    // Specify charset on the add-on settings 
     $oMobile->setCharSet($addon_info->charset);
-
-    // 모듈의 정보를 세팅
+    // Set module information
     $oMobile->setModuleInfo($this->module_info);
-
-    // 현재 모듈 객체 등록
+    // Register the current module object
     $oMobile->setModuleInstance($this);
-
-    // 네비게이트 모드이거나 WAP class가 있을 경우 미리 컨텐츠를 추출하여 출력/ 종료
+    // Extract content and display/exit if navigate mode is or if WAP class exists
     if($called_position == 'before_module_proc') {
 
         if($oMobile->isLangChange()) {
             $oMobile->setLangType();
             $oMobile->displayLangSelect();
         }
-
-        // 네비게이트 모드이면 네비게이션 컨텐츠 출력
+        // On navigation mode, display navigation content
         if($oMobile->isNavigationMode()) $oMobile->displayNavigationContent();
-
-        // WAP class가 있으면 WAP class를 통해 컨텐츠 출력
+        // If you have a WAP class content output via WAP class
         else $oMobile->displayModuleContent();
-
-    // 네비게이트 모드가 아니고 WAP 클래스가 아니면 모듈의 결과를 출력
+    // If neither navigation mode nor WAP class is, display the module's result
     } else if($called_position == 'after_module_proc')  {
-        // 내용 준비
+        // Display
         $oMobile->displayContent();
     }
 ?>

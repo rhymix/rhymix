@@ -2,7 +2,7 @@
     /**
      * @class  documentController
      * @author NHN (developers@xpressengine.com)
-     * @brief  document 모듈의 controller 클래스
+     * @brief controller class of the document module
      **/
 
     class opageController extends opage {
@@ -10,12 +10,12 @@
         var $target_path = '';
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() { }
 
         /**
-         * @brief 타이틀 추출
+         * @brief Extract a title
          **/
         function getTitle($content) {
             preg_match('!<title([^>]*)>(.*?)<\/title>!is', $content, $buff);
@@ -23,16 +23,14 @@
         }
 
         /**
-         * @brief header script 추출
+         * @brief Extract header script
          **/
         function getHeadScript($content) {
-            // title 태그 제거
+            // remove the title tag
             $content = preg_replace('!<title([^>]*)>(.*?)<\/title>!is','', $content);
-
-            // meta 태그 제거
+            // Remove meta tags
             $content = preg_replace('!<(\/){0,1}meta([^>]*)>!is','', $content);
-
-            // <link, <style, <script 등의 정보를 추출
+            // Extract information such as <link, <style, <script and so on
             preg_match_all('!<link([^>]*)>!is', $content, $link_buff);
             for($i=0;$i<count($link_buff[0]);$i++) {
                 $tmp_str = trim($link_buff[0][$i]);
@@ -51,21 +49,20 @@
         }
 
         /**
-         * @brief body의 내용을 추출
+         * @brief Extract the contents of the body
          **/
         function getBodyScript($content) {
-            // 내용 추출
+            // Extract content
             preg_match('!<body([^>]*)>(.*?)<\/body>!is', $content, $body_buff);
             $body_script = $body_buff[2];
-
-            // link, style, script등 제거
+            // Remove link, style, script, etc.
             $body_script = preg_replace('!<link([^>]*)>!is', '', $body_script);
             $body_script = preg_replace('!<(style|script)(.*?)<\/(style|script)>!is', '', $body_script);
             return $body_script;
         }
 
         /**
-         * @brief 내용에 포함된 src, href의 값을 변경
+         * @brief Change the value of src, href in the content 
          **/
         function replaceSrc($content, $path) {
             $url_info = parse_url($path);

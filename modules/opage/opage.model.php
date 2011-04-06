@@ -2,19 +2,19 @@
     /**
      * @class  opageModel
      * @author NHN (developers@xpressengine.com)
-     * @brief  opage 모듈의 model 클래스
+     * @brief model class of the opage module
      **/
 
     class opageModel extends opage {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() { }
 
         /**
-         * @brief 특정 외부 페이지의 정보를 return
-         * 외부 페이지의 경우 기본 모듈의 정보와 설정정보를 함께 다루기 때문에 별도의 model method를 이용하게 한다
+         * @brief Return information on the external page
+         * Use a separate model method because external page handles information and configurations of the defaul module either.
          **/
         function getOpage($module_srl) {
             $oModuleModel = &getModel('module');

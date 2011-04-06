@@ -2,34 +2,32 @@
     /**
      * @class  krzipModel
      * @author NHN (developers@xpressengine.com)
-     * @brief  krzip 모듈의 model 클래스
+     * @brief model class of the krzip module
      **/
 
     class krzipModel extends krzip {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
         }
 
         /**
-         * @brief 우편 번호 검색
-         * 동이름을 입력받아서 지정된 서버에 우편번호 목록을 요청한다
+         * @brief Zip Code Search
+         * Request a zip code to the server with user-entered address
          **/
         function getKrzipCodeList() {
-            // 설정 정보를 받아옴 (module model 객체를 이용)
+            // Get configurations (using module model object)
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('krzip');
             if($config->krzip_server_hostname) $this->hostname = $config->krzip_server_hostname;
             if($config->krzip_server_port) $this->port = $config->krzip_server_port;
             if($config->krzip_server_query) $this->query = $config->krzip_server_query;
-
-            // 동네 이름을 받음
+            // Get address(town)
             $addr = trim(Context::get('addr'));
             if(!$addr) return new Object(-1,'msg_not_exists_addr');
-
-            // 지정된 서버에 요청을 시도한다
+            // Attempt to request to the server
             $query_string = $this->query.urlencode($addr);
 
             $fp = @fsockopen($this->hostname, $this->port, $errno, $errstr);

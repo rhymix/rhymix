@@ -2,7 +2,7 @@
     /**
      * @class  getSyndicationList
      * @author NHN (developers@xpressengine.com)
-     * @brief  syndication 모듈의 model class
+     * @brief syndication model class of the module
      **/
 
     class syndicationModel extends syndication {

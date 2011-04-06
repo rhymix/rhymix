@@ -2,17 +2,16 @@
     /**
      * @class  image_link
      * @author NHN (developers@xpressengine.com)
-     * @brief  이미지를 추가하거나 속성을 수정하는 컴포넌트
+     * @brief Add an image, or to modify the properties of components
      **/
 
     class image_link extends EditorHandler { 
-
-        // editor_sequence 는 에디터에서 필수로 달고 다녀야 함....
+        // editor_sequence from the editor must attend mandatory wearing ....
         var $editor_sequence = 0;
         var $component_path = '';
 
         /**
-         * @brief editor_sequence과 컴포넌트의 경로를 받음
+         * @brief editor_sequence and components out of the path
          **/
         function image_link($editor_sequence, $component_path) {
             $this->editor_sequence = $editor_sequence;
@@ -20,10 +19,10 @@
         }
 
         /**
-         * @brief popup window요청시 popup window에 출력할 내용을 추가하면 된다
+         * @brief popup window to display in popup window request is to add content
          **/
         function getPopupContent() {
-            // 템플릿을 미리 컴파일해서 컴파일된 소스를 return
+            // Pre-compiled source code to compile template return to
             $tpl_path = $this->component_path.'tpl';
             $tpl_file = 'popup.html';
 
@@ -34,10 +33,10 @@
         }
 
         /**
-         * @brief 에디터 컴포넌트가 별도의 고유 코드를 이용한다면 그 코드를 html로 변경하여 주는 method
+         * @brief Editor of the components separately if you use a unique code to the html code for a method to change
          *
-         * 이미지나 멀티미디어, 설문등 고유 코드가 필요한 에디터 컴포넌트는 고유코드를 내용에 추가하고 나서
-         * DocumentModule::transContent() 에서 해당 컴포넌트의 transHtml() method를 호출하여 고유코드를 html로 변경
+         * Images and multimedia, seolmundeung unique code is required for the editor component added to its own code, and then
+         * DocumentModule:: transContent() of its components transHtml() method call to change the html code for your own
          **/
         function transHTML($xml_obj) {
             $src = $xml_obj->attrs->src;
@@ -60,7 +59,7 @@
             $src = str_replace('&amp;amp;', '&amp;', $src);
 
             if(!$alt) $alt = $src;
-            // 이미지 주소를 request uri가 포함된 주소로 변환 (rss출력, 등등을 위함)
+            // Image containing the address to the address conversion request uri (rss output, etc. purposes)
             $temp_src = explode('/', $src);
             if(substr($src, 0,2)=='./') $src = Context::getRequestUri().substr($src, 2);
             elseif(substr($src , 0, 1)=='/') {

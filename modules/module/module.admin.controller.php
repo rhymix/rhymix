@@ -2,19 +2,19 @@
     /**
      * @class  moduleAdminController
      * @author NHN (developers@xpressengine.com)
-     * @brief  module 모듈의 admin controller class
+     * @brief admin controller class of the module module 
      **/
 
     class moduleAdminController extends module {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
         }
 
         /**
-         * @brief 모듈 카테고리 추가
+         * @brief Add the module category
          **/
         function procModuleAdminInsertCategory() {
             $args->title = Context::get('title');
@@ -25,7 +25,7 @@
         }
 
         /**
-         * @brief 카테고리의 내용 수정
+         * @brief Update category
          **/
         function procModuleAdminUpdateCategory() {
             $mode = Context::get('mode');
@@ -46,7 +46,7 @@
         }
 
         /**
-         * @brief 모듈 카테고리의 제목 변경
+         * @brief Change the title of the module category
          **/
         function doUpdateModuleCategory() {
             $args->title = Context::get('title');
@@ -55,7 +55,7 @@
         }
 
         /**
-         * @brief 모듈 카테고리 삭제
+         * @brief Delete the module category
          **/
         function doDeleteModuleCategory() {
             $args->module_category_srl = Context::get('module_category_srl');
@@ -63,14 +63,13 @@
         }
 
         /**
-         * @brief 모듈 복사
+         * @brief Copy Module
          **/
         function procModuleAdminCopyModule() {
-            // 복사하려는 대상 모듈의 정보를 구함
+            // Get information of the target module to copy
             $module_srl = Context::get('module_srl');
             if(!$module_srl) return;
-
-            // 새로 생성하려는 모듈들의 이름/브라우저 제목을 구함
+            // Get module name to create and browser title
             $clones = array();
             $args = Context::getAll();
             for($i=1;$i<=10;$i++) {
@@ -86,11 +85,9 @@
 
             $oModuleModel = &getModel('module');
             $oModuleController = &getController('module');
-
-            // 모듈 정보 가져옴
+            // Get module information
             $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
-
-            // 권한 정보 가져옴
+            // Get permission information
             $module_args->module_srl = $module_srl;
             $output = executeQueryArray('module.getModuleGrants', $module_args);
             $grant = array();
@@ -101,8 +98,7 @@
 
             $oDB = &DB::getInstance();
             $oDB->begin();
-
-            // 모듈 복사
+            // Copy a module
             foreach($clones as $mid => $browser_title) {
                 $clone_args = null;
                 $clone_args = clone($module_info);
@@ -111,12 +107,10 @@
                 $clone_args->mid = $mid;
                 $clone_args->browser_title = $browser_title;
                 $clone_args->is_default = 'N';
-
-                // 모듈 생성
+                // Create a module
                 $output = $oModuleController->insertModule($clone_args);
                 $module_srl = $output->get('module_srl');
-
-                // 권한 정보 등록
+                // Grant module permissions
                 if(count($grant)) $oModuleController->insertModuleGrants($module_srl, $grant);
             }
 
@@ -125,20 +119,17 @@
         }
 
         /**
-         * @brief 모듈 권한 저장
+         * @brief Save the module permissions
          **/
         function procModuleAdminInsertGrant() {
             $oModuleController = &getController('module');
             $oModuleModel = &getModel('module');
-
-            // 모듈 번호 구함
+            // Get module_srl
             $module_srl = Context::get('module_srl');
-
-            // 해당 모듈의 정보를 구함
+            // Get information of the module
             $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
             if(!$module_info) return new Object(-1,'msg_invalid_request');
-
-            // 관리자 아이디 등록
+            // Register Admin ID
             $oModuleController->deleteAdminId($module_srl);
             $admin_member = Context::get('admin_member');
             if($admin_member) {
@@ -150,8 +141,7 @@
 
                 }
             }
-
-            // 권한 정리
+            // List permissions
             $xml_info = $oModuleModel->getModuleActionXML($module_info->module);
 
             $grant_list = $xml_info->grant;
@@ -160,15 +150,13 @@
             $grant_list->manager->default = 'manager';
 
             foreach($grant_list as $grant_name => $grant_info) {
-                // default값을 구함
+                // Get the default value
                 $default = Context::get($grant_name.'_default');
-
-                // -1 = 로그인 사용자만, -2 = 사이트 가입자만, 0 = 모든 사용자
+                // -1 = Log-in user only, -2 = site members only, 0 = all users
                 if(strlen($default)){
                     $grant->{$grant_name}[] = $default;
                     continue;
-
-                // 특정 그룹 사용자
+                // users in a particular group
                 } else {
                     $group_srls = Context::get($grant_name);
                     if($group_srls) {
@@ -182,12 +170,11 @@
                 $grant->{$group_srls} = array();
             }
             
-            // DB에 저장
+            // Stored in the DB
             $args->module_srl = $module_srl;
             $output = executeQuery('module.deleteModuleGrants', $args);
             if(!$output->toBool()) return $output;
-
-            // DB에 권한 저장 
+            // Permissions stored in the DB
             foreach($grant as $grant_name => $group_srls) {
                 foreach($group_srls as $key => $val) {
                     $args = null;
@@ -202,84 +189,74 @@
         }
 
         /**
-         * @brief 스킨 정보 업데이트
+         * @brief Updating Skins
          **/
         function procModuleAdminUpdateSkinInfo() {
-            // module_srl에 해당하는 정보들을 가져오기
+            // Get information of the module_srl
             $module_srl = Context::get('module_srl');
 
             $oModuleModel = &getModel('module');
             $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
             if($module_info->module_srl) {
                 $skin = $module_info->skin;
-
-                // 스킨의 정보를 구해옴 (extra_vars를 체크하기 위해서)
+                // Get skin information (to check extra_vars)
                 $module_path = './modules/'.$module_info->module;
                 $skin_info = $oModuleModel->loadSkinInfo($module_path, $skin);
                 $skin_vars = $oModuleModel->getModuleSkinVars($module_srl);
-                // 입력받은 변수들을 체크 (mo, act, module_srl, page등 기본적인 변수들 없앰)
+                // Check received variables (unset such variables as act, module_srl, page, mid, module)
                 $obj = Context::getRequestVars();
                 unset($obj->act);
                 unset($obj->module_srl);
                 unset($obj->page);
                 unset($obj->mid);
                 unset($obj->module);
-
-                // 원 skin_info에서 extra_vars의 type이 image일 경우 별도 처리를 해줌
+                // Separately handle if a type of extra_vars is an image in the original skin_info
                 if($skin_info->extra_vars) {
                     foreach($skin_info->extra_vars as $vars) {
                         if($vars->type!='image') continue;
 
                         $image_obj = $obj->{$vars->name};
-
-                        // 삭제 요청에 대한 변수를 구함
+                        // Get a variable to delete
                         $del_var = $obj->{"del_".$vars->name};
                         unset($obj->{"del_".$vars->name});
                         if($del_var == 'Y') {
                             FileHandler::removeFile($skin_vars[$vars->name]->value);
                             continue;
                         }
-
-                        // 업로드 되지 않았다면 이전 데이터를 그대로 사용
+                        // Use the previous data if not uploaded
                         if(!$image_obj['tmp_name']) {
                             $obj->{$vars->name} = $skin_vars[$vars->name]->value;
                             continue;
                         }
-
-                        // 정상적으로 업로드된 파일이 아니면 무시
+                        // Ignore if the file is not successfully uploaded
                         if(!is_uploaded_file($image_obj['tmp_name'])) {
                             unset($obj->{$vars->name});
                             continue;
                         }
-
-                        // 이미지 파일이 아니어도 무시
+                        // Ignore if the file is not an image
                         if(!preg_match("/\.(jpg|jpeg|gif|png)$/i", $image_obj['name'])) {
                             unset($obj->{$vars->name});
                             continue;
                         }
-
-                        // 경로를 정해서 업로드
+                        // Upload the file to a path
                         $path = sprintf("./files/attach/images/%s/", $module_srl);
-
-                        // 디렉토리 생성
+                        // Create a directory
                         if(!FileHandler::makeDir($path)) return false;
 
                         $filename = $path.$image_obj['name'];
-
-                        // 파일 이동
+                        // Move the file
                         if(!move_uploaded_file($image_obj['tmp_name'], $filename)) {
                             unset($obj->{$vars->name});
                             continue;
                         }
-
-                        // 정상 파일 업로드 
+                        // Upload the file
                         FileHandler::removeFile($skin_vars[$vars->name]->value);
-                        // 변수를 바꿈
+                        // Change a variable
                         unset($obj->{$vars->name});
                         $obj->{$vars->name} = $filename;
                     }
                 }
-                // 해당 모듈의 전체 스킨 불러와서 이미지는 제거
+                // Load the entire skin of the module and then remove the image
                 /*
                 if($skin_info->extra_vars) {
                     foreach($skin_info->extra_vars as $vars) {
@@ -291,8 +268,7 @@
                 */
                 $oModuleController = &getController('module');
                 $oModuleController->deleteModuleSkinVars($module_srl);
-
-                // 등록
+                // Register
                 $oModuleController->insertModuleSkinVars($module_srl, $obj);
             }
 
@@ -303,7 +279,7 @@
         }
 
         /**
-         * @brief 모듈 일괄 정리
+         * @brief List module information
          **/
         function procModuleAdminModuleSetup() {
             $vars = Context::getRequestVars();
@@ -330,7 +306,7 @@
         }
 
         /**
-         * @brief 모듈 권한 일괄 정리
+         * @brief List permissions of the module
          **/
         function procModuleAdminModuleGrantSetup() {
             $module_srls = Context::get('module_srls');
@@ -350,15 +326,13 @@
             $grant_list->manager->default = 'manager';
 
             foreach($grant_list as $grant_name => $grant_info) {
-                // default값을 구함
+                // Get the default value
                 $default = Context::get($grant_name.'_default');
-
-                // -1 = 로그인 사용자만, 0 = 모든 사용자
+                // -1 = Sign only, 0 = all users
                 if(strlen($default)){
                     $grant->{$grant_name}[] = $default;
                     continue;
-
-                // 특정 그룹 사용자
+                // Users in a particular group
                 } else {
                     $group_srls = Context::get($grant_name);
                     if($group_srls) {
@@ -373,14 +347,13 @@
             }
 
             
-            // DB에 저장
+            // Stored in the DB
             foreach($modules as $module_srl) {
                 $args = null;
                 $args->module_srl = $module_srl;
                 $output = executeQuery('module.deleteModuleGrants', $args);
                 if(!$output->toBool()) continue;
-
-                // DB에 권한 저장 
+                // Permissions stored in the DB
                 foreach($grant as $grant_name => $group_srls) {
                     foreach($group_srls as $key => $val) {
                         $args = null;
@@ -396,24 +369,21 @@
         }
 
         /**
-         * @brief 언어 추가/ 업데이트
+         * @brief Add/Update language 
          **/
         function procModuleAdminInsertLang() {
-            // 언어코드명 가져옴 
+            // Get language code
             $site_module_info = Context::get('site_module_info');
             $args->site_srl = (int)$site_module_info->site_srl;
             $args->name = str_replace(' ','_',Context::get('lang_code'));
             if(!$args->name) return new Object(-1,'msg_invalid_request');
-
-            // 언어코드가 있는지 조사
+            // Check whether a language code exists
             $output = executeQueryArray('module.getLang', $args);
             if(!$output->toBool()) return $output;
-
-            // 있으면 업데이트를 위해 기존 값들을 지움
+            // If exists, clear the old values for updating
             if($output->data) $output = executeQuery('module.deleteLang', $args);
             if(!$output->toBool()) return $output;
-
-            // 입력
+            // Enter
             $lang_supported = Context::get('lang_supported');
             foreach($lang_supported as $key => $val) {
                 $args->lang_code = $key;
@@ -431,10 +401,10 @@
         }
 
         /**
-         * @brief 언어 제거
+         * @brief Remove language
          **/
         function procModuleAdminDeleteLang() {
-            // 언어코드명 가져옴 
+            // Get language code
             $site_module_info = Context::get('site_module_info');
             $args->site_srl = (int)$site_module_info->site_srl;
             $args->name = str_replace(' ','_',Context::get('name'));
@@ -446,10 +416,10 @@
         }
 
         /**
-         * @brief 사용자 정이 언어코드 파일 저장
+         * @brief Save the file of user-defined language code
          **/
         function makeCacheDefinedLangCode($site_srl = 0) {
-            // 현재 사이트의 언어파일 가져오기
+            // Get the language file of the current site
             if(!$site_srl) {
                 $site_module_info = Context::get('site_module_info');
                 $args->site_srl = (int)$site_module_info->site_srl;
@@ -458,8 +428,7 @@
             }
             $output = executeQueryArray('module.getLang', $args);
             if(!$output->toBool() || !$output->data) return;
-
-            // 캐시 디렉토리 설정
+            // Set the cache directory
             $cache_path = _XE_PATH_.'files/cache/lang_defined/';
             if(!is_dir($cache_path)) FileHandler::makeDir($cache_path);
 

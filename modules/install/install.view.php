@@ -2,7 +2,7 @@
     /**
      * @class  installView
      * @author NHN (developers@xpressengine.com)
-     * @brief  install module의 View class
+     * @brief View class of install module
      **/
 
     class installView extends install {
@@ -10,25 +10,22 @@
         var $install_enable = false;
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
-            // template 경로를 지정
+            // Specify the template path
             $this->setTemplatePath($this->module_path.'tpl');
-
-            // 설치가 되어 있으면 오류
+            // Error occurs if already installed
             if(Context::isInstalled()) return $this->stop('msg_already_installed');
-
-            // 컨트롤러 생성
+            // Install a controller
             $oInstallController = &getController('install');
             $this->install_enable = $oInstallController->checkInstallEnv();
-
-            // 설치 가능한 환경이라면 installController::makeDefaultDirectory() 실행
+            // If the environment is installable, execute installController::makeDefaultDirectory()
             if($this->install_enable) $oInstallController->makeDefaultDirectory();
         }
 
         /**
-         * @brief license 메세지 노출
+         * @brief Display license messages
          **/
         function dispInstallIntroduce() {
 			$install_config_file = FileHandler::getRealPath('./config/install.config.php');
@@ -48,7 +45,7 @@
         }
 
         /**
-         * @brief 설치 환경에 대한 메세지 보여줌
+         * @brief Display messages about installation environment
          **/
         function dispInstallCheckEnv() {
             $this->setTemplateFile('check_env');
@@ -56,13 +53,12 @@
 
 
         /**
-         * @brief DB 선택 화면
+         * @brief Choose a DB
          **/
         function dispInstallSelectDB() {
-            // 설치 불가능하다면 check_env를 출력
+            // Display check_env if it is not installable
             if(!$this->install_enable) return $this->dispInstallCheckEnv();
-
-            // ftp 정보 입력
+            // Enter ftp information
             if(ini_get('safe_mode') && !Context::isFTPRegisted()) {
                 $this->setTemplateFile('ftp');
             } else {
@@ -71,18 +67,16 @@
         }
 
         /**
-         * @brief DB 정보/ 최고 관리자 정보 입력 화면을 보여줌
+         * @brief Display a screen to enter DB and administrator's information
          **/
         function dispInstallForm() {
-            // 설치 불가능하다면 check_env를 출력
+            // Display check_env if not installable
             if(!$this->install_enable) return $this->dispInstallCheckEnv();
-
-            // db_type이 지정되지 않았다면 다시 초기화면 출력
+            // Return to the start-up screen if db_type is not specified
             if(!Context::get('db_type')) return $this->dispInstallSelectDB();
 
             Context::set('time_zone', $GLOBALS['time_zone']);
-
-            // disp_db_info_form.html 파일 출력
+            // Output the file, disp_db_info_form.html
             $tpl_filename = sprintf('form.%s', Context::get('db_type'));
             $this->setTemplateFile($tpl_filename);
         }

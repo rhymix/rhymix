@@ -160,13 +160,12 @@
         }
 
         /**
-         * @brief 회원 가입 폼 목록 출력
+         * @brief Display a list of member join form
          **/
         function dispMemberAdminJoinFormList() {
-            // 멤버모델 객체 생성
+            // Create a member model object
             $oMemberModel = &getModel('member');
-
-            // 추가로 설정한 가입 항목 가져오기
+            // Get join form list which is additionally set
             $form_list = $oMemberModel->getJoinFormList();
             Context::set('form_list', $form_list);
 
@@ -174,10 +173,10 @@
         }
 
         /**
-         * @brief 회원 가입 폼 관리 화면 출력
+         * @brief Display an admin page for memebr join forms
          **/
         function dispMemberAdminInsertJoinForm() {
-            // 수정일 경우 대상 join_form의 값을 구함
+            // Get the value of join_form
             $member_join_form_srl = Context::get('member_join_form_srl');
             if($member_join_form_srl) {
                 $oMemberModel = &getModel('member');
@@ -190,13 +189,12 @@
         }
 
         /**
-         * @brief 금지 목록 아이디 출력
+         * @brief Display denied ID list
          **/
         function dispMemberAdminDeniedIDList() {
-            // 멤버모델 객체 생성
+            // Create a member model object
             $oMemberModel = &getModel('member');
-
-            // 사용금지 목록 가져오기
+            // Get a denied ID list
             $output = $oMemberModel->getDeniedIDList();
 
             Context::set('total_count', $output->total_count);
@@ -209,15 +207,14 @@
         }
 
         /**
-         * @brief 회원 그룹 일괄 변경
+         * @brief Update all the member groups
          **/
         function dispMemberAdminManageGroup() {
-            // 선택된 회원 목록을 구함
+            // Get a list of the selected member
             $args->member_srl = trim(Context::get('member_srls'));
             $output = executeQueryArray('member.getMembers', $args);
             Context::set('member_list', $output->data);
-
-            // 회원 그룹 목록을 구함
+            // Get a list of the selected member
             $oMemberModel = &getModel('member');
             Context::set('member_groups', $oMemberModel->getGroups());
 
@@ -226,10 +223,10 @@
         }
 
         /**
-         * @brief 회원 일괄 삭제
+         * @brief Delete all members
          **/
         function dispMemberAdminDeleteMembers() {
-            // 선택된 회원 목록을 구함
+            // Get a list of the selected member
             $args->member_srl = trim(Context::get('member_srls'));
             $output = executeQueryArray('member.getMembers', $args);
             Context::set('member_list', $output->data);

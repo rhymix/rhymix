@@ -2,19 +2,19 @@
     /**
      * @class  sessionAdminController
      * @author NHN (developers@xpressengine.com)
-     * @brief  session 모듈의 admin controller class
+     * @brief The admin controller class of the session module
      **/
 
     class sessionAdminController extends session {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
         }
 
         /**
-         * @brief 더비 세션 정리하는 action
+         * @brief The action to clean up the Derby session
          **/
         function procSessionAdminClear() {
             $oSessionController = &getController('session');

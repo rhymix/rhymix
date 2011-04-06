@@ -3,7 +3,7 @@
 class memberMobile extends member
 {
     function init() {
-        // 회원 관리 정보를 받음
+        // Get the member configuration
         $oModuleModel = &getModel('module');
         $this->member_config = $oModuleModel->getModuleConfig('member');
         
@@ -20,7 +20,7 @@ class memberMobile extends member
             return;
         }
 
-        // 템플릿 파일 지정
+        // Set a template file
 
         Context::set('referer_url', $_SERVER['HTTP_REFERER']);
         $this->setTemplateFile('login_form');
@@ -47,7 +47,7 @@ class memberMobile extends member
         $oMemberModel = &getModel('member');
         $logged_info = Context::get('logged_info');
 
-        // 비회원일 경우 정보 열람 중지
+        // Don't display member info to non-logged user
         if(!$logged_info->member_srl) return $this->stop('msg_not_permitted');
         $member_srl = Context::get('member_srl');
         if(!$member_srl && Context::get('is_logged')) {
@@ -73,14 +73,14 @@ class memberMobile extends member
     }
 
     /**
-     * @brief 회원 정보 수정
+     * @brief Edit member profile
      **/
     function dispMemberModifyInfo() {
         $oMemberModel = &getModel('member');
         $oModuleModel = &getModel('module');
         $memberModuleConfig = $oModuleModel->getModuleConfig('member');
 
-        // 로그인 되어 있지 않을 경우 로그인 되어 있지 않다는 메세지 출력
+        // A message appears if the user is not logged-in
         if(!$oMemberModel->isLogged()) return $this->stop('msg_not_logged');
 
         $logged_info = Context::get('logged_info');
@@ -90,12 +90,12 @@ class memberMobile extends member
         $member_info->signature = $oMemberModel->getSignature($member_srl);
         Context::set('member_info',$member_info);
 
-        // 추가 가입폼 목록을 받음
+        // Receive a member join form
         Context::set('extend_form_list', $oMemberModel->getCombineJoinForm($member_info));
 
         Context::set('openids', $oMemberModel->getMemberOpenIDByMemberSrl($member_srl));
 
-        // 에디터 모듈의 getEditor를 호출하여 서명용으로 세팅
+        // Call getEditor of the editor module and set it for signiture
         if($member_info->member_srl) {
             $oEditorModel = &getModel('editor');
             $option->primary_key_name = 'member_srl';
@@ -113,17 +113,17 @@ class memberMobile extends member
             Context::set('editor', $editor);
         }
 
-        // 템플릿 파일 지정
+        // Set a template file
         $this->setTemplateFile('modify_info');
     }
 
     /**
-     * @brief 회원 비밀번호 수정
+     * @brief Change the user password
      **/
     function dispMemberModifyPassword() {
         $oMemberModel = &getModel('member');
 
-        // 로그인 되어 있지 않을 경우 로그인 되어 있지 않다는 메세지 출력
+        // A message appears if the user is not logged-in
         if(!$oMemberModel->isLogged()) return $this->stop('msg_not_logged');
 
         $logged_info = Context::get('logged_info');
@@ -132,17 +132,17 @@ class memberMobile extends member
         $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
         Context::set('member_info',$member_info);
 
-        // 템플릿 파일 지정
+        // Set a template file
         $this->setTemplateFile('modify_password');
     }
 
     /**
-     * @brief 탈퇴 화면
+     * @brief Member withdrawl
      **/
     function dispMemberLeave() {
         $oMemberModel = &getModel('member');
 
-        // 로그인 되어 있지 않을 경우 로그인 되어 있지 않다는 메세지 출력
+        // A message appears if the user is not logged-in
         if(!$oMemberModel->isLogged()) return $this->stop('msg_not_logged');
 
         $logged_info = Context::get('logged_info');
@@ -151,7 +151,7 @@ class memberMobile extends member
         $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
         Context::set('member_info',$member_info);
 
-        // 템플릿 파일 지정
+        // Set a template file
         $this->setTemplateFile('leave_form');
     }
 }

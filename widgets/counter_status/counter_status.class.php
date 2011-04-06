@@ -3,18 +3,18 @@
      * @class counter_status
      * @author NHN (developers@xpressengine.com)
      * @version 0.1
-     * @brief counter 모듈의 데이터를 이용하여 counter 현황을 출력
+     * @brief Display counter status by using data in the counter module
      **/
 
     class counter_status extends WidgetHandler {
 
         /**
-         * @brief 위젯의 실행 부분
-         * ./widgets/위젯/conf/info.xml에 선언한 extra_vars를 args로 받는다
-         * 결과를 만든후 print가 아니라 return 해주어야 한다
+         * @brief Widget execution
+         * Get extra_vars declared in ./widgets/widget/conf/info.xml as arguments
+         * After generating the result, do not print but return it.
          **/
         function proc($args) {
-            // 전체, 어제, 오늘 접속 현황을 가져옴
+            // Get status of the accumulated, yesterday's, today's counts
             $oCounterModel = &getModel('counter');
 
             $site_module_info = Context::get('site_module_info');
@@ -24,15 +24,12 @@
                 elseif($key == date("Ymd")) Context::set('today_counter', $val);
                 else Context::set('yesterday_counter', $val);
             }
-
-            // 템플릿의 스킨 경로를 지정 (skin, colorset에 따른 값을 설정)
+            // Set a path of the template skin (values of skin, colorset settings)
             $tpl_path = sprintf('%sskins/%s', $this->widget_path, $args->skin);
             Context::set('colorset', $args->colorset);
-
-            // 템플릿 파일을 지정
+            // Specify a template file
             $tpl_file = 'counter_status';
-
-            // 템플릿 컴파일
+            // Compile a template
             $oTemplate = &TemplateHandler::getInstance();
             return $oTemplate->compile($tpl_path, $tpl_file);
         }

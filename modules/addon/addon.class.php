@@ -2,16 +2,16 @@
     /**
      * @class  addon
      * @author NHN (developers@xpressengine.com)
-     * @brief  addon 모듈의 high class
+     * @brief high class of addon modules
      **/
 
     class addon extends ModuleObject {
 
         /**
-         * @brief 설치시 추가 작업이 필요할시 구현
+         * @brief Implement if additional tasks are necessary when installing
          **/
         function moduleInstall() {
-            // 몇가지 애드온을 등록
+            // Register to add a few
             $oAddonController = &getAdminController('addon');
             $oAddonController->doInsert('autolink');
             $oAddonController->doInsert('blogapi');
@@ -23,8 +23,7 @@
             $oAddonController->doInsert('resize_image');
             $oAddonController->doInsert('openid_delegation_id');
             $oAddonController->doInsert('point_level_icon');
-
-            // 몇가지 애드온을 기본 활성화 상태로 변경
+            // To add a few changes to the default activation state
             $oAddonController->doActivate('autolink');
             $oAddonController->doActivate('counter');
             $oAddonController->doActivate('member_communication');
@@ -37,7 +36,7 @@
         }
 
         /**
-         * @brief 설치가 이상이 없는지 체크하는 method
+         * @brief a method to check if successfully installed
          **/
         function checkUpdate() {
             $oDB = &DB::getInstance();
@@ -47,7 +46,7 @@
         }
 
         /**
-         * @brief 업데이트 실행
+         * @brief Execute update
          **/
         function moduleUpdate() {
             $oDB = &DB::getInstance();
@@ -61,7 +60,7 @@
         }
 
         /**
-         * @brief 캐시 파일 재생성
+         * @brief Re-generate the cache file
          **/
         function recompileCache() {
             FileHandler::removeFilesInDir('./files/cache/addons');
