@@ -141,75 +141,6 @@ if(jQuery) jQuery.noConflict();
 
 /* jQuery(document).ready() */
 jQuery(function($) {
-    /* 팝업메뉴 레이어 생성 */
-    if(!$('#popup_menu_area').length) {
-        var menuObj = $('<div>')
-            .attr('id', 'popup_menu_area')
-            .css({display:'none', zIndex:9999});
-        $(document.body).append(menuObj);
-    }
-
-    $(document).click(function(evt) {
-        var area = $('#popup_menu_area');
-        if(!area.length) return;
-
-        // 이전에 호출되었을지 모르는 팝업메뉴 숨김
-        area.hide();
-
-        var targetObj = $(evt.target);
-        if(!targetObj.length) return;
-
-        // obj의 nodeName이 div나 span이 아니면 나올대까지 상위를 찾음
-        if(targetObj.length && $.inArray(targetObj.attr('nodeName'), ['DIV', 'SPAN', 'A']) == -1) targetObj = targetObj.parent();
-        if(!targetObj.length || $.inArray(targetObj.attr('nodeName'), ['DIV', 'SPAN', 'A']) == -1) return;
-
-        // 객체의 className값을 구함
-        var class_name = targetObj.attr('className');
-        if(class_name.indexOf('_') <= 0) return;
-        // className을 분리
-        var class_name_list = class_name.split(' ');
-
-        var menu_id = '';
-        var menu_id_regx = /^([a-zA-Z]+)_([0-9]+)$/;
-
-
-        for(var i = 0, c = class_name_list.length; i < c; i++) {
-            if(menu_id_regx.test(class_name_list[i])) {
-                menu_id = class_name_list[i];
-            }
-        }
-
-        if(!menu_id) return;
-
-        // module명과 대상 번호가 없으면 return
-        var tmp_arr = menu_id.split('_');
-        var module_name = tmp_arr[0];
-        var target_srl = tmp_arr[1];
-        if(!module_name || !target_srl || target_srl < 1) return;
-
-        // action이름을 규칙에 맞게 작성
-        var action_name = "get" + module_name.substr(0,1).toUpperCase() + module_name.substr(1,module_name.length-1) + "Menu";
-
-        // 서버에 메뉴를 요청
-        var params = new Array();
-        params["target_srl"] = target_srl;
-        params["mid"] = params["cur_mid"] = current_mid;
-        params["cur_act"] = current_url.getQuery('act');
-        params["menu_id"] = menu_id;
-        params["page_x"] = evt.pageX;
-        params["page_y"] = evt.pageY;
-        if(typeof(xeVid)!='undefined') params["vid"] = xeVid;
-
-        var response_tags = new Array("error","message","menus");
-
-        if(typeof(XE.loaded_popup_menus[menu_id]) != 'undefined') {
-            XE.displayPopupMenu(params, response_tags, params);
-            return;
-        }
-        show_waiting_message = false;
-        exec_xml(module_name, action_name, params, XE.displayPopupMenu, response_tags, params);
-        show_waiting_message = true;
-    });
 
     /* select - option의 disabled=disabled 속성을 IE에서도 체크하기 위한 함수 */
     if($.browser.msie) {
@@ -971,15 +902,59 @@ function setCookie(name, value, expire, path) {
 	document.cookie = s_cookie;
 }
 
-jQuery(function(){
-    jQuery(".lang_code").each(
-    function() 
-    {
-        var objText = jQuery(this);
-        var targetName = objText.attr("id");
-		if(typeof(targetName) == "undefined") targetName = objText.attr("name");
-		if(typeof(targetName) == "undefined") return;
-        objText.after("<a href='"+request_uri.setQuery('module','module').setQuery('act','dispModuleAdminLangcode').setQuery('target',targetName)+"' class='buttonSet buttonSetting' onclick='popopen(this.href);return false;'><span>find_langcode</span></a>"); 
-    }
+function is_def(v) {
+	return (typeof(v)!='undefined');
+}
+
+function ucfirst(str) {
+	return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+jQuery(function($){
+    $('.lang_code').each(
+		function() 
+		{
+			var objText = $(this);
+			var targetName = objText.attr("id");
+			if(typeof(targetName) == "undefined") targetName = objText.attr("name");
+			if(typeof(targetName) == "undefined") return;
+			objText.after("<a href='"+request_uri.setQuery('module','module').setQuery('act','dispModuleAdminLangcode').setQuery('target',targetName)+"' class='buttonSet buttonSetting' onclick='popopen(this.href);return false;'><span>find_langcode</span></a>"); 
+		}
     );
+
+	// display popup menu that contains member actions
+	$(document).click(function(evt) {
+		var $area = $('#popup_menu_area');
+		if(!$area.length) $area = $('<div id="popup_menu_area" style="display:none;z-index:9999" />').appendTo(document.body);
+
+		// 이전에 호출되었을지 모르는 팝업메뉴 숨김
+		$area.hide();
+
+		var $target = $(evt.target).filter('a,div,span');
+		if(!$target.length) $target = $target.parents('a,div,span').eq(0);
+		if(!$target.length) return;
+
+        // 객체의 className값을 구함
+		var match = $target.attr('class').match(/(member_([1-9]\d*))(?: |$)/);
+		if(!match) return;
+
+		var action = 'getMemberMenu';
+		var params = {
+			mid        : current_mid,
+			cur_mid    : current_mid,
+			menu_id    : match[1],
+			target_srl : match[2],
+			cur_act    : current_url.getQuery('act'),
+			page_x     : evt.pageX,
+			page_y     : evt.pageY
+		};
+		var response_tags = 'error message menus'.split(' ');
+
+		if(is_def(window.xeVid)) params.vid = xeVid;
+		if(is_def(XE.loaded_popup_menus[params.menu_id])) return XE.displayPopupMenu(params, response_tags, params) && false;
+
+		show_waiting_message = false;
+		exec_xml('member', action, params, XE.displayPopupMenu, response_tags, params);
+        show_waiting_message = true;
+    });
 });
