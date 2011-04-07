@@ -10,10 +10,10 @@
 
 <script type="text/javascript">
     function insertSelectedModule(id, module_srl, mid, browser_title) {
-        var obj= xGetElementById('_'+id);
-        var sObj = xGetElementById(id);
-        sObj.value = module_srl;
-        obj.value = decodeURIComponent(browser_title.replace(/\+/g," "))+' ('+mid+')';
+		jQuery('#'+id).val(module_srl);
+
+		browser_title = decodeURIComponent(browser_title.replace(/\+/g,' '));
+		jQuery('#_'+id).val( browser_title+' ('+mid+')' );
     }
     var xe_root = "{_XE_PATH_}";
 </script>
@@ -24,6 +24,13 @@
 
     <form action="./" method="get" onsubmit="return procFilter(this, update_env_config);">
     <table cellspacing="0" class="rowTable">
+	<tr>
+		<th><div>{$lang->use_html5}</div></th>
+		<td>
+			<input type="checkbox" id="use_html5" name="use_html5" value="Y" checked="checked"|cond="$use_html5=='Y'" />
+			<label for="use_html5">{$lang->about_html5}</label>
+		</td>
+	</tr>
     <tr>
         <th><div>{$lang->use_rewrite}</div></th>
         <td>

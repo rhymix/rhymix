@@ -33,6 +33,7 @@
             Context::set('time_zone', $GLOBALS['_time_zone']);
             Context::set('use_rewrite', $db_info->use_rewrite=='Y'?'Y':'N');
             Context::set('use_sso', $db_info->use_sso=='Y'?'Y':'N');
+            Context::set('use_html5', $db_info->use_html5=='Y'?'Y':'N');
             Context::set('use_spaceremover', $db_info->use_spaceremover?$db_info->use_spaceremover:'Y');
             Context::set('qmail_compatibility', $db_info->qmail_compatibility=='Y'?'Y':'N');
             Context::set('use_db_session', $db_info->use_db_session=='N'?'N':'Y');

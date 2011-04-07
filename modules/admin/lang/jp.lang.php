@@ -90,4 +90,7 @@
 
     $lang->last_week = '先週';
     $lang->this_week = '今週';
+
+	$lang->use_html5 = 'HTML5 DTD';
+	$lang->about_html5 = 'Use HTML5 DTD';
 ?>

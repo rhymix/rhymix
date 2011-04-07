@@ -62,6 +62,9 @@
             $use_ssl = Context::get('use_ssl');
             if(!$use_ssl) $use_ssl = 'none';
 
+			$use_html5 = Context::get('use_html5');
+			if(!$use_html5) $use_html5 = 'N';
+
             $http_port = Context::get('http_port');
             $https_port = Context::get('https_port');
 
@@ -77,6 +80,7 @@
             $db_info->use_rewrite = $use_rewrite;
             $db_info->use_sso = $use_sso;
             $db_info->use_ssl = $use_ssl;
+			$db_info->use_html5 = $use_html5;
 			$db_info->use_mobile_view = $use_mobile_view;
             if($http_port) $db_info->http_port = (int) $http_port;
             else if($db_info->http_port) unset($db_info->http_port);
