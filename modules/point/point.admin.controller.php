@@ -79,8 +79,6 @@
             $oModuleController = &getController('module');
             $oModuleController->insertModuleConfig('point', $config);
 
-            $this->cacheActList();
-
             $this->setMessage('success_updated');
         }
 
@@ -104,8 +102,6 @@
                     $oModuleController->insertModulePartConfig('point',$module_srl,$config);
                 }
             }
-
-            $this->cacheActList();
 
             $this->setMessage('success_updated');
         }
@@ -268,7 +264,6 @@
             }
             fclose($f);
 
-
             $this->add('total', $total);
             $this->add('position', $idx);
             $this->setMessage(sprintf(Context::getLang('point_recal_message'), $idx, $total));
@@ -302,6 +297,7 @@
 
         /**
          * @brief 캐시파일 저장
+		 * @deprecated
          **/
         function cacheActList() {
             return;

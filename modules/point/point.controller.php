@@ -7,12 +7,6 @@
 
     class pointController extends point {
 
-        var $config = null;
-        var $oPointModel = null;
-        var $member_code = array();
-        var $icon_width = 0;
-        var $icon_height = 0;
-
         /**
          * @brief 초기화
          **/

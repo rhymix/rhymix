@@ -17,8 +17,6 @@
             // 포인트 정보를 기록할 디렉토리 생성
             FileHandler::makeDir('./files/member_extra_info/point');
 
-            $oModuleController = &getController('module');
-
             // 최고레벨
             $config->max_level = 30;
 

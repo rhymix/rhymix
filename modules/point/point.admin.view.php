@@ -62,14 +62,6 @@
         }
 
         /**
-         * @brief 기능별 act 설정
-         **/
-        function dispPointAdminActConfig() {
-            // 템플릿 지정
-            $this->setTemplateFile('action_config');
-        }
-
-        /**
          * @brief 회원 포인트순 목록 가져오기
          **/
         function dispPointAdminPointList() {
