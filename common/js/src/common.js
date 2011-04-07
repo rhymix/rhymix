@@ -922,7 +922,7 @@ jQuery(function($){
 		}
     );
 
-	// display popup menu that contains member actions
+	// display popup menu that contains member actions and document actions
 	$(document).click(function(evt) {
 		var $area = $('#popup_menu_area');
 		if(!$area.length) $area = $('<div id="popup_menu_area" style="display:none;z-index:9999" />').appendTo(document.body);
@@ -935,15 +935,15 @@ jQuery(function($){
 		if(!$target.length) return;
 
         // 객체의 className값을 구함
-		var match = $target.attr('class').match(/(member_([1-9]\d*))(?: |$)/);
+		var match = $target.attr('class').match(new RegExp('(?:^| )((document|member)_([1-9]\\d*))(?: |$)',''));
 		if(!match) return;
 
-		var action = 'getMemberMenu';
+		var action = 'get'+ucfirst(match[2])+'Menu';
 		var params = {
 			mid        : current_mid,
 			cur_mid    : current_mid,
 			menu_id    : match[1],
-			target_srl : match[2],
+			target_srl : match[3],
 			cur_act    : current_url.getQuery('act'),
 			page_x     : evt.pageX,
 			page_y     : evt.pageY
@@ -956,5 +956,7 @@ jQuery(function($){
 		show_waiting_message = false;
 		exec_xml('member', action, params, XE.displayPopupMenu, response_tags, params);
         show_waiting_message = true;
+
+		return false;
     });
 });
