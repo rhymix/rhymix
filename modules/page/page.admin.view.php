@@ -85,14 +85,6 @@
             // module_srl 값이 없다면 그냥 index 페이지를 보여줌
             if(!$module_srl) return $this->dispPageAdminContent();
 
-            // 레이아웃이 정해져 있다면 레이아웃 정보를 추가해줌(layout_title, layout)
-            if($module_info->layout_srl) {
-                $oLayoutModel = &getModel('layout');
-                $layout_info = $oLayoutModel->getLayout($module_info->layout_srl);
-                $module_info->layout = $layout_info->layout;
-                $module_info->layout_title = $layout_info->layout_title;
-            }
-
             // 레이아웃 목록을 구해옴
             $oLayoutModel = &getModel('layout');
             $layout_list = $oLayoutModel->getLayoutList();
