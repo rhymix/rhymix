@@ -2,22 +2,22 @@
     /**
      * @class  rssController
      * @author NHN (developers@xpressengine.com)
-     * @brief  rss module의 controller class
+     * @brief rss module of the controller class
      *
-     * Feed 로 문서 출력
+     * Feed the document output
      *
      **/
 
     class rssController extends rss {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
         }
 
         /**
-         * @brief RSS 사용 유무를 체크하여 rss url 추가
+         * @brief Check whether to use RSS rss url by adding
          **/
         function triggerRssUrlInsert() {
             $oModuleModel = &getModel('module');
@@ -31,8 +31,7 @@
             }
 
             if(!$current_module_srl) return new Object();
-
-            // 선택된 모듈의 rss설정을 가져옴
+            // Imported rss settings of the selected module
             $oRssModel = &getModel('rss');
             $rss_config = $oRssModel->getRssModuleConfig($current_module_srl);
 

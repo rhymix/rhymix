@@ -2,7 +2,7 @@
     /**
      * @class  syndication
      * @author NHN (developers@xpressengine.com)
-     * @brief  syndication 모듈의 high class
+     * @brief syndication module's high class
      **/
 
     define('SyndicationModule', 'M');

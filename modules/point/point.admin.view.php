@@ -2,35 +2,32 @@
     /**
      * @class  pointAdminView
      * @author NHN (developers@xpressengine.com)
-     * @brief  point모듈의 admin view class
+     * @brief The admin view class of the point module
      **/
 
     class pointAdminView extends point {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
-            // 설정 정보 가져오기
+            // Get teh configuration information
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('point');
-
-            // 설정 변수 지정
+            // Set the configuration variable
             Context::set('config', $config);
-
-            // template path지정
+            // Set the template path
             $this->setTemplatePath($this->module_path.'tpl');
         }
 
         /**
-         * @brief 기본 설정
+         * @brief Default configurations
          **/
         function dispPointAdminConfig() {
-            // 레벨 아이콘 목록 구함
+            // Get the list of level icons
             $level_icon_list = FileHandler::readDir("./modules/point/icons");
             Context::set('level_icon_list', $level_icon_list);
-
-            // 그룹 목록 가져오기
+            // Get the list of groups
             $oMemberModel = &getModel('member');
             $group_list = $oMemberModel->getGroups();
             $selected_group_list = array();
@@ -41,28 +38,34 @@
                 }
             }
             Context::set('group_list', $selected_group_list);
-
-            // 템플릿 지정
+            // Set the template
             $this->setTemplateFile('config');
         }
 
         /**
-         * @brief 모듈별 점수 지정
+         * @brief Set per-module scores
          **/
         function dispPointAdminModuleConfig() {
-            // mid 목록 가져오기
+            // Get a list of mid
             $oModuleModel = &getModel('module');
             $mid_list = $oModuleModel->getMidList();
             Context::set('mid_list', $mid_list);
 
             Context::set('module_config', $oModuleModel->getModulePartConfigs('point'));
-
-            // 템플릿 지정
+            // Set the template
             $this->setTemplateFile('module_config');
         }
 
         /**
-         * @brief 회원 포인트순 목록 가져오기
+         * @brief Configure the functional act
+         **/
+        function dispPointAdminActConfig() {
+            // Set the template
+            $this->setTemplateFile('action_config');
+        }
+
+        /**
+         * @brief Get a list of member points
          **/
         function dispPointAdminPointList() {
             $oPointModel = &getModel('point');
@@ -71,22 +74,18 @@
             $args->page = Context::get('page');
 
             $output = $oPointModel->getMemberList($args);
-
-            // 템플릿에 쓰기 위해서 context::set
+            // context::set for writing into a template 
             Context::set('total_count', $output->total_count);
             Context::set('total_page', $output->total_page);
             Context::set('page', $output->page);
             Context::set('member_list', $output->data);
             Context::set('page_navigation', $output->page_navigation);
-
-            // 멤버모델 객체 생성
+            // Create a member model object
             $oMemberModel = &getModel('member');
-
-            // group 목록 가져오기
+            // Get a list of groups
             $this->group_list = $oMemberModel->getGroups();
             Context::set('group_list', $this->group_list);
-
-            // 템플릿 지정
+            // Set the template
             $this->setTemplateFile('member_list');
         }
     }

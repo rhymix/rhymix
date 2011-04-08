@@ -2,42 +2,37 @@
     /**
      * @class  documentView
      * @author NHN (developers@xpressengine.com)
-     * @brief  document 모듈의 View class
+     * @brief View class of the module document
      **/
 
     class documentView extends document {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
         }
 
         /**
-         * @brief 문서 인쇄 기능
-         * 해당 글만 찾아서 그냥 출력해버린다;;
+         * @brief Document printing
+         * I make it out to find the geulman;;
          **/
         function dispDocumentPrint() {
-            // 목록 구현에 필요한 변수들을 가져온다
+            // Bring a list of variables needed to implement
             $document_srl = Context::get('document_srl');
 
             $oModuleModel = &getModel('module');
             $module_info = $oModuleModel->getModuleInfoByDocumentSrl($document_srl);
-
-            // document 객체를 생성. 기본 데이터 구조의 경우 document모듈만 쓰면 만사 해결.. -_-;
+            // Create the document object. If the document module of basic data structures, write it all works .. -_-;
             $oDocumentModel = &getModel('document');
-
-            // 선택된 문서 표시를 위한 객체 생성 
+            // Creates an object for displaying the selected document
             $oDocument = $oDocumentModel->getDocument($document_srl, $this->grant->manager);
             if(!$oDocument->isExists()) return new Object(-1,'msg_invalid_request');
-
-            // 권한 체크
+            // Check permissions
             if(!$oDocument->isAccessible()) return new Object(-1,'msg_not_permitted');
-
-            // 모듈 정보 세팅
+            // Information setting module
             Context::set('module_info', $module_info);
-
-            // 브라우저 타이틀 설정
+            // Browser title settings
             Context::setBrowserTitle($oDocument->getTitleText());
             Context::set('oDocument', $oDocument);
 
@@ -47,7 +42,7 @@
         }
 
         /**
-         * @brief 미리 보기
+         * @brief Preview
          **/
         function dispDocumentPreview() {
             Context::set('layout','none');
@@ -58,12 +53,11 @@
         }
 
         /**
-         * @brief 관리자가 선택한 문서에 대한 관리
+         * @brief Selected by the administrator for the document management
          **/
         function dispDocumentManageDocument() {
             if(!Context::get('is_logged')) return new Object(-1,'msg_not_permitted');
-
-            // 선택한 목록을 세션에서 가져옴
+            // Taken from a list of selected sessions
             $flag_list = $_SESSION['document_management'];
             if(count($flag_list)) {
                 foreach($flag_list as $key => $val) {
@@ -79,11 +73,9 @@
             }
 
             $oModuleModel = &getModel('module');
-
-            // 모듈 카테고리 목록과 모듈 목록의 조합
+            // The combination of module categories list and the list of modules
             if(count($module_list)>1) Context::set('module_list', $module_categories);
-
-            // 팝업 레이아웃 선택
+            // Select Pop-up layout
             $this->setLayoutPath('./common/tpl');
             $this->setLayoutFile('popup_layout');
 
@@ -96,7 +88,7 @@
             $current_module_srls = Context::get('module_srls');
 
             if(!$current_module_srl && !$current_module_srls) {
-                // 선택된 모듈의 정보를 가져옴
+                // Get information of the current module
                 $current_module_info = Context::get('current_module_info');
                 $current_module_srl = $current_module_info->module_srl;
                 if(!$current_module_srl) return new Object();

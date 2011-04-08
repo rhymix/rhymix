@@ -2,20 +2,20 @@
     /**
      * @class  rssModel
      * @author NHN (developers@xpressengine.com)
-     * @brief  rss module의 model class
+     * @brief The model class of the rss module
      *
-     * Feed 문서 출력
+     * Feed the document output
      *
      **/
 
     class rssModel extends rss {
         /**
-         * @brief Feed url 생성.
+         * @brief Create the Feed url.
          **/
         function getModuleFeedUrl($vid = null, $mid, $format) {
             if(Context::isAllowRewrite()) {
                 $request_uri = Context::getRequestUri();
-                // 가상 사이트 변수가 있고 이 변수가 mid와 다를때. (vid와 mid는 같을 수 없다고 함)
+                // If the virtual site variable exists and it is different from mid (vid and mid should not be the same)
                 if($vid && $vid != $mid) {
                     return $request_uri.$vid.'/'.$mid.'/'.$format;
                 }
@@ -30,10 +30,10 @@
 
 
         /**
-         * @brief 특정 모듈의 rss 설정을 return
+         * @brief Return the RSS configurations of the specific modules
          **/
         function getRssModuleConfig($module_srl) {
-            // rss 모듈의 config를 가져옴
+            // Get the configurations of the rss module
             $oModuleModel = &getModel('module');
             $module_rss_config = $oModuleModel->getModulePartConfig('rss', $module_srl);
             if(!$module_rss_config) $module_rss_config->open_rss = 'N';

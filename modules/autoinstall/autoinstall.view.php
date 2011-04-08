@@ -3,13 +3,13 @@
     /**
      * @class  autoinstallView
      * @author NHN (developers@xpressengine.com)
-     * @brief  autoinstall 모듈의 View class
+     * @brief View class of the autoinstall module
      **/
 
     class autoinstallView extends autoinstall {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
 		}

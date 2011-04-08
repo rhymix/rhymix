@@ -1,8 +1,8 @@
 <?php
     /**
      * @file   addons/mobile/lang/zh-TW.lang.php
-     * @author NHN (developers@xpressengine.com) 翻譯：royallin
-     * @brief  XE行動上網正體中文語言
+     * @author NHN (developers@xpressengine.com) 翻译: royallin
+     * @brief XE Mobile Internet Traditional Chinese Language
      **/
     // lang select by misol
     $lang->president_lang = '已選擇語言';

@@ -13,19 +13,19 @@
         }
 
         /**
-         * @brief wml 헤더 출력
+         * @brief wml header output
          **/
         function printHeader() {
             header("Content-Type: text/vnd.wap.wml");
             header("charset: ".$this->charset);
             if($this->totalPage > $this->mobilePage) $titlePageStr = sprintf("(%d/%d)",$this->mobilePage, $this->totalPage);
             print("<?xml version=\"1.0\" encoding=\"".$this->charset."\"?><!DOCTYPE wml PUBLIC \"-//WAPFORUM//DTD WML 1.1//EN\" \"http://www.wapforum.org/DTD/wml_1.1.xml\">\n");
-            // 카드제목
+            // Card Title
             printf("<wml>\n<card title=\"%s%s\">\n<p>\n",htmlspecialchars($this->title),htmlspecialchars($titlePageStr));
         }
 
         /**
-         * @brief 제목을 출력
+         * @brief Output title
          **/
         function printTitle() {
             if($this->totalPage > $this->mobilePage) $titlePageStr = sprintf("(%d/%d)",$this->mobilePage, $this->totalPage);
@@ -33,8 +33,8 @@
         }
 
         /**
-         * @brief 내용을 출력
-         * hasChilds()가 있으면 목록형을 그렇지 않으면 컨텐츠를 출력
+         * @brief Output information
+         * hasChilds() if there is a list of content types, otherwise output
          **/
         function printContent() {
             if($this->hasChilds()) {
@@ -50,7 +50,7 @@
         }
 
         /**
-         * @brief 버튼을 출력함
+         * @brief Button to output
          **/
         function printBtn() {
             if($this->nextUrl) {
@@ -61,7 +61,7 @@
                 $url = $this->prevUrl;
                 printf('<do type="vnd.prev" label="%s"><go href="%s"/></do>%s', $url->text, $url->url, "\n");
             }
-            // 기타 해당사항 없는 버튼 출력 담당 (array로 전달) type??
+            // Others are not applicable in charge of the button output (array passed) type??
             if($this->etcBtn) {
                 if(is_array($this->etcBtn)) {
                     foreach($this->etcBtn as $key=>$val) {
@@ -69,7 +69,7 @@
                     }
                 }
             }
-            // 언어선택
+            // Select Language
             if(!parent::isLangChange()){
                 $url = getUrl('','lcm','1','sel_lang',Context::getLangType(),'return_uri',Context::get('current_url'));
                 printf('<do type="vnd.lang" label="%s"><go href="%s"/></do>%s', 'Language : '.Context::getLang('select_lang'), $url, "\n");
@@ -86,13 +86,11 @@
                 printf('<do type="vnd.up" label="%s"><go href="%s"/></do>%s', $url->text, $url->url, "\n");
             }
         }
-
-        // 푸터 정보를 출력
+        // Footer information output
         function printFooter() {
             print("</p>\n</card>\n</wml>");
         }
-
-        // 목록등에서 일련 번호를 리턴한다
+        // And returns a list of serial numbers in
         function getNo() {
             if(Context::get('mobile_skt')==1) {
                 return "vnd.skmn".parent::getNo();

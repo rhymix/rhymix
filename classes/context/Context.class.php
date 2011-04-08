@@ -857,7 +857,7 @@ class Context {
 	}
 
 	/**
-	 * @brief 요청이 들어온 URL에서 argument를 제거하여 return
+	 * @brief Return after removing an argument on the requested URL
 	 **/
 	function getRequestUri($ssl_mode = FOLLOW_REQUEST_SSL, $domain = null) {
 		static $url = array();
@@ -919,7 +919,7 @@ class Context {
 	}
 
 	/**
-	 * @brief key값에 해당하는 값을 return
+	 * @brief return key value
 	 **/
 	function get($key) {
 		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
@@ -927,9 +927,9 @@ class Context {
 	}
 
 	/**
-	 * @brief 받고자 하는 변수만 object에 입력하여 받음
-	 *
-	 * key1, key2, key3 .. 등의 인자를 주어 여러개의 변수를 object vars로 세팅하여 받을 수 있음
+    * @brief get a specified var in object
+    *
+    * get one more vars in object vars with given arguments(key1, key2, key3,...)
 	 **/
 	function gets() {
 		$num_args = func_num_args();
@@ -944,7 +944,7 @@ class Context {
 	}
 
 	/**
-	 * @brief 모든 데이터를 return
+	 * @brief Return all data
 	 **/
 	function getAll() {
 		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
@@ -952,7 +952,7 @@ class Context {
 	}
 
 	/**
-	 * @brief GET/POST/XMLRPC에서 넘어온 변수값을 return
+	 * @brief Return values from the GET/POST/XMLRPC
 	 **/
 	function getRequestVars() {
 		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
@@ -960,8 +960,8 @@ class Context {
 	}
 
 	/**
-	 * @brief SSL로 인증되어야 할 action이 있을 경우 등록
-	 * common/js/xml_handler.js에서 이 action들에 대해서 https로 전송되도록 함
+    * @brief Register if actions is to be encrypted by SSL
+    * Those actions are sent to https in common/js/xml_handler.js
 	 **/
 	function addSSLAction($action) {
 		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
@@ -992,7 +992,7 @@ class Context {
 	}
 
 	/**
-	 * @brief js file을 추가
+	 * @brief Add the js file
 	 **/
 	function addJsFile($file, $optimized = false, $targetie = '',$index=0, $type='head') {
 		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
@@ -1009,7 +1009,7 @@ class Context {
 	}
 
 	/**
-	 * @brief js file을 제거
+	 * @brief Remove the js file
 	 **/
 	function unloadJsFile($file, $optimized = false, $targetie = '') {
 		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
@@ -1034,14 +1034,14 @@ class Context {
 	}
 
 	/**
-	 * @brief javascript filter 추가
+	 * @brief Add javascript filter
 	 **/
 	function addJsFilter($path, $filename) {
 		$oXmlFilter = new XmlJSFilter($path, $filename);
 		$oXmlFilter->compile();
 	}
 	/**
-	 * @brief array_unique와 동작은 동일하나 file 첨자에 대해서만 동작함
+	 * @brief Same as array_unique but works only for file subscript
 	 * @deprecated
  	 **/
 	function _getUniqueFileList($files) {
@@ -1080,7 +1080,7 @@ class Context {
 	}
 
 	/**
-	 * @brief CSS file 추가
+	 * @brief Add CSS file
 	 **/
 	function addCSSFile($file, $optimized=false, $media='all', $targetie='',$index=0) {
 		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
@@ -1092,7 +1092,7 @@ class Context {
 	}
 
 	/**
-	 * @brief css file을 제거
+	 * @brief Remove css file
 	 **/
 	function unloadCSSFile($file, $optimized = false, $media = 'all', $targetie = '') {
 		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
@@ -1163,7 +1163,7 @@ class Context {
 	}
 
 	/**
-	 * @brief HtmlHeader 추가
+	 * @brief Add HtmlHeader
 	 **/
 	function addHtmlHeader($header) {
 		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
@@ -1179,7 +1179,7 @@ class Context {
 	}
 
 	/**
-	 * @brief Html Body에 css class 추가
+	 * @brief Add css class to Html Body
 	 **/
 	function addBodyClass($class_name) {
 		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
@@ -1187,7 +1187,7 @@ class Context {
 	}
 
 	/**
-	 * @brief Html Body에 css class return
+	 * @brief Return css class to Html Body
 	 **/
 	function getBodyClass() {
 		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
@@ -1251,7 +1251,7 @@ class Context {
 	}
 
 	/**
-	 * @brief 내용의 위젯이나 기타 기능에 대한 code를 실제 code로 변경
+	 * @brief Transforms codes about widget or other features into the actual code, deprecatred
 	 **/
 	function transContent($content) {
 		return $content;

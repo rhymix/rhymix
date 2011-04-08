@@ -2,19 +2,19 @@
     /**
      * @class  editor
      * @author NHN (developers@xpressengine.com)
-     * @brief  editor 모듈의 controller class
+     * @brief editor module's controller class
      **/
 
     class editorController extends editor {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
         }
 
         /**
-         * @brief 자동 저장
+         * @brief AutoSave
          **/
         function procEditorSaveDoc() {
 
@@ -29,7 +29,7 @@
         }
 
         /**
-         * @brief 자동저장된 문서 삭제
+         * @brief Delete autosaved documents
          **/
         function procEditorRemoveSavedDoc() {
             $oEditorController = &getController('editor');
@@ -37,7 +37,7 @@
         }
 
         /**
-         * @brief 컴포넌트에서 ajax요청시 해당 컴포넌트의 method를 실행 
+         * @brief Execute a method of the component when the component requests ajax
          **/
         function procEditorCall() {
             $component = Context::get('component');
@@ -67,12 +67,11 @@
         }
 
         /**
-         * @brief 에디터의 모듈별 추가 확장 폼을 저장
+         * @brief Save Editor's additional form for each module
          **/
         function procEditorInsertModuleConfig() {
             $module_srl = Context::get('target_module_srl');
-
-            // 여러개의 모듈 일괄 설정일 경우
+            // To configure many of modules at once
             if(preg_match('/^([0-9,]+)$/',$module_srl)) $module_srl = explode(',',$module_srl);
             else $module_srl = array($module_srl);
 
@@ -149,7 +148,7 @@
         }
 
         /**
-         * @brief 에디터컴포넌트의 코드를 결과물로 변환 + 문서서식 style 지정
+         * @brief convert editor component codes to be returned and specify content style.
          **/
         function triggerEditorComponentCompile(&$content) {
             if(Context::getResponseMethod()!='HTML') return new Object();
@@ -189,7 +188,7 @@
         }
 
         /**
-         * @brief 에디터 컴포넌트코드를 결과물로 변환
+         * @brief Convert editor component codes to be returned
          **/
         function transComponent($content) {
             $content = preg_replace_callback('!<div([^\>]*)editor_component=([^\>]*)>(.*?)\<\/div\>!is', array($this,'transEditorComponent'), $content);
@@ -198,7 +197,7 @@
         }
 
         /**
-         * @brief 내용의 에디터 컴포넌트 코드를 변환
+         * @brief Convert editor component code of the contents
          **/
         function transEditorComponent($matches) {
             $script = sprintf(' %s editor_component=%s', $matches[1], $matches[2]);
@@ -210,8 +209,7 @@
             $xml_obj->body = $matches[3];
 
             if(!$xml_obj->attrs->editor_component) return $matches[0];
-
-            // component::transHTML() 을 이용하여 변환된 코드를 받음
+            // Get converted codes by using component::transHTML()
             $oEditorModel = &getModel('editor');
             $oComponent = &$oEditorModel->getComponentObject($xml_obj->attrs->editor_component, 0);
             if(!is_object($oComponent)||!method_exists($oComponent, 'transHTML')) return $matches[0];
@@ -221,7 +219,7 @@
 
 
         /**
-         * @brief 자동 저장
+         * @brief AutoSave
          **/
         function doSaveDoc($args) {
 
@@ -232,7 +230,7 @@
             } else {
                 $args->ipaddress = $_SERVER['REMOTE_ADDR'];
             }
-            // module_srl이 없으면 현재 모듈
+            // Get the current module if module_srl doesn't exist
             if(!$args->module_srl) {
                 $args->module_srl = Context::get('module_srl');
             }
@@ -240,13 +238,12 @@
                 $current_module_info = Context::get('current_module_info');
                 $args->module_srl = $current_module_info->module_srl;
             }
-
-            // 저장
+            // Save
             return executeQuery('editor.insertSavedDoc', $args);
         }
 
         /**
-          * @brief 자동 저장글 Srl 로드 - XE 이전 버전 사용자를 위함.
+          * @brief Load the srl of autosaved document - for those who uses XE older versions.
          **/
         function procEditorLoadSavedDocument() {
             $editor_sequence = Context::get('editor_sequence');
@@ -267,7 +264,7 @@
 
 
         /**
-         * @brief 게시글의 입력/수정이 일어났을 경우 자동 저장문서를 제거하는 trigger
+         * @brief A trigger to remove auto-saved document when inserting/updating the document
          **/
         function triggerDeleteSavedDoc(&$obj) {
             $this->deleteSavedDoc(false);
@@ -275,8 +272,8 @@
         }
 
         /**
-         * @brief 자동 저장된 글을 삭제
-         * 현재 접속한 사용자를 기준
+         * @brief Delete the auto-saved document
+         * Based on the current logged-in user
          **/
         function deleteSavedDoc($mode = false) {
             if(Context::get('is_logged')) {
@@ -286,13 +283,12 @@
                 $args->ipaddress = $_SERVER['REMOTE_ADDR'];
             }
             $args->module_srl = Context::get('module_srl');
-            // module_srl이 없으면 현재 모듈
+            // Get the current module if module_srl doesn't exist
             if(!$args->module_srl) {
                 $current_module_info = Context::get('current_module_info');
                 $args->module_srl = $current_module_info->module_srl;
             }
-
-            // 자동저장된 값이 혹시 이미 등록된 글인지 확인
+            // Check if the auto-saved document already exists
             $output = executeQuery('editor.getSavedDocument', $args);
             $saved_doc = $output->data;
             if(!$saved_doc) return;
@@ -305,13 +301,12 @@
                     $output = ModuleHandler::triggerCall('editor.deleteSavedDoc', 'after', $saved_doc);
                 }
             }
-
-            // 일단 이전 저장본 삭제
+            // Delete the saved document
             return executeQuery('editor.deleteSavedDoc', $args);
         }
 
         /**
-         * @brief 가상 사이트에서 사용된 에디터 컴포넌트 정보를 제거
+         * @brief ERemove editor component information used on the virtual site
          **/
         function removeEditorConfig($site_srl) {
             $args->site_srl = $site_srl;
@@ -319,8 +314,8 @@
         }
 
         /**
-         * @brief 에디터 컴포넌트 목록 캐싱 (editorModel::getComponentList)
-         * 에디터 컴포넌트 목록의 경우 DB query + Xml Parsing 때문에 캐싱 파일을 이용하도록 함
+         * @brief Caching a list of editor component (editorModel::getComponentList)
+         * For the editor component list, use a caching file because of DB query and Xml parsing
          **/
         function makeCache($filter_enabled = true, $site_srl) {
             $oEditorModel = &getModel('editor');
@@ -332,11 +327,9 @@
                 $output = executeQuery('editor.getSiteComponentList', $args);
             } else $output = executeQuery('editor.getComponentList', $args);
             $db_list = $output->data;
-
-            // 파일목록을 구함
+            // Get a list of files
             $downloaded_list = FileHandler::readDir(_XE_PATH_.'modules/editor/components');
-
-            // 로그인 여부 및 소속 그룹 구함
+            // Get information about log-in status and its group
             $is_logged = Context::get('is_logged');
             if($is_logged) {
                 $logged_info = Context::get('logged_info');
@@ -344,8 +337,7 @@
                     $group_list = array_keys($logged_info->group_list);
                 } else $group_list = array();
             }
-
-            // DB 목록을 loop돌면서 xml정보까지 구함
+            // Get xml information for looping DB list
             if(!is_array($db_list)) $db_list = array($db_list);
             foreach($db_list as $component) {
                 if(in_array($component->component_name, array('colorpicker_text','colorpicker_bg'))) continue;
@@ -370,12 +362,11 @@
 						$xml_info->mid_list = $extra_vars->mid_list;
 					}
 					/*
-                    // 사용권한이 있으면 권한 체크
+                    // Permisshin check if you are granted
                     if($extra_vars->target_group) {
-                        // 사용권한이 체크되어 있는데 로그인이 되어 있지 않으면 무조건 사용 중지
+                        // Stop using if not logged-in
                         if(!$is_logged) continue;
-
-                        // 대상 그룹을 구해서 현재 로그인 사용자의 그룹과 비교
+                        // Compare a target group with the current logged-in user group
                         $target_group = $extra_vars->target_group;
                         unset($extra_vars->target_group);
 
@@ -388,13 +379,11 @@
                         }
                         if(!$is_granted) continue;
                     }
-
-                    // 대상 모듈이 있으면 체크
+                    // Check if the target module exists
                     if($extra_vars->mid_list && count($extra_vars->mid_list) && Context::get('mid')) {
                         if(!in_array(Context::get('mid'), $extra_vars->mid_list)) continue;
                     }*/
-
-                    // 에디터 컴포넌트의 설정 정보를 체크
+                    // Check the configuration of the editor component
                     if($xml_info->extra_vars) {
                         foreach($xml_info->extra_vars as $key => $val) {
                             $xml_info->extra_vars->{$key}->value = $extra_vars->{$key};
@@ -403,34 +392,28 @@
                 }
 
                 $component_list->{$component_name} = $xml_info;
-
-                // 버튼, 아이콘 이미지 구함
+                // Get buttons, icons, images
                 $icon_file = _XE_PATH_.'modules/editor/components/'.$component_name.'/icon.gif';
                 $component_icon_file = _XE_PATH_.'modules/editor/components/'.$component_name.'/component_icon.gif';
                 if(file_exists($icon_file)) $component_list->{$component_name}->icon = true;
                 if(file_exists($component_icon_file)) $component_list->{$component_name}->component_icon = true;
             }
-
-            // enabled만 체크하도록 하였으면 그냥 return
+            // Return if it checks enabled only
             if($filter_enabled) {
                 $cache_file = $oEditorModel->getCacheFile($filter_enabled, $site_srl);
                 $buff = sprintf('<?php if(!defined("__ZBXE__")) exit(); $component_list = unserialize("%s"); ?>', str_replace('"','\\"',serialize($component_list)));
                 FileHandler::writeFile($cache_file, $buff);
                 return $component_list;
             }
-
-            // 다운로드된 목록의 xml_info를 마저 구함
+            // Get xml_info of downloaded list
             foreach($downloaded_list as $component_name) {
                 if(in_array($component_name, array('colorpicker_text','colorpicker_bg'))) continue;
-
-                // 설정된 것이라면 패스
+                // Pass if configured
                 if($component_list->{$component_name}) continue;
-
-                // DB에 입력
+                // Insert data into the DB
                 $oEditorController = &getAdminController('editor');
                 $oEditorController->insertComponent($component_name, false, $site_srl);
-
-                // component_list에 추가
+                // Add to component_list
                 unset($xml_info);
                 $xml_info = $oEditorModel->getComponentXmlInfo($component_name);
                 $xml_info->enabled = 'N';
@@ -446,7 +429,7 @@
         }
 
         /**
-         * @brief 캐시 파일 삭제
+         * @brief Delete cache files
          **/
         function removeCache($site_srl = 0) {
             $oEditorModel = &getModel('editor');

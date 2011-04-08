@@ -2,24 +2,23 @@
     /**
      * @class  tagController
      * @author NHN (developers@xpressengine.com)
-     * @brief  tag 모듈의 controller class
+     * @brief tag module's controller class
      **/
 
     class tagController extends tag {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
         }
 
         /**
-         * @brief ,(콤마)로 연결된 태그를 정리하는 trigger
+         * @brief , (Comma) to clean up the tags attached to the trigger
          **/
         function triggerArrangeTag(&$obj) {
             if(!$obj->tags) return new Object();
-
-            // tags변수 정리
+            // tags by variable
             $tag_list = explode(',', $obj->tags);
             $tag_count = count($tag_list);
             $tag_list = array_unique($tag_list);
@@ -35,20 +34,18 @@
         }
 
         /**
-         * @brief 태그 입력 trigger
-         * 태그 입력은 해당 글의 모든 태그를 삭제 후 재 입력하는 방식을 이용
+         * @brief Input trigger tag
+         * Enter a Tag to delete that article and then re-enter all the tags using a method
          **/
         function triggerInsertTag(&$obj) {
             $module_srl = $obj->module_srl;
             $document_srl = $obj->document_srl;
             $tags = $obj->tags;
             if(!$document_srl) return new Object();
-
-            // 해당 글의 tags를 모두 삭제
+            // Remove all tags that article
             $output = $this->triggerDeleteTag($obj);
             if(!$output->toBool()) return $output;
-
-            // 다시 태그를 입력
+            // Re-enter the tag
             $args->module_srl = $module_srl;
             $args->document_srl = $document_srl;
 
@@ -66,8 +63,8 @@
         }
 
         /**
-         * @brief 특정 문서의 태그 삭제 trigger
-         * document_srl에 속한 tag 모두 삭제
+         * @brief Delete the tag trigger a specific article
+         * document_srl delete tag belongs to
          **/
         function triggerDeleteTag(&$obj) {
             $document_srl = $obj->document_srl;
@@ -78,7 +75,7 @@
         }
 
         /**
-         * @brief module 삭제시 해당 태그 모두 삭제하는 trigger
+         * @brief module delete trigger to delete all the tags
          **/
         function triggerDeleteModuleTags(&$obj) {
             $module_srl = $obj->module_srl;

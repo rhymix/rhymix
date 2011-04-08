@@ -2,57 +2,54 @@
     /**
      * @class  spamfilterAdminView
      * @author NHN (developers@xpressengine.com)
-     * @brief  spamfilter 모듈의 admin view class
+     * @brief The admin view class of the spamfilter module
      **/
 
     class spamfilterAdminView extends spamfilter {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
-            // 템플릿 경로 지정 
+            // Set template path
             $this->setTemplatePath($this->module_path.'tpl');
         }
 
         /**
-         * @brief 스팸필터의 설정 화면
+         * @brief Spam Filter configurations
          **/
         function dispSpamfilterAdminConfig() {
-            // 설정 정보를 받아옴 (module model 객체를 이용)
+            // Get configurations (using module model object)
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('spamfilter');
             Context::set('config',$config);
-
-            // 템플릿 파일 지정
+            // Set a template file
             $this->setTemplateFile('index');
         }
 
         /**
-         * @brief 금지 목록 출력
+         * @brief Output the list of banned IPs
          **/
         function dispSpamfilterAdminDeniedIPList() {
-            // 등록된 금지 IP 목록을 가져옴
+            // Get the list of banned IP addresses
             $oSpamFilterModel = &getModel('spamfilter');
             $ip_list = $oSpamFilterModel->getDeniedIPList();
 
             Context::set('ip_list', $ip_list);
-
-            // 템플릿 파일 지정
+            // Set a template file
             $this->setTemplateFile('denied_ip_list');
         }
 
         /**
-         * @brief 금지 목록 출력
+         * @brief Output the list of prohibited words
          **/
         function dispSpamfilterAdminDeniedWordList() {
-            // 등록된 금지 Word 목록을 가져옴
+            // Get the list of prohibited words
             $oSpamFilterModel = &getModel('spamfilter');
             $word_list = $oSpamFilterModel->getDeniedWordList();
 
             Context::set('word_list', $word_list);
-
-            // 템플릿 파일 지정
+            // Set a template file
             $this->setTemplateFile('denied_word_list');
         }
     }

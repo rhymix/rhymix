@@ -2,22 +2,22 @@
     /**
      * @class  memberController
      * @author NHN (developers@xpressengine.com)
-     * @brief  member module의 Controller class
+     * @brief Controller class of member module 
      **/
 
     class memberController extends member {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
         }
 
         /**
-         * @brief user_id, password를 체크하여 로그인 시킴
+         * @brief Log-in by checking user_id and password
          **/
         function procMemberLogin($user_id = null, $password = null, $keep_signed = null) {
-            // 변수 정리
+            // Variables
             if(!$user_id) $user_id = Context::get('user_id');
             $user_id = trim($user_id);
 
@@ -25,8 +25,7 @@
             $password = trim($password);
 
             if(!$keep_signed) $keep_signed = Context::get('keep_signed');
-
-            // 아이디나 비밀번호가 없을때 오류 return
+            // Return an error when id and password doesn't exist
             if(!$user_id) return new Object(-1,'null_user_id');
             if(!$password) return new Object(-1,'null_password');
 
@@ -36,10 +35,10 @@
             $config = $oModuleModel->getModuleConfig('member');
             if($config->after_login_url) $this->setRedirectUrl($config->after_login_url);
 
-            // 설정된 change_password_date 확인
+            // Check change_password_date
             $limit_date = $config->change_password_date;
 
-            // change_password_date가 설정되어 있으면 확인
+            // Check if change_password_date is set
             if ($limit_date > 0) {
                 $oMemberModel = &getModel('member');
                 $member_info = $oMemberModel->getMemberInfoByUserID($user_id);
@@ -57,7 +56,7 @@
         }
 
         /**
-         * @brief openid로그인
+         * @brief Login by openid
          **/
         function procMemberOpenIDLogin($validator = "procMemberOpenIDValidate") {
             $oModuleModel = &getModel('module');
@@ -141,7 +140,7 @@
         }
 
         /**
-         * @brief openid 인증 체크
+         * @brief openid authentication check
          **/
         function procMemberOpenIDValidate() {
             set_include_path(_XE_PATH_."modules/member/php-openid-1.2.3");
@@ -155,22 +154,20 @@
             $response = $consumer->complete($_GET);
             switch($response->status) {
                 case Auth_OpenID_CANCEL :
-                // 사용자가 인증을 취소했을 때의 처리
+                // Handle if user authentication is canceled
                 return $this->stop('authorization_canceled');
             case Auth_OpenID_FAILURE :
-                // 무언가의 문제로 인해 인증이 실패했을 때의 처리(인증을 요구한 openid가 없다든가..)
+                // Handle if user authentication is failed due to a certain problem (for example, openid doesn't exist) (there is no authentication required deunga openid ..)
                 return $this->stop('invalid_authorization');
             case Auth_OpenID_SUCCESS :
-                // 인증성공!!
+                // Authentication success!
                 break;
             default:
                 return $this->stop('invalid_authorization');
             }
-
-            // 인증 성공
+            // Authentication success
             $oMemberModel = &getModel('member');
-
-            //  이 오픈아이디와 연결된 (또는 연결되어 있을 가능성이 있는) 제로보드 아이디들을 받아온다.
+            // Get zeroboard ID which is corresponded to the openID ID.
             $login_success = false;
             $assoc_member_info = null;
             $openid_identity = $response->signed_args["openid.identity"];
@@ -195,13 +192,12 @@
 
             foreach($user_id_candidates as $user_id) {
                 $args->user_id = $args->nick_name = $user_id;
-                // 기본 정보들을 받음
+                // Get basic information
                 $args->email_address = $sreg['email']; 
                 $args->user_name = $sreg['fullname'];
                 if(!$args->user_name) list($args->user_name) = explode('@', $args->email_address);
                 $args->birthday = str_replace('-','',$sreg['dob']);
-
-                // 자체 인증 시도
+                // Attempts self-authentication
                 $output = $this->doLogin($args->user_id);
 
                 if ($output->toBool()) {
@@ -215,8 +211,7 @@
                     break;
                 }
             }
-
-            // 자체 인증 실패시 회원 가입시킴
+            // Member join if self-authentication is failed
             if(!$login_success) {
                 $args->user_id = $args->nick_name = $default_user_id;
                 $args->password = md5(getmicrotime());
@@ -233,8 +228,7 @@
             }
 
             Context::close();
-
-            // 페이지 이동
+            // Move the page
             if(Context::get('goto')) {
                 $goto = Context::get('goto');
                 header("location:" . $goto);
@@ -246,14 +240,14 @@
         }
 
         /**
-         * @brief 오픈아이디 연결 요청
+         * @brief Request member join by openID
          **/
         function procMemberAddOpenIDToMember() {
             return $this->procMemberOpenIDLogin("procMemberValidateAddOpenIDToMember");
         }
 
         /**
-         * @brief 오픈아이디 연결 요청 마무리
+         * @brief Validate openID processing
          **/
         function procMemberValidateAddOpenIDToMember() {
             set_include_path(_XE_PATH_."modules/member/php-openid-1.2.3");
@@ -268,10 +262,10 @@
 
             switch($response->status) {
                 case Auth_OpenID_CANCEL :
-                // 사용자가 인증을 취소했을 때의 처리
+                // Handle if user authentication is canceled
                 return $this->stop('authorization_canceled');
             case Auth_OpenID_FAILURE :
-                // 무언가의 문제로 인해 인증이 실패했을 때의 처리(인증을 요구한 openid가 없다든가..)
+                // Handle if user authentication is failed due to a certain problem (for example, openid doesn't exist) (there is no authentication required deunga openid ..)
                 return $this->stop('invalid_authorization');
             case Auth_OpenID_SUCCESS :
                 {
@@ -297,7 +291,7 @@
                     }
                     exit();
                 }
-                // 인증성공!!
+                // Authentication success!
                 break;
             default:
                 return $this->stop('invalid_authorization');
@@ -305,7 +299,7 @@
         }
 
         /**
-         * @brief 오픈아이디 연결 해제
+         * @brief Disconnect OpenID
          **/
         function procMemberDeleteOpenIDFromMember() {
             $logged_info = Context::get('logged_info');
@@ -337,18 +331,16 @@
 
 
         /**
-         * @brief 로그아웃
+         * @brief Log-out
          **/
         function procMemberLogout() {
-            // 로그아웃 이전에 trigger 호출 (before)
+            // Call a trigger before log-out (before)
             $logged_info = Context::get('logged_info');
             $trigger_output = ModuleHandler::triggerCall('member.doLogout', 'before', $logged_info);
             if(!$trigger_output->toBool()) return $trigger_output;
-
-            // 세션 정보 파기
+            // Destroy session information
             $this->destroySessionInfo();
-
-            // 로그아웃 이후 trigger 호출 (after)
+            // Call a trigger after log-out (after)
             $trigger_output = ModuleHandler::triggerCall('member.doLogout', 'after', $logged_info);
             if(!$trigger_output->toBool()) return $trigger_output;
 
@@ -362,22 +354,20 @@
         }
 
         /**
-         * @brief 스크랩 기능
+         * @brief Scrap
          **/
         function procMemberScrapDocument() {
-            // 로그인 정보 체크
+            // Check login information
             if(!Context::get('is_logged')) return new Object(-1, 'msg_not_logged');
             $logged_info = Context::get('logged_info');
 
             $document_srl = (int)Context::get('document_srl');
             if(!$document_srl) $document_srl = (int)Context::get('target_srl');
             if(!$document_srl) return new Object(-1,'msg_invalid_request');
-
-            // 문서 가져오기
+            // Get document
             $oDocumentModel = &getModel('document');
             $oDocument = $oDocumentModel->getDocument($document_srl);
-
-            // 변수 정리
+            // Variables
             $args->document_srl = $document_srl;
             $args->member_srl = $logged_info->member_srl;
             $args->user_id = $oDocument->get('user_id');
@@ -385,12 +375,10 @@
             $args->nick_name = $oDocument->get('nick_name');
             $args->target_member_srl = $oDocument->get('member_srl');
             $args->title = $oDocument->get('title');
-
-            // 있는지 조사
+            // Check if already scrapped
             $output = executeQuery('member.getScrapDocument', $args);
             if($output->data->count) return new Object(-1, 'msg_alreay_scrapped');
-
-            // 입력
+            // Insert
             $output = executeQuery('member.addScrapDocument', $args);
             if(!$output->toBool()) return $output;
 
@@ -399,63 +387,56 @@
         }
 
         /**
-         * @brief 스크랩 삭제
+         * @brief Delete a scrap
          **/
         function procMemberDeleteScrap() {
-            // 로그인 정보 체크
+            // Check login information
             if(!Context::get('is_logged')) return new Object(-1, 'msg_not_logged');
             $logged_info = Context::get('logged_info');
 
             $document_srl = (int)Context::get('document_srl');
             if(!$document_srl) return new Object(-1,'msg_invalid_request');
-
-            // 변수 정리
+            // Variables
             $args->member_srl = $logged_info->member_srl;
             $args->document_srl = $document_srl;
             return executeQuery('member.deleteScrapDocument', $args);
         }
 
         /**
-         * @brief 게시글 저장
+         * @brief Save posts
          **/
         function procMemberSaveDocument() {
-            // 로그인 정보 체크
+            // Check login information
             if(!Context::get('is_logged')) return new Object(-1, 'msg_not_logged');
 
             $logged_info = Context::get('logged_info');
-
-            // form 정보를 모두 받음
+            // Get form information
             $obj = Context::getRequestVars();
-
-            // 글의 대상 모듈을 회원 정보로 변경
+            // Change the target module to log-in information
             $obj->module_srl = $logged_info->member_srl;
 			unset($obj->is_notice);
 
-            // 제목을 사용하지 않는 방명록 등에서 내용 앞 부분을 제목 가져오기
+            // Extract from beginning part of contents in the guestbook
             if(!$obj->title) {
                 $obj->title = cut_str(strip_tags($obj->content), 20, '...');
             }
 
             $oDocumentModel = &getModel('document');
             $oDocumentController = &getController('document');
-
-            // 이미 존재하는 글인지 체크
+            // Check if already exist geulinji
             $oDocument = $oDocumentModel->getDocument($obj->document_srl, $this->grant->manager);
-
-            // 이미 존재하는 경우 수정
+            // Update if already exists
             if($oDocument->isExists() && $oDocument->document_srl == $obj->document_srl) {
                 $output = $oDocumentController->updateDocument($oDocument, $obj);
                 $msg_code = 'success_updated';
-
-            // 그렇지 않으면 신규 등록
+            // Otherwise, get a new
             } else {
                 $output = $oDocumentController->insertDocument($obj);
                 $msg_code = 'success_registed';
                 $obj->document_srl = $output->get('document_srl');
                 $oDocument = $oDocumentModel->getDocument($obj->document_srl, $this->grant->manager);
             }
-
-            // 등록된 첨부파일의 상태를 무효로 지정
+            // Set the attachment to be invalid state
             if($oDocument->hasUploadedFiles()) {
                 $args->upload_target_srl = $oDocument->document_srl;
                 $args->isvalid = 'N';
@@ -467,23 +448,22 @@
         }
 
         /**
-         * @brief 저장된 글 삭제
+         * @brief Delete the post
          **/
         function procMemberDeleteSavedDocument() {
-            // 로그인 정보 체크
+            // Check login information
             if(!Context::get('is_logged')) return new Object(-1, 'msg_not_logged');
             $logged_info = Context::get('logged_info');
 
             $document_srl = (int)Context::get('document_srl');
             if(!$document_srl) return new Object(-1,'msg_invalid_request');
-
-            // 변수 정리
+            // Variables
             $oDocumentController = &getController('document');
             $oDocumentController->deleteDocument($document_srl, true);
         }
 
         /**
-         * @brief 회원 가입시 특정 항목들에 대한 값 체크
+         * @brief Check values when member joining
          **/
         function procMemberCheckValue() {
             $name = Context::get('name');
@@ -491,28 +471,26 @@
             if(!$value) return;
 
             $oMemberModel = &getModel('member');
-
-            // 로그인 여부 체크
+            // Check if logged-in
             $logged_info = Context::get('logged_info');
 
 
             switch($name) {
                 case 'user_id' :
-                        // 금지 아이디 검사
+                        // Check denied ID
                         if($oMemberModel->isDeniedID($value)) return new Object(0,'denied_user_id');
-
-                        // 중복 검사
+                        // Check if duplicated
                         $member_srl = $oMemberModel->getMemberSrlByUserID($value);
                         if($member_srl && $logged_info->member_srl != $member_srl ) return new Object(0,'msg_exists_user_id');
                     break;
                 case 'nick_name' :
-                        // 중복 검사
+                        // Check if duplicated
                         $member_srl = $oMemberModel->getMemberSrlByNickName($value);
                         if($member_srl && $logged_info->member_srl != $member_srl ) return new Object(0,'msg_exists_nick_name');
 
                     break;
                 case 'email_address' :
-                        // 중복 검사
+                        // Check if duplicated
                         $member_srl = $oMemberModel->getMemberSrlByEmailAddress($value);
                         if($member_srl && $logged_info->member_srl != $member_srl ) return new Object(0,'msg_exists_email_address');
                     break;
@@ -520,29 +498,29 @@
         }
 
         /**
-         * @brief 회원 가입
+         * @brief Join Membership
          **/
         function procMemberInsert() {
             if (Context::getRequestMethod () == "GET") return new Object (-1, "msg_invalid_request");
             $oMemberModel = &getModel ('member');
             $config = $oMemberModel->getMemberConfig ();
 
-            // before 트리거 호출
+            // call a trigger (before) 
             $trigger_output = ModuleHandler::triggerCall ('member.procMemberInsert', 'before', $config);
             if (!$trigger_output->toBool ()) return $trigger_output;
 
-            // 관리자가 회원가입을 허락하였는지 검사
+            // Check if an administrator allows a membership
             if ($config->enable_join != 'Y') return $this->stop ('msg_signup_disabled');
 
-            // 약관에 동의하였는지 검사 (약관이 있을 경우만)
+            // Check if the user accept the license terms (only if terms exist)
             if ($config->agreement && Context::get('accept_agreement')!='Y') return $this->stop('msg_accept_agreement');
 
-            // 필수 정보들을 미리 추출
+            // Extract the necessary information in advance
             $args = Context::gets('user_id','user_name','nick_name','homepage','blog','birthday','email_address','password','allow_mailing','find_account_question','find_account_answer');
             $args->member_srl = getNextSequence();
             $args->list_order = -1 * $args->member_srl;
 
-            // 넘어온 모든 변수중에서 몇가지 불필요한 것들 삭제
+            // Remove some unnecessary variables from all the vars
             $all_args = Context::getRequestVars();
             unset($all_args->module);
             unset($all_args->act);
@@ -554,18 +532,15 @@
             unset($all_args->signature);
             unset($all_args->password2);
 
-            // 메일 인증 기능 사용시 회원 상태를 denied로 설정
+            // Set the user state as "denied" when using mail authentication
             if ($config->enable_confirm == 'Y') $args->denied = 'Y';
-
-            // 모든 request argument에서 필수 정보만 제외 한 후 추가 데이터로 입력
+            // Add extra vars after excluding necessary information from all the requested arguments
             $extra_vars = delObjectVars($all_args, $args);
             $args->extra_vars = serialize($extra_vars);
-
-            // member_srl의 값에 따라 insert/update
+            // Execute insert or update depending on the value of member_srl
             $output = $this->insertMember($args);
             if(!$output->toBool()) return $output;
-
-            // 가상사이트일 경우 사이트 가입
+            // If a virtual site, join the site
             $site_module_info = Context::get('site_module_info');
             if($site_module_info->site_srl > 0) {
                 $default_group = $oMemberModel->getDefaultGroup($site_module_info->site_srl);
@@ -574,11 +549,9 @@
                 }
 
             }
-
-            // 로그인 시킴
+            // Log-in
             if ($config->enable_confirm != 'Y') $this->doLogin($args->user_id);
-
-            // 결과 정리
+            // Results
             $this->add('member_srl', $args->member_srl);
             if($config->redirect_url) $this->add('redirect_url', $config->redirect_url);
             if ($config->enable_confirm == 'Y') {
@@ -586,26 +559,22 @@
                 $this->setMessage($msg);
             }
             else $this->setMessage('success_registed');
-
-            // after 트리거 호출
+            // Call a trigger (after)
             $trigger_output = ModuleHandler::triggerCall('member.procMemberInsert', 'after', $config);
             if(!$trigger_output->toBool()) return $trigger_output;
         }
 
         /**
-         * @brief 회원 정보 수정
+         * @brief Edit member profile
          **/
         function procMemberModifyInfo() {
             if(!Context::get('is_logged')) return $this->stop('msg_not_logged');
-
-            // 필수 정보들을 미리 추출
+            // Extract the necessary information in advance
             $args = Context::gets('user_name','nick_name','homepage','blog','birthday','email_address','allow_mailing','find_account_question','find_account_answer');
-
-            // 로그인 정보
+            // Login Information
             $logged_info = Context::get('logged_info');
             $args->member_srl = $logged_info->member_srl;
-
-            // 넘어온 모든 변수중에서 몇가지 불필요한 것들 삭제
+            // Remove some unnecessary variables from all the vars
             $all_args = Context::getRequestVars();
             unset($all_args->module);
             unset($all_args->act);
@@ -617,62 +586,51 @@
             unset($all_args->signature);
             unset($all_args->_filter);
 
-            // 모든 request argument에서 필수 정보만 제외 한 후 추가 데이터로 입력
+            // Add extra vars after excluding necessary information from all the requested arguments
             $extra_vars = delObjectVars($all_args, $args);
             $args->extra_vars = serialize($extra_vars);
-
-            // 멤버 모델 객체 생성
+            // Create a member model object
             $oMemberModel = &getModel('member');
-
-            // member_srl의 값에 따라 insert/update
+            // Execute insert or update depending on the value of member_srl
             $output = $this->updateMember($args);
             if(!$output->toBool()) return $output;
-
-            // 서명 저장
+            // Save Signature
             $signature = Context::get('signature');
             $this->putSignature($args->member_srl, $signature);
-
-            // user_id 에 따른 정보 가져옴
+            // Get user_id information
             $member_info = $oMemberModel->getMemberInfoByMemberSrl($args->member_srl);
-
-            // 로그인 성공후 trigger 호출 (after)
+            // Call a trigger after successfully log-in (after)
             $trigger_output = ModuleHandler::triggerCall('member.doLogin', 'after', $member_info);
             if(!$trigger_output->toBool()) return $trigger_output;
 
             $this->setSessionInfo($member_info);
-
-            // 결과 리턴
+            // Return result
             $this->add('member_srl', $args->member_srl);
             $this->setMessage('success_updated');
         }
 
         /**
-         * @brief 회원 비밀번호 수정
+         * @brief Change the user password
          **/
         function procMemberModifyPassword() {
             if(!Context::get('is_logged')) return $this->stop('msg_not_logged');
-
-            // 필수 정보들을 미리 추출
+            // Extract the necessary information in advance
             $current_password = trim(Context::get('current_password'));
             $password = trim(Context::get('password'));
-
-            // 로그인한 유저의 정보를 가져옴
+            // Get information of logged-in user
             $logged_info = Context::get('logged_info');
             $member_srl = $logged_info->member_srl;
-
-            // member model 객체 생성
+            // Create a member model object
             $oMemberModel = &getModel('member');
-
-            // member_srl 에 따른 정보 가져옴
+            // Get information of member_srl
             $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
-
-            // 현재 비밀번호가 맞는지 확인
+            // Verify the cuttent password
             if(!$oMemberModel->isValidPassword($member_info->password, $current_password)) return new Object(-1, 'invalid_password');
 
-            // 이전 비밀번호와 같은지 확인
+            // Check if a new password is as same as the previous password 
             if ($current_password == $password) return new Object(-1, 'invalid_new_password');
 
-            // member_srl의 값에 따라 insert/update
+            // Execute insert or update depending on the value of member_srl
             $args->member_srl = $member_srl;
             $args->password = $password;
             $output = $this->updateMemberPassword($args);
@@ -683,166 +641,141 @@
         }
 
         /**
-         * @brief 탈퇴
+         * @brief Membership withdrawal 
          **/
         function procMemberLeave() {
             if(!Context::get('is_logged')) return $this->stop('msg_not_logged');
-
-            // 필수 정보들을 미리 추출
+            // Extract the necessary information in advance
             $password = trim(Context::get('password'));
-
-            // 로그인한 유저의 정보를 가져옴
+            // Get information of logged-in user
             $logged_info = Context::get('logged_info');
             $member_srl = $logged_info->member_srl;
-
-            // member model 객체 생성
+            // Create a member model object
             $oMemberModel = &getModel('member');
-
-            // member_srl 에 따른 정보 가져옴
+            // Get information of member_srl
             $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
-
-            // 현재 비밀번호가 맞는지 확인
+            // Verify the cuttent password
             if(!$oMemberModel->isValidPassword($member_info->password, $password)) return new Object(-1, 'invalid_password');
 
             $output = $this->deleteMember($member_srl);
             if(!$output->toBool()) return $output;
-
-            // 모든 세션 정보 파기
+            // Destroy all session information
             $this->destroySessionInfo();
-
-            // 성공 메세지 리턴
+            // Return success message
             $this->setMessage('success_leaved');
         }
 
         /**
-         * @brief 오픈아이디 탈퇴
+         * @brief OpenID Withdrawal
          **/
         function procMemberOpenIDLeave() {
-            // 비로그인 상태이면 에러
+            // Return an error if in the non-login state
             if(!Context::get('is_logged')) return $this->stop('msg_not_logged');
-
-            // 현재 ip와 세션 아이피 비교
+            // Compare the current IP with session IP
             if($_SESSION['ipaddress']!=$_SERVER['REMOTE_ADDR']) return $this->stop('msg_not_permitted');
-
-            // 로그인한 유저의 정보를 가져옴
+            // Get information of logged-in user
             $logged_info = Context::get('logged_info');
             $member_srl = $logged_info->member_srl;
 
             $output = $this->deleteMember($member_srl);
             if(!$output->toBool()) return $output;
-
-            // 모든 세션 정보 파기
+            // Destroy all session information
             $this->destroySessionInfo();
-
-            // 성공 메세지 리턴
+            // Return success message
             $this->setMessage('success_leaved');
         }
 
         /**
-         * @brief 프로필 이미지 추가
+         * @brief Add a profile image
          **/
         function procMemberInsertProfileImage() {
-            // 정상적으로 업로드 된 파일인지 검사
+            // Check if the file is successfully uploaded
             $file = $_FILES['profile_image'];
             if(!is_uploaded_file($file['tmp_name'])) return $this->stop('msg_not_uploaded_profile_image');
-
-            // 회원 정보를 검사해서 회원번호가 없거나 관리자가 아니고 회원번호가 틀리면 무시
+            // Ignore if member_srl is invalid or doesn't exist.
             $member_srl = Context::get('member_srl');
             if(!$member_srl) return $this->stop('msg_not_uploaded_profile_image');
 
             $logged_info = Context::get('logged_info');
             if($logged_info->is_admin != 'Y' && $logged_info->member_srl != $member_srl) return $this->stop('msg_not_uploaded_profile_image');
-
-            // 회원 모듈 설정에서 이미지 이름 사용 금지를 하였을 경우 관리자가 아니면 return;
+            // Return if member module is set not to use an image name or the user is not an administrator ;
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('member');
             if($logged_info->is_admin != 'Y' && $config->profile_image != 'Y') return $this->stop('msg_not_uploaded_profile_image');
 
             $this->insertProfileImage($member_srl, $file['tmp_name']);
-
-            // 페이지 리프레쉬
+            // Page refresh
             $this->setRefreshPage();
         }
 
         function insertProfileImage($member_srl, $target_file) {
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('member');
-
-            // 정해진 사이즈를 구함
+            // Get an image size
             $max_width = $config->profile_image_max_width;
             if(!$max_width) $max_width = "90";
             $max_height = $config->profile_image_max_height;
             if(!$max_height) $max_height = "20";
-
-            // 저장할 위치 구함
+            // Get a target path to save
             $target_path = sprintf('files/member_extra_info/profile_image/%s', getNumberingPath($member_srl));
             FileHandler::makeDir($target_path);
-
-            // 파일 정보 구함
+            // Get file information
             list($width, $height, $type, $attrs) = @getimagesize($target_file);
             if($type == 3) $ext = 'png';
             elseif($type == 2) $ext = 'jpg';
             else $ext = 'gif';
 
             $target_filename = sprintf('%s%d.%s', $target_path, $member_srl, $ext);
-
-            // 지정된 사이즈보다 크거나 gif가 아니면 변환
+            // Convert if the image size is larger than a given size or if the format is not a gif
             if($width > $max_width || $height > $max_height || $type!=1) FileHandler::createImageFile($target_file, $target_filename, $max_width, $max_height, $ext);
             else @copy($target_file, $target_filename);
         }
 
         /**
-         * @brief 이미지 이름을 추가
+         * @brief Add an image name
          **/
         function procMemberInsertImageName() {
-            // 정상적으로 업로드 된 파일인지 검사
+            // Check if the file is successfully uploaded
             $file = $_FILES['image_name'];
             if(!is_uploaded_file($file['tmp_name'])) return $this->stop('msg_not_uploaded_image_name');
-
-            // 회원 정보를 검사해서 회원번호가 없거나 관리자가 아니고 회원번호가 틀리면 무시
+            // Ignore if member_srl is invalid or doesn't exist.
             $member_srl = Context::get('member_srl');
             if(!$member_srl) return $this->stop('msg_not_uploaded_image_name');
 
             $logged_info = Context::get('logged_info');
             if($logged_info->is_admin != 'Y' && $logged_info->member_srl != $member_srl) return $this->stop('msg_not_uploaded_image_name');
-
-            // 회원 모듈 설정에서 이미지 이름 사용 금지를 하였을 경우 관리자가 아니면 return;
+            // Return if member module is set not to use an image name or the user is not an administrator ;
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('member');
             if($logged_info->is_admin != 'Y' && $config->image_name != 'Y') return $this->stop('msg_not_uploaded_image_name');
 
             $this->insertImageName($member_srl, $file['tmp_name']);
-
-            // 페이지 리프레쉬
+            // Page refresh
             $this->setRefreshPage();
         }
 
         function insertImageName($member_srl, $target_file) {
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('member');
-
-            // 정해진 사이즈를 구함
+            // Get an image size
             $max_width = $config->image_name_max_width;
             if(!$max_width) $max_width = "90";
             $max_height = $config->image_name_max_height;
             if(!$max_height) $max_height = "20";
-
-            // 저장할 위치 구함
+            // Get a target path to save
             $target_path = sprintf('files/member_extra_info/image_name/%s/', getNumberingPath($member_srl));
             FileHandler::makeDir($target_path);
 
             $target_filename = sprintf('%s%d.gif', $target_path, $member_srl);
-
-            // 파일 정보 구함
+            // Get file information
             list($width, $height, $type, $attrs) = @getimagesize($target_file);
-
-            // 지정된 사이즈보다 크거나 gif가 아니면 변환
+            // Convert if the image size is larger than a given size or if the format is not a gif
             if($width > $max_width || $height > $max_height || $type!=1) FileHandler::createImageFile($target_file, $target_filename, $max_width, $max_height, 'gif');
             else @copy($target_file, $target_filename);
         }
 
         /**
-         * @brief 프로필 이미지를 삭제
+         * @brief Delete profile image
          **/
         function procMemberDeleteProfileImage() {
             $member_srl = Context::get('member_srl');
@@ -865,7 +798,7 @@
         }
 
         /**
-         * @brief 이미지 이름을 삭제
+         * @brief Delete Image name
          **/
         function procMemberDeleteImageName() {
             $member_srl = Context::get('member_srl');
@@ -888,36 +821,32 @@
         }
 
         /**
-         * @brief 이미지 마크를 추가
+         * @brief Add an image to mark
          **/
         function procMemberInsertImageMark() {
-            // 정상적으로 업로드 된 파일인지 검사
+            // Check if the file is successfully uploaded
             $file = $_FILES['image_mark'];
             if(!is_uploaded_file($file['tmp_name'])) return $this->stop('msg_not_uploaded_image_mark');
-
-            // 회원 정보를 검사해서 회원번호가 없거나 관리자가 아니고 회원번호가 틀리면 무시
+            // Ignore if member_srl is invalid or doesn't exist.
             $member_srl = Context::get('member_srl');
             if(!$member_srl) return $this->stop('msg_not_uploaded_image_mark');
 
             $logged_info = Context::get('logged_info');
             if($logged_info->is_admin != 'Y' && $logged_info->member_srl != $member_srl) return $this->stop('msg_not_uploaded_image_mark');
-
-            // 회원 모듈 설정에서 이미지 마크 사용 금지를 하였을 경우 관리자가 아니면 return;
+            // Membership in the images mark the module using the ban was set by an administrator or return;
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('member');
             if($logged_info->is_admin != 'Y' && $config->image_mark != 'Y') return $this->stop('msg_not_uploaded_image_mark');
 
             $this->insertImageMark($member_srl, $file['tmp_name']);
-
-            // 페이지 리프레쉬
+            // Page refresh
             $this->setRefreshPage();
         }
 
         function insertImageMark($member_srl, $target_file) {
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('member');
-
-            // 정해진 사이즈를 구함
+            // Get an image size
             $max_width = $config->image_mark_max_width;
             if(!$max_width) $max_width = "20";
             $max_height = $config->image_mark_max_height;
@@ -927,8 +856,7 @@
             FileHandler::makeDir($target_path);
 
             $target_filename = sprintf('%s%d.gif', $target_path, $member_srl);
-
-            // 파일 정보 구함
+            // Get file information
             list($width, $height, $type, $attrs) = @getimagesize($target_file);
 
             if($width > $max_width || $height > $max_height || $type!=1) FileHandler::createImageFile($target_file, $target_filename, $max_width, $max_height, 'gif');
@@ -937,7 +865,7 @@
         }
 
         /**
-         * @brief 이미지 마크를  삭제
+         * @brief Delete Image Mark
          **/
         function procMemberDeleteImageMark() {
             $member_srl = Context::get('member_srl');
@@ -953,7 +881,7 @@
         }
 
         /**
-         * @brief 아이디/ 비밀번호 찾기
+         * @brief Find ID/Password 
          **/
         function procMemberFindAccount() {
             $email_address = Context::get('email_address');
@@ -961,22 +889,18 @@
 
             $oMemberModel = &getModel('member');
             $oModuleModel = &getModel('module');
-
-            // 메일 주소에 해당하는 회원이 있는지 검사
+            // Check if a member having the same email address exists
             $member_srl = $oMemberModel->getMemberSrlByEmailAddress($email_address);
             if(!$member_srl) return new Object(-1, 'msg_email_not_exists');
-
-            // 회원의 정보를 가져옴
+            // Get information of the member
             $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
-
-            // 아이디/비밀번호 찾기가 가능한 상태의 회원인지 검사
+            // Check if possible to find member's ID and password
             if ($member_info->denied == 'Y') {
                 $chk_args->member_srl = $member_info->member_srl;
                 $output = executeQuery('member.chkAuthMail', $chk_args);
                 if ($output->toBool() && $output->data->count != '0') return new Object(-1, 'msg_user_not_confirmed');
             }
-
-            // 인증 DB에 데이터를 넣음
+            // Insert data into the authentication DB
             $args->user_id = $member_info->user_id;
             $args->member_srl = $member_info->member_srl;
             $args->new_password = rand(111111,999999);
@@ -985,8 +909,7 @@
 
             $output = executeQuery('member.insertAuthMail', $args);
             if(!$output->toBool()) return $output;
-
-            // 메일 내용을 구함
+            // Get content of the email to send a member
             Context::set('auth_args', $args);
             Context::set('member_info', $member_info);
 
@@ -1004,27 +927,24 @@
 
             $oTemplate = &TemplateHandler::getInstance();
             $content = $oTemplate->compile($tpl_path, 'find_member_account_mail');
-
-            // 사이트 웹마스터 정보를 구함
+            // Get information of the Webmaster
             $oModuleModel = &getModel('module');
             $member_config = $oModuleModel->getModuleConfig('member');
-
-            // 메일 발송
+            // Send a mail
             $oMail = new Mail();
             $oMail->setTitle( Context::getLang('msg_find_account_title') );
             $oMail->setContent($content);
             $oMail->setSender( $member_config->webmaster_name?$member_config->webmaster_name:'webmaster', $member_config->webmaster_email);
             $oMail->setReceiptor( $member_info->user_name, $member_info->email_address );
             $oMail->send();
-
-            // 메세지 return
+            // Return message
             $msg = sprintf(Context::getLang('msg_auth_mail_sent'), $member_info->email_address);
             return new Object(0,$msg);
         }
 
 
         /**
-         * @brief 질문/답변을 통한 임시 비밀번호 생성
+         * @brief Generate a temp password by answering to the pre-determined question
          **/
         function procMemberFindAccountByQuestion() {
             $email_address = Context::get('email_address');
@@ -1036,20 +956,18 @@
 
             $oMemberModel = &getModel('member');
             $oModuleModel = &getModel('module');
-
-            // 메일 주소에 해당하는 회원이 있는지 검사
+            // Check if a member having the same email address exists
             $member_srl = $oMemberModel->getMemberSrlByEmailAddress($email_address);
             if(!$member_srl) return new Object(-1, 'msg_email_not_exists');
-
-            // 회원의 정보를 가져옴
+            // Get information of the member
             $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
 
-            // 질문 응답이 없으면 
+            // Display a message if no answer is entered
             if (!$member_info->find_account_question || !$member_info->find_account_answer) return new Object(-1, 'msg_question_not_exists');
 
             if(trim($member_info->find_account_question) != $find_account_question || trim($member_info->find_account_answer) != $find_account_answer) return new Object(-1, 'msg_answer_not_matches');
 
-            // 임시비밀번호로 변경 및 비밀번호 변경시간을 1로 설정
+            // Update to a temporary password and set change_password_date to 1
             $args->member_srl = $member_srl;
             list($usec, $sec) = explode(" ", microtime()); 
             $temp_password = substr(md5($user_id . $member_info->find_account_answer. $usec . $sec),0,15);
@@ -1065,22 +983,20 @@
         }
 
         /**
-         * @brief 아이디/비밀번호 찾기 기능 실행
-         * 메일에 등록된 링크를 선택시 호출되는 method로 비밀번호를 바꾸고 인증을 시켜버림
+         * @brief Execute finding ID/Passoword
+         * When clicking the link in the verification email, a method is called to change the old password and to authenticate it
          **/
         function procMemberAuthAccount() {
-            // user_id, authkey 검사
+            // Test user_id and authkey
             $member_srl = Context::get('member_srl');
             $auth_key = Context::get('auth_key');
             if(!$member_srl || !$auth_key) return $this->stop('msg_invalid_request');
-
-            // user_id, authkey로 비밀번호 찾기 로그 검사
+            // Test logs for finding password by user_id and authkey
             $args->member_srl = $member_srl;
             $args->auth_key = $auth_key;
             $output = executeQuery('member.getAuthMail', $args);
             if(!$output->toBool() || $output->data->auth_key != $auth_key) return $this->stop('msg_invalid_auth_key');
-
-            // 인증 정보가 맞다면 새비밀번호로 비밀번호를 바꿈
+            // If credentials are correct, change the password to a new one
             if ($output->data->is_register == 'Y') {
                 $args->password = $output->data->new_password;
                 $args->denied = 'N';
@@ -1088,44 +1004,38 @@
                 $args->password = md5($output->data->new_password);
                 unset($args->denied);
             }
-
-            // $output->data->is_register 값을 백업해 둔다.
+            // Back up the value of $Output->data->is_register
             $is_register = $output->data->is_register;
 
             $output = executeQuery('member.updateMemberPassword', $args);
             if(!$output->toBool()) return $this->stop($output->getMessage());
-
-            // 인증 테이블에서 member_srl에 해당하는 모든 값을 지움
+            // Remove all values having the member_srl from authentication table
             executeQuery('member.deleteAuthMail',$args);
-
-            // 결과를 통보
+            // Notify the result
             Context::set('is_register', $is_register);
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('msg_success_authed');
         }
 
         /**
-         * @brief 아이디/비밀번호 찾기 기능 실행
-         * 메일에 등록된 링크를 선택시 호출되는 method로 비밀번호를 바꾸고 인증을 시켜버림
+         * @brief Execute finding ID/Passoword
+         * When clicking the link in the verification email, a method is called to change the old password and to authenticate it
          **/
         function procMemberUpdateAuthMail() {
             $member_srl = Context::get('member_srl');
             if(!$member_srl) return new Object(-1, 'msg_invalid_request');
 
             $oMemberModel = &getModel('member');
-
-            // 회원의 정보를 가져옴
+            // Get information of the member
             $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
-
-            // 인증메일 재발송 요청이 가능한 상태의 회원인지 검사
+            // Check if the member is set to allow a request to re-send an authentication mail 
             if ($member_info->denied != 'Y')
                 return new Object(-1, 'msg_invalid_request');
 
             $chk_args->member_srl = $member_srl;
             $output = executeQuery('member.chkAuthMail', $chk_args);
             if ($output->toBool() && $output->data->count == '0') return new Object(-1, 'msg_invalid_request');
-
-            // 인증 DB에 데이터를 넣음
+            // Insert data into the authentication DB
             $auth_args->member_srl = $member_srl;
             $auth_args->auth_key = md5(rand(0, 999999));
 
@@ -1134,8 +1044,7 @@
                 $oDB->rollback();
                 return $output;
             }
-
-            // 메일 내용을 구함
+            // Get content of the email to send a member
             Context::set('auth_args', $auth_args);
             Context::set('member_info', $member_info);
 
@@ -1154,33 +1063,29 @@
 
             $oTemplate = &TemplateHandler::getInstance();
             $content = $oTemplate->compile($tpl_path, 'confirm_member_account_mail');
-
-            // 사이트 웹마스터 정보를 구함
+            // Get information of the Webmaster
             $oModuleModel = &getModel('module');
             $member_config = $oModuleModel->getModuleConfig('member');
-
-            // 메일 발송
+            // Send a mail
             $oMail = new Mail();
             $oMail->setTitle( Context::getLang('msg_confirm_account_title') );
             $oMail->setContent($content);
             $oMail->setSender( $member_config->webmaster_name?$member_config->webmaster_name:'webmaster', $member_config->webmaster_email);
             $oMail->setReceiptor( $member_info->user_name, $member_info->email_address );
             $oMail->send();
-
-            // 메세지 return
+            // Return message
             $msg = sprintf(Context::getLang('msg_auth_mail_sent'), $member_info->email_address);
             return new Object(-1, $msg);
         }
 
         /**
-         * @brief 인증 메일 재발송
+         * @brief Request to re-send the authentication mail
          **/
         function procMemberResendAuthMail() {
-            // email_address 검사
+            // Get an email_address
             $email_address = Context::get('email_address');
             if(!$email_address) return $this->stop('msg_invalid_request');
-
-            // email_address로 비밀번호 찾기 로그 검사
+            // Log test by using email_address
             $oMemberModel = &getModel('member');
 
             $args->email_address = $email_address;
@@ -1189,7 +1094,7 @@
 
             $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_info);
 
-            // 이전에 인증 메일을 보냈는지 확인
+            // Check if a authentication mail has been sent previously
             $chk_args->member_srl = $member_info->member_srl;
             $output = executeQuery('member.chkAuthMail', $chk_args);
             if($output->toBool() && $output->data->count == '0') return new Object(-1, 'msg_invalid_request');
@@ -1198,8 +1103,7 @@
             $output = executeQueryArray('member.getAuthMailInfo', $auth_args);
             if(!$output->data || !$output->data[0]->auth_key)  return new Object(-1, 'msg_invalid_request');
             $auth_info = $output->data[0];
-
-            // 메일 내용을 구함
+            // Get content of the email to send a member
             Context::set('member_info', $member_info);
             $oModuleModel = &getModel('module');
             $member_config = $oModuleModel->getModuleConfig('member');
@@ -1216,12 +1120,10 @@
 
             $oTemplate = &TemplateHandler::getInstance();
             $content = $oTemplate->compile($tpl_path, 'confirm_member_account_mail');
-
-            // 사이트 웹마스터 정보를 구함
+            // Get information of the Webmaster
             $oModuleModel = &getModel('module');
             $member_config = $oModuleModel->getModuleConfig('member');
-
-            // 메일 발송
+            // Send a mail
             $oMail = new Mail();
             $oMail->setTitle( Context::getLang('msg_confirm_account_title') );
             $oMail->setContent($content);
@@ -1234,7 +1136,7 @@
         }
 
         /**
-         * @brief 가상 사이트 가입
+         * @brief Join a virtual site
          **/
         function procModuleSiteSignUp() {
             $site_module_info = Context::get('site_module_info');
@@ -1249,7 +1151,7 @@
         }
 
         /**
-         * @brief 가상 사이트 탈퇴
+         * @brief Leave the virtual site
          **/
         function procModuleSiteLeave() {
             $site_module_info = Context::get('site_module_info');
@@ -1264,7 +1166,7 @@
         }
 
         /**
-         * @brief 회원 설정 정보를 저장
+         * @brief Save the member configurations
          **/
         function setMemberConfig($args) {
             if(!$args->skin) $args->skin = "default";
@@ -1294,7 +1196,7 @@
         }
 
         /**
-         * @brief 서명을 파일로 저장
+         * @brief Save the signature as a file
          **/
         function putSignature($member_srl, $signature) {
             $signature = trim(removeHackTag($signature));
@@ -1312,7 +1214,7 @@
         }
 
         /**
-         * @brief 서명 파일 삭제
+         * @brief Delete the signature file
          **/
         function delSignature($member_srl) {
             $filename = sprintf('files/member_extra_info/signature/%s%d.gif', getNumberingPath($member_srl), $member_srl);
@@ -1320,7 +1222,7 @@
         }
 
         /**
-         * @brief member_srl에 group_srl을 추가
+         * @brief Add group_srl to member_srl 
          **/
         function addMemberToGroup($member_srl,$group_srl,$site_srl=0) {
             $args->member_srl = $member_srl;
@@ -1331,7 +1233,7 @@
             $groups = $oModel->getMemberGroups($member_srl, $site_srl, true);
             if($groups[$group_srl]) return new Object();
 
-            // 추가
+            // Add
             $output = executeQuery('member.addMemberToGroup',$args);
             $output2 = ModuleHandler::triggerCall('member.addMemberToGroup', 'after', $args);
 
@@ -1339,8 +1241,8 @@
         }
 
         /**
-         * @brief 특정 회원들의 그룹을 일괄 변경
-         * 가상 사이트와 같이 한 회원이 하나의 그룹만 가질 경우 사용할 수 있음
+         * @brief Change a group of certain members
+         * Available only when a member has a single group
          **/
         function replaceMemberGroup($args) {
             $obj->site_srl = $args->site_srl;
@@ -1370,16 +1272,14 @@
 
 
         /**
-         * @brief 자동 로그인 시킴
+         * @brief Auto-login
          **/
         function doAutologin() {
-            // 자동 로그인 키 값을 구함
+            // Get a key value of auto log-in
             $args->autologin_key = $_COOKIE['xeak'];
-
-            // 키값에 해당하는 정보 구함
+            // Get information of the key 
             $output = executeQuery('member.getAutologin', $args);
-
-            // 정보가 없으면 쿠키 삭제
+            // If no information exists, delete a cookie
             if(!$output->toBool() || !$output->data) {
                 setCookie('xeak',null,time()+60*60*24*365, '/');
                 return;
@@ -1394,17 +1294,17 @@
 
             $do_auto_login = false;
 
-            // 정보를 바탕으로 키값 비교
+            // Compare key values based on the information
             $key = md5($user_id.$password.$_SERVER['REMOTE_ADDR']);
 
             if($key == $args->autologin_key) {
 
-                // 설정된 change_password_date 확인
+                // Check change_password_date
                 $oModuleModel = &getModel('module');
                 $member_config = $oModuleModel->getModuleConfig('member');
                 $limit_date = $member_config->change_password_date;
 
-                // change_password_date가 설정되어 있으면 확인
+                // Check if change_password_date is set
                 if($limit_date > 0) {
                     $oMemberModel = &getModel('member');
                     $member_info = $oMemberModel->getMemberInfoByUserID($user_id);
@@ -1428,51 +1328,41 @@
         }
 
         /**
-         * @brief 로그인 시킴
+         * @brief Log-in
          **/
         function doLogin($user_id, $password = '', $keep_signed = false) {
             $user_id = strtolower($user_id);
-
-            // 로그인 이전에 trigger 호출 (before)
+            // Call a trigger before log-in (before)
             $trigger_obj->user_id = $user_id;
             $trigger_obj->password = $password;
             $trigger_output = ModuleHandler::triggerCall('member.doLogin', 'before', $trigger_obj);
             if(!$trigger_output->toBool()) return $trigger_output;
-
-            // member model 객체 생성
+            // Create a member model object
             $oMemberModel = &getModel('member');
-
-            // user_id 에 따른 정보 가져옴
+            // Get user_id information
             $member_info = $oMemberModel->getMemberInfoByUserID($user_id);
-
-            // return 값이 없으면 존재하지 않는 사용자로 지정
+            // Set an invalid user if no value returned
             if(!$user_id || strtolower($member_info->user_id) != strtolower($user_id)) return new Object(-1, 'invalid_user_id');
-
-            // 비밀번호 검사
+            // Password Check
             if($password && !$oMemberModel->isValidPassword($member_info->password, $password)) return new Object(-1, 'invalid_password');
-
-            // denied == 'Y' 이면 알림
+            // If denied == 'Y', notify
             if($member_info->denied == 'Y') {
                 $args->member_srl = $member_info->member_srl;
                 $output = executeQuery('member.chkAuthMail', $args);
                 if ($output->toBool() && $output->data->count != '0') return new Object(-1,'msg_user_not_confirmed');
                 return new Object(-1,'msg_user_denied');
             }
-
-            // denied_date가 현 시간보다 적으면 알림
+            // Notify if denied_date is less than the current time
             if($member_info->limit_date && substr($member_info->limit_date,0,8) >= date("Ymd")) return new Object(-1,sprintf(Context::getLang('msg_user_limited'),zdate($member_info->limit_date,"Y-m-d")));
-
-            // 사용자 정보의 최근 로그인 시간을 기록
+            // Update the latest login time
             $args->member_srl = $member_info->member_srl;
             $output = executeQuery('member.updateLastLogin', $args);
-
-            // 로그인 성공후 trigger 호출 (after)
+            // Call a trigger after successfully log-in (after)
             $trigger_output = ModuleHandler::triggerCall('member.doLogin', 'after', $member_info);
             if(!$trigger_output->toBool()) return $trigger_output;
-
-            // 자동 로그인 사용시 정보 처리
+            // When user checked to use auto-login
             if($keep_signed) {
-                // 자동 로그인 키 생성
+                // Key generate for auto login
                 $autologin_args->autologin_key = md5(strtolower($user_id).$member_info->password.$_SERVER['REMOTE_ADDR']);
                 $autologin_args->member_srl = $member_info->member_srl;
                 executeQuery('member.deleteAutologin', $autologin_args);
@@ -1486,60 +1376,50 @@
         }
 
         /**
-         * @brief 세션 정보 갱싱 또는 생성
+         * @brief Update or create session information
          **/
         function setSessionInfo($member_info = null) {
             $oMemberModel = &getModel('member');
-
-            // 사용자 정보가 넘어오지 않았다면 현재 세션 정보에서 사용자 정보를 추출
+            // If your information came through the current session information to extract information from the users
             if(!$member_info && $_SESSION['member_srl'] && $oMemberModel->isLogged() ) {
                 $member_info = $oMemberModel->getMemberInfoByMemberSrl($_SESSION['member_srl']);
-
-                // 회원정보가 없다면 세션 파기
+                // If you do not destroy the session Profile
                 if($member_info->member_srl != $_SESSION['member_srl']) {
                     $this->destroySessionInfo();
                     return;
                 }
             }
-
-            // 사용중지 아이디이면 세션 파기
+            // Stop using the session id is destroyed
             if($member_info->denied=='Y') {
                 $this->destroySessionInfo();
                 return;
             }
-
-            // 오픈아이디인지 체크 (일단 아이디 형식으로만 결정)
+            // OpenID is a check (only for a determined identity types)
             if(preg_match("/^([_0-9a-zA-Z]+)$/is", $member_info->user_id)) $member_info->is_openid = false;
             else $member_info->is_openid = true;
-
-            // 로그인 처리를 위한 세션 설정
+            // Log in for treatment sessions set
             $_SESSION['is_logged'] = true;
             $_SESSION['ipaddress'] = $_SERVER['REMOTE_ADDR'];
             $_SESSION['member_srl'] = $member_info->member_srl;
             $_SESSION['is_admin'] = '';
-
-            // 비밀번호는 세션에 저장되지 않도록 지워줌;;
+            // Do not save your password in the session jiwojum;;
             //unset($member_info->password);
-
-            // 사용자 그룹 설정
+            // User Group Settings
             /*
             if($member_info->group_list) {
                 $group_srl_list = array_keys($member_info->group_list);
                 $_SESSION['group_srls'] = $group_srl_list;
-
-                // 관리자 그룹일 경우 관리자로 지정
+                // If the group is designated as an administrator administrator
                 $oMemberModel = &getModel('member');
                 $admin_group = $oMemberModel->getAdminGroup();
                 if($admin_group->group_srl && in_array($admin_group->group_srl, $group_srl_list)) $_SESSION['is_admin'] = 'Y';
             }
             */
-
-            // 세션에 로그인 사용자 정보 저장
+            // Information stored in the session login user
             $_SESSION['logged_info'] = $member_info;
             Context::set('is_logged', true);
             Context::set('logged_info', $member_info);
-
-            // 사용자의 전용 메뉴 구성 (이 메뉴는 애드온등으로 변경될 수 있음)
+            // Only the menu configuration of the user (such as an add-on to the menu can be changed)
             $this->addMemberMenu( 'dispMemberInfo', 'cmd_view_member_info');
             $this->addMemberMenu( 'dispMemberScrappedDocument', 'cmd_view_scrapped_document');
             $this->addMemberMenu( 'dispMemberSavedDocument', 'cmd_view_saved_document');
@@ -1547,8 +1427,8 @@
         }
 
         /**
-         * @brief 로그인한 사용자의 개인화된 메뉴 제공을 위한 method
-         * 로그인 정보 출력 위젯 또는 개인화 페이지에서 사용됨
+         * @brief Logged method for providing a personalized menu
+         * Login information is used in the output widget, or personalized page
          **/
         function addMemberMenu($act, $str) {
             $logged_info = Context::get('logged_info');
@@ -1560,7 +1440,7 @@
         }
 
         /**
-         * @brief 로그인 회원의 닉네임등을 클릭할때 나타나는 팝업 메뉴를 추가하는 method
+         * @brief Nickname and click Log In to add a pop-up menu that appears when the method
          **/
         function addMemberPopupMenu($url, $str, $icon = '', $target = 'self') {
             $member_popup_menu_list = Context::get('member_popup_menu_list');
@@ -1576,26 +1456,22 @@
         }
 
         /**
-         * @brief member 테이블에 사용자 추가
+         * @brief Add users to the member table
          **/
         function insertMember(&$args, $password_is_hashed = false) {
-            // trigger 호출 (before)
+            // Call a trigger (before)
             $output = ModuleHandler::triggerCall('member.insertMember', 'before', $args);
             if(!$output->toBool()) return $output;
-
-            // 멤버 설정 정보에서 가입약관 부분을 재확인
+            // Terms and Conditions portion of the information set up by members reaffirmed
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('member');
 
             $logged_info = Context::get('logged_info');
-
-            // 임시 제한 일자가 있을 경우 제한 일자에 내용 추가
+            // If the date of the temporary restrictions limit further information on the date of
             if($config->limit_day) $args->limit_date = date("YmdHis", time()+$config->limit_day*60*60*24);
-
-            // 입력할 사용자의 아이디를 소문자로 변경
+            // Enter the user's identity changed to lowercase
             $args->user_id = strtolower($args->user_id);
-
-            // 필수 변수들의 조절
+            // Control of essential parameters
             if($args->allow_mailing!='Y') $args->allow_mailing = 'N';
             if($args->denied!='Y') $args->denied = 'N';
             $args->allow_message= 'Y';
@@ -1607,17 +1483,14 @@
             }
 
             list($args->email_id, $args->email_host) = explode('@', $args->email_address);
-
-            // 홈페이지, 블로그의 주소 검사
+            // Website, blog, checks the address
             if($args->homepage && !preg_match("/^[a-z]+:\/\//i",$args->homepage)) $args->homepage = 'http://'.$args->homepage;
             if($args->blog && !preg_match("/^[a-z]+:\/\//i",$args->blog)) $args->blog = 'http://'.$args->blog;
-
-            // 모델 객체 생성
+            // Create a model object
             $oMemberModel = &getModel('member');
-            // 금지 아이디인지 체크
+            // ID check is prohibited
             if($oMemberModel->isDeniedID($args->user_id)) return new Object(-1,'denied_user_id');
-
-            // 아이디, 닉네임, email address 의 중복 체크
+            // ID, nickname, email address of the redundancy check
             $member_srl = $oMemberModel->getMemberSrlByUserID($args->user_id);
             if($member_srl) return new Object(-1,'msg_exists_user_id');
 
@@ -1629,8 +1502,7 @@
 
             $oDB = &DB::getInstance();
             $oDB->begin();
-
-            // DB에 입력
+            // Insert data into the DB
             $args->member_srl = getNextSequence();
             $args->list_order = -1 * $args->member_srl;
             if($args->password && !$password_is_hashed) $args->password = md5($args->password);
@@ -1641,19 +1513,16 @@
                 $oDB->rollback();
                 return $output;
             }
-
-            // 입력된 그룹 값이 없으면 기본 그룹의 값을 등록
+            // If no value is entered the default group, the value of group registration
             if(!$args->group_srl_list) {
                 $default_group = $oMemberModel->getDefaultGroup(0);
-
-                // 기본 그룹에 추가
+                // Add to the default group
                 $output = $this->addMemberToGroup($args->member_srl,$default_group->group_srl);
                 if(!$output->toBool()) {
                     $oDB->rollback();
                     return $output;
                 }
-
-            // 입력된 그룹 값이 있으면 해당 그룹의 값을 등록
+            // If the value is the value of the group entered the group registration
             } else {
                 $group_srl_list = explode('|@|', $args->group_srl_list);
                 for($i=0;$i<count($group_srl_list);$i++) {
@@ -1665,10 +1534,9 @@
                     }
                 }
             }
-
-            // 메일 인증 모드 사용시(가입된 회원이 denied일 때) 인증 메일 발송
+            // When using email authentication mode (when you subscribed members denied a) certified mail sent
             if ($args->denied == 'Y') {
-                // 인증 DB에 데이터를 넣음
+                // Insert data into the authentication DB
                 $auth_args->user_id = $args->user_id;
                 $auth_args->member_srl = $args->member_srl;
                 $auth_args->new_password = $args->password;
@@ -1680,8 +1548,7 @@
                     $oDB->rollback();
                     return $output;
                 }
-
-                // 메일 내용을 구함
+                // Get content of the email to send a member
                 Context::set('auth_args', $auth_args);
                 Context::set('member_info', $args);
 
@@ -1699,12 +1566,10 @@
 
                 $oTemplate = &TemplateHandler::getInstance();
                 $content = $oTemplate->compile($tpl_path, 'confirm_member_account_mail');
-
-                // 사이트 웹마스터 정보를 구함
+                // Get information of the Webmaster
                 $oModuleModel = &getModel('module');
                 $member_config = $oModuleModel->getModuleConfig('member');
-
-                // 메일 발송
+                // Send a mail
                 $oMail = new Mail();
                 $oMail->setTitle( Context::getLang('msg_confirm_account_title') );
                 $oMail->setContent($content);
@@ -1712,8 +1577,7 @@
                 $oMail->setReceiptor( $args->user_name, $args->email_address );
                 $oMail->send();
             }
-
-            // trigger 호출 (after)
+            // Call a trigger (after)
             if($output->toBool()) {
                 $trigger_output = ModuleHandler::triggerCall('member.insertMember', 'after', $args);
                 if(!$trigger_output->toBool()) {
@@ -1729,23 +1593,20 @@
         }
 
         /**
-         * @brief member 정보 수정
+         * @brief Modify member information
          **/
         function updateMember($args) {
-            // trigger 호출 (before)
+            // Call a trigger (before)
             $output = ModuleHandler::triggerCall('member.updateMember', 'before', $args);
             if(!$output->toBool()) return $output;
-
-            // 모델 객체 생성
+            // Create a model object
             $oMemberModel = &getModel('member');
 
             $logged_info = Context::get('logged_info');
-
-            // 수정하려는 대상의 원래 정보 가져오기
+            // Get what you want to modify the original information
             $member_info = $oMemberModel->getMemberInfoByMemberSrl($args->member_srl);
             if(!$args->user_id) $args->user_id = $member_info->user_id;
-
-            // 필수 변수들의 조절
+            // Control of essential parameters
             if($args->allow_mailing!='Y') $args->allow_mailing = 'N';
             if($args->allow_message && !in_array($args->allow_message, array('Y','N','F'))) $args->allow_message = 'Y';
 
@@ -1758,12 +1619,10 @@
             }
 
             list($args->email_id, $args->email_host) = explode('@', $args->email_address);
-
-            // 홈페이지, 블로그의 주소 검사
+            // Website, blog, checks the address
             if($args->homepage && !preg_match("/^[a-z]+:\/\//is",$args->homepage)) $args->homepage = 'http://'.$args->homepage;
             if($args->blog && !preg_match("/^[a-z]+:\/\//is",$args->blog)) $args->blog = 'http://'.$args->blog;
-
-            // 아이디, 닉네임, email address 의 중복 체크
+            // ID, nickname, email address of the redundancy check
             $member_srl = $oMemberModel->getMemberSrlByUserID($args->user_id);
             if($member_srl&&$args->member_srl!=$member_srl) return new Object(-1,'msg_exists_user_id');
 
@@ -1775,8 +1634,7 @@
 
             $oDB = &DB::getInstance();
             $oDB->begin();
-
-            // DB에 update
+            // DB in the update
             if($args->password) $args->password = md5($args->password);
             else $args->password = $member_info->password;
             if(!$args->user_name) $args->user_name = $member_info->user_name;
@@ -1787,20 +1645,17 @@
                 $oDB->rollback();
                 return $output;
             }
-
-            // 그룹 정보가 있으면 그룹 정보를 변경
+            // If the group information, group information changes
             if($args->group_srl_list) {
                 $group_srl_list = explode('|@|', $args->group_srl_list);
                 $args->site_srl = 0;
-
-                // 일단 해당 회원의 모든 그룹 정보를 삭제
+                // One of its members to delete all the group
                 $output = executeQuery('member.deleteMemberGroupMember', $args);
                 if(!$output->toBool()) {
                     $oDB->rollback();
                     return $output;
                 }
-
-                // 하나 하나 루프를 돌면서 입력
+                // Enter one of the loop a
                 for($i=0;$i<count($group_srl_list);$i++) {
                     $output = $this->addMemberToGroup($args->member_srl,$group_srl_list[$i]);
                     if(!$output->toBool()) {
@@ -1809,8 +1664,7 @@
                     }
                 }
             }
-
-            // trigger 호출 (after)
+            // Call a trigger (after)
             if($output->toBool()) {
                 $trigger_output = ModuleHandler::triggerCall('member.updateMember', 'after', $args);
                 if(!$trigger_output->toBool()) {
@@ -1820,8 +1674,7 @@
             }
 
             $oDB->commit();
-
-            // 세션에 저장
+            // Save Session
             $member_info = $oMemberModel->getMemberInfoByMemberSrl($args->member_srl);
 
             $logged_info = Context::get('logged_info');
@@ -1834,7 +1687,7 @@
         }
 
         /**
-         * @brief member 비밀번호 수정
+         * @brief Modify member password
          **/
         function updateMemberPassword($args) {
             $output = executeQuery('member.updateChangePasswordDate', $args);
@@ -1843,61 +1696,53 @@
         }
 
         /**
-         * @brief 사용자 삭제
+         * @brief Delete User
          **/
         function deleteMember($member_srl) {
-            // trigger 호출 (before)
+            // Call a trigger (before)
             $trigger_obj->member_srl = $member_srl;
             $output = ModuleHandler::triggerCall('member.deleteMember', 'before', $trigger_obj);
             if(!$output->toBool()) return $output;
-
-            // 모델 객체 생성
+            // Create a model object
             $oMemberModel = &getModel('member');
-
-            // 해당 사용자의 정보를 가져옴
+            // Bringing the user's information
             $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
             if(!$member_info) return new Object(-1, 'msg_not_exists_member');
-
-            // 관리자의 경우 삭제 불가능
+            // If managers can not be deleted
             if($member_info->is_admin == 'Y') return new Object(-1, 'msg_cannot_delete_admin');
 
             $oDB = &DB::getInstance();
             $oDB->begin();
 
             $args->member_srl = $member_srl;
-            // member_auth_mail에서 해당 항목들 삭제
+            // Delete the entries in member_auth_mail
             $output = executeQuery('member.deleteAuthMail', $args);
             if (!$output->toBool()) {
                 $oDB->rollback();
                 return $output;
             }
-
-            //  member_openid에서 해당 항목들 삭제
+            // Delete the entries in member_openid
             $output = executeQuery('member.deleteMemberOpenIDByMemberSrl', $ags);
-
-            //  TODO: 테이블 업그레이드를 하지 않은 경우에 실패할 수 있다.
+            // TODO: If the table is not an upgrade may fail.
             /*
             if(!$output->toBool()) {
                 $oDB->rollback();
                 return $output;
             }
             */
-
-            // member_group_member에서 해당 항목들 삭제
+            // Delete the entries in member_group_member
             $output = executeQuery('member.deleteMemberGroupMember', $args);
             if(!$output->toBool()) {
                 $oDB->rollback();
                 return $output;
             }
-
-            // member 테이블에서 삭제
+            // member removed from the table
             $output = executeQuery('member.deleteMember', $args);
             if(!$output->toBool()) {
                 $oDB->rollback();
                 return $output;
             }
-
-            // trigger 호출 (after)
+            // Call a trigger (after)
             if($output->toBool()) {
                 $trigger_output = ModuleHandler::triggerCall('member.deleteMember', 'after', $trigger_obj);
                 if(!$trigger_output->toBool()) {
@@ -1907,8 +1752,7 @@
             }
 
             $oDB->commit();
-
-            // 이름이미지, 이미지마크, 서명 삭제
+            // Name, image, image, mark, sign, delete
             $this->procMemberDeleteImageName();
             $this->procMemberDeleteImageMark();
             $this->delSignature($member_srl);
@@ -1917,7 +1761,7 @@
         }
 
         /**
-         * @brief 모든 세션 정보 파기
+         * @brief Destroy all session information
          **/
         function destroySessionInfo() {
             if(!$_SESSION || !is_array($_SESSION)) return;

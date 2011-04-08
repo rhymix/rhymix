@@ -2,20 +2,20 @@
     /**
      * @class  installAdminController
      * @author NHN (developers@xpressengine.com)
-     * @brief  install module의 admin controller class
+     * @brief admin controller class of the install module
      **/
 
     class installAdminController extends install {
 
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
         }
 
         /**
-         * @brief 모듈 설치
+         * @brief Install the module
          **/
         function procInstallAdminInstall() {
             $module_name = Context::get('module_name');
@@ -28,7 +28,7 @@
         }
 
         /**
-         * @brief 모듈 업데이트
+         * @brief Upate the module
          **/
         function procInstallAdminUpdate() {
             $module_name = Context::get('module_name');
@@ -42,7 +42,7 @@
         }
 
         /**
-         * @brief 설정 변경
+         * @brief Change settings
          **/
         function procInstallAdminSaveTimeZone() {
             $use_rewrite = Context::get('use_rewrite');
@@ -105,7 +105,7 @@
         }
 
         /**
-         * @brief 지원 언어 선택
+         * @brief Supported languages
          **/
         function procInstallAdminSaveLangSelected() {
             $selected_lang = trim(Context::get('selected_lang'));

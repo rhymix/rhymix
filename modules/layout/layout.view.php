@@ -2,32 +2,30 @@
     /**
      * @class  layoutView
      * @author NHN (developers@xpressengine.com)
-     * @brief  layout 모듈의 admin view class
+     * @brief admin view class of the layout module
      **/
 
     class layoutView extends layout {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
             $this->setTemplatePath($this->module_path.'tpl');
         }
 
         /**
-         * @brief 레이아웃의 상세 정보(conf/info.xml)를 팝업 출력
+         * @brief Pop-up layout details(conf/info.xml)
          **/
         function dispLayoutInfo() {
-            // 선택된 레이아웃 정보를 구함 
+            // Get the layout information
             $oLayoutModel = &getModel('layout');
             $layout_info = $oLayoutModel->getLayoutInfo(Context::get('selected_layout'));
             if(!$layout_info) exit();
             Context::set('layout_info', $layout_info);
-
-            // 레이아웃을 팝업으로 지정
+            // Set the layout to be pop-up
             $this->setLayoutFile('popup_layout');
-
-            // 템플릿 파일 지정
+            // Set a template file
             $this->setTemplateFile('layout_detail_info');
         }
     }

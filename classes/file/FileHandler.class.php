@@ -30,8 +30,7 @@
             $source_dir = FileHandler::getRealPath($source_dir);
             $target_dir = FileHandler::getRealPath($target_dir);
             if(!is_dir($source_dir)) return false;
-
-            // target이 없을땐 생성
+            // generate when no target exists
             if(!file_exists($target_dir)) FileHandler::makeDir($target_dir);
 
             if(substr($source_dir, -1) != '/') $source_dir .= '/';

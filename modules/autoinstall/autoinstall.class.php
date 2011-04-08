@@ -2,7 +2,7 @@
     /**
      * @class  autoinstall
      * @author NHN (developers@xpressengine.com)
-     * @brief  autoinstall 모듈의 high class
+     * @brief high class of the autoinstall module
      **/
 
     class XmlGenerater {
@@ -36,13 +36,13 @@
 		var $tmp_dir = './files/cache/autoinstall/';
 
         /**
-         * @brief 설치시 추가 작업이 필요할시 구현
+         * @brief for additional tasks required when installing
          **/
         function moduleInstall() {
         }
 
         /**
-         * @brief 설치가 이상이 없는지 체크하는 method
+         * @brief method to check if installation is succeeded
          **/
         function checkUpdate() {
             $oDB =& DB::getInstance();
@@ -61,7 +61,7 @@
         }
 
         /**
-         * @brief 업데이트 실행
+         * @brief Execute update
          **/
         function moduleUpdate() {
             $oDB =& DB::getInstance();
@@ -79,7 +79,7 @@
         }
 
         /**
-         * @brief 캐시 파일 재생성
+         * @brief Re-generate the cache file
          **/
         function recompileCache() {
         }

@@ -2,22 +2,22 @@
     /**
      * @class  trackbackAdminController
      * @author NHN (developers@xpressengine.com)
-     * @brief  trackback모듈의 admin controller class
+     * @brief trackback module admin controller class
      **/
 
     class trackbackAdminController extends trackback {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
         }
 
         /**
-         * @brief 관리자 페이지에서 선택된 엮인글들을 삭제
+         * @brief Trackbacks delete selected in admin page
          **/
         function procTrackbackAdminDeleteChecked() {
-            // 선택된 글이 없으면 오류 표시
+            // An error appears if no document is selected
             $cart = Context::get('cart');
             if(!$cart) return $this->stop('msg_cart_is_null');
             $trackback_srl_list= explode('|@|', $cart);
@@ -25,8 +25,7 @@
             if(!$trackback_count) return $this->stop('msg_cart_is_null');
 
             $oTrackbackController = &getController('trackback');
-
-            // 글삭제
+            // Delete the post
             for($i=0;$i<$trackback_count;$i++) {
                 $trackback_srl = trim($trackback_srl_list[$i]);
                 if(!$trackback_srl) continue;
@@ -38,7 +37,7 @@
         }
 
         /**
-         * @brief 설정 저장
+         * @brief Save Settings
          **/
         function procTrackbackAdminInsertConfig() {
             $config->enable_trackback = Context::get('enable_trackback');
@@ -50,10 +49,10 @@
         }
 
         /**
-         * @brief Trackback 모듈별 설정
+         * @brief Trackback Module Settings
          **/
         function procTrackbackAdminInsertModuleConfig() {
-            // 필요한 변수를 받아옴
+            // Get variables
             $module_srl = Context::get('target_module_srl');
             if(preg_match('/^([0-9,]+)$/',$module_srl)) $module_srl = explode(',',$module_srl);
             else $module_srl = array($module_srl);
@@ -74,7 +73,7 @@
         }
 
         /**
-         * @brief Trackback 모듈별 설정 함수
+         * @brief Trackback modular set function
          **/
         function setTrackbackModuleConfig($module_srl, $enable_trackback) {
             $config->enable_trackback = $enable_trackback;
@@ -85,10 +84,10 @@
         }
 
         /**
-         * @brief 모듈에 속한 모든 트랙백 삭제
+         * @brief Modules belonging to remove all trackbacks
          **/
         function deleteModuleTrackbacks($module_srl) {
-            // 삭제
+            // Delete
             $args->module_srl = $module_srl;
             $output = executeQuery('trackback.deleteModuleTrackbacks', $args);
 

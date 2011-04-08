@@ -4,7 +4,7 @@
     /**
      * @class DBMysql_innodb
      * @author NHN (developers@xpressengine.com)
-     * @brief MySQL DBMS를 이용하기 위한 class
+     * @brief class to use MySQL DBMS
      * @version 0.1
      *
      * mysql innodb handling class
@@ -29,7 +29,7 @@
 		}
 
         /**
-         * @brief DB접속 해제
+         * @brief DB disconnection
          **/
         function close() {
             if(!$this->isConnected()) return;
@@ -38,7 +38,7 @@
         }
 
         /**
-         * @brief 트랜잭션 시작
+         * @brief Begin transaction
          **/
         function begin() {
             if(!$this->isConnected() || $this->transaction_started) return;
@@ -47,7 +47,7 @@
         }
 
         /**
-         * @brief 롤백
+         * @brief Rollback
          **/
         function rollback() {
             if(!$this->isConnected() || !$this->transaction_started) return;
@@ -56,7 +56,7 @@
         }
 
         /**
-         * @brief 커밋
+         * @brief Commits
          **/
         function commit($force = false) {
             if(!$force && (!$this->isConnected() || !$this->transaction_started)) return;
@@ -65,35 +65,30 @@
         }
 
         /**
-         * @brief : 쿼리문의 실행 및 결과의 fetch 처리
+         * @brief : Run a query and fetch the result
          *
-         * query : query문 실행하고 result return\n
-         * fetch : reutrn 된 값이 없으면 NULL\n
-         *         rows이면 array object\n
-         *         row이면 object\n
+         * query: run a query and return the result \n
+         * fetch: NULL if no value is returned \n
+         *        array object if rows are returned \n
+         *        object if a row is returned \n
          *         return\n
          **/
         function _query($query) {
             if(!$this->isConnected()) return;
-
-            // 쿼리 시작을 알림
+            // Notify to start a query execution
             $this->actStart($query);
-
-            // 쿼리 문 실행
+            // Run the query statement
             $result = @mysql_query($query, $this->fd);
-
-            // 오류 체크
+            // Error Check
             if(mysql_error($this->fd)) $this->setError(mysql_errno($this->fd), mysql_error($this->fd));
-
-            // 쿼리 실행 종료를 알림
+            // Notify to complete a query execution
             $this->actFinish();
-
-            // 결과 리턴
+            // Return result
             return $result;
         }
 
         /**
-         * @brief schema xml을 이용하여 create table query생성
+         * @brief generate a query statement to create a table by using schema xml
          *
          * type : number, varchar, text, char, date, \n
          * opt : notnull, default, size\n
@@ -103,8 +98,7 @@
             // xml parsing
             $oXml = new XmlParser();
             $xml_obj = $oXml->parse($xml_doc);
-
-            // 테이블 생성 schema 작성
+            // Create a table schema
             $table_name = $xml_obj->table->attrs->name;
             if($this->isTableExists($table_name)) return;
             $table_name = $this->prefix.$table_name;

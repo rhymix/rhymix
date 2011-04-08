@@ -2,27 +2,26 @@
     /**
      * @class  moduleView
      * @author NHN (developers@xpressengine.com)
-     * @brief  module 모듈의 view class
+     * @brief view class of the module module
      **/
 
     class moduleView extends module {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
-            // template path 지정
+            // Set the template path
             $this->setTemplatePath($this->module_path.'tpl');
         }
 
         /**
-         * @brief 스킨 정보 출력
+         * @brief Display skin information
          **/
         function dispModuleSkinInfo() {
             $selected_module = Context::get('selected_module');
             $skin = Context::get('skin');
-
-            // 모듈/스킨 정보를 구함
+            // Get modules/skin information
             $module_path = sprintf("./modules/%s/", $selected_module);
             if(!is_dir($module_path)) $this->stop("msg_invalid_request");
 
@@ -38,22 +37,19 @@
         }
 
         /**
-         * @brief 모듈 선택기
+         * @brief Select a module
          **/
         function dispModuleSelectList() {
             if(!Context::get('is_logged')) return new Object(-1, 'msg_not_permitted');
 
             $oModuleModel = &getModel('module');
-
-            // virtual site의 개수를 추출
+            // Extract the number of virtual sites
             $output = executeQuery('module.getSiteCount');
             $site_count = $output->data->count;
             Context::set('site_count', $site_count);
-
-            // 사이트 검색어 변수 설정
+            // Variable setting for site keyword
             $site_keyword = Context::get('site_keyword');
-
-            // 사이트 검색어가 없으면 현재 가상 사이트의 정보를 설정
+            // If there is no site keyword, use as information of the current virtual site
             $args = null;
             $logged_info = Context::get('logged_info');
             if($logged_info->is_admin == 'Y') {
@@ -70,7 +66,7 @@
                         $args->site_srl = 0;
                         $module_category_exists = true;
                     }
-                // 사이트 검색어가 있으면 해당 사이트(들)의 정보를 추출
+                // If site keyword exists, extract information from the sites
                 } else {
                     $args->site_keyword = $site_keyword;
                 }
@@ -80,8 +76,7 @@
                 $args->site_srl = (int)$site_module_info->site_srl;
             }
             //if(is_null($args->site_srl)) $query_id = 'module.getDefaultModules';
-
-            // 지정된 사이트(혹은 전체)의 module 목록을 구함
+            // Get a list of modules at the site
             $output = executeQueryArray($query_id, $args);
             $category_list = $mid_list = array();
             if(count($output->data)) {
@@ -110,16 +105,12 @@
             Context::set('selected_module', $selected_module);
             Context::set('selected_mids', $mid_list[$selected_module]->list);
             Context::set('module_category_exists', $module_category_exists);
-
-            // 레이아웃을 팝업으로 지정
+            // Set the layout to be pop-up
             $this->setLayoutFile('popup_layout');
-
-            // 템플릿 파일 지정
+            // Set a template file
             $this->setTemplateFile('module_selector');
         }
-
-
-        // 파일 박스 보기
+        // See the file box
         function dispModuleFileBox(){
             $logged_info = Context::get('logged_info');
             if($logged_info->is_admin !='Y' && !$logged_info->is_site_admin) return new Object(-1, 'msg_not_permitted');
@@ -145,8 +136,7 @@
             $this->setLayoutFile('popup_layout');
             $this->setTemplateFile('filebox_list');
         }
-
-        // 파일 박스 등록화면
+        // Screen to add a file box
         function dispModuleFileBoxAdd(){
             $logged_info = Context::get('logged_info');
             if($logged_info->is_admin !='Y' && !$logged_info->is_site_admin) return new Object(-1, 'msg_not_permitted');

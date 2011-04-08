@@ -13,7 +13,7 @@
         }
 
         /**
-         * @brief hdml 헤더 출력
+         * @brief hdml header output
          **/
         function printHeader() {
             header("Content-Type:text/x-hdml; charset=".$this->charset);
@@ -33,7 +33,7 @@
         }
 
         /**
-         * @brief 제목을 출력
+         * @brief Output title
          **/
         function printTitle() {
             if($this->totalPage > $this->mobilePage) $titlePageStr = sprintf("(%d/%d)",$this->mobilePage, $this->totalPage);
@@ -41,8 +41,8 @@
         }
 
         /**
-         * @brief 내용을 출력
-         * hasChilds()가 있으면 목록형을 그렇지 않으면 컨텐츠를 출력
+         * @brief Output information
+         * hasChilds() if there is a list of content types, otherwise output
          **/
         function printContent() {
             if($this->hasChilds()) {
@@ -56,10 +56,10 @@
         }
 
         /**
-         * @brief 버튼을 출력함 
+         * @brief Button to output
          **/
         function printBtn() {
-            // 메뉴 형식
+            // Menu Types
             if($this->hasChilds()) {
                 if($this->nextUrl) {
                     $url = $this->nextUrl;
@@ -73,7 +73,7 @@
                     $url = $this->homeUrl;
                     printf('<ce task=go label="%s" dest="%s">%s%s', $url->text, $url->url, $url->text, "\n");
                 }
-            // 컨텐츠 형식
+            // Content Types
             } else {
                 if($this->nextUrl) {
                     $url = $this->nextUrl;
@@ -91,7 +91,7 @@
         }
 
         /**
-         * @brief 푸터 정보를 출력
+         * @brief Footer information output
          **/
         function printFooter() {
             print $this->hasChilds()?'</choice>':'</display>';

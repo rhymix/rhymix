@@ -1,11 +1,10 @@
 <?php
     /**
      * @file   addons/mobile/lang/jp.lang.php
-     * @author NHN (developers@xpressengine.com) 翻訳：ミニミ
-     * @brief  日本語言語パッケージ
+     * @author NHN (developers@xpressengine.com) 翻 訳: ミニ ミ
+     * @brief Japanese language package
      **/
-
-    // 言語選択部分 by misol
+    // Choose the language part by misol
     $lang->president_lang = '現在言語';
     $lang->select_lang = '言語選択';
     $lang->lang_return = '戻る';

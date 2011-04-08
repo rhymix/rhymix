@@ -2,19 +2,19 @@
     /**
      * @class  trackbackView
      * @author NHN (developers@xpressengine.com)
-     * @brief  trackback모듈의 view class
+     * @brief trackback module's view class
      **/
 
     class trackbackView extends trackback {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
         }
 
         /**
-         * @brief 목록 출력 (관리자용)
+         * @brief Display output list (administrative)
          **/
         function dispTrackbackSend() {
             $document_srl = Context::get('document_srl');
@@ -22,8 +22,7 @@
 
             $logged_info = Context::get('logged_info');
             if(!$logged_info->member_srl) return $this->stop('msg_not_permitted');
-
-            // 원본 글의 정보를 구함
+            // Wanted Original article information
             $oDocumentModel = &getModel('document');
             $oDocument = $oDocumentModel->getDocument($document_srl);
             if(!$oDocument->isExists()) return $this->stop('msg_invalid_document');
@@ -32,34 +31,31 @@
             if($oDocument->getMemberSrl() != $logged_info->member_srl) return $this->stop('msg_not_permitted');
 
             Context::set('oDocument', $oDocument);
-
-            // 템플릿 지정
+            // Set a template
             $this->setLayoutFile('popup_layout');
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('send_trackback_form');
         }
 
         /**
-         * @brief 서비스형 모듈의 추가 설정을 위한 부분
-         * trackback의 사용 형태에 대한 설정만 받음
+         * @brief An additional set of parts for a service module
+         * Use the form out of the settings for trackback
          **/
         function triggerDispTrackbackAdditionSetup(&$obj) {
             $current_module_srl = Context::get('module_srl');
             $current_module_srls = Context::get('module_srls');
 
             if(!$current_module_srl && !$current_module_srls) {
-                // 선택된 모듈의 정보를 가져옴
+                // Get information of the current module
                 $current_module_info = Context::get('current_module_info');
                 $current_module_srl = $current_module_info->module_srl;
                 if(!$current_module_srl) return new Object();
             }
-
-            // 선택된 모듈의 trackback설정을 가져옴
+            // Imported trackback settings of the selected module
             $oTrackbackModel = &getModel('trackback');
             $trackback_config = $oTrackbackModel->getTrackbackModuleConfig($current_module_srl);
             Context::set('trackback_config', $trackback_config);
-
-            // 템플릿 파일 지정
+            // Set a template file
             $oTemplate = &TemplateHandler::getInstance();
             $tpl = $oTemplate->compile($this->module_path.'tpl', 'trackback_module_config');
             $obj .= $tpl;

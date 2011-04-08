@@ -1,8 +1,8 @@
 <?php
     /**
-     * @class DBFriebird
-     * @author 김현식 (dev.hyuns@gmail.com)
-     * @brief Firebird DBMS를 이용하기 위한 class
+     * @class DBFirebird
+     * @author Kim Hyun Sik (dev.hyuns @ gmail.com)
+     * @brief class to use Firebird DBMS
      * @version 0.3
      *
      * firebird handling class
@@ -11,21 +11,21 @@
     class DBFireBird extends DB {
 
         /**
-         * @brief Firebird DB에 접속하기 위한 정보
+         * @brief connection to Firebird DB
          **/
         var $hostname = '127.0.0.1'; ///< hostname
         var $userid   = NULL; ///< user id
         var $password   = NULL; ///< password
         var $database = NULL; ///< database
-        var $prefix   = 'xe'; ///< XE에서 사용할 테이블들의 prefix  (한 DB에서 여러개의 XE 설치 가능)
-        var $idx_no = 0; // 인덱스 생성시 사용할 카운터
+        var $prefix   = 'xe'; // / <prefix of XE tables(One more XE can be installed on a single DB)
+        var $idx_no = 0; // counter for creating an index
 		var $comment_syntax = '/* %s */';
 
         /**
-         * @brief firebird에서 사용될 column type
+         * @brief column type used in firebird
          *
-         * column_type은 schema/query xml에서 공통 선언된 type을 이용하기 때문에
-         * 각 DBMS에 맞게 replace 해주어야 한다
+         * column_type should be replaced for each DBMS's type
+         * becasue it uses commonly defined type in the schema/query xml
          **/
         var $column_type = array(
             'bignumber' => 'BIGINT',
@@ -55,7 +55,7 @@
 		}
 
         /**
-         * @brief 설치 가능 여부를 return
+         * @brief Return if installable
          **/
         function isSupported() {
             if(!function_exists('ibase_connect')) return false;
@@ -63,7 +63,7 @@
         }
 
         /**
-         * @brief DB정보 설정 및 connect/ close
+         * @brief DB settings and connect/close
          **/
         function _setDBInfo() {
             $db_info = Context::getDBInfo();
@@ -77,16 +77,14 @@
         }
 
         /**
-         * @brief DB 접속
+         * @brief DB Connection
          **/
         function _connect() {
-            // db 정보가 없으면 무시
+            // ignore if db information not exists
             if(!$this->hostname || !$this->port || !$this->userid || !$this->password || !$this->database) return;
 
             //if(strpos($this->hostname, ':')===false && $this->port) $this->hostname .= ':'.$this->port;
-
-            // 접속시도
-
+            // attempts to connect
             $host = $this->hostname."/".$this->port.":".$this->database;
 
             $this->fd = @ibase_connect($host, $this->userid, $this->password);
@@ -94,8 +92,7 @@
                 $this->setError(ibase_errcode(), ibase_errmsg());
                 return $this->is_connected = false;
             }
-
-            // Firebird 버전 확인후 2.0 이하면 오류 표시
+            // Error when Firebird version is lower than 2.0
             if (($service = ibase_service_attach($this->hostname, $this->userid, $this->password)) != FALSE) {
                 // get server version and implementation strings
                 $server_info  = ibase_server_info($service, IBASE_SVC_SERVER_VERSION);
@@ -118,14 +115,13 @@
                 @ibase_close($this->fd);
                 return $this->is_connected = false;
             }
-
-            // 접속체크
+            // Check connections
             $this->is_connected = true;
 			$this->password = md5($this->password);
         }
 
         /**
-         * @brief DB접속 해제
+         * @brief DB disconnect
          **/
         function close() {
             if(!$this->isConnected()) return;
@@ -135,7 +131,7 @@
         }
 
         /**
-         * @brief 쿼리에서 입력되는 문자열 변수들의 quotation 조절
+         * @brief handles quatation of the string variables from the query
          **/
         function addQuotes($string) {
 //            if(get_magic_quotes_gpc()) $string = stripslashes(str_replace("\\","\\\\",$string));
@@ -144,7 +140,7 @@
         }
 
         /**
-        * @brief 쿼리에서 입력되는 table, column 명에 더블쿼터를 넣어줌
+        * @brief put double quotes for tabls, column names in the query statement
         **/
         function addDoubleQuotes($string) {
             if($string == "*") return $string;
@@ -162,12 +158,11 @@
         }
 
         /**
-         * @brief 쿼리에서 입력되는 table, column 명에 더블쿼터를 넣어줌
+         * @brief put double quotes for tabls, column names in the query statement
          **/
         function autoQuotes($string){
             $string = strtolower($string);
-
-            // substr 함수 일경우
+            // for substr function
             if(strpos($string, "substr(") !== false) {
                 $tokken = strtok($string, "(,)");
                 $tokken = strtok("(,)");
@@ -190,8 +185,7 @@
                 $as = trim($as);
                 $as = $this->addDoubleQuotes($as);
             }
-
-            // 함수 사용시
+            // for functions
             $tmpFunc1 = null;
             $tmpFunc2 = null;
             if(($no1 = strpos($string,'('))!==false && ($no2 = strpos($string, ')'))!==false) {
@@ -199,8 +193,7 @@
                 $tmpFunc2 = substr($string, $no2, strlen($string)-$no2+1);
                 $string = trim(substr($string, $no1+1, $no2-$no1-1));
             }
-
-            // (테이블.컬럼) 구조 일때 처리
+            // for (table.column) structure
             preg_match("/((?i)[a-z0-9_-]+)[.]((?i)[a-z0-9_\-\*]+)/", $string, $matches);
 
             if($matches) {
@@ -225,7 +218,7 @@
             }
 
             foreach($values as $val1) {
-                // (테이블.컬럼) 구조 일때 처리
+                // for (table.column) structure
                 preg_match("/((?i)[a-z0-9_-]+)[.]((?i)[a-z0-9_\-\*]+)/", $val1, $matches);
                 if($matches) {
                     $isTable = false;
@@ -257,7 +250,7 @@
         }
 
         /**
-         * @brief 트랜잭션 시작
+         * @brief Begin transaction
          **/
         function begin() {
             if(!$this->isConnected() || $this->transaction_started) return;
@@ -265,7 +258,7 @@
         }
 
         /**
-         * @brief 롤백
+         * @brief Rollback
          **/
         function rollback() {
             if(!$this->isConnected() || !$this->transaction_started) return;
@@ -274,7 +267,7 @@
         }
 
         /**
-         * @brief 커밋
+         * @brief Commits
          **/
         function commit() {
             if(!$force && (!$this->isConnected() || !$this->transaction_started)) return;
@@ -283,48 +276,43 @@
         }
 
         /**
-         * @brief : 쿼리문의 실행 및 결과의 fetch 처리
+         * @brief : Run a query and fetch the result
          *
-         * query : query문 실행하고 result return\n
-         * fetch : reutrn 된 값이 없으면 NULL\n
-         *         rows이면 array object\n
-         *         row이면 object\n
-         *         return\n
+         * query: run a query and return the result\n
+         * fetch: NULL if no value returned \n
+         *        array object if rows returned \n
+         *        object if a row returned \n
+         *        return\n
          **/
         function _query($query, $params=null) {
             if(!$this->isConnected()) return;
 
             if(count($params) == 0) {
-                // 쿼리 시작을 알림
+                // Notify to start a query execution
                 $this->actStart($query);
-
-                // 쿼리 문 실행
+                // Execute the query statement
                  $result = ibase_query($this->fd, $query);
             }
             else {
-                // 쿼리 시작을 알림
+                // Notify to start a query execution
                 $log = $query."\n\t\t\t";
                 $log .= implode(",", $params);
                 $this->actStart($log);
-
-                // 쿼리 문 실행 (blob type 입력하기 위한 방법)
+                // Execute the query(for blob type)
                 $query = ibase_prepare($this->fd, $query);
                 $fnarr = array_merge(array($query), $params);
                 $result = call_user_func_array("ibase_execute", $fnarr);
             }
-
-            // 오류 체크
+            // Error Check
             if(ibase_errmsg()) $this->setError(ibase_errcode(), ibase_errmsg());
-
-            // 쿼리 실행 종료를 알림
+            // Notify to complete a query execution
             $this->actFinish();
-
-            // 결과 리턴
+            // Return the result
             return $result;
         }
 
         /**
-         * @brief 결과를 fetch
+         * @brief Fetch the result
          **/
         function _fetch($result, $output = null) {
             if(!$this->isConnected() || $this->isError() || !$result) return;
@@ -332,12 +320,11 @@
             while($tmp = ibase_fetch_object($result)) {
                 foreach($tmp as $key => $val) {
                     $type = $output->column_type[$key];
-
-                    // type 값이 null 일때는 $key값이 alias인 경우라 실제 column 이름을 찾아 type을 구함
+                    // type value is null when $key is an alias. so get a type by finding actual coloumn name
                     if($type == null && $output->columns && count($output->columns)) {
                         foreach($output->columns as $cols) {
                             if($cols['alias'] == $key) {
-                                // table.column 형식인지 정규식으로 검사 함
+                                // checks if the format is table.column or a regular expression
                                 preg_match("/\w+[.](\w+)/", $cols['name'], $matches);
                                 if($matches) {
                                     $type = $output->column_type[$matches[1]];
@@ -356,7 +343,7 @@
                         ibase_blob_close($blob_hndl);
                     }
                     else if($type == "char") {
-                        $tmp->{$key} = trim($tmp->{$key});	// DB의 character set이 UTF8일때 생기는 빈칸을 제거
+                        $tmp->{$key} = trim($tmp->{$key});	// remove blanks generated when DB character set is UTF8
                     }
                 }
 
@@ -368,7 +355,7 @@
         }
 
         /**
-         * @brief 1씩 증가되는 sequence값을 return (firebird의 generator 값을 증가)
+         * @brief return sequence value incremented by 1(increase the value of the generator in firebird)
          **/
         function getNextSequence() {
             $gen = "GEN_".$this->prefix."sequence_ID";
@@ -377,7 +364,7 @@
         }
 
         /**
-         * @brief 테이블 기생성 여부 return
+         * @brief returns if the table already exists
          **/
         function isTableExists($target_name) {
             $query = sprintf("select rdb\$relation_name from rdb\$relations where rdb\$system_flag=0 and rdb\$relation_name = '%s%s';", $this->prefix, $target_name);
@@ -392,7 +379,7 @@
         }
 
         /**
-         * @brief 특정 테이블에 특정 column 추가
+         * @brief add a column to the table
          **/
         function addColumn($table_name, $column_name, $type='number', $size='', $default = '', $notnull=false) {
             $type = $this->column_type[$type];
@@ -412,7 +399,7 @@
         }
 
         /**
-         * @brief 특정 테이블에 특정 column 제거
+         * @brief drop a column from the table
          **/
         function dropColumn($table_name, $column_name) {
             $query = sprintf("alter table %s%s drop %s ", $this->prefix, $table_name, $column_name);
@@ -422,7 +409,7 @@
 
 
         /**
-         * @brief 특정 테이블의 column의 정보를 return
+         * @brief return column information of the table
          **/
         function isColumnExists($table_name, $column_name) {
             $query = sprintf("SELECT RDB\$FIELD_NAME as \"FIELD\" FROM RDB\$RELATION_FIELDS WHERE RDB\$RELATION_NAME = '%s%s'", $this->prefix, $table_name);
@@ -446,15 +433,14 @@
         }
 
         /**
-         * @brief 특정 테이블에 특정 인덱스 추가
+         * @brief add an index to the table
          * $target_columns = array(col1, col2)
          * $is_unique? unique : none
          **/
         function addIndex($table_name, $index_name, $target_columns, $is_unique = false) {
-            // index name 크기가 31byte로 제한으로 index name을 넣지 않음
-            // Firebird에서는 index name을 넣지 않으면 "RDB$10"처럼 자동으로 이름을 부여함
-            // table을 삭제 할 경우 인덱스도 자동으로 삭제 됨
-
+            // index name size should be limited to 31 byte. no index name assigned
+            // if index name omitted, Firebird automatically assign its name like "RDB $10"
+            // deletes indexes when deleting the table
             if(!is_array($target_columns)) $target_columns = array($target_columns);
 
             $query = sprintf('CREATE %s INDEX "" ON "%s%s" ("%s");', $is_unique?'UNIQUE':'', $this->prefix, $table_name, implode('", "',$target_columns));
@@ -464,7 +450,7 @@
         }
 
         /**
-         * @brief 특정 테이블의 특정 인덱스 삭제
+         * @brief drop an index from the table
          **/
         function dropIndex($table_name, $index_name, $is_unique = false) {
             $query = sprintf('DROP INDEX "%s" ON "%s%s"', $index_name, $this->prefix, $table_name);
@@ -475,7 +461,7 @@
 
 
         /**
-         * @brief 특정 테이블의 index 정보를 return
+         * @brief return index information of the table
          **/
         function isIndexExists($table_name, $index_name) {
             $query = "SELECT\n";
@@ -512,24 +498,24 @@
         }
 
         /**
-         * @brief xml 을 받아서 테이블을 생성
+         * @brief creates a table by using xml file
          **/
         function createTableByXml($xml_doc) {
             return $this->_createTable($xml_doc);
         }
 
         /**
-         * @brief xml 을 받아서 테이블을 생성
+         * @brief creates a table by using xml file
          **/
         function createTableByXmlFile($file_name) {
             if(!file_exists($file_name)) return;
-            // xml 파일을 읽음
+            // read xml file
             $buff = FileHandler::readFile($file_name);
             return $this->_createTable($buff);
         }
 
         /**
-         * @brief schema xml을 이용하여 create table query생성
+         * @brief create table by using the schema xml
          *
          * type : number, varchar, text, char, date, \n
          * opt : notnull, default, size\n
@@ -539,8 +525,7 @@
             // xml parsing
             $oXml = new XmlParser();
             $xml_obj = $oXml->parse($xml_doc);
-
-            // 테이블 생성 schema 작성
+            // Create a table schema
             $table_name = $xml_obj->table->attrs->name;
             if($this->isTableExists($table_name)) return;
             $table_name = $this->prefix.$table_name;
@@ -596,10 +581,9 @@
 
             if(count($index_list)) {
                 foreach($index_list as $key => $val) {
-                    // index name 크기가 31byte로 제한으로 index name을 넣지 않음
-                    // Firebird에서는 index name을 넣지 않으면 "RDB$10"처럼 자동으로 이름을 부여함
-                    // table을 삭제 할 경우 인덱스도 자동으로 삭제 됨
-
+                    // index name size should be limited to 31 byte. no index name assigned
+                    // if index name omitted, Firebird automatically assign its name like "RDB $10"
+                    // deletes indexes when deleting the table
                     $schema = sprintf("CREATE INDEX \"\" ON \"%s\" (\"%s\");",
                             $table_name, implode($val, "\",\""));
                     $output = $this->_query($schema);
@@ -613,12 +597,11 @@
                 $output = $this->_query($schema);
                 if(!$this->transaction_started) @ibase_commit($this->fd);
                 if(!$output) return false;
-
-                // Firebird에서 auto increment는 generator를 만들어 insert 발생시 트리거를 실행시켜
-                // generator의 값을 증가시키고 그값을 테이블에 넣어주는 방식을 사용함.
-                // 아래 트리거가 auto increment 역할을 하지만 쿼리로 트리거 등록이 되지 않아 주석처리 하였음.
-                // php 함수에서 generator 값을 증가시켜 주는 함수가 있어 XE에서는 굳이
-                // auto increment를 사용 할 필요가 없어보임.
+                // auto_increment in Firebird creates a generator which activates a trigger when insert occurs
+                // the generator increases the value of the generator and then insert to the table
+                // The trigger below acts like auto_increment however I commented the below because the trigger cannot be defined by a query statement
+                // php api has a function to increase a generator, so 
+                // no need to use auto increment in XE
                 /*
                 $schema = 'SET TERM ^ ; ';
                 $schema .= sprintf('CREATE TRIGGER "%s_BI" FOR "%s" ', $table_name, $table_name);
@@ -634,7 +617,7 @@
         }
 
         /**
-         * @brief 조건문 작성하여 return
+         * @brief Return conditional clause
          **/
         function getCondition($output) {
             if(!$output->conditions) return;
@@ -683,15 +666,14 @@
         }
 
         /**
-         * @brief insertAct 처리
+         * @brief Handle the insertAct
          **/
         function _executeInsertAct($output) {
-            // 테이블 정리
+            // tables
             foreach($output->tables as $key => $val) {
                 $table_list[] = '"'.$this->prefix.$val.'"';
             }
-
-            // 컬럼 정리
+            // Columns
             foreach($output->columns as $key => $val) {
                 $name = $val['name'];
                 $value = $val['value'];
@@ -721,15 +703,14 @@
         }
 
         /**
-         * @brief updateAct 처리
+         * @brief handles updateAct
          **/
         function _executeUpdateAct($output) {
-            // 테이블 정리
+            // Tables
             foreach($output->tables as $key => $val) {
                 $table_list[] = '"'.$this->prefix.$val.'"';
             }
-
-            // 컬럼 정리
+            // Columns
             foreach($output->columns as $key => $val) {
                 if(!isset($val['value'])) continue;
                 $name = $val['name'];
@@ -747,7 +728,7 @@
                     else if($output->column_type[$name]=='number' ||
                             $output->column_type[$name]=='bignumber' ||
                             $output->column_type[$name]=='float') {
-                        // 연산식이 들어갔을 경우 컬럼명이 있는 지 체크해 더블쿼터를 넣어줌
+                        // put double-quotes on column name if an expression is entered
                         preg_match("/(?i)[a-z][a-z0-9_]+/", $value, $matches);
 
                         foreach($matches as $key => $val) {
@@ -764,8 +745,7 @@
                     $column_list[] = sprintf('"%s" = ?', $name);
                 }
             }
-
-            // 조건절 정리
+            // conditional clause 
             $condition = $this->getCondition($output);
 
             $query = sprintf("update %s set %s %s;", implode(',',$table_list), implode(',',$column_list), $condition);
@@ -775,15 +755,14 @@
         }
 
         /**
-         * @brief deleteAct 처리
+         * @brief handles deleteAct
          **/
         function _executeDeleteAct($output) {
-            // 테이블 정리
+            // Tables
             foreach($output->tables as $key => $val) {
                 $table_list[] = '"'.$this->prefix.$val.'"';
             }
-
-            // 조건절 정리
+            // List the conditional clause
             $condition = $this->getCondition($output);
 
             $query = sprintf("delete from %s %s;", implode(',',$table_list), $condition);
@@ -794,13 +773,13 @@
         }
 
         /**
-         * @brief selectAct 처리
+         * @brief Handle selectAct
          *
-         * select의 경우 특정 페이지의 목록을 가져오는 것을 편하게 하기 위해\n
-         * navigation이라는 method를 제공
+         * In order to get a list of pages easily when selecting \n
+         * it supports a method as navigation
          **/
         function _executeSelectAct($output) {
-            // 테이블 정리
+            // Tables
             $table_list = array();
             foreach($output->tables as $key => $val) {
                 $table_list[] = sprintf("\"%s%s\" as \"%s\"", $this->prefix, $val, $key);
@@ -839,8 +818,7 @@
 
 			$output->column_list = $column_list;
             if($output->list_count && $output->page) return $this->_getNavigationData($table_list, $columns, $left_join, $condition, $output);
-
-            // list_order, update_order 로 정렬시에 인덱스 사용을 위해 condition에 쿼리 추가
+            // query added in the condition to use an index when ordering by list_order, update_order 
             if($output->order) {
                 $conditions = $this->getConditionList($output);
                 if(!in_array('list_order', $conditions) && !in_array('update_order', $conditions)) {
@@ -852,8 +830,7 @@
                     }
                 }
             }
-
-            // list_count를 사용할 경우 적용
+            // apply when using list_count
             if($output->list_count['value']) $limit = sprintf('FIRST %d', $output->list_count['value']);
             else $limit = '';
 
@@ -910,9 +887,9 @@
         }
 
         /**
-         * @brief query xml에 navigation 정보가 있을 경우 페이징 관련 작업을 처리한다
+         * @brief paginates when navigation info exists in the query xml
          *
-         * 그닥 좋지는 않은 구조이지만 편리하다.. -_-;
+         * it is convenient although its structure is not good .. -_-;
          **/
         function _getNavigationData($table_list, $columns, $left_join, $condition, $output) {
             require_once(_XE_PATH_.'classes/page/PageHandler.class.php');
@@ -929,8 +906,8 @@
             }
 
             /*
-            // group by 절이 포함된 SELECT 쿼리의 전체 갯수를 구하기 위한 수정
-            // 정상적인 동작이 확인되면 주석으로 막아둔 부분으로 대체합니다.
+            // modified to get the number of rows by SELECT query with group by clause
+            // activate the commented codes when you confirm it works correctly
             //
             $count_condition = strlen($query_groupby) ? sprintf('%s group by %s', $condition, $query_groupby) : $condition;
             $total_count = $this->getCountCache($output->tables, $count_condition);
@@ -944,8 +921,7 @@
                 $this->putCountCache($output->tables, $count_condition, $total_count);
             }
             */
-
-            // 전체 개수를 구함
+            // total number of rows
             $count_query = sprintf("select count(*) as \"count\" from %s %s %s", implode(',',$table_list),implode(' ',$left_join), $condition);
 			$count_query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id . ' count(*)'):'';
 			$result = $this->_query($count_query);
@@ -960,16 +936,13 @@
             if(!$page_count) $page_count = 10;
             $page = $output->page['value'];
             if(!$page) $page = 1;
-
-            // 전체 페이지를 구함
+            // total pages
             if($total_count) $total_page = (int)( ($total_count-1) / $list_count) + 1;
             else $total_page = 1;
-
-            // 페이지 변수를 체크
+            // check the page variables
             if($page > $total_page) $page = $total_page;
             $start_count = ($page-1)*$list_count;
-
-            // list_order, update_order 로 정렬시에 인덱스 사용을 위해 condition에 쿼리 추가
+            // query added in the condition to use an index when ordering by list_order, update_order 
             if($output->order) {
                 $conditions = $this->getConditionList($output);
                 if(!in_array('list_order', $conditions) && !in_array('update_order', $conditions)) {
@@ -1025,12 +998,11 @@
             while($tmp = ibase_fetch_object($result)) {
                 foreach($tmp as $key => $val){
                     $type = $output->column_type[$key];
-
-                    // type 값이 null 일때는 $key값이 alias인 경우라 실제 column 이름을 찾아 type을 구함
+                    // $key value is an alias when type value is null. get type by finding the actual column name
                     if($type == null && $output->columns && count($output->columns)) {
                         foreach($output->columns as $cols) {
                             if($cols['alias'] == $key) {
-                                // table.column 형식인지 정규식으로 검사 함
+                                // checks if the format is table.column or a regular expression
                                 preg_match("/\w+[.](\w+)/", $cols['name'], $matches);
                                 if($matches) {
                                     $type = $output->column_type[$matches[1]];

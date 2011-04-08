@@ -2,35 +2,32 @@
     /**
      * @class  messageView
      * @author NHN (developers@xpressengine.com)
-     * @brief  message모듈의 view class
+     * @brief view class of the message module
      **/
 
     class messageView extends message {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
         }
 
         /**
-         * @brief 메세지 출력 
+         * @brief Display messages
          **/
         function dispMessage() {
-            // 설정 정보를 받아옴 (module model 객체를 이용)
+            // Get configurations (using module model object)
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('message');
             if(!$config->skin) $config->skin = 'default';
-
-            // 템플릿 경로를 지정
+            // Template path
             $template_path = sprintf('%sskins/%s', $this->module_path, $config->skin);
-
-            // 회원 관리 정보를 받음
+            // Get the member configuration
             $oModuleModel = &getModel('module');
             $member_config = $oModuleModel->getModuleConfig('member');
             Context::set('member_config', $member_config);
-
-            // ssl 사용시 현재 https접속상태인지에 대한 flag및 https url 생성
+            // Set a flag to check if the https connection is made when using SSL and create https url 
             $ssl_mode = false;
             if($member_config->enable_ssl == 'Y') {
                 if(preg_match('/^https:\/\//i',Context::getRequestUri())) $ssl_mode = true;

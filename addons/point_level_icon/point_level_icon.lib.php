@@ -1,34 +1,29 @@
 <?php
     /**
-     * @brief 포인트 아이콘 변경을 위한 함수.
+     * @brief Function to change point icon.
      **/
     function pointLevelIconTrans($matches) {
         $member_srl = $matches[3];
         if($member_srl<1) return $matches[0];
 
         if(!isset($GLOBALS['_pointLevelIcon'][$member_srl])) {
-            // 포인트 설정을 구해옴
+            // Get point configuration
             if(!$GLOBALS['_pointConfig']) {
                 $oModuleModel = &getModel('module');
                 $GLOBALS['_pointConfig'] = $oModuleModel->getModuleConfig('point');
             }
             $config = $GLOBALS['_pointConfig'];
-
-            // 포인트 모델을 구해 놓음
+            // Get point model
             if(!$GLOBALS['_pointModel']) $GLOBALS['_pointModel'] = getModel('point');
             $oPointModel = &$GLOBALS['_pointModel'];
-
-            // 포인트를 구함
+            // Get points
             $point = $oPointModel->getPoint($member_srl);
-
-            // 레벨을 구함
+            // Get level
             $level = $oPointModel->getLevel($point, $config->level_step);
             $text = $matches[5];
-
-            // 레벨 아이콘의 위치를 구함
+            // Get a path where level icon is
             $level_icon = sprintf('%smodules/point/icons/%s/%d.gif', Context::getRequestUri(), $config->level_icon, $level);
-
-            // 최고 레벨이 아니면 다음 레벨로 가기 위한 per을 구함 :: 주석과 실제 내용이 맞지 않아 실제 내용을 수정
+            // Get per to go to the next level if not a top level
             if($level < $config->max_level) {
                 $next_point = $config->level_step[$level+1];
                 $present_point = $config->level_step[$level];

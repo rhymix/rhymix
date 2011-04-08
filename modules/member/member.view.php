@@ -2,20 +2,20 @@
     /**
      * @class  memberView
      * @author NHN (developers@xpressengine.com)
-     * @brief  member module의 View class
+     * @brief View class of member module
      **/
 
     class memberView extends member {
 
-        var $group_list = NULL; ///< 그룹 목록 정보
-        var $member_info = NULL; ///< 선택된 사용자의 정보
+        var $group_list = NULL; // /< Group list information
+        var $member_info = NULL; // /< Member information of the user
         var $skin = 'default';
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
-            // 회원 관리 정보를 받음
+            // Get the member configuration
             $oModuleModel = &getModel('module');
             $this->member_config = $oModuleModel->getModuleConfig('member');
             if(!$this->member_config->skin) $this->member_config->skin = "default";
@@ -23,21 +23,19 @@
 
             Context::set('member_config', $this->member_config);
             $skin = $this->member_config->skin;
-
-            // template path 지정
+            // Set the template path
             $tpl_path = sprintf('%sskins/%s', $this->module_path, $skin);
             if(!is_dir($tpl_path)) $tpl_path = sprintf('%sskins/%s', $this->module_path, 'default');
             $this->setTemplatePath($tpl_path);
         }
 
         /**
-         * @brief 회원 정보 출력
+         * @brief Display member information
          **/
         function dispMemberInfo() {
             $oMemberModel = &getModel('member');
             $logged_info = Context::get('logged_info');
-
-            // 비회원일 경우 정보 열람 중지
+            // Don't display member info to non-logged user
             if(!$logged_info->member_srl) return $this->stop('msg_not_permitted');
 
             $member_srl = Context::get('member_srl');
@@ -65,38 +63,33 @@
         }
 
         /**
-         * @brief 회원 가입 폼 출력
+         * @brief Display member join form
          **/
         function dispMemberSignUpForm() {
             $oMemberModel = &getModel('member');
-
-            // 로그인한 회원일 경우 해당 회원의 정보를 받음
+            // Get the member information if logged-in
             if($oMemberModel->isLogged()) return $this->stop('msg_already_logged');
-
-            // before 트리거 호출
+            // call a trigger (before) 
             $trigger_output = ModuleHandler::triggerCall('member.dispMemberSignUpForm', 'before', $this->member_config);
             if(!$trigger_output->toBool()) return $trigger_output;
-
-            // 회원가입을 중지시켰을 때는 에러 표시
+            // Error appears if the member is not allowed to join
             if($this->member_config->enable_join != 'Y') return $this->stop('msg_signup_disabled');
             Context::set('extend_form_list', $oMemberModel->getCombineJoinForm($member_info));
 
             $member_config = $oMemberModel->getMemberConfig();
             Context::set('member_config', $member_config);
-
-            // 템플릿 파일 지정
+            // Set a template file
             $this->setTemplateFile('signup_form');
         }
 
         /**
-         * @brief 회원 정보 수정
+         * @brief Modify member information
          **/
         function dispMemberModifyInfo() {
             $oMemberModel = &getModel('member');
             $oModuleModel = &getModel('module');
             $memberModuleConfig = $oModuleModel->getModuleConfig('member');
-
-            // 로그인 되어 있지 않을 경우 로그인 되어 있지 않다는 메세지 출력
+            // A message appears if the user is not logged-in
             if(!$oMemberModel->isLogged()) return $this->stop('msg_not_logged');
 
             $logged_info = Context::get('logged_info');
@@ -105,13 +98,11 @@
             $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
             $member_info->signature = $oMemberModel->getSignature($member_srl);
             Context::set('member_info',$member_info);
-
-            // 추가 가입폼 목록을 받음
+            // Get a list of extend join form
             Context::set('extend_form_list', $oMemberModel->getCombineJoinForm($member_info));
 
             Context::set('openids', $oMemberModel->getMemberOpenIDByMemberSrl($member_srl));
-
-            // 에디터 모듈의 getEditor를 호출하여 서명용으로 세팅
+            // Editor of the module set for signing by calling getEditor
             if($member_info->member_srl) {
                 $oEditorModel = &getModel('editor');
                 $option->primary_key_name = 'member_srl';
@@ -128,19 +119,17 @@
                 $editor = $oEditorModel->getEditor($member_info->member_srl, $option);
                 Context::set('editor', $editor);
             }
-
-            // 템플릿 파일 지정
+            // Set a template file
             $this->setTemplateFile('modify_info');
         }
 
 
         /**
-         * @brief 회원 작성글 보기
+         * @brief Display documents written by the member
          **/
         function dispMemberOwnDocument() {
             $oMemberModel = &getModel('member');
-
-            // 로그인 되어 있지 않을 경우 로그인 되어 있지 않다는 메세지 출력
+            // A message appears if the user is not logged-in
             if(!$oMemberModel->isLogged()) return $this->stop('msg_not_logged');
 
             $logged_info = Context::get('logged_info');
@@ -159,12 +148,11 @@
         }
 
         /**
-         * @brief 회원 스크랩 게시물 보기
+         * @brief Display documents scrapped by the member
          **/
         function dispMemberScrappedDocument() {
             $oMemberModel = &getModel('member');
-
-            // 로그인 되어 있지 않을 경우 로그인 되어 있지 않다는 메세지 출력
+            // A message appears if the user is not logged-in
             if(!$oMemberModel->isLogged()) return $this->stop('msg_not_logged');
 
             $logged_info = Context::get('logged_info');
@@ -182,15 +170,13 @@
         }
 
         /**
-         * @brief 회원의 저장함 보기
+         * @brief Display documents saved by the member
          **/
         function dispMemberSavedDocument() {
             $oMemberModel = &getModel('member');
-
-            // 로그인 되어 있지 않을 경우 로그인 되어 있지 않다는 메세지 출력
+            // A message appears if the user is not logged-in
             if(!$oMemberModel->isLogged()) return $this->stop('msg_not_logged');
-
-            // 저장함에 보관된 글을 가져옴 (저장함은 module_srl이 member_srl로 세팅되어 있음)
+            // Get the saved document(module_srl is set to member_srl instead)
             $logged_info = Context::get('logged_info');
             $args->module_srl = $logged_info->member_srl;
             $args->page = (int)Context::get('page');
@@ -207,7 +193,7 @@
         }
 
         /**
-         * @brief 로그인 폼 출력
+         * @brief Display the login form 
          **/
         function dispMemberLoginForm() {
             if(Context::get('is_logged')) {
@@ -216,19 +202,17 @@
                 $this->setTemplateFile('redirect.html');
                 return;
             }
-
-            // 템플릿 파일 지정
+            // Set a template file
             Context::set('referer_url', $_SERVER['HTTP_REFERER']);
             $this->setTemplateFile('login_form');
         }
 
         /**
-         * @brief 회원 비밀번호 수정
+         * @brief Change the user password
          **/
         function dispMemberModifyPassword() {
             $oMemberModel = &getModel('member');
-
-            // 로그인 되어 있지 않을 경우 로그인 되어 있지 않다는 메세지 출력
+            // A message appears if the user is not logged-in
             if(!$oMemberModel->isLogged()) return $this->stop('msg_not_logged');
 
             $logged_info = Context::get('logged_info');
@@ -236,18 +220,16 @@
 
             $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
             Context::set('member_info',$member_info);
-
-            // 템플릿 파일 지정
+            // Set a template file
             $this->setTemplateFile('modify_password');
         }
 
         /**
-         * @brief 탈퇴 화면
+         * @brief Member withdrawl
          **/
         function dispMemberLeave() {
             $oMemberModel = &getModel('member');
-
-            // 로그인 되어 있지 않을 경우 로그인 되어 있지 않다는 메세지 출력
+            // A message appears if the user is not logged-in
             if(!$oMemberModel->isLogged()) return $this->stop('msg_not_logged');
 
             $logged_info = Context::get('logged_info');
@@ -255,18 +237,16 @@
 
             $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
             Context::set('member_info',$member_info);
-
-            // 템플릿 파일 지정
+            // Set a template file
             $this->setTemplateFile('leave_form');
         }
 
         /**
-         * @brief 오픈 아이디 탈퇴 화면
+         * @brief OpenID member withdrawl
          **/
         function dispMemberOpenIDLeave() {
             $oMemberModel = &getModel('member');
-
-            // 로그인 되어 있지 않을 경우 로그인 되어 있지 않다는 메세지 출력
+            // A message appears if the user is not logged-in
             if(!$oMemberModel->isLogged()) return $this->stop('msg_not_logged');
 
             $logged_info = Context::get('logged_info');
@@ -274,13 +254,12 @@
 
             $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
             Context::set('member_info',$member_info);
-
-            // 템플릿 파일 지정
+            // Set a template file
             $this->setTemplateFile('openid_leave_form');
         }
 
         /**
-         * @brief 로그아웃 출력
+         * @brief Member log-out
          **/
         function dispMemberLogout() {
             $oMemberController = &getController('member');
@@ -292,17 +271,15 @@
         }
 
         /**
-         * @brief 저장된 글 목록을 보여줌
+         * @brief Display a list of saved articles
          **/
         function dispSavedDocumentList() {
             $this->setLayoutFile('popup_layout');
 
             $oMemberModel = &getModel('member');
-
-            // 로그인 되어 있지 않을 경우 로그인 되어 있지 않다는 메세지 출력
+            // A message appears if the user is not logged-in
             if(!$oMemberModel->isLogged()) return $this->stop('msg_not_logged');
-
-            // 저장함에 보관된 글을 가져옴 (저장함은 module_srl이 member_srl로 세팅되어 있음)
+            // Get the saved document (module_srl is set to member_srl instead)
             $logged_info = Context::get('logged_info');
             $args->module_srl = $logged_info->member_srl;
             $args->page = (int)Context::get('page');
@@ -320,7 +297,7 @@
         }
 
         /**
-         * @brief  아이디/ 비밀번호 찾기 기능
+         * @brief Find user ID and password
          **/
         function dispMemberFindAccount() {
             if(Context::get('is_logged')) return $this->stop('already_logged');
@@ -329,7 +306,7 @@
         }
 
         /**
-         * @brief  임시 비밀번호 발급
+         * @brief Generate a temporary password
          **/
         function dispMemberGetTempPassword() {
             if(Context::get('is_logged')) return $this->stop('already_logged');
@@ -346,7 +323,7 @@
         }
 
         /**
-         * @brief  인증 메일 재발송 페이지
+         * @brief Page of re-sending an authentication mail
          **/
         function dispMemberResendAuthMail() {
             if(Context::get('is_logged')) return $this->stop('already_logged');

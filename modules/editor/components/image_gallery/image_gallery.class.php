@@ -2,17 +2,16 @@
     /**
      * @class  image_gallery
      * @author NHN (developers@xpressengine.com)
-     * @brief  업로드된 이미지로 이미지갤러리를 만듬
+     * @brief Making images uploaded to the image gallery
      **/
 
     class image_gallery extends EditorHandler { 
-
-        // editor_sequence 는 에디터에서 필수로 달고 다녀야 함....
+        // editor_sequence from the editor must attend mandatory wearing ....
         var $editor_sequence = 0;
         var $component_path = '';
 
         /**
-         * @brief editor_sequence과 컴포넌트의 경로를 받음
+         * @brief editor_sequence and components out of the path
          **/
         function image_gallery($editor_sequence, $component_path) {
             $this->editor_sequence = $editor_sequence;
@@ -20,10 +19,10 @@
         }
 
         /**
-         * @brief popup window요청시 popup window에 출력할 내용을 추가하면 된다
+         * @brief popup window to display in popup window request is to add content
          **/
         function getPopupContent() {
-            // 템플릿을 미리 컴파일해서 컴파일된 소스를 return
+            // Pre-compiled source code to compile template return to
             $tpl_path = $this->component_path.'tpl';
             $tpl_file = 'popup.html';
 
@@ -34,10 +33,10 @@
         }
 
         /**
-         * @brief 에디터 컴포넌트가 별도의 고유 코드를 이용한다면 그 코드를 html로 변경하여 주는 method
+         * @brief Editor of the components separately if you use a unique code to the html code for a method to change
          *
-         * 이미지나 멀티미디어, 설문등 고유 코드가 필요한 에디터 컴포넌트는 고유코드를 내용에 추가하고 나서
-         * DocumentModule::transContent() 에서 해당 컴포넌트의 transHtml() method를 호출하여 고유코드를 html로 변경
+         * Images and multimedia, seolmundeung unique code is required for the editor component added to its own code, and then
+         * DocumentModule:: transContent() of its components transHtml() method call to change the html code for your own
          **/
         function transHTML($xml_obj) {
             $gallery_info->srl = rand(111111,999999);
@@ -50,8 +49,7 @@
             $images_list = $xml_obj->attrs->images_list;
             $images_list = preg_replace('/\.(gif|jpg|jpeg|png) /i',".\\1\n",$images_list);
             $gallery_info->images_list = explode("\n",trim($images_list));
-
-            // 만약 출력설정이 XML일 경우 이미지 목록만 출력하도록 코드 생성
+            // If you set the output to output the XML code generated a list of the image
             if(Context::getResponseMethod() == 'XMLRPC') {
                 $output = '';
                 for($i=0;$i<count($gallery_info->images_list);$i++) {
@@ -59,8 +57,7 @@
                 }
                 return $output;
             }
-
-            // HTML 출력일 경우 템플릿 변환을 거쳐서 갤러리 출력 설정에 맞는 html코드를 생성하도록 함
+            // HTML gallery output, the output settings via the template for the conversion to generate the html code should
             preg_match_all('/(width|height)([^[:digit:]]+)([0-9]+)/i',$xml_obj->attrs->style,$matches);
             $gallery_info->width = trim($matches[3][0]);
             if(!$gallery_info->width) $gallery_info->width = 400;

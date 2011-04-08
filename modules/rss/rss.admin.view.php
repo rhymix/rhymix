@@ -2,21 +2,21 @@
     /**
      * @class  rssAdminView
      * @author misol (misol@korea.ac.kr)
-     * @brief  rss 모듈의 admin view class
+     * @brief The admin view class of the rss module
      **/
 
     class rssAdminView extends rss {
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
-            // 템플릿 경로 지정 
+            //Set template path
             $this->setTemplatePath($this->module_path.'tpl');
         }
 
 
         /**
-         * @brief 관리자 페이지 초기화면
+         * @brief In case an administrator page has been initialized
          **/
         function dispRssAdminIndex() {
             $oModuleModel = &getModel('module');

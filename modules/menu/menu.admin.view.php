@@ -2,23 +2,23 @@
     /**
      * @class  menuAdminView
      * @author NHN (developers@xpressengine.com)
-     * @brief  menu 모듈의 admin view class
+     * @brief admin view class of the menu module
      **/
 
     class menuAdminView extends menu {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
             $this->setTemplatePath($this->module_path.'tpl');
         }
 
         /**
-         * @brief 메뉴 관리의 첫 페이지
+         * @brief The first page of the menu admin
          **/
         function dispMenuAdminContent() {
-            // 등록된 메뉴 목록을 구해옴 
+            // Get a list of registered menus
             $obj->page = Context::get('page');
             $obj->sort_index = 'listorder';
             $obj->list_count = 20;
@@ -37,14 +37,14 @@
         }
  
         /**
-         * @brief 메뉴 등록 페이지
+         * @brief Page to insert a menu
          **/
         function dispMenuAdminInsert() {
-            // 선택된 메뉴의 정보르 구해서 세팅 
+            // Set the menu with menu information            
             $menu_srl = Context::get('menu_srl');
 
             if($menu_srl) {
-                // 메뉴의 정보를 가져옴
+                // Get information of the menu
                 $oMenuModel = &getAdminModel('menu');
                 $menu_info = $oMenuModel->getMenu($menu_srl);
                 if($menu_info->menu_srl == $menu_srl) Context::set('menu_info', $menu_info);
@@ -54,50 +54,43 @@
         }
  
         /**
-         * @brief 메뉴 관리 페이지
+         * @brief Menu admin page
          **/
         function dispMenuAdminManagement() {
-            // 선택된 메뉴의 정보르 구해서 세팅 
+            // Get information of the menu
             $menu_srl = Context::get('menu_srl');
 
             if(!$menu_srl) return $this->dispMenuAdminContent();
-
-            // 메뉴의 정보를 가져옴
+            // Get information of the menu
             $oMenuModel = &getAdminModel('menu');
             $menu_info = $oMenuModel->getMenu($menu_srl);
             if($menu_info->menu_srl != $menu_srl) return $this->dispMenuAdminContent();
 
             Context::set('menu_info', $menu_info);
-
-            // 레이아웃을 팝업으로 지정
+            // Set the layout to be pop-up
             $this->setTemplateFile('menu_management');
         }
 
 
         /**
-         * @brief 메뉴에서 선택할 수 있는 mid목록을 보여줌
+         * @brief Display a mid list to be able to select on the menu
          **/
         function dispMenuAdminMidList() {
             $oModuleModel = &getModel('module');
-
-            // 모듈 카테고리 목록을 구함
+            // Get a list of module categories
             $module_category = $oModuleModel->getModuleCategories();
             Context::set('module_category', $module_category);
-
-            // 모듈 목록을 구함 
+            // Get a list of modules
             $module_list = $oModuleModel->getModuleList();
             Context::set('module_list', $module_list);
-
-            // mid 목록을 구해옴
+            // Get a list of mid
             $args->module_category_srl = Context::get('module_category_srl');
             $args->module = Context::get('target_module');
             $mid_list = $oModuleModel->getMidList($args);
             Context::set('mid_list', $mid_list);
-
-            // 메뉴을 팝업으로 지정
+            // Set the menu as a pop-up
             $this->setLayoutFile('popup_layout');
-
-            // 템플릿 파일 지정
+            // Set a template file
             $this->setTemplateFile('mid_list');
         }
     }

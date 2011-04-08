@@ -2,7 +2,7 @@
     /**
      * @class  pageAdminView
      * @author NHN (developers@xpressengine.com)
-     * @brief  page 모듈의 admin view 클래스
+     * @brief page admin view of the module class
      **/
 
     class pageAdminView extends page {
@@ -12,16 +12,14 @@
         var $page_count = 10;
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
-            // module_srl이 있으면 미리 체크하여 존재하는 모듈이면 module_info 세팅
+            // Pre-check if module_srl exists. Set module_info if exists
             $module_srl = Context::get('module_srl');
-
-            // module model 객체 생성 
+            // Create module model object
             $oModuleModel = &getModel('module');
-
-            // module_srl이 넘어오면 해당 모듈의 정보를 미리 구해 놓음
+            // module_srl two come over to save the module, putting the information in advance
             if($module_srl) {
                 $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
                 if(!$module_info) {
@@ -33,18 +31,16 @@
                     Context::set('module_info',$module_info);
                 }
             }
-
-            // 모듈 카테고리 목록을 구함
+            // Get a list of module categories
             $module_category = $oModuleModel->getModuleCategories();
             Context::set('module_category', $module_category);
-
-            // 템플릿 경로 구함 (page의 경우 tpl에 관리자용 템플릿 모아놓음)
+            // Get a template path (page in the administrative template tpl putting together)
             $this->setTemplatePath($this->module_path.'tpl');
 
         }
 
         /**
-         * @brief 페이지 관리 목록 보여줌
+         * @brief Manage a list of pages showing
          **/
         function dispPageAdminContent() {
             $args->sort_index = "module_srl";
@@ -61,67 +57,66 @@
 
             $output = executeQuery('page.getPageList', $args);
             moduleModel::syncModuleToSite($output->data);
-
-            // 템플릿에 쓰기 위해서 context::set
+            // To write to a template context:: set
             Context::set('total_count', $output->total_count);
             Context::set('total_page', $output->total_page);
             Context::set('page', $output->page);
             Context::set('page_list', $output->data);
             Context::set('page_navigation', $output->page_navigation);
-
-            // 템플릿 파일 지정
+            // Set a template file
             $this->setTemplateFile('index');
         }
 
         /**
-         * @brief 선택된 페이지의 정보 출력
+         * @brief Information output of the selected page
          **/
         function dispPageAdminInfo() {
-            // GET parameter에서 module_srl을 가져옴
+            // Get module_srl by GET parameter
             $module_srl = Context::get('module_srl');
 
             $module_info = Context::get('module_info');
-
-            // module_srl 값이 없다면 그냥 index 페이지를 보여줌
+            // If you do not value module_srl just showing the index page
             if(!$module_srl) return $this->dispPageAdminContent();
-
-            // 레이아웃 목록을 구해옴
+            // If the layout is destined to add layout information haejum (layout_title, layout)
+            if($module_info->layout_srl) {
+                $oLayoutModel = &getModel('layout');
+                $layout_info = $oLayoutModel->getLayout($module_info->layout_srl);
+                $module_info->layout = $layout_info->layout;
+                $module_info->layout_title = $layout_info->layout_title;
+            }
+            // Get a layout list
             $oLayoutModel = &getModel('layout');
             $layout_list = $oLayoutModel->getLayoutList();
             Context::set('layout_list', $layout_list);
 
 			$mobile_layout_list = $oLayoutModel->getLayoutList(0,"M");
 			Context::set('mlayout_list', $mobile_layout_list);
-
-            // 템플릿 파일 지정
+            // Set a template file
             $this->setTemplateFile('page_info');
         }
 
         /**
-         * @brief 페이지 추가 설정 보여줌
-         * 추가설정은 서비스형 모듈들에서 다른 모듈과의 연계를 위해서 설정하는 페이지임
+         * @brief Additional settings page showing
+         * For additional settings in a service module in order to establish links with other modules peyijiim
          **/
         function dispPageAdminPageAdditionSetup() {
-            // content는 다른 모듈에서 call by reference로 받아오기에 미리 변수 선언만 해 놓음
+            // call by reference content from other modules to come take a year in advance for putting the variable declaration
             $content = '';
 
             $oEditorView = &getView('editor');
             $oEditorView->triggerDispEditorAdditionSetup($content);
             Context::set('setup_content', $content);
-
-            // 템플릿 파일 지정
+            // Set a template file
             $this->setTemplateFile('addition_setup');
         }
 
         /**
-         * @brief 페이지 추가 폼 출력
+         * @brief Add Page Form Output
          **/
         function dispPageAdminInsert() {
-
-            // GET parameter에서 module_srl을 가져옴
+            // Get module_srl by GET parameter
             $module_srl = Context::get('module_srl');
-
-            // module_srl이 있으면 해당 모듈의 정보를 구해서 세팅
+            // Get and set module information if module_srl exists
             if($module_srl) {
                 $oModuleModel = &getModel('module');
                 $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
@@ -131,23 +126,20 @@
                     unset($module_srl);
                 }
             }
-
-            // 레이아웃 목록을 구해옴
+            // Get a layout list
             $oLayoutModel = &getModel('layout');
             $layout_list = $oLayoutModel->getLayoutList();
             Context::set('layout_list', $layout_list);
 
 			$mobile_layout_list = $oLayoutModel->getLayoutList(0,"M");
 			Context::set('mlayout_list', $mobile_layout_list);
-
-            // 템플릿 파일 지정
+            // Set a template file
             $this->setTemplateFile('page_insert');
         }
 
 		function dispPageAdminMobileContent() {
             if($this->module_srl) Context::set('module_srl',$this->module_srl);
-
-            // 캐시 파일 지정
+            // Specifying the cache file
             $cache_file = sprintf("%sfiles/cache/page/%d.%s.m.cache.php", _XE_PATH_, $this->module_info->module_srl, Context::getLangType());
             $interval = (int)($this->module_info->page_caching_interval);
             if($interval>0) {
@@ -174,54 +166,46 @@
 
 		function dispPageAdminMobileContentModify() {
             Context::set('module_info', $this->module_info);
-
-            // 내용을 세팅
+            // Setting contents
             $content = Context::get('mcontent');
             if(!$content) $content = $this->module_info->mcontent;
             Context::set('content', $content);
-
-            // 내용중 위젯들을 변환
+            // Convert them to teach the widget
             $oWidgetController = &getController('widget');
             $content = $oWidgetController->transWidgetCode($content, true);
             Context::set('page_content', $content);
-
-            // 위젯 목록을 세팅
+            // Set widget list
             $oWidgetModel = &getModel('widget');
             $widget_list = $oWidgetModel->getDownloadedWidgetList();
             Context::set('widget_list', $widget_list);
-
-            // 템플릿 파일 지정
+            // Set a template file
             $this->setTemplateFile('page_mobile_content_modify');
 		}
 
         /**
-         * @brief 페이지 내용 수정
+         * @brief Edit Page Content
          **/
         function dispPageAdminContentModify() {
-            // 모듈 정보를 세팅
+            // Set the module information
             Context::set('module_info', $this->module_info);
-
-            // 내용을 세팅
+            // Setting contents
             $content = Context::get('content');
             if(!$content) $content = $this->module_info->content;
             Context::set('content', $content);
-
-            // 내용중 위젯들을 변환
+            // Convert them to teach the widget
             $oWidgetController = &getController('widget');
             $content = $oWidgetController->transWidgetCode($content, true);
             Context::set('page_content', $content);
-
-            // 위젯 목록을 세팅
+            // Set widget list
             $oWidgetModel = &getModel('widget');
             $widget_list = $oWidgetModel->getDownloadedWidgetList();
             Context::set('widget_list', $widget_list);
-
-            // 템플릿 파일 지정
+            // Set a template file
             $this->setTemplateFile('page_content_modify');
         }
         
         /**
-         * @brief 페이지 삭제 화면 출력
+         * @brief Delete page output
          **/
         function dispPageAdminDelete() {
             $module_srl = Context::get('module_srl');
@@ -230,16 +214,15 @@
             $oModuleModel = &getModel('module');
             $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
             Context::set('module_info',$module_info);
-
-            // 템플릿 파일 지정
+            // Set a template file
             $this->setTemplateFile('page_delete');
         }
 
         /**
-         * @brief 권한 목록 출력
+         * @brief Rights Listing
          **/
         function dispPageAdminGrantInfo() {
-            // 공통 모듈 권한 설정 페이지 호출
+            // Common module settings page, call rights
             $oModuleAdminModel = &getAdminModel('module');
             $grant_content = $oModuleAdminModel->getModuleGrantHTML($this->module_info->module_srl, $this->xml_info->grant);
             Context::set('grant_content', $grant_content);

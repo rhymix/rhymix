@@ -2,26 +2,25 @@
     /**
      * @class  editorAdminView
      * @author NHN (developers@xpressengine.com)
-     * @brief  editor 모듈의 admin view 클래스
+     * @brief editor admin view of the module class
      **/
 
     class editorAdminView extends editor {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
         }
 
         /**
-         * @brief 관리자 설정 페이지
-         * 에디터 컴포넌트의 on/off 및 설정을 담당
+         * @brief Administrator Setting page
+         * Settings to enable/disable editor component and other features
          **/
         function dispEditorAdminIndex() {
             $site_module_info = Context::get('site_module_info');
             $site_srl = (int)$site_module_info->site_srl;
-
-            // 컴포넌트의 종류를 구해옴
+            // Get a type of component
             $oEditorModel = &getModel('editor');
             $component_list = $oEditorModel->getComponentList(false, $site_srl, true);
 
@@ -32,33 +31,29 @@
         }
 
         /**
-         * @brief 컴퍼넌트 setup
+         * @brief Component setup
          **/
         function dispEditorAdminSetupComponent() {
             $site_module_info = Context::get('site_module_info');
             $site_srl = (int)$site_module_info->site_srl;
 
             $component_name = Context::get('component_name');
-
-            // 에디터 컴포넌트의 정보를 구함
+            // Get information of the editor component
             $oEditorModel = &getModel('editor');
             $component = $oEditorModel->getComponent($component_name,$site_srl);
             Context::set('component', $component);
-
-            // 그룹 설정을 위한 그룹 목록을 구함
+            // Get a group list to set a group
             $oMemberModel = &getModel('member');
             $group_list = $oMemberModel->getGroups($site_srl);
             Context::set('group_list', $group_list);
-
-            // mid 목록을 가져옴
+            // Get a mid list
             $oModuleModel = &getModel('module');
 
             $args->site_srl = $site_srl;
             $mid_list = $oModuleModel->getMidList($args);
-
-            // module_category와 module의 조합
+            // Combination of module_category and module
             if(!$args->site_srl) {
-                // 모듈 카테고리 목록을 구함
+                // Get a list of module category
                 $module_categories = $oModuleModel->getModuleCategories();
 
                 if(!is_array($mid_list)) $mid_list = array($mid_list);

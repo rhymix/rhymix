@@ -2,7 +2,7 @@
     /**
      * @class DBMysql
      * @author NHN (developers@xpressengine.com)
-     * @brief MySQL DBMS를 이용하기 위한 class
+     * @brief Class to use MySQL DBMS
      * @version 0.1
      *
      * mysql handling class
@@ -11,20 +11,20 @@
     class DBMysql extends DB {
 
         /**
-         * @brief Mysql DB에 접속하기 위한 정보
+         * @brief Connection information for Mysql DB
          **/
         var $hostname = '127.0.0.1'; ///< hostname
         var $userid   = NULL; ///< user id
         var $password   = NULL; ///< password
         var $database = NULL; ///< database
-        var $prefix   = 'xe'; ///< XE에서 사용할 테이블들의 prefix  (한 DB에서 여러개의 XE 설치 가능)
+        var $prefix   = 'xe'; // / <prefix of a tablename (One or more XEs can be installed in a single DB)
 		var $comment_syntax = '/* %s */';
 
         /**
-         * @brief mysql에서 사용될 column type
+         * @brief Column type used in MySQL
          *
-         * column_type은 schema/query xml에서 공통 선언된 type을 이용하기 때문에
-         * 각 DBMS에 맞게 replace 해주어야 한다
+         * Becasue a common column type in schema/query xml is used for colum_type,
+         * it should be replaced properly for each DBMS
          **/
         var $column_type = array(
             'bignumber' => 'bigint',
@@ -50,7 +50,7 @@
 		}
 
         /**
-         * @brief 설치 가능 여부를 return
+         * @brief Return if it is installable
          **/
         function isSupported() {
             if(!function_exists('mysql_connect')) return false;
@@ -58,7 +58,7 @@
         }
 
         /**
-         * @brief DB정보 설정 및 connect/ close
+         * @brief DB settings and connect/close
          **/
         function _setDBInfo() {
             $db_info = Context::getDBInfo();
@@ -72,44 +72,39 @@
         }
 
         /**
-         * @brief DB 접속
+         * @brief DB Connection
          **/
         function _connect() {
-            // db 정보가 없으면 무시
+            // Ignore if no DB information exists
             if(!$this->hostname || !$this->userid || !$this->password || !$this->database) return;
 
             if(strpos($this->hostname, ':')===false && $this->port) $this->hostname .= ':'.$this->port;
-
-            // 접속시도  
+            // Attempt to connect
             $this->fd = @mysql_connect($this->hostname, $this->userid, $this->password);
             if(mysql_error()) {
                 $this->setError(mysql_errno(), mysql_error());
                 return;
             }
-
-            // 버전 확인후 4.1 이하면 오류 표시
+            // Error appears if the version is lower than 4.1
             if(mysql_get_server_info($this->fd)<"4.1") {
                 $this->setError(-1, "XE cannot be installed under the version of mysql 4.1. Current mysql version is ".mysql_get_server_info());
                 return;
             }
-
-            // db 선택
+            // select db
             @mysql_select_db($this->database, $this->fd);
             if(mysql_error()) {
                 $this->setError(mysql_errno(), mysql_error());
                 return;
             }
-
-            // 접속체크
+            // Check connections
             $this->is_connected = true;
 			$this->password = md5($this->password);
-
-            // mysql의 경우 utf8임을 지정
+            // Set utf8 if a database is MySQL
             $this->_query("set names 'utf8'");
         }
 
         /**
-         * @brief DB접속 해제
+         * @brief DB disconnection
          **/
         function close() {
             if(!$this->isConnected()) return;
@@ -117,7 +112,7 @@
         }
 
         /**
-         * @brief 쿼리에서 입력되는 문자열 변수들의 quotation 조절
+         * @brief Add quotes on the string variables in a query
          **/
         function addQuotes($string) {
             if(version_compare(PHP_VERSION, "5.9.0", "<") && get_magic_quotes_gpc()) $string = stripslashes(str_replace("\\","\\\\",$string));
@@ -126,53 +121,48 @@
         }
 
         /**
-         * @brief 트랜잭션 시작
+         * @brief Begin transaction
          **/
         function begin() {
         }
 
         /**
-         * @brief 롤백
+         * @brief Rollback
          **/
         function rollback() {
         }
 
         /**
-         * @brief 커밋
+         * @brief Commits
          **/
         function commit() {
         }
 
         /**
-         * @brief : 쿼리문의 실행 및 결과의 fetch 처리
+         * @brief : Run a query and fetch the result
          *
-         * query : query문 실행하고 result return\n
-         * fetch : reutrn 된 값이 없으면 NULL\n
-         *         rows이면 array object\n
-         *         row이면 object\n
+         * query: run a query and return the result \n
+         * fetch: NULL if no value is returned \n
+         *        array object if rows are returned \n
+         *        object if a row is returned \n
          *         return\n
          **/
         function _query($query) {
             if(!$this->isConnected()) return;
-
-            // 쿼리 시작을 알림
+            // Notify to start a query execution
             $this->actStart($query);
-
-            // 쿼리 문 실행
+            // Run the query statement
             $result = @mysql_query($query, $this->fd);
-
-            // 오류 체크
+            // Error Check
             if(mysql_error($this->fd)) $this->setError(mysql_errno($this->fd), mysql_error($this->fd));
-
-            // 쿼리 실행 종료를 알림
+            // Notify to complete a query execution
             $this->actFinish();
-
-            // 결과 리턴
+            // Return result
             return $result;
         }
 
         /**
-         * @brief 결과를 fetch
+         * @brief Fetch results
          **/
         function _fetch($result) {
             if(!$this->isConnected() || $this->isError() || !$result) return;
@@ -184,7 +174,7 @@
         }
 
         /**
-         * @brief 1씩 증가되는 sequence값을 return (mysql의 auto_increment는 sequence테이블에서만 사용)
+         * @brief Return sequence value incremented by 1(auto_increment is used in sequence table only in MySQL)
          **/
         function getNextSequence() {
             $query = sprintf("insert into `%ssequence` (seq) values ('0')", $this->prefix);
@@ -199,7 +189,7 @@
         }
 
         /**
-         * @brief mysql old password를 가져오는 함수 (mysql에서만 사용)
+         * @brief Function to obtain mysql old password(mysql only)
          **/
         function isValidOldPassword($password, $saved_password) {
             $query = sprintf("select password('%s') as password, old_password('%s') as old_password", $this->addQuotes($password), $this->addQuotes($password));
@@ -210,7 +200,7 @@
         }
 
         /**
-         * @brief 테이블 기생성 여부 return
+         * @brief Return if a table already exists
          **/
         function isTableExists($target_name) {
             $query = sprintf("show tables like '%s%s'", $this->prefix, $this->addQuotes($target_name));
@@ -221,7 +211,7 @@
         }
 
         /**
-         * @brief 특정 테이블에 특정 column 추가
+         * @brief Add a column to a table
          **/
         function addColumn($table_name, $column_name, $type='number', $size='', $default = '', $notnull=false) {
             $type = $this->column_type[$type];
@@ -237,7 +227,7 @@
         }
 
         /**
-         * @brief 특정 테이블에 특정 column 제거
+         * @brief Delete a column from a table
          **/
         function dropColumn($table_name, $column_name) {
             $query = sprintf("alter table `%s%s` drop `%s` ", $this->prefix, $table_name, $column_name);
@@ -245,7 +235,7 @@
         }
 
         /**
-         * @brief 특정 테이블의 column의 정보를 return
+         * @brief Return column information of a table
          **/
         function isColumnExists($table_name, $column_name) {
             $query = sprintf("show fields from `%s%s`", $this->prefix, $table_name);
@@ -263,7 +253,7 @@
         }
 
         /**
-         * @brief 특정 테이블에 특정 인덱스 추가
+         * @brief Add an index to a table
          * $target_columns = array(col1, col2)
          * $is_unique? unique : none
          **/
@@ -275,7 +265,7 @@
         }
 
         /**
-         * @brief 특정 테이블의 특정 인덱스 삭제
+         * @brief Drop an index from a table
          **/
         function dropIndex($table_name, $index_name, $is_unique = false) {
             $query = sprintf("alter table `%s%s` drop index `%s`", $this->prefix, $table_name, $index_name);
@@ -284,7 +274,7 @@
 
 
         /**
-         * @brief 특정 테이블의 index 정보를 return
+         * @brief Return index information of a table
          **/
         function isIndexExists($table_name, $index_name) {
             //$query = sprintf("show indexes from %s%s where key_name = '%s' ", $this->prefix, $table_name, $index_name);
@@ -302,24 +292,24 @@
         }
 
         /**
-         * @brief xml 을 받아서 테이블을 생성
+         * @brief Create a table by using xml file
          **/
         function createTableByXml($xml_doc) {
             return $this->_createTable($xml_doc);
         }
 
         /**
-         * @brief xml 을 받아서 테이블을 생성
+         * @brief Create a table by using xml file
          **/
         function createTableByXmlFile($file_name) {
             if(!file_exists($file_name)) return;
-            // xml 파일을 읽음
+            // read xml file
             $buff = FileHandler::readFile($file_name);
             return $this->_createTable($buff);
         }
 
         /**
-         * @brief schema xml을 이용하여 create table query생성
+         * @brief generate a query statement to create a table by using schema xml
          *
          * type : number, varchar, text, char, date, \n
          * opt : notnull, default, size\n
@@ -329,8 +319,7 @@
             // xml parsing
             $oXml = new XmlParser();
             $xml_obj = $oXml->parse($xml_doc);
-
-            // 테이블 생성 schema 작성
+            // Create a table schema
             $table_name = $xml_obj->table->attrs->name;
             if($this->isTableExists($table_name)) return;
             $table_name = $this->prefix.$table_name;
@@ -386,7 +375,7 @@
         }
 
         /**
-         * @brief 조건문 작성하여 return
+         * @brief Return conditional clause
          **/
         function getCondition($output) {
             if(!$output->conditions) return;
@@ -429,15 +418,14 @@
         }
 
         /**
-         * @brief insertAct 처리
+         * @brief Handle the insertAct
          **/
         function _executeInsertAct($output) {
-            // 테이블 정리
+            // List tables
             foreach($output->tables as $key => $val) {
                 $table_list[] = '`'.$this->prefix.$val.'`';
             }
-
-            // 컬럼 정리 
+            // List columns
             foreach($output->columns as $key => $val) {
                 $name = $val['name'];
                 $value = $val['value'];
@@ -466,15 +454,14 @@
         }
 
         /**
-         * @brief updateAct 처리
+         * @brief Handle updateAct
          **/
         function _executeUpdateAct($output) {
-            // 테이블 정리
+            // List tables
             foreach($output->tables as $key => $val) {
                 $table_list[] = '`'.$this->prefix.$val.'` as '.$key;
             }
-
-            // 컬럼 정리 
+            // List columns
             foreach($output->columns as $key => $val) {
                 if(!isset($val['value'])) continue;
                 $name = $val['name'];
@@ -487,8 +474,7 @@
                     $column_list[] = sprintf("`%s` = %s", $name, $value);
                 }
             }
-
-            // 조건절 정리
+            // List the conditional clause
             $condition = $this->getCondition($output);
 
             $query = sprintf("update %s set %s %s", implode(',',$table_list), implode(',',$column_list), $condition);
@@ -497,15 +483,14 @@
         }
 
         /**
-         * @brief deleteAct 처리
+         * @brief Handle deleteAct
          **/
         function _executeDeleteAct($output) {
-            // 테이블 정리
+            // List tables
             foreach($output->tables as $key => $val) {
                 $table_list[] = '`'.$this->prefix.$val.'`';
             }
-
-            // 조건절 정리
+            // List the conditional clause
             $condition = $this->getCondition($output);
 
             $query = sprintf("delete from %s %s", implode(',',$table_list), $condition);
@@ -514,13 +499,13 @@
         }
 
         /**
-         * @brief selectAct 처리
+         * @brief Handle selectAct
          *
-         * select의 경우 특정 페이지의 목록을 가져오는 것을 편하게 하기 위해\n
-         * navigation이라는 method를 제공
+         * In order to get a list of pages easily when selecting \n
+         * it supports a method as navigation
          **/
         function _executeSelectAct($output) {
-            // 테이블 정리
+            // List tables
             $table_list = array();
             foreach($output->tables as $key => $val) {
                 $table_list[] = '`'.$this->prefix.$val.'` as '.$key;
@@ -584,8 +569,7 @@
             $condition = $this->getCondition($output);
 
             if($output->list_count && $output->page) return $this->_getNavigationData($table_list, $columns, $left_join, $condition, $output);
-
-            // list_order, update_order 로 정렬시에 인덱스 사용을 위해 condition에 쿼리 추가
+            // Add a condition to use an index when sorting in order by list_order, update_order
             if($output->order) {
                 $conditions = $this->getConditionList($output);
                 if(!in_array('list_order', $conditions) && !in_array('update_order', $conditions)) {
@@ -633,7 +617,7 @@
 
             $query = sprintf("select %s from %s %s %s %s", $columns, implode(',',$table_list),implode(' ',$left_join), $condition, $groupby_query.$orderby_query);
 
-            // list_count를 사용할 경우 적용
+            // Apply when using list_count
             if($output->list_count['value']) $query = sprintf('%s limit %d', $query, $output->list_count['value']);
 
 			$query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id):'';
@@ -656,16 +640,16 @@
         }
 
         /**
-         * @brief query xml에 navigation 정보가 있을 경우 페이징 관련 작업을 처리한다
+         * @brief Paging is handled if navigation information exists in the query xml
          *
-         * 그닥 좋지는 않은 구조이지만 편리하다.. -_-;
+         * It is quite convenient although its structure is not good at all .. -_-;
          **/
         function _getNavigationData($table_list, $columns, $left_join, $condition, $output) {
             require_once(_XE_PATH_.'classes/page/PageHandler.class.php');
 
 			$column_list = $output->column_list;
 
-            // 전체 개수를 구함
+            // Get a total count
 			$count_condition = count($output->groups) ? sprintf('%s group by %s', $condition, implode(', ', $output->groups)) : $condition;
 			$count_query = sprintf("select count(*) as count from %s %s %s", implode(', ', $table_list), implode(' ', $left_join), $count_condition);
 			if (count($output->groups)) $count_query = sprintf('select count(*) as count from (%s) xet', $count_query);
@@ -681,16 +665,13 @@
             if(!$page_count) $page_count = 10;
             $page = $output->page['value'];
             if(!$page) $page = 1;
-
-            // 전체 페이지를 구함
+            // Get a total page
             if($total_count) $total_page = (int)( ($total_count-1) / $list_count) + 1;
             else $total_page = 1;
-
-            // 페이지 변수를 체크
+            // Check Page variables
             if($page > $total_page) $page = $total_page;
             $start_count = ($page-1)*$list_count;
-
-            // list_order, update_order 로 정렬시에 인덱스 사용을 위해 condition에 쿼리 추가
+            // Add a condition to use an index when sorting in order by list_order, update_order
             if($output->order) {
                 $conditions = $this->getConditionList($output);
                 if(!in_array('list_order', $conditions) && !in_array('update_order', $conditions)) {

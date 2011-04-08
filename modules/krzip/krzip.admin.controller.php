@@ -2,28 +2,27 @@
     /**
      * @class  krzipAdminController
      * @author NHN (developers@xpressengine.com)
-     * @brief  krzip 모듈의 admin controller class
+     * @brief admin controller class of the krzip module 
      **/
 
     class krzipAdminController extends krzip {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
         }
 
         /**
-         * @brief 설정
+         * @brief Configuration
          **/
         function procKrzipAdminInsertConfig() {
-            // 기본 정보를 받음
+            // Get the basic information
             $args = Context::gets('krzip_server_hostname','krzip_server_port','krzip_server_query');
             if(!$args->krzip_server_hostname) $args->krzip_server_hostname = $this->hostname;
             if(!$args->krzip_server_port) $args->krzip_server_port = $this->port;
             if(!$args->krzip_server_query) $args->krzip_server_query = $this->query;
-
-            // module Controller 객체 생성하여 입력
+            // Insert by creating the module Controller object
             $oModuleController = &getController('module');
             $output = $oModuleController->insertModuleConfig('krzip',$args);
             return $output;

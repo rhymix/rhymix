@@ -1,8 +1,8 @@
 <?php
     /**
      * @file   addons/mobile/lang/zh-CN.lang.php
-     * @author NHN (developers@xpressengine.com) 翻译：guny
-     * @brief  手机XE插件简体中文语言包
+     * @author NHN (developers@xpressengine.com) 翻译: guny
+     * @brief XE mobile phone plug-Simplified Chinese Language Pack
      **/
 
     $lang->cmd_go_upper = '上一级';

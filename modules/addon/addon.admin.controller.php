@@ -2,35 +2,33 @@
     /**
      * @class  addonAdminController
      * @author NHN (developers@xpressengine.com)
-     * @brief  addon 모듈의 admin controller class
+     * @brief admin controller class of addon modules
      **/
     include_once('addon.controller.php');
 
     class addonAdminController extends addonController {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
         }
 
         /**
-         * @brief 애드온의 활성/비활성 체인지
+         * @brief Add active/inactive change
          **/
         function procAddonAdminToggleActivate() {
             $oAddonModel = &getAdminModel('addon');
 
             $site_module_info = Context::get('site_module_info');
-
-            // addon값을 받아옴
+            // batahom addon values
             $addon = Context::get('addon');
 			$type = Context::get('type');
 			if(!$type) $type = "pc";
             if($addon) {
-                // 활성화 되어 있으면 비활성화 시킴
+                // If enabled Disables
                 if($oAddonModel->isActivatedAddon($addon, $site_module_info->site_srl, $type)) $this->doDeactivate($addon, $site_module_info->site_srl, $type);
-
-                // 비활성화 되어 있으면 활성화 시킴
+                // If it is disabled Activate
                 else $this->doActivate($addon, $site_module_info->site_srl, $type);
             }
 
@@ -38,7 +36,7 @@
         }
 
         /**
-         * @brief 애드온 설정 정보 입력
+         * @brief Add the configuration information input
          **/
         function procAddonAdminSetupAddon() {
             $args = Context::getRequestVars();
@@ -59,8 +57,8 @@
 
 
         /**
-         * @brief 애드온 추가
-         * DB에 애드온을 추가함
+         * @brief Add-on
+         * Adds Add to DB
          **/
         function doInsert($addon, $site_srl = 0) {
             $args->addon = $addon;
@@ -71,8 +69,8 @@
         }
 
         /**
-         * @brief 애드온 활성화 
-         * addons라는 테이블에 애드온의 활성화 상태를 on 시켜줌
+         * @brief Add-activated
+         * addons add-ons to the table on the activation state sikyeojum
          **/
         function doActivate($addon, $site_srl = 0, $type = "pc") {
             $args->addon = $addon;
@@ -84,9 +82,9 @@
         }
 
         /**
-         * @brief 애드온 비활성화 
+         * @brief Disable Add-ons
          *
-         * addons라는 테이블에 애드온의 이름을 제거하는 것으로 비활성화를 시키게 된다
+         * addons add a table to remove the name of the deactivation is sikige
          **/
         function doDeactivate($addon, $site_srl = 0, $type = "pc") {
             $args->addon = $addon;

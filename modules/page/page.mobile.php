@@ -2,12 +2,12 @@
 
 class pageMobile extends ModuleObject {
 	function init() {
-		// 템플릿 경로 구함 (page의 경우 tpl에 관리자용 템플릿 모아놓음)
+		// Get a template path (page in the administrative template tpl putting together)
 		$this->setTemplatePath($this->module_path.'tpl');
 	}
 
 	function dispPageIndex() {
-		// 위젯을 1렬로 정렬 
+		// Arrange a widget ryeolro
 		if($this->module_info->mcontent)
 		{
             $cache_file = sprintf("%sfiles/cache/page/%d.%s.m.cache.php", _XE_PATH_, $this->module_info->module_srl, Context::getLangType());

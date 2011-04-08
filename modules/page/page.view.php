@@ -2,7 +2,7 @@
     /**
      * @class  pageView
      * @author NHN (developers@xpressengine.com)
-     * @brief  page 모듈의 view 클래스
+     * @brief page view class of the module
      **/
 
     class pageView extends page {
@@ -12,21 +12,20 @@
         var $page_count = 10;
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
-            // 템플릿 경로 구함 (page의 경우 tpl에 관리자용 템플릿 모아놓음)
+            // Get a template path (page in the administrative template tpl putting together)
             $this->setTemplatePath($this->module_path.'tpl');
         }
 
         /**
-         * @brief 일반 요청시 출력
+         * @brief General request output
          **/
         function dispPageIndex() {
-            // 템플릿에서 사용할 변수를 Context::set()
+            // Variables used in the template Context:: set()
             if($this->module_srl) Context::set('module_srl',$this->module_srl);
-
-            // 캐시 파일 지정
+            // Specifying the cache file
             $cache_file = sprintf("%sfiles/cache/page/%d.%s.cache.php", _XE_PATH_, $this->module_info->module_srl, Context::getLangType());
             $interval = (int)($this->module_info->page_caching_interval);
             if($interval>0) {

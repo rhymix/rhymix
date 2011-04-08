@@ -2,40 +2,40 @@
     /**
      * @class  page
      * @author NHN (developers@xpressengine.com)
-     * @brief  page 모듈의 high class
+     * @brief high class of the module page
      **/
 
     class page extends ModuleObject {
 
         /**
-         * @brief 설치시 추가 작업이 필요할시 구현
+         * @brief Implement if additional tasks are necessary when installing
          **/
         function moduleInstall() {
-            // page 에서 사용할 cache디렉토리 생성
+            // page generated from the cache directory to use
             FileHandler::makeDir('./files/cache/page');
 
             return new Object();
         }
 
         /**
-         * @brief 설치가 이상이 없는지 체크하는 method
+         * @brief a method to check if successfully installed
          **/
         function checkUpdate() {
             return false;
         }
 
         /**
-         * @brief 업데이트 실행
+         * @brief Execute update
          **/
         function moduleUpdate() {
             return new Object(0,'success_updated');
         }
 
         /**
-         * @brief 캐시 파일 재생성
+         * @brief Re-generate the cache file
          **/
         function recompileCache() {
-            // 페이지 캐시 파일 삭제
+            // Delete the cache file pages
             FileHandler::removeFilesInDir("./files/cache/page");
         }
     }

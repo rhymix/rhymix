@@ -2,21 +2,21 @@
     /**
      * @class  moduleController
      * @author NHN (developers@xpressengine.com)
-     * @brief  module 모듈의 controller class
+     * @brief controller class of the module module
      **/
 
     class moduleController extends module {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
         }
 
         /**
-         * @brief action forward 추가
-         * action foward는 등록된 action이 요청된 모듈에 없을 경우 찾아서 포워딩을 하는 구조이다
-         * 모듈의 설치시에 사용된다.
+         * @brief Add action forward
+         * Action forward finds and forwards if an action is not in the requested module
+         * This is used when installing a module
          **/
         function insertActionForward($module, $type, $act) {
             $args->module = $module;
@@ -28,7 +28,7 @@
         }
 
         /**
-         * @brief action forward 삭제
+         * @brief Delete action forward
          **/
         function deleteActionForward($module, $type, $act) {
             $args->module = $module;
@@ -40,8 +40,8 @@
         }
 
         /**
-         * @brief module trigger 추가
-         * module trigger는 trigger 대상이 등록된 대상을 호출하는 방법이다.
+         * @brief Add module trigger
+         * module trigger is to call a trigger to a target module
          *
          **/
         function insertTrigger($trigger_name, $module, $type, $called_method, $called_position) {
@@ -52,15 +52,14 @@
             $args->called_position = $called_position;
 
             $output = executeQuery('module.insertTrigger', $args);
-
-            // 트리거 정보가 있는 파일 모두 삭제
+            // Delete all the files which contain trigger information
             FileHandler::removeFilesInDir("./files/cache/triggers");
 
             return $output;
         }
 
         /**
-         * @brief module trigger 삭제
+         * @brief Delete module trigger
          *
          **/
         function deleteTrigger($trigger_name, $module, $type, $called_method, $called_position) {
@@ -71,15 +70,14 @@
             $args->called_position = $called_position;
 
             $output = executeQuery('module.deleteTrigger', $args);
-
-            // 트리거 캐시 삭제
+            // Remove the trigger cache
             FileHandler::removeFilesInDir('./files/cache/triggers');
 
             return $output;
         }
 
         /**
-         * @brief module extend 추가
+         * @brief Add module extend
          *
          **/
 		function insertModuleExtend($parent_module, $extend_module, $type, $kind=''){
@@ -103,7 +101,7 @@
 		}
 
         /**
-         * @brief module extend 삭제
+         * @brief Delete module extend
          *
          **/
 		function deleteModuleExtend($parent_module, $extend_module, $type, $kind=''){
@@ -121,8 +119,8 @@
 		}
 
         /**
-         * @brief 특정 모듈의 설정 입력
-         * board, member등 특정 모듈의 global config 관리용
+         * @brief Enter a specific set of modules
+         * In order to manage global configurations of modules such as board, member and so on
          **/
         function insertModuleConfig($module, $config) {
             $args->module = $module;
@@ -136,8 +134,8 @@
         }
 
         /**
-         * @brief 특정 mid의 모듈 설정 정보 저장
-         * mid의 모듈 의존적인 설정을 관리
+         * @brief Save module configurations of the mid 
+         * Manage mid configurations depending on module
          **/
         function insertModulePartConfig($module, $module_srl, $config) {
             $args->module = $module;
@@ -152,7 +150,7 @@
         }
 
         /**
-         * @brief virtual site 생성
+         * @brief create virtual site
          **/
         function insertSite($domain, $index_module_srl) {
             if(isSiteID($domain)) {
@@ -177,7 +175,7 @@
         }
 
         /**
-         * @brief virtual site 수정
+         * @brief modify virtual site
          **/
         function updateSite($args) {
             $oModuleModel = &getModel('module');
@@ -197,18 +195,16 @@
         }
 
         /**
-         * @brief 모듈 정보 정리
+         * @brief Arrange module information
          **/
         function arrangeModuleInfo(&$args, &$extra_vars) {
-            // 불필요한 내용 제거
+            // Remove unnecessary information
             unset($args->body);
             unset($args->act);
             unset($args->page);
-
-            // mid값 검사
+            // Test mid value
             if(!preg_match("/^[a-z][a-z0-9_]+$/i", $args->mid)) return new Object(-1, 'msg_limit_mid');
-
-            // 변수를 검사 (modules의 기본 변수와 그렇지 않은 변수로 분리)
+            // Test variables (separate basic vars and other vars in modules)
             $extra_vars = clone($args);
             unset($extra_vars->module_srl);
             unset($extra_vars->module);
@@ -235,13 +231,12 @@
         }
 
         /**
-         * @brief 모듈 입력
+         * @brief Insert module
          **/
         function insertModule($args) {
             $output = $this->arrangeModuleInfo($args, $extra_vars);
             if(!$output->toBool()) return $output;
-
-            // 이미 존재하는 모듈 이름인지 체크
+            // Check whether the module name already exists
             if(!$args->site_srl) $args->site_srl = 0;
             $oModuleModel = &getModel('module');
             if($oModuleModel->isIDExists($args->mid, $args->site_srl)) return new Object(-1, 'msg_module_name_exists');
@@ -249,23 +244,19 @@
             // begin transaction
             $oDB = &DB::getInstance();
             $oDB->begin();
-
-            // 선택된 스킨정보에서 colorset을 구함
+            // Get colorset from the skin information
             $module_path = ModuleHandler::getModulePath($args->module);
             $skin_info = $oModuleModel->loadSkinInfo($module_path, $args->skin);
             $skin_vars->colorset = $skin_info->colorset[0]->name;
-
-            // 변수 정리후 query 실행
+            // Arrange variables and then execute a query
             if(!$args->module_srl) $args->module_srl = getNextSequence();
-
-            // 모듈 등록
+            // Insert a module
             $output = executeQuery('module.insertModule', $args);
             if(!$output->toBool()) {
                 $oDB->rollback();
                 return $output;
             }
-
-            // 모듈 추가 변수 등록
+            // Insert module extra vars
             $this->insertModuleExtraVars($args->module_srl, $extra_vars);
 
             // commit
@@ -276,7 +267,7 @@
         }
 
         /**
-         * @brief 모듈의 정보를 수정
+         * @brief Modify module information
          **/
         function updateModule($args) {
             $output = $this->arrangeModuleInfo($args, $extra_vars);
@@ -303,8 +294,7 @@
                 $oDB->rollback();
                 return $output;
             }
-
-            // 모듈 추가 변수 등록
+            // Insert module extra vars
             $this->insertModuleExtraVars($args->module_srl, $extra_vars);
 
             $oDB->commit();
@@ -314,7 +304,7 @@
         }
 
         /**
-         * @brief 모듈의 가상사이트 변경
+         * @brief Change the module's virtual site
          **/
         function updateModuleSite($module_srl, $site_srl, $layout_srl = 0) {
             $args->module_srl = $module_srl;
@@ -324,14 +314,13 @@
         }
 
         /**
-         * @brief 모듈을 삭제
+         * @brief Delete module
          *
-         * 모듈 삭제시는 관련 정보들을 모두 삭제 시도한다.
+         * Attempt to delete all related information when deleting a module.
          **/
         function deleteModule($module_srl) {
             if(!$module_srl) return new Object(-1,'msg_invalid_request');
-
-            // trigger 호출 (before)
+            // Call a trigger (before)
             $trigger_obj->module_srl = $module_srl;
             $output = ModuleHandler::triggerCall('module.deleteModule', 'before', $trigger_obj);
             if(!$output->toBool()) return $output;
@@ -341,27 +330,21 @@
             $oDB->begin();
 
             $args->module_srl = $module_srl;
-
-            // module 정보를 DB에서 삭제
+            // Delete module information from the DB
             $output = executeQuery('module.deleteModule', $args);
             if(!$output->toBool()) {
                 $oDB->rollback();
                 return $output;
             }
-
-            // 권한 정보 삭제
+            // Delete permission information
             $this->deleteModuleGrants($module_srl);
-
-            // 스킨 정보 삭제
+            // Remove skin information
             $this->deleteModuleSkinVars($module_srl);
-
-            // 모듈 추가 변수 삭제
+            // Delete module extra vars
             $this->deleteModuleExtraVars($module_srl);
-
-            // 모듈 관리자 제거
+            // Remove the module manager
             $this->deleteAdminId($module_srl);
-
-            // trigger 호출 (after)
+            // Call a trigger (after)
             if($output->toBool()) {
                 $trigger_output = ModuleHandler::triggerCall('module.deleteModule', 'after', $trigger_obj);
                 if(!$trigger_output->toBool()) {
@@ -377,10 +360,10 @@
         }
 
         /**
-         * @brief 모듈의 기타 정보를 변경
+         * @brief Change other information of the module
          **/
         function updateModuleSkinVars($module_srl, $skin_vars) {
-            // skin_vars 정보 세팅
+            // skin_vars setting
             $args->module_srl = $module_srl;
             $args->skin_vars = $skin_vars;
             $output = executeQuery('module.updateModuleSkinVars', $args);
@@ -390,7 +373,7 @@
         }
 
         /**
-         * @brief 모든 모듈의 is_default값을 N 으로 세팅 (기본 모듈 해제)
+         * @brief Set is_default as N in all modules(the default module is disabled)
          **/
         function clearDefaultModule() {
             $output = executeQuery('module.clearDefaultModule');
@@ -400,14 +383,14 @@
         }
 
         /**
-         * @brief 지정된 menu_srl에 속한 mid 의 menu_srl 을 변경
+         * @brief Update menu_srl of mid which belongs to menu_srl
          **/
         function updateModuleMenu($args) {
             return executeQuery('module.updateModuleMenu', $args);
         }
 
         /**
-         * @brief 지정된 menu_srl에 속한 mid 의 layout_srl을 변경
+         * @brief Update layout_srl of mid which belongs to menu_srl
          **/
         function updateModuleLayout($layout_srl, $menu_srl_list) {
             if(!count($menu_srl_list)) return;
@@ -419,15 +402,14 @@
         }
 
         /**
-         * @brief 사이트의 관리를 변경
+         * @brief Change the site administrator
          **/
         function insertSiteAdmin($site_srl, $arr_admins) {
-            // 사이트 관리자 제거
+            // Remove the site administrator
             $args->site_srl = $site_srl;
             $output = executeQuery('module.deleteSiteAdmin', $args);
             if(!$output->toBool()) return $output;
-
-            // 관리자 대상 멤버 번호를 구함
+            // Get user id of an administrator
             if(!is_array($arr_admins) || !count($arr_admins)) return new Object();
             foreach($arr_admins as $key => $user_id) {
                 if(!trim($user_id)) continue;
@@ -450,7 +432,7 @@
         }
 
         /**
-         * @brief 특정 모듈에 관리자 아이디 지정
+         * @brief Specify the admin ID to a module
          **/
         function insertAdminId($module_srl, $admin_id) {
             $oMemberModel = &getModel('member');
@@ -462,7 +444,7 @@
         }
 
         /**
-         * @brief 특정 모듈의 관리자 아이디 제거
+         * @brief Remove the admin ID from a module
          **/
         function deleteAdminId($module_srl, $admin_id = '') {
             $args->module_srl = $module_srl;
@@ -476,7 +458,7 @@
         }
 
         /**
-         * @brief 특정 모듈에 스킨 변수 등록
+         * @brief Insert skin vars to a module
          **/
         function insertModuleSkinVars($module_srl, $obj) {
             $this->deleteModuleSkinVars($module_srl);
@@ -484,10 +466,10 @@
 
             $args->module_srl = $module_srl;
             foreach($obj as $key => $val) {
-                // #17927989 예전 블로그 모듈을 사용하던 게시판의 경우
-                // 스킨 정보 필드에 메뉴 항목(stdClass)을 저장해놓은 경우가 있어
-                // 1.2.0 이상 버전으로 업그레이드한 후 모듈 업데이트할 때
-                // 오류가 발생하는 문제 수정
+                // #17927989 For an old board which used the old blog module
+                // it often saved menu item(stdClass) on the skin info column
+                // When updating the module on XE core 1.2.0 later versions, it occurs an error
+                // fixed the error
                 if (is_object($val)) continue;
                 if (is_array($val)) $val = serialize($val);
 
@@ -499,7 +481,7 @@
         }
 
         /**
-         * @brief 특정 모듈의 스킨 변수 제거
+         * @brief Remove skin vars of a module
          **/
         function deleteModuleSkinVars($module_srl) {
             $args->module_srl = $module_srl;
@@ -507,7 +489,7 @@
         }
 
         /**
-         * @brief 특정 모듈에 확장 변수 등록
+         * @brief Register extra vars to the module
          **/
         function insertModuleExtraVars($module_srl, $obj) {
             $this->deleteModuleExtraVars($module_srl);
@@ -524,7 +506,7 @@
         }
 
         /**
-         * @brief 특정 모듈의 확장 변수 제거
+         * @brief Remove extra vars from the module
          **/
         function deleteModuleExtraVars($module_srl) {
             $args->module_srl = $module_srl;
@@ -532,7 +514,7 @@
         }
 
         /**
-         * @brief 특정 모듈에 권한 등록
+         * @brief Grant permission to the module
          **/
         function insertModuleGrants($module_srl, $obj) {
             $this->deleteModuleGrants($module_srl);
@@ -554,7 +536,7 @@
         }
 
         /**
-         * @brief 특정 모듈의 권한 제거
+         * @brief Remove permission from the module
          **/
         function deleteModuleGrants($module_srl) {
             $args->module_srl = $module_srl;
@@ -562,7 +544,7 @@
         }
 
         /**
-         * @brief 사용자 정의 언어 변경
+         * @brief Change user-defined language
          **/
         function replaceDefinedLangCode(&$output) {
             $output = preg_replace_callback('!\$user_lang->([a-z0-9\_]+)!is', array($this,'_replaceLangCode'), $output);
@@ -586,7 +568,7 @@
 
 
         /**
-         * @brief 파일박스에 파일 추가 및 업데이트
+         * @brief Add and update a file into the file box
          **/
         function procModuleFileBoxAdd(){
 
@@ -627,7 +609,7 @@
 
 
         /**
-         * @brief 파일박스에 파일 업데이트
+         * @brief Update a file into the file box
          **/
         function updateModuleFileBox($vars){
 
@@ -661,7 +643,7 @@
 
 
         /**
-         * @brief 파일박스에 파일 추가
+         * @brief Add a file into the file box
          **/
         function insertModuleFileBox($vars){
             // set module_filebox_srl
@@ -694,7 +676,7 @@
 
 
         /**
-         * @brief 파일박스에 파일 삭제
+         * @brief Delete a file from the file box
          **/
 
         function procModuleFileBoxDelete(){

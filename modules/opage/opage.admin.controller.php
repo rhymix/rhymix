@@ -2,38 +2,35 @@
     /**
      * @class  opageAdminController
      * @author NHN (developers@xpressengine.com)
-     * @brief  opage 모듈의 admin controller class
+     * @brief admin controller class of the opage module 
      **/
 
     class opageAdminController extends opage {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
         }
 
         /**
-         * @brief 외부페이지 추가
+         * @brief Add an external page
          **/
         function procOpageAdminInsert() {
-            // module 모듈의 model/controller 객체 생성
+            // Create model/controller object of the module module
             $oModuleController = &getController('module');
             $oModuleModel = &getModel('module');
-
-            // 게시판 모듈의 정보 설정
+            // Set board module
             $args = Context::getRequestVars();
             $args->module = 'opage';
             $args->mid = $args->opage_name;
             unset($args->opage_name);
-
-            // module_srl이 넘어오면 원 모듈이 있는지 확인
+            // Check if an original module exists by using module_srl
             if($args->module_srl) {
                 $module_info = $oModuleModel->getModuleInfoByModuleSrl($args->module_srl);
                 if($module_info->module_srl != $args->module_srl) unset($args->module_srl);
             }
-
-            // module_srl의 값에 따라 insert/update
+            // Insert/update depending on module_srl
             if(!$args->module_srl) {
                 $args->module_srl = getNextSequence();
                 $output = $oModuleController->insertModule($args);
@@ -41,27 +38,24 @@
             } else {
                 $output = $oModuleController->updateModule($args);
                 $msg_code = 'success_updated';
-
-                // 캐시 파일 삭제
+                // Delete cache files
                 $cache_file = sprintf("./files/cache/opage/%d.cache.php", $module_info->module_srl);
                 if(file_exists($cache_file)) FileHandler::removeFile($cache_file);
             }
 
             if(!$output->toBool()) return $output;
-
-            // 등록 성공후 return될 메세지 정리
+            // Messages to output when successfully registered
             $this->add("module_srl", $output->get('module_srl'));
             $this->add("opage", Context::get('opage'));
             $this->setMessage($msg_code);
         }
 
         /**
-         * @brief 외부페이지 삭제
+         * @brief Delete an external page
          **/
         function procOpageAdminDelete() {
             $module_srl = Context::get('module_srl');
-
-            // 원본을 구해온다
+            // Get an original
             $oModuleController = &getController('module');
             $output = $oModuleController->deleteModule($module_srl);
             if(!$output->toBool()) return $output;
@@ -72,10 +66,10 @@
         }
 
         /**
-         * @brief 외부페이지 기본 정보의 추가
+         * @brief Add information of an external page
          **/
         function procOpageAdminInsertConfig() {
-            // 기본 정보를 받음
+            // Get the basic info
             $args = Context::gets('test');
 
         }

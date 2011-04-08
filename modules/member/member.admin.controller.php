@@ -2,50 +2,44 @@
     /**
      * @class  memberAdminController
      * @author NHN (developers@xpressengine.com)
-     * @brief  member module의 admin controller class
+     * @brief member module of the admin controller class
      **/
 
     class memberAdminController extends member {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
         }
 
         /**
-         * @brief 사용자 추가 (관리자용)
+         * @brief Add a user (Administrator)
          **/
         function procMemberAdminInsert() {
             if(Context::getRequestMethod() == "GET") return new Object(-1, "msg_invalid_request");
-            // 필수 정보들을 미리 추출
+            // Extract the necessary information in advance
             $args = Context::gets('member_srl','user_id','user_name','nick_name','homepage','blog','birthday','email_address','password','allow_mailing','allow_message','denied','is_admin','description','group_srl_list','limit_date');
-
-            // 넘어온 모든 변수중에서 몇가지 불필요한 것들 삭제
+            // Remove some unnecessary variables from all the vars
             $all_args = Context::getRequestVars();
             unset($all_args->module);
             unset($all_args->act);
             if(!isset($args->limit_date)) $args->limit_date = "";
-
-            // 모든 request argument에서 필수 정보만 제외 한 후 추가 데이터로 입력
+            // Add extra vars after excluding necessary information from all the requested arguments
             $extra_vars = delObjectVars($all_args, $args);
             $args->extra_vars = serialize($extra_vars);
-
-            // member_srl이 넘어오면 원 회원이 있는지 확인
+            // Check if an original member exists having the member_srl
             if($args->member_srl) {
-                // 멤버 모델 객체 생성
+                // Create a member model object
                 $oMemberModel = &getModel('member');
-
-                // 회원 정보 구하기
+                // Get memebr profile
                 $member_info = $oMemberModel->getMemberInfoByMemberSrl($args->member_srl);
-
-                // 만약 원래 회원이 없으면 새로 입력하기 위한 처리
+                // If no original member exists, make a new one
                 if($member_info->member_srl != $args->member_srl) unset($args->member_srl);
             }
 
             $oMemberController = &getController('member');
-
-            // member_srl의 값에 따라 insert/update
+            // Execute insert or update depending on the value of member_srl
             if(!$args->member_srl) {
                 $output = $oMemberController->insertMember($args);
                 $msg_code = 'success_registed';
@@ -55,21 +49,19 @@
             }
 
             if(!$output->toBool()) return $output;
-
-            // 서명 저장
+            // Save Signature
             $signature = Context::get('signature');
             $oMemberController->putSignature($args->member_srl, $signature);
-
-            // 결과 리턴
+            // Return result
             $this->add('member_srl', $args->member_srl);
             $this->setMessage($msg_code);
         }
 
         /**
-         * @brief 사용자 삭제 (관리자용)
+         * @brief Delete a user (Administrator)
          **/
         function procMemberAdminDelete() {
-            // 일단 입력된 값들을 모두 받아서 db 입력항목과 그외 것으로 분리
+            // Separate all the values into DB entries and others
             $member_srl = Context::get('member_srl');
 
             $oMemberController = &getController('member');
@@ -81,10 +73,10 @@
         }
 
         /**
-         * @brief 회원 관리용 기본 정보의 추가
+         * @brief Add information for member administration
          **/
         function procMemberAdminInsertConfig() {
-            // 기본 정보를 받음
+            // Get the basic information
             $args = Context::gets(
                 'webmaster_name', 'webmaster_email',
                 'skin', 'colorset',
@@ -119,7 +111,7 @@
         }
 
         /**
-         * @brief 사용자 그룹 추가
+         * @brief Add a user group
          **/
         function procMemberAdminInsertGroup() {
             $args = Context::gets('title','description','is_default','image_mark');
@@ -132,7 +124,7 @@
         }
 
         /**
-         * @brief 사용자 그룹 정보 수정
+         * @brief Update user group information
          **/
         function procMemberAdminUpdateGroup() {
             $group_srl = Context::get('group_srl');
@@ -159,7 +151,7 @@
         }
 
         /**
-         * @brief 가입 항목 추가
+         * @brief Add a join form
          **/
         function procMemberAdminInsertJoinForm() {
             $args->member_join_form_srl = Context::get('member_join_form_srl');
@@ -173,15 +165,13 @@
             $args->required = Context::get('required');
             if(!in_array(strtoupper($args->required), array('Y','N'))) $args->required = 'N';
             $args->description = Context::get('description');
-
-            // 기본값의 정리
+            // Default values
             if(in_array($args->column_type, array('checkbox','select','radio')) && count($args->default_value) ) {
                 $args->default_value = serialize($args->default_value);
             } else {
                 $args->default_value = '';
             }
-
-            // member_join_form_srl이 있으면 수정, 없으면 추가
+            // Fix if member_join_form_srl exists. Add if not exists.
             if(!$args->member_join_form_srl){
                 $args->list_order = getNextSequence();
                 $output = executeQuery('member.insertJoinForm', $args);
@@ -196,7 +186,7 @@
         }
 
         /**
-         * @brief 가입 항목의 상/하 이동 및 내용 수정
+         * @brief Move up/down the member join form and modify it
          **/
         function procMemberAdminUpdateJoinForm() {
             $member_join_form_srl = Context::get('member_join_form_srl');
@@ -224,7 +214,7 @@
         }
 
         /**
-         * @brief 선택된 회원들을 일괄 삭제
+         * @brief Delete the selected members
          */
         function procMemberAdminDeleteMembers() {
             $target_member_srls = Context::get('target_member_srls');
@@ -244,7 +234,7 @@
         }
 
         /**
-         * @brief 선택된 회원들의 그룹을 일괄 변경
+         * @brief Update a group of selected memebrs
          **/
         function procMemberAdminUpdateMembersGroup() {
             $member_srl = Context::get('member_srl');
@@ -257,16 +247,14 @@
 
             $oDB = &DB::getInstance();
             $oDB->begin();
-
-            // 선택된 회원들의 그룹을 삭제
+            // Delete a group of selected members
             $args->member_srl = $member_srl;
             $output = executeQuery('member.deleteMembersGroup', $args);
             if(!$output->toBool()) {
                 $oDB->rollback();
                 return $output;
             }
-
-            // 선택된 그룹으로 추가
+            // Add to a selected group
             $group_count = count($group_srls);
             $member_count = count($member_srls);
             for($j=0;$j<$group_count;$j++) {
@@ -293,7 +281,7 @@
         }
 
         /**
-         * @brief 금지 아이디 추가
+         * @brief Add a denied ID
          **/
         function procMemberAdminInsertDeniedID() {
             $user_id = Context::get('user_id');
@@ -308,7 +296,7 @@
         }
 
         /**
-         * @brief 금지 아이디 업데이트
+         * @brief Update denied ID
          **/
         function procMemberAdminUpdateDeniedID() {
             $user_id = Context::get('user_id');
@@ -327,13 +315,12 @@
         }
 
         /**
-         * @brief 관리자를 추가한다
+         * @brief Add an administrator
          **/
         function insertAdmin($args) {
-            // 관리자임을 설정
+            // Assign an administrator
             $args->is_admin = 'Y';
-
-            // 관리자 그룹을 구해와서 설정
+            // Get admin group and set
             $oMemberModel = &getModel('member');
             $admin_group = $oMemberModel->getAdminGroup();
             $args->group_srl_list = $admin_group->group_srl;
@@ -343,7 +330,7 @@
         }
 
         /**
-         * @brief 회원의 그룹값을 변경
+         * @brief Change the group values of member
          **/
         function changeGroup($source_group_srl, $target_group_srl) {
             $args->source_group_srl = $source_group_srl;
@@ -353,11 +340,11 @@
         }
 
         /**
-         * @brief 그룹 등록
+         * @brief Insert a group
          **/
         function insertGroup($args) {
             if(!$args->site_srl) $args->site_srl = 0;
-            // is_default값을 체크, Y일 경우 일단 모든 is_default에 대해서 N 처리
+            // Check the value of is_default. 
             if($args->is_default!='Y') {
                 $args->is_default = 'N';
             } else {
@@ -369,10 +356,10 @@
         }
 
         /**
-         * @brief 그룹 정보 수정
+         * @brief Modify Group Information
          **/
         function updateGroup($args) {
-            // is_default값을 체크, Y일 경우 일단 모든 is_default에 대해서 N 처리
+            // Check the value of is_default. 
             if($args->is_default!='Y') $args->is_default = 'N';
             else {
                 $output = executeQuery('member.updateGroupDefaultClear', $args);
@@ -383,23 +370,20 @@
         }
 
         /**
-         * 그룹 삭제
+         * Delete a Group
          **/
         function deleteGroup($group_srl, $site_srl = null) {
-            // 멤버모델 객체 생성
+            // Create a member model object
             $oMemberModel = &getModel('member');
-
-            // 삭제 대상 그룹을 가져와서 체크 (is_default == 'Y'일 경우 삭제 불가)
+            // Check the group_srl (If is_default == 'Y', it cannot be deleted)
             $group_info = $oMemberModel->getGroup($group_srl);
 
             if(!$group_info) return new Object(-1, 'lang->msg_not_founded');
             if($group_info->is_default == 'Y') return new Object(-1, 'msg_not_delete_default');
-
-            // is_default == 'Y'인 그룹을 가져옴
+            // Get groups where is_default == 'Y'
             $default_group = $oMemberModel->getDefaultGroup($site_srl);
             $default_group_srl = $default_group->group_srl;
-
-            // default_group_srl로 변경
+            // Change to default_group_srl
             $this->changeGroup($group_srl, $default_group_srl);
 
             $args->group_srl = $group_srl;
@@ -418,7 +402,7 @@
         }
 
         /**
-         * @brief 금지아이디 등록
+         * @brief Register denied ID
          **/
         function insertDeniedID($user_id, $description = '') {
             $args->user_id = $user_id;
@@ -429,7 +413,7 @@
         }
 
         /**
-         * @brief 금지아이디 삭제
+         * @brief Delete a denied ID
          **/
         function deleteDeniedID($user_id) {
             $args->user_id = $user_id;
@@ -437,7 +421,7 @@
         }
 
         /**
-         * @brief 가입폼 항목을 삭제
+         * @brief Delete a join form
          **/
         function deleteJoinForm($member_join_form_srl) {
             $args->member_join_form_srl = $member_join_form_srl;
@@ -446,19 +430,17 @@
         }
 
         /**
-         * @brief 가입항목을 상단으로 이동
+         * @brief Move up a join form
          **/
         function moveJoinFormUp($member_join_form_srl) {
             $oMemberModel = &getModel('member');
-
-            // 선택된 가입항목의 정보를 구한다
+            // Get information of the join form
             $args->member_join_form_srl = $member_join_form_srl;
             $output = executeQuery('member.getJoinForm', $args);
 
             $join_form = $output->data;
             $list_order = $join_form->list_order;
-
-            // 전체 가입항목 목록을 구한다
+            // Get a list of all join forms
             $join_form_list = $oMemberModel->getJoinFormList();
             $join_form_srl_list = array_keys($join_form_list);
             if(count($join_form_srl_list)<2) return new Object();
@@ -468,19 +450,15 @@
                 if($val->member_join_form_srl == $member_join_form_srl) break;
                 $prev_member_join_form = $val;
             }
-
-            // 이전 가입항목가 없으면 그냥 return
+            // Return if no previous join form exists
             if(!$prev_member_join_form) return new Object();
-
-            // 선택한 가입항목의 정보
+            // Information of the join form
             $cur_args->member_join_form_srl = $member_join_form_srl;
             $cur_args->list_order = $prev_member_join_form->list_order;
-
-            // 대상 가입항목의 정보
+            // Information of the target join form
             $prev_args->member_join_form_srl = $prev_member_join_form->member_join_form_srl;
             $prev_args->list_order = $list_order;
-
-            // DB 처리
+            // Execute Query
             $output = executeQuery('member.updateMemberJoinFormListorder', $cur_args);
             if(!$output->toBool()) return $output;
 
@@ -491,19 +469,17 @@
         }
 
         /**
-         * @brief 가입항목을 하단으로 이동
+         * @brief Move down a join form
          **/
         function moveJoinFormDown($member_join_form_srl) {
             $oMemberModel = &getModel('member');
-
-            // 선택된 가입항목의 정보를 구한다
+            // Get information of the join form
             $args->member_join_form_srl = $member_join_form_srl;
             $output = executeQuery('member.getJoinForm', $args);
 
             $join_form = $output->data;
             $list_order = $join_form->list_order;
-
-            // 전체 가입항목 목록을 구한다
+            // Get information of all join forms
             $join_form_list = $oMemberModel->getJoinFormList();
             $join_form_srl_list = array_keys($join_form_list);
             if(count($join_form_srl_list)<2) return new Object();
@@ -513,20 +489,16 @@
             }
 
             $next_member_join_form_srl = $join_form_srl_list[$i+1];
-
-            // 이전 가입항목가 없으면 그냥 return
+            // Return if no previous join form exists
             if(!$next_member_join_form_srl) return new Object();
             $next_member_join_form = $join_form_list[$next_member_join_form_srl];
-
-            // 선택한 가입항목의 정보
+            // Information of the join form
             $cur_args->member_join_form_srl = $member_join_form_srl;
             $cur_args->list_order = $next_member_join_form->list_order;
-
-            // 대상 가입항목의 정보
+            // Information of the target join form
             $next_args->member_join_form_srl = $next_member_join_form->member_join_form_srl;
             $next_args->list_order = $list_order;
-
-            // DB 처리
+            // Execute Query
             $output = executeQuery('member.updateMemberJoinFormListorder', $cur_args);
             if(!$output->toBool()) return $output;
 

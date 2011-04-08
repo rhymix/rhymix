@@ -2,19 +2,19 @@
     /**
      * @class  communicationAdminModel
      * @author NHN (developers@xpressengine.com)
-     * @brief  communication module의 admin model class
+     * @brief communication module of the admin model class
      **/
 
     class communicationAdminModel extends communication {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
         }
 
         /**
-         * @brief 지정된 스킨의 컬러셋 선택을 위한 html을 return
+         * @brief return the html to select colorset of the skin
          **/
         function getCommunicationAdminColorset() {
             $skin = Context::get('skin');

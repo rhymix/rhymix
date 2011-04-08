@@ -3,7 +3,7 @@
     /**
      * @class DBMysqli
      * @author NHN (developers@xpressengine.com)
-     * @brief MySQL DBMS를 mysqli_* 로 이용하기 위한 class
+     * @brief Class to use MySQL DBMS as mysqli_*
      * @version 0.1
      *
      * mysql handling class
@@ -21,7 +21,7 @@
         }
 
         /**
-         * @brief 설치 가능 여부를 return
+         * @brief Return if it is installable
          **/
         function isSupported() {
             if(!function_exists('mysqli_connect')) return false;
@@ -37,13 +37,12 @@
 		}
 
         /**
-         * @brief DB 접속
+         * @brief DB Connection
          **/
         function _connect() {
-            // db 정보가 없으면 무시
+            // Ignore if no DB information exists
             if(!$this->hostname || !$this->userid || !$this->password || !$this->database) return;
-
-            // 접속시도
+            // Attempt to connect
 			if($this->port){
 	            $this->fd = @mysqli_connect($this->hostname, $this->userid, $this->password, $this->database, $this->port);
 			}else{
@@ -55,14 +54,13 @@
                 return;
             }
 			mysqli_set_charset($this->fd,'utf8');
-
-            // 접속체크
+            // Check connections
             $this->is_connected = true;
 			$this->password = md5($this->password);
         }
 
         /**
-         * @brief DB접속 해제
+         * @brief DB disconnection
          **/
         function close() {
             if(!$this->isConnected()) return;
@@ -70,7 +68,7 @@
         }
 
         /**
-         * @brief 쿼리에서 입력되는 문자열 변수들의 quotation 조절
+         * @brief Add quotes on the string variables in a query
          **/
         function addQuotes($string) {
             if(version_compare(PHP_VERSION, "5.9.0", "<") && get_magic_quotes_gpc()) $string = stripslashes(str_replace("\\","\\\\",$string));
@@ -79,32 +77,29 @@
         }
 
         /**
-         * @brief : 쿼리문의 실행 및 결과의 fetch 처리
+         * @brief : Run a query and fetch the result
          *
-         * query : query문 실행하고 result return\n
-         * fetch : reutrn 된 값이 없으면 NULL\n
-         *         rows이면 array object\n
-         *         row이면 object\n
+         * query: run a query and return the result \n
+         * fetch: NULL if no value is returned \n
+         *        array object if rows are returned \n
+         *        object if a row is returned \n
          *         return\n
          **/
         function _query($query) {
             if(!$this->isConnected()) return;
-
-            // 쿼리 시작을 알림
+            // Notify to start a query execution
             $this->actStart($query);
-
-            // 쿼리 문 실행
+            // Run the query statement
             $result = mysqli_query($this->fd,$query);
-            // 오류 체크
+            // Error Check
 			$error = mysqli_error($this->fd);
             if($error){
 				$this->setError(mysqli_errno($this->fd), $error);
 			}
 
-            // 쿼리 실행 종료를 알림
+            // Notify to complete a query execution
             $this->actFinish();
-
-            // 결과 리턴
+            // Return result
             return $result;
         }
 

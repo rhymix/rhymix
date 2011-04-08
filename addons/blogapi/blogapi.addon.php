@@ -4,57 +4,47 @@
     /**
      * @file blogapicounter.addon.php
      * @author NHN (developers@xpressengine.com)
-     * @brief blogAPI 애드온
+     * @brief Add blogAPI
      *
-     * ms live writer, 파이어폭스의 performancing, zoundry 등의 외부 툴을 이용하여 글을 입력할 수 있게 합니다.
-     * 모듈 실행 이전(before_module_proc)에 호출이 되어야 하며 정상동작후에는 강제 종료를 한다.
+     * It enables to write a post by using an external tool such as ms live writer, firefox performancing, zoundry and so on.
+     * It should be called before executing the module(before_module_proc). If not, it is forced to shut down.
      **/
-
-    // called_position가 after_module_proc일때 rsd 태그 삽입
+    // Insert a rsd tag when called_position is after_module_proc
     if($called_position == 'after_module_proc') {
-        // 현재 모듈의 rsd주소를 만듬
+        // Create rsd address of the current module
         $site_module_info = Context::get('site_module_info');
         $rsd_url = getFullSiteUrl($site_module_info->domain, '', 'mid',$site_module_info->mid, 'act','api');
-
-        // 헤더에 rsd태그 삽입
+        // Insert rsd tag into the header
         Context::addHtmlHeader("    ".'<link rel="EditURI" type="application/rsd+xml" title="RSD" href="'.$rsd_url.'" />');
     }
-
-    // act가 api가 아니면 그냥 리턴~
+    // If act isnot api, just return
     if($_REQUEST['act']!='api') return;
-
-    // 관련 func 파일 읽음
+    // Read func file
     require_once('./addons/blogapi/blogapi.func.php');
-
-    // xmlprc 파싱
-    // 요청된 xmlrpc를 파싱
+    // xmlprc parsing
+    // Parse the requested xmlrpc
     $oXmlParser = new XmlParser();
     $xmlDoc = $oXmlParser->parse();
 
     $method_name = $xmlDoc->methodcall->methodname->body;
     $params = $xmlDoc->methodcall->params->param;
     if($params && !is_array($params)) $params = array($params);
-
-    // 일부 methodname에 대한 호환
+    // Compatible with some of methodname
     if(in_array($method_name, array('metaWeblog.deletePost', 'metaWeblog.getUsersBlogs', 'metaWeblog.getUserInfo'))) {
         $method_name = str_replace('metaWeblog.', 'blogger.', $method_name);
     }
-
-    // blogger.deletePost일 경우 첫번째 인자 값 삭제
+    // Delete the first argument if it is blogger.deletePost
     if($method_name == 'blogger.deletePost') array_shift($params);
-
-    // user_id, password를 구해서 로그인 시도
+    // Get user_id, password and attempt log-in
     $user_id = trim($params[1]->value->string->body);
     $password = trim($params[2]->value->string->body);
-
-    // 모듈 실행전이라면 인증을 처리한다.
+    // Before executing the module, authentication is processed.
     if($called_position == 'before_module_init') {
-
-        // member controller을 이용해서 로그인 시도
+        // Attempt log-in by using member controller
         if($user_id && $password) {
             $oMemberController = &getController('member');
             $output = $oMemberController->doLogin($user_id, $password);
-            // 로그인 실패시 에러 메시지 출력 
+            // If login fails, an error message appears
             if(!$output->toBool()) {
                 $content = getXmlRpcFailure(1, $output->getMessage());
                 printContent($content);
@@ -64,25 +54,21 @@
             printContent($content);
         }
     }
-
-    // 모듈에서 무언가 작업을 하기 전에 blogapi tool의 요청에 대한 처리를 하고 강제 종료한다.
+    // Before module processing, handle requests from blogapi tool and then terminate.
     if($called_position == 'before_module_proc') {
-
-        // 글쓰기 권한 체크 (권한명의 경우 약속이 필요할듯..)
+        // Check writing permission 
         if(!$this->grant->write_document) {
             printContent( getXmlRpcFailure(1, 'no permission') );
         }
-
-        // 카테고리의 정보를 구해옴
+        // Get information of the categories
         $oDocumentModel = &getModel('document');
         $category_list = $oDocumentModel->getCategoryList($this->module_srl);
-
-        // 임시 파일 저장 장소 지정
+        // Specifies a temporary file storage
         $tmp_uploaded_path = sprintf('./files/cache/blogapi/%s/%s/', $this->mid, $user_id);
         $uploaded_target_path = sprintf('/files/cache/blogapi/%s/%s/', $this->mid, $user_id);
 
         switch($method_name) {
-            // 블로그 정보
+            // Blog information
             case 'blogger.getUsersBlogs' :
                     $obj->url = getFullSiteUrl('');
                     $obj->blogid = $this->mid;
@@ -92,8 +78,7 @@
                     $content = getXmlRpcResponse($blog_list);
                     printContent($content);
                 break;
-
-            // 카테고리 목록 return
+            // Return a list of categories
             case 'metaWeblog.getCategories' :
                     $category_obj_list = array();
                     if($category_list) {
@@ -111,10 +96,9 @@
                     $content = getXmlRpcResponse($category_obj_list);
                     printContent($content);
                 break;
-
-            // 파일 업로드
+            // Upload file
             case 'metaWeblog.newMediaObject' :
-                    // 파일 업로드 권한 체크
+                    // Check a file upload permission
                     $oFileModel = &getModel('file');
                     $file_module_config = $oFileModel->getFileModuleConfig($this->module_srl);
                     if(is_array($file_module_config->download_grant) && count($file_module_config->download_grant)>0) {
@@ -151,8 +135,7 @@
                     $content = getXmlRpcResponse($obj);
                     printContent($content);
                 break;
-
-            // 글 가져오기
+            // Get posts
             case 'metaWeblog.getPost' :
                     $document_srl = $params[0]->value->string->body;
                     if(!$document_srl) {
@@ -163,7 +146,7 @@
                         if(!$oDocument->isExists() || !$oDocument->isGranted()) {
                             printContent( getXmlRpcFailure(1, 'no permission') );
                         } else {
-                            // 카테고리를 사용하는지 확인후 사용시 카테고리 목록을 구해와서 Context에 세팅
+                            // Get a list of categories and set Context
                             $category = "";
                             if($oDocument->get('category_srl')) {
                                 $oDocumentModel = &getModel('document');
@@ -203,12 +186,11 @@
                         }
                     }
                 break;
-
-            // 글작성
+            // Write a new post
             case 'metaWeblog.newPost' :
                     unset($obj);
                     $info = $params[3];
-                    // 글, 제목, 카테고리 정보 구함
+                    // Get information of post, title, and category
                     for($i=0;$i<count($info->value->struct->member);$i++) {
                         $val = $info->value->struct->member[$i];
                         switch($val->name->body) {
@@ -239,13 +221,11 @@
                         }
 
                     }
-
-                    // 문서 번호 설정
+                    // Set document srl
                     $document_srl = getNextSequence();
                     $obj->document_srl = $document_srl;
                     $obj->module_srl = $this->module_srl;
-
-                    // 첨부파일 정리
+                    // Attachment
                     if(is_dir($tmp_uploaded_path)) {
                         $file_list = FileHandler::readDir($tmp_uploaded_path);
                         $file_count = count($file_list);
@@ -276,8 +256,7 @@
 
                     printContent($content);
                 break;
-
-            // 글 수정
+            // Edit post
             case 'metaWeblog.editPost' :
                     $tmp_val = $params[0]->value->string->body;
                     if(!$tmp_val) $tmp_val = $params[0]->value->i4->body;
@@ -294,8 +273,7 @@
 
                     $oDocumentModel = &getModel('document');
                     $oDocument = $oDocumentModel->getDocument($document_srl);
-
-                    // 글 수정 권한 체크
+                    // Check if a permission to modify a document is granted
                     if(!$oDocument->isGranted()) {
                         $content = getXmlRpcFailure(1, 'no permission');
                         break;
@@ -304,8 +282,7 @@
                     $obj = $oDocument->getObjectVars();
 
                     $info = $params[3];
-
-                    // 글, 제목, 카테고리 정보 구함
+                    // Get information of post, title, and category
                     for($i=0;$i<count($info->value->struct->member);$i++) {
                         $val = $info->value->struct->member[$i];
                         switch($val->name->body) {
@@ -336,12 +313,10 @@
                         }
 
                     }
-
-                    // 문서 번호 설정
+                    // Document srl
                     $obj->document_srl = $document_srl;
                     $obj->module_srl = $this->module_srl;
-
-                    // 첨부파일 정리
+                    // Attachment
                     if(is_dir($tmp_uploaded_path)) {
                         $file_list = FileHandler::readDir($tmp_uploaded_path);
                         $file_count = count($file_list);
@@ -374,27 +349,22 @@
 
                     printContent($content);
                 break;
-
-            // 글삭제
+            // Delete the post
             case 'blogger.deletePost' :
                     $tmp_val = $params[0]->value->string->body;
                     $tmp_arr = explode('/', $tmp_val);
                     $document_srl = array_pop($tmp_arr);
-
-                    // 글 받아오기 
+                    // Get a document
                     $oDocumentModel = &getModel('document');
                     $oDocument = $oDocumentModel->getDocument($document_srl);
-
-                    // 글 존재
+                    // If the document exists
                     if(!$oDocument->isExists()) {
                         $content = getXmlRpcFailure(1, 'not exists');
-
-                    // 글 삭제 권한 체크
+                    // Check if a permission to delete a document is granted
                     } elseif(!$oDocument->isGranted()) {
                         $content = getXmlRpcFailure(1, 'no permission');
                         break;
-
-                    // 삭제
+                    // Delete
                     } else {
                         $oDocumentController = &getController('document');
                         $output = $oDocumentController->deleteDocument($document_srl);
@@ -404,14 +374,13 @@
 
                     printContent($content);
                 break;
-
-            // 최신글 받기
+            // Get recent posts
             case 'metaWeblog.getRecentPosts' :
-                    // 목록을 구하기 위한 옵션
-                    $args->module_srl = $this->module_srl; ///< 현재 모듈의 module_srl
+                    // Options to get a list
+                    $args->module_srl = $this->module_srl; // /< module_srl of the current module
                     $args->page = 1;
                     $args->list_count = 20;
-                    $args->sort_index = 'list_order'; ///< 소팅 값
+                    $args->sort_index = 'list_order'; // /< Sorting values
                     $logged_info = Context::get('logged_info');
                     $args->search_target = 'member_srl';
                     $args->search_keyword = $logged_info->member_srl;
@@ -441,8 +410,7 @@
                         printContent($content);
                     }
                 break;
-
-            // 아무런 요청이 없을 경우 RSD 출력
+            // Display RSD if there is no request
             default :
 
                     $homepagelink = getUrl('','mid',$this->mid);

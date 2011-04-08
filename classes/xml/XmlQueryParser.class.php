@@ -23,7 +23,7 @@
          * @remarks {there should be a way to report an error}
          **/
         function parse($query_id, $xml_file, $cache_file) {
-            // query xml 파일을 찾아서 파싱, 결과가 없으면 return
+            // parse the query xml file. Return if get no result
             $buff = FileHandler::readFile($xml_file);
             $xml_obj = parent::parse($buff);
             if(!$xml_obj) return;
@@ -40,12 +40,10 @@
                 $module = $id_args[1];
                 $id = $id_args[2];
             }
-
-            // insert, update, delete, select등의 action
+            // actions like insert, update, delete, select and so on
             $action = strtolower($xml_obj->query->attrs->action);
             if(!$action) return;
-
-            // 테이블 정리 (배열코드로 변환)
+            // get the table list(converting an array code)
             $tables = $xml_obj->query->tables->table;
             $output->left_tables = array();
 
@@ -54,8 +52,7 @@
             if(!$tables) return;
             if(!is_array($tables)) $tables = array($tables);
             foreach($tables as $key => $val) {
-
-                // 테이블과 alias의 이름을 구함
+                // get the name of tables and aliases
                 $table_name = $val->attrs->name;
                 $alias = $val->attrs->alias;
                 if(!$alias) $alias = $table_name;
@@ -66,8 +63,7 @@
                     $output->left_tables[$alias] =  $val->attrs->type;
                     $left_conditions[$alias] = $val->conditions;
                 }
-
-                // 테이블을 찾아서 컬럼의 속성을 구함
+                // get column properties from the table
                 $table_file = sprintf('%s%s/%s/schemas/%s.xml', _XE_PATH_, 'modules', $module, $table_name);
                 if(!file_exists($table_file)) {
                     $searched_list = FileHandler::readDir(_XE_PATH_.'modules');
@@ -93,9 +89,7 @@
                     }
                 }
             }
-
-
-            // 컬럼 정리
+            // Column list
             $columns = $xml_obj->query->columns->column;
             $out = $this->_setColumn($columns);
             $output->columns = $out->columns;
@@ -114,8 +108,7 @@
             $group_list = $xml_obj->query->groups->group;
             $out = $this->_setGroup($group_list);
             $output->groups = $out->groups;
-
-            // 네비게이션 정리
+            // Navigation
             $out = $this->_setNavigation($xml_obj);
             $output->order = $out->order;
             $output->list_count = $out->list_count;
@@ -132,8 +125,7 @@
                 }
             }
             $buff .= ' );'."\n";
-
-            // php script 생성
+            // generates a php script
             $buff .= '$output->_tables = array( ';
             foreach($output->tables as $key => $val) {
                 $buff .= sprintf('"%s"=>"%s",', $key, $val);
@@ -147,22 +139,19 @@
                 }
                 $buff .= ' );'."\n";
             }
-
-            // column 정리
+            // column info
             if($column_count) {
                 $buff .= '$output->columns = array ( ';
                 $buff .= $this->_getColumn($output->columns);
                 $buff .= ' );'."\n";
             }
-
-            // conditions 정리
+            // get conditions
             if($condition_count) {
                 $buff .= '$output->conditions = array ( ';
                 $buff .= $this->_getConditions($output->conditions);
                 $buff .= ' );'."\n";
             }
-
-            // conditions 정리
+            // get conditions
             if(count($output->left_conditions)) {
                 $buff .= '$output->left_conditions = array ( ';
                 foreach($output->left_conditions as $key => $val){
@@ -173,7 +162,7 @@
                 $buff .= ' );'."\n";
             }
 
-			// args 변수 확인
+			// get arguments
 			$arg_list = $this->getArguments();
 			if($arg_list)
 			{
@@ -184,7 +173,7 @@
 				}
 			}
 
-            // order 정리
+            // order
             if($output->order) {
                 $buff .= '$output->order = array(';
                 foreach($output->order as $key => $val) {
@@ -193,22 +182,22 @@
                 $buff .= ');'."\n";
             }
 
-            // list_count 정리
+            // list_count
             if($output->list_count) {
                 $buff .= sprintf('$output->list_count = array("var"=>"%s", "value"=>$args->%s?$args->%s:"%s");%s', $output->list_count->var, $output->list_count->var, $output->list_count->var, $output->list_count->default,"\n");
             }
 
-            // page_count 정리
+            // page_count
             if($output->page_count) {
                 $buff .= sprintf('$output->page_count = array("var"=>"%s", "value"=>$args->%s?$args->%s:"%s");%s', $output->page_count->var, $output->page_count->var, $output->page_count->var, $output->list_count->default,"\n");
             }
 
-            // page 정리
+            // page order
             if($output->page) {
                 $buff .= sprintf('$output->page = array("var"=>"%s", "value"=>$args->%s?$args->%s:"%s");%s', $output->page->var, $output->page->var, $output->page->var, $output->list->default,"\n");
             }
 
-            // group by 정리
+            // group by
             if($output->groups) {
                 $buff .= sprintf('$output->groups = array("%s");%s', implode('","',$output->groups),"\n");
             }
@@ -255,7 +244,7 @@
                   . $buff
                   . 'return $output; ?>';
 
-            // 저장
+            // Save
             FileHandler::writeFile($cache_file, $buff);
         }
 
@@ -301,8 +290,7 @@
         * @result Returns $output
         */
         function _setConditions($conditions){
-            // 조건절 정리
-
+            // Conditional clause
             $condition = $conditions->condition;
             if($condition) {
                 $obj->condition = $condition;
@@ -344,7 +332,7 @@
         * @result Returns $output
         */
         function _setGroup($group_list){
-            // group 정리
+            // group list
 
             if($group_list) {
                 if(!is_array($group_list)) $group_list = array($group_list);

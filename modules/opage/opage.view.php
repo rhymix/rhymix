@@ -2,7 +2,7 @@
     /**
      * @class  opageView
      * @author NHN (developers@xpressengine.com)
-     * @brief  opage 모듈의 view 클래스
+     * @brief view class of the opage module
      **/
 
     class opageView extends opage {
@@ -12,48 +12,42 @@
         var $caching_interval;
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
-            // 템플릿 경로 구함 (opage의 경우 tpl에 관리자용 템플릿 모아놓음)
+            // Get a template path (admin templates are collected on the tpl for opage)
             $this->setTemplatePath($this->module_path.'tpl');
-
-            // 외부 페이지 모듈의 정보를 구함
+            // Get information of the external page module
             $oOpageModel = &getModel('opage');
             $module_info = $oOpageModel->getOpage($this->module_srl);
             Context::set('module_info', $module_info);
-
-            // 외부 페이지에서 명시된 외부 페이지 경로/ 캐싱 간격을 를 구함
+            // Get a path/caching interval on the external page
             $this->path = $module_info->path;
             $this->caching_interval = $module_info->caching_interval;
-
-            // 캐시 파일 지정
+            // Specify the cache file
             $this->cache_file = sprintf("./files/cache/opage/%d.cache.php", $module_info->module_srl);
         }
 
         /**
-         * @brief 일반 요청시 출력
+         * @brief Display when receiving a request
          **/
         function dispOpageIndex() {
-
-            // http 인지 내부 파일인지 점검
+            // check if it is http or internal file
             if($this->path) {
                 if(preg_match("/^([a-z]+):\/\//i",$this->path)) $content = $this->getHtmlPage($this->path, $this->caching_interval, $this->cache_file);
                 else $content = $this->executeFile($this->path, $this->caching_interval, $this->cache_file);
             }
 
             Context::set('opage_content', $content);
-
-            // 결과 출력 템플릿 지정
+            // Set a template for result output
             $this->setTemplateFile('content');
         }
 
         /**
-         * @brief 외부 http로 요청되는 파일일 경우 파일을 받아와서 저장 후 return
+         * @brief Save the file and return if a file is requested by http
          **/
         function getHtmlPage($path, $caching_interval, $cache_file) {
-
-            // 캐시 검사
+            // Verify cache
             if($caching_interval > 0 && file_exists($cache_file) && filemtime($cache_file) + $caching_interval*60 > time()) {
 
                 $content = FileHandler::readFile($cache_file);
@@ -64,27 +58,21 @@
                 $content = FileHandler::readFile($cache_file);
 
             }
-
-            // opage controller 생성
+            // Create opage controller
             $oOpageController = &getController('opage');
-
-            // 외부 서버의 페이지 일 경우 이미지, css, javascript등의 url을 변경
+            // change url of image, css, javascript and so on if the page is from external server
             $content = $oOpageController->replaceSrc($content, $path);
-
-            // 해당 문서를 utf-8로 변경
+            // Change the document to utf-8 format
             $buff->content = $content;
             $buff = Context::convertEncoding($buff);
             $content = $buff->content;
-
-            // title 추출
+            // Extract a title
             $title = $oOpageController->getTitle($content);
             if($title) Context::setBrowserTitle($title);
-
-            // header script 추출
+            // Extract header script
             $head_script = $oOpageController->getHeadScript($content);
             if($head_script) Context::addHtmlHeader($head_script);
-
-            // body 내용 추출
+            // Extract content from the body
             $body_script = $oOpageController->getBodyScript($content);
             if(!$body_script) $body_script = $content;
 
@@ -92,38 +80,32 @@
         }
 
         /**
-         * @brief 내부 파일일 경우 include하도록 캐시파일을 만들고 처리
+         * @brief Create a cache file in order to include if it is an internal file
          **/
         function executeFile($path, $caching_interval, $cache_file) {
-            // 파일이 없으면 취소
+            // Cancel if the file doesn't exist
             if(!file_exists($path)) return;
-
-            // 경로와 파일이름을 구함
+            // Get a path and filename
             $tmp_path = explode('/',$cache_file);
             $filename = $tmp_path[count($tmp_path)-1];
             $filepath = preg_replace('/'.$filename."$/i","",$cache_file);
-
-            // 캐시 검사
+            // Verify cache
             if($caching_interval <1 || !file_exists($cache_file) || filemtime($cache_file) + $caching_interval*60 <= time() || filemtime($cache_file)<filemtime($path) ) {
                 if(file_exists($cache_file)) FileHandler::removeFile($cache_file);
-
-                // 일단 대상 파일을 읽어서 내용을 구함
+                // Read a target file and get content
                 ob_start();
                 @include($path);
                 $content = ob_get_clean();
-
-                // 상대경로를 절대경로로 변경
+                // Replace relative path to the absolute path 
                 $path_info = pathinfo($path);
                 $this->path = str_replace('\\', '/', realpath($path_info['dirname'])).'/';
                 $content = preg_replace_callback('/(target=|src=|href=|url\()("|\')?([^"\'\)]+)("|\'\))?/is',array($this,'_replacePath'),$content);
                 $content = preg_replace_callback('/(<!--%import\()(\")([^"]+)(\")/is',array($this,'_replacePath'),$content);
 
                 FileHandler::writeFile($cache_file, $content);
-
-                // include후 결과를 return
+                // Include and then Return the result
                 if(!file_exists($cache_file)) return;
-
-                // 컴파일 시도
+                // Attempt to compile
                 $oTemplate = &TemplateHandler::getInstance();
                 $script = $oTemplate->compileDirect($filepath, $filename);
 
@@ -143,13 +125,11 @@
 
         function _replacePath($matches) {
             $val = trim($matches[3]);
-
-            // 외부 또는 /, #, { 로 시작하는 경로라면 그냥 pass
+            // Pass if the path is external or starts with /, #, { characters
 			// /=absolute path, #=hash in a page, {=Template syntax
             if(preg_match('@^((?:http|https|ftp|telnet|mms)://|(?:mailto|javascript):|[/#{])@i',$val)) {
 				return $matches[0];
-
-            // .. 와 같은 경우 대상 경로를 구함
+            // In case of  .. , get a path
             } elseif(preg_match('/^\.\./i',$val)) {
 				$p = Context::pathToUrl($this->path);
                 return sprintf("%s%s%s%s",$matches[1],$matches[2],$p.$val,$matches[4]);

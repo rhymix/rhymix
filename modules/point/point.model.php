@@ -2,19 +2,19 @@
     /**
      * @class  pointModel
      * @author NHN (developers@xpressengine.com)
-     * @brief  point 모듈의 model class
+     * @brief The model class fo the point module
      **/
 
     class pointModel extends point {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
         }
 
         /**
-         * @brief 포인트 정보가 있는지 체크
+         * @brief Check if there is points information
          **/
         function isExistsPoint($member_srl) {
             $member_srl = abs($member_srl);
@@ -25,7 +25,7 @@
         }
 
         /**
-         * @brief 포인트를 구해옴
+         * @brief Get the points
          **/
         function getPoint($member_srl, $from_db = false) {
             $member_srl = abs($member_srl);
@@ -34,8 +34,7 @@
             $cache_filename = sprintf('%s%d.cache.txt', $path, $member_srl);
 
             if(!$from_db && file_exists($cache_filename)) return trim(FileHandler::readFile($cache_filename));
-
-            // DB에서 가져옴
+            // Get from the DB
             $args->member_srl = $member_srl;
             $output = executeQuery('point.getPoint', $args);
             $point = (int)$output->data->point;
@@ -46,7 +45,7 @@
         }
 
         /**
-         * @brief 레벨을 구함
+         * @brief Get the level
          **/
         function getLevel($point, $level_step) {
             $level_count = count($level_step);
@@ -80,11 +79,10 @@
 
 
         /**
-         * @brief 포인트 순 회원목록 가져오기
+         * @brief Get a list of points members list
          **/
         function getMemberList($args = null) {
-
-            // 검색 옵션 정리
+            // Arrange the search options
             $args->is_admin = Context::get('is_admin')=='Y'?'Y':'';
             $args->is_denied = Context::get('is_denied')=='Y'?'Y':'';
             $args->selected_group_srl = Context::get('selected_group_srl');
@@ -121,8 +119,7 @@
                         break;
                 }
             }
-
-            // selected_group_srl이 있으면 query id를 변경 (table join때문에)
+            // If there is a selected_group_srl, change the "query id" (for table join)
             if($args->selected_group_srl) {
                 $query_id = 'point.getMemberListWithinGroup';
             } else {

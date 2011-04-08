@@ -4,7 +4,7 @@
     /**
      * @file resize_image.addon.php
      * @author NHN (developers@xpressengine.com)
-     * @brief 본문내 이미지 조절 애드온
+     * @brief Add-on to resize images in the body
      **/
 
     if($called_position == 'after_module_proc' && Context::getResponseMethod()=="HTML") {

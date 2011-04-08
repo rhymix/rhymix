@@ -2,7 +2,7 @@
     /**
      * @class  syndicationController
      * @author NHN (developers@xpressengine.com)
-     * @brief  syndication 모듈의 Controller class
+     * @brief syndication module's Controller class
      **/
 
     class syndicationController extends syndication {

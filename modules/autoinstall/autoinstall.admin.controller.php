@@ -2,7 +2,7 @@
     /**
      * @class  autoinstallAdminController
      * @author NHN (developers@xpressengine.com)
-     * @brief  autoinstall 모듈의 admin controller class
+     * @brief autoinstall module admin controller class
      **/
 
     require_once(_XE_PATH_.'modules/autoinstall/autoinstall.lib.php');
@@ -10,7 +10,7 @@
     class autoinstallAdminController extends autoinstall {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
         }

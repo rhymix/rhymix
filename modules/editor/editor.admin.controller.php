@@ -2,19 +2,19 @@
     /**
      * @class  editorAdminController
      * @author NHN (developers@xpressengine.com)
-     * @brief  editor 모듈의 admin controller class
+     * @brief editor of the module admin controller class
      **/
 
     class editorAdminController extends editor {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
         }
 
         /**
-         * @brief 컴포넌트의 활성화
+         * @brief Activate components
          **/
         function procEditorAdminEnableComponent() {
             $site_module_info = Context::get('site_module_info');
@@ -33,7 +33,7 @@
         }
 
         /**
-         * @brief 컴포넌트의 비활성화
+         * @brief Deactivate components
          **/
         function procEditorAdminDisableComponent() {
             $site_module_info = Context::get('site_module_info');
@@ -52,15 +52,14 @@
         }
 
         /**
-         * @brief 컴포넌트의 위치 변경
+         * @brief Change a location of the component
          **/
         function procEditorAdminMoveListOrder() {
             $site_module_info = Context::get('site_module_info');
             $args->site_srl = (int)$site_module_info->site_srl;
             $args->component_name = Context::get('component_name');
             $mode = Context::get('mode');
-
-            // DB에서 전체 목록 가져옴
+            // Get a full list of components from the DB
             if(!$args->site_srl) $output = executeQuery('editor.getComponentList', $args);
             else $output = executeQuery('editor.getSiteComponentList', $args);
 
@@ -108,7 +107,7 @@
         }
 
         /**
-         * @brief 컴포넌트 설정
+         * @brief Set components
          **/
         function procEditorAdminSetupComponent() {
             $site_module_info = Context::get('site_module_info');
@@ -138,7 +137,7 @@
         }
 
         /**
-         * @brief 컴포넌트를 DB에 추가
+         * @brief Add a component to DB
          **/
         function insertComponent($component_name, $enabled = false, $site_srl = 0) {
             if($enabled) $enabled = 'Y';
@@ -147,13 +146,11 @@
             $args->component_name = $component_name;
             $args->enabled = $enabled;
             $args->site_srl = $site_srl;
-
-            // 컴포넌트가 있는지 확인
+            // Check if the component exists
             if(!$site_srl) $output = executeQuery('editor.isComponentInserted', $args);
             else $output = executeQuery('editor.isSiteComponentInserted', $args);
             if($output->data->count) return new Object(-1, 'msg_component_is_not_founded');
-
-            // 입력
+            // Inert a component
             $args->list_order = getNextSequence();
             if(!$site_srl) $output = executeQuery('editor.insertComponent', $args);
             else $output = executeQuery('editor.insertSiteComponent', $args);

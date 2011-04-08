@@ -2,31 +2,30 @@
     /**
      * @class  memberModel
      * @author NHN (developers@xpressengine.com)
-     * @brief  member module의 Model class
+     * @brief Model class of the member module
      **/
 
     class memberModel extends member {
 
         /**
-         * @brief 자주 호출될거라 예상되는 데이터는 내부적으로 가지고 있자...
+         * @brief Keep data internally which may be frequently called ...
          **/
         var $join_form_list = NULL;
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
         }
 
         /**
-         * @brief 회원 설정 정보를 return
+         * @brief Return member's configuration
          **/
         function getMemberConfig() {
-            // DB에 저장되는 회원 설정 정보 구함
+            // Get member configuration stored in the DB
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('member');
-
-            // 회원가입 약관 구함
+            // Get terms of user
             $agreement_file = _XE_PATH_.'files/member_extra_info/agreement.txt';
             if(file_exists($agreement_file)) $config->agreement = FileHandler::readFile($agreement_file);
 
@@ -45,62 +44,52 @@
         }
 
         /**
-         * @brief 선택된 회원의 간단한 메뉴를 표시
+         * @brief Display menus of the member
          **/
         function getMemberMenu() {
-            // 요청된 회원 번호와 현재 사용자의 로그인 정보 구함
+            // Get member_srl of he target member and logged info of the current user
             $member_srl = Context::get('target_srl');
             $mid = Context::get('cur_mid');
             $logged_info = Context::get('logged_info');
             $act = Context::get('cur_act');
-
-            // 자신의 아이디를 클릭한 경우
+            // When click user's own nickname
             if($member_srl == $logged_info->member_srl) $member_info = $logged_info;
-
-            // 다른 사람의 아이디를 클릭한 경우
+            // When click other's nickname
             else $member_info = $this->getMemberInfoByMemberSrl($member_srl);
 
             $member_srl = $member_info->member_srl;
             if(!$member_srl) return;
-
-            // 변수 정리
+            // List variables
             $user_id = $member_info->user_id;
             $user_name = $member_info->user_name;
 
             ModuleHandler::triggerCall('member.getMemberMenu', 'before', $null);
 
             $oMemberController = &getController('member');
-
-            // 회원 정보 보기 (비회원일 경우 볼 수 없도록 수정)
+            // Display member information (Don't display to non-logged user)
             if($logged_info->member_srl) {
                 $url = getUrl('','mid',$mid,'act','dispMemberInfo','member_srl',$member_srl);
                 $icon_path = './modules/member/tpl/images/icon_view_info.gif';
                 $oMemberController->addMemberPopupMenu($url,'cmd_view_member_info',$icon_path,'self');
             }
-
-            // 다른 사람의 아이디를 클릭한 경우
+            // When click other's nickname
             if($member_srl != $logged_info->member_srl) {
-
-                // 메일 보내기
+                // Send an email
                 if($member_info->email_address) {
                     $url = 'mailto:'.htmlspecialchars($member_info->email_address);
                     $icon_path = './modules/member/tpl/images/icon_sendmail.gif';
                     $oMemberController->addMemberPopupMenu($url,'cmd_send_email',$icon_path);
                 }
             }
-
-            // 홈페이지 보기
+            // View homepage info
             if($member_info->homepage)
                 $oMemberController->addMemberPopupMenu(htmlspecialchars($member_info->homepage), 'homepage', './modules/member/tpl/images/icon_homepage.gif','blank');
-
-            // 블로그 보기
+            // View blog info
             if($member_info->blog)
                 $oMemberController->addMemberPopupMenu(htmlspecialchars($member_info->blog), 'blog', './modules/member/tpl/images/icon_blog.gif','blank');
-
-            // trigger 호출 (after)
+            // Call a trigger (after)
             ModuleHandler::triggerCall('member.getMemberMenu', 'after', $null);
-
-            // 최고 관리자라면 회원정보 수정 메뉴 만듬
+            // Display a menu for editting member info to a top administrator
             if($logged_info->is_admin == 'Y') {
                 $url = getUrl('','module','admin','act','dispMemberAdminInsert','member_srl',$member_srl);
                 $icon_path = './modules/member/tpl/images/icon_management.gif';
@@ -114,20 +103,18 @@
                 $icon_path = './modules/member/tpl/images/icon_trace_comment.gif';
                 $oMemberController->addMemberPopupMenu($url,'cmd_trace_comment',$icon_path,'TraceMemberComment');
             }
-
-            // 팝업메뉴의 언어 변경
+            // Change a language of pop-up menu
             $menus = Context::get('member_popup_menu_list');
             $menus_count = count($menus);
             for($i=0;$i<$menus_count;$i++) {
                 $menus[$i]->str = Context::getLang($menus[$i]->str);
             }
-
-            // 최종적으로 정리된 팝업메뉴 목록을 구함
+            // Get a list of finalized pop-up menu
             $this->add('menus', $menus);
         }
 
         /**
-         * @brief 로그인 되어 있는지에 대한 체크
+         * @brief Check if logged-in
          **/
         function isLogged() {
             if($_SESSION['is_logged']&&$_SESSION['ipaddress']==$_SERVER['REMOTE_ADDR']) return true;
@@ -138,24 +125,22 @@
         }
 
         /**
-         * @brief 인증된 사용자의 정보 return
+         * @brief Return session information of the logged-in user
          **/
         function getLoggedInfo() {
-            // 로그인 되어 있고 세션 정보를 요청하면 세션 정보를 return
+            // Return session info if session info is requested and the user is logged-in
             if($this->isLogged()) {
                 $logged_info = $_SESSION['logged_info'];
-
-                // site_module_info에 따라서 관리자/ 그룹 목록을 매번 재지정
+                // Admin/Group list defined depending on site_module_info
                 $site_module_info = Context::get('site_module_info');
                 if($site_module_info->site_srl) {
                     $logged_info->group_list = $this->getMemberGroups($logged_info->member_srl, $site_module_info->site_srl);
-
-                    // 사이트 관리자이면 로그인 정보에 is_site_admin bool변수를 추가
+                    // Add is_site_admin bool variable into logged_info if site_administrator is
                     $oModuleModel = &getModel('module');
                     if($oModuleModel->isSiteAdmin($logged_info)) $logged_info->is_site_admin = true;
                     else $logged_info->is_site_admin = false;
                 } else {
-                    // 만약 기본 사이트인데 회원 그룹이 존재하지 않으면 등록
+                    // Register a default group if the site doesn't have a member group
                     if(!count($logged_info->group_list)) {
                         $default_group = $this->getDefaultGroup(0);
                         $oMemberController = &getController('member');
@@ -175,7 +160,7 @@
         }
 
         /**
-         * @brief user_id에 해당하는 사용자 정보 return
+         * @brief Return member information with user_id
          **/
         function getMemberInfoByUserID($user_id) {
             if(!$user_id) return;
@@ -191,7 +176,7 @@
         }
 
         /**
-         * @brief member_srl로 사용자 정보 return
+         * @brief Return member information with member_srl
          **/
         function getMemberInfoByMemberSrl($member_srl, $site_srl = 0) {
             if(!$member_srl) return;
@@ -208,7 +193,7 @@
         }
 
         /**
-         * @brief 사용자 정보 중 extra_vars와 기타 정보를 알맞게 편집
+         * @brief Add member info from extra_vars and other information
          **/
         function arrangeMemberInfo($info, $site_srl = 0) {
             if(!$GLOBALS['__member_info__'][$info->member_srl]) {
@@ -241,7 +226,7 @@
         }
 
         /**
-         * @brief userid에 해당하는 member_srl을 구함
+         * @brief Get member_srl corresponding to userid
          **/
         function getMemberSrlByUserID($user_id) {
             $args->user_id = $user_id;
@@ -250,7 +235,7 @@
         }
 
         /**
-         * @brief EmailAddress에 해당하는 member_srl을 구함
+         * @brief Get member_srl corresponding to EmailAddress 
          **/
         function getMemberSrlByEmailAddress($email_address) {
             $args->email_address = $email_address;
@@ -259,7 +244,7 @@
         }
 
         /**
-         * @brief NickName에 해당하는 member_srl을 구함
+         * @brief Get member_srl corresponding to nickname
          **/
         function getMemberSrlByNickName($nick_name) {
             $args->nick_name = $nick_name;
@@ -268,7 +253,7 @@
         }
 
         /**
-         * @brief 현재 접속자의 member_srl을 return
+         * @brief Return member_srl of the current logged-in user
          **/
         function getLoggedMemberSrl() {
             if(!$this->isLogged()) return;
@@ -276,7 +261,7 @@
         }
 
         /**
-         * @brief 현재 접속자의 user_id을 return
+         * @brief Return user_id of the current logged-in user
          **/
         function getLoggedUserID() {
             if(!$this->isLogged()) return;
@@ -285,7 +270,7 @@
         }
 
         /**
-         * @brief member_srl이 속한 group 목록을 가져옴
+         * @brief Get a list of groups which the member_srl belongs to
          **/
         function getMemberGroups($member_srl, $site_srl = 0, $force_reload = false) {
             static $member_groups = array();
@@ -307,7 +292,7 @@
         }
 
         /**
-         * @brief member_srl들이 속한 group 목록을 가져옴
+         * @brief Get a list of groups which member_srls belong to
          **/
         function getMembersGroups($member_srls, $site_srl = 0) {
             $args->member_srls = implode(',',$member_srls);
@@ -323,7 +308,7 @@
         }
 
         /**
-         * @brief 기본 그룹을 가져옴
+         * @brief Get a default group
          **/
         function getDefaultGroup($site_srl = 0) {
             $args->site_srl = $site_srl;
@@ -332,7 +317,7 @@
         }
 
         /**
-         * @brief 관리자 그룹을 가져옴
+         * @brief Get an admin group
          **/
         function getAdminGroup() {
             $output = executeQuery('member.getAdminGroup');
@@ -340,7 +325,7 @@
         }
 
         /**
-         * @brief group_srl에 해당하는 그룹 정보 가져옴
+         * @brief Get group info corresponding to group_srl
          **/
         function getGroup($group_srl) {
             $args->group_srl = $group_srl;
@@ -349,7 +334,7 @@
         }
 
         /**
-         * @brief 그룹 목록을 가져옴
+         * @brief Get a list of groups
          **/
         function getGroups($site_srl = 0) {
             if(!$GLOBALS['__group_info__'][$site_srl]) {
@@ -370,28 +355,25 @@
         }
 
         /**
-         * @brief 회원 가입폼 추가 확장 목록 가져오기
+         * @brief Get a list of member join forms
          *
-         * 이 메소드는 modules/member/tpl/filter/insert.xml 의 extend_filter로 동작을 한다.
-         * extend_filter로 사용을 하기 위해서는 인자값으로 boolean값을 받도록 규정한다.
-         * 이 인자값이 true일 경우 filter 타입에 맞는 형태의 object로 결과를 return하여야 한다.
+         * This method works as an extend filter of modules/member/tpl/filter/insert.xml.
+         * To use as extend_filter, the argument should be boolean.
+         * When the argument is true, it returns object result in type of filter.
          **/
         function getJoinFormList($filter_response = false) {
             global $lang;
-
-            // 최고관리자는 무시하도록 설정
+            // Set to ignore if a super administrator.
             $logged_info = Context::get('logged_info');
 
             if(!$this->join_form_list) {
-                // list_order 컬럼의 정렬을 위한 인자 세팅
+                // Argument setting to sort list_order column
                 $args->sort_index = "list_order";
                 $output = executeQuery('member.getJoinFormList', $args);
-
-                // 결과 데이터가 없으면 NULL return
+                // NULL if output data deosn't exist
                 $join_form_list = $output->data;
                 if(!$join_form_list) return NULL;
-
-                // default_value의 경우 DB에 array가 serialize되어 입력되므로 unserialize가 필요
+                // Need to unserialize because serialized array is inserted into DB in case of default_value
                 if(!is_array($join_form_list)) $join_form_list = array($join_form_list);
                 $join_form_count = count($join_form_list);
                 for($i=0;$i<$join_form_count;$i++) {
@@ -402,11 +384,9 @@
                     $column_name = $join_form_list[$i]->column_name;
                     $column_title = $join_form_list[$i]->column_title;
                     $default_value = $join_form_list[$i]->default_value;
-
-                    // 언어변수에 추가
+                    // Add language variable
                     $lang->extend_vars[$column_name] = $column_title;
-
-                    // checkbox, select등 다수 데이터 형식일 경우 unserialize해줌
+                    // unserialize if the data type if checkbox, select and so on
                     if(in_array($column_type, array('checkbox','select','radio'))) {
                         $join_form_list[$i]->default_value = unserialize($default_value);
                         if(!$join_form_list[$i]->default_value[0]) $join_form_list[$i]->default_value = '';
@@ -418,8 +398,7 @@
                 }
                 $this->join_form_list = $list;
             }
-
-            // filter_response가 true일 경우 object 스타일을 구함
+            // Get object style if the filter_response is true
             if($filter_response && count($this->join_form_list)) {
 
                 foreach($this->join_form_list as $key => $val) {
@@ -441,19 +420,17 @@
                 return $filter_output;
 
             }
-
-            // 결과 리턴
+            // Return the result
             return $this->join_form_list;
         }
 
         /**
-         * @brief 추가 회원가입폼과 특정 회원의 정보를 조합 (회원정보 수정등에 사용)
+         * @brief Combine extend join form and member information (used to modify member information)
          **/
         function getCombineJoinForm($member_info) {
             $extend_form_list = $this->getJoinFormlist();
             if(!$extend_form_list) return;
-
-            // 관리자이거나 자기 자신이 아니면 비공개의 경우 무조건 패스해버림
+            // Member info is open only to an administrator and him/herself when is_private is true. 
             $logged_info = Context::get('logged_info');
 
             foreach($extend_form_list as $srl => $item) {
@@ -464,8 +441,7 @@
                     $extend_form_list[$srl]->is_private = true;
                     continue;
                 }
-
-                // 추가 확장폼의 종류에 따라 값을 변경
+                // Change values depening on the type of extend form
                 switch($item->column_type) {
                     case 'checkbox' :
                             if($value && !is_array($value)) $value = array($value);
@@ -489,7 +465,7 @@
         }
 
         /**
-         * @brief 한개의 가입항목을 가져옴
+         * @brief Get a join form
          **/
         function getJoinForm($member_join_form_srl) {
             $args->member_join_form_srl = $member_join_form_srl;
@@ -510,7 +486,7 @@
         }
 
         /**
-         * @brief 금지 아이디 목록 가져오기
+         * @brief Get a list of denied IDs
          **/
         function getDeniedIDList() {
             if(!$this->denied_id_list) {
@@ -526,7 +502,7 @@
         }
 
         /**
-         * @brief 금지 아이디인지 확인
+         * @brief Verify if ID is denied
          **/
         function isDeniedID($user_id) {
             $args->user_id = $user_id;
@@ -536,7 +512,7 @@
         }
 
         /**
-         * @brief 프로필 이미지의 정보를 구함
+         * @brief Get information of the profile image
          **/
         function getProfileImage($member_srl) {
             if(!isset($GLOBALS['__member_info__']['profile_image'][$member_srl])) {
@@ -561,7 +537,7 @@
         }
 
         /**
-         * @brief 이미지이름의 정보를 구함
+         * @brief Get the image name
          **/
         function getImageName($member_srl) {
             if(!isset($GLOBALS['__member_info__']['image_name'][$member_srl])) {
@@ -579,7 +555,7 @@
         }
 
         /**
-         * @brief 이미지마크의 정보를 구함
+         * @brief Get the image mark
          **/
         function getImageMark($member_srl) {
             if(!isset($GLOBALS['__member_info__']['image_mark'][$member_srl])) {
@@ -599,7 +575,7 @@
 
 
         /**
-         * @brief group의 이미지마크 정보를 구함
+         * @brief Get the image mark of the group
          **/
         function getGroupImageMark($member_srl,$site_srl=0) {
             $oModuleModel = &getModel('module');
@@ -626,7 +602,7 @@
         }
 
         /**
-         * @brief 사용자의 signature를 구함
+         * @brief Get user's signature
          **/
         function getSignature($member_srl) {
             if(!isset($GLOBALS['__member_info__']['signature'][$member_srl])) {
@@ -641,19 +617,16 @@
         }
 
         /**
-         * @brief 입력된 plain text 비밀번호와 DB에 저장된 비밀번호와의 비교
+         * @brief Compare plain text password to the password saved in DB
          **/
         function isValidPassword($hashed_password, $password_text) {
-            // 입력된 비밀번호가 없으면 무조건 falase
+            // False if no password in entered
             if(!$password_text) return false;
-
-            // md5 해쉬된값가 맞으면 return true
+            // Return true if the user input is equal to md5 hash value
             if($hashed_password == md5($password_text)) return true;
-
-            // mysql_pre4_hash_password함수의 값과 동일하면 return true
+            // Return true if the user input is equal to the value of mysql_pre4_hash_password
             if(mysql_pre4_hash_password($password_text) == $hashed_password) return true;
-
-            // 현재 DB에서 mysql DB를 이용시 직접 old_password를 이용하여 검사하고 맞으면 비밀번호를 변경
+            // Verify the password by using old_password if the current db is MySQL. If correct, return true.
             if(substr(Context::getDBType(),0,5)=='mysql') {
                 $oDB = &DB::getInstance();
                 if($oDB->isValidOldPassword($password_text, $hashed_password)) return true;
@@ -663,7 +636,7 @@
         }
 
         /**
-         * @brief 멤버와 연결된 오픈아이디들을 모두 리턴한다.
+         * @brief Return all the open IDs of the member
          **/
         function getMemberOpenIDByMemberSrl($member_srl) {
             $oModuleModel = &getModel('module');
@@ -697,7 +670,7 @@
         }
 
         /**
-         * @brief 오픈아이디에 연결된 멤버를 리턴한다.
+         * @brief Return the member of the open ID.
          **/
         function getMemberSrlByOpenID($openid) {
             $oModuleModel = &getModel('module');
