@@ -207,7 +207,7 @@
             // 검색 옵션 정리
             $searchOpt->search_target = $obj->search_target;
             $searchOpt->search_keyword = $obj->search_keyword;
-			$this->_setSearchOption($searchOpt, &$args, &$query_id, &$use_division);
+			$this->_setSearchOption($searchOpt, $args, $query_id, $use_division);
 
             /**
              * division은 list_order의 asc 정렬일때만 사용할 수 있음
@@ -550,7 +550,7 @@
             // 검색 옵션 정리
             $searchOpt->search_target = $opt->search_target;
             $searchOpt->search_keyword = $opt->search_keyword;
-			$this->_setSearchOption($searchOpt, &$args, &$query_id, &$use_division);
+			$this->_setSearchOption($searchOpt, $args, $query_id, $use_division);
 
             // 전체 갯수를 구한후 해당 글의 페이지를 검색
             $output = executeQuery('document.getDocumentPage', $args);
