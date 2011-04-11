@@ -411,7 +411,6 @@
          * @remarks if $type is not 'number', call addQuotes() and wrap with ' '
          **/
         function getConditionValue($name, $value, $operation, $type, $column_type) {
-
             if(!in_array($operation,array('in','notin','between')) && $type == 'number') {
 				if(is_array($value)){
 					$value = join(',',$value);

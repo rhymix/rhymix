@@ -449,7 +449,11 @@
                 $value_list[] = $value;
             }
 
-            $query = sprintf("insert into %s (%s) values (%s);", implode(',',$table_list), implode(',',$column_list), implode(',', $value_list));
+			//priority setting
+			$priority = '';
+			if($output->priority) $priority = $output->priority['type'].'_priority';
+
+            $query = sprintf("insert %s into %s (%s) values (%s);", $priority, implode(',',$table_list), implode(',',$column_list), implode(',', $value_list));
             return $this->_query($query);
         }
 
@@ -477,7 +481,11 @@
             // List the conditional clause
             $condition = $this->getCondition($output);
 
-            $query = sprintf("update %s set %s %s", implode(',',$table_list), implode(',',$column_list), $condition);
+			//priority setting
+			$priority = '';
+			if($output->priority) $priority = $output->priority['type'].'_priority';
+
+            $query = sprintf("update %s %s set %s %s", $priority, implode(',',$table_list), implode(',',$column_list), $condition);
 
             return $this->_query($query);
         }
@@ -493,7 +501,11 @@
             // List the conditional clause
             $condition = $this->getCondition($output);
 
-            $query = sprintf("delete from %s %s", implode(',',$table_list), $condition);
+			//priority setting
+			$priority = '';
+			if($output->priority) $priority = $output->priority['type'].'_priority';
+
+            $query = sprintf("delete %s from %s %s", $priority, implode(',',$table_list), $condition);
 
             return $this->_query($query);
         }
@@ -568,7 +580,11 @@
 			$output->column_list = $column_list;
             $condition = $this->getCondition($output);
 
-            if($output->list_count && $output->page) return $this->_getNavigationData($table_list, $columns, $left_join, $condition, $output);
+			if(count($output->index_hint))
+				$index_hint = sprintf(' %s index (%s) ', $output->index_hint['type'], $output->index_hint['name']);
+
+            if($output->list_count && $output->page) return $this->_getNavigationData($table_list, $columns, $left_join, $index_hint, $condition, $output);
+
             // Add a condition to use an index when sorting in order by list_order, update_order
             if($output->order) {
                 $conditions = $this->getConditionList($output);
@@ -615,7 +631,7 @@
 				$columns = join(',',$columns);
 			}
 
-            $query = sprintf("select %s from %s %s %s %s", $columns, implode(',',$table_list),implode(' ',$left_join), $condition, $groupby_query.$orderby_query);
+            $query = sprintf("select %s from %s %s %s %s %s", $columns, implode(',',$table_list),implode(' ',$left_join), $index_hint, $condition, $groupby_query.$orderby_query);
 
             // Apply when using list_count
             if($output->list_count['value']) $query = sprintf('%s limit %d', $query, $output->list_count['value']);
@@ -644,7 +660,7 @@
          *
          * It is quite convenient although its structure is not good at all .. -_-;
          **/
-        function _getNavigationData($table_list, $columns, $left_join, $condition, $output) {
+        function _getNavigationData($table_list, $columns, $left_join, $index_hint, $condition, $output) {
             require_once(_XE_PATH_.'classes/page/PageHandler.class.php');
 
 			$column_list = $output->column_list;
@@ -715,7 +731,7 @@
 				$columns = join(',',$columns);
 			}
 
-            $query = sprintf("select %s from %s %s %s %s", $columns, implode(',',$table_list), implode(' ',$left_join), $condition, $groupby_query.$orderby_query);
+            $query = sprintf("select %s from %s %s %s %s %s", $columns, implode(',',$table_list), implode(' ',$left_join), $index_hint, $condition, $groupby_query.$orderby_query);
             $query = sprintf('%s limit %d, %d', $query, $start_count, $list_count);
 			$query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id):'';
 

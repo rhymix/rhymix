@@ -2,6 +2,7 @@
     <tables>
         <table name="documents" />
     </tables>
+	<priority type="low" />
     <columns>
         <column name="module_srl" var="module_srl" filter="number" default="0" />
         <column name="category_srl" var="category_srl" filter="number" default="0" />

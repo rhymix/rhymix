@@ -206,6 +206,19 @@
             if($use_division) {
                 // Division begins
                 $division = (int)Context::get('division');
+
+				// list_order로 정렬하면서 module_srl이 0이거나 매우 많아서 full scan하는 경우 인덱스를 타도록
+				if($args->sort_index == 'list_order' && ($args->module_srl === 0 || count($args->module_srl) > 10))
+				{
+					$listSqlID = 'document.getDocumentListUseIndex';
+					$divisionSqlID = 'document.getDocumentDivisionUseIndex';
+				}
+				else
+				{
+					$listSqlID = 'document.getDocumentList';
+					$divisionSqlID = 'document.getDocumentDivision';
+				}
+
                 // If you do not value the best division top
                 if(!$division) {
                     $division_args->module_srl = $args->module_srl;
@@ -213,7 +226,7 @@
                     $division_args->list_count = 1;
                     $division_args->sort_index = $args->sort_index;
                     $division_args->order_type = $args->order_type;
-                    $output = executeQuery("document.getDocumentList", $division_args);
+                    $output = executeQuery($listSqlID, $division_args);
                     if($output->data) {
                         $item = array_pop($output->data);
                         $division = $item->list_order;
@@ -231,7 +244,7 @@
                     $last_division_args->order_type = $args->order_type;
                     $last_division_args->list_order = $division;
                     $last_division_args->page = 5001;
-                    $output = executeQuery("document.getDocumentDivision", $last_division_args);
+                    $output = executeQuery($divisionSqlID, $last_division_args);
                     if($output->data) {
                         $item = array_pop($output->data);
                         $last_division = $item->list_order;

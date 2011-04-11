@@ -108,6 +108,19 @@
             $group_list = $xml_obj->query->groups->group;
             $out = $this->_setGroup($group_list);
             $output->groups = $out->groups;
+
+			//priority arrange
+			$priority = $xml_obj->query->priority;
+			if($priority) $output->priority['type'] = $priority->attrs->type;
+
+			//index hint arrange
+			$index_hint = $xml_obj->query->index_hint;
+			if($index_hint)
+			{
+				$output->index_hint['name'] = $index_hint->attrs->name;
+				$output->index_hint['type'] = $index_hint->attrs->type;
+			}
+
             // Navigation
             $out = $this->_setNavigation($xml_obj);
             $output->order = $out->order;
@@ -116,6 +129,8 @@
             $output->page = $out->page;
 
             $column_count = count($output->columns);
+            $priority_count = count($output->priority);
+            $index_hint_count = count($output->index_hint);
             $condition_count = count($output->conditions);
 
             $buff .= '$output->tables = array( ';
@@ -145,6 +160,19 @@
                 $buff .= $this->_getColumn($output->columns);
                 $buff .= ' );'."\n";
             }
+
+			//priority arrange
+			if($priority_count) {
+				$priority_str .= '$output->priority = array("type"=>"%s");'."\n";
+				$buff .= vsprintf($priority_str, $output->priority);
+			}
+
+			// index arrange
+			if($index_hint_count) {
+				$index_hint_str .= '$output->index_hint = array("name"=>"%s", "type"=>"%s");'."\n";
+				$buff .= vsprintf($index_hint_str, $output->index_hint);
+			}
+
             // get conditions
             if($condition_count) {
                 $buff .= '$output->conditions = array ( ';
