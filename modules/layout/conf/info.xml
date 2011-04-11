@@ -12,7 +12,7 @@
     <description xml:lang="ko">레이아웃을 생성/관리하는 모듈입니다.</description>
     <description xml:lang="zh-CN">生成/管理布局的模块。</description>
     <description xml:lang="jp">レイアウトを生成・管理するモジュールです。</description>
-    <description xml:lang="en">This module is for creating/managing of layouts.</description>
+    <description xml:lang="en">This module is for creating/managing the layouts.</description>
     <description xml:lang="vi">Chức năng của Module này dành cho việc tạo và quản lý giao diện.</description>
     <description xml:lang="es">Este módulo es para crear y manejar el diseño.</description>
     <description xml:lang="ru">Этот модуль служит для создания/управления лейаутами.</description>

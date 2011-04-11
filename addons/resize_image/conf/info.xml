@@ -22,7 +22,7 @@
         Addon này sẽ lấy lại kích thước nguyên bản của hình ảnh trong bài viết hoặc bình luận khi bạn bấm vào hình.
     </description>
 	<description xml:lang="en">
-        This addon resizes images inserted in the article, and shows original image when you click on them.
+        This addon resizes images inserted in the article. When clicked, the original images are shown.
     </description>
     <description xml:lang="es">
         La imagen corporal se inserta dentro del cuerpo para que se adapte al tamaño de la muestra original cuando hago clic en los add-ons.

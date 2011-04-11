@@ -2,10 +2,9 @@
     /**
      * @file   modules/rss/lang/ko.lang.php
      * @author NHN (developers@xpressengine.com)
-     * @brief  한국어 언어팩 (기본적인 내용만 수록)
+     * @brief Korean language pack (only the more basic)
      **/
-
-    // 일반 단어들
+    // Common words
     $lang->feed = '피드(Feed) 발행';
     $lang->total_feed = '통합 피드';
     $lang->rss_disable = '피드(Feed) 끄기';
@@ -20,8 +19,7 @@
         'N' => '공개하지 않음',
     );
     $lang->open_feed_to_total = '통합 피드에 포함';
-
-    // 설명문
+    // Disclaimer
     $lang->about_rss_disable = '체크하시면 피드(Feed) 출력을 하지 않습니다.';
     $lang->about_rss_type = '출력하실 피드(Feed) 형식을 지정하실 수 있습니다.';
     $lang->about_open_rss = '현재 모듈에 대한 피드(Feed) 공개를 선택하실 수 있습니다. 글 열람 권한과 상관없이 옵션에 따라 RSS가 공개됩니다.';
@@ -29,8 +27,7 @@
     $lang->about_feed_copyright = '발행될 피드에 대한 저작권 정보를 입력하실 수 있습니다.';
     $lang->about_part_feed_copyright = '입력하지 않으면 전체 피드 저작권 설정과 동일하게 적용됩니다.';
     $lang->about_feed_document_count = '피드 한 페이지에 공개되는 글 수. (기본 값 : 15)';
-
-    // 에러 메시지들
+    // Of error messages
     $lang->msg_rss_is_disabled = '피드(Feed) 기능이 잠겨 있습니다.';
     $lang->msg_rss_invalid_image_format = '이미지의 형식이 잘못되었습니다.\nJPEG, GIF, PNG 파일만 지원합니다.';
 ?>

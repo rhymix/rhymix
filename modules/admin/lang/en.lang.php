@@ -9,7 +9,7 @@
     $lang->admin_index = 'Index Admin Page';
     $lang->control_panel = 'Dashboard';
     $lang->start_module = 'Default Module';
-    $lang->about_start_module = 'You can specify default module of the site.';
+    $lang->about_start_module = 'You can specify the default module for the site.';
 
     $lang->module_category_title = array(
         'service' => 'Services',
@@ -28,7 +28,7 @@
     
     $lang->env_setup = "Setting";
     $lang->default_url = "Default URL";
-    $lang->about_default_url = "If you use a virtual site feature (e.g., cafeXE), input default URL (parent-site's address), then SSO would be enabled, thus connection to documents/modules works properly. ";
+    $lang->about_default_url = "If you use a virtual site feature (e.g., cafeXE), input default URL (parent-site's address), then SSO would be enabled, thus connection to documents/modules works properly.";
 
     $lang->env_information = "Environment Information";
     $lang->current_version = "Current Version";
@@ -52,11 +52,11 @@
 
     $lang->msg_is_not_administrator = 'Administrator Only';
     $lang->msg_manage_module_cannot_delete = 'Shortcuts of module, addon, layout, widget cannot be removed';
-    $lang->msg_default_act_is_null = 'Shortcut could not be registered because default admin Action is not set';
+    $lang->msg_default_act_is_null = 'Shortcut could not be registered because the default admin Action is not set';
 
     $lang->welcome_to_xe = 'Welcome to the admin page of XE';
-    $lang->about_admin_page = "Admin page is still under development,\nWe will add essential contents by accepting many good suggestions during Closebeta.";
-    $lang->about_lang_env = "To apply selected language as default language, click on the Save button.";
+    $lang->about_admin_page = "Admin page is still under development,\nWe will add essential contents by accepting many good suggestions during the Closed-beta.";
+    $lang->about_lang_env = "To set the selected language as the default language, click on the Save button.";
 
     $lang->xe_license = 'XE complies with the GPL';
     $lang->about_shortcut = 'You may remove shortcuts of modules which are registered on frequently using module list';

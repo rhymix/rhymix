@@ -10,7 +10,7 @@
         NHN (developers@xpressengine.com) 
     </description>
     <description xml:lang="en">
-        This layout is the XE Official website layout.
+        This layout is the Official website layout for XE.
         NHN (developers@xpressengine.com) 
     </description>
     <description xml:lang="zh-CN">
@@ -59,7 +59,7 @@
             <description xml:lang="jp">レイアウトの上段に表示されるロゴイメージを入力して下さい。 (縦幅が28pxである透明イメージをお勧めします。。)</description>
             <description xml:lang="zh-CN">请输入显示在布局顶部的LOGO图片(高度为28px的透明图片为适)。</description>
             <description xml:lang="zh-TW">請輸入要顯示在版面上端的 Logo 圖片。(適當高度為 28px 的透明圖片。)</description>
-            <description xml:lang="en">Please input a logo image which will be displayed on the top of layout. (Transparent image with height of 28px is recommended.)</description>
+            <description xml:lang="en">Please input a logo image which will be displayed on the top of the layout. (A transparent image with height of 28px is recommended.)</description>
             <description xml:lang="ge">Bitte geben Sie ein Logo das Bild wird auf dem oberen Layout. (Transparent Bild mit einer Höhe von 28px wird empfohlen).</description>
             <description xml:lang="ru">Введите логотип изображение, которое будет отображаться в верхней части формы. (Прозрачный изображение с высотой 28px рекомендуется.)</description>
             <description xml:lang="es">Ingresar una imagen para logotipo. ( Se recomienda una imagen de fondo transparente con una altura de 28px.</description>

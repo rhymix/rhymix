@@ -8,8 +8,8 @@
     $lang->point = "Point"; 
     $lang->level = "Level"; 
 
-    $lang->about_point_module = "You can grant points on writing/adding comments/uploading/downloading.";
-    $lang->about_act_config = "Each module like board/blog has its own actions such as \"writing/deleting/adding comments/deleting comments\".<br />You can just add act values to link modules with point system except board/blog.<br />Comma(,) will distinguish multiple values."; 
+    $lang->about_point_module = "You can grant points for writing/adding comments/uploading/downloading.";
+    $lang->about_act_config = "Each module like board/blog has its own actions such as \"writing/deleting/adding comments/deleting comments\".<br />You can just add act values to link modules with point system except board/blog.<br />Comma (,) will distinguish multiple values."; 
 
     $lang->max_level = 'Max Level';
     $lang->about_max_level = 'You may set the max level. Level icons should be considered and the level of 1000 is the maximum value you can set'; 
@@ -18,7 +18,7 @@
     $lang->about_level_icon = 'Path of level icon is "./module/point/icons/[level].gif" and max level could be different with icon set. So please be careful'; 
 
     $lang->point_name = 'Point Name';
-    $lang->about_point_name = 'You may give a name or unit for point'; 
+    $lang->about_point_name = 'You may give a name or unit to a point'; 
 
     $lang->level_point = 'Level Point';
     $lang->about_level_point = 'Level will be adjusted when point gets to each level point or drops under each level point'; 
@@ -39,9 +39,9 @@
     $lang->point_link_group = 'Group Change by Level';
     $lang->point_group_reset_and_add = 'Reset adjusted groups and add new groups';
     $lang->point_group_add_only = 'Only to new groups';
-    $lang->about_point_link_group = 'If you specify level for a specific group, users are assigned into the group when they adavnce to the level by getting points.';
+    $lang->about_point_link_group = 'If you specify level for a specific group, users are assigned into the group when they advance to the level by getting points.';
 
-    $lang->about_module_point = "You can set point for each module and modules which don't have any value will use default point.<br />All point will be restored on acting reverse.";
+    $lang->about_module_point = "You can set point for each module, and modules which don't have any value will use the default point.<br />All points will be restored on acting reverse.";
 
     $lang->point_signup = 'Signup';
     $lang->point_insert_document = 'On Writing';
@@ -61,7 +61,7 @@
     $lang->cmd_point_act_config = 'Act Setting';
     $lang->cmd_point_member_list = 'Member Point List';
 
-    $lang->msg_cannot_download = "You don't have enough point to download";
+    $lang->msg_cannot_download = "You don't have enough points to download";
     $lang->msg_disallow_by_point = "You need more points to read the article (You need %d, but you have %d)";
 
     $lang->point_recal_message = 'Adjusting Point. (%d / %d)';

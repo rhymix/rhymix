@@ -24,11 +24,11 @@
     $lang->about_limit_count = "If exceeded the posting limitation,\n that IP will be regarded as a spam, thus will have limitations on posting articles, comments, and trackbacks.";
     $lang->about_denied_ip = "You can add IP address range like 127.0.0.* by using *.";
     $lang->about_denied_word = "When you add a word to Word Blacklist,\n articles including it will be blocked.";
-    $lang->about_check_trackback = "A single IP per an article is allowed for trackbacks.";
+    $lang->about_check_trackback = "A single IP per article is allowed for trackbacks.";
 
     // to post a message
-    $lang->msg_alert_limited_by_config = 'Posting an article within %s second is not allowed.\n If you keep trying, your IP address will be blacklisted.';
+    $lang->msg_alert_limited_by_config = 'Posting an article within %s seconda is not allowed.\n If you keep trying, your IP address will be blacklisted.';
     $lang->msg_alert_denied_word = 'The word "%s" is not allowed.';
-    $lang->msg_alert_registered_denied_ip = 'Your IP address is blacklisted,\n so you may have limitations on normal using of this site.\n If you have any questions on that matter, please contact to the site administrator.';
+    $lang->msg_alert_registered_denied_ip = 'Your IP address is blacklisted,\n so you may have limitations on normal using of this site.\n If you have any questions on that matter, please contact the site administrator.';
     $lang->msg_alert_trackback_denied = 'Only one trackback per an article is allowed.';
 ?>

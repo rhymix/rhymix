@@ -480,12 +480,12 @@ EndOfLicense;
         );
 
     $lang->install_checklist_desc = array(
-			'php_version' => '[Required] If PHP version is 5.2.2, XE will not be installed because of bug',
+			'php_version' => '[Required] If PHP version is 5.2.2, XE will not be installed because of a bug',
             'permission' => '[Required] XE installation path or ./files directory\'s permission must be 707',
             'xml' => '[Required] XML Library is needed for XML communication',
             'session' => '[Required] PHP setting file\'s (php.ini) \'Session.auto_start\' must equal to zero in order for XE to use the session',
-            'iconv' => 'Iconv should be installed in order to convert UTF-8 and other language set',
-            'gd' => 'GD Library should be installed in order to use image convert function',
+            'iconv' => 'Iconv should be installed in order to convert between UTF-8 and other language sets',
+            'gd' => 'GD Library should be installed in order to use functions to convert images',
         );
 
     $lang->install_checklist_xml = 'Install XML Library';
@@ -503,15 +503,15 @@ EndOfLicense;
     $lang->cmd_ignore = 'Ignore';
 
     $lang->db_desc = array(
-        'mysql' => 'Use MySQL as database with mysql*() functions in php.<br />Transactions will not be processed since DB file is created in myisam.',
-        'mysqli' => 'Use MySQL as database with mysqli*() functions in php.<br />Transactions will not be processed since DB file is created in myisam',
-        'mysql_innodb' => 'Use MySQL as database with innodb.<br />Transactions will be processed with innodb',
-        'sqlite2' => 'Use sqlite2 as database which saves the data as files.<br />DB file <b>must not be</b> accessible from the web.<br />(Never been tested for stabilization)',
-        'sqlite3_pdo' => 'Use sqlite3 as database with supports from PDO of php.<br />DB file <b>must not be</b> accessible from the web.',
-        'cubrid' => 'Use CUBRID as database. See <a href="http://www.xpressengine.com/?mid=manual&pageid=2880556" onclick="window.open(this.href);return false;" class="manual">manual</a> for more info',
-        'mssql' => 'Use MSSQL as database',
-        'postgresql' => 'Use PostgreSql as database.',
-        'firebird' => 'Use Firebird as database.<br />You can create database with (create database "/path/dbname.fdb" page_size=8192 default character set UTF-8;)',
+        'mysql' => 'Use MySQL as a database with mysql*() functions in php.<br />Transactions will not be processed since DB file is created in myisam.',
+        'mysqli' => 'Use MySQL as a database with mysqli*() functions in php.<br />Transactions will not be processed since DB file is created in myisam',
+        'mysql_innodb' => 'Use MySQL as a database with innodb.<br />Transactions will be processed with innodb',
+        'sqlite2' => 'Use sqlite2 as a database which saves the data in files.<br />DB file <b>must not be</b> accessible from the web.<br />(Never been tested for stabilization)',
+        'sqlite3_pdo' => 'Use sqlite3 as a database which supports PHP PDO.<br />DB file <b>must not be</b> accessible from the web.',
+        'cubrid' => 'Use CUBRID as a database. See <a href="http://www.xpressengine.com/?mid=manual&pageid=2880556" onclick="window.open(this.href);return false;" class="manual">manual</a> for more info',
+        'mssql' => 'Use MSSQL as a database',
+        'postgresql' => 'Use PostgreSql as a database.',
+        'firebird' => 'Use Firebird as a database.<br />You can create a database with (create database "/path/dbname.fdb" page_size=8192 default character set UTF-8;)',
     );
 
     $lang->form_title = 'Database &amp; Administrator Information';
@@ -536,11 +536,11 @@ EndOfLicense;
     $lang->about_rewrite = "If web server provides rewrite mod, long URL such as http://blah/?document_srl=123 can be shortened like http://blah/123";
 	$lang->about_sso = 'SSO will enable users to sign in just once for both default and virtual site. You will need this only if you are using virtual sites.';
     $lang->time_zone = 'Time Zone';
-    $lang->about_time_zone = "If the server time and the time on your location don't accord each other, you can set the time as same as your location by using time zone ";
+    $lang->about_time_zone = "If the server time and the time on your location don't accord each other, you can set the time to be same as your location by using the time zone";
     $lang->qmail_compatibility = 'Enable Qmail';
     $lang->about_qmail_compatibility = 'It will enable sending mails from MTA which cannot distinguish CRLF like Qmail.';
 
-    $lang->about_database_file = 'Sqlite saves data in the file. Location of the database file should be unreachable by web<br/><span style="color:red">Data file should be inside the permission of 707.</span>';
+    $lang->about_database_file = 'Sqlite saves data in a file. Location of the database file should be unreachable by web<br/><span style="color:red">Data file should be inside the permission of 707.</span>';
 
     $lang->success_installed = 'Installation has been completed';
 

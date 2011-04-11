@@ -23,10 +23,10 @@
     $lang->cmd_move_to_installed_list = "View Created Layouts";
 
     $lang->about_downloaded_layouts = "List of downloaded layouts";
-    $lang->about_title = 'Please input the title that is easy to verify when connecting to module';
+    $lang->about_title = 'Please input the title that is easy to verify when connecting to the module';
     $lang->about_not_apply_menu = 'Layouts of all modules connected via menu will be changed en bloc by checking this option.';
 
-    $lang->about_layout = "Layout module helps you to create the site's layout easily.<br />By using layout setting and menu connection, website's completed shape will be displayed with various modules.<br />* Layouts which you cannot delete are the default layouts of blogs or other moduels, thus you have to delete them from their setting pages. ";
+    $lang->about_layout = "Layout module helps you create the site's layout easily.<br />By using layout setting and menu connection, website's completed shape will be displayed with various modules.<br />* Layouts which you cannot delete are the default layouts of blogs or other moduels, thus you have to delete them from their setting pages.";
     $lang->about_layout_code = 
         "It will be applied to the service when you save the layout code after editing it.
         Please first preview your code and then save it.
@@ -36,7 +36,7 @@
     $lang->layout_btn_export = 'Download My Layout';
     $lang->about_layout_export = 'Export currently edited layout.';
     $lang->layout_import = 'Import';
-    $lang->about_layout_import = 'Previously modified layout will be deleted when you import a new one. Please export current layout for a backup before importing.';
+    $lang->about_layout_import = 'Previously modified layout will be deleted when you import a new one. Please export the current layout for a backup before importing a new one.';
 
     $lang->layout_manager = array(
         0  => 'Layout Manager',
@@ -97,23 +97,23 @@
     );
 
     $lang->layout_image_repository = 'Layout Repository';
-    $lang->about_layout_image_repository = 'You can upload images/flash files for selected layout. They will be included in exports';
+    $lang->about_layout_image_repository = 'You can upload image/flash files for the selected layout. They will be included in exports.';
     $lang->msg_layout_image_target = 'Only gif, png, jpg, swf, flv files are allowed';
     $lang->layout_migration = 'Layout Migration';
-    $lang->about_layout_migration = 'You can export or import editted layout as tar file'."\n".'(So far only FaceOff supports exports/imports)';
+    $lang->about_layout_migration = 'You can export or import the editted layout as a tar file.'."\n".'(So far only FaceOff supports exports/imports)';
 
     $lang->about_faceoff = array(
         'title' => 'XpressEngine FaceOff Layout Manager',
         'description' => 'FaceOff Layout Manager willl help you design layout on the web easily.<br/>Please design your own layout with components and functions as shown below.',
         'layout' => 'FaceOff has HTML structure as above.<br/>You can arrange/align with CSS, or use Style to design.<br/>You can add widget from Extension(e1, e2), Neck and Knee.<br/>Also Body, Layout, Header, Body, Footer can designed by Style, and Content will display content.',
-        'setting' => 'Let me explain you the upper menu on left.<br/><ul><li>Save : Save current settings.</li><li>Cancel : Discard current settings and go back.</li><li>Reset : Clear current settings</li><li>Form : Set form as Fixed/ Variable/ Fixed+Variable(Content).</li><li>Arrange : Arrange 2 Extensions and Content.</li><li>Align : Align the position of layout.</li></ul>',
-        'hotkey' => 'You can design your layout more easily with Hot Keys.<br/><ul><li>tab : Unless a widget is selected, Header, Body, Footer will be selected in order. If not, next widget will be selected.</li><li>Shift + tab : It does the opposite function to tab key.</li><li>Esc : If nothing is selected, Neck, Extension(e1,e2),Knee will be selected in order, if a widget is selected, area of the widget will be selected.</li><li>Arrow Key : If a widget is selected, arrow key will move the widget to other areas.</li></ul>',
-        'attribute' => 'You can set background color/image to every area except widget, and font color(include <a> tag).',
+        'setting' => 'Here are the explanations of the upper menu on the left.<br/><ul><li>Save : Save current settings.</li><li>Cancel : Discard current settings and go back.</li><li>Reset : Clear current settings</li><li>Form : Set form as Fixed/ Variable/ Fixed+Variable(Content).</li><li>Arrange : Arrange 2 Extensions and Content.</li><li>Align : Align the position of layout.</li></ul>',
+        'hotkey' => 'You can design your layout more easily with Hot Keys.<br/><ul><li>tab : Unless a widget is selected, Header, Body, Footer will be selected in order. If not, next widget will be selected.</li><li>Shift + tab : It does the opposite function to tab key.</li><li>Esc : If nothing is selected, Neck, Extension(e1,e2), Knee will be selected in order, if a widget is selected, area of the widget will be selected.</li><li>Arrow Key : If a widget is selected, arrow key will move the widget to other areas.</li></ul>',
+        'attribute' => 'You can set background color/image to every area except for a widget, and font color (include <a> tag).',
 
     );
 
 	$lang->mobile_layout_list = "Mobile Layout List";
 	$lang->mobile_downloaded_list = "Downloaded Mobile Layouts";
 	$lang->apply_mobile_view = "Apply Mobile View";
-	$lang->about_apply_mobile_view = "All connected module use mobile view to display when accessing with mobile device.";
+	$lang->about_apply_mobile_view = "All connected modules use the mobile view to display when accessing with mobile device.";
 ?>

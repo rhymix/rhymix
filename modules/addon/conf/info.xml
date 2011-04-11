@@ -11,7 +11,7 @@
     <title xml:lang="zh-TW">附加元件</title>
     <title xml:lang="tr">Eklenti</title>
     <description xml:lang="ko">애드온을 등록하거나 사용/미사용을 설정하는 애드온 관리 모듈입니다.</description>
-    <description xml:lang="en">This module is for maintaining addons which can toggle use and disuse states.</description>
+    <description xml:lang="en">This module is for maintaining addons which can toggle between two states when use and not used.</description>
     <description xml:lang="vi">Module này dành cho việc bảo trì những Addon đang sử dụng và không sử dụng.</description>
     <description xml:lang="es">Este Módulo es para agregar Addons, como también el manejo de ellos.</description>
     <description xml:lang="zh-CN">登录插件或设置启用/禁用插件的管理模块。</description>

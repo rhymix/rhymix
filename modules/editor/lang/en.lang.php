@@ -21,14 +21,14 @@
     $lang->content_font_size = 'Content Font Size';
 
     $lang->about_component = 'About component';
-    $lang->about_component_grant = 'Selected group(s) will be able to use expanded components of editor.<br />(Leave them blank if you want all groups to have permission)';
-    $lang->about_component_mid = 'Editor components can select targets.<br />(All targets will be selected when nothing is selected)';
+    $lang->about_component_grant = 'Selected group(s) will be able to use expanded components of editor.<br />(Leave them blank if you want all groups to have permissions.)';
+    $lang->about_component_mid = 'Editor components can select targets.<br />(All targets will be selected when nothing is selected.)';
 
     $lang->msg_component_is_not_founded = 'Cannot find editor component %s';
     $lang->msg_component_is_inserted = 'Selected component is already inserted';
     $lang->msg_component_is_first_order = 'Selected component is located at the first position';
     $lang->msg_component_is_last_order = 'Selected component is located at the last position';
-    $lang->msg_load_saved_doc = "There is an automatically saved article. Do you wish to recover it?\nThe auto-saved draft will be discarded after saving current article";
+    $lang->msg_load_saved_doc = "There is an automatically saved article. Do you wish to recover it?\nThe auto-saved draft will be discarded after saving the current article";
     $lang->msg_auto_saved = 'Automatically Saved';
 
     $lang->cmd_disable = 'Inactive';
@@ -43,16 +43,16 @@
     $lang->height_resizable = 'Height Resizable';
     $lang->editor_height = 'Height of Editor';
 
-    $lang->about_editor_skin = 'You may select the skin of editor.';
-    $lang->about_content_style = 'You may select style for editting article or displaying content';
-    $lang->about_content_font = 'You may select font for editting article or displaying content.<br/>Default font is your own font<br/> Please use comma(,) for multiple input.';
-	$lang->about_content_font_size = 'You may select font size for editting article or displaying content.<br/>Please input units such as px or em.';
-    $lang->about_upload_file_grant = 'Selected group(s) will be able to upload files. (Leave them blank if you want all groups to have permission)';
-    $lang->about_default_component_grant = 'Selected group(s) will be able to use default components of editor. (Leave them blank if you want all groups to have permission)';
-    $lang->about_editor_height = 'You may set the height of editor.';
-    $lang->about_editor_height_resizable = 'You may decide whether height of editor can be resized.';
+    $lang->about_editor_skin = 'You may select the skin for the editor.';
+    $lang->about_content_style = 'You may select a style for editting an article or displaying a content';
+    $lang->about_content_font = 'You may select a font for editting an article or displaying a content.<br/>The default font is your own font.<br />Please use comma for multiple input.';
+	$lang->about_content_font_size = 'You may select the font size for editting an article or displaying a content.<br/>Please input units such as px or em.';
+    $lang->about_upload_file_grant = 'Selected group(s) will be able to upload files. (Leave them blank if you want all groups to have this permission.)';
+    $lang->about_default_component_grant = 'Selected group(s) will be able to use default components of editor. (Leave them blank if you want all groups to have this permission.)';
+    $lang->about_editor_height = 'You may set the height of the editor.';
+    $lang->about_editor_height_resizable = 'You may decide whether the height of the editor can be resized.';
     $lang->about_enable_html_grant = 'Selected group(s) will be able to use HTML';
-    $lang->about_enable_autosave = 'You may decide whether auto-save function will be used.';
+    $lang->about_enable_autosave = 'You may decide whether the auto-save function will be used.';
 
     $lang->edit->fontname = 'Font';
     $lang->edit->fontsize = 'Size';
@@ -110,7 +110,7 @@
     $lang->edit->help_align_full = 'Align left and right';
 
     $lang->edit->help_fontcolor = 'Select font color';
-    $lang->edit->help_fontbgcolor = 'Select background color of font';
+    $lang->edit->help_fontbgcolor = 'Select the background color of the text';
     $lang->edit->help_bold = 'Make font bold';
     $lang->edit->help_italic = 'Make italic font';
     $lang->edit->help_underline = 'Underline font';
@@ -148,7 +148,7 @@
     $lang->edit->icon_align_middle = 'Align Center';
     $lang->edit->icon_align_right = 'Align Right';
 
-    $lang->about_dblclick_in_editor = 'You may set detail component configures by double-clicking background, text, images, or quotations';
+    $lang->about_dblclick_in_editor = 'You may set the component\'s detailed configurations by double-clicking background, text, images, or quotations';
 
 
     $lang->edit->rich_editor = 'Rich Text Editor';
@@ -229,7 +229,7 @@
 	$lang->edit->toc = 'Table of Contents';
 	$lang->edit->close_help = 'Close Help';
 	
-	$lang->edit->confirm_submit_without_saving = 'There is paragraphs that were not saved.\\nProceed anyway?';
+	$lang->edit->confirm_submit_without_saving = 'There are paragraphs which were not saved.\\nProceed anyway?';
 
 	$lang->edit->image_align = 'Image Alignment';
 	$lang->edit->attached_files = 'Attachments';

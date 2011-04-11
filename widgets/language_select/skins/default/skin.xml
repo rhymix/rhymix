@@ -10,7 +10,7 @@
     <description xml:lang="ko">스킨 기능이 없습니다</description>
     <description xml:lang="jp">スキン機能がありません。</description>
     <description xml:lang="zh-CN">不支持皮肤。</description>
-    <description xml:lang="en">There is no skin function</description>
+    <description xml:lang="en">There are no skin functions</description>
     <description xml:lang="vi">Đây không phải chức năng của Skin</description>
     <description xml:lang="zh-TW">不支援面板。</description>
     <description xml:lang="tr">Dış görünüm özelliği yok.</description>
@@ -33,7 +33,7 @@
             <title xml:lang="ko">레이아웃에 맞춤</title>
             <title xml:lang="jp">レイアウトに合わせる</title>
             <title xml:lang="zh-CN">随布局</title>
-            <title xml:lang="en">레이아웃에 맞춤</title>
+            <title xml:lang="en">Custom Layout</title>
             <title xml:lang="vi">Tùy chỉnh giao diện</title>
             <title xml:lang="zh-TW">隨版面</title>
             <title xml:lang="tr">Yerleşim Düzeni</title>

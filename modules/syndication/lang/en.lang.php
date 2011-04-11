@@ -3,10 +3,10 @@
     $lang->about_syndication = 'Syndication communicates with search service providers with standard protocol called "syndication", and makes it much better to search any information.<br/>It will synchronize contents with search service providers with the least requests.';
 
     $lang->syndication_service = 'Syndication Service';
-    $lang->about_syndication_service = 'Syndication Service provides syndication services according to standard protocol.<br/>You will get Ping result of selected(deselected) services by applying.';
+    $lang->about_syndication_service = 'Syndication Service provides syndication services according to a standard protocol.<br/>You will get Ping result from the selected (deselected) services if you apply.';
 
     $lang->my_syndication_url = 'URL';
-    $lang->about_my_syndication_url = 'Please input URL which will be used when providing syndication information. It would be better to use representative url and keep it as long as you can.';
+    $lang->about_my_syndication_url = 'Please input the URL which will be used when providing syndication information. It is recommended to use representative URL and keep it as long as you can.';
 
     $lang->except_module = 'Modules to exclude';
     $lang->about_except_module = 'Selected modules will not be synchronized with search service providers.';

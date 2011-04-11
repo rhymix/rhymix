@@ -12,8 +12,7 @@
         로그인하지 않은 경우에만 해당됩니다.
     </description>
     <description xml:lang="en">
-        To block spam written by programs, let users to choose a suitable image to text when writing a posting or comment.
-        This addon applies only to not-logged-in users.
+        This addon helps to prevent spam messages to be posted by requesting non-logged-in users to type characters displayed in the image before submitting comments or posts.
     </description>
     <description xml:lang="vi">
         Addon này tạo ra một hình ảnh xác nhận khi đăng kí, gửi bài, hay viết bình luận nếu thành viên không đăng nhập.
@@ -60,7 +59,7 @@
 	    	<description xml:lang="zh-CN">可以指定验证码应用对象(管理员除外)。</description>
 		    <description xml:lang="jp">管理者を除き、書き込み・コメントを入力する際にcaptchaイメージを見せる対象を設定します。</description>
 		    <description xml:lang="zh-TW">除了管理員，可以選擇圖形驗證應用的對象。</description>
-            <description xml:lang="en">You may specify targets CAPTCHA work. It's not applied when administrator writes.</description>
+            <description xml:lang="en">You can specify if CAPTCHA should be displayed when posting an article or comment. It will not apply to administrators.</description>
             <description xml:lang="ru">You may specify targets CAPTCHA work. It's not applied when administrator writes.</description>
             <description xml:lang="vi">Khi gửi bài, bình luận, Capcha sẽ hiển thị để xác nhận hành động của người sử dụng. Chức năng này không hoạt động với người quản lý.</description>
             <options value="">

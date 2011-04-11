@@ -14,5 +14,5 @@
     $lang->cmd_del_poll = "Delete Poll";
     $lang->cmd_add_item = "Add Item";
 
-    $lang->msg_poll_cannot_modify = "You cannot modify the poll. It should be deleted to create a new poll";
+    $lang->msg_poll_cannot_modify = "You cannot modify the poll. You need to delete it if you want to create a new poll.";
 ?>

@@ -10,7 +10,7 @@
     <title xml:lang="zh-TW">主題</title>
     <title xml:lang="tr">Belge</title>
     <description xml:lang="ko">게시판, 블로그등의 모듈에서 사용되는 문서를 관리하는 모듈입니다. </description>
-    <description xml:lang="en">Module for managing documents used in board, blog, etc.</description>
+    <description xml:lang="en">Module for managing documents used in a board, blog, etc.</description>
     <description xml:lang="vi">Module quản lý bài viết trên Board, Sổ lưu niệm và những mục khác.</description>
     <description xml:lang="es">Módulo para manejar los documentos en blog y en los tableros.</description>
     <description xml:lang="zh-CN">管理版面，博客等处主题的模块。 </description>

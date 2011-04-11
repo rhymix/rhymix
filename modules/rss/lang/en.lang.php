@@ -18,7 +18,7 @@
     // for description
     $lang->about_rss_disable = "If checked, RSS will be disabled.";
     $lang->about_rss_type = "You can assign RSS feed type.";
-    $lang->about_open_rss = 'You can select RSS on the current module to be open to the public.\nNo matter the view permission of article , RSS will be open to the public by its option.';
+    $lang->about_open_rss = 'You can select RSS on the current module to be open to the public.\nIf it is enabled, the article will be open to the public despite its view permissions.';
 
     // for error message
     $lang->msg_rss_is_disabled = "RSS function is disabled.";

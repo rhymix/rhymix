@@ -92,7 +92,7 @@
             <description xml:lang="ko">http:// 포함한 URL를 등록합니다.</description>
 	    <description xml:lang="zh-CN">请输入包含http://的URL地址。</description>
 	    <description xml:lang="zh-TW">請輸入http://以外的URL網址。</description>
-            <description xml:lang="en">Destination of a link 'more'. Register an URL including http://</description>
+            <description xml:lang="en">Destination of a 'more' link. Register a URL including http://</description>
 	    <description xml:lang="vi">Địa chỉ trang sẽ chuyển đến khi bấm vào Xem thêm (Bao gồm cả http://)</description>
             <description xml:lang="jp">「http://」を含んだURLを登録します。</description>
             <description xml:lang="tr">Bağlantı hedefi 'daha fazlası'.  http:// içeren bir URL girişi yapınız.</description>
@@ -106,7 +106,7 @@
             <name xml:lang="jp">「もっと見る」テキスト</name>
             <name xml:lang="tr">Daha fazla metin</name>
             <description xml:lang="ko">더보기 텍스트</description>
-            <description xml:lang="en">Text for a link 'more'</description>
+            <description xml:lang="en">Text for a 'more' link</description>
             <description xml:lang="zh-CN">文本格式的"查看更多"。</description>
 		    <description xml:lang="vi">Có thể dùng những từ khác thay cho từ Xem thêm</description>
             <description xml:lang="zh-TW">純文字格式。</description>

@@ -8,8 +8,8 @@
     $lang->integration_search = "Integrated Search";
 
     $lang->sample_code = "Sample Code";
-    $lang->about_target_module = "Only chosen modules are the target. Please be careful on setting permissions.";
-    $lang->about_sample_code = "You can use integrated search by adding above code on layout or other things.";
+    $lang->about_target_module = "Only chosen modules are the target. Please be careful on setting the permissions.";
+    $lang->about_sample_code = "You can use integrated search by adding the above code in the layout or other things.";
     $lang->msg_no_keyword = "Please input keyword to search";
 
     $lang->is_result_text = "There are <strong>%d</strong> result(s) for <strong>'%s'</strong>";

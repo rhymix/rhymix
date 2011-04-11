@@ -2,9 +2,8 @@
 	/**
 	 * @file   modules/editor/lang/ko.lang.php
 	 * @author NHN (developers@xpressengine.com)
-	 * @brief  위지윅에디터(editor) 모듈의 기본 언어팩
+	 * @brief WYSIWYG editor (editor) of the basic language modules
 	 **/
-
 	$lang->editor = '위지윅 에디터';
 	$lang->component_name = '컴포넌트';
 	$lang->component_version = '버전';
@@ -19,21 +18,17 @@
 	$lang->content_style = '문서 서식';
 	$lang->content_font = '문서 폰트';
 	$lang->content_font_size = '문서 폰트 크기';
-
 	$lang->about_component = '컴포넌트 소개';
 	$lang->about_component_grant = '기본 컴포넌트외의 확장 컴포넌트 기능을 사용할 수 있는 권한을 지정할 수 있습니다.<br /> (모두 해제 시 아무나 사용 가능합니다)';
 	$lang->about_component_mid = '에디터 컴포넌트가 사용될 대상을 지정할 수 있습니다.<br />(모두 해제 시 모든 대상에서 사용 가능합니다)';
-
 	$lang->msg_component_is_not_founded = '%s 에디터 컴포넌트를 찾을 수 없습니다.';
 	$lang->msg_component_is_inserted = '선택하신 컴포넌트는 이미 입력되어 있습니다.';
 	$lang->msg_component_is_first_order = '선택하신 컴포넌트는 첫 번째에 위치하고 있습니다.';
 	$lang->msg_component_is_last_order = '선택하신 컴포넌트는 마지막에 위치하고 있습니다.';
 	$lang->msg_load_saved_doc = "자동 저장된 글이 있습니다. 복구하시겠습니까?\n글을 다 쓰신 후 저장하시면 자동 저장 본은 사라집니다.";
 	$lang->msg_auto_saved = '자동 저장되었습니다.';
-
 	$lang->cmd_disable = '비활성';
 	$lang->cmd_enable = '활성';
-
 	$lang->editor_skin = '에디터 스킨';
 	$lang->upload_file_grant = '파일 첨부 권한';
 	$lang->enable_default_component_grant = '기본 컴포넌트 사용 권한';
@@ -42,7 +37,6 @@
 	$lang->enable_autosave = '자동저장 사용';
 	$lang->height_resizable = '높이 조절 가능';
 	$lang->editor_height = '에디터 높이';
-
 	$lang->about_editor_skin = '에디터 스킨을 선택하실 수 있습니다';
 	$lang->about_content_style = '문서 편집 및 내용 출력 시 원하는 서식을 지정할 수 있습니다';
 	$lang->about_content_font = '문서 편집 및 내용 출력 시 원하는 폰트를 지정할 수 있습니다.<br/>지정하지 않으면 사용자 설정에 따르게 됩니다<br/> ,(콤마)로 여러 폰트를 지정할 수 있습니다.';
@@ -53,7 +47,6 @@
 	$lang->about_editor_height_resizable = '에디터의 높이를 직접 변경할 수 있도록 허용합니다.';
 	$lang->about_enable_html_grant = 'HTML편집 권한을 부여할 수 있습니다.';
 	$lang->about_enable_autosave = '글 작성 시 자동 저장 기능을 활성화 시킬 수 있습니다.';
-
 	$lang->edit->fontname = '글꼴';
 	$lang->edit->fontsize = '크기';
 	$lang->edit->use_paragraph = '문단기능';
@@ -71,7 +64,6 @@
 	'Cursive' => 'Cursive',
 	'Fantasy' => 'Fantasy',
 	);
-
 	$lang->edit->header = '형식';
 	$lang->edit->header_list = array(
 	'h1' => '제목 1',
@@ -81,15 +73,9 @@
 	'h5' => '제목 5',
 	'h6' => '제목 6',
 	);
-
 	$lang->edit->submit = '확인';
-
 	$lang->edit->fontcolor = '글자 색';
-	$lang->edit->fontcolor_apply = '글자 색 적용';
-	$lang->edit->fontcolor_more = '글자 색 더보기';
 	$lang->edit->fontbgcolor = '글자 배경색';
-	$lang->edit->fontbgcolor_apply = '글자 배경색 적용';
-	$lang->edit->fontbgcolor_more = '글자 배경색 더보기';
 	$lang->edit->bold = '진하게';
 	$lang->edit->italic = '기울임';
 	$lang->edit->underline = '밑줄';
@@ -107,11 +93,9 @@
 	$lang->edit->list_number = '번호 매기기';
 	$lang->edit->list_bullet = '목록';
 	$lang->edit->remove_format = '글맵시 지우기';
-
 	$lang->edit->help_remove_format = '선택된 영역 내의 태그를 지웁니다.';
 	$lang->edit->help_strike_through = '글자에 취소선을 표시합니다.';
 	$lang->edit->help_align_full = '좌우 폭에 맞게 정렬을 합니다.';
-
 	$lang->edit->help_fontcolor = '글자의 색상을 지정합니다.';
 	$lang->edit->help_fontbgcolor = '글자의 배경색상을 지정합니다.';
 	$lang->edit->help_bold = '글자를 진하게 합니다.';
@@ -131,40 +115,30 @@
 	$lang->edit->help_list_number = '숫자로된 목록을 적용합니다.';
 	$lang->edit->help_list_bullet = '기호로된 목록을 적용합니다.';
 	$lang->edit->help_use_paragraph = '문단 나누기를 하시려면 Ctrl+Enter를 누르시면 됩니다. (글 작성완료 후 Alt+S를 누르면 저장이 됩니다.)';
-
 	$lang->edit->url = '링크';
 	$lang->edit->blockquote = '인용문';
 	$lang->edit->table = '표';
 	$lang->edit->image = '그림';
 	$lang->edit->multimedia = '동영상';
 	$lang->edit->emoticon = '이모티콘';
-
-	$lang->edit->file = '파일';
 	$lang->edit->upload = '첨부';
 	$lang->edit->upload_file = '파일 첨부';
-	$lang->edit->upload_list = '첨부 목록';
 	$lang->edit->link_file = '본문 삽입';
 	$lang->edit->delete_selected = '선택 삭제';
-
 	$lang->edit->icon_align_article = '한 문단을 차지';
 	$lang->edit->icon_align_left = '글의 왼쪽으로';
 	$lang->edit->icon_align_middle = '가운데 정렬';
 	$lang->edit->icon_align_right = '글의 우측으로';
-
 	$lang->about_dblclick_in_editor = '배경, 글자, 이미지, 인용문등에서 더블클릭을 하시면 상세한 컴포넌트 설정이 가능합니다.';
-
 	$lang->edit->rich_editor = '스타일 편집기';
 	$lang->edit->html_editor = 'HTML 편집기';
 	$lang->edit->extension ='확장 컴포넌트';
 	$lang->edit->help = '도움말';
 	$lang->edit->help_command = '단축키 안내';
-
 	$lang->edit->lineheight = '줄 간격';
 	$lang->edit->fontbgsampletext = '가나다';
-
 	$lang->edit->hyperlink = '하이퍼링크';
 	$lang->edit->target_blank = '새 창으로';
-
 	$lang->edit->quotestyle1 = '왼쪽 실선';
 	$lang->edit->quotestyle2 = '인용 부호';
 	$lang->edit->quotestyle3 = '실선';
@@ -173,8 +147,6 @@
 	$lang->edit->quotestyle6 = '점선';
 	$lang->edit->quotestyle7 = '점선 + 배경';
 	$lang->edit->quotestyle8 = '적용 취소';
-
-
 	$lang->edit->jumptoedit = '편집 도구모음 건너뛰기';
 	$lang->edit->set_sel = '칸 수 지정';
 	$lang->edit->row = '행';
@@ -183,7 +155,6 @@
 	$lang->edit->del_one_row = '1행 삭제';
 	$lang->edit->add_one_col = '1열 추가';
 	$lang->edit->del_one_col = '1열 삭제';
-
 	$lang->edit->table_config = '표 속성 지정';
 	$lang->edit->border_width = '테두리 굵기';
 	$lang->edit->border_color = '테두리 색';
@@ -202,7 +173,6 @@
 	$lang->edit->Latin  = '라틴어';
 	$lang->edit->japan  = '일본어';
 	$lang->edit->selected_symbol  = '선택한 기호';
-
 	$lang->edit->search_replace  = '찾기/바꾸기';
 	$lang->edit->close_search_replace  = '찾기/바꾸기 레이어 닫기';
 	$lang->edit->replace_all  = '모두 바꾸기';
@@ -222,60 +192,13 @@
 	$lang->edit->refresh = '새로 고침';
 	$lang->edit->materials = '글감 보관함';
 	$lang->edit->temporary_savings = '임시 저장 목록';
-
 	$lang->edit->paging_prev = '이전';
 	$lang->edit->paging_next = '다음';
 	$lang->edit->paging_prev_help = '이전 페이지로 이동합니다.';
 	$lang->edit->paging_next_help = '다음 페이지로 이동합니다.';
-
 	$lang->edit->toc = '목차';
 	$lang->edit->close_help = '도움말 닫기';
-
 	$lang->edit->confirm_submit_without_saving = '저장하지 않은 단락이 있습니다.\\n그냥 전송하시겠습니까?';
-
 	$lang->edit->image_align = '이미지 정렬';
 	$lang->edit->attached_files = '첨부 파일';
-
-	$lang->edit->fontcolor_input = '글자 색 직접입력';
-	$lang->edit->fontbgcolor_input = '글자 배경색 직접입력';
-	$lang->edit->pangram = '무궁화 꽃이 피었습니다.';
-
-	$lang->edit->table_caption_position = '표 제목(caption) 및 배치';
-	$lang->edit->table_caption = '표 제목(caption)';
-	$lang->edit->table_header = '머릿글 칸(th)';
-	$lang->edit->table_header_none = '없음';
-	$lang->edit->table_header_left = '왼쪽';
-	$lang->edit->table_header_top = '위쪽';
-	$lang->edit->table_header_both = '모두';
-	$lang->edit->table_size = '표 크기';
-	$lang->edit->table_width = '표 너비';
-
-	$lang->edit->upper_left = '상단좌측';
-	$lang->edit->upper_center = '상단중앙';
-	$lang->edit->upper_right = '상단우측';
-	$lang->edit->bottom_left = '하단좌측';
-	$lang->edit->bottom_center = '하단중앙';
-	$lang->edit->bottom_right = '하단우측';
-
-	$lang->edit->no_image = '첨부된 이미지가 없습니다.';
-	$lang->edit->no_multimedia = '첨부된 동영상이 없습니다.';
-	$lang->edit->no_attachment = '첨부된 파일이 없습니다.';
-	$lang->edit->insert_selected = '선택 넣기';
-	$lang->edit->delete_selected = '선택 삭제';
-
-	$lang->edit->fieldset = '글상자';
-	$lang->edit->paragraph = '문단';
-
-	$lang->edit->autosave_format = '글을 쓰기 시작한지 <strong>%s</strong>이 지났습니다. 마지막 저장 시간은 <strong>%s</strong> 입니다.';
-	$lang->edit->autosave_hour = '%d시간';
-	$lang->edit->autosave_hours = '%d시간';
-	$lang->edit->autosave_min = '%d분';
-	$lang->edit->autosave_mins = '%d분';
-	$lang->edit->autosave_hour_ago = '%d시간 전';
-	$lang->edit->autosave_hours_ago = '%d시간 전';
-	$lang->edit->autosave_min_ago = '%d분 전';
-	$lang->edit->autosave_mins_ago = '%d분 전';
-	
-	$lang->edit->upload_not_enough_quota   = '허용된 용량이 부족하여 파일을 첨부할 수 없습니다.';
-	$lang->edit->break_or_paragraph = 'Enter는 줄바꿈, Shift+Enter는 문단바꿈입니다.';
 ?>

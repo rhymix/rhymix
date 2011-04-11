@@ -19,7 +19,7 @@
     $lang->gallery_border_color = "Border Color"; 
     $lang->gallery_border_thickness = "Border Thickness"; 
     $lang->gallery_bg_color = "Background Color"; 
-    $lang->about_image_list = "Select file to add to the image gallery. You can drag it after selecting or shift+click(for selecting widely), ctrl+click(for selecting individually)";
+    $lang->about_image_list = "Select an image file to add to the gallery. You can drag it after selecting or Shift+click to multi select, Ctrl+click to select one item.";
 
     $lang->cmd_gallery_prev = "Previous Picture";
     $lang->cmd_gallery_next = "Next Picture";

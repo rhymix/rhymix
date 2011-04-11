@@ -27,9 +27,9 @@
     $lang->widget_margin_bottom = 'Bottom Margin';
     $lang->widget_margin_left= 'Left Margin';
     $lang->about_widget_fix_width = 'Please check to fix the width.';
-    $lang->about_widget_width = 'Please set the width of widget.';
-    $lang->about_widget_position = 'Please select the position if you want to display many widgets in one line.';
-    $lang->about_widget_margin = "You may set the margin of widgets' top, bottom, right and left.";
+    $lang->about_widget_width = 'Please set width for the widget.';
+    $lang->about_widget_position = 'Please select the position if you want to display many widgets on one line.';
+    $lang->about_widget_margin = "You may set the top, bottom, right or left margins for the widget.";
     $lang->about_widget_cache = 'Cached data can be used during the time you have set.';
 
     $lang->generated_code = 'Generated Code';
@@ -38,11 +38,11 @@
     $lang->msg_widget_is_not_exists = "'%s' does not exist.";
     $lang->msg_widget_object_is_null = "Object of '%s' could not be created.";
     $lang->msg_widget_proc_is_null = "proc() of '%s' could not be executed.";
-    $lang->msg_widget_skin_is_null = "You should select widget's skin";
+    $lang->msg_widget_skin_is_null = "You should select widget's skin.";
 
-    $lang->about_widget_code = 'Please input required value first, and click [Generate Code] button to generate code to add to the template file.';
+    $lang->about_widget_code = 'Please input the required value first, and click [Generate Code] button to generate the code for adding to the template file.';
     $lang->about_widget_code_in_page = 'After entering the required values, click the [Add] button to insert the widget code into the page.';
-    $lang->about_widget = "A widget is a small free-standing application used in a layout or page module.\n It can be linked with internal module or external open api. Through its configuration setting, wide application is possible. \n You can directly add a widget by using the [Generate Code] function without using the XE page module or layout module.";
+    $lang->about_widget = "A widget is a small free-standing application used in a layout or page module.\n It can be linked with internal module or external Open API. Through its configuration setting, wide application is possible. \n You can directly add a widget by using the [Generate Code] function without using the XE page module or layout module.";
 
     $lang->cmd_content_insert = "Insert Content by Yourself";
     $lang->cmd_box_widget_insert = "Insert Box Widget";

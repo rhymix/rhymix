@@ -69,9 +69,9 @@
     $lang->webmaster_name = "Webmaster Name";
     $lang->webmaster_email = "Webmaster Email";
 
-    $lang->about_keep_signed = 'You will be still signed in even when the browser is closed.\n\nIt is not recommended to use this if you are using a public computer for your personal information could be violated';
-    $lang->about_keep_warning = 'You will be still signed in even when the browser is closed. It is not recommended to use this if you are using a public computer for your personal information could be violated';
-    $lang->about_webmaster_name = "Please input webmaster's name which will be used for verification mails or other site administration. (default : webmaster)";
+    $lang->about_keep_signed = 'You will be still signed in even when the browser is closed.\n\nIt is not recommended to use this if you are using a public computer, for your personal information could be violated.';
+    $lang->about_keep_warning = 'You will be still signed in even when the browser is closed. It is not recommended to use this if you are using a public computer, for your personal information could be violated';
+    $lang->about_webmaster_name = "Please input webmaster's name which will be used for verification mails or other site administration. (default : webmaster).";
     $lang->about_webmaster_email = "Please input webmaster's email address.";
 
     $lang->search_target_list = array(
@@ -122,13 +122,13 @@
 
     $lang->msg_find_account_title = 'Account Info';
     $lang->msg_find_account_info = 'This is requested account info.';
-    $lang->msg_find_account_comment = 'The password will be modified as above one as you click below link.<br />Please modify the password after login.';
+    $lang->msg_find_account_comment = 'The password will be modified as the one above as you click the link below.<br />Please modify the password after login.';
     $lang->msg_confirm_account_title = 'Zeroboard XE Account Activation';
     $lang->msg_confirm_account_info = 'This is your account information:';
-    $lang->msg_confirm_account_comment = 'Click on the followed link to complete your account activation.';
+    $lang->msg_confirm_account_comment = 'Click on the following link to complete your account activation.';
     $lang->msg_auth_mail_sent = 'The activation mail has been sent to %s. Please check your mail.';
-    $lang->msg_confirm_mail_sent = 'We just sent the activation email to %s. Please check your mail.';
-    $lang->msg_invalid_auth_key = 'This is an invalid request of verification.<br />Please retry finding account info or contact to administrator.';
+    $lang->msg_confirm_mail_sent = 'We have just sent the activation email to %s. Please check your mail.';
+    $lang->msg_invalid_auth_key = 'This is an invalid request of verification.<br />Please retry finding account info or contact the administrator.';
     $lang->msg_success_authed = 'Your account has been successfully activated and logged on.\n Please modify the password to your own one with the password in the mail.';
     $lang->msg_success_confirmed = 'Your account has been activated successfully.';
 
@@ -139,9 +139,9 @@
     $lang->msg_not_delete_default = 'Default items cannot be deleted';
     $lang->msg_not_exists_member = "Invalid member";
     $lang->msg_cannot_delete_admin = 'Admin ID cannot be deleted. Please remove the ID from administration and try again.';
-    $lang->msg_exists_user_id = 'This ID already exists. Please try with another one.';
-    $lang->msg_exists_email_address = 'This email address already exists. Please try with another one.';
-    $lang->msg_exists_nick_name = 'This nickname already exists. Please try with another one.';
+    $lang->msg_exists_user_id = 'This ID already exists. Please try another one.';
+    $lang->msg_exists_email_address = 'This email address already exists. Please try another one.';
+    $lang->msg_exists_nick_name = 'This nickname already exists. Please try another one.';
     $lang->msg_signup_disabled = 'You are not able to sign up';
     $lang->msg_already_logged = 'You have already signed up';
     $lang->msg_not_logged = 'Please sign in first';
@@ -159,37 +159,37 @@
     $lang->msg_user_not_confirmed = 'Your account is not activated yet. Please check your email.';
     $lang->msg_user_limited = 'You have entered an ID that can be used after %s';
 
-    $lang->about_user_id = 'User ID should be 3~20 letters long and consist of alphabet+number with alphabet as first letter.';
-    $lang->about_password = 'Password should be 6~20 letters long';
+    $lang->about_user_id = 'User ID should be 3~20 characters long, consist of alphanumeric and start with a letter.';
+    $lang->about_password = 'Password should be 6~20 characters long';
     $lang->about_user_name = 'Name should be 2~20 letters long';
-    $lang->about_nick_name = 'Nickname should be 2~20 letters long';
+    $lang->about_nick_name = 'Nickname should be 2~20 characters long';
     $lang->about_email_address = 'Email address will be used to modify/find password after email verification';
     $lang->about_homepage = 'Please input if you have your websites';
-    $lang->about_blog_url = 'Please input if you have your blogs';
+    $lang->about_blog_url = 'Please input if you have your blog';
     $lang->about_birthday = 'Please input your birth date';
-    $lang->about_allow_mailing = "If you don't join mailing, you will not able to receive group mail";
+    $lang->about_allow_mailing = "If you don't join mailing, you will not able to receive group mails";
     $lang->about_denied = 'Check to prohibit the ID';
-    $lang->about_is_admin = 'Check to give Superadmin permission';
+    $lang->about_is_admin = 'Check to give Superadmin permissions';
     $lang->about_member_description = "Administrator's memo about members";
     $lang->about_group = 'An ID can belong to many groups';
 
     $lang->about_column_type = 'Please set the format of additional sign up form';
-    $lang->about_column_name = 'Please input English name that can be used in template (name as variable)';
+    $lang->about_column_name = 'Please input English name that can be used in the template (name as variable)';
     $lang->about_column_title = 'This will be displayed on sign up or modifying/viewing member info form';
     $lang->about_default_value = 'You can set default values';
     $lang->about_active = 'You have to check on active items to show on sign up form';
     $lang->about_form_description = 'If you input in description form, it will be displayed on join form';
-    $lang->about_required = 'If you check, it will be essential item for sign up';
+    $lang->about_required = 'If you check, it will be essential item when signing up';
 
-    $lang->about_enable_openid = 'Please check if you want to provide OpenID service';
+    $lang->about_enable_openid = 'Please check if you want to provide an OpenID service';
     $lang->about_enable_join = 'Please check if you want to allow new members to sign up your site';
     $lang->about_enable_confirm = 'Please check if you want new members to activate their accounts via their emails.';
     $lang->about_enable_ssl = 'Personal information from Sign up/Modify Member Info/Sign in can be sent as SSL(https) mode if server provides SSL service.';
     $lang->about_limit_day = 'You can limit activation date after sign up';
-    $lang->about_limit_date = 'Users cannot sign in until assigned date';
-    $lang->about_after_login_url = 'You can set URL after login. Blank means current page.';
-    $lang->about_after_logout_url = 'You can set URL after logout. Blank means current page.';
-    $lang->about_redirect_url = 'Please input URL where users will go after sign up. When this is empty, it will be set as the previous page of sign up page.';
+    $lang->about_limit_date = 'Users cannot sign in until the specified date';
+    $lang->about_after_login_url = 'You can set a URL after login. Blank means the current page.';
+    $lang->about_after_logout_url = 'You can set a URL after logout. Blank means the current page.';
+    $lang->about_redirect_url = 'Please input a URL where users will go after sign up. When this is empty, it will be set as the previous page of the sign up page.';
     $lang->about_agreement = "Sign up Agreement will be displayed if it's not empty";
 
     $lang->about_image_name = "Members will be able to use image name instead of text";
@@ -198,27 +198,27 @@
     $lang->about_profile_image = 'Members will be able to use profile images';
     $lang->about_accept_agreement = "I have read the agreement and agree with it";
 
-    $lang->about_member_default = 'It will be set as default group on sign up';
+    $lang->about_member_default = 'It will be set as the default group on sign up';
 
-    $lang->about_openid = 'When you join as OpenID, basic info like ID or email address will be saved on this site, process for password and verification management will be done on current OpenID offering service';
+    $lang->about_openid = 'When you join using an OpenID, basic info like ID or email address will be saved on this site, process for password and verification management will be done on current OpenID offering service';
     $lang->about_openid_leave = 'The secession of OpenID means deletion of your member info from this site.<br />If you login after secession, it will be recognized as a new member, so you will no longer have the permission for your ex-written articles.';
 
-    $lang->about_member = "Member module will help you create, modify and remove members and manage groups or sign up form.\nYou can add a custom group to manage members, and also get additional information by modifying sign up form.";
-    $lang->about_find_member_account = 'Your account info will be noticed by registered email address.<br />Please input email address which you have input on registration, and press "Find Account Info" button.<br />';
+    $lang->about_member = "Member module will help you create, modify and remove members and manage groups or the sign up form.\nYou can add a custom group to manage members, and also get additional information by modifying the sign up form.";
+    $lang->about_find_member_account = 'Your account info will be sent to this email address.<br />Please input the email address you have entered during the registration, then press "Find Account Info" button.<br />';
     $lang->about_ssl_port = 'Please input if you are using non-default SSL port';
     $lang->add_openid = 'Add OpenID';
 
-    $lang->about_resend_auth_mail = 'You can request for activation mail if you have not activated before';
-    $lang->no_article = 'There exists no article';
+    $lang->about_resend_auth_mail = 'You can request for the activation email if you have not activated yet.';
+    $lang->no_article = 'There are no articles';
 
     $lang->find_account_question = 'Question for a temporary password.';
     $lang->find_account_answer = 'Answer for a temporary password.';
-    $lang->about_find_account_question = 'You can get a temporary password by your ID, email address, and the answer for the question you set.';
+    $lang->about_find_account_question = 'You can get a temporary password by your ID, email address, and the answer for the question you have set.';
     $lang->find_account_question_items = array(''
                                         ,'What is your alternate email address?'
                                         ,'What is your favorite thing?'
-                                        ,'What elementary school did you graduate?'
-                                        ,'Where is your hometown?'
+                                        ,'Which elementary school did you attend?'
+                                        ,'What is your hometown?'
                                         ,'What is your ideal match?'
                                         ,"What is your mother's name?"
                                         ,"What is your father's name?"
@@ -232,5 +232,5 @@
     $lang->msg_answer_not_matches = 'Your answer for the question is not correct.';
 
     $lang->change_password_date = 'Password renewal cycle';
-    $lang->about_change_password_date = 'If you set a value to this, you will be notified to change your password periodically. (if set to 0, disabled)';
+    $lang->about_change_password_date = 'If you set a value to this, you will be notified to change your password periodically. (If set to 0, disabled)';
 ?>

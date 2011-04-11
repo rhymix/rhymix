@@ -32,7 +32,7 @@
     $lang->cmd_move_to_document = 'Move to Document';
     $lang->cmd_download = 'Download';
 
-    $lang->msg_not_permitted_download = 'You do not have permission to download';
+    $lang->msg_not_permitted_download = 'You do not have a permission to download';
     $lang->msg_cart_is_null = 'Please select file(s) to delete';
     $lang->msg_checked_file_is_deleted = '%d attachment(s) was(were) deleted';
     $lang->msg_exceeds_limit_size = 'File size of attachment is bigger than allowed size.';
@@ -52,7 +52,7 @@
         'nick_name' => 'Nickname',
         'ipaddress' => 'IP Address',
     );
-	$lang->msg_not_allowed_outlink = 'It is not allowed to download files not from this site.'; 
+	$lang->msg_not_allowed_outlink = 'It is not allowed to download files from sites other than this.'; 
     $lang->msg_not_permitted_create = 'Failed to create a file or directory.';
 	$lang->msg_file_upload_error = 'An error has occurred during uploading.';
 

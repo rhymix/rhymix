@@ -15,7 +15,7 @@
     );
 
     $lang->total_counter = 'Total Status';
-    $lang->selected_day_counter = 'Status of Selected Day';
+    $lang->selected_day_counter = 'Status of the selected day';
 
     $lang->unique_visitor = 'Visitors';
     $lang->pageview = 'Pageview';

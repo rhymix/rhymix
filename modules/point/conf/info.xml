@@ -25,8 +25,8 @@
         但し、ポイントシステムアドオンを「使用」に設定しないと作動しません。
     </description>
     <description xml:lang="en">
-        You can grant point on writing/deleting/adding comments/deleting comments.
-        You can also display point icon in front of user name by selecting level on each point.
+        You can grant points for writing/deleting/adding contents or comments.
+        You can also display point icon in front of a user name by selecting level for each point.
         But to enable these functions, you need to activate point related addons.
     </description>
     <description xml:lang="tr">

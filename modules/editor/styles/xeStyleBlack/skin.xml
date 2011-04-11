@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <skin version="0.2">
     <title xml:lang="ko">XE 기본 서식 (검은 배경)</title>
-    <title xml:lang="en">XE Default Form(black color background)</title>
+    <title xml:lang="en">XE Default Form (black color background)</title>
     <title xml:lang="zh-CN">XE默认格式(黑色背景)</title>
     <title xml:lang="zh-TW">XE預設樣式(黑色背景)</title>
     <title xml:lang="vi">XE Mặc định (Nền tối)</title>
@@ -12,7 +12,7 @@
         문서 수정중에는 각 요소들이 구분되어 보입니다.
     </description>
     <description xml:lang="en">
-		XE Default Form(black color background)
+		XE Default Form (black color background)
     </description>
     <description xml:lang="zh-CN">
         XE默认格式。

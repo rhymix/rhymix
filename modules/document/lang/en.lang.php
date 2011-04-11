@@ -22,12 +22,12 @@
     $lang->category_group_srls = 'Accessable Group';
 
     $lang->cmd_make_child = 'Add Child Category';
-    $lang->cmd_enable_move_category = "Change Category Position (Drag the top menu after selection)";
+    $lang->cmd_enable_move_category = "Change the category position (Drag the top menu after selection)";
 
     $lang->about_category_title = 'Please input category name';
     $lang->about_expand = 'By selecting this option, it will be always expanded';
-    $lang->about_category_group_srls = 'Only selected group will be able to use current category';
-    $lang->about_category_color = 'You can set font color of category.';
+    $lang->about_category_group_srls = 'Only the selected group will be able to use this category';
+    $lang->about_category_color = 'You can set the font color of the category.';
 
     $lang->cmd_search_next = 'Search Next';
 
@@ -43,7 +43,7 @@
     $lang->msg_checked_document_is_deleted = '%d article(s) was(were) deleted';
 
     // Search targets in admin page
-        $lang->search_target_list = array(
+    $lang->search_target_list = array(
         'title' => 'Subject',
         'content' => 'Content',
         'user_id' => 'User ID',
@@ -94,6 +94,6 @@
     );
 
     $lang->success_trashed = "Successfully moved to trashcan";
-    $lang->msg_not_selected_document = 'There is no selected article.';
+    $lang->msg_not_selected_document = 'There are no selected articles.';
 	$lang->show_voted_member = 'Show Voters';
 ?>

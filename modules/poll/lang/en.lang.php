@@ -24,9 +24,9 @@
     $lang->msg_check_poll_item = 'Please select a poll item to poll.\n(Required poll item(s) may be different in each poll.)';
     $lang->msg_cart_is_null = 'Please select a poll to delete.';
     $lang->msg_checked_poll_is_deleted = '%d poll(s) are deleted.';
-    $lang->msg_poll_not_exists = 'Selected poll does not exist.';
+    $lang->msg_poll_not_exists = 'The selected poll does not exist.';
 
-    $lang->cmd_null_item = "No item value exist to post a poll. Please re-try.";
+    $lang->cmd_null_item = "No item value exists to post a poll. Please re-try.";
 
     $lang->confirm_poll_submit = "Confirm to submit the poll?";
 

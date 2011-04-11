@@ -614,7 +614,7 @@
                 <name xml:lang="ko">new 표시 시간 (hours)</name>
                 <name xml:lang="zh-CN">new图标显示时间(hours)</name>
                 <name xml:lang="jp">Newの表示時間 (Hours)</name>
-                <name xml:lang="en">Duration of indication for new item</name>
+                <name xml:lang="en">Duration of indication for new item in hours</name>
                 <name xml:lang="vi">Chỉ định thời gian</name>
                 <name xml:lang="ru">Длительность индикации для новых объектов</name>
                 <name xml:lang="zh-TW">new圖案顯示時間(hours)</name>
@@ -689,7 +689,7 @@
                 <description xml:lang="ko">정렬대상을 내림차순 또는 올림차순으로 정렬할 수 있습니다.</description>
                 <description xml:lang="zh-CN">对其排序对象可进行升序/降序方式排序。</description>
                 <description xml:lang="jp">ソートタイプを、降順、または昇順に設定します。</description>
-                <description xml:lang="en">You can sort target articles by ascending or descending order.</description>
+                <description xml:lang="en">You can sort target articles in ascending or descending order.</description>
                 <description xml:lang="vi">Bạn có thể phân loại bài viết theo kiểu tăng hay giảm.</description>
                 <description xml:lang="es">Usted puede ordenar los documentos en orden acendente o en orden descendente.</description>
                 <description xml:lang="ru">Вы можете сортировать статьи в порядке возрастания или убывания.</description>
@@ -811,7 +811,7 @@
                 <name xml:lang="ko">피드(RSS/ATOM) 주소</name>
                 <name xml:lang="jp">Feed(RSS/ATOM) URL</name>
                 <name xml:lang="zh-CN">Feed(RSS/ATOM) URL</name>
-                <name xml:lang="en">Feed(RSS/ATOM) URL</name>
+                <name xml:lang="en">Feed (RSS/ATOM) URL</name>
                 <name xml:lang="vi">Feed(RSS/ATOM) URL</name>
                 <name xml:lang="ru">Feed(RSS/ATOM) URL</name>
                 <name xml:lang="zh-TW">Feed(RSS/ATOM) URL</name>
@@ -819,7 +819,7 @@
                 <description xml:lang="ko">피드 주소는 타입이 지원하는 문서 형식일 경우에만 등록 됩니다.
                 (지원 문서 형식 : RSS 2.0, RSS 1.0, ATOM 1.0)</description>
                 <description xml:lang="en">Feed address will be registered only in case of required document type.
-                (지원 문서 형식 : RSS 2.0, RSS 1.0, ATOM 1.0)</description>
+                (Supported document type : RSS 2.0, RSS 1.0, ATOM 1.0)</description>
                 <description xml:lang="zh-CN">请输入RSS格式地址。
                 (支持文档格式 : RSS 2.0, RSS 1.0, ATOM 1.0)</description>
                 <description xml:lang="vi">Chỉ hỗ trợ những định dạng được dăng kí. (RSS 2.0 RSS 1.0 ATOM 1.0).</description>
@@ -836,7 +836,7 @@
                 <name xml:lang="ko">피드(RSS/ATOM) 주소</name>
                 <name xml:lang="jp">Feed(RSS/ATOM) URL</name>
                 <name xml:lang="zh-CN">Feed(RSS/ATOM) URL</name>
-                <name xml:lang="en">Feed(RSS/ATOM) URL</name>
+                <name xml:lang="en">Feed (RSS/ATOM) URL</name>
                 <name xml:lang="vi">Feed(RSS/ATOM) URL</name>
                 <name xml:lang="ru">Feed(RSS/ATOM) URL</name>
                 <name xml:lang="zh-TW">Feed(RSS/ATOM) URL</name>
@@ -846,7 +846,7 @@
                 <name xml:lang="ko">피드(RSS/ATOM) 주소</name>
                 <name xml:lang="jp">Feed(RSS/ATOM) URL</name>
                 <name xml:lang="zh-CN">Feed(RSS/ATOM) URL</name>
-                <name xml:lang="en">Feed(RSS/ATOM) URL</name>
+                <name xml:lang="en">Feed (RSS/ATOM) URL</name>
                 <name xml:lang="vi">Feed(RSS/ATOM) URL</name>
                 <name xml:lang="ru">Feed(RSS/ATOM) URL</name>
                 <name xml:lang="zh-TW">Feed(RSS/ATOM) URL</name>
@@ -856,7 +856,7 @@
                 <name xml:lang="ko">피드(RSS/ATOM) 주소</name>
                 <name xml:lang="jp">Feed(RSS/ATOM) URL</name>
                 <name xml:lang="zh-CN">Feed(RSS/ATOM) URL</name>
-                <name xml:lang="en">Feed(RSS/ATOM) URL</name>
+                <name xml:lang="en">Feed (RSS/ATOM) URL</name>
                 <name xml:lang="vi">Feed(RSS/ATOM) URL</name>
                 <name xml:lang="ru">Feed(RSS/ATOM) URL</name>
                 <name xml:lang="zh-TW">Feed(RSS/ATOM) URL</name>
@@ -866,7 +866,7 @@
                 <name xml:lang="ko">피드(RSS/ATOM) 주소</name>
                 <name xml:lang="jp">Feed(RSS/ATOM) URL</name>
                 <name xml:lang="zh-CN">Feed(RSS/ATOM) URL</name>
-                <name xml:lang="en">Feed(RSS/ATOM) URL</name>
+                <name xml:lang="en">Feed (RSS/ATOM) URL</name>
                 <name xml:lang="vi">Feed(RSS/ATOM) URL</name>
                 <name xml:lang="ru">Feed(RSS/ATOM) URL</name>
                 <name xml:lang="zh-TW">Feed(RSS/ATOM) URL</name>

@@ -38,16 +38,16 @@
 
     $lang->msg_cannot_delete_for_child = 'A menu with child menus cannot be deleted.';
 
-    $lang->about_title = 'Please input the title that is easy to verify when connecting to module.';
-    $lang->about_menu_management = "Menu management enables you to consist menu in the selected layout.\nYou can create menu upto setted depth and can enter information in details by clicking the menu.\nMenu will be expanded by cliking the folder image.\nIf menu is not shown normally, refresh the information by clicking the button \"Re-create cache file\".\n* Menu created over the depth limit may not be shown properly.";
+    $lang->about_title = 'Please input the title that is easy to verify when connecting to the module.';
+    $lang->about_menu_management = "The menu management enables you to organize your menus in the selected layout.\nYou can create menus up to setted depth and can enter information in details by clicking them.\nThe menu will be expanded by clicking the folder image.\nIf the menu is not shown normally, refresh the information by clicking the button \"Re-create cache file\".\n* The menu created over the depth limit may not be shown properly.";
     $lang->about_menu_name = 'The name will be shown as a menu name if it is not an admin or image button.';
     $lang->about_menu_url = "It is the menu URL when select the menu.<br />You may enter only id value to link to other module.<br />If no contents exist, nothing will happen even though you click the menu.";
-    $lang->about_menu_open_window = 'You can assign it to open a page in a new window when the menu clicked.';
+    $lang->about_menu_open_window = 'You can assign it to open a page in a new window when the menu is clicked.';
     $lang->about_menu_expand = 'It enables the menu to remain expanded when the tree menu(tree_menu.js) is used.';
-    $lang->about_menu_img_btn = 'If you register an image button, the image button will automatically replace the text button, and it will be shown in the layout.';
-    $lang->about_menu_group_srls = 'If you select a group, only the group members can see the menu. (if xml file is directly opened, it will be shown.)';
+    $lang->about_menu_img_btn = 'If you register an image button, it will automatically replace the text button, and will be shown in the layout.';
+    $lang->about_menu_group_srls = 'If you select a group, only the group members can see the menu. (if xml file is directly opened, it will be visible to anyone who opens it.)';
 
-    $lang->about_menu = "Menu module will help you to create a complete site through the convenient menu management which arranges created modules and links to layouts without any manual works..\nMenu is not a site manager, but it just has information which can link to modules and layouts so you can express different types of menu.";
+    $lang->about_menu = "Menu module will help you create a complete site through the convenient menu management which arranges the created modules and links to layouts without any manual work.\nHowever, menu is not a site manager. It just has the information which can link to modules and layouts so you can express different types of menus.";
 
     $lang->alert_image_only = "Only image files can be registered.";
 ?>

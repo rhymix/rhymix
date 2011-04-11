@@ -39,9 +39,9 @@
     $lang->msg_no_message = 'There is no message';
     $lang->message_received = 'You have a new message';
 
-    $lang->msg_title_is_null = 'Please input the title of message';
+    $lang->msg_title_is_null = 'Please input the title of teh message';
     $lang->msg_content_is_null = 'Please input the content';
-    $lang->msg_allow_message_to_friend = "Failed to send because receiver only allows friends' messages";
+    $lang->msg_allow_message_to_friend = "Failed to send because receiver accepts only friends' messages";
     $lang->msg_disallow_message = 'Failed to send because receiver rejects message reception';
 
     $lang->about_allow_message = 'You can decide message reception';

@@ -12,7 +12,7 @@
     <description xml:lang="ko">레이아웃, 모듈을 연결하는 메뉴를 생성/관리하는 모듈입니다.</description>
     <description xml:lang="zh-CN">此模块将生成并管理连接布局，模块的菜单。</description>
     <description xml:lang="jp">レイアウト、モジュールを連動させるメニューを作成・管理するモジュールです。</description>
-    <description xml:lang="en">This module is for creating/managering menues that linking layouts or modules.</description>
+    <description xml:lang="en">This module is for creating/managing menus which link to layouts or modules.</description>
     <description xml:lang="vi">Module này dành cho việc tạo và quản lý Menu sẽ liên kết với giao diện hoặc Mudule.</description>
     <description xml:lang="es">Este módulo es para crear/manejar los menús que que son conectados con los diseños o módulos.</description>
     <description xml:lang="ru">Этот модуль служит для создания/управления меню, соединяюще лейауты и модули.</description>

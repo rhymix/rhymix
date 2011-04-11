@@ -22,7 +22,7 @@
         選択されたモジュールのコンテンツ（書き込み）の中で、非公開コンテンツのみ検索から除外されますので、未公開のモジュールは対象にしないようにして下さい。
     </description>
     <description xml:lang="en">
-        It supports integration search for chosen modules.
+        It supports the integrated search for chosen modules.
         All articles except secret articles will be searched, so you need to be careful not to include secret module to target.
     </description>
     <description xml:lang="vi">

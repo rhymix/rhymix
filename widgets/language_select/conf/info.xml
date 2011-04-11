@@ -12,7 +12,7 @@
     <description xml:lang="ko">사용자의 접속언어를 변경할 수 있는 select폼을 출력합니다.</description>
     <description xml:lang="jp">言語を変更することが出来るセレクト（select）フォームを表示します。</description>
     <description xml:lang="zh-CN">可以实现多国语言相互切换。</description>
-    <description xml:lang="en">This widget displays a select form for change of users' language.</description>
+    <description xml:lang="en">This widget outputs a select form to allow s user to change the display language.</description>
     <description xml:lang="vi">Widget này sẽ hiển thị ngôn ngữ cho người dùng lựa chọn.</description>
     <description xml:lang="es">Este widget muestra la forma de cambiar el idioma del usuario.</description>
     <description xml:lang="ru">Этот виджет отображает форму для выбора пользовательского языка.</description>

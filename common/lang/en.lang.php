@@ -206,13 +206,13 @@ $lang->time_gap = array(
 );
 
 // Descriptions
-$lang->about_tag = 'You may submit multiple tags by inserting commas(,) between each tag';
-$lang->about_layout = 'Layouts decorate the appearance of your modules. you can configure them from Layout menu on the top';
+$lang->about_tag = 'You may submit multiple tags by inserting commas (,) between tags';
+$lang->about_layout = 'Layouts decorate the appearance of your modules. You can configure them from the Layout menu on the top';
 
 // Messages
 $lang->msg_call_server = 'Requesting to the server, please wait';
 $lang->msg_db_not_setted = 'DB configuration has not been set';
-$lang->msg_dbconnect_failed = "Error has occurred while connecting DB.\nPlease check DB information again";
+$lang->msg_dbconnect_failed = "Error has occurred while connecting to the DB.\nPlease check the DB information again";
 $lang->msg_invalid_queryid = 'Specified query ID value is invalid';
 $lang->msg_not_permitted = 'You do not have permission to access';
 $lang->msg_input_password = 'Please input the password';
@@ -239,7 +239,7 @@ $lang->success_blamed = 'Blamed successfully';
 $lang->success_moved = 'Moved successfully';
 $lang->success_sended = 'Sent successfully';
 $lang->success_reset = 'Reset successfully';
-$lang->success_leaved = 'All member data have been deleted completely.';
+$lang->success_leaved = 'All member data has been deleted completely.';
 $lang->success_saved = 'Saved successfully';
 
 $lang->fail_to_delete = 'Could not be deleted';
@@ -248,7 +248,7 @@ $lang->fail_to_move = 'Could not be moved';
 $lang->failed_voted = 'Could not recommend';
 $lang->failed_blamed = 'Could not blame';
 $lang->failed_declared = 'Could not accuse';
-$lang->fail_to_delete_have_children = 'Please try again after removing replies first';
+$lang->fail_to_delete_have_children = 'Please try again later after removing replies.';
 
 $lang->confirm_submit = 'Are you sure to submit?';
 $lang->confirm_logout = 'Are you sure to logout?';
@@ -286,7 +286,7 @@ $lang->ftp_port = 'FTP port';
 $lang->about_ftp_password = 'FTP password will not be stored';
 $lang->cmd_check_ftp_connect = 'Check FTP Connection';
 $lang->about_ftp_info = "
-	FTP account information can be used in following cases. <br />
+	FTP account information can be used in the following cases. <br />
 	1. If safe_mode setting of PHP is on, XE will be installed using FTP.  <br />
 	2. Automatic updates might use FTP information. <br />
 	   This account info will be stored in files/config/ftp.config.php <br />
@@ -294,10 +294,10 @@ $lang->about_ftp_info = "
 ";
 
 $lang->msg_safe_mode_ftp_needed = "If safe_mode setting of PHP is on, you should input FTP account information to install XE.";
-$lang->msg_ftp_not_connected = "Connection to localhost via FTP failed. Please check the port number and if FTP service is available.";
+$lang->msg_ftp_not_connected = "Connection to the localhost via FTP failed. Please check the port number and whether the FTP service is available.";
 $lang->msg_ftp_invalid_auth_info = "Authentication failed. Please check the username and password.";
 $lang->msg_ftp_mkdir_fail = "Directory creation failed. Please check the permission of FTP account.";
-$lang->msg_ftp_chmod_fail = "Chmod failed. Please check the permission and configuration of FTP server.";
+$lang->msg_ftp_chmod_fail = "Chmod failed. Please check the permission and configuration of the FTP server.";
 $lang->msg_ftp_connect_success = "Connection and authentication to the FTP server succeeded.";
 
 $lang->ftp_path_title = 'FTP Path Information';
@@ -318,5 +318,4 @@ $lang->filter->invalid_alpha_number = "The format of %s is invalid. Please input
 $lang->filter->invalid_number = "The format of %s is invalid. Please input numbers only";
 
 $lang->security_warning_embed = "Due to security concern, administrators are not allowed to view embedded items.<BR /> To view them, please use another non-administrator ID.";
-$lang->msg_pc_to_mobile = '이 페이지는 모바일 보기가 있습니다. 모바일 보기로 이동하시겠습니까?';
 ?>
