@@ -307,9 +307,9 @@ $lang->msg_ftp_installed_realpath = '설치된 XE의 절대경로';
 $lang->msg_ftp_installed_ftp_realpath = '설치된 XE의 FTP 경로 설정';
 
 // xml filter에서 사용되는 javascript용 alert msg
-$lang->filter->isnull = '%s을 입력해주세요.';
+$lang->filter->isnull = '%s의 값을 입력해주세요.';
 $lang->filter->outofrange = '%s의 글자 수를 맞추어 주세요.';
-$lang->filter->equalto = '%s이 잘못되었습니다.';
+$lang->filter->equalto = '%s의 값이 잘못되었습니다.';
 $lang->filter->invalid_email = '%s의 형식이 잘못되었습니다. (예: xe@xpressengine.com)';
 $lang->filter->invalid_user_id = $lang->filter->invalid_userid = "%s의 형식이 잘못되었습니다.\\n영문, 숫자와 _로 만드실 수 있으며, 첫 글자는 영문이어야 합니다.";
 $lang->filter->invalid_homepage = '%s의 형식이 잘못되었습니다. (예: http://www.xpressengine.com)';
