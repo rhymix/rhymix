@@ -369,6 +369,9 @@
                 }
             }
 
+			$this->_deleteDeclaredComments($args);
+			$this->_deleteVotedComments($args);
+
             // commit
             $oDB->commit();
 
@@ -408,17 +411,38 @@
             // Delete a list of comments
             $output = executeQuery('comment.deleteCommentsList', $args);
 
-			//delete declared, declared_log
+			//delete declared, declared_log, voted_log
 			if(is_array($commentSrlList) && count($commentSrlList)>0)
 			{
 				unset($args);
 				$args->comment_srl = join(',', $commentSrlList);
-				$tmpOutput1 = executeQuery('comment.deleteDeclaredComments', $args);
-				$tmpOutput2 = executeQuery('comment.deleteCommentDeclaredLog', $args);
+				$this->_deleteDeclaredComments($args);
+				$this->_deleteVotedComments($args);
 			}
 
             return $output;
         }
+
+		/**
+		 * @brief delete declared comment, log
+		 * @param $commentSrls : srls string (ex: 1, 2,56, 88)
+		 * @return void
+		 **/
+		function _deleteDeclaredComments($commentSrls)
+		{
+			executeQuery('comment.deleteDeclaredComments', $commentSrls);
+			executeQuery('comment.deleteCommentDeclaredLog', $commentSrls);
+		}
+
+		/**
+		 * @brief delete voted comment log
+		 * @param $commentSrls : srls string (ex: 1, 2,56, 88)
+		 * @return void
+		 **/
+		function _deleteVotedComments($commentSrls)
+		{
+			executeQuery('comment.deleteCommentVotedLog', $commentSrls);
+		}
 
         /**
          * @brief Increase vote-up counts of the comment

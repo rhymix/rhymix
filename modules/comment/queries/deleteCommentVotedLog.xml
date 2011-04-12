@@ -1,0 +1,8 @@
+<query id="deleteCommentVotedLog" action="delete">
+    <tables>
+        <table name="comment_voted_log" />
+    </tables>
+    <conditions>
+        <condition operation="in" column="comment_srl" var="comment_srl" filter="number" notnull="notnull" />
+    </conditions>
+</query>
