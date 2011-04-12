@@ -390,7 +390,9 @@
             $args->document_srl = $document_srl;
             $comments = executeQueryArray('comment.getAllComments',$args);
             if($comments->data) {
+				$commentSrlList = array();
                 foreach($comments->data as $key => $comment) {
+					array_push($commentSrlList, $comment->comment_srl);
                     // call a trigger (before)
                     $output = ModuleHandler::triggerCall('comment.deleteComment', 'before', $comment);
                     if(!$output->toBool()) continue;
@@ -405,6 +407,15 @@
             if(!$output->toBool()) return $output;
             // Delete a list of comments
             $output = executeQuery('comment.deleteCommentsList', $args);
+
+			//delete declared, declared_log
+			if(is_array($commentSrlList) && count($commentSrlList)>0)
+			{
+				unset($args);
+				$args->comment_srl = join(',', $commentSrlList);
+				$tmpOutput1 = executeQuery('comment.deleteDeclaredComments', $args);
+				$tmpOutput2 = executeQuery('comment.deleteCommentDeclaredLog', $args);
+			}
 
             return $output;
         }
