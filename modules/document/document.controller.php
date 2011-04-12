@@ -433,6 +433,9 @@ class documentController extends document {
 				return $trigger_output;
 			}
 		}
+		// declared document, log delete
+		$this->_deleteDeclaredDocuments($args);
+
 		// Remove the thumbnail file
 		FileHandler::removeDir(sprintf('files/cache/thumbnails/%s',getNumberingPath($document_srl, 3)));
 
@@ -440,6 +443,17 @@ class documentController extends document {
 		$oDB->commit();
 
 		return $output;
+	}
+
+	/**
+	 * @brief delete declared document, log
+	 * @param $documentSrls : srls string (ex: 1, 2,56, 88)
+	 * @return void
+	 **/
+	function _deleteDeclaredDocuments($documentSrls)
+	{
+		executeQuery('document.deleteDeclaredDocuments', $documentSrls);
+		executeQuery('document.deleteDocumentDeclaredLog', $documentSrls);
 	}
 
 	/**
@@ -707,10 +721,10 @@ class documentController extends document {
 		$oDocumentModel = &getModel('document');
 		$oDocument = $oDocumentModel->getDocument($document_srl, false, false);
 		// Pass if the author's IP address is as same as visitor's.
-		if($oDocument->get('ipaddress') == $_SERVER['REMOTE_ADDR']) {
+		/*if($oDocument->get('ipaddress') == $_SERVER['REMOTE_ADDR']) {
 			$_SESSION['declared_document'][$document_srl] = true;
 			return new Object(-1, 'failed_declared');
-		}
+		}*/
 		// Check if document's author is a member.
 		if($oDocument->get('member_srl')) {
 			// Create a member model object
