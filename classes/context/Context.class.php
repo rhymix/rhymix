@@ -788,7 +788,9 @@ class Context {
 			// if using rewrite mod
 			if($self->allow_rewrite) {
 				$var_keys = array_keys($get_vars);
-				$target   = implode('.', $var_keys);
+				sort($var_keys);
+
+				$target = implode('.', $var_keys);
 
 				$act = $get_vars['act'];
 				$vid = $get_vars['vid'];
@@ -817,7 +819,7 @@ class Context {
 					'act.document_srl.key.vid'=>($act=='trackback')?"$vid/$srl/$key/$act":''
 				);
 
-				$query = $target_map[$target];
+				$query  = $target_map[$target];
 			}
 
 			if(!$query) {
