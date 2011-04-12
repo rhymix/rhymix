@@ -459,7 +459,7 @@ EndOfLicense;
     $lang->use_rewrite = 'rewrite mod 사용';
     $lang->use_sso = 'SSO 사용';
     // Address /? Document_srl = 123 http:// address complex address 123 as simple as can be reduced. ';
-    $lang->about_rewrite = '웹서버에서 rewrite mod를 지원하면 http:
+    $lang->about_rewrite = '이 기능을 사용하면 http://주소/?document_srl=123과 같이 복잡한 주소를 http://주소/123과 같이 간단하게 줄일 수 있습니다. 이 기능을 사용하려면 웹 서버에서 rewrite_mod를 지원해야 합니다. 웹 서버에서 rewrite_mod를 지원하는지 여부는 서버 관리자에게 문의하세요.';
     $lang->time_zone = '표준 시간대';
     $lang->about_time_zone = '서버의 설정시간과 사용하려는 장소의 시간이 차이가 날 경우 표준 시간대를 지정하시면 표시되는 시간을 지정된 곳의 시간으로 사용하실 수 있습니다.';
     $lang->qmail_compatibility = 'Qmail 호환';

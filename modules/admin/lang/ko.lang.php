@@ -25,7 +25,7 @@
     $lang->env_setup = '환경 설정';
     $lang->default_url = '기본 URL';
     // Domain/install path);
-    $lang->about_default_url = 'XE 가상 사이트(cafeXE 등)의 기능을 사용할 때 기본 URL을 입력하셔야 가상 사이트간 인증 연동이 되고 게시글, 모듈 등의 연결이 정상적으로 이루어집니다. (예: http:
+    $lang->about_default_url = 'XE 가상 사이트(cafeXE 등)의 기능을 사용할 때 기본 URL을 입력하셔야 가상 사이트간 인증 연동이 되고 게시글, 모듈 등의 연결이 정상적으로 이루어집니다. (예: http://도메인/설치경로)';
     $lang->env_information = '환경 정보';
     $lang->current_version = '설치된 버전';
     $lang->current_path = '설치된 경로';

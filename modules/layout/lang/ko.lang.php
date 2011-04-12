@@ -24,8 +24,7 @@
     $lang->about_layout_code = 
         "아래 레이아웃의 코드를 직접 수정 후 저장하시면 서비스에 반영이 됩니다.
         꼭 미리보기를 하신 후에 저장을 하세요.
-        // xe.xpressengine.net/18180861 '); return false; \"&gt; XE template if you will.";
-        XE의 템플릿 문법은 <a href=\"#\" onclick=\"winopen('http:
+        XE의 템플릿 문법은 <a href=\"#\" onclick=\"winopen('http://xe.xpressengine.net/18180861');return false;\">XE 템플릿</a> 을 참고하시면 됩니다.";
     $lang->layout_export = '내보내기';
     $lang->layout_btn_export = '내 레이아웃 다운로드';
     $lang->about_layout_export = '현재 수정된 레이아웃을 내보내기를 합니다.';
