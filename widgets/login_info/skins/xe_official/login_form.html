@@ -13,7 +13,7 @@
 
 <fieldset id="login" class="login_{$colorset}">
 <legend>{$lang->cmd_login}</legend>
-<form id="fo_login_widget" action="./" method="post">
+<form id="fo_login_widget" action="./" method="post" onsubmit="return procFilter(this, widget_login)">
 	<input type="hidden" name="_filter" value="widget_login" />
 
     <div class="idpwWrap">
