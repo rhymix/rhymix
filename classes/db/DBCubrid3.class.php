@@ -334,7 +334,7 @@
 
             $query = sprintf ("alter class \"%s%s\" add \"%s\" ", $this->prefix, $table_name, $column_name);
 
-            if ($type == 'char' || $type == 'varchar') {
+            if ($type == 'CHAR' || $type == 'VARCHAR') {
                 if ($size) $size = $size * 3;
             }
 
