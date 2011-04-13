@@ -581,7 +581,7 @@
                 foreach ($val['condition'] as $v) {
                     if (!isset ($v['value'])) continue;
                     if ($v['value'] === '') continue;
-                    if(!in_array(gettype($v['value']), array('string', 'integer', 'double', 'array'))) continue;
+                    if(!is_string($value) && !is_integer($value) && !is_float($value) && !is_array($value)) continue;
 
                     $name = $v['column'];
                     $operation = $v['operation'];
