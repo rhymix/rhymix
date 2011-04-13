@@ -22,7 +22,8 @@
         var $prefix = 'xe'; // / <prefix of XE tables(One more XE can be installed on a single DB)
         var $cutlen = 12000; // /< max size of constant in CUBRID(if string is larger than this, '...'+'...' should be used)
         var $comment_syntax = '/* %s */';
-
+		var $magic_quotes_enabled = false;
+		
         /**
          * @brief column type used in CUBRID
          *
@@ -81,6 +82,7 @@
             $this->prefix = $db_info->db_table_prefix;
 
             if (!substr($this->prefix, -1) != '_') $this->prefix .= '_';
+            $this->magic_quotes_enabled = (version_compare(PHP_VERSION, "5.9.0", "<") && get_magic_quotes_gpc());
         }
 
         /**
@@ -123,21 +125,11 @@
         {
             if (!$this->fd) return $string;
 
-            if (version_compare (PHP_VERSION, "5.9.0", "<") &&
-              get_magic_quotes_gpc ()) {
+            if ($this->magic_quotes_enabled) {
                 $string = stripslashes (str_replace ("\\","\\\\", $string));
             }
 
-            if (!is_numeric ($string)) {
-            /*
-                if ($this->isConnected()) {
-                    $string = cubrid_real_escape_string($string);
-                }
-                else {
-                    $string = str_replace("'","\'",$string);
-                }
-                */
-
+            if (!is_numeric($string)) {
                 $string = str_replace("'","''",$string);
             }
 
