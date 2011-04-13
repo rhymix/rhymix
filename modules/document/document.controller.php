@@ -435,6 +435,8 @@ class documentController extends document {
 		}
 		// declared document, log delete
 		$this->_deleteDeclaredDocuments($args);
+		$this->_deleteDocumentReadedLog($args);
+		$this->_deleteDocumentVotedLog($args);
 
 		// Remove the thumbnail file
 		FileHandler::removeDir(sprintf('files/cache/thumbnails/%s',getNumberingPath($document_srl, 3)));
@@ -454,6 +456,26 @@ class documentController extends document {
 	{
 		executeQuery('document.deleteDeclaredDocuments', $documentSrls);
 		executeQuery('document.deleteDocumentDeclaredLog', $documentSrls);
+	}
+
+	/**
+	 * @brief delete readed log
+	 * @param $documentSrls : srls string (ex: 1, 2,56, 88)
+	 * @return void
+	 **/
+	function _deleteDocumentReadedLog($documentSrls)
+	{
+		executeQuery('document.deleteDocumentReadedLog', $documentSrls);
+	}
+
+	/**
+	 * @brief delete voted log
+	 * @param $documentSrls : srls string (ex: 1, 2,56, 88)
+	 * @return void
+	 **/
+	function _deleteDocumentVotedLog($documentSrls)
+	{
+		executeQuery('document.deleteDocumentVotedLog', $documentSrls);
 	}
 
 	/**
