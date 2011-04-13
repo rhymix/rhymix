@@ -923,105 +923,17 @@
             if ($output->list_count && $output->page) {
                 return ($this->_getNavigationData($table_list, $columns, $left_join, $condition, $output));
             }
+            
+            $condition = $this->limitResultIfOrderByIsUsed($output->order, $condition);
 
-            if ($output->order) {
-                $conditions = $this->getConditionList($output);
-                //if(in_array('list_order', $conditions) || in_array('update_order', $conditions)) {
-                    foreach($output->order as $key => $val) {
-                        $col = $val[0];
-                        if(!in_array($col, array('list_order','update_order'))) continue;
-                        if ($condition) $condition .= sprintf(' and %s < 2100000000 ', $col);
-                        else $condition = sprintf(' where %s < 2100000000 ', $col);
-                    }
-                //}
-            }
-
-
-            if (count ($output->groups)) {
-                foreach ($output->groups as $key => $value) {
-                    if (strpos ($value, '.')) {
-                        $tmp = explode ('.', $value);
-                        $tmp[0] = sprintf ('"%s"', $tmp[0]);
-                        $tmp[1] = sprintf ('"%s"', $tmp[1]);
-                        $value = implode ('.', $tmp);
-                    }
-                    elseif (strpos ($value, '(')) {
-                        $value = $value;
-                    }
-                    else {
-                        $value = sprintf ('"%s"', $value);
-                    }
-                    $output->groups[$key] = $value;
-
-
-                    if(count($output->arg_columns))
-                    {
-                        if($column_list[$value]) $output->arg_columns[] = $column_list[$value];
-                    }
-                }
-                $groupby_query = sprintf ('group by %s', implode(',', $output->groups));
-            }
-
-
-            // apply when using list_count
-            if ($output->list_count['value']) {
-                $start_count = 0;
-                $list_count = $output->list_count['value'];
-
-                if ($output->order) {
-                  foreach ($output->order as $val) {
-                      if (strpos ($val[0], '.')) {
-                          $tmpval = explode ('.', $val[0]);
-                          $tmpval[0] = sprintf ('"%s"', $tmpval[0]);
-                          $tmpval[1] = sprintf ('"%s"', $tmpval[1]);
-                          $val[0] = implode ('.', $tmpval);
-                      }
-                      elseif (strpos ($val[0], '(')) $val[0] = $val[0];
-                      elseif ($val[0] == 'count') $val[0] = 'count (*)';
-                      else $val[0] = sprintf ('"%s"', $val[0]);
-                      $index_list[] = sprintf('%s %s', $val[0], $val[1]);
-                  }
-                  if (count($index_list))
-                      $orderby_query = ' order by '.implode(',', $index_list);
-                      $orderby_query = sprintf ('%s for orderby_num() between %d and %d', $orderby_query, $start_count + 1, $list_count + $start_count);
-                }
-                else {
-                    if (count ($output->groups)) {
-                        $orderby_query = sprintf ('%s having groupby_num() between %d'.  ' and %d', $orderby_query, $start_count + 1, $list_count + $start_count);
-                    }
-                    else {
-                        if ($condition) {
-                            $orderby_query = sprintf ('%s and inst_num() between %d'.  ' and %d', $orderby_query, $start_count + 1, $list_count + $start_count);
-                        }
-                        else {
-                            $orderby_query = sprintf ('%s where inst_num() between %d'.  ' and %d', $orderby_query, $start_count + 1, $list_count + $start_count);
-                        }
-                    }
-                }
-            }
-            else {
-                if ($output->order) {
-                    foreach ($output->order as $val) {
-                        if (strpos ($val[0], '.')) {
-                            $tmpval = explode ('.', $val[0]);
-                            $tmpval[0] = sprintf ('"%s"', $tmpval[0]);
-                            $tmpval[1] = sprintf ('"%s"', $tmpval[1]);
-                            $val[0] = implode ('.', $tmpval);
-                        }
-                        elseif (strpos ($val[0], '(')) $val[0] = $val[0];
-                        elseif ($val[0] == 'count') $val[0] = 'count (*)';
-                        else $val[0] = sprintf ('"%s"', $val[0]);
-                        $index_list[] = sprintf('%s %s', $val[0], $val[1]);
-
-                        if(count($output->arg_columns) && $column_list[$val]) $output->arg_columns[] = $column_list[$key];
-                    }
-
-                    if (count ($index_list)) {
-                        $orderby_query = ' order by '.implode(',', $index_list);
-                    }
-                }
-            }
-
+            // group by
+            $groupby_query = $this->getGroupByClause($output->groups);
+            
+            // order by
+			$orderby_query = $this->getOrderByClause($output->order);
+					
+            // limit
+            $limit_query = $this->getLimitClause(0, $output->list_count['value']);
 
             if(count($output->arg_columns))
             {
@@ -1034,7 +946,7 @@
                 $columns = join(',',$columns);
             }
 
-            $query = sprintf ("select %s from %s %s %s %s", $columns, implode (',',$table_list), implode (' ',$left_join), $condition, $groupby_query.$orderby_query);
+            $query = sprintf ("select %s from %s %s %s %s", $columns, implode (',',$table_list), implode (' ',$left_join), $condition, $groupby_query.$orderby_query.$limit_query);
             $query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
             $result = $this->_query ($query);
             if ($this->isError ()) return;
@@ -1046,6 +958,118 @@
             return $buff;
         }
 
+        /**
+         * @brief Retrieve text for limit clause
+         *
+         * Example: SELECT * FROM xe_modules LIMIT 20
+         *  
+         **/        
+        function getLimitClause($offset, $row_count){
+        	if(!$row_count) return '';
+        	if($offset === 0)
+        		return sprintf(' limit %d', $row_count);
+        	return	sprintf(' limit %d, %d', $offset, $row_count);
+        }
+
+        /**
+         * @brief Retrieve text for order by clause
+         *
+         * Example: SELECT * FROM xe_modules ORDER BY list_order, regdate
+         *  
+         **/              
+        function getOrderByClause($order_list){
+        	if(!$order_list) return '';
+        	
+            foreach ($order_list as $val) {
+            	// Parse column names
+            	if (strpos ($val[0], '.')) {
+                	$tmpval = explode ('.', $val[0]);
+                    $tmpval[0] = sprintf ('"%s"', $tmpval[0]);
+                    $tmpval[1] = sprintf ('"%s"', $tmpval[1]);
+                    $val[0] = implode ('.', $tmpval);
+                }
+                elseif (strpos ($val[0], '(')) $val[0] = $val[0];
+                elseif ($val[0] == 'count') $val[0] = 'count(*)';
+                else $val[0] = sprintf ('"%s"', $val[0]);
+                
+                // Save name
+                $index_list[] = sprintf('%s %s', $val[0], $val[1]);
+
+                // 1. This if never gets executed: column names are alias in $column_list but with real name in order clause
+                // 2. There is no need for the columns in the order by clause to also show up in the select statement
+                /*
+                	if(count($output->arg_columns) && $column_list[$val[0]]) 
+                	$output->arg_columns[] = $column_list[$val[0]];
+                */
+            }
+
+            if (count($index_list)) {
+                return ' order by '.implode(',', $index_list);
+            }        	
+            
+            return '';
+        }
+
+        /**
+         * @brief Retrieve text for group by clause
+         *
+         * Example: SELECT substr(regdate, 1, 8), count(*) FROM xe_modules GROUP BY substr(regdate, 1, 8)
+         *  
+         **/            
+        function getGroupByClause($group_list){
+        	if(!$group_list) return '';
+        	if(!count($group_list)) return '';        	
+          
+            foreach ($group_list as $key => $value) {
+	            // If value is qualified table name
+	            if (strpos ($value, '.')) {
+	            	$tmp = explode ('.', $value);
+	                $tmp[0] = sprintf ('"%s"', $tmp[0]);
+	                $tmp[1] = sprintf ('"%s"', $tmp[1]);
+	                $value = implode ('.', $tmp);
+	                }
+	            // If value is an expression
+	            elseif (strpos ($value, '(')) {
+	            	$value = $value;
+	            }
+	            else {
+	            	$value = sprintf ('"%s"', $value);
+	            }
+	            // Update 
+	            $group_list[$key] = $value;
+	
+				/*
+				 * The same as with order by - columns in "group by" do not need to be in the select clause
+	            if(count($output->arg_columns))
+	            {
+	            	if($column_list[$value]) $output->arg_columns[] = $column_list[$value];
+	            }
+	            */
+            }
+            return sprintf ('group by %s', implode(',', $group_list));
+        }
+
+        /**
+         * @brief Adds a where clause that retrieves only a subset of the table data if order by is used
+         * @remarks Only works with tables that have columns named "list_order" or "update_order" 
+         * 
+         * EXAMPLE: SELECT * FROM xe_documents WHERE module_srl = 10 AND list_order < 2100000000 ORDER BY list_order
+         *  
+         **/          
+        function limitResultIfOrderByIsUsed($order_list, $condition){
+        	if(!$order_list) return $condition;
+        	
+            foreach ($order_list as $key => $val) {
+            	$col = $val[0];
+                if(!in_array($col, array('list_order','update_order'))) continue;
+            
+                if($condition) $condition .= sprintf(' and %s < 2100000000 ', $col);
+                else $condition = sprintf(' where %s < 2100000000 ', $col);
+            }
+            
+            return $condition;
+        }        
+        
         /**
          * @brief displays the current stack trace. Fetch the result
          **/
@@ -1138,68 +1162,16 @@
             if ($page > $total_page) $page = $total_page;
             $start_count = ($page - 1) * $list_count;
 
-            if ($output->order) {
-                $conditions = $this->getConditionList($output);
-                //if(in_array('list_order', $conditions) || in_array('update_order', $conditions)) {
-                    foreach ($output->order as $key => $val) {
-                        $col = $val[0];
-                        if(!in_array($col, array('list_order','update_order'))) continue;
-                        if($condition) $condition .= sprintf(' and %s < 2100000000 ', $col);
-                        else $condition = sprintf(' where %s < 2100000000 ', $col);
-                    }
-                //}
-            }
+			$condition = $this->limitResultIfOrderByIsUsed($output->order, $condition);            
+            
+            // group by
+            $groupby_query = $this->getGroupByClause($output->groups);
 
-
-            if (count ($output->groups)) {
-                foreach ($output->groups as $key => $value) {
-                    if (strpos ($value, '.')) {
-                        $tmp = explode ('.', $value);
-                        $tmp[0] = sprintf ('"%s"', $tmp[0]);
-                        $tmp[1] = sprintf ('"%s"', $tmp[1]);
-                        $value = implode ('.', $tmp);
-                    }
-                    elseif (strpos ($value, '(')) $value = $value;
-                    else $value = sprintf ('"%s"', $value);
-                    $output->groups[$key] = $value;
-                }
-
-                $groupby_query = sprintf (' group by %s', implode (',', $output->groups));
-            }
-
-            if ($output->order) {
-                foreach ($output->order as $val) {
-                    if (strpos ($val[0], '.')) {
-                        $tmpval = explode ('.', $val[0]);
-                        $tmpval[0] = sprintf ('"%s"', $tmpval[0]);
-                        $tmpval[1] = sprintf ('"%s"', $tmpval[1]);
-                        $val[0] = implode ('.', $tmpval);
-                    }
-                    elseif (strpos ($val[0], '(')) $val[0] = $val[0];
-                    elseif ($val[0] == 'count') $val[0] = 'count (*)';
-                    else $val[0] = sprintf ('"%s"', $val[0]);
-                    $index_list[] = sprintf ('%s %s', $val[0], $val[1]);
-                }
-
-                if (count ($index_list)) {
-                    $orderby_query = ' order by '.implode(',', $index_list);
-                }
-
-                $orderby_query = sprintf ('%s for orderby_num() between %d and %d', $orderby_query, $start_count + 1, $list_count + $start_count);
-            }
-            else {
-                if (count($output->groups)) {
-                    $orderby_query = sprintf ('%s having groupby_num() between %d and %d', $orderby_query, $start_count + 1, $list_count + $start_count);
-                }
-                else {
-                    if ($condition) {
-                        $orderby_query = sprintf ('%s and inst_num() between %d and %d', $orderby_query, $start_count + 1, $list_count + $start_count);
-                    }
-                    else {
-                        $orderby_query = sprintf('%s where inst_num() between %d and %d', $orderby_query, $start_count + 1, $list_count + $start_count);
-                    }
-                }
-            }
+            // order by
+			$orderby_query = $this->getOrderByClause($output->order);
+					
+            // limit
+            $limit_query = $this->getLimitClause($start_count, $list_count);                        
 
             if(count($output->arg_columns))
             {
@@ -1212,7 +1184,7 @@
                 $columns = join(',',$columns);
             }
 
-            $query = sprintf ("select %s from %s %s %s %s", $columns, implode (',',$table_list), implode (' ',$left_join), $condition, $groupby_query.$orderby_query);
+            $query = sprintf ("select %s from %s %s %s %s", $columns, implode (',',$table_list), implode (' ',$left_join), $condition, $groupby_query.$orderby_query.$limit_query);
             $query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
             $result = $this->_query ($query);
 
