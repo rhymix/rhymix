@@ -96,4 +96,7 @@
     $lang->success_trashed = "Successfully moved to trashcan";
     $lang->msg_not_selected_document = 'There are no selected articles.';
 	$lang->show_voted_member = 'Show Voters';
+	
+	$lang->category_description = 'Description';
+	$lang->about_category_description='Please input a category description';
 ?>

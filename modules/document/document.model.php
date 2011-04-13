@@ -346,6 +346,7 @@
          **/
         function getNoticeList($obj) {
             $args->module_srl = $obj->module_srl;
+            $args->category_srl= $obj->category_srl;
             $output = executeQueryArray('document.getNoticeList', $args);
             if(!$output->toBool()||!$output->data) return;
 
@@ -607,6 +608,7 @@
                 $obj->category_srl = $val['category_srl'];
                 $obj->parent_srl = $val['parent_srl'];
                 $obj->title = $obj->text = $val['text'];
+                $obj->description = $val['description'];
                 $obj->expand = $val['expand']=='Y'?true:false;
                 $obj->color = $val['color'];
                 $obj->document_count = $val['document_count'];

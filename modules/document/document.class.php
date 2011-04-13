@@ -96,8 +96,11 @@
             if(!$oDB->isColumnExists("document_extra_keys","eid")) return true;
             if(!$oDB->isColumnExists("document_extra_vars","eid")) return true;
 
-            // 2011. 03. 30 Cubrid index 추가 요청
+            // 2011. 03. 30 Cubrid index Check the index in the document_extra_vars table
             if(!$oDB->isIndexExists("document_extra_vars", "idx_document_list_order")) return true;
+			
+			//2011. 04. 07 adding description column to document categories
+			if(!$oDB->isColumnExists("document_categories","description")) return true;
 
             return false;
         }
@@ -226,10 +229,13 @@
                 }
             }
 
-            // 2011. 03. 30 Cubrid index 추가 요청
+            // 2011. 03. 30 Cubrid index Check the index in the document_extra_vars table
             if(!$oDB->isIndexExists("document_extra_vars", "idx_document_list_order")) {
                 $oDB->addIndex("document_extra_vars", "idx_document_list_order", array("document_srl","module_srl","var_idx"), false);
             }
+			
+			//2011. 04. 07 adding description column to document categories
+			if(!$oDB->isColumnExists("document_categories","description")) $oDB->addColumn('document_categories',"description","varchar",2000,0);
 
             return new Object(0,'success_updated');
 

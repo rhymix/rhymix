@@ -1015,7 +1015,7 @@ class documentController extends document {
 	 **/
 	function procDocumentInsertCategory($args = null) {
 		// List variables
-		if(!$args) $args = Context::gets('module_srl','category_srl','parent_srl','title','expand','group_srls','color','mid');
+		if(!$args) $args = Context::gets('module_srl','category_srl','parent_srl','title','description','expand','group_srls','color','mid');
 
 		if(!$args->module_srl && $args->mid){
 			$mid = $args->mid;
@@ -1306,6 +1306,7 @@ class documentController extends document {
 			$module_srl = $node->module_srl;
 			$parent_srl = $node->parent_srl;
 			$color = $node->color;
+			$description = $node->description;
 			// If node->group_srls value exists
 			if($group_srls) $group_check_code = sprintf('($is_admin==true||(is_array($group_srls)&&count(array_intersect($group_srls, array(%s)))))',$group_srls);
 			else $group_check_code = "true";
@@ -1314,9 +1315,12 @@ class documentController extends document {
 			$oModuleAdminModel = &getAdminModel('module');
 			$langs = $oModuleAdminModel->getLangCode($site_srl, $title);
 			if(count($langs)) foreach($langs as $key => $val) $xml_header_buff .= sprintf('$_titles[%d]["%s"] = "%s"; ', $category_srl, $key, str_replace('"','\\"',htmlspecialchars($val)));
-
+			
+			$langx = $oModuleAdminModel->getLangCode($site_srl, $description);
+			if(count($langx)) foreach($langx as $key => $val) $xml_header_buff .= sprintf('$_descriptions[%d]["%s"] = "%s"; ', $category_srl, $key, str_replace('"','\\"',htmlspecialchars($val)));
+			
 			$attribute = sprintf(
-					'mid="%s" module_srl="%d" node_srl="%d" parent_srl="%d" category_srl="%d" text="<?php echo (%s?($_titles[%d][$lang_type]):"")?>" url="%s" expand="%s" color="%s" document_count="%d" ',
+					'mid="%s" module_srl="%d" node_srl="%d" parent_srl="%d" category_srl="%d" text="<?php echo (%s?($_titles[%d][$lang_type]):"")?>" url="%s" expand="%s" color="%s" description="<?php echo (%s?($_descriptions[%d][$lang_type]):"")?>" document_count="%d" ',
 					$mid,
 					$module_srl,
 					$category_srl,
@@ -1327,6 +1331,8 @@ class documentController extends document {
 					getUrl('','mid',$node->mid,'category',$category_srl),
 					$expand,
 					$color,
+					$group_check_code,
+					$category_srl,
 					$node->document_count
 					);
 
@@ -1362,12 +1368,15 @@ class documentController extends document {
 			$expand = $node->expand;
 
 			$title = $node->title;
+			$description= $node->description;
 			$oModuleAdminModel = &getAdminModel('module');
 			$langs = $oModuleAdminModel->getLangCode($site_srl, $title);
 			if(count($langs)) foreach($langs as $key => $val) $php_header_buff .= sprintf('$_titles[%d]["%s"] = "%s"; ', $category_srl, $key, str_replace('"','\\"',htmlspecialchars($val)));
+			$langx = $oModuleAdminModel->getLangCode($site_srl, $description);
+			if(count($langx)) foreach($langx as $key => $val) $php_header_buff .= sprintf('$_descriptions[%d]["%s"] = "%s"; ', $category_srl, $key, str_replace('"','\\"',htmlspecialchars($val)));
 			// Create attributes(Use the category_srl_list to check whether to belong to the menu's node. It seems to be tricky but fast fast and powerful;)
 			$attribute = sprintf(
-					'"mid" => "%s", "module_srl" => "%d","node_srl"=>"%s","category_srl"=>"%s","parent_srl"=>"%s","text"=>$_titles[%d][$lang_type],"selected"=>(in_array(Context::get("category"),array(%s))?1:0),"expand"=>"%s","color"=>"%s", "list"=>array(%s),"document_count"=>"%d","grant"=>%s?true:false',
+					'"mid" => "%s", "module_srl" => "%d","node_srl"=>"%s","category_srl"=>"%s","parent_srl"=>"%s","text"=>$_titles[%d][$lang_type],"selected"=>(in_array(Context::get("category"),array(%s))?1:0),"expand"=>"%s","color"=>"%s","description"=>$_descriptions[%d][$lang_type],"list"=>array(%s),"document_count"=>"%d","grant"=>%s?true:false',
 					$node->mid,
 					$node->module_srl,
 					$node->category_srl,
@@ -1377,6 +1386,7 @@ class documentController extends document {
 					$selected,
 					$expand,
 					$node->color,
+					$node->category_srl,
 					$child_buff,
 					$node->document_count,
 					$group_check_code

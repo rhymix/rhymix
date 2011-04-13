@@ -30,6 +30,16 @@
                 <p>{$lang->about_category_color}</p>
             </td>
         </tr>
+        
+        <tr>
+            <th scope="row"><div>{$lang->category_description}</div></th>
+            <td class="wide">
+            	<textarea name="category_description" id="category_description" class="inputTypeTextArea">{htmlspecialchars($category_info->description)}</textarea>
+            	<a href="{getUrl('','module','module','act','dispModuleAdminLangcode','target','category_description')}" onclick="popopen(this.href);return false;" class="buttonSet buttonSetting"><span>{$lang->cmd_find_langcode}</span></a>
+            	<p>{$lang->about_category_description}</p>				
+            </td>
+        </tr>
+        
         <tr>
             <th scope="row"><div>{$lang->expand}</div></th>
             <td>
