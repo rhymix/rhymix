@@ -20,7 +20,8 @@ function main() {
 	$argc = $_SERVER['argc'];
 
 	// get target directories
-	if($argc < 2) $dirs = array($_SERVER['PWD']);
+	if($argc < 1) exit;
+	elseif($argc < 2) $dirs = array($_SERVER['PWD']);
 	else $dirs = array_slice($argv, 1);
 
 	$dirs = array_map('realpath', $dirs);
