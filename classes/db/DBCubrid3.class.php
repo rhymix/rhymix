@@ -571,13 +571,13 @@
                 $sub_condition = '';
 
                 foreach ($val['condition'] as $v) {
-                    if (!isset ($v['value'])) continue;
-                    if ($v['value'] === '') continue;
+                	$value = $v['value'];
+                    if (!isset ($value)) continue;
+                    if ($value === '') continue;
                     if(!is_string($value) && !is_integer($value) && !is_float($value) && !is_array($value)) continue;
-
+                	
                     $name = $v['column'];
                     $operation = $v['operation'];
-                    $value = $v['value'];
                     $type = $this->getColumnType ($column_type, $name);
                     $pipe = $v['pipe'];
                     $value = $this->getConditionValue ($name, $value, $operation, $type, $column_type);
