@@ -137,20 +137,31 @@ class HTMLDisplayHandler {
 	{
 		$oContext =& Context::getInstance();
 		// add common JS/CSS files
-		$oContext->addJsFile('./common/js/jquery.js', false, '', -100000);
-		$oContext->addJsFile('./common/js/x.js', false, '', -100000);
-		$oContext->addJsFile('./common/js/common.js', false, '', -100000);
-		$oContext->addJsFile('./common/js/js_app.js', false, '', -100000);
-		$oContext->addJsFile('./common/js/xml_handler.js', false, '', -100000);
-		$oContext->addJsFile('./common/js/xml_js_filter.js', false, '', -100000);
-		$oContext->addCSSFile('./common/css/default.css', false, 'all', '', -100000);
-		$oContext->addCSSFile('./common/css/button.css', false, 'all', '', -100000);
+		if(__DEBUG__) {
+			$oContext->addJsFile('./common/js/jquery.js', false, '', -100000);
+			$oContext->addJsFile('./common/js/x.js', false, '', -100000);
+			$oContext->addJsFile('./common/js/common.js', false, '', -100000);
+			$oContext->addJsFile('./common/js/js_app.js', false, '', -100000);
+			$oContext->addJsFile('./common/js/xml_handler.js', false, '', -100000);
+			$oContext->addJsFile('./common/js/xml_js_filter.js', false, '', -100000);
+			$oContext->addCSSFile('./common/css/default.css', false, 'all', '', -100000);
+			$oContext->addCSSFile('./common/css/button.css', false, 'all', '', -100000);
+		} else {
+			$oContext->addJsFile('./common/js/jquery.min.js', false, '', -100000);
+			$oContext->addJsFile('./common/js/x.min.js', false, '', -100000);
+			$oContext->addJsFile('./common/js/xe.min.js', false, '', -100000);
+			$oContext->addCSSFile('./common/css/xe.min.css', false, 'all', '', -100000);
+		}
 
 		// for admin page, add admin css
 		if(Context::get('module')=='admin' || strpos(Context::get('act'),'Admin')>0){
-			$oContext->addCSSFile('./modules/admin/tpl/css/font.css', false, 'all', '',10000);
-			$oContext->addCSSFile('./modules/admin/tpl/css/pagination.css', false, 'all', '', 100001);
-			$oContext->addCSSFile('./modules/admin/tpl/css/admin.css', false, 'all', '', 100002);
+			if(__DEBUG__) {
+				$oContext->addCSSFile('./modules/admin/tpl/css/font.css', false, 'all', '',10000);
+				$oContext->addCSSFile('./modules/admin/tpl/css/pagination.css', false, 'all', '', 100001);
+				$oContext->addCSSFile('./modules/admin/tpl/css/admin.css', false, 'all', '', 100002);
+			} else {
+				$oContext->addCSSFile('./modules/admin/tpl/css/xe_admin.min.css', false, 'all', '',10000);
+			}
 		}
 	}
 }
