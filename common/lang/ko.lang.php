@@ -66,6 +66,8 @@
     $lang->cmd_layout_edit = '레이아웃 편집';
     $lang->cmd_search_by_ipaddress = 'IP주소로 검색';
     $lang->cmd_add_ip_to_spamfilter = '스팸필터에 IP추가';
+	$lang->cmd_pass_step = '이 단계를 생략';
+	$lang->cmd_complete = '완료';
     $lang->enable = '가능';
     $lang->disable = '불가능';
     // Basic words
@@ -271,7 +273,9 @@
         이 FTP정보는 files/config/ftp.config.php 파일 내에 정보가 저장됩니다.<br />
         설치 후 관리자 페이지에서 FTP 정보를 변경하거나 제거할 수 있습니다.<br />
     ";
-    $lang->msg_safe_mode_ftp_needed = 'PHP의 safe_mode가 On일 경우, FTP 정보를 입력하셔야 XE 설치 및 사용이 가능합니다.';
+    $lang->msg_safe_mode_ftp_needed = 'PHP의 <strong>safe_mode=On</strong>일 경우 XE의 정상적인 동작을 돕습니다.';
+    $lang->msg_safe_mode_ftp_needed2 = '모듈의 쉬운 설치 또는 업데이트가 가능해 집니다.';
+    $lang->msg_safe_mode_ftp_config = '이 정보는 <strong>files/config/ftp.config.php</strong> 파일에 저장 됩니다. 설치 후 환경설정 페이지에서도 등록, 변경, 제거 할 수 있습니다.';
     $lang->msg_ftp_not_connected = 'localhost로의 FTP 접속 오류가 발생하였습니다. FTP 포트 번호를 확인해주시거나 FTP 서비스가 가능한지 확인해주세요.';
     $lang->msg_ftp_invalid_auth_info = '입력하신 FTP 정보로 로그인을 하지 못했습니다. FTP정보를 확인해주세요.';
     $lang->msg_ftp_mkdir_fail = 'FTP를 이용한 디렉토리 생성 명령에 실패하였습니다. FTP 서버의 설정을 확인해주세요.';

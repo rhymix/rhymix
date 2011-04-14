@@ -1,0 +1,11 @@
+		<div id="progress">
+			<ul>
+				<li <!--@if($act=='')-->class="active"<!--@end-->>{$lang->install_progress_menu['agree']}</li>
+				<li <!--@if($act=='dispInstallCheckEnv')-->class="active"<!--@end-->>{$lang->install_progress_menu['condition']}</li>
+				<li <!--@if($act=='dispInstallSelectDB' && $progressMenu == '3')-->class="active"<!--@end-->>{$lang->install_progress_menu['ftp']}</li>
+				<li <!--@if($act=='dispInstallSelectDB' && $progressMenu == '4')-->class="active"<!--@end-->>{$lang->install_progress_menu['dbSelect']}</li>
+				<li <!--@if($act=='dispInstallDBForm')-->class="active"<!--@end-->>{$lang->install_progress_menu['dbInfo']}</li>
+				<li <!--@if($act=='dispInstallConfigForm')-->class="active"<!--@end-->>{$lang->install_progress_menu['configInfo']}</li>
+				<li <!--@if($act=='dispInstallManagerForm')-->class="active"<!--@end-->>{$lang->install_progress_menu['adminInfo']}</li>
+			</ul>
+		</div>

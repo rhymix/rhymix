@@ -60,8 +60,10 @@
             if(!$this->install_enable) return $this->dispInstallCheckEnv();
             // Enter ftp information
             if(ini_get('safe_mode') && !Context::isFTPRegisted()) {
+				Context::set('progressMenu', '3');
                 $this->setTemplateFile('ftp');
             } else {
+				Context::set('progressMenu', '4');
                 $this->setTemplateFile('select_db');
             }
         }
@@ -69,17 +71,41 @@
         /**
          * @brief Display a screen to enter DB and administrator's information
          **/
-        function dispInstallForm() {
+        function dispInstallDBForm() {
             // Display check_env if not installable
             if(!$this->install_enable) return $this->dispInstallCheckEnv();
             // Return to the start-up screen if db_type is not specified
             if(!Context::get('db_type')) return $this->dispInstallSelectDB();
 
-            Context::set('time_zone', $GLOBALS['time_zone']);
             // Output the file, disp_db_info_form.html
             $tpl_filename = sprintf('form.%s', Context::get('db_type'));
             $this->setTemplateFile($tpl_filename);
         }
 
+        /**
+         * @brief Display a screen to enter DB and administrator's information
+         **/
+        function dispInstallConfigForm() {
+            // Display check_env if not installable
+            if(!$this->install_enable) return $this->dispInstallCheckEnv();
+
+			include _XE_PATH_.'files/config/tmpDB.config.php';
+
+            Context::set('time_zone', $GLOBALS['time_zone']);
+            Context::set('db_type', $db_info->db_type);
+            $this->setTemplateFile('config_form');
+        }
+
+        /**
+         * @brief Display a screen to enter DB and administrator's information
+         **/
+        function dispInstallManagerForm() {
+            // Display check_env if not installable
+            if(!$this->install_enable) {
+				return $this->dispInstallCheckEnv();
+			}
+
+            $this->setTemplateFile('admin_form');
+        }
     }
 ?>

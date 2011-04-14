@@ -993,6 +993,14 @@ class Context {
 		return $file;
 	}
 
+	function getAbsFileUrl($file) {
+		$file = Context::normalizeFilePath($file);
+		if(strpos($file,'./')===0) $file = dirname($_SERVER['SCRIPT_NAME']).'/'.substr($file,2);
+		elseif(strpos($file,'../')===0) $file = Context::normalizeFilePath(dirname($_SERVER['SCRIPT_NAME'])."/{$file}");
+
+		return $file;
+	}
+
 	/**
 	 * @brief Add the js file
 	 **/
@@ -1016,11 +1024,11 @@ class Context {
 	function unloadJsFile($file, $optimized = false, $targetie = '') {
 		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
 
-		$realfile = realpath($file);
+		$realfile = $self->getAbsFileUrl($file);
 
 		foreach($self->js_files_map as $key=>$val) {
 			list($_file, $_targetie) = explode("\t", $key);
-			if(realpath($_file)==$realfile && $_targetie == $targetie) {
+			if($self->getAbsFileUrl($_file)==$realfile && $_targetie == $targetie) {
 				unset($self->js_files_map[$key]);
 				return;
 			}
@@ -1099,11 +1107,11 @@ class Context {
 	function unloadCSSFile($file, $optimized = false, $media = 'all', $targetie = '') {
 		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
 
-		$realfile = realpath($file);
+		$realfile = $self->getAbsFileUrl($file);
 
 		foreach($self->css_files_map as $key => $val) {
 			list($_file, $_targetie, $_media) = explode("\t", $key);
-			if(realpath($_file)==$realfile && $_media==$media && $_targetie==$targetie) {
+			if($self->getAbsFileUrl($_file)==$realfile && $_media==$media && $_targetie==$targetie) {
 				unset($self->css_files_map[$key]);
 				return;
 			}

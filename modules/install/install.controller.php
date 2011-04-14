@@ -6,6 +6,8 @@
      **/
 
     class installController extends install {
+		var $db_tmp_config_file = '';
+		var $etc_tmp_config_file = '';
 
         /**
          * @brief Initialization
@@ -15,7 +17,46 @@
             if(Context::isInstalled()) {
                 return new Object(-1, 'msg_already_installed');
             }
+
+			$this->db_tmp_config_file = _XE_PATH_.'files/config/tmpDB.config.php';
+			$this->etc_tmp_config_file = _XE_PATH_.'files/config/tmpEtc.config.php';
         }
+
+		/**
+		 * @brief division install step... DB Config temp file create
+		 **/
+		function procDBSetting() {
+            // Get DB-related variables
+            $db_info = Context::gets('db_type','db_port','db_hostname','db_userid','db_password','db_database','db_table_prefix');
+            if(!$db_info->default_url) $db_info->default_url = Context::getRequestUri();
+            $db_info->lang_type = Context::getLangType();
+
+            // Set DB type and information
+            Context::setDBInfo($db_info);
+            // Create DB Instance
+            $oDB = &DB::getInstance();
+            // Check if available to connect to the DB
+            $output = $oDB->getError();
+            if(!$oDB->isConnected()) return $oDB->getError();
+            // When installing firebire DB, transaction will not be used
+            if($db_info->db_type != "firebird") $oDB->begin();
+
+            if($db_info->db_type != "firebird") $oDB->commit();
+            // Create a db temp config file
+            if(!$this->makeDBConfigFile()) return new Object(-1, 'msg_install_failed');
+		}
+
+		/**
+		 * @brief division install step... rewrite, time_zone Config temp file create
+		 **/
+		function procConfigSetting() {
+            // Get variables
+            $config_info = Context::gets('use_rewrite','time_zone');
+            if($config_info->use_rewrite!='Y') $config_info->use_rewrite = 'N';
+
+            // Create a db temp config file
+            if(!$this->makeEtcConfigFile($config_info)) return new Object(-1, 'msg_install_failed');
+		}
 
         /**
          * @brief Install with received information
@@ -27,17 +68,16 @@
             $logged_info->is_admin = 'Y';
             $_SESSION['logged_info'] = $logged_info;
             Context::set('logged_info', $logged_info);
-            // Get DB-related variables
-            $db_info = Context::gets('db_type','db_port','db_hostname','db_userid','db_password','db_database','db_table_prefix','time_zone','use_rewrite');
-            if($db_info->use_rewrite!='Y') $db_info->use_rewrite = 'N';
-            if(!$db_info->default_url) $db_info->default_url = Context::getRequestUri();
-            $db_info->lang_type = Context::getLangType();
+
+			include $this->db_tmp_config_file;
+			include $this->etc_tmp_config_file;
+
             // Set DB type and information
             Context::setDBInfo($db_info);
             // Create DB Instance
             $oDB = &DB::getInstance();
+
             // Check if available to connect to the DB
-            $output = $oDB->getError();
             if(!$oDB->isConnected()) return $oDB->getError();
             // When installing firebire DB, transaction will not be used
             if($db_info->db_type != "firebird") $oDB->begin();
@@ -284,6 +324,47 @@
         }
 
         /**
+         * @brief Create DB temp config file
+         * Create the config file when all settings are completed
+         **/
+        function makeDBConfigFile() {
+            $db_tmp_config_file = $this->db_tmp_config_file;
+
+            $db_info = Context::getDbInfo();
+            if(!$db_info) return;
+
+            $buff = '<?php if(!defined("__ZBXE__")) exit();'."\n";
+            foreach($db_info as $key => $val) {
+                $buff .= sprintf("\$db_info->%s = '%s';\n", $key, str_replace("'","\\'",$val));
+            }
+            $buff .= "?>";
+
+            FileHandler::writeFile($db_tmp_config_file, $buff);
+
+            if(@file_exists($db_tmp_config_file)) return true;
+            return false;
+        }
+
+        /**
+         * @brief Create etc config file
+         * Create the config file when all settings are completed
+         **/
+        function makeEtcConfigFile($config_info) {
+            $etc_tmp_config_file = $this->etc_tmp_config_file;
+
+            $buff = '<?php if(!defined("__ZBXE__")) exit();'."\n";
+            foreach($config_info as $key => $val) {
+                $buff .= sprintf("\$db_info->%s = '%s';\n", $key, str_replace("'","\\'",$val));
+            }
+            $buff .= "?>";
+
+            FileHandler::writeFile($etc_tmp_config_file, $buff);
+
+            if(@file_exists($etc_tmp_config_file)) return true;
+            return false;
+        }
+
+        /**
          * @brief Create config file
          * Create the config file when all settings are completed
          **/
@@ -302,7 +383,11 @@
 
             FileHandler::writeFile($config_file, $buff);
 
-            if(@file_exists($config_file)) return true;
+            if(@file_exists($config_file)) {
+				FileHandler::removeFile($this->db_tmp_config_file);
+				FileHandler::removeFile($this->etc_tmp_config_file);
+				return true;
+			}
             return false;
         }
 

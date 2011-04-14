@@ -6,8 +6,12 @@
         <action name="dispInstallIntroduce" type="view" standalone="true" index="true" />
         <action name="dispInstallCheckEnv" type="view" standalone="true" />
         <action name="dispInstallSelectDB" type="view" standalone="true" />
-        <action name="dispInstallForm" type="view" standalone="true" />
+        <action name="dispInstallDBForm" type="view" standalone="true" />
+        <action name="dispInstallConfigForm" type="view" standalone="true" />
+        <action name="dispInstallManagerForm" type="view" standalone="true" />
 
+        <action name="procDBSetting" type="controller" standalone="true" />
+        <action name="procConfigSetting" type="controller" standalone="true" />
         <action name="procInstall" type="controller" standalone="true" />
         <action name="procInstallFTP" type="controller" standalone="true" />
         <action name="procInstallCheckFTP" type="controller" standalone="true" />
