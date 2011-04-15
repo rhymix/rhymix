@@ -91,7 +91,7 @@
         function _connect()
         {
             // ignore if db information not exists
-            if (!$this->hostname || !$this->userid || !$this->password || !$this->database || !$this->port) return;
+	    if (!$this->hostname || !$this->userid || !$this->password || !$this->database || !$this->port) return;
 
             // attempts to connect
             $this->fd = @cubrid_connect ($this->hostname, $this->port, $this->database, $this->userid, $this->password);
@@ -284,7 +284,8 @@
 
                 // create sequence
                 $query = sprintf('create serial "%ssequence" start with %s increment by 1 minvalue 1 maxvalue 10000000000000000000000000000000000000 nocycle;', $this->prefix, $start);
-                $this->_query($query);
+                $result = $this->_query($query);
+                if ($result) cubrid_close_request($result);
             }
 
             $_GLOBALS['XE_EXISTS_SEQUENCE'] = true;
@@ -348,7 +349,8 @@
 
             if ($notnull) $query .= "not null ";
 
-            $this->_query ($query);
+            $result = $this->_query($query);
+            if ($result) cubrid_close_request($result);
         }
 
         /**
@@ -358,7 +360,8 @@
         {
             $query = sprintf ("alter class \"%s%s\" drop \"%s\" ", $this->prefix, $table_name, $column_name);
 
-            $this->_query ($query);
+            $result = $this->_query($query);
+            if($result) cubrid_close_request($result);
         }
 
         /**
@@ -390,7 +393,8 @@
 
             $query = sprintf ("create %s index \"%s\" on \"%s%s\" (%s);", $is_unique?'unique':'', $this->prefix .$index_name, $this->prefix, $table_name, '"'.implode('","',$target_columns).'"');
 
-            $this->_query ($query);
+            $result = $this->_query($query);
+            if($result) cubrid_close_request($result);
         }
 
         /**
@@ -400,7 +404,8 @@
         {
             $query = sprintf ("drop %s index \"%s\" on \"%s%s\"", $is_unique?'unique':'', $this->prefix .$index_name, $this->prefix, $table_name);
 
-            $this->_query($query);
+            $result = $this->_query($query);
+            if($result) cubrid_close_request($result);
         }
 
         /**
@@ -463,14 +468,17 @@
                                   ' minvalue 1 '.
                                   'maxvalue 10000000000000000000000000000000000000'.  ' nocycle;', $this->prefix.$table_name);
 
-                return $this->_query($query);
+                $result = $this->_query($query);
+                if($result) cubrid_close_request($result);
+                return;
             }
 
 
             $table_name = $this->prefix.$table_name;
 
             $query = sprintf ('create class "%s";', $table_name);
-            $this->_query ($query);
+            $result = $this->_query($query);
+            if($result) cubrid_close_request($result);            
 
             if (!is_array ($xml_obj->table->column)) {
                 $columns[] = $xml_obj->table->column;
@@ -529,24 +537,28 @@
             }
 
             $query .= implode (',', $column_schema).';';
-            $this->_query ($query);
+            $result = $this->_query($query);
+            if($result) cubrid_close_request($result);
 
             if (count ($primary_list)) {
                 $query = sprintf ("alter class \"%s\" add attribute constraint ".  "\"pkey_%s\" PRIMARY KEY(%s);", $table_name, $table_name, '"'.implode('","',$primary_list).'"');
-                $this->_query ($query);
+                $result = $this->_query($query);
+                if($result) cubrid_close_request($result);
             }
 
             if (count ($unique_list)) {
                 foreach ($unique_list as $key => $val) {
                     $query = sprintf ("create unique index \"%s\" on \"%s\" ".  "(%s);", $this->prefix .$key, $table_name, '"'.implode('","', $val).'"');
-                    $this->_query ($query);
+                	$result = $this->_query($query);
+                	if($result) cubrid_close_request($result);
                 }
             }
 
             if (count ($index_list)) {
                 foreach ($index_list as $key => $val) {
                     $query = sprintf ("create index \"%s\" on \"%s\" (%s);", $this->prefix .$key, $table_name, '"'.implode('","',$val).'"');
-                    $this->_query ($query);
+                	$result = $this->_query($query);
+                	if($result) cubrid_close_request($result);
                 }
             }
         }
