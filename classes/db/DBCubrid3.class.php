@@ -283,7 +283,7 @@
                 }
 
                 // create sequence
-                $query = sprintf('create serial "%ssequence" start with %s increment by 1 minvalue 1 maxvalue 10000000000000000000000000000000000000 nocycle;', $this->prefix, $start);
+                $query = sprintf('create serial "%ssequence" start with %s increment by 1 nominvalue nomaxvalue nocycle cache 3;', $this->prefix, $start);
                 $result = $this->_query($query);
                 if ($result) cubrid_close_request($result);
             }
@@ -464,10 +464,7 @@
 
             // If the table name is sequence, it creates a serial
             if ($table_name == 'sequence') {
-                $query = sprintf ('create serial "%s" start with 1 increment by 1'.
-                                  ' minvalue 1 '.
-                                  'maxvalue 10000000000000000000000000000000000000'.  ' nocycle;', $this->prefix.$table_name);
-
+            	$query = sprintf('create serial "%ssequence" start with 1 increment by 1 nominvalue nomaxvalue nocycle cache 3;', $this->prefix);
                 $result = $this->_query($query);
                 if($result) cubrid_close_request($result);
                 return;
