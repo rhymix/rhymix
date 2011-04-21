@@ -180,9 +180,9 @@
      * @param argument values of args object
      * @return results
      **/
-    function executeQuery($query_id, $args = null) {
+    function executeQuery($query_id, $args = null, $arg_columns = null) {
         $oDB = &DB::getInstance();
-        return $oDB->executeQuery($query_id, $args);
+        return $oDB->executeQuery($query_id, $args, $arg_columns);
     }
 
     /**
@@ -191,9 +191,9 @@
      * @param argument values of args object
      * @return results
      **/
-    function executeQueryArray($query_id, $args = null) {
+    function executeQueryArray($query_id, $args = null, $arg_columns = null) {
         $oDB = &DB::getInstance();
-        $output = $oDB->executeQuery($query_id, $args);
+        $output = $oDB->executeQuery($query_id, $args, $arg_columns);
         if(!is_array($output->data) && count($output->data) > 0){
             $output->data = array($output->data);
         }
