@@ -152,7 +152,7 @@
         /**
          * @brief module_srl value, bringing the list of documents
          **/
-        function getDocumentList($obj, $except_notice = false, $load_extra_vars=true) {
+        function getDocumentList($obj, $except_notice = false, $load_extra_vars=true, $columnList = array()) {
             // Check the target and sequence alignment
             if(!in_array($obj->sort_index, array('list_order','regdate','last_update','update_order','readed_count','voted_count','comment_count','trackback_count','uploaded_count','title','category_srl'))) $obj->sort_index = 'list_order';
             if(!in_array($obj->order_type, array('desc','asc'))) $obj->order_type = 'asc';
@@ -207,7 +207,7 @@
                 // Division begins
                 $division = (int)Context::get('division');
 
-				// list_order로 정렬하면서 module_srl이 0이거나 매우 많아서 full scan하는 경우 인덱스를 타도록
+				// order by list_order and (module_srl===0 or module_srl many count), therefore case table full scan
 				if($args->sort_index == 'list_order' && ($args->module_srl === 0 || count($args->module_srl) > 10))
 				{
 					$listSqlID = 'document.getDocumentListUseIndex';
@@ -226,7 +226,7 @@
                     $division_args->list_count = 1;
                     $division_args->sort_index = $args->sort_index;
                     $division_args->order_type = $args->order_type;
-                    $output = executeQuery($listSqlID, $division_args);
+                    $output = executeQuery($listSqlID, $division_args, $columnList);
                     if($output->data) {
                         $item = array_pop($output->data);
                         $division = $item->list_order;
@@ -244,7 +244,7 @@
                     $last_division_args->order_type = $args->order_type;
                     $last_division_args->list_order = $division;
                     $last_division_args->page = 5001;
-                    $output = executeQuery($divisionSqlID, $last_division_args);
+                    $output = executeQuery($divisionSqlID, $last_division_args, $columnList);
                     if($output->data) {
                         $item = array_pop($output->data);
                         $last_division = $item->list_order;
@@ -293,7 +293,7 @@
                 $output->total_page = $page_navigation->total_page;
                 $output->page = $page_navigation->cur_page;
             } else {
-                $output = executeQueryArray($query_id, $args);
+                $output = executeQueryArray($query_id, $args, $columnList);
             }
             // Return if no result or an error occurs
             if(!$output->toBool()||!count($output->data)) return $output;
