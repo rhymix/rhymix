@@ -235,7 +235,7 @@
             }
 			
 			//2011. 04. 07 adding description column to document categories
-			if(!$oDB->isColumnExists("document_categories","description")) $oDB->addColumn('document_categories',"description","varchar",2000,0);
+			if(!$oDB->isColumnExists("document_categories","description")) $oDB->addColumn('document_categories',"description","varchar",200,0);
 
             return new Object(0,'success_updated');
 
