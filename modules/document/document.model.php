@@ -344,10 +344,10 @@
         /**
          * @brief module_srl value, bringing the document's gongjisa Port
          **/
-        function getNoticeList($obj) {
+        function getNoticeList($obj, $columnList = array()) {
             $args->module_srl = $obj->module_srl;
             $args->category_srl= $obj->category_srl;
-            $output = executeQueryArray('document.getNoticeList', $args);
+            $output = executeQueryArray('document.getNoticeList', $args, $columnList);
             if(!$output->toBool()||!$output->data) return;
 
             foreach($output->data as $key => $val) {
