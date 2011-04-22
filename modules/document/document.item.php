@@ -12,10 +12,10 @@
 
         var $allow_trackback_status = null;
 
-        function documentItem($document_srl = 0, $load_extra_vars = true) {
+        function documentItem($document_srl = 0, $load_extra_vars = true, $columnList = array()) {
             $this->document_srl = $document_srl;
 
-            $this->_loadFromDB($load_extra_vars);
+            $this->_loadFromDB($load_extra_vars, $columnList);
         }
 
         function setDocument($document_srl, $load_extra_vars = true) {
@@ -23,11 +23,11 @@
             $this->_loadFromDB($load_extra_vars);
         }
 
-        function _loadFromDB($load_extra_vars=true) {
+        function _loadFromDB($load_extra_vars = true, $columnList = array()) {
             if(!$this->document_srl) return;
 
             $args->document_srl = $this->document_srl;
-            $output = executeQuery('document.getDocument', $args);
+            $output = executeQuery('document.getDocument', $args, $columnList);
 
             $this->setAttribute($output->data,$load_extra_vars);
         }

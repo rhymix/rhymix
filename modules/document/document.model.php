@@ -89,11 +89,11 @@
         /**
          * @brief Import Document
          **/
-        function getDocument($document_srl=0, $is_admin = false, $load_extra_vars=true) {
+        function getDocument($document_srl=0, $is_admin = false, $load_extra_vars=true, $columnList = array()) {
             if(!$document_srl) return new documentItem();
 
             if(!isset($GLOBALS['XE_DOCUMENT_LIST'][$document_srl])) {
-                $oDocument = new documentItem($document_srl, $load_extra_vars);
+                $oDocument = new documentItem($document_srl, $load_extra_vars, $columnList);
                 $GLOBALS['XE_DOCUMENT_LIST'][$document_srl] = $oDocument;
                 if($load_extra_vars) $this->setToAllDocumentExtraVars();
             }
