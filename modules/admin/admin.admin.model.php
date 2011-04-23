@@ -54,8 +54,7 @@
                 $ftp_info->ftp_host = "127.0.0.1";
             }
 
-			if (!$ftp_info->ftp_port)
-			{
+			if (!$ftp_info->ftp_port || !is_numeric ($ftp_info->ftp_port)) {
 				$ftp_info->ftp_port = "21";
 			}
 
