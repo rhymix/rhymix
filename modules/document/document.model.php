@@ -467,12 +467,10 @@
                 if($oDocument->isExists()) {
                     // Find a post equivalent to ip address
                     $url = getUrl('','module','admin','act','dispDocumentAdminList','search_target','ipaddress','search_keyword',$oDocument->getIpAddress());
-					debugPrint($url);
                     $icon_path = './modules/member/tpl/images/icon_management.gif';
                     $oDocumentController->addDocumentPopupMenu($url,'cmd_search_by_ipaddress',$icon_path,'TraceByIpaddress');
 
                     $url = sprintf("var params = new Array(); params['ipaddress']='%s'; exec_xml('spamfilter', 'procSpamfilterAdminInsertDeniedIP', params, completeCallModuleAction)", $oDocument->getIpAddress());
-					debugPrint($url);
                     $oDocumentController->addDocumentPopupMenu($url,'cmd_add_ip_to_spamfilter','./modules/document/tpl/icons/declare.gif','javascript');
                 }
             }
@@ -951,6 +949,9 @@
             return $output;
         }
 
+        /**
+         * @brief vote up, vote down member list in Document View page
+         **/
 		function getDocumentVotedMemberList()
 		{
 			$document_srl = Context::get('document_srl');
@@ -960,7 +961,8 @@
 			if($point != -1) $point = 1;
 
 			$oDocumentModel = &getModel('document');
-            $oDocument = $oDocumentModel->getDocument($document_srl, false, false);
+			$columnList = array('document_srl', 'module_srl');
+            $oDocument = $oDocumentModel->getDocument($document_srl, false, false, $columnList);
 			$module_srl = $oDocument->get('module_srl');
 			if(!$module_srl) return new Object(-1, 'msg_invalid_request');
 
