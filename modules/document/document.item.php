@@ -173,7 +173,7 @@
             return $this->get('lang_code');
         }
 
-        function getIpaddress() {
+        function getIpAddress() {
             if($this->isGranted()) return $this->get('ipaddress');
             return preg_replace('/([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)/','*.$2.$3.$4', $this->get('ipaddress'));
 

@@ -426,7 +426,8 @@
             if($logged_info->member_srl) {
 
 				$oDocumentModel = &getModel('document');
-				$oDocument = $oDocumentModel->getDocument($document_srl, false, false);
+				$columnList = array('document_srl', 'module_srl', 'member_srl', 'ipaddress');
+				$oDocument = $oDocumentModel->getDocument($document_srl, false, false, $columnList);
 				$module_srl = $oDocument->get('module_srl');
 				$member_srl = $oDocument->get('member_srl');
 				if(!$module_srl) return new Object(-1, 'msg_invalid_request');
@@ -461,15 +462,17 @@
             // If you are managing to find posts by ip
             if($logged_info->is_admin == 'Y') {
                 $oDocumentModel = &getModel('document');
-                $oDocument = $oDocumentModel->getDocument($document_srl);
+                $oDocument = $oDocumentModel->getDocument($document_srl);	//before setting document recycle
 
                 if($oDocument->isExists()) {
                     // Find a post equivalent to ip address
-                    $url = getUrl('','module','admin','act','dispDocumentAdminList','search_target','ipaddress','search_keyword',$oDocument->get('ipaddress'));
+                    $url = getUrl('','module','admin','act','dispDocumentAdminList','search_target','ipaddress','search_keyword',$oDocument->getIpAddress());
+					debugPrint($url);
                     $icon_path = './modules/member/tpl/images/icon_management.gif';
                     $oDocumentController->addDocumentPopupMenu($url,'cmd_search_by_ipaddress',$icon_path,'TraceByIpaddress');
 
-                    $url = sprintf("var params = new Array(); params['ipaddress']='%s'; exec_xml('spamfilter', 'procSpamfilterAdminInsertDeniedIP', params, completeCallModuleAction)", $oDocument-> getIpAddress());
+                    $url = sprintf("var params = new Array(); params['ipaddress']='%s'; exec_xml('spamfilter', 'procSpamfilterAdminInsertDeniedIP', params, completeCallModuleAction)", $oDocument->getIpAddress());
+					debugPrint($url);
                     $oDocumentController->addDocumentPopupMenu($url,'cmd_add_ip_to_spamfilter','./modules/document/tpl/icons/declare.gif','javascript');
                 }
             }
@@ -546,9 +549,9 @@
         /**
          * @brief Imported Category of information
          **/
-        function getCategory($category_srl) {
+        function getCategory($category_srl, $columnList = array()) {
             $args->category_srl = $category_srl;
-            $output = executeQuery('document.getCategory', $args);
+            $output = executeQuery('document.getCategory', $args, $columnList);
 
             $node = $output->data;
             if(!$node) return;
@@ -578,7 +581,7 @@
          * @brief Bringing the Categories list the specific module
          * Speed and variety of categories, considering the situation created by the php script to include a list of the must, in principle, to use
          **/
-        function getCategoryList($module_srl) {
+        function getCategoryList($module_srl, $columnList = array()) {
             // Category of the target module file swollen
             $filename = sprintf("./files/cache/document_category/%s.php", $module_srl);
             // If the target file to the cache file regeneration category
