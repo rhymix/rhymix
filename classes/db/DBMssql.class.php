@@ -707,8 +707,14 @@
 			{
 				$columns = array();
 				foreach($output->arg_columns as $col){
-					if(strpos($col,'[')===false && strpos($col,' ')==false) $columns[] = '['.$col.']'; 
-					else $columns[] = $col;
+					unset($tmpCol);
+					$tmpCol = explode('.', $col);
+					if(isset($tmpCol[1])) $col = $tmpCol[1];
+
+					if(strpos($col,'[')===false && strpos($col,' ')==false) $col = '['.$col.']'; 
+					if(isset($tmpCol[1])) $col = $tmpCol[0].'.'.$col;
+
+					$columns[] = $col;
 				}
 				
 				$columns = join(',',$columns);
@@ -826,8 +832,14 @@
 			{
 				$columns = array();
 				foreach($output->arg_columns as $col){
-					if(strpos($col,'[')===false && strpos($col,' ')==false) $columns[] = '['.$col.']'; 
-					else $columns[] = $col;
+					unset($tmpCol);
+					$tmpCol = explode('.', $col);
+					if(isset($tmpCol[1])) $col = $tmpCol[1];
+
+					if(strpos($col,'[')===false && strpos($col,' ')==false) $col = '['.$col.']'; 
+					if(isset($tmpCol[1])) $col = $tmpCol[0].'.'.$col;
+
+					$columns[] = $col;
 				}
 				
 				$columns = join(',',$columns);
