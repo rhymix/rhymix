@@ -35,7 +35,8 @@
             if($logged_info->member_srl) {
 
 				$oCommentModel = &getModel('comment');
-				$oComment = $oCommentModel->getComment($comment_srl, false, false);
+				$columnList = array('comment_srl', 'module_srl', 'member_srl', 'ipaddress');
+				$oComment = $oCommentModel->getComment($comment_srl, false, $columnList);
 				$module_srl = $oComment->get('module_srl');
 				$member_srl = $oComment->get('member_srl');
 
@@ -65,11 +66,11 @@
 
                 if($oComment->isExists()) {
                     // Find a post of the corresponding ip address
-                    $url = getUrl('','module','admin','act','dispCommentAdminList','search_target','ipaddress','search_keyword',$oComment->get('ipaddress'));
+                    $url = getUrl('','module','admin','act','dispCommentAdminList','search_target','ipaddress','search_keyword',$oComment->getIpAddress());
                     $icon_path = './modules/member/tpl/images/icon_management.gif';
                     $oCommentController->addCommentPopupMenu($url,'cmd_search_by_ipaddress',$icon_path,'TraceByIpaddress');
 
-                    $url = sprintf("var params = new Array(); params['ipaddress']='%s'; exec_xml('spamfilter', 'procSpamfilterAdminInsertDeniedIP', params, completeCallModuleAction)", $oComment-> getIpAddress());
+                    $url = sprintf("var params = new Array(); params['ipaddress']='%s'; exec_xml('spamfilter', 'procSpamfilterAdminInsertDeniedIP', params, completeCallModuleAction)", $oComment->getIpAddress());
                     $oCommentController->addCommentPopupMenu($url,'cmd_add_ip_to_spamfilter','./modules/document/tpl/icons/declare.gif','javascript');
                 }
             }
@@ -105,8 +106,8 @@
         /**
          * @brief get the comment
          **/
-        function getComment($comment_srl=0, $is_admin = false) {
-            $oComment = new commentItem($comment_srl);
+        function getComment($comment_srl=0, $is_admin = false, $columnList = array()) {
+            $oComment = new commentItem($comment_srl, $columnList);
             if($is_admin) $oComment->setGrant();
 
             return $oComment;
@@ -115,11 +116,11 @@
         /**
          * @brief get the multiple comments(not paginating)
          **/
-        function getComments($comment_srl_list) {
+        function getComments($comment_srl_list, $columnList = array()) {
             if(is_array($comment_srl_list)) $comment_srls = implode(',',$comment_srl_list);
             // fetch from a database
             $args->comment_srls = $comment_srls;
-            $output = executeQuery('comment.getComments', $args);
+            $output = executeQuery('comment.getComments', $args, $columnList);
             if(!$output->toBool()) return;
             $comment_list = $output->data;
             if(!$comment_list) return;
@@ -164,7 +165,7 @@
         /** 
          * @brief get the comment in corresponding with mid.
          **/
-        function getNewestCommentList($obj) {
+        function getNewestCommentList($obj, $columnList = array()) {
             if($obj->mid) {
                 $oModuleModel = &getModel('module');
                 $obj->module_srl = $oModuleModel->getModuleSrlByMid($obj->mid);
@@ -175,7 +176,7 @@
             else $args->module_srl = $obj->module_srl;
             $args->list_count = $obj->list_count;
 
-            $output = executeQuery('comment.getNewestCommentList', $args);
+            $output = executeQuery('comment.getNewestCommentList', $args, $columnList);
             if(!$output->toBool()) return $output;
 
             $comment_list = $output->data;
@@ -201,7 +202,8 @@
         function getCommentList($document_srl, $page = 0, $is_admin = false, $count = 0) {
             // get the number of comments on the document module
             $oDocumentModel = &getModel('document');
-            $oDocument = $oDocumentModel->getDocument($document_srl);
+			$columnList = array('document_srl', 'module_srl', 'comment_count');
+            $oDocument = $oDocumentModel->getDocument($document_srl, false, true, $columnList);
             // return if no doc exists.
             if(!$oDocument->isExists()) return;
             // return if no comment exists
@@ -321,7 +323,7 @@
         /**
          * @brief get all the comments in time decending order(for administrators)
          **/
-        function getTotalCommentList($obj) {
+        function getTotalCommentList($obj, $columnList = array()) {
             $query_id = 'comment.getTotalCommentList';
             // Variables
             $args->sort_index = 'list_order';
@@ -376,7 +378,7 @@
                 }
             }
             // comment.getTotalCommentList query execution
-            $output = executeQueryArray($query_id, $args);
+            $output = executeQueryArray($query_id, $args, $columnList);
             // return when no result or error occurance
             if(!$output->toBool()||!count($output->data)) return $output;
             foreach($output->data as $key => $val) {

@@ -1,6 +1,6 @@
 <query id="getTotalCommentList" action="select">
     <tables>
-        <table name="comments" />
+        <table name="comments" alias="comments" />
     </tables>
     <columns>
         <column name="*" />

@@ -11,11 +11,13 @@
         var $lang_code = null;
 
         var $allow_trackback_status = null;
+		var $columnList = array();
 
         function documentItem($document_srl = 0, $load_extra_vars = true, $columnList = array()) {
             $this->document_srl = $document_srl;
+			$this->columnList = $columnList;
 
-            $this->_loadFromDB($load_extra_vars, $columnList);
+            $this->_loadFromDB($load_extra_vars);
         }
 
         function setDocument($document_srl, $load_extra_vars = true) {
@@ -23,11 +25,11 @@
             $this->_loadFromDB($load_extra_vars);
         }
 
-        function _loadFromDB($load_extra_vars = true, $columnList = array()) {
+        function _loadFromDB($load_extra_vars = true) {
             if(!$this->document_srl) return;
 
             $args->document_srl = $this->document_srl;
-            $output = executeQuery('document.getDocument', $args, $columnList);
+            $output = executeQuery('document.getDocument', $args, $this->columnList);
 
             $this->setAttribute($output->data,$load_extra_vars);
         }

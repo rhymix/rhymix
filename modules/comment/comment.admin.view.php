@@ -28,7 +28,8 @@
 
             // get a list by using comment->getCommentList. 
             $oCommentModel = &getModel('comment');
-            $output = $oCommentModel->getTotalCommentList($args);
+			$columnList = array('comment_srl', 'document_srl', 'content', 'comments.member_srl', 'comments.nick_name', 'comments.regdate', 'ipaddress');
+            $output = $oCommentModel->getTotalCommentList($args, $columnList);
             // set values in the return object of comment_model:: getTotalCommentList() in order to use a template.
             Context::set('total_count', $output->total_count);
             Context::set('total_page', $output->total_page);

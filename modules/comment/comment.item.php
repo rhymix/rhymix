@@ -8,9 +8,11 @@
     class commentItem extends Object {
 
         var $comment_srl = 0;
+		var $columnList = array();
 
-        function commentItem($comment_srl = 0) {
+        function commentItem($comment_srl = 0, $columnList = array()) {
             $this->comment_srl = $comment_srl;
+			$this->columnList = $columnList;
             $this->_loadFromDB();
         }
 
@@ -23,7 +25,7 @@
             if(!$this->comment_srl) return;
 
             $args->comment_srl = $this->comment_srl;
-            $output = executeQuery('comment.getComment', $args);
+            $output = executeQuery('comment.getComment', $args, $this->columnList);
 
             $this->setAttribute($output->data);
         }
@@ -121,7 +123,7 @@
             $oCommunicationController->sendMessage($sender_member_srl, $receiver_srl, $title, $content, false);
         }
 
-        function getIpaddress() {
+        function getIpAddress() {
             if($this->isGranted()) return $this->get('ipaddress');
             return preg_replace('/([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)/','*.$2.$3.$4', $this->get('ipaddress'));
         }
