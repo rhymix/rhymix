@@ -19,14 +19,14 @@
          * @brief Get a layout list created in the DB
          * If you found a new list, it means that the layout list is inserted to the DB
          **/
-        function getLayoutList($site_srl = 0, $layout_type="P") {
+        function getLayoutList($site_srl = 0, $layout_type="P", $columnList = array()) {
             if(!$site_srl) {
                 $site_module_info = Context::get('site_module_info');
                 $site_srl = (int)$site_module_info->site_srl;
             }
             $args->site_srl = $site_srl;
 			$args->layout_type = $layout_type;
-            $output = executeQuery('layout.getLayoutList', $args);
+            $output = executeQuery('layout.getLayoutList', $args, $columnList);
             if(!$output->data) return;
             if(is_array($output->data)) return $output->data;
             return array($output->data);

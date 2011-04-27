@@ -19,7 +19,8 @@
          **/
         function dispLayoutAdminContent() {
             $oLayoutModel = &getModel('layout');
-            $layout_list = $oLayoutModel->getLayoutList();
+			$columnList = array('layout_srl', 'layout', 'module_srl', 'title', 'regdate');
+            $layout_list = $oLayoutModel->getLayoutList(0, 'P', $columnList);
             Context::set('layout_list', $layout_list);
 
             $this->setTemplateFile('index');
@@ -27,7 +28,8 @@
 
 		function dispLayoutAdminMobileContent() {
             $oLayoutModel = &getModel('layout');
-            $layout_list = $oLayoutModel->getLayoutList(0, "M");
+			$columnList = array('layout_srl', 'layout', 'module_srl', 'title', 'regdate');
+            $layout_list = $oLayoutModel->getLayoutList(0, 'M', $columnList);
             Context::set('layout_list', $layout_list);
 
             $this->setTemplateFile('mindex');
