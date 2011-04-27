@@ -30,11 +30,11 @@
         /**
          * @brief get the message contents
          **/
-        function getSelectedMessage($message_srl) {
+        function getSelectedMessage($message_srl, $columnList = array()) {
             $logged_info = Context::get('logged_info');
 
             $args->message_srl = $message_srl;
-            $output = executeQuery('communication.getMessage',$args);
+            $output = executeQuery('communication.getMessage',$args, $columnList);
             $message = $output->data;
             if(!$message) return ;
             // get recipient's information if it is a sent message
@@ -61,12 +61,12 @@
         /**
          * @brief get a new message
          **/
-        function getNewMessage() {
+        function getNewMessage($columnList = array()) {
             $logged_info = Context::get('logged_info');
             $args->receiver_srl = $logged_info->member_srl;
             $args->readed = 'N';
 
-            $output = executeQuery('communication.getNewMessage', $args);
+            $output = executeQuery('communication.getNewMessage', $args, $columnList);
             if(!count($output->data)) return;
             $message = array_pop($output->data);
 
@@ -82,7 +82,7 @@
          * type = S: Sent Message
          * type = T: Archive
          **/
-        function getMessages($message_type = "R") {
+        function getMessages($message_type = "R", $columnList = array()) {
             $logged_info = Context::get('logged_info');
 
             switch($message_type) {
@@ -108,13 +108,13 @@
             $args->page = Context::get('page');
             $args->list_count = 20;
             $args->page_count = 10;
-            return executeQuery($query_id, $args);
+            return executeQuery($query_id, $args, $columnList);
         }
 
         /**
          * @brief Get a list of friends
          **/
-        function getFriends($friend_group_srl = 0) {
+        function getFriends($friend_group_srl = 0, $columnList = array()) {
             $logged_info = Context::get('logged_info');
 
             $args->friend_group_srl = $friend_group_srl;
@@ -124,7 +124,7 @@
             $args->sort_index = 'friend.list_order';
             $args->list_count = 10;
             $args->page_count = 10;
-            $output = executeQuery('communication.getFriends', $args);
+            $output = executeQuery('communication.getFriends', $args, $columnList);
             return $output;
         }
 

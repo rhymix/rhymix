@@ -40,14 +40,16 @@
             $oCommunicationModel = &getModel('communication');
             // extract contents if message_srl exists
             if($message_srl) {
-                $message = $oCommunicationModel->getSelectedMessage($message_srl);
+				$columnList = array('message_srl', 'sender_srl', 'receiver_srl', 'message_type', 'title', 'content', 'readed', 'regdate');
+                $message = $oCommunicationModel->getSelectedMessage($message_srl, $columnList);
                 if($message->message_srl == $message_srl && ($message->receiver_srl == $logged_info->member_srl || $message->sender_srl == $logged_info->member_srl) ) {
 					stripEmbedTagForAdmin($message->content, $message->sender_srl);
 					Context::set('message', $message);
 				}
             }
             // Extract a list
-            $output = $oCommunicationModel->getMessages($message_type);
+			$columnList = array('message_srl', 'readed', 'title', 'member.member_srl', 'member.nick_name', 'message.regdate', 'readed_date');
+            $output = $oCommunicationModel->getMessages($message_type, $columnList);
             // set a template file
             Context::set('total_count', $output->total_count);
             Context::set('total_page', $output->total_page);
@@ -69,7 +71,8 @@
 
             $oCommunicationModel = &getModel('communication');
             // get a new message
-            $message = $oCommunicationModel->getNewMessage();
+			$columnList = array('message_srl', 'member_srl', 'nick_name', 'title', 'content', 'sender_srl');
+            $message = $oCommunicationModel->getNewMessage($columnList);
             if($message) {
 				stripEmbedTagForAdmin($message->content, $message->sender_srl);
 				Context::set('message', $message);
@@ -143,7 +146,8 @@
             Context::set('friend_group_list', $friend_group_list);
             // get a list of friends
             $friend_group_srl = Context::get('friend_group_srl');
-            $output = $oCommunicationModel->getFriends($friend_group_srl);
+			$columnList = array('friend_srl', 'friend_group_srl', 'target_srl', 'member.nick_name', 'friend.regdate');
+            $output = $oCommunicationModel->getFriends($friend_group_srl, $columnList);
             $friend_count = count($output->data);
             if($friend_count) {
                 foreach($output->data as $key => $val) {
