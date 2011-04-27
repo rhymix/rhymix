@@ -16,7 +16,7 @@
         /**
          * @brief Get all the attachments in order by time descending (for administrators)
          **/
-        function getFileList($obj) {
+        function getFileList($obj, $columnList = array()) {
             // Search options
             $search_target = $obj->search_target?$obj->search_target:trim(Context::get('search_target'));
             $search_keyword = $obj->search_keyword?$obj->search_keyword:trim(Context::get('search_keyword'));
@@ -73,7 +73,7 @@
             $args->s_module_srl = $obj->module_srl;
             $args->exclude_module_srl = $obj->exclude_module_srl;
             // Execute the file.getFileList query
-            $output = executeQuery('file.getFileList', $args);
+            $output = executeQuery('file.getFileList', $args, $columnList);
             // Return if no result or an error occurs
             if(!$output->toBool()||!count($output->data)) return $output;
 

@@ -121,7 +121,8 @@
             $sid = Context::get('sid');
             $logged_info = Context::get('logged_info');
             // Get file information from the DB
-            $file_obj = $oFileModel->getFile($file_srl);
+			$columnList = array('file_srl', 'sid', 'isvalid', 'source_filename', 'module_srl', 'uploaded_filename', 'file_size', 'member_srl');
+            $file_obj = $oFileModel->getFile($file_srl, $columnList);
             // If the requested file information is incorrect, an error that file cannot be found appears
             if($file_obj->file_srl!=$file_srl || $file_obj->sid!=$sid) return $this->stop('msg_file_not_found');
             // Notify that file download is not allowed when standing-by(Only a top-administrator is permitted)
@@ -506,7 +507,8 @@
         function deleteFiles($upload_target_srl) {
             // Get a list of attachements
             $oFileModel = &getModel('file');
-            $file_list = $oFileModel->getFiles($upload_target_srl);
+			$columnList = array('uploaded_filename', 'module_srl');
+            $file_list = $oFileModel->getFiles($upload_target_srl, $columnList);
             // Success returned if no attachement exists
             if(!is_array($file_list)||!count($file_list)) return new Object();
             // Remove from the DB

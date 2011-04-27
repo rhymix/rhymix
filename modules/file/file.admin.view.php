@@ -27,7 +27,9 @@
             $args->module_srl = Context::get('module_srl');
             // Get a list
             $oFileModel = &getAdminModel('file');
-            $output = $oFileModel->getFileList($args);
+			$columnList = array('file_srl', 'upload_target_srl', 'upload_target_type', 'module_srl'
+					, 'source_filename', 'isvalid', 'file_size', 'download_count', 'files.regdate', 'ipaddress');
+            $output = $oFileModel->getFileList($args, $columnList);
             // Get the document for looping a list
             if($output->data) {
                 $oCommentModel = &getModel('comment');

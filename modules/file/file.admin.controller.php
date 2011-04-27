@@ -19,7 +19,8 @@
         function deleteModuleFiles($module_srl) {
             // Get a full list of attachments
             $args->module_srl = $module_srl;
-            $output = executeQueryArray('file.getModuleFiles',$args);
+			$columnList = array('file_srl', 'uploaded_filename');
+            $output = executeQueryArray('file.getModuleFiles',$args, $columnList);
             if(!$output) return $output;
             $files = $output->data;
             // Remove from the DB

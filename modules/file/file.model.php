@@ -122,9 +122,9 @@
         /**
          * @brief Get file information
          **/
-        function getFile($file_srl) {
+        function getFile($file_srl, $columnList = array()) {
             $args->file_srl = $file_srl;
-            $output = executeQuery('file.getFile', $args);
+            $output = executeQuery('file.getFile', $args, $columnList);
             if(!$output->toBool()) return $output;
 
             $file = $output->data;
@@ -136,10 +136,10 @@
         /**
          * @brief Return all files which belong to a specific document
          **/
-        function getFiles($upload_target_srl) {
+        function getFiles($upload_target_srl, $columnList = array()) {
             $args->upload_target_srl = $upload_target_srl;
             $args->sort_index = 'file_srl';
-            $output = executeQuery('file.getFiles', $args);
+            $output = executeQuery('file.getFiles', $args, $columnList);
             if(!$output->data) return;
 
             $file_list = $output->data;
