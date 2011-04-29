@@ -121,7 +121,17 @@
                             $site_info->id = $this->getID('site');
                             $site_info->title = $this->handleLang($site_module_info->browser_title, $site_module_info->site_srl);
 
-                            $output = executeQuery('syndication.getSiteUpdatedTime');
+							$except_module_output = executeQueryArray('syndication.getExceptModuleSrls');
+							if (is_array($except_module_output->data))
+							{
+								$except_module_srls = array();
+								foreach($except_module_output->data as $val)
+								{
+									$except_module_srls[] = $val->module_srl;
+								}
+								$args->except_modules = implode(',',$except_module_srls);
+							}
+                            $output = executeQuery('syndication.getSiteUpdatedTime', $args);
                             if($output->data) $site_info->updated = date("Y-m-d\\TH:i:s", ztime($output->data->last_update)).$time_zone;
                             $site_info->self_href = $this->getSelfHref($site_info->id,$type);
                             $site_info->alternative_href =$this->getAlternativeHref();
@@ -159,7 +169,17 @@
                             {
                                 $channel_info->type = "web";
                             }
-                            $output = executeQuery('syndication.getSiteUpdatedTime');
+							$except_module_output = executeQueryArray('syndication.getExceptModuleSrls');
+							if (is_array($except_module_output->data))
+							{
+								$except_module_srls = array();
+								foreach($except_module_output->data as $val)
+								{
+									$except_module_srls[] = $val->module_srl;
+								}
+								$args->except_modules = implode(',',$except_module_srls);
+							}
+                            $output = executeQuery('syndication.getSiteUpdatedTime', $args);
                             if($output->data) $channel_info->updated = date("Y-m-d\\TH:i:s", ztime($output->data->last_update)).$time_zone;
                             Context::set('channel_info', $channel_info);
 

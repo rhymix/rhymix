@@ -27,12 +27,14 @@
             $output = executeQuery('syndication.deleteExceptModules');
             if(!$output->toBool()) return $output;
 
-            $modules = explode(',',$except_module);
-            for($i=0,$c=count($modules);$i<$c;$i++) {
-                $args->module_srl = $modules[$i];
-                $output = executeQuery('syndication.insertExceptModule',$args);
-                if(!$output->toBool()) return $output;
-            }
+			if ($except_module){
+				$modules = explode(',',$except_module);
+				for($i=0,$c=count($modules);$i<$c;$i++) {
+					$args->module_srl = $modules[$i];
+					$output = executeQuery('syndication.insertExceptModule',$args);
+					if(!$output->toBool()) return $output;
+				}
+			}
 
             $this->setMessage('success_applied');
         }

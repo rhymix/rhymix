@@ -1,0 +1,8 @@
+<query id="getExceptModuleSrls" action="select">
+    <tables>
+        <table name="syndication_except_modules" />
+    </tables>
+    <columns>
+        <column name="module_srl" />
+    </columns>
+</query>
