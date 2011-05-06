@@ -688,7 +688,8 @@
                 }
                 else if($output->column_type[$name]!='number') {
 //                    if(!$value) $value = 'null';
-                } elseif(!$value || is_numeric($value)) $value = (int)$value;
+                }
+                else $this->_filterNumber(&$value);
 
                 $column_list[] = '"'.$name.'"';
                 $value_list[] = $value;

@@ -422,7 +422,10 @@
                 if($output->column_type[$name]!='number') {
                     $value = "'".$this->addQuotes($value)."'";
                     if(!$value) $value = 'null';
-                } elseif(!$value || is_numeric($value)) $value = (int)$value;
+                }
+				// sql injection 문제로 xml 선언이 number인 경우이면서 넘어온 값이 숫자형이 아니면 숫자형으로 강제 형변환
+				// elseif(!$value || is_numeric($value)) $value = (int)$value;
+                else $this->_filterNumber(&$value);
 
                 $column_list[] = $name;
                 $value_list[] = $value;
@@ -450,7 +453,8 @@
                     if(strpos($name,'.')!==false&&strpos($value,'.')!==false) $column_list[] = $name.' = '.$value;
                     else {
                         if($output->column_type[$name]!='number') $value = "'".$this->addQuotes($value)."'";
-                        elseif(!$value || is_numeric($value)) $value = (int)$value;
+						// sql injection 문제로 xml 선언이 number인 경우이면서 넘어온 값이 숫자형이 아니면 숫자형으로 강제 형변환
+						else $this->_filterNumber(&$value);
 
                         $column_list[] = sprintf("%s = %s", $name, $value);
                     }

@@ -460,7 +460,7 @@
 
                 if($output->column_type[$name]!='number') $val_list[] = $this->addQuotes($value);
                 else {
-                    if(!$value || is_numeric($value)) $value = (int)$value;
+					$this->_filterNumber(&$value);
                     $val_list[] = $value;
                 }
 
@@ -495,7 +495,7 @@
                     if(strpos($name,'.')!==false&&strpos($value,'.')!==false) $column_list[] = $name.' = '.$value;
                     else {
                         if($output->column_type[$name]!='number') $value = "'".$this->addQuotes($value)."'";
-                        elseif(!$value || is_numeric($value)) $value = (int)$value;
+						else $this->_filterNumber(&$value);
 
                         $column_list[] = sprintf("%s = %s", $name, $value);
                     }

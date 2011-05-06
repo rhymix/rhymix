@@ -255,6 +255,7 @@ $lang->confirm_submit = '確定要送出嗎?';
 $lang->confirm_logout = '確定要登出嗎?';
 $lang->confirm_vote = '確定要推薦嗎?';
 $lang->confirm_delete = '確定要刪除嗎?';
+$lang->confirm_restore = '確定要復原嗎?';
 $lang->confirm_move = '確定要移動嗎?';
 $lang->confirm_reset = '確定要重置嗎?';
 $lang->confirm_leave = '確定要退出嗎?';
@@ -305,7 +306,6 @@ $lang->ftp_path_title = '請輸入 FTP 路經';
 $lang->msg_ftp_installed_realpath = 'XE絕對路經';
 $lang->msg_ftp_installed_ftp_realpath = 'XE的 FTP 絕對路經';
 
-
 // 在 xml filter 中所使用的 JavaScript 警告訊息
 $lang->filter->isnull = '請輸入%s';
 $lang->filter->outofrange = '請確認%s字數';
@@ -320,5 +320,5 @@ $lang->filter->invalid_alpha_number = '%s只能輸入英文或數字';
 $lang->filter->invalid_number = '%s只能輸入數字';
 
 $lang->security_warning_embed = "由於安全的關係，管理員無法檢視嵌入的物件。<BR /> 請使用其他非管理員帳號檢視。";
-$lang->msg_pc_to_mobile = '이 페이지는 모바일 보기가 있습니다. 모바일 보기로 이동하시겠습니까?';
+$lang->msg_pc_to_mobile = '此頁面有手機頁面，要移至手機頁面嗎？';
 ?>
