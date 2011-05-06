@@ -46,7 +46,8 @@
             }
 
             $site_module_info = Context::get('site_module_info');
-            $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl, $site_module_info->site_srl);
+			$columnList = array('member_srl', 'user_name', 'nick_name', 'homepage', 'blog', 'birthday', 'regdate', 'last_login');
+            $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl, $site_module_info->site_srl, $columnList);
             unset($member_info->password);
             unset($member_info->email_id);
             unset($member_info->email_host);
@@ -95,7 +96,8 @@
             $logged_info = Context::get('logged_info');
             $member_srl = $logged_info->member_srl;
 
-            $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
+			$columnList = array('member_srl', 'user_id', 'user_name', 'nick_name', 'email_address', 'find_account_answer', 'homepage', 'blog', 'birthday', 'allow_mailing');
+            $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl, 0, $columnList);
             $member_info->signature = $oMemberModel->getSignature($member_srl);
             Context::set('member_info',$member_info);
             // Get a list of extend join form
@@ -218,7 +220,8 @@
             $logged_info = Context::get('logged_info');
             $member_srl = $logged_info->member_srl;
 
-            $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
+			$columnList = array('member_srl', 'user_id');
+            $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl, 0, $columnList);
             Context::set('member_info',$member_info);
             // Set a template file
             $this->setTemplateFile('modify_password');

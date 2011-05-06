@@ -8,7 +8,7 @@
     class memberAdminView extends member {
 
         var $group_list = NULL; ///< group list 
-        var $member_info = NULL; ///< selected member info 
+        var $memberInfo = NULL; ///< selected member info 
 
         /**
          * @brief initialization 
@@ -16,12 +16,12 @@
         function init() {
             $oMemberModel = &getModel('member');
 
-            // if member_srl exists, set member_info
+            // if member_srl exists, set memberInfo
             $member_srl = Context::get('member_srl');
             if($member_srl) {
-                $this->member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
-                if(!$this->member_info) Context::set('member_srl','');
-                else Context::set('member_info',$this->member_info);
+                $this->memberInfo = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
+                if(!$this->memberInfo) Context::set('member_srl','');
+                else Context::set('member_info',$this->memberInfo);
             }
 
             // retrieve group list 
@@ -97,7 +97,7 @@
             $oModuleModel = &getModel('module');
             $member_config = $oModuleModel->getModuleConfig('member');
             Context::set('member_config', $member_config);
-            Context::set('extend_form_list', $oMemberModel->getCombineJoinForm($this->member_info));
+            Context::set('extend_form_list', $oMemberModel->getCombineJoinForm($this->memberInfo));
             $this->setTemplateFile('member_info');
         }
 
@@ -107,14 +107,14 @@
         function dispMemberAdminInsert() {
             // retrieve extend form
             $oMemberModel = &getModel('member');
-            Context::set('extend_form_list', $oMemberModel->getCombineJoinForm($this->member_info));
+            Context::set('extend_form_list', $oMemberModel->getCombineJoinForm($this->memberInfo));
 
-            $member_info = Context::get('member_info');
-            $member_info->signature = $oMemberModel->getSignature($this->member_info->member_srl);
-            Context::set('member_info', $member_info);
+            $memberInfo = Context::get('member_info');
+            $memberInfo->signature = $oMemberModel->getSignature($this->memberInfo->member_srl);
+            Context::set('member_info', $memberInfo);
 
             // get an editor for the signature
-            if($this->member_info->member_srl) {
+            if($this->memberInfo->member_srl) {
                 $oEditorModel = &getModel('editor');
                 $option->primary_key_name = 'member_srl';
                 $option->content_key_name = 'signature';
@@ -124,7 +124,7 @@
                 $option->enable_component = false;
                 $option->resizable = false;
                 $option->height = 200;
-                $editor = $oEditorModel->getEditor($this->member_info->member_srl, $option);
+                $editor = $oEditorModel->getEditor($this->memberInfo->member_srl, $option);
                 Context::set('editor', $editor);
             }
 

@@ -162,11 +162,11 @@
         /**
          * @brief Return member information with user_id
          **/
-        function getMemberInfoByUserID($user_id) {
+        function getMemberInfoByUserID($user_id, $columnList = array()) {
             if(!$user_id) return;
 
             $args->user_id = $user_id;
-            $output = executeQuery('member.getMemberInfo', $args);
+            $output = executeQuery('member.getMemberInfo', $args, $columnList);
             if(!$output->toBool()) return $output;
             if(!$output->data) return;
 
@@ -178,12 +178,14 @@
         /**
          * @brief Return member information with member_srl
          **/
-        function getMemberInfoByMemberSrl($member_srl, $site_srl = 0) {
+        function getMemberInfoByMemberSrl($member_srl, $site_srl = 0, $columnList = array()) {
             if(!$member_srl) return;
 
-            if(!$GLOBALS['__member_info__'][$member_srl]) {
+			//columnList size zero... get full member info
+            if(!$GLOBALS['__member_info__'][$member_srl] || count($columnList) == 0) {
+            //if(true) {
                 $args->member_srl = $member_srl;
-                $output = executeQuery('member.getMemberInfoByMemberSrl', $args);
+                $output = executeQuery('member.getMemberInfoByMemberSrl', $args, $columnList);
                 if(!$output->data) return;
 
                 $this->arrangeMemberInfo($output->data, $site_srl);
@@ -310,26 +312,26 @@
         /**
          * @brief Get a default group
          **/
-        function getDefaultGroup($site_srl = 0) {
+        function getDefaultGroup($site_srl = 0, $columnList = array()) {
             $args->site_srl = $site_srl;
-            $output = executeQuery('member.getDefaultGroup', $args);
+            $output = executeQuery('member.getDefaultGroup', $args, $columnList);
             return $output->data;
         }
 
         /**
          * @brief Get an admin group
          **/
-        function getAdminGroup() {
-            $output = executeQuery('member.getAdminGroup');
+        function getAdminGroup($columnList = array()) {
+            $output = executeQuery('member.getAdminGroup', $args, $columnList);
             return $output->data;
         }
 
         /**
          * @brief Get group info corresponding to group_srl
          **/
-        function getGroup($group_srl) {
+        function getGroup($group_srl, $columnList = array()) {
             $args->group_srl = $group_srl;
-            $output = executeQuery('member.getGroup', $args);
+            $output = executeQuery('member.getGroup', $args, $columnList);
             return $output->data;
         }
 

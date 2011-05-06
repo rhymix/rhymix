@@ -2,10 +2,20 @@
 
 class memberMobile extends member
 {
+	var $memberInfo;
+
     function init() {
         // Get the member configuration
         $oModuleModel = &getModel('module');
         $this->member_config = $oModuleModel->getModuleConfig('member');
+
+		// if member_srl exists, set memberInfo
+		$member_srl = Context::get('member_srl');
+		if($member_srl) {
+			$this->memberInfo = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
+			if(!$this->memberInfo) Context::set('member_srl','');
+			else Context::set('member_info',$this->memberInfo);
+		}
         
         Context::set('member_config', $this->member_config);
 
@@ -57,17 +67,21 @@ class memberMobile extends member
         }
             
         $site_module_info = Context::get('site_module_info');
-        $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl, $site_module_info->site_srl);
-        unset($member_info->password);
-        unset($member_info->email_id);
-        unset($member_info->email_host);
-        unset($member_info->email_address);
+		if(!$this->memberInfo)
+		{
+			$columnList = array('user_name', 'nick_name', 'homepage', 'blog', 'birthday', 'regdate', 'last_login');
+	        $this->memberInfo = $oMemberModel->getMemberInfoByMemberSrl($member_srl, $site_module_info->site_srl, $columnList);
+		}
+        unset($this->memberInfo->password);
+        unset($this->memberInfo->email_id);
+        unset($this->memberInfo->email_host);
+        unset($this->memberInfo->email_address);
                 
-        if(!$member_info->member_srl) return $this->dispMemberSignUpForm();
+        if(!$this->memberInfo->member_srl) return $this->dispMemberSignUpForm();
                 
-        Context::set('member_info', $member_info);
-        Context::set('extend_form_list', $oMemberModel->getCombineJoinForm($member_info));
-        if ($member_info->member_srl == $logged_info->member_srl)
+        Context::set('member_info', $this->memberInfo);
+        Context::set('extend_form_list', $oMemberModel->getCombineJoinForm($this->memberInfo));
+        if ($this->memberInfo->member_srl == $logged_info->member_srl)
             Context::set('openids', $oMemberModel->getMemberOpenIDByMemberSrl($member_srl));
         $this->setTemplateFile('member_info_mobile');
     }
@@ -86,17 +100,17 @@ class memberMobile extends member
         $logged_info = Context::get('logged_info');
         $member_srl = $logged_info->member_srl;
 
-        $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
-        $member_info->signature = $oMemberModel->getSignature($member_srl);
-        Context::set('member_info',$member_info);
+		if(!$this->memberInfo) $this->memberInfo = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
+        $this->memberInfo->signature = $oMemberModel->getSignature($member_srl);
+        Context::set('member_info',$this->memberInfo);
 
         // Receive a member join form
-        Context::set('extend_form_list', $oMemberModel->getCombineJoinForm($member_info));
+        Context::set('extend_form_list', $oMemberModel->getCombineJoinForm($this->memberInfo));
 
         Context::set('openids', $oMemberModel->getMemberOpenIDByMemberSrl($member_srl));
 
         // Call getEditor of the editor module and set it for signiture
-        if($member_info->member_srl) {
+        if($this->memberInfo->member_srl) {
             $oEditorModel = &getModel('editor');
             $option->primary_key_name = 'member_srl';
             $option->content_key_name = 'signature';
@@ -109,7 +123,7 @@ class memberMobile extends member
             $option->height = 200;
             $option->skin = $this->member_config->editor_skin;
             $option->colorset = $this->member_config->editor_colorset;
-            $editor = $oEditorModel->getEditor($member_info->member_srl, $option);
+            $editor = $oEditorModel->getEditor($this->memberInfo->member_srl, $option);
             Context::set('editor', $editor);
         }
 
@@ -129,8 +143,11 @@ class memberMobile extends member
         $logged_info = Context::get('logged_info');
         $member_srl = $logged_info->member_srl;
 
-        $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
-        Context::set('member_info',$member_info);
+		if(!$this->memberInfo) {
+			$columnList = array('member_srl', 'user_id');
+			$this->memberInfo = $oMemberModel->getMemberInfoByMemberSrl($member_srl, 0, $columnList);
+		}
+        Context::set('member_info',$this->memberInfo);
 
         // Set a template file
         $this->setTemplateFile('modify_password');
@@ -148,8 +165,11 @@ class memberMobile extends member
         $logged_info = Context::get('logged_info');
         $member_srl = $logged_info->member_srl;
 
-        $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
-        Context::set('member_info',$member_info);
+		if(!$this->memberInfo) {
+			$columnList = array('member_srl', 'user_id');
+        	$this->memberInfo = $oMemberModel->getMemberInfoByMemberSrl($member_srl, 0, $columnList);
+		}
+        Context::set('member_info',$this->memberInfo);
 
         // Set a template file
         $this->setTemplateFile('leave_form');

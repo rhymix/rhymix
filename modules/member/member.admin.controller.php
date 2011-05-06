@@ -33,7 +33,8 @@
                 // Create a member model object
                 $oMemberModel = &getModel('member');
                 // Get memebr profile
-                $member_info = $oMemberModel->getMemberInfoByMemberSrl($args->member_srl);
+				$columnList = array('member_srl');
+                $member_info = $oMemberModel->getMemberInfoByMemberSrl($args->member_srl, 0, $columnList);
                 // If no original member exists, make a new one
                 if($member_info->member_srl != $args->member_srl) unset($args->member_srl);
             }
@@ -372,16 +373,18 @@
         /**
          * Delete a Group
          **/
-        function deleteGroup($group_srl, $site_srl = null) {
+        function deleteGroup($group_srl, $site_srl = 0) {
             // Create a member model object
             $oMemberModel = &getModel('member');
             // Check the group_srl (If is_default == 'Y', it cannot be deleted)
-            $group_info = $oMemberModel->getGroup($group_srl);
+			$columnList = array('group_srl', 'is_default');
+            $group_info = $oMemberModel->getGroup($group_srl, $columnList);
 
             if(!$group_info) return new Object(-1, 'lang->msg_not_founded');
             if($group_info->is_default == 'Y') return new Object(-1, 'msg_not_delete_default');
             // Get groups where is_default == 'Y'
-            $default_group = $oMemberModel->getDefaultGroup($site_srl);
+			$columnList = array('site_srl', 'group_srl');
+            $default_group = $oMemberModel->getDefaultGroup($site_srl, $columnList);
             $default_group_srl = $default_group->group_srl;
             // Change to default_group_srl
             $this->changeGroup($group_srl, $default_group_srl);

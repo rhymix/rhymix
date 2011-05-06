@@ -6,6 +6,7 @@
      **/
 
     class memberController extends member {
+		var $memberInfo;
 
         /**
          * @brief Initialization
@@ -41,8 +42,8 @@
             // Check if change_password_date is set
             if ($limit_date > 0) {
                 $oMemberModel = &getModel('member');
-                $member_info = $oMemberModel->getMemberInfoByUserID($user_id);
-                if ($member_info->change_password_date < date ('YmdHis', strtotime ('-' . $limit_date . ' day'))) {
+                //$member_info = $oMemberModel->getMemberInfoByUserID($user_id, $columnList);
+                if ($this->memberInfo->change_password_date < date ('YmdHis', strtotime ('-' . $limit_date . ' day'))) {
                     $this->setRedirectUrl(getNotEncodedUrl('','vid',Context::get('vid'),'mid',Context::get('mid'),'act','dispMemberModifyPassword'));
                 }
             }
@@ -152,19 +153,19 @@
             $store = new Auth_OpenID_XEStore();
             $consumer = new Auth_OpenID_Consumer($store);
             $response = $consumer->complete($_GET);
-            switch($response->status) {
-                case Auth_OpenID_CANCEL :
-                // Handle if user authentication is canceled
-                return $this->stop('authorization_canceled');
-            case Auth_OpenID_FAILURE :
-                // Handle if user authentication is failed due to a certain problem (for example, openid doesn't exist) (there is no authentication required deunga openid ..)
-                return $this->stop('invalid_authorization');
-            case Auth_OpenID_SUCCESS :
-                // Authentication success!
-                break;
-            default:
-                return $this->stop('invalid_authorization');
-            }
+			switch($response->status) {
+				case Auth_OpenID_CANCEL :
+					// Handle if user authentication is canceled
+					return $this->stop('authorization_canceled');
+				case Auth_OpenID_FAILURE :
+					// Handle if user authentication is failed due to a certain problem (for example, openid doesn't exist) (there is no authentication required deunga openid ..)
+					return $this->stop('invalid_authorization');
+				case Auth_OpenID_SUCCESS :
+					// Authentication success!
+					break;
+				default:
+					return $this->stop('invalid_authorization');
+			}
             // Authentication success
             $oMemberModel = &getModel('member');
             // Get zeroboard ID which is corresponded to the openID ID.
@@ -176,7 +177,8 @@
 
             if ($output->toBool() && $output->data && !is_array($output->data)) {
                 $member_srl = $output->data->member_srl;
-                $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
+				$columnList = array('member_srl', 'user_id');
+                $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl, 0, $columnList);
                 if ($member_info) {
                     $assoc_member_info = $member_info;
                 }
@@ -543,7 +545,8 @@
             // If a virtual site, join the site
             $site_module_info = Context::get('site_module_info');
             if($site_module_info->site_srl > 0) {
-                $default_group = $oMemberModel->getDefaultGroup($site_module_info->site_srl);
+				$columnList = array('site_srl', 'group_srl');
+                $default_group = $oMemberModel->getDefaultGroup($site_module_info->site_srl, $columnList);
                 if($default_group->group_srl) {
                     $this->addMemberToGroup($args->member_srl, $default_group->group_srl, $site_module_info->site_srl);
                 }
@@ -598,12 +601,12 @@
             $signature = Context::get('signature');
             $this->putSignature($args->member_srl, $signature);
             // Get user_id information
-            $member_info = $oMemberModel->getMemberInfoByMemberSrl($args->member_srl);
+            $this->memberInfo = $oMemberModel->getMemberInfoByMemberSrl($args->member_srl);
             // Call a trigger after successfully log-in (after)
-            $trigger_output = ModuleHandler::triggerCall('member.doLogin', 'after', $member_info);
+            $trigger_output = ModuleHandler::triggerCall('member.doLogin', 'after', $this->memberInfo);
             if(!$trigger_output->toBool()) return $trigger_output;
 
-            $this->setSessionInfo($member_info);
+            $this->setSessionInfo();
             // Return result
             $this->add('member_srl', $args->member_srl);
             $this->setMessage('success_updated');
@@ -623,7 +626,8 @@
             // Create a member model object
             $oMemberModel = &getModel('member');
             // Get information of member_srl
-            $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
+			$columnList = array('member_srl', 'password');
+            $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl, 0, $columnList);
             // Verify the cuttent password
             if(!$oMemberModel->isValidPassword($member_info->password, $current_password)) return new Object(-1, 'invalid_password');
 
@@ -653,9 +657,14 @@
             // Create a member model object
             $oMemberModel = &getModel('member');
             // Get information of member_srl
-            $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
+			if(!$this->memberInfo->password)
+			{
+				$columnList = array('member_srl', 'password');
+	            $memberInfo = $oMemberModel->getMemberInfoByMemberSrl($member_srl, 0, $columnList);
+				$this->memberInfo->password = $memberInfo->password;
+			}
             // Verify the cuttent password
-            if(!$oMemberModel->isValidPassword($member_info->password, $password)) return new Object(-1, 'invalid_password');
+            if(!$oMemberModel->isValidPassword($this->memberInfo->password, $password)) return new Object(-1, 'invalid_password');
 
             $output = $this->deleteMember($member_srl);
             if(!$output->toBool()) return $output;
@@ -893,7 +902,8 @@
             $member_srl = $oMemberModel->getMemberSrlByEmailAddress($email_address);
             if(!$member_srl) return new Object(-1, 'msg_email_not_exists');
             // Get information of the member
-            $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
+			$columnList = array('denied', 'member_srl', 'user_id', 'user_name', 'email_address', 'nick_name');
+            $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl, 0, $columnList);
             // Check if possible to find member's ID and password
             if ($member_info->denied == 'Y') {
                 $chk_args->member_srl = $member_info->member_srl;
@@ -960,7 +970,8 @@
             $member_srl = $oMemberModel->getMemberSrlByEmailAddress($email_address);
             if(!$member_srl) return new Object(-1, 'msg_email_not_exists');
             // Get information of the member
-            $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
+			$columnList = array('member_srl', 'find_account_question', 'find_account_answer');
+            $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl, 0, $columnList);
 
             // Display a message if no answer is entered
             if (!$member_info->find_account_question || !$member_info->find_account_answer) return new Object(-1, 'msg_question_not_exists');
@@ -1089,22 +1100,23 @@
             $oMemberModel = &getModel('member');
 
             $args->email_address = $email_address;
-            $member_info = $oMemberModel->getMemberSrlByEmailAddress($email_address);
-            if(!$member_info) return $this->stop('msg_not_exists_member');
+            $memberSrl = $oMemberModel->getMemberSrlByEmailAddress($email_address);
+            if(!$memberSrl) return $this->stop('msg_not_exists_member');
 
-            $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_info);
+			$columnList = array('member_srl', 'user_id', 'user_name', 'nick_name', 'email_address');
+            $memberInfo = $oMemberModel->getMemberInfoByMemberSrl($memberSrl, 0, $columnList);
 
             // Check if a authentication mail has been sent previously
-            $chk_args->member_srl = $member_info->member_srl;
+            $chk_args->member_srl = $memberInfo->member_srl;
             $output = executeQuery('member.chkAuthMail', $chk_args);
             if($output->toBool() && $output->data->count == '0') return new Object(-1, 'msg_invalid_request');
 
-            $auth_args->member_srl = $member_info->member_srl;
+            $auth_args->member_srl = $memberInfo->member_srl;
             $output = executeQueryArray('member.getAuthMailInfo', $auth_args);
             if(!$output->data || !$output->data[0]->auth_key)  return new Object(-1, 'msg_invalid_request');
             $auth_info = $output->data[0];
             // Get content of the email to send a member
-            Context::set('member_info', $member_info);
+            Context::set('member_info', $memberInfo);
             $oModuleModel = &getModel('module');
             $member_config = $oModuleModel->getModuleConfig('member');
             if(!$member_config->skin) $member_config->skin = "default";
@@ -1115,7 +1127,7 @@
             $tpl_path = sprintf('%sskins/%s', $this->module_path, $member_config->skin);
             if(!is_dir($tpl_path)) $tpl_path = sprintf('%sskins/%s', $this->module_path, 'default');
 
-            $auth_url = getFullUrl('','module','member','act','procMemberAuthAccount','member_srl',$member_info->member_srl, 'auth_key',$auth_info->auth_key);
+            $auth_url = getFullUrl('','module','member','act','procMemberAuthAccount','member_srl',$memberInfo->member_srl, 'auth_key',$auth_info->auth_key);
             Context::set('auth_url', $auth_url);
 
             $oTemplate = &TemplateHandler::getInstance();
@@ -1144,7 +1156,8 @@
             if(!$site_module_info->site_srl || !Context::get('is_logged') || count($logged_info->group_srl_list) ) return new Object(-1,'msg_invalid_request');
 
             $oMemberModel = &getModel('member');
-            $default_group = $oMemberModel->getDefaultGroup($site_module_info->site_srl);
+			$columnList = array('site_srl', 'group_srl', 'title');
+            $default_group = $oMemberModel->getDefaultGroup($site_module_info->site_srl, $columnList);
             $this->addMemberToGroup($logged_info->member_srl, $default_group->group_srl, $site_module_info->site_srl);
             $groups[$default_group->group_srl] = $default_group->title;
             $logged_info->group_list = $groups;
@@ -1307,7 +1320,8 @@
                 // Check if change_password_date is set
                 if($limit_date > 0) {
                     $oMemberModel = &getModel('member');
-                    $member_info = $oMemberModel->getMemberInfoByUserID($user_id);
+					$columnList = array('member_srl', 'change_password_date');
+                    $member_info = $oMemberModel->getMemberInfoByUserID($user_id, $columnList);
 
                     if($member_info->change_password_date >= date('YmdHis', strtotime('-'.$limit_date.' day')) ){
                         $do_auto_login = true;
@@ -1340,37 +1354,37 @@
             // Create a member model object
             $oMemberModel = &getModel('member');
             // Get user_id information
-            $member_info = $oMemberModel->getMemberInfoByUserID($user_id);
+            $this->memberInfo = $oMemberModel->getMemberInfoByUserID($user_id);
             // Set an invalid user if no value returned
-            if(!$user_id || strtolower($member_info->user_id) != strtolower($user_id)) return new Object(-1, 'invalid_user_id');
+            if(!$user_id || strtolower($this->memberInfo->user_id) != strtolower($user_id)) return new Object(-1, 'invalid_user_id');
             // Password Check
-            if($password && !$oMemberModel->isValidPassword($member_info->password, $password)) return new Object(-1, 'invalid_password');
+            if($password && !$oMemberModel->isValidPassword($this->memberInfo->password, $password)) return new Object(-1, 'invalid_password');
             // If denied == 'Y', notify
-            if($member_info->denied == 'Y') {
-                $args->member_srl = $member_info->member_srl;
+            if($this->memberInfo->denied == 'Y') {
+                $args->member_srl = $this->memberInfo->member_srl;
                 $output = executeQuery('member.chkAuthMail', $args);
                 if ($output->toBool() && $output->data->count != '0') return new Object(-1,'msg_user_not_confirmed');
                 return new Object(-1,'msg_user_denied');
             }
             // Notify if denied_date is less than the current time
-            if($member_info->limit_date && substr($member_info->limit_date,0,8) >= date("Ymd")) return new Object(-1,sprintf(Context::getLang('msg_user_limited'),zdate($member_info->limit_date,"Y-m-d")));
+            if($this->memberInfo->limit_date && substr($this->memberInfo->limit_date,0,8) >= date("Ymd")) return new Object(-1,sprintf(Context::getLang('msg_user_limited'),zdate($this->memberInfo->limit_date,"Y-m-d")));
             // Update the latest login time
-            $args->member_srl = $member_info->member_srl;
+            $args->member_srl = $this->memberInfo->member_srl;
             $output = executeQuery('member.updateLastLogin', $args);
             // Call a trigger after successfully log-in (after)
-            $trigger_output = ModuleHandler::triggerCall('member.doLogin', 'after', $member_info);
+            $trigger_output = ModuleHandler::triggerCall('member.doLogin', 'after', $this->memberInfo);
             if(!$trigger_output->toBool()) return $trigger_output;
             // When user checked to use auto-login
             if($keep_signed) {
                 // Key generate for auto login
-                $autologin_args->autologin_key = md5(strtolower($user_id).$member_info->password.$_SERVER['REMOTE_ADDR']);
-                $autologin_args->member_srl = $member_info->member_srl;
+                $autologin_args->autologin_key = md5(strtolower($user_id).$this->memberInfo->password.$_SERVER['REMOTE_ADDR']);
+                $autologin_args->member_srl = $this->memberInfo->member_srl;
                 executeQuery('member.deleteAutologin', $autologin_args);
                 $autologin_output = executeQuery('member.insertAutologin', $autologin_args);
                 if($autologin_output->toBool()) setCookie('xeak',$autologin_args->autologin_key, time()+60*60*24*365, '/');
             }
 
-            $this->setSessionInfo($member_info);
+            $this->setSessionInfo();
 
             return $output;
         }
@@ -1378,36 +1392,36 @@
         /**
          * @brief Update or create session information
          **/
-        function setSessionInfo($member_info = null) {
+        function setSessionInfo() {
             $oMemberModel = &getModel('member');
             // If your information came through the current session information to extract information from the users
-            if(!$member_info && $_SESSION['member_srl'] && $oMemberModel->isLogged() ) {
-                $member_info = $oMemberModel->getMemberInfoByMemberSrl($_SESSION['member_srl']);
+            if(!$this->memberInfo && $_SESSION['member_srl'] && $oMemberModel->isLogged() ) {
+                $this->memberInfo = $oMemberModel->getMemberInfoByMemberSrl($_SESSION['member_srl']);
                 // If you do not destroy the session Profile
-                if($member_info->member_srl != $_SESSION['member_srl']) {
+                if($this->memberInfo->member_srl != $_SESSION['member_srl']) {
                     $this->destroySessionInfo();
                     return;
                 }
             }
             // Stop using the session id is destroyed
-            if($member_info->denied=='Y') {
+            if($this->memberInfo->denied=='Y') {
                 $this->destroySessionInfo();
                 return;
             }
             // OpenID is a check (only for a determined identity types)
-            if(preg_match("/^([_0-9a-zA-Z]+)$/is", $member_info->user_id)) $member_info->is_openid = false;
-            else $member_info->is_openid = true;
+            if(preg_match("/^([_0-9a-zA-Z]+)$/is", $this->memberInfo->user_id)) $this->memberInfo->is_openid = false;
+            else $this->memberInfo->is_openid = true;
             // Log in for treatment sessions set
             $_SESSION['is_logged'] = true;
             $_SESSION['ipaddress'] = $_SERVER['REMOTE_ADDR'];
-            $_SESSION['member_srl'] = $member_info->member_srl;
+            $_SESSION['member_srl'] = $this->memberInfo->member_srl;
             $_SESSION['is_admin'] = '';
             // Do not save your password in the session jiwojum;;
-            //unset($member_info->password);
+            //unset($this->memberInfo->password);
             // User Group Settings
             /*
-            if($member_info->group_list) {
-                $group_srl_list = array_keys($member_info->group_list);
+            if($this->memberInfo->group_list) {
+                $group_srl_list = array_keys($this->memberInfo->group_list);
                 $_SESSION['group_srls'] = $group_srl_list;
                 // If the group is designated as an administrator administrator
                 $oMemberModel = &getModel('member');
@@ -1416,9 +1430,9 @@
             }
             */
             // Information stored in the session login user
-            $_SESSION['logged_info'] = $member_info;
+            $_SESSION['logged_info'] = $this->memberInfo;
             Context::set('is_logged', true);
-            Context::set('logged_info', $member_info);
+            Context::set('logged_info', $this->memberInfo);
             // Only the menu configuration of the user (such as an add-on to the menu can be changed)
             $this->addMemberMenu( 'dispMemberInfo', 'cmd_view_member_info');
             $this->addMemberMenu( 'dispMemberScrappedDocument', 'cmd_view_scrapped_document');
@@ -1515,7 +1529,8 @@
             }
             // If no value is entered the default group, the value of group registration
             if(!$args->group_srl_list) {
-                $default_group = $oMemberModel->getDefaultGroup(0);
+				$columnList = array('site_srl', 'group_srl');
+                $default_group = $oMemberModel->getDefaultGroup(0, $columnList);
                 // Add to the default group
                 $output = $this->addMemberToGroup($args->member_srl,$default_group->group_srl);
                 if(!$output->toBool()) {
@@ -1604,8 +1619,8 @@
 
             $logged_info = Context::get('logged_info');
             // Get what you want to modify the original information
-            $member_info = $oMemberModel->getMemberInfoByMemberSrl($args->member_srl);
-            if(!$args->user_id) $args->user_id = $member_info->user_id;
+			if(!$this->memberInfo) $this->memberInfo = $oMemberModel->getMemberInfoByMemberSrl($args->member_srl);
+            if(!$args->user_id) $args->user_id = $this->memberInfo->user_id;
             // Control of essential parameters
             if($args->allow_mailing!='Y') $args->allow_mailing = 'N';
             if($args->allow_message && !in_array($args->allow_message, array('Y','N','F'))) $args->allow_message = 'Y';
@@ -1636,8 +1651,8 @@
             $oDB->begin();
             // DB in the update
             if($args->password) $args->password = md5($args->password);
-            else $args->password = $member_info->password;
-            if(!$args->user_name) $args->user_name = $member_info->user_name;
+            else $args->password = $this->memberInfo->password;
+            if(!$args->user_name) $args->user_name = $this->memberInfo->user_name;
 
 			if(!$args->description) $args->description = '';
             $output = executeQuery('member.updateMember', $args);
@@ -1675,11 +1690,11 @@
 
             $oDB->commit();
             // Save Session
-            $member_info = $oMemberModel->getMemberInfoByMemberSrl($args->member_srl);
+            if(!$this->memberInfo) $this->memberInfo = $oMemberModel->getMemberInfoByMemberSrl($args->member_srl);
 
             $logged_info = Context::get('logged_info');
             if($logged_info->member_srl == $member_srl) {
-                $_SESSION['logged_info'] = $member_info;
+                $_SESSION['logged_info'] = $this->memberInfo;
             }
 
             $output->add('member_srl', $args->member_srl);
@@ -1706,10 +1721,13 @@
             // Create a model object
             $oMemberModel = &getModel('member');
             // Bringing the user's information
-            $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
-            if(!$member_info) return new Object(-1, 'msg_not_exists_member');
+            if(!$this->memberInfo) {
+				$columnList = array('member_srl', 'is_admin');
+				$this->memberInfo = $oMemberModel->getMemberInfoByMemberSrl($member_srl, 0, $columnList);
+			}
+            if(!$this->memberInfo) return new Object(-1, 'msg_not_exists_member');
             // If managers can not be deleted
-            if($member_info->is_admin == 'Y') return new Object(-1, 'msg_cannot_delete_admin');
+            if($this->memberInfo->is_admin == 'Y') return new Object(-1, 'msg_cannot_delete_admin');
 
             $oDB = &DB::getInstance();
             $oDB->begin();
