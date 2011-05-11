@@ -81,7 +81,7 @@
         /**
          * @brief Get a list of points members list
          **/
-        function getMemberList($args = null) {
+        function getMemberList($args = null, $columnList = array()) {
             // Arrange the search options
             $args->is_admin = Context::get('is_admin')=='Y'?'Y':'';
             $args->is_denied = Context::get('is_denied')=='Y'?'Y':'';
@@ -126,7 +126,7 @@
                 $query_id = 'point.getMemberList';
             }
 
-            $output = executeQuery($query_id, $args);
+            $output = executeQuery($query_id, $args, $columnList);
 
             if($output->total_count) {
                 $oModuleModel = &getModel('module');
