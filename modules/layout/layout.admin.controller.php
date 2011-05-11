@@ -329,7 +329,8 @@
             if(!$mid) return new Object(-1, 'msg_invalid_request');
 
             $site_module_info = Context::get('site_module_info');
-            $module_info = $oModuleModel->getModuleInfoByMid($mid, $site_module_info->site_srl);
+			$columnList = array('layout_srl');
+            $module_info = $oModuleModel->getModuleInfoByMid($mid, $site_module_info->site_srl, $columnList);
             $layout_srl = $module_info->layout_srl;
             if(!$layout_srl) return new Object(-1, 'msg_invalid_request');
 

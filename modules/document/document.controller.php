@@ -1024,7 +1024,8 @@ class documentController extends document {
 		}
 		// Check permissions
 		$oModuleModel = &getModel('module');
-		$module_info = $oModuleModel->getModuleInfoByModuleSrl($args->module_srl);
+		$columnList = array('module_srl', 'module');
+		$module_info = $oModuleModel->getModuleInfoByModuleSrl($args->module_srl, $columnList);
 		$grant = $oModuleModel->getGrant($module_info, Context::get('logged_info'));
 		if(!$grant->manager) return new Object(-1,'msg_not_permitted');
 
@@ -1079,7 +1080,8 @@ class documentController extends document {
 		$source_category = $oDocumentModel->getCategory($source_category_srl);
 		// Check permissions
 		$oModuleModel = &getModel('module');
-		$module_info = $oModuleModel->getModuleInfoByModuleSrl($source_category->module_srl);
+		$columnList = array('module_srl', 'module');
+		$module_info = $oModuleModel->getModuleInfoByModuleSrl($source_category->module_srl, $columnList);
 		$grant = $oModuleModel->getGrant($module_info, Context::get('logged_info'));
 		if(!$grant->manager) return new Object(-1,'msg_not_permitted');
 		// First child of the parent_category_srl
@@ -1134,7 +1136,8 @@ class documentController extends document {
 		$oDB->begin();
 		// Check permissions
 		$oModuleModel = &getModel('module');
-		$module_info = $oModuleModel->getModuleInfoByModuleSrl($args->module_srl);
+		$columnList = array('module_srl', 'module');
+		$module_info = $oModuleModel->getModuleInfoByModuleSrl($args->module_srl, $columnList);
 		$grant = $oModuleModel->getGrant($module_info, Context::get('logged_info'));
 		if(!$grant->manager) return new Object(-1,'msg_not_permitted');
 
@@ -1171,7 +1174,8 @@ class documentController extends document {
 		$module_srl = Context::get('module_srl');
 		// Check permissions
 		$oModuleModel = &getModel('module');
-		$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+		$columnList = array('module_srl', 'module');
+		$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);
 		$grant = $oModuleModel->getGrant($module_info, Context::get('logged_info'));
 		if(!$grant->manager) return new Object(-1,'msg_not_permitted');
 
@@ -1188,7 +1192,8 @@ class documentController extends document {
 		if(!$module_srl) return false;
 		// Get module information (to obtain mid)
 		$oModuleModel = &getModel('module');
-		$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+		$columnList = array('module_srl', 'mid', 'site_srl');
+		$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);
 		$mid = $module_info->mid;
 
 		if(!is_dir('./files/cache/document_category')) FileHandler::makeDir('./files/cache/document_category');

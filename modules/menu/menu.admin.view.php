@@ -74,6 +74,7 @@
 
         /**
          * @brief Display a mid list to be able to select on the menu
+		 * @perphaps this method not use
          **/
         function dispMenuAdminMidList() {
             $oModuleModel = &getModel('module');
@@ -86,7 +87,8 @@
             // Get a list of mid
             $args->module_category_srl = Context::get('module_category_srl');
             $args->module = Context::get('target_module');
-            $mid_list = $oModuleModel->getMidList($args);
+			$columnList = array('module_srl', 'module', 'module_category_srl', 'browser_title');
+            $mid_list = $oModuleModel->getMidList($args, $columnList);
             Context::set('mid_list', $mid_list);
             // Set the menu as a pop-up
             $this->setLayoutFile('popup_layout');

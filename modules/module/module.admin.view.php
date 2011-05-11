@@ -79,7 +79,8 @@
             $module_srl = Context::get('module_srl');
             // Get information of the module
             $oModuleModel = &getModel('module');
-            $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+			$columnList = array('module_srl', 'module', 'mid', 'browser_title');
+            $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);
             Context::set('module_info', $module_info);
             // Set the layout to be pop-up
             $this->setLayoutFile('popup_layout');
@@ -97,7 +98,8 @@
             if(!count($modules)) if(!$module_srls) return new Object(-1,'msg_invalid_request');
 
             $oModuleModel = &getModel('module');
-            $module_info = $oModuleModel->getModuleInfoByModuleSrl($modules[0]);
+			$columnList = array('module_srl', 'module');
+            $module_info = $oModuleModel->getModuleInfoByModuleSrl($modules[0], $columnList);
             // Get a skin list of the module
             $skin_list = $oModuleModel->getSkins('./modules/'.$module_info->module);
             Context::set('skin_list',$skin_list);
@@ -145,7 +147,8 @@
             if(!count($modules)) if(!$module_srls) return new Object(-1,'msg_invalid_request');
 
             $oModuleModel = &getModel('module');
-            $module_info = $oModuleModel->getModuleInfoByModuleSrl($modules[0]);
+			$columnList = array('module_srl', 'module', 'site_srl');
+            $module_info = $oModuleModel->getModuleInfoByModuleSrl($modules[0], $columnList);
             $xml_info = $oModuleModel->getModuleActionXml($module_info->module);
             $source_grant_list = $xml_info->grant;
             // Grant virtual permissions for access and manager

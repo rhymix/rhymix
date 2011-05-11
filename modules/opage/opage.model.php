@@ -17,8 +17,10 @@
          * Use a separate model method because external page handles information and configurations of the defaul module either.
          **/
         function getOpage($module_srl) {
+			debugPrint('getOpage');
             $oModuleModel = &getModel('module');
-            $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+			$columnList = array('module_srl');
+            $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);
             if($module_info->module_srl != $module_srl) return;
 
             $extra_vars = unserialize($module_info->extra_vars);

@@ -164,8 +164,11 @@
             $args->domain = preg_replace('/\/$/','',$domain);
             $args->index_module_srl = $index_module_srl;
             $args->default_language = Context::getLangType();
-            $output = executeQuery('module.getSiteInfoByDomain', $args);
-            if($output->data) return new Object(-1,'msg_already_registed_vid');
+
+			$columnList = array('modules.site_srl');
+            $oModuleModel = &getModel('module');
+			$output = $oModuleModel->getSiteInfoByDomain($args->domain, $columnList);
+            if($output) return new Object(-1,'msg_already_registed_vid');
 
             $output = executeQuery('module.insertSite', $args);
             if(!$output->toBool()) return $output;
@@ -179,9 +182,10 @@
          **/
         function updateSite($args) {
             $oModuleModel = &getModel('module');
-            $site_info = $oModuleModel->getSiteInfo($args->site_srl);
+			$columnList = array('sites.site_srl', 'sites.domain');
+            $site_info = $oModuleModel->getSiteInfo($args->site_srl, $columnList);
             if($site_info->domain != $args->domain) {
-                $info = $oModuleModel->getSiteInfoByDomain($args->domain);
+                $info = $oModuleModel->getSiteInfoByDomain($args->domain, $columnList);
                 if($info->site_srl && $info->site_srl != $args->site_srl) return new Object(-1,'msg_already_registed_domain');
                 if(isSiteID($args->domain) && $oModuleModel->isIDExists($args->domain)) return new Object(-1,'msg_already_registed_vid');
 
@@ -277,11 +281,15 @@
             $oDB = &DB::getInstance();
             $oDB->begin();
 
-            $oModuleModel = &getModel('module');
-            $module_info = $oModuleModel->getModuleInfoByModuleSrl($args->module_srl);
+			if(!$args->site_srl || !$args->browser_title)
+			{
+				$oModuleModel = &getModel('module');
+				$columnList = array('module_srl', 'site_srl', 'browser_title');
+				$module_info = $oModuleModel->getModuleInfoByModuleSrl($args->module_srl);
 
-            $args->site_srl = (int)$module_info->site_srl;
-            if(!$args->browser_title) $args->browser_title = $module_info->browser_title;
+				if(!$args->site_srl) $args->site_srl = (int)$module_info->site_srl;
+				if(!$args->browser_title) $args->browser_title = $module_info->browser_title;
+			}
 
             $output = executeQuery('module.isExistsModuleName', $args);
             if(!$output->toBool() || $output->data->count) {

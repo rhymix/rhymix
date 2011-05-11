@@ -50,7 +50,8 @@
             $oModuleModel = &getModel('module');
 
             $args->site_srl = $site_srl;
-            $mid_list = $oModuleModel->getMidList($args);
+			$columnList = array('module_srl', 'mid', 'module_category_srl', 'browser_title');
+            $mid_list = $oModuleModel->getMidList($args, $columnList);
             // Combination of module_category and module
             if(!$args->site_srl) {
                 // Get a list of module category

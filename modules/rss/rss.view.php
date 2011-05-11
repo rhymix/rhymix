@@ -63,7 +63,7 @@
 
                 if($module_srls) {
                     $args->module_srl = implode(',',$module_srls);
-                    $module_list = $oModuleModel->getMidList($args);
+                    //$module_list = $oModuleModel->getMidList($args);	//perhaps module_list varialbles not use
 
                     $args->search_target = 'is_secret';
                     $args->search_keyword = 'N';

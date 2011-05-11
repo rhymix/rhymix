@@ -36,7 +36,9 @@
             $module_categories = $oModuleModel->getModuleCategories();
             // Generated mid Wanted list
             $obj->site_srl = 0;
-            $mid_list = $oModuleModel->getMidList($obj);
+
+			// Shown below as obsolete comments - modify by cherryfilter
+            /*$mid_list = $oModuleModel->getMidList($obj);
             // module_category and module combination
             if($module_categories) {
                 foreach($mid_list as $module_srl => $module) {
@@ -46,7 +48,8 @@
                 $module_categories[0]->list = $mid_list;
             }
 
-            Context::set('mid_list',$module_categories);
+            Context::set('mid_list',$module_categories);*/
+
             // Sample Code
             Context::set('sample_code', htmlspecialchars('<form action="{getUrl()}" method="get"><input type="hidden" name="vid" value="{$vid}" /><input type="hidden" name="mid" value="{$mid}" /><input type="hidden" name="act" value="IS" /><input type="text" name="is_keyword" class="inputTypeText" value="{$is_keyword}" /><span class="button"><input type="submit" value="{$lang->cmd_search}" /></span></form>') );
 

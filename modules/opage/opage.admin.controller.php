@@ -27,7 +27,8 @@
             unset($args->opage_name);
             // Check if an original module exists by using module_srl
             if($args->module_srl) {
-                $module_info = $oModuleModel->getModuleInfoByModuleSrl($args->module_srl);
+				$columnList = array('module_srl');
+                $module_info = $oModuleModel->getModuleInfoByModuleSrl($args->module_srl, $columnList);
                 if($module_info->module_srl != $args->module_srl) unset($args->module_srl);
             }
             // Insert/update depending on module_srl

@@ -21,8 +21,10 @@
             // Bring a list of variables needed to implement
             $document_srl = Context::get('document_srl');
 
-            $oModuleModel = &getModel('module');
-            $module_info = $oModuleModel->getModuleInfoByDocumentSrl($document_srl);
+			// module_info not use in UI
+            //$oModuleModel = &getModel('module');
+            //$module_info = $oModuleModel->getModuleInfoByDocumentSrl($document_srl);
+
             // Create the document object. If the document module of basic data structures, write it all works .. -_-;
             $oDocumentModel = &getModel('document');
             // Creates an object for displaying the selected document
@@ -31,7 +33,7 @@
             // Check permissions
             if(!$oDocument->isAccessible()) return new Object(-1,'msg_not_permitted');
             // Information setting module
-            Context::set('module_info', $module_info);
+            //Context::set('module_info', $module_info);	//module_info not use in UI
             // Browser title settings
             Context::setBrowserTitle($oDocument->getTitleText());
             Context::set('oDocument', $oDocument);

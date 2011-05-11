@@ -132,7 +132,8 @@
                 $output = executeQuery('menu.getMenuLayout', $args);
                 // Set if layout value is not specified in the module
                 $oModuleModel = &getModel('module');
-                $module_info = $oModuleModel->getModuleInfoByMid($mid);
+				$columnList = array('layout_srl');
+                $module_info = $oModuleModel->getModuleInfoByMid($mid, 0, $columnList);
                 if(!$module_info->layout_srl&&$output->data->layout_srl) $mid_args->layout_srl = $output->data->layout_srl;
                 // Change menu value of the mid to the menu
                 $oModuleController = &getController('module');
@@ -313,7 +314,8 @@
 
             if($site_srl) {
                 $oModuleModel = &getModel('module');
-                $site_info = $oModuleModel->getSiteInfo($site_srl);
+				$columnList = array('sites.domain');
+                $site_info = $oModuleModel->getSiteInfo($site_srl, $columnList);
                 $domain = $site_info->domain;
             }
             // Get a list of menu items corresponding to menu_srl by listorder

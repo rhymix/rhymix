@@ -194,7 +194,8 @@
                         if(!$target_module) return new Object(-1,'msg_invalid_request');
 
 						$oModuleModel = &getModel('module');
-						$target_module_info = $oModuleModel->getModuleInfoByModuleSrl($target_module);
+						$columnList = array('module_srl', 'module');
+						$target_module_info = $oModuleModel->getModuleInfoByModuleSrl($target_module, $columnList);
 
                         require_once('./modules/importer/ttimport.class.php');
                         $oTT = new ttimport();

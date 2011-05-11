@@ -42,15 +42,15 @@
         /**
          * @brief Get site information
          **/
-        function getSiteInfo($site_srl) {
+        function getSiteInfo($site_srl, $columnList = array()) {
             $args->site_srl = $site_srl;
-            $output = executeQuery('module.getSiteInfo', $args);
+            $output = executeQuery('module.getSiteInfo', $args, $columnList);
             return $output->data;
         }
 
-        function getSiteInfoByDomain($domain) {
+        function getSiteInfoByDomain($domain, $columnList = array()) {
             $args->domain= $domain;
-            $output = executeQuery('module.getSiteInfoByDomain', $args);
+            $output = executeQuery('module.getSiteInfoByDomain', $args, $columnList);
             return $output->data;
         }
 
@@ -131,10 +131,10 @@
         /**
          * @brief Get module information by mid
          **/
-        function getModuleInfoByMid($mid, $site_srl = 0) {
+        function getModuleInfoByMid($mid, $site_srl = 0, $columnList = array()) {
             $args->mid = $mid;
             $args->site_srl = (int)$site_srl;
-            $output = executeQuery('module.getMidInfo', $args);
+            $output = executeQuery('module.getMidInfo', $args, $columnList);
             $module_info = $output->data;
             if(!$module_info->module_srl && $module_info->data[0]) $module_info = $module_info->data[0];
             return $this->addModuleExtraVars($module_info);
@@ -143,10 +143,10 @@
         /**
          * @brief Get module information corresponding to module_srl
          **/
-        function getModuleInfoByModuleSrl($module_srl) {
+        function getModuleInfoByModuleSrl($module_srl, $columnList = array()) {
             // Get data
             $args->module_srl = $module_srl;
-            $output = executeQuery('module.getMidInfo', $args);
+            $output = executeQuery('module.getMidInfo', $args, $columnList);
             if(!$output->data) return;
             $module_info = $this->addModuleExtraVars($output->data);
             return $module_info;
@@ -155,10 +155,10 @@
         /**
          * @brief Get module information corresponding to layout_srl
          **/
-        function getModulesInfoByLayout($layout_srl) {
+        function getModulesInfoByLayout($layout_srl, $columnList = array()) {
             // Imported data
             $args->layout_srl = $layout_srl;
-            $output = executeQueryArray('module.getModulesByLayout', $args);
+            $output = executeQueryArray('module.getModulesByLayout', $args, $columnList);
 
             $count = count($output->data);
 
@@ -172,10 +172,10 @@
         /**
          * @brief Get module information corresponding to multiple module_srls
          **/
-        function getModulesInfo($module_srls) {
+        function getModulesInfo($module_srls, $columnList = array()) {
             if(is_array($module_srls)) $module_srls = implode(',',$module_srls);
             $args->module_srls = $module_srls;
-            $output = executeQueryArray('module.getModulesInfo', $args);
+            $output = executeQueryArray('module.getModulesInfo', $args, $columnList);
             if(!$output->toBool()) return;
             return $this->addModuleExtraVars($output->data);
         }
@@ -212,8 +212,8 @@
         /**
          * @brief Get a complete list of mid, which is created in the DB
          **/
-        function getMidList($args = null) {
-            $output = executeQuery('module.getMidList', $args);
+        function getMidList($args = null, $columnList = array()) {
+            $output = executeQuery('module.getMidList', $args, $columnList);
             if(!$output->toBool()) return $output;
 
             $list = $output->data;

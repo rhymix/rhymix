@@ -43,7 +43,8 @@
             $oModuleAdminModel = &getAdminModel('module');
 
             if($site_module_info->site_srl) $args->site_srl = $site_module_info->site_srl;
-            $mid_list = $oModuleModel->getMidList($args);
+			$columnList = array('module_srl', 'mid', 'browser_title');
+            $mid_list = $oModuleModel->getMidList($args, $columnList);
             // module_category and module combination
             if(!$site_module_info->site_srl) {
                 // Get a list of module categories

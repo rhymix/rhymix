@@ -28,15 +28,15 @@
                     break;
                 case 'ttxml' : 
                         $oModuleModel = &getModel('module');
-                        $mid_list = $oModuleModel->getMidList();
-                        Context::set('mid_list', $mid_list);
+                        //$mid_list = $oModuleModel->getMidList();	//perhaps mid_list variables not use
+                        //Context::set('mid_list', $mid_list);
                         
                         $template_filename = "ttxml";
                     break;
                 case 'module' : 
                         $oModuleModel = &getModel('module');
-                        $mid_list = $oModuleModel->getMidList();
-                        Context::set('mid_list', $mid_list);
+                        //$mid_list = $oModuleModel->getMidList();	//perhaps mid_list variables not use
+                        //Context::set('mid_list', $mid_list);
                         
                         $template_filename = "module";
                     break;

@@ -53,7 +53,8 @@
             // Display upload status
             $upload_status = $this->getUploadStatus($attached_size);
             // Check remained file size until upload complete
-            $config = $oModuleModel->getModuleInfoByMid($mid);
+            //$config = $oModuleModel->getModuleInfoByMid($mid);	//perhaps config varialbles not used
+
             $file_config = $this->getUploadConfig();
             $left_size = $file_config->allowed_attach_size*1024*1024 - $attached_size;
             // Settings of required information

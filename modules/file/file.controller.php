@@ -168,6 +168,7 @@
                 }
                 if($file_module_config->allow_outlink != 'Y') return $this->stop('msg_not_allowed_outlink');
             }
+
             // Check if a permission for file download is granted
             if(is_array($file_module_config->download_grant) && count($file_module_config->download_grant)>0) {
                 if(!Context::get('is_logged')) return $this->stop('msg_not_permitted_download');
@@ -175,7 +176,8 @@
                 if($logged_info->is_admin != 'Y') {
 
                     $oModuleModel =& getModel('module');
-                    $module_info = $oModuleModel->getModuleInfoByModuleSrl($file_obj->module_srl);
+					$columnList = array('module_srl', 'site_srl');
+                    $module_info = $oModuleModel->getModuleInfoByModuleSrl($file_obj->module_srl, $columnList);
 
                     if(!$oModuleModel->isSiteAdmin($logged_info, $module_info->site_srl))
                     {

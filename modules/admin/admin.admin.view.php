@@ -312,9 +312,10 @@
             $output = executeQuery("admin.getCommentDeclaredCount", $args);
             $status->commentDeclared->total = $output->data->count;
 
-            $site_args->site_srl = 0;
-            $output = executeQuery('module.getSiteInfo', $site_args);
-            Context::set('start_module', $output->data);
+			$oModuleModel = &getModel('module');
+			$columnList = array('browser_title');
+			$start_module = $oModuleModel->getSiteInfo(0, $columnList);
+            Context::set('start_module', $start_module);
 
             Context::set('status', $status);
             Context::set('layout','none');
@@ -343,9 +344,10 @@
             $ftp_info = Context::getFTPInfo();
             Context::set('ftp_info', $ftp_info);
 
-            $site_args->site_srl = 0;
-            $output = executeQuery('module.getSiteInfo', $site_args);
-            Context::set('start_module', $output->data);
+			$oModuleModel = &getModel('module');
+			$columnList = array('modules.mid', 'modules.browser_title', 'sites.index_module_srl');
+			$start_module = $oModuleModel->getSiteInfo(0, $columnList);
+            Context::set('start_module', $start_module);
 
             Context::set('pwd',$pwd);
             Context::set('layout','none');

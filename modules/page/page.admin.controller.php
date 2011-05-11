@@ -29,7 +29,8 @@
 			if($args->use_mobile != 'Y') $args->use_mobile = '';
             // Check if an original module exists by using module_srl
             if($args->module_srl) {
-                $module_info = $oModuleModel->getModuleInfoByModuleSrl($args->module_srl);
+				$columnList = array('module_srl');
+                $module_info = $oModuleModel->getModuleInfoByModuleSrl($args->module_srl, $columnList);
                 if($module_info->module_srl != $args->module_srl) {
 					unset($args->module_srl);
 				}
@@ -192,7 +193,8 @@
             $module_srl = Context::get('module_srl');
 
             $oModuleModel = &getModel('module');
-            $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+			$columnList = array('module_srl', 'content');
+            $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);
 
             $content = $module_info->content;
 

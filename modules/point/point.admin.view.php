@@ -48,7 +48,8 @@
         function dispPointAdminModuleConfig() {
             // Get a list of mid
             $oModuleModel = &getModel('module');
-            $mid_list = $oModuleModel->getMidList();
+			$columnList = array('module_srl', 'mid', 'browser_title');
+            $mid_list = $oModuleModel->getMidList(null, $columnList);
             Context::set('mid_list', $mid_list);
 
             Context::set('module_config', $oModuleModel->getModulePartConfigs('point'));

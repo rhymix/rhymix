@@ -51,9 +51,9 @@
          * Available when using module instance in all the modules
          **/
         function getModuleGrantHTML($module_srl, $source_grant_list) {
-
             $oModuleModel = &getModel('module');
-            $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+			$columnList = array('module_srl', 'site_srl');
+            $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);
             // Grant virtual permission for access and manager
             $grant_list->access->title = Context::getLang('grant_access');
             $grant_list->access->default = 'guest';

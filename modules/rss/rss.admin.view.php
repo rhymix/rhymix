@@ -28,7 +28,8 @@
                 foreach($rss_config as $module_srl => $config) {
                     if($config) {
                         $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
-                        $site = $oModuleModel->getSiteInfo($module_info->site_srl);
+						$columnList = array('sites.domain');
+                        $site = $oModuleModel->getSiteInfo($module_info->site_srl, $columnList);
                         if(!strpos($site->domain, '.')) $vid = $site->domain;
                         else $site = null;
                         if($site) $feed_config[$module_srl]['url'] = $oRssModel->getModuleFeedUrl($vid, $module_info->mid, 'rss');

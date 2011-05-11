@@ -86,7 +86,8 @@
             $oModuleModel = &getModel('module');
             $oModuleController = &getController('module');
             // Get module information
-            $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+			$columnList = array('module', 'module_category_srl', 'layout_srl', 'use_mobile', 'mlayout_srl', 'menu_srl', 'site_srl', 'skin', 'mskin', 'description', 'mcontent', 'open_rss', 'header_text', 'footer_text', 'regdate');
+            $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);
             // Get permission information
             $module_args->module_srl = $module_srl;
             $output = executeQueryArray('module.getModuleGrants', $module_args);
@@ -127,7 +128,8 @@
             // Get module_srl
             $module_srl = Context::get('module_srl');
             // Get information of the module
-            $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+			$columnList = array('module_srl', 'module');
+            $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);
             if(!$module_info) return new Object(-1,'msg_invalid_request');
             // Register Admin ID
             $oModuleController->deleteAdminId($module_srl);
@@ -196,7 +198,8 @@
             $module_srl = Context::get('module_srl');
 
             $oModuleModel = &getModel('module');
-            $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+			$columnList = array('module_srl', 'module', 'skin');
+            $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);
             if($module_info->module_srl) {
                 $skin = $module_info->skin;
                 // Get skin information (to check extra_vars)
@@ -291,8 +294,9 @@
 
             $oModuleModel = &getModel('module');
             $oModuleController= &getController('module');
+			$columnList = array('module_srl', 'module', 'use_mobile', 'mlayout_srl', 'menu_srl', 'site_srl', 'mid', 'mskin', 'browser_title', 'is_default', 'content', 'mcontent', 'open_rss', 'regdate');
             foreach($module_srls as $module_srl) {
-                $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+                $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);
                 $module_info->module_category_srl = $vars->module_category_srl;
                 $module_info->layout_srl = $vars->layout_srl;
                 $module_info->skin = $vars->skin;
@@ -318,7 +322,8 @@
             $oModuleController = &getController('module');
             $oModuleModel = &getModel('module');
 
-            $module_info = $oModuleModel->getModuleInfoByModuleSrl($modules[0]);
+			$columnList = array('module_srl', 'module');
+            $module_info = $oModuleModel->getModuleInfoByModuleSrl($modules[0], $columnList);
             $xml_info = $oModuleModel->getModuleActionXml($module_info->module);
             $grant_list = $xml_info->grant;
 

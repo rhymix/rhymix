@@ -62,7 +62,8 @@
             // Get and set module information if module_srl exists
             if($module_srl) {
                 $oModuleModel = &getModel('module');
-                $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+				$columnList = array('module_srl', 'mid', 'module_category_srl', 'browser_title', 'layout_srl', 'use_mobile', 'mlayout_srl');
+                $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);
                 if($module_info->module_srl == $module_srl) Context::set('module_info',$module_info);
                 else {
                     unset($module_info);
@@ -89,7 +90,8 @@
             if(!$module_srl) return $this->dispContent();
 
             $oModuleModel = &getModel('module');
-            $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+			$columnList = array('module_srl', 'mid', 'module');
+            $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);
             Context::set('module_info',$module_info);
             // Set a template file
             $this->setTemplateFile('opage_delete');

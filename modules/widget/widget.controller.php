@@ -100,7 +100,8 @@
             if(!$layout_info || $layout_info->type != 'faceoff') $err++;
             // Destination Information Wanted page module
             $oModuleModel = &getModel('module');
-            $page_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+			$columnList = array('module_srl', 'module');
+            $page_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);
             if(!$page_info->module_srl || $page_info->module != 'page') $err++;
 
             if($err > 1) return new Object(-1,'msg_invalid_request');
@@ -153,7 +154,8 @@
             $module_srl = $oDocument->get('module_srl');
             // Destination Information Wanted page module
             $oModuleModel = &getModel('module');
-            $page_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+			$columnList = array('module_srl', 'module');
+            $page_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);
             if(!$page_info->module_srl || $page_info->module != 'page') return new Object(-1,'msg_invalid_request');
             // Check permissions
             $is_logged = Context::get('is_logged');

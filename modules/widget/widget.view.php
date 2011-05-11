@@ -71,7 +71,8 @@
             // Get a mid list
             $site_module_info = Context::get('site_module_info');
             $args->site_srl = $site_module_info->site_srl;
-            $mid_list = $oModuleModel->getMidList($args);
+			$columnList = array('module_srl', 'module_category_srl', 'browser_title');
+            $mid_list = $oModuleModel->getMidList($args, $columnList);
             // Get a list of groups
             $oMemberModel = &getModel('member');
             $group_list = $oMemberModel->getGroups($site_module_info->site_srl);

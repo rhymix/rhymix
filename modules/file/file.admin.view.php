@@ -136,7 +136,8 @@
                 // Module List
                 $mod_srls_count = count($mod_srls);
                 if($mod_srls_count) {
-                    $module_output = $oModuleModel->getModulesInfo($mod_srls);
+					$columnList = array('module_srl', 'mid', 'browser_title');
+                    $module_output = $oModuleModel->getModulesInfo($mod_srls, $columnList);
 					if($module_output && is_array($module_output)){
 						foreach($module_output as $module) {
 							$module_list[$module->module_srl] = $module;
