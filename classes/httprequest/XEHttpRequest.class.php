@@ -39,9 +39,10 @@ class XEHttpRequest {
      * @param[in] target ip or url of the external server
      * @param[in] method HTTP method such as GET and POST
      * @param[in] timeout time out value for HTTP request expiration
+	 * @param[in] post variables to send
 	 * @return Returns an object containing HTTP Response body and HTTP response code 
 	 */
-	function send($target='/', $method='GET', $timeout=3)
+	function send($target='/', $method='GET', $timeout=3, $post_vars=null)
 	{
 		static $allow_methods=null;
 
@@ -49,16 +50,19 @@ class XEHttpRequest {
 		$this->addToHeader('Connection', 'close');
 
 		$method = strtoupper($method);
-		if(!$allow_methods) $allow_methods = explode(' ', 'GET POST PUT DELETE');
+		if(!$allow_methods) $allow_methods = explode(' ', 'GET POST PUT');
 		if(!in_array($method, $allow_methods)) $method = $allow_methods[0];
 
 		// $timeout should be an integer that is bigger than zero
 		$timout = max((int)$timeout, 0);
 
-		if(is_callable('curl_init')) {
-			return $this->sendWithCurl($target, $method, $timeout);
+		// list of post variables
+		if(!is_array($post_vars)) $post_vars = array();
+
+		if(false && is_callable('curl_init')) {
+			return $this->sendWithCurl($target, $method, $timeout, $post_vars);
 		} else {
-			return $this->sendWithSock($target, $method, $timeout);
+			return $this->sendWithSock($target, $method, $timeout, $post_vars);
 		}
 	}
 
@@ -66,7 +70,7 @@ class XEHttpRequest {
 	 * @brief Send a request with the file socket
 	 * @private
 	 */
-	function sendWithSock($target, $method, $timeout)
+	function sendWithSock($target, $method, $timeout, $post_vars)
 	{
 		static $crlf = "\r\n";
 
@@ -75,24 +79,47 @@ class XEHttpRequest {
 			return new Object(-1, 'socket_connect_failed');
 		}
 
-		$request = "$method $target HTTP/1.1$crlf";
+		$headers = $this->m_headers + array();
+		if(!isset($headers['Accept-Encoding'])) $headers['Accept-Encoding'] = 'identity';
 
-		foreach($this->m_headers as $equiv=>$content) {
+		// post body
+		$post_body = '';
+		if($method == 'POST' && count($post_vars)) {
+			foreach($post_vars as $key=>$value) {
+				$post_body .= urlencode($key).'='.urlencode($value).'&';
+			}
+			$post_body = substr($post_body, 0, -1);
+
+			$headers['Content-Length'] = strlen($post_body);
+			$headers['Content-Type']   = 'application/x-www-form-urlencoded';
+		}
+
+		$request = "$method $target HTTP/1.1$crlf";
+		foreach($headers as $equiv=>$content) {
 			$request .= "$equiv: $content$crlf";
 		}
-		$request .= $crlf;
+		$request .= $crlf.$post_body;
 		fwrite($sock, $request);
 
 		list($httpver, $code, $status) = split(' +', rtrim(fgets($sock)));
 
 		// read response headers
+		$is_chunked = false;
 		while(strlen(trim($line = fgets($sock)))) {
 			list($equiv, $content) = split(' *: *', rtrim($line));
+			if(!strcasecmp($equiv, 'Transfer-Encoding') && $content == 'chunked') {
+				$is_chunked = true;
+			}
 		}
 
 		$body = '';
 		while(!feof($sock)) {
-			$body .= fgets($sock, 512);
+			if ($is_chunked) {
+				$chunk_size = hexdec(fgets($sock));
+				if($chunk_size) $body .= fread($sock, $chunk_size);
+			} else {
+				$body .= fgets($sock, 512);
+			}
 		}
 		fclose($sock);
 
@@ -107,24 +134,38 @@ class XEHttpRequest {
 	 * @brief Send a request with the curl library
 	 * @private
 	 */
-	function sendWithCurl($target, $method, $timeout)
+	function sendWithCurl($target, $method, $timeout, $post_vars)
 	{
+		$headers = $this->m_headers + array();
+
 		// creat a new cURL resource
 		$ch = curl_init();
+
+		$headers['Expect'] = '';
 
 		// set URL and other appropriate options
 		curl_setopt($ch, CURLOPT_URL, "http://{$this->m_host}{$target}");
 		curl_setopt($ch, CURLOPT_HEADER, false);
 		curl_setopt($ch, CURLOPT_PORT, $this->m_port);
-		curl_setopt($ch, CURLOPT_CONNECTIMEOUT, $timeout);
+		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
 		curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
 		switch($method) {
 			case 'GET':  curl_setopt($ch, CURLOPT_HTTPGET, true); break;
-			case 'POST': curl_setopt($ch, CURLOPT_POST, true); break;
 			case 'PUT':  curl_setopt($ch, CURLOPT_PUT, true); break;
+			case 'POST':
+				curl_setopt($ch, CURLOPT_POST, true);
+				curl_setopt($ch, CURLOPT_POSTFIELDS, $post_vars);
+				break;
 		}
+
+		$arr_headers = array();
+		foreach($headers as $key=>$value){
+			$arr_headers[] = "$key: $value";
+		}
+
+		curl_setopt($ch, CURLOPT_HTTPHEADER, $arr_headers);
 
 		$body = curl_exec($ch);
 		if(curl_errno($ch)) {
