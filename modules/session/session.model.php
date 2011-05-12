@@ -21,7 +21,8 @@
             if(!$session_key || !$this->session_started) return;
 
             $args->session_key = $session_key;
-            $output = executeQuery('session.getSession', $args);
+			$columnList = array('session_key', 'cur_mid', 'val');
+            $output = executeQuery('session.getSession', $args, $columnList);
             // Confirm there is a table created if read error occurs
             if(!$output->toBool()) {
                 $oDB = &DB::getInstance();

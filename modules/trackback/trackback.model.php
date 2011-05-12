@@ -16,9 +16,10 @@
         /**
          * @brief Wanted a trackback information
          **/
-        function getTrackback($trackback_srl) {
+        function getTrackback($trackback_srl, $columnList = array()) {
             $args->trackback_srl = $trackback_srl;
-            return executeQuery('trackback.getTrackback', $args);
+            $output = executeQuery('trackback.getTrackback', $args, $columnList);
+            return $output;
         }
 
         /**

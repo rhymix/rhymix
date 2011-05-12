@@ -35,17 +35,18 @@
          * Return the result after checking if the poll has responses
          **/
         function getPollHtml($poll_srl, $style = '', $skin = 'default') {
-
             $args->poll_srl = $poll_srl;
             // Get the information related to the survey
-            $output = executeQuery('poll.getPoll', $args);
+			$columnList = array('poll_count', 'stop_date');
+            $output = executeQuery('poll.getPoll', $args, $columnList);
             if(!$output->data) return '';
 
             $poll->style = $style;
             $poll->poll_count = (int)$output->data->poll_count;
             $poll->stop_date = $output->data->stop_date;
 
-            $output = executeQuery('poll.getPollTitle', $args);
+			$columnList = array('poll_index_srl', 'title', 'checkcount', 'poll_count');
+            $output = executeQuery('poll.getPollTitle', $args, $columnList);
             if(!$output->data) return;
             if(!is_array($output->data)) $output->data = array($output->data);
             foreach($output->data as $key => $val) {
@@ -90,7 +91,8 @@
             $poll->poll_count = (int)$output->data->poll_count;
             $poll->stop_date = $output->data->stop_date;
 
-            $output = executeQuery('poll.getPollTitle', $args);
+			$columnList = array('poll_index_srl', 'checkcount', 'poll_count');
+            $output = executeQuery('poll.getPollTitle', $args, $columnList);
             if(!$output->data) return;
             if(!is_array($output->data)) $output->data = array($output->data);
             foreach($output->data as $key => $val) {
