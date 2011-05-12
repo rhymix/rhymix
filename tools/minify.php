@@ -57,7 +57,7 @@ function execute($dir) {
 
 	echo "  Minifying JavaScript files...";
 	$js_files = get_target_files('js', $dir, $files_to_skip);
-	
+
 	if(count($js_files) && !class_exists('JSMinPlus')) {
 		require dirname(__FILE__).'/minify/jsminplus/jsminplus.php';
 	}
@@ -74,7 +74,18 @@ function execute($dir) {
 			$copyright = '';
 		}
 
-		file_put_contents($target, $copyright.JSMinPlus::minify($content));
+		if($config['use_closure_compiler']) {
+			$content = closure_compile($content);
+			if(!$content) {
+				echo "   CANNOT compile the js file with closure compiler.\n";
+				echo "   Trying again with JSMinPlus.\n";
+				$content = JSMinPlus::minify($content);
+			}
+		} else {
+			$content = JSMinPlus::minify($content);
+		}
+
+		file_put_contents($target, $copyright.$content);
 
 		echo '.';
 	}
@@ -165,6 +176,20 @@ function get_target_files($ext, $dir, $files_to_skip) {
 	$files = array_diff($files, $skips);
 
 	return $files;
+}
+
+function closure_compile($content) {
+	require_once dirname(__FILE__).'/../classes/httprequest/XEHttpRequest.class.php';
+
+	$req = new XEHttpRequest('closure-compiler.appspot.com', 80);
+	$ret = $req->send('/compile', 'POST', 5, array(
+		'output_info'   => 'compiled_code',
+		'output_format' => 'text',
+		'compilation_level' => 'SIMPLE_OPTIMIZATIONS',
+		'js_code' => $content
+	));
+
+	return $ret->body;
 }
 
 // run main function
