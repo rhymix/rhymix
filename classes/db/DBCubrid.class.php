@@ -812,7 +812,65 @@
 		 * to get a specific page list easily in select statement,\n
 		 * a method, navigation, is used 
 		 **/
-		function _executeSelectAct ($output)
+		 function _executeSelectAct($output){
+			$query = '';
+			
+			$select = 'SELECT ';
+			foreach($output->columns as $column){
+				if($column->show())
+					$select .= $column->getExpression() . ', ';
+			}
+			$select = substr($select, 0, -2);
+			
+			$from = 'FROM ';
+			$simple_table_count = 0;
+			foreach($output->tables as $table){
+				/*if($simple_table_count > 0) $from .= ', ';
+
+				$from .= $table->toString() . ' ';
+				if(!$table->isJoinTable()) $simple_table_count++;
+				*/
+				if($table->isJoinTable() || !$simple_table_count) $from .= $table->toString() . ' ';
+				else $from .= ', '.$table->toString() . ' ';
+				$simple_table_count++;
+			}
+			
+			$where = '';
+			if(count($output->conditions) > 0){
+				$where = 'WHERE ';
+				foreach($output->conditions as $conditionGroup){
+					$where .= $conditionGroup->toString();
+				}
+			}
+			
+			$groupBy = '';
+			if($output->groups) if($output->groups[0] !== "")
+				$groupBy = 'GROUP BY ' . implode(', ', $output->groups);
+			
+			$orderBy = '';
+			if(count($output->orderby) > 0){
+				$orderBy = 'ORDER BY ';
+				foreach($output->orderby as $order){
+					$orderBy .= $order->toString() .', ';
+				}
+				$orderBy = substr($orderBy, 0, -2);
+			}
+			
+			
+			$query =  $select . ' ' . $from . ' ' . $where . ' ' . $groupBy . ' ' . $orderBy;
+						
+			//$query = sprintf ("select %s from %s %s %s %s", $columns, implode (',',$table_list), implode (' ',$left_join), $condition, //$groupby_query.$orderby_query);
+			//$query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
+			$result = $this->_query ($query);
+			if ($this->isError ()) return;
+			$data = $this->_fetch ($result);
+
+			$buff = new Object ();
+			$buff->data = $data;
+
+			return $buff;
+		}
+		/*function _executeSelectAct ($output)
 		{
 			// tables
 			$table_list = array ();
@@ -1049,6 +1107,7 @@
 
 			return $buff;
 		}
+		*/
 
 		/**
 		 * @brief displays the current stack trace. Fetch the result

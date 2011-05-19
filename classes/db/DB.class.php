@@ -314,6 +314,16 @@
 
             if($source_args) $args = @clone($source_args);
 
+            require_once(_XE_PATH_.'classes/xml/xmlquery/DBParser.class.php');
+            require_once(_XE_PATH_.'classes/db/queryparts/expression/Expression.class.php');
+            require_once(_XE_PATH_.'classes/db/queryparts/expression/SelectExpression.class.php');
+            require_once(_XE_PATH_.'classes/db/queryparts/expression/InsertExpression.class.php');
+            require_once(_XE_PATH_.'classes/db/queryparts/table/Table.class.php');
+            require_once(_XE_PATH_.'classes/db/queryparts/table/JoinTable.class.php');
+            require_once(_XE_PATH_.'classes/db/queryparts/condition/ConditionGroup.class.php');
+            require_once(_XE_PATH_.'classes/db/queryparts/condition/Condition.class.php');
+            require_once(_XE_PATH_.'classes/db/queryparts/expression/StarExpression.class.php');
+            
             $output = @include($cache_file);
 
             if( (is_a($output, 'Object') || is_subclass_of($output, 'Object')) && !$output->toBool()) return $output;

@@ -151,6 +151,7 @@ class HTMLDisplayHandler {
 			$oContext->addJsFile('./common/js/x.min.js', false, '', -100000);
 			$oContext->addJsFile('./common/js/xe.min.js', false, '', -100000);
 			$oContext->addCSSFile('./common/css/xe.min.css', false, 'all', '', -100000);
+			$oContext->addJsFile('./common/js/xml_handler.js', false, '', -100000);
 		}
 
 		// for admin page, add admin css
