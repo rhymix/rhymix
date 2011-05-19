@@ -654,156 +654,106 @@
 		 **/
 		function _executeInsertAct ($output)
 		{
-			// tables
-			foreach ($output->tables as $val) {
-				$table_list[] = '"'.$this->prefix.$val.'"';
-			}
-
-			// columns
-			foreach ($output->columns as $key => $val) {
-				$name = $val['name'];
-				$value = $val['value'];
-				//if ($this->getColumnType ($output->column_type, $name) != 'number')
-				if ($output->column_type[$name] != 'number') {
-					if (!is_null($value)) {
-						$value = "'" . $this->addQuotes($value) ."'";
-					}
-					else {
-						if ($val['notnull']=='notnull') {
-							$value = "''";
-						}
-						else {
-							//$value = 'null';
-							$value = "''";
-						}
-					}
+			$query = '';
+			
+			$tableName = $output->tables[0]->getName();
+			
+			$columnsList = '';
+			$valuesList = '';
+			foreach($output->columns as $column){
+				if($column->show()){
+					$columnsList .= $column->getColumnName() . ', ';
+					$valuesList .= $column->getValue() . ', ';
 				}
-                else $this->_filterNumber(&$value);
-
-				$column_list[] = '"'.$name.'"';
-				$value_list[] = $value;
 			}
-
-			$query = sprintf ("insert into %s (%s) values (%s);", implode(',', $table_list), implode(',', $column_list), implode(',', $value_list));
-
-			$query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
+			$columnsList = substr($columnsList, 0, -2);
+			$valuesList = substr($valuesList, 0, -2);
+			
+			// TODO Make sure column values are escaped. Preferably directly from the cache file and not in here
+			$query = "INSERT INTO $tableName ($columnsList) VALUES ($valuesList)";
+				
+			return $query;
+			/*$query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
 			$result = $this->_query ($query);
 			if ($result && !$this->transaction_started) {
 				@cubrid_commit ($this->fd);
 			}
 
 			return $result;
-		}
+			*/
+		}		
 
-		/**
-		 * @brief handles updateAct
-		 **/
 		function _executeUpdateAct ($output)
 		{
-			// tables
-			foreach ($output->tables as $key => $val) {
-				$table_list[] = '"'.$this->prefix.$val.'" as "'.$key.'"';
-			}
-
-			$check_click_count = true;
-
-			// columns
-			foreach ($output->columns as $key => $val) {
-				if (!isset ($val['value'])) continue;
-				$name = $val['name'];
-				$value = $val['value'];
-
-				if (substr ($value, -2) != '+1' || $output->column_type[$name] != 'number') {
-					$check_click_count = false;
-				}
-
-				for ($i = 0; $i < $key; $i++) {
-					// not allows to define the same property repeatedly in a single query in CUBRID
-					if ($output->columns[$i]['name'] == $name) break;
-				}
-				if ($i < $key) continue; // ignore the rest of properties if duplicated property found
-
-				if (strpos ($name, '.') !== false && strpos ($value, '.') !== false) {
-					$column_list[] = $name.' = '.$value;
-				}
-				else {
-					if ($output->column_type[$name] != 'number') {
-						$check_column = false;
-						$value = "'".$this->addQuotes ($value)."'";
-					}
-					else $this->_filterNumber(&$value);
-
-					$column_list[] = sprintf ("\"%s\" = %s", $name, $value);
+			$query = '';
+			
+			$tableName = $output->tables[0]->getName();
+			
+			$columnsList = '';
+			$valuesList = '';
+			foreach($output->columns as $column){
+				if($column->show()){
+					$columnsList .= $column->getColumnName() . ', ';
+					$valuesList .= $column->getValue() . ', ';
 				}
 			}
-
-			// conditional clause
-			$condition = $this->getCondition ($output);
-
-			$check_click_count_condition = false;
-			if ($check_click_count) {
-				foreach ($output->conditions as $val) {
-					if ($val['pipe'] == 'or') {
-						$check_click_count_condition = false;
-						break;
-					}
-
-					foreach ($val['condition'] as $v) {
-						if ($v['operation'] == 'equal') {
-							$check_click_count_condition = true;
-						}
-						else {
-							if ($v['operation'] == 'in' && !strpos ($v['value'], ',')) {
-								$check_click_count_condition = true;
-							}
-							else {
-								$check_click_count_condition = false;
-							}
-						}
-
-						if ($v['pipe'] == 'or') {
-							$check_click_count_condition = false;
-							break;
-						}
-					}
-				}
-			}
-
-			if ($check_click_count&& $check_click_count_condition && count ($output->tables) == 1 && count ($output->conditions) > 0 && count ($output->groups) == 0 && count ($output->order) == 0) {
-				foreach ($output->columns as $v) {
-					$incr_columns[] = 'incr("'.$v['name'].'")';
-				}
-
-				$query = sprintf ('select %s from %s %s', join (',', $incr_columns), implode(',', $table_list), $condition);
-			}
-			else {
-				$query = sprintf ("update %s set %s %s", implode (',', $table_list), implode (',', $column_list), $condition);
-			}
-
+			$columnsList = substr($columnsList, 0, -2);
+			$valuesList = substr($valuesList, 0, -2);
+			
+			// TODO Make sure column values are escaped. Preferably directly from the cache file and not in here
+			$query = "UPDATE INTO $tableName ($columnsList) VALUES ($valuesList)";
+				
+			return $query;
+			/*$query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
 			$result = $this->_query ($query);
-			if ($result && !$this->transaction_started) @cubrid_commit ($this->fd);
+			if ($result && !$this->transaction_started) {
+				@cubrid_commit ($this->fd);
+			}
 
 			return $result;
-		}
+			*/
+		}		
 
 		/**
 		 * @brief handles deleteAct
 		 **/
-		function _executeDeleteAct ($output)
-		{
-			// tables
-			foreach ($output->tables as $val) {
-				$table_list[] = '"'.$this->prefix.$val.'"';
+		function _executeDeleteAct($output){
+			$query = '';
+			
+			$select = 'DELETE ';
+			
+			$from = 'FROM ';
+			$simple_table_count = 0;
+			foreach($output->tables as $table){
+				if($simple_table_count > 0) $from .= ', ';
+				$from .= $table->toString() . ' ';
+				if(!$table->isJoinTable()) $simple_table_count++;
 			}
-
-			// Conditional clauses
-			$condition = $this->getCondition ($output);
-
-			$query = sprintf ("delete from %s %s", implode (',',$table_list), $condition);
-			$result = $this->_query ($query);
-			if ($result && !$this->transaction_started) @cubrid_commit ($this->fd);
-
-			return $result;
+			
+			$where = '';
+			if(count($output->conditions) > 0){
+				$where = 'WHERE ';
+				foreach($output->conditions as $conditionGroup){
+					$where .= $conditionGroup->toString();
+				}
+			}
+			/*			
+			$groupBy = '';
+			if($output->groups) if($output->groups[0] !== "")
+				$groupBy = 'GROUP BY ' . implode(', ', $output->groups);
+			
+			$orderBy = '';
+			if(count($output->orderby) > 0){
+				$orderBy = 'ORDER BY ';
+				foreach($output->orderby as $order){
+					$orderBy .= $order->toString() .', ';
+				}
+				$orderBy = substr($orderBy, 0, -2);
+			}
+			*/
+			
+			$query =  $select . ' ' . $from . ' ' . $where . ' ' . $groupBy . ' ' . $orderBy;
+			return $query;
 		}
 
 		/**
@@ -825,14 +775,9 @@
 			$from = 'FROM ';
 			$simple_table_count = 0;
 			foreach($output->tables as $table){
-				/*if($simple_table_count > 0) $from .= ', ';
-
+				if($simple_table_count > 0) $from .= ', ';
 				$from .= $table->toString() . ' ';
 				if(!$table->isJoinTable()) $simple_table_count++;
-				*/
-				if($table->isJoinTable() || !$simple_table_count) $from .= $table->toString() . ' ';
-				else $from .= ', '.$table->toString() . ' ';
-				$simple_table_count++;
 			}
 			
 			$where = '';
@@ -858,18 +803,8 @@
 			
 			
 			$query =  $select . ' ' . $from . ' ' . $where . ' ' . $groupBy . ' ' . $orderBy;
-						
-			//$query = sprintf ("select %s from %s %s %s %s", $columns, implode (',',$table_list), implode (' ',$left_join), $condition, //$groupby_query.$orderby_query);
-			//$query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
-			$result = $this->_query ($query);
-			if ($this->isError ()) return;
-			$data = $this->_fetch ($result);
-
-			$buff = new Object ();
-			$buff->data = $data;
-
-			return $buff;
-		}
+			return $query;
+		}		
 		/*function _executeSelectAct ($output)
 		{
 			// tables
