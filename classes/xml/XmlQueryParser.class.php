@@ -12,7 +12,7 @@
 	require_once(_XE_PATH_.'classes/xml/xmlquery/DBParser.class.php');
 	require_once(_XE_PATH_.'classes/xml/xmlquery/QueryParser.class.php');
 
-    class NewXmlQueryParser extends XmlParser {
+    class XmlQueryParser extends XmlParser {
 		var $dbParser;
     	
         function parse($query_id, $xml_file, $cache_file) {
@@ -25,7 +25,7 @@
 
 			//$oDB = &DB::getParser();
 			//$dbParser = $oDB->getParser();
-			$dbParser = getDBParser();
+			$dbParser = $this->getDBParser();
 			$parser = new QueryParser($xml_obj->query, $dbParser);
 			
             FileHandler::writeFile($cache_file, $parser->toString());
