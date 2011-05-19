@@ -12,7 +12,7 @@
 		function IndexTag($index, $dbParser){
 			$this->dbParser = $dbParser;
 			$this->argument_name = $index->attrs->var;
-			$index->attrs->default = $this->dbParser->parseExpression($index->attrs->default);
+			//$index->attrs->default = $this->dbParser->parseExpression($index->attrs->default);
 			$this->default = $index->attrs->default;
 			require_once(_XE_PATH_.'classes/xml/xmlquery/queryargument/QueryArgument.class.php');
 			$this->argument = new QueryArgument($index);			
@@ -23,7 +23,7 @@
 				$this->sort_order_argument = new QueryArgument($arg);
 				$this->sort_order = "\$args->".$this->sort_order;
 			}
-			//else $this->sort_order = '"'.$this->sort_order.'"';
+			else $this->sort_order = '"'.$this->sort_order.'"';
 		}
 		
 		function toString(){

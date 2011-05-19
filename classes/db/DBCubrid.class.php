@@ -669,20 +669,20 @@
 			$columnsList = substr($columnsList, 0, -2);
 			$valuesList = substr($valuesList, 0, -2);
 			
-			// TODO Make sure column values are escaped. Preferably directly from the cache file and not in here
-			$query = "INSERT INTO $tableName ($columnsList) VALUES ($valuesList)";
-				
-			return $query;
-			/*$query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
+			$query = "INSERT INTO $tableName \n ($columnsList) \n VALUES ($valuesList)";
+						
+			$query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
 			$result = $this->_query ($query);
 			if ($result && !$this->transaction_started) {
 				@cubrid_commit ($this->fd);
 			}
 
 			return $result;
-			*/
-		}		
+		}
 
+		/**
+		 * @brief handles updateAct
+		 **/
 		function _executeUpdateAct ($output)
 		{
 			$query = '';
@@ -690,34 +690,35 @@
 			$tableName = $output->tables[0]->getName();
 			
 			$columnsList = '';
-			$valuesList = '';
 			foreach($output->columns as $column){
 				if($column->show()){
-					$columnsList .= $column->getColumnName() . ', ';
-					$valuesList .= $column->getValue() . ', ';
+					$columnsList .= $column->getExpression() . ', ';
 				}
 			}
 			$columnsList = substr($columnsList, 0, -2);
-			$valuesList = substr($valuesList, 0, -2);
+
+			$where = '';
+			if(count($output->conditions) > 0){
+				$where = 'WHERE ';
+				foreach($output->conditions as $conditionGroup){
+					$where .= $conditionGroup->toString();
+				}
+			}			
 			
-			// TODO Make sure column values are escaped. Preferably directly from the cache file and not in here
-			$query = "UPDATE INTO $tableName ($columnsList) VALUES ($valuesList)";
-				
-			return $query;
-			/*$query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
+			$query = "UPDATE $tableName SET $columnsList ".$where;
+					
+
 			$result = $this->_query ($query);
-			if ($result && !$this->transaction_started) {
-				@cubrid_commit ($this->fd);
-			}
+			if ($result && !$this->transaction_started) @cubrid_commit ($this->fd);
 
 			return $result;
-			*/
-		}		
+		}
 
 		/**
 		 * @brief handles deleteAct
 		 **/
-		function _executeDeleteAct($output){
+		function _executeDeleteAct ($output)
+		{
 			$query = '';
 			
 			$select = 'DELETE ';
@@ -737,23 +738,12 @@
 					$where .= $conditionGroup->toString();
 				}
 			}
-			/*			
-			$groupBy = '';
-			if($output->groups) if($output->groups[0] !== "")
-				$groupBy = 'GROUP BY ' . implode(', ', $output->groups);
-			
-			$orderBy = '';
-			if(count($output->orderby) > 0){
-				$orderBy = 'ORDER BY ';
-				foreach($output->orderby as $order){
-					$orderBy .= $order->toString() .', ';
-				}
-				$orderBy = substr($orderBy, 0, -2);
-			}
-			*/
 			
 			$query =  $select . ' ' . $from . ' ' . $where . ' ' . $groupBy . ' ' . $orderBy;
-			return $query;
+			$result = $this->_query ($query);
+			if ($result && !$this->transaction_started) @cubrid_commit ($this->fd);
+
+			return $result;
 		}
 
 		/**
@@ -775,9 +765,14 @@
 			$from = 'FROM ';
 			$simple_table_count = 0;
 			foreach($output->tables as $table){
-				if($simple_table_count > 0) $from .= ', ';
+				/*if($simple_table_count > 0) $from .= ', ';
+
 				$from .= $table->toString() . ' ';
 				if(!$table->isJoinTable()) $simple_table_count++;
+				*/
+				if($table->isJoinTable() || !$simple_table_count) $from .= $table->toString() . ' ';
+				else $from .= ', '.$table->toString() . ' ';
+				$simple_table_count++;
 			}
 			
 			$where = '';
@@ -803,8 +798,18 @@
 			
 			
 			$query =  $select . ' ' . $from . ' ' . $where . ' ' . $groupBy . ' ' . $orderBy;
-			return $query;
-		}		
+						
+			//$query = sprintf ("select %s from %s %s %s %s", $columns, implode (',',$table_list), implode (' ',$left_join), $condition, //$groupby_query.$orderby_query);
+			//$query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
+			$result = $this->_query ($query);
+			if ($this->isError ()) return;
+			$data = $this->_fetch ($result);
+
+			$buff = new Object ();
+			$buff->data = $data;
+
+			return $buff;
+		}
 		/*function _executeSelectAct ($output)
 		{
 			// tables

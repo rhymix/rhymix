@@ -25,8 +25,6 @@
 			$validator = '';
 			if(isset($this->default_value)){
 				$this->default_value = new DefaultValue($this->argument_name, $this->default_value);
-				//$v = new DefaultCheck($this->argument_name, $this->default_value);
-				//$validator .= $v->toString();
 				$validator .= sprintf("$%s_argument->ensureDefaultValue(%s);\n"
 					, $this->argument_name
 					, $this->default_value->toString()

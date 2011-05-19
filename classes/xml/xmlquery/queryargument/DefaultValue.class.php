@@ -19,6 +19,7 @@
 			if(!isset($this->value)) return;
 			
 	        $str_pos = strpos($this->value, '(');
+	        // TODO Replace this with parseExpression
 	        if($str_pos===false) return '"'.$this->value.'"';
 	
 	        $func_name = substr($this->value, 0, $str_pos);

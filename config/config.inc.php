@@ -97,7 +97,7 @@
      * 1: Enabled
      * Only particular servers may have a problem in IE browser when sending a compression
      **/
-    if(!defined('__OB_GZHANDLER_ENABLE__')) define('__OB_GZHANDLER_ENABLE__', 1);
+    if(!defined('__OB_GZHANDLER_ENABLE__')) define('__OB_GZHANDLER_ENABLE__', 0);
 
     /**
      * @brief decide to use/not use the php unit test (Path/tests/index.php)

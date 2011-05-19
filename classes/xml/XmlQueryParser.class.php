@@ -36,7 +36,7 @@
         	if(!$this->dbParser){
         		//$oDB = &DB::getParser();
 				//$dbParser = $oDB->getParser();
-				$this->dbParser = new DBParser('`');
+				$this->dbParser = new DBParser('"');
         	}
         	return $this->dbParser;
         }
