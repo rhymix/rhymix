@@ -199,7 +199,7 @@
 			if (cubrid_error_code ()) {
 				$code = cubrid_error_code ();
 				$msg = cubrid_error_msg ();
-
+ 
 				$this->setError ($code, $msg);
 			}
 

@@ -45,7 +45,7 @@
 		
 		function getTableString(){
 			if($this->isJoinTable()){
-				$conditionsTag = new ConditionsTag($this->conditions, $this->dbParser);
+				$conditionsTag = new JoinConditionsTag($this->conditions, $this->dbParser);
 				return sprintf('new JoinTable(\'%s\', \'%s\', "%s", %s)'
 								, $this->dbParser->escape($this->name)
 								, $this->dbParser->escape($this->alias)

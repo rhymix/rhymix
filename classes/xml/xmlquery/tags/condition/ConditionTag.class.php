@@ -29,6 +29,10 @@
 			$this->argument = new QueryArgument($condition);
 		}
 		
+		function setPipe($pipe){
+			$this->pipe = $pipe;
+		}
+		
 		function getArgument(){
 			return $this->argument;
 		}

@@ -7,6 +7,7 @@ require_once(_XE_PATH_.'classes/xml/xmlquery/tags/column/UpdateColumnsTag.class.
 require_once(_XE_PATH_.'classes/xml/xmlquery/tags/column/DeleteColumnsTag.class.php');
 require_once(_XE_PATH_.'classes/xml/xmlquery/tags/table/TablesTag.class.php');
 require_once(_XE_PATH_.'classes/xml/xmlquery/tags/condition/ConditionsTag.class.php');
+require_once(_XE_PATH_.'classes/xml/xmlquery/tags/condition/JoinConditionsTag.class.php');
 require_once(_XE_PATH_.'classes/xml/xmlquery/tags/group/GroupsTag.class.php');
 require_once(_XE_PATH_.'classes/xml/xmlquery/tags/navigation/NavigationTag.class.php');
 require_once(_XE_PATH_.'classes/xml/xmlquery/tags/navigation/IndexTag.class.php');

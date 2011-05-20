@@ -19,8 +19,9 @@
 			if(!isset($this->value)) return;
 			
 	        $str_pos = strpos($this->value, '(');
-	        // TODO Replace this with parseExpression
-	        if($str_pos===false) return '"'.$this->value.'"';
+	        // // TODO Replace this with parseExpression
+	        if($str_pos===false) return '\''.$this->value.'\'';
+	        //if($str_pos===false) return $this->value;
 	
 	        $func_name = substr($this->value, 0, $str_pos);
 	        $args = substr($this->value, $str_pos+1, strlen($value)-1);
@@ -52,7 +53,8 @@
 						$val = sprintf('"%s*%d"', $this->column_name, $args);
 					break;
 				default :
-						$val = '"' . $this->value . '"';
+						$val = '\'' . $this->value . '\'';
+						//$val = $this->value;
 			}
 	
 			return $val;		
