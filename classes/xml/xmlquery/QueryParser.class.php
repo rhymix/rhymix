@@ -95,7 +95,6 @@ class QueryParser {
 	}
 	
 	function toString(){
-		// TODO Add tags for update, insert ..
 		if($this->action == 'select'){			
 			$columns =  new SelectColumnsTag($this->query->columns->column, $this->dbParser);
 		}else if($this->action == 'insert'){

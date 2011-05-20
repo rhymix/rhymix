@@ -17,8 +17,8 @@
 			return $this->pipe . ' ' . $this->getConditionPart($this->column_name, $this->value, $this->operation);
 		}
 		
-	    function getConditionPart($name, $value, $operation) {
-            switch($operation) {
+		function show(){
+		    switch($this->operation) {
                 case 'equal' :
                 case 'more' :
                 case 'excess' :
@@ -31,16 +31,19 @@
                 case 'notin' :
                 case 'notequal' :
                         // if variable is not set or is not string or number, return
-                        if(!isset($value)) return;
-                        if($value === '') return;
-                        if(!in_array(gettype($value), array('string', 'integer'))) return;
+                        if(!isset($this->value)) return false;
+                        if($this->value === '') return false;
+                        if(!in_array(gettype($this->value), array('string', 'integer'))) return false;
 				break;
                 case 'between' :
-					if(!is_array($value)) return;
-					if(count($value)!=2) return;
+					if(!is_array($this->value)) return false;
+					if(count($this->value)!=2) return false;
 
-            }
-
+            }			
+			return true;
+		}
+		
+	    function getConditionPart($name, $value, $operation) {
             switch($operation) {
                 case 'equal' :
                         return $name.' = '.$value;

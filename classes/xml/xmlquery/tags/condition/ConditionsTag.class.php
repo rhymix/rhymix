@@ -15,6 +15,7 @@
 			
 			$xml_groups = $xml_conditions->group;
 			if($xml_groups){
+				if(!is_array($xml_groups)) $xml_groups = array($xml_groups);
 				require_once(_XE_PATH_.'classes/xml/xmlquery/tags/condition/ConditionGroupTag.class.php');
 				foreach($xml_groups as $group){
 					$this->condition_groups[] = new ConditionGroupTag($group->condition, $this->dbParser, $group->pipe);

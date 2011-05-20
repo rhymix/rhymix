@@ -15,7 +15,8 @@
 			else $group = '';
 			
 			foreach($this->conditions as $condition){
-				$group .= $condition->toString() . ' ';
+				if($condition->show())
+					$group .= $condition->toString() . ' ';
 			}
 			
 			if($this->pipe !== "")

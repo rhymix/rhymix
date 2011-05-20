@@ -666,7 +666,7 @@
         /**
          * @brief Paging is handled if navigation information exists in the query xml
          *
-         * It is quite convenient although its structure is not good at all .. -_-;
+         * It is quite convenient although its structure is not good at all .. -_-; 
          **/
         function _getNavigationData($table_list, $columns, $left_join, $index_hint, $condition, $output) {
             require_once(_XE_PATH_.'classes/page/PageHandler.class.php');
