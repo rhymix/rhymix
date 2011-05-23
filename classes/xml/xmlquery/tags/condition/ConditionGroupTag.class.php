@@ -1,20 +1,17 @@
 <?php 
 
-	class ConditionGroupTag {
-		var $dbParser;
-		
+	class ConditionGroupTag {	
 		var $conditions;
 		var $pipe;
 		
-		function ConditionGroupTag($conditions, $dbParser, $pipe = ""){
-			$this->dbParser = $dbParser;
+		function ConditionGroupTag($conditions, $pipe = ""){
 			$this->pipe = $pipe;
 			
 			if(!is_array($conditions)) $conditions = array($conditions);
 			if(count($conditions))require_once(_XE_PATH_.'classes/xml/xmlquery/tags/condition/ConditionTag.class.php');
 			
 			foreach($conditions as $condition){
-				$this->conditions[] = new ConditionTag($condition, $dbParser);
+				$this->conditions[] = new ConditionTag($condition);
 			}
 		}
 		

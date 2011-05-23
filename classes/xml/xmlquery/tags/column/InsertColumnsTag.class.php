@@ -10,12 +10,9 @@
 	require_once(_XE_PATH_.'classes/xml/xmlquery/tags/column/InsertColumnTag.class.php');
 
 	class InsertColumnsTag{
-		var $dbParser;
 		var $columns;
 		
-		function InsertColumnsTag($xml_columns, $dbParser) {
-			$this->dbParser = $dbParser;
-			
+		function InsertColumnsTag($xml_columns) {		
 			$this->columns = array();			
 			
 			if(!$xml_columns)
@@ -24,7 +21,7 @@
 			if(!is_array($xml_columns)) $xml_columns = array($xml_columns); 	
 			
 			foreach($xml_columns as $column){
-				$this->columns[] = new InsertColumnTag($column, $this->dbParser);
+				$this->columns[] = new InsertColumnTag($column);
 			}			
 		}
 		

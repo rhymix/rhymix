@@ -17,16 +17,12 @@ class QueryParser {
 	var $action;
 	var $query_id;
 	
-	var $dbParser;
-	
 	var $column_type;
 	
-	function QueryParser($query, $dbParser){
+	function QueryParser($query){
 		$this->query = $query;
 		$this->action = $this->query->attrs->action;
 		$this->query_id = $this->query->attrs->id;
-		
-		$this->dbParser = $dbParser;
 	}	
 	
 	function getQueryId(){
@@ -97,20 +93,20 @@ class QueryParser {
 	
 	function toString(){
 		if($this->action == 'select'){			
-			$columns =  new SelectColumnsTag($this->query->columns->column, $this->dbParser);
+			$columns =  new SelectColumnsTag($this->query->columns->column);
 		}else if($this->action == 'insert'){
-			$columns =  new InsertColumnsTag($this->query->columns->column, $this->dbParser);
+			$columns =  new InsertColumnsTag($this->query->columns->column);
 		}else if($this->action == 'update') {			
-			$columns =  new UpdateColumnsTag($this->query->columns->column, $this->dbParser);
+			$columns =  new UpdateColumnsTag($this->query->columns->column);
 		}else if($this->action == 'delete') {			
-			$columns =  new DeleteColumnsTag($this->query->columns->column, $this->dbParser);
+			$columns =  new DeleteColumnsTag($this->query->columns->column);
 		}
 		
 		
-		$tables = new TablesTag($this->query->tables->table, $this->dbParser);	
-		$conditions = new ConditionsTag($this->query->conditions, $this->dbParser);		
-		$groups = new GroupsTag($this->query->groups->group, $this->dbParser);
-		$navigation = new NavigationTag($this->query->navigation, $this->dbParser);
+		$tables = new TablesTag($this->query->tables->table);	
+		$conditions = new ConditionsTag($this->query->conditions);		
+		$groups = new GroupsTag($this->query->groups->group);
+		$navigation = new NavigationTag($this->query->navigation);
 		
 		$this->setTableColumnTypes($tables);
 		
@@ -139,7 +135,6 @@ class QueryParser {
 		$buff .= '$output->orderby = ' . $navigation->getOrderByString() .';';
 				
 		return "<?php if(!defined('__ZBXE__')) exit();\n"
-				  . "\$dbParser = new DBParser('".$this->dbParser->getEscapeChar()."');\n"
                   . sprintf('$output->query_id = "%s";%s', $this->query_id, "\n")
                   . sprintf('$output->action = "%s";%s', $this->action, "\n")
                   . $prebuff

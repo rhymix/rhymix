@@ -1,18 +1,16 @@
 <?php 
 
 	class TablesTag {
-		var $dbParser;
 		var $tables;
 		
-		function TablesTag($xml_tables, $dbParser){
-			$this->dbParser = $dbParser;
+		function TablesTag($xml_tables){
 			$this->tables = array();
 			if(!is_array($xml_tables)) $xml_tables = array($xml_tables);
 			
 			if(count($xml_tables)) require_once(_XE_PATH_.'classes/xml/xmlquery/tags/table/TableTag.class.php');
 			
 			foreach($xml_tables as $table){
-				$this->tables[] = new TableTag($table, $this->dbParser);
+				$this->tables[] = new TableTag($table);
 			}			
 		}
 		

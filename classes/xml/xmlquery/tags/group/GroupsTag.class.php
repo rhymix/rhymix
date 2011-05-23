@@ -2,21 +2,20 @@
 
 	class GroupsTag {
 		var $groups;
-		var $dbParser;
 		
-		function GroupsTag($xml_groups, $dbParser){
-			$this->dbParser = $dbParser;
-			
+		function GroupsTag($xml_groups){			
 			$this->groups = array();
 			
             if($xml_groups) {
                 if(!is_array($xml_groups)) $xml_groups = array($xml_groups);
                 
+                $dbParser = XmlQueryParser::getDBParser();
                 for($i=0;$i<count($xml_groups);$i++) {
                     $group = $xml_groups[$i];
                     $column = trim($group->attrs->column);
                     if(!$column) continue;
-                    $column = $this->dbParser->parseExpression($column);
+                    
+                    $column = $dbParser->parseExpression($column);
                     $this->groups[] = $column;
                 }
             }			

@@ -12,10 +12,8 @@
 
 	class ColumnTag {
 		var $name;
-		var $dbParser;
 		
-		function ColumnTag($name, $dbParser){
-			$this->dbParser = $dbParser;	
+		function ColumnTag($name){	
 			$this->name = $name;
 		}
 	}

@@ -8,7 +8,6 @@
 	 */
 
 	class ConditionTag {
-		var $dbParser;
 		var $operation;
 		var $column_name;
 		
@@ -17,15 +16,15 @@
 		var $argument;
 		var $default_column;
 				
-		function ConditionTag($condition, $dbParser){
-			$this->dbParser = $dbParser;
+		function ConditionTag($condition){
 			$this->operation = $condition->attrs->operation;
 			$this->pipe = $condition->attrs->pipe;
-			$this->column_name = $this->dbParser->parseColumnName($condition->attrs->column);
+			$dbParser = XmlQueryParser::getDBParser();
+			$this->column_name = $dbParser->parseColumnName($condition->attrs->column);
 			// TODO fix this hack - argument_name is initialized in three places :) [ here, queryArgument and queryArgumentValidator]
 			$this->argument_name = $condition->attrs->var;
 			if(!$this->argument_name) $this->argument_name = $condition->attrs->column;
-			$this->default_column = $this->dbParser->parseColumnName($condition->attrs->default);
+			$this->default_column = $dbParser->parseColumnName($condition->attrs->default);
 			require_once(_XE_PATH_.'classes/xml/xmlquery/queryargument/QueryArgument.class.php');			
 			$this->argument = new QueryArgument($condition);
 		}

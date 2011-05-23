@@ -1,18 +1,17 @@
 <?php 
 
-	class IndexTag {
-		var $dbParser;
-		
+	class IndexTag {	
 		var $argument_name;
 		var $argument;
 		var $default;
 		var $sort_order;
 		var $sort_order_argument;
 		
-		function IndexTag($index, $dbParser){
-			$this->dbParser = $dbParser;
+		function IndexTag($index){
 			$this->argument_name = $index->attrs->var;
-			$index->attrs->default = $this->dbParser->parseExpression($index->attrs->default);
+			
+			$dbParser = XmlQueryParser::getDBParser();
+			$index->attrs->default = $dbParser->parseExpression($index->attrs->default);
 			$this->default = $index->attrs->default;
 			require_once(_XE_PATH_.'classes/xml/xmlquery/queryargument/QueryArgument.class.php');
 			$this->argument = new QueryArgument($index);			

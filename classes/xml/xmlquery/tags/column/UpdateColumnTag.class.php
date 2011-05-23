@@ -12,9 +12,10 @@
 	class UpdateColumnTag extends ColumnTag {
 		var $argument;
 		
-		function UpdateColumnTag($column, $dbParser) {
-			parent::ColumnTag($column->attrs->name, $dbParser);
-			$this->name = $this->dbParser->parseColumnName($this->name);
+		function UpdateColumnTag($column) {
+			parent::ColumnTag($column->attrs->name);
+			$dbParser = XmlQueryParser::getDBParser();
+			$this->name = $dbParser->parseColumnName($this->name);
 			require_once(_XE_PATH_.'classes/xml/xmlquery/queryargument/QueryArgument.class.php');
 			$this->argument = new QueryArgument($column);
 		}

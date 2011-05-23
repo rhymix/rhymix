@@ -23,22 +23,20 @@
             $action = strtolower($xml_obj->query->attrs->action);
             if(!$action) return;
 
-			//$oDB = &DB::getParser();
-			//$dbParser = $oDB->getParser();
-			$dbParser = $this->getDBParser();
-			$parser = new QueryParser($xml_obj->query, $dbParser);
+			$parser = new QueryParser($xml_obj->query);
 			
             FileHandler::writeFile($cache_file, $parser->toString());
         }
         
         // singleton
-        function getDBParser(){
-        	if(!$this->dbParser){
+        function &getDBParser(){
+        	static $dbParser;
+        	if(!$dbParser){
         		//$oDB = &DB::getParser();
-				//$dbParser = $oDB->getParser();
-				$this->dbParser = new DBParser('"');
+				//self::$dbParser = $oDB->getParser();
+				$dbParser = new DBParser('"');
         	}
-        	return $this->dbParser;
+        	return $dbParser;
         }
         
         function getXmlFileContent($xml_file){

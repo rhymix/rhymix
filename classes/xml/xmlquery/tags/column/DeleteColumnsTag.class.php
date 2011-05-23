@@ -10,12 +10,9 @@
 	require_once(_XE_PATH_.'classes/xml/xmlquery/tags/column/DeleteColumnTag.class.php');
 
 	class DeleteColumnsTag{
-		var $dbParser;
 		var $columns;
 		
-		function DeleteColumnsTag($xml_columns, $dbParser) {
-			$this->dbParser = $dbParser;
-			
+		function DeleteColumnsTag($xml_columns) {		
 			$this->columns = array();			
 			
 			if(!$xml_columns)
@@ -24,7 +21,7 @@
 			if(!is_array($xml_columns)) $xml_columns = array($xml_columns); 	
 			
 			foreach($xml_columns as $column){
-				$this->columns[] = new DeleteColumnTag($column, $this->dbParser);
+				$this->columns[] = new DeleteColumnTag($column);
 			}			
 		}
 		

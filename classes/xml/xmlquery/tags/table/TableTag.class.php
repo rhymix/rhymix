@@ -15,13 +15,12 @@
 		var $join_type;
 		var $conditions;
 		
-		var $dbParser;
-		
-		function TableTag($table, $dbParser){
-			$this->dbParser = $dbParser;
+		function TableTag($table){
 			
 			$this->unescaped_name = $table->attrs->name;
-			$this->name = $this->dbParser->parseTableName($table->attrs->name);
+			
+			$dbParser = XmlQueryParser::getDBParser();
+			$this->name = $dbParser->parseTableName($table->attrs->name);
 			$this->alias = $table->attrs->alias;
 			//if(!$this->alias) $this->alias = $alias;
 			
@@ -44,16 +43,17 @@
 		}
 		
 		function getTableString(){
+			$dbParser = XmlQueryParser::getDBParser();
 			if($this->isJoinTable()){
-				$conditionsTag = new JoinConditionsTag($this->conditions, $this->dbParser);
+				$conditionsTag = new JoinConditionsTag($this->conditions);
 				return sprintf('new JoinTable(\'%s\', \'%s\', "%s", %s)'
-								, $this->dbParser->escape($this->name)
-								, $this->dbParser->escape($this->alias)
+								, $dbParser->escape($this->name)
+								, $dbParser->escape($this->alias)
 								, $this->join_type, $conditionsTag->toString());
 			}
 			return sprintf('new Table(\'%s\'%s)'
-								, $this->dbParser->escape($this->name)
-								, $this->alias ? ', \'' . $this->dbParser->escape($this->alias) .'\'' : '');			
+								, $dbParser->escape($this->name)
+								, $this->alias ? ', \'' . $dbParser->escape($this->alias) .'\'' : '');			
 		}
 	}
 

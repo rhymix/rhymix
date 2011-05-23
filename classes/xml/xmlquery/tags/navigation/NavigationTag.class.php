@@ -2,20 +2,19 @@
 	require_once(_XE_PATH_.'classes/xml/xmlquery/tags/navigation/IndexTag.class.php');
 	
 	class NavigationTag {
-		var $dbParser;
 		var $order;
 		var $list_count;
 		var $page_count;
 		var $page;
 		
-		function NavigationTag($xml_navigation, $dbParser){
+		function NavigationTag($xml_navigation){
 			$this->order = array();
             if($xml_navigation) {
                 $order = $xml_navigation->index;
                 if($order) {
                     if(!is_array($order)) $order = array($order);
                     foreach($order as $order_info) {
-                        $this->order[] = new IndexTag($order_info, $dbParser);
+                        $this->order[] = new IndexTag($order_info);
                     }
                 }
 

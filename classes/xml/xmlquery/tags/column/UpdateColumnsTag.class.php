@@ -11,23 +11,15 @@
 	require_once(_XE_PATH_.'classes/xml/xmlquery/tags/column/UpdateColumnTag.class.php');
 
 	class UpdateColumnsTag{
-		var $dbParser;
 		var $columns;
 		
-		function UpdateColumnsTag($xml_columns, $dbParser) {
-			$this->dbParser = $dbParser;
-			
+		function UpdateColumnsTag($xml_columns) {		
 			$this->columns = array();			
-			
-			if(!$xml_columns) {
-				$this->columns[] = new UpdateColumnTag("*", $this->dbParser);
-				return;
-			}
-			
+						
 			if(!is_array($xml_columns)) $xml_columns = array($xml_columns); 	
 						
 			foreach($xml_columns as $column){
-				$this->columns[] = new UpdateColumnTag($column, $this->dbParser);
+				$this->columns[] = new UpdateColumnTag($column);
 			}			
 		}
 		
