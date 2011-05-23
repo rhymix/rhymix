@@ -117,7 +117,7 @@ class QueryParser {
 		
 		$prebuff = '';
 		foreach($arguments as $argument){
-			if($argument->getArgumentName()){
+			if(isset($argument) && $argument->getArgumentName()){
 			$prebuff .= $argument->toString();
 			$prebuff .= sprintf("$%s_argument->escapeValue('%s');\n"
 				, $argument->getArgumentName()
