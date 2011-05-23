@@ -14,7 +14,11 @@
 		}
 		
 		function toString(){
-			return $this->pipe . ' ' . $this->getConditionPart($this->column_name, $this->value, $this->operation);
+			return $this->pipe . ' ' . $this->getConditionPart();
+		}
+		
+		function setPipe($pipe){
+			$this->pipe = $pipe;
 		}
 		
 		function show(){
@@ -42,8 +46,13 @@
             }			
 			return true;
 		}
-		
-	    function getConditionPart($name, $value, $operation) {
+
+		function getConditionPart() {
+	    	
+	    	$name = $this->column_name;
+	    	$value = $this->value;
+	    	$operation = $this->operation;    	
+	    	
             switch($operation) {
                 case 'equal' :
                         return $name.' = '.$value;

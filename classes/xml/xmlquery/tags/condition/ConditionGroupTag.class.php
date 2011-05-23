@@ -26,7 +26,7 @@
 			$conditions_string = substr($conditions_string, 0, -2);//remove ','
 			$conditions_string .= ')';
 			
-			return sprintf("new ConditionGroup(%s%s)", $conditions_string, $this->pipe ? ','.$this->pipe : '');
+			return sprintf("new ConditionGroup(%s%s)", $conditions_string, $this->pipe ? ',\''.$this->pipe . '\'': '');
 		}
 	
 		function getArguments(){

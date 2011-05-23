@@ -16,9 +16,9 @@
 				if(!is_array($xml_groups)) $xml_groups = array($xml_groups);
 				require_once(_XE_PATH_.'classes/xml/xmlquery/tags/condition/ConditionGroupTag.class.php');
 				foreach($xml_groups as $group){
-					$this->condition_groups[] = new ConditionGroupTag($group->condition, $group->pipe);
+					$this->condition_groups[] = new ConditionGroupTag($group->condition, $group->attrs->pipe);
 				}
-			}			
+			}	
 		}
 		
 		function toString(){

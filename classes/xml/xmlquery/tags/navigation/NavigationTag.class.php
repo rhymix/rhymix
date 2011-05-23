@@ -38,6 +38,10 @@
 			$output .= ')';	
 			return $output;				
 		}
+		
+		function getLimitString(){
+			
+		}
 
 		function getArguments(){
 			$arguments = array();
