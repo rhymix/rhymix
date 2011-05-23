@@ -44,10 +44,6 @@
 									, '"'.$this->operation.'"'
 									, $this->pipe ? ", '" . $this->pipe . "'" : ''
 									);
-		}
-		
-		function getValidatorString(){
-			return $this->argument->getValidatorString();
-		}			
+		}		
 	}
 ?>

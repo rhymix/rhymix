@@ -39,14 +39,6 @@
 			}
 			return $arguments;
 		}
-		
-		function getValidatorString(){
-			$validator = '';
-			foreach($this->conditions as $condition){
-				$validator .= $condition->getValidatorString();
-			}
-			return $validator;
-		}	
 				
 	}
 ?>

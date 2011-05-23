@@ -46,14 +46,6 @@
 				$arguments = array_merge($order->getArguments(), $arguments);
 			}
 			return $arguments;
-		}
-		
-		function getValidatorString(){
-			$validator = '';
-			foreach ($this->order as $order){
-				$validator .= $order->getValidatorString();
-			}
-			return $validator;
 		}				
 	}
 

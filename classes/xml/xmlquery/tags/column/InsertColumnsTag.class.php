@@ -27,6 +27,7 @@
 				$this->columns[] = new InsertColumnTag($column, $this->dbParser);
 			}			
 		}
+		
 		function toString(){
 			$output_columns = 'array(' . PHP_EOL;
 			foreach($this->columns as $column){
@@ -43,15 +44,7 @@
 				$arguments[] = $column->getArgument();
 			}
 			return $arguments;
-		}
-		
-		function getValidatorString(){
-			$validator = '';
-			foreach($this->columns as $column){
-				$validator .= $column->getValidatorString();
-			}
-			return $validator;
-		}			
+		}	
 		
 	}
 

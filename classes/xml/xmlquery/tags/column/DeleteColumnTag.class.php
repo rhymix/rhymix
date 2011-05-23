@@ -16,15 +16,7 @@
 			require_once(_XE_PATH_.'classes/xml/xmlquery/queryargument/QueryArgument.class.php');
 			$this->argument = new QueryArgument($column);
 		}
-		function toString(){
-			$output_columns = 'array(' . PHP_EOL;
-			foreach($this->argument as $argument){
-				$output_columns .= $argument->getExpressionString() . PHP_EOL . ',';
-			}
-			$output_columns = substr($output_columns, 0, -1);
-			$output_columns .= ')';	
-			return $output_columns;			
-		}
+				
 		function getExpressionString(){
 			return sprintf('new DeleteExpression(\'%s\', $args->%s)'
 						, $this->name
@@ -33,11 +25,7 @@
 		
 		function getArgument(){
 			return $this->argument;
-		}
-		
-		function getValidatorString(){
-			return $this->argument->getValidatorString();
-		}			
+		}		
 		
 	}
 ?>

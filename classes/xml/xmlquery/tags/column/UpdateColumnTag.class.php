@@ -19,15 +19,6 @@
 			$this->argument = new QueryArgument($column);
 		}
 		
-		function toString(){
-			$output_columns = 'array(' . PHP_EOL;
-			foreach($this->argument as $argument){
-				$output_columns .= $argument->getExpressionString() . PHP_EOL . ',';
-			}
-			$output_columns = substr($output_columns, 0, -1);
-			$output_columns .= ')';	
-			return $output_columns;			
-		}
 		function getExpressionString(){
 			return sprintf('new UpdateExpression(\'%s\', $%s_argument->getValue())'
 						, $this->name
@@ -36,11 +27,7 @@
 		
 		function getArgument(){
 			return $this->argument;
-		}
-		
-		function getValidatorString(){
-			return $this->argument->getValidatorString();
-		}			
+		}	
 	}
 
 ?>

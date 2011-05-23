@@ -36,10 +36,6 @@
 		
 		function getArguments(){
 			return array();
-		}
-		
-		function getValidatorString(){
-			return '';
-		}		
+		}	
 	}
 ?>	

@@ -118,15 +118,8 @@ class QueryParser {
 		$arguments = array_merge($arguments, $columns->getArguments());
 		$arguments = array_merge($arguments, $conditions->getArguments());
 		$arguments = array_merge($arguments, $navigation->getArguments());
-		//foreach($arguments as $argument){
-		//	var_dump($argument);
-		//	var_dump($this->column_type[$this->getQueryId()][$argument->getColumnName()]);	
-		//}	
 		
 		$prebuff = '';
-		//$prebuff .= $columns->getValidatorString();
-		//$prebuff .= $conditions->getValidatorString();
-		//$prebuff .= $navigation->getValidatorString();
 		foreach($arguments as $argument){
 			if($argument->getArgumentName()){
 			$prebuff .= $argument->toString();

@@ -39,14 +39,6 @@
 				$arguments = array_merge($arguments, $condition->getArguments());
 			}
 			return $arguments;
-		}		
-		
-		function getValidatorString(){
-			$validator = '';
-			foreach($this->condition_groups as $condition){
-				$validator .= $condition->getValidatorString();
-			}
-			return $validator;
-		}				
+		}					
 	}
 ?>

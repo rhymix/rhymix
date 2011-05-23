@@ -48,14 +48,7 @@
 			}
 			return $arguments;
 		}
-		
-		function getValidatorString(){
-			$validator = '';
-			foreach($this->columns as $column){
-				$validator .= $column->getValidatorString();
-			}
-			return $validator;
-		}		
+	
 	}
 
 ?>

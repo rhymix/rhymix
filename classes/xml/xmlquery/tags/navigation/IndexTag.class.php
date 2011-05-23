@@ -36,14 +36,7 @@
 			if($this->sort_order_argument)
 				$arguments[] = $this->sort_order_argument;
 			return $arguments;
-		}		
-		
-		function getValidatorString(){
-			$validator = $this->argument->getValidatorString();
-			if($this->sort_order_argument)
-				$validator .= $this->sort_order_argument->getValidatorString();
-			return $validator;
-		}			
+		}				
 	}
 
 ?>
