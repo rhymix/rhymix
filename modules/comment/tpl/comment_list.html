@@ -23,11 +23,13 @@
 
 <form id="fo_list" action="./" method="get" onsubmit="return procFilter(this, delete_checked)">
 <input type="hidden" name="page" value="{$page}" />
+<input type="hidden" name="is_trash" value="false" />
 
 <!-- 모듈 선택 -->
 <div class="fr">
     <a href="{getUrl('','module','module','act','dispModuleSelectList','id','target_module','type','single')}" onclick="popopen(this.href,'ModuleSelect');return false;" class="button green"><span>{$lang->cmd_find_module}</span></a>
-    <span class="button red"><input type="submit" value="{$lang->cmd_delete_checked_comment}" /></span>
+    <span class="button red"><input type="submit" name="delete" value="{$lang->cmd_delete_checked_comment}" onclick="this.form.is_trash.value=false" /></span>
+    <span class="button red"><input type="submit" name="trash" value="{$lang->cmd_trash}" onclick="this.form.is_trash.value=true" /></span>
 </div>
 
 <!-- 목록 -->

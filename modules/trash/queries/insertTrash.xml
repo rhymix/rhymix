@@ -1,0 +1,15 @@
+<query id="insertTrash" action="insert">
+    <tables>
+        <table name="trash" />
+    </tables>
+    <columns>
+        <column name="trash_srl" var="trashSrl" filter="number" notnull="notnull" />
+        <column name="title" var="title" notnull="notnull" />
+        <column name="origin_module" var="originModule" notnull="notnull" default="document" />
+        <column name="serialized_object" var="serializedObject" />
+        <column name="description" var="description" />
+        <column name="ipaddress" var="ipaddress" default="ipaddress()" />
+        <column name="remover_srl" var="removerSrl" default="0" filter="number" />
+        <column name="regdate" var="regdate" default="curdate()" />
+    </columns>
+</query>

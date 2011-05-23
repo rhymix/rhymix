@@ -158,6 +158,7 @@
 		require(_XE_PATH_.'classes/mail/Mail.class.php');
 		require(_XE_PATH_.'classes/page/PageHandler.class.php');
 		require(_XE_PATH_.'classes/mobile/Mobile.class.php');
+		require(_XE_PATH_.'classes/validator/Validator.class.php');
 		if(__DEBUG__) $GLOBALS['__elapsed_class_load__'] = getMicroTime() - __ClassLoadStartTime__;
 	}
 ?>

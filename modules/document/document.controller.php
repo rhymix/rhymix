@@ -136,7 +136,7 @@ class documentController extends document {
 	/**
 	 * @brief Insert the document
 	 **/
-	function insertDocument($obj, $manual_inserted = false) {
+	function insertDocument($obj, $manual_inserted = false, $isRestore = false) {
 		// begin transaction
 		$oDB = &DB::getInstance();
 		$oDB->begin();
@@ -147,10 +147,10 @@ class documentController extends document {
 		if($obj->allow_trackback!='Y') $obj->allow_trackback = 'N';
 		if($obj->homepage &&  !preg_match('/^[a-z]+:\/\//i',$obj->homepage)) $obj->homepage = 'http://'.$obj->homepage;
 		if($obj->notify_message != 'Y') $obj->notify_message = 'N';
-		$obj->ipaddress = $_SERVER['REMOTE_ADDR'];	//board에서 form key값으로 ipaddress를 사용하면 엄한 ip가 등록됨. 필터와는 상관없슴
+		if(!$isRestore) $obj->ipaddress = $_SERVER['REMOTE_ADDR'];	//board에서 form key값으로 ipaddress를 사용하면 엄한 ip가 등록됨. 필터와는 상관없슴
 
 		// Serialize the $extra_vars
-		$obj->extra_vars = serialize($obj->extra_vars);
+		if(!$isRestore) $obj->extra_vars = serialize($obj->extra_vars);
 		// Remove the columns for automatic saving
 		unset($obj->_saved_doc_srl);
 		unset($obj->_saved_doc_title);
@@ -170,11 +170,12 @@ class documentController extends document {
 		}
 		// Set the read counts and update order.
 		if(!$obj->readed_count) $obj->readed_count = 0;
-		$obj->update_order = $obj->list_order = getNextSequence() * -1;
+		if(!$isRestore) $obj->update_order = $obj->list_order = getNextSequence() * -1;
+		else $obj->update_order = $obj->list_order;
 		// Check the status of password hash for manually inserting. Apply md5 hashing for otherwise.
 		if($obj->password && !$obj->password_is_hashed) $obj->password = md5($obj->password);
 		// Insert member's information only if the member is logged-in and not manually registered.
-		if(Context::get('is_logged')&&!$manual_inserted) {
+		if(Context::get('is_logged') && !$manual_inserted && !$isRestore) {
 			$logged_info = Context::get('logged_info');
 			$obj->member_srl = $logged_info->member_srl;
 			$obj->user_id = $logged_info->user_id;
@@ -391,7 +392,7 @@ class documentController extends document {
 	/**
 	 * @brief Deleting Documents
 	 **/
-	function deleteDocument($document_srl, $is_admin = false) {
+	function deleteDocument($document_srl, $is_admin = false, $isEmptyTrash = false, $oDocument = null) {
 		// Call a trigger (before)
 		$trigger_obj->document_srl = $document_srl;
 		$output = ModuleHandler::triggerCall('document.deleteDocument', 'before', $trigger_obj);
@@ -400,19 +401,31 @@ class documentController extends document {
 		// begin transaction
 		$oDB = &DB::getInstance();
 		$oDB->begin();
-		// get model object of the document
-		$oDocumentModel = &getModel('document');
-		// Check if the documnet exists
-		$oDocument = $oDocumentModel->getDocument($document_srl, $is_admin);
+
+		if(!$isEmptyTrash)
+		{
+			// get model object of the document
+			$oDocumentModel = &getModel('document');
+			// Check if the documnet exists
+			$oDocument = $oDocumentModel->getDocument($document_srl, $is_admin);
+			debugPrint('normal');
+		}
+		else if($isEmptyTrash && $oDocument == null) return new Object(-1, 'document is not exists');
+
 		if(!$oDocument->isExists() || $oDocument->document_srl != $document_srl) return new Object(-1, 'msg_invalid_document');
 		// Check if a permossion is granted
 		if(!$oDocument->isGranted()) return new Object(-1, 'msg_not_permitted');
-		// Delete the document
+
+		//if empty trash, document already deleted, therefore document not delete
 		$args->document_srl = $document_srl;
-		$output = executeQuery('document.deleteDocument', $args);
-		if(!$output->toBool()) {
-			$oDB->rollback();
-			return $output;
+		if(!$isEmptyTrash)
+		{
+			// Delete the document
+			$output = executeQuery('document.deleteDocument', $args);
+			if(!$output->toBool()) {
+				$oDB->rollback();
+				return $output;
+			}
 		}
 
 		$this->deleteDocumentAliasByDocument($document_srl);
@@ -512,17 +525,42 @@ class documentController extends document {
 		$oDB = &DB::getInstance();
 		$oDB->begin();
 
-		$output = executeQuery('document.insertTrash', $trash_args);
+		/*$output = executeQuery('document.insertTrash', $trash_args);
+		if (!$output->toBool()) {
+			$oDB->rollback();
+			return $output;
+		}*/
+
+		// new trash module
+		require_once(_XE_PATH_.'modules/trash/model/TrashVO.php');
+		$oTrashVO = new TrashVO();
+		$oTrashVO->setTrashSrl(getNextSequence());
+		$oTrashVO->setTitle($oDocument->variables['title']);
+		$oTrashVO->setOriginModule('document');
+		$oTrashVO->setSerializedObject(serialize($oDocument->variables));
+		$oTrashVO->setDescription($obj->description);
+		$oTrashVO->setIpaddress($_SERVER['REMOTE_ADDR']);
+		$oTrashVO->setRemoverSrl($logged_info->member_srl);
+		$oTrashVO->setRegdate(date('YmdHis'));
+
+		$oTrashController = &getController('trash');
+		$output = $oTrashController->insertTrash($oTrashVO);
 		if (!$output->toBool()) {
 			$oDB->rollback();
 			return $output;
 		}
 
-		$output = executeQuery('document.updateDocument', $document_args);
-		if (!$output->toBool()) {
+		$output = executeQuery('document.deleteDocument', $trash_args);
+		if(!$output->toBool()) {
 			$oDB->rollback();
 			return $output;
 		}
+
+		/*$output = executeQuery('document.updateDocument', $document_args);
+		if (!$output->toBool()) {
+			$oDB->rollback();
+			return $output;
+		}*/
 
 		// update category
 		if($oDocument->get('category_srl')) $this->updateCategoryCount($oDocument->get('module_srl'),$oDocument->get('category_srl'));

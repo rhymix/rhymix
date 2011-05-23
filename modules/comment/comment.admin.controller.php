@@ -17,6 +17,8 @@
          * @brief Delete the selected comment from the administrator page
          **/
         function procCommentAdminDeleteChecked() {
+			$isTrash = Context::get('is_trash');
+
             // Error display if none is selected
             $cart = Context::get('cart');
             if(!$cart) return $this->stop('msg_cart_is_null');
@@ -24,22 +26,64 @@
             $comment_count = count($comment_srl_list);
             if(!$comment_count) return $this->stop('msg_cart_is_null');
 
-            $oCommentController = &getController('comment');
+			$oCommentController = &getController('comment');
+			// begin transaction
+			$oDB = &DB::getInstance();
+			$oDB->begin();
 
-            $deleted_count = 0;
-            // Delete the comment posting
-            for($i=0;$i<$comment_count;$i++) {
-                $comment_srl = trim($comment_srl_list[$i]);
-                if(!$comment_srl) continue;
+			// comment into trash
+			if($isTrash == 'true') $this->_moveCommentToTrash($comment_srl_list, &$oCommentController, &$oDB);
 
-                $output = $oCommentController->deleteComment($comment_srl, true);
-                if(!$output->toBool()) continue;
+			$deleted_count = 0;
+			// Delete the comment posting
+			for($i=0;$i<$comment_count;$i++) {
+				$comment_srl = trim($comment_srl_list[$i]);
+				if(!$comment_srl) continue;
 
-                $deleted_count ++;
-            }
+				$output = $oCommentController->deleteComment($comment_srl, true, $isTrash);
+				if(!$output->toBool())
+				{
+					$oDB->rollback();
+					return $output;
+				}
+
+				$deleted_count ++;
+			}
+			$oDB->commit();
 
             $this->setMessage( sprintf(Context::getLang('msg_checked_comment_is_deleted'), $deleted_count) );
         }
+
+		function _moveCommentToTrash($commentSrlList, &$oCommentController, &$oDB)
+		{
+			require_once(_XE_PATH_.'modules/trash/model/TrashVO.php');
+
+			if(is_array($commentSrlList))
+			{
+				$logged_info = Context::get('logged_info');
+				$oCommentModel = &getModel('comment');
+				$commentItemList = $oCommentModel->getComments($commentSrlList);
+				$oTrashController = &getController('trash');
+
+				foreach($commentItemList AS  $key=>$oComment)
+				{
+					$oTrashVO = new TrashVO();
+					$oTrashVO->setTrashSrl(getNextSequence());
+					$oTrashVO->setTitle(trim(strip_tags($oComment->variables['content'])));
+					$oTrashVO->setOriginModule('comment');
+					$oTrashVO->setSerializedObject(serialize($oComment->variables));
+					$oTrashVO->setIpaddress($_SERVER['REMOTE_ADDR']);
+					$oTrashVO->setRemoverSrl($logged_info->member_srl);
+					$oTrashVO->setRegdate(date('YmdHis'));
+
+					$output = $oTrashController->insertTrash($oTrashVO);
+					if (!$output->toBool()) {
+						$oDB->rollback();
+						return $output;
+					}
+				}
+			}
+		}
 
         /**
          * @brief cancel the blacklist of abused comments reported by other users
@@ -66,5 +110,49 @@
             return $output;
         }
 
+        /**
+         * @brief restore comment from trash module, called by trash module
+		 * this method is passived
+         **/
+		function restoreTrash($originObject)
+		{
+			if(is_array($originObject)) $originObject = (object)$originObject;
+
+			$obj->document_srl = $originObject->document_srl;
+			$obj->comment_srl = $originObject->comment_srl;
+			$obj->parent_srl = $originObject->parent_srl;
+			$obj->content = $originObject->content;
+			$obj->password = $originObject->password;
+			$obj->nick_name = $originObject->nick_name;
+			$obj->member_srl = $originObject->member_srl;
+			$obj->email_address = $originObject->email_address;
+			$obj->homepage = $originObject->homepage;
+			$obj->is_secret = $originObject->is_secret;
+			$obj->notify_message = $originObject->notify_message;
+			$obj->module_srl = $originObject->module_srl;
+
+			$oCommentController = &getController('comment');
+			$output = $oCommentController->insertComment($obj);
+
+			return $output;
+		}
+
+        /**
+         * @brief empty comment in trash, called by trash module
+		 * this method is passived
+         **/
+		function emptyTrash($originObject)
+		{
+			$originObject = unserialize($originObject);
+			if(is_array($originObject)) $originObject = (object) $originObject;
+
+			$oComment = new commentItem();
+			$oComment->setAttribute($originObject);
+
+			//already comment deleted, therefore only comment log delete
+			$oCommentController = &getController('comment');
+			$output = $oCommentController->deleteCommentLog($oComment->get('comment_srl'));
+			return $output;
+		}
     }
 ?>

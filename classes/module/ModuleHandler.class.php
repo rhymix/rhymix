@@ -189,6 +189,7 @@
 
             // get type, kind
             $type = $xml_info->action->{$this->act}->type;
+            $ruleset = $xml_info->action->{$this->act}->ruleset;
             $kind = strpos(strtolower($this->act),'admin')!==false?'admin':'';
             if(!$kind && $this->module == 'admin') $kind = 'admin';
 			if($this->module_info->use_mobile != "Y") Mobile::setMobile(false);
@@ -286,6 +287,18 @@
 				{
 					$this->error = 'msg_invalid_request';
 					return;
+				}
+			}
+
+			//TODO ruleset check...
+			if(!empty($ruleset))
+			{
+				$rulesetFile = $oModuleModel->getValidatorFilePath($this->module, $ruleset);
+				if(!empty($rulesetFile))
+				{
+					$Validator = new Validator($rulesetFile);
+					if(!$Validator->validate())
+						return $Validator->getLastError();
 				}
 			}
 

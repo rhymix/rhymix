@@ -515,6 +515,7 @@
                         $type = $action->attrs->type;
                         $grant = $action->attrs->grant?$action->attrs->grant:'guest';
                         $standalone = $action->attrs->standalone=='true'?'true':'false';
+                        $ruleset = $action->attrs->ruleset?$action->attrs->ruleset:'';
 
                         $index = $action->attrs->index;
                         $admin_index = $action->attrs->admin_index;
@@ -527,10 +528,12 @@
                         $info->action->{$name}->type = $type;
                         $info->action->{$name}->grant = $grant;
                         $info->action->{$name}->standalone = $standalone=='true'?true:false;
+                        $info->action->{$name}->ruleset = $ruleset;
 
                         $buff .= sprintf('$info->action->%s->type=\'%s\';', $name, $type);
                         $buff .= sprintf('$info->action->%s->grant=\'%s\';', $name, $grant);
                         $buff .= sprintf('$info->action->%s->standalone=%s;', $name, $standalone);
+                        $buff .= sprintf('$info->action->%s->ruleset=\'%s\';', $name, $ruleset);
 
                         if($index=='true') {
                             $default_index_act = $name;
@@ -1280,5 +1283,22 @@
         function getModuleFileBoxPath($module_filebox_srl){
             return sprintf("./files/attach/filebox/%s",getNumberingPath($module_filebox_srl,3));
         }
+
+        /**
+         * @brief Return ruleset cache file path
+		 * @param module, act
+         **/
+        function getValidatorFilePath($module, $ruleset) {
+            // Get a path of the requested module. Return if not exists.
+            $class_path = ModuleHandler::getModulePath($module);
+            if(!$class_path) return;
+
+            // Check if module.xml exists in the path. Return if not exist
+            $xml_file = sprintf("%sruleset/%s.xml", $class_path, $ruleset);
+            if(!file_exists($xml_file)) return;
+
+			return $xml_file;
+        }
+
     }
 ?>

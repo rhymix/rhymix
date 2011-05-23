@@ -467,7 +467,7 @@
 			$this->restoreTrash($trash_srl);
         }
 
-		function restoreTrash($trash_srl){
+		/*function restoreTrash($trash_srl){
             $oDB = &DB::getInstance();
             $oDocumentModel = &getModel('document');
 
@@ -516,7 +516,63 @@
             // commit
             $oDB->commit();
 			return $output;
+		}*/
+
+        /**
+         * @brief restore document from trash module, called by trash module
+		 * this method is passived
+         **/
+		function restoreTrash($originObject)
+		{
+			if(is_array($originObject)) $originObject = (object)$originObject;
+
+			$oDocumentController = &getController('document');
+            $oDocumentModel = &getModel('document');
+
+            $oDB = &DB::getInstance();
+            $oDB->begin();
+
+			//DB restore
+			$output = $oDocumentController->insertDocument($originObject, false, true);
+
+			//FILE restore
+            $oDocument = $oDocumentModel->getDocument($originObject->document_srl);
+            // If the post was not temorarily saved, set the attachment's status to be valid
+            if($oDocument->hasUploadedFiles() && $originObject->member_srl != $originObject->module_srl) {
+                $args->upload_target_srl = $oDocument->document_srl;
+                $args->isvalid = 'Y';
+                $output = executeQuery('file.updateFileValid', $args);
+            }
+
+            // call a trigger (after)
+            if($output->toBool()) {
+                $trigger_output = ModuleHandler::triggerCall('document.restoreTrash', 'after', $originObject);
+                if(!$trigger_output->toBool()) {
+                    $oDB->rollback();
+                    return $trigger_output;
+                }
+            }
+
+            // commit
+            $oDB->commit();
+			return new Object(0, 'success');
 		}
 
+        /**
+         * @brief empty document in trash, called by trash module
+		 * this method is passived
+         **/
+		function emptyTrash($originObject)
+		{
+			$originObject = unserialize($originObject);
+			if(is_array($originObject)) $originObject = (object) $originObject;
+
+			$oDocument = new documentItem();
+			$oDocument->setAttribute($originObject);
+
+			$oDocumentController = &getController('document');
+			$output = $oDocumentController->deleteDocument($oDocument->get('document_srl'), true, true, $oDocument);
+			return $output;
+		}
     }
 ?>

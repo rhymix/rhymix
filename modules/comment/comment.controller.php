@@ -322,7 +322,7 @@
         /**
          * @brief Delete comment
          **/
-        function deleteComment($comment_srl, $is_admin = false) {
+        function deleteComment($comment_srl, $is_admin = false, $isMoveToTrash = false) {
             // create the comment model object
             $oCommentModel = &getModel('comment');
             // check if comment already exists
@@ -369,8 +369,11 @@
                 }
             }
 
-			$this->_deleteDeclaredComments($args);
-			$this->_deleteVotedComments($args);
+			if(!$isMoveToTrash)
+			{
+				$this->_deleteDeclaredComments($args);
+				$this->_deleteVotedComments($args);
+			}
 
             // commit
             $oDB->commit();
@@ -378,6 +381,15 @@
             $output->add('document_srl', $document_srl);
             return $output;
         }
+
+        /**
+         * @brief remove all comment relation log
+         **/
+		function deleteCommentLog()
+		{
+			$this->_deleteDeclaredComments($args);
+			$this->_deleteVotedComments($args);
+		}
 
         /**
          * @brief remove all comments of the article
