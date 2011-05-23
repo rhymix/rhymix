@@ -14,6 +14,7 @@
 		function QueryArgumentValidator($tag){
 			$this->argument_name = $tag->attrs->var;
 			if(!$this->argument_name) $this->argument_name = $tag->attrs->name;
+			if(!$this->argument_name) $this->argument_name = $tag->attrs->column;
 			$this->default_value = $tag->attrs->default;
 			$this->notnull = $tag->attrs->notnull;
 			$this->filter = $tag->attrs->filter;

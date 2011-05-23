@@ -22,8 +22,9 @@
 			$this->operation = $condition->attrs->operation;
 			$this->pipe = $condition->attrs->pipe;
 			$this->column_name = $this->dbParser->parseColumnName($condition->attrs->column);
-			// TODO fix this hack - should use default value for query argument
+			// TODO fix this hack - argument_name is initialized in three places :) [ here, queryArgument and queryArgumentValidator]
 			$this->argument_name = $condition->attrs->var;
+			if(!$this->argument_name) $this->argument_name = $condition->attrs->column;
 			$this->default_column = $this->dbParser->parseColumnName($condition->attrs->default);
 			require_once(_XE_PATH_.'classes/xml/xmlquery/queryargument/QueryArgument.class.php');			
 			$this->argument = new QueryArgument($condition);

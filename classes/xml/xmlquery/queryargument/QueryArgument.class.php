@@ -17,6 +17,8 @@
 			}
 			
 			if(!$this->argument_name) $this->argument_name = $tag->attrs->name;
+			if(!$this->argument_name) $this->argument_name = $tag->attrs->column;
+			
 			require_once(_XE_PATH_.'classes/xml/xmlquery/queryargument/validator/QueryArgumentValidator.class.php');
 			$this->argument_validator = new QueryArgumentValidator($tag);
 			

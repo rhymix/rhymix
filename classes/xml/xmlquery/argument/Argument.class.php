@@ -34,7 +34,7 @@
 			if(!isset($this->value)) return;
 			if($column_type === '') return;
 			//if($column_type === '') $column_type = 'varchar';
-			if(in_array($column_type, array('date', 'varchar', 'char')))
+			if(in_array($column_type, array('date', 'varchar', 'char', 'bigtext')))
 				$this->value = '\''.$this->value.'\'';
 		}
 		
