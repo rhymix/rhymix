@@ -795,9 +795,13 @@
 				}
 				$orderBy = substr($orderBy, 0, -2);
 			}
-			
-			
-			$query =  $select . ' ' . $from . ' ' . $where . ' ' . $groupBy . ' ' . $orderBy;
+		 	$limit = '';
+			if(count($output->limit) > 0){
+				$limit = 'limit ';
+				$limit .= $output->limit->toString();
+			}
+
+			$query =  $select . ' ' . $from . ' ' . $where . ' ' . $groupBy . ' ' . $orderBy . ' ' . $limit;
 						
 			//$query = sprintf ("select %s from %s %s %s %s", $columns, implode (',',$table_list), implode (' ',$left_join), $condition, //$groupby_query.$orderby_query);
 			//$query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';

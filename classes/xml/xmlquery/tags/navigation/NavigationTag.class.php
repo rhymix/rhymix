@@ -1,11 +1,13 @@
 <?php 
 	require_once(_XE_PATH_.'classes/xml/xmlquery/tags/navigation/IndexTag.class.php');
+	require_once(_XE_PATH_.'classes/xml/xmlquery/tags/navigation/LimitTag.class.php');
 	
 	class NavigationTag {
 		var $order;
 		var $list_count;
 		var $page_count;
 		var $page;
+		var $limit;
 		
 		function NavigationTag($xml_navigation){
 			$this->order = array();
@@ -17,7 +19,10 @@
                         $this->order[] = new IndexTag($order_info);
                     }
                 }
-
+				
+                if($xml_navigation->page->attrs && $xml_navigation->list_count->attrs)
+                	$this->limit = new LimitTag($xml_navigation);
+                
                 $list_count = $xml_navigation->list_count->attrs;
                 $this->list_count = $list_count;
 
@@ -40,7 +45,8 @@
 		}
 		
 		function getLimitString(){
-			
+			if ($this->limit)	return $this->limit->toString();
+			else return "";
 		}
 
 		function getArguments(){
@@ -48,6 +54,7 @@
 			foreach($this->order as $order){
 				$arguments = array_merge($order->getArguments(), $arguments);
 			}
+			if($this->limit)	$arguments = array_merge($this->limit->getArguments(), $arguments);
 			return $arguments;
 		}				
 	}

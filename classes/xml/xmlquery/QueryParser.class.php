@@ -131,9 +131,10 @@ class QueryParser {
 		$buff .= '$output->columns = ' . $columns->toString() . ';'.PHP_EOL;
         $buff .= '$output->tables = ' . $tables->toString() .';'.PHP_EOL;
         $buff .= '$output->conditions = '.$conditions->toString() .';'.PHP_EOL;
-        $buff .= '$output->groups = ' . $groups->toString() . ';'; 	
-		$buff .= '$output->orderby = ' . $navigation->getOrderByString() .';';
-				
+       	$buff .= '$output->groups = ' . $groups->toString() . ';'; 	
+       	$buff .= '$output->orderby = ' . $navigation->getOrderByString() .';';
+		$buff .= $navigation->getLimitString()?'$output->limit = ' . $navigation->getLimitString() .';':"";
+
 		return "<?php if(!defined('__ZBXE__')) exit();\n"
                   . sprintf('$output->query_id = "%s";%s', $this->query_id, "\n")
                   . sprintf('$output->action = "%s";%s', $this->action, "\n")
