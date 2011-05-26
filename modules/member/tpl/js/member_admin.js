@@ -339,27 +339,31 @@ function completeDeleteMembers(ret_obj) {
     window.close();
 }
 
-
-function doGorupImageMarkUpdateOrder(id) {
-    var sort   = jQuery('#'+id).sortable('toArray');
-    var params = { group_image_mark_order : [] };
-	
-    jQuery.each(sort, function(i, val) {
-        params['group_image_mark_order'].push(val.replace('group_srl_', ''));
-    });
-
-    var response_tags = ['error','message'];
-    exec_xml('member', 'procMemberAdminGroupImageMarkUpdateOrder', params, completeGroupImageMarkUpdateOrder, response_tags);
-}
-
-function completeGroupImageMarkUpdateOrder(ret_obj) {
-    alert(ret_obj['message']);
-}
-
 jQuery(function($) {
-    $("#group_image_mark_order")
-        .sortable({
-            cursor: 'move',
-            cancel: '.inactive'
-        });
+	$("#fo_group_order > table")
+		.find("a._up")
+			.click(function(e){
+				var $tr = $(this).parent().parent();
+				var $prev = $tr.prev("tr");
+				if($prev.length) 
+				{
+					$prev.before($tr);
+					$tr.parent().find("tr").removeClass("bg1").filter(":odd").addClass("bg1");
+				}
+				e.preventDefault();
+			})
+		.end()
+		.find("a._down")
+			.click(function(){
+				var $tr = $(this).parent().parent();
+				var $next = $tr.next("tr");
+				if($next.length)
+				{
+					$next.after($tr);
+					$tr.parent().find("tr").removeClass("bg1").filter(":odd").addClass("bg1");
+				}
+				e.preventDefault();
+			})
+		.end()
+			
 });

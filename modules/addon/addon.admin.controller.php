@@ -4,7 +4,7 @@
      * @author NHN (developers@xpressengine.com)
      * @brief admin controller class of addon modules
      **/
-    include_once('addon.controller.php');
+    require_once(_XE_PATH_.'modules/addon/addon.controller.php');
 
     class addonAdminController extends addonController {
 
@@ -94,7 +94,5 @@
             $args->site_srl = $site_srl;
             return executeQuery('addon.updateSiteAddon', $args);
         }
-
-
     }
 ?>

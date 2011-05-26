@@ -27,6 +27,8 @@
     $lang->group = '소속 그룹';
     $lang->group_title = '그룹제목';
     $lang->group_srl = '그룹번호';
+    $lang->group_order = '그룹 우선순위';
+    $lang->group_order_change = '그룹 우선순위 변경';
     $lang->signature = '서명';
     $lang->profile_image = '프로필 사진';
     $lang->profile_image_max_width = '가로 제한 길이';
@@ -40,7 +42,6 @@
     $lang->group_image_mark = '그룹 이미지 마크';
     $lang->group_image_mark_max_width = '가로 제한 길이';
     $lang->group_image_mark_max_height = '세로 제한 길이';
-    $lang->group_image_mark_order = '그룹 이미지 마크 순서';
     $lang->signature_max_height = '서명 높이 제한';
     $lang->enable_openid = 'OpenID 지원';
     $lang->enable_join = '회원 가입 허가';
