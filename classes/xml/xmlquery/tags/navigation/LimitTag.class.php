@@ -14,10 +14,11 @@
 			require_once(_XE_PATH_.'classes/xml/xmlquery/queryargument/QueryArgument.class.php');
 			$this->arguments[] = new QueryArgument($index->page);
 			$this->arguments[] = new QueryArgument($index->list_count);
+			$this->arguments[] = new QueryArgument($index->page_count);
 		}
 
 		function toString(){
-			return sprintf("new Limit(\$%s_argument->getValue(), \$%s_argument->getValue())", $this->page->var, $this->list_count->var);
+			return sprintf("new Limit(\$%s_argument->getValue(), \$%s_argument->getValue(), \$%s_argument->getValue())", $this->page->var, $this->list_count->var, $this->page_count->var);
 		}
 
 		function getArguments(){

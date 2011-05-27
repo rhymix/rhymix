@@ -23,6 +23,8 @@
 					$cond_indx++;
 				}
 			}
+			// If the group has no conditions in it, return ''
+			if($cond_indx === 0) return '';
 			
 			if($this->pipe !== "")
 				$group .= ')';

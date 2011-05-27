@@ -802,15 +802,59 @@
 			}
 
 			$query =  $select . ' ' . $from . ' ' . $where . ' ' . $groupBy . ' ' . $orderBy . ' ' . $limit;
-						
+
 			//$query = sprintf ("select %s from %s %s %s %s", $columns, implode (',',$table_list), implode (' ',$left_join), $condition, //$groupby_query.$orderby_query);
 			//$query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
 			$result = $this->_query ($query);
-			if ($this->isError ()) return;
-			$data = $this->_fetch ($result);
+			if ($this->isError ()) {
+				if ($limit && $output->limit->isPageHandler()){
+					$buff = new Object ();
+					$buff->total_count = 0;
+					$buff->total_page = 0;
+					$buff->page = 1;
+					$buff->data = array ();
+					$buff->page_navigation = new PageHandler (/*$total_count*/0, /*$total_page*/1, /*$page*/1, /*$page_count*/10);//default page handler values
+					return $buff;
+				}else	return;
+			}
 
-			$buff = new Object ();
-			$buff->data = $data;
+		 	if ($limit && $output->limit->isPageHandler()) {
+		 		$count_query = sprintf('select count(*) as "count" %s %s', $from, $where);
+				if (count($output->groups)) {
+					$count_query = sprintf('select count(*) as "count" from (%s) xet', $count_query);
+				}
+
+				//$count_query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
+				$result_count = $this->_query($count_query);
+				$count_output = $this->_fetch($result_count);
+				$total_count = (int)$count_output->count;
+		 		
+				// total pages
+				if ($total_count) {
+					$total_page = (int) (($total_count - 1) / $output->limit->list_count) + 1;
+				}	else	$total_page = 1;
+		 		
+		 		$virtual_no = $total_count - ($output->limit->page - 1) * $output->limit->list_count;
+				while ($tmp = cubrid_fetch ($result, CUBRID_OBJECT)) {
+					if ($tmp) {
+						foreach ($tmp as $k => $v) {
+							$tmp->{$k} = rtrim($v);
+						}
+					}
+					$data[$virtual_no--] = $tmp;
+				}
+
+		 		$buff = new Object ();
+				$buff->total_count = $total_count;
+				$buff->total_page = $total_page;
+				$buff->page = $output->limit->page;
+				$buff->data = $data;
+				$buff->page_navigation = new PageHandler ($total_count, $total_page, $output->limit->page, $output->limit->page_count);				
+			}else{
+				$data = $this->_fetch ($result);
+				$buff = new Object ();
+				$buff->data = $data;	
+			}
 
 			return $buff;
 		}
