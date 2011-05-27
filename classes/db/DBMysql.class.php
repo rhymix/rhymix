@@ -455,7 +455,9 @@
 						}
 					}
 
-                } elseif(!$value || is_numeric($value)) $value = (int)$value;
+                }
+				//elseif(!$value || is_numeric($value)) $value = (int)$value;
+                else $this->_filterNumber(&$value);
 
                 $column_list[] = '`'.$name.'`';
                 $value_list[] = $value;
@@ -482,7 +484,7 @@
                 if(strpos($name,'.')!==false&&strpos($value,'.')!==false) $column_list[] = $name.' = '.$value;
                 else {
                     if($output->column_type[$name]!='number') $value = "'".$this->addQuotes($value)."'";
-                    elseif(!$value || is_numeric($value)) $value = (int)$value;
+                	else $this->_filterNumber(&$value);
 
                     $column_list[] = sprintf("`%s` = %s", $name, $value);
                 }

@@ -214,7 +214,6 @@
 
     $lang->find_account_question = '密碼提示問答';
     $lang->find_account_answer = '비밀번호 찾기 답변';
-
     $lang->about_find_account_question = '可透過帳號、電子郵件和設定提示問答來獲得臨時密碼。';
     $lang->find_account_question_items = array(''
                                         ,'其他電子郵件?'
@@ -236,5 +235,7 @@
 
     $lang->change_password_date = '密碼更新';
     $lang->about_change_password_date = '可設定密碼更新週期，將會定期通知更換密碼。 (設為零則不使用)';
-
+	$lang->msg_kr_address = '읍, 면, 동 이름으로 검색하세요.';
+	$lang->msg_kr_address_etc = '請輸入剩餘的地址(街道)。';
+	$lang->cmd_search_again   = '再找一次';
 ?>
