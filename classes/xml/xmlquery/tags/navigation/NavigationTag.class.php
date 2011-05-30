@@ -20,7 +20,7 @@
                     }
                 }
 				
-                if($xml_navigation->page->attrs && $xml_navigation->list_count->attrs)
+                if($xml_navigation->page->attrs || $xml_navigation->list_count->attrs)
                 	$this->limit = new LimitTag($xml_navigation);
                 
                 $list_count = $xml_navigation->list_count->attrs;

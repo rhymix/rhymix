@@ -7,18 +7,22 @@
 		var $list_count;
 
 		function LimitTag($index){
-			$this->page = $index->page->attrs;
-			$this->page_count = $index->page_count->attrs;
-			$this->list_count = $index->list_count->attrs;
-
 			require_once(_XE_PATH_.'classes/xml/xmlquery/queryargument/QueryArgument.class.php');
-			$this->arguments[] = new QueryArgument($index->page);
+			
+			if($index->page->attrs && $index->page_count->attrs){
+				$this->page = $index->page->attrs;
+				$this->page_count = $index->page_count->attrs;
+				$this->arguments[] = new QueryArgument($index->page);
+				$this->arguments[] = new QueryArgument($index->page_count);
+			}
+
+			$this->list_count = $index->list_count->attrs;
 			$this->arguments[] = new QueryArgument($index->list_count);
-			$this->arguments[] = new QueryArgument($index->page_count);
 		}
 
 		function toString(){
-			return sprintf("new Limit(\$%s_argument->getValue(), \$%s_argument->getValue(), \$%s_argument->getValue())", $this->page->var, $this->list_count->var, $this->page_count->var);
+			if ($this->page)return sprintf("new Limit(\$%s_argument->getValue(), \$%s_argument->getValue(), \$%s_argument->getValue())",$this->list_count->var, $this->page->var,  $this->page_count->var);
+			else return sprintf("new Limit(\$%s_argument->getValue())", $this->list_count->var);
 		}
 
 		function getArguments(){
