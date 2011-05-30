@@ -157,9 +157,16 @@ Each version is given a distinguishing version number.  If the Library specifies
 		     END OF TERMS AND CONDITIONS
 
 EndOfLicense;
-
+	$lang->install_progress_menu = array(
+			'agree'=>'Acceptance of terms',
+			'condition'=>'Check the installation conditions',
+			'ftp'=>'Input FTP information',
+			'dbSelect'=>'Choose database type',
+			'dbInfo'=>'Input Database information',
+			'configInfo'=>'Preferences',
+			'adminInfo'=>'Enter Administrator information'
+			);
     $lang->install_condition_title = "Please check the installation requirement.";
-
     $lang->install_checklist_title = array(
 			'php_version' => 'PHP Version',
             'permission' => 'Permission',
@@ -182,11 +189,10 @@ EndOfLicense;
     $lang->install_without_xml = 'XML Library is not installed';
     $lang->install_checklist_gd = 'Install GD Library';
     $lang->install_without_gd  = 'GD Library is not installed for image convertion';
-    $lang->install_checklist_gd = 'Intall GD Library';
     $lang->install_without_iconv = 'Iconv Library is not installed for processing characters';
     $lang->install_session_auto_start = 'Possible problems might occur due to the php setting. session.auto_start is equal to 1';
     $lang->install_permission_denied = 'Installation path\'s permission doesn\'t equal to 707';
-
+	$lang->install_notandum = 'All form must be filled, but you can modify all of settings after finish the installation.';
     $lang->cmd_agree_license = 'I agree with the license';
     $lang->cmd_install_fix_checklist = 'I have fixed the required conditions.';
     $lang->cmd_install_next = 'Continue installation';
@@ -214,7 +220,8 @@ EndOfLicense;
     $lang->db_password = 'DB Password';
     $lang->db_database = 'DB Database';
     $lang->db_database_file = 'DB Database File';
-    $lang->db_table_prefix = 'Table Header';
+	$lang->db_table_prefix = 'Table Header';
+	$lang->db_info_desc = '<p>Please check <strong>database information</strong> to server master.</p><p>You can modify database <strong>table preface</strong>, and can use small letters(small letter is recommended), and numbers, but you can not use special letters.</p>';
 
     $lang->admin_title = 'Administrator Info';
 
@@ -238,6 +245,7 @@ EndOfLicense;
     $lang->msg_install_completed = "Installation has been completed.\nThank you for choosing XE";
     $lang->msg_install_failed = "An error has occurred while creating installation file.";
     $lang->ftp_get_list = "Get List";
+	$lang->msg_license_agreement = 'GNU 약소 일반 공중 사용 허가서(LGPL v2) 동의';
 	$lang->msg_read_all = '전문 읽기';
 	$lang->msg_license_agreement_desc = 'XE를 사용하려면 \'GNU 약소 일반 공중 사용 허가서(LGPL v2)\'에 <em>반드시 동의해야 합니다</em>.';
 	$lang->msg_license_agreement_alert = 'XE를 사용하려면 \'GNU 약소 일반 공중 사용 허가서(LGPL v2)\'에 반드시 동의해야 합니다.';

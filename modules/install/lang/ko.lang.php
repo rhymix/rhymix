@@ -185,7 +185,6 @@ EndOfLicense;
     $lang->install_without_xml = 'xml 라이브러리가 설치되어 있지 않습니다.';
     $lang->install_checklist_gd = 'GD라이브러리 설치';
     $lang->install_without_gd  = '이미지 변환을 위한 GD 라이브러리가 설치되어 있지 않습니다.';
-    $lang->install_checklist_gd = 'GD라이브러리 설치';
     $lang->install_without_iconv = '문자열을 처리하기 위한 iconv 라이브러리가 설치되어 있지 않습니다.';
     $lang->install_session_auto_start = 'php설정의 session.auto_start==1 이라 세션 처리에 문제가 발생할 수 있습니다.';
     $lang->install_permission_denied = '설치대상 디렉토리의 퍼미션이 707이 아닙니다.';
