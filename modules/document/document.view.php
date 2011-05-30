@@ -77,6 +77,14 @@
             $oModuleModel = &getModel('module');
             // The combination of module categories list and the list of modules
             if(count($module_list)>1) Context::set('module_list', $module_categories);
+            
+            $module_srl=Context::get('module_srl');
+            Context::set('module_srl',$module_srl);
+            $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+            Context::set('mid',$module_info->mid);
+            Context::set('browser_title',$module_info->browser_title);
+            
+            
             // Select Pop-up layout
             $this->setLayoutPath('./common/tpl');
             $this->setLayoutFile('popup_layout');
