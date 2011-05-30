@@ -31,7 +31,7 @@
         function arrangeContent($content) {
             $output = null;
             if($content){
-                $output= $content->gets('document_srl','category_srl','is_secret','nick_name','user_id','user_name','title','content','tags','voted_count','blamed_count','comment_count','regdate','last_update','extra_vars');
+                $output= $content->gets('document_srl','category_srl','nick_name','user_id','user_name','title','content','tags','voted_count','blamed_count','comment_count','regdate','last_update','extra_vars','status');
             }
             return $output;
         }

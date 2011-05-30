@@ -141,7 +141,6 @@ class documentController extends document {
 		$oDB = &DB::getInstance();
 		$oDB->begin();
 		// List variables
-		if($obj->is_secret!='Y') $obj->is_secret = 'N';
 		if($obj->allow_comment!='Y') $obj->allow_comment = 'N';
 		if($obj->lock_comment!='Y') $obj->lock_comment = 'N';
 		if($obj->allow_trackback!='Y') $obj->allow_trackback = 'N';
@@ -275,7 +274,6 @@ class documentController extends document {
 			$obj->ipaddress = $source_obj->get('ipaddress');
 		}
 		// List variables
-		if($obj->is_secret!='Y') $obj->is_secret = 'N';
 		if($obj->allow_comment!='Y') $obj->allow_comment = 'N';
 		if($obj->lock_comment!='Y') $obj->lock_comment = 'N';
 		if($obj->allow_trackback!='Y') $obj->allow_trackback = 'N';
@@ -408,7 +406,6 @@ class documentController extends document {
 			$oDocumentModel = &getModel('document');
 			// Check if the documnet exists
 			$oDocument = $oDocumentModel->getDocument($document_srl, $is_admin);
-			debugPrint('normal');
 		}
 		else if($isEmptyTrash && $oDocument == null) return new Object(-1, 'document is not exists');
 
@@ -1621,6 +1618,8 @@ class documentController extends document {
 		$document_config->use_vote_down = Context::get('use_vote_down');
 		if(!$document_config->use_vote_down) $document_config->use_vote_down = 'Y';
 
+		$document_config->use_status = Context::get('use_status');
+
 		$oModuleController = &getController('module');
 		for($i=0;$i<count($module_srl);$i++) {
 			$srl = trim($module_srl[$i]);
@@ -1629,6 +1628,54 @@ class documentController extends document {
 		}
 		$this->setError(-1);
 		$this->setMessage('success_updated');
+	}
+
+	/**
+	 * @brief
+	 **/
+	function procDocumentTempSave()
+	{
+		// Check login information
+		if(!Context::get('is_logged')) return new Object(-1, 'msg_not_logged');
+
+		$module_info = Context::get('module_info');
+		$logged_info = Context::get('logged_info');
+		// Get form information
+		$obj = Context::getRequestVars();
+		// Change the target module to log-in information
+		$obj->module_srl = $module_info->module_srl;
+		$obj->status = 'TEMP';
+		unset($obj->is_notice);
+
+		// Extract from beginning part of contents in the guestbook
+		if(!$obj->title) {
+			$obj->title = cut_str(strip_tags($obj->content), 20, '...');
+		}
+
+		$oDocumentModel = &getModel('document');
+		$oDocumentController = &getController('document');
+		// Check if already exist geulinji
+		$oDocument = $oDocumentModel->getDocument($obj->document_srl, $this->grant->manager);
+		// Update if already exists
+		if($oDocument->isExists() && $oDocument->document_srl == $obj->document_srl) {
+			$output = $oDocumentController->updateDocument($oDocument, $obj);
+			$msg_code = 'success_updated';
+		// Otherwise, get a new
+		} else {
+			$output = $oDocumentController->insertDocument($obj);
+			$msg_code = 'success_registed';
+			$obj->document_srl = $output->get('document_srl');
+			$oDocument = $oDocumentModel->getDocument($obj->document_srl, $this->grant->manager);
+		}
+		// Set the attachment to be invalid state
+		if($oDocument->hasUploadedFiles()) {
+			$args->upload_target_srl = $oDocument->document_srl;
+			$args->isvalid = 'N';
+			executeQuery('file.updateFileValid', $args);
+		}
+
+		$this->setMessage('success_saved');
+		$this->add('document_srl', $obj->document_srl);
 	}
 }
 ?>

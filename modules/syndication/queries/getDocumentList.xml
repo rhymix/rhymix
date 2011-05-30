@@ -16,7 +16,7 @@
         <condition operation="equal" column="doc.module_srl" var="module_srl" filter="number" />
         <condition operation="notin" column="doc.module_srl" var="except_module_srls" pipe="and" />
         <condition operation="null" column="except_modules.module_srl" default="1" pipe="and" />
-        <condition operation="equal" column="doc.is_secret" default="N" pipe="and" />
+        <condition operation="equal" column="doc.status" default="PUBLIC" pipe="and" />
         <condition operation="equal" column="modules.module_srl" default="doc.module_srl" filter="number" pipe="and" />
         <condition operation="notin" column="modules.module_srl" var="except_modules" filter="numbers" pipe="and" />
         <condition operation="more" column="doc.last_update" var="start_date" filter="number" pipe="and" />

@@ -571,7 +571,7 @@ function doDocumentSave(obj) {
 		else params[field.name] = field.value;
 	});
 
-	exec_xml('member','procMemberSaveDocument', params, completeDocumentSave, responses, params, obj.form);
+	exec_xml('document','procDocumentTempSave', params, completeDocumentSave, responses, params, obj.form);
 
     editorRelKeys[editor_sequence]['content'].value = prev_content;
     return false;
@@ -587,7 +587,7 @@ var objForSavedDoc = null;
 function doDocumentLoad(obj) {
     // 저장된 게시글 목록 불러오기
     objForSavedDoc = obj.form;
-    popopen(request_uri.setQuery('module','member').setQuery('act','dispSavedDocumentList'));
+    popopen(request_uri.setQuery('module','document').setQuery('act','dispTempSavedList'));
 }
 
 /* 저장된 게시글의 선택 */

@@ -33,11 +33,15 @@
             $oDocumentModel = &getModel('document');
             $output = $oDocumentModel->getDocumentList($args);
 
+			// get Status name list
+			$statusNameList = $oDocumentModel->getStatusConfigList();
+
             // Set values of document_model::getDocumentList() objects for a template
             Context::set('total_count', $output->total_count);
             Context::set('total_page', $output->total_page);
             Context::set('page', $output->page);
             Context::set('document_list', $output->data);
+            Context::set('status_name_list', $statusNameList);
             Context::set('page_navigation', $output->page_navigation);
 
             // set a search option used in the template

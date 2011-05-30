@@ -539,7 +539,7 @@
                 $obj->member_srl = 0;
 
                 $obj->is_notice = base64_decode($xmlDoc->post->is_notice->body)=='Y'?'Y':'N';
-                $obj->is_secret = base64_decode($xmlDoc->post->is_secret->body)=='Y'?'Y':'N';
+                $obj->status = base64_decode($xmlDoc->post->is_secret->body)=='Y'?'SECRET':'PUBLIC';
                 $obj->title = base64_decode($xmlDoc->post->title->body);
                 $obj->content = base64_decode($xmlDoc->post->content->body);
                 $obj->readed_count = base64_decode($xmlDoc->post->readed_count->body);

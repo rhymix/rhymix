@@ -275,28 +275,10 @@
 
         /**
          * @brief Display a list of saved articles
+		 * @Deplicated - instead Document View - dispTempSavedList method use
          **/
         function dispSavedDocumentList() {
-            $this->setLayoutFile('popup_layout');
-
-            $oMemberModel = &getModel('member');
-            // A message appears if the user is not logged-in
-            if(!$oMemberModel->isLogged()) return $this->stop('msg_not_logged');
-            // Get the saved document (module_srl is set to member_srl instead)
-            $logged_info = Context::get('logged_info');
-            $args->module_srl = $logged_info->member_srl;
-            $args->page = (int)Context::get('page');
-            $args->list_count = 10;
-
-            $oDocumentModel = &getModel('document');
-            $output = $oDocumentModel->getDocumentList($args, true);
-            Context::set('total_count', $output->total_count);
-            Context::set('total_page', $output->total_page);
-            Context::set('page', $output->page);
-            Context::set('document_list', $output->data);
-            Context::set('page_navigation', $output->page_navigation);
-
-            $this->setTemplateFile('saved_list_popup');
+			return new Object(0, 'Deplicated method');
         }
 
         /**

@@ -509,7 +509,7 @@
                 $args->name = trim($key);
                 $args->value = trim($val);
                 if(!$args->name || !$args->value) continue;
-                executeQuery('module.insertModuleExtraVars', $args);
+                $output = executeQuery('module.insertModuleExtraVars', $args);
             }
         }
 

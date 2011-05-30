@@ -122,7 +122,7 @@
         }
 
         function isSecret() {
-            return $this->get('is_secret') == 'Y' ? true : false;
+            return $this->get('status') == 'SECRET' ? true : false;
         }
 
         function isNotice() {
@@ -239,7 +239,8 @@
 
             if($this->isSecret() && !$this->isGranted() && !$this->isAccessible()) return Context::getLang('msg_is_secret');
 
-            $_SESSION['accessible'][$this->document_srl] = true;
+			$result = $this->_checkAccessibleFromStatus();
+			if($result) $_SESSION['accessible'][$this->document_srl] = true;
 
             $content = $this->get('content');
 
@@ -253,7 +254,8 @@
 
             if($this->isSecret() && !$this->isGranted() && !$this->isAccessible()) return Context::getLang('msg_is_secret');
 
-            $_SESSION['accessible'][$this->document_srl] = true;
+			$result = $this->_checkAccessibleFromStatus();
+            if($result) $_SESSION['accessible'][$this->document_srl] = true;
 
             $content = $this->get('content');
             if(!$stripEmbedTagException) stripEmbedTagForAdmin($content, $this->get('member_srl'));
@@ -738,5 +740,22 @@
         function replaceResourceRealPath($matches) {
             return preg_replace('/src=(["\']?)files/i','src=$1'.Context::getRequestUri().'files', $matches[0]);
         }
+
+		function _checkAccessibleFromStatus()
+		{
+            $logged_info = Context::get('logged_info');
+            if($logged_info->is_admin == 'Y') return true;
+
+			$status = $this->get('status');
+			if(empty($status)) return false;
+
+			if($status == 'PUBLIC' || $status == 'PUBLISH') return true;
+			else if($status == 'PRIVATE' || $status == 'SECRET')
+			{
+				if($this->get('member_srl') == $logged_info->member_srl)
+					return true;
+			}
+			return false;
+		}
     }
 ?>

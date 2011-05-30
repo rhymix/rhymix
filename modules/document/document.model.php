@@ -6,7 +6,6 @@
      **/
 
     class documentModel extends document {
-
         /**
          * @brief Initialization
          **/
@@ -153,6 +152,7 @@
          * @brief module_srl value, bringing the list of documents
          **/
         function getDocumentList($obj, $except_notice = false, $load_extra_vars=true, $columnList = array()) {
+            $logged_info = Context::get('logged_info');
 			$sort_check = $this->_setSortIndex($obj, $load_extra_vars);
 
 			$obj->sort_index = $sort_check->sort_index;
@@ -180,6 +180,8 @@
             $args->start_date = $obj->start_date?$obj->start_date:null;
             $args->end_date = $obj->end_date?$obj->end_date:null;
             $args->member_srl = $obj->member_srl;
+			$args->statusList = $obj->statusList?$obj->statusList:array('SECRET', 'PUBLIC', 'PUBLISH');
+			if($logged_info->is_admin == 'Y') $args->statusList = array('SECRET', 'PUBLIC', 'PUBLISH');
             // Category is selected, further sub-categories until all conditions
             if($args->category_srl) {
                 $category_list = $this->getCategoryList($args->module_srl);
@@ -235,6 +237,7 @@
 						$division_args->list_count = 1;
 						$division_args->sort_index = $args->sort_index;
 						$division_args->order_type = $args->order_type;
+						$division_args->statusList = $args->statusList;
 						$output = executeQuery($listSqlID, $division_args, $columnList);
 						if($output->data) {
 							$item = array_pop($output->data);
@@ -258,7 +261,6 @@
 							$item = array_pop($output->data);
 							$last_division = $item->list_order;
 						}
-
 					}
 					// Make sure that after last_division article
 					if($last_division) {
@@ -925,9 +927,8 @@
                         break;
                     case 'is_notice' :
                     case 'is_secret' :
-                            if($search_keyword=='N') $args->{"s_".$search_target} = 'N';
-                            elseif($search_keyword=='Y') $args->{"s_".$search_target} = 'Y';
-                            else $args->{"s_".$search_target} = '';
+                            if($search_keyword=='N') $args->statusList = array('PUBLIC', 'PUBLISH');
+                            elseif($search_keyword=='Y') $args->statusList = array('SECRET');
                         break;
                     case 'member_srl' :
                     case 'readed_count' :
@@ -1002,6 +1003,14 @@
 			$this->add('voted_member_list',$output->data);
 		}
 
+		function getStatusConfigList()
+		{
+			global $lang;
+			if(!isset($lang->status_name_list))
+				return array('PRIVATE'=>'private', 'PUBLIC'=>'public', 'SECRET'=>'secret', 'TEMP'=>'temporary');
+			else return $lang->status_name_list;
+		}
+
 		function _setSortIndex($obj, $load_extra_vars)
 		{
 			$sortIndex = $obj->sort_index;
@@ -1074,9 +1083,8 @@
                         break;
                     case 'is_notice' :
                     case 'is_secret' :
-                            if($search_keyword=='N') $args->{"s_".$search_target} = 'N';
-                            elseif($search_keyword=='Y') $args->{"s_".$search_target} = 'Y';
-                            else $args->{"s_".$search_target} = '';
+                            if($search_keyword=='N') $args->statusList = array('PUBLIC', 'PUBLISH');
+                            elseif($search_keyword=='Y') $args->statusList = array('SECRET');
                         break;
                     case 'member_srl' :
                     case 'readed_count' :

@@ -102,6 +102,9 @@
 			//2011. 04. 07 adding description column to document categories
 			if(!$oDB->isColumnExists("document_categories","description")) return true;
 
+			//2011. 05. 23 adding status column to document
+			if(!$oDB->isColumnExists('documents', 'status')) return true;
+
             return false;
         }
 
@@ -236,6 +239,16 @@
 			
 			//2011. 04. 07 adding description column to document categories
 			if(!$oDB->isColumnExists("document_categories","description")) $oDB->addColumn('document_categories',"description","varchar",200,0);
+
+			//2011. 05. 23 adding status column to document
+			if(!$oDB->isColumnExists('documents', 'status'))
+			{
+				$oDB->addColumn('documents', 'status', 'varchar', 20, 'PUBLIC');
+				$args->is_secret = 'Y';
+				$output = executeQuery('document.updateDocumentStatus', $args);
+				if($output->toBool())
+					$oDB->dropColumn('documents', 'is_secret');
+			}
 
             return new Object(0,'success_updated');
 

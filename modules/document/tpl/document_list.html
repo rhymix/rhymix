@@ -41,6 +41,7 @@
         <th scope="col"><div>{$lang->no}</div></th>
         <th scope="col"><div><input type="checkbox" onclick="XE.checkboxToggleAll({ doClick:true }); return false;" /></div></th>
         <th scope="col" class="wide"><div>{$lang->document}</div></th>
+        <th scope="col"><div>{$lang->status}</div></th>
         <th scope="col"><div>{$lang->nick_name}</div></th>
         <th scope="col"><div>{$lang->readed_count}</div></th>
         <th scope="col"><div>{$lang->voted_count}</div></th>
@@ -73,6 +74,7 @@
                 [{$oDocument->getTrackbackCount()}]
             <!--@end-->
         </td>
+        <td class="nowrap">{$status_name_list[$oDocument->get('status')]}</td>
         <td class="nowrap"><span class="member_{$oDocument->get('member_srl')}">{$oDocument->getNickName()}</span></td>
         <td class="number center">{$oDocument->get('readed_count')}</td>
         <td class="number center">{$oDocument->get('voted_count')} / {$oDocument->get('blamed_count')}</td>

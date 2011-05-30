@@ -12,24 +12,5 @@ class trashView extends trash {
 	 **/
 	function init() {
 	}
-
-	/**
-	 * @brief 
-	 **/
-	function dispTrash() {
-		$trashSrl = Context::get('trashSrl');
-		debugPrint($trashSrl);
-
-		$oWastebasketModel = getModel('trash');
-		$output = $oWastebasketModel->getTrash($trashSrl);
-	}
-
-	/**
-	 * @brief 
-	 **/
-	function dispTrashList() {
-		$oWastebasketModel = getModel('trash');
-		$output = $oWastebasketModel->getTrashList();
-	}
 }
 ?>

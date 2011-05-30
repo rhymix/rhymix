@@ -406,47 +406,10 @@
 
         /**
          * @brief Save posts
+		 * @Deplicated - instead Document Controller - procDocumentTempSave method use
          **/
         function procMemberSaveDocument() {
-            // Check login information
-            if(!Context::get('is_logged')) return new Object(-1, 'msg_not_logged');
-
-            $logged_info = Context::get('logged_info');
-            // Get form information
-            $obj = Context::getRequestVars();
-            // Change the target module to log-in information
-            $obj->module_srl = $logged_info->member_srl;
-			unset($obj->is_notice);
-
-            // Extract from beginning part of contents in the guestbook
-            if(!$obj->title) {
-                $obj->title = cut_str(strip_tags($obj->content), 20, '...');
-            }
-
-            $oDocumentModel = &getModel('document');
-            $oDocumentController = &getController('document');
-            // Check if already exist geulinji
-            $oDocument = $oDocumentModel->getDocument($obj->document_srl, $this->grant->manager);
-            // Update if already exists
-            if($oDocument->isExists() && $oDocument->document_srl == $obj->document_srl) {
-                $output = $oDocumentController->updateDocument($oDocument, $obj);
-                $msg_code = 'success_updated';
-            // Otherwise, get a new
-            } else {
-                $output = $oDocumentController->insertDocument($obj);
-                $msg_code = 'success_registed';
-                $obj->document_srl = $output->get('document_srl');
-                $oDocument = $oDocumentModel->getDocument($obj->document_srl, $this->grant->manager);
-            }
-            // Set the attachment to be invalid state
-            if($oDocument->hasUploadedFiles()) {
-                $args->upload_target_srl = $oDocument->document_srl;
-                $args->isvalid = 'N';
-                executeQuery('file.updateFileValid', $args);
-            }
-
-            $this->setMessage('success_saved');
-            $this->add('document_srl', $obj->document_srl);
+			return new Object(0, 'Deplicated method');
         }
 
         /**
