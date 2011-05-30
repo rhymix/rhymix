@@ -151,9 +151,18 @@ Her yeni biçime ayırdedici bir sürüm numarası verilmektedir. Eğer Kitaplı
 		     ŞART VE KAYITLARIN SONU 
 
 EndOfLicense;
-
+	$lang->lgpl_agree = 'GNU 약소 일반 공중 사용 허가서(LGPL v2) 동의';
+	$lang->enviroment_gather = '설치 환경 수집 동의';
+	$lang->install_progress_menu = array(
+			'agree'=>'라이선스 동의',
+			'condition'=>'설치 조건 확인',
+			'ftp'=>'FTP 정보 입력',
+			'dbSelect'=>'DB 선택',
+			'dbInfo'=>'DB 정보 입력',
+			'configInfo'=>'환경 설정',
+			'adminInfo'=>'관리자 정보 입력'
+		);
     $lang->install_condition_title = "Lütfen kurulum gereksinimlerini kontrol ediniz.";
-
     $lang->install_checklist_title = array(
 			'php_version' => 'PHP Sürümü',
             'permission' => 'Yetki',
@@ -232,6 +241,7 @@ EndOfLicense;
     $lang->msg_install_completed = "Kurulum tamamlandı.\nXE\'yi seçtiğiniz için teşekkür ederiz";
     $lang->msg_install_failed = "Kurulum dosyası oluşturulurken bir hata oluştu.";
     $lang->ftp_get_list = "Liste Al";
+	$lang->msg_license_agreement = 'GNU 약소 일반 공중 사용 허가서(LGPL v2) 동의';
 	$lang->msg_read_all = '전문 읽기';
 	$lang->msg_license_agreement_desc = 'XE를 사용하려면 \'GNU 약소 일반 공중 사용 허가서(LGPL v2)\'에 <em>반드시 동의해야 합니다</em>.';
 	$lang->msg_license_agreement_alert = 'XE를 사용하려면 \'GNU 약소 일반 공중 사용 허가서(LGPL v2)\'에 반드시 동의해야 합니다.';

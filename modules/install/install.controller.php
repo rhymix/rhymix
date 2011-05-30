@@ -23,6 +23,26 @@
         }
 
 		/**
+		 * @brief LGPL, Enviroment gathering agreement
+		 **/
+		function procInstallAgreement()
+		{
+			$requestVars = Context::gets('lgpl_agree', 'enviroment_gather');
+
+			/*$buff = '<?php if(!defined("__ZBXE__")) exit();'."\n";
+			$buff .= sprintf("\$agreement->%s = '%s';\n", 'lgpl_agree', $requestVars->lgpl_agree);
+			$buff .= sprintf("\$agreement->%s = '%s';\n", 'enviroment_gather', $requestVars->enviroment_gather);
+			$buff .= "?>";
+
+			$this->db_tmp_config_file = _XE_PATH_.'files/config/tmpDB.config.php';
+            FileHandler::writeFile(_XE_PATH_.'files/config/agreement', $buff);*/
+			$_SESSION['lgpl_agree'] = $requestVars->lgpl_agree;
+			$_SESSION['enviroment_gather'] = $requestVars->enviroment_gather;
+
+			return new Object(0, 'success');
+		}
+
+		/**
 		 * @brief division install step... DB Config temp file create
 		 **/
 		function procDBSetting() {

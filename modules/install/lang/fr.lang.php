@@ -155,9 +155,18 @@ Each version is given a distinguishing version number.  If the Library specifies
 		     END OF TERMS AND CONDITIONS 
 
 EndOfLicense;
-
+	$lang->lgpl_agree = 'GNU 약소 일반 공중 사용 허가서(LGPL v2) 동의';
+	$lang->enviroment_gather = '설치 환경 수집 동의';
+	$lang->install_progress_menu = array(
+			'agree'=>'라이선스 동의',
+			'condition'=>'설치 조건 확인',
+			'ftp'=>'FTP 정보 입력',
+			'dbSelect'=>'DB 선택',
+			'dbInfo'=>'DB 정보 입력',
+			'configInfo'=>'환경 설정',
+			'adminInfo'=>'관리자 정보 입력'
+		);
     $lang->install_condition_title = "Vérifiez  les conditions obligatoires pour l'installation, S.V.P.";
-
     $lang->install_checklist_title = array(
 			'php_version' => 'Version de PHP',
             'permission' => 'Autorisation',
@@ -236,6 +245,7 @@ EndOfLicense;
     $lang->msg_install_completed = "Installation a complété.\nMerci pour choisir XE";
     $lang->msg_install_failed = "Une erreur a lieu en créant le fichier d\'installation.";
     $lang->ftp_get_list = "Get List";
+	$lang->msg_license_agreement = 'GNU 약소 일반 공중 사용 허가서(LGPL v2) 동의';
 	$lang->msg_read_all = '전문 읽기';
 	$lang->msg_license_agreement_desc = 'XE를 사용하려면 \'GNU 약소 일반 공중 사용 허가서(LGPL v2)\'에 <em>반드시 동의해야 합니다</em>.';
 	$lang->msg_license_agreement_alert = 'XE를 사용하려면 \'GNU 약소 일반 공중 사용 허가서(LGPL v2)\'에 반드시 동의해야 합니다.';

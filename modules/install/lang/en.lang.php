@@ -157,6 +157,8 @@ Each version is given a distinguishing version number.  If the Library specifies
 		     END OF TERMS AND CONDITIONS
 
 EndOfLicense;
+	$lang->lgpl_agree = 'GNU 약소 일반 공중 사용 허가서(LGPL v2) 동의';
+	$lang->enviroment_gather = '설치 환경 수집 동의';
 	$lang->install_progress_menu = array(
 			'agree'=>'Acceptance of terms',
 			'condition'=>'Check the installation conditions',

@@ -120,7 +120,7 @@ class Context {
 		$this->loadLang(_XE_PATH_.'modules/module/lang');
 
 		// set session handler
-		if($this->db_info->use_db_session != 'N') {
+		if(Context::isInstalled() && $this->db_info->use_db_session != 'N') {
 			$oSessionModel = &getModel('session');
 			$oSessionController = &getController('session');
 			session_set_save_handler(

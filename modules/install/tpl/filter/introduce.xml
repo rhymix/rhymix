@@ -1,0 +1,10 @@
+<filter name="introduce" module="install" act="procInstallAgreement">
+    <form>
+        <node target="lgpl_agree" required="true" />
+        <node target="enviroment_gather" required="false" />
+    </form>
+    <response callback_func="completeAgreement">
+        <tag name="error" />
+        <tag name="message" />
+    </response>
+</filter>
