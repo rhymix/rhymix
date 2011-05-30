@@ -3,8 +3,13 @@
  */
 function completeAgreement(ret_obj)
 {
-	var url = current_url.setQuery('act', 'dispInstallCheckEnv');
-	location.href = url;
+    if(ret_obj['error'] != 0) {
+        alert(ret_obj['message']);
+        return;
+    } else {
+		var url = current_url.setQuery('act', 'dispInstallCheckEnv');
+		location.href = url;
+	}
 }
 
 function completeDBSetting(ret_obj) {
