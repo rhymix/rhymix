@@ -216,9 +216,7 @@ EndOfLicense;
     $lang->db_database = '数据库名';
     $lang->db_database_file = '数据库文件';
     $lang->db_table_prefix = '前缀';
-
     $lang->admin_title = '管理员信息';
-
     $lang->env_title = '环境设置';
     $lang->use_optimizer = '使用Optimizer';
     $lang->about_optimizer = '使用Optimizer可以对大部分的CSS/ JS文件进行整合/压缩传送使之加快网站访问速度。<br />只是有时会发生小小的问题。这时候请暂时不要使用Optimizer。';
@@ -230,17 +228,18 @@ EndOfLicense;
     $lang->about_time_zone = '服务器时间和您所处的时间有差异时，可以设置时区来满足你所需要的时间显示。';
     $lang->qmail_compatibility = 'Qmail互换';
     $lang->about_qmail_compatibility = '支持不能识别CRLF为换行符的Qmail等MTA，也能发送电子邮件。';
-
     $lang->about_database_file = 'Sqlite是文件里保存数据。数据库的文件位置应该放在web不能访问的地方。<br/><span style="color:red">数据文件应放在具有707属性的位置。</span>';
-
     $lang->success_installed = '已完成安装。';
-
     $lang->msg_cannot_proc = '不具备安装所需环境，不能继续进行。';
     $lang->msg_already_installed = '已安装';
     $lang->msg_dbconnect_failed = "连接DB时发生错误。\n请重新确认DB信息。";
     $lang->msg_table_is_exists = "已生成数据表。\n重新生成了config文件。";
     $lang->msg_install_completed = "安装完成。\n非常感谢。";
     $lang->msg_install_failed = "生成安装文件时发生错误。";
-
     $lang->ftp_get_list = '载入FTP列表';
+	$lang->msg_read_all = '전문 읽기';
+	$lang->msg_license_agreement_desc = 'XE를 사용하려면 \'GNU 약소 일반 공중 사용 허가서(LGPL v2)\'에 <em>반드시 동의해야 합니다</em>.';
+	$lang->msg_license_agreement_alert = 'XE를 사용하려면 \'GNU 약소 일반 공중 사용 허가서(LGPL v2)\'에 반드시 동의해야 합니다.';
+	$lang->msg_intall_env_agreement = '설치 환경 수집 동의';
+	$lang->msg_intall_env_agreement_desc = '설치 환경 수집에 동의하는 경우 사용자의 XE 설치 환경과 관련되어 있는 \'<em>OS, DBMS, #, #</em>\' 정보가 XE 통계 수집 서버로 전송됩니다. 수집된 정보는 더 나은 SW를 제작하기 위한 통계 수집 이외의 목적으로 활용하지 않습니다. XE는 사용자의 설치 환경 정보를 외부에 공개하지 않습니다. <em>이 항목에 반드시 동의하지 않아도 됩니다.</em>';
 ?>

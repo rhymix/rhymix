@@ -91,7 +91,6 @@ html{height:100%;background:url(../img/bgHtml.gif) repeat-x 0 0}
 .item{position:relative}
 .iLabel{display:block;position:static;top:4px;left:5px;color:#eee}
 .iText{position:relative;padding:3px 4px;border:1px solid #444;border-right-color:#555;border-bottom-color:#555;background:transparent;color:#fff}
-.agreement{padding:0;margin:0 20px 20px 20px;overflow:auto;height:300px;font-family:Tahoma, Geneva, sans-serif;color:#fff}
 .form{padding:0;margin:0 20px 20px 20px;list-style:none}
 .form li{margin:0 0 10px 0}
 .form.formFtp label,
@@ -107,4 +106,8 @@ html{height:100%;background:url(../img/bgHtml.gif) repeat-x 0 0}
 .desc{padding:10px 20px;margin:0 20px 20px 20px;background:#555;color:#eee}
 .desc ul{margin:0 0 0 20px;padding:0}
 .desc strong{color:#F60}
-
+.agreement{color:#eee}
+.agreement label{font-weight:bold;vertical-align:middle;cursor:pointer}
+.agreement a{color:#6CF;text-decoration:underline;vertical-align:middle}
+.agreement em{color:#f60}
+.agreement p{line-height:1.5}

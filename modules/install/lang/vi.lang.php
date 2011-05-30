@@ -229,17 +229,18 @@ EndOfLicense;
     $lang->about_time_zone = "Nếu thời gian của khu vực bạn không tự động cập nhật. Bạn có thể chọn thời gian để hiển thị cho Website.";
     $lang->qmail_compatibility = 'Mở Qmail';
     $lang->about_qmail_compatibility = 'Nó sẽ cho phép gửi thư từ MTA mà không phân biệt CRLF.';
-
     $lang->about_database_file = 'Sqlite lưu trữ dữ liệu trong một File, vì vậy cần tới sự truy cập đến nó trong Database. <br/><span style="color:red">Hãy CHMOD thành 707.</span>';
-
     $lang->success_installed = 'Chúc mừng bạn đã cài đặt XE thành công!';
-
     $lang->msg_cannot_proc = 'Môi trường cài đặt không thích hợp.';
     $lang->msg_already_installed = 'Một phiên bản nào đó của XE đã được cài đặt từ trước.<br />Xin hãy kiểm tra lại!';
     $lang->msg_dbconnect_failed = "Đã có lỗi xảy ra khi kết nối tới Database.\nXin vui lòng kiểm tra lại thông tin!";
     $lang->msg_table_is_exists = "Table đã có sẵn trên Database.\nFile Config đã đuwọc thiết lập lại.";
     $lang->msg_install_completed = "Đã cài đặt XE thành công!.\nXin cảm ơn đã sử dụng XE!";
     $lang->msg_install_failed = "Đã có lỗi xảy ra khi tạo File cài đặt.";
-
     $lang->ftp_get_list = "Nhận danh sách";
+	$lang->msg_read_all = '전문 읽기';
+	$lang->msg_license_agreement_desc = 'XE를 사용하려면 \'GNU 약소 일반 공중 사용 허가서(LGPL v2)\'에 <em>반드시 동의해야 합니다</em>.';
+	$lang->msg_license_agreement_alert = 'XE를 사용하려면 \'GNU 약소 일반 공중 사용 허가서(LGPL v2)\'에 반드시 동의해야 합니다.';
+	$lang->msg_intall_env_agreement = '설치 환경 수집 동의';
+	$lang->msg_intall_env_agreement_desc = '설치 환경 수집에 동의하는 경우 사용자의 XE 설치 환경과 관련되어 있는 \'<em>OS, DBMS, #, #</em>\' 정보가 XE 통계 수집 서버로 전송됩니다. 수집된 정보는 더 나은 SW를 제작하기 위한 통계 수집 이외의 목적으로 활용하지 않습니다. XE는 사용자의 설치 환경 정보를 외부에 공개하지 않습니다. <em>이 항목에 반드시 동의하지 않아도 됩니다.</em>';
 ?>

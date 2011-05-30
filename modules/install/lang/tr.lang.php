@@ -223,17 +223,18 @@ EndOfLicense;
     $lang->about_time_zone = "Eğer sunucu zaman dilimi ve bulunduğunuz yerin zaman dilimi uyumlu değilse; zaman dilimi özelliğini kullanarak zamanı bulunduğunuz yere göre ayarlayabilirsiniz ";
     $lang->qmail_compatibility = 'Qmail\'i Etkinleştir';
     $lang->about_qmail_compatibility = 'Bu size QMail gibi CRLF\'den ayırt edilemeyen MTA\'dan mail gönderme imkanı sağlayacaktır.';
-
     $lang->about_database_file = 'Sqlite veriyi dosyaya kaydeder. Veritabanı dosyası tarayıcıyla erişilebilir olmamalıdır.<br/><span style="color:red">Veri dosyası 707 yetki kapsamı içinde olmalıdır.</span>';
-
     $lang->success_installed = 'Kurulum tamamlandı';
-
     $lang->msg_cannot_proc = 'Kurulum ortamı devam etmek için uygun değil.';
     $lang->msg_already_installed = 'XE zaten kurulmuştur';
     $lang->msg_dbconnect_failed = "VT\'ye ulaşırken bir hata oluştu.\nLütfen VT bilgisini tekrar kontrol ediniz";
     $lang->msg_table_is_exists = "Tablo zaten VT\'da oluşturuldu.\nYapılandırma dosyası yeniden oluşturuldu";
     $lang->msg_install_completed = "Kurulum tamamlandı.\nXE\'yi seçtiğiniz için teşekkür ederiz";
     $lang->msg_install_failed = "Kurulum dosyası oluşturulurken bir hata oluştu.";
-
     $lang->ftp_get_list = "Liste Al";
+	$lang->msg_read_all = '전문 읽기';
+	$lang->msg_license_agreement_desc = 'XE를 사용하려면 \'GNU 약소 일반 공중 사용 허가서(LGPL v2)\'에 <em>반드시 동의해야 합니다</em>.';
+	$lang->msg_license_agreement_alert = 'XE를 사용하려면 \'GNU 약소 일반 공중 사용 허가서(LGPL v2)\'에 반드시 동의해야 합니다.';
+	$lang->msg_intall_env_agreement = '설치 환경 수집 동의';
+	$lang->msg_intall_env_agreement_desc = '설치 환경 수집에 동의하는 경우 사용자의 XE 설치 환경과 관련되어 있는 \'<em>OS, DBMS, #, #</em>\' 정보가 XE 통계 수집 서버로 전송됩니다. 수집된 정보는 더 나은 SW를 제작하기 위한 통계 수집 이외의 목적으로 활용하지 않습니다. XE는 사용자의 설치 환경 정보를 외부에 공개하지 않습니다. <em>이 항목에 반드시 동의하지 않아도 됩니다.</em>';
 ?>

@@ -228,17 +228,13 @@ EndOfLicense;
     $lang->about_time_zone = 'サーバの設定時間とサービスしているローカル時間との差がある場合、タイムゾーンを指定して表示時間を合わせることが出来ます。';
     $lang->qmail_compatibility = 'Qmail 互換';
     $lang->about_qmail_compatibility = 'Qmail等、CRLFを改行コードとして認識出来ないMTA（Message Transfer Agent）で、メールの送信が出来るようにします。';
-
     $lang->about_database_file = 'Sqliteはファイルにデータを保存します。そのため、データベースファイルにはウェブからアクセス出来ない場所にしなければなりません。<br/><span style="color:red">データファイルのパーミッションは「707」に設定して下さい。</span>';
-
     $lang->success_installed = '正常にインストールされました。';
-
     $lang->msg_cannot_proc = 'インストール出来る環境が整っていないため、リクエストを実行出来ませんでした。';
     $lang->msg_already_installed = '既にインストールされています。';
     $lang->msg_dbconnect_failed = "データベースアクセスにエラーが発生しました。\nデータベースの情報をもう一度確認して下さい。";
     $lang->msg_table_is_exists = "既にデータベースにデーブルが作成されています。\nconfigファイルを再作成しました。";
     $lang->msg_install_completed = "インストールが完了しました。\nありがとうございます。";
     $lang->msg_install_failed = 'インストールファイルを作成する際にエラーが発生しました。';
-
     $lang->ftp_get_list = "Get List";
 ?>

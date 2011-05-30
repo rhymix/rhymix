@@ -3,21 +3,30 @@
 <!--#include("progress_menu.html")-->
 		<span class="dummy"></span>
 		<div id="content">
-			<div class="agreement">{str_replace("\n", '<p/>', $lang->license)}</div>
-			<div class="btnArea">
-				<div class="fLeft">
-					<div class="select open" style="width:160px;">
-						<span class="ctrl"><span class="arrow"></span></span>
-						<button type="button" class="myValue selected">{$lang_supported[Context::getLangType()]}</button>
-						<ul class="aList" style="bottom:20px;top:auto">
-							<li loop="$lang_supported=>$key,$val"><a href="{getUrl('l', $key)}">{$val}</a></li>
-						</ul>
+			<form class="agreement" action="{getUrl('', 'act', 'dispInstallCheckEnv')}">
+				<div class="desc">
+					<p><input type="checkbox" class="iCheck" id="lgpl" /> <label for="lgpl">{$lang->msg_license_agreement}</label> - <a href="http://www.gnu.org/licenses/lgpl-2.1.html" target="_blank">{$lang->read_all}</a></p>
+					<p>{$lang->msg_license_agreement_desc}</p>
+				</div>
+				<div class="desc">
+					<p><input type="checkbox" class="iCheck" id="env" /> <label for="env">{$lang->msg_intall_env_agreement}</label></p>
+					<p>{$lang->msg_intall_env_agreement_desc}</p>
+				</div>
+				<div class="btnArea">
+					<div class="fLeft">
+						<div class="select open" style="width:160px;">
+							<span class="ctrl"><span class="arrow"></span></span>
+							<button type="button" class="myValue selected">{$lang_supported[Context::getLangType()]}</button>
+							<ul class="aList" style="bottom:20px;top:auto">
+								<li loop="$lang_supported=>$key,$val"><a href="{getUrl('l', $key)}">{$val}</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="fRight">
+						<span class="btn icon"><span class="check"></span> <input type="submit" value="{$lang->cmd_agree_license}" /></span>
 					</div>
 				</div>
-				<div class="fRight">
-					<span class="btn icon"><span class="check"></span> <a href="{getUrl('', 'act', 'dispInstallCheckEnv')}">{$lang->cmd_agree_license}</a></span>
-				</div>
-			</div>
+			</form>
 		</div>
 	</div>
 

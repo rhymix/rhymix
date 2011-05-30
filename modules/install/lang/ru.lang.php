@@ -227,17 +227,18 @@ EndOfLicense;
     $lang->about_time_zone = "Если серверное время и Ваше локальное время не совпадают, Вы можете установить такое же время, как Ваше локальное, используя часовой пояс";
     $lang->qmail_compatibility = 'Qmail 호환';
     $lang->about_qmail_compatibility = 'Qmail등 CRLF를 줄 구분자로 인식하지 못하는 MTA에서 메일이 발송되도록 합니다.';
-
     $lang->about_database_file = 'Sqlite сохраняет данные в файл. Размещение базы данных должно быть недоступно с веб<br/><span style="color:red">Файл базы данных должен иметь права доступа 707.</span>';
-
     $lang->success_installed = 'Установка завершена';
-
     $lang->msg_cannot_proc = 'Невозможно исполнить запрос, поскольку окружение установки не указано';
     $lang->msg_already_installed = 'XE уже установлена';
     $lang->msg_dbconnect_failed = "Произошла ошибка подключения к базе данных.\nПожалуйста, проверьте иформацию базы данных еще раз";
     $lang->msg_table_is_exists = "Таблица существует в базе данных.\nФайл конфигурации создан заново";
     $lang->msg_install_completed = "Установка завершена.\nСпасибо Вам за выбор XE";
     $lang->msg_install_failed = "Произошла ошибка при создании файла конфигурации.";
-
     $lang->ftp_get_list = 'Get List';
+	$lang->msg_read_all = '전문 읽기';
+	$lang->msg_license_agreement_desc = 'XE를 사용하려면 \'GNU 약소 일반 공중 사용 허가서(LGPL v2)\'에 <em>반드시 동의해야 합니다</em>.';
+	$lang->msg_license_agreement_alert = 'XE를 사용하려면 \'GNU 약소 일반 공중 사용 허가서(LGPL v2)\'에 반드시 동의해야 합니다.';
+	$lang->msg_intall_env_agreement = '설치 환경 수집 동의';
+	$lang->msg_intall_env_agreement_desc = '설치 환경 수집에 동의하는 경우 사용자의 XE 설치 환경과 관련되어 있는 \'<em>OS, DBMS, #, #</em>\' 정보가 XE 통계 수집 서버로 전송됩니다. 수집된 정보는 더 나은 SW를 제작하기 위한 통계 수집 이외의 목적으로 활용하지 않습니다. XE는 사용자의 설치 환경 정보를 외부에 공개하지 않습니다. <em>이 항목에 반드시 동의하지 않아도 됩니다.</em>';
 ?>
