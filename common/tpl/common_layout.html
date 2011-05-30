@@ -2,7 +2,7 @@
 <!--@if($db_info->use_html5=='Y')-->
 <!DOCTYPE html>
 <!--@else-->
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" cond="$use_html5!='Y'">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <!--@end-->
 <html lang="{Context::getLangType()}" xml:lang="{Context::getLangType()}" xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -26,24 +26,26 @@
     <title>{Context::getBrowserTitle()}</title>
 {@ $css_files = Context::getCssFile() }
 <!--@foreach($css_files as $key => $css_file)-->
-<!--@if($css_file['targetie'])-->
-    <!--[if {$css_file['targetie']}]>
-<!--@end-->
-    <link rel="stylesheet" href="{$css_file['file']}?{__ZBXE_VERSION__}" type="text/css" charset="UTF-8" media="{$css_file['media']}" />
-<!--@if($css_file['targetie'])-->
-    <![endif]-->
-<!--@end-->
+	<!--@if($css_file['targetie'])-->
+		<!--[if {$css_file['targetie']}]>
+	<!--@end-->
+		<link rel="stylesheet" href="{$css_file['file']}?{__ZBXE_VERSION__}" type="text/css" charset="UTF-8" media="{$css_file['media']}" />
+	<!--@if($css_file['targetie'])-->
+		<![endif]-->
+	<!--@end-->
 <!--@end-->
 {@ $js_files = Context::getJsFile() }
 <!--@foreach($js_files as $key => $js_file)-->
-<!--@if($js_file['targetie'])-->
-    <!--[if {$js_file['targetie']}]>
+	<!--@if($js_file['targetie'])-->
+		<!--[if {$js_file['targetie']}]>
+	<!--@end-->
+		<script type="text/javascript" src="{$js_file['file']}?{__ZBXE_VERSION__}"></script>
+	<!--@if($js_file['targetie'])-->
+		<![endif]-->
+	<!--@end-->
 <!--@end-->
-    <script type="text/javascript" src="{$js_file['file']}?{__ZBXE_VERSION__}"></script>
-<!--@if($js_file['targetie'])-->
-    <![endif]-->
-<!--@end-->
-<!--@end-->
+<script type="text/javascript" src="../js/html5.js" cond="$db_info->use_html5=='Y'"></script>
+
 <!--@if($rss_url)-->
     <link rel="alternate" type="application/rss+xml" title="RSS" href="{$rss_url}" />
     <link rel="alternate" type="application/atom+xml" title="Atom" href="{$atom_url}" />

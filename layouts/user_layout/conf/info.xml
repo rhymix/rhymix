@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout version="0.2">
+    <title xml:lang="ko">사용자 정의 레이아웃</title>
+    <title xml:lang="en">User defined layout</title>
+    <title xml:lang="jp">ユーザー定義のレイアウト</title>
+    <description xml:lang="ko">사용자 정의 레이아웃에 관한 설명 입니다.</description>
+    <description xml:lang="en">Description for user defined layout.</description>
+    <description xml:lang="jp">ユーザー定義のレイアウトについての説明です。</description>
+    <version>1.0</version>
+    <date>2010-12-24</date>
+    <author email_address="user@user.com" link="http://user-define.com/">
+        <name xml:lang="ko">User Name</name>
+    </author>
+    <menus>
+        <menu name="main_menu" maxdepth="2" default="true">
+            <title xml:lang="ko">메뉴</title>
+        </menu>
+    </menus>
+</layout>

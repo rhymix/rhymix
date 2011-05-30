@@ -222,7 +222,7 @@ EndOfLicense;
     $lang->about_optimizer = 'Optimizer를 사용하면 다수의 CSS/JS파일을 통합/압축 전송하여 매우 빠르게 사이트 접속이 가능하게 합니다.<br />다만 CSS나 JS에 따라서 문제가 생길 수 있습니다. 이때는 Optimizer 비활성화 하시면 정상적인 동작은 가능합니다.';
     $lang->use_rewrite = '짧은 주소 사용';
     $lang->use_sso = 'SSO 사용';
-    $lang->about_rewrite = '<p>이 기능을 사용하면 <em>http://yourdomain/<strong>?document_srl=123</strong></em> 과 같이 복잡한 주소를 <em>http://yourdomain/<strong>123</strong></em> 과 같이 간단하게 줄일 수 있습니다. 이 기능을 사용하려면 웹 서버에서 rewrite_mod를 지원해야 합니다. 웹 서버에서 rewrite_mod를 지원하는지 여부는 서버 관리자에게 문의하세요.</p>';
+    $lang->about_rewrite = '이 기능을 사용하면 <em>http://yourdomain/<strong>?document_srl=123</strong></em> 과 같이 복잡한 주소를 <em>http://yourdomain/<strong>123</strong></em> 과 같이 간단하게 줄일 수 있습니다. 이 기능을 사용하려면 웹 서버에서 rewrite_mod를 지원해야 합니다. 웹 서버에서 rewrite_mod를 지원하는지 여부는 서버 관리자에게 문의하세요.';
     $lang->time_zone = '표준 시간대';
     $lang->about_time_zone = '서버의 설정시간과 사용하려는 장소의 시간이 차이가 날 경우 표준 시간대를 지정하면 표시되는 시간을 지정된 곳의 시간으로 사용하실 수 있습니다.';
     $lang->qmail_compatibility = 'Qmail 호환';
