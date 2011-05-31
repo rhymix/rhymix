@@ -174,6 +174,7 @@ EndOfLicense;
             'iconv' => 'ICONV 라이브러리',
             'gd' => 'GD 라이브러리',
             'session' => 'Session.auto_start 설정',
+            'db' => 'DB',
         );
     $lang->install_checklist_desc = array(
             'php_version' => '[필수] PHP버전이 5.2.2일 경우 PHP의 버그로 인하여 설치되지 않습니다.',

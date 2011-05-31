@@ -179,6 +179,7 @@ EndOfLicense;
             'iconv' => 'ICONV库',
             'gd' => 'GD库',
             'session' => 'Session.auto_start 设置',
+            'db' => 'DB',
         );
 
     $lang->install_checklist_desc = array(

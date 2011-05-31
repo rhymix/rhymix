@@ -90,6 +90,48 @@
         }
 
         /**
+         * @brief returns list of enable in supported db
+         * @return list of enable in supported db
+         **/
+		function getEnableList()
+		{
+			if(!$this->supported_list)
+			{
+				$oDB = new DB();
+				$this->supported_list = $oDB->_getSupportedList();
+			}
+
+			$enableList = array();
+			if(is_array($this->supported_list))
+			{
+				foreach($this->supported_list AS $key=>$value)
+					if($value->enable) array_push($enableList, $value);
+			}
+			return $enableList;
+		}
+
+        /**
+         * @brief returns list of disable in supported db
+         * @return list of disable in supported db
+         **/
+		function getDisableList()
+		{
+			if(!$this->supported_list)
+			{
+				$oDB = new DB();
+				$this->supported_list = $oDB->_getSupportedList();
+			}
+
+			$disableList = array();
+			if(is_array($this->supported_list))
+			{
+				foreach($this->supported_list AS $key=>$value)
+					if(!$value->enable) array_push($disableList, $value);
+			}
+			return $disableList;
+		}
+
+        /**
          * @brief returns list of supported db
          * @return list of supported db
          **/

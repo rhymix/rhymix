@@ -230,12 +230,17 @@
             // 5. Check gd(imagecreatefromgif function)
             if(function_exists('imagecreatefromgif')) $checklist['gd'] = true;
             else $checklist['gd'] = false;
+			// 6. Check DB
+			if(DB::getEnableList()) $checklist['db'] = true;
+			else $checklist['db'] = false;
 
-            if(!$checklist['php_version'] || !$checklist['permission'] || !$checklist['xml'] || !$checklist['session']) $install_enable = false;
+            if(!$checklist['php_version'] || !$checklist['permission'] || !$checklist['xml'] || !$checklist['session'] || !$checklist['db']) $install_enable = false;
             else $install_enable = true;
+
             // Save the checked result to the Context
             Context::set('checklist', $checklist);
             Context::set('install_enable', $install_enable);
+            Context::set('phpversion', phpversion());
 
             return $install_enable;
         }

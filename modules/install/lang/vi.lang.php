@@ -177,6 +177,7 @@ EndOfLicense;
             'iconv' => 'ICONV Library',
             'gd' => 'GD Library',
             'session' => 'Thiết lập Session.auto_start',
+            'db' => 'DB',
         );
 
     $lang->install_checklist_desc = array(

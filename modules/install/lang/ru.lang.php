@@ -174,6 +174,7 @@ EndOfLicense;
             'iconv' => 'ICONV библиотека',
             'gd' => 'GD библиотека',
             'session' => 'Session.auto_start настройка',
+            'db' => 'DB',
         );
 
     $lang->install_checklist_desc = array(

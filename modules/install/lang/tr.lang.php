@@ -170,6 +170,7 @@ EndOfLicense;
             'iconv' => 'ICONV Kitaplığı',
             'gd' => 'GD Kitaplığı',
             'session' => 'Session.auto_start(otomatik.oturum_acma) ayarı',
+            'db' => 'DB',
         );
 
     $lang->install_checklist_desc = array(
