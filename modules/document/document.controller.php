@@ -342,6 +342,9 @@ class documentController extends document {
 		}
 		// Remove iframe and script if not a top adminisrator in the session.
 		if($logged_info->is_admin != 'Y') $obj->content = removeHackTag($obj->content);
+		// if temporary document, regdate is now setting
+		if($source_obj->get('status') == 'TEMP') $obj->regdate = date('YmdHis');
+
 		// Insert data into the DB
 		$output = executeQuery('document.updateDocument', $obj);
 		if(!$output->toBool()) {
