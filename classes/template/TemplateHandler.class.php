@@ -358,11 +358,11 @@
 				$pre_pos = strrpos($pre, '<');
 
 				$isClosedTagUse = true;
-				preg_match('/<(\/|[a-z])/i',$next,$m);
+				preg_match('/<(\/|[!DOCTYPE]|[a-z])/i',$next,$m);
 				// if not use closed tag, find simple closed tag
 				if(!$m[0]) {
 					$isClosedTagUse = false;
-					preg_match('/\/>/',$next,$m);
+					preg_match('/[^->]\/?>/',$next,$m);
 				}
 				if(!$m[0]) return $buff;
 				if($isClosedTagUse) $next_pos = strpos($next, $m[0]);
