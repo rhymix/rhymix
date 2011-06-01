@@ -68,55 +68,6 @@
 		function getSql(){
 			if($this->action == 'select') return $this->getSelectSql();
 		}
-		
-		function getSelectSql(){
-			$query = '';
-			
-			$select = 'SELECT ';
-			foreach($this->columns as $column){
-				if($column->show())
-					$select .= $column->getExpression() . ', ';
-			}
-			$select = substr($select, 0, -2);
-			
-			$from = 'FROM ';
-			$simple_table_count = 0;
-			foreach($this->tables as $table){
-				if($table->isJoinTable() || !$simple_table_count) $from .= $table->toString() . ' ';
-				else $from .= ', '.$table->toString() . ' ';
-				$simple_table_count++;
-			}
-			
-			$where = '';
-			if(count($this->conditions) > 0){
-				$where = 'WHERE ';
-				foreach($this->conditions as $conditionGroup){
-					$where .= $conditionGroup->toString();
-				}
-			}
-			
-			$groupBy = '';
-			if($this->groups) if($this->groups[0] !== "")
-				$groupBy = 'GROUP BY ' . implode(', ', $this->groups);
-			
-			$orderBy = '';
-			if(count($this->orderby) > 0){
-				$orderBy = 'ORDER BY ';
-				foreach($this->orderby as $order){
-					$orderBy .= $order->toString() .', ';
-				}
-				$orderBy = substr($orderBy, 0, -2);
-			}
-		 	$limit = '';
-			if(count($this->limit) > 0){
-				$limit = 'limit ';
-				$limit .= $this->limit->toString();
-			}
-
-			$query =  $select . ' ' . $from . ' ' . $where . ' ' . $groupBy . ' ' . $orderBy . ' ' . $limit;
-			return $query;
-									
-		}
 	}
 
 
