@@ -777,10 +777,10 @@
 			
 			$where = '';
 			if(count($output->conditions) > 0){
-				$where = 'WHERE ';
 				foreach($output->conditions as $conditionGroup){
 					$where .= $conditionGroup->toString();
 				}
+				if(trim($where) != '') $where = 'WHERE ' . $where;
 			}
 			
 			$groupBy = '';

@@ -27,6 +27,7 @@
 			if($condition->attrs->var || $isColumnName === false){
 				require_once(_XE_PATH_.'classes/xml/xmlquery/queryargument/QueryArgument.class.php');			
 				//$this->argument_name = $condition->attrs->var;
+				
 				$this->argument = new QueryArgument($condition);	
 				$this->argument_name = $this->argument->getArgumentName();			
 			}

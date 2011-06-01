@@ -22,6 +22,7 @@
 			$dbParser = XmlQueryParser::getDBParser();
 			$this->name = $dbParser->parseTableName($table->attrs->name);
 			$this->alias = $table->attrs->alias;
+			if(!$this->alias) $this->alias = $table->attrs->name; 
 			//if(!$this->alias) $this->alias = $alias;
 			
 			$this->join_type = $table->attrs->type;
