@@ -9,6 +9,7 @@
 		var $conditions;
 		var $groups;
 		var $orderby;
+		var $limit;
 		
 		
 		function setQueryId($queryID){
@@ -105,7 +106,7 @@
 			return $this->action;
 		}
 		
-		function getSelect(){		
+		function getSelectString(){		
 			$select = '';
 			foreach($this->columns as $column){
 				if($column->show())
@@ -116,7 +117,7 @@
 			return $select;
 		}
 		
-		function getFrom(){
+		function getFromString(){
 			$from = '';
 			$simple_table_count = 0;
 			foreach($this->tables as $table){
@@ -131,7 +132,7 @@
 			
 		}
 		
-		function getWhere(){
+		function getWhereString(){
 			$where = '';
 			if(count($this->conditions) > 0){
 				foreach($this->conditions as $conditionGroup){
@@ -143,14 +144,14 @@
 			return $where;
 		}
 		
-		function getGroupBy(){
+		function getGroupByString(){
 			$groupBy = '';
 			if($this->groups) if($this->groups[0] !== "")
 				$groupBy = implode(', ', $this->groups);
 			return $groupBy;									
 		}
 		
-		function getOrderBy(){
+		function getOrderByString(){
 			if(count($this->orderby) === 0) return '';
 			$orderBy = '';
 			foreach($this->orderby as $order){
@@ -161,6 +162,10 @@
 		}
 		
 		function getLimit(){
+			return $this->limit;
+		}
+		
+		function getLimitString(){
 			$limit = '';
 			if(count($this->limit) > 0){
 				$limit = '';

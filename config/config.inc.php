@@ -51,7 +51,7 @@
      * 2: output execute time, Request/Response info
      * 4: output DB query history
      **/
-    if(!defined('__DEBUG__')) define('__DEBUG__', 0);
+    if(!defined('__DEBUG__')) define('__DEBUG__', 4);
 
     /**
      * @brief output location of debug message
@@ -82,14 +82,14 @@
      * = 0: leave a log when the slow query takes over specified seconds
      * Log file is saved as ./files/_db_slow_query.php file
      **/
-    if(!defined('__LOG_SLOW_QUERY__')) define('__LOG_SLOW_QUERY__', 0);
+    if(!defined('__LOG_SLOW_QUERY__')) define('__LOG_SLOW_QUERY__', 1);
 
     /**
      * @brief Leave DB query information
      * 0: Do not add information to the query
      * 1: Comment the XML Query ID 
      **/
-    if(!defined('__DEBUG_QUERY__')) define('__DEBUG_QUERY__', 0);
+    if(!defined('__DEBUG_QUERY__')) define('__DEBUG_QUERY__', 1);
 
     /**
      * @brief option to enable/disable a compression feature using ob_gzhandler

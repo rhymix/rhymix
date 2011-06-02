@@ -665,24 +665,24 @@
 
 		
 		function getSelectSql($query){	
-			$select = $query->getSelect();
+			$select = $query->getSelectString();
 			if($select == '') return new Object(-1, "Invalid query");
 			$select = 'SELECT ' .$select;
 			
-			$from = $query->getFrom();
+			$from = $query->getFromString();
 			if($from == '') return new Object(-1, "Invalid query");
 			$from = ' FROM '.$from;
 			
-			$where = $query->getWhere();
+			$where = $query->getWhereString();
 			if($where != '') $where = ' WHERE ' . $where;
 							
-			$groupBy = $query->getGroupBy();
+			$groupBy = $query->getGroupByString();
 			if($groupBy != '') $groupBy = ' GROUP BY ' . $groupBy;
 			
-			$orderBy = $query->getOrderBy();
+			$orderBy = $query->getOrderByString();
 			if($orderBy != '') $orderBy = ' ORDER BY ' . $orderBy;
 			
-		 	$limit = $query->getLimit();
+		 	$limit = $query->getLimitString();
 		 	if($limit != '') $limit = ' LIMIT ' . $limit;
 
 		 	return $select . ' ' . $from . ' ' . $where . ' ' . $groupBy . ' ' . $orderBy . ' ' . $limit;
@@ -713,9 +713,9 @@
 				}else	return;
 			}
 
-		 	if ($limit && $output->limit->isPageHandler()) {
-		 		$count_query = sprintf('select count(*) as "count" %s %s', $from, $where);
-				if (count($output->groups)) {
+		 	if ($queryObject->getLimit() && $queryObject->getLimit()->isPageHandler()) {
+		 		$count_query = sprintf('select count(*) as "count" %s %s', 'FROM ' . $queryObject->getFromString(), ($queryObject->getWhereString() === '' ? '' : ' WHERE '. $queryObject->getWhereString()));
+				if ($queryObject->getGroupByString() != '') {
 					$count_query = sprintf('select count(*) as "count" from (%s) xet', $count_query);
 				}
 
@@ -726,10 +726,10 @@
 		 		
 				// total pages
 				if ($total_count) {
-					$total_page = (int) (($total_count - 1) / $output->limit->list_count) + 1;
+					$total_page = (int) (($total_count - 1) / $queryObject->getLimit()->list_count) + 1;
 				}	else	$total_page = 1;
 		 		
-		 		$virtual_no = $total_count - ($output->limit->page - 1) * $output->limit->list_count;
+		 		$virtual_no = $total_count - ($queryObject->getLimit()->page - 1) * $queryObject->getLimit()->list_count;
 				while ($tmp = cubrid_fetch ($result, CUBRID_OBJECT)) {
 					if ($tmp) {
 						foreach ($tmp as $k => $v) {
@@ -742,9 +742,9 @@
 		 		$buff = new Object ();
 				$buff->total_count = $total_count;
 				$buff->total_page = $total_page;
-				$buff->page = $output->limit->page;
+				$buff->page = $queryObject->getLimit()->page;
 				$buff->data = $data;
-				$buff->page_navigation = new PageHandler ($total_count, $total_page, $output->limit->page, $output->limit->page_count);				
+				$buff->page_navigation = new PageHandler ($total_count, $total_page, $queryObject->getLimit()->page, $queryObject->getLimit()->page_count);				
 			}else{
 				$data = $this->_fetch ($result);
 				$buff = new Object ();
