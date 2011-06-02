@@ -102,6 +102,8 @@
 			//2011. 04. 07 adding description column to document categories
 			if(!$oDB->isColumnExists("document_categories","description")) return true;
 
+			// 2011.06.01 Bug fix: is_secret column had no update coede
+			if(!$oDB->isColumnExists("documents","is_secret")) return true;
             return false;
         }
 
@@ -237,6 +239,9 @@
 			//2011. 04. 07 adding description column to document categories
 			if(!$oDB->isColumnExists("document_categories","description")) $oDB->addColumn('document_categories',"description","varchar",200,0);
 
+			// 2011.06.01 Bug fix: Add is_secret column if it does not exist
+			if(!$oDB->isColumnExists("documents","is_secret")) $oDB->addColumn('documents',"is_secret","char",1,0);
+			
             return new Object(0,'success_updated');
 
         }
