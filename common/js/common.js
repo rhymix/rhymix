@@ -935,7 +935,8 @@ jQuery(function($){
 		if(!$target.length) return;
 
         // 객체의 className값을 구함
-		var match = $target.attr('class').match(new RegExp('(?:^| )((document|comment|member)_([1-9]\\d*))(?: |$)',''));
+		var cls = $target.attr('class'), match;
+		if(cls) match = cls.match(new RegExp('(?:^| )((document|comment|member)_([1-9]\\d*))(?: |$)',''));
 		if(!match) return;
 
 		var action = 'get'+ucfirst(match[2])+'Menu';

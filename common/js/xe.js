@@ -1,4 +1,9 @@
 /**
+ * @file   common/js/xe.min.js
+ * @author NHN (developers@xpressengine.com)
+ * @brief  XE Common JavaScript
+ **/
+/**
  * @file js_app.js
  * @author NHN (developers@xpressengine.com)
  * @brief XE JavaScript Application Framework (JAF)
@@ -850,7 +855,7 @@ function doDocumentSave(obj) {
 		else params[field.name] = field.value;
 	});
 
-	exec_xml('member','procMemberSaveDocument', params, completeDocumentSave, responses, params, obj.form);
+	exec_xml('document','procDocumentTempSave', params, completeDocumentSave, responses, params, obj.form);
 
     editorRelKeys[editor_sequence]['content'].value = prev_content;
     return false;
@@ -866,7 +871,7 @@ var objForSavedDoc = null;
 function doDocumentLoad(obj) {
     // 저장된 게시글 목록 불러오기
     objForSavedDoc = obj.form;
-    popopen(request_uri.setQuery('module','member').setQuery('act','dispSavedDocumentList'));
+    popopen(request_uri.setQuery('module','document').setQuery('act','dispTempSavedList'));
 }
 
 /* 저장된 게시글의 선택 */
@@ -1214,7 +1219,8 @@ jQuery(function($){
 		if(!$target.length) return;
 
         // 객체의 className값을 구함
-		var match = $target.attr('class').match(new RegExp('(?:^| )((document|comment|member)_([1-9]\\d*))(?: |$)',''));
+		var cls = $target.attr('class'), match;
+		if(cls) match = cls.match(new RegExp('(?:^| )((document|comment|member)_([1-9]\\d*))(?: |$)',''));
 		if(!match) return;
 
 		var action = 'get'+ucfirst(match[2])+'Menu';
