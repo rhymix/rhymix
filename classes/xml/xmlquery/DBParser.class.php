@@ -1,19 +1,23 @@
 <?php
 	class DBParser {
-		var $escape_char;
+		var $escape_char_left;
+		var $escape_char_right;
 		var $table_prefix;
 		
-		function DBParser($escape_char, $table_prefix = "xe_"){
-			$this->escape_char = $escape_char;
+		function DBParser($escape_char_left,  $escape_char_right = "", $table_prefix = "xe_"){
+			$this->escape_char_left = $escape_char_left;
+			if ($escape_char_right !== "")$this->escape_char_right = $escape_char_right;
+			else $this->escape_char_right = $escape_char_left;
 			$this->table_prefix = $table_prefix;
 		}
 		
-		function getEscapeChar(){
-			return $this->escape_char;
+		function getEscapeChar($leftOrRight){
+			if ($leftOrRight === 'left')return $this->escape_char_left;
+			else return $this->escape_char_right;
 		}
 		
 		function escape($name){
-			return $this->escape_char . $name . $this->escape_char;
+			return $this->escape_char_left . $name . $this->escape_char_right;
 		}		
 		
 		function escapeString($name){
