@@ -244,6 +244,7 @@ class documentController extends document {
 	function updateDocument($source_obj, $obj) {
 		if(!$source_obj->document_srl || !$obj->document_srl) return new Object(-1,'msg_invalied_request');
 		// Call a trigger (before)
+		if(!$obj->status) $obj->status = $source_obj->status;
 		$output = ModuleHandler::triggerCall('document.updateDocument', 'before', $obj);
 		if(!$output->toBool()) return $output;
 

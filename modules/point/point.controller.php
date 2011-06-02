@@ -61,28 +61,31 @@
          * @brief A trigger to add points to the member for creating a post
          **/
         function triggerInsertDocument(&$obj) {
-            $module_srl = $obj->module_srl;
-            $member_srl = $obj->member_srl;
-            if(!$module_srl || !$member_srl) return new Object();
-            // The fix to disable giving points for saving the document temporarily
-            if($module_srl == $member_srl) return new Object();
-            // Get the point module information
-            $oModuleModel = &getModel('module');
-            $config = $oModuleModel->getModuleConfig('point');
-            $module_config = $oModuleModel->getModulePartConfig('point',$module_srl);
-            // Get the points of the member
-            $oPointModel = &getModel('point');
-            $cur_point = $oPointModel->getPoint($member_srl, true);
+			if($obj->status != 'TEMP')
+			{
+				$module_srl = $obj->module_srl;
+				$member_srl = $obj->member_srl;
+				if(!$module_srl || !$member_srl) return new Object();
+				// The fix to disable giving points for saving the document temporarily
+				if($module_srl == $member_srl) return new Object();
+				// Get the point module information
+				$oModuleModel = &getModel('module');
+				$config = $oModuleModel->getModuleConfig('point');
+				$module_config = $oModuleModel->getModulePartConfig('point',$module_srl);
+				// Get the points of the member
+				$oPointModel = &getModel('point');
+				$cur_point = $oPointModel->getPoint($member_srl, true);
 
-            $point = $module_config['insert_document'];
-            if(!isset($point)) $point = $config->insert_document;
-            $cur_point += $point;
-            // Add points for attaching a file
-            $point = $module_config['upload_file'];
-            if(!isset($point)) $point = $config->upload_file;
-            if($obj->uploaded_count) $cur_point += $point * $obj->uploaded_count;
-            // Increase the point
-            $this->setPoint($member_srl,$cur_point);
+				$point = $module_config['insert_document'];
+				if(!isset($point)) $point = $config->insert_document;
+				$cur_point += $point;
+				// Add points for attaching a file
+				$point = $module_config['upload_file'];
+				if(!isset($point)) $point = $config->upload_file;
+				if($obj->uploaded_count) $cur_point += $point * $obj->uploaded_count;
+				// Increase the point
+				$this->setPoint($member_srl,$cur_point);
+			}
 
             return new Object();
         }
@@ -92,33 +95,32 @@
          * Temporary storage at the point in 1.2.3 changed to avoid payment
          **/
         function triggerUpdateDocument(&$obj) {
-            $oDocumentModel = &getModel('document');
-            $oModuleModel = &getModel('module');
+			// if status is TEMP or PUBLIC... give not point, only status is empty
+			if(!$obj->status)
+			{
+				$oDocumentModel = &getModel('document');
+				$oModuleModel = &getModel('module');
 
-            $document_srl = $obj->document_srl;
-            $oDocument = $oDocumentModel->getDocument($document_srl);
+				$document_srl = $obj->document_srl;
+				$oDocument = $oDocumentModel->getDocument($document_srl);
 
-            $module_srl = $oDocument->get('module_srl');
-            $member_srl = $oDocument->get('member_srl');
-            if(!$module_srl || !$member_srl) return new Object();
-            // Return if it is not a temporarily saved document
-            if($module_srl != $member_srl) return new Object();
-            // Get the point module information
-            $config = $oModuleModel->getModuleConfig('point');
-            $module_config = $oModuleModel->getModulePartConfig('point',$obj->module_srl);
-            // Get the points of the member
-            $oPointModel = &getModel('point');
-            $cur_point = $oPointModel->getPoint($member_srl, true);
+				// Get the point module information
+				$config = $oModuleModel->getModuleConfig('point');
+				$module_config = $oModuleModel->getModulePartConfig('point',$obj->module_srl);
+				// Get the points of the member
+				$oPointModel = &getModel('point');
+				$cur_point = $oPointModel->getPoint($oDocument->get('member_srl'), true);
 
-            $point = $module_config['insert_document'];
-            if(!isset($point)) $point = $config->insert_document;
-            $cur_point += $point;
-            // Add points for attaching a file
-            $point = $module_config['upload_file'];
-            if(!isset($point)) $point = $config->upload_file;
-            if($obj->uploaded_count) $cur_point += $point * $obj->uploaded_count;
-            // Increase the point
-            $this->setPoint($member_srl,$cur_point);
+				$point = $module_config['insert_document'];
+				if(!isset($point)) $point = $config->insert_document;
+				$cur_point += $point;
+				// Add points for attaching a file
+				$point = $module_config['upload_file'];
+				if(!isset($point)) $point = $config->upload_file;
+				if($obj->uploaded_count) $cur_point += $point * $obj->uploaded_count;
+				// Increase the point
+				$this->setPoint($oDocument->get('member_srl'), $cur_point);
+			}
 
             return new Object();
 
@@ -485,8 +487,8 @@
             $point = $args->point;
             // If there are points, update, if no, insert
             $oPointModel = &getModel('point');
-            if($oPointModel->isExistsPoint($member_srl)) executeQuery("point.updatePoint", $args);
-            else executeQuery("point.insertPoint", $args);
+            if($oPointModel->isExistsPoint($member_srl)) $output = executeQuery("point.updatePoint", $args);
+            else $output = executeQuery("point.insertPoint", $args);
             // Get a new level
             $level = $oPointModel->getLevel($point, $config->level_step);
             // If existing level and a new one are different attempt to set a point group
