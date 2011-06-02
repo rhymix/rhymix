@@ -1662,6 +1662,8 @@ class documentController extends document {
 		$oDocument = $oDocumentModel->getDocument($obj->document_srl, $this->grant->manager);
 		// Update if already exists
 		if($oDocument->isExists() && $oDocument->document_srl == $obj->document_srl) {
+			//if exist document status is already public, use temp status can point problem
+			$obj->status = $oDocument->get('status');
 			$output = $oDocumentController->updateDocument($oDocument, $obj);
 			$msg_code = 'success_updated';
 		// Otherwise, get a new

@@ -95,14 +95,14 @@
          * Temporary storage at the point in 1.2.3 changed to avoid payment
          **/
         function triggerUpdateDocument(&$obj) {
-			// if status is TEMP or PUBLIC... give not point, only status is empty
-			if(!$obj->status)
-			{
-				$oDocumentModel = &getModel('document');
-				$oModuleModel = &getModel('module');
+			$oDocumentModel = &getModel('document');
+			$document_srl = $obj->document_srl;
+			$oDocument = $oDocumentModel->getDocument($document_srl);
 
-				$document_srl = $obj->document_srl;
-				$oDocument = $oDocumentModel->getDocument($document_srl);
+			// if status is TEMP or PUBLIC... give not point, only status is empty
+			if($oDocument->get('status') == 'TEMP' && $obj->status != 'TEMP')
+			{
+				$oModuleModel = &getModel('module');
 
 				// Get the point module information
 				$config = $oModuleModel->getModuleConfig('point');

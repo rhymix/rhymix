@@ -60,7 +60,7 @@
         }
 
         function isExists() {
-            return $this->document_srl ? true : false;
+			return $this->document_srl ? true : false;
         }
 
         function isGranted() {
