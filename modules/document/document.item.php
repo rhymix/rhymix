@@ -631,6 +631,12 @@
             return $buffs;
         }
 
+		function getStatus()
+		{
+			if(!$this->get('status')) return 'PUBLIC';
+			return $this->get('status');
+		}
+
         /**
          * @brief Return the value obtained from getExtraImages with image tag
          **/
