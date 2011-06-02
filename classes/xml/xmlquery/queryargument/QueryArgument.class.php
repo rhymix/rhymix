@@ -14,6 +14,8 @@
 			if(!$this->argument_name) $this->ignoreValue = true;
 			else $this->ignoreValue = false;
 			
+
+			
 			if(!$this->argument_name) $this->argument_name = $tag->attrs->name;
 			if(!$this->argument_name) $this->argument_name = str_replace('.', '_',$tag->attrs->column);
 			
@@ -26,6 +28,9 @@
 			}		
 			
 			if($tag->attrs->operation) $this->operation = $tag->attrs->operation;
+
+			// If we work with ConditionArgument, check if default value exists, and if yes, create argument
+			if($this->operation && $tag->attrs->default) $this->ignoreValue = false;			
 			
 			require_once(_XE_PATH_.'classes/xml/xmlquery/queryargument/validator/QueryArgumentValidator.class.php');
 			$this->argument_validator = new QueryArgumentValidator($tag, $this);

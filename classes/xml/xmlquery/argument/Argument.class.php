@@ -14,6 +14,7 @@
 		}
 		
 		function getValue(){
+			if(is_array($this->value)) return implode(',', $this->value);
 			return $this->value;
 		}
 		
@@ -34,12 +35,19 @@
 			if(!isset($this->value)) return;
 			if($column_type === '') return;
 			//if($column_type === '') $column_type = 'varchar';
-			if(in_array($column_type, array('date', 'varchar', 'char', 'bigtext')))
-				$this->value = '\''.$this->value.'\'';
+			if(in_array($column_type, array('date', 'varchar', 'char','text', 'bigtext'))){
+				if(!is_array($this->value))
+					$this->value = '\''.$this->value.'\'';
+				else {
+					$total = count($this->value);
+					for($i = 0; $i < $total; $i++)
+						$this->value[$i] = '\''.$this->value[$i].'\'';
+				}
+			}
 		}
 		
 		function checkFilter($filter_type){
-			if(isset($this->value)){
+			if(isset($this->value) && $this->value != ''){
 				$val = $this->value;
 				$key = $this->name;
 			    switch($filter_type) {

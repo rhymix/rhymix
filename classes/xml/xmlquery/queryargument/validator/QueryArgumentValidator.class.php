@@ -39,7 +39,7 @@
 					);				
 			}
 			if($this->filter){
-				$validator .= sprintf("$%s_argument->checkFilter(%s);\n"
+				$validator .= sprintf("$%s_argument->checkFilter('%s');\n"
 					, $this->argument_name
 					, $this->filter
 					);				

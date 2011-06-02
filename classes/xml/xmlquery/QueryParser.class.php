@@ -127,20 +127,20 @@ class QueryParser {
 		$prebuff .= "\n";
 		
 		$buff = '';
-                  
-		$buff .= '$output->columns = ' . $columns->toString() . ';'.PHP_EOL;
-        $buff .= '$output->tables = ' . $tables->toString() .';'.PHP_EOL;
-        $buff .= '$output->conditions = '.$conditions->toString() .';'.PHP_EOL;
-       	$buff .= '$output->groups = ' . $groups->toString() . ';'; 	
-       	$buff .= '$output->orderby = ' . $navigation->getOrderByString() .';';
-		$buff .= $navigation->getLimitString()?'$output->limit = ' . $navigation->getLimitString() .';':"";
+		$buff .= '$query->setColumns(' . $columns->toString() . ');'.PHP_EOL;
+        $buff .= '$query->setTables(' . $tables->toString() .');'.PHP_EOL;
+        $buff .= '$query->setConditions('.$conditions->toString() .');'.PHP_EOL;
+       	$buff .= '$query->setGroups(' . $groups->toString() . ');'.PHP_EOL; 	
+       	$buff .= '$query->setOrder(' . $navigation->getOrderByString() .');'.PHP_EOL;
+		$buff .= $navigation->getLimitString()?'$query->setLimit(' . $navigation->getLimitString() .');'.PHP_EOL:"";
 
 		return "<?php if(!defined('__ZBXE__')) exit();\n"
-                  . sprintf('$output->query_id = "%s";%s', $this->query_id, "\n")
-                  . sprintf('$output->action = "%s";%s', $this->action, "\n")
+				  . '$query = new Query();'.PHP_EOL
+                  . sprintf('$query->setQueryId("%s");%s', $this->query_id, "\n")
+                  . sprintf('$query->setAction("%s");%s', $this->action, "\n")
                   . $prebuff
                   . $buff
-                  . 'return $output; ?>';		
+                  . 'return $query; ?>';		
 		
 
 	}

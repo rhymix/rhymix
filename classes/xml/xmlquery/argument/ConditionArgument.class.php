@@ -25,6 +25,19 @@
                 case 'like' :
                         $this->value = '%'.$value.'%';
                     break;
+                case 'in' :
+						if(is_array($value))
+						{
+							//$value = $this->addQuotesArray($value);
+							//if($type=='number') return join(',',$value);
+							//else 
+							//$this->value =  "['". join("','",$value)."']";
+						}
+						else
+						{
+							$this->value = $value;
+						}
+                    break;                    
 	    	}
 			/*
 	    	//if(!in_array($operation,array('in','notin','between')) && is_array($value)){

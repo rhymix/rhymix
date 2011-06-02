@@ -18,6 +18,12 @@
 		function toString(){
 			if(!isset($this->value)) return;
 			
+			// If value contains comma separated values and does not contain paranthesis
+			//  -> default value is an array
+			if(strpos($this->value, ',') !== false && strpos($this->value, '(') === false) {
+				return sprintf('array(%s)', $this->value);
+			}
+			
 	        $str_pos = strpos($this->value, '(');
 	        // // TODO Replace this with parseExpression
 	        if($str_pos===false) return '\''.$this->value.'\'';
