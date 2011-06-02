@@ -64,7 +64,7 @@
 			$this->orderby = $order;			
 		}
 		
-		function setLimit($limit){
+		function setLimit($limit = NULL){
 			if(!isset($limit)) return;
 			$this->limit = $limit;
 		}
@@ -117,6 +117,25 @@
 			return $select;
 		}
 		
+		function getUpdateString(){		
+			return $this->getSelectString();
+		}		
+		
+		function getInsertString(){		
+			$columnsList = '';
+			$valuesList = '';
+			foreach($this->columns as $column){
+				if($column->show()){
+					$columnsList .= $column->getColumnName() . ', ';
+					$valuesList .= $column->getValue() . ', ';
+				}
+			}
+			$columnsList = substr($columnsList, 0, -2);
+			$valuesList = substr($valuesList, 0, -2);
+			
+			return "($columnsList) \n VALUES ($valuesList)";
+		}			
+		
 		function getFromString(){
 			$from = '';
 			$simple_table_count = 0;
@@ -127,9 +146,6 @@
 			}
 			if(trim($from) == '') return '';
 			return $from;
-			
-			
-			
 		}
 		
 		function getWhereString(){
@@ -172,6 +188,10 @@
 				$limit .= $this->limit->toString();
 			}	
 			return $limit;		
+		}
+		
+		function getFirstTableName(){
+			return $this->tables[0]->getName();			
 		}
 	}
 

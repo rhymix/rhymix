@@ -4,7 +4,6 @@ require_once(_XE_PATH_.'classes/xml/xmlquery/tags/column/ColumnTag.class.php');
 require_once(_XE_PATH_.'classes/xml/xmlquery/tags/column/SelectColumnsTag.class.php');
 require_once(_XE_PATH_.'classes/xml/xmlquery/tags/column/InsertColumnsTag.class.php');
 require_once(_XE_PATH_.'classes/xml/xmlquery/tags/column/UpdateColumnsTag.class.php');
-require_once(_XE_PATH_.'classes/xml/xmlquery/tags/column/DeleteColumnsTag.class.php');
 require_once(_XE_PATH_.'classes/xml/xmlquery/tags/table/TablesTag.class.php');
 require_once(_XE_PATH_.'classes/xml/xmlquery/tags/condition/ConditionsTag.class.php');
 require_once(_XE_PATH_.'classes/xml/xmlquery/tags/condition/JoinConditionsTag.class.php');
@@ -99,7 +98,7 @@ class QueryParser {
 		}else if($this->action == 'update') {			
 			$columns =  new UpdateColumnsTag($this->query->columns->column);
 		}else if($this->action == 'delete') {			
-			$columns =  new DeleteColumnsTag($this->query->columns->column);
+			$columns =  null;
 		}
 		
 		
@@ -111,7 +110,8 @@ class QueryParser {
 		$this->setTableColumnTypes($tables);
 		
 		$arguments = array();
-		$arguments = array_merge($arguments, $columns->getArguments());
+		if($columns)
+			$arguments = array_merge($arguments, $columns->getArguments());
 		$arguments = array_merge($arguments, $conditions->getArguments());
 		$arguments = array_merge($arguments, $navigation->getArguments());
 		
@@ -127,12 +127,14 @@ class QueryParser {
 		$prebuff .= "\n";
 		
 		$buff = '';
-		$buff .= '$query->setColumns(' . $columns->toString() . ');'.PHP_EOL;
+		if($columns)
+			$buff .= '$query->setColumns(' . $columns->toString() . ');'.PHP_EOL;
+			
         $buff .= '$query->setTables(' . $tables->toString() .');'.PHP_EOL;
         $buff .= '$query->setConditions('.$conditions->toString() .');'.PHP_EOL;
        	$buff .= '$query->setGroups(' . $groups->toString() . ');'.PHP_EOL; 	
        	$buff .= '$query->setOrder(' . $navigation->getOrderByString() .');'.PHP_EOL;
-		$buff .= $navigation->getLimitString()?'$query->setLimit(' . $navigation->getLimitString() .');'.PHP_EOL:"";
+		$buff .= '$query->setLimit(' . $navigation->getLimitString() .');'.PHP_EOL;
 
 		return "<?php if(!defined('__ZBXE__')) exit();\n"
 				  . '$query = new Query();'.PHP_EOL

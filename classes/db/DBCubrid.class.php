@@ -214,34 +214,37 @@
 		/**
 		 * @brief Fetch the result
 		 **/
-		function _fetch($result)
+		function _fetch($result, $arrayIndexEndValue = NULL)
 		{
 			if (!$this->isConnected() || $this->isError() || !$result) return;
-
+	
+			// TODO Improve this piece of code
+			// This code trims values from char type columns
 			$col_types = cubrid_column_types ($result);
 			$col_names = cubrid_column_names ($result);
 			$max = count ($col_types);
-
+	
 			for ($count = 0; $count < $max; $count++) {
 				if (preg_match ("/^char/", $col_types[$count]) > 0) {
 					$char_type_fields[] = $col_names[$count];
 				}
 			}
-
+	
 			while ($tmp = cubrid_fetch ($result, CUBRID_OBJECT)) {
 				if (is_array ($char_type_fields)) {
 					foreach ($char_type_fields as $val) {
 						$tmp->{$val} = rtrim ($tmp->{$val});
 					}
 				}
-
-				$output[] = $tmp;
+	
+				if($arrayIndexEndValue) $output[$arrayIndexEndValue--] = $tmp;
+				else $output[] = $tmp;
 			}
-
+	
 			unset ($char_type_fields);
-
+	
 			if ($result) cubrid_close_request($result);
-
+	
 			if (count ($output) == 1) return $output[0];
 			return $output;
 		}
@@ -563,30 +566,22 @@
 		}
 
 
+		function getInsertSql($query){
+			$tableName = $query->getFirstTableName();
+			$values = $query->getInsertString();
+			
+			return "INSERT INTO $tableName \n $values";
+		}
+		
 		/**
 		 * @brief handles insertAct
 		 **/
-		// TODO Rewrite with Query object as input
-		function _executeInsertAct ($output)
+		function _executeInsertAct($queryObject)
 		{
-			$query = '';
-			
-			$tableName = $output->tables[0]->getName();
-			
-			$columnsList = '';
-			$valuesList = '';
-			foreach($output->columns as $column){
-				if($column->show()){
-					$columnsList .= $column->getColumnName() . ', ';
-					$valuesList .= $column->getValue() . ', ';
-				}
-			}
-			$columnsList = substr($columnsList, 0, -2);
-			$valuesList = substr($valuesList, 0, -2);
-			
-			$query = "INSERT INTO $tableName \n ($columnsList) \n VALUES ($valuesList)";
+			$query = $this->getInsertSql($queryObject);
 						
 			$query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
+
 			$result = $this->_query ($query);
 			if ($result && !$this->transaction_started) {
 				@cubrid_commit ($this->fd);
@@ -595,69 +590,53 @@
 			return $result;
 		}
 
+		function getUpdateSql($query){
+			$columnsList = $query->getSelectString();
+			if($columnsList == '') return new Object(-1, "Invalid query");
+			
+			$tableName = $query->getFirstTableName();
+			if($tableName == '') return new Object(-1, "Invalid query");
+			
+			$where = $query->getWhereString();
+			if($where != '') $where = ' WHERE ' . $where;
+									
+			return "UPDATE $tableName SET $columnsList ".$where;
+		}
+		
 		/**
 		 * @brief handles updateAct
 		 **/
-		// TODO Rewrite with Query object as input
-		function _executeUpdateAct ($output)
+		function _executeUpdateAct($queryObject)
 		{
-			$query = '';
+			$query = $this->getUpdateSql($queryObject);
+			$result = $this->_query($query);
 			
-			$tableName = $output->tables[0]->getName();
-			
-			$columnsList = '';
-			foreach($output->columns as $column){
-				if($column->show()){
-					$columnsList .= $column->getExpression() . ', ';
-				}
-			}
-			$columnsList = substr($columnsList, 0, -2);
-
-			$where = '';
-			if(count($output->conditions) > 0){
-				$where = 'WHERE ';
-				foreach($output->conditions as $conditionGroup){
-					$where .= $conditionGroup->toString();
-				}
-			}			
-			
-			$query = "UPDATE $tableName SET $columnsList ".$where;
-					
-
-			$result = $this->_query ($query);
 			if ($result && !$this->transaction_started) @cubrid_commit ($this->fd);
 
 			return $result;
 		}
 
+		function getDeleteSql($query){
+			$sql = 'DELETE ';
+			
+			$from = $query->getFromString();
+			if($from == '') return new Object(-1, "Invalid query");
+			$sql .= ' FROM '.$from;			
+			
+			$where = $query->getWhereString();
+			if($where != '') $sql .= ' WHERE ' . $where;			
+			
+			return $sql;
+		}
+		
 		/**
 		 * @brief handles deleteAct
 		 **/
-		// TODO Rewrite with Query object as input
-		function _executeDeleteAct ($output)
-		{
-			$query = '';
-			
-			$select = 'DELETE ';
-			
-			$from = 'FROM ';
-			$simple_table_count = 0;
-			foreach($output->tables as $table){
-				if($simple_table_count > 0) $from .= ', ';
-				$from .= $table->toString() . ' ';
-				if(!$table->isJoinTable()) $simple_table_count++;
-			}
-			
-			$where = '';
-			if(count($output->conditions) > 0){
-				$where = 'WHERE ';
-				foreach($output->conditions as $conditionGroup){
-					$where .= $conditionGroup->toString();
-				}
-			}
-			
-			$query =  $select . ' ' . $from . ' ' . $where . ' ' . $groupBy . ' ' . $orderBy;
+		function _executeDeleteAct($queryObject)
+		{		
+			$query =  $this->getDeleteSql($queryObject);
 			$result = $this->_query ($query);
+			
 			if ($result && !$this->transaction_started) @cubrid_commit ($this->fd);
 
 			return $result;
@@ -685,7 +664,7 @@
 		 	$limit = $query->getLimitString();
 		 	if($limit != '') $limit = ' LIMIT ' . $limit;
 
-		 	return $select . ' ' . $from . ' ' . $where . ' ' . $groupBy . ' ' . $orderBy . ' ' . $limit;
+		 	return $select . ' ' . $from . ' ' . $where . ' ' . $groupBy . ' ' . $orderBy;// . ' ' . $limit;
 		}
 		
 		/**
@@ -698,8 +677,8 @@
 		 function _executeSelectAct($queryObject){
 			$query = $this->getSelectSql($queryObject);
 
-			//$query = sprintf ("select %s from %s %s %s %s", $columns, implode (',',$table_list), implode (' ',$left_join), $condition, //$groupby_query.$orderby_query);
-			//$query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
+			$query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
+			
 			$result = $this->_query ($query);
 			if ($this->isError ()) {
 				if ($limit && $output->limit->isPageHandler()){
@@ -710,43 +689,40 @@
 					$buff->data = array ();
 					$buff->page_navigation = new PageHandler (/*$total_count*/0, /*$total_page*/1, /*$page*/1, /*$page_count*/10);//default page handler values
 					return $buff;
-				}else	return;
+				}else	
+					return;
 			}
 
 		 	if ($queryObject->getLimit() && $queryObject->getLimit()->isPageHandler()) {
+		 		// Total count
 		 		$count_query = sprintf('select count(*) as "count" %s %s', 'FROM ' . $queryObject->getFromString(), ($queryObject->getWhereString() === '' ? '' : ' WHERE '. $queryObject->getWhereString()));
 				if ($queryObject->getGroupByString() != '') {
 					$count_query = sprintf('select count(*) as "count" from (%s) xet', $count_query);
 				}
 
-				//$count_query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
+				$count_query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
 				$result_count = $this->_query($count_query);
 				$count_output = $this->_fetch($result_count);
 				$total_count = (int)$count_output->count;
 		 		
-				// total pages
+				// Total pages
 				if ($total_count) {
 					$total_page = (int) (($total_count - 1) / $queryObject->getLimit()->list_count) + 1;
 				}	else	$total_page = 1;
 		 		
+				
 		 		$virtual_no = $total_count - ($queryObject->getLimit()->page - 1) * $queryObject->getLimit()->list_count;
-				while ($tmp = cubrid_fetch ($result, CUBRID_OBJECT)) {
-					if ($tmp) {
-						foreach ($tmp as $k => $v) {
-							$tmp->{$k} = rtrim($v);
-						}
-					}
-					$data[$virtual_no--] = $tmp;
-				}
+		 		$data = $this->_fetch($result);
+		 		//$data = $this->_fetch($result, $virtual_no);
 
 		 		$buff = new Object ();
 				$buff->total_count = $total_count;
 				$buff->total_page = $total_page;
 				$buff->page = $queryObject->getLimit()->page;
 				$buff->data = $data;
-				$buff->page_navigation = new PageHandler ($total_count, $total_page, $queryObject->getLimit()->page, $queryObject->getLimit()->page_count);				
+				$buff->page_navigation = new PageHandler($total_count, $total_page, $queryObject->getLimit()->page, $queryObject->getLimit()->page_count);				
 			}else{
-				$data = $this->_fetch ($result);
+				$data = $this->_fetch($result);
 				$buff = new Object ();
 				$buff->data = $data;	
 			}
