@@ -156,11 +156,9 @@ class HTMLDisplayHandler {
 		// for admin page, add admin css
 		if(Context::get('module')=='admin' || strpos(Context::get('act'),'Admin')>0){
 			if(__DEBUG__) {
-				$oContext->addCSSFile('./modules/admin/tpl/css/font.css', false, 'all', '',10000);
-				$oContext->addCSSFile('./modules/admin/tpl/css/pagination.css', false, 'all', '', 100001);
-				$oContext->addCSSFile('./modules/admin/tpl/css/admin.css', false, 'all', '', 100002);
+				$oContext->addCSSFile('./modules/admin/tpl/css/admin.css', false, 'all', '', 100000);
 			} else {
-				$oContext->addCSSFile('./modules/admin/tpl/css/xe_admin.min.css', false, 'all', '',10000);
+				$oContext->addCSSFile('./modules/admin/tpl/css/admin.min.css', false, 'all', '',10000);
 			}
 		}
 	}
