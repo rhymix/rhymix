@@ -1094,6 +1094,8 @@ class Context {
 	function addCSSFile($file, $optimized=false, $media='all', $targetie='',$index=0) {
 		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
 
+		if(!$media) $media = 'all';
+
 		$key = Context::getAbsFileUrl($file)."\t$targetie\t$media";
 		$map = &$self->css_files_map;
 
