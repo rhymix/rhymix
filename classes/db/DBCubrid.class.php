@@ -566,12 +566,7 @@
 		}
 
 
-		function getInsertSql($query){
-			$tableName = $query->getFirstTableName();
-			$values = $query->getInsertString();
-			
-			return "INSERT INTO $tableName \n $values";
-		}
+
 		
 		/**
 		 * @brief handles insertAct
@@ -589,19 +584,6 @@
 
 			return $result;
 		}
-
-		function getUpdateSql($query){
-			$columnsList = $query->getSelectString();
-			if($columnsList == '') return new Object(-1, "Invalid query");
-			
-			$tableName = $query->getFirstTableName();
-			if($tableName == '') return new Object(-1, "Invalid query");
-			
-			$where = $query->getWhereString();
-			if($where != '') $where = ' WHERE ' . $where;
-									
-			return "UPDATE $tableName SET $columnsList ".$where;
-		}
 		
 		/**
 		 * @brief handles updateAct
@@ -616,18 +598,6 @@
 			return $result;
 		}
 
-		function getDeleteSql($query){
-			$sql = 'DELETE ';
-			
-			$from = $query->getFromString();
-			if($from == '') return new Object(-1, "Invalid query");
-			$sql .= ' FROM '.$from;			
-			
-			$where = $query->getWhereString();
-			if($where != '') $sql .= ' WHERE ' . $where;			
-			
-			return $sql;
-		}
 		
 		/**
 		 * @brief handles deleteAct
@@ -641,31 +611,6 @@
 
 			return $result;
 		}
-
-		
-		function getSelectSql($query){	
-			$select = $query->getSelectString();
-			if($select == '') return new Object(-1, "Invalid query");
-			$select = 'SELECT ' .$select;
-			
-			$from = $query->getFromString();
-			if($from == '') return new Object(-1, "Invalid query");
-			$from = ' FROM '.$from;
-			
-			$where = $query->getWhereString();
-			if($where != '') $where = ' WHERE ' . $where;
-							
-			$groupBy = $query->getGroupByString();
-			if($groupBy != '') $groupBy = ' GROUP BY ' . $groupBy;
-			
-			$orderBy = $query->getOrderByString();
-			if($orderBy != '') $orderBy = ' ORDER BY ' . $orderBy;
-			
-		 	$limit = $query->getLimitString();
-		 	if($limit != '') $limit = ' LIMIT ' . $limit;
-
-		 	return $select . ' ' . $from . ' ' . $where . ' ' . $groupBy . ' ' . $orderBy;// . ' ' . $limit;
-		}
 		
 		/**
 		 * @brief Handle selectAct
@@ -677,7 +622,7 @@
 		 function _executeSelectAct($queryObject){
 			$query = $this->getSelectSql($queryObject);
 
-			$query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
+			$query .= (__DEBUG_QUERY__&1 && $queryObject->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
 			
 			$result = $this->_query ($query);
 			if ($this->isError ()) {
@@ -712,8 +657,7 @@
 		 		
 				
 		 		$virtual_no = $total_count - ($queryObject->getLimit()->page - 1) * $queryObject->getLimit()->list_count;
-		 		$data = $this->_fetch($result);
-		 		//$data = $this->_fetch($result, $virtual_no);
+		 		$data = $this->_fetch($result, $virtual_no);
 
 		 		$buff = new Object ();
 				$buff->total_count = $total_count;
@@ -728,6 +672,10 @@
 			}
 
 			return $buff;
+		}
+		
+		function getParser(){
+			return new DBParser('"');
 		}
 	}
 

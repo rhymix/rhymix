@@ -456,6 +456,63 @@
             $query = sprintf("drop table %s%s", $this->prefix, $table_name);
             $this->_query($query);
         }
+        
+    	function getSelectSql($query){	
+			$select = $query->getSelectString();
+			if($select == '') return new Object(-1, "Invalid query");
+			$select = 'SELECT ' .$select;
+			
+			$from = $query->getFromString();
+			if($from == '') return new Object(-1, "Invalid query");
+			$from = ' FROM '.$from;
+			
+			$where = $query->getWhereString();
+			if($where != '') $where = ' WHERE ' . $where;
+							
+			$groupBy = $query->getGroupByString();
+			if($groupBy != '') $groupBy = ' GROUP BY ' . $groupBy;
+			
+			$orderBy = $query->getOrderByString();
+			if($orderBy != '') $orderBy = ' ORDER BY ' . $orderBy;
+			
+		 	$limit = $query->getLimitString();
+		 	if($limit != '') $limit = ' LIMIT ' . $limit;
+
+		 	return $select . ' ' . $from . ' ' . $where . ' ' . $groupBy . ' ' . $orderBy . ' ' . $limit;
+		}  
+
+   		function getDeleteSql($query){
+			$sql = 'DELETE ';
+			
+			$from = $query->getFromString();
+			if($from == '') return new Object(-1, "Invalid query");
+			$sql .= ' FROM '.$from;			
+			
+			$where = $query->getWhereString();
+			if($where != '') $sql .= ' WHERE ' . $where;			
+			
+			return $sql;
+		}	
+
+    	function getUpdateSql($query){
+			$columnsList = $query->getSelectString();
+			if($columnsList == '') return new Object(-1, "Invalid query");
+			
+			$tableName = $query->getFirstTableName();
+			if($tableName == '') return new Object(-1, "Invalid query");
+			
+			$where = $query->getWhereString();
+			if($where != '') $where = ' WHERE ' . $where;
+									
+			return "UPDATE $tableName SET $columnsList ".$where;
+		}		
+		
+    	function getInsertSql($query){
+			$tableName = $query->getFirstTableName();
+			$values = $query->getInsertString();
+			
+			return "INSERT INTO $tableName \n $values";
+		}		
 
     }
 ?>
