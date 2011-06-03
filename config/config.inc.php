@@ -74,7 +74,7 @@
      * 0: No output
      * 1: files/_debug_db_query.php connected to the output
      **/
-    if(!defined('__DEBUG_DB_OUTPUT__')) define('__DEBUG_DB_OUTPUT__', 0);
+    if(!defined('__DEBUG_DB_OUTPUT__')) define('__DEBUG_DB_OUTPUT__', 1);
 
     /**
      * @brief Query log for only timeout query among DB queries
