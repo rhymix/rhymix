@@ -483,6 +483,11 @@
 
    		function getDeleteSql($query){
 			$sql = 'DELETE ';
+
+			// TODO Add support for deleting based on alias, for both simple FROM and multi table join FROM clause
+			$tables = $query->getTables();
+			
+			$sql .= $tables[0]->getAlias();
 			
 			$from = $query->getFromString();
 			if($from == '') return new Object(-1, "Invalid query");

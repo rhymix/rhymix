@@ -152,7 +152,7 @@
             // Notify to start a query execution
             $this->actStart($query);
             // Run the query statement
-            $result = @mysql_query($query, $this->fd);
+            $result = mysql_query($query, $this->fd);
             // Error Check
             if(mysql_error($this->fd)) $this->setError(mysql_errno($this->fd), mysql_error($this->fd));
             // Notify to complete a query execution
@@ -164,12 +164,16 @@
         /**
          * @brief Fetch results
          **/
-        function _fetch($result) {
+        function _fetch($result, $arrayIndexEndValue = NULL) {
             if(!$this->isConnected() || $this->isError() || !$result) return;
             while($tmp = $this->db_fetch_object($result)) {
-                $output[] = $tmp;
+            	if($arrayIndexEndValue) $output[$arrayIndexEndValue--] = $tmp;
+                else $output[] = $tmp;
             }
-            if(count($output)==1) return $output[0];
+            if(count($output)==1){
+            	if(isset($arrayIndexEndValue)) return $output; 
+            	else return $output[0];
+            }
             return $output;
         }
 
@@ -384,6 +388,7 @@
 			//if($output->priority) $priority = $output->priority['type'].'_priority';
 
             $query = $this->getInsertSql($queryObject);
+            if(is_a($query, 'Object')) return;
             return $this->_query($query);
         }
 
@@ -397,6 +402,7 @@
 			//if($output->priority) $priority = $output->priority['type'].'_priority';
 
             $query = $this->getUpdateSql($queryObject);
+            if(is_a($query, 'Object')) return;
             return $this->_query($query);
         }
 
@@ -404,8 +410,10 @@
          * @brief Handle deleteAct
          **/
         function _executeDeleteAct($queryObject) {
-        	$query =  $this->getDeleteSql($queryObject);
-
+        	$query = $this->getDeleteSql($queryObject);
+			
+        	if(is_a($query, 'Object')) return;
+        	
         	//priority setting
 			// TODO Check what priority does
 			//$priority = '';
@@ -421,19 +429,62 @@
          **/
         function _executeSelectAct($queryObject) {
 			$query = $this->getSelectSql($queryObject);
+			
+			if(is_a($query, 'Object')) return;
+			
 			$query .= (__DEBUG_QUERY__&1 && $queryObject->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id):'';
-
-            $result = $this->_query($query);
-            if($this->isError()) return;
-            
+           
             // TODO Add support for click count
-            // TODO Add code for pagination
-            $data = $this->_fetch($result);
+            // TODO Add code for pagination           
+            
+			$result = $this->_query ($query);
+			if ($this->isError ()) {
+				if ($limit && $output->limit->isPageHandler()){
+					$buff = new Object ();
+					$buff->total_count = 0;
+					$buff->total_page = 0;
+					$buff->page = 1;
+					$buff->data = array ();
+					$buff->page_navigation = new PageHandler (/*$total_count*/0, /*$total_page*/1, /*$page*/1, /*$page_count*/10);//default page handler values
+					return $buff;
+				}else	
+					return;
+			}
 
-            $buff = new Object();
-            $buff->data = $data;
+		 	if ($queryObject->getLimit() && $queryObject->getLimit()->isPageHandler()) {
+		 		// Total count
+		 		$count_query = sprintf('select count(*) as "count" %s %s', 'FROM ' . $queryObject->getFromString(), ($queryObject->getWhereString() === '' ? '' : ' WHERE '. $queryObject->getWhereString()));
+				if ($queryObject->getGroupByString() != '') {
+					$count_query = sprintf('select count(*) as "count" from (%s) xet', $count_query);
+				}
 
-            return $buff;
+				$count_query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
+				$result_count = $this->_query($count_query);
+				$count_output = $this->_fetch($result_count);
+				$total_count = (int)$count_output->count;
+		 		
+				// Total pages
+				if ($total_count) {
+					$total_page = (int) (($total_count - 1) / $queryObject->getLimit()->list_count) + 1;
+				}	else	$total_page = 1;
+		 		
+				
+		 		$virtual_no = $total_count - ($queryObject->getLimit()->page - 1) * $queryObject->getLimit()->list_count;
+		 		$data = $this->_fetch($result, $virtual_no);
+
+		 		$buff = new Object ();
+				$buff->total_count = $total_count;
+				$buff->total_page = $total_page;
+				$buff->page = $queryObject->getLimit()->page;
+				$buff->data = $data;
+				$buff->page_navigation = new PageHandler($total_count, $total_page, $queryObject->getLimit()->page, $queryObject->getLimit()->page_count);				
+			}else{
+				$data = $this->_fetch($result);
+				$buff = new Object ();
+				$buff->data = $data;	
+			}
+
+			return $buff;            
         }
 
 		function db_insert_id()

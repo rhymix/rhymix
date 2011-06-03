@@ -32,9 +32,8 @@
         function &getDBParser(){
         	static $dbParser;
         	if(!$dbParser){
-        		//$oDB = &DB::getParser();
-				//self::$dbParser = $oDB->getParser();
-				$dbParser = new DBParser('"');
+        		$oDB = &DB::getInstance();
+				$dbParser = $oDB->getParser();
         	}
         	return $dbParser;
         }

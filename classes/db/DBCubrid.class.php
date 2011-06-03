@@ -574,7 +574,8 @@
 		function _executeInsertAct($queryObject)
 		{
 			$query = $this->getInsertSql($queryObject);
-						
+			if(is_a($query, 'Object')) return;
+			
 			$query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
 
 			$result = $this->_query ($query);
@@ -591,6 +592,8 @@
 		function _executeUpdateAct($queryObject)
 		{
 			$query = $this->getUpdateSql($queryObject);
+			if(is_a($query, 'Object')) return;
+			
 			$result = $this->_query($query);
 			
 			if ($result && !$this->transaction_started) @cubrid_commit ($this->fd);
@@ -605,6 +608,8 @@
 		function _executeDeleteAct($queryObject)
 		{		
 			$query =  $this->getDeleteSql($queryObject);
+			if(is_a($query, 'Object')) return;
+			
 			$result = $this->_query ($query);
 			
 			if ($result && !$this->transaction_started) @cubrid_commit ($this->fd);
@@ -621,7 +626,8 @@
 		// TODO Rewrite with Query object as input		
 		 function _executeSelectAct($queryObject){
 			$query = $this->getSelectSql($queryObject);
-
+			if(is_a($query, 'Object')) return;
+			
 			$query .= (__DEBUG_QUERY__&1 && $queryObject->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
 			
 			$result = $this->_query ($query);

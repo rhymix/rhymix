@@ -136,6 +136,10 @@
 			return "($columnsList) \n VALUES ($valuesList)";
 		}			
 		
+		function getTables(){
+			return $this->tables;
+		}
+		
 		function getFromString(){
 			$from = '';
 			$simple_table_count = 0;
