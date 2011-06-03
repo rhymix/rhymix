@@ -344,7 +344,7 @@ class documentController extends document {
 		// Remove iframe and script if not a top adminisrator in the session.
 		if($logged_info->is_admin != 'Y') $obj->content = removeHackTag($obj->content);
 		// if temporary document, regdate is now setting
-		if($source_obj->get('status') == 'TEMP') $obj->regdate = date('YmdHis');
+		if($source_obj->get('status') == $this->getConfigStatus('temp')) $obj->regdate = date('YmdHis');
 
 		// Insert data into the DB
 		$output = executeQuery('document.updateDocument', $obj);
@@ -1648,7 +1648,7 @@ class documentController extends document {
 		$obj = Context::getRequestVars();
 		// Change the target module to log-in information
 		$obj->module_srl = $module_info->module_srl;
-		$obj->status = 'TEMP';
+		$obj->status = $this->getConfigStatus('temp');
 		unset($obj->is_notice);
 
 		// Extract from beginning part of contents in the guestbook

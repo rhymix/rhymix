@@ -113,7 +113,7 @@
                 }
 
                 $obj->is_notice = 'N';
-                $obj->status = in_array($xmlDoc->post->visibility->body, array('public','syndicated'))?'PUBLIC':'SECRET';
+                $obj->status = in_array($xmlDoc->post->visibility->body, array('public','syndicated'))?$oDocumentModel->getConfigStatus('public'):$oDocumentModel->('secret');
                 $obj->title = $xmlDoc->post->title->body;
                 $obj->content = $xmlDoc->post->content->body;
                 $obj->password = md5($xmlDoc->post->password->body);
@@ -275,7 +275,7 @@
 							$obj->document_srl = getNextSequence();
 							$obj->uploaded_count = 0;
 							$obj->is_notice = 'N';
-							$obj->status = $val->secret->body=='1'?'SECRET':'PUBLIC';
+							$obj->status = $val->secret->body=='1'?$oDocumentModel->getConfigStatus('secret'):$oDocumentModel->getConfigStatus('public');
 							$obj->content = nl2br($val->content->body);
 
 							// Extract a title form the bocy

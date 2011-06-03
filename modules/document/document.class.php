@@ -11,6 +11,7 @@
 
         // search option to use in admin page
         var $search_option = array('title','content','title_content','user_name',); // /< Search options
+		var $statusList = array('private'=>'PRIVATE', 'public'=>'PUBLIC', 'secret'=>'SECRET', 'temp'=>'TEMP');
 
         /**
          * @brief Implement if additional tasks are necessary when installing
@@ -262,5 +263,23 @@
             FileHandler::removeFilesInDir(_XE_PATH_."files/cache/document_category");
         }
 
+		/**
+		 * @brief Document Status List
+		 **/
+		function getStatusList()
+		{
+			return $this->statusList;
+		}
+
+		function getDefaultStatus()
+		{
+			return $this->statusList['public'];
+		}
+
+		function getConfigStatus($key)
+		{
+			if(array_key_exists($key, $this->statusList)) return $this->statusList[$key];
+			else $this->getDefaultStatus();
+		}
     }
 ?>

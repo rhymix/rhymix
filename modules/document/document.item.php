@@ -122,7 +122,8 @@
         }
 
         function isSecret() {
-            return $this->get('status') == 'SECRET' ? true : false;
+			$oDocumentModel = &getModel('document');
+            return $this->get('status') == $oDocumentModel->getConfigStatus('secret') ? true : false;
         }
 
         function isNotice() {
@@ -633,7 +634,7 @@
 
 		function getStatus()
 		{
-			if(!$this->get('status')) return 'PUBLIC';
+			if(!$this->get('status')) return $this->getDefaultStatus();
 			return $this->get('status');
 		}
 
@@ -756,8 +757,12 @@
 			$status = $this->get('status');
 			if(empty($status)) return false;
 
-			if($status == 'PUBLIC' || $status == 'PUBLISH') return true;
-			else if($status == 'PRIVATE' || $status == 'SECRET')
+			$oDocumentModel = &getModel('document');
+			$configStatusList = $oDocumentModel->getStatusList();
+
+			if($status == $configStatusList['public'] || $status == $configStatusList['publish'])
+				return true;
+			else if($status == $configStatusList['private'] || $status == $configStatusList['secret'])
 			{
 				if($this->get('member_srl') == $logged_info->member_srl)
 					return true;

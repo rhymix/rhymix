@@ -180,8 +180,8 @@
             $args->start_date = $obj->start_date?$obj->start_date:null;
             $args->end_date = $obj->end_date?$obj->end_date:null;
             $args->member_srl = $obj->member_srl;
-			$args->statusList = $obj->statusList?$obj->statusList:array('SECRET', 'PUBLIC', 'PUBLISH');
-			if($logged_info->is_admin == 'Y') $args->statusList = array('SECRET', 'PUBLIC', 'PUBLISH');
+			$args->statusList = $obj->statusList?$obj->statusList:array($this->getConfigStatus('secret'), $this->getConfigStatus('public'));
+			if($logged_info->is_admin == 'Y') $args->statusList = array($this->getConfigStatus('secret'), $this->getConfigStatus('public'));
             // Category is selected, further sub-categories until all conditions
             if($args->category_srl) {
                 $category_list = $this->getCategoryList($args->module_srl);
@@ -927,8 +927,8 @@
                         break;
                     case 'is_notice' :
                     case 'is_secret' :
-                            if($search_keyword=='N') $args->statusList = array('PUBLIC', 'PUBLISH');
-                            elseif($search_keyword=='Y') $args->statusList = array('SECRET');
+                            if($search_keyword=='N') $args->statusList = array($this->getConfigStatus('public'));
+                            elseif($search_keyword=='Y') $args->statusList = array($this->getConfigStatus('secret'));
                         break;
                     case 'member_srl' :
                     case 'readed_count' :
@@ -1003,11 +1003,11 @@
 			$this->add('voted_member_list',$output->data);
 		}
 
-		function getStatusConfigList()
+		function getStatusNameList()
 		{
 			global $lang;
 			if(!isset($lang->status_name_list))
-				return array('PRIVATE'=>'private', 'PUBLIC'=>'public', 'SECRET'=>'secret', 'TEMP'=>'temporary');
+				return array_flip($this->getStatusList());
 			else return $lang->status_name_list;
 		}
 
@@ -1083,8 +1083,8 @@
                         break;
                     case 'is_notice' :
                     case 'is_secret' :
-                            if($search_keyword=='N') $args->statusList = array('PUBLIC', 'PUBLISH');
-                            elseif($search_keyword=='Y') $args->statusList = array('SECRET');
+                            if($search_keyword=='N') $args->statusList = array($this->getConfigStatus('public'));
+                            elseif($search_keyword=='Y') $args->statusList = array($this->getConfigStatus('secret'));
                         break;
                     case 'member_srl' :
                     case 'readed_count' :

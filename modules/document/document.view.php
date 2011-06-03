@@ -129,7 +129,7 @@
             // Get the saved document (module_srl is set to member_srl instead)
             $logged_info = Context::get('logged_info');
             $args->member_srl = $logged_info->member_srl;
-			$args->statusList = array('TEMP');
+			$args->statusList = array($this->getConfigStatus('temp'));
             $args->page = (int)Context::get('page');
             $args->list_count = 10;
 

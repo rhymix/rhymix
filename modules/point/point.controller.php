@@ -61,7 +61,8 @@
          * @brief A trigger to add points to the member for creating a post
          **/
         function triggerInsertDocument(&$obj) {
-			if($obj->status != 'TEMP')
+			$oDocumentModel = &getModel('document');
+			if($obj->status != $oDocumentModel->getConfigStatus('temp'))
 			{
 				$module_srl = $obj->module_srl;
 				$member_srl = $obj->member_srl;
@@ -100,7 +101,7 @@
 			$oDocument = $oDocumentModel->getDocument($document_srl);
 
 			// if status is TEMP or PUBLIC... give not point, only status is empty
-			if($oDocument->get('status') == 'TEMP' && $obj->status != 'TEMP')
+			if($oDocument->get('status') == $oDocumentModel->getConfigStatus('temp') && $obj->status != $oDocumentModel->getConfigStatus('temp'))
 			{
 				$oModuleModel = &getModel('module');
 
