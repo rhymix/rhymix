@@ -3,6 +3,7 @@
 	class Argument {
 		var $value;
 		var $name;
+		var $type;
 		
 		var $isValid;
 		var $errorMessage;
@@ -16,6 +17,10 @@
 		function getValue(){
 			if(is_array($this->value)) return implode(',', $this->value);
 			return $this->value;
+		}
+		
+		function getType(){
+			return $this->type;
 		}
 		
 		function isValid(){
@@ -34,6 +39,9 @@
 		function escapeValue($column_type){
 			if(!isset($this->value)) return;
 			if($column_type === '') return;
+			
+			$this->type = $column_type;
+			
 			//if($column_type === '') $column_type = 'varchar';
 			if(in_array($column_type, array('date', 'varchar', 'char','text', 'bigtext'))){
 				if(!is_array($this->value))
