@@ -19,6 +19,14 @@
 			else return false;
 		}
 		
+		function getOffset(){
+			return $this->start;
+		}
+		
+		function getLimit(){
+			return $this->list_count;
+		}
+		
 		function toString(){
 			if ($this->page)	return $this->start . ' , ' . $this->list_count;
 			else return $this->list_count;

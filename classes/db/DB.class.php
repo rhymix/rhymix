@@ -518,6 +518,12 @@
 			
 			return "INSERT INTO $tableName \n $values";
 		}		
+		
+		// HACK This is needed because on installation, the XmlQueryParer is used without any configured database
+		// TODO Change this or make sure the query cache files created before db.config exists are deleted
+		function getParser(){
+			return new DBParser('"');
+		}
 
     }
 ?>
