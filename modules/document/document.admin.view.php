@@ -34,7 +34,7 @@
             $output = $oDocumentModel->getDocumentList($args);
 
 			// get Status name list
-			$statusNameList = $oDocumentModel->getStatusConfigList();
+			$statusNameList = $oDocumentModel->getStatusNameList();
 
             // Set values of document_model::getDocumentList() objects for a template
             Context::set('total_count', $output->total_count);
