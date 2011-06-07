@@ -14,8 +14,14 @@
 
     class XmlQueryParser extends XmlParser {
 		var $dbParser;
+    	var $db_type;
+    	
+    	function XmlQueryParser($db_type = NULL){
+    		$this->db_type = $db_type;
+    	}
     	
         function parse($query_id, $xml_file, $cache_file) {
+        	
         	// Read xml file
         	$xml_obj = $this->getXmlFileContent($xml_file); 
             
@@ -29,15 +35,17 @@
         }
         
         // singleton
-       /* function &getDBParser(){
+       function &getDBParser(){
         	static $dbParser;
         	if(!$dbParser){
-        		//$oDB = &DB::getInstance();
-				//$dbParser = $oDB->getParser();
-				return new DBParser('"');
+        		if(isset($this->db_type))
+        			$oDB = &DB::getInstance($this->db_type);
+        		else 
+        			$oDB = &DB::getInstance();
+				$dbParser = $oDB->getParser();
         	}
         	return $dbParser;
-        }*/
+        }
         
         function getXmlFileContent($xml_file){
             $buff = FileHandler::readFile($xml_file);
@@ -45,12 +53,6 @@
             if(!$xml_obj) return;
             unset($buff);
             return $xml_obj;        	
-        }
-        
-    	function &getDBParser(){
-        	if(!$this->dbParser)
-				$this->dbParser = new DBParser('"');
-        	return $this->dbParser;
         }
     }
 ?>

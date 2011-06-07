@@ -4,12 +4,12 @@
 		var $conditions;
 		var $pipe;
 		
-		function ConditionGroup($conditions, $pipe = ""){
+		function ConditionGroup($conditions, $pipe = "") {
 			$this->conditions = $conditions;
 			$this->pipe = $pipe;
 		}
 		
-		function toString(){
+		function toString($with_value = true){
 			if($this->pipe !== "")
 				$group = $this->pipe .' (';
 			else $group = '';
@@ -19,7 +19,7 @@
 			foreach($this->conditions as $condition){
 				if($condition->show()){
 					if($cond_indx === 0) $condition->setPipe("");
-					$group .= $condition->toString() . ' ';
+					$group .= $condition->toString($with_value) . ' ';
 					$cond_indx++;
 				}
 			}

@@ -14,8 +14,10 @@
 			$this->argument = $argument;
 		}
 		
-		function getExpression(){
-			return $this->getExpressionWithValue();
+		function getExpression($with_value = true){
+			if($with_value)
+				return $this->getExpressionWithValue();
+			return $this->getExpressionWithoutValue();
 		}
 		
 		function getExpressionWithValue(){

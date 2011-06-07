@@ -15,8 +15,10 @@
 			$this->argument = $argument;
 		}
 		
-		function getValue(){
-			return $this->argument->getValue();
+		function getValue($with_values = true){
+			if($with_values)
+				return $this->argument->getValue();
+			return '?';
 		}
 		
 		function show(){

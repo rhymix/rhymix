@@ -457,16 +457,16 @@
             $this->_query($query);
         }
         
-    	function getSelectSql($query){	
-			$select = $query->getSelectString();
+    	function getSelectSql($query, $with_values = true){	
+			$select = $query->getSelectString($with_values);
 			if($select == '') return new Object(-1, "Invalid query");
 			$select = 'SELECT ' .$select;
 			
-			$from = $query->getFromString();
+			$from = $query->getFromString($with_values);
 			if($from == '') return new Object(-1, "Invalid query");
 			$from = ' FROM '.$from;
 			
-			$where = $query->getWhereString();
+			$where = $query->getWhereString($with_values);
 			if($where != '') $where = ' WHERE ' . $where;
 							
 			$groupBy = $query->getGroupByString();
@@ -481,7 +481,7 @@
 		 	return $select . ' ' . $from . ' ' . $where . ' ' . $groupBy . ' ' . $orderBy . ' ' . $limit;
 		}  
 
-   		function getDeleteSql($query){
+   		function getDeleteSql($query, $with_values = true){
 			$sql = 'DELETE ';
 
 			// TODO Add support for deleting based on alias, for both simple FROM and multi table join FROM clause
@@ -489,32 +489,32 @@
 			
 			$sql .= $tables[0]->getAlias();
 			
-			$from = $query->getFromString();
+			$from = $query->getFromString($with_values);
 			if($from == '') return new Object(-1, "Invalid query");
 			$sql .= ' FROM '.$from;			
 			
-			$where = $query->getWhereString();
+			$where = $query->getWhereString($with_values);
 			if($where != '') $sql .= ' WHERE ' . $where;			
 			
 			return $sql;
 		}	
 
-    	function getUpdateSql($query){
+    	function getUpdateSql($query, $with_values = true){
 			$columnsList = $query->getSelectString();
 			if($columnsList == '') return new Object(-1, "Invalid query");
 			
 			$tableName = $query->getFirstTableName();
 			if($tableName == '') return new Object(-1, "Invalid query");
 			
-			$where = $query->getWhereString();
+			$where = $query->getWhereString($with_values);
 			if($where != '') $where = ' WHERE ' . $where;
 									
 			return "UPDATE $tableName SET $columnsList ".$where;
 		}		
 		
-    	function getInsertSql($query){
+    	function getInsertSql($query, $with_values = true){
 			$tableName = $query->getFirstTableName();
-			$values = $query->getInsertString();
+			$values = $query->getInsertString($with_values);
 			
 			return "INSERT INTO $tableName \n $values";
 		}		

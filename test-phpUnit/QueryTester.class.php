@@ -12,11 +12,11 @@
 			return _XE_PATH_ . $type ."/".$name."/queries/" . $query_name . ".xml";
 		}
 		
-		function getNewParserOutput($xml_file, $escape_char = '"'){
-			$newXmlQueryParser = new XmlQueryParser();
+		function getNewParserOutput($xml_file, $escape_char = '"', $db_type = NULL){
+			$newXmlQueryParser = new XmlQueryParser($db_type);
 			$xml_obj = $newXmlQueryParser->getXmlFileContent($xml_file);
-			
-			$dbParser = new DBParser($escape_char);
+						
+			$dbParser = $newXmlQueryParser->getDBParser();
 			$parser = new QueryParser($xml_obj->query, $dbParser);
 			return $parser->toString();
 		}
@@ -59,9 +59,9 @@
 				.'</pre>';	
 		}
 		
-		function getNewParserOutputString($xml_file, $escape_char, $argsString){
+		function getNewParserOutputString($xml_file, $escape_char, $argsString, $db_type = NULL){
 			$outputString = '';
-			$outputString = $this->getNewParserOutput($xml_file, $escape_char);
+			$outputString = $this->getNewParserOutput($xml_file, $escape_char, $db_type);
 			$outputString = $this->cleanOutputAndAddArgs($outputString, $argsString);
 			return $outputString;			
 		}

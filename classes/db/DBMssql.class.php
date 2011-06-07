@@ -434,6 +434,42 @@
             return $this->_query($query);
         }
 
+        function getSelectSql($query){
+       		$with_value = false;
+        	
+       		//$limitOffset = $query->getLimit()->getOffset();
+       		//if($limitOffset)
+       			// TODO Implement Limit with offset with subquery
+		 	$limit = '';$limitCount = '';
+		 	if($query->getLimit())
+       			$limitCount = $query->getLimit()->getLimit();
+		 	if($limitCount != '') $limit = 'SELECT TOP ' . $limitCount;       		
+       		
+			$select = $query->getSelectString($with_values);
+			if($select == '') return new Object(-1, "Invalid query");
+			if($limit != '')
+				$select = $limit.' '.$select;
+			else
+				$select = 'SELECT ' .$select;
+			
+			$from = $query->getFromString($with_values);
+			if($from == '') return new Object(-1, "Invalid query");
+			$from = ' FROM '.$from;
+			
+			$where = $query->getWhereString($with_values);
+			if($where != '') $where = ' WHERE ' . $where;
+							
+			$groupBy = $query->getGroupByString();
+			if($groupBy != '') $groupBy = ' GROUP BY ' . $groupBy;
+			
+			$orderBy = $query->getOrderByString();
+			if($orderBy != '') $orderBy = ' ORDER BY ' . $orderBy;
+			
+
+
+		 	return $select . ' ' . $from . ' ' . $where . ' ' . $groupBy . ' ' . $orderBy;
+        }
+        
         /**
          * @brief Handle selectAct
          *
@@ -451,6 +487,9 @@
             return $buff;
         }
 
+        function getParser(){
+        	return new DBParser("[", "]");
+        }
   
     }
 

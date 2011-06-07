@@ -18,6 +18,7 @@
 	
 	require_once(_XE_PATH_.'classes/db/DB.class.php');
 	require_once(_XE_PATH_.'classes/db/DBCubrid.class.php');
+	require_once(_XE_PATH_.'classes/db/DBMssql.class.php');
 	
     require_once(_XE_PATH_.'classes/xml/xmlquery/DBParser.class.php');
     require_once(_XE_PATH_.'classes/xml/xmlquery/argument/Argument.class.php');

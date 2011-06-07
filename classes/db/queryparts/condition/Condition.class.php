@@ -23,8 +23,10 @@
 			return is_a($this->argument, 'Argument');
 		}
 		
-		function toString(){
-			return $this->toStringWithValue();
+		function toString($withValue = true){
+			if($withValue)
+				return $this->toStringWithValue();
+			return $this->toStringWithoutValue();
 		}
 		
 		function toStringWithoutValue(){

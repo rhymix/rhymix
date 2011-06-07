@@ -11,6 +11,11 @@
 		var $orderby;
 		var $limit;
 		
+		var $arguments = array();
+		
+		function addArgument($argument){
+			$this->arguments[] = $argument;
+		}
 		
 		function setQueryId($queryID){
 			$this->queryID = $queryID;
@@ -106,28 +111,28 @@
 			return $this->action;
 		}
 		
-		function getSelectString(){		
+		function getSelectString($with_values = true){		
 			$select = '';
 			foreach($this->columns as $column){
 				if($column->show())
-					$select .= $column->getExpression() . ', ';
+					$select .= $column->getExpression($with_values) . ', ';
 			}
 			if(trim($select) == '') return '';
 			$select = substr($select, 0, -2);
 			return $select;
 		}
 		
-		function getUpdateString(){		
-			return $this->getSelectString();
+		function getUpdateString($with_values = true){		
+			return $this->getSelectString($with_values);
 		}		
 		
-		function getInsertString(){		
+		function getInsertString($with_values = true){		
 			$columnsList = '';
 			$valuesList = '';
 			foreach($this->columns as $column){
 				if($column->show()){
 					$columnsList .= $column->getColumnName() . ', ';
-					$valuesList .= $column->getValue() . ', ';
+					$valuesList .= $column->getValue($with_values) . ', ';
 				}
 			}
 			$columnsList = substr($columnsList, 0, -2);
@@ -140,23 +145,23 @@
 			return $this->tables;
 		}
 		
-		function getFromString(){
+		function getFromString($with_values = true){
 			$from = '';
 			$simple_table_count = 0;
 			foreach($this->tables as $table){
-				if($table->isJoinTable() || !$simple_table_count) $from .= $table->toString() . ' ';
-				else $from .= ', '.$table->toString() . ' ';
+				if($table->isJoinTable() || !$simple_table_count) $from .= $table->toString($with_values) . ' ';
+				else $from .= ', '.$table->toString($with_values) . ' ';
 				$simple_table_count++;
 			}
 			if(trim($from) == '') return '';
 			return $from;
 		}
 		
-		function getWhereString(){
+		function getWhereString($with_values = true){
 			$where = '';
 			if(count($this->conditions) > 0){
 				foreach($this->conditions as $conditionGroup){
-					$where .= $conditionGroup->toString();
+					$where .= $conditionGroup->toString($with_values);
 				}
 				if(trim($where) == '') return '';
 				

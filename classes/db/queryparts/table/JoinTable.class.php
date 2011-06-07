@@ -20,12 +20,12 @@
 			$this->conditions = $conditions;
 		}
 		
-		function toString(){
+		function toString($with_value = true){
 			$part = $this->join_type . ' ' . $this->name ;
 			$part .= $this->alias ? ' as ' . $this->alias : '';
 			$part .= ' on ';
 			foreach($this->conditions as $conditionGroup)
-				$part .= $conditionGroup->toString();
+				$part .= $conditionGroup->toString($with_value);
 			return $part;
 		}
 		

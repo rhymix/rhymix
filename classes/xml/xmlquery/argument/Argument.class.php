@@ -36,7 +36,7 @@
 				$this->value = $default_value;
 		}
 		
-		function escapeValue($column_type){
+		function setColumnType($column_type){
 			if(!isset($this->value)) return;
 			if($column_type === '') return;
 			

@@ -6,6 +6,7 @@
 		function _test($xml_file, $argsString, $expected){
 			$tester = new QueryTester();
 			$outputString = $tester->getNewParserOutputString($xml_file, '"', $argsString);
+			//echo $outputString;
 			$output = eval($outputString);
 			
 			if(!is_a($output, 'Query')){
