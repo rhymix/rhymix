@@ -1,6 +1,5 @@
 <?php
-	define('_XE_PATH_', str_replace('test-phpUnit/ExpressionParserTest.php', '', str_replace('\\', '/', __FILE__)));	
-	require(_XE_PATH_.'classes/xml/xmlquery/DBParser.class.php');
+	require('config.inc.php');	
 
 	class ExpressionParserTest extends PHPUnit_Framework_TestCase {
 		/* Escape char for:
@@ -8,7 +7,6 @@
 		 * MySql		``
 		 * SqlServer	[]
 		 */
-		
 		var $dbLeftEscapeChar = '[';
 		var $dbRightEscapeChar = ']';
 		

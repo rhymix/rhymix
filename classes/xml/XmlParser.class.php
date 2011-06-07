@@ -120,10 +120,10 @@
             $node_name = strtolower($node_name);
             $cur_obj = array_pop($this->output);
             $parent_obj = &$this->output[count($this->output)-1];
-            if($this->lang&&$cur_obj->attrs->{'xml:lang'}&&$cur_obj->attrs->{'xml:lang'}!=$this->lang) return;
-            if($this->lang&&$parent_obj->{$node_name}->attrs->{'xml:lang'}&&$parent_obj->{$node_name}->attrs->{'xml:lang'}!=$this->lang) return;
+            if(isset($this->lang)&&$cur_obj->attrs->{'xml:lang'}&&$cur_obj->attrs->{'xml:lang'}!=$this->lang) return;
+            if(isset($this->lang)&&$parent_obj->{$node_name}->attrs->{'xml:lang'}&&$parent_obj->{$node_name}->attrs->{'xml:lang'}!=$this->lang) return;
 
-            if($parent_obj->{$node_name}) {
+            if(isset($parent_obj->{$node_name})) {
                 $tmp_obj = $parent_obj->{$node_name};
                 if(is_array($tmp_obj)) {
                     array_push($parent_obj->{$node_name}, $cur_obj);

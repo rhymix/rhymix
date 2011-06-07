@@ -29,14 +29,14 @@
         }
         
         // singleton
-        function &getDBParser(){
+       /* function &getDBParser(){
         	static $dbParser;
         	if(!$dbParser){
         		$oDB = &DB::getInstance();
 				$dbParser = $oDB->getParser();
         	}
         	return $dbParser;
-        }
+        }*/
         
         function getXmlFileContent($xml_file){
             $buff = FileHandler::readFile($xml_file);
@@ -45,7 +45,11 @@
             unset($buff);
             return $xml_obj;        	
         }
-
         
+    	function &getDBParser(){
+        	if(!$this->dbParser)
+				$this->dbParser = new DBParser('"');
+        	return $this->dbParser;
+        }
     }
 ?>
