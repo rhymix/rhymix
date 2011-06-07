@@ -21,8 +21,8 @@
 		}
 
 		function toString(){
-			if ($this->page)return sprintf("new Limit(\$%s_argument->getValue(), \$%s_argument->getValue(), \$%s_argument->getValue())",$this->list_count->var, $this->page->var,  $this->page_count->var);
-			else return sprintf("new Limit(\$%s_argument->getValue())", $this->list_count->var);
+			if ($this->page)return sprintf("new Limit(\$%s_argument, \$%s_argument, \$%s_argument)",$this->list_count->var, $this->page->var,  $this->page_count->var);
+			else return sprintf("new Limit(\$%s_argument)", $this->list_count->var);
 		}
 
 		function getArguments(){

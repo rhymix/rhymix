@@ -7,25 +7,35 @@
 	 */
 
 	class UpdateExpression extends Expression {
-		var $value;
+		var $argument;
 		
-		function UpdateExpression($column_name, $value){
+		function UpdateExpression($column_name, $argument){
 			parent::Expression($column_name);
-			$this->value = $value;
+			$this->argument = $argument;
 		}
 		
 		function getExpression(){
-			return "$this->column_name = $this->value";
+			return $this->getExpressionWithValue();
+		}
+		
+		function getExpressionWithValue(){
+			$value = $this->argument->getValue();
+			return "$this->column_name = $value";
+		}
+		
+		function getExpressionWithoutValue(){
+			return "$this->column_name = ?";
 		}
 		
 		function getValue(){
 			// TODO Escape value according to column type instead of variable type
-			if(!is_numeric($this->value)) return "'".$this->value."'";
-			return $this->value;
+			$value = $this->argument->getValue();
+			if(!is_numeric($value)) return "'".$value."'";
+			return $value;
 		}
 		
 		function show(){
-			if(!$this->value) return false;
+			if(!$this->argument->getValue()) return false;
 			return true;
 		}
 	}

@@ -44,7 +44,6 @@
             if(__DEBUG__==3) $start = getMicroTime();
 
             $this->lang = Context::getLangType();
-
             $this->input = $input?$input:$GLOBALS['HTTP_RAW_POST_DATA'];
 			$this->input = str_replace(array('',''),array('',''),$this->input);
 

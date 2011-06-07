@@ -21,7 +21,7 @@
 		}
 		
 		function getExpressionString(){
-			return sprintf('new UpdateExpression(\'%s\', $%s_argument->getValue())'
+			return sprintf('new UpdateExpression(\'%s\', $%s_argument)'
 						, $this->name
 						, $this->argument->argument_name);	
 		}	

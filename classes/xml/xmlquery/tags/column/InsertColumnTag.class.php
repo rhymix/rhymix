@@ -19,7 +19,7 @@
 		}		
 		
 		function getExpressionString(){
-			return sprintf('new InsertExpression(\'%s\', $%s_argument->getValue())'
+			return sprintf('new InsertExpression(\'%s\', $%s_argument)'
 						, $this->name
 						, $this->argument->argument_name);	
 		}	

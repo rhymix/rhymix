@@ -6,7 +6,6 @@
 		function _test($xml_file, $argsString, $expected){
 			$tester = new QueryTester();
 			$outputString = $tester->getNewParserOutputString($xml_file, '"', $argsString);
-			echo $outputString;
 			$output = eval($outputString);
 			
 			if(!is_a($output, 'Query')){
@@ -35,4 +34,9 @@
 							and "act" = \'tata\'';
 			$this->_test($xml_file, $argsString, $expected);			
 		}
+				
+//	$queryTester->test_admin_deleteActionForward();
+//	$queryTester->test_module_insertModule();
+		
+		
 	}

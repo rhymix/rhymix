@@ -7,6 +7,7 @@
 			$tester = new QueryTester();
 			$outputString = $tester->getNewParserOutputString($xml_file, '"', $argsString);
 			$output = eval($outputString);
+			
 			if(!is_a($output, 'Query')){
 				if(!$output->toBool()) $querySql = "Date incorecte! Query-ul nu a putut fi executat.";
 			}else {
@@ -166,5 +167,14 @@
 						 			or "group_srl" = -2) 
 						 group by "module_srl"';
 			$this->_test($xml_file, $argsString, $expected);			
-		}	
+		}
+				
+//	$queryTester->test_admin_deleteActionForward();
+//	$queryTester->test_module_insertModule();
+//	$queryTester->test_module_updateModule();
+
+	
+//	$queryTester->test_opage_getOpageList();		
+		
+		
 	}

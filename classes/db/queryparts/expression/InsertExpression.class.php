@@ -8,19 +8,20 @@
 	 */
 
 	class InsertExpression extends Expression {
-		var $value;
+		var $argument;
 		
-		function InsertExpression($column_name, $value){
+		function InsertExpression($column_name, $argument){
 			parent::Expression($column_name);
-			$this->value = $value;
+			$this->argument = $argument;
 		}
 		
 		function getValue(){
-			return $this->value;
+			return $this->argument->getValue();
 		}
 		
 		function show(){
-			if(!isset($this->value)) return false;
+			$value = $this->argument->getValue();
+			if(!isset($value)) return false;
 			return true;
 		}
 	}

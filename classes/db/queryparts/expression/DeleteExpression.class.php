@@ -6,6 +6,7 @@
 	 *
 	 */
 
+	// TODO Fix this class 
 	class DeleteExpression extends Expression {
 		var $value;
 		

@@ -50,7 +50,7 @@
 		function getConditionString(){
 			return sprintf("new Condition('%s',%s,%s%s)"
 									, $this->column_name
-									, $this->default_column ? "'" . $this->default_column . "'" :  '$' . $this->argument_name . '_argument->getValue()'
+									, $this->default_column ? "'" . $this->default_column . "'" :  '$' . $this->argument_name . '_argument'
 									, '"'.$this->operation.'"'
 									, $this->pipe ? ", '" . $this->pipe . "'" : ''
 									);

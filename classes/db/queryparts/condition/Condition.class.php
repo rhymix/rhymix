@@ -2,19 +2,39 @@
 
 	class Condition {
 		var $column_name;
-		var $value;
+		var $argument;
 		var $operation;
 		var $pipe;
 		
-		function Condition($column_name, $value, $operation, $pipe = ""){
+		var $_value;
+		
+		function Condition($column_name, $argument, $operation, $pipe = ""){
 			$this->column_name = $column_name;
-			$this->value = $value;
+			$this->argument = $argument;
 			$this->operation = $operation;
 			$this->pipe = $pipe;
+			if($this->hasArgument())
+				$this->_value = $argument->getValue();
+			else 
+				$this->_value = $argument;
+		}
+		
+		function hasArgument(){
+			return is_a($this->argument, 'Argument');
 		}
 		
 		function toString(){
-			return $this->pipe . ' ' . $this->getConditionPart();
+			return $this->toStringWithValue();
+		}
+		
+		function toStringWithoutValue(){
+			if($this->hasArgument())
+				return $this->pipe . ' ' . $this->getConditionPart("?");
+			else return $this->toString();
+		}
+		
+		function toStringWithValue(){
+			return $this->pipe . ' ' . $this->getConditionPart($this->_value);
 		}
 		
 		function setPipe($pipe){
@@ -35,22 +55,20 @@
                 case 'notin' :
                 case 'notequal' :
                         // if variable is not set or is not string or number, return
-                        if(!isset($this->value)) return false;
-                        if($this->value === '') return false;
-                        if(!in_array(gettype($this->value), array('string', 'integer'))) return false;
+                        if(!isset($this->_value)) return false;
+                        if($this->_value === '') return false;
+                        if(!in_array(gettype($this->_value), array('string', 'integer'))) return false;
 				break;
                 case 'between' :
-					if(!is_array($this->value)) return false;
-					if(count($this->value)!=2) return false;
+					if(!is_array($this->_value)) return false;
+					if(count($this->_value)!=2) return false;
 
             }			
 			return true;
 		}
-
-		function getConditionPart() {
-	    	
+	
+		function getConditionPart($value) {
 	    	$name = $this->column_name;
-	    	$value = $this->value;
 	    	$operation = $this->operation;    	
 	    	
             switch($operation) {

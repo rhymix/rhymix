@@ -26,7 +26,7 @@
 		}
 		
 		function toString(){
-			return sprintf("new OrderByColumn(\$%s_argument->getValue(), %s)", $this->argument_name, $this->sort_order);
+			return sprintf("new OrderByColumn(\$%s_argument, %s)", $this->argument_name, $this->sort_order);
 		}
 
 		function getArguments(){

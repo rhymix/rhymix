@@ -9,7 +9,10 @@
 		}
 		
 		function toString(){
-			return $this->column_name . ' ' . $this->sort_order;
+			$result = is_a($this->column_name, 'Argument') ? $this->column_name->getValue() : $this->column_name;
+			$result .= ' ';
+			$result .= is_a($this->sort_order, 'Argument') ? $this->sort_order->getValue() : $this->sort_order;
+			return $result;
 		}
 	}
 

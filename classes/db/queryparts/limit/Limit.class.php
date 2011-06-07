@@ -24,12 +24,12 @@
 		}
 		
 		function getLimit(){
-			return $this->list_count;
+			return $this->list_count->getValue();
 		}
 		
 		function toString(){
-			if ($this->page)	return $this->start . ' , ' . $this->list_count;
-			else return $this->list_count;
+			if ($this->page) return $this->start . ' , ' . $this->list_count->getValue();
+			else return $this->list_count->getValue();
 		}
 	}
 ?>
