@@ -5,13 +5,14 @@
 
 		function _test($xml_file, $argsString, $expected){
 			$tester = new QueryTester();
-			$outputString = $tester->getNewParserOutputString($xml_file, '"', $argsString);
+			$outputString = $tester->getNewParserOutputString($xml_file, '"', $argsString, 'cubrid');
 			$output = eval($outputString);
 			
 			if(!is_a($output, 'Query')){
 				if(!$output->toBool()) $querySql = "Date incorecte! Query-ul nu a putut fi executat.";
 			}else {
-				$db = new DBCubrid();
+				//$db = new DBCubrid();
+				$db = &DB::getInstance('cubrid');
 				$querySql = $db->getDeleteSql($output);
 	
 				// Remove whitespaces, tabs and all
