@@ -111,7 +111,7 @@ class Validator
 			$fields = $fields_;
 		} else {
 			$args   = array_keys($this->_filters);
-			$fields = (array)call_user_func_array(array('Context','gets'), $args);
+			$fields = (array)Context::getRequestVars();
 		}
 
 		if(!is_array($fields)) return true;
@@ -125,11 +125,12 @@ class Validator
 		);
 
 		foreach($this->_filters as $key=>$filter) {
-			$value  = isset($fields[$key])?trim($fields[$key]):'';
+			$exists = array_key_exists($key, $fields);
+			$value  = $exists?trim($fields[$key]):null;
 			$filter = array_merge($filter_default, $filter);
 
 			// attr : default
-			if(!strlen($value) && ($default=trim($filter['default']))) {
+			if(!$value && ($default=trim($filter['default']))) {
 				$value = $default;
 				if(is_null($fields_)) Context::set($key, $value);
 				else $fields_[$key] = $value;
@@ -140,6 +141,9 @@ class Validator
 
 			// attr : required
 			if(!$value && $filter['required'] === 'true') return $this->error($key, '');
+
+			// if the field wasn't passed, ignore this value
+			if(!$exists && !$value) continue;
 
 			// attr : length
 			if($length=$filter['length']){
