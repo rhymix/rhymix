@@ -17,11 +17,11 @@ class Validator
 	 * @constructor
 	 */
 	function Validator($xml_path=''){
-		if($xml_path) $this->load($xml_path);
-
 		$this->_rules   = array();
 		$this->_filters = array();
 		$this->_xml_ruleset = null;
+
+		if($xml_path) $this->load($xml_path);
 		
 		// predefined rules
 		$this->addRule(array(
