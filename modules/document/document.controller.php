@@ -201,9 +201,7 @@ class documentController extends document {
 
 		$obj->lang_code = Context::getLangType();
 		// Insert data into the DB
-		debugPrint($obj->status);
 		if(!$obj->status) $this->_checkDocumentStatusForOldVersion(&$obj);
-		debugPrint($obj->status);
 		$output = executeQuery('document.insertDocument', $obj);
 		if(!$output->toBool()) {
 			$oDB->rollback();
