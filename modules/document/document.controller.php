@@ -141,8 +141,8 @@ class documentController extends document {
 		$oDB = &DB::getInstance();
 		$oDB->begin();
 		// List variables
-		if($obj->allow_comment!='Y') $obj->allow_comment = 'N';
-		if($obj->lock_comment!='Y') $obj->lock_comment = 'N';
+		if(!$obj->commentStatus) $obj->commentStatus = 'DENY';
+		if($obj->commentStatus == 'DENY') $this->_checkCommentStatusForOldVersion(&$obj);
 		if($obj->allow_trackback!='Y') $obj->allow_trackback = 'N';
 		if($obj->homepage &&  !preg_match('/^[a-z]+:\/\//i',$obj->homepage)) $obj->homepage = 'http://'.$obj->homepage;
 		if($obj->notify_message != 'Y') $obj->notify_message = 'N';
@@ -201,6 +201,9 @@ class documentController extends document {
 
 		$obj->lang_code = Context::getLangType();
 		// Insert data into the DB
+		debugPrint($obj->status);
+		if(!$obj->status) $this->_checkDocumentStatusForOldVersion(&$obj);
+		debugPrint($obj->status);
 		$output = executeQuery('document.insertDocument', $obj);
 		if(!$output->toBool()) {
 			$oDB->rollback();
@@ -275,8 +278,8 @@ class documentController extends document {
 			$obj->ipaddress = $source_obj->get('ipaddress');
 		}
 		// List variables
-		if($obj->allow_comment!='Y') $obj->allow_comment = 'N';
-		if($obj->lock_comment!='Y') $obj->lock_comment = 'N';
+		if(!$obj->commentStatus) $obj->commentStatus = 'DENY';
+		if($obj->commentStatus == 'DENY') $this->_checkCommentStatusForOldVersion(&$obj);
 		if($obj->allow_trackback!='Y') $obj->allow_trackback = 'N';
 		if($obj->homepage &&  !preg_match('/^[a-z]+:\/\//i',$obj->homepage)) $obj->homepage = 'http://'.$obj->homepage;
 		if($obj->notify_message != 'Y') $obj->notify_message = 'N';
@@ -544,8 +547,8 @@ class documentController extends document {
 		$oTrashVO->setRemoverSrl($logged_info->member_srl);
 		$oTrashVO->setRegdate(date('YmdHis'));
 
-		$oTrashController = &getController('trash');
-		$output = $oTrashController->insertTrash($oTrashVO);
+		$oTrashAdminController = &getAdminController('trash');
+		$output = $oTrashAdminController->insertTrash($oTrashVO);
 		if (!$output->toBool()) {
 			$oDB->rollback();
 			return $output;
@@ -1682,6 +1685,27 @@ class documentController extends document {
 
 		$this->setMessage('success_saved');
 		$this->add('document_srl', $obj->document_srl);
+	}
+
+	/**
+	 * @brief for old version, comment allow status check.
+	 **/
+	function _checkCommentStatusForOldVersion(&$obj)
+	{
+		if(!isset($obj->allow_comment)) $obj->allow_comment = 'N';
+		if(!isset($obj->lock_comment)) $obj->lock_comment = 'N';
+
+		if($obj->allow_comment == 'Y' && $obj->lock_comment == 'N') $obj->commentStatus = 'ALLOW';
+		else $obj->commentStatus = 'DENY';
+	}
+
+	/**
+	 * @brief for old version, document status check.
+	 **/
+	function _checkDocumentStatusForOldVersion(&$obj)
+	{
+		if(!$obj->status && $obj->is_secret == 'Y') $obj->status = $this->getConfigStatus('secret');
+		if(!$obj->status && $obj->is_secret != 'Y') $obj->status = $this->getConfigStatus('public');
 	}
 }
 ?>

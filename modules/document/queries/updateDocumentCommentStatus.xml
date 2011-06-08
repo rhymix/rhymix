@@ -1,0 +1,12 @@
+<query id="updateDocumentCommentStatus" action="update">
+    <tables>
+        <table name="documents" />
+    </tables>
+    <columns>
+        <column name="comment_status" var="commentStatus" default="ALLOW" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="allow_comment" var="allowComment" default="Y" pipe="and" />
+        <condition operation="equal" column="lock_comment" var="lockComment" default="N" pipe="and" />
+    </conditions>
+</query>

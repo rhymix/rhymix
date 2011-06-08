@@ -29,9 +29,8 @@
     <column name="ipaddress" type="varchar" size="128" notnull="notnull" index="idx_ipaddress" />
     <column name="list_order" type="number" size="11" notnull="notnull" index="idx_list_order" />
     <column name="update_order" type="number" size="11" notnull="notnull" index="idx_update_order" />
-    <column name="allow_comment" type="char" size="1" default="Y" notnull="notnull" />
-    <column name="lock_comment" type="char" size="1" default="N" notnull="notnull" />
     <column name="allow_trackback" type="char" size="1" default="Y" notnull="notnull" />
     <column name="notify_message" type="char" size="1" default="N" notnull="notnull" />
     <column name="status" type="varchar" size="20" default="PUBLIC" />
+    <column name="comment_status" type="varchar" size="20" default="ALLOW" />
 </table>

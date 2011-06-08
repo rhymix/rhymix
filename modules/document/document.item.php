@@ -90,7 +90,7 @@
         function allowComment() {
             if(!$this->isExists()) return true;
 
-            return $this->get('allow_comment') == 'Y' ? true : false;
+            return $this->get('comment_status') == 'ALLOW' ? true : false;
         }
 
         function allowTrackback() {
@@ -113,7 +113,7 @@
         }
 
         function isLocked() {
-            return $this->get('lock_comment') == 'Y'  ? true : false;
+            return $this->get('comment_status') == 'ALLOW' ? false : true;
         }
 
         function isEditable() {

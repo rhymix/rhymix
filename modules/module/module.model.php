@@ -228,6 +228,20 @@
         }
 
         /**
+         * @brief Get a complete list of module_srl, which is created in the DB
+         **/
+		function getModuleSrlList($args = null, $columnList = array())
+		{
+            $output = executeQueryArray('module.getMidList', $args, $columnList);
+            if(!$output->toBool()) return $output;
+
+            $list = $output->data;
+            if(!$list) return;
+
+			return $list;
+		}
+
+        /**
          * @brief Return an array of module_srl corresponding to a mid list
          **/
         function getModuleSrlByMid($mid) {

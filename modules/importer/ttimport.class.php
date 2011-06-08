@@ -117,7 +117,7 @@
                 $obj->title = $xmlDoc->post->title->body;
                 $obj->content = $xmlDoc->post->content->body;
                 $obj->password = md5($xmlDoc->post->password->body);
-                $obj->allow_comment = $xmlDoc->post->acceptcomment->body=='1'?'Y':'N';
+                $obj->commentStatus = $xmlDoc->post->acceptcomment->body=='1'?'ALLOW':'DENY';
                 $obj->allow_trackback = $xmlDoc->post->accepttrackback->body=='1'?'Y':'N';
                 //$obj->allow_comment = $xmlDoc->post->acceptComment->body=='1'?'Y':'N';
                 //$obj->allow_trackback = $xmlDoc->post->acceptTrackback->body=='1'?'Y':'N';
@@ -144,7 +144,6 @@
                 $obj->homepage = $member_info->homepage;
                 $obj->ipaddress = $_REMOTE['SERVER_ADDR'];
                 $obj->list_order = $obj->update_order = $obj->document_srl*-1;
-                $obj->lock_comment = 'N';
                 $obj->notify_message = 'N';
                 // Change content information (attachment)
                 $obj->content = str_replace('[##_ATTACH_PATH_##]/','',$obj->content);
@@ -282,7 +281,7 @@
 							$obj->title = cut_str(strip_tags($obj->content),20,'...');
 							if ($obj->title == '') $obj->title = 'Untitled';
 
-							$obj->allow_comment = 'Y';
+							$obj->commentStatus = 'ALLOW';
 							$obj->allow_trackback = 'N';
 							$obj->regdate = date("YmdHis",$val->written->body);
 							$obj->last_update = date("YmdHis", $val->written->body);
@@ -307,7 +306,6 @@
 							}
 							$obj->ipaddress = $val->commenter->ip->body;
 							$obj->list_order = $obj->update_order = $obj->document_srl*-1;
-							$obj->lock_comment = 'N';
 							$obj->notify_message = 'N';
 							$obj->trackback_count = 0;
 

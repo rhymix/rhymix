@@ -3,7 +3,7 @@
         <table name="documents" />
     </tables>
     <columns>
-        <column name="allow_comment" var="allow_comment" default="Y" />
+        <column name="comment_status" var="commentStatus" default="ALLOW" />
         <column name="allow_trackback" var="allow_trackback" default="Y" />
     </columns>
     <conditions>
