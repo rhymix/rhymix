@@ -30,7 +30,7 @@ class Validator
 			'url'          => '/^(https?|ftp|mms):\/\/[0-9a-z-]+(\.[_0-9a-z-]+)+(:[0-9]+)/',
 			'alpha'        => '/^[a-z]*$/i',
 			'alpha_number' => '/^[a-z][a-z0-9_]*$/i',
-			'number'       => '/^[1-9][0-9]*$/'
+			'number'       => '/^(?:[1-9]\\d*|0)$/'
 		));
 
 		$this->_has_mb_func = is_callable('mb_strlen');
@@ -117,7 +117,7 @@ class Validator
 		if(!is_array($fields)) return true;
 
 		$filter_default = array(
-			'default'   => 0,
+			'default'   => '',
 			'modifiers' => array(),
 			'length'    => 0,
 			'equalto'   => 0,
@@ -130,20 +130,21 @@ class Validator
 			$filter = array_merge($filter_default, $filter);
 
 			// attr : default
-			if(!$value && ($default=trim($filter['default']))) {
+			if(!$value && strlen($default=trim($filter['default']))) {
 				$value = $default;
 				if(is_null($fields_)) Context::set($key, $value);
 				else $fields_[$key] = $value;
 			}
+			$value_len = strlen($value);
 
 			// attr : modifier
 			if(is_string($modifiers=$filter['modifiers'])) $modifiers = explode(',', trim($modifiers));
 
 			// attr : required
-			if(!$value && $filter['required'] === 'true') return $this->error($key, '');
+			if($filter['required'] === 'true' && !$value_len) return $this->error($key, '');
 
 			// if the field wasn't passed, ignore this value
-			if(!$exists && !$value) continue;
+			if(!$exists && !$value_len) continue;
 
 			// attr : length
 			if($length=$filter['length']){
