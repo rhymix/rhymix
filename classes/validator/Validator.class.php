@@ -141,7 +141,7 @@ class Validator
 			if(is_string($modifiers=$filter['modifiers'])) $modifiers = explode(',', trim($modifiers));
 
 			// attr : required
-			if($filter['required'] === 'true' && !$value_len) return $this->error($key, '');
+			if($filter['required'] === 'true' && !$value_len) return $this->error($key, 'isnull');
 
 			// if the field wasn't passed, ignore this value
 			if(!$exists && !$value_len) continue;
@@ -158,7 +158,7 @@ class Validator
 					$strlength = $this->_has_mb_func?mb_strlen($value,'utf-8'):$this->mbStrLen($value);
 				}
 
-				if($min > ($is_min_b?$strbytes:$strlength) || $max < ($is_max_b?$strbytes:$strlength)) return $this->error($key, 'length');
+				if($min > ($is_min_b?$strbytes:$strlength) || $max < ($is_max_b?$strbytes:$strlength)) return $this->error($key, 'outofrange');
 			}
 
 			// equalto
@@ -166,12 +166,15 @@ class Validator
 				if(!array_key_exists($equalto, $fields) || trim($fields[$equalto]) !== $value) return $this->error($key, 'equalto');
 			}
 
-			// rule
-			if($rule=$filter['rule']){
-				$result = $this->applyRule($rule, $value);
-				// apply the 'not' modifier
-				if(in_array('not', $modifiers)) $result = !$result;
-				if(!$result) return $this->error($key, 'rule error');
+			// rules
+			if($rules=$filter['rule']){
+				$rules = explode(',', $rules);
+				foreach($rules as $rule) {
+					$result = $this->applyRule($rule, $value);
+					// apply the 'not' modifier
+					if(in_array('not', $modifiers)) $result = !$result;
+					if(!$result) return $this->error($key, 'invalid_'.$rule);
+				}
 			}
 		}
 
@@ -184,6 +187,11 @@ class Validator
 	 * @return always false
 	 */
 	function error($field, $msg){
+		global $lang;
+
+		$msg = isset($lang->filter->{$msg})?$lang->filter->{$msg}:$lang->filter->invalid;
+		$msg = sprintf($msg, $field);
+
 		$this->_last_error = array('field'=>$field, 'msg'=>$msg);
 
 		return false;
