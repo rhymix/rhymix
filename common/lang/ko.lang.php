@@ -287,17 +287,18 @@ $lang->ftp_path_title = 'FTP 경로 정보 입력';
 $lang->msg_ftp_installed_realpath = '설치된 XE의 절대경로';
 $lang->msg_ftp_installed_ftp_realpath = '설치된 XE의 FTP 경로 설정';
 // xml filter for use in the javascript alert msg
-$lang->filter->isnull = '%s을 입력해주세요.';
+$lang->filter->isnull = '%s에 값을 입력해주세요.';
 $lang->filter->outofrange = '%s의 글자 수를 맞추어 주세요.';
-$lang->filter->equalto = '%s이 잘못되었습니다.';
-$lang->filter->invalid_email = '%s의 형식이 잘못되었습니다. (예: xe@xpressengine.com)';
-$lang->filter->invalid_user_id = $lang->filter->invalid_userid = "%s의 형식이 잘못되었습니다.\\n영문, 숫자와 _로 만드실 수 있으며, 첫 글자는 영문이어야 합니다.";
-$lang->filter->invalid_homepage = '%s의 형식이 잘못되었습니다. (예: http://www.xpressengine.com)';
+$lang->filter->equalto = '%s이(가) 잘못되었습니다.';
+$lang->filter->invalid = '%s의 값이 올바르지 않습니다.';
+$lang->filter->invalid_email = '%s의 값은 올바른 메일 주소가 아닙니다.';
+$lang->filter->invalid_user_id = $lang->filter->invalid_userid = "%s의 값은 영문, 숫자, _만 가능하며 첫 글자는 영문이어야 합니다.";
+$lang->filter->invalid_url = $lang->filter->invalid_homepage = '%s의 형식이 잘못되었습니다. (예: http://www.xpressengine.com)';
 $lang->filter->invalid_korean = '%s의 형식이 잘못되었습니다. 한글로만 입력하셔야 합니다.';
 $lang->filter->invalid_korean_number = '%s의 형식이 잘못되었습니다. 한글과 숫자로만 입력하셔야 합니다.';
 $lang->filter->invalid_alpha = '%s의 형식이 잘못되었습니다. 영문으로만 입력하셔야 합니다.';
 $lang->filter->invalid_alpha_number = '%s의 형식이 잘못되었습니다. 영문과 숫자로만 입력하셔야 합니다.';
 $lang->filter->invalid_number = '%s의 형식이 잘못되었습니다. 숫자로만 입력하셔야 합니다.';
 $lang->security_warning_embed = "보안 문제로 관리자 아이디로는 embed를 볼 수 없습니다. 확인하시려면 다른 아이디로 접속하세요";
-$lang->msg_pc_to_mobile = '이 페이지는 모바일 보기가 있습니다. 모바일 보기로 이동하시겠습니까?';
+$lang->msg_pc_to_mobile = '모바일에 최적화된 화면으로 보기';
 ?>
