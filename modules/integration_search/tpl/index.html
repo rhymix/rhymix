@@ -1,9 +1,11 @@
 <!--#include("header.html")-->
-<!--%import("filter/insert_config.xml")-->
 <!--%import("../../widget/tpl/js/widget_admin.js")-->
 
-<form action="./" method="get" onsubmit="return procFilter(this, insert_config)">
-    <input type="hidden" name="target_module_srl" id="target_module_srl" value="{$config->target_module_srl}" />
+<p class="xe_validator_error">{$XE_VALIDATOR_ERROR}</p>
+<form ruleset="insertConfig" action="./" method="post">
+<input type="hidden" name="act" value="procIntegration_searchAdminInsertConfig" />
+<input type="hidden" name="module" value="admin" />
+<input type="hidden" name="target_module_srl" id="target_module_srl" value="{$config->target_module_srl}" />
     <table cellspacing="0" class="rowTable">
     <tr class="row2">
         <th scope="row"><div>{$lang->sample_code}</div></th>

@@ -1,6 +1,7 @@
 <!--#include("./header.html")-->
 
-<form action="{Context::getRequestUri()}" method="post" enctype="multipart/form-data" target="hidden_iframe">
+<p class="xe_validator_error">{$XE_VALIDATOR_ERROR}</p>
+<form action="{Context::getRequestUri()}" method="post" enctype="multipart/form-data">
 <input type="hidden" name="module" value="integration_search" />
 <input type="hidden" name="act" value="procIntegration_searchAdminInsertSkin" />
 
@@ -139,5 +140,3 @@
     </table>
 
 </form>
-
-<iframe name="hidden_iframe" frameborder="0" style="display:none"></iframe>
