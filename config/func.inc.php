@@ -821,6 +821,14 @@
     }
 
     /**
+     * return the requested script path
+     **/
+	function getRequestUriByServerEnviroment()
+	{
+		return $_SERVER['REQUEST_URI'];
+	}
+
+    /**
      * php unescape function of javascript's escape
      * Function converts an Javascript escaped string back into a string with specified charset (default is UTF-8).
      * Modified function from http://pure-essence.net/stuff/code/utf8RawUrlDecode.phps

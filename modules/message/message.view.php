@@ -37,8 +37,7 @@
             Context::set('system_message', nl2br($this->getMessage()));
 
             $this->setTemplatePath($template_path);
-            $this->setTemplateFile('system_message');
+			$this->setTemplateFile('system_message');
         }
-
     }
 ?>

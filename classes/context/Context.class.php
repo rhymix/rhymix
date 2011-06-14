@@ -925,6 +925,8 @@ class Context {
 	 **/
 	function get($key) {
 		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
+
+		if(!isset($self->context->{$key})) return null;
 		return $self->context->{$key};
 	}
 

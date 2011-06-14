@@ -187,6 +187,9 @@
             // javascript plugin import
             $buff = preg_replace_callback('!<\!--%load_js_plugin\(\"([^\"]*?)\"\)-->!is', array($this, '_compileLoadJavascriptPlugin'), $buff);
 
+			// form auto generation
+			$buff = preg_replace_callback('/(<form.*?>)(.*)(<\/form>)/is', array($this, '_compileFormAuthGeneration'), $buff);
+
             // replace variables
             $buff = preg_replace_callback('/\{[^@^ ]([^\{\}\n]+)\}/i', array($this, '_compileVarToContext'), $buff);
 
@@ -199,6 +202,46 @@
             // prevent from calling directly before writing into file
             $this->buff = '<?php if(!defined("__ZBXE__")) exit();?>'.$buff;
         }
+
+		/**
+		 * @brief 1. remove ruleset from form tag
+		 * 2. add hidden tag with ruleset value
+		 * 3. if empty default hidden tag, generate hidden tag (ex:mid, vid, act...)
+		 * 4. generate return url, return url use in server side validator
+		 **/
+		function _compileFormAuthGeneration($matches)
+		{
+			// form ruleset attribute move to hidden tag
+			if($matches[1])
+			{
+				preg_match('/ruleset="([^"]*?)"/is', $matches[1], $m);
+				if($m[0])
+				{
+					$matches[1] = preg_replace('/'.$m[0].'/i', '', $matches[1]);
+					$matches[2] = '<input type="hidden" name="ruleset" value="'.$m[1].'" />'.$matches[2];
+				}
+			}
+
+			// if not exists default hidden tag, generate hidden tag
+			preg_match_all('/<input[^>]* name="(act|mid|vid)"/is', $matches[2], $m2);
+			$checkVar = array('act', 'mid', 'vid');
+			$resultArray = array_diff($checkVar, $m2[1]);
+			if(is_array($resultArray))
+			{
+				$generatedHidden = '';
+				foreach($resultArray AS $key=>$value)
+				{
+					$generatedHidden .= '<input type="hidden" name="'.$value.'" value="{$'.$value.'}">';
+				}
+				$matches[2] = $generatedHidden.$matches[2];
+			}
+
+			// return url generate
+			$matches[2] = '<input type="hidden" name="error_return_url" value="{getRequestUriByServerEnviroment()}" />'.$matches[2];
+
+			$matches[0] = '';
+			return implode($matches);
+		}
 
         /**
          * @brief fetch using ob_* function 
