@@ -910,7 +910,7 @@ function ucfirst(str) {
 	return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-function xGetElementById(id) {
+function get_by_id(id) {
 	return document.getElementById(id);
 }
 
