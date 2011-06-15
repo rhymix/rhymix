@@ -910,6 +910,10 @@ function ucfirst(str) {
 	return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
+function xGetElementById(id) {
+	return document.getElementById(id);
+}
+
 jQuery(function($){
     $('.lang_code').each(
 		function() 
@@ -960,4 +964,20 @@ jQuery(function($){
 
 		return false;
     });
+
+	/**
+	 * Create popup windows automatically.
+	 * Find anchors that have the '_xe_popup' class, then add popup script to them.
+	 */
+	$('a._xe_popup').click(function(){
+		var $this = $(this), name = $this.attr('name'), href = $this.attr('href'), win;
+
+		if(!name) name = '_xe_popup_'+Math.floor(Math.random()*1000);
+
+		win = window.open(href, name, 'left=10,top=10,width=10,hegiht=10,resizable=no,scrollbars=no,toolbars=no');
+		if(win) win.focus();
+
+		// cancel default action
+		return false;
+	});
 });
