@@ -1,10 +1,11 @@
 <?php
 
 define('__DEBUG__', 1);
-require dirname(__FILE__).'/../../../classes/xml/XmlParser.class.php';
-require dirname(__FILE__).'/../../../classes/handler/Handler.class.php';
-require dirname(__FILE__).'/../../../classes/file/FileHandler.class.php';
-require dirname(__FILE__).'/../../../classes/validator/Validator.class.php';
+$xe_path = realpath(dirname(__FILE__).'/../../../');
+require "{$xe_path}/classes/xml/XmlParser.class.php";
+require "{$xe_path}/classes/handler/Handler.class.php";
+require "{$xe_path}/classes/file/FileHandler.class.php";
+require "{$xe_path}/classes/validator/Validator.class.php";
 
 error_reporting(E_ALL & ~E_NOTICE);
 
@@ -60,6 +61,15 @@ class ValidatorTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals( 'idididid', Context::get('userid') );
 	}
 
+	public function testLength() {
+		$vd = new Validator();
+
+		$vd->addFilter('field1', array('length'=>'3:'));
+		$this->assertFalse( $vd->validate(array('field1'=>'ab')) );
+		$this->assertTrue( $vd->validate(array('field1'=>'abc')) );
+		$this->assertTrue( $vd->validate(array('field1'=>'abcd')) );
+	}
+
 	public function testCustomRule() {
 	}
 
@@ -78,10 +88,16 @@ class Context
 		$output = new stdClass;
 
 		foreach($args as $name) {
-			if(array_key_exists($name, $mock_vars)) $output->{$name} = $mock_vars[$name];
+			$output->{$name} = $mock_vars[$name];
 		}
 
 		return $output;
+	}
+
+	public function getRequestVars() {
+		global $mock_vars;
+
+		return $mock_vars;
 	}
 
 	public function get($name) {

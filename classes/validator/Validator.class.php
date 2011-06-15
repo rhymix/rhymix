@@ -158,7 +158,7 @@ class Validator
 					$strlength = $this->_has_mb_func?mb_strlen($value,'utf-8'):$this->mbStrLen($value);
 				}
 
-				if($min > ($is_min_b?$strbytes:$strlength) || $max < ($is_max_b?$strbytes:$strlength)) return $this->error($key, 'outofrange');
+				if(($min && $min > ($is_min_b?$strbytes:$strlength)) || ($max && $max < ($is_max_b?$strbytes:$strlength))) return $this->error($key, 'outofrange');
 			}
 
 			// equalto
