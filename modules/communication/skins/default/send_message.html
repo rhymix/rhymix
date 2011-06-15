@@ -1,11 +1,12 @@
-<!--%import("filter/send_message.xml")-->
 <!--%import("js/communication.js")-->
 
 <div id="popHeader" class="wide">
     <h3 class="xeAdmin">{$lang->cmd_send_message}</h3>
 </div>
 
-<form action="./" method="get" onsubmit="return procFilter(this, send_message)">
+<p class="xe_validator_error">{$XE_VALIDATOR_ERROR}</p>
+<form ruleset="sendMessage" action="./" method="get">
+<input type="hidden" name="act" value="procCommunicationSendMessage" />
 <input type="hidden" name="content" value="{htmlspecialchars($source_message->content)}" />
 <input type="hidden" name="receiver_srl" value="{$receiver_info->member_srl}" />
 

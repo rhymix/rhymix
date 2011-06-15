@@ -1,12 +1,13 @@
 <!--%import("js/communication_admin.js")-->
 <!--%import("../../editor/tpl/js/editor_module_config.js",optimized=false)-->
-<!--%import("filter/insert_config.xml")-->
 
 <h3 class="xeAdmin">{$lang->communication} <span class="gray">{$lang->cmd_management}</span></h3>
 
 <div class="infoText">{nl2br($lang->about_communication)}</div>
 
-<form action="./" method="get" onsubmit="return procFilter(this, insert_config)">
+<p class="xe_validator_error">{$XE_VALIDATOR_ERROR}</p>
+<form ruleset="insertConfig" action="./" method="post">
+<input type="hidden" name="act" value="procCommunicationAdminInsertConfig">
 
     <table cellspacing="0" class="rowTable">
     <tr>

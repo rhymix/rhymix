@@ -248,6 +248,7 @@ $lang->success_reset = 'Reajustado con éxito';
 $lang->success_leaved = 'Abandonado con éxito';
 $lang->success_saved = 'Guardado correctamente';
 
+$lang->fail_to_registed = '등록하지 못하였습니다.';
 $lang->fail_to_delete = 'No puede ser borrado';
 $lang->fail_to_move = 'No puede ser movido';
 

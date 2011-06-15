@@ -242,6 +242,7 @@ $lang->success_reset = 'Restauré avec succès';
 $lang->success_leaved = 'Toutes vos informations sont complètement supprimés';
 $lang->success_saved = 'Conservé avec succès';
 
+$lang->fail_to_registed = '등록하지 못하였습니다.';
 $lang->fail_to_delete = 'N\'a pas pu être supprimé.';
 $lang->fail_to_move = 'N\'a pas pu être bougé';
 

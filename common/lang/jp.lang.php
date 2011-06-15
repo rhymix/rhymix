@@ -243,6 +243,7 @@ $lang->success_reset = '初期化しました。';
 $lang->success_leaved = '退会しました。';
 $lang->success_saved = '保存しました。';
 
+$lang->fail_to_registed = '등록하지 못하였습니다.';
 $lang->fail_to_delete = '削除に失敗しました。';
 $lang->fail_to_move = '移動に失敗しました。';
 

@@ -235,6 +235,7 @@ $lang->success_reset = 'Đã thiết lập lại thành công.';
 $lang->success_leaved = 'Đã xóa tất cả các thành viên.';
 $lang->success_saved = 'Đã lưu thành công.';
 
+$lang->fail_to_registed = '등록하지 못하였습니다.';
 $lang->fail_to_delete = 'Không thể xóa.';
 $lang->fail_to_move = 'Không thể chuyển.';
 

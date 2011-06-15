@@ -235,6 +235,7 @@
                     if($xml_info->action->{$this->act}) {
                         $forward->module = $module;
                         $forward->type = $xml_info->action->{$this->act}->type;
+            			$forward->ruleset = $xml_info->action->{$this->act}->ruleset;
                         $forward->act = $this->act;
                     }
                 }
@@ -247,6 +248,7 @@
                 if($forward->module && $forward->type && $forward->act && $forward->act == $this->act) {
                     $kind = strpos(strtolower($forward->act),'admin')!==false?'admin':'';
 					$type = $forward->type;
+					$ruleset = $forward->ruleset;
 					$tpl_path = $oModule->getTemplatePath();
 					$orig_module = $oModule;
 
@@ -290,10 +292,11 @@
 				}
 			}
 
-			//TODO ruleset check...
+			// ruleset check...
 			if(!empty($ruleset))
 			{
-				$rulesetFile = $oModuleModel->getValidatorFilePath($this->module, $ruleset);
+				$rulesetModule = $forward->module ? $forward->module : $this->module;
+				$rulesetFile = $oModuleModel->getValidatorFilePath($rulesetModule, $ruleset);
 				if(!empty($rulesetFile))
 				{
 					$Validator = new Validator($rulesetFile);

@@ -243,6 +243,7 @@ $lang->success_reset = '重設成功！';
 $lang->success_leaved = '成功退出！';
 $lang->success_saved = '儲存成功！';
 
+$lang->fail_to_registed = '등록하지 못하였습니다.';
 $lang->fail_to_delete = '刪除成功！';
 $lang->fail_to_move = '移動成功！';
 

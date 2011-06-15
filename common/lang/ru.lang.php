@@ -243,6 +243,7 @@ $lang->success_reset = 'Сброшено успешно';
 $lang->success_leaved = 'Пользователь удален';
 $lang->success_saved = 'Сохранено успешно';
 
+$lang->fail_to_registed = '등록하지 못하였습니다.';
 $lang->fail_to_delete = 'Не может быть удалено';
 $lang->fail_to_move = 'Перемещение невозможно';
 

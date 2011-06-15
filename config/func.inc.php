@@ -980,4 +980,21 @@
 		}
 	}
 
+	function alertScript($msg)
+	{
+		if(!$msg) return;
+		echo '<script  type="text/javascript">alert("'.$msg.'");</script>';
+	}
+
+	function closePopupScript()
+	{
+		echo '<script  type="text/javascript">window.close();</script>';
+	}
+
+	function reload($isOpener = false)
+	{
+		$reloadScript = $isOpener ? 'window.opener.location.reload()' : 'document.location.reload()';
+
+		echo '<script  type="text/javascript">'.$reloadScript.'</script>';
+	}
 ?>

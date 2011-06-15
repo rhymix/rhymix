@@ -242,6 +242,7 @@ $lang->success_reset = 'Başarıyla Tekrar Kuruldu.';
 $lang->success_leaved = 'Tüm üye verileri tamamen silindi.';
 $lang->success_saved = 'Başarıyla Kaydedildi.';
 
+$lang->fail_to_registed = '등록하지 못하였습니다.';
 $lang->fail_to_delete = 'Silinemedi';
 $lang->fail_to_move = 'Taşınamadı';
 

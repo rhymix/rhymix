@@ -243,6 +243,7 @@ $lang->success_reset = 'Reset';
 $lang->success_leaved = 'Гишүүнээс гарсан';
 $lang->success_saved = 'Хадгалагдсан';
 
+$lang->fail_to_registed = '등록하지 못하였습니다.';
 $lang->fail_to_delete = 'Устгалт амжилтгүй боллоо';
 $lang->fail_to_move = 'Шилжилт амжилтгүй боллоо';
 

@@ -242,6 +242,7 @@ $lang->success_reset = 'Reset';
 $lang->success_leaved = 'Alle Mitglieder Daten wurden komplett gestrichen. ';
 $lang->success_saved = 'erfolgreich gespeichert ';
 
+$lang->fail_to_registed = '등록하지 못하였습니다.';
 $lang->fail_to_delete = 'konnte nicht gelöscht werden';
 $lang->fail_to_move = 'konnte nicht verschoben werden';
 

@@ -242,6 +242,7 @@ $lang->success_reset = 'Reset successfully';
 $lang->success_leaved = 'All member data has been deleted completely.';
 $lang->success_saved = 'Saved successfully';
 
+$lang->fail_to_registed = '등록하지 못하였습니다.';
 $lang->fail_to_delete = 'Could not be deleted';
 $lang->fail_to_move = 'Could not be moved';
 

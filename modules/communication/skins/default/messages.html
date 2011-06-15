@@ -3,7 +3,9 @@
 <!--%import("filter/update_allow_message.xml")-->
 
 <div class="xeMessages">
-    <form action="./" method="POST" onsubmit="return procFilter(this, update_allow_message)" class="setupMessage">
+    <form action="./" method="POST" class="setupMessage">
+	<input type="hidden" name="act" value="procCommunicationUpdateAllowMessage" />
+	<input type="hidden" name="message_type" value="{$message_type}" />
         <select name="allow_message">
             <!--@foreach($lang->allow_message_type as $key => $val)-->
             <option value="{$key}" <!--@if($logged_info->allow_message == $key)-->selected="selected"<!--@end-->>{$val}</option>
@@ -42,7 +44,7 @@
         </td>
     </tr>
     <tr>
-        <th class="button">
+        <th class="button">this
             <!--@if($message->message_type != "S" && $message->member_srl != $logged_info->member_srl)-->
             <a href="#" onclick="doSendMessage('{$message->sender_srl}','{$message->message_srl}');return false;" class="button black strong"><span>{$lang->cmd_reply_message}</span></a>
             <!--@end-->
@@ -55,7 +57,9 @@
     </table>
     <!--@end-->
 
-    <form action="./" method="get" onsubmit="return procFilter(this, delete_checked_message)" id="fo_message_list">
+
+    <form action="./" method="get" id="fo_message_list">
+	<input type="hidden" name="act" value="procCommunicationDeleteMessages" />
     <input type="hidden" name="message_type" value="{$message_type}" />
 
         <table cellspacing="0" class="rowTable">
@@ -80,7 +84,7 @@
             <!--@foreach($message_list as $no => $val)-->
             <tr>
                 <td class="wide">
-                    <input name="message_srl_list" type="checkbox" value="{$val->message_srl}" />
+                    <input name="message_srl_list[]" type="checkbox" value="{$val->message_srl}" />
                     <!--@if($val->readed=='Y')-->
                         <a href="{getUrl('message_srl',$val->message_srl)}">{$val->title}</a>
                     <!--@else-->
