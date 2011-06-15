@@ -26,6 +26,9 @@
             'session' => 'Session.auto_start 설정',
             'db' => 'DB',
         );
+	$lang->install_license_desc = array(
+			'lgpl' => 'GNU 약소 일반 공중 사용 허가서(LGPL v2)에 동의해야 합니다.'
+		);
     $lang->install_checklist_desc = array(
             'php_version' => '[필수] PHP버전이 5.2.2일 경우 PHP의 버그로 인하여 설치되지 않습니다.',
             'permission' => '[필수] XE의 설치 경로 또는 ./files 디렉토리의 퍼미션이 707이어야 합니다.',

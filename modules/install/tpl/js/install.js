@@ -3,7 +3,7 @@ jQuery(function($){
 	var agree = $('.agreement');
 	agree.submit(function(){
 		if($('#lgpl:checked').length==0){
-			alert('{$lang->msg_license_agreement_alert}');
+			alert($('#agree_license_text').val());
 			$('#lgpl').focus();
 			return false;
 		}

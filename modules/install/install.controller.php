@@ -35,7 +35,8 @@
 			$_SESSION['lgpl_agree'] = $requestVars->lgpl_agree;
 			$_SESSION['enviroment_gather'] = $requestVars->enviroment_gather;
 
-			return new Object(0, 'success');
+			$url = getNotEncodedUrl('', 'act', 'dispInstallCheckEnv');
+			header('location:'.$url);
 		}
 
 		/**
