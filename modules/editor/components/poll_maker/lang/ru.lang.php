@@ -13,6 +13,7 @@
     $lang->cmd_add_poll = "Добавить опрос";
     $lang->cmd_del_poll = "Удалить опрос";
     $lang->cmd_add_item = "Добавить пункт";
+    $lang->cmd_del_item = "Delete last item";
 
     $lang->msg_poll_cannot_modify = "Вы не можете изменить этот опрос. Его следует удалить для того, чтобы создать новый.";
 ?>
