@@ -8,163 +8,166 @@
  * 회원정보와 게시글/댓글등의 동기화 요청 및 결과 처리 함수
  **/
 function doSync(fo_obj) {
-    exec_xml('importer','procImporterAdminSync', new Array(), completeSync);
+    exec_xml(
+		'importer',
+		'procImporterAdminSync', 
+		[],
+		function(ret){
+			alert(ret.message);
+			location.href = location.href;
+		}
+	);
     return false;
 }
-
-function completeSync(ret_obj) {
-    alert(ret_obj['message']);
-    location.href=location.href;
-}
-
 
 /**
  * xml파일을 DB입력전에 extract를 통해 분할 캐싱을 요청하는 함수
  **/
-var prepared = false;
-function doPreProcessing(fo_obj) {
-    var xml_file = fo_obj.xml_file.value;
+function doPreProcessing(form) {
+	var xml_file, type, resp, prepared = false, $ = jQuery, $status, $process, $form;
+
+	xml_file = form.elements['xml_file'].value;
+	type     = form.elements['type'].value;
+
     if(!xml_file) return false;
 
-    var type = fo_obj.type.value;
+	$form    = $('#importForm').hide();
+	$process = $('#process').show();
+	$status  = $('#status').empty();
 
-    jQuery('#importForm').hide();
-    jQuery('#process').show();
-    jQuery('#status').empty();
-    prepared = false;
+	// display dots while preparing
+	(function(){
+		if(prepared) return;
+
+		var str = $status.html();
+		(!str.length || str.length - preProcessingMsg.length > 50)?str=preProcessingMsg:str+='.';
+
+		$status.html(str);
+		
+		setTimeout(arguments.callee, 50);
+	})();
+
     setTimeout(doPrepareDot, 50);
 
-    var params = new Array();
-    params['xml_file'] = xml_file;
-    params['type'] = type;
+	function on_complete(ret) {
+		var $reload, $cont, fo_proc, fo_import, elems, i, c, key, to_copy;
 
-    var response_tags = new Array('error','message','type','total','cur','key','status');
-    exec_xml('importer','procImporterAdminPreProcessing', params, completePreProcessing, response_tags);
+		prepared = true;
+		$status.empty();
+
+		$reload = $('#btn_reload');
+		$cont   = $('#btn_continue');
+
+		if(ret.status == -1) {
+			$form.show();
+			$reload.show();
+			$process.hide();
+			$cont.hide();
+			return alert(ret.message);
+		}
+
+		$reload.hide();
+		$cont.show();
+
+		fo_proc = get_by_id('fo_process');
+		elems   = fo_proc.elements;
+
+		for(i=0,c=resp.length; i < c; i++) {
+			key = resp[i];
+			elems[key]?elems[key].value=ret[key]:0;
+		}
+
+		fo_import = get_by_id('fo_import');
+		if(fo_import) {
+			to_copy = ['target_module','guestbook_target_module','user_id', 'unit_count'];
+			for(i=0,c=to_copy.length; i < c; i++) {
+				key = to_copy[i];
+				if(fo_import.elements[key]) fo_proc.elements[key].value = fo_import.elements[key].value;
+			}
+		}
+
+		doImport();
+	}
+
+    exec_xml(
+		'importer', // module
+		'procImporterAdminPreProcessing', // action
+		{type:type, xml_file:xml_file}, // parameters
+		on_complete, // callback
+		resp=['error','message','type','total','cur','key','status'] // response tags
+	);
 
     return false;
 }
 
-/* 준비중일때 .(dot) 찍어주는.. */
-function doPrepareDot() {
-    if(prepared) return;
-
-    var str = jQuery('#status').html();
-    if(str.length < 1 || str.length - preProcessingMsg.length > 50) str = preProcessingMsg;
-    else str += ".";
-
-    jQuery('#status').html(str);
-    setTimeout(doPrepareDot, 50);
-}
-
-/* 준비가 끝났을때 호출되는 함수 */
-function completePreProcessing(ret_obj, response_tags) {
-    prepared = true;
-    jQuery('#status').empty();
-
-    var status = ret_obj['status'];
-    var message = ret_obj['message'];
-    var type = ret_obj['type'];
-    var total = parseInt(ret_obj['total'],10);
-    var cur = parseInt(ret_obj['cur'],10);
-    var key = ret_obj['key'];
-
-    if(status == -1) {
-        xDisplay('importForm','block');
-        xDisplay('process','none');
-        xDisplay('btn_reload','block');
-        xDisplay('btn_continue','none');
-        alert(message);
-        return;
-    }
-
-    jQuery('#btn_reload').hide();
-    jQuery('#btn_continue').show();
-
-    var fo_obj = jQuery('#fo_process').get(0);
-    fo_obj.type.value = type;
-    fo_obj.total.value = total;
-    fo_obj.cur.value = cur;
-    fo_obj.key.value = key;
-
-    var fo_import = jQuery('#fo_import').get(0);
-    if(fo_import && fo_import.target_module) fo_obj.target_module.value = fo_import.target_module.value;
-    if(fo_import && fo_import.guestbook_target_module) fo_obj.guestbook_target_module.value = fo_import.guestbook_target_module.value;
-    if(fo_import && fo_import.user_id) fo_obj.user_id.value = fo_import.user_id.value;
-
-    fo_obj.unit_count.value = fo_import.unit_count.options[fo_import.unit_count.selectedIndex].value;
-    
-    // extract된 파일을 이용해서 import
-    doImport();
-}
-
-/* @brief 임포트 시작 */
+/* @brief Start importing */
 function doImport() {
-    var fo_obj = jQuery('#fo_process').get(0);
+    var form = get_by_id('fo_process'), elems = form.elements, i, c, params={}, resp;
 
-    var params = new Array();
-    params['type'] = fo_obj.type.value;
-    params['total'] = fo_obj.total.value;
-    params['cur'] = fo_obj.cur.value;
-    params['key'] = fo_obj.key.value;
-    params['target_module'] = fo_obj.target_module.value;
-    params['guestbook_target_module'] = fo_obj.guestbook_target_module.value;
-    params['unit_count'] = fo_obj.unit_count.value;
-    params['user_id'] = fo_obj.user_id.value;
+	for(i=0,c=elems.length; i < c; i++) {
+		params[elems[i].name] = elems[i].value;
+	}
 
-    displayProgress(params['total'], params['cur']);
+    displayProgress(params.total, params.cur);
 
-    var response_tags = new Array('error','message','type','total','cur','key');
+	function on_complete(ret, response_tags) {
+		var i, c, key;
+		
+		for(i=0,c=resp.length; i < c; i++) {
+			key = resp[i];
+			elems[key]?elems[key].value=ret_obj[key]:0;
+		}
+
+		ret.total = parseInt(ret.total, 10) || 0;
+		ret.cur   = parseInt(ret.cur, 10) || 0;
+
+		if(ret.total > ret.cur) {
+			doImport();
+		} else {
+			alert(ret.message);
+			try {
+				form.reset();
+				get_by_id('fo_import').reset();
+				jQuery('#process').hide();
+				jQuery('#importForm').show();
+			} catch(e){};
+		}
+	}
 
     show_waiting_message = false;
-    exec_xml('importer','procImporterAdminImport', params, completeImport, response_tags);
+    exec_xml(
+		'importer', // module
+		'procImporterAdminImport', // act
+		params,
+		on_complete, // callback
+		resp = ['error','message','type','total','cur','key'] // response tags
+	);
     show_waiting_message = true;
 
     return false;
 }
 
-
-/* import중 표시 */
-function completeImport(ret_obj, response_tags) {
-    var message = ret_obj['message'];
-    var type = ret_obj['type'];
-    var total = parseInt(ret_obj['total'], 10);
-    var cur = parseInt(ret_obj['cur'], 10);
-    var key = ret_obj['key'];
-
-    displayProgress(total, cur);
-
-    var fo_obj = jQuery('#fo_process').get(0);
-    fo_obj.type.value = type;
-    fo_obj.total.value = total;
-    fo_obj.cur.value = cur;
-    fo_obj.key.value = key;
-    
-    // extract된 파일을 이용해서 import
-    if(total > cur) doImport();
-    else {
-        alert(message);
-        fo_obj.reset();
-        jQuery('#process').hide();
-        jQuery('#importForm').show();
-        jQuery('#fo_import').get(0).reset();
-    }
-}
-
-/* 상태 표시 함수 */
+/* display progress */
 function displayProgress(total, cur) {
-    // 진행률 구함
-    var per = 0;
-    if(total > 0) per = Math.round(cur / total * 100);
-    else per = 100;
-    if(!per) per = 1;
+	var per, stat, $stat;
 
-    var status = '<div class="progressBox"><div class="progress1" style="width:'+per+'%;">'+per+'%&nbsp;</div>';
-    status += '<div class="progress2">'+cur+'/'+total+'</div>';
-    status += '<div class="clear"></div></div>';
-    jQuery('#status').html(status);
+	per = Math.max(total?Math.round(cur/total*100):100, 1);
+
+	$stat = jQuery('#status');
+	if(!$stat.find('div.progress1').length) {
+		$stat.html( '<div class="progressBox"><div class="progress1"></div><div class="progress2"></div><div class="clear"></div></div>' );
+	}
+
+	$stat
+		.find('div.progress1')
+			.html(per+'&nbsp;')
+			.css('width', per+'%')
+		.end()
+		.find('div.progress2')
+			.text(cur+'/'+total);
 }
 
 function insertSelectedModule(id, module_srl, mid, browser_title) {
-    jQuery('#' + id).val(module_srl);
-    jQuery('#_' + id).val(browser_title+' ('+mid+')');
+	get_by_id(id).value = module_srl;
+	get_by_id('_'+id).value = browser_title + ' ('+mid+')';
 }
