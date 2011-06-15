@@ -40,6 +40,7 @@
                     <input type="submit" name="go_button" id="go_button" value="GO" class="buttonTypeGo" />
             </div>
         </th>
+		<th scope="col">{$lang->page_type}</th>
         <th scope="col" class="half_wide"><div>{$lang->mid}</div></th>
         <th scope="col" class="half_wide"><div>{$lang->browser_title}</div></th>
         <th scope="col"><div>{$lang->regdate}</div></th>
@@ -63,6 +64,7 @@
                 {$module_category[$val->module_category_srl]->title}
             <!--@end-->
         </td>
+		<td>{$val->page_type}</td>
         <td>{htmlspecialchars($val->mid)}</td>
         <td><a href="{getSiteUrl($val->domain,'','mid',$val->mid)}"  onclick="window.open(this.href); return false;">{$val->browser_title}</a></td>
         <td>{zdate($val->regdate,"Y-m-d")}</td>

@@ -1,30 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module>
-    <grants />
-    <permissions>
-        <permission action="procPageAdminRemoveWidgetCache" target="manager" />
-        <permission action="dispPageAdminContentModify" target="manager" />
-        <permission action="procPageAdminInsert" target="manager" />
-        <permission action="procPageAdminInsertContent" target="manager" />
-    </permissions>
-    <actions>
-        <action name="dispPageIndex" type="view" index="true" />
-        <action name="dispPageAdminContent" type="view" admin_index="true" standalone="true" />
-        <action name="dispPageAdminGrantInfo" type="view" standalone="true" />
-        <action name="dispPageAdminInfo" type="view" standalone="true" />
-        <action name="dispPageAdminPageAdditionSetup" type="view" standalone="true" />
-        <action name="dispPageAdminInsert" type="view" standalone="true" setup_index="true" />
-        <action name="dispPageAdminDelete" type="view" standalone="true" />
-        <action name="dispPageAdminContentModify" type="view" standalone="true" />
-        <action name="dispPageAdminAddContent" type="view" standalone="true" />
-        <action name="dispPageAdminMobileContentModify" type="view" standalone="true" />
-		<action name="dispPageAdminMobileContent" type="view" standalone="true" />
+<module version="0.2">
+    <title xml:lang="ko">페이지</title>
+    <title xml:lang="zh-CN">页面管理</title>
+    <title xml:lang="jp">ページ</title>
+    <title xml:lang="en">Page</title>
+    <title xml:lang="vi">Trang</title>
+    <title xml:lang="es">Página</title>
+    <title xml:lang="ru">Страницы</title>
+    <title xml:lang="zh-TW">頁面</title>
+    <title xml:lang="tr">Sayfa</title>
+    <description xml:lang="ko">페이지를 제작하여 컨텐츠로 연결할 수 있는 모듈</description>
+    <description xml:lang="zh-CN">制作页面并能连接到内容区的模块。</description>
+    <description xml:lang="jp">ページを作成してコンテンツとしてリンク出来るようにするモジュールです。</description>
+    <description xml:lang="en">This module is for creating pages to link with contents.</description>
+    <description xml:lang="vi">Module này dành cho việc tạo trang cho liên kết với nội dung.</description>
+    <description xml:lang="es">Este módulo is para crear página para enlazar con contenidos.</description>
+    <description xml:lang="ru">Этот модуль служит для создания страниц, чтобы связать их с содержимым.</description>
+    <description xml:lang="zh-TW">製作頁面並連結內容的模組。</description>
+    <description xml:lang="tr">Bu modül içeriklere bağlanacak sayfaları oluşturmak içindir.</description>
+    <version>0.2</version>
+    <date>2011-06-15</date>
+    <category>service</category>
 
-        <action name="procPageAdminRemoveWidgetCache" type="controller" standalone="true" />
-        <action name="procPageAdminInsert" type="controller" standalone="true" />
-        <action name="procPageAdminInsertContent" type="controller" standalone="true" />
-        <action name="procPageAdminDelete" type="controller" standalone="true" />
-        <action name="procPageAdminInsertConfig" type="controller" standalone="true" />
-        <action name="procPageAdminAddContent" type="controller" standalone="true" />
-    </actions>
+    <author email_address="developers@xpressengine.com" link="http://xpressengine.com/">
+        <name xml:lang="ko">NHN</name>
+        <name xml:lang="vi">NHN</name>
+        <name xml:lang="zh-CN">NHN</name>
+        <name xml:lang="jp">NHN</name>
+        <name xml:lang="en">NHN</name>
+        <name xml:lang="es">NHN</name>
+        <name xml:lang="ru">NHN</name>
+        <name xml:lang="zh-TW">NHN</name>
+        <name xml:lang="tr">NHN</name>
+    </author>
 </module>

@@ -18,8 +18,8 @@
     <description xml:lang="ru">Этот модуль служит для создания страниц, чтобы связать их с содержимым.</description>
     <description xml:lang="zh-TW">製作頁面並連結內容的模組。</description>
     <description xml:lang="tr">Bu modül içeriklere bağlanacak sayfaları oluşturmak içindir.</description>
-    <version>0.1</version>
-    <date>2007-02-28</date>
+    <version>0.2</version>
+    <date>2011-06-15</date>
     <category>service</category>
 
     <author email_address="developers@xpressengine.com" link="http://xpressengine.com/">
