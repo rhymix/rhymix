@@ -28,6 +28,9 @@
             'db' => 'DB',
         );
 
+	$lang->install_license_desc = array(
+			'lgpl' => 'GNU 약소 일반 공중 사용 허가서(LGPL v2)에 동의해야 합니다.'
+		);
     $lang->install_checklist_desc = array(
 			'php_version' => '[Gerekli] Eğer PHP sürümü 5.2.2 ise, XE yazılım hatasından dolayı kurulmayacaktır',
             'permission' => '[Gerekli] XE kurulum yolu ya da ./files directory yolunun yetkisi 707 olmalıdır',

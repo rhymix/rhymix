@@ -30,6 +30,9 @@
             'db' => 'DB',
         );
 
+	$lang->install_license_desc = array(
+			'lgpl' => 'GNU 약소 일반 공중 사용 허가서(LGPL v2)에 동의해야 합니다.'
+		);
     $lang->install_checklist_desc = array(
 	    'php_version' => '[必须] 由于 PHP 5.2.2 版本BUG，无法安装 XE。',
             'permission' => '[必须] 的安装路径或 ./files目录属性必须是707',

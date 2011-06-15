@@ -31,6 +31,9 @@
             'db' => 'DB',
         );
 
+	$lang->install_license_desc = array(
+			'lgpl' => 'GNU 약소 일반 공중 사용 허가서(LGPL v2)에 동의해야 합니다.'
+		);
     $lang->install_checklist_desc = array(
 			'php_version' => '[Bắt buộc] Nếu phiên bản của PHP là 5.2.2, XE sẽ không thể cài đặt vì có lỗi.',
             'permission' => '[Bắt buộc] Thư mục cài đặt của XE hay ./files directory\ phải CHMOD thành 707',

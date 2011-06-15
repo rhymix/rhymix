@@ -28,6 +28,9 @@
             'db' => 'DB',
         );
 
+	$lang->install_license_desc = array(
+			'lgpl' => 'GNU 약소 일반 공중 사용 허가서(LGPL v2)에 동의해야 합니다.'
+		);
     $lang->install_checklist_desc = array(
 			'php_version' => '[Obligatoire] Si la version de PHP est 5.2.2, XE ne sera pas  installé à cause du bogue',
             'permission' => '[Obligatoire] Chemin de l\'installation de XE ou la permission de  répertoire de ./files doit être 707',
