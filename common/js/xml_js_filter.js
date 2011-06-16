@@ -101,6 +101,8 @@ var Validator = xe.createApp('Validator', {
 			val = el?$.trim(get_value($(el))):'';
 			mod = (f.modifier||'')+',';
 
+			if(!el) continue;
+
 			if(!val) {
 				if(f['default']) val = f['default'];
 				if(f.required) return this.cast('ALERT', [form, name, 'isnull']) && false;

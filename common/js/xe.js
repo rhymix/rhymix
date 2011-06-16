@@ -1186,6 +1186,11 @@ function setCookie(name, value, expire, path) {
 	document.cookie = s_cookie;
 }
 
+function getCookie(name) {
+	var match = document.cookie.match(new RegExp(name+'=(.*?);'));
+	if(match) return unescape(match[1]);
+}
+
 function is_def(v) {
 	return (typeof(v)!='undefined');
 }
@@ -1776,6 +1781,8 @@ var Validator = xe.createApp('Validator', {
 			el  = form.elements[name];
 			val = el?$.trim(get_value($(el))):'';
 			mod = (f.modifier||'')+',';
+
+			if(!el) continue;
 
 			if(!val) {
 				if(f['default']) val = f['default'];
