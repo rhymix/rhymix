@@ -10,8 +10,8 @@
         <action name="procCommentVoteDown" type="controller" standalone="true" />
         <action name="procCommentDeclare" type="controller" standalone="true" />
         <action name="getCommentVotedMemberList" type="model" standalone="true" />
-        <action name="procCommentInsertModuleConfig" type="controller" standalone="true" />
-        <action name="procCommentAdminDeleteChecked" type="controller" standalone="true" />
+        <action name="procCommentInsertModuleConfig" type="controller" standalone="true" ruleset="insertCommentModuleConfig" />
+        <action name="procCommentAdminDeleteChecked" type="controller" standalone="true" ruleset="deleteChecked" />
         <action name="procCommentAdminCancelDeclare" type="controller" standalone="true" />
     </actions>
 </module>

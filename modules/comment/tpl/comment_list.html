@@ -1,4 +1,3 @@
-<!--%import("filter/delete_checked.xml")-->
 <!--#include("./header.html")-->
 
 <!-- 검색 -->
@@ -21,7 +20,10 @@
     </form>
 </div>
 
-<form id="fo_list" action="./" method="get" onsubmit="return procFilter(this, delete_checked)">
+<!--form id="fo_list" action="./" method="get" onsubmit="return procFilter(this, delete_checked)"-->
+<p class="xe_validator_error">{$XE_VALIDATOR_ERROR}</p>
+<form ruleset="deleteChecked" id="fo_list" action="./" method="post">
+<input type="hidden" name="act" value="procCommentAdminDeleteChecked" />
 <input type="hidden" name="page" value="{$page}" />
 <input type="hidden" name="is_trash" value="false" />
 
@@ -50,7 +52,7 @@
 	{@ $comment = cut_str(trim(htmlspecialchars(strip_tags($val->content))), 200, '...')}
     <tr>
         <td class="number center">{$no}</td>
-        <td class="center"><input type="checkbox" name="cart" value="{$val->comment_srl}" /></td>
+        <td class="center"><input type="checkbox" name="cart[]" value="{$val->comment_srl}" /></td>
         <td class="left"><a href="{getUrl('','document_srl',$val->document_srl)}#comment_{$val->comment_srl}" onclick="window.open(this.href);return false;"><!--@if(strlen($comment))-->{$comment}<!--@else--><em style="font-style:italic;">{$lang->no_text_comment}</em><!--@end--></a></td>
         <td class="nowrap"><span class="member_{$val->member_srl}">{htmlspecialchars($val->nick_name)}</span></td>
         <td class="date center nowrap">{(zdate($val->regdate,"Y-m-d\nH:i:s"))}</td>

@@ -1,7 +1,9 @@
-<!--%import("filter/delete_checked.xml")-->
 <!--#include("header.html")-->
 
-<form id="fo_list" action="./" method="get" onsubmit="return procFilter(this, delete_checked)">
+<p class="xe_validator_error">{$XE_VALIDATOR_ERROR}</p>
+<form ruleset="deleteChecked" id="fo_list" action="./" method="post">
+<input type="hidden" name="act" value="procCommentAdminDeleteChecked" />
+<input type="hidden" value="{getUrl('', 'module', $module, 'act', $act)}" name="success_return_url">
 <input type="hidden" name="page" value="{$page}" />
 <input type="hidden" name="is_trash" value="false" />
 

@@ -22,7 +22,8 @@
             // Error display if none is selected
             $cart = Context::get('cart');
             if(!$cart) return $this->stop('msg_cart_is_null');
-            $comment_srl_list= explode('|@|', $cart);
+            if(!is_array($cart)) $comment_srl_list= explode('|@|', $cart);
+			else $comment_srl_list = $cart;
             $comment_count = count($comment_srl_list);
             if(!$comment_count) return $this->stop('msg_cart_is_null');
 
@@ -52,6 +53,12 @@
 			$oDB->commit();
 
             $this->setMessage( sprintf(Context::getLang('msg_checked_comment_is_deleted'), $deleted_count) );
+
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispCommentAdminList');
+				header('location:'.$returnUrl);
+				return;
+			}
         }
 
 		function _moveCommentToTrash($commentSrlList, &$oCommentController, &$oDB)
@@ -63,7 +70,7 @@
 				$logged_info = Context::get('logged_info');
 				$oCommentModel = &getModel('comment');
 				$commentItemList = $oCommentModel->getComments($commentSrlList);
-				$oTrashController = &getController('trash');
+				$oTrashAdminController = &getAdminController('trash');
 
 				foreach($commentItemList AS  $key=>$oComment)
 				{
@@ -76,7 +83,7 @@
 					$oTrashVO->setRemoverSrl($logged_info->member_srl);
 					$oTrashVO->setRegdate(date('YmdHis'));
 
-					$output = $oTrashController->insertTrash($oTrashVO);
+					$output = $oTrashAdminController->insertTrash($oTrashVO);
 					if (!$output->toBool()) {
 						$oDB->rollback();
 						return $output;

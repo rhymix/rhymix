@@ -1,6 +1,6 @@
-<!--%import("filter/insert_comment_module_config.xml")-->
-
-<form action="./" method="post" onsubmit="return procFilter(this, insert_comment_module_config)">
+<p class="xe_validator_error">{$XE_VALIDATOR_ERROR}</p>
+<form ruleset="insertCommentModuleConfig" action="./" method="post">
+<input type="hidden" name="act" value="procCommentInsertModuleConfig" />
 <input type="hidden" name="target_module_srl" value="{$module_info->module_srl?$module_info->module_srl:$module_srls}" />
 
     <h4 class="xeAdmin">{$lang->comment}</h4>
