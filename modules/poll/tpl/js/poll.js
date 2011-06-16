@@ -41,24 +41,35 @@ function doPoll(fo_obj) {
     return false;
 }
 
-/* 설문 조사후 내용을 바꿀 함수 */
-function completePoll(ret_obj) {
-    var poll_srl = ret_obj['poll_srl'];
-    var tpl = ret_obj['tpl'];
-    var width = xWidth("poll_"+poll_srl);
-    xInnerHtml("poll_"+poll_srl, tpl);
-    xWidth("poll_"+poll_srl, width);
-}
+jQuery(function($){
+	/* View poll result */
+	$('._poll_result').click(function(){
+		var cls = $(this).attr('class'), srl, skin;
 
-/* 설문 미리 보기 */
-function doPollViewResult(poll_srl, skin) {
-    var params = new Array();
-    params['poll_srl'] = poll_srl;
+		try{
+			srl  = cls.match(/\b_srl_(\d+)\b/)[1];
+			skin = cls.match(/\b_skin_(.+?)\b/)[1];
+		}catch(e){ };
 
-    if(typeof(skin)=='undefined') skin = 'default';
-    params['skin'] = skin;
+		if(!srl) return false;
+		if(!skin) skin = 'default';
 
-    var response_tags = new Array('error','message','poll_srl', 'tpl');
+		function on_complete(ret) {
+			var $poll = $('#poll_'+srl), width;
 
-    exec_xml('poll','procPollViewResult', params, completePoll, response_tags);
-}
+			width  = $poll.width();
+			$poll.html(ret['tpl']);
+			$poll.width(width);
+		}
+
+		exec_xml(
+			'poll', // module
+			'procPollViewResult', // act
+			{poll_srl:srl, skin:skin}, // parameters
+			on_complete,
+			['error','message','tpl']
+		);
+
+		return false;
+	});
+});

@@ -1,6 +1,11 @@
-<!--%import("filter/poll.xml")-->
-<!--%import("js/poll.js")-->
-<!--%import("css/poll.css")-->
+<load target="filter/poll.xml" />
+<!--@if(__DEBUG__)-->
+	<load target="css/poll.css" />
+	<load target="../../tpl/js/poll.js" />
+<!--@else-->
+	<load target="css/poll.min.css" />
+	<load target="../../tpl/js/poll.min.js" />
+<!--@end-->
 
 <script type="text/javascript">
     var poll_alert_lang = "{$lang->msg_check_poll_item}";
@@ -47,7 +52,7 @@
     </tr>
     <tr>
         <td class="stopDate">
-            ~<strong>{zdate($poll->stop_date, "Y-m-d")}</strong> (<a href="#" onclick="doPollViewResult('{$poll->poll_srl}','{$skin}'); return false;"/>{$lang->cmd_view_result}</a>)
+            ~<strong>{zdate($poll->stop_date, "Y-m-d")}</strong> (<a href="#" class="_poll_result _srl_{$poll->poll_srl} _skin_{$skin}">{$lang->cmd_view_result}</a>)
         </td>
     </tr>
     <tr>
