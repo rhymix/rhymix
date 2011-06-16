@@ -9,7 +9,7 @@
 function completeInsertPoll(ret_obj) {
     if(typeof(opener)=="undefined") return null;
 
-    var fo_obj = xGetElementById('fo_component');
+    var fo_obj = get_by_id('fo_component');
     var skin = fo_obj.skin.options[fo_obj.skin.selectedIndex].value;
 
     var poll_srl = ret_obj["poll_srl"];
