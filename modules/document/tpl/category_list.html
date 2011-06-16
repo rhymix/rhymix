@@ -1,4 +1,3 @@
-<!--%import("filter/insert_category.xml")-->
 <!--%import("filter/delete_category.xml")-->
 <!--%import("filter/move_category.xml")-->
 
@@ -15,7 +14,9 @@
 <span style="float:right"><a href="#"  onclick="doReloadTreeCategory('{$module_info->module_srl}');return false;" class="button black"><span>{$lang->cmd_remake_cache}</span></a></span>
 
     <div class="gap1">
-        <form id="fo_category" action="./" method="get" onsubmit="return procFilter(this, insert_category)">
+		<p class="xe_validator_error">{$XE_VALIDATOR_ERROR}</p>
+        <form ruleset="insertCategory" id="fo_category" action="./" method="post">
+		<input type="hidden" name="act" value="procDocumentInsertCategory" />
         <input type="hidden" name="module_srl" value="{$module_info->module_srl}" />
         <input type="hidden" name="xml_file" value="{$category_xml_file}" />
             <div id="category_info"></div>

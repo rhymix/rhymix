@@ -115,8 +115,8 @@ function insertSelectedModule(id, module_srl, mid, browser_title) {
 function deleteByFilter(target_srl, filter)
 {
     jQuery('#target_srl').val(target_srl);
-    var hF = jQuery("deleteForm")[0];
-    procFilter(hF, filter);
+    var hF = jQuery("#deleteForm")[0];
+	hF.submit();
 }
 
 function executeFilterByTargetSrl(form_name, target_srl, filter)

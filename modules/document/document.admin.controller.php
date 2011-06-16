@@ -279,6 +279,12 @@
             // Insert by creating the module Controller object
             $oModuleController = &getController('module');
             $output = $oModuleController->insertModuleConfig('document',$config);
+
+			if($output->toBool() && !in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispDocumentAdminConfig');
+				header('location:'.$returnUrl);
+				return;
+			}
             return $output;
         }
 
@@ -446,20 +452,27 @@
                 $query = "document.updateAlias";
             }
             $output = executeQuery($query, $args);
-            if(!$output->toBool())
-            {
-                return $output;
-            }
+
+			if($output->toBool() && !in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispDocumentAdminAlias', 'document_srl', $args->document_srl);
+				header('location:'.$returnUrl);
+				return;
+			}
+			return $output;
         }
 
         function procDocumentAdminDeleteAlias() {
-            $alias_srl = Context::get('alias_srl');
+			$document_srl = Context::get('document_srl');
+            $alias_srl = Context::get('target_srl');
             $args->alias_srl = $alias_srl;
             $output = executeQuery("document.deleteAlias", $args);
-            if (!$output->toBool())
-            {
-                return $output;
-            }
+
+			if($output->toBool() && !in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispDocumentAdminAlias', 'document_srl', $document_srl);
+				header('location:'.$returnUrl);
+				return;
+			}
+			return $output;
         }
 
         function procDocumentAdminRestoreTrash() {

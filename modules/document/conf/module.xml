@@ -38,14 +38,14 @@
         <action name="getDocumentCategoryTplInfo" type="model" standalone="true" />
         <action name="getDocumentVotedMemberList" type="model" standalone="true" />
 
-        <action name="procDocumentInsertCategory" type="controller" standalone="true" />
+        <action name="procDocumentInsertCategory" type="controller" standalone="true" ruleset="insertCategory" />
         <action name="procDocumentDeleteCategory" type="controller" standalone="true" />
         <action name="procDocumentMoveCategory" type="controller" standalone="true" />
         <action name="procDocumentMakeXmlFile" type="controller" standalone="true" />
         <action name="procDocumentTempSave" type="controller" standalone="true" />
 
-        <action name="procDocumentAdminInsertAlias" type="controller" standalone="true" />
-        <action name="procDocumentAdminDeleteAlias" type="controller" standalone="true" />
+        <action name="procDocumentAdminInsertAlias" type="controller" standalone="true" ruleset="insertAlias" />
+        <action name="procDocumentAdminDeleteAlias" type="controller" standalone="true" ruleset="deleteAlias" />
         <action name="procDocumentAdminRestoreTrash" type="controller" standalone="true" />
         <action name="procDocumentAdminMoveExtraVar" type="controller" standalone="true" />
 

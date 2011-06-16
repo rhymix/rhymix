@@ -1055,7 +1055,10 @@ class documentController extends document {
 	 **/
 	function procDocumentInsertCategory($args = null) {
 		// List variables
-		if(!$args) $args = Context::gets('module_srl','category_srl','parent_srl','title','description','expand','group_srls','color','mid');
+		if(!$args) $args = Context::gets('module_srl','category_srl','parent_srl','category_title','category_description','expand','group_srls','category_color','mid');
+		$args->title = $args->category_title;
+		$args->description = $args->category_description;
+		$args->color = $args->category_color;
 
 		if(!$args->module_srl && $args->mid){
 			$mid = $args->mid;
@@ -1070,7 +1073,8 @@ class documentController extends document {
 		if(!$grant->manager) return new Object(-1,'msg_not_permitted');
 
 		if($args->expand !="Y") $args->expand = "N";
-		$args->group_srls = str_replace('|@|',',',$args->group_srls);
+		if(!is_array($args->group_srls)) $args->group_srls = str_replace('|@|',',',$args->group_srls);
+		else $args->group_srls = implode(',', $args->group_srls);
 		$args->parent_srl = (int)$args->parent_srl;
 
 		$oDocumentModel = &getModel('document');
@@ -1106,6 +1110,12 @@ class documentController extends document {
 		$this->add('module_srl', $args->module_srl);
 		$this->add('category_srl', $args->category_srl);
 		$this->add('parent_srl', $args->parent_srl);
+
+		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispBoardAdminCategoryInfo', 'module_srl', $args->module_srl);
+			header('location:'.$returnUrl);
+			return;
+		}
 	}
 
 
