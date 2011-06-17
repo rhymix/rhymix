@@ -53,7 +53,8 @@
             // An error appears if no document is selected
             $cart = Context::get('cart');
             if(!$cart) return $this->stop('msg_cart_is_null');
-            $file_srl_list= explode('|@|', $cart);
+            if(!is_array($cart)) $file_srl_list= explode('|@|', $cart);
+			else $file_srl_list = $cart;
             $file_count = count($file_srl_list);
             if(!$file_count) return $this->stop('msg_cart_is_null');
 
@@ -67,6 +68,11 @@
             }
 
             $this->setMessage( sprintf(Context::getLang('msg_checked_file_is_deleted'), $file_count) );
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispFileAdminList');
+				header('location:'.$returnUrl);
+				return;
+			}
         }
 
         /**
@@ -76,13 +82,18 @@
             // Get configurations (using module model object)
             $config->allowed_filesize = Context::get('allowed_filesize');
             $config->allowed_attach_size = Context::get('allowed_attach_size');
-            $config->allowed_filetypes = Context::get('allowed_filetypes');
+            $config->allowed_filetypes = str_replace(' ', '', Context::get('allowed_filetypes'));
             $config->allow_outlink = Context::get('allow_outlink');
             $config->allow_outlink_format = Context::get('allow_outlink_format');
             $config->allow_outlink_site = Context::get('allow_outlink_site');
             // Create module Controller object
             $oModuleController = &getController('module');
             $output = $oModuleController->insertModuleConfig('file',$config);
+			if($output->toBool() && !in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispFileAdminConfig');
+				header('location:'.$returnUrl);
+				return;
+			}
             return $output;
         }
 
@@ -96,16 +107,17 @@
             if(preg_match('/^([0-9,]+)$/',$module_srl)) $module_srl = explode(',',$module_srl);
             else $module_srl = array($module_srl);
 
-            $download_grant = trim(Context::get('download_grant'));
+            $download_grant = Context::get('download_grant');
 
             $file_config->allow_outlink = Context::get('allow_outlink');
             $file_config->allow_outlink_format = Context::get('allow_outlink_format');
             $file_config->allow_outlink_site = Context::get('allow_outlink_site');
             $file_config->allowed_filesize = Context::get('allowed_filesize');
             $file_config->allowed_attach_size = Context::get('allowed_attach_size');
-            $file_config->allowed_filetypes = Context::get('allowed_filetypes');
-            if($download_grant) $file_config->download_grant = explode('|@|',$download_grant);
-            else $file_config->download_grant = array();
+            $file_config->allowed_filetypes = str_replace(' ', '', Context::get('allowed_filetypes'));
+
+			if(!is_array($download_grant)) $file_config->download_grant = explode('|@|',$download_grant);
+			else $file_config->download_grant = $download_grant;
 
 			//관리자가 허용한 첨부파일의 사이즈가 php.ini의 값보다 큰지 확인하기 - by ovclas
 			$userFileAllowSize = $this->_changeBytes($file_config->allowed_filesize.'M');
@@ -126,6 +138,11 @@
 
             $this->setError(-1);
             $this->setMessage('success_updated');
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispBoardAdminContent');
+				header('location:'.$returnUrl);
+				return;
+			}
         }
 
 		/**

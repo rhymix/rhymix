@@ -1,5 +1,6 @@
-<!--%import("filter/insert_file_module_config.xml")-->
-<form action="./" method="get" onsubmit="return procFilter(this, insert_file_module_config)">
+<form ruleset="fileModuleConfig" action="./" method="post">
+<input type="hidden" name="act" value="procFileAdminInsertModuleConfig" />
+<input type="hidden" name="success_return_url" value="{getUrl('', 'module', $module, 'act', $act, 'module_srl', $module_srl)}" />
 <input type="hidden" name="target_module_srl" value="{$module_info->module_srl?$module_info->module_srl:$module_srls}" />
 
     <h4 class="xeAdmin">{$lang->file}</h4>
@@ -30,7 +31,7 @@
         <th scope="col"><div>{$lang->enable_download_group}</div></th>
         <td>
             <!--@foreach($group_list as $k => $v)-->
-            <input type="checkbox" class="checkbox" name="download_grant" value="{$v->group_srl}" id="grant_{$key}_{$v->group_srl}" <!--@if(in_array($v->group_srl, $file_config->download_grant))-->checked="checked"<!--@end-->/> 
+            <input type="checkbox" class="checkbox" name="download_grant[]" value="{$v->group_srl}" id="grant_{$key}_{$v->group_srl}" <!--@if(in_array($v->group_srl, $file_config->download_grant))-->checked="checked"<!--@end-->/> 
             <label for="grant_{$key}_{$v->group_srl}">{$v->title}</label>
             &nbsp;
             <!--@end-->
