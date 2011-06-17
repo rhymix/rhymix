@@ -1,11 +1,13 @@
-<!--%import("filter/mysql.xml")-->
 <!--%import("js/install_admin.js")-->
 <!--#include("header.html")-->
 	<div id="body">
 <!--#include("progress_menu.html")-->
 		<span class="dummy"></span>
 		<div id="content">
-			<form action="./" method="post" onsubmit="return procFilter(this, dbSetting)">
+			<p class="xe_validator_error">{$XE_VALIDATOR_ERROR}</p>
+			<form rule="mysql" action="./" method="post">
+			<input type="hidden" value="{getUrl('', 'act', $act, 'db_type', $db_type)}" name="error_return_url">
+			<input type="hidden" name="act" value="procMysqlDBSetting" />
 			<input type="hidden" name="db_type" value="{$db_type}" />
 				<h2 class="h2">{$db_type}</h2>
 				<ul class="form formDbInfo">

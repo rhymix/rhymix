@@ -335,16 +335,16 @@
             // execute the action, and if failed, set error
             if(!$oModule->proc()) 
 			{
+				$this->error = $oModule->getMessage();
 				// case post, redirect page
             	if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON')))
 				{
-					$this->_setInputValueToSession();
 					$returnUrl = Context::get('error_return_url')?Context::get('error_return_url'):getUrl();
-					header('location:'.$returnUrl);
-					return;
+
+					$_SESSION['XE_VALIDATOR_ERROR'] = $oModule->getMessage();
+					$_SESSION['XE_VALIDATOR_ERROR_RETURN_URL'] = $returnUrl;
+					$this->_setInputValueToSession();
 				}
-				// case exec xml, return xml response
-				else $this->error = $oModule->getMessage();
 			}
 			else
 			{

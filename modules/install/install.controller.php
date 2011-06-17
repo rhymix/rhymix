@@ -40,9 +40,63 @@
 		}
 
 		/**
+		 * @brief cubrid db setting wrapper, becase Server Side Validator...
+		 * Server Side Validatro can use only one proc, one ruleset
+		 **/
+		function procCubridDBSetting()
+		{
+			return $this->_procDBSetting();
+		}
+
+		/**
+		 * @brief firebird db setting wrapper, becase Server Side Validator...
+		 * Server Side Validatro can use only one proc, one ruleset
+		 **/
+		function procFirebirdDBSetting()
+		{
+			return $this->_procDBSetting();
+		}
+
+		/**
+		 * @brief mssql db setting wrapper, becase Server Side Validator...
+		 * Server Side Validatro can use only one proc, one ruleset
+		 **/
+		function procMssqlDBSetting()
+		{
+			return $this->_procDBSetting();
+		}
+
+		/**
+		 * @brief mysql db setting wrapper, becase Server Side Validator...
+		 * Server Side Validatro can use only one proc, one ruleset
+		 **/
+		function procMysqlDBSetting()
+		{
+			return $this->_procDBSetting();
+		}
+
+		/**
+		 * @brief postgresql db setting wrapper, becase Server Side Validator...
+		 * Server Side Validatro can use only one proc, one ruleset
+		 **/
+		function procPostgresqlDBSetting()
+		{
+			return $this->_procDBSetting();
+		}
+
+		/**
+		 * @brief sqlite db setting wrapper, becase Server Side Validator...
+		 * Server Side Validatro can use only one proc, one ruleset
+		 **/
+		function procSqliteDBSetting()
+		{
+			return $this->_procDBSetting();
+		}
+
+		/**
 		 * @brief division install step... DB Config temp file create
 		 **/
-		function procDBSetting() {
+		function _procDBSetting() {
             // Get DB-related variables
             $db_info = Context::gets('db_type','db_port','db_hostname','db_userid','db_password','db_database','db_table_prefix');
             if(!$db_info->default_url) $db_info->default_url = Context::getRequestUri();
@@ -54,13 +108,20 @@
             $oDB = &DB::getInstance();
             // Check if available to connect to the DB
             $output = $oDB->getError();
+			if(!$output->toBool()) return $output;
             if(!$oDB->isConnected()) return $oDB->getError();
-            // When installing firebire DB, transaction will not be used
+            // When installing firebird DB, transaction will not be used
             if($db_info->db_type != "firebird") $oDB->begin();
 
             if($db_info->db_type != "firebird") $oDB->commit();
             // Create a db temp config file
             if(!$this->makeDBConfigFile()) return new Object(-1, 'msg_install_failed');
+
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'act', 'dispInstallConfigForm');
+				header('location:'.$returnUrl);
+				return;
+			}
 		}
 
 		/**
@@ -73,6 +134,12 @@
 
             // Create a db temp config file
             if(!$this->makeEtcConfigFile($config_info)) return new Object(-1, 'msg_install_failed');
+
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'act', 'dispInstallManagerForm');
+				header('location:'.$returnUrl);
+				return;
+			}
 		}
 
         /**
@@ -116,6 +183,12 @@
 
             // Display a message that installation is completed
             $this->setMessage('msg_install_completed');
+
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('');
+				header('location:'.$returnUrl);
+				return;
+			}
         }
 
         /**

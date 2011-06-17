@@ -1,16 +1,18 @@
-<!--%import("filter/cubrid.xml")-->
 <!--%import("js/install_admin.js")-->
 <!--#include("header.html")-->
 	<div id="body">
 <!--#include("progress_menu.html")-->
 		<span class="dummy"></span>
 		<div id="content">
-			<form action="./" method="post" onsubmit="return procFilter(this, dbSetting)">
+			<p class="xe_validator_error">{$XE_VALIDATOR_ERROR}</p>
+			<form rule="cubrid" action="./" method="post">
+			<input type="hidden" value="{getUrl('', 'act', $act, 'db_type', $db_type)}" name="error_return_url">
+			<input type="hidden" name="act" value="procCubridDBSetting" />
 			<input type="hidden" name="db_type" value="{$db_type}" />
 				<h2 class="h2">{$db_type}</h2>
 				<ul class="form formDbInfo">
-					<li><label for="dbHostName">{$lang->db_hostname}</label><input name="db_hostname" value="localhost" type="text" class="iText" id="dbHostName" /></li>
-					<li><label for="dbPort">{$lang->db_port}</label><input name="db_port" value="3306" type="text" class="iText" id="dbPort" /></li>
+					<li><label for="dbHostName">{$lang->db_hostname}</label><input name="db_hostname" value="127.0.0.1" type="text" class="iText" id="dbHostName" /></li>
+					<li><label for="dbPort">{$lang->db_port}</label><input name="db_port" value="33000" type="text" class="iText" id="dbPort" /></li>
 					<li><label for="dbId">{$lang->db_userid}</label><input name="db_userid" type="text" class="iText" id="dbId" /></li>
 					<li><label for="dbPw">{$lang->db_password}</label><input name="db_password" type="password" class="iText" id="dbPw" /></li>
 					<li><label for="dbName">{$lang->db_database}</label><input name="db_database" type="text" class="iText" id="dbName" /></li>

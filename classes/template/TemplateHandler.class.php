@@ -237,7 +237,8 @@
 			}
 
 			// return url generate
-			$matches[2] = '<input type="hidden" name="error_return_url" value="{getRequestUriByServerEnviroment()}" />'.$matches[2];
+			preg_match('/<input[^>]*name="error_return_url"[^>]*>/is', $matches[2], $m3);
+			if(!$m3[0]) $matches[2] = '<input type="hidden" name="error_return_url" value="{getRequestUriByServerEnviroment()}" />'.$matches[2];
 
 			$matches[0] = '';
 			return implode($matches);
