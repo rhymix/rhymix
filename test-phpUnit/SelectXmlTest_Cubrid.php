@@ -171,6 +171,30 @@
 						 group by "module_srl"';
 			$this->_test($xml_file, $argsString, $expected);			
 		}
+		
+		function test_syndication_getDocumentList(){
+			define('__ZBXE__', 1);
+			
+			require_once(_XE_PATH_.'classes/page/PageHandler.class.php');
+			
+			$db = &DB::getInstance('cubrid');
+			$args = new StdClass();
+			$args->module_srl = NULL;
+			$args->exclude_module_srl = NULL;
+			$args->category_srl = NULL;
+			$args->sort_index = 'list_order';
+			$args->order_type = 'asc';
+			$args->page = 5;
+			$args->list_count = 30;
+			$args->page_count = 10;
+			$args->start_date = NULL;
+			$args->end_date = NULL;
+			$args->member_srl = NULL;
+			$output = $db->executeQuery('document.getDocumentList', $args);
+			
+		 	$this->assertTrue(is_int($output->page));
+		 	// $this->assertTrue($output->page == 5);
+		}
 				
 //	$queryTester->test_admin_deleteActionForward();
 //	$queryTester->test_module_insertModule();

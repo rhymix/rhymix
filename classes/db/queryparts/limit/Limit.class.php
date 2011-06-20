@@ -8,7 +8,7 @@
 		function Limit($list_count, $page= NULL, $page_count= NULL){
 			$this->list_count = $list_count;
 			if ($page){
-				$this->start = ($page-1)*$list_count;
+				$this->start = ($page-1)*$list_count->getValue();
 				$this->page_count = $page_count;
 				$this->page = $page;
 			}			
