@@ -14,6 +14,10 @@
 			$this->isValid = true;
 		}
 		
+		function getName(){
+			return $this->name;
+		}
+		
 		function getValue(){
 			if(is_array($this->value)) return implode(',', $this->value);
 			return $this->value;

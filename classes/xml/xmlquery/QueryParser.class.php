@@ -109,6 +109,7 @@ class QueryParser {
 		
 		$this->setTableColumnTypes($tables);
 		
+		// TODO Check if this work with arguments in join clause
 		$arguments = array();
 		if($columns)
 			$arguments = array_merge($arguments, $columns->getArguments());
@@ -122,7 +123,6 @@ class QueryParser {
 			$prebuff .= sprintf("$%s_argument->setColumnType('%s');\n"
 				, $argument->getArgumentName()
 				, $this->column_type[$this->getQueryId()][$argument->getColumnName()] );
-			$prebuff .= sprintf('$query->addArgument($%s_argument);', $argument->getArgumentName());
 			}
 		}
 		$prebuff .= "\n";

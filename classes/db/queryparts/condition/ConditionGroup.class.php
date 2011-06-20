@@ -31,5 +31,16 @@
 				
 			return $group;
 		}
+		
+		function getArguments(){
+			$args = array();
+			foreach($this->conditions as $condition){
+				if($condition->show()){
+					$arg = $condition->getArgument();
+					if($arg) $args[] = $arg;
+				}
+			}			
+			return $args;
+		}
 	}
 ?>

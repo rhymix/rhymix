@@ -28,5 +28,9 @@
 		function show() {
 			return true;
 		}
+		
+		function getArgument(){
+			return null;
+		}
 	}
 ?>

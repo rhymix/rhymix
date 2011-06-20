@@ -12,5 +12,9 @@
 		function StarExpression(){
 			parent::SelectExpression("*");
 		}
+		
+		function getArgument(){
+			return null;
+		}
 	}
 ?>

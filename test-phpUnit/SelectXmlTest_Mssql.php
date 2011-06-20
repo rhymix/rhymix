@@ -3,7 +3,7 @@
 
 	class SelectXmlTest_Mssql extends PHPUnit_Framework_TestCase {
 
-		function _test($xml_file, $argsString, $expected){
+		function _test($xml_file, $argsString, $expected, $expectedArgs = NULL){
 			$tester = new QueryTester();
 			$outputString = $tester->getNewParserOutputString($xml_file, '[', $argsString, 'mssql');
 			//echo $outputString;
@@ -14,7 +14,8 @@
 			}else {
 				$db = &DB::getInstance('mssql');
 				$querySql = $db->getSelectSql($output);
-	
+				$queryArguments = $output->getArguments();
+				
 				// Remove whitespaces, tabs and all
 				$querySql = Helper::cleanQuery($querySql);
 				$expected = Helper::cleanQuery($expected);
@@ -22,13 +23,20 @@
 
 			// Test
 			$this->assertEquals($expected, $querySql);
+			
+			// Test query arguments
+			$argCount = count($expectedArgs);
+	        for($i = 0; $i < $argCount; $i++){
+	        		//echo "$i: $expectedArgs[$i] vs $queryArguments[$i]->getValue()";
+	        		$this->assertEquals($expectedArgs[$i], $queryArguments[$i]->getValue());
+	        }
 		}
 		
 		function testSelectStar(){
 			$xml_file = _XE_PATH_ . "modules/module/queries/getAdminId.xml";
 			$argsString = '$args->module_srl = 10;';
 			$expected = 'SELECT * FROM [xe_module_admins] as [module_admins] , [xe_member] as [member] WHERE [module_srl] = ? and [member].[member_srl] = [module_admins].[member_srl]';
-			$this->_test($xml_file, $argsString, $expected);
+			$this->_test($xml_file, $argsString, $expected, array(10));
 		}
 		
 		function testRquiredParameter(){
@@ -59,7 +67,7 @@
 								on [module_categories].[module_category_srl] = [modules].[module_category_srl] 
 						WHERE [modules].[site_srl] = ? 
 						ORDER BY [modules].[module] asc, [module_categories].[title] asc, [modules].[mid] asc';
-			$this->_test($xml_file, $argsString, $expected);			
+			$this->_test($xml_file, $argsString, $expected, array(0));			
 		}		
 
 		function test_module_getSiteInfo(){
@@ -92,7 +100,7 @@
 						FROM [xe_sites] as [sites] 
 							left join [xe_modules] as [modules] on  [modules].[module_srl] = [sites].[index_module_srl]   
 						WHERE  [sites].[site_srl] = ?   ';
-			$this->_test($xml_file, $argsString, $expected);
+			$this->_test($xml_file, $argsString, $expected, array(0));
 		}
 
 		function test_addon_getAddonInfo(){
@@ -101,7 +109,7 @@
 			$expected = 'SELECT * 
 						FROM [xe_addons] as [addons]
 						WHERE  [addon] = ? ';
-			$this->_test($xml_file, $argsString, $expected);
+			$this->_test($xml_file, $argsString, $expected, array("'captcha'"));
 		}
 		
 		function test_addon_getAddons(){
@@ -129,7 +137,7 @@
 				WHERE  [regdate] >= ?  
 				GROUP BY substr([regdate],1,8) 
 				ORDER BY substr([regdate],1,8) asc';
-			$this->_test($xml_file, $argsString, $expected);				
+			$this->_test($xml_file, $argsString, $expected, array("'20110411'"));				
 		}
 		
 		function test_member_getAutoLogin(){
@@ -141,7 +149,7 @@
 						FROM [xe_member] as [member] , [xe_member_autologin] as [member_autologin]  
 						WHERE  [member_autologin].[autologin_key] = ? 
 							and [member].[member_srl] = [member_autologin].[member_srl]';
-			$this->_test($xml_file, $argsString, $expected);
+			$this->_test($xml_file, $argsString, $expected, array("'10'"));
 		}
 		
 		function test_opage_getOpageList(){
@@ -152,7 +160,7 @@
 						FROM [xe_modules] as [modules]
 						WHERE  [module] = ? and ([browser_title] like ?)   
 						ORDER BY [module_srl] desc';
-			$this->_test($xml_file, $argsString, $expected);			
+			$this->_test($xml_file, $argsString, $expected, array("'opage'", "'%yuhuu%'"));			
 		}
 		
 		// TODO Something fishy about this query - to be investigated

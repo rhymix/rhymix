@@ -26,6 +26,10 @@
 			if(!isset($value)) return false;
 			return true;
 		}
+		
+		function getArgument(){
+			return $this->argument;
+		}
 	}
 
 ?>

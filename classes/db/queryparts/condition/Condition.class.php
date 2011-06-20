@@ -23,6 +23,11 @@
 			return is_a($this->argument, 'Argument');
 		}
 		
+		function getArgument(){
+			if($this->hasArgument()) return $this->argument;
+			return null;
+		}
+		
 		function toString($withValue = true){
 			if($withValue)
 				return $this->toStringWithValue();

@@ -40,6 +40,10 @@
 			if(!$this->argument->getValue()) return false;
 			return true;
 		}
+		
+		function getArgument(){
+			return $this->argument;
+		}
 	}
 
 

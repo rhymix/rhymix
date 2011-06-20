@@ -11,12 +11,8 @@
 		var $orderby;
 		var $limit;
 		
-		var $arguments = array();
-		
-		function addArgument($argument){
-			$this->arguments[] = $argument;
-		}
-		
+		var $arguments = null;
+				
 		function setQueryId($queryID){
 			$this->queryID = $queryID;
 		}
@@ -201,6 +197,35 @@
 		
 		function getFirstTableName(){
 			return $this->tables[0]->getName();			
+		}
+		
+		function getArguments(){
+			if(!isset($this->arguments)){
+				$this->arguments = array();
+				
+				// Column arguments
+				foreach($this->columns as $column){
+					if($column->show()){
+						$arg = $column->getArgument();
+						if($arg) $this->arguments[] = $arg;
+					}
+				}			
+				
+				// Condition arguments
+				if(count($this->conditions) > 0)
+					foreach($this->conditions as $conditionGroup){
+						$args = $conditionGroup->getArguments();
+						if(count($args) > 0) $this->arguments = array_merge($this->arguments, $args);
+					}
+							
+				// Navigation arguments
+				if(count($this->orderby) > 0)
+					foreach($this->orderby as $order){
+						$args = $order->getArguments();
+						if(count($args) > 0) $this->arguments = array_merge($this->arguments, $args);
+					}
+			}
+			return $this->arguments;
 		}
 	}
 
