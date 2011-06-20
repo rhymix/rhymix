@@ -1,82 +1,43 @@
 /**
  * @file  list_gallery.js
- * @brief 이미지 이미지갤러리 쇼 스크립트
+ * @brief List-type image gallery
  * @author NHN (developers@xpressengine.com)
  **/
 
-// 이미지갤러리쇼를 하기 위한 변수
-var list_gallery_images = new Array();
+(function($){
 
-// 이미지갤러리쇼 이미지 목록에 추가
-function list_gallery_add_image(srl, image_url) {
-    if(!image_url) return;
-    if(image_url.indexOf('files')==0) image_url = request_uri+image_url;
+var listShow = xe.createPlugin('list', {
+	API_SHOW_LIST : function(sender, params) {
+		var srl = params[0], imgs, $zone, i, c, im, scale, w1, w2, h1, h2;
 
-    // 객체 생성
-    var obj = {"srl":0, "image_url":null, "image":null}
+		imgs = this.cast('GET_IMAGES', [srl]);
 
-    // list_gallery_images에 이미지갤러리 쇼 고유번호에 해당하는 공간을 초기화
-    if(typeof(list_gallery_images[srl])=="undefined") list_gallery_images[srl] = new Array();
+		if(!imgs.length) return;
 
-    // 이미지갤러리쇼 고유번호를 세팅
-    obj.srl = srl;
-    obj.idx = list_gallery_images[srl].length;
+		$zone = $('#zone_list_gallery_'+srl).empty();
+		width = $zone.innerWidth();
 
-    // 원본 이미지를 미리 로딩
-    obj.image = new Image();
-    obj.image.src = image_url;
-    obj.image.srl = obj.srl;
-    obj.image.idx = obj.idx;
+		for(i=0,c=imgs.length; i < c; i++) {
+			im = imgs[i];
+			w1 = im.$obj.prop('width');
+			h1 = im.$obj.prop('height');
 
-    // 생성된 객체를 list_gallery_images[이미지갤러리쇼 고유번호]에 추가
-    list_gallery_images[srl][list_gallery_images[srl].length] = obj;
-}
+			if(w1 > width - 25) {
+				w2 = width - 25;
+				scale =  w2 / w1;
+				h2 = Math.floor(h1 * scale);
 
-// 이미지갤러리쇼 시작
-function start_list_gallery() {
+				w1 = w2; h1 = h2;
+				im.$obj.attr('rel', 'xe_gallery');
+			}
 
-    // 등록된 모든 이미지 목록을 돌면서 목록을 만들어줌
-    for(var srl in list_gallery_images) {
+			$zone.append(im.$obj);
+			im.$obj.css({width:w1+'px', height:h1, margin:'0 10px', display:'block'});
+		}
+	}
+});
 
-      // 등록된 이미지가 없으면 pass~
-      if(!list_gallery_images[srl].length) continue;
+var gallery = xe.getApp('Gallery')[0];
+if(gallery) gallery.registerPlugin(new listShow);
 
-      // 메인이미지가 나올 곳과 섬네일이 노출될 곳의 객체를 구함
-      var zone = xGetElementById('zone_list_gallery_'+srl);
-
-      // 갤러리 외부 박스보다 이미지가 클 경우 resizing시킴 
-      var borderTop = parseInt(zone.style.borderTopWidth.replace(/px$/,''),10);
-      var borderLeft = parseInt(zone.style.borderLeftWidth.replace(/px$/,''),10);
-      var borderRight = parseInt(zone.style.borderRightWidth.replace(/px$/,''),10);
-      var borderBottom = parseInt(zone.style.borderBottomWidth.replace(/px$/,''),10);
-
-      var zone_width = xWidth(zone)-borderLeft-borderRight;
-
-      // 이미지 출력
-      for(var i=0; i<list_gallery_images[srl].length;i++) {
-        var obj = list_gallery_images[srl][i];
-        var image_width = obj.image.width;
-        var image_height = obj.image.height;
-        var resize_scale = 1;
-
-        // 이미지갤러리 쇼 박스보다 큰 이미지는 크기를 줄여서 출력
-        if(image_width>(zone_width-25)) {
-            resize_scale = (zone_width-25)/image_width;
-            image_width = parseInt(image_width*resize_scale,10);
-            image_height = parseInt(image_height*resize_scale,10);
-        }
-
-        obj.image.style.width = image_width+"px";
-        obj.image.style.height = image_height+"px";
-        obj.image.style.marginLeft = "10px";
-        obj.image.style.marginBottom = "10px";
-        obj.image.style.display = "block";
-
-        // 리사이즈 되었다면 resize_image 애드온의 slideshow() 기능 사용
-        if(resize_scale != 1) obj.image.rel = 'xe_gallery';
-
-        zone.appendChild(obj.image);
-      }
-      zone.style.paddingTop = "10px";
-    }
-}
+})(jQuery);
