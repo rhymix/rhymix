@@ -332,16 +332,21 @@
 				Context::addHtmlFooter($footer);
 			}
 
-            // execute the action, and if failed, set error
-            if(!$oModule->proc()) 
+            // if failed message exists in session, set context
+			$this->_setInputErrorToContext();
+
+            $procResult = $oModule->proc();
+            //if(!$oModule->proc()) 
+            if(!$procResult) 
 			{
 				$this->error = $oModule->getMessage();
 				// case post, redirect page
             	if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON')))
 				{
 					$returnUrl = Context::get('error_return_url')?Context::get('error_return_url'):getUrl();
+					$errorMsg = $oModule->getMessage() ? $oModule->getMessage() : 'module process error';
 
-					$_SESSION['XE_VALIDATOR_ERROR'] = $oModule->getMessage();
+					$_SESSION['XE_VALIDATOR_ERROR'] = $errorMsg;
 					$_SESSION['XE_VALIDATOR_ERROR_RETURN_URL'] = $returnUrl;
 					$this->_setInputValueToSession();
 				}
@@ -354,9 +359,17 @@
 					$_SESSION['INPUT_ERROR'] = '';
 				}
 			}
-
             return $oModule;
         }
+
+		function _setInputErrorToContext()
+		{
+			if($_SESSION['XE_VALIDATOR_ERROR'] && !Context::get('XE_VALIDATOR_ERROR')) Context::set('XE_VALIDATOR_ERROR', $_SESSION['XE_VALIDATOR_ERROR']);
+			if($_SESSION['XE_VALIDATOR_ERROR_RETURN_URL'] && !Context::get('XE_VALIDATOR_ERROR_RETURN_URL')) Context::set('XE_VALIDATOR_ERROR_RETURN_URL', $_SESSION['XE_VALIDATOR_ERROR_RETURN_URL']);
+
+			$_SESSION['XE_VALIDATOR_ERROR'] = '';
+			$_SESSION['XE_VALIDATOR_ERROR_RETURN_URL'] = '';
+		}
 
 		function _setInputValueToSession()
 		{
@@ -459,15 +472,9 @@
                 }
             }
 
-			if($_SESSION['XE_VALIDATOR_ERROR'] && !Context::get('XE_VALIDATOR_ERROR')) Context::set('XE_VALIDATOR_ERROR', $_SESSION['XE_VALIDATOR_ERROR']);
-			if($_SESSION['XE_VALIDATOR_ERROR_RETURN_URL'] && !Context::get('XE_VALIDATOR_ERROR_RETURN_URL')) Context::set('XE_VALIDATOR_ERROR_RETURN_URL', $_SESSION['XE_VALIDATOR_ERROR_RETURN_URL']);
-
             // Display contents 
             $oDisplayHandler = new DisplayHandler();
             $oDisplayHandler->printContent($oModule);
-
-			$_SESSION['XE_VALIDATOR_ERROR'] = '';
-			$_SESSION['XE_VALIDATOR_ERROR_RETURN_URL'] = '';
         }
 
         /**
