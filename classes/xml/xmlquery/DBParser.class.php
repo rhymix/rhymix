@@ -21,7 +21,13 @@
 		}		
 		
 		function escapeString($name){
-			return "'".$name."'";
+			return "'".$this->escapeStringValue($name)."'";
+		}
+		
+		function escapeStringValue($value){
+			if($value == "*")	return $value;
+			if (!is_numeric($value))	return $value = str_replace("'","\'",$string);
+			return $value;
 		}
 		
 		function parseTableName($name){
