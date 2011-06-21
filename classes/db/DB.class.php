@@ -306,6 +306,7 @@
             require_once(_XE_PATH_.'classes/xml/xmlquery/DBParser.class.php');
             require_once(_XE_PATH_.'classes/xml/xmlquery/argument/Argument.class.php');
             require_once(_XE_PATH_.'classes/xml/xmlquery/argument/ConditionArgument.class.php');
+            require_once(_XE_PATH_.'classes/xml/XmlQueryParser.class.php');
             require_once(_XE_PATH_.'classes/db/queryparts/expression/Expression.class.php');
             require_once(_XE_PATH_.'classes/db/queryparts/expression/SelectExpression.class.php');
             require_once(_XE_PATH_.'classes/db/queryparts/expression/InsertExpression.class.php');
