@@ -903,7 +903,7 @@ function setCookie(name, value, expire, path) {
 }
 
 function getCookie(name) {
-	var match = document.cookie.match(new RegExp(name+'=(.*?);'));
+	var match = document.cookie.match(new RegExp(name+'=(.*?)(?:;|$)'));
 	if(match) return unescape(match[1]);
 }
 
@@ -979,7 +979,7 @@ jQuery(function($){
 
 		if(!name) name = '_xe_popup_'+Math.floor(Math.random()*1000);
 
-		win = window.open(href, name, 'left=10,top=10,width=10,hegiht=10,resizable=no,scrollbars=no,toolbars=no');
+		win = window.open(href, name, 'left=10,top=10,width=10,height=10,resizable=no,scrollbars=no,toolbars=no');
 		if(win) win.focus();
 
 		// cancel default action
