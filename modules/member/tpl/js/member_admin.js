@@ -45,8 +45,7 @@ function doUpdateGroup(group_srl, mode, message) {
 
     var fo_obj = get_by_id('fo_group_info');
     fo_obj.group_srl.value = group_srl;
-    fo_obj.mode.value = mode;
-    procFilter(fo_obj, update_group);
+	fo_obj.submit();
 }
 
 function completeUpdateGroup(ret_obj) {

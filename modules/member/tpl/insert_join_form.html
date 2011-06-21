@@ -1,7 +1,8 @@
 <!--#include("header.html")-->
-<!--%import("filter/insert_join_form.xml")-->
 
-<form id="fo_join_form" action="./" method="get" onsubmit="return procFilter(this, insert_join_form)">
+<p class="xe_validator_error">{$XE_VALIDATOR_ERROR}</p>
+<form ruleset="insertJoinForm" id="fo_join_form" action="./" method="post">
+<input type="hidden" name="act" value="procMemberAdminInsertJoinForm" />
 <input type="hidden" name="member_join_form_srl" value="{$join_form->member_join_form_srl}" />
 <input type="hidden" name="default_value" value="<!--@if(is_array($join_form->default_value))-->{implode($join_form->default_value,'|@|')}<!--@end-->" />
 

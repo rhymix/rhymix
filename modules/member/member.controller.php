@@ -1490,6 +1490,9 @@
                 $oDB->rollback();
                 return $output;
             }
+
+			if(is_array($args->group_srl_list)) $group_srl_list = $args->group_srl_list;
+			else $group_srl_list = explode('|@|', $args->group_srl_list);
             // If no value is entered the default group, the value of group registration
             if(!$args->group_srl_list) {
 				$columnList = array('site_srl', 'group_srl');
@@ -1502,7 +1505,6 @@
                 }
             // If the value is the value of the group entered the group registration
             } else {
-                $group_srl_list = explode('|@|', $args->group_srl_list);
                 for($i=0;$i<count($group_srl_list);$i++) {
                     $output = $this->addMemberToGroup($args->member_srl,$group_srl_list[$i]);
 
@@ -1623,9 +1625,10 @@
                 $oDB->rollback();
                 return $output;
             }
+			if(is_array($args->group_srl_list)) $group_srl_list = $args->group_srl_list;
+			else $group_srl_list = explode('|@|', $args->group_srl_list);
             // If the group information, group information changes
-            if($args->group_srl_list) {
-                $group_srl_list = explode('|@|', $args->group_srl_list);
+            if(count($group_srl_list) > 0) {
                 $args->site_srl = 0;
                 // One of its members to delete all the group
                 $output = executeQuery('member.deleteMemberGroupMember', $args);

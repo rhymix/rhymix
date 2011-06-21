@@ -1,11 +1,12 @@
-<!--%import("filter/manage_member_group.xml")-->
 <!--%import("js/member_admin.js")-->
 
 <div id="popHeader" class="wide">
     <h3 class="xeAdmin">{$lang->cmd_member_group} ({$lang->target} : {count($member_list)})</h3>
 </div>
 
-<form action="./" method="get" id="fo_management" onsubmit="return procFilter(this, manage_member_group);">
+<p class="xe_validator_error">{$XE_VALIDATOR_ERROR}</p>
+<form ruleset="manageMemberGroup" action="./" method="post" id="fo_management">
+<input type="hidden" name="act" value="procMemberAdminUpdateMembersGroup" />
 <input type="hidden" name="member_srl" value="{$member_srls}" />
 
 <div id="popBody">
@@ -14,7 +15,7 @@
         <td>
             <!--@foreach($group_list as $key => $val)-->
             <!--@if($val->is_admin != 'Y')-->
-            <input type="checkbox" value="{$key}" name="group_srls" id="member_group_{$key}"/> <label for="member_group_{$key}">{$val->title}</label> &nbsp;<br/>
+            <input type="checkbox" value="{$key}" name="group_srls[]" id="member_group_{$key}"/> <label for="member_group_{$key}">{$val->title}</label> &nbsp;<br/>
             <!--@end-->
             <!--@end-->
         </td>

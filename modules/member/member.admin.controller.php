@@ -56,6 +56,12 @@
             // Return result
             $this->add('member_srl', $args->member_srl);
             $this->setMessage($msg_code);
+
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMemberAdminList');
+				header('location:'.$returnUrl);
+				return;
+			}
         }
 
         /**
@@ -108,6 +114,12 @@
 
             $oMemberController = &getController('member');
             $output = $oMemberController->setMemberConfig($args);
+
+			if($output->toBool() && !in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMemberAdminConfig');
+				header('location:'.$returnUrl);
+				return;
+			}
             return $output;
         }
 
@@ -122,6 +134,12 @@
             $this->add('group_srl','');
             $this->add('page',Context::get('page'));
             $this->setMessage('success_registed');
+
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMemberAdminGroupList');
+				header('location:'.$returnUrl);
+				return;
+			}
         }
 
         /**
@@ -129,26 +147,41 @@
          **/
         function procMemberAdminUpdateGroup() {
             $group_srl = Context::get('group_srl');
-            $mode = Context::get('mode');
 
-            switch($mode) {
-                case 'delete' :
-                        $output = $this->deleteGroup($group_srl);
-                        if(!$output->toBool()) return $output;
-                        $msg_code = 'success_deleted';
-                    break;
-                case 'update' :
-                        $args = Context::gets('group_srl','title','description','is_default','image_mark');
-                        $args->site_srl = 0;
-                        $output = $this->updateGroup($args);
-                        if(!$output->toBool()) return $output;
-                        $msg_code = 'success_updated';
-                    break;
-            }
+			$args = Context::gets('group_srl','title','description','is_default','image_mark');
+			$args->site_srl = 0;
+			$output = $this->updateGroup($args);
+			if(!$output->toBool()) return $output;
 
             $this->add('group_srl','');
             $this->add('page',Context::get('page'));
-            $this->setMessage($msg_code);
+            $this->setMessage('success_updated');
+
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMemberAdminGroupList');
+				header('location:'.$returnUrl);
+				return;
+			}
+        }
+
+        /**
+         * @brief Update user group information
+         **/
+        function procMemberAdminDeleteGroup() {
+            $group_srl = Context::get('group_srl');
+
+			$output = $this->deleteGroup($group_srl);
+			if(!$output->toBool()) return $output;
+
+            $this->add('group_srl','');
+            $this->add('page',Context::get('page'));
+            $this->setMessage('success_deleted');
+
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMemberAdminGroupList');
+				header('location:'.$returnUrl);
+				return;
+			}
         }
 
         /**
@@ -184,6 +217,12 @@
 
             $this->add('act','dispJoinForm');
             $this->setMessage('success_registed');
+
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMemberAdminJoinFormList');
+				header('location:'.$returnUrl);
+				return;
+			}
         }
 
         /**
@@ -243,8 +282,8 @@
             $member_srls = explode(',',$member_srl);
 
             $group_srl = Context::get('group_srls');
-            $group_srls = explode('|@|', $group_srl);
-            if(!$group_srl) return new Object(-1,'msg_check_group');
+            if(!is_array($group_srl)) $group_srls = explode('|@|', $group_srl);
+			else $group_srls = $group_srl;
 
             $oDB = &DB::getInstance();
             $oDB->begin();
@@ -277,8 +316,15 @@
                 }
             }
             $oDB->commit();
-
             $this->setMessage('success_updated');
+
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				global $lang;
+				alertScript($lang->success_updated);
+				reload(true);
+				closePopupScript();
+				exit;
+			}
         }
 
         /**
@@ -294,6 +340,12 @@
             $this->add('group_srl','');
             $this->add('page',Context::get('page'));
             $this->setMessage('success_registed');
+
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMemberAdminDeniedIDList');
+				header('location:'.$returnUrl);
+				return;
+			}
         }
 
         /**

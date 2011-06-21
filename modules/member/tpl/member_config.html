@@ -1,9 +1,10 @@
-<!--%import("filter/insert_config.xml")-->
 <!--%import("../../editor/tpl/js/editor_module_config.js",optimized=false)-->
 
 <!--#include("header.html")-->
 
-<form action="./" method="get" onsubmit="return procFilter(this, insert_config)">
+<p class="xe_validator_error">{$XE_VALIDATOR_ERROR}</p>
+<form ruleset="insertConfig" action="./" method="post">
+<input type="hidden" name="act" value="procMemberAdminInsertConfig" />
 <input type="hidden" name="temp_srl" value="" />
 <input type="hidden" name="agreement" value="{htmlspecialchars($config->agreement)}" />
 
