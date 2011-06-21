@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ruleset version="1.5.0">
+    <customrules>
+		<rule name="imageExtension" type="regex" test="/\.(gif|jpg|jpeg|gif|png|swf|flv)$/i"  />
+    </customrules>
+    <fields>
+		<field name="user_layout_image['name']" required="true" rule="imageExtension" />
+		<field name="layout_srl" required="true" rule="number" />
+    </fields>
+</ruleset>

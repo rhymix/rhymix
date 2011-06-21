@@ -1,8 +1,8 @@
-<!--%import("filter/insert_layout.xml")-->
-
 <!--#include("header.html")-->
 
-<form action="./" method="get" onsubmit="return procFilter(this, insert_layout)">
+<p class="xe_validator_error">{$XE_VALIDATOR_ERROR}</p>
+<form ruleset="insertLayout" action="./" method="post">
+<input type="hidden" name="act" value="procLayoutAdminInsert" />
 	<input type="hidden" name="layout_type" value="{$layout_type}" />
 
     <table cellspacing="0" class="rowTable">

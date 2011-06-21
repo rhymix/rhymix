@@ -16,7 +16,9 @@
 
 <h4 class="xeAdmin">{$lang->layout_image_repository}</h4>
 <p class="summary">{nl2br($lang->about_layout_image_repository)}</p>
-<form action="{Context::getRequestUri()}" target="hidden_iframe" method="post" onsubmit="return checkFile(this)" enctype="multipart/form-data">
+
+<p class="xe_validator_error">{$XE_VALIDATOR_ERROR}</p>
+<form ruleset="imageUpload" action="{Context::getRequestUri()}" method="post" enctype="multipart/form-data">
     <input type="hidden" name="module" value="layout" />
     <input type="hidden" name="act" value="procLayoutAdminUserImageUpload" />
     <input type="hidden" name="layout_srl" value="{$layout_srl}" />
@@ -70,7 +72,7 @@
 <tr>
     <th scope="row"><div>{$lang->layout_import}</div></th>
     <td>
-        <form action="{getUrl('')}" method="post" enctype="multipart/form-data" target="hidden_iframe">
+        <form ruleset="userLayoutImport" action="{getUrl('')}" method="post" enctype="multipart/form-data">
             <input type="hidden" name="module" value="layout" />
             <input type="hidden" name="act" value="procLayoutAdminUserLayoutImport" />
             <input type="hidden" name="layout_srl" value="{$layout_srl}" />
@@ -84,7 +86,7 @@
 <!--@end-->
 
 
-<form id="fo_layout" action="{getUrl('','module','admin')}" method="post">
+<form ruleset="codeUpdate" id="fo_layout" action="{getUrl('','module','admin')}" method="post">
 <input type="hidden" name="layout_srl" value="{$layout_srl}" />
 <input type="hidden" name="act" value="procLayoutAdminCodeUpdate" />
 <input type="hidden" name="_filter" value="update_layout_code" />
@@ -109,9 +111,11 @@
     </tr>
     <tr>
         <th class="button">
-			<span class="button black strong"><button type="submit" onclick="this.form.act.value='procLayoutAdminCodeUpdate'">{$lang->cmd_save}</button></span>
+			<span class="button black strong"><button type="submit">{$lang->cmd_save}</button></span>
 			<span class="button"><button type="button" onclick="doPreviewLayoutCode();">{$lang->cmd_preview}</button></span>
 			<span class="button red"><button type="reset" onclick="doResetLayoutCode('{$layout_srl}')">{$lang->cmd_reset}</button></span>
+			<!--button type="submit" name="act" value="procCommunicationMoveFriend">{$lang->cmd_move}</button>
+			<button type="submit" name="act" value="procCommunicationDeleteFriend">{$lang->cmd_delete}</button-->
         </th>
     </tr>
 </tbody>

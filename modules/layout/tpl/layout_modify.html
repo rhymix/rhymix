@@ -10,7 +10,8 @@
     </ul>
 </div>
 
-<form id="fo_layout" action="./" method="post" enctype="multipart/form-data" target="hidden_iframe">
+<p class="xe_validator_error">{$XE_VALIDATOR_ERROR}</p>
+<form ruleset="updateLayout" id="fo_layout" action="./" method="post" enctype="multipart/form-data">
 <input type="hidden" name="module" value="layout" />
 <input type="hidden" name="act" value="procLayoutAdminUpdate" />
 <input type="hidden" name="layout_srl" value="{$layout_srl}" />
@@ -176,5 +177,6 @@
     <a href="{getUrl('act','')}" class="button"><span>{$lang->cmd_back}</span></a>
     <!--@end-->
 </div>
+</form>
 
 <iframe name="hidden_iframe" frameborder="0" style="display:none"></iframe>

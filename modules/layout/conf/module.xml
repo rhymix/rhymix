@@ -18,16 +18,16 @@
 		<action name="dispLayoutAdminDownloadedMobileList" type="view" standalone="true" />
 
 
-        <action name="procLayoutAdminInsert" type="controller" standalone="true" />
-        <action name="procLayoutAdminUpdate" type="controller" standalone="true" />
+        <action name="procLayoutAdminInsert" type="controller" standalone="true" ruleset="insertLayout" />
+        <action name="procLayoutAdminUpdate" type="controller" standalone="true" ruleset="updateLayout" />
         <action name="procLayoutAdminDelete" type="controller" standalone="true" />
-        <action name="procLayoutAdminCodeUpdate" type="controller" standalone="true" />
+        <action name="procLayoutAdminCodeUpdate" type="controller" standalone="true" ruleset="codeUpdate" />
         <action name="procLayoutAdminCodeReset" type="controller" standalone="true" />
-        <action name="procLayoutAdminUserImageUpload" type="controller" standalone="true" />
+        <action name="procLayoutAdminUserImageUpload" type="controller" standalone="true" ruleset="imageUpload" />
         <action name="procLayoutAdminUserImageDelete" type="controller" standalone="true" />
         <action name="procLayoutAdminUserValueInsert" type="controller" standalone="true" />
         <action name="procLayoutAdminUserLayoutExport" type="controller" standalone="true" />
-        <action name="procLayoutAdminUserLayoutImport" type="controller" standalone="true" />
+        <action name="procLayoutAdminUserLayoutImport" type="controller" standalone="true" ruleset="userLayoutImport" />
 
     </actions>
 </module>
