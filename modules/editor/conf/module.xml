@@ -21,7 +21,7 @@
         <action name="procEditorAdminEnableComponent" type="controller" standalone="true" />
         <action name="procEditorAdminDisableComponent" type="controller" standalone="true" />
         <action name="procEditorAdminMoveListOrder" type="controller" standalone="true" />
-        <action name="procEditorAdminSetupComponent" type="controller" standalone="true" />
+        <action name="procEditorAdminSetupComponent" type="controller" standalone="true" ruleset="setupComponent" />
 
         <action name="procEditorLoadSavedDocument" type="controller" standalone="true" />
     </actions>
