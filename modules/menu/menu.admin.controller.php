@@ -29,6 +29,12 @@
 
             $this->add('menu_srl', $args->menu_srl);
             $this->setMessage('success_registed');
+
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMenuAdminContent');
+				header('location:'.$returnUrl);
+				return;
+			}
         }
 
         /**
@@ -43,6 +49,11 @@
             if(!$output->toBool()) return $output;
 
             $this->setMessage('success_registed');
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMenuAdminManagement', 'menu_srl', $args->menu_srl);
+				header('location:'.$returnUrl);
+				return;
+			}
         }
 
         /**
@@ -145,6 +156,12 @@
             $this->add('menu_item_srl', $args->menu_item_srl);
             $this->add('menu_title', $menu_title);
             $this->add('parent_srl', $args->parent_srl);
+
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMenuAdminManagement', 'menu_srl', $args->menu_srl);
+				header('location:'.$returnUrl);
+				return;
+			}
         }
 
         /**
