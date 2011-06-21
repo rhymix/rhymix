@@ -10,7 +10,14 @@
 		
 		function Argument($name, $value){
 			$this->name = $name;
-			$this->value = $value;
+			
+			if($this->type !== 'date'){
+				$dbParser = XmlQueryParser::getDBParser();
+				$this->value = $dbParser->escapeStringValue($value);
+			}
+			else
+				$this->value = $value;
+			
 			$this->isValid = true;
 		}
 		
