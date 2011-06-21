@@ -26,7 +26,7 @@
 		
 		function escapeStringValue($value){
 			if($value == "*")	return $value;
-			if (is_string($value))	return $value = str_replace("'","\'",$value);
+			if (is_string($value))	return $value = str_replace("'","''",$value);
 			return $value;
 		}
 		
