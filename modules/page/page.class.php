@@ -47,7 +47,7 @@
 			}
 
 			// old page module instance update
-			$output = executeQuery('page.pageTypeNullCheck');
+			$output = executeQueryArray('page.pageTypeNullCheck');
 			if ($output->toBool() && $output->data){
 				foreach($output->data as $val){
 					$args->module_srl = $val->module_srl;
