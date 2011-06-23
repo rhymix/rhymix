@@ -1,8 +1,8 @@
-<!--%import("filter/insert_config.xml")-->
-
 <h3 class="xeAdmin">{$lang->message} <span class="gray">{$lang->cmd_management}</span></h3>
 
-<form action="./" method="get" onsubmit="return procFilter(this, insert_config)">
+<p class="xe_validator_error">{$XE_VALIDATOR_ERROR}</p>
+<form action="./" method="post">
+<input type="hidden" name="act" value="procMessageAdminInsertConfig" />
     <p class="summary">{$lang->about_skin}</p>
     <table cellspacing="0" class="rowTable">
     <tr>

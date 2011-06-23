@@ -1,14 +1,16 @@
 <!--%import("message.css")-->
 
+<p class="xe_validator_error">{$XE_VALIDATOR_ERROR}</p>
 <div id="loginAccess" class="gLogin">
 	<h1>{$system_message}</h1>
 	<!--@if(!$is_logged)-->
     <!--%import("../../../../common/js/jquery.js")-->
-	<!--%import("./filter/login.xml")-->
 	<!--%import("./filter/openid_login.xml")-->
 	<!--%import("./message.js")-->
 	<div class="mLogin" id="gLogin">
-		<form action="./" method="post" onsubmit="return doLogin(this, message_login)" id="gForm">
+		<form ruleset="login" action="./" method="post" id="gForm">
+		<input type="hidden" name="act" value="procMemberLogin" />
+		<input type="hidden" name="error_return_url" value="" />
 			<fieldset>
 				<ul class="idpw">
 					<li><input type="text" name="user_id" id="uid" value="" class="inputText" title="{$lang->user_id}" /></li>
@@ -38,7 +40,10 @@
 	<!-- OpenID -->
 	<!--@if($member_config->enable_openid=='Y')-->
 	<div class="mLogin" id="oLogin">
-		<form action="{getUrl('module','member','act','procMemberOpenIDLogin')}" method="post" onsubmit="return doLogin(this, openid_login)" id="oForm">
+		<form ruleset="openidLogin" action="./" method="post" id="oForm">
+		<input type="hidden" name="module" value="member" />
+		<input type="hidden" name="act" value="procMemberOpenIDLogin" />
+		<input type="hidden" name="error_return_url" value="" />
 			<fieldset>
 					<div class="oid">
 						<input type="text" name="openid" class="inputText" title="Open ID" value="" />
