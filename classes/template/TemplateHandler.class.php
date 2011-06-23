@@ -188,7 +188,7 @@
             $buff = preg_replace_callback('!<\!--%load_js_plugin\(\"([^\"]*?)\"\)-->!is', array($this, '_compileLoadJavascriptPlugin'), $buff);
 
 			// form auto generation
-			$buff = preg_replace_callback('/(<form[^>].*?>)(.*?)(<\/form>)/is', array($this, '_compileFormAuthGeneration'), $buff);
+			$buff = preg_replace_callback('/(<form(?:<\?php.+?\?>|[^<>]+)*?>)(.*?)(<\/form>)/is', array($this, '_compileFormAuthGeneration'), $buff);
 
             // replace variables
             $buff = preg_replace_callback('/\{[^@^ ]([^\{\}\n]+)\}/i', array($this, '_compileVarToContext'), $buff);

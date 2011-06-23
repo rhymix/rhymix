@@ -34,8 +34,8 @@
         <action name="getMemberMenu" type="model" standalone="true" />
         <action name="getMemberAdminColorset" type="model" standalone="true" />
 
-        <action name="procMemberLogin" type="controller" standalone="true" />
-        <action name="procMemberOpenIDLogin" type="controller" standalone="true" />
+        <action name="procMemberLogin" type="controller" standalone="true" ruleset="login" />
+        <action name="procMemberOpenIDLogin" type="controller" standalone="true" ruleset="openidLogin" />
         <action name="procMemberOpenIDValidate" type="controller" standalone="true" />
         <action name="procModuleSiteSignUp" type="controller" standalone="true" />
         <action name="procModuleSiteLeave" type="controller" standalone="true" />
@@ -44,10 +44,10 @@
         <action name="procMemberDeleteOpenIDFromMember" type="controller" standalone="true" />
         <action name="procMemberLogout" type="controller" standalone="true" />
         <action name="procMemberCheckValue" type="controller" standalone="true" />
-        <action name="procMemberInsert" type="controller" standalone="true" />
-        <action name="procMemberModifyInfo" type="controller" standalone="true" />
-        <action name="procMemberModifyPassword" type="controller" standalone="true" />
-        <action name="procMemberLeave" type="controller" standalone="true" />
+        <action name="procMemberInsert" type="controller" standalone="true" ruleset="signup" />
+        <action name="procMemberModifyInfo" type="controller" standalone="true" ruleset="modifyInfo" />
+        <action name="procMemberModifyPassword" type="controller" standalone="true" ruleset="modifyPassword" />
+        <action name="procMemberLeave" type="controller" standalone="true" ruleset="leaveMember" />
         <action name="procMemberOpenIDLeave" type="controller" standalone="true" />
         <action name="procMemberInsertProfileImage" type="controller" standalone="true" ruleset="insertProfileImage" />
         <action name="procMemberInsertImageName" type="controller" standalone="true" ruleset="insertImageName" />
@@ -65,7 +65,7 @@
         <action name="procMemberFindAccountByQuestion" type="controller" standalone="true" />
         <action name="procMemberAuthAccount" type="controller" standalone="true" />
         <action name="procMemberUpdateAuthMail" type="controller" standalone="true" />
-		<action name="procMemberResendAuthMail" type="controller" standalone="true" />
+		<action name="procMemberResendAuthMail" type="controller" standalone="true" ruleset="resendAuthMail" />
 
         <action name="procMemberAdminInsert" type="controller" standalone="true" ruleset="insert" />
         <action name="procMemberAdminDelete" type="controller" standalone="true" />

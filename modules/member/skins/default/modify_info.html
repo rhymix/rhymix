@@ -1,7 +1,6 @@
 <!--#include("./common_header.html")-->
 <!--%import("../../tpl/js/signup_check.js")-->
 
-<!--%import("filter/modify_info.xml")-->
 <!--@if($member_config->profile_image == 'Y')-->
     <!--%import("filter/delete_profile_image.xml")-->
 <!--@end-->
@@ -25,8 +24,9 @@
 
     <h3>{$lang->msg_update_member}</h3>
 
-    <form id="fo_insert_member" action="{getUrl()}" method="post" onsubmit="return procFilter(this, modify_info)" <!--@if($member_config->profile_image == 'Y' || $member_config->image_name=='Y' || $member_config->image_mark=='Y')-->enctype="multipart/form-data"<!--@end--> target="tmp_upload_iframe">
-    <input type="hidden" name="act" value="" />
+	<p class="xe_validator_error">{$XE_VALIDATOR_ERROR}</p>
+    <form ruleset="modifyInfo" id="fo_insert_member" action="{getUrl()}" method="post" <!--@if($member_config->profile_image == 'Y' || $member_config->image_name=='Y' || $member_config->image_mark=='Y')-->enctype="multipart/form-data"<!--@end-->>
+    <input type="hidden" name="act" value="procMemberModifyInfo" />
     <input type="hidden" name="module" value="member" />
     <input type="hidden" name="member_srl" value="{$member_info->member_srl}" />
     <input type="hidden" name="signature" value="{htmlspecialchars($member_info->signature)}" />
@@ -78,7 +78,7 @@
 
             <div class="memberImage">
                 <div class="form"><input type="file" name="profile_image" value="" /></div>
-                <a href="#" onclick="doUploadProfileImage();return false;" class="button"><span>{$lang->cmd_registration}</span></a>
+				<button type="submit" name="act" value="procMemberInsertProfileImage">{$lang->cmd_registration}</button>
             </div>
             <p>{$lang->profile_image_max_width} : {$member_config->profile_image_max_width}px, {$lang->profile_image_max_height} : {$member_config->profile_image_max_height}px</p>
         </td>
@@ -97,7 +97,7 @@
 
             <div class="memberImage">
                 <div class="form"><input type="file" name="image_name" value="" /></div>
-                <a href="#" onclick="doUploadImageName();return false;" class="button"><span>{$lang->cmd_registration}</span></a>
+				<button type="submit" name="act" value="procMemberInsertImageName">{$lang->cmd_registration}</button>
             </div>
             <p>{$lang->image_name_max_width} : {$member_config->image_name_max_width}px, {$lang->image_name_max_height} : {$member_config->image_name_max_height}px</p>
         </td>
@@ -116,7 +116,7 @@
 
             <div class="memberImage">
                 <div class="form"><input type="file" name="image_mark" value="" /></div>
-                <a href="#" onclick="doUploadImageMark();return false;" class="button"><span>{$lang->cmd_registration}</span></a>
+				<button type="submit" name="act" value="procMemberInsertImageMark">{$lang->cmd_registration}</button>
             </div>
             <p>{$lang->image_mark_max_width} : {$member_config->image_mark_max_width}px, {$lang->image_mark_max_height} : {$member_config->image_mark_max_height}px</p>
         </td>

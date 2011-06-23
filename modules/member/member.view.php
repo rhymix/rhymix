@@ -180,8 +180,9 @@
             if(!$oMemberModel->isLogged()) return $this->stop('msg_not_logged');
             // Get the saved document(module_srl is set to member_srl instead)
             $logged_info = Context::get('logged_info');
-            $args->module_srl = $logged_info->member_srl;
+            $args->member_srl = $logged_info->member_srl;
             $args->page = (int)Context::get('page');
+			$args->statusList = array('TEMP');
 
             $oDocumentModel = &getModel('document');
             $output = $oDocumentModel->getDocumentList($args, true);

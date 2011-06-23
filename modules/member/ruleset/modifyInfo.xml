@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ruleset version="1.5.0">
+    <customrules>
+    </customrules>
+    <fields>
+		<field name="user_name" required="true" length="2:40" />
+		<field name="nick_name" required="true" length="2:40" />
+		<field name="email_address" required="true" length="1:200" rule="email" />
+		<field name="find_account_question" required="true" />
+		<field name="find_account_answer" required="true" length=":250" />
+    </fields>
+</ruleset>

@@ -481,9 +481,10 @@
             if ($config->agreement && Context::get('accept_agreement')!='Y') return $this->stop('msg_accept_agreement');
 
             // Extract the necessary information in advance
-            $args = Context::gets('user_id','user_name','nick_name','homepage','blog','birthday','email_address','password','allow_mailing','find_account_question','find_account_answer');
+            $args = Context::gets('user_id','user_name','nick_name','homepage','blog','birthday','email_address','password','password1','allow_mailing','find_account_question','find_account_answer');
             $args->member_srl = getNextSequence();
             $args->list_order = -1 * $args->member_srl;
+			if($args->password1) $args->password = $args->password1;
 
             // Remove some unnecessary variables from all the vars
             $all_args = Context::getRequestVars();
@@ -528,6 +529,12 @@
             // Call a trigger (after)
             $trigger_output = ModuleHandler::triggerCall('member.procMemberInsert', 'after', $config);
             if(!$trigger_output->toBool()) return $trigger_output;
+
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '');
+				header('location:'.$returnUrl);
+				return;
+			}
         }
 
         /**
@@ -573,6 +580,11 @@
             // Return result
             $this->add('member_srl', $args->member_srl);
             $this->setMessage('success_updated');
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispMemberInfo');
+				header('location:'.$returnUrl);
+				return;
+			}
         }
 
         /**
@@ -582,7 +594,7 @@
             if(!Context::get('is_logged')) return $this->stop('msg_not_logged');
             // Extract the necessary information in advance
             $current_password = trim(Context::get('current_password'));
-            $password = trim(Context::get('password'));
+            $password = trim(Context::get('password1'));
             // Get information of logged-in user
             $logged_info = Context::get('logged_info');
             $member_srl = $logged_info->member_srl;
@@ -605,6 +617,11 @@
 
             $this->add('member_srl', $args->member_srl);
             $this->setMessage('success_updated');
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispMemberInfo');
+				header('location:'.$returnUrl);
+				return;
+			}
         }
 
         /**
@@ -635,6 +652,11 @@
             $this->destroySessionInfo();
             // Return success message
             $this->setMessage('success_leaved');
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '');
+				header('location:'.$returnUrl);
+				return;
+			}
         }
 
         /**
@@ -677,7 +699,12 @@
 
             $this->insertProfileImage($member_srl, $file['tmp_name']);
             // Page refresh
-            $this->setRefreshPage();
+            //$this->setRefreshPage();
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispMemberModifyInfo');
+				header('location:'.$returnUrl);
+				return;
+			}
         }
 
         function insertProfileImage($member_srl, $target_file) {
@@ -723,7 +750,12 @@
 
             $this->insertImageName($member_srl, $file['tmp_name']);
             // Page refresh
-            $this->setRefreshPage();
+            //$this->setRefreshPage();
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispMemberModifyInfo');
+				header('location:'.$returnUrl);
+				return;
+			}
         }
 
         function insertImageName($member_srl, $target_file) {
@@ -812,7 +844,12 @@
 
             $this->insertImageMark($member_srl, $file['tmp_name']);
             // Page refresh
-            $this->setRefreshPage();
+            //$this->setRefreshPage();
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispMemberModifyInfo');
+				header('location:'.$returnUrl);
+				return;
+			}
         }
 
         function insertImageMark($member_srl, $target_file) {
@@ -1108,6 +1145,11 @@
 
             $msg = sprintf(Context::getLang('msg_confirm_mail_sent'), $args->email_address);
             $this->setMessage($msg);
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '');
+				header('location:'.$returnUrl);
+				return;
+			}
         }
 
         /**
