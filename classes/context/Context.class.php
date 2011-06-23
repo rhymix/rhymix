@@ -135,9 +135,6 @@ class Context {
 		session_start();
 		if($sess=$_POST[session_name()]) session_id($sess);
 
-		debugPrint($sess);
-		debugPrint(session_id());
-
 		// set authentication information in Context and session
 		if(Context::isInstalled()) {
 			$oModuleModel = &getModel('module');
