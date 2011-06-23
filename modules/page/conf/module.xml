@@ -26,5 +26,6 @@
         <action name="procPageAdminDelete" type="controller" standalone="true" />
         <action name="procPageAdminInsertConfig" type="controller" standalone="true" />
         <action name="procPageAdminAddContent" type="controller" standalone="true" />
+        <action name="procPageAdminArticleDocumentInsert" type="controller" standalone="true" />
     </actions>
 </module>
