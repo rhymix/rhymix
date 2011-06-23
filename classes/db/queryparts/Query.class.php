@@ -204,12 +204,14 @@
 				$this->arguments = array();
 				
 				// Column arguments
-				foreach($this->columns as $column){
-					if($column->show()){
-						$arg = $column->getArgument();
-						if($arg) $this->arguments[] = $arg;
-					}
-				}			
+				if(count($this->columns) > 0){ // The if is for delete statements, all others must have columns
+					foreach($this->columns as $column){
+						if($column->show()){
+							$arg = $column->getArgument();
+							if($arg) $this->arguments[] = $arg;
+						}
+					}			
+				}
 				
 				// Condition arguments
 				if(count($this->conditions) > 0)

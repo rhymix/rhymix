@@ -439,7 +439,7 @@
             
 			$result = $this->_query ($query);
 			if ($this->isError ()) {
-				if ($limit && $output->limit->isPageHandler()){
+				if ($queryObject->getLimit() && $queryObject->getLimit()->isPageHandler()){
 					$buff = new Object ();
 					$buff->total_count = 0;
 					$buff->total_page = 0;

@@ -26,8 +26,30 @@
 		}
 		
 		function getValue(){
-			if(is_array($this->value)) return implode(',', $this->value);
-			return $this->value;
+			$value = $this->escapeValue($this->value);
+			return $this->toString($value);
+		}
+		
+		function getUnescapedValue(){
+			return $this->toString($this->value);
+		}
+		
+		function toString($value){
+			if(is_array($value)) return implode(',', $value);
+			return $value;			
+		}
+		
+		function escapeValue($value){
+			if(in_array($this->type, array('date', 'varchar', 'char','text', 'bigtext'))){
+				if(!is_array($value))
+					$value = '\''.$value.'\'';
+				else {
+					$total = count($value);
+					for($i = 0; $i < $total; $i++)
+						$value[$i] = '\''.$value[$i].'\'';
+				}
+			}			
+			return $value;
 		}
 		
 		function getType(){
@@ -54,15 +76,7 @@
 			$this->type = $column_type;
 			
 			//if($column_type === '') $column_type = 'varchar';
-			if(in_array($column_type, array('date', 'varchar', 'char','text', 'bigtext'))){
-				if(!is_array($this->value))
-					$this->value = '\''.$this->value.'\'';
-				else {
-					$total = count($this->value);
-					for($i = 0; $i < $total; $i++)
-						$this->value[$i] = '\''.$this->value[$i].'\'';
-				}
-			}
+
 		}
 		
 		function checkFilter($filter_type){

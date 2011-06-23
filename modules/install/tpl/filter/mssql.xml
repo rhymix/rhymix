@@ -15,7 +15,7 @@
         <param name="db_database" target="db_database" />
         <param name="db_table_prefix" target="db_table_prefix" />
     </parameter>
-    <response callback_func="completeInstalled">
+    <response callback_func="completeDBSetting">
         <tag name="error" />
         <tag name="message" />
     </response>

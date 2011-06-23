@@ -166,10 +166,11 @@
 			
 			if(count($this->param)){
 				foreach($this->param as $k => $o){
-					if($o['type'] == 'number'){
-						$_param[] = &$o['value'];
+					if($o->getType() == 'number'){
+						$_param[] = $o->getUnescapedValue();
 					}else{
-						$_param[] = array(&$o['value'], SQLSRV_PARAM_IN, SQLSRV_PHPTYPE_STRING('utf-8'));
+						$value = $o->getUnescapedValue();
+						$_param[] = array($value, SQLSRV_PARAM_IN, SQLSRV_PHPTYPE_STRING('utf-8'));
 					}
 				}	
 			}
@@ -414,7 +415,8 @@
          **/
         // TODO Lookup _filterNumber against sql injection - see if it is still needed and how to integrate
         function _executeInsertAct($queryObject) {
- 			$query = '';
+        	$query = $this->getInsertSql($queryObject);
+        	$this->param = $queryObject->getArguments();
             return $this->_query($query);
         }
 
@@ -422,7 +424,8 @@
          * @brief Handle updateAct
          **/
         function _executeUpdateAct($queryObject) {
-    		$query = '';
+        	$query = $this->getUpdateSql($queryObject);
+        	$this->param = $queryObject->getArguments();
             return $this->_query($query);
         }
 
@@ -430,7 +433,8 @@
          * @brief Handle deleteAct
          **/
         function _executeDeleteAct($queryObject) {
-			$query = '';
+        	$query = $this->getDeleteSql($queryObject);
+        	$this->param = $queryObject->getArguments();
             return $this->_query($query);
         }
 
@@ -477,14 +481,61 @@
          * it supports a method as navigation
          **/
         function _executeSelectAct($queryObject) {
+        	$query = $this->getSelectSql($queryObject);
+        	
+        	// TODO Decide if we continue to pass parameters like this
+        	$this->param = $queryObject->getArguments();
+        	
 			$query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id):'';
             $result = $this->_query($query);
-            if($this->isError()) return;
-            $data = $this->_fetch($result);
 
-            $buff = new Object();
-            $buff->data = $data;
-            return $buff;
+			if ($this->isError ()) {
+				if ($queryObject->getLimit() && $queryObject->getLimit()->isPageHandler()){
+					$buff = new Object ();
+					$buff->total_count = 0;
+					$buff->total_page = 0;
+					$buff->page = 1;
+					$buff->data = array ();
+					$buff->page_navigation = new PageHandler (/*$total_count*/0, /*$total_page*/1, /*$page*/1, /*$page_count*/10);//default page handler values
+					return $buff;
+				}else	
+					return;
+			}
+
+		 	if ($queryObject->getLimit() && $queryObject->getLimit()->isPageHandler()) {
+		 		// Total count
+		 		$count_query = sprintf('select count(*) as "count" %s %s', 'FROM ' . $queryObject->getFromString(), ($queryObject->getWhereString() === '' ? '' : ' WHERE '. $queryObject->getWhereString()));
+				if ($queryObject->getGroupByString() != '') {
+					$count_query = sprintf('select count(*) as "count" from (%s) xet', $count_query);
+				}
+
+				$count_query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
+				$result_count = $this->_query($count_query);
+				$count_output = $this->_fetch($result_count);
+				$total_count = (int)$count_output->count;
+		 		
+				// Total pages
+				if ($total_count) {
+					$total_page = (int) (($total_count - 1) / $queryObject->getLimit()->list_count) + 1;
+				}	else	$total_page = 1;
+		 		
+				
+		 		$virtual_no = $total_count - ($queryObject->getLimit()->page - 1) * $queryObject->getLimit()->list_count;
+		 		$data = $this->_fetch($result, $virtual_no);
+
+		 		$buff = new Object ();
+				$buff->total_count = $total_count;
+				$buff->total_page = $total_page;
+				$buff->page = $queryObject->getLimit()->page;
+				$buff->data = $data;
+				$buff->page_navigation = new PageHandler($total_count, $total_page, $queryObject->getLimit()->page, $queryObject->getLimit()->page_count);				
+			}else{
+				$data = $this->_fetch($result);
+				$buff = new Object ();
+				$buff->data = $data;	
+			}
+
+			return $buff;             
         }
 
         function getParser(){
