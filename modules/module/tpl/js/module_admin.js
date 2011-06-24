@@ -5,14 +5,12 @@
  **/
 
 /* 카테고리 관련 작업들 */
-function doUpdateCategory(module_category_srl, mode, message) {
+function doUpdateCategory(module_category_srl, message) {
     if(typeof(message)!='undefined'&&!confirm(message)) return;
 
     var fo_obj = get_by_id('fo_category_info');
     fo_obj.module_category_srl.value = module_category_srl;
-    fo_obj.mode.value = mode;
-
-    procFilter(fo_obj, update_category);
+	fo_obj.submit();
 }
 
 /* 카테고리 정보 수정 후 */

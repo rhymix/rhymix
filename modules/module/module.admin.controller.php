@@ -22,27 +22,41 @@
             if(!$output->toBool()) return $output;
 
             $this->setMessage("success_registed");
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispModuleAdminCategory');
+				header('location:'.$returnUrl);
+				return;
+			}
         }
 
         /**
          * @brief Update category
          **/
         function procModuleAdminUpdateCategory() {
-            $mode = Context::get('mode');
-
-            switch($mode) {
-                case 'delete' :
-                        $output = $this->doDeleteModuleCategory();
-                        $msg_code = 'success_deleted';
-                    break;
-                case 'update' :
-                        $output = $this->doUpdateModuleCategory();
-                        $msg_code = 'success_updated';
-                    break;
-            }
+			$output = $this->doUpdateModuleCategory();
             if(!$output->toBool()) return $output;
 
-            $this->setMessage($msg_code);
+            $this->setMessage('success_updated');
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispModuleAdminCategory');
+				header('location:'.$returnUrl);
+				return;
+			}
+        }
+
+        /**
+         * @brief Delete category
+         **/
+        function procModuleAdminDeleteCategory() {
+			$output = $this->doDeleteModuleCategory();
+            if(!$output->toBool()) return $output;
+
+            $this->setMessage('success_deleted');
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispModuleAdminCategory');
+				header('location:'.$returnUrl);
+				return;
+			}
         }
 
         /**
