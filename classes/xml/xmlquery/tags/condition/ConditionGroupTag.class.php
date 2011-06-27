@@ -11,7 +11,8 @@
 			if(count($conditions))require_once(_XE_PATH_.'classes/xml/xmlquery/tags/condition/ConditionTag.class.php');
 			
 			foreach($conditions as $condition){
-				$this->conditions[] = new ConditionTag($condition);
+				if($condition->name === 'query') $this->conditions[] = new QueryTag($condition, true);
+				else $this->conditions[] = new ConditionTag($condition);
 			}
 		}
 		

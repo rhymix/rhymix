@@ -10,28 +10,15 @@ require_once(_XE_PATH_.'classes/xml/xmlquery/tags/condition/JoinConditionsTag.cl
 require_once(_XE_PATH_.'classes/xml/xmlquery/tags/group/GroupsTag.class.php');
 require_once(_XE_PATH_.'classes/xml/xmlquery/tags/navigation/NavigationTag.class.php');
 require_once(_XE_PATH_.'classes/xml/xmlquery/tags/navigation/IndexTag.class.php');
+require_once(_XE_PATH_.'classes/xml/xmlquery/tags/query/QueryTag.class.php');
 
 class QueryParser {
-	var $query;
-	var $action;
-	var $query_id;
-	
-	var $column_type;
-	
-	function QueryParser($query){
-		$this->query = $query;
-		$this->action = $this->query->attrs->action;
-		$this->query_id = $this->query->attrs->id;
+	var $queryTag;
+		
+	function QueryParser($query, $isSubQuery = false){
+		$this->queryTag = new QueryTag($query, $isSubQuery);
 	}	
 	
-	function getQueryId(){
-		return $this->query->attrs->query_id ? $this->query->attrs->query_id : $this->query->attrs->id;
-	}
-	
-	function getAction(){
-		return $this->query->attrs->action;
-	}
-
 	function getTableInfo($query_id, $table_name){
 		$column_type = array();
 		
@@ -77,75 +64,10 @@ class QueryParser {
         return $column_type;
 	}
 	
-	function setTableColumnTypes($tables){
-		$query_id = $this->getQueryId();
-		if(!isset($this->column_type[$query_id])){
-			$table_tags = $tables->getTables();
-			$column_type = array();
-			foreach($table_tags as $table_tag){
-				$tag_column_type = $this->getTableInfo($query_id, $table_tag->getTableName());
-				$column_type = array_merge($column_type, $tag_column_type);
-			}
-			$this->column_type[$query_id] = $column_type;
-		}
-	}
-	
 	function toString(){
-		if($this->action == 'select'){			
-			$columns =  new SelectColumnsTag($this->query->columns->column);
-		}else if($this->action == 'insert'){
-			$columns =  new InsertColumnsTag($this->query->columns->column);
-		}else if($this->action == 'update') {			
-			$columns =  new UpdateColumnsTag($this->query->columns->column);
-		}else if($this->action == 'delete') {			
-			$columns =  null;
-		}
-		
-		
-		$tables = new TablesTag($this->query->tables->table);	
-		$conditions = new ConditionsTag($this->query->conditions);		
-		$groups = new GroupsTag($this->query->groups->group);
-		$navigation = new NavigationTag($this->query->navigation);
-		
-		$this->setTableColumnTypes($tables);
-		
-		// TODO Check if this work with arguments in join clause
-		$arguments = array();
-		if($columns)
-			$arguments = array_merge($arguments, $columns->getArguments());
-		$arguments = array_merge($arguments, $conditions->getArguments());
-		$arguments = array_merge($arguments, $navigation->getArguments());
-		
-		$prebuff = '';
-		foreach($arguments as $argument){
-			if(isset($argument) && $argument->getArgumentName()){
-			$prebuff .= $argument->toString();
-			$prebuff .= sprintf("$%s_argument->setColumnType('%s');\n"
-				, $argument->getArgumentName()
-				, $this->column_type[$this->getQueryId()][$argument->getColumnName()] );
-			}
-		}
-		$prebuff .= "\n";
-		
-		$buff = '';
-		if($columns)
-			$buff .= '$query->setColumns(' . $columns->toString() . ');'.PHP_EOL;
-			
-        $buff .= '$query->setTables(' . $tables->toString() .');'.PHP_EOL;
-        $buff .= '$query->setConditions('.$conditions->toString() .');'.PHP_EOL;
-       	$buff .= '$query->setGroups(' . $groups->toString() . ');'.PHP_EOL; 	
-       	$buff .= '$query->setOrder(' . $navigation->getOrderByString() .');'.PHP_EOL;
-		$buff .= '$query->setLimit(' . $navigation->getLimitString() .');'.PHP_EOL;
-
-		return "<?php if(!defined('__ZBXE__')) exit();\n"
-				  . '$query = new Query();'.PHP_EOL
-                  . sprintf('$query->setQueryId("%s");%s', $this->query_id, "\n")
-                  . sprintf('$query->setAction("%s");%s', $this->action, "\n")
-                  . $prebuff
-                  . $buff
-                  . 'return $query; ?>';		
-		
-
+		return 	"<?php if(!defined('__ZBXE__')) exit();\n"
+				.$this->queryTag->toString()               
+				. 'return $query; ?>';		
 	}
 }
 

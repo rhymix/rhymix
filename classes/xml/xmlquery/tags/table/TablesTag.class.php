@@ -10,7 +10,8 @@
 			if(count($xml_tables)) require_once(_XE_PATH_.'classes/xml/xmlquery/tags/table/TableTag.class.php');
 			
 			foreach($xml_tables as $table){
-				$this->tables[] = new TableTag($table);
+				if($table->name === 'query') $this->tables[] = new QueryTag($table, true);
+				else $this->tables[] = new TableTag($table);
 			}			
 		}
 		
