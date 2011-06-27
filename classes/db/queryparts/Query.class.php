@@ -12,7 +12,30 @@
 		var $limit;
 		
 		var $arguments = null;
+		
+		function Query($queryID = null
+			, $action = null
+			, $columns = null
+			, $tables = null
+			, $conditions = null
+			, $groups = null
+			, $orderby = null
+			, $limit = null){
+			$this->queryID = $queryID;
+			$this->action = $action;
+			
+			$this->columns = $columns;
+			$this->tables = $tables;
+			$this->conditions = $conditions;
+			$this->groups = $groups;
+			$this->orderby = $orderby;
+			$this->limit = $limit;
+		}
 				
+		function show(){
+			return true;
+		}
+		
 		function setQueryId($queryID){
 			$this->queryID = $queryID;
 		}
@@ -110,8 +133,14 @@
 		function getSelectString($with_values = true){		
 			$select = '';
 			foreach($this->columns as $column){
+				var_dump($column);
 				if($column->show())
-					$select .= $column->getExpression($with_values) . ', ';
+					if(is_a($column, 'Subquery')){
+						$oDB = &DB::getInstance();
+						$select .= '(' .$oDB->getSelectSql($column, $with_values) . ') as \''. $column->getAlias().'\', ';
+					}
+					else
+						$select .= $column->getExpression($with_values) . ', ';
 			}
 			if(trim($select) == '') return '';
 			$select = substr($select, 0, -2);

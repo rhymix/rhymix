@@ -17,12 +17,16 @@ class QueryTag {
 	var $buff;
 	var $isSubQuery;
 
+	var $alias;
+	
 	function QueryTag($query, $isSubQuery = false){
 		$this->action = $query->attrs->action;
 		$this->query_id = $query->attrs->id;
 		$this->query = $query;
 		$this->isSubQuery = $isSubQuery;
-
+		if($this->isSubQuery) $this->action = 'select';
+		$this->alias = $query->attrs->alias;
+		
 		$this->getColumns();
 		$tables = $this->getTables();
 		$this->setTableColumnTypes($tables);
@@ -33,6 +37,10 @@ class QueryTag {
 		$this->getBuff();
 	}
 
+	function show(){
+		return true;
+	}
+	
 	function getQueryId(){
 		return $this->query->attrs->query_id ? $this->query->attrs->query_id : $this->query->attrs->id;
 	}
@@ -56,7 +64,7 @@ class QueryTag {
 	
 	function getColumns(){
 		if($this->action == 'select'){			
-			return $this->columns =  new SelectColumnsTag($this->query->columns->column);
+			return $this->columns =  new SelectColumnsTag($this->query->columns);
 		}else if($this->action == 'insert'){
 			return $this->columns =  new InsertColumnsTag($this->query->columns->column);
 		}else if($this->action == 'update') {			
@@ -68,11 +76,7 @@ class QueryTag {
 	
 	function getPrebuff(){
 		// TODO Check if this work with arguments in join clause
-		$arguments = array();
-		if($this->columns)
-			$arguments = array_merge($arguments, $this->columns->getArguments());
-		$arguments = array_merge($arguments, $this->conditions->getArguments());
-		$arguments = array_merge($arguments, $this->navigation->getArguments());
+		$arguments = $this->getArguments();
 		
 		$prebuff = '';
 		foreach($arguments as $argument){
@@ -90,8 +94,27 @@ class QueryTag {
 	
 	function getBuff(){
 		$buff = '';
-		if($this->isSubQuery) $buff .= '$query = new Query();'.PHP_EOL;
-		else $buff .= '$query = new Query();'.PHP_EOL;
+		echo 'start ---';
+		var_dump($this);
+		echo 'end ---';
+		//echo 'Luam un query care e '.$this->isSubQuery;
+		if($this->isSubQuery){
+			$buff = 'new Subquery(';
+			$buff .= "'" . $this->alias . '\', ';
+			$buff .=  ($this->columns ? $this->columns->toString() : 'null' ). ', '.PHP_EOL;
+	        $buff .=  $this->tables->toString() .','.PHP_EOL;
+	        $buff .=  $this->conditions->toString() .',' .PHP_EOL;
+	       	$buff .=  $this->groups->toString() . ',' .PHP_EOL; 	
+	       	$buff .=  $this->navigation->getOrderByString() .','.PHP_EOL;
+	       	$limit =  $this->navigation->getLimitString() ;
+			$buff .=  $limit ? $limit : 'null' . PHP_EOL;
+			$buff .= ')';
+		
+			$this->buff = $buff;
+			return $this->buff;
+		}
+		
+		$buff .= '$query = new Query();'.PHP_EOL;
 		$buff .= sprintf('$query->setQueryId("%s");%s', $this->query_id, "\n");
 		$buff .= sprintf('$query->setAction("%s");%s', $this->action, "\n");
 		$buff .= $this->preBuff;
@@ -104,8 +127,9 @@ class QueryTag {
        	$buff .= '$query->setOrder(' . $this->navigation->getOrderByString() .');'.PHP_EOL;
 		$buff .= '$query->setLimit(' . $this->navigation->getLimitString() .');'.PHP_EOL;
 		
-		return $this->buff = $buff;
-	}
+		$this->buff = $buff;
+		return $this->buff;
+	}	
 	
 	function getTables(){
 		return $this->tables = new TablesTag($this->query->tables->table);
@@ -138,5 +162,15 @@ class QueryTag {
 	function getExpressionString(){
 		return $this->buff;
 	}
+	
+	function getArguments(){
+		$arguments = array();
+		if($this->columns)
+			$arguments = array_merge($arguments, $this->columns->getArguments());
+		$arguments = array_merge($arguments, $this->conditions->getArguments());
+		$arguments = array_merge($arguments, $this->navigation->getArguments());
+		return $arguments;		
+	}
+	
 }
 ?>
