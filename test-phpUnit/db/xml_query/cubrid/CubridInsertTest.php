@@ -1,18 +1,18 @@
 <?php
-	require('config.inc.php');
+	require(_XE_PATH_ . 'test-phpUnit/config.inc.php');
+        require(_XE_PATH_ . 'test-phpUnit/db/xml_query/cubrid/config.cubrid.inc.php');
 
-	class InsertXmlTest_Cubrid extends PHPUnit_Framework_TestCase {
+	class CubridInsertTest extends PHPUnit_Framework_TestCase {
 
 		function _test($xml_file, $argsString, $expected){
 			$tester = new QueryTester();
-			$outputString = $tester->getNewParserOutputString($xml_file, '"', $argsString, 'cubrid');
+			$outputString = $tester->getNewParserOutputString($xml_file, '"', $argsString);
 			$output = eval($outputString);
 
 			if(!is_a($output, 'Query')){
 				if(!$output->toBool()) $querySql = "Date incorecte! Query-ul nu a putut fi executat.";
 			}else {
-				//$db = new DBCubrid();
-				$db = &DB::getInstance('cubrid');
+				$db = &DB::getInstance();
 				$querySql = $db->getInsertSql($output);
 	
 				// Remove whitespaces, tabs and all
@@ -24,6 +24,10 @@
 			$this->assertEquals($expected, $querySql);
 		}
 			
+                /**
+                 * Note: this test can fail when comaparing regdate from the $args with
+                 * regdate from the expected string - a few seconds difference
+                 */
 		function test_module_insertModule(){					
 			$xml_file = _XE_PATH_ . "modules/module/queries/insertModule.xml";
 			$argsString = ' $args->module_category_srl = 0; 
@@ -136,7 +140,5 @@
  						';
 			$this->_test($xml_file, $argsString, $expected);			
 		}				
-//	$queryTester->test_admin_deleteActionForward();
-//	$queryTester->test_module_insertModule();
 
 	}

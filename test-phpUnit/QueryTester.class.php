@@ -16,8 +16,7 @@
 			$newXmlQueryParser = new XmlQueryParser($db_type);
 			$xml_obj = $newXmlQueryParser->getXmlFileContent($xml_file);
 						
-			$dbParser = $newXmlQueryParser->getDBParser();
-			$parser = new QueryParser($xml_obj->query, $dbParser);
+			$parser = new QueryParser($xml_obj->query);
 			return $parser->toString();
 		}
 		

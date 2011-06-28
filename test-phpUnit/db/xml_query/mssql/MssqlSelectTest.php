@@ -1,18 +1,19 @@
 <?php
-	require('config.inc.php');
+	require(_XE_PATH_ . 'test-phpUnit/config.inc.php');
+        require(_XE_PATH_ . 'test-phpUnit/db/xml_query/mssql/config.mssql.inc.php');
 
-	class SelectXmlTest_Mssql extends PHPUnit_Framework_TestCase {
+	class MssqlSelectTest extends PHPUnit_Framework_TestCase {
 
 		function _test($xml_file, $argsString, $expected, $expectedArgs = NULL){
 			$tester = new QueryTester();
-			$outputString = $tester->getNewParserOutputString($xml_file, '[', $argsString, 'mssql');
+			$outputString = $tester->getNewParserOutputString($xml_file, '[', $argsString);
 			//echo $outputString;
 			$output = eval($outputString);
 			
 			if(!is_a($output, 'Query')){
 				if(!$output->toBool()) $querySql = "Date incorecte! Query-ul nu a putut fi executat.";
 			}else {
-				$db = &DB::getInstance('mssql');
+				$db = &DB::getInstance();
 				$querySql = $db->getSelectSql($output);
 				$queryArguments = $output->getArguments();
 				

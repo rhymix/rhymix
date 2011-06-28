@@ -1,17 +1,17 @@
 <?php
-	require('config.inc.php');
+	require(_XE_PATH_ . 'test-phpUnit/config.inc.php');
+        require(_XE_PATH_ . 'test-phpUnit/db/xml_query/cubrid/config.cubrid.inc.php');
 
-	class UpdateXmlTest_Cubrid extends PHPUnit_Framework_TestCase {
+	class CubridUpdateTest extends PHPUnit_Framework_TestCase {
 
 		function _test($xml_file, $argsString, $expected){
 			$tester = new QueryTester();
-			$outputString = $tester->getNewParserOutputString($xml_file, '"', $argsString, 'cubrid');
-			$output = eval($outputString);
+			$outputString = $tester->getNewParserOutputString($xml_file, '"', $argsString);
+                        $output = eval($outputString);
 			if(!is_a($output, 'Query')){
 				if(!$output->toBool()) $querySql = "Date incorecte! Query-ul nu a putut fi executat.";
 			}else {
-				//$db = new DBCubrid();
-				$db = &DB::getInstance('cubrid');
+				$db = &DB::getInstance();
 				$querySql = $db->getUpdateSql($output);
 	
 				// Remove whitespaces, tabs and all

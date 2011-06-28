@@ -1,11 +1,12 @@
 <?php
-	require('config.inc.php');
+	require(_XE_PATH_ . 'test-phpUnit/config.inc.php');
+        require(_XE_PATH_ . 'test-phpUnit/db/xml_query/cubrid/config.cubrid.inc.php');
 
-	class SelectXmlTest_Cubrid extends PHPUnit_Framework_TestCase {
+	class CubridSelectTest extends PHPUnit_Framework_TestCase {
 
 		function _test($xml_file, $argsString, $expected){
 			$tester = new QueryTester();
-			$outputString = $tester->getNewParserOutputString($xml_file, '"', $argsString, 'cubrid');
+			$outputString = $tester->getNewParserOutputString($xml_file, '"', $argsString);
 
 			//echo $outputString;
 			$output = eval($outputString);
@@ -14,7 +15,7 @@
 				if(!$output->toBool()) $querySql = "Date incorecte! Query-ul nu a putut fi executat.";
 			}else {
 				//$db = new DBCubrid();
-				$db = &DB::getInstance('cubrid');
+				$db = &DB::getInstance();
 				$querySql = $db->getSelectSql($output);
 	
 				// Remove whitespaces, tabs and all
@@ -194,14 +195,6 @@
 			
 		 	$this->assertTrue(is_int($output->page));
 		 	// $this->assertTrue($output->page == 5);
-		}
-				
-//	$queryTester->test_admin_deleteActionForward();
-//	$queryTester->test_module_insertModule();
-//	$queryTester->test_module_updateModule();
-
-	
-//	$queryTester->test_opage_getOpageList();		
-		
+		}		
 		
 	}

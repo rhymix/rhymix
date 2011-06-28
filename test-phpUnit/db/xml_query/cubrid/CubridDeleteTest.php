@@ -1,18 +1,19 @@
 <?php
-	require('config.inc.php');
+	require(_XE_PATH_ . 'test-phpUnit/config.inc.php');
+        require(_XE_PATH_ . 'test-phpUnit/db/xml_query/cubrid/config.cubrid.inc.php');
 
-	class DeleteXmlTest_Cubrid extends PHPUnit_Framework_TestCase {
+	class CubridDeleteTest extends PHPUnit_Framework_TestCase {
 
 		function _test($xml_file, $argsString, $expected){
 			$tester = new QueryTester();
-			$outputString = $tester->getNewParserOutputString($xml_file, '"', $argsString, 'cubrid');
-			$output = eval($outputString);
+			$outputString = $tester->getNewParserOutputString($xml_file, '"', $argsString);
+                        $output = eval($outputString);
 			
 			if(!is_a($output, 'Query')){
 				if(!$output->toBool()) $querySql = "Date incorecte! Query-ul nu a putut fi executat.";
 			}else {
-				//$db = new DBCubrid();
-				$db = &DB::getInstance('cubrid');
+				$db = &DB::getInstance();
+                                var_dump($db);
 				$querySql = $db->getDeleteSql($output);
 	
 				// Remove whitespaces, tabs and all
@@ -29,15 +30,10 @@
 			$argsString = '$args->module = "page";
 							$args->type = "page";
 							$args->act = "tata";';
-			$expected = 'delete from "xe_action_forward" as "action_forward" 
+			$expected = 'delete "action_forward" from "xe_action_forward" as "action_forward" 
 						where "module" = \'page\' 
 							and "type" = \'page\' 
 							and "act" = \'tata\'';
 			$this->_test($xml_file, $argsString, $expected);			
 		}
-				
-//	$queryTester->test_admin_deleteActionForward();
-//	$queryTester->test_module_insertModule();
-		
-		
 	}
