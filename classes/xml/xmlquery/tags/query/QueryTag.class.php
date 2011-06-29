@@ -94,9 +94,6 @@ class QueryTag {
 	
 	function getBuff(){
 		$buff = '';
-		echo 'start ---';
-		var_dump($this);
-		echo 'end ---';
 		//echo 'Luam un query care e '.$this->isSubQuery;
 		if($this->isSubQuery){
 			$buff = 'new Subquery(';
