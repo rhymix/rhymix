@@ -23,7 +23,7 @@
             // Set board module
             $args = Context::getRequestVars();
             $args->module = 'page';
-            $args->mid = $args->page_name;
+            $args->mid = $args->page_name;	//because if mid is empty in context, set start page mid
             unset($args->page_name);
 
 			if($args->use_mobile != 'Y') $args->use_mobile = '';
@@ -78,7 +78,20 @@
             $this->add("page", Context::get('page'));
             $this->add('module_srl',$output->get('module_srl'));
             $this->setMessage($msg_code);
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'module_srl', $output->get('module_srl'), 'act', 'dispPageAdminInfo');
+				header('location:'.$returnUrl);
+				return;
+			}
         }
+
+        /**
+         * @brief Page Modify
+         **/
+		function procPageAdminUpdate()
+		{
+			$this->procPageAdminInsert();
+		}
 
 		function putDocumentsInPageToArray($target, &$array)
 		{
@@ -163,6 +176,11 @@
             $this->add('module','page');
             $this->add('page',Context::get('page'));
             $this->setMessage('success_deleted');
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'module_srl', $output->get('module_srl'), 'act', 'dispPageAdminInfo');
+				header('location:'.$returnUrl);
+				return;
+			}
         }
 
         /**

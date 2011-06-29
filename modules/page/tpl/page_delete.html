@@ -1,8 +1,9 @@
-<!--%import("filter/delete_page.xml")-->
 <!--%import("js/page_admin.js")-->
 <!--#include("header.html")-->
 
-<form action="./" method="get" onsubmit="return procFilter(this, delete_page)">
+<p class="xe_validator_error">{$XE_VALIDATOR_ERROR}</p>
+<form ruleset="deletePage" action="./" method="post">
+<input type="hidden" name="act" value="procPageAdminDelete" />
 <input type="hidden" name="page" value="{$page}" />
 <input type="hidden" name="module_srl" value="{$module_info->module_srl}" />
     <h4 class="xeAdmin">{$lang->confirm_delete}</h4>

@@ -131,6 +131,13 @@
 
             $oDB->commit();
             $this->setMessage('success_registed');
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				global $lang;
+				alertScript($lang->success_registed);
+				reload(true);
+				closePopupScript();
+				exit;
+			}
         }
 
         /**
@@ -317,10 +324,16 @@
                 $module_info->description = $vars->description;
                 $module_info->header_text = $vars->header_text;
                 $module_info->footer_text = $vars->footer_text;
-                $oModuleController->updateModule($module_info);
+                $output = $oModuleController->updateModule($module_info);
             }
 
             $this->setMessage('success_registed');
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				global $lang;
+				alertScript($lang->success_registed);
+				closePopupScript();
+				exit;
+			}
         }
 
         /**
@@ -385,6 +398,12 @@
                 }
             }
             $this->setMessage('success_registed');
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				global $lang;
+				alertScript($lang->success_registed);
+				closePopupScript();
+				exit;
+			}
         }
 
         /**

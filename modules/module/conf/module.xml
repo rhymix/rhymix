@@ -31,11 +31,11 @@
         <action name="procModuleAdminInsertCategory" type="controller" standalone="true" ruleset="insertCategory" />
         <action name="procModuleAdminUpdateCategory" type="controller" standalone="true" ruleset="updateCategory" />
         <action name="procModuleAdminDeleteCategory" type="controller" standalone="true" ruleset="deleteCategory" />
-        <action name="procModuleAdminCopyModule" type="controller" standalone="true" />
+        <action name="procModuleAdminCopyModule" type="controller" standalone="true" ruleset="copyModule" />
         <action name="procModuleAdminInsertGrant" type="controller" standalone="true" />
         <action name="procModuleAdminUpdateSkinInfo" type="controller" standalone="true" />
-        <action name="procModuleAdminModuleSetup" type="controller" standalone="true" />
-        <action name="procModuleAdminModuleGrantSetup" type="controller" standalone="true" />
+        <action name="procModuleAdminModuleSetup" type="controller" standalone="true" ruleset="insertModuleSetup" />
+        <action name="procModuleAdminModuleGrantSetup" type="controller" standalone="true" ruleset="insertModulesGrant" />
         <action name="procModuleAdminInsertLang" type="controller" standalone="true" />
         <action name="procModuleAdminDeleteLang" type="controller" standalone="true" />
 

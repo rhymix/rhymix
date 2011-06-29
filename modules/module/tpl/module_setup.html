@@ -1,11 +1,12 @@
-<!--%import("./filter/insert_module_setup.xml")-->
 <!--%import("./js/module_admin.js")-->
 
 <div id="popHeader" class="wide">
     <h3 class="xeAdmin">{$lang->bundle_setup}</h3>
 </div>
 
-<form action="./" method="post" onsubmit="return procFilter(this, insert_module_setup)" enctype="multipart/form-data">
+<p class="xe_validator_error">{$XE_VALIDATOR_ERROR}</p>
+<form ruleset="insertModuleSetup" action="./" method="post" enctype="multipart/form-data">
+<input type="hidden" name="act" value="procModuleAdminModuleSetup" />
 <input type="hidden" name="module_srls" value="{$module_srls}" />
 <div id="popBody">
 

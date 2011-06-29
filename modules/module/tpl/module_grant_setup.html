@@ -1,5 +1,4 @@
 <!--%import("js/module_admin.js")-->
-<!--%import("filter/insert_modules_grant.xml")-->
 
 <script type="text/javascript">
     jQuery( function() { jQuery('.grant_default').change( function(event) { doShowGrantZone(); } ); doShowGrantZone() } );
@@ -10,7 +9,9 @@
     <h3 class="xeAdmin">{$lang->bundle_grant_setup}</h3>
 </div>
 
-<form action="./" method="post" onsubmit="return procFilter(this, insert_modules_grant)" id="fo_obj">
+<p class="xe_validator_error">{$XE_VALIDATOR_ERROR}</p>
+<form ruleset="insertModulesGrant" action="./" method="post" id="fo_obj">
+<input type="hidden" name="act" value="procModuleAdminModuleGrantSetup" />
 <input type="hidden" name="module_srls" value="{$module_srls}" />
 
 <div id="popBody">

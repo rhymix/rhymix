@@ -1,8 +1,9 @@
-<!--%import("filter/insert_page.xml")-->
 <!--%import("filter/insert_outside.xml")-->
 <!--#include("header.html")-->
 
-<form id="fo_insert_page" action="./" method="post" onsubmit="return procFilter(this, insert_page)" enctype="multipart/form-data">
+<p class="xe_validator_error">{$XE_VALIDATOR_ERROR}</p>
+<form ruleset="insertPage" id="fo_insert_page" action="./" method="post" enctype="multipart/form-data">
+<input type="hidden" name="act" value="procPageAdminInsert" />
 <input type="hidden" name="page" value="{$page}" />
 <input type="hidden" name="module_srl" value="{$module_srl}" />
     <table cellspacing="0" class="rowTable topGap">
@@ -26,12 +27,12 @@
     </tr>
 	<!--@end-->
     <!--@if($logged_info->is_admin!='Y')-->
-    <input type="hidden" name="mid" value="{$module_info->mid}" />
+    <input type="hidden" name="page_name" value="{$module_info->mid}" />
     <!--@else-->
     <tr class="row2">
         <th scope="row"><div>{$lang->mid}</div></th>
         <td colspan="3">
-            <input type="text" name="mid" value="{$module_info->mid}" class="inputTypeText w200" />
+            <input type="text" name="page_name" value="{$module_info->mid}" class="inputTypeText w200" />
             <p>{$lang->about_mid}</p>
         </td>
     </tr>

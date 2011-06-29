@@ -1,7 +1,8 @@
-<!--%import("filter/insert_page.xml")-->
 <!--#include("header.html")-->
 
-<form action="./" method="post" onsubmit="return procFilter(this, insert_page)" enctype="multipart/form-data">
+<p class="xe_validator_error">{$XE_VALIDATOR_ERROR}</p>
+<form ruleset="updatePage" action="./" method="post" enctype="multipart/form-data">
+<input type="hidden" name="act" value="procPageAdminUpdate" />
 <input type="hidden" name="page" value="{$page}" />
 <input type="hidden" name="module_srl" value="{$module_srl}" />
 
@@ -15,7 +16,7 @@
     <tr>
         <th scope="row"><div>{$lang->mid}</div></th>
         <td colspan="3">
-            <input type="text" name="mid" value="{$module_info->mid}" class="inputTypeText w200" />
+            <input type="text" name="page_name" value="{$module_info->mid}" class="inputTypeText w200" />
             <p>{$lang->about_mid}</p>
         </td>
     </tr>
