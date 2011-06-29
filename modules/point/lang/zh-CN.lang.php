@@ -65,4 +65,5 @@
 
     $lang->point_recal_message = '计算并应用中(%d / %d)。';
     $lang->point_recal_finished = '积分重新计算并应用完毕。';
+	$lang->point_update_desc = '포인트를 증가시키려면 +를 감소시키려면 -를 숫자앞에 표기한 후 업데이트 해 주세요. + 또는 - 표시가 없으면 입력한 값으로 설정 됩니다.';
 ?>

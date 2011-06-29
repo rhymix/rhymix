@@ -52,15 +52,14 @@ function doPointRecal() {
 	);
 }
 
-function updatePoint(member_srl, action)
+function updatePoint(member_srl)
 {
 	var $point = jQuery('#point_'+member_srl);
 	get_by_id('update_member_srl').value = member_srl;
-	get_by_id('update_action').value = action;
-	get_by_id('update_point').value = $point.attr('value');
+	get_by_id('update_point').value = $point.val();
 
     var hF = get_by_id('updateForm');
-    procFilter(hF, update_point);
+	hF.submit();
 }
 
 

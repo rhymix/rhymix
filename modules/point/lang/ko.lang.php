@@ -50,4 +50,5 @@
     $lang->msg_disallow_by_point = "포인트가 부족하여 글을 읽으실 수 없습니다. (필요한 포인트 : %d, 현재 포인트 : %d)";
     $lang->point_recal_message = '포인트 적용중입니다. (%d / %d)';
     $lang->point_recal_finished = '포인트 재계산이 완료되었습니다.';
+	$lang->point_update_desc = '포인트를 증가시키려면 +를 감소시키려면 -를 숫자앞에 표기한 후 업데이트 해 주세요. + 또는 - 표시가 없으면 입력한 값으로 설정 됩니다.';
 ?>

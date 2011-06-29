@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ruleset version="1.5.0">
+    <customrules>
+		<rule name="less_than_1000" type="expr" test="$$ &lt; 1000" />
+    </customrules>
+    <fields>
+		<field name="max_level" required="true" rule="number,less_than_1000" />
+		<field name="point_name" required="true" />
+		<field name="signup_point" required="true" default="0" />
+		<field name="login_point" required="true" default="0" />
+		<field name="insert_document" required="true" default="0" />
+		<field name="insert_comment" required="true" default="0" />
+		<field name="upload_file" required="true" default="0" />
+		<field name="download_file" required="true" default="0" />
+		<field name="read_document" required="true" default="0" />
+		<field name="voted" required="true" default="0" />
+		<field name="blamed" required="true" default="0" />
+		<field name="level_icon" required="true" default="default" />
+    </fields>
+</ruleset>

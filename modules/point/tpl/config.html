@@ -1,7 +1,8 @@
-<!--%import("filter/insert_config.xml")-->
 <!--#include("./header.html")-->
 
-<form action="./" method="get" onsubmit="return procFilter(this, insert_config);">
+<p class="xe_validator_error">{$XE_VALIDATOR_ERROR}</p>
+<form ruleset="insertConfig" action="./" method="post">
+<input type="hidden" name="act" value="procPointAdminInsertConfig" />
 
 <div class="adminLeftContent">
 
