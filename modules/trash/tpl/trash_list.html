@@ -1,0 +1,69 @@
+<script>
+var confirm_restore_msg = '{$lang->confirm_restore}';
+</script>
+<!--%import("filter/emptyTrash.xml")-->
+<!--#include("header.html")-->
+
+<form id="fo_list" action="./" method="get" onsubmit="return procFilter(this, emptyTrash)">
+<input type="hidden" name="page" value="{$page}" />
+<input type="hidden" name="is_all" value="false" />
+
+<!-- 목록 -->
+<table cellspacing="0" class="rowTable clear">
+<caption>Total {number_format($total_count)}, Page {number_format($page)}/{number_format($total_page)}</caption>
+<thead>
+    <tr>
+        <th scope="col"><div>{$lang->no}</div></th>
+        <th scope="col"><div><input type="checkbox" onclick="XE.checkboxToggleAll('trash_srls[]');" /></div></th>
+        <th scope="col" class="wide"><div>{$lang->document} ({$lang->trash_type})</div></th>
+        <th scope="col"><div>{$lang->trash_nick_name}</div></th>
+        <th scope="col"><div>{$lang->trash_date}</div></th>
+        <th scope="col"><div>{$lang->ipaddress}</div></th>
+        <th scope="col"><dib>{$lang->trash_description}</div></th>
+        <th scope="col"><div>{$lang->cmd_restore}</div></th>
+    </tr>
+</thead>
+<tbody>
+    <!--@foreach($trash_list as $no => $oTrashVO)-->
+    <tr>
+        <td class="number center">{$no}</td>
+        <td><div><input type="checkbox" name="trash_srls[]" value="{$oTrashVO->getTrashSrl()}" /></div></t>
+        <td class="left subject">
+			{$oTrashVO->getTitle()} (
+			<!--@if($oTrashVO->getOriginModule() == 'document')-->
+			{$lang->document}
+			<!--@else if($oTrashVO->getOriginModule() == 'comment')-->
+			{$lang->replies}
+			<!--@else-->
+			{$lang->etc}
+			<!--@end-->
+			)
+		</td>
+        <td class="nowrap"><span class="member_{$oTrashVO->getMemberSrl()">{htmlspecialchars($oTrashVO->getNickName())}</span></td>
+        <td class="date center nowrap">{zdate($oTrashVO->getRegdate(), "Y-m-d H:i:s")}</td>
+        <td class="number center nowrap">{$oTrashVO->getIpaddress()}</td>
+        <td class="left">{$oTrashVO->getDescription()}</td>
+        <td class="center"><a href="#" onclick="goRestore({$oTrashVO->getTrashSrl()})">{$lang->cmd_restore}</a></td>
+    </tr>
+    <!--@end-->
+</tbody>
+</table>
+
+<div class="fr">
+<span class="button green"><input type="submit" value="{$lang->empty_trash_selected}" onclick="this.form.is_all.value=false" /></span>
+<span class="button blue"><input type="submit" value="{$lang->empty_trash_all}" onclick="this.form.is_all.value=true" /></span>
+</div>
+</form>
+
+<!-- 페이지 네비게이션 -->
+<div class="pagination a1">
+    <a href="{getUrl('page','','module_srl',$module_srl)}" class="prevEnd">{$lang->first_page}</a> 
+    <!--@while($page_no = $page_navigation->getNextPage())-->
+        <!--@if($page == $page_no)-->
+            <strong>{$page_no}</strong> 
+        <!--@else-->
+            <a href="{getUrl('page',$page_no,'module_srl',$module_srl)}">{$page_no}</a> 
+        <!--@end-->
+    <!--@end-->
+    <a href="{getUrl('page',$page_navigation->last_page,'module_srl',$module_srl)}" class="nextEnd">{$lang->last_page}</a>
+</div>

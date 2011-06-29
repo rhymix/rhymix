@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ruleset>
+	<fields>
+		<field name="userid" required="true" length="5:10" rule="userid" default="idididid" />
+		<field name="password" required="true" />
+	</fields>
+</ruleset>

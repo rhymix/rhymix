@@ -6,7 +6,7 @@
 
 <script type="text/javascript">
     function moveDate() {
-        xGetElementById('fo_calendar').submit();
+		document.forms['calendar'].submit();
         return true;
     }
 </script>
@@ -16,7 +16,7 @@
 
 <div class="header4 gap1">
 
-    <form action="./index.php" method="get" id="fo_calendar">
+    <form action="./index.php" method="get" name="calendar" id="fo_calendar">
     <input type="hidden" name="module" value="{$module}" />
     <input type="hidden" name="act" value="{$act}" />
     <input type="hidden" name="selected_date" id="selected_date" value="{zDate('Ymd',$selected_date)}" />

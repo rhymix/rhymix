@@ -129,9 +129,12 @@
                 $doc_srls_count = count($doc_srls);
                 if($doc_srls_count) {
                     $document_output = $oDocumentModel->getDocuments($doc_srls);
-                    foreach($document_output as $document) {
-                        $document_list[$document->document_srl] = $document;
-                    }
+					if(is_array($document_output))
+					{
+						foreach($document_output as $document) {
+							$document_list[$document->document_srl] = $document;
+						}
+					}
                 }
                 // Module List
                 $mod_srls_count = count($mod_srls);

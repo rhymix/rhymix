@@ -1,10 +1,10 @@
-<!--%import("filter/delete_checked.xml")-->
 <!--%import("css/file_list.css")-->
 <!--#include("header.html")-->
 
 <!-- 검색 -->
 <div class="fl">
-    <form action="./" method="get" class="adminSearch">
+	<p class="xe_validator_error">{$XE_VALIDATOR_ERROR}</p>
+    <form ruleset="deleteChecked" action="./" method="get" class="adminSearch">
     <input type="hidden" name="module" value="{$module}" />
     <input type="hidden" name="act" value="{$act}" />
     <input type="hidden" name="module_srl" value="{$module_srl}" />
@@ -29,7 +29,8 @@
     </form>
 </div>
 
-<form id="fo_list" action="./" method="get" onsubmit="return procFilter(this, delete_checked)">
+<form id="fo_list" action="./" method="post">
+<input type="hidden" name="act" value="procFileAdminDeleteChecked" />
 <input type="hidden" name="page" value="{$page}" />
 
 <!-- 모듈 선택 -->
@@ -91,7 +92,7 @@
 
     <tr>
         <td class="tCenter number">{$no}</td>
-        <td class="tCenter"><input type="checkbox" name="cart" value="{$val->file_srl}" /></td>
+        <td class="tCenter"><input type="checkbox" name="cart[]" value="{$val->file_srl}" /></td>
         <td class="wide"><a href="{$val->download_url}" class="red">{htmlspecialchars($val->source_filename)}</a></td>
         <td class="number tRight">{FileHandler::filesize($val->file_size)}</td>
         <td class="tCenter">

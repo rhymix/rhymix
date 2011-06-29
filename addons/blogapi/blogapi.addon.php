@@ -243,7 +243,7 @@
                     $obj->content = str_replace($uploaded_target_path,sprintf('/files/attach/images/%s/%s%s', $this->module_srl, getNumberingPath($document_srl,3), $filename), $obj->content);
 
                     $oDocumentController = &getController('document');
-                    $obj->allow_comment = 'Y';
+                    $obj->commentStatus = 'ALLOW';
                     $obj->allow_trackback = 'Y';
                     $output = $oDocumentController->insertDocument($obj);
 
@@ -403,7 +403,7 @@
                             $post->publish = 1;
                             $post->userid = $oDocument->get('user_id');
                             $post->mt_allow_pings = 0;
-                            $post->mt_allow_comments = $oDocument->allowComment()=='Y'?1:0;
+                            $post->mt_allow_comments = $oDocument->allowComment()?1:0;
                             $posts[] = $post;
                         }
                         $content = getXmlRpcResponse($posts);
