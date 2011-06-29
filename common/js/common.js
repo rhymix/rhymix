@@ -32,8 +32,8 @@ if(jQuery) jQuery.noConflict();
          * @brief 특정 name을 가진 체크박스들의 checked 속성 변경
          * @param [itemName='cart',][options={}]
          */
-        checkboxToggleAll : function() {
-            var itemName='cart';
+        checkboxToggleAll : function(itemName) {
+            if(!is_def(itemName)) itemName='cart';
             var options = {
                 wrap : null,
                 checked : 'toggle',
