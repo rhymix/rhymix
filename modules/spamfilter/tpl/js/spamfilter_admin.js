@@ -4,7 +4,7 @@
 function doDeleteDeniedIP(ipaddress) {
     var fo_obj = get_by_id('fo_denied_ip');
     fo_obj.ipaddress.value = ipaddress;
-    procFilter(fo_obj, delete_denied_ip);
+	fo_obj.submit();
 }
 
 /**
@@ -13,5 +13,5 @@ function doDeleteDeniedIP(ipaddress) {
 function doDeleteDeniedWord(word) {
     var fo_obj = get_by_id('fo_denied_word');
     fo_obj.word.value = word;
-    procFilter(fo_obj, delete_denied_word);
+	fo_obj.submit();
 }

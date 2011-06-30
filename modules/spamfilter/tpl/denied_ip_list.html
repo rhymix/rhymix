@@ -1,15 +1,15 @@
-<!--%import("filter/insert_denied_ip.xml")-->
-<!--%import("filter/delete_denied_ip.xml")-->
-
 <!--#include("header.html")-->
 
 <!-- xml js filter를 이용하기 위한 데이터 전달용 form -->
-<form id="fo_denied_ip" action="./" method="get">
+<form ruleset="deleteDeniedIp" id="fo_denied_ip" action="./" method="post">
+<input type="hidden" name="act" value="procSpamfilterAdminDeleteDeniedIP" />
 <input type="hidden" name="ipaddress" value="" />
 </form>
 
 <!-- 수동 추가 -->
-<form action="./" method="get" onsubmit="return procFilter(this, insert_denied_ip)">
+<p class="xe_validator_error">{$XE_VALIDATOR_ERROR}</p>
+<form ruleset="insertDeniedIp" action="./" method="post">
+<input type="hidden" name="act" value="procSpamfilterAdminInsertDeniedIP" />
     <table cellspacing="0" class="rowTable">
     <tr>
         <th scope="row"><div>{$lang->denied_ip}</div></th>

@@ -1,15 +1,15 @@
 <!--#include("header.html")-->
 
-<!--%import("filter/insert_denied_word.xml")-->
-<!--%import("filter/delete_denied_word.xml")-->
-
 <!-- xml js filter를 이용하기 위한 데이터 전달용 form -->
-<form id="fo_denied_word" action="./" method="get">
+<form ruleset="deleteDeniedWord" id="fo_denied_word" action="./" method="post">
+<input type="hidden" name="act" value="procSpamfilterAdminDeleteDeniedWord" />
 <input type="hidden" name="word" value="" />
 </form>
 
 <!-- 수동 추가 -->
-<form action="./" method="get" onsubmit="return procFilter(this, insert_denied_word)">
+<p class="xe_validator_error">{$XE_VALIDATOR_ERROR}</p>
+<form ruleset="insertDeniedWord" action="./" method="post">
+<input type="hidden" name="act" value="procSpamfilterAdminInsertDeniedWord" />
     <table cellspacing="0" class="rowTable">
     <tr>
         <th scope="row"><div>{$lang->word}</div></th>
