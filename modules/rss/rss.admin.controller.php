@@ -70,10 +70,15 @@
             $alt_message = Context::getLang($alt_message);
             Context::set('msg', $alt_message);
 
-            $this->setLayoutPath('./common/tpl');
-            $this->setLayoutFile('default_layout.html');
-            $this->setTemplatePath($this->module_path.'tpl');
-            $this->setTemplateFile("top_refresh.html");
+            //$this->setLayoutPath('./common/tpl');
+            //$this->setLayoutFile('default_layout.html');
+            //$this->setTemplatePath($this->module_path.'tpl');
+            //$this->setTemplateFile("top_refresh.html");
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispRssAdminIndex');
+				header('location:'.$returnUrl);
+				return;
+			}
         }
 
 
@@ -107,6 +112,11 @@
 
             $this->setError(-1);
             $this->setMessage('success_updated');
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispBoardAdminContent');
+				header('location:'.$returnUrl);
+				return;
+			}
         }
 
 

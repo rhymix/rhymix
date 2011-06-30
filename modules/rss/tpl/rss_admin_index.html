@@ -1,10 +1,10 @@
 <!--%import("js/rss.js")-->
 <h3 class="xeAdmin">{$lang->total_feed} <span class="gray">{$lang->cmd_management}</span></h3>
 
-<!--%import("filter/insert_rss_config.xml")-->
-<form id="fo_layout" action="./" method="post" enctype="multipart/form-data" target="hidden_iframe">
-    <input type="hidden" name="module" value="rss" />
-    <input type="hidden" name="act" value="procRssAdminInsertConfig" />
+<p class="xe_validator_error">{$XE_VALIDATOR_ERROR}</p>
+<form ruleset="insertRssConfig" id="fo_layout" action="./" method="post" enctype="multipart/form-data">
+<input type="hidden" name="module" value="rss" />
+<input type="hidden" name="act" value="procRssAdminInsertConfig" />
     <table cellspacing="0" class="rowTable">
     <tr>
         <th scope="row"><div>{$lang->total_feed}</div></th>
@@ -79,5 +79,3 @@
     <!--@end-->
     </tbody>
 </table>
-
-<iframe name="hidden_iframe" frameborder="0" style="display:none"></iframe>
