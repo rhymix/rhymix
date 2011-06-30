@@ -1,4 +1,4 @@
-<?
+<?php
 	// ko/en/...
 	$lang = Context::getLangType();
 
