@@ -133,7 +133,6 @@
 		function getSelectString($with_values = true){		
 			$select = '';
 			foreach($this->columns as $column){
-				var_dump($column);
 				if($column->show())
 					if(is_a($column, 'Subquery')){
 						$oDB = &DB::getInstance();

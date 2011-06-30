@@ -291,7 +291,7 @@
                 // Notify to start a query execution
                 $this->actStart($query);
                 // Execute the query statement
-                 $result = ibase_query($this->fd, $query);
+                 $result = @ibase_query($this->fd, $query);
             }
             else {
                 // Notify to start a query execution
@@ -592,6 +592,7 @@
                 }
             }
 
+            if($auto_increment_list)
             foreach($auto_increment_list as $increment) {
                 $schema = sprintf('CREATE GENERATOR GEN_%s_ID;', $table_name);
                 $output = $this->_query($schema);
@@ -620,22 +621,28 @@
         /**
          * @brief Handle the insertAct
          **/
-        function _executeInsertAct($output) {
- 
+        function _executeInsertAct($queryObject) {
+ 			$query = $this->getInsertSql($queryObject);
+            if(is_a($query, 'Object')) return;
+            return $this->_query($query);
         }
 
         /**
          * @brief handles updateAct
          **/
-        function _executeUpdateAct($output) {
- 
+        function _executeUpdateAct($queryObject) {
+ 			$query = $this->getUpdateSql($queryObject);
+            if(is_a($query, 'Object')) return;
+            return $this->_query($query);
         }
 
         /**
          * @brief handles deleteAct
          **/
-        function _executeDeleteAct($output) {
-  
+        function _executeDeleteAct($queryObject) {
+  			$query = $this->getDeleteSql($queryObject);			
+        	if(is_a($query, 'Object')) return;
+            return $this->_query($query);
         }
 
         /**
@@ -644,9 +651,64 @@
          * In order to get a list of pages easily when selecting \n
          * it supports a method as navigation
          **/
-        function _executeSelectAct($output) {
-   
+        function _executeSelectAct($queryObject) {
+   			$query = $this->getSelectSql($queryObject);
+			
+			if(is_a($query, 'Object')) return;			
+			$query .= (__DEBUG_QUERY__&1 && $queryObject->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id):'';
+			$result = $this->_query ($query);
+			
+			if ($this->isError ()) return $this->queryError($queryObject);
+			else return $this->queryPageLimit($queryObject, $result);     
         }
+        
+    	function queryError($queryObject){
+			if ($queryObject->getLimit() && $queryObject->getLimit()->isPageHandler()){
+					$buff = new Object ();
+					$buff->total_count = 0;
+					$buff->total_page = 0;
+					$buff->page = 1;
+					$buff->data = array ();
+					$buff->page_navigation = new PageHandler (/*$total_count*/0, /*$total_page*/1, /*$page*/1, /*$page_count*/10);//default page handler values
+					return $buff;
+				}else	
+					return;
+		}
+		
+		function queryPageLimit($queryObject, $result){
+			 	if ($queryObject->getLimit() && $queryObject->getLimit()->isPageHandler()) {
+		 		// Total count
+		 		$count_query = sprintf('select count(*) as "count" %s %s', 'FROM ' . $queryObject->getFromString(), ($queryObject->getWhereString() === '' ? '' : ' WHERE '. $queryObject->getWhereString()));
+				if ($queryObject->getGroupByString() != '') {
+					$count_query = sprintf('select count(*) as "count" from (%s) xet', $count_query);
+				}
+
+				$count_query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
+				$result_count = $this->_query($count_query);
+				$count_output = $this->_fetch($result_count);
+				$total_count = (int)$count_output->count;
+		 		
+				// Total pages
+				if ($total_count) {
+					$total_page = (int) (($total_count - 1) / $queryObject->getLimit()->list_count) + 1;
+				}	else	$total_page = 1;
+		 		
+		 		$virtual_no = $total_count - ($queryObject->getLimit()->page - 1) * $queryObject->getLimit()->list_count;
+		 		$data = $this->_fetch($result, $virtual_no);
+
+		 		$buff = new Object ();
+				$buff->total_count = $total_count;
+				$buff->total_page = $total_page;
+				$buff->page = $queryObject->getLimit()->page;
+				$buff->data = $data;
+				$buff->page_navigation = new PageHandler($total_count, $total_page, $queryObject->getLimit()->page, $queryObject->getLimit()->page_count);				
+			}else{
+				$data = $this->_fetch($result);
+				$buff = new Object ();
+				$buff->data = $data;	
+			}
+			return $buff;
+		}
 
     }
 

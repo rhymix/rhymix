@@ -489,8 +489,16 @@
 			$query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id):'';
             $result = $this->_query($query);
 
-			if ($this->isError ()) {
-				if ($queryObject->getLimit() && $queryObject->getLimit()->isPageHandler()){
+			if ($this->isError ()) return $this->queryError($queryObject);
+			else return $this->queryPageLimit($queryObject, $result);             
+        }
+
+        function getParser(){
+        	return new DBParser("[", "]");
+        }
+        
+    	function queryError($queryObject){
+			if ($queryObject->getLimit() && $queryObject->getLimit()->isPageHandler()){
 					$buff = new Object ();
 					$buff->total_count = 0;
 					$buff->total_page = 0;
@@ -500,9 +508,10 @@
 					return $buff;
 				}else	
 					return;
-			}
-
-		 	if ($queryObject->getLimit() && $queryObject->getLimit()->isPageHandler()) {
+		}
+		
+		function queryPageLimit($queryObject, $result){
+			 	if ($queryObject->getLimit() && $queryObject->getLimit()->isPageHandler()) {
 		 		// Total count
 		 		$count_query = sprintf('select count(*) as "count" %s %s', 'FROM ' . $queryObject->getFromString(), ($queryObject->getWhereString() === '' ? '' : ' WHERE '. $queryObject->getWhereString()));
 				if ($queryObject->getGroupByString() != '') {
@@ -519,7 +528,6 @@
 					$total_page = (int) (($total_count - 1) / $queryObject->getLimit()->list_count) + 1;
 				}	else	$total_page = 1;
 		 		
-				
 		 		$virtual_no = $total_count - ($queryObject->getLimit()->page - 1) * $queryObject->getLimit()->list_count;
 		 		$data = $this->_fetch($result, $virtual_no);
 
@@ -534,13 +542,8 @@
 				$buff = new Object ();
 				$buff->data = $data;	
 			}
-
-			return $buff;             
-        }
-
-        function getParser(){
-        	return new DBParser("[", "]");
-        }
+			return $buff;
+		}
   
     }
 
