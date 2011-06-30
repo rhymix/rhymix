@@ -1,4 +1,3 @@
-<load target="filter/poll.xml" />
 <!--@if(__DEBUG__)-->
 	<load target="css/poll.css" />
 	<load target="../../tpl/js/poll.js" />
@@ -13,10 +12,13 @@
 
 <div id="poll_{$poll->poll_srl}" style="{$poll->style}">
 
-    <form action="./" method="get" onsubmit="return doPoll(this)">
+	<p class="xe_validator_error">{$XE_VALIDATOR_ERROR}</p>
+    <form ruleset="poll" action="./" method="post" onsubmit="return doPoll(this)">
+	<input type="hidden" name="act" value="procPoll" />
     <input type="hidden" name="poll_srl" value="{$poll->poll_srl}" />
     <input type="hidden" name="poll_srl_indexes" value="" />
     <input type="hidden" name="skin" value="{$skin}" />
+	<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
 
     <table cellspacing="0" class="poll_table">
     <col width="7" />

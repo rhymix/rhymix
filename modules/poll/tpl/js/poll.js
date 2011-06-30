@@ -37,8 +37,7 @@ function doPoll(fo_obj) {
     }
     fo_obj.poll_srl_indexes.value = poll_srl_indexes;
 
-    procFilter(fo_obj, poll);
-    return false;
+	fo_obj.submit();
 }
 
 jQuery(function($){

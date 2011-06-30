@@ -1,8 +1,9 @@
-<!--%import("filter/insert_config.xml")-->
 <!--%import("js/poll_admin.js")-->
 <!--#include("./header.html")-->
 
-<form action="./" method="get" onsubmit="return procFilter(this, insert_config);" id="fo_poll">
+<p class="xe_validator_error">{$XE_VALIDATOR_ERROR}</p>
+<form ruleset="insertConfig" action="./" method="post" id="fo_poll">
+<input type="hidden" name="act" value="procPollAdminInsertConfig" />
 
     <table cellspacing="0" class="rowTable">
     <tr>

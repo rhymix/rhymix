@@ -13,9 +13,9 @@
         <action name="getPollAdminTarget" type="model" standalone="true" />
 
         <action name="procInsert" type="controller" standalone="true" />
-        <action name="procPoll" type="controller" standalone="true" />
+        <action name="procPoll" type="controller" standalone="true" ruleset="poll" />
         <action name="procPollViewResult" type="controller" standalone="true" />
-        <action name="procPollAdminDeleteChecked" type="controller" standalone="true" />
-        <action name="procPollAdminInsertConfig" type="controller" standalone="true" />
+        <action name="procPollAdminDeleteChecked" type="controller" standalone="true" ruleset="deleteChecked" />
+        <action name="procPollAdminInsertConfig" type="controller" standalone="true" ruleset="insertConfig" />
     </actions>
 </module>
