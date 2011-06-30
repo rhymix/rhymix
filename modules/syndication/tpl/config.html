@@ -1,11 +1,12 @@
 <!--%import("css/syndication.css")-->
 <!--%import("js/syndication.js")-->
-<!--%import("filter/insert_service.xml")-->
 
 <h3 class="xeAdmin">{$lang->syndication} <span class="gray">{$lang->cmd_management}</span></h3>
 <p class="summary">{$lang->about_syndication}</p>
 
-<form action="./" method="get" onsubmit="return procFilter(this, insert_service);">
+<p class="xe_validator_error">{$XE_VALIDATOR_ERROR}</p>
+<form ruleset="insertService" action="./" method="post">
+<input type="hidden" name="act" value="procSyndicationAdminInsertService" />
     <input type="hidden" name="year" value="{$year}" />
     <table cellspacing="0" class="rowTable">
     <tr>
