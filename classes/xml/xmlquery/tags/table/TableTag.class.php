@@ -1,7 +1,6 @@
 <?php 
 	
 	/**
-	 * 
 	 * @class TableTag
 	 * @author Arnia Sowftare
 	 * @brief Models the <table> tag inside an XML Query file
@@ -26,17 +25,22 @@
 		var $join_type;
 		var $conditions;
 		
+                /**
+                 * @brief Initialises Table Tag properties
+                 * @param XML <table> tag $table
+                 */
 		function TableTag($table){
-			$this->unescaped_name = $table->attrs->name;
-			
 			$dbParser = XmlQueryParser::getDBParser();
+                        
+                        $this->unescaped_name = $table->attrs->name;
 			$this->name = $dbParser->parseTableName($table->attrs->name);
-			$this->alias = $table->attrs->alias;
+			
+                        $this->alias = $table->attrs->alias;
 			if(!$this->alias) $this->alias = $table->attrs->name; 
-			//if(!$this->alias) $this->alias = $alias;
 			
 			$this->join_type = $table->attrs->type;
-			$this->conditions = $table->conditions;			
+			
+                        $this->conditions = $table->conditions;			
 		}
 		
 		function isJoinTable(){
@@ -53,6 +57,12 @@
 			return $this->unescaped_name;
 		}
 		
+                /**
+                 * @brief Returns string for printing in PHP query cache file
+                 * The string contains code for instantiation of either 
+                 * a Table or a JoinTable object
+                 * @return string 
+                 */
 		function getTableString(){
 			$dbParser = XmlQueryParser::getDBParser();
 			if($this->isJoinTable()){

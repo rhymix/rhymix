@@ -18,7 +18,6 @@
         
         function testSelectUncorrelated1(){
                 $xml_file = $this->xmlPath . "select_uncorrelated1.xml";
-                echo $xml_file;
                 $argsString = '$args->user_id = 4;
                                 ';
                 $expected = 'select "column_a" as "value_a"
@@ -32,7 +31,6 @@
         
         function testSelectUncorrelated2(){
                 $xml_file = $this->xmlPath . "select_uncorrelated2.xml";
-                echo $xml_file;
                 $argsString = '$args->user_id = 4;
                                 $args->user_name = 7;
                                 ';
@@ -49,7 +47,6 @@
         
         function testFromUncorrelated(){
                 $xml_file = $this->xmlPath . "from_uncorrelated1.xml";
-                echo $xml_file;
                 $argsString = '$args->user_id = 4;
                                 $args->user_name = 7;
                                 ';
@@ -65,13 +62,48 @@
         
         function testWhereUncorrelated(){
                 $xml_file = $this->xmlPath . "where_uncorrelated1.xml";
-                echo $xml_file;
                 $argsString = '';
                 $expected = 'select * from 
                             "xe_member" as "member" 
                             where "regdate" = (select max("regdate") as "maxregdate" 
                                                from "xe_documents" as "documents")';
                 $this->_test($xml_file, $argsString, $expected);
-        }                 
+        }        
+        
+        function testSelectCorrelated1(){
+                $xml_file = $this->xmlPath . "select_correlated1.xml";
+                $argsString = '$args->user_id = 7;';
+                $expected = 'select *, 
+                            (select count(*) as "count" 
+                                from "xe_documents" as "documents" 
+                                where "documents"."user_id" = "member"."user_id"
+                             ) as "totaldocumentcount" 
+                            from "xe_member" as "member" 
+                            where "user_id" = \'7\'';
+                $this->_test($xml_file, $argsString, $expected);
+        }             
+
+        function testWhereCorrelated1(){
+                $xml_file = $this->xmlPath . "where_correlated1.xml";
+                $argsString = '';
+                $expected = '	SELECT *
+                                FROM xe_member as member
+                                WHERE regdate = (SELECT MAX(regdate) as regdate 
+                                                                 FROM xe_documents as documents 
+                                                                 WHERE documents.user_id = member.user_id)';
+                $this->_test($xml_file, $argsString, $expected);
+        }             
+        
+        function testFromCorrelated1(){
+                $xml_file = $this->xmlPath . "from_correlated1.xml";
+                $argsString = '';
+                $expected = 'SELECT m.member_srl, m.nickname, m.regdate, a.count
+                             FROM (
+                                   SELECT documents.member_srl as member_srl, count(*) as count
+                                    FROM xe_documents as documents
+                                    GROUP BY documents.member_srl) a
+                                INNER JOIN xe_members m on m.member_srl = a.member_srl';
+                $this->_test($xml_file, $argsString, $expected);
+        }                     
     }
 ?>

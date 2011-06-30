@@ -1,5 +1,21 @@
 <?php 
 
+	/**
+	 * @class TablesTag
+	 * @author Arnia Sowftare
+	 * @brief Models the <tables> tag inside an XML Query file
+	 *
+         * @abstract
+         *   Example
+         *      <tables>
+         *          <table name="documents" alias="doc" />
+         *      </tables>
+         *   Attributes
+         *      None.
+         *   Children
+         *      Can have children of type <table> or <query>
+	 */
+
 	class TablesTag {
 		var $tables;
 		
@@ -16,8 +32,7 @@
                         if(count($xml_tables)) require_once(_XE_PATH_.'classes/xml/xmlquery/tags/table/TableTag.class.php');
 
                         foreach($xml_tables as $table){
-                                if($table->name === 'query') $this->tables[] = new QueryTag($table, true);
-                                else $this->tables[] = new TableTag($table);
+                                $this->tables[] = new TableTag($table);
                         }			
                     }
                     if(!$xml_queries) return;
