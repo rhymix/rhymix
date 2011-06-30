@@ -6,6 +6,17 @@
 	 * @author Arnia Sowftare
 	 * @brief Models the <table> tag inside an XML Query file
 	 *
+         * @abstract
+         *   Example
+         *      <table name="modules" />
+         *      <table name="documents" alias="doc" />
+         *   Attributes
+         *      name - name of the table - table prefix will be automatically added
+         *      alias - table alias. If no value is specified, the table name will be set as default alias
+         *      join_type - in case the table is part of a join clause, this specifies the type of join: left, right etc.
+         *                - permitted values: 'left join','left outer join','right join','right outer join'
+         *   Children
+         *      Can have children of type <conditions>
 	 */
 
 	class TableTag {
@@ -16,7 +27,6 @@
 		var $conditions;
 		
 		function TableTag($table){
-			
 			$this->unescaped_name = $table->attrs->name;
 			
 			$dbParser = XmlQueryParser::getDBParser();

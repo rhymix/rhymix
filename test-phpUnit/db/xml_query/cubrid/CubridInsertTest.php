@@ -1,28 +1,12 @@
 <?php
-	require(_XE_PATH_ . 'test-phpUnit/config.inc.php');
-        require(_XE_PATH_ . 'test-phpUnit/db/xml_query/cubrid/config.cubrid.inc.php');
+	require(_XE_PATH_ . 'test-phpUnit/config/config.inc.php');
 
-	class CubridInsertTest extends PHPUnit_Framework_TestCase {
+	class CubridInsertTest extends CubridTest {
 
 		function _test($xml_file, $argsString, $expected){
-			$tester = new QueryTester();
-			$outputString = $tester->getNewParserOutputString($xml_file, '"', $argsString);
-			$output = eval($outputString);
-
-			if(!is_a($output, 'Query')){
-				if(!$output->toBool()) $querySql = "Date incorecte! Query-ul nu a putut fi executat.";
-			}else {
-				$db = &DB::getInstance();
-				$querySql = $db->getInsertSql($output);
-	
-				// Remove whitespaces, tabs and all
-				$querySql = Helper::cleanQuery($querySql);
-				$expected = Helper::cleanQuery($expected);
-			}
-
-			// Test
-			$this->assertEquals($expected, $querySql);
+                    $this->_testQuery($xml_file, $argsString, $expected, 'getInsertSql');
 		}
+
 			
                 /**
                  * Note: this test can fail when comaparing regdate from the $args with

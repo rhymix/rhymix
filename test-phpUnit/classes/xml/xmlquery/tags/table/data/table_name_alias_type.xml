@@ -1,0 +1,5 @@
+<table name="module_categories" alias="module_categories" type="left join">
+    <conditions>
+        <condition operation="equal" column="module_categories.module_category_srl" default="modules.module_category_srl" />
+    </conditions>
+</table>

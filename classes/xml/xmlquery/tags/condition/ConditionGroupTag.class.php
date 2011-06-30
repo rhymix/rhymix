@@ -11,8 +11,8 @@
 			if(count($conditions))require_once(_XE_PATH_.'classes/xml/xmlquery/tags/condition/ConditionTag.class.php');
 			
 			foreach($conditions as $condition){
-				if($condition->name === 'query') $this->conditions[] = new QueryTag($condition, true);
-				else $this->conditions[] = new ConditionTag($condition);
+				//if($condition->node_name === 'query') $this->conditions[] = new QueryTag($condition, true);
+				$this->conditions[] = new ConditionTag($condition);
 			}
 		}
 		
@@ -22,8 +22,9 @@
 		
 		function getConditionGroupString(){
 			$conditions_string = 'array('.PHP_EOL;
-			foreach($this->conditions as $condition)
+			foreach($this->conditions as $condition){
 				$conditions_string .= $condition->getConditionString() . PHP_EOL . ',';
+                        }
 			$conditions_string = substr($conditions_string, 0, -2);//remove ','
 			$conditions_string .= ')';
 			
@@ -33,6 +34,9 @@
 		function getArguments(){
 			$arguments = array();
 			foreach($this->conditions as $condition){
+                            if(is_a($condition, 'QueryTag'))
+                                $arguments = array_merge($arguments, $condition->getArguments());
+                            else
 				$arguments[] = $condition->getArgument();
 			}
 			return $arguments;

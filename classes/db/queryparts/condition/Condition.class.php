@@ -15,6 +15,8 @@
 			$this->pipe = $pipe;
 			if($this->hasArgument())
 				$this->_value = $argument->getValue();
+                        else if(is_a($this->argument, 'Subquery'))
+                                $this->_value = $argument->toString();
 			else 
 				$this->_value = $argument;
 		}
@@ -50,27 +52,27 @@
 		
 		function show(){
 		    switch($this->operation) {
-                case 'equal' :
-                case 'more' :
-                case 'excess' :
-                case 'less' :
-                case 'below' :
-                case 'like_tail' :
-                case 'like_prefix' :
-                case 'like' :
-                case 'in' :
-                case 'notin' :
-                case 'notequal' :
-                        // if variable is not set or is not string or number, return
-                        if(!isset($this->_value)) return false;
-                        if($this->_value === '') return false;
-                        if(!in_array(gettype($this->_value), array('string', 'integer'))) return false;
-				break;
-                case 'between' :
-					if(!is_array($this->_value)) return false;
-					if(count($this->_value)!=2) return false;
+                        case 'equal' :
+                        case 'more' :
+                        case 'excess' :
+                        case 'less' :
+                        case 'below' :
+                        case 'like_tail' :
+                        case 'like_prefix' :
+                        case 'like' :
+                        case 'in' :
+                        case 'notin' :
+                        case 'notequal' :
+                                // if variable is not set or is not string or number, return
+                                if(!isset($this->_value)) return false;
+                                if($this->_value === '') return false;
+                                if(!in_array(gettype($this->_value), array('string', 'integer'))) return false;
+                                        break;
+                        case 'between' :
+                                                if(!is_array($this->_value)) return false;
+                                                if(count($this->_value)!=2) return false;
 
-            }			
+                    }			
 			return true;
 		}
 	
@@ -78,43 +80,43 @@
 	    	$name = $this->column_name;
 	    	$operation = $this->operation;    	
 	    	
-            switch($operation) {
-                case 'equal' :
-                        return $name.' = '.$value;
-                    break;
-                case 'more' :
-                        return $name.' >= '.$value;
-                    break;
-                case 'excess' :
-                        return $name.' > '.$value;
-                    break;
-                case 'less' :
-                        return $name.' <= '.$value;
-                    break;
-                case 'below' :
-                        return $name.' < '.$value;
-                    break;
-                case 'like_tail' :
-                case 'like_prefix' :
-                case 'like' :
-                        return $name.' like '.$value;
-                    break;
-                case 'in' :
-                        return $name.' in ('.$value.')';
-                    break;
-                case 'notin' :
-                        return $name.' not in ('.$value.')';
-                    break;
-                case 'notequal' :
-                        return $name.' <> '.$value;
-                    break;
-                case 'notnull' :
-                        return $name.' is not null';
-                    break;
-                case 'null' :
-                        return $name.' is null';
-                    break;
-				case 'between' :
+                    switch($operation) {
+                        case 'equal' :
+                                return $name.' = '.$value;
+                            break;
+                        case 'more' :
+                                return $name.' >= '.$value;
+                            break;
+                        case 'excess' :
+                                return $name.' > '.$value;
+                            break;
+                        case 'less' :
+                                return $name.' <= '.$value;
+                            break;
+                        case 'below' :
+                                return $name.' < '.$value;
+                            break;
+                        case 'like_tail' :
+                        case 'like_prefix' :
+                        case 'like' :
+                                return $name.' like '.$value;
+                            break;
+                        case 'in' :
+                                return $name.' in ('.$value.')';
+                            break;
+                        case 'notin' :
+                                return $name.' not in ('.$value.')';
+                            break;
+                        case 'notequal' :
+                                return $name.' <> '.$value;
+                            break;
+                        case 'notnull' :
+                                return $name.' is not null';
+                            break;
+                        case 'null' :
+                                return $name.' is null';
+                            break;
+                                        case 'between' :
                         return $name.' between ' . $value[0] . ' and ' . $value[1];
 					break;
             }

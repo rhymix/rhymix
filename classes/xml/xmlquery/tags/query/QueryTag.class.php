@@ -17,6 +17,7 @@ class QueryTag {
 	var $buff;
 	var $isSubQuery;
 
+        var $join_type;
 	var $alias;
 	
 	function QueryTag($query, $isSubQuery = false){
@@ -26,6 +27,7 @@ class QueryTag {
 		$this->isSubQuery = $isSubQuery;
 		if($this->isSubQuery) $this->action = 'select';
 		$this->alias = $query->attrs->alias;
+                $this->join_type = $query->attrs->join_type;
 		
 		$this->getColumns();
 		$tables = $this->getTables();
@@ -55,8 +57,10 @@ class QueryTag {
 			$table_tags = $tables->getTables();
 			$column_type = array();
 			foreach($table_tags as $table_tag){
+                            if(is_a($table_tag, 'TableTag')){
 				$tag_column_type = QueryParser::getTableInfo($query_id, $table_tag->getTableName());
 				$column_type = array_merge($column_type, $tag_column_type);
+                            }
 			}
 			$this->column_type[$query_id] = $column_type;
 		}
@@ -94,17 +98,17 @@ class QueryTag {
 	
 	function getBuff(){
 		$buff = '';
-		//echo 'Luam un query care e '.$this->isSubQuery;
 		if($this->isSubQuery){
 			$buff = 'new Subquery(';
-			$buff .= "'" . $this->alias . '\', ';
+			$buff .= "'\"" . $this->alias . '"\', ';
 			$buff .=  ($this->columns ? $this->columns->toString() : 'null' ). ', '.PHP_EOL;
-	        $buff .=  $this->tables->toString() .','.PHP_EOL;
-	        $buff .=  $this->conditions->toString() .',' .PHP_EOL;
-	       	$buff .=  $this->groups->toString() . ',' .PHP_EOL; 	
-	       	$buff .=  $this->navigation->getOrderByString() .','.PHP_EOL;
-	       	$limit =  $this->navigation->getLimitString() ;
+                        $buff .=  $this->tables->toString() .','.PHP_EOL;
+                        $buff .=  $this->conditions->toString() .',' .PHP_EOL;
+                        $buff .=  $this->groups->toString() . ',' .PHP_EOL; 	
+                        $buff .=  $this->navigation->getOrderByString() .','.PHP_EOL;
+                        $limit =  $this->navigation->getLimitString() ;
 			$buff .=  $limit ? $limit : 'null' . PHP_EOL;
+                        $buff .=  $this->join_type ? "'" . $this->join_type . "'" : '';
 			$buff .= ')';
 		
 			$this->buff = $buff;
@@ -129,7 +133,7 @@ class QueryTag {
 	}	
 	
 	function getTables(){
-		return $this->tables = new TablesTag($this->query->tables->table);
+		return $this->tables = new TablesTag($this->query->tables);
 	}
 	
 	function getConditions(){
@@ -160,6 +164,7 @@ class QueryTag {
 		return $this->buff;
 	}
 	
+        
 	function getArguments(){
 		$arguments = array();
 		if($this->columns)

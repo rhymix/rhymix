@@ -1,30 +1,10 @@
 <?php
-	require(_XE_PATH_ . 'test-phpUnit/config.inc.php');
-        require(_XE_PATH_ . 'test-phpUnit/db/xml_query/cubrid/config.cubrid.inc.php');
+	require(_XE_PATH_ . 'test-phpUnit/config/config.inc.php');
 
-	class CubridSelectTest extends PHPUnit_Framework_TestCase {
+	class CubridSelectTest extends CubridTest {
 
-		function _test($xml_file, $argsString, $expected){
-			$tester = new QueryTester();
-			$outputString = $tester->getNewParserOutputString($xml_file, '"', $argsString);
-
-			//echo $outputString;
-			$output = eval($outputString);
-			
-			if(!is_a($output, 'Query')){
-				if(!$output->toBool()) $querySql = "Date incorecte! Query-ul nu a putut fi executat.";
-			}else {
-				//$db = new DBCubrid();
-				$db = &DB::getInstance();
-				$querySql = $db->getSelectSql($output);
-	
-				// Remove whitespaces, tabs and all
-				$querySql = Helper::cleanQuery($querySql);
-				$expected = Helper::cleanQuery($expected);
-			}
-
-			// Test
-			$this->assertEquals($expected, $querySql);
+                function _test($xml_file, $argsString, $expected){
+                    $this->_testQuery($xml_file, $argsString, $expected, 'getSelectSql');
 		}
 		
 		function testSelectStar(){

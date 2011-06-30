@@ -199,7 +199,7 @@
         /**
          * @brief Fetch results
          **/
-        function _fetch($result) {
+        function _fetch($result, $arrayIndexEndValue = NULL) {
 			if(!$this->isConnected() || $this->isError() || !$result) return;
 			
 			$c = sqlsrv_num_fields($result);
@@ -212,10 +212,14 @@
 				for($i=0;$i<$c;$i++){
 					$row->{$m[$i]['Name']} = sqlsrv_get_field( $result, $i, SQLSRV_PHPTYPE_STRING( 'utf-8' )); 
 				}
-				$output[] = $row;
+				if($arrayIndexEndValue) $output[$arrayIndexEndValue--] = $row;
+				else $output[] = $row;
 			}
 
-            if(count($output)==1) return $output[0];
+            if(count($output)==1) {
+            	if(isset($arrayIndexEndValue)) return $output;
+            	else return $output[0];
+            }
             return $output;
 
         }

@@ -319,6 +319,7 @@
             require_once(_XE_PATH_.'classes/db/queryparts/order/OrderByColumn.class.php');
             require_once(_XE_PATH_.'classes/db/queryparts/limit/Limit.class.php');
             require_once(_XE_PATH_.'classes/db/queryparts/Query.class.php');
+            require_once(_XE_PATH_.'classes/db/queryparts/Subquery.class.php');
             
             
             $output = include($cache_file);

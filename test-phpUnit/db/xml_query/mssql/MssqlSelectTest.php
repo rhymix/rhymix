@@ -1,36 +1,10 @@
 <?php
-	require(_XE_PATH_ . 'test-phpUnit/config.inc.php');
-        require(_XE_PATH_ . 'test-phpUnit/db/xml_query/mssql/config.mssql.inc.php');
+	require(_XE_PATH_ . 'test-phpUnit/config/config.inc.php');
 
-	class MssqlSelectTest extends PHPUnit_Framework_TestCase {
+	class MssqlSelectTest extends MssqlTest {
 
 		function _test($xml_file, $argsString, $expected, $expectedArgs = NULL){
-			$tester = new QueryTester();
-			$outputString = $tester->getNewParserOutputString($xml_file, '[', $argsString);
-			//echo $outputString;
-			$output = eval($outputString);
-			
-			if(!is_a($output, 'Query')){
-				if(!$output->toBool()) $querySql = "Date incorecte! Query-ul nu a putut fi executat.";
-			}else {
-				$db = &DB::getInstance();
-				$querySql = $db->getSelectSql($output);
-				$queryArguments = $output->getArguments();
-				
-				// Remove whitespaces, tabs and all
-				$querySql = Helper::cleanQuery($querySql);
-				$expected = Helper::cleanQuery($expected);
-			}
-
-			// Test
-			$this->assertEquals($expected, $querySql);
-			
-			// Test query arguments
-			$argCount = count($expectedArgs);
-	        for($i = 0; $i < $argCount; $i++){
-	        		//echo "$i: $expectedArgs[$i] vs $queryArguments[$i]->getValue()";
-	        		$this->assertEquals($expectedArgs[$i], $queryArguments[$i]->getValue());
-	        }
+                    $this->_testPreparedQuery($xml_file, $argsString, $expected, 'getSelectSql', $expectedArgs = NULL);
 		}
 		
 		function testSelectStar(){

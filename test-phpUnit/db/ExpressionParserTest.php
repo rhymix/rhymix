@@ -1,5 +1,5 @@
 <?php
-	require(_XE_PATH_ . 'test-phpUnit/config.inc.php');
+	require(_XE_PATH_ . 'test-phpUnit/config/config.inc.php');
 
 	class ExpressionParserTest extends PHPUnit_Framework_TestCase {
 		/* Escape char for:

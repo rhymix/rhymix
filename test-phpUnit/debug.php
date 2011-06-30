@@ -1,5 +1,6 @@
 <?php 
-	require('config.inc.php');
+	require('config/config.inc.php');        
+  
 	$oDB = &DB::getInstance('mssql');
 	//$oDB = &DB::getInstance();
 	$dbParser = $oDB->getParser();

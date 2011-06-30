@@ -135,8 +135,7 @@
 			foreach($this->columns as $column){
 				if($column->show())
 					if(is_a($column, 'Subquery')){
-						$oDB = &DB::getInstance();
-						$select .= '(' .$oDB->getSelectSql($column, $with_values) . ') as \''. $column->getAlias().'\', ';
+						$select .= $column->toString($with_values) . ' as '. $column->getAlias() .', ';
 					}
 					else
 						$select .= $column->getExpression($with_values) . ', ';
@@ -169,12 +168,18 @@
 			return $this->tables;
 		}
 		
+                // from table_a
+                // from table_a inner join table_b on x=y
+                // from (select * from table a) as x
+                // from (select * from table t) as x inner join table y on y.x
 		function getFromString($with_values = true){
 			$from = '';
 			$simple_table_count = 0;
 			foreach($this->tables as $table){
 				if($table->isJoinTable() || !$simple_table_count) $from .= $table->toString($with_values) . ' ';
 				else $from .= ', '.$table->toString($with_values) . ' ';
+                                if(!$table->isJoinTable()) $from .= $table->getAlias() ? ' as ' . $table->getAlias() . ' ' : ' ';
+                                
 				$simple_table_count++;
 			}
 			if(trim($from) == '') return '';

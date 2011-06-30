@@ -20,8 +20,7 @@
 			if(!is_array($xml_columns)) $xml_columns = array($xml_columns); 	
 
 			foreach($xml_columns as $column){
-				if($column->node_name == 'query') $this->columns[] = new QueryTag($column, true);
-				else $this->columns[] = new SelectColumnTag($column);
+				$this->columns[] = new SelectColumnTag($column);
 			}
 		
 			

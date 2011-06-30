@@ -16,6 +16,7 @@
 		var $argument;
 		var $default_column;
 				
+                var $query;
 		function ConditionTag($condition){
 			$this->operation = $condition->attrs->operation;
 			$this->pipe = $condition->attrs->pipe;
@@ -23,20 +24,20 @@
 			$this->column_name = $dbParser->parseColumnName($condition->attrs->column);
 			
 			$isColumnName = strpos($condition->attrs->default, '.');
-			
-			if($condition->attrs->var || $isColumnName === false){
+			                      
+                        if($condition->node_name == 'query'){
+                                $this->query = new QueryTag($condition, true);
+                                $this->default_column = $this->query->toString();
+                        }
+			else if($condition->attrs->var || $isColumnName === false){
 				require_once(_XE_PATH_.'classes/xml/xmlquery/queryargument/QueryArgument.class.php');			
-				//$this->argument_name = $condition->attrs->var;
 				
 				$this->argument = new QueryArgument($condition);	
 				$this->argument_name = $this->argument->getArgumentName();			
 			}
-			//else if($isColumnName === false){
-			//	$this->default_column = $condition->attrs->default;
-			//}
 			else {
-				$this->default_column = $dbParser->parseColumnName($condition->attrs->default);	
-			}
+				$this->default_column = "'" .  $dbParser->parseColumnName($condition->attrs->default)  . "'" ;	
+			}                        
 		}
 		
 		function setPipe($pipe){
@@ -49,11 +50,11 @@
 		
 		function getConditionString(){
 			return sprintf("new Condition('%s',%s,%s%s)"
-									, $this->column_name
-									, $this->default_column ? "'" . $this->default_column . "'" :  '$' . $this->argument_name . '_argument'
-									, '"'.$this->operation.'"'
-									, $this->pipe ? ", '" . $this->pipe . "'" : ''
-									);
+                                        , $this->column_name
+                                        , $this->default_column ? $this->default_column:  '$' . $this->argument_name . '_argument'
+                                        , '"'.$this->operation.'"'
+                                        , $this->pipe ? ", '" . $this->pipe . "'" : ''
+                                        );
 		}		
 	}
 ?>

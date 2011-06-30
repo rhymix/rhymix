@@ -13,11 +13,19 @@
 	require_once(_XE_PATH_.'classes/xml/xmlquery/QueryParser.class.php');
 
     class XmlQueryParser extends XmlParser {
-		var $dbParser;
+        static $dbParser = null;
     	var $db_type;
     	
     	function XmlQueryParser($db_type = NULL){
     		$this->db_type = $db_type;
+    	}
+    	
+    	function &getInstance($db_type = NULL){
+    		static $theInstance = null;
+    		if(!isset($theInstance)){
+    			$theInstance = new XmlQueryParser($db_type);
+    		}    		
+			return $theInstance;
     	}
     	
         function parse($query_id, $xml_file, $cache_file) {
@@ -36,15 +44,19 @@
         
         // singleton
        function &getDBParser(){
-        	static $dbParser;
-        	if(!$dbParser){
-        		if(isset($this->db_type))
-        			$oDB = &DB::getInstance($this->db_type);
+        	if(!$self->dbParser){
+        		is_a($this,'XmlQueryParser')?$self=&$this:$self=&XmlQueryParser::getInstance();
+        		if(isset($self->db_type))
+        			$oDB = &DB::getInstance($self->db_type);
         		else 
         			$oDB = &DB::getInstance();
-				$dbParser = $oDB->getParser();
+				$self->dbParser = $oDB->getParser();
         	}
-        	return $dbParser;
+        	return $self->dbParser;
+        }
+        
+        function setDBParser($value){
+            $self->dbParser = $value;
         }
         
         function getXmlFileContent($xml_file){

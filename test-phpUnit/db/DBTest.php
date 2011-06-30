@@ -1,0 +1,54 @@
+<?php
+    class DBTest extends PHPUnit_Framework_TestCase {
+        
+        function _testQuery($xml_file, $argsString, $expected, $methodName){
+                $tester = new QueryTester();
+                $outputString = $tester->getNewParserOutputString($xml_file, $argsString);
+                $output = eval($outputString);
+
+                if(!is_a($output, 'Query')){
+                        if(!$output->toBool()) $querySql = "Date incorecte! Query-ul nu a putut fi executat.";
+                }else {
+                        $db = &DB::getInstance();
+                        $querySql = $db->{$methodName}($output);
+
+                        // Remove whitespaces, tabs and all
+                        $querySql = Helper::cleanQuery($querySql);
+                        $expected = Helper::cleanQuery($expected);
+                }
+                $this->assertEquals($expected, $querySql);
+        }    
+        
+        function _testPreparedQuery($xml_file, $argsString, $expected, $methodName, $expectedArgs = NULL){
+                $tester = new QueryTester();
+                $outputString = $tester->getNewParserOutputString($xml_file, $argsString);
+                $output = eval($outputString);
+
+                if(!is_a($output, 'Query')){
+                        if(!$output->toBool()) $querySql = "Date incorecte! Query-ul nu a putut fi executat.";
+                }else {
+                        $db = &DB::getInstance();
+                        $querySql = $db->{$methodName}($output);
+                        $queryArguments = $output->getArguments();
+
+                        // Remove whitespaces, tabs and all
+                        $querySql = Helper::cleanQuery($querySql);
+                        $expected = Helper::cleanQuery($expected);
+                }
+
+                // Test
+                $this->assertEquals($expected, $querySql);
+
+                // Test query arguments
+                $argCount = count($expectedArgs);
+                for($i = 0; $i < $argCount; $i++){
+                                //echo "$i: $expectedArgs[$i] vs $queryArguments[$i]->getValue()";
+                                $this->assertEquals($expectedArgs[$i], $queryArguments[$i]->getValue());
+                }
+        }        
+    }
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+?>
