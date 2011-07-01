@@ -27,7 +27,7 @@ class Validator
 		$this->addRule(array(
 			'email'        => '/^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/',
 			'userid'       => '/^[a-z]+[\w-]*[a-z0-9_]+$/i',
-			'url'          => '/^(https?|ftp|mms):\/\/[0-9a-z-]+(\.[_0-9a-z-]+)+(:[0-9]+)/',
+			'url'          => '/^(https?|ftp|mms):\/\/[0-9a-z-]+(\.[_0-9a-z-]+)+(:\d+)?/',
 			'alpha'        => '/^[a-z]*$/i',
 			'alpha_number' => '/^[a-z][a-z0-9_]*$/i',
 			'number'       => '/^(?:[1-9]\\d*|0)$/'

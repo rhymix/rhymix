@@ -28,7 +28,7 @@ var Validator = xe.createApp('Validator', {
 		this.cast('ADD_RULE', ['user_id', regUserid]);
 
 		// url
-		var regUrl = /^(https?|ftp|mms):\/\/[0-9a-z-]+(\.[_0-9a-z-\/\~]+)+(:[0-9]{2,4})*$/;
+		var regUrl = /^(https?|ftp|mms):\/\/[0-9a-z-]+(\.[_0-9a-z-]+)+(:\d+)?/;
 		this.cast('ADD_RULE', ['url', regUrl]);
 		this.cast('ADD_RULE', ['homepage', regUrl]);
 
