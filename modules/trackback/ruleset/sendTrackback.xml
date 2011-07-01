@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ruleset version="1.5.0">
+    <customrules>
+		<rule name="charset" type="enum" test="UTF-8, EUC-KR, EUC-JP, SHIFT_JIS, EUC-CN, HZ, BIG5" />
+    </customrules>
+    <fields>
+		<field name="target_srl" required="true" rule="number" />
+		<field name="trackback_url" required="true" rule="url" />
+		<field name="charset" required="true" rule="charset" default="UTF-8" />
+    </fields>
+</ruleset>

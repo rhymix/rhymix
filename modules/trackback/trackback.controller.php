@@ -35,7 +35,15 @@
             $module_info = $oModuleModel->getModuleInfoByModuleSrl($oDocument->get('module_srl'));
             Context::setBrowserTitle($module_info->browser_title);
             // Shipping yeokingeul
-            return $this->sendTrackback($oDocument, $trackback_url, $charset);
+            $output = $this->sendTrackback($oDocument, $trackback_url, $charset);
+			if($output->toBool() && !in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				global $lang;
+				alertScript($lang->success_registed);
+				reload(true);
+				closePopupScript();
+				exit;
+			}
+			return $output;
         }
 
         /**

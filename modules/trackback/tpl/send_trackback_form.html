@@ -1,10 +1,10 @@
-<!--%import("filter/send_trackback.xml")-->
-
 <div id="popHeader" class="wide">
     <h3 class="xeAdmin">{$lang->cmd_send_trackback}</h3>
 </div>
 
-<form action="./" method="get" onsubmit="return procFilter(this, send_trackback)">
+<p class="xe_validator_error">{$XE_VALIDATOR_ERROR}</p>
+<form ruleset="sendTrackback" action="./" method="post">
+<input type="hidden" name="act" value="procTrackbackSend" />
 <input type="hidden" name="target_srl" value="{$oDocument->document_srl}" />
 
 <div id="popBody">

@@ -1,10 +1,10 @@
-<!--%import("filter/delete_checked.xml")-->
-<!--%import("filter/insert_config.xml")-->
 <!--%import("js/trackback_admin.js")-->
 
 <h3 class="xeAdmin">{$lang->trackback} <span class="gray">{$lang->cmd_management}</span></h3>
 
-<form action="./" method="get" onsubmit="return procFilter(this, insert_config)">
+<p class="xe_validator_error">{$XE_VALIDATOR_ERROR}</p>
+<form action="./" method="post">
+<input type="hidden" name="act" value="procTrackbackAdminInsertConfig" />
 <table cellspacing="0" class="rowTable topGap">
 <tr class="row2">
     <th scope="col"><div>{$lang->enable_trackback}</div></th>
@@ -42,7 +42,8 @@
     </form>
 </div>
 
-<form id="fo_list" action="./" method="get" onsubmit="return procFilter(this, delete_checked)">
+<form ruleset="deleteChecked" id="fo_list" action="./" method="post">
+<input type="hidden" name="act" value="procTrackbackAdminDeleteChecked" />
 <input type="hidden" name="page" value="{$page}" />
 
 <!-- 모듈 선택 -->
@@ -69,7 +70,7 @@
     <!--@foreach($trackback_list as $no => $val)-->
     <tr class="row{$cycle_idx}">
         <td rowspan="2" class="center number" scope="col">{$no}</td>
-        <td rowspan="2" class="center"><input type="checkbox" name="cart" value="{$val->trackback_srl}" /></td>
+        <td rowspan="2" class="center"><input type="checkbox" name="cart[]" value="{$val->trackback_srl}" /></td>
         <td rowspan="2"><div class="w200"><a href="{$val->url}" onclick="window.open(this.href); return false;">{htmlspecialchars($val->blog_name)}</a></div></td>
         <td ><a href="{getUrl('','document_srl',$val->document_srl)}#trackback_{$val->trackback_srl}" onclick="window.open(this.href);return false;">{htmlspecialchars($val->title)}</a></td>
         <td class="date center nowrap">{zdate($val->regdate,"Y-m-d")}</td>

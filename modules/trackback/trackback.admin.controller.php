@@ -19,8 +19,9 @@
         function procTrackbackAdminDeleteChecked() {
             // An error appears if no document is selected
             $cart = Context::get('cart');
-            if(!$cart) return $this->stop('msg_cart_is_null');
-            $trackback_srl_list= explode('|@|', $cart);
+			if(!is_array($cart)) $trackback_srl_list= explode('|@|', $cart);
+			else $trackback_srl_list = $cart;
+
             $trackback_count = count($trackback_srl_list);
             if(!$trackback_count) return $this->stop('msg_cart_is_null');
 
@@ -34,6 +35,11 @@
             }
 
             $this->setMessage( sprintf(Context::getLang('msg_checked_trackback_is_deleted'), $trackback_count) );
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispTrackbackAdminList');
+				header('location:'.$returnUrl);
+				return;
+			}
         }
 
         /**
@@ -45,6 +51,11 @@
 
             $oModuleController = &getController('module');
             $output = $oModuleController->insertModuleConfig('trackback',$config);
+			if($output->toBool() && !in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispTrackbackAdminList');
+				header('location:'.$returnUrl);
+				return;
+			}
             return $output;
         }
 
@@ -70,6 +81,11 @@
 
             $this->setError(-1);
             $this->setMessage('success_updated');
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispBoardAdminContent');
+				header('location:'.$returnUrl);
+				return;
+			}
         }
 
         /**
