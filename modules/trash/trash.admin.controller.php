@@ -39,7 +39,9 @@ class trashAdminController extends trash
 	{
 		global $lang;
 		$isAll = Context::get('is_all');
-		$trashSrls = explode('|@|', Context::get('trash_srls'));
+		$tmpTrashSrls = Context::get('trash_srls');
+		if(is_array($tmpTrashSrls)) $trashSrls = $tmpTrashSrls;
+		else $trashSrls = explode('|@|', $tmpTrashSrls);
 
 		$oTrashModel = &getModel('trash');
 		if($isAll == 'true')
@@ -73,6 +75,11 @@ class trashAdminController extends trash
 		if(!$this->_emptyTrash($trashSrls))
 			return new Object(-1, $lang->fail_empty);
 
+		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispTrashAdminList');
+			header('location:'.$returnUrl);
+			return;
+		}
 		return new Object(0, $lang->success_empty);
 	}
 

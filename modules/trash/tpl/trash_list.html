@@ -1,10 +1,11 @@
 <script>
 var confirm_restore_msg = '{$lang->confirm_restore}';
 </script>
-<!--%import("filter/emptyTrash.xml")-->
 <!--#include("header.html")-->
 
-<form id="fo_list" action="./" method="get" onsubmit="return procFilter(this, emptyTrash)">
+<p class="xe_validator_error">{$XE_VALIDATOR_ERROR}</p>
+<form ruleset="emptyTrash" id="fo_list" action="./" method="post">
+<input type="hidden" name="act" value="procTrashAdminEmptyTrash" />
 <input type="hidden" name="page" value="{$page}" />
 <input type="hidden" name="is_all" value="false" />
 
