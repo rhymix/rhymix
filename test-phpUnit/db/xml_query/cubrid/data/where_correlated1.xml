@@ -6,17 +6,16 @@
         <column name="*" />
     </columns>
     <conditions>
-            <query id="getDocumentMaxRegdate" alias="documentMaxRegdate" operation="equal" column="regdate" notnull="notnull">
-                    <tables>
-                            <table name="documents" alias="documents" />
-                    </tables>
-                    <columns>
-                            <column name="max(regdate)" alias="maxregdate" />
-                    </columns>
-                    <conditions>
-                        <condition operation="equal" column="documents.user_id" var="member.user_id" notnull="notnull" />
-                    </conditions>        		        	
-            </query>
-        </condition>
+        <query alias="documentMaxRegdate" operation="equal" column="regdate" notnull="notnull">
+                <tables>
+                        <table name="documents" alias="documents" />
+                </tables>
+                <columns>
+                        <column name="max(regdate)" alias="maxregdate" />
+                </columns>
+                <conditions>
+                    <condition operation="equal" column="documents.user_id" default="member.user_id" notnull="notnull" />
+                </conditions>        		        	
+        </query>
     </conditions>
 </query>

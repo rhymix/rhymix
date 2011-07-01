@@ -14,8 +14,7 @@
 		
 		function getNewParserOutput($xml_file){
 			$newXmlQueryParser = new XmlQueryParser();
-			$xml_obj = $newXmlQueryParser->getXmlFileContent($xml_file);
-						
+			$xml_obj = $newXmlQueryParser->getXmlFileContent($xml_file);		
 			$parser = new QueryParser($xml_obj->query);
 			return $parser->toString();
 		}

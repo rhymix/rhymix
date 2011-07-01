@@ -86,23 +86,30 @@
         function testWhereCorrelated1(){
                 $xml_file = $this->xmlPath . "where_correlated1.xml";
                 $argsString = '';
-                $expected = '	SELECT *
-                                FROM xe_member as member
-                                WHERE regdate = (SELECT MAX(regdate) as regdate 
-                                                                 FROM xe_documents as documents 
-                                                                 WHERE documents.user_id = member.user_id)';
+                $expected = 'select * 
+                             from "xe_member" as "member" 
+                             where "regdate" = (
+                                                select max("regdate") as "maxregdate" 
+                                                from "xe_documents" as "documents"
+                                                where "documents"."user_id" = "member"."user_id"
+                                                )';
                 $this->_test($xml_file, $argsString, $expected);
         }             
         
         function testFromCorrelated1(){
                 $xml_file = $this->xmlPath . "from_correlated1.xml";
                 $argsString = '';
-                $expected = 'SELECT m.member_srl, m.nickname, m.regdate, a.count
-                             FROM (
-                                   SELECT documents.member_srl as member_srl, count(*) as count
-                                    FROM xe_documents as documents
-                                    GROUP BY documents.member_srl) a
-                                INNER JOIN xe_members m on m.member_srl = a.member_srl';
+                $expected = 'select "m"."member_srl"
+                            , "m"."nickname"
+                            , "m"."regdate"
+                            , "a"."count" 
+                            from (
+                                select "member_srl" as "member_srl"
+                                        , count(*) as "count" 
+                                from "xe_documents" as "documents" 
+                                group by "member_srl"
+                               ) as "a" 
+                               left join "xe_member" as "m" on "m"."member" = "a"."member_srl"';
                 $this->_test($xml_file, $argsString, $expected);
         }                     
     }

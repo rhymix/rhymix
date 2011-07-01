@@ -16,31 +16,25 @@
          *      Can have children of type <table> or <query>
 	 */
 
+        require_once(_XE_PATH_.'classes/xml/xmlquery/tags/table/TableTag.class.php');
+        
 	class TablesTag {
 		var $tables;
 		
-		function TablesTag($xml_tables_tag){             
-                    $xml_tables = $xml_tables_tag->table;
-                    $xml_queries = $xml_tables_tag->query;
-                    
+		function TablesTag($xml_tables_tag){                                
                     $this->tables = array();
                     
-
-                    if($xml_tables){
-                        if(!is_array($xml_tables)) $xml_tables = array($xml_tables);
-
-                        if(count($xml_tables)) require_once(_XE_PATH_.'classes/xml/xmlquery/tags/table/TableTag.class.php');
-
-                        foreach($xml_tables as $table){
-                                $this->tables[] = new TableTag($table);
-                        }			
-                    }
-                    if(!$xml_queries) return;
-                    if(!is_array($xml_queries)) $xml_queries = array($xml_queries);
-
-                    foreach($xml_queries as $table){
-                            $this->tables[] = new QueryTag($table, true);
-                    }			                        
+                    $xml_tables = $xml_tables_tag->table;
+                    if(!is_array($xml_tables)) $xml_tables = array($xml_tables);
+                    
+                    foreach($xml_tables as $tag){
+                        if($tag->attrs->query == 'true'){
+                            $this->tables[] = new QueryTag($tag, true);
+                        }
+                        else {
+                            $this->tables[] = new TableTag($tag);
+                        }
+                    }                        
 		}
 		
 		function getTables(){

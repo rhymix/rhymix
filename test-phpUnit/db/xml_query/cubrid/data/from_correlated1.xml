@@ -1,6 +1,6 @@
 <query id="getMemberInfo" action="select">
     <tables>
-        <query alias="a">
+        <table query="true" alias="a">
         	<tables>
         		<table name="documents" alias="documents" />
         	</tables>
@@ -11,8 +11,8 @@
                 <groups>
                    <group column="member_srl" />
                 </groups>        		        	
-        </query>
-        <table name="member" alias="m" type="inner join">
+        </table>
+        <table name="member" alias="m" type="left join">
             <conditions>
                 <condition operation="equal" column="m.member" default="a.member_srl" />
             </conditions>

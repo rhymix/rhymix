@@ -1,6 +1,6 @@
 <query id="getMemberInfo" action="select">
     <tables>
-        <query alias="documentCountByMember">
+        <table query="true" alias="documentCountByMember">
         	<tables>
         		<table name="documents" alias="documents" />
         	</tables>
@@ -11,7 +11,7 @@
 		    <groups>
 		       <group column="member_srl" />
 		    </groups>        		        	
-        </query>
+        </table>
     </tables>
     <columns>
         <column name="MAX(documentCountByMember.count)" alias="maxCount" />

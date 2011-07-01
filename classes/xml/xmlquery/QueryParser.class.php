@@ -18,7 +18,7 @@ class QueryParser {
 	function QueryParser($query, $isSubQuery = false){
 		$this->queryTag = new QueryTag($query, $isSubQuery);
 	}	
-	
+	 
 	function getTableInfo($query_id, $table_name){
 		$column_type = array();
 		
