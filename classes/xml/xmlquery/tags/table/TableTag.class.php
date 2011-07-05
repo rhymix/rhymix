@@ -24,7 +24,7 @@
 		var $alias;
 		var $join_type;
 		var $conditions;
-		
+		var $conditionsTag;
                 /**
                  * @brief Initialises Table Tag properties
                  * @param XML <table> tag $table
@@ -41,6 +41,9 @@
 			$this->join_type = $table->attrs->type;
 			
                         $this->conditions = $table->conditions;			
+                        
+                        if($this->isJoinTable())
+                            $this->conditionsTag = new JoinConditionsTag($this->conditions);
 		}
 		
 		function isJoinTable(){
@@ -66,16 +69,20 @@
 		function getTableString(){
 			$dbParser = XmlQueryParser::getDBParser();
 			if($this->isJoinTable()){
-				$conditionsTag = new JoinConditionsTag($this->conditions);
 				return sprintf('new JoinTable(\'%s\', \'%s\', "%s", %s)'
 								, $dbParser->escape($this->name)
 								, $dbParser->escape($this->alias)
-								, $this->join_type, $conditionsTag->toString());
+								, $this->join_type, $this->conditionsTag->toString());
 			}
 			return sprintf('new Table(\'%s\'%s)'
 								, $dbParser->escape($this->name)
 								, $this->alias ? ', \'' . $dbParser->escape($this->alias) .'\'' : '');			
 		}
+                
+                function getArguments(){
+                    if(!isset($this->conditionsTag)) return array();
+                    return $this->conditionsTag->getArguments();
+                }
 	}
 
 ?>

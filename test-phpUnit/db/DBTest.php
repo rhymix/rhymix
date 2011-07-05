@@ -2,13 +2,13 @@
     class DBTest extends PHPUnit_Framework_TestCase {
         
         function _testQuery($xml_file, $argsString, $expected, $methodName){
-                //echo PHP_EOL . ' ----------------------------------- ' .PHP_EOL;
-                //echo $xml_file;
-                //echo PHP_EOL . ' ----------------------------------- ' .PHP_EOL;
+                echo PHP_EOL . ' ----------------------------------- ' .PHP_EOL;
+                echo $xml_file;
+                echo PHP_EOL . ' ----------------------------------- ' .PHP_EOL;
                 
                 $tester = new QueryTester();
                 $outputString = $tester->getNewParserOutputString($xml_file, $argsString);
-                //echo $outputString;
+                echo $outputString;
                 $output = eval($outputString);
                 
                 if(!is_a($output, 'Query')){
@@ -18,8 +18,8 @@
                         $querySql = $db->{$methodName}($output);
 
                         // Remove whitespaces, tabs and all
-                        $querySql = Helper::cleanQuery($querySql);
-                        $expected = Helper::cleanQuery($expected);
+                        $querySql = Helper::cleanString($querySql);
+                        $expected = Helper::cleanString($expected);
                 }
                 $this->assertEquals($expected, $querySql);
         }    
@@ -37,8 +37,8 @@
                         $queryArguments = $output->getArguments();
 
                         // Remove whitespaces, tabs and all
-                        $querySql = Helper::cleanQuery($querySql);
-                        $expected = Helper::cleanQuery($expected);
+                        $querySql = Helper::cleanString($querySql);
+                        $expected = Helper::cleanString($expected);
                 }
 
                 // Test
@@ -51,9 +51,14 @@
                                 $this->assertEquals($expectedArgs[$i], $queryArguments[$i]->getValue());
                 }
         }        
+    
+        function _testCachedOutput($expected, $actual){
+            $expected = Helper::cleanString($expected);
+            $actual = Helper::cleanString($actual);
+            
+            $this->assertEquals($expected, $actual);
+            
+        }
     }
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 ?>

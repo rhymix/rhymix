@@ -171,6 +171,7 @@ class QueryTag {
 		$arguments = array();
 		if($this->columns)
 			$arguments = array_merge($arguments, $this->columns->getArguments());
+                $arguments = array_merge($arguments, $this->tables->getArguments());
 		$arguments = array_merge($arguments, $this->conditions->getArguments());
 		$arguments = array_merge($arguments, $this->navigation->getArguments());
 		return $arguments;		

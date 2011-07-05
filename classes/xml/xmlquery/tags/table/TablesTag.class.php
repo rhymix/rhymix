@@ -53,5 +53,12 @@
 			$output_tables .= ')';	
 			return $output_tables;					
 		}
+                
+                function getArguments(){
+                    $arguments = array();
+                    foreach($this->tables as $table)
+                           $arguments = array_merge($arguments, $table->getArguments());
+                    return $arguments;
+                }
 	}
 ?>

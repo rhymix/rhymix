@@ -34,10 +34,7 @@
 		function getArguments(){
 			$arguments = array();
 			foreach($this->conditions as $condition){
-                            if(is_a($condition, 'QueryTag'))
                                 $arguments = array_merge($arguments, $condition->getArguments());
-                            else
-				$arguments[] = $condition->getArgument();
 			}
 			return $arguments;
 		}

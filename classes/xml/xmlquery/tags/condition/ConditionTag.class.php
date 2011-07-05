@@ -44,8 +44,12 @@
 			$this->pipe = $pipe;
 		}
 		
-		function getArgument(){
-			return $this->argument;
+		function getArguments(){
+                    $arguments = array();
+                    if($this->query)
+                        $arguments = array_merge($arguments, $this->query->getArguments());
+                    $arguments[] = $this->argument;
+                    return $arguments;
 		}
 		
 		function getConditionString(){
