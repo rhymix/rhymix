@@ -2,10 +2,16 @@
 
 	class ConditionArgument extends Argument {
 		var $operation;
-		
+		var $type;
+                
 		function ConditionArgument($name, $value, $operation){
 			parent::Argument($name, $value);
 			$this->operation = $operation;	
+                        
+			if($this->type !== 'date'){
+				$dbParser = XmlQueryParser::getDBParser();
+				$this->value = $dbParser->escapeStringValue($this->value);
+			}	                        
 		}
 			
 		function createConditionValue(){
@@ -119,6 +125,35 @@
 			*/
 	    	
 		}
-	}
+	
+                function getType(){
+			return $this->type;
+		}
+                
+                function setColumnType($column_type){
+			if(!isset($this->value)) return;
+			if($column_type === '') return;
+			
+			$this->type = $column_type;
+			
+			//if($column_type === '') $column_type = 'varchar';
+
+		}
+                
+                function escapeValue($value){
+			if(in_array($this->type, array('date', 'varchar', 'char','text', 'bigtext'))){
+				if(!is_array($value))
+					$value = '\''.$value.'\'';
+				else {
+					$total = count($value);
+					for($i = 0; $i < $total; $i++)
+						$value[$i] = '\''.$value[$i].'\'';
+				}
+			}	
+			return $value;                    
+                }
+		
+                
+        }
 
 ?>

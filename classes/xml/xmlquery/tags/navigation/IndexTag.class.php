@@ -10,11 +10,14 @@
 		function IndexTag($index){
 			$this->argument_name = $index->attrs->var;
 			
-			$dbParser = XmlQueryParser::getDBParser();
-			$index->attrs->default = $dbParser->parseExpression($index->attrs->default);
+                        // Sort index - column by which to sort
+			//$dbParser = XmlQueryParser::getDBParser();
+			//$index->attrs->default = $dbParser->parseExpression($index->attrs->default);
 			$this->default = $index->attrs->default;
 			require_once(_XE_PATH_.'classes/xml/xmlquery/queryargument/QueryArgument.class.php');
 			$this->argument = new QueryArgument($index);			
+                        
+                        // Sort order - asc / desc
 			$this->sort_order = $index->attrs->order;
 			if(!in_array($this->sort_order, array("asc", "desc"))){
 				$arg->var = $this->sort_order;

@@ -3,21 +3,13 @@
 	class Argument {
 		var $value;
 		var $name;
-		var $type;
 		
 		var $isValid;
 		var $errorMessage;
 		
 		function Argument($name, $value){
-			$this->name = $name;
-			
-			if($this->type !== 'date'){
-				$dbParser = XmlQueryParser::getDBParser();
-				$this->value = $dbParser->escapeStringValue($value);
-			}
-			else
-				$this->value = $value;
-			
+                        $this->value = $value;
+			$this->name = $name;			
 			$this->isValid = true;
 		}
 		
@@ -40,22 +32,14 @@
 		}
 		
 		function escapeValue($value){
-			if(in_array($this->type, array('date', 'varchar', 'char','text', 'bigtext'))){
-				if(!is_array($value))
-					$value = '\''.$value.'\'';
-				else {
-					$total = count($value);
-					for($i = 0; $i < $total; $i++)
-						$value[$i] = '\''.$value[$i].'\'';
-				}
-			}			
-			return $value;
+                        if(is_string($value)){
+				$dbParser = XmlQueryParser::getDBParser();
+				return $dbParser->parseExpression($value);                            
+                        }  
+                        return $value;
 		}
 		
-		function getType(){
-			return $this->type;
-		}
-		
+
 		function isValid(){
 			return $this->isValid;
 		}
@@ -69,15 +53,7 @@
 				$this->value = $default_value;
 		}
 		
-		function setColumnType($column_type){
-			if(!isset($this->value)) return;
-			if($column_type === '') return;
-			
-			$this->type = $column_type;
-			
-			//if($column_type === '') $column_type = 'varchar';
 
-		}
 		
 		function checkFilter($filter_type){
 			if(isset($this->value) && $this->value != ''){

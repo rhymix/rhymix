@@ -49,8 +49,13 @@
 			return $this->argument_validator->toString();
 		}
 		
+                function isConditionArgument(){
+                    if($this->operation) return true;
+                    return false;
+                }
+                
 		function toString(){
-			if($this->operation)
+			if($this->isConditionArgument())
 				$arg = sprintf("\n$%s_argument = new ConditionArgument('%s', %s, '%s');\n"
 							, $this->argument_name
 							, $this->argument_name
@@ -67,7 +72,7 @@
 							
 			$arg .= $this->argument_validator->toString();
 			
-			if($this->operation){
+			if($this->isConditionArgument()){
 				$arg .= sprintf("$%s_argument->createConditionValue();\n"
 					, $this->argument_name
 					);
