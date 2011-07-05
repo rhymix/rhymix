@@ -86,10 +86,11 @@ class QueryTag {
 		foreach($arguments as $argument){
 			if(isset($argument) && $argument->getArgumentName()){
 			$prebuff .= $argument->toString();
-                        if($argument->isConditionArgument())
+                        $column_type = $this->column_type[$this->getQueryId()][$argument->getColumnName()];
+                        if(isset($column_type))
                             $prebuff .= sprintf("$%s_argument->setColumnType('%s');\n"
                                     , $argument->getArgumentName()
-                                    , $this->column_type[$this->getQueryId()][$argument->getColumnName()] );
+                                    , $column_type );
 			}
 		}
 		$prebuff .= "\n";

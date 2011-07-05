@@ -3,6 +3,7 @@
 	class Argument {
 		var $value;
 		var $name;
+                var $type;
 		
 		var $isValid;
 		var $errorMessage;
@@ -13,6 +14,16 @@
 			$this->isValid = true;
 		}
 		
+                function getType(){
+                    if(isset($this->type)) return $this->type;
+                    if(is_string($this->value)) return 'column_name';
+                    return 'number';
+                }
+                
+                function setColumnType($value){
+                    $this->type = $value;
+                }
+                
 		function getName(){
 			return $this->name;
 		}
@@ -32,14 +43,22 @@
 		}
 		
 		function escapeValue($value){
-                        if(is_string($value)){
+                        if($this->getType() == 'column_name'){
 				$dbParser = XmlQueryParser::getDBParser();
 				return $dbParser->parseExpression($value);                            
                         }  
-                        return $value;
-		}
+			if(in_array($this->type, array('date', 'varchar', 'char','text', 'bigtext'))){
+				if(!is_array($value))
+					$value = '\''.$value.'\'';
+				else {
+					$total = count($value);
+					for($i = 0; $i < $total; $i++)
+						$value[$i] = '\''.$value[$i].'\'';
+				}
+			}	
+			return $value;  
+		}      
 		
-
 		function isValid(){
 			return $this->isValid;
 		}
