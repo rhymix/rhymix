@@ -63,8 +63,8 @@
                             new Condition(\'"module_categories"."module_category_srl"\',\'"modules"."module_category_srl"\',"equal")
                             ))
                             ))';
-                        $actual = Helper::cleanQuery($actual);
-                        $expected = Helper::cleanQuery($expected);
+                        $actual = Helper::cleanString($actual);
+                        $expected = Helper::cleanString($expected);
                         
 			$this->assertEquals($expected, $actual);
 		}	                    
