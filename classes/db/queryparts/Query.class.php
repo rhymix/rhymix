@@ -178,7 +178,8 @@
 			foreach($this->tables as $table){
 				if($table->isJoinTable() || !$simple_table_count) $from .= $table->toString($with_values) . ' ';
 				else $from .= ', '.$table->toString($with_values) . ' ';
-                                if(!$table->isJoinTable()) $from .= $table->getAlias() ? ' as ' . $table->getAlias() . ' ' : ' ';
+                                
+                                if(is_a($table, 'Subquery')) $from .= $table->getAlias() ? ' as ' . $table->getAlias() . ' ' : ' ';
                                 
 				$simple_table_count++;
 			}

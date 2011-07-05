@@ -32,7 +32,7 @@
 			$value = $this->escapeValue($this->value);
 			return $this->toString($value);
 		}
-		
+
 		function getUnescapedValue(){
 			return $this->toString($this->value);
 		}

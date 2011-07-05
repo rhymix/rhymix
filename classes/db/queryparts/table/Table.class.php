@@ -10,8 +10,8 @@
 		}
 		
 		function toString(){
-                    return $this->name;
-			//return sprintf("%s%s", $this->name, $this->alias ? ' as ' . $this->alias : '');
+                    //return $this->name;
+                    return sprintf("%s%s", $this->name, $this->alias ? ' as ' . $this->alias : '');
 		}
 		
 		function getName(){
@@ -23,8 +23,7 @@
 		}
 		
 		function isJoinTable(){
-			if(in_array($tableName,array('left join','left outer join','right join','right outer join'))) return true;
-			return false;
+                    return false;
 		}
 	}
 
