@@ -1435,9 +1435,9 @@
             }
             */
             // Information stored in the session login user
-            $_SESSION['logged_info'] = $this->memberInfo;
             Context::set('is_logged', true);
             Context::set('logged_info', $this->memberInfo);
+
             // Only the menu configuration of the user (such as an add-on to the menu can be changed)
             $this->addMemberMenu( 'dispMemberInfo', 'cmd_view_member_info');
             $this->addMemberMenu( 'dispMemberScrappedDocument', 'cmd_view_scrapped_document');
@@ -1455,7 +1455,6 @@
             $logged_info->menu_list[$act] = Context::getLang($str);
 
             Context::set('logged_info', $logged_info);
-            $_SESSION['logged_info'] = $logged_info;
         }
 
         /**
@@ -1701,9 +1700,6 @@
             if(!$this->memberInfo) $this->memberInfo = $oMemberModel->getMemberInfoByMemberSrl($args->member_srl);
 
             $logged_info = Context::get('logged_info');
-            if($logged_info->member_srl == $member_srl) {
-                $_SESSION['logged_info'] = $this->memberInfo;
-            }
 
             $output->add('member_srl', $args->member_srl);
             return $output;

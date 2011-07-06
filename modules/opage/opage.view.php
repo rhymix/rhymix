@@ -114,7 +114,6 @@
 
             $__Context = &$GLOBALS['__Context__'];
             $__Context->tpl_path = $filepath;
-            if($_SESSION['is_logged']) $__Context->logged_info = $_SESSION['logged_info'];
 
             ob_start();
             @include($cache_file);

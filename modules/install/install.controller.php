@@ -150,7 +150,6 @@
             if(Context::isInstalled()) return new Object(-1, 'msg_already_installed');
             // Assign a temporary administrator when installing
             $logged_info->is_admin = 'Y';
-            $_SESSION['logged_info'] = $logged_info;
             Context::set('logged_info', $logged_info);
 
 			include $this->db_tmp_config_file;

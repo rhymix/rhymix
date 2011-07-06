@@ -257,7 +257,7 @@
             $__Context = &$GLOBALS['__Context__'];
             $__Context->tpl_path = $this->path;
 
-            if($_SESSION['is_logged']) $__Context->logged_info = $_SESSION['logged_info'];
+            if($_SESSION['is_logged']) $__Context->logged_info = Context::get('logged_info');
 
             ob_start();
 			$eval_str = "?>".$this->buff;

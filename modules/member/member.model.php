@@ -120,7 +120,6 @@
             if($_SESSION['is_logged']&&$_SESSION['ipaddress']==$_SERVER['REMOTE_ADDR']) return true;
 
             $_SESSION['is_logged'] = false;
-            $_SESSION['logged_info'] = '';
             return false;
         }
 
@@ -130,7 +129,7 @@
         function getLoggedInfo() {
             // Return session info if session info is requested and the user is logged-in
             if($this->isLogged()) {
-                $logged_info = $_SESSION['logged_info'];
+                $logged_info = Context::get('logged_info');
                 // Admin/Group list defined depending on site_module_info
                 $site_module_info = Context::get('site_module_info');
                 if($site_module_info->site_srl) {
@@ -151,8 +150,7 @@
 
                     $logged_info->is_site_admin = false;
                 }
-
-                $_SESSION['logged_info'] = $logged_info;
+				Context::set('logged_info', $logged_info);
 
                 return $logged_info;
             }
@@ -267,7 +265,7 @@
          **/
         function getLoggedUserID() {
             if(!$this->isLogged()) return;
-            $logged_info = $_SESSION['logged_info'];
+            $logged_info = Context::get('logged_info');
             return $logged_info->user_id;
         }
 
