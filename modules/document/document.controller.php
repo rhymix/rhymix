@@ -141,6 +141,7 @@ class documentController extends document {
 		$oDB = &DB::getInstance();
 		$oDB->begin();
 		// List variables
+		if($obj->comment_status) $obj->commentStatus = $obj->comment_status;
 		if(!$obj->commentStatus) $obj->commentStatus = 'DENY';
 		if($obj->commentStatus == 'DENY') $this->_checkCommentStatusForOldVersion(&$obj);
 		if($obj->allow_trackback!='Y') $obj->allow_trackback = 'N';
@@ -148,8 +149,8 @@ class documentController extends document {
 		if($obj->notify_message != 'Y') $obj->notify_message = 'N';
 		if(!$isRestore) $obj->ipaddress = $_SERVER['REMOTE_ADDR'];	//board에서 form key값으로 ipaddress를 사용하면 엄한 ip가 등록됨. 필터와는 상관없슴
 
-		// Serialize the $extra_vars
-		if(!$isRestore) $obj->extra_vars = serialize($obj->extra_vars);
+		// Serialize the $extra_vars, check the extra_vars type, because duplicate serialized avoid
+		if(!is_string($obj->extra_vars)) $obj->extra_vars = serialize($obj->extra_vars);
 		// Remove the columns for automatic saving
 		unset($obj->_saved_doc_srl);
 		unset($obj->_saved_doc_title);
@@ -174,8 +175,8 @@ class documentController extends document {
 		// Check the status of password hash for manually inserting. Apply md5 hashing for otherwise.
 		if($obj->password && !$obj->password_is_hashed) $obj->password = md5($obj->password);
 		// Insert member's information only if the member is logged-in and not manually registered.
+		$logged_info = Context::get('logged_info');
 		if(Context::get('is_logged') && !$manual_inserted && !$isRestore) {
-			$logged_info = Context::get('logged_info');
 			$obj->member_srl = $logged_info->member_srl;
 			$obj->user_id = $logged_info->user_id;
 			$obj->user_name = $logged_info->user_name;
@@ -541,9 +542,6 @@ class documentController extends document {
 		$oTrashVO->setOriginModule('document');
 		$oTrashVO->setSerializedObject(serialize($oDocument->variables));
 		$oTrashVO->setDescription($obj->description);
-		$oTrashVO->setIpaddress($_SERVER['REMOTE_ADDR']);
-		$oTrashVO->setRemoverSrl($logged_info->member_srl);
-		$oTrashVO->setRegdate(date('YmdHis'));
 
 		$oTrashAdminController = &getAdminController('trash');
 		$output = $oTrashAdminController->insertTrash($oTrashVO);

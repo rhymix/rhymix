@@ -547,6 +547,7 @@
 
 			//DB restore
 			$output = $oDocumentController->insertDocument($originObject, false, true);
+			if(!$output->toBool()) return new Object(-1, $output->getMessage());
 
 			//FILE restore
             $oDocument = $oDocumentModel->getDocument($originObject->document_srl);

@@ -8,6 +8,7 @@ class trashAdminController extends trash
 {
 	/**
 	 * @brief object insert to trash
+	 * @param $obj : TrashVO type object
 	 **/
 	function insertTrash($obj)
 	{
@@ -16,11 +17,10 @@ class trashAdminController extends trash
 			$logged_info = Context::get('logged_info');
 
 			$oTrashVO = new TrashVO();
-			$oTrashVO->setTrashSrl(getNextSequence());
-			$oTrashVO->setTitle($obj->title);
-			$oTrashVO->setOriginModule($obj->trashType);
-			$oTrashVO->setSerializedObject(serialize($obj->originObject));
-			$oTrashVO->setDescription($obj->description);
+			$oTrashVO = &$obj;
+
+			if(!$oTrashVO->getTrashSrl()) $oTrashVO->setTrashSrl(getNextSequence());
+			if(!is_string($oTrashVO->getSerializedObject())) $oTrashVO->setSerializedObject(serialize($oTrashVO->getSerializedObject()));
 			$oTrashVO->setIpaddress($_SERVER['REMOTE_ADDR']);
 			$oTrashVO->setRemoverSrl($logged_info->member_srl);
 			$oTrashVO->setRegdate(date('YmdHis'));

@@ -79,9 +79,6 @@
 					$oTrashVO->setTitle(trim(strip_tags($oComment->variables['content'])));
 					$oTrashVO->setOriginModule('comment');
 					$oTrashVO->setSerializedObject(serialize($oComment->variables));
-					$oTrashVO->setIpaddress($_SERVER['REMOTE_ADDR']);
-					$oTrashVO->setRemoverSrl($logged_info->member_srl);
-					$oTrashVO->setRegdate(date('YmdHis'));
 
 					$output = $oTrashAdminController->insertTrash($oTrashVO);
 					if (!$output->toBool()) {
