@@ -41,5 +41,7 @@
     require_once(_XE_PATH_.'classes/db/queryparts/Subquery.class.php');
     
     require_once(_XE_PATH_.'classes/xml/xmlquery/tags/table/TableTag.class.php');
+    require_once(_XE_PATH_.'classes/xml/xmlquery/tags/condition/ConditionTag.class.php');
+    require_once(_XE_PATH_.'classes/xml/xmlquery/queryargument/QueryArgument.class.php');
 	
 ?>

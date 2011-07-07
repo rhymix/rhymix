@@ -23,8 +23,8 @@
 			if(!$name) $name = $tag->attrs->column;
 			if(strpos($name, '.') === false) $this->column_name = $name;
 			else {
-            	list($prefix, $name) = explode('.', $name);
-            	$this->column_name = $name;
+                            list($prefix, $name) = explode('.', $name);
+                            $this->column_name = $name;
 			}		
 			
 			if($tag->attrs->operation) $this->operation = $tag->attrs->operation;

@@ -31,6 +31,7 @@
 		}
 		
 		function toString($withValue = true){
+                        if(!$this->show()) return '';
 			if($withValue)
 				return $this->toStringWithValue();
 			return $this->toStringWithoutValue();
@@ -51,6 +52,7 @@
 		}
 		
 		function show(){
+                    if($this->hasArgument() && !$this->argument->isValid()) return false;
 		    switch($this->operation) {
                         case 'equal' :
                         case 'more' :

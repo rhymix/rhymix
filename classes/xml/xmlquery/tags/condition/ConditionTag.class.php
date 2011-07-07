@@ -48,7 +48,8 @@
                     $arguments = array();
                     if($this->query)
                         $arguments = array_merge($arguments, $this->query->getArguments());
-                    $arguments[] = $this->argument;
+                    if($this->argument)
+                        $arguments[] = $this->argument;
                     return $arguments;
 		}
 		
