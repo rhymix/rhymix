@@ -223,14 +223,14 @@
                         <span class="button"><button type="button">{$lang->cmd_search}</button></span>
                     </div>
                     <div class="item" id="zone_address_list_{$val->column_name}" style="display:none"|cond="!$val->value[0]">
-                        <select name="{$val->column_name}" id="address_list_{$val->column_name}" class="w300">
+                        <select name="{$val->column_name}[]" id="address_list_{$val->column_name}" class="w300">
 							<option value="{$val->value[0]}"|cond="$val->value[0]">{$val->value[0]}</option>
 						</select>
                         <span class="button"><button type="button">{$lang->cmd_search_again}</button></span>
                     </div>
                     <div class="item address2">
 						<label for="krzip_address2_{$val->column_name}" class="iLabel">{$lang->msg_kr_address_etc}</label>
-                        <input type="text" name="{$val->column_name}" id="krzip_address2_{$val->column_name}" value="{htmlspecialchars($val->value[1])}" class="iText w300" />
+                        <input type="text" name="{$val->column_name}[]" id="krzip_address2_{$val->column_name}" value="{htmlspecialchars($val->value[1])}" class="iText w300" />
                     </div>
                 </div>
 				<load target="../../tpl/js/krzip_search.js" type="body" />

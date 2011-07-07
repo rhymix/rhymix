@@ -214,7 +214,7 @@
                 unset($info->extra_vars);
                 if($extra_vars) {
                     foreach($extra_vars as $key => $val) {
-                        if(preg_match('/\|\@\|/i', $val)) $val = explode('|@|', $val);
+                        if(!is_array($val)) if(preg_match('/\|\@\|/i', $val)) $val = explode('|@|', $val);
                         if(!$info->{$key}) $info->{$key} = $val;
                     }
                 }
