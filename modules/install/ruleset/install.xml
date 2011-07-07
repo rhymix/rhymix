@@ -8,6 +8,6 @@
 		<field name="password2" required="true" length="1:20" equalto="password" />
 		<field name="user_name" required="true" length="2:20" />
 		<field name="nick_name" required="true" length="2:20" />
-		<field name="email_address" required="true" length="1:20" rule="email" />
+		<field name="email_address" required="true" length="1:200" rule="email" />
     </fields>
 </ruleset>
