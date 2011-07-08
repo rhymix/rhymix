@@ -86,7 +86,7 @@ var Validator = xe.createApp('Validator', {
 	},
 	API_VALIDATE : function(sender, params) {
 		var result = true, form = params[0], filter=null, callback=null;
-		var name, el, val, mod, len, lenb, max, min, maxb, minb, rules, e_el, e_val, i, c, r, result;
+		var name, el, val, mod, len, lenb, max, min, maxb, minb, rules, e_el, e_val, i, c, r, result, if_, fn;
 
 		if (form.elements['_filter']) filter = form.elements['_filter'].value;
 		if (!filter) return true;
@@ -102,6 +102,14 @@ var Validator = xe.createApp('Validator', {
 			mod = (f.modifier||'')+',';
 
 			if(!el) continue;
+
+			if(filter['if']) {
+				for(i in filter['if']) {
+					if_ = filter['if'][i];
+					fn  = new Function('el', 'return !!(' + (if_.test.replace(/$(\w+)/g, 'el["$1"]')) +')');
+					if(fn(form.elements)) filter[if_.attr] = if_.value;
+				}
+			}
 
 			if(!val) {
 				if(f['default']) val = f['default'];
@@ -163,6 +171,8 @@ var Validator = xe.createApp('Validator', {
 	API_ADD_FILTER : function(sender, params) {
 		var name   = params[0].toLowerCase();
 		var filter = params[1];
+
+		if(filter['if'] && !$.isArray(filter['if'])) filter['if'] = [filter['if']];
 
 		filters[name] = filter;
 	},
@@ -273,17 +283,17 @@ var EditorStub = xe.createPlugin('editor_stub', {
 oValidator.registerPlugin(new EditorStub);
 
 // functions
-function get_value(elem) {
+function get_value($elem) {
 	var vals = [];
-	if (elem.is(':radio')){
-		return elem.filter(':checked').val();
-	} else if (elem.is(':checkbox')) {
-		elem.filter(':checked').each(function(){
+	if ($elem.is(':radio')){
+		return $elem.filter(':checked').val();
+	} else if ($elem.is(':checkbox')) {
+		$elem.filter(':checked').each(function(){
 			vals.push(this.value);
 		});
 		return vals.join('|@|');
 	} else {
-		return elem.val();
+		return $elem.val();
 	}
 }
 

@@ -83,6 +83,16 @@ class Validator
 			$name = $filter['name'];
 			unset($filter['name']);
 
+			// conditional statement
+			if(isset($field->if)) {
+				$if = $field->if;
+				if(!is_array($if)) $if = array($if);
+				foreach($if as $idx=>$cond) {
+					$if[$idx] = (array)$cond->attrs;
+				}
+				$filter['if'] = $if;
+			}
+
 			$filters[$name] = $filter;
 		}
 
@@ -117,17 +127,31 @@ class Validator
 		if(!is_array($fields)) return true;
 
 		$filter_default = array(
+			'required'  => 'false',
 			'default'   => '',
 			'modifiers' => array(),
 			'length'    => 0,
 			'equalto'   => 0,
-			'rule'      => 0
+			'rule'      => 0,
+			'if'        => array()
 		);
+
+		$fields = array_map('trim', $fields);
 
 		foreach($this->_filters as $key=>$filter) {
 			$exists = array_key_exists($key, $fields);
-			$value  = $exists?trim($fields[$key]):null;
 			$filter = array_merge($filter_default, $filter);
+			$value  = $exists ? $fields[$key] : null;
+
+			// conditional statement
+			foreach($filter['if'] as $cond) {
+				if(!isset($cond['test']) || !isset($cond['attr'])) continue;
+
+				$func_body = preg_replace('/\\$(\w+)/', '$c[\'$1\']', $cond['test']);
+				$func = create_function('$c', "return !!({$func_body});");
+
+				if($func($fields)) $filter[$cond['attr']] = $cond['value'];
+			}
 
 			// attr : default
 			if(!$value && strlen($default=trim($filter['default']))) {
@@ -240,7 +264,18 @@ class Validator
 		else $args = array($name=>$filter);
 
 		foreach($args as $name=>$filter) {
-			if($filter) $this->_filters[$name] = $filter;
+			if(!$filter) continue;
+
+			if(isset($filter['if'])) {
+				if(is_array($filter['if']) && count($filter['if'])) {
+					$key = key($filter['if']);
+					if(!is_int($key)) $filter['if'] = array($filter['if']);
+				} else {
+					unset($filter['if']);
+				}
+			}
+			
+			$this->_filters[$name] = $filter;
 		}
 	}
 
@@ -347,6 +382,13 @@ class Validator
 				list($min, $max) = explode(':', $filter['length']);
 				if($min) $field[] = "minlength:'{$min}'";
 				if($max) $field[] = "maxlength:'{$max}'";
+			}
+			if($filter['if']) {
+				$ifs = array();
+				foreach($ifs as $if) {
+					$ifs[] = "{test:'{$if['test']}', attr:'{$if['attr']}', value:'{$if['value']}'}";
+				}
+				$field[] = "'if':[".implode(',', $ifs)."]";
 			}
 			if(count($field)) {
 				$field = '{'.implode(',', $field).'}';
