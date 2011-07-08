@@ -50,16 +50,24 @@
                         if(!isset($value) || $value === '') return null;
 			if(in_array($this->type, array('date', 'varchar', 'char','text', 'bigtext'))){
 				if(!is_array($value))
-					$value = '\''.$value.'\'';
+					$value = $this->_escapeStringValue ($value);
 				else {
 					$total = count($value);
 					for($i = 0; $i < $total; $i++)
-						$value[$i] = '\''.$value[$i].'\'';
+                                            $value[$i] = $this->_escapeStringValue($value[$i]);
+						//$value[$i] = '\''.$value[$i].'\'';
 				}
 			}	
 			return $value;  
 		}      
 		
+                function _escapeStringValue($value){
+                    $db = &DB::getInstance();
+                    $value = $db->addQuotes($value);                            
+                    return '\''.$value.'\'';
+                    
+                }
+                
 		function isValid(){
 			return $this->isValid;
 		}

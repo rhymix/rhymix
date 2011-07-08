@@ -121,7 +121,6 @@
 		/**
 		 * @brief handles quatation of the string variables from the query
 		 **/
-		// TODO Make sure this is handled in DBParser class
 		function addQuotes($string)
 		{
 			if (!$this->fd) return $string;
