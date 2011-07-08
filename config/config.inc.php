@@ -25,6 +25,16 @@
 	 **/
 	ini_set('session.use_only_cookies', 0);
 
+
+    if(file_exists(_XE_PATH_.'config/package.inc.php')) {
+        require _XE_PATH_.'config/package.inc.php';
+    } else {
+		define('_XE_PACKAGE_','XE');
+		define('_XE_LOCATION_','en');
+		define('_XE_LOCATION_SITE_','http://www.xpressengine.org/');
+		define('_XE_DOWNLOAD_SERVER_','http://en.download.xpressengine.com/');
+	}
+
     /**
      * @brief user configuration files which override the default settings 
      * save the following information into config/config.user.inc.php
