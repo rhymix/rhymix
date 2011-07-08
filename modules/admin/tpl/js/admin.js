@@ -1,165 +1,7 @@
-/**
- * @file   admin.js
- * @author NHN (developers@xpressengine.com)
- * @brief  admin 모듈의 javascript
- **/
-
-// 캐시파일 모두 재 생성
-function doRecompileCacheFile() {
-    exec_xml("admin","procAdminRecompileCacheFile", new Array(), completeMessage);
-}
-
-// 모듈 목록 오픈
-function toggleModuleMenu(category) {
-	jQuery('#module_'+category).toggleClass('close');
-	
-	var arr = new Array();
-	jQuery('ul.navigation > li').each(function(){
-		var o = jQuery(this);
-		if(!o.hasClass('close')) return;
-		var idx = o.attr('id').replace(/^module_/,'');
-		arr.push(idx);
-	});
-	var expire= new Date();
-	expire.setTime(expire.getTime()+(7000*24*3600000));
-	xSetCookie('XEAM',arr.join(','),expire,'/');
-}
-
-// 메인 모듈/ 애드온 토글
-function toggleModuleAddon(target) {
-	var b = (target == 'module');
-
-	jQuery('#moduleOn').attr('class', b?'on':'');
-	jQuery('#addonOn').attr('class', b?'':'on');
-	jQuery('#xeModules')[b?'show':'hide']();
-	jQuery('#xeAddons')[b?'hide':'show']();
-}
-
-// toggle language list
-function toggleAdminLang() {
-	jQuery('#adminLang').toggleClass('open');
-}
-
-// string to regex(초성검색용)
-function str2regex(str) {
-	// control chars
-	str = str.replace(/([\[\]\{\}\(\)\*\-\+\!\?\^\|\\])/g, '\\$1');
-
-	// find consonants and replace it
-	str = str.replace(/[ㄱ-ㅎ]/g, function(c){
-		var c_order = 'ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ'.indexOf(c);
-		var ch_first = String.fromCharCode(0xAC00 + c_order*21*28 + 0 + 0);
-		var ch_last  = String.fromCharCode(0xAC00 + c_order*21*28 + 20*28 + 27);
-
-		return '['+ch_first+'-'+ch_last+']';
-	});
-
-	return new RegExp(str, 'ig');
-}
-
-jQuery(function($){
-	// paint table rows
-    jQuery("table.rowTable tr").attr('class','').filter(":nth-child(even)").attr('class','bg1');
-
-	// set menu tooltip - taggon
-	$('ul.navigation:first > li').each(function(){
-		var texts = [];
-		$(this).find('li').each(function(){
-			texts.push($(this).text());
-		});
-
-		if (!texts.length) return true;
-
-		$(this).find('>a').qtip({
-			content : texts.join(', '),
-			position : {
-				corner : {
-					target:'rightMiddle',
-					tooltip:'leftMiddle'
-				},
-				adjust : {
-					x : -30
-				}
-			},
-			style : {
-				name : 'cream',
-				tip : true,
-				textAlign : 'center',
-				padding : 5,
-				border : {
-					radius : 2
-				}
-			}
-		});
-	});
-
-	// menu search
-	var nav = $('#search_nav + ul.navigation');
-	var inp = $('#search_nav input[type=text]:first');
-	var btn = $('#search_nav button:first');
-	var result = $('<ul class="_result" />');
-
-    if(inp.length == 0) return;
-
-	nav.after( result.hide() );
-
-	inp.keydown(function(event){
-			if (event.keyCode == 27) { // ESC
-				$(this).val('');
-				if ($.browser.msie) $(this).keypress();
-			}
-		})
-		.watch_input({
-			oninput : function() {
-				var str = $.trim( $(this).val() );
-
-				if (str.length == 0) {
-					nav.show();
-					result.hide();
-					btn.removeClass('close');
-					return false;
-				}
-
-				// remove all sub nodes
-				result.empty();
-
-				var regex = str2regex(str);
-				nav.find('li li > a').each(function(){
-					var text = $(this).text();
-
-					if (regex.exec(text) != null) {
-						$(this).parent().clone().appendTo(result);
-					}
-
-					// fix regular expression bug
-					regex.exec('');
-				});
-
-				nav.hide();
-				result.show();
-				btn.addClass('close');
-			}
-		});
-
-	// cancel search
-	btn.click(function(){
-		if ($(this).hasClass('close')) {
-			$(this).removeClass('close');
-
-			inp.focus();
-			inp.val('');
-			inp.keydown();
-		} 
-
-		return false;
-	});
-
-});
-
-// XE UI Library
+/* NHN (developers@xpressengine.com) */
 jQuery(function($){
 	// Label Overlapping
-	var overlapLabel = $('.form li').find(':text,:password,textarea').prev('label');
+	var overlapLabel = $('.form li').find('>:text,>:password,>textarea').prev('label');
 	var overlapInput = overlapLabel.next(':text,:password,textarea');
 	overlapLabel.css({'position':'absolute','top':'15px','left':'5px'}).parent().css('position','relative');
 	overlapInput
@@ -181,21 +23,90 @@ jQuery(function($){
 			}
 		})
 		.blur();
+	// Checked
+	var inputRC = $('input[type=radio], input[type=checkbox]');
+	inputRC.change(function(){
+		var myName = $(this).attr('name');
+		inputRC.filter('[name='+myName+']').not(':checked').next('label').css('fontWeight','normal');
+		$(this).filter(':checked').next('label').css('fontWeight','bold');
+	});
+	inputRC.change();
+	// Check All
+	var formThCheck = $('.form th>:checkbox');
+	formThCheck.change(function(){
+		var formTdCheck = $(this).parents('table').find('td>:checkbox');
+		if($(this).is(':checked')){
+			formTdCheck.attr('checked','checked').change();
+		} else {
+			formTdCheck.removeAttr('checked').change();
+		}
+	});
+	formThCheck.change();
+	// Global Navigation Bar
+	var gnb = $('div.gnb');
+	var gnb_i = gnb.find('>ul>li');
+	var gnb_a = gnb_i.find('>a');
+	gnb.removeClass('jx');
+	gnb_i.find('>ul').hide();
+	gnb.find('>ul>li[class=active]').find('>ul').show();
+	function gnbToggle(event){
+		var t = $(this);
+		gnb_i.removeClass('active');
+		if (t.next('ul').is(':hidden')) {
+			gnb_i.find('>ul').slideUp(100);
+			t.next('ul').slideDown(100);
+			t.parent('li').addClass('active');
+		} else if (t.next('ul').is(':visible')){
+			t.next('ul').show();
+			t.parent('li').addClass('active');
+		} else if (!t.next('ul').langth) {
+			gnb_i.find('>ul').slideUp(100);
+			t.parent('li').removeClass('active');
+		};
+	}
+	gnb_a.focus(gnbToggle).click(gnbToggle);
+	gnb_a.mouseover(function(){
+		if($(document).width()>640){
+			$(this).click();
+		} else {
+			return false;
+		}
+	});
+	gnb.mouseleave(function(){
+		if($(document).width()>640){
+			gnbToggle();
+		} else {
+			return false;
+		}
+	});
+	gnb.find('li:last-child>a, li:last-child>ul>li:last-child>a').blur(gnbToggle);
 	// Lined Tab Navigation
 	var tab_line = $('div.tab.line');
 	var tab_line_i = tab_line.find('>ul>li');
 	var tab_line_ii = tab_line.find('>ul>li>ul>li');
 	tab_line.removeClass('jx');
+	if($(document).width()<=640){
+		tab_line.addClass('jx');	
+	}
+	$(window).resize(function(){
+		if($(document).width()<=640){
+		tab_line.addClass('jx');	
+		} else {
+		tab_line.removeClass('jx');
+		}
+	});
 	tab_line_i.find('>ul').hide();
 	tab_line_i.find('>ul>li[class=active]').parents('li').attr('class','active');
 	tab_line.find('>ul>li[class=active]').find('>ul').show();
 	function lineTabMenuToggle(event){
-		var t = $(this);
-		tab_line_i.find('>ul').hide();
-		t.next('ul').show();
-		tab_line_i.removeClass('active');
-		t.parent('li').addClass('active');
-		return false;
+		if (!tab_line.hasClass('jx')){
+			var t = $(this);
+			tab_line_i.find('>ul').hide();
+			t.next('ul').show();
+			tab_line_i.removeClass('active');
+			t.parent('li').addClass('active');
+			return false;
+		}
 	}
 	function lineTabSubMenuActive(){
 		tab_line_ii.removeClass('active');
@@ -209,16 +120,28 @@ jQuery(function($){
 	var tab_face_i = tab_face.find('>ul>li');
 	var tab_face_ii = tab_face.find('>ul>li>ul>li');
 	tab_face.removeClass('jx');
+	if($(document).width()<=640){
+		tab_face.addClass('jx');	
+	}
+	$(window).resize(function(){
+		if($(document).width()<=640){
+		tab_face.addClass('jx');	
+		} else {
+		tab_face.removeClass('jx');
+		}
+	});
 	tab_face_i.find('>ul').hide();
 	tab_face_i.find('>ul>li[class=active]').parents('li').attr('class','active');
 	tab_face.find('>ul>li[class=active]').find('>ul').show();
 	function faceTabMenuToggle(event){
-		var t = $(this);
-		tab_face_i.find('>ul').hide();
-		t.next('ul').show();
-		tab_face_i.removeClass('active');
-		t.parent('li').addClass('active');
-		return false;
+		if (!tab_face.hasClass('jx')){
+			var t = $(this);
+			tab_face_i.find('>ul').hide();
+			t.next('ul').show();
+			tab_face_i.removeClass('active');
+			t.parent('li').addClass('active');
+			return false;
+		}
 	}
 	function faceTabSubMenuActive(){
 		tab_face_ii.removeClass('active');
@@ -231,17 +154,35 @@ jQuery(function($){
 	var tab_list = $('div.tab.list');
 	var tab_list_i = tab_list.find('>ul>li');
 	tab_list.removeClass('jx');
+	if($(document).width()<=640){
+		tab_list.addClass('jx');	
+	}
+	$(window).resize(function(){
+		if($(document).width()<=640){
+		tab_list.addClass('jx');
+		tab_list.css('height','auto');
+		} else {
+		tab_list.removeClass('jx');
+		tab_list.css('height', tab_list.find('>ul>li.active>ul').height()+40);
+		}
+	});
 	tab_list_i.find('>ul').hide();
 	tab_list.find('>ul>li[class=active]').find('>ul').show();
-	tab_list.css('height', tab_list.find('>ul>li.active>ul').height()+40);
+	if (!tab_list.hasClass('jx')){
+		tab_list.css('height', tab_list.find('>ul>li.active>ul').height()+40);
+	} else {
+		tab_list.css('height','auto');
+	}
 	function listTabMenuToggle(event){
-		var t = $(this);
-		tab_list_i.find('>ul').hide();
-		t.next('ul').show();
-		tab_list_i.removeClass('active');
-		t.parent('li').addClass('active');
-		tab_list.css('height', t.next('ul').height()+40);
-		return false;
+		if (!tab_list.hasClass('jx')){
+			var t = $(this);
+			tab_list_i.find('>ul').hide();
+			t.next('ul').show();
+			tab_list_i.removeClass('active');
+			t.parent('li').addClass('active');
+			tab_list.css('height', t.next('ul').height()+40);
+			return false;
+		}
 	}
 	tab_list_i.find('>a[href=#]').click(listTabMenuToggle).focus(listTabMenuToggle);
 	// Vertical Navigation
@@ -275,8 +216,8 @@ jQuery(function($){
 	vNav.find('>ul>li>ul').prev('a').append('<span class="i"></span>');
 	// Tree Navigation
 	var tNav = $('.tNav');
-	var tNavPlus = '\<button type=\"button\" class=\"tNavToggle plus\"\>+\<\/button\>';
-	var tNavMinus = '\<button type=\"button\" class=\"tNavToggle minus\"\>-\<\/button\>';
+	var tNavPlus = '<button type="button" class="tNavToggle plus">+</button>';
+	var tNavMinus = '<button type="button" class="tNavToggle minus">-</button>';
 	tNav.find('li>ul').css('display','none');
 	tNav.find('ul>li:last-child').addClass('last');
 	tNav.find('li>ul:hidden').parent('li').prepend(tNavPlus);
@@ -338,52 +279,336 @@ jQuery(function($){
 			article.find('.a').slideUp(100);
 		}
 	});
+	// Layer
+	var layerAnchor = $('.layerAnchor[href^=#]');
+	var layer = $('.layer');
+	var layerCloseHtml = '<button type="button" class="layerClose" title="Close this layer">X</button>';
+	var layerBlurHtml = '<button type="button" class="layerBlur"></button>';
+	layer.hide().prepend(layerCloseHtml);
+	var layerClose = $('.layerClose');
+	layerClose.eq(0).clone().appendTo(layer);
+	layer.prepend(layerBlurHtml);
+	var layerBlur = $('.layerBlur');
+	layerBlur.eq(0).clone().appendTo(layer);
+	layerAnchor
+		.click(function(){
+			$($(this).attr('href')).fadeToggle(200).find('>.layerClose:first').focus();
+			return false;
+		})
+		.keypress(function(){
+			if(event.keyCode != 32) return true;
+			$(this).click();
+			return false;
+		});
+	function closeLayer() {
+		var closeId = layer.filter(':visible').attr("id");
+		if(closeId) layerAnchor.filter('[href="#'+closeId+'"]').focus();
+		layer.fadeOut(200);
+	}
+	$(document).keydown(function(event){
+		if(event.keyCode != 27) return true; // ESC
+		return closeLayer();
+	});
+	$('.layerClose').click(closeLayer);
+	$('.layerBlur').focusin(function(event){
+		layerClose.click();
+	});
 	// Modal Window
 	var htmlBody = $('html,body');
 	var modalAnchor = $('.modalAnchor');
 	var modal = $('.modal');
-	var modalBg = $('.modal>.bg');
-	var modalFg = $('.modal>.fg');
+	var modalBg = modal.find('>.bg');
+	var modalFg = modal.find('>.fg');
 	var modalCloseHtml = '<button type="button" class="modalClose" title="Close this layer">X</button>';
 	var modalBlurHtml = '<button type="button" class="modalBlur"></button>';
-	modal.appendTo('body').hide().prepend('<span class="bg"></span>');
-	modalFg.prepend(modalCloseHtml);
+	modal
+		.hide()
+		.appendTo('body')
+		.height($(document).height())
+		.prepend('<span class="bg"></span>')
+		.append('<!--[if IE 6]><iframe class="ie6"></iframe><![endif]-->');
+	modalFg
+		.prepend(modalCloseHtml)
+		.prepend(modalBlurHtml);
 	var modalClose = $('.modalClose');
-	modalClose.clone().appendTo(modalFg);
-	modalFg.prepend(modalBlurHtml);
 	var modalBlur = $('.modalBlur');
-	modalBlur.clone().appendTo(modalFg);
-	modalAnchor.click(function(){
-		htmlBody.css({'width':'100%','height':'100%'});
-		modal.fadeToggle().toggleClass('modalActive');
-		modalFg.find('>.modalClose:first').focus();
+	modalClose.eq(0).clone().appendTo(modalFg);
+	modalBlur.eq(0).clone().appendTo(modalFg);
+	modalAnchor
+		.click(function(){
+			if(typeof document.body.style.maxHeight == "undefined"){
+				htmlBody.css({'width':'100%','height':'100%'});
+			}
+			modal.fadeToggle(200).toggleClass('modalActive');
+			modalFg.find('>.modalClose:first').focus();
+			$(this).addClass('active');
+		})
+		.keypress(function(){
+			if(event.keyCode != 32) return true;
+			$(this).click();
+			return false;
+		});
+	function closeModal() {
+		if(typeof document.body.style.maxHeight == "undefined"){
+			htmlBody.removeAttr('style');
+		}
+		modal.fadeOut(200).removeClass('modalActive');
+		$('.modalAnchor.active').focus().removeClass('active');
 		return false;
-	});
+	}
 	$(document).keydown(function(event){
-		if(event.keyCode != 27) return true;
-		htmlBody.removeAttr('style');
-		modal.fadeOut().removeClass('modalActive');
-		modalAnchor.focus();
-		return false;
+		if(event.keyCode != 27) return true; // ESC
+		if(modal.find('.tgContent:visible').length == 0) return closeModal();
 	});
-	$('.modal>.bg, .modalClose').click(function(event){
-		htmlBody.removeAttr('style');
-		modal.fadeOut().removeClass('modalActive');
-		modalAnchor.focus();
-		return false;
-	});
+	$('.modal>.bg, .modalClose, .modal .cancel').click(closeModal);
 	$('.modalBlur').focusin(function(event){
 		modalClose.click();
 	});
-	// XEUI container & codeBlock Toggle
-	var container = $('.container');
-	container.hide().before('<button type="button" class="itemToggle">Show/Hide</button>');
-	$('.itemToggle').click(function(){
-		$(this).next(container).stop().slideToggle(100);
+	// Toggle
+	var tgContent = $('.tgContent');
+	var tgBlurHtml = '<button type="button" class="tgBlur"></button>';
+	tgContent.hide().prepend(tgBlurHtml).mouseleave(function(){closeTg()});
+	var tgBlur = $('.tgBlur');
+	tgBlur.eq(0).clone().appendTo(tgContent);
+	function offsetToggle(){
+		tgContent.filter(':visible').parent().css('position','relative');
+		setTimeout(function(){
+			tgContent.filter(':hidden').parent().css('position','');
+		}, 300);
+	}
+	$('.tgSimple').click(function(){
+		$($(this).attr('href')).toggle().find('a, input, button:not(.tgBlur), select, textarea').eq(0).focus();
+		offsetToggle();
+		return false;
 	});
-	var codeBlock = $('.codeBlock');
-	codeBlock.hide().before('<button type="button" class="codeToggle">Code</button>');
-	$('.codeToggle').click(function(){
-		$(this).next(codeBlock).slideToggle(100);
+	$('.tgSlide').click(function(){
+		$($(this).attr('href')).slideToggle(100).find('a, input, button:not(.tgBlur), select, textarea').eq(0).focus();
+		offsetToggle();
+		return false;
+	});
+	$('.tgFade').click(function(){
+		$($(this).attr('href')).fadeToggle(200).find('a, input, button:not(.tgBlur), select, textarea').eq(0).focus();
+		offsetToggle();
+		return false;
+	});
+	$('.tgSimple, .tgSlide, .tgFade').keypress(function(){
+		if(event.keyCode != 32) return true;
+		$(this).click();
+		return false;
+	});
+	function closeTg() {
+		var closeId = tgContent.filter(':visible').attr('id');
+		if(closeId) $('.tgSimple, .tgSlide, .tgFade').filter('[href="#'+closeId+'"]').focus();
+		tgContent.prev('input').focus();
+		tgContent.fadeOut(200);
+	}
+	$(document).keydown(function(event){
+		if(event.keyCode != 27) return true; // ESC
+		return closeTg();
+	});
+	$('.tgBlur').focusin(closeTg);
+	// Portlet Action
+	var action = $('.portlet .action');
+	var action_li = action.parent('li');
+	action.hide().css({'position':'absolute'});
+	action_li.mouseleave(function(){
+		action.fadeOut(100);
+		return false;
+	});
+	action_li.mouseenter(function(){
+		action_li.mouseleave();
+		$(this).find('>.action').fadeIn(100);
+		return false;
+	});
+	action_li.find('*:first-child').focusin(function(){
+		$(this).parent('li').mouseenter();
+	});
+	// Waiting for server response
+	var htmlBody = $('html,body');
+	var wfsrAnchor = $('.wfsrAnchor');
+	$('body').append('<div id="wfsr"><span class="bg"></span><div class="fg"><p>서버에 요청중입니다. 잠시만 기다려 주세요. <button type="button" class="reAction">다시시도</button> <button type="button" class="cancel">실행취소</button></p></div></div>');
+	var wfsr = $('#wfsr');
+	var wfsrBg = wfsr.find('>.bg');
+	var wfsrFg = wfsr.find('>.fg');
+	wfsr.hide();
+	wfsr.append('<!--[if IE 6]><iframe class="ie6"></iframe><[endif]-->');
+	wfsrAnchor.click(function(){
+		htmlBody.css({'width':'100%','height':'100%'});
+		wfsr.fadeToggle(200).addClass('wfsrActive');
+		wfsrFg.find('.reAction:first').focus();
+		$(this).addClass('active');
+	});
+	function closeWfsr() {
+		htmlBody.removeAttr('style');
+		wfsr.fadeOut(200).removeClass('wfsrActive');
+		$('.wfsrAnchor.active').focus().removeClass('active');
+		return false;
+	}
+	$(document).keydown(function(event){
+		if(event.keyCode != 27) return true; // ESC
+		closeWfsr();
+	});
+	$('#wfsr .reAction, #wfsr .cancel').click(closeWfsr);
+	// Delete
+	$('.delete').click(function(){
+		confirm('Delete this(these)? Undo is impossible.');
+	});
+	// Section Collapse
+	var h2 = $('.content:not(.dashboard) .h2:gt(0)');
+	var h2AnchorHTML = '<button type="button" class="h2Anchor"></button>';
+	h2
+		.append(h2AnchorHTML)
+		.each(function(){
+			$(this).parent().children().not('.h2').hide();
+			$(this).find('.h2Anchor')
+			.text('Show')
+			.click(function(){
+				var t = $(this);
+				t.parent('.h2').parent().children().not('.h2').slideToggle(200);
+				setTimeout(function(event){
+					if(t.parent('.h2').next().is(':visible')) {
+						t.text('Hide');
+					} else {
+						t.text('Show');
+					}
+				}, 300);
+			});
+		});
+	// Site Map
+	var siteMap = $('.siteMap');
+	var siteItem = siteMap.find('li');
+	siteItem
+		.prepend('<button type="button" class="moveTo">Move to</button>')
+		.append('<span class="vr"></span><span class="hr"></span>')
+		.mouseover(function(){
+			$(this).addClass('active');
+			$('.vr').each(function(){
+				var myHeight = $(this).parent('li').height();
+				$(this).height(myHeight);
+			});
+			return false;
+		})
+		.mouseout(function(){
+			$(this).removeClass('active');
+		})
+		.find('.moveTo+input').each(function(){
+			$(this).width(this.value.length+'em');
+		});
+	siteMap.find('.moveTo')
+		.focus(function(){
+			$(this).parent('li').mouseover();
+		})
+		.blur(function(){
+			$(this).mouseout();
+		});
+	siteMap.find('li:first-child').css('border','0');
+	// Site Map List(Layer)
+	var siteMapList = $('#siteMapList');
+	siteMapList.find('.portlet').hide().eq(0).show();
+	siteMapList.append('<p class="btnArea"><button type="button">&rsaquo; more</button></p>');
+	var siteMapMore = siteMapList.find('.btnArea>button');
+	siteMapMore.click(function(){
+		if(siteMapList.find('.portlet:visible').length <= 1){
+			siteMapList.find('.portlet').slideDown(200);
+			$(this).html('&rsaquo; less');
+		} else {
+			siteMapList.find('.portlet').eq(!0).slideUp(200);
+			$(this).html('&rsaquo; more');
+		}
+	});
+	// Mid Suggestion
+	var midUrl = $('#midUrl');
+	var midSuggestion = $('#midSuggestion');
+	var findModule = $('#findModule');
+	midSuggestion.css('position','absolute');
+	midUrl.keypress(function(){
+		$(this).next('.tgContent').fadeIn(200);
+		midUrl.css('background','url(./img/preLoader16.gif) no-repeat 268px center');
+	});
+	midUrl.keyup(function(){
+		midUrl.css('background','');
+	});
+	midSuggestion
+		.find('li:first-child>button').css('fontWeight','bold').end()
+		.find('li:gt(0)>button').click(function(){
+			var myValue = $(this).text();
+			midUrl.val(myValue);
+			return closeTg();
+		});
+	findModule.find('td>button').click(function(){
+		var myValue = $(this).parent('td').parent('tr').find('th:first a').eq(0).text();
+		midUrl.val(myValue);
+		return closeTg();
+	});
+	// Theme & Skin Preview
+	$('.thumbPreview')
+		.find('.thumb')
+			.each(function(){
+				if($(this).find('img').length==0 && $(this).text().length==0){
+					$(this).text('Thumbnail does not exist');
+				}
+				$(this).click(function(){
+					$(this).next(':radio').attr('checked','checked');
+					$(this).parents('.thumbPreview').find(':radio').change();
+				});
+			});
+	var themePreview = $('#theme>.thumbPreview');
+	var skinPreview = $('#skin>.thumbPreview');
+	function iCheck(){
+		skinPreview.find('.i').removeClass('checked');
+		skinPreview.find(':radio:checked').prev('.thumb').parent('.i').addClass('checked');
+		themePreview.find('.i').removeClass('checked');
+		themePreview.find(':radio:checked').prev('.thumb').parent('.i').addClass('checked');
+	}
+	iCheck();
+	skinPreview.find(':radio').change(function(){
+		themePreview.find('label').css('fontWeight','');
+		themePreview.find(':radio:last').attr('checked','checked').next('label').css('fontWeight','bold');
+		iCheck();
+	});
+	themePreview.find(':radio').change(function(){
+		if($(this).is(':checked') && skinPreview.is(':hidden')){
+			$('#skin').find('.h2Anchor').click();
+		}
+		iCheck();
+	});
+	// FTP Suggestion
+	var ftp_path = $('#ftp_path');
+	var ftpSuggestion = $('#ftpSuggestion');
+	ftpSuggestion.css('position','absolute').find('.tgBlur').eq(0).remove();
+	ftpSuggestion.find('li:not(:first-child)>button').click(function(){
+		var setValue = ftp_path.val();
+		var myValue = $(this).text();
+		ftp_path.val(setValue+myValue);
+	});
+	// Sign Up Form
+	var signUpForm = $('.signUpForm');
+	signUpForm
+		.find('li').each(function(){
+			$(this).append('<span class="side"><button type="button" class="up">Up</button> <button type="button" class="down">Down</button></span>');
+		}).end()
+		.find('.btnArea>.side').remove().end()
+		.find('.userItem>.side').each(function(){
+			$(this).append('<button type="button" class="edit">Edit</button> <button type="button" class="delete">Delete</button>');
+		});
+	signUpForm.find('.up').click(function(){
+		var myItem = $(this).parent('.side').parent('li');
+		myItem.prev('li').before(myItem);
+		myItem.css('background','#ffc');
+		setTimeout(function(){
+			myItem.css('background','#fff');
+		}, 2000);
+	});
+	signUpForm.find('.down').click(function(){
+		var myItem = $(this).parent('.side').parent('li');
+		myItem.next('li').after(myItem);
+		myItem.css('background','#ffc');
+		setTimeout(function(){
+			myItem.css('background','#fff');
+		}, 2000);
+	});
+	signUpForm.find('.edit').click(function(){
+		$('.modalAnchor').click();
 	});
 });
+

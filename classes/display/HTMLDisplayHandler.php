@@ -166,8 +166,10 @@ class HTMLDisplayHandler {
 		if(Context::get('module')=='admin' || strpos(Context::get('act'),'Admin')>0){
 			if(__DEBUG__) {
 				$oContext->addCSSFile('./modules/admin/tpl/css/admin.css', false, 'all', '', 100000);
+				$oContext->addJsFile('./modules/admin/tpl/js/admin.js');
 			} else {
 				$oContext->addCSSFile('./modules/admin/tpl/css/admin.min.css', false, 'all', '',10000);
+				$oContext->addJsFile('./modules/admin/tpl/js/admin.js');
 			}
 		}
 	}
