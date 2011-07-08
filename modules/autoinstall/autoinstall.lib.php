@@ -2,13 +2,18 @@
 
     class ModuleInstaller {
         var $package = null;
-		var $base_url = 'http://download.xpressengine.com/';
+		var $base_url;
 		var $temp_dir = './files/cache/autoinstall/';
         var $target_path;
         var $download_file;
         var $url;
         var $download_path;
         var $ftp_password;
+
+		function setServerUrl($url) 
+		{
+			$this->base_url = $url;
+		}
 
 		function uninstall()
 		{

@@ -13,8 +13,8 @@
 
 	    function init() {
 		    $template_path = sprintf("%stpl/",$this->module_path);
-            Context::set('original_site', $this->original_site);
-            Context::set('uri', $this->uri);
+            Context::set('original_site', _XE_LOCATION_SITE_);
+            Context::set('uri', _XE_DOWNLOAD_SERVER_);
 		    $this->setTemplatePath($template_path);
 
             $ftp_info =  Context::getFTPInfo();

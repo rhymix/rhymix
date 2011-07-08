@@ -35,7 +35,7 @@
 
             $params["act"] = "getResourceapiUpdate";
             $body = XmlGenerater::generate($params);
-            $buff = FileHandler::getRemoteResource($this->uri, $body, 3, "POST", "application/xml");
+            $buff = FileHandler::getRemoteResource(_XE_DOWNLOAD_SERVER_, $body, 3, "POST", "application/xml");
             $xml = new XmlParser();
             $xmlDoc = $xml->parse($buff);
             $this->updateCategory($xmlDoc);
@@ -187,7 +187,7 @@
 
         function updateCategory(&$xmlDoc)
         {
-            executeQuery("autoinstall.deleteCategory", $args);
+            executeQuery("autoinstall.deleteCategory");
             $oModel =& getModel('autoinstall');
             if(!is_array($xmlDoc->response->categorylist->item))
             {
@@ -199,7 +199,7 @@
                 $args->category_srl = $item->category_srl->body;
                 $args->parent_srl = $item->parent_srl->body;
                 $args->title = $item->title->body;
-                executeQuery("autoinstall.insertCategory", $args);
+                $output = executeQuery("autoinstall.insertCategory", $args);
             }
         }
 
@@ -224,7 +224,7 @@
 			{
 				$oModuleInstaller = new SFTPModuleInstaller($package);
 			}
-			else if(function_exists(ftp_connect))
+			else if(function_exists('ftp_connect'))
 			{
 				$oModuleInstaller = new PHPFTPModuleInstaller($package);
 			}
@@ -232,6 +232,8 @@
 			{
 				$oModuleInstaller = new FTPModuleInstaller($package);
 			}
+
+			$oModuleInstaller->setServerUrl(_XE_DOWNLOAD_SERVER_);
 
 			$oModuleInstaller->setPassword($ftp_password);
 			$output = $oModuleInstaller->uninstall();
