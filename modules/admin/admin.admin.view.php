@@ -42,6 +42,8 @@
             if($db_info->http_port) Context::set('http_port', $db_info->http_port);
             if($db_info->https_port) Context::set('https_port', $db_info->https_port);
 
+			$this->showSendEnv();
+
         }
 
 		function loadSideBar()
@@ -353,5 +355,29 @@
             Context::set('layout','none');
             $this->setTemplateFile('config');
         }
+
+		function showSendEnv() {
+			if(Context::getResponseMethod() != 'HTML' && $_SESSION['agree_send_env'] != 'Y') return;
+
+			$server = 'http://collect.xpressengine.com/env/img.php?';
+			$path = './files/env/';
+			$install_env = $path . 'install';
+			if(file_exists(FileHandler::getRealPath($install_env))) {
+				$oAdminAdminModel = &getAdminModel('admin');
+				$params = $oAdminAdminModel->getEnv('INSTALL');
+				$img = sprintf('<img src="%s" alt="" style="height:0px;width:0px" />', $server.$params);
+				Context::addHtmlFooter($img);
+
+				FileHandler::removeFile($install_env_send);
+				FileHandler::writeFile($path.__ZBXE_VERSION__,'1'); 
+			} else if(!file_exists($path.__ZBXE_VERSION__)) {
+				$oAdminAdminModel = &getAdminModel('admin');
+				$params = $oAdminAdminModel->getEnv();
+				$img = sprintf('<img src="%s" alt="" style="height:0px;width:0px" />', $server.$params);
+				Context::addHtmlFooter($img);
+
+				FileHandler::removeDir($path);
+				FileHandler::writeFile($path.__ZBXE_VERSION__,'1'); 
+			}
+		}
     }
-?>

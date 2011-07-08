@@ -1,8 +1,6 @@
 <?php
 
 class installModel extends install {
-	function init() {
-	}
 	var $pwd;
 
 	function getSFTPList()

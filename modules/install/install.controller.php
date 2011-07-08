@@ -29,11 +29,14 @@
 		{
 			global $lang;
 			$requestVars = Context::gets('lgpl_agree', 'enviroment_gather');
-			if($requestVars->lgpl_agree != 'on')
+			if($requestVars->lgpl_agree != 'Y') {
 				return new Object('-1', $lang->msg_license_agreement_alert);
+			}
 
 			$_SESSION['lgpl_agree'] = $requestVars->lgpl_agree;
-			$_SESSION['enviroment_gather'] = $requestVars->enviroment_gather;
+			if($requestVars->enviroment_gather=='Y') {
+				FileHandler::writeFile('./files/env/install','1'); 
+			}
 
 			$url = getNotEncodedUrl('', 'act', 'dispInstallCheckEnv');
 			header('location:'.$url);
@@ -182,6 +185,12 @@
 
             // Display a message that installation is completed
             $this->setMessage('msg_install_completed');
+
+			if($_SESSION['enviroment_gather'] == 'Y'){
+				$oAdminAdminController = &getAdminController('admin');
+				$oAdminAdminController->_sendServerEnv();
+				unset($_SESSION['enviroment_gather']);
+			}
 
 			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
 				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('');
@@ -517,4 +526,3 @@
 
 		}
     }
-?>

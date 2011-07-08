@@ -983,7 +983,7 @@
             // Create DB Object
             $oDB = &DB::getInstance();
             // Get a list of downloaded and installed modules
-            $searched_list = FileHandler::readDir('./modules');
+            $searched_list = FileHandler::readDir('./modules', '/^([a-zA-Z0-9_-]+)$/');
             sort($searched_list);
 
             $searched_count = count($searched_list);
@@ -994,6 +994,8 @@
                 $module_name = $searched_list[$i];
 
                 $path = ModuleHandler::getModulePath($module_name);
+				if(!is_dir(FileHandler::getRealPath($path))) continue;
+
                 // Get the number of xml files to create a table in schemas
                 $tmp_files = FileHandler::readDir($path."schemas", '/(\.xml)$/');
                 $table_count = count($tmp_files);
