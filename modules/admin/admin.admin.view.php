@@ -28,6 +28,7 @@
             // Retrieve the list of installed modules 
 
             $db_info = Context::getDBInfo();
+			$this->_makeGnbUrl();
 
             Context::set('time_zone_list', $GLOBALS['time_zone']);
             Context::set('time_zone', $GLOBALS['_time_zone']);
@@ -45,6 +46,51 @@
 			$this->showSendEnv();
 
         }
+
+		function _makeGnbUrl()
+		{
+			$gnbUrlList = array(
+				'site' => getUrl(''),
+				'user' => getUrl(''),
+				'content' => getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList'),
+				'theme' => getUrl(''),
+				'extensions' => getUrl(''),
+				'configuration' => getUrl('')
+			);
+			$gnbSubUrlList = array(
+				'site' => array(),
+				'user' => array(
+					'userList'=>getUrl(''),
+					'setting'=>getUrl(''),
+					'point'=>getUrl('')
+				),
+				'content' => array(
+					'document'=>getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList'),
+					'comment'=>getUrl(''),
+					'trackback'=>getUrl(''),
+					'file'=>getUrl(''),
+					'poll'=>getUrl(''),
+					'accusation'=>getUrl(''),
+					'dataMigration'=>getUrl('')
+				),
+				'theme' => array(),
+				'extensions' => array(
+					'easyInstaller'=>getUrl(''),
+					'installedLayout'=>getUrl(''),
+					'installedModule'=>getUrl(''),
+					'installedWidget'=>getUrl(''),
+					'installedAddon'=>getUrl(''),
+					'WYSIWYGEditor'=>getUrl(''),
+					'spamFilter'=>getUrl('')
+				),
+				'configuration' => array(
+					'general'=>getUrl(''),
+					'fileUpload'=>getUrl('')
+				),
+			);
+			Context::set('gnbUrlList', $gnbUrlList);
+			Context::set('gnbSubUrlList', $gnbSubUrlList);
+		}
 
 		function loadSideBar()
 		{

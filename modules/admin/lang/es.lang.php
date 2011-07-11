@@ -24,6 +24,22 @@ $lang->module_category_title = array(
 	'system' => 'System Setting',
 );
 
+$lang->menu_gnb = array(
+	'site' => '사이트',
+	'user' => '유저',
+	'content' => '콘텐츠',
+	'theme' => '테마',
+	'extensions' => '확장기능',
+	'configuration' => '설정',
+);
+$lang->menu_gnb_sub = array(
+	'site' => array(),
+	'user' => array('userList'=>'유저 목록', 'setting'=>'설정', 'point'=>'포인트'),
+	'content' => array('document'=>'문서', 'comment'=>'댓글', 'trackback'=>'트랙백', 'file'=>'파일', 'poll'=>'투표', 'accusation'=>'신고', 'dataMigration'=>'데이터 이전'),
+	'theme' => array(),
+	'extensions' => array('easyInstaller'=>'쉬운설치', 'installedLayout'=>'레이아웃', 'installedModule'=>'모듈', 'installedWidget'=>'위젯', 'installedAddon'=>'애드온', 'WYSIWYGEditor'=>'에디터', 'spamFilter'=>'스팸필터'),
+	'configuration' => array('general'=>'일반', 'fileUpload'=>'파일 업로드'),
+);
 $lang->newest_news = "Noticias recientes";
 
 $lang->env_setup = "Configuración";

@@ -30,43 +30,17 @@
 		<div class="gnb jx">
 			<ul>
 				<li class="activeOn"><a href="#">Dashboard</a></li>
-				<li><a href="#">Site</a></li>
-				<li><a href="#">User</a>
+				<!--@foreach($lang->menu_gnb AS $key=>$value)-->
+				<li><a href="{$gnbUrlList[$key]}">{$value}</a>
+					<!--@if(count($lang->menu_gnb_sub[$key]) > 0)-->
 					<ul>
-						<li><a href="#">User List</a></li>
-						<li><a href="#">Setting</a></li>
-						<li><a href="#">Point</a></li>
+						<!--@foreach($lang->menu_gnb_sub[$key] AS $key2=>$value2)-->
+						<li><a href="{$gnbSubUrlList[$key][$key2]}">{$value2}</a></li>
+						<!--@end-->
 					</ul>
+					<!--@end-->
 				</li>
-				<li><a href="#">Content</a>
-					<ul>
-						<li><a href="#">Document</a></li>
-						<li><a href="#">Comment</a></li>
-						<li><a href="#">Trackback</a></li>
-						<li><a href="#">File</a></li>
-						<li><a href="#">Poll</a></li>
-						<li><a href="#">Accusation</a></li>
-						<li><a href="#">Data Migration</a></li>
-					</ul>
-				</li>
-				<li><a href="#">Theme</a></li>
-				<li><a href="#">Extensions</a>
-					<ul>
-						<li><a href="#">Easy Installer</a></li>
-						<li><a href="#">Installed Layout</a></li>
-						<li><a href="#">Installed Module</a></li>
-						<li><a href="#">Installed Widget</a></li>
-						<li><a href="#">Installed Add-on</a></li>
-						<li><a href="#">WYSIWYG Editor</a></li>
-						<li><a href="#">Spam Filter</a></li>
-					</ul>
-				</li>
-				<li><a href="#">Configuration</a>
-					<ul>
-						<li><a href="#">General</a></li>
-						<li><a href="#">File Upload</a></li>
-					</ul>
-				</li>
+				<!--@end-->
 			</ul>
 		</div>
 	</div>
