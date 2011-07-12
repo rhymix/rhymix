@@ -99,7 +99,8 @@
             unset($source_args->act);
             if($source_args->menu_open_window!="Y") $source_args->menu_open_window = "N";
             if($source_args->menu_expand !="Y") $source_args->menu_expand = "N";
-            $source_args->group_srls = str_replace('|@|',',',$source_args->group_srls);
+            if(!is_array($source_args->group_srls)) $source_args->group_srls = str_replace('|@|',',',$source_args->group_srls);
+			else $source_args->group_srls = implode(',', $source_args->group_srls);
             $source_args->parent_srl = (int)$source_args->parent_srl;
             // Re-order variables (Column's order is different between form and DB)
             $args->menu_srl = $source_args->menu_srl;
