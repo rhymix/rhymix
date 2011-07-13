@@ -23,12 +23,11 @@
             $this->setLayoutPath($this->getTemplatePath());
             $this->setLayoutFile('layout.html');
 
-			$this->loadSideBar();
+			$this->makeGnbUrl($this->module);
 
             // Retrieve the list of installed modules 
 
             $db_info = Context::getDBInfo();
-			$this->_makeGnbUrl();
 
             Context::set('time_zone_list', $GLOBALS['time_zone']);
             Context::set('time_zone', $GLOBALS['_time_zone']);
@@ -47,49 +46,18 @@
 
         }
 
-		function _makeGnbUrl()
+		function makeGnbUrl($module)
 		{
-			$gnbUrlList = array(
-				'site' => getUrl(''),
-				'user' => getUrl(''),
-				'content' => getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList'),
-				'theme' => getUrl(''),
-				'extensions' => getUrl(''),
-				'configuration' => getUrl('')
-			);
-			$gnbSubUrlList = array(
-				'site' => array(),
-				'user' => array(
-					'userList'=>getUrl(''),
-					'setting'=>getUrl(''),
-					'point'=>getUrl('')
-				),
-				'content' => array(
-					'document'=>getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList'),
-					'comment'=>getUrl(''),
-					'trackback'=>getUrl(''),
-					'file'=>getUrl(''),
-					'poll'=>getUrl(''),
-					'accusation'=>getUrl(''),
-					'dataMigration'=>getUrl('')
-				),
-				'theme' => array(),
-				'extensions' => array(
-					'easyInstaller'=>getUrl(''),
-					'installedLayout'=>getUrl(''),
-					'installedModule'=>getUrl(''),
-					'installedWidget'=>getUrl(''),
-					'installedAddon'=>getUrl(''),
-					'WYSIWYGEditor'=>getUrl(''),
-					'spamFilter'=>getUrl('')
-				),
-				'configuration' => array(
-					'general'=>getUrl(''),
-					'fileUpload'=>getUrl('')
-				),
-			);
-			Context::set('gnbUrlList', $gnbUrlList);
-			Context::set('gnbSubUrlList', $gnbSubUrlList);
+			require_once(_XE_PATH_.'modules/admin/model/AdminCategory.php');
+			$oAdminCategory = new AdminCategory($module);
+
+			$oMenuAdminModel = &getAdminModel('menu');
+			$menu_info = $oMenuAdminModel->getMenuByTitle('__XE_ADMIN__');
+			debugPrint($menu_info);
+
+			Context::set('gnbUrlList', $oAdminCategory->getCategoryList());
+			Context::set('gnbSubUrlList', $oAdminCategory->getSubCategoryList());
+			Context::set('category', $oAdminCategory->getCategory());
 		}
 
 		function loadSideBar()

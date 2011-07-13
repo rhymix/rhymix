@@ -29,9 +29,9 @@
 		</div>
 		<div class="gnb jx">
 			<ul>
-				<li class="activeOn"><a href="#">Dashboard</a></li>
+				<!--li class="activeOn"><a href="#">Dashboard</a></li-->
 				<!--@foreach($lang->menu_gnb AS $key=>$value)-->
-				<li><a href="{$gnbUrlList[$key]}">{$value}</a>
+				<li <!--@if($category == $key)-->class="activeOn"<!--@end-->><a href="{$gnbUrlList[$key]}">{$value}</a>
 					<!--@if(count($lang->menu_gnb_sub[$key]) > 0)-->
 					<ul>
 						<!--@foreach($lang->menu_gnb_sub[$key] AS $key2=>$value2)-->

@@ -1,13 +1,10 @@
 <div class="lnb">
-	<h2 class="h2">Content</h2>
+	<h2 class="h2">{$lang->menu_gnb[$category]}</h2>
 	<ul>
-		<li class="active"><a href="#">Document</a></li>
-		<li><a href="#">Content</a></li>
-		<li><a href="#">Trackback</a></li>
-		<li><a href="#">File</a></li>
-		<li><a href="#">Poll</a></li>
-		<li><a href="#">Accusation</a></li>
-		<li><a href="#">Trash</a></li>
-		<li><a href="#">Data Migration</a></li>
+		<!--@if(count($gnbSubUrlList[$category]) > 0)-->
+		<!--@foreach($gnbSubUrlList[$category] AS $key=>$value)-->
+		<li><a href="#">{$lang->menu_gnb_sub[$category][$key]}</a></li>
+		<!--@end-->
+		<!--@end-->
 	</ul>
 </div>

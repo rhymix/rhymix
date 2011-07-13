@@ -19,6 +19,13 @@
          * @brief if update is necessary it returns true
          **/
         function checkUpdate() {
+			$oMenuAdminModel = &getAdminModel('menu');
+			$output = $oMenuAdminModel->getMenuByTitle('__XE_ADMIN__');
+			if(!$output->menu_srl)
+			{
+				$this->_createXeAdminMenu();
+			}
+
             return false;
         }
 
@@ -55,5 +62,88 @@
             }
             $directory->close();
         }
+
+        /**
+         * @brief regenerate xe admin default menu
+         * @return none
+         **/
+		function _createXeAdminMenu()
+		{
+			//insert menu
+            $args->title = '__XE_ADMIN__';
+            $args->menu_srl = getNextSequence();
+            $args->listorder = $args->menu_srl * -1;
+            $output = executeQuery('menu.insertMenu', $args);
+
+			$adminUrl = getUrl('', 'module', 'admin');
+			$gnbList = array(
+				'dashboard'=>array(
+					'url'=>$adminUrl,
+					'lnbList'=>array()
+				),
+				'site'=>array(
+					'url'=>$adminUrl,
+					'lnbList'=>array()
+				),
+				'user'=>array(
+					'url'=>$adminUrl,
+					'lnbList'=>array('userList', 'setting', 'point')
+				),
+				'content'=>array(
+					'url'=>$adminUrl,
+					'lnbList'=>array('document', 'comment', 'trackback', 'file', 'poll', 'dataMigration')
+				),
+				'theme'=>array(
+					'url'=>$adminUrl,
+					'lnbList'=>array()
+				),
+				'extensions'=>array(
+					'url'=>$adminUrl,
+					'lnbList'=>array('easyInstaller', 'installedLayout', 'installedModule', 'installedWidget', 'installedAddon', 'WYSIWYGEditor', 'spamFilter')
+				),
+				'configuration'=>array(
+					'url'=>$adminUrl,
+					'lnbList'=>array('general', 'fileUpload')
+				)
+			);
+
+			$oMemberModel = &getModel('member');
+			$output = $oMemberModel->getAdminGroup(array('group_srl'));
+			$adminGroupSrl = $output->group_srl;
+
+			// common argument setting
+			$args->open_window = 'N';
+			$args->expand = 'N';
+			$args->normal_btn = '';
+			$args->hover_btn = '';
+			$args->active_btn = '';
+			$args->group_srls = $adminGroupSrl;
+
+			foreach($gnbList AS $key=>$value)
+			{
+				//insert menu item
+				$args->menu_item_srl = getNextSequence();
+				$args->name = '$lang->menu_gnb[\''.$key.'\']';
+				$args->url = $value['url'];
+				$args->listorder = -1*$args->menu_item_srl;
+                $output = executeQuery('menu.insertMenuItem', $args);
+
+				if(is_array($value) && count($value)>0)
+				{
+					unset($parentSrl);
+					$parentSrl = $args->menu_item_srl;
+					foreach($value AS $key2=>$value2)
+					{
+						//insert menu item
+						$args->menu_item_srl = getNextSequence();
+						$args->parent_srl = $parentSrl;
+						$args->name = '$lang->menu_gnb_sub[\''.$key.'\'][\''.$key2.'\']';
+						$args->url = $value2['url'];
+						$args->listorder = -1*$args->menu_item_srl;
+						$output = executeQuery('menu.insertMenuItem', $args);
+					}
+				}
+			}
+		}
     }
 ?>

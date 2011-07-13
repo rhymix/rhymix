@@ -695,5 +695,22 @@
             return $output->data->member_srl;
         }
 
+		function getAdminGroupSrl($site_srl = 0)
+		{
+			$groupSrl = 0;
+			$output = $this->getGroups($site_srl);
+			if(is_array($output))
+			{
+				foreach($output AS $key=>$value)
+				{
+					if($value->is_admin == 'Y')
+					{
+						$groupSrl = $value->group_srl;
+						break;
+					}
+				}
+			}
+			return $groupSrl;
+		}
     }
 ?>

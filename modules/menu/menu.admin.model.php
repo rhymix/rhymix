@@ -70,6 +70,22 @@
         }
 
         /**
+         * @brief Get information of a new menu from the DB, search condition is menu title
+         * Return DB and XML information of the menu
+         **/
+        function getMenuByTitle($title) {
+            // Get information from the DB
+            $args->title = $title;
+            $output = executeQuery('menu.getMenuByTitle', $args);
+            if(!$output->data) return;
+            
+            $menu_info = $output->data;
+            $menu_info->xml_file = sprintf('./files/cache/menu/%s.xml.php',$menu_info->menu_srl);
+            $menu_info->php_file = sprintf('./files/cache/menu/%s.php',$menu_info->menu_srl);
+            return $menu_info;
+        }
+
+        /**
          * @brief Return item information of the menu_srl
          * group_srls uses a seperator with comma(,) and converts to an array by explode
          **/
