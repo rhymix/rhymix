@@ -275,7 +275,7 @@
 
 						$logged_info = $oMemberModel->getLoggedInfo();
 						if($logged_info->is_admin=='Y') {
-							$orig_module->makeGnbUrl($forward->module);
+							$orig_module->makeGnbUrl();
 							$oModule->setLayoutPath("./modules/admin/tpl");
 							$oModule->setLayoutFile("layout.html");
 						}

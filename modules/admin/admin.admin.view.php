@@ -23,7 +23,7 @@
             $this->setLayoutPath($this->getTemplatePath());
             $this->setLayoutFile('layout.html');
 
-			$this->makeGnbUrl($this->module);
+			$this->makeGnbUrl();
 
             // Retrieve the list of installed modules 
 
@@ -46,18 +46,16 @@
 
         }
 
-		function makeGnbUrl($module)
+		function makeGnbUrl()
 		{
-			require_once(_XE_PATH_.'modules/admin/model/AdminCategory.php');
-			$oAdminCategory = new AdminCategory($module);
-
+			global $lang;
 			$oMenuAdminModel = &getAdminModel('menu');
 			$menu_info = $oMenuAdminModel->getMenuByTitle('__XE_ADMIN__');
-			debugPrint($menu_info);
 
-			Context::set('gnbUrlList', $oAdminCategory->getCategoryList());
-			Context::set('gnbSubUrlList', $oAdminCategory->getSubCategoryList());
-			Context::set('category', $oAdminCategory->getCategory());
+			if(is_readable($menu_info->php_file))
+				include $menu_info->php_file;
+
+			Context::set('gnbUrlList', $menu->list);
 		}
 
 		function loadSideBar()

@@ -87,11 +87,11 @@
 				),
 				'user'=>array(
 					'url'=>$adminUrl,
-					'lnbList'=>array('userList', 'setting', 'point')
+					'lnbList'=>array('userList'=>$adminUrl, 'setting'=>$adminUrl, 'point'=>$adminUrl)
 				),
 				'content'=>array(
 					'url'=>$adminUrl,
-					'lnbList'=>array('document', 'comment', 'trackback', 'file', 'poll', 'dataMigration')
+					'lnbList'=>array('document'=>$adminUrl, 'comment'=>$adminUrl, 'trackback'=>$adminUrl, 'file'=>$adminUrl, 'poll'=>$adminUrl, 'dataMigration'=>$adminUrl)
 				),
 				'theme'=>array(
 					'url'=>$adminUrl,
@@ -99,11 +99,11 @@
 				),
 				'extensions'=>array(
 					'url'=>$adminUrl,
-					'lnbList'=>array('easyInstaller', 'installedLayout', 'installedModule', 'installedWidget', 'installedAddon', 'WYSIWYGEditor', 'spamFilter')
+					'lnbList'=>array('easyInstaller'=>$adminUrl, 'installedLayout'=>$adminUrl, 'installedModule'=>$adminUrl, 'installedWidget'=>$adminUrl, 'installedAddon'=>$adminUrl, 'WYSIWYGEditor'=>$adminUrl, 'spamFilter'=>$adminUrl)
 				),
 				'configuration'=>array(
 					'url'=>$adminUrl,
-					'lnbList'=>array('general', 'fileUpload')
+					'lnbList'=>array('general'=>$adminUrl, 'fileUpload'=>$adminUrl)
 				)
 			);
 
@@ -123,27 +123,34 @@
 			{
 				//insert menu item
 				$args->menu_item_srl = getNextSequence();
-				$args->name = '$lang->menu_gnb[\''.$key.'\']';
+				$args->name = '{$lang->menu_gnb[\''.$key.'\']}';
 				$args->url = $value['url'];
 				$args->listorder = -1*$args->menu_item_srl;
                 $output = executeQuery('menu.insertMenuItem', $args);
 
 				if(is_array($value) && count($value)>0)
 				{
-					unset($parentSrl);
-					$parentSrl = $args->menu_item_srl;
-					foreach($value AS $key2=>$value2)
+					$args2->menu_srl = $args->menu_srl;
+					$args2->open_window = 'N';
+					$args2->expand = 'N';
+					$args2->normal_btn = '';
+					$args2->hover_btn = '';
+					$args2->active_btn = '';
+					$args2->group_srls = $adminGroupSrl;
+					foreach($value['lnbList'] AS $key2=>$value2)
 					{
 						//insert menu item
-						$args->menu_item_srl = getNextSequence();
-						$args->parent_srl = $parentSrl;
-						$args->name = '$lang->menu_gnb_sub[\''.$key.'\'][\''.$key2.'\']';
-						$args->url = $value2['url'];
-						$args->listorder = -1*$args->menu_item_srl;
-						$output = executeQuery('menu.insertMenuItem', $args);
+						$args2->menu_item_srl = getNextSequence();
+						$args2->parent_srl = $args->menu_item_srl;
+						$args2->name = '{$lang->menu_gnb_sub[\''.$key.'\'][\''.$key2.'\']}';
+						$args2->url = $value2;
+						$args2->listorder = -1*$args2->menu_item_srl;
+						$output = executeQuery('menu.insertMenuItem', $args2);
 					}
 				}
 			}
+			$oMenuAdminConroller = &getAdminController('menu');
+			$oMenuAdminConroller->makeXmlFile($args->menu_srl);
 		}
     }
 ?>
