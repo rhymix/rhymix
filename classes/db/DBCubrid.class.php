@@ -207,7 +207,7 @@
 			$this->actFinish ();
 
 			// Return the result
-			return $result;
+ 			return $result;
 		}
 
 		/**

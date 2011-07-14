@@ -50,14 +50,15 @@
 							, \'n\')';
 			$this->_test($xml_file, $argsString, $expected);			
 		}
-			function test_module_insertSiteTodayStatus(){
+		
+                function test_module_insertSiteTodayStatus(){
 			//\''.date("YmdHis").'\'					
 			$xml_file = _XE_PATH_ . "modules/counter/queries/insertTodayStatus.xml";
 			$argsString = ' $args->regdate = 0; 
 							$args->unique_visitor = 0;
 							$args->pageview = 0;';
 			$expected = 'insert into "xe_counter_status" 
-							("regdate"
+						 	("regdate"
 							, "unique_visitor"
 							, "pageview") 
 							values 
@@ -94,7 +95,6 @@
 							$args->allow_mailing = "Y";
 							$args->allow_message = "Y";
 							$args->denied = "N";
-							$args->limit_date = "";
 							$args->regdate = "20110607121952";
 							$args->change_password_date = "20110607121952";
 							$args->last_login = "20110607121952";
@@ -104,10 +104,10 @@
 							';
 			$expected = 'INSERT INTO "xe_member" 
  						("member_srl", "user_id", "email_address", "password", "email_id", "email_host", "user_name", "nick_name",
-  						"homepage", "allow_mailing", "allow_message", "denied", "limit_date", "regdate", "change_password_date",
+  						"homepage", "allow_mailing", "allow_message", "denied", "regdate", "change_password_date",
    						"last_login", "is_admin", "extra_vars", "list_order") 
  						VALUES (203, \'cacao\', \'teta@ar.ro\', \'23e5484cb88f3c07bcce2920a5e6a2a7\', \'teta\', \'ar.ro\', \'trident\', 
- 						\'aloha\', \'http://jkgjfk./ww\', \'Y\', \'Y\', \'N\', \'\', \'20110607121952\', \'20110607121952\', 
+ 						\'aloha\', \'http://jkgjfk./ww\', \'Y\', \'Y\', \'N\', \'20110607121952\', \'20110607121952\', 
  						\'20110607121952\', \'N\', \'O:8:"stdClass":2:{s:4:"body";s:0:"";s:7:"_filter";s:6:"insert";}\', -203)';
 			$this->_test($xml_file, $argsString, $expected);			
 		}
@@ -123,6 +123,6 @@
  						VALUES (202, \'_filter\', \'insert_page\')
  						';
 			$this->_test($xml_file, $argsString, $expected);			
-		}				
+		}	        
 
 	}

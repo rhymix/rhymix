@@ -47,7 +47,7 @@
 				$dbParser = XmlQueryParser::getDBParser();
 				return $dbParser->parseExpression($value);                            
                         }  
-                        if(!isset($value) || $value === '') return null;
+                        if(!isset($value)) return null;
 			if(in_array($this->type, array('date', 'varchar', 'char','text', 'bigtext'))){
 				if(!is_array($value))
 					$value = $this->_escapeStringValue ($value);

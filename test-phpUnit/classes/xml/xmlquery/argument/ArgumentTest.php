@@ -227,6 +227,22 @@ class ArgumentTest extends CubridTest {
         
         $this->assertEquals('(3,21)', $member_srl_argument->getValue());
     }               
+    
+    public function testEnsureDefaultValueWithEmptyString(){
+        $homepage_argument = new Argument('homepage', '');
+        $homepage_argument->ensureDefaultValue('');
+        $homepage_argument->checkFilter('homepage');
+        if(!$homepage_argument->isValid()) return $homepage_argument->getErrorMessage();
+        $homepage_argument->setColumnType('varchar');
+
+        
+        $this->assertEquals('\'\'', $homepage_argument->getValue());
+    }
+    
+    public function testDefaultValue() {
+        $default = new DefaultValue("var", '');
+        $this->assertEquals('\'\'', $default->toString());
+    }
 }
 
 ?>
