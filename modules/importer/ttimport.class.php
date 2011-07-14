@@ -113,7 +113,7 @@
                 }
 
                 $obj->is_notice = 'N';
-                $obj->status = in_array($xmlDoc->post->visibility->body, array('public','syndicated'))?$oDocumentModel->getConfigStatus('public'):$oDocumentModel->('secret');
+                $obj->status = in_array($xmlDoc->post->visibility->body, array('public','syndicated'))?$oDocumentModel->getConfigStatus('public'):$oDocumentModel->getConfigStatus('secret');
                 $obj->title = $xmlDoc->post->title->body;
                 $obj->content = $xmlDoc->post->content->body;
                 $obj->password = md5($xmlDoc->post->password->body);
