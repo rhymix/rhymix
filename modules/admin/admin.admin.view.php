@@ -54,6 +54,10 @@
 
 			if(is_readable($menu_info->php_file))
 				include $menu_info->php_file;
+			else {
+				header('location:'.getNotEncodedUrl('', 'module', 'admin'));
+				return;
+			}
 
 			Context::set('gnbUrlList', $menu->list);
 		}

@@ -2,6 +2,8 @@
 <module>
     <grants />
     <permissions>
+        <permission action="dispDocumentAdminList" target="manager" />
+
         <permission action="dispDocumentManageDocument" target="member" />
         <permission action="getDocumentCategories" target="member" />
         <permission action="getDocumentCategoryTplInfo" target="member" />
@@ -29,11 +31,11 @@
         <action name="procDocumentManageCheckedDocument" type="controller" standalone="true" />
         <action name="procDocumentInsertModuleConfig" type="controller" standalone="true" />
 
-        <action name="dispDocumentAdminList" type="view" admin_index="true" standalone="true" />
-        <action name="dispDocumentAdminConfig" type="view" standalone="true" />
-        <action name="dispDocumentAdminAlias" type="view" standalone="true" />
-        <action name="dispDocumentAdminDeclared" type="view" standalone="true" />
-        <action name="dispDocumentAdminTrashList" type="view" standalone="true" />
+        <action name="dispDocumentAdminList" type="view" admin_index="true" standalone="true" menu_name="document" menu_index="true" />
+        <action name="dispDocumentAdminConfig" type="view" standalone="true" menu_name="configuration" menu_index="true" />
+        <action name="dispDocumentAdminAlias" type="view" standalone="true" menu_name="document" />
+        <action name="dispDocumentAdminDeclared" type="view" standalone="true" menu_name="document" />
+        <action name="dispDocumentAdminTrashList" type="view" standalone="true" menu_name="document" />
 
         <action name="getDocumentCategoryTplInfo" type="model" standalone="true" />
         <action name="getDocumentVotedMemberList" type="model" standalone="true" />
@@ -57,4 +59,32 @@
         <action name="procDocumentAdminCancelDeclare" type="controller" standalone="true" />
 	
     </actions>
+	<menus>
+		<menu name="document">
+			<title xml:lang="en">Document</title>
+			<title xml:lang="ko">문서</title>
+			<title xml:lang="zh-CN">Document</title>
+			<title xml:lang="jp">Document</title>
+			<title xml:lang="es">Document</title>
+			<title xml:lang="ru">Document</title>
+			<title xml:lang="fr">Document</title>
+			<title xml:lang="zh-TW">Document</title>
+			<title xml:lang="vi">Document</title>
+			<title xml:lang="mn">Document</title>
+			<title xml:lang="tr">Document</title>
+		</menu>
+		<menu name="configuration">
+			<title xml:lang="en">Configuration</title>
+			<title xml:lang="ko">설정</title>
+			<title xml:lang="zh-CN">Configuration</title>
+			<title xml:lang="jp">Configuration</title>
+			<title xml:lang="es">Configuration</title>
+			<title xml:lang="ru">Configuration</title>
+			<title xml:lang="fr">Configuration</title>
+			<title xml:lang="zh-TW">Configuration</title>
+			<title xml:lang="vi">Configuration</title>
+			<title xml:lang="mn">Configuration</title>
+			<title xml:lang="tr">Configuration</title>
+		</menu>
+	</menus>
 </module>

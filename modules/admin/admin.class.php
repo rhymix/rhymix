@@ -90,8 +90,15 @@
 					'lnbList'=>array('userList'=>$adminUrl, 'setting'=>$adminUrl, 'point'=>$adminUrl)
 				),
 				'content'=>array(
-					'url'=>$adminUrl,
-					'lnbList'=>array('document'=>$adminUrl, 'comment'=>$adminUrl, 'trackback'=>$adminUrl, 'file'=>$adminUrl, 'poll'=>$adminUrl, 'dataMigration'=>$adminUrl)
+					'url'=>getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList'),
+					'lnbList'=>array(
+						'document'=>getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList'),
+						'comment'=>$adminUrl,
+						'trackback'=>$adminUrl,
+						'file'=>$adminUrl,
+						'poll'=>$adminUrl,
+						'dataMigration'=>$adminUrl
+					)
 				),
 				'theme'=>array(
 					'url'=>$adminUrl,

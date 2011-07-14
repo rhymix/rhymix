@@ -484,6 +484,7 @@
 
                 $grants = $xml_obj->module->grants->grant; // /< Permission information
                 $permissions = $xml_obj->module->permissions->permission; // /<  Acting permission
+                $menus = $xml_obj->module->menus->menu;
                 $actions = $xml_obj->module->actions->action; // /< Action list (required)
 
                 $default_index = $admin_index = '';
@@ -518,6 +519,23 @@
                         $buff .= sprintf('$info->permission->%s = \'%s\';', $action, $target);
                     }
                 }
+				// for admin menus
+				if($menus)
+				{
+                    if(is_array($menus)) $menu_list = $menus;
+                    else $menu_list[] = $menus;
+
+                    foreach($menu_list as $menu) {
+						$menu_name = $menu->attrs->name;
+						$menu_title = is_array($menu->title) ? $menu->title[0]->body : $menu->title->body;
+
+						$info->menu->{$menu_name}->title = $menu_title;
+						$info->menu->{$menu_name}->acts = array();
+
+                        $buff .= sprintf('$info->menu->%s->title=\'%s\';', $menu_name, $menu_title);
+					}
+				}
+
                 // actions
                 if($actions) {
                     if(is_array($actions)) $action_list = $actions;
@@ -534,6 +552,7 @@
                         $index = $action->attrs->index;
                         $admin_index = $action->attrs->admin_index;
                         $setup_index = $action->attrs->setup_index;
+                        $menu_index = $action->attrs->menu_index;
 
                         $output->action->{$name}->type = $type;
                         $output->action->{$name}->grant = $grant;
@@ -543,6 +562,19 @@
                         $info->action->{$name}->grant = $grant;
                         $info->action->{$name}->standalone = $standalone=='true'?true:false;
                         $info->action->{$name}->ruleset = $ruleset;
+						if($action->attrs->menu_name)
+						{
+							if($menu_index == 'true')
+							{
+								$info->menu->{$action->attrs->menu_name}->index = $name;
+                        		$buff .= sprintf('$info->menu->%s->index=\'%s\';', $action->attrs->menu_name, $name);
+							}
+							array_push($info->menu->{$action->attrs->menu_name}->acts, $name);
+							$currentKey = array_search($name, $info->menu->{$action->attrs->menu_name}->acts);
+
+                        	$buff .= sprintf('$info->menu->%s->acts[%d]=\'%s\';', $action->attrs->menu_name, $currentKey, $name);
+							$i++;
+						}
 
                         $buff .= sprintf('$info->action->%s->type=\'%s\';', $name, $type);
                         $buff .= sprintf('$info->action->%s->grant=\'%s\';', $name, $grant);
