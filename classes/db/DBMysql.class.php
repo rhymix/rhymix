@@ -116,7 +116,7 @@
          **/
         function addQuotes($string) {
             if(version_compare(PHP_VERSION, "5.9.0", "<") && get_magic_quotes_gpc()) $string = stripslashes(str_replace("\\","\\\\",$string));
-            if(!is_numeric($string)) $string = @mysql_escape_string($string);
+            if(!is_numeric($string)) $string = @mysql_real_escape_string($string, $this->fd);
             return $string;
         }
 
@@ -445,7 +445,7 @@
 
                 }
 				//elseif(!$value || is_numeric($value)) $value = (int)$value;
-                else $this->_filterNumber(&$value);
+                else $this->_filterNumber($value);
 
                 $column_list[] = '`'.$name.'`';
                 $value_list[] = $value;
@@ -475,7 +475,7 @@
                 if(strpos($name,'.')!==false&&strpos($value,'.')!==false) $column_list[] = $name.' = '.$value;
                 else {
                     if($output->column_type[$name]!='number') $value = "'".$this->addQuotes($value)."'";
-                	else $this->_filterNumber(&$value);
+                	else $this->_filterNumber($value);
 
                     $column_list[] = sprintf("`%s` = %s", $name, $value);
                 }

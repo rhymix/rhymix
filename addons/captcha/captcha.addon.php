@@ -250,15 +250,15 @@
 
 	$oAddonCaptcha = &$GLOBALS['__AddonCaptcha__'];
 
-	if(method_exists(&$oAddonCaptcha, $called_position))
+	if(method_exists($oAddonCaptcha, $called_position))
 	{
-		if(!call_user_func(array(&$oAddonCaptcha, $called_position), &$this)) return false;
+		if(!call_user_func(array(&$oAddonCaptcha, $called_position), $this)) return false;
 	}
 
 	$addon_act = Context::get('captcha_action');
-	if($addon_act && method_exists(&$oAddonCaptcha, $called_position.'_'.$addon_act))
+	if($addon_act && method_exists($oAddonCaptcha, $called_position.'_'.$addon_act))
 	{
-		if(!call_user_func(array(&$oAddonCaptcha, $called_position.'_'.$addon_act), &$this)) return false;
+		if(!call_user_func(array(&$oAddonCaptcha, $called_position.'_'.$addon_act), $this)) return false;
 	}
 
 ?>

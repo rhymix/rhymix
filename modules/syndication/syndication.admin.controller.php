@@ -85,7 +85,7 @@
             $site_url = preg_replace('/^(http|https):\/\//i','',$config->site_url);
 
 			$method = 'getSyndicationStatus' . ucfirst(strtolower($target_service));
-			if(!method_exists(&$this, $method)) return new Object(-1,'msg_syndication_status_not_support');
+			if(!method_exists($this, $method)) return new Object(-1,'msg_syndication_status_not_support');
 
 			$output = call_user_func(array(&$this,$method),$site_url);
 			if(!$output->toBool()) return $output;

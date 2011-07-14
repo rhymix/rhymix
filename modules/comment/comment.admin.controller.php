@@ -33,7 +33,7 @@
 			$oDB->begin();
 
 			// comment into trash
-			if($isTrash == 'true') $this->_moveCommentToTrash($comment_srl_list, &$oCommentController, &$oDB);
+			if($isTrash == 'true') $this->_moveCommentToTrash($comment_srl_list, $oCommentController, $oDB);
 
 			$deleted_count = 0;
 			// Delete the comment posting

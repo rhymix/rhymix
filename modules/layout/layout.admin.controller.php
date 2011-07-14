@@ -404,21 +404,21 @@
          **/
         function addExtension($layout_srl,$arg,$content){
             $oLayoutModel = &getModel('layout');
-             $reg = '(<\!\-\- start\-e1 \-\->)(.*)(<\!\-\- end\-e1 \-\->)';
+             $reg = '/(<\!\-\- start\-e1 \-\->)(.*)(<\!\-\- end\-e1 \-\->)/i';
              $extension_content =  '\1' .stripslashes($arg->e1) . '\3';
-             $content = eregi_replace($reg,$extension_content,$content);
+             $content = preg_replace($reg,$extension_content,$content);
 
-             $reg = '(<\!\-\- start\-e2 \-\->)(.*)(<\!\-\- end\-e2 \-\->)';
+             $reg = '/(<\!\-\- start\-e2 \-\->)(.*)(<\!\-\- end\-e2 \-\->)/i';
              $extension_content =  '\1' .stripslashes($arg->e2) . '\3';
-             $content = eregi_replace($reg,$extension_content,$content);
+             $content = preg_replace($reg,$extension_content,$content);
 
-             $reg = '(<\!\-\- start\-neck \-\->)(.*)(<\!\-\- end\-neck \-\->)';
+             $reg = '/(<\!\-\- start\-neck \-\->)(.*)(<\!\-\- end\-neck \-\->)/i';
              $extension_content =  '\1' .stripslashes($arg->neck) . '\3';
-             $content = eregi_replace($reg,$extension_content,$content);
+             $content = preg_replace($reg,$extension_content,$content);
 
-             $reg = '(<\!\-\- start\-knee \-\->)(.*)(<\!\-\- end\-knee \-\->)';
+             $reg = '/(<\!\-\- start\-knee \-\->)(.*)(<\!\-\- end\-knee \-\->)/i';
              $extension_content =  '\1' .stripslashes($arg->knee) . '\3';
-             $content = eregi_replace($reg,$extension_content,$content);
+             $content = preg_replace($reg,$extension_content,$content);
             return $content;
         }
 

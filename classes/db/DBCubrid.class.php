@@ -678,7 +678,7 @@
 						}
 					}
 				}
-                else $this->_filterNumber(&$value);
+                else $this->_filterNumber($value);
 
 				$column_list[] = '"'.$name.'"';
 				$value_list[] = $value;
@@ -731,7 +731,7 @@
 						$check_column = false;
 						$value = "'".$this->addQuotes ($value)."'";
 					}
-					else $this->_filterNumber(&$value);
+					else $this->_filterNumber($value);
 
 					$column_list[] = sprintf ("\"%s\" = %s", $name, $value);
 				}

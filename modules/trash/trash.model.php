@@ -13,7 +13,7 @@ class trashModel extends trash
 		$args->trashSrl = $trashSrl;
 		$output = executeQuery('trash.getTrash', $args, $columnList);
 
-		$this->_setTrashObject(&$oTrashVO, $output->data);
+		$this->_setTrashObject($oTrashVO, $output->data);
 		$output->data = $oTrashVO;
 
 		return $output;
@@ -31,7 +31,7 @@ class trashModel extends trash
 			foreach($output->data AS $key=>$value)
 			{
 				$oTrashVO = new TrashVO();
-				$this->_setTrashObject(&$oTrashVO, $value);
+				$this->_setTrashObject($oTrashVO, $value);
 				$output->data[$key] = $oTrashVO;
 			}
 		}

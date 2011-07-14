@@ -689,7 +689,7 @@
                 else if($output->column_type[$name]!='number') {
 //                    if(!$value) $value = 'null';
                 }
-                else $this->_filterNumber(&$value);
+                else $this->_filterNumber($value);
 
                 $column_list[] = '"'.$name.'"';
                 $value_list[] = $value;
