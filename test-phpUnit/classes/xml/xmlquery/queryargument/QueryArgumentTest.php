@@ -7,7 +7,7 @@ class QueryArgumentTest extends CubridTest {
 
     var $xmlPath = "data/";
     
-    function QueryArgumentClass(){
+    function QueryArgumentTest(){
         $this->xmlPath = str_replace('QueryArgumentTest.php', '', str_replace('\\', '/', __FILE__)) . $this->xmlPath;
     }
     

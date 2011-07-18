@@ -31,6 +31,9 @@
                             case 'like' :
                                     $this->value = '%'.$value.'%';
                                 break;
+                            case 'in':
+                                    if(!is_array($value)) $this->value = array($value);
+                                break;
                         }
                                         /*
                                 //if(!in_array($operation,array('in','notin','between')) && is_array($value)){
