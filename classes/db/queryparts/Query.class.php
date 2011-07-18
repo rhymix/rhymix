@@ -190,8 +190,15 @@
 		function getWhereString($with_values = true){
 			$where = '';
 			if(count($this->conditions) > 0){
+                                $condition_count = 0;
 				foreach($this->conditions as $conditionGroup){
-					$where .= $conditionGroup->toString($with_values);
+                                        $condition_string = $conditionGroup->toString($with_values);
+                                        if($condition_string !== '') $condition_count++;
+                                        if($condition_count === 1){ 
+                                            $conditionGroup->setPipe("");
+                                            $condition_string = $conditionGroup->toString($with_values);
+                                        }
+					$where .= $condition_string;
 				}
 				if(trim($where) == '') return '';
 				

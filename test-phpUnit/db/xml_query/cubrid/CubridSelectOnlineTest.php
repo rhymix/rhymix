@@ -16,7 +16,18 @@
             $output = executeQuery('module.getSiteInfo', $args);
             $this->assertTrue(is_a($output, 'Object'));
             $this->assertEquals(0, $output->error);
-            var_dump($output);
+        }
+        
+        function test_document_getDocumentList_pagination(){
+            $args->sort_index = 'list_order';
+            $args->order_type = 'asc';
+            $args->page = 1;
+            $args->list_count = 30;
+            $args->page_count = 10;
+            $args->s_member_srl = 4;
+            
+            $output = executeQuery('document.getDocumentList', $args);
+            $this->assertEquals(0, $output->error, $output->message);            
         }
     }
 ?>

@@ -9,6 +9,10 @@
 			$this->pipe = $pipe;
 		}
 		
+                function setPipe($pipe){
+                    $this->pipe = $pipe;
+                }
+                
 		function toString($with_value = true){
 			if($this->pipe !== "")
 				$group = $this->pipe .' (';

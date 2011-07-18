@@ -176,5 +176,23 @@
 		 	$this->assertTrue(is_int($output->page));
 		 	// $this->assertTrue($output->page == 5);
 		}		
+                
+                function test_document_getDocumentList(){
+                    $xml_file = _XE_PATH_ . "modules/document/queries/getDocumentList.xml";
+                    $argsString = '$args->sort_index = \'list_order\';
+                                    $args->order_type = \'asc\';
+                                    $args->page = 1;
+                                    $args->list_count = 30;
+                                    $args->page_count = 10;
+                                    $args->s_member_srl = 4;';
+                    $expected = 'select * 
+                                    from "xe_documents" as "documents" 
+                                    where "member_srl" = 4
+                                    order by "list_order" asc 
+                                    limit 0, 30';
+                    $this->_test($xml_file, $argsString, $expected);			
+                    
+                                
+                }
 		
 	}
