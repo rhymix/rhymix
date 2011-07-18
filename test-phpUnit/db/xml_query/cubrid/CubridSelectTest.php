@@ -142,7 +142,7 @@
 		function test_syndication_getGrantedModules(){
 			$xml_file = _XE_PATH_ . "modules/syndication/queries/getGrantedModules.xml";
 			$argsString = '$args->module_srl = 12;
-						   $args->name = array(\'access\',\'view\',\'list\');';
+                                       $args->name = array(\'access\',\'view\',\'list\');';
 			$expected = 'select "module_srl" 
 						 from "xe_module_grants" as "module_grants" 
 						 where "name" in (\'access\',\'view\',\'list\') 

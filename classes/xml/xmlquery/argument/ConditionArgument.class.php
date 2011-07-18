@@ -22,34 +22,20 @@
                         $value = $this->value;			
 
                         switch($operation) {
-                        case 'like_prefix' :
-                                $this->value =  $value.'%';
-                            break;
-                        case 'like_tail' :
-                                $this->value = '%'.$value;
-                            break;
-                        case 'like' :
-                                $this->value = '%'.$value.'%';
-                            break;
-                        case 'in' :
-                                                        if(is_array($value))
-                                                        {
-                                                                //$value = $this->addQuotesArray($value);
-                                                                if($this->getType() == 'number') 
-                                                                        $this->value = "(" . join(',',$value) . ")";
-                                                                else 
-                                                                        $this->value =  "('". join("','",$value)."')";
-                                                        }
-                                                        else
-                                                        {
-                                                                $this->value = $value;
-                                                        }
-                            break;                    
+                            case 'like_prefix' :
+                                    $this->value =  $value.'%';
+                                break;
+                            case 'like_tail' :
+                                    $this->value = '%'.$value;
+                                break; 
+                            case 'like' :
+                                    $this->value = '%'.$value.'%';
+                                break;
                         }
                                         /*
                                 //if(!in_array($operation,array('in','notin','between')) && is_array($value)){
                                 //	$value = join(',', $value);
-                                //}
+                                //} 
                                 // Daca operatia nu este in, notin, between si coloana e de tip numeric
                                         // daca valoarea e array -> concatenare
                                         // daca valoarea nu e array si nici nu contine paranteze (nu e functie) -> return (int)

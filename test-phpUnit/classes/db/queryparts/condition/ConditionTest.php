@@ -38,6 +38,19 @@ class ConditionTest extends CubridTest {
         
         $this->assertEquals('', $tag->toString());
     }     
+    
+     /**
+     * Checks "in" operation
+     */
+    public function testConditionString_In_VarcharArray() {
+        $member_srl_argument = new ConditionArgument('"member_srl"', array('a', 'b', 'c'), 'in');
+        $member_srl_argument->createConditionValue();
+        $member_srl_argument->setColumnType('varchar');
+        
+        $tag = new Condition('"member_srl"', $member_srl_argument, 'in');
+        
+        $this->assertEquals(' "member_srl" in (\'a\',\'b\',\'c\')', $tag->toString());
+    }         
 }
 
 ?>
