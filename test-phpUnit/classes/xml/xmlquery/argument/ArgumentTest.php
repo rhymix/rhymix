@@ -213,6 +213,7 @@ class ArgumentTest extends CubridTest {
     public function testCreateConditionValue_In_StringValues() {
         $member_srl_argument = new ConditionArgument('"mid"', array('forum', 'board'), 'in');
         $member_srl_argument->createConditionValue();
+        $member_srl_argument->setColumnType('varchar');
         
         $this->assertEquals('(\'forum\',\'board\')', $member_srl_argument->getValue());
     }           

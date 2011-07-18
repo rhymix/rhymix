@@ -20,11 +20,11 @@ class QueryArgumentTest extends CubridTest {
             $this->assertEquals("member_srl", $tag->getColumnName());
             $this->assertEquals(true, $tag->isConditionArgument());
                         
-            $actual = $tag->toString();
-            $expected = '   $member_srl_argument = new ConditionArgument(\'member_srl\', $args->member_srl, \'equal\');
+            $actual = Helper::cleanString($tag->toString());
+            $expected = Helper::cleanString('$member_srl_argument = new ConditionArgument(\'member_srl\', $args->member_srl, \'equal\');
                             $member_srl_argument->checkNotNull();
                             $member_srl_argument->createConditionValue();
-                            if(!$member_srl_argument->isValid()) return $member_srl_argument->getErrorMessage();';
+                            if(!$member_srl_argument->isValid()) return $member_srl_argument->getErrorMessage();');
             $this->assertEquals($expected, $actual);
     }
     

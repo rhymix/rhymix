@@ -104,10 +104,10 @@
                                 return $name.' like '.$value;
                             break;
                         case 'in' :
-                                return $name.' in ('.$value.')';
+                                return $name.' in '.$value;
                             break;
                         case 'notin' :
-                                return $name.' not in ('.$value.')';
+                                return $name.' not in '.$value;
                             break;
                         case 'notequal' :
                                 return $name.' <> '.$value;

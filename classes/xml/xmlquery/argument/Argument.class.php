@@ -38,7 +38,7 @@
 		}
 		
 		function toString($value){
-			if(is_array($value)) return implode(',', $value);
+			if(is_array($value)) return '('.implode(',', $value).')';
 			return $value;			
 		}
 		
