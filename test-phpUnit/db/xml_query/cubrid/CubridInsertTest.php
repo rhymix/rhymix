@@ -123,6 +123,6 @@
  						VALUES (202, \'_filter\', \'insert_page\')
  						';
 			$this->_test($xml_file, $argsString, $expected);			
-		}	        
+		}	  
 
 	}

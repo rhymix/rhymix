@@ -28,6 +28,8 @@
 			$validator = '';
 			if(isset($this->default_value)){
 				$this->default_value = new DefaultValue($this->argument_name, $this->default_value);
+                                if($this->default_value->isSequence())
+                                        $validator .= '$db = &DB::getInstance(); $sequence = $db->getNextSequence(); ';
 				$validator .= sprintf("$%s_argument->ensureDefaultValue(%s);\n"
 					, $this->argument_name
 					, $this->default_value->toString()

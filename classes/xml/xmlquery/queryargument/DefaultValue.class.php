@@ -3,19 +3,25 @@
 	class DefaultValue {
 		var $column_name;
 		var $value;
-		
+		var $is_sequence = false;
+                
 		function DefaultValue($column_name, $value){
 			$this->column_name = $column_name;
 			$this->value = $value;
+                        $this->value = $this->_setValue();
 		}
 		
 		function isString(){
 			$str_pos = strpos($this->value, '(');
-	        if($str_pos===false) return true;
-	        return false;			
+                        if($str_pos===false) return true;
+                        return false;			
 		}
 		
-		function toString(){
+                function isSequence(){
+                    return $this->is_sequence;
+                }
+                
+                function _setValue(){
 			if(!isset($this->value)) return;
 			
 			// If value contains comma separated values and does not contain paranthesis
@@ -24,13 +30,13 @@
 				return sprintf('array(%s)', $this->value);
 			}
 			
-	        $str_pos = strpos($this->value, '(');
-	        // // TODO Replace this with parseExpression
-	        if($str_pos===false) return '\''.$this->value.'\'';
-	        //if($str_pos===false) return $this->value;
-	
-	        $func_name = substr($this->value, 0, $str_pos);
-	        $args = substr($this->value, $str_pos+1, strlen($value)-1);
+                        $str_pos = strpos($this->value, '(');
+                        // // TODO Replace this with parseExpression
+                        if($str_pos===false) return '\''.$this->value.'\'';
+                        //if($str_pos===false) return $this->value;
+
+                        $func_name = substr($this->value, 0, $str_pos);
+                        $args = substr($this->value, $str_pos+1, strlen($value)-1);
 	
 			switch($func_name) {
 				case 'ipaddress' :
@@ -43,7 +49,8 @@
 						$val = 'date("YmdHis")';
 					break;
 				case 'sequence' :
-						$val = '$this->getNextSequence()';
+                                                $this->is_sequence = true;
+						$val = '$sequence';
 					break;
 				case 'plus' :
 						$args = abs($args);
@@ -63,7 +70,11 @@
 						//$val = $this->value;
 			}
 	
-			return $val;		
+			return $val;	                    
+                }
+                
+		function toString(){
+                        return $this->value;
 		}
 	}
 

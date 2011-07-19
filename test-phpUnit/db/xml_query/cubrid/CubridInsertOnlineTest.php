@@ -48,22 +48,31 @@
                     $args->lang_code;
                     $output = executeQuery('document.insertDocument', $args);
                     
-                    $this->assertNotEquals(-225, $args->error);
+                    $this->assertNotEquals(-225, $output->error);
                     $this->assertNotEquals('Missing value for attribute "homepage" with the NOT NULL constraint.', $output->message);
                     
                     
                 }
                 
-                protected function tearDown() {
-                    
-                    
+              function test_communication_addFriendGroup(){
+			$args->member_srl = 202; 
+                        $args->title = "Grup";
+                        
+                        $output = executeQuery("communication.addFriendGroup", $args);
+                        $this->assertEquals(0, $output->error, $output->message);
+                        
+                }                
+                
+                protected function tearDown() {                   
                     $db = &DB::getInstance();
                     $db->_query("DELETE FROM xe_modules WHERE module_srl = 47374");                    
                     $db->_query("DELETE FROM xe_documents WHERE document_srl = 9200");
+                    $db->_query("DELETE FROM xe_member_friend_group WHERE member_srl = 202");
                     $db->close();
                     
                     parent::tearDown();
                     // TODO Delete inserted value
                 }      
+                
 
 	}
