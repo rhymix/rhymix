@@ -77,7 +77,7 @@
 		}
 		
 		function ensureDefaultValue($default_value){
-			if(!isset($this->value)) 
+			if(!isset($this->value) || $this->value == '') 
 				$this->value = $default_value;
 		}
 		

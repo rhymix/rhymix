@@ -63,6 +63,16 @@
                         
                 }                
                 
+             function test_communication_addFriendGroup_NullId(){
+			$args->member_srl = 202; 
+                        $args->title = "Grup";
+                        $args->friend_group_srl = trim(null);
+                        
+                        $output = executeQuery("communication.addFriendGroup", $args);
+                        $this->assertEquals(0, $output->error, $output->message);
+                        
+             }                     
+             
                 protected function tearDown() {                   
                     $db = &DB::getInstance();
                     $db->_query("DELETE FROM xe_modules WHERE module_srl = 47374");                    

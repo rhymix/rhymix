@@ -27,7 +27,7 @@
 						 	, "open_rss" = \'Y\'
 						 	, "header_text" = \'\'
 						 	, "footer_text" = \'\'
-						 	, "use_mobile" = \'\'  
+						 	, "use_mobile" = \'n\'  
 						WHERE  "site_srl" = 0 
 							AND "module_srl" = 47374';
 			$this->_test($xml_file, $argsString, $expected);			
