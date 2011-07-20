@@ -13,4 +13,19 @@
         <action name="procSpamfilterAdminInsertDeniedWord" type="controller" standalone="true" ruleset="insertDeniedWord" />
         <action name="procSpamfilterAdminDeleteDeniedWord" type="controller" standalone="true" ruleset="deleteDeniedWord" />
     </actions>
+	<menus>
+		<menu name="spamFilter">
+			<title xml:lang="en">Spam Filter</title>
+			<title xml:lang="ko">스팸필터</title>
+			<title xml:lang="zh-CN">Spam Filter</title>
+			<title xml:lang="jp">Spam Filter</title>
+			<title xml:lang="es">Spam Filter</title>
+			<title xml:lang="ru">Spam Filter</title>
+			<title xml:lang="fr">Spam Filter</title>
+			<title xml:lang="zh-TW">Spam Filter</title>
+			<title xml:lang="vi">Spam Filter</title>
+			<title xml:lang="mn">Spam Filter</title>
+			<title xml:lang="tr">Spam Filter</title>
+		</menu>
+	</menus>
 </module>

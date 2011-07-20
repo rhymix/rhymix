@@ -13,4 +13,19 @@
         <action name="procTrackbackAdminInsertConfig" type="controller" standalone="true" />
         <action name="procTrackbackAdminInsertModuleConfig" type="controller" standalone="true" />
     </actions>
+	<menus>
+		<menu name="trackback">
+			<title xml:lang="en">Trackback</title>
+			<title xml:lang="ko">트랙백</title>
+			<title xml:lang="zh-CN">Trackback</title>
+			<title xml:lang="jp">Trackback</title>
+			<title xml:lang="es">Trackback</title>
+			<title xml:lang="ru">Trackback</title>
+			<title xml:lang="fr">Trackback</title>
+			<title xml:lang="zh-TW">Trackback</title>
+			<title xml:lang="vi">Trackback</title>
+			<title xml:lang="mn">Trackback</title>
+			<title xml:lang="tr">Trackback</title>
+		</menu>
+	</menus>
 </module>

@@ -18,4 +18,19 @@
         <action name="procPollAdminDeleteChecked" type="controller" standalone="true" ruleset="deleteChecked" />
         <action name="procPollAdminInsertConfig" type="controller" standalone="true" ruleset="insertConfig" />
     </actions>
+	<menus>
+		<menu name="poll">
+			<title xml:lang="en">Poll</title>
+			<title xml:lang="ko">투표</title>
+			<title xml:lang="zh-CN">Poll</title>
+			<title xml:lang="jp">Poll</title>
+			<title xml:lang="es">Poll</title>
+			<title xml:lang="ru">Poll</title>
+			<title xml:lang="fr">Poll</title>
+			<title xml:lang="zh-TW">Poll</title>
+			<title xml:lang="vi">Poll</title>
+			<title xml:lang="mn">Poll</title>
+			<title xml:lang="tr">Poll</title>
+		</menu>
+	</menus>
 </module>
