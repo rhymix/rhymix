@@ -81,4 +81,32 @@
         <action name="procMemberAdminUpdateDeniedID" type="controller" standalone="true" />
         <action name="procMemberAdminUpdateGroupOrder" type="controller" standalone="true" />
     </actions>
+	<menus>
+		<menu name="userList">
+			<title xml:lang="en">User List</title>
+			<title xml:lang="ko">회원 목록</title>
+			<title xml:lang="zh-CN">User List</title>
+			<title xml:lang="jp">User List</title>
+			<title xml:lang="es">User List</title>
+			<title xml:lang="ru">User List</title>
+			<title xml:lang="fr">User List</title>
+			<title xml:lang="zh-TW">User List</title>
+			<title xml:lang="vi">User List</title>
+			<title xml:lang="mn">User List</title>
+			<title xml:lang="tr">User List</title>
+		</menu>
+		<menu name="userSetting">
+			<title xml:lang="en">User Setting</title>
+			<title xml:lang="ko">회원 설정</title>
+			<title xml:lang="zh-CN">User Setting</title>
+			<title xml:lang="jp">User Setting</title>
+			<title xml:lang="es">User Setting</title>
+			<title xml:lang="ru">User Setting</title>
+			<title xml:lang="fr">User Setting</title>
+			<title xml:lang="zh-TW">User Setting</title>
+			<title xml:lang="vi">User Setting</title>
+			<title xml:lang="mn">User Setting</title>
+			<title xml:lang="tr">User Setting</title>
+		</menu>
+	</menus>
 </module>
