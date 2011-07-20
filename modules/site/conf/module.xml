@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<module>
+    <grants />
+    <permissions>
+    </permissions>
+    <actions>
+    </actions>
+	<menus>
+		<menu name="site">
+			<title xml:lang="en">Site</title>
+			<title xml:lang="ko">사이트</title>
+			<title xml:lang="zh-CN">Site</title>
+			<title xml:lang="jp">Site</title>
+			<title xml:lang="es">Site</title>
+			<title xml:lang="ru">Site</title>
+			<title xml:lang="fr">Site</title>
+			<title xml:lang="zh-TW">Site</title>
+			<title xml:lang="vi">Site</title>
+			<title xml:lang="mn">Site</title>
+			<title xml:lang="tr">Site</title>
+		</menu>
+	</menus>
+</module>
