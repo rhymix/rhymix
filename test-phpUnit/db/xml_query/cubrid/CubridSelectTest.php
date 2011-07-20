@@ -3,8 +3,8 @@
 
 	class CubridSelectTest extends CubridTest {
 
-                function _test($xml_file, $argsString, $expected){
-                    $this->_testQuery($xml_file, $argsString, $expected, 'getSelectSql');
+                function _test($xml_file, $argsString, $expected, $columnList = null){
+                    $this->_testQuery($xml_file, $argsString, $expected, 'getSelectSql', $columnList);
 		}
 		
 		function testSelectStar(){
@@ -151,30 +151,6 @@
 						 			or "group_srl" = -2) 
 						 group by "module_srl"';
 			$this->_test($xml_file, $argsString, $expected);			
-		}
-		
-		function test_syndication_getDocumentList(){
-			define('__ZBXE__', 1);
-			
-			require_once(_XE_PATH_.'classes/page/PageHandler.class.php');
-			
-			$db = &DB::getInstance('cubrid');
-			$args = new StdClass();
-			$args->module_srl = NULL;
-			$args->exclude_module_srl = NULL;
-			$args->category_srl = NULL;
-			$args->sort_index = 'list_order';
-			$args->order_type = 'asc';
-			$args->page = 5;
-			$args->list_count = 30;
-			$args->page_count = 10;
-			$args->start_date = NULL;
-			$args->end_date = NULL;
-			$args->member_srl = NULL;
-			$output = $db->executeQuery('document.getDocumentList', $args);
-			
-		 	$this->assertTrue(is_int($output->page));
-		 	// $this->assertTrue($output->page == 5);
 		}		
                 
                 function test_document_getDocumentList(){
@@ -193,6 +169,25 @@
                     $this->_test($xml_file, $argsString, $expected);			
                     
                                 
+                }
+                
+                /**
+                 * Test column list
+                 */
+                function test_session_getSession(){
+                    $xml_file = _XE_PATH_ . "modules/session/queries/getSession.xml";
+                    $argsString = '$args->session_key = \'session_key\';';
+                    $columnList = array('session_key', 'cur_mid', 'val');
+                    
+                    $expected = 'select "session_key", "cur_mid", "val" 
+                                 from "xe_session" as "session" 
+                                 where "session_key" = \'session_key\'';
+                    
+                    $this->_test($xml_file, $argsString, $expected, $columnList);	                    
+                    
+                    //$columnList = array('session_key', 'cur_mid', 'val');
+                    //$output = executeQuery('session.getSession', $args, $columnList);
+
                 }
 		
 	}

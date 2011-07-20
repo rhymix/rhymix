@@ -13,6 +13,8 @@
 		
 		var $arguments = null;
 		
+                var $columnList = null;
+                
 		function Query($queryID = null
 			, $action = null
 			, $columns = null
@@ -24,12 +26,13 @@
 			$this->queryID = $queryID;
 			$this->action = $action;
 			
-			$this->columns = $columns;
-			$this->tables = $tables;
-			$this->conditions = $conditions;
-			$this->groups = $groups;
-			$this->orderby = $orderby;
-			$this->limit = $limit;
+                        if(!isset($tables)) return;
+			$this->columns = $this->setColumns($columns);
+			$this->tables = $this->setTables($tables);
+			$this->conditions = $this->setConditions($conditions);
+			$this->groups = $this->setGroups($groups);
+			$this->orderby = $this->setOrder($orderby);
+			$this->limit = $this->setLimit($limit);
 		}
 				
 		function show(){
@@ -44,6 +47,10 @@
 			$this->action = $action;
 		}
 		
+                function setColumnList($columnList){
+                    $this->columnList = $columnList;
+                }
+                
 		function setColumns($columns){
 			if(!isset($columns) || count($columns) === 0){
 				$this->columns = array(new StarExpression());
@@ -130,9 +137,21 @@
 			return $this->action;
 		}
 		
-		function getSelectString($with_values = true){		
+		function getSelectString($with_values = true){	
+                        if(isset($this->columnList)){
+                            $selectColumns = array();
+                            $dbParser = XmlQueryParser::getDBParser();
+                            
+                            foreach($this->columnList as $columnName){
+                                    $columnName = $dbParser->escapeColumn($columnName);
+                                    $selectColumns[] = new SelectExpression($columnName);
+                            }
+                        }
+                        else
+                            $selectColumns = $this->columns;
+                        
 			$select = '';
-			foreach($this->columns as $column){
+			foreach($selectColumns as $column){
 				if($column->show())
 					if(is_a($column, 'Subquery')){
 						$select .= $column->toString($with_values) . ' as '. $column->getAlias() .', ';

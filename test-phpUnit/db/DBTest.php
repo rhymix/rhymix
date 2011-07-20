@@ -1,7 +1,7 @@
 <?php
     class DBTest extends PHPUnit_Framework_TestCase {
         
-        function _testQuery($xml_file, $argsString, $expected, $methodName){
+        function _testQuery($xml_file, $argsString, $expected, $methodName, $columnList = null){
                 echo PHP_EOL . ' ----------------------------------- ' .PHP_EOL;
                 echo $xml_file;
                 echo PHP_EOL . ' ----------------------------------- ' .PHP_EOL;
@@ -15,6 +15,7 @@
                         if(!$output->toBool()) $querySql = "Date incorecte! Query-ul nu a putut fi executat.";
                 }else {
                         $db = &DB::getInstance();
+                        if($columnList) $output->setColumnList($columnList);
                         $querySql = $db->{$methodName}($output);
 
                         // Remove whitespaces, tabs and all

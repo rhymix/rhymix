@@ -21,7 +21,7 @@
                         
                         $output = executeQuery('module.insertModule', $args);
                         
-                        $this->assertTrue(!$output->error);		
+                        $this->assertTrue(!$output->error, $output->message);		
 		}      
                 
                 function test_document_insertDocument_defaultVarcharValue(){
