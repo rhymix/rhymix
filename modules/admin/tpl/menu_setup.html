@@ -1,0 +1,56 @@
+<load target="./js/menu_setup.js" />
+<div class="content" id="content">
+	<form id="listForm" action="./">
+	<input type="hidden" name="act" value="procMenuAdminDeleteItem" />
+	<input type="hidden" name="menu_srl" value="{$menu_srl}" />
+	<input type="hidden" name="menu_item_srl" value="" />
+	<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin', 'act', 'dispAdminMenuSetup')}" />
+		<h1 class="h1">Admin Menu Setup</h1>
+		<div class="portlet siteMap">
+			<h2 class="h2"><input value="Admin Menu" disabled /></h2>
+			<ul class="lined">
+				<!--@foreach($gnbUrlList AS $key=>$value)-->
+				<li>
+					<input type="hidden" value="{$key}" class="_parent_key" />
+					<input value="{$value['text']}" /> <span class="side"> <button type="button" class="modalAnchor _add">Add</button> | <button type="button" class="_parent_delete">Delete</button></span>
+					<!--@if(is_array($value['list']) && count($value['list'])>0)-->
+					<ul>
+						<!--@foreach($value['list'] AS $key2=>$value2)-->
+						<input type="hidden" value="{$key2}" class="_child_key" />
+						<li><input value="{$value2['text']}" /> <span class="side"><button type="button" class="_child_delete">Delete</button></span></li>
+						<!--@end-->
+					</ul>
+					<!--@end-->
+				</li>
+				<!--@end-->
+			</ul>
+		</div>
+		<div class="btnArea">
+			<span class="btn medium"><input type="submit" value="Save it" /></span>
+			<span class="btn medium"><button type="button">Add New Site Map...</button></span>
+		</div>
+	</form>
+
+	<div class="modal" id="editMenu">
+		<div class="fg">
+			<form id="editForm" action="./" class="form">
+			<input type="hidden" name="act" value="procMenuAdminInsertItemForAdminMenu" />
+			<input type="hidden" name="menu_srl" value="{$menu_srl}" />
+			<input type="hidden" name="parent_srl" value="" />
+				<h2 class="h2">My Navigation Setting</h2>
+				<ul>
+					<li>
+						<p class="q"><label for="name">Name</label></p>
+						<div class="a">
+							<select name="menu_name" id="menuNameList">
+							</select>
+						</div>
+					</li>
+				</ul>
+				<div class="btnArea">
+					<span class="btn"><input type="submit" value="Save" /></span>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

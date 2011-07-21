@@ -30,7 +30,7 @@
 		<div class="gnb jx">
 			<ul>
 				<!--@foreach($gnbUrlList AS $key=>$value)-->
-				<li <!--@if($category == $key)-->class="activeOn"<!--@end-->><a href="{html_entity_decode($value['href'])}">{$value['text']}</a>
+				<li <!--@if($parentSrl == $key)-->class="activeOn"<!--@end-->><a href="{html_entity_decode($value['href'])}">{$value['text']}</a>
 					<!--@if(count($gnbUrlList[$key]['list']) > 0)-->
 					<ul>
 						<!--@foreach($gnbUrlList[$key]['list'] AS $key2=>$value2)-->

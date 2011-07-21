@@ -107,6 +107,15 @@
             return $node;
         }
 
+		function getMenuItems($menu_srl, $parent_srl = null, $columnList = array())
+		{
+			$args->menu_srl = $menu_srl;
+			$args->parent_srl = $parent_srl;
+
+			$output = executeQueryArray('menu.getMenuItems', $args, $columnList);
+			return $output;
+		}
+
         /**
          * @brief Return menu name in each language to support multi-language
          */

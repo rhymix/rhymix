@@ -6,11 +6,21 @@
      **/
 
     class documentAdminView extends document {
-
         /**
          * @brief Initialization
          **/
         function init() {
+			// check current location in admin menu
+			$oModuleModel = &getModel('module');
+			$info = $oModuleModel->getModuleActionXml('document');
+			foreach($info->menu AS $key => $menu)
+			{
+				if(in_array($this->act, $menu->acts))
+				{
+					Context::set('currentMenu', $key);
+					break;
+				}
+			}
         }
 
         /**

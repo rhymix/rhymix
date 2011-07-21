@@ -3,6 +3,7 @@
     class adminAdminModel extends admin
     {
         var $pwd;
+		var $gnbLangBuffer;
 
         function getSFTPList()
         {
@@ -143,5 +144,37 @@
 			$param = substr($param, 1);
 
 			return $param;
+		}
+
+		function getAdminMenuLang()
+		{
+			$currentLang = Context::getLangType();
+			$cacheFile = sprintf('./files/cache/menu/adminMenu.%s.lang.php', $currentLang);
+
+            // Update if no cache file exists or it is older than xml file
+            if(!is_readable($cacheFile))
+			{
+				$oModuleModel = &getModel('module');
+				$installed_module_list = $oModuleModel->getModulesXmlInfo();
+
+				$this->gnbLangBuffer = '<?php ';
+				foreach($installed_module_list AS $key=>$value)
+				{
+					$moduleActionInfo = $oModuleModel->getModuleActionXml($value->module);
+					if(is_object($moduleActionInfo->menu))
+					{
+						foreach($moduleActionInfo->menu AS $key2=>$value2)
+						{
+							$lang->menu_gnb_sub[$key2] = $value2->title;
+							$this->gnbLangBuffer .=sprintf('$lang->menu_gnb_sub[\'%s\'] = \'%s\';', $key2, $value2->title);
+						}
+					}
+				}
+				$this->gnbLangBuffer .= ' ?>';
+				FileHandler::writeFile($cacheFile, $this->gnbLangBuffer);
+			}
+			else include $cacheFile;
+
+			return $lang->menu_gnb_sub;
 		}
 	}

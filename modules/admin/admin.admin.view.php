@@ -46,9 +46,12 @@
 
         }
 
-		function makeGnbUrl()
+		function makeGnbUrl($module = 'admin')
 		{
 			global $lang;
+			$oAdminAdminModel = &getAdminModel('admin');
+			$lang->menu_gnb_sub = $oAdminAdminModel->getAdminMenuLang();
+
 			$oMenuAdminModel = &getAdminModel('menu');
 			$menu_info = $oMenuAdminModel->getMenuByTitle('__XE_ADMIN__');
 
@@ -59,7 +62,44 @@
 				return;
 			}
 
+            $oModuleModel = &getModel('module');
+			$moduleActionInfo = $oModuleModel->getModuleActionXml($module);
+			if(is_object($moduleActionInfo->menu))
+			{
+				$subMenuTitle = '';
+				foreach($moduleActionInfo->menu AS $key=>$value)
+				{
+					if($value->acts && in_array(Context::get('act'), $value->acts))
+					{
+						$subMenuTitle = $value->title;
+						break;
+					}
+				}
+			}
+
+			$parentSrl = 0;
+			if(is_array($menu->list))
+			{
+				foreach($menu->list AS $key=>$value)
+				{
+					$parentMenu = $value;
+					if(is_array($parentMenu['list']) && count($parentMenu['list']) > 0)
+					{
+						foreach($parentMenu['list'] AS $key2=>$value2)
+						{
+							$childMenu = $value2;
+							if($subMenuTitle == $childMenu['text'])
+							{
+								$parentSrl = $childMenu['parent_srl'];
+								break;
+							}
+						}
+					}
+				}
+			}
+
 			Context::set('gnbUrlList', $menu->list);
+			Context::set('parentSrl', $parentSrl);
 		}
 
 		function loadSideBar()
@@ -371,6 +411,19 @@
             Context::set('layout','none');
             $this->setTemplateFile('config');
         }
+
+        /**
+         * @brief Display Admin Menu Configuration(settings) page
+         * @return none
+         **/
+		function dispAdminMenuSetup()
+		{
+			$oMenuAdminModel = &getAdminModel('menu');
+			$output = $oMenuAdminModel->getMenuByTitle('__XE_ADMIN__');
+
+			Context::set('menu_srl', $output->menu_srl);
+            $this->setTemplateFile('menu_setup');
+		}
 
 		function showSendEnv() {
 			if(Context::getResponseMethod() != 'HTML') return;

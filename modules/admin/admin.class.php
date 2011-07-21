@@ -6,6 +6,7 @@
      **/
 
     class admin extends ModuleObject {
+		var $xeMenuTitle;
 
         /**
          * @brief install admin module 
@@ -19,8 +20,11 @@
          * @brief if update is necessary it returns true
          **/
         function checkUpdate() {
+			$this->xeMenuTitle = '__XE_ADMIN__';
 			$oMenuAdminModel = &getAdminModel('menu');
-			$output = $oMenuAdminModel->getMenuByTitle('__XE_ADMIN__');
+			$output = $oMenuAdminModel->getMenuByTitle($this->xeMenuTitle);
+
+			//if(1)
 			if(!$output->menu_srl)
 			{
 				$this->_createXeAdminMenu();
@@ -70,94 +74,125 @@
 		function _createXeAdminMenu()
 		{
 			//insert menu
-            $args->title = '__XE_ADMIN__';
+            $args->title = $this->xeMenuTitle;
             $args->menu_srl = getNextSequence();
+			//$args->menu_srl = 3302;
             $args->listorder = $args->menu_srl * -1;
             $output = executeQuery('menu.insertMenu', $args);
+			$menuSrl = $args->menu_srl;
+			unset($args);
 
-			$adminUrl = getUrl('', 'module', 'admin');
-			$gnbList = array(
-				'dashboard'=>array(
-					'url'=>$adminUrl,
-					'lnbList'=>array()
-				),
-				'site'=>array(
-					'url'=>$adminUrl,
-					'lnbList'=>array()
-				),
-				'user'=>array(
-					'url'=>$adminUrl,
-					'lnbList'=>array('userList'=>$adminUrl, 'setting'=>$adminUrl, 'point'=>$adminUrl)
-				),
-				'content'=>array(
-					'url'=>getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList'),
-					'lnbList'=>array(
-						'document'=>getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList'),
-						'comment'=>$adminUrl,
-						'trackback'=>$adminUrl,
-						'file'=>$adminUrl,
-						'poll'=>$adminUrl,
-						'dataMigration'=>$adminUrl
-					)
-				),
-				'theme'=>array(
-					'url'=>$adminUrl,
-					'lnbList'=>array()
-				),
-				'extensions'=>array(
-					'url'=>$adminUrl,
-					'lnbList'=>array('easyInstaller'=>$adminUrl, 'installedLayout'=>$adminUrl, 'installedModule'=>$adminUrl, 'installedWidget'=>$adminUrl, 'installedAddon'=>$adminUrl, 'WYSIWYGEditor'=>$adminUrl, 'spamFilter'=>$adminUrl)
-				),
-				'configuration'=>array(
-					'url'=>$adminUrl,
-					'lnbList'=>array('general'=>$adminUrl, 'fileUpload'=>$adminUrl)
-				)
-			);
-
-			$oMemberModel = &getModel('member');
-			$output = $oMemberModel->getAdminGroup(array('group_srl'));
-			$adminGroupSrl = $output->group_srl;
-
-			// common argument setting
-			$args->open_window = 'N';
-			$args->expand = 'N';
-			$args->normal_btn = '';
-			$args->hover_btn = '';
-			$args->active_btn = '';
-			$args->group_srls = $adminGroupSrl;
-
+			// gnb item create
+			$gnbList = array('dashboard', 'site', 'user', 'content', 'theme', 'extensions', 'configuration');
 			foreach($gnbList AS $key=>$value)
 			{
 				//insert menu item
+				$args->menu_srl = $menuSrl;
 				$args->menu_item_srl = getNextSequence();
-				$args->name = '{$lang->menu_gnb[\''.$key.'\']}';
-				$args->url = $value['url'];
+				$args->name = '{$lang->menu_gnb[\''.$value.'\']}';
+				if($value == 'dashboard') $args->url = getUrl('', 'module', 'admin');
+				else $args->url = '#';
 				$args->listorder = -1*$args->menu_item_srl;
                 $output = executeQuery('menu.insertMenuItem', $args);
+			}
 
-				if(is_array($value) && count($value)>0)
+			$oMenuAdminModel = &getAdminModel('menu');
+			$columnList = array('menu_item_srl', 'name');
+			$output = $oMenuAdminModel->getMenuItems($menuSrl, 0, $columnList);
+			foreach($output->data AS $key=>$value)
+			{
+				preg_match('/\{\$lang->menu_gnb\[(.*?)\]\}/i', $value->name, $m);
+				$gnbDBList[$m[1]] = $value->menu_item_srl;
+			}
+
+			unset($args);
+            $oModuleModel = &getModel('module');
+            $installed_module_list = $oModuleModel->getModulesXmlInfo();
+
+			// gnb sub item create
+			if(is_array($installed_module_list))
+			{
+				$oMemberModel = &getModel('member');
+				$output = $oMemberModel->getAdminGroup(array('group_srl'));
+				$adminGroupSrl = $output->group_srl;
+
+				// common argument setting
+				$args->menu_srl = $menuSrl;
+				$args->open_window = 'N';
+				$args->expand = 'N';
+				$args->normal_btn = '';
+				$args->hover_btn = '';
+				$args->active_btn = '';
+				$args->group_srls = $adminGroupSrl;
+
+				foreach($installed_module_list AS $key=>$value)
 				{
-					$args2->menu_srl = $args->menu_srl;
-					$args2->open_window = 'N';
-					$args2->expand = 'N';
-					$args2->normal_btn = '';
-					$args2->hover_btn = '';
-					$args2->active_btn = '';
-					$args2->group_srls = $adminGroupSrl;
-					foreach($value['lnbList'] AS $key2=>$value2)
-					{
-						//insert menu item
-						$args2->menu_item_srl = getNextSequence();
-						$args2->parent_srl = $args->menu_item_srl;
-						$args2->name = '{$lang->menu_gnb_sub[\''.$key.'\'][\''.$key2.'\']}';
-						$args2->url = $value2;
-						$args2->listorder = -1*$args2->menu_item_srl;
-						$output = executeQuery('menu.insertMenuItem', $args2);
-					}
+					//if($value->module == 'document')
+					//{
+						$moduleActionInfo = $oModuleModel->getModuleActionXml($value->module);
+						if(is_object($moduleActionInfo->menu))
+						{
+							foreach($moduleActionInfo->menu AS $key2=>$value2)
+							{
+								$gnbKey = "'".$this->_getGnbKey($key2)."'";
+
+								//insert menu item
+								$args->menu_item_srl = getNextSequence();
+								$args->parent_srl = $gnbDBList[$gnbKey];
+								//$args->name = '{$lang->menu_gnb_sub['.$gnbKey.'][\''.$key2.'\']}';
+								$args->name = '{$lang->menu_gnb_sub[\''.$key2.'\']}';
+								$args->url = getNotEncodedUrl('', 'module', 'admin', 'act', $value2->index);
+								$args->listorder = -1*$args->menu_item_srl;
+								$output = executeQuery('menu.insertMenuItem', $args);
+							}
+						}
+					//}
 				}
 			}
+
 			$oMenuAdminConroller = &getAdminController('menu');
-			$oMenuAdminConroller->makeXmlFile($args->menu_srl);
+			$oMenuAdminConroller->makeXmlFile($menuSrl);
+		}
+
+		function _getGnbKey($menuName)
+		{
+			switch($menuName) {
+				case 'site':
+					return 'site';
+					break;
+				case 'userList':
+				case 'userSetting':
+				case 'point':
+					return 'user';
+					break;
+				case 'document':
+				case 'comment':
+				case 'trackback':
+				case 'file':
+				case 'poll':
+				case 'importer':
+					return 'content';
+					break;
+				case 'theme':
+					return 'theme';
+					break;
+				case 'easyInstall':
+				case 'installedLayout':
+				case 'installedModule':
+				case 'installedWidget':
+				case 'installedAddon':
+				case 'editor':
+				case 'spamFilter':
+					return 'extensions';
+					break;
+				case 'adminConfiguration':
+				case 'adminMenuSetup':
+				case 'fileUpload':
+					return 'configuration';
+					break;
+				default:
+					return 'extensions';
+			}
 		}
     }
 ?>

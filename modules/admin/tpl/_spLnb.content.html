@@ -1,9 +1,9 @@
 <div class="lnb">
 	<h2 class="h2">{$lang->menu_gnb[$category]}</h2>
 	<ul>
-		<!--@if(count($gnbSubUrlList[$category]) > 0)-->
-		<!--@foreach($gnbSubUrlList[$category] AS $key=>$value)-->
-		<li><a href="#">{$lang->menu_gnb_sub[$category][$key]}</a></li>
+		<!--@if(count($gnbUrlList[$parentSrl]['list']) > 0)-->
+		<!--@foreach($gnbUrlList[$parentSrl]['list'] AS $key=>$value)-->
+		<li><a href="{html_entity_decode($value['href'])}">{$value['text']}</a></li>
 		<!--@end-->
 		<!--@end-->
 	</ul>
