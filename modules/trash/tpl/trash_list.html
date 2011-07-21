@@ -3,7 +3,7 @@ var confirm_restore_msg = '{$lang->confirm_restore}';
 </script>
 <!--#include("header.html")-->
 
-<p class="xe_validator_error">{$XE_VALIDATOR_ERROR}</p>
+<p cond="$XE_VALIDATOR_MESSAGE" class="xe_validator_message"|cond="!$XE_VALIDATOR_ERROR" class="xe_validator_error"|cond="$XE_VALIDATOR_ERROR">{$XE_VALIDATOR_MESSAGE}</p>
 <form ruleset="emptyTrash" id="fo_list" action="./" method="post">
 <input type="hidden" name="act" value="procTrashAdminEmptyTrash" />
 <input type="hidden" name="page" value="{$page}" />

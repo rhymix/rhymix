@@ -6,7 +6,7 @@
     <h3 class="xeAdmin">{$lang->cmd_setup}</h3>
 </div>
 
-<p class="xe_validator_error">{$XE_VALIDATOR_ERROR}</p>
+<p cond="$XE_VALIDATOR_MESSAGE" class="xe_validator_message"|cond="!$XE_VALIDATOR_ERROR" class="xe_validator_error"|cond="$XE_VALIDATOR_ERROR">{$XE_VALIDATOR_MESSAGE}</p>
 <form ruleset="setupComponent" action="./" method="post">
 <input type="hidden" name="act" value="procEditorAdminSetupComponent" />
 <input type="hidden" name="component_name" value="{$component_name}" />

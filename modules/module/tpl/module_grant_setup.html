@@ -9,7 +9,7 @@
     <h3 class="xeAdmin">{$lang->bundle_grant_setup}</h3>
 </div>
 
-<p class="xe_validator_error">{$XE_VALIDATOR_ERROR}</p>
+<p cond="$XE_VALIDATOR_MESSAGE" class="xe_validator_message"|cond="!$XE_VALIDATOR_ERROR" class="xe_validator_error"|cond="$XE_VALIDATOR_ERROR">{$XE_VALIDATOR_MESSAGE}</p>
 <form ruleset="insertModulesGrant" action="./" method="post" id="fo_obj">
 <input type="hidden" name="act" value="procModuleAdminModuleGrantSetup" />
 <input type="hidden" name="module_srls" value="{$module_srls}" />

@@ -312,8 +312,9 @@
 						$oModule->setMessage($errorMsg);
 						//for html redirect
 						$this->error = $errorMsg;
-						$_SESSION['XE_VALIDATOR_ERROR'] = $this->error;
-						$_SESSION['XE_VALIDATOR_ERROR_RETURN_URL'] = $returnUrl;
+						$_SESSION['XE_VALIDATOR_ERROR'] = -1;
+						$_SESSION['XE_VALIDATOR_MESSAGE'] = $this->error;
+						$_SESSION['XE_VALIDATOR_RETURN_URL'] = $returnUrl;
 						$this->_setInputValueToSession();
 						return $oModule;
 					}
@@ -336,39 +337,45 @@
 			$this->_setInputErrorToContext();
 
             $procResult = $oModule->proc();
-            //if(!$oModule->proc()) 
-            if(!$procResult) 
-			{
-				$this->error = $oModule->getMessage();
-				// case post, redirect page
-            	if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON')))
-				{
-					$returnUrl = Context::get('error_return_url')?Context::get('error_return_url'):getUrl();
-					$errorMsg = $oModule->getMessage() ? $oModule->getMessage() : 'module process error';
 
-					$_SESSION['XE_VALIDATOR_ERROR'] = $errorMsg;
-					$_SESSION['XE_VALIDATOR_ERROR_RETURN_URL'] = $returnUrl;
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON')))
+			{
+				$error = $oModule->getError();
+				$message = $oModule->getMessage();
+				$redirectUrl = $oModule->getRedirectUrl();
+				
+				if (!$procResult)
+				{
+					$this->error = $oModule->getMessage();
+					if (!$redirectUrl) $redirectUrl = Context::get('error_return_url')?Context::get('error_return_url'):getUrl();
 					$this->_setInputValueToSession();
 				}
-			}
-			else
-			{
-				if(count($_SESSION['INPUT_ERROR']))
+				else
 				{
-					Context::set('INPUT_ERROR', $_SESSION['INPUT_ERROR']);
-					$_SESSION['INPUT_ERROR'] = '';
+					if(count($_SESSION['INPUT_ERROR']))
+					{
+						Context::set('INPUT_ERROR', $_SESSION['INPUT_ERROR']);
+						$_SESSION['INPUT_ERROR'] = '';
+					}
 				}
+				
+				$_SESSION['XE_VALIDATOR_ERROR'] = $error;
+				if ($message != 'success') $_SESSION['XE_VALIDATOR_MESSAGE'] = $message;
+				$_SESSION['XE_VALIDATOR_RETURN_URL'] = $redirectUrl;
 			}
+			
             return $oModule;
         }
 
 		function _setInputErrorToContext()
 		{
 			if($_SESSION['XE_VALIDATOR_ERROR'] && !Context::get('XE_VALIDATOR_ERROR')) Context::set('XE_VALIDATOR_ERROR', $_SESSION['XE_VALIDATOR_ERROR']);
-			if($_SESSION['XE_VALIDATOR_ERROR_RETURN_URL'] && !Context::get('XE_VALIDATOR_ERROR_RETURN_URL')) Context::set('XE_VALIDATOR_ERROR_RETURN_URL', $_SESSION['XE_VALIDATOR_ERROR_RETURN_URL']);
+			if($_SESSION['XE_VALIDATOR_MESSAGE'] && !Context::get('XE_VALIDATOR_MESSAGE')) Context::set('XE_VALIDATOR_MESSAGE', $_SESSION['XE_VALIDATOR_MESSAGE']);
+			if($_SESSION['XE_VALIDATOR_RETURN_URL'] && !Context::get('XE_VALIDATOR_RETURN_URL')) Context::set('XE_VALIDATOR_RETURN_URL', $_SESSION['XE_VALIDATOR_RETURN_URL']);
 
 			$_SESSION['XE_VALIDATOR_ERROR'] = '';
-			$_SESSION['XE_VALIDATOR_ERROR_RETURN_URL'] = '';
+			$_SESSION['XE_VALIDATOR_MESSAGE'] = '';
+			$_SESSION['XE_VALIDATOR_RETURN_URL'] = '';
 		}
 
 		function _setInputValueToSession()
@@ -399,14 +406,15 @@
 
             // Use message view object, if HTML call
             if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				
+				if($_SESSION['XE_VALIDATOR_RETURN_URL'])
+				{
+					header('location:'.$_SESSION['XE_VALIDATOR_RETURN_URL']);
+					return;
+				}
+				
                 // If error occurred, handle it
                 if($this->error) {
-					if($_SESSION['XE_VALIDATOR_ERROR'] && $_SESSION['XE_VALIDATOR_ERROR_RETURN_URL'])
-					{
-						header('location:'.$_SESSION['XE_VALIDATOR_ERROR_RETURN_URL']);
-						return;
-					}
-
                     // display content with message module instance 
 					$type = Mobile::isFromMobilePhone() ? 'mobile' : 'view';
 					$oMessageObject = &ModuleHandler::getModuleInstance('message',$type);

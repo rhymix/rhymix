@@ -51,6 +51,13 @@
         function setRedirectUrl($url='./') {
             $this->add('redirect_url', $url);
         }
+		
+		/**
+		 * @brief get url for redirection
+		 **/
+		function getRedirectUrl(){
+			return $this->get('redirect_url');
+		}
 
         /**
          * @brief sett to set the template path for refresh.html

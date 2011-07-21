@@ -14,7 +14,7 @@
 <span style="float:right"><a href="#"  onclick="doReloadTreeCategory('{$module_info->module_srl}');return false;" class="button black"><span>{$lang->cmd_remake_cache}</span></a></span>
 
     <div class="gap1">
-		<p class="xe_validator_error">{$XE_VALIDATOR_ERROR}</p>
+		<p cond="$XE_VALIDATOR_MESSAGE" class="xe_validator_message"|cond="!$XE_VALIDATOR_ERROR" class="xe_validator_error"|cond="$XE_VALIDATOR_ERROR">{$XE_VALIDATOR_MESSAGE}</p>
         <form ruleset="insertCategory" id="fo_category" action="./" method="post">
 		<input type="hidden" name="act" value="procDocumentInsertCategory" />
         <input type="hidden" name="module_srl" value="{$module_info->module_srl}" />

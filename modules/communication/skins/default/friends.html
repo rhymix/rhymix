@@ -7,7 +7,7 @@
 
     <h3>{$member_title = $lang->cmd_view_friend } ({$total_count})</h3>
 
-	<p class="xe_validator_error">{$XE_VALIDATOR_ERROR}</p>
+	<p cond="$XE_VALIDATOR_MESSAGE" class="xe_validator_message"|cond="!$XE_VALIDATOR_ERROR" class="xe_validator_error"|cond="$XE_VALIDATOR_ERROR">{$XE_VALIDATOR_MESSAGE}</p>
     <!--form id="fo_friend_list" action="./" method="get" onsubmit="return procFilter(this, delete_checked_friend)"-->
     <form ruleset="deleteCheckedFriend" id="fo_friend_list" action="./" method="post">
 	<input type="hidden" name="act" value="procCommunicationDeleteFriend" />

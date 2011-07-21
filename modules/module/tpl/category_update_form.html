@@ -1,7 +1,7 @@
 <!--#include("./header.html")-->
 <!-- 카테고리 수정 -->
 <!--@if($selected_category)-->
-<p class="xe_validator_error">{$XE_VALIDATOR_ERROR}</p>
+<p cond="$XE_VALIDATOR_MESSAGE" class="xe_validator_message"|cond="!$XE_VALIDATOR_ERROR" class="xe_validator_error"|cond="$XE_VALIDATOR_ERROR">{$XE_VALIDATOR_MESSAGE}</p>
 <form ruleset="updateCategory" action="./" method="post" enctype="multipart/form-data">
 <input type="hidden" name="act" value="procModuleAdminUpdateCategory" />
 <input type="hidden" name="module_category_srl" value="{$selected_category->module_category_srl}" />
