@@ -24,19 +24,23 @@
 			$this->column_name = $dbParser->parseColumnName($condition->attrs->column);
 			
 			$isColumnName = strpos($condition->attrs->default, '.');
-			                      
+			$isColumnName = $isColumnName || strpos($condition->attrs->var, '.');
+                        
                         if($condition->node_name == 'query'){
                                 $this->query = new QueryTag($condition, true);
                                 $this->default_column = $this->query->toString();
                         }
-			else if($condition->attrs->var || $isColumnName === false){
+			else if(($condition->attrs->var && !$isColumnName) || $isColumnName === false){
 				require_once(_XE_PATH_.'classes/xml/xmlquery/queryargument/QueryArgument.class.php');			
 				
 				$this->argument = new QueryArgument($condition);	
 				$this->argument_name = $this->argument->getArgumentName();			
 			}
 			else {
+                            if($condition->attrs->default)
 				$this->default_column = "'" .  $dbParser->parseColumnName($condition->attrs->default)  . "'" ;	
+                            else
+                                $this->default_column = "'" .  $dbParser->parseColumnName($condition->attrs->var)  . "'" ;	
 			}                        
 		}
 		

@@ -184,10 +184,19 @@
                                  where "session_key" = \'session_key\'';
                     
                     $this->_test($xml_file, $argsString, $expected, $columnList);	                    
-                    
-                    //$columnList = array('session_key', 'cur_mid', 'val');
-                    //$output = executeQuery('session.getSession', $args, $columnList);
-
                 }
+                
+                function test_module_getModuleInfoByDocument(){
+                    $xml_file = _XE_PATH_ . "modules/module/queries/getModuleInfoByDocument.xml";
+                    $argsString = '$args->document_srl = 10;';
+                    $expected = 'SELECT "modules".*  
+                        FROM "xe_modules" as "modules" 
+                                , "xe_documents" as "documents"   
+                        WHERE  "documents"."document_srl" = 10    
+                                and "modules"."module_srl" = "documents"."module_srl"';
+                    $this->_test($xml_file, $argsString, $expected);			
+                    
+                                
+                }                
 		
 	}

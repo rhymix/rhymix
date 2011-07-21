@@ -61,7 +61,24 @@ class ConditionTagTest extends CubridTest {
             
             $arguments = $tag->getArguments();
             $this->assertEquals(1, count($arguments));
-    }	        
+    }	    
+    
+    /**
+     * Tests that even if the column name is given in the var attribute, it knows it's just a name and not an argument
+     * <condition operation="equal" column="modules.module_srl" var="documents.module_srl" pipe="and" />
+     */
+    function testConditionStringWithoutArgumentAndDefaultValueInsideVar(){
+            $xml_file = $this->xmlPath . "condition4.xml";
+            $xml_obj = Helper::getXmlObject($xml_file);
+            $tag = new ConditionTag($xml_obj->condition);
+
+            $expected = "new Condition('\"modules\".\"module_srl\"','\"documents\".\"module_srl\"',\"equal\", 'and')";
+            $actual = $tag->getConditionString();
+            $this->assertEquals($expected, $actual);            
+            
+            $arguments = $tag->getArguments();
+            $this->assertEquals(0, count($arguments));            
+    }	    
 
 }
 
