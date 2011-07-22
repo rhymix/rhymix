@@ -304,7 +304,7 @@
 					if(!$result)
 					{
 						$lastError = $Validator->getLastError();
-						$returnUrl = Context::get('error_return_url')?Context::get('error_return_url'):getUrl();
+						$returnUrl = Context::get('error_return_url');
 						$errorMsg = $lastError['msg'] ? $lastError['msg'] : 'validation error';
 
 						//for xml response
@@ -349,7 +349,7 @@
 				if (!$procResult)
 				{
 					$this->error = $message;
-					if (!$redirectUrl) $redirectUrl = Context::get('error_return_url')?Context::get('error_return_url'):getUrl();
+					if (!$redirectUrl && Context::get('error_return_url')) $redirectUrl = Context::get('error_return_url');
 					$this->_setInputValueToSession();
 				}
 				else
@@ -377,6 +377,11 @@
 			if($_SESSION['XE_VALIDATOR_MESSAGE_TYPE'] && !Context::get('XE_VALIDATOR_MESSAGE_TYPE')) Context::set('XE_VALIDATOR_MESSAGE_TYPE', $_SESSION['XE_VALIDATOR_MESSAGE_TYPE']);
 			if($_SESSION['XE_VALIDATOR_RETURN_URL'] && !Context::get('XE_VALIDATOR_RETURN_URL')) Context::set('XE_VALIDATOR_RETURN_URL', $_SESSION['XE_VALIDATOR_RETURN_URL']);
 
+			$this->_clearErrorSession();
+		}
+		
+		function _clearErrorSession()
+		{
 			$_SESSION['XE_VALIDATOR_ERROR'] = '';
 			$_SESSION['XE_VALIDATOR_MESSAGE'] = '';
 			$_SESSION['XE_VALIDATOR_MESSAGE_TYPE'] = '';
@@ -435,6 +440,8 @@
                     } else {
                         $oModule = $oMessageObject;
                     }
+					
+					$this->_clearErrorSession();
                 }
 
                 // Check if layout_srl exists for the module
