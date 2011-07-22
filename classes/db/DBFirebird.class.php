@@ -622,7 +622,7 @@
          * @brief Handle the insertAct
          **/
         function _executeInsertAct($queryObject) {
- 			$query = $this->getInsertSql($queryObject);
+            $query = $this->getInsertSql($queryObject);
             if(is_a($query, 'Object')) return;
             return $this->_query($query);
         }
@@ -662,55 +662,102 @@
 			else return $this->queryPageLimit($queryObject, $result);     
         }
         
-    	function queryError($queryObject){
-			if ($queryObject->getLimit() && $queryObject->getLimit()->isPageHandler()){
-					$buff = new Object ();
-					$buff->total_count = 0;
-					$buff->total_page = 0;
-					$buff->page = 1;
-					$buff->data = array ();
-					$buff->page_navigation = new PageHandler (/*$total_count*/0, /*$total_page*/1, /*$page*/1, /*$page_count*/10);//default page handler values
-					return $buff;
-				}else	
-					return;
-		}
-		
-		function queryPageLimit($queryObject, $result){
-			 	if ($queryObject->getLimit() && $queryObject->getLimit()->isPageHandler()) {
-		 		// Total count
-		 		$count_query = sprintf('select count(*) as "count" %s %s', 'FROM ' . $queryObject->getFromString(), ($queryObject->getWhereString() === '' ? '' : ' WHERE '. $queryObject->getWhereString()));
-				if ($queryObject->getGroupByString() != '') {
-					$count_query = sprintf('select count(*) as "count" from (%s) xet', $count_query);
-				}
-
-				$count_query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
-				$result_count = $this->_query($count_query);
-				$count_output = $this->_fetch($result_count);
-				$total_count = (int)$count_output->count;
-		 		
-				// Total pages
-				if ($total_count) {
-					$total_page = (int) (($total_count - 1) / $queryObject->getLimit()->list_count) + 1;
-				}	else	$total_page = 1;
-		 		
-		 		$virtual_no = $total_count - ($queryObject->getLimit()->page - 1) * $queryObject->getLimit()->list_count;
-		 		$data = $this->_fetch($result, $virtual_no);
-
-		 		$buff = new Object ();
-				$buff->total_count = $total_count;
-				$buff->total_page = $total_page;
-				$buff->page = $queryObject->getLimit()->page;
-				$buff->data = $data;
-				$buff->page_navigation = new PageHandler($total_count, $total_page, $queryObject->getLimit()->page, $queryObject->getLimit()->page_count);				
-			}else{
-				$data = $this->_fetch($result);
-				$buff = new Object ();
-				$buff->data = $data;	
-			}
-			return $buff;
-		}
-
+    	function queryError($queryObject) {
+        if ($queryObject->getLimit() && $queryObject->getLimit()->isPageHandler()) {
+            $buff = new Object ();
+            $buff->total_count = 0;
+            $buff->total_page = 0;
+            $buff->page = 1;
+            $buff->data = array();
+            $buff->page_navigation = new PageHandler(/* $total_count */0, /* $total_page */1, /* $page */1, /* $page_count */10); //default page handler values
+        }else
+            return;
     }
+
+    function queryPageLimit($queryObject, $result) {
+        if ($queryObject->getLimit() && $queryObject->getLimit()->isPageHandler()) {
+            // Total count
+            $count_query = sprintf('select count(*) as "count" %s %s', 'FROM ' . $queryObject->getFromString(), ($queryObject->getWhereString() === '' ? '' : ' WHERE ' . $queryObject->getWhereString()));
+            if ($queryObject->getGroupByString() != '') {
+                $count_query = sprintf('select count(*) as "count" from (%s) xet', $count_query);
+            }
+
+            $count_query .= ( __DEBUG_QUERY__ & 1 && $output->query_id) ? sprintf(' ' . $this->comment_syntax, $this->query_id) : '';
+            $result_count = $this->_query($count_query);
+            $count_output = $this->_fetch($result_count);
+            $total_count = (int) $count_output->count;
+
+            // Total pages
+            if ($total_count) {
+                $total_page = (int) (($total_count - 1) / $queryObject->getLimit()->list_count) + 1;
+            } else
+                $total_page = 1;
+
+            $virtual_no = $total_count - ($queryObject->getLimit()->page - 1) * $queryObject->getLimit()->list_count;
+            while ($tmp = ibase_fetch_object($result))
+                $data[$virtual_no--] = $tmp;
+            
+            if (!$this->transaction_started)
+                @ibase_commit($this->fd);
+
+            $buff = new Object ();
+            $buff->total_count = $total_count;
+            $buff->total_page = $total_page;
+            $buff->page = $queryObject->getLimit()->page->getValue();
+            $buff->data = $data;
+            $buff->page_navigation = new PageHandler($total_count, $total_page, $queryObject->getLimit()->page->getValue(), $queryObject->getLimit()->page_count);
+        }else {
+            $data = $this->_fetch($result);
+            $buff = new Object ();
+            $buff->data = $data;
+        }
+        return $buff;
+    }
+
+    function getParser() {
+        return new DBParser('"');
+    }
+
+    function getSelectSql($query, $with_values = true) {
+
+        if ($query->getLimit()) {
+            $list_count = $query->getLimit()->list_count->getValue();
+            if(!$query->getLimit()->page) $page = 1;
+            else $page = $query->getLimit()->page->getValue();
+
+            $start_count = ($page - 1) * $list_count;
+            $limit = sprintf('SELECT FIRST %d SKIP %d ', $list_count, $start_count);
+        }
+
+        $select = $query->getSelectString($with_values);
+        if ($select == '')
+            return new Object(-1, "Invalid query");
+
+        if ($query->getLimit())
+            $select = $limit . ' ' . $select;
+        else
+            $select = 'SELECT ' . $select;
+        $from = $query->getFromString($with_values);
+        if ($from == '')
+            return new Object(-1, "Invalid query");
+        $from = ' FROM ' . $from;
+
+        $where = $query->getWhereString($with_values);
+        if ($where != '')
+            $where = ' WHERE ' . $where;
+
+        $groupBy = $query->getGroupByString();
+        if ($groupBy != '')
+            $groupBy = ' GROUP BY ' . $groupBy;
+
+        $orderBy = $query->getOrderByString();
+        if ($orderBy != '')
+            $orderBy = ' ORDER BY ' . $orderBy;
+
+        return $select . ' ' . $from . ' ' . $where . ' ' . $groupBy . ' ' . $orderBy;
+    }
+
+}
 
 return new DBFireBird;
 ?>

@@ -399,130 +399,141 @@
             }
         }
 
-        /**
-         * @brief insertAct
-         **/
-        function _executeInsertAct($queryObject) {
-        	$query = $this->getInsertSql($queryObject);
-			if(is_a($query, 'Object')) return;
-			
-        	$this->_prepare($query);
+    /**
+     * @brief insertAct
+     * */
+    function _executeInsertAct($queryObject) {
+        $query = $this->getInsertSql($queryObject);
+        if (is_a($query, 'Object'))
+            return;
 
-            $val_count = count($val_list);
-            for($i=0;$i<$val_count;$i++) $this->_bind($val_list[$i]);
+        $this->_prepare($query);
 
-            return $this->_execute();
-        }
+        $val_count = count($val_list);
+        for ($i = 0; $i < $val_count; $i++)
+            $this->_bind($val_list[$i]);
 
-        /**
-         * @brief updateAct
-         **/
-        function _executeUpdateAct($queryObject) {
-            $query = $this->getUpdateSql($queryObject);
-			if(is_a($query, 'Object')) return;
-        	
-        	$this->_prepare($query);
-            return $this->_execute();
-        }
-
-        /**
-         * @brief deleteAct
-         **/
-        function _executeDeleteAct($queryObject) {
-            $query =  $this->getDeleteSql($queryObject);
-			if(is_a($query, 'Object')) return;
-        	
-        	$this->_prepare($query);
-            return $this->_execute();
-        }
-
-        /**
-         * @brief selectAct
-         *
-         * To fetch a list of the page conveniently when selecting, \n
-         * navigation method supported
-         **/
-        function _executeSelectAct($queryObject) {
-            $query = $this->getSelectSql($queryObject);
-			if(is_a($query, 'Object')) return;
-			
-			$this->_prepare($query);
-            $data = $this->_execute();
-            if($this->isError()) return;
-            
-            if ($this->isError ()) return $this->queryError($queryObject);
-			else return $this->queryPageLimit($queryObject, $data);
-        }
-    	
-        function queryError($queryObject){
-			if ($queryObject->getLimit() && $queryObject->getLimit()->isPageHandler()){
-					$buff = new Object ();
-					$buff->total_count = 0;
-					$buff->total_page = 0;
-					$buff->page = 1;
-					$buff->data = array ();
-					$buff->page_navigation = new PageHandler (/*$total_count*/0, /*$total_page*/1, /*$page*/1, /*$page_count*/10);//default page handler values
-					return $buff;
-				}else	
-					return;
-		}
-		
-		function queryPageLimit($queryObject, $data){
-			 if ($queryObject->getLimit() && $queryObject->getLimit()->isPageHandler()) {
-		 		// Total count
-		 		$count_query = sprintf('select count(*) as "count" %s %s', 'FROM ' . $queryObject->getFromString(), ($queryObject->getWhereString() === '' ? '' : ' WHERE '. $queryObject->getWhereString()));
-				if ($queryObject->getGroupByString() != '') {
-					$count_query = sprintf('select count(*) as "count" from (%s) xet', $count_query);
-				}
-
-				$count_query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
-				$this->_prepare($count_query);
-				$count_output = $this->_execute();
-				$total_count = (int)$count_output->count;				
-		 		
-				// Total pages
-				if ($total_count) {
-					$total_page = (int) (($total_count - 1) / $queryObject->getLimit()->list_count) + 1;
-				}	else	$total_page = 1;
-		 		
-				$this->_prepare($this->getSelectSql($queryObject));
-				$this->stmt->execute();
-            	if($this->stmt->errorCode() != '00000') {
-                	$this->setError($this->stmt->errorCode(), print_r($this->stmt->errorInfo(),true));
-	                $this->actFinish();
-                	return $buff;
-            	}
-
-            	$output = null;
-		 		$virtual_no = $total_count - ($queryObject->getLimit()->page - 1) * $queryObject->getLimit()->list_count;
-		 		//$data = $this->_fetch($result, $virtual_no);
-		 		while($tmp = $this->stmt->fetch(PDO::FETCH_ASSOC)) {
-                	unset($obj);
-            	    foreach($tmp as $key => $val) {
-                	    $pos = strpos($key, '.');
-	                    if($pos) $key = substr($key, $pos+1);
-    		                $obj->{$key} = $val;
-                	}
-        	        $data[$virtual_no--] = $obj;
-    	        }
-	
-            	$this->stmt = null;
-            	$this->actFinish();
-
-		 		$buff = new Object ();
-				$buff->total_count = $total_count;
-				$buff->total_page = $total_page;
-				$buff->page = $queryObject->getLimit()->page;
-				$buff->data = $data;
-				$buff->page_navigation = new PageHandler($total_count, $total_page, $queryObject->getLimit()->page, $queryObject->getLimit()->page_count);				
-			}else{
-				//$data = $this->_fetch($result);
-				$buff = new Object ();
-				$buff->data = $data;	
-			}
-			return $buff;
-		}
+        return $this->_execute();
     }
+
+    /**
+     * @brief updateAct
+     * */
+    function _executeUpdateAct($queryObject) {
+        $query = $this->getUpdateSql($queryObject);
+        if (is_a($query, 'Object'))
+            return;
+
+        $this->_prepare($query);
+        return $this->_execute();
+    }
+
+    /**
+     * @brief deleteAct
+     * */
+    function _executeDeleteAct($queryObject) {
+        $query = $this->getDeleteSql($queryObject);
+        if (is_a($query, 'Object'))
+            return;
+
+        $this->_prepare($query);
+        return $this->_execute();
+    }
+
+    /**
+     * @brief selectAct
+     *
+     * To fetch a list of the page conveniently when selecting, \n
+     * navigation method supported
+     * */
+    function _executeSelectAct($queryObject) {
+        $query = $this->getSelectSql($queryObject);
+        if (is_a($query, 'Object'))
+            return;
+
+        $this->_prepare($query);
+        $data = $this->_execute();
+        if ($this->isError())
+            return;
+
+        if ($this->isError())
+            return $this->queryError($queryObject);
+        else
+            return $this->queryPageLimit($queryObject, $data);
+    }
+
+    function queryError($queryObject) {
+        if ($queryObject->getLimit() && $queryObject->getLimit()->isPageHandler()) {
+            $buff = new Object ();
+            $buff->total_count = 0;
+            $buff->total_page = 0;
+            $buff->page = 1;
+            $buff->data = array();
+            $buff->page_navigation = new PageHandler(/* $total_count */0, /* $total_page */1, /* $page */1, /* $page_count */10); //default page handler values
+            return $buff;
+        }else
+            return;
+    }
+
+    function queryPageLimit($queryObject, $data) {
+        if ($queryObject->getLimit() && $queryObject->getLimit()->isPageHandler()) {
+            // Total count
+            $count_query = sprintf('select count(*) as "count" %s %s', 'FROM ' . $queryObject->getFromString(), ($queryObject->getWhereString() === '' ? '' : ' WHERE ' . $queryObject->getWhereString()));
+            if ($queryObject->getGroupByString() != '') {
+                $count_query = sprintf('select count(*) as "count" from (%s) xet', $count_query);
+            }
+
+            $count_query .= ( __DEBUG_QUERY__ & 1 && $output->query_id) ? sprintf(' ' . $this->comment_syntax, $this->query_id) : '';
+            $this->_prepare($count_query);
+            $count_output = $this->_execute();
+            $total_count = (int) $count_output->count;
+
+            // Total pages
+            if ($total_count) {
+                $total_page = (int) (($total_count - 1) / $queryObject->getLimit()->list_count) + 1;
+            } else
+                $total_page = 1;
+
+            $this->_prepare($this->getSelectSql($queryObject));
+            $this->stmt->execute();
+            if ($this->stmt->errorCode() != '00000') {
+                $this->setError($this->stmt->errorCode(), print_r($this->stmt->errorInfo(), true));
+                $this->actFinish();
+                return $buff;
+            }
+
+            $output = null;
+            $virtual_no = $total_count - ($queryObject->getLimit()->page - 1) * $queryObject->getLimit()->list_count;
+            //$data = $this->_fetch($result, $virtual_no);
+            while ($tmp = $this->stmt->fetch(PDO::FETCH_ASSOC)) {
+                unset($obj);
+                foreach ($tmp as $key => $val) {
+                    $pos = strpos($key, '.');
+                    if ($pos)
+                        $key = substr($key, $pos + 1);
+                    $obj->{$key} = $val;
+                }
+                $data[$virtual_no--] = $obj;
+            }
+
+            $this->stmt = null;
+            $this->actFinish();
+
+            $buff = new Object ();
+            $buff->total_count = $total_count;
+            $buff->total_page = $total_page;
+            $buff->page = $queryObject->getLimit()->page->getValue();
+            $buff->data = $data;
+            $buff->page_navigation = new PageHandler($total_count, $total_page, $queryObject->getLimit()->page->getValue(), $queryObject->getLimit()->page_count);
+        }else {
+            //$data = $this->_fetch($result);
+            $buff = new Object ();
+            $buff->data = $data;
+        }
+        return $buff;
+    }
+
+}
 
 return new DBSqlite3_pdo;
 ?>
