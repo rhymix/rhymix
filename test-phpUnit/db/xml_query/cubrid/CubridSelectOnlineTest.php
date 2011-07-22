@@ -11,7 +11,7 @@
             $this->assertEquals($output->data->module_srl, 111);   
         }
         
-        function test_module_getInfo(){
+        function test_module_getInfo(){ 
             $args->site_srl = 0;
             $output = executeQuery('module.getSiteInfo', $args);
             $this->assertTrue(is_a($output, 'Object'));
@@ -46,5 +46,17 @@
 
             $this->assertTrue(is_int($output->page), $output->message);
         }	
+        
+        function test_member_getMemberList(){
+            $args->is_admin = '';
+            $args->is_denied = '';
+            $args->sort_index = "list_order";
+            $args->sort_order = 'asc';
+            $args->list_count = 40;
+            $args->page_count = 10;
+            
+            $output = executeQuery('member.getMemberList', $args);
+            $this->assertEquals(0, $output->error, $output->message);            
+        }
         }
 ?>

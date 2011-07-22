@@ -53,6 +53,7 @@
 		
 		function show(){
                     if($this->hasArgument() && !$this->argument->isValid()) return false;
+                    if($this->hasArgument() && ($this->_value === '\'\'')) return false;
 		    switch($this->operation) {
                         case 'equal' :
                         case 'more' :

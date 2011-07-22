@@ -194,9 +194,21 @@
                                 , "xe_documents" as "documents"   
                         WHERE  "documents"."document_srl" = 10    
                                 and "modules"."module_srl" = "documents"."module_srl"';
-                    $this->_test($xml_file, $argsString, $expected);			
-                    
-                                
+                    $this->_test($xml_file, $argsString, $expected);			  
                 }                
+                
+                function test_member_getMemberList(){
+                    $xml_file = _XE_PATH_ . "modules/member/queries/getMemberList.xml";
+                    $argsString = '$args->is_admin = \'\';
+                                    $args->is_denied = \'\';
+                                    $args->sort_index = "list_order";
+                                    $args->sort_order = \'asc\';
+                                    $args->list_count = 40;
+                                    $args->page_count = 10;';
+                    $expected = 'select * from "xe_member" as "member" 
+                                 order by "list_order" asc 
+                                 limit 0, 40';
+                    $this->_test($xml_file, $argsString, $expected);			               
+                }                       
 		
 	}

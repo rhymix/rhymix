@@ -7,7 +7,7 @@
 		
 		var $isValid;
 		var $errorMessage;
-		
+                
 		function Argument($name, $value){
                         $this->value = $value;
 			$this->name = $name;			

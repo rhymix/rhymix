@@ -50,8 +50,6 @@
                     
                     $this->assertNotEquals(-225, $output->error);
                     $this->assertNotEquals('Missing value for attribute "homepage" with the NOT NULL constraint.', $output->message);
-                    
-                    
                 }
                 
               function test_communication_addFriendGroup(){
