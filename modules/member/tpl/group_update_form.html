@@ -3,7 +3,9 @@
 
 <!-- 그룹 수정 -->
 <!--@if($selected_group)-->
-<p cond="$XE_VALIDATOR_MESSAGE" class="xe_validator_message"|cond="!$XE_VALIDATOR_ERROR" class="xe_validator_error"|cond="$XE_VALIDATOR_ERROR">{$XE_VALIDATOR_MESSAGE}</p>
+<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
 <form ruleset="updateGroup" action="./" method="post">
 <input type="hidden" name="act" value="procMemberAdminUpdateGroup" />
 <input type="hidden" name="group_srl" value="{$selected_group->group_srl}" />

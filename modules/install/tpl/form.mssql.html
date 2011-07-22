@@ -4,7 +4,9 @@
 <!--#include("progress_menu.html")-->
 		<span class="dummy"></span>
 		<div id="content">
-			<p cond="$XE_VALIDATOR_MESSAGE" class="xe_validator_message"|cond="!$XE_VALIDATOR_ERROR" class="xe_validator_error"|cond="$XE_VALIDATOR_ERROR">{$XE_VALIDATOR_MESSAGE}</p>
+			<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+				<p>{$XE_VALIDATOR_MESSAGE}</p>
+			</div>
 			<form rule="mssql" action="./" method="post">
 			<input type="hidden" value="{getUrl('', 'act', $act, 'db_type', $db_type)}" name="error_return_url">
 			<input type="hidden" name="act" value="procMssqlDBSetting" />

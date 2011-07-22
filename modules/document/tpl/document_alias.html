@@ -8,7 +8,9 @@
 <input type="hidden" name="document_srl" value="{$document_srl}" />
 </form>
 
-<p cond="$XE_VALIDATOR_MESSAGE" class="xe_validator_message"|cond="!$XE_VALIDATOR_ERROR" class="xe_validator_error"|cond="$XE_VALIDATOR_ERROR">{$XE_VALIDATOR_MESSAGE}</p>
+<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
 <form ruleset="insertAlias" action="{Context::getRequestUri()}" method="post">
 <input type="hidden" name="act" value="procDocumentAdminInsertAlias" />
 <input type="hidden" name="document_srl" value="{$document_srl}" />

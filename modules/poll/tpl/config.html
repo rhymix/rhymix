@@ -1,7 +1,9 @@
 <!--%import("js/poll_admin.js")-->
 <!--#include("./header.html")-->
 
-<p cond="$XE_VALIDATOR_MESSAGE" class="xe_validator_message"|cond="!$XE_VALIDATOR_ERROR" class="xe_validator_error"|cond="$XE_VALIDATOR_ERROR">{$XE_VALIDATOR_MESSAGE}</p>
+<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
 <form ruleset="insertConfig" action="./" method="post" id="fo_poll">
 <input type="hidden" name="act" value="procPollAdminInsertConfig" />
 

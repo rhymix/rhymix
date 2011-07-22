@@ -45,7 +45,9 @@
 </div>
 
 <!-- 금지 아이디 추가 -->
-<p cond="$XE_VALIDATOR_MESSAGE" class="xe_validator_message"|cond="!$XE_VALIDATOR_ERROR" class="xe_validator_error"|cond="$XE_VALIDATOR_ERROR">{$XE_VALIDATOR_MESSAGE}</p>
+<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
 <form ruleset="insertDeniedId" action="./" method="post">
 <input type="hidden" name="act" value="procMemberAdminInsertDeniedID" />
 <input type="hidden" name="page" value="{$page}" />

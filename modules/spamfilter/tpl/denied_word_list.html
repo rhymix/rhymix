@@ -7,7 +7,9 @@
 </form>
 
 <!-- 수동 추가 -->
-<p cond="$XE_VALIDATOR_MESSAGE" class="xe_validator_message"|cond="!$XE_VALIDATOR_ERROR" class="xe_validator_error"|cond="$XE_VALIDATOR_ERROR">{$XE_VALIDATOR_MESSAGE}</p>
+<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
 <form ruleset="insertDeniedWord" action="./" method="post">
 <input type="hidden" name="act" value="procSpamfilterAdminInsertDeniedWord" />
     <table cellspacing="0" class="rowTable">

@@ -5,7 +5,9 @@
 <!--%load_js_plugin("ui.datepicker")-->
 <!--%load_js_plugin("filebox")-->
 
-<p cond="$XE_VALIDATOR_MESSAGE" class="xe_validator_message"|cond="!$XE_VALIDATOR_ERROR" class="xe_validator_error"|cond="$XE_VALIDATOR_ERROR">{$XE_VALIDATOR_MESSAGE}</p>
+<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
 <form id="fo_insert_member" action="./" method="post">
 <input type="hidden" name="act" value="procMemberAdminInsert" />
 <input type="hidden" name="page" value="{$page}" />
