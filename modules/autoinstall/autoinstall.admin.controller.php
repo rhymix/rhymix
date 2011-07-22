@@ -26,6 +26,12 @@
 
         function procAutoinstallAdminUpdateinfo()
         {
+			$this->_updateinfo();
+            $this->setMessage("success_updated", 'update');
+			$this->setRedirectUrl(Context::get('error_return_url'));
+        }
+		
+		function _updateinfo(){
             $oModel = &getModel('autoinstall');
             $item = $oModel->getLatestPackage();
             if($item)
@@ -41,9 +47,7 @@
             $this->updateCategory($xmlDoc);
             $this->updatePackages($xmlDoc);
             $this->checkInstalled();
-
-            $this->setMessage("success_updated");
-        }
+		}
 
         function checkInstalled()
         {
@@ -146,11 +150,16 @@
                     $oModuleInstaller = new FTPModuleInstaller($package);
                 }
 
+				$oModuleInstaller->setServerUrl(_XE_DOWNLOAD_SERVER_);
                 $oModuleInstaller->setPassword($ftp_password);
                 $output = $oModuleInstaller->install();
                 if(!$output->toBool()) return $output;
             }
-            $this->setMessage('success_installed');
+			
+			$this->_updateinfo();
+			
+            $this->setMessage('success_installed', 'update');
+			$this->setRedirectUrl(preg_replace('/act=[^&]*/', 'act=dispAutoinstallAdminIndex', Context::get('error_return_url')));
         }
 
         function updatePackages(&$xmlDoc)
@@ -239,7 +248,10 @@
 			$output = $oModuleInstaller->uninstall();
 			if(!$output->toBool()) return $output;
 
-			$this->setMessage('success_deleted');
+			$this->_updateinfo();
+			
+			$this->setMessage('success_deleted', 'update');
+			$this->setRedirectUrl(getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAutoinstallAdminInstalledPackages'));
 		}
     }
 ?>

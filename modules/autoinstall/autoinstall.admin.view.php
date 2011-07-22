@@ -55,6 +55,7 @@
             foreach($items as $item)
             {
                 $v = $this->rearrange($item, $targets);
+				$v->category = $this->categories[$v->category_srl]->title;
                 if($packages[$v->package_srl])
                 {
                     $v->current_version = $packages[$v->package_srl]->current_version;
@@ -122,7 +123,7 @@
             $params["act"] = "getResourceapiPackages";
             $params["package_srls"] = implode(",", array_keys($package_list)); 
             $body = XmlGenerater::generate($params);
-            $buff = FileHandler::getRemoteResource($this->uri, $body, 3, "POST", "application/xml");
+            $buff = FileHandler::getRemoteResource(_XE_DOWNLOAD_SERVER_, $body, 3, "POST", "application/xml");
             $xml_lUpdate = new XmlParser();
             $xmlDoc = $xml_lUpdate->parse($buff);
             if($xmlDoc && $xmlDoc->response->packagelist->item)
@@ -222,7 +223,7 @@
             $params = array();
             $params["act"] = "getResourceapiLastupdate";
             $body = XmlGenerater::generate($params);
-            $buff = FileHandler::getRemoteResource($this->uri, $body, 3, "POST", "application/xml");
+            $buff = FileHandler::getRemoteResource(_XE_DOWNLOAD_SERVER_, $body, 3, "POST", "application/xml");
             $xml_lUpdate = new XmlParser();
             $lUpdateDoc = $xml_lUpdate->parse($buff);
             $updateDate = $lUpdateDoc->response->updatedate->body;
@@ -231,10 +232,9 @@
             $item = $oModel->getLatestPackage();
             if(!$item || $item->updatedate < $updateDate || count($this->categories) < 1)
             {
-                Context::set('need_update', true); 
-                return;
+				$oController = &getAdminController('autoinstall');
+				$oController->_updateinfo();
             }
-
 
             $page = Context::get('page');
             if(!$page) $page = 1; 
@@ -298,13 +298,13 @@
 			$installedPackage = $oModel->getPackage($package_srl);
 			$path = $installedPackage->path;
 			$type = $oModel->getTypeFromPath($path);
-			if(!$type || $type == "core") $this->stop("msg_invalid_request"); 
+			if(!$type || $type == "core") return $this->stop("msg_invalid_request"); 
 			$config_file = $oModel->getConfigFilePath($type);
-			if(!$config_file) $this->stop("msg_invalid_request"); 
+			if(!$config_file) return $this->stop("msg_invalid_request"); 
 
 			$xml = new XmlParser();
 			$xmlDoc = $xml->loadXmlFile(FileHandler::getRealPath($path).$config_file);
-			if(!$xmlDoc) $this->stop("msg_invalid_request"); 
+			if(!$xmlDoc) return $this->stop("msg_invalid_request"); 
 			if($type == "drcomponent") $type = "component";
 			if($type == "style") $type = "skin";
 			$title = $xmlDoc->{$type}->title->body;
