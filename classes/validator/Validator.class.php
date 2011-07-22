@@ -211,10 +211,9 @@ class Validator
 	 * @return always false
 	 */
 	function error($field, $msg){
-		global $lang;
-
-		$msg = isset($lang->filter->{$msg})?$lang->filter->{$msg}:$lang->filter->invalid;
-		$msg = sprintf($msg, $field);
+		$lang_filter = Context::getLang('filter');
+		$msg = isset($lang_filter->{$msg})?$lang_filter->{$msg}:$lang_filter->invalid;
+		$msg = sprintf($msg, Context::getLang($field));
 
 		$this->_last_error = array('field'=>$field, 'msg'=>$msg);
 
