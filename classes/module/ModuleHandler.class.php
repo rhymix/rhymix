@@ -314,6 +314,7 @@
 						$this->error = $errorMsg;
 						$_SESSION['XE_VALIDATOR_ERROR'] = -1;
 						$_SESSION['XE_VALIDATOR_MESSAGE'] = $this->error;
+						$_SESSION['XE_VALIDATOR_MESSAGE_TYPE'] = 'error';
 						$_SESSION['XE_VALIDATOR_RETURN_URL'] = $returnUrl;
 						$this->_setInputValueToSession();
 						return $oModule;
@@ -342,11 +343,12 @@
 			{
 				$error = $oModule->getError();
 				$message = $oModule->getMessage();
+				$messageType = $oModule->getMessageType();
 				$redirectUrl = $oModule->getRedirectUrl();
 				
 				if (!$procResult)
 				{
-					$this->error = $oModule->getMessage();
+					$this->error = $message;
 					if (!$redirectUrl) $redirectUrl = Context::get('error_return_url')?Context::get('error_return_url'):getUrl();
 					$this->_setInputValueToSession();
 				}
@@ -361,6 +363,7 @@
 				
 				$_SESSION['XE_VALIDATOR_ERROR'] = $error;
 				if ($message != 'success') $_SESSION['XE_VALIDATOR_MESSAGE'] = $message;
+				$_SESSION['XE_VALIDATOR_MESSAGE_TYPE'] = $messageType;
 				$_SESSION['XE_VALIDATOR_RETURN_URL'] = $redirectUrl;
 			}
 			
@@ -371,10 +374,12 @@
 		{
 			if($_SESSION['XE_VALIDATOR_ERROR'] && !Context::get('XE_VALIDATOR_ERROR')) Context::set('XE_VALIDATOR_ERROR', $_SESSION['XE_VALIDATOR_ERROR']);
 			if($_SESSION['XE_VALIDATOR_MESSAGE'] && !Context::get('XE_VALIDATOR_MESSAGE')) Context::set('XE_VALIDATOR_MESSAGE', $_SESSION['XE_VALIDATOR_MESSAGE']);
+			if($_SESSION['XE_VALIDATOR_MESSAGE_TYPE'] && !Context::get('XE_VALIDATOR_MESSAGE_TYPE')) Context::set('XE_VALIDATOR_MESSAGE_TYPE', $_SESSION['XE_VALIDATOR_MESSAGE_TYPE']);
 			if($_SESSION['XE_VALIDATOR_RETURN_URL'] && !Context::get('XE_VALIDATOR_RETURN_URL')) Context::set('XE_VALIDATOR_RETURN_URL', $_SESSION['XE_VALIDATOR_RETURN_URL']);
 
 			$_SESSION['XE_VALIDATOR_ERROR'] = '';
 			$_SESSION['XE_VALIDATOR_MESSAGE'] = '';
+			$_SESSION['XE_VALIDATOR_MESSAGE_TYPE'] = '';
 			$_SESSION['XE_VALIDATOR_RETURN_URL'] = '';
 		}
 

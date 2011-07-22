@@ -58,6 +58,35 @@
 		function getRedirectUrl(){
 			return $this->get('redirect_url');
 		}
+		
+		/**
+		 * @brief set message
+		 * @param $message a message string
+		 * @param $type type of message (error, info, update)
+		 **/
+		function setMessage($message, $type = null){
+			parent::setMessage($message);
+			$this->setMessageType($type);
+		}
+		
+		/**
+		 * @brief set type of message
+		 * @param $type type of message (error, info, update)
+		 **/
+		function setMessageType($type){
+			$this->add('message_type', $type);
+		}
+		
+		/**
+		 * @brief get type of message
+		 **/
+		function getMessageType(){
+			$type = $this->get('message_type');
+			if (!in_array($type, array('error', 'info', 'update'))){
+				$type = $this->getError()?'error':'info';
+			}
+			return $type;
+		}
 
         /**
          * @brief sett to set the template path for refresh.html
