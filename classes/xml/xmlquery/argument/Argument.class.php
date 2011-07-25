@@ -97,48 +97,48 @@
 			if(isset($this->value) && $this->value != ''){
 				$val = $this->value;
 				$key = $this->name;
-			    switch($filter_type) {
-	                case 'email' :
-	                case 'email_address' :
-	                        if(!preg_match('/^[_0-9a-z-]+(\.[_0-9a-z-]+)*@[0-9a-z-]+(\.[0-9a-z-]+)*$/is', $val)) {
-	                        	$this->isValid = false;
-	                        	$this->errorMessage = new Object(-1, sprintf($lang->filter->invalid_email, $lang->{$key} ? $lang->{$key} : $key));
-	                        }
-	                        break;
-	                case 'homepage' :
-	                        if(!preg_match('/^(http|https)+(:\/\/)+[0-9a-z_-]+\.[^ ]+$/is', $val)) {
-	                        	$this->isValid = false;
-	                        	$this->errorMessage = new Object(-1, sprintf($lang->filter->invalid_homepage, $lang->{$key} ? $lang->{$key} : $key));
-	                        }
-	                    	break;
-	                case 'userid' :
-	                case 'user_id' :
-	                        if(!preg_match('/^[a-zA-Z]+([_0-9a-zA-Z]+)*$/is', $val)) {
-	                        	$this->isValid = false;
-	                        	$this->errorMessage = new Object(-1, sprintf($lang->filter->invalid_userid, $lang->{$key} ? $lang->{$key} : $key));
-	                        }
-	                    break;
-	                case 'number' :
-	                case 'numbers' :
-							if(is_array($val)) $val = join(',', $val);
-	                        if(!preg_match('/^(-?)[0-9]+(,\-?[0-9]+)*$/is', $val)){
-	                        	$this->isValid = false;
-	                        	$this->errorMessage = new Object(-1, sprintf($lang->filter->invalid_number, $lang->{$key} ? $lang->{$key} : $key));
-	                        }
-	                    break;
-	                case 'alpha' :
-	                        if(!preg_match('/^[a-z]+$/is', $val)) {
-	                        	$this->isValid = false;
-	                        	$this->errorMessage = new Object(-1, sprintf($lang->filter->invalid_alpha, $lang->{$key} ? $lang->{$key} : $key));
-	                        }
-	                    break;
-	                case 'alpha_number' :
-	                        if(!preg_match('/^[0-9a-z]+$/is', $val)) {
-	                        	$this->isValid = false;
-	                        	$this->errorMessage = new Object(-1, sprintf($lang->filter->invalid_alpha_number, $lang->{$key} ? $lang->{$key} : $key));
-	                        }
-	                    break;
-            	}
+                                switch($filter_type) {
+                                            case 'email' :
+                                            case 'email_address' :
+                                                    if(!preg_match('/^[_0-9a-z-]+(\.[_0-9a-z-]+)*@[0-9a-z-]+(\.[0-9a-z-]+)*$/is', $val)) {
+                                                            $this->isValid = false;
+                                                            $this->errorMessage = new Object(-1, sprintf($lang->filter->invalid_email, $lang->{$key} ? $lang->{$key} : $key));
+                                                    }
+                                                    break;
+                                            case 'homepage' :
+                                                    if(!preg_match('/^(http|https)+(:\/\/)+[0-9a-z_-]+\.[^ ]+$/is', $val)) {
+                                                            $this->isValid = false;
+                                                            $this->errorMessage = new Object(-1, sprintf($lang->filter->invalid_homepage, $lang->{$key} ? $lang->{$key} : $key));
+                                                    }
+                                                    break;
+                                            case 'userid' :
+                                            case 'user_id' :
+                                                    if(!preg_match('/^[a-zA-Z]+([_0-9a-zA-Z]+)*$/is', $val)) {
+                                                            $this->isValid = false;
+                                                            $this->errorMessage = new Object(-1, sprintf($lang->filter->invalid_userid, $lang->{$key} ? $lang->{$key} : $key));
+                                                    }
+                                                break;
+                                            case 'number' :
+                                            case 'numbers' :
+                                                                            if(is_array($val)) $val = join(',', $val);
+                                                    if(!preg_match('/^(-?)[0-9]+(,\-?[0-9]+)*$/is', $val)){
+                                                            $this->isValid = false;
+                                                            $this->errorMessage = new Object(-1, sprintf($lang->filter->invalid_number, $lang->{$key} ? $lang->{$key} : $key));
+                                                    }
+                                                break;
+                                            case 'alpha' :
+                                                    if(!preg_match('/^[a-z]+$/is', $val)) {
+                                                            $this->isValid = false;
+                                                            $this->errorMessage = new Object(-1, sprintf($lang->filter->invalid_alpha, $lang->{$key} ? $lang->{$key} : $key));
+                                                    }
+                                                break;
+                                            case 'alpha_number' :
+                                                    if(!preg_match('/^[0-9a-z]+$/is', $val)) {
+                                                            $this->isValid = false;
+                                                            $this->errorMessage = new Object(-1, sprintf($lang->filter->invalid_alpha_number, $lang->{$key} ? $lang->{$key} : $key));
+                                                    }
+                                                break;
+                                    }
 			}
 		}
 

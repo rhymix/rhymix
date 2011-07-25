@@ -64,6 +64,7 @@
 		function show(){
                     if($this->hasArgument() && !$this->argument->isValid()) return false;
                     if($this->hasArgument() && ($this->_value === '\'\'')) return false;
+                    if(is_array($this->_value) && count($this->_value) === 1 && $this->_value[0] === '') return false;
 		    switch($this->operation) {
                         case 'equal' :
                         case 'more' :

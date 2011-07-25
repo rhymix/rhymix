@@ -145,6 +145,14 @@
 			$this->_test($xml_file, $argsString, $expected, array("25"));
                 }
 
+                function test_module_getModuleSites(){
+                        $xml_file = _XE_PATH_ . "modules/module/queries/getModuleSites.xml";
+			//$argsString = '$args->module_srls = array(67, 65);';
+                        $argsString = '$args->module_srls = "67, 65";';
+			$expected = 'SELECT [modules].[module_srl] as [module_srl], [sites].[domain] as [domain]  FROM [xe_modules] as [modules] , [xe_sites] as [sites]   WHERE  [modules].[module_srl] in (?,?) and [sites].[site_srl] = [modules].[site_srl]';
+			$this->_test($xml_file, $argsString, $expected, array("67", "65"));
+                }
+
 
 
 		// TODO Something fishy about this query - to be investigated
