@@ -4,7 +4,7 @@
 	class MssqlSelectTest extends MssqlTest {
 
 		function _test($xml_file, $argsString, $expected, $expectedArgs = NULL){
-                    $this->_testPreparedQuery($xml_file, $argsString, $expected, 'getSelectSql', $expectedArgs = NULL);
+                    $this->_testPreparedQuery($xml_file, $argsString, $expected, 'getSelectSql', $expectedArgs);
 		}
 
 		function testSelectStar(){
@@ -142,7 +142,7 @@
                         $xml_file = _XE_PATH_ . "modules/module/queries/getModuleExtraVars.xml";
 			$argsString = '$args->module_srl = 25;';
 			$expected = 'SELECT *  FROM [xe_module_extra_vars] as [module_extra_vars] WHERE  [module_srl] in (?)';
-			$this->_test($xml_file, $argsString, $expected, array("25"));
+			$this->_test($xml_file, $argsString, $expected, array(array(25)));
                 }
 
                 function test_module_getModuleSites(){
@@ -150,25 +150,21 @@
 			//$argsString = '$args->module_srls = array(67, 65);';
                         $argsString = '$args->module_srls = "67, 65";';
 			$expected = 'SELECT [modules].[module_srl] as [module_srl], [sites].[domain] as [domain]  FROM [xe_modules] as [modules] , [xe_sites] as [sites]   WHERE  [modules].[module_srl] in (?,?) and [sites].[site_srl] = [modules].[site_srl]';
-			$this->_test($xml_file, $argsString, $expected, array("67", "65"));
+			$this->_test($xml_file, $argsString, $expected, array(array(67, 65)));
                 }
 
-
-
-		// TODO Something fishy about this query - to be investigated
-		/*
-		function test_syndication_getGrantedModules(){
-			$xml_file = _XE_PATH_ . "modules/syndication/queries/getGrantedModules.xml";
-			$argsString = '$args->module_srl = 12;
-						   $args->name = array(\'access\',\'view\',\'list\');';
-			$expected = 'select "module_srl"
-						 from "xe_module_grants" as "module_grants"
-						 where "name" in (?)
-						 	and ("group_srl" >= -2
-						 			or "group_srl" = -2
-						 			or "group_srl" = -2)
-						 group by "module_srl"';
-			$this->_test($xml_file, $argsString, $expected);
-		}
-		*/
+                function test_syndication_getGrantedModule(){
+                        $xml_file = _XE_PATH_ . "modules/syndication/queries/getGrantedModule.xml";
+			$argsString = '$args->module_srl = 67;';
+			$expected = 'select count(*) as [count]
+                                        from [xe_module_grants] as [module_grants]
+                                        where [module_srl] = ?
+                                            and [name] in (?,?,?)
+                                            and (
+                                                [group_srl] >= ?
+                                                or [group_srl] = ?
+                                                or [group_srl] = ?
+                                               )';
+			$this->_test($xml_file, $argsString, $expected, array(67, array('\'access\'', '\'view\'', '\'list\''), 1, -1, -2));
+                }
 	}

@@ -180,9 +180,12 @@
                                                 if(is_array($value)) $_param = array_merge($_param, $value);
 						else $_param[] = $o->getUnescapedValue();
 					}else{
-                                                // TODO treat arrays here too
 						$value = $o->getUnescapedValue();
-						$_param[] = array($value, SQLSRV_PARAM_IN, SQLSRV_PHPTYPE_STRING('utf-8'));
+                                                if(is_array($value)) {
+                                                    foreach($value as $v)
+                                                        $_param[] = array($v, SQLSRV_PARAM_IN, SQLSRV_PHPTYPE_STRING('utf-8'));
+                                                }
+						else $_param[] = array($value, SQLSRV_PARAM_IN, SQLSRV_PHPTYPE_STRING('utf-8'));
 					}
 				}
 			}

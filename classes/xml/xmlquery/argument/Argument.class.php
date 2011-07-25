@@ -35,12 +35,16 @@
 		}
 
 		function getValue(){
-			$value = $this->escapeValue($this->value);
+			$value = $this->getEscapedValue();
 			return $this->toString($value);
 		}
 
                 function getColumnOperation(){
                     return $this->column_operation;
+                }
+
+                function getEscapedValue(){
+                    return $this->escapeValue($this->value);
                 }
 
 		function getUnescapedValue(){

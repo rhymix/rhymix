@@ -48,8 +48,7 @@
                 // Test query arguments
                 $argCount = count($expectedArgs);
                 for($i = 0; $i < $argCount; $i++){
-                                //echo "$i: $expectedArgs[$i] vs $queryArguments[$i]->getValue()";
-                                $this->assertEquals($expectedArgs[$i], $queryArguments[$i]->getValue());
+                    $this->assertEquals($expectedArgs[$i], $queryArguments[$i]->getEscapedValue());
                 }
         }
 
