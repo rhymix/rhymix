@@ -11,6 +11,7 @@
     $lang->order_newest = "最新發表";
     $lang->order_popular = "熱門";
     $lang->order_download = "下載";
+	$lang->success_installed = "安裝成功";
     $lang->description_ftp_note = 'If the %s is not set, the installation will not work. Pleas configure the FTP information';
 	$lang->ftp_setup = 'FTP configuration';
 	$lang->description_update = 'If you have upgraded or installed programs without EasyInstall module, please press %s to renew new information.';

@@ -10,6 +10,7 @@
     $lang->order_newest = "신규 등록";
     $lang->order_popular = "인기";
     $lang->order_download = "다운로드";
+	$lang->success_installed = "설치가 성공하였습니다.";
 	$lang->description_ftp_note = '%s이 되어 있지 않으면 설치 및 업데이트가 진행되지 않습니다.';
 	$lang->ftp_setup = 'FTP 설정';
 	$lang->description_update = '쉬운설치 사용전 %s를 해주세요.';

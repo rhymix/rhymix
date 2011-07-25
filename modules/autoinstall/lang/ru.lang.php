@@ -10,6 +10,7 @@
     $lang->order_newest = 'Новый';
     $lang->order_popular = 'Популярный';
     $lang->order_download = 'Скачать';
+	$lang->success_installed = 'Установлено успешно';
     $lang->description_ftp_note = 'If %s is not set, installation would not work. Please configure FTP information';
 	$lang->ftp_setup = 'FTP configuration';
     $lang->description_update = 'If you have upgraded or installed programs without EasyInstall module, please press %s to renew new information';

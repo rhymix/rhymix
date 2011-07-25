@@ -10,6 +10,7 @@
     $lang->order_newest = "En Yeniler";
     $lang->order_popular = "Popüler";
     $lang->order_download = "İndirme";
+	$lang->success_installed = "Başarıyla Kuruldu";
     $lang->description_ftp_note = 'If the %s is not set, the installation will not work. Pleas configure the FTP information';
 	$lang->ftp_setup = 'FTP configuration';
 	$lang->description_update = 'If you have upgraded or installed programs without EasyInstall module, please press %s to renew new information.';

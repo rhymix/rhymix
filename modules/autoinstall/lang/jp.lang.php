@@ -10,6 +10,7 @@
     $lang->order_newest = "新規登録";
     $lang->order_popular = "人気";
     $lang->order_download = "ダウンロード";
+	$lang->success_installed = "インストールが成功しました。";
     $lang->description_ftp_note = "%sが完了されないと、イージーインストールが動作しません。 FTP設定を確認して下さい。";
 	$lang->ftp_setup = 'FTP設定';
     $lang->description_update = "新しくインストールしたモジュールバージョン情報などは%sを押すと反映されます。";

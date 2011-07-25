@@ -10,6 +10,7 @@
     $lang->order_newest = "Mới nhất";
     $lang->order_popular = "Phổ biến";
     $lang->order_download = "Download";
+	$lang->success_installed = "Đã cài đặt thành công.";
     $lang->description_ftp_note = 'If the %s is not set, the installation will not work. Pleas configure the FTP information';
 	$lang->ftp_setup = 'FTP configuration';
 	$lang->description_update = 'If you have upgraded or installed programs without EasyInstall module, please press %s to renew new information.';
