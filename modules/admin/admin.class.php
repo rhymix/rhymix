@@ -99,10 +99,13 @@
 			$oMenuAdminModel = &getAdminModel('menu');
 			$columnList = array('menu_item_srl', 'name');
 			$output = $oMenuAdminModel->getMenuItems($menuSrl, 0, $columnList);
-			foreach($output->data AS $key=>$value)
+			if(is_array($output->data))
 			{
-				preg_match('/\{\$lang->menu_gnb\[(.*?)\]\}/i', $value->name, $m);
-				$gnbDBList[$m[1]] = $value->menu_item_srl;
+				foreach($output->data AS $key=>$value)
+				{
+					preg_match('/\{\$lang->menu_gnb\[(.*?)\]\}/i', $value->name, $m);
+					$gnbDBList[$m[1]] = $value->menu_item_srl;
+				}
 			}
 
 			unset($args);
