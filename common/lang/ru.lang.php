@@ -67,6 +67,7 @@ $lang->cmd_layout_setup = 'Конфигурировать лейаут';
 $lang->cmd_layout_edit = 'Редактировать лейаут';
 $lang->cmd_search_by_ipaddress = 'Искать по IP адресу';
 $lang->cmd_add_ip_to_spamfilter = 'Добавить IP в спамфильтры';
+$lang->cmd_go_to_page = 'Go to page';
 
 $lang->enable = 'Включено';
 $lang->disable = 'Выключено';

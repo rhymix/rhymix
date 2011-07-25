@@ -67,6 +67,7 @@ $lang->cmd_layout_setup = 'Configure layout';
 $lang->cmd_layout_edit = 'Edit layout';
 $lang->cmd_search_by_ipaddress = 'Search by IP Address';
 $lang->cmd_add_ip_to_spamfilter = 'Add IP to spamfilter';
+$lang->cmd_go_to_page = 'Go to page';
 
 $lang->enable = 'Enable';
 $lang->disable = 'Disable';

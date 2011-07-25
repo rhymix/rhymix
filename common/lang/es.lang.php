@@ -66,6 +66,7 @@ $lang->cmd_layout_setup = 'Composición de Página';
 $lang->cmd_layout_edit = 'Editar la Página';
 $lang->cmd_search_by_ipaddress = 'Búsqueda con IP';
 $lang->cmd_add_ip_to_spamfilter = 'Añadir IP en el Filtro de Spam';
+$lang->cmd_go_to_page = 'Go to page';
 
 $lang->enable = 'Activar'; //Activado
 $lang->disable = 'Desactivar'; //Desactivado

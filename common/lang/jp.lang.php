@@ -67,6 +67,7 @@ $lang->cmd_layout_setup = 'レイアウト設定';
 $lang->cmd_layout_edit = 'レイアウト編集';
 $lang->cmd_search_by_ipaddress = 'IPアドレスで検索';
 $lang->cmd_add_ip_to_spamfilter = 'スパムフィルターにIPを追加';
+$lang->cmd_go_to_page = 'Go to page';
 
 $lang->enable = '可能';
 $lang->disable = '不可';

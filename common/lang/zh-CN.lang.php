@@ -67,6 +67,7 @@ $lang->cmd_layout_setup = '布局设置';
 $lang->cmd_layout_edit = '编辑布局';
 $lang->cmd_search_by_ipaddress = '以IP地址搜索';
 $lang->cmd_add_ip_to_spamfilter = '禁止IP';
+$lang->cmd_go_to_page = 'Go to page';
 
 $lang->enable = '可用';
 $lang->disable = '禁用';

@@ -67,6 +67,7 @@ $lang->cmd_layout_setup = 'Yerleşim düzenini yapılandır';
 $lang->cmd_layout_edit = 'Yerleşim düzeninin düzenle';
 $lang->cmd_search_by_ipaddress = 'IP Adresiyle ara';
 $lang->cmd_add_ip_to_spamfilter = 'Spamfilter\'a IPyi ekle';
+$lang->cmd_go_to_page = 'Go to page';
 
 $lang->enable = 'Seçilir kıl';
 $lang->disable = 'Seçilemez kıl';

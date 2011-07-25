@@ -66,6 +66,7 @@ $lang->cmd_layout_setup = 'Cài đặt giao diện';
 $lang->cmd_layout_edit = 'Sửa giao diện';
 $lang->cmd_search_by_ipaddress = 'Tìm kiếm IP';
 $lang->cmd_add_ip_to_spamfilter = 'Thêm IP vào bộ lọc';
+$lang->cmd_go_to_page = 'Go to page';
 
 $lang->enable = 'Bật';
 $lang->disable = 'Tắt';

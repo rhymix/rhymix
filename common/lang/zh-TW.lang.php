@@ -67,6 +67,7 @@ $lang->cmd_layout_setup = '版面設置';
 $lang->cmd_layout_edit = '版面編輯';
 $lang->cmd_search_by_ipaddress = '以 IP 搜尋';
 $lang->cmd_add_ip_to_spamfilter = '封鎖此 IP';
+$lang->cmd_go_to_page = 'Go to page';
 
 $lang->enable = '可用';
 $lang->disable = '禁用';

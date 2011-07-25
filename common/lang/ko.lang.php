@@ -68,6 +68,7 @@ $lang->cmd_search_by_ipaddress = 'IP주소로 검색';
 $lang->cmd_add_ip_to_spamfilter = '스팸필터에 IP추가';
 $lang->cmd_pass_step = '이 단계를 생략';
 $lang->cmd_complete = '완료';
+$lang->cmd_go_to_page = '페이지 직접 이동';
 $lang->enable = '가능';
 $lang->disable = '불가능';
 // Basic words
