@@ -320,12 +320,12 @@
             require_once(_XE_PATH_.'classes/db/queryparts/limit/Limit.class.php');
             require_once(_XE_PATH_.'classes/db/queryparts/Query.class.php');
             require_once(_XE_PATH_.'classes/db/queryparts/Subquery.class.php');
-            
-            
+
+
             $output = include($cache_file);
 
             if( (is_a($output, 'Object') || is_subclass_of($output, 'Object')) && !$output->toBool()) return $output;
-			
+
             // execute appropriate query
             switch($output->getAction()) {
                 case 'insert' :
@@ -346,7 +346,7 @@
                         $output = $this->_executeSelectAct($output);
                     break;
             }
-			
+
             if($this->isError()) $output = $this->getError();
             else if(!is_a($output, 'Object') && !is_subclass_of($output, 'Object')) $output = new Object();
             $output->add('_query', $this->query);
@@ -458,76 +458,76 @@
             $query = sprintf("drop table %s%s", $this->prefix, $table_name);
             $this->_query($query);
         }
-        
-    	function getSelectSql($query, $with_values = true){	
+
+    	function getSelectSql($query, $with_values = true){
 			$select = $query->getSelectString($with_values);
 			if($select == '') return new Object(-1, "Invalid query");
 			$select = 'SELECT ' .$select;
-			
+
 			$from = $query->getFromString($with_values);
 			if($from == '') return new Object(-1, "Invalid query");
 			$from = ' FROM '.$from;
-			
+
 			$where = $query->getWhereString($with_values);
 			if($where != '') $where = ' WHERE ' . $where;
-							
+
 			$groupBy = $query->getGroupByString();
 			if($groupBy != '') $groupBy = ' GROUP BY ' . $groupBy;
-			
+
 			$orderBy = $query->getOrderByString();
 			if($orderBy != '') $orderBy = ' ORDER BY ' . $orderBy;
-			
+
 		 	$limit = $query->getLimitString();
 		 	if($limit != '') $limit = ' LIMIT ' . $limit;
 
 		 	return $select . ' ' . $from . ' ' . $where . ' ' . $groupBy . ' ' . $orderBy . ' ' . $limit;
-		}  
+		}
 
    		function getDeleteSql($query, $with_values = true){
 			$sql = 'DELETE ';
 
 			// TODO Add support for deleting based on alias, for both simple FROM and multi table join FROM clause
 			$tables = $query->getTables();
-			
+
 			$sql .= $tables[0]->getAlias();
-			
+
 			$from = $query->getFromString($with_values);
 			if($from == '') return new Object(-1, "Invalid query");
-			$sql .= ' FROM '.$from;			
-			
+			$sql .= ' FROM '.$from;
+
 			$where = $query->getWhereString($with_values);
-			if($where != '') $sql .= ' WHERE ' . $where;			
-			
+			if($where != '') $sql .= ' WHERE ' . $where;
+
 			return $sql;
-		}	
+		}
 
     	function getUpdateSql($query, $with_values = true){
-			$columnsList = $query->getSelectString();
+			$columnsList = $query->getSelectString($with_values);
 			if($columnsList == '') return new Object(-1, "Invalid query");
-			
+
 			$tableName = $query->getFirstTableName();
 			if($tableName == '') return new Object(-1, "Invalid query");
-			
+
 			$where = $query->getWhereString($with_values);
 			if($where != '') $where = ' WHERE ' . $where;
-									
+
 			return "UPDATE $tableName SET $columnsList ".$where;
-		}		
-		
+		}
+
     	function getInsertSql($query, $with_values = true){
 			$tableName = $query->getFirstTableName();
 			$values = $query->getInsertString($with_values);
-			
+
 			return "INSERT INTO $tableName \n $values";
-		}		
-		
+		}
+
 		// HACK This is needed because on installation, the XmlQueryParer is used without any configured database
 		// TODO Change this or make sure the query cache files created before db.config exists are deleted
 		function getParser(){
 			return new DBParser('"');
 		}
 
-		
+
 		// TO BE REMOVED - Used for query compare
             /**
          * @brief returns type of column
@@ -560,7 +560,7 @@
                 if(strpos($value, ',') === false && strpos($value, '(') === false) return (int)$value;
                 return $value;
             }
-			
+
             if(!is_array($value) && strpos($name, '.') !== false && strpos($value, '.') !== false) {
                 list($table_name, $column_name) = explode('.', $value);
                 if($column_type[$column_name]) return $value;
@@ -713,6 +713,6 @@
             }
 
             return $conditions;
-        }        
+        }
     }
 ?>

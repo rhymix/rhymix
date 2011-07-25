@@ -17,7 +17,7 @@
         var $prefix		= 'xe'; // / <prefix of XE tables(One more XE can be installed on a single DB)
 		var $param		= array();
 		var $comment_syntax = '/* %s */';
-        
+
         /**
          * @brief column type used in mssql
          *
@@ -42,7 +42,7 @@
             $this->_setDBInfo();
             $this->_connect();
         }
-		
+
 		/**
 		 * @brief create an instance of this class
 		 */
@@ -70,7 +70,7 @@
             $this->password   = $db_info->db_password;
             $this->database = $db_info->db_database;
             $this->prefix = $db_info->db_table_prefix;
-			
+
 			if(!substr($this->prefix,-1)!='_') $this->prefix .= '_';
         }
 
@@ -85,10 +85,10 @@
 			//sqlsrv_configure( 'LogSeverity', SQLSRV_LOG_SEVERITY_ALL );
 			//sqlsrv_configure( 'LogSubsystems', SQLSRV_LOG_SYSTEM_ALL );
 
-			$this->conn = sqlsrv_connect( $this->hostname, 
+			$this->conn = sqlsrv_connect( $this->hostname,
 											array( 'Database' => $this->database,'UID'=>$this->userid,'PWD'=>$this->password ));
 
-											
+
 			// Check connections
 		    if($this->conn){
 				$this->is_connected = true;
@@ -103,7 +103,7 @@
          **/
         function close() {
             if($this->is_connected == false) return;
-			
+
             $this->commit();
 			sqlsrv_close($this->conn);
 			$this->conn = null;
@@ -116,7 +116,7 @@
         function addQuotes($string) {
             if(version_compare(PHP_VERSION, "5.9.0", "<") && get_magic_quotes_gpc()) $string = stripslashes(str_replace("\\","\\\\",$string));
             //if(!is_numeric($string)) $string = str_replace("'","''",$string);
-			
+
             return $string;
         }
 
@@ -126,7 +126,7 @@
         function begin() {
             if($this->is_connected == false || $this->transaction_started) return;
 			if(sqlsrv_begin_transaction( $this->conn ) === false) return;
-			
+
             $this->transaction_started = true;
         }
 
@@ -135,7 +135,7 @@
          **/
         function rollback() {
             if($this->is_connected == false || !$this->transaction_started) return;
-            
+
 			$this->transaction_started = false;
             sqlsrv_rollback( $this->conn );
         }
@@ -145,8 +145,8 @@
          **/
         function commit($force = false) {
             if(!$force && ($this->is_connected == false || !$this->transaction_started)) return;
-			
-            $this->transaction_started = false;	
+
+            $this->transaction_started = false;
             sqlsrv_commit( $this->conn );
         }
 
@@ -159,25 +159,37 @@
          *        object if a row returned \n
          *        return\n
          **/
+
+        // TODO Support array arguments in sql server
+        /*
+         * $query_emp="select name from employee where id in (?,?,?)";
+            $params_emp= Array(1,2,3);
+            $res_emp = sqlsrv_query($conn, $query_emp, $params_emp);
+         *
+         */
+
         function _query($query) {
 			if($this->is_connected == false || !$query) return;
 
 			$_param = array();
-			
+
 			if(count($this->param)){
 				foreach($this->param as $k => $o){
 					if($o->getType() == 'number'){
-						$_param[] = $o->getUnescapedValue();
+                                                $value = $o->getUnescapedValue();
+                                                if(is_array($value)) $_param = array_merge($_param, $value);
+						else $_param[] = $o->getUnescapedValue();
 					}else{
+                                                // TODO treat arrays here too
 						$value = $o->getUnescapedValue();
 						$_param[] = array($value, SQLSRV_PARAM_IN, SQLSRV_PHPTYPE_STRING('utf-8'));
 					}
-				}	
+				}
 			}
-			
+
             // Notify to start a query execution
             $this->actStart($query);
-			
+
             // Run the query statement
 			$result = false;
 			if(count($_param)){
@@ -186,9 +198,9 @@
 				$result = @sqlsrv_query($this->conn, $query);
 			}
 // Error Check
-			
+
 			if(!$result) $this->setError(print_r(sqlsrv_errors(),true));
-						
+
             // Notify to complete a query execution
             $this->actFinish();
 			$this->param = array();
@@ -201,16 +213,16 @@
          **/
         function _fetch($result, $arrayIndexEndValue = NULL) {
 			if(!$this->isConnected() || $this->isError() || !$result) return;
-			
+
 			$c = sqlsrv_num_fields($result);
 			$m = null;
 			$output = array();
-			
+
 			while(sqlsrv_fetch($result)){
 				if(!$m) $m = sqlsrv_field_metadata($result);
 				unset($row);
 				for($i=0;$i<$c;$i++){
-					$row->{$m[$i]['Name']} = sqlsrv_get_field( $result, $i, SQLSRV_PHPTYPE_STRING( 'utf-8' )); 
+					$row->{$m[$i]['Name']} = sqlsrv_get_field( $result, $i, SQLSRV_PHPTYPE_STRING( 'utf-8' ));
 				}
 				if($arrayIndexEndValue) $output[$arrayIndexEndValue--] = $row;
 				else $output[] = $row;
@@ -230,12 +242,12 @@
         function getNextSequence() {
             $query = sprintf("insert into %ssequence (seq) values (ident_incr('%ssequence'))", $this->prefix, $this->prefix);
 			$this->_query($query);
-			
+
             $query = sprintf("select ident_current('%ssequence')+1 as sequence", $this->prefix);
             $result = $this->_query($query);
             $tmp = $this->_fetch($result);
 
-			
+
             return $tmp->sequence;
         }
 
@@ -244,9 +256,9 @@
          **/
         function isTableExists($target_name) {
             $query = sprintf("select name from sysobjects where name = '%s%s' and xtype='U'", $this->prefix, $this->addQuotes($target_name));
-            $result = $this->_query($query);			
+            $result = $this->_query($query);
             $tmp = $this->_fetch($result);
-			
+
             if(!$tmp) return false;
             return true;
         }
@@ -391,11 +403,11 @@
                     if($unique) $unique_list[$unique][] = $name;
                     else if($index) $index_list[$index][] = $name;
                 }
-				
+
                 $schema = sprintf('create table [%s] (xe_seq int identity(1,1),%s%s)', $this->addQuotes($table_name), "\n", implode($column_schema,",\n"));
                 $output = $this->_query($schema);
                 if(!$output) return false;
-				
+
                 if(count($unique_list)) {
                     foreach($unique_list as $key => $val) {
                         $query = sprintf("create unique index %s on %s (%s);", $key, $table_name, '['.implode('],[',$val).']');
@@ -413,13 +425,13 @@
             }
         }
 
-  
+
         /**
          * @brief Handle the insertAct
          **/
         // TODO Lookup _filterNumber against sql injection - see if it is still needed and how to integrate
         function _executeInsertAct($queryObject) {
-        	$query = $this->getInsertSql($queryObject);
+        	$query = $this->getInsertSql($queryObject, false);
         	$this->param = $queryObject->getArguments();
             return $this->_query($query);
         }
@@ -428,7 +440,7 @@
          * @brief Handle updateAct
          **/
         function _executeUpdateAct($queryObject) {
-        	$query = $this->getUpdateSql($queryObject);
+        	$query = $this->getUpdateSql($queryObject, false);
         	$this->param = $queryObject->getArguments();
             return $this->_query($query);
         }
@@ -437,47 +449,47 @@
          * @brief Handle deleteAct
          **/
         function _executeDeleteAct($queryObject) {
-        	$query = $this->getDeleteSql($queryObject);
+        	$query = $this->getDeleteSql($queryObject, false);
         	$this->param = $queryObject->getArguments();
             return $this->_query($query);
         }
 
         function getSelectSql($query){
        		$with_value = false;
-        	
+
        		//$limitOffset = $query->getLimit()->getOffset();
        		//if($limitOffset)
        			// TODO Implement Limit with offset with subquery
 		 	$limit = '';$limitCount = '';
 		 	if($query->getLimit())
        			$limitCount = $query->getLimit()->getLimit();
-		 	if($limitCount != '') $limit = 'SELECT TOP ' . $limitCount;       		
-       		
+		 	if($limitCount != '') $limit = 'SELECT TOP ' . $limitCount;
+
 			$select = $query->getSelectString($with_values);
 			if($select == '') return new Object(-1, "Invalid query");
 			if($limit != '')
 				$select = $limit.' '.$select;
 			else
 				$select = 'SELECT ' .$select;
-			
+
 			$from = $query->getFromString($with_values);
 			if($from == '') return new Object(-1, "Invalid query");
 			$from = ' FROM '.$from;
-			
+
 			$where = $query->getWhereString($with_values);
 			if($where != '') $where = ' WHERE ' . $where;
-							
+
 			$groupBy = $query->getGroupByString();
 			if($groupBy != '') $groupBy = ' GROUP BY ' . $groupBy;
-			
+
 			$orderBy = $query->getOrderByString();
 			if($orderBy != '') $orderBy = ' ORDER BY ' . $orderBy;
-			
+
 
 
 		 	return $select . ' ' . $from . ' ' . $where . ' ' . $groupBy . ' ' . $orderBy;
         }
-        
+
         /**
          * @brief Handle selectAct
          *
@@ -486,21 +498,21 @@
          **/
         function _executeSelectAct($queryObject) {
         	$query = $this->getSelectSql($queryObject);
-        	
+
         	// TODO Decide if we continue to pass parameters like this
         	$this->param = $queryObject->getArguments();
-        	
-			$query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id):'';
-            $result = $this->_query($query);
 
-			if ($this->isError ()) return $this->queryError($queryObject);
-			else return $this->queryPageLimit($queryObject, $result);             
+		$query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id):'';
+                $result = $this->_query($query);
+
+                if ($this->isError ()) return $this->queryError($queryObject);
+                else return $this->queryPageLimit($queryObject, $result);
         }
 
         function getParser(){
         	return new DBParser("[", "]");
         }
-        
+
     	function queryError($queryObject){
 			if ($queryObject->getLimit() && $queryObject->getLimit()->isPageHandler()){
 					$buff = new Object ();
@@ -510,10 +522,10 @@
 					$buff->data = array ();
 					$buff->page_navigation = new PageHandler (/*$total_count*/0, /*$total_page*/1, /*$page*/1, /*$page_count*/10);//default page handler values
 					return $buff;
-				}else	
+				}else
 					return;
 		}
-		
+
 		function queryPageLimit($queryObject, $result){
 			 	if ($queryObject->getLimit() && $queryObject->getLimit()->isPageHandler()) {
 		 		// Total count
@@ -526,12 +538,12 @@
 				$result_count = $this->_query($count_query);
 				$count_output = $this->_fetch($result_count);
 				$total_count = (int)$count_output->count;
-		 		
+
 				// Total pages
 				if ($total_count) {
 					$total_page = (int) (($total_count - 1) / $queryObject->getLimit()->list_count) + 1;
 				}	else	$total_page = 1;
-		 		
+
 		 		$virtual_no = $total_count - ($queryObject->getLimit()->page - 1) * $queryObject->getLimit()->list_count;
 		 		$data = $this->_fetch($result, $virtual_no);
 
@@ -540,15 +552,15 @@
 				$buff->total_page = $total_page;
 				$buff->page = $queryObject->getLimit()->page;
 				$buff->data = $data;
-				$buff->page_navigation = new PageHandler($total_count, $total_page, $queryObject->getLimit()->page, $queryObject->getLimit()->page_count);				
+				$buff->page_navigation = new PageHandler($total_count, $total_page, $queryObject->getLimit()->page, $queryObject->getLimit()->page_count);
 			}else{
 				$data = $this->_fetch($result);
 				$buff = new Object ();
-				$buff->data = $data;	
+				$buff->data = $data;
 			}
 			return $buff;
 		}
-  
+
     }
 
 return new DBMssql;
