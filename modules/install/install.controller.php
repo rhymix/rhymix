@@ -376,7 +376,10 @@
                         $this->installModule($module, sprintf('./modules/%s', $module));
 
                         $oModule = &getClass($module);
-                        if($oModule->checkUpdate()) $oModule->moduleUpdate();
+						if(is_object($oModule) && method_exists($oModule, 'checkUpdate'))
+						{
+                        	if($oModule->checkUpdate()) $oModule->moduleUpdate();
+						}
                     }
                     unset($modules[$category]);
                 }
