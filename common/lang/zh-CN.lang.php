@@ -73,6 +73,7 @@ $lang->enable = '可用';
 $lang->disable = '禁用';
 
 // 基本词语
+$lang->favorite = 'Favorite';
 $lang->menu = '菜单';
 $lang->no = '编号';
 $lang->notice = '公告';

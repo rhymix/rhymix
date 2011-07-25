@@ -73,6 +73,7 @@ $lang->enable = 'Aktivieren';
 $lang->deaktivieren = 'Deaktivieren';
 
 // Essential Words
+$lang->favorite = 'Favorite';
 $lang->menu = 'Menu';
 $lang->no = 'Nein';
 $lang->notice = 'Hinweis';

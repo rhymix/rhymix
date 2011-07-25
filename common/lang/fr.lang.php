@@ -73,6 +73,7 @@ $lang->enable = 'Valide';
 $lang->disable = 'Invalide';
 
 // Mots essentiels
+$lang->favorite = 'Favorite';
 $lang->menu = 'Menu';
 $lang->no = 'No';
 $lang->notice = 'Notice';

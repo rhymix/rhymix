@@ -73,6 +73,7 @@ $lang->enable = 'Включено';
 $lang->disable = 'Выключено';
 
 // Основные слова
+$lang->favorite = 'Favorite';
 $lang->menu = 'Меню';
 $lang->no = 'No.';
 $lang->notice = 'Уведомление';

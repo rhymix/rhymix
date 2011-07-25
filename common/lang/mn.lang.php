@@ -73,6 +73,7 @@ $lang->enable = 'Боломжтой';
 $lang->disable = 'Боломжгүй';
 
 // 기본 단어
+$lang->favorite = 'Favorite';
 $lang->menu = 'Menu';
 $lang->no = 'Дугаар';
 $lang->notice = 'Зарлал';

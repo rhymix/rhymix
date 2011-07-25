@@ -72,6 +72,7 @@ $lang->enable = 'Activar'; //Activado
 $lang->disable = 'Desactivar'; //Desactivado
 
 // Palabras Esenciales
+$lang->favorite = 'Favorite';
 $lang->menu = 'Menu';
 $lang->no = 'Nº';
 $lang->notice = 'Aviso'; //boletín, noticia

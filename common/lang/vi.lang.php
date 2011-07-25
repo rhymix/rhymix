@@ -72,6 +72,7 @@ $lang->enable = 'Bật';
 $lang->disable = 'Tắt';
 
 // Essential Words
+$lang->favorite = 'Favorite';
 $lang->menu = 'Menu';
 $lang->no = 'STT';
 $lang->notice = 'Chú ý';

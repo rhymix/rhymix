@@ -73,6 +73,7 @@ $lang->enable = 'Seçilir kıl';
 $lang->disable = 'Seçilemez kıl';
 
 // Essential Words
+$lang->favorite = 'Favorite';
 $lang->menu = 'Menü';
 $lang->no = 'No';
 $lang->notice = 'Duyuru';

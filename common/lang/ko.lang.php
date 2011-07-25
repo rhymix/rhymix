@@ -72,6 +72,7 @@ $lang->cmd_go_to_page = '페이지 직접 이동';
 $lang->enable = '가능';
 $lang->disable = '불가능';
 // Basic words
+$lang->favorite = '즐겨찾기';
 $lang->menu = '메뉴';
 $lang->no = '번호';
 $lang->notice = '공지';

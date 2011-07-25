@@ -73,6 +73,7 @@ $lang->enable = 'Enable';
 $lang->disable = 'Disable';
 
 // Essential Words
+$lang->favorite = 'Favorite';
 $lang->menu = 'Menu';
 $lang->no = 'No.';
 $lang->notice = 'Notice';
