@@ -71,6 +71,11 @@
 			if(!$oDB->isColumnExists("modules", "mcontent")) return true;
 			if(!$oDB->isColumnExists("modules", "mskin")) return true;
 
+			// check fix skin
+			if(!$oDB->isColumnExists("modules", "is_skin_fix")) return true;
+			
+			if(!$oDB->isColumnExists("module_config", "site_srl")) return true;
+
             return false;
         }
 
@@ -289,7 +294,23 @@
 			if(!$oDB->isColumnExists("modules", "mskin")) {
 				$oDB->addColumn('modules','mskin','varchar',250);
 			}
-
+			if(!$oDB->isColumnExists("modules", "is_skin_fix")){
+				$oDB->addColumn('modules', 'is_skin_fix', 'char', 1, 'N');
+				$output = executeQueryArray('module.getAllSkinSetModule');
+				if ($output->toBool()){
+					$module_srls = array();
+					foreach($output->data as $val){
+						$module_srls[] = $val->module_srl;
+					}
+					unset($args);
+					$args->module_srls = implode(',', $module_srls);
+					$args->is_skin_fix = 'Y';
+					$output = executeQuery('module.updateSkinFixModules', $args);
+				}
+			}
+			if(!$oDB->isColumnExists("module_config", "site_srl")){
+				$oDB->addColumn('module_config', 'site_srl', 'number', 11, 0, true);
+			}
             return new Object(0, 'success_updated');
         }
 

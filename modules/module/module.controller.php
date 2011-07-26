@@ -122,9 +122,10 @@
          * @brief Enter a specific set of modules
          * In order to manage global configurations of modules such as board, member and so on
          **/
-        function insertModuleConfig($module, $config) {
+        function insertModuleConfig($module, $config, $site_srl = 0) {
             $args->module = $module;
             $args->config = serialize($config);
+			$args->site_srl = $site_srl;
 
             $output = executeQuery('module.deleteModuleConfig', $args);
             if(!$output->toBool()) return $output;

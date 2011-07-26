@@ -8,6 +8,7 @@
     <column name="menu_srl" type="number" size="11" default="0" />
     <column name="site_srl" type="number" size="11" notnull="notnull" default="0" />
     <column name="mid" type="varchar" size="40" notnull="notnull" />
+    <column name="is_skin_fix" type="char" size="1" notnull="notnull" default="Y" />
     <column name="skin" type="varchar" size="250" />
     <column name="mskin" type="varchar" size="250" />
     <column name="browser_title" type="varchar" size="250" notnull="notnull" />

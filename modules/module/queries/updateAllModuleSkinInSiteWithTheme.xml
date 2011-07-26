@@ -1,0 +1,15 @@
+<query id="updateModule" action="update">
+    <tables>
+        <table name="modules" />
+    </tables>
+    <columns>
+		<column name="skin" var="skin" notnull="notnull" />
+	</columns>
+    <conditions>
+        <condition operation="equal" column="site_srl" var="site_srl" filter="number" notnull="notnull" />
+        <condition operation="equal" column="module" var="module" notnull="notnull" pipe="and" />
+		<condition operation="equal" column="is_skin_fix" default="N" pipe="and" />
+		<condition operation="in" column="module_srl" var="module_srls" pipe="and" />
+    </conditions>
+</query>
+

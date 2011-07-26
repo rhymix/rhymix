@@ -860,6 +860,8 @@
                 }
             }
 
+            $thumbnail = sprintf("%s%s/%s/thumbnail.png", $path, $dir, $skin);
+            $skin_info->thumbnail = (file_exists($thumbnail))?$thumbnail:null;
             return $skin_info;
         }
 
@@ -877,14 +879,15 @@
          * @brief Return module configurations
          * Global configuration is used to manage board, member and others
          **/
-        function getModuleConfig($module) {
-            if(!$GLOBALS['__ModuleConfig__'][$module]) {
+        function getModuleConfig($module, $site_srl = 0) {
+            if(!$GLOBALS['__ModuleConfig__'][$site_srl][$module]) {
                 $args->module = $module;
+				$args->site_srl = $site_srl;
                 $output = executeQuery('module.getModuleConfig', $args);
                 $config = unserialize($output->data->config);
-                $GLOBALS['__ModuleConfig__'][$module] = $config;
+                $GLOBALS['__ModuleConfig__'][$site_srl][$module] = $config;
             }
-            return $GLOBALS['__ModuleConfig__'][$module];
+            return $GLOBALS['__ModuleConfig__'][$site_srl][$module];
         }
 
         /**
