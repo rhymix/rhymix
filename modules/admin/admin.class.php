@@ -30,6 +30,9 @@
 				$this->_createXeAdminMenu();
 			}
 
+			$theme_dir = _XE_PATH_.'files/theme';
+			if(!is_dir($theme_dir))	return true;
+
             return false;
         }
 
@@ -38,6 +41,10 @@
          * @return new Object
          **/
         function moduleUpdate() {
+			$theme_dir = _XE_PATH_.'files/theme';
+			if(!is_dir($theme_dir)){
+				FileHandler::makeDir($theme_dir);
+			}
             return new Object();
         }
 
@@ -82,8 +89,60 @@
 			$menuSrl = $args->menu_srl;
 			unset($args);
 
+			$adminUrl = getUrl('', 'module', 'admin');
+			$gnbList = array(
+				'dashboard'=>array(
+					'url'=>$adminUrl,
+					'lnbList'=>array()
+				),
+				'site'=>array(
+					'url'=>$adminUrl,
+					'lnbList'=>array()
+				),
+				'user'=>array(
+					'url'=>$adminUrl,
+					'lnbList'=>array('userList'=>$adminUrl, 'setting'=>$adminUrl, 'point'=>$adminUrl)
+				),
+				'content'=>array(
+					'url'=>getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList'),
+					'lnbList'=>array(
+						'document'=>getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList'),
+						'comment'=>$adminUrl,
+						'trackback'=>$adminUrl,
+						'file'=>$adminUrl,
+						'poll'=>$adminUrl,
+						'dataMigration'=>$adminUrl
+					)
+				),
+				'theme'=>array(
+					'url'=>getUrl('', 'module', 'admin', 'act', 'dispAdminTheme'),
+					'lnbList'=>array()
+				),
+				'extensions'=>array(
+					'url'=>$adminUrl,
+					'lnbList'=>array('easyInstaller'=>$adminUrl, 'installedLayout'=>$adminUrl, 'installedModule'=>$adminUrl, 'installedWidget'=>$adminUrl, 'installedAddon'=>$adminUrl, 'WYSIWYGEditor'=>$adminUrl, 'spamFilter'=>$adminUrl)
+				),
+				'configuration'=>array(
+					'url'=>$adminUrl,
+					'lnbList'=>array('general'=>$adminUrl, 'fileUpload'=>$adminUrl)
+				)
+			);
+
+			$oMemberModel = &getModel('member');
+			$output = $oMemberModel->getAdminGroup(array('group_srl'));
+			$adminGroupSrl = $output->group_srl;
+
+			// common argument setting
+			$args->open_window = 'N';
+			$args->expand = 'N';
+			$args->normal_btn = '';
+			$args->hover_btn = '';
+			$args->active_btn = '';
+			$args->group_srls = $adminGroupSrl;
+
 			// gnb item create
 			$gnbList = array('dashboard', 'site', 'user', 'content', 'theme', 'extensions', 'configuration');
+
 			foreach($gnbList AS $key=>$value)
 			{
 				//insert menu item

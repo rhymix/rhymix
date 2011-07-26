@@ -5,10 +5,13 @@
     <actions>
         <action name="dispAdminIndex" type="view" standalone="true" index="true" />
         <action name="dispAdminConfig" type="view" standalone="true" />
+        <action name="dispAdminTheme" type="view" standalone="true" menu_name="theme" menu_index="true" />
         <action name="dispAdminMenuSetup" type="view" standalone="true" menu_name="adminMenuSetup" menu_index="true" />
 
         <action name="procAdminRecompileCacheFile" type="controller" standalone="true" />
         <action name="procAdminLogout" type="controller" standalone="true" />
+        <action name="procAdminInsertThemeInfo" type="controller" standalone="true" ruleset="insertThemeInfo" />
+
         <action name="getAdminFTPList" type="model" standalone="true" />
     </actions>
 	<menus>

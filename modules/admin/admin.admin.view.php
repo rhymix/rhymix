@@ -7,6 +7,8 @@
 
     class adminAdminView extends admin {
 
+		var $layout_list;
+
         /**
          * @brief Initilization
          * @return none
@@ -452,4 +454,53 @@
 				unset($_SESSION['enviroment_gather']);
 			}
 		}
+
+		function dispAdminTheme(){
+			// choice theme file
+			$theme_file = _XE_PATH_.'files/theme/theme_info.php';
+			if(is_readable($theme_file)){
+				@include($theme_file);
+				Context::set('current_layout', $theme_info->layout);
+				Context::set('theme_info', $theme_info);
+			}
+			else{
+				$oModuleModel = &getModel('module');
+				$default_mid = $oModuleModel->getDefaultMid();
+				Context::set('current_layout', $default_mid->layout_srl);
+			}
+
+			// layout list
+			$oLayoutModel = &getModel('layout');
+			// theme 정보 읽기
+
+			$oAdminModel = &getAdminModel('admin');
+			$theme_list = $oAdminModel->getThemeList();
+			$layouts = $oLayoutModel->getLayoutList(0);
+			$layout_list = array();
+			if (is_array($layouts)){
+				foreach($layouts as $val){
+					unset($layout_info);
+					$layout_info = $oLayoutModel->getLayout($val->layout_srl);
+					$layout_parse = explode('.', $layout_info->layout);
+					if (count($layout_parse) == 2){
+						$thumb_path = sprintf('./themes/%s/layout/%s/thumbnail.png', $layout_parse[0], $layout_parse[1]);
+					}
+					else{
+						$thumb_path = './layouts/'.$layout_info->layout.'/thumbnail.png';
+					}
+					$layout_info->thumbnail = (is_readable($thumb_path))?$thumb_path:null;
+					$layout_list[] = $layout_info;
+				}
+			}
+// 			debugPrint($layout_list);
+			Context::set('theme_list', $theme_list);
+			Context::set('layout_list', $layout_list);
+
+			// 설치된module 정보 가져오기
+			$module_list = $oAdminModel->getModulesSkinList();
+			Context::set('module_list', $module_list);
+
+			$this->setTemplateFile('theme');
+		}
+
     }
