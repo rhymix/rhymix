@@ -14,6 +14,7 @@
 			//$dbParser = XmlQueryParser::getDBParser();
 			//$index->attrs->default = $dbParser->parseExpression($index->attrs->default);
 			$this->default = $index->attrs->default;
+                        require_once(_XE_PATH_.'classes/xml/xmlquery/queryargument/QueryArgument.class.php');
 			require_once(_XE_PATH_.'classes/xml/xmlquery/queryargument/SortQueryArgument.class.php');
 			$this->argument = new QueryArgument($index);
 

@@ -502,6 +502,8 @@
         function _executeSelectAct($queryObject) {
         	$query = $this->getSelectSql($queryObject);
 
+                if(strpos($query, "substr")) $query = str_replace ("substr", "substring", $query);
+
         	// TODO Decide if we continue to pass parameters like this
         	$this->param = $queryObject->getArguments();
 
@@ -553,7 +555,7 @@
 		 		$buff = new Object ();
 				$buff->total_count = $total_count;
 				$buff->total_page = $total_page;
-				$buff->page = $queryObject->getLimit()->page;
+				$buff->page = $queryObject->getLimit()->page->getValue();
 				$buff->data = $data;
 				$buff->page_navigation = new PageHandler($total_count, $total_page, $queryObject->getLimit()->page, $queryObject->getLimit()->page_count);
 			}else{
