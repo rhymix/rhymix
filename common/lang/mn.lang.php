@@ -172,6 +172,8 @@ $lang->layout_manager = 'Лэйаут удирдах';
 
 $lang->use = 'Хэрэглэх';
 $lang->notuse = 'Хэрэглэхгүй';
+$lang->on = 'On';
+$lang->off = 'Off';
 $lang->not_exists = 'Байхгүй';
 
 $lang->public = 'Нийтийн';

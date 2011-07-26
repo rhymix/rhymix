@@ -170,6 +170,8 @@ $lang->layout_manager = 'Adm. Diseños';
 
 $lang->use = 'Usar';
 $lang->notuse = 'No usar';
+$lang->on = 'On';
+$lang->off = 'Off';
 $lang->not_exists = 'No existe';
 
 $lang->public = 'Público';

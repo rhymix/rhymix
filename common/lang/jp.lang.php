@@ -171,6 +171,8 @@ $lang->layout_manager = 'レイアウト管理';
 
 $lang->use = '使用';
 $lang->notuse = '未使用';
+$lang->on = 'On';
+$lang->off = 'Off';
 $lang->not_exists = 'なし';
 
 $lang->public = '公開';

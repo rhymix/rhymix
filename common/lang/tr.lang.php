@@ -171,6 +171,8 @@ $lang->layout_manager = 'Yerleşim düzeni ayarları';
 
 $lang->use = 'Etkin';
 $lang->notuse = 'Devredışı';
+$lang->on = 'On';
+$lang->off = 'Off';
 $lang->not_exists = "mevcut değil";
 
 $lang->public = 'Genel';

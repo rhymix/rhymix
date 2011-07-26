@@ -171,6 +171,8 @@ $lang->layout_manager = 'Layout Settings';
 
 $lang->use = 'Use';
 $lang->notuse = 'Not use';
+$lang->on = 'On';
+$lang->off = 'Off';
 $lang->not_exists = "Doesn't exist";
 
 $lang->public = 'public';

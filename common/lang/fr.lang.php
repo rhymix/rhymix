@@ -171,6 +171,8 @@ $lang->layout_manager = 'Administration des Mises en Page';
 
 $lang->use = 'Utiliser';
 $lang->notuse = 'Pas Utilisé';
+$lang->on = 'On';
+$lang->off = 'Off';
 $lang->not_exists = 'Rien';
 
 $lang->public = 'public';

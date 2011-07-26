@@ -171,6 +171,8 @@ $lang->layout_manager = 'Настройки лейаута';
 
 $lang->use = 'Использовать';
 $lang->notuse = 'Не использовать';
+$lang->on = 'On';
+$lang->off = 'Off';
 $lang->not_exists = "Отсутствует";
 
 $lang->public = 'Показать всем';

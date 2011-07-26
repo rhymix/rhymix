@@ -167,6 +167,8 @@ $lang->layout_manager = 'Quản lý giao diện';
 
 $lang->use = 'Sử dụng';
 $lang->notuse = 'Không sử dụng';
+$lang->on = 'On';
+$lang->off = 'Off';
 $lang->not_exists = "Không tồn tại";
 
 $lang->public = 'Công khai';
