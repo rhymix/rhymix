@@ -19,12 +19,13 @@
         function dispMessage() {
             // Get configurations (using module model object)
             $oModuleModel = &getModel('module');
-            $config = $oModuleModel->getModuleConfig('message');
+            $this->module_config = $config = $oModuleModel->getModuleConfig('message', $this->module_info->site_srl);
             if(!$config->skin) $config->skin = 'default';
             // Template path
             $template_path = sprintf('%sskins/%s', $this->module_path, $config->skin);
+            $this->setTemplatePath($template_path);
+
             // Get the member configuration
-            $oModuleModel = &getModel('module');
             $member_config = $oModuleModel->getModuleConfig('member');
             Context::set('member_config', $member_config);
             // Set a flag to check if the https connection is made when using SSL and create https url 
@@ -36,7 +37,6 @@
 
             Context::set('system_message', nl2br($this->getMessage()));
 
-            $this->setTemplatePath($template_path);
 			$this->setTemplateFile('system_message');
         }
     }
