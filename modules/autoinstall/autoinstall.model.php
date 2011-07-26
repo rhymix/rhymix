@@ -189,10 +189,22 @@
 
 			if(substr($path,-1) == '/') $path = substr($path, 0, strlen($path)-1);
 
-			$args->path = $path;
-			$output = executeQuery('autoinstall.getPackageSrlByPath', $args);
+			if (!$GLOBLAS['XE_AUTOINSTALL_PACKAGE_SRL_BY_PATH'][$path])
+			{
+				$args->path = $path;
+				$output = executeQuery('autoinstall.getPackageSrlByPath', $args);
 
-			return $output->data->package_srl;
+				$GLOBLAS['XE_AUTOINSTALL_PACKAGE_SRL_BY_PATH'][$path] = $output->data->package_srl;
+			}
+
+			return $GLOBLAS['XE_AUTOINSTALL_PACKAGE_SRL_BY_PATH'][$path];
+		}
+
+		function getRemoveUrlByPackageSrl($packageSrl)
+		{
+			if (!$packageSrl) return;
+
+			return getUrl('', 'module', 'admin', 'act', 'dispAutoinstallAdminUninstall', 'package_srl', $packageSrl);
 		}
 
 		function getRemoveUrlByPath($path)
@@ -205,5 +217,21 @@
 			return getUrl('', 'module', 'admin', 'act', 'dispAutoinstallAdminUninstall', 'package_srl', $packageSrl);
 		}
 
+		function getUpdateUrlByPackageSrl($packageSrl)
+		{
+			if (!$packageSrl) return;
+
+			return getUrl('', 'module', 'admin', 'act', 'dispAutoinstallAdminInstall', 'package_srl', $packageSrl);
+		}
+
+		function getUpdateUrlByPath($path)
+		{
+			if (!$path) return;
+
+			$packageSrl = $this->getPackageSrlByPath($path);
+			if (!$packageSrl) return;
+
+			return getUrl('', 'module', 'admin', 'act', 'dispAutoinstallAdminInstall', 'package_srl', $packageSrl);
+		}
    }
 ?>

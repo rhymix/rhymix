@@ -34,4 +34,6 @@
 	$lang->ftp_password = 'FTP password';
 	$lang->msg_dependency_package = 'Can not remove this package because there exists another package dependent on this.';
 	$lang->dependant_list = "Gói cài đặt này phụ thuộc vào các gói khác trong danh sách";
+	$lang->msg_avail_update = 'There is available update for this item.';
+	$lang->msg_do_you_like_update = 'Would you like to update?';
 ?>

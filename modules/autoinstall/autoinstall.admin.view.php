@@ -303,16 +303,6 @@
 			$config_file = $oModel->getConfigFilePath($type);
 			if(!$config_file) return $this->stop("msg_invalid_request");
 
-			// $xml = new XmlParser();
-			// $xmlDoc = $xml->loadXmlFile(FileHandler::getRealPath($path).$config_file);
-			// if(!$xmlDoc) return $this->stop("msg_invalid_request");
-			// if($type == "drcomponent") $type = "component";
-			// if($type == "style") $type = "skin";
-			// $title = $xmlDoc->{$type}->title->body;
-			// $installedPackage->title = $title;
-			// $installedPackage->type = $type;
-			// Context::set('package', $installedPackage);
-
 			$params["act"] = "getResourceapiPackages";
 			$params["package_srls"] = $package_srl;
 			$body = XmlGenerater::generate($params);

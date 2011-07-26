@@ -34,4 +34,6 @@
 	$lang->ftp_password = 'FTP 비밀번호';
 	$lang->msg_dependency_package = '이 패키지를 의존하고 있는 다른 패키지가 있기 때문에 삭제할 수 없습니다.';
 	$lang->dependant_list = "이 패키지에 의존하는 패키지 목록";
+	$lang->msg_avail_update = '이 항목 업데이트가 가능합니다.';
+	$lang->msg_do_you_like_update = '업데이트 하시겠습니까?';
 ?>

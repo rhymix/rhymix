@@ -159,7 +159,15 @@
 			$this->_updateinfo();
 
             $this->setMessage('success_installed', 'update');
-			$this->setRedirectUrl(preg_replace('/act=[^&]*/', 'act=dispAutoinstallAdminIndex', Context::get('error_return_url')));
+
+			if (Context::get('return_url'))
+			{
+				$this->setRedirectUrl(Context::get('return_url'));
+			}
+			else
+			{
+				$this->setRedirectUrl(preg_replace('/act=[^&]*/', 'act=dispAutoinstallAdminIndex', Context::get('error_return_url')));
+			}
         }
 
         function updatePackages(&$xmlDoc)
