@@ -251,7 +251,15 @@
 			$this->_updateinfo();
 
 			$this->setMessage('success_deleted', 'update');
-			$this->setRedirectUrl(getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAutoinstallAdminInstalledPackages'));
+
+			if (Context::get('return_url'))
+			{
+				$this->setRedirectUrl(Context::get('return_url'));
+			}
+			else
+			{
+				$this->setRedirectUrl(getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAutoinstallAdminInstalledPackages'));
+			}
 		}
     }
 ?>

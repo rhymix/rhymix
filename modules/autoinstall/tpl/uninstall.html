@@ -15,6 +15,7 @@
 		<input type="hidden" name="module" value="autoinstall" />
 		<input type="hidden" name="act" value="procAutoinstallAdminUninstallPackage" />
 		<input type="hidden" name="package_srl" value="{$package_srl}" />
+		<input type="hidden" name="return_url" value="{$return_url}" />
 		<input cond="!$need_password" type="hidden" name="ftp_password" value="dummy" />
 
 		<block cond="$need_password">
