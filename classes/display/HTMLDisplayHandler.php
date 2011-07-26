@@ -10,8 +10,21 @@ class HTMLDisplayHandler {
 		$oTemplate = &TemplateHandler::getInstance();
 
 		// compile module tpl
-		$template_path = $oModule->getTemplatePath();
+		if ($oModule->module_info->module == $oModule->module)
+			$skin = $oModule->origin_module_info->skin;
+		else
+			$skin = $oModule->module_config->skin;
+		
+		if ($skin){
+			$theme_skin = explode('.', $skin);
+			if (count($theme_skin) == 2)
+				$template_path = sprintf('./themes/%s/modules/%s/', $theme_skin[0], $theme_skin[1]);
+			else
+				$template_path = $oModule->getTemplatePath();
+		}else
+			$template_path = $oModule->getTemplatePath();
 		$tpl_file = $oModule->getTemplateFile();
+
 		$output = $oTemplate->compile($template_path, $tpl_file);
 
 		// add #xeAdmin div for adminitration pages

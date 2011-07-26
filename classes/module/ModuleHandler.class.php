@@ -158,6 +158,8 @@
          * @return executed module instance
          **/
         function procModule() {
+            $oModuleModel = &getModel('module');
+
             // If error occurred while preparation, return a message instance
             if($this->error) {
 				$type = Mobile::isFromMobilePhone() ? 'mobile' : 'view';
@@ -167,8 +169,6 @@
                 $oMessageObject->dispMessage();
                 return $oMessageObject;
             }
-
-            $oModuleModel = &getModel('module');
 
             // Get action information with conf/action.xml 
             $xml_info = $oModuleModel->getModuleActionXml($this->module);
