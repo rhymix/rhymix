@@ -28,6 +28,7 @@
         'regdate' => '日期',
         'last_update' => '最後更新',
         'ipaddress' => 'IP位址',
+        'is_secret' => 'Status',
     );
 
 	$lang->no_text_comment = 'No text in this comment.';

@@ -28,14 +28,21 @@
 
             // get a list by using comment->getCommentList. 
             $oCommentModel = &getModel('comment');
-			$columnList = array('comment_srl', 'document_srl', 'content', 'comments.member_srl', 'comments.nick_name', 'comments.regdate', 'ipaddress');
+			$secretNameList = $oCommentModel->getSecretNameList();
+			$columnList = array('comment_srl', 'document_srl', 'is_secret', 'content', 'comments.member_srl', 'comments.nick_name', 'comments.regdate', 'ipaddress');
             $output = $oCommentModel->getTotalCommentList($args, $columnList);
+
+			// get total comment count group by is_secret status
+			$countOutput = $oCommentModel->getTotalCommentCount($args);
+
             // set values in the return object of comment_model:: getTotalCommentList() in order to use a template.
             Context::set('total_count', $output->total_count);
             Context::set('total_page', $output->total_page);
             Context::set('page', $output->page);
             Context::set('comment_list', $output->data);
             Context::set('page_navigation', $output->page_navigation);
+            Context::set('secret_name_list', $secretNameList);
+            Context::set('countOutput', $countOutput);
             // set the template 
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('comment_list');

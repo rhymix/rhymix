@@ -1,12 +1,13 @@
-<query id="getDocumentCount" action="select">
+<query id="getDocumentCountByGroupStatus" action="select">
     <tables>
         <table name="documents" />
     </tables>
     <columns>
+        <column name="status" alias="status" />
         <column name="count(*)" alias="count" />
     </columns>
     <conditions>
-        <condition operation="equal" column="module_srl" var="module_srl" filter="number" notnull="notnull" />
+        <condition operation="equal" column="module_srl" var="module_srl" filter="number" />
         <condition operation="notin" column="module_srl" var="exclude_module_srl" filter="number" pipe="and" />
         <condition operation="equal" column="category_srl" var="category_srl" />
         <condition operation="equal" column="is_notice" var="s_is_notice" pipe="and" />
@@ -36,4 +37,7 @@
             <condition operation="less" column="last_update" var="end_date" pipe="and" />
         </group>
     </conditions>
+	<groups>
+		<group column="status" />
+	</groups>
 </query>

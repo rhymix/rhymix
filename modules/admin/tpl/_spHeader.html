@@ -3,8 +3,8 @@
 	<div class="header">
 		<h1><a href="{getUrl('','module','admin')}"><img src="img/xe.h1.png" width="33" height="32" alt="XE" /> Super Admin</a></h1>
 		<div class="siteTool">
-			<a href="#moveSiteList" class="layerAnchor">Move to Site</a>
-			<div class="layer portlet" id="moveSiteList">
+			<a href="#moveSiteList" class="i tgAnchor" data-effect="slide" data-duration="100">Move to Site</a>
+			<div class="layer portlet tgContent" id="moveSiteList">
 				<h2 class="h2">Move to Site</h2>
 				<ul class="lined">
 					<li>XpressEngine - <a href="#">http://xe.xpressengine.net/</a></li>
@@ -18,7 +18,7 @@
 			<ul>
 				<li><a href="#">정찬명</a></li>
 				<li><a href="{getUrl('module','admin','act','procAdminLogout')}">Log-out</a></li>
-				<li><a href="#language" class="tgSlide">Language</a>
+				<li><a href="#language" class="tgAnchor" data-effect="slide" data-duration="100">Language</a>
 					<ul class="tgContent" id="language">
                     	<!--@foreach($lang_supported as $key => $val)-->
 						<li><a href="#" onclick="doChangeLangType('{$key}'); return false;">{$val}</a></li>

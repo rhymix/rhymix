@@ -515,6 +515,26 @@
             $total_count = $output->data->count;
             return (int)$total_count;
         }
+
+        /**
+         * @brief module_srl the total number of documents that are bringing
+         **/
+        function getDocumentCountByGroupStatus($search_obj = NULL) {
+            // Additional search options
+            $args->module_srl = $search_obj->module_srl;
+            $args->s_title = $search_obj->s_title;
+            $args->s_content = $search_obj->s_content;
+            $args->s_user_name = $search_obj->s_user_name;
+            $args->s_member_srl = $search_obj->s_member_srl;
+            $args->s_ipaddress = $search_obj->s_ipaddress;
+            $args->s_regdate = $search_obj->s_regdate;
+            $args->category_srl = $search_obj->category_srl;
+
+            $output = executeQuery('document.getDocumentCountByGroupStatus', $args);
+			if(!$output->toBool()) return array();
+
+			return $output->data;
+        }
         /**
          * @brief Import page of the document, module_srl Without throughout ..
          **/

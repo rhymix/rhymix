@@ -45,6 +45,7 @@
         <action name="procDocumentMoveCategory" type="controller" standalone="true" />
         <action name="procDocumentMakeXmlFile" type="controller" standalone="true" />
         <action name="procDocumentTempSave" type="controller" standalone="true" />
+        <action name="procDocumentGetList" type="controller" standalone="true" />
 
         <action name="procDocumentAdminInsertAlias" type="controller" standalone="true" ruleset="insertAlias" />
         <action name="procDocumentAdminDeleteAlias" type="controller" standalone="true" ruleset="deleteAlias" />

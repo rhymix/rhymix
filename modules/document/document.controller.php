@@ -1694,6 +1694,28 @@ class documentController extends document {
 	}
 
 	/**
+	 * @brief return Document List for exec_xml
+	 **/
+	function procDocumentGetList()
+	{
+		if(!Context::get('is_logged')) return new Object(-1,'msg_not_permitted');
+		// Taken from a list of selected sessions
+		$flagList = $_SESSION['document_management'];
+		if(count($flagList)) {
+			foreach($flagList as $key => $val) {
+				if(!is_bool($val)) continue;
+				$documentSrlList[] = $key;
+			}
+		}
+
+		if(count($documentSrlList)) {
+			$oDocumentModel = &getModel('document');
+			$documentList = $oDocumentModel->getDocuments($documentSrlList, $this->grant->is_admin);
+		}
+		$this->add('document_list', $documentList);
+	}
+
+	/**
 	 * @brief for old version, comment allow status check.
 	 **/
 	function _checkCommentStatusForOldVersion(&$obj)

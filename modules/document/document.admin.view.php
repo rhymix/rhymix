@@ -43,6 +43,9 @@
             $oDocumentModel = &getModel('document');
             $output = $oDocumentModel->getDocumentList($args);
 
+			// count eache status, not in trash...
+			$countOutput = $oDocumentModel->getDocumentCountByGroupStatus($args);;
+
 			// get Status name list
 			$statusNameList = $oDocumentModel->getStatusNameList();
 
@@ -53,6 +56,7 @@
             Context::set('document_list', $output->data);
             Context::set('status_name_list', $statusNameList);
             Context::set('page_navigation', $output->page_navigation);
+            Context::set('countOutput', $countOutput);
 
             // set a search option used in the template
             $count_search_option = count($this->search_option);

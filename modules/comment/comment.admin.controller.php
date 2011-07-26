@@ -102,6 +102,20 @@
             }
         }
 
+		function procCommentAdminAddCart()
+		{
+			$comment_srl = Context::get('comment_srl');
+			$commentSrlList = explode(',', $comment_srl);
+
+			if(is_array($commentSrlList))
+			{
+				foreach($commentSrlList AS $key=>$value)
+				{
+					$_SESSION['comment_management'][$value] = true;
+				}
+			}
+		}
+
         /**
          * @brief delete all comments of the specific module
          **/

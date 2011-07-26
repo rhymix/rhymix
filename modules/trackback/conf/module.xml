@@ -4,7 +4,7 @@
     <permissions />
     <actions>
         <action name="dispTrackbackSend" type="view" standalone="true" />
-        <action name="dispTrackbackAdminList" type="view" admin_index="true" standalone="true" />
+        <action name="dispTrackbackAdminList" type="view" admin_index="true" standalone="true" menu_name="trackback" menu_index="true" />
 
         <action name="trackback" type="controller" standalone="true" />
 

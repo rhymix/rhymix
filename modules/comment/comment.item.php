@@ -396,5 +396,8 @@
             return;
         }
 
+        function isCarted() {
+            return $_SESSION['comment_management'][$this->comment_srl];
+        }
     }
 ?>

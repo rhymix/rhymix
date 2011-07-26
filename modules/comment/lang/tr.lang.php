@@ -27,6 +27,7 @@
         'regdate' => 'Tarih',
         'last_update' => 'Son Güncelleştirme',
         'ipaddress' => 'IP Adresi',
+        'is_secret' => 'Status',
     );
 
 	$lang->no_text_comment = 'Bu yorumda herhangi bir metin yok.';

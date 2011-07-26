@@ -28,6 +28,7 @@
         'regdate' => 'Дата регистрации',
         'last_update' => 'Дата последнего обновления',
         'ipaddress' => 'IP-адрес',	
+        'is_secret' => 'Status',
 	);
 
 	$lang->no_text_comment = 'No text in this comment.';

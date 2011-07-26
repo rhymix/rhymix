@@ -25,6 +25,8 @@
         'regdate' => '등록일',
         'last_update' => '최근수정일 ',
         'ipaddress' => 'IP 주소',
+        'is_secret' => '상태',
     );
 	$lang->no_text_comment = '텍스트가 없는 댓글입니다.';
+	$lang->secret_name_list = array('Y'=>'비밀', 'N'=>'공개');
 ?>

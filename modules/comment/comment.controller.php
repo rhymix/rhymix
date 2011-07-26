@@ -628,5 +628,27 @@
 			$oModuleController->insertModulePartConfig('comment',$srl,$comment_config);
             return new Object();
 		}
+
+        /**
+         * @brief get comment all list
+         **/
+		function procCommentGetList()
+		{
+			if(!Context::get('is_logged')) return new Object(-1,'msg_not_permitted');
+			// Taken from a list of selected sessions
+			$flagList = $_SESSION['comment_management'];
+			if(count($flagList)) {
+				foreach($flagList as $key => $val) {
+					if(!is_bool($val)) continue;
+					$commentSrlList[] = $key;
+				}
+			}
+
+			if(count($commentSrlList)) {
+				$oCommentModel = &getModel('comment');
+				$commentList = $oCommentModel->getComments($commentSrlList);
+			}
+			$this->add('comment_list', $commentList);
+		}
     }
 ?>

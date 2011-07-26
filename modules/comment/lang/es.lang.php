@@ -27,6 +27,7 @@
         'regdate' => 'Fecha del registro',
         'last_update' => 'Ultima actualización',
         'ipaddress' => 'Dirección IP',
+        'is_secret' => 'Status',
     );
 
 	$lang->no_text_comment = 'No text in this comment.';
