@@ -49,12 +49,7 @@
 			if($column_type === '') return;
 
 			$this->type = $column_type;
-
-			//if($column_type === '') $column_type = 'varchar';
-
 		}
-
-
 
         }
 

@@ -95,8 +95,6 @@
 				$this->value = $default_value;
 		}
 
-
-
 		function checkFilter($filter_type){
 			if(isset($this->value) && $this->value != ''){
 				$val = $this->value;

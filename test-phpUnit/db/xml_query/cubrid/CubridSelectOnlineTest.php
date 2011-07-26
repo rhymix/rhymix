@@ -7,7 +7,7 @@
             $args->site_srl = 0;
             $output = executeQuery('module.getMidInfo', $args);
             $this->assertNotNull($output);
-            $this->assertNotNull($output->data, $output->message);
+            $this->assertNotNull($output->data, $output->message . PHP_EOL . $output->variables["_query"]);
             $this->assertEquals($output->data->module_srl, 111);
         }
 
@@ -15,7 +15,7 @@
             $args->site_srl = 0;
             $output = executeQuery('module.getSiteInfo', $args);
             $this->assertTrue(is_a($output, 'Object'));
-            $this->assertEquals(0, $output->error, $output->message);
+            $this->assertEquals(0, $output->error, $output->message . PHP_EOL . $output->variables["_query"]);
         }
 
         function test_document_getDocumentList_pagination(){
@@ -44,7 +44,7 @@
             $args->member_srl = NULL;
             $output = executeQuery('document.getDocumentList', $args);
 
-            $this->assertTrue(is_int($output->page), $output->message);
+            $this->assertTrue(is_int($output->page), $output->message . PHP_EOL . $output->variables["_query"]);
         }
 
         function test_member_getMemberList(){
@@ -56,7 +56,7 @@
             $args->page_count = 10;
 
             $output = executeQuery('member.getMemberList', $args);
-            $this->assertEquals(0, $output->error, $output->message);
+            $this->assertEquals(0, $output->error, $output->message . PHP_EOL . $output->variables["_query"]);
         }
         }
 ?>
