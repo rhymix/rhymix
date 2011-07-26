@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<theme>
+	<version>0.1</version>
+	<title xml:lang="ko">XE Default Theme</title>
+	<title xml:lang="en">XE Default Theme</title>
+	<date>2011-07-26</date>
+	<publisher email_address="developers@xpressengine.com" link="http://www.xpressengine.com">
+		<name xml:lang="ko">NHN</name>
+		<name xml:lang="en">NHN</name>
+	</publisher>
+	<description xml:lang="ko">XE 기본 테마입니다.</description>
+	<skinInfos>
+		<layoutInfo>
+			<directory path="./layouts/xe_official" />
+		</layoutInfo>
+		<skinInfo>
+			<directory path="./modules/page/skins/default" />
+		</skinInfo>
+		<skinInfo>
+			<directory path="./modules/board/skins/xe_board" />
+		</skinInfo>
+		<skinInfo>
+			<directory path="./modules/member/skins/default" />
+		</skinInfo>
+		<skinInfo>
+			<directory path="./modules/message/skins/default" />
+		</skinInfo>
+	</skinInfos>
+</theme>
