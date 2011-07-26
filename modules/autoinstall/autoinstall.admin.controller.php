@@ -30,7 +30,7 @@
             $this->setMessage("success_updated", 'update');
 			$this->setRedirectUrl(Context::get('error_return_url'));
         }
-		
+
 		function _updateinfo(){
             $oModel = &getModel('autoinstall');
             $item = $oModel->getLatestPackage();
@@ -64,7 +64,7 @@
 				$type = $oModel->getTypeFromPath($package->path);
 				if($type == "core")
 				{
-                    $version = __ZBXE_VERSION__; 
+                    $version = __ZBXE_VERSION__;
 				}
                 else
                 {
@@ -85,7 +85,7 @@
 						case "style":
 						case "m.skin":
 							$type = "skin";
-						case "skin":    
+						case "skin":
 						case "widgetstyle":
                             $config_file = "/skin.xml";
                         break;
@@ -155,9 +155,9 @@
                 $output = $oModuleInstaller->install();
                 if(!$output->toBool()) return $output;
             }
-			
+
 			$this->_updateinfo();
-			
+
             $this->setMessage('success_installed', 'update');
 			$this->setRedirectUrl(preg_replace('/act=[^&]*/', 'act=dispAutoinstallAdminIndex', Context::get('error_return_url')));
         }
@@ -249,7 +249,7 @@
 			if(!$output->toBool()) return $output;
 
 			$this->_updateinfo();
-			
+
 			$this->setMessage('success_deleted', 'update');
 			$this->setRedirectUrl(getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAutoinstallAdminInstalledPackages'));
 		}

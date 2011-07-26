@@ -32,4 +32,6 @@
 	$lang->name = 'Name';
 	$lang->about_depending_programs = 'To use this package must be installed the fllowing program.';
 	$lang->ftp_password = 'FTP password';
+	$lang->msg_dependency_package = 'Can not remove this package because there exists another package dependent on this.';
+	$lang->dependant_list = "Mevcut pakete bağlı paket listesi";
 ?>

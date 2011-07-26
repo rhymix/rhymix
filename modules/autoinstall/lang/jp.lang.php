@@ -1,7 +1,7 @@
 <?php
     /**
      * @file   modules/autoinstall/lang/jp.lang.php
-     * @author NHN (developers@xpressengine.com) 翻訳：ミニミ 
+     * @author NHN (developers@xpressengine.com) 翻訳：ミニミ
      * @brief  Autoinstall(autoinstall) 日本語基本言語パッケージ
      **/
     $lang->autoinstall = 'イージーインストール';
@@ -32,4 +32,6 @@
 	$lang->name = 'Name';
 	$lang->about_depending_programs = 'To use this package must be installed the fllowing program.';
 	$lang->ftp_password = 'FTP password';
+	$lang->msg_dependency_package = 'Can not remove this package because there exists another package dependent on this.';
+	$lang->dependant_list = "このパッケージに依存するパッケージのリスト";
 ?>

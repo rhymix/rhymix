@@ -1,5 +1,5 @@
 <include target="header.html" />
-{@debugPrint($package)}
+
 <h2 class="h2">{$package->title} ver. {$package->version}</h2>
 <p cond="$package->installed">{$lang->current_version}: {$package->cur_version} <block cond="$package->need_update">({$lang->require_update})</block></p>
 <p cond="!$package->installed">{$lang->require_installation}</p>

@@ -32,4 +32,6 @@
 	$lang->name = '이름';
 	$lang->about_depending_programs = '이 패키지 사용을 위해서는 아래 프로그램이 설치되어 있어야 합니다.';
 	$lang->ftp_password = 'FTP 비밀번호';
+	$lang->msg_dependency_package = '이 패키지를 의존하고 있는 다른 패키지가 있기 때문에 삭제할 수 없습니다.';
+	$lang->dependant_list = "이 패키지에 의존하는 패키지 목록";
 ?>

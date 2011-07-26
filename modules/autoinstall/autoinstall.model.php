@@ -94,7 +94,7 @@
             {
                 $siblingList .= ",".$this->setDepth($list[$child->category_srl], $depth+1, $list, $resultList);
             }
-            if(count($item->children) < 1) 
+            if(count($item->children) < 1)
             {
                 $item->nPackages = $this->getPackageCount($item->category_srl);
             }
@@ -123,6 +123,8 @@
         function getInstalledPackageList($page)
         {
             $args->page = $page;
+			$args->list_count = 10;
+			$args->page_count = 5;
             $output = executeQueryArray("autoinstall.getInstalledPackageList", $args);
             $res = array();
             foreach($output->data as $val)
@@ -159,7 +161,7 @@
 					$config_file = "/info.xml";
 				break;
 				case "m.skin":
-				case "skin":    
+				case "skin":
 				case "widgetstyle":
 				case "style":
 					$config_file = "/skin.xml";
@@ -176,9 +178,31 @@
 			$path_array = explode("/", $path);
             $target_name = array_pop($path_array);
 			$oModule =& getModule($target_name, "class");
-			if(!$oModule) return false;	
+			if(!$oModule) return false;
 			if(method_exists($oModule, "moduleUninstall")) return true;
 			else return false;
+		}
+
+		function getPackageSrlByPath($path)
+		{
+			if (!$path) return;
+
+			if(substr($path,-1) == '/') $path = substr($path, 0, strlen($path)-1);
+
+			$args->path = $path;
+			$output = executeQuery('autoinstall.getPackageSrlByPath', $args);
+
+			return $output->data->package_srl;
+		}
+
+		function getRemoveUrlByPath($path)
+		{
+			if (!$path) return;
+
+			$packageSrl = $this->getPackageSrlByPath($path);
+			if (!$packageSrl) return;
+
+			return getUrl('', 'module', 'admin', 'act', 'dispAutoinstallAdminUninstall', 'package_srl', $packageSrl);
 		}
 
    }
