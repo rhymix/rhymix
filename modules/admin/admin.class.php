@@ -2,14 +2,14 @@
     /**
      * @class  admin
      * @author NHN (developers@xpressengine.com)
-     * @brief  base class of admin module 
+     * @brief  base class of admin module
      **/
 
     class admin extends ModuleObject {
 		var $xeMenuTitle;
 
         /**
-         * @brief install admin module 
+         * @brief install admin module
          * @return new Object
          **/
         function moduleInstall() {
@@ -33,7 +33,7 @@
         }
 
         /**
-         * @brief update module 
+         * @brief update module
          * @return new Object
          **/
         function moduleUpdate() {
@@ -49,16 +49,16 @@
             // remove compiled templates
             FileHandler::removeFilesInDir("./files/cache/template_compiled");
 
-            // remove optimized files 
+            // remove optimized files
             FileHandler::removeFilesInDir("./files/cache/optimized");
 
-            // remove js_filter_compiled files 
+            // remove js_filter_compiled files
             FileHandler::removeFilesInDir("./files/cache/js_filter_compiled");
 
-            // remove cached queries 
+            // remove cached queries
             FileHandler::removeFilesInDir("./files/cache/queries");
 
-            // remove ./files/cache/news* files 
+            // remove ./files/cache/news* files
             $directory = dir(_XE_PATH_."files/cache/");
             while($entry = $directory->read()) {
                 if(substr($entry,0,11)=='newest_news') FileHandler::removeFile("./files/cache/".$entry);
@@ -137,12 +137,12 @@
 							foreach($moduleActionInfo->menu AS $key2=>$value2)
 							{
 								$gnbKey = "'".$this->_getGnbKey($key2)."'";
-
 								//insert menu item
 								$args->menu_item_srl = getNextSequence();
 								$args->parent_srl = $gnbDBList[$gnbKey];
 								//$args->name = '{$lang->menu_gnb_sub['.$gnbKey.'][\''.$key2.'\']}';
-								$args->name = '{$lang->menu_gnb_sub[\''.$key2.'\']}';
+								//$args->name = '{$lang->menu_gnb_sub[\''.$key2.'\']}';
+								$args->name = $value2->title;
 								$args->url = getNotEncodedUrl('', 'module', 'admin', 'act', $value2->index);
 								$args->listorder = -1*$args->menu_item_srl;
 								$output = executeQuery('menu.insertMenuItem', $args);
