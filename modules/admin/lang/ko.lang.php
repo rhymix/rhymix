@@ -26,6 +26,16 @@ $lang->module_category_title = array(
 	'migration' => '데이터 관리/복원',
 	'system' => '시스템 관리',
 );
+$lang->menu_gnb = array(
+	'dashboard' => '대쉬보드',
+	'site' => '사이트',
+	'user' => '유저',
+	'content' => '콘텐츠',
+	'theme' => '테마',
+	'extensions' => '확장기능',
+	'configuration' => '설정',
+);
+
 $lang->newest_news = '최신 소식';
 $lang->env_setup = '환경 설정';
 $lang->default_url = '기본 URL';
@@ -69,7 +79,7 @@ $lang->server_ports = '서버포트지정';
 $lang->about_server_ports = 'HTTP는 80, HTTPS는 443 이 아닌, 다른 포트를 사용할 경우에 포트를 지정해 주어야 합니다.';
 $lang->use_db_session = '인증 세션 DB 사용';
 $lang->about_db_session = '인증 시 사용되는 PHP 세션을 DB로 사용하는 기능입니다.<br/>웹서버의 사용률이 낮은 사이트에서는 비활성화시 사이트 응답 속도가 향상될 수 있습니다.<br/>단 현재 접속자를 구할 수 없어 관련된 기능을 사용할 수 없게 됩니다.';
-$lang->sftp = 'SFTP 사용'; 
+$lang->sftp = 'SFTP 사용';
 $lang->ftp_get_list = '목록 가져오기';
 $lang->ftp_remove_info = 'FTP 정보 삭제';
 $lang->msg_ftp_invalid_path = 'FTP Path를 읽을 수 없습니다.';

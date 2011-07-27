@@ -1,4 +1,3 @@
-<!--%import("filter/add_friend_group.xml")-->
 <!--%import("js/communication.js")-->
 
 <div id="popHeader">
@@ -10,7 +9,11 @@
         <!--@end-->
     </h3>
 </div>
-<form action="./" method="get" onsubmit="return procFilter(this, add_friend_group)">
+<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
+<form ruleset="addFriendGroup" action="./" method="post">
+<input type="hidden" name="act" value="procCommunicationAddFriendGroup" />
 <input type="hidden" name="friend_group_srl" value="{$friend_group->friend_group_srl}" />
 
 <div id="popBody">

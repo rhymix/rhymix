@@ -12,21 +12,21 @@
         <action name="dispCommunicationAddFriendGroup" type="view" standalone="true" />
 
         <action name="procCommunicationUpdateAllowMessage" type="controller" standalone="true" />
-        <action name="procCommunicationSendMessage" type="controller" standalone="true" />
+        <action name="procCommunicationSendMessage" type="controller" standalone="true" ruleset="sendMessage" />
         <action name="procCommunicationStoreMessage" type="controller" standalone="true" />
         <action name="procCommunicationDeleteMessage" type="controller" standalone="true" />
         <action name="procCommunicationDeleteMessages" type="controller" standalone="true" />
 
-        <action name="procCommunicationAddFriend" type="controller" standalone="true" />
-        <action name="procCommunicationMoveFriend" type="controller" standalone="true" />
-        <action name="procCommunicationDeleteFriend" type="controller" standalone="true" />
+        <action name="procCommunicationAddFriend" type="controller" standalone="true" ruleset="addFriend" />
+        <action name="procCommunicationMoveFriend" type="controller" standalone="true" ruleset="deleteCheckedFriend" />
+        <action name="procCommunicationDeleteFriend" type="controller" standalone="true" ruleset="deleteCheckedFriend" />
 
-        <action name="procCommunicationAddFriendGroup" type="controller" standalone="true" />
+        <action name="procCommunicationAddFriendGroup" type="controller" standalone="true" ruleset="addFriendGroup" />
         <action name="procCommunicationRenameFriendGroup" type="controller" standalone="true" />
         <action name="procCommunicationDeleteFriendGroup" type="controller" standalone="true" />
 
         <action name="getCommunicationAdminColorset" type="model" standalone="true" />
-        <action name="procCommunicationAdminInsertConfig" type="controller" standalone="true" />
+        <action name="procCommunicationAdminInsertConfig" type="controller" standalone="true" ruleset="insertConfig" />
         <action name="dispCommunicationAdminConfig" type="view" standalone="true" admin_index="true" />
     </actions>
 </module>

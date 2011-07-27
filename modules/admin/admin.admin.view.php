@@ -7,6 +7,8 @@
 
     class adminAdminView extends admin {
 
+		var $layout_list;
+
         /**
          * @brief Initilization
          * @return none
@@ -23,7 +25,7 @@
             $this->setLayoutPath($this->getTemplatePath());
             $this->setLayoutFile('layout.html');
 
-			$this->loadSideBar();
+			$this->makeGnbUrl();
 
             // Retrieve the list of installed modules 
 
@@ -42,7 +44,65 @@
             if($db_info->http_port) Context::set('http_port', $db_info->http_port);
             if($db_info->https_port) Context::set('https_port', $db_info->https_port);
 
+			$this->showSendEnv();
+
         }
+
+		function makeGnbUrl($module = 'admin')
+		{
+			global $lang;
+			$oAdminAdminModel = &getAdminModel('admin');
+			$lang->menu_gnb_sub = $oAdminAdminModel->getAdminMenuLang();
+
+			$oMenuAdminModel = &getAdminModel('menu');
+			$menu_info = $oMenuAdminModel->getMenuByTitle('__XE_ADMIN__');
+
+			if(is_readable($menu_info->php_file))
+				include $menu_info->php_file;
+			else {
+				header('location:'.getNotEncodedUrl('', 'module', 'admin'));
+				return;
+			}
+
+            $oModuleModel = &getModel('module');
+			$moduleActionInfo = $oModuleModel->getModuleActionXml($module);
+			if(is_object($moduleActionInfo->menu))
+			{
+				$subMenuTitle = '';
+				foreach($moduleActionInfo->menu AS $key=>$value)
+				{
+					if($value->acts && in_array(Context::get('act'), $value->acts))
+					{
+						$subMenuTitle = $value->title;
+						break;
+					}
+				}
+			}
+
+			$parentSrl = 0;
+			if(is_array($menu->list))
+			{
+				foreach($menu->list AS $key=>$value)
+				{
+					$parentMenu = $value;
+					if(is_array($parentMenu['list']) && count($parentMenu['list']) > 0)
+					{
+						foreach($parentMenu['list'] AS $key2=>$value2)
+						{
+							$childMenu = $value2;
+							if($subMenuTitle == $childMenu['text'])
+							{
+								$parentSrl = $childMenu['parent_srl'];
+								break;
+							}
+						}
+					}
+				}
+			}
+
+			Context::set('gnbUrlList', $menu->list);
+			Context::set('parentSrl', $parentSrl);
+		}
 
 		function loadSideBar()
 		{
@@ -353,5 +413,94 @@
             Context::set('layout','none');
             $this->setTemplateFile('config');
         }
+
+        /**
+         * @brief Display Admin Menu Configuration(settings) page
+         * @return none
+         **/
+		function dispAdminMenuSetup()
+		{
+			$oMenuAdminModel = &getAdminModel('menu');
+			$output = $oMenuAdminModel->getMenuByTitle('__XE_ADMIN__');
+
+			Context::set('menu_srl', $output->menu_srl);
+            $this->setTemplateFile('menu_setup');
+		}
+
+		function showSendEnv() {
+			if(Context::getResponseMethod() != 'HTML') return;
+
+			$server = 'http://collect.xpressengine.com/env/img.php?';
+			$path = './files/env/';
+			$install_env = $path . 'install';
+
+			if(file_exists(FileHandler::getRealPath($install_env))) {
+				$oAdminAdminModel = &getAdminModel('admin');
+				$params = $oAdminAdminModel->getEnv('INSTALL');
+				$img = sprintf('<img src="%s" alt="" style="height:0px;width:0px" />', $server.$params);
+				Context::addHtmlFooter($img);
+
+				FileHandler::removeDir($path);
+				FileHandler::writeFile($path.__ZBXE_VERSION__,'1'); 
+
+			} else if($_SESSION['enviroment_gather']=='Y' && !file_exists($path.__ZBXE_VERSION__)) {
+				$oAdminAdminModel = &getAdminModel('admin');
+				$params = $oAdminAdminModel->getEnv();
+				$img = sprintf('<img src="%s" alt="" style="height:0px;width:0px" />', $server.$params);
+				Context::addHtmlFooter($img);
+
+				FileHandler::removeDir($path);
+				FileHandler::writeFile($path.__ZBXE_VERSION__,'1'); 
+				unset($_SESSION['enviroment_gather']);
+			}
+		}
+
+		function dispAdminTheme(){
+			// choice theme file
+			$theme_file = _XE_PATH_.'files/theme/theme_info.php';
+			if(is_readable($theme_file)){
+				@include($theme_file);
+				Context::set('current_layout', $theme_info->layout);
+				Context::set('theme_info', $theme_info);
+			}
+			else{
+				$oModuleModel = &getModel('module');
+				$default_mid = $oModuleModel->getDefaultMid();
+				Context::set('current_layout', $default_mid->layout_srl);
+			}
+
+			// layout list
+			$oLayoutModel = &getModel('layout');
+			// theme 정보 읽기
+
+			$oAdminModel = &getAdminModel('admin');
+			$theme_list = $oAdminModel->getThemeList();
+			$layouts = $oLayoutModel->getLayoutList(0);
+			$layout_list = array();
+			if (is_array($layouts)){
+				foreach($layouts as $val){
+					unset($layout_info);
+					$layout_info = $oLayoutModel->getLayout($val->layout_srl);
+					$layout_parse = explode('.', $layout_info->layout);
+					if (count($layout_parse) == 2){
+						$thumb_path = sprintf('./themes/%s/layout/%s/thumbnail.png', $layout_parse[0], $layout_parse[1]);
+					}
+					else{
+						$thumb_path = './layouts/'.$layout_info->layout.'/thumbnail.png';
+					}
+					$layout_info->thumbnail = (is_readable($thumb_path))?$thumb_path:null;
+					$layout_list[] = $layout_info;
+				}
+			}
+// 			debugPrint($layout_list);
+			Context::set('theme_list', $theme_list);
+			Context::set('layout_list', $layout_list);
+
+			// 설치된module 정보 가져오기
+			$module_list = $oAdminModel->getModulesSkinList();
+			Context::set('module_list', $module_list);
+
+			$this->setTemplateFile('theme');
+		}
+
     }
-?>

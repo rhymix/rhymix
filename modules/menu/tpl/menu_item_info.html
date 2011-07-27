@@ -86,7 +86,7 @@
             <th scope="row"><div>{$lang->menu_group_srls}</div></th>
             <td>
                 <!--@foreach($group_list as $key=>$val)-->
-                <input type="checkbox" name="group_srls" value="{$key}" id="group_{$key}" <!--@if(is_array($item_info->group_srls)&&in_array($key, $item_info->group_srls))-->checked="checked"<!--@end-->/>
+                <input type="checkbox" name="group_srls[]" value="{$key}" id="group_{$key}" <!--@if(is_array($item_info->group_srls)&&in_array($key, $item_info->group_srls))-->checked="checked"<!--@end-->/>
                 <label for="group_{$key}">{$val->title}</label>
                 <!--@end-->
                 <p>{$lang->about_menu_group_srls}</p>

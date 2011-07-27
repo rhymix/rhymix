@@ -3,6 +3,7 @@
     class adminAdminModel extends admin
     {
         var $pwd;
+		var $gnbLangBuffer;
 
         function getSFTPList()
         {
@@ -87,5 +88,246 @@
             }
             $this->add('list', $list);
         }
-    }
-?>
+
+		function getEnv($type='WORKING') {
+
+			 $skip = array(
+					 	'ext' => array('pcre','json','hash','dom','session','spl','standard','date','ctype','tokenizer','apache2handler','filter','posix','reflection','pdo')
+						,'module' => array('addon','admin','autoinstall', 'comment', 'communication', 'counter', 'document', 'editor', 'file', 'importer', 'install', 'integration_search', 'layout', 'member', 'menu', 'message', 'module', 'opage', 'page', 'point', 'poll', 'rss', 'session', 'spamfilter', 'tag',  'trackback', 'trash', 'widget')
+						,'addon' => array('autolink', 'blogapi', 'captcha', 'counter', 'member_communication', 'member_extra_info', 'mobile', 'openid_delegation_id', 'point_level_icon', 'resize_image' )
+					);
+
+			$info = array();
+			$info['type'] = ($type !='INSTALL' ? 'WORKING' : 'INSTALL');
+			$info['location'] = _XE_LOCATION_;
+			$info['package'] = _XE_PACKAGE_;
+			$info['host'] = $db_type->default_url ? $db_type->default_url : getFullUrl();
+			$info['app'] = $_SERVER['SERVER_SOFTWARE'];
+			$info['php'] = phpversion();
+
+			$db_info = Context::getDBInfo();
+			$info['db_type'] = $db_info->db_type;
+			$info['use_rewrite'] = $db_info->use_rewrite;
+			$info['use_db_session'] = $db_info->use_db_session == 'Y' ?'Y':'N';
+			$info['use_ssl'] = $db_info->use_ssl;
+
+			$info['phpext'] = '';
+			foreach (get_loaded_extensions() as $ext) { 
+				$ext = strtolower($ext);
+				if(in_array($ext, $skip['ext'])) continue;
+				$info['phpext'] .= '|'. $ext; 
+			}
+			$info['phpext'] = substr($info['phpext'],1);
+
+			$info['module'] = '';
+			$oModuleModel = &getModel('module');
+			$module_list = $oModuleModel->getModuleList();
+			foreach($module_list as $module){
+				if(in_array($module->module, $skip['module'])) continue; 
+				$info['module']  .= '|'.$module->module;
+			}
+			$info['module'] = substr($info['module'],1);
+
+			$info['addon'] = '';
+			$oAddonAdminModel = &getAdminModel('addon');
+			$addon_list = $oAddonAdminModel->getAddonList();
+			foreach($addon_list as $addon){
+				if(in_array($addon->addon, $skip['addon'])) continue; 
+				$info['addon'] .= '|'.$addon->addon;
+			}
+			$info['addon'] = substr($info['addon'],1);
+
+			$param = '';
+			foreach($info as $k => $v){
+				if($v) $param .= sprintf('&%s=%s',$k,urlencode($v));
+			}
+			$param = substr($param, 1);
+
+			return $param;
+		}
+
+		function getThemeList(){
+			$path = _XE_PATH_.'themes';
+			$list = FileHandler::readDir($path);
+
+			$theme_info = array();
+			if(count($list) > 0){
+				foreach($list as $val){
+					$theme_info[$val] = $this->getThemeInfo($val);
+				}
+			}
+
+			return $theme_info;
+		}
+
+		function getThemeInfo($theme_name, $layout_list = null){
+			if ($GLOBALS['__ThemeInfo__'][$theme_name]) return $GLOBALS['__ThemeInfo__'][$theme_name];
+
+			$info_file = _XE_PATH_.'themes/'.$theme_name.'/conf/info.xml';
+            if(!file_exists($info_file)) return;
+
+            $oXmlParser = new XmlParser();
+            $_xml_obj = $oXmlParser->loadXmlFile($info_file);
+
+            if(!$_xml_obj->theme) return;
+            $xml_obj = $_xml_obj->theme;
+            if(!$_xml_obj->theme) return;
+
+            // 스킨이름
+			$theme_info->name = $theme_name;
+            $theme_info->title = $xml_obj->title->body;
+			$thumbnail = './themes/'.$theme_name.'/thumbnail.png';
+			$theme_info->thumbnail = (file_exists($thumbnail))?$thumbnail:null;
+			$theme_info->version = $xml_obj->version->body;
+			sscanf($xml_obj->date->body, '%d-%d-%d', $date_obj->y, $date_obj->m, $date_obj->d);
+			$theme_info->date = sprintf('%04d%02d%02d', $date_obj->y, $date_obj->m, $date_obj->d);
+			$theme_info->description = $xml_obj->description->body;
+			$theme_info->path = './themes/'.$theme_name.'/';
+
+			if(!is_array($xml_obj->publisher)) $publisher_list[] = $xml_obj->publisher;
+			else $publisher_list = $xml_obj->publisher;
+
+			foreach($publisher_list as $publisher) {
+				unset($publisher_obj);
+				$publisher_obj->name = $publisher->name->body;
+				$publisher_obj->email_address = $publisher->attrs->email_address;
+				$publisher_obj->homepage = $publisher->attrs->link;
+				$theme_info->publisher[] = $publisher_obj;
+			}
+
+			$skin_infos = $xml_obj->skininfos;
+			if(is_array($skin_infos->layoutinfo))$layout_path = $skin_infos->layoutinfo[0]->directory->attrs->path;
+			else $layout_path = $skin_infos->layoutinfo->directory->attrs->path;
+
+			$layout_parse = explode('/',$layout_path);
+			switch($layout_parse[1]){
+				case 'themes' : {
+									$layout_info->name = $theme_name.'.'.$layout_parse[count($layout_parse)-1];
+									break;
+								}
+				case 'layouts' : {
+									$layout_info->name = $layout_parse[count($layout_parse)-1];
+									 break;
+								}
+			}
+			$layout_info->path = $layout_path;
+			$theme_info->layout_info = $layout_info;
+
+			$site_info = Context::get('site_module_info');
+			// check layout instance
+			$is_new_layout = true;
+			$oLayoutModel = &getModel('layout');
+			$layout_info_list = array();
+			$layout_list = $oLayoutModel->getLayoutList($site_info->site_srl);
+			if ($layout_list){
+				foreach($layout_list as $val){
+					if ($val->layout == $layout_info->name){
+						$is_new_layout = false;
+						break;
+					}
+				}
+			}
+
+			if ($is_new_layout){
+				$site_module_info = Context::get('site_module_info');
+				$args->site_srl = (int)$site_module_info->site_srl;
+				$args->layout_srl = getNextSequence();
+				$args->layout = $layout_info->name;
+				$args->title = $layout_info->name.'InTheme';
+				$args->layout_type = "P";
+				// Insert into the DB
+				$oLayoutAdminController = &getAdminController('layout');
+				$output = $oLayoutAdminController->insertLayout($args);
+			}
+
+			if(is_array($skin_infos->skininfo))$skin_list = $skin_infos->skininfo;
+			else $skin_list = array($skin_infos->skininfo);
+			
+			$oModuleModel = &getModel('module');
+			$skins = array();
+			foreach($skin_list as $val){
+				unset($skin_info);
+				unset($skin_parse);
+				$skin_parse = explode('/',$val->directory->attrs->path);
+				switch($skin_parse[1]){
+					case 'themes' : {
+										$is_theme = true;
+										$module_name = $skin_parse[count($skin_parse)-1];
+										$skin_info->name = $theme_name.'.'.$module_name;
+										break;
+									}
+					case 'modules' : {
+										$is_theme = false;
+										 $module_name = $skin_parse[2];
+										 $skin_info->name = $skin_parse[count($skin_parse)-1];
+										 break;
+									}
+				}
+				$skin_info->path = $val->directory->attrs->path;
+				$skins[$module_name] = $skin_info;
+
+				if ($is_theme){
+					if (!$GLOBALS['__ThemeModuleSkin__'][$module_name]) $GLOBALS['__ThemeModuleSkin__'][$module_name] = array();
+					$GLOBALS['__ThemeModuleSkin__'][$module_name][$skin_info->name] = $oModuleModel->loadSkinInfo($skin_info->path, '', '');
+				}
+			}
+			$theme_info->skin_infos = $skins;
+
+			$GLOBALS['__ThemeInfo__'][$theme_name] = $theme_info;
+			return $theme_info;
+		}
+
+		function getModulesSkinList(){
+			if ($GLOBALS['__ThemeModuleSkin__']['__IS_PARSE__']) return $GLOBALS['__ThemeModuleSkin__'];
+            $searched_list = FileHandler::readDir('./modules');
+            sort($searched_list);
+
+            $searched_count = count($searched_list);
+            if(!$searched_count) return;
+
+			$oModuleModel = &getModel('module');
+            foreach($searched_list as $val) {
+				$skin_list = $oModuleModel->getSkins('./modules/'.$val);
+
+				if (is_array($skin_list) && count($skin_list) > 0){
+					if(!$GLOBALS['__ThemeModuleSkin__'][$val]) $GLOBALS['__ThemeModuleSkin__'][$val] = array();
+					$GLOBALS['__ThemeModuleSkin__'][$val] = array_merge($GLOBALS['__ThemeModuleSkin__'][$val], $skin_list);
+				}
+			}
+			$GLOBALS['__ThemeModuleSkin__']['__IS_PARSE__'] = true;
+
+			return $GLOBALS['__ThemeModuleSkin__'];
+		}
+
+		function getAdminMenuLang()
+		{
+			$currentLang = Context::getLangType();
+			$cacheFile = sprintf('./files/cache/menu/adminMenu.%s.lang.php', $currentLang);
+
+            // Update if no cache file exists or it is older than xml file
+            if(!is_readable($cacheFile))
+			{
+				$oModuleModel = &getModel('module');
+				$installed_module_list = $oModuleModel->getModulesXmlInfo();
+
+				$this->gnbLangBuffer = '<?php ';
+				foreach($installed_module_list AS $key=>$value)
+				{
+					$moduleActionInfo = $oModuleModel->getModuleActionXml($value->module);
+					if(is_object($moduleActionInfo->menu))
+					{
+						foreach($moduleActionInfo->menu AS $key2=>$value2)
+						{
+							$lang->menu_gnb_sub[$key2] = $value2->title;
+							$this->gnbLangBuffer .=sprintf('$lang->menu_gnb_sub[\'%s\'] = \'%s\';', $key2, $value2->title);
+						}
+					}
+				}
+				$this->gnbLangBuffer .= ' ?>';
+				FileHandler::writeFile($cacheFile, $this->gnbLangBuffer);
+			}
+			else include $cacheFile;
+
+			return $lang->menu_gnb_sub;
+		}
+	}

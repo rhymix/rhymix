@@ -29,8 +29,8 @@
     <tr>
         <th scope="row"><div>{$lang->move_target_module}</div></th>
         <td>
-            <input type="hidden" name="target_module" id="target_module" value="" />
-            <input type="text" name="_target_module" id="_target_module" class="inputTypeText w300" value="" readonly="readonly" /><a href="{getUrl('','module','module','act','dispModuleSelectList','id','target_module','type','single')}" onclick="popopen(this.href,'ModuleSelect');return false;" class="button green"><span>{$lang->cmd_select}</span></a>
+            <input type="hidden" name="target_module" id="target_module" value="{$module_srl}" />
+            <input type="text" name="_target_module" id="_target_module" class="inputTypeText w300" value="{$mid} ({$browser_title})" readonly="readonly" /><a href="{getUrl('','module','module','act','dispModuleSelectList','id','target_module','type','single')}" onclick="popopen(this.href,'ModuleSelect');return false;" class="button green"><span>{$lang->cmd_select}</span></a>
         </td>
     </tr>
     <tr>
@@ -57,7 +57,7 @@
 </div>
 
 <script type="text/javascript">
-    jQuery(function() { doGetCategoryFromModule(jQuery('#target_module').get(0)); } );
+    jQuery(function() { doGetCategoryFromModule({$module_srl}); } );
 </script>
 <!--@end-->
 </form>

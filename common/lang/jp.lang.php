@@ -67,11 +67,13 @@ $lang->cmd_layout_setup = 'レイアウト設定';
 $lang->cmd_layout_edit = 'レイアウト編集';
 $lang->cmd_search_by_ipaddress = 'IPアドレスで検索';
 $lang->cmd_add_ip_to_spamfilter = 'スパムフィルターにIPを追加';
+$lang->cmd_go_to_page = 'Go to page';
 
 $lang->enable = '可能';
 $lang->disable = '不可';
 
 // 基本用語
+$lang->favorite = 'Favorite';
 $lang->menu = 'メニュー';
 $lang->no = '番号';
 $lang->notice = 'お知らせ';
@@ -169,6 +171,8 @@ $lang->layout_manager = 'レイアウト管理';
 
 $lang->use = '使用';
 $lang->notuse = '未使用';
+$lang->on = 'On';
+$lang->off = 'Off';
 $lang->not_exists = 'なし';
 
 $lang->public = '公開';
@@ -243,6 +247,7 @@ $lang->success_reset = '初期化しました。';
 $lang->success_leaved = '退会しました。';
 $lang->success_saved = '保存しました。';
 
+$lang->fail_to_registed = '등록하지 못하였습니다.';
 $lang->fail_to_delete = '削除に失敗しました。';
 $lang->fail_to_move = '移動に失敗しました。';
 

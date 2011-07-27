@@ -158,6 +158,8 @@
          * @return executed module instance
          **/
         function procModule() {
+            $oModuleModel = &getModel('module');
+
             // If error occurred while preparation, return a message instance
             if($this->error) {
 				$type = Mobile::isFromMobilePhone() ? 'mobile' : 'view';
@@ -167,8 +169,6 @@
                 $oMessageObject->dispMessage();
                 return $oMessageObject;
             }
-
-            $oModuleModel = &getModel('module');
 
             // Get action information with conf/action.xml 
             $xml_info = $oModuleModel->getModuleActionXml($this->module);
@@ -189,6 +189,7 @@
 
             // get type, kind
             $type = $xml_info->action->{$this->act}->type;
+            $ruleset = $xml_info->action->{$this->act}->ruleset;
             $kind = strpos(strtolower($this->act),'admin')!==false?'admin':'';
             if(!$kind && $this->module == 'admin') $kind = 'admin';
 			if($this->module_info->use_mobile != "Y") Mobile::setMobile(false);
@@ -234,6 +235,7 @@
                     if($xml_info->action->{$this->act}) {
                         $forward->module = $module;
                         $forward->type = $xml_info->action->{$this->act}->type;
+            			$forward->ruleset = $xml_info->action->{$this->act}->ruleset;
                         $forward->act = $this->act;
                     }
                 }
@@ -246,6 +248,7 @@
                 if($forward->module && $forward->type && $forward->act && $forward->act == $this->act) {
                     $kind = strpos(strtolower($forward->act),'admin')!==false?'admin':'';
 					$type = $forward->type;
+					$ruleset = $forward->ruleset;
 					$tpl_path = $oModule->getTemplatePath();
 					$orig_module = $oModule;
 
@@ -272,7 +275,7 @@
 
 						$logged_info = $oMemberModel->getLoggedInfo();
 						if($logged_info->is_admin=='Y') {
-							$orig_module->loadSideBar();
+							$orig_module->makeGnbUrl($forward->module);
 							$oModule->setLayoutPath("./modules/admin/tpl");
 							$oModule->setLayoutFile("layout.html");
 						}
@@ -289,6 +292,36 @@
 				}
 			}
 
+			// ruleset check...
+			if(!empty($ruleset))
+			{
+				$rulesetModule = $forward->module ? $forward->module : $this->module;
+				$rulesetFile = $oModuleModel->getValidatorFilePath($rulesetModule, $ruleset);
+				if(!empty($rulesetFile))
+				{
+					$Validator = new Validator($rulesetFile);
+					$result = $Validator->validate();
+					if(!$result)
+					{
+						$lastError = $Validator->getLastError();
+						$returnUrl = Context::get('error_return_url');
+						$errorMsg = $lastError['msg'] ? $lastError['msg'] : 'validation error';
+
+						//for xml response
+						$oModule->setError(-1);
+						$oModule->setMessage($errorMsg);
+						//for html redirect
+						$this->error = $errorMsg;
+						$_SESSION['XE_VALIDATOR_ERROR'] = -1;
+						$_SESSION['XE_VALIDATOR_MESSAGE'] = $this->error;
+						$_SESSION['XE_VALIDATOR_MESSAGE_TYPE'] = 'error';
+						$_SESSION['XE_VALIDATOR_RETURN_URL'] = $returnUrl;
+						$this->_setInputValueToSession();
+						return $oModule;
+					}
+				}
+			}
+
             $oModule->setAct($this->act);
 
             $this->module_info->module_type = $type;
@@ -297,15 +330,69 @@
 			if($type == "view" && $this->module_info->use_mobile == "Y" && Mobile::isMobileCheckByAgent())
 			{
 				global $lang;
-				$footer = '<div style="margin:1em 0;padding:.5em;background:#333;border:1px solid #666;border-left:0;border-right:0"><p style="color:#fff;text-align:center;margin:1em 0">'.$lang->msg_pc_to_mobile.' <a href="'.getUrl('m', '1').'" style="color:#FF0; font-weight:bold">'.$lang->cmd_move.'</a></p></div>';
+				$footer = '<div style="margin:1em 0;padding:.5em;background:#333;border:1px solid #666;border-left:0;border-right:0"><p style="text-align:center;margin:1em 0"><a href="'.getUrl('m', '1').'" style="color:#ff0; font-weight:bold">'.$lang->msg_pc_to_mobile.'</a></p></div>';
 				Context::addHtmlFooter($footer);
 			}
 
-            // execute the action, and if failed, set error
-            if(!$oModule->proc()) $this->error = $oModule->getMessage();
+            // if failed message exists in session, set context
+			$this->_setInputErrorToContext();
 
+            $procResult = $oModule->proc();
+
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON')))
+			{
+				$error = $oModule->getError();
+				$message = $oModule->getMessage();
+				$messageType = $oModule->getMessageType();
+				$redirectUrl = $oModule->getRedirectUrl();
+				
+				if (!$procResult)
+				{
+					$this->error = $message;
+					if (!$redirectUrl && Context::get('error_return_url')) $redirectUrl = Context::get('error_return_url');
+					$this->_setInputValueToSession();
+				}
+				else
+				{
+					if(count($_SESSION['INPUT_ERROR']))
+					{
+						Context::set('INPUT_ERROR', $_SESSION['INPUT_ERROR']);
+						$_SESSION['INPUT_ERROR'] = '';
+					}
+				}
+				
+				$_SESSION['XE_VALIDATOR_ERROR'] = $error;
+				if ($message != 'success') $_SESSION['XE_VALIDATOR_MESSAGE'] = $message;
+				$_SESSION['XE_VALIDATOR_MESSAGE_TYPE'] = $messageType;
+				$_SESSION['XE_VALIDATOR_RETURN_URL'] = $redirectUrl;
+			}
+			
             return $oModule;
         }
+
+		function _setInputErrorToContext()
+		{
+			if($_SESSION['XE_VALIDATOR_ERROR'] && !Context::get('XE_VALIDATOR_ERROR')) Context::set('XE_VALIDATOR_ERROR', $_SESSION['XE_VALIDATOR_ERROR']);
+			if($_SESSION['XE_VALIDATOR_MESSAGE'] && !Context::get('XE_VALIDATOR_MESSAGE')) Context::set('XE_VALIDATOR_MESSAGE', $_SESSION['XE_VALIDATOR_MESSAGE']);
+			if($_SESSION['XE_VALIDATOR_MESSAGE_TYPE'] && !Context::get('XE_VALIDATOR_MESSAGE_TYPE')) Context::set('XE_VALIDATOR_MESSAGE_TYPE', $_SESSION['XE_VALIDATOR_MESSAGE_TYPE']);
+			if($_SESSION['XE_VALIDATOR_RETURN_URL'] && !Context::get('XE_VALIDATOR_RETURN_URL')) Context::set('XE_VALIDATOR_RETURN_URL', $_SESSION['XE_VALIDATOR_RETURN_URL']);
+
+			$this->_clearErrorSession();
+		}
+		
+		function _clearErrorSession()
+		{
+			$_SESSION['XE_VALIDATOR_ERROR'] = '';
+			$_SESSION['XE_VALIDATOR_MESSAGE'] = '';
+			$_SESSION['XE_VALIDATOR_MESSAGE_TYPE'] = '';
+			$_SESSION['XE_VALIDATOR_RETURN_URL'] = '';
+		}
+
+		function _setInputValueToSession()
+		{
+			$requestVars = Context::getRequestVars();
+			foreach($requestVars AS $key=>$value) $_SESSION['INPUT_ERROR'][$key] = $value;
+		}
 
         /**
          * @brief display contents from executed module
@@ -329,6 +416,13 @@
 
             // Use message view object, if HTML call
             if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				
+				if($_SESSION['XE_VALIDATOR_RETURN_URL'])
+				{
+					header('location:'.$_SESSION['XE_VALIDATOR_RETURN_URL']);
+					return;
+				}
+				
                 // If error occurred, handle it
                 if($this->error) {
                     // display content with message module instance 
@@ -340,13 +434,14 @@
 
                     // If module was called normally, change the templates of the module into ones of the message view module
                     if($oModule) {
-                        $oModule->setTemplatePath($oMessageObject->getTemplatePath());
-                        $oModule->setTemplateFile($oMessageObject->getTemplateFile());
-
+						$oModule->setTemplatePath($oMessageObject->getTemplatePath());
+						$oModule->setTemplateFile($oMessageObject->getTemplateFile());
                     // Otherwise, set message instance as the target module
                     } else {
                         $oModule = $oMessageObject;
                     }
+					
+					$this->_clearErrorSession();
                 }
 
                 // Check if layout_srl exists for the module

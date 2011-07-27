@@ -539,7 +539,7 @@
                 $obj->member_srl = 0;
 
                 $obj->is_notice = base64_decode($xmlDoc->post->is_notice->body)=='Y'?'Y':'N';
-                $obj->is_secret = base64_decode($xmlDoc->post->is_secret->body)=='Y'?'Y':'N';
+                $obj->status = base64_decode($xmlDoc->post->is_secret->body)=='Y'?$oDocumentModel->getConfigStatus('secret'):$oDocumentModel->getConfigStatus('public');
                 $obj->title = base64_decode($xmlDoc->post->title->body);
                 $obj->content = base64_decode($xmlDoc->post->content->body);
                 $obj->readed_count = base64_decode($xmlDoc->post->readed_count->body);
@@ -559,8 +559,7 @@
                 if(!$obj->last_update) $obj->last_update = $obj->regdate;
                 $obj->ipaddress = base64_decode($xmlDoc->post->ipaddress->body);
                 $obj->list_order = $obj->update_order = $obj->document_srl*-1;
-                $obj->allow_comment = base64_decode($xmlDoc->post->allow_comment->body)!='N'?'Y':'N';
-                $obj->lock_comment = base64_decode($xmlDoc->post->lock_comment->body)=='Y'?'Y':'N';
+                $obj->commentStatus = base64_decode($xmlDoc->post->allow_comment->body)!='N'?'ALLOW':'DENY';
                 $obj->allow_trackback = base64_decode($xmlDoc->post->allow_trackback->body)!='N'?'Y':'N';
                 $obj->notify_message = base64_decode($xmlDoc->post->is_notice->body);
                 // Change content information (attachment)

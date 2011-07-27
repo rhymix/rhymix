@@ -1,11 +1,14 @@
-<!--%import("filter/config.xml")-->
 <!--%import("js/install_admin.js")-->
 <!--#include("header.html")-->
 	<div id="body">
 <!--#include("progress_menu.html")-->
 		<span class="dummy"></span>
 		<div id="content">
-			<form action="./" method="post" onsubmit="return procFilter(this, config)">
+			<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+				<p>{$XE_VALIDATOR_MESSAGE}</p>
+			</div>
+			<form action="./" method="post">
+			<input type="hidden" name="act" value="procConfigSetting" />
 				<ul class="form formXe">
 					<li>
 						<input name="use_rewrite" value="Y" <!--@if(function_exists('apache_get_modules')&&in_array('mod_rewrite',apache_get_modules()))-->checked="checked"<!--@end--> type="checkbox" class="iCheck" id="rewrite" /> <label for="rewrite">{$lang->use_rewrite}</label>

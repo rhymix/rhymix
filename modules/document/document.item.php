@@ -60,7 +60,7 @@
         }
 
         function isExists() {
-            return $this->document_srl ? true : false;
+			return $this->document_srl ? true : false;
         }
 
         function isGranted() {
@@ -90,7 +90,7 @@
         function allowComment() {
             if(!$this->isExists()) return true;
 
-            return $this->get('allow_comment') == 'Y' ? true : false;
+            return $this->get('comment_status') == 'ALLOW' ? true : false;
         }
 
         function allowTrackback() {
@@ -113,7 +113,7 @@
         }
 
         function isLocked() {
-            return $this->get('lock_comment') == 'Y'  ? true : false;
+            return $this->get('comment_status') == 'ALLOW' ? false : true;
         }
 
         function isEditable() {
@@ -122,7 +122,8 @@
         }
 
         function isSecret() {
-            return $this->get('is_secret') == 'Y' ? true : false;
+			$oDocumentModel = &getModel('document');
+            return $this->get('status') == $oDocumentModel->getConfigStatus('secret') ? true : false;
         }
 
         function isNotice() {
@@ -239,7 +240,8 @@
 
             if($this->isSecret() && !$this->isGranted() && !$this->isAccessible()) return Context::getLang('msg_is_secret');
 
-            $_SESSION['accessible'][$this->document_srl] = true;
+			$result = $this->_checkAccessibleFromStatus();
+			if($result) $_SESSION['accessible'][$this->document_srl] = true;
 
             $content = $this->get('content');
 
@@ -253,7 +255,8 @@
 
             if($this->isSecret() && !$this->isGranted() && !$this->isAccessible()) return Context::getLang('msg_is_secret');
 
-            $_SESSION['accessible'][$this->document_srl] = true;
+			$result = $this->_checkAccessibleFromStatus();
+            if($result) $_SESSION['accessible'][$this->document_srl] = true;
 
             $content = $this->get('content');
             if(!$stripEmbedTagException) stripEmbedTagForAdmin($content, $this->get('member_srl'));
@@ -629,6 +632,12 @@
             return $buffs;
         }
 
+		function getStatus()
+		{
+			if(!$this->get('status')) return $this->getDefaultStatus();
+			return $this->get('status');
+		}
+
         /**
          * @brief Return the value obtained from getExtraImages with image tag
          **/
@@ -682,7 +691,8 @@
          **/
         function isEnableComment() {
             // Return false if not authorized, if a secret document, if the document is set not to allow any comment
-            if(!$this->isGranted() && ( $this->isSecret() || $this->isLocked() || !$this->allowComment() ) ) return false;
+			// old version allowed admin(isGranted() method use), but admin not allow comment below condition
+            if( $this->isSecret() || $this->isLocked() || !$this->allowComment() ) return false;
 
             return true;
         }
@@ -738,5 +748,26 @@
         function replaceResourceRealPath($matches) {
             return preg_replace('/src=(["\']?)files/i','src=$1'.Context::getRequestUri().'files', $matches[0]);
         }
+
+		function _checkAccessibleFromStatus()
+		{
+            $logged_info = Context::get('logged_info');
+            if($logged_info->is_admin == 'Y') return true;
+
+			$status = $this->get('status');
+			if(empty($status)) return false;
+
+			$oDocumentModel = &getModel('document');
+			$configStatusList = $oDocumentModel->getStatusList();
+
+			if($status == $configStatusList['public'] || $status == $configStatusList['publish'])
+				return true;
+			else if($status == $configStatusList['private'] || $status == $configStatusList['secret'])
+			{
+				if($this->get('member_srl') == $logged_info->member_srl)
+					return true;
+			}
+			return false;
+		}
     }
 ?>

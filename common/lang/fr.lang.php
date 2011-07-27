@@ -67,11 +67,13 @@ $lang->cmd_layout_setup = 'Configurer la Mise en page';
 $lang->cmd_layout_edit = 'Editer la Mise en page';
 $lang->cmd_search_by_ipaddress = 'Recherce par l\'Address IP';
 $lang->cmd_add_ip_to_spamfilter = 'Add IP to spamfilter';
+$lang->cmd_go_to_page = 'Go to page';
 
 $lang->enable = 'Valide';
 $lang->disable = 'Invalide';
 
 // Mots essentiels
+$lang->favorite = 'Favorite';
 $lang->menu = 'Menu';
 $lang->no = 'No';
 $lang->notice = 'Notice';
@@ -169,6 +171,8 @@ $lang->layout_manager = 'Administration des Mises en Page';
 
 $lang->use = 'Utiliser';
 $lang->notuse = 'Pas Utilisé';
+$lang->on = 'On';
+$lang->off = 'Off';
 $lang->not_exists = 'Rien';
 
 $lang->public = 'public';
@@ -242,6 +246,7 @@ $lang->success_reset = 'Restauré avec succès';
 $lang->success_leaved = 'Toutes vos informations sont complètement supprimés';
 $lang->success_saved = 'Conservé avec succès';
 
+$lang->fail_to_registed = '등록하지 못하였습니다.';
 $lang->fail_to_delete = 'N\'a pas pu être supprimé.';
 $lang->fail_to_move = 'N\'a pas pu être bougé';
 

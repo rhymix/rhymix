@@ -52,7 +52,10 @@
         function getLayoutPath($layout_name, $layout_type = "P") {
             if($layout_name == 'faceoff'){
                 $class_path = './modules/layout/faceoff/';
-            }else if($layout_type == "M") {
+            }else if(strpos($layout_name, '.') !== false){
+				$layout_parse = explode('.', $layout_name);
+				$class_path = sprintf('./themes/%s/layout/%s/', $layout_parse[0], $layout_parse[1]);
+			}else if($layout_type == "M") {
 				$class_path = sprintf("./m.layouts/%s/", $layout_name);
 			}
 			else
@@ -282,7 +285,21 @@
                     }
                 }
 
+				if ($xml_obj->skins){
+					$buff .= '$layout_info->skins = array();';
+					$buff .= '$layout_info->skins["module"] = array();';
+					$buff .= '$layout_info->skins["widget"] = array();';
 
+					$skins = $xml_obj->skins->skin;
+					
+					if (is_array($skins)){
+						foreach($skins as $val){
+							$buff .= '$layout_info->skins["'.$val->attrs->type.'"]["'.$val->attrs->name.'"] = "'.$val->attrs->skin.'";';
+						}
+					}else{
+						$buff .= '$layout_info->skins["'.$skins->attrs->type.'"]["'.$skins->attrs->name.'"] = "'.$skins->attrs->skin.'";';
+					}
+				}
 
             } else {
                 // Layout title, version and other information
@@ -605,5 +622,36 @@
                 Context::addBodyHeader($oTemplate->compile($this->module_path.'/tpl', 'faceoff_layout_menu'));
             }
         }
+
+		function getThemaXml($layout_path){
+			if(!$layout_path) return;
+
+			$xml_file = sprintf("%sconf/thema.xml", $layout_path);
+            if(!file_exists($xml_file)) return;
+
+            $oXmlParser = new XmlParser();
+            $tmp_xml_obj = $oXmlParser->loadXmlFile($xml_file);
+            $xml_obj = $tmp_xml_obj->thema;
+
+            if(!$xml_obj) return;
+
+			$thema_info->layout_name = $xml_obj->name->body;
+			$thema_info->skins = array();
+			$thema_info->skins['module'] = array();
+			$thema_info->skins['widget'] = array();
+
+			$skins = $xml_obj->skins->skin;
+			if ($skins){
+				if (is_array($skins)){
+					foreach($skins as $val){
+						$thema_info->skins[$val->attrs->type][$val->attrs->name] = $val->attrs->skin;
+					}
+				}else{
+					$thema_info->skins[$skins->attrs->type][$skins->attrs->name] = $skins->attrs->skin;
+				}
+			}
+			return $thema_info;
+			
+		}
     }
 ?>

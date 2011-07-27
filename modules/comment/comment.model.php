@@ -372,6 +372,9 @@
                     case 'ipaddress' :
                             $args->s_ipaddress= $search_keyword;
                         break;
+                    case 'is_secret' :
+                            $args->s_is_secret= $search_keyword;
+                        break;
                     case 'member_srl' :
                             $args->{"s_".$search_target} = (int)$search_keyword;
                         break;
@@ -389,6 +392,68 @@
             }
 
             return $output;
+        }
+
+        /**
+         * @brief get all the comment count in time decending order(for administrators)
+         **/
+        function getTotalCommentCount($obj) {
+            $query_id = 'comment.getTotalCommentCountByGroupStatus';
+            // Variables
+            $args->s_module_srl = $obj->module_srl;
+            $args->exclude_module_srl = $obj->exclude_module_srl;
+            // Search options
+            $search_target = $obj->search_target?$obj->search_target:trim(Context::get('search_target'));
+            $search_keyword = $obj->search_keyword?$obj->search_keyword:trim(Context::get('search_keyword'));
+            if($search_target && $search_keyword) {
+                switch($search_target) {
+                    case 'content' :
+                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
+                            $args->s_content = $search_keyword;
+                        break;
+                    case 'user_id' :
+                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
+                            $args->s_user_id = $search_keyword;
+                            $query_id = 'comment.getTotalCommentCountWithinMemberByGroupStatus';
+                        break;
+                    case 'user_name' :
+                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
+                            $args->s_user_name = $search_keyword;
+                        break;
+                    case 'nick_name' :
+                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
+                            $args->s_nick_name = $search_keyword;
+                        break;
+                    case 'email_address' :
+                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
+                            $args->s_email_address = $search_keyword;
+                        break;
+                    case 'homepage' :
+                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
+                            $args->s_homepage = $search_keyword;
+                        break;
+                    case 'regdate' :
+                            $args->s_regdate = $search_keyword;
+                        break;
+                    case 'last_update' :
+                            $args->s_last_upate = $search_keyword;
+                        break;
+                    case 'ipaddress' :
+                            $args->s_ipaddress= $search_keyword;
+                        break;
+                    case 'is_secret' :
+                            $args->s_is_secret= $search_keyword;
+                        break;
+                    case 'member_srl' :
+                            $args->{"s_".$search_target} = (int)$search_keyword;
+                        break;
+                }
+            }
+            $output = executeQueryArray($query_id, $args);
+            // return when no result or error occurance
+            if(!$output->toBool()||!count($output->data)) return $output;
+
+            return $output->data;
         }
 
         /**
@@ -437,6 +502,14 @@
 			}
 
 			$this->add('voted_member_list',$output->data);
+		}
+
+		function getSecretNameList()
+		{
+			global $lang;
+			if(!isset($lang->secret_name_list))
+				return array('Y'=>'Secret', 'N'=>'Public');
+			else return $lang->secret_name_list;
 		}
     }
 ?>

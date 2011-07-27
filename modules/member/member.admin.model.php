@@ -69,7 +69,7 @@
                             $args->s_last_login_less = substr(preg_replace("/[^0-9]/","",$search_keyword) . '00000000000000',0,14);
                         break;
                     case 'extra_vars' :
-                            $args->s_extra_vars = ereg_replace("[^0-9]","",$search_keyword);
+                            $args->s_extra_vars = $search_keyword;
                         break;
                 }
             }

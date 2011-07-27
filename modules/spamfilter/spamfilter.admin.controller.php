@@ -23,6 +23,11 @@
             // Create and insert the module Controller object
             $oModuleController = &getController('module');
             $output = $oModuleController->insertModuleConfig('spamfilter',$args);
+			if($output->toBool() && !in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispSpamfilterAdminConfig');
+				header('location:'.$returnUrl);
+				return;
+			}
             return $output;
         }
         
@@ -42,7 +47,13 @@
          **/
         function procSpamfilterAdminDeleteDeniedIP() {
             $ipaddress = Context::get('ipaddress');
-            return $this->deleteIP($ipaddress);
+            $output = $this->deleteIP($ipaddress);
+			if($output->toBool() && !in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispSpamfilterAdminDeniedIPList');
+				header('location:'.$returnUrl);
+				return;
+			}
+			return $output;
         }
         
         /**
@@ -50,7 +61,13 @@
          **/
         function procSpamfilterAdminInsertDeniedWord() {
             $word = Context::get('word');
-            return $this->insertWord($word);
+            $output = $this->insertWord($word);
+			if($output->toBool() && !in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispSpamfilterAdminDeniedWordList');
+				header('location:'.$returnUrl);
+				return;
+			}
+			return $output;
         }
 
         /**
@@ -58,7 +75,13 @@
          **/
         function procSpamfilterAdminDeleteDeniedWord() {
             $word = base64_decode(Context::get('word'));
-            return $this->deleteWord($word);
+            $output = $this->deleteWord($word);
+			if($output->toBool() && !in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispSpamfilterAdminDeniedWordList');
+				header('location:'.$returnUrl);
+				return;
+			}
+			return $output;
         }
 
         /**

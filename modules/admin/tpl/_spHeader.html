@@ -1,0 +1,46 @@
+<div class="xe">
+	<p class="skipNav"><a href="#content">Skip Navigation</a></p>
+	<div class="header">
+		<h1><a href="{getUrl('','module','admin')}"><img src="img/xe.h1.png" width="33" height="32" alt="XE" /> Super Admin</a></h1>
+		<div class="siteTool">
+			<a href="#moveSiteList" class="i tgAnchor" data-effect="slide" data-duration="100">Move to Site</a>
+			<div class="layer portlet tgContent" id="moveSiteList">
+				<h2 class="h2">Move to Site</h2>
+				<ul class="lined">
+					<li>XpressEngine - <a href="#">http://xe.xpressengine.net/</a></li>
+					<li>XpressEngine - <a href="#">http://xe.xpressengine.net/</a></li>
+					<li>XpressEngine - <a href="#">http://xe.xpressengine.net/</a></li>
+				</ul>
+				<a href="#" class="more"><span>&rsaquo;</span> more</a>
+			</div>
+		</div>
+		<div class="account">
+			<ul>
+				<li><a href="#">정찬명</a></li>
+				<li><a href="{getUrl('module','admin','act','procAdminLogout')}">Log-out</a></li>
+				<li><a href="#language" class="tgAnchor" data-effect="slide" data-duration="100">Language</a>
+					<ul class="tgContent" id="language">
+                    	<!--@foreach($lang_supported as $key => $val)-->
+						<li><a href="#" onclick="doChangeLangType('{$key}'); return false;">{$val}</a></li>
+						<!--@end-->
+					</ul>
+				</li>
+			</ul>
+		</div>
+		<div class="gnb jx">
+			<ul>
+				<!--@foreach($gnbUrlList AS $key=>$value)-->
+				<li <!--@if($parentSrl == $key)-->class="activeOn"<!--@end-->><a href="{html_entity_decode($value['href'])}">{$value['text']}</a>
+					<!--@if(count($gnbUrlList[$key]['list']) > 0)-->
+					<ul>
+						<!--@foreach($gnbUrlList[$key]['list'] AS $key2=>$value2)-->
+						<li><a href="{html_entity_decode($value2['href'])}">{$value2['text']}</a></li>
+						<!--@end-->
+					</ul>
+					<!--@end-->
+				</li>
+				<!--@end-->
+			</ul>
+		</div>
+	</div>
+	<div class="body">

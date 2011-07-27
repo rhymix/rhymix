@@ -1,0 +1,10 @@
+<div class="lnb">
+	<h2 class="h2">{$lang->menu_gnb[$category]}</h2>
+	<ul>
+		<!--@if(count($gnbUrlList[$parentSrl]['list']) > 0)-->
+		<!--@foreach($gnbUrlList[$parentSrl]['list'] AS $key=>$value)-->
+		<li><a href="{html_entity_decode($value['href'])}">{$value['text']}</a></li>
+		<!--@end-->
+		<!--@end-->
+	</ul>
+</div>

@@ -34,8 +34,8 @@
         <action name="getMemberMenu" type="model" standalone="true" />
         <action name="getMemberAdminColorset" type="model" standalone="true" />
 
-        <action name="procMemberLogin" type="controller" standalone="true" />
-        <action name="procMemberOpenIDLogin" type="controller" standalone="true" />
+        <action name="procMemberLogin" type="controller" standalone="true" ruleset="login" />
+        <action name="procMemberOpenIDLogin" type="controller" standalone="true" ruleset="openidLogin" />
         <action name="procMemberOpenIDValidate" type="controller" standalone="true" />
         <action name="procModuleSiteSignUp" type="controller" standalone="true" />
         <action name="procModuleSiteLeave" type="controller" standalone="true" />
@@ -44,14 +44,14 @@
         <action name="procMemberDeleteOpenIDFromMember" type="controller" standalone="true" />
         <action name="procMemberLogout" type="controller" standalone="true" />
         <action name="procMemberCheckValue" type="controller" standalone="true" />
-        <action name="procMemberInsert" type="controller" standalone="true" />
-        <action name="procMemberModifyInfo" type="controller" standalone="true" />
-        <action name="procMemberModifyPassword" type="controller" standalone="true" />
-        <action name="procMemberLeave" type="controller" standalone="true" />
+        <action name="procMemberInsert" type="controller" standalone="true" ruleset="signup" />
+        <action name="procMemberModifyInfo" type="controller" standalone="true" ruleset="modifyInfo" />
+        <action name="procMemberModifyPassword" type="controller" standalone="true" ruleset="modifyPassword" />
+        <action name="procMemberLeave" type="controller" standalone="true" ruleset="leaveMember" />
         <action name="procMemberOpenIDLeave" type="controller" standalone="true" />
-        <action name="procMemberInsertProfileImage" type="controller" standalone="true" />
-        <action name="procMemberInsertImageName" type="controller" standalone="true" />
-        <action name="procMemberInsertImageMark" type="controller" standalone="true" />
+        <action name="procMemberInsertProfileImage" type="controller" standalone="true" ruleset="insertProfileImage" />
+        <action name="procMemberInsertImageName" type="controller" standalone="true" ruleset="insertImageName" />
+        <action name="procMemberInsertImageMark" type="controller" standalone="true" ruleset="insertImageMark" />
         <action name="procMemberDeleteProfileImage" type="controller" standalone="true" />
         <action name="procMemberDeleteImageName" type="controller" standalone="true" />
         <action name="procMemberDeleteImageMark" type="controller" standalone="true" />
@@ -65,19 +65,48 @@
         <action name="procMemberFindAccountByQuestion" type="controller" standalone="true" />
         <action name="procMemberAuthAccount" type="controller" standalone="true" />
         <action name="procMemberUpdateAuthMail" type="controller" standalone="true" />
-		<action name="procMemberResendAuthMail" type="controller" standalone="true" />
+		<action name="procMemberResendAuthMail" type="controller" standalone="true" ruleset="resendAuthMail" />
 
-        <action name="procMemberAdminInsert" type="controller" standalone="true" />
+        <action name="procMemberAdminInsert" type="controller" standalone="true" ruleset="insert" />
         <action name="procMemberAdminDelete" type="controller" standalone="true" />
-        <action name="procMemberAdminInsertConfig" type="controller" standalone="true" />
-        <action name="procMemberAdminInsertGroup" type="controller" standalone="true" />
-        <action name="procMemberAdminUpdateGroup" type="controller" standalone="true" />
-        <action name="procMemberAdminUpdateMembersGroup" type="controller" standalone="true" />
+        <action name="procMemberAdminInsertConfig" type="controller" standalone="true" ruleset="insertConfig" />
+        <action name="procMemberAdminInsertGroup" type="controller" standalone="true" ruleset="insertGroup" />
+        <action name="procMemberAdminUpdateGroup" type="controller" standalone="true" ruleset="updateGroup" />
+        <action name="procMemberAdminDeleteGroup" type="controller" standalone="true" ruleset="deleteGroup" />
+        <action name="procMemberAdminUpdateMembersGroup" type="controller" standalone="true" ruleset="manageMemberGroup" />
         <action name="procMemberAdminDeleteMembers" type="controller" standalone="true" />
-        <action name="procMemberAdminInsertJoinForm" type="controller" standalone="true" />
+        <action name="procMemberAdminInsertJoinForm" type="controller" standalone="true" ruleset="insertJoinForm" />
         <action name="procMemberAdminUpdateJoinForm" type="controller" standalone="true" />
-        <action name="procMemberAdminInsertDeniedID" type="controller" standalone="true" />
+        <action name="procMemberAdminInsertDeniedID" type="controller" standalone="true" ruleset="insertDeniedId" />
         <action name="procMemberAdminUpdateDeniedID" type="controller" standalone="true" />
-        <action name="procMemberAdminGroupImageMarkUpdateOrder" type="controller" standalone="true" />
+        <action name="procMemberAdminUpdateGroupOrder" type="controller" standalone="true" />
     </actions>
+	<menus>
+		<menu name="userList">
+			<title xml:lang="en">User List</title>
+			<title xml:lang="ko">회원 목록</title>
+			<title xml:lang="zh-CN">User List</title>
+			<title xml:lang="jp">User List</title>
+			<title xml:lang="es">User List</title>
+			<title xml:lang="ru">User List</title>
+			<title xml:lang="fr">User List</title>
+			<title xml:lang="zh-TW">User List</title>
+			<title xml:lang="vi">User List</title>
+			<title xml:lang="mn">User List</title>
+			<title xml:lang="tr">User List</title>
+		</menu>
+		<menu name="userSetting">
+			<title xml:lang="en">User Setting</title>
+			<title xml:lang="ko">회원 설정</title>
+			<title xml:lang="zh-CN">User Setting</title>
+			<title xml:lang="jp">User Setting</title>
+			<title xml:lang="es">User Setting</title>
+			<title xml:lang="ru">User Setting</title>
+			<title xml:lang="fr">User Setting</title>
+			<title xml:lang="zh-TW">User Setting</title>
+			<title xml:lang="vi">User Setting</title>
+			<title xml:lang="mn">User Setting</title>
+			<title xml:lang="tr">User Setting</title>
+		</menu>
+	</menus>
 </module>

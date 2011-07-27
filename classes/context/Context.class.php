@@ -120,7 +120,7 @@ class Context {
 		$this->loadLang(_XE_PATH_.'modules/module/lang');
 
 		// set session handler
-		if($this->db_info->use_db_session != 'N') {
+		if(Context::isInstalled() && $this->db_info->use_db_session != 'N') {
 			$oSessionModel = &getModel('session');
 			$oSessionController = &getController('session');
 			session_set_save_handler(
@@ -133,6 +133,7 @@ class Context {
 			);
 		}
 		session_start();
+		if($sess=$_POST[session_name()]) session_id($sess);
 
 		// set authentication information in Context and session
 		if(Context::isInstalled()) {
@@ -925,6 +926,8 @@ class Context {
 	 **/
 	function get($key) {
 		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
+
+		if(!isset($self->context->{$key})) return null;
 		return $self->context->{$key};
 	}
 
@@ -1010,7 +1013,7 @@ class Context {
 		$avail_types = array('head', 'body');
 		if(!in_array($type, $avail_types)) $type = $avail_types[0];
 
-		$key = $self->normalizeFilePath($file)."\t".$targetie;
+		$key = Context::getAbsFileUrl($file)."\t".$targetie;
 		$map = &$self->js_files_map;
 
 		// Is this file already registered?
@@ -1024,11 +1027,10 @@ class Context {
 	function unloadJsFile($file, $optimized = false, $targetie = '') {
 		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
 
-		$realfile = $self->getAbsFileUrl($file);
+		$remove_key = Context::getAbsFileUrl($file)."\t$targetie";
 
 		foreach($self->js_files_map as $key=>$val) {
-			list($_file, $_targetie) = explode("\t", $key);
-			if($self->getAbsFileUrl($_file)==$realfile && $_targetie == $targetie) {
+			if($key === $remove_key) {
 				unset($self->js_files_map[$key]);
 				return;
 			}
@@ -1095,7 +1097,9 @@ class Context {
 	function addCSSFile($file, $optimized=false, $media='all', $targetie='',$index=0) {
 		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
 
-		$key = $self->normalizeFilePath($file)."\t".$targetie."\t".$media;
+		if(!$media) $media = 'all';
+
+		$key = Context::getAbsFileUrl($file)."\t$targetie\t$media";
 		$map = &$self->css_files_map;
 
 		if (!isset($map[$key]) || (int)$map[$key] > (int)$index) $map[$key] = (int)$index+count($map)/100-1;
@@ -1107,11 +1111,10 @@ class Context {
 	function unloadCSSFile($file, $optimized = false, $media = 'all', $targetie = '') {
 		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
 
-		$realfile = $self->getAbsFileUrl($file);
+		$remove_key = Context::getAbsFileUrl($file)."\t$targetie\t$media";
 
 		foreach($self->css_files_map as $key => $val) {
-			list($_file, $_targetie, $_media) = explode("\t", $key);
-			if($self->getAbsFileUrl($_file)==$realfile && $_media==$media && $_targetie==$targetie) {
+			if($key === $remove_key) {
 				unset($self->css_files_map[$key]);
 				return;
 			}

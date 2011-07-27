@@ -8,7 +8,7 @@
 				<tbody>
 					<!--@foreach($checklist as $key => $val)-->
 					<tr>
-						<th scope="row">{$lang->install_checklist_title[$key]}</th>
+						<th scope="row">{$lang->install_checklist_title[$key]}<!--@if($key == 'php_version')--> (Ver. {$phpversion})<!--@end--></th>
 						<td><!--@if($val)-->{$lang->enable}<!--@else--><strong>{$lang->disable}</strong><br />{$lang->install_checklist_desc[$key]}<!--@end--></td>
 					</tr>
 					<!--@end-->
@@ -25,5 +25,4 @@
 			</div>
 		</div>
 	</div>
-
 <!--#include("footer.html")-->

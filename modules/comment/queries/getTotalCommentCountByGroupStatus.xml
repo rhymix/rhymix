@@ -1,0 +1,28 @@
+<query id="getTotalCommentList" action="select">
+    <tables>
+        <table name="comments" alias="comments" />
+    </tables>
+    <columns>
+        <column name="is_secret" />
+        <column name="count(*)" alias="count" />
+    </columns>
+    <conditions>
+        <condition operation="in" column="module_srl" var="s_module_srl" />
+        <condition operation="notin" column="module_srl" var="exclude_module_srl" pipe="and" />
+        <condition operation="equal" column="is_secret" var="s_is_secret" pipe="and" />
+        <group pipe="and">
+            <condition operation="like" column="content" var="s_content" pipe="or" />
+            <condition operation="like" column="user_name" var="s_user_name" pipe="or" />
+            <condition operation="like" column="nick_name" var="s_nick_name" pipe="or" />
+            <condition operation="like" column="email_address" var="s_email_address" pipe="or" />
+            <condition operation="like" column="homepage" var="s_homepage" pipe="or" />
+            <condition operation="equal" column="member_srl" var="s_member_srl" pipe="or" />
+            <condition operation="like_prefix" column="regdate" var="s_regdate" pipe="or" />
+            <condition operation="like_prefix" column="last_update" var="s_last_upate" pipe="or" />
+            <condition operation="like_prefix" column="ipaddress" var="s_ipaddress" pipe="or" />
+        </group>
+    </conditions>
+	<groups>
+		<group column="is_secret" />
+	</groups>
+</query>

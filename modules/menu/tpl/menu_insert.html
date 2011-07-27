@@ -1,8 +1,11 @@
-<!--%import("filter/insert_menu.xml")-->
 <!--%import("js/menu_admin.js")-->
 <!--#include("header.html")-->
 
-<form action="./" method="get" onsubmit="return procFilter(this, insert_menu)">
+<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
+<form ruleset="insertMenu" action="./" method="post">
+<input type="hidden" name="act" value="procMenuAdminInsert" />
 
     <table cellspacing="0" class="rowTable">
     <tr>

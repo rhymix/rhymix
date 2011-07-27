@@ -9,7 +9,7 @@ RewriteRule ^(modules|addons|widgets)/(.+)/(conf|queries|schemas)/(.+)\.xml$ ./i
 RewriteCond %{SCRIPT_FILENAME} !-f
 RewriteRule ^(.+)/files/(member_extra_info|attach|cache|faceOff)/(.*) ./files/$2/$3 [L]
 RewriteCond %{SCRIPT_FILENAME} !-f
-RewriteRule ^(.+)/(files|modules|common|widgets|widgetstyles|layouts|m.layouts|addons)/(.*) ./$2/$3 [L]
+RewriteRule ^(.+)/(files|modules|widgets|widgetstyles|layouts|m.layouts|addons)/(.*) ./$2/$3 [L]
 
 # rss , blogAPI
 RewriteRule ^(rss|atom)$ ./index.php?module=rss&act=$1 [L]

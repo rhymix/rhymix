@@ -1,10 +1,13 @@
 <!--#include("header.html")-->
-<!--%import("filter/update_group.xml")-->
 <!--%load_js_plugin("filebox")-->
 
 <!-- 그룹 수정 -->
 <!--@if($selected_group)-->
-<form action="./" method="get" onsubmit="return procFilter(this, update_group)">
+<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
+<form ruleset="updateGroup" action="./" method="post">
+<input type="hidden" name="act" value="procMemberAdminUpdateGroup" />
 <input type="hidden" name="group_srl" value="{$selected_group->group_srl}" />
 <input type="hidden" name="mode" value="update" />
 <!--@if($selected_group->is_default=='Y')--><input type="hidden" name="is_default" value="Y" /><!--@end-->

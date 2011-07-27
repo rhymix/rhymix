@@ -1,0 +1,10 @@
+<query id="insertPageType" action="insert">
+	<tables>
+		<table name="module_extra_vars" />
+	</tables>
+	<columns>
+		<column name="module_srl" var="module_srl" filter="number" notnull="notnull" />
+		<column name="name" var="name" notnull="notnull" />
+		<column name="value" var="value" />
+	</columns>
+</query>

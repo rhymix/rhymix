@@ -101,7 +101,7 @@
         <td>
             <select name="use_ssl">
             <!--@foreach($lang->ssl_options as $key => $val)-->
-                <option value="{$key}" <!--@if($key == $use_ssl)-->selected<!--@end--> >{$val}</option>
+                <option value="{$key}" <!--@if($key == $use_ssl)-->selected="selected"<!--@end--> >{$val}</option>
             <!--@endforeach-->
             </select>
             <p>{$lang->about_use_ssl}</p>
@@ -110,8 +110,8 @@
     <tr>
         <th><div>{$lang->server_ports}</div></th>
         <td>
-            HTTP : <input type="text" name="http_port" class="inputTypeText" size="5" value="{$http_port}">, 
-            HTTPS: <input type="text" name="https_port" class="inputTypeText" size="5" value="{$https_port}">
+            HTTP : <input type="text" name="http_port" class="inputTypeText" size="5" value="{$http_port}" />, 
+            HTTPS: <input type="text" name="https_port" class="inputTypeText" size="5" value="{$https_port}" />
             <p>{$lang->about_server_ports}</p>
         </td>
     </tr>
@@ -138,7 +138,7 @@
 
     <tr>
         <th scope="col"><div><label for="textfield21">{$lang->user_id}</label></div></th>
-        <td><input type="text" id="textfield21" name="ftp_user" value="{$ftp_info->ftp_user}" class="inputTypeText" />
+        <td><input type="text" id="textfield21" name="ftp_user" value="{$ftp_info->ftp_user}" class="inputTypeText" /></td>
     </tr>
     <tr>
         <th scope="col"><div><label for="textfield22">{$lang->password} ({$lang->about_ftp_password})</label></div></th>
@@ -171,13 +171,13 @@
     <tr id="ftplist">
         <td>
             <div>
-					<span class="button blue strong"><input type="button" onclick="getFTPList(); return false;" value="{$lang->ftp_get_list}"></span>
+					<span class="button blue strong"><input type="button" onclick="getFTPList(); return false;" value="{$lang->ftp_get_list}" /></span>
             </div>
         </td>
     </tr>
     <tr>
         <th colspan="2" class="button">
-            <span class="button blue strong"><input type="button" onclick="removeFTPInfo(); return false;" value="{$lang->ftp_remove_info}"></span>
+            <span class="button blue strong"><input type="button" onclick="removeFTPInfo(); return false;" value="{$lang->ftp_remove_info}" /></span>
             <span class="button black strong"><input type="submit" value="{$lang->cmd_registration}" /></span>
         </th>
     </tr>

@@ -26,6 +26,12 @@
 
         function procAutoinstallAdminUpdateinfo()
         {
+			$this->_updateinfo();
+            $this->setMessage("success_updated", 'update');
+			$this->setRedirectUrl(Context::get('error_return_url'));
+        }
+
+		function _updateinfo(){
             $oModel = &getModel('autoinstall');
             $item = $oModel->getLatestPackage();
             if($item)
@@ -35,15 +41,13 @@
 
             $params["act"] = "getResourceapiUpdate";
             $body = XmlGenerater::generate($params);
-            $buff = FileHandler::getRemoteResource($this->uri, $body, 3, "POST", "application/xml");
+            $buff = FileHandler::getRemoteResource(_XE_DOWNLOAD_SERVER_, $body, 3, "POST", "application/xml");
             $xml = new XmlParser();
             $xmlDoc = $xml->parse($buff);
             $this->updateCategory($xmlDoc);
             $this->updatePackages($xmlDoc);
             $this->checkInstalled();
-
-            $this->setMessage("success_updated");
-        }
+		}
 
         function checkInstalled()
         {
@@ -60,7 +64,7 @@
 				$type = $oModel->getTypeFromPath($package->path);
 				if($type == "core")
 				{
-                    $version = __ZBXE_VERSION__; 
+                    $version = __ZBXE_VERSION__;
 				}
                 else
                 {
@@ -81,7 +85,7 @@
 						case "style":
 						case "m.skin":
 							$type = "skin";
-						case "skin":    
+						case "skin":
 						case "widgetstyle":
                             $config_file = "/skin.xml";
                         break;
@@ -146,11 +150,24 @@
                     $oModuleInstaller = new FTPModuleInstaller($package);
                 }
 
+				$oModuleInstaller->setServerUrl(_XE_DOWNLOAD_SERVER_);
                 $oModuleInstaller->setPassword($ftp_password);
                 $output = $oModuleInstaller->install();
                 if(!$output->toBool()) return $output;
             }
-            $this->setMessage('success_installed');
+
+			$this->_updateinfo();
+
+            $this->setMessage('success_installed', 'update');
+
+			if (Context::get('return_url'))
+			{
+				$this->setRedirectUrl(Context::get('return_url'));
+			}
+			else
+			{
+				$this->setRedirectUrl(preg_replace('/act=[^&]*/', 'act=dispAutoinstallAdminIndex', Context::get('error_return_url')));
+			}
         }
 
         function updatePackages(&$xmlDoc)
@@ -187,7 +204,7 @@
 
         function updateCategory(&$xmlDoc)
         {
-            executeQuery("autoinstall.deleteCategory", $args);
+            executeQuery("autoinstall.deleteCategory");
             $oModel =& getModel('autoinstall');
             if(!is_array($xmlDoc->response->categorylist->item))
             {
@@ -199,7 +216,7 @@
                 $args->category_srl = $item->category_srl->body;
                 $args->parent_srl = $item->parent_srl->body;
                 $args->title = $item->title->body;
-                executeQuery("autoinstall.insertCategory", $args);
+                $output = executeQuery("autoinstall.insertCategory", $args);
             }
         }
 
@@ -224,7 +241,7 @@
 			{
 				$oModuleInstaller = new SFTPModuleInstaller($package);
 			}
-			else if(function_exists(ftp_connect))
+			else if(function_exists('ftp_connect'))
 			{
 				$oModuleInstaller = new PHPFTPModuleInstaller($package);
 			}
@@ -233,11 +250,24 @@
 				$oModuleInstaller = new FTPModuleInstaller($package);
 			}
 
+			$oModuleInstaller->setServerUrl(_XE_DOWNLOAD_SERVER_);
+
 			$oModuleInstaller->setPassword($ftp_password);
 			$output = $oModuleInstaller->uninstall();
 			if(!$output->toBool()) return $output;
 
-			$this->setMessage('success_deleted');
+			$this->_updateinfo();
+
+			$this->setMessage('success_deleted', 'update');
+
+			if (Context::get('return_url'))
+			{
+				$this->setRedirectUrl(Context::get('return_url'));
+			}
+			else
+			{
+				$this->setRedirectUrl(getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAutoinstallAdminInstalledPackages'));
+			}
 		}
     }
 ?>

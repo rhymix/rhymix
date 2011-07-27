@@ -1,6 +1,5 @@
 <!--#include("./common_header.html")-->
 
-<!--%import("filter/delete_checked_friend.xml")-->
 <!--%import("filter/delete_friend_group.xml")-->
 <!--%import("filter/move_friend.xml")-->
 
@@ -8,7 +7,12 @@
 
     <h3>{$member_title = $lang->cmd_view_friend } ({$total_count})</h3>
 
-    <form id="fo_friend_list" action="./" method="get" onsubmit="return procFilter(this, delete_checked_friend)">
+	<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+		<p>{$XE_VALIDATOR_MESSAGE}</p>
+	</div>
+    <!--form id="fo_friend_list" action="./" method="get" onsubmit="return procFilter(this, delete_checked_friend)"-->
+    <form ruleset="deleteCheckedFriend" id="fo_friend_list" action="./" method="post">
+	<input type="hidden" name="act" value="procCommunicationDeleteFriend" />
 
         <div class="setupGroup">
             <select name="friend_group_list" id="friend_group_list">
@@ -51,8 +55,8 @@
                         <option value="{$val->friend_group_srl}">{$val->title}</option>
                         <!--@end-->
                     </select>
-                    <a href="#" onclick="doMoveFriend();return false;" class="small button blue"><span>{$lang->cmd_move}</span></a>
-                    <span class="small button red"><input type="submit" value="{$lang->cmd_delete}" /></span>
+					<button type="submit" name="act" value="procCommunicationMoveFriend">{$lang->cmd_move}</button>
+					<button type="submit" name="act" value="procCommunicationDeleteFriend">{$lang->cmd_delete}</button>
                     <a href="{getUrl('act','','message_type','','friend_gruop_srl','')}" class="small button"><span>{$lang->cmd_back}</span></a>
                 </th>
             </tr>

@@ -25,7 +25,6 @@
             <condition operation="like" column="email_address" var="s_email_addres" pipe="or" />
             <condition operation="like" column="homepage" var="s_homepage" pipe="or" />
             <condition operation="like" column="tags" var="s_tags" pipe="or" />
-            <condition operation="equal" column="is_secret" var="s_is_secret" pipe="or" />
             <condition operation="equal" column="member_srl" var="s_member_srl" pipe="or" />
             <condition operation="more" column="readed_count" var="s_readed_count" pipe="or" />
             <condition operation="more" column="voted_count" var="s_voted_count" pipe="or" />

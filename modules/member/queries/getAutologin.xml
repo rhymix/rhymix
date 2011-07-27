@@ -10,6 +10,6 @@
     </columns>
     <conditions>
         <condition operation="equal" column="member_autologin.autologin_key" var="autologin_key" notnull="notnull" />
-        <condition operation="equal" column="member.member_srl" default="member_autologin.member_srl" notnull="notnull" pipe="and" />
+        <condition operation="equal" column="member.member_srl" var="member_autologin.member_srl" notnull="notnull" pipe="and" />
     </conditions>
 </query>

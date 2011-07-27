@@ -1,13 +1,16 @@
 <!--%import("css/editor.css")-->
 <!--%import("css/editor_admin.css")-->
 <!--%import("js/editor_admin.js")-->
-<!--%import("filter/setup_component.xml")-->
 
 <div id="popHeader" class="wide">
     <h3 class="xeAdmin">{$lang->cmd_setup}</h3>
 </div>
 
-<form action="./" method="get" onsubmit="return procFilter(this, setup_component);">
+<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
+<form ruleset="setupComponent" action="./" method="post">
+<input type="hidden" name="act" value="procEditorAdminSetupComponent" />
 <input type="hidden" name="component_name" value="{$component_name}" />
 
     <div id="popBody">

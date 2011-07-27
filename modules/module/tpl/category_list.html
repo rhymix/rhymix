@@ -1,12 +1,14 @@
-<!--%import("filter/insert_category.xml")-->
 <!--%import("filter/update_category.xml")-->
 
 <!--#include("./header.html")-->
 
+<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
 <!-- 카테고리의 위/아래, 삭제와 관련된 form -->
-<form id="fo_category_info" action="./" method="get">
+<form id="fo_category_info" action="./" method="post">
+	<input type="hidden" name="act" value="procModuleAdminDeleteCategory" />
     <input type="hidden" name="module_category_srl" value="" />
-    <input type="hidden" name="mode" value="" />
 </form>
 
 <table cellspacing="0" class="rowTable">
@@ -28,14 +30,15 @@
         <td class="wide">{$val->title}</td>
         <td class="nowrap">{zdate($val->regdate,"Y-m-d H:i:s")}</td>
         <td><a href="{getUrl('module_category_srl',$val->module_category_srl)}" class="buttonSet buttonSetting"><span>{$lang->cmd_modify}</span></a></td>
-        <td><a href="#" onclick="doUpdateCategory('{$val->module_category_srl}','delete','{$lang->confirm_delete}');return false;" class="buttonSet buttonDelete"><span>{$lang->cmd_delete}</span></a></td>
+        <td><a href="#" onclick="doUpdateCategory('{$val->module_category_srl}','{$lang->confirm_delete}');return false;" class="buttonSet buttonDelete"><span>{$lang->cmd_delete}</span></a></td>
     </tr>
     <!--@end-->
 </tbody>
 </table>
 
 <!-- 카테고리 추가 -->
-<form action="./" method="post" onsubmit="return procFilter(this, insert_category)">
+<form ruleset="insertCategory" action="./" method="post">
+<input type="hidden" name="act" value="procModuleAdminInsertCategory" />
 <input type="hidden" name="page" value="{$page}" />
 <input type="hidden" name="module_srl" value="{$module_srl}" />
 <input type="hidden" name="module_category_srl" value="" />

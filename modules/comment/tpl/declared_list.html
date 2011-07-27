@@ -1,8 +1,13 @@
-<!--%import("filter/delete_checked.xml")-->
 <!--#include("header.html")-->
 
-<form id="fo_list" action="./" method="get" onsubmit="return procFilter(this, delete_checked)">
+<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
+<form ruleset="deleteChecked" id="fo_list" action="./" method="post">
+<input type="hidden" name="act" value="procCommentAdminDeleteChecked" />
+<input type="hidden" value="{getUrl('', 'module', $module, 'act', $act)}" name="success_return_url">
 <input type="hidden" name="page" value="{$page}" />
+<input type="hidden" name="is_trash" value="false" />
 
 <!-- 목록 -->
 <table cellspacing="0" class="crossTable">
@@ -33,7 +38,8 @@
             <a href="#" onclick="doCancelDeclare();return false;" class="button strong black"><span>{$lang->cmd_cancel_declare}</span></a>
             <a href="javascript:XE.checkboxToggleAll({ checked:true })" class="button"><span>{$lang->cmd_select_all}</span></a>
             <a href="javascript:XE.checkboxToggleAll()" class="button"><span>{$lang->cmd_reverse_all}</span></a>
-            <span class="button"><input type="submit" value="{$lang->cmd_delete_checked_comment}" /></span>
+            <span class="button"><input type="submit" value="{$lang->cmd_delete_checked_comment}" onclick="this.form.is_trash.value=false" /></span>
+    		<span class="button"><input type="submit" name="trash" value="{$lang->cmd_trash}" onclick="this.form.is_trash.value=true" /></span>
         </th>
     </tr>
 </tbody>

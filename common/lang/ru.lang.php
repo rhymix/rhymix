@@ -67,11 +67,13 @@ $lang->cmd_layout_setup = 'Конфигурировать лейаут';
 $lang->cmd_layout_edit = 'Редактировать лейаут';
 $lang->cmd_search_by_ipaddress = 'Искать по IP адресу';
 $lang->cmd_add_ip_to_spamfilter = 'Добавить IP в спамфильтры';
+$lang->cmd_go_to_page = 'Go to page';
 
 $lang->enable = 'Включено';
 $lang->disable = 'Выключено';
 
 // Основные слова
+$lang->favorite = 'Favorite';
 $lang->menu = 'Меню';
 $lang->no = 'No.';
 $lang->notice = 'Уведомление';
@@ -169,6 +171,8 @@ $lang->layout_manager = 'Настройки лейаута';
 
 $lang->use = 'Использовать';
 $lang->notuse = 'Не использовать';
+$lang->on = 'On';
+$lang->off = 'Off';
 $lang->not_exists = "Отсутствует";
 
 $lang->public = 'Показать всем';
@@ -243,6 +247,7 @@ $lang->success_reset = 'Сброшено успешно';
 $lang->success_leaved = 'Пользователь удален';
 $lang->success_saved = 'Сохранено успешно';
 
+$lang->fail_to_registed = '등록하지 못하였습니다.';
 $lang->fail_to_delete = 'Не может быть удалено';
 $lang->fail_to_move = 'Перемещение невозможно';
 

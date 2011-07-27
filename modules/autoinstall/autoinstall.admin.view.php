@@ -2,7 +2,7 @@
     /**
      * @class  autoinstallAdminView
      * @author NHN (developers@xpressengine.com)
-     * @brief admin view class in the autoinstall module 
+     * @brief admin view class in the autoinstall module
      **/
 
 
@@ -13,14 +13,14 @@
 
 	    function init() {
 		    $template_path = sprintf("%stpl/",$this->module_path);
-            Context::set('original_site', $this->original_site);
-            Context::set('uri', $this->uri);
+            Context::set('original_site', _XE_LOCATION_SITE_);
+            Context::set('uri', _XE_DOWNLOAD_SERVER_);
 		    $this->setTemplatePath($template_path);
 
             $ftp_info =  Context::getFTPInfo();
             if(!$ftp_info->ftp_root_path) Context::set('show_ftp_note', true);
 			else $this->ftp_set = true;
-			
+
 
             $this->dispCategory();
             $oModel = &getModel('autoinstall');
@@ -55,6 +55,7 @@
             foreach($items as $item)
             {
                 $v = $this->rearrange($item, $targets);
+				$v->category = $this->categories[$v->category_srl]->title;
                 if($packages[$v->package_srl])
                 {
                     $v->current_version = $packages[$v->package_srl]->current_version;
@@ -69,9 +70,9 @@
 					}
 					if($v->type == "core") $v->avail_remove = false;
 					else if($v->type == "module") {
-						$v->avail_remove = $oModel->checkRemovable($packages[$v->package_srl]->path); 
+						$v->avail_remove = $oModel->checkRemovable($packages[$v->package_srl]->path);
 					}
-					else $v->avail_remove = true; 
+					else $v->avail_remove = true;
                 }
                 $item_list[$v->package_srl] = $v;
             }
@@ -97,6 +98,7 @@
 					$installed[$key]->title = $title;
 				}
 				Context::set('installed', $installed);
+
 				foreach($installed as $key=>$val)
 				{
 					foreach($depto[$key] as $package_srl)
@@ -113,16 +115,16 @@
         function dispAutoinstallAdminInstalledPackages()
         {
             $page = Context::get('page');
-            if(!$page) $page = 1; 
+            if(!$page) $page = 1;
             Context::set('page', $page);
             $oModel = &getModel('autoinstall');
             $output = $oModel->getInstalledPackageList($page);
             $package_list = $output->data;
 
             $params["act"] = "getResourceapiPackages";
-            $params["package_srls"] = implode(",", array_keys($package_list)); 
+            $params["package_srls"] = implode(",", array_keys($package_list));
             $body = XmlGenerater::generate($params);
-            $buff = FileHandler::getRemoteResource($this->uri, $body, 3, "POST", "application/xml");
+            $buff = FileHandler::getRemoteResource(_XE_DOWNLOAD_SERVER_, $body, 3, "POST", "application/xml");
             $xml_lUpdate = new XmlParser();
             $xmlDoc = $xml_lUpdate->parse($buff);
             if($xmlDoc && $xmlDoc->response->packagelist->item)
@@ -133,11 +135,11 @@
                 {
                     $res[] = $item_list[$package_srl];
                 }
-                Context::set('item_list', $res); 
+                Context::set('item_list', $res);
             }
             Context::set('page_navigation', $output->page_navigation);
 
-            $this->setTemplateFile('index'); 
+            $this->setTemplateFile('index');
         }
 
         function dispAutoinstallAdminInstall() {
@@ -222,7 +224,7 @@
             $params = array();
             $params["act"] = "getResourceapiLastupdate";
             $body = XmlGenerater::generate($params);
-            $buff = FileHandler::getRemoteResource($this->uri, $body, 3, "POST", "application/xml");
+            $buff = FileHandler::getRemoteResource(_XE_DOWNLOAD_SERVER_, $body, 3, "POST", "application/xml");
             $xml_lUpdate = new XmlParser();
             $lUpdateDoc = $xml_lUpdate->parse($buff);
             $updateDate = $lUpdateDoc->response->updatedate->body;
@@ -231,13 +233,12 @@
             $item = $oModel->getLatestPackage();
             if(!$item || $item->updatedate < $updateDate || count($this->categories) < 1)
             {
-                Context::set('need_update', true); 
-                return;
+				$oController = &getAdminController('autoinstall');
+				$oController->_updateinfo();
             }
 
-
             $page = Context::get('page');
-            if(!$page) $page = 1; 
+            if(!$page) $page = 1;
             Context::set('page', $page);
 
             $order_type = Context::get('order_type');
@@ -263,13 +264,13 @@
             {
                 $params["search_keyword"] = $search_keyword;
             }
-            $xmlDoc = XmlGenerater::getXmlDoc($params); 
+            $xmlDoc = XmlGenerater::getXmlDoc($params);
             if($xmlDoc && $xmlDoc->response->packagelist->item)
             {
                 $item_list = $this->rearranges($xmlDoc->response->packagelist->item);
-                Context::set('item_list', $item_list); 
+                Context::set('item_list', $item_list);
                 $array = array('total_count', 'total_page', 'cur_page', 'page_count', 'first_page', 'last_page');
-                $page_nav = $this->rearrange($xmlDoc->response->page_navigation, $array); 
+                $page_nav = $this->rearrange($xmlDoc->response->page_navigation, $array);
                 $page_navigation = new PageHandler($page_nav->total_count, $page_nav->total_page, $page_nav->cur_page, $page_nav->page_count);
                 Context::set('page_navigation', $page_navigation);
             }
@@ -298,22 +299,32 @@
 			$installedPackage = $oModel->getPackage($package_srl);
 			$path = $installedPackage->path;
 			$type = $oModel->getTypeFromPath($path);
-			if(!$type || $type == "core") $this->stop("msg_invalid_request"); 
+			if(!$type || $type == "core") return $this->stop("msg_invalid_request");
 			$config_file = $oModel->getConfigFilePath($type);
-			if(!$config_file) $this->stop("msg_invalid_request"); 
+			if(!$config_file) return $this->stop("msg_invalid_request");
 
-			$xml = new XmlParser();
-			$xmlDoc = $xml->loadXmlFile(FileHandler::getRealPath($path).$config_file);
-			if(!$xmlDoc) $this->stop("msg_invalid_request"); 
-			if($type == "drcomponent") $type = "component";
-			if($type == "style") $type = "skin";
-			$title = $xmlDoc->{$type}->title->body;
-			$installedPackage->title = $title;
-			$installedPackage->type = $type;
-			Context::set('package', $installedPackage);
+			$params["act"] = "getResourceapiPackages";
+			$params["package_srls"] = $package_srl;
+			$body = XmlGenerater::generate($params);
+			$buff = FileHandler::getRemoteResource(_XE_DOWNLOAD_SERVER_, $body, 3, "POST", "application/xml");
+			$xml_lUpdate = new XmlParser();
+			$xmlDoc = $xml_lUpdate->parse($buff);
+			if($xmlDoc && $xmlDoc->response->packagelist->item)
+			{
+				$item_list = $this->rearranges($xmlDoc->response->packagelist->item);
+				$installedPackage->title = $item_list[$package_srl]->title;
+				$installedPackage->type = $item_list[$package_srl]->category;
+				$installedPackage->avail_remove = $item_list[$package_srl]->avail_remove;
+				$installedPackage->deps = $item_list[$package_srl]->deps;
+				Context::set('package', $installedPackage);
 
-            $this->setTemplateFile('uninstall'); 
-            Context::addJsFilter($this->module_path.'tpl/filter', 'uninstall_package.xml');
+				$this->setTemplateFile('uninstall');
+				Context::addJsFilter($this->module_path.'tpl/filter', 'uninstall_package.xml');
+			}
+			else
+			{
+				return $this->stop('Connection failed');
+			}
 		}
     }
 ?>

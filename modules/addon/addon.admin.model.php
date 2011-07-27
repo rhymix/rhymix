@@ -29,10 +29,12 @@
             // Wanted to add a list of activated
             $inserted_addons = $this->getInsertedAddons($site_srl);
             // Downloaded and installed add-on to the list of Wanted
-            $searched_list = FileHandler::readDir('./addons');
+            $searched_list = FileHandler::readDir('./addons','/^([a-zA-Z0-9-_]+)$/');
             $searched_count = count($searched_list);
             if(!$searched_count) return;
             sort($searched_list);
+
+			$oAddonAdminController = &getAdminController('addon');
 
             for($i=0;$i<$searched_count;$i++) {
                 // Add the name of
@@ -51,7 +53,6 @@
                 // Check if a permossion is granted entered in DB
                 if(!in_array($addon_name, array_keys($inserted_addons))) {
                     // If not, type in the DB type (model, perhaps because of the hate doing this haneungeo .. ㅡ. ㅜ)
-                    $oAddonAdminController = &getAdminController('addon');
                     $oAddonAdminController->doInsert($addon_name, $site_srl);
                 // Is activated
                 } else {

@@ -6,11 +6,21 @@
      **/
 
     class documentAdminView extends document {
-
         /**
          * @brief Initialization
          **/
         function init() {
+			// check current location in admin menu
+			$oModuleModel = &getModel('module');
+			$info = $oModuleModel->getModuleActionXml('document');
+			foreach($info->menu AS $key => $menu)
+			{
+				if(in_array($this->act, $menu->acts))
+				{
+					Context::set('currentMenu', $key);
+					break;
+				}
+			}
         }
 
         /**
@@ -33,12 +43,20 @@
             $oDocumentModel = &getModel('document');
             $output = $oDocumentModel->getDocumentList($args);
 
+			// count eache status, not in trash...
+			$countOutput = $oDocumentModel->getDocumentCountByGroupStatus($args);;
+
+			// get Status name list
+			$statusNameList = $oDocumentModel->getStatusNameList();
+
             // Set values of document_model::getDocumentList() objects for a template
             Context::set('total_count', $output->total_count);
             Context::set('total_page', $output->total_page);
             Context::set('page', $output->page);
             Context::set('document_list', $output->data);
+            Context::set('status_name_list', $statusNameList);
             Context::set('page_navigation', $output->page_navigation);
+            Context::set('countOutput', $countOutput);
 
             // set a search option used in the template
             $count_search_option = count($this->search_option);

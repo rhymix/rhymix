@@ -27,6 +27,11 @@
 
             $output = executeQuery('communication.updateAllowMessage', $args);
 
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispCommunicationMessages', 'message_type', Context::get('message_type'));
+				header('location:'.$returnUrl);
+				return;
+			}
             return $output;
         }
 
@@ -76,6 +81,12 @@
                 $oMail->send();
             }
 
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				global $lang;
+				alertScript($lang->success_sended);
+				closePopupScript();
+				exit;
+			}
             return $output;
         }
 
@@ -195,10 +206,10 @@
             $logged_info = Context::get('logged_info');
             $member_srl = $logged_info->member_srl;
             // check variables
-            $message_srl_list = trim(Context::get('message_srl_list'));
-            if(!$message_srl_list) return new Object(-1, 'msg_cart_is_null');
+            if(!Context::get('message_srl_list')) return new Object(-1, 'msg_cart_is_null');
 
-            $message_srl_list = explode('|@|', $message_srl_list);
+            $message_srl_list = Context::get('message_srl_list');
+			if(!is_array($message_srl_list)) $message_srl_list = explode('|@|', trim($message_srl_list));
             if(!count($message_srl_list)) return new Object(-1, 'msg_cart_is_null');
 
             $message_type = Context::get('message_type');
@@ -223,6 +234,12 @@
             if(!$output->toBool()) return $output;
 
             $this->setMessage('success_deleted');
+
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispCommunicationMessages', 'message_type', Context::get('message_type'));
+				header('location:'.$returnUrl);
+				return;
+			}
         }
 
         /**
@@ -246,6 +263,13 @@
 
             $this->add('member_srl', $target_srl);
             $this->setMessage('success_registed');
+
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				global $lang;
+				alertScript($lang->success_registed);
+				closePopupScript();
+				exit;
+			}
         }
 
         /**
@@ -279,6 +303,11 @@
             if(!$output->toBool()) return $output;
 
             $this->setMessage('success_moved');
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispCommunicationFriend');
+				header('location:'.$returnUrl);
+				return;
+			}
         }
 
         /**
@@ -311,6 +340,11 @@
             if(!$output->toBool()) return $output;
 
             $this->setMessage('success_deleted');
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispCommunicationFriend');
+				header('location:'.$returnUrl);
+				return;
+			}
         }
 
         /**
@@ -336,9 +370,27 @@
                 $msg_code = 'success_registed';
             }
 
-            if(!$output->toBool()) return $output;
-
-            $this->setMessage($msg_code);
+            if(!$output->toBool())
+			{
+				if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+					global $lang;
+					alertScript($lang->fail_to_registed);
+					closePopupScript();
+					exit;
+				}
+				else return $output;
+			}
+			else
+			{
+				if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+					global $lang;
+					alertScript($lang->success_registed);
+					reload(true);
+					closePopupScript();
+					exit;
+				}
+				else $this->setMessage($msg_code);
+			}
         }
 
         /**

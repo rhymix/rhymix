@@ -136,21 +136,21 @@ class documentController extends document {
 	/**
 	 * @brief Insert the document
 	 **/
-	function insertDocument($obj, $manual_inserted = false) {
+	function insertDocument($obj, $manual_inserted = false, $isRestore = false) {
 		// begin transaction
 		$oDB = &DB::getInstance();
 		$oDB->begin();
 		// List variables
-		if($obj->is_secret!='Y') $obj->is_secret = 'N';
-		if($obj->allow_comment!='Y') $obj->allow_comment = 'N';
-		if($obj->lock_comment!='Y') $obj->lock_comment = 'N';
+		if($obj->comment_status) $obj->commentStatus = $obj->comment_status;
+		if(!$obj->commentStatus) $obj->commentStatus = 'DENY';
+		if($obj->commentStatus == 'DENY') $this->_checkCommentStatusForOldVersion($obj);
 		if($obj->allow_trackback!='Y') $obj->allow_trackback = 'N';
 		if($obj->homepage &&  !preg_match('/^[a-z]+:\/\//i',$obj->homepage)) $obj->homepage = 'http://'.$obj->homepage;
 		if($obj->notify_message != 'Y') $obj->notify_message = 'N';
-		$obj->ipaddress = $_SERVER['REMOTE_ADDR'];	//board에서 form key값으로 ipaddress를 사용하면 엄한 ip가 등록됨. 필터와는 상관없슴
+		if(!$isRestore) $obj->ipaddress = $_SERVER['REMOTE_ADDR'];	//board에서 form key값으로 ipaddress를 사용하면 엄한 ip가 등록됨. 필터와는 상관없슴
 
-		// Serialize the $extra_vars
-		$obj->extra_vars = serialize($obj->extra_vars);
+		// Serialize the $extra_vars, check the extra_vars type, because duplicate serialized avoid
+		if(!is_string($obj->extra_vars)) $obj->extra_vars = serialize($obj->extra_vars);
 		// Remove the columns for automatic saving
 		unset($obj->_saved_doc_srl);
 		unset($obj->_saved_doc_title);
@@ -170,12 +170,13 @@ class documentController extends document {
 		}
 		// Set the read counts and update order.
 		if(!$obj->readed_count) $obj->readed_count = 0;
-		$obj->update_order = $obj->list_order = getNextSequence() * -1;
+		if(!$isRestore) $obj->update_order = $obj->list_order = getNextSequence() * -1;
+		else $obj->update_order = $obj->list_order;
 		// Check the status of password hash for manually inserting. Apply md5 hashing for otherwise.
 		if($obj->password && !$obj->password_is_hashed) $obj->password = md5($obj->password);
 		// Insert member's information only if the member is logged-in and not manually registered.
-		if(Context::get('is_logged')&&!$manual_inserted) {
-			$logged_info = Context::get('logged_info');
+		$logged_info = Context::get('logged_info');
+		if(Context::get('is_logged') && !$manual_inserted && !$isRestore) {
 			$obj->member_srl = $logged_info->member_srl;
 			$obj->user_id = $logged_info->user_id;
 			$obj->user_name = $logged_info->user_name;
@@ -201,6 +202,7 @@ class documentController extends document {
 
 		$obj->lang_code = Context::getLangType();
 		// Insert data into the DB
+		if(!$obj->status) $this->_checkDocumentStatusForOldVersion($obj);
 		$output = executeQuery('document.insertDocument', $obj);
 		if(!$output->toBool()) {
 			$oDB->rollback();
@@ -244,6 +246,7 @@ class documentController extends document {
 	function updateDocument($source_obj, $obj) {
 		if(!$source_obj->document_srl || !$obj->document_srl) return new Object(-1,'msg_invalied_request');
 		// Call a trigger (before)
+		if(!$obj->status) $obj->status = $source_obj->status;
 		$output = ModuleHandler::triggerCall('document.updateDocument', 'before', $obj);
 		if(!$output->toBool()) return $output;
 
@@ -274,9 +277,8 @@ class documentController extends document {
 			$obj->ipaddress = $source_obj->get('ipaddress');
 		}
 		// List variables
-		if($obj->is_secret!='Y') $obj->is_secret = 'N';
-		if($obj->allow_comment!='Y') $obj->allow_comment = 'N';
-		if($obj->lock_comment!='Y') $obj->lock_comment = 'N';
+		if(!$obj->commentStatus) $obj->commentStatus = 'DENY';
+		if($obj->commentStatus == 'DENY') $this->_checkCommentStatusForOldVersion($obj);
 		if($obj->allow_trackback!='Y') $obj->allow_trackback = 'N';
 		if($obj->homepage &&  !preg_match('/^[a-z]+:\/\//i',$obj->homepage)) $obj->homepage = 'http://'.$obj->homepage;
 		if($obj->notify_message != 'Y') $obj->notify_message = 'N';
@@ -343,6 +345,9 @@ class documentController extends document {
 		}
 		// Remove iframe and script if not a top adminisrator in the session.
 		if($logged_info->is_admin != 'Y') $obj->content = removeHackTag($obj->content);
+		// if temporary document, regdate is now setting
+		if($source_obj->get('status') == $this->getConfigStatus('temp')) $obj->regdate = date('YmdHis');
+
 		// Insert data into the DB
 		$output = executeQuery('document.updateDocument', $obj);
 		if(!$output->toBool()) {
@@ -391,7 +396,7 @@ class documentController extends document {
 	/**
 	 * @brief Deleting Documents
 	 **/
-	function deleteDocument($document_srl, $is_admin = false) {
+	function deleteDocument($document_srl, $is_admin = false, $isEmptyTrash = false, $oDocument = null) {
 		// Call a trigger (before)
 		$trigger_obj->document_srl = $document_srl;
 		$output = ModuleHandler::triggerCall('document.deleteDocument', 'before', $trigger_obj);
@@ -400,19 +405,30 @@ class documentController extends document {
 		// begin transaction
 		$oDB = &DB::getInstance();
 		$oDB->begin();
-		// get model object of the document
-		$oDocumentModel = &getModel('document');
-		// Check if the documnet exists
-		$oDocument = $oDocumentModel->getDocument($document_srl, $is_admin);
+
+		if(!$isEmptyTrash)
+		{
+			// get model object of the document
+			$oDocumentModel = &getModel('document');
+			// Check if the documnet exists
+			$oDocument = $oDocumentModel->getDocument($document_srl, $is_admin);
+		}
+		else if($isEmptyTrash && $oDocument == null) return new Object(-1, 'document is not exists');
+
 		if(!$oDocument->isExists() || $oDocument->document_srl != $document_srl) return new Object(-1, 'msg_invalid_document');
 		// Check if a permossion is granted
 		if(!$oDocument->isGranted()) return new Object(-1, 'msg_not_permitted');
-		// Delete the document
+
+		//if empty trash, document already deleted, therefore document not delete
 		$args->document_srl = $document_srl;
-		$output = executeQuery('document.deleteDocument', $args);
-		if(!$output->toBool()) {
-			$oDB->rollback();
-			return $output;
+		if(!$isEmptyTrash)
+		{
+			// Delete the document
+			$output = executeQuery('document.deleteDocument', $args);
+			if(!$output->toBool()) {
+				$oDB->rollback();
+				return $output;
+			}
 		}
 
 		$this->deleteDocumentAliasByDocument($document_srl);
@@ -512,17 +528,39 @@ class documentController extends document {
 		$oDB = &DB::getInstance();
 		$oDB->begin();
 
-		$output = executeQuery('document.insertTrash', $trash_args);
+		/*$output = executeQuery('document.insertTrash', $trash_args);
+		if (!$output->toBool()) {
+			$oDB->rollback();
+			return $output;
+		}*/
+
+		// new trash module
+		require_once(_XE_PATH_.'modules/trash/model/TrashVO.php');
+		$oTrashVO = new TrashVO();
+		$oTrashVO->setTrashSrl(getNextSequence());
+		$oTrashVO->setTitle($oDocument->variables['title']);
+		$oTrashVO->setOriginModule('document');
+		$oTrashVO->setSerializedObject(serialize($oDocument->variables));
+		$oTrashVO->setDescription($obj->description);
+
+		$oTrashAdminController = &getAdminController('trash');
+		$output = $oTrashAdminController->insertTrash($oTrashVO);
 		if (!$output->toBool()) {
 			$oDB->rollback();
 			return $output;
 		}
 
-		$output = executeQuery('document.updateDocument', $document_args);
-		if (!$output->toBool()) {
+		$output = executeQuery('document.deleteDocument', $trash_args);
+		if(!$output->toBool()) {
 			$oDB->rollback();
 			return $output;
 		}
+
+		/*$output = executeQuery('document.updateDocument', $document_args);
+		if (!$output->toBool()) {
+			$oDB->rollback();
+			return $output;
+		}*/
 
 		// update category
 		if($oDocument->get('category_srl')) $this->updateCategoryCount($oDocument->get('module_srl'),$oDocument->get('category_srl'));
@@ -1015,7 +1053,10 @@ class documentController extends document {
 	 **/
 	function procDocumentInsertCategory($args = null) {
 		// List variables
-		if(!$args) $args = Context::gets('module_srl','category_srl','parent_srl','title','description','expand','group_srls','color','mid');
+		if(!$args) $args = Context::gets('module_srl','category_srl','parent_srl','category_title','category_description','expand','group_srls','category_color','mid');
+		$args->title = $args->category_title;
+		$args->description = $args->category_description;
+		$args->color = $args->category_color;
 
 		if(!$args->module_srl && $args->mid){
 			$mid = $args->mid;
@@ -1030,7 +1071,8 @@ class documentController extends document {
 		if(!$grant->manager) return new Object(-1,'msg_not_permitted');
 
 		if($args->expand !="Y") $args->expand = "N";
-		$args->group_srls = str_replace('|@|',',',$args->group_srls);
+		if(!is_array($args->group_srls)) $args->group_srls = str_replace('|@|',',',$args->group_srls);
+		else $args->group_srls = implode(',', $args->group_srls);
 		$args->parent_srl = (int)$args->parent_srl;
 
 		$oDocumentModel = &getModel('document');
@@ -1066,6 +1108,12 @@ class documentController extends document {
 		$this->add('module_srl', $args->module_srl);
 		$this->add('category_srl', $args->category_srl);
 		$this->add('parent_srl', $args->parent_srl);
+
+		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispBoardAdminCategoryInfo', 'module_srl', $args->module_srl);
+			header('location:'.$returnUrl);
+			return;
+		}
 	}
 
 
@@ -1583,6 +1631,8 @@ class documentController extends document {
 		$document_config->use_vote_down = Context::get('use_vote_down');
 		if(!$document_config->use_vote_down) $document_config->use_vote_down = 'Y';
 
+		$document_config->use_status = Context::get('use_status');
+
 		$oModuleController = &getController('module');
 		for($i=0;$i<count($module_srl);$i++) {
 			$srl = trim($module_srl[$i]);
@@ -1591,6 +1641,99 @@ class documentController extends document {
 		}
 		$this->setError(-1);
 		$this->setMessage('success_updated');
+	}
+
+	/**
+	 * @brief
+	 **/
+	function procDocumentTempSave()
+	{
+		// Check login information
+		if(!Context::get('is_logged')) return new Object(-1, 'msg_not_logged');
+
+		$module_info = Context::get('module_info');
+		$logged_info = Context::get('logged_info');
+		// Get form information
+		$obj = Context::getRequestVars();
+		// Change the target module to log-in information
+		$obj->module_srl = $module_info->module_srl;
+		$obj->status = $this->getConfigStatus('temp');
+		unset($obj->is_notice);
+
+		// Extract from beginning part of contents in the guestbook
+		if(!$obj->title) {
+			$obj->title = cut_str(strip_tags($obj->content), 20, '...');
+		}
+
+		$oDocumentModel = &getModel('document');
+		$oDocumentController = &getController('document');
+		// Check if already exist geulinji
+		$oDocument = $oDocumentModel->getDocument($obj->document_srl, $this->grant->manager);
+		// Update if already exists
+		if($oDocument->isExists() && $oDocument->document_srl == $obj->document_srl) {
+			//if exist document status is already public, use temp status can point problem
+			$obj->status = $oDocument->get('status');
+			$output = $oDocumentController->updateDocument($oDocument, $obj);
+			$msg_code = 'success_updated';
+		// Otherwise, get a new
+		} else {
+			$output = $oDocumentController->insertDocument($obj);
+			$msg_code = 'success_registed';
+			$obj->document_srl = $output->get('document_srl');
+			$oDocument = $oDocumentModel->getDocument($obj->document_srl, $this->grant->manager);
+		}
+		// Set the attachment to be invalid state
+		if($oDocument->hasUploadedFiles()) {
+			$args->upload_target_srl = $oDocument->document_srl;
+			$args->isvalid = 'N';
+			executeQuery('file.updateFileValid', $args);
+		}
+
+		$this->setMessage('success_saved');
+		$this->add('document_srl', $obj->document_srl);
+	}
+
+	/**
+	 * @brief return Document List for exec_xml
+	 **/
+	function procDocumentGetList()
+	{
+		if(!Context::get('is_logged')) return new Object(-1,'msg_not_permitted');
+		// Taken from a list of selected sessions
+		$flagList = $_SESSION['document_management'];
+		if(count($flagList)) {
+			foreach($flagList as $key => $val) {
+				if(!is_bool($val)) continue;
+				$documentSrlList[] = $key;
+			}
+		}
+
+		if(count($documentSrlList)) {
+			$oDocumentModel = &getModel('document');
+			$documentList = $oDocumentModel->getDocuments($documentSrlList, $this->grant->is_admin);
+		}
+		$this->add('document_list', $documentList);
+	}
+
+	/**
+	 * @brief for old version, comment allow status check.
+	 **/
+	function _checkCommentStatusForOldVersion(&$obj)
+	{
+		if(!isset($obj->allow_comment)) $obj->allow_comment = 'N';
+		if(!isset($obj->lock_comment)) $obj->lock_comment = 'N';
+
+		if($obj->allow_comment == 'Y' && $obj->lock_comment == 'N') $obj->commentStatus = 'ALLOW';
+		else $obj->commentStatus = 'DENY';
+	}
+
+	/**
+	 * @brief for old version, document status check.
+	 **/
+	function _checkDocumentStatusForOldVersion(&$obj)
+	{
+		if(!$obj->status && $obj->is_secret == 'Y') $obj->status = $this->getConfigStatus('secret');
+		if(!$obj->status && $obj->is_secret != 'Y') $obj->status = $this->getConfigStatus('public');
 	}
 }
 ?>

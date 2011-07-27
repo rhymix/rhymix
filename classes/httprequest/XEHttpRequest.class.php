@@ -101,12 +101,12 @@ class XEHttpRequest {
 		$request .= $crlf.$post_body;
 		fwrite($sock, $request);
 
-		list($httpver, $code, $status) = split(' +', rtrim(fgets($sock)));
+		list($httpver, $code, $status) = preg_split('/ +/', rtrim(fgets($sock)), 3);
 
 		// read response headers
 		$is_chunked = false;
 		while(strlen(trim($line = fgets($sock)))) {
-			list($equiv, $content) = split(' *: *', rtrim($line));
+			list($equiv, $content) = preg_split('/ *: */', rtrim($line), 1);
 			if(!strcasecmp($equiv, 'Transfer-Encoding') && $content == 'chunked') {
 				$is_chunked = true;
 			}

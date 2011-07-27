@@ -25,6 +25,21 @@ function completeInsertPage(ret_obj) {
     location.href = url;
 }
 
+function completeArticleDocumentInserted(ret_obj){
+    var error = ret_obj['error'];
+    var message = ret_obj['message'];
+
+    var mid = ret_obj['mid'];
+
+    alert(message);
+
+    var url = '';
+        url = current_url.setQuery('act', 'dispPageIndex').setQuery('mid', mid);
+
+
+    location.href = url;
+}
+
 /* 내용 저장 후 */
 function completeInsertPageContent(ret_obj) {
     var error = ret_obj['error'];
@@ -108,3 +123,4 @@ function doCartSetup(url) {
     url += "&module_srls="+module_srl.join(',');
     popopen(url,'modulesSetup');
 }
+

@@ -322,7 +322,7 @@
         /**
          * @brief Delete comment
          **/
-        function deleteComment($comment_srl, $is_admin = false) {
+        function deleteComment($comment_srl, $is_admin = false, $isMoveToTrash = false) {
             // create the comment model object
             $oCommentModel = &getModel('comment');
             // check if comment already exists
@@ -369,8 +369,11 @@
                 }
             }
 
-			$this->_deleteDeclaredComments($args);
-			$this->_deleteVotedComments($args);
+			if(!$isMoveToTrash)
+			{
+				$this->_deleteDeclaredComments($args);
+				$this->_deleteVotedComments($args);
+			}
 
             // commit
             $oDB->commit();
@@ -378,6 +381,15 @@
             $output->add('document_srl', $document_srl);
             return $output;
         }
+
+        /**
+         * @brief remove all comment relation log
+         **/
+		function deleteCommentLog()
+		{
+			$this->_deleteDeclaredComments($args);
+			$this->_deleteVotedComments($args);
+		}
 
         /**
          * @brief remove all comments of the article
@@ -604,12 +616,39 @@
 
             $this->setError(-1);
             $this->setMessage('success_updated');
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispBoardAdminContent');
+				header('location:'.$returnUrl);
+				return;
+			}
         }
 
 		function setCommentModuleConfig($srl, $comment_config){
             $oModuleController = &getController('module');
 			$oModuleController->insertModulePartConfig('comment',$srl,$comment_config);
             return new Object();
+		}
+
+        /**
+         * @brief get comment all list
+         **/
+		function procCommentGetList()
+		{
+			if(!Context::get('is_logged')) return new Object(-1,'msg_not_permitted');
+			// Taken from a list of selected sessions
+			$flagList = $_SESSION['comment_management'];
+			if(count($flagList)) {
+				foreach($flagList as $key => $val) {
+					if(!is_bool($val)) continue;
+					$commentSrlList[] = $key;
+				}
+			}
+
+			if(count($commentSrlList)) {
+				$oCommentModel = &getModel('comment');
+				$commentList = $oCommentModel->getComments($commentSrlList);
+			}
+			$this->add('comment_list', $commentList);
 		}
     }
 ?>

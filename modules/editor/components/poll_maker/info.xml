@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component version="0.2">
     <title xml:lang="vi">Thăm dò ý kiến</title>
-    <title xml:lang="ko">설문조사 컴포넌트</title>
+    <title xml:lang="ko">설문조사</title>
     <title xml:lang="jp">アンケート調査</title>
     <title xml:lang="zh-CN">投票调查</title>
-    <title xml:lang="en">Poll Component</title>
-    <title xml:lang="es">Componente Poll</title>
+    <title xml:lang="en">Poll</title>
+    <title xml:lang="es">Poll</title>
     <title xml:lang="ru">Компонент опросов</title>
     <title xml:lang="zh-TW">投票調查</title>
     <title xml:lang="tr">Oylama Bileşenleri</title>

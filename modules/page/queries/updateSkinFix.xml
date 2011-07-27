@@ -1,0 +1,11 @@
+<query id="updateSkinFix" action="update">
+    <tables>
+        <table name="modules" />
+    </tables>
+    <columns>
+		<column name="is_skin_fix" var="is_skin_fix" notnull="notnull" />
+    </columns>
+    <conditions>
+        <condition operation="in" column="module_srl" var="module_srls" notnull="notnull" />
+    </conditions>
+</query>

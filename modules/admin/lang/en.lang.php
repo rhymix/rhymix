@@ -24,6 +24,16 @@ $lang->module_category_title = array(
 	'system' => 'System Setting',
 );
 
+$lang->menu_gnb = array(
+	'dashboard' => 'Dashboard',
+	'site' => 'Site',
+	'user' => 'User',
+	'content' => 'Content',
+	'theme' => 'Theme',
+	'extensions' => 'Extensions',
+	'configuration' => 'Configuration',
+);
+
 $lang->newest_news = "Latest News";
 
 $lang->env_setup = "Setting";

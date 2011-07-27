@@ -29,7 +29,14 @@
             $args->skin_vars = $config->skin_vars;
 
             $oModuleController = &getController('module');
-            return $oModuleController->insertModuleConfig('integration_search',$args);
+            $output = $oModuleController->insertModuleConfig('integration_search',$args);
+
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispIntegration_searchAdminContent');
+				header('location:'.$returnUrl);
+				return;
+			}
+			else return $output;
         }
 
         /**
@@ -97,7 +104,14 @@
             $args->skin_vars = serialize($obj);
 
             $oModuleController = &getController('module');
-            return $oModuleController->insertModuleConfig('integration_search',$args);
+			$output = $oModuleController->insertModuleConfig('integration_search',$args);
+
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispIntegration_searchAdminSkinInfo');
+				header('location:'.$returnUrl);
+				return;
+			}
+			else $output;
         }
     }
 ?>

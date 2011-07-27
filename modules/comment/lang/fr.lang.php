@@ -28,6 +28,7 @@
         'regdate' => 'Jour',
         'last_update' => 'Mise à Jour',
         'ipaddress' => 'Adresse IP',
+        'is_secret' => 'Status',
     );
 
 	$lang->no_text_comment = 'No text in this comment.';

@@ -17,7 +17,6 @@
          * Use a separate model method because external page handles information and configurations of the defaul module either.
          **/
         function getOpage($module_srl) {
-			debugPrint('getOpage');
             $oModuleModel = &getModel('module');
 			$columnList = array('module_srl');
             $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);

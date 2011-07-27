@@ -134,6 +134,13 @@
             $oEditorController->removeCache($args->site_srl);
 
             $this->setMessage('success_updated');
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				global $lang;
+				alertScript($lang->success_updated);
+				reload(true);
+				closePopupScript();
+				exit;
+			}
         }
 
         /**

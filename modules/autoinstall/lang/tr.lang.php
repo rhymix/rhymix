@@ -4,32 +4,36 @@
      * @author NHN (developers@xpressengine.com)
      * @brief  Autoinstall(autoinstall) language pack (English)
      **/
-
     $lang->autoinstall = 'KolayKurulum';
-    $lang->about_autoinstall = 'KolayKurulum modülü size programların(dış görünüm), XE\'ye kurulumunda ve sürüm yükseltmesinde yardımcı olacaktır.';
     $lang->package_update = 'Son Güncellemeler';
     $lang->package_downloaded_count = 'İndirme Sayısı';
-    $lang->need_update = "Lütfen önce paket listesini güncelleyiniz.";
-
     $lang->order_newest = "En Yeniler";
     $lang->order_popular = "Popüler";
     $lang->order_download = "İndirme";
-    $lang->success_installed = "Başarıyla Kuruldu";
-    $lang->view_all_package = "Tümünü Göster";
-    $lang->description_ftp_note = "Eğer FTP düzeni ayarlanmadıysa, kurulum çalışmayacaktır.Lütfen FTP bilgisini yapılandırınız.";
-    $lang->description_update = "Eğer KolayKurulum modülünü kullanmadan programları kurduysanız ya da güncelleştirdiyseniz, lütfen yeni bilgiyi uyarlamak için güncelleştir tuşuna basınız.";
+	$lang->success_installed = "Başarıyla Kuruldu";
+    $lang->description_ftp_note = 'If the %s is not set, the installation will not work. Pleas configure the FTP information';
+	$lang->ftp_setup = 'FTP configuration';
+	$lang->description_update = 'If you have upgraded or installed programs without EasyInstall module, please press %s to renew new information.';
+	$lang->status_update = 'update button';
     $lang->install = "Kurulum";
     $lang->update = "Güncelle";
     $lang->current_version = "Sürüm";
-    $lang->depending_programs = "Bu program için aşağıdaki program(lar) gereklidir : ";
     $lang->require_update = "Güncelleme gerekmektedir.";
     $lang->require_installation = "Kurulum gerekmektedir.";
     $lang->description_install = "KolayKurulum, bu program için gerekli olan tüm diğer programları kurup/güncelleştirecektir.";
     $lang->description_download = "Eğer FTP kullanılamaz durumduysa, indirmeyi kendiniz yapmanız ve dosyaları hedef dizine çıkartmanız gerekmektedir. (eğer hedef yol ./modules/board ise, çıkarma işlemini ./modules yoluna yapınız)";
     $lang->path = "Yol";
     $lang->cmd_download = "İndirme";
-    $lang->view_installed_packages = "Kurulmuş Paketler";
-    $lang->msg_ftp_password_input = "Lütfen FTP şifresini giriniz.";
-	$lang->dependant_list = "Mevcut pakete bağlı paket listesi";
 	$lang->description_uninstall = "Paket kaldırılacaktır. Modüller için, tüm veriler silinecektir.";
+	$lang->distribute_version = 'Distribute version';
+	$lang->run = 'Run';
+	$lang->rate = 'points';
+	$lang->thumbnail = 'Thumbnail';
+	$lang->name = 'Name';
+	$lang->about_depending_programs = 'To use this package must be installed the fllowing program.';
+	$lang->ftp_password = 'FTP password';
+	$lang->msg_dependency_package = 'Can not remove this package because there exists another package dependent on this.';
+	$lang->dependant_list = "Mevcut pakete bağlı paket listesi";
+	$lang->msg_avail_update = 'There is available update for this item.';
+	$lang->msg_do_you_like_update = 'Would you like to update?';
 ?>

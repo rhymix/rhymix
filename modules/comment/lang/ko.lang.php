@@ -9,6 +9,7 @@
     $lang->comment_list = '댓글 목록';
     $lang->cmd_toggle_checked_comment = '선택항목 반전';
     $lang->cmd_delete_checked_comment = '선택항목 삭제';
+    $lang->cmd_trash = '휴지통으로 이동';
     $lang->comment_count = '댓글 수';
     $lang->about_comment_count = '댓글을 정해진 수 만큼만 표시하고 그 이상일 경우 목록으로 이동할 수 있게 합니다.';
     $lang->msg_cart_is_null = '삭제할 글을 선택해주세요.';
@@ -24,6 +25,8 @@
         'regdate' => '등록일',
         'last_update' => '최근수정일 ',
         'ipaddress' => 'IP 주소',
+        'is_secret' => '상태',
     );
 	$lang->no_text_comment = '텍스트가 없는 댓글입니다.';
+	$lang->secret_name_list = array('Y'=>'비밀', 'N'=>'공개');
 ?>

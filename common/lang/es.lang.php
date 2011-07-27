@@ -66,11 +66,13 @@ $lang->cmd_layout_setup = 'Composición de Página';
 $lang->cmd_layout_edit = 'Editar la Página';
 $lang->cmd_search_by_ipaddress = 'Búsqueda con IP';
 $lang->cmd_add_ip_to_spamfilter = 'Añadir IP en el Filtro de Spam';
+$lang->cmd_go_to_page = 'Go to page';
 
 $lang->enable = 'Activar'; //Activado
 $lang->disable = 'Desactivar'; //Desactivado
 
 // Palabras Esenciales
+$lang->favorite = 'Favorite';
 $lang->menu = 'Menu';
 $lang->no = 'Nº';
 $lang->notice = 'Aviso'; //boletín, noticia
@@ -168,6 +170,8 @@ $lang->layout_manager = 'Adm. Diseños';
 
 $lang->use = 'Usar';
 $lang->notuse = 'No usar';
+$lang->on = 'On';
+$lang->off = 'Off';
 $lang->not_exists = 'No existe';
 
 $lang->public = 'Público';
@@ -248,6 +252,7 @@ $lang->success_reset = 'Reajustado con éxito';
 $lang->success_leaved = 'Abandonado con éxito';
 $lang->success_saved = 'Guardado correctamente';
 
+$lang->fail_to_registed = '등록하지 못하였습니다.';
 $lang->fail_to_delete = 'No puede ser borrado';
 $lang->fail_to_move = 'No puede ser movido';
 

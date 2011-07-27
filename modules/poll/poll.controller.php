@@ -119,6 +119,7 @@
                 if(!$srl) continue;
                 $item_srls[] = $srl;
             }
+
             // If there is no response item, display an error
             if(!count($item_srls)) return new Object(-1, 'msg_check_poll_item');
             // Make sure is the poll has already been taken
@@ -167,6 +168,11 @@
             $this->add('poll_srl', $poll_srl);
             $this->add('tpl',$tpl);
             $this->setMessage('success_poll');
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispPollAdminConfig');
+				header('location:'.$returnUrl);
+				return;
+			}
         }
 
         /**

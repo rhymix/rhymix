@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ruleset version="1.5.0">
+    <customrules>
+    </customrules>
+    <fields>
+		<field name="page_type" required="true" rule="alpha" />
+		<field name="page_name" required="true" length=":40" rule="alpha_number" />
+		<field name="browser_title" required="true" length=":250" />
+    </fields>
+</ruleset>

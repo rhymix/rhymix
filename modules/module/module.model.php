@@ -228,6 +228,20 @@
         }
 
         /**
+         * @brief Get a complete list of module_srl, which is created in the DB
+         **/
+		function getModuleSrlList($args = null, $columnList = array())
+		{
+            $output = executeQueryArray('module.getMidList', $args, $columnList);
+            if(!$output->toBool()) return $output;
+
+            $list = $output->data;
+            if(!$list) return;
+
+			return $list;
+		}
+
+        /**
          * @brief Return an array of module_srl corresponding to a mid list
          **/
         function getModuleSrlByMid($mid) {
@@ -470,6 +484,7 @@
 
                 $grants = $xml_obj->module->grants->grant; // /< Permission information
                 $permissions = $xml_obj->module->permissions->permission; // /<  Acting permission
+                $menus = $xml_obj->module->menus->menu;
                 $actions = $xml_obj->module->actions->action; // /< Action list (required)
 
                 $default_index = $admin_index = '';
@@ -504,6 +519,23 @@
                         $buff .= sprintf('$info->permission->%s = \'%s\';', $action, $target);
                     }
                 }
+				// for admin menus
+				if($menus)
+				{
+                    if(is_array($menus)) $menu_list = $menus;
+                    else $menu_list[] = $menus;
+
+                    foreach($menu_list as $menu) {
+						$menu_name = $menu->attrs->name;
+						$menu_title = is_array($menu->title) ? $menu->title[0]->body : $menu->title->body;
+
+						$info->menu->{$menu_name}->title = $menu_title;
+						$info->menu->{$menu_name}->acts = array();
+
+                        $buff .= sprintf('$info->menu->%s->title=\'%s\';', $menu_name, $menu_title);
+					}
+				}
+
                 // actions
                 if($actions) {
                     if(is_array($actions)) $action_list = $actions;
@@ -515,10 +547,12 @@
                         $type = $action->attrs->type;
                         $grant = $action->attrs->grant?$action->attrs->grant:'guest';
                         $standalone = $action->attrs->standalone=='true'?'true':'false';
+                        $ruleset = $action->attrs->ruleset?$action->attrs->ruleset:'';
 
                         $index = $action->attrs->index;
                         $admin_index = $action->attrs->admin_index;
                         $setup_index = $action->attrs->setup_index;
+                        $menu_index = $action->attrs->menu_index;
 
                         $output->action->{$name}->type = $type;
                         $output->action->{$name}->grant = $grant;
@@ -527,10 +561,25 @@
                         $info->action->{$name}->type = $type;
                         $info->action->{$name}->grant = $grant;
                         $info->action->{$name}->standalone = $standalone=='true'?true:false;
+                        $info->action->{$name}->ruleset = $ruleset;
+						if($action->attrs->menu_name)
+						{
+							if($menu_index == 'true')
+							{
+								$info->menu->{$action->attrs->menu_name}->index = $name;
+                        		$buff .= sprintf('$info->menu->%s->index=\'%s\';', $action->attrs->menu_name, $name);
+							}
+							array_push($info->menu->{$action->attrs->menu_name}->acts, $name);
+							$currentKey = array_search($name, $info->menu->{$action->attrs->menu_name}->acts);
+
+                        	$buff .= sprintf('$info->menu->%s->acts[%d]=\'%s\';', $action->attrs->menu_name, $currentKey, $name);
+							$i++;
+						}
 
                         $buff .= sprintf('$info->action->%s->type=\'%s\';', $name, $type);
                         $buff .= sprintf('$info->action->%s->grant=\'%s\';', $name, $grant);
                         $buff .= sprintf('$info->action->%s->standalone=%s;', $name, $standalone);
+                        $buff .= sprintf('$info->action->%s->ruleset=\'%s\';', $name, $ruleset);
 
                         if($index=='true') {
                             $default_index_act = $name;
@@ -811,6 +860,8 @@
                 }
             }
 
+            $thumbnail = sprintf("%s%s/%s/thumbnail.png", $path, $dir, $skin);
+            $skin_info->thumbnail = (file_exists($thumbnail))?$thumbnail:null;
             return $skin_info;
         }
 
@@ -828,14 +879,15 @@
          * @brief Return module configurations
          * Global configuration is used to manage board, member and others
          **/
-        function getModuleConfig($module) {
-            if(!$GLOBALS['__ModuleConfig__'][$module]) {
+        function getModuleConfig($module, $site_srl = 0) {
+            if(!$GLOBALS['__ModuleConfig__'][$site_srl][$module]) {
                 $args->module = $module;
+				$args->site_srl = $site_srl;
                 $output = executeQuery('module.getModuleConfig', $args);
                 $config = unserialize($output->data->config);
-                $GLOBALS['__ModuleConfig__'][$module] = $config;
+                $GLOBALS['__ModuleConfig__'][$site_srl][$module] = $config;
             }
-            return $GLOBALS['__ModuleConfig__'][$module];
+            return $GLOBALS['__ModuleConfig__'][$site_srl][$module];
         }
 
         /**
@@ -966,7 +1018,7 @@
             // Create DB Object
             $oDB = &DB::getInstance();
             // Get a list of downloaded and installed modules
-            $searched_list = FileHandler::readDir('./modules');
+            $searched_list = FileHandler::readDir('./modules', '/^([a-zA-Z0-9_-]+)$/');
             sort($searched_list);
 
             $searched_count = count($searched_list);
@@ -977,6 +1029,8 @@
                 $module_name = $searched_list[$i];
 
                 $path = ModuleHandler::getModulePath($module_name);
+				if(!is_dir(FileHandler::getRealPath($path))) continue;
+
                 // Get the number of xml files to create a table in schemas
                 $tmp_files = FileHandler::readDir($path."schemas", '/(\.xml)$/');
                 $table_count = count($tmp_files);
@@ -1280,5 +1334,22 @@
         function getModuleFileBoxPath($module_filebox_srl){
             return sprintf("./files/attach/filebox/%s",getNumberingPath($module_filebox_srl,3));
         }
+
+        /**
+         * @brief Return ruleset cache file path
+		 * @param module, act
+         **/
+        function getValidatorFilePath($module, $ruleset) {
+            // Get a path of the requested module. Return if not exists.
+            $class_path = ModuleHandler::getModulePath($module);
+            if(!$class_path) return;
+
+            // Check if module.xml exists in the path. Return if not exist
+            $xml_file = sprintf("%sruleset/%s.xml", $class_path, $ruleset);
+            if(!file_exists($xml_file)) return;
+
+			return $xml_file;
+        }
+
     }
 ?>

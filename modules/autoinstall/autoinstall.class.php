@@ -22,7 +22,7 @@
         function getXmlDoc(&$params)
         {
             $body = XmlGenerater::generate($params);
-            $buff = FileHandler::getRemoteResource($this->uri, $body, 3, "POST", "application/xml");
+            $buff = FileHandler::getRemoteResource(_XE_DOWNLOAD_SERVER_, $body, 3, "POST", "application/xml");
             if(!$buff) return;
             $xml = new XmlParser();
             $xmlDoc = $xml->parse($buff);
@@ -31,8 +31,6 @@
     }
 
     class autoinstall extends ModuleObject {
-        var $uri = "http://download.xpressengine.com/";
-        var $original_site = "http://www.xpressengine.com/";
 		var $tmp_dir = './files/cache/autoinstall/';
 
         /**

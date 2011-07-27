@@ -406,47 +406,10 @@
 
         /**
          * @brief Save posts
+		 * @Deplicated - instead Document Controller - procDocumentTempSave method use
          **/
         function procMemberSaveDocument() {
-            // Check login information
-            if(!Context::get('is_logged')) return new Object(-1, 'msg_not_logged');
-
-            $logged_info = Context::get('logged_info');
-            // Get form information
-            $obj = Context::getRequestVars();
-            // Change the target module to log-in information
-            $obj->module_srl = $logged_info->member_srl;
-			unset($obj->is_notice);
-
-            // Extract from beginning part of contents in the guestbook
-            if(!$obj->title) {
-                $obj->title = cut_str(strip_tags($obj->content), 20, '...');
-            }
-
-            $oDocumentModel = &getModel('document');
-            $oDocumentController = &getController('document');
-            // Check if already exist geulinji
-            $oDocument = $oDocumentModel->getDocument($obj->document_srl, $this->grant->manager);
-            // Update if already exists
-            if($oDocument->isExists() && $oDocument->document_srl == $obj->document_srl) {
-                $output = $oDocumentController->updateDocument($oDocument, $obj);
-                $msg_code = 'success_updated';
-            // Otherwise, get a new
-            } else {
-                $output = $oDocumentController->insertDocument($obj);
-                $msg_code = 'success_registed';
-                $obj->document_srl = $output->get('document_srl');
-                $oDocument = $oDocumentModel->getDocument($obj->document_srl, $this->grant->manager);
-            }
-            // Set the attachment to be invalid state
-            if($oDocument->hasUploadedFiles()) {
-                $args->upload_target_srl = $oDocument->document_srl;
-                $args->isvalid = 'N';
-                executeQuery('file.updateFileValid', $args);
-            }
-
-            $this->setMessage('success_saved');
-            $this->add('document_srl', $obj->document_srl);
+			return new Object(0, 'Deplicated method');
         }
 
         /**
@@ -518,9 +481,10 @@
             if ($config->agreement && Context::get('accept_agreement')!='Y') return $this->stop('msg_accept_agreement');
 
             // Extract the necessary information in advance
-            $args = Context::gets('user_id','user_name','nick_name','homepage','blog','birthday','email_address','password','allow_mailing','find_account_question','find_account_answer');
+            $args = Context::gets('user_id','user_name','nick_name','homepage','blog','birthday','email_address','password','password1','allow_mailing','find_account_question','find_account_answer');
             $args->member_srl = getNextSequence();
             $args->list_order = -1 * $args->member_srl;
+			if($args->password1) $args->password = $args->password1;
 
             // Remove some unnecessary variables from all the vars
             $all_args = Context::getRequestVars();
@@ -565,6 +529,12 @@
             // Call a trigger (after)
             $trigger_output = ModuleHandler::triggerCall('member.procMemberInsert', 'after', $config);
             if(!$trigger_output->toBool()) return $trigger_output;
+
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '');
+				header('location:'.$returnUrl);
+				return;
+			}
         }
 
         /**
@@ -610,6 +580,11 @@
             // Return result
             $this->add('member_srl', $args->member_srl);
             $this->setMessage('success_updated');
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispMemberInfo');
+				header('location:'.$returnUrl);
+				return;
+			}
         }
 
         /**
@@ -619,7 +594,7 @@
             if(!Context::get('is_logged')) return $this->stop('msg_not_logged');
             // Extract the necessary information in advance
             $current_password = trim(Context::get('current_password'));
-            $password = trim(Context::get('password'));
+            $password = trim(Context::get('password1'));
             // Get information of logged-in user
             $logged_info = Context::get('logged_info');
             $member_srl = $logged_info->member_srl;
@@ -642,6 +617,11 @@
 
             $this->add('member_srl', $args->member_srl);
             $this->setMessage('success_updated');
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispMemberInfo');
+				header('location:'.$returnUrl);
+				return;
+			}
         }
 
         /**
@@ -672,6 +652,11 @@
             $this->destroySessionInfo();
             // Return success message
             $this->setMessage('success_leaved');
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '');
+				header('location:'.$returnUrl);
+				return;
+			}
         }
 
         /**
@@ -714,7 +699,12 @@
 
             $this->insertProfileImage($member_srl, $file['tmp_name']);
             // Page refresh
-            $this->setRefreshPage();
+            //$this->setRefreshPage();
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispMemberModifyInfo');
+				header('location:'.$returnUrl);
+				return;
+			}
         }
 
         function insertProfileImage($member_srl, $target_file) {
@@ -760,7 +750,12 @@
 
             $this->insertImageName($member_srl, $file['tmp_name']);
             // Page refresh
-            $this->setRefreshPage();
+            //$this->setRefreshPage();
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispMemberModifyInfo');
+				header('location:'.$returnUrl);
+				return;
+			}
         }
 
         function insertImageName($member_srl, $target_file) {
@@ -849,7 +844,12 @@
 
             $this->insertImageMark($member_srl, $file['tmp_name']);
             // Page refresh
-            $this->setRefreshPage();
+            //$this->setRefreshPage();
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispMemberModifyInfo');
+				header('location:'.$returnUrl);
+				return;
+			}
         }
 
         function insertImageMark($member_srl, $target_file) {
@@ -1145,6 +1145,11 @@
 
             $msg = sprintf(Context::getLang('msg_confirm_mail_sent'), $args->email_address);
             $this->setMessage($msg);
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '');
+				header('location:'.$returnUrl);
+				return;
+			}
         }
 
         /**
@@ -1430,9 +1435,9 @@
             }
             */
             // Information stored in the session login user
-            $_SESSION['logged_info'] = $this->memberInfo;
             Context::set('is_logged', true);
             Context::set('logged_info', $this->memberInfo);
+
             // Only the menu configuration of the user (such as an add-on to the menu can be changed)
             $this->addMemberMenu( 'dispMemberInfo', 'cmd_view_member_info');
             $this->addMemberMenu( 'dispMemberScrappedDocument', 'cmd_view_scrapped_document');
@@ -1450,7 +1455,6 @@
             $logged_info->menu_list[$act] = Context::getLang($str);
 
             Context::set('logged_info', $logged_info);
-            $_SESSION['logged_info'] = $logged_info;
         }
 
         /**
@@ -1527,6 +1531,9 @@
                 $oDB->rollback();
                 return $output;
             }
+
+			if(is_array($args->group_srl_list)) $group_srl_list = $args->group_srl_list;
+			else $group_srl_list = explode('|@|', $args->group_srl_list);
             // If no value is entered the default group, the value of group registration
             if(!$args->group_srl_list) {
 				$columnList = array('site_srl', 'group_srl');
@@ -1539,7 +1546,6 @@
                 }
             // If the value is the value of the group entered the group registration
             } else {
-                $group_srl_list = explode('|@|', $args->group_srl_list);
                 for($i=0;$i<count($group_srl_list);$i++) {
                     $output = $this->addMemberToGroup($args->member_srl,$group_srl_list[$i]);
 
@@ -1660,9 +1666,10 @@
                 $oDB->rollback();
                 return $output;
             }
+			if(is_array($args->group_srl_list)) $group_srl_list = $args->group_srl_list;
+			else $group_srl_list = explode('|@|', $args->group_srl_list);
             // If the group information, group information changes
-            if($args->group_srl_list) {
-                $group_srl_list = explode('|@|', $args->group_srl_list);
+            if(count($group_srl_list) > 0) {
                 $args->site_srl = 0;
                 // One of its members to delete all the group
                 $output = executeQuery('member.deleteMemberGroupMember', $args);
@@ -1693,9 +1700,6 @@
             if(!$this->memberInfo) $this->memberInfo = $oMemberModel->getMemberInfoByMemberSrl($args->member_srl);
 
             $logged_info = Context::get('logged_info');
-            if($logged_info->member_srl == $member_srl) {
-                $_SESSION['logged_info'] = $this->memberInfo;
-            }
 
             $output->add('member_srl', $args->member_srl);
             return $output;

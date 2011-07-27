@@ -67,11 +67,13 @@ $lang->cmd_layout_setup = '版面設置';
 $lang->cmd_layout_edit = '版面編輯';
 $lang->cmd_search_by_ipaddress = '以 IP 搜尋';
 $lang->cmd_add_ip_to_spamfilter = '封鎖此 IP';
+$lang->cmd_go_to_page = 'Go to page';
 
 $lang->enable = '可用';
 $lang->disable = '禁用';
 
 // 基本詞語
+$lang->favorite = 'Favorite';
 $lang->menu = '選單';
 $lang->no = '編號';
 $lang->notice = '公告';
@@ -169,6 +171,8 @@ $lang->layout_manager = '版面管理';
 
 $lang->use = '使用';
 $lang->notuse = '未使用';
+$lang->on = 'On';
+$lang->off = 'Off';
 $lang->not_exists = '無';
 
 $lang->public = '公開';
@@ -243,6 +247,7 @@ $lang->success_reset = '重設成功！';
 $lang->success_leaved = '成功退出！';
 $lang->success_saved = '儲存成功！';
 
+$lang->fail_to_registed = '등록하지 못하였습니다.';
 $lang->fail_to_delete = '刪除成功！';
 $lang->fail_to_move = '移動成功！';
 

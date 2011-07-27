@@ -1,4 +1,9 @@
 /**
+ * @file   common/js/xe.min.js
+ * @author NHN (developers@xpressengine.com)
+ * @brief  XE Common JavaScript
+ **/
+/**
  * @file js_app.js
  * @author NHN (developers@xpressengine.com)
  * @brief XE JavaScript Application Framework (JAF)
@@ -850,7 +855,7 @@ function doDocumentSave(obj) {
 		else params[field.name] = field.value;
 	});
 
-	exec_xml('member','procMemberSaveDocument', params, completeDocumentSave, responses, params, obj.form);
+	exec_xml('document','procDocumentTempSave', params, completeDocumentSave, responses, params, obj.form);
 
     editorRelKeys[editor_sequence]['content'].value = prev_content;
     return false;
@@ -866,7 +871,7 @@ var objForSavedDoc = null;
 function doDocumentLoad(obj) {
     // 저장된 게시글 목록 불러오기
     objForSavedDoc = obj.form;
-    popopen(request_uri.setQuery('module','member').setQuery('act','dispSavedDocumentList'));
+    popopen(request_uri.setQuery('module','document').setQuery('act','dispTempSavedList'));
 }
 
 /* 저장된 게시글의 선택 */
@@ -1181,12 +1186,21 @@ function setCookie(name, value, expire, path) {
 	document.cookie = s_cookie;
 }
 
+function getCookie(name) {
+	var match = document.cookie.match(new RegExp(name+'=(.*?)(?:;|$)'));
+	if(match) return unescape(match[1]);
+}
+
 function is_def(v) {
 	return (typeof(v)!='undefined');
 }
 
 function ucfirst(str) {
 	return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+function get_by_id(id) {
+	return document.getElementById(id);
 }
 
 jQuery(function($){
@@ -1214,7 +1228,8 @@ jQuery(function($){
 		if(!$target.length) return;
 
         // 객체의 className값을 구함
-		var match = $target.attr('class').match(new RegExp('(?:^| )((document|comment|member)_([1-9]\\d*))(?: |$)',''));
+		var cls = $target.attr('class'), match;
+		if(cls) match = cls.match(new RegExp('(?:^| )((document|comment|member)_([1-9]\\d*))(?: |$)',''));
 		if(!match) return;
 
 		var action = 'get'+ucfirst(match[2])+'Menu';
@@ -1238,6 +1253,22 @@ jQuery(function($){
 
 		return false;
     });
+
+	/**
+	 * Create popup windows automatically.
+	 * Find anchors that have the '_xe_popup' class, then add popup script to them.
+	 */
+	$('a._xe_popup').click(function(){
+		var $this = $(this), name = $this.attr('name'), href = $this.attr('href'), win;
+
+		if(!name) name = '_xe_popup_'+Math.floor(Math.random()*1000);
+
+		win = window.open(href, name, 'left=10,top=10,width=10,height=10,resizable=no,scrollbars=no,toolbars=no');
+		if(win) win.focus();
+
+		// cancel default action
+		return false;
+	});
 });
 /**
  * @file   common/js/xml_handler.js
@@ -1735,48 +1766,60 @@ var Validator = xe.createApp('Validator', {
 			});
 	},
 	API_VALIDATE : function(sender, params) {
-		var self = this, result = true, form = params[0], filter=null, callback=null;
+		var result = true, form = params[0], filter=null, callback=null;
+		var name, el, val, mod, len, lenb, max, min, maxb, minb, rules, e_el, e_val, i, c, r, result;
 
 		if (form.elements['_filter']) filter = form.elements['_filter'].value;
 		if (!filter) return true;
 		if ($.isFunction(callbacks[filter])) callback = callbacks[filter];
 		filter = $.extend({}, filters[filter.toLowerCase()] || {}, extras);
 
-		$.each(filter, function(name) {
-			var _el = form.elements[name];
+		for(name in filter) {
+			if(!filter.hasOwnProperty(name)) continue;
 
-			if (!_el) return true;
+			f   = filter[name];
+			el  = form.elements[name];
+			val = el?$.trim(get_value($(el))):'';
+			mod = (f.modifier||'')+',';
 
-			var el = $(_el), val = $.trim(get_value(el));
-			var minlen = parseInt(this.minlength) || 0;
-			var maxlen = parseInt(this.maxlength) || 0;
-			var rule   = (this.rule || '').split(',');
+			if(!el) continue;
 
-			if (this.required && !val) return (result = (!!self.cast('ALERT', [form, name, 'isnull']) && false));
-			if (!this.required && !val) return (result = true);
-			if ((minlen && val.length < minlen) || (maxlen && val.length > maxlen)) return (result = (!!self.cast('ALERT', [form, name, 'outofrange', minlen, maxlen]) && false));
+			if(!val) {
+				if(f['default']) val = f['default'];
+				if(f.required) return this.cast('ALERT', [form, name, 'isnull']) && false;
+				else continue;
+			}
+
+			min  = parseInt(f.minlength) || 0;
+			max  = parseInt(f.maxlength) || 0;
+			minb = /b$/.test(f.minlength||'');
+			maxb = /b$/.test(f.maxlength||'');
+			len  = val.length;
+			if(minb || maxb) lenb = get_bytes(val);
+			if((min && min > (minb?lenb:len)) || (max && max < (maxb?lenb:len))) {
+				return this.cast('ALERT', [form, name, 'outofrange', min, max]) && false;
+			}
 			
-			if (this.equalto) {
-				var eq_val = get_value($(form.elements[this.equalto]));
-				if (eq_val != val) return (result = (!!self.cast('ALERT', [form, name, 'equalto']) && false));
+			if(f.equalto) {
+				e_el  = form.elements[f.equalto];
+				e_val = e_el?$.trim(get_value($(e_el))):'';
+				if(e_el && e_val !== val) {
+					return this.cast('ALERT', [form, name, 'equalto']) && false;
+				}
 			}
+			
+			rules = (f.rule || '').split(',');
+			for(i=0,c=rules.length; i < c; i++) {
+				if(!(r = rules[i])) continue;
 
-			if (rule) {
-				$.each(rule, function(i,r) {
-					if (!r) return true;
-
-					var ret = self.cast('APPLY_RULE', [r, val]);
-					if (!ret) {
-						self.cast('ALERT', [form, name, 'invalid_'+this]);
-						return (result = false);
-					}
-				});
+				result = this.cast('APPLY_RULE', [r, val]);
+				if(mod.indexOf('not,') > -1) result = !result;
+				if(!result) {
+					return this.cast('ALERT', [form, name, 'invalid_'+r]) && false;
+				}
 			}
+		}
 
-			if (!result) return false;
-		});
-
-		if (!result) return false;
 		if ($.isFunction(callback)) return callback(form);
 
 		return true;
@@ -1835,9 +1878,10 @@ var Validator = xe.createApp('Validator', {
 		var name  = params[0];
 		var value = params[1];
 
-		if (typeof(rules[name]) == 'undefined') return true; // no filter
-		if ($.isFunction(rules[name])) return rules[name](value);
-		if (rules[name] instanceof RegExp) return rules[name].test(value);
+		if(typeof(rules[name]) == 'undefined') return true; // no filter
+		if($.isFunction(rules[name])) return rules[name](value);
+		if(rules[name] instanceof RegExp) return rules[name].test(value);
+		if($.isArray(rules[name])) return ($.inArray(value, rules[name]) > -1);
 
 		return true;
 	},
@@ -1922,6 +1966,16 @@ function get_value(elem) {
 	} else {
 		return elem.val();
 	}
+}
+
+function get_bytes(str) {
+	str += '';
+	if(!str.length) return 0;
+
+	str = encodeURI(str);
+	var c = str.split('%').length - 1;
+
+	return str.length - c*2;
 }
 
 })(jQuery);

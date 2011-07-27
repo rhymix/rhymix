@@ -44,6 +44,7 @@
             if(__DEBUG__==3) $start = getMicroTime();
 
             $this->lang = Context::getLangType();
+
             $this->input = $input?$input:$GLOBALS['HTTP_RAW_POST_DATA'];
 			$this->input = str_replace(array('',''),array('',''),$this->input);
 
@@ -62,7 +63,7 @@
                 }
             // uncheck the language if no specific language is set.
             } else {
-                unset($this->lang);
+				$this->lang = '';
             }
 
             $this->oParser = xml_parser_create('UTF-8');
@@ -119,8 +120,8 @@
             $node_name = strtolower($node_name);
             $cur_obj = array_pop($this->output);
             $parent_obj = &$this->output[count($this->output)-1];
-            if(isset($this->lang)&&$cur_obj->attrs->{'xml:lang'}&&$cur_obj->attrs->{'xml:lang'}!=$this->lang) return;
-            if(isset($this->lang)&&$parent_obj->{$node_name}->attrs->{'xml:lang'}&&$parent_obj->{$node_name}->attrs->{'xml:lang'}!=$this->lang) return;
+            if($this->lang&&$cur_obj->attrs->{'xml:lang'}&&$cur_obj->attrs->{'xml:lang'}!=$this->lang) return;
+            if($this->lang&&$parent_obj->{$node_name}->attrs->{'xml:lang'}&&$parent_obj->{$node_name}->attrs->{'xml:lang'}!=$this->lang) return;
 
             if(isset($parent_obj->{$node_name})) {
                 $tmp_obj = $parent_obj->{$node_name};

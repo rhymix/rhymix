@@ -24,6 +24,15 @@ $lang->module_category_title = array(
 	'system' => '系统管理',
 );
 
+$lang->menu_gnb = array(
+	'dashboard' => 'Dashboard',
+	'site' => 'Site',
+	'user' => 'User',
+	'content' => 'Content',
+	'theme' => 'Theme',
+	'extensions' => 'Extensions',
+	'configuration' => 'Configuration',
+);
 $lang->newest_news = "最新消息";
 
 $lang->env_setup = "系统设置";
@@ -78,7 +87,7 @@ $lang->server_ports = "指定服务器端口";
 $lang->about_server_ports = "使用除HTTP（80）, HTTPS（443）以外的端口时，必须得指定该服务器端口号。";
 $lang->use_db_session = 'DB储存认证会话';
 $lang->about_db_session = '用DB储存认证时的PHP会话。<br/>服务器使用率较少的网站建议不要勾选此项(可提高网站访问速度)。<br/>只是无法统计在线会员。';
-$lang->sftp = '使用sSFTP'; 
+$lang->sftp = '使用sSFTP';
 $lang->ftp_get_list = '载入列表';
 $lang->ftp_remove_info = '删除FTP信息';
 $lang->msg_ftp_invalid_path = '无法读取FTP路径。';

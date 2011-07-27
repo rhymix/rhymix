@@ -22,27 +22,41 @@
             if(!$output->toBool()) return $output;
 
             $this->setMessage("success_registed");
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispModuleAdminCategory');
+				header('location:'.$returnUrl);
+				return;
+			}
         }
 
         /**
          * @brief Update category
          **/
         function procModuleAdminUpdateCategory() {
-            $mode = Context::get('mode');
-
-            switch($mode) {
-                case 'delete' :
-                        $output = $this->doDeleteModuleCategory();
-                        $msg_code = 'success_deleted';
-                    break;
-                case 'update' :
-                        $output = $this->doUpdateModuleCategory();
-                        $msg_code = 'success_updated';
-                    break;
-            }
+			$output = $this->doUpdateModuleCategory();
             if(!$output->toBool()) return $output;
 
-            $this->setMessage($msg_code);
+            $this->setMessage('success_updated');
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispModuleAdminCategory');
+				header('location:'.$returnUrl);
+				return;
+			}
+        }
+
+        /**
+         * @brief Delete category
+         **/
+        function procModuleAdminDeleteCategory() {
+			$output = $this->doDeleteModuleCategory();
+            if(!$output->toBool()) return $output;
+
+            $this->setMessage('success_deleted');
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispModuleAdminCategory');
+				header('location:'.$returnUrl);
+				return;
+			}
         }
 
         /**
@@ -117,6 +131,13 @@
 
             $oDB->commit();
             $this->setMessage('success_registed');
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				global $lang;
+				alertScript($lang->success_registed);
+				reload(true);
+				closePopupScript();
+				exit;
+			}
         }
 
         /**
@@ -303,10 +324,16 @@
                 $module_info->description = $vars->description;
                 $module_info->header_text = $vars->header_text;
                 $module_info->footer_text = $vars->footer_text;
-                $oModuleController->updateModule($module_info);
+                $output = $oModuleController->updateModule($module_info);
             }
 
             $this->setMessage('success_registed');
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				global $lang;
+				alertScript($lang->success_registed);
+				closePopupScript();
+				exit;
+			}
         }
 
         /**
@@ -371,6 +398,12 @@
                 }
             }
             $this->setMessage('success_registed');
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				global $lang;
+				alertScript($lang->success_registed);
+				closePopupScript();
+				exit;
+			}
         }
 
         /**
@@ -419,6 +452,50 @@
             if(!$output->toBool()) return $output;
             $this->makeCacheDefinedLangCode($args->site_srl);
         }
+
+		function procModuleAdminGetList()
+		{
+            if(!Context::get('is_logged')) return new Object(-1, 'msg_not_permitted');
+
+            $oModuleModel = &getModel('module');
+            // Variable setting for site keyword
+            $site_keyword = Context::get('site_keyword');
+            // If there is no site keyword, use as information of the current virtual site
+            $args = null;
+            $logged_info = Context::get('logged_info');
+			$site_module_info = Context::get('site_module_info');
+			$args->site_keyword = $site_keyword;
+
+            if($logged_info->is_admin == 'Y' && !$site_keyword) $args->site_srl = 0;
+            else $args->site_srl = (int)$site_module_info->site_srl;
+
+			$args->sort_index1 = 'sites.domain';
+
+            // Get a list of modules at the site
+            $output = executeQueryArray('module.getSiteModules', $args);
+            $category_list = $mid_list = array();
+            if(count($output->data)) {
+                foreach($output->data as $key => $val) {
+                    /*$module = trim($val->module);
+                    if(!$module) continue;
+
+                    $category = $val->category;
+                    $obj = null;
+                    $obj->module_srl = $val->module_srl;
+                    $obj->browser_title = $val->browser_title;
+                    $mid_list[$module]->list[$category][$val->mid] = $obj;*/
+                }
+            }
+
+            /*$selected_module = Context::get('selected_module');
+            if(count($mid_list)) {
+                foreach($mid_list as $module => $val) {
+                    if(!$selected_module) $selected_module = $module;
+                    $xml_info = $oModuleModel->getModuleInfoXml($module);
+                    $mid_list[$module]->title = $xml_info->title;
+                }
+            }*/
+		}
 
         /**
          * @brief Save the file of user-defined language code

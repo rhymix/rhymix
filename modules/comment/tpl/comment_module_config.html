@@ -1,6 +1,6 @@
-<!--%import("filter/insert_comment_module_config.xml")-->
-
-<form action="./" method="post" onsubmit="return procFilter(this, insert_comment_module_config)">
+<form ruleset="insertCommentModuleConfig" action="./" method="post">
+<input type="hidden" name="act" value="procCommentInsertModuleConfig" />
+<input type="hidden" name="success_return_url" value="{getUrl('', 'module', $module, 'act', $act, 'module_srl', $module_srl)}" />
 <input type="hidden" name="target_module_srl" value="{$module_info->module_srl?$module_info->module_srl:$module_srls}" />
 
     <h4 class="xeAdmin">{$lang->comment}</h4>

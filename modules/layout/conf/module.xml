@@ -18,16 +18,31 @@
 		<action name="dispLayoutAdminDownloadedMobileList" type="view" standalone="true" />
 
 
-        <action name="procLayoutAdminInsert" type="controller" standalone="true" />
-        <action name="procLayoutAdminUpdate" type="controller" standalone="true" />
+        <action name="procLayoutAdminInsert" type="controller" standalone="true" ruleset="insertLayout" />
+        <action name="procLayoutAdminUpdate" type="controller" standalone="true" ruleset="updateLayout" />
         <action name="procLayoutAdminDelete" type="controller" standalone="true" />
-        <action name="procLayoutAdminCodeUpdate" type="controller" standalone="true" />
+        <action name="procLayoutAdminCodeUpdate" type="controller" standalone="true" ruleset="codeUpdate" />
         <action name="procLayoutAdminCodeReset" type="controller" standalone="true" />
-        <action name="procLayoutAdminUserImageUpload" type="controller" standalone="true" />
+        <action name="procLayoutAdminUserImageUpload" type="controller" standalone="true" ruleset="imageUpload" />
         <action name="procLayoutAdminUserImageDelete" type="controller" standalone="true" />
         <action name="procLayoutAdminUserValueInsert" type="controller" standalone="true" />
         <action name="procLayoutAdminUserLayoutExport" type="controller" standalone="true" />
-        <action name="procLayoutAdminUserLayoutImport" type="controller" standalone="true" />
+        <action name="procLayoutAdminUserLayoutImport" type="controller" standalone="true" ruleset="userLayoutImport" />
 
     </actions>
+	<menus>
+		<menu name="installedLayout">
+			<title xml:lang="en">Installed Layout</title>
+			<title xml:lang="ko">레이아웃</title>
+			<title xml:lang="zh-CN">Installed Layout</title>
+			<title xml:lang="jp">Installed Layout</title>
+			<title xml:lang="es">Installed Layout</title>
+			<title xml:lang="ru">Installed Layout</title>
+			<title xml:lang="fr">Installed Layout</title>
+			<title xml:lang="zh-TW">Installed Layout</title>
+			<title xml:lang="vi">Installed Layout</title>
+			<title xml:lang="mn">Installed Layout</title>
+			<title xml:lang="tr">Installed Layout</title>
+		</menu>
+	</menus>
 </module>

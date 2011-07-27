@@ -9,6 +9,7 @@
         <condition operation="equal" column="documents.member_srl" var="member.member_srl" notnull="notnull" pipe="and" />
         <condition operation="equal" column="documents.module_srl" var="module_srl" filter="number" pipe="and" />
         <condition operation="equal" column="documents.category_srl" var="category_srl" pipe="and" />
+        <condition operation="in" column="status" var="statusList" pipe="and" />
         <group pipe="and">
             <condition operation="like" column="documents.title" var="s_title" />
             <condition operation="like" column="documents.content" var="s_content" pipe="or" />
@@ -18,7 +19,6 @@
             <condition operation="like" column="documents.homepage" var="s_homepage" pipe="or" />
             <condition operation="like" column="documents.tags" var="s_tags" pipe="or" />
             <condition operation="equal" column="documents.is_notice" var="s_is_notice" pipe="or" />
-            <condition operation="equal" column="documents.is_secret" var="s_is_secret" pipe="or" />
             <condition operation="equal" column="documents.member_srl" var="s_member_srl" pipe="or" />
             <condition operation="more" column="documents.readed_count" var="s_readed_count" pipe="or" />
             <condition operation="more" column="documents.voted_count" var="s_voted_count" pipe="or" />

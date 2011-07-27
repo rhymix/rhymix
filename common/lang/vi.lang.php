@@ -66,11 +66,13 @@ $lang->cmd_layout_setup = 'Cài đặt giao diện';
 $lang->cmd_layout_edit = 'Sửa giao diện';
 $lang->cmd_search_by_ipaddress = 'Tìm kiếm IP';
 $lang->cmd_add_ip_to_spamfilter = 'Thêm IP vào bộ lọc';
+$lang->cmd_go_to_page = 'Go to page';
 
 $lang->enable = 'Bật';
 $lang->disable = 'Tắt';
 
 // Essential Words
+$lang->favorite = 'Favorite';
 $lang->menu = 'Menu';
 $lang->no = 'STT';
 $lang->notice = 'Chú ý';
@@ -165,6 +167,8 @@ $lang->layout_manager = 'Quản lý giao diện';
 
 $lang->use = 'Sử dụng';
 $lang->notuse = 'Không sử dụng';
+$lang->on = 'On';
+$lang->off = 'Off';
 $lang->not_exists = "Không tồn tại";
 
 $lang->public = 'Công khai';
@@ -235,6 +239,7 @@ $lang->success_reset = 'Đã thiết lập lại thành công.';
 $lang->success_leaved = 'Đã xóa tất cả các thành viên.';
 $lang->success_saved = 'Đã lưu thành công.';
 
+$lang->fail_to_registed = '등록하지 못하였습니다.';
 $lang->fail_to_delete = 'Không thể xóa.';
 $lang->fail_to_move = 'Không thể chuyển.';
 

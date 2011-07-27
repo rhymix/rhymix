@@ -120,7 +120,6 @@
             if($_SESSION['is_logged']&&$_SESSION['ipaddress']==$_SERVER['REMOTE_ADDR']) return true;
 
             $_SESSION['is_logged'] = false;
-            $_SESSION['logged_info'] = '';
             return false;
         }
 
@@ -130,7 +129,7 @@
         function getLoggedInfo() {
             // Return session info if session info is requested and the user is logged-in
             if($this->isLogged()) {
-                $logged_info = $_SESSION['logged_info'];
+                $logged_info = Context::get('logged_info');
                 // Admin/Group list defined depending on site_module_info
                 $site_module_info = Context::get('site_module_info');
                 if($site_module_info->site_srl) {
@@ -151,8 +150,7 @@
 
                     $logged_info->is_site_admin = false;
                 }
-
-                $_SESSION['logged_info'] = $logged_info;
+				Context::set('logged_info', $logged_info);
 
                 return $logged_info;
             }
@@ -216,7 +214,7 @@
                 unset($info->extra_vars);
                 if($extra_vars) {
                     foreach($extra_vars as $key => $val) {
-                        if(preg_match('/\|\@\|/i', $val)) $val = explode('|@|', $val);
+                        if(!is_array($val)) if(preg_match('/\|\@\|/i', $val)) $val = explode('|@|', $val);
                         if(!$info->{$key}) $info->{$key} = $val;
                     }
                 }
@@ -267,7 +265,7 @@
          **/
         function getLoggedUserID() {
             if(!$this->isLogged()) return;
-            $logged_info = $_SESSION['logged_info'];
+            $logged_info = Context::get('logged_info');
             return $logged_info->user_id;
         }
 
@@ -341,6 +339,8 @@
         function getGroups($site_srl = 0) {
             if(!$GLOBALS['__group_info__'][$site_srl]) {
                 $args->site_srl = $site_srl;
+				$args->sort_index = 'list_order';
+				$args->order_type = 'asc';
                 $output = executeQuery('member.getGroups', $args);
                 if(!$output->data) return;
 
@@ -580,27 +580,35 @@
          * @brief Get the image mark of the group
          **/
         function getGroupImageMark($member_srl,$site_srl=0) {
-            $oModuleModel = &getModel('module');
-            $config = $oModuleModel->getModuleConfig('member');
-            if($config->group_image_mark!='Y'){
-                return null;
-            }
-            $member_group = $this->getMemberGroups($member_srl,$site_srl);
+            if(!isset($GLOBALS['__member_info__']['group_image_mark'][$member_srl])) {
+				$oModuleModel = &getModel('module');
+				$config = $oModuleModel->getModuleConfig('member');
+				if($config->group_image_mark!='Y'){
+					return null;
+				}
+				$member_group = $this->getMemberGroups($member_srl,$site_srl);
+				$groups_info = $this->getGroups($site_srl);
+				$image_mark_info = null;
+				if(count($member_group) > 0 && is_array($member_group)){
+					$group_srl = array_keys($member_group);
+				}
 
-            $groups_info = $this->getGroups($site_srl);
-            $image_mark = null;
-            if(count($member_group) > 0 && is_array($member_group)){
-                $group_srl = array_keys($member_group);
-                $image_mark = $groups_info[$group_srl[0]]->image_mark;
-            }
-            if($image_mark){
-//                list($width, $height, $type, $attrs) = getimagesize($image_mark);
-//                $info->width = $width;
-//                $info->height = $height;
-                $info->src = $image_mark;
-                return $info;
+				$i = 0;
+				while($i < count($group_srl)){
+					$target = $groups_info[$group_srl[$i++]];
+					if ($target->image_mark)
+					{
+						$info->title = $target->title;
+						$info->description = $target->description;
+						$info->src = $target->image_mark;
+						$GLOBALS['__member_info__']['group_image_mark'][$member_srl] = $info;
+					}
+				}
+				if (!$info) $GLOBALS['__member_info__']['group_image_mark'][$member_srl] == 'N';
+			}
+			if ($GLOBALS['__member_info__']['group_image_mark'][$member_srl] == 'N') return null;
 
-            }else return false;
+			return $GLOBALS['__member_info__']['group_image_mark'][$member_srl];
         }
 
         /**
@@ -687,5 +695,22 @@
             return $output->data->member_srl;
         }
 
+		function getAdminGroupSrl($site_srl = 0)
+		{
+			$groupSrl = 0;
+			$output = $this->getGroups($site_srl);
+			if(is_array($output))
+			{
+				foreach($output AS $key=>$value)
+				{
+					if($value->is_admin == 'Y')
+					{
+						$groupSrl = $value->group_srl;
+						break;
+					}
+				}
+			}
+			return $groupSrl;
+		}
     }
 ?>

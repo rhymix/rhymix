@@ -69,6 +69,11 @@
             $oModuleController->insertModuleConfig('point', $config);
 
             $this->setMessage('success_updated');
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispPointAdminConfig');
+				header('location:'.$returnUrl);
+				return;
+			}
         }
 
         /**
@@ -93,6 +98,11 @@
             }
 
             $this->setMessage('success_updated');
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispPointAdminModuleConfig');
+				header('location:'.$returnUrl);
+				return;
+			}
         }
 
         /**
@@ -128,12 +138,36 @@
          * @brief Change members points
          **/
         function procPointAdminUpdatePoint() {
-            $action = Context::get('action');
             $member_srl = Context::get('member_srl');
             $point = Context::get('point');
 
+			preg_match('/^(\+|-)?([1-9][0-9]*)$/', $point, $m);
+
+			$action = '';
+			switch($m[1])
+			{
+				case '+':
+					$action = 'add';
+					break;
+
+				case '-':
+					$action = 'minus';
+					break;
+
+				default:
+					$action = 'update';
+					break;
+			}
+			$point = $m[2];
+
             $oPointController = &getController('point');
-            return $oPointController->setPoint($member_srl, (int)$point, $action);
+            $output = $oPointController->setPoint($member_srl, (int)$point, $action);
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispPointAdminPointList');
+				header('location:'.$returnUrl);
+				return;
+			}
+			return $output;
         }
 
         /**

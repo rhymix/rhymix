@@ -24,6 +24,15 @@ $lang->module_category_title = array(
 	'system' => '系統管理',
 );
 
+$lang->menu_gnb = array(
+	'dashboard' => 'Dashboard',
+	'site' => 'Site',
+	'user' => 'User',
+	'content' => 'Content',
+	'theme' => 'Theme',
+	'extensions' => 'Extensions',
+	'configuration' => 'Configuration',
+);
 $lang->newest_news = "最新消息";
 
 $lang->env_setup = "系統設置";

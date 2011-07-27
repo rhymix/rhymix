@@ -1,0 +1,25 @@
+<!--%import("js/page_admin.js")-->
+<form action="./" method="post" onsubmit="return procFilter(this, insert_article)" id="fo_write" class="boardWrite">
+	<input type="hidden" name="mid" value="{$mid}" />
+	<input type="hidden" name="content" value="{$oDocument->getContentText()}" />
+	<input type="hidden" name="document_srl" value="{$document_srl}" />
+	<div class="articleHeader">
+		<input type="text" name="title" class="inputText" value="{htmlspecialchars($oDocument->getTitleText())}" title="{$lang->title}" />
+	</div>
+
+    <div class="editor">{$oDocument->getEditor()}</div>
+
+    <div class="tag">
+        <input type="text" name="tags" value="{htmlspecialchars($oDocument->get('tags'))}" class="inputText" title="Tag" />
+		<p>{$lang->about_tag}</p>
+    </div>
+	<div class="boardNavigation">
+        <!--@if($is_logged)-->
+		<!--@if(!$oDocument->isExists() || $oDocument->get('status') == 'TEMP')-->
+        <span class="button"><button type="button" onclick="doDocumentSave(this); return false;">{$lang->cmd_temp_save}</button></span>
+        <span class="button"><button type="button" onclick="doDocumentLoad(this); return false;">{$lang->cmd_load}</button></span>
+		<!--@end-->
+        <!--@end-->
+		<span class="button red strong"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+	</div>
+</form>

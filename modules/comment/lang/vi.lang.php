@@ -29,6 +29,7 @@
         'regdate' => 'Ngày',
         'last_update' => 'Cập nhật lần cuối',
         'ipaddress' => 'IP',
+        'is_secret' => 'Status',
     );
 
 	$lang->no_text_comment = 'No text in this comment.';

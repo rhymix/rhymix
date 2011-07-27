@@ -5,7 +5,7 @@
      * @brief set the include of the class file and other environment configurations
      **/
 
-    @error_reporting((E_ALL ^ E_NOTICE) ^ E_DEPRECATED);
+    @error_reporting(E_ALL ^ E_NOTICE);
 
     if(!defined('__ZBXE__')) exit();
 
@@ -24,6 +24,16 @@
 	 * @brief 쿠키 이외의 값에서도 세션을 인식할 수 있도록 함(파일업로드 등에서의 문제 수정)
 	 **/
 	ini_set('session.use_only_cookies', 0);
+
+
+    if(file_exists(_XE_PATH_.'config/package.inc.php')) {
+        require _XE_PATH_.'config/package.inc.php';
+    } else {
+		define('_XE_PACKAGE_','XE');
+		define('_XE_LOCATION_','en');
+		define('_XE_LOCATION_SITE_','http://www.xpressengine.org/');
+		define('_XE_DOWNLOAD_SERVER_','http://en.download.xpressengine.com/');
+	}
 
     /**
      * @brief user configuration files which override the default settings 
@@ -51,7 +61,7 @@
      * 2: output execute time, Request/Response info
      * 4: output DB query history
      **/
-    if(!defined('__DEBUG__')) define('__DEBUG__', 4);
+    if(!defined('__DEBUG__')) define('__DEBUG__', 0);
 
     /**
      * @brief output location of debug message
@@ -74,7 +84,7 @@
      * 0: No output
      * 1: files/_debug_db_query.php connected to the output
      **/
-    if(!defined('__DEBUG_DB_OUTPUT__')) define('__DEBUG_DB_OUTPUT__', 1);
+    if(!defined('__DEBUG_DB_OUTPUT__')) define('__DEBUG_DB_OUTPUT__', 0);
 
     /**
      * @brief Query log for only timeout query among DB queries
@@ -82,14 +92,14 @@
      * = 0: leave a log when the slow query takes over specified seconds
      * Log file is saved as ./files/_db_slow_query.php file
      **/
-    if(!defined('__LOG_SLOW_QUERY__')) define('__LOG_SLOW_QUERY__', 1);
+    if(!defined('__LOG_SLOW_QUERY__')) define('__LOG_SLOW_QUERY__', 0);
 
     /**
      * @brief Leave DB query information
      * 0: Do not add information to the query
      * 1: Comment the XML Query ID 
      **/
-    if(!defined('__DEBUG_QUERY__')) define('__DEBUG_QUERY__', 1);
+    if(!defined('__DEBUG_QUERY__')) define('__DEBUG_QUERY__', 0);
 
     /**
      * @brief option to enable/disable a compression feature using ob_gzhandler
@@ -97,7 +107,7 @@
      * 1: Enabled
      * Only particular servers may have a problem in IE browser when sending a compression
      **/
-    if(!defined('__OB_GZHANDLER_ENABLE__')) define('__OB_GZHANDLER_ENABLE__', 0);
+    if(!defined('__OB_GZHANDLER_ENABLE__')) define('__OB_GZHANDLER_ENABLE__', 1);
 
     /**
      * @brief decide to use/not use the php unit test (Path/tests/index.php)

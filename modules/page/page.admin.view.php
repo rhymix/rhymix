@@ -56,7 +56,10 @@
 			if($s_browser_title) $args->s_browser_title = $s_browser_title;
 
             $output = executeQuery('page.getPageList', $args);
-            moduleModel::syncModuleToSite($output->data);
+			$oModuleModel = &getModel('module');
+			$page_list = $oModuleModel->addModuleExtraVars($output->data);
+            moduleModel::syncModuleToSite($page_list);
+
             // To write to a template context:: set
             Context::set('total_count', $output->total_count);
             Context::set('total_page', $output->total_page);
@@ -92,6 +95,16 @@
 			$mobile_layout_list = $oLayoutModel->getLayoutList(0,"M");
 			Context::set('mlayout_list', $mobile_layout_list);
             // Set a template file
+
+			if ($this->module_info->page_type == 'ARTICLE'){
+				$oModuleModel = &getModel('module');
+				$skin_list = $oModuleModel->getSkins($this->module_path);
+				Context::set('skin_list',$skin_list);
+
+				$mskin_list = $oModuleModel->getSkins($this->module_path, "m.skins");
+				Context::set('mskin_list', $mskin_list);
+			}
+
             $this->setTemplateFile('page_info');
         }
 
@@ -134,6 +147,13 @@
 
 			$mobile_layout_list = $oLayoutModel->getLayoutList(0,"M");
 			Context::set('mlayout_list', $mobile_layout_list);
+
+            $oModuleModel = &getModel('module');
+            $skin_list = $oModuleModel->getSkins($this->module_path);
+            Context::set('skin_list',$skin_list);
+
+			$mskin_list = $oModuleModel->getSkins($this->module_path, "m.skins");
+			Context::set('mskin_list', $mskin_list);
             // Set a template file
             $this->setTemplateFile('page_insert');
         }
@@ -189,6 +209,12 @@
         function dispPageAdminContentModify() {
             // Set the module information
             Context::set('module_info', $this->module_info);
+
+			if ($this->module_info->page_type == 'WIDGET') $this->_setWidgetTypeContentModify();
+			else if ($this->module_info->page_type == 'ARTICLE') $this->_setArticleTypeContentModify();
+        }
+
+		function _setWidgetTypeContentModify() {
             // Setting contents
             $content = Context::get('content');
             if(!$content) $content = $this->module_info->content;
@@ -203,8 +229,23 @@
             Context::set('widget_list', $widget_list);
             // Set a template file
             $this->setTemplateFile('page_content_modify');
-        }
-        
+		}
+
+		function _setArticleTypeContentModify() {
+			$oDocumentModel = &getModel('document');
+			$oDocument = $oDocumentModel->getDocument(0, true);
+			
+			if ($this->module_info->document_srl){
+				$document_srl = $this->module_info->document_srl;
+				$oDocument->setDocument($document_srl);
+				Context::set('document_srl', $document_srl);
+			}
+            Context::addJsFilter($this->module_path.'tpl/filter', 'insert_article.xml');
+			Context::set('oDocument', $oDocument);
+			Context::set('mid', $this->module_info->mid);
+            $this->setTemplateFile('article_content_modify');
+		}
+
         /**
          * @brief Delete page output
          **/

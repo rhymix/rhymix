@@ -33,12 +33,20 @@
             $this->initLayout($args->layout_srl, $args->layout);
             // Return result
             $this->add('layout_srl', $args->layout_srl);
+
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispLayoutAdminContent');
+				header('location:'.$returnUrl);
+				return;
+			}
         }
+
         // Insert layout information into the DB
         function insertLayout($args) {
             $output = executeQuery("layout.insertLayout", $args);
             return $output;
         }
+
         // Initiate if it is faceoff layout
         function initLayout($layout_srl, $layout_name){
             $oLayoutModel = &getModel('layout');
@@ -162,10 +170,15 @@
             $output = $this->updateLayout($args);
             if(!$output->toBool()) return $output;
 
-            $this->setLayoutPath('./common/tpl');
-            $this->setLayoutFile('default_layout.html');
-            $this->setTemplatePath($this->module_path.'tpl');
-            $this->setTemplateFile("top_refresh.html");
+            //$this->setLayoutPath('./common/tpl');
+            //$this->setLayoutFile('default_layout.html');
+            //$this->setTemplatePath($this->module_path.'tpl');
+            //$this->setTemplateFile("top_refresh.html");
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispLayoutAdminModify', 'layout_srl', Context::get('layout_srl'));
+				header('location:'.$returnUrl);
+				return;
+			}
         }
 
         function updateLayout($args) {
@@ -221,12 +234,12 @@
             $layout_css_file = $oLayoutModel->getUserLayoutCss($layout_srl);
             FileHandler::writeFile($layout_css_file, $code_css);
 
-			if($is_post) {
-				if(!$return_url) $return_url = getUrl('module','admin','act','dispLayoutAdminEdit', 'layout_srl', $layout_srl);
-				header('Location: '.$return_url);
-			} else {
-				$this->setMessage('success_updated');
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispLayoutAdminEdit', 'layout_srl', $layout_srl);
+				header('location:'.$returnUrl);
+				return;
 			}
+			$this->setMessage('success_updated');
         }
 
         /**
@@ -266,13 +279,15 @@
             $layout_srl = Context::get('layout_srl');
             if(!is_uploaded_file($image['tmp_name'])) exit();
 
-            if(!preg_match('/\.(gif|jpg|jpeg|gif|png|swf|flv)$/i', $image['name'])){
-                return false;
-            }
-
             $this->insertUserLayoutImage($layout_srl, $image);
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile("top_refresh.html");
+
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispLayoutAdminEdit', 'layout_srl', Context::get('layout_srl'));
+				header('location:'.$returnUrl);
+				return;
+			}
         }
 
         /**
@@ -389,21 +404,21 @@
          **/
         function addExtension($layout_srl,$arg,$content){
             $oLayoutModel = &getModel('layout');
-             $reg = '(<\!\-\- start\-e1 \-\->)(.*)(<\!\-\- end\-e1 \-\->)';
+             $reg = '/(<\!\-\- start\-e1 \-\->)(.*)(<\!\-\- end\-e1 \-\->)/i';
              $extension_content =  '\1' .stripslashes($arg->e1) . '\3';
-             $content = eregi_replace($reg,$extension_content,$content);
+             $content = preg_replace($reg,$extension_content,$content);
 
-             $reg = '(<\!\-\- start\-e2 \-\->)(.*)(<\!\-\- end\-e2 \-\->)';
+             $reg = '/(<\!\-\- start\-e2 \-\->)(.*)(<\!\-\- end\-e2 \-\->)/i';
              $extension_content =  '\1' .stripslashes($arg->e2) . '\3';
-             $content = eregi_replace($reg,$extension_content,$content);
+             $content = preg_replace($reg,$extension_content,$content);
 
-             $reg = '(<\!\-\- start\-neck \-\->)(.*)(<\!\-\- end\-neck \-\->)';
+             $reg = '/(<\!\-\- start\-neck \-\->)(.*)(<\!\-\- end\-neck \-\->)/i';
              $extension_content =  '\1' .stripslashes($arg->neck) . '\3';
-             $content = eregi_replace($reg,$extension_content,$content);
+             $content = preg_replace($reg,$extension_content,$content);
 
-             $reg = '(<\!\-\- start\-knee \-\->)(.*)(<\!\-\- end\-knee \-\->)';
+             $reg = '/(<\!\-\- start\-knee \-\->)(.*)(<\!\-\- end\-knee \-\->)/i';
              $extension_content =  '\1' .stripslashes($arg->knee) . '\3';
-             $content = eregi_replace($reg,$extension_content,$content);
+             $content = preg_replace($reg,$extension_content,$content);
             return $content;
         }
 

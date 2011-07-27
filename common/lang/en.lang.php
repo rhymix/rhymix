@@ -67,11 +67,13 @@ $lang->cmd_layout_setup = 'Configure layout';
 $lang->cmd_layout_edit = 'Edit layout';
 $lang->cmd_search_by_ipaddress = 'Search by IP Address';
 $lang->cmd_add_ip_to_spamfilter = 'Add IP to spamfilter';
+$lang->cmd_go_to_page = 'Go to page';
 
 $lang->enable = 'Enable';
 $lang->disable = 'Disable';
 
 // Essential Words
+$lang->favorite = 'Favorite';
 $lang->menu = 'Menu';
 $lang->no = 'No.';
 $lang->notice = 'Notice';
@@ -169,6 +171,8 @@ $lang->layout_manager = 'Layout Settings';
 
 $lang->use = 'Use';
 $lang->notuse = 'Not use';
+$lang->on = 'On';
+$lang->off = 'Off';
 $lang->not_exists = "Doesn't exist";
 
 $lang->public = 'public';
@@ -242,6 +246,7 @@ $lang->success_reset = 'Reset successfully';
 $lang->success_leaved = 'All member data has been deleted completely.';
 $lang->success_saved = 'Saved successfully';
 
+$lang->fail_to_registed = '등록하지 못하였습니다.';
 $lang->fail_to_delete = 'Could not be deleted';
 $lang->fail_to_move = 'Could not be moved';
 
@@ -308,9 +313,10 @@ $lang->msg_ftp_installed_ftp_realpath = 'Absolute FTP Path of XE';
 $lang->filter->isnull = 'Please input a value for %s';
 $lang->filter->outofrange = 'Please align the text length of %s';
 $lang->filter->equalto = "The value of %s is invalid";
-$lang->filter->invalid_email = "The format of %s is invalid. ex) developers@xpressengine.com";
-$lang->filter->invalid_user_id = $lang->filter->invalid_userid = "The format of %s is invalid.\\nAll values should consist of alphabets, numbers or underscore(_) and the first letter should be alphabet";
-$lang->filter->invalid_homepage = "The format of %s is invalid. ex) http://xpressengine.com/";
+$lang->filter->invalid = 'The value of %s is invalid.';
+$lang->filter->invalid_email = "The value of %s is NOT a valid email address.";
+$lang->filter->invalid_user_id = $lang->filter->invalid_userid = "The %s field allows only alphabets, numbers and underscore(_).\\nThe first letter should be an alaphabet.";
+$lang->filter->invalid_url = $lang->filter->invalid_homepage = "The format of %s is invalid. ex) http://xpressengine.com/";
 $lang->filter->invalid_korean = "The format of %s is invalid. Please input Korean only";
 $lang->filter->invalid_korean_number = "The format of %s is invalid. Please input Korean or numbers";
 $lang->filter->invalid_alpha = "The format of %s is invalid. Please input alphabets only";
@@ -318,5 +324,5 @@ $lang->filter->invalid_alpha_number = "The format of %s is invalid. Please input
 $lang->filter->invalid_number = "The format of %s is invalid. Please input numbers only";
 
 $lang->security_warning_embed = "Due to security concern, administrators are not allowed to view embedded items.<BR /> To view them, please use another non-administrator ID.";
-$lang->msg_pc_to_mobile = '이 페이지는 모바일 보기가 있습니다. 모바일 보기로 이동하시겠습니까?';
+$lang->msg_pc_to_mobile = 'View mobile optimized version of this page';
 ?>

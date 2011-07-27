@@ -19,7 +19,7 @@ function doDisplaySkinColorset(sel, colorset) {
 
 /* 서버에서 받아온 컬러셋을 표시 */
 function completeGetSkinColorset(ret_obj, response_tags, params, fo_obj) {
-    var sel = xGetElementById("fo_poll").poll_colorset;
+    var sel = get_by_id("fo_poll").poll_colorset;
     var length = sel.options.length;
     var selected_colorset = params["colorset"];
     for(var i=0;i<length;i++) sel.remove(0);

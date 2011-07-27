@@ -1,12 +1,13 @@
-<!--%import("filter/update_category.xml")-->
-
 <!--#include("./header.html")-->
-
 <!-- 카테고리 수정 -->
 <!--@if($selected_category)-->
-<form action="./" method="post" onsubmit="return procFilter(this, update_category)" enctype="multipart/form-data">
-    <input type="hidden" name="module_category_srl" value="{$selected_category->module_category_srl}" />
-    <input type="hidden" name="mode" value="update" />
+<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
+<form ruleset="updateCategory" action="./" method="post" enctype="multipart/form-data">
+<input type="hidden" name="act" value="procModuleAdminUpdateCategory" />
+<input type="hidden" name="module_category_srl" value="{$selected_category->module_category_srl}" />
+<input type="hidden" name="mode" value="update" />
 
     <table cellspacing="0" class="rowTable">
     <tr>

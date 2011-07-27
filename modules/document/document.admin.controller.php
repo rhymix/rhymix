@@ -279,6 +279,12 @@
             // Insert by creating the module Controller object
             $oModuleController = &getController('module');
             $output = $oModuleController->insertModuleConfig('document',$config);
+
+			if($output->toBool() && !in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispDocumentAdminConfig');
+				header('location:'.$returnUrl);
+				return;
+			}
             return $output;
         }
 
@@ -446,20 +452,27 @@
                 $query = "document.updateAlias";
             }
             $output = executeQuery($query, $args);
-            if(!$output->toBool())
-            {
-                return $output;
-            }
+
+			if($output->toBool() && !in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispDocumentAdminAlias', 'document_srl', $args->document_srl);
+				header('location:'.$returnUrl);
+				return;
+			}
+			return $output;
         }
 
         function procDocumentAdminDeleteAlias() {
-            $alias_srl = Context::get('alias_srl');
+			$document_srl = Context::get('document_srl');
+            $alias_srl = Context::get('target_srl');
             $args->alias_srl = $alias_srl;
             $output = executeQuery("document.deleteAlias", $args);
-            if (!$output->toBool())
-            {
-                return $output;
-            }
+
+			if($output->toBool() && !in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispDocumentAdminAlias', 'document_srl', $document_srl);
+				header('location:'.$returnUrl);
+				return;
+			}
+			return $output;
         }
 
         function procDocumentAdminRestoreTrash() {
@@ -467,7 +480,7 @@
 			$this->restoreTrash($trash_srl);
         }
 
-		function restoreTrash($trash_srl){
+		/*function restoreTrash($trash_srl){
             $oDB = &DB::getInstance();
             $oDocumentModel = &getModel('document');
 
@@ -516,7 +529,64 @@
             // commit
             $oDB->commit();
 			return $output;
+		}*/
+
+        /**
+         * @brief restore document from trash module, called by trash module
+		 * this method is passived
+         **/
+		function restoreTrash($originObject)
+		{
+			if(is_array($originObject)) $originObject = (object)$originObject;
+
+			$oDocumentController = &getController('document');
+            $oDocumentModel = &getModel('document');
+
+            $oDB = &DB::getInstance();
+            $oDB->begin();
+
+			//DB restore
+			$output = $oDocumentController->insertDocument($originObject, false, true);
+			if(!$output->toBool()) return new Object(-1, $output->getMessage());
+
+			//FILE restore
+            $oDocument = $oDocumentModel->getDocument($originObject->document_srl);
+            // If the post was not temorarily saved, set the attachment's status to be valid
+            if($oDocument->hasUploadedFiles() && $originObject->member_srl != $originObject->module_srl) {
+                $args->upload_target_srl = $oDocument->document_srl;
+                $args->isvalid = 'Y';
+                $output = executeQuery('file.updateFileValid', $args);
+            }
+
+            // call a trigger (after)
+            if($output->toBool()) {
+                $trigger_output = ModuleHandler::triggerCall('document.restoreTrash', 'after', $originObject);
+                if(!$trigger_output->toBool()) {
+                    $oDB->rollback();
+                    return $trigger_output;
+                }
+            }
+
+            // commit
+            $oDB->commit();
+			return new Object(0, 'success');
 		}
 
+        /**
+         * @brief empty document in trash, called by trash module
+		 * this method is passived
+         **/
+		function emptyTrash($originObject)
+		{
+			$originObject = unserialize($originObject);
+			if(is_array($originObject)) $originObject = (object) $originObject;
+
+			$oDocument = new documentItem();
+			$oDocument->setAttribute($originObject);
+
+			$oDocumentController = &getController('document');
+			$output = $oDocumentController->deleteDocument($oDocument->get('document_srl'), true, true, $oDocument);
+			return $output;
+		}
     }
 ?>

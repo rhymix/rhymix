@@ -7,9 +7,9 @@
         <action name="dispPointAdminModuleConfig" type="view" standalone="true" />
         <action name="dispPointAdminPointList" type="view" standalone="true" />
 
-        <action name="procPointAdminInsertConfig" type="controller" standalone="true" />
+        <action name="procPointAdminInsertConfig" type="controller" standalone="true" ruleset="insertConfig" />
         <action name="procPointAdminInsertModuleConfig" type="controller" standalone="true" />
-        <action name="procPointAdminUpdatePoint" type="controller" standalone="true" />
+        <action name="procPointAdminUpdatePoint" type="controller" standalone="true" ruleset="updatePoint" />
         <action name="procPointAdminInsertPointModuleConfig" type="controller" standalone="true" />
         <action name="procPointAdminApplyPoint" type="controller" standalone="true" />
         <action name="procPointAdminReset" type="controller" standalone="true" />
@@ -17,4 +17,19 @@
         <action name="procPointAdminReCal" type="controller" standalone="true" />
         <action name="getMembersPointInfo" type="model" standalone="true" />
     </actions>
+	<menus>
+		<menu name="point">
+			<title xml:lang="en">Point</title>
+			<title xml:lang="ko">포인트</title>
+			<title xml:lang="zh-CN">Point</title>
+			<title xml:lang="jp">Point</title>
+			<title xml:lang="es">Point</title>
+			<title xml:lang="ru">Point</title>
+			<title xml:lang="fr">Point</title>
+			<title xml:lang="zh-TW">Point</title>
+			<title xml:lang="vi">Point</title>
+			<title xml:lang="mn">Point</title>
+			<title xml:lang="tr">Point</title>
+		</menu>
+	</menus>
 </module>

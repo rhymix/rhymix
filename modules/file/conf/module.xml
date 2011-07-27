@@ -15,4 +15,32 @@
         <action name="procFileAdminInsertConfig" type="controller" standalone="true" ruleset="insertConfig" />
         <action name="procFileAdminInsertModuleConfig" type="controller" standalone="true" ruleset="fileModuleConfig" />
     </actions>
+	<menus>
+		<menu name="file">
+			<title xml:lang="en">File</title>
+			<title xml:lang="ko">파일</title>
+			<title xml:lang="zh-CN">File</title>
+			<title xml:lang="jp">File</title>
+			<title xml:lang="es">File</title>
+			<title xml:lang="ru">File</title>
+			<title xml:lang="fr">File</title>
+			<title xml:lang="zh-TW">File</title>
+			<title xml:lang="vi">File</title>
+			<title xml:lang="mn">File</title>
+			<title xml:lang="tr">File</title>
+		</menu>
+		<menu name="fileUpload">
+			<title xml:lang="en">File Upload</title>
+			<title xml:lang="ko">파일 업로드</title>
+			<title xml:lang="zh-CN">File Upload</title>
+			<title xml:lang="jp">File Upload</title>
+			<title xml:lang="es">File Upload</title>
+			<title xml:lang="ru">File Upload</title>
+			<title xml:lang="fr">File Upload</title>
+			<title xml:lang="zh-TW">File Upload</title>
+			<title xml:lang="vi">File Upload</title>
+			<title xml:lang="mn">File Upload</title>
+			<title xml:lang="tr">File Upload</title>
+		</menu>
+	</menus>
 </module>

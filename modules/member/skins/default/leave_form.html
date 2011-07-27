@@ -1,9 +1,11 @@
 <!--#include("./common_header.html")-->
 
-<!--%import("filter/leave_member.xml")-->
-
     <h3>{$member_title = $lang->msg_leave_member}</h3>
-    <form id="fo_insert_member" action="./" method="get" onsubmit="return procFilter(this, leave_member)">
+	<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+		<p>{$XE_VALIDATOR_MESSAGE}</p>
+	</div>
+    <form ruleset="leaveMember" id="fo_insert_member" action="./" method="post">
+	<input type="hidden" name="act" value="procMemberLeave" />
     <input type="hidden" name="mid" value="{$mid}" />
     <input type="hidden" name="document_srl" value="{$document_srl}" />
     <input type="hidden" name="page" value="{$page}" />

@@ -1,13 +1,18 @@
 <!--#include("header.html")-->
 <!--%import("css/document.css")-->
-<!--%import("filter/insert_alias.xml")-->
 <!--%import("filter/delete_alias.xml")-->
 
-<form id="deleteForm" action="./" method="POST">
+<form ruleset="deleteAlias" id="deleteForm" action="./" method="post">
+<input type="hidden" name="act" value="procDocumentAdminDeleteAlias" />
 <input type="hidden" id="target_srl" name="target_srl" value="" />
+<input type="hidden" name="document_srl" value="{$document_srl}" />
 </form>
 
-<form action="{Context::getRequestUri()}" method="post" onsubmit="return procFilter(this, insert_alias)">
+<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
+<form ruleset="insertAlias" action="{Context::getRequestUri()}" method="post">
+<input type="hidden" name="act" value="procDocumentAdminInsertAlias" />
 <input type="hidden" name="document_srl" value="{$document_srl}" />
 <input type="hidden" name="module_srl" value="{$oDocument->get('module_srl')}" />
 

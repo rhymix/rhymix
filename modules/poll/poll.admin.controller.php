@@ -24,6 +24,11 @@
             $oModuleController->insertModuleConfig('poll', $config);
 
             $this->setMessage('success_updated');
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispPollAdminConfig');
+				header('location:'.$returnUrl);
+				return;
+			}
         }
 
         /**
@@ -32,9 +37,10 @@
         function procPollAdminDeleteChecked() {
             // Display an error no post is selected
             $cart = Context::get('cart');
-            if(!$cart) return $this->stop('msg_cart_is_null');
 
-            $poll_srl_list= explode('|@|', $cart);
+			if(is_array($cart)) $poll_srl_list = $cart;
+			else $poll_srl_list= explode('|@|', $cart);
+
             $poll_count = count($poll_srl_list);
             if(!$poll_count) return $this->stop('msg_cart_is_null');
             // Delete the post
@@ -47,6 +53,11 @@
             }
 
             $this->setMessage( sprintf(Context::getLang('msg_checked_poll_is_deleted'), $poll_count) );
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispPollAdminList');
+				header('location:'.$returnUrl);
+				return;
+			}
         }
 
         /**

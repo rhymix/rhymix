@@ -1,5 +1,10 @@
-<!--%import("js/importer_admin.js")-->
-<!--%import("css/importer.css")-->
+<!--@if(__DEBUG__)-->
+	<load target="js/importer_admin.js" />
+	<load target="css/importer.css" />
+<!--@else-->
+	<load target="js/importer_admin.min.js" />
+	<load target="css/importer.min.css" />
+<!--@end-->
 
 {@ $type_list = array('module'=>$lang->type_module, 'ttxml'=>$lang->type_ttxml, 'member'=>$lang->type_member, 'sync'=>$lang->type_syncmember, 'message'=>$lang->type_message) }
 
@@ -10,9 +15,7 @@
 
 <div class="header4">
     <ul class="localNavigation">
-        <!--@foreach($type_list as $key => $val)-->
-        <li <!--@if($source_type==$key)-->class="on"<!--@end-->><a href="{getUrl('source_type',$key)}">{$val}</a></li>
-        <!--@end-->
+        <li loop="$type_list=>$key,$val" class="on"|cond="$source_type==$key"><a href="{getUrl('source_type',$key)}">{$val}</a></li>
     </ul>
 </div>
 

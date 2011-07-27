@@ -1,4 +1,3 @@
-<load target="filter/update_menu_title.xml" />
 <load target="filter/insert_menu_item.xml" />
 <load target="filter/delete_menu_item.xml" />
 <load target="filter/move_menu_item.xml" />
@@ -16,7 +15,11 @@
 <div class="menuManagement">
 
     <!--@if($module == 'admin')-->
-        <form action="./" method="get" onsubmit="return procFilter(this, update_menu_title)">
+		<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+			<p>{$XE_VALIDATOR_MESSAGE}</p>
+		</div>
+        <form ruleset="updateMenuTitle" action="./" method="post">
+		<input type="hidden" name="act" value="procMenuAdminUpdate" />
         <input type="hidden" name="menu_srl" value="{$menu_info->menu_srl}" />
             <h4 class="xeAdmin">{$lang->menu_management}</h4>
             <table cellspacing="0" class="rowTable">
@@ -57,13 +60,13 @@
 
 
     <div class="gap1">
-        <form id="fo_menu" action="./" method="post" onsubmit="return procFilter(this, insert_menu_item)" class="clear" target="tmp_upload_iframe" enctype="multipart/form-data">
+        <form ruleset="insertMenuItem" id="fo_menu" action="./" method="post" class="clear" enctype="multipart/form-data">
+		<input type="hidden" name="act" value="procMenuAdminInsertItem" />
         <input type="hidden" name="title" value="{$menu_info->title}" />
         <input type="hidden" name="menu_srl" value="{$menu_info->menu_srl}" />
         <input type="hidden" name="xml_file" value="{$menu_info->xml_file}" />
         <input type="hidden" name="php_file" value="{$menu_info->php_file}" />
         <input type="hidden" name="module" value="menu" />
-        <input type="hidden" name="act" value="" />
         <input type="hidden" name="target" value="" />
         <div id="menu_zone_info"></div>
         </form>
@@ -74,9 +77,6 @@
         </div>
     </div>
 </div>
-
-<iframe id='tmp_upload_iframe' name='tmp_upload_iframe' style='display:none;width:1px;height:1px;position:absolute;top:-10px;left:-10px'></iframe>
-
 
 <script type="text/javascript">//<![CDATA[
 //언어파일 로드용

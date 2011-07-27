@@ -67,11 +67,13 @@ $lang->cmd_layout_setup = 'Лэйаут тохируулах';
 $lang->cmd_layout_edit = 'Лэйаут өөрчлөх';
 $lang->cmd_search_by_ipaddress = 'IP хаягаар хайх';
 $lang->cmd_add_ip_to_spamfilter = 'Спэм филтерт IPнэмэх';
+$lang->cmd_go_to_page = 'Go to page';
 
 $lang->enable = 'Боломжтой';
 $lang->disable = 'Боломжгүй';
 
 // 기본 단어
+$lang->favorite = 'Favorite';
 $lang->menu = 'Menu';
 $lang->no = 'Дугаар';
 $lang->notice = 'Зарлал';
@@ -170,6 +172,8 @@ $lang->layout_manager = 'Лэйаут удирдах';
 
 $lang->use = 'Хэрэглэх';
 $lang->notuse = 'Хэрэглэхгүй';
+$lang->on = 'On';
+$lang->off = 'Off';
 $lang->not_exists = 'Байхгүй';
 
 $lang->public = 'Нийтийн';
@@ -243,6 +247,7 @@ $lang->success_reset = 'Reset';
 $lang->success_leaved = 'Гишүүнээс гарсан';
 $lang->success_saved = 'Хадгалагдсан';
 
+$lang->fail_to_registed = '등록하지 못하였습니다.';
 $lang->fail_to_delete = 'Устгалт амжилтгүй боллоо';
 $lang->fail_to_move = 'Шилжилт амжилтгүй боллоо';
 

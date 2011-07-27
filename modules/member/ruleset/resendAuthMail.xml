@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ruleset version="1.5.0">
+    <customrules>
+    </customrules>
+    <fields>
+		<field name="email_address" required="true" length="1:200" rule="email" />
+    </fields>
+</ruleset>

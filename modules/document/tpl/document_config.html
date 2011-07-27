@@ -1,7 +1,7 @@
 <!--#include("header.html")-->
-<!--%import("filter/insert_config.xml")-->
 
-<form action="./" method="get" onsubmit="return procFilter(this, insert_config)">
+<form action="./" method="post">
+<input type="hidden" name="act" value="procDocumentAdminInsertConfig" />
     <table cellspacing="0" class="rowTable">
     <tr>
         <th scope="col"><div>{$lang->thumbnail_type}</div></th>

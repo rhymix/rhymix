@@ -1,7 +1,10 @@
-<!--%import("filter/insert_module_config.xml")-->
 <!--#include("./header.html")-->
 
-<form action="./" method="get" onsubmit="return procFilter(this, insert_module_config);" id="fo_point">
+<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
+<form action="./" method="post" id="fo_point">
+<input type="hidden" name="act" value="procPointAdminInsertModuleConfig" />
 
     <table cellspacing="0" class="crossTable">
     <thead>

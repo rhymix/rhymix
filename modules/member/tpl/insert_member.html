@@ -1,19 +1,18 @@
 <!--#include("header.html")-->
-<!--@if($member_info->member_srl)-->
-    <!--%import("filter/update_member.xml")-->
-<!--@else-->
-    <!--%import("filter/insert.xml")-->
-<!--@endif-->
 <!--%import("css/member_admin.css")-->
 
 <!--// datepicker javascript plugin load -->
 <!--%load_js_plugin("ui.datepicker")-->
 <!--%load_js_plugin("filebox")-->
 
-<form id="fo_insert_member" action="./" method="get" onsubmit="return procFilter(this, insert)">
-    <input type="hidden" name="page" value="{$page}" />
-    <input type="hidden" name="member_srl" value="{$member_info->member_srl}" />
-    <input type="hidden" name="signature" value="{htmlspecialchars($member_info->signature)}" />
+<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
+<form id="fo_insert_member" action="./" method="post">
+<input type="hidden" name="act" value="procMemberAdminInsert" />
+<input type="hidden" name="page" value="{$page}" />
+<input type="hidden" name="member_srl" value="{$member_info->member_srl}" />
+<input type="hidden" name="signature" value="{htmlspecialchars($member_info->signature)}" />
     <!--@if($member_info->member_srl)-->
     <input type="hidden" name="user_id" value="{htmlspecialchars($member_info->user_id)}" />
     <!--@end-->
@@ -26,6 +25,7 @@
         <td class="wide">
             <!--@if($member_info->member_srl)-->
             {htmlspecialchars($member_info->user_id)}
+            <input type="hidden" name="user_id" value="{$member_info->user_id}" class="inputTypeText" />
             <!--@else-->
             <input type="text" name="user_id" value="" class="inputTypeText" />
             <p>{$lang->about_user_id}</p>
@@ -139,7 +139,7 @@
         <th scope="row"><div>{$lang->group}</div></th>
         <td>
             <!--@foreach($group_list as $key=>$val)-->
-                <input type="checkbox" name="group_srl_list" value="{$key}" id="group_{$key}" <!--@if($member_info->group_list[$key])-->checked="checked"<!--@end--> class="checkbox" />
+                <input type="checkbox" name="group_srl_list[]" value="{$key}" id="group_{$key}" <!--@if($member_info->group_list[$key])-->checked="checked"<!--@end--> class="checkbox" />
                 <label for="group_{$key}">{$val->title}</label>
             <!--@end-->
             <p>{$lang->about_group}</p>
@@ -222,12 +222,12 @@
                         <span class="button"><button type="button">{$lang->cmd_search}</button></span>
                     </div>
                     <div class="item" id="zone_address_list_{$val->column_name}" style="display:none">
-                        <select name="{$val->column_name}" id="address_list_{$val->column_name}" class="w400"></select>
+                        <select name="{$val->column_name}[]" id="address_list_{$val->column_name}" class="w400"></select>
                         <span class="button"><button type="button">{$lang->cmd_search_again}</button></span>
                     </div>
                     <div class="item address2">
 						<label for="krzip_address2_{$val->column_name}" class="iLabel">{$lang->msg_kr_address_etc}</label>
-                        <input type="text" name="{$val->column_name}" id="krzip_address2_{$val->column_name}" value="{htmlspecialchars($val->value[1])}" class="iText w400" />
+                        <input type="text" name="{$val->column_name}[]" id="krzip_address2_{$val->column_name}" value="{htmlspecialchars($val->value[1])}" class="iText w400" />
                     </div>
                 </div>
 				<load target="js/krzip_search.js" type="body" />

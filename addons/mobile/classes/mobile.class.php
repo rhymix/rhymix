@@ -174,12 +174,12 @@
             $userAgent = $_SERVER['HTTP_USER_AGENT'];
             $wap_sid = $_SERVER['HTTP_X_UP_SUBNO'];
 
-            if(eregi("SKT11", $userAgent) || eregi("skt", $browserAccept)) {
+            if(preg_match("/SKT11/i", $userAgent) || preg_match("/skt/i", $browserAccept)) {
                 Context::set('mobile_skt',1);
                 return "wml";
             }
-            elseif(eregi("hdml", $browserAccept)) return "hdml";
-            elseif(eregi("CellPhone", $userAgent)) return  "mhtml";
+            elseif(preg_match("/hdml/i", $browserAccept)) return "hdml";
+            elseif(preg_match("/CellPhone/i", $userAgent)) return  "mhtml";
             return null;
         }
 

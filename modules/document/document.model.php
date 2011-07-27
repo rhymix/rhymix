@@ -6,7 +6,6 @@
      **/
 
     class documentModel extends document {
-
         /**
          * @brief Initialization
          **/
@@ -153,8 +152,11 @@
          * @brief module_srl value, bringing the list of documents
          **/
         function getDocumentList($obj, $except_notice = false, $load_extra_vars=true, $columnList = array()) {
-            // Check the target and sequence alignment
-            if(!in_array($obj->sort_index, array('list_order','regdate','last_update','update_order','readed_count','voted_count','comment_count','trackback_count','uploaded_count','title','category_srl'))) $obj->sort_index = 'list_order';
+            $logged_info = Context::get('logged_info');
+			$sort_check = $this->_setSortIndex($obj, $load_extra_vars);
+
+			$obj->sort_index = $sort_check->sort_index;
+			// Check the target and sequence alignment
             if(!in_array($obj->order_type, array('desc','asc'))) $obj->order_type = 'asc';
             // If that came across mid module_srl instead of a direct module_srl guhaejum
             if($obj->mid) {
@@ -178,6 +180,8 @@
             $args->start_date = $obj->start_date?$obj->start_date:null;
             $args->end_date = $obj->end_date?$obj->end_date:null;
             $args->member_srl = $obj->member_srl;
+			$args->statusList = $obj->statusList?$obj->statusList:array($this->getConfigStatus('secret'), $this->getConfigStatus('public'));
+			if($logged_info->is_admin == 'Y') $args->statusList = array($this->getConfigStatus('secret'), $this->getConfigStatus('public'));
             // Category is selected, further sub-categories until all conditions
             if($args->category_srl) {
                 $category_list = $this->getCategoryList($args->module_srl);
@@ -195,141 +199,149 @@
             $searchOpt->search_keyword = $obj->search_keyword;
 			$this->_setSearchOption($searchOpt, $args, $query_id, $use_division);
 
-            /**
-             * list_order asc sort of division that can be used only when
-             **/
-            if($args->sort_index != 'list_order' || $args->order_type != 'asc') $use_division = false;
+			if ($sort_check->isExtraVars)
+			{
+				$query_id = 'document.getDocumentListExtraSort';
+				$output = executeQueryArray($query_id, $args);
+			}
+			else
+			{
+				/**
+				 * list_order asc sort of division that can be used only when
+				 **/
+				if($args->sort_index != 'list_order' || $args->order_type != 'asc') $use_division = false;
 
-            /**
-             * If it is true, use_division changed to use the document division
-             **/
-            if($use_division) {
-                // Division begins
-                $division = (int)Context::get('division');
+				/**
+				 * If it is true, use_division changed to use the document division
+				 **/
+				if($use_division) {
+					// Division begins
+					$division = (int)Context::get('division');
 
-				// order by list_order and (module_srl===0 or module_srl many count), therefore case table full scan
-				if($args->sort_index == 'list_order' && ($args->exclude_module_srl === 0 || count($args->module_srl) > 10))
-				{
-					$listSqlID = 'document.getDocumentListUseIndex';
-					$divisionSqlID = 'document.getDocumentDivisionUseIndex';
+					// order by list_order and (module_srl===0 or module_srl many count), therefore case table full scan
+					if($args->sort_index == 'list_order' && ($args->exclude_module_srl === 0 || count($args->module_srl) > 10))
+					{
+						$listSqlID = 'document.getDocumentListUseIndex';
+						$divisionSqlID = 'document.getDocumentDivisionUseIndex';
+					}
+					else
+					{
+						$listSqlID = 'document.getDocumentList';
+						$divisionSqlID = 'document.getDocumentDivision';
+					}
+
+					// If you do not value the best division top
+					if(!$division) {
+						$division_args->module_srl = $args->module_srl;
+						$division_args->exclude_module_srl = $args->exclude_module_srl;
+						$division_args->list_count = 1;
+						$division_args->sort_index = $args->sort_index;
+						$division_args->order_type = $args->order_type;
+						$division_args->statusList = $args->statusList;
+						$output = executeQuery($listSqlID, $division_args, $columnList);
+						if($output->data) {
+							$item = array_pop($output->data);
+							$division = $item->list_order;
+						}
+						$division_args = null;
+					}
+					// The last division
+					$last_division = (int)Context::get('last_division');
+					// Division after division from the 5000 value of the specified Wanted
+					if(!$last_division) {
+						$last_division_args->module_srl = $args->module_srl;
+						$last_division_args->exclude_module_srl = $args->exclude_module_srl;
+						$last_division_args->list_count = 1;
+						$last_division_args->sort_index = $args->sort_index;
+						$last_division_args->order_type = $args->order_type;
+						$last_division_args->list_order = $division;
+						$last_division_args->page = 5001;
+						$output = executeQuery($divisionSqlID, $last_division_args, $columnList);
+						if($output->data) {
+							$item = array_pop($output->data);
+							$last_division = $item->list_order;
+						}
+					}
+					// Make sure that after last_division article
+					if($last_division) {
+						$last_division_args = null;
+						$last_division_args->module_srl = $args->module_srl;
+						$last_division_args->exclude_module_srl = $args->exclude_module_srl;
+						$last_division_args->list_order = $last_division;
+						$output = executeQuery("document.getDocumentDivisionCount", $last_division_args);
+						if($output->data->count<1) $last_division = null;
+					}
+
+					$args->division = $division;
+					$args->last_division = $last_division;
+					Context::set('division', $division);
+					Context::set('last_division', $last_division);
 				}
-				else
-				{
-					$listSqlID = 'document.getDocumentList';
-					$divisionSqlID = 'document.getDocumentDivision';
+				// document.getDocumentList query execution
+				// Query_id if you have a group by clause getDocumentListWithinTag getDocumentListWithinComment or used again to perform the query because
+				if(in_array($query_id, array('document.getDocumentListWithinComment', 'document.getDocumentListWithinTag'))) {
+					$group_args = clone($args);
+					$group_args->sort_index = 'documents.'.$args->sort_index;
+					$output = executeQueryArray($query_id, $group_args);
+					if(!$output->toBool()||!count($output->data)) return $output;
+
+					foreach($output->data as $key => $val) {
+						if($val->document_srl) $target_srls[] = $val->document_srl;
+					}
+
+					$page_navigation = $output->page_navigation;
+					$keys = array_keys($output->data);
+					$virtual_number = $keys[0];
+
+					$target_args->document_srls = implode(',',$target_srls);
+					$target_args->list_order = $args->sort_index;
+					$target_args->order_type = $args->order_type;
+					$target_args->list_count = $args->list_count;
+					$target_args->page = 1;
+					$output = executeQueryArray('document.getDocuments', $target_args);
+					$output->page_navigation = $page_navigation;
+					$output->total_count = $page_navigation->total_count;
+					$output->total_page = $page_navigation->total_page;
+					$output->page = $page_navigation->cur_page;
+				} else {
+					$output = executeQueryArray($query_id, $args, $columnList);
+				}
+			} 
+			// Return if no result or an error occurs
+			if(!$output->toBool()||!count($output->data)) return $output;
+
+			$idx = 0;
+			$data = $output->data;
+			unset($output->data);
+
+			if(!isset($virtual_number))
+			{
+				$keys = array_keys($data);
+				$virtual_number = $keys[0];
+			}
+
+			if($except_notice) {
+				foreach($data as $key => $attribute) {
+					if($attribute->is_notice == 'Y') $virtual_number --;
+				}
+			}
+
+			foreach($data as $key => $attribute) {
+				if($except_notice && $attribute->is_notice == 'Y') continue;
+				$document_srl = $attribute->document_srl;
+				if(!$GLOBALS['XE_DOCUMENT_LIST'][$document_srl]) {
+					$oDocument = null;
+					$oDocument = new documentItem();
+					$oDocument->setAttribute($attribute, false);
+					if($is_admin) $oDocument->setGrant();
+					$GLOBALS['XE_DOCUMENT_LIST'][$document_srl] = $oDocument;
 				}
 
-                // If you do not value the best division top
-                if(!$division) {
-                    $division_args->module_srl = $args->module_srl;
-                    $division_args->exclude_module_srl = $args->exclude_module_srl;
-                    $division_args->list_count = 1;
-                    $division_args->sort_index = $args->sort_index;
-                    $division_args->order_type = $args->order_type;
-                    $output = executeQuery($listSqlID, $division_args, $columnList);
-                    if($output->data) {
-                        $item = array_pop($output->data);
-                        $division = $item->list_order;
-                    }
-                    $division_args = null;
-                }
-                // The last division
-                $last_division = (int)Context::get('last_division');
-                // Division after division from the 5000 value of the specified Wanted
-                if(!$last_division) {
-                    $last_division_args->module_srl = $args->module_srl;
-                    $last_division_args->exclude_module_srl = $args->exclude_module_srl;
-                    $last_division_args->list_count = 1;
-                    $last_division_args->sort_index = $args->sort_index;
-                    $last_division_args->order_type = $args->order_type;
-                    $last_division_args->list_order = $division;
-                    $last_division_args->page = 5001;
-                    $output = executeQuery($divisionSqlID, $last_division_args, $columnList);
-                    if($output->data) {
-                        $item = array_pop($output->data);
-                        $last_division = $item->list_order;
-                    }
+				$output->data[$virtual_number] = $GLOBALS['XE_DOCUMENT_LIST'][$document_srl];
+				$virtual_number --;
 
-                }
-                // Make sure that after last_division article
-                if($last_division) {
-                    $last_division_args = null;
-                    $last_division_args->module_srl = $args->module_srl;
-                    $last_division_args->exclude_module_srl = $args->exclude_module_srl;
-                    $last_division_args->list_order = $last_division;
-                    $output = executeQuery("document.getDocumentDivisionCount", $last_division_args);
-                    if($output->data->count<1) $last_division = null;
-                }
+			}
 
-                $args->division = $division;
-                $args->last_division = $last_division;
-                Context::set('division', $division);
-                Context::set('last_division', $last_division);
-            }
-            // document.getDocumentList query execution
-            // Query_id if you have a group by clause getDocumentListWithinTag getDocumentListWithinComment or used again to perform the query because
-            if(in_array($query_id, array('document.getDocumentListWithinComment', 'document.getDocumentListWithinTag'))) {
-                $group_args = clone($args);
-                $group_args->sort_index = 'documents.'.$args->sort_index;
-                $output = executeQueryArray($query_id, $group_args);
-                if(!$output->toBool()||!count($output->data)) return $output;
-
-                foreach($output->data as $key => $val) {
-                    if($val->document_srl) $target_srls[] = $val->document_srl;
-                }
-
-                $page_navigation = $output->page_navigation;
-                $keys = array_keys($output->data);
-                $virtual_number = $keys[0];
-
-                $target_args->document_srls = implode(',',$target_srls);
-                $target_args->list_order = $args->sort_index;
-                $target_args->order_type = $args->order_type;
-                $target_args->list_count = $args->list_count;
-                $target_args->page = 1;
-                $output = executeQueryArray('document.getDocuments', $target_args);
-                $output->page_navigation = $page_navigation;
-                $output->total_count = $page_navigation->total_count;
-                $output->total_page = $page_navigation->total_page;
-                $output->page = $page_navigation->cur_page;
-            } else {
-                $output = executeQueryArray($query_id, $args, $columnList);
-            }
-            // Return if no result or an error occurs
-            if(!$output->toBool()||!count($output->data)) return $output;
-
-            $idx = 0;
-            $data = $output->data;
-            unset($output->data);
-
-            if(!isset($virtual_number))
-            {
-                $keys = array_keys($data);
-                $virtual_number = $keys[0];
-            }
-
-            if($except_notice) {
-                foreach($data as $key => $attribute) {
-                    if($attribute->is_notice == 'Y') $virtual_number --;
-                }
-            }
-
-            foreach($data as $key => $attribute) {
-                if($except_notice && $attribute->is_notice == 'Y') continue;
-                $document_srl = $attribute->document_srl;
-                if(!$GLOBALS['XE_DOCUMENT_LIST'][$document_srl]) {
-                    $oDocument = null;
-                    $oDocument = new documentItem();
-                    $oDocument->setAttribute($attribute, false);
-                    if($is_admin) $oDocument->setGrant();
-                    $GLOBALS['XE_DOCUMENT_LIST'][$document_srl] = $oDocument;
-                }
-
-                $output->data[$virtual_number] = $GLOBALS['XE_DOCUMENT_LIST'][$document_srl];
-                $virtual_number --;
-
-            }
-            
 			if($load_extra_vars) $this->setToAllDocumentExtraVars();
 
             if(count($output->data)) {
@@ -502,6 +514,26 @@
             // Return total number of
             $total_count = $output->data->count;
             return (int)$total_count;
+        }
+
+        /**
+         * @brief module_srl the total number of documents that are bringing
+         **/
+        function getDocumentCountByGroupStatus($search_obj = NULL) {
+            // Additional search options
+            $args->module_srl = $search_obj->module_srl;
+            $args->s_title = $search_obj->s_title;
+            $args->s_content = $search_obj->s_content;
+            $args->s_user_name = $search_obj->s_user_name;
+            $args->s_member_srl = $search_obj->s_member_srl;
+            $args->s_ipaddress = $search_obj->s_ipaddress;
+            $args->s_regdate = $search_obj->s_regdate;
+            $args->category_srl = $search_obj->category_srl;
+
+            $output = executeQuery('document.getDocumentCountByGroupStatus', $args);
+			if(!$output->toBool()) return array();
+
+			return $output->data;
         }
         /**
          * @brief Import page of the document, module_srl Without throughout ..
@@ -915,9 +947,8 @@
                         break;
                     case 'is_notice' :
                     case 'is_secret' :
-                            if($search_keyword=='N') $args->{"s_".$search_target} = 'N';
-                            elseif($search_keyword=='Y') $args->{"s_".$search_target} = 'Y';
-                            else $args->{"s_".$search_target} = '';
+                            if($search_keyword=='N') $args->statusList = array($this->getConfigStatus('public'));
+                            elseif($search_keyword=='Y') $args->statusList = array($this->getConfigStatus('secret'));
                         break;
                     case 'member_srl' :
                     case 'readed_count' :
@@ -992,6 +1023,48 @@
 			$this->add('voted_member_list',$output->data);
 		}
 
+		function getStatusNameList()
+		{
+			global $lang;
+			if(!isset($lang->status_name_list))
+				return array_flip($this->getStatusList());
+			else return $lang->status_name_list;
+		}
+
+		function _setSortIndex($obj, $load_extra_vars)
+		{
+			$sortIndex = $obj->sort_index;
+			$isExtraVars = false;
+            if(!in_array($sortIndex, array('list_order','regdate','last_update','update_order','readed_count','voted_count','comment_count','trackback_count','uploaded_count','title','category_srl'))) 
+			{
+				// get module_srl extra_vars list
+				if ($load_extra_vars)
+				{
+					$extra_args->module_srl = $obj->module_srl;
+					$extra_output = executeQueryArray('document.getGroupsExtraVars', $extra_args);
+					if (!$extra_output->data || !$extra_output->toBool())
+					{
+						$sortIndex = 'list_order';
+					}
+					else
+					{
+						$check_array = array();
+						foreach($extra_output->data as $val){
+							$check_array[] = $val->eid;
+						}
+						if(!in_array($sortIndex, $check_array)) $sortIndex = 'list_order';
+						else $isExtraVars = true;
+					}
+				}
+				else
+					$sortIndex = 'list_order';
+			}
+			$returnObj->sort_index = $sortIndex;
+			$returnObj->isExtraVars = $isExtraVars;
+
+			return $returnObj;
+		}
+
         /**
          * @brief 게시물 목록의 검색 옵션을 Setting함(2011.03.08 - cherryfilter)
 		 * page변수가 없는 상태에서 page 값을 알아오는 method(getDocumentPage)는 검색하지 않은 값을 return해서 검색한 값을 가져오도록 검색옵션이 추가 됨.
@@ -1030,9 +1103,8 @@
                         break;
                     case 'is_notice' :
                     case 'is_secret' :
-                            if($search_keyword=='N') $args->{"s_".$search_target} = 'N';
-                            elseif($search_keyword=='Y') $args->{"s_".$search_target} = 'Y';
-                            else $args->{"s_".$search_target} = '';
+                            if($search_keyword=='N') $args->statusList = array($this->getConfigStatus('public'));
+                            elseif($search_keyword=='Y') $args->statusList = array($this->getConfigStatus('secret'));
                         break;
                     case 'member_srl' :
                     case 'readed_count' :

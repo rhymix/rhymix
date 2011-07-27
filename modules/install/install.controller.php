@@ -23,9 +23,83 @@
         }
 
 		/**
+		 * @brief LGPL, Enviroment gathering agreement
+		 **/
+		function procInstallAgreement()
+		{
+			global $lang;
+			$requestVars = Context::gets('lgpl_agree', 'enviroment_gather');
+			if($requestVars->lgpl_agree != 'Y') {
+				return new Object('-1', $lang->msg_license_agreement_alert);
+			}
+
+			$_SESSION['lgpl_agree'] = $requestVars->lgpl_agree;
+			if($requestVars->enviroment_gather=='Y') {
+				FileHandler::writeFile('./files/env/install','1'); 
+			}
+
+			$url = getNotEncodedUrl('', 'act', 'dispInstallCheckEnv');
+			header('location:'.$url);
+		}
+
+		/**
+		 * @brief cubrid db setting wrapper, becase Server Side Validator...
+		 * Server Side Validatro can use only one proc, one ruleset
+		 **/
+		function procCubridDBSetting()
+		{
+			return $this->_procDBSetting();
+		}
+
+		/**
+		 * @brief firebird db setting wrapper, becase Server Side Validator...
+		 * Server Side Validatro can use only one proc, one ruleset
+		 **/
+		function procFirebirdDBSetting()
+		{
+			return $this->_procDBSetting();
+		}
+
+		/**
+		 * @brief mssql db setting wrapper, becase Server Side Validator...
+		 * Server Side Validatro can use only one proc, one ruleset
+		 **/
+		function procMssqlDBSetting()
+		{
+			return $this->_procDBSetting();
+		}
+
+		/**
+		 * @brief mysql db setting wrapper, becase Server Side Validator...
+		 * Server Side Validatro can use only one proc, one ruleset
+		 **/
+		function procMysqlDBSetting()
+		{
+			return $this->_procDBSetting();
+		}
+
+		/**
+		 * @brief postgresql db setting wrapper, becase Server Side Validator...
+		 * Server Side Validatro can use only one proc, one ruleset
+		 **/
+		function procPostgresqlDBSetting()
+		{
+			return $this->_procDBSetting();
+		}
+
+		/**
+		 * @brief sqlite db setting wrapper, becase Server Side Validator...
+		 * Server Side Validatro can use only one proc, one ruleset
+		 **/
+		function procSqliteDBSetting()
+		{
+			return $this->_procDBSetting();
+		}
+
+		/**
 		 * @brief division install step... DB Config temp file create
 		 **/
-		function procDBSetting() {
+		function _procDBSetting() {
             // Get DB-related variables
             $db_info = Context::gets('db_type','db_port','db_hostname','db_userid','db_password','db_database','db_table_prefix');
             if(!$db_info->default_url) $db_info->default_url = Context::getRequestUri();
@@ -37,13 +111,20 @@
             $oDB = &DB::getInstance();
             // Check if available to connect to the DB
             $output = $oDB->getError();
+			if(!$output->toBool()) return $output;
             if(!$oDB->isConnected()) return $oDB->getError();
-            // When installing firebire DB, transaction will not be used
+            // When installing firebird DB, transaction will not be used
             if($db_info->db_type != "firebird") $oDB->begin();
 
             if($db_info->db_type != "firebird") $oDB->commit();
             // Create a db temp config file
             if(!$this->makeDBConfigFile()) return new Object(-1, 'msg_install_failed');
+
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'act', 'dispInstallConfigForm');
+				header('location:'.$returnUrl);
+				return;
+			}
 		}
 
 		/**
@@ -56,6 +137,12 @@
 
             // Create a db temp config file
             if(!$this->makeEtcConfigFile($config_info)) return new Object(-1, 'msg_install_failed');
+
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'act', 'dispInstallManagerForm');
+				header('location:'.$returnUrl);
+				return;
+			}
 		}
 
         /**
@@ -66,7 +153,6 @@
             if(Context::isInstalled()) return new Object(-1, 'msg_already_installed');
             // Assign a temporary administrator when installing
             $logged_info->is_admin = 'Y';
-            $_SESSION['logged_info'] = $logged_info;
             Context::set('logged_info', $logged_info);
 
 			include $this->db_tmp_config_file;
@@ -99,6 +185,18 @@
 
             // Display a message that installation is completed
             $this->setMessage('msg_install_completed');
+
+			if($_SESSION['enviroment_gather'] == 'Y'){
+				$oAdminAdminController = &getAdminController('admin');
+				$oAdminAdminController->_sendServerEnv();
+				unset($_SESSION['enviroment_gather']);
+			}
+
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('');
+				header('location:'.$returnUrl);
+				return;
+			}
         }
 
         /**
@@ -214,12 +312,17 @@
             // 5. Check gd(imagecreatefromgif function)
             if(function_exists('imagecreatefromgif')) $checklist['gd'] = true;
             else $checklist['gd'] = false;
+			// 6. Check DB
+			if(DB::getEnableList()) $checklist['db'] = true;
+			else $checklist['db'] = false;
 
-            if(!$checklist['php_version'] || !$checklist['permission'] || !$checklist['xml'] || !$checklist['session']) $install_enable = false;
+            if(!$checklist['php_version'] || !$checklist['permission'] || !$checklist['xml'] || !$checklist['session'] || !$checklist['db']) $install_enable = false;
             else $install_enable = true;
+
             // Save the checked result to the Context
             Context::set('checklist', $checklist);
             Context::set('install_enable', $install_enable);
+            Context::set('phpversion', phpversion());
 
             return $install_enable;
         }
@@ -273,7 +376,10 @@
                         $this->installModule($module, sprintf('./modules/%s', $module));
 
                         $oModule = &getClass($module);
-                        if($oModule->checkUpdate()) $oModule->moduleUpdate();
+						if(is_object($oModule) && method_exists($oModule, 'checkUpdate'))
+						{
+                        	if($oModule->checkUpdate()) $oModule->moduleUpdate();
+						}
                     }
                     unset($modules[$category]);
                 }
@@ -423,4 +529,3 @@
 
 		}
     }
-?>

@@ -115,8 +115,8 @@ function insertSelectedModule(id, module_srl, mid, browser_title) {
 function deleteByFilter(target_srl, filter)
 {
     jQuery('#target_srl').val(target_srl);
-    var hF = jQuery("deleteForm")[0];
-    procFilter(hF, filter);
+    var hF = jQuery("#deleteForm")[0];
+	hF.submit();
 }
 
 function executeFilterByTargetSrl(form_name, target_srl, filter)
@@ -146,4 +146,44 @@ function moveVar(type, module_srl, var_idx) {
 function completeRestoreTrash(ret_obj) {
     alert(ret_obj['message']);
     location.href = current_url;
+}
+
+function getDocumentList() {
+    var params = new Array();
+    var response_tags = ['error','message', 'document_list'];
+
+    exec_xml('document','procDocumentGetList',params, completeGetDocumentList, response_tags);
+}
+
+function completeGetDocumentList(ret_obj, response_tags)
+{
+	var document_list = ret_obj['document_list']['item'];
+	var htmlListBuffer = '';
+	var statusNameList = {"PUBLIC":"Public", "SECRET":"Secret", "PRIVATE":"Private", "TEMP":"Temp"};
+
+	for(var x in document_list)
+	{
+		var objDocument = document_list[x];
+		htmlListBuffer += '<tr>' +
+							'<td class="title">'+ objDocument.variables.title +'</td>' +
+							'<td>'+ objDocument.variables.nick_name +'</td>' +
+							'<td>'+ statusNameList[objDocument.variables.status] +'</td>' +
+							'<td><input type="checkbox" /></td>' +
+						'</tr>';
+	}
+	jQuery('#documentManageListTable>tbody').html(htmlListBuffer);
+}
+
+function getModuleList()
+{
+	var params = new Array();
+	var response_tags = ['error', 'message'];
+
+    exec_xml('document','procModuleAdminGetList',params, completeGetModuleList, response_tags);
+}
+
+function completeGetModuleList(ret_obj, response_tags)
+{
+	console.log(ret_obj['error']);
+	console.log(ret_obj['message']);
 }

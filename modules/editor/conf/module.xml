@@ -21,8 +21,23 @@
         <action name="procEditorAdminEnableComponent" type="controller" standalone="true" />
         <action name="procEditorAdminDisableComponent" type="controller" standalone="true" />
         <action name="procEditorAdminMoveListOrder" type="controller" standalone="true" />
-        <action name="procEditorAdminSetupComponent" type="controller" standalone="true" />
+        <action name="procEditorAdminSetupComponent" type="controller" standalone="true" ruleset="setupComponent" />
 
         <action name="procEditorLoadSavedDocument" type="controller" standalone="true" />
     </actions>
+	<menus>
+		<menu name="editor">
+			<title xml:lang="en">WYSIWYG Editor</title>
+			<title xml:lang="ko">에디터</title>
+			<title xml:lang="zh-CN">WYSIWYG Editor</title>
+			<title xml:lang="jp">WYSIWYG Editor</title>
+			<title xml:lang="es">WYSIWYG Editor</title>
+			<title xml:lang="ru">WYSIWYG Editor</title>
+			<title xml:lang="fr">WYSIWYG Editor</title>
+			<title xml:lang="zh-TW">WYSIWYG Editor</title>
+			<title xml:lang="vi">WYSIWYG Editor</title>
+			<title xml:lang="mn">WYSIWYG Editor</title>
+			<title xml:lang="tr">WYSIWYG Editor</title>
+		</menu>
+	</menus>
 </module>

@@ -1,17 +1,40 @@
-<!--%import("filter/insert_page.xml")-->
+<!--%import("filter/insert_outside.xml")-->
 <!--#include("header.html")-->
 
-<form action="./" method="post" onsubmit="return procFilter(this, insert_page)" enctype="multipart/form-data">
+<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
+<form ruleset="insertPage" id="fo_insert_page" action="./" method="post" enctype="multipart/form-data">
+<input type="hidden" name="act" value="procPageAdminInsert" />
 <input type="hidden" name="page" value="{$page}" />
 <input type="hidden" name="module_srl" value="{$module_srl}" />
     <table cellspacing="0" class="rowTable topGap">
+	<!--@if($module_srl)-->
+    <tr class="row2">
+        <th scope="row"><div>{$lang->page_type}</div></th>
+			<td></td>
+	</tr>
+	<!--@else-->
+    <tr class="row2">
+        <th scope="row"><div>{$lang->page_type}</div></th>
+        <td colspan="3">
+            <select name="page_type">
+                <option value="">{$lang->click_choice}</option>
+                <option value="WIDGET">{$lang->page_type_name['WIDGET']}</option>
+                <option value="ARTICLE">{$lang->page_type_name['ARTICLE']}</option>
+                <option value="OUTSIDE">{$lang->page_type_name['OUTSIDE']}</option>
+            </select>
+            <p>{$lang->about_page_type}</p>
+        </td>
+    </tr>
+	<!--@end-->
     <!--@if($logged_info->is_admin!='Y')-->
-    <input type="hidden" name="mid" value="{$module_info->mid}" />
+    <input type="hidden" name="page_name" value="{$module_info->mid}" />
     <!--@else-->
     <tr class="row2">
         <th scope="row"><div>{$lang->mid}</div></th>
         <td colspan="3">
-            <input type="text" name="mid" value="{$module_info->mid}" class="inputTypeText w200" />
+            <input type="text" name="page_name" value="{$module_info->mid}" class="inputTypeText w200" />
             <p>{$lang->about_mid}</p>
         </td>
     </tr>
@@ -67,11 +90,47 @@
             <p>{$lang->about_layout}</p>
         </td>
     </tr>
-    <tr>
+    <tr class="optionnalData widgetType outsideType">
         <th scope="row"><div>{$lang->page_caching_interval}</div></th>
         <td colspan="3">
             <input type="text" name="page_caching_interval" value="{(int)$module_info->caching_interval}"  class="inputTypeText w40" /> {$lang->unit_min}
             <p>{$lang->about_page_caching_interval}</p>
+        </td>
+    </tr>
+    <tr class="row2 optionnalData articleType">
+        <th scope="row"><div>{$lang->skin}</div></th>
+        <td>
+            <select name="skin">
+                <!--@foreach($skin_list as $key=>$val)-->
+                <option value="{$key}" <!--@if($module_info->skin==$key ||(!$module_info->skin && $key=='default'))-->selected="selected"<!--@end-->>{$val->title}</option>
+                <!--@end-->
+            </select>
+            <p>{$lang->about_skin}</p>
+        </td>
+    </tr>
+    <tr class="optionnalData articleType">
+        <th scope="row"><div>{$lang->mobile_skin}</div></th>
+        <td>
+            <select name="mskin">
+                <!--@foreach($mskin_list as $key=>$val)-->
+                <option value="{$key}" <!--@if($module_info->mskin==$key ||(!$module_info->mskin && $key=='default'))-->selected="selected"<!--@end-->>{$val->title}</option>
+                <!--@end-->
+            </select>
+            <p>{$lang->about_skin}</p>
+        </td>
+    </tr>
+    <tr class="row2 optionnalData outsideType">
+        <th scope="row"><div>{$lang->opage_path}</div></th>
+        <td colspan="3">
+            <input type="text" name="opage_path" value="{htmlspecialchars($module_info->path)}"  class="inputTypeText w400" />
+            <p>{$lang->about_opage_path}<b>{realpath("./")}</b></p>
+        </td>
+    </tr>
+    <tr class="row optionnalData outsideType">
+        <th scope="row"><div>{$lang->opage_mobile_path}</div></th>
+        <td colspan="3">
+            <input type="text" name="opage_mpath" value="{htmlspecialchars($module_info->mpath)}"  class="inputTypeText w400" />
+            <p>{$lang->about_opage_mobile_path}<b>{realpath("./")}</b></p>
         </td>
     </tr>
     <tr class="row2">
@@ -82,3 +141,17 @@
     </table>
 
 </form>
+<script type="text/javascript">
+(function($){
+	$('.optionnalData').hide();
+	$('select[name=page_type]').change(function(){
+		$('.optionnalData').hide();
+		var select = $('select[name=page_type] :selected').val();
+		if(select != ""){
+			$('.'+select.toLowerCase()+'Type').show();
+		}
+
+		
+	});
+ })(jQuery);
+</script>

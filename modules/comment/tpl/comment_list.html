@@ -1,75 +1,145 @@
-<!--%import("filter/delete_checked.xml")-->
-<!--#include("./header.html")-->
-
-<!-- 검색 -->
-<div class="fl">
-    <form action="./" method="get" class="adminSearch">
-    <input type="hidden" name="module" value="{$module}" />
-    <input type="hidden" name="act" value="{$act}" />
-    <input type="hidden" name="module_srl" value="{$module_srl}" />
-        <fieldset>
+<!--%import("js/comment_admin.js")-->
+<div class="content" id="content">
+	<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+		<p>{$XE_VALIDATOR_MESSAGE}</p>
+	</div>
+	<form ruleset="deleteChecked" id="fo_list" action="./" method="post" class="form">
+	<input type="hidden" name="act" value="procCommentAdminDeleteChecked" />
+	<input type="hidden" name="page" value="{$page}" />
+	<input type="hidden" name="is_trash" value="false" />
+		<h1 class="h1">Comment</h1>
+		<div class="table even">
+			<table width="100%" border="1" cellspacing="0">
+				<caption>All({number_format($total_count)}) <span class="side">All({number_format($total_count)})
+				<!--@foreach($countOutput AS $key=>$value)-->
+				| <a href="{getUrl('search_target','is_secret','search_keyword', $value->is_secret)}">{$secret_name_list[$value->is_secret]}({$value->count})</a>
+				<!--@end-->
+				</span></caption>
+				<thead>
+					<tr>
+						<th scope="col" class="text">{$lang->comment}</th>
+						<th scope="col">{$lang->nick_name}</th>
+						<th scope="col">{$lang->cmd_vote}(+/-)</th>
+						<th scope="col">{$lang->date}</th>
+						<th scope="col">{$lang->ipaddress}</th>
+						<th scope="col">{$lang->status}</th>
+						<th scope="col"><input type="checkbox" title="Check All" /></th>
+					</tr>
+				</thead>
+				<tbody>
+					<!--@foreach($comment_list as $no => $val)-->
+					{@ $comment = cut_str(trim(htmlspecialchars(strip_tags($val->content))), 200, '...')}
+					<tr>
+						<td class="text"><a href="{getUrl('','document_srl',$val->document_srl)}#comment_{$val->comment_srl}" onclick="window.open(this.href);return false;"><!--@if(strlen($comment))-->{$comment}<!--@else--><em style="font-style:italic;">{$lang->no_text_comment}</em><!--@end--></a></td>
+						<td><span class="member_{$val->member_srl}">{htmlspecialchars($val->nick_name)}</span></td>
+						<td>0/0</td>
+						<td>{(zdate($val->regdate,"Y-m-d\nH:i:s"))}</td>
+						<td><a href="{getUrl('search_target','ipaddress','search_keyword',$val->ipaddress)}">{$val->ipaddress}</a></td>
+						<td><!--@if($val->isSecret())-->{$secret_name_list['Y']}<!--@else-->{$secret_name_list['N']}<!--@end--></td>
+						<td><input type="checkbox" name="cart" value="{$val->comment_srl}" onclick="addCart({$val->comment_srl})" <!--@if($val->isCarted())-->checked="checked"<!--@end--> /></td>
+					</tr>
+    				<!--@end-->
+				</tbody>
+			</table>
+		</div>
+		<div class="btnArea">
+			<span class="btn"><a href="#listManager" class="modalAnchor" onclick="getCommentList();">선택한 댓글 관리...</a></span>
+		</div>
+	</form>
+	<div class="modal" id="listManager">
+		<form action="" class="fg form">
+			<h2 class="h2">선택한 댓글 관리</h2>
+			<div class="table even">
+				<table width="100%" border="1" cellspacing="0">
+					<caption>
+					선택한 댓글 <strong>8</strong>
+					</caption>
+					<thead>
+						<tr>
+							<th scope="col" class="title">Comment</th>
+							<th scope="col">Author</th>
+							<th scope="col">Status</th>
+							<th scope="col"><input type="checkbox" title="Check All" checked="checked" /></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td class="title">The quick brown fox jumps over the lazy dog...</td>
+							<td>홍길동</td>
+							<td>Public</td>
+							<td><input type="checkbox" /></td>
+						</tr>
+						<tr>
+							<td class="title">The quick brown fox jumps over the lazy dog...</td>
+							<td>홍길동</td>
+							<td>Trash</td>
+							<td><input type="checkbox" /></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<p class="q">선택한 댓글의 상태를 변경.</p>
+			<p>
+				<input type="radio" name="status" id="public" /> <label for="public">Public</label>
+				<input type="radio" name="status" id="secret" /> <label for="secret">Secret</label>
+			</p>
+			<p class="q"><label for="message">저작자에게 쪽지를 발송해서 이 사실을 알립니다. 작성하지 않으면 발송하지 않습니다.</label></p>
+			<p>
+				<textarea cols="42" rows="3" id="message" style="width:98%"></textarea>
+			</p>
+			<div class="btnArea">
+				<span class="btn"><input type="submit" value="Move" /></span>
+				<span class="btn"><input type="submit" value="Trash" /></span>
+				<span class="btn"><input type="submit" value="Delete" class="delete" /></span>
+			</div>
+		</form>
+	</div>
+	<div class="search">
+<form action="./" class="pagination">
+  <input type="hidden" name="error_return_url" value="" />
+  <input type="hidden" name="module" value="{$module}" />
+  <input type="hidden" name="act" value="{$act}" />
+  <input cond="$search_keyword" type="hidden" name="search_keyword" value="{$search_keyword}" />
+  <input cond="$search_target" type="hidden" name="search_target" value="{$search_target}" />
+  
+  <a href="{getUrl('page', '')}" class="direction">&laquo; FIRST</a>
+  <block cond="$page_navigation->first_page + $page_navigation->page_count > $page_navigation->last_page && $page_navigation->page_count != $page_navigation->total_page">
+   <a href="{getUrl('page', '')}">1</a>
+   <a href="#goTo" class="tgSimple">...</a>
+   <span id="goTo" class="tgContent">
+    <input name="page" title="Go to Page" />
+    <button type="submit">Go</button>
+   </span>
+   <a href="{getUrl('page', $page_navigation->last_page)}">{$page_navigation->last_page}</a>
+  </block>
+  <!--@while($page_no = $page_navigation->getNextPage())-->
+   {@$last_page = $page_no}
+   <strong cond="$page_no == $page">{$page_no}</strong>
+   <a cond="$page_no != $page" href="{getUrl('page', $page_no)}">{$page_no}</a>
+  <!--@end-->
+  <block cond="$last_page != $page_navigation->last_page">
+   <a href="#goTo" class="tgSimple">...</a>
+   <span id="goTo" class="tgContent">
+    <input name="page" title="Go to Page" />
+    <button type="submit">Go</button>
+   </span>
+   <a href="{getUrl('page', $page_navigation->last_page)}">{$page_navigation->last_page}</a>
+  </block>
+  <a href="{getUrl('page', $page_navigation->last_page)}" class="direction">LAST &raquo;</a>
+ </form>
+    	<form action="./" method="get" class="adminSearch">
+		<input type="hidden" name="module" value="{$module}" />
+		<input type="hidden" name="act" value="{$act}" />
+		<input type="hidden" name="module_srl" value="{$module_srl}" />
             <select name="search_target">
                 <option value="">{$lang->search_target}</option>
                 <!--@foreach($lang->search_target_list as $key => $val)-->
                 <option value="{$key}" <!--@if($search_target==$key)-->selected="selected"<!--@end-->>{$val}</option>
                 <!--@end-->
             </select>
-            <input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" class="inputTypeText" />
-            <span class="button blue"><input type="submit" value="{$lang->cmd_search}" /></span>
-            <a href="{getUrl('','module',$module,'act',$act)}" class="button black"><span>{$lang->cmd_cancel}</span></a>
-        </fieldset>
-    </form>
+            <input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" />
+			<input type="submit" value="{$lang->cmd_search}" />
+            <a href="{getUrl('','module',$module,'act',$act)}">{$lang->cmd_cancel}</a>
+		</form>
+	</div>
 </div>
-
-<form id="fo_list" action="./" method="get" onsubmit="return procFilter(this, delete_checked)">
-<input type="hidden" name="page" value="{$page}" />
-
-<!-- 모듈 선택 -->
-<div class="fr">
-    <a href="{getUrl('','module','module','act','dispModuleSelectList','id','target_module','type','single')}" onclick="popopen(this.href,'ModuleSelect');return false;" class="button green"><span>{$lang->cmd_find_module}</span></a>
-    <span class="button red"><input type="submit" value="{$lang->cmd_delete_checked_comment}" /></span>
-</div>
-
-<!-- 목록 -->
-<table cellspacing="0" class="crossTable clear">
-<caption>Total {number_format($total_count)}, Page {number_format($page)}/{number_format($total_page)}</caption>
-<thead>
-    <tr>
-        <th scope="col"><div>{$lang->no}</div></th>
-        <th scope="col"><div><input type="checkbox" onclick="XE.checkboxToggleAll(); return false;" /></div></th>
-        <th scope="col" class="wide"><div>{$lang->comment}</div></th>
-        <th scope="col"><div>{$lang->nick_name}</div></th>
-        <th scope="col"><div>{$lang->date}</div></th>
-        <th scope="col"><div>{$lang->ipaddress}</div></th>
-    </tr>
-</thead>
-<tbody>
-    <!--@foreach($comment_list as $no => $val)-->
-	{@ $comment = cut_str(trim(htmlspecialchars(strip_tags($val->content))), 200, '...')}
-    <tr>
-        <td class="number center">{$no}</td>
-        <td class="center"><input type="checkbox" name="cart" value="{$val->comment_srl}" /></td>
-        <td class="left"><a href="{getUrl('','document_srl',$val->document_srl)}#comment_{$val->comment_srl}" onclick="window.open(this.href);return false;"><!--@if(strlen($comment))-->{$comment}<!--@else--><em style="font-style:italic;">{$lang->no_text_comment}</em><!--@end--></a></td>
-        <td class="nowrap"><span class="member_{$val->member_srl}">{htmlspecialchars($val->nick_name)}</span></td>
-        <td class="date center nowrap">{(zdate($val->regdate,"Y-m-d\nH:i:s"))}</td>
-        <td class="number left nowrap"><a href="{getUrl('search_target','ipaddress','search_keyword',$val->ipaddress)}">{$val->ipaddress}</a></td>
-    </tr>
-    <!--@end-->
-</tbody>
-</table>
-
-</form>
-
-<!-- 페이지 네비게이션 -->
-<div class="pagination a1">
-    <a href="{getUrl('page','','module_srl',$module_srl)}" class="prevEnd">{$lang->first_page}</a> 
-    <!--@while($page_no = $page_navigation->getNextPage())-->
-        <!--@if($page == $page_no)-->
-            <strong>{$page_no}</strong> 
-        <!--@else-->
-            <a href="{getUrl('page',$page_no,'module_srl',$module_srl)}">{$page_no}</a> 
-        <!--@end-->
-    <!--@end-->
-    <a href="{getUrl('page',$page_navigation->last_page,'module_srl',$module_srl)}" class="nextEnd">{$lang->last_page}</a>
-</div>
-

@@ -10,8 +10,21 @@ class HTMLDisplayHandler {
 		$oTemplate = &TemplateHandler::getInstance();
 
 		// compile module tpl
-		$template_path = $oModule->getTemplatePath();
+		if ($oModule->module_info->module == $oModule->module)
+			$skin = $oModule->origin_module_info->skin;
+		else
+			$skin = $oModule->module_config->skin;
+		
+		if ($skin){
+			$theme_skin = explode('.', $skin);
+			if (count($theme_skin) == 2)
+				$template_path = sprintf('./themes/%s/modules/%s/', $theme_skin[0], $theme_skin[1]);
+			else
+				$template_path = $oModule->getTemplatePath();
+		}else
+			$template_path = $oModule->getTemplatePath();
 		$tpl_file = $oModule->getTemplateFile();
+
 		$output = $oTemplate->compile($template_path, $tpl_file);
 
 		// add #xeAdmin div for adminitration pages
@@ -92,6 +105,15 @@ class HTMLDisplayHandler {
 		// prevent the 2nd request due to url(none) of the background-image
 		$output = preg_replace('/url\((["\']?)none(["\']?)\)/is', 'none', $output);
 
+		if(is_array(Context::get('INPUT_ERROR')))
+		{
+			$INPUT_ERROR = Context::get('INPUT_ERROR');
+			$keys = array_keys($INPUT_ERROR);
+			$keys = '('.implode('|', $keys).')';
+
+			$output = preg_replace('/(<input[^>]*?)(?:value="[^"]*"([^>]*?name="'.$keys.'"[^>])|(name="'.$keys.'"[^>]*?)(?:value="[^"]*")?)([^>]*?\/?>)/ise', '"\\1\\2\\4 value=\\"".htmlspecialchars($INPUT_ERROR["\\3\\5"])."\\" \\6"', $output);
+		}
+
 		if(__DEBUG__==3) $GLOBALS['__trans_content_elapsed__'] = getMicroTime()-$start;
 
 		// Remove unnecessary information
@@ -151,17 +173,16 @@ class HTMLDisplayHandler {
 			$oContext->addJsFile('./common/js/x.min.js', false, '', -100000);
 			$oContext->addJsFile('./common/js/xe.min.js', false, '', -100000);
 			$oContext->addCSSFile('./common/css/xe.min.css', false, 'all', '', -100000);
-			$oContext->addJsFile('./common/js/xml_handler.js', false, '', -100000);
 		}
 
 		// for admin page, add admin css
 		if(Context::get('module')=='admin' || strpos(Context::get('act'),'Admin')>0){
 			if(__DEBUG__) {
-				$oContext->addCSSFile('./modules/admin/tpl/css/font.css', false, 'all', '',10000);
-				$oContext->addCSSFile('./modules/admin/tpl/css/pagination.css', false, 'all', '', 100001);
-				$oContext->addCSSFile('./modules/admin/tpl/css/admin.css', false, 'all', '', 100002);
+				$oContext->addCSSFile('./modules/admin/tpl/css/admin.css', false, 'all', '', 100000);
+				$oContext->addJsFile('./modules/admin/tpl/js/admin.js');
 			} else {
-				$oContext->addCSSFile('./modules/admin/tpl/css/xe_admin.min.css', false, 'all', '',10000);
+				$oContext->addCSSFile('./modules/admin/tpl/css/admin.min.css', false, 'all', '',10000);
+				$oContext->addJsFile('./modules/admin/tpl/js/admin.js');
 			}
 		}
 	}

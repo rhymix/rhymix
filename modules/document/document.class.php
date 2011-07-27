@@ -11,6 +11,7 @@
 
         // search option to use in admin page
         var $search_option = array('title','content','title_content','user_name',); // /< Search options
+		var $statusList = array('private'=>'PRIVATE', 'public'=>'PUBLIC', 'secret'=>'SECRET', 'temp'=>'TEMP');
 
         /**
          * @brief Implement if additional tasks are necessary when installing
@@ -102,8 +103,12 @@
 			//2011. 04. 07 adding description column to document categories
 			if(!$oDB->isColumnExists("document_categories","description")) return true;
 
-			// 2011.06.01 Bug fix: is_secret column had no update coede
-			if(!$oDB->isColumnExists("documents","is_secret")) return true;
+			//2011. 05. 23 adding status column to document
+			if(!$oDB->isColumnExists('documents', 'status')) return true;
+
+			//2011. 06. 07 check comment status update
+			if($oDB->isColumnExists('documents', 'allow_comment') || $oDB->isColumnExists('documents', 'lock_comment')) return true;
+
             return false;
         }
 
@@ -239,11 +244,52 @@
 			//2011. 04. 07 adding description column to document categories
 			if(!$oDB->isColumnExists("document_categories","description")) $oDB->addColumn('document_categories',"description","varchar",200,0);
 
-			// 2011.06.01 Bug fix: Add is_secret column if it does not exist
-			if(!$oDB->isColumnExists("documents","is_secret")) $oDB->addColumn('documents',"is_secret","char",1,0);
-			
-            return new Object(0,'success_updated');
+			//2011. 05. 23 adding status column to document
+			if(!$oDB->isColumnExists('documents', 'status'))
+			{
+				$oDB->addColumn('documents', 'status', 'varchar', 20, 'PUBLIC');
+				$args->is_secret = 'Y';
+				$output = executeQuery('document.updateDocumentStatus', $args);
+				if($output->toBool())
+					$oDB->dropColumn('documents', 'is_secret');
+			}
 
+			//2011. 06. 07 merge column, allow_comment and lock_comment
+			if($oDB->isColumnExists('documents', 'allow_comment') || $oDB->isColumnExists('documents', 'lock_comment'))
+			{
+				$oDB->addColumn('documents', 'comment_status', 'varchar', 20, 'ALLOW');
+				$columnList = array('module_srl');
+				$moduleSrlList = $oModuleModel->getModuleSrlList(null, $columnList);
+
+				$args->commentStatus = 'DENY';
+				$isSuccessUpdated = true;
+
+				// allow_comment='Y', lock_comment='Y'
+				$args->allowComment = 'Y';
+				$args->lockComment = 'Y';
+                $output = executeQuery('document.updateDocumentCommentStatus', $args);
+				if(!$output->toBool()) $isSuccessUpdated = false;
+
+				// allow_comment='N', lock_comment='Y'
+				$args->allowComment = 'N';
+				$args->lockComment = 'Y';
+                $output = executeQuery('document.updateDocumentCommentStatus', $args);
+				if(!$output->toBool()) $isSuccessUpdated = false;
+
+				// allow_comment='N', lock_comment='N'
+				$args->allowComment = 'N';
+				$args->lockComment = 'N';
+                $output = executeQuery('document.updateDocumentCommentStatus', $args);
+				if(!$output->toBool()) $isSuccessUpdated = false;
+
+				if($isSuccessUpdated)
+				{
+					$oDB->dropColumn('documents', 'allow_comment');
+					$oDB->dropColumn('documents', 'lock_comment');
+				}
+			}
+
+            return new Object(0,'success_updated');
         }
 
         /**
@@ -254,5 +300,23 @@
             FileHandler::removeFilesInDir(_XE_PATH_."files/cache/document_category");
         }
 
+		/**
+		 * @brief Document Status List
+		 **/
+		function getStatusList()
+		{
+			return $this->statusList;
+		}
+
+		function getDefaultStatus()
+		{
+			return $this->statusList['public'];
+		}
+
+		function getConfigStatus($key)
+		{
+			if(array_key_exists(strtolower($key), $this->statusList)) return $this->statusList[$key];
+			else $this->getDefaultStatus();
+		}
     }
 ?>

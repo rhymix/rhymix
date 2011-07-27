@@ -11,6 +11,7 @@
         var $module = NULL; ///< Class name of Xe Module that is identified by mid
         var $module_srl = NULL; ///< integer value to represent a run-time instance of Module (XE Module)
         var $module_info = NULL; ///< an object containing the module information 
+		var $origin_module_info = NULL;
         var $xml_info = NULL; ///< an object containing the module description extracted from XML file
 
         var $module_path = NULL; ///< a path to directory where module source code resides
@@ -25,6 +26,8 @@
         var $edited_layout_file = ''; ///< name of temporary layout files that is modified in an admin mode
 
         var $stop_proc = false; ///< a flag to indicating whether to stop the execution of code.
+
+		var $module_config = NULL;
 
         /**
          * @brief setter to set the name of module
@@ -51,6 +54,42 @@
         function setRedirectUrl($url='./') {
             $this->add('redirect_url', $url);
         }
+		
+		/**
+		 * @brief get url for redirection
+		 **/
+		function getRedirectUrl(){
+			return $this->get('redirect_url');
+		}
+		
+		/**
+		 * @brief set message
+		 * @param $message a message string
+		 * @param $type type of message (error, info, update)
+		 **/
+		function setMessage($message, $type = null){
+			parent::setMessage($message);
+			$this->setMessageType($type);
+		}
+		
+		/**
+		 * @brief set type of message
+		 * @param $type type of message (error, info, update)
+		 **/
+		function setMessageType($type){
+			$this->add('message_type', $type);
+		}
+		
+		/**
+		 * @brief get type of message
+		 **/
+		function getMessageType(){
+			$type = $this->get('message_type');
+			if (!in_array($type, array('error', 'info', 'update'))){
+				$type = $this->getError()?'error':'info';
+			}
+			return $type;
+		}
 
         /**
          * @brief sett to set the template path for refresh.html
@@ -80,6 +119,7 @@
             $this->mid = $module_info->mid;
             $this->module_srl = $module_info->module_srl;
             $this->module_info = $module_info;
+            $this->origin_module_info = $module_info;
             $this->xml_info = $xml_info;
             $this->skin_vars = $module_info->skin_vars;
             // validate certificate info and permission settings necessary in Web-services
@@ -120,7 +160,10 @@
             }
             // permission variable settings
             $this->grant = $grant;
+
             Context::set('grant', $grant);
+
+			$this->module_config = $oModuleModel->getModuleConfig($this->module, $module_info->site_srl);
 
             if(method_exists($this, 'init')) $this->init();
         }

@@ -22,4 +22,19 @@
         <action name="procWidgetStyleExtraImageUpload" type="controller" standalone="true" />
         <action name="procWidgetStyleGenerateCodeInPage" type="controller" standalone="true" />
     </actions>
+	<menus>
+		<menu name="installedWidget">
+			<title xml:lang="en">Installed Widget</title>
+			<title xml:lang="ko">위젯</title>
+			<title xml:lang="zh-CN">Installed Widget</title>
+			<title xml:lang="jp">Installed Widget</title>
+			<title xml:lang="es">Installed Widget</title>
+			<title xml:lang="ru">Installed Widget</title>
+			<title xml:lang="fr">Installed Widget</title>
+			<title xml:lang="zh-TW">Installed Widget</title>
+			<title xml:lang="vi">Installed Widget</title>
+			<title xml:lang="mn">Installed Widget</title>
+			<title xml:lang="tr">Installed Widget</title>
+		</menu>
+	</menus>
 </module>

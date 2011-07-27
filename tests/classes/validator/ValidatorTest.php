@@ -75,6 +75,42 @@ class ValidatorTest extends PHPUnit_Framework_TestCase
 
 	public function testJSCompile() {
 	}
+
+	public function testCondition() {
+		$vd = new Validator();
+		$data = array('greeting1'=>'hello');
+
+		// No condition
+		$vd->addFilter('greeting1', array('required'=>'true'));
+		$this->assertTrue($vd->validate($data));
+
+		// Now greeting2 being mandatory if greeting1 is 'Hello'
+		$vd->addFilter('greeting2', array('if'=>array('test'=>'$greeting1 == "Hello"', 'attr'=>'required', 'value'=>'true')));
+
+		// Because greeting1 is 'hello', including lowercase 'h', greeting2 isn't required yet.
+		$this->assertTrue($vd->validate($data));
+
+		// Change the value of greeting1. Greeting2 is required now
+		$data['greeting1'] = 'Hello';
+		$this->assertFalse($vd->validate($data));
+
+		$data['greeting2'] = 'World';
+		$this->assertTrue($vd->validate($data));
+	}
+
+	public function testConditionXml() {
+		$vd = new Validator(dirname(__FILE__).'/condition.xml');
+		$data = array('greeting1'=>'hello');
+
+		$this->assertTrue($vd->validate($data));
+
+		// Change the value of greeting1. Greeting2 is required now
+		$data['greeting1'] = 'Hello';
+		$this->assertFalse($vd->validate($data));
+
+		$data['greeting2'] = 'World';
+		$this->assertTrue($vd->validate($data));
+	}
 }
 
 $mock_vars = array();

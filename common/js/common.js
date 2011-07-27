@@ -32,8 +32,8 @@ if(jQuery) jQuery.noConflict();
          * @brief 특정 name을 가진 체크박스들의 checked 속성 변경
          * @param [itemName='cart',][options={}]
          */
-        checkboxToggleAll : function() {
-            var itemName='cart';
+        checkboxToggleAll : function(itemName) {
+            if(!is_def(itemName)) itemName='cart';
             var options = {
                 wrap : null,
                 checked : 'toggle',
@@ -571,7 +571,7 @@ function doDocumentSave(obj) {
 		else params[field.name] = field.value;
 	});
 
-	exec_xml('member','procMemberSaveDocument', params, completeDocumentSave, responses, params, obj.form);
+	exec_xml('document','procDocumentTempSave', params, completeDocumentSave, responses, params, obj.form);
 
     editorRelKeys[editor_sequence]['content'].value = prev_content;
     return false;
@@ -587,7 +587,7 @@ var objForSavedDoc = null;
 function doDocumentLoad(obj) {
     // 저장된 게시글 목록 불러오기
     objForSavedDoc = obj.form;
-    popopen(request_uri.setQuery('module','member').setQuery('act','dispSavedDocumentList'));
+    popopen(request_uri.setQuery('module','document').setQuery('act','dispTempSavedList'));
 }
 
 /* 저장된 게시글의 선택 */
@@ -902,12 +902,21 @@ function setCookie(name, value, expire, path) {
 	document.cookie = s_cookie;
 }
 
+function getCookie(name) {
+	var match = document.cookie.match(new RegExp(name+'=(.*?)(?:;|$)'));
+	if(match) return unescape(match[1]);
+}
+
 function is_def(v) {
 	return (typeof(v)!='undefined');
 }
 
 function ucfirst(str) {
 	return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+function get_by_id(id) {
+	return document.getElementById(id);
 }
 
 jQuery(function($){
@@ -935,7 +944,8 @@ jQuery(function($){
 		if(!$target.length) return;
 
         // 객체의 className값을 구함
-		var match = $target.attr('class').match(new RegExp('(?:^| )((document|comment|member)_([1-9]\\d*))(?: |$)',''));
+		var cls = $target.attr('class'), match;
+		if(cls) match = cls.match(new RegExp('(?:^| )((document|comment|member)_([1-9]\\d*))(?: |$)',''));
 		if(!match) return;
 
 		var action = 'get'+ucfirst(match[2])+'Menu';
@@ -959,4 +969,20 @@ jQuery(function($){
 
 		return false;
     });
+
+	/**
+	 * Create popup windows automatically.
+	 * Find anchors that have the '_xe_popup' class, then add popup script to them.
+	 */
+	$('a._xe_popup').click(function(){
+		var $this = $(this), name = $this.attr('name'), href = $this.attr('href'), win;
+
+		if(!name) name = '_xe_popup_'+Math.floor(Math.random()*1000);
+
+		win = window.open(href, name, 'left=10,top=10,width=10,height=10,resizable=no,scrollbars=no,toolbars=no');
+		if(win) win.focus();
+
+		// cancel default action
+		return false;
+	});
 });

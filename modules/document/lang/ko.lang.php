@@ -83,4 +83,6 @@
     $lang->success_trashed = '휴지통으로 이동되었습니다.';
     $lang->msg_not_selected_document = '선택된 문서가 없습니다.';
 	$lang->show_voted_member = '사용자 노출';
+	$lang->status = '상태';
+	$lang->status_name_list = array('PRIVATE'=>'비공개', 'PUBLIC'=>'공개', 'SECRET'=>'비밀', 'TEMP'=>'임시');
 ?>

@@ -23,7 +23,7 @@
             // Set board module
             $args = Context::getRequestVars();
             $args->module = 'page';
-            $args->mid = $args->page_name;
+            $args->mid = $args->page_name;	//because if mid is empty in context, set start page mid
             unset($args->page_name);
 
 			if($args->use_mobile != 'Y') $args->use_mobile = '';
@@ -43,6 +43,27 @@
 					$args = $module_info;
 				}
             }
+
+			switch ($args->page_type){
+				case 'WIDGET' : {
+									unset($args->skin);
+									unset($args->mskin);
+									unset($args->opage_path);
+									unset($args->opage_mpath);
+									break;
+								}
+				case 'ARTICLE' : {
+									unset($args->page_caching_interval);
+									unset($args->opage_path);
+									unset($args->opage_mpath);
+									break;
+								}
+				case 'OUTSIDE' : {
+									unset($args->skin);
+									unset($args->mskin);
+									break;
+								}
+			}
             // Insert/update depending on module_srl
             if(!$args->module_srl) {
                 $output = $oModuleController->insertModule($args);
@@ -57,7 +78,20 @@
             $this->add("page", Context::get('page'));
             $this->add('module_srl',$output->get('module_srl'));
             $this->setMessage($msg_code);
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'module_srl', $output->get('module_srl'), 'act', 'dispPageAdminInfo');
+				header('location:'.$returnUrl);
+				return;
+			}
         }
+
+        /**
+         * @brief Page Modify
+         **/
+		function procPageAdminUpdate()
+		{
+			$this->procPageAdminInsert();
+		}
 
 		function putDocumentsInPageToArray($target, &$array)
 		{
@@ -142,6 +176,11 @@
             $this->add('module','page');
             $this->add('page',Context::get('page'));
             $this->setMessage('success_deleted');
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'module_srl', $output->get('module_srl'), 'act', 'dispPageAdminInfo');
+				header('location:'.$returnUrl);
+				return;
+			}
         }
 
         /**
@@ -204,6 +243,58 @@
             $oWidgetController = &getController('widget');
             $oWidgetController->recompileWidget($content);
         }
+
+		function procPageAdminArticleDocumentInsert(){
+            $logged_info = Context::get('logged_info');
+			if ($logged_info->is_admin != 'Y')return new Object(-1, 'msg_not_permitted');
+
+            $obj = Context::getRequestVars();
+            $obj->module_srl = $this->module_info->module_srl;
+            $obj->is_notice = 'N';
+
+            settype($obj->title, "string");
+            if($obj->title == '') $obj->title = cut_str(strip_tags($obj->content),20,'...');
+            //그래도 없으면 Untitled
+            if($obj->title == '') $obj->title = 'Untitled';
+
+            // document module의 model 객체 생성
+            $oDocumentModel = &getModel('document');
+
+            // document module의 controller 객체 생성
+            $oDocumentController = &getController('document');
+
+            // 이미 존재하는 글인지 체크
+            $oDocument = $oDocumentModel->getDocument($obj->document_srl, true);
+
+			$bAnonymous = false;
+
+            // 이미 존재하는 경우 수정
+            if($oDocument->isExists() && $oDocument->document_srl == $obj->document_srl) {
+                $output = $oDocumentController->updateDocument($oDocument, $obj);
+                $msg_code = 'success_updated';
+            // 그렇지 않으면 신규 등록
+            } else {
+                $output = $oDocumentController->insertDocument($obj, $bAnonymous);
+                $msg_code = 'success_registed';
+                $obj->document_srl = $output->get('document_srl');
+
+				$oModuleController = &getController('module');
+				$this->module_info->document_srl = $obj->document_srl;
+				$oModuleController->updateModule($this->module_info);
+
+            }
+
+            // 오류 발생시 멈춤
+            if(!$output->toBool()) return $output;
+
+            // 결과를 리턴
+            $this->add('mid', Context::get('mid'));
+            $this->add('document_srl', $output->get('document_srl'));
+
+            // 성공 메세지 등록
+            $this->setMessage($msg_code);
+		}
+
 
     }
 ?>

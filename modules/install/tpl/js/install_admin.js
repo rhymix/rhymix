@@ -1,6 +1,17 @@
 /**
  * @brief DB정보 Setting후 실행될 함수
  */
+function completeAgreement(ret_obj)
+{
+    if(ret_obj['error'] != 0) {
+        alert(ret_obj['message']);
+        return;
+    } else {
+		var url = current_url.setQuery('act', 'dispInstallCheckEnv');
+		location.href = url;
+	}
+}
+
 function completeDBSetting(ret_obj) {
     if(ret_obj['error'] != 0) {
         alert(ret_obj['message']);

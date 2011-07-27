@@ -3,10 +3,10 @@
  * @file   :  common/lang/vi.lang.php
  * @author :  NHN (developers@xpressengine.com)
  * @trans  :  DucDuy Dao (webmaster@xpressengine.vn)
- * @website:  http://xpressengine.vn	
+ * @website:  http://xpressengine.vn
  * @brief  :  Vietnamese Language Pack (Only basic words are included here)
  **/
-			
+
 $lang->admin_info = 'Thông tin Administrator';
 $lang->admin_index = 'Trang chủ Admin';
 $lang->control_panel = 'Bảng điều khiển';
@@ -26,6 +26,15 @@ $lang->module_category_title = array(
 	'system' => 'Thiết lập hệ thống',
 );
 
+$lang->menu_gnb = array(
+	'dashboard' => 'Dashboard',
+	'site' => 'Site',
+	'user' => 'User',
+	'content' => 'Content',
+	'theme' => 'Theme',
+	'extensions' => 'Extensions',
+	'configuration' => 'Configuration',
+);
 $lang->newest_news = "Tin mới nhất";
 
 $lang->env_setup = "Thiết lập ";

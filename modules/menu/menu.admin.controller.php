@@ -29,6 +29,12 @@
 
             $this->add('menu_srl', $args->menu_srl);
             $this->setMessage('success_registed');
+
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMenuAdminContent');
+				header('location:'.$returnUrl);
+				return;
+			}
         }
 
         /**
@@ -43,6 +49,11 @@
             if(!$output->toBool()) return $output;
 
             $this->setMessage('success_registed');
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMenuAdminManagement', 'menu_srl', $args->menu_srl);
+				header('location:'.$returnUrl);
+				return;
+			}
         }
 
         /**
@@ -88,7 +99,8 @@
             unset($source_args->act);
             if($source_args->menu_open_window!="Y") $source_args->menu_open_window = "N";
             if($source_args->menu_expand !="Y") $source_args->menu_expand = "N";
-            $source_args->group_srls = str_replace('|@|',',',$source_args->group_srls);
+            if(!is_array($source_args->group_srls)) $source_args->group_srls = str_replace('|@|',',',$source_args->group_srls);
+			else $source_args->group_srls = implode(',', $source_args->group_srls);
             $source_args->parent_srl = (int)$source_args->parent_srl;
             // Re-order variables (Column's order is different between form and DB)
             $args->menu_srl = $source_args->menu_srl;
@@ -145,6 +157,12 @@
             $this->add('menu_item_srl', $args->menu_item_srl);
             $this->add('menu_title', $menu_title);
             $this->add('parent_srl', $args->parent_srl);
+
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMenuAdminManagement', 'menu_srl', $args->menu_srl);
+				header('location:'.$returnUrl);
+				return;
+			}
         }
 
         /**
@@ -179,6 +197,12 @@
             $this->add('menu_title', $menu_title);
             $this->add('menu_item_srl', $parent_srl);
             $this->setMessage('success_deleted');
+
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMenuAdminManagement', 'menu_srl', $args->menu_srl);
+				header('location:'.$returnUrl);
+				return;
+			}
         }
 
         /**
@@ -299,6 +323,77 @@
 
             $this->add('target', $target);
         }
+
+        /**
+         * @brief get all act list for admin menu
+         **/
+        function procMenuAdminAllActList() {
+            $oModuleModel = &getModel('module');
+            $installed_module_list = $oModuleModel->getModulesXmlInfo();
+			if(is_array($installed_module_list))
+			{
+				$currentLang = Context::getLangType();
+				foreach($installed_module_list AS $key=>$value)
+				{
+					$cache_file = sprintf("./files/cache/module_info/%s.%s.php", $value->module, $currentLang);
+					if(is_readable($cache_file))
+						include $cache_file;
+				}
+			}
+            $this->add('menuList', $info->menu);
+        }
+
+        /**
+         * @brief get all act list for admin menu
+         **/
+		function procMenuAdminInsertItemForAdminMenu()
+		{
+            $requestArgs = Context::getRequestVars();
+
+			// variable setting
+			$logged_info = Context::get('logged_info');
+			$oMenuAdminModel = &getAdminModel('menu');
+			$oMemberModel = &getModel('member');
+
+			$parentMenuInfo = $oMenuAdminModel->getMenuItemInfo($requestArgs->parent_srl);
+			$groupSrlList = $oMemberModel->getMemberGroups($logged_info->member_srl);
+
+			preg_match('/\{\$lang->menu_gnb\[(.*?)\]\}/i', $parentMenuInfo->name, $m);
+			$cache_file = sprintf("./files/cache/module_info/%s.%s.php", $requestArgs->menu_name, Context::getLangType());
+			include $cache_file;
+
+			$args->menu_item_srl = (!$requestArgs->menu_item_srl) ? getNextSequence() : $requestArgs->menu_item_srl;
+			$args->parent_srl = $requestArgs->parent_srl;
+			$args->menu_srl = $requestArgs->menu_srl;
+			$args->name = sprintf('{$lang->menu_gnb_sub[%s][\'%s\']}', $m[1], $requestArgs->menu_name);
+			$args->url = getNotEncodedUrl('', 'module', 'admin', 'act', $info->menu->{$requestArgs->menu_name}->index);
+			$args->open_window = 'N';
+			$args->expand = 'N';
+			$args->normal_btn = '';
+			$args->hover_btn = '';
+			$args->active_btn = '';
+			$args->group_srls = implode(',', array_keys($groupSrlList));
+			$args->listorder = -1*$args->menu_item_srl;
+
+            // Check if already exists
+            $oMenuModel = &getAdminModel('menu');
+            $item_info = $oMenuModel->getMenuItemInfo($args->menu_item_srl);
+            // Update if exists
+            if($item_info->menu_item_srl == $args->menu_item_srl) {
+                $output = executeQuery('menu.updateMenuItem', $args);
+                if(!$output->toBool()) return $output;
+            // Insert if not exist
+            } else {
+                $args->listorder = -1*$args->menu_item_srl;
+                $output = executeQuery('menu.insertMenuItem', $args);
+                if(!$output->toBool()) return $output;
+            }
+            // Get information of the menu
+            $menu_info = $oMenuModel->getMenu($args->menu_srl);
+            $menu_title = $menu_info->title;
+            // Update the xml file and get its location
+            $xml_file = $this->makeXmlFile($args->menu_srl);
+		}
 
         /**
          * @brief Generate XML file for menu and return its location
@@ -503,6 +598,7 @@
                 else $child_output = array("buff"=>"", "url_list"=>array());
                 // List variables
                 $names = $oMenuAdminModel->getMenuItemNames($node->name, $site_srl);
+				unset($name_arr_str);
                 foreach($names as $key => $val) {
                     $name_arr_str .= sprintf('"%s"=>"%s",',$key, str_replace(array('\\','"'),array('\\\\','&quot;'),$val));
                 }

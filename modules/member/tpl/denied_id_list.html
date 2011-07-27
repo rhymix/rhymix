@@ -1,5 +1,4 @@
 <!--#include("header.html")-->
-<!--%import("filter/insert_denied_id.xml")-->
 <!--%import("filter/update_denied_id.xml")-->
 
 <!-- 금지아이디의 삭제와 관련된 form -->
@@ -46,7 +45,11 @@
 </div>
 
 <!-- 금지 아이디 추가 -->
-<form action="./" method="get" onsubmit="return procFilter(this, insert_denied_id)">
+<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
+<form ruleset="insertDeniedId" action="./" method="post">
+<input type="hidden" name="act" value="procMemberAdminInsertDeniedID" />
 <input type="hidden" name="page" value="{$page}" />
 
 <div>

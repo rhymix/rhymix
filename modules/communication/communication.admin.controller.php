@@ -27,7 +27,12 @@
             $oModuleController = &getController('module');
             $output = $oModuleController->insertModuleConfig('communication',$args);
 
-            return $output;
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispCommunicationAdminConfig');
+				header('location:'.$returnUrl);
+				return;
+			}
+			else return $output;
         }
 
     }

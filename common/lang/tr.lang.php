@@ -67,11 +67,13 @@ $lang->cmd_layout_setup = 'Yerleşim düzenini yapılandır';
 $lang->cmd_layout_edit = 'Yerleşim düzeninin düzenle';
 $lang->cmd_search_by_ipaddress = 'IP Adresiyle ara';
 $lang->cmd_add_ip_to_spamfilter = 'Spamfilter\'a IPyi ekle';
+$lang->cmd_go_to_page = 'Go to page';
 
 $lang->enable = 'Seçilir kıl';
 $lang->disable = 'Seçilemez kıl';
 
 // Essential Words
+$lang->favorite = 'Favorite';
 $lang->menu = 'Menü';
 $lang->no = 'No';
 $lang->notice = 'Duyuru';
@@ -169,6 +171,8 @@ $lang->layout_manager = 'Yerleşim düzeni ayarları';
 
 $lang->use = 'Etkin';
 $lang->notuse = 'Devredışı';
+$lang->on = 'On';
+$lang->off = 'Off';
 $lang->not_exists = "mevcut değil";
 
 $lang->public = 'Genel';
@@ -242,6 +246,7 @@ $lang->success_reset = 'Başarıyla Tekrar Kuruldu.';
 $lang->success_leaved = 'Tüm üye verileri tamamen silindi.';
 $lang->success_saved = 'Başarıyla Kaydedildi.';
 
+$lang->fail_to_registed = '등록하지 못하였습니다.';
 $lang->fail_to_delete = 'Silinemedi';
 $lang->fail_to_move = 'Taşınamadı';
 

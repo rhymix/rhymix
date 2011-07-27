@@ -146,7 +146,6 @@
             $oModuleModel = &getModel('module');
 
             $config = $oModuleModel->getModuleConfig('member');
-            if($config->group_image_mark_order) $config->group_image_mark_order = explode(',', $config->group_image_mark_order);
             Context::set('config', $config);
 
             $group_srl = Context::get('group_srl');
