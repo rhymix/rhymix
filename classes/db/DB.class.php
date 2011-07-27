@@ -54,7 +54,8 @@
             if(!$db_type) $db_type = Context::getDBType();
             if(!$db_type && Context::isInstalled()) return new Object(-1, 'msg_db_not_setted');
 
-            if(!$GLOBALS['__DB__']) {
+			if(!isset($GLOBALS['__DB__'])) $GLOBALS['__DB__'] = array();
+            if(!isset($GLOBALS['__DB__'][$db_type])) {
                 $class_name = 'DB'.ucfirst($db_type);
                 $class_file = _XE_PATH_."classes/db/$class_name.class.php";
                 if(!file_exists($class_file)) return new Object(-1, 'msg_db_not_setted');
