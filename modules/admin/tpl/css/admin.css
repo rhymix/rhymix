@@ -82,7 +82,7 @@ p{line-height:1.5}
 .form .h3 + ul,
 .form .h4 + ul{border-top:0}
 /* Global Navigation Bar */
-.gnb{position:relative;clear:both;border:1px solid #c1c1c1;border-left:0;border-right:0;background:#efefef -webkit-gradient(linear, 0% 0%, 0% 100%, from(#efefef), to(#dcdcdc));background:#efefef -moz-linear-gradient(top, #efefef, #dcdcdc);filter:progid:DXImageTransform.Microsoft.gradient(startColorStr=#efefef, endColorStr=#dcdcdc);zoom:1}
+.gnb{position:relative;clear:both;border:1px solid #c1c1c1;border-left:0;border-right:0;background-color:#efefef;background:#efefef -webkit-gradient(linear, 0% 0%, 0% 100%, from(#efefef), to(#dcdcdc));background:#efefef -moz-linear-gradient(top, #efefef, #dcdcdc);filter:progid:DXImageTransform.Microsoft.gradient(startColorStr=#efefef, endColorStr=#dcdcdc);zoom:1}
 .gnb ul{margin:0;padding:0 0 0 2em;list-style:none;border:1px solid #fff;border-left:0;border-right:0;zoom:1}
 .gnb ul ul{position:absolute;top:33px;left:0;border:1px solid #ccc;padding:0;background:#fff}
 .gnb ul:after{content:"";display:block;clear:both}
@@ -310,22 +310,21 @@ p{line-height:1.5}
 .prgrs.prgrsLarge .pAction,
 .prgrs.prgrsLarge .pNum{height:34px;line-height:34px;font-size:14px}
 /* Layer */
-.layer{position:absolute;background:#fff;padding:0 1em;*padding:1em;border:8px solid #ddd;z-index:2;zoom:1;border-radius:5px;box-shadow:0 0 6px #666;-moz-box-shadow:0 0 6px #666;-webkit-box-shadow:0 0 6px #666;filter:progid:DXImageTransform.Microsoft.Shadow(color=#999999,direction=135, strength=5)}
+.layer{position:absolute;background:#fff;padding:0 1em;*padding:1em;border:8px solid #ddd;font-weight:normal;z-index:2;zoom:1;border-radius:5px;box-shadow:0 0 6px #666;-moz-box-shadow:0 0 6px #666;-webkit-box-shadow:0 0 6px #666;filter:progid:DXImageTransform.Microsoft.Shadow(color=#999999,direction=135, strength=5)}
 .layer h2{margin-top:1em}
 .layer ul, .layer ol, .layer .lined, .layer .table{margin-bottom:1em}
 .layerClose{position:absolute;right:-8px;top:-8px;border:0;background:#ddd;padding:0;width:28px;height:28px;font-size:14px;font-weight:bold;cursor:pointer;color:#999;border-radius:5px}
 .layerBlur{position:absolute;top:0;right:0;border:0;background:none;padding:0;width:1px;height:1px;overflow:hidden}
 /* Modal Window */
+.modal{position:fixed;*position:absolute;top:0;left:0;width:100%;_height:100%;min-height:100%;z-index:100}
 .modal .bg{position:absolute;background:#000;_background:none;width:100%;height:100%;opacity:.5;z-index:2;filter:progid:DXImageTransform.Microsoft.Alpha(opacity=50);zoom:1}
 .modal .fg{position:relative;width:50%;margin:5em auto;background:#fff;padding:0 1em;*padding:1em;border:8px solid #ddd;z-index:3;zoom:1;border-radius:5px;box-shadow:0 0 6px #000;-moz-box-shadow:0 0 6px #000;-webkit-box-shadow:0 0 6px #000}
 .modal h2{margin-top:1em}
 .modal ul, .modal ol, .modal .lined, .modal .table{margin-bottom:1em}
 .modal .ie6{position:absolute;left:0;top:0;width:100%;height:100%;border:0;opacity:0;filter:alpha(opacity=0);z-index:1}
-.modalActive{position:absolute;top:0;left:0;width:100%;_height:100%;min-height:100%;z-index:100}
 .modalClose{position:absolute;right:-8px;top:-8px;border:0;background:#ddd;padding:0;width:28px;height:28px;font-size:14px;font-weight:bold;cursor:pointer;color:#999;border-radius:5px}
 .modalBlur{position:absolute;top:0;right:0;border:0;background:none;padding:0;width:1px;height:1px;overflow:hidden}
-/* Toggle Content */
-.tgBlur{position:absolute;top:0;right:0;border:0;background:none;padding:0;width:1px;height:1px;overflow:hidden}
+html.modalContainer,body.modalContainer{_height:100%;_width:100%} /* IE6 only */ 
 /* Message */
 .message .info{}
 .message .error{}
@@ -363,8 +362,8 @@ button.text{border:0; overflow:visible; padding:0; margin:0; color:#33a; backgro
 .header .siteTool{position:absolute !important;top:42px;right:0;padding:0 2em 0 0;z-index:2}
 .header .siteTool .i{position:relative; z-index:2; display:inline-block;color:#fff;padding:0 6px;line-height:24px}
 .header .siteTool .i:first-child{border:0}
-.header .siteTool .tgSimple{padding-right:16px;background:url(../img/iconArrow.gif) no-repeat right -156px}
-.header .siteTool .tgSimple.active{border:1px solid #ccc; border-bottom:0; background-color:#fff; color:#333; text-decoration:none;border-radius:5px 5px 0 0}
+.header .siteTool .tgAnchor{padding-right:16px;background:url(../img/iconArrow.gif) no-repeat right -156px}
+.header .siteTool .tgAnchor.active{border:1px solid #ccc; border-bottom:0; background-color:#fff; color:#333; text-decoration:none;border-radius:5px 5px 0 0}
 .header .siteTool .tgContent{position:absolute;top:24px;right:2em;border:1px solid #ccc;z-index:1;background-color:#fff;border-radius:5px 0 5px 5px}
 .header .siteTool .tgContent .btnArea{margin:0}
 .header #moveSiteList{padding:10px 1em 5px 1em; margin:0}
@@ -493,20 +492,33 @@ button.text{border:0; overflow:visible; padding:0; margin:0; color:#33a; backgro
 .btnArea{margin:1em 0;text-align:right;zoom:1}
 .btnArea:after{content:"";display:block;clear:both}
 /* Multilingual */
-#multilingual{background:#fff;position:absolute;*left:0;*margin-top:28px;z-index:10;box-shadow:3px 3px 6px #999;-moz-box-shadow:3px 3px 6px #999;-webkit-box-shadow:3px 3px 6px #999;filter:progid:DXImageTransform.Microsoft.Shadow(color=#999999,direction=135, strength=5)}
-#multilingual ul{border-top:1px solid #ccc;border-left:1px solid #eee;border-right:1px solid #eee;margin:0}
-#multilingual li{padding:.5em 10px}
-#multilingual input{width:258px}
-#multilingual label{left:15px !important}
-/* Mid Suggestion */
-#suggestion{background:#fff;z-index:10;*left:0;*margin-top:28px;box-shadow:3px 3px 6px #999;-moz-box-shadow:3px 3px 6px #999;-webkit-box-shadow:3px 3px 6px #999;filter:progid:DXImageTransform.Microsoft.Shadow(color=#999999,direction=135, strength=5)}
-#suggestion ul{border-top:1px solid #ccc;border-left:1px solid #eee;border-right:1px solid #eee;width:288px;_height:200px;max-height:200px;overflow:auto;margin:0}
-#suggestion li{padding:0}
-#suggestion li:last-child{border-bottom:0}
-#suggestion li button{border:0;background:#fff;text-align:left;width:100%}
-#suggestion li button:hover,
-#suggestion li button:active,
-#suggestion li button:focus{background:#eee}
+#vLangEdit{background:#fff;position:absolute;*left:0;*margin-top:28px;z-index:10;box-shadow:3px 3px 6px #999;-moz-box-shadow:3px 3px 6px #999;-webkit-box-shadow:3px 3px 6px #999;filter:progid:DXImageTransform.Microsoft.Shadow(color=#999999,direction=135, strength=5)}
+#vLangEdit ul{border-top:1px solid #ccc;border-left:1px solid #eee;border-right:1px solid #eee;margin:0}
+#vLangEdit li{padding:.5em 10px}
+#vLangEdit input[type=text]{width:220px;padding-right:40px}
+#vLangEdit label{left:15px !important}
+#vLangEdit .saveAs{ border:1px solid #eee; width:268px; padding:0 10px}
+#vLangEdit p, #vLangEdit .btnArea{ white-space:normal}
+input#lang_en{background:url(../img/flag.us.gif) no-repeat 96% center}
+input#lang_ko{background:url(../img/flag.kr.gif) no-repeat 96% center}
+input#lang_ja{background:url(../img/flag.jp.gif) no-repeat 96% center}
+input#lang_zh{background:url(../img/flag.cn.gif) no-repeat 96% center}
+input#lang_fr{background:url(../img/flag.fr.gif) no-repeat 96% center}
+input#lang_de{background:url(../img/flag.de.gif) no-repeat 96% center}
+input#lang_ru{background:url(../img/flag.ru.gif) no-repeat 96% center}
+input#lang_tr{background:url(../img/flag.tr.gif) no-repeat 96% center}
+input#lang_vi{background:url(../img/flag.vn.gif) no-repeat 96% center}
+input#lang_mn{background:url(../img/flag.mn.gif) no-repeat 96% center}
+
+/* Suggestion */
+.suggestion{display:none;position:absolute;background:#fff;z-index:10;_height:200px;max-height:200px;overflow:auto;*left:0;*margin-top:28px;box-shadow:3px 3px 6px #999;-moz-box-shadow:3px 3px 6px #999;-webkit-box-shadow:3px 3px 6px #999;filter:progid:DXImageTransform.Microsoft.Shadow(color=#999999,direction=135, strength=5)}
+.suggestion ul{border-top:1px solid #ccc;border-left:1px solid #eee;border-right:1px solid #eee;margin:0}
+.suggestion li{padding:0}
+.suggestion li:last-child{border-bottom:0}
+.suggestion li button{border:0;background:#fff;text-align:left;width:280px;display:block; overflow:hidden; text-overflow:ellipsis;white-space:nowrap}
+.suggestion li button:hover,
+.suggestion li button:active,
+.suggestion li button:focus{background:#eee}
 /* Image Mark */
 #imageMark{right:0}
 /* Easy Installer */
@@ -592,4 +604,5 @@ button.text{border:0; overflow:visible; padding:0; margin:0; color:#33a; backgro
 }
 @media only all and (max-width:640px) {
 	.skipNav a{position:relative;width:auto;height:auto}
+	.modal{position:absolute}
 }
