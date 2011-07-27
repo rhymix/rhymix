@@ -17,6 +17,17 @@
 
         var $count_cache_path = 'files/cache/db';
 
+        var $cond_operation = array( ///< operations for condition
+            'equal' => '=',
+            'more' => '>=',
+            'excess' => '>',
+            'less' => '<=',
+            'below' => '<',
+            'notequal' => '<>',
+            'notnull' => 'is not null',
+            'null' => 'is null',
+        );
+
         var $fd = NULL; ///< connector resource or file description
 
         var $result = NULL; ///< result
@@ -43,7 +54,8 @@
             if(!$db_type) $db_type = Context::getDBType();
             if(!$db_type && Context::isInstalled()) return new Object(-1, 'msg_db_not_setted');
 
-            if(!$GLOBALS['__DB__']) {
+			if(!isset($GLOBALS['__DB__'])) $GLOBALS['__DB__'] = array();
+            if(!isset($GLOBALS['__DB__'][$db_type])) {
                 $class_name = 'DB'.ucfirst($db_type);
                 $class_file = _XE_PATH_."classes/db/$class_name.class.php";
                 if(!file_exists($class_file)) return new Object(-1, 'msg_db_not_setted');
@@ -77,6 +89,48 @@
             $oDB = new DB();
             return $oDB->_getSupportedList();
         }
+
+        /**
+         * @brief returns list of enable in supported db
+         * @return list of enable in supported db
+         **/
+		function getEnableList()
+		{
+			if(!$this->supported_list)
+			{
+				$oDB = new DB();
+				$this->supported_list = $oDB->_getSupportedList();
+			}
+
+			$enableList = array();
+			if(is_array($this->supported_list))
+			{
+				foreach($this->supported_list AS $key=>$value)
+					if($value->enable) array_push($enableList, $value);
+			}
+			return $enableList;
+		}
+
+        /**
+         * @brief returns list of disable in supported db
+         * @return list of disable in supported db
+         **/
+		function getDisableList()
+		{
+			if(!$this->supported_list)
+			{
+				$oDB = new DB();
+				$this->supported_list = $oDB->_getSupportedList();
+			}
+
+			$disableList = array();
+			if(is_array($this->supported_list))
+			{
+				foreach($this->supported_list AS $key=>$value)
+					if(!$value->enable) array_push($disableList, $value);
+			}
+			return $disableList;
+		}
 
         /**
          * @brief returns list of supported db
