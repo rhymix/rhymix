@@ -26,10 +26,10 @@
             $args->isvalid = Context::get('isvalid');
             $args->module_srl = Context::get('module_srl');
             // Get a list
-            $oFileModel = &getAdminModel('file');
+            $oFileAdminModel = &getAdminModel('file');
 			$columnList = array('file_srl', 'upload_target_srl', 'upload_target_type', 'module_srl'
 					, 'source_filename', 'isvalid', 'file_size', 'download_count', 'files.regdate', 'ipaddress');
-            $output = $oFileModel->getFileList($args, $columnList);
+            $output = $oFileAdminModel->getFileList($args, $columnList);
             // Get the document for looping a list
             if($output->data) {
                 $oCommentModel = &getModel('comment');
@@ -154,6 +154,17 @@
                     }
                 }
             }
+
+			$countOutput = $oFileAdminModel->getFilesCountByGroupValid($args);
+			$validCount = array();
+			if(is_array($countOutput))
+			{
+				foreach($countOutput AS $key=>$value)
+				{
+					$validCount[$value->isvalid] = $value->count;
+				}
+			}
+
             Context::set('file_list', $file_list);
             Context::set('document_list', $document_list);
             Context::set('comment_list', $comment_list);
@@ -162,6 +173,7 @@
             Context::set('total_page', $output->total_page);
             Context::set('page', $output->page);
             Context::set('page_navigation', $output->page_navigation);
+			Context::set('valid_count', $validCount);
             // Set a template
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('file_list');

@@ -492,7 +492,6 @@
 					$layout_list[] = $layout_info;
 				}
 			}
-// 			debugPrint($layout_list);
 			Context::set('theme_list', $theme_list);
 			Context::set('layout_list', $layout_list);
 

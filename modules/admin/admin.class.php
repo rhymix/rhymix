@@ -75,7 +75,6 @@
 			//insert menu
             $args->title = $this->xeMenuTitle;
             $args->menu_srl = getNextSequence();
-			//$args->menu_srl = 3302;
             $args->listorder = $args->menu_srl * -1;
             $output = executeQuery('menu.insertMenu', $args);
 			$menuSrl = $args->menu_srl;
@@ -129,26 +128,22 @@
 
 				foreach($installed_module_list AS $key=>$value)
 				{
-					//if($value->module == 'document')
-					//{
-						$moduleActionInfo = $oModuleModel->getModuleActionXml($value->module);
-						if(is_object($moduleActionInfo->menu))
+					$moduleActionInfo = $oModuleModel->getModuleActionXml($value->module);
+					if(is_object($moduleActionInfo->menu))
+					{
+						foreach($moduleActionInfo->menu AS $key2=>$value2)
 						{
-							foreach($moduleActionInfo->menu AS $key2=>$value2)
-							{
-								$gnbKey = "'".$this->_getGnbKey($key2)."'";
+							$gnbKey = "'".$this->_getGnbKey($key2)."'";
 
-								//insert menu item
-								$args->menu_item_srl = getNextSequence();
-								$args->parent_srl = $gnbDBList[$gnbKey];
-								//$args->name = '{$lang->menu_gnb_sub['.$gnbKey.'][\''.$key2.'\']}';
-								$args->name = '{$lang->menu_gnb_sub[\''.$key2.'\']}';
-								$args->url = getNotEncodedUrl('', 'module', 'admin', 'act', $value2->index);
-								$args->listorder = -1*$args->menu_item_srl;
-								$output = executeQuery('menu.insertMenuItem', $args);
-							}
+							//insert menu item
+							$args->menu_item_srl = getNextSequence();
+							$args->parent_srl = $gnbDBList[$gnbKey];
+							$args->name = '{$lang->menu_gnb_sub[\''.$key2.'\']}';
+							$args->url = getNotEncodedUrl('', 'module', 'admin', 'act', $value2->index);
+							$args->listorder = -1*$args->menu_item_srl;
+							$output = executeQuery('menu.insertMenuItem', $args);
 						}
-					//}
+					}
 				}
 			}
 

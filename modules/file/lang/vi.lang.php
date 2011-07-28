@@ -54,6 +54,7 @@
         'user_name' => 'Tên Sử dụng',
         'nick_name' => 'Nickname',
         'ipaddress' => 'IP',
+        'isvalid' => 'Status',
     );
 	$lang->msg_not_allowed_outlink = 'Không cho phép tải file từ những trang khác ngoài trang này.'; 
     $lang->msg_not_permitted_create = '파일 또는 디렉토리를 생성할 수 없습니다.';

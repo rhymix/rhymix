@@ -3,7 +3,7 @@
     <grants />
     <permissions />
     <actions>
-        <action name="dispFileAdminList" type="view" admin_index="true" standalone="true" />
+        <action name="dispFileAdminList" type="view" admin_index="true" standalone="true" menu_name="file" menu_index="true" />
         <action name="dispFileAdminConfig" type="view" standalone="true" />
         <action name="getFileList" type="model" standalone="true" />
         <action name="procFileUpload" type="controller" standalone="true" />

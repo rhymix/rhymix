@@ -29,7 +29,7 @@
 
 			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
 				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispCommunicationAdminConfig');
-				header('location:'.$returnUrl);
+				$this->setRedirectUrl($returnUrl);
 				return;
 			}
 			else return $output;

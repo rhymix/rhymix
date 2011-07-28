@@ -28,46 +28,6 @@ function completeManageDocument(ret_obj) {
     window.close();
 }
 
-/* 선택된 모듈의 카테고리 목록을 가져오는 함수 */
-function doGetCategoryFromModule(module_srl) {
-    var params = new Array();
-    params['module_srl'] = module_srl;
-
-    var response_tags = ['error','message','categories'];
-
-    exec_xml('document','getDocumentCategories',params, completeGetCategoryFromModules, response_tags);
-}
-
-function completeGetCategoryFromModules(ret_obj, response_tags) {
-    var obj = jQuery('#target_category').get(0);
-    var length = obj.options.length;
-    for(var i=0;i<length;i++) obj.remove(0);
-
-    var categories = ret_obj['categories'];
-    if(!categories) return;
-
-	var depth_str = '-';
-	for(var i=0; i < 5; i++) depth_str += depth_str;
-
-    var category_list = categories.split("\n");
-    for(var i=0;i<category_list.length;i++) {
-        var item = category_list[i];
-
-        var pos = item.indexOf(',');
-        var category_srl = item.substr(0,pos);
-
-        var item = item.substr(pos+1, item.length);
-        var pos = item.indexOf(',');
-        var depth = item.substr(0,pos);
-
-        var category_title = item.substr(pos+1,item.length);
-        if(!category_srl || !category_title) continue;
-
-		if (depth > 0) category_title = depth_str.substr(0, depth) + ' ' + category_title;
-        var opt = new Option(category_title, category_srl, false, false);
-        obj.options[obj.options.length] = opt;
-    }
-}
 
 function doCancelDeclare() {
     var document_srl = [];
@@ -157,19 +117,28 @@ function getDocumentList() {
 
 function completeGetDocumentList(ret_obj, response_tags)
 {
-	var document_list = ret_obj['document_list']['item'];
 	var htmlListBuffer = '';
 	var statusNameList = {"PUBLIC":"Public", "SECRET":"Secret", "PRIVATE":"Private", "TEMP":"Temp"};
-
-	for(var x in document_list)
+	if(ret_obj['document_list'] == null)
 	{
-		var objDocument = document_list[x];
-		htmlListBuffer += '<tr>' +
-							'<td class="title">'+ objDocument.variables.title +'</td>' +
-							'<td>'+ objDocument.variables.nick_name +'</td>' +
-							'<td>'+ statusNameList[objDocument.variables.status] +'</td>' +
-							'<td><input type="checkbox" /></td>' +
+		htmlListBuffer = '<tr>' +
+							'<td colspan="3" style="text-align:center;">'+ret_obj['message']+'</td>' +
 						'</tr>';
+	}
+	else
+	{
+		var document_list = ret_obj['document_list']['item'];
+		if(!jQuery.isArray(document_list)) document_list = [document_list];
+		for(var x in document_list)
+		{
+			var objDocument = document_list[x];
+			htmlListBuffer += '<tr>' +
+								'<td class="title">'+ objDocument.variables.title +'</td>' +
+								'<td>'+ objDocument.variables.nick_name +'</td>' +
+								'<td>'+ statusNameList[objDocument.variables.status] +'</td>' +
+							'</tr>'+
+							'<input type="hidden" name="cart[]" value="'+objDocument.document_srl+'" />';
+		}
 	}
 	jQuery('#documentManageListTable>tbody').html(htmlListBuffer);
 }
@@ -177,13 +146,90 @@ function completeGetDocumentList(ret_obj, response_tags)
 function getModuleList()
 {
 	var params = new Array();
-	var response_tags = ['error', 'message'];
+	var response_tags = ['error', 'message', 'module_list'];
+    var formObj = jQuery("#manageForm").get(0);
 
-    exec_xml('document','procModuleAdminGetList',params, completeGetModuleList, response_tags);
+    params['site_keyword'] = formObj.site_keyword.value;
+
+    exec_xml('module','procModuleAdminGetList',params, completeGetModuleList, response_tags);
 }
 
+var module_list = '';
 function completeGetModuleList(ret_obj, response_tags)
 {
-	console.log(ret_obj['error']);
-	console.log(ret_obj['message']);
+    var formObj = jQuery("#manageForm").get(0);
+	module_list = ret_obj['module_list'];
+	var htmlListBuffer = '';
+
+	for(var x in module_list)
+	{
+		if(x == 'page') continue;
+		var moduleObject = module_list[x];
+		htmlListBuffer += '<option value="'+x+'">'+moduleObject.title+'</option>';
+	}
+	jQuery('#module_list').html(htmlListBuffer);
+	makeMidList(jQuery('#module_list').val());
+}
+
+jQuery(document).ready(function($){
+	$('#module_list').bind('change', function(e){
+		makeMidList($('#module_list').val());
+	});
+	$('#mid_list').bind('change', function(e){
+		doGetCategoryFromModule($('#mid_list').val());
+	});
+});
+
+function makeMidList(moduleName)
+{
+	var mid_list = module_list[moduleName].list;
+	var htmlListBuffer = '';
+	for(var x in mid_list)
+	{
+		var moduleInstance = mid_list[x];
+		htmlListBuffer += '<option value="'+moduleInstance.module_srl+'">'+x+'</option>';
+	}
+	jQuery('#mid_list').html(htmlListBuffer);
+	doGetCategoryFromModule(jQuery('#mid_list').val());
+}
+
+/* 선택된 모듈의 카테고리 목록을 가져오는 함수 */
+function doGetCategoryFromModule(module_srl) {
+    var params = new Array();
+    params['module_srl'] = module_srl;
+
+    var response_tags = ['error','message','categories'];
+
+    exec_xml('document','getDocumentCategories',params, completeGetCategoryFromModules, response_tags);
+}
+
+function completeGetCategoryFromModules(ret_obj, response_tags) {
+    var obj = jQuery('#target_category').get(0);
+    var length = obj.options.length;
+    for(var i=0;i<length;i++) obj.remove(0);
+
+    var categories = ret_obj['categories'];
+    if(!categories) return;
+
+	var depth_str = '-';
+	for(var i=0; i < 5; i++) depth_str += depth_str;
+
+    var category_list = categories.split("\n");
+    for(var i=0;i<category_list.length;i++) {
+        var item = category_list[i];
+
+        var pos = item.indexOf(',');
+        var category_srl = item.substr(0,pos);
+
+        var item = item.substr(pos+1, item.length);
+        var pos = item.indexOf(',');
+        var depth = item.substr(0,pos);
+
+        var category_title = item.substr(pos+1,item.length);
+        if(!category_srl || !category_title) continue;
+
+		if (depth > 0) category_title = depth_str.substr(0, depth) + ' ' + category_title;
+        var opt = new Option(category_title, category_srl, false, false);
+        obj.options[obj.options.length] = opt;
+    }
 }

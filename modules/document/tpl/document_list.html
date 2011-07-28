@@ -1,4 +1,7 @@
 <!--%import("js/document_admin.js")-->
+<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
 	<form id="fo_list" action="./" method="get" class="form">
 	<input type="hidden" name="page" value="{$page}" />
 		<h1 class="h1">Document</h1>
@@ -42,7 +45,9 @@
 		</div>
 	</form>
 	<div class="modal" id="listManager">
-		<form action="" class="fg form">
+		<form action="./" method="post" class="fg form" id="manageForm">
+		<input type="hidden" name="act" value="procDocumentManageCheckedDocument" />
+		<input type="hidden" name="type" value="" />
 			<h2 class="h2">선택한 글 관리</h2>
 			<div class="table even">
 				<table width="100%" border="1" cellspacing="0" id="documentManageListTable">
@@ -52,36 +57,41 @@
 							<th scope="col" class="title">Title</th>
 							<th scope="col">Author</th>
 							<th scope="col">Status</th>
-							<th scope="col"><input type="checkbox" title="Check All" /></th>
 						</tr>
 					</thead>
 					<tbody>
 					</tbody>
 				</table>
 			</div>
-			<p class="q"><label for="midUrl">선택한 글을 다음 위치로 옮기거나 복사할 수 있습니다.</label></p>
+			<p class="q"><label for="site">선택한 글을 다음 위치로 옮기거나 복사할 수 있습니다.</label></p>
 			<div class="a">
-				<input type="text" id="midUrl" />
-				<span class="desc"><a href="#midSuggestion" class="tgFade" onclick="getModuleList();">Find Module ID</a></span>
-				<div id="midSuggestion" class="tgContent">
-					<ul>
-						<li><button type="button">SiteID.ModuleID.Category</button></li>
-						<li><button type="button">naradesign.freeBoard</button></li>
-						<li><button type="button">naradesign.userForum.technique</button></li>
-						<li><button type="button">mygony.freeBoard</button></li>
-						<li><button type="button">mygony.userForum.technique</button></li>
-					</ul>
-				</div>
+				<input type="text" name="site_keyword" id="site" />
+				<span class="desc"><a href="#suggestion" class="tgAnchor" onclick="getModuleList();">사이트 찾기</a></span>
+				<p>
+					<select style="width:290px" name="target_module" id="module_list">
+						<option>모듈을 선택하세요.</option>
+					</select>
+				</p>
+				<p>
+					<select style="width:290px" name="module_srl" id="mid_list">
+						<option>모듈 아이디를 선택하세요.</option>
+					</select>
+				</p>
+				<p>
+					<select id="target_category" name="target_category" style="width:290px">
+						<option>분류를 선택하세요.</option>
+					</select>
+				</p>
 			</div>
 			<p class="q"><label for="message">저작자에게 쪽지를 발송해서 이 사실을 알립니다. 작성하지 않으면 발송하지 않습니다.</label></p>
 			<p>
-				<textarea cols="42" rows="3" id="message" style="width:98%"></textarea>
+				<textarea cols="42" rows="3" name="message_content" id="message" style="width:98%"></textarea>
 			</p>
 			<div class="btnArea">
-				<span class="btn"><input type="submit" value="Move" /></span>
-				<span class="btn"><input type="submit" value="Copy" /></span>
-				<span class="btn"><input type="submit" value="Trash" /></span>
-				<span class="btn"><input type="submit" value="Delete" class="delete" /></span>
+				<button type="submit" name="type" value="trash">{$lang->cmd_trash}</button>
+				<button type="submit" name="type" value="delete">{$lang->cmd_delete}</button>
+				<button type="submit" name="type" value="move">{$lang->cmd_move}</button>
+				<button type="submit" name="type" value="copy">{$lang->cmd_copy}</button>
 			</div>
 		</form>
 	</div>

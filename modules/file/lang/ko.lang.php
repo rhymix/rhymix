@@ -45,6 +45,7 @@
         'nick_name' => '닉네임',
         'regdate' => '등록일',
         'ipaddress' => 'IP 주소',
+        'isvalid' => '상태',
     );
 	$lang->msg_not_allowed_outlink = '외부링크에서 다운로드 할 수 없습니다.'; 
     $lang->msg_not_permitted_create = '파일 또는 디렉토리를 생성할 수 없습니다.';

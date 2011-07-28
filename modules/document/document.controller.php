@@ -1532,14 +1532,15 @@ class documentController extends document {
 		if(!Context::get('is_logged')) return new Object(-1,'msg_not_permitted');
 
 		$type = Context::get('type');
-		$module_srl = Context::get('target_module');
+		$target_module = Context::get('target_module');
+		$module_srl = Context::get('module_srl');
 		$category_srl = Context::get('target_category');
 		$message_content = Context::get('message_content');
 		if($message_content) $message_content = nl2br($message_content);
 
 		$cart = Context::get('cart');
-		if($cart) $document_srl_list = explode('|@|', $cart);
-		else $document_srl_list = array();
+		if(!is_array($cart)) $document_srl_list = explode('|@|', $cart);
+		else $document_srl_list = $cart;
 
 		$document_srl_count = count($document_srl_list);
 		// Send a message
@@ -1613,6 +1614,11 @@ class documentController extends document {
 		$_SESSION['document_management'] = array();
 
 		$this->setMessage($msg_code);
+		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList');
+			$this->setRedirectUrl($returnUrl);
+			return;
+		}
 	}
 
 	function procDocumentInsertModuleConfig()
@@ -1708,11 +1714,17 @@ class documentController extends document {
 			}
 		}
 
-		if(count($documentSrlList)) {
+		if(count($documentSrlList) > 0) {
 			$oDocumentModel = &getModel('document');
 			$documentList = $oDocumentModel->getDocuments($documentSrlList, $this->grant->is_admin);
+			$this->add('document_list', $documentList);
 		}
-		$this->add('document_list', $documentList);
+		else
+		{
+			global $lang;
+			$documentList = array();
+			$this->setMessage($lang->no_documents);
+		}
 	}
 
 	/**

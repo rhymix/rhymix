@@ -1,0 +1,26 @@
+<query id="getFilesCount" action="select">
+    <tables>
+        <table name="files" />
+    </tables>
+    <columns>
+        <column name="isvalid" />
+        <column name="count(*)" alias="count" />
+    </columns>
+    <conditions>
+        <condition operation="in" column="module_srl" var="s_module_srl" />
+        <condition operation="notin" column="module_srl" var="exclude_module_srl" pipe="and" />
+        <condition operation="equal" column="isvalid" var="isvalid" pipe="and" />
+        <condition operation="equal" column="direct_download" var="direct_download" pipe="and" />
+        <group pipe="and">
+            <condition operation="like" column="source_filename" var="s_filename" pipe="or" />
+            <condition operation="more" column="file_size" var="s_filesize_more" pipe="or" />
+            <condition operation="less" column="file_size" var="s_filesize_less" pipe="or" />
+            <condition operation="more" column="download_count" var="s_download_count" pipe="or" />
+            <condition operation="like_prefix" column="regdate" var="s_regdate" pipe="or" />
+            <condition operation="like_prefix" column="ipaddress" var="s_ipaddress" pipe="or" />
+        </group>
+    </conditions>
+	<groups>
+		<group column="isvalid" />
+	</groups>
+</query>

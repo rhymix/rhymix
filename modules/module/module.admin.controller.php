@@ -473,28 +473,28 @@
 
             // Get a list of modules at the site
             $output = executeQueryArray('module.getSiteModules', $args);
-            $category_list = $mid_list = array();
+            $mid_list = array();
             if(count($output->data)) {
                 foreach($output->data as $key => $val) {
-                    /*$module = trim($val->module);
+                    $module = trim($val->module);
                     if(!$module) continue;
 
-                    $category = $val->category;
                     $obj = null;
                     $obj->module_srl = $val->module_srl;
                     $obj->browser_title = $val->browser_title;
-                    $mid_list[$module]->list[$category][$val->mid] = $obj;*/
+                    $mid_list[$module]->list[$val->mid] = $obj;
                 }
             }
 
-            /*$selected_module = Context::get('selected_module');
+            $selected_module = Context::get('selected_module');
             if(count($mid_list)) {
                 foreach($mid_list as $module => $val) {
                     if(!$selected_module) $selected_module = $module;
                     $xml_info = $oModuleModel->getModuleInfoXml($module);
                     $mid_list[$module]->title = $xml_info->title;
                 }
-            }*/
+            }
+			$this->add('module_list', $mid_list);
 		}
 
         /**

@@ -51,6 +51,7 @@
         'user_name' => 'Kullanıcı İsmi',
         'nick_name' => 'Rumuz',
         'ipaddress' => 'IP Adresi',
+        'isvalid' => 'Status',
     );
 	$lang->msg_not_allowed_outlink = 'Bu siteden dosya indirimine izin verilmemektedir.'; 
     $lang->msg_not_permitted_create = 'Dosya veya dizin oluşturma hatası.';

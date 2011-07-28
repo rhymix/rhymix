@@ -50,6 +50,7 @@
         'nick_name' => '暱稱',
         'regdate' => '登錄日期',
         'ipaddress' => 'IP位址',
+        'isvalid' => 'Status',
     );
 	$lang->msg_not_allowed_outlink = '無法從網站下載檔案。'; 
     $lang->msg_not_permitted_create = '파일 또는 디렉토리를 생성할 수 없습니다.';
