@@ -497,7 +497,7 @@ button.text{border:0; overflow:visible; padding:0; margin:0; color:#33a; backgro
 #vLangEdit li{padding:.5em 10px}
 #vLangEdit input[type=text]{width:220px;padding-right:40px}
 #vLangEdit label{left:15px !important}
-#vLangEdit .saveAs{ border:1px solid #eee; width:268px; padding:0 10px}
+#vLangEdit .action{ border:1px solid #eee; width:268px; padding:0 10px}
 #vLangEdit p, #vLangEdit .btnArea{ white-space:normal}
 input#lang_en{background:url(../img/flag.us.gif) no-repeat 96% center}
 input#lang_ko{background:url(../img/flag.kr.gif) no-repeat 96% center}
