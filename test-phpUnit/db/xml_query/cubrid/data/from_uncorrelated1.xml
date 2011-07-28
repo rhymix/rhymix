@@ -1,0 +1,19 @@
+<query id="getMemberInfo" action="select">
+    <tables>
+        <table query="true" alias="documentCountByMember">
+        	<tables>
+        		<table name="documents" alias="documents" />
+        	</tables>
+        	<columns>
+        		<column name="member_srl" alias="member_srl" />
+        		<column name="count(*)" alias="count" />
+        	</columns>
+		    <groups>
+		       <group column="member_srl" />
+		    </groups>        		        	
+        </table>
+    </tables>
+    <columns>
+        <column name="MAX(documentCountByMember.count)" alias="maxCount" />
+    </columns>
+</query>

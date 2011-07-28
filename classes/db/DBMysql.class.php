@@ -116,7 +116,7 @@
          **/
         function addQuotes($string) {
             if(version_compare(PHP_VERSION, "5.9.0", "<") && get_magic_quotes_gpc()) $string = stripslashes(str_replace("\\","\\\\",$string));
-            if(!is_numeric($string)) $string = @mysql_real_escape_string($string, $this->fd);
+            if(!is_numeric($string)) $string = @mysql_escape_string($string);
             return $string;
         }
 
@@ -152,7 +152,7 @@
             // Notify to start a query execution
             $this->actStart($query);
             // Run the query statement
-            $result = @mysql_query($query, $this->fd);
+            $result = mysql_query($query, $this->fd);
             // Error Check
             if(mysql_error($this->fd)) $this->setError(mysql_errno($this->fd), mysql_error($this->fd));
             // Notify to complete a query execution
@@ -164,12 +164,16 @@
         /**
          * @brief Fetch results
          **/
-        function _fetch($result) {
+        function _fetch($result, $arrayIndexEndValue = NULL) {
             if(!$this->isConnected() || $this->isError() || !$result) return;
             while($tmp = $this->db_fetch_object($result)) {
-                $output[] = $tmp;
+            	if($arrayIndexEndValue) $output[$arrayIndexEndValue--] = $tmp;
+                else $output[] = $tmp;
             }
-            if(count($output)==1) return $output[0];
+            if(count($output)==1){
+            	if(isset($arrayIndexEndValue)) return $output; 
+            	else return $output[0];
+            }
             return $output;
         }
 
@@ -375,140 +379,45 @@
         }
 
         /**
-         * @brief Return conditional clause
-         **/
-        function getCondition($output) {
-            if(!$output->conditions) return;
-            $condition = $this->_getCondition($output->conditions,$output->column_type);
-            if($condition) $condition = ' where '.$condition;
-            return $condition;
-        }
-
-        function getLeftCondition($conditions,$column_type){
-            return $this->_getCondition($conditions,$column_type);
-        }
-
-
-        function _getCondition($conditions,$column_type) {
-            $condition = '';
-            foreach($conditions as $val) {
-                $sub_condition = '';
-                foreach($val['condition'] as $v) {
-                    if(!isset($v['value'])) continue;
-                    if($v['value'] === '') continue;
-                    if(!in_array(gettype($v['value']), array('string', 'integer', 'double', 'array'))) continue;
-
-                    $name = $v['column'];
-                    $operation = $v['operation'];
-                    $value = $v['value'];
-                    $type = $this->getColumnType($column_type,$name);
-                    $pipe = $v['pipe'];
-                    $value = $this->getConditionValue($name, $value, $operation, $type, $column_type);
-                    if(!$value) $value = $v['value'];
-                    $str = $this->getConditionPart($name, $value, $operation);
-                    if($sub_condition) $sub_condition .= ' '.$pipe.' ';
-                    $sub_condition .=  $str;
-                }
-                if($sub_condition) {
-                    if($condition && $val['pipe']) $condition .= ' '.$val['pipe'].' ';
-                    $condition .= '('.$sub_condition.')';
-                }
-            }
-            return $condition;
-        }
-
-        /**
          * @brief Handle the insertAct
          **/
-        function _executeInsertAct($output) {
-            // List tables
-            foreach($output->tables as $key => $val) {
-                $table_list[] = '`'.$this->prefix.$val.'`';
-            }
-            // List columns
-            foreach($output->columns as $key => $val) {
-                $name = $val['name'];
-                $value = $val['value'];
-
-                if($output->column_type[$name]!='number') {
-
-					if(!is_null($value)){
-						$value = "'" . $this->addQuotes($value) ."'";
-					}else{
-						if($val['notnull']=='notnull') {
-							$value = "''";
-						} else {
-							//$value = 'null';
-							$value = "''";
-						}
-					}
-
-                }
-				//elseif(!$value || is_numeric($value)) $value = (int)$value;
-                else $this->_filterNumber($value);
-
-                $column_list[] = '`'.$name.'`';
-                $value_list[] = $value;
-            }
-
+        function _executeInsertAct($queryObject) {
+            // TODO See what priority does
 			//priority setting
-			$priority = '';
-			if($output->priority) $priority = $output->priority['type'].'_priority';
+			//$priority = '';
+			//if($output->priority) $priority = $output->priority['type'].'_priority';
 
-            $query = sprintf("insert %s into %s (%s) values (%s);", $priority, implode(',',$table_list), implode(',',$column_list), implode(',', $value_list));
+            $query = $this->getInsertSql($queryObject);
+            if(is_a($query, 'Object')) return;
             return $this->_query($query);
         }
 
         /**
          * @brief Handle updateAct
          **/
-        function _executeUpdateAct($output) {
-            // List tables
-            foreach($output->tables as $key => $val) {
-                $table_list[] = '`'.$this->prefix.$val.'` as '.$key;
-            }
-            // List columns
-            foreach($output->columns as $key => $val) {
-                if(!isset($val['value'])) continue;
-                $name = $val['name'];
-                $value = $val['value'];
-                if(strpos($name,'.')!==false&&strpos($value,'.')!==false) $column_list[] = $name.' = '.$value;
-                else {
-                    if($output->column_type[$name]!='number') $value = "'".$this->addQuotes($value)."'";
-                	else $this->_filterNumber($value);
-
-                    $column_list[] = sprintf("`%s` = %s", $name, $value);
-                }
-            }
-            // List the conditional clause
-            $condition = $this->getCondition($output);
-
+        function _executeUpdateAct($queryObject) {
+            // TODO See what proiority does
 			//priority setting
-			$priority = '';
-			if($output->priority) $priority = $output->priority['type'].'_priority';
+			//$priority = '';
+			//if($output->priority) $priority = $output->priority['type'].'_priority';
 
-            $query = sprintf("update %s %s set %s %s", $priority, implode(',',$table_list), implode(',',$column_list), $condition);
-
+            $query = $this->getUpdateSql($queryObject);
+            if(is_a($query, 'Object')) return;
             return $this->_query($query);
         }
 
         /**
          * @brief Handle deleteAct
          **/
-        function _executeDeleteAct($output) {
-            // List tables
-            foreach($output->tables as $key => $val) {
-                $table_list[] = '`'.$this->prefix.$val.'`';
-            }
-            // List the conditional clause
-            $condition = $this->getCondition($output);
-
-			//priority setting
-			$priority = '';
-			if($output->priority) $priority = $output->priority['type'].'_priority';
-
-            $query = sprintf("delete %s from %s %s", $priority, implode(',',$table_list), $condition);
-
+        function _executeDeleteAct($queryObject) {
+        	$query = $this->getDeleteSql($queryObject);
+			
+        	if(is_a($query, 'Object')) return;
+        	
+        	//priority setting
+			// TODO Check what priority does
+			//$priority = '';
+			//if($output->priority) $priority = $output->priority['type'].'_priority';
             return $this->_query($query);
         }
 
@@ -518,261 +427,19 @@
          * In order to get a list of pages easily when selecting \n
          * it supports a method as navigation
          **/
-        function _executeSelectAct($output) {
-            // List tables
-            $table_list = array();
-            foreach($output->tables as $key => $val) {
-                $table_list[] = '`'.$this->prefix.$val.'` as '.$key;
-            }
-
-            $left_join = array();
-            // why???
-            $left_tables= (array)$output->left_tables;
-
-            foreach($left_tables as $key => $val) {
-                $condition = $this->_getCondition($output->left_conditions[$key],$output->column_type);
-                if($condition){
-                    $left_join[] = $val . ' `'.$this->prefix.$output->_tables[$key].'` as '.$key  . ' on (' . $condition . ')';
-                }
-            }
+        function _executeSelectAct($queryObject) {
+			$query = $this->getSelectSql($queryObject);
 			
-            $click_count = array();
-            if(!$output->columns){
-				$output->columns = array(array('name'=>'*'));
-			}
-
-			$column_list = array();
-			foreach($output->columns as $key => $val) 
-			{
-				$name = $val['name'];
-				$alias = $val['alias'];
-				if($val['click_count']) $click_count[] = $val['name'];
-
-				if(substr($name,-1) == '*') 
-				{
-					$column_list[] = $name;
-				} 
-				else if(strpos($name,'.')===false && strpos($name,'(')===false) 
-				{
-					if($alias)
-					{
-						$col = sprintf('`%s` as `%s`', $name, $alias);
-						$column_list[$alias] = $col;
-					}
-					else
-					{
-						$column_list[] = sprintf('`%s`',$name);
-					}
-				} 
-				else 
-				{
-					if($alias)
-					{
-						$col = sprintf('%s as `%s`', $name, $alias);
-						$column_list[$alias] = $col;
-					}
-					else
-					{
-						$column_list[] = sprintf('%s',$name);
-					}
-				}
-			}
-
-			$columns = implode(',',$column_list);
-			$output->column_list = $column_list;
-            $condition = $this->getCondition($output);
-
-			if(count($output->index_hint))
-				$index_hint = sprintf(' %s index (%s) ', $output->index_hint['type'], $output->index_hint['name']);
-
-            if($output->list_count && $output->page) return $this->_getNavigationData($table_list, $columns, $left_join, $index_hint, $condition, $output);
-
-            // Add a condition to use an index when sorting in order by list_order, update_order
-            if($output->order) {
-                $conditions = $this->getConditionList($output);
-                if(!in_array('list_order', $conditions) && !in_array('update_order', $conditions)) {
-                    foreach($output->order as $key => $val) {
-                        $col = $val[0];
-                        if(!in_array($col, array('list_order','update_order'))) continue;
-                        if($condition) $condition .= sprintf(' and %s < 2100000000 ', $col);
-                        else $condition = sprintf(' where %s < 2100000000 ', $col);
-                    }
-                }
-            }
-
-
-            if(count($output->groups))
-			{
-				$groupby_query = sprintf(' group by %s', implode(',',$output->groups));
-
-				if(count($output->arg_columns))
-				{
-					foreach($output->groups as $group)
-					{
-						if($column_list[$group]) $output->arg_columns[] = $column_list[$group];
-					}
-				}
-			}
-	
-            if($output->order) {
-                foreach($output->order as $key => $val) {
-                    $index_list[] = sprintf('%s %s', $val[0], $val[1]);
-					if(count($output->arg_columns) && $column_list[$val[0]]) $output->arg_columns[] = $column_list[$val[0]];
-                }
-                if(count($index_list)) $orderby_query .= ' order by '.implode(',',$index_list);
-            }
-
-			if(count($output->arg_columns))
-			{
-				$columns = array();
-				foreach($output->arg_columns as $col){
-					unset($tmpCol);
-					$tmpCol = explode('.', $col);
-					if(isset($tmpCol[1])) $col = $tmpCol[1];
-
-					if(strpos($col,'`')===false && strpos($col,' ')==false) $col = '`'.$col.'`'; 
-					if(isset($tmpCol[1])) $col = $tmpCol[0].'.'.$col;
-
-					$columns[] = $col;
-				}
-				
-				$columns = join(',',$columns);
-			}
-
-            $query = sprintf("select %s from %s %s %s %s %s", $columns, implode(',',$table_list),implode(' ',$left_join), $index_hint, $condition, $groupby_query.$orderby_query);
-
-            // Apply when using list_count
-            if($output->list_count['value']) $query = sprintf('%s limit %d', $query, $output->list_count['value']);
-
-			$query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id):'';
-
-            $result = $this->_query($query);
-            if($this->isError()) return;
-            if(count($click_count) && count($output->conditions)){
-                $_query = '';
-                foreach($click_count as $k => $c) $_query .= sprintf(',%s=%s+1 ',$c,$c);
-                $_query = sprintf('update %s set %s %s',implode(',',$table_list), substr($_query,1),  $condition);
-                $this->_query($_query);
-            }
-
-            $data = $this->_fetch($result);
-
-            $buff = new Object();
-            $buff->data = $data;
-
-            return $buff;
-        }
-
-        /**
-         * @brief Paging is handled if navigation information exists in the query xml
-         *
-         * It is quite convenient although its structure is not good at all .. -_-;
-         **/
-        function _getNavigationData($table_list, $columns, $left_join, $index_hint, $condition, $output) {
-            require_once(_XE_PATH_.'classes/page/PageHandler.class.php');
-
-			$column_list = $output->column_list;
-
-            // Get a total count
-			$count_condition = count($output->groups) ? sprintf('%s group by %s', $condition, implode(', ', $output->groups)) : $condition;
-			$count_query = sprintf("select count(*) as count from %s %s %s", implode(', ', $table_list), implode(' ', $left_join), $count_condition);
-			if (count($output->groups)) $count_query = sprintf('select count(*) as count from (%s) xet', $count_query);
-
-			$count_query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id . ' count(*)'):'';
-			$result = $this->_query($count_query);
-			$count_output = $this->_fetch($result);
-			$total_count = (int)$count_output->count;
-
-            $list_count = $output->list_count['value'];
-            if(!$list_count) $list_count = 20;
-            $page_count = $output->page_count['value'];
-            if(!$page_count) $page_count = 10;
-            $page = $output->page['value'];
-            if(!$page) $page = 1;
-            // Get a total page
-            if($total_count) $total_page = (int)( ($total_count-1) / $list_count) + 1;
-            else $total_page = 1;
-            // Check Page variables
-            if($page > $total_page) $page = $total_page;
-            $start_count = ($page-1)*$list_count;
-            // Add a condition to use an index when sorting in order by list_order, update_order
-            if($output->order) {
-                $conditions = $this->getConditionList($output);
-                if(!in_array('list_order', $conditions) && !in_array('update_order', $conditions)) {
-                    foreach($output->order as $key => $val) {
-                        $col = $val[0];
-                        if(!in_array($col, array('list_order','update_order'))) continue;
-                        if($condition) $condition .= sprintf(' and %s < 2100000000 ', $col);
-                        else $condition = sprintf(' where %s < 2100000000 ', $col);
-                    }
-                }
-            }
-
-            if(count($output->groups)){
-				$groupby_query = sprintf(' group by %s', implode(',',$output->groups));
-
-				if(count($output->arg_columns))
-				{
-					foreach($output->groups as $group)
-					{
-						if($column_list[$group]) $output->arg_columns[] = $column_list[$group];
-					}
-				}
-			}
-
-            if(count($output->order)) {
-                foreach($output->order as $key => $val) {
-                    $index_list[] = sprintf('%s %s', $val[0], $val[1]);
-					if(count($output->arg_columns) && $column_list[$val[0]]) $output->arg_columns[] = $column_list[$val[0]];
-                }
-                if(count($index_list)) $orderby_query = ' order by '.implode(',',$index_list);
-            }
-
-			if(count($output->arg_columns))
-			{
-				$columns = array();
-				foreach($output->arg_columns as $col){
-					unset($tmpCol);
-					$tmpCol = explode('.', $col);
-					if(isset($tmpCol[1])) $col = $tmpCol[1];
-
-					if(strpos($col,'`')===false && strpos($col,' ')==false) $col = '`'.$col.'`'; 
-					if(isset($tmpCol[1])) $col = $tmpCol[0].'.'.$col;
-
-					$columns[] = $col;
-				}
-				$columns = join(',',$columns);
-			}
-
-            $query = sprintf("select %s from %s %s %s %s %s", $columns, implode(',',$table_list), implode(' ',$left_join), $index_hint, $condition, $groupby_query.$orderby_query);
-            $query = sprintf('%s limit %d, %d', $query, $start_count, $list_count);
-			$query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id):'';
-
-            $result = $this->_query($query);
-            if($this->isError()) {
-                $buff = new Object();
-                $buff->total_count = 0;
-                $buff->total_page = 0;
-                $buff->page = 1;
-                $buff->data = array();
-
-                $buff->page_navigation = new PageHandler($total_count, $total_page, $page, $page_count);
-                return $buff;
-            }
-
-            $virtual_no = $total_count - ($page-1)*$list_count;
-			$data = array();
-            while($tmp = $this->db_fetch_object($result)) {
-                $data[$virtual_no--] = $tmp;
-            }
-            $buff = new Object();
-            $buff->total_count = $total_count;
-            $buff->total_page = $total_page;
-            $buff->page = $page;
-            $buff->data = $data;
-
-            $buff->page_navigation = new PageHandler($total_count, $total_page, $page, $page_count);
-            return $buff;
+			if(is_a($query, 'Object')) return;
+			
+			$query .= (__DEBUG_QUERY__&1 && $queryObject->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id):'';
+           
+            // TODO Add support for click count
+            // TODO Add code for pagination           
+            
+			$result = $this->_query ($query);
+			if ($this->isError ()) return $this->queryError($queryObject);
+			else return $this->queryPageLimit($queryObject, $result);            
         }
 
 		function db_insert_id()
@@ -783,6 +450,58 @@
 		function db_fetch_object(&$result)
 		{
 			return mysql_fetch_object($result);
+		}
+		
+    	function getParser(){
+			return new DBParser('`');
+		}
+		
+		function queryError($queryObject){
+			if ($queryObject->getLimit() && $queryObject->getLimit()->isPageHandler()){
+					$buff = new Object ();
+					$buff->total_count = 0;
+					$buff->total_page = 0;
+					$buff->page = 1;
+					$buff->data = array ();
+					$buff->page_navigation = new PageHandler (/*$total_count*/0, /*$total_page*/1, /*$page*/1, /*$page_count*/10);//default page handler values
+					return $buff;
+				}else	
+					return;
+		}
+		
+		function queryPageLimit($queryObject, $result){
+			 	if ($queryObject->getLimit() && $queryObject->getLimit()->isPageHandler()) {
+		 		// Total count
+		 		$count_query = sprintf('select count(*) as "count" %s %s', 'FROM ' . $queryObject->getFromString(), ($queryObject->getWhereString() === '' ? '' : ' WHERE '. $queryObject->getWhereString()));
+				if ($queryObject->getGroupByString() != '') {
+					$count_query = sprintf('select count(*) as "count" from (%s) xet', $count_query);
+				}
+
+				$count_query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
+				$result_count = $this->_query($count_query);
+				$count_output = $this->_fetch($result_count);
+				$total_count = (int)$count_output->count;
+		 		
+				// Total pages
+				if ($total_count) {
+					$total_page = (int) (($total_count - 1) / $queryObject->getLimit()->list_count) + 1;
+				}	else	$total_page = 1;
+		 		
+		 		$virtual_no = $total_count - ($queryObject->getLimit()->page - 1) * $queryObject->getLimit()->list_count;
+		 		$data = $this->_fetch($result, $virtual_no);
+
+		 		$buff = new Object ();
+				$buff->total_count = $total_count;
+				$buff->total_page = $total_page;
+				$buff->page = $queryObject->getLimit()->page->getValue();
+				$buff->data = $data;
+				$buff->page_navigation = new PageHandler($total_count, $total_page, $queryObject->getLimit()->page->getValue(), $queryObject->getLimit()->page_count);				
+			}else{
+				$data = $this->_fetch($result);
+				$buff = new Object ();
+				$buff->data = $data;	
+			}
+			return $buff;
 		}
     }
 

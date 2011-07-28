@@ -1,0 +1,23 @@
+<query id="getMemberInfo" action="select">
+    <tables>
+        <table name="member" alias="member" />
+    </tables>
+    <columns>
+        <column name="*" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="member_srl" var="member_srl" notnull="notnull"/>
+        <query alias="documentMaxRegdate" operation="equal" column="regdate" notnull="notnull" pipe="and" >
+                <tables>
+                        <table name="documents" alias="documents" />
+                </tables>
+                <columns>
+                        <column name="max(regdate)" alias="maxregdate" />
+                </columns>
+                <conditions>
+                    <condition operation="equal" column="documents.user_id" default="member.user_id" notnull="notnull" />
+                    <condition operation="equal" column="module_srl" var="module_srl" notnull="notnull" pipe="and" />
+                </conditions>        		        	
+        </query>
+    </conditions>
+</query>

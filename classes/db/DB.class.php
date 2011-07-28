@@ -357,13 +357,32 @@
 
             if($source_args) $args = @clone($source_args);
 
-            $output = @include($cache_file);
+            require_once(_XE_PATH_.'classes/xml/xmlquery/DBParser.class.php');
+            require_once(_XE_PATH_.'classes/xml/xmlquery/argument/Argument.class.php');
+            require_once(_XE_PATH_.'classes/xml/xmlquery/argument/SortArgument.class.php');
+            require_once(_XE_PATH_.'classes/xml/xmlquery/argument/ConditionArgument.class.php');
+            require_once(_XE_PATH_.'classes/xml/XmlQueryParser.class.php');
+            require_once(_XE_PATH_.'classes/db/queryparts/expression/Expression.class.php');
+            require_once(_XE_PATH_.'classes/db/queryparts/expression/SelectExpression.class.php');
+            require_once(_XE_PATH_.'classes/db/queryparts/expression/InsertExpression.class.php');
+            require_once(_XE_PATH_.'classes/db/queryparts/expression/UpdateExpression.class.php');
+            require_once(_XE_PATH_.'classes/db/queryparts/table/Table.class.php');
+            require_once(_XE_PATH_.'classes/db/queryparts/table/JoinTable.class.php');
+            require_once(_XE_PATH_.'classes/db/queryparts/condition/ConditionGroup.class.php');
+            require_once(_XE_PATH_.'classes/db/queryparts/condition/Condition.class.php');
+            require_once(_XE_PATH_.'classes/db/queryparts/expression/StarExpression.class.php');
+            require_once(_XE_PATH_.'classes/db/queryparts/order/OrderByColumn.class.php');
+            require_once(_XE_PATH_.'classes/db/queryparts/limit/Limit.class.php');
+            require_once(_XE_PATH_.'classes/db/queryparts/Query.class.php');
+            require_once(_XE_PATH_.'classes/db/queryparts/Subquery.class.php');
+
+
+            $output = include($cache_file);
 
             if( (is_a($output, 'Object') || is_subclass_of($output, 'Object')) && !$output->toBool()) return $output;
-            $output->_tables = ($output->_tables && is_array($output->_tables)) ? $output->_tables : array();
-			
+
             // execute appropriate query
-            switch($output->action) {
+            switch($output->getAction()) {
                 case 'insert' :
                         $this->resetCountCache($output->tables);
                         $output = $this->_executeInsertAct($output);
@@ -377,11 +396,12 @@
                         $output = $this->_executeDeleteAct($output);
                     break;
                 case 'select' :
+                		// TODO Add property for Query object for Arg_columns
 						$output->arg_columns = is_array($arg_columns)?$arg_columns:array();
                         $output = $this->_executeSelectAct($output);
                     break;
             }
-			
+
             if($this->isError()) $output = $this->getError();
             else if(!is_a($output, 'Object') && !is_subclass_of($output, 'Object')) $output = new Object();
             $output->add('_query', $this->query);
@@ -390,232 +410,6 @@
             return $output;
         }
 
-        /**
-         * @brief check $val with $filter_type
-         * @param[in] $key key value
-         * @param[in] $val value of $key
-         * @param[in] $filter_type type of filter to check $val
-         * @return object
-         * @remarks this function is to be used from XmlQueryParser
-         **/
-        function checkFilter($key, $val, $filter_type) {
-            global $lang;
-
-            switch($filter_type) {
-                case 'email' :
-                case 'email_address' :
-                        if(!preg_match('/^[_0-9a-z-]+(\.[_0-9a-z-]+)*@[0-9a-z-]+(\.[0-9a-z-]+)*$/is', $val)) return new Object(-1, sprintf($lang->filter->invalid_email, $lang->{$key} ? $lang->{$key} : $key));
-                    break;
-                case 'homepage' :
-                        if(!preg_match('/^(http|https)+(:\/\/)+[0-9a-z_-]+\.[^ ]+$/is', $val)) return new Object(-1, sprintf($lang->filter->invalid_homepage, $lang->{$key} ? $lang->{$key} : $key));
-                    break;
-                case 'userid' :
-                case 'user_id' :
-                        if(!preg_match('/^[a-zA-Z]+([_0-9a-zA-Z]+)*$/is', $val)) return new Object(-1, sprintf($lang->filter->invalid_userid, $lang->{$key} ? $lang->{$key} : $key));
-                    break;
-                case 'number' :
-                case 'numbers' :
-						if(is_array($val)) $val = join(',', $val);
-                        if(!preg_match('/^(-?)[0-9]+(,\-?[0-9]+)*$/is', $val)) return new Object(-1, sprintf($lang->filter->invalid_number, $lang->{$key} ? $lang->{$key} : $key));
-                    break;
-                case 'alpha' :
-                        if(!preg_match('/^[a-z]+$/is', $val)) return new Object(-1, sprintf($lang->filter->invalid_alpha, $lang->{$key} ? $lang->{$key} : $key));
-                    break;
-                case 'alpha_number' :
-                        if(!preg_match('/^[0-9a-z]+$/is', $val)) return new Object(-1, sprintf($lang->filter->invalid_alpha_number, $lang->{$key} ? $lang->{$key} : $key));
-                    break;
-            }
-
-            return new Object();
-        }
-
-        /**
-         * @brief returns type of column
-         * @param[in] $column_type_list list of column type
-         * @param[in] $name name of column type
-         * @return column type of $name
-         * @remarks columns are usually like a.b, so it needs another function
-         **/
-        function getColumnType($column_type_list, $name) {
-            if(strpos($name, '.') === false) return $column_type_list[$name];
-            list($prefix, $name) = explode('.', $name);
-            return $column_type_list[$name];
-        }
-
-        /**
-         * @brief returns the value of condition
-         * @param[in] $name name of condition
-         * @param[in] $value value of condition
-         * @param[in] $operation operation this is used in condition
-         * @param[in] $type type of condition
-         * @param[in] $column_type type of column
-         * @return well modified $value
-         * @remarks if $operation is like or like_prefix, $value itself will be modified
-         * @remarks if $type is not 'number', call addQuotes() and wrap with ' '
-         **/
-        function getConditionValue($name, $value, $operation, $type, $column_type) {
-            if(!in_array($operation,array('in','notin','between')) && $type == 'number') {
-				if(is_array($value)){
-					$value = join(',',$value);
-				}
-                if(strpos($value, ',') === false && strpos($value, '(') === false) return (int)$value;
-                return $value;
-            }
-			
-            if(!is_array($value) && strpos($name, '.') !== false && strpos($value, '.') !== false) {
-                list($table_name, $column_name) = explode('.', $value);
-                if($column_type[$column_name]) return $value;
-            }
-
-            switch($operation) {
-                case 'like_prefix' :
-						if(!is_array($value)) $value = preg_replace('/(^\'|\'$){1}/', '', $value);
-                        $value = $value.'%';
-                    break;
-                case 'like_tail' :
-						if(!is_array($value)) $value = preg_replace('/(^\'|\'$){1}/', '', $value);
-                        $value = '%'.$value;
-                    break;
-                case 'like' :
-						if(!is_array($value)) $value = preg_replace('/(^\'|\'$){1}/', '', $value);
-                        $value = '%'.$value.'%';
-                    break;
-                case 'notin' :
-						if(is_array($value))
-						{
-							$value = $this->addQuotesArray($value);
-							if($type=='number') return join(',',$value);
-							else return "'". join("','",$value)."'";
-						}
-						else
-						{
-							return $value;
-						}
-                    break;
-                case 'in' :
-						if(is_array($value))
-						{
-							$value = $this->addQuotesArray($value);
-							if($type=='number') return join(',',$value);
-							else return "'". join("','",$value)."'";
-						}
-						else
-						{
-							return $value;
-						}
-                    break;
-                case 'between' :
-						if(!is_array($value)) $value = array($value);
-			            $value = $this->addQuotesArray($value);
-						if($type!='number')
-						{
-							foreach($value as $k=>$v)
-							{
-								$value[$k] = "'".$v."'";
-							}
-						}
-
-						return $value;
-                    break;
-				default:
-					if(!is_array($value)) $value = preg_replace('/(^\'|\'$){1}/', '', $value);
-            }
-
-            return "'".$this->addQuotes($value)."'";
-        }
-
-        /**
-         * @brief returns part of condition
-         * @param[in] $name name of condition
-         * @param[in] $value value of condition
-         * @param[in] $operation operation that is used in condition
-         * @return detail condition
-         **/
-        function getConditionPart($name, $value, $operation) {
-            switch($operation) {
-                case 'equal' :
-                case 'more' :
-                case 'excess' :
-                case 'less' :
-                case 'below' :
-                case 'like_tail' :
-                case 'like_prefix' :
-                case 'like' :
-                case 'in' :
-                case 'notin' :
-                case 'notequal' :
-                        // if variable is not set or is not string or number, return
-                        if(!isset($value)) return;
-                        if($value === '') return;
-                        if(!in_array(gettype($value), array('string', 'integer'))) return;
-				break;
-                case 'between' :
-					if(!is_array($value)) return;
-					if(count($value)!=2) return;
-
-            }
-
-            switch($operation) {
-                case 'equal' :
-                        return $name.' = '.$value;
-                    break;
-                case 'more' :
-                        return $name.' >= '.$value;
-                    break;
-                case 'excess' :
-                        return $name.' > '.$value;
-                    break;
-                case 'less' :
-                        return $name.' <= '.$value;
-                    break;
-                case 'below' :
-                        return $name.' < '.$value;
-                    break;
-                case 'like_tail' :
-                case 'like_prefix' :
-                case 'like' :
-                        return $name.' like '.$value;
-                    break;
-                case 'in' :
-                        return $name.' in ('.$value.')';
-                    break;
-                case 'notin' :
-                        return $name.' not in ('.$value.')';
-                    break;
-                case 'notequal' :
-                        return $name.' <> '.$value;
-                    break;
-                case 'notnull' :
-                        return $name.' is not null';
-                    break;
-                case 'null' :
-                        return $name.' is null';
-                    break;
-				case 'between' :
-                        return $name.' between ' . $value[0] . ' and ' . $value[1];
-					break;
-            }
-        }
-
-        /**
-         * @brief returns condition key
-         * @param[in] $output result of query
-         * @return array of conditions of $output
-         **/
-        function getConditionList($output) {
-            $conditions = array();
-            if(count($output->conditions)) {
-                foreach($output->conditions as $key => $val) {
-                    if($val['condition']) {
-                        foreach($val['condition'] as $k => $v) {
-                            $conditions[] = $v['column'];
-                        }
-                    }
-                }
-            }
-
-            return $conditions;
-        }
 
         /**
          * @brief returns counter cache data
@@ -720,30 +514,260 @@
             $this->_query($query);
         }
 
-		function addQuotesArray($arr)
-		{
-			if(is_array($arr))
-			{
-				foreach($arr as $k => $v)
-				{
-					$arr[$k] = $this->addQuotes($v);
-				}
-			}
-			else
-			{
-				$arr = $this->addQuotes($arr);
-			}
+    	function getSelectSql($query, $with_values = true){
+			$select = $query->getSelectString($with_values);
+			if($select == '') return new Object(-1, "Invalid query");
+			$select = 'SELECT ' .$select;
 
-			return $arr;
+			$from = $query->getFromString($with_values);
+			if($from == '') return new Object(-1, "Invalid query");
+			$from = ' FROM '.$from;
+
+			$where = $query->getWhereString($with_values);
+			if($where != '') $where = ' WHERE ' . $where;
+
+			$groupBy = $query->getGroupByString();
+			if($groupBy != '') $groupBy = ' GROUP BY ' . $groupBy;
+
+			$orderBy = $query->getOrderByString();
+			if($orderBy != '') $orderBy = ' ORDER BY ' . $orderBy;
+
+		 	$limit = $query->getLimitString();
+		 	if($limit != '') $limit = ' LIMIT ' . $limit;
+
+		 	return $select . ' ' . $from . ' ' . $where . ' ' . $groupBy . ' ' . $orderBy . ' ' . $limit;
 		}
 
-        /**
-         * @brief Just like numbers, and operations needed to remove the rest
+   		function getDeleteSql($query, $with_values = true){
+			$sql = 'DELETE ';
+
+			// TODO Add support for deleting based on alias, for both simple FROM and multi table join FROM clause
+			$tables = $query->getTables();
+
+			$sql .= $tables[0]->getAlias();
+
+			$from = $query->getFromString($with_values);
+			if($from == '') return new Object(-1, "Invalid query");
+			$sql .= ' FROM '.$from;
+
+			$where = $query->getWhereString($with_values);
+			if($where != '') $sql .= ' WHERE ' . $where;
+
+			return $sql;
+		}
+
+    	function getUpdateSql($query, $with_values = true){
+			$columnsList = $query->getSelectString($with_values);
+			if($columnsList == '') return new Object(-1, "Invalid query");
+
+			$tableName = $query->getFirstTableName();
+			if($tableName == '') return new Object(-1, "Invalid query");
+
+			$where = $query->getWhereString($with_values);
+			if($where != '') $where = ' WHERE ' . $where;
+
+			return "UPDATE $tableName SET $columnsList ".$where;
+		}
+
+    	function getInsertSql($query, $with_values = true){
+			$tableName = $query->getFirstTableName();
+			$values = $query->getInsertString($with_values);
+
+			return "INSERT INTO $tableName \n $values";
+		}
+
+		// HACK This is needed because on installation, the XmlQueryParer is used without any configured database
+		// TODO Change this or make sure the query cache files created before db.config exists are deleted
+		function getParser(){
+			return new DBParser('"');
+		}
+
+
+		// TO BE REMOVED - Used for query compare
+            /**
+         * @brief returns type of column
+         * @param[in] $column_type_list list of column type
+         * @param[in] $name name of column type
+         * @return column type of $name
+         * @remarks columns are usually like a.b, so it needs another function
          **/
-		function _filterNumber(&$value)
-		{
-			$value = preg_replace('/[^\d\w\+\-\*\/\.\(\)]/', '', $value);
-			if(!$value) $value = 0;
-		}
+        function getColumnType($column_type_list, $name) {
+            if(strpos($name, '.') === false) return $column_type_list[$name];
+            list($prefix, $name) = explode('.', $name);
+            return $column_type_list[$name];
+        }
+           /**
+         * @brief returns the value of condition
+         * @param[in] $name name of condition
+         * @param[in] $value value of condition
+         * @param[in] $operation operation this is used in condition
+         * @param[in] $type type of condition
+         * @param[in] $column_type type of column
+         * @return well modified $value
+         * @remarks if $operation is like or like_prefix, $value itself will be modified
+         * @remarks if $type is not 'number', call addQuotes() and wrap with ' '
+         **/
+        function getConditionValue($name, $value, $operation, $type, $column_type) {
+            if(!in_array($operation,array('in','notin','between')) && $type == 'number') {
+				if(is_array($value)){
+					$value = join(',',$value);
+				}
+                if(strpos($value, ',') === false && strpos($value, '(') === false) return (int)$value;
+                return $value;
+            }
+
+            if(!is_array($value) && strpos($name, '.') !== false && strpos($value, '.') !== false) {
+                list($table_name, $column_name) = explode('.', $value);
+                if($column_type[$column_name]) return $value;
+            }
+
+            switch($operation) {
+                case 'like_prefix' :
+						if(!is_array($value)) $value = preg_replace('/(^\'|\'$){1}/', '', $value);
+                        $value = $value.'%';
+                    break;
+                case 'like_tail' :
+						if(!is_array($value)) $value = preg_replace('/(^\'|\'$){1}/', '', $value);
+                        $value = '%'.$value;
+                    break;
+                case 'like' :
+						if(!is_array($value)) $value = preg_replace('/(^\'|\'$){1}/', '', $value);
+                        $value = '%'.$value.'%';
+                    break;
+                case 'notin' :
+						if(is_array($value))
+						{
+							$value = $this->addQuotesArray($value);
+							if($type=='number') return join(',',$value);
+							else return "'". join("','",$value)."'";
+						}
+						else
+						{
+							return $value;
+						}
+                    break;
+                case 'in' :
+						if(is_array($value))
+						{
+							$value = $this->addQuotesArray($value);
+							if($type=='number') return join(',',$value);
+							else return "'". join("','",$value)."'";
+						}
+						else
+						{
+							return $value;
+						}
+                    break;
+                case 'between' :
+						if(!is_array($value)) $value = array($value);
+			            $value = $this->addQuotesArray($value);
+						if($type!='number')
+						{
+							foreach($value as $k=>$v)
+							{
+								$value[$k] = "'".$v."'";
+							}
+						}
+
+						return $value;
+                    break;
+				default:
+					if(!is_array($value)) $value = preg_replace('/(^\'|\'$){1}/', '', $value);
+            }
+
+            return "'".$this->addQuotes($value)."'";
+        }
+       /**
+         * @brief returns part of condition
+         * @param[in] $name name of condition
+         * @param[in] $value value of condition
+         * @param[in] $operation operation that is used in condition
+         * @return detail condition
+         **/
+        function getConditionPart($name, $value, $operation) {
+            switch($operation) {
+                case 'equal' :
+                case 'more' :
+                case 'excess' :
+                case 'less' :
+                case 'below' :
+                case 'like_tail' :
+                case 'like_prefix' :
+                case 'like' :
+                case 'in' :
+                case 'notin' :
+                case 'notequal' :
+                        // if variable is not set or is not string or number, return
+                        if(!isset($value)) return;
+                        if($value === '') return;
+                        if(!in_array(gettype($value), array('string', 'integer'))) return;
+				break;
+                case 'between' :
+					if(!is_array($value)) return;
+					if(count($value)!=2) return;
+
+            }
+
+            switch($operation) {
+                case 'equal' :
+                        return $name.' = '.$value;
+                    break;
+                case 'more' :
+                        return $name.' >= '.$value;
+                    break;
+                case 'excess' :
+                        return $name.' > '.$value;
+                    break;
+                case 'less' :
+                        return $name.' <= '.$value;
+                    break;
+                case 'below' :
+                        return $name.' < '.$value;
+                    break;
+                case 'like_tail' :
+                case 'like_prefix' :
+                case 'like' :
+                        return $name.' like '.$value;
+                    break;
+                case 'in' :
+                        return $name.' in ('.$value.')';
+                    break;
+                case 'notin' :
+                        return $name.' not in ('.$value.')';
+                    break;
+                case 'notequal' :
+                        return $name.' <> '.$value;
+                    break;
+                case 'notnull' :
+                        return $name.' is not null';
+                    break;
+                case 'null' :
+                        return $name.' is null';
+                    break;
+				case 'between' :
+                        return $name.' between ' . $value[0] . ' and ' . $value[1];
+					break;
+            }
+        }
+
+           /**
+         * @brief returns condition key
+         * @param[in] $output result of query
+         * @return array of conditions of $output
+         **/
+        function getConditionList($output) {
+            $conditions = array();
+            if(count($output->conditions)) {
+                foreach($output->conditions as $key => $val) {
+                    if($val['condition']) {
+                        foreach($val['condition'] as $k => $v) {
+                            $conditions[] = $v['column'];
+                        }
+                    }
+                }
+            }
+
+            return $conditions;
+        }
     }
 ?>

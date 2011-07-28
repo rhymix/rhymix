@@ -1,0 +1,24 @@
+<query id="select_uncorrelated" action="select">
+    <tables>
+        <table name="table_a" />
+    </tables>
+    <columns>
+        <column name="column_a" alias="value_a" />
+        <column name="column_b" alias="value_b" />
+        <query alias="value_b">
+        	<tables>
+        		<table name="table_b" />
+        	</tables>
+        	<columns>
+        		<column name="max(column_b)" alias="count" />
+        	</columns>
+		    <conditions>
+		        <condition operation="equal" column="column_ab" var="user_name" notnull="notnull" />
+		    </conditions>        	
+        </query>
+        <column name="column_c" alias="value_c" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="column_a" var="user_id" notnull="notnull" />
+    </conditions>
+</query>

@@ -425,7 +425,7 @@
                 }
 				// sql injection 문제로 xml 선언이 number인 경우이면서 넘어온 값이 숫자형이 아니면 숫자형으로 강제 형변환
 				// elseif(!$value || is_numeric($value)) $value = (int)$value;
-                else $this->_filterNumber($value);
+                else $this->_filterNumber(&$value);
 
                 $column_list[] = $name;
                 $value_list[] = $value;
@@ -454,7 +454,7 @@
                     else {
                         if($output->column_type[$name]!='number') $value = "'".$this->addQuotes($value)."'";
 						// sql injection 문제로 xml 선언이 number인 경우이면서 넘어온 값이 숫자형이 아니면 숫자형으로 강제 형변환
-						else $this->_filterNumber($value);
+						else $this->_filterNumber(&$value);
 
                         $column_list[] = sprintf("%s = %s", $name, $value);
                     }
@@ -473,7 +473,7 @@
                 // List the conditional clause
                 $condition = $this->getCondition($output);
                 foreach($table_list as $key => $val) {
-					$condition = preg_replace('/'.$key.'\\./i', $val.'.', $condition);
+                    $condition = eregi_replace($key.'\\.', $val.'.', $condition);
                 }
                 // List columns
                 foreach($output->columns as $key => $val) {

@@ -1,0 +1,19 @@
+<query id="select_uncorrelated" action="select">
+    <tables>
+        <table name="table_a" />
+    </tables>
+    <columns>
+        <column name="column_a" alias="value_a" />
+        <query alias="value_b">
+        	<tables>
+        		<table name="table_b" />
+        	</tables>
+        	<columns>
+        		<column name="max(column_b)" alias="count" />
+        	</columns>
+        </query>
+    </columns>
+    <conditions>
+        <condition operation="equal" column="column_a" var="user_id" notnull="notnull" />
+    </conditions>
+</query>

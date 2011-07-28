@@ -1,0 +1,56 @@
+<?php
+
+	class ConditionArgument extends Argument {
+		var $operation;
+
+
+		function ConditionArgument($name, $value, $operation){
+                        if(isset($value) && in_array($operation, array('in', 'not in', 'between')) && !is_array($value)){
+                            $value = explode(',', $value);
+                        }
+			parent::Argument($name, $value);
+			$this->operation = $operation;
+
+			if($this->type !== 'date'){
+				$dbParser = XmlQueryParser::getDBParser();
+				$this->value = $dbParser->escapeStringValue($this->value);
+			}
+		}
+
+		function createConditionValue(){
+			if(!isset($this->value)) return;
+
+                        $name = $this->column_name;
+                        $operation = $this->operation;
+                        $value = $this->value;
+
+                        switch($operation) {
+                            case 'like_prefix' :
+                                    $this->value =  $value.'%';
+                                break;
+                            case 'like_tail' :
+                                    $this->value = '%'.$value;
+                                break;
+                            case 'like' :
+                                    $this->value = '%'.$value.'%';
+                                break;
+                            case 'in':
+                                    if(!is_array($value)) $this->value = array($value);
+                                break;
+                        }
+		}
+
+                function getType(){
+			return $this->type;
+		}
+
+                function setColumnType($column_type){
+			if(!isset($this->value)) return;
+			if($column_type === '') return;
+
+			$this->type = $column_type;
+		}
+
+        }
+
+?>

@@ -291,7 +291,7 @@
                 // Notify to start a query execution
                 $this->actStart($query);
                 // Execute the query statement
-                 $result = ibase_query($this->fd, $query);
+                 $result = @ibase_query($this->fd, $query);
             }
             else {
                 // Notify to start a query execution
@@ -592,6 +592,7 @@
                 }
             }
 
+            if($auto_increment_list)
             foreach($auto_increment_list as $increment) {
                 $schema = sprintf('CREATE GENERATOR GEN_%s_ID;', $table_name);
                 $output = $this->_query($schema);
@@ -616,161 +617,32 @@
             }
         }
 
-        /**
-         * @brief Return conditional clause
-         **/
-        function getCondition($output) {
-            if(!$output->conditions) return;
-            $condition = $this->_getCondition($output->conditions,$output->column_type,$output->_tables);
-            if($condition) $condition = ' where '.$condition;
-            return $condition;
-        }
-
-        function getLeftCondition($conditions,$column_type,$tables){
-            return $this->_getCondition($conditions,$column_type,$tables);
-        }
-
-
-        function _getCondition($conditions,$column_type,$tables) {
-            $condition = '';
-            foreach($conditions as $val) {
-                $sub_condition = '';
-                foreach($val['condition'] as $v) {
-                    if(!isset($v['value'])) continue;
-                    if($v['value'] === '') continue;
-                    if(!in_array(gettype($v['value']), array('string', 'integer', 'double'))) continue;
-
-                    $name = $v['column'];
-                    $operation = $v['operation'];
-                    $value = $v['value'];
-                    $type = $this->getColumnType($column_type,$name);
-                    $pipe = $v['pipe'];
-
-                    $value = $this->getConditionValue('"'.$name.'"', $value, $operation, $type, $column_type);
-                    if(!$value) $value = $v['value'];
-
-                    $name = $this->autoQuotes($name);
-                    $value = $this->autoValueQuotes($value, $tables);
-
-                    $str = $this->getConditionPart($name, $value, $operation);
-                    if($sub_condition) $sub_condition .= ' '.$pipe.' ';
-                    $sub_condition .=  $str;
-                }
-                if($sub_condition) {
-                    if($condition && $val['pipe']) $condition .= ' '.$val['pipe'].' ';
-                    $condition .= '('.$sub_condition.')';
-                }
-            }
-
-            return $condition;
-        }
 
         /**
          * @brief Handle the insertAct
          **/
-        function _executeInsertAct($output) {
-            // tables
-            foreach($output->tables as $key => $val) {
-                $table_list[] = '"'.$this->prefix.$val.'"';
-            }
-            // Columns
-            foreach($output->columns as $key => $val) {
-                $name = $val['name'];
-                $value = $val['value'];
-
-                $value = str_replace("'", "`", $value);
-
-                if($output->column_type[$name]=="text" || $output->column_type[$name]=="bigtext"){
-                    if(!isset($val['value'])) continue;
-                    $blh = ibase_blob_create($this->fd);
-                    ibase_blob_add($blh, $value);
-                    $value = ibase_blob_close($blh);
-                }
-                else if($output->column_type[$name]!='number') {
-//                    if(!$value) $value = 'null';
-                }
-                else $this->_filterNumber($value);
-
-                $column_list[] = '"'.$name.'"';
-                $value_list[] = $value;
-                $questions[] = "?";
-            }
-
-            $query = sprintf("insert into %s (%s) values (%s);", implode(',',$table_list), implode(',',$column_list), implode(',', $questions));
-
-            $result = $this->_query($query, $value_list);
-            if(!$this->transaction_started) @ibase_commit($this->fd);
-            return $result;
+        function _executeInsertAct($queryObject) {
+            $query = $this->getInsertSql($queryObject);
+            if(is_a($query, 'Object')) return;
+            return $this->_query($query);
         }
 
         /**
          * @brief handles updateAct
          **/
-        function _executeUpdateAct($output) {
-            // Tables
-            foreach($output->tables as $key => $val) {
-                $table_list[] = '"'.$this->prefix.$val.'"';
-            }
-            // Columns
-            foreach($output->columns as $key => $val) {
-                if(!isset($val['value'])) continue;
-                $name = $val['name'];
-                $value = $val['value'];
-
-                $value = str_replace("'", "`", $value);
-
-                if(strpos($name,'.')!==false&&strpos($value,'.')!==false) $column_list[] = $name.' = '.$value;
-                else {
-                    if($output->column_type[$name]=="text" || $output->column_type[$name]=="bigtext"){
-                        $blh = ibase_blob_create($this->fd);
-                        ibase_blob_add($blh, $value);
-                        $value = ibase_blob_close($blh);
-                    }
-                    else if($output->column_type[$name]=='number' ||
-                            $output->column_type[$name]=='bignumber' ||
-                            $output->column_type[$name]=='float') {
-                        // put double-quotes on column name if an expression is entered
-                        preg_match("/(?i)[a-z][a-z0-9_]+/", $value, $matches);
-
-                        foreach($matches as $key => $val) {
-                            $value = str_replace($val, "\"".$val."\"", $value);
-                        }
-
-                        if($matches != null) {
-                            $column_list[] = sprintf("\"%s\" = %s", $name, $value);
-                            continue;
-                        }
-                    }
-
-                    $values[] = $value;
-                    $column_list[] = sprintf('"%s" = ?', $name);
-                }
-            }
-            // conditional clause 
-            $condition = $this->getCondition($output);
-
-            $query = sprintf("update %s set %s %s;", implode(',',$table_list), implode(',',$column_list), $condition);
-            $result = $this->_query($query, $values);
-            if(!$this->transaction_started) @ibase_commit($this->fd);
-            return $result;
+        function _executeUpdateAct($queryObject) {
+ 			$query = $this->getUpdateSql($queryObject);
+            if(is_a($query, 'Object')) return;
+            return $this->_query($query);
         }
 
         /**
          * @brief handles deleteAct
          **/
-        function _executeDeleteAct($output) {
-            // Tables
-            foreach($output->tables as $key => $val) {
-                $table_list[] = '"'.$this->prefix.$val.'"';
-            }
-            // List the conditional clause
-            $condition = $this->getCondition($output);
-
-            $query = sprintf("delete from %s %s;", implode(',',$table_list), $condition);
-
-            $result = $this->_query($query);
-            if(!$this->transaction_started) @ibase_commit($this->fd);
-            return $result;
+        function _executeDeleteAct($queryObject) {
+  			$query = $this->getDeleteSql($queryObject);			
+        	if(is_a($query, 'Object')) return;
+            return $this->_query($query);
         }
 
         /**
@@ -779,265 +651,113 @@
          * In order to get a list of pages easily when selecting \n
          * it supports a method as navigation
          **/
-        function _executeSelectAct($output) {
-            // Tables
-            $table_list = array();
-            foreach($output->tables as $key => $val) {
-                $table_list[] = sprintf("\"%s%s\" as \"%s\"", $this->prefix, $val, $key);
-            }
-
-            $left_join = array();
-            // why???
-            $left_tables= (array)$output->left_tables;
-
-            foreach($left_tables as $key => $val) {
-                $condition = $this->getLeftCondition($output->left_conditions[$key],$output->column_type,$output->_tables);
-                if($condition){
-                    $left_join[] = $val . ' "'.$this->prefix.$output->_tables[$key].'" as "'.$key.'" on (' . $condition . ')';
-                }
-            }
-
-            $click_count = array();
-            if(!$output->columns){
-				$output->columns = array(array('name'=>'*'));
-			}
-
-			$column_list = array();
-			foreach($output->columns as $key => $val) {
-				$name = $val['name'];
-				$alias = $val['alias'];
-				if($val['click_count']) $click_count[] = $val['name'];
-
-				if($alias == "")
-					$column_list[] = $this->autoQuotes($name);
-				else
-					$column_list[$alias] = sprintf("%s as \"%s\"", $this->autoQuotes($name), $alias);
-			}
-			$columns = implode(',',$column_list);
-
-            $condition = $this->getCondition($output);
-
-			$output->column_list = $column_list;
-            if($output->list_count && $output->page) return $this->_getNavigationData($table_list, $columns, $left_join, $condition, $output);
-            // query added in the condition to use an index when ordering by list_order, update_order 
-            if($output->order) {
-                $conditions = $this->getConditionList($output);
-                if(!in_array('list_order', $conditions) && !in_array('update_order', $conditions)) {
-                    foreach($output->order as $key => $val) {
-                        $col = $val[0];
-                        if(!in_array($col, array('list_order','update_order'))) continue;
-                        if($condition) $condition .= sprintf(' and "%s" < 2100000000 ', $col);
-                        else $condition = sprintf(' where "%s" < 2100000000 ', $col);
-                    }
-                }
-            }
-            // apply when using list_count
-            if($output->list_count['value']) $limit = sprintf('FIRST %d', $output->list_count['value']);
-            else $limit = '';
-
-
-            if($output->groups) {
-                foreach($output->groups as $key => $val) {
-                    $group_list[] = $this->autoQuotes($val);
-					if($column_list[$val]) $output->arg_columns[] = $column_list[$val];
-                }
-                if(count($group_list)) $groupby_query = sprintf(" group by %s", implode(",",$group_list));
-            }
-
-            if($output->order) {
-                foreach($output->order as $key => $val) {
-                    $index_list[] = sprintf("%s %s", $this->autoQuotes($val[0]), $val[1]);
-					if(count($output->arg_columns) && $column_list[$val[0]]) $output->arg_columns[] = $column_list[$val[0]];
-                }
-                if(count($index_list)) $orderby_query = sprintf(" order by %s", implode(",",$index_list));
-            }
-
-			if(count($output->arg_columns))
-			{
-				$columns = array();
-				foreach($output->arg_columns as $col){
-					if(strpos($col,'"')===false && strpos($col,' ')==false) $columns[] = '"'.$col.'"'; 
-					else $columns[] = $col;
-				}
-				
-				$columns = join(',',$columns);
-			}
-
-            $query = sprintf("select %s from %s %s %s %s", $columns, implode(',',$table_list),implode(' ',$left_join), $condition, $groupby_query.$orderby_query);
-            $query .= ";";
-			$query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id):'';
-            $result = $this->_query($query);
-            if($this->isError()) {
-                if(!$this->transaction_started) @ibase_rollback($this->fd);
-                return;
-            }
-
-            $data = $this->_fetch($result, $output);
-            if(!$this->transaction_started) @ibase_commit($this->fd);
-
-            if(count($click_count)>0 && count($output->conditions)>0){
-                $_query = '';
-                foreach($click_count as $k => $c) $_query .= sprintf(',%s=%s+1 ',$c,$c);
-                $_query = sprintf('update %s set %s %s',implode(',',$table_list), substr($_query,1),  $condition);
-                $this->_query($_query);
-            }
-
-            $buff = new Object();
-            $buff->data = $data;
-            return $buff;
+        function _executeSelectAct($queryObject) {
+   			$query = $this->getSelectSql($queryObject);
+			
+			if(is_a($query, 'Object')) return;			
+			$query .= (__DEBUG_QUERY__&1 && $queryObject->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id):'';
+			$result = $this->_query ($query);
+			
+			if ($this->isError ()) return $this->queryError($queryObject);
+			else return $this->queryPageLimit($queryObject, $result);     
         }
+        
+    	function queryError($queryObject) {
+        if ($queryObject->getLimit() && $queryObject->getLimit()->isPageHandler()) {
+            $buff = new Object ();
+            $buff->total_count = 0;
+            $buff->total_page = 0;
+            $buff->page = 1;
+            $buff->data = array();
+            $buff->page_navigation = new PageHandler(/* $total_count */0, /* $total_page */1, /* $page */1, /* $page_count */10); //default page handler values
+        }else
+            return;
+    }
 
-        /**
-         * @brief paginates when navigation info exists in the query xml
-         *
-         * it is convenient although its structure is not good .. -_-;
-         **/
-        function _getNavigationData($table_list, $columns, $left_join, $condition, $output) {
-            require_once(_XE_PATH_.'classes/page/PageHandler.class.php');
-
-			$column_list = $output->column_list;
-
-            $query_groupby = '';
-            if ($output->groups) {
-                foreach ($output->groups as $key => $val){
-                    $group_list[] = $this->autoQuotes($val);
-					if($column_list[$val]) $output->arg_columns[] = $column_list[$val];
-				}
-                if (count($group_list)) $query_groupby = sprintf(" GROUP BY %s", implode(", ", $group_list));
+    function queryPageLimit($queryObject, $result) {
+        if ($queryObject->getLimit() && $queryObject->getLimit()->isPageHandler()) {
+            // Total count
+            $count_query = sprintf('select count(*) as "count" %s %s', 'FROM ' . $queryObject->getFromString(), ($queryObject->getWhereString() === '' ? '' : ' WHERE ' . $queryObject->getWhereString()));
+            if ($queryObject->getGroupByString() != '') {
+                $count_query = sprintf('select count(*) as "count" from (%s) xet', $count_query);
             }
 
-            /*
-            // modified to get the number of rows by SELECT query with group by clause
-            // activate the commented codes when you confirm it works correctly
-            //
-            $count_condition = strlen($query_groupby) ? sprintf('%s group by %s', $condition, $query_groupby) : $condition;
-            $total_count = $this->getCountCache($output->tables, $count_condition);
-            if($total_count === false) {
-                $count_query = sprintf('select count(*) as "count" from %s %s %s', implode(', ', $table_list), implode(' ', $left_join), $count_condition);
-                if (count($output->groups))
-                    $count_query = sprintf('select count(*) as "count" from (%s) xet', $count_query);
-                $result = $this->_query($count_query);
-                $count_output = $this->_fetch($result);
-                $total_count = (int)$count_output->count;
-                $this->putCountCache($output->tables, $count_condition, $total_count);
-            }
-            */
-            // total number of rows
-            $count_query = sprintf("select count(*) as \"count\" from %s %s %s", implode(',',$table_list),implode(' ',$left_join), $condition);
-			$count_query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id . ' count(*)'):'';
-			$result = $this->_query($count_query);
-			$count_output = $this->_fetch($result);
-			if(!$this->transaction_started) @ibase_commit($this->fd);
+            $count_query .= ( __DEBUG_QUERY__ & 1 && $output->query_id) ? sprintf(' ' . $this->comment_syntax, $this->query_id) : '';
+            $result_count = $this->_query($count_query);
+            $count_output = $this->_fetch($result_count);
+            $total_count = (int) $count_output->count;
 
-			$total_count = (int)$count_output->count;
+            // Total pages
+            if ($total_count) {
+                $total_page = (int) (($total_count - 1) / $queryObject->getLimit()->list_count) + 1;
+            } else
+                $total_page = 1;
 
-            $list_count = $output->list_count['value'];
-            if(!$list_count) $list_count = 20;
-            $page_count = $output->page_count['value'];
-            if(!$page_count) $page_count = 10;
-            $page = $output->page['value'];
-            if(!$page) $page = 1;
-            // total pages
-            if($total_count) $total_page = (int)( ($total_count-1) / $list_count) + 1;
-            else $total_page = 1;
-            // check the page variables
-            if($page > $total_page) $page = $total_page;
-            $start_count = ($page-1)*$list_count;
-            // query added in the condition to use an index when ordering by list_order, update_order 
-            if($output->order) {
-                $conditions = $this->getConditionList($output);
-                if(!in_array('list_order', $conditions) && !in_array('update_order', $conditions)) {
-                    foreach($output->order as $key => $val) {
-                        $col = $val[0];
-                        if(!in_array($col, array('list_order','update_order'))) continue;
-                        if($condition) $condition .= sprintf(' and "%s" < 2100000000 ', $col);
-                        else $condition = sprintf(' where "%s" < 2100000000 ', $col);
-                    }
-                }
-            }
-
-            $limit = sprintf('FIRST %d SKIP %d ', $list_count, $start_count);
-
-
-            if($output->order) {
-                foreach($output->order as $key => $val) {
-                    $index_list[] = sprintf("%s %s", $this->autoQuotes($val[0]), $val[1]);
-					if(count($output->arg_columns) && $column_list[$val[0]]) $output->arg_columns[] = $column_list[$val[0]];
-                }
-                if(count($index_list)) $orderby_query = sprintf(" ORDER BY %s", implode(",",$index_list));
-            }
-
-			if(count($output->arg_columns))
-			{
-				$columns = array();
-				foreach($output->arg_columns as $col){
-					if(strpos($col,'"')===false && strpos($col,' ')==false) $columns[] = '"'.$col.'"'; 
-					else $columns[] = $col;
-				}
-				
-				$columns = join(',',$columns);
-			}
-
-            $query = sprintf('SELECT %s %s FROM %s %s %s, %s', $limit, $columns, implode(',',$table_list), implode(' ',$left_join), $condition, $groupby_query.$orderby_query);
-            $query .= ";";
-			$query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id):'';
-            $result = $this->_query($query);
-            if($this->isError()) {
-                if(!$this->transaction_started) @ibase_rollback($this->fd);
-
-                $buff = new Object();
-                $buff->total_count = 0;
-                $buff->total_page = 0;
-                $buff->page = 1;
-                $buff->data = array();
-
-                $buff->page_navigation = new PageHandler($total_count, $total_page, $page, $page_count);
-                return $buff;
-            }
-
-            $virtual_no = $total_count - ($page-1)*$list_count;
-            while($tmp = ibase_fetch_object($result)) {
-                foreach($tmp as $key => $val){
-                    $type = $output->column_type[$key];
-                    // $key value is an alias when type value is null. get type by finding the actual column name
-                    if($type == null && $output->columns && count($output->columns)) {
-                        foreach($output->columns as $cols) {
-                            if($cols['alias'] == $key) {
-                                // checks if the format is table.column or a regular expression
-                                preg_match("/\w+[.](\w+)/", $cols['name'], $matches);
-                                if($matches) {
-                                    $type = $output->column_type[$matches[1]];
-                                }
-                                else {
-                                    $type = $output->column_type[$cols['name']];
-                                }
-                            }
-                        }
-                    }
-
-                    if(($type == "text" || $type == "bigtext") && $tmp->{$key}) {
-                        $blob_data = ibase_blob_info($tmp->{$key});
-                        $blob_hndl = ibase_blob_open($tmp->{$key});
-                        $tmp->{$key} = ibase_blob_get($blob_hndl, $blob_data[0]);
-                        ibase_blob_close($blob_hndl);
-                    }
-                }
-
+            $virtual_no = $total_count - ($queryObject->getLimit()->page - 1) * $queryObject->getLimit()->list_count;
+            while ($tmp = ibase_fetch_object($result))
                 $data[$virtual_no--] = $tmp;
-            }
+            
+            if (!$this->transaction_started)
+                @ibase_commit($this->fd);
 
-            if(!$this->transaction_started) @ibase_commit($this->fd);
-
-            $buff = new Object();
+            $buff = new Object ();
             $buff->total_count = $total_count;
             $buff->total_page = $total_page;
-            $buff->page = $page;
+            $buff->page = $queryObject->getLimit()->page->getValue();
             $buff->data = $data;
-
-            $buff->page_navigation = new PageHandler($total_count, $total_page, $page, $page_count);
-            return $buff;
+            $buff->page_navigation = new PageHandler($total_count, $total_page, $queryObject->getLimit()->page->getValue(), $queryObject->getLimit()->page_count);
+        }else {
+            $data = $this->_fetch($result);
+            $buff = new Object ();
+            $buff->data = $data;
         }
+        return $buff;
     }
+
+    function getParser() {
+        return new DBParser('"');
+    }
+
+    function getSelectSql($query, $with_values = true) {
+
+        if ($query->getLimit()) {
+            $list_count = $query->getLimit()->list_count->getValue();
+            if(!$query->getLimit()->page) $page = 1;
+            else $page = $query->getLimit()->page->getValue();
+
+            $start_count = ($page - 1) * $list_count;
+            $limit = sprintf('SELECT FIRST %d SKIP %d ', $list_count, $start_count);
+        }
+
+        $select = $query->getSelectString($with_values);
+        if ($select == '')
+            return new Object(-1, "Invalid query");
+
+        if ($query->getLimit())
+            $select = $limit . ' ' . $select;
+        else
+            $select = 'SELECT ' . $select;
+        $from = $query->getFromString($with_values);
+        if ($from == '')
+            return new Object(-1, "Invalid query");
+        $from = ' FROM ' . $from;
+
+        $where = $query->getWhereString($with_values);
+        if ($where != '')
+            $where = ' WHERE ' . $where;
+
+        $groupBy = $query->getGroupByString();
+        if ($groupBy != '')
+            $groupBy = ' GROUP BY ' . $groupBy;
+
+        $orderBy = $query->getOrderByString();
+        if ($orderBy != '')
+            $orderBy = ' ORDER BY ' . $orderBy;
+
+        return $select . ' ' . $from . ' ' . $where . ' ' . $groupBy . ' ' . $orderBy;
+    }
+
+}
 
 return new DBFireBird;
 ?>
