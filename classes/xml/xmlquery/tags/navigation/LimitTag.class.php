@@ -10,10 +10,10 @@
 			require_once(_XE_PATH_.'classes/xml/xmlquery/queryargument/QueryArgument.class.php');
 
 			if($index->page->attrs && $index->page_count->attrs){
-				$this->page = $index->page->attrs;
-				$this->page_count = $index->page_count->attrs;
-				$this->arguments[] = new QueryArgument($index->page);
-				$this->arguments[] = new QueryArgument($index->page_count);
+				$this->page = new QueryArgument($index->page);
+				$this->page_count = new QueryArgument($index->page_count);
+				$this->arguments[] = $this->page;
+				$this->arguments[] = $this->page_count;
 			}
 
 			$this->list_count = new QueryArgument($index->list_count);
@@ -21,9 +21,8 @@
 		}
 
 		function toString(){
-                        $name = $this->list_count->getArgumentName();
-			if ($this->page)return sprintf("new Limit(\$%s_argument, \$%s_argument, \$%s_argument)",$name, $name,  $name);
-			else return sprintf("new Limit(\$%s_argument)", $name);
+			if ($this->page)return sprintf("new Limit(\$%s_argument, \$%s_argument, \$%s_argument)", $this->list_count->getArgumentName(), $this->page->getArgumentName(),  $this->page_count->getArgumentName());
+			else return sprintf("new Limit(\$%s_argument)", $this->list_count->getArgumentName());
 		}
 
 		function getArguments(){
