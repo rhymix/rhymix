@@ -11,6 +11,7 @@
         <action name="procAdminRecompileCacheFile" type="controller" standalone="true" />
         <action name="procAdminLogout" type="controller" standalone="true" />
         <action name="procAdminInsertThemeInfo" type="controller" standalone="true" ruleset="insertThemeInfo" />
+		<action name="procAdminToggleFavorite" type="controller" ruleset="toggleFavorite" />
 
         <action name="getAdminFTPList" type="model" standalone="true" />
     </actions>

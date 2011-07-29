@@ -27,11 +27,11 @@
 			FileHandler::rename('./files/cache', $temp_cache_dir);
 			FileHandler::makeDir('./files/cache');
 
-            // remove debug files 
+            // remove debug files
             FileHandler::removeFile(_XE_PATH_.'files/_debug_message.php');
             FileHandler::removeFile(_XE_PATH_.'files/_debug_db_query.php');
             FileHandler::removeFile(_XE_PATH_.'files/_db_slow_query.php');
-			
+
             $oModuleModel = &getModel('module');
             $module_list = $oModuleModel->getModuleList();
 
@@ -57,7 +57,7 @@
 			if($oObjectCacheHandler->isSupport()){
 				$truncated[] = $oObjectCacheHandler->truncate();
 			}
-			
+
 			if($oTemplateCacheHandler->isSupport()){
 				$truncated[] = $oTemplateCacheHandler->truncate();
 			}
@@ -94,7 +94,7 @@
 			// layout submit
 			$output = executeQuery('layout.updateAllLayoutInSiteWithTheme', $args);
 			if (!$output->toBool()) return $output;
-			
+
 			$skin_args->site_srl = $site_info->site_srl;
 
 			foreach($vars as $key=>$val){
@@ -137,12 +137,125 @@
             // Save File
             FileHandler::writeFile($theme_file, $theme_buff);
 
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {                                                                                                                        
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
                 $returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminTheme');
                 header('location:'.$returnUrl);
                 return;
-            }   
+            }
             else return $output;
+		}
+
+		/**
+		 * @brief Toggle favorite
+		 **/
+		function procAdminToggleFavorite()
+		{
+			$siteSrl = Context::get('site_srl');
+			$moduleName = Context::get('module_name');
+			$key = Context::get('key');
+
+			// check favorite exists
+			$oModel = &getAdminModel('admin');
+			$output = $oModel->isExistsFavorite($siteSrl, $moduleName, $key);
+			if (!$output->toBool()) return $output;
+
+			// if exists, delete favorite
+			if ($output->get('result'))
+			{
+				$favoriteSrl = $output->get('favoriteSrl');
+				$output = $this->deleteFavorite($favoriteSrl);
+			}
+
+			// if not exists, insert favorite
+			else
+			{
+				$output = $this->insertFavorite($siteSrl, $moduleName, $key);
+			}
+
+			if (!$output->toBool()) return $output;
+
+			$this->setRedirectUrl(Context::get('error_return_url'));
+		}
+
+		/**
+		 * @brief Insert favorite
+		 **/
+		function insertFavorite($siteSrl, $module, $key)
+		{
+			$args->site_srl = $siteSrl;
+			$args->module = $module;
+			$args->key = $key;
+			$output = executeQuery('admin.insertFavorite', $args);
+			return $output;
+		}
+
+		/**
+		 * @brief Delete favorite
+		 **/
+		function deleteFavorite($favoriteSrl)
+		{
+			$args->admin_favorite_srl = $favoriteSrl;
+			$output = executeQuery('admin.deleteFavorite', $args);
+			return $output;
+		}
+
+		/**
+		 * @brief set favorites at one time
+		 **/
+		function setFavoritesByModule($siteSrl, $module, $keyList)
+		{
+			$oModel = &getAdminModel('admin');
+			$output = $oModel->getFavoriteListByModule($siteSrl, $module);
+			if (!$output->toBool()) return $output;
+			$originList = $output->get('list');
+
+			// find insert key
+			$insertKey = array_diff($keyList, $originList);
+
+			// find delete key
+			$deleteKey = array_diff($originList, $keyList);
+
+			// start transaction
+			$oDB = &DB::getInstance();
+			$oDB->begin();
+
+			// insert key
+			foreach($insertKey as $key)
+			{
+				$output = $this->insertFavorite($siteSrl, $module, $key);
+				if (!$output->toBool())
+				{
+					$oDB->rollback();
+					return $output;
+				}
+			}
+
+			// delete key
+			foreach($deleteKey as $key)
+			{
+				$output = $oModel->isExistsFavorite($siteSrl, $module, $key);
+				if (!$output->toBool())
+				{
+					$oDB->rollback();
+					return $output;
+				}
+				$favoriteSrl = $output->get('favoriteSrl');
+
+				if ($favoriteSrl)
+				{
+					$output = $this->deleteFavorite($favoriteSrl);
+					if (!$output->toBool())
+					{
+						$oDB->rollback();
+						return $output;
+					}
+				}
+			}
+
+			// commit
+			$oDB->commit();
+
+			return new Object();
 		}
     }
 ?>

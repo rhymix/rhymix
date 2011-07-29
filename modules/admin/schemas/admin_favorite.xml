@@ -1,0 +1,6 @@
+<table name="admin_favorite">
+	<column name="admin_favorite_srl" type="number" size="11" notnull="notnull" primary_key="primary_key" auto_increment="auto_increment" />
+	<column name="site_srl" type="number" size="11" />
+	<column name="module" type="varchar" size="80" />
+	<column name="key" type="varchar" size="255" />
+</table>

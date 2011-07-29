@@ -43,7 +43,7 @@
             set_time_limit(5);
             require_once(_XE_PATH_.'libs/ftp.class.php');
             $ftp_info =  Context::getRequestVars();
-            if(!$ftp_info->ftp_user || !$ftp_info->ftp_password) 
+            if(!$ftp_info->ftp_user || !$ftp_info->ftp_password)
             {
                 return new Object(-1, 'msg_ftp_invalid_auth_info');
             }
@@ -112,10 +112,10 @@
 			$info['use_ssl'] = $db_info->use_ssl;
 
 			$info['phpext'] = '';
-			foreach (get_loaded_extensions() as $ext) { 
+			foreach (get_loaded_extensions() as $ext) {
 				$ext = strtolower($ext);
 				if(in_array($ext, $skip['ext'])) continue;
-				$info['phpext'] .= '|'. $ext; 
+				$info['phpext'] .= '|'. $ext;
 			}
 			$info['phpext'] = substr($info['phpext'],1);
 
@@ -123,7 +123,7 @@
 			$oModuleModel = &getModel('module');
 			$module_list = $oModuleModel->getModuleList();
 			foreach($module_list as $module){
-				if(in_array($module->module, $skip['module'])) continue; 
+				if(in_array($module->module, $skip['module'])) continue;
 				$info['module']  .= '|'.$module->module;
 			}
 			$info['module'] = substr($info['module'],1);
@@ -132,7 +132,7 @@
 			$oAddonAdminModel = &getAdminModel('addon');
 			$addon_list = $oAddonAdminModel->getAddonList();
 			foreach($addon_list as $addon){
-				if(in_array($addon->addon, $skip['addon'])) continue; 
+				if(in_array($addon->addon, $skip['addon'])) continue;
 				$info['addon'] .= '|'.$addon->addon;
 			}
 			$info['addon'] = substr($info['addon'],1);
@@ -242,7 +242,7 @@
 
 			if(is_array($skin_infos->skininfo))$skin_list = $skin_infos->skininfo;
 			else $skin_list = array($skin_infos->skininfo);
-			
+
 			$oModuleModel = &getModel('module');
 			$skins = array();
 			foreach($skin_list as $val){
@@ -329,5 +329,79 @@
 			else include $cacheFile;
 
 			return $lang->menu_gnb_sub;
+		}
+
+		/**
+		 * @brief Get admin favorite list
+		 **/
+		function getFavoriteList($siteSrl)
+		{
+			$args->site_srl = $siteSrl;
+			$output = executeQueryArray('admin.getFavoriteList', $args);
+			if (!$output->toBool()) return $output;
+			if (!$output->data) return new Object();
+
+			foreach($output->data as $row)
+			{
+				$targetModule = $row->module;
+				$oTargetModuleAdminModel = &getAdminModel($targetModule);
+				if (!$oTargetModuleAdminModel) continue;
+				if (!method_exists($oTargetModuleAdminModel, 'getFavoriteInfo')) continue;
+
+				$favoriteInfo = $oTargetModuleAdminModel->getFavoriteInfo($row->key);
+				$favoriteList[] = $favoriteInfo;
+			}
+
+			$returnObject = new Object();
+			$returnObject->add('favoriteList', $favoriteList);
+			return $returnObject;
+		}
+
+		/**
+		 * @brief Check available insert favorite
+		 **/
+		function isExistsFavorite($siteSrl, $module, $key)
+		{
+			$args->site_srl = $siteSrl;
+			$args->module = $module;
+			$args->key = $key;
+			$output = executeQuery('admin.getFavorite', $args);
+			if (!$output->toBool()) return $output;
+
+			$returnObject = new Object();
+			if ($output->data)
+			{
+				$returnObject->add('result', true);
+				$returnObject->add('favoriteSrl', $output->data->admin_favorite_srl);
+			}
+			else
+			{
+				$returnObject->add('result', false);
+			}
+
+			return $returnObject;
+		}
+
+		/**
+		 * @brief Get favorite by module, site
+		 **/
+		function getFavoriteListByModule($siteSrl, $module)
+		{
+			$args->site_srl = $siteSrl;
+			$args->module = $module;
+			$columnList = array('key');
+			$output = executeQueryArray('admin.getFavoriteList', $args, $columnList);
+			if (!$output->toBool()) return $output;
+			if (!$output->data) $output->data = array();
+
+			$list = array();
+			foreach($output->data as $row)
+			{
+				$list[$row->key] = $row->key;
+			}
+
+			$returnObject = new Object();
+			$returnObject->add('list', $list);
+			return $returnObject;
 		}
 	}
