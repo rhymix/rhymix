@@ -45,7 +45,7 @@
             $this->_setDBInfo();
             $this->_connect();
         }
-		
+
 		/**
 		 * @brief create an instance of this class
 		 */
@@ -601,7 +601,7 @@
                 // auto_increment in Firebird creates a generator which activates a trigger when insert occurs
                 // the generator increases the value of the generator and then insert to the table
                 // The trigger below acts like auto_increment however I commented the below because the trigger cannot be defined by a query statement
-                // php api has a function to increase a generator, so 
+                // php api has a function to increase a generator, so
                 // no need to use auto increment in XE
                 /*
                 $schema = 'SET TERM ^ ; ';
@@ -640,7 +640,7 @@
          * @brief handles deleteAct
          **/
         function _executeDeleteAct($queryObject) {
-  			$query = $this->getDeleteSql($queryObject);			
+  			$query = $this->getDeleteSql($queryObject);
         	if(is_a($query, 'Object')) return;
             return $this->_query($query);
         }
@@ -653,15 +653,15 @@
          **/
         function _executeSelectAct($queryObject) {
    			$query = $this->getSelectSql($queryObject);
-			
-			if(is_a($query, 'Object')) return;			
+
+			if(is_a($query, 'Object')) return;
 			$query .= (__DEBUG_QUERY__&1 && $queryObject->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id):'';
 			$result = $this->_query ($query);
-			
+
 			if ($this->isError ()) return $this->queryError($queryObject);
-			else return $this->queryPageLimit($queryObject, $result);     
+			else return $this->queryPageLimit($queryObject, $result);
         }
-        
+
     	function queryError($queryObject) {
         if ($queryObject->getLimit() && $queryObject->getLimit()->isPageHandler()) {
             $buff = new Object ();
@@ -696,7 +696,7 @@
             $virtual_no = $total_count - ($queryObject->getLimit()->page - 1) * $queryObject->getLimit()->list_count;
             while ($tmp = ibase_fetch_object($result))
                 $data[$virtual_no--] = $tmp;
-            
+
             if (!$this->transaction_started)
                 @ibase_commit($this->fd);
 
@@ -715,7 +715,7 @@
     }
 
     function getParser() {
-        return new DBParser('"');
+        return new DBParser('"', '"', $this->prefix);
     }
 
     function getSelectSql($query, $with_values = true) {

@@ -44,7 +44,7 @@
             $this->_setDBInfo();
             $this->_connect();
         }
-		
+
 		function create() {
 			return new DBMysql;
 		}
@@ -171,7 +171,7 @@
                 else $output[] = $tmp;
             }
             if(count($output)==1){
-            	if(isset($arrayIndexEndValue)) return $output; 
+            	if(isset($arrayIndexEndValue)) return $output;
             	else return $output[0];
             }
             return $output;
@@ -411,9 +411,9 @@
          **/
         function _executeDeleteAct($queryObject) {
         	$query = $this->getDeleteSql($queryObject);
-			
+
         	if(is_a($query, 'Object')) return;
-        	
+
         	//priority setting
 			// TODO Check what priority does
 			//$priority = '';
@@ -429,17 +429,17 @@
          **/
         function _executeSelectAct($queryObject) {
 			$query = $this->getSelectSql($queryObject);
-			
+
 			if(is_a($query, 'Object')) return;
-			
+
 			$query .= (__DEBUG_QUERY__&1 && $queryObject->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id):'';
-           
+
             // TODO Add support for click count
-            // TODO Add code for pagination           
-            
+            // TODO Add code for pagination
+
 			$result = $this->_query ($query);
 			if ($this->isError ()) return $this->queryError($queryObject);
-			else return $this->queryPageLimit($queryObject, $result);            
+			else return $this->queryPageLimit($queryObject, $result);
         }
 
 		function db_insert_id()
@@ -451,11 +451,11 @@
 		{
 			return mysql_fetch_object($result);
 		}
-		
-    	function getParser(){
-			return new DBParser('`');
+
+            function getParser(){
+                    return new DBParser('`', '`', $this->prefix);
 		}
-		
+
 		function queryError($queryObject){
 			if ($queryObject->getLimit() && $queryObject->getLimit()->isPageHandler()){
 					$buff = new Object ();
@@ -465,10 +465,10 @@
 					$buff->data = array ();
 					$buff->page_navigation = new PageHandler (/*$total_count*/0, /*$total_page*/1, /*$page*/1, /*$page_count*/10);//default page handler values
 					return $buff;
-				}else	
+				}else
 					return;
 		}
-		
+
 		function queryPageLimit($queryObject, $result){
 			 	if ($queryObject->getLimit() && $queryObject->getLimit()->isPageHandler()) {
 		 		// Total count
@@ -481,12 +481,12 @@
 				$result_count = $this->_query($count_query);
 				$count_output = $this->_fetch($result_count);
 				$total_count = (int)$count_output->count;
-		 		
+
 				// Total pages
 				if ($total_count) {
 					$total_page = (int) (($total_count - 1) / $queryObject->getLimit()->list_count) + 1;
 				}	else	$total_page = 1;
-		 		
+
 		 		$virtual_no = $total_count - ($queryObject->getLimit()->page - 1) * $queryObject->getLimit()->list_count;
 		 		$data = $this->_fetch($result, $virtual_no);
 
@@ -495,11 +495,11 @@
 				$buff->total_page = $total_page;
 				$buff->page = $queryObject->getLimit()->page->getValue();
 				$buff->data = $data;
-				$buff->page_navigation = new PageHandler($total_count, $total_page, $queryObject->getLimit()->page->getValue(), $queryObject->getLimit()->page_count);				
+				$buff->page_navigation = new PageHandler($total_count, $total_page, $queryObject->getLimit()->page->getValue(), $queryObject->getLimit()->page_count);
 			}else{
 				$data = $this->_fetch($result);
 				$buff = new Object ();
-				$buff->data = $data;	
+				$buff->data = $data;
 			}
 			return $buff;
 		}

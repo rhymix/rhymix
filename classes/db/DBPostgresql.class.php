@@ -26,19 +26,19 @@ class DBPostgresql extends DB
 	var $comment_syntax = '/* %s */';
 
     /**
-     * @brief column type used in postgresql 
+     * @brief column type used in postgresql
      *
      * Becasue a common column type in schema/query xml is used for colum_type,
      * it should be replaced properly for each DBMS
      **/
     var $column_type = array(
-        'bignumber' => 'bigint', 
+        'bignumber' => 'bigint',
         'number' => 'integer',
-        'varchar' => 'varchar', 
-        'char' => 'char', 
-        'text' => 'text', 
+        'varchar' => 'varchar',
+        'char' => 'char',
+        'text' => 'text',
         'bigtext' => 'text',
-        'date' => 'varchar(14)', 
+        'date' => 'varchar(14)',
         'float' => 'real',
     );
 
@@ -50,7 +50,7 @@ class DBPostgresql extends DB
         $this->_setDBInfo();
         $this->_connect();
     }
-	
+
 	/**
 	 * @brief create an instance of this class
 	 */
@@ -194,12 +194,12 @@ class DBPostgresql extends DB
         $query = implode(" ",$l_query_array);
         }
         }
-        else if ($l_query_array[0] = "delete") 
+        else if ($l_query_array[0] = "delete")
         {
         if (strtolower($l_query_array[3]) == "as")
         {
         $l_query_array[3] = "";
-        $l_query_array[4] = "";            
+        $l_query_array[4] = "";
         $query = implode(" ",$l_query_array);
         }
         }
@@ -233,12 +233,12 @@ class DBPostgresql extends DB
             return;
         while ($tmp = pg_fetch_object($result)) {
             if($arrayIndexEndValue) $output[$arrayIndexEndValue--] = $tmp;
-            else $output[] = $tmp;        	
+            else $output[] = $tmp;
         }
         if(count($output)==1){
-          	if(isset($arrayIndexEndValue)) return $output; 
+          	if(isset($arrayIndexEndValue)) return $output;
             else return $output[0];
-        }        
+        }
         return $output;
     }
 
@@ -295,7 +295,7 @@ class DBPostgresql extends DB
         }
         if ($notnull) {
             $query = sprintf("update %s%s set %s  = %s ", $this->prefix, $table_name, $column_name, $default);
-            $this->_query($query);              
+            $this->_query($query);
             $query = sprintf("alter table %s%s alter %s  set not null ", $this->prefix, $table_name, $column_name);
             $this->_query($query);
         }
@@ -497,7 +497,7 @@ class DBPostgresql extends DB
 
     }
 
- 
+
     /**
      * @brief Handle the insertAct
      **/
@@ -505,7 +505,7 @@ class DBPostgresql extends DB
     {
         $query = $this->getInsertSql($queryObject);
         if(is_a($query, 'Object')) return;
-    
+
         return $this->_query($query);
     }
 
@@ -525,13 +525,13 @@ class DBPostgresql extends DB
     function _executeDeleteAct($queryObject)
     {
         $query = $this->getDeleteSql($queryObject);
-			
+
       	if(is_a($query, 'Object')) return;
         return $this->_query($query);
     }
 
     /**
-     * 
+     *
      * override
      * @param $queryObject
      */
@@ -539,26 +539,26 @@ class DBPostgresql extends DB
 		$select = $query->getSelectString();
 		if($select == '') return new Object(-1, "Invalid query");
 		$select = 'SELECT ' .$select;
-		
+
 		$from = $query->getFromString();
 		if($from == '') return new Object(-1, "Invalid query");
 		$from = ' FROM '.$from;
-		
+
 		$where = $query->getWhereString();
 		if($where != '') $where = ' WHERE ' . $where;
-						
+
 		$groupBy = $query->getGroupByString();
 		if($groupBy != '') $groupBy = ' GROUP BY ' . $groupBy;
-		
+
 		$orderBy = $query->getOrderByString();
 		if($orderBy != '') $orderBy = ' ORDER BY ' . $orderBy;
-		
+
 	 	$limit = $query->getLimitString();
 	 	if($limit != '') $limit = ' LIMIT ' . $query->getLimit()->getLimit() . ' OFFSET ' . $query->getLimit()->getOffset();
 
-	 	return $select . ' ' . $from . ' ' . $where . ' ' . $groupBy . ' ' . $orderBy . ' ' . $limit;    	
+	 	return $select . ' ' . $from . ' ' . $where . ' ' . $groupBy . ' ' . $orderBy . ' ' . $limit;
     }
-    
+
     /**
      * @brief Handle selectAct
      *
@@ -568,14 +568,14 @@ class DBPostgresql extends DB
     function _executeSelectAct($queryObject)
     {
 		$query = $this->getSelectSql($queryObject);
-			
+
 			if(is_a($query, 'Object')) return;
-			
+
 			$query .= (__DEBUG_QUERY__&1 && $queryObject->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id):'';
-           
+
             // TODO Add support for click count
-            // TODO Add code for pagination           
-            
+            // TODO Add code for pagination
+
 			$result = $this->_query ($query);
 			if ($this->isError ()) {
 				if ($limit && $output->limit->isPageHandler()){
@@ -586,7 +586,7 @@ class DBPostgresql extends DB
 					$buff->data = array ();
 					$buff->page_navigation = new PageHandler (/*$total_count*/0, /*$total_page*/1, /*$page*/1, /*$page_count*/10);//default page handler values
 					return $buff;
-				}else	
+				}else
 					return;
 			}
 
@@ -601,13 +601,13 @@ class DBPostgresql extends DB
 				$result_count = $this->_query($count_query);
 				$count_output = $this->_fetch($result_count);
 				$total_count = (int)$count_output->count;
-		 		
+
 				// Total pages
 				if ($total_count) {
 					$total_page = (int) (($total_count - 1) / $queryObject->getLimit()->list_count) + 1;
 				}	else	$total_page = 1;
-		 		
-				
+
+
 		 		$virtual_no = $total_count - ($queryObject->getLimit()->page - 1) * $queryObject->getLimit()->list_count;
 		 		$data = $this->_fetch($result, $virtual_no);
 
@@ -616,18 +616,18 @@ class DBPostgresql extends DB
 				$buff->total_page = $total_page;
 				$buff->page = $queryObject->getLimit()->page->getValue();
 				$buff->data = $data;
-				$buff->page_navigation = new PageHandler($total_count, $total_page, $queryObject->getLimit()->page->getValue(), $queryObject->getLimit()->page_count);				
+				$buff->page_navigation = new PageHandler($total_count, $total_page, $queryObject->getLimit()->page->getValue(), $queryObject->getLimit()->page_count);
 			}else{
 				$data = $this->_fetch($result);
 				$buff = new Object ();
-				$buff->data = $data;	
+				$buff->data = $data;
 			}
 
-			return $buff;        
+			return $buff;
     }
-    
+
     function getParser(){
-    	return new DBParser('"');
+    	return new DBParser('"', '"', $this->prefix);
     }
 }
 

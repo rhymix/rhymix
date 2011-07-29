@@ -685,7 +685,7 @@
 		}
 
 		function getParser(){
-			return new DBParser('"');
+                    return new DBParser('"', '"', $this->prefix);
 		}
 	}
 
