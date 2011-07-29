@@ -371,14 +371,16 @@ button.text{border:0; overflow:visible; padding:0; margin:0; color:#33a; backgro
 .header #moveSiteList li{white-space:nowrap; margin:0; padding:4px 0; border-bottom:1px dotted #ccc}
 .header #siteMapList{padding:0 1em 1em 1em; margin:0}
 .header #siteMapList li{white-space:nowrap}
-.header .account{position:absolute;z-index:3; width:100%;padding:5px 2em 5px 0;top:0;right:0;white-space:nowrap;text-align:right;background:#333;border-bottom:1px solid #656565;color:#fff;font-size:12px;box-shadow:0 0 10px #333;-moz-box-shadow:0 0 10px #333;-webkit-box-shadow:0 0 10px #333}
+.header .account{position:absolute;z-index:3; width:100%;padding:5px 0;top:0;right:0;white-space:nowrap;text-align:right;background:#333;border-bottom:1px solid #656565;color:#fff;font-size:12px;box-shadow:0 0 10px #333;-moz-box-shadow:0 0 10px #333;-webkit-box-shadow:0 0 10px #333}
 .stAdmin .header .account{background:#0e5f69}
-.header .account ul{margin:0;padding:0;list-style:none}
+.header .account ul{margin:0 2px 0 0;padding:0;list-style:none}
 .header .account li{position:relative;display:inline;border-left:1px solid #666;padding:0 6px 0 10px}
 .header .account li:first-child{border:0}
 .header .account a{color:#fff;display:inline-block;height:14px}
-.header #language{position:absolute;top:19px;right:0;padding:10px !important;border:1px solid #666;border-top:0;background:#333}
-.header #language li{border:0;display:block;padding:0;text-align:left;line-height:1.4}
+.header .account a.language{padding-right:2px}
+.header #language{position:absolute;top:19px;right:0;padding:6px 4px !important;border:1px solid #666;border-top:0;background:#333}
+.header #language li{border:0;display:block;padding:1px 8px;text-align:left;line-height:1}
+.header #language li.selected{background:transparent url(../img/checked.png) no-repeat left center;}
 .header h1 a:hover,
 .header h1 a:active,
 .header h1 a:focus,
@@ -545,20 +547,22 @@ input#lang_mn{background:url(../img/flag.mn.gif) no-repeat 96% center}
 .noticeAlert em{font-style:normal;font-weight:bold}
 /* Theme & Skin Preview */
 .thumbPreview li{position:relative;padding-left:10px;padding-right:10px;}
-.thumbPreview li.active{background:#FFFCE0}
-.thumbPreview .prevToggle{position:absolute;top:8px;right:0;line-height:16px;padding:0 18px 0 0;text-decoration:none;background:url(../img/iconArrow.gif) no-repeat right -32px}
+.thumbPreview li.active{background:#f9f9f9}
+.thumbPreview .prevToggle{position:absolute;top:8px;right:10px;line-height:16px;padding:0 18px 0 0;text-decoration:none;background:url(../img/iconArrow.gif) no-repeat right -32px}
 .thumbPreview li.active .prevToggle{background-position:right 0}
 .thumbPreview .a{border:0;margin:0;zoom:1}
 .thumbPreview .a:after{content:"";display:block;clear:both}
 .thumbPreview .i{float:left;vertical-align:top;margin:0 1em 1em 0;padding:0;border:0;zoom:1}
 .thumbPreview .i:after{content:"";display:block;clear:both}
 .thumbPreview .i .thumb{position:relative;width:120px;height:70px;padding:10px 0 0 0;text-align:center;overflow:hidden;border:1px solid #ddd;display:block;cursor:pointer;background:#fff}
+.thumbPreview .i .thumb .frame{position:absolute;width:120px;height:70px;left:0;top:0;border:3px solid #fff}
 .thumbPreview .i .thumb img{width:120px;margin:-10px 0 0 0}
 .thumbPreview .i input{display:none}
 .thumbPreview .i ul{display:none}
 .thumbPreview .i.checked{display:block;float:none}
-.thumbPreview .i.checked .thumb{float:left;width:180px;height:120px;margin:0 1em 0 0;border:5px solid #C6DFEC;box-shadow:0 0 5px #666 inset;-moz-box-shadow:0 0 3px #666 inset;-webkit-box-shadow:0 0 5px #666 inset}
-.thumbPreview li.active .i.checked .thumb{border-color:#66A9CC}
+.thumbPreview .i.checked .thumb{float:left;width:180px;height:120px;margin:0 1em 0 0;border:2px solid #eee}
+.thumbPreview .i.checked .thumb .frame{width:180px;height:120px}
+.thumbPreview li.active .i.checked .thumb{border-color:#5ea8f6}
 .thumbPreview .i.checked .thumb img{width:180px;position:relative;z-index:-1}
 .thumbPreview li.active .i.checked .thumb img{z-index:auto}
 .thumbPreview .i.checked label{cursor:text}

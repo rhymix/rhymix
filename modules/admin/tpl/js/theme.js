@@ -6,7 +6,7 @@ $('#theme,#skin')
 		// thumbnail list
 		.find('.a')
 			.has('li.i:nth-child(2)')
-				.after('<a href="#" class="prevToggle">Show</a>')
+				.after('<a href="#toggle-tp" class="prevToggle">Show</a>')
 				.next('a.prevToggle')
 					.click(function(){
 						var $list = $(this).prev('.a');

@@ -157,7 +157,9 @@ class HTMLDisplayHandler {
 
 	function _loadJSCSS()
 	{
-		$oContext =& Context::getInstance();
+		$oContext  =& Context::getInstance();
+		$lang_type =  Context::getLangType();
+
 		// add common JS/CSS files
 		if(__DEBUG__) {
 			$oContext->addJsFile('./common/js/jquery.js', false, '', -100000);
@@ -179,9 +181,11 @@ class HTMLDisplayHandler {
 		if(Context::get('module')=='admin' || strpos(Context::get('act'),'Admin')>0){
 			if(__DEBUG__) {
 				$oContext->addCSSFile('./modules/admin/tpl/css/admin.css', false, 'all', '', 100000);
+				$oContext->addCSSFile("./modules/admin/tpl/css/admin_{$lang_type}.css", false, 'all', '', 100000);
 				$oContext->addJsFile('./modules/admin/tpl/js/admin.js');
 			} else {
-				$oContext->addCSSFile('./modules/admin/tpl/css/admin.min.css', false, 'all', '',10000);
+				$oContext->addCSSFile('./modules/admin/tpl/css/admin.min.css', false, 'all', '', 100000);
+				$oContext->addCSSFile("./modules/admin/tpl/css/admin_{$lang_type}.min.css", false, 'all', '',10000);
 				$oContext->addJsFile('./modules/admin/tpl/js/admin.js');
 			}
 		}
