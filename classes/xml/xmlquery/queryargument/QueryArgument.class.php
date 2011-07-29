@@ -7,17 +7,17 @@
 		var $column_name;
 		var $operation;
 
-                static $number_of_arguments = 0;
-
 		function QueryArgument($tag){
+                        static $number_of_arguments = 0;
+
 			$this->argument_name = $tag->attrs->var;
 			if(!$this->argument_name) $this->argument_name = $tag->attrs->name;
 			if(!$this->argument_name) $this->argument_name = str_replace('.', '_',$tag->attrs->column);
 
                         $this->variable_name = $this->argument_name;
 
-                        self::$number_of_arguments++;
-                        $this->argument_name .= self::$number_of_arguments;
+                        $number_of_arguments++;
+                        $this->argument_name .= $number_of_arguments;
 
 			$name = $tag->attrs->name;
 			if(!$name) $name = $tag->attrs->column;
