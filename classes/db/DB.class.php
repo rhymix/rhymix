@@ -13,6 +13,25 @@
      * queryid = module_name.query_name
      **/
 
+    require_once(_XE_PATH_.'classes/xml/xmlquery/DBParser.class.php');
+    require_once(_XE_PATH_.'classes/xml/xmlquery/argument/Argument.class.php');
+    require_once(_XE_PATH_.'classes/xml/xmlquery/argument/SortArgument.class.php');
+    require_once(_XE_PATH_.'classes/xml/xmlquery/argument/ConditionArgument.class.php');
+    require_once(_XE_PATH_.'classes/xml/XmlQueryParser.class.php');
+    require_once(_XE_PATH_.'classes/db/queryparts/expression/Expression.class.php');
+    require_once(_XE_PATH_.'classes/db/queryparts/expression/SelectExpression.class.php');
+    require_once(_XE_PATH_.'classes/db/queryparts/expression/InsertExpression.class.php');
+    require_once(_XE_PATH_.'classes/db/queryparts/expression/UpdateExpression.class.php');
+    require_once(_XE_PATH_.'classes/db/queryparts/table/Table.class.php');
+    require_once(_XE_PATH_.'classes/db/queryparts/table/JoinTable.class.php');
+    require_once(_XE_PATH_.'classes/db/queryparts/condition/ConditionGroup.class.php');
+    require_once(_XE_PATH_.'classes/db/queryparts/condition/Condition.class.php');
+    require_once(_XE_PATH_.'classes/db/queryparts/expression/StarExpression.class.php');
+    require_once(_XE_PATH_.'classes/db/queryparts/order/OrderByColumn.class.php');
+    require_once(_XE_PATH_.'classes/db/queryparts/limit/Limit.class.php');
+    require_once(_XE_PATH_.'classes/db/queryparts/Query.class.php');
+    require_once(_XE_PATH_.'classes/db/queryparts/Subquery.class.php');
+
     class DB {
 
         var $count_cache_path = 'files/cache/db';
@@ -94,43 +113,43 @@
          * @brief returns list of enable in supported db
          * @return list of enable in supported db
          **/
-		function getEnableList()
-		{
-			if(!$this->supported_list)
-			{
-				$oDB = new DB();
-				$this->supported_list = $oDB->_getSupportedList();
-			}
+        function getEnableList()
+        {
+                if(!$this->supported_list)
+                {
+                        $oDB = new DB();
+                        $this->supported_list = $oDB->_getSupportedList();
+                }
 
-			$enableList = array();
-			if(is_array($this->supported_list))
-			{
-				foreach($this->supported_list AS $key=>$value)
-					if($value->enable) array_push($enableList, $value);
-			}
-			return $enableList;
-		}
+                $enableList = array();
+                if(is_array($this->supported_list))
+                {
+                        foreach($this->supported_list AS $key=>$value)
+                                if($value->enable) array_push($enableList, $value);
+                }
+                return $enableList;
+        }
 
         /**
          * @brief returns list of disable in supported db
          * @return list of disable in supported db
          **/
-		function getDisableList()
-		{
-			if(!$this->supported_list)
-			{
-				$oDB = new DB();
-				$this->supported_list = $oDB->_getSupportedList();
-			}
+        function getDisableList()
+        {
+                if(!$this->supported_list)
+                {
+                        $oDB = new DB();
+                        $this->supported_list = $oDB->_getSupportedList();
+                }
 
-			$disableList = array();
-			if(is_array($this->supported_list))
-			{
-				foreach($this->supported_list AS $key=>$value)
-					if(!$value->enable) array_push($disableList, $value);
-			}
-			return $disableList;
-		}
+                $disableList = array();
+                if(is_array($this->supported_list))
+                {
+                        foreach($this->supported_list AS $key=>$value)
+                                if(!$value->enable) array_push($disableList, $value);
+                }
+                return $disableList;
+        }
 
         /**
          * @brief returns list of supported db
@@ -356,26 +375,6 @@
             if(!file_exists($cache_file)) return new Object(-1, 'msg_invalid_queryid');
 
             if($source_args) $args = @clone($source_args);
-
-            require_once(_XE_PATH_.'classes/xml/xmlquery/DBParser.class.php');
-            require_once(_XE_PATH_.'classes/xml/xmlquery/argument/Argument.class.php');
-            require_once(_XE_PATH_.'classes/xml/xmlquery/argument/SortArgument.class.php');
-            require_once(_XE_PATH_.'classes/xml/xmlquery/argument/ConditionArgument.class.php');
-            require_once(_XE_PATH_.'classes/xml/XmlQueryParser.class.php');
-            require_once(_XE_PATH_.'classes/db/queryparts/expression/Expression.class.php');
-            require_once(_XE_PATH_.'classes/db/queryparts/expression/SelectExpression.class.php');
-            require_once(_XE_PATH_.'classes/db/queryparts/expression/InsertExpression.class.php');
-            require_once(_XE_PATH_.'classes/db/queryparts/expression/UpdateExpression.class.php');
-            require_once(_XE_PATH_.'classes/db/queryparts/table/Table.class.php');
-            require_once(_XE_PATH_.'classes/db/queryparts/table/JoinTable.class.php');
-            require_once(_XE_PATH_.'classes/db/queryparts/condition/ConditionGroup.class.php');
-            require_once(_XE_PATH_.'classes/db/queryparts/condition/Condition.class.php');
-            require_once(_XE_PATH_.'classes/db/queryparts/expression/StarExpression.class.php');
-            require_once(_XE_PATH_.'classes/db/queryparts/order/OrderByColumn.class.php');
-            require_once(_XE_PATH_.'classes/db/queryparts/limit/Limit.class.php');
-            require_once(_XE_PATH_.'classes/db/queryparts/Query.class.php');
-            require_once(_XE_PATH_.'classes/db/queryparts/Subquery.class.php');
-
 
             $output = include($cache_file);
 
