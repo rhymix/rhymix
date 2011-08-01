@@ -540,7 +540,6 @@
    		function getDeleteSql($query, $with_values = true){
 			$sql = 'DELETE ';
 
-			// TODO Add support for deleting based on alias, for both simple FROM and multi table join FROM clause
 			$tables = $query->getTables();
 
 			$sql .= $tables[0]->getAlias();

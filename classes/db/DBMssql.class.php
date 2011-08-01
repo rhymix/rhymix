@@ -159,15 +159,6 @@
          *        object if a row returned \n
          *        return\n
          **/
-
-        // TODO Support array arguments in sql server
-        /*
-         * $query_emp="select name from employee where id in (?,?,?)";
-            $params_emp= Array(1,2,3);
-            $res_emp = sqlsrv_query($conn, $query_emp, $params_emp);
-         *
-         */
-
         function _query($query) {
 			if($this->is_connected == false || !$query) return;
 

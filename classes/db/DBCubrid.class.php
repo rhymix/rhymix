@@ -250,7 +250,7 @@
                             // Else return object instead of array
                             else return $output[0];
                         }
-                        return $output;                        
+                        return $output;
 		}
 
 		/**
@@ -626,7 +626,6 @@
 		 * to get a specific page list easily in select statement,\n
 		 * a method, navigation, is used
 		 **/
-		// TODO Rewrite with Query object as input
 		 function _executeSelectAct($queryObject){
 			$query = $this->getSelectSql($queryObject);
 			if(is_a($query, 'Object')) return;
@@ -655,14 +654,14 @@
 
 		function queryPageLimit($queryObject, $result){
         		if ($queryObject->getLimit() && $queryObject->getLimit()->isPageHandler()) {
-                                
+
 		 	// Total count
 		 	$count_query = sprintf('select count(*) as "count" %s %s', 'FROM ' . $queryObject->getFromString(), ($queryObject->getWhereString() === '' ? '' : ' WHERE '. $queryObject->getWhereString()));
 			if ($queryObject->getGroupByString() != '') {
 				$count_query = sprintf('select count(*) as "count" from (%s) xet', $count_query);
 			}
-                                
-			$count_query .= (__DEBUG_QUERY__&1 && $queryObject->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';                
+
+			$count_query .= (__DEBUG_QUERY__&1 && $queryObject->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
 			$result = $this->_query($count_query);
 			$count_output = $this->_fetch($result);
 			$total_count = (int)$count_output->count;
@@ -685,13 +684,13 @@
 			// check the page variables
 			if ($page > $total_page) $page = $total_page;
 			$start_count = ($page - 1) * $list_count;
-                        
+
                         $query = $this->getSelectPageSql($queryObject, true, $start_count, $list_count);
                         $query .= (__DEBUG_QUERY__&1 && $queryObject->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
 			$result = $this->_query ($query);
                         if ($this->isError ())
                             return $this->queryError($queryObject);
-                        
+
 	 		$virtual_no = $total_count - ($page - 1) * $list_count;
 	 		$data = $this->_fetch($result, $virtual_no);
 
@@ -712,13 +711,13 @@
 		function getParser(){
                     return new DBParser('"', '"', $this->prefix);
 		}
-               
+
                 function getSelectPageSql($query, $with_values = true, $start_count = 0, $list_count = 0) {
 
                     $select = $query->getSelectString($with_values);
                     if($select == '') return new Object(-1, "Invalid query");
                     $select = 'SELECT ' .$select;
-        
+
                     $from = $query->getFromString($with_values);
                     if($from == '') return new Object(-1, "Invalid query");
                     $from = ' FROM '.$from;
@@ -735,7 +734,7 @@
                     $limit = $query->getLimitString();
                     if ($limit != '') {
                         if ($query->getLimit()) {
-                            
+
                             if($orderBy != '')
                                 $limit = sprintf (' for orderby_num() between %d and %d', $start_count + 1, $list_count + $start_count);
                             else{
@@ -744,7 +743,7 @@
                                 else{
                                     if ($where != '')
 					$limit = sprintf (' and inst_num() between %d and %d', $start_count + 1, $list_count + $start_count);
-                                    else 
+                                    else
 					$limit = sprintf(' where inst_num() between %d and %d', $start_count + 1, $list_count + $start_count);
                                 }
                             }

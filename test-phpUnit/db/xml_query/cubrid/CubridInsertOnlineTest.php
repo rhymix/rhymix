@@ -6,10 +6,10 @@
                  * Note: this test can fail when comaparing regdate from the $args with
                  * regdate from the expected string - a few seconds difference
                  */
-		function test_module_insertModule_escapeContent(){					
+		function test_module_insertModule_escapeContent(){
 			$xml_file = _XE_PATH_ . "modules/module/queries/insertModule.xml";
-                        
-                        $args->module_category_srl = 0; 
+
+                        $args->module_category_srl = 0;
                         $args->browser_title = "test";
                         $args->layout_srl = 0;
                         $args->mlayout_srl = 0;
@@ -18,12 +18,12 @@
                         $args->site_srl = 0;
                         $args->module_srl = 47374;
                         $args->content = "hello \' moto";
-                        
+
                         $output = executeQuery('module.insertModule', $args);
-                        
-                        $this->assertTrue(!$output->error, $output->message);		
-		}      
-                
+
+                        $this->assertTrue(!$output->error, $output->message);
+		}
+
                 function test_document_insertDocument_defaultVarcharValue(){
                     $args->module_srl = 102;
                     $args->content = '<p>yuhuuuuu</p>';
@@ -47,40 +47,39 @@
                     $args->title = 'yuhuu';
                     $args->lang_code;
                     $output = executeQuery('document.insertDocument', $args);
-                    
+
                     $this->assertNotEquals(-225, $output->error);
                     $this->assertNotEquals('Missing value for attribute "homepage" with the NOT NULL constraint.', $output->message);
                 }
-                
+
               function test_communication_addFriendGroup(){
-			$args->member_srl = 202; 
+			$args->member_srl = 202;
                         $args->title = "Grup";
-                        
+
                         $output = executeQuery("communication.addFriendGroup", $args);
                         $this->assertEquals(0, $output->error, $output->message);
-                        
-                }                
-                
+
+                }
+
              function test_communication_addFriendGroup_NullId(){
-			$args->member_srl = 202; 
+			$args->member_srl = 202;
                         $args->title = "Grup";
                         $args->friend_group_srl = trim(null);
-                        
+
                         $output = executeQuery("communication.addFriendGroup", $args);
                         $this->assertEquals(0, $output->error, $output->message);
-                        
-             }                     
-             
-                protected function tearDown() {                   
+
+             }
+
+                protected function tearDown() {
                     $db = &DB::getInstance();
-                    $db->_query("DELETE FROM xe_modules WHERE module_srl = 47374");                    
+                    $db->_query("DELETE FROM xe_modules WHERE module_srl = 47374");
                     $db->_query("DELETE FROM xe_documents WHERE document_srl = 9200");
                     $db->_query("DELETE FROM xe_member_friend_group WHERE member_srl = 202");
                     $db->close();
-                    
+
                     parent::tearDown();
-                    // TODO Delete inserted value
-                }      
-                
+                }
+
 
 	}
