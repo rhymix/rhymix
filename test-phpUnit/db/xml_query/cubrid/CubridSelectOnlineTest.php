@@ -11,6 +11,20 @@
             $this->assertEquals($output->data->module_srl, 111);
         }
 
+        /**
+         * Tests that when a column list is given, the query only selects those columns from the database
+         * insetad of retrieving all table columns (as specified in the xml query file)
+         */
+        function test_get_module_by_mid_columnList(){
+            $args->mid = 'test_4l8ci4vv0n';
+            $args->site_srl = 0;
+            $output = executeQuery('module.getMidInfo', $args, array('module_srl'));
+            $this->assertNotNull($output);
+            $this->assertNotNull($output->data, $output->message . PHP_EOL . $output->variables["_query"]);
+            $this->assertEquals($output->data->module_srl, 111);
+            $this->assertEquals($output->data->module, null);
+        }
+
         function test_module_getInfo(){
             $args->site_srl = 0;
             $output = executeQuery('module.getSiteInfo', $args);

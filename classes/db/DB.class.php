@@ -395,8 +395,8 @@
                         $output = $this->_executeDeleteAct($output);
                     break;
                 case 'select' :
-                		// TODO Add property for Query object for Arg_columns
-						$output->arg_columns = is_array($arg_columns)?$arg_columns:array();
+                        $arg_columns = is_array($arg_columns)?$arg_columns:array();
+                        $output->setColumnList($arg_columns);
                         $output = $this->_executeSelectAct($output);
                     break;
             }
