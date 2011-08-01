@@ -326,12 +326,17 @@ p{line-height:1.5}
 .modalBlur{position:absolute;top:0;right:0;border:0;background:none;padding:0;width:1px;height:1px;overflow:hidden}
 html.modalContainer,body.modalContainer{_height:100%;_width:100%} /* IE6 only */ 
 /* Message */
-.message .info{}
-.message .error{}
-.message .update{}
+.message{border:1px solid #ddd;background:#f8f8f8;margin:1em 0;padding:0 1em;border-radius:5px}
+.message em{font-style:normal;color:#e00}
+.message.info,
+.message.error,
+.message.update{padding-left:55px}
+.message.info{border-color:#E0E8EC;background:#EDF9FF url(../img/msg.Info.png) no-repeat 1em .5em}
+.message.error{border-color:#EFDCDC;background:#FFECEC url(../img/msg.error.png) no-repeat 1em .5em}
+.message.update{border-color:#EAE9DC;background:#FFFDEF url(../img/msg.update.png) no-repeat 1em .5em}
 /* Text Button */
 input.text, 
-button.text{border:0; overflow:visible; padding:0; margin:0; color:#33a; background:none; text-decoration:underline}
+button.text{border:0;overflow:visible;padding:0;margin:0;color:#33a;background:none;text-decoration:underline}
 
 /* H2 Anchor */
 .h2Anchor{position:absolute;right:0;border:0;background:none;color:#00f;text-decoration:underline}
@@ -360,18 +365,18 @@ button.text{border:0; overflow:visible; padding:0; margin:0; color:#33a; backgro
 .header h1 img{height:32px}
 .header h1 .url{font-size:12px;font-weight:normal}
 .header .siteTool{position:absolute !important;top:42px;right:0;padding:0 2em 0 0;z-index:2}
-.header .siteTool .i{position:relative; z-index:2; display:inline-block;color:#fff;padding:0 6px;line-height:24px}
+.header .siteTool .i{position:relative;z-index:2;display:inline-block;color:#fff;padding:0 6px;line-height:24px}
 .header .siteTool .i:first-child{border:0}
 .header .siteTool .tgAnchor{padding-right:16px;background:url(../img/iconArrow.gif) no-repeat right -156px}
-.header .siteTool .tgAnchor.active{border:1px solid #ccc; border-bottom:0; background-color:#fff; color:#333; text-decoration:none;border-radius:5px 5px 0 0}
+.header .siteTool .tgAnchor.active{border:1px solid #ccc;border-bottom:0;background-color:#fff;color:#333;text-decoration:none;border-radius:5px 5px 0 0}
 .header .siteTool .tgContent{position:absolute;top:24px;right:2em;border:1px solid #ccc;z-index:1;background-color:#fff;border-radius:5px 0 5px 5px}
 .header .siteTool .tgContent .btnArea{margin:0}
-.header #moveSiteList{padding:10px 1em 5px 1em; margin:0}
-.header #moveSiteList ul{list-style:none; margin:0; padding:0}
-.header #moveSiteList li{white-space:nowrap; margin:0; padding:4px 0; border-bottom:1px dotted #ccc}
-.header #siteMapList{padding:0 1em 1em 1em; margin:0}
+.header #moveSiteList{padding:10px 1em 5px 1em;margin:0}
+.header #moveSiteList ul{list-style:none;margin:0;padding:0}
+.header #moveSiteList li{white-space:nowrap;margin:0;padding:4px 0;border-bottom:1px dotted #ccc}
+.header #siteMapList{padding:0 1em 1em 1em;margin:0}
 .header #siteMapList li{white-space:nowrap}
-.header .account{position:absolute;z-index:3; width:100%;padding:5px 0;top:0;right:0;white-space:nowrap;text-align:right;background:#333;border-bottom:1px solid #656565;color:#fff;font-size:12px;box-shadow:0 0 10px #333;-moz-box-shadow:0 0 10px #333;-webkit-box-shadow:0 0 10px #333}
+.header .account{position:absolute;z-index:3;width:100%;padding:5px 2em 5px 0;top:0;right:0;white-space:nowrap;text-align:right;background:#333;border-bottom:1px solid #656565;color:#fff;font-size:12px;box-shadow:0 0 10px #333;-moz-box-shadow:0 0 10px #333;-webkit-box-shadow:0 0 10px #333}
 .stAdmin .header .account{background:#0e5f69}
 .header .account ul{margin:0 2px 0 0;padding:0;list-style:none}
 .header .account li{position:relative;display:inline;border-left:1px solid #666;padding:0 6px 0 10px}
@@ -409,8 +414,10 @@ button.text{border:0; overflow:visible; padding:0; margin:0; color:#33a; backgro
 .content .portlet a:active,
 .content .portlet a:focus{text-decoration:underline}
 /* Dashboard */
-.dashboard{float:none;width:auto;margin-left:-230px}
-.dashboard .portlet{float:left;width:48%;margin-right:1em}
+.dashboard{position:relative; float:none;width:auto;margin-left:-230px}
+.dashboard .portlet{float:left;width:48%; margin-right:1em}
+.dashboard .portlet:nth-of-type(even){ float:left; width:49%; margin-right:0 }
+.dashboard .portlet:nth-of-type(even){ float:right; width:49%; margin-right:0}
 /* Local Navigation */
 .lnb{position:relative;float:left;width:200px;margin:1em 0 1em -230px;line-height:normal;zoom:1;display:inline}
 .lnb .h2{margin-top:0}
@@ -487,9 +494,9 @@ button.text{border:0; overflow:visible; padding:0; margin:0; color:#33a; backgro
 .siteMap li li li li li li li li li li li li .hr{left:336px}
 .siteMap .side{padding-top:0 !important;padding-bottom:0 !important;line-height:30px}
 .siteMap .side button{text-indent:0;line-height:1}
-.siteMap .tgMap{position:absolute; top:12px; right:1em; padding:0 16px 0 0; line-height:16px; background:url(../img/iconArrow.gif) no-repeat right -126px}
+.siteMap .tgMap{position:absolute;top:12px;right:1em;padding:0 16px 0 0;line-height:16px;background:url(../img/iconArrow.gif) no-repeat right -126px}
 .siteMap.fold .tgMap{background-position:right -158px}
-.siteMap.fold .h2{border-bottom-color:#fff; border-radius:5px}
+.siteMap.fold .h2{border-bottom-color:#fff;border-radius:5px}
 /* Button Area */
 .btnArea{margin:1em 0;text-align:right;zoom:1}
 .btnArea:after{content:"";display:block;clear:both}
@@ -499,8 +506,8 @@ button.text{border:0; overflow:visible; padding:0; margin:0; color:#33a; backgro
 #vLangEdit li{padding:.5em 10px}
 #vLangEdit input[type=text]{width:220px;padding-right:40px}
 #vLangEdit label{left:15px !important}
-#vLangEdit .action{ border:1px solid #eee; width:268px; padding:0 10px}
-#vLangEdit p, #vLangEdit .btnArea{ white-space:normal}
+#vLangEdit .action{border:1px solid #eee;width:268px;padding:0 10px}
+#vLangEdit p, #vLangEdit .btnArea{white-space:normal}
 input#lang_en{background:url(../img/flag.us.gif) no-repeat 96% center}
 input#lang_ko{background:url(../img/flag.kr.gif) no-repeat 96% center}
 input#lang_ja{background:url(../img/flag.jp.gif) no-repeat 96% center}
@@ -517,7 +524,7 @@ input#lang_mn{background:url(../img/flag.mn.gif) no-repeat 96% center}
 .suggestion ul{border-top:1px solid #ccc;border-left:1px solid #eee;border-right:1px solid #eee;margin:0}
 .suggestion li{padding:0}
 .suggestion li:last-child{border-bottom:0}
-.suggestion li button{border:0;background:#fff;text-align:left;width:280px;display:block; overflow:hidden; text-overflow:ellipsis;white-space:nowrap}
+.suggestion li button{border:0;background:#fff;text-align:left;width:280px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .suggestion li button:hover,
 .suggestion li button:active,
 .suggestion li button:focus{background:#eee}
@@ -541,12 +548,8 @@ input#lang_mn{background:url(../img/flag.mn.gif) no-repeat 96% center}
 #ftpSuggestion li button:hover,
 #ftpSuggestion li button:active,
 #ftpSuggestion li button:focus{background:#eee}
-/* Notice Alert */
-.noticeAlert{background:#ffc;padding:0 2em;border:1px solid #fcc;border-left:0;border-right:0;zoom:1;position:relative}
-.noticeAlert h2{zoom:1;margin:.83em 0}
-.noticeAlert em{font-style:normal;font-weight:bold}
 /* Theme & Skin Preview */
-.thumbPreview li{position:relative;padding-left:10px;padding-right:10px;}
+.thumbPreview li{position:relative;padding-left:10px;padding-right:10px}
 .thumbPreview li.active{background:#f9f9f9}
 .thumbPreview .prevToggle{position:absolute;top:8px;right:10px;line-height:16px;padding:0 18px 0 0;text-decoration:none;background:url(../img/iconArrow.gif) no-repeat right -32px}
 .thumbPreview li.active .prevToggle{background-position:right 0}
@@ -582,19 +585,19 @@ input#lang_mn{background:url(../img/flag.mn.gif) no-repeat 96% center}
 .uDrag .dragActive td{background:none !important}
 .uDrag .dragBtn{position:absolute;width:8px;height:100%;padding:0;overflow:hidden;background:url(../img/bgDragable.gif);top:1px;left:0;text-indent:12px;border:0;cursor:n-resize}
 /* Favicon Preview */
-.faviconPreview{ position:relative; padding:60px 0 0 200px; background:url(../img/bgFavicon.gif) no-repeat}
-.faviconPreview img{ position:absolute}
-.faviconPreview .fn1{ top:30px; left:12px}
-.faviconPreview .fn2{ top:55px; left:68px}
+.faviconPreview{position:relative;padding:60px 0 0 200px;background:url(../img/bgFavicon.gif) no-repeat}
+.faviconPreview img{position:absolute}
+.faviconPreview .fn1{top:30px;left:12px}
+.faviconPreview .fn2{top:55px;left:68px}
 /* Mobile Icon Preview */
-.mobiconPreview{ position:relative; padding:252px 0 0 200px; background:url(../img/bgMobileTop.png) no-repeat}
-.mobiconPreview img{ position:absolute; top:20px; left:10px}
-.mobiconPreview span{ position:absolute; width:32px; text-align:center; top:52px; left:10px; color:#fff; font-size:9px}
+.mobiconPreview{position:relative;padding:252px 0 0 200px;background:url(../img/bgMobileTop.png) no-repeat}
+.mobiconPreview img{position:absolute;top:20px;left:10px}
+.mobiconPreview span{position:absolute;width:32px;text-align:center;top:52px;left:10px;color:#fff;font-size:9px}
 /* Text List */
-.textList{ border:1px solid #ddd !important; line-height:1.5em; height:18.5em; overflow:auto}
-.textList li{ border:0; padding:.25em 1em; height:1.5em; white-space:nowrap; overflow:hidden}
-.textList li:nth-child(even){ background:#eee}
-.textList li a{ float:right}
+.textList{border:1px solid #ddd !important;line-height:1.5em;height:18.5em;overflow:auto}
+.textList li{border:0;padding:.25em 1em;height:1.5em;white-space:nowrap;overflow:hidden}
+.textList li:nth-child(even){background:#eee}
+.textList li a{float:right}
 
 /* Responsive Layout */
 @media only all and (max-width:860px) {
@@ -605,7 +608,7 @@ input#lang_mn{background:url(../img/flag.mn.gif) no-repeat 96% center}
 	.body{padding:1em}
 	.content{float:none;margin-left:0}
 	.lnb{float:none;width:auto;margin:1em 0}
-    .dashboard .portlet{float:none;width:auto;margin-right:0}
+    .dashboard .portlet{float:none !important;width:auto !important; margin-right:0}
 	.modal .fg,
 	.wfsr .fg{width:auto}
 	.easyNav .category{float:none;display:block;width:auto}
