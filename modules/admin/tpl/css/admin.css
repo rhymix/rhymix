@@ -560,7 +560,7 @@ input#lang_mn{background:url(../img/flag.mn.gif) no-repeat 96% center}
 .thumbPreview .i .thumb{position:relative;width:124px;height:74px;padding:0;margin-bottom:3px;text-align:center;overflow:hidden;border:1px solid #ddd;display:block;cursor:pointer;background:#fff}
 .thumbPreview .i .thumb .frame{position:absolute;width:120px;height:70px;left:0;top:0;border:2px solid #fff;overflow:hidden}
 .thumbPreview .i .thumb img{width:120px;margin:-10px 0 0 0}
-.thumbPreview .i label{display:block;position:relative;top:0;left:2px;width:122px;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.thumbPreview .i label{display:block;position:relative;top:0;left:2px;width:122px;height:1.1em;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .thumbPreview .i input{display:none}
 .thumbPreview .i ul{display:none}
 .thumbPreview .selected .i{display:block;float:none}
