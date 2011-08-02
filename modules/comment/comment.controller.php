@@ -644,10 +644,25 @@
 				}
 			}
 
-			if(count($commentSrlList)) {
+			if(count($commentSrlList) > 0) {
 				$oCommentModel = &getModel('comment');
 				$commentList = $oCommentModel->getComments($commentSrlList);
+
+				if(is_array($commentList))
+				{
+					foreach($commentList AS $key=>$value)
+					{
+						$value->content = strip_tags($value->content);
+					}
+				}
 			}
+			else
+			{
+				global $lang;
+				$commentList = array();
+				$this->setMessage($lang->no_documents);
+			}
+
 			$this->add('comment_list', $commentList);
 		}
     }

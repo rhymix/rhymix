@@ -3,10 +3,7 @@
 	<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 		<p>{$XE_VALIDATOR_MESSAGE}</p>
 	</div>
-	<form ruleset="deleteChecked" id="fo_list" action="./" method="post" class="form">
-	<input type="hidden" name="act" value="procCommentAdminDeleteChecked" />
-	<input type="hidden" name="page" value="{$page}" />
-	<input type="hidden" name="is_trash" value="false" />
+	<form id="fo_list" action="./" method="post" class="form">
 		<h1 class="h1">Comment</h1>
 		<div class="table even">
 			<table width="100%" border="1" cellspacing="0">
@@ -47,50 +44,34 @@
 		</div>
 	</form>
 	<div class="modal" id="listManager">
-		<form action="" class="fg form">
+		<form ruleset="deleteChecked" action="./" method="post" class="fg form">
+		<input type="hidden" name="act" value="procCommentAdminDeleteChecked" />
+		<input type="hidden" name="page" value="{$page}" />
+		<input type="hidden" name="is_trash" value="false" />
 			<h2 class="h2">선택한 댓글 관리</h2>
 			<div class="table even">
-				<table width="100%" border="1" cellspacing="0">
+				<table width="100%" border="1" cellspacing="0" id="commentManageListTable">
 					<caption>
-					선택한 댓글 <strong>8</strong>
+					선택한 댓글 <strong id="selectedCommentCount"></strong>
 					</caption>
 					<thead>
 						<tr>
 							<th scope="col" class="title">Comment</th>
 							<th scope="col">Author</th>
 							<th scope="col">Status</th>
-							<th scope="col"><input type="checkbox" title="Check All" checked="checked" /></th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td class="title">The quick brown fox jumps over the lazy dog...</td>
-							<td>홍길동</td>
-							<td>Public</td>
-							<td><input type="checkbox" /></td>
-						</tr>
-						<tr>
-							<td class="title">The quick brown fox jumps over the lazy dog...</td>
-							<td>홍길동</td>
-							<td>Trash</td>
-							<td><input type="checkbox" /></td>
-						</tr>
 					</tbody>
 				</table>
 			</div>
-			<p class="q">선택한 댓글의 상태를 변경.</p>
-			<p>
-				<input type="radio" name="status" id="public" /> <label for="public">Public</label>
-				<input type="radio" name="status" id="secret" /> <label for="secret">Secret</label>
-			</p>
 			<p class="q"><label for="message">저작자에게 쪽지를 발송해서 이 사실을 알립니다. 작성하지 않으면 발송하지 않습니다.</label></p>
 			<p>
-				<textarea cols="42" rows="3" id="message" style="width:98%"></textarea>
+				<textarea cols="42" rows="3" name="message_content" id="message" style="width:98%"></textarea>
 			</p>
 			<div class="btnArea">
-				<span class="btn"><input type="submit" value="Move" /></span>
-				<span class="btn"><input type="submit" value="Trash" /></span>
-				<span class="btn"><input type="submit" value="Delete" class="delete" /></span>
+				<span class="btn"><button type="submit" name="is_trash" value="true">{$lang->cmd_trash}</button></span>
+				<span class="btn"><button type="submit" name="is_trash" value="false">{$lang->cmd_delete}</button></span>
 			</div>
 		</form>
 	</div>

@@ -20,11 +20,7 @@ function insertSelectedModule(id, module_srl, mid, browser_title) {
 function addCart(comment_srl) {
     var params = new Array();
     var response_tags = ['error','message'];
-    var comment_srl = new Array();
-    jQuery('#fo_list input[name=cart]:checked').each(function() {
-        comment_srl[comment_srl.length] = jQuery(this).val();
-    });
-    params['comment_srl'] = comment_srl.join(',');
+    params['comment_srl'] = comment_srl;
 
     exec_xml('comment','procCommentAdminAddCart',params, completeAddCart, response_tags);
 }
@@ -43,20 +39,30 @@ function getCommentList()
 
 function completeGetCommentList(ret_obj, response_tags)
 {
-	var comment_list = ret_obj['comment_list']['item'];
-	console.log(comment_list);
-	/*var htmlListBuffer = '';
-	var statusNameList = {"PUBLIC":"Public", "SECRET":"Secret", "PRIVATE":"Private", "TEMP":"Temp"};
+	var htmlListBuffer = '';
+	var statusNameList = {"N":"Public", "Y":"Secret"};
 
-	for(var x in comment_list)
+	if(ret_obj['comment_list'] == null)
 	{
-		var objDocument = comment_list[x];
-		htmlListBuffer += '<tr>' +
-							'<td class="title">'+ objDocument.variables.title +'</td>' +
-							'<td>'+ objDocument.variables.nick_name +'</td>' +
-							'<td>'+ statusNameList[objDocument.variables.status] +'</td>' +
-							'<td><input type="checkbox" /></td>' +
+		htmlListBuffer = '<tr>' +
+							'<td colspan="3" style="text-align:center;">'+ret_obj['message']+'</td>' +
 						'</tr>';
 	}
-	jQuery('#documentManageListTable>tbody').html(htmlListBuffer);*/
+	else
+	{
+		var comment_list = ret_obj['comment_list']['item'];
+		if(!jQuery.isArray(comment_list)) comment_list = [comment_list];
+		for(var x in comment_list)
+		{
+			var objComment = comment_list[x];
+			htmlListBuffer += '<tr>' +
+								'<td class="title">'+ objComment.content +'</td>' +
+								'<td>'+ objComment.nick_name +'</td>' +
+								'<td>'+ statusNameList[objComment.is_secret] +'</td>' +
+							'</tr>' +
+							'<input type="hidden" name="cart[]" value="'+objComment.comment_srl+'" />';
+		}
+		jQuery('#selectedCommentCount').html(comment_list.length);
+	}
+	jQuery('#commentManageListTable>tbody').html(htmlListBuffer);
 }

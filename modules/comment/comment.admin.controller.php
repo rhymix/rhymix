@@ -32,6 +32,32 @@
 			$oDB = &DB::getInstance();
 			$oDB->begin();
 
+			// for message send - start
+			$message_content = Context::get('message_content');
+			if($message_content) $message_content = nl2br($message_content);
+
+			if($message_content) {
+				$oCommunicationController = &getController('communication');
+				$oCommentModel = &getModel('comment');
+
+				$logged_info = Context::get('logged_info');
+
+				$title = cut_str($message_content,10,'...');
+				$sender_member_srl = $logged_info->member_srl;
+
+				for($i=0;$i<$comment_count;$i++) {
+					$comment_srl = $comment_srl_list[$i];
+					$oComment = $oCommentModel->getComment($comment_srl, true);
+
+					if(!$oComment->get('member_srl') || $oComment->get('member_srl')==$sender_member_srl) continue;
+
+					$content = sprintf("<div>%s</div><hr /><div style=\"font-weight:bold\">%s</div>",$message_content, $oComment->getContentText(20));
+
+					$oCommunicationController->sendMessage($sender_member_srl, $oComment->get('member_srl'), $title, $content, false);
+				}
+			}
+			// for message send - end
+
 			// comment into trash
 			if($isTrash == 'true') $this->_moveCommentToTrash($comment_srl_list, $oCommentController, $oDB);
 
@@ -50,6 +76,7 @@
 
 				$deleted_count ++;
 			}
+
 			$oDB->commit();
 
             $this->setMessage( sprintf(Context::getLang('msg_checked_comment_is_deleted'), $deleted_count) );
@@ -104,14 +131,20 @@
 
 		function procCommentAdminAddCart()
 		{
-			$comment_srl = Context::get('comment_srl');
-			$commentSrlList = explode(',', $comment_srl);
+			$comment_srl = (int)Context::get('comment_srl');
 
-			if(is_array($commentSrlList))
+			$oCommentModel = &getModel('comment');
+			$columnList = array('comment_srl');
+			$commentSrlList = array($comment_srl);
+
+			$output = $oCommentModel->getComments($commentSrlList);
+
+			if(is_array($output))
 			{
-				foreach($commentSrlList AS $key=>$value)
+				foreach($output AS $key=>$value)
 				{
-					$_SESSION['comment_management'][$value] = true;
+					if($_SESSION['comment_management'][$key]) unset($_SESSION['comment_management'][$key]);
+					else $_SESSION['comment_management'][$key] = true;
 				}
 			}
 		}

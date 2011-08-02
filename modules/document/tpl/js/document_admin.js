@@ -139,6 +139,7 @@ function completeGetDocumentList(ret_obj, response_tags)
 							'</tr>'+
 							'<input type="hidden" name="cart[]" value="'+objDocument.document_srl+'" />';
 		}
+		jQuery('#selectedDocumentCount').html(document_list.length);
 	}
 	jQuery('#documentManageListTable>tbody').html(htmlListBuffer);
 }
