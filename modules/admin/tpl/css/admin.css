@@ -550,27 +550,31 @@ input#lang_mn{background:url(../img/flag.mn.gif) no-repeat 96% center}
 #ftpSuggestion li button:focus{background:#eee}
 /* Theme & Skin Preview */
 .thumbPreview li{position:relative;padding-left:10px;padding-right:10px}
-.thumbPreview li.active{background:#f9f9f9}
+.thumbPreview li.active.highlight{background:#f9f9f9}
 .thumbPreview .prevToggle{position:absolute;top:8px;right:10px;line-height:16px;padding:0 18px 0 0;text-decoration:none;background:url(../img/iconArrow.gif) no-repeat right -32px}
 .thumbPreview li.active .prevToggle{background-position:right 0}
 .thumbPreview .a{border:0;margin:0;zoom:1}
 .thumbPreview .a:after{content:"";display:block;clear:both}
 .thumbPreview .i{float:left;vertical-align:top;margin:0 1em 1em 0;padding:0;border:0;zoom:1}
 .thumbPreview .i:after{content:"";display:block;clear:both}
-.thumbPreview .i .thumb{position:relative;width:120px;height:70px;padding:10px 0 0 0;text-align:center;overflow:hidden;border:1px solid #ddd;display:block;cursor:pointer;background:#fff}
-.thumbPreview .i .thumb .frame{position:absolute;width:120px;height:70px;left:0;top:0;border:3px solid #fff}
+.thumbPreview .i .thumb{position:relative;width:124px;height:74px;padding:0;margin-bottom:3px;text-align:center;overflow:hidden;border:1px solid #ddd;display:block;cursor:pointer;background:#fff}
+.thumbPreview .i .thumb .frame{position:absolute;width:120px;height:70px;left:0;top:0;border:2px solid #fff;overflow:hidden}
 .thumbPreview .i .thumb img{width:120px;margin:-10px 0 0 0}
+.thumbPreview .i label{display:block;position:relative;top:0;left:2px;width:122px;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .thumbPreview .i input{display:none}
 .thumbPreview .i ul{display:none}
-.thumbPreview .i.checked{display:block;float:none}
-.thumbPreview .i.checked .thumb{float:left;width:180px;height:120px;margin:0 1em 0 0;border:2px solid #eee}
-.thumbPreview .i.checked .thumb .frame{width:180px;height:120px}
-.thumbPreview li.active .i.checked .thumb{border-color:#5ea8f6}
-.thumbPreview .i.checked .thumb img{width:180px;position:relative;z-index:-1}
-.thumbPreview li.active .i.checked .thumb img{z-index:auto}
-.thumbPreview .i.checked label{cursor:text}
-.thumbPreview .i.checked ul{display:block;list-style:none;border:0;margin:1em 0 1em 200px}
-.thumbPreview .i.checked li{border:0;padding:0;margin:0 0 .2em 0}
+.thumbPreview .selected .i{display:block;float:none}
+.thumbPreview .selected .i .thumb{float:left;width:186px;height:126px;margin:0 1em 0 0;border:2px solid #eee}
+.thumbPreview .selected .i .thumb .frame{width:180px;height:120px}
+.thumbPreview li.active.highlight .selected .i .thumb{border-color:#5ea8f6}
+.thumbPreview .selected .i .thumb img{width:180px;position:relative;z-index:-1}
+.thumbPreview li.active .selected .i .thumb img{z-index:auto}
+.thumbPreview .selected .i label{cursor:text}
+.thumbPreview .selected .i ul{display:block;list-style:none;border:0;margin:1em 0 1em 200px}
+.thumbPreview .selected .i li{border:0;padding:0;margin:0 0 .2em 0}
+.thumbPreview.jx .i label{display:inline;width:auto}
+.thumbPreview.jx .i.noDirection {display:none}
+.thumbPreview.jx .i input {display:inline}
 #skin .showAll{float:right;border:0;overflow:visible;padding:0 18px 0 0;cursor:pointer;color:#00f;background:url(../img/iconArrow.gif) no-repeat right -32px}
 #skin .showAll.hideAll{background-position:right 0}
 /* Sign Up Form */

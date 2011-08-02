@@ -23,25 +23,28 @@ jQuery(function($){
 	$input_rc
 		.change(function(){
 			var name = $(this).attr('name');
-			$input_rc
-				.filter('[name="'+name+'"]:not(:checked)')
-					.next('label').css('font-weight', 'normal').end()
-				.end()
-				.next('label').css('font-weight', 'bold').end();
+			$input_rc.filter(function(){ return this.name == name })
+				.next('label').css('font-weight', 'normal').end()
+				.filter(':checked')
+					.next('label').css('font-weight', 'bold').end();
 		})
 		.change();
 
 	// Toogle checkbox all
-	$('.form th>:checkbox')
+	$('.form th>input:checkbox')
 		.change(function() {
-			var $this = $(this), self = this, name;
+			var $this = $(this), name = $this.data('name');
 
-			name = $this.data('target');
-			$this.closest('table').find('input:checkbox')
-				.filter(function(){ return (this.name == name) })
-					.prop('checked', $this.prop('checked'))
-					.filter(function(){ return (this.parentNode.nodeName != 'TH') })
-					.change();
+			$this.closest('table')
+				.find('input:checkbox')
+					.filter(function(){
+						var $this = $(this);
+						return ($this.attr('name') == name) || ($this.data('name') == name);
+					})
+						.prop('checked', $this.prop('checked'))
+					.end()
+				.end()
+				.trigger('update.checkbox', name, this.checked);
 		});
 
 	// Global Navigation Bar
