@@ -40,6 +40,9 @@
             $oFileModel = &getModel('file');
 
             foreach($output->data as $key => $file) {
+				if($_SESSION['file_management'][$file->file_srl]) $file->isCarted = true;
+				else $file->isCarted = false;
+
                 $file->download_url = $oFileModel->getDownloadUrl($file->file_srl, $file->sid);
                 $output->data[$key] = $file;
             }

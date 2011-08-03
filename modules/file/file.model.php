@@ -125,13 +125,28 @@
          **/
         function getFile($file_srl, $columnList = array()) {
             $args->file_srl = $file_srl;
-            $output = executeQuery('file.getFile', $args, $columnList);
+            $output = executeQueryArray('file.getFile', $args, $columnList);
             if(!$output->toBool()) return $output;
 
-            $file = $output->data;
-            $file->download_url = $this->getDownloadUrl($file->file_srl, $file->sid);
+			// old version compatibility
+			if(count($output->data) == 1)
+			{
+				$file = $output->data[0];
+				$file->download_url = $this->getDownloadUrl($file->file_srl, $file->sid);
 
-            return $file;
+				return $file;
+			}
+			else
+			{
+				$fileList = array();
+				foreach($output->data AS $key=>$value)
+				{
+					$file = $value;
+					$file->download_url = $this->getDownloadUrl($file->file_srl, $file->sid);
+					array_push($fileList, $file);
+				}
+				return $fileList;
+			}
         }
 
         /**

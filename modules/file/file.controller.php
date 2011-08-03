@@ -256,6 +256,44 @@
         }
 
         /**
+         * @brief get file list
+         **/
+        function procFileGetList()
+		{
+			if(!Context::get('is_logged')) return new Object(-1,'msg_not_permitted');
+			// Taken from a list of selected sessions
+			$flagList = $_SESSION['file_management'];
+			if(count($flagList)) {
+				foreach($flagList as $key => $val) {
+					if(!is_bool($val)) continue;
+					$fileSrlList[] = $key;
+				}
+			}
+
+			global $lang;
+			if(count($fileSrlList) > 0) {
+				$oFileModel = &getModel('file');
+				$fileList = $oFileModel->getFile($fileSrlList);
+
+				if(is_array($fileList))
+				{
+					foreach($fileList AS $key=>$value)
+					{
+						$value->human_file_size = FileHandler::filesize($value->file_size);
+						if($value->isvalid=='Y') $value->validName = $lang->is_valid;
+						else $value->validName = $lang->is_stand_by;
+					}
+				}
+			}
+			else
+			{
+				$fileList = array();
+				$this->setMessage($lang->no_files);
+			}
+
+			$this->add('file_list', $fileList);
+        }
+        /**
          * @brief A trigger to return numbers of attachments in the upload_target_srl (document_srl)
          **/
         function triggerCheckAttached(&$obj) {

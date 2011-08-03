@@ -145,6 +145,25 @@
 			}
         }
 
+        /**
+         * @brief Add to SESSION file srl
+         **/
+		function procFileAdminAddCart()
+		{
+			$file_srl = (int)Context::get('file_srl');
+			//$fileSrlList = array(500, 502);
+
+			$oFileModel = &getModel('file');
+			$output = $oFileModel->getFile($file_srl);
+			//$output = $oFileModel->getFile($fileSrlList);
+
+			if($output->file_srl)
+			{
+				if($_SESSION['file_management'][$output->file_srl]) unset($_SESSION['file_management'][$output->file_srl]);
+				else $_SESSION['file_management'][$output->file_srl] = true;
+			}
+		}
+
 		/**
 		 * @brief php.ini에서 가져온 값의 형식이 M과 같을경우 byte로 바꿔주기
 		 **/

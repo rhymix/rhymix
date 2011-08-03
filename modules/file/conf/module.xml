@@ -14,6 +14,8 @@
         <action name="procFileAdminDeleteChecked" type="controller" standalone="true" ruleset="deleteChecked" />
         <action name="procFileAdminInsertConfig" type="controller" standalone="true" ruleset="insertConfig" />
         <action name="procFileAdminInsertModuleConfig" type="controller" standalone="true" ruleset="fileModuleConfig" />
+        <action name="procFileAdminAddCart" type="controller" standalone="true" />
+        <action name="procFileGetList" type="controller" standalone="true" />
     </actions>
 	<menus>
 		<menu name="file">

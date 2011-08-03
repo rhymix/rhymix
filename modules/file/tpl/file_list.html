@@ -1,10 +1,9 @@
+<!--%import("js/file_admin.js")-->
 <div class="content" id="content">
 	<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 		<p>{$XE_VALIDATOR_MESSAGE}</p>
 	</div>
 	<form id="fo_list" action="./" method="post">
-	<input type="hidden" name="act" value="procFileAdminDeleteChecked" />
-	<input type="hidden" name="page" value="{$page}" />
 		<h1 class="h1">File</h1>
 		<div class="table">
 			<table width="100%" border="1" cellspacing="0">
@@ -88,7 +87,7 @@
 						<td><a href="{getUrl('search_target','ipaddress','search_keyword',$val->ipaddress)}">{$val->ipaddress}</a></td>
 						<td><!--@if($val->isvalid=='Y')-->{$lang->is_valid}<!--@else-->{$lang->is_stand_by}<!--@end--></td>
 						<td>
-							<input type="checkbox" name="cart[]" value="{$val->file_srl}" />
+							<input type="checkbox" name="cart[]" value="{$val->file_srl}" onclick="addCart(this.value)" <!--@if($val->isCarted)-->checked="checked"<!--@end--> />
 						</td>
 					</tr>
 					<!--@endforeach-->
@@ -96,76 +95,31 @@
 			</table>
 		</div>
 		<div class="btnArea">
-			<span class="btn"><a href="#listManager" class="modalAnchor">선택한 파일 관리...</a></span>
+			<span class="btn"><a href="#listManager" class="modalAnchor" onclick="getFileList();">선택한 파일 관리...</a></span>
 		</div>
 	</form>
 	<div class="modal" id="listManager">
-		<form action="" class="fg form">
+		<form ruleset="deleteChecked" action="./" method="post" class="fg form">
+		<input type="hidden" name="act" value="procFileAdminDeleteChecked" />
+		<input type="hidden" name="page" value="{$page}" />
 			<h2 class="h2">선택한 파일 관리</h2>
 			<div class="table">
-				<table width="100%" border="1" cellspacing="0">
-					<caption>선택한 파일 <strong>8</strong></caption>
+				<table width="100%" border="1" cellspacing="0" id="fileManageListTable">
+					<caption>선택한 파일 <strong id="selectedFileCount">8</strong></caption>
 					<thead>
 						<tr>
-							<th scope="col" class="text">Title/File</th>
-							<th scope="col">File Size</th>
-							<th scope="col">Author</th>
-							<th scope="col">Status</th>
-							<th scope="col">
-								<input type="checkbox" checked="checked" title="Check All" />
-							</th>
+							<th scope="col" class="text">{$lang->file}</th>
+							<th scope="col">{$lang->file_size}</th>
+							<th scope="col">{$lang->nick_name}</th>
+							<th scope="col">{$lang->status}</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<th colspan="5" class="text" scope="col"> The quick brown fox jumps over the lazy dog.
-								</td>
-							</th>
-						</tr>
-						<tr>
-							<td class="text">489d9886e52ea5227a8edb74dcc8124e.jpg</td>
-							<td>123.4KB</td>
-							<td>정찬명</td>
-							<td>Valid</td>
-							<td>
-								<input type="checkbox" checked="checked" />
-							</td>
-						</tr>
-						<tr>
-							<th colspan="5" class="text" scope="col"> The quick brown fox jumps over the lazy dog.
-								</td>
-							</th>
-						</tr>
-						<tr>
-							<td class="text">attendance_1.5.19.tar.gz</td>
-							<td>456Byte</td>
-							<td>김태곤</td>
-							<td>Standby</td>
-							<td>
-								<input type="checkbox" checked="checked" />
-							</td>
-						</tr>
-						<tr>
-							<td class="text">attendance_1.5.19.tar.gz</td>
-							<td>456Byte</td>
-							<td>김태곤</td>
-							<td>Standby</td>
-							<td>
-								<input type="checkbox" checked="checked" />
-							</td>
-						</tr>
 					</tbody>
 				</table>
 			</div>
-			<p class="q">선택한 파일의 상태를 변경.</p>
-			<p>
-				<input type="radio" name="status" id="valid" /> <label for="valid">Valid</label>
-				<input type="radio" name="status" id="standby" /> <label for="standby">Standby</label>
-			</p>
 			<div class="btnArea">
-				<span class="btn"><input type="submit" value="Modify" /></span>
-				<span class="btn"><input type="submit" value="Trash" /></span>
-				<span class="btn"><input type="submit" value="Delete" class="delete" /></span>
+				<span class="btn"><input type="submit" value="{$lang->cmd_delete}" class="delete" /></span>
 			</div>
 		</form>
 	</div>
@@ -183,7 +137,7 @@
             </select>
             <input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" />
 			<input type="submit" value="{$lang->cmd_search}" />
-			<a href="#">Cancel</a>
+            <a href="{getUrl('','module',$module,'act',$act)}"><span>{$lang->cmd_cancel}</span></a>
 		</form>
 	</div>
 </div>
