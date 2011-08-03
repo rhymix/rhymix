@@ -1,5 +1,8 @@
 /* NHN (developers@xpressengine.com) */
 jQuery(function($){
+	// Constants
+	var ESC_KEY = 27;
+
 	// Overlapping label
 	$('.form li').find('>input:text,>input:password,>textarea')
 		.prev('label')
@@ -91,114 +94,131 @@ jQuery(function($){
 				})
 			.end()
 
-	// TODO: Modal Window
-// 	var htmlBody = $('html,body');
-// 	var modalAnchor = $('.modalAnchor');
-// 	var modal = $('.modal');
-// 	var modalBg = modal.find('>.bg');
-// 	var modalFg = modal.find('>.fg');
-// 	var modalCloseHtml = '<button type="button" class="modalClose" title="Close this layer">X</button>';
-// 	var modalBlurHtml = '<button type="button" class="modalBlur"></button>';
-// 	var docHeight = $(document).height();
-	$('.modal')
-		.hide()
-		.appendTo('body')
-		.prepend('<span class="bg"></span>')
-		.append('<!--[if IE 6]><iframe class="ie6"></iframe><![endif]-->');
-// 	modalFg
-// 		.prepend(modalCloseHtml)
-// 		.prepend(modalBlurHtml);
-// 	var modalClose = $('.modalClose');
-// 	var modalBlur = $('.modalBlur');
-// 	modalClose.eq(0).clone().appendTo(modalFg);
-// 	modalBlur.eq(0).clone().appendTo(modalFg);
-// 	modalAnchor
-// 		.click(function(){
-// 			if(typeof document.body.style.maxHeight == "undefined"){
-// 				htmlBody.css({'width':'100%','height':'100%'});
-// 			}
-// 			var myTarget = $($(this).attr('href'));
-// 			myTarget.fadeToggle(200).toggleClass('modalActive');
-// 			myTarget.find('>.fg>.modalClose:first').focus();
-// 			$(this).addClass('active');
-// 		})
-// 		.keypress(function(){
-// 			if(event.keyCode != 32) return true;
-// 			$(this).click();
-// 			return false;
-// 		});
-// 	function closeModal() {
-// 		if(typeof document.body.style.maxHeight == "undefined"){
-// 			htmlBody.removeAttr('style');
-// 		}
-// 		modal.fadeOut(200).removeClass('modalActive');
-// 		$('.modalAnchor.active').focus().removeClass('active');
-// 		return false;
-// 	}
-// 	$(document).keydown(function(event){
-// 		if(event.keyCode != 27) return true; // ESC
-// 		if(modal.find('.tgContent:visible').length == 0) return closeModal();
-// 	});
-// 	$('.modal>.bg, .modalClose, .modal .cancel').click(closeModal);
-// 	$('.modalBlur').focusin(function(event){
-// 		modalClose.click();
-// 	});
+	// Modal Window
+	$('a.modalAnchor')
+		.click(function(){
+			var $this = $(this), $modal;
+
+			// get and initialize modal window
+			$modal = $( $this.attr('href') );
+			$this.trigger('init.mw');
+
+			// set the related anchor
+			$modal.data('anchor', $this);
+
+			if($modal.data('state') == 'showing') {
+				$this.trigger('close.mw');
+			} else {
+				$this.trigger('open.mw');
+			}
+
+			return false;
+		})
+		.bind('init.mw', function(){
+			var $this = $(this), $modal, $btnClose;
+
+			$modal    = $( $this.attr('href') );
+			$btnClose = $('<button type="button" class="modalClose" title="Close this layer">X</button>');
+			$btnClose.click(function(){ $modal.data('anchor').trigger('close.mw') });
+
+			$modal
+				.prepend('<span class="bg"></span>')
+				.append('<!--[if IE 6]><iframe class="ie6"></iframe><![endif]-->')
+				.find('>.fg')
+					.prepend($btnClose)
+					.append($btnClose.clone(true))
+				.end()
+				.appendTo('body');
+
+			// unbind create event
+			$this.unbind('init.mw');
+		})
+		.bind('open.mw', function(){
+			var $this = $(this), $modal, duration;
+
+			// get modal window
+			$modal = $( $this.attr('href') );
+
+			// get duration
+			duration = $this.data('duration') || 'fast';
+
+			// set state : showing
+			$modal.data('state', 'showing');
+
+			// workaroud for IE6
+			$('html,body').addClass('modalContainer');
+
+			// before event trigger
+			$this.trigger('before-open.mw');
+
+			// after event trigger
+			function after(){ $this.trigger('after-open.mw') };
+
+			$(document).bind('keydown.mw', function(event){
+				if(event.which == ESC_KEY) {
+					$this.trigger('close.mw');
+					return false;
+				}
+			});
+
+			$modal
+				.fadeIn(duration, after)
+				.find('button.modalClose:first').focus();
+		})
+		.bind('close.mw', function(){
+			var $this = $(this), $modal, duration;
+
+			// get modal window
+			$modal = $( $this.attr('href') );
+
+			// get duration
+			duration = $this.data('duration') || 'fast';
+
+			// set state : hiding
+			$modal.data('state', 'hiding');
+
+			// workaroud for IE6
+			$('html,body').removeClass('modalContainer');
+
+			// before event trigger
+			$this.trigger('before-close.mw');
+
+			// after event trigger
+			function after(){ $this.trigger('after-close.mw') };
+
+			$modal.fadeOut(duration, after);
+			$this.focus();
+		});
+	$('div.modal').hide();
 
 	// pagination
 	$('.pagination')
-		.find('span.gotopage')
-			.attr('id', function(idx){ return 'gotopage-'+(idx+1) })
-			.hide()
+		.find('span.tgContent')
+			.attr('id', function(idx){ return 'goTo-'+(idx+1) })
+			.css('whiteSpace', 'nowrap')
 		.end()
-		.find('a[href="#gotopage"]')
+		.find('a.tgAnchor[href="#goTo"]')
 			.each(function(idx){
-				var id = '#gotopage-'+(idx+1);
+				var id = '#goTo-'+(idx+1);
 				$(this).attr('href', id).after($(id));
-			})
-			.click(function(){
-				var $form, width, height, hidden, duration;
-				console.log(this);
-
-				$form  = $(this.getAttribute('href'));
-				hidden = $form.is(':hidden');
-				width  = $form.show().width();
-				height = $form.height();
-				duration = 100;
-
-				$form.css('overflow', 'hidden').css('whiteSpace', 'nowrap');
-				if(hidden) {
-					$form
-						.css('width', 0)
-						.animate({width:width}, duration, function(){ $form.css({width:'',height:'',overflow:''}) })
-						.find('input:text:first').focus();
-				} else {
-					$form
-						.css('width', width)
-						.animate({width:0}, duration, function(){ $form.hide().css({width:'',height:'',overflow:''}) });
-
-					$(this).focus();
-				}
-
-				return false;
 			})
 		.end();
 
-	// TODO: Portlet Action
-// 	var action = $('.portlet .action');
-// 	var action_li = action.parent('li');
-// 	action.hide().css({'position':'absolute'});
-// 	action_li.mouseleave(function(){
-// 		action.fadeOut(100);
-// 		return false;
-// 	});
-// 	action_li.mouseenter(function(){
-// 		action_li.mouseleave();
-// 		$(this).find('>.action').fadeIn(100);
-// 		return false;
-// 	});
-// 	action_li.find('*:first-child').focusin(function(){
-// 		$(this).parent('li').mouseenter();
-// 	});
+	// Portlet Action
+	$('.portlet .action')
+		.css({display:'none',position:'absolute'})
+		.parent()
+			.mouseleave(function(){ $(this).find('>.action').fadeOut(100); })
+			.mouseenter(function(){ $(this).find('>.action').fadeIn(100); })
+			.focusin(function(){ $(this).mouseenter() })
+			.focusout(function(){
+				var $this = $(this), timer;
+				
+				clearTimeout($this.data('timer'));
+				timer = setTimeout(function(){ if(!$this.find(':focus').length) $this.mouseleave() }, 10);
+
+				$this.data('timer', timer);
+			});
 
 	// TODO: Site Map
 // 	var siteMap = $('.siteMap');
@@ -260,11 +280,11 @@ jQuery(function($){
 			// get duration
 			duration = $this.data('duration') || 'fast';
 
-			// before event trigger
-			$this.trigger('before-open.tc');
-
 			// set state : showing
 			$layer.data('state', 'showing');
+
+			// before event trigger
+			$this.trigger('before-open.tc');
 
 			// When mouse button is down or when ESC key is pressed close this layer
 			$(document)
@@ -272,7 +292,7 @@ jQuery(function($){
 				.bind('mousedown.tc keydown.tc',
 					function(event){
 						if(event && (
-							(event.type == 'keydown' && event.which != 27) || // '27' means ESC key
+							(event.type == 'keydown' && event.which != ESC_KEY) ||
 							(event.type == 'mousedown' && ($(event.target).is('.tgAnchor,.tgContent') || $layer.has(event.target)[0]))
 						)) return true;
 
@@ -282,12 +302,22 @@ jQuery(function($){
 					}
 				);
 
+			// triggering after
+			function trigger_after(){ $this.trigger('after-open.tc') }
+
 			switch(effect) {
 				case 'slide':
-					$layer.slideDown(duration, function(){ $this.trigger('after-open.tc') });
+					$layer.slideDown(duration, trigger_after);
+					break;
+				case 'slide-h':
+					var w = $layer.css({'overflow-x':'',width:''}).width();
+					$layer
+						.show()
+						.css({'overflow-x':'hidden',width:'0px'})
+						.animate({width:w}, duration, function(){ $layer.css({'overflow-x':'',width:''}); trigger_after(); });
 					break;
 				case 'fade':
-					$layer.fadeIn(duration, function(){ $this.trigger('after-open.tc') });
+					$layer.fadeIn(duration, trigger_after);
 					break;
 				default:
 					$layer.show();
@@ -296,6 +326,9 @@ jQuery(function($){
 		})
 		.bind('close.tc', function(){
 			var $this = $(this), $layer, effect, duration;
+
+			// unbind document's event handlers
+			$(document).unbind('mousedown.tc keydown.tc');
 
 			// get content container
 			$layer = $( $this.attr('href') );
@@ -306,21 +339,25 @@ jQuery(function($){
 			// get duration
 			duration = $this.data('duration') || 'fast';
 
+			// set state : hiding
+			$layer.data('state', 'hiding');
+
 			// before event trigger
 			$this.trigger('before-close.tc');
 
-			$(document).unbind('mousedown.tc keydown.tc');
-
-			// set state : hiding
-			$layer.data('state', 'hiding');
+			// triggering after
+			function trigger_after(){ $this.trigger('after-close.tc') };
 
 			// close this layer
 			switch(effect) {
 				case 'slide':
-					$layer.slideUp(duration, function(){ $this.trigger('after-close.tc') });
+					$layer.slideUp(duration, trigger_after);
+					break;
+				case 'slide-h':
+					$layer.animate({width:0}, duration, function(){ $layer.hide(); trigger_after(); });
 					break;
 				case 'fade':
-					$layer.fadeOut(duration, function(){ $this.trigger('after-close.tc') });
+					$layer.fadeOut(duration, trigger_after);
 					break;
 				default:
 					$layer.hide();
@@ -329,10 +366,10 @@ jQuery(function($){
 		});
 	$('.tgContent')
 		.hide()
-		.focusout(function(){
+		.focusout(function(event){
 			var $this = $(this), $anchor = $this.data('anchor');
 			setTimeout(function(){
-				if(!$this.find(':focus').length) $anchor.trigger('close.tc');
+				if(!$this.find(':focus').length && $this.data('state') == 'showing') $anchor.trigger('close.tc');
 			}, 1);
 		})
 
@@ -356,55 +393,4 @@ jQuery(function($){
 						// Display all sections then hide this button
 						$(this).hide().parent().prevAll('.section').show();
 					});
-
-	// TODO : Suggestion
-// 	var suggestion = $('#suggestion');
-// 	var snTarget = suggestion.prev('input[type=text]');
-// 	suggestion.css('position','absolute');
-// 	snTarget.keypress(function(){
-// 		$(this).next('.tgContent').fadeIn(200);
-// 		snTarget.css('background','url(./img/preLoader16.gif) no-repeat 268px center');
-// 	});
-// 	snTarget.keyup(function(){
-// 		snTarget.css('background','');
-// 	});
-// 	suggestion
-// 		.find('li:first-child>button').css('fontWeight','bold').end()
-// 		.find('li:gt(0)>button').click(function(){
-// 			var myValue = $(this).text();
-// 			snTarget.val(myValue);
-// 			return closeTg();
-// 		});
-
-	// TODO: FTP Suggestion
-// 	var ftp_path = $('#ftp_path');
-// 	var ftpSuggestion = $('#ftpSuggestion');
-// 	ftpSuggestion.css('position','absolute').find('.tgBlur').eq(0).remove();
-// 	ftpSuggestion.find('li:not(:first-child)>button').click(function(){
-// 		var setValue = ftp_path.val();
-// 		var myValue = $(this).text();
-// 		ftp_path.val(setValue+myValue);
-// 	});
-
-	// TODO: Up-Down Dragable
-// 	var uDrag = $('.uDrag');
-// 	uDrag.find('>tr>td:first-child, >li').wrapInner('<div class="wrap"></div>');
-// 	var uDragWrap = $('.uDrag .wrap');
-// 	uDragWrap
-// 		.prepend('<button type="button" class="dragBtn">Up/Down</button>')
-// 		.each(function(){
-// 			var t = $(this);
-// 			var tHeight = t.parent().height();
-// 			if(t.parent().is('td')){
-// 				t.height(tHeight);
-// 			}
-// 		});
-// 	var uDragItem = $('.uDrag>tr, .uDrag>li');
-// 	uDragItem
-// 		.mouseenter(function(){
-// 			$(this).addClass('dragActive');
-// 		})
-// 		.mouseleave(function(){
-// 			$(this).removeClass('dragActive');
-// 		});
 });

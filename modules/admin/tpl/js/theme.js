@@ -63,6 +63,7 @@ $('#theme,#skin')
 					$(this).next('input:radio').prop('checked', true).change();
 				})
 			.end()
+			.find('> .i > label').attr('title', function(){ return $(this).text() }).end()
 			.find('input:radio')
 				.bind('redraw', function(){
 					var $this = $(this), $big = $this.closest('.a').prev('.a'), val = $this.val();
@@ -79,7 +80,10 @@ $('#theme,#skin')
 							.find('input:radio').remove().end()
 							.find('label')
 								.wrapInner('<strong>')
- 								.find('>strong').unwrap().end()
+ 								.find('>strong')
+									.text(function(){ return $(this).attr('title') })
+									.unwrap()
+								.end()
 							.end()
 							.appendTo($big);
 
