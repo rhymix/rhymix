@@ -3,7 +3,7 @@
     <grants />
     <permissions />
     <actions>
-        <action name="dispImporterAdminContent" type="view" standalone="true" admin_index="true" />
+        <action name="dispImporterAdminContent" type="view" standalone="true" admin_index="true" menu_name="importer" menu_index="true" />
 
         <action name="procImporterAdminImport" type="controller" standalone="true" />
         <action name="procImporterAdminPreProcessing" type="controller" standalone="true" />
