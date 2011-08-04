@@ -310,55 +310,59 @@ button.text{border:0;overflow:visible;padding:0;margin:0;color:#33a;background:n
 .siteMap .lined ul{padding:0;margin:0;border-top:1px solid #eee;zoom:1}
 .siteMap .lined li{position:relative;padding:0;margin:0;cursor:all-scroll;list-style:none;zoom:1}
 .siteMap .lined li li{border-top:1px solid #eee}
-.siteMap li li{text-indent:32px}
-.siteMap li li li{text-indent:64px}
-.siteMap li li li li{text-indent:96px}
-.siteMap li li li li li{text-indent:128px}
-.siteMap li li li li li li{text-indent:160px}
-.siteMap li li li li li li li{text-indent:192px}
-.siteMap li li li li li li li li{text-indent:224px}
-.siteMap li li li li li li li li li{text-indent:256px}
-.siteMap li li li li li li li li li li{text-indent:288px}
-.siteMap li li li li li li li li li li li{text-indent:320px}
-.siteMap li li li li li li li li li li li li{text-indent:352px}
+.siteMap li li{text-indent:18px}
+.siteMap li li li{text-indent:36px}
+.siteMap li li li li{text-indent:54px}
+.siteMap li li li li li{text-indent:72px}
+.siteMap li li li li li li{text-indent:90px}
+.siteMap li li li li li li li{text-indent:108px}
+.siteMap li li li li li li li li{text-indent:126px}
+.siteMap li li li li li li li li li{text-indent:144px}
+.siteMap li li li li li li li li li li{text-indent:162px}
+.siteMap li li li li li li li li li li li{text-indent:180px}
+.siteMap li li li li li li li li li li li li{text-indent:198px}
 .siteMap li *{vertical-align:middle}
 .siteMap li .moveTo+input{width:200px;border:0;padding:0 .5em}
 .siteMap li .moveTo+input:hover,
 .siteMap li .moveTo+input:active,
 .siteMap li .moveTo+input:focus{border:1px dotted #ccc;overflow:visible}
-.siteMap .moveTo{position:relative;z-index:2;width:32px;height:32px;padding:32px 0 0 0;margin:0 .5em;_margin-top:-1px;overflow:hidden;background:#fff url(../img/iconMoveTo.gif) no-repeat;border:0}
+.siteMap .moveTo{position:relative;z-index:2;width:22px;height:32px;padding:32px 0 0 0;margin:0 3px;_margin-top:-1px;overflow:hidden;background:#fff url(../img/iconMoveTo.gif) no-repeat center 0;border:0;cursor:move}
+.siteMap li.active,
+.siteMap li.active .moveTo{background-color:#f7f7f7}
 .siteMap li.active li,
-.siteMap li.active ul{border-top-color:#fff}
-.siteMap li.active .moveTo{background-position:0 -32px}
-.siteMap .vr{display:none;position:absolute;z-index:1;left:16px;top:-16px;margin:0 .5em;height:100%;border-left:1px solid #ccc;overflow:hidden}
-.siteMap .hr{display:none;position:absolute;z-index:1;left:16px;top:16px;margin:0 .5em;width:16px;border-top:1px solid #ccc;overflow:hidden}
+.siteMap li.active ul{border-top-color:#f7f7f7}
+.siteMap li.active .moveTo{background-position:center -32px}
+.siteMap .vr,
+.siteMap .hr{display:none;position:absolute;z-index:1;left:14px;border:0px solid #ccc;overflow:hidden}
+.siteMap .vr{top:-16px;height:100%;border-left-width:1px}
+.siteMap .hr{top:16px;width:16px;border-top-width:1px}
 .siteMap li.active .vr,
 .siteMap li.active li .hr{display:block}
 .siteMap li li .vr,
-.siteMap li li li .hr{left:48px}
+.siteMap li li li .hr{left:32px}
 .siteMap li li li .vr,
-.siteMap li li li li .hr{left:80px}
+.siteMap li li li li .hr{left:50px}
 .siteMap li li li li .vr,
-.siteMap li li li li li .hr{left:112px}
+.siteMap li li li li li .hr{left:68px}
 .siteMap li li li li li .vr,
-.siteMap li li li li li li .hr{left:144px}
+.siteMap li li li li li li .hr{left:86px}
 .siteMap li li li li li li .vr,
-.siteMap li li li li li li li .hr{left:176px}
+.siteMap li li li li li li li .hr{left:104px}
 .siteMap li li li li li li li .vr,
-.siteMap li li li li li li li li .hr{left:208px}
+.siteMap li li li li li li li li .hr{left:122px}
 .siteMap li li li li li li li li .vr,
-.siteMap li li li li li li li li li .hr{left:240px}
+.siteMap li li li li li li li li li .hr{left:140px}
 .siteMap li li li li li li li li li .vr,
-.siteMap li li li li li li li li li li .hr{left:272px}
+.siteMap li li li li li li li li li li .hr{left:158px}
 .siteMap li li li li li li li li li li .vr,
-.siteMap li li li li li li li li li li li .hr{left:304px}
+.siteMap li li li li li li li li li li li .hr{left:176px}
 .siteMap li li li li li li li li li li li .vr,
 .siteMap li li li li li li li li li li li li .hr{left:336px}
-.siteMap .side{padding-top:0 !important;padding-bottom:0 !important;line-height:30px}
+.siteMap .side{padding-top:0 !important;padding-bottom:0 !important;line-height:30px;background:transparent !important}
 .siteMap .side button{text-indent:0;line-height:1}
-.siteMap .tgMap{position:absolute;top:12px;right:1em;padding:0 16px 0 0;line-height:16px;background:url(../img/iconArrow.gif) no-repeat right -126px}
+.siteMap .tgMap{position:absolute; top:12px; right:1em; padding:0 16px 0 0; line-height:16px; background:url(../img/iconArrow.gif) no-repeat right -126px}
 .siteMap.fold .tgMap{background-position:right -158px}
-.siteMap.fold .h2{border-bottom-color:#fff;border-radius:5px}
+.siteMap.fold .h2{border-bottom-color:#fff; border-radius:5px}
 /* Button Area */
 .btnArea{margin:1em 0;text-align:right;zoom:1}
 .btnArea:after{content:"";display:block;clear:both}
