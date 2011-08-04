@@ -97,6 +97,7 @@
 
 		function checkFilter($filter_type){
 			if(isset($this->value) && $this->value != ''){
+                                global $lang;
 				$val = $this->value;
 				$key = $this->name;
                                 switch($filter_type) {
@@ -146,25 +147,28 @@
 
 		function checkMaxLength($length){
 			if($this->value && (strlen($this->value) > $length)){
+                                global $lang;
 				$this->isValid = false;
 				$key = $this->name;
-				$this->errorMessage = new Object(-1, $lang->filter->outofrange, $lang->{$key} ? $lang->{$key} : $key);
+				$this->errorMessage = new Object(-1, sprintf($lang->filter->outofrange, $lang->{$key} ? $lang->{$key} : $key));
 			}
 		}
 
 		function checkMinLength($length){
-			if($this->value && (strlen($this->value) > $length)){
+			if($this->value && (strlen($this->value) < $length)){
+                                global $lang;
 				$this->isValid = false;
 				$key = $this->name;
-				$this->errorMessage = new Object(-1, $lang->filter->outofrange, $lang->{$key} ? $lang->{$key} : $key);
+				$this->errorMessage = new Object(-1, sprintf($lang->filter->outofrange, $lang->{$key} ? $lang->{$key} : $key));
 			}
 		}
 
 		function checkNotNull(){
 			if(!isset($this->value)){
+                                global $lang;
 				$this->isValid = false;
 				$key = $this->name;
-				$this->errorMessage = new Object(-1, $lang->filter->isnull, $lang->{$key} ? $lang->{$key} : $key);
+				$this->errorMessage = new Object(-1, sprintf($lang->filter->isnull, $lang->{$key} ? $lang->{$key} : $key));
 			}
 		}
 	}
