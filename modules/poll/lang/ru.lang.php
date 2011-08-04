@@ -35,4 +35,6 @@
         'regdate' => 'Дата Размещения', // // translator's remark: this may be as "Дата Регистрации"
         'ipaddress' => 'IP-адрес',
     );
+	$lang->single_check = 'Single Check';
+	$lang->multi_check = 'Multi Check';
 ?>

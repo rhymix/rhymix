@@ -60,6 +60,27 @@
 			}
         }
 
+		function procPollAdminAddCart()
+		{
+			$poll_index_srl = (int)Context::get('poll_index_srl');
+
+			$oPollAdminModel = &getAdminModel('poll');
+			//$columnList = array('comment_srl');
+			$args->pollIndexSrlList = array($poll_index_srl);
+			$args->list_count = 100;
+
+			$output = $oPollAdminModel->getPollList($args);
+
+			if(is_array($output->data))
+			{
+				foreach($output->data AS $key=>$value)
+				{
+					if($_SESSION['poll_management'][$value->poll_index_srl]) unset($_SESSION['poll_management'][$value->poll_index_srl]);
+					else $_SESSION['poll_management'][$value->poll_index_srl] = true;
+				}
+			}
+		}
+
         /**
          * @brief Delete the poll (when several questions are registered in one poll, delete this question)
          **/

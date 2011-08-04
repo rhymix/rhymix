@@ -37,4 +37,6 @@
         'regdate' => 'Ngày gửi',
         'ipaddress' => 'IP',
     );
+	$lang->single_check = 'Single Check';
+	$lang->multi_check = 'Multi Check';
 ?>

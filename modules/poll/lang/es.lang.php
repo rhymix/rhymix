@@ -35,4 +35,6 @@
         'regdate' => 'Fecha de la participación',
         'ipaddress' => 'Dirección IP',
     );
+	$lang->single_check = 'Single Check';
+	$lang->multi_check = 'Multi Check';
 ?>

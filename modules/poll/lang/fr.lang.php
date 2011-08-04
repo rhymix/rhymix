@@ -35,4 +35,6 @@
         'regdate' => 'Jour posté',
         'ipaddress' => 'Adresse IP',
     );
+	$lang->single_check = 'Single Check';
+	$lang->multi_check = 'Multi Check';
 ?>

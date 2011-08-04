@@ -40,11 +40,20 @@
             $args->list_count = 50; // The number of posts to show on one page
             $args->page_count = 10; // The number of pages to display in the page navigation
 
-            $args->sort_index = 'list_order'; // Sorting value
+            $args->sort_index = 'P.list_order'; // Sorting value
 
             // Get the list
             $oPollAdminModel = &getAdminModel('poll');
-            $output = $oPollAdminModel->getPollList($args);
+            $output = $oPollAdminModel->getPollListWithMember($args);
+			if(is_array($output->data))
+			{
+				foreach($output->data AS $key=>$value)
+				{
+					if($_SESSION['poll_management'][$value->poll_index_srl]) $value->isCarted = true;
+					else $value->isCarted = false;
+				}
+			}
+
             // Configure the template variables
             Context::set('total_count', $output->total_count);
             Context::set('total_page', $output->total_page);

@@ -23,6 +23,17 @@
 						<th scope="col"><input type="checkbox" title="Check All" /></th>
 					</tr>
 				</thead>
+				<tfoot>
+					<tr>
+						<th scope="col" class="text">{$lang->comment}</th>
+						<th scope="col">{$lang->nick_name}</th>
+						<th scope="col">{$lang->cmd_vote}(+/-)</th>
+						<th scope="col">{$lang->date}</th>
+						<th scope="col">{$lang->ipaddress}</th>
+						<th scope="col">{$lang->status}</th>
+						<th scope="col"><input type="checkbox" title="Check All" /></th>
+					</tr>
+				</tfoot>
 				<tbody>
 					<!--@foreach($comment_list as $no => $val)-->
 					{@ $comment = cut_str(trim(htmlspecialchars(strip_tags($val->content))), 200, '...')}

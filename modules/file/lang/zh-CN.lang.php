@@ -53,5 +53,5 @@
     $lang->msg_not_allowed_outlink = '此站不允许外链下载。'; 
     $lang->msg_not_permitted_create = '无法生成文件或文件夹。';
     $lang->msg_file_upload_error = '上传文件发生出错。';
-
+	$lang->no_files = 'No Files';
 ?>

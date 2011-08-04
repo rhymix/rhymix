@@ -35,4 +35,6 @@
         'regdate' => '登錄日期',
         'ipaddress' => 'IP位址',
     );
+	$lang->single_check = 'Single Check';
+	$lang->multi_check = 'Multi Check';
 ?>

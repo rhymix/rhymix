@@ -55,5 +55,5 @@
 	$lang->msg_not_allowed_outlink = '外部リンクからのダウンロードは許可されていません。'; 
     $lang->msg_not_permitted_create = 'ファイルまたはディレクトリを生成できません。';
 	$lang->msg_file_upload_error = 'ファイルアップロードに失敗しました。';
-
+	$lang->no_files = 'No Files';
 ?>

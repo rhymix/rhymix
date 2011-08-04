@@ -35,4 +35,6 @@
         'regdate' => 'Mesaj Tarihi',
         'ipaddress' => 'IP Adresi',
     );
+	$lang->single_check = 'Single Check';
+	$lang->multi_check = 'Multi Check';
 ?>

@@ -54,3 +54,52 @@ function completeMovePoll(ret_obj, response_tags) {
     if(comment_srl) url = url+'#comment_'+comment_srl;
     winopen(url, 'pollTarget');
 }
+
+function getPollList()
+{
+    var params = new Array();
+    var response_tags = ['error','message', 'poll_list'];
+
+    exec_xml('poll','procPollGetList',params, completeGetPollList, response_tags);
+}
+
+function completeGetPollList(ret_obj, response_tags)
+{
+	var htmlListBuffer = '';
+
+	if(ret_obj['poll_list'] == null)
+	{
+		htmlListBuffer = '<tr>' +
+							'<td colspan="3" style="text-align:center;">'+ret_obj['message']+'</td>' +
+						'</tr>';
+	}
+	else
+	{
+		var poll_list = ret_obj['poll_list']['item'];
+		if(!jQuery.isArray(poll_list)) poll_list = [poll_list];
+		for(var x in poll_list)
+		{
+			var objPoll = poll_list[x];
+			htmlListBuffer += '<tr>' +
+								'<td class="title">'+objPoll.title+'</td>' +
+								'<td>'+objPoll.poll_count+'</td>' +
+								'<td>'+objPoll.nick_name+'</td>' +
+							'</tr>' +
+							'<input type="hidden" name="cart[]" value="'+objPoll.poll_index_srl+'" />';
+		}
+		jQuery('#selectedPollCount').html(poll_list.length);
+	}
+	jQuery('#pollManageListTable>tbody').html(htmlListBuffer);
+}
+
+function addCart(poll_index_srl) {
+    var params = new Array();
+    var response_tags = ['error','message'];
+    params['poll_index_srl'] = poll_index_srl;
+
+    exec_xml('poll','procPollAdminAddCart',params, completeAddCart, response_tags);
+}
+
+function completeAddCart(ret_obj, response_tags)
+{
+}

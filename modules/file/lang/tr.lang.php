@@ -56,5 +56,5 @@
 	$lang->msg_not_allowed_outlink = 'Bu siteden dosya indirimine izin verilmemektedir.'; 
     $lang->msg_not_permitted_create = 'Dosya veya dizin oluşturma hatası.';
 	$lang->msg_file_upload_error = 'Karşıya yükleme esnasında bir hata oluştu.';
-
+	$lang->no_files = 'No Files';
 ?>

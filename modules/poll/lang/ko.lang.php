@@ -28,4 +28,6 @@
         'regdate' => '등록일',
         'ipaddress' => 'IP 주소',
     );
+	$lang->single_check = '단일 선택';
+	$lang->multi_check = '다중 선택';
 ?>

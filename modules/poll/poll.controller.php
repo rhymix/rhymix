@@ -192,6 +192,46 @@
         }
 
         /**
+         * @brief poll list
+         **/
+        function procPollGetList()
+		{
+			if(!Context::get('is_logged')) return new Object(-1,'msg_not_permitted');
+			// Taken from a list of selected sessions
+			$flagList = $_SESSION['poll_management'];
+			if(count($flagList)) {
+				foreach($flagList as $key => $val) {
+					if(!is_bool($val)) continue;
+					$pollSrlList[] = $key;
+				}
+			}
+
+			global $lang;
+			if(count($pollSrlList) > 0) {
+				$oPollAdminModel = &getAdminModel('poll');
+				$args->pollIndexSrlList = $pollSrlList;
+				$output = $oPollAdminModel->getPollListWithMember($args);
+				$pollList = $output->data;
+
+				if(is_array($pollList))
+				{
+					foreach($pollList AS $key=>$value)
+					{
+						if($value->checkcount == 1) $value->checkName = $lang->single_check;
+						else $value->checkName = $lang->multi_check;
+					}
+				}
+			}
+			else
+			{
+				$pollList = array();
+				$this->setMessage($lang->no_documents);
+			}
+
+			$this->add('poll_list', $pollList);
+        }
+
+        /**
          * @brief A poll synchronization trigger when a new post is registered
          **/
         function triggerInsertDocumentPoll(&$obj) {
