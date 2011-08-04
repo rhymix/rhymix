@@ -211,4 +211,68 @@
                     $this->_test($xml_file, $argsString, $expected);
                 }
 
+                /**
+                 * Tests "not in" query condition
+                 * Query argument is a single value - not in (12)
+                 */
+                function test_module_getModules_Notin_Single_Value(){
+                    $xml_file = _XE_PATH_ . "modules/syndication/queries/getModules.xml";
+                    $argsString = '$args->except_module_srls = 12;';
+                    $expected = 'select "modules"."site_srl" as "site_srl"
+                                    , "modules"."module_srl" as "module_srl"
+                                    , "sites"."domain" as "domain"
+                                    , "modules"."mid" as "mid"
+                                    , "modules"."module" as "module"
+                                    , "modules"."browser_title" as "browser_title"
+                                    , "modules"."description" as "description"
+                                from "xe_sites" as "sites"
+                                    , "xe_modules" as "modules"
+                                        left join "xe_syndication_except_modules" as "except_modules"
+                                            on "modules"."module_srl" = "except_modules"."module_srl"
+                                where "modules"."module_srl" not in (12)
+                                    and "sites"."site_srl" = "modules"."site_srl"
+                                    and "except_modules"."module_srl" is null';
+                    $this->_test($xml_file, $argsString, $expected);
+                }
+
+                function test_module_getModules_Notin_Multiple_Value_String(){
+                    $xml_file = _XE_PATH_ . "modules/syndication/queries/getModules.xml";
+                    $argsString = '$args->except_module_srls = "12, 13, 14";';
+                    $expected = 'select "modules"."site_srl" as "site_srl"
+                                    , "modules"."module_srl" as "module_srl"
+                                    , "sites"."domain" as "domain"
+                                    , "modules"."mid" as "mid"
+                                    , "modules"."module" as "module"
+                                    , "modules"."browser_title" as "browser_title"
+                                    , "modules"."description" as "description"
+                                from "xe_sites" as "sites"
+                                    , "xe_modules" as "modules"
+                                        left join "xe_syndication_except_modules" as "except_modules"
+                                            on "modules"."module_srl" = "except_modules"."module_srl"
+                                where "modules"."module_srl" not in (12,13,14)
+                                    and "sites"."site_srl" = "modules"."site_srl"
+                                    and "except_modules"."module_srl" is null';
+                    $this->_test($xml_file, $argsString, $expected);
+                }
+
+                function test_module_getModules_Notin_Multiple_Value_Array(){
+                    $xml_file = _XE_PATH_ . "modules/syndication/queries/getModules.xml";
+                    $argsString = '$args->except_module_srls = array(12, 13, 14);';
+                    $expected = 'select "modules"."site_srl" as "site_srl"
+                                    , "modules"."module_srl" as "module_srl"
+                                    , "sites"."domain" as "domain"
+                                    , "modules"."mid" as "mid"
+                                    , "modules"."module" as "module"
+                                    , "modules"."browser_title" as "browser_title"
+                                    , "modules"."description" as "description"
+                                from "xe_sites" as "sites"
+                                    , "xe_modules" as "modules"
+                                        left join "xe_syndication_except_modules" as "except_modules"
+                                            on "modules"."module_srl" = "except_modules"."module_srl"
+                                where "modules"."module_srl" not in (12,13,14)
+                                    and "sites"."site_srl" = "modules"."site_srl"
+                                    and "except_modules"."module_srl" is null';
+                    $this->_test($xml_file, $argsString, $expected);
+                }
+
 	}

@@ -5,7 +5,8 @@
 
 
 		function ConditionArgument($name, $value, $operation){
-                        if(isset($value) && in_array($operation, array('in', 'not in', 'between')) && !is_array($value)){
+                        if(isset($value) && in_array($operation, array('in', 'notin', 'between')) && !is_array($value)){
+                            $value = str_replace(' ', '', $value);
                             $value = explode(',', $value);
                         }
 			parent::Argument($name, $value);
@@ -35,6 +36,9 @@
                                     $this->value = '%'.$value.'%';
                                 break;
                             case 'in':
+                                    if(!is_array($value)) $this->value = array($value);
+                                break;
+                            case 'notin':
                                     if(!is_array($value)) $this->value = array($value);
                                 break;
                         }
