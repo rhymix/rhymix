@@ -9,9 +9,11 @@
         <action name="trackback" type="controller" standalone="true" />
 
         <action name="procTrackbackSend" type="controller" standalone="true" ruleset="sendTrackback" />
+        <action name="procTrackbackGetList" type="controller" standalone="true" />
         <action name="procTrackbackAdminDeleteChecked" type="controller" standalone="true" ruleset="deleteChecked" />
         <action name="procTrackbackAdminInsertConfig" type="controller" standalone="true" />
         <action name="procTrackbackAdminInsertModuleConfig" type="controller" standalone="true" />
+        <action name="procTrackbackAdminAddCart" type="controller" standalone="true" />
     </actions>
 	<menus>
 		<menu name="trackback">

@@ -26,4 +26,5 @@
 
     $lang->enable_trackback = "Utiliser le Rétrolien";
 	$lang->about_enable_trackback = "Si vous annulez la coché, on arrêtera de ramasser les rétroliens de tous les articles du site";
+	$lang->no_trackbacks = 'No Trackbacks';
 ?>

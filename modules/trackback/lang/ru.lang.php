@@ -27,4 +27,5 @@
 
     $lang->enable_trackback = "Включить трекбек";
     $lang->about_enable_trackback = "Эта опция включает/выключает фукцию трекбека.";
+	$lang->no_trackbacks = 'No Trackbacks';
 ?>

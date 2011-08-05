@@ -39,53 +39,37 @@
 						<td><a href="{$val->url}" target="_blank">{htmlspecialchars($val->blog_name)}</a></td>
 						<td>{zdate($val->regdate,"Y-m-d")}</td>
 						<td><a href="{getUrl('search_target','ipaddress','search_keyword',$val->ipaddress)}">{$val->ipaddress}</a></td>
-						<td><input type="checkbox" name="cart[]" value="{$val->trackback_srl}" /></td>
+						<td><input type="checkbox" name="cart[]" value="{$val->trackback_srl}" onclick="addCart({$val->trackback_srl})" <!--@if($val->isCarted)-->checked<!--@end--> /></td>
 					</tr>
     				<!--@end-->
 				</tbody>
 			</table>
 		</div>
 		<div class="btnArea">
-			<span class="btn"><a href="#listManager" class="modalAnchor">선택한 엮인글 관리...</a></span>
+			<span class="btn"><a href="#listManager" class="modalAnchor" onclick="getTrackbackList();">선택한 엮인글 관리...</a></span>
 		</div>
 	</form>
 	<div class="modal" id="listManager">
-		<form ruleset="deleteChecked" id="fo_list" action="./" method="post">
+		<form ruleset="deleteChecked" action="./" method="post" class="fg">
 		<input type="hidden" name="act" value="procTrackbackAdminDeleteChecked" />
 		<input type="hidden" name="page" value="{$page}" />
 			<h2 class="h2">선택한 엮인글 관리</h2>
 			<div class="table even">
-				<table width="100%" border="1" cellspacing="0">
+				<table width="100%" border="1" cellspacing="0" id="trackbackManageListTable">
 					<caption>
-					선택한 엮인글 <strong>8</strong>
+					선택한 엮인글 <strong id="selectedTrackbackCount"></strong>
 					</caption>
 					<thead>
 						<tr>
-							<th scope="col" class="title"><span class="text">Trackback</span></th>
-							<th scope="col">Site</th>
-							<th scope="col"><input type="checkbox" title="Check All" checked="checked" /></th>
+							<th scope="col" class="title"><span class="text">{$lang->title}</span></th>
+							<th scope="col">{$lang->blog_name}</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td class="text"> <strong>The quick brown fox jumps over the lazy dog.</strong>
-								<p>무궁화 꽃이 피었습니다. 무궁화 꽃이 피었습니다. 무궁화 꽃이 피었습니다. 무궁화 꽃이 피었습니다. 무궁화 꽃이 피었습니다. 무궁화 꽃이 피었습니다...</p>
-							</td>
-							<td>나라디자인</td>
-							<td><input type="checkbox" /></td>
-						</tr>
-						<tr>
-							<td class="text"> <strong>The quick brown fox jumps over the lazy dog.</strong>
-								<p>무궁화 꽃이 피었습니다. 무궁화 꽃이 피었습니다. 무궁화 꽃이 피었습니다. 무궁화 꽃이 피었습니다. 무궁화 꽃이 피었습니다. 무궁화 꽃이 피었습니다...</p>
-							</td>
-							<td>행복한고니</td>
-							<td><input type="checkbox" /></td>
-						</tr>
 					</tbody>
 				</table>
 			</div>
 			<div class="btnArea">
-				<span class="btn"><input type="submit" value="Trash" /></span>
 				<span class="btn"><input type="submit" value="Delete" class="delete" /></span>
 			</div>
 		</form>

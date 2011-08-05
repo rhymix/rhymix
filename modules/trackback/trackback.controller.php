@@ -47,6 +47,45 @@
         }
 
         /**
+         * @brief Trackback List
+         **/
+        function procTrackbackGetList()
+		{
+			if(!Context::get('is_logged')) return new Object(-1,'msg_not_permitted');
+			// Taken from a list of selected sessions
+			$flagList = $_SESSION['trackback_management'];
+			if(count($flagList)) {
+				foreach($flagList as $key => $val) {
+					if(!is_bool($val)) continue;
+					$trackbackSrlList[] = $key;
+				}
+			}
+
+			global $lang;
+			if(count($trackbackSrlList) > 0) {
+				$oTrackbackAdminModel = &getAdminModel('trackback');
+				$args->trackbackSrlList = $trackbackSrlList;
+				$args->list_count = 100;
+				$output = $oTrackbackAdminModel->getTotalTrackbackList($args);
+
+				if(is_array($output->data)) $trackbackList = $output->data;
+				else
+				{
+					unset($_SESSION['trackback_management']);
+					$trackbackList = array();
+					$this->setMessage($lang->no_trackbacks);
+				}
+			}
+			else
+			{
+				$trackbackList = array();
+				$this->setMessage($lang->no_trackbacks);
+			}
+
+			$this->add('trackback_list', $trackbackList);
+        }
+
+        /**
          * @brief Trackbacks send documents from the popup menu add a menu
          **/
         function triggerSendTrackback(&$menu_list) {

@@ -27,4 +27,5 @@
 
     $lang->enable_trackback = "Usar trackback";
     $lang->about_enable_trackback = "Si no selecciona esta opción, desactiva la inscripción de trackback en todos los documentos del sitio";
+	$lang->no_trackbacks = 'No Trackbacks';
 ?>

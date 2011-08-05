@@ -54,6 +54,7 @@
             $args->page_count = $obj->page_count?$obj->page_count:10;
             $args->s_module_srl = $obj->module_srl;
             $args->exclude_module_srl = $obj->exclude_module_srl;
+			$args->trackbackSrlList = $obj->trackbackSrlList;
             // trackback.getTotalTrackbackList query execution
             $output = executeQuery('trackback.getTotalTrackbackList', $args);
             // Return if no result or an error occurs

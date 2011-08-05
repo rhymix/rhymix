@@ -26,4 +26,5 @@
 
     $lang->enable_trackback = "Geri izleme kullan.";
 	$lang->about_enable_trackback = "Geri izleme devredışı bırakıldığında, sitedeki tüm geri izleme (trackback) koleksiyonları durdurulacaktır.";
+	$lang->no_trackbacks = 'No Trackbacks';
 ?>

@@ -89,6 +89,29 @@
         }
 
         /**
+         * @brief Trackback Module Settings
+         **/
+        function procTrackbackAdminAddCart()
+		{
+			$trackback_srl = (int)Context::get('trackback_srl');
+
+			$oTrackbackAdminModel = &getAdminModel('trackback');
+			//$columnList = array('trackback_srl');
+			$args->trackbackSrlList = array($trackback_srl);
+
+			$output = $oTrackbackAdminModel->getTotalTrackbackList($args);
+
+			if(is_array($output->data))
+			{
+				foreach($output->data AS $key=>$value)
+				{
+					if($_SESSION['trackback_management'][$value->trackback_srl]) unset($_SESSION['trackback_management'][$value->trackback_srl]);
+					else $_SESSION['trackback_management'][$value->trackback_srl] = true;
+				}
+			}
+        }
+
+        /**
          * @brief Trackback modular set function
          **/
         function setTrackbackModuleConfig($module_srl, $enable_trackback) {

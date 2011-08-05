@@ -26,4 +26,5 @@
 
     $lang->enable_trackback = "Use Trackback";
 	$lang->about_enable_trackback = "When it is unchecked, all the trackback collection on the site will be stopped.";
+	$lang->no_trackbacks = 'No Trackbacks';
 ?>
