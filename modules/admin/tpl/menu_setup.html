@@ -1,33 +1,33 @@
 <load target="./js/menu_setup.js" />
+<load target="./js/sitemap.js" />
 <div class="content" id="content">
-	<form id="listForm" action="./">
+	<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+		<p>{$XE_VALIDATOR_MESSAGE}</p>
+	</div>
+	<form id="listForm" action="./" class="siteMap">
 	<input type="hidden" name="act" value="procMenuAdminDeleteItem" />
 	<input type="hidden" name="menu_srl" value="{$menu_srl}" />
 	<input type="hidden" name="menu_item_srl" value="" />
 	<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin', 'act', 'dispAdminMenuSetup')}" />
 		<h1 class="h1">Admin Menu Setup</h1>
-		<div class="portlet siteMap">
+		<div class="portlet">
 			<h2 class="h2"><input value="Admin Menu" disabled /></h2>
 			<ul class="lined">
 				<!--@foreach($gnbUrlList AS $key=>$value)-->
 				<li>
 					<input type="hidden" value="{$key}" class="_parent_key" />
-					<input value="{$value['text']}" /> <span class="side"> <button type="button" class="modalAnchor _add">Add</button> | <button type="button" class="_parent_delete">Delete</button></span>
+					<input value="{$value['text']}" /> <span class="side"> <a href="#editMenu" class="modalAnchor _add">Add</a> | <a href="#delete" class="_parent_delete">Delete</a></span>
 					<!--@if(is_array($value['list']) && count($value['list'])>0)-->
 					<ul>
 						<!--@foreach($value['list'] AS $key2=>$value2)-->
 						<input type="hidden" value="{$key2}" class="_child_key" />
-						<li><input value="{$value2['text']}" /> <span class="side"><button type="button" class="_child_delete">Delete</button></span></li>
+						<li><input value="{$value2['text']}" /> <span class="side"><a href="#delete" class="_child_delete">Delete</a></span></li>
 						<!--@end-->
 					</ul>
 					<!--@end-->
 				</li>
 				<!--@end-->
 			</ul>
-		</div>
-		<div class="btnArea">
-			<span class="btn medium"><input type="submit" value="Save it" /></span>
-			<span class="btn medium"><button type="button">Add New Site Map...</button></span>
 		</div>
 	</form>
 

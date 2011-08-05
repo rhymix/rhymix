@@ -37,6 +37,7 @@
     $lang->cmd_search_mid = "Buscar mid";
 
     $lang->msg_cannot_delete_for_child = 'No se puede eliminar un menú si posee un submenú.';
+    $lang->msg_cannot_delete_for_admin_topmenu = 'A top menu cannot be deleted';
 
     $lang->about_title = 'Ingresar el título que sea fácil de identificar al momento de conectar al módulo.';
     $lang->about_menu_management = "Configuración del menú permite construir el menú del diseño seleccionado.\nUsted puede crear el menú hasta el nivel seleccionado y para la información más detallada debe seleccionar el menú ingresado.\nEl menú será expandido al presionar la imagen del directorio.\nSi el menú no se ve correctamente, renueva la informacion presionado el botón\"Rehacer archivo caché\".\n El menú creado sobre el nivel límite podría no verse apropiadamente.";

@@ -37,6 +37,7 @@
     $lang->cmd_search_mid = 'mid 検索';
 
     $lang->msg_cannot_delete_for_child = '下位メニューが存在するメニューは削除出来ません。';
+    $lang->msg_cannot_delete_for_admin_topmenu = 'A top menu cannot be deleted';
 
     $lang->about_title = 'モジュールをリンクする際に分かりやすいタイトルを入力して下さい。';
     $lang->about_menu_management = "メニュー管理は、選択されたレイアウトで使用するメニューを構成出来るようにします。<br />一定レベルまでメニューの構成が出来、入力したメニューをクリックすると詳細情報が入力出来ます。<br />フォルダーのイメージをクリックするとメニューを拡張することが出来ます。<br />もしメニューが正常に表示されない場合は、 「キャッシュファイル再生成」ボタンをクリックして情報を更新して下さい。<br />* 一定レベル以上のメニューは正しく表示されない場合があります。";

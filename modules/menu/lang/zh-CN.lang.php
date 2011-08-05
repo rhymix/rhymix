@@ -37,6 +37,7 @@
     $lang->cmd_search_mid = "查找 mid";
 
     $lang->msg_cannot_delete_for_child = '有下级菜单的菜单不能删除。';
+    $lang->msg_cannot_delete_for_admin_topmenu = 'A top menu cannot be deleted';
 
     $lang->about_title = '请输入连接模块时容易区分的标题。';
     $lang->about_menu_management = "在此创建要在布局中使用的菜单。\n点击菜单前的文件夹图标可以展开收缩菜单。\n偶尔不能正常显示菜单时，请按\"更新缓冲\"按钮更新信息。\n* 不能正常显示指定级(层级)以上的菜单，创建菜单项的时候，请确认你要使用的布局究竟支持多少级别的菜单。";

@@ -32,7 +32,7 @@
 
 			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
 				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMenuAdminContent');
-				header('location:'.$returnUrl);
+				$this->setRedirectUrl($returnUrl);
 				return;
 			}
         }
@@ -173,8 +173,16 @@
             $args = Context::gets('menu_srl','menu_item_srl');
 
             $oMenuAdminModel = &getAdminModel('menu');
+
+            // Get information of the menu
+            $menu_info = $oMenuAdminModel->getMenu($args->menu_srl);
+            $menu_title = $menu_info->title;
+
             // Get original information
             $item_info = $oMenuAdminModel->getMenuItemInfo($args->menu_item_srl);
+
+			if($menu_title == '__XE_ADMIN__' && $item_info->parent_srl == 0)return $this->stop('msg_cannot_delete_for_admin_topmenu');
+
             if($item_info->parent_srl) $parent_srl = $item_info->parent_srl;
             // Display an error that the category cannot be deleted if it has a child node
             $output = executeQuery('menu.getChildMenuCount', $args);
@@ -183,9 +191,6 @@
             // Remove from the DB
             $output = executeQuery("menu.deleteMenuItem", $args);
             if(!$output->toBool()) return $output;
-            // Get information of the menu
-            $menu_info = $oMenuAdminModel->getMenu($args->menu_srl);
-            $menu_title = $menu_info->title;
             // Update the xml file and get its location
             $xml_file = $this->makeXmlFile($args->menu_srl);
             // Delete all of image buttons
@@ -200,7 +205,7 @@
 
 			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
 				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMenuAdminManagement', 'menu_srl', $args->menu_srl);
-				header('location:'.$returnUrl);
+				$this->setRedirectUrl($returnUrl);
 				return;
 			}
         }
@@ -333,14 +338,19 @@
 			if(is_array($installed_module_list))
 			{
 				$currentLang = Context::getLangType();
+				$menuList = array();
 				foreach($installed_module_list AS $key=>$value)
 				{
 					$cache_file = sprintf("./files/cache/module_info/%s.%s.php", $value->module, $currentLang);
 					if(is_readable($cache_file))
+					{
 						include $cache_file;
+						if($info->menu) $menuList[$value->module] = $info->menu;
+						unset($info->menu);
+					}
 				}
 			}
-            $this->add('menuList', $info->menu);
+            $this->add('menuList', $menuList);
         }
 
         /**
@@ -349,24 +359,27 @@
 		function procMenuAdminInsertItemForAdminMenu()
 		{
             $requestArgs = Context::getRequestVars();
+			$tmpMenuName = explode(':', $requestArgs->menu_name);
+			$moduleName = $tmpMenuName[0];
+			$menuName = $tmpMenuName[1];
 
 			// variable setting
 			$logged_info = Context::get('logged_info');
-			$oMenuAdminModel = &getAdminModel('menu');
+			//$oMenuAdminModel = &getAdminModel('menu');
 			$oMemberModel = &getModel('member');
 
-			$parentMenuInfo = $oMenuAdminModel->getMenuItemInfo($requestArgs->parent_srl);
+			//$parentMenuInfo = $oMenuAdminModel->getMenuItemInfo($requestArgs->parent_srl);
 			$groupSrlList = $oMemberModel->getMemberGroups($logged_info->member_srl);
 
-			preg_match('/\{\$lang->menu_gnb\[(.*?)\]\}/i', $parentMenuInfo->name, $m);
-			$cache_file = sprintf("./files/cache/module_info/%s.%s.php", $requestArgs->menu_name, Context::getLangType());
+			//preg_match('/\{\$lang->menu_gnb\[(.*?)\]\}/i', $parentMenuInfo->name, $m);
+			$cache_file = sprintf("./files/cache/module_info/%s.%s.php", $moduleName, Context::getLangType());
 			include $cache_file;
 
 			$args->menu_item_srl = (!$requestArgs->menu_item_srl) ? getNextSequence() : $requestArgs->menu_item_srl;
 			$args->parent_srl = $requestArgs->parent_srl;
 			$args->menu_srl = $requestArgs->menu_srl;
-			$args->name = sprintf('{$lang->menu_gnb_sub[%s][\'%s\']}', $m[1], $requestArgs->menu_name);
-			$args->url = getNotEncodedUrl('', 'module', 'admin', 'act', $info->menu->{$requestArgs->menu_name}->index);
+			$args->name = sprintf('{$lang->menu_gnb_sub[\'%s\']}', $menuName);
+			$args->url = getNotEncodedUrl('', 'module', 'admin', 'act', $info->menu->{$menuName}->index);
 			$args->open_window = 'N';
 			$args->expand = 'N';
 			$args->normal_btn = '';
@@ -382,8 +395,9 @@
             if($item_info->menu_item_srl == $args->menu_item_srl) {
                 $output = executeQuery('menu.updateMenuItem', $args);
                 if(!$output->toBool()) return $output;
+            }
             // Insert if not exist
-            } else {
+			else {
                 $args->listorder = -1*$args->menu_item_srl;
                 $output = executeQuery('menu.insertMenuItem', $args);
                 if(!$output->toBool()) return $output;
@@ -393,6 +407,12 @@
             $menu_title = $menu_info->title;
             // Update the xml file and get its location
             $xml_file = $this->makeXmlFile($args->menu_srl);
+
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminMenuSetup');
+				$this->setRedirectUrl($returnUrl);
+				return;
+			}
 		}
 
         /**

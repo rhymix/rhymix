@@ -4,7 +4,7 @@ jQuery(function($){
 	var editForm = $('#editForm');
 	var listForm = $('#listForm');
 
-	$('button._add').click(function(){
+	$('a._add').click(function(){
 		parentSrl = $(this).parent().prevAll('._parent_key').val();
 		editForm.find('input[name=parent_srl]').val(parentSrl);
 		if(!menuList)
@@ -17,25 +17,29 @@ jQuery(function($){
 
 	function completeGetActList(obj)
 	{
-		menuList = obj.menuList;
-		if(menuList)
+		moduleList = obj.menuList;
+		if(moduleList)
 		{
  			var menuNameList = $('#menuNameList');
-			for(var x in menuList)
+			for(var x in moduleList)
 			{
-				var menu = menuList[x];
-				menuNameList.append('<option value="'+x+'">'+menu.title+'</option>');
+				var menuList = moduleList[x];
+				for(var y in menuList)
+				{
+					var menu = menuList[y];
+					menuNameList.append('<option value="'+x+':'+y+'">'+menu.title+'</option>');
+				}
 			}
 		}
 	}
 
-	$('button._parent_delete').click(function() {
+	$('a._parent_delete').click(function() {
 		var menu_item_srl = $(this).parent().prevAll('._parent_key').val();
 		listForm.find('input[name=menu_item_srl]').val(menu_item_srl);
 		listForm.submit();
 	});
 
-	$('button._child_delete').click(function() {
+	$('a._child_delete').click(function() {
 		var menu_item_srl = $(this).parents('li').prevAll('._child_key').val();
 		listForm.find('input[name=menu_item_srl]').val(menu_item_srl);
 		listForm.submit();

@@ -39,6 +39,7 @@
     $lang->cmd_search_mid = "Tìm kiếm Module";
 
     $lang->msg_cannot_delete_for_child = 'Không thể xóa Menu khi có những Menu con.';
+    $lang->msg_cannot_delete_for_admin_topmenu = 'A top menu cannot be deleted';
 
     $lang->about_title = 'Xin hãy nhập tiêu đề để dễ dàng xác minh khi kết nối tới Module.';
     $lang->about_menu_management = "Quản lý Menu cho phép bạn bố trí, chọn cách trình bày của Menu.\nBạn có thể tạo những menu và nhập những thông tin khi menu được lựa chọn.\nMenu sẽ đuwọc trải rộng khi bấm và hình thư mục trên Menu.\nNếu Menu không hiển thị một cách bình thường, hãy làm mới thông tin bằng cách bấm \"Tạo File Cache mới\".\n<font color='red'>*</font> Menu được tạo quá giới hạn có thể sẽ không hiển thị được như mong muốn.";

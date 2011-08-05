@@ -33,6 +33,7 @@
     $lang->cmd_enable_move_menu = '메뉴 옮기기 (선택 후, 위 메뉴를 드래그하세요.)';
     $lang->cmd_search_mid = 'mid 찾기';
     $lang->msg_cannot_delete_for_child = '하부 메뉴가 있는 메뉴는 삭제하실 수 없습니다.';
+    $lang->msg_cannot_delete_for_admin_topmenu = '최상위 메뉴는 삭제할 수 없습니다.';
     $lang->about_title = '모듈에 연결할 때, 쉽게 구분할 수 있는 제목을 입력해주세요.';
     $lang->about_menu_management = "메뉴관리는 선택하신 레이아웃에서 사용하는 메뉴를 구성할 수 있도록 합니다.\n정해진 단계까지 메뉴를 구성 가능하며 입력하신 메뉴를 클릭하시면 상세 정보를 입력할 수 있습니다.\n폴더 그림을 클릭하시면 메뉴를 확장하실 수 있습니다.\n간혹 메뉴가 정상적으로 나타나지 않으면 \"캐시파일 재생성\" 버튼을 눌러서 정보를 갱신하세요.\n* 정해진 단계 이상의 메뉴는 제대로 표시되지 않을 수 있습니다.";
     $lang->about_menu_name = '관리 및 이미지 버튼이 아닐 경우 메뉴 명으로 나타날 제목입니다.';

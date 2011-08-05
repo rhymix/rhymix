@@ -37,6 +37,7 @@
     $lang->cmd_search_mid = "尋找 mid";
 
     $lang->msg_cannot_delete_for_child = '有子選單的選單不能刪除。';
+    $lang->msg_cannot_delete_for_admin_topmenu = 'A top menu cannot be deleted';
 
     $lang->about_title = '請輸入連接模組時，容易區分的標題。';
     $lang->about_menu_management = "選單管理可以建構所選擇版面中使用的選單。\n不僅可以建構指定級(層級)選單，點擊輸入的選單名稱即可對其進行詳細設置。\n點擊選單前圖標可以展開選單。\n偶爾無法正常顯示選單時，請按\"重新建立暫存檔\"按鈕更新資料。\n* 可能無法正常顯示指定級(層級)以上的選單。";

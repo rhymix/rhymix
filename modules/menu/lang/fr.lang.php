@@ -37,6 +37,7 @@
     $lang->cmd_search_mid = "Rechercher mid";
 
     $lang->msg_cannot_delete_for_child = 'Un menu qui a des menus inférieurs ne peut pas être supprimé.';
+    $lang->msg_cannot_delete_for_admin_topmenu = 'A top menu cannot be deleted';
 
     $lang->about_title = 'Entrez un titre facile à vérifier quand on le connecte à un module.';
     $lang->about_menu_management = "Administration de Menu vous permet de composer le menu dans la Mise en Page que vous choisissez.\nVous pouvez créer le menu jusqu'au niveau permis et entrer des informations détaillées si vou cliquez le menu.\nMenu sera étendu si vous cliquez l'image de dossier.\nSi le menu n'est pas représenté normalement, rafraîchir les informations en cliquant le bouton \"Recréer \'antémémoire de fichier\".\n* Menu cré qui passe plus que le niveau permis pourra être représenté incorrectement.";

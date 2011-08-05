@@ -37,6 +37,7 @@
     $lang->cmd_search_mid = "Search mid";
 
     $lang->msg_cannot_delete_for_child = 'A menu with child menus cannot be deleted.';
+    $lang->msg_cannot_delete_for_admin_topmenu = 'A top menu cannot be deleted';
 
     $lang->about_title = 'Please input the title that is easy to verify when connecting to the module.';
     $lang->about_menu_management = "The menu management enables you to organize your menus in the selected layout.\nYou can create menus up to setted depth and can enter information in details by clicking them.\nThe menu will be expanded by clicking the folder image.\nIf the menu is not shown normally, refresh the information by clicking the button \"Re-create cache file\".\n* The menu created over the depth limit may not be shown properly.";

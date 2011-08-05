@@ -37,6 +37,7 @@
     $lang->cmd_search_mid = "mid Ara";
 
     $lang->msg_cannot_delete_for_child = 'Altmenüleri olan bir menü silinemez.';
+    $lang->msg_cannot_delete_for_admin_topmenu = 'A top menu cannot be deleted';
 
     $lang->about_title = 'Modüle bağlanacakken, kolayca onaylanacak başlık giriniz.';
     $lang->about_menu_management = "Menü yönetimi size, seçili yerleşim düzeninde menü oluşturma imkani sunar.\nAyarlanmış derinlikte menü oluşturabilir ve menüye tıklayarak detaylı menü bilgisi girebilirsiniz.\nDosya resmine tıklayınca menü genişletilecektir.\nEğer menü normal görüntülenmiyorsa, \"önbellek dosyasını tekrar oluştur\" tuşuna basarak bilgiyi tazeleyiniz.\n* Menü, derinlik limitini geçecek şekilde oluşturulduysa, düzgün gösterilmeyebilir.";
