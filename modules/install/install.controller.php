@@ -186,12 +186,6 @@
             // Display a message that installation is completed
             $this->setMessage('msg_install_completed');
 
-			if($_SESSION['enviroment_gather'] == 'Y'){
-				$oAdminAdminController = &getAdminController('admin');
-				$oAdminAdminController->_sendServerEnv();
-				unset($_SESSION['enviroment_gather']);
-			}
-
 			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
 				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('');
 				header('location:'.$returnUrl);
