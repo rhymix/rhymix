@@ -278,7 +278,7 @@ button.text{border:0;overflow:visible;padding:0;margin:0;color:#33a;background:n
 /* Dashboard */
 .dashboard{position:relative;float:none;width:auto;margin-left:-230px}
 .dashboard .portlet{float:left;width:48%;margin-right:1em}
-.dashboard .portlet:nth-of-type(even){ float:left;width:49%;margin-right:0 }
+.dashboard .portlet:nth-of-type(even){ float:left;width:49%;margin-right:0}
 .dashboard .portlet:nth-of-type(even){ float:right;width:49%;margin-right:0}
 /* Local Navigation */
 .lnb{position:relative;float:left;width:200px;margin:1em 0 1em -230px;line-height:normal;zoom:1;display:inline}
@@ -363,6 +363,9 @@ button.text{border:0;overflow:visible;padding:0;margin:0;color:#33a;background:n
 .siteMap .tgMap{position:absolute; top:12px; right:1em; padding:0 16px 0 0; line-height:16px; background:url(../img/iconArrow.gif) no-repeat right -126px}
 .siteMap.fold .tgMap{background-position:right -158px}
 .siteMap.fold .h2{border-bottom-color:#fff; border-radius:5px}
+.siteMap .placeholder{background:#bbb}
+.siteMap .draggable,
+.siteMap .draggable .moveTo{background-color:#ddd}
 /* Button Area */
 .btnArea{margin:1em 0;text-align:right;zoom:1}
 .btnArea:after{content:"";display:block;clear:both}
