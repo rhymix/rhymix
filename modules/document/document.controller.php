@@ -237,6 +237,20 @@ class documentController extends document {
 		$this->addGrant($obj->document_srl);
 		$output->add('document_srl',$obj->document_srl);
 		$output->add('category_srl',$obj->category_srl);
+		//remove from cache
+        $oCacheHandler = &CacheHandler::getInstance('object');
+        if($oCacheHandler->isSupport()) 
+        {
+            $cache_key = 'object:'.$obj->document_srl;
+            $oCacheHandler->delete($cache_key);
+            $cache_object = $oCacheHandler->get('module_list_documents');
+            foreach ($cache_object as $object){
+            	$cache_key_object = $object;
+                $oCacheHandler->delete($cache_key_object);
+            }
+            $oCacheHandler->delete('module_list_documents');
+        }
+
 		return $output;
 	}
 
@@ -390,6 +404,20 @@ class documentController extends document {
 		FileHandler::removeDir(sprintf('files/cache/thumbnails/%s',getNumberingPath($obj->document_srl, 3)));
 
 		$output->add('document_srl',$obj->document_srl);
+		//remove from cache
+        $oCacheHandler = &CacheHandler::getInstance('object');
+        if($oCacheHandler->isSupport()) 
+        {
+            $cache_key = 'object:'.$obj->document_srl;
+            $oCacheHandler->delete($cache_key);
+            $cache_object = $oCacheHandler->get('module_list_documents');
+            foreach ($cache_object as $object){
+            	$cache_key_object = $object;
+                $oCacheHandler->delete($cache_key_object);
+            }
+            $oCacheHandler->delete('module_list_documents');
+        }
+		
 		return $output;
 	}
 
@@ -459,6 +487,20 @@ class documentController extends document {
 
 		// commit
 		$oDB->commit();
+
+		//remove from cache
+        $oCacheHandler = &CacheHandler::getInstance('object');
+        if($oCacheHandler->isSupport()) 
+        {
+            $cache_key = 'object:'.$document_srl;
+            $oCacheHandler->delete($cache_key);
+            $cache_object = $oCacheHandler->get('module_list_documents');
+            foreach ($cache_object as $object){
+            	$cache_key_object = $object;
+                $oCacheHandler->delete($cache_key_object);
+            }
+            $oCacheHandler->delete('module_list_documents');
+        }
 
 		return $output;
 	}

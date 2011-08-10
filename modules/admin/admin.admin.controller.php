@@ -51,7 +51,7 @@
 			}
 
 			$truncated = array();
-			$oObjectCacheHandler = &CacheHandler::getInstance();
+			$oObjectCacheHandler = &CacheHandler::getInstance('object');
 			$oTemplateCacheHandler = &CacheHandler::getInstance('template');
 
 			if($oObjectCacheHandler->isSupport()){

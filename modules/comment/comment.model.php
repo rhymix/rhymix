@@ -200,41 +200,63 @@
          * @brief get a comment list of the doc in corresponding woth document_srl.
          **/
         function getCommentList($document_srl, $page = 0, $is_admin = false, $count = 0) {
-            // get the number of comments on the document module
-            $oDocumentModel = &getModel('document');
-			$columnList = array('document_srl', 'module_srl', 'comment_count');
-            $oDocument = $oDocumentModel->getDocument($document_srl, false, true, $columnList);
-            // return if no doc exists.
-            if(!$oDocument->isExists()) return;
-            // return if no comment exists
-            if($oDocument->getCommentCount()<1) return;
-            // get a list of comments
-            $module_srl = $oDocument->get('module_srl');
-
-            if(!$count) {
-                $comment_config = $this->getCommentConfig($module_srl);
-                $comment_count = $comment_config->comment_count;
-                if(!$comment_count) $comment_count = 50;
-            } else {
-                $comment_count = $count;
-            }
-            // get a very last page if no page exists
-            if(!$page) $page = (int)( ($oDocument->getCommentCount()-1) / $comment_count) + 1;                
-            // get a list of comments
-            $args->document_srl = $document_srl;
-            $args->list_count = $comment_count;
-            $args->page = $page;
-            $args->page_count = 10;
-            $output = executeQueryArray('comment.getCommentPageList', $args);
-            // return if an error occurs in the query results
-            if(!$output->toBool()) return;
-            // insert data into CommentPageList table if the number of results is different from stored comments
-            if(!$output->data) {
-                $this->fixCommentList($oDocument->get('module_srl'), $document_srl);
-                $output = executeQueryArray('comment.getCommentPageList', $args);
-                if(!$output->toBool()) return;
-            }
-
+        	// cache controll
+			$oCacheHandler = &CacheHandler::getInstance('object');
+			if($oCacheHandler->isSupport()){
+				$cache_key = 'object:'.$document_srl.'_'.$page;
+				$output = $oCacheHandler->get($cache_key);
+				$cache_object = $oCacheHandler->get('comment_list_document_pages');
+				if($cache_object) {
+					if(!in_array($cache_key, $cache_object)) {
+						$cache_object[]=$cache_key;
+						$oCacheHandler->put('comment_list_document_pages',$cache_object);
+					}
+				} else {
+					$cache_object = array();
+					$cache_object[] = $cache_key;
+					$oCacheHandler->put('comment_list_document_pages',$cache_object);
+				}
+			}
+        	if(!$output){
+        		// get the number of comments on the document module
+	            $oDocumentModel = &getModel('document');
+				$columnList = array('document_srl', 'module_srl', 'comment_count');
+	            $oDocument = $oDocumentModel->getDocument($document_srl, false, true, $columnList);
+	            // return if no doc exists.
+	            if(!$oDocument->isExists()) return;
+	            // return if no comment exists
+	            if($oDocument->getCommentCount()<1) return;
+	            // get a list of comments
+	            $module_srl = $oDocument->get('module_srl');
+	
+	            if(!$count) {
+	                $comment_config = $this->getCommentConfig($module_srl);
+	                $comment_count = $comment_config->comment_count;
+	                if(!$comment_count) $comment_count = 50;
+	            } else {
+	                $comment_count = $count;
+	            }
+	            // get a very last page if no page exists
+	            if(!$page) $page = (int)( ($oDocument->getCommentCount()-1) / $comment_count) + 1;                
+	            // get a list of comments
+	            $args->document_srl = $document_srl;
+	            $args->list_count = $comment_count;
+	            $args->page = $page;
+	            $args->page_count = 10;
+	            $output = executeQueryArray('comment.getCommentPageList', $args);
+	            // return if an error occurs in the query results
+	            if(!$output->toBool()) return;
+	            // insert data into CommentPageList table if the number of results is different from stored comments
+	            if(!$output->data) {
+	                $this->fixCommentList($oDocument->get('module_srl'), $document_srl);
+	                $output = executeQueryArray('comment.getCommentPageList', $args);
+	                if(!$output->toBool()) return;
+	            }
+	            //insert in cache
+	            if($oCacheHandler->isSupport()) $oCacheHandler->put($cache_key,$output);
+        		
+        	}
+        	
             return $output;
         }
             

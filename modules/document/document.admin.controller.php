@@ -149,6 +149,22 @@
             }
             
             $oDB->commit();
+			//remove from cache
+	        $oCacheHandler = &CacheHandler::getInstance('object');
+	        if($oCacheHandler->isSupport()) 
+	        {
+	        	foreach($document_srl_list as $document_srl)
+	        	{
+	        		$cache_key = 'object:'.$document_srl;
+	            	$oCacheHandler->delete($cache_key);
+	        	}
+	            $cache_object = $oCacheHandler->get('module_list_documents');
+	            foreach ($cache_object as $object){
+	            	$cache_key_object = $object;
+	                $oCacheHandler->delete($cache_key_object);
+	            }
+	            $oCacheHandler->delete('module_list_documents');
+	        }
             return new Object();
         }
 
@@ -266,7 +282,30 @@
          **/
         function deleteModuleDocument($module_srl) {
             $args->module_srl = $module_srl;
+			$oDocumentModel = &getModel('document');
+            $args->module_srl = $module_srl;
+            $document_list = $oDocumentModel->getDocumentList($args);
+            $documents = $document_list->data;
             $output = executeQuery('document.deleteModuleDocument', $args);
+			foreach ($documents as $oDocument){
+            	$document_srl_list[] = $oDocument->document_srl;
+            }
+			//remove from cache
+	        $oCacheHandler = &CacheHandler::getInstance('object');
+	        if($oCacheHandler->isSupport()) 
+	        {
+	        	foreach($document_srl_list as $document_srl)
+	        	{
+	        		$cache_key = 'object:'.$document_srl;
+	            	$oCacheHandler->delete($cache_key);
+	        	}
+	            $cache_object = $oCacheHandler->get('module_list_documents');
+	            foreach ($cache_object as $object){
+	            	$cache_key_object = $object;
+	                $oCacheHandler->delete($cache_key_object);
+	            }
+	            $oCacheHandler->delete('module_list_documents');
+	        }
             return $output;
         }
 

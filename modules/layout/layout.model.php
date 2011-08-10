@@ -36,14 +36,25 @@
          * @brief Get one of layout information created in the DB
          * Return DB info + XML info of the generated layout
          **/
-        function getLayout($layout_srl) {
-            // Get information from the DB
-            $args->layout_srl = $layout_srl;
-            $output = executeQuery('layout.getLayout', $args);
-            if(!$output->data) return;
-            // Return xml file informaton after listing up the layout and extra_vars
-            $layout_info = $this->getLayoutInfo($layout, $output->data, $output->data->layout_type);
-            return $layout_info;
+		function getLayout($layout_srl) {
+            // cache controll
+			$oCacheHandler = &CacheHandler::getInstance('object');
+			if($oCacheHandler->isSupport()){
+				$cache_key = 'object:'.$layout_srl;
+				$layout_info = $oCacheHandler->get($cache_key);
+			}
+			if(!$layout_info) {
+				// Get information from the DB
+	            $args->layout_srl = $layout_srl;
+	            $output = executeQuery('layout.getLayout', $args);
+	            if(!$output->data) return;
+	            // Return xml file informaton after listing up the layout and extra_vars
+	            $layout_info = $this->getLayoutInfo($layout, $output->data, $output->data->layout_type);
+	            //insert in cache
+	            if($oCacheHandler->isSupport()) $oCacheHandler->put($cache_key,$layout_info);
+			}    	
+        	return $layout_info;
+        	
         }
 
         /**

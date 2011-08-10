@@ -78,6 +78,18 @@
 			}
 
 			$oDB->commit();
+			
+			//remove from cache
+            $oCacheHandler = &CacheHandler::getInstance('object');
+            if($oCacheHandler->isSupport()) 
+            {
+            	$cache_object = $oCacheHandler->get('comment_list_document_pages');
+            	foreach ($cache_object as $object){
+            		$cache_key = $object;
+                	$oCacheHandler->delete($cache_key);
+            	}
+                $oCacheHandler->delete('comment_list_document_pages');
+            }
 
             $this->setMessage( sprintf(Context::getLang('msg_checked_comment_is_deleted'), $deleted_count) );
 
@@ -158,6 +170,17 @@
             if(!$output->toBool()) return $output;
 
             $output = executeQuery('comment.deleteModuleCommentsList', $args);
+			//remove from cache
+            $oCacheHandler = &CacheHandler::getInstance('object');
+            if($oCacheHandler->isSupport()) 
+            {
+            	$cache_object = $oCacheHandler->get('comment_list_document_pages');
+            	foreach ($cache_object as $object){
+            		$cache_key = $object;
+                	$oCacheHandler->delete($cache_key);
+            	}
+                $oCacheHandler->delete('comment_list_document_pages');
+            }
             return $output;
         }
 

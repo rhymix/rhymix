@@ -240,6 +240,17 @@
 
 
             $output->add('comment_srl', $obj->comment_srl);
+			//remove from cache
+            $oCacheHandler = &CacheHandler::getInstance('object');
+            if($oCacheHandler->isSupport()) 
+            {
+            	$cache_object = $oCacheHandler->get('comment_list_document_pages');
+            	foreach ($cache_object as $object){
+            		$cache_key = $object;
+                	$oCacheHandler->delete($cache_key);
+            	}
+                $oCacheHandler->delete('comment_list_document_pages');
+            }
             return $output;
         }
 
@@ -316,6 +327,17 @@
             $oDB->commit();
 
             $output->add('comment_srl', $obj->comment_srl);
+			//remove from cache
+            $oCacheHandler = &CacheHandler::getInstance('object');
+            if($oCacheHandler->isSupport()) 
+            {
+            	$cache_object = $oCacheHandler->get('comment_list_document_pages');
+            	foreach ($cache_object as $object){
+            		$cache_key = $object;
+                	$oCacheHandler->delete($cache_key);
+            	}
+                $oCacheHandler->delete('comment_list_document_pages');
+            }
             return $output;
         }
 
@@ -379,6 +401,17 @@
             $oDB->commit();
 
             $output->add('document_srl', $document_srl);
+			//remove from cache
+            $oCacheHandler = &CacheHandler::getInstance('object');
+            if($oCacheHandler->isSupport()) 
+            {
+            	$cache_object = $oCacheHandler->get('comment_list_document_pages');
+            	foreach ($cache_object as $object){
+            		$cache_key = $object;
+                	$oCacheHandler->delete($cache_key);
+            	}
+                $oCacheHandler->delete('comment_list_document_pages');
+            }
             return $output;
         }
 
@@ -431,6 +464,17 @@
 				$this->_deleteDeclaredComments($args);
 				$this->_deleteVotedComments($args);
 			}
+			//remove from cache
+            $oCacheHandler = &CacheHandler::getInstance('object');
+            if($oCacheHandler->isSupport()) 
+            {
+            	$cache_object = $oCacheHandler->get('comment_list_document_pages');
+            	foreach ($cache_object as $object){
+            		$cache_key = $object;
+                	$oCacheHandler->delete($cache_key);
+            	}
+                $oCacheHandler->delete('comment_list_document_pages');
+            }
 
             return $output;
         }

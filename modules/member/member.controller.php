@@ -1698,7 +1698,12 @@
             $oDB->commit();
             // Save Session
             if(!$this->memberInfo) $this->memberInfo = $oMemberModel->getMemberInfoByMemberSrl($args->member_srl);
-
+			//remove from cache
+            $oCacheHandler = &CacheHandler::getInstance('object');
+            if($oCacheHandler->isSupport()){
+            	$cache_key = 'object:'.$args->member_srl;
+            	$oCacheHandler->delete($cache_key);
+            }
             $logged_info = Context::get('logged_info');
 
             $output->add('member_srl', $args->member_srl);
@@ -1710,6 +1715,12 @@
          **/
         function updateMemberPassword($args) {
             $output = executeQuery('member.updateChangePasswordDate', $args);
+			//remove from cache
+       		$oCacheHandler = &CacheHandler::getInstance('object');
+            if($oCacheHandler->isSupport()){
+            	$cache_key = 'object:'.$args->member_srl;
+            	$oCacheHandler->delete($cache_key);
+            }
             $args->password = md5($args->password);
             return executeQuery('member.updateMemberPassword', $args);
         }
