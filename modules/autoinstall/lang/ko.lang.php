@@ -36,4 +36,6 @@
 	$lang->dependant_list = "이 패키지에 의존하는 패키지 목록";
 	$lang->msg_avail_update = '이 항목 업데이트가 가능합니다.';
 	$lang->msg_do_you_like_update = '업데이트 하시겠습니까?';
+	$lang->msg_connection_fail = '서버 접속이 원할하지 않습니다.';
+	$lang->msg_not_match_server = '서버 설정이 올바르지 않습니다.';
 ?>

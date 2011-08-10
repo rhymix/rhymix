@@ -229,6 +229,11 @@
             $lUpdateDoc = $xml_lUpdate->parse($buff);
             $updateDate = $lUpdateDoc->response->updatedate->body;
 
+			if (!$updateDate)
+			{
+				return $this->stop('msg_connection_fail');
+			}
+
             $oModel = &getModel('autoinstall');
             $item = $oModel->getLatestPackage();
             if(!$item || $item->updatedate < $updateDate || count($this->categories) < 1)
@@ -323,7 +328,7 @@
 			}
 			else
 			{
-				return $this->stop('Connection failed');
+				return $this->stop('msg_connection_fail');
 			}
 		}
     }

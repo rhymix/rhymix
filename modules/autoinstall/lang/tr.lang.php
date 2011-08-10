@@ -36,4 +36,6 @@
 	$lang->dependant_list = "Mevcut pakete bağlı paket listesi";
 	$lang->msg_avail_update = 'There is available update for this item.';
 	$lang->msg_do_you_like_update = 'Would you like to update?';
+	$lang->msg_connection_fail = 'Connection failed.';
+	$lang->msg_not_match_server = 'Server settings are incorrect.';
 ?>

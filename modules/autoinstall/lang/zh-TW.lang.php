@@ -37,4 +37,6 @@
 	$lang->dependant_list = "與此程式相關程式列表";
 	$lang->msg_avail_update = 'There is available update for this item.';
 	$lang->msg_do_you_like_update = 'Would you like to update?';
+	$lang->msg_connection_fail = 'Connection failed.';
+	$lang->msg_not_match_server = 'Server settings are incorrect.';
 ?>

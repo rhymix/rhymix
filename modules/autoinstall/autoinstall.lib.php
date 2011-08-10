@@ -10,7 +10,7 @@
         var $download_path;
         var $ftp_password;
 
-		function setServerUrl($url) 
+		function setServerUrl($url)
 		{
 			$this->base_url = $url;
 		}
@@ -18,18 +18,18 @@
 		function uninstall()
 		{
 			$oModel =& getModel('autoinstall');
-			$type = $oModel->getTypeFromPath($this->package->path); 
+			$type = $oModel->getTypeFromPath($this->package->path);
 			if($type == "module") {
 				$output = $this->uninstallModule();
 				if(!$output->toBool()) return $output;
 			}
 
-            $output = $this->_connect(); 
-            if(!$output->toBool()) return $output; 
+            $output = $this->_connect();
+            if(!$output->toBool()) return $output;
 
 			$output = $this->_removeDir($this->package->path);
 			$this->_close();
-			return $output; 
+			return $output;
 		}
 
         function setPassword($ftp_password)
@@ -42,7 +42,7 @@
             if($this->package->path == ".")
             {
                 $this->download_file = $this->temp_dir."xe.tar";
-                $this->target_path = ""; 
+                $this->target_path = "";
                 $this->download_path = $this->temp_dir;
             }
             else
@@ -68,11 +68,11 @@
             $path_array = explode("/", $this->package->path);
             $target_name = array_pop($path_array);
 			$oModule =& getModule($target_name, "class");
-			if(!$oModule) return new Object(-1, 'msg_invalid_request');	
-			if(!method_exists($oModule, "moduleUninstall")) return new Object(-1, 'msg_invalid_request'); 
+			if(!$oModule) return new Object(-1, 'msg_invalid_request');
+			if(!method_exists($oModule, "moduleUninstall")) return new Object(-1, 'msg_invalid_request');
 
 			$output = $oModule->moduleUninstall();
-			if(!$output->toBool()) return $output;
+			if(is_subclass_of($output, 'Object') && !$output->toBool()) return $output;
 
             $schema_dir = sprintf('%s/schemas/', $this->package->path);
             $schema_files = FileHandler::readDir($schema_dir);
@@ -165,7 +165,7 @@
 				}
 				else
 				{
-					$output = $this->_removeFile($file_path);	
+					$output = $this->_removeFile($file_path);
 					if(!$output->toBool()) return $output;
 				}
 			}
@@ -188,7 +188,7 @@
 
 		function _connect() {
             if(!$this->ftp_info->ftp_user || !$this->ftp_info->sftp || $this->ftp_info->sftp != 'Y') return new Object(-1,'msg_ftp_invalid_auth_info');
-            
+
             if($this->ftp_info->ftp_host)
             {
                 $ftp_host = $this->ftp_info->ftp_host;
@@ -243,7 +243,7 @@
 
             foreach($file_list as $k => $file){
                 $org_file = $file;
-                if($this->package->path == ".") 
+                if($this->package->path == ".")
                 {
                     $file = substr($file,3);
                 }
@@ -256,7 +256,7 @@
                 }
 
                 ssh2_scp_send($this->connection, FileHandler::getRealPath($this->download_path."/".$org_file), $target_dir."/".$file);
-            } 
+            }
             return new Object();
         }
     }
@@ -286,7 +286,7 @@
             $this->connection = ftp_connect($ftp_host, $this->ftp_info->ftp_port);
             if(!$this->connection) return new Object(-1, 'msg_ftp_not_connected');
 
-            $login_result = @ftp_login($this->connection, $this->ftp_info->ftp_user, $this->ftp_password); 
+            $login_result = @ftp_login($this->connection, $this->ftp_info->ftp_user, $this->ftp_password);
             if(!$login_result)
             {
 				$this->_close();
@@ -294,7 +294,7 @@
             }
 
             $_SESSION['ftp_password'] = $this->ftp_password;
-			if($this->ftp_info->ftp_pasv != "N") 
+			if($this->ftp_info->ftp_pasv != "N")
 			{
 				ftp_pasv($this->connection, true);
 			}
@@ -333,13 +333,13 @@
         function _copyDir(&$file_list) {
             if(!$this->ftp_password) return new Object(-1,'msg_ftp_password_input');
 
-            $output = $this->_connect(); 
+            $output = $this->_connect();
 			if(!$output->toBool()) return $output;
             $target_dir = $this->ftp_info->ftp_root_path.$this->target_path;
 
             foreach($file_list as $k => $file){
                 $org_file = $file;
-                if($this->package->path == ".") 
+                if($this->package->path == ".")
                 {
                     $file = substr($file,3);
                 }
@@ -358,7 +358,7 @@
                     {
                         if(!@ftp_mkdir($this->connection, $ftp_path))
                         {
-                            return new Object(-1, "msg_make_directory_failed");  
+                            return new Object(-1, "msg_make_directory_failed");
                         }
 
                         if(!stristr(PHP_OS, 'win'))
@@ -383,7 +383,7 @@
                 {
                     return new Object(-1, "msg_ftp_upload_failed");
                 }
-            } 
+            }
 
 			$this->_close();
             return new Object();
@@ -452,7 +452,7 @@
             if(!$this->ftp_password) return new Object(-1,'msg_ftp_password_input');
 
             require_once(_XE_PATH_.'libs/ftp.class.php');
-			
+
 			$output = $this->_connect();
 			if(!$output->toBool()) return $output;
 
@@ -461,7 +461,7 @@
 
             foreach($file_list as $k => $file){
                 $org_file = $file;
-                if($this->package->path == ".") 
+                if($this->package->path == ".")
                 {
                     $file = substr($file,3);
                 }
@@ -483,7 +483,7 @@
                     }
                 }
                 $oFtp->ftp_put($target_dir .'/'. $file, FileHandler::getRealPath($this->download_path."/".$org_file));
-            } 
+            }
 
 			$this->_close();
 

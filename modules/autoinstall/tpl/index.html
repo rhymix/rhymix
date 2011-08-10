@@ -11,11 +11,9 @@
 	<form action="" method="post">
 		<input type="hidden" name="module" value="autoinstall" />
 		<input type="hidden" name="act" value="procAutoinstallAdminUpdateinfo" />
-		{@$btnUpdate = sprintf('<input type="submit" value="%s" />', $lang->status_update)}
+		{@$btnUpdate = sprintf('<input type="submit" value="%s" class="text" />', $lang->status_update)}
 		{sprintf($lang->description_update, $btnUpdate)}
 	</form>
 </p>
 
-<block cond="$item_list">
-	<include target="list.html" />
-</block>
+<include target="list.html" />

@@ -210,12 +210,14 @@
             {
                 $xmlDoc->response->categorylist->item = array($xmlDoc->response->categorylist->item);
             }
+			$list_order = 0;
             foreach($xmlDoc->response->categorylist->item as $item)
             {
                 $args = null;
                 $args->category_srl = $item->category_srl->body;
                 $args->parent_srl = $item->parent_srl->body;
                 $args->title = $item->title->body;
+				$args->list_order = $list_order++;
                 $output = executeQuery("autoinstall.insertCategory", $args);
             }
         }

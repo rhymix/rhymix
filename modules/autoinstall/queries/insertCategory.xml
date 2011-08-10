@@ -6,5 +6,6 @@
         <column name="category_srl" var="category_srl" filter="number" notnull="notnull" />
         <column name="parent_srl" var="parent_srl" filter="number" notnull="notnull" />
         <column name="title" var="title" minlength="1" maxlength="250" />
+		<column name="list_order" var="list_order" filter="number" notnull="notnull" />
     </columns>
 </query>

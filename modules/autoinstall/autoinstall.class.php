@@ -33,10 +33,24 @@
     class autoinstall extends ModuleObject {
 		var $tmp_dir = './files/cache/autoinstall/';
 
+		function autoinstall()
+		{
+			$oModuleModel = &getModel('module');
+			$config = $oModuleModel->getModuleConfig('autoinstall');
+			if ($config->downloadServer != _XE_DOWNLOAD_SERVER_)
+			{
+				$this->stop('msg_not_match_server');
+			}
+		}
+
         /**
          * @brief for additional tasks required when installing
          **/
         function moduleInstall() {
+			$oModuleController = &getController('module');
+
+			$config->downloadServer = _XE_DOWNLOAD_SERVER_;
+			$oModuleController->insertModuleConfig('autoinstall', $config);
         }
 
         /**
@@ -44,16 +58,25 @@
          **/
         function checkUpdate() {
             $oDB =& DB::getInstance();
-            if(!file_exists(FileHandler::getRealPath("./modules/autoinstall/schemas/autoinstall_installed_packages.xml"))  
+			$oModuleModel = &getModel('module');
+
+            if(!file_exists(FileHandler::getRealPath("./modules/autoinstall/schemas/autoinstall_installed_packages.xml"))
                 && $oDB->isTableExists("autoinstall_installed_packages"))
             {
                 return true;
             }
-            if(!file_exists(FileHandler::getRealPath("./modules/autoinstall/schemas/autoinstall_remote_categories.xml"))  
+            if(!file_exists(FileHandler::getRealPath("./modules/autoinstall/schemas/autoinstall_remote_categories.xml"))
                 && $oDB->isTableExists("autoinstall_remote_categories"))
             {
                 return true;
             }
+
+			// 2011.08.08 add column 'list_order' in ai_remote_categories
+			if (!$oDB->isColumnExists('ai_remote_categories', 'list_order'))	return true;
+
+			// 2011.08.08 set _XE_DOWNLOAD_SERVER_ at module config
+			$config = $oModuleModel->getModuleConfig('autoinstall');
+			if (!isset($config->downloadServer))	return true;
 
             return false;
         }
@@ -63,16 +86,34 @@
          **/
         function moduleUpdate() {
             $oDB =& DB::getInstance();
-            if(!file_exists(FileHandler::getRealPath("./modules/autoinstall/schemas/autoinstall_installed_packages.xml"))  
+			$oModuleModel = &getModel('module');
+			$oModuleController = &getController('module');
+
+            if(!file_exists(FileHandler::getRealPath("./modules/autoinstall/schemas/autoinstall_installed_packages.xml"))
                 && $oDB->isTableExists("autoinstall_installed_packages"))
             {
                 $oDB->dropTable("autoinstall_installed_packages");
             }
-            if(!file_exists(FileHandler::getRealPath("./modules/autoinstall/schemas/autoinstall_remote_categories.xml"))  
+            if(!file_exists(FileHandler::getRealPath("./modules/autoinstall/schemas/autoinstall_remote_categories.xml"))
                 && $oDB->isTableExists("autoinstall_remote_categories"))
             {
                 $oDB->dropTable("autoinstall_remote_categories");
             }
+
+			// 2011.08.08 add column 'list_order' in 'ai_remote_categories
+			if (!$oDB->isColumnExists('ai_remote_categories', 'list_order'))
+			{
+				$oDB->addColumn('ai_remote_categories', 'list_order', 'number', 11, null, true);
+				$oDB->addIndex('ai_remote_categories', 'idx_list_order', array('list_order'));
+			}
+
+			// 2011. 08. 08 set _XE_DOWNLOAD_SERVER_ at module config
+			$config = $oModuleModel->getModuleConfig('autoinstall');
+			if (!isset($config->downloadServer)){
+				$config->downloadServer = _XE_DOWNLOAD_SERVER_;
+				$oModuleController->insertModuleConfig('autoinstall', $config);
+			}
+
             return new Object(0, 'success_updated');
         }
 
