@@ -91,4 +91,6 @@ $lang->last_week = '지난 주';
 $lang->this_week = '이번 주';
 $lang->use_html5 = 'HTML5 DTD';
 $lang->about_html5 = 'HTML5 DTD 사용';
+$lang->trash = '휴지통';
+$lang->accusation = '신고';
 ?>

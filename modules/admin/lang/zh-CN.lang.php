@@ -95,10 +95,10 @@ $lang->msg_self_restart_cache_engine = '请重新启动Memcached或CacheDaemon�
 $lang->mobile_view = '开启移动版';
 $lang->about_mobile_view = '为智能手机访问网站，提供最佳视觉效果。';
 $lang->autoinstall = '安装·更新';
-
 $lang->last_week = 'Last week';
 $lang->this_week = 'This week';
-
 $lang->use_html5 = 'HTML5 DTD';
 $lang->about_html5 = 'Use HTML5 DTD';
+$lang->trash = '垃圾';
+$lang->accusation = 'Accusation';
 ?>

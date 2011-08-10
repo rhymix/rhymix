@@ -95,10 +95,10 @@ $lang->msg_self_restart_cache_engine = '請重新啟動 Memcached 快取程式�
 $lang->mobile_view = '手機瀏覽';
 $lang->about_mobile_view = '使用手機瀏覽時將會顯示最適當的畫面。';
 $lang->autoinstall = '自動安裝';
-
 $lang->last_week = '上週';
 $lang->this_week = '本週';
-
 $lang->use_html5 = 'HTML5 DTD';
 $lang->about_html5 = 'Use HTML5 DTD';
+$lang->trash = '垃圾';
+$lang->accusation = 'Accusation';
 ?>

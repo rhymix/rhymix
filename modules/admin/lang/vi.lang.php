@@ -97,10 +97,10 @@ $lang->msg_self_restart_cache_engine = 'Hãy thiết lập lại bộ nhớ Cach
 $lang->mobile_view = 'Xem bằng di động';
 $lang->about_mobile_view = 'Nếu truy cập bằng thiết bị di động, nội dung sẽ được bố trí theo từng loại thiết bị.';
 $lang->autoinstall = 'Cập nhật tự động';
-
 $lang->last_week = 'Last week';
 $lang->this_week = 'This week';
-
 $lang->use_html5 = 'HTML5 DTD';
 $lang->about_html5 = 'Use HTML5 DTD';
+$lang->trash = 'Thùng rác';
+$lang->accusation = 'Accusation';
 ?>

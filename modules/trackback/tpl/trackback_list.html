@@ -1,94 +1,92 @@
 <!--%import("js/trackback_admin.js")-->
-<div class="content" id="content">
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
-	<form action="" class="form" class="form">
-		<h1 class="h1">{$lang->trackback}</h1>
+<form action="" class="form">
+	<h1 class="h1">{$lang->trackback}</h1>
+	<div class="table even">
+		<table width="100%" border="1" cellspacing="0">
+			<caption>
+				All({number_format($total_count)})
+				<span class="side"><span class="btn"><a href="#listManager" class="modalAnchor">선택한 엮인글 관리...</a></span></span>
+			</caption>
+			<thead>
+				<tr>
+					<th scope="col" class="text">{$lang->title}</th>
+					<th scope="col">{$lang->blog_name}</th>
+					<th scope="col">{$lang->date}</th>
+					<th scope="col">{$lang->ipaddress}IP</th>
+					<th scope="col"><input type="checkbox" data-name="cart[]" title="Check All" /></th>
+				</tr>
+			</thead>
+			<tfoot>
+				<tr>
+					<th scope="col" class="text">{$lang->title}</th>
+					<th scope="col">{$lang->blog_name}</th>
+					<th scope="col">{$lang->date}</th>
+					<th scope="col">{$lang->ipaddress}IP</th>
+					<th scope="col"><input type="checkbox" data-name="cart[]" title="Check All" /></th>
+				</tr>
+			</tfoot>
+			<tbody>
+				<!--@foreach($trackback_list as $no => $val)-->
+				<tr>
+					<td class="text">
+						<a href="{getUrl('','document_srl',$val->document_srl)}#trackback_{$val->trackback_srl}" target="_blank">{htmlspecialchars($val->title)}</a>
+						<p>{$val->excerpt}</p>
+					</td>
+					<td><a href="{$val->url}" target="_blank">{htmlspecialchars($val->blog_name)}</a></td>
+					<td>{zdate($val->regdate,"Y-m-d")}</td>
+					<td><a href="{getUrl('search_target','ipaddress','search_keyword',$val->ipaddress)}">{$val->ipaddress}</a></td>
+					<td><input type="checkbox" name="cart[]" value="{$val->trackback_srl}" onclick="addCart({$val->trackback_srl})" <!--@if($val->isCarted)-->checked<!--@end--> /></td>
+				</tr>
+				<!--@end-->
+			</tbody>
+		</table>
+		<div class="btnArea">
+			<span class="btn"><a href="#listManager" class="modalAnchor" onclick="getTrackbackList();">선택한 엮인글 관리...</a></span>
+		</div>
+	</div>
+</form>
+<div class="modal" id="listManager">
+	<form ruleset="deleteChecked" action="./" method="post" class="fg">
+	<input type="hidden" name="act" value="procTrackbackAdminDeleteChecked" />
+	<input type="hidden" name="page" value="{$page}" />
+		<h2 class="h2">선택한 엮인글 관리</h2>
 		<div class="table even">
-			<table width="100%" border="1" cellspacing="0">
+			<table width="100%" border="1" cellspacing="0" id="trackbackManageListTable">
 				<caption>
-					All({number_format($total_count)})
-					<span class="side"><span class="btn"><a href="#listManager" class="modalAnchor">선택한 엮인글 관리...</a></span></span>
+				선택한 엮인글 <strong id="selectedTrackbackCount"></strong>
 				</caption>
 				<thead>
 					<tr>
-						<th scope="col" class="text">{$lang->title}</th>
+						<th scope="col" class="title"><span class="text">{$lang->title}</span></th>
 						<th scope="col">{$lang->blog_name}</th>
-						<th scope="col">{$lang->date}</th>
-						<th scope="col">{$lang->ipaddress}IP</th>
-						<th scope="col"><input type="checkbox" data-name="cart[]" title="Check All" /></th>
 					</tr>
 				</thead>
-				<tfoot>
-					<tr>
-						<th scope="col" class="text">{$lang->title}</th>
-						<th scope="col">{$lang->blog_name}</th>
-						<th scope="col">{$lang->date}</th>
-						<th scope="col">{$lang->ipaddress}IP</th>
-						<th scope="col"><input type="checkbox" data-name="cart[]" title="Check All" /></th>
-					</tr>
-				</tfoot>
 				<tbody>
-    				<!--@foreach($trackback_list as $no => $val)-->
-					<tr>
-						<td class="text">
-							<a href="{getUrl('','document_srl',$val->document_srl)}#trackback_{$val->trackback_srl}" target="_blank">{htmlspecialchars($val->title)}</a>
-							<p>{$val->excerpt}</p>
-						</td>
-						<td><a href="{$val->url}" target="_blank">{htmlspecialchars($val->blog_name)}</a></td>
-						<td>{zdate($val->regdate,"Y-m-d")}</td>
-						<td><a href="{getUrl('search_target','ipaddress','search_keyword',$val->ipaddress)}">{$val->ipaddress}</a></td>
-						<td><input type="checkbox" name="cart[]" value="{$val->trackback_srl}" onclick="addCart({$val->trackback_srl})" <!--@if($val->isCarted)-->checked<!--@end--> /></td>
-					</tr>
-    				<!--@end-->
 				</tbody>
 			</table>
 		</div>
 		<div class="btnArea">
-			<span class="btn"><a href="#listManager" class="modalAnchor" onclick="getTrackbackList();">선택한 엮인글 관리...</a></span>
+			<span class="btn"><input type="submit" value="Delete" class="delete" /></span>
 		</div>
 	</form>
-	<div class="modal" id="listManager">
-		<form ruleset="deleteChecked" action="./" method="post" class="fg">
-		<input type="hidden" name="act" value="procTrackbackAdminDeleteChecked" />
-		<input type="hidden" name="page" value="{$page}" />
-			<h2 class="h2">선택한 엮인글 관리</h2>
-			<div class="table even">
-				<table width="100%" border="1" cellspacing="0" id="trackbackManageListTable">
-					<caption>
-					선택한 엮인글 <strong id="selectedTrackbackCount"></strong>
-					</caption>
-					<thead>
-						<tr>
-							<th scope="col" class="title"><span class="text">{$lang->title}</span></th>
-							<th scope="col">{$lang->blog_name}</th>
-						</tr>
-					</thead>
-					<tbody>
-					</tbody>
-				</table>
-			</div>
-			<div class="btnArea">
-				<span class="btn"><input type="submit" value="Delete" class="delete" /></span>
-			</div>
-		</form>
-	</div>
-	<div class="search">
-		<!--page navigation-->
-		<form action="">
-		<input type="hidden" name="module" value="{$module}" />
-		<input type="hidden" name="act" value="{$act}" />
-		<input type="hidden" name="module_srl" value="{$module_srl}" />
-            <select name="search_target">
-                <option value="">{$lang->search_target}</option>
-                <!--@foreach($lang->search_target_list as $key => $val)-->
-                <option value="{$key}" <!--@if($search_target==$key)-->selected="selected"<!--@end-->>{$val}</option>
-                <!--@end-->
-            </select>
-            <input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" />
-			<input type="submit" value="{$lang->cmd_search}" />
-			<a href="{getUrl('','module',$module,'act',$act)}">{$lang->cmd_cancel}</a>
-		</form>
-	</div>
+</div>
+<div class="search">
+	<!--page navigation-->
+	<form action="">
+	<input type="hidden" name="module" value="{$module}" />
+	<input type="hidden" name="act" value="{$act}" />
+	<input type="hidden" name="module_srl" value="{$module_srl}" />
+		<select name="search_target">
+			<option value="">{$lang->search_target}</option>
+			<!--@foreach($lang->search_target_list as $key => $val)-->
+			<option value="{$key}" <!--@if($search_target==$key)-->selected="selected"<!--@end-->>{$val}</option>
+			<!--@end-->
+		</select>
+		<input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" />
+		<input type="submit" value="{$lang->cmd_search}" />
+		<a href="{getUrl('','module',$module,'act',$act)}">{$lang->cmd_cancel}</a>
+	</form>
 </div>

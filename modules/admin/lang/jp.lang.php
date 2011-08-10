@@ -93,12 +93,11 @@ $lang->msg_ftp_invalid_path = '指定されたFTPパスへのアクセスに失�
 $lang->msg_self_restart_cache_engine = 'メムキャッシュドまたはキャッシュデーモンを再起動して下さい。';
 $lang->mobile_view = 'モバイルスキン使用';
 $lang->about_mobile_view = 'スマート携帯などを通じてサイトに接続した場合、モバイル画面に最適化されたレイアウトを使用するように設定します。';
-
 $lang->autoinstall = 'イージーインストール';
-
 $lang->last_week = '先週';
 $lang->this_week = '今週';
-
 $lang->use_html5 = 'HTML5 DTD';
 $lang->about_html5 = 'Use HTML5 DTD';
+$lang->trash = 'ごみ';
+$lang->accusation = 'Accusation';
 ?>

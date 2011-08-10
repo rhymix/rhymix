@@ -95,10 +95,10 @@ $lang->msg_self_restart_cache_engine = 'Lütfen önbellek geri plan yordamını 
 $lang->mobile_view = 'Hareketli Görünümü';
 $lang->about_mobile_view = 'Hareketli görünümü, mobil cihazlarla giriş yapılırken, mobil cihazlara uygun en iyi yerleşim düzenini göstermek içindir.';
 $lang->autoinstall = 'KolayKurulum';
-
 $lang->last_week = 'Geçen Hafta';
 $lang->this_week = 'Bu Hafta';
-
 $lang->use_html5 = 'HTML5 DTD';
 $lang->about_html5 = 'Use HTML5 DTD';
+$lang->trash = 'çöp';
+$lang->accusation = 'Accusation';
 ?>

@@ -7,11 +7,17 @@
 		<h1 class="h1">Document</h1>
 		<div class="table even">
 			<table width="100%" border="1" cellspacing="0" id="documentListTable">
-				<caption>All({number_format($total_count)}) <span class="side">All({number_format($total_count)})
-				<!--@foreach($countOutput AS $key=>$value)-->
-				| <a href="#">{$status_name_list[$value->status]}({$value->count})</a>
-				<!--@end-->
-				</span></caption>
+				<caption>
+					All({number_format($total_count)})
+					<!--@foreach($countOutput AS $key=>$value)-->
+					| <a href="#">{$status_name_list[$value->status]}({$value->count})</a>
+					<!--@end-->
+					| <a href="#">{$lang->accusation}(#)</a>
+					| <a href="#">{$lang->trash}(#)</a>
+					<div class="side">
+						<span class="btn"><a href="#listManager" class="modalAnchor" onclick="getDocumentList();">선택한 글  관리...</a></span>
+					</div>
+				</caption>
 				<thead>
 					<tr>
 						<th scope="col" class="title">{$lang->title}</th>
@@ -51,9 +57,9 @@
 					<!--@end-->
 				</tbody>
 			</table>
-		</div>
-		<div class="btnArea">
-			<span class="btn"><a href="#listManager" class="modalAnchor" onclick="getDocumentList();">선택한 글  관리...</a></span>
+			<div class="btnArea">
+				<span class="btn"><a href="#listManager" class="modalAnchor" onclick="getDocumentList();">선택한 글  관리...</a></span>
+			</div>
 		</div>
 	</form>
 	<div class="modal" id="listManager">

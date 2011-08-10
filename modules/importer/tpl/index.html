@@ -1,38 +1,39 @@
 <!--@if(__DEBUG__)-->
 	<load target="js/importer_admin.js" />
-	<load target="css/importer.css" />
 <!--@else-->
 	<load target="js/importer_admin.min.js" />
-	<load target="css/importer.min.css" />
 <!--@end-->
 
-<div class="content" id="content">
-	<form action="./" class="form">
-        <input type="hidden" name="module" value="{$module}" />
-        <input type="hidden" name="act" value="{$act}" />
+<form action="./" class="form">
+	<input type="hidden" name="module" value="{$module}" />
+	<input type="hidden" name="act" value="{$act}" />
 
-		<h1 class="h1">{$lang->importer}</h1>
-		<p>{nl2br($lang->about_importer)}</p>
-		<h2 class="h2">{$lang->import_step_title[1]} - {$lang->import_step_desc[1]}</h2>
-		<ul>
-			<li>
-				<input type="radio" name="source_type" value="module"  id="source_type_module" /> <label for="source_type_module"><strong>{$lang->type_module}:</strong> {$lang->about_type_module}</label>
-			</li>
-			<li>
-				<input type="radio" name="source_type" value="ttxml" id="source_type_ttxml" /> <label for="source_type_ttxml"><strong>{$lang->type_ttxml}:</strong> {$lang->about_type_ttxml}</label>
-			</li>
-			<li>
-				<input type="radio" name="source_type" value="member" id="source_type_member" /> <label for="source_type_member"><strong>{$lang->type_member}:</strong> {$lang->about_type_member}</label>
-			</li>
-			<li>
-				<input type="radio" name="source_type" value="sync" id="source_type_syncmember" /> <label for="source_type_syncmember"><strong>{$lang->type_syncmember}:</strong> {$lang->about_type_syncmember}</label>
-			</li>
-			<li>
-				<input type="radio" name="source_type" value="message" id="source_type_message" /> <label for="source_type_message"><strong>{$lang->type_message}:</strong> {$lang->about_type_message}</label>
-			</li>
-		</ul>
-		<div class="btnArea">
-			<span class="btn medium"><input type="submit" value="{$lang->cmd_next}" /></span>
-		</div>
-	</form>
-</div>
+	<h1 class="h1">{$lang->importer}</h1>
+	<p>{nl2br($lang->about_importer)}</p>
+	<h2 class="h2">{$lang->import_step_title[1]} - {$lang->import_step_desc[1]}</h2>
+	<ul>
+		<li>
+			<input type="radio" name="source_type" value="module"  id="source_type_module" /> 
+			<label for="source_type_module"><strong>{$lang->type_module}:</strong> {$lang->about_type_module}</label>
+		</li>
+		<li>
+			<input type="radio" name="source_type" value="member" id="source_type_member" /> 
+			<label for="source_type_member"><strong>{$lang->type_member}:</strong> {$lang->about_type_member}</label>
+		</li>
+		<li>
+			<input type="radio" name="source_type" value="sync" id="source_type_syncmember" /> 
+			<label for="source_type_syncmember"><strong>{$lang->type_syncmember}:</strong> {$lang->about_type_syncmember}</label>
+		</li>
+		<li>
+			<input type="radio" name="source_type" value="message" id="source_type_message" /> 
+			<label for="source_type_message"><strong>{$lang->type_message}:</strong> {$lang->about_type_message}</label>
+		</li>
+		<li>
+			<input type="radio" name="source_type" value="ttxml" id="source_type_ttxml" /> 
+			<label for="source_type_ttxml"><strong>{$lang->type_ttxml}:</strong> {$lang->about_type_ttxml}</label>
+		</li>
+	</ul>
+	<div class="btnArea">
+		<span class="btn medium"><input type="submit" value="{$lang->cmd_next}" /></span>
+	</div>
+</form>
