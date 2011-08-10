@@ -32,4 +32,6 @@
 	);
 
 	$lang->no_text_comment = 'No text in this comment.';
+	$lang->comment_manager = 'Comment Manager';
+	$lang->selected_comment = 'Selected Comment';
 ?>

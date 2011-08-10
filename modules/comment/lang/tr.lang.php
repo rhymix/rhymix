@@ -31,4 +31,6 @@
     );
 
 	$lang->no_text_comment = 'Bu yorumda herhangi bir metin yok.';
+	$lang->comment_manager = 'Comment Manager';
+	$lang->selected_comment = 'Selected Comment';
 ?>

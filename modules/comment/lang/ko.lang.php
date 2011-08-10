@@ -29,4 +29,6 @@
     );
 	$lang->no_text_comment = '텍스트가 없는 댓글입니다.';
 	$lang->secret_name_list = array('Y'=>'비밀', 'N'=>'공개');
+	$lang->comment_manager = '선택한 댓글 관리';
+	$lang->selected_comment = '선택한 댓글';
 ?>

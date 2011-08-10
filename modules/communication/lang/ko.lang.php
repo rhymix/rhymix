@@ -37,4 +37,5 @@
     $lang->msg_allow_message_to_friend = '친구에게만 쪽지 발송을 허용한 사용자라서 쪽지 발송을 하지 못했습니다.';
     $lang->msg_disallow_message = '쪽지 수신을 거부한 사용자라서 쪽지 발송을 하지 못했습니다.';
     $lang->about_allow_message = '쪽지 수신 여부를 결정할 수 있습니다.';
+	$lang->message_notice = '저작자에게 쪽지를 발송해서 이 사실을 알립니다. 작성하지 않으면 발송하지 않습니다.';
 ?>

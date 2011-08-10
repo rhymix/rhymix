@@ -54,7 +54,7 @@ $lang->item_layout = "Layout List";
 $lang->module_name = "Module Name";
 $lang->addon_name = "Addon Name";
 $lang->version = "Version";
-$lang->author = "Developer";
+$lang->author = "Author";
 $lang->table_count = "Number of Table";
 $lang->installed_path = "Installed Path";
 
@@ -102,4 +102,5 @@ $lang->use_html5 = 'HTML5 DTD';
 $lang->about_html5 = 'Use HTML5 DTD';
 $lang->trash = 'Trash';
 $lang->accusation = 'Accusation';
+$lang->status = 'Status';
 ?>

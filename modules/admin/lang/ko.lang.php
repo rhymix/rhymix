@@ -52,7 +52,7 @@ $lang->item_layout = '레이아웃 목록';
 $lang->module_name = '모듈 이름';
 $lang->addon_name = '애드온 이름';
 $lang->version = '버전';
-$lang->author = '제작자';
+$lang->author = '저자';
 $lang->table_count = '테이블 수';
 $lang->installed_path = '설치 경로';
 $lang->cmd_shortcut_management = '메뉴 편집하기';
@@ -93,4 +93,5 @@ $lang->use_html5 = 'HTML5 DTD';
 $lang->about_html5 = 'HTML5 DTD 사용';
 $lang->trash = '휴지통';
 $lang->accusation = '신고';
+$lang->status = '상태';
 ?>

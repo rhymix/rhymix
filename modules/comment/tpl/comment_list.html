@@ -3,7 +3,7 @@
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <form id="fo_list" action="./" method="post" class="form">
-	<h1 class="h1">Comment</h1>
+	<h1 class="h1">{$lang->comment}</h1>
 	<div class="table even">
 		<table width="100%" border="1" cellspacing="0">
 			<caption>
@@ -14,7 +14,7 @@
 				| <a href="#">{$lang->accusation}(#)</a>
 				| <a href="#">{$lang->trash}(#)</a>
 				<div class="side">
-					<span class="btn"><a href="#listManager" class="modalAnchor" onclick="getCommentList();">선택한 댓글 관리...</a></span>
+					<span class="btn"><a href="#listManager" class="modalAnchor" onclick="getCommentList();">{$lang->comment_manager}...</a></span>
 				</div>
 			</caption>
 			<thead>
@@ -43,7 +43,7 @@
 				<!--@foreach($comment_list as $no => $val)-->
 				{@ $comment = cut_str(trim(htmlspecialchars(strip_tags($val->content))), 200, '...')}
 				<tr>
-					<td class="text"><a href="{getUrl('','document_srl',$val->document_srl)}#comment_{$val->comment_srl}" onclick="window.open(this.href);return false;"><!--@if(strlen($comment))-->{$comment}<!--@else--><em style="font-style:italic;">{$lang->no_text_comment}</em><!--@end--></a></td>
+					<td class="text"><a href="{getUrl('','document_srl',$val->document_srl)}#comment_{$val->comment_srl}" target="_blank"><!--@if(strlen($comment))-->{$comment}<!--@else--><em>{$lang->no_text_comment}</em><!--@end--></a></td>
 					<td><span class="member_{$val->member_srl}">{htmlspecialchars($val->nick_name)}</span></td>
 					<td>0/0</td>
 					<td>{(zdate($val->regdate,"Y-m-d\nH:i:s"))}</td>
@@ -55,7 +55,7 @@
 			</tbody>
 		</table>
 		<div class="btnArea">
-			<span class="btn"><a href="#listManager" class="modalAnchor" onclick="getCommentList();">선택한 댓글 관리...</a></span>
+			<span class="btn"><a href="#listManager" class="modalAnchor" onclick="getCommentList();">{$lang->comment_manager}...</a></span>
 		</div>
 	</div>
 </form>
@@ -64,24 +64,24 @@
 	<input type="hidden" name="act" value="procCommentAdminDeleteChecked" />
 	<input type="hidden" name="page" value="{$page}" />
 	<input type="hidden" name="is_trash" value="false" />
-		<h2 class="h2">선택한 댓글 관리</h2>
+		<h2 class="h2">{$lang->comment_manager}</h2>
 		<div class="table even">
 			<table width="100%" border="1" cellspacing="0" id="commentManageListTable">
 				<caption>
-				선택한 댓글 <strong id="selectedCommentCount"></strong>
+				{$lang->selected_comment} <strong id="selectedCommentCount"></strong>
 				</caption>
 				<thead>
 					<tr>
-						<th scope="col" class="title">Comment</th>
-						<th scope="col">Author</th>
-						<th scope="col">Status</th>
+						<th scope="col" class="title">{$lang->comment}</th>
+						<th scope="col">{$lang->author}</th>
+						<th scope="col">{$lang->status}</th>
 					</tr>
 				</thead>
 				<tbody>
 				</tbody>
 			</table>
 		</div>
-		<p class="q"><label for="message">저작자에게 쪽지를 발송해서 이 사실을 알립니다. 작성하지 않으면 발송하지 않습니다.</label></p>
+		<p class="q"><label for="message">{$lang->message_notice}</label></p>
 		<p>
 			<textarea cols="42" rows="3" name="message_content" id="message" style="width:98%"></textarea>
 		</p>
