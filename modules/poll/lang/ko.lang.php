@@ -4,10 +4,10 @@
      * @author NHN (developers@xpressengine.com)
      * @brief Poll (poll) of the basic language modules
      **/
-    $lang->poll = '설문조사'; 
+    $lang->poll = '설문'; 
     $lang->poll_stop_date = '설문조사 종료일';
     $lang->poll_join_count = '참가자';
-    $lang->poll_checkcount = '필수 선택 항목 수';
+    $lang->poll_checkcount = '필수 항목 수';
     $lang->cmd_poll_list = '설문조사 목록 보기';
     $lang->cmd_delete_checked_poll = '선택항목 삭제';
     $lang->cmd_apply_poll = '설문 참여';
@@ -30,4 +30,5 @@
     );
 	$lang->single_check = '단일 선택';
 	$lang->multi_check = '다중 선택';
-?>
+	$lang->poll_manager = '선택한 설문 관리';
+	$lang->selected_poll = '선택한 설문';

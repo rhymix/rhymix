@@ -3,7 +3,7 @@
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <form id="fo_list" action="./" method="post" class="form">
-	<h1 class="h1">File</h1>
+	<h1 class="h1">{$lang->file}</h1>
 	<div class="table">
 		<table width="100%" border="1" cellspacing="0">
 			<caption>
@@ -11,14 +11,14 @@
 				| <a href="{getUrl('search_target','isvalid','search_keyword','Y')}">{$lang->is_valid}({number_format((int)$valid_count['Y'])})</a>
 				| <a href="{getUrl('search_target','isvalid','search_keyword','N')}">{$lang->is_stand_by}({number_format((int)$valid_count['N'])})</a>
 				| <a href="#">{$lang->trash}(#)</a>
-				<span class="side"><span class="btn"><a href="#listManager" class="modalAnchor">선택한 파일 관리...</a></span></span>
+				<span class="side"><span class="btn"><a href="#listManager" class="modalAnchor">{$lang->file_manager}...</a></span></span>
 			</caption>
 			<thead>
 				<tr>
 					<th scope="col" class="text">{$lang->file}</th>
 					<th scope="col">{$lang->file_size}</th>
 					<th scope="col">{$lang->cmd_download}</th>
-					<th scope="col">{$lang->nick_name}</th>
+					<th scope="col">{$lang->author}</th>
 					<th scope="col">{$lang->date}</th>
 					<th scope="col">{$lang->ipaddress}</th>
 					<th scope="col">{$lang->status}</th>
@@ -30,7 +30,7 @@
 					<th scope="col" class="text">{$lang->file}</th>
 					<th scope="col">{$lang->file_size}</th>
 					<th scope="col">{$lang->cmd_download}</th>
-					<th scope="col">{$lang->nick_name}</th>
+					<th scope="col">{$lang->author}</th>
 					<th scope="col">{$lang->date}</th>
 					<th scope="col">{$lang->ipaddress}</th>
 					<th scope="col">{$lang->status}</th>
@@ -94,7 +94,7 @@
 			</tbody>
 		</table>
 		<div class="btnArea">
-			<span class="btn"><a href="#listManager" class="modalAnchor" onclick="getFileList();">선택한 파일 관리...</a></span>
+			<span class="btn"><a href="#listManager" class="modalAnchor" onclick="getFileList();">{$lang->file_manager}...</a></span>
 		</div>
 	</div>
 </form>
@@ -102,10 +102,10 @@
 	<form ruleset="deleteChecked" action="./" method="post" class="fg form">
 	<input type="hidden" name="act" value="procFileAdminDeleteChecked" />
 	<input type="hidden" name="page" value="{$page}" />
-		<h2 class="h2">선택한 파일 관리</h2>
+		<h2 class="h2">{$lang->file_manager}</h2>
 		<div class="table">
 			<table width="100%" border="1" cellspacing="0" id="fileManageListTable">
-				<caption>선택한 파일 <strong id="selectedFileCount">8</strong></caption>
+				<caption>{$lang->selected_file} <strong id="selectedFileCount"></strong></caption>
 				<thead>
 					<tr>
 						<th scope="col" class="text">{$lang->file}</th>

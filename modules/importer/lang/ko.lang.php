@@ -9,10 +9,10 @@
     $lang->cmd_continue = '계속 진행';
     $lang->preprocessing = '데이터 이전을 위한 사전 준비 중입니다.';
     // Items
-    $lang->importer = 'XE 데이터 이전';
+    $lang->importer = '데이터 들여오기';
     $lang->source_type = '이전 대상';
     $lang->type_member = '회원 정보';
-    $lang->type_message = '쪽지(메시지) 정보';
+    $lang->type_message = '쪽지 정보';
     $lang->type_ttxml = 'TTXML';
     $lang->type_module = '게시물 정보';
     $lang->type_syncmember = '회원정보 동기화';
@@ -36,6 +36,11 @@
         3 => '회원정보와 게시물 정보가 이전 후에 맞지 않을 수 있습니다. 이때 동기화를 하시면 user_id를 기반으로 올바르게 동작하도록 합니다.',
         99 => '데이터 이전중입니다.',
     );
+	$lang->xml_path = 'XML 파일의 경로를 입력하세요.';
+	$lang->path_info = '상대 경로와 절대 경로 모두 입력 가능합니다.';
+	$lang->data_destination = '데이터의 목적지를 선택하세요.';
+	$lang->document_destination = '글 데이터의 목적지를 선택하세요.';
+	$lang->guestbook_destination = '방명록 데이터의 목적지를 선택하세요.';
     // Information/Warning
     $lang->msg_sync_member = '동기화 버튼을 클릭하시면 회원정보와 게시물 정보의 동기화를 시작합니다.';
     $lang->msg_no_xml_file = 'XML파일을 찾을 수 없습니다. 경로를 다시 확인해주세요.';
@@ -47,9 +52,9 @@
     $lang->about_type_member = '데이터 이전 대상이 회원정보일 경우 선택해주세요.';
     $lang->about_type_message = '데이터 이전 대상이 쪽지(메시지)일 경우 선택해주세요.';
     $lang->about_type_ttxml = '데이터 이전 대상이 TTXML(textcube계열)일 경우 선택해주세요.';
-    $lang->about_ttxml_user_id = 'TTXML 이전 시에 글쓴이로 지정할 사용자 아이디를 입력해주세요. (이미 가입된 아이디여야 합니다.)';
+    $lang->about_ttxml_user_id = '글쓴이로 설정할 사용자 아이디를 입력해주세요. (가입된 아이디만 가능)';
     $lang->about_type_module = '데이터 이전 대상이 게시판 등의 게시물 정보일 경우 선택해주세요.';
     $lang->about_type_syncmember = '회원정보와 게시물정보 등을 이전 후, 회원정보를 동기화해야 할 때 선택해주세요.';
-    $lang->about_importer = "제로보드4, zb5beta 또는 다른 프로그램의 데이터를 XE 데이터로 이전할 수 있습니다.\n이전을 위해서는 <a href=\"http://svn.xpressengine.com/zeroboard_xe/migration_tools/\" onclick=\"winopen(this.href);return false;\">XML Exporter</a>를 이용해서 원하는 데이터를 XML파일로 생성 후 업로드해주셔야 합니다.";
+    $lang->about_importer = "다른 프로그램의 데이터를 XE 데이터로 이전할 수 있습니다. 이전을 위해서는 <a href=\"http://svn.xpressengine.com/zeroboard_xe/migration_tools/\" onclick=\"winopen(this.href);return false;\">XML Exporter</a>를 이용해서 원하는 데이터를 XML파일로 생성 후 업로드해주셔야 합니다.";
     $lang->about_target_path = "첨부 파일을 받기 위해 제로보드4가 설치된 위치를 입력해주세요.\n같은 서버에 있을 경우 /home/아이디/public_html/bbs 등과 같이 제로보드4의 위치를 입력하시고\n다른 서버일 경우 http:도메인/bbs 처럼 제로보드4가 설치된 곳의 url을 입력해주세요.";
 ?>

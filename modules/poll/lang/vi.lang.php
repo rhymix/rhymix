@@ -39,4 +39,5 @@
     );
 	$lang->single_check = 'Single Check';
 	$lang->multi_check = 'Multi Check';
-?>
+	$lang->poll_manager = '선택한 설문 관리';
+	$lang->selected_poll = '선택한 설문';

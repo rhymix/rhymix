@@ -5,7 +5,7 @@
      * @brief  Attachment module's basic language pack
      **/
 
-    $lang->file = 'Attachment';
+    $lang->file = 'File';
     $lang->file_name = 'File Name';
     $lang->file_size = 'File Size';
     $lang->download_count = 'Number of Downloads';
@@ -57,4 +57,7 @@
     $lang->msg_not_permitted_create = 'Failed to create a file or directory.';
 	$lang->msg_file_upload_error = 'An error has occurred during uploading.';
 	$lang->no_files = 'No Files';
+	$lang->file_manager = '선택한 파일 관리';
+	$lang->selected_file = '선택한 파일';
 ?>
+

@@ -104,4 +104,7 @@ $lang->trash = 'Basura';
 $lang->accusation = 'Accusation';
 $lang->status = 'Status';
 $lang->find_site = 'Find Site';
+$lang->action = '실행';
+
+$lang->select_module_id = '모듈 아이디를 선택하세요.';
 ?>

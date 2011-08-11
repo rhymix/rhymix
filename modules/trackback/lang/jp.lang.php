@@ -26,5 +26,8 @@
 
     $lang->enable_trackback = 'トラックバックを可能にする';
     $lang->about_enable_trackback = 'チェックを外すと、すべてのコンテンツに対し、トラックバックの受信を中止します。';
-	$lang->no_trackbacks = 'No Trackbacks';
+	$lang->no_trackbacks = 'No Trackbacks';	
+	$lang->trackback_manager = '선택한 엮인글 관리';
+	$lang->selected_trackback = '선택한 엮인글';
+	$lang->site = '사이트';
 ?>

@@ -26,5 +26,8 @@
 
     $lang->enable_trackback = "使用引用";
     $lang->about_enable_trackback = "取消此项勾选将对网站内的所有主题禁止接收引用。";
-	$lang->no_trackbacks = 'No Trackbacks';
+	$lang->no_trackbacks = 'No Trackbacks';	
+	$lang->trackback_manager = '선택한 엮인글 관리';
+	$lang->selected_trackback = '선택한 엮인글';
+	$lang->site = '사이트';
 ?>

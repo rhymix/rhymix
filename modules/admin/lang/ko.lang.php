@@ -95,4 +95,6 @@ $lang->trash = '휴지통';
 $lang->accusation = '신고';
 $lang->status = '상태';
 $lang->find_site = '사이트 찾기';
+$lang->action = '실행';
+$lang->select_module_id = '모듈 아이디를 선택하세요.';
 ?>

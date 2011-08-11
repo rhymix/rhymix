@@ -54,4 +54,7 @@
     $lang->msg_not_permitted_create = '无法生成文件或文件夹。';
     $lang->msg_file_upload_error = '上传文件发生出错。';
 	$lang->no_files = 'No Files';
+	$lang->file_manager = '선택한 파일 관리';
+	$lang->selected_file = '선택한 파일';
 ?>
+

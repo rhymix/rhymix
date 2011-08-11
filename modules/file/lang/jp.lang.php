@@ -56,4 +56,7 @@
     $lang->msg_not_permitted_create = 'ファイルまたはディレクトリを生成できません。';
 	$lang->msg_file_upload_error = 'ファイルアップロードに失敗しました。';
 	$lang->no_files = 'No Files';
+	$lang->file_manager = '선택한 파일 관리';
+	$lang->selected_file = '선택한 파일';
 ?>
+

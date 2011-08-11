@@ -27,5 +27,8 @@
 
     $lang->enable_trackback = "Включить трекбек";
     $lang->about_enable_trackback = "Эта опция включает/выключает фукцию трекбека.";
-	$lang->no_trackbacks = 'No Trackbacks';
+	$lang->no_trackbacks = 'No Trackbacks';	
+	$lang->trackback_manager = '선택한 엮인글 관리';
+	$lang->selected_trackback = '선택한 엮인글';
+	$lang->site = '사이트';
 ?>

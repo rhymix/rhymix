@@ -60,4 +60,7 @@
     $lang->msg_not_permitted_create = '파일 또는 디렉토리를 생성할 수 없습니다.';
 	$lang->msg_file_upload_error = '파일 업로드 중 에러가 발생하였습니다.';
 	$lang->no_files = 'No Files';
+	$lang->file_manager = '선택한 파일 관리';
+	$lang->selected_file = '선택한 파일';
 ?>
+

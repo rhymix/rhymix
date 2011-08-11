@@ -27,5 +27,8 @@
 
     $lang->enable_trackback = "Usar trackback";
     $lang->about_enable_trackback = "Si no selecciona esta opción, desactiva la inscripción de trackback en todos los documentos del sitio";
-	$lang->no_trackbacks = 'No Trackbacks';
+	$lang->no_trackbacks = 'No Trackbacks';	
+	$lang->trackback_manager = '선택한 엮인글 관리';
+	$lang->selected_trackback = '선택한 엮인글';
+	$lang->site = '사이트';
 ?>

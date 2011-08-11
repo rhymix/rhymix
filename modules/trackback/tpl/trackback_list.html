@@ -8,23 +8,23 @@
 		<table width="100%" border="1" cellspacing="0">
 			<caption>
 				All({number_format($total_count)})
-				<span class="side"><span class="btn"><a href="#listManager" class="modalAnchor">선택한 엮인글 관리...</a></span></span>
+				<span class="side"><span class="btn"><a href="#listManager" class="modalAnchor">{$lang->trackback_manager}...</a></span></span>
 			</caption>
 			<thead>
 				<tr>
 					<th scope="col" class="text">{$lang->title}</th>
-					<th scope="col">{$lang->blog_name}</th>
+					<th scope="col">{$lang->site}</th>
 					<th scope="col">{$lang->date}</th>
-					<th scope="col">{$lang->ipaddress}IP</th>
+					<th scope="col">{$lang->ipaddress}</th>
 					<th scope="col"><input type="checkbox" data-name="cart[]" title="Check All" /></th>
 				</tr>
 			</thead>
 			<tfoot>
 				<tr>
 					<th scope="col" class="text">{$lang->title}</th>
-					<th scope="col">{$lang->blog_name}</th>
+					<th scope="col">{$lang->site}</th>
 					<th scope="col">{$lang->date}</th>
-					<th scope="col">{$lang->ipaddress}IP</th>
+					<th scope="col">{$lang->ipaddress}</th>
 					<th scope="col"><input type="checkbox" data-name="cart[]" title="Check All" /></th>
 				</tr>
 			</tfoot>
@@ -44,7 +44,7 @@
 			</tbody>
 		</table>
 		<div class="btnArea">
-			<span class="btn"><a href="#listManager" class="modalAnchor" onclick="getTrackbackList();">선택한 엮인글 관리...</a></span>
+			<span class="btn"><a href="#listManager" class="modalAnchor" onclick="getTrackbackList();">{$lang->trackback_manager}...</a></span>
 		</div>
 	</div>
 </form>
@@ -52,16 +52,16 @@
 	<form ruleset="deleteChecked" action="./" method="post" class="fg">
 	<input type="hidden" name="act" value="procTrackbackAdminDeleteChecked" />
 	<input type="hidden" name="page" value="{$page}" />
-		<h2 class="h2">선택한 엮인글 관리</h2>
+		<h2 class="h2">{$lang->trackback_manager}</h2>
 		<div class="table even">
 			<table width="100%" border="1" cellspacing="0" id="trackbackManageListTable">
 				<caption>
-				선택한 엮인글 <strong id="selectedTrackbackCount"></strong>
+				{$lang->selected_trackback} <strong id="selectedTrackbackCount"></strong>
 				</caption>
 				<thead>
 					<tr>
 						<th scope="col" class="title"><span class="text">{$lang->title}</span></th>
-						<th scope="col">{$lang->blog_name}</th>
+						<th scope="col">{$lang->site}</th>
 					</tr>
 				</thead>
 				<tbody>

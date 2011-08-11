@@ -29,5 +29,8 @@
 
     $lang->enable_trackback = "Sử dụng liên kết Web";
 	$lang->about_enable_trackback = "Khi chọn là tắt chức năng này, mọi liên kết Web trên Website sẽ ngừng hoạt động.";
-	$lang->no_trackbacks = 'No Trackbacks';
+	$lang->no_trackbacks = 'No Trackbacks';	
+	$lang->trackback_manager = '선택한 엮인글 관리';
+	$lang->selected_trackback = '선택한 엮인글';
+	$lang->site = '사이트';
 ?>

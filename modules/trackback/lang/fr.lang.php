@@ -26,5 +26,8 @@
 
     $lang->enable_trackback = "Utiliser le Rétrolien";
 	$lang->about_enable_trackback = "Si vous annulez la coché, on arrêtera de ramasser les rétroliens de tous les articles du site";
-	$lang->no_trackbacks = 'No Trackbacks';
+	$lang->no_trackbacks = 'No Trackbacks';	
+	$lang->trackback_manager = '선택한 엮인글 관리';
+	$lang->selected_trackback = '선택한 엮인글';
+	$lang->site = '사이트';
 ?>

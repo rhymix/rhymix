@@ -4,7 +4,7 @@
      * @author NHN (developers@xpressengine.com)
      * @brief Attached File (file) module, basic language of
      **/
-    $lang->file = '첨부 파일';
+    $lang->file = '파일';
     $lang->file_name = '파일 이름';
     $lang->file_size = '파일 크기';
     $lang->download_count = '다운로드 받은 수';
@@ -51,4 +51,7 @@
     $lang->msg_not_permitted_create = '파일 또는 디렉토리를 생성할 수 없습니다.';
 	$lang->msg_file_upload_error = '파일 업로드 중 에러가 발생하였습니다.';
 	$lang->no_files = '파일이 없습니다.';
+	$lang->file_manager = '선택한 파일 관리';
+	$lang->selected_file = '선택한 파일';
 ?>
+
