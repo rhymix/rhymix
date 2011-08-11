@@ -80,4 +80,10 @@
     $lang->success_trashed = "Successfully moved to trashcan";
     $lang->msg_not_selected_document = '선택된 문서가 없습니다.';
 	$lang->show_voted_member = '사용자 노출';
+	$lang->document_manager = '선택한 글 관리';
+	$lang->selected_document = '선택한 글';
+	$lang->selected_document_move = '선택한 글을 다음 위치로 옮기거나 복사할 수 있습니다.';
+	$lang->select_module = '모듈을 선택하세요.';
+	$lang->select_module_id = '모듈 아이디를 선택하세요.';
+	$lang->select_category = '분류를 선택하세요.';
 ?>

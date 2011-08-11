@@ -5,7 +5,6 @@
 <form id="fo_list" action="./" method="get" onsubmit="return procFilter(this, delete_checked)">
 <input type="hidden" name="page" value="{$page}" />
 
-<!-- 목록 -->
 <table cellspacing="0" class="rowTable">
 <caption>Total {number_format($total_count)}, Page {number_format($page)}/{number_format($total_page)}</caption>
 <thead>
@@ -51,11 +50,8 @@
     </tr>
 </tbody>
 </table>
-
-
 </form>
 
-<!-- 페이지 네비게이션 -->
 <div class="clear"></div>
 <div class="pagination a1">
     <a href="{getUrl('page','','module_srl','')}" class="prevEnd">{$lang->first_page}</a> 

@@ -94,4 +94,5 @@ $lang->about_html5 = 'HTML5 DTD 사용';
 $lang->trash = '휴지통';
 $lang->accusation = '신고';
 $lang->status = '상태';
+$lang->find_site = '사이트 찾기';
 ?>

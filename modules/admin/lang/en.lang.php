@@ -103,4 +103,5 @@ $lang->about_html5 = 'Use HTML5 DTD';
 $lang->trash = 'Trash';
 $lang->accusation = 'Accusation';
 $lang->status = 'Status';
+$lang->find_site = 'Find Site';
 ?>
