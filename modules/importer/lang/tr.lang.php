@@ -40,7 +40,11 @@
         3 => 'Veri içe aktarımından sonra üye ve makale verileri doğru olmayabilir. Eğer böyleyse lütfen verileri doğru elde etmek için, kullanıcı_kimliğiyle (user_id) senkronize ediniz.',
         99 => 'İçe Aktarılıyor...',
     );
-
+	$lang->xml_path = 'XML 파일의 경로를 입력하세요.';
+	$lang->path_info = '상대 경로와 절대 경로 모두 입력 가능합니다.';
+	$lang->data_destination = '데이터의 목적지를 선택하세요.';
+	$lang->document_destination = '글 데이터의 목적지를 선택하세요.';
+	$lang->guestbook_destination = '방명록 데이터의 목적지를 선택하세요.';
     // guide/alert
     $lang->msg_sync_member = 'Lütfen senkronizasyonu başlatmak için Senkronizasyon düğmesine basınız.';
     $lang->msg_no_xml_file = 'XML dosyası bulunamadı. Lütfen yol doğrumu diye tekrar kontrol ediniz';

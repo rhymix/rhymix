@@ -42,7 +42,11 @@
         3 => 'Đã không thể kết nối tới File Data thành viên và bài viết. Nếu đã đúng đường dẫn xin hãy kiểm tra Data với user_id.',
         99 => 'Đang đồng bộ hóa dữ liệu.',
     );
-
+	$lang->xml_path = 'XML 파일의 경로를 입력하세요.';
+	$lang->path_info = '상대 경로와 절대 경로 모두 입력 가능합니다.';
+	$lang->data_destination = '데이터의 목적지를 선택하세요.';
+	$lang->document_destination = '글 데이터의 목적지를 선택하세요.';
+	$lang->guestbook_destination = '방명록 데이터의 목적지를 선택하세요.';
     // guide/alert
     $lang->msg_sync_member = 'Data thành viên và bài viết sẽ được đồng bộ hóa sau khi bấm "Đồng bộ".';
     $lang->msg_no_xml_file = 'Không tìm yhấy File XML. Xin hãy kiểm tra lại đường dẫn!';

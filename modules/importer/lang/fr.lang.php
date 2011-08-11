@@ -40,7 +40,11 @@
         3 => 'Les données des membres et ceux des articles peuvent ne pas s\'accorder après la transfèrement. Dans ce cas, synchronisez S.V.P. Ça arrangera les données en étant basé sur le compte d\'utilisateur.',
 		99 => 'En train de transférer',
     );
-
+	$lang->xml_path = 'XML 파일의 경로를 입력하세요.';
+	$lang->path_info = '상대 경로와 절대 경로 모두 입력 가능합니다.';
+	$lang->data_destination = '데이터의 목적지를 선택하세요.';
+	$lang->document_destination = '글 데이터의 목적지를 선택하세요.';
+	$lang->guestbook_destination = '방명록 데이터의 목적지를 선택하세요.';
     // guide/alert
     $lang->msg_sync_member = 'On commencera à synchroniser les données des membres et des articles quand vous cliquez le bouton de synchroniser.';
     $lang->msg_no_xml_file = 'On ne peut pas trouver le fichier de XML. Vérifiez le chemin encore une fois, S.V.P.';

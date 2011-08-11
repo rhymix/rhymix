@@ -40,7 +40,11 @@
         3 => 'La información del usuario y del documento podría ser incorrecto luego de la transferencia. Si ese es el caso, sincroniza para la corrección basado a la ID del usuario.',
         99 => '데이터를 이전중입니다',
     );
-
+	$lang->xml_path = 'XML 파일의 경로를 입력하세요.';
+	$lang->path_info = '상대 경로와 절대 경로 모두 입력 가능합니다.';
+	$lang->data_destination = '데이터의 목적지를 선택하세요.';
+	$lang->document_destination = '글 데이터의 목적지를 선택하세요.';
+	$lang->guestbook_destination = '방명록 데이터의 목적지를 선택하세요.';
     // Guía/ Alerta
     $lang->msg_sync_member = 'Al presionar el botón sincronizar comenzará a sincronizar la información del usuario y la del artículo.';
     $lang->msg_no_xml_file = 'No se puede encontrar el archivo XML. Verifique su ruta.';

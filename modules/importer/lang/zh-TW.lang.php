@@ -40,7 +40,11 @@
         3 => '資料匯入後，可能會導致會員資料和文章內容產生誤差。請以『user_id』進行同步即可解決。',
         99 => '資料匯入中...',
     );
-
+	$lang->xml_path = 'XML 파일의 경로를 입력하세요.';
+	$lang->path_info = '상대 경로와 절대 경로 모두 입력 가능합니다.';
+	$lang->data_destination = '데이터의 목적지를 선택하세요.';
+	$lang->document_destination = '글 데이터의 목적지를 선택하세요.';
+	$lang->guestbook_destination = '방명록 데이터의 목적지를 선택하세요.';
     // 訊息/提示
     $lang->msg_sync_member = '按同步按鈕，即可開始進行會員資料和文章的同步。';
     $lang->msg_no_xml_file = '找不到 XML 檔案，請重新確認路徑。';
