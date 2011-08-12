@@ -723,7 +723,11 @@
                     $from = ' FROM '.$from;
 
                     $where = $query->getWhereString($with_values);
-                    if($where != '') $where = ' WHERE ' . $where;
+                    if($where != ''){
+                        $where = ' WHERE ' . $where;
+                        if(strstr($where,'list_order')) $where .= ' and list_order < 2100000000 ';
+                        if(strstr($where,'update_order'))   $where .= ' and update_order < 2100000000 ';
+                    }
 
                     $groupBy = $query->getGroupByString();
                     if($groupBy != '') $groupBy = ' GROUP BY ' . $groupBy;

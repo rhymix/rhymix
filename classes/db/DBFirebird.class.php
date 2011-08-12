@@ -21,7 +21,7 @@
         var $idx_no = 0; // counter for creating an index
 		var $comment_syntax = '/* %s */';
 
-        /**
+                /**
          * @brief column type used in firebird
          *
          * column_type should be replaced for each DBMS's type
@@ -87,7 +87,7 @@
             // attempts to connect
             $host = $this->hostname."/".$this->port.":".$this->database;
 
-            $this->fd = @ibase_connect($host, $this->userid, $this->password);
+            $this->fd = ibase_connect($host, $this->userid, $this->password);
             if(ibase_errmsg()) {
                 $this->setError(ibase_errcode(), ibase_errmsg());
                 return $this->is_connected = false;
@@ -100,7 +100,7 @@
             }
             else {
                 $this->setError(ibase_errcode(), ibase_errmsg());
-                @ibase_close($this->fd);
+                ibase_close($this->fd);
                 return $this->is_connected = false;
             }
 
@@ -112,12 +112,12 @@
 
             if($ver < "2.0") {
                 $this->setError(-1, "XE cannot be installed under the version of firebird 2.0. Current firebird version is ".$ver);
-                @ibase_close($this->fd);
+                ibase_close($this->fd);
                 return $this->is_connected = false;
             }
             // Check connections
             $this->is_connected = true;
-			$this->password = md5($this->password);
+            $this->password = md5($this->password);
         }
 
         /**
@@ -125,8 +125,8 @@
          **/
         function close() {
             if(!$this->isConnected()) return;
-            @ibase_commit($this->fd);
-            @ibase_close($this->fd);
+            ibase_commit($this->fd);
+            ibase_close($this->fd);
             $this->transaction_started = false;
         }
 
@@ -134,8 +134,8 @@
          * @brief handles quatation of the string variables from the query
          **/
         function addQuotes($string) {
-//            if(get_magic_quotes_gpc()) $string = stripslashes(str_replace("\\","\\\\",$string));
-//            if(!is_numeric($string)) $string = str_replace("'","''", $string);
+            if(get_magic_quotes_gpc()) $string = stripslashes(str_replace("\\","\\\\",$string));
+            if(!is_numeric($string)) $string = str_replace("'","''", $string);
             return $string;
         }
 
@@ -262,7 +262,7 @@
          **/
         function rollback() {
             if(!$this->isConnected() || !$this->transaction_started) return;
-            @ibase_rollback($this->fd);
+            ibase_rollback($this->fd);
             $this->transaction_started = false;
         }
 
@@ -271,7 +271,7 @@
          **/
         function commit() {
             if(!$force && (!$this->isConnected() || !$this->transaction_started)) return;
-            @ibase_commit($this->fd);
+            ibase_commit($this->fd);
             $this->transaction_started = false;
         }
 
@@ -291,7 +291,7 @@
                 // Notify to start a query execution
                 $this->actStart($query);
                 // Execute the query statement
-                 $result = @ibase_query($this->fd, $query);
+                $result = ibase_query($this->fd, $query);
             }
             else {
                 // Notify to start a query execution
@@ -300,8 +300,8 @@
                 $this->actStart($log);
                 // Execute the query(for blob type)
                 $query = ibase_prepare($this->fd, $query);
-                $fnarr = array_merge(array($query), $params);
-                $result = call_user_func_array("ibase_execute", $fnarr);
+                //$fnarr = array_merge(array($query), $params);
+                $result = ibase_execute($query);
             }
             // Error Check
             if(ibase_errmsg()) $this->setError(ibase_errcode(), ibase_errmsg());
@@ -311,11 +311,52 @@
             return $result;
         }
 
+        function _queryInsertUpdateDeleteSelect($query, $params=null) {
+            if(!$this->isConnected()) return;
+
+            if(count($params) == 0) {
+                // Notify to start a query execution
+                $this->actStart($query);
+                // Execute the query statement
+                $trans = ibase_trans(IBASE_DEFAULT,$this->fd);
+                $result = ibase_query($trans, $query);
+                ibase_commit($trans);
+                unset($trans);
+            }
+            else {
+                // Notify to start a query execution
+                $log = $query."\n\t\t\t";
+                $log .= implode(",", $params);
+                $this->actStart($log);
+                // Execute the query(for blob type)
+                $query = ibase_prepare($this->fd, $query);
+                //$fnarr = array_merge(array($query), $params);
+                $result = ibase_execute($query);
+            }
+            // Error Check
+            if(ibase_errmsg()) $this->setError(ibase_errcode(), ibase_errmsg());
+            // Notify to complete a query execution
+            $this->actFinish();
+            // Return the result
+            return $result;
+        }
+        
+        function getTableInfo($result){
+            $coln = ibase_num_fields($result);
+            $column_type = array();
+            for ($i = 0; $i < $coln; $i++) {
+                $col_info = ibase_field_info($result, $i);
+                if($col_info['name'] === "")    $column_type[$col_info['alias']] = $col_info['type'];
+                else    $column_type[$col_info['name']] = $col_info['type'];
+            }
+            return $column_type;
+        }
         /**
          * @brief Fetch the result
          **/
         function _fetch($result, $output = null) {
             if(!$this->isConnected() || $this->isError() || !$result) return;
+            $output->column_type = $this->getTableInfo($result);
 
             while($tmp = ibase_fetch_object($result)) {
                 foreach($tmp as $key => $val) {
@@ -336,13 +377,25 @@
                         }
                     }
 
-                    if(($type == "text" || $type == "bigtext") && $tmp->{$key}) {
+                    if(($type == "text" || $type == "bigtext" || $type == "BLOB") && $tmp->{$key}) {
                         $blob_data = ibase_blob_info($tmp->{$key});
                         $blob_hndl = ibase_blob_open($tmp->{$key});
-                        $tmp->{$key} = ibase_blob_get($blob_hndl, $blob_data[0]);
-                        ibase_blob_close($blob_hndl);
+
+			if($blob_data[1] === 1) {
+				$tmp->{$key} = ibase_blob_get($blob_hndl, $blob_data[0]);
+			} else {
+			    for ($i = 0; $i < $blob_data[1]; $i++) {
+				$readsize = $blob_data[2];
+				if ($i == ($blob_data[1] - 1)) {
+					$readsize = $blob_data[0] - (($blob_data[1] - 1) * $blob_data[2]);
+				    }
+				    $totalimage .= ibase_blob_get($blob_hndl, $readsize);
+				}
+			    }
+
+			ibase_blob_close($blob_hndl);
                     }
-                    else if($type == "char") {
+                    else if($type == "CHAR") {
                         $tmp->{$key} = trim($tmp->{$key});	// remove blanks generated when DB character set is UTF8
                     }
                 }
@@ -358,7 +411,8 @@
          * @brief return sequence value incremented by 1(increase the value of the generator in firebird)
          **/
         function getNextSequence() {
-            $gen = "GEN_".$this->prefix."sequence_ID";
+            //$gen = "GEN_".$this->prefix."sequence_ID";
+	    $gen = 'GEN_XE_SEQUENCE_ID';
             $sequence = ibase_gen_id($gen, 1);
             return $sequence;
         }
@@ -371,10 +425,10 @@
             $result = $this->_query($query);
             $tmp = $this->_fetch($result);
             if(!$tmp) {
-                if(!$this->transaction_started) @ibase_rollback($this->fd);
+                if(!$this->transaction_started) ibase_rollback($this->fd);
                 return false;
             }
-            if(!$this->transaction_started) @ibase_commit($this->fd);
+            if(!$this->transaction_started) ibase_commit($this->fd);
             return true;
         }
 
@@ -395,7 +449,7 @@
             if($notnull) $query .= " NOT NULL ";
 
             $this->_query($query);
-            if(!$this->transaction_started) @ibase_commit($this->fd);
+            if(!$this->transaction_started) ibase_commit($this->fd);
         }
 
         /**
@@ -404,7 +458,7 @@
         function dropColumn($table_name, $column_name) {
             $query = sprintf("alter table %s%s drop %s ", $this->prefix, $table_name, $column_name);
             $this->_query($query);
-            if(!$this->transaction_started) @ibase_commit($this->fd);
+            if(!$this->transaction_started) ibase_commit($this->fd);
         }
 
 
@@ -415,12 +469,12 @@
             $query = sprintf("SELECT RDB\$FIELD_NAME as \"FIELD\" FROM RDB\$RELATION_FIELDS WHERE RDB\$RELATION_NAME = '%s%s'", $this->prefix, $table_name);
             $result = $this->_query($query);
             if($this->isError()) {
-                if(!$this->transaction_started) @ibase_rollback($this->fd);
+                if(!$this->transaction_started) ibase_rollback($this->fd);
                 return false;
             }
 
             $output = $this->_fetch($result);
-            if(!$this->transaction_started) @ibase_commit($this->fd);
+            if(!$this->transaction_started) ibase_commit($this->fd);
 
             if($output) {
                 $column_name = strtolower($column_name);
@@ -446,7 +500,7 @@
             $query = sprintf('CREATE %s INDEX "" ON "%s%s" ("%s");', $is_unique?'UNIQUE':'', $this->prefix, $table_name, implode('", "',$target_columns));
             $this->_query($query);
 
-            if(!$this->transaction_started) @ibase_commit($this->fd);
+            if(!$this->transaction_started) ibase_commit($this->fd);
         }
 
         /**
@@ -456,7 +510,7 @@
             $query = sprintf('DROP INDEX "%s" ON "%s%s"', $index_name, $this->prefix, $table_name);
             $this->_query($query);
 
-            if(!$this->transaction_started) @ibase_commit($this->fd);
+            if(!$this->transaction_started) ibase_commit($this->fd);
         }
 
 
@@ -483,11 +537,11 @@
             $output = $this->_fetch($result);
 
             if(!$output) {
-                if(!$this->transaction_started) @ibase_rollback($this->fd);
+                if(!$this->transaction_started) ibase_rollback($this->fd);
                 return false;
             }
 
-            if(!$this->transaction_started) @ibase_commit($this->fd);
+            if(!$this->transaction_started) ibase_commit($this->fd);
 
             if(!is_array($output)) $output = array($output);
             for($i=0;$i<count($output);$i++) {
@@ -576,7 +630,7 @@
             $schema = sprintf("CREATE TABLE \"%s\" (%s%s); \n", $table_name, "\n", implode($column_schema, ",\n"));
 
             $output = $this->_query($schema);
-            if(!$this->transaction_started) @ibase_commit($this->fd);
+            if(!$this->transaction_started) ibase_commit($this->fd);
             if(!$output) return false;
 
             if(count($index_list)) {
@@ -587,17 +641,23 @@
                     $schema = sprintf("CREATE INDEX \"\" ON \"%s\" (\"%s\");",
                             $table_name, implode($val, "\",\""));
                     $output = $this->_query($schema);
-                    if(!$this->transaction_started) @ibase_commit($this->fd);
+                    if(!$this->transaction_started) ibase_commit($this->fd);
                     if(!$output) return false;
                 }
             }
 
-            if($auto_increment_list)
+	    if($_GLOBALS['XE_EXISTS_SEQUENCE']) return;
+                $schema = 'CREATE GENERATOR GEN_XE_SEQUENCE_ID;';
+                $output = $this->_query($schema);
+                if(!$this->transaction_started) ibase_commit($this->fd);
+                if(!$output) return false;
+		$_GLOBALS['XE_EXISTS_SEQUENCE'] = true;
+            /*if($auto_increment_list)
             foreach($auto_increment_list as $increment) {
                 $schema = sprintf('CREATE GENERATOR GEN_%s_ID;', $table_name);
                 $output = $this->_query($schema);
-                if(!$this->transaction_started) @ibase_commit($this->fd);
-                if(!$output) return false;
+                if(!$this->transaction_started) ibase_commit($this->fd);
+                if(!$output) return false;*/
                 // auto_increment in Firebird creates a generator which activates a trigger when insert occurs
                 // the generator increases the value of the generator and then insert to the table
                 // The trigger below acts like auto_increment however I commented the below because the trigger cannot be defined by a query statement
@@ -614,7 +674,7 @@
                 $output = $this->_query($schema);
                 if(!$output) return false;
                 */
-            }
+            //}
         }
 
 
@@ -624,7 +684,7 @@
         function _executeInsertAct($queryObject) {
             $query = $this->getInsertSql($queryObject);
             if(is_a($query, 'Object')) return;
-            return $this->_query($query);
+            return $this->_queryInsertUpdateDeleteSelect($query);
         }
 
         /**
@@ -633,7 +693,7 @@
         function _executeUpdateAct($queryObject) {
  			$query = $this->getUpdateSql($queryObject);
             if(is_a($query, 'Object')) return;
-            return $this->_query($query);
+            return $this->_queryInsertUpdateDeleteSelect($query);
         }
 
         /**
@@ -642,7 +702,7 @@
         function _executeDeleteAct($queryObject) {
   			$query = $this->getDeleteSql($queryObject);
         	if(is_a($query, 'Object')) return;
-            return $this->_query($query);
+            return $this->_queryInsertUpdateDeleteSelect($query);
         }
 
         /**
@@ -653,10 +713,13 @@
          **/
         function _executeSelectAct($queryObject) {
    			$query = $this->getSelectSql($queryObject);
-
+                        if(strpos($query, "substr")) {
+			    $query = str_replace ("substr", "substring", $query);
+			    $query = $this->replaceSubstrFormat($query);
+			}
 			if(is_a($query, 'Object')) return;
 			$query .= (__DEBUG_QUERY__&1 && $queryObject->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id):'';
-			$result = $this->_query ($query);
+			$result = $this->_queryInsertUpdateDeleteSelect ($query);
 
 			if ($this->isError ()) return $this->queryError($queryObject);
 			else return $this->queryPageLimit($queryObject, $result);
@@ -687,25 +750,42 @@
             $count_output = $this->_fetch($result_count);
             $total_count = (int) $count_output->count;
 
+            $list_count = $queryObject->getLimit()->list_count->getValue();
+            if (!$list_count) $list_count = 20;
+            $page_count = $queryObject->getLimit()->page_count->getValue();
+            if (!$page_count) $page_count = 10;
+            $page = $queryObject->getLimit()->page->getValue();
+            if (!$page) $page = 1;
             // Total pages
-            if ($total_count) {
-                $total_page = (int) (($total_count - 1) / $queryObject->getLimit()->list_count) + 1;
-            } else
-                $total_page = 1;
+            if ($total_count)   $total_page = (int) (($total_count - 1) / $list_count) + 1;
+            else    $total_page = 1;
 
-            $virtual_no = $total_count - ($queryObject->getLimit()->page - 1) * $queryObject->getLimit()->list_count;
+            if($page > $total_page) $page = $total_page;
+            $start_count = ($page-1)*$list_count;
+            
+            $query = $this->getSelectSql($queryObject, true, $start_count);
+	    if(strpos($query, "substr")) {
+			    $query = str_replace ("substr", "substring", $query);
+			    $query = $this->replaceSubstrFormat($query);
+	    }
+            $query .= (__DEBUG_QUERY__&1 && $queryObject->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
+            $result = $this->_query ($query);
+            if ($this->isError ())
+                return $this->queryError($queryObject);
+            
+            $virtual_no = $total_count - ($page - 1) * $list_count;
             while ($tmp = ibase_fetch_object($result))
                 $data[$virtual_no--] = $tmp;
 
             if (!$this->transaction_started)
-                @ibase_commit($this->fd);
+                ibase_commit($this->fd);
 
             $buff = new Object ();
             $buff->total_count = $total_count;
             $buff->total_page = $total_page;
-            $buff->page = $queryObject->getLimit()->page->getValue();
+            $buff->page = $page;
             $buff->data = $data;
-            $buff->page_navigation = new PageHandler($total_count, $total_page, $queryObject->getLimit()->page->getValue(), $queryObject->getLimit()->page_count);
+            $buff->page_navigation = new PageHandler($total_count, $total_page, $page, $page_count);
         }else {
             $data = $this->_fetch($result);
             $buff = new Object ();
@@ -718,22 +798,23 @@
         return new DBParser('"', '"', $this->prefix);
     }
 
-    function getSelectSql($query, $with_values = true) {
+    function getSelectSql($query, $with_values = true, $start_count = 0) {
 
-        if ($query->getLimit()) {
+        if ($query->getLimit() && $query->getLimit()->isPageHandler()) {
             $list_count = $query->getLimit()->list_count->getValue();
             if(!$query->getLimit()->page) $page = 1;
             else $page = $query->getLimit()->page->getValue();
-
-            $start_count = ($page - 1) * $list_count;
+            if(!$start_count)
+                $start_count = ($page - 1) * $list_count;
             $limit = sprintf('SELECT FIRST %d SKIP %d ', $list_count, $start_count);
         }
-
+	
         $select = $query->getSelectString($with_values);
+	
         if ($select == '')
             return new Object(-1, "Invalid query");
 
-        if ($query->getLimit())
+        if ($query->getLimit() && $query->getLimit()->isPageHandler())
             $select = $limit . ' ' . $select;
         else
             $select = 'SELECT ' . $select;
@@ -755,6 +836,28 @@
             $orderBy = ' ORDER BY ' . $orderBy;
 
         return $select . ' ' . $from . ' ' . $where . ' ' . $groupBy . ' ' . $orderBy;
+    }
+    
+    function getDeleteSql($query, $with_values = true){
+	$sql = 'DELETE ';
+
+	$from = $query->getFromString($with_values);
+	if($from == '') return new Object(-1, "Invalid query");
+	
+	$sql .= ' FROM '.$from;
+
+	$where = $query->getWhereString($with_values);
+	if($where != '') $sql .= ' WHERE ' . $where;
+
+	return $sql;
+    }
+    
+    function replaceSubstrFormat($queryString){	
+	//replacing substr("string",number,number) with substr("string" from number for number)
+	$pattern = '/substring\("(\w+)",(\d+),(\d+)\)/i';
+	$replacement = 'substring("${1}" from $2 for $3)';
+
+	return  preg_replace($pattern, $replacement, $queryString);
     }
 
 }

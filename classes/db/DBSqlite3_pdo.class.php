@@ -488,13 +488,23 @@
             $count_output = $this->_execute();
             $total_count = (int) $count_output->count;
 
+            $list_count = $queryObject->getLimit()->list_count->getValue();
+            if (!$list_count) $list_count = 20;
+            $page_count = $queryObject->getLimit()->page_count->getValue();
+            if (!$page_count) $page_count = 10;
+            $page = $queryObject->getLimit()->page->getValue();
+            if (!$page) $page = 1;
             // Total pages
             if ($total_count) {
-                $total_page = (int) (($total_count - 1) / $queryObject->getLimit()->list_count) + 1;
+                $total_page = (int) (($total_count - 1) / $list_count) + 1;
             } else
                 $total_page = 1;
 
-            $this->_prepare($this->getSelectSql($queryObject));
+            // check the page variables
+            if ($page > $total_page) $page = $total_page;
+            $start_count = ($page - 1) * $list_count;
+                                
+            $this->_prepare($this->getSelectPageSql($queryObject, true, $start_count, $list_count));
             $this->stmt->execute();
             if ($this->stmt->errorCode() != '00000') {
                 $this->setError($this->stmt->errorCode(), print_r($this->stmt->errorInfo(), true));
@@ -503,7 +513,7 @@
             }
 
             $output = null;
-            $virtual_no = $total_count - ($queryObject->getLimit()->page - 1) * $queryObject->getLimit()->list_count;
+            $virtual_no = $total_count - ($page - 1) * $list_count;
             //$data = $this->_fetch($result, $virtual_no);
             while ($tmp = $this->stmt->fetch(PDO::FETCH_ASSOC)) {
                 unset($obj);
@@ -513,7 +523,7 @@
                         $key = substr($key, $pos + 1);
                     $obj->{$key} = $val;
                 }
-                $data[$virtual_no--] = $obj;
+		$datatemp[$virtual_no--] = $obj;
             }
 
             $this->stmt = null;
@@ -522,15 +532,52 @@
             $buff = new Object ();
             $buff->total_count = $total_count;
             $buff->total_page = $total_page;
-            $buff->page = $queryObject->getLimit()->page->getValue();
-            $buff->data = $data;
-            $buff->page_navigation = new PageHandler($total_count, $total_page, $queryObject->getLimit()->page->getValue(), $queryObject->getLimit()->page_count);
+            $buff->page = $page;
+            $buff->data = $datatemp;
+            $buff->page_navigation = new PageHandler($total_count, $total_page, $page, $page_count);
         }else {
             //$data = $this->_fetch($result);
             $buff = new Object ();
             $buff->data = $data;
         }
         return $buff;
+    }
+    
+    function getSelectPageSql($query, $with_values = true, $start_count = 0, $list_count = 0) {
+
+        $select = $query->getSelectString($with_values);
+        if ($select == '')
+            return new Object(-1, "Invalid query");
+        $select = 'SELECT ' . $select;
+
+        $from = $query->getFromString($with_values);
+        if ($from == '')
+            return new Object(-1, "Invalid query");
+        $from = ' FROM ' . $from;
+
+        $where = $query->getWhereString($with_values);
+        if ($where != '') {
+            $where = ' WHERE ' . $where;
+            if (strstr($where, 'list_order'))
+                $where .= ' and list_order < 2100000000 ';
+            if (strstr($where, 'update_order'))
+                $where .= ' and update_order < 2100000000 ';
+        }
+
+        $groupBy = $query->getGroupByString();
+        if ($groupBy != '')
+            $groupBy = ' GROUP BY ' . $groupBy;
+
+        $orderBy = $query->getOrderByString();
+        if ($orderBy != '')
+            $orderBy = ' ORDER BY ' . $orderBy;
+
+        $limit = $query->getLimitString();
+        if ($limit != '' && $query->getLimit()) {
+            $limit = sprintf(' LIMIT %d, %d',$start_count, $list_count);
+        }
+
+        return $select . ' ' . $from . ' ' . $where . ' ' . $groupBy . ' ' . $orderBy . ' ' . $limit;
     }
 
 }

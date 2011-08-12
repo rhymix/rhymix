@@ -535,20 +535,35 @@
 				$count_output = $this->_fetch($result_count);
 				$total_count = (int)$count_output->count;
 
+                                $list_count = $queryObject->getLimit()->list_count->getValue();
+                                if (!$list_count) $list_count = 20;
+                                $page_count = $queryObject->getLimit()->page_count->getValue();
+                                if (!$page_count) $page_count = 10;
+                                $page = $queryObject->getLimit()->page->getValue();
+                                if (!$page) $page = 1;
 				// Total pages
 				if ($total_count) {
-					$total_page = (int) (($total_count - 1) / $queryObject->getLimit()->list_count) + 1;
+					$total_page = (int) (($total_count - 1) / $list_count) + 1;
 				}	else	$total_page = 1;
 
-		 		$virtual_no = $total_count - ($queryObject->getLimit()->page - 1) * $queryObject->getLimit()->list_count;
+                                // check the page variables
+                                if ($page > $total_page) $page = $total_page;
+                                $start_count = ($page - 1) * $list_count;
+                                
+                                $query .= (__DEBUG_QUERY__&1 && $queryObject->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
+                                $result = $this->_query ($query);
+                                if ($this->isError ())
+                                    return $this->queryError($queryObject);
+
+		 		$virtual_no = $total_count - ($page - 1) * $list_count;
 		 		$data = $this->_fetch($result, $virtual_no);
 
 		 		$buff = new Object ();
 				$buff->total_count = $total_count;
 				$buff->total_page = $total_page;
-				$buff->page = $queryObject->getLimit()->page->getValue();
+				$buff->page = $page;
 				$buff->data = $data;
-				$buff->page_navigation = new PageHandler($total_count, $total_page, $queryObject->getLimit()->page, $queryObject->getLimit()->page_count);
+				$buff->page_navigation = new PageHandler($total_count, $total_page, $page, $page_count);
 			}else{
 				$data = $this->_fetch($result);
 				$buff = new Object ();
