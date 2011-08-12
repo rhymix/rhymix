@@ -53,3 +53,4 @@
 	$lang->no_files = '파일이 없습니다.';
 	$lang->file_manager = '선택한 파일 관리';
 	$lang->selected_file = '선택한 파일';
+?>
