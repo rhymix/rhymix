@@ -51,6 +51,9 @@
             $use_sso = Context::get('use_sso');
             if($use_sso !='Y') $use_sso = 'N';
 
+			$use_cdn = Context::get('use_cdn');
+			if($use_cdn != 'Y') $use_cdn = 'N';
+
             $time_zone = Context::get('time_zone');
 
             $qmail_compatibility = Context::get('qmail_compatibility');
@@ -80,6 +83,7 @@
             $db_info->use_rewrite = $use_rewrite;
             $db_info->use_sso = $use_sso;
             $db_info->use_ssl = $use_ssl;
+			$db_info->use_cdn = $use_cdn;
 			$db_info->use_html5 = $use_html5;
 			$db_info->use_mobile_view = $use_mobile_view;
             if($http_port) $db_info->http_port = (int) $http_port;
@@ -124,7 +128,7 @@
         }
 
         function procInstallAdminRemoveFTPInfo() {
-            $ftp_config_file = Context::getFTPConfigFile(); 
+            $ftp_config_file = Context::getFTPConfigFile();
             if(file_exists($ftp_config_file)) unlink($ftp_config_file);
             if($_SESSION['ftp_password']) unset($_SESSION['ftp_password']);
             $this->setMessage('success_deleted');
@@ -149,7 +153,7 @@
             if(ini_get('safe_mode')) {
                 $ftp_info->ftp_password = Context::get('ftp_password');
             }
-            
+
             $buff = '<?php if(!defined("__ZBXE__")) exit();'."\n";
             foreach($ftp_info as $key => $val) {
                 if(!$val) continue;

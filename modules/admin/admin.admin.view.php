@@ -20,14 +20,14 @@
             $logged_info = $oMemberModel->getLoggedInfo();
             if($logged_info->is_admin!='Y') return $this->stop("msg_is_not_administrator");
 
-            // change into administration layout 
+            // change into administration layout
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setLayoutPath($this->getTemplatePath());
             $this->setLayoutFile('layout.html');
 
 			$this->makeGnbUrl();
 
-            // Retrieve the list of installed modules 
+            // Retrieve the list of installed modules
 
             $db_info = Context::getDBInfo();
 
@@ -41,6 +41,7 @@
             Context::set('use_db_session', $db_info->use_db_session=='N'?'N':'Y');
             Context::set('use_mobile_view', $db_info->use_mobile_view =='Y'?'Y':'N');
             Context::set('use_ssl', $db_info->use_ssl?$db_info->use_ssl:"none");
+			Context::set('use_cdn', $db_info->use_cdn?$db_info->use_cdn:"none");
             if($db_info->http_port) Context::set('http_port', $db_info->http_port);
             if($db_info->https_port) Context::set('https_port', $db_info->https_port);
 
@@ -117,7 +118,7 @@
 				if($val->category == 'statistics') $val->category = 'accessory';
 
                 if($val->module == 'admin' || !$val->admin_index_act) continue;
-                // get action information 
+                // get action information
                 $action_spec = $oModuleModel->getModuleActionXml($val->module);
                 $actions = array();
                 if($action_spec->default_index_act) $actions[] = $action_spec->default_index_act;
@@ -131,14 +132,14 @@
                 $obj->index_act = $val->admin_index_act;
                 if(in_array(Context::get('act'), $actions)) $obj->selected = true;
 
-                // Packages 
+                // Packages
                 if($val->category == 'package') {
                     if($package_idx == 0) $obj->position = "first";
                     else $obj->position = "mid";
                     $package_modules[] = $obj;
                     $package_idx ++;
                     if($obj->selected) Context::set('package_selected',true);
-                // Modules 
+                // Modules
                 } else {
                     $installed_modules[] = $obj;
                 }
@@ -194,7 +195,7 @@
                 Context::set('download_link', $buff->zbxe_news->attrs->download_link);
             }
 
-            // DB Information 
+            // DB Information
             $db_info = Context::getDBInfo();
             Context::set('selected_lang', $db_info->lang_type);
 
@@ -302,7 +303,7 @@
             $output = executeQuery("admin.getDocumentCount", $args);
             $status->document->total = $output->data->count;
 
-            // Comment Status 
+            // Comment Status
             $output = executeQueryArray("admin.getCommentStatus", $args);
             if($output->data) {
                 foreach($output->data as $var) {
@@ -316,7 +317,7 @@
             $output = executeQuery("admin.getCommentCount", $args);
             $status->comment->total = $output->data->count;
 
-            // Trackback Status 
+            // Trackback Status
             $output = executeQueryArray("admin.getTrackbackStatus", $args);
             if($output->data) {
                 foreach($output->data as $var) {
@@ -330,7 +331,7 @@
             $output = executeQuery("admin.getTrackbackCount", $args);
             $status->trackback->total = $output->data->count;
 
-            // Attached files Status 
+            // Attached files Status
             $output = executeQueryArray("admin.getFileStatus", $args);
             if($output->data) {
                 foreach($output->data as $var) {
@@ -400,7 +401,7 @@
             Context::set('lang_selected', Context::loadLangSelected());
 
 			Context::set('use_mobile_view', $db_info->use_mobile_view=="Y"?'Y':'N');
-            
+
             $ftp_info = Context::getFTPInfo();
             Context::set('ftp_info', $ftp_info);
 
@@ -441,7 +442,7 @@
 				Context::addHtmlFooter($img);
 
 				FileHandler::removeDir($path);
-				FileHandler::writeFile($path.__ZBXE_VERSION__,'1'); 
+				FileHandler::writeFile($path.__ZBXE_VERSION__,'1');
 
 			} else if($_SESSION['enviroment_gather']=='Y' && !file_exists($path.__ZBXE_VERSION__)) {
 				$oAdminAdminModel = &getAdminModel('admin');
@@ -450,7 +451,7 @@
 				Context::addHtmlFooter($img);
 
 				FileHandler::removeDir($path);
-				FileHandler::writeFile($path.__ZBXE_VERSION__,'1'); 
+				FileHandler::writeFile($path.__ZBXE_VERSION__,'1');
 				unset($_SESSION['enviroment_gather']);
 			}
 		}

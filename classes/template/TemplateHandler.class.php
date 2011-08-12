@@ -2,19 +2,19 @@
     /**
      * @class TemplateHandler
      * @author NHN (developers@xpressengine.com)
-     * @brief template compiler 
+     * @brief template compiler
      * @version 0.1
-     * @remarks It compiles template file by using regular expression into php 
-     *          code, and XE caches compiled code for further uses 
+     * @remarks It compiles template file by using regular expression into php
+     *          code, and XE caches compiled code for further uses
      **/
 
     class TemplateHandler extends Handler {
 
         var $compiled_path = './files/cache/template_compiled/'; ///< path of compiled caches files
 
-        var $path = null; ///< target directory 
+        var $path = null; ///< target directory
         var $filename = null; ///< target filename
-        var $file = null; ///< target file (fullpath) 
+        var $file = null; ///< target file (fullpath)
 		var $xe_path = null;  ///< XpressEngine base path
 		var $web_path = null; ///< tpl file web path
 		var $compiled_file = null; ///< tpl file web path
@@ -42,11 +42,11 @@
 		 * @brief set variables for template compile
 		 **/
 		function init($tpl_path, $tpl_filename, $tpl_file) {
-            // verify arguments 
+            // verify arguments
             if(substr($tpl_path,-1)!='/') $tpl_path .= '/';
 			if(!file_exists($tpl_path.$tpl_filename)&&file_exists($tpl_path.$tpl_filename.'.html')) $tpl_filename .= '.html';
 
-            // create tpl_file variable 
+            // create tpl_file variable
             if(!$tpl_file) $tpl_file = $tpl_path.$tpl_filename;
 
 			// set template file infos.
@@ -69,11 +69,11 @@
 		}
 
         /**
-         * @brief compiles specified tpl file and execution result in Context into resultant content 
+         * @brief compiles specified tpl file and execution result in Context into resultant content
          * @param[in] $tpl_path path of the directory containing target template file
          * @param[in] $tpl_filename target template file's name
-         * @param[in] $tpl_file if specified use it as template file's full path 
-         * @return Returns compiled result in case of success, NULL otherwise 
+         * @param[in] $tpl_file if specified use it as template file's full path
+         * @return Returns compiled result in case of success, NULL otherwise
          */
         function compile($tpl_path, $tpl_filename, $tpl_file = '') {
             // store the starting time for debug information
@@ -136,16 +136,16 @@
         }
 
         /**
-         * @brief compile a template file specified in $tpl_file and 
+         * @brief compile a template file specified in $tpl_file and
          * @pre files specified by $tpl_file exists.
          * @param[in] $tpl_file path of tpl file
          * @param[in] $compiled_tpl_file if specified, write compiled result into the file
-         * @return compiled result in case of success or NULL in case of error 
+         * @return compiled result in case of success or NULL in case of error
          **/
         function parse() {
 			if(!file_exists($this->file)) return;
 
-            // read tpl file 
+            // read tpl file
             $buff = FileHandler::readFile($this->file);
 
 			// replace value of src in img/input/script tag
@@ -172,10 +172,10 @@
             // replace include <!--#include($filename)-->
             $buff = preg_replace_callback('!<\!--#include\(([^\)]*?)\)-->!is', array($this, '_compileIncludeToCode'), $buff);
 
-            // replace <!--@, --> 
+            // replace <!--@, -->
             $buff = preg_replace_callback('!<\!--@(.*?)-->!is', array($this, '_compileFuncToCode'), $buff);
 
-            // remove comments <!--// ~ --> 
+            // remove comments <!--// ~ -->
             $buff = preg_replace('!(\n?)( *?)<\!--//(.*?)-->!is', '', $buff);
 
             // import xml filter/ css/ js/ files <!--%import("filename"[,optimized=true|false][,media="media"][,targetie="lt IE 6|IE 7|gte IE 8|..."])--> (media is applied to only css)
@@ -245,7 +245,7 @@
 		}
 
         /**
-         * @brief fetch using ob_* function 
+         * @brief fetch using ob_* function
          * @param[in] $compiled_tpl_file path of compiled template file
          * @param[in] $buff if buff is not null, eval it instead of including compiled template file
          * @param[in] $tpl_path set context's tpl path
@@ -271,7 +271,7 @@
          * @param[in] $matches match
          * @return changed result
          **/
-		function _replacePath($matches) 
+		function _replacePath($matches)
 		{
 			preg_match_all('/src="([^"]*?)"/is', $matches[0], $m);
 			for($i=0,$c=count($m[0]);$i<$c;$i++) {
@@ -279,7 +279,7 @@
 				if(substr($path,0,1)=='/' || substr($path,0,1)=='{' || strpos($path,'://')!==false) continue;
 				if(substr($path,0,2)=='./') $path = substr($path,2);
 				$target = $this->web_path.$path;
-				while(strpos($target,'/../')!==false) 
+				while(strpos($target,'/../')!==false)
 				{
 					$target = preg_replace('/\/([^\/]+)\/\.\.\//','/',$target);
 				}
@@ -358,7 +358,7 @@
 					}
 				}
 
-				if(substr(trim($tag),-2)!='/>') 
+				if(substr(trim($tag),-2)!='/>')
 				{
 					while(false !== $close_pos = strpos($next, '</'.$tag_name))
 					{
@@ -375,7 +375,7 @@
 		}
 
 		/**
-		 * @brief replace pipe cond and |cond= 
+		 * @brief replace pipe cond and |cond=
 		 **/
 		function _replacePipeCond($matches)
 		{
@@ -425,7 +425,7 @@
 						$tag_head .= '<?php if('.$m[1][$i].') { ?>';
 						$tag_tail .= '<?php } ?>';
 					}
-				} 
+				}
 
 				if(!preg_match('/ cond="([^"]+)"/is',$tag)) {
 					print "<strong>Invalid XpressEngine Template Syntax</strong><br/>";
@@ -435,11 +435,11 @@
 				}
 
 				$tag = preg_replace('/ cond="([^"]+)"/is','', $tag);
-				if(substr(trim($tag),-2)=='/>') 
+				if(substr(trim($tag),-2)=='/>')
 				{
 					$buff = $pre.$tag_head.$tag.$tag_tail.$next;
-				} 
-				else 
+				}
+				else
 				{
 					while(false !== $close_pos = strpos($next, '</'.$tag_name))
 					{
@@ -452,14 +452,14 @@
 					$buff = $pre.$tag_head.$tag.$tag_tail.$next;
 				}
 			}
-			
+
 			return $buff;
 		}
 
 		/**
 		 * @brief replace include tags which include other template files
 		 **/
-		function _replaceInclude($matches) 
+		function _replaceInclude($matches)
 		{
 			if(!preg_match('/target=\"([^\"]+)\"/is',$matches[0], $m)) {
 				print '"target" attribute missing in "'.htmlspecialchars($matches[0]);
@@ -512,7 +512,7 @@
 			$base_path = $this->path;
 
 			$target = $attrs['target'];
-            if(!preg_match('/^(http|https)/i',$target)) 
+            if(!preg_match('/^(http|https)/i',$target))
             {
                 if(substr($target,0,2)=='./') $target = substr($target,2);
                 if(substr($target,0,1)!='/') $target = $web_path.$target;
@@ -567,19 +567,19 @@
 					// css file
 					case 'css' :
 							if($type == 'unload') {
-								$output = '<?php Context::unloadCSSFile("'.$source_filename.'"); ?>';
+								$output = '<?php Context::unloadFile("'.$source_filename.'","'.$attrs['targetie'].'","'.$attrs['media'].'"); ?>';
 							} else {
 								$meta_file = $source_filename;
-								$output = '<?php Context::addCSSFile("'.$source_filename.'",false,"'.$attrs['media'].'","'.$attrs['targetie'].'",'.$attrs['index'].'); ?>';
+								$output = '<?php Context::loadFile(array("'.$source_filename.'","'.$attrs['media'].'","'.$attrs['targetie'].'","'.$attrs['index'].'"), "'.$attrs['cdn'].'"); ?>';
 							}
 						break;
 					// js file
 					case 'js' :
 							if($type == 'unload') {
-								$output = '<?php Context::unloadJsFile("'.$source_filename.'"); ?>';
+								$output = '<?php Context::unloadFile("'.$source_filename.'","'.$attrs['targetie'].'","'.$attrs['media'].'"); ?>';
 							} else {
 								$meta_file = $source_filename;
-								$output = '<?php Context::addJsFile("'.$source_filename.'",false,"'.$attrs['targetie'].'",'.$attrs['index'].',"'.$attrs['type'].'"); ?>';
+								$output = '<?php Context::loadFile(array("'.$source_filename.'","'.$attrs['type'].'","'.$attrs['targetie'].'","'.$attrs['index'].'"), "'.$attrs['cdn'].'"); ?>';
 							}
 						break;
 				}
@@ -658,7 +658,7 @@
             $filename = array_pop($tmp_arr);
             $path = implode('/', $tmp_arr).'/';
 
-            // try to include 
+            // try to include
             $output = sprintf(
                 '<?php%s'.
                 '$oTemplate = &TemplateHandler::getInstance();%s'.
@@ -674,8 +674,8 @@
         }
 
         /**
-         * @brief replace $... variables in { } with Context::get(...) 
-         * @param[in] $matches match 
+         * @brief replace $... variables in { } with Context::get(...)
+         * @param[in] $matches match
          * @return replaced result in case of success or NULL in case of error
          **/
         function _compileVarToContext($matches) {
@@ -779,7 +779,7 @@
 
 
         /**
-         * @brief replace xe specific code, "<!--%filename-->" with appropriate php code 
+         * @brief replace xe specific code, "<!--%filename-->" with appropriate php code
          * @param[in] $matches match
          * @return Returns modified result or NULL in case of error
          **/
@@ -846,19 +846,19 @@
                     // css file
                     case 'css' :
                             if(preg_match('/^(http|\/)/i',$source_filename)) {
-                                $output = sprintf('<?php Context::addCSSFile("%s", %s, "%s", "%s", %s); ?>', $source_filename, 'false', $media, $targetie, $index);
+                                $output = sprintf('<?php Context::loadFile(array("%s", "%s", "%s", "%s")); ?>', $source_filename, $media, $targetie, $index);
                             } else {
 								$meta_file = $base_path.$filename;
-                                $output = sprintf('<?php Context::addCSSFile("%s%s", %s, "%s", "%s", %s); ?>', $base_path, $filename, $optimized, $media, $targetie, $index);
+                                $output = sprintf('<?php Context::loadFile(array("%s%s", "%s", "%s", "%s")); ?>', $base_path, $filename, $media, $targetie, $index);
                             }
                         break;
                     // js file
                     case 'js' :
                             if(preg_match('/^(http|\/)/i',$source_filename)) {
-                                $output = sprintf('<?php Context::addJsFile("%s", %s, "%s", %s,"%s"); ?>', $source_filename, 'false', $targetie, $index, $type);
+                                $output = sprintf('<?php Context::loadFile(array("%s", "%s", "%s","%s")); ?>', $source_filename, $type, $targetie, $index);
                             } else {
 								$meta_file = $base_path.$filename;
-                                $output = sprintf('<?php Context::addJsFile("%s%s", %s, "%s", %s, "%s"); ?>', $base_path, $filename, $optimized, $targetie, $index, $type);
+                                $output = sprintf('<?php Context::loadFile(array("%s%s", "%s", "%s", "%s")); ?>', $base_path, $filename, $type, $targetie, $index);
                             }
                         break;
                 }
@@ -869,7 +869,7 @@
         }
 
         /**
-         * @brief import javascript plugin 
+         * @brief import javascript plugin
          * @param[in] $matches match
          * @return result loading the plugin
          * @remarks javascript plugin works as optimized = false
@@ -881,12 +881,12 @@
         }
 
         /**
-         * @brief remove loading part of css/ js file 
+         * @brief remove loading part of css/ js file
          * @param[in] $matches match
          * @return removed result
          **/
         function _compileUnloadCode($matches) {
-            // find xml file 
+            // find xml file
             $base_path = $this->path;
             $given_file = trim($matches[1]);
             if(!$given_file) return;
@@ -915,17 +915,17 @@
                 // css file
                 case 'css' :
                         if(preg_match('/^(http|https|\/)/i',$source_filename)) {
-                            $output = sprintf('<?php Context::unloadCSSFile("%s", %s, "%s", "%s"); ?>', $source_filename, 'false', $media, $targetie);
+                            $output = sprintf('<?php Context::unloadFile("%s", "%s", "%s"); ?>', $source_filename, $targetie, $media);
                         } else {
-                            $output = sprintf('<?php Context::unloadCSSFile("%s%s", %s, "%s", "%s"); ?>', $base_path, $filename, $optimized, $media, $targetie);
+                            $output = sprintf('<?php Context::unloadFile("%s%s", "%s", "%s"); ?>', $base_path, $filename, $targetie, $media);
                         }
                     break;
                 // js file
                 case 'js' :
                         if(preg_match('/^(http|https|\/)/i',$source_filename)) {
-                            $output = sprintf('<?php Context::unloadJsFile("%s", %s, "%s"); ?>', $source_filename, 'false', $targetie);
+                            $output = sprintf('<?php Context::unloadFile("%s", "%s"); ?>', $source_filename, $targetie);
                         } else {
-                            $output = sprintf('<?php Context::unloadJsFile("%s%s", %s, "%s"); ?>', $base_path, $filename, $optimized, $targetie);
+                            $output = sprintf('<?php Context::unloadFile("%s%s", "%s"); ?>', $base_path, $filename, $targetie);
                         }
                     break;
             }

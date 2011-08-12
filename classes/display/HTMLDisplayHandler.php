@@ -5,7 +5,7 @@ class HTMLDisplayHandler {
 	 * @brief Produce HTML compliant content given a module object.\n
 	 * @param[in] $oModule the module object
 	 **/
-	function toDoc(&$oModule) 
+	function toDoc(&$oModule)
 	{
 		$oTemplate = &TemplateHandler::getInstance();
 
@@ -14,7 +14,7 @@ class HTMLDisplayHandler {
 			$skin = $oModule->origin_module_info->skin;
 		else
 			$skin = $oModule->module_config->skin;
-		
+
 		if ($skin){
 			$theme_skin = explode('.', $skin);
 			if (count($theme_skin) == 2)
@@ -58,7 +58,7 @@ class HTMLDisplayHandler {
 					// search if the changes CSS exists in the admin layout edit window
 					$edited_layout_css = $oLayoutModel->getUserLayoutCss($layout_srl);
 
-					if(file_exists($edited_layout_css)) Context::addCSSFile($edited_layout_css,true,'all','',100);
+					if(file_exists($edited_layout_css)) Context::loadFile(array($edited_layout_css,'all','',100));
 				}
 				if(!$layout_path) $layout_path = "./common/tpl";
 				if(!$layout_file) $layout_file = "default_layout";
@@ -76,7 +76,7 @@ class HTMLDisplayHandler {
 
 	function prepareToPrint(&$output) {
 		if(Context::getResponseMethod() != 'HTML') return;
-		
+
 		if(__DEBUG__==3) $start = getMicroTime();
 
 		// move <style ..></style> in body to the header
@@ -146,13 +146,12 @@ class HTMLDisplayHandler {
 	}
 
 	/**
-	 * @brief add given .css or .js file names in widget code to Context       
+	 * @brief add given .css or .js file names in widget code to Context
 	 * @param[in] $oModule the module object
 	 **/
 	function _transMeta($matches) {
 		if($matches[1]) return '';
-		if(substr($matches[2],'-4')=='.css') Context::addCSSFile($matches[2]);
-		elseif(substr($matches[2],'-3')=='.js') Context::addJSFile($matches[2]);
+		Context::loadFile($matches[2]);
 	}
 
 	function _loadJSCSS()
@@ -162,31 +161,31 @@ class HTMLDisplayHandler {
 
 		// add common JS/CSS files
 		if(__DEBUG__) {
-			$oContext->addJsFile('./common/js/jquery.js', false, '', -100000);
-			$oContext->addJsFile('./common/js/x.js', false, '', -100000);
-			$oContext->addJsFile('./common/js/common.js', false, '', -100000);
-			$oContext->addJsFile('./common/js/js_app.js', false, '', -100000);
-			$oContext->addJsFile('./common/js/xml_handler.js', false, '', -100000);
-			$oContext->addJsFile('./common/js/xml_js_filter.js', false, '', -100000);
-			$oContext->addCSSFile('./common/css/default.css', false, 'all', '', -100000);
-			$oContext->addCSSFile('./common/css/button.css', false, 'all', '', -100000);
+			$oContext->loadFile(array('./common/js/jquery.js', 'head', '', -100000));
+			$oContext->loadFile(array('./common/js/x.js', 'head', '', -100000));
+			$oContext->loadFile(array('./common/js/common.js', 'head', '', -100000));
+			$oContext->loadFile(array('./common/js/js_app.js', 'head', '', -100000));
+			$oContext->loadFile(array('./common/js/xml_handler.js', 'head', '', -100000));
+			$oContext->loadFile(array('./common/js/xml_js_filter.js', 'head', '', -100000));
+			$oContext->loadFile(array('./common/css/default.css', 'all', '', -100000));
+			$oContext->loadFile(array('./common/css/button.css', 'all', '', -100000));
 		} else {
-			$oContext->addJsFile('./common/js/jquery.min.js', false, '', -100000);
-			$oContext->addJsFile('./common/js/x.min.js', false, '', -100000);
-			$oContext->addJsFile('./common/js/xe.min.js', false, '', -100000);
-			$oContext->addCSSFile('./common/css/xe.min.css', false, 'all', '', -100000);
+			$oContext->loadFile(array('./common/js/jquery.min.js', 'head', '', -100000));
+			$oContext->loadFile(array('./common/js/x.min.js', 'head', '', -100000));
+			$oContext->loadFile(array('./common/js/xe.min.js', 'head', '', -100000));
+			$oContext->loadFile(array('./common/css/xe.min.css', 'all', '', -100000));
 		}
 
 		// for admin page, add admin css
 		if(Context::get('module')=='admin' || strpos(Context::get('act'),'Admin')>0){
 			if(__DEBUG__) {
-				$oContext->addCSSFile('./modules/admin/tpl/css/admin.css', false, 'all', '', 100000);
-				$oContext->addCSSFile("./modules/admin/tpl/css/admin_{$lang_type}.css", false, 'all', '', 100000);
-				$oContext->addJsFile('./modules/admin/tpl/js/admin.js');
+				$oContext->loadFile(array('./modules/admin/tpl/css/admin.css', 'all', '', 100000));
+				$oContext->loadFile(array("./modules/admin/tpl/css/admin_{$lang_type}.css", 'all', '', 100000));
+				$oContext->loadFile('./modules/admin/tpl/js/admin.js');
 			} else {
-				$oContext->addCSSFile('./modules/admin/tpl/css/admin.min.css', false, 'all', '', 100000);
-				$oContext->addCSSFile("./modules/admin/tpl/css/admin_{$lang_type}.min.css", false, 'all', '',10000);
-				$oContext->addJsFile('./modules/admin/tpl/js/admin.js');
+				$oContext->loadFile(array('./modules/admin/tpl/css/admin.min.css', 'all', '', 100000));
+				$oContext->loadFile(array("./modules/admin/tpl/css/admin_{$lang_type}.min.css", 'all', '',10000));
+				$oContext->loadFile('./modules/admin/tpl/js/admin.js');
 			}
 		}
 	}

@@ -24,8 +24,7 @@ class Context {
 	var $ftp_info = NULL;       ///< FTP info.
 
 	var $ssl_actions = array(); ///< list of actions to be sent via ssl (it is used by javascript xml handler for ajax)
-	var $js_files_map  = array(); ///< hash map of javascript files. The file name is used as a key
-	var $css_files_map = array(); ///< hash map of css files. The file name is used as a key
+	var $oFrontEndFileHandler;
 
 	var $html_header = NULL;    ///< script codes in <head>..</head>
 	var $body_class  = array();  ///< classnames of <body>
@@ -55,6 +54,14 @@ class Context {
 		if(!$theInstance) $theInstance = new Context();
 
 		return $theInstance;
+	}
+
+	/**
+	 * @brief cunstructor
+	 **/
+	function Context()
+	{
+		$this->oFrontEndFileHandler = new FrontEndFileHandler();
 	}
 
 	/**
@@ -987,6 +994,7 @@ class Context {
 	/**
 	 * @brief normalize file path
 	 * @return normalized file path
+	 * @deprecated
 	 */
 	function normalizeFilePath($file) {
 		if(strpos($file,'://')===false && $file{0}!='/' && $file{0}!='.') $file = './'.$file;
@@ -996,6 +1004,9 @@ class Context {
 		return $file;
 	}
 
+	/**
+	 * @deprecated
+	 **/
 	function getAbsFileUrl($file) {
 		$file = Context::normalizeFilePath($file);
 		if(strpos($file,'./')===0) $file = dirname($_SERVER['SCRIPT_NAME']).'/'.substr($file,2);
@@ -1005,36 +1016,53 @@ class Context {
 	}
 
 	/**
+	 * @brief load front end file
+	 * @params $args array
+	 * case js
+	 *		$args[0]: file name
+	 *		$args[1]: type (head | body)
+	 *		$args[2]: target IE
+	 *		$args[3]: index
+	 * case css
+	 *		$args[0]: file name
+	 *		$args[1]: media
+	 *		$args[2]: target IE
+	 *		$args[3]: index
+	 **/
+	function loadFile($args, $cdnPath = '')
+	{
+		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
+		$self->oFrontEndFileHandler->loadFile($args, $cdnPath);
+	}
+
+	function unloadFile($file, $targetIe = '', $media = 'all')
+	{
+		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
+		$self->oFrontEndFileHandler->unloadFile($file, $targetIe, $media);
+	}
+
+	function unloadAllFiles($type = 'all')
+	{
+		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
+		$self->oFrontEndFileHandler->unloadAllFiles($type);
+	}
+
+	/**
 	 * @brief Add the js file
+	 * @deprecated
 	 **/
 	function addJsFile($file, $optimized = false, $targetie = '',$index=0, $type='head') {
 		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
-
-		$avail_types = array('head', 'body');
-		if(!in_array($type, $avail_types)) $type = $avail_types[0];
-
-		$key = Context::getAbsFileUrl($file)."\t".$targetie;
-		$map = &$self->js_files_map;
-
-		// Is this file already registered?
-		if (!is_array($map[$type])) $map[$type] = array();
-		if (!isset($map[$type][$key]) || (int)$map[$type][$key] > (int)$index) $map[$type][$key] = (int)$index+count($map[$type])/1000-1;
+		$self->oFrontEndFileHandler->loadFile(array($file, $type, $targetie, $index));
 	}
 
 	/**
 	 * @brief Remove the js file
+	 * @deprecated
 	 **/
 	function unloadJsFile($file, $optimized = false, $targetie = '') {
 		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
-
-		$remove_key = Context::getAbsFileUrl($file)."\t$targetie";
-
-		foreach($self->js_files_map as $key=>$val) {
-			if($key === $remove_key) {
-				unset($self->js_files_map[$key]);
-				return;
-			}
-		}
+		$self->oFrontEndFileHandler->unloadFile($file, $targetie);
 	}
 
 	/**
@@ -1042,7 +1070,7 @@ class Context {
 	 **/
 	function unloadAllJsFiles() {
 		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
-		$self->js_files_map = array();
+		$self->oFrontEndFileHandler->unloadAllJsFiles();
 	}
 
 	/**
@@ -1075,50 +1103,25 @@ class Context {
 	 **/
 	function getJsFile($type='head') {
 		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
-
-		if(!is_array($self->js_files_map[$type])) $self->js_files_map[$type] = array();
-
-		$ret = array();
-		$map = &$self->js_files_map[$type];
-
-		asort($self->js_files_map[$type]);
-
-		foreach($map as $key=>$val) {
-			list($file, $targetie) = explode("\t", $key);
-			$ret[] = array('file'=>$file, 'targetie'=>$targetie);
-		}
-
-		return $ret;
+		return $self->oFrontEndFileHandler->getJsFileList($type);
 	}
 
 	/**
 	 * @brief Add CSS file
+	 * @deprecated
 	 **/
 	function addCSSFile($file, $optimized=false, $media='all', $targetie='',$index=0) {
 		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
-
-		if(!$media) $media = 'all';
-
-		$key = Context::getAbsFileUrl($file)."\t$targetie\t$media";
-		$map = &$self->css_files_map;
-
-		if (!isset($map[$key]) || (int)$map[$key] > (int)$index) $map[$key] = (int)$index+count($map)/100-1;
+		$self->oFrontEndFileHandler->loadFile(array($file, $media, $targetie, $index));
 	}
 
 	/**
 	 * @brief Remove css file
+	 * @deprecated
 	 **/
 	function unloadCSSFile($file, $optimized = false, $media = 'all', $targetie = '') {
 		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
-
-		$remove_key = Context::getAbsFileUrl($file)."\t$targetie\t$media";
-
-		foreach($self->css_files_map as $key => $val) {
-			if($key === $remove_key) {
-				unset($self->css_files_map[$key]);
-				return;
-			}
-		}
+		$self->oFrontEndFileHandler->unloadFile($file, $targetie, $media);
 	}
 
 	/**
@@ -1126,7 +1129,7 @@ class Context {
 	 **/
 	function unloadAllCSSFiles() {
 		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
-		$self->css_files_map = array();
+		$self->oFrontEndFileHandler->unloadAllCssFiles();
 	}
 
 	/**
@@ -1134,16 +1137,7 @@ class Context {
 	 **/
 	function getCSSFile() {
 		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
-	
-		asort($self->css_files_map);
-		$ret = array();
-		
-		foreach($self->css_files_map as $key=>$val) {
-			list($_file, $_targetie, $_media) = explode("\t", $key);
-			$ret[] = array('file'=>$_file, 'media'=>$_media, 'targetie'=>$_targetie);
-		}
-		
-		return $ret;
+		return $self->oFrontEndFileHandler->getCssFileList();
 	}
 
 	/**
@@ -1168,8 +1162,8 @@ class Context {
 			if(!$filename) continue;
 
 			if(substr($filename,0,2)=='./') $filename = substr($filename,2);
-			if(preg_match('/\.js$/i',  $filename))     $self->addJsFile($plugin_path.$filename, false, '', 0, 'body');
-			elseif(preg_match('/\.css$/i', $filename)) $self->addCSSFile($plugin_path.$filename, false, 'all', '', 0);
+			if(preg_match('/\.js$/i',  $filename))     $self->loadFile(array($plugin_path.$filename, 'body', '', 0));
+			elseif(preg_match('/\.css$/i', $filename)) $self->loadFile(array($plugin_path.$filename, 'all', '', 0));
 		}
 
 		if(is_dir($plugin_path.'lang')) $self->loadLang($plugin_path.'lang');

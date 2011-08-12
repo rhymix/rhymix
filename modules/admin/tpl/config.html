@@ -38,6 +38,13 @@
             <p>{$lang->about_rewrite}</p>
         </td>
     </tr>
+	<tr>
+		<th><div>{$lang->use_cdn}</div></th>
+		<td>
+			<input type="checkbox" name="use_cdn" value="Y" <!--@if($use_cdn=='Y')-->checked="checked"<!--@end--> />
+			<p>{$lang->about_cdn}</p>
+		</td>
+	</tr>
     <tr>
         <th><div>{$lang->use_sso}</div></th>
         <td>
@@ -110,7 +117,7 @@
     <tr>
         <th><div>{$lang->server_ports}</div></th>
         <td>
-            HTTP : <input type="text" name="http_port" class="inputTypeText" size="5" value="{$http_port}" />, 
+            HTTP : <input type="text" name="http_port" class="inputTypeText" size="5" value="{$http_port}" />,
             HTTPS: <input type="text" name="https_port" class="inputTypeText" size="5" value="{$https_port}" />
             <p>{$lang->about_server_ports}</p>
         </td>
@@ -146,7 +153,7 @@
     </tr>
     <tr>
         <th scope="col"><div><label for="textfield23">{$lang->ftp_host} (default: 127.0.0.1)</label></div></th>
-        <td><input id="textfield23" type="text" name="ftp_host" value="{$ftp_info->ftp_host}" class="inputTypeText" /></td> 
+        <td><input id="textfield23" type="text" name="ftp_host" value="{$ftp_info->ftp_host}" class="inputTypeText" /></td>
     </tr>
     <tr>
         <th scope="col"><div><label for="textfield24">{$lang->ftp_port} (default: 21) </label></div></th>
@@ -165,7 +172,7 @@
     <tr>
         <th scope="col" rowspan="2"><div>{$lang->msg_ftp_installed_ftp_realpath}<br /><br/>{$lang->msg_ftp_installed_realpath}:<br/> {_XE_PATH_}</div></th>
         <td>
-            <input type="text" name="ftp_root_path" value="{$ftp_info->ftp_root_path}" class="inputTypeText w400" /> 
+            <input type="text" name="ftp_root_path" value="{$ftp_info->ftp_root_path}" class="inputTypeText w400" />
         </td>
     </tr>
     <tr id="ftplist">

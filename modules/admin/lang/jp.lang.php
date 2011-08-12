@@ -105,4 +105,6 @@ $lang->find_site = 'Find Site';
 $lang->action = '실행';
 
 $lang->select_module_id = '모듈 아이디를 선택하세요.';
+$lang->use_cdn = 'CDN 사용';
+$lang->about_cdn = 'XE core의 css, js 파일을 CDN으로부터 제공받으려면 체크하세요.';
 ?>

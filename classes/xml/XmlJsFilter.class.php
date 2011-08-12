@@ -6,8 +6,8 @@
      * @version 0.2
 	 *
 	 * it convert xml code into js file and save the result as a cache file
-     * @code 
-     * {   
+     * @code
+     * {
 	 * <filter name="name of javascript funcion" act="action name" confirm_msg_code="message string to be prompted when submitting the form" >
 	 *  <form> <-- code to validate data in the form
 	 *    <node target="name" required="true" minlength="1" maxlength="5" filter="email,userid,alpha,number" equalto="target" />
@@ -42,7 +42,7 @@
 	 *  tag = key : name of variable that will contain the result of the execution
      *  }
 	 **/
-                
+
 	class XmlJsFilter extends XmlParser {
         var $version = '0.2.5';
 		var $compiled_path = './files/cache/js_filter_compiled/'; // / directory path for compiled cache file
@@ -66,7 +66,7 @@
 			if(!file_exists($this->xml_file)) return;
 			if(!file_exists($this->js_file)) $this->_compile();
 			else if(filemtime($this->xml_file)>filemtime($this->js_file)) $this->_compile();
-			Context::addJsFile($this->js_file, false, '',null,'body');
+			Context::loadFile(array($this->js_file, 'body', '',null));
 		}
 
 		/**
@@ -90,7 +90,7 @@
 			$module            = $attrs->module;
 			$act               = $attrs->act;
 			$extend_filter     = $attrs->extend_filter;
-			
+
 
 			$field_node = $xml_obj->filter->form->node;
 			if($field_node && !is_array($field_node)) $field_node = array($field_node);
@@ -181,7 +181,7 @@
 
 			// Check extend_filter_item
 			$rule_types = array('homepage'=>'homepage', 'email_address'=>'email');
-			
+
 			for($i=0;$i<$extend_filter_count;$i++) {
 				$filter_item = $extend_filter_list[$i];
 				$target      = trim($filter_item->name);
@@ -265,7 +265,7 @@
 
 			$confirm_msg = '';
 			if ($confirm_msg_code) $confirm_msg = $lang->{$confirm_msg_code};
-			
+
 			$jsdoc   = array();
 			$jsdoc[] = "function {$filter_name}(form){ return legacy_filter('{$filter_name}', form, '{$module}', '{$act}', {$callback_func}, [".implode(',', $responses)."], '".addslashes($confirm_msg)."', {".implode(',', $rename_params)."}) };";
 			$jsdoc[] = '(function($){';
