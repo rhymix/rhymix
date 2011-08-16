@@ -97,7 +97,7 @@ jQuery(function($){
 	// Modal Window
 	$('a.modalAnchor')
 		.click(function(){
-			var $this = $(this), $modal;
+			var $this = $(this), $modal, disabled;
 
 			// get and initialize modal window
 			$modal = $( $this.attr('href') );
@@ -134,7 +134,14 @@ jQuery(function($){
 			$this.unbind('init.mw');
 		})
 		.bind('open.mw', function(){
-			var $this = $(this), $modal, duration;
+			var $this = $(this), before_event, $modal, duration;
+
+			// before event trigger
+			before_event = $.Event('before-open.mw');
+			$this.trigger(before_event);
+
+			// is event canceled?
+			if(before_event.isDefaultPrevented()) return false;
 
 			// get modal window
 			$modal = $( $this.attr('href') );
@@ -147,9 +154,6 @@ jQuery(function($){
 
 			// workaroud for IE6
 			$('html,body').addClass('modalContainer');
-
-			// before event trigger
-			$this.trigger('before-open.mw');
 
 			// after event trigger
 			function after(){ $this.trigger('after-open.mw') };
@@ -166,7 +170,14 @@ jQuery(function($){
 				.find('button.modalClose:first').focus();
 		})
 		.bind('close.mw', function(){
-			var $this = $(this), $modal, duration;
+			var $this = $(this), before_event, $modal, duration;
+
+			// before event trigger
+			before_event = $.Event('before-close.mw');
+			$this.trigger(before_event);
+
+			// is event canceled?
+			if(before_event.isDefaultPrevented()) return false;
 
 			// get modal window
 			$modal = $( $this.attr('href') );
@@ -180,15 +191,13 @@ jQuery(function($){
 			// workaroud for IE6
 			$('html,body').removeClass('modalContainer');
 
-			// before event trigger
-			$this.trigger('before-close.mw');
-
 			// after event trigger
 			function after(){ $this.trigger('after-close.mw') };
 
 			$modal.fadeOut(duration, after);
 			$this.focus();
 		});
+
 	$('div.modal').hide();
 
 	// pagination
