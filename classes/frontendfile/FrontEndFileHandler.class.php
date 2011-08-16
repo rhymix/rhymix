@@ -72,7 +72,6 @@
 				$map[$key] = $file;
 				$mapIndex[$key] = $file->index;
 			}
-			debugPrint($file);
 		}
 
 		function unloadFile($fileName, $targetIe = '', $media = 'all')
