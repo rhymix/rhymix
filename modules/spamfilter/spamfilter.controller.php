@@ -136,11 +136,26 @@
          * @brief IP registration
          * The registered IP address is considered as a spammer
          **/
-        function insertIP($ipaddress, $description = null) {
-            $args->ipaddress = $ipaddress;
-            if($description) $args->description = $description;
+        function insertIP($ipaddressList, $description = null) {
+			//리눅스시.. 변환부분 체크하는 것 다시 봐야할 듯.
+			$ipaddressList = str_replace("\r","",$ipaddressList);
+			$ipaddressList = explode("\n",$ipaddressList);
+			debugPrint('sdfsdf');	
+			foreach($ipaddressList as $ipaddressKey => $ipaddressValue) {
+				preg_match("/(\d{1,3}(?:.(\d{1,3}|\*)){3})\s*(\/\/\s*(.*))?/",$ipaddressValue,$matches);
+				debugPrint($matches);
+				if($ipaddress=trim($matches[1])) {
+					$args->ipaddress = $ipaddress;
+					if(!$description && $matches[4]) $args->description = $matches[4];
+					else $args->description = $description;
+				}
 
-            return executeQuery('spamfilter.insertDeniedIP', $args);
+				$output = executeQuery('spamfilter.insertDeniedIP', $args);
+
+				if(!$output->toBool()) return $output;
+			}
+			return $output;
+
         }
 
         /**

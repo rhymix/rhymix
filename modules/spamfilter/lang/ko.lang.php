@@ -4,9 +4,9 @@
      * @author NHN (developers@xpressengine.com)
      * @brief Korean language pack (only the more basic)
      **/
-    // action related to
-    $lang->cmd_denied_ip = '금지IP 목록';
-    $lang->cmd_denied_word = '금지 단어 목록';
+    // action related to (Modify)
+    $lang->cmd_denied_ip = '스팸 IP 목록';
+    $lang->cmd_denied_word = '스팸 키워드 목록';
     // Common words
     $lang->spamfilter = '스팸필터';
     $lang->denied_ip = '금지 IP';
@@ -27,4 +27,14 @@
     $lang->msg_alert_denied_word = '"%s"는 사용 금지된 단어입니다.';
     $lang->msg_alert_registered_denied_ip = '금지 IP에 등록되셔서 정상적인 활동에 제한을 받게 되셨습니다. 문의는 사이트 관리자에게 해주시기 바랍니다.';
     $lang->msg_alert_trackback_denied = '한 글에는 하나의 트랙백만 허용 됩니다.';
+
+
+	// Add (determine)
+	$lang->cmd_interval = '10초 동안 3회 이상 글을 작성하면 스패머로 간주할까요? 글, 댓글 작성과 엮인글 발송을 차단합니다.';
+	$lang->cmd_check_trackback = '하나의 글에 2회 이상 엮인글을 등록하면 스패머로 간주할까요? 엮인글을 차단합니다.';
+	$lang->about_denied_ip = '\'<em>스팸 IP // 메모</em>\' 형식으로 입력하세요. 여러개의 목록은 줄을 바꾸어 입력하세요.';
+	$lang->about_denied_word = '여러개의 목록은 줄을 바꾸어 입력하세요.';
+	$lang->add = '추가';
+	$lang->yes = '예';
+	$lang->no = '아니오';
 ?>

@@ -17,40 +17,23 @@
 
         /**
          * @brief Spam Filter configurations
+		 *        Output the list of banned IPs and words
          **/
-        function dispSpamfilterAdminConfig() {
+		function dispSpamfilterAdminSetting() {
             // Get configurations (using module model object)
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('spamfilter');
-            Context::set('config',$config);
-            // Set a template file
-            $this->setTemplateFile('index');
-        }
-
-        /**
-         * @brief Output the list of banned IPs
-         **/
-        function dispSpamfilterAdminDeniedIPList() {
-            // Get the list of banned IP addresses
-            $oSpamFilterModel = &getModel('spamfilter');
+			
+			// Get the list of denied IP addresses and words
+			$oSpamFilterModel = &getModel('spamfilter');
             $ip_list = $oSpamFilterModel->getDeniedIPList();
-
-            Context::set('ip_list', $ip_list);
-            // Set a template file
-            $this->setTemplateFile('denied_ip_list');
-        }
-
-        /**
-         * @brief Output the list of prohibited words
-         **/
-        function dispSpamfilterAdminDeniedWordList() {
-            // Get the list of prohibited words
-            $oSpamFilterModel = &getModel('spamfilter');
             $word_list = $oSpamFilterModel->getDeniedWordList();
 
+            Context::set('config',$config);
+            Context::set('ip_list', $ip_list);
             Context::set('word_list', $word_list);
             // Set a template file
-            $this->setTemplateFile('denied_word_list');
-        }
+            $this->setTemplateFile('spSpamFilter');
+		}
     }
 ?>
