@@ -307,6 +307,7 @@ button.text{border:0;overflow:visible;padding:0;margin:0;color:#33a;background:n
 .search form *{vertical-align:middle}
 /* Site Map */
 .siteMap h2 input{font-size:12px;font-weight:bold;padding:0 .5em}
+.siteMap label{cursor:text}
 .siteMap .lined ul{padding:0;margin:0;border-top:1px solid #eee;zoom:1}
 .siteMap .lined li{position:relative;padding:0;margin:0;cursor:all-scroll;list-style:none;zoom:1}
 .siteMap .lined li li{border-top:1px solid #eee}
@@ -366,6 +367,7 @@ button.text{border:0;overflow:visible;padding:0;margin:0;color:#33a;background:n
 .siteMap .placeholder{background:#bbb}
 .siteMap .draggable,
 .siteMap .draggable .moveTo{background-color:#ddd}
+.siteMap .draggable .summary{border-left:1px solid #ccc;padding-left:10px;margin-left:10px;font-size:11px;color:#999}
 /* Button Area */
 .btnArea{margin:1em 0;text-align:right;zoom:1}
 .btnArea:after{content:"";display:block;clear:both}
