@@ -105,44 +105,118 @@
 					$gnbDBList[$m[1]] = $value->menu_item_srl;
 				}
 			}
-
 			unset($args);
-            $oModuleModel = &getModel('module');
-            $installed_module_list = $oModuleModel->getModulesXmlInfo();
+
+			$gnbModuleList = array(
+				0=>array(
+					'module'=>'site',
+					'subMenu'=>array('site'),
+				),
+				1=>array(
+					'module'=>'member',
+					'subMenu'=>array('userList', 'userSetting'),
+				),
+				2=>array(
+					'module'=>'point',
+					'subMenu'=>array('point'),
+				),
+				3=>array(
+					'module'=>'document',
+					'subMenu'=>array('document'),
+				),
+				4=>array(
+					'module'=>'comment',
+					'subMenu'=>array('comment'),
+				),
+				5=>array(
+					'module'=>'trackback',
+					'subMenu'=>array('trackback'),
+				),
+				6=>array(
+					'module'=>'file',
+					'subMenu'=>array('file'),
+				),
+				7=>array(
+					'module'=>'poll',
+					'subMenu'=>array('poll'),
+				),
+				8=>array(
+					'module'=>'importer',
+					'subMenu'=>array('importer'),
+				),
+				9=>array(
+					'module'=>'admin',
+					'subMenu'=>array('theme'),
+				),
+				10=>array(
+					'module'=>'autoinstall',
+					'subMenu'=>array('easyInstall'),
+				),
+				11=>array(
+					'module'=>'layout',
+					'subMenu'=>array('installedLayout'),
+				),
+				12=>array(
+					'module'=>'module',
+					'subMenu'=>array('installedModule'),
+				),
+				13=>array(
+					'module'=>'widget',
+					'subMenu'=>array('installedWidget'),
+				),
+				14=>array(
+					'module'=>'addon',
+					'subMenu'=>array('installedAddon'),
+				),
+				15=>array(
+					'module'=>'editor',
+					'subMenu'=>array('editor'),
+				),
+				16=>array(
+					'module'=>'spamfilter',
+					'subMenu'=>array('spamFilter'),
+				),
+				17=>array(
+					'module'=>'admin',
+					'subMenu'=>array('adminConfiguration', 'adminMenuSetup'),
+				),
+				18=>array(
+					'module'=>'file',
+					'subMenu'=>array('fileUpload'),
+				),
+			);
+
+			$oMemberModel = &getModel('member');
+			$output = $oMemberModel->getAdminGroup(array('group_srl'));
+			$adminGroupSrl = $output->group_srl;
 
 			// gnb sub item create
-			if(is_array($installed_module_list))
+			// common argument setting
+			$args->menu_srl = $menuSrl;
+			$args->open_window = 'N';
+			$args->expand = 'N';
+			$args->normal_btn = '';
+			$args->hover_btn = '';
+			$args->active_btn = '';
+			$args->group_srls = $adminGroupSrl;
+            $oModuleModel = &getModel('module');
+
+			foreach($gnbModuleList AS $key=>$value)
 			{
-				$oMemberModel = &getModel('member');
-				$output = $oMemberModel->getAdminGroup(array('group_srl'));
-				$adminGroupSrl = $output->group_srl;
-
-				// common argument setting
-				$args->menu_srl = $menuSrl;
-				$args->open_window = 'N';
-				$args->expand = 'N';
-				$args->normal_btn = '';
-				$args->hover_btn = '';
-				$args->active_btn = '';
-				$args->group_srls = $adminGroupSrl;
-
-				foreach($installed_module_list AS $key=>$value)
+				if(is_array($value['subMenu']))
 				{
-					$moduleActionInfo = $oModuleModel->getModuleActionXml($value->module);
-					if(is_object($moduleActionInfo->menu))
+					$moduleActionInfo = $oModuleModel->getModuleActionXml($value['module']);
+					foreach($value['subMenu'] AS $key2=>$value2)
 					{
-						foreach($moduleActionInfo->menu AS $key2=>$value2)
-						{
-							$gnbKey = "'".$this->_getGnbKey($key2)."'";
+						$gnbKey = "'".$this->_getGnbKey($value2)."'";
 
-							//insert menu item
-							$args->menu_item_srl = getNextSequence();
-							$args->parent_srl = $gnbDBList[$gnbKey];
-							$args->name = '{$lang->menu_gnb_sub[\''.$key2.'\']}';
-							$args->url = getNotEncodedUrl('', 'module', 'admin', 'act', $value2->index);
-							$args->listorder = -1*$args->menu_item_srl;
-							$output = executeQuery('menu.insertMenuItem', $args);
-						}
+						//insert menu item
+						$args->menu_item_srl = getNextSequence();
+						$args->parent_srl = $gnbDBList[$gnbKey];
+						$args->name = '{$lang->menu_gnb_sub[\''.$value2.'\']}';
+						$args->url = getNotEncodedUrl('', 'module', 'admin', 'act', $moduleActionInfo->{$value2}->index);
+						$args->listorder = -1*$args->menu_item_srl;
+						$output = executeQuery('menu.insertMenuItem', $args);
 					}
 				}
 			}
