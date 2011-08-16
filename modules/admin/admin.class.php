@@ -214,7 +214,7 @@
 						$args->menu_item_srl = getNextSequence();
 						$args->parent_srl = $gnbDBList[$gnbKey];
 						$args->name = '{$lang->menu_gnb_sub[\''.$value2.'\']}';
-						$args->url = getNotEncodedUrl('', 'module', 'admin', 'act', $moduleActionInfo->{$value2}->index);
+						$args->url = getNotEncodedUrl('', 'module', 'admin', 'act', $moduleActionInfo->menu->{$value2}->index);
 						$args->listorder = -1*$args->menu_item_srl;
 						$output = executeQuery('menu.insertMenuItem', $args);
 					}
