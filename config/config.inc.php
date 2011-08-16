@@ -21,6 +21,11 @@
     define('_XE_PATH_', str_replace('config/config.inc.php', '', str_replace('\\', '/', __FILE__)));
 
 	/**
+	 * @brief CDN domain
+	 **/
+	define('__XE_CDN__', 'http://static.xpressengine.com/');
+
+	/**
 	 * @brief 쿠키 이외의 값에서도 세션을 인식할 수 있도록 함(파일업로드 등에서의 문제 수정)
 	 **/
 	ini_set('session.use_only_cookies', 0);
@@ -36,9 +41,9 @@
 	}
 
     /**
-     * @brief user configuration files which override the default settings 
+     * @brief user configuration files which override the default settings
      * save the following information into config/config.user.inc.php
-     * <?php 
+     * <?php
      * define('__DEBUG__', 0);
      * define('__DEBUG_OUTPUT__', 0);
      * define('__DEBUG_PROTECT__', 1);
@@ -97,7 +102,7 @@
     /**
      * @brief Leave DB query information
      * 0: Do not add information to the query
-     * 1: Comment the XML Query ID 
+     * 1: Comment the XML Query ID
      **/
     if(!defined('__DEBUG_QUERY__')) define('__DEBUG_QUERY__', 0);
 
@@ -130,11 +135,11 @@
     }
 
 	/**
-	 * @brief Set Timezone as server time 
+	 * @brief Set Timezone as server time
 	 **/
 	if(version_compare(PHP_VERSION, '5.3.0') >= 0)
 	{
-		date_default_timezone_set(@date_default_timezone_get());		
+		date_default_timezone_set(@date_default_timezone_get());
 	}
 
 	if(!defined('__XE_LOADED_CLASS__')){
@@ -169,6 +174,7 @@
 		require(_XE_PATH_.'classes/page/PageHandler.class.php');
 		require(_XE_PATH_.'classes/mobile/Mobile.class.php');
 		require(_XE_PATH_.'classes/validator/Validator.class.php');
+		require(_XE_PATH_.'classes/frontendfile/FrontEndFileHandler.class.php');
 		if(__DEBUG__) $GLOBALS['__elapsed_class_load__'] = getMicroTime() - __ClassLoadStartTime__;
 	}
 ?>
