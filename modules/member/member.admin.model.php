@@ -136,5 +136,16 @@
             $this->add('tpl', $tpl);
         }
 
+        /**
+         * @brief Return member count with date
+         **/
+        function getMemberCountByDate($date = '') {
+			if($date) $args->regDate = date('Ymd', strtotime($date));
+
+			$output = executeQuery('member.getMemberCountByDate', $args);
+			if(!$output->toBool()) return 0;
+
+			return $output->data->count;
+        }
     }
 ?>

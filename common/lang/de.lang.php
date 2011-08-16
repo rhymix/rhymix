@@ -70,6 +70,9 @@ $lang->cmd_add_ip_to_spamfilter = 'Add IP to spamfilter';
 $lang->cmd_go_to_page = 'Go to page';
 
 $lang->enable = 'Aktivieren';
+$lang->disable = 'Disable';
+$lang->agree = 'Agree';
+$lang->disagree = 'Disagree';
 $lang->deaktivieren = 'Deaktivieren';
 
 // Essential Words

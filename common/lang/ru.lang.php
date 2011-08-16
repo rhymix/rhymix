@@ -71,6 +71,8 @@ $lang->cmd_go_to_page = 'Go to page';
 
 $lang->enable = 'Включено';
 $lang->disable = 'Выключено';
+$lang->agree = 'Agree';
+$lang->disagree = 'Disagree';
 
 // Основные слова
 $lang->favorite = 'Favorite';

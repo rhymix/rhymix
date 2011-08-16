@@ -71,6 +71,8 @@ $lang->cmd_go_to_page = 'Go to page';
 
 $lang->enable = 'Valide';
 $lang->disable = 'Invalide';
+$lang->agree = 'Agree';
+$lang->disagree = 'Disagree';
 
 // Mots essentiels
 $lang->favorite = 'Favorite';

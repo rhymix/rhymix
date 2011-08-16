@@ -178,6 +178,19 @@
 		}
 
 		/**
+		 * @brief enviroment gathering agreement
+		 **/
+		function procAdminEnviromentGatheringAgreement()
+		{
+			$isAgree = Context::get('is_agree');
+			if($isAgree == 'true')
+				$_SESSION['enviroment_gather'] = 'Y';
+
+			$redirectUrl = getUrl('', 'module', 'admin');
+			$this->setRedirectUrl($redirectUrl);
+		}
+
+		/**
 		 * @brief Insert favorite
 		 **/
 		function insertFavorite($siteSrl, $module, $key)

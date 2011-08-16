@@ -77,5 +77,16 @@
             return $node;
         }
 
+        /**
+         * @brief Return document count with date
+         **/
+        function getDocumentCountByDate($date = '') {
+			if($date) $args->regDate = date('Ymd', strtotime($date));
+
+			$output = executeQuery('document.getDocumentCountByDate', $args);
+			if(!$output->toBool()) return 0;
+
+			return $output->data->count;
+        }
     }
 ?>

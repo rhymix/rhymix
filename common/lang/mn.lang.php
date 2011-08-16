@@ -71,6 +71,8 @@ $lang->cmd_go_to_page = 'Go to page';
 
 $lang->enable = 'Боломжтой';
 $lang->disable = 'Боломжгүй';
+$lang->agree = 'Agree';
+$lang->disagree = 'Disagree';
 
 // 기본 단어
 $lang->favorite = 'Favorite';

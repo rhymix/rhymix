@@ -71,6 +71,8 @@ $lang->cmd_go_to_page = 'Go to page';
 
 $lang->enable = '可用';
 $lang->disable = '禁用';
+$lang->agree = 'Agree';
+$lang->disagree = 'Disagree';
 
 // 基本词语
 $lang->favorite = 'Favorite';

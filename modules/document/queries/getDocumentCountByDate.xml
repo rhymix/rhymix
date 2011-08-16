@@ -1,0 +1,11 @@
+<query id="getDocumentCountByDate" action="select">
+    <tables>
+        <table name="documents" />
+    </tables>
+    <columns>
+        <column name="count(*)" alias="count" />
+    </columns>
+    <conditions>
+		<condition operation="like_prefix" column="regdate" var="regDate" />
+    </conditions>
+</query>

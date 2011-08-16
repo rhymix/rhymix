@@ -100,9 +100,13 @@
 					}
 				}
 			}
+			$browserTitle = 'Dashboard';
+			if($subMenuTitle) $browserTitle = $subMenuTitle;
+			$browserTitle .= ' - XE Admin';
 
 			Context::set('gnbUrlList', $menu->list);
 			Context::set('parentSrl', $parentSrl);
+            Context::setBrowserTitle($browserTitle);
 		}
 
 		function loadSideBar()
@@ -163,6 +167,61 @@
          * @return none
          **/
         function dispAdminIndex() {
+            // Get statistics
+            $args->date = date("Ymd000000", time()-60*60*24);
+            $today = date("Ymd");
+
+            // Member Status
+			$oMemberAdminModel = &getAdminModel('member');
+			$status->member->todayCount = $oMemberAdminModel->getMemberCountByDate($today);
+			$status->member->totalCount = $oMemberAdminModel->getMemberCountByDate();
+
+            // Document Status
+			$oDocumentAdminModel = &getAdminModel('document');
+			$status->document->todayCount = $oDocumentAdminModel->getDocumentCountByDate($today);
+			$status->document->totalCount = $oDocumentAdminModel->getDocumentCountByDate();
+
+            // Comment Status
+			$oCommentModel = &getModel('comment');
+			$status->comment->todayCount = $oCommentModel->getCommentCountByDate($today);
+			$status->comment->totalCount = $oCommentModel->getCommentCountByDate();
+
+            // Trackback Status 
+			$oTrackbackAdminModel = &getAdminModel('trackback');
+			$status->trackback->todayCount = $oTrackbackAdminModel->getTrackbackCountByDate($today);
+			$status->trackback->totalCount = $oTrackbackAdminModel->getTrackbackCountByDate();
+
+            Context::set('status', $status);
+
+            // Latest Document
+			$oDocumentModel = &getModel('document');
+			$columnList = array('document_srl', 'module_srl', 'category_srl', 'title', 'nick_name', 'member_srl');
+			$args->list_count = 5;;
+			$output = $oDocumentModel->getDocumentList($args, false, false, $columnList);
+            Context::set('latestDocumentList', $output->data);
+			unset($args, $output, $columnList);
+
+			// Latest Comment
+			$oCommentModel = &getModel('comment');
+			$columnList = array('comment_srl', 'module_srl', 'document_srl', 'content', 'nick_name', 'member_srl');
+			$args->list_count = 5;
+			$output = $oCommentModel->getNewestCommentList($args, $columnList);
+			if(is_array($output))
+			{
+				foreach($output AS $key=>$value)
+					$value->content = strip_tags($value->content);
+			}
+            Context::set('latestCommentList', $output);
+			unset($args, $output, $columnList);
+
+			//Latest Trackback
+			$oTrackbackModel = &getModel('trackback');
+			$columnList = array();
+			$args->list_count = 5;
+			$output =$oTrackbackModel->getNewestTrackbackList($args);
+            Context::set('latestTrackbackList', $output->data);
+			unset($args, $output, $columnList);
+
             //Retrieve recent news and set them into context
             $newest_news_url = sprintf("http://news.xpressengine.com/%s/news.php?version=%s&package=%s", _XE_LOCATION_, __ZBXE_VERSION__, _XE_PACKAGE_);
             $cache_file = sprintf("%sfiles/cache/newest_news.%s.cache.php", _XE_PATH_, _XE_LOCATION_);
@@ -195,190 +254,26 @@
                 Context::set('download_link', $buff->zbxe_news->attrs->download_link);
             }
 
-            // DB Information
-            $db_info = Context::getDBInfo();
-            Context::set('selected_lang', $db_info->lang_type);
-
-            // Current Version and Installed Path
-            Context::set('current_version', __ZBXE_VERSION__);
-            Context::set('installed_path', realpath('./'));
-
             // Get list of modules
             $oModuleModel = &getModel('module');
             $module_list = $oModuleModel->getModuleList();
+			if(is_array($module_list))
+			{
+				$isUpdated = false;
+				foreach($module_list AS $key=>$value)
+				{
+					if($value->need_install || $value->need_update)
+						$isUpdated = true;
+				}
+			}
             Context::set('module_list', $module_list);
+            Context::set('isUpdated', $isUpdated);
 
-            // Get list of addons
-            $oAddonModel = &getAdminModel('addon');
-            $addon_list = $oAddonModel->getAddonList();
-            Context::set('addon_list', $addon_list);
-            // Visitors
-            $time = time();
-            $w = date("D");
-            while(date("D",$time) != "Sat") {
-                $time += 60*60*24;
-            }
-            $end_time = $time;
-            $end_date = date("Ymd",$time);
-            $time -= 60*60*24;
-            while(date("D",$time)!="Sun") {
-                $thisWeek[] = date("Ymd",$time);
-                $time -= 60*60*24;
-            }
-            $start_time = $time;
-            $start_date = date("Ymd",$time-60*60*24*7);
-
-            $args->start_date = $start_date;
-            $args->end_date = $end_date;
-            $output = executeQueryArray('admin.getVisitors', $args);
-            if(count($output->data)) {
-                foreach($output->data as $key => $val) {
-                    $visitors[$val->regdate] = $val->unique_visitor;
-                }
-            }
-            $output = executeQueryArray('admin.getSiteVisitors', $args);
-            if(count($output->data)) {
-                foreach($output->data as $key => $val) {
-                    $visitors[$val->regdate] += $val->unique_visitor;
-                }
-            }
-            $status->week_max = 0;
-            if(count($visitors)) {
-                foreach($visitors as $key => $val) {
-                    if($val>$status->week_max) $status->week_max = $val;
-                }
-            }
-
-            for($i=$start_time;$i<=$end_time;$i+=60*60*24) {
-				$status->thisWeekSum += $visitors[date("Ymd",$i)];
-                $status->week[date("Y.m.d",$i)]->this = (int)$visitors[date("Ymd",$i)];
-                $status->week[date("Y.m.d",$i)]->last = (int)$visitors[date("Ymd",$i-60*60*24*7)];
-            }
-            // Wanted various statistical information
-            $output = executeQuery('admin.getTotalVisitors');
-            $status->total_visitor = $output->data->count;
-            $output = executeQuery('admin.getTotalSiteVisitors');
-            $status->total_visitor += $output->data->count;
-            $status->visitor = $visitors[date("Ymd")];
-            // Today's Number of Comments
-            $args->regdate = date("Ymd");
-            $output = executeQuery('admin.getTodayCommentCount', $args);
-            $status->comment_count = $output->data->count;
-            // Today Wed yeokingeul
-            $args->regdate = date("Ymd");
-            $output = executeQuery('admin.getTodayTrackbackCount', $args);
-            $status->trackback_count = $output->data->count;
-
-            Context::set('status', $status);
-
-            // Get statistics
-            $args->date = date("Ymd000000", time()-60*60*24);
-            $today = date("Ymd");
-
-            // Member Status
-            $output = executeQueryArray("admin.getMemberStatus", $args);
-            if($output->data) {
-                foreach($output->data as $var) {
-                    if($var->date == $today) {
-                        $status->member->today = $var->count;
-                    } else {
-                        $status->member->yesterday = $var->count;
-                    }
-                }
-            }
-            $output = executeQuery("admin.getMemberCount", $args);
-            $status->member->total = $output->data->count;
-
-            // Document Status
-            $output = executeQueryArray("admin.getDocumentStatus", $args);
-            if($output->data) {
-                foreach($output->data as $var) {
-                    if($var->date == $today) {
-                        $status->document->today = $var->count;
-                    } else {
-                        $status->document->yesterday = $var->count;
-                    }
-                }
-            }
-            $output = executeQuery("admin.getDocumentCount", $args);
-            $status->document->total = $output->data->count;
-
-            // Comment Status
-            $output = executeQueryArray("admin.getCommentStatus", $args);
-            if($output->data) {
-                foreach($output->data as $var) {
-                    if($var->date == $today) {
-                        $status->comment->today = $var->count;
-                    } else {
-                        $status->comment->yesterday = $var->count;
-                    }
-                }
-            }
-            $output = executeQuery("admin.getCommentCount", $args);
-            $status->comment->total = $output->data->count;
-
-            // Trackback Status
-            $output = executeQueryArray("admin.getTrackbackStatus", $args);
-            if($output->data) {
-                foreach($output->data as $var) {
-                    if($var->date == $today) {
-                        $status->trackback->today = $var->count;
-                    } else {
-                        $status->trackback->yesterday = $var->count;
-                    }
-                }
-            }
-            $output = executeQuery("admin.getTrackbackCount", $args);
-            $status->trackback->total = $output->data->count;
-
-            // Attached files Status
-            $output = executeQueryArray("admin.getFileStatus", $args);
-            if($output->data) {
-                foreach($output->data as $var) {
-                    if($var->date == $today) {
-                        $status->file->today = $var->count;
-                    } else {
-                        $status->file->yesterday = $var->count;
-                    }
-                }
-            }
-            $output = executeQuery("admin.getFileCount", $args);
-            $status->file->total = $output->data->count;
-
-            // Reported documents Status
-            $output = executeQueryArray("admin.getDocumentDeclaredStatus", $args);
-            if($output->data) {
-                foreach($output->data as $var) {
-                    if($var->date == $today) {
-                        $status->documentDeclared->today = $var->count;
-                    } else {
-                        $status->documentDeclared->yesterday = $var->count;
-                    }
-                }
-            }
-            $output = executeQuery("admin.getDocumentDeclaredCount", $args);
-            $status->documentDeclared->total = $output->data->count;
-
-            // Reported comments Status
-            $output = executeQueryArray("admin.getCommentDeclaredStatus", $args);
-            if($output->data) {
-                foreach($output->data as $var) {
-                    if($var->date == $today) {
-                        $status->commentDeclared->today = $var->count;
-                    } else {
-                        $status->commentDeclared->yesterday = $var->count;
-                    }
-                }
-            }
-            $output = executeQuery("admin.getCommentDeclaredCount", $args);
-            $status->commentDeclared->total = $output->data->count;
-
-			$oModuleModel = &getModel('module');
-			$columnList = array('browser_title');
-			$start_module = $oModuleModel->getSiteInfo(0, $columnList);
-            Context::set('start_module', $start_module);
-
-            Context::set('status', $status);
+			// gathering enviroment check
+			$path = FileHandler::getRealPath('./files/env/'.__ZBXE_VERSION__);
+			$isEnviromentGatheringAgreement = false;
+			if(file_exists($path)) $isEnviromentGatheringAgreement = true;
+			Context::set('isEnviromentGatheringAgreement', $isEnviromentGatheringAgreement);
             Context::set('layout','none');
             $this->setTemplateFile('index');
         }
@@ -444,11 +339,16 @@
 				FileHandler::removeDir($path);
 				FileHandler::writeFile($path.__ZBXE_VERSION__,'1');
 
-			} else if($_SESSION['enviroment_gather']=='Y' && !file_exists($path.__ZBXE_VERSION__)) {
-				$oAdminAdminModel = &getAdminModel('admin');
-				$params = $oAdminAdminModel->getEnv();
-				$img = sprintf('<img src="%s" alt="" style="height:0px;width:0px" />', $server.$params);
-				Context::addHtmlFooter($img);
+			}
+			else if(isset($_SESSION['enviroment_gather']) && !file_exists(FileHandler::getRealPath($path.__ZBXE_VERSION__)))
+			{
+				if($_SESSION['enviroment_gather']=='Y')
+				{
+					$oAdminAdminModel = &getAdminModel('admin');
+					$params = $oAdminAdminModel->getEnv();
+					$img = sprintf('<img src="%s" alt="" style="height:0px;width:0px" />', $server.$params);
+					Context::addHtmlFooter($img);
+				}
 
 				FileHandler::removeDir($path);
 				FileHandler::writeFile($path.__ZBXE_VERSION__,'1');

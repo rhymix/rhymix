@@ -70,6 +70,8 @@ $lang->cmd_go_to_page = 'Go to page';
 
 $lang->enable = 'Activar'; //Activado
 $lang->disable = 'Desactivar'; //Desactivado
+$lang->agree = 'Agree';
+$lang->disagree = 'Disagree';
 
 // Palabras Esenciales
 $lang->favorite = 'Favorite';

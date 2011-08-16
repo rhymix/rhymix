@@ -71,6 +71,8 @@ $lang->cmd_go_to_page = 'Go to page';
 
 $lang->enable = 'Seçilir kıl';
 $lang->disable = 'Seçilemez kıl';
+$lang->agree = 'Agree';
+$lang->disagree = 'Disagree';
 
 // Essential Words
 $lang->favorite = 'Favorite';

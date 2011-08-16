@@ -70,6 +70,8 @@ $lang->cmd_go_to_page = 'Go to page';
 
 $lang->enable = 'Bật';
 $lang->disable = 'Tắt';
+$lang->agree = 'Agree';
+$lang->disagree = 'Disagree';
 
 // Essential Words
 $lang->favorite = 'Favorite';

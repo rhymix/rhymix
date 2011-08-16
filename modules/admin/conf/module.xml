@@ -12,6 +12,7 @@
         <action name="procAdminLogout" type="controller" standalone="true" />
         <action name="procAdminInsertThemeInfo" type="controller" standalone="true" ruleset="insertThemeInfo" />
 		<action name="procAdminToggleFavorite" type="controller" ruleset="toggleFavorite" />
+		<action name="procAdminEnviromentGatheringAgreement" type="controller" standalone="true" />
 
         <action name="getAdminFTPList" type="model" standalone="true" />
     </actions>

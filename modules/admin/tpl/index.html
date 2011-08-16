@@ -1,173 +1,91 @@
 <!--#include("./_spHeader.html")-->
 <div class="content dashboard" id="content">
-	<form action="" class="noticeAlert">
-		<h2>설치 환경정보 수집 동의</h2>
-		<p>설치 환경정보 수집에 동의하는 경우 사용자의 XE 설치 환경과 관련되어 있는 '<em>웹서버, 데이터베이스, PHP버전과 Extension, 사이트에 설치된 모듈과 애드온</em>' 정보가 XE 통계 수집 서버로 전송됩니다. 수집된 정보는 더 나은 SW를 제작하기 위한 통계 수집 이외의 목적으로 활용하지 않습니다. XE는 사용자의 설치 환경 정보를 외부에 공개하지 않습니다. <em>이 항목에 반드시 동의하지 않아도 됩니다.</em></p>
+	<!--@if(!$isEnviromentGatheringAgreement)-->
+	<form action="./" method="post" class="noticeAlert">
+	<input type="hidden" name="act" value="procAdminEnviromentGatheringAgreement" />
+		<h2>{$lang->install_env_agreement}</h2>
+		<p>{$lang->install_env_agreement_desc}</p>
 		<div class="btnArea">
-			<span class="btn"><input type="submit" value="동의" /></span>
-			<span class="btn"><button type="button">동의 안함</button></span>
+			<span class="btn"><button type="submit" name="is_agree" value="true">{$lang->agree}</button></span>
+			<span class="btn"><button type="submit" name="is_agree" value="false">{$lang->disagree}</button></span>
 		</div>
 	</form>
+	<!--@end-->
 	<div class="portlet">
 		<h2 class="h2">Current State</h2>
 		<ul class="lined">
 			<li><a href="#">Site</a> <span class="side">42(+1)</span></li>
-			<li><a href="#">User</a> <span class="side">806,296(+124)</span></li>
-			<li><a href="#">Document</a> <span class="side">347,886(+82)</span></li>
-			<li><a href="#">Comment</a> <span class="side">738,201(+295)</span></li>
-			<li><a href="#">Trackback</a> <span class="side">252(+21)</span></li>
+			<li><a href="#">User</a> <span class="side">{number_format($status->member->totalCount)}(<!--@if($status->member->todayCount > 0)-->+<!--@end-->{number_format($status->member->todayCount)})</span></li>
+			<li><a href="#">Document</a> <span class="side">{number_format($status->document->totalCount)}(<!--@if($status->document->todayCount > 0)-->+<!--@end-->{number_format($status->document->todayCount)})</span></li>
+			<li><a href="#">Comment</a> <span class="side">{number_format($status->comment->totalCount)}(<!--@if($status->comment->todayCount > 0)-->+<!--@end-->{$status->comment->todayCount})</span></li>
+			<li><a href="#">Trackback</a> <span class="side">{number_format($status->trackback->totalCount)}(<!--@if($status->trackback->todayCount > 0)-->+<!--@end-->{$status->trackback->todayCount})</span></li>
 		</ul>
 	</div>
 	<div class="portlet">
 		<h2 class="h2">Latest Document</h2>
 		<ul class="lined">
+			<!--@foreach($latestDocumentList AS $key=>$value)-->
+			{@$document = $value->variables}
 			<li>
-				<a href="#" target="_blank">How are you doing? How are you doing? How are you doing? How are you doing? How are you doing? </a> <span class="side">ChanMyeong</span> 
+				<a href="#" target="_blank">{$document['title']}</a> <span class="side">{$document['nick_name']}</span> 
 				<span class="action">
 					<a href="#" target="_blank">Edit</a>
 					<a href="#">Spam</a>
 					<a href="#">Trash</a>
 				</span>
 			</li>
-			<li>
-				<a href="#" target="_blank">How are you doing?</a> <span class="side">ChanMyeong</span> 
-				<span class="action">
-					<a href="#" target="_blank">Edit</a>
-					<a href="#">Spam</a>
-					<a href="#">Trash</a>
-				</span>
-			</li>
-			<li>
-				<a href="#" target="_blank">How are you doing?</a> <span class="side">ChanMyeong</span> 
-				<span class="action">
-					<a href="#" target="_blank">Edit</a>
-					<a href="#">Spam</a>
-					<a href="#">Trash</a>
-				</span>
-			</li>
-			<li>
-				<a href="#" target="_blank">How are you doing?</a> <span class="side">ChanMyeong</span> 
-				<span class="action">
-					<a href="#" target="_blank">Edit</a>
-					<a href="#">Spam</a>
-					<a href="#">Trash</a>
-				</span>
-			</li>
-			<li>
-				<a href="#" target="_blank">How are you doing?</a> <span class="side">ChanMyeong</span> 
-				<span class="action">
-					<a href="#" target="_blank">Edit</a>
-					<a href="#">Spam</a>
-					<a href="#">Trash</a>
-				</span>
-			</li>
+			<!--@end-->
 		</ul>
 	</div>
 	<div class="portlet">
 		<h2 class="h2">Latest Comment</h2>
 		<ul class="lined">
+			<!--@foreach($latestCommentList AS $key=>$value)-->
 			<li>
-				<a href="#" target="_blank">How are you doing? How are you doing? How are you doing? How are you doing? How are you doing? </a> <span class="side">ChanMyeong</span> 
+				<a href="#" target="_blank">{$value->content}</a> <span class="side">{$value->nick_name}</span> 
 				<span class="action">
 					<a href="#" target="_blank">Edit</a>
 					<a href="#">Spam</a>
 					<a href="#">Trash</a>
 				</span>
 			</li>
-			<li>
-				<a href="#" target="_blank">How are you doing?</a> <span class="side">ChanMyeong</span> 
-				<span class="action">
-					<a href="#" target="_blank">Edit</a>
-					<a href="#">Spam</a>
-					<a href="#">Trash</a>
-				</span>
-			</li>
-			<li>
-				<a href="#" target="_blank">How are you doing?</a> <span class="side">ChanMyeong</span> 
-				<span class="action">
-					<a href="#" target="_blank">Edit</a>
-					<a href="#">Spam</a>
-					<a href="#">Trash</a>
-				</span>
-			</li>
-			<li>
-				<a href="#" target="_blank">How are you doing?</a> <span class="side">ChanMyeong</span> 
-				<span class="action">
-					<a href="#" target="_blank">Edit</a>
-					<a href="#">Spam</a>
-					<a href="#">Trash</a>
-				</span>
-			</li>
-			<li>
-				<a href="#" target="_blank">How are you doing?</a> <span class="side">ChanMyeong</span> 
-				<span class="action">
-					<a href="#" target="_blank">Edit</a>
-					<a href="#">Spam</a>
-					<a href="#">Trash</a>
-				</span>
-			</li>
+			<!--@end-->
 		</ul>
 	</div>
 	<div class="portlet">
 		<h2 class="h2">Latest Trackback</h2>
 		<ul class="lined">
+			<!--@foreach($latestTrackbackList AS $key=>$value)-->
 			<li>
-				<a href="#" target="_blank">How are you doing? How are you doing? How are you doing? How are you doing? How are you doing? </a> <span class="side">ChanMyeong</span> 
+				<a href="#" target="_blank">{$value->title}</a> <span class="side">{$value->blog_name}</span> 
 				<span class="action">
 					<a href="#" target="_blank">Edit</a>
 					<a href="#">Spam</a>
 					<a href="#">Trash</a>
 				</span>
 			</li>
-			<li>
-				<a href="#" target="_blank">How are you doing?</a> <span class="side">ChanMyeong</span> 
-				<span class="action">
-					<a href="#" target="_blank">Edit</a>
-					<a href="#">Spam</a>
-					<a href="#">Trash</a>
-				</span>
-			</li>
-			<li>
-				<a href="#" target="_blank">How are you doing?</a> <span class="side">ChanMyeong</span> 
-				<span class="action">
-					<a href="#" target="_blank">Edit</a>
-					<a href="#">Spam</a>
-					<a href="#">Trash</a>
-				</span>
-			</li>
-			<li>
-				<a href="#" target="_blank">How are you doing?</a> <span class="side">ChanMyeong</span> 
-				<span class="action">
-					<a href="#" target="_blank">Edit</a>
-					<a href="#">Spam</a>
-					<a href="#">Trash</a>
-				</span>
-			</li>
-			<li>
-				<a href="#" target="_blank">How are you doing?</a> <span class="side">ChanMyeong</span> 
-				<span class="action">
-					<a href="#" target="_blank">Edit</a>
-					<a href="#">Spam</a>
-					<a href="#">Trash</a>
-				</span>
-			</li>
+			<!--@end-->
 		</ul>
 	</div>
 	<div class="portlet">
 		<h2 class="h2">XE Team Notice</h2>
 		<ul class="lined">
-			<li><a href="#" target="_blank">How are you doing? How are you doing? How are you doing? How are you doing? How are you doing? </a> <span class="side">2011-12-24</span></li>
-			<li><a href="#" target="_blank">How are you doing?</a> <span class="side">2011-12-24</span></li>
-			<li><a href="#" target="_blank">How are you doing?</a> <span class="side">2011-12-24</span></li>
-			<li><a href="#" target="_blank">How are you doing?</a> <span class="side">2011-12-24</span></li>
-			<li><a href="#" target="_blank">How are you doing?</a> <span class="side">2011-12-24</span></li>
+			<!--@foreach($news AS $key=>$value)-->
+			<li><a href="#" target="_blank">{$value->title}</a> <span class="side">{zdate($value->date, 'Y-m-d')}</span></li>
+			<!--@end-->
 		</ul>
 	</div>
 	<div class="portlet">
 		<h2 class="h2">Update Available</h2>
 		<ul class="lined">
-			<li>사용 가능한 업데이트 항목이 없습니다.</li>
-			<li><a href="#" target="_blank">XE Core 1.5</a> <span class="side"><a href="#">Update</a></span></li>
+		<!--@foreach($module_list AS $key => $value)-->
+			<!--@if($value->need_install)-->
+			<li><a href="{getUrl('','module','admin','act',$val->admin_index_act)}">{$value->module}</a> <span class="side"><a href="#" onclick="doInstallModule('{$value->module}');return false;">{$lang->cmd_install}</a></span></li>
+			<!--@else if($value->need_update)-->
+			<li><a href="{getUrl('','module','admin','act',$val->admin_index_act)}">{$value->module}</a> <span class="side"><a href="#" onclick="doUpdateModule('{$value->module}')">{$lang->cmd_update}</a></span></li>
+			<!--@end-->
+		<!--@end-->
+			<!--@if(!$isUpdated)--><li>사용 가능한 업데이트 항목이 없습니다.</li><!--@end-->
 		</ul>
 	</div>
 </div>

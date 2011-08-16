@@ -62,5 +62,15 @@
 
             return $output;
         }
+
+		function getTrackbackCountByDate($date = '')
+		{
+			if($date) $args->regDate = date('Ymd', strtotime($date));
+
+            $output = executeQuery('trackback.getTrackbackCount', $args);
+			if(!$output->toBool()) return 0;
+
+			return $output->data->count;
+		}
     }
 ?>

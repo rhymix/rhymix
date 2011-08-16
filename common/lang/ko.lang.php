@@ -71,6 +71,8 @@ $lang->cmd_complete = '완료';
 $lang->cmd_go_to_page = '페이지 직접 이동';
 $lang->enable = '가능';
 $lang->disable = '불가능';
+$lang->agree = '동의';
+$lang->disagree = '동의안함';
 // Basic words
 $lang->favorite = '즐겨찾기';
 $lang->menu = '메뉴';
