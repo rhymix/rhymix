@@ -170,7 +170,7 @@
                 return $oMessageObject;
             }
 
-            // Get action information with conf/action.xml 
+            // Get action information with conf/module.xml
             $xml_info = $oModuleModel->getModuleActionXml($this->module);
 
             // If not installed yet, modify act 
