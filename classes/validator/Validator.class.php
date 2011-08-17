@@ -105,9 +105,9 @@ class Validator
 	 * Set root cache directory
 	 * @param[in] string $cache_dir Root cache directory
 	 */
-	function setCacheDir($_cache_dir){
+	function setCacheDir($cache_dir){
 		if(is_dir($cache_dir)) {
-			$this->$_cache_dir = preg_replace('@/$@', '', $cache_dir);
+			$this->_cache_dir = preg_replace('@/$@', '', $cache_dir);
 		}
 	}
 
@@ -324,7 +324,7 @@ class Validator
 	function getJsPath(){
 		if(!$this->_cache_dir) return false;
 
-		$dir = $this->_cache_dir.'/rulesets';
+		$dir = $this->_cache_dir.'/ruleset';
 		if(!is_dir($dir) && !mkdir($dir)) return false;
 		if(!$this->_xml_path) return false;
 
