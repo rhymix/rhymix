@@ -7,6 +7,7 @@
 		function ConditionArgument($name, $value, $operation){
                         if(isset($value) && in_array($operation, array('in', 'notin', 'between')) && !is_array($value)){
                             $value = str_replace(' ', '', $value);
+                            $value = str_replace('\'', '', $value);
                             $value = explode(',', $value);
                         }
 			parent::Argument($name, $value);
