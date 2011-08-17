@@ -15,7 +15,6 @@
 
 
 		function procSpamfilterAdminInsertSetting() {
-			debugPrint('Setting!!');
 
             // Get the default information
             $argsConfig = Context::gets('limits','check_trackback');
@@ -23,7 +22,6 @@
 			$wordList = Context::get('wordList');
 			$flag = Context::get('flag');
 			//interval, limit_count
-			debugPrint($argsConfig);
 
 			if(!$flag){
 	            if($argsConfig->check_trackback && $argsConfig->check_trackback!='Y') $argsConfig->check_trackback = 'N';
