@@ -1127,6 +1127,7 @@
                     case 'is_secret' :
                             if($search_keyword=='N') $args->statusList = array($this->getConfigStatus('public'));
                             elseif($search_keyword=='Y') $args->statusList = array($this->getConfigStatus('secret'));
+                            elseif($search_keyword=='temp') $args->statusList = array($this->getConfigStatus('temp'));
                         break;
                     case 'member_srl' :
                     case 'readed_count' :

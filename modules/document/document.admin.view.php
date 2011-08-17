@@ -30,7 +30,7 @@
             // option to get a list
             $args->page = Context::get('page'); // /< Page
             $args->list_count = 30; // /< the number of posts to display on a single page
-            $args->page_count = 10; // /< the number of pages that appear in the page navigation
+            $args->page_count = 5; // /< the number of pages that appear in the page navigation
 
             $args->search_target = Context::get('search_target'); // /< search (title, contents ...)
             $args->search_keyword = Context::get('search_keyword'); // /< keyword to search
@@ -45,6 +45,16 @@
 
 			// count eache status, not in trash...
 			$countOutput = $oDocumentModel->getDocumentCountByGroupStatus($args);;
+			if(is_array($countOutput))
+			{
+				$statusCount = array();
+				foreach($countOutput AS $key=>$value)
+					$statusCount[$value->status] = $value->count;
+
+				if(!array_key_exists('PUBLIC', $statusCount)) $statusCount['PUBLIC'] = 0;
+				if(!array_key_exists('SECRET', $statusCount)) $statusCount['SECRET'] = 0;
+				if(!array_key_exists('TEMP', $statusCount)) $statusCount['TEMP'] = 0;
+			}
 
 			// get Status name list
 			$statusNameList = $oDocumentModel->getStatusNameList();
@@ -56,7 +66,7 @@
             Context::set('document_list', $output->data);
             Context::set('status_name_list', $statusNameList);
             Context::set('page_navigation', $output->page_navigation);
-            Context::set('countOutput', $countOutput);
+            Context::set('statusCount', $statusCount);
 
             // set a search option used in the template
             $count_search_option = count($this->search_option);
