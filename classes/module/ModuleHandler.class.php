@@ -133,6 +133,9 @@
             // Set module and mid into module_info
             $this->module_info->module = $this->module;
             $this->module_info->mid = $this->mid;
+			
+			// Set site_srl add 2011 08 09
+			$this->module_info->site_srl = $site_module_info->site_srl;
 
             // Still no module? it's an error
             if(!$this->module) $this->error = 'msg_module_does_not_exist';
@@ -269,15 +272,31 @@
 						$oModule = &$this->getModuleInstance($forward->module, $type, $kind);
 					}
                     $xml_info = $oModuleModel->getModuleActionXml($forward->module);
-					if($this->module == "admin" && $type == "view")
+					if($kind == "admin" && $type == "view")
 					{
 						$oMemberModel = &getModel('member');
-
 						$logged_info = $oMemberModel->getLoggedInfo();
+
+						$grant = $oModuleModel->getGrant($forward, $logged_info, $xml_info); 
 						if($logged_info->is_admin=='Y') {
 							$orig_module->makeGnbUrl($forward->module);
 							$oModule->setLayoutPath("./modules/admin/tpl");
 							$oModule->setLayoutFile("layout.html");
+						}elseif($grant->is_site_admin){
+							$oSiteModel = &getModel('site');
+// 			debugPrint(Context::get('site_module_info'));
+							$output = $oSiteModel->getSiteAdminMenu($logged_info);
+							Context::set('gnbUrlList', $output->menuList);
+							Context::set('parentSrl', $output->parentSrl);
+							$oModule->setLayoutPath("./modules/admin/tpl");
+							$oModule->setLayoutFile("site_admin_layout.html");
+						}else{
+							$this->error = 'msg_is_not_administrator';
+							$oMessageObject = &ModuleHandler::getModuleInstance('message',$type);
+							$oMessageObject->setError(-1);
+							$oMessageObject->setMessage($this->error);
+							$oMessageObject->dispMessage();
+							return $oMessageObject;
 						}
 					}
 				}
@@ -337,6 +356,29 @@
             // if failed message exists in session, set context
 			$this->_setInputErrorToContext();
 
+			// 관리자 화면인경우
+			$kind = strpos(strtolower($this->act),'admin')!==false?'admin':'';
+			$type = $this->module_info->module_type;
+			if(!$forward && $kind == "admin" && $type == "view")
+			{
+				
+				$oMemberModel = &getModel('member');
+				$logged_info = $oMemberModel->getLoggedInfo();
+				$grant = $oModuleModel->getGrant($oModule, $logged_info, $xml_info); 
+
+				if ($logged_info->is_admin == 'Y'){
+					$oModule->setLayoutPath("./modules/admin/tpl");
+					$oModule->setLayoutFile("layout.html");
+				}elseif($grant->is_site_admin){
+					$oSiteModel = &getModel('site');
+					$output = $oSiteModel->getSiteAdminMenu($logged_info);
+					Context::set('gnbUrlList', $output->menuList);
+					Context::set('parentSrl', $output->parentSrl);
+					$oModule->setLayoutPath("./modules/admin/tpl");
+					$oModule->setLayoutFile("site_admin_layout.html");
+				}
+			}
+
             $procResult = $oModule->proc();
 
 			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON')))
@@ -366,7 +408,6 @@
 				$_SESSION['XE_VALIDATOR_MESSAGE_TYPE'] = $messageType;
 				$_SESSION['XE_VALIDATOR_RETURN_URL'] = $redirectUrl;
 			}
-			
             return $oModule;
         }
 

@@ -21,8 +21,9 @@ class HTMLDisplayHandler {
 				$template_path = sprintf('./themes/%s/modules/%s/', $theme_skin[0], $theme_skin[1]);
 			else
 				$template_path = $oModule->getTemplatePath();
-		}else
+		}else{
 			$template_path = $oModule->getTemplatePath();
+		}
 		$tpl_file = $oModule->getTemplateFile();
 
 		$output = $oTemplate->compile($template_path, $tpl_file);
