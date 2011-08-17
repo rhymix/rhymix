@@ -53,8 +53,8 @@
         /**
          * @brief Return number of attachments which belongs to a specific document
          **/
-        function getFilesCountByGroupValid($obj) {
-			$this->_makeSearchParam($obj, $args);
+        function getFilesCountByGroupValid($obj = '') {
+			//$this->_makeSearchParam($obj, $args);
 
             $output = executeQueryArray('file.getFilesCountByGroupValid', $args);
             return $output->data;

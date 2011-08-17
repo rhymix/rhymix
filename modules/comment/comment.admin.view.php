@@ -33,7 +33,13 @@
             $output = $oCommentModel->getTotalCommentList($args, $columnList);
 
 			// get total comment count group by is_secret status
+			$tmp->search_target = Context::get('search_target');
+			$tmp->search_keyword = Context::get('search_keyword');
+			Context::set('search_target', '');
+			Context::set('search_keyword', '');
 			$countOutput = $oCommentModel->getTotalCommentCount($args);
+			Context::set('search_target', $tmp->search_target);
+			Context::set('search_keyword', $tmp->search_keyword);
 
             // set values in the return object of comment_model:: getTotalCommentList() in order to use a template.
             Context::set('total_count', $output->total_count);

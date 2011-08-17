@@ -155,7 +155,7 @@
                 }
             }
 
-			$countOutput = $oFileAdminModel->getFilesCountByGroupValid($args);
+			$countOutput = $oFileAdminModel->getFilesCountByGroupValid();
 			$validCount = array();
 			if(is_array($countOutput))
 			{

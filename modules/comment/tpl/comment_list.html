@@ -11,8 +11,6 @@
 				<!--@foreach($countOutput AS $key=>$value)-->
 				| <a href="{getUrl('search_target','is_secret','search_keyword', $value->is_secret)}">{$secret_name_list[$value->is_secret]}({$value->count})</a>
 				<!--@end-->
-				| <a href="#">{$lang->accusation}(#)</a>
-				| <a href="#">{$lang->trash}(#)</a>
 				<div class="side">
 					<span class="btn"><a href="#listManager" class="modalAnchor" onclick="getCommentList();">{$lang->comment_manager}...</a></span>
 				</div>

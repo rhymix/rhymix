@@ -10,7 +10,6 @@
 				All({number_format($total_count)})
 				| <a href="{getUrl('search_target','isvalid','search_keyword','Y')}">{$lang->is_valid}({number_format((int)$valid_count['Y'])})</a>
 				| <a href="{getUrl('search_target','isvalid','search_keyword','N')}">{$lang->is_stand_by}({number_format((int)$valid_count['N'])})</a>
-				| <a href="#">{$lang->trash}(#)</a>
 				<span class="side"><span class="btn"><a href="#listManager" class="modalAnchor">{$lang->file_manager}...</a></span></span>
 			</caption>
 			<thead>
@@ -87,7 +86,7 @@
 					<td><a href="{getUrl('search_target','ipaddress','search_keyword',$val->ipaddress)}">{$val->ipaddress}</a></td>
 					<td><!--@if($val->isvalid=='Y')-->{$lang->is_valid}<!--@else-->{$lang->is_stand_by}<!--@end--></td>
 					<td>
-						<input type="checkbox" name="cart[]" value="{$val->file_srl}" onclick="addCart(this.value)" <!--@if($val->isCarted)-->checked="checked"<!--@end--> />
+						<input type="checkbox" name="cart" value="{$val->file_srl}" onclick="addCart(this.value)" <!--@if($val->isCarted)-->checked="checked"<!--@end--> />
 					</td>
 				</tr>
 				<!--@endforeach-->
