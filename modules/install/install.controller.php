@@ -35,7 +35,7 @@
 
 			$_SESSION['lgpl_agree'] = $requestVars->lgpl_agree;
 			if($requestVars->enviroment_gather=='Y') {
-				FileHandler::writeFile('./files/env/install','1'); 
+				FileHandler::writeFile('./files/env/install','1');
 			}
 
 			$url = getNotEncodedUrl('', 'act', 'dispInstallCheckEnv');
@@ -101,7 +101,11 @@
 		 **/
 		function _procDBSetting() {
             // Get DB-related variables
-            $db_info = Context::gets('db_type','db_port','db_hostname','db_userid','db_password','db_database','db_table_prefix');
+            $con_string = Context::gets('db_type','db_port','db_hostname','db_userid','db_password','db_database','db_table_prefix');
+
+            $db_info->master_db = get_object_vars($con_string);
+            $db_info->slave_db[] = get_object_vars($con_string);
+
             if(!$db_info->default_url) $db_info->default_url = Context::getRequestUri();
             $db_info->lang_type = Context::getLangType();
 
@@ -243,7 +247,7 @@
                 }
 
                 $oFtp->ftp_quit();
-            } 
+            }
 
             $config_file = Context::getFTPConfigFile();
             FileHandler::WriteFile($config_file, $buff);
@@ -297,7 +301,7 @@
             // 2. Check if xml_parser_create exists
             if(function_exists('xml_parser_create')) $checklist['xml'] = true;
             else $checklist['xml'] = false;
-            // 3. Check if ini_get (session.auto_start) == 1 
+            // 3. Check if ini_get (session.auto_start) == 1
             if(ini_get(session.auto_start)!=1) $checklist['session'] = true;
             else $checklist['session'] = false;
             // 4. Check if iconv exists
@@ -343,7 +347,7 @@
          *
          * Create a table by using schema xml file in the shcema directory of each module
          **/
-        function installDownloadedModule() { 
+        function installDownloadedModule() {
             $oModuleModel = &getModel('module');
             // Create a table ny finding schemas/*.xml file in each module
             $module_list = FileHandler::readDir('./modules/', NULL, false, true);
@@ -360,7 +364,7 @@
             $this->installModule('module','./modules/module');
             $oModule = &getClass('module');
             if($oModule->checkUpdate()) $oModule->moduleUpdate();
-            // Determine the order of module installation depending on category                      
+            // Determine the order of module installation depending on category
             $install_step = array('system','content','member');
             // Install all the remaining modules
             foreach($install_step as $category) {
@@ -423,6 +427,49 @@
             return new Object();
         }
 
+        function _getDbConnText($key, $val, $with_array = false){
+            $buff = '';
+            if($with_array)
+                $buff .= "\$db_info->$key = array(";
+            else
+                $buff .= "\$db_info->$key = ";
+            if(!$with_array) $val = array($val);
+            foreach($val as $con_string){
+                $buff .= 'array(';
+                foreach($con_string as $k => $v){
+                    if(in_array($k, array('resource', 'is_connected'))) continue;
+                    if($k == 'db_table_prefix'){
+                           if(substr($v,-1)!='_') $v .= '_';
+                    }
+                    $buff .= "'$k' => '$v',";
+                }
+                $buff = substr($buff, 0, -1);
+                $buff .= '),';
+            }
+            $buff = substr($buff, 0, -1);
+            if($with_array)
+                $buff .= ');' . PHP_EOL;
+            else
+                $buff .= ';' . PHP_EOL;
+            return $buff;
+        }
+
+        function _getDBConfigFileContents($db_info){
+            $buff = '<?php if(!defined("__ZBXE__")) exit();'."\n";
+            foreach($db_info as $key => $val) {
+                if($key == 'master_db'){
+                    $buff .= $this->_getDbConnText($key, $val);
+                }
+                else if($key == 'slave_db'){
+                    $buff .= $this->_getDbConnText($key, $val, true);
+                }
+                else
+                    $buff .= sprintf("\$db_info->%s = '%s';" . PHP_EOL, $key, str_replace("'","\\'",$val));
+            }
+            $buff .= "?>";
+            return $buff;
+        }
+
         /**
          * @brief Create DB temp config file
          * Create the config file when all settings are completed
@@ -433,11 +480,7 @@
             $db_info = Context::getDbInfo();
             if(!$db_info) return;
 
-            $buff = '<?php if(!defined("__ZBXE__")) exit();'."\n";
-            foreach($db_info as $key => $val) {
-                $buff .= sprintf("\$db_info->%s = '%s';\n", $key, str_replace("'","\\'",$val));
-            }
-            $buff .= "?>";
+            $buff = $this->_getDBConfigFileContents($db_info);
 
             FileHandler::writeFile($db_tmp_config_file, $buff);
 
@@ -475,11 +518,7 @@
             $db_info = Context::getDbInfo();
             if(!$db_info) return;
 
-            $buff = '<?php if(!defined("__ZBXE__")) exit();'."\n";
-            foreach($db_info as $key => $val) {
-                $buff .= sprintf("\$db_info->%s = '%s';\n", $key, str_replace("'","\\'",$val));
-            }
-            $buff .= "?>";
+            $buff = $this->_getDBConfigFileContents($db_info);
 
             FileHandler::writeFile($config_file, $buff);
 
@@ -507,7 +546,7 @@
 			$body .= "</params>\r\n</methodCall>";
 
 			$header = sprintf($fheader,$auto_config['path'],$auto_config['host'],strlen($body),$body);
-			$fp = @fsockopen($auto_config['host'], $auto_config['port'], $errno, $errstr, 5); 
+			$fp = @fsockopen($auto_config['host'], $auto_config['port'], $errno, $errstr, 5);
 			if($fp){
 				fputs($fp, $header);
 				while(!feof($fp)) {
@@ -516,7 +555,7 @@
 						fclose($fp);
 						return false;
 					}
-				}   
+				}
 				fclose($fp);
 			}
 			return true;

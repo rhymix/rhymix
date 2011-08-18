@@ -12,11 +12,9 @@
         /**
          * information to connect to DB
          **/
-		var $conn		= NULL;
-        var $database	= NULL; ///< database
         var $prefix		= 'xe'; // / <prefix of XE tables(One more XE can be installed on a single DB)
-		var $param		= array();
-		var $comment_syntax = '/* %s */';
+        var $param		= array();
+        var $comment_syntax = '/* %s */';
 
         /**
          * @brief column type used in mssql
@@ -60,53 +58,29 @@
         }
 
         /**
-         * @brief DB settings and connect/close
-         **/
-        function _setDBInfo() {
-            $db_info = Context::getDBInfo();
-            $this->hostname = $db_info->db_hostname;
-            $this->port = $db_info->db_port;
-            $this->userid   = $db_info->db_userid;
-            $this->password   = $db_info->db_password;
-            $this->database = $db_info->db_database;
-            $this->prefix = $db_info->db_table_prefix;
-
-			if(!substr($this->prefix,-1)!='_') $this->prefix .= '_';
-        }
-
-        /**
          * @brief DB Connection
          **/
-        function _connect() {
-            // ignore if db information not exists
-            if(!$this->hostname || !$this->database) return;
+        function __connect($connection) {
+            //sqlsrv_configure( 'WarningsReturnAsErrors', 0 );
+            //sqlsrv_configure( 'LogSeverity', SQLSRV_LOG_SEVERITY_ALL );
+            //sqlsrv_configure( 'LogSubsystems', SQLSRV_LOG_SYSTEM_ALL );
+            $result = @sqlsrv_connect($connection["db_hostname"], array('Database' => $connection["db_database"], 'UID' => $connection["db_userid"], 'PWD' => $connection["db_password"]));
 
-			//sqlsrv_configure( 'WarningsReturnAsErrors', 0 );
-			//sqlsrv_configure( 'LogSeverity', SQLSRV_LOG_SEVERITY_ALL );
-			//sqlsrv_configure( 'LogSubsystems', SQLSRV_LOG_SYSTEM_ALL );
-
-			$this->conn = sqlsrv_connect( $this->hostname,
-											array( 'Database' => $this->database,'UID'=>$this->userid,'PWD'=>$this->password ));
-
-
-			// Check connections
-		    if($this->conn){
-				$this->is_connected = true;
-				$this->password = md5($this->password);
-			}else{
-				$this->is_connected = false;
-			}
+            if(!$result)
+            {
+                $errors = print_r(sqlsrv_errors(), true);
+                $this->setError (-1, 'database connect fail' . PHP_EOL . $errors);
+		return;
+            }
+            return $result;
         }
 
         /**
          * @brief DB disconnect
          **/
-        function close() {
-            if($this->is_connected == false) return;
-
+        function _close($connection) {
             $this->commit();
-			sqlsrv_close($this->conn);
-			$this->conn = null;
+            sqlsrv_close($connection);
         }
 
         /**
@@ -123,31 +97,28 @@
         /**
          * @brief Begin transaction
          **/
-        function begin() {
-            if($this->is_connected == false || $this->transaction_started) return;
-			if(sqlsrv_begin_transaction( $this->conn ) === false) return;
-
-            $this->transaction_started = true;
+        function _begin() {
+            $connection = $this->_getConnection('master');
+            if(sqlsrv_begin_transaction($connection) === false) return;
+            return true;
         }
 
         /**
          * @brief Rollback
          **/
-        function rollback() {
-            if($this->is_connected == false || !$this->transaction_started) return;
-
-			$this->transaction_started = false;
-            sqlsrv_rollback( $this->conn );
+        function _rollback() {
+            $connection = $this->_getConnection('master');
+            sqlsrv_rollback($connection);
+            return true;
         }
 
         /**
          * @brief Commit
          **/
-        function commit($force = false) {
-            if(!$force && ($this->is_connected == false || !$this->transaction_started)) return;
-
-            $this->transaction_started = false;
-            sqlsrv_commit( $this->conn );
+        function _commit() {
+            $connection = $this->_getConnection('master');
+            sqlsrv_commit($connection);
+            return true;
         }
 
         /**
@@ -159,47 +130,40 @@
          *        object if a row returned \n
          *        return\n
          **/
-        function _query($query) {
-			if($this->is_connected == false || !$query) return;
+        function __query($query, $connection) {
+            $_param = array();
 
-			$_param = array();
-
-			if(count($this->param)){
-				foreach($this->param as $k => $o){
-					if($o->getType() == 'number'){
-                                                $value = $o->getUnescapedValue();
-                                                if(is_array($value)) $_param = array_merge($_param, $value);
-						else $_param[] = $o->getUnescapedValue();
-					}else{
-						$value = $o->getUnescapedValue();
-                                                if(is_array($value)) {
-                                                    foreach($value as $v)
-                                                        $_param[] = array($v, SQLSRV_PARAM_IN, SQLSRV_PHPTYPE_STRING('utf-8'));
-                                                }
-						else $_param[] = array($value, SQLSRV_PARAM_IN, SQLSRV_PHPTYPE_STRING('utf-8'));
-					}
-				}
-			}
-
-            // Notify to start a query execution
-            $this->actStart($query);
+            if(count($this->param)){
+                    foreach($this->param as $k => $o){
+                            if($o->getType() == 'number'){
+                                    $value = $o->getUnescapedValue();
+                                    if(is_array($value)) $_param = array_merge($_param, $value);
+                                    else $_param[] = $o->getUnescapedValue();
+                            }else{
+                                    $value = $o->getUnescapedValue();
+                                    if(is_array($value)) {
+                                        foreach($value as $v)
+                                            $_param[] = array($v, SQLSRV_PARAM_IN, SQLSRV_PHPTYPE_STRING('utf-8'));
+                                    }
+                                    else $_param[] = array($value, SQLSRV_PARAM_IN, SQLSRV_PHPTYPE_STRING('utf-8'));
+                            }
+                    }
+            }
 
             // Run the query statement
 			$result = false;
 			if(count($_param)){
-				$result = @sqlsrv_query($this->conn, $query, $_param);
+				$result = @sqlsrv_query($connection, $query, $_param);
 			}else{
-				$result = @sqlsrv_query($this->conn, $query);
+				$result = @sqlsrv_query($connection, $query);
 			}
-// Error Check
+            // Error Check
 
 			if(!$result) $this->setError(print_r(sqlsrv_errors(),true));
 
-            // Notify to complete a query execution
-            $this->actFinish();
-			$this->param = array();
+            $this->param = array();
 
-			return $result;
+            return $result;
         }
 
         /**
@@ -490,7 +454,7 @@
          * In order to get a list of pages easily when selecting \n
          * it supports a method as navigation
          **/
-        function _executeSelectAct($queryObject) {
+        function _executeSelectAct($queryObject, $connection = null) {
         	$query = $this->getSelectSql($queryObject);
 
                 if(strpos($query, "substr")) $query = str_replace ("substr", "substring", $query);
@@ -499,10 +463,10 @@
         	$this->param = $queryObject->getArguments();
 
 		$query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id):'';
-                $result = $this->_query($query);
+                $result = $this->_query($query, $connection);
 
                 if ($this->isError ()) return $this->queryError($queryObject);
-                else return $this->queryPageLimit($queryObject, $result);
+                else return $this->queryPageLimit($queryObject, $result, $connection);
         }
 
         function getParser(){
@@ -522,7 +486,7 @@
 					return;
 		}
 
-		function queryPageLimit($queryObject, $result){
+		function queryPageLimit($queryObject, $result, $connection){
 			 	if ($queryObject->getLimit() && $queryObject->getLimit()->isPageHandler()) {
 		 		// Total count
 		 		$count_query = sprintf('select count(*) as "count" %s %s', 'FROM ' . $queryObject->getFromString(), ($queryObject->getWhereString() === '' ? '' : ' WHERE '. $queryObject->getWhereString()));
@@ -531,7 +495,7 @@
 				}
 
 				$count_query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
-				$result_count = $this->_query($count_query);
+				$result_count = $this->_query($count_query, $connection);
 				$count_output = $this->_fetch($result_count);
 				$total_count = (int)$count_output->count;
 
@@ -549,9 +513,9 @@
                                 // check the page variables
                                 if ($page > $total_page) $page = $total_page;
                                 $start_count = ($page - 1) * $list_count;
-                                
+
                                 $query .= (__DEBUG_QUERY__&1 && $queryObject->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
-                                $result = $this->_query ($query);
+                                $result = $this->_query ($query, $connection);
                                 if ($this->isError ())
                                     return $this->queryError($queryObject);
 

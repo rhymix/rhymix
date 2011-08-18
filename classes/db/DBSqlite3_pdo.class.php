@@ -16,7 +16,7 @@
 		var $comment_syntax = '/* %s */';
 
         /**
-         * Variables for using PDO 
+         * Variables for using PDO
          **/
         var $handler      = NULL;
         var $stmt         = NULL;
@@ -26,7 +26,7 @@
         /**
          * @brief column type used in sqlite3
          *
-         * column_type should be replaced for each DBMS properly 
+         * column_type should be replaced for each DBMS properly
          * because column_type uses a commonly defined type in schema/query xml files
          **/
         var $column_type = array(
@@ -47,7 +47,7 @@
             $this->_setDBInfo();
             $this->_connect();
         }
-		
+
 		/**
 		 * @brief create an instance of this class
 		 */
@@ -131,7 +131,7 @@
         }
 
         /**
-         * @brief Add or change quotes to the query string variables 
+         * @brief Add or change quotes to the query string variables
          **/
         function addQuotes($string) {
             if(version_compare(PHP_VERSION, "5.9.0", "<") && get_magic_quotes_gpc()) $string = stripslashes(str_replace("\\","\\\\",$string));
@@ -334,7 +334,7 @@
             // xml parsing
             $oXml = new XmlParser();
             $xml_obj = $oXml->parse($xml_doc);
-            // Create a table schema 
+            // Create a table schema
             $table_name = $xml_obj->table->attrs->name;
             if($this->isTableExists($table_name)) return;
             $table_name = $this->prefix.$table_name;
@@ -503,7 +503,7 @@
             // check the page variables
             if ($page > $total_page) $page = $total_page;
             $start_count = ($page - 1) * $list_count;
-                                
+
             $this->_prepare($this->getSelectPageSql($queryObject, true, $start_count, $list_count));
             $this->stmt->execute();
             if ($this->stmt->errorCode() != '00000') {
@@ -542,7 +542,7 @@
         }
         return $buff;
     }
-    
+
     function getSelectPageSql($query, $with_values = true, $start_count = 0, $list_count = 0) {
 
         $select = $query->getSelectString($with_values);

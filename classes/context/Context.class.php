@@ -218,6 +218,27 @@ class Context {
 		$config_file = $self->getConfigFile();
 		if(is_readable($config_file)) @include($config_file);
 
+                // If master_db information does not exist, the config file needs to be updated
+                if(!isset($db_info->master_db)) {
+                    $db_info->master_db = array();
+                    $db_info->master_db["db_type"] = $db_info->db_type; unset($db_info->db_type);
+                    $db_info->master_db["db_port"] = $db_info->db_port; unset($db_info->db_port);
+                    $db_info->master_db["db_hostname"] = $db_info->db_hostname; unset($db_info->db_hostname);
+                    $db_info->master_db["db_password"] = $db_info->db_password; unset($db_info->db_password);
+                    $db_info->master_db["db_database"] = $db_info->db_database; unset($db_info->db_database);
+                    $db_info->master_db["db_userid"] = $db_info->db_userid; unset($db_info->db_userid);
+                    $db_info->master_db["db_table_prefix"] = $db_info->db_table_prefix; unset($db_info->db_table_prefix);
+                    if(substr($db_info->master_db["db_table_prefix"],-1)!='_') $db_info->master_db["db_table_prefix"] .= '_';
+
+                    $slave_db = $db_info->master_db;
+                    $db_info->slave_db = array($slave_db);
+
+                    $self->setDBInfo($db_info);
+
+                    $oInstallController = &getController('install');
+                    $oInstallController->makeConfigFile();
+                }
+
 		if(!$db_info->time_zone) $db_info->time_zone = date("O");
 		$GLOBALS['_time_zone'] = $db_info->time_zone;
 
@@ -239,7 +260,7 @@ class Context {
 	 **/
 	function getDBType() {
 		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
-		return $self->db_info->db_type;
+		return $self->db_info->master_db["db_type"];
 	}
 
 	/**

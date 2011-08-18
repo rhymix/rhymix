@@ -16,12 +16,7 @@
 		/**
 		 * @brief CUBRID DB connection information
 		 **/
-		var $hostname = '127.0.0.1'; ///< hostname
-		var $userid = NULL; ///< user id
-		var $password = NULL; ///< password
-		var $database = NULL; ///< database
-		var $port = 33000; ///< db server port
-		var $prefix = 'xe'; // / <prefix of XE tables(One more XE can be installed on a single DB)
+		var $prefix = 'xe_'; // / <prefix of XE tables(One more XE can be installed on a single DB)
 		var $cutlen = 12000; // /< max size of constant in CUBRID(if string is larger than this, '...'+'...' should be used)
 		var $comment_syntax = '/* %s */';
 
@@ -70,51 +65,28 @@
 		}
 
 		/**
-		 * @brief DB settings and connect/close
-		 **/
-		function _setDBInfo()
-		{
-			$db_info = Context::getDBInfo();
-			$this->hostname = $db_info->db_hostname;
-			$this->userid   = $db_info->db_userid;
-			$this->password   = $db_info->db_password;
-			$this->database = $db_info->db_database;
-			$this->port = $db_info->db_port;
-			$this->prefix = $db_info->db_table_prefix;
-
-			if (!substr($this->prefix, -1) != '_') $this->prefix .= '_';
-		}
-
-		/**
 		 * @brief DB Connection
 		 **/
-		function _connect()
+		function __connect($connection)
 		{
-			// ignore if db information not exists
-			if (!$this->hostname || !$this->userid || !$this->password || !$this->database || !$this->port) return;
-
-			// attempts to connect
-			$this->fd = @cubrid_connect ($this->hostname, $this->port, $this->database, $this->userid, $this->password);
+                        // attempts to connect
+			$result = @cubrid_connect($connection["db_hostname"], $connection["db_port"], $connection["db_database"], $connection["db_userid"], $connection["db_password"]);
 
 			// check connections
-			if (!$this->fd) {
+			if (!$result) {
 				$this->setError (-1, 'database connect fail');
-				return $this->is_connected = false;
+				return;
 			}
-
-			$this->is_connected = true;
-			$this->password = md5 ($this->password);
+                        return $result;
 		}
 
 		/**
 		 * @brief DB disconnect
 		 **/
-		function close()
+		function _close($connection)
 		{
-			if (!$this->isConnected ()) return;
-
-			@cubrid_commit ($this->fd);
-			@cubrid_disconnect ($this->fd);
+			@cubrid_commit ($connection);
+			@cubrid_disconnect ($connection);
 			$this->transaction_started = false;
 		}
 
@@ -123,8 +95,6 @@
 		 **/
 		function addQuotes($string)
 		{
-			if (!$this->fd) return $string;
-
 			if (version_compare (PHP_VERSION, "5.9.0", "<") &&
 			  get_magic_quotes_gpc ()) {
 				$string = stripslashes (str_replace ("\\","\\\\", $string));
@@ -149,32 +119,29 @@
 		/**
 		 * @brief Begin transaction
 		 **/
-		function begin()
+		function _begin()
 		{
-			if (!$this->isConnected () || $this->transaction_started) return;
-			$this->transaction_started = true;
+                    return true;
 		}
 
 		/**
 		 * @brief Rollback
 		 **/
-		function rollback()
+		function _rollback()
 		{
-			if (!$this->isConnected () || !$this->transaction_started) return;
-			@cubrid_rollback ($this->fd);
-			$this->transaction_started = false;
+                        $connection = $this->_getConnection('master');
+			@cubrid_rollback ($connection);
+                        return true;
 		}
 
 		/**
 		 * @brief Commit
 		 **/
-		function commit()
+		function _commit()
 		{
-			if (!$force && (!$this->isConnected () ||
-			  !$this->transaction_started)) return;
-
-			@cubrid_commit($this->fd);
-			$this->transaction_started = false;
+                        $connection = $this->_getConnection('master');
+			@cubrid_commit($connection);
+                        return true;
 		}
 
 		/**
@@ -186,15 +153,10 @@
 		 *		object if a row returned \n
 		 *		return\n
 		 **/
-		function _query($query)
+		function __query($query, $connection)
 		{
-			if (!$query || !$this->isConnected ()) return;
-
-			// Notify to start a query execution
-			$this->actStart ($query);
-
 			// Execute the query
-			$result = @cubrid_execute ($this->fd, $query);
+			$result = @cubrid_execute ($connection, $query);
 			// error check
 			if (cubrid_error_code ()) {
 				$code = cubrid_error_code ();
@@ -202,10 +164,6 @@
 
 				$this->setError ($code, $msg);
 			}
-
-			// Notify to complete a query execution
-			$this->actFinish ();
-
 			// Return the result
  			return $result;
 		}
@@ -583,7 +541,7 @@
 
 			$result = $this->_query ($query);
 			if ($result && !$this->transaction_started) {
-				@cubrid_commit ($this->fd);
+				$this->_commit();
 			}
 
 			return $result;
@@ -599,7 +557,7 @@
 
 			$result = $this->_query($query);
 
-			if ($result && !$this->transaction_started) @cubrid_commit ($this->fd);
+			if ($result && !$this->transaction_started) $this->_commit();
 
 			return $result;
 		}
@@ -615,7 +573,7 @@
 
 			$result = $this->_query ($query);
 
-			if ($result && !$this->transaction_started) @cubrid_commit ($this->fd);
+			if ($result && !$this->transaction_started) $this->_commit();
 
 			return $result;
 		}
@@ -626,17 +584,17 @@
 		 * to get a specific page list easily in select statement,\n
 		 * a method, navigation, is used
 		 **/
-		 function _executeSelectAct($queryObject){
+		 function _executeSelectAct($queryObject, $connection = null){
 			$query = $this->getSelectSql($queryObject);
 			if(is_a($query, 'Object')) return;
 
 			$query .= (__DEBUG_QUERY__&1 && $queryObject->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
-			$result = $this->_query ($query);
+			$result = $this->_query ($query, $connection);
 
 			if ($this->isError ())
                                 return $this->queryError($queryObject);
 			else
-                            return $this->queryPageLimit($queryObject, $result);
+                            return $this->queryPageLimit($queryObject, $result, $connection);
 		}
 
 		function queryError($queryObject){
@@ -652,7 +610,7 @@
 					return;
 		}
 
-		function queryPageLimit($queryObject, $result){
+		function queryPageLimit($queryObject, $result, $connection){
         		if ($queryObject->getLimit() && $queryObject->getLimit()->isPageHandler()) {
 
 		 	// Total count
@@ -662,7 +620,7 @@
 			}
 
 			$count_query .= (__DEBUG_QUERY__&1 && $queryObject->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
-			$result = $this->_query($count_query);
+			$result = $this->_query($count_query, $connection);
 			$count_output = $this->_fetch($result);
 			$total_count = (int)$count_output->count;
 
@@ -687,7 +645,7 @@
 
                         $query = $this->getSelectPageSql($queryObject, true, $start_count, $list_count);
                         $query .= (__DEBUG_QUERY__&1 && $queryObject->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
-			$result = $this->_query ($query);
+			$result = $this->_query ($query, $connection);
                         if ($this->isError ())
                             return $this->queryError($queryObject);
 

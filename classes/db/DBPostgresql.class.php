@@ -18,12 +18,8 @@ class DBPostgresql extends DB
     /**
      * @brief Connection information for PostgreSQL DB
      **/
-    var $hostname = '127.0.0.1'; ///< hostname
-    var $userid = null; ///< user id
-    var $password = null; ///< password
-    var $database = null; ///< database
     var $prefix = 'xe'; // / <prefix of a tablename (One or more XEs can be installed in a single DB)
-	var $comment_syntax = '/* %s */';
+    var $comment_syntax = '/* %s */';
 
     /**
      * @brief column type used in postgresql
@@ -70,58 +66,34 @@ class DBPostgresql extends DB
     }
 
     /**
-     * @brief DB settings and connect/close
-     **/
-    function _setDBInfo()
-    {
-        $db_info = Context::getDBInfo();
-        $this->hostname = $db_info->db_hostname;
-        $this->port = $db_info->db_port;
-        $this->userid = $db_info->db_userid;
-        $this->password = $db_info->db_password;
-        $this->database = $db_info->db_database;
-        $this->prefix = $db_info->db_table_prefix;
-        if (!substr($this->prefix, -1) != '_')
-            $this->prefix .= '_';
-    }
-
-    /**
      * @brief DB Connection
      **/
-    function _connect()
+    function __connect($connection)
     {
         // the connection string for PG
         $conn_string = "";
-        // Ignore if no DB information exists
-        if (!$this->hostname || !$this->userid || !$this->database)
-            return;
         // Create connection string
-        $conn_string .= ($this->hostname) ? " host=$this->hostname" : "";
-        $conn_string .= ($this->userid) ? " user=$this->userid" : "";
-        $conn_string .= ($this->password) ? " password=$this->password" : "";
-        $conn_string .= ($this->database) ? " dbname=$this->database" : "";
-        $conn_string .= ($this->port) ? " port=$this->port" : "";
+        $conn_string .= ($connection["db_hostname"]) ? ' host='.$connection["db_hostname"] : "";
+        $conn_string .= ($connection["db_userid"]) ? " user=" . $connection["db_userid"] : "";
+        $conn_string .= ($connection["db_password"]) ? " password=" . $connection["db_password"] : "";
+        $conn_string .= ($connection["db_database"]) ? " dbname=" . $connection["db_database"] : "";
+        $conn_string .= ($connection["db_port"]) ? " port=" . $connection["db_port"] : "";
+
         // Attempt to connect
-        $this->fd = @pg_connect($conn_string);
-        if (!$this->fd || pg_connection_status($this->fd) != PGSQL_CONNECTION_OK) {
+        $result = @pg_connect($conn_string);
+        if (!$result || pg_connection_status($result) != PGSQL_CONNECTION_OK) {
             $this->setError(-1, "CONNECTION FAILURE");
             return;
         }
-        // Check connections
-        $this->is_connected = true;
-		$this->password = md5($this->password);
-        // Set utf8
-        //$this ->_query('set client_encoding to uhc');
+        return $result;
     }
 
     /**
      * @brief DB disconnection
      **/
-    function close()
+    function _close($connection)
     {
-        if (!$this->isConnected())
-            return;
-        @pg_close($this->fd);
+        @pg_close($connection);
     }
 
     /**
@@ -139,34 +111,29 @@ class DBPostgresql extends DB
     /**
      * @brief Begin transaction
      **/
-    function begin()
+    function _begin()
     {
-        if (!$this->isConnected() || $this->transaction_started == false)
-            return;
-        if ($this->_query($this->fd, 'BEGIN'))
-            $this->transaction_started = true;
+        $connection = $this->_getConnection('master');
+        if (!$this->_query('BEGIN')) return false;
+        return true;
     }
 
     /**
      * @brief Rollback
      **/
-    function rollback()
+    function _rollback()
     {
-        if (!$this->isConnected() || $this->transaction_started == false)
-            return;
-        if ($this->_query($this->fd, 'ROLLBACK'))
-            $this->transaction_started = false;
+        if (!$this->_query('ROLLBACK')) return false;
+        return true;
     }
 
     /**
      * @brief Commits
      **/
-    function commit()
+    function _commit()
     {
-        if (!$this->isConnected() || $this->transaction_started == false)
-            return;
-        if ($this->_query($this->fd, 'COMMIT'))
-            $this->transaction_started = false;
+        if (!$this->_query('COMMIT')) return false;
+        return true;
     }
 
     /**
@@ -178,7 +145,7 @@ class DBPostgresql extends DB
      *        object if a row is returned \n
      *         return\n
      **/
-    function _query($query)
+    function __query($query, $connection)
     {
         if (!$this->isConnected())
             return;
@@ -205,20 +172,17 @@ class DBPostgresql extends DB
         }
         */
         // Notify to start a query execution
-        $this->actStart($query);
-        $arr = array('Hello', 'World!', 'Beautiful', 'Day!');
+        // $arr = array('Hello', 'World!', 'Beautiful', 'Day!');
         // Run the query statement
-        $result = @pg_query($this->fd, $query);
+        $result = @pg_query($connection, $query);
         // Error Check
         if (!$result) {
             //              var_dump($l_query_array);
             //var_dump($query);
             //die("\nin query statement\n");
             //var_dump(debug_backtrace());
-            $this->setError(1, pg_last_error($this->fd));
+            $this->setError(1, pg_last_error($connection));
         }
-        // Notify to complete a query execution
-        $this->actFinish();
         // Return result
         return $result;
     }
@@ -565,7 +529,7 @@ class DBPostgresql extends DB
      * In order to get a list of pages easily when selecting \n
      * it supports a method as navigation
      **/
-    function _executeSelectAct($queryObject)
+    function _executeSelectAct($queryObject, $connection)
     {
 		$query = $this->getSelectSql($queryObject);
 
@@ -576,7 +540,7 @@ class DBPostgresql extends DB
             // TODO Add support for click count
             // TODO Add code for pagination
 
-			$result = $this->_query ($query);
+			$result = $this->_query ($query, $connection);
 			if ($this->isError ()) {
 				if ($limit && $output->limit->isPageHandler()){
 					$buff = new Object ();
@@ -598,7 +562,7 @@ class DBPostgresql extends DB
 				}
 
 				$count_query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
-				$result_count = $this->_query($count_query);
+				$result_count = $this->_query($count_query, $connection);
 				$count_output = $this->_fetch($result_count);
 				$total_count = (int)$count_output->count;
 

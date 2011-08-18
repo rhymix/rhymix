@@ -8,7 +8,7 @@
      *
      * mysql handling class
      **/
-	
+
 
     class DBMysqli extends DBMysql {
 
@@ -27,7 +27,7 @@
             if(!function_exists('mysqli_connect')) return false;
             return true;
         }
-		
+
 		/**
 		 * @brief create an instance of this class
 		 */
@@ -39,32 +39,34 @@
         /**
          * @brief DB Connection
          **/
-        function _connect() {
-            // Ignore if no DB information exists
-            if(!$this->hostname || !$this->userid || !$this->password || !$this->database) return;
+        function __connect($connection) {
             // Attempt to connect
-			if($this->port){
-	            $this->fd = @mysqli_connect($this->hostname, $this->userid, $this->password, $this->database, $this->port);
-			}else{
-	            $this->fd = @mysqli_connect($this->hostname, $this->userid, $this->password, $this->database);
-			}
+            if ($connection["db_port"]) {
+                $result = @mysqli_connect($connection["db_hostname"]
+                                                        , $connection["db_userid"]
+                                                        , $connection["db_password"]
+                                                        , $connection["db_database"]
+                                                        , $connection["db_port"]);
+            } else {
+                $result = @mysqli_connect($connection["db_hostname"]
+                                                        , $connection["db_userid"]
+                                                        , $connection["db_password"]
+                                                        , $connection["db_database"]);
+            }
 			$error = mysqli_connect_errno();
             if($error) {
                 $this->setError($error,mysqli_connect_error());
                 return;
             }
-			mysqli_set_charset($this->fd,'utf8');
-            // Check connections
-            $this->is_connected = true;
-			$this->password = md5($this->password);
+            mysqli_set_charset($result,'utf8');
+            return $result;
         }
 
         /**
          * @brief DB disconnection
          **/
-        function close() {
-            if(!$this->isConnected()) return;
-            mysqli_close($this->fd);
+        function _close($connection) {
+            mysqli_close($connection);
         }
 
         /**
@@ -72,7 +74,10 @@
          **/
         function addQuotes($string) {
             if(version_compare(PHP_VERSION, "5.9.0", "<") && get_magic_quotes_gpc()) $string = stripslashes(str_replace("\\","\\\\",$string));
-            if(!is_numeric($string)) $string = mysqli_escape_string($this->fd,$string);
+            if(!is_numeric($string)){
+                $connection = $this->_getConnection('master');
+                $string = mysqli_escape_string($connection,$string);
+            }
             return $string;
         }
 
@@ -85,27 +90,22 @@
          *        object if a row is returned \n
          *         return\n
          **/
-        function _query($query) {
-            if(!$this->isConnected()) return;
-            // Notify to start a query execution
-            $this->actStart($query);
+        function __query($query, $connection) {
             // Run the query statement
-            $result = mysqli_query($this->fd,$query);
+            $result = mysqli_query($connection,$query);
             // Error Check
-			$error = mysqli_error($this->fd);
+			$error = mysqli_error($connection);
             if($error){
-				$this->setError(mysqli_errno($this->fd), $error);
+				$this->setError(mysqli_errno($connection), $error);
 			}
-
-            // Notify to complete a query execution
-            $this->actFinish();
             // Return result
             return $result;
         }
 
 		function db_insert_id()
 		{
-            return  mysqli_insert_id($this->fd);
+                    $connection = $this->_getConnection('master');
+            return  mysqli_insert_id($connection);
 		}
 
 		function db_fetch_object(&$result)

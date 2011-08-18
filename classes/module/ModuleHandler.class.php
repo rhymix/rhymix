@@ -55,7 +55,7 @@
 
         /**
          * @brief Initialization. It finds the target module based on module, mid, document_srl, and prepares to execute an action
-         * @return true: OK, false: redirected 
+         * @return true: OK, false: redirected
          **/
         function init() {
 			$oModuleModel = &getModel('module');
@@ -133,7 +133,7 @@
             // Set module and mid into module_info
             $this->module_info->module = $this->module;
             $this->module_info->mid = $this->mid;
-			
+
 			// Set site_srl add 2011 08 09
 			$this->module_info->site_srl = $site_module_info->site_srl;
 
@@ -142,7 +142,7 @@
 
             // If mid exists, set mid into context
             if($this->mid) Context::set('mid', $this->mid, true);
-                
+
             // Call a trigger after moduleHandler init
             $output = ModuleHandler::triggerCall('moduleHandler.init', 'after', $this->module_info);
             if(!$output->toBool()) {
@@ -150,7 +150,7 @@
                 return false;
             }
 
-            // Set current module info into context 
+            // Set current module info into context
             Context::set('current_module_info', $this->module_info);
 
             return true;
@@ -176,7 +176,7 @@
             // Get action information with conf/module.xml
             $xml_info = $oModuleModel->getModuleActionXml($this->module);
 
-            // If not installed yet, modify act 
+            // If not installed yet, modify act
             if($this->module=="install") {
                 if(!$this->act || !$xml_info->action->{$this->act}) $this->act = $xml_info->default_index_act;
             }
@@ -222,9 +222,9 @@
 			}
 
 			// If there is no such action in the module object
-			if(!isset($xml_info->action->{$this->act}) || !method_exists($oModule, $this->act)) 
+			if(!isset($xml_info->action->{$this->act}) || !method_exists($oModule, $this->act))
 			{
-				if(!Context::isInstalled()) 
+				if(!Context::isInstalled())
 				{
 					$this->error = 'msg_invalid_request';
 					return;
@@ -243,7 +243,7 @@
                     }
                 }
 
-				if(!$forward) 
+				if(!$forward)
 				{
 					$forward = $oModuleModel->getActionForward($this->act);
 				}
@@ -277,7 +277,7 @@
 						$oMemberModel = &getModel('member');
 						$logged_info = $oMemberModel->getLoggedInfo();
 
-						$grant = $oModuleModel->getGrant($forward, $logged_info, $xml_info); 
+						$grant = $oModuleModel->getGrant($forward, $logged_info, $xml_info);
 						if($logged_info->is_admin=='Y') {
 							$orig_module->makeGnbUrl($forward->module);
 							$oModule->setLayoutPath("./modules/admin/tpl");
@@ -362,7 +362,7 @@
 			{
 				$oMemberModel = &getModel('member');
 				$logged_info = $oMemberModel->getLoggedInfo();
-				$grant = $oModuleModel->getGrant($oModule, $logged_info, $xml_info); 
+				$grant = $oModuleModel->getGrant($oModule, $logged_info, $xml_info);
 
 				if ($logged_info->is_admin == 'Y'){
 					$oModule->setLayoutPath("./modules/admin/tpl");
@@ -385,7 +385,7 @@
 				$message = $oModule->getMessage();
 				$messageType = $oModule->getMessageType();
 				$redirectUrl = $oModule->getRedirectUrl();
-				
+
 				if (!$procResult)
 				{
 					$this->error = $message;
@@ -400,7 +400,7 @@
 						$_SESSION['INPUT_ERROR'] = '';
 					}
 				}
-				
+
 				$_SESSION['XE_VALIDATOR_ERROR'] = $error;
 				if ($message != 'success') $_SESSION['XE_VALIDATOR_MESSAGE'] = $message;
 				$_SESSION['XE_VALIDATOR_MESSAGE_TYPE'] = $messageType;
@@ -418,7 +418,7 @@
 
 			$this->_clearErrorSession();
 		}
-		
+
 		function _clearErrorSession()
 		{
 			$_SESSION['XE_VALIDATOR_ERROR'] = '';
@@ -445,7 +445,7 @@
             }
 
             // If connection to DB has a problem even though it's not install module, set error
-            if($this->module != 'install' && $GLOBALS['__DB__'][Context::getDBType()]->is_connected == false) {
+            if($this->module != 'install' && $GLOBALS['__DB__'][Context::getDBType()]->isConnected() == false) {
                 $this->error = 'msg_dbconnect_failed';
             }
 
@@ -455,16 +455,16 @@
 
             // Use message view object, if HTML call
             if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				
+
 				if($_SESSION['XE_VALIDATOR_RETURN_URL'])
 				{
 					header('location:'.$_SESSION['XE_VALIDATOR_RETURN_URL']);
 					return;
 				}
-				
+
                 // If error occurred, handle it
                 if($this->error) {
-                    // display content with message module instance 
+                    // display content with message module instance
 					$type = Mobile::isFromMobilePhone() ? 'mobile' : 'view';
 					$oMessageObject = &ModuleHandler::getModuleInstance('message',$type);
 					$oMessageObject->setError(-1);
@@ -479,7 +479,7 @@
                     } else {
                         $oModule = $oMessageObject;
                     }
-					
+
 					$this->_clearErrorSession();
                 }
 
@@ -495,7 +495,7 @@
 
                 if($layout_srl && !$oModule->getLayoutFile()) {
 
-                    // If layout_srl exists, get information of the layout, and set the location of layout_path/ layout_file 
+                    // If layout_srl exists, get information of the layout, and set the location of layout_path/ layout_file
                     $oLayoutModel = &getModel('layout');
                     $layout_info = $oLayoutModel->getLayout($layout_srl);
                     if($layout_info) {
@@ -518,7 +518,7 @@
                             }
                         }
 
-                        // Set layout information into context 
+                        // Set layout information into context
                         Context::set('layout_info', $layout_info);
 
                         $oModule->setLayoutPath($layout_info->path);
@@ -531,7 +531,7 @@
                 }
             }
 
-            // Display contents 
+            // Display contents
             $oDisplayHandler = new DisplayHandler();
             $oDisplayHandler->printContent($oModule);
         }
@@ -571,14 +571,14 @@
 				unset($parent_module);
 			}
 
-            // if there is no instance of the module in global variable, create a new one 
+            // if there is no instance of the module in global variable, create a new one
             if(!$GLOBALS['_loaded_module'][$module][$type][$kind]) {
 				$parent_module = $module;
 
 				$class_path = ModuleHandler::getModulePath($module);
 				if(!is_dir(FileHandler::getRealPath($class_path))) return NULL;
 
-                // Get base class name and load the file contains it 
+                // Get base class name and load the file contains it
                 if(!class_exists($module)) {
                     $high_class_file = sprintf('%s%s%s.class.php', _XE_PATH_,$class_path, $module);
                     if(!file_exists($high_class_file)) return NULL;
@@ -628,13 +628,13 @@
                     if(@method_exists($oModule, $instance_name)) $oModule->{$instance_name}();
                 }
 
-                // Store the created instance into GLOBALS variable 
+                // Store the created instance into GLOBALS variable
                 $GLOBALS['_loaded_module'][$module][$type][$kind] = $oModule;
             }
 
             if(__DEBUG__==3) $GLOBALS['__elapsed_class_load__'] += getMicroTime() - $start_time;
 
-            // return the instance 
+            // return the instance
             return $GLOBALS['_loaded_module'][$module][$type][$kind];
         }
 
@@ -646,7 +646,7 @@
          * @return Object
          **/
         function triggerCall($trigger_name, $called_position, &$obj) {
-            // skip if not installed 
+            // skip if not installed
             if(!Context::isInstalled()) return new Object();
 
             $oModuleModel = &getModel('module');

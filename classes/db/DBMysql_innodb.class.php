@@ -19,7 +19,7 @@
             $this->_setDBInfo();
             $this->_connect();
         }
-		
+
 		/**
 		 * @brief create an instance of this class
 		 */
@@ -31,37 +31,36 @@
         /**
          * @brief DB disconnection
          **/
-        function close() {
-            if(!$this->isConnected()) return;
-            $this->_query("commit");
-            @mysql_close($this->fd);
+        function _close($connection) {
+            $this->_query("commit", $connection);
+            @mysql_close($connection);
         }
 
         /**
          * @brief Begin transaction
          **/
-        function begin() {
-            if(!$this->isConnected() || $this->transaction_started) return;
-            $this->transaction_started = true;
-            $this->_query("begin");
+        function _begin() {
+            $connection = $this->_getConnection('master');
+            $this->_query("begin", $connection);
+            return true;
         }
 
         /**
          * @brief Rollback
          **/
-        function rollback() {
-            if(!$this->isConnected() || !$this->transaction_started) return;
-            $this->_query("rollback");
-            $this->transaction_started = false;
+        function _rollback() {
+            $connection = $this->_getConnection('master');
+            $this->_query("rollback", $connection);
+            return true;
         }
 
         /**
          * @brief Commits
          **/
-        function commit($force = false) {
-            if(!$force && (!$this->isConnected() || !$this->transaction_started)) return;
-            $this->_query("commit");
-            $this->transaction_started = false;
+        function _commit() {
+            $connection = $this->_getConnection('master');
+            $this->_query("commit", $connection);
+            return true;
         }
 
         /**
@@ -73,16 +72,11 @@
          *        object if a row is returned \n
          *         return\n
          **/
-        function _query($query) {
-            if(!$this->isConnected()) return;
-            // Notify to start a query execution
-            $this->actStart($query);
+        function __query($query, $connection) {
             // Run the query statement
-            $result = @mysql_query($query, $this->fd);
+            $result = @mysql_query($query, $connection);
             // Error Check
-            if(mysql_error($this->fd)) $this->setError(mysql_errno($this->fd), mysql_error($this->fd));
-            // Notify to complete a query execution
-            $this->actFinish();
+            if(mysql_error($connection)) $this->setError(mysql_errno($connection), mysql_error($connection));
             // Return result
             return $result;
         }

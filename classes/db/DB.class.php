@@ -47,7 +47,8 @@
             'null' => 'is null',
         );
 
-        var $fd = NULL; ///< connector resource or file description
+        var $master_db = NULL; // master database connection string
+        var $slave_db = NULL; // array of slave databases connection strings
 
         var $result = NULL; ///< result
 
@@ -202,8 +203,9 @@
          * @brief check if is connected
          * @return true: connected, false: not connected
          **/
-        function isConnected() {
-            return $this->is_connected ? true : false;
+        function isConnected($type = 'master', $indx = 0) {
+            if($type == 'master') return $this->master_db["is_connected"] ? true : false;
+            else return $this->slave_db[$indx]["is_connected"] ? true : false;
         }
 
         /**
@@ -309,7 +311,7 @@
          * @return result of query
          * @remarks this function finds xml file or cache file of $query_id, compiles it and then execute it
          **/
-        function executeQuery($query_id, $args = NULL, $arg_columns = NULL) {
+        function executeQuery($query_id, $args = NULL, $arg_columns = NULL, $database_type = 'master') {
             if(!$query_id) return new Object(-1, 'msg_invalid_queryid');
             $this->query_id = $query_id;
 
@@ -333,7 +335,7 @@
             $cache_file = $this->checkQueryCacheFile($query_id, $xml_file);
 
             // execute query
-            return $this->_executeQuery($cache_file, $args, $query_id, $arg_columns);
+            return $this->_executeQuery($cache_file, $args, $query_id, $arg_columns, $database_type);
         }
 
 
@@ -369,7 +371,7 @@
          * @param[in] $query_id query id
          * @return result of query
          **/
-        function _executeQuery($cache_file, $source_args, $query_id, $arg_columns) {
+        function _executeQuery($cache_file, $source_args, $query_id, $arg_columns, $database_type) {
             global $lang;
 
             if(!file_exists($cache_file)) return new Object(-1, 'msg_invalid_queryid');
@@ -397,7 +399,8 @@
                 case 'select' :
                         $arg_columns = is_array($arg_columns)?$arg_columns:array();
                         $output->setColumnList($arg_columns);
-                        $output = $this->_executeSelectAct($output);
+                        $connection = $this->_getConnection('slave');
+                        $output = $this->_executeSelectAct($output, $connection);
                     break;
             }
 
@@ -580,192 +583,170 @@
 			return new DBParser('"');
 		}
 
-
-		// TO BE REMOVED - Used for query compare
-            /**
-         * @brief returns type of column
-         * @param[in] $column_type_list list of column type
-         * @param[in] $name name of column type
-         * @return column type of $name
-         * @remarks columns are usually like a.b, so it needs another function
-         **/
-        function getColumnType($column_type_list, $name) {
-            if(strpos($name, '.') === false) return $column_type_list[$name];
-            list($prefix, $name) = explode('.', $name);
-            return $column_type_list[$name];
-        }
-           /**
-         * @brief returns the value of condition
-         * @param[in] $name name of condition
-         * @param[in] $value value of condition
-         * @param[in] $operation operation this is used in condition
-         * @param[in] $type type of condition
-         * @param[in] $column_type type of column
-         * @return well modified $value
-         * @remarks if $operation is like or like_prefix, $value itself will be modified
-         * @remarks if $type is not 'number', call addQuotes() and wrap with ' '
-         **/
-        function getConditionValue($name, $value, $operation, $type, $column_type) {
-            if(!in_array($operation,array('in','notin','between')) && $type == 'number') {
-				if(is_array($value)){
-					$value = join(',',$value);
-				}
-                if(strpos($value, ',') === false && strpos($value, '(') === false) return (int)$value;
-                return $value;
-            }
-
-            if(!is_array($value) && strpos($name, '.') !== false && strpos($value, '.') !== false) {
-                list($table_name, $column_name) = explode('.', $value);
-                if($column_type[$column_name]) return $value;
-            }
-
-            switch($operation) {
-                case 'like_prefix' :
-						if(!is_array($value)) $value = preg_replace('/(^\'|\'$){1}/', '', $value);
-                        $value = $value.'%';
-                    break;
-                case 'like_tail' :
-						if(!is_array($value)) $value = preg_replace('/(^\'|\'$){1}/', '', $value);
-                        $value = '%'.$value;
-                    break;
-                case 'like' :
-						if(!is_array($value)) $value = preg_replace('/(^\'|\'$){1}/', '', $value);
-                        $value = '%'.$value.'%';
-                    break;
-                case 'notin' :
-						if(is_array($value))
-						{
-							$value = $this->addQuotesArray($value);
-							if($type=='number') return join(',',$value);
-							else return "'". join("','",$value)."'";
-						}
-						else
-						{
-							return $value;
-						}
-                    break;
-                case 'in' :
-						if(is_array($value))
-						{
-							$value = $this->addQuotesArray($value);
-							if($type=='number') return join(',',$value);
-							else return "'". join("','",$value)."'";
-						}
-						else
-						{
-							return $value;
-						}
-                    break;
-                case 'between' :
-						if(!is_array($value)) $value = array($value);
-			            $value = $this->addQuotesArray($value);
-						if($type!='number')
-						{
-							foreach($value as $k=>$v)
-							{
-								$value[$k] = "'".$v."'";
-							}
-						}
-
-						return $value;
-                    break;
-				default:
-					if(!is_array($value)) $value = preg_replace('/(^\'|\'$){1}/', '', $value);
-            }
-
-            return "'".$this->addQuotes($value)."'";
-        }
-       /**
-         * @brief returns part of condition
-         * @param[in] $name name of condition
-         * @param[in] $value value of condition
-         * @param[in] $operation operation that is used in condition
-         * @return detail condition
-         **/
-        function getConditionPart($name, $value, $operation) {
-            switch($operation) {
-                case 'equal' :
-                case 'more' :
-                case 'excess' :
-                case 'less' :
-                case 'below' :
-                case 'like_tail' :
-                case 'like_prefix' :
-                case 'like' :
-                case 'in' :
-                case 'notin' :
-                case 'notequal' :
-                        // if variable is not set or is not string or number, return
-                        if(!isset($value)) return;
-                        if($value === '') return;
-                        if(!in_array(gettype($value), array('string', 'integer'))) return;
-				break;
-                case 'between' :
-					if(!is_array($value)) return;
-					if(count($value)!=2) return;
-
-            }
-
-            switch($operation) {
-                case 'equal' :
-                        return $name.' = '.$value;
-                    break;
-                case 'more' :
-                        return $name.' >= '.$value;
-                    break;
-                case 'excess' :
-                        return $name.' > '.$value;
-                    break;
-                case 'less' :
-                        return $name.' <= '.$value;
-                    break;
-                case 'below' :
-                        return $name.' < '.$value;
-                    break;
-                case 'like_tail' :
-                case 'like_prefix' :
-                case 'like' :
-                        return $name.' like '.$value;
-                    break;
-                case 'in' :
-                        return $name.' in ('.$value.')';
-                    break;
-                case 'notin' :
-                        return $name.' not in ('.$value.')';
-                    break;
-                case 'notequal' :
-                        return $name.' <> '.$value;
-                    break;
-                case 'notnull' :
-                        return $name.' is not null';
-                    break;
-                case 'null' :
-                        return $name.' is null';
-                    break;
-				case 'between' :
-                        return $name.' between ' . $value[0] . ' and ' . $value[1];
-					break;
-            }
+        function _getSlaveConnectionStringIndex() {
+            $max = count($this->slave_db);
+            $indx = rand(0, $max - 1);
+            return $indx;
         }
 
-           /**
-         * @brief returns condition key
-         * @param[in] $output result of query
-         * @return array of conditions of $output
-         **/
-        function getConditionList($output) {
-            $conditions = array();
-            if(count($output->conditions)) {
-                foreach($output->conditions as $key => $val) {
-                    if($val['condition']) {
-                        foreach($val['condition'] as $k => $v) {
-                            $conditions[] = $v['column'];
-                        }
-                    }
-                }
+        function _getConnection($type = 'master', $indx = NULL){
+            if($type == master){
+                if(!$this->master_db['is_connected'])
+                        $this->_connect($type);
+                return $this->master_db["resource"];
             }
 
-            return $conditions;
+            if($indx === NULL)
+                $indx = $this->_getSlaveConnectionStringIndex($type);
+
+            if(!$this->slave_db[$indx]['is_connected'])
+                    $this->_connect($type, $indx);
+            return $this->slave_db[$indx]["resource"];
         }
+
+        function _dbInfoExists() {
+            if (!$this->master_db)
+                return false;
+            if (count($this->slave_db) === 0)
+                return false;
+            return true;
+        }
+
+        function _close($connection){
+
+        }
+
+        /**
+         * @brief DB disconnection
+         * */
+        function close($type = 'master', $indx = 0) {
+            if (!$this->isConnected($type, $indx))
+                return;
+
+            if ($type == 'master')
+                $connection = &$this->master_db;
+            else
+                $connection = &$this->slave_db[$indx];
+
+            $this->_close($connection["resource"]);
+
+            $connection["is_connected"] = false;
+        }
+
+        function _begin(){
+            return true;
+        }
+        /**
+         * @brief Begin transaction
+         * */
+        function begin() {
+            if (!$this->isConnected() || $this->transaction_started)
+                return;
+
+            if($this->_begin())
+                 $this->transaction_started = true;
+        }
+
+        function _rollback(){
+            return true;
+        }
+
+        /**
+         * @brief Rollback
+         * */
+        function rollback() {
+            if (!$this->isConnected() || !$this->transaction_started)
+                return;
+            if($this->_rollback())
+                $this->transaction_started = false;
+        }
+
+        function _commit(){
+            return true;
+        }
+        /**
+         * @brief Commits
+         * */
+        function commit($force = false) {
+            if (!$force && (!$this->isConnected() || !$this->transaction_started))
+                return;
+            if($this->_commit())
+                $this->transaction_started = false;
+        }
+
+        function __query($query, $connection){
+
+        }
+        /**
+         * @brief : Run a query and fetch the result
+         *
+         * query: run a query and return the result \n
+         * fetch: NULL if no value is returned \n
+         *        array object if rows are returned \n
+         *        object if a row is returned \n
+         *         return\n
+         * */
+        function _query($query, $connection = null) {
+            if($connection == null)
+                $connection = $this->_getConnection('master');
+            // Notify to start a query execution
+            $this->actStart($query);
+
+            // Run the query statement
+            $result = $this->__query($query, $connection);
+
+            // Notify to complete a query execution
+            $this->actFinish();
+            // Return result
+            return $result;
+        }
+
+        /**
+         * @brief DB settings and connect/close
+         * */
+        function _setDBInfo(){
+            $db_info = Context::getDBInfo();
+            $this->master_db = $db_info->master_db;
+            $this->slave_db = $db_info->slave_db;
+            $this->prefix = $db_info->master_db["db_table_prefix"];
+        }
+
+        function __connect(){
+
+        }
+
+        function _afterConnect($connection){
+
+        }
+        /**
+         * @brief DB Connection
+         * */
+        function _connect($type = 'master', $indx = 0) {
+            if ($this->isConnected($type, $indx))
+                return;
+
+            // Ignore if no DB information exists
+            if (!$this->_dbInfoExists())
+                return;
+
+            if ($type == 'master')
+                $connection = &$this->master_db;
+            else
+                $connection = &$this->slave_db[$indx];
+
+            $result = $this->__connect($connection);
+            if($result === NULL || $result === false) {
+                $connection["is_connected"] = false;
+                return;
+            }
+
+            // Check connections
+            $connection["resource"] = $result;
+            $connection["is_connected"] = true;
+
+            $this->_afterConnect($result);
+        }
+
+
     }
 ?>

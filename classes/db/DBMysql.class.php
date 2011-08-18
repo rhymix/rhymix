@@ -13,12 +13,8 @@
         /**
          * @brief Connection information for Mysql DB
          **/
-        var $hostname = '127.0.0.1'; ///< hostname
-        var $userid   = NULL; ///< user id
-        var $password   = NULL; ///< password
-        var $database = NULL; ///< database
-        var $prefix   = 'xe'; // / <prefix of a tablename (One or more XEs can be installed in a single DB)
-		var $comment_syntax = '/* %s */';
+        var $prefix   = 'xe_'; // / <prefix of a tablename (One or more XEs can be installed in a single DB)
+        var $comment_syntax = '/* %s */';
 
         /**
          * @brief Column type used in MySQL
@@ -58,57 +54,47 @@
         }
 
         /**
-         * @brief DB settings and connect/close
-         **/
-        function _setDBInfo() {
-            $db_info = Context::getDBInfo();
-            $this->hostname = $db_info->db_hostname;
-            $this->port = $db_info->db_port;
-            $this->userid   = $db_info->db_userid;
-            $this->password   = $db_info->db_password;
-            $this->database = $db_info->db_database;
-            $this->prefix = $db_info->db_table_prefix;
-            if(!substr($this->prefix,-1)!='_') $this->prefix .= '_';
-        }
-
-        /**
          * @brief DB Connection
          **/
-        function _connect() {
+        function __connect($connection) {
             // Ignore if no DB information exists
-            if(!$this->hostname || !$this->userid || !$this->password || !$this->database) return;
+           if (strpos($connection["db_hostname"], ':') === false && $connection["db_port"])
+                $connection["db_hostname"] .= ':' . $connection["db_port"];
 
-            if(strpos($this->hostname, ':')===false && $this->port) $this->hostname .= ':'.$this->port;
             // Attempt to connect
-            $this->fd = @mysql_connect($this->hostname, $this->userid, $this->password);
+            $result = @mysql_connect($connection["db_hostname"], $connection["db_userid"], $connection["db_password"]);
+
             if(mysql_error()) {
                 $this->setError(mysql_errno(), mysql_error());
                 return;
             }
             // Error appears if the version is lower than 4.1
-            if(mysql_get_server_info($this->fd)<"4.1") {
+            if(mysql_get_server_info($result)<"4.1") {
                 $this->setError(-1, "XE cannot be installed under the version of mysql 4.1. Current mysql version is ".mysql_get_server_info());
                 return;
             }
             // select db
-            @mysql_select_db($this->database, $this->fd);
+            @mysql_select_db($connection["db_database"], $result);
             if(mysql_error()) {
                 $this->setError(mysql_errno(), mysql_error());
                 return;
             }
-            // Check connections
-            $this->is_connected = true;
-			$this->password = md5($this->password);
+            return $result;
+
             // Set utf8 if a database is MySQL
             $this->_query("set names 'utf8'");
+        }
+
+        function _afterConnect($connection){
+            // Set utf8 if a database is MySQL
+            $this->_query("set names 'utf8'", $connection);
         }
 
         /**
          * @brief DB disconnection
          **/
-        function close() {
-            if(!$this->isConnected()) return;
-            @mysql_close($this->fd);
+        function _close($connection) {
+            @mysql_close($connection);
         }
 
         /**
@@ -123,19 +109,22 @@
         /**
          * @brief Begin transaction
          **/
-        function begin() {
+        function _begin() {
+            return true;
         }
 
         /**
          * @brief Rollback
          **/
-        function rollback() {
+        function _rollback() {
+            return true;
         }
 
         /**
          * @brief Commits
          **/
-        function commit() {
+        function _commit() {
+            return true;
         }
 
         /**
@@ -147,16 +136,11 @@
          *        object if a row is returned \n
          *         return\n
          **/
-        function _query($query) {
-            if(!$this->isConnected()) return;
-            // Notify to start a query execution
-            $this->actStart($query);
+        function __query($query, $connection) {
             // Run the query statement
-            $result = mysql_query($query, $this->fd);
+            $result = mysql_query($query, $connection);
             // Error Check
-            if(mysql_error($this->fd)) $this->setError(mysql_errno($this->fd), mysql_error($this->fd));
-            // Notify to complete a query execution
-            $this->actFinish();
+            if(mysql_error($connection)) $this->setError(mysql_errno($connection), mysql_error($connection));
             // Return result
             return $result;
         }
@@ -427,7 +411,7 @@
          * In order to get a list of pages easily when selecting \n
          * it supports a method as navigation
          **/
-        function _executeSelectAct($queryObject) {
+        function _executeSelectAct($queryObject, $connection = null) {
 			$query = $this->getSelectSql($queryObject);
 
 			if(is_a($query, 'Object')) return;
@@ -437,14 +421,15 @@
             // TODO Add support for click count
             // TODO Add code for pagination
 
-			$result = $this->_query ($query);
+			$result = $this->_query ($query, $connection);
 			if ($this->isError ()) return $this->queryError($queryObject);
-			else return $this->queryPageLimit($queryObject, $result);
+			else return $this->queryPageLimit($queryObject, $result, $connection);
         }
 
 		function db_insert_id()
 		{
-            return mysql_insert_id($this->fd);
+                    $connection = $this->_getConnection('master');
+                    return mysql_insert_id($connection);
 		}
 
 		function db_fetch_object(&$result)
@@ -469,7 +454,7 @@
 					return;
 		}
 
-		function queryPageLimit($queryObject, $result){
+		function queryPageLimit($queryObject, $result, $connection){
 			 	if ($queryObject->getLimit() && $queryObject->getLimit()->isPageHandler()) {
 		 		// Total count
 		 		$count_query = sprintf('select count(*) as "count" %s %s', 'FROM ' . $queryObject->getFromString(), ($queryObject->getWhereString() === '' ? '' : ' WHERE '. $queryObject->getWhereString()));
@@ -477,8 +462,8 @@
 					$count_query = sprintf('select count(*) as "count" from (%s) xet', $count_query);
 				}
 
-				$count_query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
-				$result_count = $this->_query($count_query);
+				$count_query .= (__DEBUG_QUERY__&1 && $queryObject->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
+				$result_count = $this->_query($count_query, $connection);
 				$count_output = $this->_fetch($result_count);
 				$total_count = (int)$count_output->count;
 
@@ -500,12 +485,12 @@
                                 $start_count = ($page - 1) * $list_count;
 
                                 $query = $this->getSelectPageSql($queryObject, true, $start_count, $list_count);
-                                
+
                                 $query .= (__DEBUG_QUERY__&1 && $queryObject->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
-                                $result = $this->_query ($query);
+                                $result = $this->_query ($query, $connection);
                                 if ($this->isError ())
                                     return $this->queryError($queryObject);
-                                
+
 		 		$virtual_no = $total_count - ($page - 1) * $list_count;
 		 		$data = $this->_fetch($result, $virtual_no);
 
@@ -527,7 +512,7 @@
                     $select = $query->getSelectString($with_values);
                     if($select == '') return new Object(-1, "Invalid query");
                     $select = 'SELECT ' .$select;
-        
+
                     $from = $query->getFromString($with_values);
                     if($from == '') return new Object(-1, "Invalid query");
                     $from = ' FROM '.$from;
