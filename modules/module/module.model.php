@@ -566,11 +566,14 @@
                     foreach($menu_list as $menu) {
 						$menu_name = $menu->attrs->name;
 						$menu_title = is_array($menu->title) ? $menu->title[0]->body : $menu->title->body;
+						$menu_type = $menu->attrs->type;
 
 						$info->menu->{$menu_name}->title = $menu_title;
 						$info->menu->{$menu_name}->acts = array();
+						$info->menu->{$menu_name}->type = $menu_type; 
 
                         $buff .= sprintf('$info->menu->%s->title=\'%s\';', $menu_name, $menu_title);
+                        $buff .= sprintf('$info->menu->%s->type=\'%s\';', $menu_name, $menu_type);
 					}
 				}
 
@@ -1252,12 +1255,12 @@
             // If module_srl doesn't exist(if unable to set permissions)
             if(!$module_srl) {
                 $grant->access = true;
-                if($this->isSiteAdmin($member_info)) $grant->access = $grant->is_admin = $grant->manager = true;
+                if($this->isSiteAdmin($member_info, $module_info->site_srl)) $grant->access = $grant->is_admin = $grant->manager = $grant->is_site_admin = true;
                 else $grant->is_admin = $grant->manager = $member_info->is_admin=='Y'?true:false;
             // If module_srl exists
             } else {
                 // Get a type of granted permission
-                $grant->access = $grant->is_admin = $grant->manager = ($member_info->is_admin=='Y'||$this->isSiteAdmin($member_info))?true:false;
+                $grant->access = $grant->is_admin = $grant->manager = $grant->is_site_admin = ($member_info->is_admin=='Y'||$this->isSiteAdmin($member_info, $module_info->site_srl))?true:false;
                 // If a just logged-in member is, check if the member is a module administrator
                 if(!$grant->manager && $member_info->member_srl) {
                     $args->module_srl = $module_srl;
@@ -1354,8 +1357,6 @@
             }
             return $grant;
         }
-
-
 
         function getModuleFileBox($module_filebox_srl){
             $args->module_filebox_srl = $module_filebox_srl;

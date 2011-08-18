@@ -589,6 +589,11 @@
             static $lang = null;
             if(is_null($lang)) {
                 $site_module_info = Context::get('site_module_info');
+				if(!$site_module_info){
+					$oModuleModel = &getModel('module');                                                                                                                                                          
+					$site_module_info = $oModuleModel->getDefaultMid();
+					Context::set('site_module_info', $site_module_info);
+				}
                 $cache_file = sprintf('%sfiles/cache/lang_defined/%d.%s.php', _XE_PATH_, $site_module_info->site_srl, Context::getLangType());
                 if(!file_exists($cache_file)) {
                     $oModuleAdminController = &getAdminController('module');
