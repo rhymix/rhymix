@@ -17,8 +17,12 @@
 				$this->_value = $argument->getValue();
                         else if(is_a($this->argument, 'Subquery'))
                                 $this->_value = $argument->toString();
-			else
+			else {
+                            if(in_array($operation, array('in', 'not in')))
+                                    $this->_value = '('. $argument .')';
+                            else
 				$this->_value = $argument;
+                        }
 		}
 
 		function hasArgument(){

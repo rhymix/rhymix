@@ -11,19 +11,25 @@
         protected $preserveGlobalState = FALSE;
 
         /**
-         * Prepare runtime context - tell DB class that current DB is CUBRID
+         * Prepare runtime context - tell DB class that current DB is MSSQL
          */
         protected function setUp() {
             $oContext = &Context::getInstance();
 
-            $db_info->db_type = 'mssql';
-            $db_info->db_port = '3306';
-            $db_info->db_hostname = 'PHENOMII\SQL2008EXPRESS';
-            $db_info->db_userid = 'dba';
-            $db_info->db_password = 'arniarules';
-            $db_info->db_database = 'xe-15-db';
-            $db_info->db_table_prefix = 'xe';
-
+            $db_info->master_db = array('db_type' => 'mssql'
+                                                ,'db_port' => '3306'
+                                                ,'db_hostname' => 'PHENOMII\SQL2008EXPRESS'
+                                                ,'db_userid' => 'dba'
+                                                ,'db_password' => 'arniarules'
+                                                ,'db_database' => 'xe-15-db'
+                                                ,'db_table_prefix' => 'xe_');
+            $db_info->slave_db = array(array('db_type' => 'mssql'
+                                                ,'db_port' => '3306'
+                                                ,'db_hostname' => 'PHENOMII\SQL2008EXPRESS'
+                                                ,'db_userid' => 'dba'
+                                                ,'db_password' => 'arniarules'
+                                                ,'db_database' => 'xe-15-db'
+                                                ,'db_table_prefix' => 'xe_'));
             $oContext->setDbInfo($db_info);
 
             // remove cache dir

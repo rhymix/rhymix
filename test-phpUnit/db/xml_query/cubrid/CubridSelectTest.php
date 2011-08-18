@@ -342,4 +342,19 @@
                     $this->_test($xml_file, $argsString, $expected);
                 }
 
+                function test_document_getDeclaredList_In_Query(){
+                    $xml_file = _XE_PATH_ . "modules/document/queries/getDeclaredList.xml";
+                    $argsString = "\$args->list_count = 30;
+                                    \$args->page_count = 10;
+                                    \$args->sort_index = 'document_declared.declared_count';
+                                    \$args->order_type = 'desc';";
+                    $expected = 'select * from "xe_documents" as "documents"
+                                    , "xe_document_declared" as "document_declared"
+                                    where "documents"."document_srl"
+                                        in ("document_declared"."document_srl")
+                                    order by "document_declared"."declared_count" desc
+                                    limit 0, 30';
+                    $this->_test($xml_file, $argsString, $expected);
+                }
+
 	}

@@ -10,15 +10,15 @@
         protected function setUp() {
             $oContext = &Context::getInstance();
 
-            $db_info->db_type = 'mssql';
-            $db_info->db_table_prefix = 'xe';
+            $db_info->master_db = array('db_type' => 'mssql','db_table_prefix' => 'xe_');
+            $db_info->slave_db = array(array('db_type' => 'mssql','db_table_prefix' => 'xe_'));
 
-            $oContext->setDbInfo($db_info);         
+            $oContext->setDbInfo($db_info);
         }
 
         protected function tearDown() {
             unset($GLOBALS['__DB__']);
             XmlQueryParser::setDBParser(null);
-        }        
+        }
     }
 ?>
