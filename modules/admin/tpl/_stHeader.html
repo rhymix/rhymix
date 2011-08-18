@@ -1,0 +1,39 @@
+<div class="xe stAdmin">
+	<p class="skipNav"><a href="#content">Skip Navigation</a></p>
+	<div class="header">
+		<h1><a href="{getUrl('', 'module', 'admin', 'vid', $vid)}"><img src="img/xe.h1.png" width="33" height="32" alt="XE" /> Site Admin <span class="url">- http://site.xpressengine.com/</span></a></h1>
+		<div class="siteTool">
+			<a href="#siteMapList" class="i tgSimple">Site Map</a>
+			<div class="tgContent" id="siteMapList">
+			</div>
+		</div>
+		<div class="account">
+			<ul>
+				<li cond="$logged_info->is_admin=='Y'"><a href="#">Super Admin</a></li> <!-- 슈퍼 관리자만 표시 -->
+				<li><a href="#">{$logged_info->nick_name}</a></li>
+				<li><a href="{getUrl('module', 'admin', 'act', 'procAdminLogout')}">Log-out</a></li>
+				<li><a href="#language" class="tgAnchor" data-effect="slide" data-duration="100">Language</a>
+					<ul class="tgContent" id="language">
+						<li loop="$lang_supported=>$key,$val"><a href="#" onclick="doChangeLangType('{$key}'); return false;">{$val}</a></li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+		<div class="gnb jx">
+			<ul>
+				<!--@foreach($gnbUrlList AS $key=>$value)-->
+				<li <!--@if($parentSrl == $key)-->class="activeOn"<!--@end-->><a href="{html_entity_decode($value['href'])}">{$value['text']}</a>
+					<!--@if(count($gnbUrlList[$key]['list']) > 0)-->
+					<ul>
+						<!--@foreach($gnbUrlList[$key]['list'] AS $key2=>$value2)-->
+						<li><a href="{html_entity_decode($value2['href'])}">{$value2['text']}</a></li>
+						<!--@end-->
+					</ul>
+					<!--@end-->
+				</li>
+				<!--@end-->
+			</ul>
+			<a href="#" class="setting">GNB Setting</a>
+		</div>
+	</div>
+	<div class="body">
