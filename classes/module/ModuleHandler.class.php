@@ -284,7 +284,6 @@
 							$oModule->setLayoutFile("layout.html");
 						}elseif($grant->is_site_admin){
 							$oSiteModel = &getModel('site');
-// 			debugPrint(Context::get('site_module_info'));
 							$output = $oSiteModel->getSiteAdminMenu($logged_info);
 							Context::set('gnbUrlList', $output->menuList);
 							Context::set('parentSrl', $output->parentSrl);
@@ -361,7 +360,6 @@
 			$type = $this->module_info->module_type;
 			if(!$forward && $kind == "admin" && $type == "view")
 			{
-				
 				$oMemberModel = &getModel('member');
 				$logged_info = $oMemberModel->getLoggedInfo();
 				$grant = $oModuleModel->getGrant($oModule, $logged_info, $xml_info); 
