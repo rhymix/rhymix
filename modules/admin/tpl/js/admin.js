@@ -226,6 +226,9 @@ jQuery(function($){
 				$this.data('timer', timer);
 			});
 
+	// Display the dashboard in two column
+	$('.dashboard>.portlet:odd').after('<br style="clear:both" />');
+
 	// TODO: Site Map
 // 	var siteMap = $('.siteMap');
 // 	var siteItem = siteMap.find('li');
