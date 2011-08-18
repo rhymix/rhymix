@@ -202,14 +202,11 @@ jQuery(function($){
 
 	// pagination
 	$('.pagination')
-		.find('span.tgContent')
-			.attr('id', function(idx){ return 'goTo-'+(idx+1) })
-			.css('whiteSpace', 'nowrap')
-		.end()
+		.find('span.tgContent').css('whiteSpace', 'nowrap').end()
 		.find('a.tgAnchor[href="#goTo"]')
 			.each(function(idx){
-				var id = '#goTo-'+(idx+1);
-				$(this).attr('href', id).after($(id));
+				var $this = $(this);
+				$this.after( $($this.attr('href')) );
 			})
 		.end();
 
