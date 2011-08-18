@@ -1,0 +1,146 @@
+<load target="js/site_admin_member.js" />
+<script type="text/javascript">
+	xe.lang.msg_select_user = '{$lang->msg_select_user}';
+</script>
+<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
+<div class="content" id="content">
+	<form action="" class="form">
+		<h1 class="h1">{$lang->user_list}</h1>
+		<div class="table even">
+			<table width="100%" border="1" cellspacing="0" class="memberList">
+				<caption>
+					All({number_format($total_count)})
+					<span class="side"><span class="btn"><a href="#listManager" class="modalAnchor _member" >{$lang->cmd_selected_user_manage}...</a></span></span>
+				</caption>
+				<thead>
+					<tr>
+						<th scope="col">{$lang->user_name}</th>
+						<th scope="col">{$lang->nick_name}</th>
+						<th scope="col">{$lang->signup_date}</th>
+						<th scope="col">{$lang->last_login}</th>
+						<th scope="col" class="text">{$lang->group}</th>
+						<th scope="col">
+							<input type="checkbox" title="Check All" />
+						</th>
+					</tr>
+				</thead>
+				<tfoot>
+					<tr>
+						<th scope="col">{$lang->user_name}</th>
+						<th scope="col">{$lang->nick_name}</th>
+						<th scope="col">{$lang->signup_date}</th>
+						<th scope="col">{$lang->last_login}</th>
+						<th scope="col" class="text">{$lang->group}</th>
+						<th scope="col">
+							<input type="checkbox" title="Check All" />
+						</th>
+					</tr>
+				</tfoot>
+				<tbody>
+					<tr loop="$member_list=>$key,$val" >
+						<td>{$val->user_name}</td>
+						<td>{$val->nick_name}</td>
+						<td>{zdate($val->regdate, 'Y-m-d')}</td>
+						<td>{zdate($val->last_login, 'Y-m-d')}</td>
+						<td class="text">
+						<!--@if($members_groups[$val->member_srl])-->
+							{$groupName = implode(',',$members_groups[$val->member_srl])}
+						<!--@else-->
+						&nbsp;
+						<!--@end-->
+						</td>
+						<td>
+							<input type="checkbox" name="user" value="{$val->member_srl."\t".$val->user_name."\t".$val->nick_name."\t".$groupName}"/>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="btnArea">
+			<span class="btn"><a href="#listManager" class="modalAnchor _member" >{$lang->cmd_selected_user_manage}...</a></span>
+		</div>
+	</form>
+	<div class="modal" id="listManager">
+		<form action="./" ruleset="updateSiteMember" class="fg form">
+		<input type="hidden" name="act" value="procMemberAdminSiteMemberManage" />
+		<input type="hidden" name="return_url" value="{getUrl('act', $act)}" />
+			<h2 class="h2">{$lang->cmd_selected_user_manage}</h2>
+			<div class="table even">
+				<table width="100%" border="1" cellspacing="0">
+					<thead>
+						<tr>
+							<th scope="col">{$lang->user_name}</th>
+							<th scope="col">{$lang->nick_name}</th>
+							<th scope="col" class="text">{$lang->group}</th>
+							<th scope="col"><input type="checkbox" name="user" checked="checked" title="Check All" /></th>
+						</tr>
+					</thead>
+					<tbody id="popupBody">
+					</tbody>
+				</table>
+			</div>
+			<p class="q">{$lang->about_change_user_group}</p>
+			<p>
+				<!--@foreach($group_list as $key=>$val)-->
+				<input type="checkbox" name="groups[]" id="g{$val->group_srl}" value="{$val->group_srl}"/> <label for="g{$val->group_srl}">{$val->title}</label>
+				<!--@end-->
+			</p>
+			<p class="q"><label for="message">{$lang->about_send_message}</label></p>
+			<p>
+				<textarea cols="42" rows="3" id="message" style="width:98%" name="message" ></textarea>
+			</p>
+			<div class="btnArea">
+				<button type="submit" name="type" value="modify">{$lang->cmd_modify}</button>
+				<button type="submit" name="type" value="delete">{$lang->cmd_delete}</button>
+			</div>
+		</form>
+	</div>
+	<div class="search">
+		<form action="" class="pagination">
+			<input type="hidden" name="error_return_url" value="" />
+			<input type="hidden" name="module" value="{$module}" />
+			<input type="hidden" name="act" value="{$act}" />
+			<input cond="$order_target" type="hidden" name="order_target" value="{$order_target}" />
+			<input cond="$order_type" type="hidden" name="order_type" value="{$order_type}" />
+			<input cond="$category_srl" type="hidden" name="category_srl" value="{$category_srl}" />
+			<input cond="$childrenList" type="hidden" name="childrenList" value="{$childrenList}" />
+			<input cond="$search_keyword" type="hidden" name="search_keyword" value="{$search_keyword}" />
+
+			<a href="{getUrl('page', '')}" class="direction">&laquo; FIRST</a>
+
+			<block cond="$page_navigation->first_page + $page_navigation->page_count > $page_navigation->last_page && $page_navigation->page_count != $page_navigation->total_page">
+				<a href="{getUrl('page', '')}">1</a>
+				<a href="#goTo" class="tgSimple" title="{$lang->cmd_go_to_page}">...</a>
+			</block>
+
+			<!--@while($page_no = $page_navigation->getNextPage())-->
+				{@$last_page = $page_no}
+				<strong cond="$page_no == $page">{$page_no}</strong>
+				<a cond="$page_no != $page" href="{getUrl('page', $page_no)}">{$page_no}</a>
+			<!--@end-->
+
+			<block cond="$last_page != $page_navigation->last_page">
+				<a href="#goTo" class="tgSimple" title="{$lang->cmd_go_to_page}">...</a>
+				<a href="{getUrl('page', $page_navigation->last_page)}">{$page_navigation->last_page}</a>
+			</block>
+			
+			<a href="{getUrl('page', $page_navigation->last_page)}" class="direction">LAST &raquo;</a>
+
+			<span id="goTo" class="tgContent">
+				<input name="page" title="{$lang->cmd_go_to_page}" />
+				<button type="submit">Go</button>
+			</span>
+		</form>
+		<form action="">
+			<select name="search_target">
+				<option value="">{$lang->search_target}</option>
+				<option value="{$key}" loop="$lang->search_target_list=>$key,$val" selected="selected"|cond="$search_target==$key">{$val}</option>
+			</select>
+			<input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" class="inputTypeText" />
+			<input type="submit" value="{$lang->cmd_search}" /> 
+			<a href="{getUrl('search_target', '', 'search_keyword', '')}">{$lang->cmd_cancel}</a>
+		</form>
+	</div>
+</div>

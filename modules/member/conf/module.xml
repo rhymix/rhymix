@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module>
     <grants />
-    <permissions />
+    <permissions>
+        <permission action="dispMemberAdminSiteMemberList" target="manager" />
+    </permissions>
     <actions>
         <action name="dispMemberInfo" type="view" standalone="true" />
         <action name="dispMemberSignUpForm" type="view" standalone="true" />
@@ -19,7 +21,7 @@
 		<action name="dispMemberResendAuthMail" type="view" standalone="true" />
         <action name="dispSavedDocumentList" type="view" standalone="true" />
 
-        <action name="dispMemberAdminList" type="view" standalone="true" index="true" admin_index="true" />
+        <action name="dispMemberAdminList" type="view" standalone="true" index="true" admin_index="true" menu_name="userList" menu_index="true"/>
         <action name="dispMemberAdminConfig" type="view" standalone="true" />
         <action name="dispMemberAdminInsert" type="view" standalone="true" />
         <action name="dispMemberAdminDeleteForm" type="view" standalone="true" />
@@ -30,6 +32,7 @@
         <action name="dispMemberAdminDeniedIDList" type="view" standalone="true" />
         <action name="dispMemberAdminManageGroup" type="view" standalone="true" />
         <action name="dispMemberAdminDeleteMembers" type="view" standalone="true" />
+        <action name="dispMemberAdminSiteMemberList" type="view" menu_name="siteUserList" menu_index="true"/>
 
         <action name="getMemberMenu" type="model" standalone="true" />
         <action name="getMemberAdminColorset" type="model" standalone="true" />
@@ -80,9 +83,24 @@
         <action name="procMemberAdminInsertDeniedID" type="controller" standalone="true" ruleset="insertDeniedId" />
         <action name="procMemberAdminUpdateDeniedID" type="controller" standalone="true" />
         <action name="procMemberAdminUpdateGroupOrder" type="controller" standalone="true" />
+
+        <action name="procMemberAdminSiteMemberManage" type="controller" ruleset="updateSiteMember" />
     </actions>
 	<menus>
-		<menu name="userList">
+		<menu name="userList" type="super">
+			<title xml:lang="en">User List</title>
+			<title xml:lang="ko">회원 목록</title>
+			<title xml:lang="zh-CN">User List</title>
+			<title xml:lang="jp">User List</title>
+			<title xml:lang="es">User List</title>
+			<title xml:lang="ru">User List</title>
+			<title xml:lang="fr">User List</title>
+			<title xml:lang="zh-TW">User List</title>
+			<title xml:lang="vi">User List</title>
+			<title xml:lang="mn">User List</title>
+			<title xml:lang="tr">User List</title>
+		</menu>
+		<menu name="siteUserList" type="site">
 			<title xml:lang="en">User List</title>
 			<title xml:lang="ko">회원 목록</title>
 			<title xml:lang="zh-CN">User List</title>

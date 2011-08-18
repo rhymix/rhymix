@@ -239,4 +239,10 @@
 	$lang->msg_kr_address = '읍, 면, 동 이름으로 검색하세요.';
 	$lang->msg_kr_address_etc = '나머지 주소(번지)를 입력하세요.';
 	$lang->cmd_search_again   = '다시 검색';
+
+	// site admin
+	$lang->msg_select_user = '관리할 사용자를 선택해주세요.';
+	$lang->cmd_selected_user_manage = '선택한 사용자 관리';
+	$lang->about_change_user_group = '선택한 사용자의 그룹을 다시 설정.';
+	$lang->about_send_message = '사용자에게 쪽지를 발송해서 이 사실을 알립니다. 작성하지 않으면 발송하지 않습니다.';
 ?>
