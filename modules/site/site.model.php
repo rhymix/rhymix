@@ -21,6 +21,9 @@
 
 		}
 
+        /**
+         * @brief Return site list
+         **/
 		function getSiteAllList()
 		{
 			if(Context::get('domain')) $args->domain = Context::get('domain');
@@ -31,6 +34,19 @@
 			if($output->toBool()) $siteList = $output->data;
 
 			$this->add('site_list', $siteList);
+		}
+
+        /**
+         * @brief Return site count
+         **/
+		function getSiteCountByDate($date = '')
+		{
+			if($date) $args->regDate = date('Ymd', strtotime($date));
+
+			$output = executeQuery('site.getSiteCountByDate', $args);
+			if(!$output->toBool()) return 0;
+
+			return $output->data->count;
 		}
 
 		function makeGnbUrl($member_srl)

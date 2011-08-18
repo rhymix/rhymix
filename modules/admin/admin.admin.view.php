@@ -171,6 +171,11 @@
             $args->date = date("Ymd000000", time()-60*60*24);
             $today = date("Ymd");
 
+			// Site Status
+			$oSiteModel = &getModel('site');
+			$status->site->todayCount = $oSiteModel->getSiteCountByDate($today);
+			$status->site->totalCount = $oSiteModel->getSiteCountByDate();
+
             // Member Status
 			$oMemberAdminModel = &getAdminModel('member');
 			$status->member->todayCount = $oMemberAdminModel->getMemberCountByDate($today);
