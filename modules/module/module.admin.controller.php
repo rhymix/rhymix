@@ -466,14 +466,19 @@
             $oModuleModel = &getModel('module');
             // Variable setting for site keyword
             $site_keyword = Context::get('site_keyword');
+            $site_srl = Context::get('site_srl');
             // If there is no site keyword, use as information of the current virtual site
             $args = null;
             $logged_info = Context::get('logged_info');
 			$site_module_info = Context::get('site_module_info');
-			$args->site_keyword = $site_keyword;
+			if($site_keyword) $args->site_keyword = $site_keyword;
 
-            if($logged_info->is_admin == 'Y' && !$site_keyword) $args->site_srl = 0;
-            else $args->site_srl = (int)$site_module_info->site_srl;
+			if(!$site_srl)
+			{
+				if($logged_info->is_admin == 'Y' && !$site_keyword) $args->site_srl = 0;
+				else $args->site_srl = (int)$site_module_info->site_srl;
+			}
+			else $args->site_srl = $site_srl;
 
 			$args->sort_index1 = 'sites.domain';
 

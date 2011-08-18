@@ -21,6 +21,18 @@
 
 		}
 
+		function getSiteAllList()
+		{
+			if(Context::get('domain')) $args->domain = Context::get('domain');
+			$columnList = array('domain', 'site_srl');
+
+			$siteList = array();
+			$output = executeQueryArray('site.getSiteAllList', $args, $columnList);
+			if($output->toBool()) $siteList = $output->data;
+
+			$this->add('site_list', $siteList);
+		}
+
 		function makeGnbUrl($member_srl)
 		{
 			global $lang;

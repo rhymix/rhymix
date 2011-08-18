@@ -53,6 +53,16 @@
 
             $this->setTemplateFile($template_filename);
         }
+
+        /**
+         * @brief Display a form to upload the xml file
+         **/
+        function dispImporterAdminImportForm() {
+			$oDocumentModel = &getModel('document');	//for document lang use in this page
+
+            $this->setTemplatePath($this->module_path.'tpl');
+            $this->setTemplateFile('index');
+        }
         
     }
 ?>

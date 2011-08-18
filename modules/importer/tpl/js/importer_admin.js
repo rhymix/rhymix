@@ -171,3 +171,92 @@ function insertSelectedModule(id, module_srl, mid, browser_title) {
 	get_by_id(id).value = module_srl;
 	get_by_id('_'+id).value = browser_title + ' ('+mid+')';
 }
+
+var currentClickedObject = null;
+var currentClickedSiteObject = null;
+jQuery(function($){
+
+$('a.findsite')
+	.bind('before-open.tc', function(){
+		var $this = $(this), $layer = $($this.attr('href')), $ul = $layer.find('>ul'), $button;
+		currentClickedObject = $this;
+		var searchKeyword = $this.prev('input[name=site_keyword]').val();
+		var params = new Array();
+		var response_tags = ['error', 'message', 'site_list'];
+		params['domain'] = searchKeyword; 
+    	exec_xml('site','getSiteAllList',params, completeGetSiteAllList, response_tags);
+	});
+
+$('div.suggestion')
+	.delegate('button', 'click', function(){
+		var $this = $(this), site_srl = $this.data('site_srl');
+		currentClickedSiteObject = $this;
+
+		// TODO : 모듈 목록을 찾아서 셀렉트 박스에 할당
+		var params = new Array();
+		var response_tags = ['error', 'message', 'module_list'];
+		params['site_srl'] = site_srl;
+
+		exec_xml('module','procModuleAdminGetList',params, completeGetModuleList, response_tags);
+	});
+
+$('select.moduleList').change(function(){
+		alert(this);
+	});
+
+});
+
+xe.siteAllList = [];
+
+function completeGetSiteAllList(ret_obj)
+{
+	if(!jQuery.isArray(ret_obj['site_list']['item'])) xe.siteAllList = [ret_obj['site_list']['item']];
+	else xe.siteAllList = ret_obj['site_list']['item'];
+
+	var $layer = jQuery(currentClickedObject.attr('href')), $ul = $layer.find('>ul'), $button;
+		$ul.empty();
+		for(var i=0,c=xe.siteAllList.length; i < c; i++) {
+			$button = jQuery('<button type="button">'+xe.siteAllList[i].domain+'</button>');
+			$button.data('domain', xe.siteAllList[i].domain).data('site_srl', xe.siteAllList[i].site_srl);
+
+			jQuery('<li>').append($button).appendTo($ul);
+		}
+}
+
+var module_list = '';
+function completeGetModuleList(ret_obj, response_tags)
+{
+	module_list = ret_obj['module_list'];
+	var htmlListBuffer = '';
+
+	for(var x in module_list)
+	{
+		if(x == 'page') continue;
+		var moduleObject = module_list[x];
+		htmlListBuffer += '<option value="'+x+'">'+moduleObject.title+'</option>';
+	}
+	currentClickedSiteObject.parents('li').find('select:first').html(htmlListBuffer).prop('selectedIndex', 0).change();
+	//makeMidList(jQuery('#module_list').val());
+}
+
+/*jQuery(document).ready(function($){
+	$('#module_list').bind('change', function(e){
+		makeMidList($('#module_list').val());
+	});
+	$('#mid_list').bind('change', function(e){
+		doGetCategoryFromModule($('#mid_list').val());
+	});
+});*/
+
+function makeMidList(moduleName)
+{
+	var mid_list = module_list[moduleName].list;
+	var htmlListBuffer = '';
+	for(var x in mid_list)
+	{
+		var moduleInstance = mid_list[x];
+		htmlListBuffer += '<option value="'+moduleInstance.module_srl+'">'+x+'</option>';
+	}
+	jQuery('#mid_list').html(htmlListBuffer);
+	doGetCategoryFromModule(jQuery('#mid_list').val());
+}

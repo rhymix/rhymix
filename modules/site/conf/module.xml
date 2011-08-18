@@ -3,5 +3,6 @@
     <grants />
     <permissions />
     <actions>
+        <action name="getSiteAllList" type="model" standalone="true" />
     </actions>
 </module>

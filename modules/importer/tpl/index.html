@@ -1,5 +1,10 @@
 <include target="./header.html" />
-<form action="./" class="form" method="get" onsubmit="return doPreProcessing(this)" id="fo_import">
+<load target="js/importer_admin.js" />
+
+<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
+<form action="./" class="form" method="get" onsubmit="return doPreProcessing(this)" id="moduleImportForm">
 	<input type="hidden" name="type" value="module" />
 	<input type="hidden" name="target_module" value="" id="target_module" />
 	<h2 class="h2">{$lang->type_module}</h2>
@@ -13,18 +18,20 @@
 		<li>
 			<p class="q">{$lang->data_destination}</p>
 			<div class="a">
-				<input type="text" /> <a href="#suggestion1" class="tgAnchor">{$lang->find_site}</a>
+				<input type="text" name="site_keyword" /> <a href="#suggestion1" class="tgAnchor findsite">{$lang->find_site}</a>
 				<div id="suggestion1" class="tgContent suggestion">
 					<ul>
-						<li><button type="button">#</button></li>
-						<li><button type="button">#</button></li>
 					</ul>
 				</div>
 			</div>
 			<p class="a">
+				<select class="moduleList" style="width:290px">
+					<option>{$lang->select_module}</option>
+				</select>
+			</p>
+			<p class="a">
 				<select style="width:290px">
 					<option>{$lang->select_module_id}</option>
-					<option>#</option>
 				</select>
 			</p>
 		</li>
@@ -72,36 +79,30 @@
 		<li>
 			<p class="q">{$lang->document_destination}</p>
 			<div class="a">
-				<input type="text" /> <a href="#suggestion2" class="tgAnchor">{$lang->find_site}</a>
+				<input type="text" name="site_keyword" /> <a href="#suggestion2" class="tgAnchor findsite">{$lang->find_site}</a>
 				<div id="suggestion2" class="tgContent suggestion">
 					<ul>
-						<li><button type="button">#</button></li>
-						<li><button type="button">#</button></li>
 					</ul>
 				</div>
 			</div>
 			<p class="a">
 				<select name="_target_module" style="width:290px">
 					<option>{$lang->select_module_id}</option>
-					<option>#</option>
 				</select>
 			</p>
 		</li>
 		<li>
 			<p class="q">{$lang->guestbook_destination}</p>
 			<div class="a">
-				<input type="text" /> <a href="#suggestion3" class="tgAnchor">{$lang->find_site}</a>
+				<input type="text" name="site_keyword" /> <a href="#suggestion3" class="tgAnchor findsite">{$lang->find_site}</a>
 				<div id="suggestion3" class="tgContent suggestion">
 					<ul>
-						<li><button type="button">#</button></li>
-						<li><button type="button">#</button></li>
 					</ul>
 				</div>
 			</div>
 			<p class="a">
 				<select name="_guestbook_target_module" style="width:290px">
 					<option>{$lang->select_module_id}</option>
-					<option>#</option>
 				</select>
 			</p>
 		</li>
