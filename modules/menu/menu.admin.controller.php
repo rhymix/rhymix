@@ -468,12 +468,17 @@
                 '$site_srl = '.$site_srl.';'.
                 '$site_admin = false;'.
                 'if($site_srl) { '.
+				'if($site_srl != $logged_info->member_srl){'.
                 '$oModuleModel = &getModel(\'module\');'.
                 '$site_module_info = $oModuleModel->getSiteInfo($site_srl); '.
-                'Context::set(\'site_module_info\',$site_module_info);'.
+				'if($site_module_info) Context::set(\'site_module_info\',$site_module_info);'.
+				'else $site_module_info = Context::get(\'site_module_info\');'.
                 '$grant = $oModuleModel->getGrant($site_module_info, $logged_info); '.
                 'if($grant->manager ==1) $site_admin = true;'.
-                '}'.
+                '}else{'.
+				'$site_admin = true;'.
+				'}'.
+				'}'.
                 'if($is_logged) {'.
                     'if($logged_info->is_admin=="Y" || $site_admin) $is_admin = true; '.
                     'else $is_admin = false; '.
@@ -481,7 +486,7 @@
                 '} else { '.
                     '$is_admin = false; '.
                     '$group_srsl = array(); '.
-                '} ';
+                '}';
             // Create the xml cache file (a separate session is needed for xml cache)
             $xml_buff = sprintf(
                 '<?php '.
