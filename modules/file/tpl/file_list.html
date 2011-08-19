@@ -5,11 +5,14 @@
 <form id="fo_list" action="./" method="post" class="form">
 	<h1 class="h1">{$lang->file}</h1>
 	<div class="table">
+		<div class="cnb">
+			<a href="#">All</a>
+			| <a href="{getUrl('search_target','isvalid','search_keyword','Y')}">{$lang->is_valid}({number_format((int)$valid_count['Y'])})</a>
+			| <a href="{getUrl('search_target','isvalid','search_keyword','N')}">{$lang->is_stand_by}({number_format((int)$valid_count['N'])})</a>
+		</div>
 		<table width="100%" border="1" cellspacing="0">
 			<caption>
 				All({number_format($total_count)})
-				| <a href="{getUrl('search_target','isvalid','search_keyword','Y')}">{$lang->is_valid}({number_format((int)$valid_count['Y'])})</a>
-				| <a href="{getUrl('search_target','isvalid','search_keyword','N')}">{$lang->is_stand_by}({number_format((int)$valid_count['N'])})</a>
 				<span class="side"><span class="btn"><a href="#listManager" class="modalAnchor">{$lang->file_manager}...</a></span></span>
 			</caption>
 			<thead>

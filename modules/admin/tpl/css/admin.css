@@ -33,7 +33,7 @@ p{line-height:1.5}
 /* Table */
 .table{margin:1em 0}
 .table table{width:100%;border:0;border-collapse:collapse;border-top:2px solid #ccc}
-.table caption{padding:8px 0;font-weight:bold;text-align:left;line-height:20px}
+.table caption{font-weight:bold;text-align:left;line-height:22px;padding:5px 0}
 .table caption:after{content:"";display:block;clear:both}
 .table caption a{font-weight:normal}
 .table caption em{float:right;font-style:normal;font-weight:normal;color:#e00;margin-left:1em}
@@ -48,14 +48,6 @@ p{line-height:1.5}
 .table img{vertical-align:middle}
 .table .title,
 .table .text{white-space:normal}
-.table .h1 + table,
-.table .h2 + table,
-.table .h3 + table,
-.table .h4 + table,
-.h1 + .table table,
-.h2 + .table table,
-.h3 + .table table,
-.h4 + .table table{border-top:0}
 /* Form */
 .form{margin:1em 0;padding:0}
 .form fieldset{margin:0 0 2em 0;padding:0;border:0}
@@ -124,6 +116,30 @@ p{line-height:1.5}
 	.gnb li a:focus{background:none}
 	.gnb li.activeOn>a{background:#ddd}
 }
+/* Local Navigation */
+.lnb{position:relative;float:left;width:200px;margin:1em 0 1em -230px;line-height:normal;zoom:1;display:inline}
+.lnb .h2{margin-top:0}
+.lnb ul{margin:0;padding:0;list-style:none}
+.lnb li{position:relative;margin:0 0 -1px 0;vertical-align:top;zoom:1}
+.lnb li a{display:block;position:relative;padding:8px 10px;text-decoration:none;color:#666;font-weight:bold;background:#fafafa;border:1px solid #eee;zoom:1}
+.lnb li a .i{position:absolute;top:50%;left:100%;margin:-4px 0 0 -16px;width:8px;height:8px;color:#ccc;background:url(../img/iconNavVr.gif) no-repeat left top}
+.lnb li ul{padding:5px 0;background:#fff}
+.lnb li li{margin:0;border-top:1px dotted #ddd}
+.lnb li li:first-child{border:0}
+.lnb li li a{font-weight:normal;background:#fff;padding:5px 10px;border:0}
+.lnb li li a span{color:#666}
+.lnb li.active{border:1px solid #ccc;z-index:2}
+.lnb li li.active{border:0}
+.lnb li.active a{color:#000;border:0}
+.lnb li.active .i{background-position:0 -44px}
+.lnb li.active li a{border:0}
+.lnb li.active ul{display:block;border-top:1px solid #eee}
+.lnb li.active li.active a span{color:#13b200;font-weight:bold;letter-spacing:-1px}
+/* Content Navigation */
+.cnb{margin:1em 0;position:relative;zoom:1}
+.cnb:after{content:"";display:block;clear:both}
+.cnb .active{font-weight:bold;color:#333;text-decoration:none}
+.cnb .side{float:right}
 /* Pagination */
 .pagination{margin:1em 0;text-align:center;line-height:normal}
 .pagination *{vertical-align:middle}
@@ -278,27 +294,8 @@ button.text{border:0;overflow:visible;padding:0;margin:0;color:#33a;background:n
 /* Dashboard */
 .dashboard{position:relative;float:none;width:auto;margin-left:-230px}
 .dashboard .portlet{float:left;width:48%;margin-right:1em}
-.dashboard .portlet:nth-of-type(even){ float:left;width:49%;margin-right:0}
+.dashboard .portlet:nth-of-type(odd){ float:left;width:49%;margin-right:0}
 .dashboard .portlet:nth-of-type(even){ float:right;width:49%;margin-right:0}
-/* Local Navigation */
-.lnb{position:relative;float:left;width:200px;margin:1em 0 1em -230px;line-height:normal;zoom:1;display:inline}
-.lnb .h2{margin-top:0}
-.lnb ul{margin:0;padding:0;list-style:none}
-.lnb li{position:relative;margin:0 0 -1px 0;vertical-align:top;zoom:1}
-.lnb li a{display:block;position:relative;padding:8px 10px;text-decoration:none;color:#666;font-weight:bold;background:#fafafa;border:1px solid #eee;zoom:1}
-.lnb li a .i{position:absolute;top:50%;left:100%;margin:-4px 0 0 -16px;width:8px;height:8px;color:#ccc;background:url(../img/iconNavVr.gif) no-repeat left top}
-.lnb li ul{padding:5px 0;background:#fff}
-.lnb li li{margin:0;border-top:1px dotted #ddd}
-.lnb li li:first-child{border:0}
-.lnb li li a{font-weight:normal;background:#fff;padding:5px 10px;border:0}
-.lnb li li a span{color:#666}
-.lnb li.active{border:1px solid #ccc;z-index:2}
-.lnb li li.active{border:0}
-.lnb li.active a{color:#000;border:0}
-.lnb li.active .i{background-position:0 -44px}
-.lnb li.active li a{border:0}
-.lnb li.active ul{display:block;border-top:1px solid #eee}
-.lnb li.active li.active a span{color:#13b200;font-weight:bold;letter-spacing:-1px}
 /* Search */
 .search{zoom:1}
 .search:after{content:"";display:block;clear:both}

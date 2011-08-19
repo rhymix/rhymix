@@ -1,7 +1,7 @@
 <!--#include("./_spHeader.html")-->
 <div class="content dashboard" id="content">
 	<!--@if(!$isEnviromentGatheringAgreement)-->
-	<form action="./" method="post" class="noticeAlert">
+	<form action="./" method="post" class="message info">
 	<input type="hidden" name="act" value="procAdminEnviromentGatheringAgreement" />
 		<h2>{$lang->install_env_agreement}</h2>
 		<p>{$lang->install_env_agreement_desc}</p>
@@ -11,82 +11,92 @@
 		</div>
 	</form>
 	<!--@end-->
-	<div class="portlet">
-		<h2 class="h2">Current State</h2>
-		<ul class="lined">
-			<li><a href="#">Site</a> <span class="side">{number_format($status->site->totalCount)}(<!--@if($status->status->todayCount > 0)-->+<!--@end-->{number_format($status->site->todayCount)})</span></li>
-			<li><a href="#">User</a> <span class="side">{number_format($status->member->totalCount)}(<!--@if($status->member->todayCount > 0)-->+<!--@end-->{number_format($status->member->todayCount)})</span></li>
-			<li><a href="#">Document</a> <span class="side">{number_format($status->document->totalCount)}(<!--@if($status->document->todayCount > 0)-->+<!--@end-->{number_format($status->document->todayCount)})</span></li>
-			<li><a href="#">Comment</a> <span class="side">{number_format($status->comment->totalCount)}(<!--@if($status->comment->todayCount > 0)-->+<!--@end-->{$status->comment->todayCount})</span></li>
-			<li><a href="#">Trackback</a> <span class="side">{number_format($status->trackback->totalCount)}(<!--@if($status->trackback->todayCount > 0)-->+<!--@end-->{$status->trackback->todayCount})</span></li>
-		</ul>
-	</div>
-	<div class="portlet">
-		<h2 class="h2">Latest Document</h2>
-		<ul class="lined">
-			<!--@foreach($latestDocumentList AS $key=>$value)-->
-			{@$document = $value->variables}
-			<li>
-				<a href="#" target="_blank">{$document['title']}</a> <span class="side">{$document['nick_name']}</span> 
-				<span class="action">
-					<a href="#" target="_blank">Edit</a>
-					<a href="#">Spam</a>
-					<a href="#">Trash</a>
-				</span>
-			</li>
-			<!--@end-->
-		</ul>
-	</div>
-	<div class="portlet">
-		<h2 class="h2">Latest Comment</h2>
-		<ul class="lined">
-			<!--@foreach($latestCommentList AS $key=>$value)-->
-			<li>
-				<a href="#" target="_blank">{$value->content}</a> <span class="side">{$value->nick_name}</span> 
-				<span class="action">
-					<a href="#" target="_blank">Edit</a>
-					<a href="#">Spam</a>
-					<a href="#">Trash</a>
-				</span>
-			</li>
-			<!--@end-->
-		</ul>
-	</div>
-	<div class="portlet">
-		<h2 class="h2">Latest Trackback</h2>
-		<ul class="lined">
-			<!--@foreach($latestTrackbackList AS $key=>$value)-->
-			<li>
-				<a href="#" target="_blank">{$value->title}</a> <span class="side">{$value->blog_name}</span> 
-				<span class="action">
-					<a href="#" target="_blank">Edit</a>
-					<a href="#">Spam</a>
-					<a href="#">Trash</a>
-				</span>
-			</li>
-			<!--@end-->
-		</ul>
-	</div>
-	<div class="portlet">
-		<h2 class="h2">XE Team Notice</h2>
-		<ul class="lined">
-			<!--@foreach($news AS $key=>$value)-->
-			<li><a href="#" target="_blank">{$value->title}</a> <span class="side">{zdate($value->date, 'Y-m-d')}</span></li>
-			<!--@end-->
-		</ul>
-	</div>
-	<div class="portlet">
-		<h2 class="h2">Update Available</h2>
-		<ul class="lined">
+	<!--@if($isUpdated)-->
+	<div class="message update">
+		<h2>Update Available</h2>
+		<ul>
 		<!--@foreach($module_list AS $key => $value)-->
 			<!--@if($value->need_install)-->
-			<li><a href="{getUrl('','module','admin','act',$val->admin_index_act)}">{$value->module}</a> <span class="side"><a href="#" onclick="doInstallModule('{$value->module}');return false;">{$lang->cmd_install}</a></span></li>
+			<li><a href="{getUrl('','module','admin','act',$val->admin_index_act)}">{$value->module}</a> - <a href="#" onclick="doInstallModule('{$value->module}');return false;">{$lang->cmd_install}</a></li>
 			<!--@else if($value->need_update)-->
-			<li><a href="{getUrl('','module','admin','act',$val->admin_index_act)}">{$value->module}</a> <span class="side"><a href="#" onclick="doUpdateModule('{$value->module}')">{$lang->cmd_update}</a></span></li>
+			<li><a href="{getUrl('','module','admin','act',$val->admin_index_act)}">{$value->module}</a> - <a href="#" onclick="doUpdateModule('{$value->module}')">{$lang->cmd_update}</a></li>
 			<!--@end-->
 		<!--@end-->
-			<!--@if(!$isUpdated)--><li>사용 가능한 업데이트 항목이 없습니다.</li><!--@end-->
 		</ul>
+	</div>
+	<!--@end-->
+	<div class="section">
+		<div class="portlet">
+			<h2 class="h2">Current State</h2>
+			<ul class="lined">
+				<li><a href="#">Site</a> <span class="side">{number_format($status->site->totalCount)}(<!--@if($status->status->todayCount > 0)-->+<!--@end-->{number_format($status->site->todayCount)})</span></li>
+				<li><a href="#">User</a> <span class="side">{number_format($status->member->totalCount)}(<!--@if($status->member->todayCount > 0)-->+<!--@end-->{number_format($status->member->todayCount)})</span></li>
+				<li><a href="#">Document</a> <span class="side">{number_format($status->document->totalCount)}(<!--@if($status->document->todayCount > 0)-->+<!--@end-->{number_format($status->document->todayCount)})</span></li>
+				<li><a href="#">Comment</a> <span class="side">{number_format($status->comment->totalCount)}(<!--@if($status->comment->todayCount > 0)-->+<!--@end-->{$status->comment->todayCount})</span></li>
+				<li><a href="#">Trackback</a> <span class="side">{number_format($status->trackback->totalCount)}(<!--@if($status->trackback->todayCount > 0)-->+<!--@end-->{$status->trackback->todayCount})</span></li>
+			</ul>
+		</div>
+		<div class="portlet">
+			<h2 class="h2">Latest Document</h2>
+			<ul class="lined">
+				<!--@foreach($latestDocumentList AS $key=>$value)-->
+				{@$document = $value->variables}
+				<li>
+					<a href="#" target="_blank">{$document['title']}</a> <span class="side">{$document['nick_name']}</span> 
+					<span class="action">
+						<a href="#" target="_blank">Edit</a>
+						<a href="#">Spam</a>
+						<a href="#">Trash</a>
+					</span>
+				</li>
+				<!--@end-->
+			</ul>
+		</div>
+		<div class="portlet">
+			<h2 class="h2">Latest Comment</h2>
+			<ul class="lined">
+				<!--@foreach($latestCommentList AS $key=>$value)-->
+				<li>
+					<a href="#" target="_blank">{$value->content}</a> <span class="side">{$value->nick_name}</span> 
+					<span class="action">
+						<a href="#" target="_blank">Edit</a>
+						<a href="#">Spam</a>
+						<a href="#">Trash</a>
+					</span>
+				</li>
+				<!--@end-->
+			</ul>
+		</div>
+		<div class="portlet">
+			<h2 class="h2">Latest Trackback</h2>
+			<ul class="lined">
+				<!--@foreach($latestTrackbackList AS $key=>$value)-->
+				<li>
+					<a href="#" target="_blank">{$value->title}</a> <span class="side">{$value->blog_name}</span> 
+					<span class="action">
+						<a href="#" target="_blank">Edit</a>
+						<a href="#">Spam</a>
+						<a href="#">Trash</a>
+					</span>
+				</li>
+				<!--@end-->
+			</ul>
+		</div>
+		<div class="portlet">
+			<h2 class="h2">XE Team Notice</h2>
+			<ul class="lined">
+				<!--@foreach($news AS $key=>$value)-->
+				<li><a href="#" target="_blank">{$value->title}</a> <span class="side">{zdate($value->date, 'Y-m-d')}</span></li>
+				<!--@end-->
+			</ul>
+		</div>
+		<div class="portlet">
+			<h2 class="h2">Your Favorite</h2>
+			<ul class="lined">
+				<li><a href="#">Extensions</a> &gt; <a href="#">Installed Module</a> &gt; <a href="#">Board</a></li>
+				<li><a href="#">Extensions</a> &gt; <a href="#">Installed Module</a> &gt; <a href="#">Wiki</a></li>
+			</ul>
+		</div>
 	</div>
 </div>
 <!--#include("./_spFooter.html")-->

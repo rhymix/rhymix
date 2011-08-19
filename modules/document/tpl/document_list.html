@@ -6,12 +6,15 @@
 	<input type="hidden" name="page" value="{$page}" />
 		<h1 class="h1">{$lang->document}</h1>
 		<div class="table even">
+			<div class="cnb">
+				<a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList')}" class="active">All</a>
+				| <a href="{getUrl('search_target', 'is_secret', 'search_keyword', 'N')}">{$status_name_list['PUBLIC']}({$statusCount['PUBLIC']})</a>
+				| <a href="{getUrl('search_target', 'is_secret', 'search_keyword', 'Y')}">{$status_name_list['SECRET']}({$statusCount['SECRET']})</a>
+				| <a href="{getUrl('search_target', 'is_secret', 'search_keyword', 'temp')}">{$status_name_list['TEMP']}({$statusCount['TEMP']})</a>
+			</div>
 			<table width="100%" border="1" cellspacing="0" id="documentListTable">
 				<caption>
-					<a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList')}">All</a>
-					| <a href="{getUrl('search_target', 'is_secret', 'search_keyword', 'N')}">{$status_name_list['PUBLIC']}({$statusCount['PUBLIC']})</a>
-					| <a href="{getUrl('search_target', 'is_secret', 'search_keyword', 'Y')}">{$status_name_list['SECRET']}({$statusCount['SECRET']})</a>
-					| <a href="{getUrl('search_target', 'is_secret', 'search_keyword', 'temp')}">{$status_name_list['TEMP']}({$statusCount['TEMP']})</a>
+					All({number_format($total_count)})
 					<div class="side">
 						<span class="btn"><a href="#listManager" class="modalAnchor" onclick="getDocumentList();">{$lang->document_manager}...</a></span>
 					</div>

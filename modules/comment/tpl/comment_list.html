@@ -5,12 +5,15 @@
 <form id="fo_list" action="./" method="post" class="form">
 	<h1 class="h1">{$lang->comment}</h1>
 	<div class="table even">
+		<div class="cnb">
+			All({number_format($total_count)})
+			<!--@foreach($countOutput AS $key=>$value)-->
+			| <a href="{getUrl('search_target','is_secret','search_keyword', $value->is_secret)}">{$secret_name_list[$value->is_secret]}({$value->count})</a>
+			<!--@end-->
+		</div>
 		<table width="100%" border="1" cellspacing="0">
 			<caption>
 				All({number_format($total_count)})
-				<!--@foreach($countOutput AS $key=>$value)-->
-				| <a href="{getUrl('search_target','is_secret','search_keyword', $value->is_secret)}">{$secret_name_list[$value->is_secret]}({$value->count})</a>
-				<!--@end-->
 				<div class="side">
 					<span class="btn"><a href="#listManager" class="modalAnchor" onclick="getCommentList();">{$lang->comment_manager}...</a></span>
 				</div>
