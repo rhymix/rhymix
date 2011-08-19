@@ -46,7 +46,6 @@
             if($db_info->https_port) Context::set('https_port', $db_info->https_port);
 
 			$this->showSendEnv();
-
         }
 
 		function makeGnbUrl($module = 'admin')
@@ -163,7 +162,7 @@
 		}
 
         /**
-         * @brief Display main administration page
+         * @brief Display Super Admin Dashboard
          * @return none
          **/
         function dispAdminIndex() {
@@ -327,6 +326,7 @@
 			Context::set('menu_srl', $output->menu_srl);
             $this->setTemplateFile('menu_setup');
 		}
+
 
 		function showSendEnv() {
 			if(Context::getResponseMethod() != 'HTML') return;

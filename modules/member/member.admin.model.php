@@ -147,5 +147,17 @@
 
 			return $output->data->count;
         }
+
+        /**
+         * @brief Return site join member count with date
+         **/
+        function getMemberGroupMemberCountByDate($date = '') {
+			if($date) $args->regDate = date('Ymd', strtotime($date));
+
+			$output = executeQuery('member.getMemberGroupMemberCountByDate', $args);
+			if(!$output->toBool()) return 0;
+
+			return count($output->data);
+        }
     }
 ?>

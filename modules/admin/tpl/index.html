@@ -1,5 +1,8 @@
 <!--#include("./_spHeader.html")-->
 <div class="content dashboard" id="content">
+<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
 	<!--@if(!$isEnviromentGatheringAgreement)-->
 	<form action="./" method="post" class="message info">
 	<input type="hidden" name="act" value="procAdminEnviromentGatheringAgreement" />
@@ -42,11 +45,16 @@
 				<!--@foreach($latestDocumentList AS $key=>$value)-->
 				{@$document = $value->variables}
 				<li>
-					<a href="#" target="_blank">{$document['title']}</a> <span class="side">{$document['nick_name']}</span> 
+					<a href="{getUrl('', 'document_srl', $document['document_srl'])}" target="_blank">{$document['title']}</a> <span class="side">{$document['nick_name']}</span> 
 					<span class="action">
-						<a href="#" target="_blank">Edit</a>
-						<a href="#">Spam</a>
-						<a href="#">Trash</a>
+						<form>
+						<input type="hidden" name="module" value="admin" />
+						<input type="hidden" name="act" value="procDocumentManageCheckedDocument" />
+						<input type="hidden" name="cart[]" value="{$document['document_srl']}" />
+						<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin')}" />
+						<button type="submit" name="type" value="trash" class="text">{$lang->cmd_trash}</button>
+						<button type="submit" name="type" value="delete" class="text">{$lang->cmd_delete}</button>
+						</form>
 					</span>
 				</li>
 				<!--@end-->
@@ -59,9 +67,14 @@
 				<li>
 					<a href="#" target="_blank">{$value->content}</a> <span class="side">{$value->nick_name}</span> 
 					<span class="action">
-						<a href="#" target="_blank">Edit</a>
-						<a href="#">Spam</a>
-						<a href="#">Trash</a>
+						<form>
+						<input type="hidden" name="module" value="admin" />
+						<input type="hidden" name="act" value="procCommentAdminDeleteChecked" />
+						<input type="hidden" name="cart[]" value="{$value->comment_srl}" />
+						<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin')}" />
+						<button type="submit" name="is_trash" value="true" class="text">{$lang->cmd_trash}</button>
+						<button type="submit" name="is_trash" value="false" class="text">{$lang->cmd_delete}</button>
+						</form>
 					</span>
 				</li>
 				<!--@end-->
@@ -74,9 +87,13 @@
 				<li>
 					<a href="#" target="_blank">{$value->title}</a> <span class="side">{$value->blog_name}</span> 
 					<span class="action">
-						<a href="#" target="_blank">Edit</a>
-						<a href="#">Spam</a>
-						<a href="#">Trash</a>
+						<form>
+						<input type="hidden" name="module" value="admin" />
+						<input type="hidden" name="act" value="procTrackbackAdminDeleteChecked" />
+						<input type="hidden" name="cart[]" value="{$value->trackback_srl}" />
+						<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin')}" />
+						<button type="submit" class="text">{$lang->cmd_delete}</button>
+						</form>
 					</span>
 				</li>
 				<!--@end-->
@@ -93,9 +110,9 @@
 		<div class="portlet">
 			<h2 class="h2">Your Favorite</h2>
 			<ul class="lined">
-				<li><a href="#">Extensions</a> &gt; <a href="#">Installed Module</a> &gt; <a href="#">Board</a></li>
-				<li><a href="#">Extensions</a> &gt; <a href="#">Installed Module</a> &gt; <a href="#">Wiki</a></li>
-			</ul>
+				<LI><A HREF="#">EXTENSIONS</A> &GT; <A HREF="#">INSTALLED MODULE</A> &GT; <A HREF="#">BOARD</A></LI>
+				<LI><A HREF="#">EXTENSIONS</A> &GT; <A HREF="#">INSTALLED MODULE</A> &GT; <A HREF="#">WIKI</A></LI>
+			</UL>
 		</div>
 	</div>
 </div>

@@ -1,0 +1,64 @@
+<div class="content dashboard" id="content">
+	<div class="portlet">
+		<h2 class="h2">Current State</h2>
+		<ul class="lined">
+			<li><a href="#">User</a> <span class="side">{number_format($status->member->totalCount)}(<!--@if($status->member->todayCount>0)-->+<!--@end-->{$status->member->todayCount})</span></li>
+			<li><a href="#">Document</a> <span class="side">{number_format($status->document->totalCount)}(<!--@if($status->document->todayCount>0)-->+<!--@end-->{$status->document->todayCount})</span></li>
+			<li><a href="#">Reply</a> <span class="side">{number_format($status->comment->totalCount)}(<!--@if($status->comment->todayCount>0)-->+<!--@end-->{$status->comment->todayCount})</span></li>
+			<li><a href="#">Trackback</a> <span class="side">{number_format($status->trackback->totalCount)}(<!--@if($status->comment->todayCount>0)-->+<!--@end-->{$status->comment->todayCount})</span></li>
+		</ul>
+	</div>
+	<div class="portlet">
+		<h2 class="h2">Latest Document</h2>
+		<ul class="lined">
+			<!--@foreach($latestDocumentList AS $key=>$value)-->
+			{@$document = $value->variables}
+			<li>
+				<a href="#">{$document['title']}</a> <span class="side">{$document['nick_name']}</span> 
+				<span class="action">
+					<a href="#" target="_blank">Edit</a>
+					<a href="#">Spam</a>
+					<a href="#">Trash</a>
+				</span>
+			</li>
+			<!--@end-->
+		</ul>
+	</div>
+	<div class="portlet">
+		<h2 class="h2">Latest Comment</h2>
+		<ul class="lined">
+			<!--@foreach($latestCommentList AS $key=>$value)-->
+			<li>
+				<a href="#">{$value->content}</a> <span class="side">{$value->nick_name}</span> 
+				<span class="action">
+					<a href="#" target="_blank">Edit</a>
+					<a href="#">Spam</a>
+					<a href="#">Trash</a>
+				</span>
+			</li>
+			<!--@end-->
+		</ul>
+	</div>
+	<div class="portlet">
+		<h2 class="h2">Latest Trackback</h2>
+		<ul class="lined">
+			<!--@foreach($latestTrackbackList AS $key=>$value)-->
+			<li>
+				<a href="#">{$value->title}</a> <span class="side">{$value->blog_name}</span> 
+				<span class="action">
+					<a href="#" target="_blank">Edit</a>
+					<a href="#">Spam</a>
+					<a href="#">Trash</a>
+				</span>
+			</li>
+			<!--@end-->
+		</ul>
+	</div>
+	<div class="portlet">
+		<h2 class="h2">Your Favorite</h2>
+		<ul class="lined">
+			<li><a href="#" target="_blank"><a href="#">Extensions</a> &gt; <a href="#">Installed Module</a> &gt; <a href="#">Board</a></a></li>
+			<li><a href="#" target="_blank"><a href="#">Extensions</a> &gt; <a href="#">Installed Module</a> &gt; <a href="#">Wiki</a></a></li>
+		</ul>
+	</div>
+</div>

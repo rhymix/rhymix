@@ -152,8 +152,9 @@
         /**
          * @brief get the total number of comments in corresponding with document_srl.
          **/
-        function getCommentCountByDate($date = '') {
+        function getCommentCountByDate($date = '', $moduleSrlList = array()) {
 			if($date) $args->regDate = date('Ymd', strtotime($date));
+			if(count($moduleSrlList)>0) $args->module_srl = $moduleSrlList;
 
             $output = executeQuery('comment.getCommentCount', $args);
 			if(!$output->toBool()) return 0;

@@ -63,9 +63,10 @@
             return $output;
         }
 
-		function getTrackbackCountByDate($date = '')
+		function getTrackbackCountByDate($date = '', $moduleSrlList = array())
 		{
 			if($date) $args->regDate = date('Ymd', strtotime($date));
+			if(count($moduleSrlList)>0) $args->module_srl = $moduleSrlList;
 
             $output = executeQuery('trackback.getTrackbackCount', $args);
 			if(!$output->toBool()) return 0;

@@ -80,8 +80,9 @@
         /**
          * @brief Return document count with date
          **/
-        function getDocumentCountByDate($date = '') {
+        function getDocumentCountByDate($date = '', $moduleSrlList = array()) {
 			if($date) $args->regDate = date('Ymd', strtotime($date));
+			if(count($moduleSrlList)>0) $args->moduleSrlList = $moduleSrlList;
 
 			$output = executeQuery('document.getDocumentCountByDate', $args);
 			if(!$output->toBool()) return 0;
