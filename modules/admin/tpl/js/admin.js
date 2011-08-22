@@ -17,6 +17,9 @@ jQuery(function($){
 						$label = $this.prev().stop().css('visibility','visible').animate({opacity:1, left:'5px'},'fast');
 					}
 				})
+				.filter('[value!=""]')
+					.prev().css('visibility','hide').end()
+				.end()
 			.end()
 			.parent()
 				.css('position', 'relative');
