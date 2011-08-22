@@ -29,7 +29,8 @@ jQuery(function($){
 	$input_rc
 		.change(function(){
 			var name = $(this).attr('name');
-			$input_rc.filter(function(){ return this.name == name })
+			$input_rc
+				.filter(function(){ return this.name == name })
 				.next('label').css('font-weight', 'normal').end()
 				.filter(':checked')
 					.next('label').css('font-weight', 'bold').end();
@@ -45,7 +46,7 @@ jQuery(function($){
 				.find('input:checkbox')
 					.filter(function(){
 						var $this = $(this);
-						return ($this.attr('name') == name) || ($this.data('name') == name);
+						return !$this.prop('disabled') && ($this.attr('name') == name) || ($this.data('name') == name);
 					})
 						.prop('checked', $this.prop('checked'))
 					.end()
