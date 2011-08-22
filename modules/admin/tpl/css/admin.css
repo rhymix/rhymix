@@ -493,6 +493,7 @@ button.text{border:0;overflow:visible;padding:0;margin:0;color:#33a;background:n
 .textList li a{float:right}
 /* File Box */
 .fileBox li{position:relative}
+.fileBox li img{max-width:100%}
 .fileBox .side{position:absolute;top:8px;right:0}
 /* Responsive Layout */
 @media only all and (max-width:860px){
