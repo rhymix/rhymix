@@ -274,6 +274,7 @@
                     $xml_info = $oModuleModel->getModuleActionXml($forward->module);
 					if($kind == "admin" && $type == "view")
 					{
+						$logged_info = Context::get('logged_info');
 						if($logged_info->is_admin=='Y'){
 							$oAdminView = &getView('admin');
 							$oAdminView->makeGnbUrl($forward->module);
