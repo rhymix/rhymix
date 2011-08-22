@@ -404,4 +404,32 @@
 			$returnObject->add('list', $list);
 			return $returnObject;
 		}
+
+        /**
+         * @brief Return site list
+         **/
+		function getSiteAllList()
+		{
+			if(Context::get('domain')) $args->domain = Context::get('domain');
+			$columnList = array('domain', 'site_srl');
+
+			$siteList = array();
+			$output = executeQueryArray('admin.getSiteAllList', $args, $columnList);
+			if($output->toBool()) $siteList = $output->data;
+
+			$this->add('site_list', $siteList);
+		}
+
+        /**
+         * @brief Return site count
+         **/
+		function getSiteCountByDate($date = '')
+		{
+			if($date) $args->regDate = date('Ymd', strtotime($date));
+
+			$output = executeQuery('admin.getSiteCountByDate', $args);
+			if(!$output->toBool()) return 0;
+
+			return $output->data->count;
+		}
 	}

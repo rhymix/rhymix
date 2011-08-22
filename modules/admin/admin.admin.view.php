@@ -171,9 +171,9 @@
             $today = date("Ymd");
 
 			// Site Status
-			$oSiteModel = &getModel('site');
-			$status->site->todayCount = $oSiteModel->getSiteCountByDate($today);
-			$status->site->totalCount = $oSiteModel->getSiteCountByDate();
+			$oAdminAdminModel = &getAdminModel('admin');
+			$status->site->todayCount = $oAdminAdminModel->getSiteCountByDate($today);
+			$status->site->totalCount = $oAdminAdminModel->getSiteCountByDate();
 
             // Member Status
 			$oMemberAdminModel = &getAdminModel('member');

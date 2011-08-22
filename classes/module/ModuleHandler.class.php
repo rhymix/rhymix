@@ -276,7 +276,7 @@
 					{
 						$logged_info = Context::get('logged_info');
 						if($logged_info->is_admin=='Y'){
-							$oAdminView = &getView('admin');
+							$oAdminView = &getAdminView('admin');
 							$oAdminView->makeGnbUrl($forward->module);
 							$oModule->setLayoutPath("./modules/admin/tpl");
 							$oModule->setLayoutFile("layout.html");
