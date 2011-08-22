@@ -495,7 +495,7 @@ button.text{border:0;overflow:visible;padding:0;margin:0;color:#33a;background:n
 .fileBox li{position:relative}
 .fileBox li img{max-width:100%}
 .fileBox .portlet ul{margin:1em;list-style:none;padding:0;border:0}
-.fileBox .portlet li{ border-top:1px solid #ddd;padding:8px 0}
+.fileBox .portlet li{border-top:1px solid #ddd;border-bottom:0;padding:8px 0}
 .fileBox .side{position:absolute;top:8px;right:0}
 /* Responsive Layout */
 @media only all and (max-width:860px){
