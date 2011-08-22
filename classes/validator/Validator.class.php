@@ -386,7 +386,7 @@ class Validator
 				$ifs = array();
 				if(!isset($filter['if'][0])) $filter['if'] = array($filter['if']);
 				foreach($filter['if'] as $if) {
-					$ifs[] = "{test:'{$if['test']}', attr:'{$if['attr']}', value:'{$if['value']}'}";
+					$ifs[] = "{test:'".addslashes($if['test'])."', attr:'{$if['attr']}', value:'".addslashes($if['value'])."'}";
 				}
 				$field[] = "'if':[".implode(',', $ifs)."]";
 			}
