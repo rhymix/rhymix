@@ -46,7 +46,7 @@ jQuery(function($){
 				.find('input:checkbox')
 					.filter(function(){
 						var $this = $(this);
-						return !$this.prop('disabled') && ($this.attr('name') == name) || ($this.data('name') == name);
+						return !$this.prop('disabled') && (($this.attr('name') == name) || ($this.data('name') == name));
 					})
 						.prop('checked', $this.prop('checked'))
 					.end()
