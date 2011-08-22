@@ -36,6 +36,7 @@
 						$feed_config[$module_srl]['mid'] = $module_info->mid;
 						$feed_config[$module_srl]['open_feed'] = $config->open_rss;
 						$feed_config[$module_srl]['open_total_feed'] = $config->open_total_feed;
+						$feed_config[$module_srl]['feed_description'] = $config->feed_description;
 					}
 				}
 			}

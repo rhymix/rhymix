@@ -49,87 +49,46 @@
 		</div>
 	</form>
 	<form action="" class="form">
-		<h2 class="h2">Each Feed</h2>
+		<h2 class="h2">{$lang->feed} {$lang->cmd_management}</h2>
 		<div class="table">
 			<table width="100%" border="1" cellspacing="0">
 				<thead>
 					<tr>
-						<th scope="col">Module ID</th>
-						<th scope="col" class="title">Title/Description</th>
+						<th scope="col">{$lang->mid}</th>
+						<th scope="col" class="title">{$lang->description}</th>
+						<th scope="col">{$lang->open_rss}</th>
 						<th scope="col">
-							<input type="radio" name="feed_open" id="feed_open_all" /> <label for="feed_open_all">전문</label>
-							<input type="radio" name="feed_open" id="feed_open_summary" /> <label for="feed_open_summary">요약</label>
-							<input type="radio" name="feed_open" id="feed_open_not" /> <label for="feed_open_not">공개 안함</label>
+							<label for="feed_integration">{$lang->open_feed_to_total}</label>
 						</th>
-						<th scope="col">
-							<input type="checkbox" name="feed_integration" id="feed_integration" checked="checked" />
-							<label for="feed_integration">통합 피드에 포함</label>
-						</th>
-						<th scope="col">저장</th>
+						<th scope="col">{$lang->cmd_save}</th>
 					</tr>
 				</thead>
 				<tbody>
+					<!--@foreach($feed_config AS $key=>$value)-->
+					<form ruleset="insertRssModuleConfig" action="./" method="post">
+					<input type="hidden" name="act" value="procRssAdminInsertModuleConfig" />
+					<input type="hidden" name="success_return_url" value="{getUrl('', 'module', $module, 'act', 'dispRssAdminIndex')}" />
+					<input type="hidden" name="target_module_srl" value="{$key}" />
 					<tr>
-						<th scope="row"><a href="#" target="_blank">freeBoard</a></th>
-						<td class="title">&nbsp;</td>
+						<th scope="row"><!--@if($value['url'])--><a href="{$value['url']}" target="_blank"><!--@endif-->{$value['mid']}<!--@if($value['url'])--></a><!--@endif--></th>
+						<td class="title">{$value['feed_description']}</td>
 						<td>
-							<input type="radio" name="feed_open_freeBoard" id="feed_open_freeBoard_all" checked="checked" /> <label for="feed_open_freeBoard_all">전문</label>
-							<input type="radio" name="feed_open_freeBoard" id="feed_open_freeBoard_summary" /> <label for="feed_open_freeBoard_summary">요약</label>
-							<input type="radio" name="feed_open_freeBoard" id="feed_open_freeBoard_not" /> <label for="feed_open_freeBoard_not">공개 안함</label>
+							<!--@foreach($lang->open_rss_types as $key2=>$value2)-->
+							<input type="radio" name="open_rss" value="{$key2}" id="feed_open_{$key2}" <!--@if($key2 == $value['open_feed'])-->checked="checked"<!--@end--> /><label for="feed_open_{$key2}">{$value2}</label> 
+							<!--@end-->
 						</td>
 						<td>
-							<input type="checkbox" name="feed_integration" id="feed_integration_freeBoard" checked="checked" />
-							<label for="feed_integration_freeBoard">통합 피드에 포함</label>
+							<input type="radio" name="open_total_feed" value="N" id="open_total_feed_N" <!--@if($value['open_total_feed'] == 'N')-->checked="checked"<!--@end--> />
+							<label for="open_total_feed_N">{$lang->use}</label>
+							<input type="radio" name="open_total_feed" value="T_N" id="open_total_feed_T_N" <!--@if($value['open_total_feed'] == 'T_N')-->checked="checked"<!--@end--> />
+							<label for="open_total_feed_T_N">{$lang->notuse}</label>
 						</td>
 						<td><input type="submit" value="Save" class="text" /></td>
 					</tr>
-					<tr>
-						<th scope="row"><a href="#" target="_blank">userForum</a></th>
-						<td class="title">&nbsp;</td>
-						<td>
-							<input type="radio" name="feed_open_userForum" id="feed_open_userForum_all" checked="checked" /> <label for="feed_open_userForum_all">전문</label>
-							<input type="radio" name="feed_open_userForum" id="feed_open_userForum_summary" /> <label for="feed_open_userForum_summary">요약</label>
-							<input type="radio" name="feed_open_userForum" id="feed_open_userForum_not" /> <label for="feed_open_userForum_not">공개 안함</label>
-						</td>
-						<td>
-							<input type="checkbox" name="feed_integration" id="feed_integration_userForum" checked="checked" />
-							<label for="feed_integration_userForum">통합 피드에 포함</label>
-						</td>
-						<td><input type="submit" value="Save" class="text" /></td>
-					</tr>
+					</form>
+					<!--@end-->
 				</tbody>
 			</table>
 		</div>
 	</form>
-	<div class="search">
-		<form action="" class="pagination">
-			<a href="#" class="direction">« FIRST</a>
-			<a href="#">9</a>
-			<a href="#">10</a>
-			<strong>11</strong>
-			<a href="#">12</a>
-			<a href="#goTo" class="tgAnchor">...</a>
-			<span id="goTo" class="tgContent" style="display: none; "><button type="button" class="tgBlur"></button>
-				<input title="Go to Page"> 
-				<button type="submit">GO</button>
-			<button type="button" class="tgBlur"></button></span>
-			<a href="#">99</a>
-			<a href="#" class="direction">LAST »</a>
-		</form>
-		<form action="">
-			<select>
-				<option>제목</option>
-				<option>내용</option>
-				<option>닉네임</option>
-				<option>아이디</option>
-				<option>사용자 이름</option>
-				<option>공지사항</option>
-				<option>IP 주소</option>
-				<option>모듈 아이디</option>
-			</select>
-			<input title="Search">
-			<input type="submit" value="Search">
-			<a href="#">Cancel</a>
-		</form>
-	</div>
 </div>

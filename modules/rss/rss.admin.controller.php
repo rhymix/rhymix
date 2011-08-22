@@ -110,8 +110,8 @@
                 $output = $this->setRssModuleConfig($srl, $open_rss, $open_total_feed, $feed_description, $feed_copyright);
             }
 
-            $this->setError(-1);
-            $this->setMessage('success_updated');
+            //$this->setError(0);
+            $this->setMessage('success_updated', 'info');
 			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
 				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispBoardAdminContent');
 				header('location:'.$returnUrl);
