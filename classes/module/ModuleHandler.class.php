@@ -274,18 +274,7 @@
                     $xml_info = $oModuleModel->getModuleActionXml($forward->module);
 					if($kind == "admin" && $type == "view")
 					{
-						$oMemberModel = &getModel('member');
-						$logged_info = $oMemberModel->getLoggedInfo();
-
-						$grant = $oModuleModel->getGrant($forward, $logged_info, $xml_info);
-						if($grant->is_site_admin){
-							$oSiteModel = &getModel('site');
-							$output = $oSiteModel->getSiteAdminMenu($logged_info);
-							Context::set('gnbUrlList', $output->menuList);
-							Context::set('parentSrl', $output->parentSrl);
-							$oModule->setLayoutPath("./modules/admin/tpl");
-							$oModule->setLayoutFile("site_admin_layout.html");
-						}elseif($logged_info->is_admin=='Y'){
+						if($logged_info->is_admin=='Y'){
 							$oAdminView = &getView('admin');
 							$oAdminView->makeGnbUrl($forward->module);
 							$oModule->setLayoutPath("./modules/admin/tpl");
@@ -355,28 +344,6 @@
 
             // if failed message exists in session, set context
 			$this->_setInputErrorToContext();
-
-			// 관리자 화면인경우
-			$kind = strpos(strtolower($this->act),'admin')!==false?'admin':'';
-			$type = $this->module_info->module_type;
-			if(!$forward && $kind == "admin" && $type == "view")
-			{
-				$oMemberModel = &getModel('member');
-				$logged_info = $oMemberModel->getLoggedInfo();
-				$grant = $oModuleModel->getGrant($oModule, $logged_info, $xml_info);
-
-				if ($logged_info->is_admin == 'Y'){
-					$oModule->setLayoutPath("./modules/admin/tpl");
-					$oModule->setLayoutFile("layout.html");
-				}elseif($grant->is_site_admin){
-					$oSiteModel = &getModel('site');
-					$output = $oSiteModel->getSiteAdminMenu($logged_info);
-					Context::set('gnbUrlList', $output->menuList);
-					Context::set('parentSrl', $output->parentSrl);
-					$oModule->setLayoutPath("./modules/admin/tpl");
-					$oModule->setLayoutFile("site_admin_layout.html");
-				}
-			}
 
             $procResult = $oModule->proc();
 
