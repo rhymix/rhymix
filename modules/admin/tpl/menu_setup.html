@@ -1,5 +1,5 @@
 <load target="./js/menu_setup.js" />
-<load target="./js/sitemap.js" />
+
 <div class="content" id="content">
 	<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 		<p>{$XE_VALIDATOR_MESSAGE}</p>
@@ -10,18 +10,18 @@
 	<input type="hidden" name="menu_item_srl" value="" />
 	<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin', 'act', 'dispAdminMenuSetup')}" />
 		<h1 class="h1">Admin Menu Setup</h1>
-		<div class="portlet">
+		<div class="adminMenu portlet">
 			<h2 class="h2"><input value="Admin Menu" disabled /></h2>
 			<ul class="lined">
 				<!--@foreach($gnbUrlList AS $key=>$value)-->
-				<li>
+				<li class="parent">
 					<input type="hidden" value="{$key}" class="_parent_key" />
-					<input value="{$value['text']}" /> <span class="side"> <a href="#editMenu" class="modalAnchor _add">Add</a> | <a href="#delete" class="_parent_delete">Delete</a></span>
+					<span>{$value['text']}</span> <span class="side"><a href="#editMenu" class="modalAnchor _add">Add</a></span>
 					<!--@if(is_array($value['list']) && count($value['list'])>0)-->
 					<ul>
 						<!--@foreach($value['list'] AS $key2=>$value2)-->
 						<input type="hidden" value="{$key2}" class="_child_key" />
-						<li><input value="{$value2['text']}" /> <span class="side"><a href="#delete" class="_child_delete">Delete</a></span></li>
+						<li><span>{$value2['text']}</span><span class="side"><a href="#delete" class="_child_delete">Delete</a></span></li>
 						<!--@end-->
 					</ul>
 					<!--@end-->
