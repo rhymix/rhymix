@@ -2,21 +2,16 @@ function insertSelectedModule(id, module_srl, mid, browser_title) {
     location.href = current_url.setQuery('module_srl',module_srl);
 }
 
-function addCart(file_srl) {
-    var params = new Array();
-    var response_tags = ['error','message'];
-    params['file_srl'] = file_srl;
-
-    exec_xml('file','procFileAdminAddCart',params, completeAddCart, response_tags);
-}
-
-function completeAddCart(ret_obj, response_tags)
-{
-}
-
 function getFileList() {
+	var fileListTable = jQuery('#fileListTable');
+	var cartList = [];
+	fileListTable.find(':checkbox[name=cart]').each(function(){
+		if(this.checked) cartList.push(this.value); 
+	});
+
     var params = new Array();
     var response_tags = ['error','message', 'file_list'];
+	params["file_srls"] = cartList.join(",");
 
     exec_xml('file','procFileGetList',params, completeGetFileList, response_tags);
 }
@@ -37,7 +32,6 @@ function completeGetFileList(ret_obj, response_tags)
 		for(var x in file_list)
 		{
 			var objFile = file_list[x];
-			console.log(objFile);
 			htmlListBuffer += '<tr>' +
 							'<td class="text">'+objFile.source_filename+'</td>' +
 							'<td>'+objFile.human_file_size+'</td>' +

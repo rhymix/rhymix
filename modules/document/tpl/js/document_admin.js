@@ -109,8 +109,15 @@ function completeRestoreTrash(ret_obj) {
 }
 
 function getDocumentList() {
+	var documentListTable = jQuery('#documentListTable');
+	var cartList = [];
+	documentListTable.find(':checkbox[name=cart]').each(function(){
+		if(this.checked) cartList.push(this.value); 
+	});
+
     var params = new Array();
     var response_tags = ['error','message', 'document_list'];
+	params["document_srls"] = cartList.join(",");
 
     exec_xml('document','procDocumentGetList',params, completeGetDocumentList, response_tags);
 }

@@ -28,7 +28,7 @@
 						<th scope="col">{$lang->date}</th>
 						<th scope="col">{$lang->ipaddress}</th>
 						<th scope="col">{$lang->status}</th>
-						<th scope="col"><input type="checkbox" title="Check All" /></th>
+						<th scope="col"><input type="checkbox" data-name="cart" title="Check All" /></th>
 					</tr>
 				</thead>
 				<tfoot>
@@ -40,7 +40,7 @@
 						<th scope="col">{$lang->date}</th>
 						<th scope="col">{$lang->ipaddress}</th>
 						<th scope="col">{$lang->status}</th>
-						<th scope="col"><input type="checkbox" title="Check All" /></th>
+						<th scope="col"><input type="checkbox" data-name="cart" title="Check All" /></th>
 					</tr>
 				</tfoot>
 				<tbody>
@@ -53,7 +53,7 @@
 						<td>{$oDocument->getRegdate("Y-m-d H:i")}</td>
 						<td><a href="{getUrl('search_target','ipaddress','search_keyword',$oDocument->get('ipaddress'))}">{$oDocument->get('ipaddress')}</a></td>
 						<td>{$status_name_list[$oDocument->get('status')]}</td>
-						<td><input type="checkbox" name="cart" value="{$oDocument->document_srl}" onclick="doAddDocumentCart(this)" <!--@if($oDocument->isCarted())-->checked="checked"<!--@end--> /></td>
+						<td><input type="checkbox" name="cart" value="{$oDocument->document_srl}" /></td>
 					</tr>
 					<!--@end-->
 				</tbody>

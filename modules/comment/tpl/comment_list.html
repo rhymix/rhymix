@@ -11,7 +11,7 @@
 			| <a href="{getUrl('search_target','is_secret','search_keyword', $value->is_secret)}">{$secret_name_list[$value->is_secret]}({$value->count})</a>
 			<!--@end-->
 		</div>
-		<table width="100%" border="1" cellspacing="0">
+		<table width="100%" border="1" cellspacing="0" id="commentListTable">
 			<caption>
 				All({number_format($total_count)})
 				<div class="side">
@@ -26,7 +26,7 @@
 					<th scope="col">{$lang->date}</th>
 					<th scope="col">{$lang->ipaddress}</th>
 					<th scope="col">{$lang->status}</th>
-					<th scope="col"><input type="checkbox" title="Check All" /></th>
+					<th scope="col"><input type="checkbox" data-name="cart" title="Check All" /></th>
 				</tr>
 			</thead>
 			<tfoot>
@@ -37,7 +37,7 @@
 					<th scope="col">{$lang->date}</th>
 					<th scope="col">{$lang->ipaddress}</th>
 					<th scope="col">{$lang->status}</th>
-					<th scope="col"><input type="checkbox" title="Check All" /></th>
+					<th scope="col"><input type="checkbox" data-name="cart" title="Check All" /></th>
 				</tr>
 			</tfoot>
 			<tbody>
@@ -50,7 +50,7 @@
 					<td>{(zdate($val->regdate,"Y-m-d\nH:i:s"))}</td>
 					<td><a href="{getUrl('search_target','ipaddress','search_keyword',$val->ipaddress)}">{$val->ipaddress}</a></td>
 					<td><!--@if($val->isSecret())-->{$secret_name_list['Y']}<!--@else-->{$secret_name_list['N']}<!--@end--></td>
-					<td><input type="checkbox" name="cart" value="{$val->comment_srl}" onclick="addCart({$val->comment_srl})" <!--@if($val->isCarted())-->checked="checked"<!--@end--> /></td>
+					<td><input type="checkbox" name="cart" value="{$val->comment_srl}" /></td>
 				</tr>
 				<!--@end-->
 			</tbody>

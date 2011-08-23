@@ -17,22 +17,21 @@ function insertSelectedModule(id, module_srl, mid, browser_title) {
     location.href = current_url.setQuery('module_srl',module_srl);
 }
 
-function addCart(comment_srl) {
-    var params = new Array();
-    var response_tags = ['error','message'];
-    params['comment_srl'] = comment_srl;
-
-    exec_xml('comment','procCommentAdminAddCart',params, completeAddCart, response_tags);
-}
-
 function completeAddCart(ret_obj, response_tags)
 {
 }
 
 function getCommentList()
 {
+	var commentListTable = jQuery('#commentListTable');
+	var cartList = [];
+	commentListTable.find(':checkbox[name=cart]').each(function(){
+		if(this.checked) cartList.push(this.value); 
+	});
+
     var params = new Array();
     var response_tags = ['error','message', 'comment_list'];
+	params["comment_srls"] = cartList.join(",");
 
     exec_xml('comment','procCommentGetList',params, completeGetCommentList, response_tags);
 }

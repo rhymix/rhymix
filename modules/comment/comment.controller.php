@@ -679,14 +679,8 @@
 		function procCommentGetList()
 		{
 			if(!Context::get('is_logged')) return new Object(-1,'msg_not_permitted');
-			// Taken from a list of selected sessions
-			$flagList = $_SESSION['comment_management'];
-			if(count($flagList)) {
-				foreach($flagList as $key => $val) {
-					if(!is_bool($val)) continue;
-					$commentSrlList[] = $key;
-				}
-			}
+			$commentSrls = Context::get('comment_srls');
+			if($commentSrls) $commentSrlList = explode(',', $commentSrls);
 
 			if(count($commentSrlList) > 0) {
 				$oCommentModel = &getModel('comment');

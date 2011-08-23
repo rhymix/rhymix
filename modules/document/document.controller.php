@@ -1747,19 +1747,12 @@ class documentController extends document {
 	function procDocumentGetList()
 	{
 		if(!Context::get('is_logged')) return new Object(-1,'msg_not_permitted');
-		// Taken from a list of selected sessions
-		$flagList = $_SESSION['document_management'];
-		if(count($flagList)) {
-			foreach($flagList as $key => $val) {
-				if(!is_bool($val)) continue;
-				$documentSrlList[] = $key;
-			}
-		}
+		$documentSrls = Context::get('document_srls');
+		if($documentSrls) $documentSrlList = explode(',', $documentSrls);
 
 		if(count($documentSrlList) > 0) {
 			$oDocumentModel = &getModel('document');
 			$documentList = $oDocumentModel->getDocuments($documentSrlList, $this->grant->is_admin);
-			$this->add('document_list', $documentList);
 		}
 		else
 		{
@@ -1767,6 +1760,7 @@ class documentController extends document {
 			$documentList = array();
 			$this->setMessage($lang->no_documents);
 		}
+		$this->add('document_list', $documentList);
 	}
 
 	/**

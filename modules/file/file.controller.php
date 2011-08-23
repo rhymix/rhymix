@@ -261,14 +261,8 @@
         function procFileGetList()
 		{
 			if(!Context::get('is_logged')) return new Object(-1,'msg_not_permitted');
-			// Taken from a list of selected sessions
-			$flagList = $_SESSION['file_management'];
-			if(count($flagList)) {
-				foreach($flagList as $key => $val) {
-					if(!is_bool($val)) continue;
-					$fileSrlList[] = $key;
-				}
-			}
+			$fileSrls = Context::get('file_srls');
+			if($fileSrls) $fileSrlList = explode(',', $fileSrls);
 
 			global $lang;
 			if(count($fileSrlList) > 0) {

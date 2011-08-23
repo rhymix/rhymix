@@ -5,10 +5,10 @@
 <form action="" class="form">
 	<h1 class="h1">{$lang->trackback}</h1>
 	<div class="table even">
-		<table width="100%" border="1" cellspacing="0">
+		<table width="100%" border="1" cellspacing="0" id="trackbackListTable">
 			<caption>
 				All({number_format($total_count)})
-				<span class="side"><span class="btn"><a href="#listManager" class="modalAnchor">{$lang->trackback_manager}...</a></span></span>
+				<span class="side"><span class="btn"><a href="#listManager" class="modalAnchor" onclick="getTrackbackList();">{$lang->trackback_manager}...</a></span></span>
 			</caption>
 			<thead>
 				<tr>
@@ -16,7 +16,7 @@
 					<th scope="col">{$lang->site}</th>
 					<th scope="col">{$lang->date}</th>
 					<th scope="col">{$lang->ipaddress}</th>
-					<th scope="col"><input type="checkbox" data-name="cart[]" title="Check All" /></th>
+					<th scope="col"><input type="checkbox" data-name="cart" title="Check All" /></th>
 				</tr>
 			</thead>
 			<tfoot>
@@ -25,7 +25,7 @@
 					<th scope="col">{$lang->site}</th>
 					<th scope="col">{$lang->date}</th>
 					<th scope="col">{$lang->ipaddress}</th>
-					<th scope="col"><input type="checkbox" data-name="cart[]" title="Check All" /></th>
+					<th scope="col"><input type="checkbox" data-name="cart" title="Check All" /></th>
 				</tr>
 			</tfoot>
 			<tbody>
@@ -38,7 +38,7 @@
 					<td><a href="{$val->url}" target="_blank">{htmlspecialchars($val->blog_name)}</a></td>
 					<td>{zdate($val->regdate,"Y-m-d")}</td>
 					<td><a href="{getUrl('search_target','ipaddress','search_keyword',$val->ipaddress)}">{$val->ipaddress}</a></td>
-					<td><input type="checkbox" name="cart[]" value="{$val->trackback_srl}" onclick="addCart({$val->trackback_srl})" <!--@if($val->isCarted)-->checked<!--@end--> /></td>
+					<td><input type="checkbox" name="cart" value="{$val->trackback_srl}" /></td>
 				</tr>
 				<!--@end-->
 			</tbody>

@@ -52,14 +52,8 @@
         function procTrackbackGetList()
 		{
 			if(!Context::get('is_logged')) return new Object(-1,'msg_not_permitted');
-			// Taken from a list of selected sessions
-			$flagList = $_SESSION['trackback_management'];
-			if(count($flagList)) {
-				foreach($flagList as $key => $val) {
-					if(!is_bool($val)) continue;
-					$trackbackSrlList[] = $key;
-				}
-			}
+			$trackbackSrls = Context::get('trackback_srls');
+			if($trackbackSrls) $trackbackSrlList = explode(',', $trackbackSrls);
 
 			global $lang;
 			if(count($trackbackSrlList) > 0) {

@@ -14,22 +14,17 @@ function insertSelectedModule(id, module_srl, mid, browser_title) {
     location.href = current_url.setQuery('module_srl',module_srl);
 }
 
-function addCart(trackback_srl) {
-    var params = new Array();
-    var response_tags = ['error','message'];
-    params['trackback_srl'] = trackback_srl;
-
-    exec_xml('trackback','procTrackbackAdminAddCart',params, completeAddCart, response_tags);
-}
-
-function completeAddCart(ret_obj, response_tags)
-{
-}
-
 function getTrackbackList()
 {
+	var trackbackListTable = jQuery('#trackbackListTable');
+	var cartList = [];
+	trackbackListTable.find(':checkbox[name=cart]').each(function(){
+		if(this.checked) cartList.push(this.value); 
+	});
+
     var params = new Array();
     var response_tags = ['error','message', 'trackback_list'];
+	params["trackback_srls"] = cartList.join(",");
 
     exec_xml('trackback','procTrackbackGetList',params, completeGetTrackbackList, response_tags);
 }
@@ -38,7 +33,6 @@ function completeGetTrackbackList(ret_obj, response_tags)
 {
 	var htmlListBuffer = '';
 	var statusNameList = {"N":"Public", "Y":"Secret"};
-	console.log(ret_obj);
 
 	if(ret_obj['trackback_list'] == null)
 	{

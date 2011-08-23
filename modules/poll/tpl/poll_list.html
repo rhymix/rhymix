@@ -5,10 +5,10 @@
 <form action="" class="form">
 	<h1 class="h1">{$lang->poll}</h1>
 	<div class="table even">
-		<table width="100%" border="1" cellspacing="0">
+		<table width="100%" border="1" cellspacing="0" id="pollListTable">
 			<caption>
 				All({number_format($total_count)})
-				<span class="side"><span class="btn"><a href="#listManager" class="modalAnchor" onclick="getPollList">{$lang->poll_manager}...</a></span></span>
+				<span class="side"><span class="btn"><a href="#listManager" class="modalAnchor" onclick="getPollList();">{$lang->poll_manager}...</a></span></span>
 			</caption>
 			<thead>
 				<tr>
@@ -17,7 +17,7 @@
 					<th scope="col">{$lang->poll_join_count}</th>
 					<th scope="col">{$lang->author}</th>
 					<th scope="col">{$lang->regdate}</th>
-					<th scope="col"><input type="checkbox" title="Check All" /></th>
+					<th scope="col"><input type="checkbox" data-name="cart"title="Check All" /></th>
 				</tr>
 			</thead>
 			<tfoot>
@@ -27,7 +27,7 @@
 					<th scope="col">{$lang->poll_join_count}</th>
 					<th scope="col">{$lang->author}</th>
 					<th scope="col">{$lang->regdate}</th>
-					<th scope="col"><input type="checkbox" title="Check All" /></th>
+					<th scope="col"><input type="checkbox" data-name="cart" title="Check All" /></th>
 				</tr>
 			</tfoot>
 			<tbody>
@@ -39,7 +39,7 @@
 					<td><a href="#popup_menu_area">{$val->nick_name}</a></td>
 					<td>{zdate($val->regdate,"Y-m-d H:i")}</td>
 					<td>
-						<input type="checkbox" name="cart[]" value="{$val->poll_index_srl}" <!--@if($val->isCarted)-->checked<!--@end--> onclick="addCart({$val->poll_index_srl})" />
+						<input type="checkbox" name="cart" value="{$val->poll_index_srl}" />
 					</td>
 				</tr>
 				<!--@end-->

@@ -57,8 +57,15 @@ function completeMovePoll(ret_obj, response_tags) {
 
 function getPollList()
 {
+	var pollListTable = jQuery('#pollListTable');
+	var cartList = [];
+	pollListTable.find(':checkbox[name=cart]').each(function(){
+		if(this.checked) cartList.push(this.value); 
+	});
+
     var params = new Array();
     var response_tags = ['error','message', 'poll_list'];
+	params["poll_srls"] = cartList.join(",");
 
     exec_xml('poll','procPollGetList',params, completeGetPollList, response_tags);
 }
@@ -90,16 +97,4 @@ function completeGetPollList(ret_obj, response_tags)
 		jQuery('#selectedPollCount').html(poll_list.length);
 	}
 	jQuery('#pollManageListTable>tbody').html(htmlListBuffer);
-}
-
-function addCart(poll_index_srl) {
-    var params = new Array();
-    var response_tags = ['error','message'];
-    params['poll_index_srl'] = poll_index_srl;
-
-    exec_xml('poll','procPollAdminAddCart',params, completeAddCart, response_tags);
-}
-
-function completeAddCart(ret_obj, response_tags)
-{
 }

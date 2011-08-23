@@ -197,14 +197,8 @@
         function procPollGetList()
 		{
 			if(!Context::get('is_logged')) return new Object(-1,'msg_not_permitted');
-			// Taken from a list of selected sessions
-			$flagList = $_SESSION['poll_management'];
-			if(count($flagList)) {
-				foreach($flagList as $key => $val) {
-					if(!is_bool($val)) continue;
-					$pollSrlList[] = $key;
-				}
-			}
+			$pollSrls = Context::get('poll_srls');
+			if($pollSrls) $pollSrlList = explode(',', $pollSrls);
 
 			global $lang;
 			if(count($pollSrlList) > 0) {
