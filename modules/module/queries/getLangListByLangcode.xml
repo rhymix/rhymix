@@ -1,0 +1,20 @@
+<query id="getLangListByLangcode" action="select">
+    <tables>
+        <table name="lang" />
+    </tables>
+    <columns>
+        <column name="name" />
+        <column name="value" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="site_srl" var="site_srl" notnull="notnull" filter="number" />
+        <condition operation="in" column="lang_code" var="langCode" pipe="and" />
+		<condition operation="like" column="value" var="search_keyword" pipe="and" />
+    </conditions>
+    <navigation>
+        <index var="sort_index" default="list_order" order="order_type" />
+        <list_count var="list_count" default="20" />
+        <page_count var="page_count" default="10" />
+        <page var="page" default="1" />
+    </navigation>
+</query>

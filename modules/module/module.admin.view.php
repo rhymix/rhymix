@@ -177,7 +177,7 @@
         /**
          * @brief Language codes
          **/
-        function dispModuleAdminLangcode() {
+        /*function dispModuleAdminLangcode() {
             // Get the language file of the current site
             $site_module_info = Context::get('site_module_info');
             $args->site_srl = (int)$site_module_info->site_srl;
@@ -195,7 +195,35 @@
             $this->setLayoutFile('popup_layout');
             // Set a template file
             $this->setTemplateFile('module_langcode');
-        }
+        }*/
 
+        /**
+         * @brief Language codes
+         **/
+        function dispModuleAdminLangcode() {
+            // Get the language file of the current site
+            $site_module_info = Context::get('site_module_info');
+            $args->site_srl = (int)$site_module_info->site_srl;
+			$args->langCode = Context::get('lang_type');
+            $args->page = Context::get('page'); // /< Page
+            $args->list_count = 30; // /< the number of posts to display on a single page
+            $args->page_count = 5; // /< the number of pages that appear in the page navigation
+            $args->sort_index = 'name';
+            $args->order_type = 'asc';
+            $args->search_target = Context::get('search_target'); // /< search (title, contents ...)
+            $args->search_keyword = Context::get('search_keyword'); // /< keyword to search
+
+			$oModuleAdminModel = &getAdminModel('module');
+			$output = $oModuleAdminModel->getLangListByLangcode($args);
+
+            Context::set('total_count', $output->total_count);
+            Context::set('total_page', $output->total_page);
+            Context::set('page', $output->page);
+            Context::set('lang_code_list', $output->data);
+            Context::set('page_navigation', $output->page_navigation);
+
+            // Set a template file
+            $this->setTemplateFile('module_langcode');
+        }
     }
 ?>

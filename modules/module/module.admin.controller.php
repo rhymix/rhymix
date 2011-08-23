@@ -420,6 +420,12 @@
             $site_module_info = Context::get('site_module_info');
             $args->site_srl = (int)$site_module_info->site_srl;
             $args->name = str_replace(' ','_',Context::get('lang_code'));
+            $args->lang_name = str_replace(' ','_',Context::get('lang_name'));
+			if(!empty($args->lang_name)) $args->name = $args->lang_name;
+
+			// if args->name is empty, random generate for user define language
+			if(empty($args->name)) $args->name = 'userLang'.date('YmdHis').''.sprintf('%03d', mt_rand(0, 100));
+
             if(!$args->name) return new Object(-1,'msg_invalid_request');
             // Check whether a language code exists
             $output = executeQueryArray('module.getLang', $args);
@@ -442,6 +448,12 @@
             $this->makeCacheDefinedLangCode($args->site_srl);
 
             $this->add('name', $args->name);
+            $this->setMessage("success_saved", 'info');
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispModuleAdminLangcode');
+				$this->setRedirectUrl($returnUrl);
+				return;
+			}
         }
 
         /**
@@ -452,11 +464,20 @@
             $site_module_info = Context::get('site_module_info');
             $args->site_srl = (int)$site_module_info->site_srl;
             $args->name = str_replace(' ','_',Context::get('name'));
+            $args->lang_name = str_replace(' ','_',Context::get('lang_name'));
+			if(!empty($args->lang_name)) $args->name = $args->lang_name;
             if(!$args->name) return new Object(-1,'msg_invalid_request');
 
             $output = executeQuery('module.deleteLang', $args);
             if(!$output->toBool()) return $output;
             $this->makeCacheDefinedLangCode($args->site_srl);
+
+            $this->setMessage("success_deleted", 'info');
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispModuleAdminLangcode');
+				$this->setRedirectUrl($returnUrl);
+				return;
+			}
         }
 
 		function procModuleAdminGetList()

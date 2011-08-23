@@ -180,5 +180,34 @@
             $output = $this->getLangCode($site_module_info->site_srl, '$user_lang->'.$name);
             $this->add('langs', $output);
         }
+
+        /**
+         * @brief Return lang list 
+         **/
+		function getModuleAdminLangListByName()
+		{
+			$args = Context::getRequestVars();
+			if(!$args->site_srl) $args->site_srl = 0;
+			$args->langName = $args->lang_name;
+			$columnList = array('lang_code', 'value');
+
+			$langList = array();
+            $output = executeQueryArray('module.getLangListByName', $args, $columnList);
+			if($output->toBool()) $langList = $output->data;
+
+			$this->add('lang_list', $langList);
+			$this->add('lang_name', $args->langName);
+		}
+
+        /**
+         * @brief Return current lang list 
+         **/
+		function getLangListByLangcode($args)
+		{
+            $output = executeQueryArray('module.getLangListByLangcode', $args);
+			if(!$output->toBool()) return array();
+
+			return $output;
+		}
     }
 ?>
