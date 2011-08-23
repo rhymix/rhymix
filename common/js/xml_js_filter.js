@@ -10,7 +10,7 @@
 
 var messages  = [];
 var rules     = [];
-var filters   = [];
+var filters   = {};
 var callbacks = [];
 var extras    = {};
 
@@ -85,12 +85,13 @@ var Validator = xe.createApp('Validator', {
 			});
 	},
 	API_VALIDATE : function(sender, params) {
-		var result = true, form = params[0], filter=null, callback=null;
+		var result = true, form = params[0], elems = form.elements, filter=null, ruleset=null, callback=null;
 		var name, el, val, mod, len, lenb, max, min, maxb, minb, rules, e_el, e_val, i, c, r, result, if_, fn;
 
-		if (form.elements['_filter']) filter = form.elements['_filter'].value;
-		if (!filter) return true;
-		if ($.isFunction(callbacks[filter])) callback = callbacks[filter];
+		if(elems['ruleset']) filter = form.elements['ruleset'].value;
+		else if(elems['_filter']) filter = form.elements['_filter'].value;
+		if(!filter) return true;
+		if($.isFunction(callbacks[filter])) callback = callbacks[filter];
 		filter = $.extend({}, filters[filter.toLowerCase()] || {}, extras);
 
 		for(name in filter) {
@@ -103,11 +104,12 @@ var Validator = xe.createApp('Validator', {
 
 			if(!el) continue;
 
-			if(filter['if']) {
-				for(i in filter['if']) {
-					if_ = filter['if'][i];
+			if(f['if']) {
+				if(!$.isArray(f['if'])) f['if'] = [f['if']];
+				for(i in f['if']) {
+					if_ = f['if'][i];
 					fn  = new Function('el', 'return !!(' + (if_.test.replace(/$(\w+)/g, 'el["$1"]')) +')');
-					if(fn(form.elements)) filter[if_.attr] = if_.value;
+					if(fn(form.elements)) f[if_.attr] = if_.value;
 				}
 			}
 
@@ -147,7 +149,7 @@ var Validator = xe.createApp('Validator', {
 			}
 		}
 
-		if ($.isFunction(callback)) return callback(form);
+		if($.isFunction(callback)) return callback(form);
 
 		return true;
 	},
@@ -171,8 +173,6 @@ var Validator = xe.createApp('Validator', {
 	API_ADD_FILTER : function(sender, params) {
 		var name   = params[0].toLowerCase();
 		var filter = params[1];
-
-		if(filter['if'] && !$.isArray(filter['if'])) filter['if'] = [filter['if']];
 
 		filters[name] = filter;
 	},

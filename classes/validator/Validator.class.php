@@ -34,6 +34,7 @@ class Validator
 		));
 
 		$this->_has_mb_func = is_callable('mb_strlen');
+		$this->setCacheDir('./files/cache');
 	}
 
 	/**
@@ -99,6 +100,8 @@ class Validator
 		$this->_xml_ruleset = $xml->ruleset;
 		$this->_filters  = $filters;
 		$this->_xml_path = $xml_path;
+
+		return true;
 	}
 
 	/**
@@ -116,7 +119,7 @@ class Validator
 	 * @param[in] (optional) array $fields Target fields. The keys of the array represents field's name, its values represents field's value.
 	 * @return bool True if it is valid, FALSE otherwise.
 	 */
-	function validate($fields_=null){
+	function validate($fields_=array()){
 		if(is_array($fields_)) {
 			$fields = $fields_;
 		} else {
@@ -124,7 +127,7 @@ class Validator
 			$fields = (array)Context::getRequestVars();
 		}
 
-		if(!is_array($fields)) return true;
+		if(!is_array($fields) || !count($fields)) return true;
 
 		$filter_default = array(
 			'required'  => 'false',
@@ -343,6 +346,8 @@ class Validator
 				fclose($fp);
 			}
 		}
+
+		return $filepath;
 	}
 
 	/**
@@ -350,6 +355,7 @@ class Validator
 	 * @private
 	 */
 	function _compile2js() {
+		$ruleset = basename($this->_xml_path,'.xml');
 		$content = array();
 
 		// custom rulesets
@@ -357,14 +363,14 @@ class Validator
 			if(strpos('email,userid,url,alpha,alpha_number,number,', $name.',') !== false) continue;
 			switch($rule['type']) {
 				case 'regex':
-					$content[] = "v.addRule('{$name}', {$rule['test']});";
+					$content[] = "v.cast('ADD_RULE', ['{$name}', {$rule['test']}]);";
 					break;
 				case 'enum':
 					$enums = '"'.implode('","', $rule['test']).'"';
-					$content[] = "v.addRule('{$name}', function($$){ return ($.inArray($$,[{$enums}]) > -1); });";
+					$content[] = "v.cast('ADD_RULE', ['{$name}', function($$){ return ($.inArray($$,[{$enums}]) > -1); }]);";
 					break;
 				case 'expr':
-					$content[] = "v.addRule('{$name}', function($$){ return ({$rule['test']});  });";
+					$content[] = "v.cast('ADD_RULE', ['{$name}', function($$){ return ({$rule['test']}); }]);";
 					break;
 			}
 		}
@@ -392,19 +398,14 @@ class Validator
 			}
 			if(count($field)) {
 				$field = '{'.implode(',', $field).'}';
-				$content[] = "v.addFilter('{$name}', {$field});";
+				$content[] = "'{$name}':{$field}";
 			}
 		}
 
 		if(count($content)) {
-			array_unshift($content,
-				'(function($){',
-				'var v = xe.getApp("validator")[0];',
-				'if(!v) return false;'
-			);
-			$content[] = '})(jQuery);'; // array_push
+			$content = implode(',', $content);
 
-			return implode("\n", $content);
+			return "(function($,v){\nv=xe.getApp('validator')[0];if(!v)return;\nv.cast('ADD_FILTER',['{$ruleset}', {{$content}}]);})(jQuery);";
 		} else {
 			return '';
 		}

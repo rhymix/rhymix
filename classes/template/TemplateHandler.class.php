@@ -220,7 +220,7 @@
 					$matches[1] = preg_replace('/'.$m[0].'/i', '', $matches[1]);
 					$matches[2] = '<input type="hidden" name="ruleset" value="'.$m[1].'" />'.$matches[2];
 
-					if(preg_match('@(?:^|/)(modules/[\w-]+)@', $this->path, $mm)) {
+					if(preg_match('@(?:^|\.?/)(modules/[\w-]+)@', $this->path, $mm)) {
 						$module_path = $mm[1];
 						$validator   = new Validator("{$module_path}/ruleset/{$m[1]}.xml");
 						$validator->setCacheDir('files/cache');
