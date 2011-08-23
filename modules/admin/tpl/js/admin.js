@@ -51,7 +51,7 @@ jQuery(function($){
 						.prop('checked', $this.prop('checked'))
 					.end()
 				.end()
-				.trigger('update.checkbox', name, this.checked);
+				.trigger('update.checkbox', [name, this.checked]);
 		});
 
 	// Global Navigation Bar
