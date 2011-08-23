@@ -358,6 +358,8 @@ class Validator
 		$ruleset = basename($this->_xml_path,'.xml');
 		$content = array();
 
+		if(preg_match('@(^|/)files/ruleset/\w+\.xml$@i')) $ruleset = '@'.$ruleset;
+
 		// custom rulesets
 		foreach($this->_rules as $name=>$rule) {
 			if(strpos('email,userid,url,alpha,alpha_number,number,', $name.',') !== false) continue;
