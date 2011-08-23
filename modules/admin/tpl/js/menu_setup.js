@@ -212,14 +212,4 @@ function getOffset(elem, offsetParent) {
 	return {top:top, left:left};
 }
 
-function setHolder(info, yPos) {
-	if(Math.abs(info.top-yPos) <= 10) {
-		$holder.css({top:info.top-10,height:'10px'});
-		return 'before';
-	} else if(Math.abs(info.bottom-yPos) <= 10) {
-		$holder.css({top:info.bottom-10,height:'10px'});
-		return 'after';
-	}
-}
-
 });
