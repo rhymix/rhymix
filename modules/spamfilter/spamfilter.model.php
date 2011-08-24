@@ -93,9 +93,10 @@
          **/
         function checkLimited() {
             $config = $this->getConfig();
-            $limit_count = $config->limit_count?$config->limit_count:5;
-            $interval = $config->interval;
-            if(!$interval) return new Object();
+			
+			if($config->limits != 'Y') return new Object(); 
+			$limit_count = '3';
+			$interval = '10';
 
             $count = $this->getLogCount($interval);
 

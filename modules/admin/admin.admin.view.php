@@ -311,7 +311,7 @@
 
             Context::set('pwd',$pwd);
             Context::set('layout','none');
-            $this->setTemplateFile('config');
+            $this->setTemplateFile('spGenaral');
         }
 
         /**
