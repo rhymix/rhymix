@@ -174,28 +174,6 @@
             $this->setTemplateFile('module_grant_setup');
         }
 
-        /**
-         * @brief Language codes
-         **/
-        /*function dispModuleAdminLangcode() {
-            // Get the language file of the current site
-            $site_module_info = Context::get('site_module_info');
-            $args->site_srl = (int)$site_module_info->site_srl;
-            $args->sort_index = 'name';
-            $args->order_type = 'asc';
-            $output = executeQueryArray('module.getLangList', $args);
-            Context::set('lang_list', $output->data);
-            // Get the currently selected language
-            $name = Context::get('name');
-            if($name) {
-                $oModuleAdminModel = &getAdminModel('module');
-                Context::set('selected_lang', $oModuleAdminModel->getLangCode($args->site_srl,'$user_lang->'.$name));
-            }
-            // Set the layout to be pop-up
-            $this->setLayoutFile('popup_layout');
-            // Set a template file
-            $this->setTemplateFile('module_langcode');
-        }*/
 
         /**
          * @brief Language codes

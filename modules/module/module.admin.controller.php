@@ -438,12 +438,12 @@
             foreach($lang_supported as $key => $val) {
                 $args->lang_code = $key;
                 $args->value = trim(Context::get($key));
-                if(!$args->value) {
-                    $args->value = Context::get(strtolower($key));
-                    if(!$args->value) $args->value = $args->name;
-                }
-                $output = executeQuery('module.insertLang', $args);
-                if(!$output->toBool()) return $output;
+
+				if($args->value)
+				{
+					$output = executeQuery('module.insertLang', $args);
+					if(!$output->toBool()) return $output;
+				}
             }
             $this->makeCacheDefinedLangCode($args->site_srl);
 

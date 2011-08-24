@@ -30,18 +30,15 @@
 	</div>
 </div>
 <div class="modal" id="addWord">
-	<form action="" class="mLangEdit fg form">
-		<h2 class="h2">새로운 단어 또는 문장 추가</h2>
-
-		<form action="./" method="post" class="form" id="langForm_new" >
-		<input type="hidden" name="act" value="procModuleAdminInsertLang" />
-		<ul>
-			<li class="{$key2}" loop="$lang_supported=>$key2,$value2"><label for="{$langName}_{$key2}">{$value2}</label> <textarea rows="1" cols="42" name="{$key2}" id="{$langName}_{$key2}"></textarea></li>
-		</ul>
-		<div class="btnArea">
-			<span class="btn small"><button type="submit">Save</button></span>
-		</div>
-		</form>
+	<form action="./" method="post" class="form mLangEdit fg" id="langForm_new" >
+	<h2 class="h2">새로운 단어 또는 문장 추가</h2>
+	<input type="hidden" name="act" value="procModuleAdminInsertLang" />
+	<ul>
+		<li class="{$key2}" loop="$lang_supported=>$key2,$value2"><label for="{$langName}_{$key2}">{$value2}</label> <textarea rows="1" cols="42" name="{$key2}" id="{$langName}_{$key2}"></textarea></li>
+	</ul>
+	<div class="btnArea">
+		<span class="btn small"><button type="submit">Save</button></span>
+	</div>
 	</form>
 </div>
 <div class="search">
