@@ -33,14 +33,6 @@
             $oTrackbackAdminModel = &getAdminModel('trackback');
             $output = $oTrackbackAdminModel->getTotalTrackbackList($args);
 
-			if(is_array($output->data))
-			{
-				foreach($output->data AS $key=>$value)
-				{
-					if($_SESSION['trackback_management'][$value->trackback_srl]) $value->isCarted = true;
-					else $value->isCarted = false;
-				}
-			}
             // To write to a template parameter settings
             Context::set('total_count', $output->total_count);
             Context::set('total_page', $output->total_page);

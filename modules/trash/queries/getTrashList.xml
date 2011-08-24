@@ -10,7 +10,7 @@
     </columns>
     <conditions>
         <condition operation="equal" column="T.remover_srl" default="M.member_srl" notnull="notnull" />
-        <condition operation="equal" column="trash_srl" var="trashSrl" filter="number" />
+        <condition operation="in" column="trash_srl" var="trashSrl" filter="number" pipe="and" />
     </conditions>
     <navigation>
         <index var="sort_index" default="trash_srl" order="desc" />

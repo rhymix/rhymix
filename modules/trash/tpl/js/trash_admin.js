@@ -31,3 +31,48 @@ function completeRestore(ret_obj)
 	alert(message);
 	if(error == '0') window.location.reload();
 }
+
+function getTrashList()
+{
+	var trashListTable = jQuery('#trashListTable');
+	var cartList = [];
+	trashListTable.find(':checkbox[name=cart').each(function(){
+		if(this.checked) cartList.push(this.value); 
+	});
+
+    var params = new Array();
+    var response_tags = ['error','message', 'trash_list'];
+	params["trash_srls"] = cartList.join(",");
+
+    exec_xml('trash','procTrashAdminGetList',params, completeGetTrashList, response_tags);
+}
+
+function completeGetTrashList(ret_obj, response_tags)
+{
+	var htmlListBuffer = '';
+
+	if(ret_obj['trash_list'] == null)
+	{
+		htmlListBuffer = '<tr>' +
+							'<td colspan="3" style="text-align:center;">'+ret_obj['message']+'</td>' +
+						'</tr>';
+	}
+	else
+	{
+		var trash_list = ret_obj['trash_list']['item'];
+
+		if(!jQuery.isArray(trash_list)) trash_list = [trash_list];
+		for(var x in trash_list)
+		{
+			var objTrash = trash_list[x];
+			htmlListBuffer += '<tr>' +
+								'<td class="title">'+ objTrash.title +'</td>' +
+								'<td>'+ objTrash.nickName +'</td>' +
+								'<td>'+ objTrash.ipaddress +'</td>' +
+							'</tr>' +
+							'<input type="hidden" name="cart[]" value="'+objTrash.trashSrl+'" />';
+		}
+		jQuery('#selectedTrashCount').html(trash_list.length);
+	}
+	jQuery('#trashManageListTable>tbody').html(htmlListBuffer);
+}

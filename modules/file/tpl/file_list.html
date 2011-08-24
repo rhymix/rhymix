@@ -6,13 +6,20 @@
 	<h1 class="h1">{$lang->file}</h1>
 	<div class="table">
 		<div class="cnb">
-			<a href="#">All</a>
-			| <a href="{getUrl('search_target','isvalid','search_keyword','Y')}">{$lang->is_valid}({number_format((int)$valid_count['Y'])})</a>
-			| <a href="{getUrl('search_target','isvalid','search_keyword','N')}">{$lang->is_stand_by}({number_format((int)$valid_count['N'])})</a>
+			<a href="{getUrl('', 'module', 'admin', 'act', 'dispFileAdminList')}" <!--@if($search_keyword == '')-->class="active"<!--@end-->>All</a>
+			| <a href="{getUrl('search_target','isvalid','search_keyword','Y')}" <!--@if($search_target == 'isvalid' && $search_keyword == 'Y')-->class="active"<!--@end-->>{$lang->is_valid}</a>
+			| <a href="{getUrl('search_target','isvalid','search_keyword','N')}" <!--@if($search_target == 'isvalid' && $search_keyword == 'N')-->class="active"<!--@end-->>{$lang->is_stand_by}</a>
 		</div>
 		<table width="100%" border="1" cellspacing="0" id="fileListTable">
 			<caption>
-				All({number_format($total_count)})
+				<!--@if($search_keyword == '')-->
+				All
+				<!--@elseif($search_target == 'isvalid' && $search_keyword == 'Y')-->
+				{$lang->is_valid}
+				<!--@elseif($search_target == 'isvalid' && $search_keyword == 'N')-->
+				{$lang->is_stand_by}
+				<!--@end-->
+				({number_format($total_count)})
 				<span class="side"><span class="btn"><a href="#listManager" class="modalAnchor" onclick="getFileList();">{$lang->file_manager}...</a></span></span>
 			</caption>
 			<thead>

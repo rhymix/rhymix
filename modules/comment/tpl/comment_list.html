@@ -6,14 +6,20 @@
 	<h1 class="h1">{$lang->comment}</h1>
 	<div class="table even">
 		<div class="cnb">
-			All({number_format($total_count)})
-			<!--@foreach($countOutput AS $key=>$value)-->
-			| <a href="{getUrl('search_target','is_secret','search_keyword', $value->is_secret)}">{$secret_name_list[$value->is_secret]}({$value->count})</a>
-			<!--@end-->
+			<a href="{getUrl('','act','dispCommentAdminList', 'Y')}" <!--@if($search_keyword == '')-->class="active"<!--@end-->>All</a>
+			| <a href="{getUrl('search_target','is_secret','search_keyword', 'N')}" <!--@if($search_target == 'is_secret' && $search_keyword == 'N')-->class="active"<!--@end-->>{$secret_name_list['N']}</a>
+			| <a href="{getUrl('search_target','is_secret','search_keyword', 'Y')}" <!--@if($search_target == 'is_secret' && $search_keyword == 'Y')-->class="active"<!--@end-->>{$secret_name_list['Y']}</a>
 		</div>
 		<table width="100%" border="1" cellspacing="0" id="commentListTable">
 			<caption>
-				All({number_format($total_count)})
+				<!--@if($search_keyword == '')-->
+				All
+				<!--@elseif($search_target == 'is_secret' && $search_keyword == 'N')-->
+				{$secret_name_list['N']}
+				<!--@elseif($search_target == 'is_secret' && $search_keyword == 'Y')-->
+				{$secret_name_list['Y']}
+				<!--@end-->
+				({number_format($total_count)})
 				<div class="side">
 					<span class="btn"><a href="#listManager" class="modalAnchor" onclick="getCommentList();">{$lang->comment_manager}...</a></span>
 				</div>

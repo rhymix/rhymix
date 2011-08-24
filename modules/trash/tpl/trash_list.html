@@ -1,72 +1,148 @@
 <script>
 var confirm_restore_msg = '{$lang->confirm_restore}';
 </script>
-<!--#include("header.html")-->
-
+<!--%import("js/trash_admin.js")-->
+<div class="content" id="content">
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
-<form ruleset="emptyTrash" id="fo_list" action="./" method="post">
-<input type="hidden" name="act" value="procTrashAdminEmptyTrash" />
-<input type="hidden" name="page" value="{$page}" />
-<input type="hidden" name="is_all" value="false" />
+	<form ruleset="emptyTrash" action="./" method="post" class="form">
+	<input type="hidden" name="act" value="procTrashAdminEmptyTrash" />
+	<input type="hidden" name="page" value="{$page}" />
+	<input type="hidden" name="is_all" value="true" />
+		<h1 class="h1">{$lang->document}</h1>
+		<div class="table even">
+			<div class="cnb">
+				<a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList')}">All</a>
+				| <a href="{getUrl('search_target', 'is_secret', 'search_keyword', 'N')}">{$status_name_list['PUBLIC']}</a>
+				| <a href="{getUrl('search_target', 'is_secret', 'search_keyword', 'Y')}">{$status_name_list['SECRET']}</a>
+				| <a href="{getUrl('search_target', 'is_secret', 'search_keyword', 'temp')}">{$status_name_list['TEMP']}</a>
+				| <a href="{getUrl('', 'module', 'admin', 'act', 'dispTrashAdminList')}" class="active">{$lang->cmd_trash}</a>
+			</div>
+			<table width="100%" border="1" cellspacing="0" id="trashListTable">
+				<caption>
+					{$lang->cmd_trash}({number_format($total_count)})
+					<span class="side"><span class="btn"><a href="#listManager" class="modalAnchor" onclick="getTrashList();">선택한 글 관리...</a></span>
+					<span class="btn"><button type="submit" name="is_all" value="true">{$lang->empty_trash_all}</button></span></span>
+					
+				</caption>
+				<thead>
+					<tr>
+						<th scope="col" class="title">{$lang->document} ({$lang->trash_type})</th>
+						<th scope="col">{$lang->trash_nick_name}</th>
+						<th scope="col">{$lang->trash_date}</th>
+						<th scope="col">{$lang->ipaddress}</th>
+						<th scope="col">{$lang->trash_description}</th>
+						<th scope="col"><input type="checkbox" title="Check All" data-name="cart" /></th>
+					</tr>
+				</thead>
+				<tfoot>
+					<tr>
+						<th scope="col" class="title">{$lang->document} ({$lang->trash_type})</th>
+						<th scope="col">{$lang->trash_nick_name}</th>
+						<th scope="col">{$lang->trash_date}</th>
+						<th scope="col">{$lang->ipaddress}</th>
+						<th scope="col">{$lang->trash_description}</th>
+						<th scope="col"><input type="checkbox" title="Check All" data-name="cart" /></th>
+					</tr>
+				</tfoot>
+				<tbody>
+    				<!--@foreach($trash_list as $no => $oTrashVO)-->
+					<tr>
+						<td class="title">
+							{$oTrashVO->getTitle()} (
+							<!--@if($oTrashVO->getOriginModule() == 'document')-->
+							{$lang->document}
+							<!--@else if($oTrashVO->getOriginModule() == 'comment')-->
+							{$lang->replies}
+							<!--@else-->
+							{$lang->etc}
+							<!--@end-->
+							)
+						</td>
+						<td><span class="member_{$oTrashVO->getMemberSrl()">{htmlspecialchars($oTrashVO->getNickName())}</span></td>
+						<td>{zdate($oTrashVO->getRegdate(), "Y-m-d H:i:s")}</td>
+						<td>{$oTrashVO->getIpaddress()}</td>
+						<td>{$oTrashVO->getDescription()}</td>
+						<td><input type="checkbox" name="cart" value="{$oTrashVO->getTrashSrl()}" /></td>
+					</tr>
+    				<!--@end-->
+				</tbody>
+			</table>
+		</div>
+		<div class="btnArea">
+			<span class="btn"><a href="#listManager" class="modalAnchor" onclick="getTrashList();">선택한 글  관리...</a></span>
+			<span class="btn"><button type="submit" name="is_all" value="true">{$lang->empty_trash_all}</button></span>
+		</div>
+	</form>
+	<div class="modal" id="listManager">
+		<form ruleset="emptyTrash" id="fo_list" action="./" method="post" class="fg form">
+		<input type="hidden" name="act" value="procTrashAdminEmptyTrash" />
+		<input type="hidden" name="page" value="{$page}" />
+		<input type="hidden" name="is_all" value="false" />
+			<h2 class="h2">선택한 글 관리</h2>
+			<div class="table even">
+				<table width="100%" border="1" cellspacing="0" id="trashManageListTable">
+					<caption>선택한 글 <strong id="selectedTrashCount">8</strong></caption>
+					<thead>
+						<tr>
+							<th scope="col" class="title">{$lang->document} ({$lang->trash_type})</th>
+							<th scope="col">{$lang->trash_nick_name}</th>
+							<th scope="col">{$lang->ipaddress}</th>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+			</div>
+			<div class="btnArea">
+				<span class="btn"><button type="submit" name="is_all" value="false">{$lang->empty_trash_selected}</button></span>
+				<span class="btn"><button type="submit" name="act" value="procTrashAdminRestore">{$lang->cmd_restore}</button></span>
+			</div>
+		</form>
+	</div>
+	<div class="search">
+<form action="" class="pagination">
+	<input type="hidden" name="error_return_url" value="" />
+	<input type="hidden" name="module" value="{$module}" />
+	<input type="hidden" name="act" value="{$act}" />
+  	<input cond="$search_keyword" type="hidden" name="search_keyword" value="{$search_keyword}" />
+  	<input cond="$search_target" type="hidden" name="search_target" value="{$search_target}" />
 
-<!-- 목록 -->
-<table cellspacing="0" class="rowTable clear">
-<caption>Total {number_format($total_count)}, Page {number_format($page)}/{number_format($total_page)}</caption>
-<thead>
-    <tr>
-        <th scope="col"><div>{$lang->no}</div></th>
-        <th scope="col"><div><input type="checkbox" onclick="XE.checkboxToggleAll('trash_srls[]');" /></div></th>
-        <th scope="col" class="wide"><div>{$lang->document} ({$lang->trash_type})</div></th>
-        <th scope="col"><div>{$lang->trash_nick_name}</div></th>
-        <th scope="col"><div>{$lang->trash_date}</div></th>
-        <th scope="col"><div>{$lang->ipaddress}</div></th>
-        <th scope="col"><dib>{$lang->trash_description}</div></th>
-        <th scope="col"><div>{$lang->cmd_restore}</div></th>
-    </tr>
-</thead>
-<tbody>
-    <!--@foreach($trash_list as $no => $oTrashVO)-->
-    <tr>
-        <td class="number center">{$no}</td>
-        <td><div><input type="checkbox" name="trash_srls[]" value="{$oTrashVO->getTrashSrl()}" /></div></t>
-        <td class="left subject">
-			{$oTrashVO->getTitle()} (
-			<!--@if($oTrashVO->getOriginModule() == 'document')-->
-			{$lang->document}
-			<!--@else if($oTrashVO->getOriginModule() == 'comment')-->
-			{$lang->replies}
-			<!--@else-->
-			{$lang->etc}
-			<!--@end-->
-			)
-		</td>
-        <td class="nowrap"><span class="member_{$oTrashVO->getMemberSrl()">{htmlspecialchars($oTrashVO->getNickName())}</span></td>
-        <td class="date center nowrap">{zdate($oTrashVO->getRegdate(), "Y-m-d H:i:s")}</td>
-        <td class="number center nowrap">{$oTrashVO->getIpaddress()}</td>
-        <td class="left">{$oTrashVO->getDescription()}</td>
-        <td class="center"><a href="#" onclick="goRestore({$oTrashVO->getTrashSrl()})">{$lang->cmd_restore}</a></td>
-    </tr>
-    <!--@end-->
-</tbody>
-</table>
-
-<div class="fr">
-<span class="button green"><input type="submit" value="{$lang->empty_trash_selected}" onclick="this.form.is_all.value=false" /></span>
-<span class="button blue"><input type="submit" value="{$lang->empty_trash_all}" onclick="this.form.is_all.value=true" /></span>
-</div>
+	<a href="{getUrl('page', '')}" class="direction">&laquo; FIRST</a>
+	<block cond="$page_navigation->first_page + $page_navigation->page_count > $page_navigation->last_page && $page_navigation->page_count != $page_navigation->total_page">
+		<a href="{getUrl('page', '')}">1</a>
+		<a href="#goTo" class="tgSimple" title="{$lang->cmd_go_to_page}">...</a>
+	</block>
+	<!--@while($page_no = $page_navigation->getNextPage())-->
+		{@$last_page = $page_no}
+		<strong cond="$page_no == $page">{$page_no}</strong>
+		<a cond="$page_no != $page" href="{getUrl('page', $page_no)}">{$page_no}</a>
+	<!--@end-->
+	<block cond="$last_page != $page_navigation->last_page">
+		<a href="#goTo" class="tgSimple" title="{$lang->cmd_go_to_page}">...</a>
+		<a href="{getUrl('page', $page_navigation->last_page)}">{$page_navigation->last_page}</a>
+	</block>
+	<a href="{getUrl('page', $page_navigation->last_page)}" class="direction">LAST &raquo;</a>
+	<span id="goTo" class="tgContent">
+		<input name="page" title="{$lang->cmd_go_to_page}" />
+		<button type="submit">Go</button>
+	</span>
 </form>
-
-<!-- 페이지 네비게이션 -->
-<div class="pagination a1">
-    <a href="{getUrl('page','','module_srl',$module_srl)}" class="prevEnd">{$lang->first_page}</a> 
-    <!--@while($page_no = $page_navigation->getNextPage())-->
-        <!--@if($page == $page_no)-->
-            <strong>{$page_no}</strong> 
-        <!--@else-->
-            <a href="{getUrl('page',$page_no,'module_srl',$module_srl)}">{$page_no}</a> 
-        <!--@end-->
-    <!--@end-->
-    <a href="{getUrl('page',$page_navigation->last_page,'module_srl',$module_srl)}" class="nextEnd">{$lang->last_page}</a>
+		<form action="">
+			<select>
+				<option>제목</option>
+				<option>내용</option>
+				<option>닉네임</option>
+				<option>아이디</option>
+				<option>사용자 이름</option>
+				<option>공지사항</option>
+				<option>IP 주소</option>
+				<option>모듈 아이디</option>
+			</select>
+			<input title="Search" />
+			<input type="submit" value="Search" />
+			<a href="#">Cancel</a>
+		</form>
+	</div>
 </div>

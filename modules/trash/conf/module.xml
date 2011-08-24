@@ -6,9 +6,25 @@
         <permission action="procTrashAdminRestore" target="manager" />
     </permissions>
     <actions>
-        <action name="dispTrashAdminList" type="view" standalone="true" admin_index="true" />
+        <action name="dispTrashAdminList" type="view" standalone="true" admin_index="true" menu_name="document" menu_index="true" />
 
         <action name="procTrashAdminEmptyTrash" type="controller" standalone="true" ruleset="emptyTrash" />
         <action name="procTrashAdminRestore" type="controller" standalone="true" />
+        <action name="procTrashAdminGetList" type="controller" standalone="true" />
     </actions>
+	<menus>
+		<menu name="document">
+			<title xml:lang="en">Document</title>
+			<title xml:lang="ko">문서</title>
+			<title xml:lang="zh-CN">Document</title>
+			<title xml:lang="jp">Document</title>
+			<title xml:lang="es">Document</title>
+			<title xml:lang="ru">Document</title>
+			<title xml:lang="fr">Document</title>
+			<title xml:lang="zh-TW">Document</title>
+			<title xml:lang="vi">Document</title>
+			<title xml:lang="mn">Document</title>
+			<title xml:lang="tr">Document</title>
+		</menu>
+	</menus>
 </module>

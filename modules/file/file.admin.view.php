@@ -155,16 +155,6 @@
                 }
             }
 
-			$countOutput = $oFileAdminModel->getFilesCountByGroupValid();
-			$validCount = array();
-			if(is_array($countOutput))
-			{
-				foreach($countOutput AS $key=>$value)
-				{
-					$validCount[$value->isvalid] = $value->count;
-				}
-			}
-
             Context::set('file_list', $file_list);
             Context::set('document_list', $document_list);
             Context::set('comment_list', $comment_list);
@@ -173,7 +163,6 @@
             Context::set('total_page', $output->total_page);
             Context::set('page', $output->page);
             Context::set('page_navigation', $output->page_navigation);
-			Context::set('valid_count', $validCount);
             // Set a template
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('file_list');
