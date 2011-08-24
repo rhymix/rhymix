@@ -224,6 +224,43 @@
             $this->moveMenuItem($menu_srl,$parent_srl,$source_srl,$target_srl,$mode);
         }
 
+        /**
+         * @brief Arrange menu items
+         **/
+		function procMenuAdminArrangeItem()
+		{
+			$menuSrl = Context::get('menu_srl');
+			$childKeyList = Context::get('child_key');
+
+			if(is_array($childKeyList))
+			{
+				$menuList = array();
+				foreach($childKeyList AS $key=>$value)
+				{
+					preg_match('/BEGIN_([0-9]*.)/is', $value, $m);
+					if($m)
+					{
+						$menuList[$m[1]] = array();
+						$parentSrl = $m[1];
+					}
+					else $menuList[$parentSrl][$value] = true;
+				}
+
+				foreach($menuList AS $key=>$value)
+				{
+					if(count($value) > 0)
+					{
+						$sourceSrl = 0;
+						foreach($value AS $key2=>$value2)
+						{
+							$this->moveMenuItem($menuSrl, $key, $sourceSrl, $key2, 'move');
+							$sourceSrl = $key2;
+						}
+					}
+				}
+			}
+		}
+
         function moveMenuItem($menu_srl,$parent_srl,$source_srl,$target_srl,$mode){
             // Get the original menus
             $oMenuAdminModel = &getAdminModel('menu');

@@ -40,7 +40,7 @@ jQuery(function($){
 	});
 
 	$('a._child_delete').click(function() {
-		var menu_item_srl = $(this).parents('li').prevAll('._child_key').val();
+		var menu_item_srl = $(this).parents('li').find('._child_key').val();
 		listForm.find('input[name=menu_item_srl]').val(menu_item_srl);
 		listForm.submit();
 	});

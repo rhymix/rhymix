@@ -4,7 +4,7 @@
 	<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 		<p>{$XE_VALIDATOR_MESSAGE}</p>
 	</div>
-	<form id="listForm" action="./" class="siteMap">
+	<form id="listForm" action="./" class="siteMap" method="post">
 	<input type="hidden" name="act" value="procMenuAdminDeleteItem" />
 	<input type="hidden" name="menu_srl" value="{$menu_srl}" />
 	<input type="hidden" name="menu_item_srl" value="" />
@@ -13,21 +13,16 @@
 		<div class="adminMenu portlet">
 			<h2 class="h2"><input value="Admin Menu" disabled /></h2>
 			<ul class="lined">
-				<!--@foreach($gnbUrlList AS $key=>$value)-->
-				<li class="parent">
-					<input type="hidden" value="{$key}" class="_parent_key" />
+				<li class="parent" loop="$gnbUrlList=>$key,$value">
+					<input type="hidden" name="parent_key[]" value="{$key}" class="_parent_key" />
+					<input type="hidden" name="child_key[]" value="BEGIN_{$key}" />
 					<span>{$value['text']}</span> <span class="side"><a href="#editMenu" class="modalAnchor _add">Add</a></span>
-					<!--@if(is_array($value['list']) && count($value['list'])>0)-->
-					<ul>
-						<!--@foreach($value['list'] AS $key2=>$value2)-->
-						<input type="hidden" value="{$key2}" class="_child_key" />
-						<li><span>{$value2['text']}</span><span class="side"><a href="#delete" class="_child_delete">Delete</a></span></li>
-						<!--@end-->
+					<ul cond="is_array($value['list']) && count($value['list'])>0">
+						<li loop="$value['list']=>$key2,$value2"><span>{$value2['text']}</span><span class="side"><a href="#delete" class="_child_delete">Delete</a></span><input type="hidden" name="child_key[]" value="{$key2}" class="_child_key" /></li>
 					</ul>
-					<!--@end-->
 				</li>
-				<!--@end-->
 			</ul>
+			<p class="btnArea"><span class="btn small"><button value="procMenuAdminArrangeItem" name="act" type="submit">{$lang->cmd_save}</button></span></p>
 		</div>
 	</form>
 
