@@ -120,11 +120,23 @@ jQuery(function($){
 	// Modal Window
 	$('a.modalAnchor')
 		.click(function(){
-			var $this = $(this), $modal, disabled;
+			var $this = $(this), $modal, $btnClose, disabled;
 
 			// get and initialize modal window
 			$modal = $( $this.attr('href') );
-			$this.trigger('init.mw');
+			if(!$modal.parent('body').length) {
+				$btnClose = $('<button type="button" class="modalClose" title="Close this layer">X</button>');
+				$btnClose.click(function(){ $modal.data('anchor').trigger('close.mw') });
+
+				$modal
+					.prepend('<span class="bg"></span>')
+					.append('<!--[if IE 6]><iframe class="ie6"></iframe><![endif]-->')
+					.find('>.fg')
+						.prepend($btnClose)
+						.append($btnClose.clone(true))
+					.end()
+					.appendTo('body');
+			}
 
 			// set the related anchor
 			$modal.data('anchor', $this);
@@ -136,25 +148,6 @@ jQuery(function($){
 			}
 
 			return false;
-		})
-		.bind('init.mw', function(){
-			var $this = $(this), $modal, $btnClose;
-
-			$modal    = $( $this.attr('href') );
-			$btnClose = $('<button type="button" class="modalClose" title="Close this layer">X</button>');
-			$btnClose.click(function(){ $modal.data('anchor').trigger('close.mw') });
-
-			$modal
-				.prepend('<span class="bg"></span>')
-				.append('<!--[if IE 6]><iframe class="ie6"></iframe><![endif]-->')
-				.find('>.fg')
-					.prepend($btnClose)
-					.append($btnClose.clone(true))
-				.end()
-				.appendTo('body');
-				
-			// unbind create event
-			$this.unbind('init.mw');
 		})
 		.bind('open.mw', function(){
 			var $this = $(this), before_event, $modal, duration;
@@ -190,6 +183,7 @@ jQuery(function($){
 
 			$modal
 				.fadeIn(duration, after)
+				.find('>.bg').height($(document).height()).end()
 				.find('button.modalClose:first').focus();
 		})
 		.bind('close.mw', function(){
