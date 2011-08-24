@@ -72,7 +72,7 @@ class Security
 	function _encodeHTML($var, $name=array())
 	{
 		if(is_string($var)) {
-			$var = htmlspecialchars($var);
+			if (!preg_match('/^\$user_lang->/', $var)) $var = htmlspecialchars($var);
 			return $var;
 		}
 
