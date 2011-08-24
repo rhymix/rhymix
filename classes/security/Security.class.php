@@ -16,9 +16,9 @@ class Security
 	 * @constructor
 	 * @param $var Target context
 	 */
-	function init($var = null)
+	function Security($var = null)
 	{
-		$this->_targetVar($var);
+		$this->_targetVar = $var;
 	}
 
 	/**
@@ -62,6 +62,8 @@ class Security
 				}
 			}
 		}
+
+		if (!$use_context) return $this->_targetVar;
 	}
 
 	/**
