@@ -1,93 +1,67 @@
 <!--%import("js/multilingual.js")-->
-<div class="content" id="content">
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 <p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
-		<h1 class="h1">Multilingual</h1>
-		<p>현재 12 종류의 다국어 문자를 지원할 수 있습니다. 다른 종류의 다국어 지원을 원하는 경우 /common/lang/ 폴더의 다국어 가운데 하나의 세트를 번역해서 XE 개발자(contact@xpressengine.com)에게 보내주세요.</p>
-		<div class="mLangEdit ko">
-		<!-- 한국어일 때 "mLangEdit ko" | 영어일 때 "mLangEdit ko" | ... -->
-		<div class="btnArea">
-			<span class="btn"><a href="#addWord" class="modalAnchor">새로운 단어 또는 문장 추가...</a></span>
-		</div>
-		<ul>
-			<!--@foreach($lang_code_list AS $key=>$value)-->
-			{@$langName = $value->name}
-			<li>
-			<form action="./" method="post" class="form" id="langForm_{$langName}" >
-			<input type="hidden" name="act" value="procModuleAdminInsertLang" />
-			<input type="hidden" name="lang_name" value="{$langName}" />
-				<strong>{$value->value}</strong> <button type="button" class="side text _edit">Edit</button>
-				<ul>
-					<!--@foreach($lang_supported AS $key2=>$value2)-->
-					<li class="{$key2}"><label for="{$langName}_{$key2}">{$value2}</label> <textarea rows="1" cols="42" name="{$key2}" id="{$langName}_{$key2}"></textarea></li>
-					<!--@end-->
-				</ul>
-				<div class="btnArea">
-					<button type="submit" name="act" value="procModuleAdminInsertLang">{$lang->cmd_save}</button>
-					<button type="submit" name="act" value="procModuleAdminDeleteLang">{$lang->cmd_delete}</button>
-				</div>
-			</form>
-			</li>
-			<!--@end-->
-		</ul>
-		<div class="btnArea">
-			<span class="btn"><a href="#addWord" class="modalAnchor">새로운 단어 또는 문장 추가...</a></span>
-		</div>
+<h1 class="h1">Multilingual</h1>
+<p>현재 12 종류의 다국어 문자를 지원할 수 있습니다. 다른 종류의 다국어 지원을 원하는 경우 /common/lang/ 폴더의 다국어 가운데 하나의 세트를 번역해서 XE 개발자(contact@xpressengine.com)에게 보내주세요.</p>
+<div class="mLangEdit ko"><!-- class="mLangEdit LANGCODE" -->
+	<div class="btnArea">
+		<span class="btn"><a href="#addWord" class="modalAnchor">새로운 단어 또는 문장 추가...</a></span>
 	</div>
-	<div class="modal" id="addWord">
-		<form action="" class="mLangEdit fg form">
-			<h2 class="h2">새로운 단어 또는 문장 추가</h2>
-
-			<form action="./" method="post" class="form" id="langForm_new" >
-			<input type="hidden" name="act" value="procModuleAdminInsertLang" />
+	<ul id="langList">
+		<li loop="$lang_code_list=>$key,$value">
+		{@$langName = $value->name}
+		<form action="./" method="post" class="form" id="langForm_{$langName}" >
+		<input type="hidden" name="act" value="procModuleAdminInsertLang" />
+		<input type="hidden" name="lang_name" value="{$langName}" />
+			<strong>{$value->value}</strong> <button type="button" class="side text _edit">Edit</button>
 			<ul>
-				<!--@foreach($lang_supported AS $key2=>$value2)-->
-				<li class="{$key2}"><label for="{$langName}_{$key2}">{$value2}</label> <textarea rows="1" cols="42" name="{$key2}" id="{$langName}_{$key2}"></textarea></li>
-				<!--@end-->
+				<li class="{$key2}" loop="$lang_supported=>$key2,$value2"><label for="{$langName}_{$key2}">{$value2}</label> <textarea rows="1" cols="42" name="{$key2}" id="{$langName}_{$key2}"></textarea></li>
 			</ul>
 			<div class="btnArea">
-				<span class="btn small"><button type="submit">Save</button></span>
+				<button type="submit" name="act" value="procModuleAdminInsertLang">{$lang->cmd_save}</button>
+				<button type="submit" name="act" value="procModuleAdminDeleteLang">{$lang->cmd_delete}</button>
 			</div>
-			</form>
 		</form>
+		</li>
+	</ul>
+	<div class="btnArea">
+		<span class="btn"><a href="#addWord" class="modalAnchor">새로운 단어 또는 문장 추가...</a></span>
 	</div>
-// 다국어 추가 삭제 관리 페이지 프로토타입. 태곤의 TO DO.
-<script type="text/javascript">
-jQuery(function($){
-	var ml = $('.mLangEdit');
-	ml.find('>ul>li>ul').hide().end().find('>ul>li>.btnArea').hide(); // 하위 목록과 버튼 숨김
-	ml.find('>ul>li>.side').click(function(){ // Edit 버튼을 클릭하면
-		var tpi = $(this).parent('li');
-		ml.find('>ul>li>ul:visible, >ul>li>.btnArea:visible') // 열린 하위 목록과 버튼 숨김
-			.slideUp(200)
-			.parent('li')
-			.removeClass('active'); 
-		tpi.children('ul:hidden, .btnArea:hidden') // 닫힌 하위 목록과 버튼 열기
-			.slideDown(200)
-			.parent('li')
-			.addClass('active'); 
-	});
-});
-</script>
-	<div class="search">
-<form action="" class="pagination">
+</div>
+<div class="modal" id="addWord">
+	<form action="" class="mLangEdit fg form">
+		<h2 class="h2">새로운 단어 또는 문장 추가</h2>
+
+		<form action="./" method="post" class="form" id="langForm_new" >
+		<input type="hidden" name="act" value="procModuleAdminInsertLang" />
+		<ul>
+			<li class="{$key2}" loop="$lang_supported=>$key2,$value2"><label for="{$langName}_{$key2}">{$value2}</label> <textarea rows="1" cols="42" name="{$key2}" id="{$langName}_{$key2}"></textarea></li>
+		</ul>
+		<div class="btnArea">
+			<span class="btn small"><button type="submit">Save</button></span>
+		</div>
+		</form>
+	</form>
+</div>
+<div class="search">
+	<form action="" class="pagination">
 	<input type="hidden" name="error_return_url" value="" />
 	<input type="hidden" name="module" value="{$module}" />
 	<input type="hidden" name="act" value="{$act}" />
-  	<input cond="$search_keyword" type="hidden" name="search_keyword" value="{$search_keyword}" />
-  	<input cond="$search_target" type="hidden" name="search_target" value="{$search_target}" />
+	<input cond="$search_keyword" type="hidden" name="search_keyword" value="{$search_keyword}" />
+	<input cond="$search_target" type="hidden" name="search_target" value="{$search_target}" />
 
 	<a href="{getUrl('page', '')}" class="direction">&laquo; FIRST</a>
 	<block cond="$page_navigation->first_page + $page_navigation->page_count > $page_navigation->last_page && $page_navigation->page_count != $page_navigation->total_page">
 		<a href="{getUrl('page', '')}">1</a>
 		<a href="#goTo" class="tgSimple" title="{$lang->cmd_go_to_page}">...</a>
 	</block>
-	<!--@while($page_no = $page_navigation->getNextPage())-->
+	<block loop="$page_no = $page_navigation->getNextPage()">
 		{@$last_page = $page_no}
 		<strong cond="$page_no == $page">{$page_no}</strong>
 		<a cond="$page_no != $page" href="{getUrl('page', $page_no)}">{$page_no}</a>
-	<!--@end-->
+	</block>
 	<block cond="$last_page != $page_navigation->last_page">
 		<a href="#goTo" class="tgSimple" title="{$lang->cmd_go_to_page}">...</a>
 		<a href="{getUrl('page', $page_navigation->last_page)}">{$page_navigation->last_page}</a>
@@ -97,14 +71,13 @@ jQuery(function($){
 		<input name="page" title="{$lang->cmd_go_to_page}" />
 		<button type="submit">Go</button>
 	</span>
-</form>
+	</form>
 
-		<form action="./" method="get">
-		<input type="hidden" name="module" value="{$module}" />
-		<input type="hidden" name="act" value="{$act}" />
-		<input type="hidden" name="search_target" value="value" />
-			<input title="search_keyword" name="search_keyword" value="{htmlspecialchars($search_keyword)}" />
-			<input type="submit" value="Search" />
-		</form>
-	</div>
+	<form action="./" method="get">
+	<input type="hidden" name="module" value="{$module}" />
+	<input type="hidden" name="act" value="{$act}" />
+	<input type="hidden" name="search_target" value="value" />
+		<input title="search_keyword" name="search_keyword" value="{htmlspecialchars($search_keyword)}" />
+		<input type="submit" value="Search" />
+	</form>
 </div>

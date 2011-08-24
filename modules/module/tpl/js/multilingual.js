@@ -1,32 +1,47 @@
 jQuery(function($){
 
-$('li')
+// multi-lingual text list
+$('#langList')
+	.find('ul').hide().attr('aria-hidden','true').end() // collapse all language input control
 	.delegate('button._edit', 'click', function(){
-		var $this = $(this);
-		/*, site_srl = $this.data('site_srl');
-		currentClickedSiteObject = $this;*/
+		var $this = $(this), $ul = $this.next('ul'), form;
 
-		var formObj = $this.parents().find('form').first();
+		// toggle input control
+		if($ul.attr('aria-hidden') == 'false') {
+			$ul.slideUp('fast');
+			$ul.attr('aria-hidden', 'true');
+		}else{
+			$ul.slideDown('fast');
+			$ul.attr('aria-hidden', 'false');
+		}
 
-		// TODO : 모듈 목록을 찾아서 셀렉트 박스에 할당
-		var params = new Array();
-		var response_tags = ['error', 'message', 'lang_list', 'lang_name'];
-		params['lang_name'] = formObj.find('input[name=lang_name]').val();
+		if($ul.data('lang-loaded') == true) return;
+	
+		$ul.data('lang-loaded', true);
+		form = $this.closest('form').get(0);
 
-		exec_xml('module','getModuleAdminLangListByName',params, completeGetModuleList, response_tags);
-	});
+		function on_complete(ret) {
+			var name = ret['lang_name'], list = ret['lang_list']['item'], elems = form.elements, item;
+
+			$ul.find('label+textarea').prev('label').css('visibility','hidden');
+
+			if(!$.isArray(list)) list = [list];
+			for(var i=0,c=list.length; i < c; i++) {
+				item = list[i];
+				if(item && item.lang_code && elems[item.lang_code]) {
+					elems[item.lang_code].value = item.value;
+					if(!item.value) $(elems[item.lang_code]).prev('label').css('visibility','visible');
+				}
+			}
+		}
+
+		exec_xml(
+			'module',
+			'getModuleAdminLangListByName',
+			{lang_name:form.elements['lang_name'].value},
+			on_complete,
+			'error,message,lang_list,lang_name'.split(',')
+		);
+	})
+
 });
-
-function completeGetModuleList(ret_obj, response_tags)
-{
-	var langName = ret_obj['lang_name'];
-	var langList = ret_obj['lang_list']['item'];
-	if(!jQuery.isArray(langList)) langList = [langList];
-	var htmlListBuffer = '';
-
-	for(var x in langList)
-	{
-		var objLang = langList[x];
-		jQuery('#' + langName + '_' + objLang.lang_code).val(objLang.value);
-	}
-}
