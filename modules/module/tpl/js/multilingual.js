@@ -2,28 +2,27 @@ jQuery(function($){
 
 // multi-lingual text list
 $('#langList')
-	.find('ul').hide().attr('aria-hidden','true').end() // collapse all language input control
+	.find('form').hide().attr('aria-hidden','true').end() // collapse all language input control
 	.delegate('button._edit', 'click', function(){
-		var $this = $(this), $ul = $this.next('ul'), form;
+		var $this = $(this), $form = $this.next('form');
 
 		// toggle input control
-		if($ul.attr('aria-hidden') == 'false') {
-			$ul.slideUp('fast');
-			$ul.attr('aria-hidden', 'true');
+		if($form.attr('aria-hidden') == 'false') {
+			$form.slideUp('fast');
+			$form.attr('aria-hidden', 'true');
 		}else{
-			$ul.slideDown('fast');
-			$ul.attr('aria-hidden', 'false');
+			$form.slideDown('fast');
+			$form.attr('aria-hidden', 'false');
 		}
 
-		if($ul.data('lang-loaded') == true) return;
+		if($form.data('lang-loaded') == true) return;
 	
-		$ul.data('lang-loaded', true);
-		form = $this.closest('form').get(0);
+		$form.data('lang-loaded', true);
 
 		function on_complete(ret) {
-			var name = ret['lang_name'], list = ret['lang_list']['item'], elems = form.elements, item;
+			var name = ret['lang_name'], list = ret['lang_list']['item'], elems = $form[0].elements, item;
 
-			$ul.find('label+textarea').prev('label').css('visibility','hidden');
+			$form.find('label+textarea').prev('label').css('visibility','hidden');
 
 			if(!$.isArray(list)) list = [list];
 			for(var i=0,c=list.length; i < c; i++) {
@@ -38,7 +37,7 @@ $('#langList')
 		exec_xml(
 			'module',
 			'getModuleAdminLangListByName',
-			{lang_name:form.elements['lang_name'].value},
+			{lang_name:$form[0].elements['lang_name'].value},
 			on_complete,
 			'error,message,lang_list,lang_name'.split(',')
 		);
