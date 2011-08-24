@@ -9,6 +9,7 @@
     $lang->comment_list = '댓글 목록';
     $lang->cmd_toggle_checked_comment = '선택항목 반전';
     $lang->cmd_delete_checked_comment = '선택항목 삭제';
+    $lang->trash = '휴지통';
     $lang->cmd_trash = '휴지통으로 이동';
     $lang->comment_count = '댓글 수';
     $lang->about_comment_count = '댓글을 정해진 수 만큼만 표시하고 그 이상일 경우 목록으로 이동할 수 있게 합니다.';

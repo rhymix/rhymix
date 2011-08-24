@@ -10,25 +10,37 @@ var confirm_restore_msg = '{$lang->confirm_restore}';
 	<input type="hidden" name="act" value="procTrashAdminEmptyTrash" />
 	<input type="hidden" name="page" value="{$page}" />
 	<input type="hidden" name="is_all" value="true" />
-		<h1 class="h1">{$lang->document}</h1>
+		<h1 class="h1">
+			<!--@if($origin_module == 'document')-->
+			{$lang->document}
+			<!--@elseif($origin_module == 'comment')-->
+			{$lang->comment}
+			<!--@end-->
+		</h1>
 		<div class="table even">
 			<div class="cnb">
+				<!--@if($origin_module == 'document')-->
 				<a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList')}">All</a>
-				| <a href="{getUrl('search_target', 'is_secret', 'search_keyword', 'N')}">{$status_name_list['PUBLIC']}</a>
-				| <a href="{getUrl('search_target', 'is_secret', 'search_keyword', 'Y')}">{$status_name_list['SECRET']}</a>
-				| <a href="{getUrl('search_target', 'is_secret', 'search_keyword', 'temp')}">{$status_name_list['TEMP']}</a>
-				| <a href="{getUrl('', 'module', 'admin', 'act', 'dispTrashAdminList')}" class="active">{$lang->cmd_trash}</a>
+				| <a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList', 'search_target', 'is_secret', 'search_keyword', 'N')}">{$status_name_list['PUBLIC']}</a>
+				| <a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList', 'search_target', 'is_secret', 'search_keyword', 'Y')}">{$status_name_list['SECRET']}</a>
+				| <a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList', 'search_target', 'is_secret', 'search_keyword', 'temp')}">{$status_name_list['TEMP']}</a>
+				<!--@elseif($origin_module == 'comment')-->
+				<a href="{getUrl('', 'module', 'admin', 'act', 'dispCommentAdminList')}">All</a>
+				| <a href="{getUrl('', 'module', 'admin', 'act', 'dispCommentAdminList', 'search_target','is_secret','search_keyword', 'N')}" <!--@if($search_target == 'is_secret' && $search_keyword == 'N')-->class="active"<!--@end-->>{$secret_name_list['N']}</a>
+				| <a href="{getUrl('', 'module', 'admin', 'act', 'dispCommentAdminList', 'search_target','is_secret','search_keyword', 'Y')}" <!--@if($search_target == 'is_secret' && $search_keyword == 'Y')-->class="active"<!--@end-->>{$secret_name_list['Y']}</a>
+				<!--@end-->
+				| <a href="{getUrl('', 'module', 'admin', 'act', 'dispTrashAdminList', 'origin_module', $origin_module)}" class="active">{$lang->trash}</a>
 			</div>
 			<table width="100%" border="1" cellspacing="0" id="trashListTable">
 				<caption>
-					{$lang->cmd_trash}({number_format($total_count)})
+					{$lang->trash}({number_format($total_count)})
 					<span class="side"><span class="btn"><a href="#listManager" class="modalAnchor" onclick="getTrashList();">선택한 글 관리...</a></span>
 					<span class="btn"><button type="submit" name="is_all" value="true">{$lang->empty_trash_all}</button></span></span>
 					
 				</caption>
 				<thead>
 					<tr>
-						<th scope="col" class="title">{$lang->document} ({$lang->trash_type})</th>
+						<th scope="col" class="title">{$lang->document}</th>
 						<th scope="col">{$lang->trash_nick_name}</th>
 						<th scope="col">{$lang->trash_date}</th>
 						<th scope="col">{$lang->ipaddress}</th>
@@ -38,7 +50,7 @@ var confirm_restore_msg = '{$lang->confirm_restore}';
 				</thead>
 				<tfoot>
 					<tr>
-						<th scope="col" class="title">{$lang->document} ({$lang->trash_type})</th>
+						<th scope="col" class="title">{$lang->document}</th>
 						<th scope="col">{$lang->trash_nick_name}</th>
 						<th scope="col">{$lang->trash_date}</th>
 						<th scope="col">{$lang->ipaddress}</th>
@@ -49,17 +61,7 @@ var confirm_restore_msg = '{$lang->confirm_restore}';
 				<tbody>
     				<!--@foreach($trash_list as $no => $oTrashVO)-->
 					<tr>
-						<td class="title">
-							{$oTrashVO->getTitle()} (
-							<!--@if($oTrashVO->getOriginModule() == 'document')-->
-							{$lang->document}
-							<!--@else if($oTrashVO->getOriginModule() == 'comment')-->
-							{$lang->replies}
-							<!--@else-->
-							{$lang->etc}
-							<!--@end-->
-							)
-						</td>
+						<td class="title">{$oTrashVO->getTitle()}</td>
 						<td><span class="member_{$oTrashVO->getMemberSrl()">{htmlspecialchars($oTrashVO->getNickName())}</span></td>
 						<td>{zdate($oTrashVO->getRegdate(), "Y-m-d H:i:s")}</td>
 						<td>{$oTrashVO->getIpaddress()}</td>

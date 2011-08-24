@@ -9,6 +9,7 @@
 			<a href="{getUrl('','act','dispCommentAdminList', 'Y')}" <!--@if($search_keyword == '')-->class="active"<!--@end-->>All</a>
 			| <a href="{getUrl('search_target','is_secret','search_keyword', 'N')}" <!--@if($search_target == 'is_secret' && $search_keyword == 'N')-->class="active"<!--@end-->>{$secret_name_list['N']}</a>
 			| <a href="{getUrl('search_target','is_secret','search_keyword', 'Y')}" <!--@if($search_target == 'is_secret' && $search_keyword == 'Y')-->class="active"<!--@end-->>{$secret_name_list['Y']}</a>
+			| <a href="{getUrl('', 'module', 'admin', 'act', 'dispTrashAdminList', 'origin_module', 'comment')}">{$lang->trash}</a>
 		</div>
 		<table width="100%" border="1" cellspacing="0" id="commentListTable">
 			<caption>
