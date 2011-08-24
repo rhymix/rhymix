@@ -152,7 +152,7 @@ jQuery(function($){
 					.append($btnClose.clone(true))
 				.end()
 				.appendTo('body');
-
+				
 			// unbind create event
 			$this.unbind('init.mw');
 		})
@@ -250,7 +250,7 @@ jQuery(function($){
 			});
 
 	// Display the dashboard in two column
-	$('.dashboard>.portlet:odd').after('<br style="clear:both" />');
+	$('.dashboard>.section>.portlet:odd').after('<br style="clear:both" />');
 
 	// TODO: Site Map
 // 	var siteMap = $('.siteMap');

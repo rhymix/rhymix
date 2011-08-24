@@ -13,7 +13,7 @@
     $lang->comment_count = '댓글 수';
     $lang->about_comment_count = '댓글을 정해진 수 만큼만 표시하고 그 이상일 경우 목록으로 이동할 수 있게 합니다.';
     $lang->msg_cart_is_null = '삭제할 글을 선택해주세요.';
-    $lang->msg_checked_comment_is_deleted = '%d개의 댓글이 삭제되었습니다.';
+    $lang->msg_checked_comment_is_deleted = '%d개의 댓글을 삭제했습니다.';
     $lang->search_target_list = array(
         'content' => '내용',
         'user_id' => '아이디',

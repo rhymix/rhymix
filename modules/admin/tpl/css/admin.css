@@ -205,7 +205,7 @@ p{line-height:1.5}
 .modalBlur{position:absolute;top:0;right:0;border:0;background:none;padding:0;width:1px;height:1px;overflow:hidden}
 html.modalContainer,body.modalContainer{_height:100%;_width:100%} /* IE6 only */ 
 /* Message */
-.message{border:1px solid #ddd;background:#f8f8f8;margin:1em 0;padding:0 1em;border-radius:5px}
+.message{border:1px solid #ddd;background:#f8f8f8;margin:1em 0;padding:0 1em;border-radius:5px;line-height:1.4}
 .message em{font-style:normal;color:#e00}
 .message.info,
 .message.error,

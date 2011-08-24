@@ -63,7 +63,7 @@
     $lang->cmd_restore = '복원';
     $lang->cmd_restore_all = '모두 복원';
     $lang->in_trash = '휴지통';
-    $lang->trash_nick_name = '삭제자 닉네임';
+    $lang->trash_nick_name = '옮긴 사람';
     $lang->trash_date = '삭제 날짜';
     $lang->trash_description = '설명';
     // Trash from the administrator of the search target page
