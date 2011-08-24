@@ -5,11 +5,12 @@ jQuery(function($){
 
 	// Overlapping label
 	$('.form li').find('>input:text,>input:password,>textarea')
+ 		.filter('input[value!=""],textarea:not(:empty)').prev('label').css('visibility','hidden').end().end()
 		.prev('label')
 			.css({position:'absolute',top:'15px',left:'5px'})
 			.next()
 				.focus(function(){
-					var $label = $(this).prev().stop().animate({opacity:0, left:'25px'},'fast',function(){ $label.css('visibility','hide') });
+					var $label = $(this).prev().stop().animate({opacity:0, left:'25px'},'fast',function(){ $label.css('visibility','hidden') });
 				})
 				.blur(function(){
 					var $this = $(this), $label;
@@ -17,9 +18,6 @@ jQuery(function($){
 						$label = $this.prev().stop().css('visibility','visible').animate({opacity:1, left:'5px'},'fast');
 					}
 				})
-				.filter('[value!=""]')
-					.prev().css('visibility','hide').end()
-				.end()
 			.end()
 			.parent()
 				.css('position', 'relative');
