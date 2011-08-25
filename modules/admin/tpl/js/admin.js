@@ -246,35 +246,6 @@ jQuery(function($){
 	// Display the dashboard in two column
 	$('.dashboard>.section>.portlet:odd').after('<br style="clear:both" />');
 
-	// TODO: Site Map
-// 	var siteMap = $('.siteMap');
-// 	var siteItem = siteMap.find('li');
-// 	siteItem
-// 		.prepend('<button type="button" class="moveTo">Move to</button>')
-// 		.append('<span class="vr"></span><span class="hr"></span>')
-// 		.mouseover(function(){
-// 			$(this).addClass('active');
-// 			$('.vr').each(function(){
-// 				var myHeight = $(this).parent('li').height();
-// 				$(this).height(myHeight);
-// 			});
-// 			return false;
-// 		})
-// 		.mouseout(function(){
-// 			$(this).removeClass('active');
-// 		})
-// 		.find('.moveTo+input').each(function(){
-// 			$(this).width(this.value.length+'em');
-// 		});
-// 	siteMap.find('.moveTo')
-// 		.focus(function(){
-// 			$(this).parent('li').mouseover();
-// 		})
-// 		.blur(function(){
-// 			$(this).mouseout();
-// 		});
-// 	siteMap.find('li:first-child').css('border','0');
-
 	// Toggle Contents
 	$('a.tgAnchor')
 		.click(function(){
@@ -419,4 +390,142 @@ jQuery(function($){
 						// Display all sections then hide this button
 						$(this).hide().parent().prevAll('.section').show();
 					});
+
+	// TODO module finder
+
+
+});
+
+// Sortable table
+jQuery(function($){
+
+var 
+	dragging = false,
+	$holder  = $('<tr class="placeholder"><td>&nbsp;</td></tr>');
+
+$('table.sortable')
+	.delegate('button.dragBtn', 'mousedown.st', function(event){
+		var $this, $tr, $table, $th, height, width, offset, position, offsets, i, dropzone, cols;
+
+		if(event.which != 1) return;
+
+		$this  = $(this);
+
+		// before event trigger
+		before_event = $.Event('before-drag.st');
+		$this.trigger(before_event);
+
+		// is event canceled?
+		if(before_event.isDefaultPrevented()) return false;
+
+		$tr    = $this.closest('tr');
+		$table = $this.closest('table').css('position','relative');
+		height = $tr.height();
+		width  = $tr.width();
+
+		position = {x:event.pageX, y:event.pageY};
+		offset   = getOffset($tr.get(0), $table.get(0));
+
+		$clone = $tr.attr('target', true).clone(true).appendTo($table);
+
+		// get colspan
+		cols = ($th=$table.find('thead th')).length;
+		$th.filter('[colspan]').attr('colspan', function(idx,attr){ cols += attr - 1; });
+		$holder.find('td').attr('colspan', cols);
+
+		// get offsets of all list-item elements
+		offsets = [];
+		$table.find('tbody>tr:not([target])').each(function() {
+			var $this = $(this), o;
+
+			o = getOffset(this, $table.get(0));
+			offsets.push({top:o.top, bottom:o.top+32, $item:$(this)});
+		});
+
+		$clone
+			.addClass('draggable')
+			.css({
+				position: 'absolute',
+				opacity : .6,
+				width   : width,
+				height  : height,
+				left    : offset.left,
+				top     : offset.top,
+				zIndex  : 100
+			});
+
+		// Set a place holder
+		$holder
+			.css({
+ 				position:'absolute',
+				opacity : .6,
+				width   : width,
+				height  : '10px',
+				left    : offset.left,
+				top     : offset.top,
+				backgroundColor : '#bbb',
+				overflow: 'hidden',
+				zIndex  : 99
+			})
+			.appendTo($table);
+
+		$tr.css('opacity', .6);
+
+		$(document)
+			.unbind('mousedown.st mouseup.st')
+			.bind('mousemove.st', function(event) {
+				var diff, nTop, item, i, c, o;
+
+				dropzone = null;
+
+				diff = {x:position.x-event.pageX, y:position.y-event.pageY};
+				nTop = offset.top - diff.y;
+				
+				for(i=0,c=offsets.length; i < c; i++) {
+					o = offsets[i];
+					if(o.top > nTop || o.bottom < nTop) continue;
+
+					dropzone = {element:o.$item};
+					if(o.top > nTop - 12) {
+						dropzone.state = 'before';
+						$holder.css('top', o.top-5);
+					} else {
+						dropzone.state = 'after';
+						$holder.css('top', o.bottom-5);
+					}
+				}
+
+				$clone.css({top:nTop});
+			})
+			.bind('mouseup.st', function(event) {
+				var $dropzone;
+
+				dragging = false;
+
+				$(document).unbind('mousemove.st mouseup.st');
+				$tr.removeAttr('target').css('opacity', '');
+				$clone.remove();
+ 				$holder.remove();
+
+				if(!dropzone) return;
+				$dropzone = $(dropzone.element);
+
+				// use the clone for animation
+				$dropzone[dropzone.state]($tr);
+			});
+	})
+
+function getOffset(elem, offsetParent) {
+	var top = 0, left = 0;
+
+	while(elem && elem != offsetParent) {
+		top  += elem.offsetTop;
+		left += elem.offsetLeft;
+
+		elem = elem.offsetParent;
+	}
+
+	return {top:top, left:left};
+}
+
 });
