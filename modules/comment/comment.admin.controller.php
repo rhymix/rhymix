@@ -91,7 +91,11 @@
                 $oCacheHandler->delete('comment_list_document_pages');
             }
 
-            $this->setMessage( sprintf(Context::getLang('msg_checked_comment_is_deleted'), $deleted_count) );
+			$msgCode = '';
+			if($isTrash == 'true') $msgCode = 'success_trashed';
+			else $msgCode = 'success_deleted';
+            //$this->setMessage( sprintf(Context::getLang('msg_checked_comment_is_deleted'), $deleted_count) );
+            $this->setMessage($msgCode, 'info');
 
 			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
 				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispCommentAdminList');
