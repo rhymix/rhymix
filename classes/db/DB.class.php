@@ -399,7 +399,7 @@
                 case 'select' :
                         $arg_columns = is_array($arg_columns)?$arg_columns:array();
                         $output->setColumnList($arg_columns);
-                        $connection = $this->_getConnection('slave');
+                        $connection = $this->_getConnection($database_type);
                         $output = $this->_executeSelectAct($output, $connection);
                     break;
             }
