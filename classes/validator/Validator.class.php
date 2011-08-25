@@ -119,7 +119,7 @@ class Validator
 	 * @param[in] (optional) array $fields Target fields. The keys of the array represents field's name, its values represents field's value.
 	 * @return bool True if it is valid, FALSE otherwise.
 	 */
-	function validate($fields_=array()){
+	function validate($fields_=null){
 		if(is_array($fields_)) {
 			$fields = $fields_;
 		} else {
