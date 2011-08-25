@@ -112,7 +112,7 @@ class HTMLDisplayHandler {
 			$keys = array_keys($INPUT_ERROR);
 			$keys = '('.implode('|', $keys).')';
 
-			$output = preg_replace('/(<input[^>]*?)(?:value="[^"]*"([^>]*?name="'.$keys.'"[^>])|(name="'.$keys.'"[^>]*?)(?:value="[^"]*")?)([^>]*?\/?>)/ise', '"\\1\\2\\4 value=\\"".htmlspecialchars($INPUT_ERROR["\\3\\5"])."\\" \\6"', $output);
+			$output = preg_replace('/(<input[^>]*?)(?:value="[^"]*"([^>]*?name="'.$keys.'"[^>])|(name="'.$keys.'"[^>]*?)(?:value="[^"]*")?)([^>]*?\/?>)/ise', '"\\1\\2\\4 value=\\"".@htmlspecialchars($INPUT_ERROR["\\3\\5"])."\\" \\6"', $output);
 		}
 
 		if(__DEBUG__==3) $GLOBALS['__trans_content_elapsed__'] = getMicroTime()-$start;
