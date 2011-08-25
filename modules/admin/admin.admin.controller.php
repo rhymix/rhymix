@@ -191,6 +191,71 @@
 		}
 
 		/**
+		 * @brief admin config update
+		 **/
+		function procAdminUpdateConfig()
+		{
+			$adminTitle = Context::get('adminTitle');
+            $file = $_FILES['adminLogo'];
+
+            $oModuleModel = &getModel('module');
+            $oAdminConfig = $oModuleModel->getModuleConfig('admin');
+
+			if($file['tmp_name'])
+			{
+				$target_path = 'files/attach/images/admin/';
+				FileHandler::makeDir($target_path);
+
+				// Get file information
+				list($width, $height, $type, $attrs) = @getimagesize($file['tmp_name']);
+				if($type == 3) $ext = 'png';
+				elseif($type == 2) $ext = 'jpg';
+				else $ext = 'gif';
+
+				$target_filename = sprintf('%s%s.%s.%s', $target_path, 'adminLogo', date('YmdHis'), $ext);
+				@move_uploaded_file($file['tmp_name'], $target_filename);
+
+				$oAdminConfig->adminLogo = $target_filename;
+			}
+			if($adminTitle) $oAdminConfig->adminTitle = strip_tags($adminTitle);
+
+			if($oAdminConfig)
+			{
+				$oModuleController = &getController('module');
+				$oModuleController->insertModuleConfig('admin', $oAdminConfig);
+			}
+
+			$this->setMessage('success_updated', 'info');
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+                $returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminMenuSetup');
+				$this->setRedirectUrl($returnUrl);
+                return;
+            }
+		}
+
+		/**
+		 * @brief admin logo delete
+		 **/
+		function procAdminDeleteLogo()
+		{
+            $oModuleModel = &getModel('module');
+            $oAdminConfig = $oModuleModel->getModuleConfig('admin');
+
+            FileHandler::removeFile(_XE_PATH_.$oAdminConfig->adminLogo);
+			unset($oAdminConfig->adminLogo);
+
+			$oModuleController = &getController('module');
+			$oModuleController->insertModuleConfig('admin', $oAdminConfig);
+
+			$this->setMessage('success_deleted', 'info');
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+                $returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminMenuSetup');
+				$this->setRedirectUrl($returnUrl);
+                return;
+            }
+		}
+
+		/**
 		 * @brief Insert favorite
 		 **/
 		function insertFavorite($siteSrl, $module, $key)

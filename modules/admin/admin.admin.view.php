@@ -99,12 +99,19 @@
 					}
 				}
 			}
+
+			// Admin logo, title setup
+			$configObject = $oModuleModel->getModuleConfig('admin');
+			$gnbTitleInfo->adminTitle = $configObject->adminTitle?$configObject->adminTitle:'XE Admin';
+			$gnbTitleInfo->adminLogo = $configObject->adminLogo?$configObject->adminLogo:'modules/admin/tpl/img/xe.h1.png';
+
 			$browserTitle = 'Dashboard';
 			if($subMenuTitle) $browserTitle = $subMenuTitle;
-			$browserTitle .= ' - XE Admin';
+			$browserTitle .= ' - '.$gnbTitleInfo->adminTitle;
 
 			Context::set('gnbUrlList', $menu->list);
 			Context::set('parentSrl', $parentSrl);
+			Context::set('gnb_title_info', $gnbTitleInfo);
             Context::setBrowserTitle($browserTitle);
 		}
 
@@ -320,10 +327,14 @@
          **/
 		function dispAdminMenuSetup()
 		{
+			$oModuleModel = &getModel('module');
+			$configObject = $oModuleModel->getModuleConfig('admin');
+
 			$oMenuAdminModel = &getAdminModel('menu');
 			$output = $oMenuAdminModel->getMenuByTitle('__XE_ADMIN__');
 
 			Context::set('menu_srl', $output->menu_srl);
+			Context::set('config_object', $configObject);
             $this->setTemplateFile('menu_setup');
 		}
 

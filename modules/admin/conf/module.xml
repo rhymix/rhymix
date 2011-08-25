@@ -13,6 +13,8 @@
         <action name="procAdminInsertThemeInfo" type="controller" standalone="true" ruleset="insertThemeInfo" />
 		<action name="procAdminToggleFavorite" type="controller" ruleset="toggleFavorite" />
 		<action name="procAdminEnviromentGatheringAgreement" type="controller" standalone="true" />
+		<action name="procAdminUpdateConfig" type="controller" standalone="true" />
+		<action name="procAdminDeleteLogo" type="controller" standalone="true" />
 
         <action name="getAdminFTPList" type="model" standalone="true" />
         <action name="getSiteAllList" type="model" standalone="true" />
@@ -32,17 +34,17 @@
 			<title xml:lang="tr">General</title>
 		</menu>
 		<menu name="adminMenuSetup" type="all">
-			<title xml:lang="en">Admin Menu Setup</title>
-			<title xml:lang="ko">관리자 메뉴 설정</title>
-			<title xml:lang="zh-CN">Admin Menu Setup</title>
-			<title xml:lang="jp">Admin Menu Setup</title>
-			<title xml:lang="es">Admin Menu Setup</title>
-			<title xml:lang="ru">Admin Menu Setup</title>
-			<title xml:lang="fr">Admin Menu Setup</title>
-			<title xml:lang="zh-TW">Admin Menu Setup</title>
-			<title xml:lang="vi">Admin Menu Setup</title>
-			<title xml:lang="mn">Admin Menu Setup</title>
-			<title xml:lang="tr">Admin Menu Setup</title>
+			<title xml:lang="en">Admin Setup</title>
+			<title xml:lang="ko">관리자 설정</title>
+			<title xml:lang="zh-CN">Admin Setup</title>
+			<title xml:lang="jp">Admin Setup</title>
+			<title xml:lang="es">Admin Setup</title>
+			<title xml:lang="ru">Admin Setup</title>
+			<title xml:lang="fr">Admin Setup</title>
+			<title xml:lang="zh-TW">Admin Setup</title>
+			<title xml:lang="vi">Admin Setup</title>
+			<title xml:lang="mn">Admin Setup</title>
+			<title xml:lang="tr">Admin Setup</title>
 		</menu>
 		<menu name="theme" type="site">
 			<title xml:lang="en">Theme</title>

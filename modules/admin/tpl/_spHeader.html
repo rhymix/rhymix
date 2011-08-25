@@ -1,7 +1,7 @@
 <div class="xe">
 	<p class="skipNav"><a href="#content">Skip Navigation</a></p>
 	<div class="header">
-		<h1><a href="{getUrl('','module','admin')}"><img src="img/xe.h1.png" width="33" height="32" alt="XE" /> Super Admin</a></h1>
+		<h1><a href="{getUrl('','module','admin')}"><img src="{getUrl('')}{$gnb_title_info->adminLogo}" alt="{$gnb_title_info->adminTitle}" /> {$gnb_title_info->adminTitle}</a></h1>
 		<div class="siteTool">
 			<a href="#moveSiteList" class="i tgAnchor" data-effect="slide" data-duration="100">Move to Site</a>
 			<div class="tgContent" id="moveSiteList">
@@ -17,7 +17,7 @@
 		</div>
 		<div class="account">
 			<ul>
-				<li><a href="{getUrl('', 'act', 'dispMemberInfo')}" target="_blank">{$logged_info->email_address}</a></li>
+				<li><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminInfo', 'is_admin', 'Y', 'member_srl', $logged_info->member_srl)}">{$logged_info->email_address}</a></li>
 				<li><a href="{getUrl('', 'module','admin','act','procAdminLogout')}">Log-out</a></li>
 				<li><a href="#language" class="tgAnchor language" data-effect="slide" data-duration="100">Language</a>
 					<ul class="tgContent" id="language">
