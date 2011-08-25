@@ -15,6 +15,7 @@
 		<action name="procAdminEnviromentGatheringAgreement" type="controller" standalone="true" />
 
         <action name="getAdminFTPList" type="model" standalone="true" />
+        <action name="getSiteAllList" type="model" standalone="true" />
     </actions>
 	<menus>
 		<menu name="adminConfiguration" type="all">

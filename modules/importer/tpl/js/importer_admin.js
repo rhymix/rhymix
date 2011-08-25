@@ -184,7 +184,7 @@ $('a.findsite')
 		var params = new Array();
 		var response_tags = ['error', 'message', 'site_list'];
 		params['domain'] = searchKeyword; 
-    	exec_xml('site','getSiteAllList',params, completeGetSiteAllList, response_tags);
+    	exec_xml('admin','getSiteAllList',params, completeGetSiteAllList, response_tags);
 	});
 
 $('div.suggestion')
