@@ -32,11 +32,11 @@
 		<div class="portlet">
 			<h2 class="h2">Current State</h2>
 			<ul class="lined">
-				<li><a href="#">Site</a> <span class="side">{number_format($status->site->totalCount)}(<!--@if($status->status->todayCount > 0)-->+<!--@end-->{number_format($status->site->todayCount)})</span></li>
 				<li><a href="#">User</a> <span class="side">{number_format($status->member->totalCount)}(<!--@if($status->member->todayCount > 0)-->+<!--@end-->{number_format($status->member->todayCount)})</span></li>
 				<li><a href="#">Document</a> <span class="side">{number_format($status->document->totalCount)}(<!--@if($status->document->todayCount > 0)-->+<!--@end-->{number_format($status->document->todayCount)})</span></li>
 				<li><a href="#">Comment</a> <span class="side">{number_format($status->comment->totalCount)}(<!--@if($status->comment->todayCount > 0)-->+<!--@end-->{$status->comment->todayCount})</span></li>
 				<li><a href="#">Trackback</a> <span class="side">{number_format($status->trackback->totalCount)}(<!--@if($status->trackback->todayCount > 0)-->+<!--@end-->{$status->trackback->todayCount})</span></li>
+				<li><a href="#">File</a> <span class="side">{number_format($status->file->totalCount)}(<!--@if($status->file->todayCount > 0)-->+<!--@end-->{number_format($status->file->todayCount)})</span></li>
 			</ul>
 		</div>
 		<div class="portlet">

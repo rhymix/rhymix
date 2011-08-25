@@ -60,6 +60,18 @@
             return $output->data;
         }
 
+        /**
+         * @brief Return number of attachments which belongs to a specific document
+         **/
+        function getFilesCountByDate($date = '') {
+			if($date) $args->regDate = date('Ymd', strtotime($date));
+
+            $output = executeQuery('file.getFilesCount', $args);
+			if(!$output->toBool()) return 0;
+
+			return $output->data->count;
+        }
+
 		function _makeSearchParam(&$obj, &$args)
 		{
             // Search options

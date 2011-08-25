@@ -170,11 +170,6 @@
             $args->date = date("Ymd000000", time()-60*60*24);
             $today = date("Ymd");
 
-			// Site Status
-			$oAdminAdminModel = &getAdminModel('admin');
-			$status->site->todayCount = $oAdminAdminModel->getSiteCountByDate($today);
-			$status->site->totalCount = $oAdminAdminModel->getSiteCountByDate();
-
             // Member Status
 			$oMemberAdminModel = &getAdminModel('member');
 			$status->member->todayCount = $oMemberAdminModel->getMemberCountByDate($today);
@@ -194,6 +189,11 @@
 			$oTrackbackAdminModel = &getAdminModel('trackback');
 			$status->trackback->todayCount = $oTrackbackAdminModel->getTrackbackCountByDate($today);
 			$status->trackback->totalCount = $oTrackbackAdminModel->getTrackbackCountByDate();
+
+            // Attached files Status 
+			$oFileAdminModel = &getAdminModel('file');
+			$status->file->todayCount = $oFileAdminModel->getFilesCountByDate($today);
+			$status->file->totalCount = $oFileAdminModel->getFilesCountByDate();
 
             Context::set('status', $status);
 
