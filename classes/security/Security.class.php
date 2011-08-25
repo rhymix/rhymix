@@ -54,7 +54,7 @@ class Security
 			}
 			$var = $this->_encodeHTML($var, $varName);
 
-			if($var === false) return false;
+			if($var === false) continue;
 
 			if($use_context) {
 				Context::set($varName0, $var);
