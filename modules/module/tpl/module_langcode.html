@@ -4,7 +4,7 @@
 </div>
 <h1 class="h1">Multilingual</h1>
 <p>현재 12 종류의 다국어 문자를 지원할 수 있습니다. 다른 종류의 다국어 지원을 원하는 경우 /common/lang/ 폴더의 다국어 가운데 하나의 세트를 번역해서 XE 개발자(contact@xpressengine.com)에게 보내주세요.</p>
-<div class="mLangEdit ko"><!-- class="mLangEdit LANGCODE" -->
+<div class="mLangEdit ko form"><!-- class="mLangEdit LANGCODE" -->
 	<div class="btnArea">
 		<span class="btn"><a href="#addWord" class="modalAnchor">새로운 단어 또는 문장 추가...</a></span>
 	</div>
@@ -12,9 +12,9 @@
 		<li loop="$lang_code_list=>$key,$value">
 		{@$langName = $value->name}
 		<strong>{$value->value}</strong> <button type="button" class="side text _edit">Edit</button>
-		<form action="./" method="post" class="form" id="langForm_{$langName}" >
-		<input type="hidden" name="act" value="procModuleAdminInsertLang" />
-		<input type="hidden" name="lang_name" value="{$langName}" />
+		<form action="./" method="post" id="langForm_{$langName}" >
+			<input type="hidden" name="act" value="procModuleAdminInsertLang" />
+			<input type="hidden" name="lang_name" value="{$langName}" />
 			<ul>
 				<li class="{$key2}" loop="$lang_supported=>$key2,$value2"><label for="{$langName}_{$key2}">{$value2}</label> <textarea rows="1" cols="42" name="{$key2}" id="{$langName}_{$key2}"></textarea></li>
 			</ul>
@@ -31,8 +31,8 @@
 </div>
 <div class="modal" id="addWord">
 	<form action="./" method="post" class="form mLangEdit fg" id="langForm_new" >
-	<h2 class="h2">새로운 단어 또는 문장 추가</h2>
 	<input type="hidden" name="act" value="procModuleAdminInsertLang" />
+	<h2 class="h2">새로운 단어 또는 문장 추가</h2>
 	<ul>
 		<li class="{$key2}" loop="$lang_supported=>$key2,$value2"><label for="{$langName}_{$key2}">{$value2}</label> <textarea rows="1" cols="42" name="{$key2}" id="{$langName}_{$key2}"></textarea></li>
 	</ul>
@@ -74,7 +74,7 @@
 	<input type="hidden" name="module" value="{$module}" />
 	<input type="hidden" name="act" value="{$act}" />
 	<input type="hidden" name="search_target" value="value" />
-		<input title="search_keyword" name="search_keyword" value="{htmlspecialchars($search_keyword)}" />
+		<input title="search" name="search_keyword" value="{htmlspecialchars($search_keyword)}" />
 		<input type="submit" value="Search" />
 	</form>
 </div>

@@ -8,11 +8,11 @@ $('#langList')
 
 		// toggle input control
 		if($form.attr('aria-hidden') == 'false') {
-			$form.slideUp('fast');
-			$form.attr('aria-hidden', 'true');
+			$form.attr('aria-hidden', 'true').slideUp('fast');
+			$this.closest('li').removeClass('active');
 		}else{
-			$form.slideDown('fast');
-			$form.attr('aria-hidden', 'false');
+			$form.attr('aria-hidden', 'false').slideDown('fast');
+			$this.closest('li').addClass('active');
 		}
 
 		if($form.data('lang-loaded') == true) return;
