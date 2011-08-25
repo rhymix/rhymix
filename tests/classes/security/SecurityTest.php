@@ -108,6 +108,15 @@ class SecurityTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(Context::get('object1'), $obj);
 	}
 
+	public function testEncodeHTML_CustomContext()
+	{
+		$array = array('Hello', 'World', '<b>Bold</b> is not bald');
+
+		// array with no nested objects or arrays
+		$security = new Security($array);
+		$returned = $security->encodeHTML('.');
+		$this->assertEquals($returned, array('Hello', 'World', '&lt;b&gt;Bold&lt;/b&gt; is not bald'));
+	}
 }
 
 $mock_vars = array();
