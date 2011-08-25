@@ -410,18 +410,17 @@ $('table.sortable')
 		if(event.which != 1) return;
 
 		$this  = $(this);
-
-		// before event trigger
-		before_event = $.Event('before-drag.st');
-		$this.trigger(before_event);
-
-		// is event canceled?
-		if(before_event.isDefaultPrevented()) return false;
-
 		$tr    = $this.closest('tr');
 		$table = $this.closest('table').css('position','relative');
 		height = $tr.height();
 		width  = $tr.width();
+
+		// before event trigger
+		before_event = $.Event('before-drag.st');
+		$table.trigger(before_event);
+
+		// is event canceled?
+		if(before_event.isDefaultPrevented()) return false;
 
 		position = {x:event.pageX, y:event.pageY};
 		offset   = getOffset($tr.get(0), $table.get(0));
@@ -512,6 +511,8 @@ $('table.sortable')
 
 				// use the clone for animation
 				$dropzone[dropzone.state]($tr);
+
+				$table.trigger('after-drag.st');
 			});
 	})
 
