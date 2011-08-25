@@ -17,8 +17,8 @@
 		</div>
 		<div class="account">
 			<ul>
-				<li><a href="#">정찬명</a></li>
-				<li><a href="{getUrl('module','admin','act','procAdminLogout')}">Log-out</a></li>
+				<li><a href="{getUrl('', 'act', 'dispMemberInfo')}" target="_blank">{$logged_info->email_address}</a></li>
+				<li><a href="{getUrl('', 'module','admin','act','procAdminLogout')}">Log-out</a></li>
 				<li><a href="#language" class="tgAnchor language" data-effect="slide" data-duration="100">Language</a>
 					<ul class="tgContent" id="language">
                     	<!--@foreach($lang_supported as $key => $val)-->
