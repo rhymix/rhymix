@@ -8,3 +8,90 @@
 #popup_menu_area a:hover,
 #popup_menu_area a:avtive,
 #popup_menu_area a:focus{text-decoration:underline}
+/* Legacy Code (It will be deprecated as soon as possible) */
+#xeAdmin h3.xeAdmin,
+#xeAdmin h4.xeAdmin{position:relative;border-bottom-style:solid;border-bottom-color:#ccc;zoom:1}
+#xeAdmin h3.xeAdmin{border-bottom-width:4px;font-size:24px}
+#xeAdmin h4.xeAdmin{border-bottom-width:3px;font-size:20px}
+#xeAdmin h5.xeAdmin{border-bottom-width:2px;font-size:16px}
+#xeAdmin h6.xeAdmin{border-bottom-width:1px;font-size:12px}
+#xeAdmin .adminSearch{margin:1em 0}
+#xeAdmin .adminSearch fieldset{border:1px solid #ccc}
+#xeAdmin .localNavigation{padding:0;list-style:none}
+#xeAdmin .localNavigation li{display:inline}
+#xeAdmin .localNavigation li.on a{font-weight:bold;color:#333;text-decoration:none}
+#xeAdmin .localNavigation li:before{content:"| "}
+#xeAdmin .localNavigation li:first-child:before{content:""}
+#xeAdmin .summary{margin:1em 0}
+#xeAdmin .rowTable,
+#xeAdmin .colTable,
+#xeAdmin .crossTable{margin:1em 0;border:0;border-collapse:collapse;border-top:2px solid #ccc;width:100%}
+#xeAdmin .rowTable caption,
+#xeAdmin .colTable caption,
+#xeAdmin .crossTable caption{font-weight:bold;text-align:left;line-height:22px;padding:5px 0}
+#xeAdmin .rowTable caption:after,
+#xeAdmin .colTable caption:after,
+#xeAdmin .crossTable caption:after{content:"";display:block;clear:both}
+#xeAdmin .rowTable caption a,
+#xeAdmin .colTable caption a,
+#xeAdmin .crossTable caption a{font-weight:normal}
+#xeAdmin .rowTable caption em,
+#xeAdmin .colTable caption em,
+#xeAdmin .crossTable caption em{float:right;font-style:normal;font-weight:normal;color:#e00;margin-left:1em}
+#xeAdmin .rowTable caption strong,
+#xeAdmin .colTable caption strong,
+#xeAdmin .crossTable caption strong{color:#e00}
+#xeAdmin .rowTable caption .side,
+#xeAdmin .colTable caption .side,
+#xeAdmin .crossTable caption .side{float:right;font-weight:normal;margin-left:1em}
+#xeAdmin .rowTable th,.rowTable td,
+#xeAdmin .colTable th,.rowTable td,
+#xeAdmin .crossTable th,.rowTable td{border:0;padding:8px;vertical-align:top;text-align:left;border-bottom:1px solid #ddd;white-space:nowrap}
+#xeAdmin .rowTable th,
+#xeAdmin .colTable th,
+#xeAdmin .crossTable th{background:#f8f8f8}
+#xeAdmin .rowTable thead th,
+#xeAdmin .colTable thead th,
+#xeAdmin .crossTable thead th{border-bottom:1px solid #999}
+#xeAdmin .rowTable tfoot td,
+#xeAdmin .colTable tfoot td,
+#xeAdmin .crossTable tfoot td{font-weight:bold;background:#f8f8f8}
+#xeAdmin .rowTable.even tbody tr:nth-of-type(even) td,
+#xeAdmin .colTable.even tbody tr:nth-of-type(even) td,
+#xeAdmin .crossTable.even tbody tr:nth-of-type(even) td{background-color:#fafafa}
+#xeAdmin .rowTable td>input[type=text],
+#xeAdmin .colTable td>input[type=text],
+#xeAdmin .crossTable td>input[type=text]{margin:-1px 0 -3px 0 !important;vertical-align:middle}
+#xeAdmin .rowTable img,
+#xeAdmin .colTable img,
+#xeAdmin .crossTable img{vertical-align:middle}
+#xeAdmin .rowTable .title,
+#xeAdmin .colTable .title,
+#xeAdmin .crossTable .title,
+#xeAdmin .rowTable .text,
+#xeAdmin .colTable .text,
+#xeAdmin .crossTable .text{white-space:normal}
+#xeAdmin .rowTable input[type=text],
+#xeAdmin .colTable input[type=text],
+#xeAdmin .crossTable input[type=text],
+#xeAdmin .rowTable input[type=password],
+#xeAdmin .colTable input[type=password],
+#xeAdmin .crossTable input[type=password],
+#xeAdmin .rowTable input[type=file],
+#xeAdmin .colTable input[type=file],
+#xeAdmin .crossTable input[type=file],
+#xeAdmin .rowTable textarea,
+#xeAdmin .colTable textarea,
+#xeAdmin .crossTable textarea{position:relative;width:280px;margin:2px 0;border:1px solid #b7b7b7;border-right-color:#e1e1e1;border-bottom-color:#e1e1e1;background:transparent}
+#xeAdmin .rowTable input[type=text],
+#xeAdmin .colTable input[type=text],
+#xeAdmin .crossTable input[type=text],
+#xeAdmin .rowTable input[type=password],
+#xeAdmin .colTable input[type=password],
+#xeAdmin .crossTable input[type=password],
+#xeAdmin .rowTable input[type=file],
+#xeAdmin .colTable input[type=file],
+#xeAdmin .crossTable input[type=file]{height:22px;line-height:22px;vertical-align:middle;padding:0 4px}
+#xeAdmin .clear:after{content:"";display:block;clear:both}
+#xeAdmin .fl{float:left}
+#xeAdmin .fr{float:right}
