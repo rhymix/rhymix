@@ -188,12 +188,6 @@ p{line-height:1.5}
 .prgrs.prgrsLarge .pBar,
 .prgrs.prgrsLarge .pAction,
 .prgrs.prgrsLarge .pNum{height:34px;line-height:34px;font-size:14px}
-/* Layer */
-.layer{position:absolute;background:#fff;padding:0 1em;*padding:1em;border:8px solid #ddd;font-weight:normal;z-index:2;zoom:1;border-radius:5px;box-shadow:0 0 6px #666;-moz-box-shadow:0 0 6px #666;-webkit-box-shadow:0 0 6px #666;filter:progid:DXImageTransform.Microsoft.Shadow(color=#999999,direction=135, strength=5)}
-.layer h2{margin-top:1em}
-.layer ul, .layer ol, .layer .lined, .layer .table{margin-bottom:1em}
-.layerClose{position:absolute;right:-8px;top:-8px;border:0;background:#ddd;padding:0;width:28px;height:28px;font-size:14px;font-weight:bold;cursor:pointer;color:#999;border-radius:5px}
-.layerBlur{position:absolute;top:0;right:0;border:0;background:none;padding:0;width:1px;height:1px;overflow:hidden}
 /* Modal Window */
 .modal{position:absolute;top:0;left:0;width:100%;_height:100%;min-height:100%;z-index:100}
 .modal .bg{position:absolute;background:#000;_background:none;width:100%;height:100%;opacity:.5;z-index:2;filter:progid:DXImageTransform.Microsoft.Alpha(opacity=50);zoom:1}
@@ -240,7 +234,6 @@ button.text{border:0;overflow:visible;padding:0;margin:0;color:#33a;background:n
 .header h1{margin:0 100px 10px 1.3em;font-size:24px;line-height:32px}
 .header h1 *{vertical-align:middle}
 .header h1 a{color:#fff;text-shadow:1px 1px 0 #000;filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=1, OffY=1, Color=#000000, Positive=true);zoom:1}
-.header h1 img{height:32px}
 .header h1 .url{font-size:12px;font-weight:normal}
 .header .siteTool{position:absolute !important;top:42px;right:0;padding:0 2em 0 0;z-index:2}
 .header .siteTool .i{position:relative;z-index:2;display:inline-block;color:#fff;padding:0 6px;line-height:24px}

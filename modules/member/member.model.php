@@ -69,7 +69,6 @@
             // Display member information (Don't display to non-logged user)
             if($logged_info->member_srl) {
                 $url = getUrl('','mid',$mid,'act','dispMemberInfo','member_srl',$member_srl);
-                $icon_path = './modules/member/tpl/images/icon_view_info.gif';
                 $oMemberController->addMemberPopupMenu($url,'cmd_view_member_info',$icon_path,'self');
             }
             // When click other's nickname
@@ -77,30 +76,26 @@
                 // Send an email
                 if($member_info->email_address) {
                     $url = 'mailto:'.htmlspecialchars($member_info->email_address);
-                    $icon_path = './modules/member/tpl/images/icon_sendmail.gif';
                     $oMemberController->addMemberPopupMenu($url,'cmd_send_email',$icon_path);
                 }
             }
             // View homepage info
             if($member_info->homepage)
-                $oMemberController->addMemberPopupMenu(htmlspecialchars($member_info->homepage), 'homepage', './modules/member/tpl/images/icon_homepage.gif','blank');
+                $oMemberController->addMemberPopupMenu(htmlspecialchars($member_info->homepage), 'homepage', '', 'blank');
             // View blog info
             if($member_info->blog)
-                $oMemberController->addMemberPopupMenu(htmlspecialchars($member_info->blog), 'blog', './modules/member/tpl/images/icon_blog.gif','blank');
+                $oMemberController->addMemberPopupMenu(htmlspecialchars($member_info->blog), 'blog', '', 'blank');
             // Call a trigger (after)
             ModuleHandler::triggerCall('member.getMemberMenu', 'after', $null);
             // Display a menu for editting member info to a top administrator
             if($logged_info->is_admin == 'Y') {
                 $url = getUrl('','module','admin','act','dispMemberAdminInsert','member_srl',$member_srl);
-                $icon_path = './modules/member/tpl/images/icon_management.gif';
                 $oMemberController->addMemberPopupMenu($url,'cmd_manage_member_info',$icon_path,'MemberModifyInfo');
 
                 $url = getUrl('','module','admin','act','dispDocumentAdminList','search_target','member_srl','search_keyword',$member_srl);
-                $icon_path = './modules/member/tpl/images/icon_trace_document.gif';
                 $oMemberController->addMemberPopupMenu($url,'cmd_trace_document',$icon_path,'TraceMemberDocument');
 
                 $url = getUrl('','module','admin','act','dispCommentAdminList','search_target','member_srl','search_keyword',$member_srl);
-                $icon_path = './modules/member/tpl/images/icon_trace_comment.gif';
                 $oMemberController->addMemberPopupMenu($url,'cmd_trace_comment',$icon_path,'TraceMemberComment');
             }
             // Change a language of pop-up menu

@@ -51,9 +51,9 @@
         // Add a feature to display own message box. 
         if($logged_info->member_srl == $member_srl) {
             // Add your own viewing Note Template
-            $oMemberController->addMemberPopupMenu(getUrl('','mid',$mid,'act','dispCommunicationMessages'), 'cmd_view_message_box', './modules/communication/tpl/images/icon_message_box.gif', 'self');
+            $oMemberController->addMemberPopupMenu(getUrl('','mid',$mid,'act','dispCommunicationMessages'), 'cmd_view_message_box', '', 'self');
             // Display a list of friends
-            $oMemberController->addMemberPopupMenu(getUrl('','mid',$mid,'act','dispCommunicationFriend'), 'cmd_view_friend', './modules/communication/tpl/images/icon_friend_box.gif', 'self');
+            $oMemberController->addMemberPopupMenu(getUrl('','mid',$mid,'act','dispCommunicationFriend'), 'cmd_view_friend', '', 'self');
         // If not, Add menus to send message and to add friends
         } else {
             // Get member information
@@ -64,10 +64,10 @@
             $logged_info = Context::get('logged_info');
             // Add a menu for sending message
             if( $logged_info->is_admin == 'Y' || $target_member_info->allow_message =='Y' || ($target_member_info->allow_message == 'F' && $oCommunicationModel->isFriend($member_srl)))
-                $oMemberController->addMemberPopupMenu(getUrl('','module','communication','act','dispCommunicationSendMessage','receiver_srl',$member_srl), 'cmd_send_message', './modules/communication/tpl/images/icon_write_message.gif', 'popup');
+                $oMemberController->addMemberPopupMenu(getUrl('','module','communication','act','dispCommunicationSendMessage','receiver_srl',$member_srl), 'cmd_send_message', '', 'popup');
             // Add a menu for listing friends (if a friend is new)
             if(!$oCommunicationModel->isAddedFriend($member_srl))
-                $oMemberController->addMemberPopupMenu(getUrl('','module','communication','act','dispCommunicationAddFriend','target_srl',$member_srl), 'cmd_add_friend', './modules/communication/tpl/images/icon_add_friend.gif', 'popup');
+                $oMemberController->addMemberPopupMenu(getUrl('','module','communication','act','dispCommunicationAddFriend','target_srl',$member_srl), 'cmd_add_friend', '', 'popup');
         }
     }
 ?>

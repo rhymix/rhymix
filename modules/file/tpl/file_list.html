@@ -87,9 +87,9 @@
 					<td>{$val->download_count}</td>
 					<td>
 						<!--@if($val->upload_target_type == 'doc' && $document_list[$document_srl])-->
-						<span class="member_{$document_list[$document_srl]->get('member_srl')}">{$document_list[$document_srl]->getNickName()}</span>
+						<a href="#popup_menu_area" class="member_{$document_list[$document_srl]->get('member_srl')}">{$document_list[$document_srl]->getNickName()}</a>
 						<!--@elseif($val->upload_target_type == 'com' && $comment_list[$val->upload_target_srl])-->
-						<span class="member_{$comment_list[$val->upload_target_srl]->get('member_srl')}">{$comment_list[$val->upload_target_srl]->getNickName()}</span>
+						<a href="#popup_menu_area" class="member_{$comment_list[$val->upload_target_srl]->get('member_srl')}">{$comment_list[$val->upload_target_srl]->getNickName()}</a>
 						<!--@end-->
 					</td>
 					<td>{zdate($val->regdate,"Y-m-d H:i")}</td>
@@ -143,7 +143,7 @@
 	<a href="{getUrl('page', '')}" class="direction">&laquo; FIRST</a>
 	<block cond="$page_navigation->first_page + $page_navigation->page_count > $page_navigation->last_page && $page_navigation->page_count != $page_navigation->total_page">
 		<a href="{getUrl('page', '')}">1</a>
-		<a href="#goTo" class="tgSimple" title="{$lang->cmd_go_to_page}">...</a>
+		<a href="#goTo" class="tgAnchor" title="{$lang->cmd_go_to_page}">...</a>
 	</block>
 	<!--@while($page_no = $page_navigation->getNextPage())-->
 		{@$last_page = $page_no}
@@ -151,7 +151,7 @@
 		<a cond="$page_no != $page" href="{getUrl('page', $page_no)}">{$page_no}</a>
 	<!--@end-->
 	<block cond="$last_page != $page_navigation->last_page">
-		<a href="#goTo" class="tgSimple" title="{$lang->cmd_go_to_page}">...</a>
+		<a href="#goTo" class="tgAnchor" title="{$lang->cmd_go_to_page}">...</a>
 		<a href="{getUrl('page', $page_navigation->last_page)}">{$page_navigation->last_page}</a>
 	</block>
 	<a href="{getUrl('page', $page_navigation->last_page)}" class="direction">LAST &raquo;</a>

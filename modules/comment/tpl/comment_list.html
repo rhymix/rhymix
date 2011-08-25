@@ -52,7 +52,7 @@
 				{@ $comment = cut_str(trim(htmlspecialchars(strip_tags($val->content))), 200, '...')}
 				<tr>
 					<td class="text"><a href="{getUrl('','document_srl',$val->document_srl)}#comment_{$val->comment_srl}" target="_blank"><!--@if(strlen($comment))-->{$comment}<!--@else--><em>{$lang->no_text_comment}</em><!--@end--></a></td>
-					<td><span class="member_{$val->member_srl}">{htmlspecialchars($val->nick_name)}</span></td>
+					<td><a href="#popup_menu_area" class="member_{$val->member_srl}">{htmlspecialchars($val->nick_name)}</a></td>
 					<td>0/0</td>
 					<td>{(zdate($val->regdate,"Y-m-d\nH:i:s"))}</td>
 					<td><a href="{getUrl('search_target','ipaddress','search_keyword',$val->ipaddress)}">{$val->ipaddress}</a></td>
@@ -110,7 +110,7 @@
 	<a href="{getUrl('page', '')}" class="direction">&laquo; FIRST</a>
 	<block cond="$page_navigation->first_page + $page_navigation->page_count > $page_navigation->last_page && $page_navigation->page_count != $page_navigation->total_page">
 		<a href="{getUrl('page', '')}">1</a>
-		<a href="#goTo" class="tgSimple" title="{$lang->cmd_go_to_page}">...</a>
+		<a href="#goTo" class="tgAnchor" title="{$lang->cmd_go_to_page}">...</a>
 	</block>
 	<!--@while($page_no = $page_navigation->getNextPage())-->
 		{@$last_page = $page_no}
@@ -118,7 +118,7 @@
 		<a cond="$page_no != $page" href="{getUrl('page', $page_no)}">{$page_no}</a>
 	<!--@end-->
 	<block cond="$last_page != $page_navigation->last_page">
-		<a href="#goTo" class="tgSimple" title="{$lang->cmd_go_to_page}">...</a>
+		<a href="#goTo" class="tgAnchor" title="{$lang->cmd_go_to_page}">...</a>
 		<a href="{getUrl('page', $page_navigation->last_page)}">{$page_navigation->last_page}</a>
 	</block>
 	<a href="{getUrl('page', $page_navigation->last_page)}" class="direction">LAST &raquo;</a>

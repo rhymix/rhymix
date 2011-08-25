@@ -501,7 +501,6 @@
                 if($oDocument->isExists()) {
                     // Find a post equivalent to ip address
                     $url = getUrl('','module','admin','act','dispDocumentAdminList','search_target','ipaddress','search_keyword',$oDocument->getIpAddress());
-                    $icon_path = './modules/member/tpl/images/icon_management.gif';
                     $oDocumentController->addDocumentPopupMenu($url,'cmd_search_by_ipaddress',$icon_path,'TraceByIpaddress');
 
                     $url = sprintf("var params = new Array(); params['ipaddress']='%s'; exec_xml('spamfilter', 'procSpamfilterAdminInsertDeniedIP', params, completeCallModuleAction)", $oDocument->getIpAddress());

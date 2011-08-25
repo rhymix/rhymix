@@ -89,7 +89,7 @@
 			<a cond="$page_no != $page" href="{getUrl('page', $page_no)}">{$page_no}</a>
 		<!--@end-->
 		<block cond="$last_page != $page_navigation->last_page">
-			<a href="#goTo" class="tgSimple" title="{$lang->cmd_go_to_page}">...</a>
+			<a href="#goTo" class="tgAnchor" title="{$lang->cmd_go_to_page}">...</a>
 			<a href="{getUrl('page', $page_navigation->last_page)}">{$page_navigation->last_page}</a>
 		</block>
 		<a href="{getUrl('page', $page_navigation->last_page)}" class="direction">LAST &raquo;</a>

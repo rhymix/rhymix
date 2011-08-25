@@ -101,9 +101,6 @@ if(jQuery) jQuery.noConflict();
                                 case "popup" :
                                         click_str = " onclick=\"popopen(this.href,'"+target+"'); return false;\"";
                                     break;
-                                case "self" :
-                                        //click_str = " onclick=\"location.href='"+url+"' return false;\"";
-                                    break;
                                 case "javascript" :
                                         click_str = " onclick=\""+url+"; return false; \"";
                                         url="#";
