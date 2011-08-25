@@ -175,6 +175,7 @@
 		require(_XE_PATH_.'classes/mobile/Mobile.class.php');
 		require(_XE_PATH_.'classes/validator/Validator.class.php');
 		require(_XE_PATH_.'classes/frontendfile/FrontEndFileHandler.class.php');
+		require(_XE_PATH_.'classes/security/Security.class.php');
 		if(__DEBUG__) $GLOBALS['__elapsed_class_load__'] = getMicroTime() - __ClassLoadStartTime__;
 	}
 ?>
