@@ -268,6 +268,7 @@
 			if(count($fileSrlList) > 0) {
 				$oFileModel = &getModel('file');
 				$fileList = $oFileModel->getFile($fileSrlList);
+				if(!is_array($fileList)) $fileList = array($fileList);
 
 				if(is_array($fileList))
 				{
