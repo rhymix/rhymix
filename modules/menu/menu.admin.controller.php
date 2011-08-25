@@ -259,6 +259,13 @@
 					}
 				}
 			}
+
+            $this->setMessage('success_updated', 'info');
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMenuAdminManagement', 'menu_srl', $args->menu_srl);
+				$this->setRedirectUrl($returnUrl);
+				return;
+			}
 		}
 
         function moveMenuItem($menu_srl,$parent_srl,$source_srl,$target_srl,$mode){
