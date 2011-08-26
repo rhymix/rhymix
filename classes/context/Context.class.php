@@ -461,20 +461,39 @@ class Context {
 		if(!is_object($lang)) $lang = new stdClass;
 		if(!$self->lang_type) return;
 
-		if(substr($path,-1)!='/') $path .= '/';
-		$path_tpl = $path.'%s.lang.php';
-		$filename = sprintf($path_tpl, $self->lang_type);
-		$langs    = array('ko','en'); // this will be configurable.
-		while(!is_readable($filename) && $langs[0]) {
-			$filename = sprintf($path_tpl, array_shift($langs));
-		}
-		if(!is_readable($filename)) return;
+		$filename = $self->_loadXmlLang($path);
+		if(!$filename) $filename = $self->_loadPhpLang($path);
 
 		if(!is_array($self->loaded_lang_files)) $self->loaded_lang_files = array();
 		if(in_array($filename, $self->loaded_lang_files)) return;
 		$self->loaded_lang_files[] = $filename;
 
 		@include($filename);
+	}
+
+	function _loadXmlLang($path) {
+		if(substr($path,-1)!='/') $path .= '/';
+		$file = $path.'lang.xml';
+
+		$oXmlLangParser = new XmlLangParser($file, $this->lang_type);
+		$file = $oXmlLangParser->compile();
+
+		return $file;
+	}
+
+	function _loadPhpLang($path) {
+
+		if(substr($path,-1)!='/') $path .= '/';
+		$path_tpl = $path.'%s.lang.php';
+		$file = sprintf($path_tpl, $self->lang_type);
+
+		$langs = array('ko','en'); // this will be configurable.
+		while(!is_readable($file) && $langs[0]) {
+			$file = sprintf($path_tpl, array_shift($langs));
+		}
+
+		if(!is_readable($file)) return false;
+		return $file;
 	}
 
 	/**

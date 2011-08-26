@@ -1,0 +1,1004 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<lang>
+	<item name="cmd_layout_management">
+		<value xml:lang="ko"><![CDATA[레이아웃 설정]]></value>
+		<value xml:lang="en"><![CDATA[Layout Setting]]></value>
+		<value xml:lang="jp"><![CDATA[レイアウト設定]]></value>
+		<value xml:lang="zh-CN"><![CDATA[布局设置]]></value>
+		<value xml:lang="zh-TW"><![CDATA[版面設置]]></value>
+		<value xml:lang="fr"><![CDATA[Configuration du Mise en Page]]></value>
+		<value xml:lang="ru"><![CDATA[Настройки лейаута]]></value>
+		<value xml:lang="es"><![CDATA[Configuración del Diseño]]></value>
+		<value xml:lang="tr"><![CDATA[Yerleşim Düzeni Ayarları]]></value>
+		<value xml:lang="vi"><![CDATA[Thiết lập giao diện]]></value>
+	</item>
+	<item name="cmd_layout_edit">
+		<value xml:lang="ko"><![CDATA[레이아웃 편집]]></value>
+		<value xml:lang="en"><![CDATA[Edit Layout]]></value>
+		<value xml:lang="jp"><![CDATA[レイアウト編集]]></value>
+		<value xml:lang="zh-CN"><![CDATA[布局编辑]]></value>
+		<value xml:lang="zh-TW"><![CDATA[版面編輯]]></value>
+		<value xml:lang="fr"><![CDATA[Editer le Mise en Page]]></value>
+		<value xml:lang="de"><![CDATA[Layout bearbeiten]]></value>
+		<value xml:lang="ru"><![CDATA[Редактировать лейаут]]></value>
+		<value xml:lang="es"><![CDATA[Editar el Diseño]]></value>
+		<value xml:lang="tr"><![CDATA[Yerleşim Düzeni Düzenle]]></value>
+		<value xml:lang="vi"><![CDATA[Sửa giao diện]]></value>
+		<value xml:lang="mn"><![CDATA[Лэйаут өөрчлөх]]></value>
+	</item>
+	<item name="layout_name">
+		<value xml:lang="ko"><![CDATA[레이아웃 이름]]></value>
+		<value xml:lang="en"><![CDATA[Layout Name]]></value>
+		<value xml:lang="jp"><![CDATA[レイアウト名]]></value>
+		<value xml:lang="zh-CN"><![CDATA[布局名]]></value>
+		<value xml:lang="zh-TW"><![CDATA[版面名稱]]></value>
+		<value xml:lang="fr"><![CDATA[Nom du Mise en Page]]></value>
+		<value xml:lang="ru"><![CDATA[Имя лейаута]]></value>
+		<value xml:lang="es"><![CDATA[Nombre del Diseño]]></value>
+		<value xml:lang="tr"><![CDATA[Yerleşim Düzeni İsmi]]></value>
+		<value xml:lang="vi"><![CDATA[Tên giao diện]]></value>
+	</item>
+	<item name="layout_maker">
+		<value xml:lang="ko"><![CDATA[레이아웃 제작자]]></value>
+		<value xml:lang="en"><![CDATA[Layout Developer]]></value>
+		<value xml:lang="jp"><![CDATA[レイアウト作者]]></value>
+		<value xml:lang="zh-CN"><![CDATA[布局作者]]></value>
+		<value xml:lang="zh-TW"><![CDATA[版面作者]]></value>
+		<value xml:lang="fr"><![CDATA[Développeur du Mise en Page]]></value>
+		<value xml:lang="ru"><![CDATA[Разработчик лейаута]]></value>
+		<value xml:lang="es"><![CDATA[Desarrollador del Diseño]]></value>
+		<value xml:lang="tr"><![CDATA[Yerleşim Düzeni Geliştiricisi]]></value>
+		<value xml:lang="vi"><![CDATA[Người tạo]]></value>
+	</item>
+	<item name="layout_license">
+		<value xml:lang="ko"><![CDATA[라이선스]]></value>
+		<value xml:lang="en"><![CDATA[License]]></value>
+		<value xml:lang="jp"><![CDATA[ライセンス]]></value>
+		<value xml:lang="zh-CN"><![CDATA[版权]]></value>
+		<value xml:lang="zh-TW"><![CDATA[版權]]></value>
+		<value xml:lang="fr"><![CDATA[Licence]]></value>
+		<value xml:lang="tr"><![CDATA[Lisans]]></value>
+		<value xml:lang="vi"><![CDATA[Giấy phép]]></value>
+	</item>
+	<item name="layout_history">
+		<value xml:lang="ko"><![CDATA[변경 이력]]></value>
+		<value xml:lang="en"><![CDATA[Updates]]></value>
+		<value xml:lang="jp"><![CDATA[変更内容 ]]></value>
+		<value xml:lang="zh-CN"><![CDATA[更新记录 ]]></value>
+		<value xml:lang="zh-TW"><![CDATA[更新記錄]]></value>
+		<value xml:lang="fr"><![CDATA[Mise à Jour]]></value>
+		<value xml:lang="ru"><![CDATA[Обновления]]></value>
+		<value xml:lang="es"><![CDATA[Actualización]]></value>
+		<value xml:lang="tr"><![CDATA[Güncellemeler]]></value>
+		<value xml:lang="vi"><![CDATA[Cập nhật]]></value>
+	</item>
+	<item name="layout_info">
+		<value xml:lang="ko"><![CDATA[레이아웃 정보]]></value>
+		<value xml:lang="en"><![CDATA[Layout Info]]></value>
+		<value xml:lang="jp"><![CDATA[レイアウト情報]]></value>
+		<value xml:lang="zh-CN"><![CDATA[布局信息]]></value>
+		<value xml:lang="zh-TW"><![CDATA[版面資訊]]></value>
+		<value xml:lang="fr"><![CDATA[Informations du Mise en Page]]></value>
+		<value xml:lang="ru"><![CDATA[Информация лейаута]]></value>
+		<value xml:lang="es"><![CDATA[Información del Diseño]]></value>
+		<value xml:lang="tr"><![CDATA[Yerleşim Düzeni Bilgisi]]></value>
+		<value xml:lang="vi"><![CDATA[Thông tin giao diện]]></value>
+	</item>
+	<item name="layout_list">
+		<value xml:lang="ko"><![CDATA[레이아웃 목록]]></value>
+		<value xml:lang="en"><![CDATA[Layout List]]></value>
+		<value xml:lang="jp"><![CDATA[レイアウトリスト]]></value>
+		<value xml:lang="zh-CN"><![CDATA[布局列表]]></value>
+		<value xml:lang="zh-TW"><![CDATA[版面列表]]></value>
+		<value xml:lang="fr"><![CDATA[Liste des Mises en Page]]></value>
+		<value xml:lang="ru"><![CDATA[Список лейаутов]]></value>
+		<value xml:lang="es"><![CDATA[Lista de los Diseños]]></value>
+		<value xml:lang="tr"><![CDATA[Yerleşim Düzeni Listesi]]></value>
+		<value xml:lang="vi"><![CDATA[Danh sách giao diện]]></value>
+	</item>
+	<item name="menu_count">
+		<value xml:lang="ko"><![CDATA[메뉴 수]]></value>
+		<value xml:lang="en"><![CDATA[Menus]]></value>
+		<value xml:lang="jp"><![CDATA[メニュー数]]></value>
+		<value xml:lang="zh-CN"><![CDATA[菜单数]]></value>
+		<value xml:lang="zh-TW"><![CDATA[選單數量]]></value>
+		<value xml:lang="ru"><![CDATA[Меню]]></value>
+		<value xml:lang="es"><![CDATA[Número del Menú]]></value>
+		<value xml:lang="tr"><![CDATA[Menüler]]></value>
+		<value xml:lang="vi"><![CDATA[Menu]]></value>
+	</item>
+	<item name="downloaded_list">
+		<value xml:lang="ko"><![CDATA[다운로드 목록]]></value>
+		<value xml:lang="en"><![CDATA[Download List]]></value>
+		<value xml:lang="jp"><![CDATA[ダウンロードリスト]]></value>
+		<value xml:lang="zh-CN"><![CDATA[下载目录]]></value>
+		<value xml:lang="zh-TW"><![CDATA[版面選擇]]></value>
+		<value xml:lang="fr"><![CDATA[Liste disponibles]]></value>
+		<value xml:lang="ru"><![CDATA[Список закачек]]></value>
+		<value xml:lang="es"><![CDATA[Lista de la descarga]]></value>
+		<value xml:lang="tr"><![CDATA[İndirme Listesi]]></value>
+		<value xml:lang="vi"><![CDATA[Danh sách Download]]></value>
+	</item>
+	<item name="layout_preview_content">
+		<value xml:lang="ko"><![CDATA[내용이 출력되는 부분입니다.]]></value>
+		<value xml:lang="en"><![CDATA[The content gets displayed here]]></value>
+		<value xml:lang="jp"><![CDATA[内容が出力される部分です。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[显示内容的部分。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[顯示內容的部分。]]></value>
+		<value xml:lang="fr"><![CDATA[Le contenu sera exposé ici.]]></value>
+		<value xml:lang="ru"><![CDATA[Содержимое отображается здесь]]></value>
+		<value xml:lang="es"><![CDATA[Los contenidos son mostrados aquí]]></value>
+		<value xml:lang="tr"><![CDATA[Burada görüntülenecek içerikler]]></value>
+		<value xml:lang="vi"><![CDATA[Khu vực nội dung sẽ hiển thị.]]></value>
+	</item>
+	<item name="not_apply_menu">
+		<value xml:lang="ko"><![CDATA[레이아웃 일괄 적용]]></value>
+		<value xml:lang="en"><![CDATA[Apply Layouts En Bloc]]></value>
+		<value xml:lang="jp"><![CDATA[レイアウトの一括適用]]></value>
+		<value xml:lang="zh-CN"><![CDATA[布局共享]]></value>
+		<value xml:lang="zh-TW"><![CDATA[套用版面]]></value>
+		<value xml:lang="fr"><![CDATA[Appliquer le Mise en Page sur tous les menus]]></value>
+		<value xml:lang="ru"><![CDATA[Применить лейауты]]></value>
+		<value xml:lang="es"><![CDATA[Aplicar Diseños]]></value>
+		<value xml:lang="tr"><![CDATA[Yerleşim düzenlerini bütünüyle onayla]]></value>
+		<value xml:lang="vi"><![CDATA[Áp dụng giao diện]]></value>
+	</item>
+	<item name="cmd_move_to_installed_list">
+		<value xml:lang="ko"><![CDATA[생성된 목록 보기]]></value>
+		<value xml:lang="en"><![CDATA[View Created Layouts]]></value>
+		<value xml:lang="jp"><![CDATA[作成されたリスト表示]]></value>
+		<value xml:lang="zh-CN"><![CDATA[查看生成目录]]></value>
+		<value xml:lang="zh-TW"><![CDATA[檢視建立列表]]></value>
+		<value xml:lang="fr"><![CDATA[Mises en Page créés]]></value>
+		<value xml:lang="ru"><![CDATA[Просмотреть созданный список]]></value>
+		<value xml:lang="es"><![CDATA[Ver la lista creada]]></value>
+		<value xml:lang="tr"><![CDATA[Oluşturulmuş Yerleşim Düzenlerini Görüntüle]]></value>
+		<value xml:lang="vi"><![CDATA[Danh sách đã tạo]]></value>
+	</item>
+	<item name="about_downloaded_layouts">
+		<value xml:lang="ko"><![CDATA[다운로드 되어 있는 레이아웃 목록]]></value>
+		<value xml:lang="en"><![CDATA[List of downloaded layouts]]></value>
+		<value xml:lang="jp"><![CDATA[ダウンロードのレイアウトリスト]]></value>
+		<value xml:lang="zh-CN"><![CDATA[已下载的布局目录]]></value>
+		<value xml:lang="zh-TW"><![CDATA[已下載的版面列表]]></value>
+		<value xml:lang="fr"><![CDATA[Mises en Page téléchargés]]></value>
+		<value xml:lang="ru"><![CDATA[Список скаченных лейаутов]]></value>
+		<value xml:lang="es"><![CDATA[Ver la lista de diseños descargados]]></value>
+		<value xml:lang="tr"><![CDATA[İndirilmiş yerleşim düzenlerinin listesi]]></value>
+		<value xml:lang="vi"><![CDATA[Danh sách đã Download]]></value>
+	</item>
+	<item name="about_title">
+		<value xml:lang="ko"><![CDATA[모듈에 연결시 쉽게 구분할 수 있는 제목을 입력해주세요.]]></value>
+		<value xml:lang="en"><![CDATA[Please input the title that is easy to verify when connecting to the module]]></value>
+		<value xml:lang="jp"><![CDATA[モジュールとの連動をわかりやすく区分するためのタイトルを入力して下さい。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[请输入连接模块时容易区分的标题。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[連結模組時，請輸入容易區分的標題。]]></value>
+		<value xml:lang="fr"><![CDATA[Entrez le titre pour distinguer facilement quand vous le liez à un module.]]></value>
+		<value xml:lang="ru"><![CDATA[Пожалуйста, введите название, которое легко проверить при подключении к модулю]]></value>
+		<value xml:lang="es"><![CDATA[Ingresar un nombre fácil de distinguir cuando conecta al módulo]]></value>
+		<value xml:lang="tr"><![CDATA[Modüle bağlanılacağı zaman kolayca doğrulanacak başlığı giriniz]]></value>
+		<value xml:lang="vi"><![CDATA[Xin hãy nhập tiêu đề của giao diện cho dễ dàng lựa chọn về sau.]]></value>
+	</item>
+	<item name="about_not_apply_menu">
+		<value xml:lang="ko"><![CDATA[체크 하시면 연결된 모든 메뉴의 모듈 레이아웃을 일괄 변경합니다.]]></value>
+		<value xml:lang="en"><![CDATA[Layouts of all modules connected via menu will be changed en bloc by checking this option.]]></value>
+		<value xml:lang="jp"><![CDATA[チェックを入れると連動するすべてのメニューのモジュールのレイアウトを一括変更します。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[勾选表示连接到此布局的菜单项全部采用此布局。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[更新所有被連結到選單的版面模組。]]></value>
+		<value xml:lang="fr"><![CDATA[Tous les Mises en Page qui sont liés sur le menu seront changés si vous cochez cette option.]]></value>
+		<value xml:lang="ru"><![CDATA[Все подключенные лейауты модулей будут изменены при включении это опции.]]></value>
+		<value xml:lang="es"><![CDATA[Al seleccionar esta opción, cambia todos los diseños conectados.]]></value>
+		<value xml:lang="tr"><![CDATA[Menüyle bağlanmış modüllerin yerleşim düzenlerinin hepsi bu seçenekle değiştirilecketir.]]></value>
+		<value xml:lang="vi"><![CDATA[Nếu chọn, tất cả các giao diện đang sử dụng sẽ được thay đổi thành giao diện này.]]></value>
+	</item>
+	<item name="about_layout">
+		<value xml:lang="ko"><![CDATA[레이아웃 모듈은 사이트의 레이아웃을 쉽게 만들 수 있도록 도와줍니다.<br />레이아웃 설정과 메뉴의 연결을 통해서 다양한 모듈이 완성된 사이트의 모습으로 보여줄 수 있도록 합니다.<br />* 삭제나 수정이 불가능한 레이아웃은 블로그나 기타 모듈의 자체 레이아웃이므로 해당 모듈로 가서 설정하셔야 합니다.]]></value>
+		<value xml:lang="en"><![CDATA[Layout module helps you create the site's layout easily.<br />By using layout setting and menu connection, website's completed shape will be displayed with various modules.<br />* Layouts which you cannot delete are the default layouts of blogs or other moduels, thus you have to delete them from their setting pages.]]></value>
+		<value xml:lang="jp"><![CDATA[レイアウトのモジュールはサイトのレイアウトを分かりやすく作成出来るようにします。<br />レイアウトの設定とメニューのリンクで様々なモジュールで完成されたサイト構築が出来ます。<br />※ ブログまたは他のモジュールのレイアウトなどの削除・修正が出来ないレイアウトは、該当モジュールにて設定を行って下さい。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[布局模块使网站制作变得更简单。<br />通过布局设置及菜单的链接，可以轻松制作以多种模块组成的完整网站。<br />- 无法删除和修改的布局可能是博客或其他模块自带的模板，因此应到相关模块进行设置。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[版面設計模組使網站製作變得更簡單。<br />透過版面設置及選單的連結，利用多種模組可以輕鬆製作組合出完整的網站。<br />- 無法刪除和修改的版面，可能是部落格或其他模組的原始樣板，因此應到相關模組進行設置。]]></value>
+		<value xml:lang="fr"><![CDATA[Le module de Mise en Page vous aide à créer facilement le Mise en Page du site. <br />Vous pouvez présentez la forme du site Web complété par les modules divers en utilisant la configuration du Mise en Page et la connexion sur le menu. <br />* Les Mises en Page qui ne sont pas possibles à supprimer ou à modifier sont propres à ceux des blogues ou d'autres Mises en Page. Essayez à modifier/supprimer en dedans elles-mêmes]]></value>
+		<value xml:lang="de"><![CDATA[Layouts schmücken das Aussehen Ihrer Module. Sie können sie von Layout-Menü am oberen Rand ]]></value>
+		<value xml:lang="ru"><![CDATA[Модуль лейаутов помогает Вам создать лейаут сайта с легкостью.<br />Используя настройки лейаута и подключение меню, полная форма сайта будет отображена множеством модулей.<br />* Теми лейаутами, которые невозможно удалить или изменить, являются лейауты блога и лейауты других модулей.]]></value>
+		<value xml:lang="es"><![CDATA[Módulo del diseño ayuda a usted para crear el diseño de la página web fácilmente.<br />Por usar la configuración del diseño y el menú de conección, completa con varios módulos la forma de la página web que a ser mostrados<br />* Esos diseños que no pueden ser modificados ni eliminados son propios de blog y de otros módulos, por lo cual para la configuración de ellos debe hacerse en los modulos correspondientes.]]></value>
+		<value xml:lang="tr"><![CDATA[Yerleşim düzeni (layout) modülü size, sitenin yerleşim düzenini kolayca oluşturma imkanı sunar.<br />Yerleşim düzeni ayarını ve menü bağlantısını kullandığınzda, websitelerin çeşitli modüllerle tamamlanmış şekilleri gösterilecektir.<br />* Blogların veya diğer modüllerin varsayılan yerleşim düzenlerini silemezseniz; onları, kendi ayar sayfalarından silmeniz gerekmektedir. ]]></value>
+		<value xml:lang="vi"><![CDATA[Module giao diện giúp bạn tạo ra giao diện của Website một cách dễ dàng.<br />Bằng cách sử dụng thiết lập giao diện và kết nối Menu, hình dạng hoàn thành của Website sẽ được trình bày bổ xung với nhiều Module.<br />Giao diện nào xuất hiện (<font color='red'>*</font>) là những giao diện không thể xóa hay điều chỉnh được Module. ]]></value>
+		<value xml:lang="mn"><![CDATA[Лэйаут нь модиулын гадаад байдлыг чимж өгнө. Дээрх лэйаут менюнээс удирдаж болно]]></value>
+	</item>
+	<item name="about_layout_code">
+		<value xml:lang="ko"><![CDATA[아래 레이아웃의 코드를 직접 수정 후 저장하시면 서비스에 반영이 됩니다.
+        꼭 미리보기를 하신 후에 저장을 하세요.
+        XE의 템플릿 문법은 <a href="#" onclick="winopen('http://xe.xpressengine.net/18180861');return false;">XE 템플릿</a> 을 참고하시면 됩니다.]]></value>
+		<value xml:lang="en"><![CDATA[It will be applied to the service when you save the layout code after editing it.
+        Please first preview your code and then save it.
+        You can refer grammar of XE's template from <a href="#" onclick="winopen('http://trac.zeroboard.com/trac/wiki/TemplateHandler');return false;">XE Template</a>.]]></value>
+		<value xml:lang="jp"><![CDATA[下のレイアウトコードを修正し、保存するとサービスに反映されます。
+        必ずプレビューで確認してから保存して下さい。
+        XEのテンプレート文法は<a href="#" onclick="winopen('http://xe.xpressengine.net/18180861');return false;">XEテンプレート</a>を参考して下さい。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[修改的布局代码保存后即可生效。
+	保存之前请必须先预览后再保存。
+        XE布局语法请参考<strong><a href="#" onclick="winopen('http://trac.zeroboard.com/trac/wiki/TemplateHandler');return false;">XE模板</a></strong>。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[儲存修改後的版面，即可生效。
+	     儲存之前，請先預覽後再儲存。
+        XE 版面設計語法，請參考<a href="#" onclick="winopen('http://trac.zeroboard.com/trac/wiki/TemplateHandler');return false;">XE 樣版</a>。]]></value>
+		<value xml:lang="fr"><![CDATA[Vous conservez la code de Mise en Page après l'éditer, la code sera appliquée sur le service.
+        Utilisez [Avant-première] avant conserver la code S.V.P.
+        Vous pouvez référer la grammaire de modèle de XE sur <a href="#" onclick="winopen('http://trac.zeroboard.com/trac/wiki/TemplateHandler');return false;">Modèle du XE</a>.]]></value>
+		<value xml:lang="ru"><![CDATA[Применения к службе будут проиведены, когда Вы сохраните код лейаут после редактирование.
+        Пожалуйста, сначала используйте предпросмотр кода и затем сохраните его.
+        Вы можете обратиться к грамматике шаблонов XE с <a href="#" onclick="winopen('http://trac.zeroboard.com/trac/wiki/TemplateHandler');return false;">XE Template</a>.]]></value>
+		<value xml:lang="es"><![CDATA[El diseño sera aplicado al servicio cuando usted guarda el código del diseño luego de haber editado.
+		Primero visualiza previamente tus códigos y luego guardalos
+        Referente al código de planillas de XE dirijirse a<a href="#" onclick="winopen('http://trac.zeroboard.com/trac/wiki/TemplateHandler');return false;">XE Pamphlet(Ingles)</a> ]]></value>
+		<value xml:lang="tr"><![CDATA[Yerleşim düzeni kodunu düzenledikten sonra kaydettiğinizde, hizmete girecektir.
+        Lütfen önce kodunuzun önizlemesini yapın ve sonra kaydedin.
+        XE\'nin şablolunu örnek alabilirsiniz : <a href="#" onclick="winopen('http://trac.zeroboard.com/trac/wiki/TemplateHandler');return false;">XE Template</a>.]]></value>
+		<value xml:lang="vi"><![CDATA[Nó sẽ được áp dụng vào Website ngay khi bạn bấm '<b>Lưu</b>' sau khi sửa đổi.
+        Hãy bấm '<b>Xem trước</b>' trước khi bấm '<b>Lưu</b>'.
+        Bạn có thể tham khảo cách sửa giao diện tại <a href="#" onclick="winopen('http://trac.zeroboard.com/trac/wiki/TemplateHandler');return false;"><b>XE Template</b></a>.]]></value>
+	</item>
+	<item name="layout_export">
+		<value xml:lang="ko"><![CDATA[내보내기]]></value>
+		<value xml:lang="en"><![CDATA[Export]]></value>
+		<value xml:lang="jp"><![CDATA[エクスポート]]></value>
+		<value xml:lang="zh-CN"><![CDATA[导出]]></value>
+		<value xml:lang="zh-TW"><![CDATA[版面匯出]]></value>
+		<value xml:lang="tr"><![CDATA[Dışa Aktar]]></value>
+		<value xml:lang="vi"><![CDATA[Xuất ra]]></value>
+	</item>
+	<item name="layout_btn_export">
+		<value xml:lang="ko"><![CDATA[내 레이아웃 다운로드]]></value>
+		<value xml:lang="en"><![CDATA[Download My Layout]]></value>
+		<value xml:lang="jp"><![CDATA[マイレイアウトをダウンロードする]]></value>
+		<value xml:lang="zh-CN"><![CDATA[下载布局设置]]></value>
+		<value xml:lang="zh-TW"><![CDATA[下載版面]]></value>
+		<value xml:lang="tr"><![CDATA[Yerleşim Düzenimi İndir]]></value>
+		<value xml:lang="vi"><![CDATA[Download giao diện của tôi]]></value>
+	</item>
+	<item name="about_layout_export">
+		<value xml:lang="ko"><![CDATA[현재 수정된 레이아웃을 내보내기를 합니다.]]></value>
+		<value xml:lang="en"><![CDATA[Export currently edited layout.]]></value>
+		<value xml:lang="jp"><![CDATA[カスタマイズした自分のレイアウトをエクスポートします。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[可以导出当前已修改好的布局。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[可匯出目前修改過的版面。]]></value>
+		<value xml:lang="ru"><![CDATA[Export currently editted layout.]]></value>
+		<value xml:lang="tr"><![CDATA[Düzenlenmiş mevcut yerleşim düzenini dışa aktar.]]></value>
+		<value xml:lang="vi"><![CDATA[Xuất giao diện sửa chữa hiện tại.]]></value>
+	</item>
+	<item name="layout_import">
+		<value xml:lang="ko"><![CDATA[가져오기]]></value>
+		<value xml:lang="en"><![CDATA[Import]]></value>
+		<value xml:lang="jp"><![CDATA[インポート]]></value>
+		<value xml:lang="zh-CN"><![CDATA[导入]]></value>
+		<value xml:lang="zh-TW"><![CDATA[版面匯入]]></value>
+		<value xml:lang="tr"><![CDATA[İçe Aktar]]></value>
+		<value xml:lang="vi"><![CDATA[Nhập vào]]></value>
+	</item>
+	<item name="about_layout_import">
+		<value xml:lang="ko"><![CDATA[가져오기를 할 경우 기존에 수정된 레이아웃은 삭제됩니다. 가져오기를 하기 전에 내보내기를 통해 백업을 하시기 바랍니다.]]></value>
+		<value xml:lang="en"><![CDATA[Previously modified layout will be deleted when you import a new one. Please export the current layout for a backup before importing a new one.]]></value>
+		<value xml:lang="jp"><![CDATA[インポートする場合、既存の修正されたレイアウトを上書きします。インポート前にエクスポートでバックアップすることをお勧めします。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[导入之前请利用<strong>导出功能</strong>备份好当前的布局及设置，因为导入会删除当前的布局及设置。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[版面匯入時，將會刪除目前的版面設置。
+    版面匯入前，請先匯出備份目前的版面設置。]]></value>
+		<value xml:lang="fr"><![CDATA[가져오기를 할 경우 기존 수정된 레이아웃을 삭제가 됩니다. 가져오기를 하기전에 내보내기를 통해 백업을 하시기 바랍니다.]]></value>
+		<value xml:lang="ru"><![CDATA[Original layout will be deleted when you import. Please export current layout before importing.]]></value>
+		<value xml:lang="es"><![CDATA[가져오기를 할 경우 기존 수정된 레이아웃을 삭제가 됩니다. 가져오기를 하기전에 내보내기를 통해 백업을 하시기 바랍니다.]]></value>
+		<value xml:lang="tr"><![CDATA[İçe yeni bir yerleşim düzeni aktarmanız durumunda, önceden değiştirdiğiniz yerleşim düzeni silinecektir. Lütfen içe aktarım yapmadan önce, mevcut yerleşim düzeninin yedeğini almış olmak için dışa aktarınız.]]></value>
+		<value xml:lang="vi"><![CDATA[Giao diện nguyên bản sẽ bị xóa khi bạn nhập vào. Hãy xuất ra để lưu giao diện hiện thời trước khi nhập vào.]]></value>
+	</item>
+	<item name="layout_manager" type="array">
+		<item name="0">
+			<value xml:lang="ko"><![CDATA[레이아웃 매니저]]></value>
+			<value xml:lang="en"><![CDATA[Layout Manager]]></value>
+			<value xml:lang="jp"><![CDATA[レイアウトマネジャー]]></value>
+			<value xml:lang="zh-CN"><![CDATA[布局管理器]]></value>
+			<value xml:lang="zh-TW"><![CDATA[版面管理者]]></value>
+			<value xml:lang="de"><![CDATA[L]]></value>
+			<value xml:lang="tr"><![CDATA[Yerleşim Düzeni Yöneticisi]]></value>
+			<value xml:lang="vi"><![CDATA[Quản lý giao diện]]></value>
+			<value xml:lang="mn"><![CDATA[�]]></value>
+		</item>
+		<item name="1">
+			<value xml:lang="ko"><![CDATA[저장]]></value>
+			<value xml:lang="en"><![CDATA[Save]]></value>
+			<value xml:lang="jp"><![CDATA[保存]]></value>
+			<value xml:lang="zh-CN"><![CDATA[保存]]></value>
+			<value xml:lang="zh-TW"><![CDATA[儲存]]></value>
+			<value xml:lang="de"><![CDATA[a]]></value>
+			<value xml:lang="tr"><![CDATA[Kaydet]]></value>
+			<value xml:lang="vi"><![CDATA[Lưu lại]]></value>
+			<value xml:lang="mn"><![CDATA[�]]></value>
+		</item>
+		<item name="2">
+			<value xml:lang="ko"><![CDATA[취소]]></value>
+			<value xml:lang="en"><![CDATA[Cancel]]></value>
+			<value xml:lang="jp"><![CDATA[取り消し]]></value>
+			<value xml:lang="zh-CN"><![CDATA[取消]]></value>
+			<value xml:lang="zh-TW"><![CDATA[取消]]></value>
+			<value xml:lang="de"><![CDATA[y]]></value>
+			<value xml:lang="tr"><![CDATA[İptal]]></value>
+			<value xml:lang="vi"><![CDATA[Loại bỏ]]></value>
+			<value xml:lang="mn"><![CDATA[�]]></value>
+		</item>
+		<item name="3">
+			<value xml:lang="ko"><![CDATA[형태]]></value>
+			<value xml:lang="en"><![CDATA[Form]]></value>
+			<value xml:lang="jp"><![CDATA[基本レイアウト]]></value>
+			<value xml:lang="zh-CN"><![CDATA[宽度]]></value>
+			<value xml:lang="zh-TW"><![CDATA[模式]]></value>
+			<value xml:lang="de"><![CDATA[o]]></value>
+			<value xml:lang="tr"><![CDATA[Biçim]]></value>
+			<value xml:lang="mn"><![CDATA[�]]></value>
+		</item>
+		<item name="4">
+			<value xml:lang="ko"><![CDATA[배열]]></value>
+			<value xml:lang="en"><![CDATA[Array]]></value>
+			<value xml:lang="jp"><![CDATA[配列]]></value>
+			<value xml:lang="zh-CN"><![CDATA[版式]]></value>
+			<value xml:lang="zh-TW"><![CDATA[樣式]]></value>
+			<value xml:lang="de"><![CDATA[u]]></value>
+			<value xml:lang="tr"><![CDATA[Dizi]]></value>
+			<value xml:lang="vi"><![CDATA[Giãn ra]]></value>
+			<value xml:lang="mn"><![CDATA[�]]></value>
+		</item>
+		<item name="5">
+			<value xml:lang="ko"><![CDATA[정렬]]></value>
+			<value xml:lang="en"><![CDATA[Arrange]]></value>
+			<value xml:lang="jp"><![CDATA[整列]]></value>
+			<value xml:lang="zh-CN"><![CDATA[对齐]]></value>
+			<value xml:lang="zh-TW"><![CDATA[對齊]]></value>
+			<value xml:lang="de"><![CDATA[t]]></value>
+			<value xml:lang="tr"><![CDATA[Yerleştir]]></value>
+			<value xml:lang="vi"><![CDATA[Thu lại]]></value>
+			<value xml:lang="mn"><![CDATA[�]]></value>
+		</item>
+		<item name="6">
+			<value xml:lang="ko"><![CDATA[고정 레이아웃]]></value>
+			<value xml:lang="en"><![CDATA[Fixed Layout]]></value>
+			<value xml:lang="jp"><![CDATA[固定型レイアウト]]></value>
+			<value xml:lang="zh-CN"><![CDATA[固定宽度]]></value>
+			<value xml:lang="zh-TW"><![CDATA[固定版面]]></value>
+			<value xml:lang="de"><![CDATA[-]]></value>
+			<value xml:lang="tr"><![CDATA[Sabit Yerleşim Düzeni]]></value>
+			<value xml:lang="vi"><![CDATA[Cố định giao diện]]></value>
+			<value xml:lang="mn"><![CDATA[�]]></value>
+		</item>
+		<item name="7">
+			<value xml:lang="ko"><![CDATA[가변 레이아웃]]></value>
+			<value xml:lang="en"><![CDATA[Variable Layout]]></value>
+			<value xml:lang="jp"><![CDATA[可変型レイアウト]]></value>
+			<value xml:lang="zh-CN"><![CDATA[自适应宽度]]></value>
+			<value xml:lang="zh-TW"><![CDATA[變動版面]]></value>
+			<value xml:lang="de"><![CDATA[E]]></value>
+			<value xml:lang="tr"><![CDATA[Değişken Yerleşim Düzeni]]></value>
+			<value xml:lang="vi"><![CDATA[Giao diện biến thiên]]></value>
+			<value xml:lang="mn"><![CDATA[�]]></value>
+		</item>
+		<item name="8">
+			<value xml:lang="ko"><![CDATA[고정+가변(내용)]]></value>
+			<value xml:lang="en"><![CDATA[Fixed+Variable (Content)]]></value>
+			<value xml:lang="jp"><![CDATA[固定+(内容部分)可変]]></value>
+			<value xml:lang="zh-CN"><![CDATA[固定+自适应(内容)]]></value>
+			<value xml:lang="zh-TW"><![CDATA[固定+變動(內容)]]></value>
+			<value xml:lang="de"><![CDATA[i]]></value>
+			<value xml:lang="tr"><![CDATA[Sabit+Değişken (İçerik)]]></value>
+			<value xml:lang="vi"><![CDATA[Cố định+Biến thiên (Nội dung)]]></value>
+			<value xml:lang="mn"><![CDATA[�]]></value>
+		</item>
+		<item name="9">
+			<value xml:lang="ko"><![CDATA[1칸]]></value>
+			<value xml:lang="en"><![CDATA[1 Cell]]></value>
+			<value xml:lang="jp"><![CDATA[1段]]></value>
+			<value xml:lang="zh-CN"><![CDATA[1栏]]></value>
+			<value xml:lang="zh-TW"><![CDATA[1欄]]></value>
+			<value xml:lang="de"><![CDATA[n]]></value>
+			<value xml:lang="tr"><![CDATA[Hücre 1]]></value>
+			<value xml:lang="vi"><![CDATA[1 ô]]></value>
+			<value xml:lang="mn"><![CDATA[�]]></value>
+		</item>
+		<item name="10">
+			<value xml:lang="ko"><![CDATA[2칸 (내용 왼쪽)]]></value>
+			<value xml:lang="en"><![CDATA[2 Cells (left of content)]]></value>
+			<value xml:lang="jp"><![CDATA[2段 (内容左側配置)]]></value>
+			<value xml:lang="zh-CN"><![CDATA[2栏 (左侧内容区)]]></value>
+			<value xml:lang="zh-TW"><![CDATA[2欄 (左側內容區)]]></value>
+			<value xml:lang="de"><![CDATA[s]]></value>
+			<value xml:lang="tr"><![CDATA[Hücre 2 (içeriğin sol kısmında)]]></value>
+			<value xml:lang="vi"><![CDATA[2 ô (Trái của nội dung)]]></value>
+			<value xml:lang="mn"><![CDATA[�]]></value>
+		</item>
+		<item name="11">
+			<value xml:lang="ko"><![CDATA[2칸 (내용 오른쪽)]]></value>
+			<value xml:lang="en"><![CDATA[2 Cells (right of content)]]></value>
+			<value xml:lang="jp"><![CDATA[2段 (内容右側配置)]]></value>
+			<value xml:lang="zh-CN"><![CDATA[2栏 (右侧内容区)]]></value>
+			<value xml:lang="zh-TW"><![CDATA[2欄 (右側內容區)]]></value>
+			<value xml:lang="de"><![CDATA[t]]></value>
+			<value xml:lang="tr"><![CDATA[Hücre 2 (içeriğin sağ kısmında)]]></value>
+			<value xml:lang="vi"><![CDATA[2 ô (Phải của nội dung)]]></value>
+			<value xml:lang="mn"><![CDATA[�]]></value>
+		</item>
+		<item name="12">
+			<value xml:lang="ko"><![CDATA[3칸 (내용 왼쪽)]]></value>
+			<value xml:lang="en"><![CDATA[3 Cells (left of content)]]></value>
+			<value xml:lang="jp"><![CDATA[3段 (内容左側配置)]]></value>
+			<value xml:lang="zh-CN"><![CDATA[3栏 (左侧内容区)]]></value>
+			<value xml:lang="zh-TW"><![CDATA[3欄 (左側內容區)]]></value>
+			<value xml:lang="de"><![CDATA[e]]></value>
+			<value xml:lang="tr"><![CDATA[Hücre 3 (içeriğin sol kısmında)]]></value>
+			<value xml:lang="vi"><![CDATA[3 ô (Trái của nội dung)]]></value>
+			<value xml:lang="mn"><![CDATA[ ]]></value>
+		</item>
+		<item name="13">
+			<value xml:lang="ko"><![CDATA[3칸 (내용 가운데)]]></value>
+			<value xml:lang="en"><![CDATA[3 Cells (center of content)]]></value>
+			<value xml:lang="jp"><![CDATA[3段 (内容中央配置)]]></value>
+			<value xml:lang="zh-CN"><![CDATA[3栏 (剧中内容区)]]></value>
+			<value xml:lang="zh-TW"><![CDATA[3欄 (居中內容區)]]></value>
+			<value xml:lang="de"><![CDATA[l]]></value>
+			<value xml:lang="tr"><![CDATA[Hücre 3 (içeriğin orta kısmında)]]></value>
+			<value xml:lang="vi"><![CDATA[3 ô (Giữa của nội dung)]]></value>
+			<value xml:lang="mn"><![CDATA[�]]></value>
+		</item>
+		<item name="14">
+			<value xml:lang="ko"><![CDATA[3칸 (내용 오른쪽)]]></value>
+			<value xml:lang="en"><![CDATA[3 Cells (right of content)]]></value>
+			<value xml:lang="jp"><![CDATA[3段 (内容右側配置)]]></value>
+			<value xml:lang="zh-CN"><![CDATA[3栏 (右侧内容区)]]></value>
+			<value xml:lang="zh-TW"><![CDATA[3欄 (右側內容區)]]></value>
+			<value xml:lang="de"><![CDATA[l]]></value>
+			<value xml:lang="tr"><![CDATA[Hücre 3 (içeriğin sol kısmında)]]></value>
+			<value xml:lang="vi"><![CDATA[3 ô (Phải của nội dung)]]></value>
+			<value xml:lang="mn"><![CDATA[�]]></value>
+		</item>
+		<item name="15">
+			<value xml:lang="ko"><![CDATA[왼쪽]]></value>
+			<value xml:lang="en"><![CDATA[Left]]></value>
+			<value xml:lang="jp"><![CDATA[左]]></value>
+			<value xml:lang="zh-CN"><![CDATA[左对齐]]></value>
+			<value xml:lang="zh-TW"><![CDATA[靠左對齊]]></value>
+			<value xml:lang="de"><![CDATA[u]]></value>
+			<value xml:lang="tr"><![CDATA[Sol]]></value>
+			<value xml:lang="vi"><![CDATA[Trái]]></value>
+			<value xml:lang="mn"><![CDATA[�]]></value>
+		</item>
+		<item name="16">
+			<value xml:lang="ko"><![CDATA[가운데]]></value>
+			<value xml:lang="en"><![CDATA[Center]]></value>
+			<value xml:lang="jp"><![CDATA[中央]]></value>
+			<value xml:lang="zh-CN"><![CDATA[剧中对齐]]></value>
+			<value xml:lang="zh-TW"><![CDATA[置中對齊]]></value>
+			<value xml:lang="de"><![CDATA[n]]></value>
+			<value xml:lang="tr"><![CDATA[Orta]]></value>
+			<value xml:lang="vi"><![CDATA[Giữa]]></value>
+			<value xml:lang="mn"><![CDATA[�]]></value>
+		</item>
+		<item name="17">
+			<value xml:lang="ko"><![CDATA[오른쪽]]></value>
+			<value xml:lang="en"><![CDATA[Right]]></value>
+			<value xml:lang="jp"><![CDATA[右]]></value>
+			<value xml:lang="zh-CN"><![CDATA[右对齐]]></value>
+			<value xml:lang="zh-TW"><![CDATA[靠右對齊]]></value>
+			<value xml:lang="de"><![CDATA[g]]></value>
+			<value xml:lang="tr"><![CDATA[Sağ]]></value>
+			<value xml:lang="vi"><![CDATA[Phải]]></value>
+			<value xml:lang="mn"><![CDATA[�]]></value>
+		</item>
+		<item name="18">
+			<value xml:lang="ko"><![CDATA[전체]]></value>
+			<value xml:lang="en"><![CDATA[All]]></value>
+			<value xml:lang="jp"><![CDATA[すべて]]></value>
+			<value xml:lang="zh-CN"><![CDATA[全局]]></value>
+			<value xml:lang="zh-TW"><![CDATA[整體]]></value>
+			<value xml:lang="de"><![CDATA[e]]></value>
+			<value xml:lang="tr"><![CDATA[Tümü]]></value>
+			<value xml:lang="vi"><![CDATA[Dàn đều]]></value>
+			<value xml:lang="mn"><![CDATA[�]]></value>
+		</item>
+		<item name="19">
+			<value xml:lang="ko"><![CDATA[레이아웃]]></value>
+			<value xml:lang="en"><![CDATA[Layout]]></value>
+			<value xml:lang="jp"><![CDATA[レイアウト]]></value>
+			<value xml:lang="zh-CN"><![CDATA[布局]]></value>
+			<value xml:lang="zh-TW"><![CDATA[版面]]></value>
+			<value xml:lang="de"><![CDATA[n]]></value>
+			<value xml:lang="tr"><![CDATA[Yerleşim Düzeni]]></value>
+			<value xml:lang="vi"><![CDATA[Giao diện]]></value>
+			<value xml:lang="mn"><![CDATA[�]]></value>
+		</item>
+		<item name="20">
+			<value xml:lang="ko"><![CDATA[위젯 추가]]></value>
+			<value xml:lang="en"><![CDATA[Add Widget]]></value>
+			<value xml:lang="jp"><![CDATA[ウィジェット追加]]></value>
+			<value xml:lang="zh-CN"><![CDATA[添加控件]]></value>
+			<value xml:lang="zh-TW"><![CDATA[新增Widget]]></value>
+			<value xml:lang="tr"><![CDATA[Widget ekle]]></value>
+			<value xml:lang="vi"><![CDATA[Thêm Widget]]></value>
+			<value xml:lang="mn"><![CDATA[�]]></value>
+		</item>
+		<item name="21">
+			<value xml:lang="ko"><![CDATA[내용 위젯 추가]]></value>
+			<value xml:lang="en"><![CDATA[Add Content Widget]]></value>
+			<value xml:lang="jp"><![CDATA[内容 ウィジェット追加]]></value>
+			<value xml:lang="zh-CN"><![CDATA[添加内容]]></value>
+			<value xml:lang="zh-TW"><![CDATA[新增內容]]></value>
+			<value xml:lang="tr"><![CDATA[İçerik Widgetı ekle]]></value>
+			<value xml:lang="vi"><![CDATA[Thêm Widget nội dung]]></value>
+			<value xml:lang="mn"><![CDATA[�]]></value>
+		</item>
+		<item name="22">
+			<value xml:lang="ko"><![CDATA[속성]]></value>
+			<value xml:lang="en"><![CDATA[Attribute]]></value>
+			<value xml:lang="jp"><![CDATA[属性]]></value>
+			<value xml:lang="zh-CN"><![CDATA[属性]]></value>
+			<value xml:lang="zh-TW"><![CDATA[屬性]]></value>
+			<value xml:lang="tr"><![CDATA[Öznitelik]]></value>
+			<value xml:lang="vi"><![CDATA[Thuộc tính]]></value>
+			<value xml:lang="mn"><![CDATA[�]]></value>
+		</item>
+		<item name="23">
+			<value xml:lang="ko"><![CDATA[위젯 스타일]]></value>
+			<value xml:lang="en"><![CDATA[Widget Style]]></value>
+			<value xml:lang="jp"><![CDATA[ウィジェットスタイル]]></value>
+			<value xml:lang="zh-CN"><![CDATA[控件样式]]></value>
+			<value xml:lang="zh-TW"><![CDATA[Widget樣式]]></value>
+			<value xml:lang="tr"><![CDATA[Widget Tarzı]]></value>
+			<value xml:lang="vi"><![CDATA[Kiểu dáng Widget]]></value>
+			<value xml:lang="mn"><![CDATA[�]]></value>
+		</item>
+		<item name="24">
+			<value xml:lang="ko"><![CDATA[수정]]></value>
+			<value xml:lang="en"><![CDATA[Modify]]></value>
+			<value xml:lang="jp"><![CDATA[修正]]></value>
+			<value xml:lang="zh-CN"><![CDATA[修改]]></value>
+			<value xml:lang="zh-TW"><![CDATA[修改]]></value>
+			<value xml:lang="tr"><![CDATA[Düzenle]]></value>
+			<value xml:lang="vi"><![CDATA[Điều chỉnh]]></value>
+			<value xml:lang="mn"><![CDATA[�]]></value>
+		</item>
+		<item name="25">
+			<value xml:lang="ko"><![CDATA[삭제]]></value>
+			<value xml:lang="en"><![CDATA[Delete]]></value>
+			<value xml:lang="jp"><![CDATA[削除]]></value>
+			<value xml:lang="zh-CN"><![CDATA[删除]]></value>
+			<value xml:lang="zh-TW"><![CDATA[刪除]]></value>
+			<value xml:lang="tr"><![CDATA[Sil]]></value>
+			<value xml:lang="vi"><![CDATA[Xóa]]></value>
+			<value xml:lang="mn"><![CDATA[�]]></value>
+		</item>
+		<item name="26">
+			<value xml:lang="ko"><![CDATA[정렬]]></value>
+			<value xml:lang="en"><![CDATA[Align]]></value>
+			<value xml:lang="jp"><![CDATA[整列]]></value>
+			<value xml:lang="zh-CN"><![CDATA[对齐]]></value>
+			<value xml:lang="zh-TW"><![CDATA[對齊]]></value>
+			<value xml:lang="tr"><![CDATA[Hizala]]></value>
+			<value xml:lang="vi"><![CDATA[Căn chỉnh]]></value>
+			<value xml:lang="mn"><![CDATA[�]]></value>
+		</item>
+		<item name="27">
+			<value xml:lang="ko"><![CDATA[한줄 차지]]></value>
+			<value xml:lang="en"><![CDATA[Occupy a Line]]></value>
+			<value xml:lang="jp"><![CDATA[一行占め]]></value>
+			<value xml:lang="zh-CN"><![CDATA[占段落]]></value>
+			<value xml:lang="zh-TW"><![CDATA[換行]]></value>
+			<value xml:lang="tr"><![CDATA[Satır atla]]></value>
+			<value xml:lang="vi"><![CDATA[Chiếm 1 hàng]]></value>
+		</item>
+		<item name="28">
+			<value xml:lang="ko"><![CDATA[왼쪽]]></value>
+			<value xml:lang="en"><![CDATA[Left]]></value>
+			<value xml:lang="jp"><![CDATA[左]]></value>
+			<value xml:lang="zh-CN"><![CDATA[左对齐]]></value>
+			<value xml:lang="zh-TW"><![CDATA[靠左對齊]]></value>
+			<value xml:lang="tr"><![CDATA[Sol]]></value>
+			<value xml:lang="vi"><![CDATA[Trái]]></value>
+		</item>
+		<item name="29">
+			<value xml:lang="ko"><![CDATA[오른쪽]]></value>
+			<value xml:lang="en"><![CDATA[Right]]></value>
+			<value xml:lang="jp"><![CDATA[右]]></value>
+			<value xml:lang="zh-CN"><![CDATA[右对齐]]></value>
+			<value xml:lang="zh-TW"><![CDATA[靠右對齊]]></value>
+			<value xml:lang="tr"><![CDATA[Sağ]]></value>
+			<value xml:lang="vi"><![CDATA[Phải]]></value>
+		</item>
+		<item name="30">
+			<value xml:lang="ko"><![CDATA[가로]]></value>
+			<value xml:lang="en"><![CDATA[Width]]></value>
+			<value xml:lang="jp"><![CDATA[横幅サイズ]]></value>
+			<value xml:lang="zh-CN"><![CDATA[宽度]]></value>
+			<value xml:lang="zh-TW"><![CDATA[寬度]]></value>
+			<value xml:lang="fr"><![CDATA[가로 너비]]></value>
+			<value xml:lang="es"><![CDATA[가로 너비]]></value>
+			<value xml:lang="tr"><![CDATA[Genişlik]]></value>
+			<value xml:lang="vi"><![CDATA[Chiều rộng]]></value>
+		</item>
+		<item name="31">
+			<value xml:lang="ko"><![CDATA[세로]]></value>
+			<value xml:lang="en"><![CDATA[Height]]></value>
+			<value xml:lang="jp"><![CDATA[高さ]]></value>
+			<value xml:lang="zh-CN"><![CDATA[高度]]></value>
+			<value xml:lang="zh-TW"><![CDATA[高度]]></value>
+			<value xml:lang="fr"><![CDATA[높이]]></value>
+			<value xml:lang="es"><![CDATA[높이]]></value>
+			<value xml:lang="tr"><![CDATA[Uzunluk]]></value>
+			<value xml:lang="vi"><![CDATA[Chiều cao]]></value>
+		</item>
+		<item name="32">
+			<value xml:lang="ko"><![CDATA[바깥 여백]]></value>
+			<value xml:lang="en"><![CDATA[Margin]]></value>
+			<value xml:lang="jp"><![CDATA[外側余白]]></value>
+			<value xml:lang="zh-CN"><![CDATA[外边距]]></value>
+			<value xml:lang="zh-TW"><![CDATA[邊距]]></value>
+			<value xml:lang="tr"><![CDATA[Kenar Boşluğu]]></value>
+			<value xml:lang="vi"><![CDATA[Lề]]></value>
+		</item>
+		<item name="33">
+			<value xml:lang="ko"><![CDATA[안쪽 여백]]></value>
+			<value xml:lang="en"><![CDATA[Padding]]></value>
+			<value xml:lang="jp"><![CDATA[内側余白]]></value>
+			<value xml:lang="zh-CN"><![CDATA[内填充]]></value>
+			<value xml:lang="zh-TW"><![CDATA[內距]]></value>
+			<value xml:lang="tr"><![CDATA[Dolgu]]></value>
+			<value xml:lang="vi"><![CDATA[Lót]]></value>
+		</item>
+		<item name="34">
+			<value xml:lang="ko"><![CDATA[위]]></value>
+			<value xml:lang="en"><![CDATA[Top]]></value>
+			<value xml:lang="jp"><![CDATA[上]]></value>
+			<value xml:lang="zh-CN"><![CDATA[上]]></value>
+			<value xml:lang="zh-TW"><![CDATA[上]]></value>
+			<value xml:lang="tr"><![CDATA[Üst]]></value>
+			<value xml:lang="vi"><![CDATA[Đỉnh]]></value>
+		</item>
+		<item name="35">
+			<value xml:lang="ko"><![CDATA[왼]]></value>
+			<value xml:lang="en"><![CDATA[Left]]></value>
+			<value xml:lang="jp"><![CDATA[左]]></value>
+			<value xml:lang="zh-CN"><![CDATA[左]]></value>
+			<value xml:lang="zh-TW"><![CDATA[左]]></value>
+			<value xml:lang="tr"><![CDATA[Sol]]></value>
+			<value xml:lang="vi"><![CDATA[Trái]]></value>
+		</item>
+		<item name="36">
+			<value xml:lang="ko"><![CDATA[오른]]></value>
+			<value xml:lang="en"><![CDATA[Right]]></value>
+			<value xml:lang="jp"><![CDATA[右]]></value>
+			<value xml:lang="zh-CN"><![CDATA[右]]></value>
+			<value xml:lang="zh-TW"><![CDATA[右]]></value>
+			<value xml:lang="tr"><![CDATA[Sağ]]></value>
+			<value xml:lang="vi"><![CDATA[Phải]]></value>
+		</item>
+		<item name="37">
+			<value xml:lang="ko"><![CDATA[아래]]></value>
+			<value xml:lang="en"><![CDATA[Bottom]]></value>
+			<value xml:lang="jp"><![CDATA[下]]></value>
+			<value xml:lang="zh-CN"><![CDATA[下]]></value>
+			<value xml:lang="zh-TW"><![CDATA[下]]></value>
+			<value xml:lang="tr"><![CDATA[Alt]]></value>
+			<value xml:lang="vi"><![CDATA[Dưới]]></value>
+		</item>
+		<item name="38">
+			<value xml:lang="ko"><![CDATA[테두리]]></value>
+			<value xml:lang="en"><![CDATA[Border]]></value>
+			<value xml:lang="jp"><![CDATA[ボーダー]]></value>
+			<value xml:lang="zh-CN"><![CDATA[边框]]></value>
+			<value xml:lang="zh-TW"><![CDATA[外框]]></value>
+			<value xml:lang="tr"><![CDATA[Kenarlık]]></value>
+			<value xml:lang="vi"><![CDATA[Viền]]></value>
+		</item>
+		<item name="39">
+			<value xml:lang="ko"><![CDATA[없음]]></value>
+			<value xml:lang="en"><![CDATA[None]]></value>
+			<value xml:lang="jp"><![CDATA[なし]]></value>
+			<value xml:lang="zh-CN"><![CDATA[无]]></value>
+			<value xml:lang="zh-TW"><![CDATA[無]]></value>
+			<value xml:lang="tr"><![CDATA[Hiçbiri]]></value>
+			<value xml:lang="vi"><![CDATA[Không]]></value>
+		</item>
+		<item name="40">
+			<value xml:lang="ko"><![CDATA[배경]]></value>
+			<value xml:lang="en"><![CDATA[Background]]></value>
+			<value xml:lang="jp"><![CDATA[背景]]></value>
+			<value xml:lang="zh-CN"><![CDATA[背景]]></value>
+			<value xml:lang="zh-TW"><![CDATA[背景]]></value>
+			<value xml:lang="tr"><![CDATA[Arkaplan]]></value>
+			<value xml:lang="vi"><![CDATA[Nền]]></value>
+		</item>
+		<item name="41">
+			<value xml:lang="ko"><![CDATA[색상]]></value>
+			<value xml:lang="en"><![CDATA[Color]]></value>
+			<value xml:lang="jp"><![CDATA[色]]></value>
+			<value xml:lang="zh-CN"><![CDATA[颜色]]></value>
+			<value xml:lang="zh-TW"><![CDATA[顏色]]></value>
+			<value xml:lang="tr"><![CDATA[Renk]]></value>
+			<value xml:lang="vi"><![CDATA[Màu]]></value>
+		</item>
+		<item name="42">
+			<value xml:lang="ko"><![CDATA[그림]]></value>
+			<value xml:lang="en"><![CDATA[Image]]></value>
+			<value xml:lang="jp"><![CDATA[画像]]></value>
+			<value xml:lang="zh-CN"><![CDATA[图片]]></value>
+			<value xml:lang="zh-TW"><![CDATA[圖片]]></value>
+			<value xml:lang="tr"><![CDATA[Resim]]></value>
+			<value xml:lang="vi"><![CDATA[Hình ảnh]]></value>
+		</item>
+		<item name="43">
+			<value xml:lang="ko"><![CDATA[선택]]></value>
+			<value xml:lang="en"><![CDATA[Select]]></value>
+			<value xml:lang="jp"><![CDATA[選択]]></value>
+			<value xml:lang="zh-CN"><![CDATA[选择]]></value>
+			<value xml:lang="zh-TW"><![CDATA[選擇]]></value>
+			<value xml:lang="tr"><![CDATA[Seç]]></value>
+			<value xml:lang="vi"><![CDATA[Lựa chọn]]></value>
+		</item>
+		<item name="44">
+			<value xml:lang="ko"><![CDATA[배경 그림 반복]]></value>
+			<value xml:lang="en"><![CDATA[Repeat Background]]></value>
+			<value xml:lang="jp"><![CDATA[背景画像リピート]]></value>
+			<value xml:lang="zh-CN"><![CDATA[背景重复]]></value>
+			<value xml:lang="zh-TW"><![CDATA[背景重複]]></value>
+			<value xml:lang="tr"><![CDATA[Arkaplan Tekrarı]]></value>
+			<value xml:lang="vi"><![CDATA[Lặp lại nền]]></value>
+		</item>
+		<item name="45">
+			<value xml:lang="ko"><![CDATA[반복]]></value>
+			<value xml:lang="en"><![CDATA[Repeat]]></value>
+			<value xml:lang="jp"><![CDATA[リピート]]></value>
+			<value xml:lang="zh-CN"><![CDATA[平铺]]></value>
+			<value xml:lang="zh-TW"><![CDATA[重複]]></value>
+			<value xml:lang="tr"><![CDATA[Tekrar]]></value>
+			<value xml:lang="vi"><![CDATA[Lặp lại]]></value>
+		</item>
+		<item name="46">
+			<value xml:lang="ko"><![CDATA[반복 안함]]></value>
+			<value xml:lang="en"><![CDATA[No Repeat]]></value>
+			<value xml:lang="jp"><![CDATA[リピートしない]]></value>
+			<value xml:lang="zh-CN"><![CDATA[不重复]]></value>
+			<value xml:lang="zh-TW"><![CDATA[不重複]]></value>
+			<value xml:lang="tr"><![CDATA[Tekrar Yok]]></value>
+			<value xml:lang="vi"><![CDATA[Không lặp]]></value>
+		</item>
+		<item name="47">
+			<value xml:lang="ko"><![CDATA[가로 반복]]></value>
+			<value xml:lang="en"><![CDATA[Repeat Width]]></value>
+			<value xml:lang="jp"><![CDATA[横方向リピート]]></value>
+			<value xml:lang="zh-CN"><![CDATA[水平重复]]></value>
+			<value xml:lang="zh-TW"><![CDATA[水平重複]]></value>
+			<value xml:lang="tr"><![CDATA[Genişlik Tekrarı]]></value>
+			<value xml:lang="vi"><![CDATA[Lặp lại chiều rộng]]></value>
+		</item>
+		<item name="48">
+			<value xml:lang="ko"><![CDATA[세로 반복]]></value>
+			<value xml:lang="en"><![CDATA[Repeat Height]]></value>
+			<value xml:lang="jp"><![CDATA[縦方向リピート]]></value>
+			<value xml:lang="zh-CN"><![CDATA[垂直重复]]></value>
+			<value xml:lang="zh-TW"><![CDATA[垂直重複]]></value>
+			<value xml:lang="tr"><![CDATA[Uzunluk Tekrarı]]></value>
+			<value xml:lang="vi"><![CDATA[Lặp lại chiều cao]]></value>
+		</item>
+		<item name="49">
+			<value xml:lang="ko"><![CDATA[적용]]></value>
+			<value xml:lang="en"><![CDATA[Apply]]></value>
+			<value xml:lang="jp"><![CDATA[適用]]></value>
+			<value xml:lang="zh-CN"><![CDATA[应用]]></value>
+			<value xml:lang="zh-TW"><![CDATA[應用]]></value>
+			<value xml:lang="tr"><![CDATA[Uygula]]></value>
+			<value xml:lang="vi"><![CDATA[Áp dụng]]></value>
+		</item>
+		<item name="50">
+			<value xml:lang="ko"><![CDATA[취소]]></value>
+			<value xml:lang="en"><![CDATA[Cancel]]></value>
+			<value xml:lang="jp"><![CDATA[取り消し]]></value>
+			<value xml:lang="zh-CN"><![CDATA[取消]]></value>
+			<value xml:lang="zh-TW"><![CDATA[取消]]></value>
+			<value xml:lang="tr"><![CDATA[İptal]]></value>
+			<value xml:lang="vi"><![CDATA[Loại bỏ]]></value>
+		</item>
+		<item name="51">
+			<value xml:lang="ko"><![CDATA[초기화]]></value>
+			<value xml:lang="en"><![CDATA[Reset]]></value>
+			<value xml:lang="jp"><![CDATA[初期化]]></value>
+			<value xml:lang="zh-CN"><![CDATA[初始化]]></value>
+			<value xml:lang="zh-TW"><![CDATA[重置]]></value>
+			<value xml:lang="tr"><![CDATA[Sıfırla]]></value>
+			<value xml:lang="vi"><![CDATA[Thiết lập lại]]></value>
+		</item>
+		<item name="52">
+			<value xml:lang="ko"><![CDATA[글자]]></value>
+			<value xml:lang="en"><![CDATA[Text]]></value>
+			<value xml:lang="jp"><![CDATA[文字]]></value>
+			<value xml:lang="zh-CN"><![CDATA[字体]]></value>
+			<value xml:lang="zh-TW"><![CDATA[字型]]></value>
+			<value xml:lang="tr"><![CDATA[Metin]]></value>
+			<value xml:lang="vi"><![CDATA[Chữ]]></value>
+		</item>
+		<item name="53">
+			<value xml:lang="ko"><![CDATA[글자 폰트]]></value>
+			<value xml:lang="en"><![CDATA[Font]]></value>
+			<value xml:lang="jp"><![CDATA[文字フォント]]></value>
+			<value xml:lang="zh-CN"><![CDATA[字体]]></value>
+			<value xml:lang="zh-TW"><![CDATA[字體]]></value>
+			<value xml:lang="tr"><![CDATA[Yazı Tipi]]></value>
+			<value xml:lang="vi"><![CDATA[Kiểu chữ]]></value>
+		</item>
+		<item name="54">
+			<value xml:lang="ko"><![CDATA[글자 색]]></value>
+			<value xml:lang="en"><![CDATA[Font Color]]></value>
+			<value xml:lang="jp"><![CDATA[テキストの色]]></value>
+			<value xml:lang="zh-CN"><![CDATA[文字颜色]]></value>
+			<value xml:lang="zh-TW"><![CDATA[文字顏色]]></value>
+			<value xml:lang="tr"><![CDATA[Yazı Rengi]]></value>
+			<value xml:lang="vi"><![CDATA[Màu chữ]]></value>
+		</item>
+	</item>
+	<item name="layout_image_repository">
+		<value xml:lang="ko"><![CDATA[레이아웃 파일 저장소]]></value>
+		<value xml:lang="en"><![CDATA[Layout Repository]]></value>
+		<value xml:lang="jp"><![CDATA[レイアウトファイル保存場所]]></value>
+		<value xml:lang="zh-CN"><![CDATA[布局文件库]]></value>
+		<value xml:lang="zh-TW"><![CDATA[版面檔案庫]]></value>
+		<value xml:lang="tr"><![CDATA[Yerleşim Düzeni Havuzu]]></value>
+		<value xml:lang="vi"><![CDATA[Nơi chứa giao diện]]></value>
+	</item>
+	<item name="about_layout_image_repository">
+		<value xml:lang="ko"><![CDATA[선택된 레이아웃에 사용될 이미지/플래시파일 등을 올릴 수 있습니다. 내보내기에 같이 포함 됩니다.]]></value>
+		<value xml:lang="en"><![CDATA[You can upload image/flash files for the selected layout. They will be included in exports.]]></value>
+		<value xml:lang="jp"><![CDATA[選択したレイアウトに使う画像・Ｆｌａｓｈファイル等のアップロード出来ます。また、エクスポートする際、一緒に含まれます。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[可以上传要在所选布局中使用的图片/FLASH文件(导出时包含此库文件)。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[可在所選擇的版面中上傳圖片/ Flash 檔案。匯出時將包含此檔案。]]></value>
+		<value xml:lang="fr"><![CDATA[선택된 레이아웃에 사용될 이미지/플래시파일등을 올릴 수 있습니다. 내보내기에 같이 포함이 됩니다]]></value>
+		<value xml:lang="ru"><![CDATA[You can upload images/flash files for selected layout. They will be included in exports]]></value>
+		<value xml:lang="es"><![CDATA[선택된 레이아웃에 사용될 이미지/플래시파일등을 올릴 수 있습니다. 내보내기에 같이 포함이 됩니다]]></value>
+		<value xml:lang="tr"><![CDATA[Seçili yerleşim düzeni için resimler/flashlar ekleyebilirsiniz. Dışa aktarımda onlar da beraber aktarılacaktır]]></value>
+		<value xml:lang="vi"><![CDATA[Bạn có thể Upload File hình ảnh hoặc Flash cho giao diện đã chọn. Nó sẽ đi kèm khi xuất giao diện ra.]]></value>
+	</item>
+	<item name="msg_layout_image_target">
+		<value xml:lang="ko"><![CDATA[gif, png, jpg, swf, flv파일만 가능합니다.]]></value>
+		<value xml:lang="en"><![CDATA[Only gif, png, jpg, swf, flv files are allowed]]></value>
+		<value xml:lang="jp"><![CDATA[gif, png, jpg, swf, flvファイルのみ可能です。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[只允许上传gif, png, jpg, swf, flv文件。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[只允許上傳 gif, png, jpg, swf, flv 等檔案格式。]]></value>
+		<value xml:lang="fr"><![CDATA[gif, png, jpg, swf, flv파일만 가능합니다]]></value>
+		<value xml:lang="es"><![CDATA[gif, png, jpg, swf, flv파일만 가능합니다]]></value>
+		<value xml:lang="tr"><![CDATA[Sadece gif, png, jpg, swf, flv dosyalarına izin verilmiştir]]></value>
+		<value xml:lang="vi"><![CDATA[Chỉ cho phép những định dạng File: .gif, .png, .jpg, .swf, .flv]]></value>
+	</item>
+	<item name="layout_migration">
+		<value xml:lang="ko"><![CDATA[레이아웃 내보내기/들이기]]></value>
+		<value xml:lang="en"><![CDATA[Layout Migration]]></value>
+		<value xml:lang="jp"><![CDATA[レイアウトのエクスポート/インポート]]></value>
+		<value xml:lang="zh-CN"><![CDATA[导入/导出]]></value>
+		<value xml:lang="zh-TW"><![CDATA[版面匯出/匯入]]></value>
+		<value xml:lang="fr"><![CDATA[레이아웃 내보내기/ 들이기]]></value>
+		<value xml:lang="es"><![CDATA[레이아웃 내보내기/ 들이기]]></value>
+		<value xml:lang="tr"><![CDATA[Yerleşim Düzeni Geçişi]]></value>
+		<value xml:lang="vi"><![CDATA[Di chuyển giao diện]]></value>
+	</item>
+	<item name="about_layout_migration">
+		<value xml:lang="ko"><![CDATA[수정된 레이아웃을 tar 파일로 내보내거나 tar 파일로 저장된 것을 불러올 수 있습니다
+(아직은 faceOff레이아웃만 내보내기/들이기가 됩니다.)]]></value>
+		<value xml:lang="en"><![CDATA[You can export or import the editted layout as a tar file.
+(So far only FaceOff supports exports/imports)]]></value>
+		<value xml:lang="jp"><![CDATA[修正したレイアウトをtar形式の圧縮ファイルにエクスポートしたり、tar形式として保存されたファイルをインポートすることが出来ます。
+(まだ、faceOffレイアウトのみエクスポート/インポートが可能です。)]]></value>
+		<value xml:lang="zh-CN"><![CDATA[可以把已修改好的布局导出为tar文件或把已有的tar文件直接导入。
+(目前此功能只能在faceOff布局中使用)]]></value>
+		<value xml:lang="zh-TW"><![CDATA[可將修改過的版面匯出成 tar 檔案或是直接匯入現有的 tar 檔案。
+(此功能目前只能用於 faceOff 版面中]]></value>
+		<value xml:lang="fr"><![CDATA[수정된 레이아웃을 tar 파일로 내보내거나 tar 파일로 저장된 것을 불러올 수 있습니다
+(아직은 faceOff레이아웃만 내보내기/들이기가 됩니다]]></value>
+		<value xml:lang="ru"><![CDATA[You can export or import editted layout as tar file
+(So far only FaceOff supports exports/imports)]]></value>
+		<value xml:lang="es"><![CDATA[수정된 레이아웃을 tar 파일로 내보내거나 tar 파일로 저장된 것을 불러올 수 있습니다
+(아직은 faceOff레이아웃만 내보내기/들이기가 됩니다]]></value>
+		<value xml:lang="tr"><![CDATA[Değiştirilmiş yerleşim düzenlerini tar dosyası olarak içe veya dışa aktarabilirsiniz.
+(Şimdilik sadece FaceOff iç/dış aktarım desteği sunmaktadır)]]></value>
+		<value xml:lang="vi"><![CDATA[You can export or import editted layout as tar file
+(So far only FaceOff supports exports/imports)]]></value>
+	</item>
+	<item name="about_faceoff" type="array">
+		<item name="title">
+			<value xml:lang="ko"><![CDATA[XpressEngine FaceOff Layout 관리자]]></value>
+			<value xml:lang="en"><![CDATA[XpressEngine FaceOff Layout Manager]]></value>
+			<value xml:lang="jp"><![CDATA[XpressEngine FaceOff レイアウト管理ツール]]></value>
+			<value xml:lang="zh-CN"><![CDATA[XpressEngine FaceOff布局管理工具]]></value>
+			<value xml:lang="zh-TW"><![CDATA[XpressEngine FaceOff 版面管理者]]></value>
+			<value xml:lang="tr"><![CDATA[XpressEngine FaceOff Yerleşim Düzeni Yöneticisi]]></value>
+			<value xml:lang="vi"><![CDATA[Quản lý giao diện XpressEngine FaceOff]]></value>
+		</item>
+		<item name="description">
+			<value xml:lang="ko"><![CDATA[FaceOff Layout관리자로 웹상에서 쉽게 레이아웃을 꾸밀 수 있습니다.<br/>아래 그림을 보시고 구성요소와 기능을 이용하여 원하시는 레이아웃을 만드세요.]]></value>
+			<value xml:lang="en"><![CDATA[FaceOff Layout Manager willl help you design layout on the web easily.<br/>Please design your own layout with components and functions as shown below.]]></value>
+			<value xml:lang="jp"><![CDATA[FaceOffレイアウト管理ツールはウェブ上で、手軽なレイアウト変更を可能にします。<br />下の図を参照しながら構成要素と機能を理解し、自由にレイアウトをカスタマイズしてみて下さい。]]></value>
+			<value xml:lang="zh-CN"><![CDATA[利用FaceOff布局管理工具，可以在线随意布置您的布局。<br/>请仔细查看下面的布局示意图和功能简介后，尽情发挥吧！<br/>FaceOff的布局示意图如下：]]></value>
+			<value xml:lang="zh-TW"><![CDATA[FaceOff Layout 版面管理者，可方便地在線上修改與設計版面。<br/>下圖為版面架構示意圖和功能簡介，瞭解後發揮創意製作出自己想要的版面吧!]]></value>
+			<value xml:lang="fr"><![CDATA[FaceOff Layout관리자는 웹상에서 쉽게 레이아웃을 꾸밀 수 있습니다.<br/>아래 그림을 보시고 구성요소와 기능을 이용하여 원하시는 레이아웃을 만드세요]]></value>
+			<value xml:lang="es"><![CDATA[FaceOff Layout관리자는 웹상에서 쉽게 레이아웃을 꾸밀 수 있습니다.<br/>아래 그림을 보시고 구성요소와 기능을 이용하여 원하시는 레이아웃을 만드세요]]></value>
+			<value xml:lang="tr"><![CDATA[FaceOff Yerleşim Düzeni Yöneticisi, tarayıcınızı kullanarak kolayca yerleşim düzenini tasarlamanıza yardımcı olacaktır.<br/>Lütfen kendi yerleşim düzeninize, aşağıda da gösterildiği gibi, bileşenler ve özellikler tasarlayınız.]]></value>
+			<value xml:lang="vi"><![CDATA[Quản lý giao diện FaceOff sẽ giúp bạn tao ra một giao diện cho riêng mình một cách dễ dàng.<br/>Xin hãy thiết kế giao diện của mình với những thành phần và những chức năng hiển thị phía dưới.]]></value>
+		</item>
+		<item name="layout">
+			<value xml:lang="ko"><![CDATA[FaceOff는 위와 같은 HTML 구조로 되어 있습니다.<br/>이 구조에서 CSS를 이용하여 형태/배열/정렬을 할 수 있고 또 Style을 이용하여 꾸밀 수 있습니다.<br/>위젯 추가는 Extension(e1, e2)과 Neck, Knee에서 가능합니다.<br/>이 외 Body, Layout, Header, Body, Footer는 Style을 꾸밀 수 있고 Content는 모듈의 내용이 출력됩니다.]]></value>
+			<value xml:lang="en"><![CDATA[FaceOff has HTML structure as above.<br/>You can arrange/align with CSS, or use Style to design.<br/>You can add widget from Extension(e1, e2), Neck and Knee.<br/>Also Body, Layout, Header, Body, Footer can designed by Style, and Content will display content.]]></value>
+			<value xml:lang="jp"><![CDATA[FaceOffは上のようなHTML構造になっています。<br />この構造にてCSSを用いた「レイアウト／配列／整列」の調整が可能になり、さらにStyleを使った自由なカスタマイズが出来ます。<br />ウィジェットの追加はExtension(e1、e2)と Neck、 Kneeにて可能です。<br />その他にもBody、Layout、Header、Body、FooterはStyleをカスタマイズが出来、Contentではモジュールの内容が出力されます。]]></value>
+			<value xml:lang="zh-CN"><![CDATA[根据布局示意图，对其进行宽度/版式/对齐方式的调整。<br/>控件插入区为Extension(e1, e2)区和Neck, Knee区。<br/>另外的Body, Layout, Header, Body, Footer区可以使用Style来进行渲染，Content区是内容显示区。]]></value>
+			<value xml:lang="zh-TW"><![CDATA[FaceOff 的架構和 HTML 相同。<br/>可以使用 CSS 或樣式設計。<br/>可新增 Widget 到 Extension(e1, e2), Neck, Knee 等區域。<br/>另外 Body, Layout, Header, Body, Footer 可以使用樣式設計，而 Content 區域會顯示內容。]]></value>
+			<value xml:lang="fr"><![CDATA[FaceOff는 위와 같은 HTML 구조로 되어 있습니다.<br/>이 구조에서 CSS를 이용하여 형태/배열/정렬을 할 수 있고 또 Style을 이용하여 꾸밀 수 있습니다.<br/>위젯 추가는 Extension(e1, e2)와 Neck, Knee에서 가능합니다.<br/>이 외 Body, Layout, Header, Body, Footer는 Style을 꾸밀 수 있고 Content는 모듈의 내용이 출력됩니다.]]></value>
+			<value xml:lang="es"><![CDATA[FaceOff는 위와 같은 HTML 구조로 되어 있습니다.<br/>이 구조에서 CSS를 이용하여 형태/배열/정렬을 할 수 있고 또 Style을 이용하여 꾸밀 수 있습니다.<br/>위젯 추가는 Extension(e1, e2)와 Neck, Knee에서 가능합니다.<br/>이 외 Body, Layout, Header, Body, Footer는 Style을 꾸밀 수 있고 Content는 모듈의 내용이 출력됩니다.]]></value>
+			<value xml:lang="tr"><![CDATA[FaceOff yukardaki gibi bir HTML yapısına sahiptir.<br/>Tasarlamak için Style kullanabilir ya da CSS ile ayarlayabilirsiniz.<br/>Extension(e1, e2), Neck ve Knee den widget ekleyebilirsiniz.<br/>Aynı zamanda Body, Layout, Header, Body, Footer; Style tarafından tasarlanabilir, ve İçerik, içeriği gösterecektir.]]></value>
+			<value xml:lang="vi"><![CDATA[FaceOff có cấu trúc HTML như trên.<br/>bạn có thể thu vào hoặc giãn ra với CSS, hay sử dụng kiểu dáng để thiết kế.<br/>Bạn có thể thêm Widget từ phần mở rộng (e1, e2), Neck và Knee.<br/>Ngoài ra Body, Giao diện, Header, Body, Footer có thể được thiết kế theo kích cỡ, và Content sẽ hiển thị nội dung.]]></value>
+		</item>
+		<item name="setting">
+			<value xml:lang="ko"><![CDATA[좌측 상단의 메뉴에 대해 설명 드립니다.<br/><ul><li>저장 : 설정된 내용을 저장합니다.</li><li>취소 : 설정한 내용을 저장하지 않고 돌아갑니다.</li><li>초기화 : 아무 설정도 되어 있지 않은 백지 상태로 돌립니다.</li><li>형태 : 고정/ 가변/ 고정+가변(내용)의 형태를 지정합니다.</li><li>배열 : Extension 2개와 Content를 배열합니다.</li><li>정렬 : 레이아웃의 위치를 정렬시킬 수 있습니다.</li></ul>]]></value>
+			<value xml:lang="en"><![CDATA[Here are the explanations of the upper menu on the left.<br/><ul><li>Save : Save current settings.</li><li>Cancel : Discard current settings and go back.</li><li>Reset : Clear current settings</li><li>Form : Set form as Fixed/ Variable/ Fixed+Variable(Content).</li><li>Arrange : Arrange 2 Extensions and Content.</li><li>Align : Align the position of layout.</li></ul>]]></value>
+			<value xml:lang="jp"><![CDATA[左側上段のメニューの説明<br/><ul><li>保存 : 設定内容を保存します。</li><li>取り消し : 設定内容を保存せずに、差し戻します。</li><li>初期化 : 何の設定もない白紙状態（もしくはインストール時のデフォールト状態）に戻ります。</li><li>レイアウトタイプ : 固定／可変／固定+可変（内容）型のレイアウトを指定します。</li><li>配列 : Body部分に2つのExtensionとContentを配列します。</li><li>整列 : レイアウトの位置を整列します。</li></ul>]]></value>
+			<value xml:lang="zh-CN"><![CDATA[布局管理工具顶部左侧菜单说明：<br/><ul><li>保存 : 保存已修改的设置</li><li>取消 : 不保存返回</li><li>初始化 : 重置为空白布局</li><li>宽度 : 可指定固定/自适应/固定+自适应(内容)布局宽度样式</li><li>版式 : 可布置2个Extension区和Content区的样式</li><li>对齐 : 布局对齐方式</li></ul>]]></value>
+			<value xml:lang="zh-TW"><![CDATA[左上方的選單說明：<br/><ul><li>儲存 : 儲存設定內容</li><li>取消 : 不儲存設定內容並返回上一頁</li><li>重置 : 重新設置回到最原始的版面設定</li><li>模式 : 可設定版面模式為固定/ 變動/ 固定+變動(內容)</li><li>樣式 : 可設置兩個 Extension 區域和 Content 區域</li><li>對齊 : 可選擇版面的對齊方式</li></ul>]]></value>
+			<value xml:lang="fr"><![CDATA[좌측 상단의 메뉴에 대해 설명 드립니다.<br/><ul><li>저장 : 설정된 내용을 저장합니다.</li><li>취소 : 설정한 내용을 저장하지 않고 돌아갑니다.</li><li>초기화 : 아무 설정도 되어 있지 않은 백지 상태로 돌립니다</li><li>형태 : 고정/ 가변/ 고정+가변(내용)의 형태를 지정합니다.</li><li>배열 : Extension 2개와 Content를 배열합니다.</li><li>정렬 : 레이아웃의 위치를 정렬시킬 수 있습니다.</li></ul>]]></value>
+			<value xml:lang="ru"><![CDATA[Let me explain you the upper menu on left.<br/><ul><li>Save : Save current settings.</li><li>Cancel : Discard current settings and go back.</li><li>Reset : Clear current settings</li><li>Form : Set form as Fixed/ Variable/ Fixed+Variable(Content).</li><li>Arrange : Arrange 2 Extensions and Content.</li><li>Align : Align the position of layout.</li></ul>]]></value>
+			<value xml:lang="es"><![CDATA[좌측 상단의 메뉴에 대해 설명 드립니다.<br/><ul><li>저장 : 설정된 내용을 저장합니다.</li><li>취소 : 설정한 내용을 저장하지 않고 돌아갑니다.</li><li>초기화 : 아무 설정도 되어 있지 않은 백지 상태로 돌립니다</li><li>형태 : 고정/ 가변/ 고정+가변(내용)의 형태를 지정합니다.</li><li>배열 : Extension 2개와 Content를 배열합니다.</li><li>정렬 : 레이아웃의 위치를 정렬시킬 수 있습니다.</li></ul>]]></value>
+			<value xml:lang="tr"><![CDATA[Sol üsteki menüyü açıklayalım..<br/><ul><li>Kaydet : Mevcut ayarları kaydeder.</li><li>İptal : Mevcut ayarlardan vazgeçer ve geri döner.</li><li>Sıfırla : Mevcut ayarları temizler</li><li>Biçim : Biçim, Sabit/ Değişken/ Sabit+Değişken(İçerik).</li><li>Yerleştir : 2 Uzantı ve İçerik yerleştirir.</li><li>Hizala : Yerleşim düzeninin konumunu hizalar.</li></ul>]]></value>
+			<value xml:lang="vi"><![CDATA[Menu phía bên trái.<br/><ul><li>"Lưu lại": là lưu lại những thiết lập hiện tại.</li><li>"Loại bỏ": là bỏ qua những thay đổi hiện tại và trở lại.</li><li>"Thiết lập lại": là xóa bỏ tất cả những thay đổi.</li><li>"Form": đặt Form dạng Cố định, Biến thiên, Cố định+Biến thiên (Nội dung).</li><li>"Thu nhỏ": là thu nhỏ hai phần mở rộng và nội dung.</li><li>"Căn chỉnh" : là sắp xếp sự thẳng hàng.</li></ul>]]></value>
+		</item>
+		<item name="hotkey">
+			<value xml:lang="ko"><![CDATA[마우스로 각 영역을 선택하면서 Hot Key를 이용하시면 더 쉽게 꾸미실 수 있습니다.<br/><ul><li>tab 키 : 위젯이 선택되어 있지 않으면 Header, Body, Footer 순으로 선택됩니다. 위젯이 선택되어 있다면 다음 위젯으로 선택이 이동됩니다.</li><li>Shift + tab키 : tab키와 반대 역할을 합니다.</li><li>Esc : 아무것도 선택되어 있지 않을 때 Esc를 누르면 Neck, Extension(e1,e2),Knee 순서대로 선택이 되며 위젯이 선택되어 있다면 선택된 위젯을 감싸는 영역이 선택됩니다.</li><li>방향키 : 위젯이 선택되어 있을 때 방향키를 이용하여 위젯을 다른 영역으로 이동시킬 수 있습니다.</li></ul>]]></value>
+			<value xml:lang="en"><![CDATA[You can design your layout more easily with Hot Keys.<br/><ul><li>tab : Unless a widget is selected, Header, Body, Footer will be selected in order. If not, next widget will be selected.</li><li>Shift + tab : It does the opposite function to tab key.</li><li>Esc : If nothing is selected, Neck, Extension(e1,e2), Knee will be selected in order, if a widget is selected, area of the widget will be selected.</li><li>Arrow Key : If a widget is selected, arrow key will move the widget to other areas.</li></ul>]]></value>
+			<value xml:lang="jp"><![CDATA[マウスを使って各スペースを選択しながら、Hot Keyを利用すると、より便利なカスタマイズ出来ます。<br/><ul><li>tabキー : ウィジェットが選択されてない場合、Header、Body、 Footer順に選択されます。ウィジェットが選択されている場合は、次のウィジェットに選択されます。</li><li>Shift + tabキー : tabキーと逆の役割をします。</li><li>Esc : 何も選択されてない場合、Escを押すとNeck、Extension(e1、e2)、Knee順に選択され、また、ウィジェットが選択されている場合は選択されたウィジェットを囲む領域が選択されます。</li><li>矢印 : ウィジェットが選択されている時、矢印キーを用いて、ウィジェットを他の領域に移せます。</li></ul>]]></value>
+			<value xml:lang="zh-CN"><![CDATA[选取各个区域可以利用鼠标，还可以利用快捷键：<br/><ul><li>tab键 : 当前没有被选取的控件，选取顺序为： Header, Body, Footer；已有被选取的控件，将选取下一个控件。</li><li>Shift + tab键 : 与tab键作用相反。</li><li>Esc键 : 当前没有被选取的区域，选取顺序为： Neck, Extension(e1,e2),Knee；已有被选取的控件，将选取包含此控件的区域。</li><li>方向键 : 已有被选取的控件时，可以利用方向键移到别的区域。</li></ul>]]></value>
+			<value xml:lang="zh-TW"><![CDATA[除了可利用滑鼠選取各區域外，也能使用熱鍵選取：<br/><ul><li>tab鍵 : 當沒有選取 Widget 時，選擇順序是： Header, Footer, Body；當有選取 Widget 時，將會選擇下一個。</li><li>Shift + tab 鍵 : 功能和 tab 鍵相反</li><li>Esc 鍵 : 當沒有選擇區域時，選擇順序是： Neck, Extension(e1,e2),Knee；當有選擇 Widget 時，將會選則此 Widget 所屬的區域。</li><li>方向鍵 : 當有選擇 Widget 時，可利用方向鍵作移動。</li></ul>]]></value>
+			<value xml:lang="fr"><![CDATA[마우스로 각 영역을 선택하면서 Hot Key를 이용하시면 더 쉽게 꾸미실 수 있습니다.<br/><ul><li>tab 키 : 위젯이 선택되어 있지 않으면 Header, Body, Footer 순으로 선택됩니다. 위젯이 선택되어 있다면 다음 위젯으로 선택이 이동됩니다.</li><li>Shift + tab키 : tab키와 반대 역할을 합니다.</li><li>Esc : 아무것도 선택되어 있지 않을때 Esc를 누르면 Neck, Extension(e1,e2),Knee 순서대로 선택이 되며 위젯이 선택되어 있다면 선택된 위젯을 감싸는 영역이 선택됩니다.</li><li>방향키 : 위젯이 선택되어 있을때 방향키를 이용하여 위젯을 다른 영역으로 이동시킬 수 있습니다.</li></ul>]]></value>
+			<value xml:lang="ru"><![CDATA[You can design your layout more easily with Hot Keys.<br/><ul><li>tab : Unless a widget is selected, Header, Body, Footer will be selected in order. If not, next widget will be selected.</li><li>Shift + tab : It does the opposite function to tab key.</li><li>Esc : If nothing is selected, Neck, Extension(e1,e2),Knee will be selected in order, if a widget is selected, area of the widget will be selected.</li><li>Arrow Key : If a widget is selected, arrow key will move the widget to other areas.</li></ul>]]></value>
+			<value xml:lang="es"><![CDATA[마우스로 각 영역을 선택하면서 Hot Key를 이용하시면 더 쉽게 꾸미실 수 있습니다.<br/><ul><li>tab 키 : 위젯이 선택되어 있지 않으면 Header, Body, Footer 순으로 선택됩니다. 위젯이 선택되어 있다면 다음 위젯으로 선택이 이동됩니다.</li><li>Shift + tab키 : tab키와 반대 역할을 합니다.</li><li>Esc : 아무것도 선택되어 있지 않을때 Esc를 누르면 Neck, Extension(e1,e2),Knee 순서대로 선택이 되며 위젯이 선택되어 있다면 선택된 위젯을 감싸는 영역이 선택됩니다.</li><li>방향키 : 위젯이 선택되어 있을때 방향키를 이용하여 위젯을 다른 영역으로 이동시킬 수 있습니다.</li></ul>]]></value>
+			<value xml:lang="tr"><![CDATA[Yerleşim düzenini kısayol tuşlarıyla daha kolay tasarlayabilirsiniz.<br/><ul><li>sekme tuşu(tab) : Bir widget seçilmedikçe; Header, Body, Footer sırasıyla seçilecektir. Eğer seçilmezse, bir sonraki widget seçilecektir.</li><li>Shift + sekme tuşu : Sekme tuşunun tersi hareket gerçekleştirir.</li><li>Esc : Eğer hiçbir şey seçilmediyse, Neck, Extension(e1,e2),Knee sırasıyla seçilecektir, eğer bir widget seçilmişse, widget alanı seçilecektir.</li><li>Yön Tuşları : Eğer bir widget seçiliyse, yön tuşları widget uygulanan yönlere hareket ettirecektir</li></ul>]]></value>
+			<value xml:lang="vi"><![CDATA[Bạn có thể thiết kế giao diện của mình dễ dàng hơn nữa với những phím tắt.<br/><ul><li>"Tab": trừ khi một Widget được chọn, Header, Body, Footer sẽ được chọn trong lệnh. Nếu không, Widget tiếp theo sẽ được chọn.</li><li>"Shift+Tab": nó ngược lại với phím "Tab".</li><li>"Esc": Nếu không có gì được chọn, Neck, Extension (e1, e2 ), Knee sẽ được lựa chọn theo thứ tự, nếu một Widget được chọn, kích thước Widget sẽ được lựa chọn.</li><li>"4 phím mũi tên": Nếu Widget đã được chọn, nó sẽ di chuyển Widget tới một vị trí mới.</li></ul>]]></value>
+		</item>
+		<item name="attribute">
+			<value xml:lang="ko"><![CDATA[위젯을 제외한 각 영역들은 모두 배경 색/ 이미지를 지정할 수 있고 글자색(a 태그 포함됨)을 정할 수 있습니다.]]></value>
+			<value xml:lang="en"><![CDATA[You can set background color/image to every area except for a widget, and font color (include <a> tag).]]></value>
+			<value xml:lang="jp"><![CDATA[ウィジェットを除いた各領域はすべて背景の色・イメージ・文字のテキスト色(「a」タグを含む)の指定が可能です。]]></value>
+			<value xml:lang="zh-CN"><![CDATA[除控件之外的各个区域都可以对其指定背景色/背景图片及字体颜色(包括a标签)。]]></value>
+			<value xml:lang="zh-TW"><![CDATA[除了 Widget 以外的各個區域都可以指定背景顏色/圖片及文字顏色(包含 a 標籤)。]]></value>
+			<value xml:lang="ru"><![CDATA[You can set background color/image to every area except widget, and font color(include <a> tag).]]></value>
+			<value xml:lang="tr"><![CDATA[Widget harici, tüm alanların arkaplan rengini/resmini ve yazı rengini(<a> etiketi de dahil) ayarlayabilirsiniz.]]></value>
+			<value xml:lang="vi"><![CDATA[Bạn có thể đặt màu nền / hình nền tới mọi khu vực trừ Widget, và màu chữ (bao gồm cả Tag).]]></value>
+		</item>
+	</item>
+	<item name="mobile_layout_list">
+		<value xml:lang="ko"><![CDATA[모바일 레이아웃 목록]]></value>
+		<value xml:lang="en"><![CDATA[Mobile Layout List]]></value>
+		<value xml:lang="jp"><![CDATA[モバイルレイアウトリスト]]></value>
+		<value xml:lang="zh-CN"><![CDATA[移动版布局目录]]></value>
+		<value xml:lang="zh-TW"><![CDATA[手機版面列表]]></value>
+		<value xml:lang="tr"><![CDATA[Hareketli Yerleşim Düzeni Listesi]]></value>
+	</item>
+	<item name="mobile_downloaded_list">
+		<value xml:lang="ko"><![CDATA[모바일 다운로드 목록]]></value>
+		<value xml:lang="en"><![CDATA[Downloaded Mobile Layouts]]></value>
+		<value xml:lang="jp"><![CDATA[ダウンロードしたモバイルレイアウト]]></value>
+		<value xml:lang="zh-CN"><![CDATA[移动版布局下载目录]]></value>
+		<value xml:lang="zh-TW"><![CDATA[下載手機版面]]></value>
+		<value xml:lang="tr"><![CDATA[İndirilmiş Hareketli Yerleşim Düzenleri]]></value>
+	</item>
+	<item name="apply_mobile_view">
+		<value xml:lang="ko"><![CDATA[모바일 뷰 일괄 적용]]></value>
+		<value xml:lang="en"><![CDATA[Apply Mobile View]]></value>
+		<value xml:lang="jp"><![CDATA[モバイルスキン使用]]></value>
+		<value xml:lang="zh-CN"><![CDATA[移动版布局共享]]></value>
+		<value xml:lang="tr"><![CDATA[Hareketli Görünümü Uygula]]></value>
+	</item>
+	<item name="about_apply_mobile_view">
+		<value xml:lang="ko"><![CDATA[체크하시면 연결된 모든 메뉴에서 모바일 뷰를 사용합니다.]]></value>
+		<value xml:lang="en"><![CDATA[All connected modules use the mobile view to display when accessing with mobile device.]]></value>
+		<value xml:lang="jp"><![CDATA[活性化すると連結されている全てのモジュールでモバイルスキンが適用されます。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[勾选表示连接到此布局的所有菜单项全部采用此移动版布局。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[All connected module use mobile view to display when accessing with mobile device.]]></value>
+		<value xml:lang="fr"><![CDATA[All connected module use mobile view to display when accessing with mobile device.]]></value>
+		<value xml:lang="ru"><![CDATA[All connected module use mobile view to display when accessing with mobile device.]]></value>
+		<value xml:lang="es"><![CDATA[All connected module use mobile view to display when accessing with mobile device.]]></value>
+		<value xml:lang="tr"><![CDATA[Hareketli cihazlarla bağlanırken, bağlı tüm modüller hareketli görünüme geçerler.]]></value>
+		<value xml:lang="vi"><![CDATA[All connected module use mobile view to display when accessing with mobile device.]]></value>
+	</item>
+</lang>

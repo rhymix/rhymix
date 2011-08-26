@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<lang>
+	<item name="counter">
+		<value xml:lang="ko"><![CDATA[접속 통계]]></value>
+		<value xml:lang="en"><![CDATA[Counter]]></value>
+		<value xml:lang="jp"><![CDATA[カウンター]]></value>
+		<value xml:lang="zh-CN"><![CDATA[访问统计]]></value>
+		<value xml:lang="zh-TW"><![CDATA[訪問統計]]></value>
+		<value xml:lang="fr"><![CDATA[Coumpteur]]></value>
+		<value xml:lang="ru"><![CDATA[Счетчик посетителей]]></value>
+		<value xml:lang="es"><![CDATA[Contador]]></value>
+		<value xml:lang="tr"><![CDATA[Sayaç]]></value>
+		<value xml:lang="vi"><![CDATA[Lượt truy cập]]></value>
+	</item>
+	<item name="cmd_select_date">
+		<value xml:lang="ko"><![CDATA[날짜 선택]]></value>
+		<value xml:lang="en"><![CDATA[Select Date]]></value>
+		<value xml:lang="jp"><![CDATA[日付選択]]></value>
+		<value xml:lang="zh-CN"><![CDATA[选择日期]]></value>
+		<value xml:lang="zh-TW"><![CDATA[選擇日期]]></value>
+		<value xml:lang="fr"><![CDATA[Choisir un Jour]]></value>
+		<value xml:lang="ru"><![CDATA[Выберите дату]]></value>
+		<value xml:lang="es"><![CDATA[Selecciona la fecha]]></value>
+		<value xml:lang="tr"><![CDATA[Tarih Seç]]></value>
+		<value xml:lang="vi"><![CDATA[Chọn ngày]]></value>
+	</item>
+	<item name="cmd_select_counter_type" type="array">
+		<item name="hour">
+			<value xml:lang="ko"><![CDATA[시간대별]]></value>
+			<value xml:lang="en"><![CDATA[By Hour]]></value>
+			<value xml:lang="jp"><![CDATA[時間帯別]]></value>
+			<value xml:lang="zh-CN"><![CDATA[按时]]></value>
+			<value xml:lang="zh-TW"><![CDATA[按時]]></value>
+			<value xml:lang="fr"><![CDATA[Par Heure]]></value>
+			<value xml:lang="ru"><![CDATA[По часам]]></value>
+			<value xml:lang="es"><![CDATA[por hora]]></value>
+			<value xml:lang="tr"><![CDATA[Saate Göre]]></value>
+			<value xml:lang="vi"><![CDATA[Theo giờ]]></value>
+		</item>
+		<item name="day">
+			<value xml:lang="ko"><![CDATA[일별]]></value>
+			<value xml:lang="en"><![CDATA[By Day]]></value>
+			<value xml:lang="jp"><![CDATA[日別]]></value>
+			<value xml:lang="zh-CN"><![CDATA[按天]]></value>
+			<value xml:lang="zh-TW"><![CDATA[按天]]></value>
+			<value xml:lang="fr"><![CDATA[Par Jour]]></value>
+			<value xml:lang="ru"><![CDATA[По дням]]></value>
+			<value xml:lang="es"><![CDATA[por día]]></value>
+			<value xml:lang="tr"><![CDATA[Güne Göre]]></value>
+			<value xml:lang="vi"><![CDATA[Theo ngày]]></value>
+		</item>
+		<item name="month">
+			<value xml:lang="ko"><![CDATA[월별]]></value>
+			<value xml:lang="en"><![CDATA[By Month]]></value>
+			<value xml:lang="jp"><![CDATA[月別]]></value>
+			<value xml:lang="zh-CN"><![CDATA[按月]]></value>
+			<value xml:lang="zh-TW"><![CDATA[按月]]></value>
+			<value xml:lang="fr"><![CDATA[Par Mois]]></value>
+			<value xml:lang="ru"><![CDATA[По месяцам]]></value>
+			<value xml:lang="es"><![CDATA[por mes]]></value>
+			<value xml:lang="tr"><![CDATA[Aya Göre]]></value>
+			<value xml:lang="vi"><![CDATA[Theo tháng]]></value>
+		</item>
+		<item name="year">
+			<value xml:lang="ko"><![CDATA[연도별]]></value>
+			<value xml:lang="en"><![CDATA[By Year]]></value>
+			<value xml:lang="jp"><![CDATA[年度別]]></value>
+			<value xml:lang="zh-CN"><![CDATA[按年]]></value>
+			<value xml:lang="zh-TW"><![CDATA[按年]]></value>
+			<value xml:lang="fr"><![CDATA[Par Année]]></value>
+			<value xml:lang="ru"><![CDATA[По годам]]></value>
+			<value xml:lang="es"><![CDATA[por año]]></value>
+			<value xml:lang="tr"><![CDATA[Yıla Göre]]></value>
+			<value xml:lang="vi"><![CDATA[Theo năm]]></value>
+		</item>
+	</item>
+	<item name="total_counter">
+		<value xml:lang="ko"><![CDATA[전체현황]]></value>
+		<value xml:lang="en"><![CDATA[Total Status]]></value>
+		<value xml:lang="jp"><![CDATA[トータル]]></value>
+		<value xml:lang="zh-CN"><![CDATA[总揽]]></value>
+		<value xml:lang="zh-TW"><![CDATA[總共]]></value>
+		<value xml:lang="fr"><![CDATA[Statut Total]]></value>
+		<value xml:lang="ru"><![CDATA[Общее состояние]]></value>
+		<value xml:lang="es"><![CDATA[Estado actual Total]]></value>
+		<value xml:lang="tr"><![CDATA[Genel Durum]]></value>
+		<value xml:lang="vi"><![CDATA[Tổng số lượt truy cập]]></value>
+	</item>
+	<item name="selected_day_counter">
+		<value xml:lang="ko"><![CDATA[선택일 현황]]></value>
+		<value xml:lang="en"><![CDATA[Status of the selected day]]></value>
+		<value xml:lang="jp"><![CDATA[選択日の情報]]></value>
+		<value xml:lang="zh-CN"><![CDATA[指定日概况]]></value>
+		<value xml:lang="zh-TW"><![CDATA[指定日概況]]></value>
+		<value xml:lang="fr"><![CDATA[Statut Journal]]></value>
+		<value xml:lang="ru"><![CDATA[Состояние на выбранный день]]></value>
+		<value xml:lang="es"><![CDATA[Estado actual del día seleccionado]]></value>
+		<value xml:lang="tr"><![CDATA[Seçilen Günün Durumu]]></value>
+		<value xml:lang="vi"><![CDATA[Số truy cập trong ngày]]></value>
+	</item>
+	<item name="unique_visitor">
+		<value xml:lang="ko"><![CDATA[방문자]]></value>
+		<value xml:lang="en"><![CDATA[Visitors]]></value>
+		<value xml:lang="jp"><![CDATA[訪問者]]></value>
+		<value xml:lang="zh-CN"><![CDATA[访问者]]></value>
+		<value xml:lang="zh-TW"><![CDATA[訪問者]]></value>
+		<value xml:lang="fr"><![CDATA[Visiteurs]]></value>
+		<value xml:lang="ru"><![CDATA[Посетителей]]></value>
+		<value xml:lang="es"><![CDATA[visitante]]></value>
+		<value xml:lang="tr"><![CDATA[Ziyaretçiler]]></value>
+		<value xml:lang="vi"><![CDATA[Số lượt xem]]></value>
+	</item>
+	<item name="pageview">
+		<value xml:lang="ko"><![CDATA[페이지뷰]]></value>
+		<value xml:lang="en"><![CDATA[Pageview]]></value>
+		<value xml:lang="jp"><![CDATA[ページビュー]]></value>
+		<value xml:lang="zh-CN"><![CDATA[页面浏览]]></value>
+		<value xml:lang="zh-TW"><![CDATA[頁面瀏覽]]></value>
+		<value xml:lang="fr"><![CDATA[Vues]]></value>
+		<value xml:lang="ru"><![CDATA[Просмотров страниц]]></value>
+		<value xml:lang="es"><![CDATA[Ver página]]></value>
+		<value xml:lang="tr"><![CDATA[Sayfa Gösterimi]]></value>
+		<value xml:lang="vi"><![CDATA[Số trang]]></value>
+	</item>
+	<item name="today">
+		<value xml:lang="ko"><![CDATA[오늘]]></value>
+		<value xml:lang="en"><![CDATA[today]]></value>
+		<value xml:lang="jp"><![CDATA[今日]]></value>
+		<value xml:lang="zh-CN"><![CDATA[今日]]></value>
+		<value xml:lang="zh-TW"><![CDATA[今天]]></value>
+		<value xml:lang="ru"><![CDATA[Сегодня]]></value>
+		<value xml:lang="tr"><![CDATA[bugün]]></value>
+		<value xml:lang="vi"><![CDATA[Hôm nay]]></value>
+	</item>
+	<item name="yesterday">
+		<value xml:lang="ko"><![CDATA[어제]]></value>
+		<value xml:lang="en"><![CDATA[yesterday]]></value>
+		<value xml:lang="jp"><![CDATA[昨日]]></value>
+		<value xml:lang="zh-CN"><![CDATA[昨日]]></value>
+		<value xml:lang="zh-TW"><![CDATA[昨天]]></value>
+		<value xml:lang="ru"><![CDATA[Вчера]]></value>
+		<value xml:lang="tr"><![CDATA[dün]]></value>
+		<value xml:lang="vi"><![CDATA[Hôm qua]]></value>
+	</item>
+</lang>
