@@ -13,6 +13,7 @@
         function init() {
         }
 
+		// deprecated
         /**
          * @brief Create a new layout
          * Insert a title into "layouts" table in order to create a layout
@@ -26,19 +27,20 @@
             $args->title = Context::get('title');
 			$args->layout_type = Context::get('layout_type');
 			if(!$args->layout_type) $args->layout_type = "P";
-            // Insert into the DB
+
+			// Insert into the DB
             $output = $this->insertLayout($args);
             if(!$output->toBool()) return $output;
-            // initiate if it is faceoff layout
-            $this->initLayout($args->layout_srl, $args->layout);
-            // Return result
-            $this->add('layout_srl', $args->layout_srl);
 
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispLayoutAdminContent');
-				header('location:'.$returnUrl);
-				return;
-			}
+			// initiate if it is faceoff layout
+            $this->initLayout($args->layout_srl, $args->layout);
+
+			// update layout info
+			Context::set('layout_srl', $args->layout_srl);
+			$output = $this->procLayoutAdminUpdate();
+			if (!$output->toBool()) return $output;
+
+			$this->setRedirectUrl(Context::get('success_return_url'));
         }
 
         // Insert layout information into the DB
@@ -157,7 +159,7 @@
                     $extra_vars->{$name} = $filename;
                 }
             }
-            // Save header script into "config" of layout module 
+            // Save header script into "config" of layout module
             $oModuleModel = &getModel('module');
             $oModuleController = &getController('module');
             $layout_config->header_script = Context::get('header_script');
@@ -170,15 +172,8 @@
             $output = $this->updateLayout($args);
             if(!$output->toBool()) return $output;
 
-            //$this->setLayoutPath('./common/tpl');
-            //$this->setLayoutFile('default_layout.html');
-            //$this->setTemplatePath($this->module_path.'tpl');
-            //$this->setTemplateFile("top_refresh.html");
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispLayoutAdminModify', 'layout_srl', Context::get('layout_srl'));
-				header('location:'.$returnUrl);
-				return;
-			}
+			$this->setRedirectUrl(Context::get('error_return_url'));
+			return new Object();
         }
 
         function updateLayout($args) {
@@ -189,7 +184,7 @@
                 FileHandler::removeFile($cache_file);
 				//remove from cache
                 $oCacheHandler = &CacheHandler::getInstance('object');
-                if($oCacheHandler->isSupport()) 
+                if($oCacheHandler->isSupport())
                 {
                 	$cache_key = 'object:'.$args->layout_srl;
                 	$oCacheHandler->delete($cache_key);
@@ -204,6 +199,7 @@
          **/
         function procLayoutAdminDelete() {
             $layout_srl = Context::get('layout_srl');
+			$this->setRedirectUrl(Context::get('error_return_url'));
             return $this->deleteLayout($layout_srl);
         }
 
@@ -220,7 +216,7 @@
             $output = executeQuery("layout.deleteLayout", $args);
 			//remove from cache
             $oCacheHandler = &CacheHandler::getInstance('object');
-            if($oCacheHandler->isSupport()) 
+            if($oCacheHandler->isSupport())
             {
             	$cache_key = 'object:'.$layout_srl;
             	$oCacheHandler->delete($cache_key);
@@ -234,10 +230,12 @@
          * @brief Adding Layout Code
          **/
         function procLayoutAdminCodeUpdate() {
+			$mode = Context::get('mode');
+			if ($mode == 'reset') return $this->procLayoutAdminCodeReset();
+
             $layout_srl = Context::get('layout_srl');
             $code = Context::get('code');
             $code_css   = Context::get('code_css');
-			$return_url = Context::get('_return_url');
 			$is_post    = (Context::getRequestMethod() == 'POST');
             if(!$layout_srl || !$code) return new Object(-1, 'msg_invalid_request');
 
@@ -248,11 +246,7 @@
             $layout_css_file = $oLayoutModel->getUserLayoutCss($layout_srl);
             FileHandler::writeFile($layout_css_file, $code_css);
 
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispLayoutAdminEdit', 'layout_srl', $layout_srl);
-				header('location:'.$returnUrl);
-				return;
-			}
+			$this->setRedirectUrl(Context::get('error_return_url'));
 			$this->setMessage('success_updated');
         }
 
@@ -279,6 +273,7 @@
 
             $this->initLayout($layout_srl, $info->layout);
             $this->setMessage('success_reset');
+			$this->setRedirectUrl(Context::get('error_return_url'));
         }
 
 
@@ -297,11 +292,7 @@
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile("top_refresh.html");
 
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispLayoutAdminEdit', 'layout_srl', Context::get('layout_srl'));
-				header('location:'.$returnUrl);
-				return;
-			}
+			$this->setRedirectUrl(Context::get('error_return_url'));
         }
 
         /**
@@ -344,9 +335,10 @@
             $layout_srl = Context::get('layout_srl');
             $this->removeUserLayoutImage($layout_srl,$filename);
             $this->setMessage('success_deleted');
+			$this->setRedirectUrl(Context::get('error_return_url'));
         }
 
-
+		// deprecated
         /**
          * @brief Save layout configuration
          * save in "ini" format for faceoff
@@ -449,6 +441,7 @@
              }
          }
 
+		// deprecated
         /**
          * @brief faceoff export
          *
@@ -483,6 +476,7 @@
             exit();
          }
 
+		// deprecated
         /**
          * @brief faceoff import
          *

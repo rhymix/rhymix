@@ -24,7 +24,7 @@
 		<value xml:lang="es"><![CDATA[Editar el Diseño]]></value>
 		<value xml:lang="tr"><![CDATA[Yerleşim Düzeni Düzenle]]></value>
 		<value xml:lang="vi"><![CDATA[Sửa giao diện]]></value>
-		<value xml:lang="mn"><![CDATA[Лэйаут өөрчлөх]]></value>
+
 	</item>
 	<item name="layout_name">
 		<value xml:lang="ko"><![CDATA[레이아웃 이름]]></value>
@@ -203,7 +203,7 @@
 		<value xml:lang="es"><![CDATA[Módulo del diseño ayuda a usted para crear el diseño de la página web fácilmente.<br />Por usar la configuración del diseño y el menú de conección, completa con varios módulos la forma de la página web que a ser mostrados<br />* Esos diseños que no pueden ser modificados ni eliminados son propios de blog y de otros módulos, por lo cual para la configuración de ellos debe hacerse en los modulos correspondientes.]]></value>
 		<value xml:lang="tr"><![CDATA[Yerleşim düzeni (layout) modülü size, sitenin yerleşim düzenini kolayca oluşturma imkanı sunar.<br />Yerleşim düzeni ayarını ve menü bağlantısını kullandığınzda, websitelerin çeşitli modüllerle tamamlanmış şekilleri gösterilecektir.<br />* Blogların veya diğer modüllerin varsayılan yerleşim düzenlerini silemezseniz; onları, kendi ayar sayfalarından silmeniz gerekmektedir. ]]></value>
 		<value xml:lang="vi"><![CDATA[Module giao diện giúp bạn tạo ra giao diện của Website một cách dễ dàng.<br />Bằng cách sử dụng thiết lập giao diện và kết nối Menu, hình dạng hoàn thành của Website sẽ được trình bày bổ xung với nhiều Module.<br />Giao diện nào xuất hiện (<font color='red'>*</font>) là những giao diện không thể xóa hay điều chỉnh được Module. ]]></value>
-		<value xml:lang="mn"><![CDATA[Лэйаут нь модиулын гадаад байдлыг чимж өгнө. Дээрх лэйаут менюнээс удирдаж болно]]></value>
+
 	</item>
 	<item name="about_layout_code">
 		<value xml:lang="ko"><![CDATA[아래 레이아웃의 코드를 직접 수정 후 저장하시면 서비스에 반영이 됩니다.
@@ -297,7 +297,7 @@
 			<value xml:lang="de"><![CDATA[L]]></value>
 			<value xml:lang="tr"><![CDATA[Yerleşim Düzeni Yöneticisi]]></value>
 			<value xml:lang="vi"><![CDATA[Quản lý giao diện]]></value>
-			<value xml:lang="mn"><![CDATA[�]]></value>
+
 		</item>
 		<item name="1">
 			<value xml:lang="ko"><![CDATA[저장]]></value>
@@ -308,7 +308,7 @@
 			<value xml:lang="de"><![CDATA[a]]></value>
 			<value xml:lang="tr"><![CDATA[Kaydet]]></value>
 			<value xml:lang="vi"><![CDATA[Lưu lại]]></value>
-			<value xml:lang="mn"><![CDATA[�]]></value>
+
 		</item>
 		<item name="2">
 			<value xml:lang="ko"><![CDATA[취소]]></value>
@@ -319,7 +319,7 @@
 			<value xml:lang="de"><![CDATA[y]]></value>
 			<value xml:lang="tr"><![CDATA[İptal]]></value>
 			<value xml:lang="vi"><![CDATA[Loại bỏ]]></value>
-			<value xml:lang="mn"><![CDATA[�]]></value>
+
 		</item>
 		<item name="3">
 			<value xml:lang="ko"><![CDATA[형태]]></value>
@@ -329,7 +329,7 @@
 			<value xml:lang="zh-TW"><![CDATA[模式]]></value>
 			<value xml:lang="de"><![CDATA[o]]></value>
 			<value xml:lang="tr"><![CDATA[Biçim]]></value>
-			<value xml:lang="mn"><![CDATA[�]]></value>
+
 		</item>
 		<item name="4">
 			<value xml:lang="ko"><![CDATA[배열]]></value>
@@ -340,7 +340,7 @@
 			<value xml:lang="de"><![CDATA[u]]></value>
 			<value xml:lang="tr"><![CDATA[Dizi]]></value>
 			<value xml:lang="vi"><![CDATA[Giãn ra]]></value>
-			<value xml:lang="mn"><![CDATA[�]]></value>
+
 		</item>
 		<item name="5">
 			<value xml:lang="ko"><![CDATA[정렬]]></value>
@@ -351,7 +351,7 @@
 			<value xml:lang="de"><![CDATA[t]]></value>
 			<value xml:lang="tr"><![CDATA[Yerleştir]]></value>
 			<value xml:lang="vi"><![CDATA[Thu lại]]></value>
-			<value xml:lang="mn"><![CDATA[�]]></value>
+
 		</item>
 		<item name="6">
 			<value xml:lang="ko"><![CDATA[고정 레이아웃]]></value>
@@ -362,7 +362,7 @@
 			<value xml:lang="de"><![CDATA[-]]></value>
 			<value xml:lang="tr"><![CDATA[Sabit Yerleşim Düzeni]]></value>
 			<value xml:lang="vi"><![CDATA[Cố định giao diện]]></value>
-			<value xml:lang="mn"><![CDATA[�]]></value>
+
 		</item>
 		<item name="7">
 			<value xml:lang="ko"><![CDATA[가변 레이아웃]]></value>
@@ -373,7 +373,7 @@
 			<value xml:lang="de"><![CDATA[E]]></value>
 			<value xml:lang="tr"><![CDATA[Değişken Yerleşim Düzeni]]></value>
 			<value xml:lang="vi"><![CDATA[Giao diện biến thiên]]></value>
-			<value xml:lang="mn"><![CDATA[�]]></value>
+
 		</item>
 		<item name="8">
 			<value xml:lang="ko"><![CDATA[고정+가변(내용)]]></value>
@@ -384,7 +384,7 @@
 			<value xml:lang="de"><![CDATA[i]]></value>
 			<value xml:lang="tr"><![CDATA[Sabit+Değişken (İçerik)]]></value>
 			<value xml:lang="vi"><![CDATA[Cố định+Biến thiên (Nội dung)]]></value>
-			<value xml:lang="mn"><![CDATA[�]]></value>
+
 		</item>
 		<item name="9">
 			<value xml:lang="ko"><![CDATA[1칸]]></value>
@@ -395,7 +395,7 @@
 			<value xml:lang="de"><![CDATA[n]]></value>
 			<value xml:lang="tr"><![CDATA[Hücre 1]]></value>
 			<value xml:lang="vi"><![CDATA[1 ô]]></value>
-			<value xml:lang="mn"><![CDATA[�]]></value>
+
 		</item>
 		<item name="10">
 			<value xml:lang="ko"><![CDATA[2칸 (내용 왼쪽)]]></value>
@@ -406,7 +406,7 @@
 			<value xml:lang="de"><![CDATA[s]]></value>
 			<value xml:lang="tr"><![CDATA[Hücre 2 (içeriğin sol kısmında)]]></value>
 			<value xml:lang="vi"><![CDATA[2 ô (Trái của nội dung)]]></value>
-			<value xml:lang="mn"><![CDATA[�]]></value>
+
 		</item>
 		<item name="11">
 			<value xml:lang="ko"><![CDATA[2칸 (내용 오른쪽)]]></value>
@@ -417,7 +417,7 @@
 			<value xml:lang="de"><![CDATA[t]]></value>
 			<value xml:lang="tr"><![CDATA[Hücre 2 (içeriğin sağ kısmında)]]></value>
 			<value xml:lang="vi"><![CDATA[2 ô (Phải của nội dung)]]></value>
-			<value xml:lang="mn"><![CDATA[�]]></value>
+
 		</item>
 		<item name="12">
 			<value xml:lang="ko"><![CDATA[3칸 (내용 왼쪽)]]></value>
@@ -428,7 +428,7 @@
 			<value xml:lang="de"><![CDATA[e]]></value>
 			<value xml:lang="tr"><![CDATA[Hücre 3 (içeriğin sol kısmında)]]></value>
 			<value xml:lang="vi"><![CDATA[3 ô (Trái của nội dung)]]></value>
-			<value xml:lang="mn"><![CDATA[ ]]></value>
+
 		</item>
 		<item name="13">
 			<value xml:lang="ko"><![CDATA[3칸 (내용 가운데)]]></value>
@@ -439,7 +439,7 @@
 			<value xml:lang="de"><![CDATA[l]]></value>
 			<value xml:lang="tr"><![CDATA[Hücre 3 (içeriğin orta kısmında)]]></value>
 			<value xml:lang="vi"><![CDATA[3 ô (Giữa của nội dung)]]></value>
-			<value xml:lang="mn"><![CDATA[�]]></value>
+
 		</item>
 		<item name="14">
 			<value xml:lang="ko"><![CDATA[3칸 (내용 오른쪽)]]></value>
@@ -450,7 +450,7 @@
 			<value xml:lang="de"><![CDATA[l]]></value>
 			<value xml:lang="tr"><![CDATA[Hücre 3 (içeriğin sol kısmında)]]></value>
 			<value xml:lang="vi"><![CDATA[3 ô (Phải của nội dung)]]></value>
-			<value xml:lang="mn"><![CDATA[�]]></value>
+
 		</item>
 		<item name="15">
 			<value xml:lang="ko"><![CDATA[왼쪽]]></value>
@@ -461,7 +461,7 @@
 			<value xml:lang="de"><![CDATA[u]]></value>
 			<value xml:lang="tr"><![CDATA[Sol]]></value>
 			<value xml:lang="vi"><![CDATA[Trái]]></value>
-			<value xml:lang="mn"><![CDATA[�]]></value>
+
 		</item>
 		<item name="16">
 			<value xml:lang="ko"><![CDATA[가운데]]></value>
@@ -472,7 +472,7 @@
 			<value xml:lang="de"><![CDATA[n]]></value>
 			<value xml:lang="tr"><![CDATA[Orta]]></value>
 			<value xml:lang="vi"><![CDATA[Giữa]]></value>
-			<value xml:lang="mn"><![CDATA[�]]></value>
+
 		</item>
 		<item name="17">
 			<value xml:lang="ko"><![CDATA[오른쪽]]></value>
@@ -483,7 +483,7 @@
 			<value xml:lang="de"><![CDATA[g]]></value>
 			<value xml:lang="tr"><![CDATA[Sağ]]></value>
 			<value xml:lang="vi"><![CDATA[Phải]]></value>
-			<value xml:lang="mn"><![CDATA[�]]></value>
+
 		</item>
 		<item name="18">
 			<value xml:lang="ko"><![CDATA[전체]]></value>
@@ -494,7 +494,7 @@
 			<value xml:lang="de"><![CDATA[e]]></value>
 			<value xml:lang="tr"><![CDATA[Tümü]]></value>
 			<value xml:lang="vi"><![CDATA[Dàn đều]]></value>
-			<value xml:lang="mn"><![CDATA[�]]></value>
+
 		</item>
 		<item name="19">
 			<value xml:lang="ko"><![CDATA[레이아웃]]></value>
@@ -505,7 +505,7 @@
 			<value xml:lang="de"><![CDATA[n]]></value>
 			<value xml:lang="tr"><![CDATA[Yerleşim Düzeni]]></value>
 			<value xml:lang="vi"><![CDATA[Giao diện]]></value>
-			<value xml:lang="mn"><![CDATA[�]]></value>
+
 		</item>
 		<item name="20">
 			<value xml:lang="ko"><![CDATA[위젯 추가]]></value>
@@ -515,7 +515,7 @@
 			<value xml:lang="zh-TW"><![CDATA[新增Widget]]></value>
 			<value xml:lang="tr"><![CDATA[Widget ekle]]></value>
 			<value xml:lang="vi"><![CDATA[Thêm Widget]]></value>
-			<value xml:lang="mn"><![CDATA[�]]></value>
+
 		</item>
 		<item name="21">
 			<value xml:lang="ko"><![CDATA[내용 위젯 추가]]></value>
@@ -525,7 +525,7 @@
 			<value xml:lang="zh-TW"><![CDATA[新增內容]]></value>
 			<value xml:lang="tr"><![CDATA[İçerik Widgetı ekle]]></value>
 			<value xml:lang="vi"><![CDATA[Thêm Widget nội dung]]></value>
-			<value xml:lang="mn"><![CDATA[�]]></value>
+
 		</item>
 		<item name="22">
 			<value xml:lang="ko"><![CDATA[속성]]></value>
@@ -535,7 +535,7 @@
 			<value xml:lang="zh-TW"><![CDATA[屬性]]></value>
 			<value xml:lang="tr"><![CDATA[Öznitelik]]></value>
 			<value xml:lang="vi"><![CDATA[Thuộc tính]]></value>
-			<value xml:lang="mn"><![CDATA[�]]></value>
+
 		</item>
 		<item name="23">
 			<value xml:lang="ko"><![CDATA[위젯 스타일]]></value>
@@ -545,7 +545,7 @@
 			<value xml:lang="zh-TW"><![CDATA[Widget樣式]]></value>
 			<value xml:lang="tr"><![CDATA[Widget Tarzı]]></value>
 			<value xml:lang="vi"><![CDATA[Kiểu dáng Widget]]></value>
-			<value xml:lang="mn"><![CDATA[�]]></value>
+
 		</item>
 		<item name="24">
 			<value xml:lang="ko"><![CDATA[수정]]></value>
@@ -555,7 +555,7 @@
 			<value xml:lang="zh-TW"><![CDATA[修改]]></value>
 			<value xml:lang="tr"><![CDATA[Düzenle]]></value>
 			<value xml:lang="vi"><![CDATA[Điều chỉnh]]></value>
-			<value xml:lang="mn"><![CDATA[�]]></value>
+
 		</item>
 		<item name="25">
 			<value xml:lang="ko"><![CDATA[삭제]]></value>
@@ -565,7 +565,7 @@
 			<value xml:lang="zh-TW"><![CDATA[刪除]]></value>
 			<value xml:lang="tr"><![CDATA[Sil]]></value>
 			<value xml:lang="vi"><![CDATA[Xóa]]></value>
-			<value xml:lang="mn"><![CDATA[�]]></value>
+
 		</item>
 		<item name="26">
 			<value xml:lang="ko"><![CDATA[정렬]]></value>
@@ -575,7 +575,7 @@
 			<value xml:lang="zh-TW"><![CDATA[對齊]]></value>
 			<value xml:lang="tr"><![CDATA[Hizala]]></value>
 			<value xml:lang="vi"><![CDATA[Căn chỉnh]]></value>
-			<value xml:lang="mn"><![CDATA[�]]></value>
+
 		</item>
 		<item name="27">
 			<value xml:lang="ko"><![CDATA[한줄 차지]]></value>
@@ -1000,5 +1000,9 @@
 		<value xml:lang="es"><![CDATA[All connected module use mobile view to display when accessing with mobile device.]]></value>
 		<value xml:lang="tr"><![CDATA[Hareketli cihazlarla bağlanırken, bağlı tüm modüller hareketli görünüme geçerler.]]></value>
 		<value xml:lang="vi"><![CDATA[All connected module use mobile view to display when accessing with mobile device.]]></value>
+	</item>
+	<item name="installed_layout">
+		<value xml:lang="ko"><![CDATA[설치된 레이아웃]]></value>
+		<value xml:lang="en"><![CDATA[Installed Layout]]></value>
 	</item>
 </lang>

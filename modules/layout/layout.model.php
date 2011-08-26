@@ -15,6 +15,7 @@
         function init() {
         }
 
+		// deprecated
         /**
          * @brief Get a layout list created in the DB
          * If you found a new list, it means that the layout list is inserted to the DB
@@ -26,11 +27,26 @@
             }
             $args->site_srl = $site_srl;
 			$args->layout_type = $layout_type;
-            $output = executeQuery('layout.getLayoutList', $args, $columnList);
-            if(!$output->data) return;
-            if(is_array($output->data)) return $output->data;
-            return array($output->data);
+            $output = executeQueryArray('layout.getLayoutList', $args, $columnList);
+			return $output->data;
         }
+
+		/**
+		 * @brief Get layout instance list
+		 **/
+		function getLayoutInstanceList($siteSrl = 0, $layoutType = 'P', $layout = null, $columnList = array())
+		{
+			if (!$siteSrl)
+			{
+				$siteModuleInfo = Context::get('site_module_info');
+				$siteSrl = (int)$siteModuleInfo->site_srl;
+			}
+			$args->site_srl = $siteSrl;
+			$args->layout_type = $layoutType;
+			$args->layout = $layout;
+			$output = executeQueryArray('layout.getLayoutList', $args, $columnList);
+			return $output->data;
+		}
 
         /**
          * @brief Get one of layout information created in the DB
@@ -52,9 +68,9 @@
 	            $layout_info = $this->getLayoutInfo($layout, $output->data, $output->data->layout_type);
 	            //insert in cache
 	            if($oCacheHandler->isSupport()) $oCacheHandler->put($cache_key,$layout_info);
-			}    	
+			}
         	return $layout_info;
-        	
+
         }
 
         /**
@@ -63,10 +79,7 @@
         function getLayoutPath($layout_name, $layout_type = "P") {
             if($layout_name == 'faceoff'){
                 $class_path = './modules/layout/faceoff/';
-            }else if(strpos($layout_name, '.') !== false){
-				$layout_parse = explode('.', $layout_name);
-				$class_path = sprintf('./themes/%s/layout/%s/', $layout_parse[0], $layout_parse[1]);
-			}else if($layout_type == "M") {
+            }else if($layout_type == "M") {
 				$class_path = sprintf("./m.layouts/%s/", $layout_name);
 			}
 			else
@@ -79,35 +92,83 @@
 
         /**
          * @brief Get a type and information of the layout
-         * A type of downloaded layout 
+         * A type of downloaded layout
          **/
-        function getDownloadedLayoutList($layout_type = "P") {
-            // Get a list of downloaded layout and installed layout
-			if($layout_type == "M")
-			{
-				$directory = "./m.layouts";
-			}
-			else
-			{
-				$directory = "./layouts";
-			}
+        function getDownloadedLayoutList($layout_type = "P", $withAutoinstallInfo = false) {
+			if ($withAutoinstallInfo) $oAutoinstallModel = &getModel('autoinstall');
 
-            $searched_list = FileHandler::readDir($directory);
+            // Get a list of downloaded layout and installed layout
+            $searched_list = $this->_getInstalledLayoutDirectories($layout_type);
             $searched_count = count($searched_list);
             if(!$searched_count) return;
 
             natcasesort($searched_list);
             // Return information for looping searched list of layouts
+			$list = array();
             for($i=0;$i<$searched_count;$i++) {
                 // Name of the layout
                 $layout = $searched_list[$i];
                 // Get information of the layout
                 $layout_info = $this->getLayoutInfo($layout, null, $layout_type);
 
+				if ($withAutoinstallInfo)
+				{
+					// get easyinstall remove url
+					$packageSrl = $oAutoinstallModel->getPackageSrlByPath($layout_info->path);
+					$layout_info->remove_url = $oAutoinstallModel->getRemoveUrlByPackageSrl($packageSrl);
+
+					// get easyinstall need update
+					$package = $oAutoinstallModel->getInstalledPackages($packageSrl);
+					$layout_info->need_update = $package[$packageSrl]->need_update;
+
+					// get easyinstall update url
+					if ($layout_info->need_update)
+					{
+						$layout_info->update_url = $oAutoinstallModel->getUpdateUrlByPackageSrl($packageSrl);
+					}
+				}
                 $list[] = $layout_info;
             }
             return $list;
         }
+
+		/**
+		 * @brief Get a count of layout
+		 * @param $layout_type: a type of layout(P|M)
+		 * @return int
+		 **/
+		function getInstalledLayoutCount($layoutType = 'P')
+		{
+			$searchedList = $this->_getInstalledLayoutDirectories($layoutType);
+			return  count($searchedList);
+		}
+
+		/**
+		 * @brief Get list of layouts directory
+		 * @param $layoutType: a type of layout(P|M)
+		 * @return array
+		 **/
+		function _getInstalledLayoutDirectories($layoutType = 'P')
+		{
+			if ($layoutType == 'M')
+			{
+				$directory = './m.layouts';
+				$globalValueKey = 'MOBILE_LAYOUT_DIRECTOIES';
+			}
+			else
+			{
+				$directory = './layouts';
+				$globalValueKey = 'PC_LAYOUT_DIRECTORIES';
+			}
+
+			if ($GLOBALS[$globalValueKey]) return $GLOBALS[$globalValueKey];
+
+			$searchedList = FileHandler::readDir($directory);
+			if (!$searchedList) $searchedList = array();
+			$GLOBALS[$globalValueKey] = $searchedList;
+
+			return $searchedList;
+		}
 
         /**
          * @brief Get information by reading conf/info.xml in the module
@@ -296,21 +357,7 @@
                     }
                 }
 
-				if ($xml_obj->skins){
-					$buff .= '$layout_info->skins = array();';
-					$buff .= '$layout_info->skins["module"] = array();';
-					$buff .= '$layout_info->skins["widget"] = array();';
 
-					$skins = $xml_obj->skins->skin;
-					
-					if (is_array($skins)){
-						foreach($skins as $val){
-							$buff .= '$layout_info->skins["'.$val->attrs->type.'"]["'.$val->attrs->name.'"] = "'.$val->attrs->skin.'";';
-						}
-					}else{
-						$buff .= '$layout_info->skins["'.$skins->attrs->type.'"]["'.$skins->attrs->name.'"] = "'.$skins->attrs->skin.'";';
-					}
-				}
 
             } else {
                 // Layout title, version and other information
@@ -515,7 +562,7 @@
         }
 
         /**
-         * @brief user layout cache 
+         * @brief user layout cache
          * todo It may need to remove the file itself
          **/
         function getUserLayoutCache($layout_srl,$lang_type){
@@ -523,7 +570,7 @@
         }
 
         /**
-         * @brief layout cache 
+         * @brief layout cache
          **/
         function getLayoutCache($layout_name,$lang_type){
             return sprintf("./files/cache/layout/%s.%s.cache.php",$layout_name,$lang_type);
@@ -633,36 +680,5 @@
                 Context::addBodyHeader($oTemplate->compile($this->module_path.'/tpl', 'faceoff_layout_menu'));
             }
         }
-
-		function getThemaXml($layout_path){
-			if(!$layout_path) return;
-
-			$xml_file = sprintf("%sconf/thema.xml", $layout_path);
-            if(!file_exists($xml_file)) return;
-
-            $oXmlParser = new XmlParser();
-            $tmp_xml_obj = $oXmlParser->loadXmlFile($xml_file);
-            $xml_obj = $tmp_xml_obj->thema;
-
-            if(!$xml_obj) return;
-
-			$thema_info->layout_name = $xml_obj->name->body;
-			$thema_info->skins = array();
-			$thema_info->skins['module'] = array();
-			$thema_info->skins['widget'] = array();
-
-			$skins = $xml_obj->skins->skin;
-			if ($skins){
-				if (is_array($skins)){
-					foreach($skins as $val){
-						$thema_info->skins[$val->attrs->type][$val->attrs->name] = $val->attrs->skin;
-					}
-				}else{
-					$thema_info->skins[$skins->attrs->type][$skins->attrs->name] = $skins->attrs->skin;
-				}
-			}
-			return $thema_info;
-			
-		}
     }
 ?>
