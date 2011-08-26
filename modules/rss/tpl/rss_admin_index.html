@@ -12,7 +12,7 @@
 			<li>
 				<p class="q">{$lang->total_feed}</p>
 				<p class="a">
-					<input type="radio" name="use_total_feed" value="Y" id="use_total_feed_yes"  <!--@if(!$total_config->use_total_feed || $total_config->use_total_feed == 'Y')-->checked="checked"<!--@end--> /> <label for="use_total_feed_yes">{$lang->use}(<a href="http://example.com/rss">http://example.com/rss</a>)</label>
+					<input type="radio" name="use_total_feed" value="Y" id="use_total_feed_yes"  <!--@if(!$total_config->use_total_feed || $total_config->use_total_feed == 'Y')-->checked="checked"<!--@end--> /> <label for="use_total_feed_yes">{$lang->use}(<a href="{getFullSiteUrl()}rss">{getFullSiteUrl()}rss</a>)</label>
 					<input type="radio" name="use_total_feed" value="N" id="use_total_feed_no" <!--@if($total_config->use_total_feed == 'N')-->checked="checked"<!--@end--> /> <label for="use_total_feed_no">{$lang->notuse}</label>
 				</p>
 			</li>

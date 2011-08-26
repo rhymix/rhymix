@@ -40,6 +40,7 @@
 					}
 				}
 			}
+			if(!$total_config->feed_document_count) $total_config->feed_document_count = 15;
 
 			Context::set('feed_config', $feed_config);
 			Context::set('total_config', $total_config);
