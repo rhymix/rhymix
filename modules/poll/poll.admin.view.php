@@ -57,10 +57,12 @@
 
             	$oDocumentModel = &getModel('document');
 				$targetDocumentOutput = $oDocumentModel->getDocuments($uploadTargetSrlList);
+				if(!is_array($targetDocumentOutput)) $targetDocumentOutput = array();
 
 				$oCommentModel = &getModel('comment');
 				$columnList = array('comment_srl', 'document_srl');
 				$targetCommentOutput = $oCommentModel->getComments($uploadTargetSrlList, $columnList);
+				if(!is_array($targetCommentOutput)) $targetCommentOutput = array();
 
 				foreach($output->data AS $key=>$value)
 				{
