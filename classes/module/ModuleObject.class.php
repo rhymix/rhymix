@@ -10,7 +10,7 @@
         var $mid = NULL; ///< string to represent run-time instance of Module (XE Module)
         var $module = NULL; ///< Class name of Xe Module that is identified by mid
         var $module_srl = NULL; ///< integer value to represent a run-time instance of Module (XE Module)
-        var $module_info = NULL; ///< an object containing the module information 
+        var $module_info = NULL; ///< an object containing the module information
 		var $origin_module_info = NULL;
         var $xml_info = NULL; ///< an object containing the module description extracted from XML file
 
@@ -54,14 +54,14 @@
         function setRedirectUrl($url='./') {
             $this->add('redirect_url', $url);
         }
-		
+
 		/**
 		 * @brief get url for redirection
 		 **/
 		function getRedirectUrl(){
 			return $this->get('redirect_url');
 		}
-		
+
 		/**
 		 * @brief set message
 		 * @param $message a message string
@@ -71,7 +71,7 @@
 			parent::setMessage($message);
 			$this->setMessageType($type);
 		}
-		
+
 		/**
 		 * @brief set type of message
 		 * @param $type type of message (error, info, update)
@@ -79,7 +79,7 @@
 		function setMessageType($type){
 			$this->add('message_type', $type);
 		}
-		
+
 		/**
 		 * @brief get type of message
 		 **/
@@ -127,7 +127,7 @@
             $logged_info = Context::get('logged_info');
             // module model create an object
             $oModuleModel = &getModel('module');
-            // permission settings. access, manager(== is_admin) are fixed and privilege name in XE  
+            // permission settings. access, manager(== is_admin) are fixed and privilege name in XE
             $module_srl = Context::get('module_srl');
             if(!$module_info->mid && preg_match('/^([0-9]+)$/',$module_srl)) {
                 $request_module = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
@@ -170,7 +170,7 @@
 
         /**
          * @brief set the stop_proc and approprate message for msg_code
-         * @param $msg_code an error code 
+         * @param $msg_code an error code
          **/
         function stop($msg_code) {
             // flag setting to stop the proc processing
@@ -270,7 +270,7 @@
         }
 
         /**
-         * @brief excute the member method specified by $act variable 
+         * @brief excute the member method specified by $act variable
          *
          **/
         function proc() {
@@ -300,7 +300,7 @@
                 Context::set('module_info', $this->module_info);
                 // Run
                 $output = $this->{$this->act}();
-            } 
+            }
 			else {
 				return false;
 			}
@@ -312,7 +312,7 @@
                 $this->setMessage($triggerOutput->getMessage());
                 return false;
             }
-			
+
             // execute an addon(call called_position as after_module_proc)
             $called_position = 'after_module_proc';
             $oAddonController = &getController('addon');
@@ -322,7 +322,8 @@
             if(is_a($output, 'Object') || is_subclass_of($output, 'Object')) {
                 $this->setError($output->getError());
                 $this->setMessage($output->getMessage());
-                return false;
+
+				if (!$output->toBool()) return false;
             }
             // execute api methos of the module if view action is and result is XMLRPC or JSON
             if($this->module_info->module_type == 'view'){
