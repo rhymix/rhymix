@@ -458,10 +458,10 @@ $('table.sortable')
 
 				diff = {x:position.x-event.pageX, y:position.y-event.pageY};
 				nTop = offset.top - diff.y;
-				
+
 				for(i=0,c=offsets.length; i < c; i++) {
 					o = offsets[i];
-					if(o.top > nTop || o.bottom < nTop) continue;
+					if( (i && o.top > nTop) || ((i < c-1) && o.bottom < nTop)) continue;
 
 					dropzone = {element:o.$item};
 					if(o.top > nTop - 12) {
