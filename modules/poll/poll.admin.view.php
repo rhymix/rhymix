@@ -45,12 +45,33 @@
             // Get the list
             $oPollAdminModel = &getAdminModel('poll');
             $output = $oPollAdminModel->getPollListWithMember($args);
+
+			// check poll type. document or comment
 			if(is_array($output->data))
 			{
+				$uploadTargetSrlList = array();
 				foreach($output->data AS $key=>$value)
 				{
-					if($_SESSION['poll_management'][$value->poll_index_srl]) $value->isCarted = true;
-					else $value->isCarted = false;
+					array_push($uploadTargetSrlList, $value->upload_target_srl);
+				}
+
+            	$oDocumentModel = &getModel('document');
+				$targetDocumentOutput = $oDocumentModel->getDocuments($uploadTargetSrlList);
+
+				$oCommentModel = &getModel('comment');
+				$columnList = array('comment_srl', 'document_srl');
+				$targetCommentOutput = $oCommentModel->getComments($uploadTargetSrlList, $columnList);
+
+				foreach($output->data AS $key=>$value)
+				{
+					if(array_key_exists($value->upload_target_srl, $targetDocumentOutput))
+						$value->document_srl = $value->upload_target_srl;
+
+					if(array_key_exists($value->upload_target_srl, $targetCommentOutput))
+					{
+						$value->comment_srl = $value->upload_target_srl;
+						$value->document_srl = $targetCommentOutput[$value->comment_srl]->document_srl;
+					}
 				}
 			}
 

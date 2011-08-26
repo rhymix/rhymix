@@ -33,10 +33,10 @@
 			<tbody>
 				<!--@foreach($poll_list as $no => $val)-->
 				<tr>
-					<td class="title"><a href="#" onclick="doMovePoll({$val->poll_srl},{$val->upload_target_srl});return false;">{htmlspecialchars($val->title)}</a></td>
+					<td class="title"><a href="<!--@if($val->document_srl)-->{getUrl('')}?document_srl={$val->document_srl}<!--@end--><!--@if($val->comment_srl)-->#comment_{$val->comment_srl}<!--@end-->" target="_blank">{htmlspecialchars($val->title)}</a></td>
 					<td><!--@if($val->checkcount == 1)-->{$lang->single_check}<!--@else-->{$lang->multi_check}<!--@end--></td>
 					<td>{$val->poll_count}</td>
-					<td><a href="#popup_menu_area" class="member_">{$val->nick_name}</a></td>
+					<td><a href="#popup_menu_area" class="member_{$val->member_srl}">{$val->nick_name}</a></td>
 					<td>{zdate($val->regdate,"Y-m-d H:i")}</td>
 					<td>
 						<input type="checkbox" name="cart" value="{$val->poll_index_srl}" />
