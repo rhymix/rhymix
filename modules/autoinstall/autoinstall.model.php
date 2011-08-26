@@ -204,7 +204,7 @@
 		{
 			if (!$packageSrl) return;
 
-			return getUrl('', 'module', 'admin', 'act', 'dispAutoinstallAdminUninstall', 'package_srl', $packageSrl);
+			return getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAutoinstallAdminUninstall', 'package_srl', $packageSrl);
 		}
 
 		function getRemoveUrlByPath($path)
@@ -214,14 +214,14 @@
 			$packageSrl = $this->getPackageSrlByPath($path);
 			if (!$packageSrl) return;
 
-			return getUrl('', 'module', 'admin', 'act', 'dispAutoinstallAdminUninstall', 'package_srl', $packageSrl);
+			return getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAutoinstallAdminUninstall', 'package_srl', $packageSrl);
 		}
 
 		function getUpdateUrlByPackageSrl($packageSrl)
 		{
 			if (!$packageSrl) return;
 
-			return getUrl('', 'module', 'admin', 'act', 'dispAutoinstallAdminInstall', 'package_srl', $packageSrl);
+			return getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAutoinstallAdminInstall', 'package_srl', $packageSrl);
 		}
 
 		function getUpdateUrlByPath($path)
@@ -231,7 +231,7 @@
 			$packageSrl = $this->getPackageSrlByPath($path);
 			if (!$packageSrl) return;
 
-			return getUrl('', 'module', 'admin', 'act', 'dispAutoinstallAdminInstall', 'package_srl', $packageSrl);
+			return getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAutoinstallAdminInstall', 'package_srl', $packageSrl);
 		}
    }
 ?>

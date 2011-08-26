@@ -276,7 +276,7 @@
                 Context::set('item_list', $item_list);
                 $array = array('total_count', 'total_page', 'cur_page', 'page_count', 'first_page', 'last_page');
                 $page_nav = $this->rearrange($xmlDoc->response->page_navigation, $array);
-                $page_navigation = new PageHandler($page_nav->total_count, $page_nav->total_page, $page_nav->cur_page, $page_nav->page_count);
+                $page_navigation = new PageHandler($page_nav->total_count, $page_nav->total_page, $page_nav->cur_page, 5);
                 Context::set('page_navigation', $page_navigation);
             }
 
