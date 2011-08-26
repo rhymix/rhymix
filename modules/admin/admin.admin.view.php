@@ -325,7 +325,7 @@
          * @brief Display Admin Menu Configuration(settings) page
          * @return none
          **/
-		function dispAdminMenuSetup()
+		function dispAdminSetup()
 		{
 			$oModuleModel = &getModel('module');
 			$configObject = $oModuleModel->getModuleConfig('admin');
@@ -335,7 +335,7 @@
 
 			Context::set('menu_srl', $output->menu_srl);
 			Context::set('config_object', $configObject);
-            $this->setTemplateFile('menu_setup');
+            $this->setTemplateFile('admin_setup');
 		}
 
 

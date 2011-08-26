@@ -10,18 +10,20 @@
 			<h2 class="h2">{$lang->title}</h2>
 			<ul class="form">
 				<li>
-					<p class="q"><label for="adminTitle">관리자 페이지 제목</label></p>
-					<p class="a"><input type="text" name="adminTitle" id="adminTitle" value="{$config_object->adminTitle}" /></p>
-				</li>
-				<li>
 					<p class="q"><label for="adminLogo">관리자 페이지 로고</label></p>
 					<p class="a">
 						<!--@if($config_object->adminLogo)-->
 						<img src="{getUrl('').$config_object->adminLogo}" /> 
 						<button type="submit" value="procAdminDeleteLogo" name="act" class="text">{$lang->cmd_delete}</button>
+						<!--@else-->
+						<img src="{getUrl('')}{$gnb_title_info->adminLogo}" />
 						<!--@end-->
 					</p>
 					<p class="a"><input type="file" name="adminLogo" id="adminLogo" /></p>
+				</li>
+				<li>
+					<p class="q"><label for="adminTitle">관리자 페이지 제목</label></p>
+					<p class="a"><input type="text" name="adminTitle" id="adminTitle" value="{$config_object->adminTitle}" /></p>
 				</li>
 			</ul>
 			<p class="btnArea"><span class="btn small"><button value="procAdminUpdateConfig" name="act" type="submit">{$lang->cmd_save}</button></span></p>
@@ -31,7 +33,7 @@
 	<input type="hidden" name="act" value="procMenuAdminDeleteItem" />
 	<input type="hidden" name="menu_srl" value="{$menu_srl}" />
 	<input type="hidden" name="menu_item_srl" value="" />
-	<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin', 'act', 'dispAdminMenuSetup')}" />
+	<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin', 'act', 'dispAdminSetup')}" />
 		<fieldset class="section">
 		<h1 class="h1">{$lang->menu_gnb_sub['adminMenuSetup']}</h1>
 		<div class="adminMenu portlet">

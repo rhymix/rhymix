@@ -218,6 +218,7 @@
 				$oAdminConfig->adminLogo = $target_filename;
 			}
 			if($adminTitle) $oAdminConfig->adminTitle = strip_tags($adminTitle);
+			else unset($oAdminConfig->adminTitle);
 
 			if($oAdminConfig)
 			{
@@ -227,7 +228,7 @@
 
 			$this->setMessage('success_updated', 'info');
 			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-                $returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminMenuSetup');
+                $returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminSetup');
 				$this->setRedirectUrl($returnUrl);
                 return;
             }
@@ -249,7 +250,7 @@
 
 			$this->setMessage('success_deleted', 'info');
 			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-                $returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminMenuSetup');
+                $returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminSetup');
 				$this->setRedirectUrl($returnUrl);
                 return;
             }
