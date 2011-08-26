@@ -52,27 +52,6 @@ jQuery(function($){
 				.trigger('update.checkbox', [name, this.checked]);
 		});
 
-	// Button switch
-	$('button[name]')
-		.click(function(){
-			var $this = $(this), $radio;
-			
-			$radio = $this.data('radio');
-			if(!$radio) {
-				$radio = $('<input type="radio" />').hide()
-					.attr('name', $this.attr('name'))
-					.attr('value', $this.attr('value'))
-					.insertBefore($this);
-
-				$this
-					.removeAttr('name')
-					.removeAttr('value')
-					.data('radio', $radio);
-			}
-
-			$radio.prop('checked', true);
-		});
-
 	// Global Navigation Bar
 	var $menuitems = $('div.gnb')
 		.removeClass('jx')
