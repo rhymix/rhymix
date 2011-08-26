@@ -61,6 +61,7 @@ p{line-height:1.5}
 .form li label em{font-weight:normal}
 .form input[type=text],.form input[type=password],.form input[type=file],.form textarea{position:relative;width:280px;margin:2px 0;border:1px solid #b7b7b7;border-right-color:#e1e1e1;border-bottom-color:#e1e1e1;background:transparent}
 .form input[type=text],.form input[type=password],.form input[type=file]{height:22px;line-height:22px;vertical-align:middle;padding:0 4px}
+.form input[type=text].loading,.form input.loading[type=password]{padding-right:24px;width:260px;background:transparent url(../img/preLoader16.gif) no-repeat 265px center}
 .form input[type=checkbox],.form input[type=radio]{margin:0;padding:0;width:13px;height:13px;vertical-align:middle}
 .form input[type=text][disabled=disabled],
 .form input[type=password][disabled=disabled],
@@ -499,6 +500,10 @@ button.text{border:0;overflow:visible;padding:0;margin:0;color:#33a;background:n
 .fileBox .portlet ul{margin:1em;list-style:none;padding:0;border:0}
 .fileBox .portlet li{border-top:1px solid #ddd;border-bottom:0;padding:8px 0}
 .fileBox .side{position:absolute;top:8px;right:0}
+/* Messages */
+.desc.error{color:#f00}
+.desc.success{color:#080}
+
 /* Responsive Layout */
 @media only all and (max-width:860px){
 	.header h1{margin-left:.7em}
