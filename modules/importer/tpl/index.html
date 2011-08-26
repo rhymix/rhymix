@@ -10,9 +10,12 @@
 	<h2 class="h2">{$lang->type_module}</h2>
 	<ul>
 		<li>
-			<p class="q">{$lang->xml_path}</p>
+			<p class="q">{$lang->xml_path} {$lang->path_info}</p>
 			<p class="a">
-				<input type="text" name="xml_file" value="./" /> <span class="desc">{$lang->path_info}</span>
+				<input type="text" name="xml_file" value="./" />
+				<button type="button">경로 확인</button>
+				<em class="desc">XML 파일의 경로가 올바르지 않습니다.</em>
+				<em class="desc">XML 파일의 경로가 바르게 설정되었습니다.</em>
 			</p>
 		</li>
 		<li>
@@ -35,9 +38,28 @@
 				</select>
 			</p>
 		</li>
+		<li>
+			<p class="q">{$lang->guestbook_destination}</p>
+			<div class="a">
+				<input type="text" name="site_keyword" /> <a href="#suggestion3" class="tgAnchor findsite">{$lang->find_site}</a>
+				<div id="suggestion3" class="tgContent suggestion">
+					<ul>
+					</ul>
+				</div>
+			</div>
+			<p class="a">
+				<select name="_guestbook_target_module" style="width:290px">
+					<option>{$lang->select_module_id}</option>
+				</select>
+			</p>
+		</li>
+		<li>
+			<p class="q">{$lang->about_ttxml_user_id}</p>
+			<p class="a"><input type="text" name="user_id" value="{$logged_info->user_id}" /></p>
+		</li>
 	</ul>
 	<div class="btnArea">
-		<span class="btn"><input type="submit" value="{$lang->importer}" /></span>
+		<span class="btn"><input type="submit" value="{$lang->importer}" disabled="disabled" /></span>
 	</div>
 </form>
 <form action="./" class="form" method="get" onsubmit="return doPreProcessing(this)" id="fo_import">
@@ -45,7 +67,7 @@
 	<h2 class="h2">{$lang->type_member}</h2>
 	<ul>
 		<li>
-			<p class="q">{$lang->xml_path}</p>
+			<p class="q">{$lang->xml_path} {$lang->path_info}</p>
 			<p class="a"><input type="text" name="xml_file" value="./" /></p>
 		</li>
 	</ul>
@@ -58,7 +80,7 @@
 	<h2 class="h2">{$lang->type_message}</h2>
 	<ul>
 		<li>
-			<p class="q">{$lang->xml_path}</p>
+			<p class="q">{$lang->xml_path} {$lang->path_info}</p>
 			<p class="a"><input type="text" name="xml_file" value="./" /></p>
 		</li>
 	</ul>
@@ -66,6 +88,7 @@
 		<span class="btn"><input type="submit" value="{$lang->importer}" /></span>
 	</div>
 </form>
+<!--
 <form action="./" class="form" method="get" onsubmit="return doPreProcessing(this)" id="fo_import">
 	<input type="hidden" name="type" value="ttxml" />
 	<input type="hidden" name="target_module" value="" id="target_module" />
@@ -74,7 +97,12 @@
 	<ul>
 		<li>
 			<p class="q">{$lang->xml_path}</p>
-			<p class="a"><input type="text" name="xml_file" value="./" /></p>
+			<p class="a">
+				<input type="text" name="xml_file" value="./" />
+				<button type="button">경로 확인</button>
+				<em class="desc">XML 파일의 경로가 올바르지 않습니다.</em>
+				<em class="desc">XML 파일의 경로가 바르게 설정되었습니다.</em>
+			</p>
 		</li>
 		<li>
 			<p class="q">{$lang->document_destination}</p>
@@ -115,4 +143,5 @@
 		<span class="btn"><input type="submit" value="{$lang->importer}" /></span>
 	</div>
 </form>
+-->
 <include target="./process.html" />

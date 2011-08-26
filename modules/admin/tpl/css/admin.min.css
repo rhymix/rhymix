@@ -62,9 +62,15 @@ p{line-height:1.5}
 .form input[type=text],.form input[type=password],.form input[type=file],.form textarea{position:relative;width:280px;margin:2px 0;border:1px solid #b7b7b7;border-right-color:#e1e1e1;border-bottom-color:#e1e1e1;background:transparent}
 .form input[type=text],.form input[type=password],.form input[type=file]{height:22px;line-height:22px;vertical-align:middle;padding:0 4px}
 .form input[type=checkbox],.form input[type=radio]{margin:0;padding:0;width:13px;height:13px;vertical-align:middle}
-.form *[disabled=disabled]{background:#ddd !important;text-shadow:1px 1px 0 #fff}
+.form input[type=text][disabled=disabled],
+.form input[type=password][disabled=disabled],
+.form input[type=checkbox][disabled=disabled],
+.form input[type=radio][disabled=disabled],
+.form input[type=file][disabled=disabled],
+.form textarea[disabled=disabled],
+.form select[disabled=disabled]{background:#ddd !important;text-shadow:1px 1px 0 #fff}
 .form textarea{padding:3px 4px;vertical-align:top}
-.form span.desc{line-height:22px;vertical-align:middle;margin:0 10px}
+.form span.desc, .form em.desc{line-height:22px;vertical-align:middle;margin:0 10px}
 .form p.desc{margin:.25em 0;line-height:1.4}
 .form .q{font-weight:bold;margin:0 0 5px 0}
 .form .a{margin:0 0 5px 0}
@@ -158,6 +164,8 @@ p{line-height:1.5}
 /* Button */
 .btn{position:relative;display:inline-block;margin:2px;vertical-align:top}
 .btn *{display:inline-block;padding:0 8px;font-size:12px;height:24px;line-height:22px;margin:0;font-weight:bold !important;color:#fff;text-decoration:none !important;border:1px solid;cursor:pointer;overflow:visible;border-radius:3px;box-shadow:inset 0 0 1px #fff;-moz-box-shadow:inset 0 0 1px #fff;-webkit-box-shadow:inset 0 0 1px #fff;background-color:#666;text-shadow:0 -1px 0 #333;zoom:1}
+.btn *[type=submit][disabled=disabled],
+.btn *[type=button][disabled=disabled]{opacity:.5;*filter:alpha(opacity=50)}
 .btn a, 
 .btn button[type=button]{border-color:#ccc;color:#333 !important;background:#eee -webkit-gradient(linear,0% 0%,0% 100%,from(#fff),to(#ddd));background:#eee -moz-linear-gradient(top,#fff,#ddd);background-color:#eee;text-shadow:1px 1px 0 #fff;filter:progid:DXImageTransform.Microsoft.gradient(startColorStr=#ffffff, endColorStr=#dddddd)}
 .btn input, .btn button[type=submit]{border-color:#666;background:#333 -webkit-gradient(linear,0% 0%,0% 100%,from(#777),to(#777),color-stop(0.5,#333),color-stop(0.5,#000));background:#333 -moz-linear-gradient(top,#777,#000);background-color:#333;color:#ffc;filter:progid:DXImageTransform.Microsoft.gradient(startColorStr=#777777, endColorStr=#333333)}
