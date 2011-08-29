@@ -60,10 +60,55 @@
          * @brief default configuration for member management
          **/
         function dispMemberAdminConfig() {
+			global $lang;
             // retrieve configuration via module model instance
             $oModuleModel = &getModel('module');
             $oMemberModel = &getModel('member');
             $config = $oMemberModel->getMemberConfig();
+
+            // Get join form list which is additionally set
+            $extendItems = $oMemberModel->getJoinFormList();
+			
+			// check signup form ordering info
+			if (!$config->signupForm || !is_array($config->signupForm)){
+				$items = array('user_id', 'password', 'user_name', 'nick_name', 'email_address', 'find_account_question', 'homepage', 'blog', 'birthday', 'signature', 'profile_image', 'image_name', 'image_mark');
+				$mustRequireds = array('email_address', 'password', 'find_account_question');
+				$orgRequireds = array('email_address', 'password', 'find_account_question', 'user_id', 'nick_name', 'user_name');
+				$orgUse = array('email_address', 'password', 'find_account_question', 'user_id', 'nick_name', 'user_name', 'homepage', 'blog', 'birthday');
+				$list_order = array();
+				foreach($items as $key){
+					unset($signupItem);
+					$signupItem->isDefaultForm = true;
+					$signupItem->name = $key;
+					$signupItem->title = $lang->{$key};
+					$signupItem->mustRequired = in_array($key, $mustRequireds);
+					$signupItem->imageType = (strpos($key, 'image') !== false);
+					$signupItem->required = in_array($key, $orgRequireds);
+					$signupItem->isUse = ($config->{$key} == 'Y') || in_array($key, $orgUse);
+					if ($signupItem->imageType){
+						$signupItem->max_width = $config->{$key.'_max_width'};
+						$signupItem->max_height = $config->{$key.'_max_height'};
+					}
+					$list_order[] = $signupItem;
+				}
+				foreach($extendItems as $form_srl=>$item_info){
+					unset($signupItem);
+					$signupItem->name = $item_info->column_name;
+					$signupItem->title = $item_info->column_title;
+					$signupItem->type = $item_info->column_type;
+					$signupItem->member_join_form_srl = $form_srl;
+					$signupItem->mustRequired = in_array($key, $mustRequireds);
+					$signupItem->required = ($item_info->required == 'Y');
+					$signupItem->isUse = ($item_info->is_active == 'Y');
+					$signupItem->description = $item_info->description;
+					if ($signupItem->imageType){
+						$signupItem->max_width = $config->{$key.'_max_width'};
+						$signupItem->max_height = $config->{$key.'_max_height'};
+					}
+					$list_order[] = $signupItem;
+ 				}
+				$config->signupForm = $list_order;
+			}
             Context::set('config',$config);
 
             // list of skins for member module
@@ -86,6 +131,14 @@
             $editor = $oEditorModel->getEditor(0, $option);
             Context::set('editor', $editor);
 
+			// get denied ID list
+            $denied_list = $oMemberModel->getDeniedIDs();
+			$deniedIDs = array();
+			foreach($denied_list as $denied_info){
+				$deniedIDs[] = $denied_info->user_id;
+			}
+			Context::set('deniedIDs', $deniedIDs);
+
             $this->setTemplateFile('member_config');
         }
 
@@ -97,7 +150,11 @@
             $oModuleModel = &getModel('module');
             $member_config = $oModuleModel->getModuleConfig('member');
             Context::set('member_config', $member_config);
-            Context::set('extend_form_list', $oMemberModel->getCombineJoinForm($this->memberInfo));
+			$extendForm = $oMemberModel->getCombineJoinForm($this->memberInfo);
+            Context::set('extend_form_list', $extendForm);
+
+			$memberInfo = get_object_vars(Context::get('member_info'));
+			Context::set('memberInfo', $memberInfo);
             $this->setTemplateFile('member_info');
         }
 
@@ -107,14 +164,14 @@
         function dispMemberAdminInsert() {
             // retrieve extend form
             $oMemberModel = &getModel('member');
-            Context::set('extend_form_list', $oMemberModel->getCombineJoinForm($this->memberInfo));
+            $extend_form_list = $oMemberModel->getCombineJoinForm($this->memberInfo);
 
             $memberInfo = Context::get('member_info');
             $memberInfo->signature = $oMemberModel->getSignature($this->memberInfo->member_srl);
             Context::set('member_info', $memberInfo);
 
             // get an editor for the signature
-            if($this->memberInfo->member_srl) {
+            if($memberInfo->member_srl) {
                 $oEditorModel = &getModel('editor');
                 $option->primary_key_name = 'member_srl';
                 $option->content_key_name = 'signature';
@@ -128,6 +185,185 @@
                 Context::set('editor', $editor);
             }
 
+			$memberInfo = get_object_vars($memberInfo);
+
+			$member_config = $oMemberModel->getMemberConfig();
+			$formTags = array();
+			global $lang;
+			foreach($member_config->signupForm as $no=>$formInfo){
+				if (!$formInfo->isUse)continue;
+				unset($formTag);
+				$inputTag = '';
+				$formTag->title = $formInfo->title;
+				if ($formInfo->required || $formInfo->mustRequired && $formInfo->name != 'password') $formTag->title = '<em style="color:red">* </em>'.$formTag->title; 
+				$formTag->name = $formInfo->name;
+				if($formInfo->isDefaultForm){
+					if($formInfo->imageType){
+						if($formInfo->name == 'profile_image'){
+							$target = $memberInfo['profile_image'];
+							$functionName = 'doDeleteProfileImage';
+						}elseif($formInfo->name == 'image_name'){
+							$target = $memberInfo['image_name'];
+							$functionName = 'doDeleteImageName';
+						}elseif($formInfo->name == 'image_mark'){
+							$target = $memberInfo['image_mark'];
+							$functionName = 'doDeleteImageMark';
+						}
+						if($target->src){
+							$inputTag = sprintf('<p class="a"><img src="%s" alt="%s" width="80" height="80" /> <button type="button" class="text" onclick="%s(%d);return false;">%s</button></p>'
+												,$target->src
+												,$formInfo->title
+												,$functionName
+												,$memberInfo['member_srl']
+												,$lang->cmd_delete);
+						}
+						$inputTag .= sprintf('<p class="a"><input type="file" name="%s" id="%s" value="" /> <span class="desc">%s : %dpx, %s : %dpx</span></p>'
+											 ,$formInfo->name
+											 ,$formInfo->name
+											 ,$lang->{$formInfo->name.'_max_width'}
+											 ,$member_config->{$formInfo->name.'_max_width'}
+											 ,$lang->{$formInfo->name.'_max_height'}
+											 ,$member_config->{$formInfo->name.'_max_height'});
+					}//end imageType
+					elseif($formInfo->name == 'birthday'){
+						$inputTag = sprintf('<input type="hidden" name="birthday" id="date_birthday" value="%s" /><input type="text" class="inputDate" id="birthday" value="%s" readonly="readonly" /><span class="button"><input type="button" value="%s" class="dateRemover" /></span>'
+								,$memberInfo['birthday']
+								,zdate($memberInfo['birthday'], 'Y-m-d', false)
+								,$lang->cmd_delete);
+					}elseif($formInfo->name == 'password'){
+						$inputTag = sprintf('<input type="text" name="reset_%s" value="" />'
+									,$formInfo->name);
+					}elseif($formInfo->name == 'find_account_question'){
+						$inputTag = '<select name="find_account_question">%s</select>';
+						$optionTag = array();
+						foreach($lang->find_account_question_items as $key=>$val){
+							if($key == $memberInfo['find_account_question']) $selected = 'selected="selected"';
+							else $selected = '';
+							$optionTag[] = sprintf('<option value="%s" %s >%s</option>'
+													,$key
+													,$selected
+													,$val);
+						}
+						$inputTag = sprintf($inputTag, implode('', $optionTag));
+						$inputTag .= '<input type="text" name="find_account_answer" value="'.$memberInfo['find_account_answer'].'" />';
+					}else{
+						$inputTag = sprintf('<input type="text" name="%s" value="%s" />'
+									,$formInfo->name
+									,$memberInfo[$formInfo->name]);
+					}
+				}//end isDefaultForm
+				else{
+					$extendForm = $extend_form_list[$formInfo->member_join_form_srl];
+					if($extendForm->column_type == 'text' || $extendForm->column_type == 'homepage' || $extendForm->column_type == 'email_address'){
+						$inputTag = sprintf('<input type="text" name="%s" value="%s" />'
+											,$formInfo->name
+											,$extendForm->value);
+					}elseif($extendForm->column_type == 'tel'){
+						$inputTag = sprintf('<input type="text" name="%s" value="%d" size="4" />-<input type="text" name="%s" value="%d" size="4" />-<input type="text" name="%s" value="%d" size="4" />'
+											,$formInfo->name
+											,$extendForm->value[0]
+											,$formInfo->name
+											,$extendForm->value[1]
+											,$formInfo->name
+											,$extendForm->value[2]);
+					}elseif($extendForm->column_type == 'textarea'){
+						$inputTag = sprintf('<textarea name="%s">%s</textarea>'
+											,$formInfo->name
+											,$extendForm->value);
+
+					}elseif($extendForm->column_type == 'checkbox'){
+						if($extendForm->default_value){
+							foreach($extendForm->default_value as $v){
+								if(is_array($extendForm->value) && in_array($v, $extendForm->value))$checked = 'checked="checked"';
+								$inputTag .= sprintf('<input type="checkbox" id="%s" name="%s" value="%s" %s /><label for="%s">%s</label>'
+											,$extendForm->column_name
+											,$extendForm->column_name
+											,htmlspecialchars($v)
+											,$checked
+											,$extendForm->column_name
+											,$v);
+							}
+						}
+					}elseif($extendForm->column_type == 'radio'){
+						if($extendForm->default_value){
+							$inputTag = '<ul class="radio">%s</ul>';
+							$optionTag = array();
+							foreach($extendForm->default_value as $v){
+								if($extendForm->value == $v)$checked = 'checked="checked"';
+								else $checked = '';
+								$optionTag[] = sprintf('<li><input type="radio" name="%s" value="%s" %s />%s</li>'
+														,$extendForm->column_name
+														,$v
+														,$checked
+														,$v);
+							}
+							$inputTag = sprintf($inputTag, implode('', $optionTag));
+						}
+					}elseif($extendForm->column_type == 'select'){
+						$inputTag = '<select name="'.$formInfo->name.'">%s</select>';
+						$optionTag = array();
+						if($extendForm->default_value){
+							foreach($extendForm->default_value as $v){
+								if($v == $extendForm->value) $selected = 'selected="selected"';
+								else $selected = '';
+								$optionTag[] = sprintf('<option value="%s" %s >%s</option>'
+														,$v
+														,$selected
+														,$v);
+							}
+						}
+						$inputTag = sprintf($inputTag, implode('', $optionTag));
+					}elseif($extendForm->column_type == 'kr_zip'){
+						$content = <<<EOD
+						<div class="krZip">
+							<div class="item" id="zone_address_search_%s" %s>
+								<label for="krzip_address1_%s" class="iLabel">%s</label>
+								<input type="text" id="krzip_address1_%s" class="iText w400" value="" />
+								<span class="button"><button type="button">%s</button></span>
+							</div>
+							<div class="item" id="zone_address_list_%s" style="display:none">
+								<select name="%s[]" id="address_list_%s" class="w400"></select>
+								<span class="button"><button type="button">%s</button></span>
+							</div>
+							<div class="item address2">
+								<label for="krzip_address2_%s" class="iLabel">%s</label>
+								<input type="text" name="%s[]" id="krzip_address2_%s" value="%s" class="iText w400" />
+							</div>
+						</div>
+						<load target="js/krzip_search.js" type="body" />
+						<script type="text/javascript">jQuery(function($){ $.krzip('%s') });</script>
+EOD;
+						$inputTag = sprintf($content 
+											,$extendForm->column_name,  $extendForm->value[0]?'style="display:none"':''
+											,$extendForm->column_name,  $lang->msg_kr_address
+											,$extendForm->column_name
+											,$lang->cmd_search
+											,$extendForm->column_name
+											,$extendForm->column_name, $extendForm->column_name
+											,$lang->cmd_search_again
+											,$extendForm->column_name, $lang->msg_kr_address_etc
+											,$extendForm->column_name, $extendForm->column_name, $extendForm->value[1]
+											,$extendForm->column_name);
+					}elseif($extendForm->column_type == 'jp_zip'){
+						$inputTag = sprintf('<input type="text" name="%s" value="%s" />'
+											,$extendForm->column_name
+											,$extendForm->value);
+					}elseif($extendForm->column_type == 'date'){
+						$inputTag = sprintf('<input type="hidden" name="%s" id="date_%s" value="%s" /><input type="text" class="inputDate" value="%s" readonly="readonly" /><span class="button"><input type="button" value="%s" class="dateRemover" /></span>'
+											,$extendForm->column_name
+											,$extendForm->column_name
+											,$extendForm->value
+											,zdate($extendForm->value, 'Y-m-d')
+											,$lang->cmd_delete);
+					}
+
+					if($extendForm->description)
+						$inputTag .= '<p style="color:#999;">'.htmlspecialchars($extendForm->description).'</p>';
+				}
+				$formTag->inputTag = $inputTag;
+				$formTags[] = $formTag;
+			}
+			Context::set('formTags', $formTags);
             $this->setTemplateFile('insert_member');
         }
 

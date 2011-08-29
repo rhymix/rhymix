@@ -21,12 +21,12 @@
         <action name="dispSavedDocumentList" type="view" standalone="true" />
 
         <action name="dispMemberAdminList" type="view" standalone="true" index="true" admin_index="true" menu_name="userList" menu_index="true"/>
-        <action name="dispMemberAdminConfig" type="view" standalone="true" />
-        <action name="dispMemberAdminInsert" type="view" standalone="true" />
+        <action name="dispMemberAdminConfig" type="view" menu_name="userSetting" menu_index="true" />
+        <action name="dispMemberAdminInsert" type="view" menu_name="userList" />
         <action name="dispMemberAdminDeleteForm" type="view" standalone="true" />
-        <action name="dispMemberAdminGroupList" type="view" standalone="true" />
+        <action name="dispMemberAdminGroupList" type="view" menu_name="userGroup" menu_index="true" />
         <action name="dispMemberAdminJoinFormList" type="view" standalone="true" />
-        <action name="dispMemberAdminInfo" type="view" standalone="true" menu_name="userList" />
+        <action name="dispMemberAdminInfo" type="view" menu_name="userList" />
         <action name="dispMemberAdminInsertJoinForm" type="view" standalone="true" />
         <action name="dispMemberAdminDeniedIDList" type="view" standalone="true" />
         <action name="dispMemberAdminManageGroup" type="view" standalone="true" />
@@ -34,6 +34,7 @@
 
         <action name="getMemberMenu" type="model" standalone="true" />
         <action name="getMemberAdminColorset" type="model" standalone="true" />
+		<action name="getMemberAdminInsertJoinForm" type="model" />
 
         <action name="procMemberLogin" type="controller" standalone="true" ruleset="login" />
         <action name="procMemberOpenIDLogin" type="controller" standalone="true" ruleset="openidLogin" />
@@ -43,7 +44,7 @@
         <action name="procMemberDeleteOpenIDFromMember" type="controller" standalone="true" />
         <action name="procMemberLogout" type="controller" standalone="true" />
         <action name="procMemberCheckValue" type="controller" standalone="true" />
-        <action name="procMemberInsert" type="controller" standalone="true" ruleset="signup" />
+        <action name="procMemberInsert" type="controller" standalone="true" ruleset="@insertMember" />
         <action name="procMemberModifyInfo" type="controller" standalone="true" ruleset="modifyInfo" />
         <action name="procMemberModifyPassword" type="controller" standalone="true" ruleset="modifyPassword" />
         <action name="procMemberLeave" type="controller" standalone="true" ruleset="leaveMember" />
@@ -66,7 +67,7 @@
         <action name="procMemberUpdateAuthMail" type="controller" standalone="true" />
 		<action name="procMemberResendAuthMail" type="controller" standalone="true" ruleset="resendAuthMail" />
 
-        <action name="procMemberAdminInsert" type="controller" standalone="true" ruleset="insert" />
+        <action name="procMemberAdminInsert" type="controller" standalone="true" ruleset="@insertMember" />
         <action name="procMemberAdminDelete" type="controller" standalone="true" />
         <action name="procMemberAdminInsertConfig" type="controller" standalone="true" ruleset="insertConfig" />
         <action name="procMemberAdminInsertGroup" type="controller" standalone="true" ruleset="insertGroup" />
@@ -76,13 +77,15 @@
         <action name="procMemberAdminDeleteMembers" type="controller" standalone="true" />
         <action name="procMemberAdminInsertJoinForm" type="controller" standalone="true" ruleset="insertJoinForm" />
         <action name="procMemberAdminUpdateJoinForm" type="controller" standalone="true" />
+        <action name="procMemberAdminDeleteJoinForm" type="controller" standalone="true" />
         <action name="procMemberAdminInsertDeniedID" type="controller" standalone="true" ruleset="insertDeniedId" />
         <action name="procMemberAdminUpdateDeniedID" type="controller" standalone="true" />
         <action name="procMemberAdminUpdateGroupOrder" type="controller" standalone="true" />
 
+        <action name="procMemberAdminSelectedMemberManage" type="controller" ruleset="updateSeletecdMemberInfo" />
     </actions>
 	<menus>
-		<menu name="userList" type="super">
+		<menu name="userList">
 			<title xml:lang="en">User List</title>
 			<title xml:lang="ko">회원 목록</title>
 			<title xml:lang="zh-CN">User List</title>
@@ -107,6 +110,19 @@
 			<title xml:lang="vi">User Setting</title>
 			<title xml:lang="mn">User Setting</title>
 			<title xml:lang="tr">User Setting</title>
+		</menu>
+		<menu name="userGroup">
+			<title xml:lang="en">Group</title>
+			<title xml:lang="ko">그룹관리</title>
+			<title xml:lang="zh-CN">Group</title>
+			<title xml:lang="jp">Group</title>
+			<title xml:lang="es">Group</title>
+			<title xml:lang="ru">Group</title>
+			<title xml:lang="fr">Group</title>
+			<title xml:lang="zh-TW">Group</title>
+			<title xml:lang="vi">Group</title>
+			<title xml:lang="mn">Group</title>
+			<title xml:lang="tr">Group</title>
 		</menu>
 	</menus>
 </module>

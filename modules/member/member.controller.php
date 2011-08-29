@@ -506,6 +506,9 @@
             // Execute insert or update depending on the value of member_srl
             $output = $this->insertMember($args);
             if(!$output->toBool()) return $output;
+
+			// insert ProfileImage, ImageName, ImageMark
+			debugPrint($all_args);
             // If a virtual site, join the site
             $site_module_info = Context::get('site_module_info');
             if($site_module_info->site_srl > 0) {

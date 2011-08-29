@@ -159,5 +159,30 @@
 
 			return count($output->data);
         }
+
+        /**
+         * @brief Return add join Form
+         **/
+        function getMemberAdminInsertJoinForm() {
+			$member_join_form_srl = Context::get('member_join_form_srl');
+
+			$args->member_join_form_srl = $member_join_form_srl;
+			$output = executeQuery('member.getJoinForm', $args);
+
+			if($output->toBool() && $output->data){
+				$formInfo = $output->data;
+				$default_value = $formInfo->default_value;
+				if ($default_value){
+					$default_value = unserialize($default_value);
+					Context::set('default_value', $default_value);
+				}
+				Context::set('formInfo', $output->data);
+			}
+
+            $oTemplate = &TemplateHandler::getInstance();
+            $tpl = $oTemplate->compile($this->module_path.'tpl', 'insert_join_form');
+
+            $this->add('tpl', str_replace("\n"," ",$tpl));
+		}
     }
 ?>

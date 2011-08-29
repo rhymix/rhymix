@@ -1,0 +1,8 @@
+<query id="getDeniedIDs" action="select">
+    <tables>
+        <table name="member_denied_user_id" />
+    </tables>
+    <columns>
+        <column name="*" />
+    </columns>
+</query>

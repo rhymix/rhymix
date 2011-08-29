@@ -509,6 +509,12 @@
             return $this->denied_id_list;
         }
 
+		function getDeniedIDs(){
+			$output = executeQueryArray('member.getDeniedIDs');
+			if(!$output->toBool()) return array();
+			return $output->data;
+		}
+
         /**
          * @brief Verify if ID is denied
          **/

@@ -4,5 +4,6 @@
     </customrules>
     <fields>
 		<field name="webmaster_name" required="true" length="2:40" />
+		<field name="webmaster_email" length="1:200" rule="email" />
     </fields>
 </ruleset>

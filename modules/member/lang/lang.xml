@@ -2267,4 +2267,34 @@ Bạn có thể quản lý thành viên bằng cách tạo những nhóm mới, 
 	<item name="about_send_message">
 		<value xml:lang="ko"><![CDATA[사용자에게 쪽지를 발송해서 이 사실을 알립니다. 작성하지 않으면 발송하지 않습니다.]]></value>
 	</item>
+	<item name="cmd_required_option">
+		<value xml:lang="ko"><![CDATA[필수/선택]]></value>
+	</item>
+	<item name="cmd_required">
+		<value xml:lang="ko"><![CDATA[필수]]></value>
+	</item>
+	<item name="cmd_optional">
+		<value xml:lang="ko"><![CDATA[선택]]></value>
+	</item>
+	<item name="cmd_image_max_width">
+		<value xml:lang="ko"><![CDATA[가로 제한 길이]]></value>
+	</item>
+	<item name="cmd_image_max_height">
+		<value xml:lang="ko"><![CDATA[세로 제한 길이]]></value>
+	</item>
+	<item name="cmd_input_extend_form">
+		<value xml:lang="ko"><![CDATA[사용자 정의 입력]]></value>
+	</item>
+	<item name="about_multi_type">
+		<value xml:lang="ko"><![CDATA[다중 또는 단일 항목의 선택 값을 입력하세요.(줄 바꿈으로 구분)]]></value>
+	</item>
+	<item name="msg_delete_extend_form">
+		<value xml:lang="ko"><![CDATA[선택한 항목을 삭제합니다.]]></value>
+	</item>
+	<item name="set_manage_id">
+		<value xml:lang="ko"><![CDATA[줄 바꿈으로 구분]]></value>
+	</item>
+	<item name="count_manage_id">
+		<value xml:lang="ko"><![CDATA[<strong>%s</strong>개의 금지아이디가 있습니다.]]></value>
+	</item>
 </lang>

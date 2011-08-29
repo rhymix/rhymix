@@ -17,7 +17,7 @@
          * @brief Add a user (Administrator)
          **/
         function procMemberAdminInsert() {
-            if(Context::getRequestMethod() == "GET") return new Object(-1, "msg_invalid_request");
+           // if(Context::getRequestMethod() == "GET") return new Object(-1, "msg_invalid_request");
             // Extract the necessary information in advance
             $args = Context::gets('member_srl','user_id','user_name','nick_name','homepage','blog','birthday','email_address','password','allow_mailing','allow_message','denied','is_admin','description','group_srl_list','limit_date');
             // Remove some unnecessary variables from all the vars
@@ -27,6 +27,7 @@
             if(!isset($args->limit_date)) $args->limit_date = "";
             // Add extra vars after excluding necessary information from all the requested arguments
             $extra_vars = delObjectVars($all_args, $args);
+			debugPrint($extra_vars);
             $args->extra_vars = serialize($extra_vars);
             // Check if an original member exists having the member_srl
             if($args->member_srl) {
@@ -48,6 +49,7 @@
                 $output = $oMemberController->updateMember($args);
                 $msg_code = 'success_updated';
             }
+			debugPrint($msg_code);
 
             if(!$output->toBool()) return $output;
             // Save Signature
@@ -79,10 +81,169 @@
             $this->setMessage("success_deleted");
         }
 
+		function procMemberAdminInsertConfig(){
+            $input_args = Context::gets(
+				'enable_join',
+				'enable_confirm',
+				'webmaster_name',
+				'webmaster_email',
+				'limit_day',
+				'change_password_date',
+				'agreement',
+				'after_login_url',
+				'after_logout_url',
+				'redirect_url',
+				'skin',
+				'colorset',
+                'profile_image', 'profile_image_max_width', 'profile_image_max_height',
+                'image_name', 'image_name_max_width', 'image_name_max_height',
+                'image_mark', 'image_mark_max_width', 'image_mark_max_height'
+            );
+
+			$list_order = Context::get('list_order');
+			$usable_list = Context::get('usable_list');
+			$denied_id = Context::get('denied_id');
+			$all_args = Context::getRequestVars();
+
+			$oModuleController = &getController('module');
+            $oMemberModel = &getModel('member');
+
+			// default setting start
+            if($input_args->enable_join != 'Y'){
+				$args->enable_join = 'N';
+			}else{
+				$args = $input_args;
+				$args->enable_join = 'Y';
+				if($args->enable_confirm !='Y') $args->enable_confirm = 'N';
+				$args->limit_day = (int)$args->limit_day;
+				if(!$args->change_password_date) $args->change_password_date = 0; 
+				if(!trim(strip_tags($args->agreement))) $args->agreement = null;
+				if(!trim(strip_tags($args->after_login_url))) $args->after_login_url = null;
+				if(!trim(strip_tags($args->after_logout_url))) $args->after_logout_url = null;
+				if(!trim(strip_tags($args->redirect_url))) $args->redirect_url = null;
+
+				if(!$args->skin) $args->skin = "default";
+				if(!$args->colorset) $args->colorset = "white";
+
+				if($args->profile_image !='Y') $args->profile_image = 'N';
+				if($args->image_name !='Y') $args->image_name = 'N';
+				if($args->image_mark !='Y') $args->image_mark = 'N';
+				if($args->signature!='Y') $args->signature = 'N';
+
+				// signupForm
+				global $lang;
+				$signupForm = array();
+				$items = array('user_id', 'password', 'user_name', 'nick_name', 'email_address', 'find_account_question', 'homepage', 'blog', 'birthday', 'signature', 'profile_image', 'image_name', 'image_mark', 'profile_image_max_width', 'profile_image_max_height', 'image_name_max_width', 'image_name_max_height', 'image_mark_max_width', 'image_mark_max_height');
+				$mustRequireds = array('email_address', 'password', 'find_account_question');
+				$extendItems = $oMemberModel->getJoinFormList();
+				foreach($list_order as $key){
+					unset($signupItem);
+					$signupItem->isDefaultForm = in_array($key, $items);
+					
+					$signupItem->name = $key;
+					$signupItem->title = $lang->{$key};
+					$signupItem->mustRequired = in_array($key, $mustRequireds);
+					$signupItem->imageType = (strpos($key, 'image') !== false);
+					$signupItem->required = ($all_args->{$key} == 'required');
+					$signupItem->isUse = in_array($key, $usable_list);
+
+					if ($signupItem->imageType){
+						$signupItem->max_width = $all_args->{$key.'_max_width'};
+						$signupItem->max_height = $all_args->{$key.'_max_height'};
+					}
+
+					// set extends form
+					if (!$signupItem->isDefaultForm){
+						$extendItem = $extendItems[$all_args->{$key.'_member_join_form_srl'}];
+						$signupItem->type = $extendItem->type;
+						$signupItem->member_join_form_srl = $extendItem->member_join_form_srl;
+						$signupItem->title = $extendItem->column_title;
+						$signupItem->description = $extendItem->description;
+
+						// check usable value change, required/option
+						if ($signupItem->isUse != ($extendItem->is_active == 'Y') || $signupItem->required != ($extendItem->required == 'Y')){
+							unset($update_args);
+							$update_args->member_join_form_srl = $extendItem->member_join_form_srl;
+							$update_args->is_active = $signupItem->isUse?'Y':'N';
+							$update_args->required = $signupItem->required?'Y':'N';
+
+							$update_output = executeQuery('member.updateJoinForm', $update_args);
+						}
+						unset($extendItem);
+					}
+					$signupForm[] = $signupItem;
+				}
+				$args->signupForm = $signupForm;
+
+				// create Ruleset
+				$this->_createSignupRuleset($signupForm);
+
+				if ($denied_id){
+					$denied_id = explode("\r\n", $denied_id);
+					$denied_list = $oMemberModel->getDeniedIDs();                                                                                                                                                  
+					$deniedIDs = array();
+					foreach($denied_list as $denied_info){
+						$deniedIDs[] = $denied_info->user_id;
+					}
+
+					$add_list = array_diff($denied_id, $deniedIDs);
+					$delete_list = array_diff($deniedIDs, $denied_id);
+
+					$oDB = &DB::getInstance();
+					$oDB->begin();
+
+					foreach($add_list as $user_id){
+						$output = $this->insertDeniedID($user_id, '');
+						if(!$output->toBool()){
+							$oDB->rollback();
+							return $output;
+						}
+					}
+
+					foreach($delete_list as $user_id){
+						$output = $this->deleteDeniedID($user_id);
+						if(!$output->toBool()){
+							$oDB->rollback();
+							return $output;
+						}
+					}
+					$oDB->commit();
+
+				}
+			}
+			$output = $oModuleController->updateModuleConfig('member', $args);
+			// default setting end
+
+ 			if($output->toBool() && !in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMemberAdminConfig');
+				$this->setRedirectUrl($returnUrl);
+				return;
+ 			}
+		}
+
+		function _createSignupRuleset($signupForm){
+			$xml_file = './files/ruleset/insertMember.xml';
+			$buff = '<?xml version="1.0" encoding="utf-8"?>'
+					.'<ruleset version="1.5.0">'
+				    .'<customrules>'
+					.'</customrules>'
+					.'<fields>%s</fields>'						
+					.'</ruleset>';
+
+			$fields = array();
+			foreach($signupForm as $formInfo){
+				if ($formInfo->required || $formInfo->mustRequired && $formInfo->name != 'password')
+					$fields[] = sprintf('<field name="%s" required="true" />', $formInfo->name);
+			}
+
+			$xml_buff = sprintf($buff, implode('', $fields));
+            FileHandler::writeFile($xml_file, $xml_buff);
+		}
+
         /**
          * @brief Add information for member administration
          **/
-        function procMemberAdminInsertConfig() {
+        function _procMemberAdminInsertConfig() {
             // Get the basic information
             $args = Context::gets(
                 'webmaster_name', 'webmaster_email',
@@ -193,11 +354,10 @@
             $args->column_type = Context::get('column_type');
             $args->column_name = strtolower(Context::get('column_name'));
             $args->column_title = Context::get('column_title');
-            $args->default_value = explode('|@|', Context::get('default_value'));
-            $args->is_active = Context::get('is_active');
-            if(!in_array(strtoupper($args->is_active), array('Y','N'))) $args->is_active = 'N';
+            $args->default_value = explode("\n", str_replace("\r", '', Context::get('default_value')));
             $args->required = Context::get('required');
-            if(!in_array(strtoupper($args->required), array('Y','N'))) $args->required = 'N';
+			$args->is_active = (isset($args->required));
+            if(!in_array(strtoupper($args->required), array('Y','N')))$args->required = 'N';
             $args->description = Context::get('description');
             // Default values
             if(in_array($args->column_type, array('checkbox','select','radio')) && count($args->default_value) ) {
@@ -206,8 +366,10 @@
                 $args->default_value = '';
             }
             // Fix if member_join_form_srl exists. Add if not exists.
-            if(!$args->member_join_form_srl){
-                $args->list_order = getNextSequence();
+            $isInsert;
+			if(!$args->member_join_form_srl){
+				$isInsert = true;
+				$args->list_order = $args->member_join_form_srl = getNextSequence();
                 $output = executeQuery('member.insertJoinForm', $args);
             }else{
                 $output = executeQuery('member.updateJoinForm', $args);
@@ -215,15 +377,55 @@
 
             if(!$output->toBool()) return $output;
 
-            $this->add('act','dispJoinForm');
+			// memberConfig update
+			$signupItem->name = $args->column_name;
+			$signupItem->title = $args->column_title;
+			$signupItem->type = $args->column_type;
+			$signupItem->member_join_form_srl = $args->member_join_form_srl;
+			$signupItem->required = ($args->required == 'Y');
+			$signupItem->isUse = ($args->is_active == 'Y');
+			$signupItem->description = $args->description;
+
+			$oMemberModel = &getModel('member');
+			$config = $oMemberModel->getMemberConfig();
+
+			if($isInsert){
+				$config->signupForm[] = $signupItem;	
+			}else{
+				foreach($config->signupForm as $key=>$val){
+					if ($val->member_join_form_srl == $signupItem->member_join_form_srl){
+						$config->signupForm[$key] = $signupItem;
+					}
+				}
+			}
+			$oModuleController = &getController('module');
+			$output = $oModuleController->updateModuleConfig('member', $config);
+
             $this->setMessage('success_registed');
 
 			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
 				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMemberAdminJoinFormList');
-				header('location:'.$returnUrl);
+				$this->setRedirectUrl($returnUrl);
 				return;
 			}
         }
+
+		function procMemberAdminDeleteJoinForm(){
+            $member_join_form_srl = Context::get('member_join_form_srl');
+			$this->deleteJoinForm($member_join_form_srl);
+
+			$oMemberModel = &getModel('member');
+			$config = $oMemberModel->getMemberConfig();
+
+			foreach($config->signupForm as $key=>$val){
+				if ($val->member_join_form_srl == $member_join_form_srl){
+					unset($config->signupForm[$key]);
+					break;
+				}
+			}
+			$oModuleController = &getController('module');
+			$output = $oModuleController->updateModuleConfig('member', $config);
+		}
 
         /**
          * @brief Move up/down the member join form and modify it
@@ -252,6 +454,76 @@
 
             $this->setMessage($msg_code);
         }
+
+		/**
+		 * selected member manager layer in dispAdminList 
+		 **/
+		function procMemberAdminSelectedMemberManage(){
+			$var = Context::getRequestVars();
+			$groups = $var->groups;
+			$members = $var->member_srls;
+
+            $oDB = &DB::getInstance();
+            $oDB->begin();
+
+			$oMemberController = &getController('member');
+			foreach($members as $key=>$member_srl){
+				unset($args);
+				$args->member_srl = $member_srl; 
+				switch($var->type){
+					case 'modify':{
+									  if (count($groups) > 0){
+											$args->site_srl = 0;
+											// One of its members to delete all the group
+											$output = executeQuery('member.deleteMemberGroupMember', $args);
+											if(!$output->toBool()) {
+												$oDB->rollback();
+												return $output;
+											}
+											// Enter one of the loop a
+											foreach($groups as $group_srl) {
+												$output = $oMemberController->addMemberToGroup($args->member_srl,$group_srl);
+												if(!$output->toBool()) {
+													$oDB->rollback();
+													return $output;
+												}
+											}
+									  }
+									  if ($var->denied){
+										  $args->denied = $var->denied;
+										  $output = executeQuery('member.updateMemberDeniedInfo', $args);
+										  if(!$output->toBool()) {
+											  $oDB->rollback();
+											  return $output;
+										  }
+									  }
+									  break;
+								  }
+					case 'delete':{
+								  }
+				}
+			}
+
+			$message = $var->message;
+			// Send a message
+			if($message) {
+				$oCommunicationController = &getController('communication');
+
+				$logged_info = Context::get('logged_info');
+				$title = cut_str($message,10,'...');
+				$sender_member_srl = $logged_info->member_srl;
+
+				foreach($members as $member_srl){
+					$oCommunicationController->sendMessage($sender_member_srl, $member_srl, $title, $message, false);
+				}
+			}
+
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMemberAdminList');
+				$this->setRedirectUrl($returnUrl);
+				return;
+			}
+		}
 
         /**
          * @brief Delete the selected members
