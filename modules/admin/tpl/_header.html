@@ -4,7 +4,7 @@
 		<ul class="gnb">
             <li><a href="{getUrl('module','admin','act','procAdminLogout')}">Sign out</a></li>
 			<!--@if($logged_info->is_admin=='Y')--><li><a href="{getUrl('','module','admin','act','dispAdminConfig')}">Settings</a></li><!--@end-->
-			<li><a href="#" onclick="toggleAdminLang();return false;">Language</a>
+			<li><a href="#adminLang" onclick="toggleAdminLang();return false;">Language</a>
 				<ul id="adminLang">
                     <!--@foreach($lang_supported as $key => $val)-->
 					<li <!--@if($key == $lang_type)-->class="open"<!--@end-->><a href="#" onclick="doChangeLangType('{$key}'); return false;">{$val}</a></li>

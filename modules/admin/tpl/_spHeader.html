@@ -2,24 +2,11 @@
 	<p class="skipNav"><a href="#content">Skip Navigation</a></p>
 	<div class="header">
 		<h1><a href="{getUrl('','module','admin')}"><img src="{getUrl('')}{$gnb_title_info->adminLogo}" alt="{$gnb_title_info->adminTitle}" /> {$gnb_title_info->adminTitle}</a></h1>
-		<div class="siteTool">
-			<a href="#moveSiteList" class="i tgAnchor" data-effect="slide" data-duration="100">Move to Site</a>
-			<div class="tgContent" id="moveSiteList">
-				<ul class="lined">
-					<li>XpressEngine - <a href="#">http://xe.xpressengine.net/</a></li>
-					<li>XpressEngine - <a href="#">http://xe.xpressengine.net/</a></li>
-					<li>XpressEngine - <a href="#">http://xe.xpressengine.net/</a></li>
-				</ul>
-				<p class="btnArea">
-					<a href="#" class="more"><span>&rsaquo;</span> more</a>
-				</p>
-			</div>
-		</div>
 		<div class="account">
 			<ul>
 				<li><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminInfo', 'is_admin', 'Y', 'member_srl', $logged_info->member_srl)}">{$logged_info->email_address}</a></li>
 				<li><a href="{getUrl('', 'module','admin','act','procAdminLogout')}">Log-out</a></li>
-				<li><a href="#language" class="tgAnchor language" data-effect="slide" data-duration="100">Language</a>
+				<li><a href="#language" class="tgAnchor language" data-effect="slide" data-duration="100"><!--@foreach($lang_supported as $key => $val)--><block cond="$key==$lang_type">{$val}</block><!--@end--></a>
 					<ul class="tgContent" id="language">
                     	<!--@foreach($lang_supported as $key => $val)-->
 						<li class="selected"|cond="$key==$lang_type"><a href="{getUrl('l',$key)}" data-langcode="{$key}" onclick="doChangeLangType('{$key}'); return false;">{$val}</a></li>

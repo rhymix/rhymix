@@ -244,13 +244,6 @@ button.text{border:0;overflow:visible;padding:0;margin:0;color:#33a;background:n
 .header h1 *{vertical-align:middle}
 .header h1 a{color:#fff;text-shadow:1px 1px 0 #000;filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=1, OffY=1, Color=#000000, Positive=true);zoom:1}
 .header h1 .url{font-size:12px;font-weight:normal}
-.header .siteTool{position:absolute !important;top:42px;right:0;padding:0 2em 0 0;z-index:2}
-.header .siteTool .i{position:relative;z-index:2;display:inline-block;color:#fff;padding:0 6px;line-height:24px}
-.header .siteTool .i:first-child{border:0}
-.header .siteTool .tgAnchor{padding-right:16px;background:url(../img/iconArrow.gif) no-repeat right -156px}
-.header .siteTool .tgAnchor.active{border:1px solid #ccc;border-bottom:0;background-color:#fff;color:#333;text-decoration:none;border-radius:5px 5px 0 0}
-.header .siteTool .tgContent{position:absolute;top:24px;right:2em;border:1px solid #ccc;z-index:1;background-color:#fff;border-radius:5px 0 5px 5px}
-.header .siteTool .tgContent .btnArea{margin:0}
 .header #moveSiteList{padding:10px 1em 5px 1em;margin:0}
 .header #moveSiteList ul{list-style:none;margin:0;padding:0}
 .header #moveSiteList li{white-space:nowrap;margin:0;padding:4px 0;border-bottom:1px dotted #ccc}
@@ -265,13 +258,10 @@ button.text{border:0;overflow:visible;padding:0;margin:0;color:#33a;background:n
 .header .account a.language{padding-right:2px}
 .header #language{position:absolute;top:19px;right:0;padding:6px 4px !important;border:1px solid #666;border-top:0;background:#333}
 .header #language li{border:0;display:block;padding:1px 8px;text-align:left;line-height:1}
-.header #language li.selected{background:transparent url(../img/checked.png) no-repeat left center}
+.header #language li.selected a{text-decoration:underline}
 .header h1 a:hover,
 .header h1 a:active,
 .header h1 a:focus,
-.header .siteTool a:hover,
-.header .siteTool a:active,
-.header .siteTool a:focus,
 .header .account a:hover,
 .header .account a:active,
 .header .account a:focus{color:#6e9cf2;text-decoration:underline}
@@ -508,8 +498,6 @@ button.text{border:0;overflow:visible;padding:0;margin:0;color:#33a;background:n
 @media only all and (max-width:860px){
 	.header h1{margin-left:.7em}
 	.header .account{padding-right:1em}
-	.header .siteTool{padding-right:1em}
-	.header .siteTool .tgContent{right:1em}
 	.body{padding:1em}
 	.content{float:none;margin-left:0}
 	.lnb{float:none;width:auto;margin:1em 0}
