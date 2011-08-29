@@ -17,7 +17,7 @@
 	<menus>
 		<menu name="importer">
 			<title xml:lang="en">Data Migration</title>
-			<title xml:lang="ko">데이터 이전</title>
+			<title xml:lang="ko">데이터 들여오기</title>
 			<title xml:lang="zh-CN">Data Migration</title>
 			<title xml:lang="jp">Data Migration</title>
 			<title xml:lang="es">Data Migration</title>

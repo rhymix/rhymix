@@ -23,7 +23,7 @@
 	<menus>
 		<menu name="poll">
 			<title xml:lang="en">Poll</title>
-			<title xml:lang="ko">투표</title>
+			<title xml:lang="ko">설문</title>
 			<title xml:lang="zh-CN">Poll</title>
 			<title xml:lang="jp">Poll</title>
 			<title xml:lang="es">Poll</title>
