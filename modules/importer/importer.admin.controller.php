@@ -19,6 +19,19 @@
         function init() {
         }
 
+		/**
+		 * @brief Check whether the passing filename exists or not. Detect the file type, too.
+		 */
+		function procImporterAdminCheckXmlFile() {
+			$filename = Context::get('filename');
+
+			// TODO : when it success
+			$this->add('exists', 'true');
+			$this->add('type', 'XML'); // or TTXML
+
+// 			return new Object(-1, 'error');
+		}
+
         /**
          * @brief sync member information with document information
          **/
@@ -936,5 +949,6 @@
             }
             return $extra_vars;
         }
+
     }
 ?>

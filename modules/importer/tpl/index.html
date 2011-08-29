@@ -11,14 +11,14 @@
 	<ul>
 		<li>
 			<p class="q">{$lang->xml_path} {$lang->path_info}</p>
-			<p class="a">
+			<p class="a checkxml">
 				<input type="text" name="xml_file" value="./" />
 				<button type="button">경로 확인</button>
-				<em class="desc">XML 파일의 경로가 올바르지 않습니다.</em>
-				<em class="desc">XML 파일의 경로가 바르게 설정되었습니다.</em>
+				<em class="desc error">아이쿠! XML 파일이 설정한 경로에 없네요.</em>
+				<em class="desc success">성공! XML 파일이 요기잉네?</em>
 			</p>
 		</li>
-		<li>
+		<li class="xml ttxml">
 			<p class="q">{$lang->data_destination}</p>
 			<div class="a">
 				<input type="text" name="site_keyword" /> <a href="#suggestion1" class="tgAnchor findsite">{$lang->find_site}</a>
@@ -28,17 +28,17 @@
 				</div>
 			</div>
 			<p class="a">
-				<select class="moduleList" style="width:290px">
+				<select id="moduleList" class="moduleList" style="width:290px">
 					<option>{$lang->select_module}</option>
 				</select>
 			</p>
 			<p class="a">
-				<select style="width:290px">
+				<select id="moduleIdList" style="width:290px">
 					<option>{$lang->select_module_id}</option>
 				</select>
 			</p>
 		</li>
-		<li>
+		<li class="ttxml">
 			<p class="q">{$lang->guestbook_destination}</p>
 			<div class="a">
 				<input type="text" name="site_keyword" /> <a href="#suggestion3" class="tgAnchor findsite">{$lang->find_site}</a>
@@ -53,13 +53,13 @@
 				</select>
 			</p>
 		</li>
-		<li>
+		<li class="ttxml">
 			<p class="q">{$lang->about_ttxml_user_id}</p>
 			<p class="a"><input type="text" name="user_id" value="{$logged_info->user_id}" /></p>
 		</li>
 	</ul>
 	<div class="btnArea">
-		<span class="btn"><input type="submit" value="{$lang->importer}" disabled="disabled" /></span>
+		<span class="btn"><input type="submit" value="{$lang->importer}" /></span>
 	</div>
 </form>
 <form action="./" class="form" method="get" onsubmit="return doPreProcessing(this)" id="fo_import">
@@ -68,7 +68,12 @@
 	<ul>
 		<li>
 			<p class="q">{$lang->xml_path} {$lang->path_info}</p>
-			<p class="a"><input type="text" name="xml_file" value="./" /></p>
+			<p class="a checkxml">
+				<input type="text" name="xml_file" value="./" />
+				<button type="button">경로 확인</button>
+				<em class="desc error">아이쿠! XML 파일이 설정한 경로에 없네요.</em>
+				<em class="desc success">성공! XML 파일이 요기잉네?</em>
+			</p>
 		</li>
 	</ul>
 	<div class="btnArea">
@@ -81,7 +86,12 @@
 	<ul>
 		<li>
 			<p class="q">{$lang->xml_path} {$lang->path_info}</p>
-			<p class="a"><input type="text" name="xml_file" value="./" /></p>
+			<p class="a checkxml">
+				<input type="text" name="xml_file" value="./" />
+				<button type="button">경로 확인</button>
+				<em class="desc error">아이쿠! XML 파일이 설정한 경로에 없네요.</em>
+				<em class="desc success">성공! XML 파일이 요기잉네?</em>
+			</p>
 		</li>
 	</ul>
 	<div class="btnArea">

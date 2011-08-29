@@ -13,6 +13,7 @@
         <action name="procImporterAdminMessageImport" type="controller" standalone="true" />
         <action name="procImporterAdminModuleImport" type="controller" standalone="true" />
         <action name="procImporterAdminTTXMLImport" type="controller" standalone="true" />
+        <action name="procImporterAdminCheckXmlFile" type="controller" standalone="true" />
     </actions>
 	<menus>
 		<menu name="importer">

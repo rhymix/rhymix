@@ -3,6 +3,78 @@
  * @author NHN (developers@xpressengine.com)
  * @brief  importer에서 사용하는 javascript
  **/
+jQuery(function($){
+
+// Note : Module finder is defined modules/admin/tpl/js/admin.js
+
+// Check whether the xml file exists
+$('.checkxml')
+	.find('input:text')
+		.change(function(){
+			$(this).closest('.checkxml').find('.desc').hide();
+		})
+	.end()
+	.find('button')
+		.click(function(){
+			var $this, $container, $input, $messages, $loading, $form, count;
+
+			$this      = $(this).prop('disabled', true);
+			$form      = $this.closest('form');
+			$container = $this.closest('.checkxml');
+			$input     = $container.find('input').prop('disabled', true).addClass('loading');
+			$messages  = $container.find('.desc').hide();
+
+			function on_complete(data) {
+				var $ul, $ttxml, $xml;
+
+				$ul    = $this.closest('ul');
+				$xml   = $ul.find('>.xml');
+				$ttxml = $ul.find('>.ttxml');
+					
+				// when the file doesn't exists or any other error occurs
+				if(data.error || data.exists != 'true') {
+					$messages.filter('.error').fadeIn(300);
+					$ttxml = $ttxml.filter(':visible');
+					$ttxml.eq(-1).slideUp(100, function(){
+						$ttxml = $ttxml.slice(0,-1).eq(-1).slideUp(100,arguments.callee);
+					});
+					$form.find(':submit').attr('disabled','disabled');
+					return restore();
+				}
+
+				restore();
+				$messages.filter('.success').fadeIn(300);
+				$form.find(':submit').removeAttr('disabled');
+				
+				if(data.type == 'XML') {
+					$ttxml = $ttxml.filter(':visible:not(.xml)');
+					$ttxml.eq(-1).slideUp(100, function(){
+						$ttxml = $ttxml.slice(0,-1).eq(-1).slideUp(100,arguments.callee);
+					});
+					if(!$xml.is(':visible')) $xml.slideDown(300);
+				} else if(data.type == 'TTXML') {
+					$ttxml = $ttxml.not(':visible');
+					$ttxml.eq(0).slideDown(100, function(){
+						$ttxml = $ttxml.slice(1).eq(0).slideDown(100,arguments.callee);
+					});
+				}
+			};
+
+			function restore() {
+				$input.prop('disabled', false).removeClass('loading');
+				$this.prop('disabled', false);
+				return false;
+			};
+
+			show_waiting_message = false;
+			$.exec_json('importer.procImporterAdminCheckXmlFile', {filename:$.trim($input.val())}, on_complete);
+		})
+	.end()
+	.find('.desc').hide().end()
+	.closest('ul').find('>li.ttxml').hide().end().end()
+	.closest('form').find(':submit').attr('disabled','disabled');
+
+});
 
 /**
  * 회원정보와 게시글/댓글등의 동기화 요청 및 결과 처리 함수
