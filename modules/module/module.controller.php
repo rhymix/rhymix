@@ -196,12 +196,6 @@
 
             }
             $output = executeQuery('module.updateSite', $args);
-			//remove from cache
-            $oCacheHandler = &CacheHandler::getInstance('object');
-            if($oCacheHandler->isSupport()){
-            	$cache_key = 'object:'.'default_mid';
-            	$oCacheHandler->delete($cache_key);
-            }
             return $output;
         }
 
@@ -407,12 +401,6 @@
          **/
         function clearDefaultModule() {
             $output = executeQuery('module.clearDefaultModule');
-            //remove from cache
-            $oCacheHandler = &CacheHandler::getInstance('object');
-            if($oCacheHandler->isSupport()){
-            	$cache_key = 'object:'.'default_mid';
-            	$oCacheHandler->delete($cache_key);
-            }
 			if(!$output->toBool()) return $output;
 
             return $output;

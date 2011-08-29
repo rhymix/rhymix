@@ -68,12 +68,6 @@
          * @brief Get the defaul mid according to the domain
          **/
         function getDefaultMid() {
-        	$oCacheHandler = &CacheHandler::getInstance('object');
-			if($oCacheHandler->isSupport()){
-				$cache_key = 'object:'.'default_mid';
-				$output = $oCacheHandler->get($cache_key);
-			}
-			if(!$output){
 	            $default_url = preg_replace('/\/$/','',Context::getDefaultUrl());
 	            $request_url = preg_replace('/\/$/','',Context::getRequestUri());
 	            $vid = Context::get('vid');
@@ -128,8 +122,6 @@
 	                    $output = executeQuery('module.getSiteInfo', $args);
 	                }
 	            }
-	            if($oCacheHandler->isSupport()) $oCacheHandler->put($cache_key,$output);
-			}
             $module_info = $output->data;
             if(!$module_info->module_srl) return $module_info;
             if(is_array($module_info) && $module_info->data[0]) $module_info = $module_info[0];
