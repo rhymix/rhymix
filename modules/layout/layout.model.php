@@ -672,7 +672,7 @@
             $logged_info = Context::get('logged_info');
             // Display edit button for faceoff layout
             if(Context::get('module')!='admin' && strpos(Context::get('act'),'Admin')===false && ($logged_info->is_admin == 'Y' || $logged_info->is_site_admin)) {
-                Context::addHtmlFooter("<div class=\"faceOffManager\"><a href=\"".getUrl('','mid',Context::get('mid'),'act','dispLayoutAdminLayoutModify','delete_tmp','Y')."\" class=\"buttonSet buttonLayoutEditor\"><span>".Context::getLang('cmd_layout_edit')."</span></a></div>");
+                Context::addHtmlFooter('<div class="faceOffManager" style="height: 23px; position: fixed; right: 3px; top: 3px;"><a href="'.getUrl('','mid',Context::get('mid'),'act','dispLayoutAdminLayoutModify','delete_tmp','Y').'">'.Context::getLang('cmd_layout_edit').'</a></div>');
             }
             // Display menu when editing the faceOff page
             if(Context::get('act')=='dispLayoutAdminLayoutModify' && ($logged_info->is_admin == 'Y' || $logged_info->is_site_admin)) {

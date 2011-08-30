@@ -21,6 +21,7 @@
 			// Set a layout list
 			$oLayoutModel = &getModel('layout');
 			$layout_list = $oLayoutModel->getDownloadedLayoutList('P', true);
+			$layout_list[] = $oLayoutModel->getLayoutInfo('faceoff', null, 'P');
 			Context::set('type', 'P');
 
 			$pcLayoutCount = $oLayoutModel->getInstalledLayoutCount('P');

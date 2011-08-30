@@ -33,7 +33,7 @@
 			</form>
 		</li>
 	</ul>
-	<form class="form" action="./" method="post" enctype="multipart/form-data">
+	<form class="form" ruleset="imageUpload" action="./" method="post" enctype="multipart/form-data">
 	<input type="hidden" name="module" value="layout" />
 	<input type="hidden" name="act" value="procLayoutAdminUserImageUpload" />
 	<input type="hidden" name="layout_srl" value="{$layout_srl}" />
@@ -49,54 +49,56 @@
 </fieldset>
 
 <block cond="$selected_layout->type == 'faceoff'">
-	<h3 class="h3">{$lang->layout_migration}</h3>
-	<p>{nl2br($lang->about_layout_migration)}</p>
+	<fieldset class="section">
+		<h3 class="h3">{$lang->layout_migration}</h3>
+		<p>{nl2br($lang->about_layout_migration)}</p>
 
-	<table cellspacing="0" class="rowTable">
-	<tr>
-		<th scope="row"><div>{$lang->layout_export}</div></th>
-		<td>
-			<a href="{getUrl('','act','procLayoutAdminUserLayoutExport','layout_srl',$layout_srl)}" class="button black strong"><span>{$lang->layout_btn_export}</span></a>
-			<p>{$lang->about_layout_export}</p>
-		</td>
-	</tr>
-	<tr>
-		<th scope="row"><div>{$lang->layout_import}</div></th>
-		<td>
-			<form ruleset="userLayoutImport" action="{getUrl('')}" method="post" enctype="multipart/form-data">
-				<input type="hidden" name="module" value="layout" />
-				<input type="hidden" name="act" value="procLayoutAdminUserLayoutImport" />
-				<input type="hidden" name="layout_srl" value="{$layout_srl}" />
-				<input type="file" name="file" />
-				<span class="button black strong"><button type="submit">{$lang->cmd_submit}</button></span>
-			</form>
-			<p>{$lang->about_layout_import}</p>
-		</td>
-	</tr>
-	</table>
+		<form class="form" ruleset="userLayoutImport" action="./" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="module" value="layout" />
+		<input type="hidden" name="act" value="procLayoutAdminUserLayoutImport" />
+		<input type="hidden" name="layout_srl" value="{$layout_srl}" />
+			<ul>
+				<li>
+					<p class="q">{$lang->layout_export}</p>
+					<p class="a"><span class="btn small"><a href="{getUrl('', 'act', 'procLayoutAdminUserLayoutExport', 'layout_srl', $layout_srl)}">{$lang->layout_btn_export}</a></span></p>
+					<p class="desc">{$lang->about_layout_export}</p>
+				</li>
+				<li>
+					<p class="q">{$lang->layout_import}</p>
+					<p class="a"><input type="file" name="file" /></p>
+					<p class="desc">{$lang->about_layout_import}</p>
+				</li>
+			</ul>
+			<div class="btnArea">
+				<span class="btn medium"><input type="submit" value="{$lang->cmd_submit}" /></span>
+			</div>
+		</form>
+	</fieldset>
 </block>
 
-<form id="fo_layout" class="form" ruleset="codeUpdate" action="./" method="post">
-<input type="hidden" name="layout_srl" value="{$layout_srl}" />
-<input type="hidden" name="act" value="procLayoutAdminCodeUpdate" />
+<fieldset class="section">
+	<form id="fo_layout" class="form" ruleset="codeUpdate" action="./" method="post">
+	<input type="hidden" name="layout_srl" value="{$layout_srl}" />
+	<input type="hidden" name="act" value="procLayoutAdminCodeUpdate" />
 
-	<h3 class="h3">HTML</h3>
-	<div>
-		<textarea name="code" style="width:100%;height:300px;font-size:11px;">{$layout_code}</textarea>
-		<!--@foreach($widget_list as $widget)-->
-		<span class="btn"><a href="{getUrl('','module','widget','act','dispWidgetGenerateCode','selected_widget',$widget->widget,'module_srl',$module_srl)}" onclick="popopen(this.href,'GenerateCodeInPage');return false;">{$widget->title}</a></span>
-		<!--@end-->
-	</div>
+		<h3 class="h3">HTML</h3>
+		<div>
+			<textarea name="code" style="width:100%;height:300px;font-size:11px;">{$layout_code}</textarea>
+			<!--@foreach($widget_list as $widget)-->
+			<span class="btn"><a href="{getUrl('','module','widget','act','dispWidgetGenerateCode','selected_widget',$widget->widget,'module_srl',$module_srl)}" onclick="popopen(this.href,'GenerateCodeInPage');return false;">{$widget->title}</a></span>
+			<!--@end-->
+		</div>
 
-	<h3 class="h3">CSS</h3>
-	<div>
-		<textarea name="code_css" style="width:100%;height:300px;font-size:11px;">{$layout_code_css}</textarea>
-	</div>
-	<div class="btnArea" style="float: left" >
-		<span class="btn medium"><button type="submit" name="mode" value="reset">{$lang->cmd_reset}</button></span>
-	</div>
-	<div class="btnArea">
-		<span class="btn medium"><button type="button" onclick="doPreviewLayoutCode();">{$lang->cmd_preview}</button></span>
-		<span class="btn medium"><button type="submit" name="mode" value="save">{$lang->cmd_save}</button></span>
-	</div>
-</form>
+		<h3 class="h3">CSS</h3>
+		<div>
+			<textarea name="code_css" style="width:100%;height:300px;font-size:11px;">{$layout_code_css}</textarea>
+		</div>
+		<div class="btnArea" style="float: left" >
+			<span class="btn medium"><button type="submit" name="mode" value="reset">{$lang->cmd_reset}</button></span>
+		</div>
+		<div class="btnArea">
+			<span class="btn medium"><button type="button" onclick="doPreviewLayoutCode();">{$lang->cmd_preview}</button></span>
+			<span class="btn medium"><button type="submit" name="mode" value="save">{$lang->cmd_save}</button></span>
+		</div>
+	</form>
+</fieldset>

@@ -496,6 +496,8 @@
             if(!move_uploaded_file($file['tmp_name'], $user_layout_path . 'faceoff.tar')) exit();
 
             $this->importLayout($layout_srl, $user_layout_path.'faceoff.tar');
+
+			$this->setRedirectUrl(Context::get('error_return_url'));
         }
 
         function importLayout($layout_srl, $source_file) {
