@@ -98,26 +98,40 @@
 						</div>
 					</li>
 					<li>
-						<p class="q">What kind of?</p>
+						<p class="q">Module or URL?</p>
 						<p class="a">
-							<input type="radio" name="cType" id="board" /> <label for="board">board</label>
-							<input type="radio" name="cType" id="forum" /> <label for="forum">forum</label>
-							<input type="radio" name="cType" id="page" /> <label for="page">page</label>
-							<input type="radio" name="cType" id="wiki" /> <label for="wiki">wiki</label>
+							<input type="radio" name="cType" id="cModule" /> <label for="cModule">Create Module</label>
+							<input type="radio" name="cType" id="sModule" /> <label for="sModule">Select Module</label>
 							<input type="radio" name="cType" id="url" /> <label for="url">URL</label>
 						</p>
 					</li>
 					<li>
-						<p class="q"><label for="module_id">Create or insert module ID.</label></p>
+						<p class="q">What kind of module?</p>
+						<p class="a">
+							<input type="radio" name="mType" id="board" /> <label for="board">board</label>
+							<input type="radio" name="mType" id="forum" /> <label for="forum">forum</label>
+							<input type="radio" name="mType" id="page" /> <label for="page">page</label>
+							<input type="radio" name="mType" id="wiki" /> <label for="wiki">wiki</label>
+						</p>
+					</li>
+					<li>
+						<p class="q"><label for="cModule_id">Create module ID.</label></p>
 						<div class="a">
-							<input type="text" id="module_id" name="menu_url" />
+							<input type="text" id="cModule_id" name="menu_url" />
+							<span class="desc"><button type="button" class="text">Validation Check</button></span>
+						</div>
+					</li>
+					<li>
+						<p class="q"><label for="sModule_id">Select module ID.</label></p>
+						<div class="a">
+							<input type="text" id="sModule_id" name="menu_url" />
 							<div id="findMid" class="suggestion">
 								<ul>
 									<li><button type="button">freeBoard</button></li>
 									<li><button type="button">userForum</button></li>
 								</ul>
 							</div>
-							<span class="desc"><a href="#findMid" class="tgAnchor">Find Module ID</a></span>
+							<span class="desc"><a href="#findMid" class="tgAnchor">Select Module ID</a></span>
 						</div>
 					</li>
 					<li>
