@@ -33,7 +33,7 @@
             Context::set('ip_list', $ip_list);
             Context::set('word_list', $word_list);
             // Set a template file
-            $this->setTemplateFile('spSpamFilter');
+            $this->setTemplateFile('index');
 		}
     }
 ?>

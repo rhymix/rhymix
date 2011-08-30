@@ -53,35 +53,7 @@
 			}
             return false;
 		}
-        /**CUT!
-         * @brief Spam filter configurations
-         **/
-        function procSpamfilterAdminInsertConfig() {
-            // Get the default information
-            $args = Context::gets('interval','limit_count','check_trackback');
-           if($args->check_trackback!='Y') $args->check_trackback = 'N';
-            // Create and insert the module Controller object
-            $oModuleController = &getController('module');
-            $output = $oModuleController->insertModuleConfig('spamfilter',$args);
-			if($output->toBool() && !in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispSpamfilterAdminConfig');
-				header('location:'.$returnUrl);
-				return;
-			}
-            return $output;
-        }
         
-        /**	CUT!
-         * @brief Register the banned IP address
-         **/
-        function procSpamfilterAdminInsertDeniedIP() {
-            $ipaddress = Context::get('ipaddress');
-            $description = Context::get('description');
-
-            $oSpamfilterController = &getController('spamfilter');
-            return $oSpamfilterController->insertIP($ipaddress, $description);
-        }
-
         /**
          * @brief Delete the banned IP
          **/
@@ -96,20 +68,6 @@
 			return $output;
         }
         
-        /**	CUT!
-         * @brief Register the prohibited word
-         **/
-        function procSpamfilterAdminInsertDeniedWord() {
-            $word = Context::get('word');
-            $output = $this->insertWord($word);
-			if($output->toBool() && !in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispSpamfilterAdminSetting');
-				header('location:'.$returnUrl);
-				return;
-			}
-			return $output;
-        }
-
         /**
          * @brief Delete the prohibited Word
          **/
