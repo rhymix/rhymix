@@ -17,14 +17,14 @@
 		<a href="#nav1" class="tgMap">접기</a>
 		<ul class="lined" id="nav1">
 			<li loop="$value->menuItems=>$key2,$value2">
-			<input type="hidden" name="parent_key[]" value="{$key2}" class="_parent_key" />
-			<input type="hidden" name="child_key[]" value="BEGIN_{$key2}" class="_child_key" />
-			<input value="{$value2['name']}" />
-			<span class="side"><a href="#editMenu" class="modalAnchor _edit">Edit...</a> | <a href="#">Setup</a> | <a href="#delete" class="_delete">Delete</a></span>
+				<input type="hidden" name="parent_key[]" value="{$key2}" class="_parent_key" />
+				<input type="hidden" name="child_key[]" value="BEGIN_{$key2}" class="_child_key" />
+				<a href="#" class="ms">{$value2['name']}</a> <a href="#" class="wPreview" target="_blank">Preview</a>
+				<span class="side"><a href="#editMenu" class="modalAnchor _edit">Edit...</a> | <a href="#delete" class="_delete">Delete</a></span>
 				<ul cond="$value2['subMenu']>0">
 					<li loop="$value2['subMenu']=>$key3,$value3">
 					<input type="hidden" name="child_key[]" value="{$key3}" class="_child_key" />
-					<input value="{$value3->name}" /> <span class="side"><a href="#editMenu" class="modalAnchor _edit">Edit...</a> | <a href="#">Setup</a> | <a href="#delete" class="_delete">Delete</a></span>
+					{$value3->name} <a href="#" class="wPreview" target="_blank">Preview</a> <span class="side"><a href="#editMenu" class="modalAnchor _edit">Edit...</a> | <a href="#delete" class="_delete">Delete</a></span>
 					</li>
 				</ul cond="$value2['subMenu']>0">
 			</li>
@@ -42,7 +42,7 @@
 			<input type="hidden" name="menu_srl" value="" />
 			<input type="hidden" name="menu_item_srl" value="{$menu_info->menu_srl}" />
 			<input type="hidden" name="parent_srl" value="{$menu_info->menu_srl}" />
-				<h2 class="h2">My Navigation Setting</h2>
+				<h2 class="h2">Add Menu | Edit Menu</h2>
 				<ul>
 					<li>
 						<p class="q"><label for="name">Name</label></p>
@@ -98,9 +98,19 @@
 						</div>
 					</li>
 					<li>
-						<p class="q"><label for="menu_url">Module ID or URL</label></p>
+						<p class="q">What kind of?</p>
+						<p class="a">
+							<input type="radio" name="cType" id="board" /> <label for="board">board</label>
+							<input type="radio" name="cType" id="forum" /> <label for="forum">forum</label>
+							<input type="radio" name="cType" id="page" /> <label for="page">page</label>
+							<input type="radio" name="cType" id="wiki" /> <label for="wiki">wiki</label>
+							<input type="radio" name="cType" id="url" /> <label for="url">URL</label>
+						</p>
+					</li>
+					<li>
+						<p class="q"><label for="module_id">Create or insert module ID.</label></p>
 						<div class="a">
-							<input type="text" id="menu_url" name="menu_url" />
+							<input type="text" id="module_id" name="menu_url" />
 							<div id="findMid" class="suggestion">
 								<ul>
 									<li><button type="button">freeBoard</button></li>
@@ -108,6 +118,12 @@
 								</ul>
 							</div>
 							<span class="desc"><a href="#findMid" class="tgAnchor">Find Module ID</a></span>
+						</div>
+					</li>
+					<li>
+						<p class="q"><label for="link_url">Insert URL.</label></p>
+						<div class="a">
+							<input type="text" id="link_url" name="menu_url" value="http://" />
 						</div>
 					</li>
 					<li>

@@ -256,7 +256,7 @@ button.text{border:0;overflow:visible;padding:0;margin:0;color:#33a;background:n
 .header .account li:first-child{border:0}
 .header .account a{color:#fff;display:inline-block;height:14px}
 .header .account a.language{padding-right:2px}
-.header #language{position:absolute;top:19px;right:0;padding:6px 4px !important;border:1px solid #666;border-top:0;background:#333}
+.header #language{position:absolute;top:19px;right:-2em;padding:6px 4px !important;border:1px solid #666;border-top:0;background:#333}
 .header #language li{border:0;display:block;padding:1px 8px;text-align:left;line-height:1}
 .header #language li.selected a{text-decoration:underline}
 .header h1 a:hover,
@@ -357,6 +357,7 @@ button.text{border:0;overflow:visible;padding:0;margin:0;color:#33a;background:n
 .siteMap .draggable,
 .siteMap .draggable .moveTo{background-color:#ddd}
 .siteMap .draggable .summary{border-left:1px solid #ccc;padding-left:10px;margin-left:10px;font-size:11px;color:#999}
+.siteMap a.ms{text-decoration:underline}
 /* Button Area */
 .btnArea{margin:1em 0;text-align:right;zoom:1}
 .btnArea:after{content:"";display:block;clear:both}
@@ -493,7 +494,8 @@ button.text{border:0;overflow:visible;padding:0;margin:0;color:#33a;background:n
 /* Messages */
 .desc.error{color:#f00}
 .desc.success{color:#080}
-
+/* Preview Icon */
+.wPreview{display:inline-block;width:15px;height:0;padding:13px 0 0 0;overflow:hidden;vertical-align:middle;background:url(../img/iconWindow.gif) no-repeat}
 /* Responsive Layout */
 @media only all and (max-width:860px){
 	.header h1{margin-left:.7em}
