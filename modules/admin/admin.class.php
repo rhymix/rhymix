@@ -109,8 +109,8 @@
 
 			$gnbModuleList = array(
 				0=>array(
-					'module'=>'site',
-					'subMenu'=>array('site'),
+					'module'=>'menu',
+					'subMenu'=>array('siteMap'),
 				),
 				1=>array(
 					'module'=>'member',
@@ -236,7 +236,7 @@
 		function _getGnbKey($menuName)
 		{
 			switch($menuName) {
-				case 'site':
+				case 'siteMap':
 					return 'site';
 					break;
 				case 'userList':

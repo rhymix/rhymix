@@ -107,6 +107,34 @@
             return $node;
         }
 
+        /**
+         * @brief Return item information of the menu_srl
+         **/
+        function getMenuAdminItemInfo()
+		{
+			$menuItemSrl = Context::get('menu_item_srl');
+			$menuItem = $this->getMenuItemInfo($menuItemSrl);
+
+			// get groups
+			$oMemberModel = &getModel('member');
+			$output = $oMemberModel->getGroups();
+			if(is_array($output))
+			{
+				$groupList = array();
+				foreach($output AS $key=>$value)
+				{
+					$groupList[$value->group_srl]->group_srl = $value->group_srl;
+					$groupList[$value->group_srl]->title = $value->title;
+
+					if(in_array($key, $menuItem->group_srls)) $groupList[$value->group_srl]->isChecked = true;
+					else $groupList[$value->group_srl]->isChecked = false;
+				}
+			}
+			$menuItem->groupList = $groupList;
+
+			$this->add('menu_item', $menuItem);
+        }
+
 		function getMenuItems($menu_srl, $parent_srl = null, $columnList = array())
 		{
 			$args->menu_srl = $menu_srl;

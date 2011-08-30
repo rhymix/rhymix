@@ -28,6 +28,7 @@
         <action name="getModuleAdminModuleList" type="model" standalone="true" />
         <action name="getModuleAdminLangCode" type="model" standalone="true" />
         <action name="getModuleAdminLangListByName" type="model" standalone="true" />
+        <action name="getLangListByLangcodeForAutoComplete" type="model" standalone="true" />
 
         <action name="procModuleAdminInsertCategory" type="controller" standalone="true" ruleset="insertCategory" />
         <action name="procModuleAdminUpdateCategory" type="controller" standalone="true" ruleset="updateCategory" />

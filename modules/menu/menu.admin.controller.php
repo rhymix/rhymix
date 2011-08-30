@@ -158,9 +158,10 @@
             $this->add('menu_title', $menu_title);
             $this->add('parent_srl', $args->parent_srl);
 
+			$this->setMessage('success_updated', 'info');
 			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMenuAdminManagement', 'menu_srl', $args->menu_srl);
-				header('location:'.$returnUrl);
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMenuAdminSiteMap', 'menu_srl', $args->menu_srl);
+				$this->setRedirectUrl($returnUrl);
 				return;
 			}
         }
@@ -230,8 +231,15 @@
 		function procMenuAdminArrangeItem()
 		{
 			$menuSrl = Context::get('menu_srl');
+            $args->title = Context::get('title');
 			$childKeyList = Context::get('child_key');
 
+			// menu name update
+            $args->menu_srl = $menuSrl;
+            $output = executeQuery('menu.updateMenu', $args);
+            if(!$output->toBool()) return $output;
+
+			// menu item sorting
 			if(is_array($childKeyList))
 			{
 				$menuList = array();

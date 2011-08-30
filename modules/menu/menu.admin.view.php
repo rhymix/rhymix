@@ -95,5 +95,51 @@
             // Set a template file
             $this->setTemplateFile('mid_list');
         }
+
+        /**
+         * @brief Site map admin menu index page
+         **/
+		function dispMenuAdminSiteMap()
+		{
+			$oMenuAdminModel = &getAdminModel('menu');
+			$output = $oMenuAdminModel->getMenus();
+			if(is_array($output))
+			{
+				$columnList = array('menu_item_srl', 'parent_srl', 'menu_srl', 'name');
+				foreach($output AS $key=>$value)
+				{
+					if($value->title == '__XE_ADMIN__') unset($output[$key]);
+					else
+					{
+						$menuItems = $oMenuAdminModel->getMenuItems($value->menu_srl, null, $columnList);
+						$value->menuItems = $this->_arrangeMenuItem($menuItems->data);
+					}
+				}
+			}
+            Context::set('menu_list', $output);
+
+            $this->setTemplateFile('sitemap');
+		}
+
+		function _arrangeMenuItem($menuItems)
+		{
+			if(is_array($menuItems))
+			{
+				$arrangedMenuItemList = array();
+				foreach($menuItems AS $key=>$value)
+				{
+					if($value->parent_srl == 0)
+					{
+						$arrangedMenuItemList[$value->menu_item_srl] = array('name'=>$value->name, 'subMenu'=>array());
+					}
+
+					if($value->parent_srl > 0 && isset($arrangedMenuItemList[$value->parent_srl]))
+					{
+						$arrangedMenuItemList[$value->parent_srl]['subMenu'][$value->menu_item_srl] = $value;
+					}
+				}
+			}
+			return $arrangedMenuItemList;
+		}
     }
 ?>

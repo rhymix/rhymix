@@ -1,0 +1,132 @@
+<load target="./js/sitemap.js" />
+
+<div class="content" id="content">
+	<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+		<p>{$XE_VALIDATOR_MESSAGE}</p>
+	</div>
+	<h1 class="h1">Site Map</h1>
+	<!--@foreach($menu_list AS $key=>$value)-->
+	{@$menu_srl = $value->menu_srl}
+	<form class="portlet siteMap" id="menu_{$menu_srl}">
+	<input type="hidden" name="act" value="procMenuAdminDeleteItem" />
+	<input type="hidden" name="menu_srl" value="{$value->menu_srl}" />
+	<input type="hidden" name="menu_item_srl" value="" />
+	<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin', 'act', 'dispMenuAdminSiteMap')}" />
+
+		<h2 class="h2"><input name="title" value="{$value->title}" /></h2>
+		<a href="#nav1" class="tgMap">접기</a>
+		<ul class="lined" id="nav1">
+			<li loop="$value->menuItems=>$key2,$value2">
+			<input type="hidden" name="parent_key[]" value="{$key2}" class="_parent_key" />
+			<input type="hidden" name="child_key[]" value="BEGIN_{$key2}" class="_child_key" />
+			<input value="{$value2['name']}" />
+			<span class="side"><a href="#editMenu" class="modalAnchor _edit">Edit...</a> | <a href="#">Setup</a> | <a href="#delete" class="_delete">Delete</a></span>
+				<ul cond="$value2['subMenu']>0">
+					<li loop="$value2['subMenu']=>$key3,$value3">
+					<input type="hidden" name="child_key[]" value="{$key3}" class="_child_key" />
+					<input value="{$value3->name}" /> <span class="side"><a href="#editMenu" class="modalAnchor _edit">Edit...</a> | <a href="#">Setup</a> | <a href="#delete" class="_delete">Delete</a></span>
+					</li>
+				</ul cond="$value2['subMenu']>0">
+			</li>
+		</ul>
+		<p class="btnArea"><span class="btn small"><a href="#editMenu" class="modalAnchor _add">Add Menu...</a></span> <span class="btn small"><button value="procMenuAdminArrangeItem" name="act" type="submit">{$lang->cmd_save}</button></span></p>
+	</form>
+	<!--@end-->
+	<div class="btnArea">
+		<span class="btn medium"><button type="button">Add New Site Map...</button></span>
+	</div>
+	<div class="modal" id="editMenu">
+		<div class="fg">
+			<form ruleset="insertMenuItem" id="editForm" action="./" method="post" enctype="multipart/form-data" class="form">
+			<input type="hidden" name="act" value="procMenuAdminInsertItem" />
+			<input type="hidden" name="menu_srl" value="" />
+			<input type="hidden" name="menu_item_srl" value="{$menu_info->menu_srl}" />
+			<input type="hidden" name="parent_srl" value="{$menu_info->menu_srl}" />
+				<h2 class="h2">My Navigation Setting</h2>
+				<ul>
+					<li>
+						<p class="q"><label for="name">Name</label></p>
+						<div class="a">
+							<input type="text" class="vLang" id="name" name="menu_name" /> 
+							<!-- Suggestion -->
+							<div id="vLangSuggest" class="suggestion">
+								<ul>
+									<li><button type="button">다국어 하나</button></li>
+									<li><button type="button">다국어 둘</button></li>
+								</ul>
+							</div>
+							<!-- /Suggestion -->
+							<script type="text/javascript">
+							// Multilingual Suggestion (UI Prototype)
+							$('input.vLang')
+								.focusin(function(){
+									$('#vLangSuggest').fadeIn(200);
+								})
+								.focusout(function(){
+									$('#vLangSuggest').fadeOut(200);
+								})
+							</script>
+							<!-- Multilingual -->
+							<div id="langEdit" class="langEdit tgContent">
+								<ul>
+									<li class="ko"><label for="ko_var1">Korean</label> <input type="text" value="안녕 세상아!" id="ko_var1" /></li>
+									<li class="en"><label for="en_var1">English</label> <input type="text" value="Hello World!" id="en_var1" /></li>
+									<li class="ja"><label for="ja_var1">Japanese</label> <input type="text" value="" id="ja_var1" /></li>
+									<li class="zh"><label for="zhcn_var1">Chinese(Simplified)</label> <input type="text" value="" id="zhcn_var1" /></li>
+									<li class="zh"><label for="zhtw_var1">Chinese(Traditional)</label> <input type="text" value="" id="zhtw_var1" /></li>
+									<li class="fr"><label for="fr_var1">French</label> <input type="text" value="" id="fr_var1" /></li>
+									<li class="de"><label for="de_var1">Deutsch</label> <input type="text" value="" id="de_var1" /></li>
+									<li class="ru"><label for="ru_var1">Russian</label> <input type="text" value="" id="ru_var1" /></li>
+									<li class="es"><label for="es_var1">Spanish</label> <input type="text" value="" id="es_var1" /></li>
+									<li class="tr"><label for="tr_var1">Turkish</label> <input type="text" value="" id="tr_var1" /></li>
+									<li class="vi"><label for="vi_var1">Vietnamese</label> <input type="text" value="" id="vi_var1" /></li>
+									<li class="mn"><label for="mn_var1">Mongolian</label> <input type="text" value="" id="mn_var1" /></li>
+								</ul>
+								<div class="action">
+									<!-- 여기부터 기존 랭귀지 변수를 수정한 경우에만 보인다 -->
+									<p>다국어 텍스트가 변경되었습니다. <em>업데이트</em> 버튼을 클릭하면 같은 텍스트를 사용하는 다른 페이지에도 반영됩니다. <em>새로 저장</em> 버튼을 클릭하면 이 페이지에만 적용됩니다.</p>
+									<div class="btnArea">
+										<span class="btn small"><input type="submit" value="업데이트" /></span> 
+										<span class="btn small"><input type="submit" value="새로저장" /></span> 
+									</div>
+									<!-- 여기까지 기존 랭귀지 변수를 수정한 경우에만 보인다 -->
+									<p><a href="#">다국어 텍스트 관리</a></p>
+								</div>
+							</div>
+							<!-- /Multilingual -->
+							<span class="desc"><a href="#langEdit" class="tgAnchor">Multilingual</a></span>
+						</div>
+					</li>
+					<li>
+						<p class="q"><label for="menu_url">Module ID or URL</label></p>
+						<div class="a">
+							<input type="text" id="menu_url" name="menu_url" />
+							<div id="findMid" class="suggestion">
+								<ul>
+									<li><button type="button">freeBoard</button></li>
+									<li><button type="button">userForum</button></li>
+								</ul>
+							</div>
+							<span class="desc"><a href="#findMid" class="tgAnchor">Find Module ID</a></span>
+						</div>
+					</li>
+					<li>
+						<p class="q">Which window should be open?</p>
+						<p class="a">
+							<input type="radio" name="menu_open_window" id="self" value="N" /> <label for="self">Self</label>
+							<input type="radio" name="menu_open_window" id="blank" value="Y" /> <label for="blank">Blank</label>
+						</p>
+					</li>
+					<li>
+						<p class="q">Authority for access.</p>
+						<p class="a" id="groupList">
+						</p>
+					</li>
+				</ul>
+				<div class="btnArea">
+					<span class="btn"><input type="submit" value="Save" /></span>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
