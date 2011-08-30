@@ -1371,6 +1371,12 @@
 		 * @param module, act
          **/
         function getValidatorFilePath($module, $ruleset) {
+			// load dynamic ruleset xml file 
+			if (strpos($ruleset, '@') !== false){
+				$rulsetFile = str_replace('@', '', $ruleset);
+				$xml_file = sprintf('./files/ruleset/%s.xml', $rulsetFile);
+				return FileHandler::getRealPath($xml_file);
+			}
             // Get a path of the requested module. Return if not exists.
             $class_path = ModuleHandler::getModulePath($module);
             if(!$class_path) return;

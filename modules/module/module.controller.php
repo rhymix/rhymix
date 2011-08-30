@@ -118,6 +118,21 @@
 			return $output;
 		}
 
+
+		function updateModuleConfig($module, $config, $site_srl = 0){
+			$args->module = $module;
+			$args->site_srl = $site_srl;
+
+			$oModuleModel = &getModel('module');
+			$origin_config = $oModuleModel->getModuleConfig($module, $site_srl);
+
+			foreach($config as $key => $val){
+				$origin_config->{$key} = $val;
+			}
+
+			return $this->insertModuleConfig($module, $origin_config, $site_srl);
+		}
+
         /**
          * @brief Enter a specific set of modules
          * In order to manage global configurations of modules such as board, member and so on
