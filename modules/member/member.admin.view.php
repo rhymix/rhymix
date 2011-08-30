@@ -40,6 +40,16 @@
             $oMemberModel = &getModel('member');
             $output = $oMemberAdminModel->getMemberList();
 
+			$filter = Context::get('filter_type');
+			global $lang;
+			switch($filter){
+				case 'super_admin' : Context::set('filter_type_title', $lang->cmd_show_super_admin_member);break;
+				case 'site_admin' : Context::set('filter_type_title', $lang->cmd_show_site_admin_member);break;
+				case 'enable' :  Context::set('filter_type_title', $lang->cmd_show_enable_member);break;
+				case 'disable' : Context::set('filter_type_title', $lang->cmd_show_disable_member);break;
+				default : Context::set('filter_type_title', $lang->cmd_show_all_member);break;
+			}
+
             // retrieve list of groups for each member
             if($output->data) {
                 foreach($output->data as $key => $member) {

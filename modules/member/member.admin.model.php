@@ -24,10 +24,18 @@
          * @brief Get a member list
          **/
         function getMemberList() {
-            // Search options
+            // Search option
             $args->is_admin = Context::get('is_admin')=='Y'?'Y':'';
             $args->is_denied = Context::get('is_denied')=='Y'?'Y':'';
             $args->selected_group_srl = Context::get('selected_group_srl');
+
+			$filter = Context::get('filter_type');
+			switch($filter){
+				case 'super_admin' : $args->is_admin = 'Y';break;
+				case 'site_admin' : $args->member_srls = $this->getSiteAdminMemberSrls();break;
+				case 'enable' : $args->is_denied = 'N';break;
+				case 'disable' : $args->is_denied = 'Y';break;
+			}
 
             $search_target = trim(Context::get('search_target'));
             $search_keyword = trim(Context::get('search_keyword'));
@@ -97,6 +105,7 @@
             $args->list_count = 40;
             $args->page_count = 10;
             $output = executeQuery($query_id, $args);
+
             return $output;
         }
 
@@ -112,6 +121,18 @@
             $output = executeQueryArray($query_id, $args);
             return $output;
         }
+
+		function getSiteAdminMemberSrls(){
+			$output = executeQueryArray('member.getSiteAdminMemberSrls');
+			if (!$output->toBool() || !$output->data) return array();
+
+			$member_srls = array();
+			foreach($output->data as $member_info){
+				$member_srls[] = $member_info->member_srl;
+			}
+
+			return $member_srls;
+		}
 
         /**
          * @brief Return colorset list of a skin in the member module

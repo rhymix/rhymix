@@ -27,7 +27,6 @@
             if(!isset($args->limit_date)) $args->limit_date = "";
             // Add extra vars after excluding necessary information from all the requested arguments
             $extra_vars = delObjectVars($all_args, $args);
-			debugPrint($extra_vars);
             $args->extra_vars = serialize($extra_vars);
             // Check if an original member exists having the member_srl
             if($args->member_srl) {
@@ -49,7 +48,6 @@
                 $output = $oMemberController->updateMember($args);
                 $msg_code = 'success_updated';
             }
-			debugPrint($msg_code);
 
             if(!$output->toBool()) return $output;
             // Save Signature

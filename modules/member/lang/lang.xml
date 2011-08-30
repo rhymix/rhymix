@@ -2297,4 +2297,19 @@ Bạn có thể quản lý thành viên bằng cách tạo những nhóm mới, 
 	<item name="count_manage_id">
 		<value xml:lang="ko"><![CDATA[<strong>%s</strong>개의 금지아이디가 있습니다.]]></value>
 	</item>
+	<item name="cmd_show_all_member">
+		<value xml:lang="ko"><![CDATA[모든 회원]]></value>
+	</item>
+	<item name="cmd_show_super_admin_member">
+		<value xml:lang="ko"><![CDATA[최고 관리자]]></value>
+	</item>
+	<item name="cmd_show_site_admin_member">
+		<value xml:lang="ko"><![CDATA[사이트 관리자]]></value>
+	</item>
+	<item name="cmd_show_enable_member">
+		<value xml:lang="ko"><![CDATA[사용중 회원]]></value>
+	</item>
+	<item name="cmd_show_disable_member">
+		<value xml:lang="ko"><![CDATA[사용중지 회원]]></value>
+	</item>
 </lang>

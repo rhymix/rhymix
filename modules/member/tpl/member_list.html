@@ -11,11 +11,11 @@
 		<h1 class="h1">{$lang->user_list}</h1>
 		<div class="table even">
 			<div class="cnb">
-				<a href="#">All</a> | <a href="#">Super Admin</a> | <a href="#">Site Admin</a> | <a href="#">Approval</a> | <a href="#">Denied</a> | <a href="#">Trash</a>
+				<a href="{getUrl('filter_type', '', 'page', '')}">{$lang->cmd_show_all_member}</a> | <a href="{getUrl('filter_type', 'super_admin', 'page', '')}">{$lang->cmd_show_super_admin_member}</a> | <a href="{getUrl('filter_type', 'site_admin', 'page', '')}">{$lang->cmd_show_site_admin_member}</a> | <a href="{getUrl('filter_type', 'enable', 'page', '')}">{$lang->cmd_show_enable_member}</a> | <a href="{getUrl('filter_type', 'disable', 'page', '')}">{$lang->cmd_show_disable_member}</a>
 			</div>
 			<table width="100%" border="1" cellspacing="0" class="_memberList">
 				<caption>
-					All(789)
+{$filter_type_title}({$total_count})
 					<span class="side"><span class="btn"><a href="#listManager" class="modalAnchor _member">{$lang->cmd_selected_user_manage}...</a></span></span>
 				</caption>
 				<thead>
