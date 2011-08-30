@@ -1,5 +1,11 @@
 <h1 class="h1">{$lang->installed_layout}</h1>
 
+<div cond="$layout == 'faceoff'" class="message error">
+	<p>
+		FaceOff 레이아웃은 지원이 중단될 예정입니다. 반드시 아래 안내에 따라 FaceOff 레이아웃을 일반 레이아웃으로 변경하여 주시기 바랍니다.
+	</p>
+</div>
+
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
