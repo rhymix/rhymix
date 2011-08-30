@@ -369,10 +369,91 @@ jQuery(function($){
 						// Display all sections then hide this button
 						$(this).hide().parent().prevAll('.section').show();
 					});
+});
 
-	// TODO module finder
+// Module finder
+jQuery(function($){
 
+$('.modulefinder')
+	.find('a.tgAnchor.findsite')
+		.bind('before-open.tc', function(){
+			var $this, $ul, val;
 
+			$this = $(this);
+			$ul   = $($this.attr('href')).find('>ul');
+			val   = $this.prev('input:text').val();
+
+			function on_complete(data) {
+				var $li, list = data.site_list, i, c;
+
+				$ul.empty();
+				$this.closest('.modulefinder').find('.moduleList,.moduleIdList').attr('disabled','disabled');
+
+				if(data.error || !$.isArray(list)) {
+					$this.trigger('close.tc');
+					return;
+				}
+
+				for(i=0,c=list.length; i < c; i++) {
+					$li = $('<li />').appendTo($ul);
+					$('<button type="button" />').text(list[i].domain).data('site_srl', list[i].site_srl).appendTo($li);
+				}
+			};
+
+			$.exec_json('admin.getSiteAllList', {domain:val}, on_complete);
+		})
+	.end()
+	.find('.tgContent.suggestion')
+		.delegate('button','click',function(){
+			var $this, $finder;
+
+			$this    = $(this);
+			$finder  = $this.closest('.modulefinder');
+
+			function on_complete(data) {
+				var $mod_select, list = data.module_list, x;
+
+				if(data.error || !list) return;
+
+				$mod_select = $finder.find('.moduleList').data('module_list', list).removeAttr('disabled').empty();
+				for(x in list) {
+					if(!list.hasOwnProperty(x)) continue;
+					$('<option />').attr('value', x).text(list[x].title).appendTo($mod_select);
+				}
+				$mod_select.prop('selectedIndex', 0).change().focus();
+
+				if(!$mod_select.is(':visible')) {
+					$mod_select.slideDown(100, function(){
+						$finder.find('.moduleIdList:not(:visible)').slideDown(100);
+					});
+				}
+			};
+
+			$finder.find('a.tgAnchor.findsite').trigger('close.tc');
+
+			$.exec_json('module.procModuleAdminGetList', {site_srl:$this.data('site_srl')}, on_complete);
+		})
+	.end()
+	.find('.moduleList,.moduleIdList').hide().end()
+	.find('.moduleList')
+		.change(function(){
+			var $this, $mid_select, val, list;
+
+			$this   = $(this);
+			val     = $this.val();
+			list    = $this.data('module_list');
+
+			if(!list[val]) return;
+
+			list = list[val].list;
+			$mid_select = $this.closest('.modulefinder').find('.moduleIdList').removeAttr('disabled').empty();
+
+			for(var x in list) {
+				if(!list.hasOwnProperty(x)) continue;
+				$('<option />').attr('value', list[x].module_srl).text(list[x].browser_title).appendTo($mid_select);
+			}
+			$mid_select.prop('selectedIndex', 0);
+		});
 });
 
 // Sortable table

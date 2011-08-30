@@ -18,27 +18,26 @@
 				<em class="desc success">성공! XML 파일이 요기잉네?</em>
 			</p>
 		</li>
-		<li class="xml ttxml">
-			<p class="q">{$lang->data_destination}</p>
+		<li class="xml ttxml modulefinder">
+		<p class="q">{$lang->data_destination} <br />가상 사이트의 도메인을 입력한 후 <em>사이트 찾기</em>를 클릭하면 됩니다. 도메인을 빈 칸으로 남겨두면 모든 사이트의 목록을 보여줍니다.</p>
 			<div class="a">
 				<input type="text" name="site_keyword" /> <a href="#suggestion1" class="tgAnchor findsite">{$lang->find_site}</a>
 				<div id="suggestion1" class="tgContent suggestion">
-					<ul>
-					</ul>
+					<ul></ul>
 				</div>
 			</div>
 			<p class="a">
-				<select id="moduleList" class="moduleList" style="width:290px">
+				<select class="moduleList" style="width:290px">
 					<option>{$lang->select_module}</option>
 				</select>
 			</p>
 			<p class="a">
-				<select id="moduleIdList" style="width:290px">
+				<select class="moduleIdList" style="width:290px">
 					<option>{$lang->select_module_id}</option>
 				</select>
 			</p>
 		</li>
-		<li class="ttxml">
+		<li class="ttxml modulefinder">
 			<p class="q">{$lang->guestbook_destination}</p>
 			<div class="a">
 				<input type="text" name="site_keyword" /> <a href="#suggestion3" class="tgAnchor findsite">{$lang->find_site}</a>
@@ -48,7 +47,12 @@
 				</div>
 			</div>
 			<p class="a">
-				<select name="_guestbook_target_module" style="width:290px">
+				<select style="width:290px">
+					<option>{$lang->select_module_id}</option>
+				</select>
+			</p>
+			<p class="a">
+				<select style="width:290px">
 					<option>{$lang->select_module_id}</option>
 				</select>
 			</p>
@@ -98,60 +102,4 @@
 		<span class="btn"><input type="submit" value="{$lang->importer}" /></span>
 	</div>
 </form>
-<!--
-<form action="./" class="form" method="get" onsubmit="return doPreProcessing(this)" id="fo_import">
-	<input type="hidden" name="type" value="ttxml" />
-	<input type="hidden" name="target_module" value="" id="target_module" />
-	<input type="hidden" name="guestbook_target_module" value="" id="guestbook_target_module" />
-	<h2 class="h2">{$lang->type_ttxml}</h2>
-	<ul>
-		<li>
-			<p class="q">{$lang->xml_path}</p>
-			<p class="a">
-				<input type="text" name="xml_file" value="./" />
-				<button type="button">경로 확인</button>
-				<em class="desc">XML 파일의 경로가 올바르지 않습니다.</em>
-				<em class="desc">XML 파일의 경로가 바르게 설정되었습니다.</em>
-			</p>
-		</li>
-		<li>
-			<p class="q">{$lang->document_destination}</p>
-			<div class="a">
-				<input type="text" name="site_keyword" /> <a href="#suggestion2" class="tgAnchor findsite">{$lang->find_site}</a>
-				<div id="suggestion2" class="tgContent suggestion">
-					<ul>
-					</ul>
-				</div>
-			</div>
-			<p class="a">
-				<select name="_target_module" style="width:290px">
-					<option>{$lang->select_module_id}</option>
-				</select>
-			</p>
-		</li>
-		<li>
-			<p class="q">{$lang->guestbook_destination}</p>
-			<div class="a">
-				<input type="text" name="site_keyword" /> <a href="#suggestion3" class="tgAnchor findsite">{$lang->find_site}</a>
-				<div id="suggestion3" class="tgContent suggestion">
-					<ul>
-					</ul>
-				</div>
-			</div>
-			<p class="a">
-				<select name="_guestbook_target_module" style="width:290px">
-					<option>{$lang->select_module_id}</option>
-				</select>
-			</p>
-		</li>
-		<li>
-			<p class="q">{$lang->about_ttxml_user_id}</p>
-			<p class="a"><input type="text" name="user_id" value="{$logged_info->user_id}" /></p>
-		</li>
-	</ul>
-	<div class="btnArea">
-		<span class="btn"><input type="submit" value="{$lang->importer}" /></span>
-	</div>
-</form>
--->
 <include target="./process.html" />
