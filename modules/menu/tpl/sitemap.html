@@ -106,12 +106,14 @@
 						</p>
 					</li>
 					<li>
-						<p class="q">What kind of module?</p>
+						<p class="q"><label for="kModule">What kind of module?</label></p>
 						<p class="a">
-							<input type="radio" name="mType" id="board" /> <label for="board">board</label>
-							<input type="radio" name="mType" id="forum" /> <label for="forum">forum</label>
-							<input type="radio" name="mType" id="page" /> <label for="page">page</label>
-							<input type="radio" name="mType" id="wiki" /> <label for="wiki">wiki</label>
+							<select style="width:290px" id="kModule">
+								<option>board</option>
+								<option>forum</option>
+								<option>page</option>
+								<option>wiki</option>
+							</select>
 						</p>
 					</li>
 					<li>
@@ -123,16 +125,13 @@
 					</li>
 					<li>
 						<p class="q"><label for="sModule_id">Select module ID.</label></p>
-						<div class="a">
-							<input type="text" id="sModule_id" name="menu_url" />
-							<div id="findMid" class="suggestion">
-								<ul>
-									<li><button type="button">freeBoard</button></li>
-									<li><button type="button">userForum</button></li>
-								</ul>
-							</div>
-							<span class="desc"><a href="#findMid" class="tgAnchor">Select Module ID</a></span>
-						</div>
+						<p class="a">
+							<select style="width:290px" id="sModule_id">
+								<option>freeBoard</option>
+								<option>userForum</option>
+								<option>devForum</option>
+							</select>
+						</p>
 					</li>
 					<li>
 						<p class="q"><label for="link_url">Insert URL.</label></p>
@@ -145,6 +144,18 @@
 						<p class="a">
 							<input type="radio" name="menu_open_window" id="self" value="N" /> <label for="self">Self</label>
 							<input type="radio" name="menu_open_window" id="blank" value="Y" /> <label for="blank">Blank</label>
+						</p>
+					</li>
+					<li>
+						<p class="q">Display image.</p>
+						<p class="a">
+							<input type="radio" name="imgUse" id="imgNo" checked="checked" /> <label for="imgNo">No</label>
+							<input type="radio" name="imgUse" id="imgYes" /> <label for="imgYes">Yes</label>
+						</p>
+						<p class="a">
+							<input type="file" name="menu_normal_btn" id="menu_normal_btn" /> <label for="menu_normal_btn">Normal Image</label><br />
+							<input type="file" name="menu_hover_btn" id="menu_hover_btn" /> <label for="menu_hover_btn">Hover Image</label><br />
+							<input type="file" name="menu_active_btn" id="menu_active_btn" /> <label for="menu_active_btn">Active Image</label>
 						</p>
 					</li>
 					<li>
