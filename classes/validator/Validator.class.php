@@ -412,7 +412,7 @@ class Validator
 		if(count($content)) {
 			$content = implode(',', $content);
 
-			return "(function($,v){\nv=xe.getApp('validator')[0];if(!v)return;\n{$addrules}\nv.cast('ADD_FILTER',['{$ruleset}', {{$content}}]);})(jQuery);";
+			return "(function($,v){\nv=xe.getApp('validator')[0];if(!v)return;\n{$addrules}\nv.cast('ADD_FILTER',['{$ruleset}', {{$content}}]);\n})(jQuery);";
 		} else {
 			return '';
 		}
