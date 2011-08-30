@@ -3730,4 +3730,10 @@ Xin vui lòng kiểm tra lại thông tin Database.]]></value>
 		<value xml:lang="vi"><![CDATA[이 페이지는 모바일 보기가 있습니다. 모바일 보기로 이동하시겠습니까?]]></value>
 		<value xml:lang="mn"><![CDATA[이 페이지는 모바일 보기가 있습니다. 모바일 보기로 이동하시겠습니까?]]></value>
 	</item>
+	<item name="cmd_yes">
+		<value xml:lang="ko"><![CDATA[예]]></value>
+	</item>
+	<item name="cmd_no">
+		<value xml:lang="ko"><![CDATA[아니오]]></value>
+	</item>
 </lang>
