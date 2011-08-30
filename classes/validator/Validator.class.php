@@ -140,11 +140,13 @@ class Validator
 		);
 
 		$fields = array_map('trim', $fields);
+		$field_names = implode("\t", array_keys($fields));
 
 		foreach($this->_filters as $key=>$filter) {
+			$fname  = $key;
 			$exists = array_key_exists($key, $fields);
 			$filter = array_merge($filter_default, $filter);
-			$value  = $exists ? $fields[$key] : null;
+			$value  = $exists ? $fields[$fname] : null;
 
 			// conditional statement
 			foreach($filter['if'] as $cond) {
@@ -159,8 +161,8 @@ class Validator
 			// attr : default
 			if(!$value && strlen($default=trim($filter['default']))) {
 				$value = $default;
-				if(is_null($fields_)) Context::set($key, $value);
-				else $fields_[$key] = $value;
+				if(is_null($fields_)) Context::set($fname, $value);
+				else $fields_[$fname] = $value;
 			}
 			$value_len = strlen($value);
 
@@ -361,6 +363,7 @@ class Validator
 		if(preg_match('@(^|/)files/ruleset/\w+\.xml$@i', $this->_xml_path)) $ruleset = '@'.$ruleset;
 
 		// custom rulesets
+		$addrules = array();
 		foreach($this->_rules as $name=>$rule) {
 			if(strpos('email,userid,url,alpha,alpha_number,number,', $name.',') !== false) continue;
 			switch($rule['type']) {
@@ -376,8 +379,10 @@ class Validator
 					break;
 			}
 		}
+		$addrules = implode('', $addrules);
 
 		// filters
+		$content = array();
 		foreach($this->_filters as $name=>$filter) {
 			$field = array();
 
@@ -407,7 +412,7 @@ class Validator
 		if(count($content)) {
 			$content = implode(',', $content);
 
-			return "(function($,v){\nv=xe.getApp('validator')[0];if(!v)return;\nv.cast('ADD_FILTER',['{$ruleset}', {{$content}}]);})(jQuery);";
+			return "(function($,v){\nv=xe.getApp('validator')[0];if(!v)return;\n{$addrules}\nv.cast('ADD_FILTER',['{$ruleset}', {{$content}}]);})(jQuery);";
 		} else {
 			return '';
 		}
