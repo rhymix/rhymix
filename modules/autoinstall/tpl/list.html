@@ -3,7 +3,9 @@
 <div class="table even easyList">
 	<table width="100%" border="1" cellspacing="0">
 		<caption>
-			All({$page_navigation->total_count})
+			<block cond="$current_category">{$current_category}</block>
+			<block cond="!$current_category">All</block>
+			({sprintf('%d', $page_navigation->total_count)})
 			<span cond="$act == 'dispAutoinstallAdminIndex'" class="side">
 				<!--@if($order_target == 'newest')-->
 					<!--@if($order_type == 'desc')-->{@$_newest_order_type = 'asc'}<!--@else-->{@$_newest_order_type = 'desc'}<!--@end-->
