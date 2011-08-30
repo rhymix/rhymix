@@ -276,10 +276,13 @@
 					{
 						$logged_info = Context::get('logged_info');
 						if($logged_info->is_admin=='Y'){
-							$oAdminView = &getAdminView('admin');
-							$oAdminView->makeGnbUrl($forward->module);
-							$oModule->setLayoutPath("./modules/admin/tpl");
-							$oModule->setLayoutFile("layout.html");
+							if ($this->act != 'dispLayoutAdminLayoutModify')
+							{
+								$oAdminView = &getAdminView('admin');
+								$oAdminView->makeGnbUrl($forward->module);
+								$oModule->setLayoutPath("./modules/admin/tpl");
+								$oModule->setLayoutFile("layout.html");
+							}
 						}else{
 							$this->error = 'msg_is_not_administrator';
 							$oMessageObject = &ModuleHandler::getModuleInstance('message',$type);
