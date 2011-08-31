@@ -102,6 +102,13 @@
             if(!is_array($source_args->group_srls)) $source_args->group_srls = str_replace('|@|',',',$source_args->group_srls);
 			else $source_args->group_srls = implode(',', $source_args->group_srls);
             $source_args->parent_srl = (int)$source_args->parent_srl;
+
+			if($source_args->cType == 'CREATE') $source_args->menu_url = $source_args->create_menu_url;
+			else if($source_args->cType == 'SELECT') $source_args->menu_url = $source_args->select_menu_url;
+
+			// upload button
+			$btnOutput = $this->_uploadButton($source_args);
+
             // Re-order variables (Column's order is different between form and DB)
             $args->menu_srl = $source_args->menu_srl;
             $args->menu_item_srl = $source_args->menu_item_srl;
@@ -112,22 +119,32 @@
             $args->url = trim($source_args->menu_url);
             $args->open_window = $source_args->menu_open_window;
             $args->expand = $source_args->menu_expand;
-            $args->normal_btn = $source_args->normal_btn;
-            $args->hover_btn = $source_args->hover_btn;
-            $args->active_btn = $source_args->active_btn;
+            if($btnOutput['normal_btn']) $args->normal_btn = $btnOutput['normal_btn'];
+            if($btnOutput['hover_btn']) $args->hover_btn = $btnOutput['hover_btn'];
+            if($btnOutput['active_btn']) $args->active_btn = $btnOutput['active_btn'];
             $args->group_srls = $source_args->group_srls;
             // Check if already exists
             $oMenuModel = &getAdminModel('menu');
             $item_info = $oMenuModel->getMenuItemInfo($args->menu_item_srl);
+
+			// button is deleted, db delete
+			if($source_args->isNormalDelete == 'Y') $args->normal_btn = '';
+			if($source_args->isHoverDelete == 'Y') $args->hover_btn = '';
+			if($source_args->isActiveDelete == 'Y') $args->active_btn = '';
+
+			$message = '';
             // Update if exists
-            if($item_info->menu_item_srl == $args->menu_item_srl) {
+            if(!empty($args->menu_item_srl) && $item_info->menu_item_srl == $args->menu_item_srl) {
                 $output = executeQuery('menu.updateMenuItem', $args);
                 if(!$output->toBool()) return $output;
+				$message = 'success_updated';
             // Insert if not exist
             } else {
+				if(!$args->menu_item_srl) $args->menu_item_srl = getNextSequence();
                 $args->listorder = -1*$args->menu_item_srl;
                 $output = executeQuery('menu.insertMenuItem', $args);
                 if(!$output->toBool()) return $output;
+				$message = 'success_registed';
             }
             // Get information of the menu
             $menu_info = $oMenuModel->getMenu($args->menu_srl);
@@ -158,7 +175,7 @@
             $this->add('menu_title', $menu_title);
             $this->add('parent_srl', $args->parent_srl);
 
-			$this->setMessage('success_updated', 'info');
+			$this->setMessage($message, 'info');
 			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
 				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMenuAdminSiteMap', 'menu_srl', $args->menu_srl);
 				$this->setRedirectUrl($returnUrl);
@@ -254,7 +271,7 @@
 					else $menuList[$parentSrl][$value] = true;
 				}
 
-				foreach($menuList AS $key=>$value)
+				/*foreach($menuList AS $key=>$value)
 				{
 					if(count($value) > 0)
 					{
@@ -265,7 +282,7 @@
 							$sourceSrl = $key2;
 						}
 					}
-				}
+				}*/
 			}
 
             $this->setMessage('success_updated', 'info');
@@ -775,5 +792,60 @@
             }
         }
 
+        /**
+         * @brief Register a menu image button
+         **/
+        function _uploadButton($args)
+		{
+			// path setting
+			$path = sprintf('./files/attach/menu_button/%d/', $args->menu_srl);
+			if($args->menu_normal_btn || $args->menu_hover_btn || $args->menu_active_btn)
+                if(!is_dir($path)) FileHandler::makeDir($path);
+
+			if($args->isNormalDelete == 'Y' || $args->isHoverDelete == 'Y' || $args->isActiveDelete == 'Y')
+			{
+				$oMenuModel = &getAdminModel('menu');
+            	$itemInfo = $oMenuModel->getMenuItemInfo($args->menu_item_srl);
+
+				if($args->isNormalDelete == 'Y' && $itemInfo->normal_btn) FileHandler::removeFile($itemInfo->normal_btn);
+				if($args->isHoverDelete == 'Y' && $itemInfo->hover_btn) FileHandler::removeFile($itemInfo->hover_btn);
+				if($args->isActiveDelete == 'Y' && $itemInfo->active_btn) FileHandler::removeFile($itemInfo->active_btn);
+			}
+
+			$returnArray = array();
+			// normal button
+			if($args->menu_normal_btn)
+			{
+				$tmp_arr = explode('.',$args->menu_normal_btn['name']);
+				$ext = $tmp_arr[count($tmp_arr)-1];
+
+				$filename = sprintf('%s%d.%s.%s', $path, $args->menu_item_srl, 'menu_normal_btn', $ext);
+				move_uploaded_file($args->menu_normal_btn['tmp_name'], $filename);
+				$returnArray['normal_btn'] = $filename;
+			}
+
+			// hover button
+			if($args->menu_hover_btn)
+			{
+				$tmp_arr = explode('.',$args->menu_hover_btn['name']);
+				$ext = $tmp_arr[count($tmp_arr)-1];
+
+				$filename = sprintf('%s%d.%s.%s', $path, $args->menu_item_srl, 'menu_hover_btn', $ext);
+				move_uploaded_file($args->menu_hover_btn['tmp_name'], $filename);
+				$returnArray['hover_btn'] = $filename;
+			}
+
+			// active button
+			if($args->menu_active_btn)
+			{
+				$tmp_arr = explode('.',$args->menu_active_btn['name']);
+				$ext = $tmp_arr[count($tmp_arr)-1];
+
+				$filename = sprintf('%s%d.%s.%s', $path, $args->menu_item_srl, 'menu_active_btn', $ext);
+				move_uploaded_file($args->menu_active_btn['tmp_name'], $filename);
+				$returnArray['active_btn'] = $filename;
+			}
+			return $returnArray;
+        }
     }
 ?>

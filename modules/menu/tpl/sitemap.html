@@ -26,7 +26,7 @@
 					<input type="hidden" name="child_key[]" value="{$key3}" class="_child_key" />
 					{$value3->name} <a href="#" class="wPreview" target="_blank">Preview</a> <span class="side"><a href="#editMenu" class="modalAnchor _edit">Edit...</a> | <a href="#delete" class="_delete">Delete</a></span>
 					</li>
-				</ul cond="$value2['subMenu']>0">
+				</ul>
 			</li>
 		</ul>
 		<p class="btnArea"><span class="btn small"><a href="#editMenu" class="modalAnchor _add">Add Menu...</a></span> <span class="btn small"><button value="procMenuAdminArrangeItem" name="act" type="submit">{$lang->cmd_save}</button></span></p>
@@ -42,7 +42,7 @@
 			<input type="hidden" name="menu_srl" value="" />
 			<input type="hidden" name="menu_item_srl" value="{$menu_info->menu_srl}" />
 			<input type="hidden" name="parent_srl" value="{$menu_info->menu_srl}" />
-				<h2 class="h2">Add Menu | Edit Menu</h2>
+				<h2 class="h2"></h2>
 				<ul>
 					<li>
 						<p class="q"><label for="name">Name</label></p>
@@ -90,40 +90,34 @@
 					<li>
 						<p class="q">Module or URL?</p>
 						<p class="a">
-							<input type="radio" name="cType" id="cModule" /> <label for="cModule">Create Module</label>
-							<input type="radio" name="cType" id="sModule" /> <label for="sModule">Select Module</label>
-							<input type="radio" name="cType" id="url" /> <label for="url">URL</label>
+							<input type="radio" name="cType" id="cModule" class="_typeCheck" value="CREATE" /> <label for="cModule">Create Module</label>
+							<input type="radio" name="cType" id="sModule" class="_typeCheck" value="SELECT" /> <label for="sModule">Select Module</label>
+							<input type="radio" name="cType" id="url" class="_typeCheck" value="URL" /> <label for="url">URL</label>
 						</p>
 					</li>
-					<li>
+					<li id="kindModule">
 						<p class="q"><label for="kModule">What kind of module?</label></p>
 						<p class="a">
 							<select style="width:290px" id="kModule">
-								<option>board</option>
-								<option>forum</option>
-								<option>page</option>
-								<option>wiki</option>
+								<option loop="$module_list=>$key,$value" value="{$value}">{$value}</option>
 							</select>
 						</p>
 					</li>
-					<li>
+					<li id="createModule">
 						<p class="q"><label for="cModule_id">Create module ID.</label></p>
 						<div class="a">
-							<input type="text" id="cModule_id" name="menu_url" />
+							<input type="text" id="cModule_id" name="create_menu_url" />
 							<span class="desc"><button type="button" class="text">Validation Check</button></span>
 						</div>
 					</li>
-					<li>
+					<li id="selectModule">
 						<p class="q"><label for="sModule_id">Select module ID.</label></p>
 						<p class="a">
-							<select style="width:290px" id="sModule_id">
-								<option>freeBoard</option>
-								<option>userForum</option>
-								<option>devForum</option>
+							<select style="width:290px" id="sModule_id" name="select_menu_url">
 							</select>
 						</p>
 					</li>
-					<li>
+					<li id="insertUrl">
 						<p class="q"><label for="link_url">Insert URL.</label></p>
 						<div class="a">
 							<input type="text" id="link_url" name="menu_url" value="http://" />
@@ -139,23 +133,23 @@
 					<li>
 						<p class="q">Display image.</p>
 						<p class="a">
-							<input type="radio" name="imgUse" id="imgNo" checked="checked" /> <label for="imgNo">No</label>
-							<input type="radio" name="imgUse" id="imgYes" /> <label for="imgYes">Yes</label>
-						</p>
-						<p class="a">
+							<span id="normal_btn_preview"></span>
 							<input type="file" name="menu_normal_btn" id="menu_normal_btn" /> <label for="menu_normal_btn">Normal Image</label><br />
+							<span id="hover_btn_preview"></span>
 							<input type="file" name="menu_hover_btn" id="menu_hover_btn" /> <label for="menu_hover_btn">Hover Image</label><br />
+							<span id="active_btn_preview"></span>
 							<input type="file" name="menu_active_btn" id="menu_active_btn" /> <label for="menu_active_btn">Active Image</label>
 						</p>
 					</li>
 					<li>
 						<p class="q">Authority for access.</p>
 						<p class="a" id="groupList">
+							<block loop="$group_list=>$key,$value"><input type="checkbox" name="group_srls[]" id="group_srls_{$value->group_srl}" value="{$value->group_srl}" /> <label for="group_srls_{$value->group_srl}">{$value->title}</label></block>
 						</p>
 					</li>
 				</ul>
 				<div class="btnArea">
-					<span class="btn"><input type="submit" value="Save" /></span>
+					<span class="btn"><input type="submit" value="{$lang->cmd_save}" /></span>
 				</div>
 			</form>
 		</div>

@@ -118,6 +118,35 @@
 			}
             Context::set('menu_list', $output);
 
+			// get installed module list
+			$oModuleModel = &getModel('module');
+			$output = $oModuleModel->getModuleList();
+			if(is_array($output))
+			{
+				$installedModuleList = array();
+				foreach($output AS $key=>$value)
+				{
+					array_push($installedModuleList, $value->module);
+				}
+				$useModuleList = array('board', 'forum', 'wiki', 'page');
+			}
+			$resultModuleList = array_intersect($installedModuleList, $useModuleList);
+            Context::set('module_list', $resultModuleList);
+
+			// get default group list
+			$oMemberModel = &getModel('member');
+			$output = $oMemberModel->getGroups();
+			if(is_array($output))
+			{
+				$groupList = array();
+				foreach($output AS $key=>$value)
+				{
+					$groupList[$value->group_srl]->group_srl = $value->group_srl;
+					$groupList[$value->group_srl]->title = $value->title;
+				}
+			}
+            Context::set('group_list', $groupList);
+
             $this->setTemplateFile('sitemap');
 		}
 

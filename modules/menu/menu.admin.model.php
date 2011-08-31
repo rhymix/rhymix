@@ -115,6 +115,27 @@
 			$menuItemSrl = Context::get('menu_item_srl');
 			$menuItem = $this->getMenuItemInfo($menuItemSrl);
 
+			if(!$menuItem->url)
+			{
+				$menuItem->moduleType = null;
+			}
+			else if(!preg_match('/^http/i',$menuItem->url))
+			{
+				$oModuleModel = &getModel('module');
+				$moduleInfo = $oModuleModel->getModuleInfoByMid($menuItem->url);
+				if($moduleInfo->mid == $menuItem->url) {
+					$menuItem->moduleType = $moduleInfo->module;
+					//$menuItem->module_id = $moduleInfo->mid;
+					//$menuItem->browser_title = $moduleInfo->browser_title;
+					//unset($menuItem->url);
+				}
+			}
+			else
+			{
+				$menuItem->moduleType = 'url';
+				/*$menuItem->url = preg_replace('/^(http|https):\/\//i','',$menuItem->url);*/
+			}
+
 			// get groups
 			$oMemberModel = &getModel('member');
 			$output = $oMemberModel->getGroups();
