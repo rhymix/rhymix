@@ -590,3 +590,118 @@ function getOffset(elem, offsetParent) {
 }
 
 });
+
+// Language selector
+jQuery(function($){
+
+var w_timer = null, r_timer = null, r_idx = 0, f_timer = null;
+var KEY_UP = 38, KEY_DOWN = 40;
+
+$('.multiLangEdit')
+	.find('input.vLang,textarea.vLang')
+		.bind('textchange', function(){
+			var $this = $(this), val = $.trim($this.val()), $ul, $mle;
+
+			if(r_timer) {
+				clearTimeout(r_timer);
+				r_timer = null;
+			}
+
+			if(!val) return;
+
+			$mle = $this.closest('.multiLangEdit');
+			$ul  = $mle.find('.suggestion > ul');
+
+			// remove lagnauge key
+			$mle.find('.vLang').eq(0).val('');
+
+			function request() {
+				$this.addClass('loading');
+
+				if($ul.parent().is(':visible')) $ul.parent().hide();
+				
+				$.exec_json(
+					'module.getLangListByLangcodeForAutoComplete',
+					{search_keyword:val},
+					(function(i){ return function(data){ on_complete(data,i) } })(r_idx++)
+				);
+			};
+
+			function on_complete(data, idx){
+				var results = data.results, $btn, i, c;
+
+				if(data.error || !results || (r_idx != idx+1)) return;
+
+				$this.removeClass('loading');
+
+				$ul.empty();
+				for(i=0,c=results.length; i < c; i++) {
+					$btn = $('<button type="button" class="_btnLang" />').data('langkey', results[i].name).text(results[i].value);
+					$('<li />').append($btn).appendTo($ul);
+				}
+				$ul.parent().slideDown(300);
+			};
+
+			r_timer = setTimeout(request, 100);
+		})
+		.focus(function(){
+			var $this = $(this), oldValue = $.trim($this.val());
+
+			(function(){
+				var value = $.trim($this.val());
+
+				if(value != oldValue) {
+					oldValue = value;
+					$this.trigger('textchange');
+				}
+				w_timer = setTimeout(arguments.callee, 50);
+			})();
+		})
+		.blur(function(){
+			clearTimeout(w_timer);
+			w_timer = null;
+		})
+	.end()
+	.find('a.tgAnchor.editUserLang')
+		.bind('before-open.tc', function(){
+			var $this, $layer, $vlangs;
+
+			$this   = $(this);
+			$layer  = $($this.attr('href'));
+			$vlangs = $this.closest('.multiLangEdit').find('input.vLang,textarea.vLang');
+
+			function on_complete(data) {
+				var list = data.lang_list, i, c;
+
+				if(data.error || !list || !list.length) return;
+
+				$layer.find('li > input').val('').prev('label').css('visibility','visible');
+				for(i=0,c=list.length; i < c; i++) {
+					$layer.find('li.'+list[i].lang_code).find('> input').val(list[i].value).prev('label').css('visibility','hidden');
+				}
+			};
+
+			$.exec_json('module.getModuleAdminLangListByName', {lang_name:$vlangs.eq(0).val()}, on_complete);
+		})
+	.end()
+	.delegate('.suggestion button._btnLang', 'click', function(){
+		var $this = $(this), key = $this.data('langkey'), text = $this.text();
+
+		$this.closest('.suggestion')
+			.prev('.vLang').val(text)
+				.prev('.vLang').val(key);
+	})
+	.focusout(function(){
+		var self = this;
+
+		function check(){
+			var $this = $(self);
+
+			if($this.find(':focus').is('.vLang,._btnLang')) return;
+			$this.find('>.suggestion').slideUp(300);
+		}
+
+		clearTimeout(f_timer);
+		f_timer = setTimeout(check, 10);
+	})
+});
