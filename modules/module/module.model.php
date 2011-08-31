@@ -1388,5 +1388,16 @@
 			return $xml_file;
         }
 
+		function getLangListByLangcodeForAutoComplete() {
+			$keyword = Context::get('search_keyword');
+
+			$list = array(
+				array('name'=>'key1', 'value'=>'value1'),
+				array('name'=>'key2', 'value'=>'value2'),
+				array('name'=>'key3', 'value'=>'value3')
+			);
+
+			$this->add('results', $list);
+		}
     }
 ?>
