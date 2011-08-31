@@ -50,29 +50,15 @@
 
 <block cond="$selected_layout->type == 'faceoff'">
 	<fieldset class="section">
-		<h3 class="h3">{$lang->layout_migration}</h3>
-		<p>{nl2br($lang->about_layout_migration)}</p>
-
-		<form class="form" ruleset="userLayoutImport" action="./" method="post" enctype="multipart/form-data">
-		<input type="hidden" name="module" value="layout" />
-		<input type="hidden" name="act" value="procLayoutAdminUserLayoutImport" />
-		<input type="hidden" name="layout_srl" value="{$layout_srl}" />
-			<ul>
+		<h3 class="h3">{$lang->faceoff_export}</h3>
+		<p>{nl2br($lang->about_faceoff_export)}</p>
+			<ul class="form">
 				<li>
 					<p class="q">{$lang->layout_export}</p>
 					<p class="a"><span class="btn small"><a href="{getUrl('', 'act', 'procLayoutAdminUserLayoutExport', 'layout_srl', $layout_srl)}">{$lang->layout_btn_export}</a></span></p>
 					<p class="desc">{$lang->about_layout_export}</p>
 				</li>
-				<li>
-					<p class="q">{$lang->layout_import}</p>
-					<p class="a"><input type="file" name="file" /></p>
-					<p class="desc">{$lang->about_layout_import}</p>
-				</li>
 			</ul>
-			<div class="btnArea">
-				<span class="btn medium"><input type="submit" value="{$lang->cmd_submit}" /></span>
-			</div>
-		</form>
 	</fieldset>
 </block>
 

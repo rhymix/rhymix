@@ -40,7 +40,7 @@
 				</block>
 				<block cond="!$layout->title">
 					<td class="title">
-						<p><a href="{getUrl('act', 'dispLayoutAdminInstanceList', 'path', urlencode($layout->path))}">{$layout->layout}</a></p>
+						<p><a href="{getUrl('act', 'dispLayoutAdminInstanceList', 'type', $type, 'layout', $layout->layout)}">{$layout->layout}</a></p>
 						<p cond="$layout->need_update == 'Y'" class="update">
 							{$lang->msg_avail_update} <a href="{$layout->update_url}&amp;return_url={urlencode(getRequestUriByServerEnviroment())}">{$lang->msg_do_you_like_update}</a>
 						</p>

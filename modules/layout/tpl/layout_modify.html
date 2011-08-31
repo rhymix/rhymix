@@ -125,13 +125,13 @@
 		<li>
 			<p class="q">{$lang->not_apply_menu}</p>
 			<p class="a">
-				<input type="checkbox" name="apply_layout" value="Y" />{$lang->about_not_apply_menu}
+				<input type="checkbox" name="apply_layout" id="apply_layout" value="Y" /> <label for="apply_layout">{$lang->about_not_apply_menu}</label>
 			</p>
 		</li>
 		<li cond="$selected_layout->layout_type == 'M'">
 			<p class="q">{$lang->apply_mobile_view}</p>
 			<p class="a">
-				<input type="checkbox" name="apply_mobile_view" value="Y" />{$lang->about_apply_mobile_view}
+				<input type="checkbox" name="apply_mobile_view" id="apply_mobile_layout" value="Y" /> <label for="apply_mobile_layout">{$lang->about_apply_mobile_view}</label>
 			</p>
 		</li>
 	</ul>

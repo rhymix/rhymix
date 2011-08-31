@@ -19,6 +19,8 @@
          * Insert a title into "layouts" table in order to create a layout
          **/
         function procLayoutAdminInsert() {
+			if(Context::get('layout') == 'faceoff') return $this->stop('not supported');
+
             // Get information to create a layout
             $site_module_info = Context::get('site_module_info');
             $args->site_srl = (int)$site_module_info->site_srl;
@@ -377,7 +379,7 @@
             FileHandler::writeFile($file,$content);
 
             // write faceoff.css
-            $css = Context::get('css');
+            $css = stripslashes(Context::get('css'));
 
             $css_file = $oLayoutModel->getUserLayoutFaceOffCss($layout_srl);
             FileHandler::writeFile($css_file,$css);
@@ -441,7 +443,6 @@
              }
          }
 
-		// deprecated
         /**
          * @brief faceoff export
          *
@@ -451,15 +452,71 @@
             if(!$layout_srl) return new Object('-1','msg_invalid_request');
 
             require_once(_XE_PATH_.'libs/tar.class.php');
-            // Get a list of files to zip
             $oLayoutModel = &getModel('layout');
+			
+			// Copy files to temp path
+			$file_path = $oLayoutModel->getUserLayoutPath($layout_srl);
+			$target_path = $oLayoutModel->getUserLayoutPath(0);
+			FileHandler::copyDir($file_path, $target_path);
+
+			// replace path and ini config
+			$ini_config = $oLayoutModel->getUserLayoutIniConfig(0);
             $file_list = $oLayoutModel->getUserLayoutFileList($layout_srl);
+			unset($file_list[2]);
+
+			foreach($file_list as $file)
+			{
+				if (preg_match('/^images/', $file)) continue;
+
+				// replace path
+				$file = $target_path . $file;
+				$content = FileHandler::readFile($file);
+				$pattern = '/(http:\/\/[^ ]+)?(\.\/)?' . str_replace('/', '\/', (str_replace('./', '', $file_path))) . '/';
+				if (basename($file) == 'faceoff.css' || basename($file) == 'layout.css')
+					$content = preg_replace($pattern, '../', $content);
+				else
+					$content = preg_replace($pattern, './', $content);
+
+				// replace ini config
+				foreach($ini_config as $key => $value)
+				{
+					$content = str_replace('{$layout_info->faceoff_ini_config[\'' . $key . '\']}', $value, $content);
+				}
+
+				FileHandler::writeFile($file, $content);
+			}
+
+			// make info.xml
+			$info_file = $target_path . 'conf/info.xml';
+			FileHandler::copyFile('./modules/layout/faceoff/conf/info.xml', $info_file);
+			$content = FileHandler::readFile($info_file);
+			$content = str_replace('type="faceoff"', '', $content);
+			FileHandler::writeFile($info_file, $content);
+			$file_list[] = 'conf/info.xml';
+
+			// make css file
+			$css_file = $target_path . 'css/layout.css';
+			FileHandler::copyFile('./modules/layout/faceoff/css/layout.css', $css_file);
+			$content = FileHandler::readFile('./modules/layout/tpl/css/widget.css');
+			FileHandler::writeFile($css_file, "\n" . $content, 'a');
+			$content = FileHandler::readFile($target_path . 'faceoff.css');
+			FileHandler::writeFile($css_file, "\n" . $content, 'a');
+			$content = FileHandler::readFile($target_path . 'layout.css');
+			FileHandler::writeFile($css_file, "\n" . $content, 'a');
+
+			// css load
+			$content = FileHandler::readFile($target_path . 'layout.html');
+			$content = "<load target=\"css/layout.css\" />\n" . $content;
+			FileHandler::writeFile($target_path . 'layout.html', $content);
+			unset($file_list[3]);
+			unset($file_list[1]);
+			$file_list[] = 'css/layout.css';
+
             // Compress the files
             $tar = new tar();
-            $user_layout_path = FileHandler::getRealPath($oLayoutModel->getUserLayoutPath($layout_srl));
+            $user_layout_path = FileHandler::getRealPath($oLayoutModel->getUserLayoutPath(0));
             chdir($user_layout_path);
-            $replace_path = getNumberingPath($layout_srl,3);
-            foreach($file_list as $key => $file) $tar->addFile($file,$replace_path,'__LAYOUT_PATH__');
+            foreach($file_list as $key => $file) $tar->addFile($file);
 
             $stream = $tar->toTarStream();
             $filename = 'faceoff_' . date('YmdHis') . '.tar';
@@ -473,6 +530,10 @@
             echo $stream;
             // Close Context and then exit
             Context::close();
+
+			// delete temp path
+			FileHandler::removeDir($target_path);
+
             exit();
          }
 
@@ -482,6 +543,8 @@
          *
          **/
          function procLayoutAdminUserLayoutImport(){
+			return $this->stop('not supported');
+
             // check upload
             if(!Context::isUploaded()) exit();
             $file = Context::get('file');

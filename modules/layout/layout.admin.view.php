@@ -103,6 +103,8 @@
 
 			// Get layout info
 			$layout = Context::get('layout');
+			if ($layout == 'faceoff') return $this->stop('not supported');
+
 			$layout_info = $oModel->getLayoutInfo($layout, null, $type);
 			if (!$layout_info) return $this->stop('msg_invalid_request');
 
@@ -248,12 +250,6 @@
 
 			$security = new Security();
 			$security->encodeHTML('layout_code_css', 'layout_code', 'widget_list..title');
-			// debugPrint(Context::get('selected_layout'));
-			// debugPrint(Context::get('layout_code_css'));
-			// debugPrint(Context::get('layout_code'));
-			// debugPrint(Context::get('layout_image_list'));
-			// debugPrint(Context::get('layout_image_path'));
-			// debugPrint(Context::get('widget_list'));
         }
 
         /**
