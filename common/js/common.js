@@ -957,14 +957,16 @@ jQuery(function($){
 		};
 		var response_tags = 'error message menus'.split(' ');
 
+		// prevent default action
+		evt.preventDefault();
+		evt.stopPropagation();
+
 		if(is_def(window.xeVid)) params.vid = xeVid;
-		if(is_def(XE.loaded_popup_menus[params.menu_id])) return XE.displayPopupMenu(params, response_tags, params) && false;
+		if(is_def(XE.loaded_popup_menus[params.menu_id])) return XE.displayPopupMenu(params, response_tags, params);
 
 		show_waiting_message = false;
 		exec_xml('member', action, params, XE.displayPopupMenu, response_tags, params);
         show_waiting_message = true;
-
-		return false;
     });
 
 	/**
