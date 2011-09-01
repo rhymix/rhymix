@@ -6,7 +6,7 @@
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <div class="content" id="content">
-	<form action="./" class="form" ruleset="insertConfig" >
+	<form action="./" class="form" ruleset="insertConfig" method="post">
 	<input type="hidden" name="act" value="procMemberAdminInsertConfig" />
 	<input type="hidden" name="success_return_url" value="{getUrl('act', $act)}" />
 	<input type="hidden" name="agreement" value="{htmlspecialchars($config->agreement)}" />
@@ -105,7 +105,7 @@
 					<tr>
 						<th scope="col">{$lang->target}</th>
 						<th scope="col">{$lang->use}</th>
-						<th scope="col">{$lang->cmd_required_option}</th>
+						<th scope="col">{$lang->cmd_required}/{$lang->cmd_optional}</th>
 						<th scope="col" class="text">{$lang->description}</th>
 						<th scope="col">{$lang->cmd_edit}</th>
 					</thead>
@@ -168,7 +168,7 @@
 		</div>
 	</form>
 	<div class="modal" id="userDefine">
-	<form action="./" class="fg form" ruleset="insertJoinForm" >
+	<form action="./" class="fg form" ruleset="insertJoinForm" method="post">
 	<input type="hidden" name="act" value="procMemberAdminInsertJoinForm" />
 	<input type="hidden" name="success_return_url" value="{getUrl('act', $act)}" />
 		<div id="extendForm">
@@ -176,7 +176,7 @@
 	</form>
 	</div>
 	<div class="modal" id="preview">
-		<form action="" class="fg form">
+		<form action="" class="fg form" method="post">
 			<h2 class="h2">회원가입 양식 미리보기</h2>
 			<ul>
 				<li>

@@ -7,19 +7,28 @@
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <div class="content" id="content">
-	<form action="" class="form">
+	<form action="" class="form" method="post">
 		<h1 class="h1">{$lang->user_list}</h1>
 		<div class="table even">
 			<div class="cnb">
-				<a href="{getUrl('filter_type', '', 'page', '')}">{$lang->cmd_show_all_member}</a> | <a href="{getUrl('filter_type', 'super_admin', 'page', '')}">{$lang->cmd_show_super_admin_member}</a> | <a href="{getUrl('filter_type', 'site_admin', 'page', '')}">{$lang->cmd_show_site_admin_member}</a> | <a href="{getUrl('filter_type', 'enable', 'page', '')}">{$lang->cmd_show_enable_member}</a> | <a href="{getUrl('filter_type', 'disable', 'page', '')}">{$lang->cmd_show_disable_member}</a>
+				<a href="{getUrl('filter_type', '', 'page', '')}" class="active"|cond="$filter_type==''">{$lang->cmd_show_all_member}</a>
+				|
+				<a href="{getUrl('filter_type', 'super_admin', 'page', '')}" class="active"|cond="$filter_type==super_admin">{$lang->cmd_show_super_admin_member}</a>
+				| 
+				<a href="{getUrl('filter_type', 'site_admin', 'page', '')}" class="active"|cond="$filter_type==site_admin">{$lang->cmd_show_site_admin_member}</a>
+				| 
+				<a href="{getUrl('filter_type', 'enable', 'page', '')}" class="active"|cond="$filter_type==enable">{$lang->approval}</a>
+				| 
+				<a href="{getUrl('filter_type', 'disable', 'page', '')}" class="active"|cond="$filter_type==disable">{$lang->denied}</a>
 			</div>
 			<table width="100%" border="1" cellspacing="0" class="_memberList">
 				<caption>
-{$filter_type_title}({$total_count})
+					{$filter_type_title}({$total_count})
 					<span class="side"><span class="btn"><a href="#listManager" class="modalAnchor _member">{$lang->cmd_selected_user_manage}...</a></span></span>
 				</caption>
 				<thead>
 					<tr>
+						<th scope="col">{$lang->email}</th>
 						<th scope="col">{$lang->user_id}</th>
 						<th scope="col">{$lang->user_name}</th>
 						<th scope="col">{$lang->nick_name}</th>
@@ -35,6 +44,7 @@
 				</thead>
 				<tfoot>
 					<tr>
+						<th scope="col">{$lang->email}</th>
 						<th scope="col">{$lang->user_id}</th>
 						<th scope="col">{$lang->user_name}</th>
 						<th scope="col">{$lang->nick_name}</th>
@@ -50,14 +60,18 @@
 				</tfoot>
 				<tbody>
 					<tr loop="$member_list=>$no,$member_info">
+						<td>
+							<a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminInfo', 'member_srl', $member_info->member_srl)}">{$member_info->email_address}</a>
+							<a href="#popup_menu_area" class="member_{$member_info->member_srl} iComment" title="info">[i]</a>
+						</td>
 						{@ $member_info->group_list = implode(', ', $member_info->group_list)}
-						<td><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminInfo', 'member_srl', $member_info->member_srl)}">{$member_info->user_id}</a></td>
+						<td>{$member_info->user_id}</td>
 						<td>{$member_info->user_name}</td>
-						<td><span class="member_{$member_info->member_srl}">{$member_info->nick_name}</span></td>
+						<td>{$member_info->nick_name}</td>
 						<td>{zdate($member_info->regdate, 'Y-m-d')}</td>
 						<td>{zdate($member_info->last_login, 'Y-m-d')}</td>
 						<td class="text">{$member_info->group_list}&nbsp;</td>
-{@ $lang_denied = ($member_info->denied == 'N')?$lang->use:$lang->denied}
+						{@ $lang_denied = ($member_info->denied == 'N')?$lang->use:$lang->denied}
 						<td>{$lang_denied}</td>
 						<td><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminInsert', 'member_srl', $member_info->member_srl)}">{$lang->cmd_modify}</a></td>
 						<td><input type="checkbox" name="user" value="{$member_info->member_srl."\t".$member_info->user_id."\t".$member_info->user_name."\t".$member_info->nick_name."\t".$member_info->group_list."\t".$lang_denied}" disabled="disabled"|cond="$member_info->is_admin == 'Y'"/></td>
@@ -69,33 +83,33 @@
 			<span class="btn"><a href="#listManager" class="modalAnchor _member">{$lang->cmd_selected_user_manage}...</a></span>
 		</div>
 	</form>
-	<div class="modal" id="listManager" style="display: none; ">
-		<form action="./" ruleset="updateSeletecdMemberInfo" class="fg form">
+	<div class="modal" id="listManager">
+		<form action="./" ruleset="updateSeletecdMemberInfo" class="fg form" method="post">
 		<input type="hidden" name="act" value="procMemberAdminSelectedMemberManage" />
 		<input type="hidden" name="success_return_url" value="{getUrl('act', $act)}" />
-			<h2 class="h2">선택한 사용자 관리</h2>
+			<h2 class="h2">{$lang->cmd_selected_user_manage}</h2>
 			<div class="table even">
 				<table width="100%" border="1" cellspacing="0">
 					<thead>
 						<tr>
+							<th scope="col">{$lang->email_address}</th>
 							<th scope="col">{$lang->user_id}</th>
 							<th scope="col">{$lang->user_name}</th>
 							<th scope="col">{$lang->nick_name}</th>
 							<th scope="col" class="text">{$lang->group}</th>
 							<th scope="col">{$lang->status}</th>
-							<th scope="col"><input type="checkbox" name="user" checked="checked" title="Check All"></th>
 						</tr>
 					</thead>
 					<tbody id="popupBody">
 					</tbody>
 				</table>
 			</div>
-			<p class="q">선택한 사용자의 상태를 다시 설정.</p>
+			<p class="q">{$lang->status}</p>
 			<p>
-				<input type="radio" name="denied" id="approval" value="N" > <label for="approval" style="font-weight: normal; ">Approval</label>
-				<input type="radio" name="denied" id="deny" value="Y" > <label for="deny" style="font-weight: normal; ">Deny</label>
+				<input type="radio" name="denied" id="approval" value="N" > <label for="approval">{$lang->approval}</label>
+				<input type="radio" name="denied" id="deny" value="Y" > <label for="deny">{$lang->denied}</label>
 			</p>
-			<p class="q">{$lang->about_change_user_group}</p>
+			<p class="q">{$lang->group}</p>
 			<p>
 				<!--@foreach($group_list as $key=>$val)-->
 				<input type="checkbox" name="groups[]" id="g{$val->group_srl}" value="{$val->group_srl}"/> <label for="g{$val->group_srl}">{$val->title}</label>
@@ -106,13 +120,13 @@
 				<textarea cols="42" rows="3" id="message" style="width:98%" name="message" ></textarea>
 			</p>
 			<div class="btnArea">
-				<button type="submit" name="type" value="modify">{$lang->cmd_modify}</button>
-				<button type="submit" name="type" value="delete">{$lang->cmd_delete}</button>
+				<span class="btn"><button type="submit" name="type" value="modify">{$lang->cmd_modify}</button></span>
+				<span class="btn"><button type="submit" name="type" value="delete">{$lang->cmd_delete}</button></span>
 			</div>
 		</form>
 	</div>
 	<div class="search">
-		<form action="" class="pagination">
+		<form action="" class="pagination" method="post">
 			<input type="hidden" name="error_return_url" value="" />
 			<input type="hidden" name="module" value="{$module}" />
 			<input type="hidden" name="act" value="{$act}" />
@@ -147,12 +161,12 @@
 				<button type="submit">Go</button>
 			</span>
 		</form>
-		<form action="">
+		<form action="" method="post">
 			<select name="search_target">
 				<option value="">{$lang->search_target}</option>
 				<option value="{$key}" loop="$lang->search_target_list=>$key,$val" selected="selected"|cond="$search_target==$key">{$val}</option>
 			</select>
-			<input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" class="inputTypeText" />
+			<input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" />
 			<input type="submit" value="{$lang->cmd_search}" /> 
 			<a href="{getUrl('search_target', '', 'search_keyword', '')}">{$lang->cmd_cancel}</a>
 		</form>

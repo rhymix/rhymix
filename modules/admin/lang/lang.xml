@@ -176,7 +176,7 @@
 			<value xml:lang="en"><![CDATA[Site]]></value>
 		</item>
 		<item name="user">
-			<value xml:lang="ko"><![CDATA[유저]]></value>
+			<value xml:lang="ko"><![CDATA[사용자]]></value>
 			<value xml:lang="en"><![CDATA[User]]></value>
 		</item>
 		<item name="content">
@@ -827,5 +827,9 @@ Lütfen son sürümü için indirme linkine tıklayınız.]]></value>
 	<item name="about_cdn">
 		<value xml:lang="ko"><![CDATA[XE core의 css, js 파일을 CDN으로부터 제공받으려면 체크하세요.]]></value>
 		<value xml:lang="en"><![CDATA[XE core의 css, js 파일을 CDN으로부터 제공받으려면 체크하세요.]]></value>
+	</item>
+	<item name="save">
+		<value xml:lang="ko"><![CDATA[저장]]></value>
+		<value xml:lang="en"><![CDATA[Save]]></value>
 	</item>
 </lang>

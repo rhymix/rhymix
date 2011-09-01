@@ -36,7 +36,7 @@ p{line-height:1.5}
 .table caption{font-weight:bold;text-align:left;line-height:22px;padding:5px 0}
 .table caption:after{content:"";display:block;clear:both}
 .table caption a{font-weight:normal}
-.table caption em{float:right;font-style:normal;font-weight:normal;color:#e00;margin-left:1em}
+.table caption em{float:right;margin-left:1em}
 .table caption strong{color:#e00}
 .table caption .side{float:right;font-weight:normal;margin-left:1em}
 .table th,.table td{border:0;padding:8px;vertical-align:top;text-align:left;border-bottom:1px solid #ddd;white-space:nowrap}
@@ -46,6 +46,7 @@ p{line-height:1.5}
 .table.even tbody tr:nth-of-type(even) td{background-color:#fafafa}
 .table td>input[type=text]{margin:-1px 0 -3px 0 !important;vertical-align:middle}
 .table img{vertical-align:middle}
+.table em{font-style:normal;font-weight:normal;color:#e00}
 .table .title,
 .table .text{white-space:normal}
 /* Form */
@@ -494,8 +495,9 @@ button.text{border:0;overflow:visible;padding:0;margin:0;color:#33a;background:n
 /* Messages */
 .desc.error{color:#f00}
 .desc.success{color:#080}
-/* Preview Icon */
-.wPreview{display:inline-block;width:15px;height:0;padding:13px 0 0 0;overflow:hidden;vertical-align:middle;background:url(../img/iconWindow.gif) no-repeat}
+/* Icon Button */
+a.wPreview{display:inline-block;width:15px;height:0;padding:13px 0 0 0;overflow:hidden;vertical-align:middle;background:url(../img/iconWindow.gif) no-repeat}
+a.iComment{display:inline-block;width:16px;height:0;padding:16px 0 0 0;overflow:hidden;vertical-align:middle;background:url(../img/iconComment.gif) no-repeat}
 /* Responsive Layout */
 @media only all and (max-width:860px){
 	.header h1{margin-left:.7em}

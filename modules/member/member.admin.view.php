@@ -45,8 +45,8 @@
 			switch($filter){
 				case 'super_admin' : Context::set('filter_type_title', $lang->cmd_show_super_admin_member);break;
 				case 'site_admin' : Context::set('filter_type_title', $lang->cmd_show_site_admin_member);break;
-				case 'enable' :  Context::set('filter_type_title', $lang->cmd_show_enable_member);break;
-				case 'disable' : Context::set('filter_type_title', $lang->cmd_show_disable_member);break;
+				case 'enable' :  Context::set('filter_type_title', $lang->approval);break;
+				case 'disable' : Context::set('filter_type_title', $lang->denied);break;
 				default : Context::set('filter_type_title', $lang->cmd_show_all_member);break;
 			}
 
@@ -205,7 +205,7 @@
 				unset($formTag);
 				$inputTag = '';
 				$formTag->title = $formInfo->title;
-				if ($formInfo->required || $formInfo->mustRequired && $formInfo->name != 'password') $formTag->title = '<em style="color:red">* </em>'.$formTag->title; 
+				if ($formInfo->required || $formInfo->mustRequired && $formInfo->name != 'password') $formTag->title = $formTag->title.' <em>*</em>'; 
 				$formTag->name = $formInfo->name;
 				if($formInfo->isDefaultForm){
 					if($formInfo->imageType){
@@ -236,7 +236,7 @@
 											 ,$member_config->{$formInfo->name.'_max_height'});
 					}//end imageType
 					elseif($formInfo->name == 'birthday'){
-						$inputTag = sprintf('<input type="hidden" name="birthday" id="date_birthday" value="%s" /><input type="text" class="inputDate" id="birthday" value="%s" readonly="readonly" /><span class="button"><input type="button" value="%s" class="dateRemover" /></span>'
+						$inputTag = sprintf('<input type="hidden" name="birthday" id="date_birthday" value="%s" /><input type="text" class="inputDate" id="birthday" value="%s" /> <input type="button" value="%s" class="dateRemover" />'
 								,$memberInfo['birthday']
 								,zdate($memberInfo['birthday'], 'Y-m-d', false)
 								,$lang->cmd_delete);
@@ -244,7 +244,7 @@
 						$inputTag = sprintf('<input type="text" name="reset_%s" value="" />'
 									,$formInfo->name);
 					}elseif($formInfo->name == 'find_account_question'){
-						$inputTag = '<select name="find_account_question">%s</select>';
+						$inputTag = '<select name="find_account_question" style="width:290px">%s</select><br />';
 						$optionTag = array();
 						foreach($lang->find_account_question_items as $key=>$val){
 							if($key == $memberInfo['find_account_question']) $selected = 'selected="selected"';
@@ -326,18 +326,18 @@
 					}elseif($extendForm->column_type == 'kr_zip'){
 						$content = <<<EOD
 						<div class="krZip">
-							<div class="item" id="zone_address_search_%s" %s>
-								<label for="krzip_address1_%s" class="iLabel">%s</label>
-								<input type="text" id="krzip_address1_%s" class="iText w400" value="" />
-								<span class="button"><button type="button">%s</button></span>
+							<div class="a" id="zone_address_search_%s" %s>
+								<label for="krzip_address1_%s">%s</label><br />
+								<input type="text" id="krzip_address1_%s" value="" />
+								<button type="button">%s</button>
 							</div>
-							<div class="item" id="zone_address_list_%s" style="display:none">
-								<select name="%s[]" id="address_list_%s" class="w400"></select>
-								<span class="button"><button type="button">%s</button></span>
+							<div class="a" id="zone_address_list_%s" style="display:none">
+								<select name="%s[]" id="address_list_%s"></select>
+								<button type="button">%s</button>
 							</div>
-							<div class="item address2">
-								<label for="krzip_address2_%s" class="iLabel">%s</label>
-								<input type="text" name="%s[]" id="krzip_address2_%s" value="%s" class="iText w400" />
+							<div class="a address2">
+								<label for="krzip_address2_%s">%s</label><br />
+								<input type="text" name="%s[]" id="krzip_address2_%s" value="%s" />
 							</div>
 						</div>
 						<load target="js/krzip_search.js" type="body" />

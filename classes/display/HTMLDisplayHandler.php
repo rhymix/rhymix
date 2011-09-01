@@ -168,8 +168,7 @@ class HTMLDisplayHandler {
 			$oContext->loadFile(array('./common/js/js_app.js', 'head', '', -100000));
 			$oContext->loadFile(array('./common/js/xml_handler.js', 'head', '', -100000));
 			$oContext->loadFile(array('./common/js/xml_js_filter.js', 'head', '', -100000));
-			$oContext->loadFile(array('./common/css/default.css', 'all', '', -100000));
-			$oContext->loadFile(array('./common/css/button.css', 'all', '', -100000));
+			$oContext->loadFile(array('./common/css/xe.css', 'all', '', -100000));
 		} else {
 			$oContext->loadFile(array('./common/js/jquery.min.js', 'head', '', -100000));
 			$oContext->loadFile(array('./common/js/x.min.js', 'head', '', -100000));

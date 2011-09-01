@@ -5,16 +5,16 @@
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <div class="content" id="content">
-	<form action="./" class="form" ruleset="@insertMember">
-	<input type="hidden" name="act" value="procMemberAdminInsert" />
-	<input type="hidden" name="member_srl" value="{$member_srl}" />
-	<input type="hidden" name="signature" value="{htmlspecialchars($member_info->signature)}" />
-		<h1 class="h1">{$lang->member_default_info}</h1>
+	<form action="./" class="form" ruleset="@insertMember" method="post">
+		<input type="hidden" name="act" value="procMemberAdminInsert" />
+		<input type="hidden" name="member_srl" value="{$member_srl}" />
+		<input type="hidden" name="signature" value="{htmlspecialchars($member_info->signature)}" />
+		<h1 class="h1">{$lang->msg_update_member}</h1>
 		<ul>
 			<li loop="$formTags=>$formTag">
 				<p class="q"><label for="id">{$formTag->title}</label></p>
-				<p class="a" cond="$formTag->name != 'signature'">{$formTag->inputTag}</p>
-				<p class="a" cond="$formTag->name =='signature'">{$editor}</p>
+				<div class="a" cond="$formTag->name != 'signature'">{$formTag->inputTag}</div>
+				<div class="a" cond="$formTag->name =='signature'">{$editor}</div>
 			</li>
 			<li>
 				<p class="q">{$lang->allow_mailing}</p>
@@ -26,27 +26,25 @@
 			<li>
 				<p class="q">{$lang->allow_message}</p>
 				<p class="a">
-					<select name="allow_message">
-						<option loop="$lang->allow_message_type=>$key,$val" value="{$key}" selected="selected"|cond="$member_info->allow_message == $key">{$val}</option>
-					</select>
+					<block loop="$lang->allow_message_type=>$key,$val">
+						<input type="radio" name="allow_message" value="{$key}" checked="checked"|cond="$member_info->allow_message == $key" id="allow_{$key}" /> <label for="allow_{$key}">{$val}</label>
+					</block>
 				</p>
 			</li>
 			<li>
-				<p class="q">{$lang->denied}</p>
+				<p class="q">{$lang->status}</p>
 				<p class="a">
-					<input type="radio" name="denied" id="appoval" value="N" checked="checked"|cond="$member_info->denied != 'Y'" > <label for="appoval">{$lang->use}</label>
+					<input type="radio" name="denied" id="appoval" value="N" checked="checked"|cond="$member_info->denied != 'Y'" > <label for="appoval">{$lang->approval}</label>
 					<input type="radio" name="denied" id="deny" value="Y" checked="checked"|cond="$member_info->denied == 'Y'" > <label for="deny">{$lang->denied}</label>
-					<p>{$lang->about_denied}</p>
 				</p>
 			</li>
 			<li>
-				<p class="q">{$lang->limit_date}</p>
+				<p class="q"><label for="until">{$lang->limit_date}</label></p>
 				<p class="a">
 					<input type="hidden" name="limit_date" id="date_limit_date" value="{$member_info->limit_date}" />
-					<input type="text" class="inputDate" value="{zdate($member_info->limit_date,'Y-m-d',false)}" readonly="readonly" />
-					<span class="button"><input type="button" value="{$lang->cmd_delete}" class="dateRemover" /></span>
-
-					<p>{$lang->about_limit_date}</p>
+					<input type="text" class="inputDate" id="until" value="{zdate($member_info->limit_date,'Y-m-d',false)}" />
+					<input type="button" value="{$lang->cmd_delete}" class="dateRemover" />
+					<span class="desc">{$lang->about_limit_date}</span>
 				</p>
 			</li>
 			<li>
@@ -54,28 +52,27 @@
 				<p class="a">
 					<input type="radio" name="is_admin" id="is_admin" value="Y" checked="checked"|cond="$member_info->is_admin == 'Y'" > <label for="is_admin">{$lang->cmd_yes}</label>
 					<input type="radio" name="is_admin" id="not_admin" value="N" checked="checked"|cond="$member_info->is_admin != 'Y'" > <label for="not_admin">{$lang->cmd_no}</label>
-					<p>{$lang->about_is_admin}</p>
 				</p>
 			</li>
 			<li>
-				<p class="q">{$lang->description}</p>
+				<p class="q"><label for="description">{$lang->description}</label></p>
 				<p class="a">
-					<textarea name="description" cols="42" rows="5">{htmlspecialchars($member_info->description)}</textarea>
-					<p>{$lang->about_member_description}</p>
+					<textarea name="description" id="description" cols="42" rows="5">{htmlspecialchars($member_info->description)}</textarea>
+					<span class="desc">{$lang->about_member_description}</span>
 				</p>
 			</li>
 			<li>
-				<p class="q"><label for="group">Group</label></p>
+				<p class="q">{$lang->group}</p>
 				<p class="a">
 					<!--@foreach($group_list as $key=>$val)-->
-						<input type="checkbox" name="group_srl_list[]" value="{$key}" id="group_{$key}" <!--@if($member_info->group_list[$key])-->checked="checked"<!--@end--> class="checkbox" />
+						<input type="checkbox" name="group_srl_list[]" value="{$key}" id="group_{$key}" <!--@if($member_info->group_list[$key])-->checked="checked"<!--@end--> />
 						<label for="group_{$key}">{$val->title}</label>
 					<!--@end-->
 				</p>
 			</li>
 		</ul>
 		<div class="btnArea">
-			<span class="btn medium"><input type="submit" value="Save" /></span>
+			<span class="btn medium"><input type="submit" value="{$lang->save}" /></span>
 		</div>
 		</table>
 	</form>
@@ -90,7 +87,7 @@
         $.extend(option,$.datepicker.regional['{$lang_type}']);
         $(".inputDate").datepicker(option);
 		$(".dateRemover").click(function() {
-			$(this).parent().prevAll('input').val('');
+			$(this).prevAll('input').val('');
 			return false;});
     });
 })(jQuery);

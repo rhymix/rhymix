@@ -87,7 +87,7 @@
 	<menus>
 		<menu name="userList">
 			<title xml:lang="en">User List</title>
-			<title xml:lang="ko">회원 목록</title>
+			<title xml:lang="ko">사용자 목록</title>
 			<title xml:lang="zh-CN">User List</title>
 			<title xml:lang="jp">User List</title>
 			<title xml:lang="es">User List</title>
@@ -98,22 +98,9 @@
 			<title xml:lang="mn">User List</title>
 			<title xml:lang="tr">User List</title>
 		</menu>
-		<menu name="userSetting">
-			<title xml:lang="en">User Setting</title>
-			<title xml:lang="ko">회원 설정</title>
-			<title xml:lang="zh-CN">User Setting</title>
-			<title xml:lang="jp">User Setting</title>
-			<title xml:lang="es">User Setting</title>
-			<title xml:lang="ru">User Setting</title>
-			<title xml:lang="fr">User Setting</title>
-			<title xml:lang="zh-TW">User Setting</title>
-			<title xml:lang="vi">User Setting</title>
-			<title xml:lang="mn">User Setting</title>
-			<title xml:lang="tr">User Setting</title>
-		</menu>
 		<menu name="userGroup">
 			<title xml:lang="en">Group</title>
-			<title xml:lang="ko">그룹관리</title>
+			<title xml:lang="ko">그룹</title>
 			<title xml:lang="zh-CN">Group</title>
 			<title xml:lang="jp">Group</title>
 			<title xml:lang="es">Group</title>
@@ -123,6 +110,19 @@
 			<title xml:lang="vi">Group</title>
 			<title xml:lang="mn">Group</title>
 			<title xml:lang="tr">Group</title>
+		</menu>
+		<menu name="userSetting">
+			<title xml:lang="en">Setting</title>
+			<title xml:lang="ko">설정</title>
+			<title xml:lang="zh-CN">Setting</title>
+			<title xml:lang="jp">Setting</title>
+			<title xml:lang="es">Setting</title>
+			<title xml:lang="ru">Setting</title>
+			<title xml:lang="fr">Setting</title>
+			<title xml:lang="zh-TW">Setting</title>
+			<title xml:lang="vi">Setting</title>
+			<title xml:lang="mn">Setting</title>
+			<title xml:lang="tr">Setting</title>
 		</menu>
 	</menus>
 </module>
