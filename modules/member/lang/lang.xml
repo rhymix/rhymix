@@ -120,7 +120,7 @@
 		<value xml:lang="vi"><![CDATA[ID đăng nhập của bạn đã bị cấm sử dụng.]]></value>
 	</item>
 	<item name="null_user_id">
-		<value xml:lang="ko"><![CDATA[사용자 아이디를 입력해주세요.]]></value>
+		<value xml:lang="ko"><![CDATA[회원 아이디를 입력해주세요.]]></value>
 		<value xml:lang="en"><![CDATA[Please input ID]]></value>
 		<value xml:lang="jp"><![CDATA[ユーザーＩＤをもう一度入力して下さい。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[请输入用户名。]]></value>
@@ -156,7 +156,7 @@
 		<value xml:lang="vi"><![CDATA[Tài khoản đăng nhập không đúng.]]></value>
 	</item>
 	<item name="invalid_user_id">
-		<value xml:lang="ko"><![CDATA[존재하지 않는 사용자 아이디입니다.]]></value>
+		<value xml:lang="ko"><![CDATA[존재하지 않는 회원 아이디입니다.]]></value>
 		<value xml:lang="en"><![CDATA[You have entered an invalid ID]]></value>
 		<value xml:lang="jp"><![CDATA[存在しないユーザＩＤです。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[该用户名不存在，请检查您的输入是否有误！]]></value>
@@ -555,7 +555,7 @@
 		<value xml:lang="vi"><![CDATA[Đồng ý]]></value>
 	</item>
 	<item name="member_info">
-		<value xml:lang="ko"><![CDATA[사용자 정보]]></value>
+		<value xml:lang="ko"><![CDATA[회원 정보]]></value>
 		<value xml:lang="en"><![CDATA[User Info]]></value>
 		<value xml:lang="jp"><![CDATA[会員情報]]></value>
 		<value xml:lang="zh-CN"><![CDATA[会员信息]]></value>
@@ -1288,7 +1288,7 @@
 		<value xml:lang="vi"><![CDATA[Thêm thành viên]]></value>
 	</item>
 	<item name="msg_update_member">
-		<value xml:lang="ko"><![CDATA[사용자 정보 수정]]></value>
+		<value xml:lang="ko"><![CDATA[회원 정보 수정]]></value>
 		<value xml:lang="en"><![CDATA[Modify User Info]]></value>
 		<value xml:lang="jp"><![CDATA[会員情報修正]]></value>
 		<value xml:lang="zh-CN"><![CDATA[修改会员信息]]></value>
@@ -1336,7 +1336,7 @@
 		<value xml:lang="vi"><![CDATA[Mặc định không thể xóa]]></value>
 	</item>
 	<item name="msg_not_exists_member">
-		<value xml:lang="ko"><![CDATA[존재하지 않는 사용자입니다.]]></value>
+		<value xml:lang="ko"><![CDATA[존재하지 않는 회원입니다.]]></value>
 		<value xml:lang="en"><![CDATA[Invalid member]]></value>
 		<value xml:lang="jp"><![CDATA[存在しないユーザＩＤです。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[不存在的用户]]></value>
@@ -1550,7 +1550,7 @@
 		<value xml:lang="vi"><![CDATA[Bạn được phép sử dụng đến ngày %s]]></value>
 	</item>
 	<item name="about_user_id">
-		<value xml:lang="ko"><![CDATA[사용자 ID는 3~20자 사이의 영문+숫자로 이루어져야 하며 영문으로 시작되어야 합니다.]]></value>
+		<value xml:lang="ko"><![CDATA[회원 ID는 3~20자 사이의 영문+숫자로 이루어져야 하며 영문으로 시작되어야 합니다.]]></value>
 		<value xml:lang="en"><![CDATA[User ID should be 3~20 characters long, consist of alphanumeric and start with a letter.]]></value>
 		<value xml:lang="jp"><![CDATA[ユーザＩＤは３～２０の英数文字で構成され、最先頭の文字は英字でなければなりません。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[用户名长度必须由 3 ~20 字以内的英文+数字组成，且首个字母必须是英文字母。]]></value>
@@ -1682,7 +1682,7 @@
 		<value xml:lang="vi"><![CDATA[Kiểm tra toàn quyền Administrator]]></value>
 	</item>
 	<item name="about_member_description">
-		<value xml:lang="ko"><![CDATA[사용자에 대한 관리자 메모입니다.]]></value>
+		<value xml:lang="ko"><![CDATA[회원에 대한 관리자 메모입니다.]]></value>
 		<value xml:lang="en"><![CDATA[Administrator's memo about user.]]></value>
 		<value xml:lang="jp"><![CDATA[会員に対する管理者のメモ帳です。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[管理员对会员的备忘录。]]></value>
@@ -1802,7 +1802,7 @@
 		<value xml:lang="vi"><![CDATA[Kích hoạt đăng nhập bằng OpenID.]]></value>
 	</item>
 	<item name="about_enable_join">
-		<value xml:lang="ko"><![CDATA[체크를 하셔야 사용자들이 회원가입을 할 수 있습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[체크하면 회원가입을 할 수 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Please check if you want to allow new members to sign up your site]]></value>
 		<value xml:lang="jp"><![CDATA[チェックを入れないとユーザが会員に登録出来ません。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[选择此项后用户才可以注册。]]></value>
@@ -1907,7 +1907,7 @@
 		<value xml:lang="vi"><![CDATA[Điều khoản sử dụng sẽ hiển thị trong Form đăng kí nếu có nội dung.]]></value>
 	</item>
 	<item name="about_image_name">
-		<value xml:lang="ko"><![CDATA[사용자의 이름을 글자 대신 이미지로 사용할 수 있게 합니다.]]></value>
+		<value xml:lang="ko"><![CDATA[회원의 이름을 글자 대신 이미지로 사용할 수 있게 합니다.]]></value>
 		<value xml:lang="en"><![CDATA[Members will be able to use image name instead of text]]></value>
 		<value xml:lang="jp"><![CDATA[ユーザの名前を文字の代わりにイメージで表示させることが出来ます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[用户昵称可以用小图片来替代显示。]]></value>
@@ -1919,7 +1919,7 @@
 		<value xml:lang="vi"><![CDATA[Cho phép thành viên sử dụng hình ảnh thay cho tên.]]></value>
 	</item>
 	<item name="about_image_mark">
-		<value xml:lang="ko"><![CDATA[사용자의 이름 앞에 마크를 달 수 있습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[회원의 이름 앞에 마크를 달 수 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Members will be able to use image mark in front of their names]]></value>
 		<value xml:lang="jp"><![CDATA[使用者の名前の前にマークを付けることが出来ます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[显示在用户昵称前的小图标。]]></value>
@@ -1931,19 +1931,19 @@
 		<value xml:lang="vi"><![CDATA[Cho phép sử dụng hình ảnh nhỏ truóc tên của họ.]]></value>
 	</item>
 	<item name="about_group_image_mark">
-		<value xml:lang="ko"><![CDATA[사용자의 이름 앞에 그룹 마크를 달 수 있습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[회원의 이름 앞에 그룹 마크를 달 수 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[You may use group marks shown before their names]]></value>
 		<value xml:lang="jp"><![CDATA[ユーザー名の前にグループマークを表示します。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[用户名前显示用户组图标。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[顯示在用戶群組前的圖示。]]></value>
-		<value xml:lang="fr"><![CDATA[사용자의 이름앞에 그룹 마크를 달 수 있습니다]]></value>
+		<value xml:lang="fr"><![CDATA[회원의 이름앞에 그룹 마크를 달 수 있습니다]]></value>
 		<value xml:lang="ru"><![CDATA[Возможно использование групповой марки перед именем]]></value>
-		<value xml:lang="es"><![CDATA[사용자의 이름앞에 그룹 마크를 달 수 있습니다]]></value>
+		<value xml:lang="es"><![CDATA[회원의 이름앞에 그룹 마크를 달 수 있습니다]]></value>
 		<value xml:lang="tr"><![CDATA[Kullanıcıların isimlerinin önlerinde görüntülenecek grup işaretleri kullanabilirsiniz]]></value>
 		<value xml:lang="vi"><![CDATA[Bạn có thể sử dụng biểu tượng nhóm sẽ hiển thị trước tên thành viên.]]></value>
 	</item>
 	<item name="about_profile_image">
-		<value xml:lang="ko"><![CDATA[사용자의 프로필 이미지를 사용할 수 있게 합니다.]]></value>
+		<value xml:lang="ko"><![CDATA[회원의 프로필 이미지를 사용할 수 있게 합니다.]]></value>
 		<value xml:lang="en"><![CDATA[Members will be able to use profile images]]></value>
 		<value xml:lang="jp"><![CDATA[ユーザのプロフィールイメージが使用出来るようにします。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[可以使用签名图片。]]></value>
@@ -2232,19 +2232,19 @@ Bạn có thể quản lý thành viên bằng cách tạo những nhóm mới, 
 		<value xml:lang="zh-TW"><![CDATA[再找一次]]></value>
 	</item>
 	<item name="msg_select_user">
-		<value xml:lang="ko"><![CDATA[관리할 사용자를 선택해주세요.]]></value>
+		<value xml:lang="ko"><![CDATA[관리할 회원을 선택해주세요.]]></value>
 		<value xml:lang="en"><![CDATA[Please select user.]]></value>
 	</item>
 	<item name="cmd_selected_user_manage">
-		<value xml:lang="ko"><![CDATA[선택한 사용자 관리]]></value>
+		<value xml:lang="ko"><![CDATA[선택한 회원 관리]]></value>
 		<value xml:lang="en"><![CDATA[Management of selected user]]></value>
 	</item>
 	<item name="about_change_user_group">
-		<value xml:lang="ko"><![CDATA[선택한 사용자의 그룹을 다시 설정.]]></value>
+		<value xml:lang="ko"><![CDATA[선택한 회원의 그룹을 다시 설정.]]></value>
 		<value xml:lang="en"><![CDATA[Resets the selected group of users.]]></value>
 	</item>
 	<item name="about_send_message">
-		<value xml:lang="ko"><![CDATA[사용자에게 쪽지를 발송해서 이 사실을 알립니다. 작성하지 않으면 발송하지 않습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[회원에게 쪽지를 발송해서 이 사실을 알립니다. 작성하지 않으면 발송하지 않습니다.]]></value>
 		<value xml:lang="en"><![CDATA[To send a message to user. If you don't write is not sent.]]></value>
 	</item>
 	<item name="cmd_required">
@@ -2264,7 +2264,7 @@ Bạn có thể quản lý thành viên bằng cách tạo những nhóm mới, 
 		<value xml:lang="en"><![CDATA[Max Height]]></value>
 	</item>
 	<item name="cmd_input_extend_form">
-		<value xml:lang="ko"><![CDATA[사용자 정의 입력]]></value>
+		<value xml:lang="ko"><![CDATA[회원 정의 입력]]></value>
 		<value xml:lang="en"><![CDATA[User Defined Input]]></value>
 	</item>
 	<item name="about_multi_type">
@@ -2284,11 +2284,11 @@ Bạn có thể quản lý thành viên bằng cách tạo những nhóm mới, 
 		<value xml:lang="en"><![CDATA[There are <strong>%s</strong> prohibited ID.]]></value>
 	</item>
 	<item name="user_list">
-		<value xml:lang="ko"><![CDATA[사용자 목록]]></value>
+		<value xml:lang="ko"><![CDATA[회원 목록]]></value>
 		<value xml:lang="en"><![CDATA[User List]]></value>
 	</item>
 	<item name="cmd_show_all_member">
-		<value xml:lang="ko"><![CDATA[모든 사용자]]></value>
+		<value xml:lang="ko"><![CDATA[모든 회원]]></value>
 		<value xml:lang="en"><![CDATA[All User]]></value>
 	</item>
 	<item name="cmd_show_super_admin_member">

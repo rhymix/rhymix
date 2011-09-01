@@ -36,6 +36,7 @@
 						<th scope="col">{$lang->last_login}</th>
 						<th scope="col" class="text">{$lang->group}</th>
 						<th scope="col">{$lang->status}</th>
+						<th scope="col">{$lang->view}</th>
 						<th scope="col">{$lang->cmd_modify}</th>
 						<th scope="col">
 							<input type="checkbox" title="Check All" data-name="user" />
@@ -52,6 +53,7 @@
 						<th scope="col">{$lang->last_login}</th>
 						<th scope="col" class="text">{$lang->group}</th>
 						<th scope="col">{$lang->status}</th>
+						<th scope="col">{$lang->view}</th>
 						<th scope="col">{$lang->cmd_modify}</th>
 						<th scope="col">
 							<input type="checkbox" title="Check All" data-name="user" />
@@ -61,8 +63,7 @@
 				<tbody>
 					<tr loop="$member_list=>$no,$member_info">
 						<td>
-							<a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminInfo', 'member_srl', $member_info->member_srl)}">{$member_info->email_address}</a>
-							<a href="#popup_menu_area" class="member_{$member_info->member_srl} iComment" title="info">[i]</a>
+							<a href="#popup_menu_area" class="member_{$member_info->member_srl}">{$member_info->email_address}</a>
 						</td>
 						{@ $member_info->group_list = implode(', ', $member_info->group_list)}
 						<td>{$member_info->user_id}</td>
@@ -73,6 +74,7 @@
 						<td class="text">{$member_info->group_list}&nbsp;</td>
 						{@ $lang_denied = ($member_info->denied == 'N')?$lang->use:$lang->denied}
 						<td>{$lang_denied}</td>
+						<td><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminInfo', 'member_srl', $member_info->member_srl)}">{$lang->view}</a></td>
 						<td><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminInsert', 'member_srl', $member_info->member_srl)}">{$lang->cmd_modify}</a></td>
 						<td><input type="checkbox" name="user" value="{$member_info->member_srl."\t".$member_info->user_id."\t".$member_info->user_name."\t".$member_info->nick_name."\t".$member_info->group_list."\t".$lang_denied}" disabled="disabled"|cond="$member_info->is_admin == 'Y'"/></td>
 					</tr>

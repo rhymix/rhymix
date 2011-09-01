@@ -86,17 +86,17 @@
     </actions>
 	<menus>
 		<menu name="userList">
-			<title xml:lang="en">User List</title>
-			<title xml:lang="ko">사용자 목록</title>
-			<title xml:lang="zh-CN">User List</title>
-			<title xml:lang="jp">User List</title>
-			<title xml:lang="es">User List</title>
-			<title xml:lang="ru">User List</title>
-			<title xml:lang="fr">User List</title>
-			<title xml:lang="zh-TW">User List</title>
-			<title xml:lang="vi">User List</title>
-			<title xml:lang="mn">User List</title>
-			<title xml:lang="tr">User List</title>
+			<title xml:lang="en">List</title>
+			<title xml:lang="ko">목록</title>
+			<title xml:lang="zh-CN">List</title>
+			<title xml:lang="jp">List</title>
+			<title xml:lang="es">List</title>
+			<title xml:lang="ru">List</title>
+			<title xml:lang="fr">List</title>
+			<title xml:lang="zh-TW">List</title>
+			<title xml:lang="vi">List</title>
+			<title xml:lang="mn">List</title>
+			<title xml:lang="tr">List</title>
 		</menu>
 		<menu name="userGroup">
 			<title xml:lang="en">Group</title>

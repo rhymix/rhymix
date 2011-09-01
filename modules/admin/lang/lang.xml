@@ -888,9 +888,12 @@ Lütfen son sürümü için indirme linkine tıklayınız.]]></value>
 		<value xml:lang="ko"><![CDATA[파일만 업로드 가능합니다.]]></value>
 		<value xml:lang="en"><![CDATA[파일만 업로드 가능합니다.]]></value>
 	</item>	
-	
 	<item name="save">
 		<value xml:lang="ko"><![CDATA[저장]]></value>
 		<value xml:lang="en"><![CDATA[Save]]></value>
+	</item>
+	<item name="view">
+		<value xml:lang="ko"><![CDATA[보기]]></value>
+		<value xml:lang="en"><![CDATA[View]]></value>
 	</item>
 </lang>
