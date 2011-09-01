@@ -2,7 +2,7 @@
     /**
      * @class  moduleAdminController
      * @author NHN (developers@xpressengine.com)
-     * @brief admin controller class of the module module 
+     * @brief admin controller class of the module module
      **/
 
     class moduleAdminController extends module {
@@ -192,7 +192,7 @@
                 }
                 $grant->{$group_srls} = array();
             }
-            
+
             // Stored in the DB
             $args->module_srl = $module_srl;
             $output = executeQuery('module.deleteModuleGrants', $args);
@@ -384,7 +384,7 @@
                 $grant->{$group_srls} = array();
             }
 
-            
+
             // Stored in the DB
             foreach($modules as $module_srl) {
                 $args = null;
@@ -413,7 +413,7 @@
         }
 
         /**
-         * @brief Add/Update language 
+         * @brief Add/Update language
          **/
         function procModuleAdminInsertLang() {
             // Get language code
@@ -484,6 +484,7 @@
 		{
             if(!Context::get('is_logged')) return new Object(-1, 'msg_not_permitted');
 
+			$oModuleController = &getController('module');
             $oModuleModel = &getModel('module');
             // Variable setting for site keyword
             $site_keyword = Context::get('site_keyword');
@@ -511,6 +512,9 @@
                     $module = trim($val->module);
                     if(!$module) continue;
 
+					// replace user defined lang.
+					$oModuleController->replaceDefinedLangCode($val->browser_title);
+
                     $obj = null;
                     $obj->module_srl = $val->module_srl;
                     $obj->browser_title = $val->browser_title;
@@ -527,6 +531,7 @@
                     $mid_list[$module]->title = $xml_info->title;
                 }
             }
+
 			$this->add('module_list', $mid_list);
 		}
 
