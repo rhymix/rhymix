@@ -688,6 +688,7 @@ $('.multiLangEdit')
 		var $this = $(this), key = $this.data('langkey'), text = $this.text();
 
 		$this.closest('.suggestion')
+			.hide()
 			.prev('.vLang').val(text)
 				.prev('.vLang').val(key);
 	})
