@@ -36,7 +36,7 @@
             Context::set('use_rewrite', $db_info->use_rewrite=='Y'?'Y':'N');
             Context::set('use_sso', $db_info->use_sso=='Y'?'Y':'N');
             Context::set('use_html5', $db_info->use_html5=='Y'?'Y':'N');
-            Context::set('use_spaceremover', $db_info->use_spaceremover?$db_info->use_spaceremover:'Y');
+            Context::set('use_spaceremover', $db_info->use_spaceremover?$db_info->use_spaceremover:'Y');//not use
             Context::set('qmail_compatibility', $db_info->qmail_compatibility=='Y'?'Y':'N');
             Context::set('use_db_session', $db_info->use_db_session=='N'?'N':'Y');
             Context::set('use_mobile_view', $db_info->use_mobile_view =='Y'?'Y':'N');
@@ -99,7 +99,7 @@
 					}
 				}
 			}
-
+			
 			// Admin logo, title setup
 			$configObject = $oModuleModel->getModuleConfig('admin');
 			$gnbTitleInfo->adminTitle = $configObject->adminTitle?$configObject->adminTitle:'XE Admin';
@@ -294,22 +294,32 @@
          * @return none
          **/
         function dispAdminConfig() {
-            $db_info = Context::getDBInfo();
-
-            Context::set('sftp_support', function_exists(ssh2_sftp));
+            $db_info = Context::getDBInfo();            
+			
+			Context::set('sftp_support', function_exists(ssh2_sftp));
 
             Context::set('selected_lang', $db_info->lang_type);
-
-            Context::set('default_url', $db_info->default_url);
-
+			
+			Context::set('default_url', $db_info->default_url);
+	
             Context::set('langs', Context::loadLangSupported());
 
-            Context::set('lang_selected', Context::loadLangSelected());
-
-			Context::set('use_mobile_view', $db_info->use_mobile_view=="Y"?'Y':'N');
-
+            Context::set('lang_selected', Context::loadLangSelected());	
+			
+            Context::set('admin_ip', $db_info->admin_ip);
+		
+			
+			$favicon_url = $this->iconUrlCheck('favicon.ico','faviconSample.png');
+			$mobicon_url = $this->iconUrlCheck('mobicon.png','mobiconSample.png');
+            Context::set('favicon_url', $favicon_url);
+			Context::set('mobicon_url', $mobicon_url);			
+			
             $ftp_info = Context::getFTPInfo();
             Context::set('ftp_info', $ftp_info);
+			
+			$oDocumentModel = &getModel('document');
+            $config = $oDocumentModel->getDocumentConfig();
+            Context::set('thumbnail_type',$config->thumbnail_type);
 
 			$oModuleModel = &getModel('module');
 			$columnList = array('modules.mid', 'modules.browser_title', 'sites.index_module_srl');
@@ -318,10 +328,10 @@
 
             Context::set('pwd',$pwd);
             Context::set('layout','none');
-            $this->setTemplateFile('spGenaral');
+            $this->setTemplateFile('config');
         }
 
-        /**
+		/**
          * @brief Display Admin Menu Configuration(settings) page
          * @return none
          **/
@@ -419,4 +429,13 @@
 			$this->setTemplateFile('theme');
 		}
 
+		function iconUrlCheck($iconname,$default_icon_name){
+			$file_exsit = FileHandler::readFile(_XE_PATH_.'files/attach/xeicon/'.$iconname);
+			if(!$file_exsit){
+				$icon_url = './modules/admin/tpl/img/'.$default_icon_name	;
+			} else {
+				$icon_url = $db_info->default_url.'files/attach/xeicon/'.$iconname;
+			}
+			return $icon_url;
+		}
     }

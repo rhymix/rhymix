@@ -1,238 +1,222 @@
-<!--#include("_header.html")-->
-
-<!--%import("./filter/update_env_config.xml")-->
-<!--%import("./filter/update_lang_select.xml")-->
-<!--%import("./filter/install_ftp_info.xml")-->
-<!--%import("./filter/install_ftp_path.xml")-->
-<!--%import("../../install/lang")-->
-<!--%import("../../install/tpl/js/install_admin.js",optimized=false)-->
 <!--%import("./js/config.js")-->
-
-<script type="text/javascript">
-    function insertSelectedModule(id, module_srl, mid, browser_title) {
-		jQuery('#'+id).val(module_srl);
-
-		browser_title = decodeURIComponent(browser_title.replace(/\+/g,' '));
-		jQuery('#_'+id).val( browser_title+' ('+mid+')' );
-    }
-    var xe_root = "{_XE_PATH_}";
+<!--%import("../../session/tpl/js/session.js")-->
+<!--#include("./_spHeader.html")-->
+<script>
+jQuery(function($){
+	$('#favicon').change(function(){
+		var re_favicon = /favicon\.ico$/
+		if(re_favicon.test($(this).val()) != true){
+			alert('{$lang->msg_not_correct_iconname} favicon.ico {$lang->msg_possible_only_file}');			
+			return false;
+		} 
+	});
+	$('#mobicon').change(function(){
+		var re_favicon = /mobicon\.png$/
+		if(re_favicon.test($(this).val()) != true){
+			alert('{$lang->msg_not_correct_iconname} mobicon.png {$lang->msg_possible_only_file}');
+			return false;
+		}
+	});
+	
+});
 </script>
-
-<div class="content">
-
-    <h4 class="xeAdmin">{$lang->cmd_setup}</h4>
-
-    <form action="./" method="get" onsubmit="return procFilter(this, update_env_config);">
-    <table cellspacing="0" class="rowTable">
-	<tr>
-		<th><div>{$lang->use_html5}</div></th>
-		<td>
-			<input type="checkbox" id="use_html5" name="use_html5" value="Y" checked="checked"|cond="$use_html5=='Y'" />
-			<label for="use_html5">{$lang->about_html5}</label>
-		</td>
-	</tr>
-    <tr>
-        <th><div>{$lang->use_rewrite}</div></th>
-        <td>
-            <input type="checkbox" name="use_rewrite" value="Y"  <!--@if($use_rewrite=='Y')-->checked="checked"<!--@end--> />
-            <p>{$lang->about_rewrite}</p>
-        </td>
-    </tr>
-	<tr>
-		<th><div>{$lang->use_cdn}</div></th>
-		<td>
-			<input type="checkbox" name="use_cdn" value="Y" <!--@if($use_cdn=='Y')-->checked="checked"<!--@end--> />
-			<p>{$lang->about_cdn}</p>
-		</td>
-	</tr>
-    <tr>
-        <th><div>{$lang->use_sso}</div></th>
-        <td>
-            <input type="checkbox" name="use_sso" value="Y"  <!--@if($use_sso=='Y')-->checked="checked"<!--@end--> />
-			<p>{$lang->about_sso}</p>
-        </td>
-    </tr>
-    <tr>
-        <th><div>{$lang->default_url}</div></th>
-        <td>
-            <input type="text" name="default_url" value="{$default_url}" class="inputTypeText w300"/>
-            <p>{$lang->about_default_url}</p>
-        </td>
-    </tr>
-    <tr>
-        <th scope="row"><div>{$lang->start_module}</div></th>
-        <td>
-            <input type="hidden" name="index_module_srl" id="target_module" value="{$start_module->index_module_srl}" />
-            <input type="text" name="_target_module" id="_target_module" class="inputTypeText w300" value="{$start_module->mid} ({htmlspecialchars($start_module->browser_title)})" readonly="readonly" />
-			<a href="{getUrl('','module','module','act','dispModuleSelectList','id','target_module','type','single')}" onclick="popopen(this.href,'ModuleSelect');return false;" class="button green"><span>{$lang->cmd_select}</span></a>
-        </td>
-    </tr>
-    <tr>
-        <th><div>Language</div></th>
-        <td>
-            <select name="change_lang_type">
-                <!--@foreach($lang_supported as $key => $val)-->
-                    <option value="{$key}" <!--@if($key==$selected_lang)-->selected="selected"<!--@end-->>{$val}</option>
-                <!--@endforeach-->
-            </select>
-            <p>{$lang->about_lang_env}</p>
-        </td>
-    </tr>
-    <tr>
-        <th><div>{$lang->time_zone}</div></th>
-        <td>
-            <select name="time_zone" class="fullWidth">
-                <!--@foreach($time_zone_list as $key => $val)-->
-                <option value="{$key}" <!--@if($time_zone==$key)-->selected="selected"<!--@end-->>{$val}</option>
-                <!--@endforeach-->
-            </select>
-            <p>{$lang->about_time_zone}</p>
-        </td>
-    </tr>
-    <tr>
-        <th><div>{$lang->qmail_compatibility}</div></th>
-        <td>
-            <input type="checkbox" name="qmail_compatibility" value="Y"  <!--@if($qmail_compatibility=='Y')-->checked="checked"<!--@end--> />
-            <p>{$lang->about_qmail_compatibility}</p>
-        </td>
-    </tr>
-    <tr>
-        <th><div>{$lang->use_db_session}</div></th>
-        <td>
-            <input type="checkbox" name="use_db_session" value="Y"  <!--@if($use_db_session=='Y')-->checked="checked"<!--@end--> />
-            <p>{$lang->about_db_session}</p>
-        </td>
-    </tr>
-    <tr>
-        <th><div>{$lang->use_ssl}</div></th>
-        <td>
-            <select name="use_ssl">
-            <!--@foreach($lang->ssl_options as $key => $val)-->
-                <option value="{$key}" <!--@if($key == $use_ssl)-->selected="selected"<!--@end--> >{$val}</option>
-            <!--@endforeach-->
-            </select>
-            <p>{$lang->about_use_ssl}</p>
-        </td>
-    </tr>
-    <tr>
-        <th><div>{$lang->server_ports}</div></th>
-        <td>
-            HTTP : <input type="text" name="http_port" class="inputTypeText" size="5" value="{$http_port}" />,
-            HTTPS: <input type="text" name="https_port" class="inputTypeText" size="5" value="{$https_port}" />
-            <p>{$lang->about_server_ports}</p>
-        </td>
-    </tr>
-	<tr>
-		<th><div>{$lang->mobile_view}</div></th>
-        <td>
-            <input type="checkbox" name="use_mobile_view" value="Y"  <!--@if($use_mobile_view=='Y')-->checked="checked"<!--@end--> />
-            <p>{$lang->about_mobile_view}</p>
-        </td>
-	</tr>
-    <tr>
-        <th colspan="2" class="button">
-            <span class="button black strong"><input type="submit" value="{$lang->cmd_save}" /></span>
-        </th>
-    </tr>
-    </table>
-    </form>
-
-
-    <h4 class="xeAdmin" id="ftpSetup">{$lang->ftp_form_title}</h4>
-    <p class="summary">{$lang->about_ftp_info}</p>
-    <form action="./" method="post" onsubmit="return procFilter(this, install_ftp_info);" id="ftp_form">
-    <table cellspacing="0" class="rowTable">
-
-    <tr>
-        <th scope="col"><div><label for="textfield21">{$lang->user_id}</label></div></th>
-        <td><input type="text" id="textfield21" name="ftp_user" value="{$ftp_info->ftp_user}" class="inputTypeText" /></td>
-    </tr>
-    <tr>
-        <th scope="col"><div><label for="textfield22">{$lang->password} ({$lang->about_ftp_password})</label></div></th>
-        <td><input id="textfield22" type="password" name="ftp_password" value="" class="inputTypeText" /></td>
-    </tr>
-    <tr>
-        <th scope="col"><div><label for="textfield23">{$lang->ftp_host} (default: 127.0.0.1)</label></div></th>
-        <td><input id="textfield23" type="text" name="ftp_host" value="{$ftp_info->ftp_host}" class="inputTypeText" /></td>
-    </tr>
-    <tr>
-        <th scope="col"><div><label for="textfield24">{$lang->ftp_port} (default: 21) </label></div></th>
-        <td><input id="textfield24" type="text" name="ftp_port" value="{$ftp_info->ftp_port}" class="inputTypeText" /></td>
-    </tr>
-	<tr>
-		<th scope="col"><div><label for="checkboxpasv">FTP Passive mode</label></div></th>
-		<td><input type="checkbox" id="checkboxpasv" name="ftp_pasv" value="Y" <!--@if($ftp_info->ftp_pasv!="N")-->checked="checked"<!--@end--> /></td>
-	</tr>
-    <!--@if($sftp_support)-->
-    <tr>
-        <th scope="col"><div><label for="checkbox25">{$lang->sftp}</label></div></th>
-        <td><input type="checkbox" id="checkbox25" name="sftp" value="Y" <!--@if($ftp_info->sftp=="Y")-->checked="checked"<!--@end--> /></td>
-    </tr>
-    <!--@end-->
-    <tr>
-        <th scope="col" rowspan="2"><div>{$lang->msg_ftp_installed_ftp_realpath}<br /><br/>{$lang->msg_ftp_installed_realpath}:<br/> {_XE_PATH_}</div></th>
-        <td>
-            <input type="text" name="ftp_root_path" value="{$ftp_info->ftp_root_path}" class="inputTypeText w400" />
-        </td>
-    </tr>
-    <tr id="ftplist">
-        <td>
-            <div>
-					<span class="button blue strong"><input type="button" onclick="getFTPList(); return false;" value="{$lang->ftp_get_list}" /></span>
-            </div>
-        </td>
-    </tr>
-    <tr>
-        <th colspan="2" class="button">
-            <span class="button blue strong"><input type="button" onclick="removeFTPInfo(); return false;" value="{$lang->ftp_remove_info}" /></span>
-            <span class="button black strong"><input type="submit" value="{$lang->cmd_registration}" /></span>
-        </th>
-    </tr>
-    </table>
-    </form>
+<div class="content" id="content">	
+	<form action="./" method="post" id="ftp_form" class="form" enctype="multipart/form-data" target="hidden_iframe">
+		 <input type="hidden" name="act" value="procInstallAdminConfig" />
+		<h1 class="h1">{$lang->title_genaral}</h1>
+		<fieldset class="section">
+			<h2 class="h2">{$lang->subtitle_primary}</h2>
+			<ul>
+				<li>
+					<p class="q"><label for="time_zone">{$lang->about_timezone}</label></p>
+					<p class="a">
+						<select name="time_zone" id="time_zone" class="fullWidth">
+							<!--@foreach($time_zone_list as $key => $val)-->
+							<option value="{$key}" <!--@if($time_zone==$key)-->selected="selected"<!--@end-->>{$val}</option>
+							<!--@endforeach-->
+						</select>					
+					</p>
+				</li>
+				<li>
+					<p class="q">{$lang->about_lang_select}</p>
+					<p class="a">
+						<!--@foreach($langs as $key => $val)-->							
+						<!--@if($key==$selected_lang)-->						
+						<input type="hidden" name="selected_lang[]" value="{$key}" />						
+						<input type="checkbox" checked="checked" disabled="disabled" />
+						<label>{$val}</label>
+						<!--@else-->						
+						<input type="checkbox" name="selected_lang[]" id="lang_{$key}" value="{$key}" <!--@if(isset($lang_selected[$key]))-->checked="checked" <!--@end-->/>						
+						<label for="lang_{$key}">{$val}</label>
+						<!--@end-->
+						<!--@endforeach-->
+					</p>
+				</li>
+				<li>
+					<p class="q">{$lang->about_html_dtd}</p>
+					<p class="a">
+						<input type="radio" name="use_html5" id="xhtml" value="N" <!--@if($use_html5 != 'Y')-->checked="checked" <!--@end-->/> <label for="xhtml">{$lang->xhtml_transitional}</label>
+						<input type="radio" name="use_html5" id="html5" value="Y"  <!--@if($use_html5 == 'Y')-->checked="checked" <!--@end-->/> <label for="html5">{$lang->html5}</label>
+					</p>
+				</li>
+				<li>
+					<p class="q"><label for="">{$lang->about_use_rewrite}</label></p>
+					<p class="a">
+						<input type="radio" name="use_rewrite" id="use_rewrite_y" value="Y" <!--@if($use_rewrite == 'Y')-->checked="checked" <!--@end-->/> <label for="use_rewrite_y">{$lang->cmd_yes}</label>
+						<input type="radio" name="use_rewrite" id="use_rewrite_n" value="N" <!--@if($use_rewrite != 'Y')-->checked="checked" <!--@end-->/> <label for="use_rewrite_n">{$lang->cmd_no}</label>
+					</p>
+				</li>
+				<li>
+					<p class="q">{$lang->about_question_mobile_view}</p>
+					<p class="a">
+						<input type="radio" name="use_mobile_view" id="use_mobile_view_y" value="Y" <!--@if($use_mobile_view == 'Y')-->checked="checked" <!--@end-->/> <label for="use_mobile_view_y">{$lang->cmd_yes}</label>
+						<input type="radio" name="use_mobile_view" id="use_mobile_view_n" value="N" <!--@if($use_mobile_view != 'Y')-->checked="checked" <!--@end-->/> <label for="use_mobile_view_n">{$lang->cmd_no}</label>
+					</p>
+				</li>
+				<li>
+					<p class="q">{$lang->about_thumbnail_type}</p>
+					<p class="a">
+						<input type="radio" name="thumbnail_type" id="thumbnail_type_crop" value="corp" <!--@if($thumbnail_type != 'ratio')-->checked="checked" <!--@end-->/> 
+						<label for="thumbnail_type_crop">{$lang->corp}</label>						
+						<input type="radio" name="thumbnail_type" id="thumbnail_type_ratio" value="ratio" <!--@if($thumbnail_type == 'ratio')-->checked="checked" <!--@end-->/> 
+						<label for="thumbnail_type_ratio">{$lang->ratio}</label>
+					</p>
+				</li>
+				<li>
+					<p class="q"><label for="admin_ip">{$lang->about_admin_ip_limit}</label>[<a href="#helpAdminip" class="tgAnchor">?</a>]</p>
+					<div class="tgContent layer" id="helpAdminip">
+						<p>{$lang->detail_about_admin_ip_limit}</p>
+					</div>
+					<p class="a"><input type="text" name="admin_ip" id="admin_ip" value="{$admin_ip}" /></p>
+				</li>
+				<li>
+					<p class="q"><label for="ftp_host">{$lang->ftp_host}</label> [<a href="#helpFTP" class="tgAnchor">?</a>]</p>
+					<div class="tgContent layer" id="helpFTP">
+						<p>{$lang->detail_about_ftp_info}
+					</div>
+					<p class="a"><input type="text" name="ftp_host" id="ftp_host" value="{$ftp_info->ftp_host}" /></p>
+				</li>
+				<li>
+					<p class="q"><label for="ftp_user">{$lang->user_id}</label></p>
+					<p class="a"><input type="text" name="ftp_user" id="ftp_user" value="{$ftp_info->ftp_user}" /></p>
+				<li>
+					<p class="q"><label for="ftp_password">{$lang->password}</label></p>
+					<p class="a"><input type="password" name="ftp_password" id="ftp_password" value="" /> <span class="desc">{$lang->about_ftp_password}</span></p>
+				</li>
+				<li>
+					<p class="q"><label for="ftp_port">{$lang->ftp_port}</label></p>
+					<p class="a"><input type="text" name="ftp_port" id="ftp_port" value="21" /></p>
+				</li>
+				<li>
+					<p class="q"><label for="ftp_passive">Use FTP Passive Mode?</label></p>
+					<p class="a">
+						<input type="radio" name="ftp_pasv" id="ftp_passive_y" value="Y" <!--@if($ftp_info->ftp_pasv == 'Y')-->checked="checked" <!--@end-->/> <label for="ftp_passive_y">{$lang->cmd_yes}</label>
+						<input type="radio" name="ftp_pasv" id="ftp_passive_n" value="N" <!--@if($ftp_info->ftp_pasv != 'Y')-->checked="checked" <!--@end-->/> <label for="ftp_passive_n">{$lang->cmd_no}</label>
+					</p>
+				</li>
+				<li>
+					<p class="q"><label for="ftp_path">{$lang->msg_ftp_installed_ftp_realpath}</label></p>
+					<p class="a">
+						<input type="text" name="ftp_root_path" id="ftp_root_path" value="{$ftp_info->ftp_root_path}" />
+						<a href="#ftpSuggestion" onclick="getFTPList(); return false;" class="tgAnchor">{$lang->ftp_get_list}</a>												
+						
+					</p>
+					<div id="ftpSuggestion">						
+					</div>
+					<p class="desc">{$lang->msg_ftp_installed_realpath} : {_XE_PATH_} </p>
+				</li>
+				<li>
+					<p class="q">{$lang->about_use_favicon}</p>
+					<p class="a faviconPreview">
+						<img src="{$favicon_url}" alt="favicon" width="16" height="16" class="fn1"> 
+						<img src="{$favicon_url}" alt="favicon Image" width="16" height="16" class="fn2"> 						
+						<a href="javascript:deleteIcon('favicon\.ico');">{$lang->cmd_delete}</a>						
+					</p>
+					<p class="a"><input type="file" name="favicon" id="favicon" title="favicon" /> <span class="desc">{$lang->detail_about_use_favicon}</span></p>
+				</li>
+				<li>
+					<p class="q">{$lang->about_mobilehome_icon}</p>
+					<p class="a mobiconPreview">		
+						<img src="{$mobicon_url}" alt="Mobile Home Icon" width="32" height="32" />						
+						<span>www</span>
+						<a href="javascript:deleteIcon('mobicon\.png');">{$lang->cmd_delete}</a>
+					</p>
+					<p class="a"><input type="file" name="mobicon" id="mobicon" title="Mobile Home Icon"/> <span class="desc">{$lang->detail_about_mobilehome_icon}</span></p>
+				</li>
+			</ul>			
+		</fieldset>
+		<fieldset class="section">
+			<h2 class="h2">{$lang->subtitle_advanced}</h2>
+			<ul>
+				<li>
+					<p class="q"><label for="default_url">{$lang->default_url}</label></p>
+					<p class="a"><input type="text" name="default_url" id="default_url" value="{$default_url}"/></p>
+					
+					<p class="desc">{$lang->about_default_url}</p>
+				</li>
+				<li>
+					<p class="q">{$lang->about_use_sso}</p>
+					<p class="a">
+						<input type="radio" name="use_sso" id="sso_y" value="Y" <!--@if($use_sso=='Y')-->checked="checked" <!--@end-->/> <label for="sso_y">{$lang->cmd_yes}</label>
+						<input type="radio" name="use_sso" id="sso_n" value="N" <!--@if($use_sso!='Y')-->checked="checked" <!--@end-->/> <label for="sso_n">{$lang->cmd_no}</label>
+					</p>
+				</li>
+				<li>
+					<p class="q">{$lang->use_ssl}</p>
+					<p class="a">											
+						<!--@foreach($lang->ssl_options as $key => $val)-->						
+						<input type="radio" name="use_ssl" id="ssl_{$key}" value="{$key}" <!--@if($use_ssl==$key)-->checked="checked" <!--@end-->/> <label for="ssl_{$key}">{$val}</label>						
+						<!--@endforeach-->
+					</p>
+				</li>
+				<li>
+					<p class="q">{$lang->about_cdn}</p>
+					<p class="a">
+						<input type="radio" name="use_cdn" id="cdn_y" value="Y" <!--@if($use_cdn=='Y')-->checked="checked" <!--@end-->/> <label for="sso_y">{$lang->cmd_yes}</label>
+						<input type="radio" name="use_cdn" id="cdn_n" value="N" <!--@if($use_cdn!='Y')-->checked="checked" <!--@end-->/> <label for="sso_n">{$lang->cmd_no}</label>
+					</p>
+				</li>
+				<li>
+					<p class="q">{$lang->server_ports}</p>
+					<p class="a">
+						<label for="">HTTP:</label> <input type="text" name="http_port" id="http_port" size="5" value="{$http_port}" style="width:40px" />
+						&nbsp;&nbsp;
+						<label for="">HTTPS:</label> <input type="text" name="https_port" id="https_port" size="5" value="{$https_port}" style="width:40px" />
+					</p>
+				</li>
+				<li>
+					<p class="q">{$lang->use_db_session}</p>
+					<p class="a">
+						<input type="radio" name="use_db_session" id="use_db_session_y" value="Y" <!--@if($use_db_session=='Y')-->checked="checked" <!--@end-->/> <label for="use_db_session_y">{$lang->cmd_yes}</label>
+						<input type="radio" name="use_db_session" id="use_db_session_n" value="N" <!--@if($use_db_session!='Y')-->checked="checked" <!--@end-->/> <label for="use_db_session_n">{$lang->cmd_no}</label>
+					</p>
+				</li>
+				<li>
+					<p class="q">{$lang->qmail_compatibility}</p>
+					<p class="a">
+						<input type="radio" name="qmail_compatibility" id="qmail_compatibility_y" value="Y" <!--@if($qmail_compatibility=='Y')-->checked="checked" <!--@end-->/> <label for="qmail_compatibility_y">{$lang->cmd_yes}</label>
+						<input type="radio" name="qmail_compatibility" id="qmail_compatibility_n" value="N" <!--@if($qmail_compatibility!='Y')-->checked="checked" <!--@end-->/> <label for="qmail_compatibility_n">{$lang->cmd_no}</label>
+					</p>
+				</li>
+			</ul>
+		</fieldset>
+		<fieldset class="section">
+			<h2 class="h2">{$lang->subtitle_etc}</h2>
+			<ul>
+				<li>
+					<p class="q">{$lang->about_recompile_cache}</p>
+					<p class="a"><a href="#" onclick="doRecompileCacheFile();return false;">{$lang->cmd_remake_cache}</a></p>
+				</li>
+				<li>
+					<p class="q">{$lang->about_arrange_session}</p>
+					<p class="a"><a href="#" onclick="doClearSession();return false;">{$lang->cmd_clear_session}</a></p>
+				</li>
+			</ul>
+		</fieldset>
+		<div class="btnArea">
+			<span class="btn medium"><input type="submit" value="Save" /></span> 
+		</div>
+	</form>
+	<iframe name="hidden_iframe" frameborder="0" style="display:none"></iframe>
 </div>
-
-<hr />
-
-<div class="extension e2">
-    <div class="section">
-
-        <h4 class="xeAdmin">{$lang->cmd_lang_select}</h4>
-        <p class="summary">{$lang->about_cmd_lang_select}</p>
-        <form action="./" method="get" onsubmit="return procFilter(this, update_lang_select);">
-        <table cellspacing="0" class="rowTable">
-        <!--@foreach($langs as $key => $val)-->
-        <tr>
-            <td>
-				<!--@if($key==$selected_lang)-->
-					<input type="hidden" name="selected_lang[]" value="{$key}" />
-					<input type="checkbox" checked="checked" disabled="disabled" />
-					<label>{$val}</label>
-				<!--@else-->
-					<input id="lang_{$key}" type="checkbox" name="selected_lang[]" value="{$key}" <!--@if(isset($lang_selected[$key]))-->checked="checked"<!--@end--> />
-					<label for="lang_{$key}">{$val}</label>
-				<!--@end-->
-            </td>
-        </tr>
-        <!--@endforeach-->
-        <tr>
-            <th class="button">
-                <span class="button black strong"><input type="submit" value="{$lang->cmd_save}" /></span>
-            </th>
-        </tr>
-        </table>
-        </form>
-
-        <h4 class="xeAdmin">{$lang->cmd_remake_cache}</h4>
-        <p class="summary">{$lang->about_recompile_cache}</p>
-        <table cellspacing="0" class="colTable">
-        <tr>
-            <th class="button">
-                <span class="button black strong"><input type="button" value="{$lang->cmd_remake_cache}" onclick="doRecompileCacheFile(); return false;"/></span>
-            </th>
-        </tr>
-        </table>
-    </div>
-</div>
-
-<!--#include("_footer.html")-->
+<!--#include("./_spFooter.html")-->

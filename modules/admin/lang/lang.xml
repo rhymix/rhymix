@@ -1,5 +1,21 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <lang>
+	<item name="title_genaral">
+		<value xml:lang="ko"><![CDATA[일반]]></value>
+		<value xml:lang="en"><![CDATA[Genaral]]></value>
+	</item>
+	<item name="subtitle_primary">
+		<value xml:lang="ko"><![CDATA[기본]]></value>
+		<value xml:lang="en"><![CDATA[Primary]]></value>
+	</item>	
+	<item name="subtitle_advanced">
+		<value xml:lang="ko"><![CDATA[고급]]></value>
+		<value xml:lang="en"><![CDATA[Advanced]]></value>
+	</item>
+	<item name="subtitle_etc">
+		<value xml:lang="ko"><![CDATA[기타]]></value>
+		<value xml:lang="en"><![CDATA[etc]]></value>
+	</item>
 	<item name="admin_info">
 		<value xml:lang="ko"><![CDATA[관리자 정보]]></value>
 		<value xml:lang="en"><![CDATA[Administrator Info]]></value>
@@ -231,16 +247,8 @@
 		<value xml:lang="vi"><![CDATA[URL mặc định]]></value>
 	</item>
 	<item name="about_default_url">
-		<value xml:lang="ko"><![CDATA[XE 가상 사이트(cafeXE 등)의 기능을 사용할 때 기본 URL을 입력하셔야 가상 사이트간 인증 연동이 되고 게시글, 모듈 등의 연결이 정상적으로 이루어집니다. (예: http://도메인/설치경로)]]></value>
-		<value xml:lang="en"><![CDATA[If you use a virtual site feature (e.g., cafeXE), input default URL (parent-site's address), then SSO would be enabled, thus connection to documents/modules works properly.]]></value>
-		<value xml:lang="jp"><![CDATA[複数のバーチャル（Virtual）サイトを運営する場合、どちらからログインしてもバーチャル（Virtual）サイトの間でログイン情報を維持出来るようにするためには、基本になるサイトでのXEをインストールしたurlを登録して下さい。 (例: http://ドメイン/インストールパス)]]></value>
-		<value xml:lang="zh-CN"><![CDATA[请输入默认站点的XE安装地址(ex: http://域名/xe)。 <br /><strong>说明：</strong>简单的说，就是绑定帐号系统。只需要登录一次，就可以在用站点模块生成的多个子站点中随意漫游。]]></value>
-		<value xml:lang="zh-TW"><![CDATA[XE虛擬網站必須要先輸入預設的網址確保虛擬網站的運作，請輸入預設程式安裝路徑。<br />(例: http://網域名稱/安裝路徑)]]></value>
-		<value xml:lang="fr"><![CDATA[XE 가상 사이트(cafeXE등)의 기능을 사용할때 기본 URL을 입력해 주셔야 가상 사이트간 인증 연동이 되고 게시글/모듈등의 연결이 정상적으로 이루어집니다. (ex: http://도메인/설치경로)]]></value>
-		<value xml:lang="ru"><![CDATA[If you use a virtual site feature (e.g., cafeXE), input default URL (parent-sites address), then SSO would be enabled, thus connection to documents/modules works properly]]></value>
-		<value xml:lang="es"><![CDATA[XE sitio virtual (cafeXE, etc) tiene que introducir la URL base, al utilizar las capacidades de trabajo virtual y el tema de autenticación sayiteugan / módulos y las conexiones se realizan correctamente. (Ej: http:// dominio / ruta de instalación)]]></value>
-		<value xml:lang="tr"><![CDATA[Eğer sanal site özelliği kullanıyorsanız (örneğin, cafeXE), varsayılan URL girdisini yapınız (üst-sitenin adresi), SSO etkinleştirilecektir, böylece belgelere/modüllere sağlanan bağlantı uygun bir şekilde çalışacaktır. ]]></value>
-		<value xml:lang="vi"><![CDATA[Nếu bạn sử dụng tính năng trang Web ảo (Ví dụ: PlanetXE, cafeXE), hãy chọn URL mặc định (địa chỉ trang chủ), khi khi kích hoạt SSO với thư mục hay Module làm việc.]]></value>
+		<value xml:lang="ko"><![CDATA[여러 사이트를 운영할 때 기본 URL이 필요합니다. XE 설치 경로를 포함한 URL을 입력하세요. (예: http://도메인/설치경로)]]></value>
+		<value xml:lang="en"><![CDATA[여러 사이트를 운영할 때 기본 URL이 필요합니다. XE 설치 경로를 포함한 URL을 입력하세요. (예: http://도메인/설치경로)]]></value>		
 	</item>
 	<item name="env_information">
 		<value xml:lang="ko"><![CDATA[환경 정보]]></value>
@@ -545,54 +553,18 @@ Lütfen son sürümü için indirme linkine tıklayınız.]]></value>
 		<value xml:lang="ru"><![CDATA[Сегодня]]></value>
 		<value xml:lang="tr"><![CDATA[Bugün]]></value>
 		<value xml:lang="vi"><![CDATA[Hôm nay]]></value>
-	</item>
-	<item name="cmd_lang_select">
-		<value xml:lang="ko"><![CDATA[언어선택]]></value>
-		<value xml:lang="en"><![CDATA[Language]]></value>
-		<value xml:lang="jp"><![CDATA[言語選択]]></value>
-		<value xml:lang="zh-CN"><![CDATA[多国语言支持]]></value>
-		<value xml:lang="zh-TW"><![CDATA[選擇語言]]></value>
-		<value xml:lang="fr"><![CDATA[langue]]></value>
-		<value xml:lang="ru"><![CDATA[Выбор языка]]></value>
-		<value xml:lang="es"><![CDATA[Selección de Idioma]]></value>
-		<value xml:lang="tr"><![CDATA[Dil]]></value>
-		<value xml:lang="vi"><![CDATA[Ngôn ngữ]]></value>
-	</item>
-	<item name="about_cmd_lang_select">
-		<value xml:lang="ko"><![CDATA[선택된 언어들만 서비스 됩니다.]]></value>
-		<value xml:lang="en"><![CDATA[Only selected languages will be served.]]></value>
-		<value xml:lang="jp"><![CDATA[選択した言語だけでサービスを行います。]]></value>
-		<value xml:lang="zh-CN"><![CDATA[请选择要使用的语言。]]></value>
-		<value xml:lang="zh-TW"><![CDATA[只提供所選擇的語言服務]]></value>
-		<value xml:lang="fr"><![CDATA[La langue choisie seulement sera servie]]></value>
-		<value xml:lang="ru"><![CDATA[Возможно использование только выбранных языков]]></value>
-		<value xml:lang="es"><![CDATA[Seleccione el idioma es sólo el servicio]]></value>
-		<value xml:lang="tr"><![CDATA[Sadece seçili dillerde hizmet verecektir.]]></value>
-		<value xml:lang="vi"><![CDATA[Chỉ chọn được những ngôn ngữ có sẵn.]]></value>
-	</item>
+	</item>		
+	<item name="about_lang_select">
+		<value xml:lang="ko"><![CDATA[지원할 언어를 설정하세요.]]></value>
+		<value xml:lang="en"><![CDATA[지원할 언어를 설정하세요.]]></value>		
+	</item>	
 	<item name="about_recompile_cache">
-		<value xml:lang="ko"><![CDATA[쓸모 없어졌거나 잘못된 캐시파일들을 정리할 수 있습니다.]]></value>
-		<value xml:lang="en"><![CDATA[You can delete useless or invalid cache files.]]></value>
-		<value xml:lang="jp"><![CDATA[要らないかごみのキャッシューファイルを整理します。]]></value>
-		<value xml:lang="zh-CN"><![CDATA[整理无用的或错误的缓冲文件。]]></value>
-		<value xml:lang="zh-TW"><![CDATA[可有效的整理錯誤的暫存檔]]></value>
-		<value xml:lang="fr"><![CDATA[Vous pouvez arranger les fichiers inutils ou les fichiers invalides d'antémémoire]]></value>
-		<value xml:lang="ru"><![CDATA[You can delete useless or invalid cache files]]></value>
-		<value xml:lang="es"><![CDATA[Inválido inútil archivo de caché puede organizar jyeotgeona]]></value>
-		<value xml:lang="tr"><![CDATA[Gereksiz veya geçersiz önbellek dosyalarını silebilirsiniz.]]></value>
-		<value xml:lang="vi"><![CDATA[Bạn có thể sắp xếp lại File Cache cho những việc đã làm hoặc bị lỗi.]]></value>
+		<value xml:lang="ko"><![CDATA[쓸모 없어졌거나 잘못된 캐시파일들을 지우시겠습니까?]]></value>
+		<value xml:lang="en"><![CDATA[Delete useless or invalid cache files?]]></value>	
 	</item>
 	<item name="use_ssl">
-		<value xml:lang="ko"><![CDATA[SSL 사용]]></value>
-		<value xml:lang="en"><![CDATA[Use SSL]]></value>
-		<value xml:lang="jp"><![CDATA[SSL環境設定]]></value>
-		<value xml:lang="zh-CN"><![CDATA[SSL使用]]></value>
-		<value xml:lang="zh-TW"><![CDATA[SSL功能]]></value>
-		<value xml:lang="fr"><![CDATA[Utiliser SSL]]></value>
-		<value xml:lang="ru"><![CDATA[Использовать SSL]]></value>
-		<value xml:lang="es"><![CDATA[Usar SSL]]></value>
-		<value xml:lang="tr"><![CDATA[SSL Kullan]]></value>
-		<value xml:lang="vi"><![CDATA[Sử dụng SSL]]></value>
+		<value xml:lang="ko"><![CDATA[SSL(Secure Sockets Layer)을 사용하시겠습니까?]]></value>
+		<value xml:lang="en"><![CDATA[Would use SSL(Secure Sockets Layer)?]]></value>		
 	</item>
 	<item name="ssl_options" type="array">
 		<item name="none">
@@ -779,15 +751,7 @@ Lütfen son sürümü için indirme linkine tıklayınız.]]></value>
 		<value xml:lang="jp"><![CDATA[今週]]></value>
 		<value xml:lang="zh-TW"><![CDATA[本週]]></value>
 		<value xml:lang="tr"><![CDATA[Bu Hafta]]></value>
-	</item>
-	<item name="use_html5">
-		<value xml:lang="ko"><![CDATA[HTML5 DTD]]></value>
-		<value xml:lang="en"><![CDATA[HTML5 DTD]]></value>
-	</item>
-	<item name="about_html5">
-		<value xml:lang="ko"><![CDATA[HTML5 DTD 사용]]></value>
-		<value xml:lang="en"><![CDATA[Use HTML5 DTD]]></value>
-	</item>
+	</item>	
 	<item name="trash">
 		<value xml:lang="ko"><![CDATA[휴지통]]></value>
 		<value xml:lang="en"><![CDATA[Trash]]></value>
@@ -824,10 +788,107 @@ Lütfen son sürümü için indirme linkine tıklayınız.]]></value>
 		<value xml:lang="ko"><![CDATA[CDN 사용]]></value>
 		<value xml:lang="en"><![CDATA[CDN 사용]]></value>
 	</item>
+	<item name="about_use_rewrite">
+		<value xml:lang="ko"><![CDATA[짧은 주소를 사용하시겠습니까?]]></value>
+		<value xml:lang="en"><![CDATA[짧은 주소를 사용하시겠습니까?]]></value>
+	</item>
+	<item name="about_timezone">
+		<value xml:lang="ko"><![CDATA[현지 표준시를 설정하세요.]]></value>
+		<value xml:lang="en"><![CDATA[현지 표준시를 설정하세요.]]></value>
+	</item>
+	<item name="about_html_dtd">
+		<value xml:lang="ko"><![CDATA[HTML DTD를 설정하세요.]]></value>
+		<value xml:lang="en"><![CDATA[HTML DTD를 설정하세요.]]></value>
+	</item>
+	<item name="html5">
+		<value xml:lang="ko"><![CDATA[HTML5]]></value>
+		<value xml:lang="en"><![CDATA[HTML5]]></value>
+	</item>
+	<item name="xhtml_transitional">
+		<value xml:lang="ko"><![CDATA[XHTML 1.0 Transitional]]></value>
+		<value xml:lang="en"><![CDATA[XHTML 1.0 Transitional]]></value>
+	</item>	
+	<item name="about_html_dtd">
+		<value xml:lang="ko"><![CDATA[HTML DTD를 설정하세요.]]></value>
+		<value xml:lang="en"><![CDATA[HTML DTD를 설정하세요.]]></value>
+	</item>
+	<item name="about_question_mobile_view">
+		<value xml:lang="ko"><![CDATA[모바일 기기에서 접속할 때 모바일 페이지를 보여줄까요?]]></value>
+		<value xml:lang="en"><![CDATA[모바일 기기에서 접속할 때 모바일 페이지를 보여줄까요?]]></value>
+	</item>
+	<item name="about_thumbnail_type">
+		<value xml:lang="ko"><![CDATA[썸네일 생성 방식을 선택하세요.]]></value>
+		<value xml:lang="en"><![CDATA[썸네일 생성 방식을 선택하세요.]]></value>
+	</item>	
+	<item name="corp">
+		<value xml:lang="ko"><![CDATA[Crop(잘라내기)]]></value>
+		<value xml:lang="en"><![CDATA[Crop(잘라내기)]]></value>
+	</item>
+	<item name="ratio">
+		<value xml:lang="ko"><![CDATA[Ratio(비율 맞추기)]]></value>
+		<value xml:lang="en"><![CDATA[Ratio(비율 맞추기)]]></value>
+	</item>
+	<item name="ratio">
+		<value xml:lang="ko"><![CDATA[Ratio(비율 맞추기)]]></value>
+		<value xml:lang="en"><![CDATA[Ratio(비율 맞추기)]]></value>
+	</item>
+	<item name="about_admin_ip_limit">
+		<value xml:lang="ko"><![CDATA[관리자 페이지로 접근가능한 IP대역을 지정합니다.]]></value>
+		<value xml:lang="en"><![CDATA[관리자 페이지로 접근가능한 IP대역을 지정합니다.]]></value>
+	</item>
+	<item name="about_admin_ip_limit">
+		<value xml:lang="ko"><![CDATA[관리자 페이지로 접근가능한 IP대역을 지정합니다]]></value>
+		<value xml:lang="en"><![CDATA[관리자 페이지로 접근가능한 IP대역을 지정합니다.]]></value>
+	</item>	
+	<item name="detail_about_admin_ip_limit">
+		<value xml:lang="ko"><![CDATA[해당 IP에 대해서만 관리자 페이지로 접근이 가능하므로 주의해주시기 바랍니다.<br /> IP대역 정보는 /files/config/db.config.php 파일에 저장됩니다.<br /> 예1) 123.45.67.* 예2) 123.76.54.32 ]]></value>
+		<value xml:lang="en"><![CDATA[관리자 페이지로 접근가능한 IP대역을 지정합니다.]]></value>
+	</item>	
+	<item name="detail_about_ftp_info">
+		<value xml:lang="ko"><![CDATA[해당 IP에 대해서만 관리자 페이지로 접근이 가능하므로 주의해주시기 바랍니다.<br /> IP대역 정보는 /files/config/db.config.php 파일에 저장됩니다.<br /> 예1) 123.45.67.* 예2) 123.76.54.32 ]]></value>
+		<value xml:lang="en"><![CDATA[관리자 페이지로 접근가능한 IP대역을 지정합니다.]]></value>
+	</item>	
+	<item name="about_favicon">
+		<value xml:lang="ko"><![CDATA[파비콘을 사용할까요?]]></value>
+		<value xml:lang="en"><![CDATA[파비콘을 사용할까요?]]></value>
+	</item>				
+	<item name="detail_about_use_favicon">
+		<value xml:lang="ko"><![CDATA[16 x 16 크기의 <em>favicon.ico</em> 파일만 업로드 가능.]]></value>
+		<value xml:lang="en"><![CDATA[16 x 16 크기의 <em>favicon.ico</em> 파일만 업로드 가능.]]></value>
+	</item>				
+	<item name="about_mobilehome_icon">
+		<value xml:lang="ko"><![CDATA[모바일 홈 화면 아이콘을 사용할까요?]]></value>
+		<value xml:lang="en"><![CDATA[모바일 홈 화면 아이콘을 사용할까요?]]></value>
+	</item>				
+	<item name="detail_about_mobilehome_icon">
+		<value xml:lang="ko"><![CDATA[57 x 57 또는 114 x 114 크기의 <em>mobicon.png</em> 파일만 업로드 가능.]]></value>
+		<value xml:lang="en"><![CDATA[57 x 57 또는 114 x 114 크기의 <em>mobicon.png</em> 파일만 업로드 가능.]]></value>
+	</item>						
+	<item name="about_use_sso">
+		<value xml:lang="ko"><![CDATA[SSO(Single Sign On)를 사용하시겠습니까?]]></value>
+		<value xml:lang="en"><![CDATA[Would use SSO(Single Sign On)?]]></value>
+	</item>	
 	<item name="about_cdn">
 		<value xml:lang="ko"><![CDATA[XE core의 css, js 파일을 CDN으로부터 제공받으려면 체크하세요.]]></value>
 		<value xml:lang="en"><![CDATA[XE core의 css, js 파일을 CDN으로부터 제공받으려면 체크하세요.]]></value>
-	</item>
+	</item>	
+	<item name="about_arrange_session">
+		<value xml:lang="ko"><![CDATA[세션을 정리하시겠습니까?]]></value>
+		<value xml:lang="en"><![CDATA[Arrange session?]]></value>
+	</item>	
+	<item name="msg_not_correct_iconname">
+		<value xml:lang="ko"><![CDATA[아이콘 형식이 바르지 않습니다.]]></value>
+		<value xml:lang="en"><![CDATA[아이콘 형식이 바르지 않습니다.]]></value>
+	</item>	
+	<item name="msg_not_correct_iconname">
+		<value xml:lang="ko"><![CDATA[아이콘 형식이 바르지 않습니다.]]></value>
+		<value xml:lang="en"><![CDATA[아이콘 형식이 바르지 않습니다.]]></value>
+	</item>	
+	<item name="msg_possible_only_file">
+		<value xml:lang="ko"><![CDATA[파일만 업로드 가능합니다.]]></value>
+		<value xml:lang="en"><![CDATA[파일만 업로드 가능합니다.]]></value>
+	</item>	
+	
 	<item name="save">
 		<value xml:lang="ko"><![CDATA[저장]]></value>
 		<value xml:lang="en"><![CDATA[Save]]></value>

@@ -1,5 +1,5 @@
 function getFTPList(pwd)
-{
+{	
     var form = jQuery("#ftp_form").get(0);
     if(typeof(pwd) != 'undefined')
     {
@@ -7,20 +7,25 @@ function getFTPList(pwd)
     }
     else
     {
-        if(!form.ftp_root_path.value)
+        if(!form.ftp_root_path.value && typeof(form.sftp) != 'undefined' && form.sftp.checked)
         {
-            if(typeof(form.sftp) != 'undefined' && form.sftp.checked) {
-                form.ftp_root_path.value = xe_root;
-            }
-            else
-            {
-                form.ftp_root_path.value = "/";
-            }
+            form.ftp_root_path.value = xe_root;
+        }
+		else
+        {
+          form.ftp_root_path.value = "/";
         }
     }
-    var params={}, data=jQuery("#ftp_form").serializeArray();
-    jQuery.each(data, function(i, field){ params[field.name] = field.value });
-    exec_xml('admin', 'getAdminFTPList', params, completeGetFtpInfo, ['list', 'error', 'message'], params, form);
+	
+    var params= new Array();	
+	//ftp_pasv not used	
+	params['ftp_user'] = jQuery("#ftp_user").val();	
+	params['ftp_password'] =jQuery("#ftp_password").val();
+	params['ftp_host'] = jQuery("#ftp_host").val();
+	params['ftp_port'] = jQuery("#ftp_port").val();
+	params['ftp_root_path'] = jQuery("#ftp_root_path").val();
+	
+    exec_xml('admin', 'getAdminFTPList', params, completeGetFtpInfo, ['list', 'error', 'message'], params, form);	
 }
 
 function removeFTPInfo()
@@ -37,7 +42,8 @@ function completeGetFtpInfo(ret_obj)
         alert(ret_obj['message']);
         return;
     }
-    var e = jQuery("#ftplist").empty();
+    var e = jQuery("#ftpSuggestion").empty();
+	
     var list = "";
     if(!jQuery.isArray(ret_obj['list']['item']))
     {
@@ -52,7 +58,7 @@ function completeGetFtpInfo(ret_obj)
         arr.pop();
         arr.push("");
         target = arr.join("/");
-        list = list + "<li><a href='#ftpSetup' onclick=\"getFTPList('"+target+"')\">../</a></li>";
+        list = list + "<li><button type='button' onclick=\"getFTPList('"+target+"')\">../</button></li>";
     }
     
     for(var i=0;i<ret_obj['list']['item'].length;i++)
@@ -68,10 +74,27 @@ function completeGetFtpInfo(ret_obj)
         }
         else
         {
-            list = list + "<li><a href='#ftpSetup' onclick=\"getFTPList('"+pwd+v+"')\">"+v+"</a></li>";
+            list = list + "<li><button type='button' onclick=\"getFTPList('"+pwd+v+"')\">"+v+"</button></li>";
         }
     }
-
-    list = "<td><ul>"+list+"</ul></td>";
+    list = "<ul>"+list+"</ul>";
     e.append(jQuery(list));
 }
+
+function deleteIcon(iconname){	
+	var params = new Array();
+	params['iconname'] = iconname;
+	exec_xml('admin', 'procAdminRemoveIcons', params, iconDeleteMessage, ['error', 'message'], params);
+	
+}
+function iconDeleteMessage(ret_obj){
+ alert(ret_obj['message']);
+}
+function doRecompileCacheFile() {	
+	var params = new Array();
+	exec_xml("admin","procAdminRecompileCacheFile", params, completeCacheMessage);	
+}
+function completeCacheMessage(ret_obj) {
+    alert(ret_obj['message']);
+}
+

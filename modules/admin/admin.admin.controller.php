@@ -22,7 +22,7 @@
          * @return none
          **/
         function procAdminRecompileCacheFile() {
-			// rename cache dir
+			// rename cache dir			
 			$temp_cache_dir = './files/cache_'. time();
 			FileHandler::rename('./files/cache', $temp_cache_dir);
 			FileHandler::makeDir('./files/cache');
@@ -335,6 +335,16 @@
 			$oDB->commit();
 
 			return new Object();
+		}
+		function procAdminRemoveIcons(){				
+			$iconname = Context::get('iconname');			
+			$file_exist = FileHandler::readFile(_XE_PATH_.'files/attach/xeicon/'.$iconname);
+			if($file_exist) {
+				@FileHandler::removeFile(_XE_PATH_.'files/attach/xeicon/'.$iconname);
+			} else {
+				return new Object(-1,'fail_to_delete');
+			}
+			$this->setMessage('success_deleted');			
 		}
     }
 ?>

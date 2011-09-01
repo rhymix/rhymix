@@ -4,18 +4,19 @@
     <permissions />
     <actions>
         <action name="dispAdminIndex" type="view" standalone="true" index="true" />
-        <action name="dispAdminConfig" type="view" standalone="true" />
+        <action name="dispAdminConfig" type="view" standalone="true" menu_name="adminConfiguration" menu_index="true" />
         <action name="dispAdminTheme" type="view" standalone="true" menu_name="theme" menu_index="true" />
         <action name="dispAdminSetup" type="view" standalone="true" menu_name="adminMenuSetup" menu_index="true" />
 
-        <action name="procAdminRecompileCacheFile" type="controller" standalone="true" />
+        <action name="procAdminRemoveIcons" type="controller" standalone="true" />
+		<action name="procAdminRecompileCacheFile" type="controller" standalone="true" />		
         <action name="procAdminLogout" type="controller" standalone="true" />
         <action name="procAdminInsertThemeInfo" type="controller" standalone="true" ruleset="insertThemeInfo" />
 		<action name="procAdminToggleFavorite" type="controller" ruleset="toggleFavorite" />
 		<action name="procAdminEnviromentGatheringAgreement" type="controller" standalone="true" />
 		<action name="procAdminUpdateConfig" type="controller" standalone="true" />
 		<action name="procAdminDeleteLogo" type="controller" standalone="true" />
-
+		
         <action name="getAdminFTPList" type="model" standalone="true" />
         <action name="getSiteAllList" type="model" standalone="true" />
     </actions>
