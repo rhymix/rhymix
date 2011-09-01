@@ -21,7 +21,7 @@ jQuery(function($){
 });
 </script>
 <div class="content" id="content">	
-	<form action="./" method="post" id="ftp_form" class="form" enctype="multipart/form-data" target="hidden_iframe">
+	<form action="./" method="post" id="ftp_form" class="form" enctype="multipart/form-data">
 		 <input type="hidden" name="act" value="procInstallAdminConfig" />
 		<h1 class="h1">{$lang->title_genaral}</h1>
 		<fieldset class="section">
@@ -216,7 +216,6 @@ jQuery(function($){
 		<div class="btnArea">
 			<span class="btn medium"><input type="submit" value="Save" /></span> 
 		</div>
-	</form>
-	<iframe name="hidden_iframe" frameborder="0" style="display:none"></iframe>
+	</form>	
 </div>
 <!--#include("./_spFooter.html")-->

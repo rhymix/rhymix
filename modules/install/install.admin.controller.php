@@ -44,7 +44,7 @@
         /**
          * @brief Change settings
          **/
-        function procInstallAdminSaveTimeZone() {
+        function procInstallAdminSaveTimeZone() {			
             $use_rewrite = Context::get('use_rewrite');
             if($use_rewrite!='Y') $use_rewrite = 'N';
 
@@ -73,6 +73,8 @@
 
 			$use_mobile_view = Context::get('use_mobile_view');
 			if($use_mobile_view!='Y') $use_mobile_view = 'N';
+			
+			$admin_ip = Context::get('admin_ip');			
 
             $db_info = Context::getDBInfo();
             $db_info->default_url = Context::get('default_url');
@@ -86,7 +88,9 @@
 			$db_info->use_cdn = $use_cdn;
 			$db_info->use_html5 = $use_html5;
 			$db_info->use_mobile_view = $use_mobile_view;
-            if($http_port) $db_info->http_port = (int) $http_port;
+			$db_info->admin_ip = $admin_ip; 
+			
+			if($http_port) $db_info->http_port = (int) $http_port;
             else if($db_info->http_port) unset($db_info->http_port);
 
             if($https_port) $db_info->https_port = (int) $https_port;
@@ -103,28 +107,9 @@
             $site_args->default_language = Context::get('change_lang_type');
             $site_args->domain = $db_info->default_url;
             $oModuleController = &getController('module');
-            $oModuleController->updateSite($site_args);
-
-            $this->setMessage('success_updated');
-        }
-
-        /**
-         * @brief Supported languages
-         **/
-        function procInstallAdminSaveLangSelected() {
-            $selected_lang = trim(Context::get('selected_lang'));
-            if(!$selected_lang) return new Object(-1,'msg_invalid_request');
-            $langs = explode('|@|', $selected_lang);
-
-            $lang_supported = Context::loadLangSupported();
-            $buff = null;
-            for($i=0;$i<count($langs);$i++) {
-                $buff .= sprintf("%s,%s\n", $langs[$i], $lang_supported[$langs[$i]]);
-
-            }
-            FileHandler::writeFile(_XE_PATH_.'files/config/lang_selected.info', trim($buff));
-
-            $this->setMessage('success_updated');
+            $oModuleController->updateSite($site_args);						
+		
+			$this->setMessage('success_updated');
         }
 
         function procInstallAdminRemoveFTPInfo() {
@@ -165,6 +150,84 @@
             if($_SESSION['ftp_password']) unset($_SESSION['ftp_password']);
             $this->setMessage('success_updated');
         }
+		
+		function procInstallAdminConfig(){					
+			$this->procInstallAdminSaveTimeZone();
+			
+			//FTP 정보
+			$this->procInstallAdminSaveFTPInfo();
+            
+			//언어 선택
+			$selected_lang = Context::get('selected_lang');
+			$this->saveLangSelected($selected_lang);
+			
+			//썸네일 세팅
+			$config = Context::gets('thumbnail_type');						
+			$this->thumbnailCheck($config);
+			
+			//파비콘
+			$favicon = Context::get('favicon');
+			$this->saveIcon($favicon);
+			
+			//모바일아이콘
+			$mobicon = Context::get('mobicon');
+			$this->saveIcon($mobicon);
+			
+			$this->setRedirectUrl(Context::get('error_return_url'));
+		}
+		
+		//from procInstallAdminSaveTimeZone
+		/**
+         * @brief Supported languages (was procInstallAdminSaveLangSelected)
+         **/		
+		function saveLangSelected($selected_lang){			
+			/*$selected_lang = trim($selected_lang);
+            if(!$selected_lang) return new Object(-1,'msg_invalid_request');
+            $langs = explode('|@|', $selected_lang);*/
+			$langs = $selected_lang;
+			//fileter로 넘어오지 않으므로 위에 처럼 변경
+			
+            $lang_supported = Context::loadLangSupported();
+            $buff = null;
+            for($i=0;$i<count($langs);$i++) {
+                $buff .= sprintf("%s,%s\n", $langs[$i], $lang_supported[$langs[$i]]);
+
+            }
+            FileHandler::writeFile(_XE_PATH_.'files/config/lang_selected.info', trim($buff));            
+			//$this->setMessage('success_updated');
+		}
+		
+		/* 썸내일 보여주기 방식 변경.*/
+		function thumbnailCheck($config){		
+			
+            if(!$config->thumbnail_type || $config->thumbnail_type != 'ratio' ) $args->thumbnail_type = 'crop';
+			else $args->thumbnail_type = 'ratio';
+			
+            $oModuleController = &getController('module');			
+            $output = $oModuleController->insertModuleConfig('document',$args);			
+			
+			return $output;			
+		}
+		
+		function saveIcon($icon){		
+			$mobicon_size = array('57','114');			
+			$iconname = $icon['name'];
+			$target_file = $icon['tmp_name'];			
+			$type = $icon['type'];
+			$target_filename = _XE_PATH_.'files/attach/xeicon/'.$iconname;	
+
+			list($width, $height, $type_no, $attrs) = @getimagesize($target_file);           						
+			
+			if($iconname == 'favicon.ico' && preg_match('/^.*(icon).*$/',$type)){			
+				$fitHeight = $fitWidth = '16';
+			} else if($iconname == 'mobicon.png' && preg_match('/^.*(png).*$/',$type) && in_array($height,$mobicon_size) && in_array($width,$mobicon_size)) {
+				$fitHeight = $fitWidth = $height;
+			} else{				
+				return false;
+			}			
+			//FileHandler::createImageFile($target_file, $target_filename, $fitHeight, $fitWidth, $ext);
+			@copy($target_file, $target_filename);
+		}
 
     }
 ?>
