@@ -105,47 +105,47 @@ header,footer,section,article,aside,nav,hgroup,details,menu,figure,figcaption{di
 .x .form .h3 + ul,
 .x .form .h4 + ul{border-top:0}
 /* Global Navigation Bar */
-.x gnb{position:relative;clear:both;border:1px solid #c1c1c1;border-left:0;border-right:0;background-color:#efefef;background:#efefef -webkit-gradient(linear, 0% 0%, 0% 100%, from(#efefef), to(#dcdcdc));background:#efefef -moz-linear-gradient(top, #efefef, #dcdcdc);filter:progid:DXImageTransform.Microsoft.gradient(startColorStr=#efefef, endColorStr=#dcdcdc);zoom:1}
-.x gnb ul{margin:0;padding:0 0 0 2em;list-style:none;border:1px solid #fff;border-left:0;border-right:0;zoom:1}
-.x gnb ul ul{position:absolute;top:30px;left:0;border:1px solid #ccc;padding:0;background:#fff}
-.x gnb ul:after{content:"";display:block;clear:both}
-.x gnb li{position:relative;float:left;border:1px solid #fff;border-top:0;border-bottom:0;margin:0 -1px 0 0}
-.x gnb li li{float:none;clear:both;overflow:hidden;border:0;border-top:1px dotted #ccc;margin:0;padding:2px}
-.x gnb li li:first-child{border:0}
-.x gnb li a{float:left;font-weight:bold;color:#333;font-size:12px;padding:8px 18px;white-space:nowrap;text-decoration:none;text-shadow:0 1px 0 #fff;zoom:1}
-.x gnb li a:hover,
-.x gnb li a:active,
-.x gnb li a:focus,
-.x gnb li.active a,
-.x gnb li.activeOn a{background:#fff;border:1px solid #ddd;padding:7px 17px}
-.x gnb li li a{display:block;float:none;color:#555;padding:5px 15px !important;font-weight:normal !important;border:0 !important}
-.x gnb li li a:hover,
-.x gnb li li a:active,
-.x gnb li li a:focus{border:0;background:#eee}
-.x gnb .setting{position:absolute;top:8px;right:2em;width:16px;height:0;padding:16px 0 0 0;overflow:hidden;background:url(../img/iconSetting.gif) no-repeat center}
-.x gnb.jx ul{display:block;position:static;padding:0}
-.x gnb.jx li{float:none;clear:both;border-top:1px solid #ccc}
-.x gnb.jx ul ul{border:0}
-.x gnb.jx li li{border:0}
-.x gnb.jx li a{float:none;display:block}
-.x gnb.jx li a:hover,
-.x gnb.jx li a:active,
-.x gnb.jx li a:focus{background:none}
-.x gnb.jx li.activeOn>a{background:#ddd}
+.x .gnb{position:relative;clear:both;border:1px solid #c1c1c1;border-left:0;border-right:0;background-color:#efefef;background:#efefef -webkit-gradient(linear, 0% 0%, 0% 100%, from(#efefef), to(#dcdcdc));background:#efefef -moz-linear-gradient(top, #efefef, #dcdcdc);filter:progid:DXImageTransform.Microsoft.gradient(startColorStr=#efefef, endColorStr=#dcdcdc);zoom:1}
+.x .gnb ul{margin:0;padding:0 0 0 2em;list-style:none;border:1px solid #fff;border-left:0;border-right:0;zoom:1}
+.x .gnb ul ul{position:absolute;top:30px;left:0;border:1px solid #ccc;padding:0;background:#fff}
+.x .gnb ul:after{content:"";display:block;clear:both}
+.x .gnb li{position:relative;float:left;border:1px solid #fff;border-top:0;border-bottom:0;margin:0 -1px 0 0}
+.x .gnb li li{float:none;clear:both;overflow:hidden;border:0;border-top:1px dotted #ccc;margin:0;padding:2px}
+.x .gnb li li:first-child{border:0}
+.x .gnb li a{float:left;font-weight:bold;color:#333;font-size:12px;padding:8px 18px;white-space:nowrap;text-decoration:none;text-shadow:0 1px 0 #fff;zoom:1}
+.x .gnb li a:hover,
+.x .gnb li a:active,
+.x .gnb li a:focus,
+.x .gnb li.active a,
+.x .gnb li.activeOn a{background:#fff;border:1px solid #ddd;padding:7px 17px}
+.x .gnb li li a{display:block;float:none;color:#555;padding:5px 15px !important;font-weight:normal !important;border:0 !important}
+.x .gnb li li a:hover,
+.x .gnb li li a:active,
+.x .gnb li li a:focus{border:0;background:#eee}
+.x .gnb .setting{position:absolute;top:8px;right:2em;width:16px;height:0;padding:16px 0 0 0;overflow:hidden;background:url(../img/iconSetting.gif) no-repeat center}
+.x .gnb.jx ul{display:block;position:static;padding:0}
+.x .gnb.jx li{float:none;clear:both;border-top:1px solid #ccc}
+.x .gnb.jx ul ul{border:0}
+.x .gnb.jx li li{border:0}
+.x .gnb.jx li a{float:none;display:block}
+.x .gnb.jx li a:hover,
+.x .gnb.jx li a:active,
+.x .gnb.jx li a:focus{background:none}
+.x .gnb.jx li.activeOn>a{background:#ddd}
 @media only all and (max-width:860px){
-.x gnb ul{padding-left:1em}
-.x gnb .setting{right:1em}
+.x .gnb ul{padding-left:1em}
+.x .gnb .setting{right:1em}
 }
 @media only all and (max-width:640px){
-.x gnb ul{display:block;position:static;padding:0}
-.x gnb li{float:none;clear:both;border-top:1px solid #ccc}
-.x gnb ul ul{border:0;position:static}
-.x gnb li li{border:0}
-.x gnb li a{float:none;display:block}
-.x gnb li a:hover,
-.x gnb li a:active,
-.x gnb li a:focus{background:none}
-.x gnb li.activeOn>a{background:#ddd}
+.x .gnb ul{display:block;position:static;padding:0}
+.x .gnb li{float:none;clear:both;border-top:1px solid #ccc}
+.x .gnb ul ul{border:0;position:static}
+.x .gnb li li{border:0}
+.x .gnb li a{float:none;display:block}
+.x .gnb li a:hover,
+.x .gnb li a:active,
+.x .gnb li a:focus{background:none}
+.x .gnb li.activeOn>a{background:#ddd}
 }
 /* Local Navigation */
 .x .lnb{position:relative;float:left;width:200px;margin:1em 0 1em -230px;line-height:normal;zoom:1;display:inline}
@@ -555,3 +555,90 @@ body.modalContainer{_height:100%;_width:100%} /* IE6 only */
 .x .skipNav a{position:relative;width:auto;height:auto}
 .x .modal{position:absolute}
 }
+/* Legacy Code (Don't use it. It will be removed as soon as possible.) */
+.x h3.xeAdmin,
+.x h4.xeAdmin{position:relative;border-bottom-style:solid;border-bottom-color:#ccc;zoom:1}
+.x h3.xeAdmin{border-bottom-width:4px;font-size:24px}
+.x h4.xeAdmin{border-bottom-width:3px;font-size:20px}
+.x h5.xeAdmin{border-bottom-width:2px;font-size:16px}
+.x h6.xeAdmin{border-bottom-width:1px;font-size:12px}
+.x .adminSearch{margin:1em 0}
+.x .adminSearch fieldset{border:1px solid #ccc}
+.x .localNavigation{padding:0;list-style:none}
+.x .localNavigation li{display:inline}
+.x .localNavigation li.on a{font-weight:bold;color:#333;text-decoration:none}
+.x .localNavigation li:before{content:"| "}
+.x .localNavigation li:first-child:before{content:""}
+.x .summary{margin:1em 0}
+.x .rowTable,
+.x .colTable,
+.x .crossTable{margin:1em 0;border:0;border-collapse:collapse;border-top:2px solid #ccc;width:100%}
+.x .rowTable caption,
+.x .colTable caption,
+.x .crossTable caption{font-weight:bold;text-align:left;line-height:22px;padding:5px 0}
+.x .rowTable caption:after,
+.x .colTable caption:after,
+.x .crossTable caption:after{content:"";display:block;clear:both}
+.x .rowTable caption a,
+.x .colTable caption a,
+.x .crossTable caption a{font-weight:normal}
+.x .rowTable caption em,
+.x .colTable caption em,
+.x .crossTable caption em{float:right;font-style:normal;font-weight:normal;color:#e00;margin-left:1em}
+.x .rowTable caption strong,
+.x .colTable caption strong,
+.x .crossTable caption strong{color:#e00}
+.x .rowTable caption .side,
+.x .colTable caption .side,
+.x .crossTable caption .side{float:right;font-weight:normal;margin-left:1em}
+.x .rowTable th,.rowTable td,
+.x .colTable th,.rowTable td,
+.x .crossTable th,.rowTable td{border:0;padding:8px;vertical-align:top;text-align:left;border-bottom:1px solid #ddd;white-space:nowrap}
+.x .rowTable th,
+.x .colTable th,
+.x .crossTable th{background:#f8f8f8}
+.x .rowTable thead th,
+.x .colTable thead th,
+.x .crossTable thead th{border-bottom:1px solid #999}
+.x .rowTable tfoot td,
+.x .colTable tfoot td,
+.x .crossTable tfoot td{font-weight:bold;background:#f8f8f8}
+.x .rowTable.even tbody tr:nth-of-type(even) td,
+.x .colTable.even tbody tr:nth-of-type(even) td,
+.x .crossTable.even tbody tr:nth-of-type(even) td{background-color:#fafafa}
+.x .rowTable td>input[type=text],
+.x .colTable td>input[type=text],
+.x .crossTable td>input[type=text]{margin:-1px 0 -3px 0 !important;vertical-align:middle}
+.x .rowTable img,
+.x .colTable img,
+.x .crossTable img{vertical-align:middle}
+.x .rowTable .title,
+.x .colTable .title,
+.x .crossTable .title,
+.x .rowTable .text,
+.x .colTable .text,
+.x .crossTable .text{white-space:normal}
+.x .rowTable input[type=text],
+.x .colTable input[type=text],
+.x .crossTable input[type=text],
+.x .rowTable input[type=password],
+.x .colTable input[type=password],
+.x .crossTable input[type=password],
+.x .rowTable input[type=file],
+.x .colTable input[type=file],
+.x .crossTable input[type=file],
+.x .rowTable textarea,
+.x .colTable textarea,
+.x .crossTable textarea{position:relative;width:280px;margin:2px 0;border:1px solid #b7b7b7;border-right-color:#e1e1e1;border-bottom-color:#e1e1e1;background:transparent}
+.x .rowTable input[type=text],
+.x .colTable input[type=text],
+.x .crossTable input[type=text],
+.x .rowTable input[type=password],
+.x .colTable input[type=password],
+.x .crossTable input[type=password],
+.x .rowTable input[type=file],
+.x .colTable input[type=file],
+.x .crossTable input[type=file]{height:22px;line-height:22px;vertical-align:middle;padding:0 4px}
+.x .clear:after{content:"";display:block;clear:both}
+.x .fl{float:left}
+.x .fr{float:right}

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <layout version="0.2">
-    <title xml:lang="ko">사용자 정의 레이아웃</title>
-    <title xml:lang="en">User defined layout</title>
-    <title xml:lang="jp">ユーザー定義のレイアウト</title>
-    <description xml:lang="ko">사용자 정의 레이아웃에 관한 설명 입니다.</description>
-    <description xml:lang="en">Description for user defined layout.</description>
-    <description xml:lang="jp">ユーザー定義のレイアウトについての説明です。</description>
+    <title xml:lang="ko">테스트 레이아웃</title>
+    <title xml:lang="en">Test Layout</title>
+    <title xml:lang="jp">テストのレイアウト</title>
+    <description xml:lang="ko">디자인이 없는 테스트 레이아웃입니다. 새 스킨을 만들 때 이 레이아웃 사본을 사용하면 좋습니다.</description>
+    <description xml:lang="en">Is not designed for testing the layout. When you create a new skin, we recommend you copy the layout.</description>
+    <description xml:lang="jp">デザインがないテストレイアウトです。新しいスキンを作成するときに、レイアウトのコピーを使用してください。</description>
     <version>1.0</version>
     <date>2010-12-24</date>
     <author email_address="user@user.com" link="http://user-define.com/">

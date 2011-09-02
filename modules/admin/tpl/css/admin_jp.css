@@ -1,2 +1,7 @@
 @charset "utf-8";
-body,table,input,textarea,select,button{font-family:"MS PGothic","Osaka",Arial,sans-serif}
+.x,
+.x table,
+.x input,
+.x textarea,
+.x select,
+.x button{font-family:"MS PGothic",Osaka,Arial,sans-serif}

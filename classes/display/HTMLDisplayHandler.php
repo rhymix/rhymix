@@ -28,9 +28,9 @@ class HTMLDisplayHandler {
 
 		$output = $oTemplate->compile($template_path, $tpl_file);
 
-		// add .admin div for adminitration pages
+		// add .x div for adminitration pages
 		if(Context::getResponseMethod() == 'HTML') {
-			if(Context::get('module')!='admin' && strpos(Context::get('act'),'Admin')>0) $output = '<div class="admin">'.$output.'</div>';
+			if(Context::get('module')!='admin' && strpos(Context::get('act'),'Admin')>0) $output = '<div class="x">'.$output.'</div>';
 
 			if(Context::get('layout') != 'none') {
 				if(__DEBUG__==3) $start = getMicroTime();
