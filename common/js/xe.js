@@ -1580,7 +1580,7 @@ $.exec_xml = window.exec_xml = function(module, act, params, callback_func, resp
 	}
 
 	// ajax 통신중 대기 메세지 출력 (show_waiting_message값을 false로 세팅시 보이지 않음)
-	var waiting_obj = $('#waitingforserverresponse');
+	var waiting_obj = $('.wfsr');
 	if(show_waiting_message && waiting_obj.length) {
 		var d = $(document);
 		waiting_obj.html(waiting_message).css({
@@ -1633,7 +1633,7 @@ $.exec_json = function(action,data,func){
     if(action.length == 2){
 
         if(show_waiting_message) {
-            $("#waitingforserverresponse").html(waiting_message).css('top',$(document).scrollTop()+20).css('left',$(document).scrollLeft()+20).css('visibility','visible');
+            $(".wfsr").html(waiting_message).css('top',$(document).scrollTop()+20).css('left',$(document).scrollLeft()+20).css('visibility','visible');
         }
 
         $.extend(data,{module:action[0],act:action[1]});
@@ -1645,7 +1645,7 @@ $.exec_json = function(action,data,func){
             ,contentType:"application/json"
             ,data:$.param(data)
             ,success : function(data){
-                $("#waitingforserverresponse").css('visibility','hidden');
+                $(".wfsr").css('visibility','hidden');
                 if(data.error > 0) alert(data.message);
                 if($.isFunction(func)) func(data);
             }
@@ -1661,7 +1661,7 @@ $.fn.exec_html = function(action,data,type,func,args){
     action = action.split(".");
     if(action.length == 2){
         if(show_waiting_message) {
-            $("#waitingforserverresponse").html(waiting_message).css('top',$(document).scrollTop()+20).css('left',$(document).scrollLeft()+20).css('visibility','visible');
+            $(".wfsr").html(waiting_message).css('top',$(document).scrollTop()+20).css('left',$(document).scrollLeft()+20).css('visibility','visible');
         }
 
         $.extend(data,{module:action[0],act:action[1]});
@@ -1671,7 +1671,7 @@ $.fn.exec_html = function(action,data,type,func,args){
             ,url:request_uri
             ,data:$.param(data)
             ,success : function(html){
-                $("#waitingforserverresponse").css('visibility','hidden');
+                $(".wfsr").css('visibility','hidden');
                 self[type](html);
                 if($.isFunction(func)) func(args);
             }
