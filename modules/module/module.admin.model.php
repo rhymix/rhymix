@@ -188,10 +188,12 @@
 		{
 			$args = Context::getRequestVars();
 			if(!$args->site_srl) $args->site_srl = 0;
-			$args->langName = $args->lang_name;
+			
 			$columnList = array('lang_code', 'value');
 
 			$langList = array();
+			
+			$args->langName = preg_replace('/\$user_lang->/', '', $args->lang_name);
             $output = executeQueryArray('module.getLangListByName', $args, $columnList);
 			if($output->toBool()) $langList = $output->data;
 
@@ -199,6 +201,34 @@
 			$this->add('lang_name', $args->langName);
 		}
 
+        /**
+         * @brief Return lang list 
+         **/
+		function getModuleAdminLangListByValue()
+		{
+			$args = Context::getRequestVars();
+			if(!$args->site_srl) $args->site_srl = 0;
+			
+
+			$langList = array();
+			
+			$args->value = $args->lang_name;
+
+			// search value
+			$output = executeQueryArray('module.getLangNameByValue', $args);
+			if ($output->toBool()){
+				unset($args->value);
+
+				$args->langName = $output->data[0]->name;
+				$columnList = array('lang_code', 'value');
+				$output = executeQueryArray('module.getLangListByName', $args, $columnList);
+			
+				if($output->toBool()) $langList = $output->data;
+			}
+
+			$this->add('lang_list', $langList);
+			$this->add('lang_name', $args->langName);
+		}
         /**
          * @brief Return current lang list 
          **/

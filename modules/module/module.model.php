@@ -1391,12 +1391,27 @@
 		function getLangListByLangcodeForAutoComplete() {
 			$keyword = Context::get('search_keyword');
 
-			$list = array(
-				array('name'=>'key1', 'value'=>'value1'),
-				array('name'=>'key2', 'value'=>'value2'),
-				array('name'=>'key3', 'value'=>'value3')
-			);
+			$requestVars = Context::getRequestVars();
 
+            $args->site_srl = (int)$requestVars->site_srl;
+            $args->page = 1; // /< Page
+            $args->list_count = 100; // /< the number of posts to display on a single page
+            $args->page_count = 5; // /< the number of pages that appear in the page navigation
+            $args->sort_index = 'name';
+            $args->order_type = 'asc';
+            $args->search_keyword = Context::get('search_keyword'); // /< keyword to search*/
+
+            $output = executeQueryArray('module.getLangListByLangcode', $args);
+			
+			$list = array();
+
+			if($output->toBool()){
+				foreach($output->data as $code_info){
+					unset($codeInfo);
+					$codeInfo = array('name'=>'$user_lang->'.$code_info->name, 'value'=>$code_info->value);
+					$list[] = $codeInfo;
+				}
+			}
 			$this->add('results', $list);
 		}
     }
