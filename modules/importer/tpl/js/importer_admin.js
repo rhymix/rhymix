@@ -52,11 +52,13 @@ $('.checkxml')
 						$ttxml = $ttxml.slice(0,-1).eq(-1).slideUp(100,arguments.callee);
 					});
 					if(!$xml.is(':visible')) $xml.slideDown(300);
+					$form.find('input[name=type]').val('module');
 				} else if(data.type == 'TTXML') {
 					$ttxml = $ttxml.not(':visible');
 					$ttxml.eq(0).slideDown(100, function(){
 						$ttxml = $ttxml.slice(1).eq(0).slideDown(100,arguments.callee);
 					});
+					$form.find('input[name=type]').val('ttxml');
 				}
 			};
 
@@ -95,7 +97,7 @@ function doSync(fo_obj) {
 /**
  * xml파일을 DB입력전에 extract를 통해 분할 캐싱을 요청하는 함수
  **/
-function doPreProcessing(form) {
+function doPreProcessing(form, formId) {
 	var xml_file, type, resp, prepared = false, $ = jQuery, $status, $process, $form;
 
 	xml_file = form.elements['xml_file'].value;
@@ -103,63 +105,9 @@ function doPreProcessing(form) {
 
     if(!xml_file) return false;
 
-	$form    = $('#importForm').hide();
-	$process = $('#process').show();
-	$status  = $('#status').empty();
-
-	// display dots while preparing
-	(function(){
-		if(prepared) return;
-
-		var str = $status.html();
-		(!str.length || str.length - preProcessingMsg.length > 50)?str=preProcessingMsg:str+='.';
-
-		$status.html(str);
-		
-		setTimeout(arguments.callee, 50);
-	})();
-
-    setTimeout(doPrepareDot, 50);
-
-	function on_complete(ret) {
-		var $reload, $cont, fo_proc, fo_import, elems, i, c, key, to_copy;
-
-		prepared = true;
-		$status.empty();
-
-		$reload = $('#btn_reload');
-		$cont   = $('#btn_continue');
-
-		if(ret.status == -1) {
-			$form.show();
-			$reload.show();
-			$process.hide();
-			$cont.hide();
-			return alert(ret.message);
-		}
-
-		$reload.hide();
-		$cont.show();
-
-		fo_proc = get_by_id('fo_process');
-		elems   = fo_proc.elements;
-
-		for(i=0,c=resp.length; i < c; i++) {
-			key = resp[i];
-			elems[key]?elems[key].value=ret[key]:0;
-		}
-
-		fo_import = get_by_id('fo_import');
-		if(fo_import) {
-			to_copy = ['target_module','guestbook_target_module','user_id', 'unit_count'];
-			for(i=0,c=to_copy.length; i < c; i++) {
-				key = to_copy[i];
-				if(fo_import.elements[key]) fo_proc.elements[key].value = fo_import.elements[key].value;
-			}
-		}
-
-		doImport();
-	}
+	//$form    = $('#importForm').hide();
+	//$process = $('#process').show();
+	//$status  = $('#status').empty();
 
     exec_xml(
 		'importer', // module
@@ -169,39 +117,73 @@ function doPreProcessing(form) {
 		resp=['error','message','type','total','cur','key','status'] // response tags
 	);
 
+	function on_complete(ret) {
+		var $reload, $cont, fo_proc, elems, i, c, key, to_copy;
+
+		prepared = true;
+
+		// when fail prepare
+		if(ret.status == -1) {
+			return alert(ret.message);
+		}
+
+		fo_proc = get_by_id('fo_process');
+		elems   = fo_proc.elements;
+
+		for(i=0,c=resp.length; i < c; i++) {
+			key = resp[i];
+			elems[key]?elems[key].value=ret[key]:0;
+		}
+
+		fo_import = get_by_id(formId);
+		if(fo_import) {
+			to_copy = ['target_module','guestbook_target_module','user_id', 'unit_count'];
+			for(i=0,c=to_copy.length; i < c; i++) {
+				key = to_copy[i];
+				if(fo_import.elements[key]) fo_proc.elements[key].value = fo_import.elements[key].value;
+			}
+		}
+
+		doImport(formId);
+	}
+
     return false;
 }
 
 /* @brief Start importing */
-function doImport() {
+function doImport(formId) {
     var form = get_by_id('fo_process'), elems = form.elements, i, c, params={}, resp;
+	console.log(elems);
 
 	for(i=0,c=elems.length; i < c; i++) {
 		params[elems[i].name] = elems[i].value;
 	}
 
-    displayProgress(params.total, params.cur);
+    //displayProgress(params.total, params.cur);
 
 	function on_complete(ret, response_tags) {
+	console.log(ret);
 		var i, c, key;
 		
 		for(i=0,c=resp.length; i < c; i++) {
 			key = resp[i];
-			elems[key]?elems[key].value=ret_obj[key]:0;
+			//elems[key]?elems[key].value=ret_obj[key]:0;
+			elems[key]?elems[key].value=ret[key]:0;
 		}
 
 		ret.total = parseInt(ret.total, 10) || 0;
 		ret.cur   = parseInt(ret.cur, 10) || 0;
 
 		if(ret.total > ret.cur) {
-			doImport();
+			doImport(formId);
 		} else {
+			alert('성공입니까?');
 			alert(ret.message);
 			try {
 				form.reset();
-				get_by_id('fo_import').reset();
-				jQuery('#process').hide();
-				jQuery('#importForm').show();
+				get_by_id(formId).reset();
+				//jQuery('#process').hide();
+				//jQuery('#importForm').show();
 			} catch(e){};
 		}
 	}

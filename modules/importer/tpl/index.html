@@ -4,9 +4,25 @@
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
-<form action="./" class="form" method="get" onsubmit="return doPreProcessing(this)" id="moduleImportForm">
+
+<!-- process 진행 상황 -->
+<div id="process" style="display:none;">
+    <form action="./" method="get" onsubmit="return doImport()" id="fo_process">
+        <input type="hidden" name="type" value="" />
+        <input type="hidden" name="total" value="" />
+        <input type="hidden" name="cur" value="" />
+        <input type="hidden" name="key" value="" />
+        <input type="hidden" name="target_module" value="" />
+        <input type="hidden" name="guestbook_target_module" value="" />
+        <input type="hidden" name="unit_count" value="100" />
+        <input type="hidden" name="user_id" value="" />
+    </form>
+</div>
+<!--// process 진행상황 끝 -->
+
+<form action="./" class="form" method="get" onsubmit="return doPreProcessing(this, 'documentForm')" id="documentForm">
+	<input type="hidden" name="act" value="" />
 	<input type="hidden" name="type" value="module" />
-	<input type="hidden" name="target_module" value="" id="target_module" />
 	<h2 class="h2">{$lang->type_module}</h2>
 	<ul>
 		<li>
@@ -32,7 +48,7 @@
 				</select>
 			</p>
 			<p class="a">
-				<select class="moduleIdList" style="width:290px">
+				<select class="moduleIdList" style="width:290px" name="target_module">
 					<option>{$lang->select_module_id}</option>
 				</select>
 			</p>
@@ -42,17 +58,16 @@
 			<div class="a">
 				<input type="text" name="site_keyword" /> <a href="#suggestion3" class="tgAnchor findsite">{$lang->find_site}</a>
 				<div id="suggestion3" class="tgContent suggestion">
-					<ul>
-					</ul>
+					<ul></ul>
 				</div>
 			</div>
 			<p class="a">
-				<select style="width:290px">
-					<option>{$lang->select_module_id}</option>
+				<select class="moduleList" style="width:290px">
+					<option>{$lang->select_module}</option>
 				</select>
 			</p>
 			<p class="a">
-				<select style="width:290px">
+				<select class="moduleIdList" style="width:290px" name="guestbook_target_module">
 					<option>{$lang->select_module_id}</option>
 				</select>
 			</p>

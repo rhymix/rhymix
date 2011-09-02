@@ -24,12 +24,23 @@
 		 */
 		function procImporterAdminCheckXmlFile() {
 			$filename = Context::get('filename');
+			$realPath = FileHandler::getRealPath($filename);
 
-			// TODO : when it success
-			$this->add('exists', 'true');
-			$this->add('type', 'XML'); // or TTXML
+			$isExists = 'false';
+			if(file_exists($realPath) && is_file($realPath)) $isExists = 'true';
+			$this->add('exists', $isExists);
 
-// 			return new Object(-1, 'error');
+			if($isExists == 'true')
+			{
+				$type = 'XML';
+
+				$fp = fopen($realPath, "r");
+				$str = fgets($fp, 100);
+				if(stristr($str, 'tattertools')) $type = 'TTXML';
+				fclose($fp);
+
+				$this->add('type', $type);
+			}
 		}
 
         /**
