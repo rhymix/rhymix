@@ -5,21 +5,6 @@
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 
-<!-- process 진행 상황 -->
-<div id="process" style="display:none;">
-    <form action="./" method="get" onsubmit="return doImport()" id="fo_process">
-        <input type="hidden" name="type" value="" />
-        <input type="hidden" name="total" value="" />
-        <input type="hidden" name="cur" value="" />
-        <input type="hidden" name="key" value="" />
-        <input type="hidden" name="target_module" value="" />
-        <input type="hidden" name="guestbook_target_module" value="" />
-        <input type="hidden" name="unit_count" value="100" />
-        <input type="hidden" name="user_id" value="" />
-    </form>
-</div>
-<!--// process 진행상황 끝 -->
-
 <form action="./" class="form" method="get" onsubmit="return doPreProcessing(this, 'documentForm')" id="documentForm">
 	<input type="hidden" name="act" value="" />
 	<input type="hidden" name="type" value="module" />
@@ -117,4 +102,35 @@
 		<span class="btn"><input type="submit" value="{$lang->importer}" /></span>
 	</div>
 </form>
-<include target="./process.html" />
+<!-- process 진행 상황 -->
+<a href="#process" class="modalAnchor"></a>
+<div class="modal" id="process" style="display:none;">
+    <form action="./" method="get" onsubmit="return doImport()" id="fo_process" class="fg">
+        <input type="hidden" name="type" value="" />
+        <input type="hidden" name="total" value="" />
+        <input type="hidden" name="cur" value="" />
+        <input type="hidden" name="key" value="" />
+        <input type="hidden" name="target_module" value="" />
+        <input type="hidden" name="guestbook_target_module" value="" />
+        <input type="hidden" name="unit_count" value="100" />
+        <input type="hidden" name="user_id" value="" />
+		<p style="text-align:center">
+			<span class="prgrs prgrsMedium"> 
+				<strong>{$lang->import_step_desc[99]}</strong>
+				<span class="pBar" style="width:300px;text-align:left">
+					<span class="pAction" style="width:50%"><!-- Progress status --></span>
+					<span class="pNum">123/1234</span>
+				</span> 
+				<strong>50%</strong> 
+			</span>
+		</p>
+    </form>
+</div>
+<script type="text/javascript">
+jQuery(function($){
+	$('.form input[type=submit]').click(function(){
+		$('.modalAnchor').click();
+	});
+});
+</script>
+<!--// process 진행상황 끝 -->
