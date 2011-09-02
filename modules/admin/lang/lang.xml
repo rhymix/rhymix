@@ -192,8 +192,8 @@
 			<value xml:lang="en"><![CDATA[Site]]></value>
 		</item>
 		<item name="user">
-			<value xml:lang="ko"><![CDATA[사용자]]></value>
-			<value xml:lang="en"><![CDATA[User]]></value>
+			<value xml:lang="ko"><![CDATA[회원]]></value>
+			<value xml:lang="en"><![CDATA[Member]]></value>
 		</item>
 		<item name="content">
 			<value xml:lang="ko"><![CDATA[콘텐츠]]></value>
