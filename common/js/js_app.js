@@ -89,14 +89,14 @@ _xe_base = {
 	 * @brief Unregister an application instance
 	 */
 	unregisterApp : function(oApp) {
-		var sName  = oPlugin.getName().toLowerCase();
+		var sName  = oApp.getName().toLowerCase();
 		var nIndex = $.inArray(oApp, _apps);
 
-		if (nIndex >= 0) _apps.splice(nIndex, 1);
+		if (nIndex >= 0) _apps = _apps.splice(nIndex, 1);
 
 		if ($.isArray(_apps[sName])) {
 			nIndex = $.inArray(oApp, _apps[sName]);
-			if (nIndex >= 0) _apps[sName].splice(nIndex, 1);
+			if (nIndex >= 0) _apps[sName] = _apps[sName].splice(nIndex, 1);
 		}
 
 		// unregister event
