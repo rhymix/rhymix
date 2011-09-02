@@ -504,6 +504,14 @@
         return $string;
     }
 
+	function getEncodeEmailAddress($email) {
+	    $return = '';
+		for ($i=0,$c=strlen($email);$i<$c;$i++) {
+			$return .= '&#' . (rand(0,1)==0 ? ord($email[$i]) : 'X'.dechex(ord($email[$i]))) . ';';
+		}
+		return $return;
+	}
+
     /**
      * @brief prints debug messages 
      * @param debug_output target object to be printed
