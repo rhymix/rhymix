@@ -2290,4 +2290,8 @@ Bạn có thể quản lý thành viên bằng cách tạo những nhóm mới, 
 		<value xml:lang="ko"><![CDATA[금지 아이디 추가]]></value>
 		<value xml:lang="en"><![CDATA[Add prohibited id]]></value>
 	</item>
+	<item name="multi_line_input">
+		<value xml:lang="ko"><![CDATA[여러 항목은 줄을 바꾸어 입력하세요.]]></value>
+		<value xml:lang="en"><![CDATA[To enter multiple entries, please change the line input.]]></value>
+	</item>
 </lang>
