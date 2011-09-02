@@ -71,19 +71,11 @@
          * @brief Re-generate the cache file
          **/
         function recompileCache() {
-            // Remove layout cache(modified layout is not deleted)
             $path = './files/cache/layout';
             if(!is_dir($path)) {
                 FileHandler::makeDir($path);
                 return;
             }
-
-            $directory = dir($path);
-            while($entry = $directory->read()) {
-                if ($entry == "." || $entry == ".." || preg_match('/\.html$/i',$entry) ) continue;
-                FileHandler::removeFile($path."/".$entry);
-            }
-            $directory->close();
         }
     }
 ?>

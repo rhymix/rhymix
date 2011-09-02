@@ -42,14 +42,7 @@
                 if(method_exists($oModule, 'recompileCache')) $oModule->recompileCache();
             }
 
-			// remove cache dir
-			$tmp_cache_list = FileHandler::readDir('./files','/(^cache_[0-9]+)/');
-			if($tmp_cache_list){
-				foreach($tmp_cache_list as $tmp_dir){
-					if($tmp_dir) FileHandler::removeDir('./files/'.$tmp_dir);
-				}
-			}
-
+			// remove cache
 			$truncated = array();
 			$oObjectCacheHandler = &CacheHandler::getInstance('object');
 			$oTemplateCacheHandler = &CacheHandler::getInstance('template');
@@ -64,6 +57,15 @@
 
 			if(count($truncated) && in_array(false,$truncated)){
 				return new Object(-1,'msg_self_restart_cache_engine');
+			}
+
+
+			// remove cache dir
+			$tmp_cache_list = FileHandler::readDir('./files','/(^cache_[0-9]+)/');
+			if($tmp_cache_list){
+				foreach($tmp_cache_list as $tmp_dir){
+					if($tmp_dir) FileHandler::removeDir('./files/'.$tmp_dir);
+				}
 			}
 
             $this->setMessage('success_updated');

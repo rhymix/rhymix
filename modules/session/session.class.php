@@ -76,8 +76,6 @@
          * @brief Re-generate the cache file
          **/
         function recompileCache() {
-            // Delete an existing file-based session
-            FileHandler::removeDir(_XE_PATH_."files/sessions");
         }
     }
 ?>

@@ -346,14 +346,8 @@
          * @brief Re-generate the cache file
          **/
         function recompileCache() {
-            // Delete all cache files, the module information
-            FileHandler::removeFilesInDir("./files/cache/module_info");
-            // Delete all the files that trigger information
-            FileHandler::removeFilesInDir("./files/cache/triggers");
-            // DB cache, delete all the files
-            FileHandler::removeFilesInDir("./files/cache/db");
-            // Other Cache
-            FileHandler::removeDir("./files/cache/tmp");
+			$oModuleModel = &getModel('module');
+			$oModuleModel->getModuleList();
         }
     }
 ?>

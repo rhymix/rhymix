@@ -100,8 +100,6 @@
          * @brief Re-generate the cache file
          **/
         function recompileCache() {
-            // Delete the cache file editor component
-            FileHandler::removeFilesInDir("./files/cache/editor");
         }
     }
 ?>

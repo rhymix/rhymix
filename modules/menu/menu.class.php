@@ -45,9 +45,6 @@
          * @brief Re-generate the cache file
          **/
         function recompileCache() {
-            // Delete all cache files in the menu module
-            FileHandler::removeFilesInDir("./files/cache/menu");
-
             $oMenuAdminController = &getAdminController('menu');
             // Wanted list of all the blog module
             $output = executeQueryArray("menu.getMenus");

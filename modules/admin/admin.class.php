@@ -45,25 +45,6 @@
          * @return none
          **/
         function recompileCache() {
-
-            // remove compiled templates
-            FileHandler::removeFilesInDir("./files/cache/template_compiled");
-
-            // remove optimized files 
-            FileHandler::removeFilesInDir("./files/cache/optimized");
-
-            // remove js_filter_compiled files 
-            FileHandler::removeFilesInDir("./files/cache/js_filter_compiled");
-
-            // remove cached queries 
-            FileHandler::removeFilesInDir("./files/cache/queries");
-
-            // remove ./files/cache/news* files 
-            $directory = dir(_XE_PATH_."files/cache/");
-            while($entry = $directory->read()) {
-                if(substr($entry,0,11)=='newest_news') FileHandler::removeFile("./files/cache/".$entry);
-            }
-            $directory->close();
         }
 
         /**

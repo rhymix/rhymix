@@ -50,10 +50,6 @@
          * @brief Re-generate the cache file
          **/
         function recompileCache() {
-            // delete the cache files containing information widget
-            FileHandler::removeFilesInDir("./files/cache/widget");
-            // delete the cache files created widget
-            FileHandler::removeFilesInDir("./files/cache/widget_cache");
         }
 
     }

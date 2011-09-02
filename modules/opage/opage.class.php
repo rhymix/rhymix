@@ -38,8 +38,6 @@
          * @brief Re-generate the cache file
          **/
         function recompileCache() {
-            // Remove cache file for external pages
-            FileHandler::removeFilesInDir("./files/cache/opage");
         }
     }
 ?>

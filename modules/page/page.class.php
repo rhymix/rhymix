@@ -72,8 +72,6 @@
          * @brief Re-generate the cache file
          **/
         function recompileCache() {
-            // Delete the cache file pages
-            FileHandler::removeFilesInDir("./files/cache/page");
         }
     }
 ?>

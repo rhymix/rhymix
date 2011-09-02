@@ -63,7 +63,6 @@
          * @brief Re-generate the cache file
          **/
         function recompileCache() {
-            FileHandler::removeFilesInDir('./files/cache/addons');
         }
 
     }

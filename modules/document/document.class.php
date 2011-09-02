@@ -296,8 +296,6 @@
          * @brief Re-generate the cache file
          **/
         function recompileCache() {
-            // Delete the cache files of document_category
-            FileHandler::removeFilesInDir(_XE_PATH_."files/cache/document_category");
         }
 
 		/**
