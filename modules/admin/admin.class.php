@@ -114,81 +114,77 @@
 				),
 				1=>array(
 					'module'=>'member',
-					'subMenu'=>array('userList', 'userSetting'),
+					'subMenu'=>array('userList', 'userSetting', 'userGroup'),
 				),
 				2=>array(
-					'module'=>'point',
-					'subMenu'=>array('point'),
-				),
-				3=>array(
 					'module'=>'document',
 					'subMenu'=>array('document'),
 				),
-				4=>array(
+				3=>array(
 					'module'=>'comment',
 					'subMenu'=>array('comment'),
 				),
-				5=>array(
+				4=>array(
 					'module'=>'trackback',
 					'subMenu'=>array('trackback'),
 				),
-				6=>array(
+				5=>array(
 					'module'=>'file',
 					'subMenu'=>array('file'),
 				),
-				7=>array(
+				6=>array(
 					'module'=>'poll',
 					'subMenu'=>array('poll'),
 				),
-				8=>array(
+				7=>array(
 					'module'=>'rss',
 					'subMenu'=>array('rss'),
 				),
-				9=>array(
+				8=>array(
 					'module'=>'module',
 					'subMenu'=>array('multilingual'),
 				),
-				10=>array(
+				9=>array(
 					'module'=>'importer',
 					'subMenu'=>array('importer'),
 				),
-				11=>array(
+				10=>array(
 					'module'=>'admin',
 					'subMenu'=>array('theme'),
 				),
-				12=>array(
+				11=>array(
 					'module'=>'autoinstall',
 					'subMenu'=>array('easyInstall'),
 				),
-				13=>array(
+				12=>array(
 					'module'=>'layout',
 					'subMenu'=>array('installedLayout'),
 				),
-				14=>array(
+				13=>array(
 					'module'=>'module',
 					'subMenu'=>array('installedModule'),
 				),
-				15=>array(
+				14=>array(
 					'module'=>'widget',
 					'subMenu'=>array('installedWidget'),
 				),
-				16=>array(
+				15=>array(
 					'module'=>'addon',
 					'subMenu'=>array('installedAddon'),
 				),
-				17=>array(
+				16=>array(
 					'module'=>'editor',
 					'subMenu'=>array('editor'),
 				),
-				18=>array(
+				17=>array(
 					'module'=>'spamfilter',
 					'subMenu'=>array('spamFilter'),
 				),
-				19=>array(
+				18=>array(
 					'module'=>'admin',
 					'subMenu'=>array('adminConfiguration', 'adminMenuSetup'),
 				),
-				20=>array(
+				19=>array(
 					'module'=>'file',
 					'subMenu'=>array('fileUpload'),
 				),
@@ -241,7 +237,7 @@
 					break;
 				case 'userList':
 				case 'userSetting':
-				case 'point':
+				case 'userGroup':
 					return 'user';
 					break;
 				case 'document':
