@@ -16,7 +16,11 @@ class Validator
 	/**
 	 * @constructor
 	 */
-	function Validator($xml_path=''){
+	function Validator($xml_path='') {
+		$this->__construct($xml_path);
+	}
+
+	function __construct($xml_path='') {
 		$this->_rules   = array();
 		$this->_filters = array();
 		$this->_xml_ruleset = null;
@@ -35,6 +39,11 @@ class Validator
 
 		$this->_has_mb_func = is_callable('mb_strlen');
 		$this->setCacheDir('./files/cache');
+	}
+
+	function __destruct() {
+		$this->_rules   = null;
+		$this->_filters = null;
 	}
 
 	/**
@@ -119,7 +128,7 @@ class Validator
 	 * @param[in] (optional) array $fields Target fields. The keys of the array represents field's name, its values represents field's value.
 	 * @return bool True if it is valid, FALSE otherwise.
 	 */
-	function validate($fields_=null){
+	function validate($fields_=null) {
 		if(is_array($fields_)) {
 			$fields = $fields_;
 		} else {
@@ -127,7 +136,7 @@ class Validator
 			$fields = (array)Context::getRequestVars();
 		}
 
-		if(!is_array($fields) || !count($fields)) return true;
+		if(!is_array($fields)) return true;
 
 		$filter_default = array(
 			'required'  => 'false',
@@ -140,9 +149,27 @@ class Validator
 		);
 
 		$fields = array_map('trim', $fields);
-		$field_names = implode("\t", array_keys($fields));
+		$field_names = array_keys($fields);
 
+		$filters = $this->_filters;
+
+		// get field names matching patterns
 		foreach($this->_filters as $key=>$filter) {
+			$names = array();
+			if($key{0} == '^') {
+				$names = preg_grep('/^'.preg_quote(substr($key,1)).'/', $field_names);
+			}
+
+			if(!count($names)) continue;
+
+			foreach($names as $name) {
+				$filters[$name] = $filter;
+			}
+			
+			unset($filters[$key]);
+		}
+
+		foreach($filters as $key=>$filter) {
 			$fname  = $key;
 			$exists = array_key_exists($key, $fields);
 			$filter = array_merge($filter_default, $filter);
@@ -183,7 +210,7 @@ class Validator
 				list($min, $max) = array((int)$min, (int)$max);
 
 				$strbytes = strlen($value);
-				if(!$is_min_b || !$is_max_b){
+				if(!$is_min_b || !$is_max_b) {
 					$strlength = $this->_has_mb_func?mb_strlen($value,'utf-8'):$this->mbStrLen($value);
 				}
 

@@ -85,31 +85,69 @@ var Validator = xe.createApp('Validator', {
 			});
 	},
 	API_VALIDATE : function(sender, params) {
-		var result = true, form = params[0], elems = form.elements, filter=null, ruleset=null, callback=null;
-		var name, el, val, mod, len, lenb, max, min, maxb, minb, rules, e_el, e_val, i, c, r, result, if_, fn;
+		var result = true, form = params[0], elems = form.elements, filter, filter_to_add, ruleset, callback;
+		var fields, names, name, el, val, mod, len, lenb, max, min, maxb, minb, rules, e_el, e_val, i, c, r, if_, fn;
 
 		if(elems['ruleset']) filter = form.elements['ruleset'].value;
 		else if(elems['_filter']) filter = form.elements['_filter'].value;
 		if(!filter) return true;
+
 		if($.isFunction(callbacks[filter])) callback = callbacks[filter];
 		filter = $.extend({}, filters[filter.toLowerCase()] || {}, extras);
+
+		function regex_quote(str){
+			return str.replace(/([\.\+\-\[\]\{\}\(\)\\])/g, '\\$1');
+		};
+
+		// get form names
+		fields = [];
+		for(i=0,c=form.elements.length; i < c; i++) {
+			el   = elems[i];
+			name = el.name;
+
+			if(!elems[name].length || elems[name][0] === el) fields.push(name);
+		};
+		fields = fields.join('\n');
+
+		// get field names matching patterns
+		filter_to_add = {};
+		for(name in filter) {
+			if(!filter.hasOwnProperty(name)) continue;
+
+			names = [];
+			if(name.substr(0,1) == '^') {
+				names = fields.match( (new RegExp('^'+regex_quote(name.substr(1))+'.*$','gm')) );
+			} else {
+				continue;
+			}
+			if(!names) names = [];
+
+			for(i=0,c=names.length; i < c; i++) {
+				filter_to_add[names[i]]= filter[name];
+			}
+
+			filter[name] = null;
+			delete filter[name];
+		};
+
+		filter = $.extend(filter, filter_to_add);
 
 		for(name in filter) {
 			if(!filter.hasOwnProperty(name)) continue;
 
 			f   = filter[name];
-			el  = form.elements[name];
+			el  = elems[name];
 			val = el?$.trim(get_value($(el))):'';
 			mod = (f.modifier||'')+',';
 
-			if(!el) continue;
+			if(!el || el.disabled) continue;
 
 			if(f['if']) {
 				if(!$.isArray(f['if'])) f['if'] = [f['if']];
 				for(i in f['if']) {
 					if_ = f['if'][i];
 					fn  = new Function('el', 'return !!(' + (if_.test.replace(/$(\w+)/g, 'el["$1"]')) +')');
-					if(fn(form.elements)) f[if_.attr] = if_.value;
+					if(fn(elems)) f[if_.attr] = if_.value;
 				}
 			}
 
@@ -130,7 +168,7 @@ var Validator = xe.createApp('Validator', {
 			}
 			
 			if(f.equalto) {
-				e_el  = form.elements[f.equalto];
+				e_el  = elems[f.equalto];
 				e_val = e_el?$.trim(get_value($(e_el))):'';
 				if(e_el && e_val !== val) {
 					return this.cast('ALERT', [form, name, 'equalto']) && false;
@@ -147,7 +185,7 @@ var Validator = xe.createApp('Validator', {
 					return this.cast('ALERT', [form, name, 'invalid_'+r]) && false;
 				}
 			}
-		}
+		};
 
 		if($.isFunction(callback)) return callback(form);
 
