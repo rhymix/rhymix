@@ -97,6 +97,7 @@
             $this->setLayoutFile('popup_layout');
             // Set a template file
             $this->setTemplateFile('widget_generate_code');
+			debugPrint($widget_info);
         }
 
         /**
@@ -127,7 +128,7 @@
             if($widgetstyle && $widgetstyle_info){
                 Context::set('widgetstyle_info',$widgetstyle_info);
             }
-            
+
             $this->dispWidgetGenerateCode();
             $this->setLayoutFile('popup_layout');
             $this->setTemplateFile('widget_style_generate_code_in_page');

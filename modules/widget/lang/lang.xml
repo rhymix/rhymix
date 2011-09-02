@@ -617,4 +617,8 @@ Sin la necesidad de utilizar los módulos de página o del diseño de XE, Usted 
 		<value xml:lang="tr"><![CDATA[Y Konum]]></value>
 		<value xml:lang="vi"><![CDATA[Vị trí Y]]></value>
 	</item>
+	<item name="installed_widget">
+		<value xml:lang="ko"><![CDATA[설치된 위젯]]></value>
+		<value xml:lang="en"><![CDATA[Installed Widget]]></value>
+	</item>
 </lang>

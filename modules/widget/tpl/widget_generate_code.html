@@ -1,26 +1,194 @@
-<!--%import("filter/generate_code.xml")-->
-<!--%import("js/widget_admin.js")-->
-<!--%import("css/widget.css")-->
-<!--%import("../../admin/tpl/css/admin.css")-->
+<include cond="$in_admin" target="header.html" />
+<load target="js/generate_code.js" />
+<load target="js/multi_order.js" />
+<load target="js/module_list.js" />
+<!--%load_js_plugin("ui.colorpicker")-->
 
-<form action="./" method="get" onsubmit="return procFilter(this, generate_code);" id="fo_widget">
-    <div id="popHeader" class="wide">
-        <h3 class="xeAdmin">{$lang->cmd_generate_code}</h3>
-    </div>
+<h2 class="h2">{$widget_info->title}</h2>
+<p>{$widget_info->description}</p>
 
-    <div id="popBody">
-        {@ $_caption = $lang->about_widget_code}
-        <!--#include("widget_generate_code.include.html")-->
-        <h3 class="xeAdmin">{$lang->widget_code}</h3>
-        <table cellspacing="0" class="rowTable">
-        <tr>
-            <td class="wide"><textarea readonly="true" id="widget_code" class="inputTypeTextArea fullWidth"></textarea></td>
-        </tr>
-        </table>
-    </div>
+<form class="form" action="./" method="post">
+<input type="hidden" name="selected_widget" value="{$widget_info->widget}" />
 
-    <div id="popFooter">
-        <span class="button black strong"><input type="submit" value="{$lang->cmd_generate_code}"  /></span>
-    </div>
+	<h3 class="h3">{$lang->cmd_generate_code}</h3>
+	<p>{$lang->about_widget_code}</p>
 
+	<ul>
+		<li>
+			<p class="q"><label for="skin">{$lang->skin}</label></p>
+			<a class="a">
+				<select name="skin" id="skin">
+					<option value=""></option>
+					<option loop="$skin_list => $skin_name, $skin" value="{$skin_name}">{$skin->title} ({$skin_name})</option>
+				</select>
+				<span class="btn small"><input type="button" value="{$lang->cmd_select}" /></span>
+			</a>
+		</li>
+		<li>
+			<p class="q"><label for="colorset">{$lang->colorset}</label></p>
+			<p class="a">
+				<select name="colorset">
+				</select>
+			</p>
+		</li>
+		<li>
+			<p class="q"><label for="widget_cache">{$lang->widget_cache}</label></p>
+			<p class="a">
+				<input type="text" name="widget_cache" id="widget_cache" value="0" size="2" style="width: auto;" /> {$lang->unit_min}
+			</p>
+			<p class="desc">{$lang->about_widget_cache}</p>
+		</li>
+	</ul>
+
+	{@$suggestion_id = 0}
+	<block loop="$widget_info->extra_var => $id, $var">
+		{@$suggestion_id++}
+		<block cond="!$not_first && !$var->group"><ul></block>
+		<block cond="$group != $var->group">
+			<block cond="$not_first"></ul></block>
+			<h3 class="h3">{$var->group}</h3>
+			<ul>
+			{@$group = $var->group}
+		</block>
+		{@$not_first = true}
+		<li class="modulefinder"|cond="$var->type == 'mid' || $var->type == 'module_srl_list'">
+			<p class="q"><label for="{$id}">{$var->name}</label></p>
+			<div class="a">
+				<input cond="$var->type == 'text'" type="text" name="{$id}" value="" id="{$id}" />
+
+				<input cond="$var->type == 'color'" type="text" name="{$id}" value="" id="{$id}" class="color-indicator" />
+
+				<textarea cond="$var->type == 'textarea'" name="{$id}" id="{$id}"></textarea>
+
+				<select cond="$var->type == 'select'" name="{$id}" id="{$id}">
+					<option loop="$var->options => $key, $val" value="{$key}">{$val}</option>
+				</select>
+
+				<block cond="$var->type == 'select-multi-order'">
+					<input type="hidden" name="{$id}" value="" />
+					<div style="float:left; margin-left: 30px;">
+						<select class="multiorder_show" size="8" style="width: 100px;"></select>
+					</div>
+					<div style="float:left;margin-left:30px;">
+						<a class="multiorder_add" href="#">{$lang->cmd_insert}</a>
+						<br/><br/>
+						<a class="multiorder_del" href="#">{$lang->cmd_delete}</a>
+					</div>
+					<div style="float:left;margin-left:30px;">
+						<select class="multiorder_selected" size="8" style="width: 100px;"></select>
+					</div>
+					<div style="float:left;margin-left:30px;">
+						<a class="multiorder_up" href="#">{$lang->cmd_move_up}</a>
+						<br/><br/>
+						<a class="multiorder_down" href="#">{$lang->cmd_move_down}</a>
+					</div>
+
+					<script type="text/javascript">
+						var options = [
+						<block loop="$var->options => $key, $val">
+							{
+								<block cond="$var->init_options[$key]">
+									'init': true,
+								</block>
+								<block cond="!$var->init_options[$key]">
+									'init': false,
+								</block>
+								<block cond="$var->default_options[$key]">
+									'default': true,
+								</block>
+								<block cond="!$var->default_options[$key]">
+									'default': false,
+								</block>
+								'key': '{$key}',
+								'value': '{$val}'
+							},
+						</block>
+						];
+
+						new MultiOrderManager('{$id}', options);
+					</script>
+				</block>
+
+				<block cond="$var->type == 'mid_list'">
+				{@debugPrint($mid_list)}
+					<fieldset loop="$mid_list => $module_category_srl, $modules" style="border: 1px solid #ccc; margin: 0; padding: 4px 7px 9px 7px;">
+						<legend cond="$modules->title">{$modules->title}</legend>
+						<legend cond="!$modules->title">{$lang->none_category}</legend>
+
+						<div loop="$modules->list => $key, $val">
+							<input type="checkbox" value="{$key}" name="{$id}" id="chk_mid_list_{$key}" />
+							<label for="chk_mid_list_{$key}">{$key} ({$val->browser_title})</label>
+						</div>
+					</fieldset>
+				</block>
+
+				<block cond="$var->type == 'member_group'">
+					<block loop="$group_list => $key, $val">
+						<input type="checkbox" value="{$key}" name="{$id}" id="chk_member_gruop_{$id}_{$key}" />
+						<label for="chk_member_gruop_{$id}_{$key}">{$val->title}</label>
+					</block>
+				</block>
+
+				<block cond="$var->type == 'module_srl_list'">
+					<input type="hidden" name="{$id}" value="" />
+					<div style="float:left; margin-left: 30px;">
+						<div class="a">
+							<input type="text" /> <a href="#suggestion_{$suggestion_id}" class="tgAnchor findsite">사이트찾기</a>
+							<div id="suggestion_{$suggestion_id}" class="tgContent suggestion">
+								<ul>
+								</ul>
+							</div>
+						</div>
+						<p class="a"><select class="moduleList" style="width: 290px;"></select></p>
+						<p class="a"><select class="moduleIdList" style="width: 290px;"></select></p>
+					</div>
+					<div style="float:left;margin-left:30px;">
+						<a class="modulelist_add" href="#">{$lang->cmd_insert}</a>
+						<br/><br/>
+						<a class="modulelist_del" href="#">{$lang->cmd_delete}</a>
+					</div>
+					<div style="float:left;margin-left:30px;">
+						<select class="modulelist_selected" size="8" style="width: 200px;"></select>
+					</div>
+					<div style="float:left;margin-left:30px;">
+						<a class="modulelist_up" href="#">{$lang->cmd_move_up}</a>
+						<br/><br/>
+						<a class="modulelist_down" href="#">{$lang->cmd_move_down}</a>
+					</div>
+					<script type="text/javascript">
+						new ModuleListManager('{$id}');
+					</script>
+				</block>
+
+				<block cond="$var->type == 'mid'">
+					<div class="a">
+						<input type="text" /> <a href="#suggestion_{$suggestion_id}" class="tgAnchor findsite">사이트찾기</a>
+						<div id="suggestion_{$suggestion_id}" class="tgContent suggestion">
+							<ul>
+							</ul>
+						</div>
+					</div>
+					<p class="a"><select class="moduleList" style="width: 290px;"></select></p>
+					<p class="a"><select name="{$id}" class="moduleIdList" style="width: 290px;"></select></p>
+				</block>
+
+				<block cond="$var->type == 'filebox'">
+					<div id="filebox_preview_{$id}" style="width:100px;height:100px;display:none" ></div>
+					<input type="hidden" name="{$id}" value="" />
+					<span class="button black"><button type="button" onclick="XE.filebox.open(jQuery('[name={$id}]', '#fo_widget').get(0), '{$var->filter}')">{$lang->cmd_select}</button></span>
+					<span id="filebox_cancel_{$id}" class="button red" style="display:none" ><button type="button" onclick="XE.filebox.cancel('{$id}')">{$lang->cmd_delete}</button></span>
+					<script type="text/javascript">//<![CDATA[
+						XE.filebox.init('{$id}');
+					//]]></script>
+				</block>
+
+				<select cond="$var->type == 'menu'">
+					<option value="">-</option>
+					<option loop="$menu_list => $key, $val" value="{$val->menu_srl}">{$val->title}</option>
+				</select>
+			</div>
+			<p class="desc" style="clear: both;">{$var->description}</p>
+		</li>
+	</block>
+	</ul>
 </form>
