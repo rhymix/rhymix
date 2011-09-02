@@ -248,7 +248,7 @@ body.modalContainer{_height:100%;_width:100%} /* IE6 only */
 .x .message.update{border-color:#EAE9DC;background:#FFFDEF url(../img/msg.update.png) no-repeat 1em .5em}
 /* Text Button */
 .x input.text, 
-.x button.text{border:0;overflow:visible;padding:0;margin:0;color:#33a;background:none;text-decoration:underline}
+.x button.text{border:0;overflow:visible;padding:0;margin:0 4px 0 0;color:#33a;background:none;text-decoration:underline}
 /* H2 Anchor */
 .x .h2Anchor{position:absolute;right:0;border:0;background:none;color:#00f;text-decoration:underline}
 /* Waiting for server response */

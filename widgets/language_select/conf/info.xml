@@ -12,7 +12,7 @@
     <description xml:lang="ko">사용자의 접속언어를 변경할 수 있는 select폼을 출력합니다.</description>
     <description xml:lang="jp">言語を変更することが出来るセレクト（select）フォームを表示します。</description>
     <description xml:lang="zh-CN">可以实现多国语言相互切换。</description>
-    <description xml:lang="en">This widget outputs a select form to allow s user to change the display language.</description>
+    <description xml:lang="en">This widget displays a select form for change of users' language.</description>
     <description xml:lang="vi">Widget này sẽ hiển thị ngôn ngữ cho người dùng lựa chọn.</description>
     <description xml:lang="es">Este widget muestra la forma de cambiar el idioma del usuario.</description>
     <description xml:lang="ru">Этот виджет отображает форму для выбора пользовательского языка.</description>
@@ -32,5 +32,65 @@
         <name xml:lang="zh-TW">NHN</name>
         <name xml:lang="tr">NHN</name>
     </author>
+
+	<extra_vars>
+        <var id="text" type="text">
+			<name>text</name>
+		</var>
+		<var id="color" type="color">
+			<name>color</name>
+		</var>
+		<var id="textarea" type="textarea">
+			<name>textarea</name>
+		</var>
+		<var id="select" type="select">
+			<name>select</name>
+			<options>
+				<value>1</value>
+				<name>일</name>
+			</options>
+			<options>
+				<value>2</value>
+				<name>이</name>
+			</options>
+			<options>
+				<value>3</value>
+				<name>삼</name>
+			</options>
+		</var>
+		<var id="selectmultiorder2" type="select-multi-order">
+			<name>selectmultiorder2</name>
+			<options default="true" init="true">
+				<value>one</value>
+				<name>기본(제거불가)</name>
+			</options>
+			<options>
+				<value>two</value>
+				<name>이</name>
+			</options>
+			<options init="true">
+				<value>three</value>
+				<name>삼</name>
+			</options>
+		</var>
+		<var id="mid_list" type="mid_list">
+			<name>mid_list</name>
+		</var>
+		<var id="member_group" type="member_group">
+			<name>member_group</name>
+		</var>
+		<var id="module_srl_list" type="module_srl_list">
+			<name>module_srl_list</name>
+		</var>
+		<var id="mid" type="mid">
+			<name>mid</name>
+		</var>
+		<var id="filebox" type="filebox">
+			<name>filebox</name>
+		</var>
+		<var id="menu" type="menu">
+			<name>menu</name>
+		</var>
+	</extra_vars>
 
 </widget>

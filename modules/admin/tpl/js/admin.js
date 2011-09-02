@@ -423,9 +423,11 @@ $('.modulefinder')
 				$mod_select.prop('selectedIndex', 0).change().focus();
 
 				if(!$mod_select.is(':visible')) {
-					$mod_select.slideDown(100, function(){
-						$finder.find('.moduleIdList:not(:visible)').slideDown(100);
-					});
+					$mod_select
+						.slideDown(100, function(){
+							$finder.find('.moduleIdList:not(:visible)').slideDown(100).trigger('show');
+						})
+						.trigger('show');
 				}
 			};
 

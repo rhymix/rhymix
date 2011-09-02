@@ -3,43 +3,38 @@
 <load target="js/multi_order.js" />
 <load target="js/module_list.js" />
 <!--%load_js_plugin("ui.colorpicker")-->
-
 <h2 class="h2">{$widget_info->title}</h2>
 <p>{$widget_info->description}</p>
-
 <form class="form" action="./" method="post">
-<input type="hidden" name="selected_widget" value="{$widget_info->widget}" />
-
+	<input type="hidden" name="selected_widget" value="{$widget_info->widget}" />
 	<h3 class="h3">{$lang->cmd_generate_code}</h3>
 	<p>{$lang->about_widget_code}</p>
-
 	<ul>
 		<li>
 			<p class="q"><label for="skin">{$lang->skin}</label></p>
 			<a class="a">
-				<select name="skin" id="skin">
-					<option value=""></option>
+				<select name="skin" id="skin" style="width:280px">
+					<option value="">{$lang->select}</option>
 					<option loop="$skin_list => $skin_name, $skin" value="{$skin_name}">{$skin->title} ({$skin_name})</option>
 				</select>
-				<span class="btn small"><input type="button" value="{$lang->cmd_select}" /></span>
+				<input type="button" value="{$lang->cmd_select}" />
 			</a>
 		</li>
 		<li>
 			<p class="q"><label for="colorset">{$lang->colorset}</label></p>
 			<p class="a">
-				<select name="colorset">
+				<select name="colorset" style="width:280px">
 				</select>
 			</p>
 		</li>
 		<li>
 			<p class="q"><label for="widget_cache">{$lang->widget_cache}</label></p>
 			<p class="a">
-				<input type="text" name="widget_cache" id="widget_cache" value="0" size="2" style="width: auto;" /> {$lang->unit_min}
+				<input type="text" name="widget_cache" id="widget_cache" value="0" size="2" style="width:auto" /> {$lang->unit_min}
+				({$lang->about_widget_cache})
 			</p>
-			<p class="desc">{$lang->about_widget_cache}</p>
 		</li>
 	</ul>
-
 	{@$suggestion_id = 0}
 	<block loop="$widget_info->extra_var => $id, $var">
 		{@$suggestion_id++}
@@ -55,34 +50,19 @@
 			<p class="q"><label for="{$id}">{$var->name}</label></p>
 			<div class="a">
 				<input cond="$var->type == 'text'" type="text" name="{$id}" value="" id="{$id}" />
-
 				<input cond="$var->type == 'color'" type="text" name="{$id}" value="" id="{$id}" class="color-indicator" />
-
 				<textarea cond="$var->type == 'textarea'" name="{$id}" id="{$id}"></textarea>
-
-				<select cond="$var->type == 'select'" name="{$id}" id="{$id}">
+				<select cond="$var->type == 'select'" name="{$id}" id="{$id}" style="width:290px">
 					<option loop="$var->options => $key, $val" value="{$key}">{$val}</option>
 				</select>
-
 				<block cond="$var->type == 'select-multi-order'">
 					<input type="hidden" name="{$id}" value="" />
-					<div style="float:left; margin-left: 30px;">
-						<select class="multiorder_show" size="8" style="width: 100px;"></select>
-					</div>
-					<div style="float:left;margin-left:30px;">
-						<a class="multiorder_add" href="#">{$lang->cmd_insert}</a>
-						<br/><br/>
-						<a class="multiorder_del" href="#">{$lang->cmd_delete}</a>
-					</div>
-					<div style="float:left;margin-left:30px;">
-						<select class="multiorder_selected" size="8" style="width: 100px;"></select>
-					</div>
-					<div style="float:left;margin-left:30px;">
-						<a class="multiorder_up" href="#">{$lang->cmd_move_up}</a>
-						<br/><br/>
-						<a class="multiorder_down" href="#">{$lang->cmd_move_down}</a>
-					</div>
-
+					<select class="multiorder_show" size="8" multiple="multiple" style="width:290px;vertical-align:top"></select>
+					<button type="button" class="text multiorder_add" style="vertical-align:top">{$lang->cmd_insert}</button>
+					<select class="multiorder_selected" size="8" multiple="multiple" style="width:290px;vertical-align:top"></select>
+					<button type="button" class="text multiorder_up" style="vertical-align:top">{$lang->cmd_move_up}</button>
+					<button type="button" class="text multiorder_down" style="vertical-align:top">{$lang->cmd_move_down}</button>
+					<button type="button" class="text multiorder_del" style="vertical-align:top">{$lang->cmd_delete}</button>
 					<script type="text/javascript">
 						var options = [
 						<block loop="$var->options => $key, $val">
@@ -104,62 +84,48 @@
 							},
 						</block>
 						];
-
 						new MultiOrderManager('{$id}', options);
 					</script>
 				</block>
-
 				<block cond="$var->type == 'mid_list'">
 				{@debugPrint($mid_list)}
-					<fieldset loop="$mid_list => $module_category_srl, $modules" style="border: 1px solid #ccc; margin: 0; padding: 4px 7px 9px 7px;">
+					<fieldset loop="$mid_list => $module_category_srl, $modules" style="border: 1px solid #ccc; margin:1em 0; padding:.5em 1em">
 						<legend cond="$modules->title">{$modules->title}</legend>
 						<legend cond="!$modules->title">{$lang->none_category}</legend>
-
 						<div loop="$modules->list => $key, $val">
 							<input type="checkbox" value="{$key}" name="{$id}" id="chk_mid_list_{$key}" />
 							<label for="chk_mid_list_{$key}">{$key} ({$val->browser_title})</label>
 						</div>
 					</fieldset>
 				</block>
-
 				<block cond="$var->type == 'member_group'">
 					<block loop="$group_list => $key, $val">
 						<input type="checkbox" value="{$key}" name="{$id}" id="chk_member_gruop_{$id}_{$key}" />
 						<label for="chk_member_gruop_{$id}_{$key}">{$val->title}</label>
 					</block>
 				</block>
-
 				<block cond="$var->type == 'module_srl_list'">
 					<input type="hidden" name="{$id}" value="" />
-					<div style="float:left; margin-left: 30px;">
-						<div class="a">
-							<input type="text" /> <a href="#suggestion_{$suggestion_id}" class="tgAnchor findsite">사이트찾기</a>
-							<div id="suggestion_{$suggestion_id}" class="tgContent suggestion">
-								<ul>
-								</ul>
-							</div>
+					<div class="a">
+						<input type="text" /> <a href="#suggestion_{$suggestion_id}" class="tgAnchor findsite">사이트찾기</a>
+						<div id="suggestion_{$suggestion_id}" class="tgContent suggestion">
+							<ul>
+							</ul>
 						</div>
-						<p class="a"><select class="moduleList" style="width: 290px;"></select></p>
-						<p class="a"><select class="moduleIdList" style="width: 290px;"></select></p>
 					</div>
-					<div style="float:left;margin-left:30px;">
-						<a class="modulelist_add" href="#">{$lang->cmd_insert}</a>
-						<br/><br/>
-						<a class="modulelist_del" href="#">{$lang->cmd_delete}</a>
-					</div>
-					<div style="float:left;margin-left:30px;">
-						<select class="modulelist_selected" size="8" style="width: 200px;"></select>
-					</div>
-					<div style="float:left;margin-left:30px;">
-						<a class="modulelist_up" href="#">{$lang->cmd_move_up}</a>
-						<br/><br/>
-						<a class="modulelist_down" href="#">{$lang->cmd_move_down}</a>
-					</div>
+					<p class="a">
+						<select class="moduleList" style="width:290px"></select>
+					</p>
+					<select class="moduleIdList" size="8" multiple="multiple" style="width:290px;vertical-align:top"></select>
+					<button type="button" class="text modulelist_add" style="vertical-align:top">{$lang->cmd_insert}</button>
+					<select class="modulelist_selected" size="8" multiple="multiple" style="width:290px;"></select>
+					<button type="button" class="text modulelist_up" style="vertical-align:top">{$lang->cmd_move_up}</button>
+					<button type="button" class="text modulelist_down" style="vertical-align:top">{$lang->cmd_move_down}</button>
+					<button type="button" class="text modulelist_del" style="vertical-align:top">{$lang->cmd_delete}</button>
 					<script type="text/javascript">
-						new ModuleListManager('{$id}');
+					xe.registerApp(new xe.ModuleListManager('{$id}'));
 					</script>
 				</block>
-
 				<block cond="$var->type == 'mid'">
 					<div class="a">
 						<input type="text" /> <a href="#suggestion_{$suggestion_id}" class="tgAnchor findsite">사이트찾기</a>
@@ -168,10 +134,9 @@
 							</ul>
 						</div>
 					</div>
-					<p class="a"><select class="moduleList" style="width: 290px;"></select></p>
-					<p class="a"><select name="{$id}" class="moduleIdList" style="width: 290px;"></select></p>
+					<p class="a"><select class="moduleList" style="width:290px;"></select></p>
+					<p class="a"><select name="{$id}" class="moduleIdList" style="width:290px;"></select></p>
 				</block>
-
 				<block cond="$var->type == 'filebox'">
 					<div id="filebox_preview_{$id}" style="width:100px;height:100px;display:none" ></div>
 					<input type="hidden" name="{$id}" value="" />
@@ -181,13 +146,12 @@
 						XE.filebox.init('{$id}');
 					//]]></script>
 				</block>
-
-				<select cond="$var->type == 'menu'">
+				<select cond="$var->type == 'menu'" style="width:290px">
 					<option value="">-</option>
 					<option loop="$menu_list => $key, $val" value="{$val->menu_srl}">{$val->title}</option>
 				</select>
 			</div>
-			<p class="desc" style="clear: both;">{$var->description}</p>
+			<p class="desc">{$var->description}</p>
 		</li>
 	</block>
 	</ul>
