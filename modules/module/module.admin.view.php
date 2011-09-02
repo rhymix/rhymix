@@ -25,13 +25,20 @@
         /**
          * @brief Display a lost of modules
          **/
-        function dispModuleAdminList() {
-            // Obtain a list of modules
+        function dispModuleAdminList() {            
+			// Obtain a list of modules
             $oModuleModel = &getModel('module');
-            $module_list = $oModuleModel->getModuleList();
-            Context::set('module_list', $module_list);
-            // Set a template file
-            $this->setTemplateFile('module_list');
+			$oAutoinstallModel = &getModel('autoinstall');
+			
+			$module_list = $oModuleModel->getModuleList();
+			foreach($module_list as $key => $val) {			
+				$val->delete_url = $oAutoinstallModel->getRemoveUrlByPath($val->path);										
+			}
+			
+            Context::set('module_list', $module_list);			
+            // Set a template file			
+            $this->setTemplateFile('spInstalledModule');
+			
         }
 
         /**
