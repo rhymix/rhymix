@@ -224,17 +224,17 @@ header,footer,section,article,aside,nav,hgroup,details,menu,figure,figcaption{di
 .x .prgrs.prgrsLarge .pAction,
 .x .prgrs.prgrsLarge .pNum{height:34px;line-height:34px;font-size:14px}
 /* Modal Window */
-.x .modal{position:absolute;top:0;left:0;width:100%;_height:100%;min-height:100%;z-index:100}
-.x .modal .bg{position:absolute;background:#000;_background:none;width:100%;height:100%;opacity:.5;z-index:2;filter:progid:DXImageTransform.Microsoft.Alpha(opacity=50);zoom:1}
-.x .modal .fg{position:relative;width:80%;margin:5em auto;background:#fff;padding:0 1em;*padding:1em;border:8px solid #ddd;z-index:3;zoom:1;border-radius:5px;box-shadow:0 0 6px #000;-moz-box-shadow:0 0 6px #000;-webkit-box-shadow:0 0 6px #000}
-.x .modal h2{margin-top:1em}
-.x .modal ul, 
-.x .modal ol, 
-.x .modal .lined, 
-.x .modal .table{margin-bottom:1em}
-.x .modal .ie6{position:absolute;left:0;top:0;width:100%;height:100%;border:0;opacity:0;filter:alpha(opacity=0);z-index:1}
-.x .modalClose{position:absolute;right:-8px;top:-8px;border:0;background:#ddd;padding:0;width:28px;height:28px;font-size:14px;font-weight:bold;cursor:pointer;color:#999;border-radius:5px}
-.x .modalBlur{position:absolute;top:0;right:0;border:0;background:none;padding:0;width:1px;height:1px;overflow:hidden}
+.modal{position:absolute;top:0;left:0;width:100%;_height:100%;min-height:100%;z-index:100}
+.modal .bg{position:absolute;background:#000;_background:none;width:100%;height:100%;opacity:.5;z-index:2;filter:progid:DXImageTransform.Microsoft.Alpha(opacity=50);zoom:1}
+.modal .fg{position:relative;width:80%;margin:5em auto;background:#fff;padding:0 1em;*padding:1em;border:8px solid #ddd;z-index:3;zoom:1;border-radius:5px;box-shadow:0 0 6px #000;-moz-box-shadow:0 0 6px #000;-webkit-box-shadow:0 0 6px #000}
+.modal h2{margin-top:1em}
+.modal ul, 
+.modal ol, 
+.modal .lined, 
+.modal .table{margin-bottom:1em}
+.modal .ie6{position:absolute;left:0;top:0;width:100%;height:100%;border:0;opacity:0;filter:alpha(opacity=0);z-index:1}
+.modalClose{position:absolute;right:-8px;top:-8px;border:0;background:#ddd;padding:0;width:28px;height:28px;font-size:14px;font-weight:bold;cursor:pointer;color:#999;border-radius:5px}
+.modalBlur{position:absolute;top:0;right:0;border:0;background:none;padding:0;width:1px;height:1px;overflow:hidden}
 html.modalContainer,
 body.modalContainer{_height:100%;_width:100%} /* IE6 only */ 
 /* Message */
@@ -252,10 +252,10 @@ body.modalContainer{_height:100%;_width:100%} /* IE6 only */
 /* H2 Anchor */
 .x .h2Anchor{position:absolute;right:0;border:0;background:none;color:#00f;text-decoration:underline}
 /* Waiting for server response */
-.x .wfsr .bg{position:absolute;background:#000;_background:none;width:100%;height:100%;opacity:.5;filter:progid:DXImageTransform.Microsoft.Alpha(opacity=50);zoom:1}
-.x .wfsr .fg{position:relative;width:50%;margin:5em auto;background:#fff;padding:0 1em;*padding:1em;border:10px solid #ddd;z-index:2;zoom:1}
-.x .wfsr .fg p{padding:0 0 0 2.5em;background:url(../img/preLoader16.gif) no-repeat 1em .4em}
-.x .wfsr .ie6{position:absolute;left:0;top:0;width:100%;height:100%;border:0;opacity:0;filter:alpha(opacity=0);z-index:1}
+.wfsr .bg{position:absolute;background:#000;_background:none;width:100%;height:100%;opacity:.5;filter:progid:DXImageTransform.Microsoft.Alpha(opacity=50);zoom:1}
+.wfsr .fg{position:relative;width:50%;margin:5em auto;background:#fff;padding:0 1em;*padding:1em;border:10px solid #ddd;z-index:2;zoom:1}
+.wfsr .fg p{padding:0 0 0 2.5em;background:url(../img/preLoader16.gif) no-repeat 1em .4em}
+.wfsr .ie6{position:absolute;left:0;top:0;width:100%;height:100%;border:0;opacity:0;filter:alpha(opacity=0);z-index:1}
 /* Skip Navigation */
 .x .skipNav{margin:0;text-align:center;overflow:hidden}
 .x .skipNav a{position:absolute;width:1px;height:1px;display:block;color:#fff;font-weight:bold;padding:10px 0;background:#333;border-top:1px solid #656565}
@@ -441,8 +441,8 @@ body.modalContainer{_height:100%;_width:100%} /* IE6 only */
 .x .mLangEdit li.active{background:#FFFDEF}
 .x .mLangEdit li.active strong{font-weight:bold}
 .x .mLangEdit li.active .side{background-position:right -128px}
-.x .modal .mLangEdit ul{padding-bottom:1em}
-.x .modal .mLangEdit li{border:0;padding-right:36px}
+.modal .mLangEdit ul{padding-bottom:1em}
+.modal .mLangEdit li{border:0;padding-right:36px}
 /* Suggestion */
 .x .suggestion{display:none;position:absolute;background:#fff;z-index:10;_height:200px;max-height:200px;overflow:auto;*left:0;*margin-top:28px;box-shadow:3px 3px 6px #999;-moz-box-shadow:3px 3px 6px #999;-webkit-box-shadow:3px 3px 6px #999;filter:progid:DXImageTransform.Microsoft.Shadow(color=#999999,direction=135, strength=5)}
 .x .suggestion ul{border-top:1px solid #ccc;border-left:1px solid #eee;border-right:1px solid #eee;margin:0}
@@ -546,14 +546,14 @@ body.modalContainer{_height:100%;_width:100%} /* IE6 only */
 .x .content{float:none;margin-left:0}
 .x .lnb{float:none;width:auto;margin:1em 0}
 .x .dashboard .portlet{float:none !important;width:auto !important;margin-right:0}
-.x .modal .fg,
-.x .wfsr .fg{width:auto}
+.modal .fg,
+.wfsr .fg{width:auto}
 .x .easyNav .category{float:none;display:block;width:auto}
 .x .easyNav .filter{position:static}
 }
 @media only all and (max-width:640px){
 .x .skipNav a{position:relative;width:auto;height:auto}
-.x .modal{position:absolute}
+.modal{position:absolute}
 }
 /* Legacy Code (Don't use it. It will be removed as soon as possible.) */
 .x h3.xeAdmin,

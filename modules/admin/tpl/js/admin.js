@@ -194,7 +194,7 @@ jQuery(function($){
 			$this.focus();
 		});
 
-	$('div.modal').hide();
+	$('div.modal').addClass('x').hide();
 
 	// pagination
 	$('.pagination')
