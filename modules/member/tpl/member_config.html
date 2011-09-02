@@ -88,12 +88,24 @@
 					<p class="a"><div id="member_colorset"></div></p>
 				</li>
 				<li>
-					<p class="q"><label for="prohibited_id">{$lang->cmd_manage_id}</label></p>
-					<p class="a">
-<textarea cols="42" rows="5" id="prohibited_id" name="denied_id">
+					<p class="q"><label for="prohibited_id">{$lang->cmd_manage_id}({$lang->about_manage_id} {sprintf($lang->count_manage_id, count($deniedIDs))})</label></p>
+					<div class="a">
+						<ul class="textList">
+							<li>admin <a href="#" class="side">{$lang->delete}</a></li>
+							<li>administrator <a href="#" class="side">{$lang->delete}</a></li>
+							<li>master <a href="#" class="side">{$lang->delete}</a></li>
+							<li>webmaster <a href="#" class="side">{$lang->delete}</a></li>
+						</ul>
+					</div>
+					<div class="a">
+						<textarea rows="4" cols="42" id="prohibited_id" name="denied_id" title="{$lang->add_prohibited_id}"></textarea>
+						<span class="btn"><button type="button">추가</button></span>
+					</div>
+<!--
+<textarea cols="42" rows="5" name="denied_id">
 {implode("\r\n", $deniedIDs)}
-</textarea> 
-					<span class="desc">{$lang->about_manage_id} {sprintf($lang->count_manage_id, count($deniedIDs))}</span></p>
+</textarea>
+-->
 				</li>
 			</ul>
 		</fieldset>
@@ -168,12 +180,12 @@
 		</div>
 	</form>
 	<div class="modal" id="userDefine">
-	<form action="./" class="fg form" ruleset="insertJoinForm" method="post">
-	<input type="hidden" name="act" value="procMemberAdminInsertJoinForm" />
-	<input type="hidden" name="success_return_url" value="{getUrl('act', $act)}" />
-		<div id="extendForm">
-		</div>
-	</form>
+		<form action="./" class="fg form" ruleset="insertJoinForm" method="post">
+			<input type="hidden" name="act" value="procMemberAdminInsertJoinForm" />
+			<input type="hidden" name="success_return_url" value="{getUrl('act', $act)}" />
+			<div id="extendForm">
+			</div>
+		</form>
 	</div>
 	<div class="modal" id="previewForm">
 		<form action="" class="fg form" method="post">

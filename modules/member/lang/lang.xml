@@ -2276,12 +2276,18 @@ Bạn có thể quản lý thành viên bằng cách tạo những nhóm mới, 
 	</item>
 	<item name="use_group_image_mark">
 		<value xml:lang="ko"><![CDATA[그룹 이미지 마크 사용]]></value>
+		<value xml:lang="en"><![CDATA[Use group image mark]]></value>
 	</item>
 	<item name="msg_group_delete">
 		<value xml:lang="ko"><![CDATA[선택한 그룹을 삭제합니다.]]></value>
+		<value xml:lang="en"><![CDATA[Delete selected group.]]></value>
 	</item>
 	<item name="email">
 		<value xml:lang="ko"><![CDATA[이메일]]></value>
 		<value xml:lang="en"><![CDATA[Email]]></value>
+	</item>
+	<item name="add_prohibited_id">
+		<value xml:lang="ko"><![CDATA[금지 아이디 추가]]></value>
+		<value xml:lang="en"><![CDATA[Add prohibited id]]></value>
 	</item>
 </lang>
