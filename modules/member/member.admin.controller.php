@@ -668,12 +668,7 @@
         function insertGroup($args) {
             if(!$args->site_srl) $args->site_srl = 0;
             // Check the value of is_default. 
-            if($args->is_default!='Y') {
-                $args->is_default = 'N';
-            } else {
-                $output = executeQuery('member.updateGroupDefaultClear', $args);
-                if(!$output->toBool()) return $output;
-            }
+            if($args->is_default!='Y') $args->is_default = 'N';
 			
 			if (!$args->group_srl) $args->group_srl = getNextSequence();
 
@@ -686,10 +681,6 @@
         function updateGroup($args) {
             // Check the value of is_default. 
             if($args->is_default!='Y') $args->is_default = 'N';
-            else {
-                $output = executeQuery('member.updateGroupDefaultClear', $args);
-                if(!$output->toBool()) return $output;
-            }
 
             return executeQuery('member.updateGroup', $args);
         }
@@ -717,6 +708,43 @@
             return executeQuery('member.deleteGroup', $args);
         }
 
+        /**
+         * Set group config
+         **/
+		function procMemberAdminGroupConfig() {
+			$vars = Context::getRequestVars();	
+
+			$oMemberModel = &getModel('member');
+			$oModuleController = &getController('module');
+
+			// group image mark option
+			$config = $oMemberModel->getMemberConfig();
+			$config->group_image_mark = $vars->group_image_mark;
+			$output = $oModuleController->updateModuleConfig('member', $config);
+
+			// group data save
+			$group_srls = $vars->group_srls;
+			foreach($group_srls as $order=>$group_srl){
+				unset($update_args);
+				$update_args->title = $vars->group_titles[$order];
+				$update_args->is_default = ($vars->defaultGroup == $group_srl)?'Y':'N';
+				$update_args->description = $vars->descriptions[$order];
+				$update_args->image_mark = $vars->image_marks[$order];
+				$update_args->list_order = $order + 1;
+
+				if (is_numeric($group_srl)){
+					$update_args->group_srl = $group_srl;
+					$output = $this->updateGroup($update_args);
+				}else
+					$output = $this->insertGroup($update_args);
+			}
+
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMemberAdminGroupList');
+				$this->setRedirectUrl($returnUrl);
+				return;
+			}
+		}
 
         function procMemberAdminUpdateGroupOrder() {
 			$vars = Context::getRequestVars();

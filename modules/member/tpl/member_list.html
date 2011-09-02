@@ -29,14 +29,12 @@
 				<thead>
 					<tr>
 						<th scope="col">{$lang->email}</th>
-						<th scope="col">{$lang->user_id}</th>
-						<th scope="col">{$lang->user_name}</th>
-						<th scope="col">{$lang->nick_name}</th>
+						<th scope="col" loop="$usedIdentifiers=>$name,$title">{$title}</th>
 						<th scope="col">{$lang->signup_date}</th>
 						<th scope="col">{$lang->last_login}</th>
 						<th scope="col" class="text">{$lang->group}</th>
 						<th scope="col">{$lang->status}</th>
-						<th scope="col">{$lang->view}</th>
+						<th scope="col">{$lang->cmd_view}</th>
 						<th scope="col">{$lang->cmd_modify}</th>
 						<th scope="col">
 							<input type="checkbox" title="Check All" data-name="user" />
@@ -46,14 +44,12 @@
 				<tfoot>
 					<tr>
 						<th scope="col">{$lang->email}</th>
-						<th scope="col">{$lang->user_id}</th>
-						<th scope="col">{$lang->user_name}</th>
-						<th scope="col">{$lang->nick_name}</th>
+						<th scope="col" loop="$usedIdentifiers=>$name,$title">{$title}</th>
 						<th scope="col">{$lang->signup_date}</th>
 						<th scope="col">{$lang->last_login}</th>
 						<th scope="col" class="text">{$lang->group}</th>
 						<th scope="col">{$lang->status}</th>
-						<th scope="col">{$lang->view}</th>
+						<th scope="col">{$lang->cmd_view}</th>
 						<th scope="col">{$lang->cmd_modify}</th>
 						<th scope="col">
 							<input type="checkbox" title="Check All" data-name="user" />
@@ -61,24 +57,29 @@
 					</tr>
 				</tfoot>
 				<tbody>
-					<tr loop="$member_list=>$no,$member_info">
-						<td>
-							<a href="#popup_menu_area" class="member_{$member_info->member_srl}">{$member_info->email_address}</a>
-						</td>
-						{@ $member_info->group_list = implode(', ', $member_info->group_list)}
-						<td>{$member_info->user_id}</td>
-						<td>{$member_info->user_name}</td>
-						<td>{$member_info->nick_name}</td>
-						<td>{zdate($member_info->regdate, 'Y-m-d')}</td>
-						<td>{zdate($member_info->last_login, 'Y-m-d')}</td>
-						<td class="text">{$member_info->group_list}&nbsp;</td>
-						{@ $lang_denied = ($member_info->denied == 'N')?$lang->use:$lang->denied}
-						<td>{$lang_denied}</td>
-						<td><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminInfo', 'member_srl', $member_info->member_srl)}">{$lang->view}</a></td>
-						<td><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminInsert', 'member_srl', $member_info->member_srl)}">{$lang->cmd_modify}</a></td>
-						<td><input type="checkbox" name="user" value="{$member_info->member_srl."\t".$member_info->user_id."\t".$member_info->user_name."\t".$member_info->nick_name."\t".$member_info->group_list."\t".$lang_denied}" disabled="disabled"|cond="$member_info->is_admin == 'Y'"/></td>
-					</tr>
-				</tbody>
+                    <tr loop="$member_list=>$no,$member_info">
+{@$member_info = get_object_vars($member_info)}
+                        <td>
+                            <span class="member_{$member_info['member_srl']}">{getEncodeEmailAddress($member_info['email_address'])}</span>
+                        </td>
+                        {@ $member_info['group_list'] = implode(', ', $member_info['group_list'])}
+                        <td loop="$usedIdentifiers=>$name,$title">{$member_info[$name]}</td>
+                        <td>{zdate($member_info['regdate'], 'Y-m-d')}</td>
+                        <td>{zdate($member_info['last_login'], 'Y-m-d')}</td>
+                        <td class="text">{$member_info['group_list']}&nbsp;</td>
+                        {@ $lang_denied = ($member_info['denied'] == 'N')?$lang->use:$lang->denied}
+                        <td>{$lang_denied}</td>
+                        <td>
+                            <a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminInfo', 'member_srl', $member_info['member_srl'])}">{$lang->cmd_view}</a>
+                        </td>
+                        <td><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminInsert', 'member_srl', $member_info['member_srl'])}">{$lang->cmd_modify}</a></td>
+						{@$used_values = ''}
+						<!--@foreach($usedIdentifiers as $name=>$title)-->
+							{@$used_values .= "\t".$member_info[$name]}
+						<!--@end-->
+                        <td><input type="checkbox" name="user" value="{$member_info['member_srl']."\t".$member_info['email_address'].$used_values."\t".$member_info['group_list']."\t".$lang_denied}" disabled="disabled"|cond="$member_info['is_admin'] == 'Y'"/></td>
+                    </tr>
+                </tbody>
 			</table>
 		</div>
 		<div class="btnArea">
@@ -95,9 +96,7 @@
 					<thead>
 						<tr>
 							<th scope="col">{$lang->email_address}</th>
-							<th scope="col">{$lang->user_id}</th>
-							<th scope="col">{$lang->user_name}</th>
-							<th scope="col">{$lang->nick_name}</th>
+							<th scope="col" loop="$usedIdentifiers=>$name,$title">{$title}</th>
 							<th scope="col" class="text">{$lang->group}</th>
 							<th scope="col">{$lang->status}</th>
 						</tr>
@@ -166,6 +165,7 @@
 		<form action="" method="post">
 			<select name="search_target">
 				<option value="">{$lang->search_target}</option>
+				{@$lang->search_target_list = array_merge($lang->search_target_list, $usedIdentifiers)}
 				<option value="{$key}" loop="$lang->search_target_list=>$key,$val" selected="selected"|cond="$search_target==$key">{$val}</option>
 			</select>
 			<input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" />

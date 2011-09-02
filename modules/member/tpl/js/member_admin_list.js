@@ -13,7 +13,7 @@ jQuery(function ($){
 		for (var i = 0; i<$memberList.length; i++){
 			memberInfo = $memberList.eq(i).val().split('\t');
 			memberSrl = memberInfo.shift();
-			memberTag += '<tr><td>#email_address#</td><td>'+memberInfo.join("</td><td>")+'<input type="hidden" name="member_srls[]" value="'+memberSrl+'"/></td></tr>' 
+			memberTag += '<tr><td>'+memberInfo.join("</td><td>")+'<input type="hidden" name="member_srls[]" value="'+memberSrl+'"/></td></tr>' 
 		}
 		$('#popupBody').empty().html(memberTag);
 	});

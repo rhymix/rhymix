@@ -1,102 +1,148 @@
-<!--%import("filter/update_group.xml")-->
-
-<!--#include("header.html")-->
-<!--%load_js_plugin("ui")-->
-<!--%load_js_plugin("filebox")-->
-
-
-<!-- 그룹의 삭제와 관련된 form -->
-<form ruleset="deleteGroup" id="fo_group_info" action="./" method="post">
-<input type="hidden" name="act" value="procMemberAdminDeleteGroup" />
-<input type="hidden" name="group_srl" value="" />
-</form>
-
-<form id="fo_group_order" action="./" method="get">
-<input type="hidden" name="act" value="procMemberAdminUpdateGroupOrder" />
-<table cellspacing="0" class="rowTable">
-<thead>
-    <tr>
-        <th scope="col"><div>{$lang->group_order}</div></th>
-        <th scope="col" class="half_wide"><div>{$lang->group_title}</div></th>
-        <th scope="col" class="half_wide"><div>{$lang->description}</div></th>
-        <th scope="col"><div>{$lang->regdate}</div></th>
-        <th scope="col"><div>{$lang->is_default}</div></th>
-        <th scope="col" class="half_wide"><div>{$lang->group_order_change}</div></th>
-        <th scope="col" colspan="2"><div>&nbsp;</div></th>
-    </tr>
-</thead>
-<tbody>
-    <!--@if(!count($group_list))-->
-    <tr>
-        <td colspan="7">{$lang->msg_group_is_null}</td>
-    </tr>
-    <!--@end-->
-{@$__i=1}
-    <!--@foreach($group_list as $group_srl => $group_info)-->
-    <tr class="row{$cycle_idx}">
-		<input type="hidden" name="group_srls[]" value="{$group_info->group_srl}" />
-		<td>{$__i++}</td>
-        <td><!--@if($config->group_image_mark=='Y' && $group_info->image_mark)--><img src="{$group_info->image_mark}" style="vertical-align: middle; margin-right: 3px;" /><!--@endif-->{$group_info->title}</td>
-        <td>{nl2br($group_info->description)}&nbsp;</td>
-        <td>{zdate($group_info->regdate,"Y-m-d H:i:s")}</td>
-        <td><!--@if($group_info->is_default=='Y')-->Y<!--@else-->&nbsp;<!--@end--></td>
-		<td><a href="#" class="_up">위로</a> <a href="#" class="_down"><span>아래로</span></a></td>
-        <td><a href="{getUrl('group_srl',$group_info->group_srl)}" title="{$lang->cmd_modify}" class="buttonSet buttonSetting"><span>{$lang->cmd_modify}</span></a></td>
-        <td>
-            <!--@if($group_info->is_default!='Y' && $group_info->is_admin !='Y')-->
-            <a href="#" onclick="doUpdateGroup('{$group_info->group_srl}','delete','{$lang->confirm_delete}');return false;" title="{$lang->cmd_delete}" class="buttonSet buttonDelete"><span>{$lang->cmd_delete}</span></a>
-            <!--@else-->
-            &nbsp;
-            <!--@end-->
-        </td>
-    </tr>
-    <!--@end-->
-    <tr>
-        <th colspan="8" class="button">
-            <span class="button black strong"><input type="submit" value="{$lang->cmd_save}" accesskey="s" /></span>
-        </th>
-    </tr>
-</tbody>
-</table>
-</form>
-
-<!-- 그룹 추가 -->
+<load target="js/member_admin_group.js" />
+<script type="text/javascript" >
+	xe.lang.groupDeleteMessage = '{$lang->msg_group_delete}';
+	xe.lang.multilingual = '{$lang->cmd_set_multilingual}';
+	xe.lang.modify = '{$lang->cmd_modify}';
+	xe.lang.delete = '{$lang->cmd_delete}';
+</script>
+<style type="text/css">
+#imageMarkList li img,._imageMarkButton img {max-height:16px}
+</style>
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
-<form ruleset="insertGroup" action="./" method="post">
-<input type="hidden" name="act" value="procMemberAdminInsertGroup" />
-<input type="hidden" name="page" value="{$page}" />
-<input type="hidden" name="group_srl" value="" />
+<div class="content" id="content">
+	<h1 class="h1">{$lang->group}</h1>
+	<form action="" class="form" method="post" ruleset="insertGroupConfig">
+		<input type="hidden" name="act" value="procMemberAdminGroupConfig" />
+{$lang->use_group_image_mark}
+		<input type="radio" name="group_image_mark" id="yes" value="Y" checked="checked"|cond="$config->group_image_mark == 'Y'" /> <label for="yes">{$lang->cmd_yes}</label>
+		<input type="radio" name="group_image_mark" id="no" value="N" checked="checked"|cond="$config->group_image_mark != 'Y'" /> <label for="no">{$lang->cmd_no}</label>
+		<div class="table even">
+			<table width="100%" border="1" cellspacing="0" class="sortable">
+				<caption>
+				<strong>{count($group_list)}</strong> groups are exist.
+				</caption>
+				<thead>
+					<tr>
+						<th scope="col">{$lang->group_title}</th>
+						<th scope="col">{$lang->description}</th>
+						<th scope="col">{$lang->is_default}
+							[<a href="#helpDefault" class="tgAnchor">?</a>]
+							<div class="tgContent layer" id="helpDefault" style="right:0">
+								<p>회원 가입을 한 사람이 최초에 속하는 그룹을 말합니다.</p>
+							</div>
+						</th>
+						<th scope="col" class="_imageMarkButton">Image Mark</th>
+						<th scope="col">Action</th>
+					</tr>
+				</thead>
+				<tfoot>
+					<tr>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td class="_imageMarkButton">&nbsp;</td>
+						<td><a href="#" class="_addGroup">Add Group</a></td>
+					</tr>
+				</tfoot>
+				<tbody class="uDrag _groupList">
+					<tr loop="$group_list=>$group_srl,$group_info">
+						<td class="multiLangEdit"><div class="wrap" style="height:22px"><button type="button" class="dragBtn">Move to</button>
+							<input type="hidden" name="group_srls[]" value="{$group_info->group_srl}" />
+							<input type="hidden" name="group_titles[]" value="{htmlspecialchars($group_info->title)}" class="vLang"/>
+							<input type="text" value="{$group_info->title}" class="vLang" style="width:120px;display:inline" />
+							<!-- Suggestion -->
+							<div class="suggestion">
+								<ul>
+								</ul>
+							</div>
+							<!-- /Suggestion -->
+							<span class="desc"><a href="#langEdit" class="tgAnchor editUserLang">{$lang->cmd_set_multilingual}</a></span>
+							</div>
+						</td>
+						<td><input type="text" name="descriptions[]" value="{$group_info->description}" style="width:240px" /></td>
+						<td><input type="radio" name="defaultGroup" value="{$group_info->group_srl}" title="Default" checked="checked"|cond="$group_info->is_default=='Y'" /></td>
+						<td class="_imageMarkButton"><input type="hidden" name="image_marks[]" value="{$group_info->image_mark}" class="_imgMarkHidden" />
+							<img src="{$group_info->image_mark}" alt="{$group_info->title}" cond="$config->group_image_mark == 'Y' && $group_info->image_mark" />
+							<a href="#imageMark" class="modalAnchor _imageMark">{$lang->cmd_modify}</a></td>
+						<td><div class="_deleteTD" style="display:none"|cond="$group_info->is_default == 'Y'"><a href="#{$group_srl}" class="_deleteGroup">{$lang->cmd_delete}</a></div></td>
+					</tr>
+					<tr style="display:none" class="_template">
+						<td class="multiLangEdit"><div class="wrap" style="height:22px"><button type="button" class="dragBtn">Move to</button>
+							<input type="hidden" name="group_srls[]" value="new" disabled="disabled"/>
+							<input type="hidden" name="group_titles[]" value=""  disabled="disabled" class="vLang" />
+							<input type="text" value="" class="vLang" style="width:120px;display:inline" />
+							<!-- Suggestion -->
+							<div class="suggestion">
+								<ul>
+								</ul>
+							</div>
+							<!-- /Suggestion -->
+							<span class="desc"><a href="#langEdit" class="tgAnchor editUserLang">{$lang->cmd_set_multilingual}</a></span>
+							</div>
+						</td>
+						<td><input type="text" name="descriptions[]" value="" style="width:240px" disabled="disabled" /></td>
+						<td><input type="radio" name="defaultGroup" value="" title="Default" disabled="disabled" /></td>
+						<td class="_imageMarkButton"><input type="hidden" name="image_marks[]" value="" class="_imgMarkHidden" disabled="disabled" />
+							<a href="#imageMark" class="modalAnchor _imageMark">{$lang->cmd_modify}</a></td>
+						<td><div class="_deleteTD"><a href="#new" class="_deleteGroup">{$lang->cmd_delete}</a></div></td>
+					</tr>
 
-    <table cellspacing="0" class="rowTable">
-    <tr>
-        <th scope="row"><div>{$lang->group_title}</div></th>
-        <td class="wide"><input type="text" name="title" class="inputTypeText w400" /></td>
-    </tr>
-    <tr class="row2">
-        <th scope="row"><div>{$lang->is_default}</div></th>
-        <td><input type="checkbox" name="is_default" value="Y" class="checkbox" /> {$lang->about_member_default}</td>
-    </tr>
-    <tr>
-        <th scope="row"><div>{$lang->description}</div></th>
-        <td><textarea name="description" class="inputTypeTextArea w400"></textarea></td>
-    </tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="btnArea">
+			<span class="btn medium"><input type="submit" value="Save" /></span>
+		</div>
+	</form>
+	<!-- Multilingual -->
+	<div id="langEdit" class="langEdit tgContent">
+		<ul>
+			<li class="ko"><label for="ko_var1">Korean</label> <input type="text" value="안녕 세상아!" id="ko_var1" /></li>
+			<li class="en"><label for="en_var1">English</label> <input type="text" value="Hello World!" id="en_var1" /></li>
+			<li class="ja"><label for="ja_var1">Japanese</label> <input type="text" value="" id="ja_var1" /></li>
+			<li class="zh"><label for="zhcn_var1">Chinese(Simplified)</label> <input type="text" value="" id="zhcn_var1" /></li>
+			<li class="zh"><label for="zhtw_var1">Chinese(Traditional)</label> <input type="text" value="" id="zhtw_var1" /></li>
+			<li class="fr"><label for="fr_var1">French</label> <input type="text" value="" id="fr_var1" /></li>
+			<li class="de"><label for="de_var1">Deutsch</label> <input type="text" value="" id="de_var1" /></li>
+			<li class="ru"><label for="ru_var1">Russian</label> <input type="text" value="" id="ru_var1" /></li>
+			<li class="es"><label for="es_var1">Spanish</label> <input type="text" value="" id="es_var1" /></li>
+			<li class="tr"><label for="tr_var1">Turkish</label> <input type="text" value="" id="tr_var1" /></li>
+			<li class="vi"><label for="vi_var1">Vietnamese</label> <input type="text" value="" id="vi_var1" /></li>
+			<li class="mn"><label for="mn_var1">Mongolian</label> <input type="text" value="" id="mn_var1" /></li>
+		</ul>
+		<div class="action">
+			<!-- 여기부터 기존 랭귀지 변수를 수정한 경우에만 보인다 -->
+			<p>다국어 텍스트가 변경되었습니다. <em>업데이트</em> 버튼을 클릭하면 같은 텍스트를 사용하는 다른 페이지에도 반영됩니다. <em>새로 저장</em> 버튼을 클릭하면 이 페이지에만 적용됩니다.</p>
+			<div class="btnArea">
+				<span class="btn small"><input type="submit" value="업데이트" /></span> 
+				<span class="btn small"><input type="submit" value="새로저장" /></span> 
+			</div>
+			<!-- 여기까지 기존 랭귀지 변수를 수정한 경우에만 보인다 -->
+			<p><a href="#">다국어 텍스트 관리</a></p>
+		</div>
+	</div>
 
-    <tr class="row2">
-        <th scope="row"><div>{$lang->group_image_mark}</div></th>
-        <td class="left">
-            <div id="filebox_preview_image_mark" style="width:100px;height:100px;display:none"></div>
-            <input type="hidden" name="image_mark" value="" />
-            <span class="button black"><button type="button" onclick="XE.filebox.open(jQuery('[name=image_mark]').get(0), 'jpg,jpeg,gif,png')">{$lang->cmd_select}</button></span>
-            <span id="filebox_cancel_image_mark" class="button red" style="display:none"><button type="button" onclick="XE.filebox.cancel('image_mark')">{$lang->cmd_delete}</button></span>
-        </td>
-    </tr>
-
-    <tr>
-        <th colspan="2" class="button">
-            <span class="button black strong"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
-        </th>
-    </tr>
-    </table>
-</form>
+	<div class="modal" id="imageMark">
+		<div class="fg portlet">
+			<div class="_useImageMark" style="display:none">
+			<h2>Image Mark 사용여부</h2>
+					<input id="useImageMark" type="radio" name="useImageMark" value="Y" />
+					<label for="useImageMark">{$lang->use}</label>
+					<input id="noImageMark" type="radio" name="useImageMark" value="N" />
+					<label for="noImageMark">{$lang->notuse}</label>
+			</div>
+			<!--@if($fileBoxList)-->
+			<div>
+			<h2>사용 가능한 Image Mark</h2>
+			<ul class="lined" id="imageMarkList">
+				<li loop="$fileBoxList=>$key,$fileInfo"><img src="{$fileInfo->filename}" alt="{$fileInfo->comment}" /> <span class="side"><a href="#" class="_selectImageMark">{$lang->cmd_select}</a></span></li>
+			</ul>
+			</div>
+			<!--@end-->
+			<h2>Image Mark 추가</h2>
+			<a href="#">Image Mark 관리바로가기...</a>
+		</div>
+	</div>
+</div>

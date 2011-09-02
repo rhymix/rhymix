@@ -1628,7 +1628,6 @@
             $logged_info = Context::get('logged_info');
             // Get what you want to modify the original information
 			if(!$this->memberInfo) $this->memberInfo = $oMemberModel->getMemberInfoByMemberSrl($args->member_srl);
-            if(!$args->user_id) $args->user_id = $this->memberInfo->user_id;
             // Control of essential parameters
             if($args->allow_mailing!='Y') $args->allow_mailing = 'N';
             if($args->allow_message && !in_array($args->allow_message, array('Y','N','F'))) $args->allow_message = 'Y';
@@ -1645,12 +1644,6 @@
             // Website, blog, checks the address
             if($args->homepage && !preg_match("/^[a-z]+:\/\//is",$args->homepage)) $args->homepage = 'http://'.$args->homepage;
             if($args->blog && !preg_match("/^[a-z]+:\/\//is",$args->blog)) $args->blog = 'http://'.$args->blog;
-            // ID, nickname, email address of the redundancy check
-            $member_srl = $oMemberModel->getMemberSrlByUserID($args->user_id);
-            if($member_srl&&$args->member_srl!=$member_srl) return new Object(-1,'msg_exists_user_id');
-
-            $member_srl = $oMemberModel->getMemberSrlByNickName($args->nick_name);
-            if($member_srl&&$args->member_srl!=$member_srl) return new Object(-1,'msg_exists_nick_name');
 
             $member_srl = $oMemberModel->getMemberSrlByEmailAddress($args->email_address);
             if($member_srl&&$args->member_srl!=$member_srl) return new Object(-1,'msg_exists_email_address');
@@ -1658,9 +1651,15 @@
             $oDB = &DB::getInstance();
             $oDB->begin();
             // DB in the update
+
+			$output = executeQuery('member.getMemberInfoByMemberSrl', $args);
+			$orgMemberInfo = $output->data;
             if($args->password) $args->password = md5($args->password);
-            else $args->password = $this->memberInfo->password;
-            if(!$args->user_name) $args->user_name = $this->memberInfo->user_name;
+            else $args->password = $orgMemberInfo->password;
+
+			if(!$args->user_name) $args->user_name = $orgMemberInfo->user_name;
+			if(!$args->user_id) $args->user_id = $orgMemberInfo->user_id;
+			if(!$args->nick_name) $args->user_name = $orgMemberInfo->nick_name;
 
 			if(!$args->description) $args->description = '';
             $output = executeQuery('member.updateMember', $args);

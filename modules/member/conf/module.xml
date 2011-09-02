@@ -83,6 +83,7 @@
         <action name="procMemberAdminUpdateGroupOrder" type="controller" standalone="true" />
 
         <action name="procMemberAdminSelectedMemberManage" type="controller" ruleset="updateSeletecdMemberInfo" />
+        <action name="procMemberAdminGroupConfig" type="controller" />
     </actions>
 	<menus>
 		<menu name="userList">

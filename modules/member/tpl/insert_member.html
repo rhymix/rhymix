@@ -9,10 +9,18 @@
 		<input type="hidden" name="act" value="procMemberAdminInsert" />
 		<input type="hidden" name="member_srl" value="{$member_srl}" />
 		<input type="hidden" name="signature" value="{htmlspecialchars($member_info->signature)}" />
+		<input type="hidden" name="success_return_url" value="{getUrl('act', $act)}" />
 		<h1 class="h1">{$lang->msg_update_member}</h1>
 		<ul>
+			<li>
+				<p class="q">{$lang->email_address} <em style="color:red">*</em></p>
+				<p class="a">
+					<input type="hidden" name="email_address" value="{$member_info->email_address}" />
+					<input type="text" name="email_address" value="{$member_info->email_address}" disabled="disabled" />
+				</p>
+			</li>
 			<li loop="$formTags=>$formTag">
-				<p class="q"><label for="id">{$formTag->title}</label></p>
+				<p class="q">{$formTag->title}</p>
 				<div class="a" cond="$formTag->name != 'signature'">{$formTag->inputTag}</div>
 				<div class="a" cond="$formTag->name =='signature'">{$editor}</div>
 			</li>
