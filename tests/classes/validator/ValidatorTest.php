@@ -30,6 +30,21 @@ class ValidatorTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue( $vd->validate() );
 	}
 
+	public function testNamePattern() {
+		$vd = new Validator();
+		$vd->addFilter('^user_', array('length'=>'5:'));
+
+		Context::set('user_123', 'abcd');
+		Context::set('user_456', '123');
+		$this->assertFalse( $vd->validate() );
+
+		Context::set('user_123', 'abcdefg');
+		$this->assertFalse( $vd->validate() );
+
+		Context::set('user_456', '123456');
+		$this->assertTrue( $vd->validate() );
+	}
+
 	public function testDefault() {
 		global $mock_vars;
 
@@ -46,8 +61,8 @@ class ValidatorTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals( $arr, array('userid'=>'ididid') );
 
 		$arr = array('userid'=>'ownid');
-		$vd->validate(&$arr);
-		$this->assertEquals( $arr, array('userid'=>'ownid') );
+ 		$vd->validate(&$arr);
+ 		$this->assertEquals( $arr, array('userid'=>'ownid') );
 
 		// context data
 		$mock_vars = array(); // empty context variables
@@ -74,6 +89,8 @@ class ValidatorTest extends PHPUnit_Framework_TestCase
 	}
 
 	public function testJSCompile() {
+		$vd = new Validator();
+		$vd->setCacheDir(dirname(__FILE__));
 	}
 
 	public function testCondition() {
@@ -149,5 +166,8 @@ class Context
 
 	public function getLangType() {
 		return 'en';
+	}
+	public function getLang($str) {
+		return $str;
 	}
 }
