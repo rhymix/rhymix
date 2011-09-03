@@ -615,11 +615,12 @@
          * @brief Add and update a file into the file box
          **/
         function procModuleFileBoxAdd(){
+			$ajax = Context::get('ajax');
+			if ($ajax) Context::setRequestMethod('JSON');
 
             $logged_info = Context::get('logged_info');
             if($logged_info->is_admin !='Y' && !$logged_info->is_site_admin) return new Object(-1, 'msg_not_permitted');
 
-			$ajax = Context::get('ajax');
             $vars = Context::gets('comment','addfile','filter');
             $module_filebox_srl = Context::get('module_filebox_srl');
 
@@ -656,7 +657,6 @@
 			}
 			else
 			{
-				Context::setRequestMethod('JSON');
 				$this->add('save_filename', $output->get('save_filename'));
 			}
         }
