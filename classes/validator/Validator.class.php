@@ -26,7 +26,7 @@ class Validator
 		$this->_xml_ruleset = null;
 
 		if($xml_path) $this->load($xml_path);
-		
+
 		// predefined rules
 		$this->addRule(array(
 			'email'        => '/^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/',
@@ -148,7 +148,7 @@ class Validator
 			'if'        => array()
 		);
 
-		$fields = array_map('trim', $fields);
+		$fields = array_map(array($this, 'arrayTrim'), $fields);
 		$field_names = array_keys($fields);
 
 		$filters = $this->_filters;
@@ -238,6 +238,21 @@ class Validator
 	}
 
 	/**
+	 * apply trim recursive
+	 */
+	function arrayTrim($array)
+	{
+		if (!is_array($array)) return trim($array);
+
+		foreach($array as $key => $value)
+		{
+			$array[$key] = $this->arrayTrim($value);
+		}
+
+		return $array;
+	}
+
+	/**
 	 * Log an error
 	 * @param[in] $msg error message
 	 * @return always false
@@ -305,7 +320,7 @@ class Validator
 					unset($filter['if']);
 				}
 			}
-			
+
 			$this->_filters[$name] = $filter;
 		}
 	}
@@ -323,6 +338,11 @@ class Validator
 	function applyRule($name, $value){
 		$rule = $this->_rules[$name];
 
+		if (is_array($value) && isset($value['tmp_name']))
+		{
+			$value = $value['name'];
+		}
+
 		switch($rule['type']) {
 			case 'regex':
 				return (preg_match($rule['test'], $value) > 0);
@@ -339,7 +359,7 @@ class Validator
 	}
 
 	/**
-	 * Return 
+	 * Return
 	 */
 	function mbStrLen($str){
 		$arr = count_chars($str);
