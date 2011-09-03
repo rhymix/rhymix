@@ -715,10 +715,9 @@ jQuery(function($){
 $('.filebox')
 	.bind('before-open.mw', function(){
 		var $this, $list, $parentObj;
-		var key, anchor;
+		var anchor;
 
 		$this = $(this);
-		key = $this.attr('filebox_key');
 		anchor = $this.attr('href');
 
 		$list = $(anchor).find('.filebox_list');
@@ -729,7 +728,7 @@ $('.filebox')
 			$list.find('.lined .select')
 				.bind('click', function(event){
 					var selectedImgSrc = $(this).parent().find('img.filebox_item').attr('src');
-					$this.trigger('filebox.selected', [key, selectedImgSrc]);
+					$this.trigger('filebox.selected', [selectedImgSrc]);
 					$this.trigger('close.mw');
 					return false;
 				});
