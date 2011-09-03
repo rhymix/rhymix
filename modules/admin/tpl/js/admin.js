@@ -714,11 +714,12 @@ jQuery(function($){
 
 $('.filebox')
 	.bind('before-open.mw', function(){
-		var $list, $parentObj;
+		var $this, $list, $parentObj;
 		var key, anchor;
 
-		key = $(this).attr('filebox_key');
-		anchor = $(this).attr('href');
+		$this = $(this);
+		key = $this.attr('filebox_key');
+		anchor = $this.attr('href');
 
 		$list = $(anchor).find('.filebox_list');
 
@@ -728,8 +729,8 @@ $('.filebox')
 			$list.find('.lined .select')
 				.bind('click', function(event){
 					var selectedImgSrc = $(this).parent().find('img.filebox_item').attr('src');
-					$('.filebox').trigger('filebox.selected', [key, selectedImgSrc]);
-					$('.filebox').trigger('close.mw');
+					$this.trigger('filebox.selected', [key, selectedImgSrc]);
+					$this.trigger('close.mw');
 					return false;
 				});
 
@@ -753,6 +754,7 @@ $('.filebox')
 					var page = $(this).prev('input').val();
 
 					$.exec_json('module.getFileBoxListHtml', {'page': page}, on_complete);
+					$(window).scrollTop($(anchor).find('.modalClose').offset().top);
 					return false;
 				});
 		}
