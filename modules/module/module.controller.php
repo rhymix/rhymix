@@ -150,7 +150,7 @@
         }
 
         /**
-         * @brief Save module configurations of the mid 
+         * @brief Save module configurations of the mid
          * Manage mid configurations depending on module
          **/
         function insertModulePartConfig($module, $module_srl, $config) {
@@ -175,7 +175,7 @@
             }else{
                 $domain = strtolower($domain);
             }
-            
+
             $args->site_srl = getNextSequence();
             $args->domain = preg_replace('/\/$/','',$domain);
             $args->index_module_srl = $index_module_srl;
@@ -593,7 +593,7 @@
             if(is_null($lang)) {
                 $site_module_info = Context::get('site_module_info');
 				if(!$site_module_info){
-					$oModuleModel = &getModel('module');                                                                                                                                                          
+					$oModuleModel = &getModel('module');
 					$site_module_info = $oModuleModel->getDefaultMid();
 					Context::set('site_module_info', $site_module_info);
 				}
@@ -619,6 +619,7 @@
             $logged_info = Context::get('logged_info');
             if($logged_info->is_admin !='Y' && !$logged_info->is_site_admin) return new Object(-1, 'msg_not_permitted');
 
+			$ajax = Context::get('ajax');
             $vars = Context::gets('comment','addfile','filter');
             $module_filebox_srl = Context::get('module_filebox_srl');
 
@@ -644,11 +645,20 @@
                 $output = $this->insertModuleFileBox($vars);
             }
 
-            $url  = getUrl('','module','module','act','dispModuleFileBox','input',Context::get('input'),'filter',$vars->filter);
-            $url = html_entity_decode($url);
-            $vars = Context::set('url',$url);
-            $this->setTemplatePath($this->module_path.'tpl');
-            $this->setTemplateFile('move_filebox_list');
+			$this->setTemplatePath($this->module_path.'tpl');
+
+			if (!$ajax)
+			{
+				$url  = getUrl('','module','module','act','dispModuleFileBox','input',Context::get('input'),'filter',$vars->filter);
+				$url = html_entity_decode($url);
+				$vars = Context::set('url',$url);
+				$this->setTemplateFile('move_filebox_list');
+			}
+			else
+			{
+				Context::setRequestMethod('JSON');
+				$this->add('save_filename', $output->get('save_filename'));
+			}
         }
 
 
@@ -715,6 +725,7 @@
             $args->filesize = $vars->addfile['size'];
 
             $output = executeQuery('module.insertModuleFileBox', $args);
+			$output->add('save_filename', $save_filename);
             return $output;
         }
 
