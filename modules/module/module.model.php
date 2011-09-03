@@ -1376,6 +1376,9 @@
 			Context::set('page', $page);
 			Context::set('page_navigation', $output->page_navigation);
 
+			$security = new Security();
+			$security->encodeHTML('filebox_list..comment');
+
 			$oTemplate = &TemplateHandler::getInstance();
 			$html = $oTemplate->compile('./modules/module/tpl/', 'filebox_list_html');
 
@@ -1422,7 +1425,7 @@
             $args->search_keyword = Context::get('search_keyword'); // /< keyword to search*/
 
             $output = executeQueryArray('module.getLangListByLangcode', $args);
-			
+
 			$list = array();
 
 			if($output->toBool()){

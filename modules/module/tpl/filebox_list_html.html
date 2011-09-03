@@ -1,8 +1,7 @@
-{@debugPrint($filebox_list)}
 <p cond="!$filebox_list">등록된 파일이 없습니다.</p>
 <ul cond="$filebox_list" class="lined">
 	<li loop="$filebox_list=>$key,$fileInfo">
-		<a href="#" class="select"><img class="filebox_item" src="{$fileInfo->filename}" alt="{$fileInfo->comment}" /></a>
+		<a href="#" class="select"><img class="filebox_item" src="{$fileInfo->filename}" title="{$fileInfo->comment}" /></a>
 	</li>
 </ul>
 <div class="pagination" cond="$page_navigation">
