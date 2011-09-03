@@ -73,7 +73,7 @@ jQuery(function($){
 					.focus(function(){ $(this).click() })
 					.click(function(){
 						$menuitems.removeClass('active');
-					
+
 						$(this)
 							.next('ul').slideToggle(100).end()
 							.parent().addClass('active');
@@ -215,7 +215,7 @@ jQuery(function($){
 			.focusin(function(){ $(this).mouseenter() })
 			.focusout(function(){
 				var $this = $(this), timer;
-				
+
 				clearTimeout($this.data('timer'));
 				timer = setTimeout(function(){ if(!$this.find(':focus').length) $this.mouseleave() }, 10);
 
@@ -461,7 +461,7 @@ $('.modulefinder')
 // Sortable table
 jQuery(function($){
 
-var 
+var
 	dragging = false,
 	$holder  = $('<tr class="placeholder"><td>&nbsp;</td></tr>');
 
@@ -621,7 +621,7 @@ $('.multiLangEdit')
 				$this.addClass('loading');
 
 				if($ul.parent().is(':visible')) $ul.parent().hide();
-				
+
 				$.exec_json(
 					'module.getLangListByLangcodeForAutoComplete',
 					{search_keyword:val},
@@ -707,4 +707,57 @@ $('.multiLangEdit')
 		clearTimeout(f_timer);
 		f_timer = setTimeout(check, 10);
 	})
+});
+
+// filebox
+jQuery(function($){
+
+$('.filebox')
+	.bind('before-open.mw', function(){
+		var $list, $parentObj;
+		var key, anchor;
+
+		key = $(this).attr('filebox_key');
+		anchor = $(this).attr('href');
+
+		$list = $(anchor).find('.filebox_list');
+
+		function on_complete(data){
+			$list.html(data.html);
+
+			$list.find('.lined .select')
+				.bind('click', function(event){
+					var selectedImgSrc = $(this).parent().find('img.filebox_item').attr('src');
+					$('.filebox').trigger('filebox.selected', [key, selectedImgSrc]);
+					$('.filebox').trigger('close.mw');
+					return false;
+				});
+
+			$list.find('.pagination')
+				.find('a')
+				.filter(function(){
+					if ($(this).hasClass('tgAnchor')) return false;
+					return true;
+				})
+				.bind('click', function(){
+					var page = $(this).attr('page');
+
+					$.exec_json('module.getFileBoxListHtml', {'page': page}, on_complete);
+					$(window).scrollTop($(anchor).find('.modalClose').offset().top);
+					return false;
+				});
+
+			$('#FileBoxGoTo')
+				.find('button')
+				.bind('click', function(){
+					var page = $(this).prev('input').val();
+
+					$.exec_json('module.getFileBoxListHtml', {'page': page}, on_complete);
+					return false;
+				});
+		}
+
+		$.exec_json('module.getFileBoxListHtml', {'page': '1'}, on_complete);
+	});
+
 });
