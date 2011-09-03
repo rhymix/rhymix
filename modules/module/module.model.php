@@ -112,7 +112,7 @@
 	                    $site_args->index_module_srl  = $mid_output->data->module_srl;
 	                    $site_args->domain = $domain;
 	                    $site_args->default_language = $db_info->lang_type;
-	
+
 	                    if($output->data && !$output->data->index_module_srl) {
 	                        $output = executeQuery('module.updateSite', $site_args);
 	                    } else {
@@ -150,7 +150,7 @@
 					$oCacheHandler->put($cache_key,$output->data->module_srl);
 				}
 			}
-		
+
             $module_info = $output->data;
             if(!$module_info->module_srl && $module_info->data[0]) $module_info = $module_info->data[0];
             return $this->addModuleExtraVars($module_info);
@@ -214,7 +214,7 @@
          * @brief Add extra vars to the module basic information
          **/
         function addModuleExtraVars($module_info) {
-            // Process although one or more module informaion is requested 
+            // Process although one or more module informaion is requested
             if(!is_array($module_info)) $target_module_info = array($module_info);
             else $target_module_info = $module_info;
             // Get module_srl
@@ -370,7 +370,7 @@
 					FileHandler::writeFile($cache_file, $str);
 				}
 
-				
+
 				if(file_exists($cache_file)) {
 					$GLOBALS['__MODULE_EXTEND__'] = include($cache_file);
 				} else {
@@ -562,7 +562,7 @@
 
 						$info->menu->{$menu_name}->title = $menu_title;
 						$info->menu->{$menu_name}->acts = array();
-						$info->menu->{$menu_name}->type = $menu_type; 
+						$info->menu->{$menu_name}->type = $menu_type;
 
                         $buff .= sprintf('$info->menu->%s->title=\'%s\';', $menu_name, $menu_title);
                         $buff .= sprintf('$info->menu->%s->type=\'%s\';', $menu_name, $menu_type);
@@ -1027,9 +1027,9 @@
                     list($table_name) = explode(".",$tmp_files[$j]);
                     if($oDB->isTableExists($table_name)) $created_table_count ++;
                 }
-                // Check if DB is installed 
-                if($table_count > $created_table_count) return true; 
-                else return false; 
+                // Check if DB is installed
+                if($table_count > $created_table_count) return true;
+                else return false;
             }
             return false;
         }
@@ -1083,7 +1083,7 @@
                 $info->table_count = $table_count;
                 $info->path = $path;
                 $info->admin_index_act = $info->admin_index_act;
-                // Check if DB is installed 
+                // Check if DB is installed
                 if($table_count > $created_table_count) $info->need_install = true;
                 else $info->need_install = false;
                 // Check if it is upgraded to module.class.php on each module
@@ -1136,7 +1136,7 @@
         }
 
         /**
-         * @brief Check if it is an administrator of site_module_info 
+         * @brief Check if it is an administrator of site_module_info
          **/
         function isSiteAdmin($member_info, $site_srl = null) {
             if(!$member_info->member_srl) return false;
@@ -1357,10 +1357,30 @@
 
         function getModuleFileBoxList(){
             $args->page = Context::get('page');
-            $args->list_count = 10;
-            $args->page_count = 10;
+            $args->list_count = 5;
+            $args->page_count = 5;
             return executeQuery('module.getModuleFileBoxList', $args);
         }
+
+		function getFileBoxListHtml()
+		{
+			$logged_info = Context::get('logged_info');
+			if($logged_info->is_admin !='Y' && !$logged_info->is_site_admin) return new Object(-1, 'msg_not_permitted');
+
+			$oModuleModel = &getModel('module');
+			$output = $oModuleModel->getModuleFileBoxList();
+			Context::set('filebox_list', $output->data);
+
+			$page = Context::get('page');
+			if (!$page) $page = 1;
+			Context::set('page', $page);
+			Context::set('page_navigation', $output->page_navigation);
+
+			$oTemplate = &TemplateHandler::getInstance();
+			$html = $oTemplate->compile('./modules/module/tpl/', 'filebox_list_html');
+
+			$this->add('html', $html);
+		}
 
         function getModuleFileBoxPath($module_filebox_srl){
             return sprintf("./files/attach/filebox/%s",getNumberingPath($module_filebox_srl,3));
@@ -1371,7 +1391,7 @@
 		 * @param module, act
          **/
         function getValidatorFilePath($module, $ruleset) {
-			// load dynamic ruleset xml file 
+			// load dynamic ruleset xml file
 			if (strpos($ruleset, '@') !== false){
 				$rulsetFile = str_replace('@', '', $ruleset);
 				$xml_file = sprintf('./files/ruleset/%s.xml', $rulsetFile);

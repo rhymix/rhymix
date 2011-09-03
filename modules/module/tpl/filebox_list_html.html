@@ -1,0 +1,28 @@
+{@debugPrint($filebox_list)}
+<p cond="!$filebox_list">등록된 파일이 없습니다.</p>
+<ul cond="$filebox_list" class="lined">
+	<li loop="$filebox_list=>$key,$fileInfo">
+		<a href="#" class="select"><img class="filebox_item" src="{$fileInfo->filename}" alt="{$fileInfo->comment}" /></a>
+	</li>
+</ul>
+<div class="pagination" cond="$page_navigation">
+	<a href="#" class="direction" page="1">&laquo; FIRST</a>
+	<block cond="$page_navigation->first_page + $page_navigation->page_count > $page_navigation->last_page && $page_navigation->page_count != $page_navigation->total_page">
+		<a href="#" page="1">1</a>
+		<a href="#FileBoxGoTo" class="tgAnchor" title="{$lang->cmd_go_to_page}">...</a>
+	</block>
+	<block loop="$page_no = $page_navigation->getNextPage()">
+		{@$last_page = $page_no}
+		<strong cond="$page_no == $page">{$page_no}</strong>
+		<a cond="$page_no != $page" href="#" page="{$page_no}">{$page_no}</a>
+	</block>
+	<block cond="$last_page != $page_navigation->last_page">
+		<a href="#FileBoxGoTo" class="tgAnchor" title="{$lang->cmd_go_to_page}">...</a>
+		<a href="#" page="{$page_navigation->last_page}">{$page_navigation->last_page}</a>
+	</block>
+	<a href="#" page="{$page_navigation->last_page}" class="direction">LAST &raquo;</a>
+	<span id="FileBoxGoTo" class="tgContent">
+		<input name="page" title="{$lang->cmd_go_to_page}" />
+		<button>Go</button>
+	</span>
+</form>
