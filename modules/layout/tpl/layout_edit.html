@@ -71,7 +71,7 @@
 		<div>
 			<textarea name="code" style="width:100%;height:300px;font-size:11px;">{$layout_code}</textarea>
 			<!--@foreach($widget_list as $widget)-->
-			<span class="btn"><a href="{getUrl('','module','widget','act','dispWidgetGenerateCode','selected_widget',$widget->widget,'module_srl',$module_srl)}" onclick="popopen(this.href,'GenerateCodeInPage');return false;">{$widget->title}</a></span>
+			<span class="btn"><a href="{getUrl('','module','admin','act','dispWidgetAdminGenerateCode','selected_widget',$widget->widget)}" target="_blank">{$widget->title}</a></span>
 			<!--@end-->
 		</div>
 
