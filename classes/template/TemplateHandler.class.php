@@ -555,13 +555,22 @@
 				$tmp_arr = explode(".",$filename);
 				$ext = strtolower(array_pop($tmp_arr));
 
+				$output = '<?php '.
+							'$_load_filename = \'' . preg_replace('/\{([^@^ ][^\{\}\n]+)\}/i', "'.\\1.'", $filename) . '\';'.
+							'$_load_source_filename = \'' . preg_replace('/\{([^@^ ][^\{\}\n]+)\}/i', "'.\\1.'", $source_filename) . '\';';
+				foreach($attrs as $key => $val)
+				{
+					$output .= '$_load_attrs[\''.$key.'\'] = \'' . preg_replace('/\{([^@^ ][^\{\}\n]+)\}/i', "'.\\1.'", $val) . '\';';
+				}
+				$output .= '?>';
+
 				// according to ext., import the file
 				switch($ext) {
 					// xml js filter
 					case 'xml' :
 							if(preg_match('/^(http|https)/i',$source_filename)) return;
 							// create an instance of XmlJSFilter class, then create js and handle Context::addJsFile
-							$output = sprintf(
+							$output .= sprintf(
 								'<?php%s'.
 								'require_once("./classes/xml/XmlJsFilter.class.php");%s'.
 								'$oXmlFilter = new XmlJSFilter("%s","%s");%s'.
@@ -582,8 +591,7 @@
 								$output = sprintf("<?php Context::unloadFile('%s', '%s', '%s'); ?>", $source_filename, $attrs['targetie'], $attrs['media']);
 							} else {
 								$meta_file = $source_filename;
-								$output = sprintf("<?php Context::loadFile(array('%s', '%s', '%s', '%s'), '%s', '%s', '%s'); ?>",
-													$source_filename, $attrs['media'], $attrs['targetie'], $attrs['index'], $attrs['usecdn'], $attrs['cdnprefix'], $attrs['cdnversion']);
+								$output .= '<?php Context::loadFile(array($_load_source_filename, $_load_attrs[\'media\'], $_load_attrs[\'targetie\'], $_load_attrs[\'index\']), $_load_attrs[\'usecdn\'], $_load_attrs[\'cdnprefix\'], $_load_attrs[\'cdnversion\']);?>';
 							}
 						break;
 					// js file
@@ -592,8 +600,7 @@
 								$output = sprintf("<?php Context::unloadFile('%s', '%s'); ?>", $source_filename, $attrs['targetie']);
 							} else {
 								$meta_file = $source_filename;
-								$output = sprintf("<?php Context::loadFile(array('%s', '%s', '%s', '%s'), '%s', '%s', '%s'); ?>",
-													$source_filename, $attrs['type'], $attrs['targetie'], $attrs['index'], $attrs['usecdn'], $attrs['cdnprefix'], $attrs['cdnversion']);
+								$output .= '<?php Context::loadFile(array($_load_source_filename, $_load_attrs[\'type\'], $_load_attrs[\'targetie\'], $_load_attrs[\'index\']), $_load_attrs[\'usecdn\'], $_load_attrs[\'cdnprefix\'], $_load_attrs[\'cdnversion\']);?>';
 							}
 						break;
 				}
