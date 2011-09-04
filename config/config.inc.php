@@ -21,9 +21,14 @@
     define('_XE_PATH_', str_replace('config/config.inc.php', '', str_replace('\\', '/', __FILE__)));
 
 	/**
-	 * @brief CDN domain
+	 * @brief CDN prefix
 	 **/
-	define('__XE_CDN__', 'http://static.xpressengine.com/');
+	define('__XE_CDN_PREFIX__', 'http://static.xpressengine.com/core/');
+
+	/**
+	 * @brief CDN version
+	 **/
+	define('__XE_CDN_VERSION__', '1.0');
 
 	/**
 	 * @brief 쿠키 이외의 값에서도 세션을 인식할 수 있도록 함(파일업로드 등에서의 문제 수정)

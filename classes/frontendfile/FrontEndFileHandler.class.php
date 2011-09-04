@@ -1,7 +1,7 @@
 <?php
 	/**
 	 * @class FrontEndFileHandler
-	 * @author NHN (developer@xpressengine.com)
+	 * @author NHN (developers@xpressengine.com)
 	 **/
 
 	class FrontEndFileHandler extends Handler
@@ -27,7 +27,7 @@
 		 *		$args[2]: target IE
 		 *		$args[3]: index
 		 **/
-		function loadFile($args, $cdnPath = '')
+		function loadFile($args, $useCdn = false, $cdnPrefix = '', $cdnVersion = '')
 		{
 			if (!is_array($args)) $args = array($args);
 
@@ -35,7 +35,14 @@
 			$file->fileName = $pathInfo['basename'];
 			$file->filePath = $this->_getAbsFileUrl($pathInfo['dirname']);
 			$file->fileExtension = strtolower($pathInfo['extension']);
-			$file->cdnPath = $cdnPath;
+
+			if (strpos($file->filePath, '://') == false)
+			{
+				$file->useCdn = $useCdn;
+				$file->cdnPath = $this->_normalizeFilePath($pathInfo['dirname']);
+				$file->cdnPrefix = $cdnPrefix;
+				$file->cdnVersion = $cdnVersion;
+			}
 
 			$availableExtension = array('css', 'js');
 			if (!in_array($file->fileExtension, $availableExtension)) return;
@@ -46,6 +53,7 @@
 			if ($file->fileExtension == 'css')
 			{
 				$file->media = $args[1];
+				if (!$file->media) $file->media = 'all';
 				$map = &$this->cssMap;
 				$mapIndex = &$this->cssMapIndex;
 				$key = $file->filePath . $file->fileName . "\t" . $file->targetIe . "\t" . $file->media;
@@ -123,12 +131,13 @@
 
 			$dbInfo = Context::get('db_info');
 			$useCdn = $dbInfo->use_cdn;
+
 			$result = array();
 			foreach($map as $file)
 			{
-				if ($useCdn == 'Y' && $file->cdnPath)
+				if ($useCdn == 'Y' && $file->useCdn)
 				{
-					$fullFilePath = __XE_CDN__ . $file->cdnPath . '/' . $file->fileName;
+					$fullFilePath = $file->cdnPrefix . $file->cdnVersion . '/' . substr($file->cdnPath, 2) . '/' . $file->fileName;
 				}
 				else
 				{
@@ -157,12 +166,13 @@
 
 			$dbInfo = Context::get('db_info');
 			$useCdn = $dbInfo->use_cdn;
+
 			$result = array();
 			foreach($map as $file)
 			{
-				if ($useCdn == 'Y' && $file->cdnPath)
+				if ($useCdn == 'Y' && $file->useCdn)
 				{
-					$fullFilePath = __XE_CDN__ . $file->cdnPath . '/' . $file->fileName;
+					$fullFilePath = $file->cdnPrefix . $file->cdnVersion . '/' . substr($file->cdnPath, 2) . '/' . $file->fileName;
 				}
 				else
 				{

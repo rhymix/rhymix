@@ -527,7 +527,7 @@
             if(!preg_match('/^(http|https)/i',$target))
             {
                 if(substr($target,0,2)=='./') $target = substr($target,2);
-                if(substr($target,0,1)!='/') $target = $web_path.$target;
+                //if(substr($target,0,1)!='/') $target = $web_path.$target;
             }
 
 			if(!$attrs['index']) $attrs['index'] = 'null';
@@ -579,19 +579,21 @@
 					// css file
 					case 'css' :
 							if($type == 'unload') {
-								$output = '<?php Context::unloadFile("'.$source_filename.'","'.$attrs['targetie'].'","'.$attrs['media'].'"); ?>';
+								$output = sprintf("<?php Context::unloadFile('%s', '%s', '%s'); ?>", $source_filename, $attrs['targetie'], $attrs['media']);
 							} else {
 								$meta_file = $source_filename;
-								$output = '<?php Context::loadFile(array("'.$source_filename.'","'.$attrs['media'].'","'.$attrs['targetie'].'","'.$attrs['index'].'"), "'.$attrs['cdn'].'"); ?>';
+								$output = sprintf("<?php Context::loadFile(array('%s', '%s', '%s', '%s'), '%s', '%s', '%s'); ?>",
+													$source_filename, $attrs['media'], $attrs['targetie'], $attrs['index'], $attrs['usecdn'], $attrs['cdnprefix'], $attrs['cdnversion']);
 							}
 						break;
 					// js file
 					case 'js' :
 							if($type == 'unload') {
-								$output = '<?php Context::unloadFile("'.$source_filename.'","'.$attrs['targetie'].'","'.$attrs['media'].'"); ?>';
+								$output = sprintf("<?php Context::unloadFile('%s', '%s'); ?>", $source_filename, $attrs['targetie']);
 							} else {
 								$meta_file = $source_filename;
-								$output = '<?php Context::loadFile(array("'.$source_filename.'","'.$attrs['type'].'","'.$attrs['targetie'].'","'.$attrs['index'].'"), "'.$attrs['cdn'].'"); ?>';
+								$output = sprintf("<?php Context::loadFile(array('%s', '%s', '%s', '%s'), '%s', '%s', '%s'); ?>",
+													$source_filename, $attrs['type'], $attrs['targetie'], $attrs['index'], $attrs['usecdn'], $attrs['cdnprefix'], $attrs['cdnversion']);
 							}
 						break;
 				}

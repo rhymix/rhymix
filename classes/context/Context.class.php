@@ -1069,10 +1069,17 @@ class Context {
 	 *		$args[2]: target IE
 	 *		$args[3]: index
 	 **/
-	function loadFile($args, $cdnPath = '')
+	function loadFile($args, $useCdn = false, $cdnPrefix = '', $cdnVersion = '')
 	{
 		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
-		$self->oFrontEndFileHandler->loadFile($args, $cdnPath);
+
+		if ($useCdn && !$cdnPrefix)
+		{
+			$cdnPrefix = __XE_CDN_PREFIX__;
+			$cdnVersion = __XE_CDN_VERSION__;
+		}
+
+		$self->oFrontEndFileHandler->loadFile($args, $useCdn, $cdnPrefix, $cdnVersion);
 	}
 
 	function unloadFile($file, $targetIe = '', $media = 'all')
@@ -1202,8 +1209,8 @@ class Context {
 			if(!$filename) continue;
 
 			if(substr($filename,0,2)=='./') $filename = substr($filename,2);
-			if(preg_match('/\.js$/i',  $filename))     $self->loadFile(array($plugin_path.$filename, 'body', '', 0));
-			elseif(preg_match('/\.css$/i', $filename)) $self->loadFile(array($plugin_path.$filename, 'all', '', 0));
+			if(preg_match('/\.js$/i',  $filename))     $self->loadFile(array($plugin_path.$filename, 'body', '', 0), true);
+			elseif(preg_match('/\.css$/i', $filename)) $self->loadFile(array($plugin_path.$filename, 'all', '', 0), true);
 		}
 
 		if(is_dir($plugin_path.'lang')) $self->loadLang($plugin_path.'lang');
