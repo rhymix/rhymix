@@ -71,8 +71,9 @@
             // Get a mid list
             $site_module_info = Context::get('site_module_info');
             $args->site_srl = $site_module_info->site_srl;
-			$columnList = array('module_srl', 'module_category_srl', 'browser_title');
+			$columnList = array('module_srl', 'module_category_srl', 'browser_title', 'mid');
             $mid_list = $oModuleModel->getMidList($args, $columnList);
+
             // Get a list of groups
             $oMemberModel = &getModel('member');
             $group_list = $oMemberModel->getGroups($site_module_info->site_srl);
@@ -97,7 +98,6 @@
             $this->setLayoutFile('popup_layout');
             // Set a template file
             $this->setTemplateFile('widget_generate_code');
-			debugPrint($widget_info);
         }
 
         /**

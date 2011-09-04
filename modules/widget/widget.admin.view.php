@@ -13,7 +13,7 @@
         function init() {
             $this->setTemplatePath($this->module_path.'tpl');
         }
-        
+
         /**
          * @brief Showing a list of widgets
          **/

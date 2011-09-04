@@ -534,8 +534,8 @@
                             $widget_content_header = sprintf('<div class="widgetOutput" widgetstyle="%s" style="%s" widget_padding_top="%s" widget_padding_right="%s" widget_padding_bottom="%s" widget_padding_left="%s" widget="%s" %s >'.
                                         '<div class="widgetResize"></div>'.
                                         '<div class="widgetResizeLeft"></div>'.
-                                        '<div class="widgetBorder">',$args->widgetstyle,$style, 
-                                    $widget_padding_top, $widget_padding_right, $widget_padding_bottom, $widget_padding_left, 
+                                        '<div class="widgetBorder">',$args->widgetstyle,$style,
+                                    $widget_padding_top, $widget_padding_right, $widget_padding_bottom, $widget_padding_left,
                                     $widget, implode(' ',$attribute));
 
                             $widget_content_body = sprintf('<div style="%s">%s</div><div class="clear"></div>',$inner_style, $widget_content);
@@ -568,7 +568,7 @@
                 if(!file_exists($class_file)) return sprintf(Context::getLang('msg_widget_is_not_exists'), $widget);
                 // Widget classes include
                 require_once($class_file);
-            
+
                 // Creating Objects
 				$tmp_fn  = create_function('', "return new {$widget}();");
 				$oWidget = $tmp_fn();

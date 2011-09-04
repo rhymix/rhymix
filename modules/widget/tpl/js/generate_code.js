@@ -49,9 +49,88 @@ function doShowSkinColorset()
 	jQuery('select[name=colorset]').parents('li').show();
 }
 
+var $current_filebox;
+
 jQuery(document).ready(function($){
-	$('select[name=skin]').next('span').children().bind('click', function(e){
+	$('select[name=skin]').next('input').bind('click', function(e){
 		doDisplaySkinColorset();
 	});
 	doHideSkinColorset();
+
+	$('.filebox').bind('before-open.mw', function(){
+		$('#filebox_upload').find('input[name=comment], input[name=addfile]').val('');
+	});
+
+	$('.filebox').bind('filebox.selected', function(e, src){
+		$(this)
+			.siblings()
+			.filter(function(){
+				return this.nodeName.toLowerCase() != 'input';
+			})
+			.remove();
+
+		$(this).before('<img src="'+src+'" alt="" style="border: 1px solid #ccc; padding: 5px; max-height: 200px;"> <button class="filebox_del text" type="button">'+xe.lang.cmd_delete+'</button>');
+
+		$(this).siblings('input').val(src);
+
+		$('.filebox_del').bind('click', function(){
+			$(this).siblings('input').val('');
+			$(this).prev('img').remove();
+			$(this).remove();
+		});
+	});
+
+	$('.filebox').click(function(){
+		$current_filebox = $(this);
+	});
+
+	$('#filebox_upload').find('input[type=submit]').click(function(){
+		if ($('iframe[name=iframeTarget]').length < 1){
+			var $iframe = $(document.createElement('iframe'));
+
+			$iframe.css('display', 'none');
+			$iframe.attr('src', '#');
+			$iframe.attr('name', 'iframeTarget');
+			$iframe.load(function(){
+				var data = eval('(' + $(window.iframeTarget.document.getElementsByTagName("body")[0]).html() + ')');
+
+				if (data.error){
+					alert(data.message);
+					return;
+				}
+
+				$current_filebox.trigger('filebox.selected', [data.save_filename]);
+				$current_filebox.trigger('close.mw');
+			});
+
+			$('body').append($iframe.get(0));
+
+			$(this).parents('form').attr('target', 'iframeTarget');
+		}
+	});
+
+	$('#widget_code_form').bind('submit', function(){
+		function on_complete(data){
+			if (data.error){
+				alert(data.message);
+				return;
+			}
+
+			$('#widget_code').val(data.widget_code);
+		}
+
+		var datas = $(this).serializeArray();
+		var params = new Object();
+		for(var i in datas){
+			var data = datas[i];
+
+			if(/\[\]$/.test(data.name)) data.name = data.name.replace(/\[\]$/, '');
+			if(params[data.name]) params[data.name] += '|@|' + data.value;
+			else params[data.name] = data.value;
+		}
+
+		$.exec_json('widget.procWidgetGenerateCode', params, on_complete);
+
+		return false;
+	});
 });
