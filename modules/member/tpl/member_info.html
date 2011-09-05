@@ -9,13 +9,13 @@
 {@$value = $lang->find_account_question_items[$value].' : '.$memberInfo['find_account_answer']}
 			<!--@elseif($formInfo->name == 'profile_image' && $memberInfo['profile_image'])-->
 {@$target = $memberInfo['profile_image']}
-{@$value = '<img src="{$target->src}" width="80" height="80" />'}
+{@$value = '<img src="'.$target->src.'" />'}
 			<!--@elseif($formInfo->name == 'image_name' && $memberInfo['image_name'])-->
 {@$target = $memberInfo['image_name']}
-{@$value = '<img src="{$target->src}" width="80" height="80" />'}
+{@$value = '<img src="'.$target->src.'" />'}
 			<!--@elseif($formInfo->name == 'image_mark' && $memberInfo['image_mark'])-->
 {@$target = $memberInfo['image_mark']}
-{@$value = '<img src="{$target->src}" width="80" height="80" />'}
+{@$value = '<img src="'.$target->src.'" />'}
 			<!--@end-->
 		<!--@else-->
 {@$title = $extend_form_list[$formInfo->member_join_form_srl]->column_title}

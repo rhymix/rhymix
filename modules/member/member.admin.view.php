@@ -233,22 +233,25 @@
 					}
 					$list_order[] = $signupItem;
 				}
-				foreach($extendItems as $form_srl=>$item_info){
-					unset($signupItem);
-					$signupItem->name = $item_info->column_name;
-					$signupItem->title = $item_info->column_title;
-					$signupItem->type = $item_info->column_type;
-					$signupItem->member_join_form_srl = $form_srl;
-					$signupItem->mustRequired = in_array($key, $mustRequireds);
-					$signupItem->required = ($item_info->required == 'Y');
-					$signupItem->isUse = ($item_info->is_active == 'Y');
-					$signupItem->description = $item_info->description;
-					if ($signupItem->imageType){
-						$signupItem->max_width = $config->{$key.'_max_width'};
-						$signupItem->max_height = $config->{$key.'_max_height'};
+
+				if (is_array($extendItems)){
+					foreach($extendItems as $form_srl=>$item_info){
+						unset($signupItem);
+						$signupItem->name = $item_info->column_name;
+						$signupItem->title = $item_info->column_title;
+						$signupItem->type = $item_info->column_type;
+						$signupItem->member_join_form_srl = $form_srl;
+						$signupItem->mustRequired = in_array($key, $mustRequireds);
+						$signupItem->required = ($item_info->required == 'Y');
+						$signupItem->isUse = ($item_info->is_active == 'Y');
+						$signupItem->description = $item_info->description;
+						if ($signupItem->imageType){
+							$signupItem->max_width = $config->{$key.'_max_width'};
+							$signupItem->max_height = $config->{$key.'_max_height'};
+						}
+						$list_order[] = $signupItem;
 					}
-					$list_order[] = $signupItem;
- 				}
+				}
 				$member_config->signupForm = $list_order;
 			}
 
@@ -273,7 +276,8 @@
 							$functionName = 'doDeleteImageMark';
 						}
 						if($target->src){
-							$inputTag = sprintf('<p class="a"><img src="%s" alt="%s" width="80" height="80" /> <button type="button" class="text" onclick="%s(%d);return false;">%s</button></p>'
+							$inputTag = sprintf('<p class="a"><span id="%s"><img src="%s" alt="%s" /> <button type="button" class="text" onclick="%s(%d);return false;">%s</button></span></p>'
+												,$formInfo->name.'tag'
 												,$target->src
 												,$formInfo->title
 												,$functionName
@@ -381,7 +385,7 @@
 						<div class="krZip">
 							<div class="a" id="zone_address_search_%s" %s>
 								<label for="krzip_address1_%s">%s</label><br />
-								<input type="text" id="krzip_address1_%s" value="" />
+								<input type="text" id="krzip_address1_%s" value="%s" />
 								<button type="button">%s</button>
 							</div>
 							<div class="a" id="zone_address_list_%s" style="display:none">
@@ -397,9 +401,9 @@
 						<script type="text/javascript">jQuery(function($){ $.krzip('%s') });</script>
 EOD;
 						$inputTag = sprintf($content 
-											,$extendForm->column_name,  $extendForm->value[0]?'style="display:none"':''
+											,$extendForm->column_name,  $extendForm->value[0]?'':'style="display:none"'
 											,$extendForm->column_name,  $lang->msg_kr_address
-											,$extendForm->column_name
+											,$extendForm->column_name, $extendForm->value[0]
 											,$lang->cmd_search
 											,$extendForm->column_name
 											,$extendForm->column_name, $extendForm->column_name

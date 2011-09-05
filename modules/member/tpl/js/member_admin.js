@@ -248,21 +248,43 @@ function completeSearchKrZip(ret_obj, response_tags, callback_args) {
 
 /* 프로필 이미지, 이미지 이름, 마크 삭제 */
 function doDeleteProfileImage(member_srl) {
-    var fo_obj = get_by_id("fo_image");
-    fo_obj.member_srl.value = member_srl;
-    procFilter(fo_obj, delete_profile_image);
+	if (!member_srl) return;
+
+	if (!confirm(xe.lang.deleteProfileImage)) return false;
+
+	exec_xml(
+		'member',
+		'procMemberDeleteProfileImage',
+		{member_srl:member_srl},
+		function(){jQuery('#profile_imagetag').remove()},
+		['error','message','tpl']
+	);
 }
 
 function doDeleteImageName(member_srl) {
-    var fo_obj = get_by_id("fo_image");
-    fo_obj.member_srl.value = member_srl;
-    procFilter(fo_obj, delete_image_name);
+	if (!member_srl) return;
+
+	if (!confirm(xe.lang.deleteImageName)) return false;
+	exec_xml(
+		'member',
+		'procMemberDeleteImageName',
+		{member_srl:member_srl},
+		function(){jQuery('#image_nametag').remove()},
+		['error','message','tpl']
+	);
 }
 
 function doDeleteImageMark(member_srl) {
-    var fo_obj = get_by_id("fo_image");
-    fo_obj.member_srl.value = member_srl;
-    procFilter(fo_obj, delete_image_mark);
+	if (!member_srl) return;
+
+	if (!confirm(xe.lang.deleteImageMark)) return false;
+	exec_xml(
+		'member',
+		'procMemberDeleteImageMark',
+		{member_srl:member_srl},
+		function(){jQuery('#image_marktag').remove()},
+		['error','message','tpl']
+	);
 }
 
 

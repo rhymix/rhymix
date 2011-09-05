@@ -57,6 +57,20 @@
             $this->add('member_srl', $args->member_srl);
             $this->setMessage($msg_code);
 
+			$profile_image = $_FILES['profile_image'];
+			if (is_uploaded_file($profile_image['tmp_name'])){
+				$oMemberController->insertProfileImage($args->member_srl, $profile_image['tmp_name']);
+			}
+
+			$image_mark = $_FILES['image_mark'];
+			if (is_uploaded_file($image_mark['tmp_name'])){
+				$oMemberController->insertImageMark($args->member_srl, $image_mark['tmp_name']);
+			}
+
+			$image_name = $_FILES['image_name'];
+			if (is_uploaded_file($image_name['tmp_name'])){
+				$oMemberController->insertImageName($args->member_srl, $image_name['tmp_name']);
+			}
 			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
 				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMemberAdminList');
 				header('location:'.$returnUrl);
