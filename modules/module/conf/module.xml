@@ -17,6 +17,7 @@
         <action name="dispModuleAdminModuleGrantSetup" type="view" standalone="true" />
         <action name="dispModuleAdminCopyModule" type="view" standalone="true" />
         <action name="dispModuleAdminLangcode" type="view" standalone="true" menu_name="multilingual" menu_index="true" />
+        <action name="dispModuleAdminFileBox" type="view" menu_name="filebox" menu_index="true" />
 
         <action name="dispModuleFileBox" type="view" standalone="true" />
         <action name="dispModuleFileBoxAdd" type="view" standalone="true" />
@@ -72,6 +73,19 @@
 			<title xml:lang="vi">Multilingual</title>
 			<title xml:lang="mn">Multilingual</title>
 			<title xml:lang="tr">Multilingual</title>
+		</menu>
+		<menu name="filebox">
+			<title xml:lang="en">FileBox</title>
+			<title xml:lang="ko">파일박스</title>
+			<title xml:lang="zh-CN">FileBox</title>
+			<title xml:lang="jp">FileBox</title>
+			<title xml:lang="es">FileBox</title>
+			<title xml:lang="ru">FileBox</title>
+			<title xml:lang="fr">FileBox</title>
+			<title xml:lang="zh-TW">FileBox</title>
+			<title xml:lang="vi">FileBox</title>
+			<title xml:lang="mn">FileBox</title>
+			<title xml:lang="tr">FileBox</title>
 		</menu>
 	</menus>
 </module>

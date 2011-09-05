@@ -650,10 +650,9 @@
 
 			if (!$ajax)
 			{
-				$url  = getUrl('','module','module','act','dispModuleFileBox','input',Context::get('input'),'filter',$vars->filter);
-				$url = html_entity_decode($url);
-				$vars = Context::set('url',$url);
-				$this->setTemplateFile('move_filebox_list');
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispModuleAdminFileBox');
+				header('location:'.$returnUrl);
+				return;
 			}
 			else
 			{

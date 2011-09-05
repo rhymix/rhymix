@@ -169,6 +169,10 @@
 					'module'=>'file',
 					'subMenu'=>array('fileUpload'),
 				),
+				20=>array(
+					'module'=>'module',
+					'subMenu'=>array('filebox'),
+				),
 			);
 
 			$oMemberModel = &getModel('member');
@@ -246,6 +250,7 @@
 				case 'adminConfiguration':
 				case 'adminMenuSetup':
 				case 'fileUpload':
+				case 'filebox':
 					return 'configuration';
 					break;
 				default:

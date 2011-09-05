@@ -210,5 +210,16 @@
             // Set a template file
             $this->setTemplateFile('module_langcode');
         }
+
+		function dispModuleAdminFileBox(){
+            $oModuleModel = &getModel('module');
+            $output = $oModuleModel->getModuleFileBoxList();
+			$page = Context::get('page');
+			$page = $page?$page:1;
+            Context::set('filebox_list', $output->data);
+            Context::set('page_navigation', $output->page_navigation);
+            Context::set('page', $page);
+            $this->setTemplateFile('adminFileBox');
+		}
     }
 ?>
