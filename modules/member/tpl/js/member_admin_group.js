@@ -34,18 +34,6 @@ jQuery(function ($){
 			$("#useImageMark").removeAttr("checked");
 			$("#noImageMark").attr("checked", "checked");
 		}
-
-		$('a._selectImageMark').click(function(event){
-			event.preventDefault();
-			var selectImgSrc = $(event.target).parent().parent().find('img').attr('src');
-			if ($targetImage.length){
-				$targetImage.attr('src', selectImgSrc);
-			}else{
-				$targetImage = $('<img src="'+selectImgSrc+'" alt="" />').insertBefore($imageMarkHidden);
-			}
-			$imageMarkHidden.val(selectImgSrc);
-			$('a.modalAnchor._imageMark').trigger('close.mw');
-		});
 	});
 
 	$('._deleteGroup').click(function (event){
@@ -88,6 +76,18 @@ jQuery(function ($){
 	$('a.tgAnchor.editUserLang').bind('before-open.tc', function(e){
 		var $target = $(e.target).parent();
 		$('#langEdit').insertBefore($target);
+	});
+
+	$('.filebox').bind('filebox.selected', function (e, src){
+		var $targetImage = $(this).parent().find('img');
+		var $imageMarkHidden = $(this).parent().find('._imgMarkHidden');
+		
+		if ($targetImage.length){
+			$targetImage.attr('src', src);
+		}else{
+			$targetImage = $('<img src="'+src+'" alt="" />').insertBefore(this);
+		}
+		$imageMarkHidden.val(src);
 	});
 	//add plugin
 	var CheckTitle = xe.createPlugin('checkTitle', {

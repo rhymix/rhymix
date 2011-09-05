@@ -1941,7 +1941,7 @@
 		<value xml:lang="vi"><![CDATA[Tôi đã đọc và đồng ý với điều khoản sử dụng của Website.]]></value>
 	</item>
 	<item name="about_member_default">
-		<value xml:lang="ko"><![CDATA[회원가입시 기본 그룹으로 설정됩니다.]]></value>
+		<value xml:lang="ko"><![CDATA[회원 가입을 한 사람이 최초에 속하는 그룹을 말합니다.]]></value>
 		<value xml:lang="en"><![CDATA[It will be set as the default group on sign up]]></value>
 		<value xml:lang="jp"><![CDATA[会員登録時に基本グループとして設定されます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[将成为注册会员时的默认用户组。]]></value>
@@ -2277,6 +2277,21 @@ Bạn có thể quản lý thành viên bằng cách tạo những nhóm mới, 
 	<item name="use_group_image_mark">
 		<value xml:lang="ko"><![CDATA[그룹 이미지 마크 사용]]></value>
 		<value xml:lang="en"><![CDATA[Use group image mark]]></value>
+	</item>
+	<item name="group_image_mark">
+		<value xml:lang="ko"><![CDATA[그룹 이미지 마크]]></value>
+		<value xml:lang="en"><![CDATA[Group image mark]]></value>
+	</item>
+	<item name="usable_group_image_mark_list">
+		<value xml:lang="ko"><![CDATA[사용가능한 그룹 이미지 마크 목록]]></value>
+		<value xml:lang="en"><![CDATA[ Usable list of group image mark]]></value>
+	</item>
+	<item name="add_group_image_mark">
+		<value xml:lang="ko"><![CDATA[그룹 이미지 마크 추가]]></value>
+		<value xml:lang="en"><![CDATA[Add group image mark]]></value>
+	</item>
+	<item name="link_file_box">
+		<value xml:lang="ko"><![CDATA[파일박스 관리 바로가기...]]></value>
 	</item>
 	<item name="msg_group_delete">
 		<value xml:lang="ko"><![CDATA[선택한 그룹을 삭제합니다.]]></value>

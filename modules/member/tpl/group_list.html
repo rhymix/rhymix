@@ -5,8 +5,9 @@
 	xe.lang.modify = '{$lang->cmd_modify}';
 	xe.lang.delete = '{$lang->cmd_delete}';
 </script>
-<style type="text/css">
-#imageMarkList li img,._imageMarkButton img {max-height:16px}
+<style type="text/css">         
+	._imageMarkButton img {max-height:16px}
+	.filebox_item { border: 1px solid #ccc!important; padding: 2px; max-height: 16px; } 
 </style>
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
@@ -30,10 +31,10 @@
 						<th scope="col">{$lang->is_default}
 							[<a href="#helpDefault" class="tgAnchor">?</a>]
 							<div class="tgContent layer" id="helpDefault" style="right:0">
-								<p>회원 가입을 한 사람이 최초에 속하는 그룹을 말합니다.</p>
+								<p>{$lang->about_member_default}</p>
 							</div>
 						</th>
-						<th scope="col" class="_imageMarkButton">Image Mark</th>
+						<th scope="col" class="_imageMarkButton">{$lang->group_image_mark}</th>
 						<th scope="col">Action</th>
 					</tr>
 				</thead>
@@ -65,7 +66,7 @@
 						<td><input type="radio" name="defaultGroup" value="{$group_info->group_srl}" title="Default" checked="checked"|cond="$group_info->is_default=='Y'" /></td>
 						<td class="_imageMarkButton"><input type="hidden" name="image_marks[]" value="{$group_info->image_mark}" class="_imgMarkHidden" />
 							<img src="{$group_info->image_mark}" alt="{$group_info->title}" cond="$config->group_image_mark == 'Y' && $group_info->image_mark" />
-							<a href="#imageMark" class="modalAnchor _imageMark">{$lang->cmd_modify}</a></td>
+							<a href="#imageMark" class="modalAnchor _imageMark filebox">{$lang->cmd_modify}</a></td>
 						<td><div class="_deleteTD" style="display:none"|cond="$group_info->is_default == 'Y'"><a href="#{$group_srl}" class="_deleteGroup">{$lang->cmd_delete}</a></div></td>
 					</tr>
 					<tr style="display:none" class="_template">
@@ -127,7 +128,7 @@
 	<div class="modal" id="imageMark">
 		<div class="fg portlet">
 			<div class="_useImageMark" style="display:none">
-			<h2>Image Mark 사용여부</h2>
+			<h2>{$lang->use_group_image_mark}</h2>
 					<input id="useImageMark" type="radio" name="useImageMark" value="Y" />
 					<label for="useImageMark">{$lang->use}</label>
 					<input id="noImageMark" type="radio" name="useImageMark" value="N" />
@@ -135,14 +136,13 @@
 			</div>
 			<!--@if($fileBoxList)-->
 			<div>
-			<h2>사용 가능한 Image Mark</h2>
-			<ul class="lined" id="imageMarkList">
-				<li loop="$fileBoxList=>$key,$fileInfo"><img src="{$fileInfo->filename}" alt="{$fileInfo->comment}" /> <span class="side"><a href="#" class="_selectImageMark">{$lang->cmd_select}</a></span></li>
-			</ul>
+			<h2>{$lang->usable_group_image_mark_list}</h2>
+			<div class="filebox_list">
+			</div>
 			</div>
 			<!--@end-->
-			<h2>Image Mark 추가</h2>
-			<a href="#">Image Mark 관리바로가기...</a>
+			<h2>{$lang->add_group_image_mark}</h2>
+			<a href="{getUrl('', 'module','admin', 'act', 'dispModuleAdminFileBox')}" target="_blank">{$lang->link_file_box}</a>
 		</div>
 	</div>
 </div>
