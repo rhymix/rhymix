@@ -88,11 +88,6 @@
 				$this->makeCacheFile(0, 'mobile', 'global');
 			}
 
-			// set favorite
-			$oAdminController = &getAdminController('admin');
-			$output = $oAdminController->setFavoritesByModule(-1, 'addon', $favorite);
-			if (!$output->toBool()) return $output;
-
 			$this->setRedirectUrl(getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAddonAdminIndex'));
 		}
 

@@ -19,17 +19,19 @@
          **/
         function dispAddonAdminIndex() {
 			$oAdminModel = &getAdminModel('admin');
-			$siteModuleInfo = Context::get('site_module_info');
-			$output = $oAdminModel->getFavoriteListByModule(-1, 'addon');
-			if (!$output->toBool()) return $output;
 
-			$favoriteList = $output->get('list');
-			Context::set('favoriteList', $favoriteList);
-
-            $site_module_info = Context::get('site_module_info');
             // Add to the list settings
             $oAddonModel = &getAdminModel('addon');
             $addon_list = $oAddonModel->getAddonListForSuperAdmin();
+
+			$security = new Security($addon_list);
+			$addon_list = $security->encodeHTML('..', '..author..');
+
+			foreach($addon_list as $no => $addon_info)
+			{
+				$addon_list[$no]->description = nl2br(trim($addon_info->description));
+			}
+
             Context::set('addon_list', $addon_list);
 			Context::set('addon_count', count($addon_list));
             // Template specifies the path and file
