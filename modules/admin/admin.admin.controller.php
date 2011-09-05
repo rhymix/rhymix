@@ -154,24 +154,23 @@
 		{
 			$siteSrl = Context::get('site_srl');
 			$moduleName = Context::get('module_name');
-			$key = Context::get('key');
 
 			// check favorite exists
 			$oModel = &getAdminModel('admin');
-			$output = $oModel->isExistsFavorite($siteSrl, $moduleName, $key);
+			$output = $oModel->isExistsFavorite($siteSrl, $moduleName);
 			if (!$output->toBool()) return $output;
 
 			// if exists, delete favorite
 			if ($output->get('result'))
 			{
 				$favoriteSrl = $output->get('favoriteSrl');
-				$output = $this->deleteFavorite($favoriteSrl);
+				$output = $this->_deleteFavorite($favoriteSrl);
 			}
 
 			// if not exists, insert favorite
 			else
 			{
-				$output = $this->insertFavorite($siteSrl, $moduleName, $key);
+				$output = $this->_insertFavorite($siteSrl, $moduleName);
 			}
 
 			if (!$output->toBool()) return $output;
@@ -261,11 +260,10 @@
 		/**
 		 * @brief Insert favorite
 		 **/
-		function insertFavorite($siteSrl, $module, $key)
+		function _insertFavorite($siteSrl, $module)
 		{
 			$args->site_srl = $siteSrl;
 			$args->module = $module;
-			$args->key = $key;
 			$output = executeQuery('admin.insertFavorite', $args);
 			return $output;
 		}
@@ -273,71 +271,13 @@
 		/**
 		 * @brief Delete favorite
 		 **/
-		function deleteFavorite($favoriteSrl)
+		function _deleteFavorite($favoriteSrl)
 		{
 			$args->admin_favorite_srl = $favoriteSrl;
 			$output = executeQuery('admin.deleteFavorite', $args);
 			return $output;
 		}
 
-		/**
-		 * @brief set favorites at one time
-		 **/
-		function setFavoritesByModule($siteSrl, $module, $keyList)
-		{
-			$oModel = &getAdminModel('admin');
-			$output = $oModel->getFavoriteListByModule($siteSrl, $module);
-			if (!$output->toBool()) return $output;
-			$originList = $output->get('list');
-
-			// find insert key
-			$insertKey = array_diff($keyList, $originList);
-
-			// find delete key
-			$deleteKey = array_diff($originList, $keyList);
-
-			// start transaction
-			$oDB = &DB::getInstance();
-			$oDB->begin();
-
-			// insert key
-			foreach($insertKey as $key)
-			{
-				$output = $this->insertFavorite($siteSrl, $module, $key);
-				if (!$output->toBool())
-				{
-					$oDB->rollback();
-					return $output;
-				}
-			}
-
-			// delete key
-			foreach($deleteKey as $key)
-			{
-				$output = $oModel->isExistsFavorite($siteSrl, $module, $key);
-				if (!$output->toBool())
-				{
-					$oDB->rollback();
-					return $output;
-				}
-				$favoriteSrl = $output->get('favoriteSrl');
-
-				if ($favoriteSrl)
-				{
-					$output = $this->deleteFavorite($favoriteSrl);
-					if (!$output->toBool())
-					{
-						$oDB->rollback();
-						return $output;
-					}
-				}
-			}
-
-			// commit
-			$oDB->commit();
-
-			return new Object();
-		}
 		function procAdminRemoveIcons(){				
 			$iconname = Context::get('iconname');			
 			$file_exist = FileHandler::readFile(_XE_PATH_.'files/attach/xeicon/'.$iconname);

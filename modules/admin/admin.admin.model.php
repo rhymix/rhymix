@@ -341,17 +341,6 @@
 			if (!$output->toBool()) return $output;
 			if (!$output->data) return new Object();
 
-			foreach($output->data as $row)
-			{
-				$targetModule = $row->module;
-				$oTargetModuleAdminModel = &getAdminModel($targetModule);
-				if (!$oTargetModuleAdminModel) continue;
-				if (!method_exists($oTargetModuleAdminModel, 'getFavoriteInfo')) continue;
-
-				$favoriteInfo = $oTargetModuleAdminModel->getFavoriteInfo($row->key);
-				$favoriteList[] = $favoriteInfo;
-			}
-
 			$returnObject = new Object();
 			$returnObject->add('favoriteList', $favoriteList);
 			return $returnObject;
@@ -360,11 +349,10 @@
 		/**
 		 * @brief Check available insert favorite
 		 **/
-		function isExistsFavorite($siteSrl, $module, $key)
+		function isExistsFavorite($siteSrl, $module)
 		{
 			$args->site_srl = $siteSrl;
 			$args->module = $module;
-			$args->key = $key;
 			$output = executeQuery('admin.getFavorite', $args);
 			if (!$output->toBool()) return $output;
 
@@ -379,29 +367,6 @@
 				$returnObject->add('result', false);
 			}
 
-			return $returnObject;
-		}
-
-		/**
-		 * @brief Get favorite by module, site
-		 **/
-		function getFavoriteListByModule($siteSrl, $module)
-		{
-			$args->site_srl = $siteSrl;
-			$args->module = $module;
-			$columnList = array('key');
-			$output = executeQueryArray('admin.getFavoriteList', $args, $columnList);
-			if (!$output->toBool()) return $output;
-			if (!$output->data) $output->data = array();
-
-			$list = array();
-			foreach($output->data as $row)
-			{
-				$list[$row->key] = $row->key;
-			}
-
-			$returnObject = new Object();
-			$returnObject->add('list', $list);
 			return $returnObject;
 		}
 

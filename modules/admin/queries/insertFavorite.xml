@@ -5,6 +5,5 @@
 	<columns>
 		<column name="site_srl" var="site_srl" filter="number" notnull="notnull" />
 		<column name="module" var="module" notnull="notnull" />
-		<column name="key" var="key" notnull="notnull" />
 	</columns>
 </query>
