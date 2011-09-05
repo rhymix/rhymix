@@ -103,6 +103,8 @@
 		{
 			$oMenuAdminModel = &getAdminModel('menu');
 			$output = $oMenuAdminModel->getMenus();
+
+			$menuList = array();
 			if(is_array($output))
 			{
 				$columnList = array('menu_item_srl', 'parent_srl', 'menu_srl', 'name');
@@ -111,12 +113,16 @@
 					if($value->title == '__XE_ADMIN__') unset($output[$key]);
 					else
 					{
-						$menuItems = $oMenuAdminModel->getMenuItems($value->menu_srl, null, $columnList);
-						$value->menuItems = $this->_arrangeMenuItem($menuItems->data);
+						unset($menu);
+						$value->xml_file = sprintf('./files/cache/menu/%s.xml.php',$value->menu_srl);
+						//$value->php_file = sprintf('./files/cache/menu/%s.php',$value->menu_srl);
+						//if(file_exists($value->php_file)) @include($value->php_file);
+
+						array_push($menuList, $value->xml_file);
 					}
 				}
 			}
-            Context::set('menu_list', $output);
+            Context::set('menu_url_list', $menuList);
 
 			// get installed module list
 			$oModuleModel = &getModel('module');

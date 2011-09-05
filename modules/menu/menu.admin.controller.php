@@ -6,6 +6,10 @@
      **/
 
     class menuAdminController extends menu {
+		var $menuSrl = null;
+		var $itemKeyList = array();
+		var $map = array();
+		var $checked = array();
 
         /**
          * @brief Initialization
@@ -247,69 +251,46 @@
          **/
 		function procMenuAdminArrangeItem()
 		{
-			$menuSrl = Context::get('menu_srl');
+			$this->menuSrl = Context::get('menu_srl');
             $args->title = Context::get('title');
 			$parentKeyList = Context::get('parent_key');
-			$itemKeyList = Context::get('item_key');
-			debugPrint($parentKeyList);
-			debugPrint($itemKeyList);
+			$this->itemKeyList = Context::get('item_key');
 
 			// menu name update
-            /*$args->menu_srl = $menuSrl;
+            /*$args->menu_srl = $this->menuSrl;
             $output = executeQuery('menu.updateMenu', $args);
             if(!$output->toBool()) return $output;*/
 
-			if(is_array($parentKeyList))
+			$this->map = array();
+			foreach($parentKeyList as $no=>$srl)
 			{
-				$menuList = array();
-				foreach($parentKeyList AS $key=>$value)
-				{
-					if($value == 0) $menuList[$itemKeyList[$key]] = array();
+				if ($srl === 0) continue;
+				if (!is_array($this->map[$srl]))$this->map[$srl] = array();
+				$this->map[$srl][] = $no;
+			}
+
+			$result = array();
+			foreach($this->itemKeyList as $srl)
+			{
+				if (!$this->checked[$srl]){
+					unset($target);
+					$this->checked[$srl] = 1; 
+					$target->node = $srl;
+					$target->child= array();
+
+					while(count($this->map[$srl])){
+						$this->_setParent($srl, array_shift($this->map[$srl]), $target);
+					}
+					$result[] = $target;	
 				}
 			}
-			debugPrint($menuList);
-			exit;
 
-			if(is_array($itemKeyList))
+			if(is_array($result))
 			{
-				foreach($itemKeyList AS $key=>$value)
+				foreach($result AS $key=>$node)
 				{
-					if($parentKeyList[$key] != 0)
-					{
-						$menuList[$parentKeyList[$key]][$value] = true;
-					}
+					$this->_recursiveMoveMenuItem($node);
 				}
-			}
-			debugPrint($menuList);
-			exit;
-
-			// menu item sorting
-			if(is_array($childKeyList))
-			{
-				$menuList = array();
-				foreach($childKeyList AS $key=>$value)
-				{
-					preg_match('/BEGIN_([0-9]*.)/is', $value, $m);
-					if($m)
-					{
-						$menuList[$m[1]] = array();
-						$parentSrl = $m[1];
-					}
-					else $menuList[$parentSrl][$value] = true;
-				}
-
-				/*foreach($menuList AS $key=>$value)
-				{
-					if(count($value) > 0)
-					{
-						$sourceSrl = 0;
-						foreach($value AS $key2=>$value2)
-						{
-							$this->moveMenuItem($menuSrl, $key, $sourceSrl, $key2, 'move');
-							$sourceSrl = $key2;
-						}
-					}
-				}*/
 			}
 
             $this->setMessage('success_updated', 'info');
@@ -317,6 +298,34 @@
 				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMenuAdminManagement', 'menu_srl', $args->menu_srl);
 				$this->setRedirectUrl($returnUrl);
 				return;
+			}
+		}
+
+		function _setParent($parent_srl, $child_index, &$target)
+		{
+			$child_srl = $this->itemKeyList[$child_index];
+			$this->checked[$child_srl] = 1; 
+
+			$child_node->node = $child_srl;
+			$child_node->parent_node = $parent_srl;
+			$child_node->child = array();
+			$target->child[] = $child_node;
+
+			while(count($this->map[$child_srl])){
+				$this->_setParent($child_srl, array_shift($this->map[$child_srl]), $child_node);
+			}
+			//return $target;
+		}
+
+		function _recursiveMoveMenuItem($result)
+		{
+			while(count($result->child))
+			{
+				unset($node);
+				$node = array_shift($result->child);
+
+				$this->moveMenuItem($this->menuSrl, $node->parent_node, 0, $node->node, 'move');
+				$this->_recursiveMoveMenuItem($node);
 			}
 		}
 
