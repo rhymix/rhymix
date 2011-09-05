@@ -118,15 +118,15 @@
         /**
          * @brief Re-generate the cache file
          **/
-        function makeCacheFile($site_srl = 0, $type = "pc") {
+        function makeCacheFile($site_srl = 0, $type = "pc", $gtype = 'site') {
             // Add-on module for use in creating the cache file
             $buff = "";
             $oAddonModel = &getAdminModel('addon');
-            $addon_list = $oAddonModel->getInsertedAddons($site_srl, $type);
+            $addon_list = $oAddonModel->getInsertedAddons($site_srl, $gtype);
             foreach($addon_list as $addon => $val) {
                 if($val->addon == "smartphone") continue;
 				if(!is_dir(_XE_PATH_.'addons/'.$addon)) continue;
-                if(($type == "pc" && $val->is_used != 'Y') || ($type == "mobile" && $val->is_used_m != 'Y')) continue; 
+				if(($type == "pc" && $val->is_used != 'Y') || ($type == "mobile" && $val->is_used_m != 'Y') || ($gtype == 'global' && $val->is_fixed != 'Y')) continue;
 
                 $extra_vars = unserialize($val->extra_vars);
                 $mid_list = $extra_vars->mid_list;
@@ -146,7 +146,7 @@
             $addon_path = _XE_PATH_.'files/cache/addons/';
             if(!is_dir($addon_path)) FileHandler::makeDir($addon_path);
 
-            if($site_srl) $addon_file = $addon_path.$site_srl.$type.'.acivated_addons.cache.php';
+            if($gtype == 'site') $addon_file = $addon_path.$site_srl.$type.'.acivated_addons.cache.php';
             else $addon_file = $addon_path.$type.'acivated_addons.cache.php';
 
             FileHandler::writeFile($addon_file, $buff);
@@ -155,11 +155,15 @@
         /**
          * @brief Add-On Set
          **/
-        function doSetup($addon, $extra_vars,$site_srl=0) {
-            if($extra_vars->mid_list) $extra_vars->mid_list = explode('|@|', $extra_vars->mid_list);
+        function doSetup($addon, $extra_vars,$site_srl=0, $gtype = 'site') {
+            if($gtype == 'site' && $extra_vars->mid_list)
+				$extra_vars->mid_list = explode('|@|', $extra_vars->mid_list);
+			else
+				unset($extra_vars->mid_list);
+
             $args->addon = $addon;
             $args->extra_vars = serialize($extra_vars);
-            if(!$site_srl) return executeQuery('addon.updateAddon', $args);
+            if($gtype == 'global') return executeQuery('addon.updateAddon', $args);
             $args->site_srl = $site_srl;
             return executeQuery('addon.updateSiteAddon', $args);
         }

@@ -80,4 +80,20 @@
 		<value xml:lang="tr"><![CDATA[Eklentiler, HTML sonuçlarını göstermek yerine sitenizde gerçekleştirilen birçok eylemi kontrol ederler, .<br />Kullanışlı işlevleri, AÇIK/KAPALI anahtarını değiştirerek, kolayca kontrol edebilirsiniz.]]></value>
 		<value xml:lang="vi"><![CDATA[Addon có nhiệm vụ hiển thị và kiểm soát kết quả HTML.<br />Bạn có thể mở hoặc tắt bất cứ Addon nào bạn muốn.]]></value>
 	</item>
+	<item name="installed_addon">
+		<value xml:lang="ko"><![CDATA[설치된 애드온]]></value>
+		<value xml:lang="en"><![CDATA[Installed Addon]]></value>
+	</item>
+	<item name="about_installed_addon">
+		<value xml:lang="ko"><![CDATA[PC, Mobile에 체크하면 애드온을 켤 수 있습니다.]]></value>
+	</item>
+	<item name="fixed">
+		<value xml:lang="ko"><![CDATA[고정]]></value>
+	</item>
+	<item name="about_fixed">
+		<value xml:lang="ko"><![CDATA[체크하면 사이트 관리자가 이 설정을 변경할 수 없음.]]></value>
+	</item>
+	<item name="msg_not_exist_option">
+		<value xml:lang="ko"><![CDATA[이 애드온은 설정이 존재하지 않습니다.]]></value>
+	</item>
 </lang>

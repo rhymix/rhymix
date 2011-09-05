@@ -18,11 +18,20 @@
          * @brief Add Management main page (showing the list)
          **/
         function dispAddonAdminIndex() {
+			$oAdminModel = &getAdminModel('admin');
+			$siteModuleInfo = Context::get('site_module_info');
+			$output = $oAdminModel->getFavoriteListByModule(-1, 'addon');
+			if (!$output->toBool()) return $output;
+
+			$favoriteList = $output->get('list');
+			Context::set('favoriteList', $favoriteList);
+
             $site_module_info = Context::get('site_module_info');
             // Add to the list settings
             $oAddonModel = &getAdminModel('addon');
-            $addon_list = $oAddonModel->getAddonList($site_module_info->site_srl);
+            $addon_list = $oAddonModel->getAddonListForSuperAdmin();
             Context::set('addon_list', $addon_list);
+			Context::set('addon_count', count($addon_list));
             // Template specifies the path and file
             $this->setTemplateFile('addon_list');
         }
@@ -36,7 +45,7 @@
             $selected_addon = Context::get('selected_addon');
             // Wanted to add the requested information
             $oAddonModel = &getAdminModel('addon');
-            $addon_info = $oAddonModel->getAddonInfoXml($selected_addon, $site_module_info->site_srl);
+            $addon_info = $oAddonModel->getAddonInfoXml($selected_addon, $site_module_info->site_srl, 'global');
             Context::set('addon_info', $addon_info);
             // Get a mid list
             $oModuleModel = &getModel('module');
@@ -52,7 +61,7 @@
 
                 if($mid_list) {
                     foreach($mid_list as $module_srl => $module) {
-                        $module_categories[$module->module_category_srl]->list[$module_srl] = $module; 
+                        $module_categories[$module->module_category_srl]->list[$module_srl] = $module;
                     }
                 }
             } else {
@@ -60,8 +69,7 @@
             }
 
             Context::set('mid_list',$module_categories);
-            // Set the layout to be pop-up
-            $this->setLayoutFile('popup_layout');
+
             // Template specifies the path and file
             $this->setTemplateFile('setup_addon');
         }

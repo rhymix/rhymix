@@ -5,6 +5,7 @@
     <columns>
       <column name="is_used" var="is_used" />
       <column name="is_used_m" var="is_used_m" />
+	  <column name="is_fixed" var="fixed" />
       <column name="extra_vars" var="extra_vars" />
     </columns>
     <conditions>

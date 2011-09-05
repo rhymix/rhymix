@@ -22,12 +22,40 @@
             return "";
         }
 
+		/**
+		 * @brief Get addon list for super admin
+		 **/
+		function getAddonListForSuperAdmin()
+		{
+			$addonList = $this->getAddonList(0, 'global');
+
+			$oAutoinstallModel = &getModel('autoinstall');
+			foreach($addonList as $key => $addon)
+			{
+				// get easyinstall remove url
+				$packageSrl = $oAutoinstallModel->getPackageSrlByPath($addon->path);
+				$addonList[$key]->remove_url = $oAutoinstallModel->getRemoveUrlByPackageSrl($packageSrl);
+
+				// get easyinstall need update
+				$package = $oAutoinstallModel->getInstalledPackages($packageSrl);
+				$addonList[$key]->need_update = $package[$packageSrl]->need_update;
+
+				// get easyinstall update url
+				if ($addonList[$key]->need_update == 'Y')
+				{
+					$addonList[$key]->update_url = $oAutoinstallModel->getUpdateUrlByPackageSrl($packageSrl);
+				}
+			}
+
+			return $addonList;
+		}
+
         /**
          * @brief Wanted to add the kind of information and
          **/
-        function getAddonList($site_srl = 0) {
+        function getAddonList($site_srl = 0, $gtype = 'site') {
             // Wanted to add a list of activated
-            $inserted_addons = $this->getInsertedAddons($site_srl);
+            $inserted_addons = $this->getInsertedAddons($site_srl, $gtype);
             // Downloaded and installed add-on to the list of Wanted
             $searched_list = FileHandler::readDir('./addons','/^([a-zA-Z0-9-_]+)$/');
             $searched_count = count($searched_list);
@@ -44,20 +72,22 @@
                 $path = $this->getAddonPath($addon_name);
                 // Wanted information on the add-on
                 unset($info);
-                $info = $this->getAddonInfoXml($addon_name, $site_srl);
+                $info = $this->getAddonInfoXml($addon_name, $site_srl, $gtype);
 
                 $info->addon = $addon_name;
                 $info->path = $path;
                 $info->activated = false;
 				$info->mactivated = false;
+				$info->fixed = false;
                 // Check if a permossion is granted entered in DB
                 if(!in_array($addon_name, array_keys($inserted_addons))) {
                     // If not, type in the DB type (model, perhaps because of the hate doing this haneungeo .. ㅡ. ㅜ)
-                    $oAddonAdminController->doInsert($addon_name, $site_srl);
+                    $oAddonAdminController->doInsert($addon_name, $site_srl, $type);
                 // Is activated
                 } else {
                     if($inserted_addons[$addon_name]->is_used=='Y') $info->activated = true;
                     if($inserted_addons[$addon_name]->is_used_m=='Y') $info->mactivated = true;
+					if ($gtype == 'global' && $inserted_addons[$addon_name]->is_fixed == 'Y') $info->fixed = true;
                 }
 
                 $list[] = $info;
@@ -68,7 +98,7 @@
         /**
          * @brief Modules conf/info.xml wanted to read the information
          **/
-        function getAddonInfoXml($addon, $site_srl = 0) {
+        function getAddonInfoXml($addon, $site_srl = 0, $gtype = 'site') {
             // Get a path of the requested module. Return if not exists.
             $addon_path = $this->getAddonPath($addon);
             if(!$addon_path) return;
@@ -85,7 +115,7 @@
 
             // DB is set to bring history
             $db_args->addon = $addon;
-            if(!$site_srl) $output = executeQuery('addon.getAddonInfo',$db_args);
+            if($gtype == 'global') $output = executeQuery('addon.getAddonInfo',$db_args);
             else {
                 $db_args->site_srl = $site_srl;
                 $output = executeQuery('addon.getSiteAddonInfo',$db_args);
@@ -267,9 +297,9 @@
         /**
          * @brief Add to the list of active guhaeom
          **/
-        function getInsertedAddons($site_srl = 0) {
+        function getInsertedAddons($site_srl = 0, $gtype = 'site') {
             $args->list_order = 'addon';
-            if(!$site_srl) $output = executeQuery('addon.getAddons', $args);
+            if($gtype == 'global') $output = executeQuery('addon.getAddons', $args);
             else {
                 $args->site_srl = $site_srl;
                 $output = executeQuery('addon.getSiteAddons', $args);
@@ -288,9 +318,9 @@
         /**
          * @brief Add-on is enabled, check whether
          **/
-        function isActivatedAddon($addon, $site_srl = 0, $type = "pc") {
+        function isActivatedAddon($addon, $site_srl = 0, $type = "pc", $gtype = 'site') {
             $args->addon = $addon;
-            if(!$site_srl) {
+            if($gtype == 'global') {
 				if($type == "pc") $output = executeQuery('addon.getAddonIsActivated', $args);
 				else $output = executeQuery('addon.getMAddonIsActivated', $args);
 			}
