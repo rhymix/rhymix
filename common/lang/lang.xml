@@ -3736,4 +3736,8 @@ Xin vui lòng kiểm tra lại thông tin Database.]]></value>
 	<item name="cmd_no">
 		<value xml:lang="ko"><![CDATA[아니오]]></value>
 	</item>
+		<item name="find_site">
+		<value xml:lang="ko"><![CDATA[사이트 찾기]]></value>
+		<value xml:lang="en"><![CDATA[Find Site]]></value>
+	</item>
 </lang>
