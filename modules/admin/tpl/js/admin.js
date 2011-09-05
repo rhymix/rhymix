@@ -762,3 +762,22 @@ $('.filebox')
 	});
 
 });
+
+/* install module */
+function doInstallModule(module) {
+    var params = new Array();
+    params['module_name'] = module;
+    exec_xml('install','procInstallAdminInstall',params, completeInstallModule);
+}
+
+/* upgrade module */
+function doUpdateModule(module) {
+    var params = new Array();
+    params['module_name'] = module;
+    exec_xml('install','procInstallAdminUpdate',params, completeInstallModule);
+}
+
+function completeInstallModule(ret_obj) {
+    alert(ret_obj['message']);
+    location.reload();
+}
