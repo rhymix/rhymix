@@ -56,12 +56,30 @@
 		}
 
 		function getConditionString(){
-			return sprintf("new Condition('%s',%s,%s%s)"
-                                        , $this->column_name
-                                        , $this->default_column ? $this->default_column:  '$' . $this->argument_name . '_argument'
-                                        , '"'.$this->operation.'"'
-                                        , $this->pipe ? ", '" . $this->pipe . "'" : ''
-                                        );
+                        if($this->query){
+                            return sprintf("new ConditionSubquery('%s',%s,%s%s)"
+                                            , $this->column_name
+                                            , $this->default_column
+                                            , '"'.$this->operation.'"'
+                                            , $this->pipe ? ", '" . $this->pipe . "'" : ''
+                                            );
+                        }
+                        else if($this->default_column){
+                            return sprintf("new ConditionWithoutArgument('%s',%s,%s%s)"
+                                            , $this->column_name
+                                            , $this->default_column
+                                            , '"'.$this->operation.'"'
+                                            , $this->pipe ? ", '" . $this->pipe . "'" : ''
+                                            );
+                        }
+                        else{
+                            return sprintf("new ConditionWithArgument('%s',%s,%s%s)"
+                                            , $this->column_name
+                                            , '$' . $this->argument_name . '_argument'
+                                            , '"'.$this->operation.'"'
+                                            , $this->pipe ? ", '" . $this->pipe . "'" : ''
+                                            );
+                        }
 		}
 	}
 ?>

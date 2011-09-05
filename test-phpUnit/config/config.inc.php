@@ -40,6 +40,9 @@
     require_once(_XE_PATH_.'classes/db/queryparts/table/JoinTable.class.php');
     require_once(_XE_PATH_.'classes/db/queryparts/condition/ConditionGroup.class.php');
     require_once(_XE_PATH_.'classes/db/queryparts/condition/Condition.class.php');
+    require_once(_XE_PATH_.'classes/db/queryparts/condition/ConditionWithArgument.class.php');
+    require_once(_XE_PATH_.'classes/db/queryparts/condition/ConditionWithoutArgument.class.php');
+    require_once(_XE_PATH_.'classes/db/queryparts/condition/ConditionSubquery.class.php');
     require_once(_XE_PATH_.'classes/db/queryparts/expression/StarExpression.class.php');
     require_once(_XE_PATH_.'classes/db/queryparts/order/OrderByColumn.class.php');
     require_once(_XE_PATH_.'classes/db/queryparts/limit/Limit.class.php');
