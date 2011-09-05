@@ -659,6 +659,10 @@ Lütfen son sürümü için indirme linkine tıklayınız.]]></value>
 		<value xml:lang="tr"><![CDATA[Yetersiz web sunucusu kullanımı olan websiteleri için, bu özellik devredışı bırakıldığı zaman daha hızlı bir tepki beklenebilir.<br/>Ancak oturum veritabanı, mevcut kullanıcılar için veritabanını erişilemez hâle getirecektir ve ilgili işler kullanılamaz hale gelecektir.]]></value>
 		<value xml:lang="vi"><![CDATA[PHP sẽ xác nhận với Database. Có thể cải thiện được tốc độ của Website.]]></value>
 	</item>
+	<item name="qmail_compatibility">
+        	<value xml:lang="ko"><![CDATA[Qmail 사용]]></value>
+	        <value xml:lang="en"><![CDATA[Enable Qmail]]></value>
+	</item>
 	<item name="sftp">
 		<value xml:lang="ko"><![CDATA[SFTP 사용]]></value>
 		<value xml:lang="en"><![CDATA[Use SFTP]]></value>
@@ -695,6 +699,10 @@ Lütfen son sürümü için indirme linkine tıklayınız.]]></value>
 		<value xml:lang="zh-TW"><![CDATA[指定的 FTP 路徑讀取失敗。]]></value>
 		<value xml:lang="tr"><![CDATA[Belirtilen FTP Yolunu okuma işlemi başarız oldu.]]></value>
 		<value xml:lang="vi"><![CDATA[Không tìm thấy thông tin của thư mục bạn đã nhập trên FTP.]]></value>
+	</item>
+	<item name="about_use_ftp_passive_mode">
+		<value xml:lang="ko"><![CDATA[Passive 모드를 사용하시겠습니까?]]></value>
+		<value xml:lang="en"><![CDATA[Use FTP Passive Mode?]]></value>
 	</item>
 	<item name="msg_self_restart_cache_engine">
 		<value xml:lang="ko"><![CDATA[Memcached 또는 캐쉬데몬을 재시작 해주세요.]]></value>
@@ -875,7 +883,11 @@ Lütfen son sürümü için indirme linkine tıklayınız.]]></value>
 	<item name="about_arrange_session">
 		<value xml:lang="ko"><![CDATA[세션을 정리하시겠습니까?]]></value>
 		<value xml:lang="en"><![CDATA[Arrange session?]]></value>
-	</item>	
+	</item>
+	<item name="cmd_clear_session">
+		<value xml:lang="ko"><![CDATA[세션 정리]]></value>
+		<value xml:lang="en"><![CDATA[Arrange session]]></value>
+	</item>
 	<item name="msg_not_correct_iconname">
 		<value xml:lang="ko"><![CDATA[아이콘 형식이 바르지 않습니다.]]></value>
 		<value xml:lang="en"><![CDATA[아이콘 형식이 바르지 않습니다.]]></value>
