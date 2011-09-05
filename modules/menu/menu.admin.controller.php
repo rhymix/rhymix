@@ -249,12 +249,39 @@
 		{
 			$menuSrl = Context::get('menu_srl');
             $args->title = Context::get('title');
-			$childKeyList = Context::get('child_key');
+			$parentKeyList = Context::get('parent_key');
+			$itemKeyList = Context::get('item_key');
+			debugPrint($parentKeyList);
+			debugPrint($itemKeyList);
 
 			// menu name update
-            $args->menu_srl = $menuSrl;
+            /*$args->menu_srl = $menuSrl;
             $output = executeQuery('menu.updateMenu', $args);
-            if(!$output->toBool()) return $output;
+            if(!$output->toBool()) return $output;*/
+
+			if(is_array($parentKeyList))
+			{
+				$menuList = array();
+				foreach($parentKeyList AS $key=>$value)
+				{
+					if($value == 0) $menuList[$itemKeyList[$key]] = array();
+				}
+			}
+			debugPrint($menuList);
+			exit;
+
+			if(is_array($itemKeyList))
+			{
+				foreach($itemKeyList AS $key=>$value)
+				{
+					if($parentKeyList[$key] != 0)
+					{
+						$menuList[$parentKeyList[$key]][$value] = true;
+					}
+				}
+			}
+			debugPrint($menuList);
+			exit;
 
 			// menu item sorting
 			if(is_array($childKeyList))

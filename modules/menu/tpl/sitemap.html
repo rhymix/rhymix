@@ -1,3 +1,4 @@
+<load target="../../admin/tpl/js/sitemap.js" />
 <load target="./js/sitemap.js" />
 
 <div class="content" id="content">
@@ -17,13 +18,14 @@
 		<a href="#nav1" class="tgMap">접기</a>
 		<ul class="lined" id="nav1">
 			<li loop="$value->menuItems=>$key2,$value2">
-				<input type="hidden" name="parent_key[]" value="{$key2}" class="_parent_key" />
-				<input type="hidden" name="child_key[]" value="BEGIN_{$key2}" class="_child_key" />
+				<input type="hidden" name="parent_key[]" value="0" class="_parent_key" />
+				<input type="hidden" name="item_key[]" value="{$key2}" class="_item_key" />
 				<a href="#" class="ms">{$value2['name']}</a> <a href="#" class="wPreview" target="_blank">Preview</a>
 				<span class="side"><a href="#editMenu" class="modalAnchor _edit">Edit...</a> | <a href="#delete" class="_delete">Delete</a></span>
 				<ul cond="$value2['subMenu']>0">
 					<li loop="$value2['subMenu']=>$key3,$value3">
-					<input type="hidden" name="child_key[]" value="{$key3}" class="_child_key" />
+					<input type="hidden" name="parent_key[]" value="{$key2}" class="_parent_key" />
+					<input type="hidden" name="item_key[]" value="{$key3}" class="_item_key" />
 					{$value3->name} <a href="#" class="wPreview" target="_blank">Preview</a> <span class="side"><a href="#editMenu" class="modalAnchor _edit">Edit...</a> | <a href="#delete" class="_delete">Delete</a></span>
 					</li>
 				</ul>

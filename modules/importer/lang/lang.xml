@@ -344,6 +344,14 @@ Hãy nhập đường dẫn cho File chứa Data trên Host dưới dạng http:
 		<value xml:lang="tr"><![CDATA[Lütfen senkronizasyonu başlatmak için Senkronizasyon düğmesine basınız.]]></value>
 		<value xml:lang="vi"><![CDATA[Data thành viên và bài viết sẽ được đồng bộ hóa sau khi bấm "Đồng bộ".]]></value>
 	</item>
+	<item name="cmd_check_path">
+		<value xml:lang="ko"><![CDATA[경로 확인]]></value>
+		<value xml:lang="en"><![CDATA[Check the path]]></value>
+	</item>
+	<item name="msg_exist_xml_file">
+		<value xml:lang="ko"><![CDATA[XML파일을 찾았습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Success find the XML file.]]></value>
+	</item>
 	<item name="msg_no_xml_file">
 		<value xml:lang="ko"><![CDATA[XML파일을 찾을 수 없습니다. 경로를 다시 확인해주세요.]]></value>
 		<value xml:lang="en"><![CDATA[Could not find the XML file. Please check the path again]]></value>

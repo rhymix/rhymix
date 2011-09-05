@@ -52,7 +52,6 @@ $('.checkxml')
 						$ttxml = $ttxml.slice(0,-1).eq(-1).slideUp(100,arguments.callee);
 					});
 					if(!$xml.is(':visible')) $xml.slideDown(300);
-					$form.find('input[name=type]').val('module');
 				} else if(data.type == 'TTXML') {
 					$ttxml = $ttxml.not(':visible');
 					$ttxml.eq(0).slideDown(100, function(){
@@ -105,9 +104,10 @@ function doPreProcessing(form, formId) {
 
     if(!xml_file) return false;
 
-	//$form    = $('#importForm').hide();
-	//$process = $('#process').show();
-	//$status  = $('#status').empty();
+	// show modal window
+	$process = $('#process');
+	if(!$process.find('.bg').length) $process.prepend('<span class="bg" />').appendTo('body');
+	$('a[href="#process"].modalAnchor').trigger('open.mw');
 
     exec_xml(
 		'importer', // module
@@ -144,6 +144,8 @@ function doPreProcessing(form, formId) {
 			}
 		}
 
+		jQuery('#preProgressMsg').hide();
+		jQuery('#progressMsg').show();
 		doImport(formId);
 	}
 
@@ -153,16 +155,12 @@ function doPreProcessing(form, formId) {
 /* @brief Start importing */
 function doImport(formId) {
     var form = get_by_id('fo_process'), elems = form.elements, i, c, params={}, resp;
-	console.log(elems);
 
 	for(i=0,c=elems.length; i < c; i++) {
 		params[elems[i].name] = elems[i].value;
 	}
 
-    //displayProgress(params.total, params.cur);
-
 	function on_complete(ret, response_tags) {
-	console.log(ret);
 		var i, c, key;
 		
 		for(i=0,c=resp.length; i < c; i++) {
@@ -173,17 +171,22 @@ function doImport(formId) {
 
 		ret.total = parseInt(ret.total, 10) || 0;
 		ret.cur   = parseInt(ret.cur, 10) || 0;
+		percent = parseInt((ret.cur/ret.total)*100);
+
+		jQuery('#totalCount').text(ret.total);
+		jQuery('#completeCount').text(ret.cur);
+		jQuery('#progressBar').width(percent+'%');
+		jQuery('#progressPercent').html(percent + "%");
 
 		if(ret.total > ret.cur) {
 			doImport(formId);
 		} else {
-			alert('성공입니까?');
 			alert(ret.message);
+			jQuery('a[href="#process"].modalAnchor').unbind('before-close.mw').trigger('close.mw');
+
 			try {
 				form.reset();
 				get_by_id(formId).reset();
-				//jQuery('#process').hide();
-				//jQuery('#importForm').show();
 			} catch(e){};
 		}
 	}
@@ -220,3 +223,4 @@ function displayProgress(total, cur) {
 		.find('div.progress2')
 			.text(cur+'/'+total);
 }
+

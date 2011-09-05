@@ -8,15 +8,16 @@
 <form action="./" class="form" method="get" onsubmit="return doPreProcessing(this, 'documentForm')" id="documentForm">
 	<input type="hidden" name="act" value="" />
 	<input type="hidden" name="type" value="module" />
+	<input type="hidden" name="unit_count" value="10" />
 	<h2 class="h2">{$lang->type_module}</h2>
 	<ul>
 		<li>
 			<p class="q">{$lang->xml_path} {$lang->path_info}</p>
 			<p class="a checkxml">
 				<input type="text" name="xml_file" value="./" />
-				<button type="button">경로 확인</button>
-				<em class="desc error">아이쿠! XML 파일이 설정한 경로에 없네요.</em>
-				<em class="desc success">성공! XML 파일이 요기잉네?</em>
+				<button type="button">{$lang->cmd_check_path}</button>
+				<em class="desc error">{$lang->msg_no_xml_file}</em>
+				<em class="desc success">{$lang->msg_exist_xml_file}</em>
 			</p>
 		</li>
 		<li class="xml ttxml modulefinder">
@@ -66,17 +67,18 @@
 		<span class="btn"><input type="submit" value="{$lang->importer}" /></span>
 	</div>
 </form>
-<form action="./" class="form" method="get" onsubmit="return doPreProcessing(this)" id="fo_import">
+<form action="./" class="form" method="get" onsubmit="return doPreProcessing(this, 'memberFrom')" id="memberForm">
 	<input type="hidden" name="type" value="member" />
+	<input type="hidden" name="unit_count" value="100" />
 	<h2 class="h2">{$lang->type_member}</h2>
 	<ul>
 		<li>
 			<p class="q">{$lang->xml_path} {$lang->path_info}</p>
 			<p class="a checkxml">
 				<input type="text" name="xml_file" value="./" />
-				<button type="button">경로 확인</button>
-				<em class="desc error">아이쿠! XML 파일이 설정한 경로에 없네요.</em>
-				<em class="desc success">성공! XML 파일이 요기잉네?</em>
+				<button type="button">{$lang->cmd_check_path}</button>
+				<em class="desc error">{$lang->msg_no_xml_file}</em>
+				<em class="desc success">{$lang->msg_exist_xml_file}</em>
 			</p>
 		</li>
 	</ul>
@@ -86,15 +88,16 @@
 </form>
 <form action="./" class="form" method="get" onsubmit="return doPreProcessing(this)" id="fo_import">
 	<input type="hidden" name="type" value="message" />
+	<input type="hidden" name="unit_count" value="100" />
 	<h2 class="h2">{$lang->type_message}</h2>
 	<ul>
 		<li>
 			<p class="q">{$lang->xml_path} {$lang->path_info}</p>
 			<p class="a checkxml">
 				<input type="text" name="xml_file" value="./" />
-				<button type="button">경로 확인</button>
-				<em class="desc error">아이쿠! XML 파일이 설정한 경로에 없네요.</em>
-				<em class="desc success">성공! XML 파일이 요기잉네?</em>
+				<button type="button">{$lang->cmd_check_path}</button>
+				<em class="desc error">{$lang->msg_no_xml_file}</em>
+				<em class="desc success">{$lang->msg_exist_xml_file}</em>
 			</p>
 		</li>
 	</ul>
@@ -116,21 +119,21 @@
         <input type="hidden" name="user_id" value="" />
 		<p style="text-align:center">
 			<span class="prgrs prgrsMedium"> 
-				<strong>{$lang->import_step_desc[99]}</strong>
+				<strong id="preProgressMsg">{$lang->preprocessing}</strong>
+				<strong id="progressMsg" style="display:none;">{$lang->import_step_desc[99]}</strong>
 				<span class="pBar" style="width:300px;text-align:left">
-					<span class="pAction" style="width:50%"><!-- Progress status --></span>
-					<span class="pNum">123/1234</span>
+					<span class="pAction" id="progressBar" style="width:0%"><!-- Progress status --></span>
+					<span class="pNum"><span id="completeCount">0</span>/<span id="totalCount">0</span></span>
 				</span> 
-				<strong>50%</strong> 
+				<strong id="progressPercent">0%</strong> 
 			</span>
 		</p>
     </form>
 </div>
 <script type="text/javascript">
-jQuery(function($){
-	$('.form input[type=submit]').click(function(){
-		$('.modalAnchor').click();
-	});
-});
+jQuery('a.modalAnchor')
+.bind('before-close.mw', function(event){ 
+		return false;
+		});
 </script>
 <!--// process 진행상황 끝 -->
