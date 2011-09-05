@@ -1,16 +1,5 @@
 <include cond="$in_admin" target="header.html" />
 <load target="js/generate_code.js" />
-<load target="js/multi_order.js" />
-<load target="js/module_list.js" />
-<!--%load_js_plugin("ui.colorpicker")-->
-
-<script type="text/javascript">
-	xe.lang.cmd_delete = '{$lang->cmd_delete}';
-</script>
-
-<style type="text/css">
-	.filebox_item { border: 1px solid #ccc!important; padding: 5px; max-height: 200px; }
-</style>
 
 <h2 class="h2">{$widget_info->title}</h2>
 <p>{$widget_info->description}</p>
@@ -21,131 +10,8 @@
 
 	<h3 class="h3">{$lang->cmd_generate_code}</h3>
 	<p>{$lang->about_widget_code}</p>
-	<ul>
-		<li>
-			<p class="q"><label for="skin">{$lang->skin}</label></p>
-			<a class="a">
-				<select name="skin" id="skin" style="width:280px">
-					<option value="">{$lang->select}</option>
-					<option loop="$skin_list => $skin_name, $skin" value="{$skin_name}">{$skin->title} ({$skin_name})</option>
-				</select>
-				<input type="button" value="{$lang->cmd_select}" />
-			</a>
-		</li>
-		<li>
-			<p class="q"><label for="colorset">{$lang->colorset}</label></p>
-			<p class="a">
-				<select name="colorset" style="width:280px">
-				</select>
-			</p>
-		</li>
-		<li>
-			<p class="q"><label for="widget_cache">{$lang->widget_cache}</label></p>
-			<p class="a">
-				<input type="text" name="widget_cache" id="widget_cache" value="0" size="2" style="width:auto" /> {$lang->unit_min}
-				({$lang->about_widget_cache})
-			</p>
-		</li>
-	</ul>
-	{@$suggestion_id = 0}
-	<block loop="$widget_info->extra_var => $id, $var">
-		{@$suggestion_id++}
-		<block cond="!$not_first && !$var->group"><ul></block>
-		<block cond="$group != $var->group">
-			<block cond="$not_first"></ul></block>
-			<h3 class="h3">{$var->group}</h3>
-			<ul>
-			{@$group = $var->group}
-		</block>
-		{@$not_first = true}
-		<li class="modulefinder"|cond="$var->type == 'mid' || $var->type == 'module_srl_list'">
-			<p class="q"><label for="{$id}">{$var->name}</label></p>
-			<div class="a">
-				<input cond="$var->type == 'text'" type="text" name="{$id}" value="" id="{$id}" />
-				<input cond="$var->type == 'color'" type="text" name="{$id}" value="" id="{$id}" class="color-indicator" />
-				<textarea cond="$var->type == 'textarea'" name="{$id}" id="{$id}"></textarea>
-				<select cond="$var->type == 'select'" name="{$id}" id="{$id}" style="width:290px">
-					<option loop="$var->options => $key, $val" value="{$key}">{$val}</option>
-				</select>
-				<block cond="$var->type == 'select-multi-order'">
-					{@$inits = array_keys($var->init_options)}
-					<input type="hidden" name="{$id}" value="{implode(',', $inits)}" />
-					<select class="multiorder_show" size="8" multiple="multiple" style="width:290px;vertical-align:top">
-						<option loop="$var->options => $key, $val" cond="!$var->init_options[$key]" value="{$key}" default="true"|cond="$var->default_options[$key]">{$val}</option>
-					</select>
-					<button type="button" class="text multiorder_add" style="vertical-align:top">{$lang->cmd_insert}</button>
-					<select class="multiorder_selected" size="8" multiple="multiple" style="width:290px;vertical-align:top">
-						<option loop="$var->options => $key, $val" cond="$var->init_options[$key]" value="{$key}" default="true"|cond="$var->default_options[$key]">{$val}</option>
-					</select>
-					<button type="button" class="text multiorder_up" style="vertical-align:top">{$lang->cmd_move_up}</button>
-					<button type="button" class="text multiorder_down" style="vertical-align:top">{$lang->cmd_move_down}</button>
-					<button type="button" class="text multiorder_del" style="vertical-align:top">{$lang->cmd_delete}</button>
-					<script type="text/javascript">
-						xe.registerApp(new xe.MultiOrderManager('{$id}'));
-					</script>
-				</block>
-				<block cond="$var->type == 'mid_list'">
-					<fieldset loop="$mid_list => $module_category_srl, $modules" style="border: 1px solid #ccc; margin:1em 0; padding:.5em 1em">
-						<legend cond="$modules->title">{$modules->title}</legend>
-						<legend cond="!$modules->title">{$lang->none_category}</legend>
-						<div loop="$modules->list => $key, $val">
-							<input type="checkbox" value="{$key}" name="{$id}[]" id="chk_mid_list_{$key}" />
-							<label for="chk_mid_list_{$key}">{$key} ({$val->browser_title})</label>
-						</div>
-					</fieldset>
-				</block>
-				<block cond="$var->type == 'member_group'">
-					<block loop="$group_list => $key, $val">
-						<input type="checkbox" value="{$key}" name="{$id}[]" id="chk_member_gruop_{$id}_{$key}" />
-						<label for="chk_member_gruop_{$id}_{$key}">{$val->title}</label>
-					</block>
-				</block>
-				<block cond="$var->type == 'module_srl_list'">
-					<input type="hidden" name="{$id}" value="" />
-					<div class="a">
-						<input type="text" /> <a href="#suggestion_{$suggestion_id}" class="tgAnchor findsite">{$lang->find_site}</a>
-						<div id="suggestion_{$suggestion_id}" class="tgContent suggestion">
-							<ul>
-							</ul>
-						</div>
-					</div>
-					<p class="a">
-						<select class="moduleList" style="width:290px"></select>
-					</p>
-					<select class="moduleIdList" size="8" multiple="multiple" style="width:290px;vertical-align:top"></select>
-					<button type="button" class="text modulelist_add" style="vertical-align:top">{$lang->cmd_insert}</button>
-					<select class="modulelist_selected" size="8" multiple="multiple" style="width:290px;"></select>
-					<button type="button" class="text modulelist_up" style="vertical-align:top">{$lang->cmd_move_up}</button>
-					<button type="button" class="text modulelist_down" style="vertical-align:top">{$lang->cmd_move_down}</button>
-					<button type="button" class="text modulelist_del" style="vertical-align:top">{$lang->cmd_delete}</button>
-					<script type="text/javascript">
-						xe.registerApp(new xe.ModuleListManager('{$id}'));
-					</script>
-				</block>
-				<block cond="$var->type == 'mid'">
-					<div class="a">
-						<input type="text" /> <a href="#suggestion_{$suggestion_id}" class="tgAnchor findsite">{$lang->find_site}</a>
-						<div id="suggestion_{$suggestion_id}" class="tgContent suggestion">
-							<ul>
-							</ul>
-						</div>
-					</div>
-					<p class="a"><select class="moduleList" style="width:290px;"></select></p>
-					<p class="a"><select name="{$id}" class="moduleIdList" style="width:290px;"></select></p>
-				</block>
-				<block cond="$var->type == 'filebox'">
-					<input type="hidden" name="{$id}" />
-					<a class="modalAnchor filebox" href="#modalFilebox">{$lang->cmd_select}</a>
-				</block>
-				<select cond="$var->type == 'menu'" name="{$id}" style="width:290px">
-					<option value="">-</option>
-					<option loop="$menu_list => $key, $val" value="{$val->menu_srl}">{$val->title}</option>
-				</select>
-			</div>
-			<p class="desc">{$var->description}</p>
-		</li>
-	</block>
-	</ul>
+	<include target="widget_generate_code.include.html" />
+
 	<div class="btnArea">
 		<span class="btn small"><input type="submit" value="{$lang->cmd_generate_code}" /></span>
 	</div>
@@ -154,28 +20,4 @@
 <h3 class="h3">{$lang->widget_code}</h3>
 <p><textarea id="widget_code" style="width: 100%; height: 50px;" readonly="readonly"></textarea>
 
-<div class="modal" id="modalFilebox">
-	<div class="fg portlet">
-		<h2 class="h2">FileBox</h2>
-		<div class="filebox_list"></div>
-		<h2 class="h2">Upload</h2>
-		<form id="filebox_upload" class="form" action="./" method="post" enctype="multipart/form-data">
-		<input type="hidden" name="module" value="module" />
-		<input type="hidden" name="act" value="procModuleFileBoxAdd" />
-		<input type="hidden" name="ajax" value="true" />
-			<ul>
-				<li>
-					<p class="q"><label for="comment">{$lang->description}</label></p>
-					<p class="a"><input type="text" name="comment" id="comment" value="" /></p>
-				</li>
-				<li>
-					<p class="q"><label for="addfile">{$lang->file}</label></p>
-					<p class="a"><input type="file" name="addfile" id="addfile" /></p>
-				</li>
-			</ul>
-			<div class="btnArea">
-				<span class="btn small"><input type="submit" value="{$lang->cmd_submit}" /></span>
-			</div>
-		</form>
-	</div>
-</div>
+<include target="widget_generate_code.filebox.html" />

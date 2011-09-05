@@ -64,7 +64,7 @@ function doStartPageModify(zoneID, module_srl) {
 // 내용 모두 삭제
 function removeAllWidget() {
     if(!confirm(confirm_delete_msg)) return;
-	restoreWidgetButtons(); 
+	restoreWidgetButtons();
 	xInnerHtml(zonePageObj,'');
 }
 
@@ -215,7 +215,7 @@ function getWidgetCode(childObj, widget) {
 // 팝업 띄움
 function doAddContent(mid) {
     var url = request_uri.setQuery('module','widget').setQuery('act','dispWidgetAdminAddContent').setQuery('module_srl',zoneModuleSrl).setQuery('mid',mid);
-    popopen(url, "addContent");
+	window.open(url,'addContent', 'location=0, menubar=0, toolbar=0, scrollbars=1');
 }
 
 // 직접 내용을 입력하기 위한 에디터 활성화 작업 및 form 데이터 입력
@@ -250,7 +250,7 @@ function doSyncPageContent() {
     if(typeof(editorStart)!='undefined') editorStart(1, "module_srl", "content", false, 400 );
     //editor_upload_start(1);
 
-    setFixedPopupSize();
+    //setFixedPopupSize();
 }
 
 // 부모창에 위젯을 추가
@@ -332,7 +332,8 @@ function doAddWidget(fo) {
     var module_srl = fo.module_srl.value;
 
     var url = request_uri.setQuery('module','widget').setQuery('act','dispWidgetGenerateCodeInPage').setQuery('selected_widget', val).setQuery('module_srl', module_srl);
-    popopen(url,'GenerateWidgetCode');
+    //popopen(url,'GenerateWidgetCode');
+	window.open(url, 'GenerateWidgetCode', 'location=0, menubar=0, toolbar=0, scrollbars=1');
 }
 
 
@@ -492,8 +493,8 @@ function doCheckWidget(e) {
         var widget = p_obj.getAttribute("widget");
         if(!widget) return;
         selectedWidget = p_obj;
-        if(widget == 'widgetContent') popopen(request_uri+"?module=widget&act=dispWidgetAdminAddContent&module_srl="+zoneModuleSrl+"&document_srl="+p_obj.getAttribute("document_srl")+'&mid='+current_mid, "addContent");
-        else popopen(request_uri+"?module=widget&act=dispWidgetGenerateCodeInPage&selected_widget="+widget+"&widgetstyle="+widgetstyle,'GenerateCodeInPage');
+        if(widget == 'widgetContent') window.open(request_uri+"?module=widget&act=dispWidgetAdminAddContent&module_srl="+zoneModuleSrl+"&document_srl="+p_obj.getAttribute("document_srl")+'&mid='+current_mid, "addContent", 'location=0, menubar=0, toolbar=0, scrollbars=1');
+        else window.open(request_uri+"?module=widget&act=dispWidgetGenerateCodeInPage&selected_widget="+widget+"&widgetstyle="+widgetstyle,'GenerateCodeInPage', 'location=0, menubar=0, toolbar=0, scrollbars=1');
         return;
 
     // 위젯 스타일
@@ -503,7 +504,7 @@ function doCheckWidget(e) {
         var widgetstyle = p_obj.getAttribute("widgetstyle");
         if(!widget) return;
         selectedWidget = p_obj;
-        popopen(request_uri+"?module=widget&act=dispWidgetStyleGenerateCodeInPage&selected_widget="+widget+"&widgetstyle="+widgetstyle,'GenerateCodeInPage');
+        window.open(request_uri+"?module=widget&act=dispWidgetStyleGenerateCodeInPage&selected_widget="+widget+"&widgetstyle="+widgetstyle,'GenerateCodeInPage', 'location=0, menubar=0, toolbar=0, scrollbars=1');
         return;
 
     // 위젯 복사
@@ -651,21 +652,21 @@ function doShowWidgetSizeSetup(px, py, obj) {
 
 		width  : obj[0].style.width,
 		height : obj[0].style.height,
-		
+
 		padding_left   : _getInt(obj.attr('widget_padding_left')),
 		padding_right  : _getInt(obj.attr('widget_padding_right')),
 		padding_top    : _getInt(obj.attr('widget_padding_top')),
 		padding_bottom : _getInt(obj.attr('widget_padding_bottom')),
-		
+
 		margin_left    : _getInt(obj[0].style.marginLeft),
 		margin_right   : _getInt(obj[0].style.marginRight),
 		margin_top     : _getInt(obj[0].style.marginTop),
 		margin_bottom  : _getInt(obj[0].style.marginBottom),
-		
+
 		border_top_color : transRGB2Hex(obj[0].style.borderTopColor),
 		border_top_thick : obj[0].style.borderTopWidth.replace(/px$/i, ''),
 		border_top_type  : obj[0].style.borderTopStyle,
-		
+
 		border_bottom_color : transRGB2Hex(obj[0].style.borderBottomColor),
 		border_bottom_thick : obj[0].style.borderBottomWidth.replace(/px$/i, ''),
 		border_bottom_type  : obj[0].style.borderBottomStyle,
@@ -708,7 +709,7 @@ function doShowWidgetSizeSetup(px, py, obj) {
 		var el = form[0].elements[key];
 		if (el) el.value = val;
         if (el.tagName.toLowerCase() == "select")
-        { 
+        {
             if(el.selectedIndex == -1) {
                 el.selectedIndex = 0;
             }

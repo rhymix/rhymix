@@ -23,6 +23,8 @@ xe.ModuleListManager = xe.createApp("ModuleListManager", {
 			.bind('show', function(){
 				$(this).nextAll().show();
 			});
+
+		this.cast('MODULELIST_SYNC');
 	},
 
 	API_MODULELIST_ADD: function(){
@@ -52,6 +54,24 @@ xe.ModuleListManager = xe.createApp("ModuleListManager", {
 		var $selected = this.$selectedObj.find('>option:selected');
 		$selected.eq(-1).next('option').after($selected);
 		this.refreshValue();
+	},
+
+	API_MODULELIST_SYNC: function(){
+		var values = this.$keyObj.val();
+		if (!values) return;
+
+		var self = this;
+		function on_complete(data){
+			if (data.error) return;
+
+			for(var i in data.module_list){
+				var module = data.module_list[i];
+				var obj = $(document.createElement('option'));
+				obj.val(module.module_srl).html(module.browser_title+' ('+module.module_name+')').appendTo(self.$selectedObj);
+			}
+		}
+
+		$.exec_json('module.getModuleAdminModuleList', {'module_srls': values}, on_complete);
 	},
 
 	removeDuplicated : function() {

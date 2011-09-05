@@ -19,12 +19,16 @@
          * Used in the ModuleSelector
          **/
         function getModuleAdminModuleList() {
+			$oModuleController = &getController('module');
+			$oModuleModel = &getModel('module');
             $args->module_srls = Context::get('module_srls');
             $output = executeQueryArray('module.getModulesInfo', $args);
             if(!$output->toBool() || !$output->data) return new Object();
 
             foreach($output->data as $key => $val) {
-                $list[$val->module_srl] = array('module_srl'=>$val->module_srl,'mid'=>$val->mid,'browser_title'=>$val->browser_title);
+				$info_xml = $oModuleModel->getModuleInfoXml($val->module);
+				$oModuleController->replaceDefinedLangCode($val->browser_title);
+                $list[$val->module_srl] = array('module_srl'=>$val->module_srl,'mid'=>$val->mid,'browser_title'=>$val->browser_title, 'module_name' => $info_xml->title);
             }
             $modules = explode(',',$args->module_srls);
             for($i=0;$i<count($modules);$i++) {
@@ -170,7 +174,7 @@
         }
 
         /**
-         * @brief Return if the module language in ajax is requested 
+         * @brief Return if the module language in ajax is requested
          **/
         function getModuleAdminLangCode() {
             $name = Context::get('name');
@@ -182,17 +186,17 @@
         }
 
         /**
-         * @brief Return lang list 
+         * @brief Return lang list
          **/
 		function getModuleAdminLangListByName()
 		{
 			$args = Context::getRequestVars();
 			if(!$args->site_srl) $args->site_srl = 0;
-			
+
 			$columnList = array('lang_code', 'value');
 
 			$langList = array();
-			
+
 			$args->langName = preg_replace('/\$user_lang->/', '', $args->lang_name);
             $output = executeQueryArray('module.getLangListByName', $args, $columnList);
 			if($output->toBool()) $langList = $output->data;
@@ -202,16 +206,16 @@
 		}
 
         /**
-         * @brief Return lang list 
+         * @brief Return lang list
          **/
 		function getModuleAdminLangListByValue()
 		{
 			$args = Context::getRequestVars();
 			if(!$args->site_srl) $args->site_srl = 0;
-			
+
 
 			$langList = array();
-			
+
 			$args->value = $args->lang_name;
 
 			// search value
@@ -222,7 +226,7 @@
 				$args->langName = $output->data[0]->name;
 				$columnList = array('lang_code', 'value');
 				$output = executeQueryArray('module.getLangListByName', $args, $columnList);
-			
+
 				if($output->toBool()) $langList = $output->data;
 			}
 
@@ -230,7 +234,7 @@
 			$this->add('lang_name', $args->langName);
 		}
         /**
-         * @brief Return current lang list 
+         * @brief Return current lang list
          **/
 		function getLangListByLangcode($args)
 		{
@@ -241,7 +245,7 @@
 		}
 
         /**
-         * @brief Return current lang list 
+         * @brief Return current lang list
          **/
 		function getLangListByLangcodeForAutoComplete()
 		{

@@ -65,7 +65,8 @@
             $editor = $oEditorModel->getModuleEditor('document',$module_srl, $module_srl,'module_srl','content');
             Context::set('editor', $editor);
 
-            $this->setLayoutFile("popup_layout");
+			$this->setLayoutPath('./common/tpl');
+            $this->setLayoutFile("default_layout");
             $this->setTemplateFile('add_content_widget');
 
         }

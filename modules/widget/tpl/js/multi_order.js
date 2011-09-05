@@ -17,6 +17,8 @@ xe.MultiOrderManager = xe.createApp("MultiOrderManager", {
 				.filter('.multiorder_del').bind('click', function(){ self.cast('MULTIORDER_DEL'); return false; }).end()
 				.filter('.multiorder_up').bind('click', function(){ self.cast('MULTIORDER_UP'); return false; }).end()
 				.filter('.multiorder_down').bind('click', function(){ self.cast('MULTIORDER_DOWN'); return false; }).end()
+
+		this.cast('MULTIORDER_SYNC');
 	},
 
 	API_MULTIORDER_ADD: function(){
@@ -45,6 +47,18 @@ xe.MultiOrderManager = xe.createApp("MultiOrderManager", {
 		var $selected = this.$selectedObj.find('>option:selected');
 		$selected.eq(-1).next('option').after($selected);
 		this.refreshValue();
+	},
+
+	API_MULTIORDER_SYNC: function(){
+		var values = this.$keyObj.val().split(',');
+		this.$selectedObj.find('>option').appendTo(this.$showObj);
+
+		var targets = [];
+		for(var i in values){
+			var target = this.$showObj.find('>option[value='+values[i]+']').get(0);
+			if (target != undefined) targets.push(target);
+		}
+		$(targets).appendTo(this.$selectedObj);
 	},
 
 	refreshValue : function() {

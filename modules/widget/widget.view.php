@@ -111,6 +111,7 @@
             if(!Context::get('selected_widget')) Context::set('selected_widget',$widget_list[0]->widget);
 
             $this->dispWidgetGenerateCode();
+			$this->setLayoutFile('default_layout');
             $this->setTemplateFile('widget_generate_code_in_page');
         }
 
@@ -130,7 +131,7 @@
             }
 
             $this->dispWidgetGenerateCode();
-            $this->setLayoutFile('popup_layout');
+            $this->setLayoutFile('default_layout');
             $this->setTemplateFile('widget_style_generate_code_in_page');
         }
     }
