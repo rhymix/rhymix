@@ -7,8 +7,6 @@
 		var $list_count;
 
 		function LimitTag($index){
-			require_once(_XE_PATH_.'classes/xml/xmlquery/queryargument/QueryArgument.class.php');
-
 			if($index->page->attrs && $index->page_count->attrs){
 				$this->page = new QueryArgument($index->page);
 				$this->page_count = new QueryArgument($index->page_count);

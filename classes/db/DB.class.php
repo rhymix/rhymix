@@ -13,24 +13,30 @@
      * queryid = module_name.query_name
      **/
 
-    require_once(_XE_PATH_.'classes/xml/xmlquery/DBParser.class.php');
-    require_once(_XE_PATH_.'classes/xml/xmlquery/argument/Argument.class.php');
-    require_once(_XE_PATH_.'classes/xml/xmlquery/argument/SortArgument.class.php');
-    require_once(_XE_PATH_.'classes/xml/xmlquery/argument/ConditionArgument.class.php');
-    require_once(_XE_PATH_.'classes/xml/XmlQueryParser.class.php');
-    require_once(_XE_PATH_.'classes/db/queryparts/expression/Expression.class.php');
-    require_once(_XE_PATH_.'classes/db/queryparts/expression/SelectExpression.class.php');
-    require_once(_XE_PATH_.'classes/db/queryparts/expression/InsertExpression.class.php');
-    require_once(_XE_PATH_.'classes/db/queryparts/expression/UpdateExpression.class.php');
-    require_once(_XE_PATH_.'classes/db/queryparts/table/Table.class.php');
-    require_once(_XE_PATH_.'classes/db/queryparts/table/JoinTable.class.php');
-    require_once(_XE_PATH_.'classes/db/queryparts/condition/ConditionGroup.class.php');
-    require_once(_XE_PATH_.'classes/db/queryparts/condition/Condition.class.php');
-    require_once(_XE_PATH_.'classes/db/queryparts/expression/StarExpression.class.php');
-    require_once(_XE_PATH_.'classes/db/queryparts/order/OrderByColumn.class.php');
-    require_once(_XE_PATH_.'classes/db/queryparts/limit/Limit.class.php');
-    require_once(_XE_PATH_.'classes/db/queryparts/Query.class.php');
-    require_once(_XE_PATH_.'classes/db/queryparts/Subquery.class.php');
+    if(!defined('__XE_LOADED_DB_CLASS__')){
+        define('__XE_LOADED_DB_CLASS__', 1);
+
+        require(_XE_PATH_.'classes/xml/xmlquery/DBParser.class.php');
+        require(_XE_PATH_.'classes/xml/xmlquery/QueryParser.class.php');
+        require(_XE_PATH_.'classes/xml/xmlquery/argument/Argument.class.php');
+        require(_XE_PATH_.'classes/xml/xmlquery/argument/SortArgument.class.php');
+        require(_XE_PATH_.'classes/xml/xmlquery/argument/ConditionArgument.class.php');
+        require(_XE_PATH_.'classes/xml/XmlQueryParser.class.php');
+
+        require(_XE_PATH_.'classes/db/queryparts/expression/Expression.class.php');
+        require(_XE_PATH_.'classes/db/queryparts/expression/SelectExpression.class.php');
+        require(_XE_PATH_.'classes/db/queryparts/expression/InsertExpression.class.php');
+        require(_XE_PATH_.'classes/db/queryparts/expression/UpdateExpression.class.php');
+        require(_XE_PATH_.'classes/db/queryparts/table/Table.class.php');
+        require(_XE_PATH_.'classes/db/queryparts/table/JoinTable.class.php');
+        require(_XE_PATH_.'classes/db/queryparts/condition/ConditionGroup.class.php');
+        require(_XE_PATH_.'classes/db/queryparts/condition/Condition.class.php');
+        require(_XE_PATH_.'classes/db/queryparts/expression/StarExpression.class.php');
+        require(_XE_PATH_.'classes/db/queryparts/order/OrderByColumn.class.php');
+        require(_XE_PATH_.'classes/db/queryparts/limit/Limit.class.php');
+        require(_XE_PATH_.'classes/db/queryparts/Query.class.php');
+        require(_XE_PATH_.'classes/db/queryparts/Subquery.class.php');
+    }
 
     class DB {
 
@@ -56,6 +62,7 @@
         var $errstr = ''; ///< error message
         var $query = ''; ///< query string of latest executed query
         var $elapsed_time = 0; ///< elapsed time of latest executed query
+        var $elapsed_dbclass_time = 0; ///< elapsed time of latest executed query
 
         var $transaction_started = false; ///< transaction flag
 
@@ -313,7 +320,10 @@
          **/
         function executeQuery($query_id, $args = NULL, $arg_columns = NULL, $database_type = 'master') {
             if(!$query_id) return new Object(-1, 'msg_invalid_queryid');
-            $this->query_id = $query_id;
+
+			$this->actDBClassStart();
+
+			$this->query_id = $query_id;
 
             $id_args = explode('.', $query_id);
             if(count($id_args) == 2) {
@@ -322,20 +332,31 @@
                 $id = $id_args[1];
             } elseif(count($id_args) == 3) {
                 $target = $id_args[0];
-                if(!in_array($target, array('addons','widgets'))) return;
+                if(!in_array($target, array('addons','widgets'))){
+		    $this->actDBClassFinish();
+		    return;
+		}
                 $module = $id_args[1];
                 $id = $id_args[2];
             }
-            if(!$target || !$module || !$id) return new Object(-1, 'msg_invalid_queryid');
+            if(!$target || !$module || !$id){
+		$this->actDBClassFinish();
+		return new Object(-1, 'msg_invalid_queryid');
+	    }
 
             $xml_file = sprintf('%s%s/%s/queries/%s.xml', _XE_PATH_, $target, $module, $id);
-            if(!file_exists($xml_file)) return new Object(-1, 'msg_invalid_queryid');
+            if(!file_exists($xml_file)){
+		$this->actDBClassFinish();
+		return new Object(-1, 'msg_invalid_queryid');
+	    }
 
             // look for cache file
             $cache_file = $this->checkQueryCacheFile($query_id, $xml_file);
+	    $result = $this->_executeQuery($cache_file, $args, $query_id, $arg_columns, $database_type);
 
+	    $this->actDBClassFinish();
             // execute query
-            return $this->_executeQuery($cache_file, $args, $query_id, $arg_columns, $database_type);
+            return $result;
         }
 
 
@@ -746,7 +767,27 @@
 
             $this->_afterConnect($result);
         }
+	/**
+         * @brief start recording DBClass log
+         * @return none
+         **/
+        function actDBClassStart() {
+            $this->setError(0, 'success');
+            $this->act_dbclass_start = getMicroTime();
+            $this->elapsed_dbclass_time = 0;
+        }
 
+        /**
+         * @brief finish recording DBClass log
+         * @return none
+         **/
+        function actDBClassFinish() {
+            if(!$this->query) return;
+            $this->act_dbclass_finish = getMicroTime();
+            $elapsed_dbclass_time = $this->act_dbclass_finish - $this->act_dbclass_start;
+            $this->elapsed_dbclass_time = $elapsed_dbclass_time;
+            $GLOBALS['__dbclass_elapsed_time__'] += $elapsed_dbclass_time;
+        }
 
     }
 ?>

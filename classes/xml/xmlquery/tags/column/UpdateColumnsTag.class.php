@@ -1,4 +1,4 @@
-<?php 
+<?php
 
     /**
      * @class UpdateColumnsTag
@@ -7,33 +7,30 @@
      *
      **/
 
-	require_once(_XE_PATH_.'classes/xml/xmlquery/tags/column/ColumnTag.class.php');
-	require_once(_XE_PATH_.'classes/xml/xmlquery/tags/column/UpdateColumnTag.class.php');
-
 	class UpdateColumnsTag{
 		var $columns;
-		
-		function UpdateColumnsTag($xml_columns) {		
-			$this->columns = array();			
-						
-			if(!is_array($xml_columns)) $xml_columns = array($xml_columns); 	
-						
+
+		function UpdateColumnsTag($xml_columns) {
+			$this->columns = array();
+
+			if(!is_array($xml_columns)) $xml_columns = array($xml_columns);
+
 			foreach($xml_columns as $column){
 				if($column->name === 'query') $this->columns[] = new QueryTag($column, true);
 				else $this->columns[] = new UpdateColumnTag($column);
-			}			
+			}
 		}
-		
+
 		function toString(){
 			$output_columns = 'array(' . PHP_EOL;
 			foreach($this->columns as $column){
 				$output_columns .= $column->getExpressionString() . PHP_EOL . ',';
 			}
 			$output_columns = substr($output_columns, 0, -1);
-			$output_columns .= ')';	
-			return $output_columns;			
+			$output_columns .= ')';
+			return $output_columns;
 		}
-		
+
 		function getArguments(){
 			$arguments = array();
 			foreach($this->columns as $column){
@@ -41,7 +38,7 @@
 			}
 			return $arguments;
 		}
-	
+
 	}
 
 ?>

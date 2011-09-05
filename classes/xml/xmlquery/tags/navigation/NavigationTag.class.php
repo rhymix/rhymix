@@ -1,14 +1,11 @@
-<?php 
-	require_once(_XE_PATH_.'classes/xml/xmlquery/tags/navigation/IndexTag.class.php');
-	require_once(_XE_PATH_.'classes/xml/xmlquery/tags/navigation/LimitTag.class.php');
-	
+<?php
 	class NavigationTag {
 		var $order;
 		var $list_count;
 		var $page_count;
 		var $page;
 		var $limit;
-		
+
 		function NavigationTag($xml_navigation){
 			$this->order = array();
             if($xml_navigation) {
@@ -19,10 +16,10 @@
                         $this->order[] = new IndexTag($order_info);
                     }
                 }
-				
+
                 if($xml_navigation->page->attrs || $xml_navigation->list_count->attrs)
                 	$this->limit = new LimitTag($xml_navigation);
-                
+
                 $list_count = $xml_navigation->list_count->attrs;
                 $this->list_count = $list_count;
 
@@ -31,19 +28,19 @@
 
                 $page = $xml_navigation->page->attrs;
                 $this->page = $page ;
-            }	
+            }
 		}
-		
+
 		function getOrderByString(){
 			$output = 'array(' . PHP_EOL;
 			foreach($this->order as $order){
 				$output .= $order->toString() . PHP_EOL . ',';
 			}
 			$output = substr($output, 0, -1);
-			$output .= ')';	
-			return $output;				
+			$output .= ')';
+			return $output;
 		}
-		
+
 		function getLimitString(){
 			if ($this->limit)	return $this->limit->toString();
 			else return "";
@@ -56,7 +53,7 @@
 			}
 			if($this->limit)	$arguments = array_merge($this->limit->getArguments(), $arguments);
 			return $arguments;
-		}				
+		}
 	}
 
 ?>

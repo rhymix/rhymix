@@ -29,7 +29,6 @@
 
 			if($tag->attrs->operation) $this->operation = $tag->attrs->operation;
 
-			require_once(_XE_PATH_.'classes/xml/xmlquery/queryargument/validator/QueryArgumentValidator.class.php');
 			$this->argument_validator = new QueryArgumentValidator($tag, $this);
 
 		}

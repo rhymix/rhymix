@@ -31,8 +31,6 @@
                                 $this->default_column = $this->query->toString();
                         }
 			else if(($condition->attrs->var && !$isColumnName) || $isColumnName === false){
-				require_once(_XE_PATH_.'classes/xml/xmlquery/queryargument/QueryArgument.class.php');
-
 				$this->argument = new QueryArgument($condition);
 				$this->argument_name = $this->argument->getArgumentName();
 			}

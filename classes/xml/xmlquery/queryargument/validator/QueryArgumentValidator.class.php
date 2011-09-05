@@ -1,6 +1,4 @@
 <?php
-	require_once(_XE_PATH_.'classes/xml/xmlquery/queryargument/DefaultValue.class.php');
-
 	class QueryArgumentValidator {
 		var $argument_name;
 		var $default_value;
