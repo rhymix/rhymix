@@ -133,7 +133,7 @@
 							$args->module = \'opage\';';
 			$expected = 'SELECT TOP 20 *
 						FROM [xe_modules] as [modules]
-						WHERE  [module] = ? and ([browser_title] like ?)
+						WHERE  [module] = ? and ([title] like ?)
 						ORDER BY [module_srl] desc';
 			$this->_test($xml_file, $argsString, $expected, array("'opage'", "'%yuhuu%'"));
 		}

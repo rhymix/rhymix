@@ -10,6 +10,8 @@
 
                 var $column_operation;
 
+                var $_value; // Caches escaped and toString value so that the parsing won't happen multiple times;
+
 		function Argument($name, $value){
                         $this->value = $value;
 			$this->name = $name;
@@ -35,8 +37,11 @@
 		}
 
 		function getValue(){
+                    if(!isset($this->_value)){
 			$value = $this->getEscapedValue();
-			return $this->toString($value);
+			$this->_value = $this->toString($value);
+                    }
+                    return $this->_value;
 		}
 
                 function getColumnOperation(){

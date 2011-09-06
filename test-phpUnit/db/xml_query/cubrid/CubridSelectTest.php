@@ -133,7 +133,7 @@
 							$args->module = \'opage\';';
 			$expected = 'SELECT *
 						FROM "xe_modules" as "modules"
-						WHERE  "module" = \'opage\' and ("browser_title" like \'%yuhuu%\')
+						WHERE  "module" = \'opage\' and ("title" like \'%yuhuu%\')
 						ORDER BY "module_srl" desc
 						LIMIT 0, 20';
 			$this->_test($xml_file, $argsString, $expected);
