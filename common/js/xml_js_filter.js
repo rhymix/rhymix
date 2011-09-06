@@ -105,6 +105,7 @@ var Validator = xe.createApp('Validator', {
 			el   = elems[i];
 			name = el.name;
 
+			if(!name || !elems[name]) continue;
 			if(!elems[name].length || elems[name][0] === el) fields.push(name);
 		};
 		fields = fields.join('\n');
