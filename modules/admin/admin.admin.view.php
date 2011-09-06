@@ -221,7 +221,10 @@
 			if(is_array($output))
 			{
 				foreach($output AS $key=>$value)
+				{
 					$value->content = strip_tags($value->content);
+					if(!trim($value->content)) $value->content = '...';
+				}
 			}
             Context::set('latestCommentList', $output);
 			unset($args, $output, $columnList);
