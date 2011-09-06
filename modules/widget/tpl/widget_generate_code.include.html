@@ -115,6 +115,7 @@
 				<p class="a"><select name="{$id}" class="moduleIdList" style="width:290px;"></select></p>
 			</block>
 			<block cond="$var->type == 'filebox'">
+				{@$use_filebox = true}
 				<input type="hidden" name="{$id}" />
 				<a class="modalAnchor filebox" href="#modalFilebox">{$lang->cmd_select}</a>
 			</block>
