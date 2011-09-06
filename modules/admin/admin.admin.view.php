@@ -109,6 +109,7 @@
 			if($subMenuTitle) $browserTitle = $subMenuTitle;
 			$browserTitle .= ' - '.$gnbTitleInfo->adminTitle;
 
+			Context::set('subMenuTitle', $subMenuTitle);
 			Context::set('gnbUrlList', $menu->list);
 			Context::set('parentSrl', $parentSrl);
 			Context::set('gnb_title_info', $gnbTitleInfo);
