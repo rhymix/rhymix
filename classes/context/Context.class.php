@@ -468,7 +468,22 @@ class Context {
 		if(in_array($filename, $self->loaded_lang_files)) return;
 		$self->loaded_lang_files[] = $filename;
 
-		@include($filename);
+		if (is_readable($filename))
+			@include($filename);
+		else
+			$self->_evalxmlLang($path);
+	}
+
+	function _evalxmlLang($path) {
+		global $lang;
+
+		if(substr($path,-1)!='/') $path .= '/';
+		$file = $path.'lang.xml';
+
+		$oXmlLangParser = new XmlLangParser($file, $this->lang_type);
+		$content = $oXmlLangParser->getCompileContent();
+
+		eval($content);
 	}
 
 	function _loadXmlLang($path) {

@@ -31,12 +31,19 @@
 			if(!file_exists($this->xml_file)) return false;
 			if(!file_exists($this->php_file)){
 				$this->_compile();
-			} else { 
+			} else {
 				if(filemtime($this->xml_file)>filemtime($this->php_file)) $this->_compile();
 				else return $this->php_file;
 			}
 
 			return $this->_writefile() ? $this->php_file : false;
+		}
+
+		function getCompileContent() {
+			if(!file_exists($this->xml_file)) return false;
+			$this->_compile();
+
+			return $this->code;
 		}
 
 		/**
@@ -81,21 +88,21 @@
 				$type = $item->attrs->type;
 
 				if($type == 'array'){
-					$this->code .= $var."=array();\n"; 
+					$this->code .= $var."=array();\n";
 					$var .= '[\'%s\']';
 				}else{
-					$this->code .= $var."=new stdClass;\n"; 
+					$this->code .= $var."=new stdClass;\n";
 					$var .= '->%s';
 				}
 
 				$items = $item->item;
-				if(!is_array($items)) $item = array($items);
+				if(!is_array($items)) $items = array($items);
 				foreach($items as $item){
 					$this->_parseItem($item, $var);
 				}
 
 			} else {
-				$code = $this->_parseValues($value, $var);	
+				$code = $this->_parseValues($value, $var);
 				$this->code .= $code;
 			}
 		}
