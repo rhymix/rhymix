@@ -127,10 +127,13 @@
 			$args->page_count = 5;
             $output = executeQueryArray("autoinstall.getInstalledPackageList", $args);
             $res = array();
-            foreach($output->data as $val)
-            {
-                $res[$val->package_srl] = $val;
-            }
+			if ($output->data)
+			{
+				foreach($output->data as $val)
+				{
+					$res[$val->package_srl] = $val;
+				}
+			}
             $output->data = $res;
             return $output;
         }

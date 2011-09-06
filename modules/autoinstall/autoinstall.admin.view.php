@@ -240,6 +240,8 @@
             {
 				$oController = &getAdminController('autoinstall');
 				$oController->_updateinfo();
+				header('location: ' . getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAutoinstallAdminIndex'));
+				return;
             }
 
             $page = Context::get('page');
