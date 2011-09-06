@@ -156,10 +156,7 @@
          * @brief Add-On Set
          **/
         function doSetup($addon, $extra_vars,$site_srl=0, $gtype = 'site') {
-            if($gtype == 'site' && $extra_vars->mid_list)
-				$extra_vars->mid_list = explode('|@|', $extra_vars->mid_list);
-			else
-				unset($extra_vars->mid_list);
+            if(!is_array($extra_vars->mid_list))	unset($extra_vars->mid_list);
 
             $args->addon = $addon;
             $args->extra_vars = serialize($extra_vars);

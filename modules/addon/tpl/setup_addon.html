@@ -10,7 +10,6 @@
 	</li>
 	<li cond="$addon_info->homepage">{$lang->homepage}: <a href="{$addon_info->homepage}" target="_blank">{$addon_info->homepage}</a></li>
 </ul>
-<block cond="count($addon_info->extra_vars)">
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
@@ -19,33 +18,47 @@
 	<input type="hidden" name="act" value="procAddonAdminSetupAddon" />
 	<input type="hidden" name="addon_name" value="{$addon_info->addon_name}" />
 
-	<block loop="$addon_info->extra_vars => $id, $var">
-		<block cond="!$not_first && !$var->group"><ul></block>
-		<block cond="$group != $var->group">
-			<block cond="$not_first"></ul></block>
-			<h3 class="h3">{$var->group}</h3>
-			<ul>
-			{@$group = $var->group}
+	<block cond="count($addon_info->extra_vars)">
+		<block loop="$addon_info->extra_vars => $id, $var">
+			<block cond="!$not_first && !$var->group"><ul></block>
+			<block cond="$group != $var->group">
+				<block cond="$not_first"></ul></block>
+				<h3 class="h3">{$var->group}</h3>
+				<ul>
+				{@$group = $var->group}
+			</block>
+			{@$not_first = true}
+			<li>
+				<p class="q"><label for="{$var->name}">{$var->title}</label></p>
+				<p class="a">
+					<input cond="$var->type == 'text'" type="text" name="{$var->name}" id="{$var->name}" value="{htmlspecialchars($var->value)}" class="lang_code">
+					<textarea cond="$var->type == 'textarea'" name="{$var->name}" id="{$var->name}" class="lang_code">{htmlspecialchars($var->value)}</textarea>
+					<select cond="$var->type == 'select'" name="{$var->name}" id="{$var->name}">
+						<option loop="$var->options => $option" value="{$option->value}" selected="selected"|cond="$var->value == $option->value">{$option->title}</option>
+					</select>
+				</p>
+				<p class="desc">{nl2br($var->description)}</p>
+			</li>
 		</block>
-		{@$not_first = true}
-		<li>
-			<p class="q"><label for="{$var->name}">{$var->title}</label></p>
-			<p class="a">
-				<input cond="$var->type == 'text'" type="text" name="{$var->name}" id="{$var->name}" value="{htmlspecialchars($var->value)}" class="lang_code">
-				<textarea cond="$var->type == 'textarea'" name="{$var->name}" id="{$var->name}" class="lang_code">{htmlspecialchars($var->value)}</textarea>
-				<select cond="$var->type == 'select'" name="{$var->name}" id="{$var->name}">
-					<option loop="$var->options => $option" value="{$option->value}" selected="selected"|cond="$var->value == $option->value">{$option->title}</option>
-				</select>
-				<span class="desc">{nl2br($var->description)}</span>
-			</p>
-		</li>
+		</ul>
 	</block>
-	</ul>
+	<div cond="!count($addon_info->extra_vars)" class="message info">
+		<p>{$lang->msg_not_exist_option}</p>
+	</div>
+	<block cond="$mid_list">
+		<h3 class="h3">{$lang->module}</h3>
+		<p>{$lang->about_addon_mid}</p>
+		<fieldset loop="$mid_list => $module_category_srl, $modules" style="border: 1px solid #ccc; margin:1em 0; padding:.5em 1em">
+			<legend cond="$modules->title">{$modules->title}</legend>
+			<legend cond="!$modules->title">{$lang->none_category}</legend>
+			<div loop="$modules->list => $key, $val">
+				<input type="checkbox" value="{$key}" name="mid_list[]" id="chk_mid_list_{$key}" checked="checked"|cond="in_array($key, $addon_info->mid_list)"/>
+				<label for="chk_mid_list_{$key}">{$key} ({$val->browser_title})</label>
+			</div>
+		</fieldset>
+	</block>
 	<div class="btnArea">
 		<span class="btn medium"><input type="submit" value="{$lang->cmd_save}" /></span>
 	</div>
 </form>
 </block>
-<div cond="!count($addon_info->extra_vars)" class="message info">
-	<p>{$lang->msg_not_exist_option}</p>
-</div>
