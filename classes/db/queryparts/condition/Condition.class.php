@@ -11,7 +11,6 @@
                 var $_show;
                 var $_value_to_string;
 
-
 		function Condition($column_name, $argument, $operation, $pipe){
 			$this->column_name = $column_name;
 			$this->argument = $argument;

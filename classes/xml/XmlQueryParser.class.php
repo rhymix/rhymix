@@ -31,7 +31,7 @@
         require(_XE_PATH_.'classes/xml/xmlquery/tags/condition/ConditionGroupTag.class.php');
 
         require(_XE_PATH_.'classes/xml/xmlquery/tags/group/GroupsTag.class.php');
-        
+
         require(_XE_PATH_.'classes/xml/xmlquery/tags/navigation/NavigationTag.class.php');
         require(_XE_PATH_.'classes/xml/xmlquery/tags/navigation/IndexTag.class.php');
 	require(_XE_PATH_.'classes/xml/xmlquery/tags/navigation/LimitTag.class.php');
@@ -44,50 +44,41 @@
 
 
     class XmlQueryParser extends XmlParser {
-        static $dbParser = null;
-    	var $db_type;
 
-    	function XmlQueryParser($db_type = NULL){
-    		$this->db_type = $db_type;
+        function XmlQueryParser(){
     	}
 
-    	function &getInstance($db_type = NULL){
-    		static $theInstance = null;
-    		if(!isset($theInstance)){
-    			$theInstance = new XmlQueryParser($db_type);
-    		}
-			return $theInstance;
+    	function &getInstance(){
+            static $theInstance = null;
+            if(!isset($theInstance)){
+                    $theInstance = new XmlQueryParser();
+            }
+            return $theInstance;
     	}
 
         function parse($query_id, $xml_file, $cache_file) {
 
-        	// Read xml file
-        	$xml_obj = $this->getXmlFileContent($xml_file);
+            // Read xml file
+            $xml_obj = $this->getXmlFileContent($xml_file);
 
             // insert, update, delete, select action
             $action = strtolower($xml_obj->query->attrs->action);
             if(!$action) return;
 
-			$parser = new QueryParser($xml_obj->query);
+            $parser = new QueryParser($xml_obj->query);
 
             FileHandler::writeFile($cache_file, $parser->toString());
         }
 
         // singleton
-       function &getDBParser(){
-        	if(!$self->dbParser){
-        		is_a($this,'XmlQueryParser')?$self=&$this:$self=&XmlQueryParser::getInstance();
-        		if(isset($self->db_type))
-        			$oDB = &DB::getInstance($self->db_type);
-        		else
-        			$oDB = &DB::getInstance();
-				$self->dbParser = $oDB->getParser();
-        	}
-        	return $self->dbParser;
-        }
+       function &getDBParser($force = false){
+            static $dbParser = null;
+            if(!$dbParser || $force) {
+                $oDB = &DB::getInstance();
+                $dbParser = $oDB->getParser();
+            }
 
-        function setDBParser($value){
-            $self->dbParser = $value;
+            return $dbParser;
         }
 
         function getXmlFileContent($xml_file){

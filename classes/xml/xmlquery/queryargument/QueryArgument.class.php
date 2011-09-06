@@ -51,35 +51,58 @@
                 }
 
 		function toString(){
-			if($this->isConditionArgument())
-				$arg = sprintf("\n$%s_argument = new ConditionArgument('%s', %s, '%s');\n"
+                    if($this->argument_validator->hasOnlyDefaultValue()){
+                        return sprintf("\n$%s_argument = %s;\n"
 							, $this->argument_name
-							, $this->argument_name
-                                                        , '$args->'.$this->variable_name
-							, $this->operation
+							, $this->argument_validator->getDefaultValueString()
 							);
+                    }
 
-			else
-				$arg = sprintf("\n$%s_argument = new Argument('%s', %s);\n"
-							, $this->argument_name
-							, $this->argument_name
-                                                        , '$args->'.$this->variable_name);
+                    if($this->isConditionArgument()){
+                            // Instantiation
+                            $arg = sprintf("\n$%s_argument = new ConditionArgument('%s', %s, '%s');\n"
+                                                    , $this->argument_name
+                                                    , $this->argument_name
+                                                    , '$args->'.$this->variable_name
+                                                    , $this->operation
+                                                    );
+                            // Call methods to validate argument and ensure default value
+                            $arg .= $this->argument_validator->toString();
 
+                            // Prepare condition string
+                            $arg .= sprintf("$%s_argument->createConditionValue();\n"
+                                    , $this->argument_name
+                                    );
 
-			$arg .= $this->argument_validator->toString();
+                            // Check that argument passed validation, else return
+                            $arg .= sprintf("if(!$%s_argument->isValid()) return $%s_argument->getErrorMessage();\n"
+                                            , $this->argument_name
+                                            , $this->argument_name
+                                            );
+                    }
+                    else {
+                            $arg = sprintf("\n$%s_argument = new Argument('%s', %s);\n"
+                                                    , $this->argument_name
+                                                    , $this->argument_name
+                                                    , '$args->'.$this->variable_name);
 
-			if($this->isConditionArgument()){
-				$arg .= sprintf("$%s_argument->createConditionValue();\n"
-					, $this->argument_name
-					);
-			}
+                            $arg .= $this->argument_validator->toString();
 
-			$arg .= sprintf("if(!$%s_argument->isValid()) return $%s_argument->getErrorMessage();\n"
-					, $this->argument_name
-					, $this->argument_name
-					);
-			return $arg;
-		}
+                            $arg .= sprintf("if(!$%s_argument->isValid()) return $%s_argument->getErrorMessage();\n"
+                                            , $this->argument_name
+                                            , $this->argument_name
+                                            );
+                    }
+
+                    // If the argument is null, skip it
+                    if($this->argument_validator->isIgnorable()){
+                        $arg = sprintf("if(isset(%s)) {", '$args->'.$this->variable_name)
+                                . $arg
+                                . sprintf("} else \n$%s_argument = null;", $this->argument_name);
+                    }
+
+                    return $arg;
+            }
 
 	}
 

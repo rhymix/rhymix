@@ -22,10 +22,15 @@
 			$this->max_length = $tag->attrs->max_length;
 		}
 
+                function isIgnorable(){
+                    if(isset($this->default_value) || isset($this->notnull)) return false;
+                    return true;
+                }
+
 		function toString(){
 			$validator = '';
 			if(isset($this->default_value)){
-				$this->default_value = new DefaultValue($this->argument_name, $this->default_value);
+                                $this->default_value = new DefaultValue($this->argument_name, $this->default_value);
                                 if($this->default_value->isSequence())
                                         $validator .= '$db = &DB::getInstance(); $sequence = $db->getNextSequence(); ';
                                 if($this->default_value->isOperation())
@@ -33,10 +38,10 @@
                                                 , $this->argument_name
                                                 , $this->default_value->getOperation()
                                                 );
-				$validator .= sprintf("$%s_argument->ensureDefaultValue(%s);\n"
-					, $this->argument_name
-					, $this->default_value->toString()
-					);
+                                $validator .= sprintf("$%s_argument->ensureDefaultValue(%s);\n"
+                                        , $this->argument_name
+                                        , $this->default_value->toString()
+                                        );
 			}
 			if($this->notnull){
 				$validator .= sprintf("$%s_argument->checkNotNull();\n"

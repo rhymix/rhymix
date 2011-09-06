@@ -14,7 +14,7 @@
 			$this->_test($xml_file, $argsString, $expected, array(10));
 		}
 
-		function testRquiredParameter(){
+		function testRequiredParameter(){
 			$xml_file = _XE_PATH_ . "modules/module/queries/getAdminId.xml";
 			$argsString = '';
 			$expected = 'Date incorecte! Query-ul nu a putut fi executat.';

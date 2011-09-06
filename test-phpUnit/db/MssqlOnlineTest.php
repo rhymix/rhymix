@@ -34,6 +34,8 @@
 
             // remove cache dir
             FileHandler::removeDir( _XE_PATH_ . 'files/cache');
+
+            XmlQueryParser::getDBParser(true);
         }
 
         /**
@@ -41,7 +43,6 @@
          */
         protected function tearDown() {
             unset($GLOBALS['__DB__']);
-            XmlQueryParser::setDBParser(null);
         }
     }
 ?>
