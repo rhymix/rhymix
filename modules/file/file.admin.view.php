@@ -177,7 +177,7 @@
             Context::set('config',$config);
             // Set a template file
             $this->setTemplatePath($this->module_path.'tpl');
-            $this->setTemplateFile('file_config');
+            $this->setTemplateFile('adminConfig');
         }
 
     }
