@@ -99,7 +99,7 @@
 					}
 				}
 			}
-			
+
 			// Admin logo, title setup
 			$configObject = $oModuleModel->getModuleConfig('admin');
 			$gnbTitleInfo->adminTitle = $configObject->adminTitle?$configObject->adminTitle:'XE Admin';
@@ -192,12 +192,12 @@
 			$status->comment->todayCount = $oCommentModel->getCommentCountByDate($today);
 			$status->comment->totalCount = $oCommentModel->getCommentCountByDate();
 
-            // Trackback Status 
+            // Trackback Status
 			$oTrackbackAdminModel = &getAdminModel('trackback');
 			$status->trackback->todayCount = $oTrackbackAdminModel->getTrackbackCountByDate($today);
 			$status->trackback->totalCount = $oTrackbackAdminModel->getTrackbackCountByDate();
 
-            // Attached files Status 
+            // Attached files Status
 			$oFileAdminModel = &getAdminModel('file');
 			$status->file->todayCount = $oFileAdminModel->getFilesCountByDate($today);
 			$status->file->totalCount = $oFileAdminModel->getFilesCountByDate();
@@ -280,6 +280,21 @@
             Context::set('module_list', $module_list);
             Context::set('isUpdated', $isUpdated);
 
+			// favorite
+			$oAdminModel = &getAdminModel('admin');
+			$output = $oAdminModel->getFavoriteList(0);
+			$favorite_list = $output->get('favoriteList');
+			if ($favorite_list)
+			{
+				foreach($favorite_list as $no => $favorite)
+				{
+					$module_info = $oModuleModel->getModuleInfoXml($favorite->module);
+					$favorite_list[$no] = $module_info;
+					$favorite_list[$no]->module = $favorite->module;
+				}
+			}
+			Context::set('favorite_list', $favorite_list);
+
 			// gathering enviroment check
 			$path = FileHandler::getRealPath('./files/env/'.__ZBXE_VERSION__);
 			$isEnviromentGatheringAgreement = false;
@@ -294,29 +309,29 @@
          * @return none
          **/
         function dispAdminConfig() {
-            $db_info = Context::getDBInfo();            
-			
+            $db_info = Context::getDBInfo();
+
 			Context::set('sftp_support', function_exists(ssh2_sftp));
 
             Context::set('selected_lang', $db_info->lang_type);
-			
+
 			Context::set('default_url', $db_info->default_url);
-	
+
             Context::set('langs', Context::loadLangSupported());
 
-            Context::set('lang_selected', Context::loadLangSelected());	
-			
+            Context::set('lang_selected', Context::loadLangSelected());
+
             Context::set('admin_ip', $db_info->admin_ip);
-		
-			
+
+
 			$favicon_url = $this->iconUrlCheck('favicon.ico','faviconSample.png');
 			$mobicon_url = $this->iconUrlCheck('mobicon.png','mobiconSample.png');
             Context::set('favicon_url', $favicon_url);
-			Context::set('mobicon_url', $mobicon_url);			
-			
+			Context::set('mobicon_url', $mobicon_url);
+
             $ftp_info = Context::getFTPInfo();
             Context::set('ftp_info', $ftp_info);
-			
+
 			$oDocumentModel = &getModel('document');
             $config = $oDocumentModel->getDocumentConfig();
             Context::set('thumbnail_type',$config->thumbnail_type);

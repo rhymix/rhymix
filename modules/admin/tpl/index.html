@@ -45,7 +45,7 @@
 				<!--@foreach($latestDocumentList AS $key=>$value)-->
 				{@$document = $value->variables}
 				<li>
-					<a href="{getUrl('', 'document_srl', $document['document_srl'])}" target="_blank">{$document['title']}</a> <span class="side">{$document['nick_name']}</span> 
+					<a href="{getUrl('', 'document_srl', $document['document_srl'])}" target="_blank">{$document['title']}</a> <span class="side">{$document['nick_name']}</span>
 					<span class="action">
 						<form>
 						<input type="hidden" name="module" value="admin" />
@@ -65,7 +65,7 @@
 			<ul class="lined">
 				<!--@foreach($latestCommentList AS $key=>$value)-->
 				<li>
-					<a href="#" target="_blank">{$value->content}</a> <span class="side">{$value->nick_name}</span> 
+					<a href="#" target="_blank">{$value->content}</a> <span class="side">{$value->nick_name}</span>
 					<span class="action">
 						<form>
 						<input type="hidden" name="module" value="admin" />
@@ -85,7 +85,7 @@
 			<ul class="lined">
 				<!--@foreach($latestTrackbackList AS $key=>$value)-->
 				<li>
-					<a href="{$value->url}" target="_blank">{$value->title}</a> <span class="side">{$value->blog_name}</span> 
+					<a href="{$value->url}" target="_blank">{$value->title}</a> <span class="side">{$value->blog_name}</span>
 					<span class="action">
 						<form>
 						<input type="hidden" name="module" value="admin" />
@@ -110,8 +110,19 @@
 		<div class="portlet">
 			<h2 class="h2">Your Favorite</h2>
 			<ul class="lined">
-				<LI><A HREF="#">EXTENSIONS</A> &GT; <A HREF="#">INSTALLED MODULE</A> &GT; <A HREF="#">BOARD</A></LI>
-				<LI><A HREF="#">EXTENSIONS</A> &GT; <A HREF="#">INSTALLED MODULE</A> &GT; <A HREF="#">WIKI</A></LI>
+				<li loop="$favorite_list => $favorite">
+					<a href="{getUrl('act', $favorite->admin_index_act)}">{$favorite->title}</a>
+					<span class="action">
+						<form>
+						<input type="hidden" name="module" value="admin" />
+						<input type="hidden" name="act" value="procAdminToggleFavorite" />
+						<input type="hidden" name="site_srl" value="0" />
+						<input type="hidden" name="module_name" value="{$favorite->module}" />
+						<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin')}" />
+						<button type="submit" class="text">{$lang->cmd_delete}</button>
+						</form>
+					</span>
+				</li>
 			</UL>
 		</div>
 	</div>
