@@ -114,7 +114,6 @@
 
 			$list_order = Context::get('list_order');
 			$usable_list = Context::get('usable_list');
-			$denied_id = Context::get('denied_id');
 			$all_args = Context::getRequestVars();
 
 			$oModuleController = &getController('module');
@@ -189,39 +188,6 @@
 
 				// create Ruleset
 				$this->_createSignupRuleset($signupForm);
-
-				if ($denied_id){
-					$denied_id = explode("\r\n", $denied_id);
-					$denied_list = $oMemberModel->getDeniedIDs();                                                                                                                                                  
-					$deniedIDs = array();
-					foreach($denied_list as $denied_info){
-						$deniedIDs[] = $denied_info->user_id;
-					}
-
-					$add_list = array_diff($denied_id, $deniedIDs);
-					$delete_list = array_diff($deniedIDs, $denied_id);
-
-					$oDB = &DB::getInstance();
-					$oDB->begin();
-
-					foreach($add_list as $user_id){
-						$output = $this->insertDeniedID($user_id, '');
-						if(!$output->toBool()){
-							$oDB->rollback();
-							return $output;
-						}
-					}
-
-					foreach($delete_list as $user_id){
-						$output = $this->deleteDeniedID($user_id);
-						if(!$output->toBool()){
-							$oDB->rollback();
-							return $output;
-						}
-					}
-					$oDB->commit();
-
-				}
 			}
 			$output = $oModuleController->updateModuleConfig('member', $args);
 			// default setting end
@@ -251,50 +217,6 @@
 			$xml_buff = sprintf($buff, implode('', $fields));
             FileHandler::writeFile($xml_file, $xml_buff);
 		}
-
-        /**
-         * @brief Add information for member administration
-         **/
-        function _procMemberAdminInsertConfig() {
-            // Get the basic information
-            $args = Context::gets(
-                'webmaster_name', 'webmaster_email',
-                'skin', 'colorset',
-                'editor_skin', 'editor_colorset',
-                'enable_openid', 'enable_join', 'enable_confirm', 'limit_day',
-                'after_login_url', 'after_logout_url', 'redirect_url', 'agreement',
-                'profile_image', 'profile_image_max_width', 'profile_image_max_height',
-                'image_name', 'image_name_max_width', 'image_name_max_height',
-                'image_mark', 'image_mark_max_width', 'image_mark_max_height',
-                'group_image_mark', 'group_image_mark_max_width', 'group_image_mark_max_height',
-                'signature','signature_max_height','change_password_date'
-            );
-
-            if(!$args->skin) $args->skin = "default";
-            if(!$args->colorset) $args->colorset = "white";
-            if(!$args->editor_skin) $args->editor_skin= "xpresseditor";
-            if(!$args->editor_colorset) $args->editor_colorset = "white";
-            if($args->enable_join!='Y') $args->enable_join = 'N';
-            if($args->enable_openid!='Y') $args->enable_openid= 'N';
-            if($args->profile_image !='Y') $args->profile_image = 'N';
-            if($args->image_name!='Y') $args->image_name = 'N';
-            if($args->image_mark!='Y') $args->image_mark = 'N';
-            if($args->group_image_mark!='Y') $args->group_image_mark = 'N';
-            if($args->signature!='Y') $args->signature = 'N';
-            if(!trim(strip_tags($args->agreement))) $args->agreement = null;
-            $args->limit_day = (int)$args->limit_day;
-            if(!$args->change_password_date) $args->change_password_date = 0; 
-
-            $oMemberController = &getController('member');
-            $output = $oMemberController->setMemberConfig($args);
-
-			if($output->toBool() && !in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMemberAdminConfig');
-				header('location:'.$returnUrl);
-				return;
-			}
-            return $output;
-        }
 
         /**
          * @brief Add a user group
@@ -615,15 +537,17 @@
          * @brief Add a denied ID
          **/
         function procMemberAdminInsertDeniedID() {
-            $user_id = Context::get('user_id');
-            $description = Context::get('description');
+            $user_ids = Context::get('user_id');
 
-            $output = $this->insertDeniedID($user_id, $description);
-            if(!$output->toBool()) return $output;
+			$user_ids = explode(',',$user_ids);
+			$success_ids = array();
 
-            $this->add('group_srl','');
-            $this->add('page',Context::get('page'));
-            $this->setMessage('success_registed');
+			foreach($user_ids as $val){
+				$output = $this->insertDeniedID($val, '');
+				if($output->toBool()) $success_ids[] = $val;
+			}
+
+			$this->add('user_ids', implode(',',$success_ids));
 
 			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
 				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMemberAdminDeniedIDList');

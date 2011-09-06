@@ -114,11 +114,7 @@
 
 			// get denied ID list
             $denied_list = $oMemberModel->getDeniedIDs();
-			$deniedIDs = array();
-			foreach($denied_list as $denied_info){
-				$deniedIDs[] = $denied_info->user_id;
-			}
-			Context::set('deniedIDs', $deniedIDs);
+			Context::set('deniedIDs', $denied_list);
 
             $this->setTemplateFile('member_config');
         }

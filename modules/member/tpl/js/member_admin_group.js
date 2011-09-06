@@ -41,7 +41,6 @@ jQuery(function ($){
 		var $target = $(event.target).closest('tr');
 		var group_srl = $(event.target).attr('href').substr(1); 
 		if(!confirm(xe.lang.groupDeleteMessage)) return;
-		console.log(group_srl);
 
 		if (group_srl.indexOf("new") > 0){
 			$target.remove();

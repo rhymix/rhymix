@@ -23,6 +23,24 @@ function doGetSkinColorset(skin) {
 	);
 }
 
+/* 금지아이디 관련 작업들 */
+function doUpdateDeniedID(user_id, mode, message) {
+    if(typeof(message)!='undefined'&&!confirm(message)) return;
+
+    exec_xml(
+		'member',
+		'procMemberAdminUpdateDeniedID',
+		{user_id:user_id, mode:mode},
+		function(){
+			if (mode == 'delete'){
+				jQuery('#denied_'+user_id).remove();
+				jQuery('._deniedIDCount').html(jQuery('#deniedList li').length);
+			}
+		},
+		['error','message','tpl']
+	);
+}
+
 jQuery(function($){
 	// hide form if enable_join is setted "No" 
 	var suSetting = $('fieldset.suSetting'); // 회원가입 설정
@@ -98,7 +116,6 @@ jQuery(function($){
 		var memberFormSrl = $(event.target).parent().attr('id');
 		var targetTR = $(event.target).closest('tr'); 
 
-
 		exec_xml(
 			'member',
 			'procMemberAdminDeleteJoinForm',
@@ -108,5 +125,40 @@ jQuery(function($){
 			},
 			['error','message','tpl']
 		);
+	});
+
+	$('button._addDeniedID').click(function(){
+		var ids = $('#prohibited_id').val();
+		if(ids == ''){ 
+			alert(xe.lang.msg_null_prohibited_id);
+			$('#prohibited_id').focus();
+			return;
+		}
+		
+
+		ids = ids.replace(/\n/g, ',');
+
+		var tag;
+		function on_complete(data){
+			var uids = data.user_ids.split(',');
+			for (var i=0; i<uids.length; i++){
+				tag = '<li id="denied_'+uids[i]+'">'+uids[i]+' <a href="#" class="side" onclick="doUpdateDeniedID(\''+uids[i]+'\', \'delete\', \''+xe.lang.confirm_delete+'\');return false;">'+xe.lang.cmd_delete+'</a></li>';
+				$('#deniedList').append($(tag));
+			}
+			$('#prohibited_id').val('');
+
+			$('._deniedIDCount').html($('#deniedList li').length);
+		}
+
+		jQuery.exec_json('member.procMemberAdminInsertDeniedID', {'user_id': ids}, on_complete);
+
+	});
+
+	$('a.modalAnchor._preview').bind('before-open.mw', function(){
+		var $inputList = $('input[name="usable_list[]"]:checked');
+		var title = '';
+		for(var i=0; i<$inputList.length; i++){
+			title = $($inputList[i]).closest('tr').find('.wrap ._title').html();
+		}
 	});
 });

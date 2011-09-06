@@ -67,16 +67,6 @@ function completeInsertDeniedID(ret_obj) {
     location.href = url;
 }
 
-/* 금지아이디 관련 작업들 */
-function doUpdateDeniedID(user_id, mode, message) {
-    if(typeof(message)!='undefined'&&!confirm(message)) return;
-
-    var fo_obj = get_by_id('fo_denied_id_info');
-    fo_obj.user_id.value = user_id;
-    fo_obj.mode.value = mode;
-    procFilter(fo_obj, update_denied_id);
-}
-
 /* 가입폼 관련 작업들 */
 function doUpdateJoinForm(member_join_form_srl, mode, message) {
     if(typeof(message)!='undefined'&&!confirm(message)) return;
