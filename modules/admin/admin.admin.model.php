@@ -347,7 +347,8 @@
 				foreach($output->data AS $key=>$value)
 				{
 					$moduleInfo = $oModuleModel->getModuleInfoXml($value->module);
-					$value->admin_index_act = $moduleInfo->admin_index_act;
+					$output->data[$key]->admin_index_act = $moduleInfo->admin_index_act;
+					$output->data[$key]->title = $moduleInfo->title;
 				}
 			}
 

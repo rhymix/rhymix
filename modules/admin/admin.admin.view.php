@@ -280,22 +280,6 @@
             Context::set('module_list', $module_list);
             Context::set('isUpdated', $isUpdated);
 
-			// favorite
-			$oAdminModel = &getAdminModel('admin');
-			$output = $oAdminModel->getFavoriteList(0);
-			$favorite_list = $output->get('favoriteList');
-			if ($favorite_list)
-			{
-				foreach($favorite_list as $no => $favorite)
-				{
-					$module_info = $oModuleModel->getModuleInfoXml($favorite->module);
-					if (!$module_info) continue;
-					$favorite_list[$no] = $module_info;
-					$favorite_list[$no]->module = $favorite->module;
-				}
-			}
-			Context::set('favorite_list', $favorite_list);
-
 			// gathering enviroment check
 			$path = FileHandler::getRealPath('./files/env/'.__ZBXE_VERSION__);
 			$isEnviromentGatheringAgreement = false;
@@ -306,7 +290,7 @@
 			// Get list of favorite
 			$oAdminAdminModel = &getAdminModel('admin');
 			$output = $oAdminAdminModel->getFavoriteList(0, true);
-            Context::set('favorite_list', $output->data);
+            Context::set('favorite_list', $output->get('favoriteList'));
 
             $this->setTemplateFile('index');
         }
