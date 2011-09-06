@@ -326,7 +326,6 @@
 				Context::set('package', $installedPackage);
 
 				$this->setTemplateFile('uninstall');
-				Context::addJsFilter($this->module_path.'tpl/filter', 'uninstall_package.xml');
 			}
 			else
 			{

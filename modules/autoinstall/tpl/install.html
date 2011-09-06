@@ -28,7 +28,7 @@
 		<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 			<p>{$XE_VALIDATOR_MESSAGE}</p>
 		</div>
-		<form action="" class="form" method="post">
+		<form action="./" class="form" method="post" ruleset="ftp">
 			<input type="hidden" name="module" value="autoinstall" />
 			<input type="hidden" name="act" value="procAutoinstallAdminPackageinstall" />
 			<input type="hidden" name="package_srl" value="{$package->package_srl}" />
