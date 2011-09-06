@@ -27,7 +27,8 @@
          **/
         function dispModuleAdminList() {            
 			// Obtain a list of modules
-            $oModuleModel = &getModel('module');
+            $oAdminModel = &getAdminModel('admin');
+			$oModuleModel = &getModel('module');			
 			$oAutoinstallModel = &getModel('autoinstall');
 			
 			$module_list = $oModuleModel->getModuleList();
@@ -35,7 +36,17 @@
 				$val->delete_url = $oAutoinstallModel->getRemoveUrlByPath($val->path);										
 			}
 			
-            Context::set('module_list', $module_list);			
+			$output = $oAdminModel->getFavoriteList('0');
+			if($output->toBool()) debugPrint('ok');
+			
+			$favoriteList = $output->variables['favoriteList'];
+			$favoriteModuleList = array();
+			foreach($favoriteList as $favorite => $favorite_info){
+				$favoriteModuleList[] = $favorite_info->module;
+			}
+			
+            Context::set('favoriteModuleList', $favoriteModuleList);
+			Context::set('module_list', $module_list);			
             // Set a template file			
             $this->setTemplateFile('spInstalledModule');
 			

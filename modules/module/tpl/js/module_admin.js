@@ -3,7 +3,18 @@
  * @author NHN (developers@xpressengine.com)
  * @brief    module 모듈의 관리자용 javascript
  **/
+/* 모듈 즐겨찾기 */
+function doToggleFavoriteModule(module_name) {
+    var params = new Array();
+    params['module_name'] = module_name;
+	params['site_srl'] = '0';		
+    exec_xml('admin','procAdminToggleFavorite',params, completeToggleFavoriteModule);	
+}
 
+function completeToggleFavoriteModule(ret_obj) {    
+    location.reload();
+}
+ 
 /* 카테고리 관련 작업들 */
 function doUpdateCategory(module_category_srl, message) {
     if(typeof(message)!='undefined'&&!confirm(message)) return;

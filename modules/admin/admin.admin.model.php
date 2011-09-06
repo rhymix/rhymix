@@ -342,7 +342,7 @@
 			if (!$output->data) return new Object();
 
 			$returnObject = new Object();
-			$returnObject->add('favoriteList', $favoriteList);
+			$returnObject->add('favoriteList', $output->data);
 			return $returnObject;
 		}
 
