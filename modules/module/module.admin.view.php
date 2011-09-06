@@ -25,30 +25,32 @@
         /**
          * @brief Display a lost of modules
          **/
-        function dispModuleAdminList() {            
+        function dispModuleAdminList() {
 			// Obtain a list of modules
             $oAdminModel = &getAdminModel('admin');
-			$oModuleModel = &getModel('module');			
+			$oModuleModel = &getModel('module');
 			$oAutoinstallModel = &getModel('autoinstall');
-			
+
 			$module_list = $oModuleModel->getModuleList();
-			foreach($module_list as $key => $val) {			
-				$val->delete_url = $oAutoinstallModel->getRemoveUrlByPath($val->path);										
+			foreach($module_list as $key => $val) {
+				$val->delete_url = $oAutoinstallModel->getRemoveUrlByPath($val->path);
 			}
-			
+
 			$output = $oAdminModel->getFavoriteList('0');
-			
-			$favoriteList = $output->variables['favoriteList'];
+
+			$favoriteList = $output->get('favoriteList');
 			$favoriteModuleList = array();
-			foreach($favoriteList as $favorite => $favorite_info){
-				$favoriteModuleList[] = $favorite_info->module;
+			if ($favoriteList){
+				foreach($favoriteList as $favorite => $favorite_info){
+					$favoriteModuleList[] = $favorite_info->module;
+				}
 			}
-			
+
             Context::set('favoriteModuleList', $favoriteModuleList);
-			Context::set('module_list', $module_list);			
-            // Set a template file			
+			Context::set('module_list', $module_list);
+            // Set a template file
             $this->setTemplateFile('spInstalledModule');
-			
+
         }
 
         /**
@@ -70,7 +72,7 @@
          **/
         function dispModuleAdminCategory() {
             $module_category_srl = Context::get('module_category_srl');
-            
+
             // Obtain a list of modules
             $oModuleModel = &getModel('module');
             // Display the category page if a category is selected
