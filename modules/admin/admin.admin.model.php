@@ -334,12 +334,22 @@
 		/**
 		 * @brief Get admin favorite list
 		 **/
-		function getFavoriteList($siteSrl)
+		function getFavoriteList($siteSrl = 0, $isGetModuleInfo = false)
 		{
 			$args->site_srl = $siteSrl;
 			$output = executeQueryArray('admin.getFavoriteList', $args);
 			if (!$output->toBool()) return $output;
 			if (!$output->data) return new Object();
+
+			if($isGetModuleInfo && is_array($output->data))
+			{
+				$oModuleModel = &getModel('module');
+				foreach($output->data AS $key=>$value)
+				{
+					$moduleInfo = $oModuleModel->getModuleInfoXml($value->module);
+					$value->admin_index_act = $moduleInfo->admin_index_act;
+				}
+			}
 
 			$returnObject = new Object();
 			$returnObject->add('favoriteList', $output->data);

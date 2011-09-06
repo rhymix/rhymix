@@ -302,6 +302,12 @@
 			if(file_exists($path)) $isEnviromentGatheringAgreement = true;
 			Context::set('isEnviromentGatheringAgreement', $isEnviromentGatheringAgreement);
             Context::set('layout','none');
+
+			// Get list of favorite
+			$oAdminAdminModel = &getAdminModel('admin');
+			$output = $oAdminAdminModel->getFavoriteList(0, true);
+            Context::set('favorite_list', $output->data);
+
             $this->setTemplateFile('index');
         }
 

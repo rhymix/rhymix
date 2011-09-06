@@ -96,10 +96,18 @@ function completeMoveMenuItem(ret_obj) {
 function doReloadTreeMenu(menu_srl) {
     var params = new Array();
     params["menu_srl"] = menu_srl;
+	console.log(params);
 
     // 서버에 요청하여 해당 노드의 정보를 수정할 수 있도록 한다. 
     var response_tags = new Array('error','message', 'xml_file', 'menu_title');
-    exec_xml('menu', 'procMenuAdminMakeXmlFile', params, completeInsertMenuItem, response_tags, params);
+    exec_xml('menu', 'procMenuAdminMakeXmlFile', params, completeRemakeCache, response_tags, params);
+}
+
+function completeRemakeCache(ret_obj) {
+	if(ret_obj.error == 0)
+	{
+		document.location.reload();
+	}
 }
 
 /* 메뉴 삭제 */

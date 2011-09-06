@@ -1,3 +1,4 @@
+<load target="./js/menu_admin.js" />
 <load target="../../admin/tpl/js/sitemap.js" />
 <load target="./js/sitemap.js" />
 
@@ -6,37 +7,35 @@
 		<p>{$XE_VALIDATOR_MESSAGE}</p>
 	</div>
 	<h1 class="h1">Site Map</h1>
-	<!--@foreach($menu_list AS $key=>$value)-->
-	{@$menu_srl = $value->menu_srl}
-	<form class="portlet siteMap" id="menu_{$menu_srl}">
+
+	<block loop="$menu_list=>$key,$value">
+	{@$menuSrl = $value->menuSrl}
+	<form class="portlet siteMap" id="menu_{$menuSrl}">
 	<input type="hidden" name="act" value="procMenuAdminDeleteItem" />
-	<input type="hidden" name="menu_srl" value="{$value->menu_srl}" />
+	<input type="hidden" name="menu_srl" value="{$menuSrl}" />
 	<input type="hidden" name="menu_item_srl" value="" />
 	<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin', 'act', 'dispMenuAdminSiteMap')}" />
 
 		<h2 class="h2"><input name="title" value="{$value->title}" /></h2>
 		<a href="#nav1" class="tgMap">접기</a>
-		<ul class="lined" id="nav1">
-			<li loop="$value->menuItems=>$key2,$value2">
-				<input type="hidden" name="parent_key[]" value="0" class="_parent_key" />
-				<input type="hidden" name="item_key[]" value="{$key2}" class="_item_key" />
-				<a href="#" class="ms">{$value2['name']}</a> {$key2} <a href="#" class="wPreview" target="_blank">Preview</a>
-				<span class="side"><a href="#editMenu" class="modalAnchor _edit">Edit...</a> | <a href="#delete" class="_delete">Delete</a></span>
-				<ul cond="$value2['subMenu']>0">
-					<li loop="$value2['subMenu']=>$key3,$value3">
-					<input type="hidden" name="parent_key[]" value="{$key2}" class="_parent_key" />
-					<input type="hidden" name="item_key[]" value="{$key3}" class="_item_key" />
-					{$value3->name} {$key3} <a href="#" class="wPreview" target="_blank">Preview</a> <span class="side"><a href="#editMenu" class="modalAnchor _edit">Edit...</a> | <a href="#delete" class="_delete">Delete</a></span>
-					</li>
-				</ul>
-			</li>
+		<ul class="lined" id="nav1" cond="count($value->menuItems->list > 0)">
+		<block loop="$value->menuItems->list=>$key2,$value2">
+		{@$item = $value2}
+		<include target="sitemap.item.html" />
+		</block>
 		</ul>
-		<p class="btnArea"><span class="btn small"><a href="#editMenu" class="modalAnchor _add">Add Menu...</a></span> <span class="btn small"><button value="procMenuAdminArrangeItem" name="act" type="submit">{$lang->cmd_save}</button></span></p>
+		<p class="btnArea"><span class="btn small"><a href="#editMenu" class="modalAnchor _add">Add Menu...</a></span> <span class="btn small"><button value="procMenuAdminArrangeItem" name="act" type="submit">{$lang->cmd_save}</button></span><span class="btn small"><a href="#remakeCache" onclick="doReloadTreeMenu('{$menuSrl}');return false;">{$lang->cmd_remake_cache}</a></span></p>
 	</form>
-	<!--@end-->
+	</block>
+
+	<form action="./" method="post" class="form">
+	<input type="hidden" name="act" value="procMenuAdminInsert" />
+	<input type="hidden" name="title" value="untitled" />
+	<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin', 'act', 'dispMenuAdminSiteMap')}" />
 	<div class="btnArea">
-		<span class="btn medium"><button type="button">Add New Site Map...</button></span>
+		<span class="btn medium"><button type="submit">Add New Site Map...</button></span>
 	</div>
+	</form>
 	<div class="modal" id="editMenu">
 		<div class="fg">
 			<form ruleset="insertMenuItem" id="editForm" action="./" method="post" enctype="multipart/form-data" class="form">

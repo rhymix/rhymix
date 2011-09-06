@@ -6,6 +6,7 @@
      **/
 
     class menuAdminView extends menu {
+		var $tmpMenu = null;
 
         /**
          * @brief Initialization
@@ -102,27 +103,40 @@
 		function dispMenuAdminSiteMap()
 		{
 			$oMenuAdminModel = &getAdminModel('menu');
-			$output = $oMenuAdminModel->getMenus();
+			$output = array_reverse($oMenuAdminModel->getMenus());
 
 			$menuList = array();
 			if(is_array($output))
 			{
-				$columnList = array('menu_item_srl', 'parent_srl', 'menu_srl', 'name');
+				$menuItems = array();
 				foreach($output AS $key=>$value)
 				{
 					if($value->title == '__XE_ADMIN__') unset($output[$key]);
 					else
 					{
 						unset($menu);
+						unset($menuItems);
 						$value->xml_file = sprintf('./files/cache/menu/%s.xml.php',$value->menu_srl);
-						//$value->php_file = sprintf('./files/cache/menu/%s.php',$value->menu_srl);
-						//if(file_exists($value->php_file)) @include($value->php_file);
+						$value->php_file = sprintf('./files/cache/menu/%s.php',$value->menu_srl);
+						if(file_exists($value->php_file)) @include($value->php_file);
 
-						array_push($menuList, $value->xml_file);
+						if(count($menu->list)>0)
+						{
+							foreach($menu->list AS $key2=>$value2)
+							{
+								$this->_menuInfoSetting($menu->list[$key2]);
+							}
+						}
+
+						//array_push($menuList, $value->xml_file);
+						$menuItems->menuSrl = $value->menu_srl;
+						$menuItems->title = $value->title;
+						$menuItems->menuItems = $menu;
+						array_push($menuList, $menuItems);
 					}
 				}
 			}
-            Context::set('menu_url_list', $menuList);
+            Context::set('menu_list', $menuList);
 
 			// get installed module list
 			$oModuleModel = &getModel('module');
@@ -154,6 +168,30 @@
             Context::set('group_list', $groupList);
 
             $this->setTemplateFile('sitemap');
+		}
+
+		function _menuInfoSetting(&$menu)
+		{
+			$oModuleModel = &getModel('module');
+			if(!preg_match('/^http/i', $menu['url']))
+			{
+				unset($midInfo);
+				unset($moduleInfo);
+				$midInfo = $oModuleModel->getModuleInfoByMid($menu['url']);
+				$moduleInfo = $oModuleModel->getModuleInfoXml($midInfo->module);
+				if($moduleInfo->setup_index_act)
+				{
+					$menu['module_srl'] = $midInfo->module_srl;
+					$menu['setup_index_act'] = $moduleInfo->setup_index_act;
+				}
+			}
+			if(count($menu['list']) > 0)
+			{
+				foreach($menu['list'] AS $key=>$value)
+				{
+					$this->_menuInfoSetting($menu['list'][$key]);
+				}
+			}
 		}
 
 		function _arrangeMenuItem($menuItems)

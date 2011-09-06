@@ -257,31 +257,37 @@
 			$this->itemKeyList = Context::get('item_key');
 
 			// menu name update
-            /*$args->menu_srl = $this->menuSrl;
+            $args->menu_srl = $this->menuSrl;
             $output = executeQuery('menu.updateMenu', $args);
-            if(!$output->toBool()) return $output;*/
+            if(!$output->toBool()) return $output;
 
 			$this->map = array();
-			foreach($parentKeyList as $no=>$srl)
+			if(is_array($parentKeyList))
 			{
-				if ($srl === 0) continue;
-				if (!is_array($this->map[$srl]))$this->map[$srl] = array();
-				$this->map[$srl][] = $no;
+				foreach($parentKeyList as $no=>$srl)
+				{
+					if ($srl === 0) continue;
+					if (!is_array($this->map[$srl]))$this->map[$srl] = array();
+					$this->map[$srl][] = $no;
+				}
 			}
 
 			$result = array();
-			foreach($this->itemKeyList as $srl)
+			if(is_array($this->itemKeyList))
 			{
-				if (!$this->checked[$srl]){
-					unset($target);
-					$this->checked[$srl] = 1; 
-					$target->node = $srl;
-					$target->child= array();
+				foreach($this->itemKeyList as $srl)
+				{
+					if (!$this->checked[$srl]){
+						unset($target);
+						$this->checked[$srl] = 1; 
+						$target->node = $srl;
+						$target->child= array();
 
-					while(count($this->map[$srl])){
-						$this->_setParent($srl, array_shift($this->map[$srl]), $target);
+						while(count($this->map[$srl])){
+							$this->_setParent($srl, array_shift($this->map[$srl]), $target);
+						}
+						$result[] = $target;	
 					}
-					$result[] = $target;	
 				}
 			}
 
@@ -319,13 +325,15 @@
 
 		function _recursiveMoveMenuItem($result)
 		{
+			$i = 0;
 			while(count($result->child))
 			{
 				unset($node);
 				$node = array_shift($result->child);
 
-				$this->moveMenuItem($this->menuSrl, $node->parent_node, 0, $node->node, 'move');
+				$this->moveMenuItem($this->menuSrl, $node->parent_node, $i, $node->node, 'move');
 				$this->_recursiveMoveMenuItem($node);
+				$i = $node->node;
 			}
 		}
 
