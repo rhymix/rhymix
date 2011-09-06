@@ -289,6 +289,7 @@
 				foreach($favorite_list as $no => $favorite)
 				{
 					$module_info = $oModuleModel->getModuleInfoXml($favorite->module);
+					if (!$module_info) continue;
 					$favorite_list[$no] = $module_info;
 					$favorite_list[$no]->module = $favorite->module;
 				}
