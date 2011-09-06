@@ -4,17 +4,18 @@
  * @brief    module 모듈의 관리자용 javascript
  **/
 /* 모듈 즐겨찾기 */
-function doToggleFavoriteModule(module_name) {
-    var params = new Array();
-    params['module_name'] = module_name;
-	params['site_srl'] = '0';		
-    exec_xml('admin','procAdminToggleFavorite',params, completeToggleFavoriteModule);	
+function doToggleFavoriteModule(obj, module_name) {
+	function on_complete(data){
+		console.log(data);
+		if (data.result == 'on')
+			jQuery(obj).removeClass('fvOff').addClass('fvOn').html(xe.lang.favorite_on);
+		else
+			jQuery(obj).removeClass('fvOn').addClass('fvOff').html(xe.lang.favorite_off);
+	}
+
+	jQuery.exec_json('admin.procAdminToggleFavorite', {'module_name': module_name, 'site_srl': 0}, on_complete);
 }
 
-function completeToggleFavoriteModule(ret_obj) {    
-    location.reload();
-}
- 
 /* 카테고리 관련 작업들 */
 function doUpdateCategory(module_category_srl, message) {
     if(typeof(message)!='undefined'&&!confirm(message)) return;
@@ -113,7 +114,7 @@ function doInsertAdmin() {
     var members = new Array();
     for(var i=0;i<sel_obj.options.length;i++) {
         members[members.length] = sel_obj.options[i].value;
-        
+
     }
     fo_obj.admin_member.value = members.join(',');
 
@@ -131,7 +132,7 @@ function doDeleteAdmin() {
     var members = new Array();
     for(var i=0;i<sel_obj.options.length;i++) {
         members[members.length] = sel_obj.options[i].value;
-        
+
     }
     fo_obj.admin_member.value = members.join(',');
 }

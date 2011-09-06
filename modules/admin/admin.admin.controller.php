@@ -22,7 +22,7 @@
          * @return none
          **/
         function procAdminRecompileCacheFile() {
-			// rename cache dir			
+			// rename cache dir
 			$temp_cache_dir = './files/cache_'. time();
 			FileHandler::rename('./files/cache', $temp_cache_dir);
 			FileHandler::makeDir('./files/cache');
@@ -165,16 +165,19 @@
 			{
 				$favoriteSrl = $output->get('favoriteSrl');
 				$output = $this->_deleteFavorite($favoriteSrl);
+				$result = 'off';
 			}
 
 			// if not exists, insert favorite
 			else
 			{
 				$output = $this->_insertFavorite($siteSrl, $moduleName);
+				$result = 'on';
 			}
 
 			if (!$output->toBool()) return $output;
 
+			$this->add('result', $result);
 			$this->setRedirectUrl(Context::get('error_return_url'));
 		}
 
@@ -278,15 +281,15 @@
 			return $output;
 		}
 
-		function procAdminRemoveIcons(){				
-			$iconname = Context::get('iconname');			
+		function procAdminRemoveIcons(){
+			$iconname = Context::get('iconname');
 			$file_exist = FileHandler::readFile(_XE_PATH_.'files/attach/xeicon/'.$iconname);
 			if($file_exist) {
 				@FileHandler::removeFile(_XE_PATH_.'files/attach/xeicon/'.$iconname);
 			} else {
 				return new Object(-1,'fail_to_delete');
 			}
-			$this->setMessage('success_deleted');			
+			$this->setMessage('success_deleted');
 		}
     }
 ?>
