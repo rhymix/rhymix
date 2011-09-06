@@ -96,8 +96,73 @@ jQuery(function($){
 				})
 			.end()
 
-	// Modal Window
-	$('a.modalAnchor')
+	// pagination
+	$.fn.xePagination = function(){
+		this
+			.find('span.tgContent').css('whiteSpace', 'nowrap').end()
+			.find('a.tgAnchor[href="#goTo"]')
+				.each(function(idx){
+					var $this = $(this);
+					$this.after( $($this.attr('href')) );
+				})
+			.end();
+
+		return this;
+	};
+	$('.pagination').xePagination();
+
+	// Portlet Action
+	$('.portlet .action')
+		.css({display:'none',position:'absolute'})
+		.parent()
+			.mouseleave(function(){ $(this).find('>.action').fadeOut(100); })
+			.mouseenter(function(){ $(this).find('>.action').fadeIn(100); })
+			.focusin(function(){ $(this).mouseenter() })
+			.focusout(function(){
+				var $this = $(this), timer;
+
+				clearTimeout($this.data('timer'));
+				timer = setTimeout(function(){ if(!$this.find(':focus').length) $this.mouseleave() }, 10);
+
+				$this.data('timer', timer);
+			});
+
+	// Display the dashboard in two column
+	$('.dashboard>.section>.portlet:odd').after('<br style="clear:both" />');
+
+
+	// Popup list : 'Move to site' and 'Site map'
+	$('.header>.siteTool>a.i')
+		.bind('before-open.tc', function(){
+			$(this)
+				.addClass('active')
+				.next('div.tgContent')
+					.find('>.section:gt(0)').hide().end()
+					.find('>.btnArea>button').show();
+		})
+		.bind('after-close.tc', function(){
+			$(this).removeClass('active');
+		})
+		.next('#siteMapList')
+			.find('>.section:last')
+				.after('<p class="btnArea"><button type="button">&rsaquo; more</button></p>')
+				.find('+p>button')
+					.click(function(){
+						// Display all sections then hide this button
+						$(this).hide().parent().prevAll('.section').show();
+					});
+});
+
+// Modal Window
+jQuery(function($){
+
+$.fn.xeModalWindow = function(){
+	this
+		.not('.xe-modal-window')
+		.addClass('xe-modal-window')
+		.each(function(){
+			$( $(this).attr('href') ).addClass('x').hide();
+		})
 		.click(function(){
 			var $this = $(this), $modal, $btnClose, disabled;
 
@@ -193,40 +258,21 @@ jQuery(function($){
 			$modal.fadeOut(duration, after);
 			$this.focus();
 		});
+};
+$('a.modalAnchor').xeModalWindow();
 
-	$('div.modal').addClass('x').hide();
+});
 
-	// pagination
-	$('.pagination')
-		.find('span.tgContent').css('whiteSpace', 'nowrap').end()
-		.find('a.tgAnchor[href="#goTo"]')
-			.each(function(idx){
-				var $this = $(this);
-				$this.after( $($this.attr('href')) );
-			})
-		.end();
+// Content Toggler
+jQuery(function($){
 
-	// Portlet Action
-	$('.portlet .action')
-		.css({display:'none',position:'absolute'})
-		.parent()
-			.mouseleave(function(){ $(this).find('>.action').fadeOut(100); })
-			.mouseenter(function(){ $(this).find('>.action').fadeIn(100); })
-			.focusin(function(){ $(this).mouseenter() })
-			.focusout(function(){
-				var $this = $(this), timer;
-
-				clearTimeout($this.data('timer'));
-				timer = setTimeout(function(){ if(!$this.find(':focus').length) $this.mouseleave() }, 10);
-
-				$this.data('timer', timer);
-			});
-
-	// Display the dashboard in two column
-	$('.dashboard>.section>.portlet:odd').after('<br style="clear:both" />');
-
-	// Toggle Contents
-	$('a.tgAnchor')
+$.fn.xeContentToggler = function(){
+	this
+		.not('.xe-content-toggler')
+		.addClass('xe-content-toggler')
+		.each(function(){
+			$($(this).attr('href')).hide().focusout(focusoutContent);
+		})
 		.click(function(){
 			var $this = $(this), $layer;
 
@@ -340,122 +386,114 @@ jQuery(function($){
 					$this.trigger('after-close.tc');
 			}
 		});
-	$('.tgContent')
-		.hide()
-		.focusout(function(event){
-			var $this = $(this), $anchor = $this.data('anchor');
-			setTimeout(function(){
-				if(!$this.find(':focus').length && $this.data('state') == 'showing') $anchor.trigger('close.tc');
-			}, 1);
-		})
 
-	// Popup list : 'Move to site' and 'Site map'
-	$('.header>.siteTool>a.i')
-		.bind('before-open.tc', function(){
-			$(this)
-				.addClass('active')
-				.next('div.tgContent')
-					.find('>.section:gt(0)').hide().end()
-					.find('>.btnArea>button').show();
-		})
-		.bind('after-close.tc', function(){
-			$(this).removeClass('active');
-		})
-		.next('#siteMapList')
-			.find('>.section:last')
-				.after('<p class="btnArea"><button type="button">&rsaquo; more</button></p>')
-				.find('+p>button')
-					.click(function(){
-						// Display all sections then hide this button
-						$(this).hide().parent().prevAll('.section').show();
-					});
+	return this;
+};
+
+$('a.tgAnchor').xeContentToggler();
+
+function focusoutContent(event) {
+	var $this = $(this), $anchor = $this.data('anchor');
+	setTimeout(function(){
+		if(!$this.find(':focus').length && $this.data('state') == 'showing') $anchor.trigger('close.tc');
+	}, 1);
+};
+
 });
 
 // Module finder
 jQuery(function($){
 
-$('.modulefinder')
-	.find('a.tgAnchor.findsite')
-		.bind('before-open.tc', function(){
-			var $this, $ul, val;
+$.fn.xeModuleFinder = function(){
+	this
+		.not('.xe-module-finder')
+		.addClass('xe-module-finder')
+		.find('a.tgAnchor.findsite')
+			.bind('before-open.tc', function(){
+				var $this, $ul, val;
 
-			$this = $(this);
-			$ul   = $($this.attr('href')).find('>ul');
-			val   = $this.prev('input:text').val();
+				$this = $(this);
+				$ul   = $($this.attr('href')).find('>ul');
+				val   = $this.prev('input:text').val();
 
-			function on_complete(data) {
-				var $li, list = data.site_list, i, c;
+				function on_complete(data) {
+					var $li, list = data.site_list, i, c;
 
-				$ul.empty();
-				$this.closest('.modulefinder').find('.moduleList,.moduleIdList').attr('disabled','disabled');
+					$ul.empty();
+					$this.closest('.modulefinder').find('.moduleList,.moduleIdList').attr('disabled','disabled');
 
-				if(data.error || !$.isArray(list)) {
-					$this.trigger('close.tc');
-					return;
-				}
+					if(data.error || !$.isArray(list)) {
+						$this.trigger('close.tc');
+						return;
+					}
 
-				for(i=0,c=list.length; i < c; i++) {
-					$li = $('<li />').appendTo($ul);
-					$('<button type="button" />').text(list[i].domain).data('site_srl', list[i].site_srl).appendTo($li);
-				}
-			};
+					for(i=0,c=list.length; i < c; i++) {
+						$li = $('<li />').appendTo($ul);
+						$('<button type="button" />').text(list[i].domain).data('site_srl', list[i].site_srl).appendTo($li);
+					}
+				};
 
-			$.exec_json('admin.getSiteAllList', {domain:val}, on_complete);
-		})
-	.end()
-	.find('.tgContent.suggestion')
-		.delegate('button','click',function(){
-			var $this, $finder;
+				$.exec_json('admin.getSiteAllList', {domain:val}, on_complete);
+			})
+		.end()
+		.find('.tgContent.suggestion')
+			.delegate('button','click',function(){
+				var $this, $finder;
 
-			$this    = $(this);
-			$finder  = $this.closest('.modulefinder');
+				$this    = $(this);
+				$finder  = $this.closest('.modulefinder');
 
-			function on_complete(data) {
-				var $mod_select, list = data.module_list, x;
+				function on_complete(data) {
+					var $mod_select, list = data.module_list, x;
 
-				if(data.error || !list) return;
+					if(data.error || !list) return;
 
-				$mod_select = $finder.find('.moduleList').data('module_list', list).removeAttr('disabled').empty();
-				for(x in list) {
+					$mod_select = $finder.find('.moduleList').data('module_list', list).removeAttr('disabled').empty();
+					for(x in list) {
+						if(!list.hasOwnProperty(x)) continue;
+						$('<option />').attr('value', x).text(list[x].title).appendTo($mod_select);
+					}
+					$mod_select.prop('selectedIndex', 0).change().focus();
+
+					if(!$mod_select.is(':visible')) {
+						$mod_select
+							.slideDown(100, function(){
+								$finder.find('.moduleIdList:not(:visible)').slideDown(100).trigger('show');
+							})
+							.trigger('show');
+					}
+				};
+
+				$finder.find('a.tgAnchor.findsite').trigger('close.tc');
+
+				$.exec_json('module.procModuleAdminGetList', {site_srl:$this.data('site_srl')}, on_complete);
+			})
+		.end()
+		.find('.moduleList,.moduleIdList').hide().end()
+		.find('.moduleList')
+			.change(function(){
+				var $this, $mid_select, val, list;
+
+				$this   = $(this);
+				val     = $this.val();
+				list    = $this.data('module_list');
+
+				if(!list[val]) return;
+
+				list = list[val].list;
+				$mid_select = $this.closest('.modulefinder').find('.moduleIdList').removeAttr('disabled').empty();
+
+				for(var x in list) {
 					if(!list.hasOwnProperty(x)) continue;
-					$('<option />').attr('value', x).text(list[x].title).appendTo($mod_select);
+					$('<option />').attr('value', list[x].module_srl).text(list[x].browser_title).appendTo($mid_select);
 				}
-				$mod_select.prop('selectedIndex', 0).change().focus();
+				$mid_select.prop('selectedIndex', 0);
+			});
 
-				if(!$mod_select.is(':visible')) {
-					$mod_select
-						.slideDown(100, function(){
-							$finder.find('.moduleIdList:not(:visible)').slideDown(100).trigger('show');
-						})
-						.trigger('show');
-				}
-			};
+	return this;
+};
+$('.modulefinder').xeModuleFinder();
 
-			$finder.find('a.tgAnchor.findsite').trigger('close.tc');
-
-			$.exec_json('module.procModuleAdminGetList', {site_srl:$this.data('site_srl')}, on_complete);
-		})
-	.end()
-	.find('.moduleList,.moduleIdList').hide().end()
-	.find('.moduleList')
-		.change(function(){
-			var $this, $mid_select, val, list;
-
-			$this   = $(this);
-			val     = $this.val();
-			list    = $this.data('module_list');
-
-			if(!list[val]) return;
-
-			list = list[val].list;
-			$mid_select = $this.closest('.modulefinder').find('.moduleIdList').removeAttr('disabled').empty();
-
-			for(var x in list) {
-				if(!list.hasOwnProperty(x)) continue;
-				$('<option />').attr('value', list[x].module_srl).text(list[x].browser_title).appendTo($mid_select);
-			}
-			$mid_select.prop('selectedIndex', 0);
-		});
 });
 
 // Sortable table
@@ -465,118 +503,126 @@ var
 	dragging = false,
 	$holder  = $('<tr class="placeholder"><td>&nbsp;</td></tr>');
 
-$('table.sortable')
-	.delegate('button.dragBtn', 'mousedown.st', function(event){
-		var $this, $tr, $table, $th, height, width, offset, position, offsets, i, dropzone, cols;
+$.fn.xeSortableTable = function(){
+	this
+		.not('.xe-sortable-table')
+		.addClass('xe-sortable-table')
+		.delegate('button.dragBtn', 'mousedown.st', function(event){
+			var $this, $tr, $table, $th, height, width, offset, position, offsets, i, dropzone, cols;
 
-		if(event.which != 1) return;
+			if(event.which != 1) return;
 
-		$this  = $(this);
-		$tr    = $this.closest('tr');
-		$table = $this.closest('table').css('position','relative');
-		height = $tr.height();
-		width  = $tr.width();
+			$this  = $(this);
+			$tr    = $this.closest('tr');
+			$table = $this.closest('table').css('position','relative');
+			height = $tr.height();
+			width  = $tr.width();
 
-		// before event trigger
-		before_event = $.Event('before-drag.st');
-		$table.trigger(before_event);
+			// before event trigger
+			before_event = $.Event('before-drag.st');
+			$table.trigger(before_event);
 
-		// is event canceled?
-		if(before_event.isDefaultPrevented()) return false;
+			// is event canceled?
+			if(before_event.isDefaultPrevented()) return false;
 
-		position = {x:event.pageX, y:event.pageY};
-		offset   = getOffset($tr.get(0), $table.get(0));
+			position = {x:event.pageX, y:event.pageY};
+			offset   = getOffset($tr.get(0), $table.get(0));
 
-		$clone = $tr.attr('target', true).clone(true).appendTo($table);
+			$clone = $tr.attr('target', true).clone(true).appendTo($table);
 
-		// get colspan
-		cols = ($th=$table.find('thead th')).length;
-		$th.filter('[colspan]').attr('colspan', function(idx,attr){ cols += attr - 1; });
-		$holder.find('td').attr('colspan', cols);
+			// get colspan
+			cols = ($th=$table.find('thead th')).length;
+			$th.filter('[colspan]').attr('colspan', function(idx,attr){ cols += attr - 1; });
+			$holder.find('td').attr('colspan', cols);
 
-		// get offsets of all list-item elements
-		offsets = [];
-		$table.find('tbody>tr:not([target])').each(function() {
-			var $this = $(this), o;
+			// get offsets of all list-item elements
+			offsets = [];
+			$table.find('tbody>tr:not([target])').each(function() {
+				var $this = $(this), o;
 
-			o = getOffset(this, $table.get(0));
-			offsets.push({top:o.top, bottom:o.top+32, $item:$(this)});
-		});
-
-		$clone
-			.addClass('draggable')
-			.css({
-				position: 'absolute',
-				opacity : .6,
-				width   : width,
-				height  : height,
-				left    : offset.left,
-				top     : offset.top,
-				zIndex  : 100
+				o = getOffset(this, $table.get(0));
+				offsets.push({top:o.top, bottom:o.top+32, $item:$(this)});
 			});
 
-		// Set a place holder
-		$holder
-			.css({
- 				position:'absolute',
-				opacity : .6,
-				width   : width,
-				height  : '10px',
-				left    : offset.left,
-				top     : offset.top,
-				backgroundColor : '#bbb',
-				overflow: 'hidden',
-				zIndex  : 99
-			})
-			.appendTo($table);
+			$clone
+				.addClass('draggable')
+				.css({
+					position: 'absolute',
+					opacity : .6,
+					width   : width,
+					height  : height,
+					left    : offset.left,
+					top     : offset.top,
+					zIndex  : 100
+				});
 
-		$tr.css('opacity', .6);
+			// Set a place holder
+			$holder
+				.css({
+					position:'absolute',
+					opacity : .6,
+					width   : width,
+					height  : '10px',
+					left    : offset.left,
+					top     : offset.top,
+					backgroundColor : '#bbb',
+					overflow: 'hidden',
+					zIndex  : 99
+				})
+				.appendTo($table);
 
-		$(document)
-			.unbind('mousedown.st mouseup.st')
-			.bind('mousemove.st', function(event) {
-				var diff, nTop, item, i, c, o;
+			$tr.css('opacity', .6);
 
-				dropzone = null;
+			$(document)
+				.unbind('mousedown.st mouseup.st')
+				.bind('mousemove.st', function(event) {
+					var diff, nTop, item, i, c, o;
 
-				diff = {x:position.x-event.pageX, y:position.y-event.pageY};
-				nTop = offset.top - diff.y;
+					dropzone = null;
 
-				for(i=0,c=offsets.length; i < c; i++) {
-					o = offsets[i];
-					if( (i && o.top > nTop) || ((i < c-1) && o.bottom < nTop)) continue;
+					diff = {x:position.x-event.pageX, y:position.y-event.pageY};
+					nTop = offset.top - diff.y;
 
-					dropzone = {element:o.$item};
-					if(o.top > nTop - 12) {
-						dropzone.state = 'before';
-						$holder.css('top', o.top-5);
-					} else {
-						dropzone.state = 'after';
-						$holder.css('top', o.bottom-5);
+					for(i=0,c=offsets.length; i < c; i++) {
+						o = offsets[i];
+						if( (i && o.top > nTop) || ((i < c-1) && o.bottom < nTop)) continue;
+
+						dropzone = {element:o.$item};
+						if(o.top > nTop - 12) {
+							dropzone.state = 'before';
+							$holder.css('top', o.top-5);
+						} else {
+							dropzone.state = 'after';
+							$holder.css('top', o.bottom-5);
+						}
 					}
-				}
 
-				$clone.css({top:nTop});
-			})
-			.bind('mouseup.st', function(event) {
-				var $dropzone;
+					$clone.css({top:nTop});
+				})
+				.bind('mouseup.st', function(event) {
+					var $dropzone;
 
-				dragging = false;
+					dragging = false;
 
-				$(document).unbind('mousemove.st mouseup.st');
-				$tr.removeAttr('target').css('opacity', '');
-				$clone.remove();
- 				$holder.remove();
+					$(document).unbind('mousemove.st mouseup.st');
+					$tr.removeAttr('target').css('opacity', '');
+					$clone.remove();
+					$holder.remove();
 
-				if(!dropzone) return;
-				$dropzone = $(dropzone.element);
+					if(!dropzone) return;
+					$dropzone = $(dropzone.element);
 
-				// use the clone for animation
-				$dropzone[dropzone.state]($tr);
+					// use the clone for animation
+					$dropzone[dropzone.state]($tr);
 
-				$table.trigger('after-drag.st');
-			});
-	})
+					$table.trigger('after-drag.st');
+				});
+		})
+
+	return this;
+};
+$('table.sortable').xeSortableTable();
+
 
 function getOffset(elem, offsetParent) {
 	var top = 0, left = 0;
@@ -662,6 +708,8 @@ $('.multiLangEdit')
 		.blur(function(){
 			clearTimeout(w_timer);
 			w_timer = null;
+
+			$(this).closest('.multiLangEdit').focusout();
 		})
 	.end()
 	.find('a.tgAnchor.editUserLang')
