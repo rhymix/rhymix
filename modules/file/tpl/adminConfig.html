@@ -1,3 +1,4 @@
+<load target="js/fileConfig.js" type="body"/>
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
@@ -13,14 +14,14 @@
 					<input type="radio" name="allow_outlink" value="N" id="allow_outlink_n" checked="checked"|cond="$config->allow_outlink == 'N'" /> <label for="allow_outlink_n">{$lang->cmd_no}</label>
 				</p>
 			</li>
-			<li style="display:none"|cond="$config->allow_outlink == 'N'">
+			<li style="display:none"|cond="$config->allow_outlink == 'N'" class="_outLink">
 				<p class="q">{$lang->allow_outlink_format}</p>
 				<p class="a">
 					<input type="text" name="allow_outlink_format" value="{$config->allow_outlink_format}" />
 					<p>{$lang->about_allow_outlink_format}</p>
 				</p>
 			</li>
-			<li style="display:none"|cond="$config->allow_outlink == 'N'">
+			<li style="display:none"|cond="$config->allow_outlink == 'N'" class="_outLink">
 				<p class="q">{$lang->allow_outlink_site}</p>
 				<p class="a">
 					<textarea type="text" name="allow_outlink_site">{$config->allow_outlink_site}</textarea>
