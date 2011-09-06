@@ -221,7 +221,14 @@
 
 			if(strpos($path, './') === 0)
 			{
-				$path = dirname($_SERVER['SCRIPT_NAME']) . '/' . substr($path, 2);
+				if (dirname($_SERVER['SCRIPT_NAME']) == '/')
+				{
+					$path = '/' . substr($path, 2);
+				}
+				else
+				{
+					$path = dirname($_SERVER['SCRIPT_NAME']) . '/' . substr($path, 2);
+				}
 			}
 			else if(strpos($file, '../') === 0)
 			{
