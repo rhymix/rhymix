@@ -100,7 +100,7 @@ jQuery(function($){
 	$.fn.xePagination = function(){
 		this
 			.find('span.tgContent').css('whiteSpace', 'nowrap').end()
-			.find('a.tgAnchor[href="#goTo"]')
+			.find('a.tgAnchor')
 				.each(function(idx){
 					var $this = $(this);
 					$this.after( $($this.attr('href')) );
