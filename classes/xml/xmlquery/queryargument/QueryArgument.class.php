@@ -51,13 +51,6 @@
                 }
 
 		function toString(){
-                    if($this->argument_validator->hasOnlyDefaultValue()){
-                        return sprintf("\n$%s_argument = %s;\n"
-							, $this->argument_name
-							, $this->argument_validator->getDefaultValueString()
-							);
-                    }
-
                     if($this->isConditionArgument()){
                             // Instantiation
                             $arg = sprintf("\n$%s_argument = new ConditionArgument('%s', %s, '%s');\n"
