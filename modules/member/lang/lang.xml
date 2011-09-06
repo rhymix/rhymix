@@ -453,7 +453,7 @@
 		<value xml:lang="en"><![CDATA[Enable SSL]]></value>
 		<value xml:lang="jp"><![CDATA[SSL使用]]></value>
 		<value xml:lang="zh-CN"><![CDATA[使用SSL功能]]></value>
-		<value xml:lang="zh-TW"><![CDATA[使用 SSL 功能]]></value>
+		<value xml:lang="zh-TW"><![CDATA[使用 SSL功能]]></value>
 		<value xml:lang="fr"><![CDATA[Utiliser SSL]]></value>
 		<value xml:lang="ru"><![CDATA[использоватьSSL]]></value>
 		<value xml:lang="es"><![CDATA[Activar SSL]]></value>
@@ -677,7 +677,7 @@
 		<value xml:lang="en"><![CDATA[You will be still signed in even when the browser is closed.\n\nIt is not recommended to use this if you are using a public computer, for your personal information could be violated.]]></value>
 		<value xml:lang="jp"><![CDATA[ブラウザを閉じてもログイン状態が維持されます。\n\nログイン維持機能を利用すると、次回からログインする必要がなくなります。\n\nただ、インターネットカフェ、学校など公共場所で利用する場合、個人情報が流出する恐れがありますので、必ずログアウトして下さい。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[关闭浏览器后也将维持登录状态。\n\n使用自动登录功能，可解决每次访问都要输入用户名及密码的麻烦。\n\n为防止个人信息泄露，在网吧，学校等公共场所请务必要确认解除登录状态。]]></value>
-		<value xml:lang="zh-TW"><![CDATA[關閉瀏覽器後也將維持登入狀態。<br />使用此功能，可解決每次訪問都要輸入帳號及密碼的麻煩。<br />為防止個人資料洩露，在網咖，學校等公共場所，請務必要確認解除登入狀態。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[關閉瀏覽器後也將維持登入狀態。\n\n使用此功能，可解決每次訪問都要輸入帳號及密碼的麻煩。\n\n為防止個人資料洩露，在網咖，學校等公共場所，請務必要確認解除登入狀態。]]></value>
 		<value xml:lang="fr"><![CDATA[Malgré que le navigateur est fermé, votre session peut rester ouverte. \n\nSi vous utilisez cette fonction sur l'ordinateur publique, vos informations privé peut être exposé. Nous vous recommandons de ne pas utiliser cette fonctions sur l'ordinateur publique.]]></value>
 		<value xml:lang="ru"><![CDATA[Вы будете в состоянии логин, даже при закрытии окна браузера.\n\nЕсли вы пользуетесь общественным компьютером, сделайте выход в целях сохранения персональных данных]]></value>
 		<value xml:lang="es"><![CDATA[브라우저를 닫더라도 로그인이 계속 유지될 수 있습니다.\n\n로그인 유지 기능을 사용할 경우 다음 접속부터는 로그인을 하실 필요가 없습니다.\n\n단, 게임방, 학교 등 공공장소에서 이용시 개인정보가 유출될 수 있으니 꼭 로그아웃을 해주세요]]></value>
@@ -689,7 +689,7 @@
 		<value xml:lang="en"><![CDATA[You will be still signed in even when the browser is closed. It is not recommended to use this if you are using a public computer, for your personal information could be violated]]></value>
 		<value xml:lang="jp"><![CDATA[ブラウザを閉じてもログイン状態が維持されます。\n\nログイン維持機能を利用すると、次回からログインする必要がなくなります。 ただ、インターネットカフェ、学校など公共場所で利用する場合、個人情報が流出する恐れがありますので、必ずログアウトして下さい。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[关闭浏览器后也将维持登录状态。\n\n使用自动登录功能，可解决每次访问都要输入用户名及密码的麻烦。 为防止个人信息泄露，在网吧，学校等公共场所请务必要确认解除登录状态。]]></value>
-		<value xml:lang="zh-TW"><![CDATA[關閉瀏覽器後也將維持登入狀態。<br />使用此功能，可解決每次訪問都要輸入帳號及密碼的麻煩。<br />為防止個人資料洩露，在網咖，學校等公共場所，請務必要確認解除登入狀態。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[關閉瀏覽器後也將維持登入狀態。使用此功能，可解決每次訪問都要輸入帳號及密碼的麻煩。為防止個人資料洩露，在網咖，學校等公共場所，請務必要確認解除登入狀態。]]></value>
 		<value xml:lang="fr"><![CDATA[Malgré que le navigateur est fermé, votre session peut rester ouverte. Si vous utilisez cette fonction sur l'ordinateur publique, vos informations privé peut être exposé. Nous vous recommandons de ne pas utiliser cette fonctions sur l'ordinateur publique.]]></value>
 		<value xml:lang="ru"><![CDATA[Вы будете в состоянии логин, даже при закрытии окна браузера.Если вы пользуетесь общественным компьютером, сделайте выход в целях сохранения персональных данных]]></value>
 		<value xml:lang="tr"><![CDATA[Tarayıcıyı kapatsanız da sisteme bağlı kalacaksınız. Eğer ortak bir bilgisayar kullanıyorsanız, kişisel bilgilerinizin gizliliği için bunu önermiyoruz]]></value>
@@ -876,7 +876,7 @@
 		<value xml:lang="en"><![CDATA[Member Info]]></value>
 		<value xml:lang="jp"><![CDATA[会員情報確認]]></value>
 		<value xml:lang="zh-CN"><![CDATA[个人资料]]></value>
-		<value xml:lang="zh-TW"><![CDATA[檢視會員資料]]></value>
+		<value xml:lang="zh-TW"><![CDATA[會員資料]]></value>
 		<value xml:lang="fr"><![CDATA[Voir Mon Information]]></value>
 		<value xml:lang="ru"><![CDATA[Личная информация]]></value>
 		<value xml:lang="es"><![CDATA[Información del usuario]]></value>
@@ -993,7 +993,7 @@
 		<value xml:lang="en"><![CDATA[Written Articles]]></value>
 		<value xml:lang="jp"><![CDATA[書き込み履歴]]></value>
 		<value xml:lang="zh-CN"><![CDATA[会员话题]]></value>
-		<value xml:lang="zh-TW"><![CDATA[檢視發表主題]]></value>
+		<value xml:lang="zh-TW"><![CDATA[發表主題]]></value>
 		<value xml:lang="fr"><![CDATA[Voir les Articles écrits]]></value>
 		<value xml:lang="ru"><![CDATA[Просмотреть написанные записи]]></value>
 		<value xml:lang="es"><![CDATA[Ver documentos escritos]]></value>
@@ -1035,7 +1035,7 @@
 		<value xml:lang="en"><![CDATA[Scraps]]></value>
 		<value xml:lang="jp"><![CDATA[スクラップ]]></value>
 		<value xml:lang="zh-CN"><![CDATA[我的收藏]]></value>
-		<value xml:lang="zh-TW"><![CDATA[檢視收藏]]></value>
+		<value xml:lang="zh-TW"><![CDATA[我的收藏]]></value>
 		<value xml:lang="fr"><![CDATA[Voir les Coupures]]></value>
 		<value xml:lang="ru"><![CDATA[Просмотреть Scraps]]></value>
 		<value xml:lang="es"><![CDATA[Ver Scraps]]></value>
@@ -1047,7 +1047,7 @@
 		<value xml:lang="en"><![CDATA[Saved Articles]]></value>
 		<value xml:lang="jp"><![CDATA[保存ドキュメント]]></value>
 		<value xml:lang="zh-CN"><![CDATA[临时保存箱]]></value>
-		<value xml:lang="zh-TW"><![CDATA[檢視臨時儲存箱]]></value>
+		<value xml:lang="zh-TW"><![CDATA[暫存主題]]></value>
 		<value xml:lang="fr"><![CDATA[Voir les Articles conservés]]></value>
 		<value xml:lang="ru"><![CDATA[Просмотреть сохраненные записи]]></value>
 		<value xml:lang="es"><![CDATA[Ver artículos guardados]]></value>
@@ -1761,7 +1761,7 @@
 		<value xml:lang="en"><![CDATA[Please check if you want to provide an OpenID service]]></value>
 		<value xml:lang="jp"><![CDATA[OpenIDをサポートする際にチェックを入れます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[要想网站支持OpenID时请勾选此项。]]></value>
-		<value xml:lang="zh-TW"><![CDATA[想要網站支援 OpenID 時，請勾選此項。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[想要網站支援 OpenID時，請勾選此項。]]></value>
 		<value xml:lang="fr"><![CDATA[Cochez si vous voulez permettre OpenID]]></value>
 		<value xml:lang="ru"><![CDATA[Позволить пользователям регистрироваться как OpenID]]></value>
 		<value xml:lang="es"><![CDATA[Selecciona esta opción si activado OpenID]]></value>
@@ -1796,7 +1796,7 @@
 		<value xml:lang="en"><![CDATA[Personal information from Sign up/Modify Member Info/Sign in can be sent as SSL(https) mode if server provides SSL service.]]></value>
 		<value xml:lang="jp"><![CDATA[サーバーでSSLが可能な場合、会員登録/情報変更/ログイン等の個人情報はSSL(https)経由でサーバーにより安全に送信されます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[如服务器提供SSL协议服务，新会员注册/修改会员信息/登录等信息的传送将使用SSL(https)协议。]]></value>
-		<value xml:lang="zh-TW"><![CDATA[如主機提供 SSL 認證服務，新會員註冊/修改會員資料/登入等資料的傳送將使用 SSL(https) 認證。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[如主機提供 SSL認證服務，新會員註冊/修改會員資料/登入等資料的傳送將使用 SSL(https)認證。]]></value>
 		<value xml:lang="fr"><![CDATA[Les informations personnelles (Inscription / Modification des informations du membre / Connexion) peuvent être envoyées comme mode SSL(https) si le serveur offre le service SSL.]]></value>
 		<value xml:lang="ru"><![CDATA[Personal information from Sign up/Modify Member Info/Sign in can be sent as SSL(https) mode if server provides SSL service]]></value>
 		<value xml:lang="es"><![CDATA[서버에서 SSL지원이 될 경우 회원가입/정보수정/로그인등의 개인정보가 서버로 보내질때 SSL(https)를 이용하도록 할 수 있습니다]]></value>
@@ -1957,7 +1957,7 @@
 		<value xml:lang="en"><![CDATA[When you join using an OpenID, basic info like ID or email address will be saved on this site, process for password and verification management will be done on current OpenID offering service]]></value>
 		<value xml:lang="jp"><![CDATA[OpenIDで登録する際、ＩＤとメールなどの基本情報は、このサイトに保存されますが、パスワードと認証のための処理用の情報は該当するOpenID提供サービス側で行われます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[用OpenID注册时该网站只保存用户名和 邮件等基本信息，密码和认证处理是在提供OpenID服务的站点中得到解决。]]></value>
-		<value xml:lang="zh-TW"><![CDATA[用 OpenID 註冊時，該網站只儲存帳號和郵件等基本資料，密碼和認證處理是在提供 OpenID 服務的網站中得到解決。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[用 OpenID註冊時，該網站只儲存帳號和郵件等基本資料，密碼和認證處理是在提供 OpenID服務的網站中得到解決。]]></value>
 		<value xml:lang="fr"><![CDATA[Si vous vous inscrivez avec OpenID, vos informations primaires comme le Compte(ID) ou l'adresse mél sera gardés sur ce site. Mais le procès pour le Mot de Passe et la certification sera fait sur le service courant qui offre OpenID]]></value>
 		<value xml:lang="ru"><![CDATA[При регистраци как OpenID, основнаая информация (ID или email адрес) будет сохранена на сайте, но операции с паролем и авторизацией будут произведены над текущим OpenID в представленном сервисе]]></value>
 		<value xml:lang="es"><![CDATA[Cuando tu registra como OpenID, la información básica como ID o la dirección del email sera guardado en este sitio, pero la contraseña y la resolución de la certificación se hará en el servicio ofrecido por openID]]></value>
@@ -1969,7 +1969,7 @@
 		<value xml:lang="en"><![CDATA[The secession of OpenID means deletion of your member info from this site.<br />If you login after secession, it will be recognized as a new member, so you will no longer have the permission for your ex-written articles.]]></value>
 		<value xml:lang="jp"><![CDATA[OpenIDの退会は現在のサイトから会員情報を削除することを意味します。<br />退会後ログインすると新しく登録することになり、書き込んだコンテンツに対する権限を維持することが出来ません。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[删除OpenID就等于永久删除站内用户的信息。<br />被删除后的重新登录就等于新会员注册，因此对以前自己写的主题将失去相应权限。]]></value>
-		<value xml:lang="zh-TW"><![CDATA[刪除 OpenID 就等於永久刪除站內會員的資料。<br />被刪除後，再重新登錄就等於新會員註冊，因此對以前自己寫的主題將失去其權限。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[刪除 OpenID就等於永久刪除站內會員的資料。<br />被刪除後，再重新登錄就等於新會員註冊，因此對以前自己寫的主題將失去其權限。]]></value>
 		<value xml:lang="fr"><![CDATA[La sécession de OpenID nous fait supprimer vos informations du membre dans notre site.<br />Si vous ouvrez la connexion après la sécession, nous vous reconnaîtrons comme un nouveau membre, c'est-à-dire, vous n'aurez plus la permission sur les articles que vous avez écrits avant.]]></value>
 		<value xml:lang="ru"><![CDATA[Удаление аккаунта с OpenID производит удаление Вашей информации пользователя на сайте.<br />Если Вы войдете после удаления аккаунта, Вы будете разпознаны как новый пользователь и доступ к написанным Вами ранее записям будет закрыт.]]></value>
 		<value xml:lang="es"><![CDATA[La secesión de OpenID medios eliminación de su información de miembros de este sitio. <br /> Si se registra después de la secesión, se le reconocerá como un nuevo miembro, de modo que ya no tienen el permiso para que su ex-escrito artículos.]]></value>
@@ -2014,7 +2014,7 @@ Bạn có thể quản lý thành viên bằng cách tạo những nhóm mới, 
 		<value xml:lang="ko"><![CDATA[기본 포트 이외의 SSL 포트를 사용하는 경우 포트번호를 입력해주세요.]]></value>
 		<value xml:lang="en"><![CDATA[Please input if you are using non-default SSL port]]></value>
 		<value xml:lang="jp"><![CDATA[基本ポート以外のSSLポートを利用する場合、入力して下さい。]]></value>
-		<value xml:lang="zh-TW"><![CDATA[請輸入想要使用 SSL 預設埠口以外的埠口。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[請輸入想要使用 SSL預設埠口以外的埠口。]]></value>
 		<value xml:lang="fr"><![CDATA[Please input if you are using different SSL port with default one]]></value>
 		<value xml:lang="ru"><![CDATA[Please input if you are using different SSL port with default one]]></value>
 		<value xml:lang="es"><![CDATA[Please input if you are using different SSL port with default one]]></value>
@@ -2062,6 +2062,7 @@ Bạn có thể quản lý thành viên bằng cách tạo những nhóm mới, 
 	<item name="find_account_answer">
 		<value xml:lang="ko"><![CDATA[비밀번호 찾기 답변]]></value>
 		<value xml:lang="en"><![CDATA[Answer for a temporary password.]]></value>
+		<value xml:lang="zh-TW"><![CDATA[忘記密碼提示]]></value>
 	</item>
 	<item name="about_find_account_question">
 		<value xml:lang="ko"><![CDATA[가입시 아이디와 이메일, 질문/답변으로 임시 비밀번호를 발급 받을 수 있습니다.]]></value>

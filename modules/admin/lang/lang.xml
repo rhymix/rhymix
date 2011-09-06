@@ -159,7 +159,7 @@
 			<value xml:lang="en"><![CDATA[Accessories]]></value>
 			<value xml:lang="jp"><![CDATA[付加機能設定]]></value>
 			<value xml:lang="zh-CN"><![CDATA[附加功能]]></value>
-			<value xml:lang="zh-TW"><![CDATA[附加功能管理]]></value>
+			<value xml:lang="zh-TW"><![CDATA[附加功能]]></value>
 			<value xml:lang="tr"><![CDATA[Donatılar]]></value>
 			<value xml:lang="vi"><![CDATA[Dịch vụ phụ]]></value>
 		</item>
@@ -517,7 +517,7 @@ Lütfen son sürümü için indirme linkine tıklayınız.]]></value>
 		<value xml:lang="en"><![CDATA[XE complies with the GPL]]></value>
 		<value xml:lang="jp"><![CDATA[XEのライセンスはGPLです。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[XE遵循 GPL协议]]></value>
-		<value xml:lang="zh-TW"><![CDATA[XE遵循 GPL 協議]]></value>
+		<value xml:lang="zh-TW"><![CDATA[XE遵循 GPL協議]]></value>
 		<value xml:lang="fr"><![CDATA[XE s'applique la GPL]]></value>
 		<value xml:lang="ru"><![CDATA[XE подчиняется Стандартной Общественной Лицензии GPL]]></value>
 		<value xml:lang="es"><![CDATA[XE está bajo la Licencia de GPL]]></value>
@@ -609,7 +609,7 @@ Lütfen son sürümü için indirme linkine tıklayınız.]]></value>
 		<value xml:lang="en"><![CDATA[In case of 'Optional', SSL will be used for actions such as signing up / changing information. And for 'Always', your site will be served only via https.]]></value>
 		<value xml:lang="jp"><![CDATA[「部分的に使う場合」は「会員登録/会員情報変更」など特定のactionでSSLを利用する場合、「常に使う」は全てのサービスがSSLを使う場合に選択します。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[选择性使用选项应用于新用户注册/修改用户信息等已指定的action当中，使用选项应用于所有服务。]]></value>
-		<value xml:lang="zh-TW"><![CDATA[選擇手動時，在會員註冊或修改資料等動作時才會使用 SSL 功能。<br/>選擇開啟時，所有的服務都會使用 SSL 功能。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[選擇手動時，在會員註冊或修改資料等動作時才會使用 SSL功能。<br/>選擇開啟時，所有的服務都會使用 SSL功能。]]></value>
 		<value xml:lang="fr"><![CDATA[Si l'on choisit 'Optionnel' , on utilise protocole SSL seulement dans quelques services comme inscription ou modification. Si l'on choisit 'Toujours', on utilise protocole SSL dans tous les services.]]></value>
 		<value xml:lang="ru"><![CDATA[In case of "Optional", SSL will be used for actions such as signing up / changing information. And for "Always", your site will be served only via https]]></value>
 		<value xml:lang="es"><![CDATA[Opcionalmente, la composición de suscripción / editar la información y el uso de SSL especificada en la acción es siempre el uso de SSL para todos los servicios que se utilizarán]]></value>
@@ -652,7 +652,7 @@ Lütfen son sürümü için indirme linkine tıklayınız.]]></value>
 		<value xml:lang="en"><![CDATA[It will use php session with DB when authenticating.<br/>Websites with infrequent usage of web server may expect faster response when this function is disabled.<br/>However session DB will make it unable to get current users, so you cannot use related functions.]]></value>
 		<value xml:lang="jp"><![CDATA[認証の時に使われるPHPセッションをDBで使う機能です。<br />ウェブサーバーの負荷が低いサイトではこの機能をオフにすることでむしろサイトのレスポンスが向上されることもあります。<br />また、この機能をオンにすると、「現在ログイン中の会員」の機能が不可になります。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[用DB储存认证时的PHP会话。<br/>服务器使用率较少的网站建议不要勾选此项(可提高网站访问速度)。<br/>只是无法统计在线会员。]]></value>
-		<value xml:lang="zh-TW"><![CDATA[使用 PHP session 進行 DB 認證。<br/>關閉此功能對於負荷較低的網站可提高效率。<br/>使用此功能會無法統計線上人數。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[使用 PHP session進行 DB認證。<br/>關閉此功能對於負荷較低的網站可提高效率。<br/>使用此功能會無法統計線上人數。]]></value>
 		<value xml:lang="fr"><![CDATA[인증시 사용되는 PHP 세션을 DB로 사용하는 기능입니다.<br/>웹서버의 사용율이 낮은 사이트에서는 비활성화시 사이트 응답 속도가 향상될 수 있습니다<br/>단 현재 접속자를 구할 수 없어 관련된 기능을 사용할 수 없게 됩니다.]]></value>
 		<value xml:lang="ru"><![CDATA[It will use php session with DB when authenticating.<br/>Websites with infrequent usage of web server may expect faster response when this function is disabled.<br/>However session DB will make it unable to get current users, so you cannot use related functions]]></value>
 		<value xml:lang="es"><![CDATA[인증시 사용되는 PHP 세션을 DB로 사용하는 기능입니다.<br/>웹서버의 사용율이 낮은 사이트에서는 비활성화시 사이트 응답 속도가 향상될 수 있습니다<br/>단 현재 접속자를 구할 수 없어 관련된 기능을 사용할 수 없게 됩니다.]]></value>
@@ -709,7 +709,7 @@ Lütfen son sürümü için indirme linkine tıklayınız.]]></value>
 		<value xml:lang="en"><![CDATA[Please restart Memcached or cache daemon.]]></value>
 		<value xml:lang="jp"><![CDATA[メムキャッシュドまたはキャッシュデーモンを再起動して下さい。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[请重新启动Memcached或CacheDaemon。]]></value>
-		<value xml:lang="zh-TW"><![CDATA[請重新啟動 Memcached 快取程式。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[請重新啟動 Memcached/cache daemon快取程式。]]></value>
 		<value xml:lang="tr"><![CDATA[Lütfen önbellek geri plan yordamını veya Memcached' ı yeniden başlatınız.]]></value>
 		<value xml:lang="vi"><![CDATA[Hãy thiết lập lại bộ nhớ Cache hoặc Deamon Cache.]]></value>
 	</item>

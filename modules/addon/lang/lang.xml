@@ -73,7 +73,7 @@
 		<value xml:lang="en"><![CDATA[Addons control many actions performed in your site rather than display HTML results.<br />You can control useful functions simply by toggling ON/OFF switch]]></value>
 		<value xml:lang="jp"><![CDATA[アドオンは、HTMLの出力をコントロールすると言うより、動作を制御する役割をします。お好みのアドオンを「使用/未使用」に設定するだけで、サイトの運営に有用な機能が利用出来ます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[插件就是对动作(Action)的有效控制来给核心程序提供扩展功能的一种组件。<br />只需启用/禁用操作，即可为网站提供强大的扩展功能。]]></value>
-		<value xml:lang="zh-TW"><![CDATA[附加元件可擴展程式功能，而不是顯示輸出HTML結果。<br />『啟用/禁用』附加元件，以增強網站的功能。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[附加元件可對 Action進行控制並可擴展核心程式功能，而不是顯示輸出 HTML結果。<br />『啟用/禁用』附加元件，以增強網站的功能。]]></value>
 		<value xml:lang="fr"><![CDATA[La Compagnon, c'est pour contrôler les actions plutôt d'imprimer des résultats de HTML.<br/>Par la Touche à Bascule des compagnons que vous voulez faire marcher ou arrêter, vous pouvez appliquer les fonctions très utiles à administrer votre site Web.]]></value>
 		<value xml:lang="ru"><![CDATA[Аддон служит больше для контролирования действий, чем для отображения HTML-результатов.<br />Простым включением/выключением любых аддонов, Вы можете использовать очень полезные функции для администрирования Вашего веб-сайта]]></value>
 		<value xml:lang="es"><![CDATA[Addon is para controlar las acciones y no para mostrar el resultado en HTML.<br /> Sólo con activar o desactivar el addon que desee, podrá obtener funciones útiles para la administración de tu sitio web.]]></value>

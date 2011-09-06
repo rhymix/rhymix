@@ -71,11 +71,13 @@
 		<value xml:lang="en"><![CDATA[If the %s is not set, the installation will not work. Pleas configure the FTP information]]></value>
 		<value xml:lang="jp"><![CDATA[%sが完了されないと、イージーインストールが動作しません。 FTP設定を確認して下さい。]]></value>
 		<value xml:lang="ru"><![CDATA[If %s is not set, installation would not work. Please configure FTP information]]></value>
+		<value xml:lang="zh-TW"><![CDATA[請先將 %s好，否則無法執行自動安裝功能。]]></value>
 	</item>
 	<item name="ftp_setup">
 		<value xml:lang="ko"><![CDATA[FTP 설정]]></value>
 		<value xml:lang="en"><![CDATA[FTP configuration]]></value>
 		<value xml:lang="jp"><![CDATA[FTP設定]]></value>
+		<value xml:lang="zh-TW"><![CDATA[FTP設定]]></value>
 	</item>
 	<item name="description_update">
 		<value xml:lang="ko"><![CDATA[쉬운설치 사용전 %s를 해주세요.]]></value>
@@ -154,7 +156,7 @@
 		<value xml:lang="en"><![CDATA[If FTP is unavailable, you should manually download and extract it into the target path. (If the target path is ./modules/board, extract it to ./modules)]]></value>
 		<value xml:lang="jp"><![CDATA[FTPの利用が出来ない場合は、直接ダウンロードし、サーバー上の該当パスにてインストールして下さい。 (一つ上階層にて解凍します。　./modules/board　の場合 ./modulesにて tarを解凍して下さい。)]]></value>
 		<value xml:lang="zh-CN"><![CDATA[无法使用FTP时，需得自行下载安装到指定路径。]]></value>
-		<value xml:lang="zh-TW"><![CDATA[如果 FTP 無法使用的話，必須要手動下載並解壓縮到目標路徑。(假設目標路徑為 ./modules/board 的話，將檔案解壓縮到 ./modules就可以了)]]></value>
+		<value xml:lang="zh-TW"><![CDATA[如果 FTP無法使用的話，必須要手動下載並解壓縮到目標路徑。(假設目標路徑為 ./modules/board 的話，將檔案解壓縮到 ./modules就可以了)]]></value>
 		<value xml:lang="ru"><![CDATA[If FTP is unavailable, you should manually download it and extract it into target path. (if target path is ./modules/board, extract it at ./modules)]]></value>
 		<value xml:lang="tr"><![CDATA[Eğer FTP kullanılamaz durumduysa, indirmeyi kendiniz yapmanız ve dosyaları hedef dizine çıkartmanız gerekmektedir. (eğer hedef yol ./modules/board ise, çıkarma işlemini ./modules yoluna yapınız)]]></value>
 		<value xml:lang="vi"><![CDATA[Khi FTP không được mở, bạn nên tải về và giả nén, sau đó Upload theo đường dẫn. (Nếu đường dẫn là ./modules/board, thì giải nén vào ./modules)]]></value>

@@ -198,7 +198,7 @@
 		<value xml:lang="en"><![CDATA[Friends]]></value>
 		<value xml:lang="jp"><![CDATA[友達リスト]]></value>
 		<value xml:lang="zh-CN"><![CDATA[我的好友]]></value>
-		<value xml:lang="zh-TW"><![CDATA[檢視好友]]></value>
+		<value xml:lang="zh-TW"><![CDATA[我的好友]]></value>
 		<value xml:lang="fr"><![CDATA[Amis]]></value>
 		<value xml:lang="ru"><![CDATA[Друзья]]></value>
 		<value xml:lang="es"><![CDATA[Amigos]]></value>
@@ -222,7 +222,7 @@
 		<value xml:lang="en"><![CDATA[Message Box]]></value>
 		<value xml:lang="jp"><![CDATA[メッセージ]]></value>
 		<value xml:lang="zh-CN"><![CDATA[短信箱]]></value>
-		<value xml:lang="zh-TW"><![CDATA[檢視短訊箱]]></value>
+		<value xml:lang="zh-TW"><![CDATA[短訊箱]]></value>
 		<value xml:lang="fr"><![CDATA[Lire des Messages]]></value>
 		<value xml:lang="ru"><![CDATA[Личные сообщений]]></value>
 		<value xml:lang="es"><![CDATA[Buzón de mensajes]]></value>
