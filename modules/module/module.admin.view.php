@@ -37,7 +37,6 @@
 			}
 			
 			$output = $oAdminModel->getFavoriteList('0');
-			if($output->toBool()) debugPrint('ok');
 			
 			$favoriteList = $output->variables['favoriteList'];
 			$favoriteModuleList = array();
