@@ -68,13 +68,13 @@
             $menu_srl = Context::get('menu_srl');
             return $this->deleteMenu($menu_srl);
         }
-        
+
         function deleteMenu($menu_srl) {
             // Delete cache files
             $cache_list = FileHandler::readDir("./files/cache/menu","",false,true);
             if(count($cache_list)) {
                 foreach($cache_list as $cache_file) {
-                    $pos = strpos($cache_file, $menu_srl.'_');
+                    $pos = strpos($cache_file, $menu_srl.'.');
                     if($pos>0)FileHandler::removeFile($cache_file);
                 }
             }
@@ -279,14 +279,14 @@
 				{
 					if (!$this->checked[$srl]){
 						unset($target);
-						$this->checked[$srl] = 1; 
+						$this->checked[$srl] = 1;
 						$target->node = $srl;
 						$target->child= array();
 
 						while(count($this->map[$srl])){
 							$this->_setParent($srl, array_shift($this->map[$srl]), $target);
 						}
-						$result[] = $target;	
+						$result[] = $target;
 					}
 				}
 			}
@@ -310,7 +310,7 @@
 		function _setParent($parent_srl, $child_index, &$target)
 		{
 			$child_srl = $this->itemKeyList[$child_index];
-			$this->checked[$child_srl] = 1; 
+			$this->checked[$child_srl] = 1;
 
 			$child_node->node = $child_srl;
 			$child_node->parent_node = $parent_srl;
@@ -522,7 +522,7 @@
             $xml_file = $this->makeXmlFile($args->menu_srl);
 
 			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminMenuSetup');
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminSetup');
 				$this->setRedirectUrl($returnUrl);
 				return;
 			}
@@ -636,8 +636,8 @@
         }
 
         /**
-         * @brief Create xml data recursively looping for array nodes by referencing to parent_srl 
-         * menu xml file uses a tag named "node" and this XML configures menus on admin page. 
+         * @brief Create xml data recursively looping for array nodes by referencing to parent_srl
+         * menu xml file uses a tag named "node" and this XML configures menus on admin page.
          * (Implement tree menu by reading the xml file in tree_menu.js)
          **/
         function getXmlTree($source_node, $tree, $site_srl, $domain) {
@@ -828,7 +828,7 @@
             if(!$output->toBool()) return $output;
 
             $args->layout_srl = $layout_srl;
-            // Mapping menu_srls, layout_srl 
+            // Mapping menu_srls, layout_srl
             for($i=0;$i<count($menu_srl_list);$i++) {
                 $args->menu_srl = $menu_srl_list[$i];
                 $output = executeQuery('menu.insertMenuLayout', $args);
