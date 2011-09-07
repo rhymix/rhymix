@@ -16,6 +16,22 @@
 		<value xml:lang="ko"><![CDATA[기타]]></value>
 		<value xml:lang="en"><![CDATA[etc]]></value>
 	</item>
+	<item name="current_state">
+		<value xml:lang="ko"><![CDATA[현황]]></value>
+		<value xml:lang="en"><![CDATA[current state]]></value>
+	</item>
+	<item name="latest_document">
+		<value xml:lang="ko"><![CDATA[최근 글]]></value>
+		<value xml:lang="en"><![CDATA[Latest Document]]></value>
+	</item>
+	<item name="latest_comment">
+		<value xml:lang="ko"><![CDATA[최근 댓글]]></value>
+		<value xml:lang="en"><![CDATA[Latest Comment]]></value>
+	</item>
+	<item name="latest_trackback">
+		<value xml:lang="ko"><![CDATA[최근 엮인글]]></value>
+		<value xml:lang="en"><![CDATA[Latest Trackback]]></value>
+	</item>
 	<item name="admin_info">
 		<value xml:lang="ko"><![CDATA[관리자 정보]]></value>
 		<value xml:lang="en"><![CDATA[Administrator Info]]></value>

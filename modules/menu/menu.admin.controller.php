@@ -127,6 +127,22 @@
             if($btnOutput['hover_btn']) $args->hover_btn = $btnOutput['hover_btn'];
             if($btnOutput['active_btn']) $args->active_btn = $btnOutput['active_btn'];
             $args->group_srls = $source_args->group_srls;
+
+			// if cType is CREATE, create module
+			if($source_args->cType == 'CREATE')
+			{
+				$site_module_info = Context::get('site_module_info');
+				$cmArgs->site_srl = (int)$site_module_info->site_srl;
+				$cmArgs->mid = $source_args->create_menu_url;
+				$cmArgs->browser_title = $source_args->menu_name;
+				//$cmArgs->layout_srl = $this->selected_layout->layout_srl;
+				$cmArgs->module = $source_args->module_type;
+				$cmArgs->menu_srl = $source_args->menu_srl;
+                $oModuleController = &getController('module');
+				$output = $oModuleController->insertModule($cmArgs);
+				if(!$output->toBool()) return Object(-1, 'fail_module_regist');
+			}
+
             // Check if already exists
             $oMenuModel = &getAdminModel('menu');
             $item_info = $oMenuModel->getMenuItemInfo($args->menu_item_srl);

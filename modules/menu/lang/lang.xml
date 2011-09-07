@@ -58,6 +58,42 @@
 		<value xml:lang="tr"><![CDATA[Menü Yönetimi]]></value>
 		<value xml:lang="vi"><![CDATA[Quản lý Menu]]></value>
 	</item>
+	<item name="collapsing">
+		<value xml:lang="ko"><![CDATA[접기]]></value>
+		<value xml:lang="en"><![CDATA[Collapse]]></value>
+	</item>
+	<item name="expanding">
+		<value xml:lang="ko"><![CDATA[펼치기]]></value>
+		<value xml:lang="en"><![CDATA[Expand]]></value>
+	</item>
+	<item name="add_menu">
+		<value xml:lang="ko"><![CDATA[메뉴 추가...]]></value>
+		<value xml:lang="en"><![CDATA[Add Menu...]]></value>
+	</item>
+	<item name="add_new_sitemap">
+		<value xml:lang="ko"><![CDATA[새 사이트맵 추가...]]></value>
+		<value xml:lang="en"><![CDATA[Add New Site Map...]]></value>
+	</item>
+	<item name="module_or_url">
+		<value xml:lang="ko"><![CDATA[모듈 또는 URL]]></value>
+		<value xml:lang="en"><![CDATA[Module or URL]]></value>
+	</item>
+	<item name="create_module_in_menu">
+		<value xml:lang="ko"><![CDATA[모듈 생성]]></value>
+		<value xml:lang="en"><![CDATA[Create Module]]></value>
+	</item>
+	<item name="select_module_in_menu">
+		<value xml:lang="ko"><![CDATA[모듈 선택]]></value>
+		<value xml:lang="en"><![CDATA[Select Module]]></value>
+	</item>
+	<item name="create_mid_in_menu">
+		<value xml:lang="ko"><![CDATA[모듈 아이디 생성]]></value>
+		<value xml:lang="en"><![CDATA[Create Module ID]]></value>
+	</item>
+	<item name="select_mid_in_menu">
+		<value xml:lang="ko"><![CDATA[모듈 아이디 선택]]></value>
+		<value xml:lang="en"><![CDATA[Select Module ID]]></value>
+	</item>
 	<item name="depth">
 		<value xml:lang="ko"><![CDATA[단계]]></value>
 		<value xml:lang="en"><![CDATA[Step]]></value>
@@ -139,6 +175,10 @@
 		<value xml:lang="es"><![CDATA[Abrir en una nueva ventana]]></value>
 		<value xml:lang="tr"><![CDATA[Yeni pencere aç]]></value>
 		<value xml:lang="vi"><![CDATA[Mở ra trang mới]]></value>
+	</item>
+	<item name="menu_self_window">
+		<value xml:lang="ko"><![CDATA[현재창 열기]]></value>
+		<value xml:lang="en"><![CDATA[Open a self window]]></value>
 	</item>
 	<item name="menu_expand">
 		<value xml:lang="ko"><![CDATA[펼침]]></value>

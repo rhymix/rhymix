@@ -936,4 +936,8 @@ Le module [Administration des Modules] montera tous les modules installés et vo
 		<value xml:lang="tr"><![CDATA[Yalnızca %s uzantı(ları) mevucut.]]></value>
 		<value xml:lang="vi"><![CDATA[Chỉ cho phép những phần mở rộng là: %s.]]></value>
 	</item>
+	<item name="fail_module_regist">
+		<value xml:lang="ko"><![CDATA[모듈 등록에 실패하였습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Fail Regist Module]]></value>
+	</item>
 </lang>

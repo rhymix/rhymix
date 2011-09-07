@@ -30,7 +30,7 @@
 	<!--@end-->
 	<div class="section">
 		<div class="portlet">
-			<h2 class="h2">Current State</h2>
+			<h2 class="h2">{$lang->current_state}</h2>
 			<ul class="lined">
 				<li><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminList')}">{$lang->menu_gnb['user']}</a> <span class="side">{number_format($status->member->totalCount)}(<!--@if($status->member->todayCount > 0)-->+<!--@end-->{number_format($status->member->todayCount)})</span></li>
 				<li><a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList')}">{$lang->menu_gnb_sub['document']}</a> <span class="side">{number_format($status->document->totalCount)}(<!--@if($status->document->todayCount > 0)-->+<!--@end-->{number_format($status->document->todayCount)})</span></li>
@@ -40,7 +40,7 @@
 			</ul>
 		</div>
 		<div class="portlet">
-			<h2 class="h2">Latest Document</h2>
+			<h2 class="h2">{$lang->latest_document}</h2>
 			<ul class="lined">
 				<!--@foreach($latestDocumentList AS $key=>$value)-->
 				{@$document = $value->variables}
@@ -61,7 +61,7 @@
 			</ul>
 		</div>
 		<div class="portlet">
-			<h2 class="h2">Latest Comment</h2>
+			<h2 class="h2">{$lang->latest_comment}</h2>
 			<ul class="lined">
 				<!--@foreach($latestCommentList AS $key=>$value)-->
 				<li>
@@ -81,7 +81,7 @@
 			</ul>
 		</div>
 		<div class="portlet">
-			<h2 class="h2">Latest Trackback</h2>
+			<h2 class="h2">{$lang->latest_trackback}</h2>
 			<ul class="lined">
 				<!--@foreach($latestTrackbackList AS $key=>$value)-->
 				<li>
@@ -100,7 +100,7 @@
 			</ul>
 		</div>
 		<div class="portlet">
-			<h2 class="h2">XE Team Notice</h2>
+			<h2 class="h2">{$lang->notice}</h2>
 			<ul class="lined">
 				<!--@foreach($news AS $key=>$value)-->
 				<li><a href="{$value->url}" target="_blank">{$value->title}</a> <span class="side">{zdate($value->date, 'Y-m-d')}</span></li>
@@ -108,7 +108,7 @@
 			</ul>
 		</div>
 		<div class="portlet">
-			<h2 class="h2">Your Favorite</h2>
+			<h2 class="h2">{$lang->favorite}</h2>
 			<ul class="lined">
 				<li loop="$favorite_list => $favorite">
 					<a href="{getUrl('act', $favorite->admin_index_act)}">{$favorite->title}</a>

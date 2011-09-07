@@ -92,6 +92,15 @@ $('form.siteMap')
 		menuForm.submit();
 	});
 
+	var kindModuleLayer = $('#kindModule');
+	var createModuleLayer = $('#createModule');
+	var selectModuleLayer = $('#selectModule');
+	var insertUrlLayer = $('#insertUrl');
+	kindModuleLayer.hide();
+	createModuleLayer.hide();
+	selectModuleLayer.hide();
+	insertUrlLayer.hide();
+
 	$('a._add').click(function()
 	{
 		editForm.find('.h2').html('Add Menu');
@@ -104,27 +113,7 @@ $('form.siteMap')
 		editForm.find('input=[name=menu_url]').val('');
 		editForm.find('input=[name=menu_open_window]').attr('checked', false);
 		editForm.find('input=[name=group_srls\\[\\]]').attr('checked', false);
-
-		/*var htmlBuffer = '';
-		for(x in menuItem.groupList.item)
-		{
-			var groupObj = menuItem.groupList.item[x];
-
-			htmlBuffer += '<input type="checkbox" name="group_srls[]" id="group_srls_'+groupObj.group_srl+'" value="'+groupObj.group_srl+'"';
-			if(groupObj.isChecked) htmlBuffer += ' checked="checked" ';
-			htmlBuffer += '/> <label for="group_srls_'+groupObj.group_srl+'">'+groupObj.title+'</label>'
-		}
-		$('#groupList').html(htmlBuffer);*/
 	});
-
-	var kindModuleLayer = $('#kindModule');
-	var createModuleLayer = $('#createModule');
-	var selectModuleLayer = $('#selectModule');
-	var insertUrlLayer = $('#insertUrl');
-	kindModuleLayer.hide();
-	createModuleLayer.hide();
-	selectModuleLayer.hide();
-	insertUrlLayer.hide();
 
 	$('input._typeCheck').click(typeCheck);
 
@@ -165,7 +154,7 @@ $('form.siteMap')
 		}
 	}
 
-	$('#kModule').change(getModuleList);
+	$('#kModule').change(getModuleList).change();
 	function getModuleList()
 	{
 		var params = new Array();
