@@ -163,7 +163,7 @@ function xml2json(xml, tab, ignoreAttrib) {
       xml = xml.documentElement;
 
    var json_obj = X.toObj(X.removeWhite(xml)), json_str;
-   
+
    if (typeof(JSON)=='object' && jQuery.isFunction(JSON.stringify) && false) {
 	   var obj = {}; obj[xml.nodeName] = json_obj;
 	   json_str = JSON.stringify(obj);
@@ -205,7 +205,7 @@ $.exec_xml = window.exec_xml = function(module, act, params, callback_func, resp
 
 		if(port != 443) target += ':'+port;
 		if(_ul.pathname[0] != '/') target += '/';
-		
+
 		target += _ul.pathname;
 		xml_path = target.replace(/\/$/, '')+'/index.php';
 	}
@@ -299,7 +299,9 @@ $.exec_xml = window.exec_xml = function(module, act, params, callback_func, resp
 					msg = textStatus;
 				}
 
-				alert(msg);
+				try{
+					console.log(msg);
+				}catch(ee){}
 			}
 		});
 	} catch(e) {
@@ -347,7 +349,7 @@ function send_by_form(url, params) {
 function arr2obj(arr) {
 	var ret = {};
 	for(var key in arr) {
-		if(arr.hasOwnProperty(key)) ret[key] = arr[key];		
+		if(arr.hasOwnProperty(key)) ret[key] = arr[key];
 	}
 	return ret;
 }
