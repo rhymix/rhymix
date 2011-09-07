@@ -111,3 +111,12 @@ html{height:100%;background:url(../img/bgHtml.gif) repeat-x 0 0}
 .agreement a{color:#6CF;text-decoration:underline;vertical-align:middle}
 .agreement em{color:#f60}
 .agreement p{line-height:1.5}
+/* Message */
+.message{border:1px solid #ddd;background:#f8f8f8;margin:1em 17px;padding:0 1em;border-radius:5px;line-height:1.4}
+.message em{font-style:normal;color:#e00}
+.message.info,
+.message.error,
+.message.update{padding-left:55px}
+.message.info{border-color:#E0E8EC;background:#EDF9FF url(../../../admin/tpl/img/msg.Info.png) no-repeat 1em .5em}
+.message.error{border-color:#EFDCDC;background:#FFECEC url(../../../admin/tpl/img/msg.error.png) no-repeat 1em .5em}
+.message.update{border-color:#EAE9DC;background:#FFFDEF url(../../../admin/tpl/img/msg.update.png) no-repeat 1em .5em}
