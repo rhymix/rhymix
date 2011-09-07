@@ -48,7 +48,9 @@
 				$xml_info->package_srl = $oAutoinstallModel->getPackageSrlByPath($xml_info->path);
 				if($xml_info->package_srl) $targetpackages[$xml_info->package_srl] = 0;
             }	
-			$packages = $oAutoinstallModel->getInstalledPackages(array_keys($targetpackages));			
+			
+			if(is_array($targetpackages))	$packages = $oAutoinstallModel->getInstalledPackages(array_keys($targetpackages));			
+			
 			foreach($component_list as $component_name => $xml_info) {
 				if($packages[$xml_info->package_srl])	$xml_info->need_update = $packages[$xml_info->package_srl]->need_update;
 			}
