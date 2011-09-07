@@ -28,10 +28,10 @@ $('#theme').data('themes', themes);
 	<input type="hidden" name="act" value="procAdminInsertThemeInfo">
 		<fieldset id="theme">
 			<h2 class="h2">Theme Setting</h2>
-			<p>테마는 레이아웃을 포함하여 현재 설치된 모듈의 스킨을 묶은 개념입니다. 테마를 선택하면 'Skin Setting' 항목을 알아서 선택합니다. 테마 일부가 마음에 들지 않으면 'Skin Setting'에서 테마 일부를 다시 설정 할 수 있습니다.</p>
+			<p>{$lang->theme_desc}</p>
 			<ul class="thumbPreview">
 				<li>
-					<p class="q">선택한 테마</p>
+					<p class="q">{$lang->selected_theme}</p>
 					<ul class="a">
 						{@$current_theme = ($theme_info)?$theme_info->theme:'user_define'}
 						<li class="i" loop="$theme_list=>$key,$val">
@@ -39,15 +39,15 @@ $('#theme').data('themes', themes);
 							<input type="radio" name="themeItem" id="{$key}" value="{$key}" <!--@if($key == $current_theme)-->checked="checked"<!--@end--> />
 							<label for="{$key}">{$val->title}({$key})</label>
 							<ul>
-								<li>&middot; 버전: {$val->version}</li>
-								<li>&middot; 제작: 
+								<li>&middot; {$lang->version}: {$val->version}</li>
+								<li>&middot; {$lang->author}: 
 									<!--@foreach($val->publisher as $publisher)-->
 									<a href="{$publisher->homepage}" cond="$publisher->homepage">{$publisher->name}</a>
 									<!--@if(!$publisher->homepage)-->{$publisher->name}<!--@end-->
 									<!--@endforeach-->
 								</li>
-								<li>&middot; 설명: {$val->description}</li>
-								<li>&middot; 경로: {$val->path}</li>
+								<li>&middot; {$lang->description}: {$val->description}</li>
+								<li>&middot; {$lang->path}: {$val->path}</li>
 							</ul>
 						</li>
 						<li class="i userDefine">
@@ -55,7 +55,7 @@ $('#theme').data('themes', themes);
 							<input type="radio" name="themeItem" id="theme_user_define" value="user_define" <!--@if($current_theme == 'user_define')-->checked="checked"<!--@end--> />
 							<label for="theme_user_define">User Defined</label>
 							<ul>
-								<li>&middot; 설명: 관리자가 설정한 테마입니다. 테마를 설정하지 않은 경우 디폴트로 노출됩니다.</li>
+								<li>&middot; {$lang->description}: {$lang->no_selected_theme_desc}</li>
 							</ul>
 						</li>
 					</ul>
@@ -64,38 +64,38 @@ $('#theme').data('themes', themes);
 		</fieldset>
 		<fieldset id="skin">
 			<h2 class="h2">Skin Setting</h2>
-			<p>테마의 일부가 마음에 들지 않으면 스킨을 직접 선택하세요. 스킨을 직접 선택하면 'Theme Setting' 설정은 'User Defined'로 설정됩니다. <button type="button" class="showAll"></button></p>
+			<p>{$lang->user_define_skin_select_desc} <button type="button" class="showAll"></button></p>
 			<ul class="thumbPreview jx">
 				<li data-skintype="layout">
-					<p class="q">선택한 레이아웃</p>
+					<p class="q">{$lang->selected_layout}</p>
 					<ul class="a">
 						<li class="i" loop="$layout_list=>$val">
 							<span class="thumb"><span class="frame"><!--@if($val->thumbnail)--><img src="{$val->thumbnail}" alt="" /><!--@else-->Thumbnail does not exist<!--@end--></span></span>
 							<input type="radio" name="layout" id="layout_{$val->layout_srl}" value="{$val->layout_srl}" <!--@if($val->layout_srl == $current_layout)-->checked="checked"<!--@end--> />
 							<label for="layout_{$val->layout_srl}">{$val->layout_title.'('.$val->layout.')'}</label>
 							<ul>
-								<li>&middot; 버전: {$val->version}</li>
-								<li>&middot; 제작:
+								<li>&middot; {$lang->version}: {$val->version}</li>
+								<li>&middot; {$lang->author}:
 									<!--@foreach($val->author as $author)-->
 									<a href="{$author->homepage}" cond="$author->homepage">{$author->name}</a>
 									<!--@if(!$author->homepage)-->{$author->name}<!--@end-->
 									<!--@endforeach-->
 								</li>
-								<li>&middot; 설명: {$val->description}</li>
-								<li>&middot; 경로: {$val->path}</li>
-								<li>&middot; 설정: <a href="#">Edit</a></li>
+								<li>&middot; {$lang->description}: {$val->description}</li>
+								<li>&middot; {$lang->path}: {$val->path}</li>
+								<li>&middot; {$lang->cmd_setup}: <a href="#">Edit</a></li>
 							</ul>
 						</li>
 					</ul>
 				</li>
 				<li loop="$module_list=>$mkey,$mval" cond="$mkey!='__IS_PARSE__'" data-skintype="{$mkey}">
-					<p class="q">선택한 {$mval['title']} 스킨</p>
+					<p class="q">{sprintf($lang->selected_skin, $mval['title'])}</p>
 					<ul class="a">
 						<li class="i noDirection" cond="!$theme_info->skin_info[$mkey]">
 							<span class="thumb"><span class="frame"></span></span>
-							<strong>선택한 {$mkey} 스킨 없음</strong>
+							<strong>{sprintf($lang->no_selected_skin, $mkey)}</strong>
 							<ul>
-								<li>선택한 테마에는 이 항목에 대한 스킨 정보가 없습니다. 스킨을 직접 선택하세요.</li>
+								<li>{$lang->no_selected_skin_desc}</li>
 							</ul>
 						</li>
 						<li class="i" loop="$mval['skins']=>$skey,$sval">
@@ -104,26 +104,26 @@ $('#theme').data('themes', themes);
 							<input type="radio" name="{$mkey}-skin" id="{$id}" value="{$skey}" checked="checked"|cond="$theme_info->skin_info[$mkey]==$skey" />
 							<label for="{$id}">{$sval->title.'('.$skey.')'}</label>
 							<ul>
-								<li>&middot; 버전: {$sval->version}</li>
-								<li>&middot; 제작:
+								<li>&middot; {$lang->version}: {$sval->version}</li>
+								<li>&middot; {$lang->author}:
 									<!--@foreach($sval->author as $author)-->
 									<a href="{$author->homepage}" cond="$author->homepage">{$author->name}</a>
 									<!--@if(!$author->homepage)-->{$author->name}<!--@end-->
 									<!--@endforeach-->
 								</li>
-								<li>&middot; 설명: {$sval->description}</li>
+								<li>&middot; {$lang->description}: {$sval->description}</li>
 							</ul>
 						</li>
 						<li class="i">
 							<span class="thumb"><span class="frame">Thumbnail does not exists</span></span>
 							<input type="radio" name="{$mkey}-skin" id="{$mkey}_none" value="" checked="checked"|cond="!$theme_info->skin_info[$mkey]" />
-							<label for="{$mkey}_none">선택안함</label>
+							<label for="{$mkey}_none">{$lang->no_select}</label>
 						</li>
 					</ul>
 				</li>
 			</ul>
 		</fieldset>
 		<div class="btnArea">
-			<span class="btn medium"><input type="submit" value="Save" /></span>
+			<span class="btn medium"><input type="submit" value="{$lang->cmd_save}" /></span>
 		</div>
 	</form>
