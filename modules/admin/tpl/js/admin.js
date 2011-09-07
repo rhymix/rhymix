@@ -99,6 +99,8 @@ jQuery(function($){
 	// pagination
 	$.fn.xePagination = function(){
 		this
+			.not('.xe-pagination')
+			.addClass('xe-pagination')
 			.find('span.tgContent').css('whiteSpace', 'nowrap').end()
 			.find('a.tgAnchor')
 				.each(function(idx){
@@ -151,6 +153,30 @@ jQuery(function($){
 						// Display all sections then hide this button
 						$(this).hide().parent().prevAll('.section').show();
 					});
+
+	$.fn.xeMask = function(){
+		this
+			.each(function(){
+				var $this = $(this), text = $this.text();
+				var reg_mail = /^([\w\-\.]+?)@(([\w-]+\.)+[a-z]{2,})$/ig;
+				$this.data('originalText', text);
+
+				if(reg_mail.test(text)) {
+					$this.data('maskedText', RegExp.$1+'...');
+				}
+
+				$this.text( $this.data('maskedText') );
+			})
+			.mouseover(function(){
+				$(this).text( $(this).data('originalText') );
+			})
+			.mouseout(function(){
+				$(this).text( $(this).data('maskedText') );
+			})
+			.focus(function(){ $(this).mouseover(); })
+			.blur(function(){ $(this).mouseout(); });
+	};
+	$('.masked').xeMask();
 });
 
 // Modal Window
