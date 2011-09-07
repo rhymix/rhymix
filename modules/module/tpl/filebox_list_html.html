@@ -7,6 +7,7 @@
 <div class="pagination" cond="$page_navigation">
 	<a href="#" class="direction" page="1">&laquo; FIRST</a>
 	<block cond="$page_navigation->first_page + $page_navigation->page_count > $page_navigation->last_page && $page_navigation->page_count != $page_navigation->total_page">
+		{@$isGoTo = true}
 		<a href="#" page="1">1</a>
 		<a href="#FileBoxGoTo" class="tgAnchor" title="{$lang->cmd_go_to_page}">...</a>
 	</block>
@@ -16,11 +17,12 @@
 		<a cond="$page_no != $page" href="#" page="{$page_no}">{$page_no}</a>
 	</block>
 	<block cond="$last_page != $page_navigation->last_page">
+		{@$isGoTo = true}
 		<a href="#FileBoxGoTo" class="tgAnchor" title="{$lang->cmd_go_to_page}">...</a>
 		<a href="#" page="{$page_navigation->last_page}">{$page_navigation->last_page}</a>
 	</block>
 	<a href="#" page="{$page_navigation->last_page}" class="direction">LAST &raquo;</a>
-	<span id="FileBoxGoTo" class="tgContent">
+	<span cond="$isGoTo" id="FileBoxGoTo" class="tgContent">
 		<input name="page" title="{$lang->cmd_go_to_page}" />
 		<button>Go</button>
 	</span>

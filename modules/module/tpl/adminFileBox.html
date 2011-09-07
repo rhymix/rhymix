@@ -56,8 +56,9 @@
 			<a href="{getUrl('page', '')}" class="direction">&laquo; FIRST</a>
 
 			<block cond="$page_navigation->first_page + $page_navigation->page_count > $page_navigation->last_page && $page_navigation->page_count != $page_navigation->total_page">
+				{@$isGoTo = true}
 				<a href="{getUrl('page', '')}">1</a>
-				<a href="#goTo" class="tgSimple" title="{$lang->cmd_go_to_page}">...</a>
+				<a href="#goTo" class="tgAnchor" title="{$lang->cmd_go_to_page}">...</a>
 			</block>
 
 			<!--@while($page_no = $page_navigation->getNextPage())-->
@@ -67,13 +68,14 @@
 			<!--@end-->
 
 			<block cond="$last_page != $page_navigation->last_page">
-				<a href="#goTo" class="tgSimple" title="{$lang->cmd_go_to_page}">...</a>
+				{@$isGoTo = true}
+				<a href="#goTo" class="tgAnchor" title="{$lang->cmd_go_to_page}">...</a>
 				<a href="{getUrl('page', $page_navigation->last_page)}">{$page_navigation->last_page}</a>
 			</block>
-			
+
 			<a href="{getUrl('page', $page_navigation->last_page)}" class="direction">LAST &raquo;</a>
 
-			<span id="goTo" class="tgContent">
+			<span cond="$isGoTo" id="goTo" class="tgContent">
 				<input name="page" title="{$lang->cmd_go_to_page}" />
 				<button type="submit">Go</button>
 			</span>

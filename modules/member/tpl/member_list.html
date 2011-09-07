@@ -14,11 +14,11 @@
 				<a href="{getUrl('filter_type', '', 'page', '')}" class="active"|cond="$filter_type==''">{$lang->cmd_show_all_member}</a>
 				|
 				<a href="{getUrl('filter_type', 'super_admin', 'page', '')}" class="active"|cond="$filter_type==super_admin">{$lang->cmd_show_super_admin_member}</a>
-				| 
+				|
 				<a href="{getUrl('filter_type', 'site_admin', 'page', '')}" class="active"|cond="$filter_type==site_admin">{$lang->cmd_show_site_admin_member}</a>
-				| 
+				|
 				<a href="{getUrl('filter_type', 'enable', 'page', '')}" class="active"|cond="$filter_type==enable">{$lang->approval}</a>
-				| 
+				|
 				<a href="{getUrl('filter_type', 'disable', 'page', '')}" class="active"|cond="$filter_type==disable">{$lang->denied}</a>
 			</div>
 			<table width="100%" border="1" cellspacing="0" class="_memberList">
@@ -140,8 +140,9 @@
 			<a href="{getUrl('page', '')}" class="direction">&laquo; FIRST</a>
 
 			<block cond="$page_navigation->first_page + $page_navigation->page_count > $page_navigation->last_page && $page_navigation->page_count != $page_navigation->total_page">
+				{@$isGoTo = true}
 				<a href="{getUrl('page', '')}">1</a>
-				<a href="#goTo" class="tgSimple" title="{$lang->cmd_go_to_page}">...</a>
+				<a href="#goTo" class="tgAnchor" title="{$lang->cmd_go_to_page}">...</a>
 			</block>
 
 			<!--@while($page_no = $page_navigation->getNextPage())-->
@@ -151,13 +152,14 @@
 			<!--@end-->
 
 			<block cond="$last_page != $page_navigation->last_page">
-				<a href="#goTo" class="tgSimple" title="{$lang->cmd_go_to_page}">...</a>
+				{@$isGoTo = true}
+				<a href="#goTo" class="tgAnchor" title="{$lang->cmd_go_to_page}">...</a>
 				<a href="{getUrl('page', $page_navigation->last_page)}">{$page_navigation->last_page}</a>
 			</block>
-			
+
 			<a href="{getUrl('page', $page_navigation->last_page)}" class="direction">LAST &raquo;</a>
 
-			<span id="goTo" class="tgContent">
+			<span cond="$isGoTo" id="goTo" class="tgContent">
 				<input name="page" title="{$lang->cmd_go_to_page}" />
 				<button type="submit">Go</button>
 			</span>
@@ -169,7 +171,7 @@
 				<option value="{$key}" loop="$lang->search_target_list=>$key,$val" selected="selected"|cond="$search_target==$key">{$val}</option>
 			</select>
 			<input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" />
-			<input type="submit" value="{$lang->cmd_search}" /> 
+			<input type="submit" value="{$lang->cmd_search}" />
 			<a href="{getUrl('search_target', '', 'search_keyword', '')}">{$lang->cmd_cancel}</a>
 		</form>
 	</div>
@@ -187,7 +189,7 @@ jQuery(function($){
 			if (clickedBTN == 'delete') return confirm(xe.lang.msg_delete_user);
 		}
 	});
-	
+
 	var checkConfirm = new CheckConfirm();
 	var v = xe.getApp('Validator')[0];
 	v.registerPlugin(checkConfirm);
