@@ -25,7 +25,15 @@
             // Get a type of component
             $oEditorModel = &getModel('editor');
 			$oModuleModel = &getModel('module');
-			$editor_config = $oModuleModel->getModuleConfig('editor');			
+			$editor_config = $oModuleModel->getModuleConfig('editor');		
+
+			//editor_config init
+			if(!$editor_config->editor_height) $editor_config->editor_height = 500;
+            if(!$editor_config->comment_editor_height) $editor_config->comment_editor_height = 120;
+			if(!$editor_config->editor_skin) $editor_config->editor_skin = 'xpresseditor';
+			if(!$editor_config->comment_editor_skin) $editor_config->comment_editor_skin = 'xpresseditor';
+			if(!$editor_config->sel_editor_colorset) $editor_config->sel_editor_colorset= 'white';
+			if(!$editor_config->sel_comment_editor_colorset) $editor_config->sel_comment_editor_colorset= 'white';
             
 			$component_list = $oEditorModel->getComponentList(false, $site_srl, true);			
 			$editor_skin_list = FileHandler::readDir(_XE_PATH_.'modules/editor/skins');
