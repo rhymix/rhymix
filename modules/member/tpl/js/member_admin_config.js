@@ -154,11 +154,33 @@ jQuery(function($){
 
 	});
 
-	$('a.modalAnchor._preview').bind('before-open.mw', function(){
-		var $inputList = $('input[name="usable_list[]"]:checked');
-		var title = '';
-		for(var i=0; i<$inputList.length; i++){
-			title = $($inputList[i]).closest('tr').find('.wrap ._title').html();
+	$('input[name=identifier]').change(function(){
+		var $checkedTR = $('input[name=identifier]:checked').closest('tr');
+		var $notCheckedTR = $('input[name=identifier]:not(:checked)').closest('tr');
+		var name, notName;
+		if (!$checkedTR.hasClass('sticky')){
+			name = $checkedTR.find('input[name="list_order[]"]').val();
+			if (!$checkedTR.find('input[type=hidden][name="usable_list[]"]').length) $('<input type="hidden" name="usable_list[]" value="'+name+'" />').insertBefore($checkedTR);
+			if (!$checkedTR.find('input[type=hidden][name='+name+']').length) $('<input type="hidden" name="'+name+'" value="required" />').insertBefore($checkedTR);
+			$checkedTR.find('th').html('<span class="_title" style="padding-left:20px" >'+$checkedTR.find('th ._title').html()+'</span>');
+			$checkedTR.find('input[type=checkbox][name="usable_list[]"]').attr('checked', 'checked').attr('disabled', 'disabled');
+			$checkedTR.find('input[type=radio][name='+name+'][value=required]').attr('checked', 'checked').attr('disabled', 'disabled');
+			$checkedTR.find('input[type=radio][name='+name+'][value=option]').removeAttr('checked').attr('disabled', 'disabled');
+			$checkedTR.addClass('sticky');
+			$checkedTR.parent().prepend($checkedTR);
+
+			notName = $notCheckedTR.find('input[name="list_order[]"]').val();
+			if (notName == 'user_id'){
+				if ($notCheckedTR.find('input[type=hidden][name="usable_list[]"]').length) $notCheckedTR.find('input[type=hidden][name="usable_list[]"]').remove();
+				if ($notCheckedTR.find('input[type=hidden][name='+name+']').length) $notCheckedTR.find('input[type=hidden][name='+name+']').remove();
+				$notCheckedTR.find('input[type=checkbox][name="usable_list[]"]').removeAttr('disabled');
+				$notCheckedTR.find('input[type=radio][name='+notName+']').removeAttr('disabled');
+			}
+			$notCheckedTR.find('th').html('<div class="wrap"><button type="button" class="dragBtn">Move to</button><span class="_title" >'+$notCheckedTR.find('th ._title').html()+'</span></div>');
+			$notCheckedTR.removeClass('sticky');
+
+			// add sticky class 
 		}
 	});
+
 });

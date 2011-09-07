@@ -165,8 +165,14 @@
             }
 
 			$formTags = $this->_getMemberInputTag($memberInfo);
-
 			Context::set('formTags', $formTags);
+
+			$member_config = $oMemberModel->getMemberConfig();
+			global $lang;
+			$identifierForm->title = $lang->{$member_config->identifier};
+			$identifierForm->name = $member_config->identifier;
+			$identifierForm->value = $memberInfo->{$member_config->identifier};
+			Context::set('identifierForm', $identifierForm);
             $this->setTemplateFile('insert_member');
         }
 
@@ -180,7 +186,7 @@
 
 			foreach($member_config->signupForm as $no=>$formInfo){
 				if (!$formInfo->isUse)continue;
-				if ($formInfo->name == 'email_address' || $formInfo->name == 'password') continue;
+				if ($formInfo->name == $member_config->identifier || $formInfo->name == 'password') continue;
 				unset($formTag);
 				$inputTag = '';
 				$formTag->title = $formInfo->title;

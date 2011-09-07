@@ -112,6 +112,12 @@
 					<thead>
 					<tr>
 						<th scope="col">{$lang->target}</th>
+						<th scope="col">{$lang->identifier}
+							[<a href="#helpDefault" class="tgAnchor">?</a>]
+							<div class="tgContent layer" id="helpDefault" style="right:0">
+								<p>로그인시 사용할 필드를 선택합니다.</p>
+							</div>
+						</th>
 						<th scope="col">{$lang->use}</th>
 						<th scope="col">{$lang->cmd_required}/{$lang->cmd_optional}</th>
 						<th scope="col" class="text">{$lang->description}</th>
@@ -119,17 +125,35 @@
 					</thead>
 					<tbody class="uDrag">
 						<!--@foreach($config->signupForm as $item)-->
-						<!--@if($item->isDefaultForm)-->
+						<!--@if($item->isIdentifier)-->
+						<tr class="sticky">
+							<input type="hidden" name="list_order[]" value="{$item->name}" />
+							<input type="hidden" name="usable_list[]" value="{$item->name}"/>
+							<input type="hidden" name="{$item->name}" value="requierd"/>
+							<th scope="row">
+								<span class="_title" style="padding-left:20px">{$item->title}</span>
+							</th>
+							<td><input type="radio" name="identifier" value="{$item->name}" checked="checked" /></td>
+							<td><input type="checkbox" name="usable_list[]" value="{$item->name}" title="{$lang->use}" checked="checked"  disabled="disabled" /></td>
+							<td>
+								<input type="radio" id="{$item->name}_re" name="{$item->name}" value="requierd" checked="checked" disabled="disabled" /> <label for="{$item->name}_re">{$lang->cmd_required}</label>
+								<input type="radio" id="{$item->name}_op" name="{$item->name}" value="option" disabled="disabled" /> <label for="{$item->name}_op">{$lang->cmd_optional}</label>
+							</td>
+							<td class="text">&nbsp;</td>
+							<td>&nbsp;</td>
+						</tr>
+						<!--@elseif($item->isDefaultForm)-->
 						<tr class="_imageType"|cond="$item->imageType">
 							<input type="hidden" name="list_order[]" value="{$item->name}" />
+							<input type="hidden" name="usable_list[]" value="{$item->name}" cond="$item->mustRequired"/>
+							<input type="hidden" name="{$item->name}" value="requierd" cond="$item->mustRequired"/>
 							<th scope="row">
 								<div class="wrap">
 									<button type="button" class="dragBtn">Move to</button>
 									<span class="_title">{$item->title}</span>
 								</div>
 							</th>
-							<input type="hidden" name="usable_list[]" value="{$item->name}" cond="$item->mustRequired"/>
-							<input type="hidden" name="{$item->name}" value="requierd" cond="$item->mustRequired"/>
+							<td><input type="radio" name="identifier" value="{$item->name}" cond="$item->name== 'email_address' || $item->name=='user_id'" /></td>
 							<td><input type="checkbox" name="usable_list[]" value="{$item->name}" title="{$lang->use}" checked="checked"|cond="$item->mustRequired || $item->isUse" disabled="disabled"|cond="$item->mustRequired" /></td>
 							<td>
 								<input type="radio" id="{$item->name}_re" name="{$item->name}" value="required" checked="checked"|cond="$item->mustRequired || $item->required" disabled="disabled"|cond="$item->mustRequired || !$item->isUse" /> <label for="{$item->name}_re">{$lang->cmd_required}</label>
@@ -153,6 +177,7 @@
 									<span class="_title">{$item->title}</span>
 								</div>
 							</th>
+							<td></td>
 							<td><input type="checkbox" name="usable_list[]" value="{$item->name}" title="{$lang->use}" checked="checked"|cond="$item->isUse" /></td>
 							<td>
 								<input type="radio" id="{$item->name}_re" name="{$item->name}" value="required" checked="checked"|cond="$item->required" disabled="disabled"|cond="!$item->isUse"/> <label for="{$item->name}_re">{$lang->cmd_required}</label>

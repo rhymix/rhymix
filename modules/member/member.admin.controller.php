@@ -162,6 +162,7 @@
 				if($args->image_name !='Y') $args->image_name = 'N';
 				if($args->image_mark !='Y') $args->image_mark = 'N';
 				if($args->signature!='Y') $args->signature = 'N';
+				$args->identifier = $all_args->identifier;
 
 				// signupForm
 				global $lang;
@@ -171,14 +172,15 @@
 				$extendItems = $oMemberModel->getJoinFormList();
 				foreach($list_order as $key){
 					unset($signupItem);
+					$signupItem->isIdentifier = ($key == $all_args->identifier);
 					$signupItem->isDefaultForm = in_array($key, $items);
 					
 					$signupItem->name = $key;
 					$signupItem->title = $lang->{$key};
 					$signupItem->mustRequired = in_array($key, $mustRequireds);
 					$signupItem->imageType = (strpos($key, 'image') !== false);
-					$signupItem->required = ($all_args->{$key} == 'required');
-					$signupItem->isUse = in_array($key, $usable_list);
+					$signupItem->required = ($all_args->{$key} == 'required') || $signupItem->mustRequired;
+					$signupItem->isUse = in_array($key, $usable_list) || $signupItem->required;
 
 					if ($signupItem->imageType){
 						$signupItem->max_width = $all_args->{$key.'_max_width'};
