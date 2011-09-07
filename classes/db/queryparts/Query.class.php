@@ -48,8 +48,18 @@
 		}
 
                 function setColumnList($columnList){
-                    if(count($columnList) > 0)
                         $this->columnList = $columnList;
+                        if(count($this->columnList) > 0) {
+                            $selectColumns = array();
+                            $dbParser = XmlQueryParser::getDBParser();
+
+                            foreach($this->columnList as $columnName){
+                                    $columnName = $dbParser->escapeColumn($columnName);
+                                    $selectColumns[] = new SelectExpression($columnName);
+                            }
+                            unset($this->columns);
+                            $this->columns = $selectColumns;
+                        }
                 }
 
 		function setColumns($columns){
@@ -76,10 +86,13 @@
 		}
 
 		function setConditions($conditions){
-			if(!isset($conditions) || count($conditions) === 0) return;
-			if(!is_array($conditions)) $conditions = array($conditions);
+                    $this->conditions = array();
+                    if(!isset($conditions) || count($conditions) === 0) return;
+		    if(!is_array($conditions)) $conditions = array($conditions);
 
-			$this->conditions = $conditions;
+                    foreach($conditions as $conditionGroup){
+                        if($conditionGroup->show()) $this->conditions[] = $conditionGroup;
+                    }
 		}
 
 		function setGroups($groups){
@@ -139,34 +152,23 @@
 		}
 
 		function getSelectString($with_values = true){
-                        if(isset($this->columnList)){
-                            $selectColumns = array();
-                            $dbParser = XmlQueryParser::getDBParser();
-
-                            foreach($this->columnList as $columnName){
-                                    $columnName = $dbParser->escapeColumn($columnName);
-                                    $selectColumns[] = new SelectExpression($columnName);
-                            }
-                        }
-                        else
-                            $selectColumns = $this->columns;
-
-			$select = '';
-			foreach($selectColumns as $column){
-				if($column->show())
-					if(is_a($column, 'Subquery')){
-						$select .= $column->toString($with_values) . ' as '. $column->getAlias() .', ';
-					}
-					else
-						$select .= $column->getExpression($with_values) . ', ';
-			}
-			if(trim($select) == '') return '';
-			$select = substr($select, 0, -2);
-			return $select;
+                    foreach($this->columns as $column){
+                            if($column->show())
+                                    if($column->isSubquery()){
+                                            $select[] = $column->toString($with_values) . ' as '. $column->getAlias();
+                                    }
+                                    else
+                                            $select[] = $column->getExpression($with_values);
+                    }
+                    return trim(implode($select, ', '));
 		}
 
 		function getUpdateString($with_values = true){
-			return $this->getSelectString($with_values);
+                    foreach($this->columns as $column){
+                        if($column->show())
+                           $update[] = $column->getExpression($with_values);
+                    }
+                    return trim(implode($update, ', '));
 		}
 
 		function getInsertString($with_values = true){
@@ -209,21 +211,16 @@
 
 		function getWhereString($with_values = true){
 			$where = '';
-			if(count($this->conditions) > 0){
-                                $condition_count = 0;
-				foreach($this->conditions as $conditionGroup){
-                                        $condition_string = $conditionGroup->toString($with_values);
-                                        if($condition_string !== '') $condition_count++;
-                                        if($condition_count === 1){
-                                            $conditionGroup->setPipe("");
-                                            $condition_string = $conditionGroup->toString($with_values);
-                                        }
-					$where .= $condition_string;
-				}
-				if(trim($where) == '') return '';
-
-			}
-			return $where;
+                        $condition_count = 0;
+                        foreach($this->conditions as $conditionGroup){
+                                if($condition_count === 0){
+                                    $conditionGroup->setPipe("");
+                                }
+                                $condition_string = $conditionGroup->toString($with_values);
+                                $where .= $condition_string;
+                                $condition_count++;
+                        }
+                        return trim($where);
 		}
 
 		function getGroupByString(){

@@ -12,11 +12,6 @@
                         }
 			parent::Argument($name, $value);
 			$this->operation = $operation;
-
-			if($this->type !== 'date'){
-				$dbParser = XmlQueryParser::getDBParser();
-				$this->value = $dbParser->escapeStringValue($this->value);
-			}
 		}
 
 		function createConditionValue(){

@@ -582,7 +582,7 @@
 		}
 
     	function getUpdateSql($query, $with_values = true){
-			$columnsList = $query->getSelectString($with_values);
+			$columnsList = $query->getUpdateString($with_values);
 			if($columnsList == '') return new Object(-1, "Invalid query");
 
 			$tableName = $query->getFirstTableName();
