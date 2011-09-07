@@ -48,7 +48,7 @@
 	<!--@end-->
 <!--@end-->
 <script type="text/javascript" src="../js/html5.js" cond="$db_info->use_html5=='Y'"></script>
-<!--[if lt IE 9]><script type="text/javascript" src="../js/respond.min.js"></script><![endif]--> 
+<!--[if lt IE 9]><script type="text/javascript" src="../js/respond.min.js"></script><![endif]-->
 <!--@if($rss_url)-->
     <link rel="alternate" type="application/rss+xml" title="RSS" href="{$rss_url}" />
     <link rel="alternate" type="application/atom+xml" title="Atom" href="{$atom_url}" />
@@ -57,6 +57,9 @@
     <link rel="alternate" type="application/rss+xml" title="Site RSS" href="{$general_rss_url}" />
     <link rel="alternate" type="application/atom+xml" title="Site Atom" href="{$general_atom_url}" />
 <!--@end-->
+
+<link cond="$favicon_url" rel="shortcut icon" href="{$favicon_url}" />
+<link cond="$mobicon_url" rel="apple-touch-icon" href="{$mobicon_url}" />
 
 {@ $ssl_actions = Context::getSSLActions() }
     <script type="text/javascript">//<![CDATA[

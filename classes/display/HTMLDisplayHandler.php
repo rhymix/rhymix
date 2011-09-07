@@ -121,6 +121,14 @@ class HTMLDisplayHandler {
 		// Remove unnecessary information
 		$output = preg_replace('/member\_\-([0-9]+)/s','member_0',$output);
 
+		// set icon
+		$oAdminModel = &getAdminModel('admin');
+		$favicon_url = $oAdminModel->getFaviconUrl();
+		$mobicon_url = $oAdminModel->getMobileIconUrl();
+		Context::set('favicon_url', $favicon_url);
+		Context::set('mobicon_url', $mobicon_url);
+		debugPrint($favicon_url);
+
 		// convert the final layout
 		Context::set('content', $output);
 		$oTemplate = &TemplateHandler::getInstance();

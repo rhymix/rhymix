@@ -416,4 +416,25 @@
 
 			return $output->data->count;
 		}
+
+		function getFaviconUrl()
+		{
+			return $this->iconUrlCheck('favicon.ico','faviconSample.png');
+		}
+
+		function getMobileIconUrl()
+		{
+			return $this->iconUrlCheck('mobicon.png','mobiconSample.png');
+		}
+
+		function iconUrlCheck($iconname,$default_icon_name)
+		{
+			$file_exsit = FileHandler::readFile(_XE_PATH_.'files/attach/xeicon/'.$iconname);
+			if(!$file_exsit){
+				$icon_url = './modules/admin/tpl/img/'.$default_icon_name	;
+			} else {
+				$icon_url = $db_info->default_url.'files/attach/xeicon/'.$iconname;
+			}
+			return $icon_url;
+		}
 	}

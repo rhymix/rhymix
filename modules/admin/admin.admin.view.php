@@ -368,9 +368,9 @@
 
             Context::set('admin_ip', $db_info->admin_ip);
 
-
-			$favicon_url = $this->iconUrlCheck('favicon.ico','faviconSample.png');
-			$mobicon_url = $this->iconUrlCheck('mobicon.png','mobiconSample.png');
+			$oAdminModel = &getAdminModel('admin');
+			$favicon_url = $oAdminModel->getFaviconUrl();
+			$mobicon_url = $oAdminModel->getMobileIconUrl();
             Context::set('favicon_url', $favicon_url);
 			Context::set('mobicon_url', $mobicon_url);
 
@@ -486,15 +486,5 @@
 			Context::set('module_list', $module_list);
 
 			$this->setTemplateFile('theme');
-		}
-
-		function iconUrlCheck($iconname,$default_icon_name){
-			$file_exsit = FileHandler::readFile(_XE_PATH_.'files/attach/xeicon/'.$iconname);
-			if(!$file_exsit){
-				$icon_url = './modules/admin/tpl/img/'.$default_icon_name	;
-			} else {
-				$icon_url = $db_info->default_url.'files/attach/xeicon/'.$iconname;
-			}
-			return $icon_url;
 		}
     }
