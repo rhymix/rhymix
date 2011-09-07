@@ -9,6 +9,7 @@
 
 		var $layout_list;
 		var $xeMenuTitle;
+		var $easyinstallCheckFile = './files/env/easyinstall_last';
 
         /**
          * @brief Initilization
@@ -61,7 +62,43 @@
             if($db_info->https_port) Context::set('https_port', $db_info->https_port);
 
 			$this->showSendEnv();
+			$this->checkEasyinstall();
         }
+
+		function checkEasyinstall()
+		{
+			$lastTime = (int)FileHandler::readFile($this->easyinstallCheckFile);
+			if ($lastTime > time() - 60*60*24*30) return;
+
+			$oAutoinstallModel = &getModel('autoinstall');
+			$params = array();
+			$params["act"] = "getResourceapiLastupdate";
+			$body = XmlGenerater::generate($params);
+			$buff = FileHandler::getRemoteResource(_XE_DOWNLOAD_SERVER_, $body, 3, "POST", "application/xml");
+			$xml_lUpdate = new XmlParser();
+			$lUpdateDoc = $xml_lUpdate->parse($buff);
+			$updateDate = $lUpdateDoc->response->updatedate->body;
+
+			if (!$updateDate)
+			{
+				$this->_markingCheckEasyinstall();
+				return;
+			}
+
+			$item = $oAutoinstallModel->getLatestPackage();
+			if(!$item || $item->updatedate < $updateDate)
+			{
+				$oController = &getAdminController('autoinstall');
+				$oController->_updateinfo();
+			}
+			$this->_markingCheckEasyinstall();
+		}
+
+		function _markingCheckEasyinstall()
+		{
+			$currentTime = time();
+			FileHandler::writeFile($this->easyinstallCheckFile, $currentTime);
+		}
 
 		function makeGnbUrl($module = 'admin')
 		{
