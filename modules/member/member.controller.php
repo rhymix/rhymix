@@ -560,7 +560,19 @@
         function procMemberModifyInfo() {
             if(!Context::get('is_logged')) return $this->stop('msg_not_logged');
             // Extract the necessary information in advance
-            $args = Context::gets('user_name','nick_name','homepage','blog','birthday','email_address','allow_mailing','find_account_question','find_account_answer');
+            $oMemberModel = &getModel ('member');
+            $config = $oMemberModel->getMemberConfig ();
+			$getVars = array('find_account_answer','allow_mailing','allow_message');
+			if ($config->signupForm){
+				foreach($config->signupForm as $formInfo){
+					if($formInfo->isDefaultForm && $formInfo->isUse || $formInfo->required || $formInfo->mustRequired){
+						$getVars[] = $formInfo->name;
+					}
+				}
+			}
+			foreach($getVars as $val){
+				$args->{$val} = Context::get($val);
+			}
             // Login Information
             $logged_info = Context::get('logged_info');
             $args->member_srl = $logged_info->member_srl;
@@ -575,6 +587,9 @@
             unset($all_args->accept_agreement);
             unset($all_args->signature);
             unset($all_args->_filter);
+            unset($all_args->mid);
+            unset($all_args->error_return_url);
+            unset($all_args->ruleset);
 
             // Add extra vars after excluding necessary information from all the requested arguments
             $extra_vars = delObjectVars($all_args, $args);
@@ -1682,26 +1697,29 @@
                 $oDB->rollback();
                 return $output;
             }
-			if(is_array($args->group_srl_list)) $group_srl_list = $args->group_srl_list;
-			else $group_srl_list = explode('|@|', $args->group_srl_list);
-            // If the group information, group information changes
-            if(count($group_srl_list) > 0) {
-                $args->site_srl = 0;
-                // One of its members to delete all the group
-                $output = executeQuery('member.deleteMemberGroupMember', $args);
-                if(!$output->toBool()) {
-                    $oDB->rollback();
-                    return $output;
-                }
-                // Enter one of the loop a
-                for($i=0;$i<count($group_srl_list);$i++) {
-                    $output = $this->addMemberToGroup($args->member_srl,$group_srl_list[$i]);
-                    if(!$output->toBool()) {
-                        $oDB->rollback();
-                        return $output;
-                    }
-                }
-            }
+
+			if ($args->group_srl_list){
+				if(is_array($args->group_srl_list)) $group_srl_list = $args->group_srl_list;
+				else $group_srl_list = explode('|@|', $args->group_srl_list);
+				// If the group information, group information changes
+				if(count($group_srl_list) > 0) {
+					$args->site_srl = 0;
+					// One of its members to delete all the group
+					$output = executeQuery('member.deleteMemberGroupMember', $args);
+					if(!$output->toBool()) {
+						$oDB->rollback();
+						return $output;
+					}
+					// Enter one of the loop a
+					for($i=0;$i<count($group_srl_list);$i++) {
+						$output = $this->addMemberToGroup($args->member_srl,$group_srl_list[$i]);
+						if(!$output->toBool()) {
+							$oDB->rollback();
+							return $output;
+						}
+					}
+				}
+			}
             // Call a trigger (after)
             if($output->toBool()) {
                 $trigger_output = ModuleHandler::triggerCall('member.updateMember', 'after', $args);

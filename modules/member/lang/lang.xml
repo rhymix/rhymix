@@ -859,6 +859,9 @@
 		<value xml:lang="tr"><![CDATA[Kaydol]]></value>
 		<value xml:lang="vi"><![CDATA[Đăng kí]]></value>
 	</item>
+	<item name="cmd_modify_member_info">
+		<value xml:lang="ko"><![CDATA[회원정보 변경]]></value>
+	</item>
 	<item name="cmd_modify_member_password">
 		<value xml:lang="ko"><![CDATA[비밀번호 변경]]></value>
 		<value xml:lang="en"><![CDATA[Modify Password]]></value>

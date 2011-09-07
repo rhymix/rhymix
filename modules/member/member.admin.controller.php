@@ -19,7 +19,7 @@
         function procMemberAdminInsert() {
            // if(Context::getRequestMethod() == "GET") return new Object(-1, "msg_invalid_request");
             // Extract the necessary information in advance
-            $args = Context::gets('member_srl','email_address','allow_mailing','allow_message','denied','is_admin','description','group_srl_list','limit_date');
+            $args = Context::gets('member_srl','email_address','find_account_answer', 'allow_mailing','allow_message','denied','is_admin','description','group_srl_list','limit_date');
             $oMemberModel = &getModel ('member');
             $config = $oMemberModel->getMemberConfig ();
 			$getVars = array();
@@ -623,7 +623,7 @@
         }
 
         /**
-         * @brief Insert a group
+         * @brief find_account_answerInsert a group
          **/
         function insertGroup($args) {
             if(!$args->site_srl) $args->site_srl = 0;

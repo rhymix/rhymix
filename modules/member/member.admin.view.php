@@ -132,6 +132,9 @@
 
 			$memberInfo = get_object_vars(Context::get('member_info'));
 			Context::set('memberInfo', $memberInfo);
+
+			$disableColumns = array('password', 'find_account_question');
+			Context::set('disableColumns', $disableColumns);
             $this->setTemplateFile('member_info');
         }
 
@@ -169,9 +172,9 @@
 
 		function _getMemberInputTag($memberInfo){
             $oMemberModel = &getModel('member');
+            $extend_form_list = $oMemberModel->getCombineJoinForm($memberInfo);
 			$memberInfo = get_object_vars($memberInfo);
 			$member_config = $oMemberModel->getMemberConfig();
-            $extend_form_list = $oMemberModel->getCombineJoinForm($this->memberInfo);
 			$formTags = array();
 			global $lang;
 
@@ -183,6 +186,7 @@
 				$formTag->title = $formInfo->title;
 				if ($formInfo->required || $formInfo->mustRequired && $formInfo->name != 'password') $formTag->title = $formTag->title.' <em style="color:red">*</em>'; 
 				$formTag->name = $formInfo->name;
+
 				if($formInfo->isDefaultForm){
 					if($formInfo->imageType){
 						if($formInfo->name == 'profile_image'){
@@ -238,56 +242,44 @@
 				}//end isDefaultForm
 				else{
 					$extendForm = $extend_form_list[$formInfo->member_join_form_srl];
-					if($extendForm->column_type == 'text' || $extendForm->column_type == 'homepage' || $extendForm->column_type == 'email_address'){
-						$inputTag = sprintf('<input type="text" name="%s" value="%s" />'
-											,$formInfo->name
-											,$extendForm->value);
-					}elseif($extendForm->column_type == 'tel'){
-						$inputTag = sprintf('<input type="text" name="%s" value="%d" size="4" />-<input type="text" name="%s" value="%d" size="4" />-<input type="text" name="%s" value="%d" size="4" />'
-											,$formInfo->name
-											,$extendForm->value[0]
-											,$formInfo->name
-											,$extendForm->value[1]
-											,$formInfo->name
-											,$extendForm->value[2]);
-					}elseif($extendForm->column_type == 'textarea'){
-						$inputTag = sprintf('<textarea name="%s">%s</textarea>'
-											,$formInfo->name
-											,$extendForm->value);
+					$replace = array('column_name' => $extendForm->column_name,
+									 'value'		=> $extendForm->value);	
+					$extentionReplace = array();
 
+					if($extendForm->column_type == 'text' || $extendForm->column_type == 'homepage' || $extendForm->column_type == 'email_address'){
+						$template = '<input type="text" name="%column_name%" value="%value%" />';
+					}elseif($extendForm->column_type == 'tel'){
+						$extentionReplace = array('tel_0' => $extendForm->value[0],
+												  'tel_1' => $extendForm->value[1],
+												  'tel_2' => $extendForm->value[2]);
+						$template = '<input type="text" name="%column_name%[]" value="%tel_0%" size="4" />-<input type="text" name="%column_name%[]" value="%tel_1%" size="4" />-<input type="text" name="%column_name%" value="%tel_2%" size="4" />';
+					}elseif($extendForm->column_type == 'textarea'){
+						$template = '<textarea name="%column_name%">%value%</textarea>';
 					}elseif($extendForm->column_type == 'checkbox'){
+						$template = '';
 						if($extendForm->default_value){
 							$__i = 0;
 							foreach($extendForm->default_value as $v){
 								$checked = '';
 								if(is_array($extendForm->value) && in_array($v, $extendForm->value))$checked = 'checked="checked"';
-								$inputTag .= sprintf('<input type="checkbox" id="%s" name="%s[]" value="%s" %s /><label for="%s">%s</label>'
-											,$extendForm->column_name.$__i
-											,$extendForm->column_name
-											,htmlspecialchars($v)
-											,$checked
-											,$extendForm->column_name.$__i
-											,$v);
+								$template .= '<input type="checkbox" id="%column_name%'.$__i.'" name="%column_name%[]" value="'.htmlspecialchars($v).'" '.$checked.' /><label for="%column_name%'.$__i.'">'.$v.'</label>';
 								$__i++;
 							}
 						}
 					}elseif($extendForm->column_type == 'radio'){
+						$template = '';
 						if($extendForm->default_value){
-							$inputTag = '<ul class="radio">%s</ul>';
+							$template = '<ul class="radio">%s</ul>';
 							$optionTag = array();
 							foreach($extendForm->default_value as $v){
 								if($extendForm->value == $v)$checked = 'checked="checked"';
 								else $checked = '';
-								$optionTag[] = sprintf('<li><input type="radio" name="%s" value="%s" %s />%s</li>'
-														,$extendForm->column_name
-														,$v
-														,$checked
-														,$v);
+								$optionTag[] = '<li><input type="radio" name="%column_name%" value="'.$v.'" '.$checked.' />'.$v.'</li>';
 							}
-							$inputTag = sprintf($inputTag, implode('', $optionTag));
+							$template = sprintf($template, implode('', $optionTag));
 						}
 					}elseif($extendForm->column_type == 'select'){
-						$inputTag = '<select name="'.$formInfo->name.'">%s</select>';
+						$template = '<select name="'.$formInfo->name.'">%s</select>';
 						$optionTag = array();
 						if($extendForm->default_value){
 							foreach($extendForm->default_value as $v){
@@ -299,53 +291,45 @@
 														,$v);
 							}
 						}
-						$inputTag = sprintf($inputTag, implode('', $optionTag));
+						$template = sprintf($template, implode('', $optionTag));
 					}elseif($extendForm->column_type == 'kr_zip'){
 						Context::loadFile(array('./modules/member/tpl/js/krzip_search.js', 'body'));
-						$content = <<<EOD
+						$extentionReplace = array(
+										 'msg_kr_address'       => $lang->msg_kr_address,
+										 'msg_kr_address_etc'       => $lang->msg_kr_address_etc,
+										 'cmd_search'	=> $lang->cmd_search,
+										 'cmd_search_again'	=> $lang->cmd_search_again,
+										 'addr_0'	=> $extendForm->value[0],
+										 'addr_1'	=> $extendForm->value[1],);
+						$replace = array_merge($extentionReplace, $replace);
+						$template = <<<EOD
 						<div class="krZip">
-							<div class="a" id="zone_address_search_%s" %s>
-								<label for="krzip_address1_%s">%s</label><br />
-								<input type="text" id="krzip_address1_%s" value="%s" />
-								<button type="button">%s</button>
+							<div class="a" id="zone_address_search_%column_name%" >
+								<label for="krzip_address1_%column_name%">%msg_kr_address%</label><br />
+								<input type="text" id="krzip_address1_%column_name%" value="%addr_0%" />
+								<button type="button">%cmd_search%</button>
 							</div>
-							<div class="a" id="zone_address_list_%s" style="display:none">
-								<input type="hidden" name="%s[]" value="%s" %s />
-								<select name="%s[]" id="address_list_%s"></select>
-								<button type="button">%s</button>
+							<div class="a" id="zone_address_list_%column_name%" style="display:none">
+								<select name="%column_name%[]" id="address_list_%column_name%"><option value="%addr_0%">%addr_0%</select>
+								<button type="button">%cmd_search_again%</button>
 							</div>
 							<div class="a address2">
-								<label for="krzip_address2_%s">%s</label><br />
-								<input type="text" name="%s[]" id="krzip_address2_%s" value="%s" />
+								<label for="krzip_address2_%column_name%">%msg_kr_address_etc%</label><br />
+								<input type="text" name="%column_name%[]" id="krzip_address2_%column_name%" value="%addr_1%" />
 							</div>
 						</div>
-						<script type="text/javascript">jQuery(function($){ $.krzip('%s') });</script>
+						<script type="text/javascript">jQuery(function($){ $.krzip('%column_name%') });</script>
 EOD;
-						$hiddenDisabled = $extendForm->value[0]?'':'disabled="disabled"';
-						$inputTag = sprintf($content 
-											,$extendForm->column_name, ''
-											,$extendForm->column_name,  $lang->msg_kr_address
-											,$extendForm->column_name, $extendForm->value[0]
-											,$lang->cmd_search
-											,$extendForm->column_name
-											,$extendForm->column_name, $extendForm->value[0], $hiddenDisabled
-											,$extendForm->column_name, $extendForm->column_name
-											,$lang->cmd_search_again
-											,$extendForm->column_name, $lang->msg_kr_address_etc
-											,$extendForm->column_name, $extendForm->column_name, $extendForm->value[1]
-											,$extendForm->column_name);
 					}elseif($extendForm->column_type == 'jp_zip'){
-						$inputTag = sprintf('<input type="text" name="%s" value="%s" />'
-											,$extendForm->column_name
-											,$extendForm->value);
+						$template = '<input type="text" name="%column_name%" value="%value%" />';
 					}elseif($extendForm->column_type == 'date'){
-						$inputTag = sprintf('<input type="hidden" name="%s" id="date_%s" value="%s" /><input type="text" class="inputDate" value="%s" readonly="readonly" /><span class="button"><input type="button" value="%s" class="dateRemover" /></span>'
-											,$extendForm->column_name
-											,$extendForm->column_name
-											,$extendForm->value
-											,zdate($extendForm->value, 'Y-m-d')
-											,$lang->cmd_delete);
+						$extentionReplace = array('date' => zdate($extendForm->value, 'Y-m-d'),
+												  'cmd_delete' => $lang->cmd_delete);
+						$template = '<input type="hidden" name="%column_name%" id="date_%column_name%" value="%value%" /><input type="text" class="inputDate" value="%date%" readonly="readonly" /><span class="button"><input type="button" value="%cmd_delete%" class="dateRemover" /></span>';
 					}
+
+					$replace = array_merge($extentionReplace, $replace);
+					$inputTag = preg_replace('@%(\w+)%@e', '$replace[$1]', $template);
 
 					if($extendForm->description)
 						$inputTag .= '<p style="color:#999;">'.htmlspecialchars($extendForm->description).'</p>';

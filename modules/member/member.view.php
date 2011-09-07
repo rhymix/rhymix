@@ -133,6 +133,13 @@
                 $editor = $oEditorModel->getEditor($member_info->member_srl, $option);
                 Context::set('editor', $editor);
             }
+
+			$oMemberAdminView = &getAdminView('member');
+			$formTags = $oMemberAdminView->_getMemberInputTag($member_info);
+			Context::set('formTags', $formTags);
+
+            $member_config = $oMemberModel->getMemberConfig();
+            Context::set('member_config', $member_config);
             // Set a template file
             $this->setTemplateFile('modify_info');
         }
