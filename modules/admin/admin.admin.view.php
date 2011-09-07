@@ -387,7 +387,6 @@
             Context::set('start_module', $start_module);
 
             Context::set('pwd',$pwd);
-            Context::set('layout','none');
             $this->setTemplateFile('config');
         }
 

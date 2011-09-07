@@ -1,14 +1,14 @@
 <!--%import("./js/config.js")-->
 <!--%import("../../session/tpl/js/session.js")-->
-<!--#include("./_spHeader.html")-->
+
 <script>
 jQuery(function($){
 	$('#favicon').change(function(){
 		var re_favicon = /favicon\.ico$/
 		if(re_favicon.test($(this).val()) != true){
-			alert('{$lang->msg_not_correct_iconname} favicon.ico {$lang->msg_possible_only_file}');			
+			alert('{$lang->msg_not_correct_iconname} favicon.ico {$lang->msg_possible_only_file}');
 			return false;
-		} 
+		}
 	});
 	$('#mobicon').change(function(){
 		var re_favicon = /mobicon\.png$/
@@ -17,10 +17,10 @@ jQuery(function($){
 			return false;
 		}
 	});
-	
+
 });
 </script>
-<div class="content" id="content">	
+<div class="content" id="content">
 	<form action="./" method="post" id="ftp_form" class="form" enctype="multipart/form-data">
 		 <input type="hidden" name="act" value="procInstallAdminConfig" />
 		<h1 class="h1">{$lang->title_genaral}</h1>
@@ -34,19 +34,19 @@ jQuery(function($){
 							<!--@foreach($time_zone_list as $key => $val)-->
 							<option value="{$key}" <!--@if($time_zone==$key)-->selected="selected"<!--@end-->>{$val}</option>
 							<!--@endforeach-->
-						</select>					
+						</select>
 					</p>
 				</li>
 				<li>
 					<p class="q">{$lang->about_lang_select}</p>
 					<p class="a">
-						<!--@foreach($langs as $key => $val)-->							
-						<!--@if($key==$selected_lang)-->						
-						<input type="hidden" name="selected_lang[]" value="{$key}" />						
+						<!--@foreach($langs as $key => $val)-->
+						<!--@if($key==$selected_lang)-->
+						<input type="hidden" name="selected_lang[]" value="{$key}" />
 						<input type="checkbox" checked="checked" disabled="disabled" />
 						<label>{$val}</label>
-						<!--@else-->						
-						<input type="checkbox" name="selected_lang[]" id="lang_{$key}" value="{$key}" <!--@if(isset($lang_selected[$key]))-->checked="checked" <!--@end-->/>						
+						<!--@else-->
+						<input type="checkbox" name="selected_lang[]" id="lang_{$key}" value="{$key}" <!--@if(isset($lang_selected[$key]))-->checked="checked" <!--@end-->/>
 						<label for="lang_{$key}">{$val}</label>
 						<!--@end-->
 						<!--@endforeach-->
@@ -76,9 +76,9 @@ jQuery(function($){
 				<li>
 					<p class="q">{$lang->about_thumbnail_type}</p>
 					<p class="a">
-						<input type="radio" name="thumbnail_type" id="thumbnail_type_crop" value="corp" <!--@if($thumbnail_type != 'ratio')-->checked="checked" <!--@end-->/> 
-						<label for="thumbnail_type_crop">{$lang->corp}</label>						
-						<input type="radio" name="thumbnail_type" id="thumbnail_type_ratio" value="ratio" <!--@if($thumbnail_type == 'ratio')-->checked="checked" <!--@end-->/> 
+						<input type="radio" name="thumbnail_type" id="thumbnail_type_crop" value="corp" <!--@if($thumbnail_type != 'ratio')-->checked="checked" <!--@end-->/>
+						<label for="thumbnail_type_crop">{$lang->corp}</label>
+						<input type="radio" name="thumbnail_type" id="thumbnail_type_ratio" value="ratio" <!--@if($thumbnail_type == 'ratio')-->checked="checked" <!--@end-->/>
 						<label for="thumbnail_type_ratio">{$lang->ratio}</label>
 					</p>
 				</li>
@@ -118,32 +118,32 @@ jQuery(function($){
 					<p class="q"><label for="ftp_path">{$lang->msg_ftp_installed_ftp_realpath}</label></p>
 					<p class="a">
 						<input type="text" name="ftp_root_path" id="ftp_root_path" value="{$ftp_info->ftp_root_path}" />
-						<a href="#ftpSuggestion" onclick="getFTPList(); return false;" class="tgAnchor">{$lang->ftp_get_list}</a>												
-						
+						<a href="#ftpSuggestion" onclick="getFTPList(); return false;" class="tgAnchor">{$lang->ftp_get_list}</a>
+
 					</p>
-					<div id="ftpSuggestion">						
+					<div id="ftpSuggestion">
 					</div>
 					<p class="desc">{$lang->msg_ftp_installed_realpath} : {_XE_PATH_} </p>
 				</li>
 				<li>
 					<p class="q">{$lang->about_use_favicon}</p>
 					<p class="a faviconPreview">
-						<img src="{$favicon_url}" alt="favicon" width="16" height="16" class="fn1"> 
-						<img src="{$favicon_url}" alt="favicon Image" width="16" height="16" class="fn2"> 						
-						<a href="javascript:deleteIcon('favicon\.ico');">{$lang->cmd_delete}</a>						
+						<img src="{$favicon_url}" alt="favicon" width="16" height="16" class="fn1">
+						<img src="{$favicon_url}" alt="favicon Image" width="16" height="16" class="fn2">
+						<a href="javascript:deleteIcon('favicon\.ico');">{$lang->cmd_delete}</a>
 					</p>
 					<p class="a"><input type="file" name="favicon" id="favicon" title="favicon" /> <span class="desc">{$lang->detail_about_use_favicon}</span></p>
 				</li>
 				<li>
 					<p class="q">{$lang->about_mobilehome_icon}</p>
-					<p class="a mobiconPreview">		
-						<img src="{$mobicon_url}" alt="Mobile Home Icon" width="32" height="32" />						
+					<p class="a mobiconPreview">
+						<img src="{$mobicon_url}" alt="Mobile Home Icon" width="32" height="32" />
 						<span>www</span>
 						<a href="javascript:deleteIcon('mobicon\.png');">{$lang->cmd_delete}</a>
 					</p>
 					<p class="a"><input type="file" name="mobicon" id="mobicon" title="Mobile Home Icon"/> <span class="desc">{$lang->detail_about_mobilehome_icon}</span></p>
 				</li>
-			</ul>			
+			</ul>
 		</fieldset>
 		<fieldset class="section">
 			<h2 class="h2">{$lang->subtitle_advanced}</h2>
@@ -151,7 +151,7 @@ jQuery(function($){
 				<li>
 					<p class="q"><label for="default_url">{$lang->default_url}</label></p>
 					<p class="a"><input type="text" name="default_url" id="default_url" value="{$default_url}"/></p>
-					
+
 					<p class="desc">{$lang->about_default_url}</p>
 				</li>
 				<li>
@@ -163,9 +163,9 @@ jQuery(function($){
 				</li>
 				<li>
 					<p class="q">{$lang->use_ssl}</p>
-					<p class="a">											
-						<!--@foreach($lang->ssl_options as $key => $val)-->						
-						<input type="radio" name="use_ssl" id="ssl_{$key}" value="{$key}" <!--@if($use_ssl==$key)-->checked="checked" <!--@end-->/> <label for="ssl_{$key}">{$val}</label>						
+					<p class="a">
+						<!--@foreach($lang->ssl_options as $key => $val)-->
+						<input type="radio" name="use_ssl" id="ssl_{$key}" value="{$key}" <!--@if($use_ssl==$key)-->checked="checked" <!--@end-->/> <label for="ssl_{$key}">{$val}</label>
 						<!--@endforeach-->
 					</p>
 				</li>
@@ -214,8 +214,7 @@ jQuery(function($){
 			</ul>
 		</fieldset>
 		<div class="btnArea">
-			<span class="btn medium"><input type="submit" value="Save" /></span> 
+			<span class="btn medium"><input type="submit" value="Save" /></span>
 		</div>
-	</form>	
+	</form>
 </div>
-<!--#include("./_spFooter.html")-->
