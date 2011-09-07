@@ -563,7 +563,7 @@ $.fn.xeSortableTable = function(){
 
 			// get offsets of all list-item elements
 			offsets = [];
-			$table.find('tbody>tr:not([target])').each(function() {
+			$table.find('tbody>tr:not([target],.sticky)').each(function() {
 				var $this = $(this), o;
 
 				o = getOffset(this, $table.get(0));

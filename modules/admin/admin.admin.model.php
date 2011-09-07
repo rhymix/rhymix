@@ -195,10 +195,8 @@
 				$theme_info->publisher[] = $publisher_obj;
 			}
 
-			$skin_infos = $xml_obj->skininfos;
-			if(is_array($skin_infos->layoutinfo))$layout_path = $skin_infos->layoutinfo[0]->directory->attrs->path;
-			else $layout_path = $skin_infos->layoutinfo->directory->attrs->path;
-
+			$layout = $xml_obj->layout;
+			$layout_path = $layout->directory->attrs->path;
 			$layout_parse = explode('/',$layout_path);
 			switch($layout_parse[1]){
 				case 'themes' : {
@@ -211,7 +209,6 @@
 								}
 			}
 			$layout_info->path = $layout_path;
-			$theme_info->layout_info = $layout_info;
 
 			$site_info = Context::get('site_module_info');
 			// check layout instance
@@ -223,6 +220,7 @@
 				foreach($layout_list as $val){
 					if ($val->layout == $layout_info->name){
 						$is_new_layout = false;
+						$layout_info->layout_srl = $val->layout_srl;
 						break;
 					}
 				}
@@ -238,8 +236,12 @@
 				// Insert into the DB
 				$oLayoutAdminController = &getAdminController('layout');
 				$output = $oLayoutAdminController->insertLayout($args);
+				$layout_info->layout_srl = $args->layout_srl;
 			}
 
+			$theme_info->layout_info = $layout_info;
+
+			$skin_infos = $xml_obj->skininfos;
 			if(is_array($skin_infos->skininfo))$skin_list = $skin_infos->skininfo;
 			else $skin_list = array($skin_infos->skininfo);
 
@@ -285,13 +287,19 @@
             $searched_count = count($searched_list);
             if(!$searched_count) return;
 
+			$exceptionModule = array('editor', 'poll', 'homepage', 'textyle');
+
 			$oModuleModel = &getModel('module');
             foreach($searched_list as $val) {
 				$skin_list = $oModuleModel->getSkins('./modules/'.$val);
 
-				if (is_array($skin_list) && count($skin_list) > 0){
-					if(!$GLOBALS['__ThemeModuleSkin__'][$val]) $GLOBALS['__ThemeModuleSkin__'][$val] = array();
-					$GLOBALS['__ThemeModuleSkin__'][$val] = array_merge($GLOBALS['__ThemeModuleSkin__'][$val], $skin_list);
+				if (is_array($skin_list) && count($skin_list) > 0 && !in_array($val, $exceptionModule)){
+					if(!$GLOBALS['__ThemeModuleSkin__'][$val]){
+						$moduleInfo = $oModuleModel->getModuleInfoXml($val);
+						$GLOBALS['__ThemeModuleSkin__'][$val]['title'] = $moduleInfo->title;
+						$GLOBALS['__ThemeModuleSkin__'][$val]['skins'] = array();
+					}
+					$GLOBALS['__ThemeModuleSkin__'][$val]['skins'] = array_merge($GLOBALS['__ThemeModuleSkin__'][$val]['skins'], $skin_list);
 				}
 			}
 			$GLOBALS['__ThemeModuleSkin__']['__IS_PARSE__'] = true;
