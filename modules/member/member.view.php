@@ -91,6 +91,12 @@
 
             $member_config = $oMemberModel->getMemberConfig();
             Context::set('member_config', $member_config);
+
+			global $lang;
+			$identifierForm->title = $lang->{$member_config->identifier};
+			$identifierForm->name = $member_config->identifier;
+			$identifierForm->value = $member_info->{$member_config->identifier};
+			Context::set('identifierForm', $identifierForm);
             // Set a template file
             $this->setTemplateFile('signup_form');
         }

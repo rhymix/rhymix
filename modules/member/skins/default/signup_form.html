@@ -24,9 +24,10 @@
     <!--@end-->
 		<ul>
 			<li>
-				<p class="q">{$lang->email_address} <em style="color:red">*</em></p>
+				<p class="q">{$identifierForm->title} <em style="color:red">*</em></p>
 				<p class="a">
-					<input type="text" name="email_address" value="{$member_info->email_address}" />
+					<input type="hidden" name="{$identifierForm->name}" value="{$identifierForm->value}" />
+					<input type="text" name="{$identifierForm->name}" value="{$identifierForm->value}" disabled="disabled" />
 				</p>
 			</li>
 			<li>

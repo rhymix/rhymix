@@ -36,10 +36,10 @@
 
 		<ul>
 			<li>
-				<p class="q">{$lang->email_address} <em style="color:red">*</em></p>
+				<p class="q">{$identifierForm->title} <em style="color:red">*</em></p>
 				<p class="a">
-					<input type="hidden" name="email_address" value="{$member_info->email_address}" />
-					<input type="text"  value="{$member_info->email_address}" disabled="disabled" />
+					<input type="hidden" name="{$identifierForm->name}" value="{$identifierForm->value}" />
+					<input type="text" name="{$identifierForm->name}" value="{$identifierForm->value}" disabled="disabled" />
 				</p>
 			</li>
 			<li loop="$formTags=>$formTag">
