@@ -1,27 +1,27 @@
 <!--%import("js/editor_module_config.js")-->
 <script type="text/javascript">
-				jQuery(function($){
-					var fontPreview = $('.fontPreview');
-					var fontRadio = $('.fontSelector>:radio');
-					var checkedFont = fontRadio.filter(':checked').next('label').css('fontFamily');
-					fontPreview.css('fontFamily',checkedFont);
-					fontRadio.change(function(){
-						var myFont = $(this).next('label').css('fontFamily');
-						fontPreview.css('fontFamily',myFont);
-					});
-					var changedSize = $('#fontSize').val();
-					fontPreview.css('fontSize',changedSize+'px');
-					$('#fontSize').keyup(function(){
-						var mySize = $(this).val();
-						fontPreview.css('fontSize',mySize+'px');
-						if(mySize.length==0){fontPreview.css('fontSize','')};
-						if(mySize>28){
-							alert('본문에서 사용하기에 글꼴이 너무 큽니다');
-							$(this).val('28');
-							fontPreview.css('fontSize','28px');
-						};
-					});
-				});
+	jQuery(function($){
+		var fontPreview = $('.fontPreview');
+		var fontRadio = $('.fontSelector>:radio');
+		var checkedFont = fontRadio.filter(':checked').next('label').css('fontFamily');
+		fontPreview.css('fontFamily',checkedFont);
+		fontRadio.change(function(){
+			var myFont = $(this).next('label').css('fontFamily');
+			fontPreview.css('fontFamily',myFont);
+		});
+		var changedSize = $('#fontSize').val();
+		fontPreview.css('fontSize',changedSize+'px');
+		$('#fontSize').keyup(function(){
+			var mySize = $(this).val();
+			fontPreview.css('fontSize',mySize+'px');
+			if(mySize.length==0){fontPreview.css('fontSize','')};
+			if(mySize>28){
+				alert('{$lang->msg_font_too_big}');
+				$(this).val('28');
+				fontPreview.css('fontSize','28px');
+			};
+		});
+	});
 </script>
 <div class="content" id="content">
 	<h1 class="h1">{$lang->editor}</h1>

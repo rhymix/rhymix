@@ -108,8 +108,10 @@
                 <value xml:lang="ko"><![CDATA[업데이트 하시겠습니까?]]></value>
                 <value xml:lang="en"><![CDATA[Would you like to update?]]></value>
         </item>
-
-
+        <item name="msg_font_too_big">
+                <value xml:lang="ko"><![CDATA[글꼴이 너무 큽니다.]]></value>
+                <value xml:lang="en"><![CDATA[글꼴이 너무 큽니다.]]></value>
+        </item>
 	<item name="editor_option">
 		<value xml:lang="ko"><![CDATA[]]></value>
 		<value xml:lang="en"><![CDATA[]]></value>
