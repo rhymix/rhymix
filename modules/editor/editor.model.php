@@ -22,14 +22,16 @@
         /**
          * @brief Return editor setting for each module
          **/
-        function getEditorConfig($module_srl) {
-            if(!$GLOBALS['__editor_module_config__'][$module_srl]) {
+        function getEditorConfig($module_srl = null) {
+            if(!$GLOBALS['__editor_module_config__'][$module_srl] && $module_srl) {
                 // Get trackback settings of the selected module
                 $oModuleModel = &getModel('module');
                 $GLOBALS['__editor_module_config__'][$module_srl] = $oModuleModel->getModulePartConfig('editor', $module_srl);
             }
-
-            $editor_config = $GLOBALS['__editor_module_config__'][$module_srl];
+			$editor_config = $GLOBALS['__editor_module_config__'][$module_srl];		
+			
+			$oModuleModel = &getModel('module');
+			$editor_default_config = $oModuleModel->getModuleConfig('editor');
 
             if(!is_object($editor_config)) $editor_config = null;
 
@@ -42,14 +44,20 @@
             if(!is_array($editor_config->enable_component_grant)) $editor_config->enable_component_grant = array();
             if(!is_array($editor_config->enable_comment_component_grant)) $editor_config->enable_comment_component_grant= array();
 
-            if(!$editor_config->editor_height) $editor_config->editor_height = 500;
-            if(!$editor_config->comment_editor_height) $editor_config->comment_editor_height = 120;
             if($editor_config->enable_autosave!='N') $editor_config->enable_autosave = "Y";
-
-            if(!$editor_config->editor_skin) $editor_config->editor_skin = 'xpresseditor';
-            if(!$editor_config->comment_editor_skin) $editor_config->comment_editor_skin = 'xpresseditor';
-            if(!$editor_config->content_style) $editor_config->content_style = 'default';
-
+			
+			if(!$editor_config->editor_height) if($editor_default_config->editor_height? $editor_config->editor_height = $editor_default_config->editor_height : $editor_config->editor_height = 500);
+            if(!$editor_config->comment_editor_height) if($editor_default_config->comment_editor_height? $editor_config->comment_editor_height = $editor_default_config->comment_editor_height : $editor_config->comment_editor_height = 120);
+			if(!$editor_config->editor_skin) if($editor_default_config->editor_skin? $editor_config->editor_skin = $editor_default_config->editor_skin : $editor_config->editor_skin = 'xpresseditor');
+			if(!$editor_config->comment_editor_skin) if($editor_default_config->comment_editor_skin? $editor_config->comment_editor_skin = $editor_default_config->comment_editor_skin : $editor_config->comment_editor_skin = 'xpresseditor');
+			if(!$editor_config->content_style) if($editor_default_config->content_style? $editor_config->content_style = $editor_default_config->content_style : $editor_config->content_style = 'default');
+			
+			if(!$editor_config->content_font && $editor_default_config->content_font) $editor_config->content_font = $editor_default_config->content_font;
+			if(!$editor_config->content_font_size && $editor_default_config->content_font_size) $editor_config->content_font_size = $editor_default_config->content_font_size;
+			
+			if(!$editor_config->sel_editor_colorset && $editor_default_config->sel_editor_colorset) $editor_config->sel_editor_colorset = $editor_default_config->sel_editor_colorset;
+			if(!$editor_config->sel_comment_editor_colorset && $editor_default_config->sel_comment_editor_colorset) $editor_config->sel_comment_editor_colorset = $editor_default_config->sel_comment_editor_colorset;
+			if(!$editor_config->comment_content_style && $editor_default_config->comment_content_style) $editor_config->comment_content_style = $editor_default_config->comment_content_style;
             return $editor_config;
         }
 
@@ -195,7 +203,8 @@
             // Default font setting
             Context::set('content_font', $option->content_font);
             Context::set('content_font_size', $option->content_font_size);
-            // Option setting to allow auto-save
+			
+			// Option setting to allow auto-save
             if(!$option->enable_autosave) $enable_autosave = false;
             elseif(Context::get($option->primary_key_name)) $enable_autosave = false;
             else $enable_autosave = true;

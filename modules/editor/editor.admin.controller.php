@@ -12,99 +12,69 @@
          **/
         function init() {
         }
-
-        /**
-         * @brief Activate components
-         **/
-        function procEditorAdminEnableComponent() {
-            $site_module_info = Context::get('site_module_info');
-
-            $args->component_name = Context::get('component_name');
-            $args->enabled = 'Y';
-            $args->site_srl = (int)$site_module_info->site_srl;
-            if(!$args->site_srl) $output = executeQuery('editor.updateComponent', $args);
-            else $output = executeQuery('editor.updateSiteComponent', $args);
-            if(!$output->toBool()) return $output;
-
-            $oEditorController = &getController('editor');
+		
+		/**
+         * @brief 컴포넌트 사용설정, 목록 순서 변경
+         **/	
+		function procEditorAdminCheckUseListOrder(){			
+			$enables = Context::get('enables');			
+			$component_names = Context::get('component_names');
+			$unables = array_diff($component_names, $enables);
+			
+			
+			$output = $this->editorCheckUse($enables,$unables);			
+			if(!$output->toBool()) return new Object();
+			
+			$output = $this->editorListOrder($component_names);
+			if(!$output->toBool()) return new Object();
+			
+			$oEditorController = &getController('editor');
             $oEditorController->removeCache($args->site_srl);
-
-            $this->setMessage('success_updated');
-        }
-
-        /**
-         * @brief Deactivate components
+			$this->setRedirectUrl(Context::get('error_return_url'));
+		}
+		
+		/**
+         * @brief check use component
+         **/	
+		function editorCheckUse($enables,$unables){			
+			if(is_array($enables)){
+				$args->enabled = 'Y';
+				foreach($enables as $component_name){
+					$args->component_name = $component_name;				
+					$output = executeQuery('editor.updateComponent', $args);
+				}
+			}
+			if(!$output->toBool()) return new Object();
+			
+			if(is_array($unables)){				
+				$args->enabled = 'N';
+				foreach($unables as $component_name){
+					$args->component_name = $component_name;				
+					$output = executeQuery('editor.updateComponent', $args);
+				}
+			}
+			if(!$output->toBool()) return new Object();			
+			unset($args->enabled);
+			return $output;
+		}
+		
+		/**
+         * @brief list order componet
          **/
-        function procEditorAdminDisableComponent() {
-            $site_module_info = Context::get('site_module_info');
-
-            $args->component_name = Context::get('component_name');
-            $args->enabled = 'N';
-            $args->site_srl = (int)$site_module_info->site_srl;
-            if(!$args->site_srl) $output = executeQuery('editor.updateComponent', $args);
-            else $output = executeQuery('editor.updateSiteComponent', $args);
-            if(!$output->toBool()) return $output;
-
-            $oEditorController = &getController('editor');
-            $oEditorController->removeCache($args->site_srl);
-
-            $this->setMessage('success_updated');
-        }
-
-        /**
-         * @brief Change a location of the component
-         **/
-        function procEditorAdminMoveListOrder() {
-            $site_module_info = Context::get('site_module_info');
-            $args->site_srl = (int)$site_module_info->site_srl;
-            $args->component_name = Context::get('component_name');
-            $mode = Context::get('mode');
-            // Get a full list of components from the DB
-            if(!$args->site_srl) $output = executeQuery('editor.getComponentList', $args);
-            else $output = executeQuery('editor.getSiteComponentList', $args);
-
-            $db_list = $output->data;
-            foreach($db_list as $key => $val) {
-                if($val->component_name == $args->component_name) break;
-            }
-
-            if($mode=="up") {
-                if($key == 2) return new Object(-1,'msg_component_is_first_order');
-
-                $prev_args->component_name = $db_list[$key-1]->component_name;
-                $prev_args->list_order = $db_list[$key]->list_order;
-                $prev_args->site_srl = $args->site_srl;
-                if(!$args->site_srl) $output = executeQuery('editor.updateComponent', $prev_args);
-                else $output = executeQuery('editor.updateSiteComponent', $prev_args);
-
-                $cur_args->component_name = $db_list[$key]->component_name;
-                $cur_args->list_order = $db_list[$key-1]->list_order;
-                if($prev_args->list_order == $cur_args->list_order) $cur_args->list_order--;
-                $cur_args->site_srl = $args->site_srl;
-                if(!$args->site_srl) $output = executeQuery('editor.updateComponent', $cur_args);
-                else $output = executeQuery('editor.updateSiteComponent', $cur_args);
-            } else {
-                if($key == count($db_list)-1) return new Object(-1,'msg_component_is_last_order');
-
-                $next_args->component_name = $db_list[$key+1]->component_name;
-                $next_args->list_order = $db_list[$key]->list_order;
-                $next_args->site_srl = $args->site_srl;
-                if(!$args->site_srl) $output = executeQuery('editor.updateComponent', $next_args);
-                else $output = executeQuery('editor.updateSiteComponent', $next_args);
-
-                $cur_args->component_name = $db_list[$key]->component_name;
-                $cur_args->list_order = $db_list[$key+1]->list_order;
-                $cur_args->site_srl = $args->site_srl;
-                if($next_args->list_order == $cur_args->list_order) $cur_args->list_order++;
-                if(!$args->site_srl) $output = executeQuery('editor.updateComponent', $cur_args);
-                else $output = executeQuery('editor.updateSiteComponent', $cur_args);
-            }
-
-            $oEditorController = &getController('editor');
-            $oEditorController->removeCache($args->site_srl);
-
-            $this->setMessage('success_updated');
-        }
+		function editorListOrder($component_names){		
+			$list_order_num = '30';
+			if(is_array($component_names)) {			
+				foreach($component_names as $name){
+					$args->list_order = $list_order_num;
+					$args->component_name = $name;					
+					$output = executeQuery('editor.updateComponent', $args);					
+			
+					if(!$output->toBool()) return new Object();
+					$list_order_num++;
+				}
+			}	
+			return $output;
+		}
 
         /**
          * @brief Set components
@@ -142,6 +112,29 @@
 				exit;
 			}
         }
+		
+		/**
+         * @brief Config components
+         **/
+		 
+		function procEditorAdminGeneralConfig(){
+			$oModuleController = &getController('module');
+			$configVars = Context::getRequestVars();
+			
+			$config->editor_skin = $configVars->editor_skin;
+			$config->editor_height = $configVars->editor_height;
+			$config->comment_editor_skin = $configVars->comment_editor_skin;
+			$config->comment_editor_height = $configVars->comment_editor_height;
+			$config->content_style = $configVars->content_style;
+			$config->content_font = $configVars->content_font;
+			$config->content_font_size= $configVars->content_font_size.'px';
+			$config->sel_editor_colorset= $configVars->sel_editor_colorset;
+			$config->sel_comment_editor_colorset= $configVars->sel_comment_editor_colorset;
+			
+			$oModuleController->insertModuleConfig('editor',$config);
+			$this->setRedirectUrl(Context::get('error_return_url'));
+					
+		}
 
         /**
          * @brief Add a component to DB

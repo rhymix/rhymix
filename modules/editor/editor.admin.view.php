@@ -17,15 +17,51 @@
          * @brief Administrator Setting page
          * Settings to enable/disable editor component and other features
          **/
-        function dispEditorAdminIndex() {
+        function dispEditorAdminIndex() {	
+			$component_count = 0;
             $site_module_info = Context::get('site_module_info');
-            $site_srl = (int)$site_module_info->site_srl;
+            $site_srl = (int)$site_module_info->site_srl;			
+			
             // Get a type of component
             $oEditorModel = &getModel('editor');
-            $component_list = $oEditorModel->getComponentList(false, $site_srl, true);
-
-            Context::set('component_list', $component_list);
-
+			$oModuleModel = &getModel('module');
+			$editor_config = $oModuleModel->getModuleConfig('editor');			
+            
+			$component_list = $oEditorModel->getComponentList(false, $site_srl, true);			
+			$editor_skin_list = FileHandler::readDir(_XE_PATH_.'modules/editor/skins');
+			
+			$skin_info = $oModuleModel->loadSkinInfo($this->module_path,$editor_config->editor_skin);
+			
+			$contents = FileHandler::readDir(_XE_PATH_.'modules/editor/styles');
+            for($i=0,$c=count($contents);$i<$c;$i++) {
+                $style = $contents[$i];
+                $info = $oModuleModel->loadSkinInfo($this->module_path,$style,'styles');
+                $content_style_list[$style]->title = $info->title;
+            }			
+			
+			// Get install info, update info, count
+			$oAutoinstallModel = &getModel('autoinstall');			
+            foreach($component_list as $component_name => $xml_info) {
+				$component_count++;		    								
+				$xml_info->path = './modules/editor/components/'.$xml_info->component_name;				
+				$xml_info->delete_url = $oAutoinstallModel->getRemoveUrlByPath($xml_info->path);								
+				$xml_info->package_srl = $oAutoinstallModel->getPackageSrlByPath($xml_info->path);
+				if($xml_info->package_srl) $targetpackages[$xml_info->package_srl] = 0;
+            }	
+			$packages = $oAutoinstallModel->getInstalledPackages(array_keys($targetpackages));			
+			foreach($component_list as $component_name => $xml_info) {
+				if($packages[$xml_info->package_srl])	$xml_info->need_update = $packages[$xml_info->package_srl]->need_update;
+			}
+			$editor_config_default = array( "editor_height" => "500", "comment_editor_height" => "120","content_font_size"=>"12");
+			
+			Context::set('editor_config', $editor_config);
+			Context::set('editor_skin_list', $editor_skin_list);
+			Context::set('editor_colorset_list', $skin_info->colorset);
+			Context::set('content_style_list', $content_style_list);
+			Context::set('component_list', $component_list);
+			Context::set('component_count', $component_count);						
+			Context::set('editor_config_default', $editor_config_default);
+			 
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('admin_index');
         }
@@ -71,6 +107,5 @@
             $this->setTemplateFile('setup_component');
             $this->setLayoutFile("popup_layout");
         }
-
     }
 ?>

@@ -152,7 +152,7 @@
 		<value xml:lang="ru"><![CDATA[Размер шрифта]]></value>
 		<value xml:lang="tr"><![CDATA[İçerik Yazı Boyutu]]></value>
 		<value xml:lang="vi"><![CDATA[Cỡ chữ của nội dung]]></value>
-	</item>
+	</item>					
 	<item name="about_component">
 		<value xml:lang="ko"><![CDATA[컴포넌트 소개]]></value>
 		<value xml:lang="en"><![CDATA[About component]]></value>
@@ -547,53 +547,38 @@ Bài viết tự động lưu sẽ tự động hủy sau khi bạn hoàn thành
 			<value xml:lang="tr"><![CDATA[Paragraf Özelliği]]></value>
 			<value xml:lang="vi"><![CDATA[Chức năng Paragraph]]></value>
 		</item>
-		<item name="fontlist" type="array">
-			<item name="Dotum">
-				<value xml:lang="ko"><![CDATA[돋움]]></value>
+		<item name="fontlist" type="array">	
+			<item name="arial">
+				<value xml:lang="ko"><![CDATA[Arial, Helvetica, sans-serif]]></value>
 			</item>
-			<item name="Gulim">
-				<value xml:lang="ko"><![CDATA[굴림]]></value>
+			<item name="tahoma">
+				<value xml:lang="ko"><![CDATA[Tahoma, Geneva, sans-serif]]></value>
 			</item>
-			<item name="Batang">
-				<value xml:lang="ko"><![CDATA[바탕]]></value>
+			<item name="verdana">
+				<value xml:lang="ko"><![CDATA[Verdana, Geneva, sans-serif]]></value>
 			</item>
-			<item name="Arial">
-				<value xml:lang="ko"><![CDATA[Arial]]></value>
-				<value xml:lang="en"><![CDATA[Arial]]></value>
-			</item>
-			<item name="Arial Black">
-				<value xml:lang="ko"><![CDATA[Arial Black]]></value>
-				<value xml:lang="en"><![CDATA[Arial Black]]></value>
-			</item>
-			<item name="Tahoma">
-				<value xml:lang="ko"><![CDATA[Tahoma]]></value>
-				<value xml:lang="en"><![CDATA[Tahoma]]></value>
-			</item>
-			<item name="Verdana">
-				<value xml:lang="ko"><![CDATA[Verdana]]></value>
-				<value xml:lang="en"><![CDATA[Verdana]]></value>
-			</item>
-			<item name="Sans-serif">
+			<item name="sans-serif">
 				<value xml:lang="ko"><![CDATA[Sans-serif]]></value>
-				<value xml:lang="en"><![CDATA[Sans-serif]]></value>
 			</item>
-			<item name="Serif">
+			<item name="georgia">
+				<value xml:lang="ko"><![CDATA[Georgia, 'Times New Roman', Times, serif]]></value>
+			</item>
+			<item name="palatinoLinotype">
+				<value xml:lang="ko"><![CDATA['Palatino Linotype', 'Book Antiqua', Palatino, serif]]></value>
+			</item>
+			<item name="timesNewRoman">
+				<value xml:lang="ko"><![CDATA['Times New Roman', Times, serif]]></value>
+			</item>		
+			<item name="serif">
 				<value xml:lang="ko"><![CDATA[Serif]]></value>
-				<value xml:lang="en"><![CDATA[Serif]]></value>
-			</item>
-			<item name="Monospace">
-				<value xml:lang="ko"><![CDATA[Monospace]]></value>
-				<value xml:lang="en"><![CDATA[Monospace]]></value>
-			</item>
-			<item name="Cursive">
-				<value xml:lang="ko"><![CDATA[Cursive]]></value>
-				<value xml:lang="en"><![CDATA[Cursive]]></value>
-			</item>
-			<item name="Fantasy">
-				<value xml:lang="ko"><![CDATA[Fantasy]]></value>
-				<value xml:lang="en"><![CDATA[Fantasy]]></value>
-			</item>
-		</item>
+			</item>		
+			<item name="courierNew">
+				<value xml:lang="ko"><![CDATA['Courier New', Courier, monospace]]></value>
+			</item>		
+			<item name="lucidaConsole">
+				<value xml:lang="ko"><![CDATA['Lucida Console', Monaco, monospace]]></value>
+			</item>		
+		</item>					
 		<item name="header">
 			<value xml:lang="ko"><![CDATA[형식]]></value>
 			<value xml:lang="en"><![CDATA[Style]]></value>

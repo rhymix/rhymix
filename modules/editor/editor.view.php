@@ -120,9 +120,56 @@
         function dispEditorSkinColorset(){
             $skin = Context::get('skin');
             $oModuleModel = &getModel('module');
-            $skin_info = $oModuleModel->loadSkinInfo($this->module_path,$skin);
+            $skin_info = $oModuleModel->loadSkinInfo($this->module_path,$skin);			
             $colorset = $skin_info->colorset;
-            Context::set('colorset', $colorset);
+			
+			Context::set('colorset', $colorset);
         }
+		
+		function dispEditorConfigPreview() {	
+			$oEditorModel = &getModel('editor');
+			$config = $oEditorModel->getEditorConfig();
+			
+			$option->allow_fileupload = false;
+			$option->content_style = $config->content_style;
+			$option->content_font = $config->content_font;
+			$option->content_font_size = $config->content_font_size;
+			$option->enable_autosave = false;
+			$option->enable_default_component = true;
+			$option->enable_component = true;
+			$option->disable_html = false;
+			$option->height = $config->editor_height;
+			$option->skin = $config->editor_skin;
+			$option->content_key_name = 'dummy_content';
+			$option->primary_key_name = 'dummy_key';
+			$option->colorset = $config->sel_editor_colorset;
+			$editor = $oEditorModel->getEditor(0, $option);
+			
+			Context::set('editor', $editor);			 
+			
+			$option_com->allow_fileupload = false;
+			$option_com->content_style = $config->content_style;
+			$option_com->content_font = $config->content_font;
+			$option_com->content_font_size = $config->content_font_size;
+			$option_com->enable_autosave = false;
+			$option_com->enable_default_component = true;
+			$option_com->enable_component = true;
+			$option_com->disable_html = false;
+			$option_com->height = $config->comment_editor_height;
+			$option_com->skin = $config->comment_editor_skin;
+			$option_com->content_key_name = 'dummy_content2';
+			$option_com->primary_key_name = 'dummy_key2';
+			$option_com->content_style = $config->comment_content_style;
+			$option_com->colorset = $config->sel_comment_editor_colorset;
+			
+			$editor_comment = $oEditorModel->getEditor(0, $option_com);
+			
+			Context::set('editor_comment', $editor_comment);
+			
+			
+			$this->setTemplatePath($this->module_path.'tpl');
+			$this->setTemplateFile('config_preview');
+			
+		}
     }
 ?>
