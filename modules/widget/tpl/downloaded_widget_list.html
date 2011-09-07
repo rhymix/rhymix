@@ -19,7 +19,7 @@
 					<p><strong>{$widget->title}</strong></p>
 					<p>{$widget->description}</p>
 					<p cond="$widget->need_update == 'Y'" class="update">
-						{$lang->msg_avail_update} <a href="{$widget->update_url}&amp;return_url={urlencode(getRequestUriByServerEnviroment())}">{$lang->msg_do_you_like_update}</a>
+						{$lang->msg_avail_easy_update} <a href="{$widget->update_url}&amp;return_url={urlencode(getRequestUriByServerEnviroment())}">{$lang->msg_do_you_like_update}</a>
 					</p>
 				</td>
 				<td>{$widget->version}</td>

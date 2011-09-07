@@ -35,12 +35,9 @@
 					<td class="title">
 						<p><a href="{getUrl('','module','admin','act',$val->admin_index_act)}">{$val->title}</a></p>
 						<p>{$val->description}</p>
-							<!--@if($val->need_install)-->
-							<p class="update">이 항목 업데이트가 가능합니다. <a href=="#" onclick="doUpdateModule('{$val->module}'); return false;">업데이트 하시겠습니까?</a></p>
-							<!--@end-->
-							<!--@if($val->need_update)-->
-							<p class="update">이 항목 설치가 가능합니다. <a href="#" onclick="doInstallModule('{$val->module}');return false;">설치 하시겠습니까?</a></p>
-							<!--@end-->
+							<p cond="$val->need_install" class="update">이 항목 설치가 가능합니다. <a href="#" onclick="doInstallModule('{$val->module}');return false;">설치 하시겠습니까?</a></p>
+							<p cond="$val->need_update" class="update">이 항목 업데이트가 가능합니다. <a href=="#" onclick="doUpdateModule('{$val->module}'); return false;">업데이트 하시겠습니까?</a></p>
+							<p cond="$val->need_autoinstall_update" class="update">이 항목의 새로운 버전이 있습니다. <a href="{$val->update_url}&amp;return_url={urlencode(getRequestUriByServerEnviroment())}">업데이트 하시겠습니까?</a></p>
 					</td>
 					<td>{$val->version}</td>
 					<td>
@@ -57,7 +54,7 @@
 					<td>{$val->path}</td>
 					<td>
 						<!--@if($val->delete_url)-->
-						<a href="{$val->delete_url}">{$lang->cmd_delete}</a>
+						<a href="{$val->delete_url}&amp;return_url={urlencode(getRequestUriByServerEnviroment())}">{$lang->cmd_delete}</a>
 						<!--@end-->
 					</td>
 				</tr>

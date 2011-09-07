@@ -236,9 +236,9 @@
 		<value xml:lang="tr"><![CDATA[Mevcut pakete bağlı paket listesi]]></value>
 		<value xml:lang="vi"><![CDATA[Gói cài đặt này phụ thuộc vào các gói khác trong danh sách]]></value>
 	</item>
-	<item name="msg_avail_update">
-		<value xml:lang="ko"><![CDATA[이 항목 업데이트가 가능합니다.]]></value>
-		<value xml:lang="en"><![CDATA[There is available update for this item.]]></value>
+	<item name="msg_avail_easy_update">
+		<value xml:lang="ko"><![CDATA[이 항목의 새로운 버전이 있습니다.]]></value>
+		<value xml:lang="en"><![CDATA[There is new version for this item.]]></value>
 	</item>
 	<item name="msg_do_you_like_update">
 		<value xml:lang="ko"><![CDATA[업데이트 하시겠습니까?]]></value>
