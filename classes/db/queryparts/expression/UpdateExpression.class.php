@@ -43,6 +43,7 @@
 		}
 
 		function show(){
+                        if(!$this->argument) return false;
 			if(!$this->argument->getValue()) return false;
 			return true;
 		}
