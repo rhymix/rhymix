@@ -162,7 +162,7 @@
 			<value xml:lang="ru"><![CDATA[[Требуется] Путь установки XE или директория ./files должна иметь права доступа 707]]></value>
 			<value xml:lang="es"><![CDATA[[Requerido] La ruta de la instalación de XE o el directorio de ./archivos deberia tener la atribución 707]]></value>
 			<value xml:lang="tr"><![CDATA[[Gerekli] XE kurulum yolu ya da ./files directory yolunun yetkisi 707 olmalıdır]]></value>
-			<value xml:lang="vi"><![CDATA[[Bắt buộc] Thư mục cài đặt của XE hay ./files directory\ phải CHMOD thành 707]]></value>
+			<value xml:lang="vi"><![CDATA[[Bắt buộc] Thư mục cài đặt của XE hay ./files directory phải CHMOD thành 707]]></value>
 		</item>
 		<item name="xml">
 			<value xml:lang="ko"><![CDATA[[필수] XML통신을 위하여 XML 라이브러리가 필요합니다.]]></value>
@@ -783,7 +783,7 @@ Vérifiez encore une fois les informations sur la Base de Données, S.V.P.]]></v
 Пожалуйста, проверьте иформацию базы данных еще раз]]></value>
 		<value xml:lang="es"><![CDATA[Ha ocurrido un error en la conección de BD.
  Por favor chequee la información de BD nuevamente]]></value>
-		<value xml:lang="tr"><![CDATA[VT\'ye ulaşırken bir hata oluştu.
+		<value xml:lang="tr"><![CDATA[VT'ye ulaşırken bir hata oluştu.
 Lütfen VT bilgisini tekrar kontrol ediniz]]></value>
 		<value xml:lang="vi"><![CDATA[Đã có lỗi xảy ra khi kết nối tới Database.
 Xin vui lòng kiểm tra lại thông tin!]]></value>
@@ -805,7 +805,7 @@ Le fichier de Configuration est recréé.]]></value>
 Файл конфигурации создан заново]]></value>
 		<value xml:lang="es"><![CDATA[La tabla ya ha sido creado en BD.
  Creado nuevamente el archivo de configuración.]]></value>
-		<value xml:lang="tr"><![CDATA[Tablo zaten VT\'da oluşturuldu.
+		<value xml:lang="tr"><![CDATA[Tablo zaten VT'da oluşturuldu.
 Yapılandırma dosyası yeniden oluşturuldu]]></value>
 		<value xml:lang="vi"><![CDATA[Table đã có sẵn trên Database.
 File Config đã đuwọc thiết lập lại.]]></value>
@@ -828,7 +828,7 @@ Merci pour choisir XE]]></value>
 		<value xml:lang="es"><![CDATA[Instalación finalizada.
  Muchas gracias.]]></value>
 		<value xml:lang="tr"><![CDATA[Kurulum tamamlandı.
-XE\'yi seçtiğiniz için teşekkür ederiz]]></value>
+XE'yi seçtiğiniz için teşekkür ederiz]]></value>
 		<value xml:lang="vi"><![CDATA[Đã cài đặt XE thành công!.
 Xin cảm ơn đã sử dụng XE!]]></value>
 	</item>
@@ -838,7 +838,7 @@ Xin cảm ơn đã sử dụng XE!]]></value>
 		<value xml:lang="jp"><![CDATA[インストールファイルを作成する際にエラーが発生しました。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[生成安装文件时发生错误。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[建立安裝檔案時，發生錯誤。]]></value>
-		<value xml:lang="fr"><![CDATA[Une erreur a lieu en créant le fichier d\'installation.]]></value>
+		<value xml:lang="fr"><![CDATA[Une erreur a lieu en créant le fichier d'installation.]]></value>
 		<value xml:lang="ru"><![CDATA[Произошла ошибка при создании файла конфигурации.]]></value>
 		<value xml:lang="es"><![CDATA[Ha ocurrido un error al crear el archivo de instalación.]]></value>
 		<value xml:lang="tr"><![CDATA[Kurulum dosyası oluşturulurken bir hata oluştu.]]></value>

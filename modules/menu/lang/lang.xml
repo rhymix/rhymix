@@ -381,7 +381,7 @@ If the menu is not shown normally, refresh the information by clicking the butto
 		<value xml:lang="fr"><![CDATA[Administration de Menu vous permet de composer le menu dans la Mise en Page que vous choisissez.
 Vous pouvez créer le menu jusqu'au niveau permis et entrer des informations détaillées si vou cliquez le menu.
 Menu sera étendu si vous cliquez l'image de dossier.
-Si le menu n'est pas représenté normalement, rafraîchir les informations en cliquant le bouton "Recréer \'antémémoire de fichier".
+Si le menu n'est pas représenté normalement, rafraîchir les informations en cliquant le bouton "Recréer 'antémémoire de fichier".
 * Menu cré qui passe plus que le niveau permis pourra être représenté incorrectement.]]></value>
 		<value xml:lang="ru"><![CDATA[Управление меню позволяет Вам заключить меню в вабранный лейаут.
 Вы можете создать меню до установленной грубины и ввести информацию детально посредством целчка по нему
@@ -477,7 +477,7 @@ Nếu Menu không hiển thị một cách bình thường, hãy làm mới thô
 		<value xml:lang="vi"><![CDATA[Nếu lựa chọn nhóm, thì chỉ những nhóm được chọn mới thấy được Menu. (nếu File XML trực tiếp mở ra, nó sẽ được hiển thị).]]></value>
 	</item>
 	<item name="about_menu">
-		<value xml:lang="ko"><![CDATA[메뉴모듈은 생성된 모듈을 편리한 메뉴관리기를 통해 정리하고 레이아웃과 연결하여 별도의 수작업 없이 완성된 사이트를 구축하도록 도와줍니다. 
+		<value xml:lang="ko"><![CDATA[메뉴모듈은 생성된 모듈을 편리한 메뉴관리기를 통해 정리하고 레이아웃과 연결하여 별도의 수작업 없이 완성된 사이트를 구축하도록 도와줍니다.
 메뉴는 사이트를 관리하기 보다는 모듈과 레이아웃을 연결해 주며 레이아웃을 통해 여러 가지 형태의 메뉴를 표시할 수 있도록 하는 정보만 가지고 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Menu module will help you create a complete site through the convenient menu management which arranges the created modules and links to layouts without any manual work.
 However, menu is not a site manager. It just has the information which can link to modules and layouts so you can express different types of menus.]]></value>

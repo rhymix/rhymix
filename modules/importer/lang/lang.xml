@@ -494,7 +494,7 @@ In order to import, you first have to use <a href="http://svn.xpressengine.net/m
 导入数据时请利用 <a href="http://svn.xpressengine.com/zeroboard_xe/migration_tools/" onclick="winopen(this.href);return false;">XML Exporter</a>生成XML文件后再上传。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[不僅可以匯入 Zeroboard 4，Zb5beta 的資料，也能夠把其他程式資料匯入到 XE 當中。
 匯入資料時，請利用 <a href="http://svn.xpressengine.com/zeroboard_xe/migration_tools/" onclick="winopen(this.href);return false;">XML Exporter</a> 建立 XML 檔案後再上傳。]]></value>
-		<value xml:lang="fr"><![CDATA[Vous pouvez transférer les données de Zeroboard4, de Zeroboard5 Beta ou d\'autres logiciels aux données de XE.
+		<value xml:lang="fr"><![CDATA[Vous pouvez transférer les données de Zeroboard4, de Zeroboard5 Beta ou d'autres logiciels aux données de XE.
 Pour transférer, vous devez utiliser <a href="http://svn.xpressengine.com/zeroboard_xe/migration_tools/" onclick="winopen(this.href);return false;">Exporteur de XML</a> pour convertir les données en fichier de XML, et puis téléchargez-le.]]></value>
 		<value xml:lang="ru"><![CDATA[Вы можете импортировать данные Zeroboard4, Zeroboard5 Beta или других программ в XE.
 Чтобы импортировать, Вам следует использовать <a href="http://svn.xpressengine.com/zeroboard_xe/migration_tools/" onclick="winopen(this.href);return false;">XML Экспортер (XML Exporter)</a>, чтобы конвертировать нужные данные в XML Файл и затем загрузить его.]]></value>
@@ -517,17 +517,17 @@ If not, please input the address where Zeroboard4 is installed. ex. http://Domai
 位置在同一个服务器时，请输入如 /home/id/public_html/bbs的路径,在不同服务器时，请输入如 http://域名/bbs的url地址。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[為了下載附檔請輸入 Zeroboard 4 的安裝位置。
 位置在同一個主機時，請輸入如『/home/id/public_html/bbs』的路徑，在不同主機時，請輸入如『http://域名/bbs』的 URL 網址。]]></value>
-		<value xml:lang="fr"><![CDATA[Pour obtenir les attachés de Zeroboard4, Entrez l\'adresse où Zeroboard4 est installé.
+		<value xml:lang="fr"><![CDATA[Pour obtenir les attachés de Zeroboard4, Entrez l'adresse où Zeroboard4 est installé.
 Si elle se trouve dans le même serveur, entrez le chemin comme '/home/USERID/public_html/bbs'
-Si elle ne se trouve pas dans le même serveur, entrez l\'adresse où Zeroboard4 est installé comme 'http://Domain/bbs']]></value>
+Si elle ne se trouve pas dans le même serveur, entrez l'adresse où Zeroboard4 est installé comme 'http://Domain/bbs']]></value>
 		<value xml:lang="ru"><![CDATA[Чтобы получить вложения с Zeroboard4, пожалуйста, введите адрес, где установлена  Zeroboard4.
 Если она раположена на том же сервере, введите путь к Zeroboard4 как /home/USERID/public_html/bbs
 Если нет, введите адрес, где Zeroboard4 установлена. Например: http://Domain/bbs]]></value>
 		<value xml:lang="es"><![CDATA[Para descargar los archivos adjuntos de ZeroBoard4, ingresa la ubicación de ZeroBoard4 instalado.
 Si esta en el mismo servidor escriba la ubicación de ZeroBoard4 como por ejemplo: /home/ID/public_html/bbs o si esta en otro servidor escriba la ubicación de ZeroBoard4 instalado como por ejemplo: http://dominio/bbs]]></value>
-		<value xml:lang="tr"><![CDATA[Zeroboard4\'ten ekler almak için, Zeroboard4\'ün kurulu olduğu yolu giriniz.
-Eğer aynı sunucuda konumlandırılmışsa, lütfen Zeroboard4\'ün yolunu bu şekilde giriniz : /home/USERID/public_html/bbs
-Eğer aynı sunucuda değilse, lütfen Zeroboard4\'ün kurulu olduğu adresi giriniz. örn. http://Domain/bbs]]></value>
+		<value xml:lang="tr"><![CDATA[Zeroboard4'ten ekler almak için, Zeroboard4'ün kurulu olduğu yolu giriniz.
+Eğer aynı sunucuda konumlandırılmışsa, lütfen Zeroboard4'ün yolunu bu şekilde giriniz : /home/USERID/public_html/bbs
+Eğer aynı sunucuda değilse, lütfen Zeroboard4'ün kurulu olduğu adresi giriniz. örn. http://Domain/bbs]]></value>
 		<value xml:lang="vi"><![CDATA[Để lấy cả File đính kèm tại Zeroboard4, bạn hãy nhập địa chỉ mà đã cài đặt Zeroboard4.
 Nếu nó cùng nằm trên một Server, hãy nhập đầy đủ đường dẫn thư mục cài đặt của Zeroboard4. Ví dụ: <b>/home/USERID/public_html/bbs</b>
 Nếu khác Server, hãy nhập địa chỉ của Zeroboard4 đã cài đặt. Ví dụ: <b>http://Domain/bbs</b>]]></value>

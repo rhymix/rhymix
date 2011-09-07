@@ -232,7 +232,7 @@
         Referente al código de planillas de XE dirijirse a<a href="#" onclick="winopen('http://trac.zeroboard.com/trac/wiki/TemplateHandler');return false;">XE Pamphlet(Ingles)</a> ]]></value>
 		<value xml:lang="tr"><![CDATA[Yerleşim düzeni kodunu düzenledikten sonra kaydettiğinizde, hizmete girecektir.
         Lütfen önce kodunuzun önizlemesini yapın ve sonra kaydedin.
-        XE\'nin şablolunu örnek alabilirsiniz : <a href="#" onclick="winopen('http://trac.zeroboard.com/trac/wiki/TemplateHandler');return false;">XE Template</a>.]]></value>
+        XE'nin şablolunu örnek alabilirsiniz : <a href="#" onclick="winopen('http://trac.zeroboard.com/trac/wiki/TemplateHandler');return false;">XE Template</a>.]]></value>
 		<value xml:lang="vi"><![CDATA[Nó sẽ được áp dụng vào Website ngay khi bạn bấm '<b>Lưu</b>' sau khi sửa đổi.
         Hãy bấm '<b>Xem trước</b>' trước khi bấm '<b>Lưu</b>'.
         Bạn có thể tham khảo cách sửa giao diện tại <a href="#" onclick="winopen('http://trac.zeroboard.com/trac/wiki/TemplateHandler');return false;"><b>XE Template</b></a>.]]></value>

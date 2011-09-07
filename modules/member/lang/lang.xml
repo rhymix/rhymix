@@ -701,7 +701,7 @@
 		<value xml:lang="jp"><![CDATA[確認メール、またはサイト管理時に使用されるウェブマスターのお名前を入力して下さい（デフォルト : webmaster）。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[请输入认证所需的电子邮件地址或管理其他网站时要使用的网站管理员名称。(默认 : webmaster)]]></value>
 		<value xml:lang="zh-TW"><![CDATA[請輸入認證所需的電子郵件地址或管理其他網站時要使用的網站管理員名稱。(預設 : webmaster)]]></value>
-		<value xml:lang="fr"><![CDATA[Entrez le nom de webmestre qui va être utilisé pour le mél de certification ou l\'autre administration du site. (défaut : webmestre)]]></value>
+		<value xml:lang="fr"><![CDATA[Entrez le nom de webmestre qui va être utilisé pour le mél de certification ou l'autre administration du site. (défaut : webmestre)]]></value>
 		<value xml:lang="ru"><![CDATA[Пожалуйста, введите имя вебмастера, которое будет использоваться для авторизационных писем или другого адиминистрирования сайта. (по умолчанию : webmaster)]]></value>
 		<value xml:lang="es"><![CDATA[Por favor, webmaster de entrada el nombre que se utilizará para la autenticación de los correos u otros sitio de la administración. (Por defecto: webmaster)]]></value>
 		<value xml:lang="tr"><![CDATA[Lütfen onay maillerinde veya site yönetiminde kullanılacak webmaster ismini giriniz. (varsayılan : webmaster)]]></value>
@@ -713,7 +713,7 @@
 		<value xml:lang="jp"><![CDATA[ウェブマスターのメールアドレスを入力して下さい。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[请输入网站管理员的电子邮件地址。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[請輸入網站管理員的電子郵件地址。]]></value>
-		<value xml:lang="fr"><![CDATA[Entrez l\'adresse du mél de webmestre, S.V.P.]]></value>
+		<value xml:lang="fr"><![CDATA[Entrez l'adresse du mél de webmestre, S.V.P.]]></value>
 		<value xml:lang="ru"><![CDATA[Пожалуйста, введите email адрес вебмастера.]]></value>
 		<value xml:lang="es"><![CDATA[Introduzca la dirección de correo electrónico webmaster.]]></value>
 		<value xml:lang="tr"><![CDATA[Lütfen webmaster e-posta adresini giriniz.]]></value>
@@ -1654,7 +1654,7 @@
 		<value xml:lang="jp"><![CDATA[会員に対する管理者のメモ帳です。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[管理员对会员的备忘录。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[管理員對會員的註記。]]></value>
-		<value xml:lang="fr"><![CDATA[La description de l\'Administrateur sur le membre]]></value>
+		<value xml:lang="fr"><![CDATA[La description de l'Administrateur sur le membre]]></value>
 		<value xml:lang="ru"><![CDATA[Заметки администратора о пользователях]]></value>
 		<value xml:lang="es"><![CDATA[Nota del administrador acerca de los usuarios]]></value>
 		<value xml:lang="tr"><![CDATA[Yöneticinin kullanıcılar hakkındaki kısa notu]]></value>

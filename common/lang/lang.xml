@@ -2491,7 +2491,8 @@ Please check the DB information again]]></value>
 データベースの情報をもう一度確認して下さい。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[连接DB时发生错误。
 请重新确认DB信息。]]></value>
-		<value xml:lang="zh-TW"><![CDATA[連接資料庫時發生錯誤。\n請重新確認資料庫資訊。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[連接資料庫時發生錯誤。
+		請重新確認資料庫資訊。]]></value>
 		<value xml:lang="fr"><![CDATA[Erreur a lieu en essayant connecter à la Base de Données.
 Vérifiez encore une fois les informations sur la Base de Données, S.V.P.]]></value>
 		<value xml:lang="de"><![CDATA[Error has occurred while connecting DB.
@@ -3403,7 +3404,7 @@ Xin vui lòng kiểm tra lại thông tin Database.]]></value>
 ]]></value>
 		<value xml:lang="tr"><![CDATA[
 	FTP hesap bilgileri aşağıdaki durumlarda kullanılabilir. <br />
-	1. PHP güvenli mod ayarları etkinse, XE, FTP\'yi kullanarak yüklenecektir.  <br />
+	1. PHP güvenli mod ayarları etkinse, XE, FTP'yi kullanarak yüklenecektir.  <br />
 	2. Otomatik güncellemeler, FTP bilgilerini kullanabilir. <br />
 	   Hesap bilgileri files/config/ftp.config.php adresinde depolanacaktır.  <br />
 	   Kurulumun ardından, hesap bilgilerini yönetici sayfasından ayarlayabilir veya silebilirsiniz. <br />
@@ -3431,7 +3432,7 @@ Xin vui lòng kiểm tra lại thông tin Database.]]></value>
 		<value xml:lang="fr"><![CDATA[PHP의 safe_mode가 On일 경우 FTP 정보를 꼭 입력해주셔야 XE의 설치 및 사용이 가능합니다]]></value>
 		<value xml:lang="de"><![CDATA[PHP의 safe_mode가 On일 경우 FTP 정보를 꼭 입력해주셔야 XE의 설치 및 사용이 가능합니다]]></value>
 		<value xml:lang="es"><![CDATA[Si la la variable safe_mode está activa[safe_mode=On], debe rellenar los datos de FTP para seguir instalando y usar con normalidad el XE.]]></value>
-		<value xml:lang="tr"><![CDATA[Eğer PHP güvenli mod ayarları etkinse, XE\'yi kurmak için FTP hesap bilgilerini girmelisiniz.]]></value>
+		<value xml:lang="tr"><![CDATA[Eğer PHP güvenli mod ayarları etkinse, XE'yi kurmak için FTP hesap bilgilerini girmelisiniz.]]></value>
 		<value xml:lang="vi"><![CDATA[Nếu safe_mode của PHP mở, bạn có thể cài đặt các thành phần bổ xung cho XE một cách tự động qua FTP.]]></value>
 		<value xml:lang="mn"><![CDATA[PHP의 safe_mode가 Onбайх тохиолдолд , FTP мэдээллийг заавал оруулснаар XE идэвжvvлэх болон хэрэглэх боломжтой болно.]]></value>
 	</item>
@@ -3585,7 +3586,7 @@ Xin vui lòng kiểm tra lại thông tin Database.]]></value>
 		<item name="invalid_email">
 			<value xml:lang="ko"><![CDATA[%s의 값은 올바른 메일 주소가 아닙니다.]]></value>
 			<value xml:lang="en"><![CDATA[The value of %s is NOT a valid email address.]]></value>
-			<value xml:lang="jp"><![CDATA[%sのパターンが正しくありません。 (例: zbxe@xepressengine.com)]]></value>
+			<value xml:lang="jp"><![CDATA[%sのパターンが正しくありません。 (例: developers@xepressengine.com)]]></value>
 			<value xml:lang="zh-CN"><![CDATA[%s格式有误。（例：developers@xpressengine.com)]]></value>
 			<value xml:lang="zh-TW"><![CDATA[%s格式有誤。(例：developers@xpressengine.com)]]></value>
 			<value xml:lang="fr"><![CDATA[Le format de %s est invalide. ex) developers@xpressengine.com]]></value>
@@ -3598,31 +3599,47 @@ Xin vui lòng kiểm tra lại thông tin Database.]]></value>
 		</item>
 		<item name="invalid_userid">
 			<value xml:lang="ko"><![CDATA[%s의 값은 영문, 숫자, _만 가능하며 첫 글자는 영문이어야 합니다.]]></value>
-			<value xml:lang="en"><![CDATA[The %s field allows only alphabets, numbers and underscore(_).\nThe first letter should be an alaphabet.]]></value>
-			<value xml:lang="jp"><![CDATA[%sの形式が正しくありません。\n半角の英数と記号「_」を組み合わせて入力して下さい。頭字は半角英文字でなければなりません。]]></value>
+			<value xml:lang="en"><![CDATA[The %s field allows only alphabets, numbers and underscore(_).
+			The first letter should be an alaphabet.]]></value>
+			<value xml:lang="jp"><![CDATA[%sの形式が正しくありません。
+			半角の英数と記号「_」を組み合わせて入力して下さい。頭字は半角英文字でなければなりません。]]></value>
 			<value xml:lang="zh-CN"><![CDATA[%s只能用英文，数字和 _，首个字符必须是英文字母。]]></value>
 			<value xml:lang="zh-TW"><![CDATA[%s只允許使用英文，數字和底線，開頭必須是英文。]]></value>
-			<value xml:lang="fr"><![CDATA[La format de %s n\'est pas convenable.\nToutes les lettres devraient se composer des alphabets, des chiffres ou du soulignage(_) Et la première lettre doit être un de l\'alphabet.]]></value>
+			<value xml:lang="fr"><![CDATA[La format de %s n'est pas convenable.
+			Toutes les lettres devraient se composer des alphabets, des chiffres ou du soulignage(_) Et la première lettre doit être un de l'alphabet.]]></value>
 			<value xml:lang="de"><![CDATA[Das Format von% s ist ungültig. \ \ Nall Werte sollte aus Alphabet, Zahlen oder Unterstrich (_) und den ersten Buchstaben sollten Alphabet]]></value>
-			<value xml:lang="ru"><![CDATA[The format of %s is invalid.\nAll values should consist of alphabets, numbers or underscore(_) and the first letter should be alphabet]]></value>
-			<value xml:lang="es"><![CDATA[Formato inválido en el %s.\nSólo pueden introducir los alfabetos o los dígitos númericos o el guión bajo(_). Además, el primer valor sólo puede ser una letra de alfabeto]]></value>
-			<value xml:lang="tr"><![CDATA[%s biçimi geçersiz.\nTüm değerler alfabe harfleri, sayılar veya alttire(_)\'den oluşmalı ve ilk karakter bir harf olmalıdır.]]></value>
-			<value xml:lang="vi"><![CDATA[Định dạng của %s Không hợp lệ.\nGiá trị hợp lệ bao gồm các kí tự từ a-z, các chữ số và dấu gạch dưới (_).]]></value>
-			<value xml:lang="mn"><![CDATA[%s-ын хэлбэр буруу байна. .\n Латин vсэг, тоо болон  \'_\'-р оруулж болох бeгeeд эхлэл нь vсэг байх шаардлагатай. ]]></value>
+			<value xml:lang="ru"><![CDATA[The format of %s is invalid.
+			All values should consist of alphabets, numbers or underscore(_) and the first letter should be alphabet]]></value>
+			<value xml:lang="es"><![CDATA[Formato inválido en el %s.
+			Sólo pueden introducir los alfabetos o los dígitos númericos o el guión bajo(_). Además, el primer valor sólo puede ser una letra de alfabeto]]></value>
+			<value xml:lang="tr"><![CDATA[%s biçimi geçersiz.
+			Tüm değerler alfabe harfleri, sayılar veya alttire(_)'den oluşmalı ve ilk karakter bir harf olmalıdır.]]></value>
+			<value xml:lang="vi"><![CDATA[Định dạng của %s Không hợp lệ.
+			Giá trị hợp lệ bao gồm các kí tự từ a-z, các chữ số và dấu gạch dưới (_).]]></value>
+			<value xml:lang="mn"><![CDATA[%s-ын хэлбэр буруу байна. .
+			Латин vсэг, тоо болон  '_'-р оруулж болох бeгeeд эхлэл нь vсэг байх шаардлагатай. ]]></value>
 		</item>
 		<item name="invalid_user_id">
 			<value xml:lang="ko"><![CDATA[%s의 값은 영문, 숫자, _만 가능하며 첫 글자는 영문이어야 합니다.]]></value>
-			<value xml:lang="en"><![CDATA[The %s field allows only alphabets, numbers and underscore(_).\nThe first letter should be an alaphabet.]]></value>
-			<value xml:lang="jp"><![CDATA[%sの形式が正しくありません。\n半角の英数と記号「_」を組み合わせて入力して下さい。頭字は半角英文字でなければなりません。]]></value>
+			<value xml:lang="en"><![CDATA[The %s field allows only alphabets, numbers and underscore(_).
+			The first letter should be an alaphabet.]]></value>
+			<value xml:lang="jp"><![CDATA[%sの形式が正しくありません。
+			半角の英数と記号「_」を組み合わせて入力して下さい。頭字は半角英文字でなければなりません。]]></value>
 			<value xml:lang="zh-CN"><![CDATA[%s只能用英文，数字和 _，首个字符必须是英文字母。]]></value>
 			<value xml:lang="zh-TW"><![CDATA[%s只允許使用英文，數字和底線，開頭必須是英文。]]></value>
-			<value xml:lang="fr"><![CDATA[La format de %s n\'est pas convenable.\nToutes les lettres devraient se composer des alphabets, des chiffres ou du soulignage(_) Et la première lettre doit être un de l\'alphabet.]]></value>
+			<value xml:lang="fr"><![CDATA[La format de %s n'est pas convenable.
+			Toutes les lettres devraient se composer des alphabets, des chiffres ou du soulignage(_) Et la première lettre doit être un de l'alphabet.]]></value>
 			<value xml:lang="de"><![CDATA[Das Format von% s ist ungültig. \ \ Nall Werte sollte aus Alphabet, Zahlen oder Unterstrich (_) und den ersten Buchstaben sollten Alphabet]]></value>
-			<value xml:lang="ru"><![CDATA[The format of %s is invalid.\nAll values should consist of alphabets, numbers or underscore(_) and the first letter should be alphabet]]></value>
-			<value xml:lang="es"><![CDATA[Formato inválido en el %s.\nSólo pueden introducir los alfabetos o los dígitos númericos o el guión bajo(_). Además, el primer valor sólo puede ser una letra de alfabeto]]></value>
-			<value xml:lang="tr"><![CDATA[%s biçimi geçersiz.\nTüm değerler alfabe harfleri, sayılar veya alttire(_)\'den oluşmalı ve ilk karakter bir harf olmalıdır.]]></value>
-			<value xml:lang="vi"><![CDATA[Định dạng của %s Không hợp lệ.\nGiá trị hợp lệ bao gồm các kí tự từ a-z, các chữ số và dấu gạch dưới (_).]]></value>
-			<value xml:lang="mn"><![CDATA[%s-ын хэлбэр буруу байна. .\n Латин vсэг, тоо болон  \'_\'-р оруулж болох бeгeeд эхлэл нь vсэг байх шаардлагатай. ]]></value>
+			<value xml:lang="ru"><![CDATA[The format of %s is invalid.
+			All values should consist of alphabets, numbers or underscore(_) and the first letter should be alphabet]]></value>
+			<value xml:lang="es"><![CDATA[Formato inválido en el %s.
+			Sólo pueden introducir los alfabetos o los dígitos númericos o el guión bajo(_). Además, el primer valor sólo puede ser una letra de alfabeto]]></value>
+			<value xml:lang="tr"><![CDATA[%s biçimi geçersiz.
+			Tüm değerler alfabe harfleri, sayılar veya alttire(_)'den oluşmalı ve ilk karakter bir harf olmalıdır.]]></value>
+			<value xml:lang="vi"><![CDATA[Định dạng của %s Không hợp lệ.
+			Giá trị hợp lệ bao gồm các kí tự từ a-z, các chữ số và dấu gạch dưới (_).]]></value>
+			<value xml:lang="mn"><![CDATA[%s-ын хэлбэр буруу байна. .
+			Латин vсэг, тоо болон  '_'-р оруулж болох бeгeeд эхлэл нь vсэг байх шаардлагатай. ]]></value>
 		</item>
 		<item name="invalid_homepage">
 			<value xml:lang="ko"><![CDATA[%s의 형식이 잘못되었습니다. (예: http://www.xpressengine.com)]]></value>
@@ -3630,7 +3647,7 @@ Xin vui lòng kiểm tra lại thông tin Database.]]></value>
 			<value xml:lang="jp"><![CDATA[%sの形式が正しくありません。 (例: http://www.xepressengine.com)]]></value>
 			<value xml:lang="zh-CN"><![CDATA[%s格式有误。（例： http://xpressengine.com/)]]></value>
 			<value xml:lang="zh-TW"><![CDATA[%s格式有誤。(例： http://xpressengine.com/)]]></value>
-			<value xml:lang="fr"><![CDATA[La format de %s n\'est pas convenable. ex) http://xpressengine.com/]]></value>
+			<value xml:lang="fr"><![CDATA[La format de %s n'est pas convenable. ex) http://xpressengine.com/]]></value>
 			<value xml:lang="de"><![CDATA[Das Format von% s ist ungültig. ex) http://xpressengine.com/]]></value>
 			<value xml:lang="es"><![CDATA[Formato url inválido en el %s (ej: http://xpressengine.com/)]]></value>
 			<value xml:lang="tr"><![CDATA[%s biçimi geçersiz. örn.) http://xpressengine.com/]]></value>
@@ -3647,7 +3664,7 @@ Xin vui lòng kiểm tra lại thông tin Database.]]></value>
 			<value xml:lang="jp"><![CDATA[%sの形式が正しくありません。ハングルのみ入力して下さい。]]></value>
 			<value xml:lang="zh-CN"><![CDATA[%s只能输入中文]]></value>
 			<value xml:lang="zh-TW"><![CDATA[%s只能輸入中文]]></value>
-			<value xml:lang="fr"><![CDATA[La format de %s n\'est pas convenable. Entrez seulement en coréen, S.V.P.]]></value>
+			<value xml:lang="fr"><![CDATA[La format de %s n'est pas convenable. Entrez seulement en coréen, S.V.P.]]></value>
 			<value xml:lang="de"><![CDATA[Das Format von% s ist ungültig. Koreanisch Bitte geben Sie nur]]></value>
 			<value xml:lang="es"><![CDATA[Sólo puede introducir los caracteres coreanos en el %s]]></value>
 			<value xml:lang="tr"><![CDATA[%s biçimi geçersiz. Lütfen sadece Korece karakterler giriniz.]]></value>
@@ -3660,7 +3677,7 @@ Xin vui lòng kiểm tra lại thông tin Database.]]></value>
 			<value xml:lang="jp"><![CDATA[%sの形式が正しくありません。ハングルと半角数字で入力して下さい。]]></value>
 			<value xml:lang="zh-CN"><![CDATA[%s只能输入中文或数字]]></value>
 			<value xml:lang="zh-TW"><![CDATA[%s只能輸入中文或數字]]></value>
-			<value xml:lang="fr"><![CDATA[La format de %s n\'est pas convenable. Entrez seulement des lettres d\'alphabet coréen ou des chiffres, S.V.P.]]></value>
+			<value xml:lang="fr"><![CDATA[La format de %s n'est pas convenable. Entrez seulement des lettres d'alphabet coréen ou des chiffres, S.V.P.]]></value>
 			<value xml:lang="de"><![CDATA[Das Format von% s ist ungültig. Bitte geben Sie Ihre Koreanisch oder Zahlen]]></value>
 			<value xml:lang="es"><![CDATA[Sólo puede introducir los caracteres coreanos o números en el %s]]></value>
 			<value xml:lang="tr"><![CDATA[%s biçimi geçersiz. Lütfen Korece karakterler ve numaralar kullanınınız.]]></value>
@@ -3673,7 +3690,7 @@ Xin vui lòng kiểm tra lại thông tin Database.]]></value>
 			<value xml:lang="jp"><![CDATA[%sの形式が正しくありません。半角英文字のみ入力して下さい。]]></value>
 			<value xml:lang="zh-CN"><![CDATA[%s只能输入英文字母]]></value>
 			<value xml:lang="zh-TW"><![CDATA[%s只能輸入英文字母]]></value>
-			<value xml:lang="fr"><![CDATA[La format de %s n\'est pas convenable. Entrez seulement en alphabet, S.V.P.]]></value>
+			<value xml:lang="fr"><![CDATA[La format de %s n'est pas convenable. Entrez seulement en alphabet, S.V.P.]]></value>
 			<value xml:lang="de"><![CDATA[Das Format von% s ist ungültig. Bitte geben Sie nur Alphabete]]></value>
 			<value xml:lang="es"><![CDATA[Sólo puede introducir los alfabetos en el %s]]></value>
 			<value xml:lang="tr"><![CDATA[%s biçimi geçersiz. Lütfen sadece harfleri kullanınız.]]></value>
@@ -3686,7 +3703,7 @@ Xin vui lòng kiểm tra lại thông tin Database.]]></value>
 			<value xml:lang="jp"><![CDATA[%sの形式が正しくありません。半角英数で入力して下さい。]]></value>
 			<value xml:lang="zh-CN"><![CDATA[%s只能输入英文或数字]]></value>
 			<value xml:lang="zh-TW"><![CDATA[%s只能輸入英文或數字]]></value>
-			<value xml:lang="fr"><![CDATA[La format de %s n\'est pas convenable. Entrez seulement des lettres d\'alphabet ou des chiffres.]]></value>
+			<value xml:lang="fr"><![CDATA[La format de %s n'est pas convenable. Entrez seulement des lettres d'alphabet ou des chiffres.]]></value>
 			<value xml:lang="de"><![CDATA[Das Format von% s ist ungültig. Bitte geben Sie Ihre Alphabete oder Zahlen]]></value>
 			<value xml:lang="es"><![CDATA[Sólo puede introducir los alfanuméricos en el %s es inválido]]></value>
 			<value xml:lang="tr"><![CDATA[ %s biçimi geçersiz. Lütfen harfleri ve sayıları kullanınız.]]></value>
@@ -3699,7 +3716,7 @@ Xin vui lòng kiểm tra lại thông tin Database.]]></value>
 			<value xml:lang="jp"><![CDATA[%sの形式が正しくありません。半角数字で入力して下さい。]]></value>
 			<value xml:lang="zh-CN"><![CDATA[%s只能输入数字]]></value>
 			<value xml:lang="zh-TW"><![CDATA[%s只能輸入數字]]></value>
-			<value xml:lang="fr"><![CDATA[La format de %s n\'est pas convenable. Entrez seulement des chiffres.]]></value>
+			<value xml:lang="fr"><![CDATA[La format de %s n'est pas convenable. Entrez seulement des chiffres.]]></value>
 			<value xml:lang="de"><![CDATA[Das Format von% s ist ungültig. Bitte geben Sie nur Zahlen]]></value>
 			<value xml:lang="es"><![CDATA[Sólo puede introducir los dígitos numéricos en el %s]]></value>
 			<value xml:lang="tr"><![CDATA[%s biçimi geçersiz . Lütfen sadece numaraları kullanın.]]></value>

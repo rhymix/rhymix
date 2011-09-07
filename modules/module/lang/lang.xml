@@ -682,7 +682,7 @@
 		<value xml:lang="fr"><![CDATA[C'est la valeur qui se représentera dans le titre de navigateur Web. Ce sera encore utilisé dans RSS/Rétrolien.]]></value>
 		<value xml:lang="ru"><![CDATA[Это будет показано в заголовке браузера. Также, это будет использоваться в RSS/Трекбеке.]]></value>
 		<value xml:lang="es"><![CDATA[Esto es el valor que se mostrará en el título del navegador. También es usado en RSS/Trackback.]]></value>
-		<value xml:lang="tr"><![CDATA[Bu girdi tarayıcı başlığında gösterilecektir. Aynı zamanda RSS/Geri İzleme(trackback)\'de de kullanılacaktır.]]></value>
+		<value xml:lang="tr"><![CDATA[Bu girdi tarayıcı başlığında gösterilecektir. Aynı zamanda RSS/Geri İzleme(trackback)'de de kullanılacaktır.]]></value>
 		<value xml:lang="vi"><![CDATA[Nó sẽ hiển thị trên tiêu đề của trình duyệt và trong RSS/Trackback.]]></value>
 	</item>
 	<item name="about_mid">
@@ -924,7 +924,7 @@ Le module [Administration des Modules] montera tous les modules installés et vo
 		<value xml:lang="fr"><![CDATA[언어별로 다르게 설정하고 싶으시면 언어코드 찾기를 이용해주세요]]></value>
 		<value xml:lang="ru"><![CDATA[언어별로 다르게 설정하고 싶으시면 언어코드 찾기를 이용해주세요]]></value>
 		<value xml:lang="es"><![CDATA[언어별로 다르게 설정하고 싶으시면 언어코드 찾기를 이용해주세요]]></value>
-		<value xml:lang="tr"><![CDATA[Eğer tek tek yapılandırma yapmak istiyorsanız, 'dil kodu bul'\' u kullanınız.]]></value>
+		<value xml:lang="tr"><![CDATA[Eğer tek tek yapılandırma yapmak istiyorsanız, 'dil kodu bul'' u kullanınız.]]></value>
 		<value xml:lang="vi"><![CDATA[Nếu bạn muốn sử dụng định hình riêng, hãy sử dụng 'Tìm kiếm mã ngôn ngữ']]></value>
 	</item>
 	<item name="about_file_extension">
