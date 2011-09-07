@@ -24,6 +24,13 @@
 					<input type="text" name="email_address" value="{$member_info->email_address}" disabled="disabled" />
 				</p>
 			</li>
+			<li>
+				<p class="q">{$lang->password} <em style="color:red">*</em></p>
+				<p class="a">
+					<input type="hidden" name="password" value="{$member_info->password}" />
+					<input type="text" name="reset_password" value="" />
+				</p>
+			</li>
 			<li loop="$formTags=>$formTag">
 				<p class="q">{$formTag->title}</p>
 				<div class="a" cond="$formTag->name != 'signature'">{$formTag->inputTag}</div>

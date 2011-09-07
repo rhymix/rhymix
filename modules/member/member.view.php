@@ -45,18 +45,27 @@
                 return $this->dispMemberSignUpForm();
             }
 
+            $oModuleModel = &getModel('module');
+            $member_config = $oModuleModel->getModuleConfig('member');
+            Context::set('member_config', $member_config);
+
+			$memberInfo = get_object_vars(Context::get('member_info'));
+			Context::set('memberInfo', $memberInfo);
             $site_module_info = Context::get('site_module_info');
 			$columnList = array('member_srl', 'user_name', 'nick_name', 'homepage', 'blog', 'birthday', 'regdate', 'last_login');
             $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl, $site_module_info->site_srl, $columnList);
             unset($member_info->password);
             unset($member_info->email_id);
             unset($member_info->email_host);
-            unset($member_info->email_address);
 
             if(!$member_info->member_srl) return $this->dispMemberSignUpForm();
 
-            Context::set('member_info', $member_info);
-            Context::set('extend_form_list', $oMemberModel->getCombineJoinForm($member_info));
+            Context::set('memberInfo', get_object_vars($member_info));
+
+			$extendForm = $oMemberModel->getCombineJoinForm($member_info);
+            unset($extendForm->find_member_account);
+            unset($extendForm->find_member_answer);
+            Context::set('extend_form_list', $extendForm);
             if ($member_info->member_srl == $logged_info->member_srl)
                 Context::set('openids', $oMemberModel->getMemberOpenIDByMemberSrl($member_srl));
 
@@ -75,7 +84,10 @@
             if(!$trigger_output->toBool()) return $trigger_output;
             // Error appears if the member is not allowed to join
             if($this->member_config->enable_join != 'Y') return $this->stop('msg_signup_disabled');
-            Context::set('extend_form_list', $oMemberModel->getCombineJoinForm($member_info));
+
+			$oMemberAdminView = &getAdminView('member');
+			$formTags = $oMemberAdminView->_getMemberInputTag($member_info);
+			Context::set('formTags', $formTags);
 
             $member_config = $oMemberModel->getMemberConfig();
             Context::set('member_config', $member_config);

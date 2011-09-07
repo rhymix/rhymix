@@ -19,11 +19,33 @@
         function procMemberAdminInsert() {
            // if(Context::getRequestMethod() == "GET") return new Object(-1, "msg_invalid_request");
             // Extract the necessary information in advance
-            $args = Context::gets('member_srl','user_id','user_name','nick_name','homepage','blog','birthday','email_address','password','allow_mailing','allow_message','denied','is_admin','description','group_srl_list','limit_date');
+            $args = Context::gets('member_srl','email_address','allow_mailing','allow_message','denied','is_admin','description','group_srl_list','limit_date');
+            $oMemberModel = &getModel ('member');
+            $config = $oMemberModel->getMemberConfig ();
+			$getVars = array();
+			if ($config->signupForm){
+				foreach($config->signupForm as $formInfo){
+					if($formInfo->isDefaultForm && $formInfo->isUse || $formInfo->required || $formInfo->mustRequired){
+						$getVars[] = $formInfo->name;
+					}
+				}
+			}
+			foreach($getVars as $val){
+				$args->{$val} = Context::get($val);
+			}
+			$args->member_srl = Context::get('member_srl');
+			if (Context::get('reset_password'))
+				$args->password = Context::get('reset_password');
+			else unset($args->password);
+
             // Remove some unnecessary variables from all the vars
             $all_args = Context::getRequestVars();
             unset($all_args->module);
             unset($all_args->act);
+            unset($all_args->mid);
+            unset($all_args->error_return_url);
+            unset($all_args->success_return_url);
+            unset($all_args->ruleset);
             if(!isset($args->limit_date)) $args->limit_date = "";
             // Add extra vars after excluding necessary information from all the requested arguments
             $extra_vars = delObjectVars($all_args, $args);
@@ -166,7 +188,7 @@
 					// set extends form
 					if (!$signupItem->isDefaultForm){
 						$extendItem = $extendItems[$all_args->{$key.'_member_join_form_srl'}];
-						$signupItem->type = $extendItem->type;
+						$signupItem->type = $extendItem->column_type;
 						$signupItem->member_join_form_srl = $extendItem->member_join_form_srl;
 						$signupItem->title = $extendItem->column_title;
 						$signupItem->description = $extendItem->description;

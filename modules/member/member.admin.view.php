@@ -141,7 +141,6 @@
         function dispMemberAdminInsert() {
             // retrieve extend form
             $oMemberModel = &getModel('member');
-            $extend_form_list = $oMemberModel->getCombineJoinForm($this->memberInfo);
 
             $memberInfo = Context::get('member_info');
             $memberInfo->signature = $oMemberModel->getSignature($this->memberInfo->member_srl);
@@ -162,19 +161,27 @@
                 Context::set('editor', $editor);
             }
 
-			$memberInfo = get_object_vars($memberInfo);
+			$formTags = $this->_getMemberInputTag($memberInfo);
 
+			Context::set('formTags', $formTags);
+            $this->setTemplateFile('insert_member');
+        }
+
+		function _getMemberInputTag($memberInfo){
+            $oMemberModel = &getModel('member');
+			$memberInfo = get_object_vars($memberInfo);
 			$member_config = $oMemberModel->getMemberConfig();
+            $extend_form_list = $oMemberModel->getCombineJoinForm($this->memberInfo);
 			$formTags = array();
 			global $lang;
 
 			foreach($member_config->signupForm as $no=>$formInfo){
 				if (!$formInfo->isUse)continue;
-				if ($formInfo->name == 'email_address') continue;
+				if ($formInfo->name == 'email_address' || $formInfo->name == 'password') continue;
 				unset($formTag);
 				$inputTag = '';
 				$formTag->title = $formInfo->title;
-				if ($formInfo->required || $formInfo->mustRequired && $formInfo->name != 'password') $formTag->title = $formTag->title.' <em>*</em>'; 
+				if ($formInfo->required || $formInfo->mustRequired && $formInfo->name != 'password') $formTag->title = $formTag->title.' <em style="color:red">*</em>'; 
 				$formTag->name = $formInfo->name;
 				if($formInfo->isDefaultForm){
 					if($formInfo->imageType){
@@ -210,9 +217,6 @@
 								,$memberInfo['birthday']
 								,zdate($memberInfo['birthday'], 'Y-m-d', false)
 								,$lang->cmd_delete);
-					}elseif($formInfo->name == 'password'){
-						$inputTag = sprintf('<input type="text" name="reset_%s" value="" />'
-									,$formInfo->name);
 					}elseif($formInfo->name == 'find_account_question'){
 						$inputTag = '<select name="find_account_question" style="width:290px">%s</select><br />';
 						$optionTag = array();
@@ -253,15 +257,18 @@
 
 					}elseif($extendForm->column_type == 'checkbox'){
 						if($extendForm->default_value){
+							$__i = 0;
 							foreach($extendForm->default_value as $v){
+								$checked = '';
 								if(is_array($extendForm->value) && in_array($v, $extendForm->value))$checked = 'checked="checked"';
-								$inputTag .= sprintf('<input type="checkbox" id="%s" name="%s" value="%s" %s /><label for="%s">%s</label>'
-											,$extendForm->column_name
+								$inputTag .= sprintf('<input type="checkbox" id="%s" name="%s[]" value="%s" %s /><label for="%s">%s</label>'
+											,$extendForm->column_name.$__i
 											,$extendForm->column_name
 											,htmlspecialchars($v)
 											,$checked
-											,$extendForm->column_name
+											,$extendForm->column_name.$__i
 											,$v);
+								$__i++;
 							}
 						}
 					}elseif($extendForm->column_type == 'radio'){
@@ -294,6 +301,7 @@
 						}
 						$inputTag = sprintf($inputTag, implode('', $optionTag));
 					}elseif($extendForm->column_type == 'kr_zip'){
+						Context::loadFile(array('./modules/member/tpl/js/krzip_search.js', 'body'));
 						$content = <<<EOD
 						<div class="krZip">
 							<div class="a" id="zone_address_search_%s" %s>
@@ -302,6 +310,7 @@
 								<button type="button">%s</button>
 							</div>
 							<div class="a" id="zone_address_list_%s" style="display:none">
+								<input type="hidden" name="%s[]" value="%s" %s />
 								<select name="%s[]" id="address_list_%s"></select>
 								<button type="button">%s</button>
 							</div>
@@ -310,15 +319,16 @@
 								<input type="text" name="%s[]" id="krzip_address2_%s" value="%s" />
 							</div>
 						</div>
-						<load target="js/krzip_search.js" type="body" />
 						<script type="text/javascript">jQuery(function($){ $.krzip('%s') });</script>
 EOD;
+						$hiddenDisabled = $extendForm->value[0]?'':'disabled="disabled"';
 						$inputTag = sprintf($content 
-											,$extendForm->column_name,  $extendForm->value[0]?'':'style="display:none"'
+											,$extendForm->column_name, ''
 											,$extendForm->column_name,  $lang->msg_kr_address
 											,$extendForm->column_name, $extendForm->value[0]
 											,$lang->cmd_search
 											,$extendForm->column_name
+											,$extendForm->column_name, $extendForm->value[0], $hiddenDisabled
 											,$extendForm->column_name, $extendForm->column_name
 											,$lang->cmd_search_again
 											,$extendForm->column_name, $lang->msg_kr_address_etc
@@ -343,9 +353,8 @@ EOD;
 				$formTag->inputTag = $inputTag;
 				$formTags[] = $formTag;
 			}
-			Context::set('formTags', $formTags);
-            $this->setTemplateFile('insert_member');
-        }
+			return $formTags;
+		}
 
         /**
          * @brief display member delete form

@@ -473,15 +473,23 @@
             // call a trigger (before) 
             $trigger_output = ModuleHandler::triggerCall ('member.procMemberInsert', 'before', $config);
             if (!$trigger_output->toBool ()) return $trigger_output;
-
             // Check if an administrator allows a membership
             if ($config->enable_join != 'Y') return $this->stop ('msg_signup_disabled');
-
             // Check if the user accept the license terms (only if terms exist)
             if ($config->agreement && Context::get('accept_agreement')!='Y') return $this->stop('msg_accept_agreement');
 
             // Extract the necessary information in advance
-            $args = Context::gets('user_id','user_name','nick_name','homepage','blog','birthday','email_address','password','password1','allow_mailing','find_account_question','find_account_answer');
+			$getVars = array();
+			if ($config->signupForm){
+				foreach($config->signupForm as $formInfo){
+					if($formInfo->isDefaultForm && $formInfo->isUse || $formInfo->required || $formInfo->mustRequired){
+						$getVars[] = $formInfo->name;
+					}
+				}
+			}
+			foreach($getVars as $val){
+				$args->{$val} = Context::get($val);
+			}
             $args->member_srl = getNextSequence();
             $args->list_order = -1 * $args->member_srl;
 			if($args->password1) $args->password = $args->password1;
@@ -497,6 +505,9 @@
             unset($all_args->accept_agreement);
             unset($all_args->signature);
             unset($all_args->password2);
+            unset($all_args->mid);
+            unset($all_args->error_return_url);
+            unset($all_args->ruleset);
 
             // Set the user state as "denied" when using mail authentication
             if ($config->enable_confirm == 'Y') $args->denied = 'Y';
@@ -504,6 +515,10 @@
             $extra_vars = delObjectVars($all_args, $args);
             $args->extra_vars = serialize($extra_vars);
             // Execute insert or update depending on the value of member_srl
+
+			if (!$args->user_id) $args->user_id = 't'.$args->member_srl;
+			if (!$args->user_name) $args->user_name = $args->member_srl;
+			if (!$args->nick_name) $args->nick_name = $args->member_srl;
             $output = $this->insertMember($args);
             if(!$output->toBool()) return $output;
 
