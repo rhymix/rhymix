@@ -21,7 +21,7 @@
 			</p>
 		</li>
 		<li class="xml ttxml modulefinder">
-		<p class="q">{$lang->data_destination} <br />가상 사이트의 도메인을 입력한 후 <em>사이트 찾기</em>를 클릭하면 됩니다. 도메인을 빈 칸으로 남겨두면 모든 사이트의 목록을 보여줍니다.</p>
+		<p class="q">{$lang->data_destination} <br />{$lang->import_desc}</p>
 			<div class="a">
 				<input type="text" name="site_keyword" /> <a href="#suggestion1" class="tgAnchor findsite">{$lang->find_site}</a>
 				<div id="suggestion1" class="tgContent suggestion">
@@ -105,7 +105,6 @@
 		<span class="btn"><input type="submit" value="{$lang->importer}" /></span>
 	</div>
 </form>
-<!-- process 진행 상황 -->
 <a href="#process" class="modalAnchor"></a>
 <div class="modal" id="process" style="display:none;">
     <form action="./" method="get" onsubmit="return doImport()" id="fo_process" class="fg">
@@ -136,4 +135,3 @@ jQuery('a.modalAnchor')
 		return false;
 		});
 </script>
-<!--// process 진행상황 끝 -->

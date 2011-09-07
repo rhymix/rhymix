@@ -7,16 +7,15 @@
 		<h1 class="h1">{$lang->document}</h1>
 		<div class="table even">
 			<div class="cnb">
-				<a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList')}" <!--@if($search_keyword == '')-->class="active"<!--@end-->>All</a>
+				<a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList')}" <!--@if($search_keyword == '')-->class="active"<!--@end-->>{$lang->all}</a>
 				| <a href="{getUrl('search_target', 'is_secret', 'search_keyword', 'N')}" <!--@if($search_target == 'is_secret' && $search_keyword == 'N')-->class="active"<!--@end-->>{$status_name_list['PUBLIC']}</a>
 				| <a href="{getUrl('search_target', 'is_secret', 'search_keyword', 'Y')}" <!--@if($search_target == 'is_secret' && $search_keyword == 'Y')-->class="active"<!--@end-->>{$status_name_list['SECRET']}</a>
 				| <a href="{getUrl('search_target', 'is_secret', 'search_keyword', 'temp')}" <!--@if($search_target == 'is_secret' && $search_keyword == 'temp')-->class="active"<!--@end-->>{$status_name_list['TEMP']}</a>
-				| <a href="{getUrl('', 'module', 'admin', 'act', 'dispTrashAdminList', 'origin_module', 'document')}">{$lang->cmd_trash}</a>
 			</div>
 			<table width="100%" border="1" cellspacing="0" id="documentListTable">
 				<caption>
 					<!--@if($search_keyword == '')-->
-					All
+					{$lang->all}
 					<!--@elseif($search_target == 'is_secret' && $search_keyword == 'N')-->
 					{$status_name_list['PUBLIC']}
 					<!--@elseif($search_target == 'is_secret' && $search_keyword == 'Y')-->

@@ -940,4 +940,11 @@ Le module [Administration des Modules] montera tous les modules installés et vo
 		<value xml:lang="ko"><![CDATA[모듈 등록에 실패하였습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Fail Regist Module]]></value>
 	</item>
+	<item name="multilingual_desc">
+		<value xml:lang="ko"><![CDATA[현재 12 종류의 다국어 문자를 지원할 수 있습니다. 다른 종류의 다국어 지원을 원하는 경우 /common/lang/ 폴더의 다국어 가운데 하나의 세트를 번역해서 XE 개발자(contact@xpressengine.com)에게 보내주세요.]]></value>
+	</item>
+	<item name="add_word">
+		<value xml:lang="ko"><![CDATA[새로운 단어 또는 문장 추가...]]></value>
+		<value xml:lang="en"><![CDATA[Add New Word...]]></value>
+	</item>
 </lang>

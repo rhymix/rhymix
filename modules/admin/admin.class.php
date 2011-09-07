@@ -119,46 +119,50 @@
 					'subMenu'=>array('importer'),
 				),
 				10=>array(
+					'module'=>'trash',
+					'subMenu'=>array('trash'),
+				),
+				11=>array(
 					'module'=>'admin',
 					'subMenu'=>array('theme'),
 				),
-				11=>array(
+				12=>array(
 					'module'=>'autoinstall',
 					'subMenu'=>array('easyInstall'),
 				),
-				12=>array(
+				13=>array(
 					'module'=>'layout',
 					'subMenu'=>array('installedLayout'),
 				),
-				13=>array(
+				14=>array(
 					'module'=>'module',
 					'subMenu'=>array('installedModule'),
 				),
-				14=>array(
+				15=>array(
 					'module'=>'widget',
 					'subMenu'=>array('installedWidget'),
 				),
-				15=>array(
+				16=>array(
 					'module'=>'addon',
 					'subMenu'=>array('installedAddon'),
 				),
-				16=>array(
+				17=>array(
 					'module'=>'editor',
 					'subMenu'=>array('editor'),
 				),
-				17=>array(
+				18=>array(
 					'module'=>'spamfilter',
 					'subMenu'=>array('spamFilter'),
 				),
-				18=>array(
+				19=>array(
 					'module'=>'admin',
 					'subMenu'=>array('adminConfiguration', 'adminMenuSetup'),
 				),
-				19=>array(
+				20=>array(
 					'module'=>'file',
 					'subMenu'=>array('fileUpload'),
 				),
-				20=>array(
+				21=>array(
 					'module'=>'module',
 					'subMenu'=>array('filebox'),
 				),
@@ -222,6 +226,7 @@
 				case 'rss':
 				case 'multilingual':
 				case 'importer':
+				case 'trash':
 					return 'content';
 					break;
 				case 'theme':

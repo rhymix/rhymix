@@ -42,4 +42,8 @@
 	<item name="fail_restore">
 		<value xml:lang="ko"><![CDATA[복원하지 못했습니다.]]></value>
 	</item>
+	<item name="origin_module_type">
+		<value xml:lang="ko"><![CDATA[원본 타입]]></value>
+		<value xml:lang="en"><![CDATA[Source Type]]></value>
+	</item>
 </lang>

@@ -65,8 +65,12 @@ function completeGetTrashList(ret_obj, response_tags)
 		for(var x in trash_list)
 		{
 			var objTrash = trash_list[x];
+			var title = '';
+			if(objTrash.title == '') title = no_text_comment;
+			else title = objTrash.title;
+
 			htmlListBuffer += '<tr>' +
-								'<td class="title">'+ objTrash.title +'</td>' +
+								'<td class="title">'+ title +'</td>' +
 								'<td>'+ objTrash.nickName +'</td>' +
 								'<td>'+ objTrash.ipaddress +'</td>' +
 							'</tr>' +

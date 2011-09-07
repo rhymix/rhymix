@@ -332,6 +332,9 @@ Hãy nhập đường dẫn cho File chứa Data trên Host dưới dạng http:
 		<value xml:lang="ko"><![CDATA[방명록 데이터의 목적지를 선택하세요.]]></value>
 		<value xml:lang="en"><![CDATA[방명록 데이터의 목적지를 선택하세요.]]></value>
 	</item>
+	<item name="import_desc">
+		<value xml:lang="ko"><![CDATA[가상 사이트의 도메인을 입력한 후 <em>사이트 찾기</em>를 클릭하면 됩니다. 도메인을 빈 칸으로 남겨두면 모든 사이트의 목록을 보여줍니다.]]></value>
+	</item>
 	<item name="msg_sync_member">
 		<value xml:lang="ko"><![CDATA[동기화 버튼을 클릭하시면 회원정보와 게시물 정보의 동기화를 시작합니다.]]></value>
 		<value xml:lang="en"><![CDATA[Please click on Synchronize button to start data synchronization.]]></value>

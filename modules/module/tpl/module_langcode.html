@@ -2,16 +2,16 @@
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 <p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
-<h1 class="h1">Multilingual</h1>
-<p>현재 12 종류의 다국어 문자를 지원할 수 있습니다. 다른 종류의 다국어 지원을 원하는 경우 /common/lang/ 폴더의 다국어 가운데 하나의 세트를 번역해서 XE 개발자(contact@xpressengine.com)에게 보내주세요.</p>
+<h1 class="h1">{$lang->menu_gnb_sub['multilingual']}</h1>
+<p>{$lang->multilingual_desc}</p>
 <div class="mLangEdit ko form"><!-- class="mLangEdit LANGCODE" -->
 	<div class="btnArea">
-		<span class="btn"><a href="#addWord" class="modalAnchor">새로운 단어 또는 문장 추가...</a></span>
+		<span class="btn"><a href="#addWord" class="modalAnchor">{$lang->add_word}</a></span>
 	</div>
 	<ul id="langList">
 		<li loop="$lang_code_list=>$key,$value">
 		{@$langName = $value->name}
-		<strong>{$value->value}</strong> <button type="button" class="side text _edit">Edit</button>
+		<strong>{$value->value}</strong> <button type="button" class="side text _edit">{$lang->cmd_edit}</button>
 		<form action="./" method="post" id="langForm_{$langName}" >
 			<input type="hidden" name="act" value="procModuleAdminInsertLang" />
 			<input type="hidden" name="lang_name" value="{$langName}" />
@@ -26,18 +26,18 @@
 		</li>
 	</ul>
 	<div class="btnArea">
-		<span class="btn"><a href="#addWord" class="modalAnchor">새로운 단어 또는 문장 추가...</a></span>
+		<span class="btn"><a href="#addWord" class="modalAnchor">{$lang->add_word}</a></span>
 	</div>
 </div>
 <div class="modal" id="addWord">
 	<form action="./" method="post" class="form mLangEdit fg" id="langForm_new" >
 	<input type="hidden" name="act" value="procModuleAdminInsertLang" />
-	<h2 class="h2">새로운 단어 또는 문장 추가</h2>
+	<h2 class="h2">{$lang->add_word}</h2>
 	<ul>
 		<li class="{$key2}" loop="$lang_supported=>$key2,$value2"><label for="{$langName}_{$key2}">{$value2}</label> <textarea rows="1" cols="42" name="{$key2}" id="{$langName}_{$key2}"></textarea></li>
 	</ul>
 	<div class="btnArea">
-		<span class="btn small"><button type="submit">Save</button></span>
+		<span class="btn small"><button type="submit">{$lang->cmd_save}</button></span>
 	</div>
 	</form>
 </div>
