@@ -6,7 +6,6 @@
 /* 모듈 즐겨찾기 */
 function doToggleFavoriteModule(obj, module_name) {
 	function on_complete(data){
-		console.log(data);
 		if (data.result == 'on')
 			jQuery(obj).removeClass('fvOff').addClass('fvOn').html(xe.lang.favorite_on);
 		else

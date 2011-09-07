@@ -17,8 +17,8 @@
 	<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin', 'act', 'dispMenuAdminSiteMap')}" />
 
 		<h2 class="h2"><input name="title" value="{$value->title}" /></h2>
-		<a href="#nav1" class="tgMap">접기</a>
-		<ul class="lined" id="nav1" cond="count($value->menuItems->list > 0)">
+		<a href="#nav_{$key}" class="tgMap">접기/펼치기</a>
+		<ul class="lined" id="nav_{$key}" cond="count($value->menuItems->list > 0)">
 		<block loop="$value->menuItems->list=>$key2,$value2">
 		{@$item = $value2}
 		<include target="sitemap.item.html" />

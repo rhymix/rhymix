@@ -36,7 +36,7 @@ function getTrashList()
 {
 	var trashListTable = jQuery('#trashListTable');
 	var cartList = [];
-	trashListTable.find(':checkbox[name=cart').each(function(){
+	trashListTable.find(':checkbox[name=cart]').each(function(){
 		if(this.checked) cartList.push(this.value); 
 	});
 

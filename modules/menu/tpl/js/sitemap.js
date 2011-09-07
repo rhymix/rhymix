@@ -188,4 +188,13 @@ $('form.siteMap')
 		}
 		selectModuleLayer.find('select').html(htmlBuffer);
 	}
+
+	$('a.tgMap').click(function() {
+		var $this = $(this);
+
+		$($this.attr('href')).slideToggle('fast');a
+		$this.closet('.sitemap').toggleClass('fold');
+
+		return false;
+	});
 });

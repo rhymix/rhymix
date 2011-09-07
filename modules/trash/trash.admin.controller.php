@@ -39,6 +39,7 @@ class trashAdminController extends trash
 	{
 		global $lang;
 		$isAll = Context::get('is_all');
+		$originModule = Context::get('origin_module');
 		$tmpTrashSrls = Context::get('cart');
 		if(is_array($tmpTrashSrls)) $trashSrls = $tmpTrashSrls;
 		else $trashSrls = explode('|@|', $tmpTrashSrls);
@@ -51,7 +52,7 @@ class trashAdminController extends trash
 
 		$this->setMessage('success_deleted', 'info');
 		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispTrashAdminList');
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispTrashAdminList', 'origin_module', $originModule);
 			$this->setRedirectUrl($returnUrl);
 			return;
 		}

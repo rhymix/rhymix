@@ -839,7 +839,6 @@ Block = xe.createPlugin('BlockCommand', {
 		if (!sel) return false;
 
 		nodes = this.getBlockParents();
-		console.log(nodes);
 		n     = parseInt(params[0], 10);
 
 		for(i=0,c=nodes.length; i<c; i++) {
