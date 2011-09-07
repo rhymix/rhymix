@@ -60,7 +60,7 @@
             Context::set('favoriteModuleList', $favoriteModuleList);
 			Context::set('module_list', $module_list);
             // Set a template file
-            $this->setTemplateFile('spInstalledModule');
+            $this->setTemplateFile('module_list');
 
         }
 

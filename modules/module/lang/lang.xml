@@ -1,5 +1,25 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<lang>
+<lang>	
+	<item name="msg_avail_install">
+		<value xml:lang="ko"><![CDATA[이 항목 설치가 가능합니다.]]></value>
+		<value xml:lang="en"><![CDATA[이 항목 설치가 가능합니다.]]></value>
+    </item>
+	<item name="msg_avail_update">
+		<value xml:lang="ko"><![CDATA[이 항목 업데이트가 가능합니다.]]></value>
+		<value xml:lang="en"><![CDATA[이 항목 업데이트가 가능합니다.]]></value>
+    </item>
+	<item name="msg_avail_easy_update">
+		<value xml:lang="ko"><![CDATA[이 항목의 새로운 버전이 있습니다.]]></value>
+		<value xml:lang="en"><![CDATA[There is new version for this item.]]></value>
+    </item>
+	<item name="msg_do_you_like_install">
+		<value xml:lang="ko"><![CDATA[설치 하시겠습니까?]]></value>
+		<value xml:lang="en"><![CDATA[Would you like to install?]]></value>
+	</item>
+	<item name="msg_do_you_like_update">
+		<value xml:lang="ko"><![CDATA[업데이트 하시겠습니까?]]></value>
+		<value xml:lang="en"><![CDATA[Would you like to update?]]></value>
+	</item>
 	<item name="virtual_site">
 		<value xml:lang="ko"><![CDATA[가상 사이트]]></value>
 		<value xml:lang="en"><![CDATA[Virtual Site]]></value>
