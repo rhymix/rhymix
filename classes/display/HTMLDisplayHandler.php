@@ -127,7 +127,6 @@ class HTMLDisplayHandler {
 		$mobicon_url = $oAdminModel->getMobileIconUrl();
 		Context::set('favicon_url', $favicon_url);
 		Context::set('mobicon_url', $mobicon_url);
-		debugPrint($favicon_url);
 
 		// convert the final layout
 		Context::set('content', $output);
