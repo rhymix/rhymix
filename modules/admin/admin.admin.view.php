@@ -8,12 +8,27 @@
     class adminAdminView extends admin {
 
 		var $layout_list;
+		var $xeMenuTitle;
 
         /**
          * @brief Initilization
          * @return none
          **/
         function init() {
+			// admin menu check
+			$this->xeMenuTitle = '__XE_ADMIN__';
+			$oMenuAdminModel = &getAdminModel('menu');
+			$output = $oMenuAdminModel->getMenuByTitle($this->xeMenuTitle);
+
+			if(!$output->menu_srl)
+			{
+				parent::_createXeAdminMenu();
+			}
+			else if(!is_readable($output->php_file))
+			{
+				$oMenuAdminController = &getAdminController('menu');
+				$oMenuAdminController->makeXmlFile($output->menu_srl);
+			}
 
             // forbit access if the user is not an administrator
             $oMemberModel = &getModel('member');
@@ -60,7 +75,6 @@
 			if(is_readable($menu_info->php_file))
 				include $menu_info->php_file;
 			else {
-				header('location:'.getNotEncodedUrl('', 'module', 'admin'));
 				return;
 			}
 

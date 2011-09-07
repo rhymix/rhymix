@@ -2,14 +2,12 @@
     /**
      * @class  admin
      * @author NHN (developers@xpressengine.com)
-     * @brief  base class of admin module 
+     * @brief  base class of admin module
      **/
 
     class admin extends ModuleObject {
-		var $xeMenuTitle;
-
         /**
-         * @brief install admin module 
+         * @brief install admin module
          * @return new Object
          **/
         function moduleInstall() {
@@ -20,20 +18,11 @@
          * @brief if update is necessary it returns true
          **/
         function checkUpdate() {
-			$this->xeMenuTitle = '__XE_ADMIN__';
-			$oMenuAdminModel = &getAdminModel('menu');
-			$output = $oMenuAdminModel->getMenuByTitle($this->xeMenuTitle);
-
-			if(!$output->menu_srl)
-			{
-				$this->_createXeAdminMenu();
-			}
-
             return false;
         }
 
         /**
-         * @brief update module 
+         * @brief update module
          * @return new Object
          **/
         function moduleUpdate() {

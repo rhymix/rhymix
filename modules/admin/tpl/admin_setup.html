@@ -13,7 +13,7 @@
 					<p class="q"><label for="adminLogo">관리자 페이지 로고</label></p>
 					<p class="a">
 						<!--@if($config_object->adminLogo)-->
-						<img src="{getUrl('').$config_object->adminLogo}" /> 
+						<img src="{getUrl('').$config_object->adminLogo}" />
 						<button type="submit" value="procAdminDeleteLogo" name="act" class="text">{$lang->cmd_delete}</button>
 						<!--@else-->
 						<img src="{getUrl('')}{$gnb_title_info->adminLogo}" />
@@ -47,7 +47,10 @@
 					</ul>
 				</li>
 			</ul>
-			<p class="btnArea"><span class="btn small"><button value="procMenuAdminArrangeItem" name="act" type="submit">{$lang->cmd_save}</button></span></p>
+			<p class="btnArea">
+				<span class="btn small" style="float: left;"><button value="procAdminMenuReset" name="act" type="submit">{$lang->cmd_reset}</button></span>
+				<span class="btn small"><button value="procMenuAdminArrangeItem" name="act" type="submit">{$lang->cmd_save}</button></span>
+			</p>
 		</div>
 		</fieldset>
 	</form>

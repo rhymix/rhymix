@@ -302,7 +302,7 @@
 		function getAdminMenuLang()
 		{
 			$currentLang = Context::getLangType();
-			$cacheFile = sprintf('./files/cache/menu/adminMenu.%s.lang.php', $currentLang);
+			$cacheFile = sprintf('./files/cache/menu/admin_lang/adminMenu.%s.lang.php', $currentLang);
 
             // Update if no cache file exists or it is older than xml file
             if(!is_readable($cacheFile))

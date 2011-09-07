@@ -17,6 +17,19 @@
             if($logged_info->is_admin!='Y') return $this->stop("msg_is_not_administrator");
         }
 
+		function procAdminMenuReset(){
+			$menuSrl = Context::get('menu_srl');
+			if (!$menuSrl) return $this->stop('msg_invalid_request');
+
+			$oMenuAdminController = &getAdminController('menu');
+			$output = $oMenuAdminController->deleteMenu($menuSrl);
+			if (!$output->toBool()) return $output;
+
+			FileHandler::removeDir('./files/cache/menu/admin_lang/');
+
+			$this->setRedirectUrl(Context::get('error_return_url'));
+		}
+
         /**
          * @brief Regenerate all cache files
          * @return none
