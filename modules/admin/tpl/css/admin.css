@@ -390,9 +390,7 @@ body.modalContainer{_height:100%;_width:100%} /* IE6 only */
 .x .btnArea:after{content:"";display:block;clear:both}
 /* Multilingual */
 .x .langEdit{background:#fff;position:absolute;*left:0;*margin-top:28px;z-index:10;box-shadow:3px 3px 6px #999;-moz-box-shadow:3px 3px 6px #999;-webkit-box-shadow:3px 3px 6px #999;filter:progid:DXImageTransform.Microsoft.Shadow(color=#999999,direction=135, strength=5)}
-.x .langEdit .langList{float:left}
-.x .langEdit .langEditControls{float:right}
-.x .langEdit .action{clear:both;border:1px solid #eee;width:268px;padding:0 10px}
+.x .langEdit .action{border:1px solid #eee;width:268px;padding:0 10px}
 .x .langEdit ul{border-top:1px solid #ccc;border-left:1px solid #eee;border-right:1px solid #eee;margin:0}
 .x .langEdit li{padding:.5em 10px}
 .x .langEdit input[type=text]{width:220px;padding-right:40px}

@@ -88,29 +88,30 @@
 		<div class="btnArea">
 			<span class="btn medium"><input type="submit" value="Save" /></span>
 		</div>
-	</form>
-	<!-- Multilingual -->
-	<div id="langEdit" class="form langEdit tgContent">
-		<ul class="langList"></ul>
-		<div class="langEditControls">
-			<h3>다국어 <em>수정</em> | <a href="#langEdit">추가</a></h3>
-			<ul>
-				{@
-					/* move current language to the top */
-					$a = array($lang_type=>$lang_supported[$lang_type]);
-					unset($lang_supported[$lang_type]);
-					$lang_supported = array_merge($a, $lang_supported);
-				}
-				<li loop="$lang_supported=>$code,$name" class="{$code}"><label for="{$code}_var1">{$name}</label> <input type="text" value="" id="{$code}_var1" /></li>
-			</ul>
-		</div>
-		<div class="action">
-			<div class="btnArea">
-				<span class="btn small"><input type="submit" value="사용|저장 후 사용" /></span>
+
+		<!-- Multilingual -->
+		<div id="langEdit" class="form langEdit tgContent">
+			<ul class="langList"></ul>
+			<div id="langInput">
+				<h2>다국어 <strong>수정</strong> | <a href="#langEdit">추가</a></h2>
+				<ul>
+					{@
+						/* move current language to the top */
+						$a = array($lang_type=>$lang_supported[$lang_type]);
+						unset($lang_supported[$lang_type]);
+						$lang_supported = array_merge($a, $lang_supported);
+					}
+					<li loop="$lang_supported=>$code,$name" class="{$code}"><label for="{$code}_var1">{$name}</label> <input type="text" value="" id="{$code}_var1" /></li>
+				</ul>
 			</div>
-			<p><a href="{getUrl('act','dispModuleAdminLangcode')}">다국어 텍스트 관리</a></p>
+			<div class="action">
+				<div class="btnArea">
+					<span class="btn small"><input type="submit" value="사용|저장 후 사용" /></span>
+				</div>
+				<p><a href="{getUrl('act','dispModuleAdminLangcode')}">다국어 텍스트 관리</a></p>
+			</div>
 		</div>
-	</div>
+	</form>
 
 	<div class="modal" id="imageMark">
 		<div class="fg portlet">
