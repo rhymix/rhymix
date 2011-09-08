@@ -7,7 +7,8 @@ jQuery(function($){
 	$('.form li').find('>input:text,>input:password,>textarea')
  		.filter('input[value!=""],textarea:not(:empty)').prev('label').css('visibility','hidden').end().end()
 		.prev('label')
-			.css({position:'absolute',top:'15px',left:'5px'})
+			.addClass('overlap')
+			.css({top:'15px',left:'5px'})
 			.next()
 				.focus(function(){
 					var $label = $(this).prev().stop().animate({opacity:0, left:'25px'},'fast',function(){ $label.css('visibility','hidden') });
@@ -292,12 +293,26 @@ $('a.modalAnchor').xeModalWindow();
 // Content Toggler
 jQuery(function($){
 
+var dont_close_this_time = false;
+var ESC = 27;
+
 $.fn.xeContentToggler = function(){
 	this
 		.not('.xe-content-toggler')
 		.addClass('xe-content-toggler')
 		.each(function(){
-			$($(this).attr('href')).hide().focusout(focusoutContent);
+			var $anchor = $(this); $layer = $($anchor.attr('href'));
+
+			$layer.hide()
+				.not('.xe-toggling-content')
+				.addClass('xe-toggling-content')
+				.mousedown(function(event){ dont_close_this_time = true })
+				.focusout(function(event){
+					setTimeout(function(){
+						if(!dont_close_this_time && !$layer.find(':focus').length && $layer.data('state') == 'showing') $anchor.trigger('close.tc');
+						dont_close_this_time = false;
+					}, 1);
+				});
 		})
 		.click(function(){
 			var $this = $(this), $layer;
@@ -334,13 +349,15 @@ $.fn.xeContentToggler = function(){
 			// before event trigger
 			$this.trigger('before-open.tc');
 
+			dont_close_this_time = false;
+
 			// When mouse button is down or when ESC key is pressed close this layer
 			$(document)
 				.unbind('mousedown.tc keydown.tc')
 				.bind('mousedown.tc keydown.tc',
 					function(event){
 						if(event && (
-							(event.type == 'keydown' && event.which != ESC_KEY) ||
+							(event.type == 'keydown' && event.which != ESC) ||
 							(event.type == 'mousedown' && ($(event.target).is('.tgAnchor,.tgContent') || $layer.has(event.target)[0]))
 						)) return true;
 
@@ -417,13 +434,6 @@ $.fn.xeContentToggler = function(){
 };
 
 $('a.tgAnchor').xeContentToggler();
-
-function focusoutContent(event) {
-	var $this = $(this), $anchor = $this.data('anchor');
-	setTimeout(function(){
-		if(!$this.find(':focus').length && $this.data('state') == 'showing') $anchor.trigger('close.tc');
-	}, 1);
-};
 
 });
 
@@ -668,26 +678,38 @@ function getOffset(elem, offsetParent) {
 // Language selector
 jQuery(function($){
 
-var w_timer = null, r_timer = null, r_idx = 0, f_timer = null;
-var KEY_UP = 38, KEY_DOWN = 40;
+var w_timer = null, r_timer = null, r_idx = 0, f_timer = null, skip_textchange=false;
+var ESC=27, UP=38, DOWN=40, ENTER=13;
 
 $('.multiLangEdit')
 	.find('input.vLang,textarea.vLang')
+		.each(function(){
+			var $this = $(this), $container;
+
+			$this
+				.data('mle-container', $container=$this.closest('.multiLangEdit'))
+				.data('mle-langkey', $container.find('.vLang').eq(0))
+				.data('mle-suggestion', $container.find('.suggestion'));
+		})
 		.bind('textchange', function(){
-			var $this = $(this), val = $.trim($this.val()), $ul, $mle;
+			var $this = $(this), val = $.trim($this.val()), $ul, $container;
 
 			if(r_timer) {
 				clearTimeout(r_timer);
 				r_timer = null;
 			}
 
-			if(!val) return;
+			$container = $this.data('mle-container');
+			$ul        = $this.data('mle-suggestion').find('>ul');
 
-			$mle = $this.closest('.multiLangEdit');
-			$ul  = $mle.find('.suggestion > ul');
+			if(!val || skip_textchange) {
+				skip_textchange = false;
+				$ul.parent().hide();
+				return;
+			}
 
 			// remove lagnauge key
-			$mle.find('.vLang').eq(0).val('');
+			$this.data('mle-langkey').val('');
 
 			function request() {
 				$this.addClass('loading');
@@ -713,10 +735,50 @@ $('.multiLangEdit')
 					$btn = $('<button type="button" class="_btnLang" />').data('langkey', results[i].name).text(results[i].value);
 					$('<li />').append($btn).appendTo($ul);
 				}
-				$ul.parent().slideDown(300);
+				$ul.parent().show();
 			};
 
 			r_timer = setTimeout(request, 100);
+		})
+		.keydown(function(event){
+			var $this, $suggest, $ul, $active, $after, key = event.which;
+
+			$this    = $(this);
+			$suggest = $this.data('mle-suggestion');
+			$ul      = $suggest.find('>ul');
+
+			if(!$suggest.is(':visible') || $.inArray(key, [UP,DOWN,ENTER,ESC]) < 0) return true;
+
+			if(key == ESC) {
+				$suggest.hide();
+				return false;
+			}
+
+			$active = $ul.find('button.active');
+
+			if(key == ENTER) {
+				$active.click();
+				return false;
+			}
+
+			if(!$active.length) {
+				$ul.find('li>button:first').addClass('active');
+				return false;
+			}
+
+			// Move the cursor
+			if(key == UP) {
+				$after = $active.parent().prev('li').find('>button');
+				if(!$after.length) $after = $ul.find('>li:last>button');
+			} else if(key == DOWN) {
+				$after = $active.parent().next('li').find('>button');
+				if(!$after.length) $after = $ul.find('>li:first>button');
+			}
+
+			$active.removeClass('active');
+			$after.addClass('active');
+
+			return false;
 		})
 		.focus(function(){
 			var $this = $(this), oldValue = $.trim($this.val());
@@ -740,34 +802,94 @@ $('.multiLangEdit')
 	.end()
 	.find('a.tgAnchor.editUserLang')
 		.bind('before-open.tc', function(){
-			var $this, $layer, $vlangs;
+			var $this, $layer, $mle, $vlang, key, text, api, params;
 
-			$this   = $(this);
-			$layer  = $($this.attr('href'));
-			$vlangs = $this.closest('.multiLangEdit').find('input.vLang,textarea.vLang');
+			$this  = $(this);
+			$layer = $($this.attr('href'));
+			$mle   = $this.closest('.multiLangEdit');
+			$vlang = $mle.find('input.vLang,textarea.vLang');
+
+			key  = $vlang.eq(0).val();
+			text = $vlang.eq(1).val();
+
+			// initialize the layer
+			initLayer($layer);
+
+			// reset
+			$layer
+				.trigger('multilang-reset')
+				.find('.langEditControls li.'+xe.current_lang+' > input').val(text).prev('label').css('visibility','hidden');
+
+			// hide suggestion layer
+			$mle.find('.suggestion').hide();
+
+			if(/^\$user_lang->(.+)$/.test(key)) {
+				api = 'module.getModuleAdminLangListByName';
+				params = {lang_name:RegExp.$1};
+			} else {
+				api = 'module.getModuleAdminLangListByValue';
+				params = {value:text};
+			}
 
 			function on_complete(data) {
-				var list = data.lang_list, i, c;
+				var list = data.lang_list, obj, i, c, name, $langlist;
 
-				if(data.error || !list || !list.length) return;
+				if(data.error || !list) return;
 
-				$layer.find('li > input').val('').prev('label').css('visibility','visible');
-				for(i=0,c=list.length; i < c; i++) {
-					$layer.find('li.'+list[i].lang_code).find('> input').val(list[i].value).prev('label').css('visibility','hidden');
+				list = extractList(list);
+
+				// set data
+				$layer.data('multilang-list', list);
+
+				// make language list
+				$langlist = $layer.find('.langList').empty();
+				$.each(list, function(key){
+					var $li = $('<li />').appendTo($langlist);
+
+					$('<button type="button" />')
+						.text(this[xe.current_lang])
+						.data('multilang-name', key)
+						.appendTo($li);
+				});
+
+				if(count(list) > 1) {
+					$langlist.show();
+				} else {
+					$langlist.hide();
 				}
+
+				$layer.find('.langList>li>button').click();
+
 			};
 
-			$.exec_json('module.getModuleAdminLangListByName', {lang_name:$vlangs.eq(0).val()}, on_complete);
+			show_waiting_message = false;
+			$.exec_json(api, params, on_complete);
+			show_waiting_message = true;
 		})
 	.end()
-	.delegate('.suggestion button._btnLang', 'click', function(){
-		var $this = $(this), key = $this.data('langkey'), text = $this.text();
+	.find('.suggestion')
+		.delegate('button._btnLang', {
+			click : function(){
+				var $this = $(this);
 
-		$this.closest('.suggestion')
-			.hide()
-			.prev('.vLang').val(text)
-				.prev('.vLang').val(key);
-	})
+				skip_textchange = true;
+
+				$this.closest('.suggestion').hide()
+					.closest('.multiLangEdit')	
+						.find('input.vLang,textarea.vLang')
+							.eq(0).val($this.data('langkey')).end()
+							.eq(1).val($this.text()).end();
+
+				return false;
+			},
+			focus : function(){
+				$(this).mouseover();
+			},
+			mouseover : function(){
+				$(this).closest('ul').find('button.active').removeClass('active');
+			}
+		})
+	.end()
 	.focusout(function(){
 		var self = this;
 
@@ -775,12 +897,148 @@ $('.multiLangEdit')
 			var $this = $(self);
 
 			if($this.find(':focus').is('.vLang,._btnLang')) return;
-			$this.find('>.suggestion').slideUp(300);
+			$this.find('>.suggestion').hide();
 		}
 
 		clearTimeout(f_timer);
 		f_timer = setTimeout(check, 10);
-	})
+	});
+
+function initLayer($layer) {
+	var $submit, $input, value='', current_status = 0, mode, cmd_add, cmd_edit, status_texts=[];
+	var USE = 0, UPDATE_AND_USE = 1, MODE_SAVE = 0, MODE_UPDATE = 1;
+
+	if($layer.data('init-multilang-editor')) return;
+
+	$layer
+		.data('init-multilang-editor', true)
+		.bind('multilang-reset', function(){
+			mode = MODE_SAVE;
+			setTitleText();
+
+			$layer
+				.data('multilang-current-name', '')
+				.find('.langEditControls li > input').val('').prev('label').css('visibility','visible');
+		})
+		.find('h3 a')
+			.click(function(){
+				mode = !mode;
+				setTitleText();
+
+				return false;
+			})
+		.end()
+		.delegate('button[type="button"]', 'click', function(){
+			var $this = $(this), $controls, list, name, i, c;
+
+			list = $layer.data('multilang-list');
+			name = $this.data('multilang-name');
+
+			if(!list || !list[name]) return;
+			list = list[name];
+
+			$controls = $layer.find('.langEditControls');
+
+			// reset
+			$layer.trigger('multilann-reset');
+
+			for(var code in list) {
+				if(!list.hasOwnProperty(code)) continue;
+				$controls.find('li.'+code).find('> input').data('multilang-value',list[code]).val(list[code]).prev('label').css('visibility','hidden');
+			}
+
+			value = get_value();
+
+			current_status = 0;
+			$submit.val(status_texts[current_status]);
+
+			$layer.data('multilang-current-name', name);
+			mode = MODE_UPDATE;
+			setTitleText();
+		});
+
+	cmd_edit = $layer.find('h3 em').text();
+	cmd_add  = $layer.find('h3 a').text();
+
+	$input = $layer.find('input:text,textarea')
+		.change(function(){
+			var status = (get_value() == value)?USE:UPDATE_AND_USE;
+
+			if(status != current_status) {
+				$submit.val(status_texts[current_status=status]);
+			}
+		});
+
+	function get_value() {
+		var text = [];
+		$input.each(function(){ text.push(this.value); });
+		return text.join('\n');
+	};
+
+	function setTitleText() {
+		$layer.find('h3')
+			.find('em').text(mode==MODE_SAVE?cmd_add:cmd_edit).end()
+			.find('a').text(mode==MODE_SAVE?cmd_edit:cmd_add).end()
+	};
+	
+	// process the submit button
+	$submit = $layer.find('input[type=submit]')
+		.click(function(){
+			var name = $layer.data('multilang-current-name');
+
+			function use_lang() {
+				$layer.hide().closest('.multiLangEdit').find('.vLang')
+					.eq(0).val('$user_lang->'+name).end()
+					.eq(1).val($layer.find('.langEditControls li.'+xe.current_lang+' >input').val()).end();
+			};
+
+			function save_lang() {
+				var params = {};
+ 				if(name && !$layer.data('multilang-command-add')) params.lang_name = name;
+
+ 				$input.each(function(k,v){ var $this = $(this); params[$this.parent('li').attr('class')] = $this.val() });
+
+ 				$.exec_json('module.procModuleAdminInsertLang', params, on_complete);
+			};
+
+			function on_complete(data) {
+				if(!data || data.error || !data.name) return;
+
+				name = data.name;
+				use_lang();
+			};
+
+			(get_value() == value) ? use_lang() : save_lang();
+
+
+			return false;
+		});
+	status_texts = $submit.val().split('|');
+	$submit.val(status_texts[USE]);
+};
+
+function extractList(list) {
+	var i, c, obj={}, item;
+
+	for(i=0,c=list.length; i < c; i++) {
+		item = list[i];
+
+		if(!obj[item.name]) obj[item.name] = {};
+
+		obj[item.name][item.lang_code] = item.value;
+	}
+	
+	return obj;
+};
+
+function count(obj) {
+	var size = 0;
+	for(var x in obj) {
+		if(obj.hasOwnProperty(x)) size++;
+	}
+	return size;
+};
+
 });
 
 // filebox

@@ -8,6 +8,8 @@
 <style type="text/css">         
 	._imageMarkButton img {max-height:16px}
 	.filebox_item { border: 1px solid #ccc!important; padding: 2px; max-height: 16px; } 
+	.x .multiLangEdit input.vLang {width:120px}
+	.x .multiLangEdit input.vLang.loading {padding-right:24px;width:100px;background:transparent url(../../admin/tpl/img/preLoader16.gif) no-repeat 96px center}
 </style>
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
@@ -52,13 +54,8 @@
 						<td class="multiLangEdit"><div class="wrap" style="height:22px"><button type="button" class="dragBtn">Move to</button>
 							<input type="hidden" name="group_srls[]" value="{$group_info->group_srl}" />
 							<input type="hidden" name="group_titles[]" value="{htmlspecialchars($group_info->title)}" class="vLang"/>
-							<input type="text" value="{$group_info->title}" class="vLang" style="width:120px;display:inline" />
-							<!-- Suggestion -->
-							<div class="suggestion">
-								<ul>
-								</ul>
-							</div>
-							<!-- /Suggestion -->
+							<input type="text" value="{$group_info->title}" class="vLang" />
+							<div class="suggestion"><ul></ul></div>
 							<span class="desc"><a href="#langEdit" class="tgAnchor editUserLang">{$lang->cmd_set_multilingual}</a></span>
 							</div>
 						</td>
@@ -73,13 +70,8 @@
 						<td class="multiLangEdit"><div class="wrap" style="height:22px"><button type="button" class="dragBtn">Move to</button>
 							<input type="hidden" name="group_srls[]" value="new" disabled="disabled"/>
 							<input type="hidden" name="group_titles[]" value=""  disabled="disabled" class="vLang" />
-							<input type="text" value="" class="vLang" style="width:120px;display:inline" />
-							<!-- Suggestion -->
-							<div class="suggestion">
-								<ul>
-								</ul>
-							</div>
-							<!-- /Suggestion -->
+							<input type="text" value="" class="vLang" />
+							<div class="suggestion"><ul></ul></div>
 							<span class="desc"><a href="#langEdit" class="tgAnchor editUserLang">{$lang->cmd_set_multilingual}</a></span>
 							</div>
 						</td>
@@ -98,30 +90,25 @@
 		</div>
 	</form>
 	<!-- Multilingual -->
-	<div id="langEdit" class="langEdit tgContent">
-		<ul>
-			<li class="ko"><label for="ko_var1">Korean</label> <input type="text" value="안녕 세상아!" id="ko_var1" /></li>
-			<li class="en"><label for="en_var1">English</label> <input type="text" value="Hello World!" id="en_var1" /></li>
-			<li class="ja"><label for="ja_var1">Japanese</label> <input type="text" value="" id="ja_var1" /></li>
-			<li class="zh"><label for="zhcn_var1">Chinese(Simplified)</label> <input type="text" value="" id="zhcn_var1" /></li>
-			<li class="zh"><label for="zhtw_var1">Chinese(Traditional)</label> <input type="text" value="" id="zhtw_var1" /></li>
-			<li class="fr"><label for="fr_var1">French</label> <input type="text" value="" id="fr_var1" /></li>
-			<li class="de"><label for="de_var1">Deutsch</label> <input type="text" value="" id="de_var1" /></li>
-			<li class="ru"><label for="ru_var1">Russian</label> <input type="text" value="" id="ru_var1" /></li>
-			<li class="es"><label for="es_var1">Spanish</label> <input type="text" value="" id="es_var1" /></li>
-			<li class="tr"><label for="tr_var1">Turkish</label> <input type="text" value="" id="tr_var1" /></li>
-			<li class="vi"><label for="vi_var1">Vietnamese</label> <input type="text" value="" id="vi_var1" /></li>
-			<li class="mn"><label for="mn_var1">Mongolian</label> <input type="text" value="" id="mn_var1" /></li>
-		</ul>
+	<div id="langEdit" class="form langEdit tgContent">
+		<ul class="langList"></ul>
+		<div class="langEditControls">
+			<h3>다국어 <em>수정</em> | <a href="#langEdit">추가</a></h3>
+			<ul>
+				{@
+					/* move current language to the top */
+					$a = array($lang_type=>$lang_supported[$lang_type]);
+					unset($lang_supported[$lang_type]);
+					$lang_supported = array_merge($a, $lang_supported);
+				}
+				<li loop="$lang_supported=>$code,$name" class="{$code}"><label for="{$code}_var1">{$name}</label> <input type="text" value="" id="{$code}_var1" /></li>
+			</ul>
+		</div>
 		<div class="action">
-			<!-- 여기부터 기존 랭귀지 변수를 수정한 경우에만 보인다 -->
-			<p>다국어 텍스트가 변경되었습니다. <em>업데이트</em> 버튼을 클릭하면 같은 텍스트를 사용하는 다른 페이지에도 반영됩니다. <em>새로 저장</em> 버튼을 클릭하면 이 페이지에만 적용됩니다.</p>
 			<div class="btnArea">
-				<span class="btn small"><input type="submit" value="업데이트" /></span> 
-				<span class="btn small"><input type="submit" value="새로저장" /></span> 
+				<span class="btn small"><input type="submit" value="사용|저장 후 사용" /></span>
 			</div>
-			<!-- 여기까지 기존 랭귀지 변수를 수정한 경우에만 보인다 -->
-			<p><a href="#">다국어 텍스트 관리</a></p>
+			<p><a href="{getUrl('act','dispModuleAdminLangcode')}">다국어 텍스트 관리</a></p>
 		</div>
 	</div>
 

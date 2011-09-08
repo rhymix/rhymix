@@ -223,6 +223,8 @@ header,footer,section,article,aside,nav,hgroup,details,menu,figure,figcaption{di
 .x .prgrs.prgrsLarge .pBar,
 .x .prgrs.prgrsLarge .pAction,
 .x .prgrs.prgrsLarge .pNum{height:34px;line-height:34px;font-size:14px}
+/* Labels */
+.x label.overlap{position:absolute;color:#aaa}
 /* Modal Window */
 .modal{position:absolute;top:0;left:0;width:100%;_height:100%;min-height:100%;z-index:100}
 .modal .bg{position:absolute;background:#000;_background:none;width:100%;height:100%;opacity:.5;z-index:2;filter:progid:DXImageTransform.Microsoft.Alpha(opacity=50);zoom:1}
@@ -388,11 +390,13 @@ body.modalContainer{_height:100%;_width:100%} /* IE6 only */
 .x .btnArea:after{content:"";display:block;clear:both}
 /* Multilingual */
 .x .langEdit{background:#fff;position:absolute;*left:0;*margin-top:28px;z-index:10;box-shadow:3px 3px 6px #999;-moz-box-shadow:3px 3px 6px #999;-webkit-box-shadow:3px 3px 6px #999;filter:progid:DXImageTransform.Microsoft.Shadow(color=#999999,direction=135, strength=5)}
+.x .langEdit .langList{float:left}
+.x .langEdit .langEditControls{float:right}
+.x .langEdit .action{clear:both;border:1px solid #eee;width:268px;padding:0 10px}
 .x .langEdit ul{border-top:1px solid #ccc;border-left:1px solid #eee;border-right:1px solid #eee;margin:0}
 .x .langEdit li{padding:.5em 10px}
 .x .langEdit input[type=text]{width:220px;padding-right:40px}
 .x .langEdit label{left:15px !important}
-.x .langEdit .action{border:1px solid #eee;width:268px;padding:0 10px}
 .x .langEdit p, 
 .x .langEdit .btnArea{white-space:normal}
 .x .langEdit li.en input, 
@@ -451,7 +455,8 @@ body.modalContainer{_height:100%;_width:100%} /* IE6 only */
 .x .suggestion li button{border:0;background:#fff;text-align:left;width:288px;padding:2px 4px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .x .suggestion li button:hover,
 .x .suggestion li button:active,
-.x .suggestion li button:focus{background:#eee}
+.x .suggestion li button:focus,
+.x .suggestion li button.active{background:#eee}
 /* Image Mark */
 .x #imageMark{right:0}
 /* Easy Installer */
