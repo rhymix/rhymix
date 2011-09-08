@@ -84,7 +84,7 @@ header,footer,section,article,aside,nav,hgroup,details,menu,figure,figcaption{di
 .x .form input[type=password],
 .x .form input[type=file]{height:22px;line-height:22px;vertical-align:middle;padding:0 4px}
 .x .form input[type=text].loading,
-.x .form input.loading[type=password]{padding-right:24px;width:260px;background:transparent url(file:///D|/XE/xe/modules/admin/tpl/img/preLoader16.gif) no-repeat 265px center}
+.x .form input.loading[type=password]{padding-right:24px;width:260px;background:transparent url(../img/preLoader16.gif) no-repeat 265px center}
 .x .form input[type=checkbox],
 .x .form input[type=radio]{margin:0;padding:0;width:13px;height:13px;vertical-align:middle}
 .x .form input[type=text][disabled=disabled],
@@ -123,7 +123,7 @@ header,footer,section,article,aside,nav,hgroup,details,menu,figure,figcaption{di
 .x .gnb li li a:hover,
 .x .gnb li li a:active,
 .x .gnb li li a:focus{border:0;background:#eee}
-.x .gnb .setting{position:absolute;top:8px;right:2em;width:16px;height:0;padding:16px 0 0 0;overflow:hidden;background:url(file:///D|/XE/xe/modules/admin/tpl/img/iconSetting.gif) no-repeat center}
+.x .gnb .setting{position:absolute;top:8px;right:2em;width:16px;height:0;padding:16px 0 0 0;overflow:hidden;background:url(../img/iconSetting.gif) no-repeat center}
 .x .gnb.jx ul{display:block;position:static;padding:0}
 .x .gnb.jx li{float:none;clear:both;border-top:1px solid #ccc}
 .x .gnb.jx ul ul{border:0}
@@ -154,7 +154,7 @@ header,footer,section,article,aside,nav,hgroup,details,menu,figure,figcaption{di
 .x .lnb ul{margin:0;padding:0;list-style:none}
 .x .lnb li{position:relative;margin:0 0 -1px 0;vertical-align:top;zoom:1}
 .x .lnb li a{display:block;position:relative;padding:8px 10px;text-decoration:none;color:#666;font-weight:bold;background:#fafafa;border:1px solid #eee;zoom:1}
-.x .lnb li a .i{position:absolute;top:50%;left:100%;margin:-4px 0 0 -16px;width:8px;height:8px;color:#ccc;background:url(file:///D|/XE/xe/modules/admin/tpl/img/iconNavVr.gif) no-repeat left top}
+.x .lnb li a .i{position:absolute;top:50%;left:100%;margin:-4px 0 0 -16px;width:8px;height:8px;color:#ccc;background:url(../img/iconNavVr.gif) no-repeat left top}
 .x .lnb li ul{padding:5px 0;background:#fff}
 .x .lnb li li{margin:0;border-top:1px dotted #ddd}
 .x .lnb li li:first-child{border:0}
@@ -203,7 +203,7 @@ header,footer,section,article,aside,nav,hgroup,details,menu,figure,figcaption{di
 .x .btn.large a{height:34px}
 /* Star Rating */
 .x .starRating, 
-.x .starRating span{display:inline-block;height:14px;background:transparent url(file:///D|/XE/xe/modules/admin/tpl/img/iconStarRating.gif) no-repeat;overflow:hidden}
+.x .starRating span{display:inline-block;height:14px;background:transparent url(../img/iconStarRating.gif) no-repeat;overflow:hidden}
 .x .starRating{width:79px;vertical-align:top}
 .x .starRating span{font-size:0;line-height:0;vertical-align:top;text-indent:-100px;*text-indent:0;background-position:0 -14px}
 /* Progress */
@@ -249,9 +249,9 @@ body.modalContainer{_height:100%;_width:100%} /* IE6 only */
 .x .message.info,
 .x .message.error,
 .x .message.update{padding-left:55px}
-.x .message.info{border-color:#E0E8EC;background:#EDF9FF url(file:///D|/XE/xe/modules/admin/tpl/img/msg.Info.png) no-repeat 1em .5em}
-.x .message.error{border-color:#EFDCDC;background:#FFECEC url(file:///D|/XE/xe/modules/admin/tpl/img/msg.error.png) no-repeat 1em .5em}
-.x .message.update{border-color:#EAE9DC;background:#FFFDEF url(file:///D|/XE/xe/modules/admin/tpl/img/msg.update.png) no-repeat 1em .5em}
+.x .message.info{border-color:#E0E8EC;background:#EDF9FF url(../img/msg.Info.png) no-repeat 1em .5em}
+.x .message.error{border-color:#EFDCDC;background:#FFECEC url(../img/msg.error.png) no-repeat 1em .5em}
+.x .message.update{border-color:#EAE9DC;background:#FFFDEF url(../img/msg.update.png) no-repeat 1em .5em}
 /* Text Button */
 .x input.text, 
 .x button.text{border:0;overflow:visible;padding:0;margin:0 4px 0 0;color:#33a;background:none;text-decoration:underline}
@@ -260,7 +260,7 @@ body.modalContainer{_height:100%;_width:100%} /* IE6 only */
 /* Waiting for server response */
 .wfsr .bg{position:absolute;background:#000;_background:none;width:100%;height:100%;opacity:.5;filter:progid:DXImageTransform.Microsoft.Alpha(opacity=50);zoom:1}
 .wfsr .fg{position:relative;width:50%;margin:5em auto;background:#fff;padding:0 1em;*padding:1em;border:10px solid #ddd;z-index:2;zoom:1}
-.wfsr .fg p{padding:0 0 0 2.5em;background:url(file:///D|/XE/xe/modules/admin/tpl/img/preLoader16.gif) no-repeat 1em .4em}
+.wfsr .fg p{padding:0 0 0 2.5em;background:url(../img/preLoader16.gif) no-repeat 1em .4em}
 .wfsr .ie6{position:absolute;left:0;top:0;width:100%;height:100%;border:0;opacity:0;filter:alpha(opacity=0);z-index:1}
 /* Skip Navigation */
 .x .skipNav{margin:0;text-align:center;overflow:hidden}
@@ -347,7 +347,7 @@ body.modalContainer{_height:100%;_width:100%} /* IE6 only */
 .x .siteMap li .moveTo+input:hover,
 .x .siteMap li .moveTo+input:active,
 .x .siteMap li .moveTo+input:focus{border:1px dotted #ccc;overflow:visible}
-.x .siteMap .moveTo{position:relative;z-index:2;width:22px;height:32px;padding:32px 0 0 0;margin:0 3px;_margin-top:-1px;overflow:hidden;background:#fff url(file:///D|/XE/xe/modules/admin/tpl/img/iconMoveTo.gif) no-repeat center 0;border:0;cursor:move}
+.x .siteMap .moveTo{position:relative;z-index:2;width:22px;height:32px;padding:32px 0 0 0;margin:0 3px;_margin-top:-1px;overflow:hidden;background:#fff url(../img/iconMoveTo.gif) no-repeat center 0;border:0;cursor:move}
 .x .siteMap li.active,
 .x .siteMap li.active .moveTo{background-color:#f7f7f7}
 .x .siteMap li.active li,
@@ -381,7 +381,7 @@ body.modalContainer{_height:100%;_width:100%} /* IE6 only */
 .x .siteMap li li li li li li li li li li li li .hr{left:336px}
 .x .siteMap .side{padding-top:0 !important;padding-bottom:0 !important;line-height:30px;background:transparent !important}
 .x .siteMap .side button{text-indent:0;line-height:1}
-.x .siteMap .tgMap{position:absolute;top:12px;right:1em;padding:0 16px 0 0;line-height:16px;background:url(file:///D|/XE/xe/modules/admin/tpl/img/iconArrow.gif) no-repeat right -126px}
+.x .siteMap .tgMap{position:absolute;top:12px;right:1em;padding:0 16px 0 0;line-height:16px;background:url(../img/iconArrow.gif) no-repeat right -126px}
 .x .siteMap.fold .tgMap{background-position:right -158px}
 .x .siteMap.fold .h2{border-bottom-color:#fff;border-radius:5px}
 .x .siteMap .placeholder{background:#bbb}
@@ -407,52 +407,52 @@ body.modalContainer{_height:100%;_width:100%} /* IE6 only */
 .x .langEdit .langList li{white-space:nowrap;color:#ccc;width:270px} 
 .x .langEdit .langList li span{display:inline-block;width:80px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;color:#767676}
 .x .langEdit .langList li a{display:inline-block;width:80px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
-.x .langEdit .langList li.active{background:url(file:///D|/XE/xe/modules/admin/tpl/img/iconArrow.gif) no-repeat right -188px}
+.x .langEdit .langList li.active{background:url(../img/iconArrow.gif) no-repeat right -188px}
 .x .langEdit #langInput{background:#fff}
 .x .langEdit #langInput h2{padding:5px 10px;margin:0 0 -1px 0;font-weight:normal;color:#ccc;border:1px solid #eee;border-top-color:#ccc}
 .x .langEdit #langInput h2 strong{color:#000}
 .x .langEdit #langInput h2 a{font-size:12px}
 .x .langEdit.showChild #langInput{position:absolute;left:285px;top:0}
 .x .langEdit li.en input, 
-.x .mLangEdit li.en textarea{background:url(file:///D|/XE/xe/modules/admin/tpl/img/flag.us.gif) no-repeat 99% 5px}
+.x .mLangEdit li.en textarea{background:url(../img/flag.us.gif) no-repeat 99% 5px}
 .x .langEdit li.ko input, 
-.x .mLangEdit li.ko textarea{background:url(file:///D|/XE/xe/modules/admin/tpl/img/flag.kr.gif) no-repeat 99% 5px}
+.x .mLangEdit li.ko textarea{background:url(../img/flag.kr.gif) no-repeat 99% 5px}
 .x .langEdit li.jp input, 
-.x .mLangEdit li.jp textarea{background:url(file:///D|/XE/xe/modules/admin/tpl/img/flag.jp.gif) no-repeat 99% 5px}
+.x .mLangEdit li.jp textarea{background:url(../img/flag.jp.gif) no-repeat 99% 5px}
 .x .langEdit li.fr input, 
-.x .mLangEdit li.fr textarea{background:url(file:///D|/XE/xe/modules/admin/tpl/img/flag.fr.gif) no-repeat 99% 5px}
+.x .mLangEdit li.fr textarea{background:url(../img/flag.fr.gif) no-repeat 99% 5px}
 .x .langEdit li.de input, 
-.x .mLangEdit li.de textarea{background:url(file:///D|/XE/xe/modules/admin/tpl/img/flag.de.gif) no-repeat 99% 5px}
+.x .mLangEdit li.de textarea{background:url(../img/flag.de.gif) no-repeat 99% 5px}
 .x .langEdit li.ru input, 
-.x .mLangEdit li.ru textarea{background:url(file:///D|/XE/xe/modules/admin/tpl/img/flag.ru.gif) no-repeat 99% 5px}
+.x .mLangEdit li.ru textarea{background:url(../img/flag.ru.gif) no-repeat 99% 5px}
 .x .langEdit li.es input, 
-.x .mLangEdit li.es textarea{background:url(file:///D|/XE/xe/modules/admin/tpl/img/flag.es.gif) no-repeat 99% 5px}
+.x .mLangEdit li.es textarea{background:url(../img/flag.es.gif) no-repeat 99% 5px}
 .x .langEdit li.tr input, 
-.x .mLangEdit li.tr textarea{background:url(file:///D|/XE/xe/modules/admin/tpl/img/flag.tr.gif) no-repeat 99% 5px}
+.x .mLangEdit li.tr textarea{background:url(../img/flag.tr.gif) no-repeat 99% 5px}
 .x .langEdit li.vi input, 
-.x .mLangEdit li.vi textarea{background:url(file:///D|/XE/xe/modules/admin/tpl/img/flag.vn.gif) no-repeat 99% 5px}
+.x .mLangEdit li.vi textarea{background:url(../img/flag.vn.gif) no-repeat 99% 5px}
 .x .langEdit li.mn input, 
-.x .mLangEdit li.mn textarea{background:url(file:///D|/XE/xe/modules/admin/tpl/img/flag.mn.gif) no-repeat 99% 5px}
+.x .mLangEdit li.mn textarea{background:url(../img/flag.mn.gif) no-repeat 99% 5px}
 .x .langEdit li.zh-CN input, 
 .x .mLangEdit li.zh-CN textarea, 
 .x .langEdit li.zh-TW input, 
-.x .mLangEdit li.zh-TW textarea{background:url(file:///D|/XE/xe/modules/admin/tpl/img/flag.cn.gif) no-repeat 99% 5px}
-.x .mLangEdit.en strong{background:url(file:///D|/XE/xe/modules/admin/tpl/img/flag.us.gif) no-repeat 0 10px}
-.x .mLangEdit.ko strong{background:url(file:///D|/XE/xe/modules/admin/tpl/img/flag.kr.gif) no-repeat 0 10px}
-.x .mLangEdit.jp strong{background:url(file:///D|/XE/xe/modules/admin/tpl/img/flag.jp.gif) no-repeat 0 10px}
-.x .mLangEdit.fr strong{background:url(file:///D|/XE/xe/modules/admin/tpl/img/flag.fr.gif) no-repeat 0 10px}
-.x .mLangEdit.de strong{background:url(file:///D|/XE/xe/modules/admin/tpl/img/flag.de.gif) no-repeat 0 10px}
-.x .mLangEdit.ru strong{background:url(file:///D|/XE/xe/modules/admin/tpl/img/flag.ru.gif) no-repeat 0 10px}
-.x .mLangEdit.es strong{background:url(file:///D|/XE/xe/modules/admin/tpl/img/flag.es.gif) no-repeat 0 10px}
-.x .mLangEdit.tr strong{background:url(file:///D|/XE/xe/modules/admin/tpl/img/flag.tr.gif) no-repeat 0 10px}
-.x .mLangEdit.vi strong{background:url(file:///D|/XE/xe/modules/admin/tpl/img/flag.vn.gif) no-repeat 0 10px}
-.x .mLangEdit.mn strong{background:url(file:///D|/XE/xe/modules/admin/tpl/img/flag.mn.gif) no-repeat 0 10px}
+.x .mLangEdit li.zh-TW textarea{background:url(../img/flag.cn.gif) no-repeat 99% 5px}
+.x .mLangEdit.en strong{background:url(../img/flag.us.gif) no-repeat 0 10px}
+.x .mLangEdit.ko strong{background:url(../img/flag.kr.gif) no-repeat 0 10px}
+.x .mLangEdit.jp strong{background:url(../img/flag.jp.gif) no-repeat 0 10px}
+.x .mLangEdit.fr strong{background:url(../img/flag.fr.gif) no-repeat 0 10px}
+.x .mLangEdit.de strong{background:url(../img/flag.de.gif) no-repeat 0 10px}
+.x .mLangEdit.ru strong{background:url(../img/flag.ru.gif) no-repeat 0 10px}
+.x .mLangEdit.es strong{background:url(../img/flag.es.gif) no-repeat 0 10px}
+.x .mLangEdit.tr strong{background:url(../img/flag.tr.gif) no-repeat 0 10px}
+.x .mLangEdit.vi strong{background:url(../img/flag.vn.gif) no-repeat 0 10px}
+.x .mLangEdit.mn strong{background:url(../img/flag.mn.gif) no-repeat 0 10px}
 .x .mLangEdit.zh-CN strong, 
-.x .mLangEdit.zh-TW strong{background:url(file:///D|/XE/xe/modules/admin/tpl/img/flag.cn.gif) no-repeat 0 10px}
+.x .mLangEdit.zh-TW strong{background:url(../img/flag.cn.gif) no-repeat 0 10px}
 .x .mLangEdit ul ul{border:0}
 .x .mLangEdit li{position:relative;padding:0}
 .x .mLangEdit li strong{display:inline-block;padding:6px 100px 8px 24px;font-weight:normal;line-height:1.5}
-.x .mLangEdit li .side{position:absolute;top:8px;right:0;padding-right:18px;background:url(file:///D|/XE/xe/modules/admin/tpl/img/iconArrow.gif) no-repeat right -160px}
+.x .mLangEdit li .side{position:absolute;top:8px;right:0;padding-right:18px;background:url(../img/iconArrow.gif) no-repeat right -160px}
 .x .mLangEdit li li{border:0;padding-right:36px}
 .x .mLangEdit li textarea{width:100%;height:16px;padding-right:30px;resize:vertical;line-height:1.4}
 .x .mLangEdit li label{top:8px !important}
@@ -493,7 +493,7 @@ body.modalContainer{_height:100%;_width:100%} /* IE6 only */
 /* Theme & Skin Preview */
 .x .thumbPreview li{position:relative;padding-left:10px;padding-right:10px}
 .x .thumbPreview li.active.highlight{background:#f9f9f9}
-.x .thumbPreview .prevToggle{position:absolute;top:8px;right:10px;line-height:16px;padding:0 18px 0 0;text-decoration:none;background:url(file:///D|/XE/xe/modules/admin/tpl/img/iconArrow.gif) no-repeat right -32px}
+.x .thumbPreview .prevToggle{position:absolute;top:8px;right:10px;line-height:16px;padding:0 18px 0 0;text-decoration:none;background:url(../img/iconArrow.gif) no-repeat right -32px}
 .x .thumbPreview li.active .prevToggle{background-position:right 0}
 .x .thumbPreview .a{border:0;margin:0;zoom:1}
 .x .thumbPreview .a:after{content:"";display:block;clear:both}
@@ -517,11 +517,11 @@ body.modalContainer{_height:100%;_width:100%} /* IE6 only */
 .x .thumbPreview.jx .i label{display:inline;width:auto}
 .x .thumbPreview.jx .i.noDirection{display:none}
 .x .thumbPreview.jx .i input{display:inline}
-.x #skin .showAll{float:right;border:0;overflow:visible;padding:0 18px 0 0;cursor:pointer;color:#00f;background:url(file:///D|/XE/xe/modules/admin/tpl/img/iconArrow.gif) no-repeat right -32px}
+.x #skin .showAll{float:right;border:0;overflow:visible;padding:0 18px 0 0;cursor:pointer;color:#00f;background:url(../img/iconArrow.gif) no-repeat right -32px}
 .x #skin .showAll.hideAll{background-position:right 0}
 /* Favorite On | Off */
 .x .fvOff,
-.x .fvOn{display:inline-block;width:16px;height:16px;overflow:hidden;text-indent:16px;background:url(file:///D|/XE/xe/modules/admin/tpl/img/iconFavorite.gif) no-repeat}
+.x .fvOn{display:inline-block;width:16px;height:16px;overflow:hidden;text-indent:16px;background:url(../img/iconFavorite.gif) no-repeat}
 .x .fvOn{background-position:0 -16px}
 /* Up-Down Dragable */
 .x .uDrag .wrap{position:relative;padding-left:20px}
@@ -529,14 +529,14 @@ body.modalContainer{_height:100%;_width:100%} /* IE6 only */
 .x .uDrag .dragActive{background:#FFD}
 .x .uDrag .dragActive th,
 .x .uDrag .dragActive td{background:none !important}
-.x .uDrag .dragBtn{position:absolute;width:8px;height:100%;padding:0;overflow:hidden;background:url(file:///D|/XE/xe/modules/admin/tpl/img/bgDragable.gif);top:1px;left:0;text-indent:12px;border:0;cursor:n-resize;white-space:nowrap}
+.x .uDrag .dragBtn{position:absolute;width:8px;height:100%;padding:0;overflow:hidden;background:url(../img/bgDragable.gif);top:1px;left:0;text-indent:12px;border:0;cursor:n-resize;white-space:nowrap}
 /* Favicon Preview */
-.x .faviconPreview{position:relative;padding:60px 0 0 200px;background:url(file:///D|/XE/xe/modules/admin/tpl/img/bgFavicon.gif) no-repeat}
+.x .faviconPreview{position:relative;padding:60px 0 0 200px;background:url(../img/bgFavicon.gif) no-repeat}
 .x .faviconPreview img{position:absolute}
 .x .faviconPreview .fn1{top:30px;left:12px}
 .x .faviconPreview .fn2{top:55px;left:68px}
 /* Mobile Icon Preview */
-.x .mobiconPreview{position:relative;padding:252px 0 0 200px;background:url(file:///D|/XE/xe/modules/admin/tpl/img/bgMobileTop.png) no-repeat}
+.x .mobiconPreview{position:relative;padding:252px 0 0 200px;background:url(../img/bgMobileTop.png) no-repeat}
 .x .mobiconPreview img{position:absolute;top:20px;left:10px}
 .x .mobiconPreview span{position:absolute;width:32px;text-align:center;top:52px;left:10px;color:#fff;font-size:9px}
 /* Text List */
@@ -554,8 +554,8 @@ body.modalContainer{_height:100%;_width:100%} /* IE6 only */
 .x .desc.error{color:#f00}
 .x .desc.success{color:#080}
 /* Icon Button */
-.x a.wPreview{display:inline-block;width:15px;height:0;padding:13px 0 0 0;overflow:hidden;vertical-align:middle;background:url(file:///D|/XE/xe/modules/admin/tpl/img/iconWindow.gif) no-repeat}
-.x a.iComment{display:inline-block;width:16px;height:0;padding:16px 0 0 0;overflow:hidden;vertical-align:middle;background:url(file:///D|/XE/xe/modules/admin/tpl/img/iconComment.gif) no-repeat}
+.x a.wPreview{display:inline-block;width:15px;height:0;padding:13px 0 0 0;overflow:hidden;vertical-align:middle;background:url(../img/iconWindow.gif) no-repeat}
+.x a.iComment{display:inline-block;width:16px;height:0;padding:16px 0 0 0;overflow:hidden;vertical-align:middle;background:url(../img/iconComment.gif) no-repeat}
 /* Responsive Layout */
 @media only all and (max-width:860px){
 .x .header h1{margin-left:.7em}
