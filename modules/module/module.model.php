@@ -502,7 +502,7 @@
             $xml_file = sprintf("%sconf/module.xml", $class_path);
             if(!file_exists($xml_file)) return;
             // Check if cached file exists
-            $cache_file = sprintf("./files/cache/module_info/%s.%s.php", $module, Context::getLangType());
+            $cache_file = sprintf("./files/cache/module_info/%s.%s.%s.php", $module, Context::getLangType(), __ZBXE_VERSION__);
             // Update if no cache file exists or it is older than xml file
             if(!file_exists($cache_file) || filemtime($cache_file)<filemtime($xml_file)) {
 
