@@ -965,4 +965,16 @@ Lütfen son sürümü için indirme linkine tıklayınız.]]></value>
 		<value xml:lang="ko"><![CDATA[선택안함]]></value>
 		<value xml:lang="en"><![CDATA[No Select]]></value>
 	</item>
+	<item name="admin_logo">
+		<value xml:lang="ko"><![CDATA[관리자 페이지 로고]]></value>
+		<value xml:lang="en"><![CDATA[Admin Logo]]></value>
+	</item>
+	<item name="admin_title">
+		<value xml:lang="ko"><![CDATA[관리자 페이지 제목]]></value>
+		<value xml:lang="en"><![CDATA[Admin Title]]></value>
+	</item>
+	<item name="admin_menu_add">
+		<value xml:lang="ko"><![CDATA[관리자 메뉴 추가]]></value>
+		<value xml:lang="en"><![CDATA[Admin Menu Add]]></value>
+	</item>
 </lang>

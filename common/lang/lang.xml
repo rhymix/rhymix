@@ -84,6 +84,10 @@
 		<value xml:lang="vi"><![CDATA[Xem]]></value>
 		<value xml:lang="mn"><![CDATA[Харах]]></value>
 	</item>
+	<item name="all">
+		<value xml:lang="ko"><![CDATA[전체]]></value>
+		<value xml:lang="en"><![CDATA[All]]></value>
+	</item>
 	<item name="cmd_view_all">
 		<value xml:lang="ko"><![CDATA[전체 보기]]></value>
 		<value xml:lang="en"><![CDATA[View All]]></value>

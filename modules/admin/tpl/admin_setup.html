@@ -10,7 +10,7 @@
 			<h2 class="h2">{$lang->title}</h2>
 			<ul class="form">
 				<li>
-					<p class="q"><label for="adminLogo">관리자 페이지 로고</label></p>
+					<p class="q"><label for="adminLogo">{$lang->admin_logo}</label></p>
 					<p class="a">
 						<!--@if($config_object->adminLogo)-->
 						<img src="{getUrl('').$config_object->adminLogo}" />
@@ -22,7 +22,7 @@
 					<p class="a"><input type="file" name="adminLogo" id="adminLogo" /></p>
 				</li>
 				<li>
-					<p class="q"><label for="adminTitle">관리자 페이지 제목</label></p>
+					<p class="q"><label for="adminTitle">{$lang->admin_title}</label></p>
 					<p class="a"><input type="text" name="adminTitle" id="adminTitle" value="{$config_object->adminTitle}" /></p>
 				</li>
 			</ul>
@@ -41,9 +41,9 @@
 				<li class="parent" loop="$gnbUrlList=>$key,$value">
 					<input type="hidden" name="parent_key[]" value="{$key}" class="_parent_key" />
 					<input type="hidden" name="child_key[]" value="BEGIN_{$key}" />
-					<span>{$value['text']}</span> <span class="side"><a href="#editMenu" class="modalAnchor _add">Add</a></span>
+					<span>{$value['text']}</span> <span class="side"><a href="#editMenu" class="modalAnchor _add">{$lang->add}</a></span>
 					<ul cond="is_array($value['list']) && count($value['list'])>0">
-						<li loop="$value['list']=>$key2,$value2"><span>{$value2['text']}</span><span class="side"><a href="#delete" class="_child_delete">Delete</a></span><input type="hidden" name="child_key[]" value="{$key2}" class="_child_key" /></li>
+						<li loop="$value['list']=>$key2,$value2"><span>{$value2['text']}</span><span class="side"><a href="#delete" class="_child_delete">{$lang->delete}</a></span><input type="hidden" name="child_key[]" value="{$key2}" class="_child_key" /></li>
 					</ul>
 				</li>
 			</ul>
@@ -61,10 +61,10 @@
 			<input type="hidden" name="act" value="procMenuAdminInsertItemForAdminMenu" />
 			<input type="hidden" name="menu_srl" value="{$menu_srl}" />
 			<input type="hidden" name="parent_srl" value="" />
-				<h2 class="h2">My Navigation Setting</h2>
+				<h2 class="h2">{$lang->admin_menu_add}</h2>
 				<ul>
 					<li>
-						<p class="q"><label for="name">Name</label></p>
+						<p class="q"><label for="name">{$lang->module}</label></p>
 						<div class="a">
 							<select name="menu_name" id="menuNameList">
 							</select>
@@ -72,7 +72,7 @@
 					</li>
 				</ul>
 				<div class="btnArea">
-					<span class="btn"><input type="submit" value="Save" /></span>
+					<span class="btn"><input type="submit" value="{$lang->cmd_save}" /></span>
 				</div>
 			</form>
 		</div>
