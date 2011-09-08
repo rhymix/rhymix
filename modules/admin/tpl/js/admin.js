@@ -816,7 +816,7 @@ $('.multiLangEdit')
 			initLayer($layer);
 
 			// reset
-			$layer.trigger('multilang-reset')
+			$layer.trigger('multilang-reset').removeClass('showChild').find('.langList').empty().end();
 			$('#langInput li.'+xe.current_lang+' > input').val(text).prev('label').css('visibility','hidden');
 
 			// hide suggestion layer
@@ -841,23 +841,19 @@ $('.multiLangEdit')
 				$layer.data('multilang-list', list);
 
 				// make language list
-				$langlist = $layer.find('.langList').empty();
+				$langlist = $layer.find('.langList');
 				$.each(list, function(key){
 					var $li = $('<li />').appendTo($langlist);
 
-					$('<button type="button" />')
+					$('<a href="#langInput" class="langItem" />')
 						.text(this[xe.current_lang])
 						.data('multilang-name', key)
 						.appendTo($li);
 				});
 
-				if(count(list) > 1) {
-					$langlist.show();
-				} else {
-					$langlist.hide();
-				}
+				if(count(list) > 1) $layer.addClass('showChild');
 
-				$layer.find('.langList>li>button').click();
+				$layer.find('.langList>li>a:first').click();
 
 			};
 
@@ -941,7 +937,7 @@ function initLayer($layer) {
 
 			$layer
 				.trigger('multilang-reset') // reset
-				.find('a.langItem.active').removeClass('active')
+				.find('.langList li.active').removeClass('active').end()
 				.data('multilang-current-name', name);
 
 			$this.parent('li').addClass('active');
@@ -981,9 +977,13 @@ function initLayer($layer) {
 	};
 
 	function setTitleText() {
-		$layer.find('h2')
-			.find('strong').text(mode==MODE_SAVE?cmd_add:cmd_edit).end()
-			.find('a').text(mode==MODE_SAVE?cmd_edit:cmd_add).end()
+		if(!$layer.data('multilang-current-name')) {
+			$layer.find('h2').find('strong').text(cmd_add).end().find('a').hide();
+		} else {
+			$layer.find('h2')
+				.find('strong').text(mode==MODE_SAVE?cmd_add:cmd_edit).end()
+				.find('a').text(mode==MODE_SAVE?cmd_edit:cmd_add).show().end();
+		}
 	};
 	
 	// process the submit button

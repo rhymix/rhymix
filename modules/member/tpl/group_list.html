@@ -56,7 +56,7 @@
 							<input type="hidden" name="group_titles[]" value="{htmlspecialchars($group_info->title)}" class="vLang"/>
 							<input type="text" value="{$group_info->title}" class="vLang" />
 							<div class="suggestion"><ul></ul></div>
-							<span class="desc"><a href="#langEdit" class="tgAnchor editUserLang">{$lang->cmd_set_multilingual}</a></span>
+							<span class="desc"><a href="#langEdit" class="tgAnchor editUserLang" data-effect="slide">{$lang->cmd_set_multilingual}</a></span>
 							</div>
 						</td>
 						<td><input type="text" name="descriptions[]" value="{$group_info->description}" style="width:240px" /></td>
@@ -90,12 +90,8 @@
 		</div>
 
 		<!-- Multilingual -->
-		<div id="langEdit" class="form langEdit tgContent showChild">
-			<ul class="langList">
-				<li><a href="#langInput">동해물과 <em>백두산</em>이 마르고 닳도록 하느님이 보우하사 우리나라 만세</a> | <span>Dong hae mul ga bak do san</span> | <span>ドンヘムルと白頭山が乾いて</span></li>
-				<li class="active"><a href="#langInput">동해물과 <em>백두산</em>이 마르고 닳도록 하느님이 보우하사 우리나라 만세</a> | <span>Dong hae mul ga bak do san</span> | <span>ドンヘムルと白頭山が乾いて</span></li>
-				<li><a href="#langInput">동해물과 <em>백두산</em>이 마르고 닳도록 하느님이 보우하사 우리나라 만세</a> | <span>Dong hae mul ga bak do san</span> | <span>ドンヘムルと白頭山が乾いて</span></li>
-			</ul>
+		<div id="langEdit" class="langEdit tgContent">
+			<ul class="langList"></ul>
 			<div id="langInput">
 				<h2>다국어 <strong>수정</strong> | <a href="#langEdit">추가</a></h2>
 				<ul>
@@ -107,12 +103,12 @@
 					}
 					<li loop="$lang_supported=>$code,$name" class="{$code}"><label for="{$code}_var1">{$name}</label> <input type="text" value="" id="{$code}_var1" /></li>
 				</ul>
-			</div>
-			<div class="action">
-				<div class="btnArea">
-					<span class="btn small"><input type="submit" value="사용|저장 후 사용" /></span>
+				<div class="action">
+					<div class="btnArea">
+						<span class="btn small"><input type="submit" value="사용|저장 후 사용" /></span>
+					</div>
+					<p><a href="{getUrl('act','dispModuleAdminLangcode')}">다국어 텍스트 관리</a></p>
 				</div>
-				<p><a href="{getUrl('act','dispModuleAdminLangcode')}">다국어 텍스트 관리</a></p>
 			</div>
 		</div>
 	</form>

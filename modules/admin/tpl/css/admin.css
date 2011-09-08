@@ -403,11 +403,12 @@ body.modalContainer{_height:100%;_width:100%} /* IE6 only */
 .x .langEdit .btnArea{white-space:normal}
 .x .langEdit .langList,
 .x .langEdit .langEditControls{box-shadow:3px 3px 6px #999;-moz-box-shadow:3px 3px 6px #999;-webkit-box-shadow:3px 3px 6px #999;filter:progid:DXImageTransform.Microsoft.Shadow(color=#999999,direction=135, strength=5)}
-.x .langEdit .langList{margin:0 -1px 0 0}
+.x .langEdit .langList{margin:0 -1px 0 0;display:none}
 .x .langEdit .langList li{white-space:nowrap;color:#ccc;width:270px} 
 .x .langEdit .langList li span{display:inline-block;width:80px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;color:#767676}
 .x .langEdit .langList li a{display:inline-block;width:80px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
 .x .langEdit .langList li.active{background:url(../img/iconArrow.gif) no-repeat right -188px}
+.x .langEdit.showChild .langList{display:block}
 .x .langEdit #langInput{background:#fff}
 .x .langEdit #langInput h2{padding:5px 10px;margin:0 0 -1px 0;font-weight:normal;color:#ccc;border:1px solid #eee;border-top-color:#ccc}
 .x .langEdit #langInput h2 strong{color:#000}
@@ -469,7 +470,8 @@ body.modalContainer{_height:100%;_width:100%} /* IE6 only */
 .x .suggestion li button{border:0;background:#fff;text-align:left;width:288px;padding:2px 4px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .x .suggestion li button:hover,
 .x .suggestion li button:active,
-.x .suggestion li button:focus{background:#eee}
+.x .suggestion li button:focus,
+.x .suggestion li button.active{background:#eee}
 /* Image Mark */
 .x #imageMark{right:0}
 /* Easy Installer */
