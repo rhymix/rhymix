@@ -20,8 +20,9 @@ function doSelectKrZip(column_name) {
 	var val  = form.find('select[name=_tmp_address_list_'+column_name+']').val();
 	var addr = form.find('input[name='+column_name+']');
 
-	addr.eq(0).val(val);
-	addr.eq(1).focus();
+	addr
+		.eq(0).val(val).end()
+		.eq(1).focus();
 }
 
 function doSearchKrZip(column_name) {
