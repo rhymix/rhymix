@@ -297,7 +297,7 @@
 			if(!$oDB->isColumnExists("modules", "is_skin_fix")){
 				$oDB->addColumn('modules', 'is_skin_fix', 'char', 1, 'N');
 				$output = executeQueryArray('module.getAllSkinSetModule');
-				if ($output->toBool()){
+				if ($output->toBool() && $output->data){
 					$module_srls = array();
 					foreach($output->data as $val){
 						$module_srls[] = $val->module_srl;
