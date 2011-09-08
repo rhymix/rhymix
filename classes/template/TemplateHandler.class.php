@@ -60,7 +60,7 @@
 			$this->web_path = $this->xe_path.str_replace(_XE_PATH_,'',$this->path);
 
 			// get compiled file name
-			$this->compiled_file = sprintf('%s%s.compiled.php',$this->compiled_path, md5($this->file));
+			$this->compiled_file = sprintf('%s%s.compiled.php',$this->compiled_path, md5($this->file . __ZBXE_VERSION__));
 
 			// compare various file's modified time for check changed
 			$this->handler_mtime = filemtime(_XE_PATH_.'classes/template/TemplateHandler.class.php');
