@@ -16,6 +16,7 @@
 
     <form ruleset="@login" action="./" method="post" id="fo_member_login">
 	<input type="hidden" name="act" value="procMemberLogin" />
+	<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
         <fieldset class="login">
             <dl>
                 <dt><label for="uid">{$lang->user_id}</label></dt>

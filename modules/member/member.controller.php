@@ -48,10 +48,11 @@
                 }
             }
 
-            $redirect_url = Context::get('redirect_url'); 
-            if ($output->toBool () && Context::getRequestMethod () == "POST" && $redirect_url) {
-                header ("location:" . $redirect_url);
-            }
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '');
+				$this->setRedirectUrl($returnUrl);
+				return;
+			}
 
             return $output;
         }

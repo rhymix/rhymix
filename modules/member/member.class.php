@@ -136,7 +136,7 @@
                     // Insert admin information
                     $oMemberAdminController->insertAdmin($admin_info);
                     // Log-in Processing
-                    $output = $oMemberController->doLogin($admin_info->user_id);
+                    $output = $oMemberController->doLogin($admin_info->email_address);
                 }
             }
             // Register denied ID(default + module name)
