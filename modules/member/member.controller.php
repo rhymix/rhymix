@@ -1390,10 +1390,21 @@
             if(!$trigger_output->toBool()) return $trigger_output;
             // Create a member model object
             $oMemberModel = &getModel('member');
-            // Get user_id information
-            $this->memberInfo = $oMemberModel->getMemberInfoByUserID($user_id);
-            // Set an invalid user if no value returned
-            if(!$user_id || strtolower($this->memberInfo->user_id) != strtolower($user_id)) return new Object(-1, 'invalid_user_id');
+
+			// check identifier
+			$config = $oMemberModel->getMemberConfig();
+			if ($config->identifier == 'email_address'){
+				// Get user_id information
+				$this->memberInfo = $oMemberModel->getMemberInfoByEmailAddress($user_id);
+				// Set an invalid user if no value returned
+				if(!$user_id || strtolower($this->memberInfo->email_address) != strtolower($user_id)) return new Object(-1, 'invalid_email_address');
+
+			}else{
+				// Get user_id information
+				$this->memberInfo = $oMemberModel->getMemberInfoByUserID($user_id);
+				// Set an invalid user if no value returned
+				if(!$user_id || strtolower($this->memberInfo->user_id) != strtolower($user_id)) return new Object(-1, 'invalid_user_id');
+			}
             // Password Check
             if($password && !$oMemberModel->isValidPassword($this->memberInfo->password, $password)) return new Object(-1, 'invalid_password');
             // If denied == 'Y', notify

@@ -212,6 +212,7 @@
 
 				// create Ruleset
 				$this->_createSignupRuleset($signupForm);
+				$this->_createLoginRuleset($args->identifier);
 			}
 			$output = $oModuleController->updateModuleConfig('member', $args);
 			// default setting end
@@ -244,6 +245,31 @@
 
 			$xml_buff = sprintf($buff, implode('', $fields));
             FileHandler::writeFile($xml_file, $xml_buff);
+
+			$validator   = new Validator($xml_file);
+			$validator->setCacheDir('files/cache');
+			$validator->getJsPath();
+		}
+
+		function _createLoginRuleset($identifier){
+			$xml_file = './files/ruleset/login.xml';
+			$buff = '<?xml version="1.0" encoding="utf-8"?>'
+					.'<ruleset version="1.5.0">'
+				    .'<customrules>'
+					.'</customrules>'
+					.'<fields>%s</fields>'						
+					.'</ruleset>';
+
+			$fields = array();
+			$fields[] = sprintf('<field name="user_id" required="true" rule="%s"/>', $identifier);
+			$fields[] = '<field name="password" required="true" />';
+
+			$xml_buff = sprintf($buff, implode('', $fields));
+            FileHandler::writeFile($xml_file, $xml_buff);
+
+			$validator   = new Validator($xml_file);
+			$validator->setCacheDir('files/cache');
+			$validator->getJsPath();
 		}
 
         /**

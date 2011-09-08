@@ -169,6 +169,21 @@
         }
 
         /**
+         * @brief Return member information with email_address
+         **/
+        function getMemberInfoByEmailAddress($email_address) {
+            if(!$email_address) return;
+
+            $args->email_address = $email_address;
+            $output = executeQuery('member.getMemberInfoByEmailAddress', $args);
+            if(!$output->toBool()) return $output;
+            if(!$output->data) return;
+
+            $member_info = $this->arrangeMemberInfo($output->data);
+            return $member_info;
+        }
+
+        /**
          * @brief Return member information with member_srl
          **/
         function getMemberInfoByMemberSrl($member_srl, $site_srl = 0, $columnList = array()) {

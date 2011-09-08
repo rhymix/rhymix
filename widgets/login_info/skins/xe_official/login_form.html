@@ -12,9 +12,14 @@
 <!--%import("./js/login.js")-->
 
 <fieldset id="login" class="login_{$colorset}">
+<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
 <legend>{$lang->cmd_login}</legend>
-<form id="fo_login_widget" action="./" method="post" onsubmit="return procFilter(this, widget_login)">
-	<input type="hidden" name="_filter" value="widget_login" />
+<form id="fo_login_widget" action="./" method="post" ruleset="@login">
+	<input type="hidden" name="act" value="procMemberLogin" />
+	<input type="hidden" name="success_return_url" value="{getUrl('act', '')}" />
+
 
     <div class="idpwWrap">
         <div class="idpw">

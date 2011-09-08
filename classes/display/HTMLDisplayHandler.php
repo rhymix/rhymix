@@ -15,7 +15,7 @@ class HTMLDisplayHandler {
 		else
 			$skin = $oModule->module_config->skin;
 
-		if ($skin){
+		if ($skin && is_string($skin)){
 			$theme_skin = explode('.', $skin);
 			if (count($theme_skin) == 2)
 				$template_path = sprintf('./themes/%s/modules/%s/', $theme_skin[0], $theme_skin[1]);
@@ -24,6 +24,7 @@ class HTMLDisplayHandler {
 		}else{
 			$template_path = $oModule->getTemplatePath();
 		}
+
 		$tpl_file = $oModule->getTemplateFile();
 
 		$output = $oTemplate->compile($template_path, $tpl_file);

@@ -36,7 +36,7 @@
         <action name="getMemberAdminColorset" type="model" standalone="true" />
 		<action name="getMemberAdminInsertJoinForm" type="model" />
 
-        <action name="procMemberLogin" type="controller" standalone="true" ruleset="login" />
+        <action name="procMemberLogin" type="controller" standalone="true" ruleset="@login" />
         <action name="procMemberOpenIDLogin" type="controller" standalone="true" ruleset="openidLogin" />
         <action name="procMemberOpenIDValidate" type="controller" standalone="true" />
         <action name="procMemberAddOpenIDToMember" type="controller" standalone="true" />

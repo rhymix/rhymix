@@ -2319,4 +2319,10 @@ Bạn có thể quản lý thành viên bằng cách tạo những nhóm mới, 
 	<item name="msg_null_prohibited_id">
 		<value xml:lang="ko"><![CDATA[추가할 금지 아이디를 입력해주세요.]]></value>
 	</item>
+	<item name="identifier">
+		<value xml:lang="ko"><![CDATA[로그인 계정]]></value>
+	</item>
+	<item name="about_identifier">
+		<value xml:lang="ko"><![CDATA[로그인에 사용할 계정을 선택해주세요.<br/> 이메일 주소 선택시 회원정보는 이메일 주소로 노출됩니다.]]></value>
+	</item>
 </lang>

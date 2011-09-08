@@ -10,10 +10,10 @@
 	</publisher>
 	<description xml:lang="ko">XE가 제공하는 기본 테마입니다.</description>
 	<description xml:lang="en">The basic theme is provided by XE.</description>
-	<skinInfos>
-		<layoutInfo>
+	<layout>
 			<directory path="./layouts/xe_official" />
-		</layoutInfo>
+	</layout>
+	<skinInfos>
 		<skinInfo>
 			<directory path="./modules/page/skins/default" />
 		</skinInfo>
