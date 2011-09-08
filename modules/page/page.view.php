@@ -12,7 +12,7 @@
         var $page_count = 10;
 		var $cache_file;
 		var $interval;
-		var $opage_path;
+		var $path;
 
         /**
          * @brief Initialization
@@ -31,7 +31,7 @@
 				case 'OUTSIDE' :  {
 									$this->cache_file = sprintf("./files/cache/opage/%d.cache.php", $this->module_info->module_srl); 
 									$this->interval = (int)($this->module_info->page_caching_interval);
-									$this->opage_path = $this->module_info->opage_path;
+									$this->path = $this->module_info->path;
 									break;
 								  }
 			}
@@ -90,9 +90,9 @@
 
 		function _getOutsideContent(){
             // check if it is http or internal file
-            if($this->opage_path) {
-                if(preg_match("/^([a-z]+):\/\//i",$this->opage_path)) $content = $this->getHtmlPage($this->opage_path, $this->interval, $this->cache_file);
-                else $content = $this->executeFile($this->opage_path, $this->interval, $this->cache_file);
+            if($this->path) {
+                if(preg_match("/^([a-z]+):\/\//i",$this->path)) $content = $this->getHtmlPage($this->path, $this->interval, $this->cache_file);
+                else $content = $this->executeFile($this->path, $this->interval, $this->cache_file);
             }
 		
 			return $content;
@@ -153,7 +153,7 @@
                 $content = ob_get_clean();
                 // Replace relative path to the absolute path 
                 $path_info = pathinfo($path);
-                $this->opage_path = str_replace('\\', '/', realpath($path_info['dirname'])).'/';
+                $this->path = str_replace('\\', '/', realpath($path_info['dirname'])).'/';
                 $content = preg_replace_callback('/(target=|src=|href=|url\()("|\')?([^"\'\)]+)("|\'\))?/is',array($this,'_replacePath'),$content);
                 $content = preg_replace_callback('/(<!--%import\()(\")([^"]+)(\")/is',array($this,'_replacePath'),$content);
 
@@ -185,12 +185,12 @@
 				return $matches[0];
             // In case of  .. , get a path
             } elseif(preg_match('/^\.\./i',$val)) {
-				$p = Context::pathToUrl($this->opage_path);
+				$p = Context::pathToUrl($this->path);
                 return sprintf("%s%s%s%s",$matches[1],$matches[2],$p.$val,$matches[4]);
             }
 
             if(substr($val,0,2)=='./') $val = substr($val,2);
-			$p = Context::pathToUrl($this->opage_path);
+			$p = Context::pathToUrl($this->path);
             $path = sprintf("%s%s%s%s",$matches[1],$matches[2],$p.$val,$matches[4]);
 
 			return $path;

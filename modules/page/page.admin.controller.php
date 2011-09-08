@@ -48,14 +48,14 @@
 				case 'WIDGET' : {
 									unset($args->skin);
 									unset($args->mskin);
-									unset($args->opage_path);
-									unset($args->opage_mpath);
+									unset($args->path);
+									unset($args->mpath);
 									break;
 								}
 				case 'ARTICLE' : {
 									unset($args->page_caching_interval);
-									unset($args->opage_path);
-									unset($args->opage_mpath);
+									unset($args->path);
+									unset($args->mpath);
 									break;
 								}
 				case 'OUTSIDE' : {

@@ -6,5 +6,8 @@
 		<field name="page_type" required="true" rule="alpha" />
 		<field name="page_name" required="true" length=":40" rule="alpha_number" />
 		<field name="browser_title" required="true" length=":250" />
+		<field name="path">
+			<if test="$page_type == 'OUTSIDE'" attr="required" value="true" />
+		</field>
     </fields>
 </ruleset>

@@ -44,6 +44,7 @@
 					$in_out = executeQuery('page.insertPageType', $args);
 				}
 				$output = executeQuery('page.updateAllOpage');
+				if(!$output->toBool()) return $output;
 			}
 
 			// old page module instance update
