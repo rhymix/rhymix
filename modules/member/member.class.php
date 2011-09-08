@@ -59,9 +59,10 @@
 
 			$extendItems = $oMemberModel->getJoinFormList();
 			
+			$identifier = 'email_address';
 			$items = array('user_id', 'password', 'user_name', 'nick_name', 'email_address', 'find_account_question', 'homepage', 'blog', 'birthday', 'signature', 'profile_image', 'image_name', 'image_mark');
-			$mustRequireds = array('email_address', 'password', 'find_account_question');
-			$orgRequireds = array('email_address', 'password', 'find_account_question');
+			$mustRequireds = array('email_address', 'nick_name','password', 'find_account_question');
+			$orgRequireds = array('email_address', 'nick_name','password', 'find_account_question');
 			$orgUse = array('email_address', 'password', 'find_account_question');
 			$list_order = array();
 			foreach($items as $key){
@@ -73,6 +74,7 @@
 				$signupItem->imageType = (strpos($key, 'image') !== false);
 				$signupItem->required = in_array($key, $orgRequireds);
 				$signupItem->isUse = ($config->{$key} == 'Y') || in_array($key, $orgUse);
+				$signupItem->isIdentifier = ($key == $identifier);
 				if ($signupItem->imageType){
 					$signupItem->max_width = $config->{$key.'_max_width'};
 					$signupItem->max_height = $config->{$key.'_max_height'};
@@ -98,6 +100,7 @@
 				}
 			}
 			$args->signupForm = $list_order;
+			$args->identifier = $identifier;
 
             $oModuleController->insertModuleConfig('member',$args);
             // Create a member controller object
@@ -274,7 +277,7 @@
 				
 				$identifier = 'user_id';
 				$items = array('user_id', 'password', 'user_name', 'nick_name', 'email_address', 'find_account_question', 'homepage', 'blog', 'birthday', 'signature', 'profile_image', 'image_name', 'image_mark');
-				$mustRequireds = array('email_address', 'password', 'find_account_question');
+				$mustRequireds = array('email_address', 'nick_name','password', 'find_account_question');
 				$orgRequireds = array('email_address', 'password', 'find_account_question', 'user_id', 'nick_name', 'user_name');
 				$orgUse = array('email_address', 'password', 'find_account_question', 'user_id', 'nick_name', 'user_name', 'homepage', 'blog', 'birthday');
 				$list_order = array();
@@ -313,6 +316,7 @@
 					}
 				}
 				$config->signupForm = $list_order;
+				$config->identifier = $identifier;
 				$output = $oModuleController->updateModuleConfig('member', $config);
 			}
 
