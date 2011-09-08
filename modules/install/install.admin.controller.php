@@ -31,6 +31,7 @@
          * @brief Upate the module
          **/
         function procInstallAdminUpdate() {
+			set_time_limit(0);
             $module_name = Context::get('module_name');
             if(!$module_name) return new object(-1, 'invalid_request');
 

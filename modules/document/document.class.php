@@ -250,9 +250,11 @@
 				$oDB->addColumn('documents', 'status', 'varchar', 20, 'PUBLIC');
 				$args->is_secret = 'Y';
 				$output = executeQuery('document.updateDocumentStatus', $args);
-				if($output->toBool())
-					$oDB->dropColumn('documents', 'is_secret');
 			}
+
+			// 2011. 09. 08 drop column document is_secret
+			if($oDB->isColumnExists('documents', 'status') && $oDB->isColumnExists('documents', 'is_secret'))
+				$oDB->dropColumn('documents', 'is_secret');
 
 			//2011. 06. 07 merge column, allow_comment and lock_comment
 			if($oDB->isColumnExists('documents', 'allow_comment') || $oDB->isColumnExists('documents', 'lock_comment'))
@@ -262,32 +264,28 @@
 				$moduleSrlList = $oModuleModel->getModuleSrlList(null, $columnList);
 
 				$args->commentStatus = 'DENY';
-				$isSuccessUpdated = true;
 
 				// allow_comment='Y', lock_comment='Y'
 				$args->allowComment = 'Y';
 				$args->lockComment = 'Y';
                 $output = executeQuery('document.updateDocumentCommentStatus', $args);
-				if(!$output->toBool()) $isSuccessUpdated = false;
 
 				// allow_comment='N', lock_comment='Y'
 				$args->allowComment = 'N';
 				$args->lockComment = 'Y';
                 $output = executeQuery('document.updateDocumentCommentStatus', $args);
-				if(!$output->toBool()) $isSuccessUpdated = false;
 
 				// allow_comment='N', lock_comment='N'
 				$args->allowComment = 'N';
 				$args->lockComment = 'N';
                 $output = executeQuery('document.updateDocumentCommentStatus', $args);
-				if(!$output->toBool()) $isSuccessUpdated = false;
-
-				if($isSuccessUpdated)
-				{
-					$oDB->dropColumn('documents', 'allow_comment');
-					$oDB->dropColumn('documents', 'lock_comment');
-				}
 			}
+
+			if($oDB->isColumnExists('documents', 'allow_comment') && $oDB->isColumnExists('documents', 'comment_status'))
+				$oDB->dropColumn('documents', 'allow_comment');
+
+			if($oDB->isColumnExists('documents', 'lock_comment') && $oDB->isColumnExists('documents', 'comment_status'))
+				$oDB->dropColumn('documents', 'lock_comment');
 
             return new Object(0,'success_updated');
         }
