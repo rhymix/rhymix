@@ -63,7 +63,7 @@
 			$items = array('user_id', 'password', 'user_name', 'nick_name', 'email_address', 'find_account_question', 'homepage', 'blog', 'birthday', 'signature', 'profile_image', 'image_name', 'image_mark');
 			$mustRequireds = array('email_address', 'nick_name','password', 'find_account_question');
 			$orgRequireds = array('email_address', 'nick_name','password', 'find_account_question');
-			$orgUse = array('email_address', 'password', 'find_account_question');
+			$orgUse = array('email_address', 'nick_name', 'password', 'find_account_question');
 			$list_order = array();
 			foreach($items as $key){
 				unset($signupItem);
@@ -79,7 +79,10 @@
 					$signupItem->max_width = $config->{$key.'_max_width'};
 					$signupItem->max_height = $config->{$key.'_max_height'};
 				}
-				$list_order[] = $signupItem;
+				if ($signupItem->isIdentifier)
+					array_unshift($list_order, $signupItem);
+				else
+					$list_order[] = $signupItem;
 			}
 			if (is_array($extendItems)){
 				foreach($extendItems as $form_srl=>$item_info){
@@ -295,7 +298,10 @@
 						$signupItem->max_width = $config->{$key.'_max_width'};
 						$signupItem->max_height = $config->{$key.'_max_height'};
 					}
-					$list_order[] = $signupItem;
+					if ($signupItem->isIdentifier)
+						array_unshift($list_order, $signupItem);
+					else
+						$list_order[] = $signupItem;
 				}
 				if (is_array($extendItems)){
 					foreach($extendItems as $form_srl=>$item_info){

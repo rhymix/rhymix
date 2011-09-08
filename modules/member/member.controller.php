@@ -1570,6 +1570,9 @@
             if($args->password && !$password_is_hashed) $args->password = md5($args->password);
             elseif(!$args->password) unset($args->password);
 
+			if (!$args->user_id) $args->user_id = 't'.$args->member_srl; 
+			if (!$args->user_name) $args->user_name = $args->member_srl
+
             $output = executeQuery('member.insertMember', $args);
             if(!$output->toBool()) {
                 $oDB->rollback();
