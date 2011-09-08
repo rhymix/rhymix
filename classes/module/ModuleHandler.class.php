@@ -197,6 +197,11 @@
             if(!$kind && $this->module == 'admin') $kind = 'admin';
 			if($this->module_info->use_mobile != "Y") Mobile::setMobile(false);
 
+			if($kind == 'admin'){
+				$oModuleAdminModel = &getAdminModel('module');
+				if(!$oModuleAdminModel->getModuleAdminIPCheck()) return false;
+			}
+			
 			// if(type == view, and case for using mobilephone)
 			if($type == "view" && Mobile::isFromMobilePhone() && Context::isInstalled())
 			{
@@ -377,7 +382,8 @@
 				if ($message != 'success') $_SESSION['XE_VALIDATOR_MESSAGE'] = $message;
 				$_SESSION['XE_VALIDATOR_MESSAGE_TYPE'] = $messageType;
 				$_SESSION['XE_VALIDATOR_RETURN_URL'] = $redirectUrl;
-			}
+			}	
+			
             return $oModule;
         }
 
