@@ -75,6 +75,8 @@
 
         var $cache_file = 'files/cache/queries/'; ///< location of query cache
 
+		var $db_type; ///< stores database type: 'mysql','cubrid','mssql' etc. or 'db' when database is not yet set
+		
         /**
          * @brief returns instance of certain db type
          * @param[in] $db_type type of db
@@ -93,6 +95,7 @@
 				// get a singletone instance of the database driver class
 				require_once($class_file);
                 $GLOBALS['__DB__'][$db_type] = call_user_func(array($class_name, 'create'));
+				$GLOBALS['__DB__'][$db_type]->db_type = $db_type;
             }
 
             return $GLOBALS['__DB__'][$db_type];
@@ -323,6 +326,7 @@
          **/
         function executeQuery($query_id, $args = NULL, $arg_columns = NULL, $database_type = 'master') {
             if(!$query_id) return new Object(-1, 'msg_invalid_queryid');
+			if(!$this->db_type) return;
 
 			$this->actDBClassStart();
 
@@ -599,12 +603,6 @@
 			$values = $query->getInsertString($with_values);
 
 			return "INSERT INTO $tableName \n $values";
-		}
-
-		// HACK This is needed because on installation, the XmlQueryParer is used without any configured database
-		// TODO Change this or make sure the query cache files created before db.config exists are deleted
-		function getParser(){
-			return new DBParser('`');
 		}
 
         function _getSlaveConnectionStringIndex() {

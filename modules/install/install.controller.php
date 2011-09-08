@@ -166,8 +166,6 @@
             Context::setDBInfo($db_info);
             // Create DB Instance
             $oDB = &DB::getInstance();
-			// Force update dbParser
-			XmlQueryParser::getDBParser(true);
             // Check if available to connect to the DB
             if(!$oDB->isConnected()) return $oDB->getError();
             // When installing firebire DB, transaction will not be used
