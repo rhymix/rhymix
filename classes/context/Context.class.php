@@ -466,16 +466,21 @@ class Context {
 
 		if(!is_array($self->loaded_lang_files)) $self->loaded_lang_files = array();
 		if(in_array($filename, $self->loaded_lang_files)) return;
-		$self->loaded_lang_files[] = $filename;
 
-		if (is_readable($filename))
+		if ($filename && is_readable($filename)){
+			$self->loaded_lang_files[] = $filename;
 			@include($filename);
-		else
+		}else{
 			$self->_evalxmlLang($path);
+		}
 	}
 
 	function _evalxmlLang($path) {
 		global $lang;
+		
+		$_path = 'eval://'.$path;
+
+		if(in_array($_path, $this->loaded_lang_files)) return;
 
 		if(substr($path,-1)!='/') $path .= '/';
 		$file = $path.'lang.xml';
@@ -483,7 +488,10 @@ class Context {
 		$oXmlLangParser = new XmlLangParser($file, $this->lang_type);
 		$content = $oXmlLangParser->getCompileContent();
 
-		eval($content);
+		if ($content){
+			$this->loaded_lang_files[] = $_path;
+			eval($content);
+		}
 	}
 
 	function _loadXmlLang($path) {
