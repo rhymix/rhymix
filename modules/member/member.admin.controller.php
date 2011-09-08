@@ -234,8 +234,12 @@
 
 			$fields = array();
 			foreach($signupForm as $formInfo){
-				if ($formInfo->required || $formInfo->mustRequired && $formInfo->name != 'password')
-					$fields[] = sprintf('<field name="%s" required="true" />', $formInfo->name);
+				if ($formInfo->required || $formInfo->mustRequired){
+					if($formInfo->name == 'password')
+						$fields[] = '<field name="password" ><if test="$act == \'procMemberInsert\'" attr="password" value="true" /></field>';
+					else
+						$fields[] = sprintf('<field name="%s" required="true" />', $formInfo->name);
+				}
 			}
 
 			$xml_buff = sprintf($buff, implode('', $fields));
