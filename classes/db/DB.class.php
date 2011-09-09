@@ -788,6 +788,24 @@
             $this->elapsed_dbclass_time = $elapsed_dbclass_time;
             $GLOBALS['__dbclass_elapsed_time__'] += $elapsed_dbclass_time;
         }
+		
+        /**
+         * Returns a database specific parser class
+         * used for escaping expressions and table/column identifiers
+         *
+         * Requires an implementation of the DB class (won't work if database is not set)
+         *
+         * @remarks singleton
+         */
+       function &getParser($force = false){
+            static $dbParser = null;
+            if(!$dbParser || $force) {
+                $oDB = &DB::getInstance();
+                $dbParser = $oDB->getParser();
+            }
+
+            return $dbParser;
+        }		
 
     }
 ?>

@@ -70,17 +70,6 @@
             FileHandler::writeFile($cache_file, $parser->toString());
         }
 
-        // singleton
-       function &getDBParser($force = false){
-            static $dbParser = null;
-            if(!$dbParser || $force) {
-                $oDB = &DB::getInstance();
-                $dbParser = $oDB->getParser();
-            }
-
-            return $dbParser;
-        }
-
         function getXmlFileContent($xml_file){
             $buff = FileHandler::readFile($xml_file);
             $xml_obj = parent::parse($buff);
