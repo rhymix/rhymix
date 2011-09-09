@@ -63,7 +63,7 @@
 
 		function escapeValue($value){
                         if($this->getType() == 'column_name'){
-				$dbParser = XmlQueryParser::getDBParser();
+				$dbParser = DB::getParser();
 				return $dbParser->parseExpression($value);
                         }
                         if(!isset($value)) return null;

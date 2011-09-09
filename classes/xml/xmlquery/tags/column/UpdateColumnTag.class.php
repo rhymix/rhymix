@@ -14,7 +14,7 @@
 
 		function UpdateColumnTag($column) {
 			parent::ColumnTag($column->attrs->name);
-			$dbParser = XmlQueryParser::getDBParser();
+			$dbParser = DB::getParser();
 			$this->name = $dbParser->parseColumnName($this->name);
 			$this->argument = new QueryArgument($column);
 		}

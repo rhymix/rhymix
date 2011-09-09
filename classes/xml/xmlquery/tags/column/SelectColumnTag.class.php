@@ -15,7 +15,7 @@
 			parent::ColumnTag($column->attrs->name);
 			if(!$this->name) $this->name = "*";			
 			if($this->name != "*") {
-				$dbParser = XmlQueryParser::getDBParser();
+				$dbParser = DB::getParser();
 				$this->name = $dbParser->parseExpression($this->name);
 			}
 				
@@ -27,7 +27,7 @@
 			if($this->name == '*') return "new StarExpression()";
 			if($this->click_count)
 				return sprintf('new ClickCountExpression(%s, %s, $args->%s)', $this->name, $this->alias,$this->click_count);
-			$dbParser = XmlQueryParser::getDBParser();
+			$dbParser = DB::getParser();
 			return sprintf('new SelectExpression(\'%s\'%s)', $this->name, $this->alias ? ', \''.$dbParser->escape($this->alias) .'\'': '');	
 		}
 	}

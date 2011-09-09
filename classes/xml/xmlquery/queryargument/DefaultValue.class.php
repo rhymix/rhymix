@@ -8,7 +8,7 @@
                 var $operation = '';
 
 		function DefaultValue($column_name, $value){
-                        $dbParser = &XmlQueryParser::getDBParser();
+                        $dbParser = &DB::getParser();
 			$this->column_name = $dbParser->parseColumnName($column_name);
 			$this->value = $value;
                         $this->value = $this->_setValue();

@@ -15,7 +15,7 @@
 
             $oContext->setDbInfo($db_info);
 
-            XmlQueryParser::getDBParser(true);
+            DB::getParser(true);
         }
 
         protected function tearDown() {

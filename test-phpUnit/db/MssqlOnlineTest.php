@@ -35,7 +35,7 @@
             // remove cache dir
             FileHandler::removeDir( _XE_PATH_ . 'files/cache');
 
-            XmlQueryParser::getDBParser(true);
+            DB::getParser(true);
         }
 
         /**

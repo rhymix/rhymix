@@ -21,7 +21,6 @@
         require(_XE_PATH_.'classes/xml/xmlquery/argument/Argument.class.php');
         require(_XE_PATH_.'classes/xml/xmlquery/argument/SortArgument.class.php');
         require(_XE_PATH_.'classes/xml/xmlquery/argument/ConditionArgument.class.php');
-        require(_XE_PATH_.'classes/xml/XmlQueryParser.class.php');
 
         require(_XE_PATH_.'classes/db/queryparts/expression/Expression.class.php');
         require(_XE_PATH_.'classes/db/queryparts/expression/SelectExpression.class.php');
@@ -76,7 +75,7 @@
         var $cache_file = 'files/cache/queries/'; ///< location of query cache
 
 		var $db_type; ///< stores database type: 'mysql','cubrid','mssql' etc. or 'db' when database is not yet set
-		
+
         /**
          * @brief returns instance of certain db type
          * @param[in] $db_type type of db

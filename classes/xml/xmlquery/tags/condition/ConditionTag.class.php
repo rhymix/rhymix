@@ -20,7 +20,7 @@
 		function ConditionTag($condition){
 			$this->operation = $condition->attrs->operation;
 			$this->pipe = $condition->attrs->pipe;
-			$dbParser = XmlQueryParser::getDBParser();
+			$dbParser = DB::getParser();
 			$this->column_name = $dbParser->parseColumnName($condition->attrs->column);
 
 			$isColumnName = strpos($condition->attrs->default, '.');

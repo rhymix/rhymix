@@ -16,7 +16,7 @@
             $db_info->slave_db = array(array('db_type' => 'cubrid','db_table_prefix' => 'xe_'));
 
             $oContext->setDbInfo($db_info);
-            XmlQueryParser::getDBParser(true);
+            DB::getParser(true);
         }
 
         /**

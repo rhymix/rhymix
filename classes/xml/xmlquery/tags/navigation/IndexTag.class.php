@@ -11,7 +11,7 @@
 			$this->argument_name = $index->attrs->var;
 
                         // Sort index - column by which to sort
-			//$dbParser = XmlQueryParser::getDBParser();
+			//$dbParser = DB::getParser();
 			//$index->attrs->default = $dbParser->parseExpression($index->attrs->default);
 			$this->default = $index->attrs->default;
 			$this->argument = new QueryArgument($index);

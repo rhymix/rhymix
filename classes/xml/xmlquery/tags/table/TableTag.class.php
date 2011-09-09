@@ -30,7 +30,7 @@
                  * @param XML <table> tag $table
                  */
 		function TableTag($table){
-			$dbParser = XmlQueryParser::getDBParser();
+			$dbParser = DB::getParser();
                         
                         $this->unescaped_name = $table->attrs->name;
 			$this->name = $dbParser->parseTableName($table->attrs->name);
@@ -67,7 +67,7 @@
                  * @return string 
                  */
 		function getTableString(){
-			$dbParser = XmlQueryParser::getDBParser();
+			$dbParser = DB::getParser();
 			if($this->isJoinTable()){
 				return sprintf('new JoinTable(\'%s\', \'%s\', "%s", %s)'
 								, $dbParser->escape($this->name)
