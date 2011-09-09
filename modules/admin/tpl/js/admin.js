@@ -678,20 +678,12 @@ function getOffset(elem, offsetParent) {
 // Language selector
 jQuery(function($){
 
-var w_timer = null, r_timer = null, r_idx = 0, f_timer = null, skip_textchange=false;
+var w_timer = null, r_timer = null, r_idx = 0, f_timer = null, skip_textchange=false, keep_showing=false, $suggest;
 var ESC=27, UP=38, DOWN=40, ENTER=13;
 
 $('.multiLangEdit')
-	.find('input.vLang,textarea.vLang')
-		.each(function(){
-			var $this = $(this), $container;
-
-			$this
-				.data('mle-container', $container=$this.closest('.multiLangEdit'))
-				.data('mle-langkey', $container.find('.vLang').eq(0))
-				.data('mle-suggestion', $container.find('.suggestion'));
-		})
-		.bind('textchange', function(){
+	.delegate('input.vLang:text,textarea.vLang', {
+		textchange : function(){
 			var $this = $(this), val = $.trim($this.val()), $ul, $container;
 
 			if(r_timer) {
@@ -700,7 +692,7 @@ $('.multiLangEdit')
 			}
 
 			$container = $this.data('mle-container');
-			$ul        = $this.data('mle-suggestion').find('>ul');
+			$ul        = $suggest.find('>ul');
 
 			if(!val || skip_textchange) {
 				skip_textchange = false;
@@ -735,22 +727,21 @@ $('.multiLangEdit')
 					$btn = $('<button type="button" class="_btnLang" />').data('langkey', results[i].name).text(results[i].value);
 					$('<li />').append($btn).appendTo($ul);
 				}
-				$ul.parent().show();
+				$suggest.trigger('show');
 			};
 
 			r_timer = setTimeout(request, 100);
-		})
-		.keydown(function(event){
-			var $this, $suggest, $ul, $active, $after, key = event.which;
+		},
+		keydown : function(event){
+			var $this, $ul, $active, $after, key = event.which;
 
-			$this    = $(this);
-			$suggest = $this.data('mle-suggestion');
-			$ul      = $suggest.find('>ul');
+			$this = $(this);
+			$ul   = $suggest.find('>ul');
 
 			if(!$suggest.is(':visible') || $.inArray(key, [UP,DOWN,ENTER,ESC]) < 0) return true;
 
 			if(key == ESC) {
-				$suggest.hide();
+				$suggest.trigger('hide');
 				return false;
 			}
 
@@ -779,9 +770,13 @@ $('.multiLangEdit')
 			$after.addClass('active');
 
 			return false;
-		})
-		.focus(function(){
-			var $this = $(this), oldValue = $.trim($this.val());
+		},
+		focus : function(){
+			var $this = $(this), oldValue = $.trim($this.val()), $mle = $this.closest('.multiLangEdit');
+
+			$this.after($suggest);
+			if(!$this.data('mle-container')) $this.data('mle-container', $mle);
+			if(!$this.data('mle-langkey')) $this.data('mle-langkey', $mle.find('input.vLang:first'));
 
 			(function(){
 				var value = $.trim($this.val());
@@ -792,16 +787,28 @@ $('.multiLangEdit')
 				}
 				w_timer = setTimeout(arguments.callee, 50);
 			})();
-		})
-		.blur(function(){
+		},
+		blur : function(){
 			clearTimeout(w_timer);
 			w_timer = null;
 
 			$(this).closest('.multiLangEdit').focusout();
-		})
-	.end()
-	.find('a.tgAnchor.editUserLang')
-		.bind('before-open.tc', function(){
+		},
+		focusout : function(){
+			var $this = $(this);
+
+			clearTimeout(f_timer);
+			f_timer = setTimeout(function(){
+				if(keep_showing) {
+					keep_showing = false;
+					return;
+				}
+				if(!$this.find(':focus').is('.vLang,button._btnLang')) $suggest.trigger('hide');
+			}, 10);
+		}
+	})
+	.delegate('a.tgAnchor.editUserLang', {
+		'before-open.tc' : function(){
 			var $this, $layer, $mle, $vlang, key, text, api, params;
 
 			$this  = $(this);
@@ -820,7 +827,7 @@ $('.multiLangEdit')
 			$('#langInput li.'+xe.current_lang+' > input').val(text).prev('label').css('visibility','hidden');
 
 			// hide suggestion layer
-			$mle.find('.suggestion').hide();
+			$suggest.trigger('hide');
 
 			if(/^\$user_lang->(.+)$/.test(key)) {
 				api = 'module.getModuleAdminLangListByName';
@@ -860,43 +867,38 @@ $('.multiLangEdit')
 			show_waiting_message = false;
 			$.exec_json(api, params, on_complete);
 			show_waiting_message = true;
-		})
-	.end()
-	.find('.suggestion')
-		.delegate('button._btnLang', {
-			click : function(){
-				var $this = $(this);
-
-				skip_textchange = true;
-
-				$this.closest('.suggestion').hide()
-					.closest('.multiLangEdit')	
-						.find('input.vLang,textarea.vLang')
-							.eq(0).val($this.data('langkey')).end()
-							.eq(1).val($this.text()).end();
-
-				return false;
-			},
-			focus : function(){
-				$(this).mouseover();
-			},
-			mouseover : function(){
-				$(this).closest('ul').find('button.active').removeClass('active');
-			}
-		})
-	.end()
-	.focusout(function(){
-		var self = this;
-
-		function check(){
-			var $this = $(self);
-
-			if($this.find(':focus').is('.vLang,._btnLang')) return;
-			$this.find('>.suggestion').hide();
 		}
+	})
+	.delegate('button._btnLang', {
+		click : function(){
+			var $this = $(this);
 
-		clearTimeout(f_timer);
-		f_timer = setTimeout(check, 10);
+			skip_textchange = true;
+
+			$suggest.trigger('hide');
+
+			$this.closest('.multiLangEdit')	
+				.find('input.vLang,textarea.vLang')
+					.eq(0).val($this.data('langkey')).end()
+					.eq(1).val($this.text()).end();
+
+			return false;
+		},
+		mousedown : function(){ keep_showing = true },
+		focus : function(){
+			$(this).mouseover();
+		},
+		mouseover : function(){
+			$(this).closest('ul').find('button.active').removeClass('active');
+		}
+	});
+
+$suggest = $('<div class="suggestion"><ul></ul></div>')
+	.bind('show', function(){
+		$(this).show();
+	})
+	.bind('hide', function(){
+		$(this).hide();
 	});
 
 function initLayer($layer) {
@@ -908,13 +910,12 @@ function initLayer($layer) {
 	$layer
 		.data('init-multilang-editor', true)
 		.bind('multilang-reset', function(){
-			mode = MODE_SAVE;
-			setTitleText();
-
 			$layer
 				.data('multilang-current-name', '')
-				.find('ul.langList')
-				.find('#langInput li > input').val('').prev('label').css('visibility','visible');
+				.find('#langInput li > input').val(' ').prev('label').css('visibility','visible');
+
+			mode = MODE_SAVE;
+			setTitleText();
 		})
 		.find('h2 a')
 			.click(function(){
@@ -999,7 +1000,7 @@ function initLayer($layer) {
 
 			function save_lang() {
 				var params = {};
- 				if(name && !$layer.data('multilang-command-add')) params.lang_name = name;
+ 				if(name && mode == MODE_UPDATE) params.lang_name = name;
 
  				$input.each(function(k,v){ var $this = $(this); params[$this.parent('li').attr('class')] = $this.val() });
 
