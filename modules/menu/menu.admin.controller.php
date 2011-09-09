@@ -66,7 +66,14 @@
          **/
         function procMenuAdminDelete() {
             $menu_srl = Context::get('menu_srl');
-            return $this->deleteMenu($menu_srl);
+            $this->deleteMenu($menu_srl);
+
+			$this->setMessage('success_deleted', 'info');
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMenuAdminSiteMap');
+				$this->setRedirectUrl($returnUrl);
+				return;
+			}
         }
 
         function deleteMenu($menu_srl) {

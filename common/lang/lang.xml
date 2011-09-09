@@ -1226,6 +1226,7 @@
 	</item>
 	<item name="untitle">
 		<value xml:lang="ko"><![CDATA[제목없슴]]></value>
+		<value xml:lang="en"><![CDATA[untitle]]></value>
 	</item>
 	<item name="topic">
 		<value xml:lang="ko"><![CDATA[주제]]></value>
