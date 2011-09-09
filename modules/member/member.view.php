@@ -148,6 +148,7 @@
             Context::set('member_config', $member_config);
 
 			global $lang;
+			if(!$member_config->identifier) $member_config->identifier = 'user_id';
 			$identifierForm->title = $lang->{$member_config->identifier};
 			$identifierForm->name = $member_config->identifier;
 			$identifierForm->value = $member_info->{$member_config->identifier};
