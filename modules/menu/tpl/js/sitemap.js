@@ -181,8 +181,8 @@ $('form.siteMap')
 	$('a.tgMap').click(function() {
 		var $this = $(this);
 
-		$($this.attr('href')).slideToggle('fast');a
-		$this.closet('.sitemap').toggleClass('fold');
+		$($this.attr('href')).slideToggle('fast');
+		$this.closest('.siteMap').toggleClass('fold');
 
 		return false;
 	});

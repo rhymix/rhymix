@@ -25,11 +25,11 @@
 		</block>
 		</ul>
 		<p class="btnArea">
-			<span class="btn small">
-				<button value="procMenuAdminArrangeItem" name="act" type="submit">{$lang->cmd_save}</button>
-				<button value="procMenuAdminDelete" name="act" type="submit">{$lang->cmd_delete}</button>
-				<a href="#editMenu" class="modalAnchor _add">{$lang->add_menu}</a>
-				<a href="#remakeCache" onclick="doReloadTreeMenu('{$menuSrl}');return false;">{$lang->cmd_remake_cache}</a>
+			<span class="btn"><a href="#editMenu" class="modalAnchor _add">{$lang->add_menu}</a></span>
+			<span class="btn"><button value="procMenuAdminArrangeItem" name="act" type="submit">{$lang->cmd_save}</button></span>
+			<span class="etc">
+				<span class="btn"><button value="procMenuAdminDelete" name="act" type="submit">{$lang->cmd_delete}</button></span>
+				<span class="btn"><a href="#remakeCache" onclick="doReloadTreeMenu('{$menuSrl}');return false;">{$lang->cmd_remake_cache}</a></span>
 			</span>
 		</p>
 	</form>
@@ -70,9 +70,9 @@
 								<ul>
 									<li class="ko"><label for="ko_var1">Korean</label> <input type="text" value="안녕 세상아!" id="ko_var1" /></li>
 									<li class="en"><label for="en_var1">English</label> <input type="text" value="Hello World!" id="en_var1" /></li>
-									<li class="ja"><label for="ja_var1">Japanese</label> <input type="text" value="" id="ja_var1" /></li>
-									<li class="zh"><label for="zhcn_var1">Chinese(Simplified)</label> <input type="text" value="" id="zhcn_var1" /></li>
-									<li class="zh"><label for="zhtw_var1">Chinese(Traditional)</label> <input type="text" value="" id="zhtw_var1" /></li>
+									<li class="jp"><label for="ja_var1">Japanese</label> <input type="text" value="" id="ja_var1" /></li>
+									<li class="zh-CN"><label for="zhcn_var1">Chinese(Simplified)</label> <input type="text" value="" id="zhcn_var1" /></li>
+									<li class="zh-TW"><label for="zhtw_var1">Chinese(Traditional)</label> <input type="text" value="" id="zhtw_var1" /></li>
 									<li class="fr"><label for="fr_var1">French</label> <input type="text" value="" id="fr_var1" /></li>
 									<li class="de"><label for="de_var1">Deutsch</label> <input type="text" value="" id="de_var1" /></li>
 									<li class="ru"><label for="ru_var1">Russian</label> <input type="text" value="" id="ru_var1" /></li>

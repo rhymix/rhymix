@@ -3,7 +3,7 @@
 		<input type="hidden" name="item_key[]" value="{$item['node_srl']}" class="_item_key" />
 		<!--@if($item['href'])--><a href="{$item['href']}" class="ms" target="_blank">{$item['text']}</a><!--@else-->{$item['text']}<!--@end-->
 		<!--@if($item['setup_index_act'])-->
-		<a href="{getUrl('', 'module', 'admin', 'act', $item['setup_index_act'], 'module_srl', $item['module_srl'])}" class="wPreview">Preview</a>
+		<a href="{getUrl('', 'module', 'admin', 'act', $item['setup_index_act'], 'module_srl', $item['module_srl'])}" class="iSetting">Setting</a>
 		<!--@end-->
 		<span class="side"><a href="#editMenu" class="modalAnchor _edit">{$lang->cmd_edit}</a> | <a href="#delete" class="_delete">{$lang->cmd_delete}</a></span>
 		<ul cond="count($item['list']>0)">

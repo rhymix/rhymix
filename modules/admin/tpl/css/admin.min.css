@@ -257,11 +257,6 @@ body.modalContainer{_height:100%;_width:100%} /* IE6 only */
 .x button.text{border:0;overflow:visible;padding:0;margin:0 4px 0 0;color:#33a;background:none;text-decoration:underline}
 /* H2 Anchor */
 .x .h2Anchor{position:absolute;right:0;border:0;background:none;color:#00f;text-decoration:underline}
-/* Waiting for server response */
-.wfsr .bg{position:absolute;background:#000;_background:none;width:100%;height:100%;opacity:.5;filter:progid:DXImageTransform.Microsoft.Alpha(opacity=50);zoom:1}
-.wfsr .fg{position:relative;width:50%;margin:5em auto;background:#fff;padding:0 1em;*padding:1em;border:10px solid #ddd;z-index:2;zoom:1}
-.wfsr .fg p{padding:0 0 0 2.5em;background:url(../img/preLoader16.gif) no-repeat 1em .4em}
-.wfsr .ie6{position:absolute;left:0;top:0;width:100%;height:100%;border:0;opacity:0;filter:alpha(opacity=0);z-index:1}
 /* Skip Navigation */
 .x .skipNav{margin:0;text-align:center;overflow:hidden}
 .x .skipNav a{position:absolute;width:1px;height:1px;display:block;color:#fff;font-weight:bold;padding:10px 0;background:#333;border-top:1px solid #656565}
@@ -326,7 +321,7 @@ body.modalContainer{_height:100%;_width:100%} /* IE6 only */
 .x .search form{float:right;margin:1em 0}
 .x .search form *{vertical-align:middle}
 /* Site Map */
-.x .siteMap h2 input{font-size:12px;font-weight:bold;padding:0 .5em}
+.x .siteMap h2 input{font-size:14px;font-weight:bold;padding:0 .5em}
 .x .siteMap label{cursor:text}
 .x .siteMap .lined ul{padding:0;margin:0;border-top:1px solid #eee;zoom:1}
 .x .siteMap .lined li{position:relative;padding:0;margin:0;cursor:all-scroll;list-style:none;zoom:1}
@@ -392,6 +387,7 @@ body.modalContainer{_height:100%;_width:100%} /* IE6 only */
 /* Button Area */
 .x .btnArea{margin:1em 0;text-align:right;zoom:1}
 .x .btnArea:after{content:"";display:block;clear:both}
+.x .btnArea .etc{float:left}
 /* Multilingual */
 .x .langEdit{background:#fff;position:absolute;*left:0;*margin-top:28px;z-index:10}
 .x .langEdit ul{border-top:1px solid #ccc;border-left:1px solid #eee;border-right:1px solid #eee;margin:0}
@@ -403,11 +399,12 @@ body.modalContainer{_height:100%;_width:100%} /* IE6 only */
 .x .langEdit .btnArea{white-space:normal}
 .x .langEdit .langList,
 .x .langEdit .langEditControls{box-shadow:3px 3px 6px #999;-moz-box-shadow:3px 3px 6px #999;-webkit-box-shadow:3px 3px 6px #999;filter:progid:DXImageTransform.Microsoft.Shadow(color=#999999,direction=135, strength=5)}
-.x .langEdit .langList{margin:0 -1px 0 0}
+.x .langEdit .langList{margin:0 -1px 0 0;display:none}
 .x .langEdit .langList li{white-space:nowrap;color:#ccc;width:270px} 
 .x .langEdit .langList li span{display:inline-block;width:80px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;color:#767676}
 .x .langEdit .langList li a{display:inline-block;width:80px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
 .x .langEdit .langList li.active{background:url(../img/iconArrow.gif) no-repeat right -188px}
+.x .langEdit.showChild .langList{display:block}
 .x .langEdit #langInput{background:#fff}
 .x .langEdit #langInput h2{padding:5px 10px;margin:0 0 -1px 0;font-weight:normal;color:#ccc;border:1px solid #eee;border-top-color:#ccc}
 .x .langEdit #langInput h2 strong{color:#000}
@@ -469,7 +466,8 @@ body.modalContainer{_height:100%;_width:100%} /* IE6 only */
 .x .suggestion li button{border:0;background:#fff;text-align:left;width:288px;padding:2px 4px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .x .suggestion li button:hover,
 .x .suggestion li button:active,
-.x .suggestion li button:focus{background:#eee}
+.x .suggestion li button:focus,
+.x .suggestion li button.active{background:#eee}
 /* Image Mark */
 .x #imageMark{right:0}
 /* Easy Installer */
@@ -554,8 +552,7 @@ body.modalContainer{_height:100%;_width:100%} /* IE6 only */
 .x .desc.error{color:#f00}
 .x .desc.success{color:#080}
 /* Icon Button */
-.x a.wPreview{display:inline-block;width:15px;height:0;padding:13px 0 0 0;overflow:hidden;vertical-align:middle;background:url(../img/iconWindow.gif) no-repeat}
-.x a.iComment{display:inline-block;width:16px;height:0;padding:16px 0 0 0;overflow:hidden;vertical-align:middle;background:url(../img/iconComment.gif) no-repeat}
+.x a.iSetting{display:inline-block;width:16px;height:0;padding:16px 0 0 0;overflow:hidden;vertical-align:middle;background:url(../img/iconSetting.gif) no-repeat}
 /* Responsive Layout */
 @media only all and (max-width:860px){
 .x .header h1{margin-left:.7em}

@@ -235,7 +235,7 @@ $.exec_xml = window.exec_xml = function(module, act, params, callback_func, resp
 	function onsuccess(data, textStatus, xhr) {
 		var resp_xml = $(data).find('response')[0], resp_obj, txt='', ret=[], tags={}, json_str='';
 
-		waiting_obj.css('visibility', 'hidden');
+		waiting_obj.css('display', 'none');
 
 		if(!resp_xml) {
 			alert(_xhr.responseText);
@@ -288,7 +288,7 @@ $.exec_xml = window.exec_xml = function(module, act, params, callback_func, resp
 			beforeSend  : function(xhr){ _xhr = xhr; },
 			success     : onsuccess,
 			error       : function(xhr, textStatus) {
-				waiting_obj.css('visibility', 'hidden');
+				waiting_obj.css('display', 'none');
 
 				var msg = '';
 				if (textStatus == 'parsererror') {
@@ -314,9 +314,7 @@ $.exec_xml = window.exec_xml = function(module, act, params, callback_func, resp
 	if(show_waiting_message && waiting_obj.length) {
 		var d = $(document);
 		waiting_obj.html(waiting_message).css({
-			'top'  : (d.scrollTop()+20)+'px',
-			'left' : (d.scrollLeft()+20)+'px',
-			'visibility' : 'visible'
+			'display' : 'none'
 		});
 	}
 }
@@ -363,7 +361,7 @@ $.exec_json = function(action,data,func){
     if(action.length == 2){
 
         if(show_waiting_message) {
-            $(".wfsr").html(waiting_message).css('top',$(document).scrollTop()+20).css('left',$(document).scrollLeft()+20).css('visibility','visible');
+            $(".wfsr").html(waiting_message).css('display','none');
         }
 
         $.extend(data,{module:action[0],act:action[1]});
@@ -375,7 +373,7 @@ $.exec_json = function(action,data,func){
             ,contentType:"application/json"
             ,data:$.param(data)
             ,success : function(data){
-                $(".wfsr").css('visibility','hidden');
+                $(".wfsr").css('display','none');
                 if(data.error > 0) alert(data.message);
                 if($.isFunction(func)) func(data);
             }
@@ -391,7 +389,7 @@ $.fn.exec_html = function(action,data,type,func,args){
     action = action.split(".");
     if(action.length == 2){
         if(show_waiting_message) {
-            $(".wfsr").html(waiting_message).css('top',$(document).scrollTop()+20).css('left',$(document).scrollLeft()+20).css('visibility','visible');
+            $(".wfsr").html(waiting_message).css('display','none');
         }
 
         $.extend(data,{module:action[0],act:action[1]});
@@ -401,7 +399,7 @@ $.fn.exec_html = function(action,data,type,func,args){
             ,url:request_uri
             ,data:$.param(data)
             ,success : function(html){
-                $(".wfsr").css('visibility','hidden');
+                $(".wfsr").css('display','none');
                 self[type](html);
                 if($.isFunction(func)) func(args);
             }

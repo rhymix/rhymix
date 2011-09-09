@@ -195,17 +195,4 @@ function setHolder(info, yPos) {
 	}
 }
 
-/*
-$('.tgMap').click(function(){
-	var t = $(this);
-	t.parent('.siteMap').toggleClass('fold');
-	if(t.parent('.siteMap').hasClass('fold')){
-		t.text('펼치기').next('.lined').slideUp(200).next('.btnArea').hide();
-	} else {
-		t.text('접기').next('.lined').slideDown(200).next('.btnArea').show();
-	}
-	return false;
-});
-*/
-
 });
