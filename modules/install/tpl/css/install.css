@@ -100,9 +100,10 @@ html{height:100%;background:url(../img/bgHtml.gif) repeat-x 0 0}
 .form.formXe label{margin:0 0 2px 0;color:#eee;font-weight:bold}
 .form .iText{background:#555;padding:5px 10px;width:518px}
 .form select{background:#555;color:#fff}
-.form p{color:#ccc;margin:3px 0 15px 17px}
+.form p{color:#ddd;margin:3px 0 15px 17px}
 .form strong{color:#f60}
 .form em{font-style:normal;color:#ffc}
+.form a{color:#fff;text-decoration:underline}
 .desc{padding:10px 20px;margin:0 20px 20px 20px;background:#555;color:#eee}
 .desc ul{margin:0 0 0 20px;padding:0}
 .desc strong{color:#F60}

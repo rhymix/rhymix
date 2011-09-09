@@ -13,11 +13,11 @@
 	</item>
 	<item name="lgpl_agree">
 		<value xml:lang="ko"><![CDATA[GNU 약소 일반 공중 사용 허가서(LGPL v2) 동의]]></value>
-		<value xml:lang="en"><![CDATA[GNU 약소 일반 공중 사용 허가서(LGPL v2) 동의]]></value>
+		<value xml:lang="en"><![CDATA[GNU Lesser General Public License(LGPL v2) Agreement]]></value>
 	</item>
 	<item name="enviroment_gather">
 		<value xml:lang="ko"><![CDATA[설치 환경 수집 동의]]></value>
-		<value xml:lang="en"><![CDATA[설치 환경 수집 동의]]></value>
+		<value xml:lang="en"><![CDATA[May I ask your installation environment?]]></value>
 	</item>
 	<item name="install_progress_menu" type="array">
 		<item name="agree">
@@ -408,16 +408,16 @@
 			<value xml:lang="vi"><![CDATA[Hỗ trợ <b>sqlite3</b> bởi PDO của PHP.<br />Khi cài đặt, File Database phải được tạo ra tại chỗ không sử dụng được từ Web.]]></value>
 		</item>
 		<item name="cubrid">
-			<value xml:lang="ko"><![CDATA[CUBRID DB를 이용합니다. <a href="http://xe.xpressengine.net/18180659" onclick="window.open(this.href);return false;" class="manual">manual</a>]]></value>
-			<value xml:lang="en"><![CDATA[Use CUBRID as a database. See <a href="http://www.xpressengine.com/?mid=manual&pageid=2880556" onclick="window.open(this.href);return false;" class="manual">manual</a> for more info]]></value>
-			<value xml:lang="jp"><![CDATA[CUBRID DBを利用します。 <a href="http://www.xpressengine.com/?mid=manual&pageid=2880556" onclick="window.open(this.href);return false;" class="manual">manual</a>]]></value>
-			<value xml:lang="zh-CN"><![CDATA[使用CUBRID DB。 <a href="http://www.xpressengine.com/?mid=manual&pageid=2880556" onclick="window.open(this.href);return false;" class="manual">manual</a>]]></value>
-			<value xml:lang="zh-TW"><![CDATA[使用 CUBRID DB。 <a href="http://www.xpressengine.com/?mid=manual&pageid=2880556" onclick="window.open(this.href);return false;" class="manual">manual</a>]]></value>
-			<value xml:lang="fr"><![CDATA[Utiliser la Base de Données de CUBRID.  <a href="http://www.xpressengine.com/?mid=manual&pageid=2880556" onclick="window.open(this.href);return false;" class="manual">manual</a>]]></value>
-			<value xml:lang="ru"><![CDATA[Используем CUBRID DB. <a href="http://www.xpressengine.com/?mid=manual&pageid=2880556" onclick="window.open(this.href);return false;" class="manual">manual</a>]]></value>
-			<value xml:lang="es"><![CDATA[Usar BD CUBRID. <a href="http://www.xpressengine.com/?mid=manual&pageid=2880556" onclick="window.open(this.href);return false;" class="manual">manual</a>]]></value>
-			<value xml:lang="tr"><![CDATA[CUBRID'ü veritabanı olarak kullanın. Daha fazla bilgi için <a href="http://www.xpressengine.com/?mid=manual&pageid=2880556" onclick="window.open(this.href);return false;" class="manual">manuel</a>i inceleyiniz]]></value>
-			<value xml:lang="vi"><![CDATA[Sử dụng <b>CUBRID</b> Database.  <a href="#" onclick="window.open(this.href);return false;" class="manual">Hướng dẫn</a>]]></value>
+			<value xml:lang="ko"><![CDATA[CUBRID DB를 이용합니다. <a href="http://xe.xpressengine.net/18180659" target="_blank">Manual</a>]]></value>
+			<value xml:lang="en"><![CDATA[Use CUBRID as a database. See <a href="http://www.xpressengine.com/?mid=manual&pageid=2880556" target="_blank">Manual</a> for more info]]></value>
+			<value xml:lang="jp"><![CDATA[CUBRID DBを利用します。 <a href="http://www.xpressengine.com/?mid=manual&pageid=2880556" target="_blank">Manual</a>]]></value>
+			<value xml:lang="zh-CN"><![CDATA[使用CUBRID DB。 <a href="http://www.xpressengine.com/?mid=manual&pageid=2880556" target="_blank">Manual</a>]]></value>
+			<value xml:lang="zh-TW"><![CDATA[使用 CUBRID DB。 <a href="http://www.xpressengine.com/?mid=manual&pageid=2880556" target="_blank">Manual</a>]]></value>
+			<value xml:lang="fr"><![CDATA[Utiliser la Base de Données de CUBRID.  <a href="http://www.xpressengine.com/?mid=manual&pageid=2880556" target="_blank">Manual</a>]]></value>
+			<value xml:lang="ru"><![CDATA[Используем CUBRID DB. <a href="http://www.xpressengine.com/?mid=manual&pageid=2880556" target="_blank">Manual</a>]]></value>
+			<value xml:lang="es"><![CDATA[Usar BD CUBRID. <a href="http://www.xpressengine.com/?mid=manual&pageid=2880556" target="_blank">Manual</a>]]></value>
+			<value xml:lang="tr"><![CDATA[CUBRID'ü veritabanı olarak kullanın. Daha fazla bilgi için <a href="http://www.xpressengine.com/?mid=manual&pageid=2880556" target="_blank">Manuel</a>i inceleyiniz]]></value>
+			<value xml:lang="vi"><![CDATA[Sử dụng <b>CUBRID</b> Database.  <a href="#" target="_blank">Hướng dẫn</a>]]></value>
 		</item>
 		<item name="mssql">
 			<value xml:lang="ko"><![CDATA[MSSQL DB를 이용합니다.]]></value>
@@ -857,8 +857,8 @@ Xin cảm ơn đã sử dụng XE!]]></value>
 		<value xml:lang="en"><![CDATA[전문 읽기]]></value>
 	</item>
 	<item name="license_agreement_desc">
-		<value xml:lang="ko"><![CDATA[XE를 사용하려면 'GNU 약소 일반 공중 사용 허가서(LGPL v2)'에 <em>반드시 동의해야 합니다</em>.]]></value>
-		<value xml:lang="en"><![CDATA[XE를 사용하려면 'GNU 약소 일반 공중 사용 허가서(LGPL v2)'에 <em>반드시 동의해야 합니다</em>.]]></value>
+		<value xml:lang="ko"><![CDATA[XE를 사용하려면 <em>이 항목에 반드시 동의해야 합니다</em>.]]></value>
+		<value xml:lang="en"><![CDATA[XE를 사용하려면 <em>이 항목에 반드시 동의해야 합니다</em>.]]></value>
 	</item>
 	<item name="license_agreement_alert">
 		<value xml:lang="ko"><![CDATA[XE를 사용하려면 'GNU 약소 일반 공중 사용 허가서(LGPL v2)'에 반드시 동의해야 합니다.]]></value>
@@ -869,8 +869,8 @@ Xin cảm ơn đã sử dụng XE!]]></value>
 		<value xml:lang="en"><![CDATA[설치 환경 수집 동의]]></value>
 	</item>
 	<item name="install_env_agreement_desc">
-		<value xml:lang="ko"><![CDATA[설치 환경 수집에 동의하는 경우 사용자의 XE 설치 환경과 관련되어 있는 '<em>>웹서버, 데이터베이스, PHP버전과 Extension, 사이트에 설치된 모듈과 애드온</em>' 정보가 XE 통계 수집 서버로 전송됩니다. 수집된 정보는 더 나은 SW를 제작하기 위한 통계 수집 이외의 목적으로 활용하지 않습니다. XE는 사용자의 설치 환경 정보를 외부에 공개하지 않습니다. <em>이 항목에 반드시 동의하지 않아도 됩니다.</em>]]></value>
-		<value xml:lang="en"><![CDATA[설치 환경 수집에 동의하는 경우 사용자의 XE 설치 환경과 관련되어 있는 '<em>>웹서버, 데이터베이스, PHP버전과 Extension, 사이트에 설치된 모듈과 애드온</em>' 정보가 XE 통계 수집 서버로 전송됩니다. 수집된 정보는 더 나은 SW를 제작하기 위한 통계 수집 이외의 목적으로 활용하지 않습니다. XE는 사용자의 설치 환경 정보를 외부에 공개하지 않습니다. <em>이 항목에 반드시 동의하지 않아도 됩니다.</em>]]></value>
+		<value xml:lang="ko"><![CDATA['<em>웹 서버, DBMS, PHP 버전 및 Extension, XE 모듈 및 애드온</em>' 정보가 XE 통계 수집 서버로 전송됩니다. 더 나은 SW를 제작하기 위한 목적으로 활용합니다. 익명으로 수집되며 이 정보를 외부에 공개하지 않습니다. <em>이 항목에 동의하지 않아도 됩니다.</em>]]></value>
+		<value xml:lang="en"><![CDATA['<em>웹 서버, DBMS, PHP 버전 및 Extension, XE 모듈 및 애드온</em>' 정보가 XE 통계 수집 서버로 전송됩니다. 더 나은 SW를 제작하기 위한 목적으로 활용합니다. 익명으로 수집되며 이 정보를 외부에 공개하지 않습니다. <em>이 항목에 동의하지 않아도 됩니다.</em>]]></value>
 	</item>
 	<item name="lgpl_license_url">
 		<value xml:lang="ko"><![CDATA[http://korea.gnu.org/people/chsong/copyleft/lgpl.ko.html]]></value>
