@@ -74,7 +74,7 @@ $('form.siteMap')
 			$(document)
 				.unbind('mousemove.st mouseup.st')
 				.bind('mousemove.st', function(event) {
-					var diff, nTop, item, i, c, o;
+					var diff, nTop, item, i, c, o, t;
 
 					dropzone = null;
 
@@ -82,9 +82,14 @@ $('form.siteMap')
 					nTop = offset.top - diff.y;
 					
 					for(i=0,c=offsets.length; i < c; i++) {
+						t = nTop;
 						o = offsets[i];
-						if(o.top <= nTop && o.bottom >= nTop) { 
-							dropzone = {element:o.item, state:setHolder(o,nTop)};
+
+						if(i == 0 && t < o.top) t = o.top;
+						if(i == c-1 && t > o.bottom) t = o.bottom;
+
+						if(o.top <= t && o.bottom >= t) { 
+							dropzone = {element:o.item, state:setHolder(o,t)};
 							break;
 						}
 					}
@@ -164,10 +169,6 @@ $('form.siteMap')
 			})
 		.end()
 	.end()
-
-$('<div id="dropzone-marker" />')
-	.css({display:'none',position:'absolute',backgroundColor:'#000',opacity:0.7})
-	.appendTo('body');
 
 function getOffset(elem, offsetParent) {
 	var top = 0, left = 0;
