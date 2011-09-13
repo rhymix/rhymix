@@ -311,9 +311,18 @@
          * @brief Get a list of all triggers on the trigger_name
          **/
         function getTriggers($trigger_name, $called_position) {
-            $args->trigger_name = $trigger_name;
-            $args->called_position = $called_position;
-            $output = executeQueryArray('module.getTriggers',$args);
+             // cache controll
+            $oCacheHandler = &CacheHandler::getInstance('object');
+            if($oCacheHandler->isSupport()){
+                    $cache_key = 'object:'.$trigger_name.'_'.$called_position;
+                    $output = $oCacheHandler->get($cache_key);
+            }
+            if(!$output) {
+                $args->trigger_name = $trigger_name;
+                $args->called_position = $called_position;
+                $output = executeQueryArray('module.getTriggers',$args);
+                if($oCacheHandler->isSupport()) $oCacheHandler->put($cache_key,$output);
+            }
             return $output->data;
         }
 
@@ -913,14 +922,28 @@
          * Global configuration is used to manage board, member and others
          **/
         function getModuleConfig($module, $site_srl = 0) {
-            if(!$GLOBALS['__ModuleConfig__'][$site_srl][$module]) {
-                $args->module = $module;
-				$args->site_srl = $site_srl;
-                $output = executeQuery('module.getModuleConfig', $args);
-                $config = unserialize($output->data->config);
-                $GLOBALS['__ModuleConfig__'][$site_srl][$module] = $config;
+            // cache controll
+            $oCacheHandler = &CacheHandler::getInstance('object');
+            if($oCacheHandler->isSupport()){
+                    $cache_key = 'object:module_config:module_'.$module.'_site_srl_'.$site_srl;
+                    $config = $oCacheHandler->get($cache_key);
             }
-            return $GLOBALS['__ModuleConfig__'][$site_srl][$module];
+            if(!$config) {
+                if(!$GLOBALS['__ModuleConfig__'][$site_srl][$module]) {
+                    $args->module = $module;
+                    $args->site_srl = $site_srl;
+                    $output = executeQuery('module.getModuleConfig', $args);
+                    $config = unserialize($output->data->config);
+                    if(!$config) $config = 'empty_module_config';
+                    //insert in cache
+                    if($oCacheHandler->isSupport()) $oCacheHandler->put($cache_key,$config);
+                    $GLOBALS['__ModuleConfig__'][$site_srl][$module] = $config;
+                }
+                return $GLOBALS['__ModuleConfig__'][$site_srl][$module];
+            } elseif($config == 'empty_module_config') {
+                return;
+            }
+            return $config;
         }
 
         /**
@@ -928,14 +951,29 @@
          * Manage mid configurations which depend on module
          **/
         function getModulePartConfig($module, $module_srl) {
-            if(!$GLOBALS['__ModulePartConfig__'][$module][$module_srl]) {
-                $args->module = $module;
-                $args->module_srl = $module_srl;
-                $output = executeQuery('module.getModulePartConfig', $args);
-                $config = unserialize($output->data->config);
-                $GLOBALS['__ModulePartConfig__'][$module][$module_srl] = $config;
+            // cache controll
+            $oCacheHandler = &CacheHandler::getInstance('object');
+            if($oCacheHandler->isSupport()){
+                    $cache_key = 'object_module_part_config:'.$module.'_'.$module_srl;
+                    $config = $oCacheHandler->get($cache_key);
             }
+            if(!$config) {
+                if(!$GLOBALS['__ModulePartConfig__'][$module][$module_srl]) {
+                    $args->module = $module;
+                    $args->module_srl = $module_srl;
+                    $output = executeQuery('module.getModulePartConfig', $args);
+                    $config = unserialize($output->data->config);
+                    if(!$config) $config = 'empty_module_config';
+                    //insert in cache
+                    if($oCacheHandler->isSupport()) $oCacheHandler->put($cache_key,$config);
+                    $GLOBALS['__ModulePartConfig__'][$module][$module_srl] = $config;
+                }
             return $GLOBALS['__ModulePartConfig__'][$module][$module_srl];
+            } elseif($config == 'empty_module_config') {
+                return;
+            }
+            return $config;
+            
         }
 
         /**
@@ -1185,15 +1223,28 @@
          * Extra information, not in the modules table
          **/
         function getModuleExtraVars($module_srl) {
-            if(is_array($module_srl)) $module_srl = implode(',',$module_srl);
-            $args->module_srl = $module_srl;
-            $output = executeQueryArray('module.getModuleExtraVars',$args);
-            if(!$output->toBool() || !$output->data) return;
-
-            $vars = array();
-            foreach($output->data as $key => $val) {
-                if(in_array($val->name, array('mid','module')) || $val->value == 'Array') continue;
-                $vars[$val->module_srl]->{$val->name} = $val->value;
+             if(is_array($module_srl)) $module_srl = implode(',',$module_srl);
+            // cache controll
+            $oCacheHandler = &CacheHandler::getInstance('object');
+            if($oCacheHandler->isSupport()){
+                    $cache_key = 'object:module_extra_vars_'.$module_srl;
+                    $vars = $oCacheHandler->get($cache_key);
+            }
+            if(!$vars) {
+                $args->module_srl = $module_srl;
+                $output = executeQueryArray('module.getModuleExtraVars',$args);
+                if(!$output->toBool() || !$output->data) {
+                    if($oCacheHandler->isSupport()) $oCacheHandler->put($cache_key,'empty_extra_vars');
+                    return;
+                }
+                $vars = array();
+                foreach($output->data as $key => $val) {
+                    if(in_array($val->name, array('mid','module')) || $val->value == 'Array') continue;
+                    $vars[$val->module_srl]->{$val->name} = $val->value;
+                }
+                if($oCacheHandler->isSupport()) $oCacheHandler->put($cache_key,$vars);
+            } elseif($vars == 'empty_extra_vars') {
+                return;
             }
             return $vars;
         }
@@ -1216,9 +1267,18 @@
          **/
         function syncSkinInfoToModuleInfo(&$module_info) {
             if(!$module_info->module_srl) return;
-
-            $args->module_srl = $module_info->module_srl;
-            $output = executeQueryArray('module.getModuleSkinVars',$args);
+            // cache controll
+            $oCacheHandler = &CacheHandler::getInstance('object');
+            if($oCacheHandler->isSupport()){
+                    $cache_key = 'object_module_skin_vars:'.$module_info->module_srl;
+                    $output = $oCacheHandler->get($cache_key);
+            }
+            if(!$output) {
+                $args->module_srl = $module_info->module_srl;
+                $output = executeQueryArray('module.getModuleSkinVars',$args);
+                //insert in cache
+	        if($oCacheHandler->isSupport()) $oCacheHandler->put($cache_key,$output);
+            }
             if(!$output->toBool() || !$output->data) return;
 
             foreach($output->data as $val) {

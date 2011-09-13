@@ -156,7 +156,9 @@
 	        	foreach($document_srl_list as $document_srl)
 	        	{
 	        		$cache_key = 'object:'.$document_srl;
-	            	$oCacheHandler->delete($cache_key);
+                            $oCacheHandler->delete($cache_key);
+                            $cache_key_item = 'object_document_item:'.$document_srl;
+                            $oCacheHandler->delete($cache_key_item);
 	        	}
 	            $cache_object = $oCacheHandler->get('module_list_documents');
 	            foreach ($cache_object as $object){
@@ -298,6 +300,8 @@
 	        	{
 	        		$cache_key = 'object:'.$document_srl;
 	            	$oCacheHandler->delete($cache_key);
+                            $cache_key_item = 'object_document_item:'.$document_srl;
+                            $oCacheHandler->delete($cache_key_item);
 	        	}
 	            $cache_object = $oCacheHandler->get('module_list_documents');
 	            foreach ($cache_object as $object){

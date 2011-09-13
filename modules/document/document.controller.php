@@ -416,6 +416,9 @@ class documentController extends document {
                 $oCacheHandler->delete($cache_key_object);
             }
             $oCacheHandler->delete('module_list_documents');
+            //remove document item from cache
+            $cache_key = 'object_document_item:'.$obj->document_srl;
+            $oCacheHandler->delete($cache_key);
         }
 		
 		return $output;
@@ -500,6 +503,8 @@ class documentController extends document {
                 $oCacheHandler->delete($cache_key_object);
             }
             $oCacheHandler->delete('module_list_documents');
+            $cache_key = 'object_document_item:'.$document_srl;
+            $oCacheHandler->delete($cache_key);
         }
 
 		return $output;

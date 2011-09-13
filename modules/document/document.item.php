@@ -27,10 +27,19 @@
 
         function _loadFromDB($load_extra_vars = true) {
             if(!$this->document_srl) return;
-
-            $args->document_srl = $this->document_srl;
-            $output = executeQuery('document.getDocument', $args, $this->columnList);
-
+            
+            // cache controll
+            $oCacheHandler = &CacheHandler::getInstance('object');
+            if($oCacheHandler->isSupport()){
+                    $cache_key = 'object_document_item:'.$this->document_srl;
+                    $output = $oCacheHandler->get($cache_key);
+            }
+            if(!$output) {
+                $args->document_srl = $this->document_srl;
+                $output = executeQuery('document.getDocument', $args, $this->columnList);
+                //insert in cache
+	        if($oCacheHandler->isSupport()) $oCacheHandler->put($cache_key,$output);
+            }
             $this->setAttribute($output->data,$load_extra_vars);
         }
 

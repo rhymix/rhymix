@@ -293,12 +293,23 @@
          * @brief Get a list of groups which the member_srl belongs to
          **/
         function getMemberGroups($member_srl, $site_srl = 0, $force_reload = false) {
+             // cache controll
+            $oCacheHandler = &CacheHandler::getInstance('object');
+            if($oCacheHandler->isSupport()){
+                    $cache_key = 'object_member_groups:'.$member_srl.'_'.$site_srl;
+                    $output = $oCacheHandler->get($cache_key);
+            }
             static $member_groups = array();
             if(!$member_groups[$member_srl][$site_srl] || $force_reload) {
-                $args->member_srl = $member_srl;
-                $args->site_srl = $site_srl;
-                $output = executeQuery('member.getMemberGroups', $args);
+                if(!$output){
+                    $args->member_srl = $member_srl;
+                    $args->site_srl = $site_srl;
+                    $output = executeQuery('member.getMemberGroups', $args);
+                    //insert in cache
+                    if($oCacheHandler->isSupport()) $oCacheHandler->put($cache_key,$output);
+                }
                 if(!$output->data) return array();
+                
 
                 $group_list = $output->data;
                 if(!is_array($group_list)) $group_list = array($group_list);
