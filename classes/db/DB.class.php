@@ -323,7 +323,7 @@
          * @return result of query
          * @remarks this function finds xml file or cache file of $query_id, compiles it and then execute it
          **/
-        function executeQuery($query_id, $args = NULL, $arg_columns = NULL, $database_type = 'master') {
+        function executeQuery($query_id, $args = NULL, $arg_columns = NULL) {
             if(!$query_id) return new Object(-1, 'msg_invalid_queryid');
 			if(!$this->db_type) return;
 
@@ -358,7 +358,7 @@
 
             // look for cache file
             $cache_file = $this->checkQueryCacheFile($query_id, $xml_file);
-	    $result = $this->_executeQuery($cache_file, $args, $query_id, $arg_columns, $database_type);
+	    $result = $this->_executeQuery($cache_file, $args, $query_id, $arg_columns);
 
 	    $this->actDBClassFinish();
             // execute query
@@ -398,7 +398,7 @@
          * @param[in] $query_id query id
          * @return result of query
          **/
-        function _executeQuery($cache_file, $source_args, $query_id, $arg_columns, $database_type) {
+        function _executeQuery($cache_file, $source_args, $query_id, $arg_columns) {
             global $lang;
 
             if(!file_exists($cache_file)) return new Object(-1, 'msg_invalid_queryid');
@@ -426,7 +426,7 @@
                 case 'select' :
                         $arg_columns = is_array($arg_columns)?$arg_columns:array();
                         $output->setColumnList($arg_columns);
-                        $connection = $this->_getConnection($database_type);
+                        $connection = $this->_getConnection('slave');
                         $output = $this->_executeSelectAct($output, $connection);
                     break;
             }
@@ -788,7 +788,7 @@
             $this->elapsed_dbclass_time = $elapsed_dbclass_time;
             $GLOBALS['__dbclass_elapsed_time__'] += $elapsed_dbclass_time;
         }
-		
+
         /**
          * Returns a database specific parser class
          * used for escaping expressions and table/column identifiers
@@ -805,7 +805,7 @@
             }
 
             return $dbParser;
-        }		
+        }
 
     }
 ?>
