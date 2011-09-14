@@ -934,9 +934,11 @@
                     $args->site_srl = $site_srl;
                     $output = executeQuery('module.getModuleConfig', $args);
                     $config = unserialize($output->data->config);
-                    if(!$config) $config = 'empty_module_config';
                     //insert in cache
-                    if($oCacheHandler->isSupport()) $oCacheHandler->put($cache_key,$config);
+                    if($oCacheHandler->isSupport()) {
+                        if(!$config) $config = 'empty_module_config';
+                        $oCacheHandler->put($cache_key,$config);
+                    }
                     $GLOBALS['__ModuleConfig__'][$site_srl][$module] = $config;
                 }
                 return $GLOBALS['__ModuleConfig__'][$site_srl][$module];
@@ -963,9 +965,11 @@
                     $args->module_srl = $module_srl;
                     $output = executeQuery('module.getModulePartConfig', $args);
                     $config = unserialize($output->data->config);
-                    if(!$config) $config = 'empty_module_config';
                     //insert in cache
-                    if($oCacheHandler->isSupport()) $oCacheHandler->put($cache_key,$config);
+                    if($oCacheHandler->isSupport()) {
+                        if(!$config) $config = 'empty_module_config';
+                        $oCacheHandler->put($cache_key,$config);
+                    }
                     $GLOBALS['__ModulePartConfig__'][$module][$module_srl] = $config;
                 }
             return $GLOBALS['__ModulePartConfig__'][$module][$module_srl];
