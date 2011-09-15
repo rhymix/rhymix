@@ -291,6 +291,7 @@ $.fn.xeModalWindow = function(){
 		});
 };
 $('a.modalAnchor').xeModalWindow();
+$('div.modal').addClass('x').hide();
 
 });
 
