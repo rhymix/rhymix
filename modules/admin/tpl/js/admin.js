@@ -816,7 +816,7 @@ $('.multiLangEdit')
 			var $this, $layer, $mle, $vlang, key, text, api, params;
 
 			$this  = $(this);
-			$layer = $($this.attr('href'));
+			$layer = $($this.attr('href')).insertBefore($this);
 			$mle   = $this.closest('.multiLangEdit');
 			$vlang = $mle.find('input.vLang,textarea.vLang');
 

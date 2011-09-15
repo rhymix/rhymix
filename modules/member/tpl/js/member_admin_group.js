@@ -72,11 +72,6 @@ jQuery(function ($){
 		return false;
 	});
 
-	$('a.tgAnchor.editUserLang').bind('before-open.tc', function(e){
-		var $target = $(e.target).parent();
-		$('#langEdit').insertBefore($target);
-	});
-
 	$('.filebox').bind('filebox.selected', function (e, src){
 		var $targetImage = $(this).parent().find('img');
 		var $imageMarkHidden = $(this).parent().find('._imgMarkHidden');
