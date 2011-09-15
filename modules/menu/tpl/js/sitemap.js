@@ -112,7 +112,7 @@ $('form.siteMap')
 		editForm.find('input=[name=create_menu_url]').val('');
 		editForm.find('input=[name=select_menu_url]').val('');
 		editForm.find('input=[name=menu_url]').val('');
-		editForm.find('input=[name=menu_open_window]').attr('checked', false);
+		editForm.find('input=[name=menu_open_window]')[0].checked = true;
 		editForm.find('input=[name=group_srls\\[\\]]').attr('checked', false);
 	});
 
