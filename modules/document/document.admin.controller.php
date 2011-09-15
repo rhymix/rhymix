@@ -289,9 +289,11 @@
             $document_list = $oDocumentModel->getDocumentList($args);
             $documents = $document_list->data;
             $output = executeQuery('document.deleteModuleDocument', $args);
-			foreach ($documents as $oDocument){
-            	$document_srl_list[] = $oDocument->document_srl;
-            }
+			if (is_array($documents)){
+				foreach ($documents as $oDocument){
+					$document_srl_list[] = $oDocument->document_srl;
+				}
+			}
 			//remove from cache
 	        $oCacheHandler = &CacheHandler::getInstance('object');
 	        if($oCacheHandler->isSupport()) 

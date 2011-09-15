@@ -110,6 +110,15 @@
                 foreach($output->data as $key => $val) $grant[$val->name][] = $val->group_srl;
             }
 
+			// get Extra Vars
+			$extra_args->module_srl = $module_srl;
+			$extra_output = executeQueryArray('module.getModuleExtraVars', $extra_args);
+			if ($extra_output->toBool() && is_array($extra_output->data)){
+				foreach($extra_output->data as $info){
+					$extra_vars->{$info->name} = $info->value;
+				}
+			}
+
 
             $oDB = &DB::getInstance();
             $oDB->begin();
@@ -127,6 +136,8 @@
                 $module_srl = $output->get('module_srl');
                 // Grant module permissions
                 if(count($grant)) $oModuleController->insertModuleGrants($module_srl, $grant);
+				if ($extra_vars) $oModuleController->insertModuleExtraVars($module_srl, $extra_vars);
+
             }
 
             $oDB->commit();
