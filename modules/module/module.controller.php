@@ -364,9 +364,9 @@
 			//remove from cache
             $oCacheHandler = &CacheHandler::getInstance('object');
             if($oCacheHandler->isSupport()){
-            	$cache_key = 'object:'.$args->module_srl;
+            	$cache_key = 'object_module_info:'.$args->module_srl;
             	$oCacheHandler->delete($cache_key);
-            	$cache_key = 'object:'.$args->mid;
+            	$cache_key = 'object:'.$args->mid.'_'.$args->site_srl;
             	$oCacheHandler->delete($cache_key);
             }
             return $output;
@@ -427,9 +427,7 @@
 			//remove from cache
             $oCacheHandler = &CacheHandler::getInstance('object');
             if($oCacheHandler->isSupport()){
-            	$cache_key = 'object:'.$args->module_srl;
-            	$oCacheHandler->delete($cache_key);
-            	$cache_key = 'object:'.$args->mid;
+            	$cache_key = 'object_module_info:'.$args->module_srl;
             	$oCacheHandler->delete($cache_key);
             }
             return $output;

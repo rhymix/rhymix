@@ -136,18 +136,20 @@
             $args->site_srl = (int)$site_srl;
             $oCacheHandler = &CacheHandler::getInstance('object');
         	if($oCacheHandler->isSupport()){
-					$cache_key = 'object:'.$mid;
+					$cache_key = 'object:'.$mid.'_'.$site_srl;
 					$module_srl = $oCacheHandler->get($cache_key);
 					if($module_srl){
-						$cache_key = 'object:'.$module_srl;
+						$cache_key = 'object_module_info:'.$module_srl;
 						$output = $oCacheHandler->get($cache_key);
 					}
 			}
 			if(!$output){
 				$output = executeQuery('module.getMidInfo', $args);
 				if($oCacheHandler->isSupport()) {
-					$cache_key = 'object:'.$mid;
+					$cache_key = 'object:'.$mid.'_'.$site_srl;
 					$oCacheHandler->put($cache_key,$output->data->module_srl);
+					$cache_key = 'object_module_info:'.$output->data->module_srl;
+					$oCacheHandler->put($cache_key,$output);
 				}
 			}
 
