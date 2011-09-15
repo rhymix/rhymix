@@ -200,8 +200,8 @@
 		function procAdminEnviromentGatheringAgreement()
 		{
 			$isAgree = Context::get('is_agree');
-			if($isAgree == 'true')
-				$_SESSION['enviroment_gather'] = 'Y';
+			if($isAgree == 'true') $_SESSION['enviroment_gather'] = 'Y';
+			else $_SESSION['enviroment_gather'] = 'N';
 
 			$redirectUrl = getUrl('', 'module', 'admin');
 			$this->setRedirectUrl($redirectUrl);
