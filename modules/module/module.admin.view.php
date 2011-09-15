@@ -43,7 +43,7 @@
 					$module_list[$key]->need_autoinstall_update = $package[$packageSrl]->need_update;
 
 					// get easyinstall update url
-					if ($module_list[$key]->need_autoinstall_update)
+					if ($module_list[$key]->need_autoinstall_update == 'Y')
 					{
 						$module_list[$key]->update_url = $oAutoinstallModel->getUpdateUrlByPackageSrl($packageSrl);
 					}
