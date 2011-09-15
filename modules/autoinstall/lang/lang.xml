@@ -252,4 +252,28 @@
 		<value xml:lang="ko"><![CDATA[서버 설정이 올바르지 않습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Server settings are incorrect.]]></value>
 	</item>
+	<item name="msg_ftp_invalid_auth_info">
+		<value xml:lang="ko"><![CDATA[FTP 인증 정보가 올바르지 않습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[FTP authentication information is incorrect.]]></value>
+	</item>
+	<item name="msg_ftp_password_input">
+		<value xml:lang="ko"><![CDATA[FTP 비밀번호를 입력하세요.]]></value>
+		<value xml:lang="ko"><![CDATA[Enter your FTP password.]]></value>
+	</item>
+	<item name="msg_ftp_not_connected">
+		<value xml:lang="ko"><![CDATA[FTP 접속 실패]]></value>
+		<value xml:lang="ko"><![CDATA[FTP connection failed]]></value>
+	</item>
+	<item name="msg_make_directory_failed">
+		<value xml:lang="ko"><![CDATA[디렉터리 생성 실패]]></value>
+		<value xml:lang="ko"><![CDATA[Failed to create directory]]></value>
+	</item>
+	<item name="msg_permission_adjust_failed">
+		<value xml:lang="ko"><![CDATA[퍼미션 변경 실패]]></value>
+		<value xml:lang="ko"><![CDATA[Failure to change the permissions]]></value>
+	</item>
+	<item name="msg_ftp_upload_failed">
+		<value xml:lang="ko"><![CDATA[FTP 파일 업로드 실패]]></value>
+		<value xml:lang="ko"><![CDATA[FTP file upload fails]]></value>
+	</item>
 </lang>
