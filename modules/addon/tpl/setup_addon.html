@@ -48,6 +48,7 @@
 	<block cond="$mid_list">
 		<h3 class="h3">{$lang->module}</h3>
 		<p>{$lang->about_addon_mid}</p>
+		<p><input type="checkbox" id="check_all" /> <label for="check_all">Check all</label></p>
 		<fieldset loop="$mid_list => $module_category_srl, $modules" style="border: 1px solid #ccc; margin:1em 0; padding:.5em 1em">
 			<legend cond="$modules->title">{$modules->title}</legend>
 			<legend cond="!$modules->title">{$lang->none_category}</legend>
@@ -62,3 +63,15 @@
 	</div>
 </form>
 </block>
+<script type="text/javascript">
+(function($){
+	$('#check_all')
+		.bind('click', function(e){
+			if (this.checked){
+				$('input[name=mid_list\\[\\]]').attr('checked', 'checked');
+			}else{
+				$('input[name=mid_list\\[\\]]').removeAttr('checked');
+			}
+		});
+})(jQuery);
+</script>
