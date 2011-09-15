@@ -385,6 +385,10 @@
 		<value xml:lang="ko"><![CDATA[최상위 메뉴는 삭제할 수 없습니다.]]></value>
 		<value xml:lang="en"><![CDATA[A top menu cannot be deleted]]></value>
 	</item>
+	<item name="msg_adminmenu_cannot_delete">
+		<value xml:lang="ko"><![CDATA[관리자 메뉴는 삭제 불가능합니다.]]></value>
+		<value xml:lang="en"><![CDATA[Admin Menu cannot be removed]]></value>
+	</item>
 	<item name="about_title">
 		<value xml:lang="ko"><![CDATA[모듈에 연결할 때, 쉽게 구분할 수 있는 제목을 입력해주세요.]]></value>
 		<value xml:lang="en"><![CDATA[Please input the title that is easy to verify when connecting to the module.]]></value>

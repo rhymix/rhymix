@@ -66,6 +66,13 @@
          **/
         function procMenuAdminDelete() {
             $menu_srl = Context::get('menu_srl');
+
+			$oMenuAdminModel = &getAdminModel('menu');
+			$menu_info = $oMenuAdminModel->getMenu($menu_srl);
+
+			if($menu_info->title == '__XE_ADMIN__')
+				return new Object(-1, 'msg_adminmenu_cannot_delete');
+
             $this->deleteMenu($menu_srl);
 
 			$this->setMessage('success_deleted', 'info');
