@@ -403,6 +403,7 @@
 			$output = $oMenuAdminModel->getMenuByTitle('__XE_ADMIN__');
 
 			Context::set('menu_srl', $output->menu_srl);
+			Context::set('menu_title', $output->title);
 			Context::set('config_object', $configObject);
             $this->setTemplateFile('admin_setup');
 		}

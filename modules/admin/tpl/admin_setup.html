@@ -32,6 +32,7 @@
 	<form id="listForm" action="./" class="siteMap" method="post">
 	<input type="hidden" name="act" value="procMenuAdminDeleteItem" />
 	<input type="hidden" name="menu_srl" value="{$menu_srl}" />
+	<input type="hidden" name="title" value="{$menu_title}" />
 	<input type="hidden" name="menu_item_srl" value="" />
 	<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin', 'act', 'dispAdminSetup')}" />
 		<fieldset class="section">
@@ -39,11 +40,15 @@
 		<div class="adminMenu portlet">
 			<ul class="lined">
 				<li class="parent" loop="$gnbUrlList=>$key,$value">
-					<input type="hidden" name="parent_key[]" value="{$key}" class="_parent_key" />
-					<input type="hidden" name="child_key[]" value="BEGIN_{$key}" />
+					<input type="hidden" name="parent_key[]" value="{$value['parent_srl']}" class="_parent_key" />
+					<input type="hidden" name="item_key[]" value="{$value['node_srl']}" class="_item_key" />
 					<span>{$value['text']}</span> <span class="side"><a href="#editMenu" class="modalAnchor _add">{$lang->add}</a></span>
 					<ul cond="is_array($value['list']) && count($value['list'])>0">
-						<li loop="$value['list']=>$key2,$value2"><span>{$value2['text']}</span><span class="side"><a href="#delete" class="_child_delete">{$lang->delete}</a></span><input type="hidden" name="child_key[]" value="{$key2}" class="_child_key" /></li>
+						<li loop="$value['list']=>$key2,$value2">
+						<input type="hidden" name="parent_key[]" value="{$value2['parent_srl']}" class="_parent_key" />
+						<input type="hidden" name="item_key[]" value="{$value2['node_srl']}" class="_item_key" />
+						<span>{$value2['text']}</span><span class="side"><a href="#delete" class="_child_delete">{$lang->delete}</a></span>
+						</li>
 					</ul>
 				</li>
 			</ul>

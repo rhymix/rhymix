@@ -5,7 +5,7 @@ jQuery(function($){
 	var listForm = $('#listForm');
 
 	$('a._add').click(function(){
-		parentSrl = $(this).parent().prevAll('._parent_key').val();
+		parentSrl = $(this).parent().prevAll('._item_key').val();
 		editForm.find('input[name=parent_srl]').val(parentSrl);
 		if(!menuList)
 		{
@@ -40,7 +40,7 @@ jQuery(function($){
 	});
 
 	$('a._child_delete').click(function() {
-		var menu_item_srl = $(this).parents('li').find('._child_key').val();
+		var menu_item_srl = $(this).parents('li').find('._item_key').val();
 		listForm.find('input[name=menu_item_srl]').val(menu_item_srl);
 		listForm.submit();
 	});

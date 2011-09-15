@@ -504,8 +504,8 @@
 			$groupSrlList = $oMemberModel->getMemberGroups($logged_info->member_srl);
 
 			//preg_match('/\{\$lang->menu_gnb\[(.*?)\]\}/i', $parentMenuInfo->name, $m);
-			$cache_file = sprintf("./files/cache/module_info/%s.%s.php", $moduleName, Context::getLangType());
-			include $cache_file;
+			$oModuleModel = &getModel('module');
+			$info = $oModuleModel->getModuleInfoXml($moduleName);
 
 			$args->menu_item_srl = (!$requestArgs->menu_item_srl) ? getNextSequence() : $requestArgs->menu_item_srl;
 			$args->parent_srl = $requestArgs->parent_srl;
