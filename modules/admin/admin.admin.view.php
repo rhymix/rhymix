@@ -103,66 +103,60 @@
 		function makeGnbUrl($module = 'admin')
 		{
 			global $lang;
-			$oAdminAdminModel = &getAdminModel('admin');
+
+			$oAdminAdminModel   = &getAdminModel('admin');
 			$lang->menu_gnb_sub = $oAdminAdminModel->getAdminMenuLang();
 
 			$oMenuAdminModel = &getAdminModel('menu');
 			$menu_info = $oMenuAdminModel->getMenuByTitle('__XE_ADMIN__');
 
-			if(is_readable($menu_info->php_file))
-				include $menu_info->php_file;
-			else {
-				return;
-			}
+			if(!is_readable($menu_info->php_file)) return;
+
+			include $menu_info->php_file;
 
             $oModuleModel = &getModel('module');
 			$moduleActionInfo = $oModuleModel->getModuleActionXml($module);
-			if(is_object($moduleActionInfo->menu))
+
+			$currentAct   = Context::get('act');
+			$subMenuTitle = '';
+			foreach((array)$moduleActionInfo->menu as $key=>$value)
 			{
-				$subMenuTitle = '';
-				foreach($moduleActionInfo->menu AS $key=>$value)
+				if(isset($value->acts) && is_array($value->acts) && in_array($currentAct, $value->acts))
 				{
-					if($value->acts && in_array(Context::get('act'), $value->acts))
+					$subMenuTitle = $value->title;
+					break;
+				}
+			}
+
+			$parentSrl = 0;
+			foreach((array)$menu->list as $parentKey=>$parentMenu)
+			{
+				if(!is_array($parentMenu['list']) || !count($parentMenu['list'])) continue;
+				if($parentMenu['href'] == '#' && count($parentMenu['list'])) {
+					$firstChild = current($parentMenu['list']);
+ 					$menu->list[$parentKey]['href'] = $firstChild['href'];
+				}
+
+				foreach($parentMenu['list'] as $childKey=>$childMenu)
+				{
+					if($subMenuTitle == $childMenu['text'])
 					{
-						$subMenuTitle = $value->title;
+						$parentSrl = $childMenu['parent_srl'];
 						break;
 					}
 				}
 			}
 
-			$parentSrl = 0;
-			if(is_array($menu->list))
-			{
-				foreach($menu->list AS $key=>$value)
-				{
-					$parentMenu = $value;
-					if(is_array($parentMenu['list']) && count($parentMenu['list']) > 0)
-					{
-						foreach($parentMenu['list'] AS $key2=>$value2)
-						{
-							$childMenu = $value2;
-							if($subMenuTitle == $childMenu['text'])
-							{
-								$parentSrl = $childMenu['parent_srl'];
-								break;
-							}
-						}
-					}
-				}
-			}
-
 			// Admin logo, title setup
-			$configObject = $oModuleModel->getModuleConfig('admin');
-			$gnbTitleInfo->adminTitle = $configObject->adminTitle?$configObject->adminTitle:'XE Admin';
-			$gnbTitleInfo->adminLogo = $configObject->adminLogo?$configObject->adminLogo:'modules/admin/tpl/img/xe.h1.png';
+			$objConfig = $oModuleModel->getModuleConfig('admin');
+			$gnbTitleInfo->adminTitle = $configObject->adminTitle ? $objConfig->adminTitle:'XE Admin';
+			$gnbTitleInfo->adminLogo  = $configObject->adminLogo ? $objConfig->adminLogo:'modules/admin/tpl/img/xe.h1.png';
 
-			$browserTitle = 'Dashboard';
-			if($subMenuTitle) $browserTitle = $subMenuTitle;
-			$browserTitle .= ' - '.$gnbTitleInfo->adminTitle;
+			$browserTitle = ($subMenuTitle ? $subMenuTitle : 'Dashboard').' - '.$gnbTitleInfo->adminTitle;
 
 			Context::set('subMenuTitle', $subMenuTitle);
-			Context::set('gnbUrlList', $menu->list);
-			Context::set('parentSrl', $parentSrl);
+			Context::set('gnbUrlList',   $menu->list);
+			Context::set('parentSrl',    $parentSrl);
 			Context::set('gnb_title_info', $gnbTitleInfo);
             Context::setBrowserTitle($browserTitle);
 		}

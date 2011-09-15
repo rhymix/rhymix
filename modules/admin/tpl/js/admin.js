@@ -53,50 +53,6 @@ jQuery(function($){
 				.trigger('update.checkbox', [name, this.checked]);
 		});
 
-	// Global Navigation Bar
-	var $menuitems = $('div.gnb')
-		.removeClass('jx')
-		.attr('role', 'navigation') // WAI-ARIA role
-		.find('li')
-			.attr('role', 'menuitem') // WAI-ARIA role
-			.filter(':has(>ul)')
-				.attr('aria-haspopup', 'true') // WAI-ARIA
-				.find('>ul').hide().end()
-				.mouseover(function(){
-					var $this = $(this);
-					if($this.css('float') == 'left') $this.find('>ul:hidden').prev('a').click();
-				})
-				.mouseleave(function(){
-					var $this = $(this);
-					if($this.css('float') == 'left') $this.find('>ul:visible').slideUp(100);
-				})
-				.find('>a')
-					.focus(function(){ $(this).click() })
-					.click(function(){
-						$menuitems.removeClass('active');
-
-						$(this)
-							.next('ul').slideToggle(100).end()
-							.parent().addClass('active');
-
-						return false;
-					})
-				.end()
-			.end()
-			.find('>a')
-				.blur(function(){
-					var anchor = this;
-					setTimeout(function(){
-						var $a  = $(anchor), $ul = $a.closest('ul'), $focus = $ul.find('a:focus');
-
-						if(!$focus.length || $focus.closest('ul').parent('div.gnb').length) {
-							if($ul.parent('div.gnb').length) $ul = $a.next('ul');
-							$ul.filter(':visible').slideUp(100);
-						}
-					}, 10);
-				})
-			.end()
-
 	// pagination
 	$.fn.xePagination = function(){
 		this
@@ -178,6 +134,54 @@ jQuery(function($){
 			.blur(function(){ $(this).mouseout(); });
 	};
 	$('.masked').xeMask();
+});
+
+// Global Navigation Bar
+jQuery(function($){
+
+$.fn.xeMenu = function(){
+	this
+		.removeClass('jx')
+		.attr('role', 'navigation') // WAI-ARIA role
+		.find('li')
+			.attr('role', 'menuitem') // WAI-ARIA role
+			.find('>ul').hide().end()
+			.filter(':has(>ul)')
+				.attr('aria-haspopup', 'true') // WAI-ARIA
+			.end()
+		.end()
+		.delegate('li', {
+			mouseover : function(){
+				$(this)
+					.addClass('active')
+					.find('>ul').show().end()
+					.parentsUntil('.gnb')
+						.filter('li').addClass('active').end()
+					.end()
+			},
+			mouseleave : function(){
+				$(this)
+					.removeClass('active')
+					.find('>ul').hide();
+			},
+			focusout : function(){
+				var $this = $(this);
+				setTimeout(function(){
+					if(!$this.find(':focus').length) {
+						$this.removeClass('active').find('>ul').hide();
+					}
+				}, 1);
+			}
+		})
+		.delegate('a', {
+			focus : function(){
+				$(this).parent('li').mouseover();
+			}
+		});
+};
+
+$('div.gnb').xeMenu();
+
 });
 
 // Modal Window
