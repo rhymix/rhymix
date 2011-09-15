@@ -245,10 +245,14 @@
             if($oCacheHandler->isSupport()) 
             {
             	$cache_object = $oCacheHandler->get('comment_list_document_pages');
-            	foreach ($cache_object as $object){
-            		$cache_key = $object;
-                	$oCacheHandler->delete($cache_key);
-            	}
+            	if(isset($cache_object) && is_array($cache_object)){
+		    foreach ($cache_object as $object){
+			$cache_key = $object;
+			$oCacheHandler->delete($cache_key);
+		    }
+		}elseif(!is_array($cache_object)) {
+		    $oCacheHandler->delete($cache_key);
+		}
                 $oCacheHandler->delete('comment_list_document_pages');
             }
             return $output;
@@ -332,10 +336,14 @@
             if($oCacheHandler->isSupport()) 
             {
             	$cache_object = $oCacheHandler->get('comment_list_document_pages');
-            	foreach ($cache_object as $object){
-            		$cache_key = $object;
-                	$oCacheHandler->delete($cache_key);
-            	}
+            	if(isset($cache_object) && is_array($cache_object)){
+		    foreach ($cache_object as $object){
+			$cache_key = $object;
+			$oCacheHandler->delete($cache_key);
+		    }
+		}elseif(!is_array($cache_object)) {
+		    $oCacheHandler->delete($cache_key);
+		}
                 $oCacheHandler->delete('comment_list_document_pages');
             }
             return $output;
@@ -406,10 +414,14 @@
             if($oCacheHandler->isSupport()) 
             {
             	$cache_object = $oCacheHandler->get('comment_list_document_pages');
-            	foreach ($cache_object as $object){
-            		$cache_key = $object;
-                	$oCacheHandler->delete($cache_key);
-            	}
+            	if(isset($cache_object) && is_array($cache_object)){
+		    foreach ($cache_object as $object){
+			$cache_key = $object;
+			$oCacheHandler->delete($cache_key);
+		    }
+		}elseif(!is_array($cache_object)) {
+		    $oCacheHandler->delete($cache_key);
+		}
                 $oCacheHandler->delete('comment_list_document_pages');
             }
             return $output;
@@ -469,10 +481,14 @@
             if($oCacheHandler->isSupport()) 
             {
             	$cache_object = $oCacheHandler->get('comment_list_document_pages');
-            	foreach ($cache_object as $object){
-            		$cache_key = $object;
-                	$oCacheHandler->delete($cache_key);
-            	}
+            	if(isset($cache_object) && is_array($cache_object)){
+		    foreach ($cache_object as $object){
+			$cache_key = $object;
+			$oCacheHandler->delete($cache_key);
+		    }
+		}elseif(!is_array($cache_object)) {
+		    $oCacheHandler->delete($cache_key);
+		}
                 $oCacheHandler->delete('comment_list_document_pages');
             }
 
