@@ -361,10 +361,13 @@ $.fn.xeContentToggler = function(){
 				.unbind('mousedown.tc keydown.tc')
 				.bind('mousedown.tc keydown.tc',
 					function(event){
-						if(event && (
-							(event.type == 'keydown' && event.which != ESC) ||
-							(event.type == 'mousedown' && ($(event.target).is('.tgAnchor,.tgContent') || $layer.has(event.target)[0]))
-						)) return true;
+						if(event) {
+							if(event.type == 'keydown' && event.which != ESC) return true;
+							if(event.type == 'mousedown') {
+								var $t = $(event.target);
+								if($t.is('html,.tgAnchor,.tgContent') || $layer.has($t).length) return true;
+							}
+						}
 
 						$this.trigger('close.tc');
 
