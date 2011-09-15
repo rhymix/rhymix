@@ -38,6 +38,7 @@ $('form.siteMap')
 	function completeGetActList(obj)
 	{
 		var menuItem = obj.menu_item;
+		console.log(menuItem);
 		menuUrl = menuItem.url;
 		editForm.find('.h2').html('Edit Menu');
 		editForm.find('input[name=menu_srl]').val(menuItem.menu_srl);

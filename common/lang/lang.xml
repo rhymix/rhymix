@@ -2105,6 +2105,10 @@
 		<value xml:lang="vi"><![CDATA[Không sử dụng]]></value>
 		<value xml:lang="mn"><![CDATA[Хэрэглэхгүй]]></value>
 	</item>
+	<item name="use_after_save">
+		<value xml:lang="ko"><![CDATA[저장 후 사용]]></value>
+		<value xml:lang="en"><![CDATA[Use After Save]]></value>
+	</item>
 	<item name="on">
 		<value xml:lang="ko"><![CDATA[켜짐]]></value>
 		<value xml:lang="en"><![CDATA[On]]></value>
