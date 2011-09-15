@@ -15,8 +15,6 @@
 				|
 				<a href="{getUrl('filter_type', 'super_admin', 'page', '')}" class="active"|cond="$filter_type==super_admin">{$lang->cmd_show_super_admin_member}</a>
 				|
-				<a href="{getUrl('filter_type', 'site_admin', 'page', '')}" class="active"|cond="$filter_type==site_admin">{$lang->cmd_show_site_admin_member}</a>
-				|
 				<a href="{getUrl('filter_type', 'enable', 'page', '')}" class="active"|cond="$filter_type==enable">{$lang->approval}</a>
 				|
 				<a href="{getUrl('filter_type', 'disable', 'page', '')}" class="active"|cond="$filter_type==disable">{$lang->denied}</a>
@@ -24,7 +22,10 @@
 			<table width="100%" border="1" cellspacing="0" class="_memberList">
 				<caption>
 					{$filter_type_title}({$total_count})
-					<span class="side"><span class="btn"><a href="#listManager" class="modalAnchor _member">{$lang->cmd_selected_user_manage}...</a></span></span>
+					<span class="side">
+						<span class="btn"><a href="{getUrl('', 'act', 'dispMemberAdminInsert')}">{$lang->cmd_make}</a></span>
+						<span class="btn"><a href="#listManager" class="modalAnchor _member">{$lang->cmd_selected_user_manage}...</a></span>
+					</span>
 				</caption>
 				<thead>
 					<tr>
@@ -83,7 +84,10 @@
 			</table>
 		</div>
 		<div class="btnArea">
-			<span class="btn"><a href="#listManager" class="modalAnchor _member">{$lang->cmd_selected_user_manage}...</a></span>
+			<span class="side">
+				<span class="btn"><a href="{getUrl('', 'act', 'dispMemberAdminInsert')}">{$lang->cmd_make}</a></span>
+				<span class="btn"><a href="#listManager" class="modalAnchor _member">{$lang->cmd_selected_user_manage}...</a></span>
+			</span>
 		</div>
 	</form>
 	<div class="modal" id="listManager">

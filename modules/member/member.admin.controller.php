@@ -64,6 +64,7 @@
             $oMemberController = &getController('member');
             // Execute insert or update depending on the value of member_srl
             if(!$args->member_srl) {
+				$args->password = Context::get('password');
                 $output = $oMemberController->insertMember($args);
                 $msg_code = 'success_registed';
             } else {

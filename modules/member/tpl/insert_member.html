@@ -14,21 +14,35 @@
 		<input type="hidden" name="act" value="procMemberAdminInsert" />
 		<input type="hidden" name="member_srl" value="{$member_srl}" />
 		<input type="hidden" name="signature" value="{htmlspecialchars($member_info->signature)}" />
-		<input type="hidden" name="success_return_url" value="{getUrl('act', $act)}" />
-		<h1 class="h1">{$lang->msg_update_member}</h1>
+		<input type="hidden" name="success_return_url" value="{getUrl('act', $act)}" cond="$member_srl" />
+		<input type="hidden" name="success_return_url" value="{getUrl('act', 'dispMemberAdminList')}" cond="!$member_srl" />
+		<h1 class="h1" cond="$member_srl">{$lang->msg_update_member}</h1>
+		<h1 class="h1" cond="!$member_srl">{$lang->msg_new_member}</h1>
 		<ul>
-			<li>
+			<li cond="$member_srl">
 				<p class="q">{$identifierForm->title} <em style="color:red">*</em></p>
 				<p class="a">
 					<input type="hidden" name="{$identifierForm->name}" value="{$identifierForm->value}" />
 					<input type="text" name="{$identifierForm->name}" value="{$identifierForm->value}" disabled="disabled" />
 				</p>
 			</li>
-			<li>
+			<li cond="!$member_srl">
+				<p class="q">{$identifierForm->title} <em style="color:red">*</em></p>
+				<p class="a">
+					<input type="text" name="{$identifierForm->name}" value="" />
+				</p>
+			</li>
+			<li cond="$member_srl">
 				<p class="q">{$lang->password} <em style="color:red">*</em></p>
 				<p class="a">
 					<input type="hidden" name="password" value="{$member_info->password}" />
 					<input type="text" name="reset_password" value="" />
+				</p>
+			</li>
+			<li cond="!$member_srl">
+				<p class="q">{$lang->password} <em style="color:red">*</em></p>
+				<p class="a">
+					<input type="text" name="password" value="" />
 				</p>
 			</li>
 			<li loop="$formTags=>$formTag">
