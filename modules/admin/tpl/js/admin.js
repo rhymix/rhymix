@@ -828,7 +828,7 @@ $('.multiLangEdit')
 
 			// reset
 			$layer.trigger('multilang-reset').removeClass('showChild').find('.langList').empty().end();
-			$('#langInput li.'+xe.current_lang+' > input').val(text).prev('label').css('visibility','hidden');
+			$('#langInput li.'+xe.current_lang).find('>input:text,>textarea').val(text).prev('label').css('visibility','hidden');
 
 			// hide suggestion layer
 			$suggest.trigger('hide');
@@ -916,7 +916,7 @@ function initLayer($layer) {
 		.bind('multilang-reset', function(){
 			$layer
 				.data('multilang-current-name', '')
-				.find('#langInput li > input').val(' ').prev('label').css('visibility','visible');
+				.find('#langInput li').find('>input:text,>textarea').val(' ').prev('label').css('visibility','visible');
 
 			mode = MODE_SAVE;
 			setTitleText();
@@ -949,7 +949,7 @@ function initLayer($layer) {
 
 			for(var code in list) {
 				if(!list.hasOwnProperty(code)) continue;
-				$controls.find('li.'+code).find('> input').data('multilang-value',list[code]).val(list[code]).prev('label').css('visibility','hidden');
+				$controls.find('li.'+code).find('>input:text,>textarea').data('multilang-value',list[code]).val(list[code]).prev('label').css('visibility','hidden');
 			}
 
 			value = get_value();
@@ -999,7 +999,7 @@ function initLayer($layer) {
 			function use_lang() {
 				$layer.hide().closest('.multiLangEdit').find('.vLang')
 					.eq(0).val('$user_lang->'+name).end()
-					.eq(1).val($('#langInput li.'+xe.current_lang+' >input').val()).end();
+					.eq(1).val($('#langInput li.'+xe.current_lang).find('>input:text,>textarea').val()).end();
 			};
 
 			function save_lang() {
