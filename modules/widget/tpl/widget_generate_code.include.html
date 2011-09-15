@@ -42,9 +42,19 @@
 	<li class="modulefinder"|cond="$var->type == 'mid' || $var->type == 'module_srl_list'">
 		<p class="q"><label for="{$id}">{$var->name}</label></p>
 		<div class="a">
-			<input cond="$var->type == 'text'" type="text" name="{$id}" value="" id="{$id}" />
+			<div cond="$var->type == 'text'" class="multiLangEdit">
+				{@$use_multilang = true}
+				<input type="hidden" name="{$id}" value="" class="vLang" />
+				<input type="text" id="{$id}" class="vLang" />
+				<span class="desc"><a href="#langEdit" class="editUserLang tgAnchor">{$lang->cmd_set_multilingual}</a></span>
+			</div>
 			<input cond="$var->type == 'color'" type="text" name="{$id}" value="" id="{$id}" class="color-indicator" />
-			<textarea cond="$var->type == 'textarea'" name="{$id}" id="{$id}"></textarea>
+			<div cond="$var->type == 'textarea'" class="multiLangEdit">
+				{@$use_multilang_textarea = true}
+				<input type="hidden" name="{$id}" value="" class="vLang" />
+				<textarea cond="$var->type == 'textarea'" id="{$id}" class="vLang"></textarea>
+				<span class="desc"><a href="#langEditTextarea" class="editUserLang tgAnchor">{$lang->cmd_set_multilingual}</a></span>
+			</div>
 			<select cond="$var->type == 'select'" name="{$id}" id="{$id}" style="width:290px">
 				<option loop="$var->options => $key, $val" value="{$key}">{$val}</option>
 			</select>

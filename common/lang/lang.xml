@@ -3762,6 +3762,10 @@ Xin vui lòng kiểm tra lại thông tin Database.]]></value>
 	<item name="cmd_no">
 		<value xml:lang="ko"><![CDATA[아니오]]></value>
 	</item>
+		<item name="multilingual">
+		<value xml:lang="ko"><![CDATA[다국어]]></value>
+		<value xml:lang="en"><![CDATA[Multilingual]]></value>
+	</item>
 	<item name="cmd_set_multilingual">
 		<value xml:lang="ko"><![CDATA[다국어 설정]]></value>
 	</item>
