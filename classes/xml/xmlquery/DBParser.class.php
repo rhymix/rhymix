@@ -61,13 +61,15 @@
 
 		function parseExpression($column_name){
 			$functions = preg_split('/([\+\-\*\/\ ])/', $column_name, -1, PREG_SPLIT_DELIM_CAPTURE|PREG_SPLIT_NO_EMPTY);
-			foreach($functions as &$function){
+			foreach($functions as $k => $v){
+                $function = &$functions[$k];
 				if(strlen($function)==1) continue; // skip delimiters
 				$pos = strrpos("(", $function);
 				$matches = preg_split('/([a-zA-Z0-9_*]+)/', $function, -1, PREG_SPLIT_DELIM_CAPTURE|PREG_SPLIT_NO_EMPTY);
 				$total_brackets = substr_count($function, "(");
 				$brackets = 0;
-				foreach($matches as &$match){
+				foreach($matches as $i => $j){
+					$match = &$matches[$i];
 					if($match == '(') {$brackets++; continue;}
 					if(strpos($match,')') !== false) continue;
 					if(in_array($match, array(',', '.'))) continue;

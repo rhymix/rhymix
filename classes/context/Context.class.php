@@ -232,7 +232,7 @@ class Context {
 
                     $slave_db = $db_info->master_db;
                     $db_info->slave_db = array($slave_db);
-
+					
                     $self->setDBInfo($db_info);
 
                     $oInstallController = &getController('install');
