@@ -477,13 +477,9 @@
 				$menuList = array();
 				foreach($installed_module_list AS $key=>$value)
 				{
-					$cache_file = sprintf("./files/cache/module_info/%s.%s.php", $value->module, $currentLang);
-					if(is_readable($cache_file))
-					{
-						include $cache_file;
-						if($info->menu) $menuList[$value->module] = $info->menu;
-						unset($info->menu);
-					}
+					$info = $oModuleModel->getModuleActionXml($value->module);
+					if($info->menu) $menuList[$value->module] = $info->menu;
+					unset($info->menu);
 				}
 			}
             $this->add('menuList', $menuList);
