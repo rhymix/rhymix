@@ -93,6 +93,10 @@
                             $config_file = "/info.xml";
                             $type = "component";
                         break;
+                        case "theme":
+                            $config_file = "/conf/info.xml";
+                            $type = "theme";
+                        break;
                     }
 					if(!$config_file) continue;
                     $xml = new XmlParser();
