@@ -47,7 +47,7 @@
             $selected_addon = Context::get('selected_addon');
             // Wanted to add the requested information
             $oAddonModel = &getAdminModel('addon');
-            $addon_info = $oAddonModel->getAddonInfoXml($selected_addon, $site_module_info->site_srl, 'global');
+            $addon_info = $oAddonModel->getAddonInfoXml($selected_addon, $site_module_info->site_srl, 'site');
             Context::set('addon_info', $addon_info);
             // Get a mid list
             $oModuleModel = &getModel('module');

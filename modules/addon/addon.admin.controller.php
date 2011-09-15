@@ -77,15 +77,16 @@
 					$args->fixed = 'N';
 
 				$args->addon = $targetAddon;
+				$args->site_srl = 0;
 
-				$output = executeQuery('addon.updateAddon', $args);
+				$output = executeQuery('addon.updateSiteAddon', $args);
 				if (!$output->toBool()) return $output;
 			}
 
 			if (count($updateList))
 			{
-				$this->makeCacheFile(0, 'pc', 'global');
-				$this->makeCacheFile(0, 'mobile', 'global');
+				$this->makeCacheFile(0, 'pc', 'site');
+				$this->makeCacheFile(0, 'mobile', 'site');
 			}
 
 			$this->setRedirectUrl(getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAddonAdminIndex'));
@@ -126,11 +127,11 @@
 
             $site_module_info = Context::get('site_module_info');
 
-            $output = $this->doSetup($addon_name, $args, $site_module_info->site_srl, 'global');
+            $output = $this->doSetup($addon_name, $args, $site_module_info->site_srl, 'site');
 			if (!$output->toBool()) return $output;
 
-            $this->makeCacheFile($site_module_info->site_srl, "pc", 'global');
-            $this->makeCacheFile($site_module_info->site_srl, "mobile", 'global');
+            $this->makeCacheFile($site_module_info->site_srl, "pc", 'site');
+            $this->makeCacheFile($site_module_info->site_srl, "mobile", 'site');
 
 			$this->setRedirectUrl(getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAddonAdminSetup', 'selected_addon', $addon_name));
         }

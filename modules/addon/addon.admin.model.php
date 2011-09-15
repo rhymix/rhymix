@@ -27,7 +27,7 @@
 		 **/
 		function getAddonListForSuperAdmin()
 		{
-			$addonList = $this->getAddonList(0, 'global');
+			$addonList = $this->getAddonList(0, 'site');
 
 			$oAutoinstallModel = &getModel('autoinstall');
 			foreach($addonList as $key => $addon)

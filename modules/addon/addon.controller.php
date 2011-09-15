@@ -23,8 +23,7 @@
 
             $addon_path = _XE_PATH_.'files/cache/addons/';
 
-            if($site_srl) $addon_file = $addon_path.$site_srl.$type.'.acivated_addons.cache.php';
-            else $addon_file = $addon_path.$type.'acivated_addons.cache.php';
+            $addon_file = $addon_path.$site_srl.$type.'.acivated_addons.cache.php';
 
             if($this->addon_file_called) return $addon_file;
             $this->addon_file_called = true;
@@ -147,7 +146,7 @@
             if(!is_dir($addon_path)) FileHandler::makeDir($addon_path);
 
             if($gtype == 'site') $addon_file = $addon_path.$site_srl.$type.'.acivated_addons.cache.php';
-            else $addon_file = $addon_path.$type.'acivated_addons.cache.php';
+            else $addon_file = $addon_path.$type.'.acivated_addons.cache.php';
 
             FileHandler::writeFile($addon_file, $buff);
         }
