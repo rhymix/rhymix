@@ -585,7 +585,7 @@ $.fn.xeSortableTable = function(){
 				var $this = $(this), o;
 
 				o = getOffset(this, $table.get(0));
-				offsets.push({top:o.top, bottom:o.top+32, $item:$(this)});
+				offsets.push({top:o.top, bottom:o.top+$this.height(), $item:$this});
 			});
 
 			$clone
