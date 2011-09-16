@@ -20,7 +20,7 @@
 							<div class="myValue"></div>
 							<ul class="iList">
 								<!--@foreach($time_zone as $key => $val)-->
-								<li><input name="time_zone" id="t1" class="option" type="radio" value="{$key}" <!--@if($key==date('O'))-->checked="checked"<!--@end--> /><label for="t1">{$val}</label></li>
+								<li><input name="time_zone" id="{$key}" class="option" type="radio" value="{$key}" <!--@if($key==date('O'))-->checked="checked"<!--@end--> /><label for="{$key}">{$val}</label></li>
 								<!--@end-->
 							</ul>
 						</div>
