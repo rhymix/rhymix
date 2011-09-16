@@ -186,10 +186,18 @@
             if(is_array($obj->module_srl)) $args->module_srl = implode(',', $obj->module_srl);
             else $args->module_srl = $obj->module_srl;
             $args->list_count = $obj->list_count;
-
-            $output = executeQuery('comment.getNewestCommentList', $args, $columnList);
+        	// cache controll
+			$oCacheHandler = &CacheHandler::getInstance('object');
+			if($oCacheHandler->isSupport()){
+				$cache_key = 'object_newest_comment_list:'.$obj->module_srl;
+				$output = $oCacheHandler->get($cache_key);
+			}
+			if(!$output){
+            	$output = executeQuery('comment.getNewestCommentList', $args, $columnList);
+            	if($oCacheHandler->isSupport()) $oCacheHandler->put($cache_key,$output);
+			}
             if(!$output->toBool()) return $output;
-
+			
             $comment_list = $output->data;
             if($comment_list) {
                 if(!is_array($comment_list)) $comment_list = array($comment_list);
