@@ -512,13 +512,18 @@
 
 			//preg_match('/\{\$lang->menu_gnb\[(.*?)\]\}/i', $parentMenuInfo->name, $m);
 			$oModuleModel = &getModel('module');
-			$info = $oModuleModel->getModuleInfoXml($moduleName);
+			//$info = $oModuleModel->getModuleInfoXml($moduleName);
+			$info = $oModuleModel->getModuleActionXml($moduleName);
+
+			$url = getNotEncodedUrl('', 'module', 'admin', 'act', $info->menu->{$menuName}->index);
+			if(empty($url)) $url = getNotEncodedUrl('', 'module', 'admin', 'act', $info->admin_index_act);
+			if(empty($url)) $url = getNotEncodedUrl('', 'module', 'admin');
 
 			$args->menu_item_srl = (!$requestArgs->menu_item_srl) ? getNextSequence() : $requestArgs->menu_item_srl;
 			$args->parent_srl = $requestArgs->parent_srl;
 			$args->menu_srl = $requestArgs->menu_srl;
 			$args->name = sprintf('{$lang->menu_gnb_sub[\'%s\']}', $menuName);
-			$args->url = getNotEncodedUrl('', 'module', 'admin', 'act', $info->menu->{$menuName}->index);
+			$args->url = $url;
 			$args->open_window = 'N';
 			$args->expand = 'N';
 			$args->normal_btn = '';
