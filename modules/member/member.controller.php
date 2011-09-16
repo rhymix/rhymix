@@ -566,7 +566,7 @@
 			$getVars = array('find_account_answer','allow_mailing','allow_message');
 			if ($config->signupForm){
 				foreach($config->signupForm as $formInfo){
-					if($formInfo->isDefaultForm && $formInfo->isUse || $formInfo->required || $formInfo->mustRequired){
+					if($formInfo->isDefaultForm && ($formInfo->isUse || $formInfo->required || $formInfo->mustRequired)){
 						$getVars[] = $formInfo->name;
 					}
 				}

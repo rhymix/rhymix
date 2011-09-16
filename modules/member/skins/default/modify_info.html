@@ -93,14 +93,14 @@
 <script type="text/javascript">
 (function($){
     $(function(){
-        var option = { changeMonth: true, changeYear: true, gotoCurrent: false,yearRange:'-100:+10', onSelect:function(){
+        var option = { changeMonth: true, changeYear: true, gotoCurrent: false,yearRange:'-100:+10', dateFormat:'yy-mm-dd', onSelect:function(){
 
             $(this).prev('input[type="hidden"]').val(this.value.replace(/-/g,""))}
         };
         $.extend(option,$.datepicker.regional['{$lang_type}']);
         $(".inputDate").datepicker(option);
 		$(".dateRemover").click(function() {
-			$(this).parent().prevAll('input').val('');
+			$(this).prevAll('input').val('');
 			return false;});
     });
 })(jQuery);
