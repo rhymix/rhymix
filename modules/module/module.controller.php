@@ -248,6 +248,19 @@
 
             }
             $output = executeQuery('module.updateSite', $args);
+            //clear cache for default mid
+            if($args->site_srl == 0) $vid='';
+            else $vid=$args->domain;
+            $mid = $oModuleModel->getModuleInfoByModuleSrl($args->index_module_srl)->mid;  
+	        $oCacheHandler = &CacheHandler::getInstance('object');
+            if($oCacheHandler->isSupport()){
+            	if($args->site_srl == 0){
+            		$cache_key = 'object_default_mid:_';
+            		$oCacheHandler->delete($cache_key);
+            	}
+            	$cache_key = 'object_default_mid:'.$vid.'_'.$mid;
+            	$oCacheHandler->delete($cache_key);
+            }
             return $output;
         }
 
