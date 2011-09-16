@@ -489,6 +489,12 @@
 									  break;
 								  }
 					case 'delete':{
+									  $oMemberController->memberInfo = null;
+									  $output = $oMemberController->deleteMember($member_srl);
+									  if(!$output->toBool()) {
+										  $oDB->rollback();
+										  return $output;
+									  }
 								  }
 				}
 			}
