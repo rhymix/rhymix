@@ -138,14 +138,20 @@
 
 			// get groups
 			$oMemberModel = &getModel('member');
+			$oModuleAdminModel = &getAdminModel('module');
 			$output = $oMemberModel->getGroups();
 			if(is_array($output))
 			{
 				$groupList = array();
 				foreach($output AS $key=>$value)
 				{
+
 					$groupList[$value->group_srl]->group_srl = $value->group_srl;
-					$groupList[$value->group_srl]->title = $value->title;
+            		if(substr($value->title,0,12)=='$user_lang->') {
+						$tmp = $oModuleAdminModel->getLangCode(0, $value->title);
+						$groupList[$value->group_srl]->title = $tmp[Context::getLangType()];
+					}
+					else $groupList[$value->group_srl]->title = $value->title;
 
 					if(in_array($key, $menuItem->group_srls)) $groupList[$value->group_srl]->isChecked = true;
 					else $groupList[$value->group_srl]->isChecked = false;
