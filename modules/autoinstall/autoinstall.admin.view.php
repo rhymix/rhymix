@@ -240,9 +240,15 @@
             {
 				$oController = &getAdminController('autoinstall');
 				$oController->_updateinfo();
-				header('location: ' . getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAutoinstallAdminIndex'));
-				return;
+
+				if (!$_SESSION['__XE_EASYINSTALL_REDIRECT__'])
+				{
+					header('location: ' . getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAutoinstallAdminIndex'));
+					$_SESSION['__XE_EASYINSTALL_REDIRECT__'] = true;
+					return;
+				}
             }
+			unset($_SESSION['__XE_EASYiNSTALL_REDIRECT__']);
 
             $page = Context::get('page');
             if(!$page) $page = 1;
