@@ -825,6 +825,10 @@ Lütfen son sürümü için indirme linkine tıklayınız.]]></value>
 		<value xml:lang="ko"><![CDATA[HTML DTD를 설정하세요.]]></value>
 		<value xml:lang="en"><![CDATA[HTML DTD를 설정하세요.]]></value>
 	</item>
+	<item name="about_start_module">
+		<value xml:lang="ko"><![CDATA[시작페이지를 설정하세요.]]></value>
+		<value xml:lang="en"><![CDATA[시작페이지를 설정하세요.]]></value>
+	</item>
 	<item name="html5">
 		<value xml:lang="ko"><![CDATA[HTML5]]></value>
 		<value xml:lang="en"><![CDATA[HTML5]]></value>

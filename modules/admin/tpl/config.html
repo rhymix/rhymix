@@ -1,25 +1,6 @@
 <!--%import("./js/config.js")-->
 <!--%import("../../session/tpl/js/session.js")-->
 
-<script>
-jQuery(function($){
-	$('#favicon').change(function(){
-		var re_favicon = /favicon\.ico$/
-		if(re_favicon.test($(this).val()) != true){
-			alert('{$lang->msg_not_correct_iconname} favicon.ico {$lang->msg_possible_only_file}');
-			return false;
-		}
-	});
-	$('#mobicon').change(function(){
-		var re_favicon = /mobicon\.png$/
-		if(re_favicon.test($(this).val()) != true){
-			alert('{$lang->msg_not_correct_iconname} mobicon.png {$lang->msg_possible_only_file}');
-			return false;
-		}
-	});
-
-});
-</script>
 <div class="content" id="content">
 	<form action="./" method="post" id="ftp_form" class="form" enctype="multipart/form-data">
 		 <input type="hidden" name="act" value="procInstallAdminConfig" />
@@ -58,6 +39,27 @@ jQuery(function($){
 						<input type="radio" name="use_html5" id="xhtml" value="N" <!--@if($use_html5 != 'Y')-->checked="checked" <!--@end-->/> <label for="xhtml">{$lang->xhtml_transitional}</label>
 						<input type="radio" name="use_html5" id="html5" value="Y"  <!--@if($use_html5 == 'Y')-->checked="checked" <!--@end-->/> <label for="html5">{$lang->html5}</label>
 					</p>
+				</li>
+				<li class="modulefinder">
+					<p class="q">{$lang->about_start_module}</p>
+					<p class="a">
+						<input type="hidden" name="index_module_srl" id="index_module_srl" value="{$start_module->index_module_srl}" />
+						<input type="text" name="_target_module" id="_target_module" value="{$start_module->browser_title} ({$start_module->mid})" readonly />
+						<a href="#modalWindow" class="modalAnchor" onClick="viewSiteSearch()">{$lang->cmd_find}</a> </p>
+						<div class="site_keyword_search" style="display:none">
+							<input type="text" name="site_keyword" /> <a href="#suggestion3" class="tgAnchor findsite">{$lang->cmd_confirm}</a>
+							<div id="suggestion3" class="tgContent suggestion" >
+								<ul></ul>
+							</div>
+						</div>						
+						<p>
+							<select class="moduleList" style="width:290px"></select>
+						</p>
+						<p>
+							<select class="moduleIdList" style="width:290px"></select> 
+							<a href="#" id="sitefind_addBtn" onclick="setStartModule()" style="display:none;">{$lang->cmd_select}</a>
+						</p>
+					</p>	
 				</li>
 				<li>
 					<p class="q"><label for="">{$lang->about_use_rewrite}</label></p>
