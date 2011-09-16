@@ -115,6 +115,13 @@ jQuery(function($){
 					</p>
 				</li>
 				<li>
+					<p class="q"><label for="sftp">{$lang->about_use_sftp_support}</label></p>
+					<p class="a">
+						<input type="radio" name="sftp" id="sftp_y" value="Y" <!--@if($ftp_info->sftp == 'Y')-->checked="checked" <!--@end-->/> <label for="sftp_y">{$lang->cmd_yes}</label>
+						<input type="radio" name="sftp" id="sftp_n" value="N" <!--@if($ftp_info->sftp != 'Y')-->checked="checked" <!--@end-->/> <label for="sftp_n">{$lang->cmd_no}</label>
+					</p>
+				</li>
+				<li>
 					<p class="q"><label for="ftp_path">{$lang->msg_ftp_installed_ftp_realpath}</label></p>
 					<p class="a">
 						<input type="text" name="ftp_root_path" id="ftp_root_path" value="{$ftp_info->ftp_root_path}" />
