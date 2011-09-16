@@ -31,7 +31,7 @@
 
 			// get current addon info
 			$oModel = &getAdminModel('addon');
-			$currentAddonList = $oModel->getAddonList(0, 'global');
+			$currentAddonList = $oModel->getAddonList(0, 'site');
 
 			// get need update addon list
 			$updateList = array();
