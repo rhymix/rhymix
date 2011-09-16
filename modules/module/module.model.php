@@ -1495,7 +1495,7 @@
 			$list = array();
 
 			if($output->toBool()){
-				foreach($output->data as $code_info){
+				foreach((array)$output->data as $code_info){
 					unset($codeInfo);
 					$codeInfo = array('name'=>'$user_lang->'.$code_info->name, 'value'=>$code_info->value);
 					$list[] = $codeInfo;

@@ -245,23 +245,6 @@
 			return $output;
 		}
 
-        /**
-         * @brief Return current lang list
-         **/
-		function getLangListByLangcodeForAutoComplete()
-		{
-			$requestVars = Context::getRequestVars();
-
-            $args->site_srl = (int)$requestVars->site_srl;
-            $args->page = 1; // /< Page
-            $args->list_count = 100; // /< the number of posts to display on a single page
-            $args->page_count = 5; // /< the number of pages that appear in the page navigation
-            $args->sort_index = 'name';
-            $args->order_type = 'asc';
-            $args->search_keyword = Context::get('search_keyword'); // /< keyword to search*/
-
-			return $this->getLangListByLangcode($args);
-		}
 		function getModuleAdminIPCheck() {
 		
 			$db_info = Context::getDBInfo();
