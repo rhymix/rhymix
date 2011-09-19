@@ -129,7 +129,7 @@
 
 			$this->_sortMap($map, $mapIndex);
 
-			$dbInfo = Context::get('db_info');
+			$dbInfo = Context::getDBInfo();
 			$useCdn = $dbInfo->use_cdn;
 
 			$result = array();
@@ -164,7 +164,7 @@
 
 			$this->_sortMap($map, $mapIndex);
 
-			$dbInfo = Context::get('db_info');
+			$dbInfo = Context::getDBInfo();
 			$useCdn = $dbInfo->use_cdn;
 
 			$result = array();
