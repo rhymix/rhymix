@@ -3773,4 +3773,10 @@ Xin vui lòng kiểm tra lại thông tin Database.]]></value>
 		<value xml:lang="ko"><![CDATA[사이트 찾기]]></value>
 		<value xml:lang="en"><![CDATA[Find Site]]></value>
 	</item>
+	<item name="msg_empty_search_target">
+		<value xml:lang="ko"><![CDATA[검색대상이 없습니다.]]></value>
+	</item>
+	<item name="msg_empty_search_keyword">
+		<value xml:lang="ko"><![CDATA[검색어가 없습니다.]]></value>
+	</item>
 </lang>

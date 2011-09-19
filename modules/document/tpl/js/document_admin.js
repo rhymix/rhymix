@@ -241,3 +241,17 @@ function completeGetCategoryFromModules(ret_obj, response_tags) {
         obj.options[obj.options.length] = opt;
     }
 }
+
+function checkSearch(form)
+{
+	if(form.search_target.value == '')
+	{
+		alert(xe.lang.msg_empty_search_target);
+		return false;
+	}
+	if(form.search_keyword.value == '')
+	{
+		alert(xe.lang.msg_empty_search_keyword);
+		return false;
+	}
+}

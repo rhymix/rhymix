@@ -1,3 +1,7 @@
+<script type="text/javascript">
+xe.lang.msg_empty_search_target = '{$lang->msg_empty_search_target}';
+xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
+</script>
 <!--%import("js/trackback_admin.js")-->
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
@@ -104,7 +108,7 @@
 	</span>
 </form>
 
-	<form action="">
+	<form action="" onsubmit="return checkSearch(this)">
 	<input type="hidden" name="module" value="{$module}" />
 	<input type="hidden" name="act" value="{$act}" />
 	<input type="hidden" name="module_srl" value="{$module_srl}" />

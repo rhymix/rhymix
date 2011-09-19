@@ -44,3 +44,17 @@ function completeGetFileList(ret_obj, response_tags)
 	}
 	jQuery('#fileManageListTable>tbody').html(htmlListBuffer);
 }
+
+function checkSearch(form)
+{
+	if(form.search_target.value == '')
+	{
+		alert(xe.lang.msg_empty_search_target);
+		return false;
+	}
+	if(form.search_keyword.value == '')
+	{
+		alert(xe.lang.msg_empty_search_keyword);
+		return false;
+	}
+}
