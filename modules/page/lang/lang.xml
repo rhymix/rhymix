@@ -11,6 +11,10 @@
 		<value xml:lang="tr"><![CDATA[Sayfa]]></value>
 		<value xml:lang="vi"><![CDATA[Trang]]></value>
 	</item>
+	<item name="page_management">
+		<value xml:lang="ko"><![CDATA[페이지 관리]]></value>
+		<value xml:lang="en"><![CDATA[Page Management]]></value>
+	</item>
 	<item name="about_page">
 		<value xml:lang="ko"><![CDATA[하나의 완성된 페이지를 제작할 수 있는 페이지 모듈입니다.
 최근게시물이나 기타 위젯을 이용해서 동적인 페이지 생성이 가능하고 에디터 컴포넌트를 통해서 다양한 모습으로 꾸밀 수 있습니다.
