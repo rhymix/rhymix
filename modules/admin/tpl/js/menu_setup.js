@@ -17,17 +17,20 @@ jQuery(function($){
 
 	function completeGetActList(obj)
 	{
+		var $optgroup;
+
 		moduleList = obj.menuList;
+		console.log(moduleList);
 		if(moduleList)
 		{
  			var menuNameList = $('#menuNameList');
 			for(var x in moduleList)
 			{
 				var menuList = moduleList[x];
+				$optgroup = $('<optgroup label="'+x+'" />').appendTo(menuNameList);
 				for(var y in menuList)
 				{
-					var menu = menuList[y];
-					menuNameList.append('<option value="'+x+':'+y+'">'+menu.title+'</option>');
+					$optgroup.append('<option value="'+x+':'+y+'">'+menuList[y].title+'</option>');
 				}
 			}
 		}

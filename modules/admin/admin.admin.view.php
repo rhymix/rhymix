@@ -230,8 +230,9 @@
 
             // Document Status
 			$oDocumentAdminModel = &getAdminModel('document');
-			$status->document->todayCount = $oDocumentAdminModel->getDocumentCountByDate($today);
-			$status->document->totalCount = $oDocumentAdminModel->getDocumentCountByDate();
+			$statusList = array('PUBLIC', 'SECRET');
+			$status->document->todayCount = $oDocumentAdminModel->getDocumentCountByDate($today, array(), $statusList);
+			$status->document->totalCount = $oDocumentAdminModel->getDocumentCountByDate('', array(), $statusList);
 
             // Comment Status
 			$oCommentModel = &getModel('comment');
