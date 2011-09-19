@@ -197,10 +197,13 @@
             if(!$kind && $this->module == 'admin') $kind = 'admin';
 			if($this->module_info->use_mobile != "Y") Mobile::setMobile(false);
 
-			if($kind == 'admin'){
+			$logged_info = Context::get('logged_info');
+
+			if($kind == 'admin' && $logged_info->is_admin == 'Y'){
 				$oModuleAdminModel = &getAdminModel('module');
 				if(!$oModuleAdminModel->getModuleAdminIPCheck()) return false;
 			}
+			unset($logged_info);
 			
 			// if(type == view, and case for using mobilephone)
 			if($type == "view" && Mobile::isFromMobilePhone() && Context::isInstalled())
