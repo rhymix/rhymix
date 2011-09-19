@@ -680,6 +680,10 @@ Lütfen son sürümü için indirme linkine tıklayınız.]]></value>
         	<value xml:lang="ko"><![CDATA[Qmail 사용]]></value>
 	        <value xml:lang="en"><![CDATA[Enable Qmail]]></value>
 	</item>
+	<item name="input_footer_script">
+        	<value xml:lang="ko"><![CDATA[풋터 스크립트 삽입]]></value>
+	        <value xml:lang="en"><![CDATA[풋터 스크립트 삽입]]></value>
+	</item>
 	<item name="sftp">
 		<value xml:lang="ko"><![CDATA[SFTP 사용]]></value>
 		<value xml:lang="en"><![CDATA[Use SFTP]]></value>

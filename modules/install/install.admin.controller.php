@@ -162,9 +162,10 @@
 			$selected_lang = Context::get('selected_lang');
 			$this->saveLangSelected($selected_lang);
 
-			//썸네일 세팅
-			$config = Context::gets('thumbnail_type');
-			$this->thumbnailCheck($config);
+			//모듈 설정 저장(썸네일, 풋터스크립트)
+			$config->thumbnail_type = Context::get('thumbnail_type');
+			$config->htmlFooter = Context::get('htmlFooter');
+			$this->setModulesConfig($config);
 
 			//파비콘
 			$favicon = Context::get('favicon');
@@ -199,13 +200,18 @@
 		}
 
 		/* 썸내일 보여주기 방식 변경.*/
-		function thumbnailCheck($config){
+		function setModulesConfig($config){
 
-            if(!$config->thumbnail_type || $config->thumbnail_type != 'ratio' ) $args->thumbnail_type = 'crop';
+			if(!$config->thumbnail_type || $config->thumbnail_type != 'ratio' ) $args->thumbnail_type = 'crop';
 			else $args->thumbnail_type = 'ratio';
 
-            $oModuleController = &getController('module');
-            $output = $oModuleController->insertModuleConfig('document',$args);
+			$oModuleController = &getController('module');
+			$oModuleController->insertModuleConfig('document',$args);
+			
+			unset($args);
+			
+			$args->htmlFooter = $config->htmlFooter;
+			$oModuleController->insertModuleConfig('module',$args);
 
 			return $output;
 		}

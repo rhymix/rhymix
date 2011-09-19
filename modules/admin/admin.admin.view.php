@@ -373,8 +373,13 @@
             Context::set('ftp_info', $ftp_info);
 
 			$oDocumentModel = &getModel('document');
-            $config = $oDocumentModel->getDocumentConfig();
-            Context::set('thumbnail_type',$config->thumbnail_type);
+			$config = $oDocumentModel->getDocumentConfig();
+        		Context::set('thumbnail_type',$config->thumbnail_type);
+			
+			$oModuleModel = &getModel('module');
+			$config = $oModuleModel->getModuleConfig('module');
+        		Context::set('htmlFooter',$config->htmlFooter);
+
 
 			$oModuleModel = &getModel('module');
 			$columnList = array('modules.mid', 'modules.browser_title', 'sites.index_module_srl');

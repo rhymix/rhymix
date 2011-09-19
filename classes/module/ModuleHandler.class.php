@@ -351,6 +351,14 @@
 				Context::addHtmlFooter($footer);
 			}
 
+			if($type == "view" && $kind != 'admin'){
+        			$module_config= $oModuleModel->getModuleConfig('module');
+		                if($module_config->htmlFooter){
+                		        Context::addHtmlFooter($module_config->htmlFooter);
+	                	}
+        		}
+
+
             // if failed message exists in session, set context
 			$this->_setInputErrorToContext();
 
