@@ -1,4 +1,4 @@
-<script>
+<script type="text/javascript">
 jQuery(function($){
 	$('#favicon').change(function(){
 		var re_favicon = /favicon\.ico$/
@@ -16,8 +16,8 @@ jQuery(function($){
 	});
 });
 </script>
-<!--%import("./js/config.js")-->
-<!--%import("../../session/tpl/js/session.js")-->
+<load target="./js/config.js" usecdn="true" />
+<load target="../../session/tpl/js/session.js" usecdn="true" />
 
 <div class="content" id="content">
 	<form action="./" method="post" id="ftp_form" class="form" enctype="multipart/form-data">
@@ -69,15 +69,19 @@ jQuery(function($){
 							<div id="suggestion3" class="tgContent suggestion" >
 								<ul></ul>
 							</div>
+<<<<<<< .mine
+						</div>
+=======
 						</p>						
+>>>>>>> .r9199
 						<p>
 							<select class="moduleList" style="width:290px"></select>
 						</p>
 						<p>
-							<select class="moduleIdList" style="width:290px"></select> 
+							<select class="moduleIdList" style="width:290px"></select>
 							<a href="#" id="sitefind_addBtn" onclick="setStartModule()" style="display:none;">{$lang->cmd_select}</a>
 						</p>
-					</p>	
+					</p>
 				</li>
 				<li>
 					<p class="q"><label for="">{$lang->about_use_rewrite}</label></p>

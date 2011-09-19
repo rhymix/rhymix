@@ -9,10 +9,10 @@
 
     if($called_position == 'after_module_proc' && Context::getResponseMethod()=="HTML") {
 		if(Mobile::isFromMobilePhone()) {
-			Context::addCssFile('./addons/resize_image/css/resize_image.mobile.css');
-		} else { 
+			Context::loadFile('./addons/resize_image/css/resize_image.mobile.css', true);
+		} else {
 			Context::loadJavascriptPlugin('ui');
-			Context::addJsFile('./addons/resize_image/js/resize_image.min.js',false, '',null, 'body');
+			Context::loadFile(array('./addons/resize_image/js/resize_image.min.js', 'body', '', null), true);
 		}
     }
 ?>

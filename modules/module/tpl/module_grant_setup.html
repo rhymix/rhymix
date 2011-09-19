@@ -1,4 +1,4 @@
-<!--%import("js/module_admin.js")-->
+<load target="js/module_admin.js" usecdn="true" />
 
 <script type="text/javascript">
     jQuery( function() { jQuery('.grant_default').change( function(event) { doShowGrantZone(); } ); doShowGrantZone() } );
@@ -41,7 +41,7 @@
                 </select>
                 <div id="zone_{$grant_name}" style="display:none">
                     <!--@foreach($group_list as $group_srl => $group_item)-->
-                    <input type="checkbox" class="checkbox" name="{$grant_name}" value="{$group_item->group_srl}" id="grant_{$grant_name}_{$group_srl}" /> 
+                    <input type="checkbox" class="checkbox" name="{$grant_name}" value="{$group_item->group_srl}" id="grant_{$grant_name}_{$group_srl}" />
                     <label for="grant_{$grant_name}_{$group_srl}">{$group_item->title}</label>
                     <!--@end-->
                 </div>

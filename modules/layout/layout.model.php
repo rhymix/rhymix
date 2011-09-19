@@ -665,9 +665,9 @@
             $faceoff_layout_css = $this->getUserLayoutFaceOffCss($layout_info->layout_srl);
             if($faceoff_layout_css) Context::addCSSFile($faceoff_layout_css);
             // CSS output for the widget
-            Context::addCSSFile($this->module_path.'/tpl/css/widget.css');
-            if($layout_info->extra_var->colorset->value == 'black') Context::addCSSFile($this->module_path.'/tpl/css/widget@black.css');
-            else Context::addCSSFile($this->module_path.'/tpl/css/widget@white.css');
+            Context::loadFile($this->module_path.'/tpl/css/widget.css', true);
+            if($layout_info->extra_var->colorset->value == 'black') Context::loadFile($this->module_path.'/tpl/css/widget@black.css', true);
+            else Context::loadFile($this->module_path.'/tpl/css/widget@white.css', true);
             // Different page displayed upon user's permission
             $logged_info = Context::get('logged_info');
             // Display edit button for faceoff layout

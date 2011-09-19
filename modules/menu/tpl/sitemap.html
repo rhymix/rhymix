@@ -1,6 +1,6 @@
-<load target="./js/menu_admin.js" />
-<load target="../../admin/tpl/js/sitemap.js" />
-<load target="./js/sitemap.js" />
+<load target="./js/menu_admin.js" usecdn="true" />
+<load target="../../admin/tpl/js/sitemap.js" usecdn="true" />
+<load target="./js/sitemap.js" usecdn="true" />
 
 <div class="content" id="content">
 	<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
@@ -56,7 +56,7 @@
 						<p class="q"><label for="name">{$lang->menu_name}</label></p>
 						<div class="a multiLangEdit">
 							<input type="hidden" class="vLang" name="menu_name_key" />
-							<input type="text" class="vLang" id="name" name="menu_name" /> 
+							<input type="text" class="vLang" id="name" name="menu_name" />
 							<!-- Multilingual -->
 							<div id="langEdit" class="langEdit tgContent">
 								<ul class="langList"></ul>

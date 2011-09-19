@@ -1,6 +1,6 @@
 <div>{$page_content}</div>
 <!--@if($grant->manager)-->
-    <!--%import("./js/page_admin.js")-->
+    <load target="./js/page_admin.js" usecdn="true" />
     <div class="tRight gap1 clear">
 		<!--@if($module_info->page_type == 'WIDGET')-->
         <a href="#" onclick="doRemoveWidgetCache({$module_info->module_srl}); return false;" class="button blue"><span>{$lang->cmd_remake_cache}</span></a>

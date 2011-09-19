@@ -1,5 +1,5 @@
 <include target="./header.html" />
-<load target="js/importer_admin.js" />
+<load target="js/importer_admin.js" usecdn="true" />
 
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
@@ -117,21 +117,21 @@
         <input type="hidden" name="unit_count" value="100" />
         <input type="hidden" name="user_id" value="" />
 		<p style="text-align:center">
-			<span class="prgrs prgrsMedium"> 
+			<span class="prgrs prgrsMedium">
 				<strong id="preProgressMsg">{$lang->preprocessing}</strong>
 				<strong id="progressMsg" style="display:none;">{$lang->import_step_desc[99]}</strong>
 				<span class="pBar" style="width:300px;text-align:left">
 					<span class="pAction" id="progressBar" style="width:0%"><!-- Progress status --></span>
 					<span class="pNum"><span id="completeCount">0</span>/<span id="totalCount">0</span></span>
-				</span> 
-				<strong id="progressPercent">0%</strong> 
+				</span>
+				<strong id="progressPercent">0%</strong>
 			</span>
 		</p>
     </form>
 </div>
 <script type="text/javascript">
 jQuery('a.modalAnchor')
-.bind('before-close.mw', function(event){ 
+.bind('before-close.mw', function(event){
 		return false;
 		});
 </script>

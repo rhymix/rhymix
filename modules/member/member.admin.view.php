@@ -7,11 +7,11 @@
 
     class memberAdminView extends member {
 
-        var $group_list = NULL; ///< group list 
-        var $memberInfo = NULL; ///< selected member info 
+        var $group_list = NULL; ///< group list
+        var $memberInfo = NULL; ///< selected member info
 
         /**
-         * @brief initialization 
+         * @brief initialization
          **/
         function init() {
             $oMemberModel = &getModel('member');
@@ -24,7 +24,7 @@
                 else Context::set('member_info',$this->memberInfo);
             }
 
-            // retrieve group list 
+            // retrieve group list
             $this->group_list = $oMemberModel->getGroups();
             Context::set('group_list', $this->group_list);
 
@@ -32,7 +32,7 @@
         }
 
         /**
-         * @brief display member list 
+         * @brief display member list
          **/
         function dispMemberAdminList() {
             $oMemberAdminModel = &getAdminModel('member');
@@ -89,7 +89,7 @@
 
             // Get join form list which is additionally set
             $extendItems = $oMemberModel->getJoinFormList();
-			
+
             Context::set('config',$config);
 
             // list of skins for member module
@@ -191,7 +191,7 @@
 				unset($formTag);
 				$inputTag = '';
 				$formTag->title = $formInfo->title;
-				if ($formInfo->required || $formInfo->mustRequired && $formInfo->name != 'password') $formTag->title = $formTag->title.' <em style="color:red">*</em>'; 
+				if ($formInfo->required || $formInfo->mustRequired && $formInfo->name != 'password') $formTag->title = $formTag->title.' <em style="color:red">*</em>';
 				$formTag->name = $formInfo->name;
 
 				if($formInfo->isDefaultForm){
@@ -250,7 +250,7 @@
 				else{
 					$extendForm = $extend_form_list[$formInfo->member_join_form_srl];
 					$replace = array('column_name' => $extendForm->column_name,
-									 'value'		=> $extendForm->value);	
+									 'value'		=> $extendForm->value);
 					$extentionReplace = array();
 
 					if($extendForm->column_type == 'text' || $extendForm->column_type == 'homepage' || $extendForm->column_type == 'email_address'){
@@ -300,7 +300,7 @@
 						}
 						$template = sprintf($template, implode('', $optionTag));
 					}elseif($extendForm->column_type == 'kr_zip'){
-						Context::loadFile(array('./modules/member/tpl/js/krzip_search.js', 'body'));
+						Context::loadFile(array('./modules/member/tpl/js/krzip_search.js', 'body'), true);
 						$extentionReplace = array(
 										 'msg_kr_address'       => $lang->msg_kr_address,
 										 'msg_kr_address_etc'       => $lang->msg_kr_address_etc,

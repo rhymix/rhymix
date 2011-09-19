@@ -1,7 +1,7 @@
 <!--@if(__DEBUG__)-->
-<load target="js/importer_admin.js" />
+<load target="js/importer_admin.js" usecdn="true" />
 <!--@else-->
-<load target="js/importer_admin.min.js" />
+<load target="js/importer_admin.min.js" usecdn="true" />
 <!--@end-->
 {@ $type_list = array('module'=>$lang->type_module, 'ttxml'=>$lang->type_ttxml, 'member'=>$lang->type_member, 'sync'=>$lang->type_syncmember, 'message'=>$lang->type_message) }
 <h1 class="h1">{$lang->importer}</h1>

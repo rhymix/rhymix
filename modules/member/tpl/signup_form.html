@@ -1,13 +1,13 @@
-{@ Context::addJsFile("./common/js/jquery.js", true, '', -100000) }
-{@ Context::addJsFile("./common/js/js_app.js", true, '', -100000) }
-{@ Context::addJsFile("./common/js/common.js", true, '', -100000) }
-{@ Context::addJsFile("./common/js/xml_handler.js", true, '', -100000) }
-{@ Context::addJsFile("./common/js/xml_js_filter.js", true, '', -100000) }
+{@ Context::loadFile(array("./common/js/jquery.js", 'head', '', -100000), true) }
+{@ Context::loadFile(array("./common/js/js_app.js", 'head', '', -100000), true) }
+{@ Context::loadFile(array("./common/js/common.js", 'head', '', -100000), true) }
+{@ Context::loadFile(array("./common/js/xml_handler.js", 'head', '', -100000), true) }
+{@ Context::loadFile(array("./common/js/xml_js_filter.js", 'head', '', -100000), true) }
 
-<!--%import("css/msignup.css")-->
-<!--%import("js/signup_check.js")-->
+<load target="css/msignup.css" usecdn="true" />
+<load target="js/signup_check.js" usecdn="true" />
 <!--%import("../skins/default/filter/signup.xml")-->
-<!--%import("../skins/default/js/member.js")-->
+<load target="../skins/default/js/member.js" usecdn="true" />
 <div class="bd">
 	<div class="hx h2">
 		<h2>{$lang->cmd_signup}</h2>
@@ -67,7 +67,7 @@
 							<input type="radio" name="{$val->column_name}" value="{$v}" <!--@if(is_array($val->value)&&in_array($v, $val->value))-->checked="checked"<!--@end-->/><label for="{$v}">{$v}</label>
 						<!--@end-->
 					<!--@end-->
-				
+
 				<!--// 단일 선택 -->
 				<!--@elseif($val->column_type == 'select')-->
 					<select name="{$val->column_name}">
@@ -93,7 +93,7 @@
 							<input type="text" name="{$val->column_name}" id="krzip_address2_{$val->column_name}" value="{$lang->msg_kr_address_etc}" onfocus="this.value=''" />
 						</div>
 					</div>
-					<load target="js/krzip_search.js" type="body" />
+					<load target="js/krzip_search.js" type="body" usecdn="true" />
 					<script type="text/javascript">jQuery(function($){ $.krzip('{$val->column_name}') });</script>
 				<!--// 일본 주소 검색 -->
 				<!--@elseif($val->column_type == 'jp_zip')-->

@@ -2,7 +2,7 @@
 var confirm_restore_msg = '{$lang->confirm_restore}';
 var no_text_comment = '{$lang->no_text_comment}';
 </script>
-<!--%import("js/trash_admin.js")-->
+<load target="js/trash_admin.js" usecdn="true" />
 <div class="content" id="content">
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
@@ -18,7 +18,7 @@ var no_text_comment = '{$lang->no_text_comment}';
 					{$lang->trash}({number_format($total_count)})
 					<span class="side"><span class="btn"><a href="#listManager" class="modalAnchor" onclick="getTrashList();">{$lang->document_manager}</a></span>
 					<span class="btn"><button type="submit" name="is_all" value="true">{$lang->empty_trash_all}</button></span></span>
-					
+
 				</caption>
 				<thead>
 					<tr>

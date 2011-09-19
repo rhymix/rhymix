@@ -18,7 +18,7 @@
          **/
         function dispEditorPopup() {
             // add a css file
-            Context::addCssFile($this->module_path."tpl/css/editor.css");
+            Context::loadFile($this->module_path."tpl/css/editor.css", true);
             // List variables
             $editor_sequence = Context::get('editor_sequence');
             $component = Context::get('component');
@@ -120,16 +120,16 @@
         function dispEditorSkinColorset(){
             $skin = Context::get('skin');
             $oModuleModel = &getModel('module');
-            $skin_info = $oModuleModel->loadSkinInfo($this->module_path,$skin);			
+            $skin_info = $oModuleModel->loadSkinInfo($this->module_path,$skin);
             $colorset = $skin_info->colorset;
-			
+
 			Context::set('colorset', $colorset);
         }
-		
-		function dispEditorConfigPreview() {	
+
+		function dispEditorConfigPreview() {
 			$oEditorModel = &getModel('editor');
 			$config = $oEditorModel->getEditorConfig();
-			
+
 			$option->allow_fileupload = false;
 			$option->content_style = $config->content_style;
 			$option->content_font = $config->content_font;
@@ -144,9 +144,9 @@
 			$option->primary_key_name = 'dummy_key';
 			$option->colorset = $config->sel_editor_colorset;
 			$editor = $oEditorModel->getEditor(0, $option);
-			
-			Context::set('editor', $editor);			 
-			
+
+			Context::set('editor', $editor);
+
 			$option_com->allow_fileupload = false;
 			$option_com->content_style = $config->content_style;
 			$option_com->content_font = $config->content_font;
@@ -161,15 +161,15 @@
 			$option_com->primary_key_name = 'dummy_key2';
 			$option_com->content_style = $config->comment_content_style;
 			$option_com->colorset = $config->sel_comment_editor_colorset;
-			
+
 			$editor_comment = $oEditorModel->getEditor(0, $option_com);
-			
+
 			Context::set('editor_comment', $editor_comment);
-			
-			
+
+
 			$this->setTemplatePath($this->module_path.'tpl');
 			$this->setTemplateFile('config_preview');
-			
+
 		}
     }
 ?>

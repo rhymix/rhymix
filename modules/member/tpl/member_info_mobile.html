@@ -1,11 +1,11 @@
-{@ Context::addJsFile("./common/js/jquery.js", true, '', -100000) }
-{@ Context::addJsFile("./common/js/js_app.js", true, '', -100000) }
-{@ Context::addJsFile("./common/js/common.js", true, '', -100000) }
-{@ Context::addJsFile("./common/js/xml_handler.js", true, '', -100000) }
-{@ Context::addJsFile("./common/js/xml_js_filter.js", true, '', -100000) }
+{@ Context::loadFile(array("./common/js/jquery.js", 'head', '', -100000), true) }
+{@ Context::loadFile(array("./common/js/js_app.js", 'head', '', -100000), true) }
+{@ Context::loadFile(array("./common/js/common.js", 'head', '', -100000), true) }
+{@ Context::loadFile(array("./common/js/xml_handler.js", 'head', '', -100000), true) }
+{@ Context::loadFile(array("./common/js/xml_js_filter.js", 'head', '', -100000), true) }
 
 
-<!--%import("css/msignup.css")-->
+<load target="css/msignup.css" usecdn="true" />
 <div class="bd">
 	<h2 class="h2">{$lang->cmd_view_member_info}</h2>
     <h3 class="h3">{$lang->member_default_info}</h3>
@@ -52,11 +52,11 @@
 			    <li><label class="db fb al">{htmlspecialchars($val->column_title)}</label>
 				<!--@if($val->is_private)-->
 					<span class="privateItem">{$lang->private}</span>
-				<!--@else--> 
+				<!--@else-->
 				<!--@if($val->column_type=='tel' && $val->value[0] && $val->value[1] && $val->value[2])-->
-					{htmlspecialchars($val->value[0])} 
+					{htmlspecialchars($val->value[0])}
 					<!--@if($val->value[1])-->-<!--@end-->
-					{htmlspecialchars($val->value[1])} 
+					{htmlspecialchars($val->value[1])}
 					<!--@if($val->value[2])-->-<!--@end-->
 					{htmlspecialchars($val->value[2])}
 				<!--@elseif($val->column_type=='kr_zip')-->
@@ -69,7 +69,7 @@
 					{nl2br(htmlspecialchars($val->value))}&nbsp;
 				<!--@end-->
 				</li>
-			<!--@end--> 
+			<!--@end-->
     <!--@end-->
 		</ul>
 	</fieldset>

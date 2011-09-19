@@ -1,6 +1,6 @@
-<!--%import("css/editor.css")-->
-<!--%import("css/editor_admin.css")-->
-<!--%import("js/editor_admin.js")-->
+<load target="css/editor.css" usecdn="true" />
+<load target="css/editor_admin.css" usecdn="true" />
+<load target="js/editor_admin.js" usecdn="true" />
 
 <div id="popHeader" class="wide">
     <h3 class="xeAdmin">{$lang->cmd_setup}</h3>
@@ -75,7 +75,7 @@
                         <div id="section_{$module_category_srl}">
                         <!--@foreach($modules->list as $key => $val)-->
                             <div class="module_list">
-                                <input type="checkbox" value="{$key}" name="mid_list" id="chk_mid_list_{$key}" <!--@if(in_array($key, $component->mid_list))-->checked="checked"<!--@end--> /> 
+                                <input type="checkbox" value="{$key}" name="mid_list" id="chk_mid_list_{$key}" <!--@if(in_array($key, $component->mid_list))-->checked="checked"<!--@end--> />
                                 <label for="chk_mid_list_{$key}">{$key} ({$val->browser_title})</label>
                             </div>
                         <!--@end-->

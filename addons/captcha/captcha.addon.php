@@ -41,10 +41,10 @@
 				if(Context::getRequestMethod()!='XMLRPC' && Context::getRequestMethod()!=='JSON')
 				{
 					Context::addHtmlHeader('<script type="text/javascript"> var captchaTargetAct = new Array("'.implode('","',$target_acts).'"); </script>');
-					Context::addJsFile('./addons/captcha/captcha.js',false, '', null, 'body');
+					Context::loadFile(array('./addons/captcha/captcha.js', 'body', '', null), true);
 				}
 				// compare session when calling actions such as writing a post or a comment on the board/issue tracker module
-				
+
 				if(!$_SESSION['captcha_authed'] && in_array(Context::get('act'), $target_acts)) {
 					Context::loadLang('./addons/captcha/lang');
 					$ModuleHandler->error = "captcha_denied";
@@ -57,10 +57,10 @@
 			{
 				if($_SESSION['captcha_authed']) return false;
 				// Load language files
-				
+
 				Context::loadLang(_XE_PATH_.'addons/captcha/lang');
 				// Generate keywords
-				
+
 				$arr = range('A','Y');
 				shuffle($arr);
 				$arr = array_slice($arr,0,6);
@@ -107,30 +107,30 @@
 				$arr = array();
 				for($i=0,$c=strlen($string);$i<$c;$i++) $arr[] = $string{$i};
 				// Font site
-				
+
 				$w = 18;
 				$h = 25;
 				// Character length
-				
+
 				$c = count($arr);
 				// Character image
-				
+
 				$im = array();
 				// Create an image by total size
-				
+
 				$im[] = imagecreate(($w+2)*count($arr), $h);
 
 				$deg = range(-30,30);
 				shuffle($deg);
 				// Create an image for each letter
-				
+
 				foreach($arr as $i => $str)
 				{
 					$im[$i+1] = @imagecreate($w, $h);
 					$background_color = imagecolorallocate($im[$i+1], 255, 255, 255);
 					$text_color = imagecolorallocate($im[$i+1], 0, 0, 0);
 					// Control font size
-					
+
 					$ran = range(1,20);
 					shuffle($ran);
 
@@ -147,16 +147,16 @@
 						imagestring($im[$i+1], (array_pop($ran)%3)+3, 2, (array_pop($ran)%4), $str, $text_color);
 					}
 				}
-				
+
 				// Combine images of each character
-				
+
 				for($i=1;$i<count($im);$i++)
 				{
 					imagecopy($im[0],$im[$i],(($w+2)*($i-1)),0,0,0,$w,$h);
 					imagedestroy($im[$i]);
 				}
 				// Larger image
-				
+
 				$big_count = 2;
 				$big = imagecreatetruecolor(($w+2)*$big_count*$c, $h*$big_count);
 				imagecopyresized($big, $im[0], 0, 0, 0, 0, ($w+2)*$big_count*$c, $h*$big_count, ($w+2)*$c, $h);
@@ -164,7 +164,7 @@
 
 				if(function_exists('imageantialias')) imageantialias($big,true);
 				// Background line
-				
+
 				$line_color = imagecolorallocate($big, 0, 0, 0);
 
 				$w = ($w+2)*$big_count*$c;
@@ -184,11 +184,11 @@
 			function before_module_init_captchaAudio()
 			{
 				if($_SESSION['captcha_authed']) return false;
-				
+
 				$keyword = strtoupper($_SESSION['captcha_keyword']);
 				$data = $this->createCaptchaAudio($keyword);
 
-				header('Content-type: audio/mpeg'); 
+				header('Content-type: audio/mpeg');
 				header("Content-Disposition: attachment; filename=\"captcha_audio.mp3\"");
 				header('Cache-Control: no-store, no-cache, must-revalidate');
 				header('Expires: Sun, 1 Jan 2000 12:00:00 GMT');

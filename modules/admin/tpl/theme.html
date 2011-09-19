@@ -1,4 +1,4 @@
-<load target="js/theme.js" type="body" />
+<load target="js/theme.js" type="body" usecdn="true" />
 
 <script type="text/javascript">
 jQuery(function($){
@@ -40,7 +40,7 @@ $('#theme').data('themes', themes);
 							<label for="{$key}">{$val->title}({$key})</label>
 							<ul>
 								<li>&middot; {$lang->version}: {$val->version}</li>
-								<li>&middot; {$lang->author}: 
+								<li>&middot; {$lang->author}:
 									<!--@foreach($val->publisher as $publisher)-->
 									<a href="{$publisher->homepage}" cond="$publisher->homepage">{$publisher->name}</a>
 									<!--@if(!$publisher->homepage)-->{$publisher->name}<!--@end-->

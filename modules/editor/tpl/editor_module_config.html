@@ -1,5 +1,5 @@
 <!--%import("filter/insert_editor_module_config.xml")-->
-<!--%import("js/editor_module_config.js")-->
+<load target="js/editor_module_config.js" usecdn="true" />
 
 <form action="./" method="post" onsubmit="return procFilter(this, insert_editor_module_config)">
 <input type="hidden" name="target_module_srl" value="{$module_info->module_srl?$module_info->module_srl:$module_srls}" />

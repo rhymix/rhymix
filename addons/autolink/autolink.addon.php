@@ -7,6 +7,6 @@
      * @brief Automatic link add-on
      **/
     if($called_position == 'after_module_proc' && Context::getResponseMethod()!="XMLRPC") {
-        Context::addJsFile('./addons/autolink/autolink.js', false ,'', null, 'body');
+        Context::loadFile(array('./addons/autolink/autolink.js', 'body', '', null), true);
     }
 ?>

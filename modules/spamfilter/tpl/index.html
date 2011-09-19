@@ -1,4 +1,4 @@
-<!--%import("js/spamfilter_admin.js")-->
+<load target="js/spamfilter_admin.js" usecdn="true" />
 <div class="content" id="content">
 
 	<form id="spamfilterDelete" action="" method="post">
@@ -17,7 +17,7 @@
 			<li>
 				<p class="q">{$lang->cmd_interval}</p>
 				<p class="a">
-					<input type="radio" name="limits" id="spamCond1_yes" value="Y" <!--@if($config->limits=='Y' || $config->limits =='')-->checked="checked"<!--@end--> /> 
+					<input type="radio" name="limits" id="spamCond1_yes" value="Y" <!--@if($config->limits=='Y' || $config->limits =='')-->checked="checked"<!--@end--> />
 					<label for="spamCond1_yes">{$lang->yes}</label>
 					<input type="radio" name="limits" id="spamCond1_no" value="N" <!--@if($config->limits!='Y' && $config->limits !='')--> checked="checked"<!--@end--> /> <label for="spamCond1_no">{$lang->no}</label>
 				</p>
@@ -42,8 +42,8 @@
 					</ul>
 				</div>
 				<p class="a">
-					<textarea rows="4" cols="42" name="ipaddressList" title="스팸 IP 추가"></textarea> 
-					<span class="btn small"><button type="button" onclick="doInsertDeniedSome('ipaddressList')">{$lang->add}</button></span> 
+					<textarea rows="4" cols="42" name="ipaddressList" title="스팸 IP 추가"></textarea>
+					<span class="btn small"><button type="button" onclick="doInsertDeniedSome('ipaddressList')">{$lang->add}</button></span>
 					<span class="desc">{$lang->about_denied_ip}</span>
 				</p>
 			</li>
@@ -57,7 +57,7 @@
 					</ul>
 				</div>
 				<p class="a">
-					<textarea rows="4" cols="42" name="wordList" title="스팸 키워드 추가"></textarea> 
+					<textarea rows="4" cols="42" name="wordList" title="스팸 키워드 추가"></textarea>
 					<span class="btn small"><button type="button" onclick="doInsertDeniedSome('wordList')">{$lang->add}</button></span>
 					<span class="desc">{$lang->about_denied_word}</span>
 				</p>

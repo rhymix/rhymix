@@ -1,4 +1,4 @@
-<!--%import("js/editor_module_config.js")-->
+<load target="js/editor_module_config.js" usecdn="true" />
 <script type="text/javascript">
 	jQuery(function($){
 		var fontPreview = $('.fontPreview');
@@ -26,11 +26,11 @@
 <div class="content" id="content">
 	<h1 class="h1">{$lang->editor}</h1>
 	<h2 class="h2">{$lang->editor_preview}</h2>
-	
+
 	<!-- Editor Preview -->
 	<a href="{getUrl('module', 'admin', 'act', 'dispEditorConfigPreview')}" target="_blank">{$lang->cmd_preview}</a>
 	<!-- /Editor Preview -->
-	<form action="./" method="post" class="form" ruleset="generalConfig">		
+	<form action="./" method="post" class="form" ruleset="generalConfig">
 		<input type="hidden" name="act" value="procEditorAdminGeneralConfig	" />
 
 		<fieldset class="section">
@@ -38,38 +38,38 @@
 			<ul>
 				<li>
 					<p class="q">{$lang->guide_choose_main_editor}</p>
-					<p class="a">						
+					<p class="a">
 						<!--@foreach($editor_skin_list as $editor)-->
-						<input type="radio" name="editor_skin" value="{$editor}" id="doc_{$editor}" onClick="getEditorSkinColorList(this.value, null, 'document','doc_{$editor}')" <!--@if($editor==$editor_config->editor_skin)-->checked="checked" <!--@end-->/> 						
-						<label for="doc_{$editor}" value='sdf'>{$editor}</label>						
-						<select name="sel_editor_colorset"  <!--@if($editor==$editor_config->editor_skin)--> >													
+						<input type="radio" name="editor_skin" value="{$editor}" id="doc_{$editor}" onClick="getEditorSkinColorList(this.value, null, 'document','doc_{$editor}')" <!--@if($editor==$editor_config->editor_skin)-->checked="checked" <!--@end-->/>
+						<label for="doc_{$editor}" value='sdf'>{$editor}</label>
+						<select name="sel_editor_colorset"  <!--@if($editor==$editor_config->editor_skin)--> >
 							<!--@foreach($editor_colorset_list as $key => $val)-->
 							<option value="{$val->name}" <!--@if($editor_config->sel_editor_colorset == $val->name)-->selected="selected"<!--@end-->>{$val->title}</option>
 							<!--@end-->
 							<!--@else-->style="display:none"> <!--@end-->
 						</select>
 						<br />
-						<!--@end-->						
+						<!--@end-->
 					</p>
 				</li>
 				<li>
 					<p class="q"><label for="editor_height">{$lang->guide_set_height_main_editor}</label></p>
 					<p class="a"><input type="text" name="editor_height" id="editor_height" value="<!--@if($editor_config->editor_height)-->{$editor_config->editor_height}<!--@else-->{$editor_config_default['editor_height']}<!--@end-->" style="width:30px" /> px</p>
-				</li>				
+				</li>
 				<li>
 					<p class="q">{$lang->guide_choose_comment_editor}</p>
 					<p class="a">
 						<!--@foreach($editor_skin_list as $editor)-->
-						<input type="radio" name="comment_editor_skin" value="{$editor}" id="com_{$editor}"  onclick="getEditorSkinColorList(this.value, null, 'reply','com_{$editor}')" <!--@if($editor == $editor_config->comment_editor_skin)-->checked="checked" <!--@end-->/> 
+						<input type="radio" name="comment_editor_skin" value="{$editor}" id="com_{$editor}"  onclick="getEditorSkinColorList(this.value, null, 'reply','com_{$editor}')" <!--@if($editor == $editor_config->comment_editor_skin)-->checked="checked" <!--@end-->/>
 						<label for="com_{$editor}">{$editor}</label>
-						<select name="sel_comment_editor_colorset" <!--@if($editor==$editor_config->comment_editor_skin)-->	 >				
+						<select name="sel_comment_editor_colorset" <!--@if($editor==$editor_config->comment_editor_skin)-->	 >
 							<!--@foreach($editor_colorset_list as $key => $val)-->
 							<option value="{$val->name}" <!--@if($editor_config->sel_comment_editor_colorset == $val->name)-->selected="selected"<!--@end-->>{$val->title}</option>
 							<!--@end-->
 							<!--@else-->style="display:none"> <!--@end-->
 						</select>
-						<br />						
-						<!--@end-->						
+						<br />
+						<!--@end-->
 					</p>
 				</li>
 				<li>
@@ -97,15 +97,15 @@
 				<li>
 					<p class="q"><label for="fontSize">{$lang->guide_choose_font_size_body}</label></p>
 					<textarea rows="3" cols="42" class="fontPreview" title="Font Preview">{$lang->font_preview}</textarea>
-					<p class="a"><input type="text" id="fontSize" name="content_font_size" value="<!--@if($editor_config->content_font_size)-->{str_replace('px','',$editor_config->content_font_size)}<!--@else-->{str_replace('px','',$editor_config_default['content_font_size'])}<!--@end-->" style="width:30px" /> px</p>					    
-				</li>				
+					<p class="a"><input type="text" id="fontSize" name="content_font_size" value="<!--@if($editor_config->content_font_size)-->{str_replace('px','',$editor_config->content_font_size)}<!--@else-->{str_replace('px','',$editor_config_default['content_font_size'])}<!--@end-->" style="width:30px" /> px</p>
+				</li>
 			</ul>
 			<div class="btnArea">
 				<span class="btn"><input type="submit" value="Save" /></span>
 			</div>
 		</fieldset>
 	</form>
-	<form action="./" method="post" class="form" ruleset="componentOrderAndUse">		
+	<form action="./" method="post" class="form" ruleset="componentOrderAndUse">
 		<input type="hidden" name="act" value="procEditorAdminCheckUseListOrder" />
 		<fieldset class="section">
 			<h2 class="h2">Editor Component</h2>
@@ -124,7 +124,7 @@
 							<th scope="col">{$lang->use}</th>
 							<th scope="col">{$lang->cmd_delete}</th>
 						</tr>
-					</thead>	
+					</thead>
 					<tbody class="uDrag">
 						<!--@foreach($component_list as $component_name => $xml_info)-->
 						<tr>

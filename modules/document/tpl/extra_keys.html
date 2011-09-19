@@ -1,7 +1,7 @@
-<!--%import("js/document_admin.js")-->
+<load target="js/document_admin.js" usecdn="true" />
 <!--%import("filter/insert_extra_var.xml")-->
 <!--%import("filter/delete_extra_var.xml")-->
-<!--%import("js/module_admin.js")-->
+<load target="js/module_admin.js" usecdn="true" />
 
 <!--@if($selected_var_idx && $extra_keys[$selected_var_idx])-->
     {@ $selected_var = $extra_keys[$selected_var_idx] }
@@ -23,7 +23,7 @@
         <tr>
             <th><div>{$lang->column_name}</div></th>
             <td class="wide">
-                <input type="text" name="name" value="{htmlspecialchars($selected_var->name)}" class="inputTypeText w200" id="name" /><a href="{getUrl('','module','module','act','dispModuleAdminLangcode','target','name')}" onclick="popopen(this.href);return false;" class="buttonSet buttonSetting"><span>{$lang->cmd_find_langcode}</span></a> 
+                <input type="text" name="name" value="{htmlspecialchars($selected_var->name)}" class="inputTypeText w200" id="name" /><a href="{getUrl('','module','module','act','dispModuleAdminLangcode','target','name')}" onclick="popopen(this.href);return false;" class="buttonSet buttonSetting"><span>{$lang->cmd_find_langcode}</span></a>
             </td>
         </tr>
         <tr>

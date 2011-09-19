@@ -1,4 +1,4 @@
-<!--%import("js/rss.js")-->
+<load target="js/rss.js" usecdn="true" />
 <div class="content" id="content">
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
@@ -74,7 +74,7 @@
 						<td class="title">{$value['feed_description']}</td>
 						<td>
 							<!--@foreach($lang->open_rss_types as $key2=>$value2)-->
-							<input type="radio" name="open_rss" value="{$key2}" id="feed_open_{$key2}" <!--@if($key2 == $value['open_feed'])-->checked="checked"<!--@end--> /><label for="feed_open_{$key2}">{$value2}</label> 
+							<input type="radio" name="open_rss" value="{$key2}" id="feed_open_{$key2}" <!--@if($key2 == $value['open_feed'])-->checked="checked"<!--@end--> /><label for="feed_open_{$key2}">{$value2}</label>
 							<!--@end-->
 						</td>
 						<td>
