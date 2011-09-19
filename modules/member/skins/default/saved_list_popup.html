@@ -1,49 +1,36 @@
-<!--%import("css/default.css")-->
-
-<div id="memberModule">
-
-    <div id="popHeader" class="wide">
-        <h3 class="xeAdmin">{$lang->cmd_view_saved_document}</h3>
-    </div>
-
-    <div id="popBody">
-        <div id="memberModule">
-            <!-- 목록 -->
-            <table cellspacing="0" class="colTable">
-            <caption>Total : {number_format($total_count)}, Page {number_format($page)}/{number_format($total_page)}</caption>
-            <thead>
-                <tr>
-                    <th class="title"><div>{$lang->date}</div></th>
-                    <th class="title"><div>{$lang->title}</div></th>
-                    <th class="title"><div>{$lang->cmd_select}</div></th>
-                </tr>
-            </thead>
-            <tbody>
-                <!--@foreach($document_list as $no => $val)-->
-                <tr>
-                    <td class="nowrap">{$val->getRegdate("Y-m-d H:i:s")}</td>
-                    <td class="wide">
-                        <div><a href="#" onclick="jQuery('#saved_document_{$val->document_srl}').toggle(); setFixedPopupSize(); return false;">{$val->getTitle()}</a></div>
-                        <div id="saved_document_{$val->document_srl}" class="saved_content" style="display:none;">{$val->getContent(false)}</div>
-                    </td>
-                    <td><a href="#" onclick="doDocumentSelect('{$val->document_srl}'); return false;" class="buttonSet buttonActive"><span>{$lang->cmd_select}</span></a></td>
-                </tr>
-                <!--@end-->
-            </tbody>
-            </table>
-
-            <!-- 페이지 네비게이션 -->
-            <div class="pagination a1">
-                <a href="{getUrl('page','','module_srl','')}" class="prevEnd">{$lang->first_page}</a> 
-                <!--@while($page_no = $page_navigation->getNextPage())-->
-                    <!--@if($page == $page_no)-->
-                        <strong>{$page_no}</strong> 
-                    <!--@else-->
-                        <a href="{getUrl('page',$page_no,'module_srl','')}">{$page_no}</a> 
-                    <!--@end-->
-                <!--@end-->
-                <a href="{getUrl('page',$page_navigation->last_page,'module_srl','')}" class="nextEnd">{$lang->last_page}</a>
-            </div>
-        </div>
-    </div>
-</div>
+<include target="./common_header.html" />
+	<h1 class="h1">{$lang->cmd_view_saved_document}</h1>
+	<div class="table even">
+		<table width="100%" border="1" cellspacing="0">
+			<caption>Total: {number_format($total_count)}, Page {number_format($page)}/{number_format($total_page)}</caption>
+			<thead>
+				<tr>
+					<th class="title">{$lang->title}</th>
+					<th>{$lang->date}</th>
+					<th>{$lang->cmd_select}</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr loop="$document_list => $no,$val">
+					<td class="title">
+						<a href="#saved_document_{$val->document_srl}" onclick="jQuery('#saved_document_{$val->document_srl}').toggle(); setFixedPopupSize(); return false;">{$val->getTitle()}</a>
+						<div id="saved_document_{$val->document_srl}" class="saved_content" style="display:none;">{$val->getContent(false)}</div>
+					</td>
+					<td>{$val->getRegdate("Y-m-d")}</td>
+					<td><button type="button" class="text" onclick="doDocumentSelect('{$val->document_srl}');">{$lang->cmd_select}</button></td>
+				</tr>
+			</tbody>
+		</table>
+		<div class="pagination">
+			<a href="{getUrl('page','','module_srl','')}" class="direction">&lsaquo; {$lang->first_page}</a> 
+			<!--@while($page_no = $page_navigation->getNextPage())-->
+				<!--@if($page == $page_no)-->
+					<strong>{$page_no}</strong> 
+				<!--@else-->
+					<a href="{getUrl('page',$page_no,'module_srl','')}">{$page_no}</a> 
+				<!--@end-->
+			<!--@end-->
+			<a href="{getUrl('page',$page_navigation->last_page,'module_srl','')}" class="direction">{$lang->last_page} &rsaquo;</a>
+		</div>
+	</div>
+<include target="./common_footer.html" />

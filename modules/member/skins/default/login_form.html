@@ -1,71 +1,48 @@
-<!--#include("./common_header.html")-->
-<!--%import("filter/openid_login.xml")-->
-
-<script type="text/javascript">
-    var keep_signed_msg = "{$lang->about_keep_signed}";
-	jQuery(function($){ doFocusUserId('fo_member_login') });
-</script>
-
-<!-- XE 로그인 폼 -->
+<include target="./common_header.html" />
+<load target="filter/openid_login.xml" />
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
-<div class="memberSmallBox">
-
-    <div class="header">{$lang->cmd_login}</div>
-
-    <form ruleset="@login" action="./" method="post" id="fo_member_login">
+<h1 class="h1">{$lang->cmd_login}</h1>
+<form ruleset="@login" action="./" method="post" id="fo_member_login" class="form">
 	<input type="hidden" name="act" value="procMemberLogin" />
 	<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
-        <fieldset class="login">
-            <dl>
-                <dt><label for="uid">{$lang->user_id}</label></dt>
-                <dd><input type="text" name="user_id" id="uid" value="" class="iText w140" /></dd>
-                <dt><label for="upw">{$lang->password}</label></dt>
-                <dd><input type="password" name="password" id="upw" value="" class="iText w140" /></dd>
-            </dl>
-
-            <p class="keep">
-                <input type="checkbox" name="keep_signed" id="keepid_opt" value="Y" onclick="if(this.checked) return confirm(keep_signed_msg);"/>
-                <label for="keepid_opt">{$lang->keep_signed}</label>
-            </p>
-			
-			<div class="buttonArea">
-				<span class="button black strong"><input type="submit" value="{$lang->cmd_login}" /></span>
-			</div>
-
-        </fieldset>
-    </form>
-
-    <div class="help tCenter">
-        <a href="{getUrl('act','dispMemberFindAccount')}"><span>{$lang->cmd_find_member_account}</span></a> |
-        <a href="{getUrl('act','dispMemberSignUpForm')}"><span>{$lang->cmd_signup}</span></a>
-    </div>
-</div>
-
-<!--@if($member_config->enable_openid=='Y')-->
-<!-- OpenID 로그인 폼 -->
-<div class="memberSmallBox">
-
-    <div class="header">{$lang->openid}</div>
-
-    <form ruleset="openidLogin" action="./" method="post">
-	<input type="hidden" name="module" value="member" />
-	<input type="hidden" name="act" value="procMemberOpenIDLogin" />
-        <fieldset class="login">
-            <dl>
-                <dt><label for="open_uid">{$lang->user_id}</label></dt>
-                <dd><input type="text" name="openid" id="open_uid" value="" class="openid_user_id" /></dd>
-            </dl>
-            <span class="button black strong"><input type="submit" value="{$lang->cmd_login}" /></span>
-
-        </fieldset>
-        <input type="hidden" name="referer_url" value="{$referer_url}" />
-    </form>
-
-    <div class="help tLeft">{$lang->about_openid}</div>
-
-</div>
-<!--@end-->
-
-<!--#include("./common_footer.html")-->
+	<ul>
+		<li>
+			<p class="q"><label for="uid">{$lang->user_id}</label></p>
+			<p class="a"><input type="text" name="user_id" id="uid" value="" /></p>
+		</li>
+		<li>
+			<p class="q"><label for="upw">{$lang->password}</label></p>
+			<p class="a"><input type="password" name="password" id="upw" value="" /></p>
+		</li>
+	</ul>	
+	<p style="margin:1em 0">
+		<input type="checkbox" name="keep_signed" id="keepid_opt" value="Y" />
+		<label for="keepid_opt">{$lang->keep_signed}</label>
+	</p>
+	<div class="message info" id="keep_msg">
+		<p>{$lang->about_keep_warning}</p>
+	</div>
+	<div class="btnArea">
+		<span class="btn"><input type="submit" value="{$lang->cmd_login}" /></span>
+		<span class="etc">
+			<a href="{getUrl('act','dispMemberFindAccount')}"><span>{$lang->cmd_find_member_account}</span></a> |
+			<a href="{getUrl('act','dispMemberSignUpForm')}"><span>{$lang->cmd_signup}</span></a>
+		</span>
+	</div>
+</form>
+<script type="text/javascript">
+jQuery(function($){
+	var keep_msg = $('#keep_msg');
+	keep_msg.hide();
+	$('#keepid_opt').change(function(){
+		if($(this).is(':checked')){
+			keep_msg.slideDown(200);
+		} else {
+			keep_msg.slideUp(200);
+		}
+	});
+});
+</script>
+<include target="./common_footer.html" />

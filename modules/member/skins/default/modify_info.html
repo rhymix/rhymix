@@ -1,95 +1,55 @@
-<!--#include("./common_header.html")-->
-<!--%import("../../tpl/js/signup_check.js")-->
-
-<!--@if($member_config->profile_image == 'Y')-->
-    <!--%import("filter/delete_profile_image.xml")-->
-<!--@end-->
-
-<!--@if($member_config->image_name == 'Y')-->
-    <!--%import("filter/delete_image_name.xml")-->
-<!--@end-->
-
-<!--@if($member_config->image_mark == 'Y')-->
-    <!--%import("filter/delete_image_mark.xml")-->
-<!--@end-->
-
-<!--@if($member_config->enable_openid=="Y")-->
-    <!--%import("filter/add_openid_to_member.xml")-->
-    <!--%import("filter/delete_openid_from_member.xml")-->
-<!--@end-->
-
+<include target="./common_header.html" />
+<load target="../../tpl/js/signup_check.js" />
+<load target="filter/delete_profile_image.xml" cond="$member_config->profile_image == 'Y'" />
+<load target="filter/delete_image_name.xml" cond="$member_config->image_name == 'Y'" />
+<load target="filter/delete_image_mark.xml" cond="$member_config->image_mark == 'Y'" />
 <!--// datepicker javascript plugin load -->
 <!--%load_js_plugin("ui")-->
 <!--%load_js_plugin("ui.datepicker")-->
-
-    <h3>{$lang->msg_update_member}</h3>
-
-	<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
-		<p>{$XE_VALIDATOR_MESSAGE}</p>
-	</div>
-    <form ruleset="@insertMember" id="fo_insert_member" action="./" method="post" enctype="multipart/form-data">
+<h1 class="h1">{$lang->msg_update_member}</h1>
+<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
+<form ruleset="@insertMember" id="fo_insert_member" class="form" action="./" method="post" enctype="multipart/form-data">
     <input type="hidden" name="act" value="procMemberModifyInfo" />
     <input type="hidden" name="module" value="member" />
     <input type="hidden" name="member_srl" value="{$member_info->member_srl}" />
     <input type="hidden" name="signature" value="{htmlspecialchars($member_info->signature)}" />
     <input type="hidden" name="page" value="{$page}" />
-
-		<ul>
-			<li>
-				<p class="q">{$identifierForm->title} <em style="color:red">*</em></p>
-				<p class="a">
-					<input type="hidden" name="{$identifierForm->name}" value="{$identifierForm->value}" />
-					<input type="text" name="{$identifierForm->name}" value="{$identifierForm->value}" disabled="disabled" />
-				</p>
-			</li>
-			<li loop="$formTags=>$formTag">
-				<p class="q">{$formTag->title}</p>
-				<div class="a" cond="$formTag->name != 'signature'">{$formTag->inputTag}</div>
-				<div class="a" cond="$formTag->name =='signature'">{$editor}</div>
-			</li>
-			<li>
-				<p class="q">{$lang->allow_mailing}</p>
-				<p class="a">
-					<input type="radio" name="allow_mailing" id="mailingYes" value="Y" checked="checked"|cond="$member_info->allow_mailing == 'Y'"> <label for="mailingYes">{$lang->cmd_yes}</label>
-					<input type="radio" name="allow_mailing" id="mailingNo" value="N" checked="checked"|cond="$member_info->allow_mailing != 'Y'" > <label for="mailingNo">{$lang->cmd_no}</label>
-				</p>
-			</li>
-			<li>
-				<p class="q">{$lang->allow_message}</p>
-				<p class="a">
-					<block loop="$lang->allow_message_type=>$key,$val">
-						<input type="radio" name="allow_message" value="{$key}" checked="checked"|cond="$member_info->allow_message == $key" id="allow_{$key}" /> <label for="allow_{$key}">{$val}</label>
-					</block>
-				</p>
-			</li>
-		</ul>
-
-    <!--@if($member_config->enable_openid=="Y")-->
-    <tr><th class="title" colspan="2"><div>{$lang->openid}</div></th></tr>
-    <tr>
-        <td colspan="2" class="openids">
-            <!--@foreach($openids as $openid)-->
-            <div><a href="{$openid->bookmarklet}">{$openid->openid}</a> <a onclick="doDeleteOpenIDFromMember('{$openid->openid}')" class="buttonSet buttonDelete"><span>{$lang->cmd_delete}</span></a></div>
-            <!--@end-->
-
-            <div class="insertOpenID">
-                <input name="openid" type="text" class="openid_user_id" />
-                <input name="openid_to_delete" type="hidden" />
-                <a onclick="doAddOpenIDToMember()" class="button"><span>{$lang->cmd_insert}</span></a>
-            </div>
-        </td>
-    </tr>
-    <!--@end-->
-    <tr>
-        <th class="button" colspan="2">
-            <span class="button black strong"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
-            <a href="{getUrl('act','dispMemberInfo','member_srl','')}" class="button"><span>{$lang->cmd_cancel}</span></a>
-        </th>
-    </tr>
-    </table>
+	<ul>
+		<li>
+			<p class="q">{$identifierForm->title} <em style="color:red">*</em></p>
+			<p class="a">
+				<input type="hidden" name="{$identifierForm->name}" value="{$identifierForm->value}" />
+				<input type="text" name="{$identifierForm->name}" value="{$identifierForm->value}" disabled="disabled" />
+			</p>
+		</li>
+		<li loop="$formTags=>$formTag">
+			<p class="q">{$formTag->title}</p>
+			<div class="a" cond="$formTag->name != 'signature'">{$formTag->inputTag}</div>
+			<div class="a" cond="$formTag->name =='signature'">{$editor}</div>
+		</li>
+		<li>
+			<p class="q">{$lang->allow_mailing}</p>
+			<p class="a">
+				<input type="radio" name="allow_mailing" id="mailingYes" value="Y" checked="checked"|cond="$member_info->allow_mailing == 'Y'"> <label for="mailingYes">{$lang->cmd_yes}</label>
+				<input type="radio" name="allow_mailing" id="mailingNo" value="N" checked="checked"|cond="$member_info->allow_mailing != 'Y'" > <label for="mailingNo">{$lang->cmd_no}</label>
+			</p>
+		</li>
+		<li>
+			<p class="q">{$lang->allow_message}</p>
+			<p class="a">
+				<block loop="$lang->allow_message_type=>$key,$val">
+					<input type="radio" name="allow_message" value="{$key}" checked="checked"|cond="$member_info->allow_message == $key" id="allow_{$key}" /> <label for="allow_{$key}">{$val}</label>
+				</block>
+			</p>
+		</li>
+	</ul>
 </form>
-
-
+<div class="btnArea">
+	<span class="btn"><input type="submit" value="{$lang->cmd_registration}" /></span>
+	<span class="btn"><a href="{getUrl('act','dispMemberInfo','member_srl','')}">{$lang->cmd_cancel}</a></span>
+</div>
 <script type="text/javascript">
 (function($){
     $(function(){
@@ -105,7 +65,5 @@
     });
 })(jQuery);
 </script>
-
-<iframe id="tmp_upload_iframe" name="tmp_upload_iframe" style="display:none;width:1px;height:1px;position:absolute;top:-10px;left:-10px"></iframe>
-
-<!--#include("./common_footer.html")-->
+<iframe id="tmp_upload_iframe" name="tmp_upload_iframe" style="display:none"></iframe>
+<include target="./common_footer.html" />

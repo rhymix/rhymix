@@ -1,5 +1,4 @@
-<!--#include("./common_header.html")-->
-
+<include target="./common_header.html" />
 <h1 class="h1">{$lang->member_info}</h1>
 <div class="table even">
 	<table width="100%" border="1" cellspacing="0">
@@ -39,7 +38,7 @@
 		<!--@end-->
 
 		<tr>
-			<th scope="row" >{$title} <em style="color:red" cond="$formInfo->required || $formInfo->mustRequired">*</em></th>
+			<th scope="row" >{$title} <em cond="$formInfo->required || $formInfo->mustRequired">*</em></th>
 			<td class="text">{$value}</td>
 		</tr>
 		<!--@end-->
@@ -49,30 +48,24 @@
 			<td class="text">{implode(', ', $memberInfo['group_list'])}</td>
 		</tr>
 		<tr>
-			<th><div>{$lang->signup_date}</div></th>
-			<td>{zdate($memberInfo[regdate],"Y-m-d H:i")}</td>
+			<th>{$lang->signup_date}</th>
+			<td>{zdate($memberInfo[regdate],"Y-m-d")}</td>
 		</tr>
 		<!--@if($memberInfo[member_srl] == $logged_info->member_srl || $logged_info->is_admin == 'Y' )-->
 		<tr>
-			<th><div>{$lang->last_login}</div></th>
-			<td>{zdate($memberInfo[last_login],"Y-m-d H:i")}</td>
+			<th>{$lang->last_login}</th>
+			<td>{zdate($memberInfo[last_login],"Y-m-d")}</td>
 		</tr>
 		<!--@end-->
-		<tr>
-			<th colspan="2" class="button">
-				<!--@if($memberInfo['member_srl'] == $logged_info->member_srl)-->
-					<a href="{getUrl('act','dispMemberModifyInfo','member_srl','')}" class="button black strong"><span>{$lang->cmd_modify_member_info}</span></a>
-					<!--@if($logged_info->is_openid)-->
-						<a href="{getUrl('act','dispMemberOpenIDLeave','member_srl','')}" class="button red"><span>{$lang->cmd_leave}</span></a>
-					<!--@else-->
-						<a href="{getUrl('act','dispMemberModifyPassword','member_srl','')}" class="button green"><span>{$lang->cmd_modify_member_password}</span></a>
-						<a href="{getUrl('act','dispMemberLeave','member_srl','')}" class="button red"><span>{$lang->cmd_leave}</span></a>
-					<!--@end-->
-				<!--@end-->
-				<a href="{getUrl('act','','member_srl','')}" class="button"><span>{$lang->cmd_back}</span></a>
-		</tr>
     </table>
 </div>
-
-
-<!--#include("./common_footer.html")-->
+<div class="btnArea" cond="$memberInfo['member_srl'] == $logged_info->member_srl">
+	<a href="{getUrl('act','dispMemberModifyInfo','member_srl','')}" class="button black strong"><span>{$lang->cmd_modify_member_info}</span></a>
+	<!--@if($logged_info->is_openid)-->
+		<a href="{getUrl('act','dispMemberOpenIDLeave','member_srl','')}" class="button red"><span>{$lang->cmd_leave}</span></a>
+	<!--@else-->
+		<a href="{getUrl('act','dispMemberModifyPassword','member_srl','')}" class="button green"><span>{$lang->cmd_modify_member_password}</span></a>
+		<a href="{getUrl('act','dispMemberLeave','member_srl','')}" class="button red"><span>{$lang->cmd_leave}</span></a>
+	<!--@end-->
+</div>
+<include target="./common_footer.html" />

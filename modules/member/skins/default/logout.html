@@ -1,22 +1,9 @@
-<!--#include("./common_header.html")-->
-<!--%import("filter/logout.xml")-->
-
-<form action="./" method="get" onsubmit="return procFilter(this, logout)">
-<input type="hidden" name="mid" value="{$mid}" />
-
-    <h3>{$lang->cmd_logout}</h3>
-
-    <table class="crossTable">
-    <tr>
-        <th class="title">{$lang->confirm_logout}</th>
-    </tr>
-    <tr>
-        <th class="button">
-            <span class="button black strong"><input type="submit" value="{$lang->cmd_logout}" /></span>
-            <a href="{getUrl('act','','member_srl','')}" class="button"><span>{$lang->cmd_back}</span></a>
-        </th>
-    </tr>
-    </table>
-
+<include target="./common_header.html" />
+<import target="filter/logout.xml" />
+<form action="./" method="get" class="form" onsubmit="return procFilter(this, logout)">
+	<input type="hidden" name="mid" value="{$mid}" />
+    <h1 class="h1">{$lang->cmd_logout}</h1>
+	<p>{$lang->confirm_logout}</p>
+	<p><span class="btn"><input type="submit" value="{$lang->cmd_logout}" /></span></p>
 </form>
-<!--#include("./common_footer.html")-->
+<include target="./common_footer.html" />

@@ -66,7 +66,7 @@ header,footer,section,article,aside,nav,hgroup,details,menu,figure,figcaption{di
 .x .form{margin:1em 0;padding:0}
 .x .form fieldset{margin:0 0 2em 0;padding:0;border:0}
 .x .form em{font-style:normal;color:#e00}
-.x .form label{margin-right:1em;line-height:1}
+.x .form label{margin-right:1em;line-height:1;vertical-align:middle}
 .x .form input[type=checkbox]+label,
 .x .form input[type=radio]+label,
 .x .form input[type=file]{cursor:pointer}
@@ -228,15 +228,6 @@ body.modalContainer{_height:100%;_width:100%} /* IE6 only */
 .x .layer ul, .layer ol, .layer .lined, .layer .table{margin-bottom:1em}
 .x .layerClose{position:absolute;right:-8px;top:-8px;border:0;background:#ddd;padding:0;width:28px;height:28px;font-size:14px;font-weight:bold;cursor:pointer;color:#999;border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px}
 .x .layerBlur{position:absolute;top:0;right:0;border:0;background:none;padding:0;width:1px;height:1px;overflow:hidden}
-/* Message */
-.x .message{border:1px solid #ddd;background:#f8f8f8;margin:1em 0;padding:0 1em;border-radius:5px;line-height:1.4}
-.x .message em{font-style:normal;color:#e00}
-.x .message.info,
-.x .message.error,
-.x .message.update{padding-left:55px}
-.x .message.info{border-color:#E0E8EC;background:#EDF9FF url(../img/msg.Info.png) no-repeat 1em .5em}
-.x .message.error{border-color:#EFDCDC;background:#FFECEC url(../img/msg.error.png) no-repeat 1em .5em}
-.x .message.update{border-color:#EAE9DC;background:#FFFDEF url(../img/msg.update.png) no-repeat 1em .5em}
 /* Text Button */
 .x input.text, 
 .x button.text{border:0;overflow:visible;padding:0;margin:0 4px 0 0;color:#33a;background:none;text-decoration:underline}
@@ -369,10 +360,6 @@ body.modalContainer{_height:100%;_width:100%} /* IE6 only */
 .x .siteMap .draggable .moveTo{background-color:#ddd}
 .x .siteMap .draggable .summary{border-left:1px solid #ccc;padding-left:10px;margin-left:10px;font-size:11px;color:#999}
 .x .siteMap a.ms{text-decoration:underline}
-/* Button Area */
-.x .btnArea{margin:1em 0;text-align:right;zoom:1}
-.x .btnArea:after{content:"";display:block;clear:both}
-.x .btnArea .etc{float:left}
 /* Multilingual */
 .x .langEdit{background:#fff;position:absolute;*left:0;*margin-top:28px;z-index:10}
 .x .langEdit ul{border-top:1px solid #ccc;border-left:1px solid #eee;border-right:1px solid #eee;margin:0}

@@ -1,55 +1,45 @@
-<!--#include("./common_header.html")-->
-
-<h3>{$member_title = $lang->cmd_view_own_document }</h3>
-
-<!-- 모듈 선택 -->
-<div class="fr gap1">
-    <a href="{getUrl('','module','module','act','dispModuleSelectList','id','target_module','type','single')}" onclick="popopen(this.href,'ModuleSelect');return false;" class="small button green"><span>{$lang->cmd_find_module}</span></a>
-    <!--@if($selected_module_srl)--><a href="{getUrl('selected_module_srl','')}" class="small button red"><span>{$lang->cmd_cancel}</span></a><!--@end-->
+<include target="./common_header.html" />
+<h1 class="h1">{$member_title = $lang->cmd_view_own_document }</h1>
+<div class="table even">
+	<table width="100%" border="1" cellspacing="0">
+		<caption>
+			Total: {number_format($total_count)}, Page {number_format($page)}/{number_format($total_page)}
+			<span class="side">
+				<a href="{getUrl('','module','module','act','dispModuleSelectList','id','target_module','type','single')}" onclick="popopen(this.href,'ModuleSelect');return false;">{$lang->cmd_find_module}</a>
+				<a href="{getUrl('selected_module_srl','')}" cond="$selected_module_srl">{$lang->cmd_cancel}</a>
+			</span>
+		</caption>
+		<thead>
+			<tr>
+				<th>{$lang->no}</th>
+				<th class="title">{$lang->title}</th>
+				<th>{$lang->date}</th>
+				<th>{$lang->readed_count}</th>
+				<th>{$lang->voted_count}</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr loop="$document_list => $no,$oDocument">
+				<td>{$no}</td>
+				<td class="title">
+					<a href="{getUrl('','document_srl',$oDocument->document_srl)}" onclick="window.open(this.href);return false;">{$oDocument->getTitleText()}</a>
+					<!--@if($oDocument->getCommentCount())-->
+						[{$oDocument->getCommentCount()}]
+					<!--@end-->
+		
+					<!--@if($oDocument->getTrackbackCount())-->
+						[{$oDocument->getTrackbackCount()}]
+					<!--@end-->
+				</td>
+				<td>{$oDocument->getRegdate("Y-m-d")}</td>
+				<td>{$oDocument->get('readed_count')}</td>
+				<td>{$oDocument->get('voted_count')}</td>
+			</tr>
+		</tbody>
+	</table>
 </div>
-
-<!-- 목록 -->
-<table cellspacing="0" class="colTable">
-<caption>Total : {number_format($total_count)}, Page {number_format($page)}/{number_format($total_page)}</caption>
-<thead>
-    <tr>
-        <th class="title"><div>{$lang->no}</div></th>
-        <th class="title" class="wide"><div>{$lang->title}</div></th>
-        <th class="title"><div>{$lang->readed_count}</div></th>
-        <th class="title"><div>{$lang->voted_count}</div></th>
-        <th class="title"><div>{$lang->date}</div></th>
-    </tr>
-</thead>
-<tbody>
-    <!--@foreach($document_list as $no => $oDocument)-->
-    <tr>
-        <td>{$no}</td>
-        <td class="wide">
-            <a href="{getUrl('','document_srl',$oDocument->document_srl)}" onclick="window.open(this.href);return false;">{$oDocument->getTitleText()}</a>
-            <!--@if($oDocument->getCommentCount())-->
-                [{$oDocument->getCommentCount()}]
-            <!--@end-->
-
-            <!--@if($oDocument->getTrackbackCount())-->
-                [{$oDocument->getTrackbackCount()}]
-            <!--@end-->
-        </td>
-        <td>{$oDocument->get('readed_count')}</td>
-        <td>{$oDocument->get('voted_count')}</td>
-        <td class="nowrap">{$oDocument->getRegdate("Y-m-d")}</td>
-    </tr>
-    <!--@end-->
-    <tr>
-        <th class="button" colspan="5">
-            <a href="{getUrl('act','','selected_module_srl','')}" class="button"><span>{$lang->cmd_back}</span></a>
-        </th>
-    </tr>
-</tbody>
-</table>
-
-<!-- 페이지 네비게이션 -->
-<div class="pagination a1">
-    <a href="{getUrl('page','','module_srl','')}" class="prevEnd">{$lang->first_page}</a> 
+<div class="pagination">
+    <a href="{getUrl('page','','module_srl','')}" class="direction">&lsaquo; {$lang->first_page}</a> 
     <!--@while($page_no = $page_navigation->getNextPage())-->
         <!--@if($page == $page_no)-->
             <strong>{$page_no}</strong> 
@@ -57,7 +47,6 @@
             <a href="{getUrl('page',$page_no,'module_srl','')}">{$page_no}</a> 
         <!--@end-->
     <!--@end-->
-    <a href="{getUrl('page',$page_navigation->last_page,'module_srl','')}" class="nextEnd">{$lang->last_page}</a>
+    <a href="{getUrl('page',$page_navigation->last_page,'module_srl','')}" class="direction">{$lang->last_page} &rsaquo;</a>
 </div>
-
-<!--#include("./common_footer.html")-->
+<include target="./common_footer.html" />

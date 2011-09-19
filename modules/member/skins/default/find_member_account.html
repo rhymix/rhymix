@@ -1,66 +1,54 @@
-<!--#include("./common_header.html")-->
-<!--%import("filter/find_member_account.xml")-->
-<!--%import("filter/find_member_account_by_question.xml")-->
-
-<h3>{$lang->cmd_find_member_account}</h3>
-
-<p class="summary">{$lang->about_find_member_account}</p>
-
-<form action="./" method="get" onsubmit="return procFilter(this, find_member_account)">
+<include target="./common_header.html" />
+<load target="filter/find_member_account.xml" />
+<load target="filter/find_member_account_by_question.xml" />
+<h1 class="h1">{$lang->cmd_find_member_account}</h1>
+<p>{$lang->about_find_member_account}</p>
+<form action="./" method="get" class="form" onsubmit="return procFilter(this, find_member_account)">
     <input type="hidden" name="mid" value="{$mid}" />
     <input type="hidden" name="document_srl" value="{$document_srl}" />
     <input type="hidden" name="page" value="{$page}" />
-
-    <table cellspacing="0" class="rowTable" title="{$lang->email_address}">
-        <tr>
-            <th><div><label for="cpw">{$lang->email_address}</label></div></th>
-            <td class="wide"><input type="text" name="email_address" class="iText w400" /></td>
-        </tr>
-        <tr>
-            <th class="button" colspan="2"><span class="button black strong"><input type="submit" value="{$lang->cmd_find_member_account}" accesskey="s" /></span></th>
-        </tr>
-    </table>
+	<ul>
+		<li>
+			<p class="q"><label for="cpw">{$lang->email_address}</label></p>
+			<p class="a"><input type="text" name="email_address" /></p>
+		</li>
+	</ul>
+	<div class="btnArea">
+		<span class="btn"><input type="submit" value="{$lang->cmd_find_member_account}" accesskey="s" /></span>
+	</div>
 </form>
-
-
 <!--@if(count($lang->find_account_question_items)>1)-->
-<h3>{$lang->cmd_find_member_account}</h3>
-
-<p class="summary">{$lang->about_find_account_question}</p>
-
-<form action="./" method="get" onsubmit="return procFilter(this, find_member_account_by_question)">
+<h1 class="h1">{$lang->cmd_find_member_account}</h1>
+<p>{$lang->about_find_account_question}</p>
+<form action="./" method="get" class="form" onsubmit="return procFilter(this, find_member_account_by_question)">
     <input type="hidden" name="mid" value="{$mid}" />
     <input type="hidden" name="document_srl" value="{$document_srl}" />
     <input type="hidden" name="page" value="{$page}" />
-
-    <table cellspacing="0" class="rowTable" title="{$lang->email_address}">
-        <tr>
-            <th><div><label for="cpw">{$lang->user_id}</label></div></th>
-            <td class="wide"><input type="text" name="user_id" class="iText" /></td>
-        </tr>
-        <tr>
-            <th><div><label for="cpw">{$lang->email_address}</label></div></th>
-            <td class="wide"><input type="text" name="email_address" class="iText w400" /></td>
-        </tr>
-
-		<tr>
-			<th><div><label for="cpw">{$lang->find_account_question}</label></div></th>
-			<td>
-				<select name="find_account_question">
+	<ul>
+		<li>
+			<p class="q"><label for="cpw">{$lang->user_id}</label></p>
+			<p class="a"><input type="text" name="user_id" /></p>
+		</li>
+		<li>
+			<p class="q"><label for="cpw">{$lang->email_address}</label></p>
+			<p class="a"><input type="text" name="email_address" /></p>
+		</li>
+		<li>
+			<p class="q"><label for="cpw">{$lang->find_account_question}</label></p>
+			<p class="a">
+				<select name="find_account_question" style="width:290px">
 				<!--@for($i=1,$c=count($lang->find_account_question_items);$i<$c;$i++)-->
 					<option value="{$i}">{$lang->find_account_question_items[$i]}</option>
 				<!--@end-->
 				</select>
 				<br />
-				<input type="text" name="find_account_answer" value="" class="iText w300"/>
-			</td>
-		</tr>
-
-        <tr>
-            <th class="button" colspan="2"><span class="button black strong"><input type="submit" value="{$lang->cmd_get_temp_password}" accesskey="s" /></span></th>
-        </tr>
-    </table>
+				<input type="text" name="find_account_answer" value="" />
+			</p>
+		</li>
+	</ul>
+	<div class="btnArea">
+		<span class="btn"><input type="submit" value="{$lang->cmd_get_temp_password}" /></span>
+	</div>
 </form>
 <!--@end-->
-
-<!--#include("./common_footer.html")-->
+<include target="./common_footer.html" />

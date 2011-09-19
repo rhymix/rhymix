@@ -1,27 +1,25 @@
-<!--%import("../../tpl/js/signup_check.js")-->
-
+<load target="../../tpl/js/signup_check.js" />
 <!--// datepicker javascript plugin load -->
 <!--%load_js_plugin("ui")-->
 <!--%load_js_plugin("ui.datepicker")-->
-
-<!--#include("./common_header.html")-->
-
-    <h3>{$lang->cmd_signup}</h3>
-
+<include target="./common_header.html" />
+    <h1 class="h1">{$lang->cmd_signup}</h1>
 	<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 		<p>{$XE_VALIDATOR_MESSAGE}</p>
 	</div>
-    <form ruleset="@insertMember" id="fo_insert_member" action="./" method="post" enctype="multipart/form-data">
-	<input type="hidden" name="act" value="procMemberInsert" />
-    <!--@if(!$is_logged && $member_config->agreement)-->
-    <div class="agreementBox">
-        {$member_config->agreement}
-    </div>
-    <div class="agreementButton">
-        <input type="checkbox" name="accept_agreement" value="Y" id="accept_agree" />
-        <label for="accept_agree">{$lang->about_accept_agreement}</label>
-    </div>
-    <!--@end-->
+    <form ruleset="@insertMember" id="fo_insert_member" class="form" action="./" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="act" value="procMemberInsert" />
+		<!--@if(!$is_logged && $member_config->agreement)-->
+		<div class="agreement">
+			<div class="text">
+				{$member_config->agreement}
+			</div>
+			<div class="confirm">
+				<input type="checkbox" name="accept_agreement" value="Y" id="accept_agree" />
+				<label for="accept_agree">{$lang->about_accept_agreement}</label>
+			</div>
+		</div>
+		<!--@end-->
 		<ul>
 			<li>
 				<p class="q">{$identifierForm->title} <em style="color:red">*</em></p>
@@ -57,23 +55,24 @@
 				</p>
 			</li>
 		</ul>
-            <span class="button black strong"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
-            <a href="{getUrl('act','','member_srl','')}" class="button"><span>{$lang->cmd_cancel}</span></a>
-</form>
-
-<script type="text/javascript">
-(function($){
-    $(function(){
-        var option = { changeMonth: true, changeYear: true, gotoCurrent: false,yearRange:'-100:+10', onSelect:function(){
-
-            $(this).prev('input[type="hidden"]').val(this.value.replace(/-/g,""))}
-        };
-        $.extend(option,$.datepicker.regional['{$lang_type}']);
-        $(".inputDate").datepicker(option);
-		$(".dateRemover").click(function() {
-			$(this).parent().prevAll('input').val('');
-			return false;});
-    });
-})(jQuery);
-</script>
-<!--#include("./common_footer.html")-->
+		<div class="btnArea">
+			<span class="btn"><input type="submit" value="{$lang->cmd_registration}" /></span>
+			<span class="btn"><a href="{getUrl('act','','member_srl','')}">{$lang->cmd_cancel}</a></span>
+		</div>
+	</form>
+	<script type="text/javascript">
+	(function($){
+		$(function(){
+			var option = { changeMonth: true, changeYear: true, gotoCurrent: false,yearRange:'-100:+10', onSelect:function(){
+	
+				$(this).prev('input[type="hidden"]').val(this.value.replace(/-/g,""))}
+			};
+			$.extend(option,$.datepicker.regional['{$lang_type}']);
+			$(".inputDate").datepicker(option);
+			$(".dateRemover").click(function() {
+				$(this).parent().prevAll('input').val('');
+				return false;});
+		});
+	})(jQuery);
+	</script>
+<include target="./common_footer.html" />

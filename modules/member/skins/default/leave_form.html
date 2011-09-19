@@ -1,30 +1,25 @@
-<!--#include("./common_header.html")-->
-
-    <h3>{$member_title = $lang->msg_leave_member}</h3>
-	<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
-		<p>{$XE_VALIDATOR_MESSAGE}</p>
-	</div>
-    <form ruleset="leaveMember" id="fo_insert_member" action="./" method="post">
+<include target="./common_header.html" />
+<h1 class="h1">{$member_title = $lang->msg_leave_member}</h1>
+<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
+<form ruleset="leaveMember" id="fo_insert_member" class="form" action="./" method="post">
 	<input type="hidden" name="act" value="procMemberLeave" />
     <input type="hidden" name="mid" value="{$mid}" />
     <input type="hidden" name="document_srl" value="{$document_srl}" />
     <input type="hidden" name="page" value="{$page}" />
-
-    <table cellspacing="0" class="rowTable" title="{$lang->msg_leave_member}">
-    <tr>
-        <th scope="row"><div>{$lang->user_id}</div></th>
-        <td class="wide">{$member_info->user_id}</td>
-    </tr>
-    <tr>
-        <th scope="row"><div><label for="cpw">{$lang->password}</label></div></th>
-        <td><input type="password" name="password" id="cpw" class="iText" /></td>
-    </tr>
-    <tr>
-        <th class="button" colspan="2">
-            <span class="button black strong"><input type="submit" value="{$lang->cmd_leave}" accesskey="s" /></span>
-            <a href="{getUrl('act','dispMemberInfo','member_srl','')}" class="button"><span>{$lang->cmd_back}</span></a>
-        </th>
-    </tr>
-    </table>
+	<ul>
+		<li>
+			<p class="q">{$lang->user_id}</p>
+			<p class="a">{$member_info->user_id}</p>
+		</li>
+		<li>
+			<p class="q"><label for="cpw">{$lang->password}</label></p>
+			<p class="a"><input type="password" name="password" id="cpw" /></p>
+		</li>
+	</ul>
+	<div class="btnArea">
+		<span class="btn"><input type="submit" value="{$lang->cmd_leave}" /></span>
+	</div>
 </form>
-<!--#include("./common_footer.html")-->
+<include target="./common_footer.html" />
