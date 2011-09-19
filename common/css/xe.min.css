@@ -1,10 +1,16 @@
 @charset "utf-8";
 /* NHN (developers@xpressengine.com) */
 /* Popup Menu Area */
-#popup_menu_area{position:absolute;background:#fff;border:1px solid #e9e9e9;border-radius:5px;padding:10px;line-height:1.3;box-shadow:0 0 6px #666;-moz-box-shadow:0 0 6px #666;-webkit-box-shadow:0 0 6px #666;filter:progid:DXImageTransform.Microsoft.Shadow(color=#999999,direction=135, strength=5)}
+#popup_menu_area{position:absolute;background:#fff;border:1px solid #e9e9e9;border-radius:5px;padding:10px;line-height:1.3;box-shadow:0 0 6px #666;filter:progid:DXImageTransform.Microsoft.Shadow(color=#999999,direction=135, strength=5)}
 #popup_menu_area ul{list-style:none;margin:0;padding:0}
 #popup_menu_area li{margin:0;padding:0}
 #popup_menu_area a{text-decoration:none;color:#333}
 #popup_menu_area a:hover,
 #popup_menu_area a:avtive,
 #popup_menu_area a:focus{text-decoration:underline}
+/* Waiting for server response */
+.wfsr{z-index:100;background:#FFC;position:absolute;position:fixed;top:0;left:0;text-align:center;border:3px solid #333;border-left:0;border-right:0;width:100%;padding:1em 0;box-shadow:0 0 6px #000;font-size:14px}
+.wfsr .bg{position:absolute;background:#000;_background:none;width:100%;height:100%;opacity:.5;filter:progid:DXImageTransform.Microsoft.Alpha(opacity=50);zoom:1}
+.wfsr .fg{position:relative;width:50%;margin:5em auto;background:#fff;padding:0 1em;*padding:1em;border:10px solid #ddd;z-index:2;zoom:1}
+.wfsr .fg p{padding:0 0 0 2.5em;background:url(../img/preLoader16.gif) no-repeat 1em .4em}
+.wfsr .ie6{position:absolute;left:0;top:0;width:100%;height:100%;border:0;opacity:0;filter:alpha(opacity=0);z-index:1}

@@ -188,7 +188,7 @@ header,footer,section,article,aside,nav,hgroup,details,menu,figure,figcaption{di
 .x .pagination button{overflow:visible}
 /* Button */
 .x .btn{position:relative;display:inline-block;margin:2px;vertical-align:top}
-.x .btn *{display:inline-block;padding:0 8px;font-size:12px;height:24px;line-height:22px;margin:0;font-weight:bold !important;color:#fff;text-decoration:none !important;border:1px solid;cursor:pointer;overflow:visible;border-radius:3px;box-shadow:inset 0 0 1px #fff;-moz-box-shadow:inset 0 0 1px #fff;-webkit-box-shadow:inset 0 0 1px #fff;background-color:#666;text-shadow:0 -1px 0 #333;zoom:1}
+.x .btn *{display:inline-block;padding:0 8px;font-size:12px;height:24px;line-height:22px;margin:0;font-weight:bold !important;color:#fff;text-decoration:none !important;border:1px solid;cursor:pointer;overflow:visible;border-radius:3px;box-shadow:inset 0 0 1px #fff;background-color:#666;text-shadow:0 -1px 0 #333;zoom:1}
 .x .btn *[type=submit][disabled=disabled],
 .x .btn *[type=button][disabled=disabled]{opacity:.5;*filter:alpha(opacity=50)}
 .x .btn a, 
@@ -226,7 +226,7 @@ header,footer,section,article,aside,nav,hgroup,details,menu,figure,figcaption{di
 /* Modal Window */
 .modal{position:absolute;top:0;left:0;width:100%;_height:100%;min-height:100%;z-index:100}
 .modal .bg{position:absolute;background:#000;_background:none;width:100%;height:100%;opacity:.5;z-index:2;filter:progid:DXImageTransform.Microsoft.Alpha(opacity=50);zoom:1}
-.modal .fg{position:relative;width:80%;margin:5em auto;background:#fff;padding:0 1em;*padding:1em;border:8px solid #ddd;z-index:3;zoom:1;border-radius:5px;box-shadow:0 0 6px #000;-moz-box-shadow:0 0 6px #000;-webkit-box-shadow:0 0 6px #000}
+.modal .fg{position:relative;width:80%;margin:5em auto;background:#fff;padding:0 1em;*padding:1em;border:8px solid #ddd;z-index:3;zoom:1;border-radius:5px;box-shadow:0 0 6px #000}
 .modal ul, 
 .modal ol, 
 .modal .lined, 
@@ -237,7 +237,7 @@ header,footer,section,article,aside,nav,hgroup,details,menu,figure,figcaption{di
 html.modalContainer,
 body.modalContainer{_height:100%;_width:100%} /* IE6 only */ 
 /* Layer */
-.x .layer{position:absolute;background:#fff;padding:0 1em;*padding:1em;border:8px solid #ddd;z-index:2;zoom:1;border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5pxbox-shadow:0 0 6px #666;-moz-box-shadow:0 0 6px #666;-webkit-box-shadow:0 0 6px #666;filter:progid:DXImageTransform.Microsoft.Shadow(color=#999999,direction=135, strength=5)}
+.x .layer{position:absolute;background:#fff;padding:0 1em;*padding:1em;border:8px solid #ddd;z-index:2;zoom:1;border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5pxbox-shadow:0 0 6px #666;filter:progid:DXImageTransform.Microsoft.Shadow(color=#999999,direction=135, strength=5)}
 .x .layer h2{font-size:14px}
 .x .layer ul, .layer ol, .layer .lined, .layer .table{margin-bottom:1em}
 .x .layerClose{position:absolute;right:-8px;top:-8px;border:0;background:#ddd;padding:0;width:28px;height:28px;font-size:14px;font-weight:bold;cursor:pointer;color:#999;border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px}
@@ -263,7 +263,7 @@ body.modalContainer{_height:100%;_width:100%} /* IE6 only */
 .x .skipNav a:active,
 .x .skipNav a:focus{position:relative;width:auto;height:auto}
 /* Header */
-.x .header{position:relative;z-index:2;padding:30px 0 0 0;background:#4c4c4c;box-shadow:0 0 10px #aaa;-moz-box-shadow:0 0 10px #aaa;-webkit-box-shadow:0 0 10px #aaa;zoom:1}
+.x .header{position:relative;z-index:2;padding:30px 0 0 0;background:#4c4c4c;box-shadow:0 0 10px #aaa;zoom:1}
 .x .header:after{content:"";display:block;clear:both}
 .x .header a{text-decoration:none}
 .x .header h1{margin:0 100px 10px 1.3em;font-size:24px;line-height:32px}
@@ -275,7 +275,7 @@ body.modalContainer{_height:100%;_width:100%} /* IE6 only */
 .x .header #moveSiteList li{white-space:nowrap;margin:0;padding:4px 0;border-bottom:1px dotted #ccc}
 .x .header #siteMapList{padding:0 1em 1em 1em;margin:0}
 .x .header #siteMapList li{white-space:nowrap}
-.x .header .account{position:absolute;z-index:3;width:100%;padding:5px 2em 5px 0;top:0;right:0;white-space:nowrap;text-align:right;background:#333;border-bottom:1px solid #656565;color:#fff;font-size:12px;box-shadow:0 0 10px #333;-moz-box-shadow:0 0 10px #333;-webkit-box-shadow:0 0 10px #333}
+.x .header .account{position:absolute;z-index:3;width:100%;padding:5px 2em 5px 0;top:0;right:0;white-space:nowrap;text-align:right;background:#333;border-bottom:1px solid #656565;color:#fff;font-size:12px;box-shadow:0 0 10px #333}
 .x .header .account ul{margin:0 2px 0 0;padding:0;list-style:none}
 .x .header .account li{position:relative;display:inline;border-left:1px solid #666;padding:0 6px 0 10px}
 .x .header .account li:first-child{border:0}
@@ -397,7 +397,7 @@ body.modalContainer{_height:100%;_width:100%} /* IE6 only */
 .x .langEdit p, 
 .x .langEdit .btnArea{white-space:normal}
 .x .langEdit .langList,
-.x .langEdit .langEditControls{box-shadow:3px 3px 6px #999;-moz-box-shadow:3px 3px 6px #999;-webkit-box-shadow:3px 3px 6px #999;filter:progid:DXImageTransform.Microsoft.Shadow(color=#999999,direction=135, strength=5)}
+.x .langEdit .langEditControls{box-shadow:3px 3px 6px #999;filter:progid:DXImageTransform.Microsoft.Shadow(color=#999999,direction=135, strength=5)}
 .x .langEdit .langList{margin:0 -1px 0 0;display:none}
 .x .langEdit .langList li{white-space:nowrap;color:#ccc;width:270px} 
 .x .langEdit .langList li span{display:inline-block;width:80px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;color:#767676}
@@ -458,7 +458,7 @@ body.modalContainer{_height:100%;_width:100%} /* IE6 only */
 .modal .mLangEdit ul{padding-bottom:1em}
 .modal .mLangEdit li{border:0;padding-right:36px}
 /* Suggestion */
-.x .suggestion{display:none;position:absolute;background:#fff;z-index:10;_height:200px;max-height:200px;overflow:auto;*left:0;*margin-top:28px;box-shadow:3px 3px 6px #999;-moz-box-shadow:3px 3px 6px #999;-webkit-box-shadow:3px 3px 6px #999;filter:progid:DXImageTransform.Microsoft.Shadow(color=#999999,direction=135, strength=5)}
+.x .suggestion{display:none;position:absolute;background:#fff;z-index:10;_height:200px;max-height:200px;overflow:auto;*left:0;*margin-top:28px;box-shadow:3px 3px 6px #999;filter:progid:DXImageTransform.Microsoft.Shadow(color=#999999,direction=135, strength=5)}
 .x .suggestion ul{border-top:1px solid #ccc;border-left:1px solid #eee;border-right:1px solid #eee;margin:0}
 .x .suggestion li{padding:0}
 .x .suggestion li:last-child{border-bottom:0}
@@ -480,7 +480,7 @@ body.modalContainer{_height:100%;_width:100%} /* IE6 only */
 /* Font Preview */
 .x .fontPreview{width:96%;border:1px solid #e9e9e9;zoom:1;padding:1em 2em;margin:.5em 0}
 /* FTP Suggestion */
-.x #ftpSuggestion{background:#fff;box-shadow:3px 3px 6px #999;-moz-box-shadow:3px 3px 6px #999;-webkit-box-shadow:3px 3px 6px #999;filter:progid:DXImageTransform.Microsoft.Shadow(color=#999999,direction=135, strength=5)}
+.x #ftpSuggestion{background:#fff;box-shadow:3px 3px 6px #999;filter:progid:DXImageTransform.Microsoft.Shadow(color=#999999,direction=135, strength=5)}
 .x #ftpSuggestion ul{border-left:1px solid #eee;border-right:1px solid #eee}
 .x #ftpSuggestion li{padding:0}
 .x #ftpSuggestion li button{border:0;background:#fff;text-align:left;width:288px}
