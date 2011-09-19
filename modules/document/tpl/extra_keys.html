@@ -6,16 +6,21 @@
 <!--@if($selected_var_idx && $extra_keys[$selected_var_idx])-->
     {@ $selected_var = $extra_keys[$selected_var_idx] }
 <!--@end-->
+<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
 
 <!--@if($type == 'insertExtraForm' || $selected_var_idx)-->
-    <form action="./" method="post" onsubmit="return procFilter(this, insert_extra_var)">
+    <form ruleset="insertExtraVar" action="./" method="post">
+    <input type="hidden" name="act" value="procDocumentAdminInsertExtraVar" />
     <input type="hidden" name="module_srl" value="{$module_srl}" />
     <input type="hidden" name="var_idx" value="{$selected_var_idx}" />
+    <input type="hidden" name="success_return_url" value="{getUrl('', 'module', $module, 'act', $act, 'module_srl', $module_srl)}" />
 
         <h4 class="xeAdmin">{$lang->extra_vars} {$selected_var_idx}</h4>
         <table cellspacing="0" class="crossTable ">
         <tr>
-            <th><div>thisthis{$lang->eid}</div></th>
+            <th><div>{$lang->eid}</div></th>
             <td class="wide">
                 <input type="text" name="eid" value="{$selected_var->eid}" class="inputTypeText w200" id="eid" /><p>{$lang->about_extra_vars_eid_value}</p>
             </td>
@@ -119,4 +124,4 @@
 <form id="fo_delete" name="fo_delete" method="post" action="./">
 <input type="hidden" name="module_srl" value="" />
 <input type="hidden" name="var_idx" value="" />
-<form>
+</form>

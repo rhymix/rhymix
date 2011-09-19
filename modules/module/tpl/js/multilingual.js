@@ -44,3 +44,12 @@ $('#langList')
 	})
 
 });
+
+function doInsertLangCode(langCode, target)
+{
+    if(window.opener && target) {
+        var obj = window.opener.get_by_id(target);
+        if(obj) obj.value = '$user_lang->'+langCode;
+    }
+    window.close();
+}

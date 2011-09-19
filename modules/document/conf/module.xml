@@ -52,7 +52,7 @@
         <action name="procDocumentAdminRestoreTrash" type="controller" standalone="true" />
         <action name="procDocumentAdminMoveExtraVar" type="controller" standalone="true" />
 
-        <action name="procDocumentAdminInsertExtraVar" type="controller" standalone="true" />
+        <action name="procDocumentAdminInsertExtraVar" type="controller" standalone="true" ruleset="insertExtraVar" />
         <action name="procDocumentAdminDeleteExtraVar" type="controller" standalone="true" />
         <action name="procDocumentAdminDeleteChecked" type="controller" standalone="true" />
         <action name="procDocumentAdminInsertConfig" type="controller" standalone="true" />

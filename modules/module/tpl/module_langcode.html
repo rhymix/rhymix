@@ -11,7 +11,7 @@
 	<ul id="langList">
 		<li loop="$lang_code_list=>$key,$value">
 		{@$langName = $value->name}
-		<strong>{$value->value}</strong> <button type="button" class="side text _edit">{$lang->cmd_edit}</button>
+		<strong>{$value->value}</strong> <span class="side"><button type="button" class="text" cond="$module != 'admin'" onclick="doInsertLangCode('{$value->name}', '{$target}')">{$lang->cmd_apply}</button><button type="button" class="text _edit">{$lang->cmd_edit}</button></span>
 		<form action="./" method="post" id="langForm_{$langName}" >
 			<input type="hidden" name="act" value="procModuleAdminInsertLang" />
 			<input type="hidden" name="lang_name" value="{$langName}" />
