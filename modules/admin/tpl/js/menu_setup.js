@@ -20,7 +20,6 @@ jQuery(function($){
 		var $optgroup;
 
 		moduleList = obj.menuList;
-		console.log(moduleList);
 		if(moduleList)
 		{
  			var menuNameList = $('#menuNameList');

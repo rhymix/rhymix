@@ -1593,6 +1593,7 @@ class documentController extends document {
 		$type = Context::get('type');
 		$target_module = Context::get('target_module');
 		$module_srl = Context::get('module_srl');
+		if($target_module && !$module_srl) $module_srl = $target_module;
 		$category_srl = Context::get('target_category');
 		$message_content = Context::get('message_content');
 		if($message_content) $message_content = nl2br($message_content);
