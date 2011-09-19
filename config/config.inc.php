@@ -20,15 +20,6 @@
      **/
     define('_XE_PATH_', str_replace('config/config.inc.php', '', str_replace('\\', '/', __FILE__)));
 
-	/**
-	 * @brief CDN prefix
-	 **/
-	define('__XE_CDN_PREFIX__', 'http://static.xpressengine.com/core/');
-
-	/**
-	 * @brief CDN version
-	 **/
-	define('__XE_CDN_VERSION__', '1.0');
 
 	/**
 	 * @brief 쿠키 이외의 값에서도 세션을 인식할 수 있도록 함(파일업로드 등에서의 문제 수정)
@@ -58,7 +49,8 @@
      * define('__OB_GZHANDLER_ENABLE__', 1);
      * define('__ENABLE_PHPUNIT_TEST__', 0);
      * define('__PROXY_SERVER__', 'http://domain:port/path');
-     * ?>
+	 * define('__XE_CDN_PREFIX__', 'http://yourCdnDomain.com/path/');
+	 * define('__XE_CDN_VERSION__', 'yourCndVersion');
      */
     if(file_exists(_XE_PATH_.'config/config.user.inc.php')) {
         require _XE_PATH_.'config/config.user.inc.php';
@@ -131,6 +123,16 @@
      * FileHandler:: getRemoteResource uses the constant
      **/
     if(!defined('__PROXY_SERVER__')) define('__PROXY_SERVER__', null);
+
+	/**
+	 * @brief CDN prefix
+	 **/
+	if(!defined('__XE_CDN_PREFIX__')) define('__XE_CDN_PREFIX__', 'http://static.xpressengine.com/core/');
+
+	/**
+	 * @brief CDN version
+	 **/
+	if(!defined('__XE_CDN_VERSION__')) define('__XE_CDN_VERSION__', 'alpha2');
 
     /**
      * @brief Require specific files when using Firebug console output
