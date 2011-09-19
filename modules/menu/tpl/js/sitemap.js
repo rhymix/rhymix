@@ -105,6 +105,7 @@ $('form.siteMap')
 	{
 		editForm.find('.h2').html('Add Menu');
 		editForm.find('input[name=menu_srl]').val($(this).parents().prevAll('input[name=menu_srl]').val());
+		editForm.find('input[name=menu_item_srl]').val('');
 		editForm.find('input[name=parent_srl]').val(0);
 		editForm.find('input[name=menu_name]').val('');
 		editForm.find('input[name=cType]').attr('checked', false);
