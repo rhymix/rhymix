@@ -1,23 +1,8 @@
 jQuery(function($){
-	$('#favicon').change(function(){
-		var re_favicon = /favicon\.ico$/
-		if(re_favicon.test($(this).val()) != true){
-			alert('{$lang->msg_not_correct_iconname} favicon.ico {$lang->msg_possible_only_file}');
-			return false;
-		}
-	});
-	$('#mobicon').change(function(){
-		var re_favicon = /mobicon\.png$/
-		if(re_favicon.test($(this).val()) != true){
-			alert('{$lang->msg_not_correct_iconname} mobicon.png {$lang->msg_possible_only_file}');
-			return false;
-		}
-	});
 	$('.tgContent ul').bind('click', function(){
 		$('#sitefind_addBtn').css('display','');
 	});
 });
-
 function setStartModule(){
 	var target_module = jQuery('.moduleIdList option:selected').text();
 	var index_module_srl = jQuery('.moduleIdList').val(); 

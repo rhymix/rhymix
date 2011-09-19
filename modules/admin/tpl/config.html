@@ -1,3 +1,21 @@
+<script>
+jQuery(function($){
+	$('#favicon').change(function(){
+		var re_favicon = /favicon\.ico$/
+		if(re_favicon.test($(this).val()) != true){
+			alert('{$lang->msg_not_correct_iconname} favicon.ico {$lang->msg_possible_only_file}');
+			return false;
+		}
+	});
+	$('#mobicon').change(function(){
+		var re_favicon = /mobicon\.png$/
+		if(re_favicon.test($(this).val()) != true){
+			alert('{$lang->msg_not_correct_iconname} mobicon.png {$lang->msg_possible_only_file}');
+			return false;
+		}
+	});
+});
+</script>
 <!--%import("./js/config.js")-->
 <!--%import("../../session/tpl/js/session.js")-->
 
@@ -46,12 +64,12 @@
 						<input type="hidden" name="index_module_srl" id="index_module_srl" value="{$start_module->index_module_srl}" />
 						<input type="text" name="_target_module" id="_target_module" value="{$start_module->browser_title} ({$start_module->mid})" readonly />
 						<a href="#modalWindow" class="modalAnchor" onClick="viewSiteSearch()">{$lang->cmd_find}</a> </p>
-						<div class="site_keyword_search" style="display:none">
+						<p class="site_keyword_search" style="display:none">
 							<input type="text" name="site_keyword" /> <a href="#suggestion3" class="tgAnchor findsite">{$lang->cmd_confirm}</a>
 							<div id="suggestion3" class="tgContent suggestion" >
 								<ul></ul>
 							</div>
-						</div>						
+						</p>						
 						<p>
 							<select class="moduleList" style="width:290px"></select>
 						</p>
@@ -160,7 +178,6 @@
 				<li>
 					<p class="q"><label for="default_url">{$lang->default_url}</label></p>
 					<p class="a"><input type="text" name="default_url" id="default_url" value="{$default_url}"/></p>
-
 					<p class="desc">{$lang->about_default_url}</p>
 				</li>
 				<li>
@@ -227,7 +244,7 @@
 			</ul>
 		</fieldset>
 		<div class="btnArea">
-			<span class="btn medium"><input type="submit" value="Save" /></span>
+			<span class="btn medium"><input type="submit" value="{$lang->cmd_save}" /></span>
 		</div>
 	</form>
 </div>
