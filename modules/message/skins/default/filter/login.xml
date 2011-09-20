@@ -1,8 +1,0 @@
-<filter name="message_login" module="member" act="procMemberLogin">
-  <form>
-    <node target="user_id" required="true" filter="user_id" />
-    <node target="password" required="true" />
-  </form>
-  <parameter />
-  <response />
-</filter>
