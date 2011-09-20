@@ -38,6 +38,7 @@
 #popup_menu_area a:focus{text-decoration:underline}
 /* Message */
 .message{border:1px solid #ddd;background:#f8f8f8;margin:1em 0;padding:0 1em;border-radius:5px;line-height:1.4;font-size:12px}
+body>.message{margin:1em}
 .message p{margin:1em 0 !important}
 .message em{font-style:normal;color:#e00}
 .message.info,
