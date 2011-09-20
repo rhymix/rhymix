@@ -1,127 +1,97 @@
-<!--#include("./common_header.html")-->
-<!--%import("filter/delete_checked_message.xml")-->
-<!--%import("filter/update_allow_message.xml")-->
-
-<div class="xeMessages">
-    <form action="./" method="POST" class="setupMessage">
-	<input type="hidden" name="act" value="procCommunicationUpdateAllowMessage" />
-	<input type="hidden" name="message_type" value="{$message_type}" />
-        <select name="allow_message">
-            <!--@foreach($lang->allow_message_type as $key => $val)-->
-            <option value="{$key}" <!--@if($logged_info->allow_message == $key)-->selected="selected"<!--@end-->>{$val}</option>
-            <!--@end-->
-        </select>
-        <span class="button"><input type="submit" value="{$lang->cmd_save}"></span>
-    </form>
-
-
-    <form action="./" method="GET" onsubmit="location.href=current_url.setQuery('message_srl','').setQuery('message_type',this.message_box.options[this.message_box.selectedIndex].value); return false;">
-    <h3>
-        <select name="message_box">
-            <!--@foreach($lang->message_box as $key => $val)-->
-            <option <!--@if($key==$message_type)-->selected="selected"<!--@end--> value="{$key}" >{$val}</option>
-            <!--@end-->
-        </select>
-        <span class="button"><input type="submit" value="{$lang->cmd_select}" /></span>
-    </h3>
-    </form>
-
-
-    <!--@if($message)-->
-    <table class="colTable">
-    <tr>
-        <th class="title"><div>{$message->title}</div></th>
-    </tr>
-    <tr>
-        <td>
-            <span class="member_{$message->member_srl}">{$message->nick_name}</span>
-            <span class="regdate">{zdate($message->regdate, "Y.m.d H:i:s")}</span>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <div class="xe_content">{$message->content}</div>
-        </td>
-    </tr>
-    <tr>
-        <th class="button">this
-            <!--@if($message->message_type != "S" && $message->member_srl != $logged_info->member_srl)-->
-            <a href="#" onclick="doSendMessage('{$message->sender_srl}','{$message->message_srl}');return false;" class="button black strong"><span>{$lang->cmd_reply_message}</span></a>
-            <!--@end-->
-            <!--@if($message->message_type == "R")-->
-            <a href="#" onclick="doStoreMessage('{$message->message_srl}');return false;" class="button green"><span>{$lang->cmd_store}</span></a>
-            <!--@end-->
-            <a href="#" onclick="doDeleteMessage('{$message->message_srl}');return false;" class="button red"><span>{$lang->cmd_delete}</span></a>
-        </th>
-    </tr>
-    </table>
-    <!--@end-->
-
-
-    <form action="./" method="get" id="fo_message_list">
-	<input type="hidden" name="act" value="procCommunicationDeleteMessages" />
-    <input type="hidden" name="message_type" value="{$message_type}" />
-
-        <table cellspacing="0" class="rowTable">
-        <thead>
-        <tr>
-            <th class="title"><div>
-                <input name="check_all" type="checkbox" onclick="XE.checkboxToggleAll('message_srl_list', { wrap:'fo_message_list' }); return false;" />
-                {$lang->title}
-            </div></th>
-            <th class="title"><div>
-                <!--@if($message_type == "S")-->
-                    {$lang->receiver}
-                <!--@else-->
-                    {$lang->sender}
-                <!--@end-->
-            </div></th>
-            <th class="title"><div>{$lang->regdate}</div></th>
-        </tr>
-        </thead>
-
-        <tbody>
-            <!--@foreach($message_list as $no => $val)-->
-            <tr>
-                <td class="wide">
-                    <input name="message_srl_list[]" type="checkbox" value="{$val->message_srl}" />
-                    <!--@if($val->readed=='Y')-->
-                        <a href="{getUrl('message_srl',$val->message_srl)}">{$val->title}</a>
-                    <!--@else-->
-                        <span style="font-weight:bold"><a href="{getUrl('message_srl',$val->message_srl)}">{$val->title}</a></span>
-                    <!--@end-->
-                </td>
-                <td class="nowrap">
-                    <div class="member_{$val->member_srl}">{$val->nick_name}</div></td>
-                </td>
-                <td class="nowrap">
-                    <div class="regdate">{zdate($val->regdate,"Y-m-d")}</div>
-                    <!--@if($val->readed=="Y")--><div class="readed_date">{zdate($val->readed_date,"Y-m-d H:i:s")}</div><!--@end-->
-                </td>
-            </tr>
-            <!--@end-->
-            <tr>
-                <th colspan="4" class="button">
-                    <span class="button black strong"><input type="submit" value="{$lang->cmd_delete}" /></span>
-                </th>
-            </tr>
-        </tbody>
-        </table>
-
-    </form>
-
-    <!-- 페이지 네비게이션 -->
-    <div class="pagination a1">
-        <a href="{getUrl('page','','document_srl','')}" class="prevEnd">{$lang->first_page}</a> 
-        <!--@while($page_no = $page_navigation->getNextPage())-->
-            <!--@if($page == $page_no)-->
-                <strong>{$page_no}</strong> 
-            <!--@else-->
-                <a href="{getUrl('page',$page_no,'document_srl','')}">{$page_no}</a>
-            <!--@end-->
-        <!--@end-->
-        <a href="{getUrl('page',$page_navigation->last_page,'document_srl','')}" class="nextEnd">{$lang->last_page}</a>
-    </div>
+<include target="./common_header.html" />
+<load target="filter/delete_checked_message.xml" />
+<load target="filter/update_allow_message.xml" />
+<div class="btnArea">
+	<form action="./" method="GET" class="etc" onsubmit="location.href=current_url.setQuery('message_srl','').setQuery('message_type',this.message_box.options[this.message_box.selectedIndex].value); return false;">
+		<select name="message_box">
+			<option loop="$lang->message_box => $key,$val" selected="selected"|cond="$key==$message_type" value="{$key}" >{$val}</option>
+		</select>
+		<input type="submit" value="{$lang->cmd_select}" />
+	</form>
+	<form action="./" method="POST" class="setupMessage">
+		<input type="hidden" name="act" value="procCommunicationUpdateAllowMessage" />
+		<input type="hidden" name="message_type" value="{$message_type}" />
+		<select name="allow_message">
+			<option loop="$lang->allow_message_type => $key,$val" value="{$key}" selected="selected"|cond="$logged_info->allow_message==$key">{$val}</option>
+		</select>
+		<input type="submit" value="{$lang->cmd_save}">
+	</form>
+</div>
+<div class="table even" cond="$message">
+	<table width="100%" border="1" cellspacing="0">
+		<tr>
+			<th class="title">{$message->title}</th>
+		</tr>
+		<tr>
+			<td>
+				<a href="popup_menu_area" class="member_{$message->member_srl}">{$message->nick_name}</a>
+				{zdate($message->regdate, "Y.m.d H:i")}
+			</td>
+		</tr>
+		<tr>
+			<td class="text">
+				<div class="xe_content">{$message->content}</div>
+			</td>
+		</tr>
+	</table>
+	<div class="btnArea">
+		<button cond="$message->message_type != 'S' && $message->member_srl != $logged_info->member_srl" type="button" onclick="doSendMessage('{$message->sender_srl}','{$message->message_srl}');">{$lang->cmd_reply_message}</button>
+		<button cond="$message->message_type == 'R'" type="button" onclick="doStoreMessage('{$message->message_srl}');">{$lang->cmd_store}</button>
+		<button type="button" onclick="doDeleteMessage('{$message->message_srl}');">{$lang->cmd_delete}</button>
+	</div>
 </div>
 
-<!--#include("./common_footer.html")-->
+<form action="./" method="get" id="fo_message_list">
+	<input type="hidden" name="act" value="procCommunicationDeleteMessages" />
+	<input type="hidden" name="message_type" value="{$message_type}" />
+	<div class="table even">
+		<table width="100%" border="1" cellspacing="0">
+			<thead>
+				<tr>
+					<th scope="col" class="title">{$lang->title}</th>
+					<th scope="col">
+						<!--@if($message_type == "S")-->
+						{$lang->receiver}
+						<!--@else-->
+						{$lang->sender}
+						<!--@end-->
+					</th>
+					<th scope="col">{$lang->regdate}</th>
+					<th scope="col">{$lang->readed_date}</th>
+					<th scope="col"><input name="check_all" type="checkbox" onclick="XE.checkboxToggleAll('message_srl_list', { wrap:'fo_message_list' });" /></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr loop="$message_list => $no,$val">
+					<td class="title">
+						<a cond="$val->readed=='Y'" href="{getUrl('message_srl',$val->message_srl)}">{$val->title}</a>
+						<a cond="$val->readed!='Y'" href="{getUrl('message_srl',$val->message_srl)}"><strong>{$val->title}</strong></a>
+					</td>
+					<td>
+						<a href="#popup_menu_area" class="member_{$val->member_srl}">{$val->nick_name}</a>
+					</td>
+					<td> 
+						{zdate($val->regdate,"Y-m-d")}
+					</td>
+					<td><block cond="$val->readed=='Y'">{zdate($val->readed_date,"Y-m-d H:i")}</block>&nbsp;</td>
+					<td><input name="message_srl_list[]" type="checkbox" value="{$val->message_srl}" /></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="btnArea">
+		<input type="submit" value="{$lang->cmd_delete}" />
+	</div>
+</form>
+<div class="pagination">
+	<a href="{getUrl('page','','document_srl','')}" class="direction">&lsaquo; {$lang->first_page}</a> 
+	<!--@while($page_no = $page_navigation->getNextPage())-->
+		<!--@if($page == $page_no)-->
+			<strong>{$page_no}</strong> 
+		<!--@else-->
+			<a href="{getUrl('page',$page_no,'document_srl','')}">{$page_no}</a>
+		<!--@end-->
+	<!--@end-->
+	<a href="{getUrl('page',$page_navigation->last_page,'document_srl','')}" class="direction">{$lang->last_page} &rsaquo;</a>
+</div>
+<include target="./common_footer.html" />

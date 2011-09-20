@@ -1,0 +1,113 @@
+@charset "utf-8";
+/* Element Reset */
+.xc,
+.xc table,
+.xc input,
+.xc textarea,
+.xc select,
+.xc button{font-family:Tahoma,Geneva,sans-serif;font-size:12px;color:#333}
+.xc button,
+.xc input[type=submit],
+.xc input[type=reset],
+.xc input[type=button]{cursor:pointer;overflow:visible}
+.xc img{border:0}
+.xc p{line-height:1.5}
+/* Heading */
+.xc .h1, 
+.xc .h2, 
+.xc .h3, 
+.xc .h4{position:relative;border-bottom-style:solid;border-bottom-color:#ccc;zoom:1}
+.xc .h1{border-bottom-width:4px;font-size:24px}
+.xc .h2{border-bottom-width:3px;font-size:20px}
+.xc .h3{border-bottom-width:2px;font-size:16px}
+.xc .h4{border-bottom-width:1px;font-size:12px}
+/* Lined Tab Navigation */
+.xc .nav{padding:0;margin:1em 0}
+.xc .nav ul{position:relative;margin:0;padding:0;list-style:none;border-bottom:1px solid #ccc;zoom:1}
+.xc .nav ul:after{content:"";display:block;clear:both}
+.xc .nav li{float:left;margin-bottom:-1px}
+.xc .nav li a{position:relative;float:left;text-decoration:none;border:1px solid #eee;border-bottom-color:#ccc;background:#fafafa;color:#333}
+.xc .nav li a span{display:inline-block;height:14px;padding:6px 15px 6px 15px;letter-spacing:-1px;cursor:pointer}
+.xc .nav li.active a{border:1px solid #ccc;border-bottom:1px solid #fff;margin-top:-1px;background:transparent}
+.xc .nav li.active a span{padding-top:7px;font-weight:bold}
+/* Form */
+.xc .form{margin:1em 0;padding:0}
+.xc .form fieldset{margin:0 0 2em 0;padding:0;border:0}
+.xc .form em{font-style:normal;color:#e00}
+.xc .form label{margin-right:1em;line-height:1;vertical-align:middle}
+.xc .form input[type=checkbox]+label,
+.xc .form input[type=radio]+label,
+.xc .form input[type=file]{cursor:pointer}
+.xc .form ul{position:relative;margin:0;padding:0;list-style:none;border-top:2px solid #ccc;border-bottom:1px solid #ccc;zoom:1}
+.xc .form li{list-style:none;border:1px solid #ddd;border-left:0;border-right:0;margin:-1px 0;padding:8px 0;vertical-align:top;zoom:1}
+.xc .form li:first-child{border-top:0}
+.xc .form li>label:first-child{display:block;font-weight:bold}
+.xc .form li label em{font-weight:normal}
+.xc .form label.overlap{position:absolute;color:#aaa}
+.xc .form input[type=text],
+.xc .form input[type=password],
+.xc .form input[type=file],
+.xc .form textarea{position:relative;width:280px;margin:2px 0;border:1px solid #b7b7b7;border-right-color:#e1e1e1;border-bottom-color:#e1e1e1;background:transparent}
+.xc .form input[type=text],
+.xc .form input[type=password],
+.xc .form input[type=file]{height:22px;line-height:22px;vertical-align:middle;padding:0 4px}
+.xc .form input[type=text].loading,
+.xc .form input.loading[type=password]{padding-right:24px;width:260px;background:transparent url(../img/preLoader16.gif) no-repeat 265px center}
+.xc .form input[type=checkbox],
+.xc .form input[type=radio]{margin:0;padding:0;width:13px;height:13px;vertical-align:middle}
+.xc .form input[type=text][disabled=disabled],
+.xc .form input[type=password][disabled=disabled],
+.xc .form input[type=checkbox][disabled=disabled],
+.xc .form input[type=radio][disabled=disabled],
+.xc .form input[type=file][disabled=disabled],
+.xc .form textarea[disabled=disabled],
+.xc .form select[disabled=disabled]{background:#ddd !important;text-shadow:1px 1px 0 #fff}
+.xc .form textarea{padding:3px 4px;vertical-align:top}
+.xc .form span.desc, 
+.xc .form em.desc{line-height:22px;vertical-align:middle;margin:0 10px}
+.xc .form p.desc{margin:.25em 0;line-height:1.4}
+.xc .form .q{font-weight:bold;margin:0 0 5px 0}
+.xc .form .a{margin:0 0 5px 0}
+.xc .form .tgForm{margin-right:1em}
+.xc .form .h1 + ul,
+.xc .form .h2 + ul,
+.xc .form .h3 + ul,
+.xc .form .h4 + ul{border-top:0}
+/* Table */
+.xc .table{margin:1em 0}
+.xc .table table{width:100%;border:0;border-collapse:collapse;border-top:2px solid #ccc}
+.xc .table caption{font-weight:bold;text-align:left;line-height:22px;padding:5px 0}
+.xc .table caption:after{content:"";display:block;clear:both}
+.xc .table caption a{font-weight:normal}
+.xc .table caption em{float:right;margin-left:1em}
+.xc .table caption strong{color:#e00}
+.xc .table caption .side{float:right;font-weight:normal;margin-left:1em}
+.xc .table th,
+.xc .table td{border:0;padding:8px;vertical-align:top;text-align:left;border-bottom:1px solid #ddd;white-space:nowrap}
+.xc .table th{background:#f8f8f8}
+.xc .table thead th{border-bottom:1px solid #999}
+.xc .table tfoot td{font-weight:bold;background:#f8f8f8}
+.xc .table.even tbody tr:nth-of-type(even) td{background-color:#fafafa}
+.xc .table td>input[type=text]{margin:-1px 0 -3px 0 !important;vertical-align:middle}
+.xc .table img{vertical-align:middle}
+.xc .table em{font-style:normal;font-weight:normal;color:#e00}
+.xc .table .title,
+.xc .table .text{white-space:normal}
+/* Pagination */
+.xc .pagination{margin:1em 0;text-align:center;line-height:normal}
+.xc .pagination *{vertical-align:middle}
+.xc .pagination a,
+.xc .pagination strong{position:relative;display:inline-block;padding:2px 4px;font-weight:bold;text-decoration:none;line-height:normal;color:#333 !important;vertical-align:middle}
+.xc .pagination a:hover,
+.xc .pagination a:active,
+.xc .pagination a:focus{border:1px solid #ddd;margin:0 -1px}
+.xc .pagination strong{color:#e00 !important;font-size:20px}
+.xc .pagination .direction{font-weight:normal;white-space:nowrap}
+.xc .pagination .direction:hover,
+.xc .pagination .direction:active,
+.xc .pagination .direction:focus{border:0;margin:0;text-decoration:underline}
+.xc .pagination input{width:30px;text-align:center}
+.xc .pagination button{overflow:visible}
+/* Text Button */
+.xc input.text, 
+.xc button.text{border:0;overflow:visible;padding:0;margin:0 4px 0 0;color:#33a;background:none;text-decoration:underline}
