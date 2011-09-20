@@ -3,6 +3,7 @@
 /* Element Reset */
 body{margin:0}
 header,footer,section,article,aside,nav,hgroup,details,menu,figure,figcaption{display:block}
+body>.popup{margin:1em}
 .x,
 .x table,
 .x input,

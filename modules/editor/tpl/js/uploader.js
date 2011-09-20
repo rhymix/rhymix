@@ -348,7 +348,7 @@ function previewFiles(event, file_srl) {
 	if(fileinfo.direct_download != 'Y' || !match) {
 		html = '<img src="'+request_uri+'modules/editor/tpl/images/files.gif" border="0" width="100%" height="100%" />';
 	} else if(match[1]) { // flash video file
-        html = '<embed src="'+request_uri+'common/tpl/images/flvplayer.swf?autoStart=false&file='+uploaded_filename+'" width="100%" height="100%" type="application/x-shockwave-flash" />';
+        html = '<embed src="'+request_uri+'common/img/flvplayer.swf?autoStart=false&file='+uploaded_filename+'" width="100%" height="100%" type="application/x-shockwave-flash" />';
 	} else if(match[2]) { // shockwave flash file
 		html = '<embed src="'+request_uri+filename+'" width="100%" height="100%" type="application/x-shockwave-flash"  />';
 	} else if(match[3]) { // movie file
@@ -422,7 +422,7 @@ function insertUploadedFile(editorSequence) {
                 text.push(temp_code);
             // 이미지외의 경우는 multimedia_link 컴포넌트 연결
             } else {
-                text.push("<img src=\"common/tpl/images/blank.gif\" editor_component=\"multimedia_link\" multimedia_src=\""+file.download_url+"\" width=\"400\" height=\"320\" style=\"display:block;width:400px;height:320px;border:2px dotted #4371B9;background:url(./modules/editor/components/multimedia_link/tpl/multimedia_link_component.gif) no-repeat center;\" auto_start=\"false\" alt=\"\" />");
+                text.push("<img src=\"common/img/blank.gif\" editor_component=\"multimedia_link\" multimedia_src=\""+file.download_url+"\" width=\"400\" height=\"320\" style=\"display:block;width:400px;height:320px;border:2px dotted #4371B9;background:url(./modules/editor/components/multimedia_link/tpl/multimedia_link_component.gif) no-repeat center;\" auto_start=\"false\" alt=\"\" />");
             }
 
         // binary파일의 경우 url_link 컴포넌트 연결

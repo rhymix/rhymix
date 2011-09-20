@@ -215,7 +215,7 @@ var FaceOff = {
 
                     var content = $(this).children('div.widgetContent');
                     if (!content.length) return;
-                    return text.push('<img src="./common/tpl/images/widget_bg.jpg" class="zbxe_widget_output" widget="widgetContent" '+attr.join(' ')+' />');
+                    return text.push('<img src="./common/img/widget_bg.jpg" class="zbxe_widget_output" widget="widgetContent" '+attr.join(' ')+' />');
                 default:
                     var div  = $('<div>');
                     var attr = [];

@@ -2512,7 +2512,7 @@ FileUpload = xe.createPlugin('FileUpload', {
 		if (type == 'img') {
 			code = '<img src="'+url+'" alt="'+name+'" />\n';
 		} else if (type == 'media') {
-			code = '<img src="./common/tpl/images/blank.gif" editor_component="multimedia_link" multimedia_src="'+url+'" width="400" height="320" style="display:block;width:400px;height:320px;border:2px dotted #4371B9;background:url(./modules/editor/components/multimedia_link/tpl/multimedia_link_component.gif) no-repeat center;" auto_start="false" alt="" class="_resizable" />';
+			code = '<img src="./common/img/blank.gif" editor_component="multimedia_link" multimedia_src="'+url+'" width="400" height="320" style="display:block;width:400px;height:320px;border:2px dotted #4371B9;background:url(./modules/editor/components/multimedia_link/tpl/multimedia_link_component.gif) no-repeat center;" auto_start="false" alt="" class="_resizable" />';
 		}
 
 		if (!code) {

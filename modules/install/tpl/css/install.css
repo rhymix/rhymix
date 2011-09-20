@@ -113,11 +113,15 @@ html{height:100%;background:url(../img/bgHtml.gif) repeat-x 0 0}
 .agreement em{color:#f60}
 .agreement p{line-height:1.5}
 /* Message */
-.message{border:1px solid #ddd;background:#f8f8f8;margin:1em 17px;padding:0 1em;border-radius:5px;line-height:1.4}
+.message{border:1px solid #ddd;background:#f8f8f8;margin:1em 0;padding:0 1em;border-radius:5px;line-height:1.4;font-size:12px}
+body>.message{margin:1em}
+.message p{margin:1em 0 !important}
 .message em{font-style:normal;color:#e00}
 .message.info,
 .message.error,
 .message.update{padding-left:55px}
-.message.info{border-color:#E0E8EC;background:#EDF9FF url(../../../admin/tpl/img/msg.Info.png) no-repeat 1em .5em}
-.message.error{border-color:#EFDCDC;background:#FFECEC url(../../../admin/tpl/img/msg.error.png) no-repeat 1em .5em}
-.message.update{border-color:#EAE9DC;background:#FFFDEF url(../../../admin/tpl/img/msg.update.png) no-repeat 1em .5em}
+.message.info{border-color:#E0E8EC;background:#EDF9FF url(../../common/img/msg.Info.png) no-repeat 1em .5em}
+.message.error{border-color:#EFDCDC;background:#FFECEC url(../../common/img/msg.error.png) no-repeat 1em .5em}
+.message.update{border-color:#EAE9DC;background:#FFFDEF url(../../common/img/msg.update.png) no-repeat 1em .5em}
+/* Waiting for server response */
+.wfsr{display:none;position:absolute;position:fixed;left:0;top:0;z-index:100; border:1px solid #EAE9DC;background:#FFFDEF url(../../common/img/msg.update.png) no-repeat 1em .5em;margin:1em;padding:1em 1em 1em 55px;border-radius:5px;line-height:1.4;font-size:12px}

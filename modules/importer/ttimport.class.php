@@ -488,7 +488,7 @@
                     return sprintf('<img editor_component="image_link" src="%s" alt="%s" />', $obj->url, str_replace('"','\\"',$matches[4]));
                 // If other multimedia file but image is, 
                 } else {
-                   return sprintf('<img src="./common/tpl/images/blank.gif" editor_component="multimedia_link" multimedia_src="%s" width="400" height="320" style="display:block;width:400px;height:320px;border:2px dotted #4371B9;background:url(./modules/editor/components/multimedia_link/tpl/multimedia_link_component.gif) no-repeat center;" auto_start="false" alt="" />', $obj->url);
+                   return sprintf('<img src="./common/img/blank.gif" editor_component="multimedia_link" multimedia_src="%s" width="400" height="320" style="display:block;width:400px;height:320px;border:2px dotted #4371B9;background:url(./modules/editor/components/multimedia_link/tpl/multimedia_link_component.gif) no-repeat center;" auto_start="false" alt="" />', $obj->url);
                 }
             // If binary file is
             } else {

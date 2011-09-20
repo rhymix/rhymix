@@ -96,7 +96,7 @@
 		function putDocumentsInPageToArray($target, &$array)
 		{
 			if(!$target) return;
-			preg_match_all('!<img src="./common/tpl/images/widget_bg.jpg" ([^>]+)!is', $target, $matches);
+			preg_match_all('!<img src="./common/img/widget_bg.jpg" ([^>]+)!is', $target, $matches);
 			$pattern = '!document_srl="(\d+)"!';
 			foreach($matches[1] as $match)
 			{

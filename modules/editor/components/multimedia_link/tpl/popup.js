@@ -42,7 +42,7 @@ $('a._insert').click(function(){
 	  return;
 	}
 
-	var html = '<img src="../../../../common/tpl/images/blank.gif" editor_component="multimedia_link" multimedia_src="" width="" height="" wmode="" style="display:block;width:'+attrs.width+'px;height:'+attrs.height+'px;border:2px dotted #4371B9;background:url(./modules/editor/components/multimedia_link/tpl/multimedia_link_component.gif) no-repeat center" auto_start="" alt="" />';
+	var html = '<img src="../../../../common/img/blank.gif" editor_component="multimedia_link" multimedia_src="" width="" height="" wmode="" style="display:block;width:'+attrs.width+'px;height:'+attrs.height+'px;border:2px dotted #4371B9;background:url(./modules/editor/components/multimedia_link/tpl/multimedia_link_component.gif) no-repeat center" auto_start="" alt="" />';
 
 	html = html.replace(/(\w+)=""/, function(m0,m1) {
 		return attrs[m1] ? (m1+'="'+attrs[m1]+'"') : '';
