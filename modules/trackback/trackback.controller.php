@@ -38,9 +38,12 @@
             $output = $this->sendTrackback($oDocument, $trackback_url, $charset);
 			if($output->toBool() && !in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
 				global $lang;
+				htmlHeader();
 				alertScript($lang->success_registed);
 				reload(true);
 				closePopupScript();
+				htmlFooter();
+				Context::close();
 				exit;
 			}
 			return $output;

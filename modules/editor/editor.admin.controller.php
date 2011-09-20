@@ -106,9 +106,12 @@
             $this->setMessage('success_updated');
 			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
 				global $lang;
+				htmlHeader();
 				alertScript($lang->success_updated);
 				reload(true);
 				closePopupScript();
+				htmlFooter();
+				Context::close();
 				exit;
 			}
         }

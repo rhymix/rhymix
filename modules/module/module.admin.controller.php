@@ -144,9 +144,12 @@
             $this->setMessage('success_registed');
 			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
 				global $lang;
+				htmlHeader();
 				alertScript($lang->success_registed);
 				reload(true);
 				closePopupScript();
+				htmlFooter();
+				Context::close();
 				exit;
 			}
         }
@@ -347,8 +350,11 @@
             $this->setMessage('success_registed');
 			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
 				global $lang;
+				htmlHeader();
 				alertScript($lang->success_registed);
 				closePopupScript();
+				htmlFooter();
+				Context::close();
 				exit;
 			}
         }
@@ -417,8 +423,11 @@
             $this->setMessage('success_registed');
 			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
 				global $lang;
+				htmlHeader();
 				alertScript($lang->success_registed);
 				closePopupScript();
+				htmlFooter();
+				Context::close();
 				exit;
 			}
         }

@@ -37,6 +37,7 @@
 					$oInstallController = &getController('install');
 					$oInstallController->procInstall();
 					header("location: ./");
+					Context::close();
 					exit;
 				}
 			}
