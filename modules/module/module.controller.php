@@ -251,7 +251,10 @@
             //clear cache for default mid
             if($args->site_srl == 0) $vid='';
             else $vid=$args->domain;
-            $mid = $oModuleModel->getModuleInfoByModuleSrl($args->index_module_srl)->mid;  
+
+            $module_info = $oModuleModel->getModuleInfoByModuleSrl($args->index_module_srl)->mid;  
+            $mid = $module_info->mid;  
+
 	        $oCacheHandler = &CacheHandler::getInstance('object');
             if($oCacheHandler->isSupport()){
             	if($args->site_srl == 0){
