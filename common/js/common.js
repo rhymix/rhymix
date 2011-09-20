@@ -397,7 +397,7 @@ function _displayMultimedia(src, width, height, options) {
     if(/\.(gif|jpg|jpeg|bmp|png)$/i.test(src)){
         html = '<img src="'+src+'" width="'+width+'" height="'+height+'" />';
     } else if(/\.flv$/i.test(src) || /\.mov$/i.test(src) || /\.moov$/i.test(src) || /\.m4v$/i.test(src)) {
-        html = '<embed src="'+request_uri+'common/tpl/images/flvplayer.swf" allowfullscreen="true" autostart="'+autostart+'" width="'+width+'" height="'+height+'" flashvars="&file='+src+'&width='+width+'&height='+height+'&autostart='+autostart+'" wmode="'+params.wmode+'" />';
+        html = '<embed src="'+request_uri+'common/img/flvplayer.swf" allowfullscreen="true" autostart="'+autostart+'" width="'+width+'" height="'+height+'" flashvars="&file='+src+'&width='+width+'&height='+height+'&autostart='+autostart+'" wmode="'+params.wmode+'" />';
     } else if(/\.swf/i.test(src)) {
         clsid = 'clsid:D27CDB6E-AE6D-11cf-96B8-444553540000';
 

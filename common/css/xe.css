@@ -29,7 +29,7 @@
 .btnArea:after{content:"";display:block;clear:both}
 .btnArea .etc{float:left}
 /* Popup Menu Area */
-#popup_menu_area{position:absolute;background:#fff;border:1px solid #e9e9e9;border-radius:5px;padding:10px;line-height:1.3;box-shadow:0 0 6px #666;filter:progid:DXImageTransform.Microsoft.Shadow(color=#999999,direction=135, strength=5)}
+#popup_menu_area{position:absolute;background:#fff;border:1px solid #e9e9e9;border-radius:5px;padding:10px;line-height:1.3;box-shadow:0 0 6px #666;font-size:12px;filter:progid:DXImageTransform.Microsoft.Shadow(color=#999999,direction=135, strength=5)}
 #popup_menu_area ul{list-style:none;margin:0;padding:0}
 #popup_menu_area li{margin:0;padding:0}
 #popup_menu_area a{text-decoration:none;color:#333}
@@ -44,8 +44,8 @@ body>.message{margin:1em}
 .message.info,
 .message.error,
 .message.update{padding-left:55px}
-.message.info{border-color:#E0E8EC;background:#EDF9FF url(../../common/tpl/images/msg.Info.png) no-repeat 1em .5em}
-.message.error{border-color:#EFDCDC;background:#FFECEC url(../../common/tpl/images/msg.error.png) no-repeat 1em .5em}
-.message.update{border-color:#EAE9DC;background:#FFFDEF url(../../common/tpl/images/msg.update.png) no-repeat 1em .5em}
+.message.info{border-color:#E0E8EC;background:#EDF9FF url(../../common/img/msg.Info.png) no-repeat 1em .5em}
+.message.error{border-color:#EFDCDC;background:#FFECEC url(../../common/img/msg.error.png) no-repeat 1em .5em}
+.message.update{border-color:#EAE9DC;background:#FFFDEF url(../../common/img/msg.update.png) no-repeat 1em .5em}
 /* Waiting for server response */
-.wfsr{display:none;position:absolute;position:fixed;left:0;top:0;z-index:100; border:1px solid #EAE9DC;background:#FFFDEF url(../../common/tpl/images/msg.update.png) no-repeat 1em .5em;margin:1em;padding:1em 1em 1em 55px;border-radius:5px;line-height:1.4;font-size:12px}
+.wfsr{display:none;position:absolute;position:fixed;left:0;top:0;z-index:100; border:1px solid #EAE9DC;background:#FFFDEF url(../../common/img/msg.update.png) no-repeat 1em .5em;margin:1em;padding:1em 1em 1em 55px;border-radius:5px;line-height:1.4;font-size:12px}
