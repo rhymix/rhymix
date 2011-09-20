@@ -526,6 +526,7 @@ body.modalContainer{_height:100%;_width:100%} /* IE6 only */
 .x .desc.success{color:#080}
 /* Icon Button */
 .x a.iSetting{display:inline-block;width:16px;height:0;padding:16px 0 0 0;overflow:hidden;vertical-align:middle;background:url(../img/iconSetting.gif) no-repeat}
+.x a.cMenu{display:inline-block;width:16px;height:0;padding:16px 0 0 0;overflow:hidden;vertical-align:middle;background:url(../../../../common/img/icon.bubble.png) no-repeat}
 /* Responsive Layout */
 @media only all and (max-width:860px){
 .x .header h1{margin-left:.7em}
