@@ -1,6 +1,7 @@
 <?php
 /**
  * Validator class
+ * @author NHN (developers@xpressengine.com)
  */
 class Validator
 {
@@ -380,7 +381,11 @@ class Validator
 		if(!is_dir($dir) && !mkdir($dir)) return false;
 		if(!$this->_xml_path) return false;
 
-		$filepath = $dir.'/'.md5($this->_version.' '.$this->_xml_path).'.js';
+		// current language
+		$lang_type = class_exists('Context')?Context::getLangType():'en';
+
+		// check the file
+		$filepath = $dir.'/'.md5($this->_version.' '.$this->_xml_path).".{$lang_type}.js";
 		if(is_readable($filepath) && filemtime($filepath) > filemtime($this->_xml_path)) return $filepath;
 
 		$content = $this->_compile2js();
@@ -404,10 +409,15 @@ class Validator
 	 * @private
 	 */
 	function _compile2js() {
+		global $lang;
+
 		$ruleset = basename($this->_xml_path,'.xml');
 		$content = array();
 
 		if(preg_match('@(^|/)files/ruleset/\w+\.xml$@i', $this->_xml_path)) $ruleset = '@'.$ruleset;
+
+		// current language
+		$lang_type = class_exists('Context')?Context::getLangType():'en';
 
 		// custom rulesets
 		$addrules = array();
@@ -429,9 +439,16 @@ class Validator
 		$addrules = implode('', $addrules);
 
 		// filters
-		$content = array();
+		$content  = array();
+		$messages = array();
 		foreach($this->_filters as $name=>$filter) {
 			$field = array();
+
+			// form filed name
+			if(isset($lang->{$name})) {
+				$field_lang = addslashes($lang->{$name});
+				$messages[] = "v.cast('ADD_MESSAGE',['{$name}','{$field_lang}']);";
+			}
 
 			if($filter['required'] == 'true') $field[] = 'required:true';
 			if($filter['rule'])     $field[] = "rule:'{$filter['rule']}'";
@@ -456,13 +473,20 @@ class Validator
 			}
 		}
 
-		if(count($content)) {
-			$content = implode(',', $content);
+		if(!$content) return '/* Error : empty ruleset  */';
 
-			return "(function($,v){\nv=xe.getApp('validator')[0];if(!v)return;\n{$addrules}\nv.cast('ADD_FILTER',['{$ruleset}', {{$content}}]);\n})(jQuery);";
-		} else {
-			return '';
+		// error messages
+		foreach($lang->filter as $key=>$text) {
+			if($text) {
+				$text = addslashes($text);
+				$messages[] = "v.cast('ADD_MESSAGE',['{$key}','{$text}']);";
+			}
 		}
+
+		$content  = implode(',', $content);
+		$messages = implode("\n", $messages);
+
+		return "(function($,v){\nv=xe.getApp('validator')[0];if(!v)return;\n{$addrules}\nv.cast('ADD_FILTER',['{$ruleset}', {{$content}}]);\n{$messages} // Hello\n})(jQuery);";
 	}
 }
 
