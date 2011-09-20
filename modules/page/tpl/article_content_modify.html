@@ -1,10 +1,10 @@
 <load target="js/page_admin.js" usecdn="true" />
-<form action="./" method="post" onsubmit="return procFilter(this, insert_article)" id="fo_write" class="boardWrite">
+<form action="./" method="post" onsubmit="return procFilter(this, insert_article)" id="fo_write">
 	<input type="hidden" name="mid" value="{$mid}" />
 	<input type="hidden" name="content" value="{$oDocument->getContentText()}" />
 	<input type="hidden" name="document_srl" value="{$document_srl}" />
-	<div class="articleHeader">
-		<input type="text" name="title" class="inputText" value="{htmlspecialchars($oDocument->getTitleText())}" title="{$lang->title}" />
+	<div class="form" style="margin-right:10px">
+		<input type="text" name="title" value="{htmlspecialchars($oDocument->getTitleText())}" title="{$lang->title}" style="width:100%" />
 	</div>
 
     <div class="editor">{$oDocument->getEditor()}</div>

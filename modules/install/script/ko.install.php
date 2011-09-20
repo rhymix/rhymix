@@ -85,7 +85,7 @@
 
 	$obj->module_srl = $module_srl;
 	Context::set('version', __ZBXE_VERSION__);
-	$obj->title = 'welcome_document';
+	$obj->title = 'Welcome XE';
 
 	$obj->content = $oTemplateHandler->compile('./modules/install/script/welcome_content', 'welcome_content_'.$lang);
 

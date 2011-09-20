@@ -64,7 +64,7 @@
 .xpress-editor .tool ul.extra2{ width:auto; z-index:2;}
 .xpress-editor .tool ul.extra3{ float:right; width:auto; z-index:1; margin-right:1px;}
 .xpress-editor .tool ul.extra3 li{ margin-right:4px;}
-.xpress-editor .tool li{ position:relative; float:left;}
+.xpress-editor .tool li{ position:relative; float:left; margin:0 !important}
 .xpress-editor .tool li button{ width:21px; height:21px; background:url(../img/btn_set.gif) no-repeat 0 0; vertical-align:top;}
 .xpress-editor.black .tool li button{ width:21px; height:21px; background:url(../img/btn_set.black.gif) no-repeat 0 0; vertical-align:top;}
 .xpress-editor .tool li button span{ position:absolute; top:0; left:0; width:0; height:0; overflow:hidden; visibility:hidden;}
