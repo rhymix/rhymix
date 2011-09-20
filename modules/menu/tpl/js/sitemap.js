@@ -188,3 +188,9 @@ $('form.siteMap')
 		return false;
 	});
 });
+
+function confirmDelete(form)
+{
+	if(confirm(xe.lang.confirm_delete)) return true;
+	return false;
+}

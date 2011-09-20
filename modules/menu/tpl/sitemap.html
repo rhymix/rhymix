@@ -1,3 +1,6 @@
+<script type="text/javascript">
+xe.lang.confirm_delete = "{$lang->confirm_delete}";
+</script>
 <load target="./js/menu_admin.js" usecdn="true" />
 <load target="../../admin/tpl/js/sitemap.js" usecdn="true" />
 <load target="./js/sitemap.js" usecdn="true" />
@@ -10,7 +13,7 @@
 
 	<block loop="$menu_list=>$key,$value">
 	{@$menuSrl = $value->menuSrl}
-	<form class="portlet siteMap" id="menu_{$menuSrl}">
+	<form class="portlet siteMap" id="menu_{$menuSrl}" onsubmit="return confirmDelete(this);">
 	<input type="hidden" name="act" value="procMenuAdminDeleteItem" />
 	<input type="hidden" name="menu_srl" value="{$menuSrl}" />
 	<input type="hidden" name="menu_item_srl" value="" />
