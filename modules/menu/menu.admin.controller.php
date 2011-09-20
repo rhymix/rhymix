@@ -154,7 +154,7 @@
 				$cmArgs->menu_srl = $source_args->menu_srl;
                 $oModuleController = &getController('module');
 				$output = $oModuleController->insertModule($cmArgs);
-				if(!$output->toBool()) return Object(-1, 'fail_module_regist');
+				if(!$output->toBool()) return new Object(-1, $output->message);
 			}
 
             // Check if already exists
