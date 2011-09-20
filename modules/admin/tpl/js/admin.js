@@ -533,7 +533,7 @@ $.fn.xeModuleFinder = function(){
 					if(!list.hasOwnProperty(x)) continue;
 					$('<option />').attr('value', list[x].module_srl).text(list[x].browser_title).appendTo($mid_select);
 				}
-				$mid_select.prop('selectedIndex', 0);
+				$mid_select.prop('selectedIndex', 0).change();
 			});
 
 	return this;
@@ -887,7 +887,7 @@ $('.multiLangEdit')
 
 			$suggest.trigger('hide');
 
-			$this.closest('.multiLangEdit')	
+			$this.closest('.multiLangEdit')
 				.find('input.vLang,textarea.vLang')
 					.eq(0).val($this.data('langkey')).end()
 					.eq(1).val($this.text()).end();
@@ -996,7 +996,7 @@ function initLayer($layer) {
 				.find('a').text(mode==MODE_SAVE?cmd_edit:cmd_add).show().end();
 		}
 	};
-	
+
 	// process the submit button
 	$submit = $layer.find('input[type=submit]')
 		.click(function(){
@@ -1043,7 +1043,7 @@ function extractList(list) {
 
 		obj[item.name][item.lang_code] = item.value;
 	}
-	
+
 	return obj;
 };
 
