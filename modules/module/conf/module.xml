@@ -52,7 +52,7 @@
 	<menus>
 		<menu name="installedModule">
 			<title xml:lang="en">Installed Module</title>
-			<title xml:lang="ko">모듈</title>
+			<title xml:lang="ko">설치된 모듈</title>
 			<title xml:lang="zh-CN">Installed Module</title>
 			<title xml:lang="jp">Installed Module</title>
 			<title xml:lang="es">Installed Module</title>
