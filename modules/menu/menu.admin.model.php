@@ -221,5 +221,18 @@
             $this->add('tpl', str_replace("\n"," ",$tpl));
         }
 
+        /**
+         * @brief when menu add in sitemap, select module list
+		 * this menu showing with trigger
+         **/
+		function getModuleListInSitemap()
+		{
+            // after trigger
+			$moduleList = array('page');
+            $output = ModuleHandler::triggerCall('menu.getModuleListInSitemap', 'after', $moduleList);
+            if(!$output->toBool()) return $output;
+
+            return $moduleList;
+		}
     }
 ?>

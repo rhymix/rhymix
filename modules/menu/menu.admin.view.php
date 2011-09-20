@@ -139,18 +139,7 @@
             Context::set('menu_list', $menuList);
 
 			// get installed module list
-			$oModuleModel = &getModel('module');
-			$output = $oModuleModel->getModuleList();
-			if(is_array($output))
-			{
-				$installedModuleList = array();
-				foreach($output AS $key=>$value)
-				{
-					array_push($installedModuleList, $value->module);
-				}
-				$useModuleList = array('board', 'forum', 'wiki', 'page');
-			}
-			$resultModuleList = array_intersect($installedModuleList, $useModuleList);
+			$resultModuleList = $oMenuAdminModel->getModuleListInSitemap();
             Context::set('module_list', $resultModuleList);
 
 			// get default group list
