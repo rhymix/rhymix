@@ -187,6 +187,8 @@ $('div.gnb').xeMenu();
 // Modal Window
 jQuery(function($){
 
+var ESC = 27;
+
 $.fn.xeModalWindow = function(){
 	this
 		.not('.xe-modal-window')
@@ -250,7 +252,7 @@ $.fn.xeModalWindow = function(){
 			function after(){ $this.trigger('after-open.mw') };
 
 			$(document).bind('keydown.mw', function(event){
-				if(event.which == ESC_KEY) {
+				if(event.which == ESC) {
 					$this.trigger('close.mw');
 					return false;
 				}
