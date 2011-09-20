@@ -8,7 +8,7 @@ xe.ModuleListManager = xe.createApp("ModuleListManager", {
 
 	init: function(key){
 		var self = this;
-		var $keyObj = this.$keyObj = $('input[name='+key+']');
+		var $keyObj = this.$keyObj = $('.extra_vars input[name='+key+']');
 		this.$moduleNameObj = $keyObj.parent().find('.moduleList');
 		this.$moduleSrlObj  = $keyObj.parent().find('.moduleIdList');
 		this.$selectedObj   = $keyObj.parent().find('.modulelist_selected');

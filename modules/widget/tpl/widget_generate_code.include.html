@@ -1,5 +1,6 @@
 <load target="js/multi_order.js" usecdn="true" />
 <load target="js/module_list.js" usecdn="true" />
+<load target="js/mid.js" usecdn="true" />
 <!--%load_js_plugin("ui.colorpicker")-->
 
 <ul>
@@ -31,11 +32,11 @@
 {@$suggestion_id = 0}
 <block loop="$widget_info->extra_var => $id, $var">
 	{@$suggestion_id++}
-	<block cond="!$not_first && !$var->group"><ul></block>
+	<block cond="!$not_first && !$var->group"><ul class="extra_vars"></block>
 	<block cond="$group != $var->group">
 		<block cond="$not_first"></ul></block>
 		<h3 class="h3">{$var->group}</h3>
-		<ul>
+		<ul class="extra_vars">
 		{@$group = $var->group}
 	</block>
 	{@$not_first = true}
@@ -114,15 +115,22 @@
 				</script>
 			</block>
 			<block cond="$var->type == 'mid'">
-				<div class="a">
-					<input type="text" /> <a href="#suggestion_{$suggestion_id}" class="tgAnchor findsite">{$lang->find_site}</a>
-					<div id="suggestion_{$suggestion_id}" class="tgContent suggestion">
-						<ul>
-						</ul>
+				<input type="hidden" name="{$id}" value="" />
+				<input type="text" readonly="readonly" /> <button class="text search">{$lang->cmd_search}</button> <button class="text delete">{$lang->cmd_delete}</button>
+				<div class="finder" style="display: none;">
+					<div class="a">
+						<input type="text" class="site_keyword" /> <a href="#suggestion_{$suggestion_id}" class="tgAnchor findsite">{$lang->find_site}</a>
+						<div id="suggestion_{$suggestion_id}" class="tgContent suggestion">
+							<ul>
+							</ul>
+						</div>
 					</div>
+					<p class="a"><select class="moduleList" style="width:290px;"></select></p>
+					<p class="a"><select class="moduleIdList" style="width:290px;"></select> <button class="text">{$lang->cmd_select}</button></p>
 				</div>
-				<p class="a"><select class="moduleList" style="width:290px;"></select></p>
-				<p class="a"><select name="{$id}" class="moduleIdList" style="width:290px;"></select></p>
+				<script type="text/javascript">
+					xe.registerApp(new xe.MidManager('{$id}'));
+				</script>
 			</block>
 			<block cond="$var->type == 'filebox'">
 				{@$use_filebox = true}

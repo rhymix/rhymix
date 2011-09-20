@@ -7,7 +7,7 @@ xe.MultiOrderManager = xe.createApp("MultiOrderManager", {
 
 	init: function(key){
 		var self = this;
-		var $keyObj = this.$keyObj = jQuery('input[name='+key+']');
+		var $keyObj = this.$keyObj = jQuery('.extra_vars input[name='+key+']');
 		this.$showObj 		= $keyObj.parent().find('.multiorder_show');
 		this.$selectedObj 	= $keyObj.parent().find('.multiorder_selected');
 
