@@ -61,7 +61,8 @@
                     <tr loop="$member_list=>$no,$member_info">
 {@$member_info = get_object_vars($member_info)}
                         <td>
-                            <span class="member_{$member_info['member_srl']} masked">{getEncodeEmailAddress($member_info['email_address'])}</span>
+                            <span class="masked">{getEncodeEmailAddress($member_info['email_address'])}</span>
+							<a href="#popup_menu_area" class="cMenu member_{$member_info['member_srl']}">Info</a>
                         </td>
                         {@ $member_info['group_list'] = implode(', ', $member_info['group_list'])}
                         <td loop="$usedIdentifiers=>$name,$title">{$member_info[$name]}</td>
