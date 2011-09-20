@@ -59,7 +59,7 @@ function execute($dir) {
 	$js_files = get_target_files('js', $dir, $files_to_skip);
 
 	if(count($js_files) && !class_exists('JSMinPlus')) {
-		require dirname(__FILE__).'/minify/jsminplus/jsminplus.php';
+		require dirname(__FILE__).'/jsminplus/jsminplus.php';
 	}
 	foreach($js_files as $file) {
 		if(!is_readable($file)) continue;
@@ -95,7 +95,7 @@ function execute($dir) {
 	$css_files = get_target_files('css', $dir, $files_to_skip);
 
 	if(count($css_files) && !class_exists('CssMin')) {
-		require dirname(__FILE__).'/minify/cssmin/cssmin.php';
+		require dirname(__FILE__).'/cssmin/cssmin.php';
 	}
 
 	foreach($css_files as $file) {
