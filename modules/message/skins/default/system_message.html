@@ -1,0 +1,65 @@
+<load target="message.css" />
+<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
+<div id="loginAccess" class="gLogin">
+	<h1>{$system_message}</h1>
+	<!--@if(!$is_logged)-->
+    <!--%import("../../../../common/js/jquery.js")-->
+	<!--%import("./filter/openid_login.xml")-->
+	<!--%import("./message.js")-->
+	<div class="mLogin" id="gLogin">
+		<form ruleset="@login" action="./" method="post" id="gForm">
+		<input type="hidden" name="act" value="procMemberLogin" />
+			<fieldset>
+				<ul class="idpw">
+					<li><input type="text" name="user_id" id="uid" value="" class="inputText" title="{$lang->user_id}" /></li>
+					<li><input type="password" name="password" id="upw" value="" class="inputText" title="{$lang->password}" /></li>
+				</ul>
+				<div class="buttonArea">
+					<p class="keeping">
+						<input type="checkbox" name="keep_signed" id="keepid" class="inputCheck" value="Y" onclick="jQuery('#warning')[(jQuery('#keepid:checked').size()>0?'addClass':'removeClass')]('open');" />						
+						<label for="keepid">{$lang->keep_signed}</label>
+					</p>
+					<div id="warning" class="">
+						<p>{$lang->about_keep_warning}</p>
+					</div>
+					<span class="buttonAccount"><input type="submit" value="{$lang->cmd_login}" /></span>
+				</div>
+			</fieldset>
+		</form>
+		<ul class="help">
+			<li class="first"><a href="{getUrl('','act','dispMemberFindAccount')}"><span>{$lang->cmd_find_member_account}</span></a></li>
+			<li><a href="{getUrl('','act','dispMemberSignUpForm')}"><span>{$lang->cmd_signup}</span></a></li>
+			<!--@if($member_config->enable_openid=='Y')-->
+			<li><a href="#oLogin" onclick="jQuery('#loginAccess').removeClass('gLogin'); jQuery('#loginAccess').addClass('oLogin'); return false;">Open ID</a></li>
+			<!--@end-->
+		</ul>
+	</div>
+	
+	<!-- OpenID -->
+	<!--@if($member_config->enable_openid=='Y')-->
+	<div class="mLogin" id="oLogin">
+		<form ruleset="openidLogin" action="./" method="post" id="oForm">
+		<input type="hidden" name="module" value="member" />
+		<input type="hidden" name="act" value="procMemberOpenIDLogin" />
+		<input type="hidden" name="error_return_url" value="" />
+			<fieldset>
+					<div class="oid">
+						<input type="text" name="openid" class="inputText" title="Open ID" value="" />
+					</div>
+					<div class="buttonArea">
+					<span class="buttonAccount"><input type="submit" value="{$lang->cmd_login}" /></span>
+				</div>
+			</fieldset>
+		</form>
+		<div class="help"><a href="#gLogin" onclick="jQuery('#loginAccess').removeClass('oLogin'); jQuery('#loginAccess').addClass('gLogin'); return false;">{$lang->cmd_common_id}</a></div>
+	</div>
+	<!--@end-->
+	<!--@end-->
+	<!--@if($is_logged)-->
+	<div class="logOut">
+		<span class="buttonAccount"><a href="{getUrl('act','dispMemberLogout','module','')}">{$lang->cmd_logout}</a></span>
+	</div>
+	<!--@end-->
+</div>
