@@ -4,7 +4,7 @@
 </div>
 <div id="loginAccess" class="gLogin">
 	<h1>{$system_message}</h1>
-	<!--@if(!$is_logged)-->
+	<!--@if(!$is_logged && $module == 'admin')-->
     <!--%import("../../../../common/js/jquery.js")-->
 	<!--%import("./filter/openid_login.xml")-->
 	<!--%import("./message.js")-->
@@ -57,7 +57,7 @@
 	</div>
 	<!--@end-->
 	<!--@end-->
-	<!--@if($is_logged)-->
+	<!--@if($is_logged && $module == 'admin')-->
 	<div class="logOut">
 		<span class="buttonAccount"><a href="{getUrl('act','dispMemberLogout','module','')}">{$lang->cmd_logout}</a></span>
 	</div>
