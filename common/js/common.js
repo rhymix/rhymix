@@ -449,17 +449,8 @@ function zbxe_folder_close(id) {
  **/
 function setFixedPopupSize() {
 	var $ = jQuery;
-    var $header = $('#popHeader');
-    var $body   = $('#popBody');
-
-	if ($body.length) {
-		if ($body.height() > 400) {
-			$body.css({ overflow:'auto', overflowX:'hidden', height:400+'px' });
-		}
-	}
-
 	var $win = $(window);
-	var $pc  = $('#popup_content');
+	var $pc  = $('body>.x');
 	var w    = Math.max($pc[0].offsetWidth, 600);
 	var h    = $pc[0].offsetHeight;
 	var dw   = $win.width();
