@@ -80,7 +80,8 @@ jQuery(function($){
 
 	suForm.find('._imageType')
 		.find('input:checkbox:not(:checked)').closest('tr')
-		.find('._subItem').hide().end()
+			.find('._subItem').hide().end()
+			.end()
 		.end()
 		.find('input:checkbox')
 			.change(function(){

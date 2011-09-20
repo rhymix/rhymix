@@ -1,12 +1,14 @@
 <include target="./common_header.html" />
 <load target="../../tpl/js/signup_check.js" />
-<load target="filter/delete_profile_image.xml" cond="$member_config->profile_image == 'Y'" />
-<load target="filter/delete_image_name.xml" cond="$member_config->image_name == 'Y'" />
-<load target="filter/delete_image_mark.xml" cond="$member_config->image_mark == 'Y'" />
 <!--// datepicker javascript plugin load -->
 <!--%load_js_plugin("ui")-->
 <!--%load_js_plugin("ui.datepicker")-->
 <h1 class="h1">{$lang->msg_update_member}</h1>
+<script type="text/javascript" >
+	xe.lang.deleteProfileImage = '{$lang->msg_delete_extend_form}';
+	xe.lang.deleteImageMark = '{$lang->msg_delete_extend_form}';
+	xe.lang.deleteImageName = '{$lang->msg_delete_extend_form}';
+</script>
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
@@ -65,5 +67,4 @@
     });
 })(jQuery);
 </script>
-<iframe id="tmp_upload_iframe" name="tmp_upload_iframe" style="display:none"></iframe>
 <include target="./common_footer.html" />
