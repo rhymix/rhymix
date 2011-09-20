@@ -2,6 +2,7 @@
 <ul cond="$filebox_list" class="lined">
 	<li loop="$filebox_list=>$key,$fileInfo">
 		<a href="#" class="select"><img class="filebox_item" src="{$fileInfo->filename}" title="{$fileInfo->comment}" /></a>
+		<span>{$fileInfo->comment}</span>
 	</li>
 </ul>
 <div class="pagination" cond="$page_navigation">
