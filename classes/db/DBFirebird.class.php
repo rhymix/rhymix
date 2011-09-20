@@ -716,19 +716,21 @@
         }
 
     	function queryError($queryObject) {
-        if ($queryObject->getLimit() && $queryObject->getLimit()->isPageHandler()) {
-            $buff = new Object ();
-            $buff->total_count = 0;
-            $buff->total_page = 0;
-            $buff->page = 1;
-            $buff->data = array();
-            $buff->page_navigation = new PageHandler(/* $total_count */0, /* $total_page */1, /* $page */1, /* $page_count */10); //default page handler values
-        }else
-            return;
-    }
+            $limit = $queryObject->getLimit();
+            if ($limit  && $limit->isPageHandler()) {
+                $buff = new Object ();
+                $buff->total_count = 0;
+                $buff->total_page = 0;
+                $buff->page = 1;
+                $buff->data = array();
+                $buff->page_navigation = new PageHandler(/* $total_count */0, /* $total_page */1, /* $page */1, /* $page_count */10); //default page handler values
+            }else
+                return;
+        }
 
     function queryPageLimit($queryObject, $result, $connection) {
-        if ($queryObject->getLimit() && $queryObject->getLimit()->isPageHandler()) {
+        $limit = $queryObject->getLimit();
+        if ($limit && $limit->isPageHandler()) {
             // Total count
             $count_query = sprintf('select count(*) as "count" %s %s', 'FROM ' . $queryObject->getFromString(), ($queryObject->getWhereString() === '' ? '' : ' WHERE ' . $queryObject->getWhereString()));
             if ($queryObject->getGroupByString() != '') {
@@ -740,11 +742,11 @@
             $count_output = $this->_fetch($result_count);
             $total_count = (int) $count_output->count;
 
-            $list_count = $queryObject->getLimit()->list_count->getValue();
+            $list_count = $limit->list_count->getValue();
             if (!$list_count) $list_count = 20;
-            $page_count = $queryObject->getLimit()->page_count->getValue();
+            $page_count = $limit->page_count->getValue();
             if (!$page_count) $page_count = 10;
-            $page = $queryObject->getLimit()->page->getValue();
+            $page = $limit->page->getValue();
             if (!$page) $page = 1;
             // Total pages
             if ($total_count)   $total_page = (int) (($total_count - 1) / $list_count) + 1;
@@ -789,11 +791,11 @@
     }
 
     function getSelectSql($query, $with_values = true, $start_count = 0) {
-
-        if ($query->getLimit() && $query->getLimit()->isPageHandler()) {
-            $list_count = $query->getLimit()->list_count->getValue();
-            if(!$query->getLimit()->page) $page = 1;
-            else $page = $query->getLimit()->page->getValue();
+        $limit = $query->getLimit();
+        if ($limit && $limit->isPageHandler()) {
+            $list_count = $limit->list_count->getValue();
+            if(!$limit->page) $page = 1;
+            else $page = $limit->page->getValue();
             if(!$start_count)
                 $start_count = ($page - 1) * $list_count;
             $limit = sprintf('SELECT FIRST %d SKIP %d ', $list_count, $start_count);
@@ -804,7 +806,7 @@
         if ($select == '')
             return new Object(-1, "Invalid query");
 
-        if ($query->getLimit() && $query->getLimit()->isPageHandler())
+        if ($limit && $limit->isPageHandler())
             $select = $limit . ' ' . $select;
         else
             $select = 'SELECT ' . $select;

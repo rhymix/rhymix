@@ -518,7 +518,8 @@ class DBPostgresql extends DB
 		if($orderBy != '') $orderBy = ' ORDER BY ' . $orderBy;
 
 	 	$limit = $query->getLimitString();
-	 	if($limit != '') $limit = ' LIMIT ' . $query->getLimit()->getLimit() . ' OFFSET ' . $query->getLimit()->getOffset();
+                $limitObject = $query->getLimit();
+	 	if($limit != '') $limit = ' LIMIT ' . $limitObject->getLimit() . ' OFFSET ' . $limitObject->getOffset();
 
 	 	return $select . ' ' . $from . ' ' . $where . ' ' . $groupBy . ' ' . $orderBy . ' ' . $limit;
     }
@@ -554,7 +555,8 @@ class DBPostgresql extends DB
 					return;
 			}
 
-		 	if ($queryObject->getLimit() && $queryObject->getLimit()->isPageHandler()) {
+                        $limit = $queryObject->getLimit();
+		 	if ($limit && $limit->isPageHandler()) {
 		 		// Total count
 		 		$count_query = sprintf('select count(*) as "count" %s %s', 'FROM ' . $queryObject->getFromString(), ($queryObject->getWhereString() === '' ? '' : ' WHERE '. $queryObject->getWhereString()));
 				if ($queryObject->getGroupByString() != '') {
@@ -568,19 +570,19 @@ class DBPostgresql extends DB
 
 				// Total pages
 				if ($total_count) {
-					$total_page = (int) (($total_count - 1) / $queryObject->getLimit()->list_count) + 1;
+					$total_page = (int) (($total_count - 1) / $limit->list_count) + 1;
 				}	else	$total_page = 1;
 
 
-		 		$virtual_no = $total_count - ($queryObject->getLimit()->page - 1) * $queryObject->getLimit()->list_count;
+		 		$virtual_no = $total_count - ($limit->page - 1) * $limit->list_count;
 		 		$data = $this->_fetch($result, $virtual_no);
 
 		 		$buff = new Object ();
 				$buff->total_count = $total_count;
 				$buff->total_page = $total_page;
-				$buff->page = $queryObject->getLimit()->page->getValue();
+				$buff->page = $limit->page->getValue();
 				$buff->data = $data;
-				$buff->page_navigation = new PageHandler($total_count, $total_page, $queryObject->getLimit()->page->getValue(), $queryObject->getLimit()->page_count);
+				$buff->page_navigation = new PageHandler($total_count, $total_page, $limit->page->getValue(), $limit->page_count);
 			}else{
 				$data = $this->_fetch($result);
 				$buff = new Object ();

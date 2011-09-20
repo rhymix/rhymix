@@ -81,19 +81,19 @@
             if(!$this->database) return;
 
             // Attempt to access the database file
-			try {
-				// PDO is only supported with PHP5,
-				// so it is allowed to use try~catch statment in this class.
-				$this->handler = new PDO('sqlite:'.$this->database);
-			} catch (PDOException $e) {
-				$this->setError(-1, 'Connection failed: '.$e->getMessage());
-				$this->is_connected = false;
-				return;
-			}
+            try {
+                    // PDO is only supported with PHP5,
+                    // so it is allowed to use try~catch statment in this class.
+                    $this->handler = new PDO('sqlite:'.$this->database);
+            } catch (PDOException $e) {
+                    $this->setError(-1, 'Connection failed: '.$e->getMessage());
+                    $this->is_connected = false;
+                    return;
+            }
 
             // Check connections
             $this->is_connected = true;
-			$this->password = md5($this->password);
+            $this->password = md5($this->password);
         }
 
         /**

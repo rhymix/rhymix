@@ -598,7 +598,8 @@
 		}
 
 		function queryError($queryObject){
-			if ($queryObject->getLimit() && $queryObject->getLimit()->isPageHandler()){
+                        $limit = $queryObject->getLimit();
+			if ($limit && $limit->isPageHandler()){
 					$buff = new Object ();
 					$buff->total_count = 0;
 					$buff->total_page = 0;
@@ -611,7 +612,8 @@
 		}
 
 		function queryPageLimit($queryObject, $result, $connection){
-        		if ($queryObject->getLimit() && $queryObject->getLimit()->isPageHandler()) {
+                        $limit = $queryObject->getLimit();
+        		if ($limit && $limit->isPageHandler()) {
 
 		 	// Total count
 		 	$count_query = sprintf('select count(*) as "count" %s %s', 'FROM ' . $queryObject->getFromString(), ($queryObject->getWhereString() === '' ? '' : ' WHERE '. $queryObject->getWhereString()));
@@ -624,11 +626,11 @@
 			$count_output = $this->_fetch($result);
 			$total_count = (int)$count_output->count;
 
-			$list_count = $queryObject->getLimit()->list_count->getValue();
+			$list_count = $limit->list_count->getValue();
 			if (!$list_count) $list_count = 20;
-			$page_count = $queryObject->getLimit()->page_count->getValue();
+			$page_count = $limit->page_count->getValue();
 			if (!$page_count) $page_count = 10;
-			$page = $queryObject->getLimit()->page->getValue();
+			$page = $limit->page->getValue();
 			if (!$page) $page = 1;
 
 			// total pages
