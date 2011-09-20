@@ -738,30 +738,6 @@ Lütfen son sürümü için indirme linkine tıklayınız.]]></value>
 		<value xml:lang="tr"><![CDATA[Lütfen önbellek geri plan yordamını veya Memcached' ı yeniden başlatınız.]]></value>
 		<value xml:lang="vi"><![CDATA[Hãy thiết lập lại bộ nhớ Cache hoặc Deamon Cache.]]></value>
 	</item>
-	<item name="mobile_view">
-		<value xml:lang="ko"><![CDATA[모바일 뷰 사용]]></value>
-		<value xml:lang="en"><![CDATA[Mobile View]]></value>
-		<value xml:lang="jp"><![CDATA[モバイルスキン使用]]></value>
-		<value xml:lang="zh-CN"><![CDATA[开启移动版]]></value>
-		<value xml:lang="zh-TW"><![CDATA[手機瀏覽]]></value>
-		<value xml:lang="fr"><![CDATA[Use Mobile View]]></value>
-		<value xml:lang="ru"><![CDATA[Use Mobile View]]></value>
-		<value xml:lang="es"><![CDATA[Use Mobile View]]></value>
-		<value xml:lang="tr"><![CDATA[Hareketli Görünümü]]></value>
-		<value xml:lang="vi"><![CDATA[Xem bằng di động]]></value>
-	</item>
-	<item name="about_mobile_view">
-		<value xml:lang="ko"><![CDATA[스마트폰 등을 이용하여 접속할 때 모바일 화면에 최적화된 레이아웃을 이용하도록 합니다.]]></value>
-		<value xml:lang="en"><![CDATA[Mobile View will display the best layout when accessing with smartphones.]]></value>
-		<value xml:lang="jp"><![CDATA[スマート携帯などを通じてサイトに接続した場合、モバイル画面に最適化されたレイアウトを使用するように設定します。]]></value>
-		<value xml:lang="zh-CN"><![CDATA[为智能手机访问网站，提供最佳视觉效果。]]></value>
-		<value xml:lang="zh-TW"><![CDATA[使用手機瀏覽時將會顯示最適當的畫面。]]></value>
-		<value xml:lang="fr"><![CDATA[If accessing with a smartphone, display content with mobile layout.]]></value>
-		<value xml:lang="ru"><![CDATA[If accessing with a smartphone, display content with mobile layout.]]></value>
-		<value xml:lang="es"><![CDATA[If accessing with a smartphone, display content with mobile layout.]]></value>
-		<value xml:lang="tr"><![CDATA[Hareketli görünümü, mobil cihazlarla giriş yapılırken, mobil cihazlara uygun en iyi yerleşim düzenini göstermek içindir.]]></value>
-		<value xml:lang="vi"><![CDATA[Nếu truy cập bằng thiết bị di động, nội dung sẽ được bố trí theo từng loại thiết bị.]]></value>
-	</item>
 	<item name="autoinstall">
 		<value xml:lang="ko"><![CDATA[쉬운 설치]]></value>
 		<value xml:lang="en"><![CDATA[EasyInstall]]></value>
