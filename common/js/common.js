@@ -450,7 +450,7 @@ function zbxe_folder_close(id) {
 function setFixedPopupSize() {
 	var $ = jQuery;
 	var $win = $(window);
-	var $pc  = $('body>.x');
+	var $pc  = $('body>.popup');
 	var w    = Math.max($pc[0].offsetWidth, 600);
 	var h    = $pc[0].offsetHeight;
 	var dw   = $win.width();
