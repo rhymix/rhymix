@@ -47,8 +47,4 @@
 .message.error{border-color:#EFDCDC;background:#FFECEC url(../../common/tpl/images/msg.error.png) no-repeat 1em .5em}
 .message.update{border-color:#EAE9DC;background:#FFFDEF url(../../common/tpl/images/msg.update.png) no-repeat 1em .5em}
 /* Waiting for server response */
-.wfsr{display:none;z-index:100;background:#FFC;position:absolute;position:fixed;top:0;left:0;text-align:center;border:3px solid #333;border-left:0;border-right:0;width:100%;padding:1em 0;box-shadow:0 0 6px #000;font-size:14px}
-.wfsr .bg{position:absolute;background:#000;_background:none;width:100%;height:100%;opacity:.5;filter:progid:DXImageTransform.Microsoft.Alpha(opacity=50);zoom:1}
-.wfsr .fg{position:relative;width:50%;margin:5em auto;background:#fff;padding:0 1em;*padding:1em;border:10px solid #ddd;z-index:2;zoom:1}
-.wfsr .fg p{padding:0 0 0 2.5em;background:url(../img/preLoader16.gif) no-repeat 1em .4em}
-.wfsr .ie6{position:absolute;left:0;top:0;width:100%;height:100%;border:0;opacity:0;filter:alpha(opacity=0);z-index:1}
+.wfsr{display:none;position:absolute;position:fixed;left:0;top:0;z-index:100; border:1px solid #EAE9DC;background:#FFFDEF url(../../common/tpl/images/msg.update.png) no-repeat 1em .5em;margin:1em;padding:1em 1em 1em 55px;border-radius:5px;line-height:1.4;font-size:12px}
