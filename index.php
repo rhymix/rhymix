@@ -33,7 +33,8 @@
     /**
      * @brief Declare constants for generic use and for checking to avoid a direct call from the Web
      **/
-    define('__ZBXE__', true);
+    define('__ZBXE__', true); // deprecated : The constant ZBXE will be removed. Use XE instead.
+	define('__XE__',   true);
 
     /**
      * @brief Include the necessary configuration files
