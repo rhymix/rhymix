@@ -227,12 +227,36 @@
          **/
 		function getModuleListInSitemap()
 		{
-            // after trigger
+			$oModuleModel = &getModel('module');
+			$columnList = array('module');
 			$moduleList = array('page');
+
+			$output = $oModuleModel->getModuleListByInstance($columnList);
+			if(is_array($output->data))
+			{
+				foreach($output->data AS $key=>$value)
+				{
+					array_push($moduleList, $value->module);
+				}
+			}
+
+            // after trigger
             $output = ModuleHandler::triggerCall('menu.getModuleListInSitemap', 'after', $moduleList);
             if(!$output->toBool()) return $output;
 
-            return $moduleList;
+			$moduleList = array_unique($moduleList);
+
+			$moduleInfoList = array();
+			if(is_array($moduleList))
+			{
+				foreach($moduleList AS $key=>$value)
+				{
+					$moduleInfo = $oModuleModel->getModuleInfoXml($value);
+					$moduleInfoList[$value] = $moduleInfo;
+				}
+			}
+
+            return $moduleInfoList;
 		}
     }
 ?>

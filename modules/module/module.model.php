@@ -1514,6 +1514,15 @@
 			$this->add('results', $list);
 		}
 
+        /**
+         * @brief already instance created module list
+         **/
+		function getModuleListByInstance($columnList = array())
+		{
+			$output = executeQueryArray('module.getModuleListByInstance', $args, $columnList);
+			return $output;
+		}
+
 		function getLangByLangcode()
 		{
 			$langCode = Context::get('langCode');

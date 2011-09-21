@@ -56,7 +56,8 @@ $('form.siteMap')
 		else
 		{
 			inputCType[1].checked = true;
-			editForm.find('input[name=select_menu_url]').val(menuItem.url);
+			editForm.find('select[name=module_type]').val(moduleType);
+			editForm.find('select[name=select_menu_url]').val(menuItem.url);
 		}
 		typeCheck();
 		getModuleList();
