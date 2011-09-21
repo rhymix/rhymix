@@ -739,9 +739,6 @@ Bài viết tự động lưu sẽ tự động hủy sau khi bạn hoàn thành
 			<item name="verdana">
 				<value xml:lang="ko"><![CDATA[Verdana, Geneva, sans-serif]]></value>
 			</item>
-			<item name="sans-serif">
-				<value xml:lang="ko"><![CDATA[Sans-serif]]></value>
-			</item>
 			<item name="georgia">
 				<value xml:lang="ko"><![CDATA[Georgia, 'Times New Roman', Times, serif]]></value>
 			</item>
@@ -750,9 +747,6 @@ Bài viết tự động lưu sẽ tự động hủy sau khi bạn hoàn thành
 			</item>
 			<item name="timesNewRoman">
 				<value xml:lang="ko"><![CDATA['Times New Roman', Times, serif]]></value>
-			</item>		
-			<item name="serif">
-				<value xml:lang="ko"><![CDATA[Serif]]></value>
 			</item>		
 			<item name="courierNew">
 				<value xml:lang="ko"><![CDATA['Courier New', Courier, monospace]]></value>

@@ -406,7 +406,7 @@
                     <div class="layer extension2 xpress_xeditor_extension_layer" id="editorExtension_{$editor_sequence}">
                         <ul id="editor_component_{$editor_sequence}" class="editorComponent">
                             <!--@foreach($component_list as $component_name => $component)-->
-                                <li><!--@if($component->component_icon)--><img src="../../components/{$component_name}/component_icon.gif" alt="" width="13" height="12"/> <!--@end--><a href="#" onclick="return false;" id="component_{$editor_sequence}_{$component_name}">{$component->title}</a></li>
+                                <li><a href="#" onclick="return false;" id="component_{$editor_sequence}_{$component_name}">{$component->title}</a></li>
                             <!--@end-->
                         </ul>
                     </div>
@@ -466,9 +466,9 @@
                 <select id="uploaded_file_list_{$editor_sequence}" multiple="multiple" class="fileList" title="Attached File List"><option></option></select>
             </div>
             <div class="fileUploadControl">
-                <span class="button {$btn_class}" id="swfUploadButton{$editor_sequence}"><button type="button">{$lang->edit->upload_file}</button></span>
-                <span class="button {$btn_class}"><button type="button" onclick="removeUploadedFile('{$editor_sequence}');return false;">{$lang->edit->delete_selected}</button></span>
-                <span class="button {$btn_class}"><button type="button" onclick="insertUploadedFile('{$editor_sequence}');return false;">{$lang->edit->link_file}</button></span>
+				<button type="button" id="swfUploadButton{$editor_sequence}" class="text">{$lang->edit->upload_file}</button>
+				<button type="button" onclick="removeUploadedFile('{$editor_sequence}');" class="text">{$lang->edit->delete_selected}</button>
+				<button type="button" onclick="insertUploadedFile('{$editor_sequence}');" class="text">{$lang->edit->link_file}</button>
             </div>
             <div class="file_attach_info" id="uploader_status_{$editor_sequence}">{$upload_status}</div>
         </div>

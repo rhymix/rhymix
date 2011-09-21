@@ -11,10 +11,10 @@
 .xpress-editor img,
 .xpress-editor fieldset,
 .xpress-editor button{ border:0;}
-.xpress-editor button{ background:none; background-repeat:no-repeat; cursor:pointer; _cursor /**/:hand;}
+.xpress-editor button{ background:none; background-repeat:no-repeat; cursor:pointer; }
 .xpress-editor button *{ visibility:hidden;}
 .xpress-editor legend{ position:absolute; width:0; height:0; font-size:0; line-height:0; overflow:hidden; visibility:hidden;}
-.xpress-editor label{ cursor:pointer; _cursor /**/:hand;}
+.xpress-editor label{ cursor:pointer; }
 .xpress-editor hr{ display:none;}
 .xpress-editor li{list-style:none;}
 
@@ -59,10 +59,10 @@
 .xpress-editor .tool ul.type{ width:auto; white-space:nowrap;}
 .xpress-editor .tool ul.style{ width:169px; z-index:6;}
 .xpress-editor .tool ul.paragraph{ width:169px; z-index:5;}
-.xpress-editor .tool ul.extra1{ width:90px; z-index:4;}
+.xpress-editor .tool ul.extra1{ width:69px; z-index:4;}
 .xpress-editor .tool ul.table{ width:85px; z-index:3;}
 .xpress-editor .tool ul.extra2{ width:auto; z-index:2;}
-.xpress-editor .tool ul.extra3{ float:right; width:auto; z-index:1; margin-right:1px;}
+.xpress-editor .tool ul.extra3{ float:left; width:auto; z-index:1; margin-right:1px;}
 .xpress-editor .tool ul.extra3 li{ margin-right:4px;}
 .xpress-editor .tool li{ position:relative; float:left; margin:0 !important}
 .xpress-editor .tool li button{ width:21px; height:21px; background:url(../img/btn_set.gif) no-repeat 0 0; vertical-align:top;}
@@ -70,11 +70,10 @@
 .xpress-editor .tool li button span{ position:absolute; top:0; left:0; width:0; height:0; overflow:hidden; visibility:hidden;}
 
 .xpress-editor .tool li.extensions span.exButton,
-.xpress-editor .tool li.extensions span.exButton button{ float:left; position:relative; display:inline-block; width:auto; background:url(../img/btn_extension.gif) no-repeat left top;}
-.xpress-editor .tool li.extensions span.exButton{ margin-right:18px;}
-.xpress-editor .tool li.extensions span.exButton button{ left:18px; height:21px; background-position:right top; padding:0 4px 0 0; font:11px/21px Tahoma, Sans-serif; text-align:left; *overflow:visible; *line-height:20px;}
+.xpress-editor .tool li.extensions span.exButton button{ float:left; position:relative; display:inline-block; width:auto; background:url(../img/btn_set_blank.gif) no-repeat left top;}
+.xpress-editor .tool li.extensions span.exButton button{ left:2px; height:21px; background-position:right top; padding:0 4px; font:11px/21px Tahoma, Sans-serif; text-align:left; *overflow:visible; *line-height:20px;}
 .xpress-editor.black .tool li.extensions span.exButton,
-.xpress-editor.black .tool li.extensions span.exButton button{ color:#fff; background-image:url(../img/btn_extension.black.gif); }
+.xpress-editor.black .tool li.extensions span.exButton button{ color:#fff; background-image:url(../img/btn_set_blank.black.gif); }
 
 .xpress-editor .tool li.html span,
 .xpress-editor .tool li.html span button,
@@ -116,11 +115,10 @@
 .xpress-editor .tool li.blockquote button{ width:22px; background-position:-381px 0;}
 .xpress-editor .tool li.url button{ width:26px; background-position:-403px 0;}
 .xpress-editor .tool li.character button{ background-position:-429px 0;}
-.xpress-editor .tool li.find button{ background-position:-450px 0;}
-.xpress-editor .tool li.table button{ width:22px; background-position:-471px 0;}
-.xpress-editor .tool li.merge button{ background-position:-493px 0;}
-.xpress-editor .tool li.splitCol button{ background-position:-514px 0;}
-.xpress-editor .tool li.splitRow button{ background-position:-535px 0;}
+.xpress-editor .tool li.table button{ width:22px; background-position:-450px 0;}
+.xpress-editor .tool li.merge button{ background-position:-472px 0;}
+.xpress-editor .tool li.splitCol button{ background-position:-493px 0;}
+.xpress-editor .tool li.splitRow button{ background-position:-514px 0;}
 .xpress-editor .tool li.extensions span{ background-position:0 0;}
 .xpress-editor .tool li.extensions span button{ background-position:right 0;}
 .xpress-editor .tool li.html span{ background-position:0 0;}
@@ -150,11 +148,10 @@
 .xpress-editor .tool li.blockquote button.hover{ width:22px; background-position:-381px -21px;}
 .xpress-editor .tool li.url button.hover{ width:26px; background-position:-403px -21px;}
 .xpress-editor .tool li.character button.hover{ background-position:-429px -21px;}
-.xpress-editor .tool li.find button.hover{ background-position:-450px -21px;}
-.xpress-editor .tool li.table button.hover{ width:22px; background-position:-471px -21px;}
-.xpress-editor .tool li.merge button.hover{ background-position:-493px -21px;}
-.xpress-editor .tool li.splitCol button.hover{ background-position:-514px -21px;}
-.xpress-editor .tool li.splitRow button.hover{ background-position:-535px -21px;}
+.xpress-editor .tool li.table button.hover{ width:22px; background-position:-450px -21px;}
+.xpress-editor .tool li.merge button.hover{ background-position:-472px -21px;}
+.xpress-editor .tool li.splitCol button.hover{ background-position:-493px -21px;}
+.xpress-editor .tool li.splitRow button.hover{ background-position:-514px -21px;}
 .xpress-editor .tool li.extensions span.hover{ background-position:0 -21px;}
 .xpress-editor .tool li.extensions span.hover button{ background-position:right -21px;}
 .xpress-editor .tool li.html span.hover{ background-position:0 -21px;}
@@ -184,11 +181,10 @@
 .xpress-editor .tool li.blockquote button.active{ width:22px; background-position:-381px -42px;}
 .xpress-editor .tool li.url button.active{ width:26px; background-position:-403px -42px;}
 .xpress-editor .tool li.character button.active{ background-position:-429px -42px;}
-.xpress-editor .tool li.find button.active{ background-position:-450px -42px;}
-.xpress-editor .tool li.table button.active{ width:22px; background-position:-471px -42px;}
-.xpress-editor .tool li.merge button.active{ background-position:-493px -42px;}
-.xpress-editor .tool li.splitCol button.active{ background-position:-514px -42px;}
-.xpress-editor .tool li.splitRow button.active{ background-position:-535px -42px;}
+.xpress-editor .tool li.table button.active{ width:22px; background-position:-450px -42px;}
+.xpress-editor .tool li.merge button.active{ background-position:-472px -42px;}
+.xpress-editor .tool li.splitCol button.active{ background-position:-493px -42px;}
+.xpress-editor .tool li.splitRow button.active{ background-position:-514px -42px;}
 .xpress-editor .tool li.extensions span.active{ background-position:0 -42px;}
 .xpress-editor .tool li.extensions span.active button{ background-position:right -42px;}
 .xpress-editor .tool li.html span.active{ background-position:0 -42px;}
@@ -220,14 +216,13 @@
 .xpress-editor .tool.off li.blockquote button{ width:22px; background-position:-381px -63px;}
 .xpress-editor .tool.off li.url button{ width:26px; background-position:-403px -63px;}
 .xpress-editor .tool.off li.character button{ background-position:-429px -63px;}
-.xpress-editor .tool.off li.find button{ background-position:-450px -63px;}
-.xpress-editor .tool.off li.table button{ width:22px; background-position:-471px -63px;}
+.xpress-editor .tool.off li.table button{ width:22px; background-position:-450px -63px;}
 .xpress-editor .tool.off li.merge button,
-.xpress-editor .tool li.merge button.off{ background-position:-493px -63px;}
+.xpress-editor .tool li.merge button.off{ background-position:-472px -63px;}
 .xpress-editor .tool.off li.splitCol button,
-.xpress-editor .tool li.splitCol button.off{ background-position:-514px -63px;}
+.xpress-editor .tool li.splitCol button.off{ background-position:-493px -63px;}
 .xpress-editor .tool.off li.splitRow button,
-.xpress-editor .tool li.splitRow button.off{ background-position:-535px -63px;}
+.xpress-editor .tool li.splitRow button.off{ background-position:-514px -63px;}
 .xpress-editor .tool.off li.extensions span{ background-position:0 -63px;}
 .xpress-editor .tool.off li.extensions span button{ background-position:right -63px; color:#bcbcbc;}
 .xpress-editor .tool.off li button{ cursor:default;}
@@ -354,37 +349,6 @@
 .xpress-editor .tool li.character .layer p input{ padding:3px 0 0 4px; margin:0 4px 0 0; width:300px; _width /**/:306px; height:16px; _height /**/:20px; border:1px solid #acacac; border-right:1px solid #dadada; border-bottom:1px solid #dadada;}
 .xpress-editor .tool li.character .layer p button{ position:relative; *top:1px; width:38px; height:21px; background:url(../img/btn_layer_confirm.gif) no-repeat;}
 .xpress-editor .tool li.character .layer p button span{ position:absolute; width:0; height:0; overflow:hidden; visibility:hidden;}
-
-.xpress-editor .tool li.find .layer{ width:242px;}
-.xpress-editor .tool li.find .layer h3{ background:#f2f2f2; color:#333; height:21px; margin:0 0 11px 0; padding:7px 0 0 5px;}
-.xpress-editor .tool li.find .layer .menu_tab{ position:relative; z-index:20; width:100%; *zoom:1;}
-.xpress-editor .tool li.find .layer .menu_tab:after{ content:""; display:block; clear:both;}
-.xpress-editor .tool li.find .layer .layer_tab{ position:relative; left:10px; padding:0; margin:0; clear:both;}
-.xpress-editor .tool li.find .layer .layer_tab li{ position:relative; z-index:1; float:left; margin-right:1px; background:url(../img/btn_layer_tab.gif) no-repeat 0 0;}
-.xpress-editor .tool li.find .layer .layer_tab li a{ position:relative; display:block; float:left; left:2px; height:15px; padding:4px 9px 0 5px; color:#404040; text-decoration:none; background:url(../img/btn_layer_tab.gif) no-repeat right 0;}
-.xpress-editor .tool li.find .layer.find .layer_tab li.tab1,
-.xpress-editor .tool li.find .layer.replace .layer_tab li.tab2{ top:-1px; margin-bottom:-1px;}
-.xpress-editor .tool li.find .layer.find .layer_tab li.tab1 a,
-.xpress-editor .tool li.find .layer.replace .layer_tab li.tab2 a{ height:18px;}
-.xpress-editor .tool li.find .layer .container{ position:relative; z-index:1; clear:both; top:-2px;}
-.xpress-editor .tool li.find .layer .container .bx{ display:none; position:relative; width:222px; left:10px; clear:both; z-index:1; background:url(../img/bx_find.gif) no-repeat;}
-.xpress-editor .tool li.find .layer.find .container #find,
-.xpress-editor .tool li.find .layer.replace .container #replace{ display:block;}
-
-.xpress-editor .tool li.find .layer .bx fieldset{ position:relative; padding:13px 0 17px 11px;}
-.xpress-editor .tool li.find .layer .bx fieldset *{ vertical-align:top;}
-.xpress-editor .tool li.find .layer .bx label{ position:relative; top:4px; margin:0 7px 0 0; font-size:11px; letter-spacing:-1px; color:#333;}
-.xpress-editor .tool li.find .layer .bx input{ padding:3px 0 0 4px; width:144px; _width /**/:150px; height:14px; _height /**/:19px; border:1px solid #acacac; border-right:1px solid #dadada; border-bottom:1px solid #dadada;}
-.xpress-editor .tool li.find .layer .bx .cap{ position:absolute; left:0; bottom:0; display:block; width:222px; height:2px; _margin:0 0 -1px 0; overflow:hidden; background:#fff url(../img/bx_find.gif) no-repeat left bottom; font-size:0; line-height:0;}
-.xpress-editor .tool li.find .layer .bx#replace fieldset{ height:45px; _height /**/:75px;}
-.xpress-editor .tool li.find .layer .bx#replace fieldset #keyword2{ margin-bottom:6px;}
-.xpress-editor .tool li.find .layer .btn_area button{ display:none; *margin:0 2px !important;}
-.xpress-editor .tool li.find .layer.find .btn_area .find_next{ display:inline; width:62px; height:21px; background:url(../img/btn_layer_find_next_strong.gif) no-repeat;}
-.xpress-editor .tool li.find .layer.replace .btn_area .find_next{ display:inline; width:55px; height:21px; background:url(../img/btn_layer_find_next.gif) no-repeat;}
-.xpress-editor .tool li.find .layer.replace .btn_area .replace{ display:inline; width:48px; height:21px; background:url(../img/btn_layer_replace.gif) no-repeat;}
-.xpress-editor .tool li.find .layer.replace .btn_area .replace_all{ display:inline; width:69px; height:21px; background:url(../img/btn_layer_replace_all.gif) no-repeat;}
-.xpress-editor .tool li.find .layer .btn_area .cancel{ display:inline;}
-
 .xpress-editor .tool li.extensions .layer{ width:auto; white-space:nowrap; padding:5px 10px;}
 .xpress-editor .tool li.extensions .layer li{ margin:2px 0;}
 .xpress-editor .tool li.extensions .layer li a { color:#000; text-decoration:none; }
@@ -397,13 +361,13 @@
 .xpress-editor .fileUploader .preview.black { background-color:#000; border:1px solid #666;}
 .xpress-editor .fileUploader .preview img{ display:block; width:64px; height:64px;}
 .xpress-editor .fileUploader .fileListArea{ float:left; width:260px; margin:0 10px 5px 0;}
-.xpress-editor .fileUploader .fileListArea select{ width:100%; height:70px; overflow:auto;}
+.xpress-editor .fileUploader .fileListArea select{ width:100%; height:70px; overflow:auto; margin:0; padding:0; float:none}
 .xpress-editor .fileUploader .fileListArea select option{ font-size:11px;}
 .xpress-editor .fileUploader .fileListArea.black select { background-color:#000; border:1px solid #666;}
 .xpress-editor .fileUploader .fileListArea.black select option { color:#aaa; }
 .xpress-editor .fileUploader .fileUploadControl{ clear:right;}
 .xpress-editor .fileUploader .fileUploadControl .button{ margin-bottom:5px;}
-.xpress-editor .fileUploader .file_attach_info{ clear:right; margin:5px 0;}
+.xpress-editor .fileUploader .file_attach_info{ clear:right; margin:5px 0; font-size:11px; color:#333}
 
 /* Auto Save */
 .xpress-editor .autosave_message { display:none; background: #f6ffdb; padding:6px 10px; margin:0; line-height:1;}
