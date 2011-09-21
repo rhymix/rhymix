@@ -8,203 +8,201 @@
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
-<div class="content" id="content">
-	<form action="./" class="form" ruleset="insertConfig" method="post">
-	<input type="hidden" name="act" value="procMemberAdminInsertConfig" />
-	<input type="hidden" name="success_return_url" value="{getUrl('act', $act)}" />
-	<input type="hidden" name="agreement" value="{htmlspecialchars($config->agreement)}" />
-		<h1 class="h1">Setting</h1>
-		<fieldset class="section suSetting">
-			<h2 class="h2">Sign Up Setting</h2>
-			<ul>
-				<li>
-					<p class="q">{$lang->enable_join}</p>
-					<p class="a">
-						<input type="radio" name="enable_join" id="enable_join_yes" value="Y" checked="checked"|cond="$config->enable_join == 'Y'" /> <label for="enable_join_yes">{$lang->cmd_yes}</label>
-						<input type="radio" name="enable_join" id="enable_join_no" value="N" checked="checked"|cond="$config->enable_join != 'Y'" /> <label for="enable_join_no">{$lang->cmd_no}</label>
-					</p>
-				</li>
-				<li>
-					<p class="q">{$lang->enable_confirm}</p>
-					<p class="a">
-						<input type="radio" name="enable_confirm" id="enable_confirm_yes" value="Y" checked="checked"|cond="$config->enable_confirm == 'Y'" /> <label for="enable_confirm_yes">{$lang->cmd_yes}</label>
-						<input type="radio" name="enable_confirm" id="enable_confirm_no" value="N" checked="checked"|cond="$config->enable_confirm != 'Y'"/> <label for="enable_confirm_no">{$lang->cmd_no}</label>
-					</p>
-				</li>
-				<li>
-					<p class="q"><label for="webmaster_name">{$lang->webmaster_name}</label></p>
-					<p class="a">
-						<input type="text" id="webmaster_name" name="webmaster_name" value="{$config->webmaster_name}" size="20" />
-					<p>{$lang->about_webmaster_name}</p>
-					</p>
-				</li>
-				<li>
-					<p class="q"><label for="webmaster_email">{$lang->webmaster_email}</label></p>
-					<p class="a">
-						<input type="text" id="webmaster_email" name="webmaster_email" value="{$config->webmaster_email}" size="40" />
-						<p>{$lang->about_webmaster_email}</p>
-					</p>
-				</li>
-				<li>
-					<p class="q"><label for="limit_day">{$lang->limit_day}</label></p>
-					<p class="a"><input type="text" id="limit_day" name="limit_day" value="{$config->limit_day}" style="width:30px" /><span class="desc">{$lang->unit_day}({$lang->about_limit_day})</span></p>
-				</li>
-				<li>
-					<p class="q"><label for="change_password_date">{$lang->change_password_date}</label></p>
-					<p class="a"><input type="text" id="change_password_date" name="change_password_date" value="{$config->change_password_date}" style="width:30px" /><span class="desc">{$lang->unit_day}({$lang->about_change_password_date})</span></p>
-				</li>
-				<li>
-					<p class="q"><label for="agreement">{$lang->agreement}</label></p>
-					<p class="a">{$editor}</p>
-				</li>
-				<li>
-					<p class="q"><label for="after_login_url">{$lang->after_login_url}</label></p>
-					<p class="a">
-						<input type="text" id="after_login_url" name="after_login_url" value="{$config->after_login_url}" />
-						<p>{$lang->about_after_login_url}</p>
-					</p>
-				</li>
-				<li>
-					<p class="q"><label for="after_logout_url">{$lang->after_logout_url}</label></p>
-					<p class="a">
-						<input type="text" id="after_logout_url" name="after_logout_url" value="{$config->after_logout_url}" />
-						<p>{$lang->about_after_logout_url}</p>
-					</p>
-				</li>
-				<li>
-					<p class="q"><label for="redirect_url">{$lang->redirect_url}</label></p>
-					<p class="a">
-						<input type="text" id="redirect_url" name="redirect_url" value="{$config->redirect_url}" />
-						<p>{$lang->about_redirect_url}</p>
-					</p>
-				</li>
-				<li>
-					<p class="q"><label for="skin">{$lang->skin}</label></p>
-					<p class="a">
-						<select id="skin" name="skin" onchange="doGetSkinColorset(this.options[this.selectedIndex].value)">
-							<option loop="$skin_list=>$key,$val" value="{$key}" selected="selected"|cond="$config->skin==$key">{$val->title} ({$key})</option>
-						</select>
-					</p>
-				</li>
-				<li id="colorset" style="display:none"|cond="!$config->colorset">
-					<p class="q"><label for="member_colorset">{$lang->colorset}</label></p>
-					<p class="a"><div id="member_colorset"></div></p>
-				</li>
-				<li>
-					<p class="q"><label for="prohibited_id">{$lang->cmd_manage_id}({$lang->about_manage_id} {sprintf($lang->count_manage_id, count($deniedIDs))})</label></p>
-					<div class="a">
-						<ul class="textList" id="deniedList">
-							<li loop="$deniedIDs=>$denied_info" id="denied_{$denied_info->user_id}">{$denied_info->user_id} <a href="#" class="side" onclick="doUpdateDeniedID('{$denied_info->user_id}','delete','{$lang->confirm_delete}');return false;">{$lang->delete}</a></li>
-						</ul>
-					</div>
-					<div class="a">
-						<textarea rows="4" cols="42" id="prohibited_id" title="{$lang->add_prohibited_id}"></textarea>
-						<span class="btn"><button type="button" class="_addDeniedID">{$lang->add}</button></span>
-						<span class="desc">{$lang->multi_line_input}</span>
-					</div>
-				</li>
-			</ul>
-		</fieldset>
-		<fieldset class="section suForm">
-			<h2 class="h2">{$lang->cmd_manage_form}</h2>
-			<div class="table even">
-				<table width="100%" border="1" cellspacing="0" class="sortable">
-					<thead>
-					<tr>
-						<th scope="col">{$lang->target}</th>
-						<th scope="col">{$lang->identifier}
-							[<a href="#helpDefault" class="tgAnchor">?</a>]
-							<div class="tgContent layer" id="helpDefault" style="right:0">
-								<p>{$lang->about_identifier}</p>
+<form action="./" class="form" ruleset="insertConfig" method="post">
+<input type="hidden" name="act" value="procMemberAdminInsertConfig" />
+<input type="hidden" name="success_return_url" value="{getUrl('act', $act)}" />
+<input type="hidden" name="agreement" value="{htmlspecialchars($config->agreement)}" />
+	<h1 class="h1">Setting</h1>
+	<fieldset class="section suSetting">
+		<h2 class="h2">Sign Up Setting</h2>
+		<ul>
+			<li>
+				<p class="q">{$lang->enable_join}</p>
+				<p class="a">
+					<input type="radio" name="enable_join" id="enable_join_yes" value="Y" checked="checked"|cond="$config->enable_join == 'Y'" /> <label for="enable_join_yes">{$lang->cmd_yes}</label>
+					<input type="radio" name="enable_join" id="enable_join_no" value="N" checked="checked"|cond="$config->enable_join != 'Y'" /> <label for="enable_join_no">{$lang->cmd_no}</label>
+				</p>
+			</li>
+			<li>
+				<p class="q">{$lang->enable_confirm}</p>
+				<p class="a">
+					<input type="radio" name="enable_confirm" id="enable_confirm_yes" value="Y" checked="checked"|cond="$config->enable_confirm == 'Y'" /> <label for="enable_confirm_yes">{$lang->cmd_yes}</label>
+					<input type="radio" name="enable_confirm" id="enable_confirm_no" value="N" checked="checked"|cond="$config->enable_confirm != 'Y'"/> <label for="enable_confirm_no">{$lang->cmd_no}</label>
+				</p>
+			</li>
+			<li>
+				<p class="q"><label for="webmaster_name">{$lang->webmaster_name}</label></p>
+				<p class="a">
+					<input type="text" id="webmaster_name" name="webmaster_name" value="{$config->webmaster_name}" size="20" />
+				<p>{$lang->about_webmaster_name}</p>
+				</p>
+			</li>
+			<li>
+				<p class="q"><label for="webmaster_email">{$lang->webmaster_email}</label></p>
+				<p class="a">
+					<input type="text" id="webmaster_email" name="webmaster_email" value="{$config->webmaster_email}" size="40" />
+					<p>{$lang->about_webmaster_email}</p>
+				</p>
+			</li>
+			<li>
+				<p class="q"><label for="limit_day">{$lang->limit_day}</label></p>
+				<p class="a"><input type="text" id="limit_day" name="limit_day" value="{$config->limit_day}" style="width:30px" /><span class="desc">{$lang->unit_day}({$lang->about_limit_day})</span></p>
+			</li>
+			<li>
+				<p class="q"><label for="change_password_date">{$lang->change_password_date}</label></p>
+				<p class="a"><input type="text" id="change_password_date" name="change_password_date" value="{$config->change_password_date}" style="width:30px" /><span class="desc">{$lang->unit_day}({$lang->about_change_password_date})</span></p>
+			</li>
+			<li>
+				<p class="q"><label for="agreement">{$lang->agreement}</label></p>
+				<p class="a">{$editor}</p>
+			</li>
+			<li>
+				<p class="q"><label for="after_login_url">{$lang->after_login_url}</label></p>
+				<p class="a">
+					<input type="text" id="after_login_url" name="after_login_url" value="{$config->after_login_url}" />
+					<p>{$lang->about_after_login_url}</p>
+				</p>
+			</li>
+			<li>
+				<p class="q"><label for="after_logout_url">{$lang->after_logout_url}</label></p>
+				<p class="a">
+					<input type="text" id="after_logout_url" name="after_logout_url" value="{$config->after_logout_url}" />
+					<p>{$lang->about_after_logout_url}</p>
+				</p>
+			</li>
+			<li>
+				<p class="q"><label for="redirect_url">{$lang->redirect_url}</label></p>
+				<p class="a">
+					<input type="text" id="redirect_url" name="redirect_url" value="{$config->redirect_url}" />
+					<p>{$lang->about_redirect_url}</p>
+				</p>
+			</li>
+			<li>
+				<p class="q"><label for="skin">{$lang->skin}</label></p>
+				<p class="a">
+					<select id="skin" name="skin" onchange="doGetSkinColorset(this.options[this.selectedIndex].value)">
+						<option loop="$skin_list=>$key,$val" value="{$key}" selected="selected"|cond="$config->skin==$key">{$val->title} ({$key})</option>
+					</select>
+				</p>
+			</li>
+			<li id="colorset" style="display:none"|cond="!$config->colorset">
+				<p class="q"><label for="member_colorset">{$lang->colorset}</label></p>
+				<p class="a"><div id="member_colorset"></div></p>
+			</li>
+			<li>
+				<p class="q"><label for="prohibited_id">{$lang->cmd_manage_id}({$lang->about_manage_id} {sprintf($lang->count_manage_id, count($deniedIDs))})</label></p>
+				<div class="a">
+					<ul class="textList" id="deniedList">
+						<li loop="$deniedIDs=>$denied_info" id="denied_{$denied_info->user_id}">{$denied_info->user_id} <a href="#" class="side" onclick="doUpdateDeniedID('{$denied_info->user_id}','delete','{$lang->confirm_delete}');return false;">{$lang->delete}</a></li>
+					</ul>
+				</div>
+				<div class="a">
+					<textarea rows="4" cols="42" id="prohibited_id" title="{$lang->add_prohibited_id}"></textarea>
+					<span class="btn"><button type="button" class="_addDeniedID">{$lang->add}</button></span>
+					<span class="desc">{$lang->multi_line_input}</span>
+				</div>
+			</li>
+		</ul>
+	</fieldset>
+	<fieldset class="section suForm">
+		<h2 class="h2">{$lang->cmd_manage_form}</h2>
+		<div class="table even">
+			<table width="100%" border="1" cellspacing="0" class="sortable">
+				<thead>
+				<tr>
+					<th scope="col">{$lang->target}</th>
+					<th scope="col">{$lang->identifier}
+						[<a href="#helpDefault" class="tgAnchor">?</a>]
+						<div class="tgContent layer" id="helpDefault" style="right:0">
+							<p>{$lang->about_identifier}</p>
+						</div>
+					</th>
+					<th scope="col">{$lang->use}</th>
+					<th scope="col">{$lang->cmd_required}/{$lang->cmd_optional}</th>
+					<th scope="col" class="text">{$lang->description}</th>
+					<th scope="col">{$lang->cmd_edit}</th>
+				</thead>
+				<tbody class="uDrag">
+					<!--@foreach($config->signupForm as $item)-->
+					<!--@if($item->isIdentifier)-->
+					<tr class="sticky">
+						<input type="hidden" name="list_order[]" value="{$item->name}" />
+						<input type="hidden" name="usable_list[]" value="{$item->name}"/>
+						<input type="hidden" name="{$item->name}" value="requierd"/>
+						<th scope="row">
+							<span class="_title" style="padding-left:20px">{$item->title}</span>
+						</th>
+						<td><input type="radio" name="identifier" value="{$item->name}" checked="checked" /></td>
+						<td><input type="checkbox" name="usable_list[]" value="{$item->name}" title="{$lang->use}" checked="checked"  disabled="disabled" /></td>
+						<td>
+							<input type="radio" id="{$item->name}_re" name="{$item->name}" value="requierd" checked="checked" disabled="disabled" /> <label for="{$item->name}_re">{$lang->cmd_required}</label>
+							<input type="radio" id="{$item->name}_op" name="{$item->name}" value="option" disabled="disabled" /> <label for="{$item->name}_op">{$lang->cmd_optional}</label>
+						</td>
+						<td class="text">&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<!--@elseif($item->isDefaultForm)-->
+					<tr class="_imageType"|cond="$item->imageType">
+						<input type="hidden" name="list_order[]" value="{$item->name}" />
+						<input type="hidden" name="usable_list[]" value="{$item->name}" cond="$item->mustRequired"/>
+						<input type="hidden" name="{$item->name}" value="requierd" cond="$item->mustRequired"/>
+						<th scope="row">
+							<div class="wrap">
+								<button type="button" class="dragBtn">Move to</button>
+								<span class="_title">{$item->title}</span>
 							</div>
 						</th>
-						<th scope="col">{$lang->use}</th>
-						<th scope="col">{$lang->cmd_required}/{$lang->cmd_optional}</th>
-						<th scope="col" class="text">{$lang->description}</th>
-						<th scope="col">{$lang->cmd_edit}</th>
-					</thead>
-					<tbody class="uDrag">
-						<!--@foreach($config->signupForm as $item)-->
-						<!--@if($item->isIdentifier)-->
-						<tr class="sticky">
-							<input type="hidden" name="list_order[]" value="{$item->name}" />
-							<input type="hidden" name="usable_list[]" value="{$item->name}"/>
-							<input type="hidden" name="{$item->name}" value="requierd"/>
-							<th scope="row">
-								<span class="_title" style="padding-left:20px">{$item->title}</span>
-							</th>
-							<td><input type="radio" name="identifier" value="{$item->name}" checked="checked" /></td>
-							<td><input type="checkbox" name="usable_list[]" value="{$item->name}" title="{$lang->use}" checked="checked"  disabled="disabled" /></td>
-							<td>
-								<input type="radio" id="{$item->name}_re" name="{$item->name}" value="requierd" checked="checked" disabled="disabled" /> <label for="{$item->name}_re">{$lang->cmd_required}</label>
-								<input type="radio" id="{$item->name}_op" name="{$item->name}" value="option" disabled="disabled" /> <label for="{$item->name}_op">{$lang->cmd_optional}</label>
-							</td>
-							<td class="text">&nbsp;</td>
-							<td>&nbsp;</td>
-						</tr>
-						<!--@elseif($item->isDefaultForm)-->
-						<tr class="_imageType"|cond="$item->imageType">
-							<input type="hidden" name="list_order[]" value="{$item->name}" />
-							<input type="hidden" name="usable_list[]" value="{$item->name}" cond="$item->mustRequired"/>
-							<input type="hidden" name="{$item->name}" value="requierd" cond="$item->mustRequired"/>
-							<th scope="row">
-								<div class="wrap">
-									<button type="button" class="dragBtn">Move to</button>
-									<span class="_title">{$item->title}</span>
-								</div>
-							</th>
-							<td><input type="radio" name="identifier" value="{$item->name}" cond="$item->name== 'email_address' || $item->name=='user_id'" /></td>
-							<td><input type="checkbox" name="usable_list[]" value="{$item->name}" title="{$lang->use}" checked="checked"|cond="$item->mustRequired || $item->isUse" disabled="disabled"|cond="$item->mustRequired" /></td>
-							<td>
-								<input type="radio" id="{$item->name}_re" name="{$item->name}" value="required" checked="checked"|cond="$item->mustRequired || $item->required" disabled="disabled"|cond="$item->mustRequired || !$item->isUse" /> <label for="{$item->name}_re">{$lang->cmd_required}</label>
-								<input type="radio" id="{$item->name}_op" name="{$item->name}" value="option" checked="checked"|cond="!$item->mustRequired && ($item->isUse && !$item->required)" disabled="disabled"|cond="$item->mustRequired || !$item->isUse" /> <label for="{$item->name}_op">{$lang->cmd_optional}</label>
-								<div cond="$item->imageType" class="_subItem">
-									<label for="{$item->name}_max_width">{$lang->cmd_image_max_width}</label><input type="text" name="{$item->name}_max_width" id="{$item->name}_max_width" value="{$item->max_width}" style="width:30px" /> px
-									/
-									<label for="{$item->name}_max_height">{$lang->cmd_image_max_height}</label><input type="text" name="{$item->name}_max_height" id="{$item->name}_max_height" value="{$item->max_height}" style="width:30px" /> px
-								</div>
-							</td>
-							<td class="text">&nbsp;</td>
-							<td>&nbsp;</td>
-						</tr>
-						<!--@else-->
-						<tr>
-							<input type="hidden" name="list_order[]" value="{$item->name}" />
-							<input type="hidden" name="{$item->name}_member_join_form_srl" value="{$item->member_join_form_srl}" />
-							<th scope="row">
-								<div class="wrap">
-									<button type="button" class="dragBtn">Move to</button>
-									<span class="_title">{$item->title}</span>
-								</div>
-							</th>
-							<td></td>
-							<td><input type="checkbox" name="usable_list[]" value="{$item->name}" title="{$lang->use}" checked="checked"|cond="$item->isUse" /></td>
-							<td>
-								<input type="radio" id="{$item->name}_re" name="{$item->name}" value="required" checked="checked"|cond="$item->required" disabled="disabled"|cond="!$item->isUse"/> <label for="{$item->name}_re">{$lang->cmd_required}</label>
-								<input type="radio" id="{$item->name}_op" name="{$item->name}" value="option" checked="checked"|cond="$item->isUse && !$item->required" disabled="disabled"|cond="!$item->isUse" /> <label for="{$item->name}_op">{$lang->cmd_optional}</label>
-							</td>
-							<td class="text">{$item->description}</td>
-							<td id="{$item->member_join_form_srl}"><a href="#userDefine" class="modalAnchor _extendFormEdit">{$lang->cmd_edit}</a> | <a href="#" class="_extendFormDelete">{$lang->cmd_delete}</a></td>
-						</tr>
-						<!--@end-->
-						<!--@end-->
-					</tbody>
-				</table>
-			</div>
-			<p class="btnArea">
-				<span class="btn small"><a href="#userDefine" class="modalAnchor _extendFormEdit">{$lang->add_extend_form}...</a></span>
-			</p>
-		</fieldset>
-		<div class="btnArea">
-			<span class="btn medium"><input type="submit" value="Save" /></span>
+						<td><input type="radio" name="identifier" value="{$item->name}" cond="$item->name== 'email_address' || $item->name=='user_id'" /></td>
+						<td><input type="checkbox" name="usable_list[]" value="{$item->name}" title="{$lang->use}" checked="checked"|cond="$item->mustRequired || $item->isUse" disabled="disabled"|cond="$item->mustRequired" /></td>
+						<td>
+							<input type="radio" id="{$item->name}_re" name="{$item->name}" value="required" checked="checked"|cond="$item->mustRequired || $item->required" disabled="disabled"|cond="$item->mustRequired || !$item->isUse" /> <label for="{$item->name}_re">{$lang->cmd_required}</label>
+							<input type="radio" id="{$item->name}_op" name="{$item->name}" value="option" checked="checked"|cond="!$item->mustRequired && ($item->isUse && !$item->required)" disabled="disabled"|cond="$item->mustRequired || !$item->isUse" /> <label for="{$item->name}_op">{$lang->cmd_optional}</label>
+							<div cond="$item->imageType" class="_subItem">
+								<label for="{$item->name}_max_width">{$lang->cmd_image_max_width}</label><input type="text" name="{$item->name}_max_width" id="{$item->name}_max_width" value="{$item->max_width}" style="width:30px" /> px
+								/
+								<label for="{$item->name}_max_height">{$lang->cmd_image_max_height}</label><input type="text" name="{$item->name}_max_height" id="{$item->name}_max_height" value="{$item->max_height}" style="width:30px" /> px
+							</div>
+						</td>
+						<td class="text">&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<!--@else-->
+					<tr>
+						<input type="hidden" name="list_order[]" value="{$item->name}" />
+						<input type="hidden" name="{$item->name}_member_join_form_srl" value="{$item->member_join_form_srl}" />
+						<th scope="row">
+							<div class="wrap">
+								<button type="button" class="dragBtn">Move to</button>
+								<span class="_title">{$item->title}</span>
+							</div>
+						</th>
+						<td></td>
+						<td><input type="checkbox" name="usable_list[]" value="{$item->name}" title="{$lang->use}" checked="checked"|cond="$item->isUse" /></td>
+						<td>
+							<input type="radio" id="{$item->name}_re" name="{$item->name}" value="required" checked="checked"|cond="$item->required" disabled="disabled"|cond="!$item->isUse"/> <label for="{$item->name}_re">{$lang->cmd_required}</label>
+							<input type="radio" id="{$item->name}_op" name="{$item->name}" value="option" checked="checked"|cond="$item->isUse && !$item->required" disabled="disabled"|cond="!$item->isUse" /> <label for="{$item->name}_op">{$lang->cmd_optional}</label>
+						</td>
+						<td class="text">{$item->description}</td>
+						<td id="{$item->member_join_form_srl}"><a href="#userDefine" class="modalAnchor _extendFormEdit">{$lang->cmd_edit}</a> | <a href="#" class="_extendFormDelete">{$lang->cmd_delete}</a></td>
+					</tr>
+					<!--@end-->
+					<!--@end-->
+				</tbody>
+			</table>
+		</div>
+		<p class="btnArea">
+			<span class="btn small"><a href="#userDefine" class="modalAnchor _extendFormEdit">{$lang->add_extend_form}...</a></span>
+		</p>
+	</fieldset>
+	<div class="btnArea">
+		<span class="btn medium"><input type="submit" value="Save" /></span>
+	</div>
+</form>
+<div class="modal" id="userDefine">
+	<form action="./" class="fg form" ruleset="insertJoinForm" method="post">
+		<input type="hidden" name="act" value="procMemberAdminInsertJoinForm" />
+		<input type="hidden" name="success_return_url" value="{getUrl('act', $act)}" />
+		<div id="extendForm">
 		</div>
 	</form>
-	<div class="modal" id="userDefine">
-		<form action="./" class="fg form" ruleset="insertJoinForm" method="post">
-			<input type="hidden" name="act" value="procMemberAdminInsertJoinForm" />
-			<input type="hidden" name="success_return_url" value="{getUrl('act', $act)}" />
-			<div id="extendForm">
-			</div>
-		</form>
-	</div>
 </div>

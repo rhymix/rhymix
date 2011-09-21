@@ -471,26 +471,26 @@
 				if($document_config->use_vote_up!='N' && $member_srl!=$logged_info->member_srl){
 					// Add a Referral Button
 					$url = sprintf("doCallModuleAction('document','procDocumentVoteUp','%s')", $document_srl);
-					$oDocumentController->addDocumentPopupMenu($url,'cmd_vote','./modules/document/tpl/icons/vote_up.gif','javascript');
+					$oDocumentController->addDocumentPopupMenu($url,'cmd_vote','','javascript');
 				}
 
 				if($document_config->use_vote_down!='N' && $member_srl!=$logged_info->member_srl){
 					// Add button to negative
 					$url= sprintf("doCallModuleAction('document','procDocumentVoteDown','%s')", $document_srl);
-					$oDocumentController->addDocumentPopupMenu($url,'cmd_vote_down','./modules/document/tpl/icons/vote_down.gif','javascript');
+					$oDocumentController->addDocumentPopupMenu($url,'cmd_vote_down','','javascript');
 				}
 
                 // Adding Report
                 $url = sprintf("doCallModuleAction('document','procDocumentDeclare','%s')", $document_srl);
-                $oDocumentController->addDocumentPopupMenu($url,'cmd_declare','./modules/document/tpl/icons/declare.gif','javascript');
+                $oDocumentController->addDocumentPopupMenu($url,'cmd_declare','','javascript');
 
                 // Add Bookmark button
                 $url = sprintf("doCallModuleAction('member','procMemberScrapDocument','%s')", $document_srl);
-                $oDocumentController->addDocumentPopupMenu($url,'cmd_scrap','./modules/document/tpl/icons/scrap.gif','javascript');
+                $oDocumentController->addDocumentPopupMenu($url,'cmd_scrap','','javascript');
             }
             // Add print button
             $url = getUrl('','module','document','act','dispDocumentPrint','document_srl',$document_srl);
-            $oDocumentController->addDocumentPopupMenu($url,'cmd_print','./modules/document/tpl/icons/print.gif','printDocument');
+            $oDocumentController->addDocumentPopupMenu($url,'cmd_print','','printDocument');
             // Call a trigger (after)
             ModuleHandler::triggerCall('document.getDocumentMenu', 'after', $menu_list);
             // If you are managing to find posts by ip
@@ -504,7 +504,7 @@
                     $oDocumentController->addDocumentPopupMenu($url,'cmd_search_by_ipaddress',$icon_path,'TraceByIpaddress');
 
                     $url = sprintf("var params = new Array(); params['ipaddress']='%s'; exec_xml('spamfilter', 'procSpamfilterAdminInsertDeniedIP', params, completeCallModuleAction)", $oDocument->getIpAddress());
-                    $oDocumentController->addDocumentPopupMenu($url,'cmd_add_ip_to_spamfilter','./modules/document/tpl/icons/declare.gif','javascript');
+                    $oDocumentController->addDocumentPopupMenu($url,'cmd_add_ip_to_spamfilter','','javascript');
                 }
             }
             // Changing the language of pop-up menu

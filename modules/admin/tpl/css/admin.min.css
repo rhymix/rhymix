@@ -230,9 +230,6 @@ body.modalContainer{_height:100%;_width:100%} /* IE6 only */
 .x .layer ul, .layer ol, .layer .lined, .layer .table{margin-bottom:1em}
 .x .layerClose{position:absolute;right:-8px;top:-8px;border:0;background:#ddd;padding:0;width:28px;height:28px;font-size:14px;font-weight:bold;cursor:pointer;color:#999;border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px}
 .x .layerBlur{position:absolute;top:0;right:0;border:0;background:none;padding:0;width:1px;height:1px;overflow:hidden}
-/* Text Button */
-.x input.text, 
-.x button.text{border:0;overflow:visible;padding:0;margin:0 4px 0 0;color:#33a;background:none;text-decoration:underline}
 /* H2 Anchor */
 .x .h2Anchor{position:absolute;right:0;border:0;background:none;color:#00f;text-decoration:underline}
 /* Skip Navigation */

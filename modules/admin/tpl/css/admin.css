@@ -230,9 +230,6 @@ body.modalContainer{_height:100%;_width:100%} /* IE6 only */
 .x .layer ul, .layer ol, .layer .lined, .layer .table{margin-bottom:1em}
 .x .layerClose{position:absolute;right:-8px;top:-8px;border:0;background:#ddd;padding:0;width:28px;height:28px;font-size:14px;font-weight:bold;cursor:pointer;color:#999;border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px}
 .x .layerBlur{position:absolute;top:0;right:0;border:0;background:none;padding:0;width:1px;height:1px;overflow:hidden}
-/* Text Button */
-.x input.text, 
-.x button.text{border:0;overflow:visible;padding:0;margin:0 4px 0 0;color:#33a;background:none;text-decoration:underline}
 /* H2 Anchor */
 .x .h2Anchor{position:absolute;right:0;border:0;background:none;color:#00f;text-decoration:underline}
 /* Skip Navigation */
@@ -380,33 +377,44 @@ body.modalContainer{_height:100%;_width:100%} /* IE6 only */
 .x .langEdit .langList li.active{background:url(../img/iconArrow.gif) no-repeat right -188px}
 .x .langEdit.showChild .langList{display:block}
 .x .langEdit #langInput{background:#fff}
-.x .langEdit #langInput h2{padding:5px 10px;margin:0 0 -1px 0;font-weight:normal;color:#ccc;border:1px solid #eee;border-top-color:#ccc}
-.x .langEdit #langInput h2 strong{color:#000}
-.x .langEdit #langInput h2 a{font-size:12px}
+.x .langEdit #langInput h2{padding:5px 10px;margin:0 0 -1px 0;font-size:12px;font-weight:normal;color:#666;border:1px solid #eee;border-top-color:#ccc}
+.x .langEdit #langInput h2 strong{color:#000;font-size:14px}
 .x .langEdit.showChild #langInput{position:absolute;left:285px;top:0}
 .x .langEdit li.en input, 
+.x .langEdit li.en textarea, 
 .x .mLangEdit li.en textarea{background:url(../img/flag.us.gif) no-repeat 99% 5px}
 .x .langEdit li.ko input, 
+.x .langEdit li.ko textarea, 
 .x .mLangEdit li.ko textarea{background:url(../img/flag.kr.gif) no-repeat 99% 5px}
 .x .langEdit li.jp input, 
+.x .langEdit li.jp textarea, 
 .x .mLangEdit li.jp textarea{background:url(../img/flag.jp.gif) no-repeat 99% 5px}
 .x .langEdit li.fr input, 
+.x .langEdit li.fr textarea, 
 .x .mLangEdit li.fr textarea{background:url(../img/flag.fr.gif) no-repeat 99% 5px}
 .x .langEdit li.de input, 
+.x .langEdit li.de textarea, 
 .x .mLangEdit li.de textarea{background:url(../img/flag.de.gif) no-repeat 99% 5px}
 .x .langEdit li.ru input, 
+.x .langEdit li.ru textarea, 
 .x .mLangEdit li.ru textarea{background:url(../img/flag.ru.gif) no-repeat 99% 5px}
 .x .langEdit li.es input, 
+.x .langEdit li.es textarea, 
 .x .mLangEdit li.es textarea{background:url(../img/flag.es.gif) no-repeat 99% 5px}
 .x .langEdit li.tr input, 
+.x .langEdit li.tr textarea, 
 .x .mLangEdit li.tr textarea{background:url(../img/flag.tr.gif) no-repeat 99% 5px}
 .x .langEdit li.vi input, 
+.x .langEdit li.vi textarea, 
 .x .mLangEdit li.vi textarea{background:url(../img/flag.vn.gif) no-repeat 99% 5px}
 .x .langEdit li.mn input, 
+.x .langEdit li.mn textarea, 
 .x .mLangEdit li.mn textarea{background:url(../img/flag.mn.gif) no-repeat 99% 5px}
 .x .langEdit li.zh-CN input, 
+.x .langEdit li.zh-CN textarea, 
 .x .mLangEdit li.zh-CN textarea, 
 .x .langEdit li.zh-TW input, 
+.x .langEdit li.zh-TW textarea, 
 .x .mLangEdit li.zh-TW textarea{background:url(../img/flag.cn.gif) no-repeat 99% 5px}
 .x .mLangEdit.en strong{background:url(../img/flag.us.gif) no-repeat 0 10px}
 .x .mLangEdit.ko strong{background:url(../img/flag.kr.gif) no-repeat 0 10px}

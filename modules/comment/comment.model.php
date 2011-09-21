@@ -45,17 +45,17 @@
 				if($comment_config->use_vote_up!='N' && $member_srl!=$logged_info->member_srl){
 					// Add a vote-up button for positive feedback
 					$url = sprintf("doCallModuleAction('comment','procCommentVoteUp','%s')", $comment_srl);
-					$oCommentController->addCommentPopupMenu($url,'cmd_vote','./modules/document/tpl/icons/vote_up.gif','javascript');
+					$oCommentController->addCommentPopupMenu($url,'cmd_vote','','javascript');
 				}
 				if($comment_config->use_vote_down!='N' && $member_srl!=$logged_info->member_srl){
 					// Add a vote-down button for negative feedback
 					$url = sprintf("doCallModuleAction('comment','procCommentVoteDown','%s')", $comment_srl);
-					$oCommentController->addCommentPopupMenu($url,'cmd_vote_down','./modules/document/tpl/icons/vote_down.gif','javascript');
+					$oCommentController->addCommentPopupMenu($url,'cmd_vote_down','','javascript');
 				}
 
                 // Add the report feature against abused posts
                 $url = sprintf("doCallModuleAction('comment','procCommentDeclare','%s')", $comment_srl);
-                $oCommentController->addCommentPopupMenu($url,'cmd_declare','./modules/document/tpl/icons/declare.gif','javascript');
+                $oCommentController->addCommentPopupMenu($url,'cmd_declare','','javascript');
             }
             // call a trigger (after)
             ModuleHandler::triggerCall('comment.getCommentMenu', 'after', $menu_list);
@@ -70,7 +70,7 @@
                     $oCommentController->addCommentPopupMenu($url,'cmd_search_by_ipaddress',$icon_path,'TraceByIpaddress');
 
                     $url = sprintf("var params = new Array(); params['ipaddress']='%s'; exec_xml('spamfilter', 'procSpamfilterAdminInsertDeniedIP', params, completeCallModuleAction)", $oComment->getIpAddress());
-                    $oCommentController->addCommentPopupMenu($url,'cmd_add_ip_to_spamfilter','./modules/document/tpl/icons/declare.gif','javascript');
+                    $oCommentController->addCommentPopupMenu($url,'cmd_add_ip_to_spamfilter','','javascript');
                 }
             }
             // Changing a language of pop-up menu
