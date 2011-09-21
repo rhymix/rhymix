@@ -201,7 +201,15 @@
 
 			if($kind == 'admin' && $logged_info->is_admin == 'Y'){
 				$oModuleAdminModel = &getAdminModel('module');
-				if(!$oModuleAdminModel->getModuleAdminIPCheck()) return false;
+				if(!$oModuleAdminModel->getModuleAdminIPCheck()) {
+					$this->error = "msg_not_permitted_act";
+					$oMessageObject = &ModuleHandler::getModuleInstance('message',$type);
+					$oMessageObject->setError(-1);
+					$oMessageObject->setMessage($this->error);
+					$oMessageObject->dispMessage();
+					return $oMessageObject;
+				}
+
 			}
 			unset($logged_info);
 			
