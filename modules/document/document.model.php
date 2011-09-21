@@ -200,7 +200,7 @@
 				$args->end_date = $obj->end_date?$obj->end_date:null;
 				$args->member_srl = $obj->member_srl;
 				$args->statusList = $obj->statusList?$obj->statusList:array($this->getConfigStatus('secret'), $this->getConfigStatus('public'));
-				if($logged_info->is_admin == 'Y') $args->statusList = array($this->getConfigStatus('secret'), $this->getConfigStatus('public'));
+				if($logged_info->is_admin == 'Y') $args->statusList = array($this->getConfigStatus('secret'), $this->getConfigStatus('public'), $this->getConfigStatus('temp'));
 				// Category is selected, further sub-categories until all conditions
 				if($args->category_srl) {
 					$category_list = $this->getCategoryList($args->module_srl);
@@ -324,6 +324,7 @@
 						$output->page = $page_navigation->cur_page;
 					} else {
 						$output = executeQueryArray($query_id, $args, $columnList);
+						debugPrint($output->get('_query'));
 					}
 				} 
 				// Return if no result or an error occurs
