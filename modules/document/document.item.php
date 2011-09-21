@@ -27,7 +27,7 @@
 
         function _loadFromDB($load_extra_vars = true) {
             if(!$this->document_srl) return;
-            
+
             // cache controll
             $oCacheHandler = &CacheHandler::getInstance('object');
             if($oCacheHandler->isSupport()){
@@ -122,6 +122,8 @@
         }
 
         function isLocked() {
+			if(!$this->isExists()) return false;
+
             return $this->get('comment_status') == 'ALLOW' ? false : true;
         }
 
@@ -329,7 +331,7 @@
             // Remove Tags
             $content = preg_replace('!<([^>]*?)>!is','', $content);
 
-            // Replace < , >, " 
+            // Replace < , >, "
             $content = str_replace(array('&lt;','&gt;','&quot;','&nbsp;'), array('<','>','"',' '), $content);
 
             // Delete  a series of whitespaces
@@ -431,7 +433,7 @@
 
         function getExtraEidValue($eid) {
             $extra_vars = $this->getExtraVars();
-			
+
 			if($extra_vars)
 			{
 				// Handle extra variable(eid)
@@ -471,7 +473,7 @@
             $output = $oCommentModel->getCommentList($this->document_srl, $cpage, $is_admin);
             if(!$output->toBool() || !count($output->data)) return;
             // Create commentItem object from a comment list
-            // If admin priviledge is granted on parent posts, you can read its child posts. 
+            // If admin priviledge is granted on parent posts, you can read its child posts.
             $accessible = array();
             foreach($output->data as $key => $val) {
                 $oCommentItem = new commentItem();
@@ -539,7 +541,7 @@
             // Target File
             $source_file = null;
             $is_tmp_file = false;
-            // Find an iamge file among attached files if exists 
+            // Find an iamge file among attached files if exists
             if($this->get('uploaded_count')) {
                 $oFileModel = &getModel('file');
                 $file_list = $oFileModel->getFiles($this->document_srl);
@@ -596,7 +598,7 @@
 
         /**
          * @brief Functions to display icons for new post, latest update, secret(private) post, image/video/attachment
-         * Determine new post and latest update by $time_interval 
+         * Determine new post and latest update by $time_interval
          **/
         function getExtraImages($time_interval = 43200) {
             if(!$this->document_srl) return;
@@ -684,7 +686,7 @@
         }
 
         /**
-         * @brief Return Editor html 
+         * @brief Return Editor html
          **/
         function getEditor() {
             $module_srl = $this->get('module_srl');
