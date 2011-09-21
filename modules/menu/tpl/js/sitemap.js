@@ -85,12 +85,16 @@ $('form.siteMap')
 	}
 
 	$('a._delete').click(function() {
-		menuSrl = $(this).parents().prevAll('input[name=menu_srl]').val();
-		menuForm = $('#menu_'+menuSrl);
+		if(confirmDelete())
+		{
+			menuSrl = $(this).parents().prevAll('input[name=menu_srl]').val();
+			menuForm = $('#menu_'+menuSrl);
 
-		var menu_item_srl = $(this).parent().prevAll('._item_key').val();
-		menuForm.find('input[name=menu_item_srl]').val(menu_item_srl);
-		menuForm.submit();
+			var menu_item_srl = $(this).parent().prevAll('._item_key').val();
+			menuForm.find('input[name=menu_item_srl]').val(menu_item_srl);
+			menuForm.find('input[name=act]').val('procMenuAdminDeleteItem');
+			menuForm.submit();
+		}
 	});
 
 	var kindModuleLayer = $('#kindModule');
@@ -190,7 +194,7 @@ $('form.siteMap')
 	});
 });
 
-function confirmDelete(form)
+function confirmDelete()
 {
 	if(confirm(xe.lang.confirm_delete)) return true;
 	return false;

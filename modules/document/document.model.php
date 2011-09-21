@@ -324,7 +324,6 @@
 						$output->page = $page_navigation->cur_page;
 					} else {
 						$output = executeQueryArray($query_id, $args, $columnList);
-						debugPrint($output->get('_query'));
 					}
 				} 
 				// Return if no result or an error occurs

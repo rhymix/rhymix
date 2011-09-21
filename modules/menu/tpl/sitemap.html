@@ -13,8 +13,8 @@ xe.lang.confirm_delete = "{$lang->confirm_delete}";
 
 	<block loop="$menu_list=>$key,$value">
 	{@$menuSrl = $value->menuSrl}
-	<form class="portlet siteMap" id="menu_{$menuSrl}" onsubmit="return confirmDelete(this);">
-	<input type="hidden" name="act" value="procMenuAdminDeleteItem" />
+	<form class="portlet siteMap" id="menu_{$menuSrl}">
+	<input type="hidden" name="act" value="procMenuAdminArrangeItem" />
 	<input type="hidden" name="menu_srl" value="{$menuSrl}" />
 	<input type="hidden" name="menu_item_srl" value="" />
 	<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin', 'act', 'dispMenuAdminSiteMap')}" />
@@ -31,7 +31,7 @@ xe.lang.confirm_delete = "{$lang->confirm_delete}";
 			<span class="btn"><a href="#editMenu" class="modalAnchor _add">{$lang->add_menu}</a></span>
 			<span class="btn"><button value="procMenuAdminArrangeItem" name="act" type="submit">{$lang->cmd_save}</button></span>
 			<span class="etc">
-				<span class="btn"><button value="procMenuAdminDelete" name="act" type="submit">{$lang->cmd_delete}</button></span>
+				<span class="btn"><button value="procMenuAdminDelete" name="act" type="submit" onclick="return confirmDelete();">{$lang->cmd_delete}</button></span>
 				<span class="btn"><a href="#remakeCache" onclick="doReloadTreeMenu('{$menuSrl}');return false;">{$lang->cmd_remake_cache}</a></span>
 			</span>
 		</p>
