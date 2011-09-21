@@ -1,13 +1,22 @@
+<script type="text/javascript">
+function doInsertDeniedSome(some){
+	if(!checkSomeValid(some)) {
+		alert('{$lang->invalid}');
+		return false;
+	} else {
+		jQuery("#spamfilterInsert").submit();	
+	}
+}
+</script>
 <load target="js/spamfilter_admin.js" usecdn="true" />
 <div class="content" id="content">
-
 	<form id="spamfilterDelete" action="" method="post">
 		<input type="hidden" name="act" value="" />
 		<input type="hidden" name="ipaddress" value="" />
 		<input type="hidden" name="word" value="" />
 		<input type="hidden" name="ruleset" value="">
 	</form>
-	<form action="" id="spamfilterInsert" class="form" ruleset="insertSetting">
+	<form action="" onsubmit="doInsertDeniedSome('all')" id="spamfilterInsert" class="form" ruleset="insertSetting">
 		<input type="hidden" name="act" value="procSpamfilterAdminInsertSetting">
 		<input type="hidden" name="module" value="spamfilter">
 		<input type="hidden" name="ruleset" value="insertSetting">
@@ -18,16 +27,16 @@
 				<p class="q">{$lang->cmd_interval}</p>
 				<p class="a">
 					<input type="radio" name="limits" id="spamCond1_yes" value="Y" <!--@if($config->limits=='Y' || $config->limits =='')-->checked="checked"<!--@end--> />
-					<label for="spamCond1_yes">{$lang->yes}</label>
-					<input type="radio" name="limits" id="spamCond1_no" value="N" <!--@if($config->limits!='Y' && $config->limits !='')--> checked="checked"<!--@end--> /> <label for="spamCond1_no">{$lang->no}</label>
+					<label for="spamCond1_yes">{$lang->cmd_yes}</label>
+					<input type="radio" name="limits" id="spamCond1_no" value="N" <!--@if($config->limits!='Y' && $config->limits !='')--> checked="checked"<!--@end--> /> <label for="spamCond1_no">{$lang->cmd_no}</label>
 				</p>
 			</li>
 			<li>
 				<p class="q">{$lang->cmd_check_trackback}</p>
 				<p class="a">
 					<input type="radio" name="check_trackback" id="spamCond2_yes" value="Y" <!--@if($config->check_trackback=='Y' || $config->check_trackback=='')--> checked="checked"<!--@end--> />
-					<label for="spamCond2_yes">{$lang->yes}</label>
-					<input type="radio" name="check_trackback" id="spamCond2_yes" value="N" <!--@if($config->check_trackback!='Y' &&  $config->check_trackback!='')--> checked="checked"<!--@end--> / > <label for="spamCond2_yes">{$lang->no}</label>
+					<label for="spamCond2_yes">{$lang->cmd_yes}</label>
+					<input type="radio" name="check_trackback" id="spamCond2_yes" value="N" <!--@if($config->check_trackback!='Y' &&  $config->check_trackback!='')--> checked="checked"<!--@end--> / > <label for="spamCond2_yes">{$lang->cmd_no}</label>
 				</p>
 			</li>
 			<li>
@@ -36,14 +45,14 @@
 					<ul class="textList">
 						<!--@foreach($ip_list as $ipListKey)-->
 						<li>{$ipListKey->ipaddress} <!--@if($ipListKey->description)-->// {$ipListKey->description} <!--@end-->
-							<a href="#" onclick="doDeleteDeniedIP('{$ipListKey->ipaddress}')" class="side">{$lang->delete}</a>
+							<a href="#" onclick="doDeleteDeniedIP('{$ipListKey->ipaddress}')" class="side">{$lang->cmd_delete}</a>
 						</li>
 						<!--@endforeach-->
 					</ul>
 				</div>
 				<p class="a">
 					<textarea rows="4" cols="42" name="ipaddressList" title="스팸 IP 추가"></textarea>
-					<span class="btn small"><button type="button" onclick="doInsertDeniedSome('ipaddressList')">{$lang->add}</button></span>
+					<span class="btn small"><button type="button" onclick="doInsertDeniedSome('ip')">{$lang->cmd_insert}</button></span>
 					<span class="desc">{$lang->about_denied_ip}</span>
 				</p>
 			</li>
@@ -52,13 +61,13 @@
 				<div class="a">
 					<ul class="textList">
 						<!--@foreach($word_list as $wordListKey)-->
-						<li>{$wordListKey->word} <a href="#" onclick="doDeleteDeniedWord('{$wordListKey->word}')" class="side">{$lang->delete}</a></li>
+						<li>{$wordListKey->word} <a href="#" onclick="doDeleteDeniedWord('{$wordListKey->word}')" class="side">{$lang->cmd_delete}</a></li>
 						<!--@end-->
 					</ul>
 				</div>
 				<p class="a">
 					<textarea rows="4" cols="42" name="wordList" title="스팸 키워드 추가"></textarea>
-					<span class="btn small"><button type="button" onclick="doInsertDeniedSome('wordList')">{$lang->add}</button></span>
+					<span class="btn small"><button type="button" onclick="doInsertDeniedSome('word')">{$lang->add}</button></span>
 					<span class="desc">{$lang->about_denied_word}</span>
 				</p>
 			</li>

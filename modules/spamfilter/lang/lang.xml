@@ -237,15 +237,8 @@ l'article qui comporte le mot ne sera pas affichagé.]]></value>
 	<item name="cmd_check_trackback">
 		<value xml:lang="ko"><![CDATA[하나의 글에 2회 이상 엮인글을 등록하면 스패머로 간주할까요? 엮인글을 차단합니다.]]></value>
 	</item>
-	<item name="add">
-		<value xml:lang="ko"><![CDATA[추가]]></value>
-	</item>
-	<item name="yes">
-		<value xml:lang="ko"><![CDATA[예]]></value>
-	</item>
-	<item name="no">
-		<value xml:lang="ko"><![CDATA[아니오]]></value>
-		<value xml:lang="de"><![CDATA[Nein]]></value>
-		<value xml:lang="mn"><![CDATA[Дугаар]]></value>
+	<item name="invalid">
+		<value xml:lang="ko"><![CDATA[형식이 올바르지 않습니다]]></value>
+		<value xml:lang="de"><![CDATA[inavlid]]></value>
 	</item>
 </lang>
