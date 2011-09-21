@@ -33,7 +33,7 @@
 		<action name="getModuleAdminIPCheck" type="model" standalone="true" />
         <action name="getLangListByLangcodeForAutoComplete" type="model" standalone="true" />
 		<action name="getFileBoxListHtml" type="model" />
-		
+		<action name="getLangByLangcode" type="model" />
 
         <action name="procModuleAdminInsertCategory" type="controller" standalone="true" ruleset="insertCategory" />
         <action name="procModuleAdminUpdateCategory" type="controller" standalone="true" ruleset="updateCategory" />

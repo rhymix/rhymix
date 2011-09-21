@@ -120,7 +120,7 @@
 		                    $site_args->index_module_srl  = $mid_output->data->module_srl;
 		                    $site_args->domain = $domain;
 		                    $site_args->default_language = $db_info->lang_type;
-	
+
 		                    if($output->data && !$output->data->index_module_srl) {
 		                        $output = executeQuery('module.updateSite', $site_args);
 		                    } else {
@@ -989,7 +989,7 @@
                 return;
             }
             return $config;
-            
+
         }
 
         /**
@@ -1512,6 +1512,17 @@
 				}
 			}
 			$this->add('results', $list);
+		}
+
+		function getLangByLangcode()
+		{
+			$langCode = Context::get('langCode');
+			if (!$langCode) return;
+
+			$oModuleController = &getController('module');
+			$oModuleController->replaceDefinedLangCode($langCode);
+
+			$this->add('lang', $langCode);
 		}
     }
 ?>

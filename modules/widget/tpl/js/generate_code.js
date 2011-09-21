@@ -176,6 +176,7 @@ function doFillWidgetVars() {
 	xe.broadcast('MULTIORDER_SYNC');
 	xe.broadcast('MODULELIST_SYNC');
 	xe.broadcast('MID_SYNC');
+	xe.broadcast('MULTILANG_SYNC');
 
 	jQuery('.filebox')
 		.each(function(){

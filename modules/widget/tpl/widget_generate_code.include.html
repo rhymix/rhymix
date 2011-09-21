@@ -1,6 +1,7 @@
 <load target="js/multi_order.js" usecdn="true" />
 <load target="js/module_list.js" usecdn="true" />
 <load target="js/mid.js" usecdn="true" />
+<load target="js/multi_lang.js" usecdn="true" />
 <!--%load_js_plugin("ui.colorpicker")-->
 
 <ul>
@@ -48,6 +49,9 @@
 				<input type="hidden" name="{$id}" value="" class="vLang" />
 				<input type="text" id="{$id}" class="vLang" />
 				<span class="desc"><a href="#langEdit" class="editUserLang tgAnchor">{$lang->cmd_set_multilingual}</a></span>
+				<script type="text/javascript">
+					xe.registerApp(new xe.MultiLangManager('{$id}'));
+				</script>
 			</div>
 			<input cond="$var->type == 'color'" type="text" name="{$id}" value="" id="{$id}" class="color-indicator" />
 			<div cond="$var->type == 'textarea'" class="multiLangEdit">
@@ -55,6 +59,9 @@
 				<input type="hidden" name="{$id}" value="" class="vLang" />
 				<textarea cond="$var->type == 'textarea'" id="{$id}" class="vLang"></textarea>
 				<span class="desc"><a href="#langEditTextarea" class="editUserLang tgAnchor">{$lang->cmd_set_multilingual}</a></span>
+				<script type="text/javascript">
+					xe.registerApp(new xe.MultiLangManager('{$id}'));
+				</script>
 			</div>
 			<select cond="$var->type == 'select'" name="{$id}" id="{$id}" style="width:290px">
 				<option loop="$var->options => $key, $val" value="{$key}">{$val}</option>
