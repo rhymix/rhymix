@@ -28,8 +28,8 @@
 			$editor_config = $oModuleModel->getModuleConfig('editor');		
 
 			//editor_config init
-			if(!$editor_config->editor_height) $editor_config->editor_height = 500;
-            if(!$editor_config->comment_editor_height) $editor_config->comment_editor_height = 120;
+			if(!$editor_config->editor_height) $editor_config->editor_height = 400;
+            if(!$editor_config->comment_editor_height) $editor_config->comment_editor_height = 100;
 			if(!$editor_config->editor_skin) $editor_config->editor_skin = 'xpresseditor';
 			if(!$editor_config->comment_editor_skin) $editor_config->comment_editor_skin = 'xpresseditor';
 			if(!$editor_config->sel_editor_colorset) $editor_config->sel_editor_colorset= 'white';
@@ -62,7 +62,7 @@
 			foreach($component_list as $component_name => $xml_info) {
 				if($packages[$xml_info->package_srl])	$xml_info->need_update = $packages[$xml_info->package_srl]->need_update;
 			}
-			$editor_config_default = array( "editor_height" => "500", "comment_editor_height" => "120","content_font_size"=>"12");
+			$editor_config_default = array( "editor_height" => "400", "comment_editor_height" => "100","content_font_size"=>"12");
 			
 			Context::set('editor_config', $editor_config);
 			Context::set('editor_skin_list', $editor_skin_list);

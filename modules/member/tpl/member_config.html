@@ -12,9 +12,9 @@
 <input type="hidden" name="act" value="procMemberAdminInsertConfig" />
 <input type="hidden" name="success_return_url" value="{getUrl('act', $act)}" />
 <input type="hidden" name="agreement" value="{htmlspecialchars($config->agreement)}" />
-	<h1 class="h1">Setting</h1>
+	<h1 class="h1">{$lang->cmd_member_config}</h1>
 	<fieldset class="section suSetting">
-		<h2 class="h2">Sign Up Setting</h2>
+		<h2 class="h2">{$lang->cmd_module_config}</h2>
 		<ul>
 			<li>
 				<p class="q">{$lang->enable_join}</p>
@@ -33,16 +33,14 @@
 			<li>
 				<p class="q"><label for="webmaster_name">{$lang->webmaster_name}</label></p>
 				<p class="a">
-					<input type="text" id="webmaster_name" name="webmaster_name" value="{$config->webmaster_name}" size="20" />
-				<p>{$lang->about_webmaster_name}</p>
-				</p>
+					<input type="text" id="webmaster_name" name="webmaster_name" value="{$config->webmaster_name}" size="20" /></p>
+				<p class="desc">{$lang->about_webmaster_name}</p>
 			</li>
 			<li>
 				<p class="q"><label for="webmaster_email">{$lang->webmaster_email}</label></p>
 				<p class="a">
-					<input type="text" id="webmaster_email" name="webmaster_email" value="{$config->webmaster_email}" size="40" />
-					<p>{$lang->about_webmaster_email}</p>
-				</p>
+					<input type="text" id="webmaster_email" name="webmaster_email" value="{$config->webmaster_email}" size="40" /></p>
+				<p class="desc">{$lang->about_webmaster_email}</p>
 			</li>
 			<li>
 				<p class="q"><label for="limit_day">{$lang->limit_day}</label></p>
@@ -59,23 +57,20 @@
 			<li>
 				<p class="q"><label for="after_login_url">{$lang->after_login_url}</label></p>
 				<p class="a">
-					<input type="text" id="after_login_url" name="after_login_url" value="{$config->after_login_url}" />
-					<p>{$lang->about_after_login_url}</p>
-				</p>
+					<input type="text" id="after_login_url" name="after_login_url" value="{$config->after_login_url}" /></p>
+				<p class="desc">{$lang->about_after_login_url}</p>
 			</li>
 			<li>
 				<p class="q"><label for="after_logout_url">{$lang->after_logout_url}</label></p>
 				<p class="a">
-					<input type="text" id="after_logout_url" name="after_logout_url" value="{$config->after_logout_url}" />
-					<p>{$lang->about_after_logout_url}</p>
-				</p>
+					<input type="text" id="after_logout_url" name="after_logout_url" value="{$config->after_logout_url}" /></p>
+				<p class="desc">{$lang->about_after_logout_url}</p>
 			</li>
 			<li>
 				<p class="q"><label for="redirect_url">{$lang->redirect_url}</label></p>
 				<p class="a">
-					<input type="text" id="redirect_url" name="redirect_url" value="{$config->redirect_url}" />
-					<p>{$lang->about_redirect_url}</p>
-				</p>
+					<input type="text" id="redirect_url" name="redirect_url" value="{$config->redirect_url}" /></p>
+				<p class="desc">{$lang->about_redirect_url}</p>
 			</li>
 			<li>
 				<p class="q"><label for="skin">{$lang->skin}</label></p>

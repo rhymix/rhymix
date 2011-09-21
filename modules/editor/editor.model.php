@@ -46,8 +46,8 @@
 
             if($editor_config->enable_autosave!='N') $editor_config->enable_autosave = "Y";
 			
-			if(!$editor_config->editor_height) if($editor_default_config->editor_height? $editor_config->editor_height = $editor_default_config->editor_height : $editor_config->editor_height = 500);
-            if(!$editor_config->comment_editor_height) if($editor_default_config->comment_editor_height? $editor_config->comment_editor_height = $editor_default_config->comment_editor_height : $editor_config->comment_editor_height = 120);
+			if(!$editor_config->editor_height) if($editor_default_config->editor_height? $editor_config->editor_height = $editor_default_config->editor_height : $editor_config->editor_height = 400);
+            if(!$editor_config->comment_editor_height) if($editor_default_config->comment_editor_height? $editor_config->comment_editor_height = $editor_default_config->comment_editor_height : $editor_config->comment_editor_height = 100);
 			if(!$editor_config->editor_skin) if($editor_default_config->editor_skin? $editor_config->editor_skin = $editor_default_config->editor_skin : $editor_config->editor_skin = 'xpresseditor');
 			if(!$editor_config->comment_editor_skin) if($editor_default_config->comment_editor_skin? $editor_config->comment_editor_skin = $editor_default_config->comment_editor_skin : $editor_config->comment_editor_skin = 'xpresseditor');
 			if(!$editor_config->content_style) if($editor_default_config->content_style? $editor_config->content_style = $editor_default_config->content_style : $editor_config->content_style = 'default');
