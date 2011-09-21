@@ -98,7 +98,12 @@ xe.lang.confirm_delete = "{$lang->confirm_delete}";
 						<p class="q"><label for="kModule">{$lang->select_module}</label></p>
 						<p class="a">
 							<select style="width:290px" id="kModule" name="module_type">
-								<option loop="$module_list=>$key,$value" value="{$key}">{$value->title}</option>
+								<optgroup label="page" cond="$key=='page'">
+									<option value="WIDGET">{$lang->page_type_name['WIDGET']}</option>
+									<option value="ARTICLE">{$lang->page_type_name['ARTICLE']}</option>
+									<option value="OUTSIDE">{$lang->page_type_name['OUTSIDE']}</option>
+								</optgroup>
+								<option loop="$module_list=>$key,$value" value="{$key}" cond="$key!='page'">{$value->title}</option>
 							</select>
 						</p>
 					</li>

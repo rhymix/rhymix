@@ -149,8 +149,19 @@
 				$cmArgs->site_srl = (int)$site_module_info->site_srl;
 				$cmArgs->mid = $source_args->create_menu_url;
 				$cmArgs->browser_title = $source_args->menu_name;
-				//$cmArgs->layout_srl = $this->selected_layout->layout_srl;
-				$cmArgs->module = $source_args->module_type;
+
+				switch ($source_args->module_type){
+					case 'WIDGET' :
+					case 'ARTICLE' :
+					case 'OUTSIDE' :
+						$cmArgs->module = 'page';
+						$cmArgs->page_type = $source_args->module_type;
+						break;
+					default:
+						$cmArgs->module = $source_args->module_type;
+						unset($cmArgs->page_type);
+				}
+
 				$cmArgs->menu_srl = $source_args->menu_srl;
                 $oModuleController = &getController('module');
 				$output = $oModuleController->insertModule($cmArgs);

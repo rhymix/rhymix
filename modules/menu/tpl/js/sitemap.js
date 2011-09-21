@@ -46,6 +46,7 @@ $('form.siteMap')
 		editForm.find('input[name=menu_name]').val(menuItem.name);
 
 		var moduleType = menuItem.moduleType;
+		if(menuItem.pageType) moduleType = menuItem.pageType;
 		var inputCType = editForm.find('input[name=cType]');
 
 		if(moduleType == 'url')
@@ -171,8 +172,10 @@ $('form.siteMap')
 
 	function completeGetModuleList(ret_obj)
 	{
-		var midList = ret_obj.module_list[$('#kModule').val()].list;
+		var module = $('#kModule').val();
+		if(module == 'WIDGET' || module == 'ARTICLE' || module == 'OUTSIDE') module = 'page';
 
+		var midList = ret_obj.module_list[module].list;
 		var htmlBuffer = "";
 		for(x in midList)
 		{

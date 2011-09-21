@@ -139,6 +139,7 @@
             Context::set('menu_list', $menuList);
 
 			// get installed module list
+			$oPageController = &getController('page');	//for lang
 			$resultModuleList = $oMenuAdminModel->getModuleListInSitemap();
             Context::set('module_list', $resultModuleList);
 
