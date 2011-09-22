@@ -281,11 +281,11 @@
 
 		function _parseInline($buff)
 		{
-			if(preg_match_all('/<([a-zA-Z0-9]+)[^>]*?(?:[ \|]cond| loop)="/s', $buff, $matches) === false) return $buff;
+			if(preg_match_all('/<([a-zA-Z0-9]+)(?:->|<!--.+?-->|[^<>-]*)*?(?:[ \|]cond| loop)="/s', $buff, $matches) === false) return $buff;
 
 			$tags = array_unique($matches[1]);
 			$tags = implode('|',array_unique($matches[1]));
-			$split_regex = '@(<(?:/(?:'.$tags.')|(?:'.$tags.')(?:[^>]*(?:cond|loop)="[^"]+")*)[^>]*>)@s';
+			$split_regex = '@(<(?:/(?:'.$tags.')|(?:'.$tags.')(?:(?:->|<!--.+?-->|[^<>])*?(?:cond|loop)="[^"]+")*)(?:->|<!--.+?-->|[^<>])*>)@s';
 
 			$nodes = preg_split($split_regex, $buff, -1, PREG_SPLIT_DELIM_CAPTURE);
 
