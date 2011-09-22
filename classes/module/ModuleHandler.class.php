@@ -42,9 +42,18 @@
             $this->entry  = Context::convertEncodingStr(Context::get('entry'));
 
             // Validate variables to prevent XSS
-            if($this->module && !preg_match("/^([a-z0-9\_\-]+)$/i",$this->module)) die(Context::getLang("msg_invalid_request"));
-            if($this->mid && !preg_match("/^([a-z0-9\_\-]+)$/i",$this->mid)) die(Context::getLang("msg_invalid_request"));
-            if($this->act && !preg_match("/^([a-z0-9\_\-]+)$/i",$this->act)) die(Context::getLang("msg_invalid_request"));
+			$isInvalid = null;
+            if($this->module && !preg_match("/^([a-z0-9\_\-]+)$/i",$this->module)) $isInvalid = true;
+            if($this->mid && !preg_match("/^([a-z0-9\_\-]+)$/i",$this->mid)) $isInvalid = true;
+            if($this->act && !preg_match("/^([a-z0-9\_\-]+)$/i",$this->act)) $isInvalid = true;
+			if ($isInvalid)
+			{
+				htmlHeader();
+				echo Context::getLang("msg_invalid_request");
+				htmlFooter();
+				Context::close();
+				exit;
+			}
 
             // execute addon (before module initialization)
             $called_position = 'before_module_init';
