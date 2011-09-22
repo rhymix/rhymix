@@ -389,15 +389,18 @@
 					if($cmd == 'import') $cmd = 'load';
 				}
 
-				$isRemoteFile = !!preg_match('@^https?://@i', $attr['target']);
-
-				if(!$isRemoteFile && !preg_match('@^\.?/@',$attr['target'])) $attr['target'] = './'.$attr['target'];
-
 				$metafile = '';
 				$pathinfo = pathinfo($attr['target']);
-				$relativeDir = $this->_getRelativeDir($pathinfo['dirname']);
 
-				if(!$isRemoteFile) $attr['target'] = $relativeDir.'/'.$pathinfo['basename'];
+				$isRemoteFile = !!preg_match('@^https?://@i', $attr['target']);
+
+				if(!$isRemoteFile) {
+					if(!preg_match('@^\.?/@',$attr['target'])) $attr['target'] = './'.$attr['target'];
+
+					$relativeDir = $this->_getRelativeDir($pathinfo['dirname']);
+
+					$attr['target'] = $relativeDir.'/'.$pathinfo['basename'];
+				}
 
 				switch($pathinfo['extension'])
 				{
@@ -411,18 +414,19 @@
 						}
 						break;
 					case 'js':
-						if($cmd == 'unload') {
-							$result = "Context::unloadFile('{$attr['target']}','{$attr['targetie']}');";
+						if($cmd == 'load') {
+							$metafile = $attr['target'];
+							$result = "\$__tmp=array('{$attr['target']}','{$attr['type']}','{$attr['targetie']}','{$attr['index']}','{$attr['usecdn']}','{$attr['cdnprefix']}','{$attr['cdnversion']}');Context::loadFile(\$__tmp);unset(\$__tmp);";
 						} else {
-							$result = "\$__tmp=array('{$attr['target']}','{$attr['media']}','{$attr['targetie']}','{$attr['index']}','{$attr['usecdn']}','{$attr['cdnprefix']}','{$attr['cdnversion']}');Context::loadFile(\$__tmp);unset(\$__tmp);";
+							$result = "Context::unloadFile('{$attr['target']}','{$attr['targetie']}');";
 						}
 						break;
 					case 'css':
-						if($cmd == 'unload') {
-							$result = "Context::unloadFile('{$attr['target']}','{$attr['targetie']}','{$attr['media']}');";
-						} else {
+						if($cmd == 'load') {
 							$metafile = $attr['target'];
-							$result = "\$__tmp=array('{$attr['target']}','{$attr['type']}','{$attr['targetie']}','{$attr['index']}','{$attr['usecdn']}','{$attr['cdnprefix']}','{$attr['cdnversion']}');Context::loadFile(\$__tmp);unset(\$__tmp);";
+							$result = "\$__tmp=array('{$attr['target']}','{$attr['media']}','{$attr['targetie']}','{$attr['index']}','{$attr['usecdn']}','{$attr['cdnprefix']}','{$attr['cdnversion']}');Context::loadFile(\$__tmp);unset(\$__tmp);";
+						} else {
+							$result = "Context::unloadFile('{$attr['target']}','{$attr['targetie']}','{$attr['media']}');";
 						}
 						break;
 				}

@@ -103,10 +103,30 @@ class TemplateHandlerTest extends PHPUnit_Framework_TestCase
 				'<dummy /><include target="../sample.html" /><div>This is another dummy</div>',
 				'<dummy /><?php echo TemplateHandler::getInstance()->compile(\'tests/classes\',\'sample.html\') ?><div>This is another dummy</div>'
 			),
+			// <load target="../../../modules/page/lang/lang.xml">
+			array(
+				'<dummy /><load target="../../../modules/page/lang/lang.xml" /><dummy />',
+				'<dummy /><?php Context::loadLang(\'modules/page/lang\'); ?><dummy />'
+			),
 			// <load target="style.css">
 			array(
 				'<dummy /><load target="css/style.css" /><dummy />',
 				'<dummy /><!--#Meta:tests/classes/template/css/style.css--><?php $__tmp=array(\'tests/classes/template/css/style.css\',\'\',\'\',\'\',\'\',\'\',\'\');Context::loadFile($__tmp);unset($__tmp); ?><dummy />'
+			),
+			// <unload target="style.css">
+			array(
+				'<dummy /><unload target="css/style.css" /><dummy />',
+				'<dummy /><?php Context::unloadFile(\'tests/classes/template/css/style.css\',\'\',\'\'); ?><dummy />'
+			),
+			// <!--%import("../script.js",type="body")-->
+			array(
+				'<dummy /><!--%import("../script.js",type="body")--><dummy />',
+				'<dummy /><!--#Meta:tests/classes/script.js--><?php $__tmp=array(\'tests/classes/script.js\',\'body\',\'\',\'\',\'\',\'\',\'\');Context::loadFile($__tmp);unset($__tmp); ?><dummy />'
+			),
+			// <!--%unload("../script.js",type="body")-->
+			array(
+				'<dummy /><!--%unload("../script.js",type="body")--><dummy />',
+				'<dummy /><?php Context::unloadFile(\'tests/classes/script.js\',\'\'); ?><dummy />'
 			),
 			// comment
 			array(
@@ -118,12 +138,12 @@ class TemplateHandlerTest extends PHPUnit_Framework_TestCase
 				'<meta charset="utf-8" cond="$foo">',
 				'<?php if($__Context->foo){ ?><meta charset="utf-8"><?php } ?>'
 			),
-			// relative path
+			// relative path1
 			array(
 				'<img src="http://naver.com/naver.gif"><input type="image" src="../local.gif" />',
 				'<img src="http://naver.com/naver.gif"><input type="image" src="/xe/tests/classes/local.gif" />'
 			),
-			// relative path
+			// relative path2
 			array(
 				'<img src="http://naver.com/naver.gif"><input type="image" src="../../dir/local.gif" />',
 				'<img src="http://naver.com/naver.gif"><input type="image" src="/xe/tests/dir/local.gif" />'
@@ -136,7 +156,7 @@ class TemplateHandlerTest extends PHPUnit_Framework_TestCase
 			// issue 103
 			array(
 				'<load target="http://aaa.com/aaa.js" />',
-				'<?php $__tmp=array(\'http://aaa.com/aaa.js\',\'\',\'\',\'\',\'\',\'\',\'\');Context::loadFile($__tmp);unset($__tmp); ?>'
+				'<!--#Meta:http://aaa.com/aaa.js--><?php $__tmp=array(\'http://aaa.com/aaa.js\',\'\',\'\',\'\',\'\',\'\',\'\');Context::loadFile($__tmp);unset($__tmp); ?>'
 			),
 			// issue 135
 			array(
@@ -156,7 +176,7 @@ class TemplateHandlerTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testParse($tpl, $expected)
 	{
-		$tmpl = new TemplateHandler();
+		$tmpl = TemplateHandler::getInstance();
 		$tmpl->init(dirname(__FILE__), 'sample.html');
 		$result = $tmpl->parse($tpl, $expected);
 
