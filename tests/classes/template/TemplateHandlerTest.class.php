@@ -2,6 +2,7 @@
 
 define('__DEBUG__', 1);
 define('_XE_PATH_', realpath(dirname(__FILE__).'/../../../'));
+require _XE_PATH_.'/classes/file/FileHandler.class.php';
 require _XE_PATH_.'/classes/template/TemplateHandler.class.php';
 
 $_SERVER['SCRIPT_NAME'] = '/xe/index.php';
@@ -25,8 +26,8 @@ class TemplateHandlerTest extends PHPUnit_Framework_TestCase
 			),
 			// cond
 			array(
-				'<a href="#">Link1</a><a href="#cond" cond="$var==$key">Link2</a>',
-				'<a href="#">Link1</a><?php if($__Context->var==$__Context->key){ ?><a href="#cond">Link2</a><?php } ?>'
+				'<a href="#">Link1</a><a href="#cond" cond="$v==$k">Link2</a>',
+				'<a href="#">Link1</a><?php if($__Context->v==$__Context->k){ ?><a href="#cond">Link2</a><?php } ?>'
 			),
 			// for loop
 			array(
@@ -83,6 +84,11 @@ class TemplateHandlerTest extends PHPUnit_Framework_TestCase
 				'<dummy /><!--@switch($var)--><!--@case("A")-->A<!--@break--><!--@case("B")-->B<!--@break--><!--@default-->C<!--@endswitch--><dummy />',
 				'<dummy /><?php switch($__Context->var){ ?><?php case "A": ?>A<?php break; ?><?php case "B": ?>B<?php break; ?><?php default : ?>C<?php } ?><dummy />'
 			),
+			// invalid block statement
+			array(
+				'<dummy /><!--@xe($var)--><dummy />',
+				'<dummy /><dummy />'
+			),
 			// {@ ...PHP_CODE...}
 			array(
 				'<before />{@$list_page = $page_no}<after />',
@@ -117,6 +123,11 @@ class TemplateHandlerTest extends PHPUnit_Framework_TestCase
 			array(
 				'<dummy /><unload target="css/style.css" /><dummy />',
 				'<dummy /><?php Context::unloadFile(\'tests/classes/template/css/style.css\',\'\',\'\'); ?><dummy />'
+			),
+			// <!--%import("../../../modules/page/tpl/filter/insert_config.xml")-->
+			array(
+				'<dummy /><!--%import("../../../modules/page/tpl/filter/insert_config.xml")--><dummy />',
+				'<dummy /><?php require_once(\'./classes/xml/XmlJsFilter.class.php\');$__xmlFilter = new XmlJsFilter(\'modules/page/tpl/filter\',\'insert_config.xml\');$__xmlFilter->compile(); ?><dummy />'
 			),
 			// <!--%import("../script.js",type="body")-->
 			array(
@@ -178,8 +189,26 @@ class TemplateHandlerTest extends PHPUnit_Framework_TestCase
 	{
 		$tmpl = TemplateHandler::getInstance();
 		$tmpl->init(dirname(__FILE__), 'sample.html');
-		$result = $tmpl->parse($tpl, $expected);
+		$result = $tmpl->parse($tpl);
 
 		$this->assertEquals($result, $this->prefix.$expected);
+	}
+
+	public function testParse2()
+	{
+		$tmpl = TemplateHandler::getInstance();
+		$tmpl->init(dirname(__FILE__), 'no_file.html');
+
+		$result = $tmpl->parse();
+		$this->assertEquals($result, '');
+	}
+
+	public function testCompileDirect()
+	{
+		$tmpl = TemplateHandler::getInstance();
+		$result = $tmpl->compileDirect(dirname(__FILE__), 'sample.html');
+		$result = trim($result);
+
+ 		$this->assertEquals($result, $this->prefix.'<?php if($__Context->has_blog){ ?><a href="http://mygony.com">Taggon\'s blog</a><?php } ?>');
 	}
 }
