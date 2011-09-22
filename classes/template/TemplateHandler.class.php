@@ -258,11 +258,18 @@
 				$pre_pos = strrpos($pre, '<');
 
 				preg_match('/^ loop="([^"]+)"/i',$next,$m);
-				$tag = substr($next,0,strlen($m[0]));
+				$orgTag = $tag = substr($next,0,strlen($m[0]));
 				$next = substr($next,strlen($m[0]));
 				$next_pos = strpos($next, '<');
 
 				$tag = substr($pre, $pre_pos). $tag. substr($next, 0, $next_pos);
+				// search end tag
+				/* tag as '<br cond="condition"/>blahblah' to be '<br cond="condition"/>' */
+				preg_match('/\/>(\w+)/',$tag, $mm);
+				if ($mm[1]){
+					$next_pos = strpos($next, $mm[1]);
+					$tag = substr($pre, $pre_pos). $orgTag. substr($next, 0, $next_pos);
+				}
 				$pre = substr($pre, 0, $pre_pos);
 				$next  = substr($next, $next_pos);
 
@@ -285,21 +292,30 @@
 					if(false!== $fpos = strpos($loop,'=>'))
 					{
 						$target = trim(substr($loop,0,$fpos));
+						if(substr($target, 0, 1) == '$') $target = sprintf('$__Context->%s ', substr($target, 1));
+
 						$vars = trim(substr($loop,$fpos+2));
 						if(false===strpos($vars,','))
 						{
+							if(substr($vars, 0, 1) == '$') $vars = sprintf('$__Context->%s ', substr($vars, 1));
+
 							$tag_head .= '<?php if(count('.$target.')) { foreach('.$target.' as '.$vars.') { ?>';
 							$tag_tail .= '<?php } } ?>';
 						}
 						else
 						{
 							$t = explode(',',$vars);
+							foreach($t as $key => $val){
+								if(substr(trim($val), 0, 1) == '$') $val = sprintf('$__Context->%s ', substr(trim($val), 1));
+								$t[$key] = trim($val);
+							}
 							$tag_head .= '<?php if(count('.$target.')) { foreach('.$target.' as '.trim($t[0]).' => '.trim($t[1]).') { ?>';
 							$tag_tail .= '<?php } } ?>';
 						}
 					}
 					elseif(false!==strpos($loop,';'))
 					{
+						$loop = preg_replace('/\$(\w+)/', '$__Context->$1', $loop);
 						$tag_head .= '<?php for('.$loop.'){ ?>';
 						$tag_tail .= '<?php } ?>';
 					}
@@ -337,8 +353,10 @@
 		{
 			if(strpos($matches[0],'|cond')!==false) {
 				while(strpos($matches[0],'|cond="')!==false) {
-					if(preg_match('/ (\w+)=\"([^\"]+)\"\|cond=\"([^\"]+)\"/is', $matches[0], $m))
+					if(preg_match('/ (\w+)=\"([^\"]+)\"\|cond=\"([^\"]+)\"/is', $matches[0], $m)){
+						$m[3] = preg_replace('/^\$(\w+)/', '$__Context->$1', $m[3]);
 						$matches[0] = str_replace($m[0], sprintf('<?php if(%s) {?> %s="%s"<?php }?>', $m[3], $m[1], $m[2]), $matches[0]);
+					}
 				}
 			}
 
@@ -362,6 +380,14 @@
 				$next_pos = strpos($next, $m[0]);
 
 				$tag = substr($pre, $pre_pos). substr($next, 0, $next_pos);
+
+				// search end tag
+				/* tag as '<br cond="condition"/>blahblah' to be '<br cond="condition"/>' */
+				preg_match('/\/>(\w+)/',$tag, $mm);
+				if ($mm[1]){
+					$next_pos = strpos($next, $mm[1]);
+					$tag = substr($pre, $pre_pos). substr($next, 0, $next_pos);
+				}
 				$pre = substr($pre, 0, $pre_pos);
 				$next  = substr($next, $next_pos);
 				$tag_name = trim(substr($tag,1,strpos($tag,' ')));
@@ -371,6 +397,7 @@
 				{
 					for($i=0,$c=count($m[0]);$i<$c;$i++)
 					{
+						$m[1][$i] = preg_replace('/^\$(\w+)/', '$__Context->$1', $m[1][$i]);
 						$tag_head .= '<?php if('.$m[1][$i].') { ?>';
 						$tag_tail .= '<?php } ?>';
 					}
@@ -478,9 +505,11 @@
 
 			// otherwise try to load xml, css, js file
 			} else {
-				if(substr($target,0,1)!='/') $source_filename = $base_path.$target;
+				if(substr($target,0,1)!='/' && !preg_match('/^(http|https)/i',$target)) $source_filename = $base_path.$target;
 				else $source_filename = $target;
-				$source_filename = str_replace(array('/./','//'),'/',$source_filename);
+
+				if(!preg_match('/^(http|https)/i',$source_filename)) 
+					$source_filename = str_replace(array('/./','//'),'/',$source_filename);
 
 				// get filename and path
 				$tmp_arr = explode("/",$source_filename);

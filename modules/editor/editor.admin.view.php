@@ -26,7 +26,10 @@
             $component_list = $oEditorModel->getComponentList(false, $site_srl, true);
 
             Context::set('component_list', $component_list);
-
+			
+			$security = new Security();
+			$security->encodeHTML('component_list....');			
+			
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('admin_index');
         }
@@ -67,10 +70,16 @@
                 }
             } else {
                 $module_categories[0]->list = $mid_list;
-            }
+            }			
 
             Context::set('mid_list',$module_categories);
 
+			//Security
+			$security = new Security();
+			$security->encodeHTML('group_list..title');			
+			$security->encodeHTML('component...');
+			$security->encodeHTML('mid_list..title','mid_list..list..browser_title');			
+			
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('setup_component');
             $this->setLayoutFile("popup_layout");

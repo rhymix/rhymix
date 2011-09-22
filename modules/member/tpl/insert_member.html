@@ -15,7 +15,7 @@
     <input type="hidden" name="member_srl" value="{$member_info->member_srl}" />
     <input type="hidden" name="signature" value="{htmlspecialchars($member_info->signature)}" />
     <!--@if($member_info->member_srl)-->
-    <input type="hidden" name="user_id" value="{htmlspecialchars($member_info->user_id)}" />
+    <input type="hidden" name="user_id" value="{$member_info->user_id}" />
     <!--@end-->
 
 
@@ -25,7 +25,7 @@
         <th scope="row"><div>{$lang->user_id}</div></th>
         <td class="wide">
             <!--@if($member_info->member_srl)-->
-            {htmlspecialchars($member_info->user_id)}
+            {$member_info->user_id}
             <!--@else-->
             <input type="text" name="user_id" value="" class="inputTypeText" />
             <p>{$lang->about_user_id}</p>
@@ -41,34 +41,34 @@
     <tr>
         <th scope="row"><div>{$lang->user_name}</div></th>
         <td>
-            <input type="text" name="user_name" value="{htmlspecialchars($member_info->user_name)}" class="inputTypeText" />
+            <input type="text" name="user_name" value="{$member_info->user_name}" class="inputTypeText" />
             <p>{$lang->about_user_name}</p>
         </td>
     </tr>
     <tr class="row2">
         <th scope="row"><div>{$lang->nick_name}</div></th>
         <td>
-            <input type="text" name="nick_name" value="{htmlspecialchars($member_info->nick_name)}" class="inputTypeText" />
+            <input type="text" name="nick_name" value="{$member_info->nick_name}" class="inputTypeText" />
             <p>{$lang->about_nick_name}</p>
         </td>
     </tr>
     <tr>
         <th scope="row"><div>{$lang->email_address}</div></th>
         <td>
-            <input type="text" name="email_address" value="{htmlspecialchars($member_info->email_address)}" class="inputTypeText" />
+            <input type="text" name="email_address" value="{$member_info->email_address}" class="inputTypeText" />
         </td>
     </tr>
     <tr class="row2">
         <th scope="row"><div>{$lang->homepage}</div></th>
         <td>
-            <input type="text" name="homepage" value="{htmlspecialchars($member_info->homepage)}" class="inputTypeText"/>
+            <input type="text" name="homepage" value="{$member_info->homepage}" class="inputTypeText"/>
             <p>{$lang->about_homepage}</p>
         </td>
     </tr>
     <tr>
         <th scope="row"><div>{$lang->blog}</div></th>
         <td>
-            <input type="text" name="blog" value="{htmlspecialchars($member_info->blog)}" class="inputTypeText" />
+            <input type="text" name="blog" value="{$member_info->blog}" class="inputTypeText" />
         </td>
     </tr>
     <tr class="row2">
@@ -131,7 +131,7 @@
     <tr>
         <th scope="row"><div>{$lang->description}</div></th>
         <td>
-            <textarea name="description" class="inputTypeTextArea fullWidth">{htmlspecialchars($member_info->description)}</textarea>
+            <textarea name="description" class="inputTypeTextArea fullWidth">{$member_info->description}</textarea>
             <p>{$lang->about_member_description}</p>
         </td>
     </tr>
@@ -155,7 +155,7 @@
         <!--@if($val->is_active=='Y')-->
     <tr class="row{$cycle_idx}">
         <th scope="row"><div>
-            {htmlspecialchars($val->column_title)}
+            {$val->column_title}
             <!--@if($val->required=='Y')-->*<!--@end-->
             <div class="publicItem">
                 <input type="checkbox" class="checkbox" name="open_{$val->column_name}" <!--@if($val->is_opened)-->checked="checked"<!--@end--> value="Y" id="open_{$val->column_name}" />
@@ -165,31 +165,31 @@
         <td class="wide">
             <!--// 일반 text -->
             <!--@if($val->column_type == 'text')-->
-                <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value)}" class="inputTypeText w400" />
+                <input type="text" name="{$val->column_name}" value="{$val->value}" class="inputTypeText w400" />
 
             <!--// 홈페이지 주소 -->
             <!--@elseif($val->column_type == 'homepage')-->
-                <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value)}" class="inputTypeText w400" />
+                <input type="text" name="{$val->column_name}" value="{$val->value}" class="inputTypeText w400" />
 
             <!--// Email 주소 -->
             <!--@elseif($val->column_type == 'email_address')-->
-                <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value)}" class="inputTypeText w400" />
+                <input type="text" name="{$val->column_name}" value="{$val->value}" class="inputTypeText w400" />
 
             <!--// 전화번호 -->
             <!--@elseif($val->column_type == 'tel')-->
-                <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value[0])}" size="4" class="inputTypeText" />-
-                <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value[1])}" size="4" class="inputTypeText" />-
-                <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value[2])}" size="4" class="inputTypeText" />
+                <input type="text" name="{$val->column_name}" value="{$val->value[0]}" size="4" class="inputTypeText" />-
+                <input type="text" name="{$val->column_name}" value="{$val->value[1]}" size="4" class="inputTypeText" />-
+                <input type="text" name="{$val->column_name}" value="{$val->value[2]}" size="4" class="inputTypeText" />
 
             <!--// textarea -->
             <!--@elseif($val->column_type == 'textarea')-->
-                <textarea name="{$val->column_name}" class="inputTypeTextArea w400">{htmlspecialchars($val->value)}</textarea>
+                <textarea name="{$val->column_name}" class="inputTypeTextArea w400">{$val->value}</textarea>
 
             <!--// 다중 선택 -->
             <!--@elseif($val->column_type == 'checkbox')-->
                 <!--@if($val->default_value)-->
                     <!--@foreach($val->default_value as $v)-->
-                        <input type="checkbox" name="{$val->column_name}" value="{htmlspecialchars($v)}" <!--@if(is_array($val->value)&&in_array($v, $val->value))-->checked="checked"<!--@end-->/>    {$v}
+                        <input type="checkbox" name="{$val->column_name}" value="{$v}" <!--@if(is_array($val->value)&&in_array($v, $val->value))-->checked="checked"<!--@end-->/>    {$v}
                     <!--@end-->
                 <!--@end-->
 
@@ -227,7 +227,7 @@
                     </div>
                     <div class="item address2">
 						<label for="krzip_address2_{$val->column_name}" class="iLabel">{$lang->msg_kr_address_etc}</label>
-                        <input type="text" name="{$val->column_name}" id="krzip_address2_{$val->column_name}" value="{htmlspecialchars($val->value[1])}" class="iText w400" />
+                        <input type="text" name="{$val->column_name}" id="krzip_address2_{$val->column_name}" value="{$val->value[1]}" class="iText w400" />
                     </div>
                 </div>
 				<load target="js/krzip_search.js" type="body" />
@@ -243,7 +243,7 @@
 
 
             <!--@end-->
-            <!--@if($val->description)--><p class="clear">{htmlspecialchars($val->description)}</p><!--@end-->
+            <!--@if($val->description)--><p class="clear">{$val->description}</p><!--@end-->
         </td>
     </tr>
         <!--@end-->

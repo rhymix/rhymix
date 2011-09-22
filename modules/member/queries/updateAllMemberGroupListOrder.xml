@@ -1,0 +1,8 @@
+<query id="updateAllMemberGroupListOrder" action="update">
+    <tables>
+        <table name="member_group" />
+    </tables>
+    <columns>
+        <column name="list_order" default="group_srl" />
+    </columns>
+</query>

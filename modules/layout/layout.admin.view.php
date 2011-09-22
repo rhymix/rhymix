@@ -21,6 +21,10 @@
             $oLayoutModel = &getModel('layout');
             $layout_list = $oLayoutModel->getLayoutList();
             Context::set('layout_list', $layout_list);
+			
+			//Security
+			$security = new Security();
+			$security->encodeHTML('layout_list..layout','layout_list..title');						
 
             $this->setTemplateFile('index');
         }
@@ -29,7 +33,11 @@
             $oLayoutModel = &getModel('layout');
             $layout_list = $oLayoutModel->getLayoutList(0, "M");
             Context::set('layout_list', $layout_list);
-
+			
+			//Security
+			$security = new Security();
+			$security->encodeHTML('layout_list..layout','layout_list..title');						
+			
             $this->setTemplateFile('mindex');
 
 		}
@@ -44,6 +52,10 @@
 			$layout_type = Context::get('layout_type');
             $layout_list = $oLayoutModel->getDownloadedLayoutList($layout_type);
             Context::set('layout_list', $layout_list);
+			
+			//Security
+			$security = new Security();
+			$security->encodeHTML('layout_list..layout','layout_list..title');						
 
             $this->setTemplateFile('insert_layout');
         }
@@ -53,7 +65,7 @@
          **/
         function dispLayoutAdminModify() {
 
-            // 선택된 레이아웃의 정보르 구해서 세팅
+            // 선택된 레이아웃의 정보를 구해서 세팅
             $layout_srl = Context::get('layout_srl');
 
             // 레이아웃의 정보를 가져옴
@@ -72,6 +84,16 @@
             $menu_list = $oMenuAdminModel->getMenus();
             Context::set('menu_list', $menu_list);
 
+			//Security
+			$security = new Security();
+			$security->encodeHTML('menu_list..title');					
+			$security->encodeHTML('selected_layout.');
+			
+			/*이미지 명칭 &도 같이 변환됨			
+			$security->encodeHTML('selected_layout.layout_title');
+			$security->encodeHTML('selected_layout.extra_var..value');
+			$security->encodeHTML('selected_layout.extra_var..option..'); */
+			
             $this->setTemplateFile('layout_modify');
         }
 
@@ -134,7 +156,12 @@
             $oLayoutModel = &getModel('layout');
             $layout_list = $oLayoutModel->getDownloadedLayoutList();
             Context::set('layout_list', $layout_list);
-
+			
+			//Security
+			$security = new Security();
+			$security->encodeHTML('layout_list..');	
+			$security->encodeHTML('layout_list..author..');	
+			
             $this->setTemplateFile('downloaded_layout_list');
         }
 
@@ -144,6 +171,11 @@
             $layout_list = $oLayoutModel->getDownloadedLayoutList(0, "M");
             Context::set('layout_list', $layout_list);
 
+			//Security
+			$security = new Security();
+			$security->encodeHTML('layout_list..');	
+			$security->encodeHTML('layout_list..author..');	
+			
             $this->setTemplateFile('downloaded_mlayout_list');
 		}
 
@@ -218,7 +250,13 @@
             Context::set('layout_info', $layout_info);
 
             // 레이아웃을 팝업으로 지정
-            $this->setLayoutFile('popup_layout');
+            $this->setLayoutFile('popup_layout');			
+			
+			$security = new Security();
+			$security->encodeHTML('layout_list..');	
+			$security->encodeHTML('layout_list..author..');				
+			$security->encodeHTML('layout_list..history..');
+			$security->encodeHTML('layout_list..history..author..');				
 
             // 템플릿 파일 지정
             $this->setTemplateFile('layout_detail_info');

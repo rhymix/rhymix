@@ -37,7 +37,7 @@
             Context::set('comment_list', $output->data);
             Context::set('page_navigation', $output->page_navigation);
 
-            // 템플릿 지정
+            // 템플릿 지정 
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('comment_list');
         }

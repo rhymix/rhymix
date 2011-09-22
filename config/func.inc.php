@@ -413,7 +413,7 @@
      * @brief YmdHis의 시간 형식을 지금으로 부터 몇분/몇시간전, 1일 이상 차이나면 format string return
      **/
     function getTimeGap($date, $format = 'Y.m.d') {
-        $gap = time() - ztime($date);
+        $gap = time() - zgap() - ztime($date);
 
         $lang_time_gap = Context::getLang('time_gap');
         if($gap<60) $buff = sprintf($lang_time_gap['min'], (int)($gap / 60)+1);

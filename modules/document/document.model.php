@@ -786,7 +786,10 @@
             // 기존의 extra_keys 가져옴
             $extra_keys = $this->getExtraKeys($module_srl);
             Context::set('extra_keys', $extra_keys);
-
+			
+			$security = new Security();				
+			$security->encodeHTML('extra_keys..name','extra_keys..eid');
+			
             // grant 정보를 추출
             $oTemplate = &TemplateHandler::getInstance();
             return $oTemplate->compile($this->module_path.'tpl', 'extra_keys');
@@ -828,8 +831,8 @@
             // 회원 그룹의 목록을 가져옴
             $group_list = $oMemberModel->getGroups($module_info->site_srl);
             Context::set('group_list', $group_list);
-
-            // parent_srl이 있고 category_srl 이 없으면 하부 메뉴 추가임
+			
+			// parent_srl이 있고 category_srl 이 없으면 하부 메뉴 추가임
             if(!$category_srl && $parent_srl) {
                 // 상위 메뉴의 정보를 가져옴
                 $parent_info = $this->getCategory($parent_srl);
@@ -853,6 +856,9 @@
 
             $category_info->title = htmlspecialchars($category_info->title);
             Context::set('category_info', $category_info);
+			
+			$security = new Security();				
+			$security->encodeHTML('group_list..title');
 
             // template 파일을 직접 컴파일한후 tpl변수에 담아서 return한다.
             $oTemplate = &TemplateHandler::getInstance();

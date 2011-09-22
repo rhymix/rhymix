@@ -13,7 +13,7 @@
         function init() {
             $this->setTemplatePath($this->module_path.'tpl');
         }
-        
+
         /**
          * @brief 위젯 목록을 보여줌
          **/
@@ -24,6 +24,9 @@
             Context::set('widget_list', $widget_list);
 
             $this->setTemplateFile('downloaded_widget_list');
+
+			$security = new Security();
+			$security->encodeHTML('widget_list..', 'widget_list..author..');
         }
 
         /**
@@ -46,6 +49,9 @@
             $oEditorModel = &getModel('editor');
             $editor = $oEditorModel->getModuleEditor('document',$module_srl, $module_srl,'module_srl','content');
             Context::set('editor', $editor);
+
+			$security = new Security();
+			$security->encodeHTML('member_config..');
 
             $this->setLayoutFile("popup_layout");
             $this->setTemplateFile('add_content_widget');

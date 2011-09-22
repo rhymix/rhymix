@@ -52,7 +52,10 @@
             Context::set('page', $output->page);
             Context::set('poll_list', $output->data);
             Context::set('page_navigation', $output->page_navigation);
-            Context::set('module_list', $module_list);
+            Context::set('module_list', $module_list);			
+			
+			$security = new Security();				
+			$security->encodeHTML('poll_list..title');
 
             // 템플릿 지정
             $this->setTemplatePath($this->module_path.'tpl');
@@ -77,7 +80,12 @@
 
             // 설정된 스킨의 컬러셋 설정
             Context::set('colorset_list', $skin_list[$config->skin]->colorset);
-        
+			
+			$security = new Security();				
+			$security->encodeHTML('config..');
+			$security->encodeHTML('skin_list..title');
+			$security->encodeHTML('colorset_list..name','colorset_list..title');
+			
             // 템플릿 지정
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('config');

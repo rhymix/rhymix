@@ -1579,20 +1579,25 @@ class documentController extends document {
 
 		$document_srl_count = count($document_srl_list);
 
+		$oDocumentModel = &getModel('document');
+		$document_items = array();
+		foreach($document_srl_list as $document_srl){
+			$oDocument = $oDocumentModel->getDocument($document_srl);
+			$document_items[] = $oDocument;
+			if (!$oDocument->isGranted()) return $this->stop('msg_not_permitted');
+		}
+
 		// 쪽지 발송
 		if($message_content) {
 
 			$oCommunicationController = &getController('communication');
-			$oDocumentModel = &getModel('document');
 
 			$logged_info = Context::get('logged_info');
 
 			$title = cut_str($message_content,10,'...');
 			$sender_member_srl = $logged_info->member_srl;
 
-			for($i=0;$i<$document_srl_count;$i++) {
-				$document_srl = $document_srl_list[$i];
-				$oDocument = $oDocumentModel->getDocument($document_srl);
+			foreach($document_items as $oDocument){
 				if(!$oDocument->get('member_srl') || $oDocument->get('member_srl')==$sender_member_srl) continue;
 
 				if($type=='move') $purl = sprintf("<a href=\"%s\" onclick=\"window.open(this.href);return false;\">%s</a>", $oDocument->getPermanentUrl(), $oDocument->getPermanentUrl());

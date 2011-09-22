@@ -18,7 +18,7 @@
     <tr>
         <th scope="row"><div>{$lang->title}</div></th>
         <td class="wide">
-            <input type="text" class="inputTypeText" name="feed_title" value="{htmlspecialchars($total_config->feed_title)}" />
+            <input type="text" class="inputTypeText" name="feed_title" value="{$total_config->feed_title}" />
         </td>
     </tr>
     <tr>
@@ -43,7 +43,7 @@
     <tr>
         <th scope="row"><div>{$lang->feed_copyright}</div></th>
         <td class="wide">
-            <input type="text" class="inputTypeText" name="feed_copyright" value="{htmlspecialchars($total_config->feed_copyright)}" />
+            <input type="text" class="inputTypeText" name="feed_copyright" value="{$total_config->feed_copyright}" />
             <p>{$lang->about_feed_copyright}</p>
         </td>
     </tr>

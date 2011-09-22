@@ -103,9 +103,8 @@
                 $style = $contents[$i];
                 $info = $oModuleModel->loadSkinInfo($this->module_path,$style,'styles');
                 $content_style_list[$style]->title = $info->title;
-            }
+            }			
             Context::set('content_style_list', $content_style_list);
-
 
             // 그룹 목록을 구함
             $oMemberModel = &getModel('member');
@@ -113,11 +112,18 @@
             $group_list = $oMemberModel->getGroups($site_module_info->site_srl);
             Context::set('group_list', $group_list);
 
+			//Security
+			$security = new Security();
+			$security->encodeHTML('group_list..title');
+			$security->encodeHTML('group_list..description');
+			$security->encodeHTML('content_style_list..');
+			$security->encodeHTML('editor_comment_colorset_list..title');			
+			
             // 템플릿 파일 지정
             $oTemplate = &TemplateHandler::getInstance();
             $tpl = $oTemplate->compile($this->module_path.'tpl', 'editor_module_config');
             $obj .= $tpl;
-
+			
             return new Object();
         }
 

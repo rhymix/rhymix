@@ -6,6 +6,12 @@
         $member_srl = $matches[3];
         if($member_srl<1) return $matches[0];
 
+        $orig_text = preg_replace('/'.preg_quote($matches[5],'/').'<\/'.$matches[6].'>$/', '', $matches[0]);
+
+		// Check Group Image Mark
+		$oMemberModel = &getModel('member');
+		if($oMemberModel->getGroupImageMark($member_srl)) return $orig_text.$matches[5].'</'.$matches[6].'>';
+
         if(!isset($GLOBALS['_pointLevelIcon'][$member_srl])) {
             // 포인트 설정을 구해옴
             if(!$GLOBALS['_pointConfig']) {
@@ -45,7 +51,6 @@
         }
         $text = $GLOBALS['_pointLevelIcon'][$member_srl];
 
-        $orig_text = preg_replace('/'.preg_quote($matches[5],'/').'<\/'.$matches[6].'>$/', '', $matches[0]);
         return $orig_text.$text.$matches[5].'</'.$matches[6].'>';
     }
 ?>

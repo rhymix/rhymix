@@ -163,11 +163,16 @@
             Context::set('total_count', $output->total_count);
             Context::set('total_page', $output->total_page);
             Context::set('page', $output->page);
-            Context::set('page_navigation', $output->page_navigation);
-
-            // 템플릿 지정
+            Context::set('page_navigation', $output->page_navigation);			
+			
+			$security = new Security();
+			$security->encodeHTML('file_list..source_filename','file_list..ipaddress');
+			$security->encodeHTML('module_list..browser_title','module_list..mid');						
+				
+			// 템플릿 지정
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('file_list');
+
         }
 
         /**

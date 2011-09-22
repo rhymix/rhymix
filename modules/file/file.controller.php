@@ -233,7 +233,7 @@
             header("Content-Transfer-Encoding: binary\n"); 
 
 			// if file size is lager than 10MB, use fread function (#18675748)
-			if (filesize($uploaded_filename) > pow(1024, 10240)) {
+			if (filesize($uploaded_filename) > 1024 * 1024) {
 				while(!feof($fp)) echo fread($fp, 1024);
 				fclose($fp);
 			} else {
@@ -266,7 +266,32 @@
             if(!$_SESSION['upload_info'][$editor_sequence]->enabled) exit();
 
             $upload_target_srl = $_SESSION['upload_info'][$editor_sequence]->upload_target_srl;
-            if($upload_target_srl && $file_srl) $output = $this->deleteFile($file_srl);
+
+			$logged_info = Context::get('logged_info');
+			$oFileModel = &getModel('file');
+
+            $srls = explode(',',$file_srl);
+            if(!count($srls)) return;
+
+            for($i=0;$i<count($srls);$i++) {
+                $srl = (int)$srls[$i];
+                if(!$srl) continue;
+
+                $args = null;
+                $args->file_srl = $srl;
+                $output = executeQuery('file.getFile', $args);
+                if(!$output->toBool()) continue;
+
+                $file_info = $output->data;
+                if(!$file_info) continue;
+
+				$file_grant = $oFileModel->getFileGrant($file_info, $logged_info); 
+
+				if(!$file_grant->is_deletable) continue;
+
+				if($upload_target_srl && $file_srl) $output = $this->deleteFile($file_srl);
+            }
+
         }
 
         /**
@@ -476,6 +501,9 @@
             // trigger 호출 (after)
             $trigger_output = ModuleHandler::triggerCall('file.insertFile', 'after', $args);
             if(!$trigger_output->toBool()) return $trigger_output;
+
+
+			$_SESSION['__XE_UPLOADING_FILES_INFO__'][$args->file_srl] = true;
 
             $output->add('file_srl', $args->file_srl);
             $output->add('file_size', $args->file_size);

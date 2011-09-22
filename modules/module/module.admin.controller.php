@@ -188,16 +188,18 @@
             if(!$output->toBool()) return $output;
 
             // DB에 권한 저장 
-            foreach($grant as $grant_name => $group_srls) {
-                foreach($group_srls as $key => $val) {
-                    $args = null;
-                    $args->module_srl = $module_srl;
-                    $args->name = $grant_name;
-                    $args->group_srl = $val;
-                    $output = executeQuery('module.insertModuleGrant', $args);
-                    if(!$output->toBool()) return $output;
-                }
-            }
+			if ($grant){
+				foreach($grant as $grant_name => $group_srls) {
+					foreach($group_srls as $key => $val) {
+						$args = null;
+						$args->module_srl = $module_srl;
+						$args->name = $grant_name;
+						$args->group_srl = $val;
+						$output = executeQuery('module.insertModuleGrant', $args);
+						if(!$output->toBool()) return $output;
+					}
+				}
+			}
             $this->setMessage('success_registed');
         }
 

@@ -92,7 +92,7 @@
     <tr>
         <td class="tCenter number">{$no}</td>
         <td class="tCenter"><input type="checkbox" name="cart" value="{$val->file_srl}" /></td>
-        <td class="wide"><a href="{$val->download_url}" class="red">{htmlspecialchars($val->source_filename)}</a></td>
+        <td class="wide"><a href="{$val->download_url}" class="red">{$val->source_filename}</a></td>
         <td class="number tRight">{FileHandler::filesize($val->file_size)}</td>
         <td class="tCenter">
         <!--@if($val->isvalid=='Y')-->

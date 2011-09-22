@@ -42,6 +42,12 @@
             }
             Context::set('except_module', $except_module_list);
 
+			//Security
+			$security = new Security();			
+			$security->encodeHTML('services..service','except_module..ping');
+			$security->encodeHTML('except_module..mid','except_module..browser_title');
+			
+			
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('config');
         }

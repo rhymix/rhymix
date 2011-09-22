@@ -1633,6 +1633,9 @@
             // DB에 입력
             $args->member_srl = getNextSequence();
             $args->list_order = -1 * $args->member_srl;
+			$args->nick_name = htmlspecialchars($args->nick_name);
+			$args->homepage = htmlspecialchars($args->homepage);
+			$args->blog = htmlspecialchars($args->blog);
             if($args->password && !$password_is_hashed) $args->password = md5($args->password);
             elseif(!$args->password) unset($args->password);
 
@@ -1780,6 +1783,9 @@
             if($args->password) $args->password = md5($args->password);
             else $args->password = $member_info->password;
             if(!$args->user_name) $args->user_name = $member_info->user_name;
+			$args->nick_name = htmlspecialchars($args->nick_name);
+			$args->homepage = htmlspecialchars($args->homepage);
+			$args->blog = htmlspecialchars($args->blog);
 
 			if(!$args->description) $args->description = '';
             $output = executeQuery('member.updateMember', $args);

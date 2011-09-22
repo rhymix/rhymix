@@ -209,5 +209,25 @@
         function getFileModuleConfig($module_srl) {
             return $this->getFileConfig($module_srl);
         }
+
+		function getFileGrant($file_info, $member_info){
+			if (!$file_info) return null;
+
+			if ($_SESSION['__XE_UPLOADING_FILES_INFO__'][$file_info->file_srl]) {
+				$file_grant->is_deletable = true;
+				return $file_grant;
+			}
+
+			$oModuleModel = &getModel('module');
+			$grant = $oModuleModel->getGrant($oModuleModel->getModuleInfoByModuleSrl($file_info->module_srl), $member_info);
+
+			$oDocumentModel = &getModel('document');
+			$oDocument = $oDocumentModel->getDocument($file_info->upload_target_srl);
+			if ($oDocument->isExists()) $document_grant = $oDocument->isGranted(); 
+			
+			$file_grant->is_deletable = ($document_grant || $member_info->is_admin == 'Y' || $member_info->member_srl == $file_info->member_srl || $grant->manager);
+			
+			return $file_grant;
+		}
     }
 ?>

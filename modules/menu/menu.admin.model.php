@@ -119,8 +119,8 @@
             // 회원 그룹의 목록을 가져옴
             $oMemberModel = &getModel('member');
             $group_list = $oMemberModel->getGroups();
-            Context::set('group_list', $group_list);
-
+            Context::set('group_list', $group_list);	
+			
             // parent_srl이 있고 menu_item_srl이 없으면 하부 메뉴 추가임
             if(!$menu_item_srl && $parent_srl) {
                 // 상위 메뉴의 정보를 가져옴
@@ -142,11 +142,17 @@
                 }
             }
             Context::set('item_info', $item_info);
-
+			
+			//Security
+			$security = new Security();						
+			$security->encodeHTML('group_list..title');
+			$security->encodeHTML('item_info.url');
+			$security->encodeHTML('item_info.name');			
+				
             // template 파일을 직접 컴파일한후 tpl변수에 담아서 return한다.
             $oTemplate = &TemplateHandler::getInstance();
-            $tpl = $oTemplate->compile($this->module_path.'tpl', 'menu_item_info');
-
+            $tpl = $oTemplate->compile($this->module_path.'tpl', 'menu_item_info');			
+			
             $this->add('tpl', str_replace("\n"," ",$tpl));
         }
 

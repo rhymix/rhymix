@@ -23,10 +23,10 @@
     <!--@foreach($menu_list as $no => $val)-->
     <tr class="row{$cycle_idx}">
         <td class="number center">{$no}</td>
-        <td class="wide">{htmlspecialchars($val->title)}</td>
+        <td class="wide">{$val->title}</td>
         <td class="nowrap">{zdate($val->regdate,"Y-m-d")}</td>
         <td><a href="{getUrl('act','dispMenuAdminManagement','menu_srl',$val->menu_srl)}" class="buttonSet buttonSetting"><span>{$lang->cmd_setup}</span></a></td>
-        <td><a href="#" onclick="doDeleteMenu('{$val->menu_srl}');return false;" title="{htmlspecialchars($lang->cmd_delete)}" class="buttonSet buttonDelete"><span>{$lang->cmd_delete}</span></a></td>
+        <td><a href="#" onclick="doDeleteMenu('{$val->menu_srl}');return false;" title="{$lang->cmd_delete}" class="buttonSet buttonDelete"><span>{$lang->cmd_delete}</span></a></td>
     </tr>
     <!--@end-->
     <tr>

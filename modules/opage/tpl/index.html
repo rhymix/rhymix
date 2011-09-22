@@ -47,7 +47,7 @@
                 {$module_category[$val->module_category_srl]->title}
             <!--@end-->
         </td>
-        <td>{htmlspecialchars($val->mid)}</td>
+        <td>{$val->mid}</td>
         <td><a href="{getUrl('','mid',$val->mid)}"  onclick="window.open(this.href); return false;">{$val->browser_title}</a></td>
         <td>{zdate($val->regdate,"Y-m-d")}</td>
         <td><a href="{getUrl('act','dispOpageAdminInsert','module_srl',$val->module_srl)}" class="buttonSet buttonSetting"><span>{$lang->cmd_setup}</span></a></td>

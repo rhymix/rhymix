@@ -10,7 +10,7 @@
         <td class="center">
             <select name="skin" onchange="doDisplaySkinColorset(this);return false;">
             <!--@foreach($skin_list as $key => $val)-->
-                <option value="{$key}" <!--@if($config->skin == $key)-->selected="selected"<!--@end-->>{$val->title} ({$key})</option>
+                <option value="{$key}" <!--@if($config->skin == $key)-->selected="selected"<!--@end-->>{$val->title} ({htmlspecialchars($key)})</option>
             <!--@end-->
             </select>
         </td>

@@ -158,7 +158,7 @@
 
 	<div class="section">
 	<h4 class="dashboardH4">{$lang->env_information} <a href="{getUrl('','module','admin','act','dispAdminConfig')}">{$lang->cmd_setup}</a></h4>
-        <!--@if($current_version < $released_version)-->
+        <!--@if(version_compare($current_version, $released_version, '<'))-->
         <p class="summary red">{nl2br($lang->about_download_link)} [<a href="{$download_link}" onclick="window.open(this.href);return false;">{$lang->cmd_download}</a>]</p>
         <!--@end-->
         <table>

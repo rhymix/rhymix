@@ -44,14 +44,14 @@
     <tr>
         <th scope="row"><div>{$lang->column_name}</div></th>
         <td>
-            <input type="text" name="column_name" value="{htmlspecialchars($join_form->column_name)}" class="inputTypeText w400" />
+            <input type="text" name="column_name" value="{$join_form->column_name}" class="inputTypeText w400" />
             <p>{$lang->about_column_name}</p>
         </td>
     </tr>
     <tr class="row2">
         <th scope="row"><div>{$lang->column_title}</div></th>
         <td>
-            <input type="text" name="column_title" value="{htmlspecialchars($join_form->column_title)}" class="inputTypeText w400" />
+            <input type="text" name="column_title" value="{$join_form->column_title}" class="inputTypeText w400" />
             <p>{$lang->about_column_title}</p>
         </td>
     </tr>
@@ -72,7 +72,7 @@
     <tr>
         <th scope="row"><div>{$lang->description}</div></th>
         <td>
-            <textarea name="description" class="inputTypeTextArea w400">{htmlspecialchars($join_form->description)}</textarea>
+            <textarea name="description" class="inputTypeTextArea w400">{$join_form->description}</textarea>
             <p>{$lang->about_form_description}</p>
         </td>
     </tr>

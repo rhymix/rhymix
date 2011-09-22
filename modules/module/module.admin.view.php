@@ -29,7 +29,10 @@
             // 모듈 목록을 구해서 
             $oModuleModel = &getModel('module');
             $module_list = $oModuleModel->getModuleList();
-            Context::set('module_list', $module_list);
+            Context::set('module_list', $module_list);			
+						
+			$security = new Security();				
+			$security->encodeHTML('module_list....');			
 
             // 템플릿 파일 지정
             $this->setTemplateFile('module_list');
@@ -43,6 +46,9 @@
             $oModuleModel = &getModel('module');
             $module_info = $oModuleModel->getModuleInfoXml(Context::get('selected_module'));
             Context::set('module_info', $module_info);
+			
+			$security = new Security();				
+			$security->encodeHTML('module_info...');
 
             // 레이아웃을 팝업으로 지정
             $this->setLayoutFile('popup_layout');
@@ -61,9 +67,15 @@
             $oModuleModel = &getModel('module');
 
             // 선택된 카테고리가 있으면 해당 카테고리의 정보 수정 페이지로
+			//Security
+			$security = new Security();				
+			
             if($module_category_srl) {
                 $selected_category  = $oModuleModel->getModuleCategory($module_category_srl);
                 Context::set('selected_category', $selected_category);
+				
+				//Security
+				$security->encodeHTML('selected_category.title');				
 
                 // 템플릿 파일 지정
                 $this->setTemplateFile('category_update_form');
@@ -72,7 +84,10 @@
             } else {
                 $category_list = $oModuleModel->getModuleCategories();
                 Context::set('category_list', $category_list);
-
+				
+				//Security
+				$security->encodeHTML('category_list..title');
+				
                 // 템플릿 파일 지정
                 $this->setTemplateFile('category_list');
             }
@@ -117,11 +132,16 @@
             $oLayoutMode = &getModel('layout');
             $layout_list = $oLayoutMode->getLayoutList();
             Context::set('layout_list', $layout_list);
-
+			
             // 모듈 카테고리 목록을 구함
             $module_category = $oModuleModel->getModuleCategories();
             Context::set('module_category', $module_category);
 
+			$security = new Security();				
+			$security->encodeHTML('layout_list..title','layout_list..layout');
+			$security->encodeHTML('skin_list....');
+			$security->encodeHTML('module_category...');			
+			
             // 레이아웃을 팝업으로 지정
             $this->setLayoutFile('popup_layout');
 
@@ -186,6 +206,9 @@
             $oMemberModel = &getModel('member');
             $group_list = $oMemberModel->getGroups($module_info->site_srl);
             Context::set('group_list', $group_list);
+			
+			$security = new Security();				
+			$security->encodeHTML('group_list..title');
 
             // 레이아웃을 팝업으로 지정
             $this->setLayoutFile('popup_layout');

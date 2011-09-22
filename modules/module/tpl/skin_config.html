@@ -84,11 +84,11 @@
         <th scope="row"><div>{$val->title}</div></th>
         <td class="wide">
             <!--@if($val->type=="text")-->
-                <input type="text" name="{$val->name}" value="{htmlspecialchars($val->value)}" id="target{$val->name}" class="inputTypeText w400" />
+                <input type="text" name="{$val->name}" value="{$val->value}" id="target{$val->name}" class="inputTypeText w400" />
                 <a href="{getUrl('','module','module','act','dispModuleAdminLangcode','target','target'.$val->name)}" onclick="popopen(this.href);return false;" class="buttonSet buttonSetting"><span>{$lang->cmd_find_langcode}</span></a>
 
             <!--@elseif($val->type=="textarea")-->
-                <textarea name="{$val->name}" class="inputTypeTextArea w400" id="target{$val->name}">{htmlspecialchars($val->value)}</textarea>
+                <textarea name="{$val->name}" class="inputTypeTextArea w400" id="target{$val->name}">{$val->value}</textarea>
                 <a href="{getUrl('','module','module','act','dispModuleAdminLangcode','target','target'.$val->name)}" onclick="popopen(this.href);return false;" class="buttonSet buttonSetting"><span>{$lang->cmd_find_langcode}</span></a>
 
             <!--@elseif($val->type=="select")-->

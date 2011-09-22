@@ -25,6 +25,9 @@
             $addon_list = $oAddonModel->getAddonList($site_module_info->site_srl);
             Context::set('addon_list', $addon_list);
 
+			$security = new Security();
+			$security->encodeHTML('addon_list..', 'addon_list..author..');
+
             // 템플릿 패스 및 파일을 지정
             $this->setTemplateFile('addon_list');
         }
@@ -57,7 +60,7 @@
 
                 if($mid_list) {
                     foreach($mid_list as $module_srl => $module) {
-                        $module_categories[$module->module_category_srl]->list[$module_srl] = $module; 
+                        $module_categories[$module->module_category_srl]->list[$module_srl] = $module;
                     }
                 }
             } else {
@@ -71,6 +74,9 @@
 
             // 템플릿 패스 및 파일을 지정
             $this->setTemplateFile('setup_addon');
+
+			$security = new Security();
+			$security->encodeHTML('addon_info.', 'addon_info.author..', 'mid_list....');
         }
 
         /**
@@ -92,6 +98,9 @@
 
             // 템플릿 패스 및 파일을 지정
             $this->setTemplateFile('addon_info');
+
+			$security = new Security();
+			$security->encodeHTML('addon_info.', 'addon_info.author..');
         }
 
     }

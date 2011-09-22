@@ -45,7 +45,7 @@
 </thead>
 <tbody>
     <!--@foreach($comment_list as $no => $val)-->
-	{@ $comment = cut_str(trim(htmlspecialchars(strip_tags($val->content))), 200, '...')}
+	{@ $comment = cut_str(trim(strip_tags($val->content)), 200, '...')}
     <tr>
         <td class="number center">{$no}</td>
         <td class="center"><input type="checkbox" name="cart" value="{$val->comment_srl}" /></td>

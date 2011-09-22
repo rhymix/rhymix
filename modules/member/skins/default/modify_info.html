@@ -44,7 +44,7 @@
     </tr>
     <tr>
         <th><div>{$lang->nick_name} <span class="require">*</span></div></th>
-        <td><input type="text" name="nick_name" value="{htmlspecialchars($member_info->nick_name)}" /> <p>{$lang->about_nick_name}</p></td>
+        <td><input type="text" name="nick_name" value="{htmlspecialchars(htmlspecialchars_decode($member_info->nick_name))}" /> <p>{$lang->about_nick_name}</p></td>
     </tr>
     <tr>
         <th><div>{$lang->email_address} <span class="require">*</span></div></th>
@@ -124,11 +124,11 @@
     <!--@end-->
     <tr>
         <th><div>{$lang->homepage}</div></th>
-        <td><input type="text" name="homepage" value="{htmlspecialchars($member_info->homepage)}" /> <p>{$lang->about_homepage}</p></td>
+        <td><input type="text" name="homepage" value="{htmlspecialchars(htmlspecialchars_decode($member_info->homepage))}" /> <p>{$lang->about_homepage}</p></td>
     </tr>
     <tr>
         <th><div>{$lang->blog}</div></th>
-        <td><input type="text" name="blog" value="{htmlspecialchars($member_info->blog)}" /> <p>{$lang->about_blog_url}</p></td>
+        <td><input type="text" name="blog" value="{htmlspecialchars(htmlspecialchars_decode($member_info->blog))}" /> <p>{$lang->about_blog_url}</p></td>
     </tr>
     <tr>
         <th><div>{$lang->birthday}</div></th>
@@ -168,7 +168,7 @@
 
             <!--// 홈페이지 주소 -->
             <!--@elseif($val->column_type == 'homepage')-->
-                <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value)}" class="iText w400" />
+                <input type="text" name="{$val->column_name}" value="{htmlspecialchars(htmlspecialchars_decode($val->value))}" class="iText w400" />
 
             <!--// Email 주소 -->
             <!--@elseif($val->column_type == 'email_address')-->

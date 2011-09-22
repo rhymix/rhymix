@@ -16,8 +16,13 @@
             $config = $oModuleModel->getModuleConfig('point');
 
             // 설정 변수 지정
-            Context::set('config', $config);
+            Context::set('config', $config);				
 
+			//Security
+			$security = new Security();			
+			$security->encodeHTML('config.point_name','config.level_icon');
+			$security->encodeHTML('module_info..');			
+			
             // template path지정
             $this->setTemplatePath($this->module_path.'tpl');
         }
@@ -39,9 +44,13 @@
                     if($val->is_admin == 'Y' || $val->is_default == 'Y') continue;    
                     $selected_group_list[$key] = $val;
                 }
-            }
+            }			
             Context::set('group_list', $selected_group_list);
 
+			//Security
+			$security = new Security();			
+			$security->encodeHTML('group_list..title','group_list..description');			
+			
             // 템플릿 지정
             $this->setTemplateFile('config');
         }
@@ -57,16 +66,12 @@
 
             Context::set('module_config', $oModuleModel->getModulePartConfigs('point'));
 
+			//Security
+			$security = new Security();			
+			$security->encodeHTML('mid_list..browser_title','mid_list..mid');			
+			
             // 템플릿 지정
             $this->setTemplateFile('module_config');
-        }
-
-        /**
-         * @brief 기능별 act 설정
-         **/
-        function dispPointAdminActConfig() {
-            // 템플릿 지정
-            $this->setTemplateFile('action_config');
         }
 
         /**
@@ -93,6 +98,11 @@
             // group 목록 가져오기
             $this->group_list = $oMemberModel->getGroups();
             Context::set('group_list', $this->group_list);
+			
+			//Security
+			$security = new Security();			
+			$security->encodeHTML('group_list..title','group_list..description');
+			$security->encodeHTML('member_list..');			
 
             // 템플릿 지정
             $this->setTemplateFile('member_list');

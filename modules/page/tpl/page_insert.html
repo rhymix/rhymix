@@ -31,7 +31,7 @@
     <tr>
         <th scope="row"><div>{$lang->browser_title}</div></th>
         <td colspan="3">
-            <input type="text" name="browser_title" value="{htmlspecialchars($module_info->browser_title)}"  class="inputTypeText w400" id="browser_title"/>
+            <input type="text" name="browser_title" value="{$module_info->browser_title}"  class="inputTypeText w400" id="browser_title"/>
             <a href="{getUrl('','module','module','act','dispModuleAdminLangcode','target','browser_title')}" onclick="popopen(this.href);return false;" class="buttonSet buttonSetting"><span>{$lang->cmd_find_langcode}</span></a>
             <p>{$lang->about_browser_title}</p>
         </td>

@@ -28,6 +28,11 @@
 
             // 템플릿 파일 지정
             $this->setTemplatePath($this->module_path.'tpl');
+			
+			//Security
+			$security = new Security();
+			$security->encodeHTML('skin_list..title');				
+			
             $this->setTemplateFile('config');
         }
 

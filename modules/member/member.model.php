@@ -354,6 +354,8 @@
         function getGroups($site_srl = 0) {
             if(!$GLOBALS['__group_info__'][$site_srl]) {
                 $args->site_srl = $site_srl;
+				$args->sort_index = 'list_order';
+				$args->order_type = 'asc';
                 $output = executeQuery('member.getGroups', $args);
                 if(!$output->data) return;
 
@@ -602,27 +604,32 @@
          * @brief group의 이미지마크 정보를 구함
          **/
         function getGroupImageMark($member_srl,$site_srl=0) {
-            $oModuleModel = &getModel('module');
-            $config = $oModuleModel->getModuleConfig('member');
-            if($config->group_image_mark!='Y'){
-                return null;
-            }
-            $member_group = $this->getMemberGroups($member_srl,$site_srl);
+            if(!isset($GLOBALS['__member_info__']['group_image_mark'][$member_srl])) {
+				$oModuleModel = &getModel('module');
+				$config = $oModuleModel->getModuleConfig('member');
+				if($config->group_image_mark!='Y'){
+					return null;
+				}
+				$member_group = $this->getMemberGroups($member_srl,$site_srl);
+				$groups_info = $this->getGroups($site_srl);
+				$image_mark_info = null;
 
-            $groups_info = $this->getGroups($site_srl);
-            $image_mark = null;
-            if(count($member_group) > 0 && is_array($member_group)){
-                $group_srl = array_keys($member_group);
-                $image_mark = $groups_info[$group_srl[0]]->image_mark;
-            }
-            if($image_mark){
-//                list($width, $height, $type, $attrs) = getimagesize($image_mark);
-//                $info->width = $width;
-//                $info->height = $height;
-                $info->src = $image_mark;
-                return $info;
+				foreach($groups_info as $key=>$val){
+					$target = $member_group[$key];
+					if (!empty($target) && !empty($val->image_mark))
+					{
+						$info->title = $val->title;
+						$info->description = $val->description;
+						$info->src = $val->image_mark;
+						$GLOBALS['__member_info__']['group_image_mark'][$member_srl] = $info;
+						break;
+					}
+				}
+				if (!$info) $GLOBALS['__member_info__']['group_image_mark'][$member_srl] == 'N';
+			}
+			if ($GLOBALS['__member_info__']['group_image_mark'][$member_srl] == 'N') return null;
 
-            }else return false;
+			return $GLOBALS['__member_info__']['group_image_mark'][$member_srl];
         }
 
         /**

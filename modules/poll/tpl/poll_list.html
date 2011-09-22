@@ -25,7 +25,7 @@
     <tr class="row{$cycle_idx}">
         <td class="number center">{$no}</td>
         <td class="center"><input type="checkbox" name="cart" value="{$val->poll_index_srl}" /></td>
-        <td><a href="#" onclick="doMovePoll({$val->poll_srl},{$val->upload_target_srl});return false;">{htmlspecialchars($val->title)}</a></td>
+        <td><a href="#" onclick="doMovePoll({$val->poll_srl},{$val->upload_target_srl});return false;">{$val->title}</a></td>
         <td class="number center">{$val->checkcount}</td>
         <td class="number center">{$val->poll_count}</td>
         <td class="date nowrap center">{zdate($val->regdate,"Y-m-d H:i")}</td>

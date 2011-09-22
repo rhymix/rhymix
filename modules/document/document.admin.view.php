@@ -122,9 +122,8 @@
                 $aliases = $output->data; 
             }
 
-
             Context::set('aliases', $aliases);
-
+	
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('document_alias');
         }

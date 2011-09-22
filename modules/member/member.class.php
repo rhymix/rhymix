@@ -143,6 +143,9 @@
             if(!$oDB->isColumnExists("member_group", "site_srl")) return true;
             if($oDB->isIndexExists("member_group","uni_member_group_title")) return true;
 
+			// Add a column for list_order (05/18/2011)
+            if(!$oDB->isColumnExists("member_group", "list_order")) return true;
+
             // image_mark 추가 (2009. 02. 14)
             if(!$oDB->isColumnExists("member_group", "image_mark")) return true;
 
@@ -190,6 +193,13 @@
                 $oDB->dropIndex("member_group","uni_member_group_title",true);
             }
 
+            // Add a column(list_order) to "member_group" table (05/18/2011)
+            if (!$oDB->isColumnExists("member_group", "list_order")) {
+                $oDB->addColumn("member_group", "list_order", "number", 11, '', true);
+                $oDB->addIndex("member_group","idx_list_order", "list_order",false);
+                $output = executeQuery('member.updateAllMemberGroupListOrder');
+            }
+
             // image_mark 추가 (2009. 02. 14)
             if(!$oDB->isColumnExists("member_group", "image_mark")) {
                 $oDB->addColumn("member_group", "image_mark", "text");
@@ -216,7 +226,6 @@
                 executeQuery('member.updateMemberListOrderAll',$args);
                 executeQuery('member.updateMemberListOrderAll');
             }
-            
             if(!$oDB->isIndexExists("member","idx_list_order")) {
                 $oDB->addIndex("member","idx_list_order", array("list_order"));
             }

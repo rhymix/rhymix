@@ -4,7 +4,8 @@
      * @author NHN (developers@xpressengine.com)
      * @brief  addon 모듈의 admin controller class
      **/
-    include_once('addon.controller.php');
+
+    require_once(_XE_PATH_.'modules/addon/addon.controller.php');
 
     class addonAdminController extends addonController {
 

@@ -29,10 +29,14 @@
 
             Context::set('total_count', $output->total_count);
             Context::set('total_page', $output->total_page);
-            Context::set('page', $output->page);
+            Context::set('page', $output->page);			
             Context::set('menu_list', $output->data);
-            Context::set('page_navigation', $output->page_navigation);
-
+			Context::set('page_navigation', $output->page_navigation);
+			
+			//Security
+			$security = new Security();
+			$security->encodeHTML('menu_list..title');	
+			
             $this->setTemplateFile('index');
         }
  
@@ -66,9 +70,13 @@
             $oMenuModel = &getAdminModel('menu');
             $menu_info = $oMenuModel->getMenu($menu_srl);
             if($menu_info->menu_srl != $menu_srl) return $this->dispMenuAdminContent();
-
-            Context::set('menu_info', $menu_info);
-
+            		
+			Context::set('menu_info', $menu_info);
+						
+			//Security
+			$security = new Security();
+			$security->encodeHTML('menu_info..title');			
+			
             // 레이아웃을 팝업으로 지정
             $this->setTemplateFile('menu_management');
         }
@@ -87,16 +95,23 @@
             // 모듈 목록을 구함 
             $module_list = $oModuleModel->getModuleList();
             Context::set('module_list', $module_list);
-
+			
             // mid 목록을 구해옴
             $args->module_category_srl = Context::get('module_category_srl');
             $args->module = Context::get('target_module');
             $mid_list = $oModuleModel->getMidList($args);
-            Context::set('mid_list', $mid_list);
-
+            Context::set('mid_list', $mid_list);			
+			
             // 메뉴을 팝업으로 지정
             $this->setLayoutFile('popup_layout');
-
+			
+			//Security
+			$security = new Security();
+			$security->encodeHTML('module_category..title');
+			$security->encodeHTML('module_list..module');
+			$security->encodeHTML('mid_list..module');
+			$security->encodeHTML('mid_list..browser_title');			
+			
             // 템플릿 파일 지정
             $this->setTemplateFile('mid_list');
         }

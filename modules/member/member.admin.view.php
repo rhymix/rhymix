@@ -1,4 +1,4 @@
-<?php
+<?php	
     /**
      * @class  memberAdminView
      * @author NHN (developers@xpressengine.com)
@@ -28,6 +28,9 @@
             $this->group_list = $oMemberModel->getGroups();
             Context::set('group_list', $this->group_list);
 
+			$security = new Security();						
+			$security->encodeHTML('group_list..');
+			
             $this->setTemplatePath($this->module_path.'tpl');
         }
 
@@ -46,14 +49,16 @@
                     $output->data[$key]->group_list = $oMemberModel->getMemberGroups($member->member_srl,0);
                 }
             }
-
             Context::set('total_count', $output->total_count);
             Context::set('total_page', $output->total_page);
             Context::set('page', $output->page);
             Context::set('member_list', $output->data);
             Context::set('page_navigation', $output->page_navigation);
-
-            $this->setTemplateFile('member_list');
+			
+			$security = new Security();			
+			$security->encodeHTML('member_list..user_name','member_list..group_list..');
+			
+			$this->setTemplateFile('member_list');
         }
 
         /**
@@ -86,6 +91,9 @@
             $editor = $oEditorModel->getEditor(0, $option);
             Context::set('editor', $editor);
 
+			$security = new Security();
+			$security->encodeHTML('config..');
+			
             $this->setTemplateFile('member_config');
         }
 
@@ -98,6 +106,12 @@
             $member_config = $oModuleModel->getModuleConfig('member');
             Context::set('member_config', $member_config);
             Context::set('extend_form_list', $oMemberModel->getCombineJoinForm($this->member_info));
+			
+			$security = new Security();
+			$security->encodeHTML('member_config..');
+			$security->encodeHTML('member_info.user_name','member_info.description','member_info.group_list..');			
+			$security->encodeHTML('extend_form_list...');
+			
             $this->setTemplateFile('member_info');
         }
 
@@ -127,39 +141,42 @@
                 $editor = $oEditorModel->getEditor($this->member_info->member_srl, $option);
                 Context::set('editor', $editor);
             }
-
+			
+			$security = new Security();				
+			$security->encodeHTML('extend_form_list..');
+			$security->encodeHTML('extend_form_list..default_value.');			
+			
             $this->setTemplateFile('insert_member');
         }
 
-        /**
-         * @brief display member delete form
+        /** O
+         * @brief display member delete form 
          **/
         function dispMemberAdminDeleteForm() {
             if(!Context::get('member_srl')) return $this->dispMemberAdminList();
             $this->setTemplateFile('delete_form');
         }
 
-        /**
+        /** ->group_update_form
          * @brief display group list
          **/
         function dispMemberAdminGroupList() {
             $oModuleModel = &getModel('module');
 
             $config = $oModuleModel->getModuleConfig('member');
-            if($config->group_image_mark_order) $config->group_image_mark_order = explode(',', $config->group_image_mark_order);
             Context::set('config', $config);
 
             $group_srl = Context::get('group_srl');
-
+			
             if($group_srl && $this->group_list[$group_srl]) {
                 Context::set('selected_group', $this->group_list[$group_srl]);
-                $this->setTemplateFile('group_update_form');
+				$this->setTemplateFile('group_update_form');
             } else {
                 $this->setTemplateFile('group_list');
-            }
+            }			
         }
 
-        /**
+        /** O
          * @brief 회원 가입 폼 목록 출력
          **/
         function dispMemberAdminJoinFormList() {
@@ -169,11 +186,13 @@
             // 추가로 설정한 가입 항목 가져오기
             $form_list = $oMemberModel->getJoinFormList();
             Context::set('form_list', $form_list);
-
+			$security = new Security($form_list);						
+			$security->encodeHTML('form_list..');
+			
             $this->setTemplateFile('join_form_list');
         }
 
-        /**
+        /** O h, ck
          * @brief 회원 가입 폼 관리 화면 출력
          **/
         function dispMemberAdminInsertJoinForm() {
@@ -184,12 +203,17 @@
                 $join_form = $oMemberModel->getJoinForm($member_join_form_srl);
 
                 if(!$join_form) Context::set('member_join_form_srl','',true);
-                else Context::set('join_form', $join_form);
+                else {
+					Context::set('join_form', $join_form);
+					$security = new Security();
+					$security->encodeHTML('join_form..');
+				}
+				
             }
             $this->setTemplateFile('insert_join_form');
         }
 
-        /**
+        /** O
          * @brief 금지 목록 아이디 출력
          **/
         function dispMemberAdminDeniedIDList() {
@@ -204,7 +228,9 @@
             Context::set('page', $output->page);
             Context::set('member_list', $output->data);
             Context::set('page_navigation', $output->page_navigation);
-
+			
+			$security = new Security();
+			$security->encodeHTML('member_list..');			
             $this->setTemplateFile('denied_id_list');
         }
 
@@ -220,7 +246,10 @@
             // 회원 그룹 목록을 구함
             $oMemberModel = &getModel('member');
             Context::set('member_groups', $oMemberModel->getGroups());
-
+			
+			$security = new Security();
+			$security->encodeHTML('member_list..');	
+			
             $this->setLayoutFile('popup_layout');
             $this->setTemplateFile('manage_member_group');
         }
@@ -234,7 +263,7 @@
             $output = executeQueryArray('member.getMembers', $args);
             Context::set('member_list', $output->data);
 
-            $this->setLayoutFile('popup_layout');
+			$this->setLayoutFile('popup_layout');
             $this->setTemplateFile('delete_members');
         }
     }

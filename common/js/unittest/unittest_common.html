@@ -43,7 +43,7 @@ describe('SetQuery', {
     'should remove https port and add http port if http port is defined' : function() {
         targetsp = "https://xpressengine.com:443/?q=r";
         http_port = 8000;
-        value_of(targetsp.setQuery("act","dispLogin2")).should_be("http://xpressengine.com/:8000/?q=r&act=dispLogin2");
+        value_of(targetsp.setQuery("act","dispLogin2")).should_be("http://xpressengine.com:8000/?q=r&act=dispLogin2");
     },
     'should only remove https port and if http port is defined as 80' : function() {
         targetsp = "https://xpressengine.com:443/?q=r";

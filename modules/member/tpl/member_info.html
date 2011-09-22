@@ -11,15 +11,15 @@
 <table cellspacing="0" class="rowTable">
 <tr class="row2">
     <th scope="row"><div>{$lang->user_id}</div></th>
-    <td>{htmlspecialchars($member_info->user_id)}</td>
+    <td>{$member_info->user_id}</td>
 </tr>
 <tr>
     <th scope="row"><div>{$lang->user_name}</div></th>
-    <td>{htmlspecialchars($member_info->user_name)}</td>
+    <td>{$member_info->user_name}</td>
 </tr>
 <tr class="row2">
     <th scope="row"><div>{$lang->nick_name}</div></th>
-    <td>{htmlspecialchars($member_info->nick_name)}</td>
+    <td>{$member_info->nick_name}</td>
 </tr>
 <tr>
     <th scope="row" rowspan="2"><div>{$lang->profile_image}</div></th>
@@ -92,15 +92,15 @@
 </tr>
 <tr>
     <th scope="row"><div>{$lang->email_address}</div></th>
-    <td>{htmlspecialchars($member_info->email_address)}</td>
+    <td>{$member_info->email_address}</td>
 </tr>
 <tr class="row2">
     <th scope="row"><div>{$lang->homepage}</div></th>
-    <td><!--@if($member_info->homepage)--><a href="{$member_info->homepage}" onclick="winopen(this.href); return false;">{htmlspecialchars($member_info->homepage)}</a><!--@end-->&nbsp;</td>
+    <td><!--@if($member_info->homepage)--><a href="{$member_info->homepage}" onclick="winopen(this.href); return false;">{$member_info->homepage}</a><!--@end-->&nbsp;</td>
 </tr>
 <tr>
     <th scope="row"><div>{$lang->blog}</div></th>
-    <td><!--@if($member_info->blog)--><a href="{$member_info->blog}" onclick="windopen(this.href); return false;">{htmlspecialchars($member_info->blog)}</a><!--@end-->&nbsp;</td>
+    <td><!--@if($member_info->blog)--><a href="{$member_info->blog}" onclick="windopen(this.href); return false;">{$member_info->blog}</a><!--@end-->&nbsp;</td>
 </tr>
 <tr class="row2">
     <th scope="row"><div>{$lang->birthday}</div></th>
@@ -146,22 +146,22 @@
 <!--@if($extend_form_list)-->
 <!--@foreach($extend_form_list as $key => $val)-->
 <tr class="row{$cycle_idx}">
-    <th scope="row"><div>{htmlspecialchars($val->column_title)}<!--@if($val->is_opened)--> <span class="publicItem">({$lang->public})</span><!--@end--></div></th>
+    <th scope="row"><div>{$val->column_title}<!--@if($val->is_opened)--> <span class="publicItem">({$lang->public})</span><!--@end--></div></th>
     <td>
         <!--@if($val->column_type=='tel')-->
-            {htmlspecialchars($val->value[0])}
+            {$val->value[0]}
                 <!--@if($val->value[1])-->-<!--@end-->
-            {htmlspecialchars($val->value[1])}
+            {$val->value[1]}
                 <!--@if($val->value[2])-->-<!--@end-->
-            {htmlspecialchars($val->value[2])}
+            {$val->value[2]}
         <!--@elseif($val->column_type=='kr_zip')-->
-            {htmlspecialchars($val->value[0])}<!--@if($val->value[1]&&$val->value[0])--><br /><!--@end-->{htmlspecialchars($val->value[1])}
+            {$val->value[0]}<!--@if($val->value[1]&&$val->value[0])--><br /><!--@end-->{$val->value[1]}
         <!--@elseif($val->column_type=='checkbox' && is_array($val->value))-->
-            {htmlspecialchars(implode(", ",$val->value))}
+            {implode(", ",$val->value)}
         <!--@elseif($val->column_type=='date')-->
             {zdate($val->value, "Y-m-d")}
         <!--@else-->
-            {nl2br(htmlspecialchars($val->value))}
+            {nl2br($val->value)}
         <!--@end-->
         &nbsp;
     </td>
@@ -170,7 +170,7 @@
 <!--@end-->
 <tr>
     <th scope="row"><div>{$lang->description}</div></th>
-    <td>{htmlspecialchars($member_info->description)}&nbsp;</td>
+    <td>{$member_info->description}&nbsp;</td>
 </tr>
 <tr class="row2">
     <th colspan="2" class="button">

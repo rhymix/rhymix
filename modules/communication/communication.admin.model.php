@@ -28,6 +28,10 @@
                 $communication_config = $oModuleModel->getModuleConfig('communication');
                 if(!$communication_config->colorset) $communication_config->colorset = "white";
                 Context::set('communication_config', $communication_config);
+				
+				$security = new Security();
+				$security->encodeHTML('skin_info.colorset..title','skin_info.colorset..name');
+				$security->encodeHTML('skin_info.colorset..name');
 
                 $oTemplate = &TemplateHandler::getInstance();
                 $tpl = $oTemplate->compile($this->module_path.'tpl', 'colorset_list');

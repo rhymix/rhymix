@@ -37,7 +37,10 @@
             $ip_list = $oSpamFilterModel->getDeniedIPList();
 
             Context::set('ip_list', $ip_list);
-
+			
+			$security = new Security();
+			$security->encodeHTML('ip_list..');
+			
             // 템플릿 파일 지정
             $this->setTemplateFile('denied_ip_list');
         }
@@ -51,7 +54,10 @@
             $word_list = $oSpamFilterModel->getDeniedWordList();
 
             Context::set('word_list', $word_list);
-
+			
+			$security = new Security();
+			$security->encodeHTML('word_list..word');
+			
             // 템플릿 파일 지정
             $this->setTemplateFile('denied_word_list');
         }

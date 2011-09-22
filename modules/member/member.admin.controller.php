@@ -365,6 +365,7 @@
                 if(!$output->toBool()) return $output;
             }
 
+			if (!$args->group_srl) $args->group_srl = getNextSequence();
             return executeQuery('member.insertGroup', $args);
         }
 
@@ -407,14 +408,16 @@
         }
 
 
-        function procMemberAdminGroupImageMarkUpdateOrder() {
-            $oModuleModel = &getModel('module');
-            $oModuleControll = getController('module');
+        function procMemberAdminUpdateGroupOrder() {
+			$vars = Context::getRequestVars();
+			
+			foreach($vars->group_srls as $key => $val){
+				$args->group_srl = $val;
+				$args->list_order = $key + 1;
+				executeQuery('member.updateMemberGroupListOrder', $args);
+			}
 
-            $config = $oModuleModel->getModuleConfig('member');
-            // $config->group_image_mark_order = Context::get('group_image_mark_order');
-
-            $oModuleControll->insertModuleConfig('member', $config);
+			header(sprintf('Location:%s', getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMemberAdminGroupList')));
         }
 
         /**

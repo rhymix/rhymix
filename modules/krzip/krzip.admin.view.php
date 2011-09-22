@@ -22,6 +22,10 @@
             $config = $oModuleModel->getModuleConfig('krzip');
             Context::set('config',$config);
 
+			//Security
+			$security = new Security();
+			$security->encodeHTML('config..');
+			
             // 템플릿 파일 지정
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('index');

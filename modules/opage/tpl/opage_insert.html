@@ -32,7 +32,7 @@
     <tr>
         <th scope="row"><div>{$lang->browser_title}</div></th>
         <td colspan="3">
-            <input type="text" name="browser_title" value="{htmlspecialchars($module_info->browser_title)}"  class="inputTypeText w400" id="browser_title"/>
+            <input type="text" name="browser_title" value="{$module_info->browser_title}"  class="inputTypeText w400" id="browser_title"/>
             <a href="{getUrl('','module','module','act','dispModuleAdminLangcode','target','browser_title')}" onclick="popopen(this.href);return false;" class="buttonSet buttonSetting"><span>{$lang->cmd_find_langcode}</span></a>
             <p>{$lang->about_browser_title}</p>
         </td>
@@ -68,8 +68,6 @@
 	<p>{$lang->about_layout}</p>
 	</td>
 	</tr>
-
-
     <tr>
         <th scope="row"><div>{$lang->opage_caching_interval}</div></th>
         <td colspan="3">
@@ -80,14 +78,14 @@
     <tr class="row2">
         <th scope="row"><div>{$lang->opage_path}</div></th>
         <td colspan="3">
-            <input type="text" name="opage_path" value="{htmlspecialchars($module_info->path)}"  class="inputTypeText w400" />
+            <input type="text" name="opage_path" value="{$module_info->path}"  class="inputTypeText w400" />
             <p>{$lang->about_opage_path}<b>{realpath("./")}</b></p>
         </td>
     </tr>
     <tr class="row">
         <th scope="row"><div>{$lang->opage_mobile_path}</div></th>
         <td colspan="3">
-            <input type="text" name="opage_mpath" value="{htmlspecialchars($module_info->mpath)}"  class="inputTypeText w400" />
+            <input type="text" name="opage_mpath" value="{$module_info->mpath}"  class="inputTypeText w400" />
             <p>{$lang->about_opage_mobile_path}<b>{realpath("./")}</b></p>
         </td>
     </tr>

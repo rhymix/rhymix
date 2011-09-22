@@ -18,7 +18,7 @@
             // module_srl이 있으면 미리 체크하여 존재하는 모듈이면 module_info 세팅
             $module_srl = Context::get('module_srl');
 
-            // module model 객체 생성 
+            // module model 객체 생성
             $oModuleModel = &getModel('module');
 
             // module_srl이 넘어오면 해당 모듈의 정보를 미리 구해 놓음
@@ -37,6 +37,10 @@
             // 모듈 카테고리 목록을 구함
             $module_category = $oModuleModel->getModuleCategories();
             Context::set('module_category', $module_category);
+
+			//Security
+			$security = new Security();
+			$security->encodeHTML('module_category..title');
 
             // 템플릿 경로 구함 (page의 경우 tpl에 관리자용 템플릿 모아놓음)
             $this->setTemplatePath($this->module_path.'tpl');
@@ -69,6 +73,12 @@
             Context::set('page_list', $output->data);
             Context::set('page_navigation', $output->page_navigation);
 
+			//Security
+			$security = new Security();
+			$security->encodeHTML('page_list..browser_title');
+			$security->encodeHTML('page_list..mid');
+			$security->encodeHTML('module_info.');
+
             // 템플릿 파일 지정
             $this->setTemplateFile('index');
         }
@@ -79,7 +89,6 @@
         function dispPageAdminInfo() {
             // GET parameter에서 module_srl을 가져옴
             $module_srl = Context::get('module_srl');
-
             $module_info = Context::get('module_info');
 
             // module_srl 값이 없다면 그냥 index 페이지를 보여줌
@@ -101,6 +110,14 @@
 			$mobile_layout_list = $oLayoutModel->getLayoutList(0,"M");
 			Context::set('mlayout_list', $mobile_layout_list);
 
+			//Security
+			$security = new Security();
+			$security->encodeHTML('layout_list..layout');
+			$security->encodeHTML('layout_list..title');
+			$security->encodeHTML('mlayout_list..layout');
+			$security->encodeHTML('mlayout_list..title');
+			$security->encodeHTML('module_info.');
+
             // 템플릿 파일 지정
             $this->setTemplateFile('page_info');
         }
@@ -119,6 +136,9 @@
 
             // 템플릿 파일 지정
             $this->setTemplateFile('addition_setup');
+
+			$security = new Security();
+			$security->encodeHTML('module_info.');
         }
 
         /**
@@ -148,6 +168,13 @@
 			$mobile_layout_list = $oLayoutModel->getLayoutList(0,"M");
 			Context::set('mlayout_list', $mobile_layout_list);
 
+			//Security
+			$security = new Security();
+			$security->encodeHTML('layout_list..layout');
+			$security->encodeHTML('layout_list..title');
+			$security->encodeHTML('mlayout_list..layout');
+			$security->encodeHTML('mlayout_list..title');
+
             // 템플릿 파일 지정
             $this->setTemplateFile('page_insert');
         }
@@ -163,7 +190,7 @@
                 else $mtime = filemtime($cache_file);
 
                 if($mtime + $interval*60 > time()) {
-                    $page_content = FileHandler::readFile($cache_file); 
+                    $page_content = FileHandler::readFile($cache_file);
                 } else {
                     $oWidgetController = &getController('widget');
                     $page_content = $oWidgetController->transWidgetCode($this->module_info->mcontent);
@@ -173,7 +200,7 @@
                 if(file_exists($cache_file)) FileHandler::removeFile($cache_file);
                 $page_content = $this->module_info->mcontent;
             }
-            
+
             Context::set('module_info', $this->module_info);
             Context::set('page_content', $page_content);
 
@@ -198,7 +225,11 @@
             $widget_list = $oWidgetModel->getDownloadedWidgetList();
             Context::set('widget_list', $widget_list);
 
-            // 템플릿 파일 지정
+            //Security
+			$security = new Security();
+			$security->encodeHTML('widget_list..title','module_info.mid');
+
+			// 템플릿 파일 지정
             $this->setTemplateFile('page_mobile_content_modify');
 		}
 
@@ -224,10 +255,14 @@
             $widget_list = $oWidgetModel->getDownloadedWidgetList();
             Context::set('widget_list', $widget_list);
 
-            // 템플릿 파일 지정
+			//Security
+			$security = new Security();
+			$security->encodeHTML('widget_list..title','module_info.mid');
+
+			// 템플릿 파일 지정
             $this->setTemplateFile('page_content_modify');
         }
-        
+
         /**
          * @brief 페이지 삭제 화면 출력
          **/
@@ -239,8 +274,15 @@
             $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
             Context::set('module_info',$module_info);
 
+			//Security
+			$security = new Security();
+			$security->encodeHTML('module_info.module','module_info.mid');
+
             // 템플릿 파일 지정
             $this->setTemplateFile('page_delete');
+
+			$security = new Security();
+			$security->encodeHTML('module_info.');
         }
 
         /**
@@ -253,6 +295,9 @@
             Context::set('grant_content', $grant_content);
 
             $this->setTemplateFile('grant_list');
+
+			$security = new Security();
+			$security->encodeHTML('module_info.');
         }
     }
 ?>

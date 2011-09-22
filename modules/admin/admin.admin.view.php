@@ -18,14 +18,14 @@
             $logged_info = $oMemberModel->getLoggedInfo();
             if($logged_info->is_admin!='Y') return $this->stop("msg_is_not_administrator");
 
-            // change into administration layout 
+            // change into administration layout
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setLayoutPath($this->getTemplatePath());
             $this->setLayoutFile('layout.html');
 
 			$this->loadSideBar();
 
-            // Retrieve the list of installed modules 
+            // Retrieve the list of installed modules
 
             $db_info = Context::getDBInfo();
 
@@ -56,7 +56,7 @@
 				if($val->category == 'statistics') $val->category = 'accessory';
 
                 if($val->module == 'admin' || !$val->admin_index_act) continue;
-                // get action information 
+                // get action information
                 $action_spec = $oModuleModel->getModuleActionXml($val->module);
                 $actions = array();
                 if($action_spec->default_index_act) $actions[] = $action_spec->default_index_act;
@@ -70,14 +70,14 @@
                 $obj->index_act = $val->admin_index_act;
                 if(in_array(Context::get('act'), $actions)) $obj->selected = true;
 
-                // Packages 
+                // Packages
                 if($val->category == 'package') {
                     if($package_idx == 0) $obj->position = "first";
                     else $obj->position = "mid";
                     $package_modules[] = $obj;
                     $package_idx ++;
                     if($obj->selected) Context::set('package_selected',true);
-                // Modules 
+                // Modules
                 } else {
                     $installed_modules[] = $obj;
                 }
@@ -94,6 +94,9 @@
 			// add javascript tooltip plugin - gony
 			Context::loadJavascriptPlugin('qtip');
 			Context::loadJavascriptPlugin('watchinput');
+
+			$security = new Security();
+			$security->encodeHTML('selected_module_info.', 'selected_module_info.author..', 'package_modules..', 'installed_modules..');
 		}
 
         /**
@@ -128,12 +131,11 @@
                     }
                     Context::set('news', $news);
                 }
-
                 Context::set('released_version', $buff->zbxe_news->attrs->released_version);
                 Context::set('download_link', $buff->zbxe_news->attrs->download_link);
             }
 
-            // DB Information 
+            // DB Information
             $db_info = Context::getDBInfo();
             Context::set('selected_lang', $db_info->lang_type);
 
@@ -210,7 +212,6 @@
             $args->regdate = date("Ymd");
             $output = executeQuery('admin.getTodayTrackbackCount', $args);
             $status->trackback_count = $output->data->count;
-
             Context::set('status', $status);
 
             // Get statistics
@@ -245,7 +246,7 @@
             $output = executeQuery("admin.getDocumentCount", $args);
             $status->document->total = $output->data->count;
 
-            // Comment Status 
+            // Comment Status
             $output = executeQueryArray("admin.getCommentStatus", $args);
             if($output->data) {
                 foreach($output->data as $var) {
@@ -259,7 +260,7 @@
             $output = executeQuery("admin.getCommentCount", $args);
             $status->comment->total = $output->data->count;
 
-            // Trackback Status 
+            // Trackback Status
             $output = executeQueryArray("admin.getTrackbackStatus", $args);
             if($output->data) {
                 foreach($output->data as $var) {
@@ -273,7 +274,7 @@
             $output = executeQuery("admin.getTrackbackCount", $args);
             $status->trackback->total = $output->data->count;
 
-            // Attached files Status 
+            // Attached files Status
             $output = executeQueryArray("admin.getFileStatus", $args);
             if($output->data) {
                 foreach($output->data as $var) {
@@ -317,11 +318,15 @@
 
             $site_args->site_srl = 0;
             $output = executeQuery('module.getSiteInfo', $site_args);
+
             Context::set('start_module', $output->data);
 
             Context::set('status', $status);
             Context::set('layout','none');
             $this->setTemplateFile('index');
+
+			$security = new Security();
+			$security->encodeHTML('news..', 'released_version', 'download_link', 'selected_lang', 'module_list..', 'module_list..author..', 'addon_list..', 'addon_list..author..', 'start_module.');
         }
 
         /**
@@ -342,7 +347,7 @@
             Context::set('lang_selected', Context::loadLangSelected());
 
 			Context::set('use_mobile_view', $db_info->use_mobile_view=="Y"?'Y':'N');
-            
+
             $ftp_info = Context::getFTPInfo();
             Context::set('ftp_info', $ftp_info);
 

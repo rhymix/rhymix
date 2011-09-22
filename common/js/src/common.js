@@ -296,13 +296,13 @@ String.prototype.setQuery = function(key, val) {
 
 		jQuery.each(args, function(key,val){
 			if (!jQuery.trim(val)) return;
-			q_list.push(key+'='+decodeURI(val));
+			q_list.push(decodeURIComponent(key)+'='+decodeURIComponent(val));
 		});
 
 		query_string = q_list.join('&');
 		uri = uri+(query_string?'?'+query_string:'');
     } else {
-        if(val.toString().trim()) uri = uri+"?"+key+"="+val;
+        if(val.toString().trim()) uri = uri+"?"+decodeURIComponent(key)+"="+decodeURIComponent(val);
     }
 
     var re = /https:\/\/([^:\/]+)(:\d+|)/i;
@@ -345,7 +345,7 @@ String.prototype.setQuery = function(key, val) {
             uri = uri.replace(re,toReplace);
         }
     }
-
+	
     return encodeURI(uri);
 }
 
@@ -605,21 +605,16 @@ function doDocumentPreview(obj) {
     var dummy_obj = jQuery("#previewDocument");
 
     if(!dummy_obj.length) {
-        jQuery(
+        dummy_obj = jQuery(
             '<form id="previewDocument" target="previewDocument" method="post" action="'+request_uri+'">'+
             '<input type="hidden" name="module" value="document" />'+
             '<input type="hidden" name="act" value="dispDocumentPreview" />'+
             '<input type="hidden" name="content" />'+
             '</form>'
         ).appendTo(document.body);
-
-        dummy_obj = jQuery("#previewDocument")[0];
     }
 
-    if(dummy_obj) {
-        dummy_obj.content.value = content;
-        dummy_obj.submit();
-    }
+	dummy_obj.find('input[name="content"]').val(content).end().submit();
 }
 
 /* 게시글 저장 */

@@ -3,7 +3,7 @@
         <table name="member_group" />
     </tables>
     <navigation>
-        <index var="sort_index" default="group_srl" order="desc" />
+        <index var="sort_index" default="list_order" order="order_type" />
     </navigation>
     <conditions>
         <condition operation="equal" column="site_srl" var="site_srl" />

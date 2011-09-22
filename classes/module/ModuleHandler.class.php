@@ -266,16 +266,36 @@
 						$oModule = &$this->getModuleInstance($forward->module, $type, $kind);
 					}
                     $xml_info = $oModuleModel->getModuleActionXml($forward->module);
+					$oMemberModel = &getModel('member');
+					$logged_info = $oMemberModel->getLoggedInfo();
+
 					if($this->module == "admin" && $type == "view")
 					{
-						$oMemberModel = &getModel('member');
-
-						$logged_info = $oMemberModel->getLoggedInfo();
 						if($logged_info->is_admin=='Y') {
 							$orig_module->loadSideBar();
 							$oModule->setLayoutPath("./modules/admin/tpl");
 							$oModule->setLayoutFile("layout.html");
 						}
+						else{
+                            $this->error = 'msg_is_not_administrator';
+                            $oMessageObject = &ModuleHandler::getModuleInstance('message',$type);
+                            $oMessageObject->setError(-1);
+                            $oMessageObject->setMessage($this->error);
+                            $oMessageObject->dispMessage();
+                            return $oMessageObject;
+                        }   
+					}
+					if ($kind == 'admin'){
+						$grant = $oModuleModel->getGrant($this->module_info, $logged_info);		
+						if(!$grant->is_admin && !$grant->manager) {
+                            $this->error = 'msg_is_not_manager';
+                            $oMessageObject = &ModuleHandler::getModuleInstance('message',$type);
+                            $oMessageObject->setError(-1);
+                            $oMessageObject->setMessage($this->error);
+                            $oMessageObject->dispMessage();
+                            return $oMessageObject;
+                        }   
+						
 					}
 				}
 				else if($xml_info->default_index_act && method_exists($oModule, $xml_info->default_index_act))

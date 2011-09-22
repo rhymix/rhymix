@@ -30,6 +30,11 @@
 
             // 커뮤니케이션 스킨 목록을 구함
             Context::set('communication_skin_list', $oModuleModel->getSkins($this->module_path) );
+			
+			$security = new Security();		
+			$security->encodeHTML('communication_config..');
+			$security->encodeHTML('editor_skin_list..');
+			$security->encodeHTML('communication_skin_list..title');			
 
             // template 지정
             $this->setTemplatePath($this->module_path.'tpl');
