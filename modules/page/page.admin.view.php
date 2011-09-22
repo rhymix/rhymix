@@ -260,15 +260,12 @@
             $oWidgetModel = &getModel('widget');
             $widget_list = $oWidgetModel->getDownloadedWidgetList();
             Context::set('widget_list', $widget_list);
-            // Set a template file
-            $this->setTemplateFile('page_content_modify');
-		}
 
 			//Security
 			$security = new Security();
 			$security->encodeHTML('widget_list..title','module_info.mid');
 
-			// 템플릿 파일 지정
+            // Set a template file
             $this->setTemplateFile('page_content_modify');
         }
 
