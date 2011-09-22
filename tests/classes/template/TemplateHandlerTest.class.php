@@ -108,6 +108,11 @@ class TemplateHandlerTest extends PHPUnit_Framework_TestCase
 				'<dummy /><load target="css/style.css" /><dummy />',
 				'<dummy /><!--#Meta:tests/classes/template/css/style.css--><?php $__tmp=array(\'tests/classes/template/css/style.css\',\'\',\'\',\'\',\'\',\'\',\'\');Context::loadFile($__tmp);unset($__tmp); ?><dummy />'
 			),
+			// comment
+			array(
+				'<dummy_before /><!--// this is a comment--><dummy_after />',
+				'<dummy_before /><dummy_after />'
+			),
 			// error case
 			array(
 				'<a href="{$layout_info->index_url}" cond="$layout_info->logo_image"><img src="{$layout_info->logo_image}" alt="logo" border="0" class="iePngFix" /></a>',
