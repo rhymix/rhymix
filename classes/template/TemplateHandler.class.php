@@ -154,7 +154,7 @@
 			}
 
 			// replace value of src in img/input/script tag
-			$buff = preg_replace_callback('/(<(?:img|input|script)(?:->|<!--.+?-->|[^<>])*)\ssrc="(?!https?:\/\/|[\/\{])(.+?)"/is', array($this, '_replacePath'), $buff);
+			$buff = preg_replace_callback('/(<(?:img|input|script)(?:->|[^<>\-])*)\ssrc="(?!https?:\/\/|[\/\{])(.+?)"/is', array($this, '_replacePath'), $buff);
 
 			// replace loop and cond template syntax
 			$buff = $this->_parseInline($buff);
