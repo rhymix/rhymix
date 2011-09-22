@@ -103,10 +103,11 @@
 			$info['package'] = _XE_PACKAGE_;
 			$info['host'] = $db_type->default_url ? $db_type->default_url : getFullUrl();
 			$info['app'] = $_SERVER['SERVER_SOFTWARE'];
+			$info['xe_version'] = __ZBXE_VERSION__;
 			$info['php'] = phpversion();
 
 			$db_info = Context::getDBInfo();
-			$info['db_type'] = $db_info->db_type;
+			$info['db_type'] = Context::getDBType();
 			$info['use_rewrite'] = $db_info->use_rewrite;
 			$info['use_db_session'] = $db_info->use_db_session == 'Y' ?'Y':'N';
 			$info['use_ssl'] = $db_info->use_ssl;
