@@ -113,10 +113,40 @@ class TemplateHandlerTest extends PHPUnit_Framework_TestCase
 				'<dummy_before /><!--// this is a comment--><dummy_after />',
 				'<dummy_before /><dummy_after />'
 			),
+			// self-closing tag
+			array(
+				'<meta charset="utf-8" cond="$foo">',
+				'<?php if($__Context->foo){ ?><meta charset="utf-8"><?php } ?>'
+			),
+			// relative path
+			array(
+				'<img src="http://naver.com/naver.gif"><input type="image" src="../local.gif" />',
+				'<img src="http://naver.com/naver.gif"><input type="image" src="/xe/tests/classes/local.gif" />'
+			),
+			// relative path
+			array(
+				'<img src="http://naver.com/naver.gif"><input type="image" src="../../dir/local.gif" />',
+				'<img src="http://naver.com/naver.gif"><input type="image" src="/xe/tests/dir/local.gif" />'
+			),
 			// error case
 			array(
 				'<a href="{$layout_info->index_url}" cond="$layout_info->logo_image"><img src="{$layout_info->logo_image}" alt="logo" border="0" class="iePngFix" /></a>',
 				'<?php if($__Context->layout_info->logo_image){ ?><a href="<?php echo $__Context->layout_info->index_url ?>"><img src="<?php echo $__Context->layout_info->logo_image ?>" alt="logo" border="0" class="iePngFix" /></a><?php } ?>'
+			),
+			// issue 103
+			array(
+				'<load target="http://aaa.com/aaa.js" />',
+				'<?php $__tmp=array(\'http://aaa.com/aaa.js\',\'\',\'\',\'\',\'\',\'\',\'\');Context::loadFile($__tmp);unset($__tmp); ?>'
+			),
+			// issue 135
+			array(
+				'<block loop="$_m_list_all=>$key,$val"><p>{$key}</p><div>Loop block {$val}</div></block>',
+				'<?php if($__Context->_m_list_all&&count($__Context->_m_list_all))foreach($__Context->_m_list_all as $__Context->key=>$__Context->val){ ?><p><?php echo $__Context->key ?></p><div>Loop block <?php echo $__Context->val ?></div><?php } ?>'
+			),
+			// issue 136
+			array(
+				'<br cond="$var==\'foo\'" />bar',
+				'<?php if($__Context->var==\'foo\'){ ?><br /><?php } ?>bar'
 			),
 		);
 	}

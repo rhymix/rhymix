@@ -61,7 +61,7 @@
 			$this->filename = $tpl_filename;
 			$this->file = $tpl_file;
 
-			$this->web_path = $this->xe_path.'/'.preg_replace('@^'.preg_quote(_XE_PATH_,'@').'|\./@','',$this->path);
+			$this->web_path = $this->xe_path.'/'.ltrim(preg_replace('@^'.preg_quote(_XE_PATH_,'@').'|\./@','',$this->path),'/');
 
 			// get compiled file name
 			$hash = md5($this->file . __ZBXE_VERSION__);
@@ -154,7 +154,7 @@
 			}
 
 			// replace value of src in img/input/script tag
-			$buff = preg_replace_callback('/<(img|input|script)([^>]*)src="([^"]*?)"/is', array($this, '_replacePath'), $buff);
+			$buff = preg_replace_callback('/(<(?:img|input|script)(?:->|<!--.+?-->|[^<>])*)\ssrc="(?!https?:\/\/|[\/\{])(.+?)"/is', array($this, '_replacePath'), $buff);
 
 			// replace loop and cond template syntax
 			$buff = $this->_parseInline($buff);
@@ -263,25 +263,18 @@
          **/
 		function _replacePath($matches)
 		{
-			preg_match_all('/src="([^"]*?)"/is', $matches[0], $m);
-			for($i=0,$c=count($m[0]);$i<$c;$i++) {
-				$path = trim($m[1][$i]);
-				if(substr($path,0,1)=='/' || substr($path,0,1)=='{' || strpos($path,'://')!==false) continue;
-				if(substr($path,0,2)=='./') $path = substr($path,2);
-				$target = $this->web_path.$path;
-				while(strpos($target,'/../')!==false)
-				{
-					$target = preg_replace('/\/([^\/]+)\/\.\.\//','/',$target);
-				}
-				$target = str_replace('/./','/',$target);
-				$matches[0] = str_replace($m[0][$i], 'src="'.$target.'"', $matches[0]);
-			}
-			return $matches[0];
+			$src = preg_replace('@^(\./)+@', '', trim($matches[2]));
+			$src = $this->web_path.$src;
+			$src = str_replace('/./', '/', $src);
+
+			while(($tmp=preg_replace('@[^/]+/\.\./@', '', $src))!==$src) $src = $tmp;
+
+			return "{$matches[1]} src=\"{$src}\"";
 		}
 
 		function _parseInline($buff)
 		{
-			if(preg_match_all('/<([a-zA-Z0-9]+)(?:->|<!--.+?-->|[^<>-]*)*?(?:[ \|]cond| loop)="/s', $buff, $matches) === false) return $buff;
+			if(preg_match_all('/<([a-zA-Z0-9]+)(?:->|<!--.+?-->|[^<>])*?(?:[ \|]cond| loop)="/s', $buff, $matches) === false) return $buff;
 
 			$tags = array_unique($matches[1]);
 			$tags = implode('|',array_unique($matches[1]));
@@ -396,9 +389,9 @@
 					if($cmd == 'import') $cmd = 'load';
 				}
 
-				if(!preg_match('@^\.?/@',$attr['target'])) $attr['target'] = './'.$attr['target'];
-
 				$isRemoteFile = !!preg_match('@^https?://@i', $attr['target']);
+
+				if(!$isRemoteFile && !preg_match('@^\.?/@',$attr['target'])) $attr['target'] = './'.$attr['target'];
 
 				$metafile = '';
 				$pathinfo = pathinfo($attr['target']);
@@ -419,9 +412,9 @@
 						break;
 					case 'js':
 						if($cmd == 'unload') {
-							$result = " Context::unloadFile('{$attr['target']}','{$attr['targetie']}');";
+							$result = "Context::unloadFile('{$attr['target']}','{$attr['targetie']}');";
 						} else {
-							$result = " \$__tmp=array('{$attr['target']}','{$attr['media']}','{$attr['targetie']}','{$attr['index']}','{$attr['usecdn']}','{$attr['cdnprefix']}','{$attr['cdnversion']}');Context::loadFile(\$__tmp);unset(\$__tmp);";
+							$result = "\$__tmp=array('{$attr['target']}','{$attr['media']}','{$attr['targetie']}','{$attr['index']}','{$attr['usecdn']}','{$attr['cdnprefix']}','{$attr['cdnversion']}');Context::loadFile(\$__tmp);unset(\$__tmp);";
 						}
 						break;
 					case 'css':
