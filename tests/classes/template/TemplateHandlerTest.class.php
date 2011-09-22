@@ -2,7 +2,6 @@
 
 define('__DEBUG__', 1);
 define('_XE_PATH_', realpath(dirname(__FILE__).'/../../../'));
-require _XE_PATH_.'/classes/file/FileHandler.class.php';
 require _XE_PATH_.'/classes/template/TemplateHandler.class.php';
 
 $_SERVER['SCRIPT_NAME'] = '/xe/index.php';
@@ -108,6 +107,11 @@ class TemplateHandlerTest extends PHPUnit_Framework_TestCase
 			array(
 				'<dummy /><load target="css/style.css" /><dummy />',
 				'<dummy /><!--#Meta:tests/classes/template/css/style.css--><?php $__tmp=array(\'tests/classes/template/css/style.css\',\'\',\'\',\'\',\'\',\'\',\'\');Context::loadFile($__tmp);unset($__tmp); ?><dummy />'
+			),
+			// error case
+			array(
+				'<a href="{$layout_info->index_url}" cond="$layout_info->logo_image"><img src="{$layout_info->logo_image}" alt="logo" border="0" class="iePngFix" /></a>',
+				'<?php if($__Context->layout_info->logo_image){ ?><a href="<?php echo $__Context->layout_info->index_url ?>"><img src="<?php echo $__Context->layout_info->logo_image ?>" alt="logo" border="0" class="iePngFix" /></a><?php } ?>'
 			),
 		);
 	}
