@@ -74,6 +74,9 @@
 
             // Template specifies the path and file
             $this->setTemplateFile('setup_addon');
+
+			$security = new Security();
+			$security->encodeHTML('addon_info.', 'addon_info.author..', 'mid_list....');
         }
 
         /**
@@ -91,6 +94,9 @@
             $this->setLayoutFile('popup_layout');
             // Template specifies the path and file
             $this->setTemplateFile('addon_info');
+
+			$security = new Security();
+			$security->encodeHTML('addon_info.', 'addon_info.author..');
         }
 
     }

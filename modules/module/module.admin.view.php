@@ -62,6 +62,10 @@
 
             Context::set('favoriteModuleList', $favoriteModuleList);
 			Context::set('module_list', $module_list);
+
+			$security = new Security();
+			$security->encodeHTML('module_list....');
+
             // Set a template file
             $this->setTemplateFile('module_list');
 
@@ -75,7 +79,11 @@
             $oModuleModel = &getModel('module');
             $module_info = $oModuleModel->getModuleInfoXml(Context::get('selected_module'));
             Context::set('module_info', $module_info);
-            // Set the layout to be pop-up
+
+			$security = new Security();				
+			$security->encodeHTML('module_info...');
+
+			// Set the layout to be pop-up
             $this->setLayoutFile('popup_layout');
             // Set a template file
             $this->setTemplateFile('module_info');
@@ -90,16 +98,27 @@
             // Obtain a list of modules
             $oModuleModel = &getModel('module');
             // Display the category page if a category is selected
+			//Security
+			$security = new Security();				
+			
             if($module_category_srl) {
                 $selected_category  = $oModuleModel->getModuleCategory($module_category_srl);
                 Context::set('selected_category', $selected_category);
-                // Set a template file
+
+				//Security
+				$security->encodeHTML('selected_category.title');				
+
+				// Set a template file
                 $this->setTemplateFile('category_update_form');
             // If not selected, display a list of categories
             } else {
                 $category_list = $oModuleModel->getModuleCategories();
                 Context::set('category_list', $category_list);
-                // Set a template file
+
+				//Security
+				$security->encodeHTML('category_list..title');
+
+				// Set a template file
                 $this->setTemplateFile('category_list');
             }
         }
@@ -143,7 +162,13 @@
             // Get a list of module categories
             $module_category = $oModuleModel->getModuleCategories();
             Context::set('module_category', $module_category);
-            // Set the layout to be pop-up
+
+			$security = new Security();				
+			$security->encodeHTML('layout_list..title','layout_list..layout');
+			$security->encodeHTML('skin_list....');
+			$security->encodeHTML('module_category...')
+
+			// Set the layout to be pop-up
             $this->setLayoutFile('popup_layout');
             // Set a template file
             $this->setTemplateFile('module_setup');
@@ -201,7 +226,10 @@
             $oMemberModel = &getModel('member');
             $group_list = $oMemberModel->getGroups($module_info->site_srl);
             Context::set('group_list', $group_list);
-            // Set the layout to be pop-up
+			$security = new Security();				
+			$security->encodeHTML('group_list..title');
+
+			// Set the layout to be pop-up
             $this->setLayoutFile('popup_layout');
             // Set a template file
             $this->setTemplateFile('module_grant_setup');

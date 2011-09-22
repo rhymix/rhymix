@@ -30,10 +30,14 @@
 
             Context::set('total_count', $output->total_count);
             Context::set('total_page', $output->total_page);
-            Context::set('page', $output->page);
+            Context::set('page', $output->page);			
             Context::set('menu_list', $output->data);
-            Context::set('page_navigation', $output->page_navigation);
-
+			Context::set('page_navigation', $output->page_navigation);
+			
+			//Security
+			$security = new Security();
+			$security->encodeHTML('menu_list..title');	
+			
             $this->setTemplateFile('index');
         }
  
@@ -68,7 +72,12 @@
             if($menu_info->menu_srl != $menu_srl) return $this->dispMenuAdminContent();
 
             Context::set('menu_info', $menu_info);
-            // Set the layout to be pop-up
+
+			//Security
+			$security = new Security();
+			$security->encodeHTML('menu_info..title');			
+
+			// Set the layout to be pop-up
             $this->setTemplateFile('menu_management');
         }
 
@@ -93,7 +102,14 @@
             Context::set('mid_list', $mid_list);
             // Set the menu as a pop-up
             $this->setLayoutFile('popup_layout');
-            // Set a template file
+			//Security
+			$security = new Security();
+			$security->encodeHTML('module_category..title');
+			$security->encodeHTML('module_list..module');
+			$security->encodeHTML('mid_list..module');
+			$security->encodeHTML('mid_list..browser_title');			
+
+			// Set a template file
             $this->setTemplateFile('mid_list');
         }
 

@@ -22,7 +22,11 @@
             // Get a list of module categories
             $module_category = $oModuleModel->getModuleCategories();
             Context::set('module_category', $module_category);
-            // Get a template path (admin templates are collected on the tpl for opage)
+			//Security
+			$security = new Security();
+			$security->encodeHTML('module_category..title');			
+
+			// Get a template path (admin templates are collected on the tpl for opage)
             $this->setTemplatePath($this->module_path.'tpl');
         }
 
@@ -41,8 +45,12 @@
             Context::set('total_page', $output->total_page);
             Context::set('page', $output->page);
             Context::set('opage_list', $output->data);
-            Context::set('page_navigation', $output->page_navigation);
-            // Set a template file
+            Context::set('page_navigation', $output->page_navigation);			
+			//Security
+			$security = new Security();
+			$security->encodeHTML('opage_list..');
+
+			// Set a template file
             $this->setTemplateFile('index');
         }
 
@@ -77,7 +85,21 @@
 
             $mobile_layout_list = $oLayoutModel->getLayoutList(0,"M");
             Context::set('mlayout_list', $mobile_layout_list);
-            // Set a template file
+			//Security
+			$security = new Security();
+			$security->encodeHTML('module_info.');			
+			$security->encodeHTML('layout_list..layout');
+			$security->encodeHTML('layout_list..title');
+			$security->encodeHTML('mlayout_list..layout');
+			$security->encodeHTML('mlayout_list..title');						
+			//group_list 및 grant는 사용되는 곳을 모르겠음.
+			/*
+			$security->encodeHTML('group_list..title');
+			$security->encodeHTML('group_list..description');
+			$security->encodeHTML('grant_list..');
+			*/						
+
+			// Set a template file
             $this->setTemplateFile('opage_insert');
         }
 
@@ -93,7 +115,13 @@
 			$columnList = array('module_srl', 'mid', 'module');
             $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);
             Context::set('module_info',$module_info);
-            // Set a template file
+			//Security
+			$security = new Security();
+			$security->encodeHTML('module_info.module');
+			$security->encodeHTML('module_info.mid');
+			$security->encodeHTML('module_info.browser_title');			
+
+			// Set a template file
             $this->setTemplateFile('opage_delete');
         }
 
@@ -121,6 +149,10 @@
             $grant_content = $oModuleAdminModel->getModuleGrantHTML($this->module_info->module_srl, $this->xml_info->grant);
             Context::set('grant_content', $grant_content);
 
+			//Security
+			$security = new Security();
+			$security->encodeHTML('module_info..');
+			
             $this->setTemplateFile('grant_list');
         }
     }

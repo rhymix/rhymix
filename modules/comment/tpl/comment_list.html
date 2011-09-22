@@ -52,10 +52,10 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 			</tfoot>
 			<tbody>
 				<!--@foreach($comment_list as $no => $val)-->
-				{@ $comment = cut_str(trim(htmlspecialchars(strip_tags($val->content))), 200, '...')}
+				{@ $comment = cut_str(trim(strip_tags($val->content)), 200, '...')}
 				<tr>
 					<td class="text"><a href="{getUrl('','document_srl',$val->document_srl)}#comment_{$val->comment_srl}" target="_blank"><!--@if(strlen($comment))-->{$comment}<!--@else--><em>{$lang->no_text_comment}</em><!--@end--></a></td>
-					<td><a href="#popup_menu_area" class="member_{$val->member_srl}">{htmlspecialchars($val->nick_name)}</a></td>
+					<td><a href="#popup_menu_area" class="member_{$val->member_srl}">{$val->nick_name}</a></td>
 					<td>0/0</td>
 					<td>{(zdate($val->regdate,"Y-m-d\nH:i:s"))}</td>
 					<td><a href="{getUrl('search_target','ipaddress','search_keyword',$val->ipaddress)}">{$val->ipaddress}</a></td>

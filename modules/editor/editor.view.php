@@ -96,18 +96,26 @@
                 $style = $contents[$i];
                 $info = $oModuleModel->loadSkinInfo($this->module_path,$style,'styles');
                 $content_style_list[$style]->title = $info->title;
-            }
+            }			
             Context::set('content_style_list', $content_style_list);
             // Get a group list
             $oMemberModel = &getModel('member');
             $site_module_info = Context::get('site_module_info');
             $group_list = $oMemberModel->getGroups($site_module_info->site_srl);
             Context::set('group_list', $group_list);
-            // Set a template file
+
+			//Security
+			$security = new Security();
+			$security->encodeHTML('group_list..title');
+			$security->encodeHTML('group_list..description');
+			$security->encodeHTML('content_style_list..');
+			$security->encodeHTML('editor_comment_colorset_list..title');			
+
+			// Set a template file
             $oTemplate = &TemplateHandler::getInstance();
             $tpl = $oTemplate->compile($this->module_path.'tpl', 'editor_module_config');
             $obj .= $tpl;
-
+			
             return new Object();
         }
 

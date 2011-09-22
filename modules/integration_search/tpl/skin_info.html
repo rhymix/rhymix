@@ -82,10 +82,10 @@
         <td class="wide">
             <!--@if($val->type=="text")-->
                 <!--@if(!$val->value)-->{@ $val->value = $val->default}<!--@endif-->
-                <input type="text" name="{$val->name}" value="{htmlspecialchars($val->value)}" class="inputTypeText w400" />
+                <input type="text" name="{$val->name}" value="{$val->value}" class="inputTypeText w400" />
 
             <!--@elseif($val->type=="textarea")-->
-                <textarea name="{$val->name}" class="inputTypeTextArea w400">{htmlspecialchars($val->value)}</textarea>
+                <textarea name="{$val->name}" class="inputTypeTextArea w400">{$val->value}</textarea>
 
             <!--@elseif($val->type=="select")-->
                 <select name="{$val->name}">

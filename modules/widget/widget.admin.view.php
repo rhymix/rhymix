@@ -34,6 +34,9 @@
 			Context::set('tCount', count($widget_list));
 
             $this->setTemplateFile('downloaded_widget_list');
+
+			$security = new Security();
+			$security->encodeHTML('widget_list..', 'widget_list..author..');
         }
 
 		function dispWidgetAdminGenerateCode()
@@ -64,6 +67,9 @@
             $oEditorModel = &getModel('editor');
             $editor = $oEditorModel->getModuleEditor('document',$module_srl, $module_srl,'module_srl','content');
             Context::set('editor', $editor);
+
+			$security = new Security();
+			$security->encodeHTML('member_config..');
 
 			$this->setLayoutPath('./common/tpl');
             $this->setLayoutFile("default_layout");

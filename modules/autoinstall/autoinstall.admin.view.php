@@ -97,6 +97,7 @@
                     $title = $xmlDoc->{$type}->title->body;
 					$installed[$key]->title = $title;
 				}
+
 				Context::set('installed', $installed);
 
 				foreach($installed as $key=>$val)
@@ -140,6 +141,9 @@
             Context::set('page_navigation', $output->page_navigation);
 
             $this->setTemplateFile('index');
+
+			$security = new Security();
+			$security->encodeHTML('item_list..');
         }
 
         function dispAutoinstallAdminInstall() {
@@ -203,7 +207,6 @@
                     $package->cur_version = $installedPackage->current_version;
                     $package->need_update = version_compare($package->version, $installedPackage->current_version, ">");
                 }
-
                 Context::set("package", $package);
             }
             if(!$_SESSION['ftp_password'])
@@ -211,6 +214,9 @@
                 Context::set('need_password', true);
             }
             $this->setTemplateFile('install');
+
+			$security = new Security();
+			$security->encodeHTML('package.' , 'package.depends..');
         }
 
         function dispAutoinstallAdminIndex() {
@@ -288,6 +294,9 @@
                 Context::set('page_navigation', $page_navigation);
             }
 
+			$security = new Security();
+			$security->encodeHTML('package.' , 'package.depends..');
+
         }
 
         function dispCategory()
@@ -330,6 +339,11 @@
 				$installedPackage->avail_remove = $item_list[$package_srl]->avail_remove;
 				$installedPackage->deps = $item_list[$package_srl]->deps;
 				Context::set('package', $installedPackage);
+            $this->setTemplateFile('uninstall');
+            Context::addJsFilter($this->module_path.'tpl/filter', 'uninstall_package.xml');
+
+				$security = new Security();
+				$security->encodeHTML('package.');
 
 				$this->setTemplateFile('uninstall');
 			}

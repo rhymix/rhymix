@@ -39,7 +39,12 @@
             Context::set('page', $output->page);
             Context::set('trackback_list', $output->data);
             Context::set('page_navigation', $output->page_navigation);
-            // Set a template
+			//Security
+			$security = new Security();
+			$security->encodeHTML('config.');
+			$security->encodeHTML('trackback_list..');
+
+			// Set a template
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('trackback_list');
         }

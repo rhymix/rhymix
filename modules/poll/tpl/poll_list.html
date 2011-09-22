@@ -37,7 +37,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 			<tbody>
 				<!--@foreach($poll_list as $no => $val)-->
 				<tr>
-					<td class="title"><a href="<!--@if($val->document_srl)-->{getUrl('')}?document_srl={$val->document_srl}<!--@end--><!--@if($val->comment_srl)-->#comment_{$val->comment_srl}<!--@end-->" target="_blank">{htmlspecialchars($val->title)}</a></td>
+					<td class="title"><a href="<!--@if($val->document_srl)-->{getUrl('')}?document_srl={$val->document_srl}<!--@end--><!--@if($val->comment_srl)-->#comment_{$val->comment_srl}<!--@end-->" target="_blank">{$val->title}</a></td>
 					<td><!--@if($val->checkcount == 1)-->{$lang->single_check}<!--@else-->{$lang->multi_check}<!--@end--></td>
 					<td>{$val->poll_count}</td>
 					<td><a href="#popup_menu_area" class="member_{$val->member_srl}">{$val->nick_name}</a></td>

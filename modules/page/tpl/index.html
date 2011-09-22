@@ -9,8 +9,8 @@
 	<input type="hidden" name="act" value="dispPageAdminContent" />
 
         <fieldset>
-			{$lang->mid} <input type="text" name="s_mid" value="{$s_mid}" class="inputTypeText" />
-			{$lang->browser_title} <input type="text" name="s_browser_title" value="{$s_browser_title}" class="inputTypeText" />
+			{$lang->mid} <input type="text" name="s_mid" value="{htmlspecialchars($s_mid)}" class="inputTypeText" />
+			{$lang->browser_title} <input type="text" name="s_browser_title" value="{htmlspecialchars($s_browser_title)}" class="inputTypeText" />
             <span class="button blue"><input type="submit" value="{$lang->cmd_search}" /></span>
             <a href="{getUrl('s_mid','','s_browser_title','','page','')}" class="button black"><span>{$lang->cmd_cancel}</span></a>
         </fieldset>
@@ -65,7 +65,7 @@
             <!--@end-->
         </td>
 		<td>{$val->page_type}</td>
-        <td>{htmlspecialchars($val->mid)}</td>
+        <td>{$val->mid}</td>
         <td><a href="{getSiteUrl($val->domain,'','mid',$val->mid)}"  onclick="window.open(this.href); return false;">{$val->browser_title}</a></td>
         <td>{zdate($val->regdate,"Y-m-d")}</td>
         <td><a href="{getUrl('act','dispPageAdminInfo','module_srl',$val->module_srl)}" class="buttonSet buttonSetting"><span>{$lang->cmd_setup}</span></a></td>

@@ -34,7 +34,11 @@
             // Get a list of module categories
             $module_category = $oModuleModel->getModuleCategories();
             Context::set('module_category', $module_category);
-            // Get a template path (page in the administrative template tpl putting together)
+			//Security
+			$security = new Security();
+			$security->encodeHTML('module_category..title');
+
+			// Get a template path (page in the administrative template tpl putting together)
             $this->setTemplatePath($this->module_path.'tpl');
 
         }
@@ -66,7 +70,13 @@
             Context::set('page', $output->page);
             Context::set('page_list', $output->data);
             Context::set('page_navigation', $output->page_navigation);
-            // Set a template file
+			//Security
+			$security = new Security();
+			$security->encodeHTML('page_list..browser_title');
+			$security->encodeHTML('page_list..mid');
+			$security->encodeHTML('module_info.');
+
+			// Set a template file
             $this->setTemplateFile('index');
         }
 
@@ -76,7 +86,6 @@
         function dispPageAdminInfo() {
             // Get module_srl by GET parameter
             $module_srl = Context::get('module_srl');
-
             $module_info = Context::get('module_info');
             // If you do not value module_srl just showing the index page
             if(!$module_srl) return $this->dispPageAdminContent();
@@ -105,6 +114,14 @@
 				Context::set('mskin_list', $mskin_list);
 			}
 
+			//Security
+			$security = new Security();
+			$security->encodeHTML('layout_list..layout');
+			$security->encodeHTML('layout_list..title');
+			$security->encodeHTML('mlayout_list..layout');
+			$security->encodeHTML('mlayout_list..title');
+			$security->encodeHTML('module_info.');
+
             $this->setTemplateFile('page_info');
         }
 
@@ -121,6 +138,9 @@
             Context::set('setup_content', $content);
             // Set a template file
             $this->setTemplateFile('addition_setup');
+
+			$security = new Security();
+			$security->encodeHTML('module_info.');
         }
 
         /**
@@ -154,6 +174,14 @@
 
 			$mskin_list = $oModuleModel->getSkins($this->module_path, "m.skins");
 			Context::set('mskin_list', $mskin_list);
+
+			//Security
+			$security = new Security();
+			$security->encodeHTML('layout_list..layout');
+			$security->encodeHTML('layout_list..title');
+			$security->encodeHTML('mlayout_list..layout');
+			$security->encodeHTML('mlayout_list..title');
+
             // Set a template file
             $this->setTemplateFile('page_insert');
         }
@@ -168,7 +196,7 @@
                 else $mtime = filemtime($cache_file);
 
                 if($mtime + $interval*60 > time()) {
-                    $page_content = FileHandler::readFile($cache_file); 
+                    $page_content = FileHandler::readFile($cache_file);
                 } else {
                     $oWidgetController = &getController('widget');
                     $page_content = $oWidgetController->transWidgetCode($this->module_info->mcontent);
@@ -178,7 +206,7 @@
                 if(file_exists($cache_file)) FileHandler::removeFile($cache_file);
                 $page_content = $this->module_info->mcontent;
             }
-            
+
             Context::set('module_info', $this->module_info);
             Context::set('page_content', $page_content);
 
@@ -199,7 +227,12 @@
             $oWidgetModel = &getModel('widget');
             $widget_list = $oWidgetModel->getDownloadedWidgetList();
             Context::set('widget_list', $widget_list);
-            // Set a template file
+
+            //Security
+			$security = new Security();
+			$security->encodeHTML('widget_list..title','module_info.mid');
+
+			// Set a template file
             $this->setTemplateFile('page_mobile_content_modify');
 		}
 
@@ -231,6 +264,14 @@
             $this->setTemplateFile('page_content_modify');
 		}
 
+			//Security
+			$security = new Security();
+			$security->encodeHTML('widget_list..title','module_info.mid');
+
+			// 템플릿 파일 지정
+            $this->setTemplateFile('page_content_modify');
+        }
+
 		function _setArticleTypeContentModify() {
 			$oDocumentModel = &getModel('document');
 			$oDocument = $oDocumentModel->getDocument(0, true);
@@ -259,6 +300,9 @@
             Context::set('module_info',$module_info);
             // Set a template file
             $this->setTemplateFile('page_delete');
+
+			$security = new Security();
+			$security->encodeHTML('module_info.');
         }
 
         /**
@@ -271,6 +315,9 @@
             Context::set('grant_content', $grant_content);
 
             $this->setTemplateFile('grant_list');
+
+			$security = new Security();
+			$security->encodeHTML('module_info.');
         }
     }
 ?>

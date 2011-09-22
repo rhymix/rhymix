@@ -22,14 +22,14 @@
         <tr>
             <th scope="row"><div>{$lang->menu_name}</div></th>
             <td>
-                <input type="text" name="menu_name" id="menu_name" value="{htmlspecialchars($item_info->name)}" class="inputTypeText w300"/>
+                <input type="text" name="menu_name" id="menu_name" value="{$item_info->name}" class="inputTypeText w300"/>
                 <a href="{getUrl('','module','module','act','dispModuleAdminLangcode','target','menu_name')}" onclick="popopen(this.href);return false;" class="buttonSet buttonSetting"><span>{$lang->cmd_find_langcode}</span></a>
             </td>
         </tr>
         <tr>
             <th scope="row"><div>{$lang->menu_url}</div></th>
             <td>
-                <input type="text" name="menu_url" value="{htmlspecialchars($item_info->url)}" class="inputTypeText" />
+                <input type="text" name="menu_url" value="{$item_info->url}" class="inputTypeText" />
                 <a href="{getUrl('module','menu','act','dispMenuAdminMidList')}" onclick="popopen(this.href);return false;" class="button black"><span>{$lang->cmd_search_mid}</span> </a>
                 <p class="clear">{$lang->about_menu_url}</p>
             </td>

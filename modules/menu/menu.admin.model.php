@@ -208,10 +208,16 @@
                 }
             }
             Context::set('item_info', $item_info);
-            // Compile the template file into tpl variable and then return it
-            $oTemplate = &TemplateHandler::getInstance();
-            $tpl = $oTemplate->compile($this->module_path.'tpl', 'menu_item_info');
+			//Security
+			$security = new Security();						
+			$security->encodeHTML('group_list..title');
+			$security->encodeHTML('item_info.url');
+			$security->encodeHTML('item_info.name');			
 
+			// Compile the template file into tpl variable and then return it
+            $oTemplate = &TemplateHandler::getInstance();
+            $tpl = $oTemplate->compile($this->module_path.'tpl', 'menu_item_info');			
+			
             $this->add('tpl', str_replace("\n"," ",$tpl));
         }
 

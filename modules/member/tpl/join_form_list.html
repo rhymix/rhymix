@@ -23,7 +23,7 @@
 <tbody>
     <!--@foreach($form_list as $no => $val)-->
     <tr class="row{$cycle_idx}">
-        <td>{htmlspecialchars($val->column_title)}</td>
+        <td>{$val->column_title}</td>
         <td>{$val->column_name}</td>
         <td>{$lang->column_type_list[$val->column_type]}</td>
         <td>{$val->is_active}</td>

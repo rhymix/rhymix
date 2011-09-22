@@ -4,6 +4,7 @@
      * @author NHN (developers@xpressengine.com)
      * @brief admin controller class of addon modules
      **/
+
     require_once(_XE_PATH_.'modules/addon/addon.controller.php');
 
     class addonAdminController extends addonController {

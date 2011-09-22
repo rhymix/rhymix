@@ -164,8 +164,13 @@
             Context::set('page', $output->page);
             Context::set('page_navigation', $output->page_navigation);
             // Set a template
+			$security = new Security();
+			$security->encodeHTML('file_list..source_filename','file_list..ipaddress');
+			$security->encodeHTML('module_list..browser_title','module_list..mid');						
+
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('file_list');
+
         }
 
         /**

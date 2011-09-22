@@ -674,6 +674,7 @@
 			
 			if (!$args->group_srl) $args->group_srl = getNextSequence();
 
+			if (!$args->group_srl) $args->group_srl = getNextSequence();
             return executeQuery('member.insertGroup', $args);
         }
 

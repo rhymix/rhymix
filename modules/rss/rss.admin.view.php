@@ -44,6 +44,11 @@
 
 			Context::set('feed_config', $feed_config);
 			Context::set('total_config', $total_config);
+
+			$security = new Security();
+			$security->encodeHTML('feed_config..mid','feed_config..url');
+			$security->encodeHTML('total_config..');
+
 			$this->setTemplatePath($this->module_path.'tpl');
 			$this->setTemplateFile('rss_admin_index');
 		}

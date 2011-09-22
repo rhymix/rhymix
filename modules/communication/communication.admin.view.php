@@ -27,7 +27,12 @@
             Context::set('editor_skin_list', $oEditorModel->getEditorSkinList() );
             // get a list of communication skins
             Context::set('communication_skin_list', $oModuleModel->getSkins($this->module_path) );
-            // specify a template
+			$security = new Security();		
+			$security->encodeHTML('communication_config..');
+			$security->encodeHTML('editor_skin_list..');
+			$security->encodeHTML('communication_skin_list..title');			
+
+			// specify a template
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('index');
         }

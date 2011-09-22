@@ -544,6 +544,8 @@
             $document_args->document_srl = $output->data->document_srl;
             $document_args->module_srl = $output->data->module_srl;
             $document_args->member_srl = $output->data->member_srl;
+            $document_args->ipaddress = $output->data->ipaddress;
+            $document_args->update_order = $output->data->update_order;
 
             $oDocument = $oDocumentModel->getDocument($document_args->document_srl);
 

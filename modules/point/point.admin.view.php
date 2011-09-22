@@ -15,8 +15,14 @@
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('point');
             // Set the configuration variable
-            Context::set('config', $config);
-            // Set the template path
+            Context::set('config', $config);				
+
+			//Security
+			$security = new Security();			
+			$security->encodeHTML('config.point_name','config.level_icon');
+			$security->encodeHTML('module_info..');			
+
+			// Set the template path
             $this->setTemplatePath($this->module_path.'tpl');
         }
 
@@ -36,9 +42,13 @@
                     if($val->is_admin == 'Y' || $val->is_default == 'Y') continue;    
                     $selected_group_list[$key] = $val;
                 }
-            }
+            }			
             Context::set('group_list', $selected_group_list);
-            // Set the template
+			//Security
+			$security = new Security();			
+			$security->encodeHTML('group_list..title','group_list..description');			
+
+			// Set the template
             $this->setTemplateFile('config');
         }
 
@@ -53,7 +63,11 @@
             Context::set('mid_list', $mid_list);
 
             Context::set('module_config', $oModuleModel->getModulePartConfigs('point'));
-            // Set the template
+			//Security
+			$security = new Security();			
+			$security->encodeHTML('mid_list..browser_title','mid_list..mid');			
+
+			// Set the template
             $this->setTemplateFile('module_config');
         }
 
@@ -87,7 +101,12 @@
             // Get a list of groups
             $this->group_list = $oMemberModel->getGroups();
             Context::set('group_list', $this->group_list);
-            // Set the template
+			//Security
+			$security = new Security();			
+			$security->encodeHTML('group_list..title','group_list..description');
+			$security->encodeHTML('member_list..');			
+
+			// Set the template
             $this->setTemplateFile('member_list');
         }
     }

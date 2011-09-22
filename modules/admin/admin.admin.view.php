@@ -212,6 +212,9 @@
 			// add javascript tooltip plugin - gony
 			Context::loadJavascriptPlugin('qtip');
 			Context::loadJavascriptPlugin('watchinput');
+
+			$security = new Security();
+			$security->encodeHTML('selected_module_info.', 'selected_module_info.author..', 'package_modules..', 'installed_modules..');
 		}
 
         /**
@@ -309,7 +312,6 @@
                     }
                     Context::set('news', $news);
                 }
-
                 Context::set('released_version', $buff->zbxe_news->attrs->released_version);
                 Context::set('download_link', $buff->zbxe_news->attrs->download_link);
             }
@@ -356,7 +358,6 @@
             Context::set('selected_lang', $db_info->lang_type);
 
 			Context::set('default_url', $db_info->default_url);
-
             Context::set('langs', Context::loadLangSupported());
 
             Context::set('lang_selected', Context::loadLangSelected());
@@ -388,6 +389,9 @@
 
             Context::set('pwd',$pwd);
             $this->setTemplateFile('config');
+
+			$security = new Security();
+			$security->encodeHTML('news..', 'released_version', 'download_link', 'selected_lang', 'module_list..', 'module_list..author..', 'addon_list..', 'addon_list..author..', 'start_module.');
         }
 
 		/**

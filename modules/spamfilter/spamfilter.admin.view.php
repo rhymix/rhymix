@@ -32,7 +32,12 @@
             Context::set('config',$config);
             Context::set('ip_list', $ip_list);
             Context::set('word_list', $word_list);
-            // Set a template file
+            
+			$security = new Security();
+			$security->encodeHTML('word_list..word');
+			$security->encodeHTML('ip_list..');
+
+			// Set a template file
             $this->setTemplateFile('index');
 		}
     }

@@ -819,7 +819,10 @@
             // Bringing existing extra_keys
             $extra_keys = $this->getExtraKeys($module_srl);
             Context::set('extra_keys', $extra_keys);
-            // Get information of module_grants
+			$security = new Security();				
+			$security->encodeHTML('extra_keys..name','extra_keys..eid');
+
+			// Get information of module_grants
             $oTemplate = &TemplateHandler::getInstance();
             return $oTemplate->compile($this->module_path.'tpl', 'extra_keys');
         }
@@ -878,6 +881,10 @@
 
             $category_info->title = htmlspecialchars($category_info->title);
             Context::set('category_info', $category_info);
+			
+			$security = new Security();				
+			$security->encodeHTML('group_list..title');
+
             // tpl template file directly compile and will return a variable and puts it on.
             $oTemplate = &TemplateHandler::getInstance();
             $tpl = $oTemplate->compile('./modules/document/tpl', 'category_info');

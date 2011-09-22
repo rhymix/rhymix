@@ -80,7 +80,8 @@
             $logged_info = Context::get('logged_info');
             if($logged_info->is_admin == 'Y') return true;
 
-			$grant = Context::get('grant');
+			$oModuleModel = &getModel('module');
+			$grant = $oModuleModel->getGrant($oModuleModel->getModuleInfoByModuleSrl($this->get('module_srl')), $logged_info);
 			if($grant->manager) return true;
 
             if($this->get('member_srl') && ($this->get('member_srl') == $logged_info->member_srl || $this->get('member_srl')*-1 == $logged_info->member_srl)) return true;

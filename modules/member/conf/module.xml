@@ -88,7 +88,7 @@
 	<menus>
 		<menu name="userList">
 			<title xml:lang="en">Member List</title>
-			<title xml:lang="ko">íšŒì› ëª©ë¡</title>
+			<title xml:lang="ko">È¸¿ø ¸ñ·Ï</title>
 			<title xml:lang="zh-CN">Member List</title>
 			<title xml:lang="jp">Member List</title>
 			<title xml:lang="es">Member List</title>
@@ -101,7 +101,7 @@
 		</menu>
 		<menu name="userGroup">
 			<title xml:lang="en">Member Group</title>
-			<title xml:lang="ko">íšŒì› ê·¸ë£¹</title>
+			<title xml:lang="ko">È¸¿ø ±×·ì</title>
 			<title xml:lang="zh-CN">Member Group</title>
 			<title xml:lang="jp">Member Group</title>
 			<title xml:lang="es">Member Group</title>
@@ -114,7 +114,7 @@
 		</menu>
 		<menu name="userSetting">
 			<title xml:lang="en">Member Setting</title>
-			<title xml:lang="ko">íšŒì› ì„¤ì •</title>
+			<title xml:lang="ko">È¸¿ø ¼³Á¤</title>
 			<title xml:lang="zh-CN">Member Setting</title>
 			<title xml:lang="jp">Member Setting</title>
 			<title xml:lang="es">Member Setting</title>
