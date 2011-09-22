@@ -166,7 +166,7 @@
 			$security = new Security();				
 			$security->encodeHTML('layout_list..title','layout_list..layout');
 			$security->encodeHTML('skin_list....');
-			$security->encodeHTML('module_category...')
+			$security->encodeHTML('module_category...');
 
 			// Set the layout to be pop-up
             $this->setLayoutFile('popup_layout');
