@@ -63,6 +63,7 @@
         var $errno = 0; ///< error code (0 means no error)
         var $errstr = ''; ///< error message
         var $query = ''; ///< query string of latest executed query
+        var $connection = '';
         var $elapsed_time = 0; ///< elapsed time of latest executed query
         var $elapsed_dbclass_time = 0; ///< elapsed time of latest executed query
 
@@ -244,6 +245,7 @@
 
             $log['query'] = $this->query;
             $log['elapsed_time'] = $elapsed_time;
+            $log['connection'] = $this->connection;
 
             // leave error log if an error occured (if __DEBUG_DB_OUTPUT__ is defined)
             if($this->isError()) {
@@ -614,6 +616,7 @@
             if($type == master){
                 if(!$this->master_db['is_connected'])
                         $this->_connect($type);
+                $this->connection = 'Master ' . $this->master_db['db_hostname'];
                 return $this->master_db["resource"];
             }
 
@@ -622,6 +625,8 @@
 
             if(!$this->slave_db[$indx]['is_connected'])
                     $this->_connect($type, $indx);
+
+            $this->connection = 'Slave ' . $this->slave_db[$indx]['db_hostname'];
             return $this->slave_db[$indx]["resource"];
         }
 
@@ -764,6 +769,9 @@
             // Check connections
             $connection["resource"] = $result;
             $connection["is_connected"] = true;
+
+            // Save connection info for db logs
+            $this->connection = ucfirst($type) . ' ' . $connection["db_hostname"];
 
             $this->_afterConnect($result);
         }

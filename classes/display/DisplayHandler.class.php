@@ -2,7 +2,7 @@
     /**
     * @class DisplayHandler
     * @author NHN (developers@xpressengine.com)
-    * @brief DisplayHandler is responsible for displaying the execution result. \n 
+    * @brief DisplayHandler is responsible for displaying the execution result. \n
     *  Depending on the request type, it can display either HTML or XML content.\n
     *  Xml content is simple xml presentation of variables in oModule while html content
     *   is the combination of the variables of oModue and template files/.
@@ -16,7 +16,7 @@
 		var $handler = null;
 
         /**
-         * @brief print either html or xml content given oModule object 
+         * @brief print either html or xml content given oModule object
          * @remark addon execution and the trigger execution are included within this method, which
          * might create inflexibility for the fine grained caching
         * @param[in] $oModule the module object
@@ -183,6 +183,7 @@
                             } else {
                                 $buff .= sprintf("Query $s : %d\n\t\t\t   %s\n", $query['result'], $query['errno'], $query['errstr']);
                             }
+                            $buff .= sprintf("\t\tConnection: %s\n", $query['connection']);
                         }
                     }
                 }
