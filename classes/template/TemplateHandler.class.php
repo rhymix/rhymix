@@ -412,28 +412,29 @@
 						if($isRemoteFile || $cmd != 'load') return '';
 						// language file?
 						if($pathinfo['basename'] == 'lang.xml' && substr($pathinfo['dirname'],-5) == '/lang') {
-							$result = "<?php Context::loadLang('{$relativeDir}'); ?>";
+							$result = "Context::loadLang('{$relativeDir}');";
 						} else {
-							$result = "<?php require_once('./classes/xml/XmlJsFilter.class.php');\$__xmlFilter = new XmlJsFilter('{$relativeDir}','{$pathinfo["basename"]}');\$__xmlFilter->compile(); ?>";
+							$result = "require_once('./classes/xml/XmlJsFilter.class.php');\$__xmlFilter = new XmlJsFilter('{$relativeDir}','{$pathinfo["basename"]}');\$__xmlFilter->compile();";
 						}
 						break;
 					case 'js':
 						if($cmd == 'unload') {
-							$result = "<?php Context::unloadFile('{$attr['target']}','{$attr['targetie']}');";
+							$result = " Context::unloadFile('{$attr['target']}','{$attr['targetie']}');";
 						} else {
-							$result = "<?php \$__tmp=array('{$attr['target']}','{$attr['media']}','{$attr['targetie']}','{$attr['index']}','{$attr['usecdn']}','{$attr['cdnprefix']}','{$attr['cdnversion']}');Context::loadFile(\$__tmp);unset(\$__tmp); ?>";
+							$result = " \$__tmp=array('{$attr['target']}','{$attr['media']}','{$attr['targetie']}','{$attr['index']}','{$attr['usecdn']}','{$attr['cdnprefix']}','{$attr['cdnversion']}');Context::loadFile(\$__tmp);unset(\$__tmp);";
 						}
 						break;
 					case 'css':
 						if($cmd == 'unload') {
-							$result = "<?php Context::unloadFile('{$attr['target']}','{$attr['targetie']}','{$attr['media']}');";
+							$result = "Context::unloadFile('{$attr['target']}','{$attr['targetie']}','{$attr['media']}');";
 						} else {
 							$metafile = $attr['target'];
-							$result = "<?php \$__tmp=array('{$attr['target']}','{$attr['type']}','{$attr['targetie']}','{$attr['index']}','{$attr['usecdn']}','{$attr['cdnprefix']}','{$attr['cdnversion']}');Context::loadFile(\$__tmp);unset(\$__tmp); ?>";
+							$result = "\$__tmp=array('{$attr['target']}','{$attr['type']}','{$attr['targetie']}','{$attr['index']}','{$attr['usecdn']}','{$attr['cdnprefix']}','{$attr['cdnversion']}');Context::loadFile(\$__tmp);unset(\$__tmp);";
 						}
 						break;
 				}
 
+				$result = "<?php {$result} ?>";
 				if($metafile) $result = "<!--#Meta:{$metafile}-->".$result;
 
 				return $result;
@@ -499,260 +500,11 @@
 		}
 
 		/**
-		 * @brief replace load tags
-		 **/
-		function _replaceLoad($matches) {
-			$output = $matches[0];
-			if(!preg_match_all('/ ([^=]+)=\"([^\"]+)\"/is',$matches[0], $m)) return $matches[0];
-
-			$type = $matches[1];
-			for($i=0,$c=count($m[1]);$i<$c;$i++)
-			{
-				if(!trim($m[1][$i])) continue;
-				$attrs[trim($m[1][$i])] = trim($m[2][$i]);
-			}
-
-			if(!$attrs['target']) return $matches[0];
-
-			$web_path = $this->web_path;
-			$base_path = $this->path;
-
-			$target = $attrs['target'];
-            if(!preg_match('/^(http|https)/i',$target))
-            {
-                if(substr($target,0,2)=='./') $target = substr($target,2);
-                //if(substr($target,0,1)!='/') $target = $web_path.$target;
-            }
-
-			if(!$attrs['index']) $attrs['index'] = 'null';
-			if($attrs['type']!='body') $attrs['type'] = 'head';
-
-            // if target ends with lang, load language pack
-            if(substr($target, -4)=='lang') {
-                if(substr($target,0,2)=='./') $target = substr($target, 2);
-                $lang_dir = $base_path.$target;
-                if(is_dir($lang_dir)) $output = sprintf('<?php Context::loadLang("%s"); ?>', $lang_dir);
-
-			// otherwise try to load xml, css, js file
-			} else {
-				if(substr($target,0,1)!='/') $source_filename = $base_path.$target;
-				else $source_filename = $target;
-				$source_filename = str_replace(array('/./','//'),'/',$source_filename);
-
-				// get filename and path
-				$tmp_arr = explode("/",$source_filename);
-				$filename = array_pop($tmp_arr);
-
-				//$base_path = implode("/",$tmp_arr)."/";
-
-				// get the ext
-				$tmp_arr = explode(".",$filename);
-				$ext = strtolower(array_pop($tmp_arr));
-
-				$output = '<?php '.
-							'$_load_filename = \'' . preg_replace('/\{([^@^ ][^\{\}\n]+)\}/i', "'.\\1.'", $filename) . '\';'.
-							'$_load_source_filename = \'' . preg_replace('/\{([^@^ ][^\{\}\n]+)\}/i', "'.\\1.'", $source_filename) . '\';';
-				foreach($attrs as $key => $val)
-				{
-					$output .= '$_load_attrs[\''.$key.'\'] = \'' . preg_replace('/\{([^@^ ][^\{\}\n]+)\}/i', "'.\\1.'", $val) . '\';';
-				}
-				$output .= '?>';
-
-				// according to ext., import the file
-				switch($ext) {
-					// xml js filter
-					case 'xml' :
-							if(preg_match('/^(http|https)/i',$source_filename)) return;
-							// create an instance of XmlJSFilter class, then create js and handle Context::addJsFile
-							$output .= sprintf(
-								'<?php%s'.
-								'require_once("./classes/xml/XmlJsFilter.class.php");%s'.
-								'$oXmlFilter = new XmlJSFilter("%s","%s");%s'.
-								'$oXmlFilter->compile();%s'.
-								'?>%s',
-								"\n",
-								"\n",
-								dirname($base_path . $attrs['target']).'/',
-								$filename,
-								"\n",
-								"\n",
-								"\n"
-								);
-						break;
-					// css file
-					case 'css' :
-							if($type == 'unload') {
-								$output = sprintf("<?php Context::unloadFile('%s', '%s', '%s'); ?>", $source_filename, $attrs['targetie'], $attrs['media']);
-							} else {
-								$meta_file = $source_filename;
-								$output .= '<?php Context::loadFile(array($_load_source_filename, $_load_attrs[\'media\'], $_load_attrs[\'targetie\'], $_load_attrs[\'index\']), $_load_attrs[\'usecdn\'], $_load_attrs[\'cdnprefix\'], $_load_attrs[\'cdnversion\']);?>';
-							}
-						break;
-					// js file
-					case 'js' :
-							if($type == 'unload') {
-								$output = sprintf("<?php Context::unloadFile('%s', '%s'); ?>", $source_filename, $attrs['targetie']);
-							} else {
-								$meta_file = $source_filename;
-								$output .= '<?php Context::loadFile(array($_load_source_filename, $_load_attrs[\'type\'], $_load_attrs[\'targetie\'], $_load_attrs[\'index\']), $_load_attrs[\'usecdn\'], $_load_attrs[\'cdnprefix\'], $_load_attrs[\'cdnversion\']);?>';
-							}
-						break;
-				}
-			}
-
-			if($meta_file) $output = '<!--#Meta:'.$meta_file.'-->'.$output;
-			return $output;
-		}
-
-		/**
 		 * @brief replace PHP variables of $ character
 		 **/
 		function _replaceVar($php) {
 			if(!$php) return '';
 			return preg_replace('@(?<!::|\\\\)\$([a-z]|_[a-z0-9])@i', '\$__Context->$1', $php);
 		}
-
-        /**
-         * @brief replace xe specific code, "<!--%filename-->" with appropriate php code
-         * @param[in] $matches match
-         * @return Returns modified result or NULL in case of error
-         **/
-        function _compileImportCode($matches) {
-            // find xml file
-            $base_path = $this->path;
-            $given_file = trim($matches[1]);
-            if(!$given_file) return;
-            if(isset($matches[3])) $optimized = strtolower(trim($matches[3]));
-            if(!$optimized) $optimized = 'true';
-            if(isset($matches[5])) $media = trim($matches[5]);
-            if(!$media) $media = 'all';
-            if(isset($matches[7])) $targetie = trim($matches[7]);
-            if(!$targetie) $targetie = '';
-            else $optimized = 'false';
-
-            if(isset($matches[9])) $index = intval($matches[9]);
-			if(!$index) $index = 'null';
-            if(isset($matches[11])) $type = strtolower(trim($matches[11]));
-			if($type!='body') $type = 'head';
-
-            // if given_file ends with lang, load language pack
-            if(substr($given_file, -4)=='lang') {
-                if(substr($given_file,0,2)=='./') $given_file = substr($given_file, 2);
-                $lang_dir = $base_path.$given_file;
-                if(is_dir($lang_dir)) $output = sprintf('<?php Context::loadLang("%s"); ?>', $lang_dir);
-
-            // otherwise try to load xml, css, js file
-            } else {
-				if(preg_match('/^(http|https):/i',$given_file)) $source_filename = $given_file;
-                elseif(substr($given_file,0,1)!='/') $source_filename = sprintf("%s%s",$base_path, $given_file);
-                else $source_filename = $given_file;
-
-                // get filename and path
-                $tmp_arr = explode("/",$source_filename);
-                $filename = array_pop($tmp_arr);
-
-                $base_path = implode("/",$tmp_arr)."/";
-
-                // get the ext
-                $tmp_arr = explode(".",$filename);
-                $ext = strtolower(array_pop($tmp_arr));
-
-                // according to ext., import the file
-                switch($ext) {
-                    // xml js filter
-                    case 'xml' :
-                            // create an instance of XmlJSFilter class, then create js and handle Context::addJsFile
-                            $output = sprintf(
-                                '<?php%s'.
-                                'require_once("./classes/xml/XmlJsFilter.class.php");%s'.
-                                '$oXmlFilter = new XmlJSFilter("%s","%s");%s'.
-                                '$oXmlFilter->compile();%s'.
-                                '?>%s',
-                                "\n",
-                                "\n",
-                                $base_path,
-                                $filename,
-                                "\n",
-                                "\n",
-                                "\n"
-                                );
-                        break;
-                    // css file
-                    case 'css' :
-                            if(preg_match('/^(http|\/)/i',$source_filename)) {
-                                $output = sprintf('<?php Context::loadFile(array("%s", "%s", "%s", "%s")); ?>', $source_filename, $media, $targetie, $index);
-                            } else {
-								$meta_file = $base_path.$filename;
-                                $output = sprintf('<?php Context::loadFile(array("%s%s", "%s", "%s", "%s")); ?>', $base_path, $filename, $media, $targetie, $index);
-                            }
-                        break;
-                    // js file
-                    case 'js' :
-                            if(preg_match('/^(http|\/)/i',$source_filename)) {
-                                $output = sprintf('<?php Context::loadFile(array("%s", "%s", "%s","%s")); ?>', $source_filename, $type, $targetie, $index);
-                            } else {
-								$meta_file = $base_path.$filename;
-                                $output = sprintf('<?php Context::loadFile(array("%s%s", "%s", "%s", "%s")); ?>', $base_path, $filename, $type, $targetie, $index);
-                            }
-                        break;
-                }
-            }
-
-			if($meta_file) $output = '<!--#Meta:'.$meta_file.'-->'.$output;
-            return $output;
-        }
-
-        /**
-         * @brief remove loading part of css/ js file
-         * @param[in] $matches match
-         * @return removed result
-         **/
-        function _compileUnloadCode($matches) {
-            // find xml file
-            $base_path = $this->path;
-            $given_file = trim($matches[1]);
-            if(!$given_file) return;
-            if(isset($matches[3])) $optimized = strtolower(trim($matches[3]));
-            if(!$optimized) $optimized = 'true';
-            if(isset($matches[5])) $media = trim($matches[5]);
-            if(!$media) $media = 'all';
-            if(isset($matches[7])) $targetie = trim($matches[7]);
-            if(!$targetie) $targetie = '';
-            else $optimized = 'false';
-
-            if(substr($given_file,0,1)!='/') $source_filename = sprintf("%s%s",$base_path, $given_file);
-            else $source_filename = $given_file;
-
-            // get path and file nam
-            $tmp_arr = explode("/",$source_filename);
-            $filename = array_pop($tmp_arr);
-
-            $base_path = implode("/",$tmp_arr)."/";
-
-            // get an ext.
-            $tmp_arr = explode(".",$filename);
-            $ext = strtolower(array_pop($tmp_arr));
-
-            switch($ext) {
-                // css file
-                case 'css' :
-                        if(preg_match('/^(http|https|\/)/i',$source_filename)) {
-                            $output = sprintf('<?php Context::unloadFile("%s", "%s", "%s"); ?>', $source_filename, $targetie, $media);
-                        } else {
-                            $output = sprintf('<?php Context::unloadFile("%s%s", "%s", "%s"); ?>', $base_path, $filename, $targetie, $media);
-                        }
-                    break;
-                // js file
-                case 'js' :
-                        if(preg_match('/^(http|https|\/)/i',$source_filename)) {
-                            $output = sprintf('<?php Context::unloadFile("%s", "%s"); ?>', $source_filename, $targetie);
-                        } else {
-                            $output = sprintf('<?php Context::unloadFile("%s%s", "%s"); ?>', $base_path, $filename, $targetie);
-                        }
-                    break;
-            }
-
-            return $output;
-        }
     }
 ?>
