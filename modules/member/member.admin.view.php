@@ -7,17 +7,21 @@
 
     class memberAdminView extends member {
 
-        var $group_list = NULL; ///< group list        var $memberInfo = NULL; ///< selected member info
+        var $group_list = NULL; ///< group list        
+		var $memberInfo = NULL; ///< selected member info
         /**
-         * @brief initialization         **/
+         * @brief initialization         
+		 **/
         function init() {
             $oMemberModel = &getModel('member');
 
-            // if member_srl exists, set memberInfo            $member_srl = Context::get('member_srl');
+            // if member_srl exists, set memberInfo            
+			$member_srl = Context::get('member_srl');
             if($member_srl) {
                 $this->memberInfo = $oMemberModel->getMemberInfoByMemberSrl($member_srl);                if(!$this->memberInfo) Context::set('member_srl','');                else Context::set('member_info',$this->memberInfo);            }
 
-            // retrieve group list            $this->group_list = $oMemberModel->getGroups();
+            // retrieve group list            
+			$this->group_list = $oMemberModel->getGroups();
             Context::set('group_list', $this->group_list);
 
 			$security = new Security();						
@@ -27,23 +31,45 @@
         }
 
         /**
-         * @brief display member list         **/
+         * @brief display member list         
+		 **/
         function dispMemberAdminList() {
             $oMemberAdminModel = &getAdminModel('member');
             $oMemberModel = &getModel('member');
             $output = $oMemberAdminModel->getMemberList();
 
-			$filter = Context::get('filter_type');			global $lang;			switch($filter){				case 'super_admin' : Context::set('filter_type_title', $lang->cmd_show_super_admin_member);break;				case 'site_admin' : Context::set('filter_type_title', $lang->cmd_show_site_admin_member);break;				case 'enable' :  Context::set('filter_type_title', $lang->approval);break;				case 'disable' : Context::set('filter_type_title', $lang->denied);break;				default : Context::set('filter_type_title', $lang->cmd_show_all_member);break;			}            // retrieve list of groups for each member
+			$filter = Context::get('filter_type');
+			global $lang;			
+			switch($filter){				
+				case 'super_admin' : Context::set('filter_type_title', $lang->cmd_show_super_admin_member);break;
+				case 'site_admin' : Context::set('filter_type_title', $lang->cmd_show_site_admin_member);break;
+				case 'enable' :  Context::set('filter_type_title', $lang->approval);break;
+				case 'disable' : Context::set('filter_type_title', $lang->denied);break;
+				default : Context::set('filter_type_title', $lang->cmd_show_all_member);break;			
+			}
+			// retrieve list of groups for each member
             if($output->data) {
                 foreach($output->data as $key => $member) {
                     $output->data[$key]->group_list = $oMemberModel->getMemberGroups($member->member_srl,0);
                 }
             }
-			$config = $oMemberModel->getMemberConfig();			$memberIdentifiers = array('user_id'=>'user_id', 'user_name'=>'user_name', 'nick_name'=>'nick_name');			$usedIdentifiers = array();			foreach($config->signupForm as $signupItem){				if (!count($memberIdentifiers)) break;				if(in_array($signupItem->name, $memberIdentifiers) && ($signupItem->required || $signupItem->isUse)){					unset($memberIdentifiers[$signupItem->name]);					$usedIdentifiers[$signupItem->name] = $lang->{$signupItem->name};				}			}            Context::set('total_count', $output->total_count);
+			$config = $oMemberModel->getMemberConfig();			
+			$memberIdentifiers = array('user_id'=>'user_id', 'user_name'=>'user_name', 'nick_name'=>'nick_name');			
+			$usedIdentifiers = array();			
+			foreach($config->signupForm as $signupItem){				
+				if (!count($memberIdentifiers)) break;				
+				if(in_array($signupItem->name, $memberIdentifiers) && ($signupItem->required || $signupItem->isUse)){					
+					unset($memberIdentifiers[$signupItem->name]);					
+					$usedIdentifiers[$signupItem->name] = $lang->{$signupItem->name};				
+				}			
+			}
+
+			Context::set('total_count', $output->total_count);
             Context::set('total_page', $output->total_page);
             Context::set('page', $output->page);
             Context::set('member_list', $output->data);
-            Context::set('usedIdentifiers', $usedIdentifiers);            Context::set('page_navigation', $output->page_navigation);
+            Context::set('usedIdentifiers', $usedIdentifiers);            
+			Context::set('page_navigation', $output->page_navigation);
 			
 			$security = new Security();			
 			$security->encodeHTML('member_list..user_name','member_list..group_list..');
@@ -59,7 +85,10 @@
             $oModuleModel = &getModel('module');
             $oMemberModel = &getModel('member');
             $config = $oMemberModel->getMemberConfig();
-            // Get join form list which is additionally set            $extendItems = $oMemberModel->getJoinFormList();            Context::set('config',$config);
+            // Get join form list which is additionally set            
+			$extendItems = $oMemberModel->getJoinFormList();            
+			
+			Context::set('config',$config);
 
             // list of skins for member module
             $skin_list = $oModuleModel->getSkins($this->module_path);
@@ -99,7 +128,14 @@
             $oModuleModel = &getModel('module');
             $member_config = $oModuleModel->getModuleConfig('member');
             Context::set('member_config', $member_config);
-			$extendForm = $oMemberModel->getCombineJoinForm($this->memberInfo);            Context::set('extend_form_list', $extendForm);			$memberInfo = get_object_vars(Context::get('member_info'));			Context::set('memberInfo', $memberInfo);			$disableColumns = array('password', 'find_account_question');			Context::set('disableColumns', $disableColumns);			
+			$extendForm = $oMemberModel->getCombineJoinForm($this->memberInfo);            
+			Context::set('extend_form_list', $extendForm);			
+			$memberInfo = get_object_vars(Context::get('member_info'));			
+			Context::set('memberInfo', $memberInfo);			
+			
+			$disableColumns = array('password', 'find_account_question');			
+			Context::set('disableColumns', $disableColumns);			
+			
 			$security = new Security();
 			$security->encodeHTML('member_config..');
 			$security->encodeHTML('member_info.user_name','member_info.description','member_info.group_list..');			
@@ -115,9 +151,13 @@
             // retrieve extend form
             $oMemberModel = &getModel('member');
 
-            $memberInfo = Context::get('member_info');            $memberInfo->signature = $oMemberModel->getSignature($this->memberInfo->member_srl);            Context::set('member_info', $memberInfo);
-            // get an editor for the signature
-            if($memberInfo->member_srl) {                $oEditorModel = &getModel('editor');
+            $memberInfo = Context::get('member_info');            
+			$memberInfo->signature = $oMemberModel->getSignature($this->memberInfo->member_srl);            
+			Context::set('member_info', $memberInfo);
+            
+			// get an editor for the signature
+            if($memberInfo->member_srl) {                
+				$oEditorModel = &getModel('editor');
                 $option->primary_key_name = 'member_srl';
                 $option->content_key_name = 'signature';
                 $option->allow_fileupload = false;
@@ -126,14 +166,25 @@
                 $option->enable_component = false;
                 $option->resizable = false;
                 $option->height = 200;
-                $editor = $oEditorModel->getEditor($this->memberInfo->member_srl, $option);                Context::set('editor', $editor);
+                $editor = $oEditorModel->getEditor($this->memberInfo->member_srl, $option);                
+				Context::set('editor', $editor);
             }
 			
 			$security = new Security();				
 			$security->encodeHTML('extend_form_list..');
 			$security->encodeHTML('extend_form_list..default_value.');			
 			
-			$formTags = $this->_getMemberInputTag($memberInfo);			Context::set('formTags', $formTags);			$member_config = $oMemberModel->getMemberConfig();			global $lang;			if (!$member_config->identifier) $member_config->identifier = 'user_id';			$identifierForm->title = $lang->{$member_config->identifier};			$identifierForm->name = $member_config->identifier;			$identifierForm->value = $memberInfo->{$member_config->identifier};			Context::set('identifierForm', $identifierForm);            $this->setTemplateFile('insert_member');
+			$formTags = $this->_getMemberInputTag($memberInfo);			
+			Context::set('formTags', $formTags);			
+			$member_config = $oMemberModel->getMemberConfig();			
+			
+			global $lang;			
+			if (!$member_config->identifier) $member_config->identifier = 'user_id';			
+			$identifierForm->title = $lang->{$member_config->identifier};			
+			$identifierForm->name = $member_config->identifier;			
+			$identifierForm->value = $memberInfo->{$member_config->identifier};			
+			Context::set('identifierForm', $identifierForm);            
+			$this->setTemplateFile('insert_member');
         }
 
 		function _getMemberInputTag($memberInfo){
@@ -314,7 +365,7 @@ EOD;
             $this->setTemplateFile('delete_form');
         }
 
-        /** ->group_update_form
+        /**
          * @brief display group list
          **/
         function dispMemberAdminGroupList() {
@@ -331,13 +382,18 @@ EOD;
             } else {
                 $this->setTemplateFile('group_list');
             }			
-			$output = $oModuleModel->getModuleFileBoxList();			Context::set('fileBoxList', $output->data);        }
+			$output = $oModuleModel->getModuleFileBoxList();			
+			Context::set('fileBoxList', $output->data);        
+		}
 
-        /** O
-         * @brief Display a list of member join form         **/
+        /**
+         * @brief Display a list of member join form         
+		 **/
         function dispMemberAdminJoinFormList() {
-            // Create a member model object            $oMemberModel = &getModel('member');
-            // Get join form list which is additionally set            $form_list = $oMemberModel->getJoinFormList();
+            // Create a member model object            
+			$oMemberModel = &getModel('member');
+            // Get join form list which is additionally set            
+			$form_list = $oMemberModel->getJoinFormList();
             Context::set('form_list', $form_list);
 			$security = new Security($form_list);						
 			$security->encodeHTML('form_list..');
@@ -345,10 +401,12 @@ EOD;
             $this->setTemplateFile('join_form_list');
         }
 
-        /** O h, ck
-         * @brief Display an admin page for memebr join forms         **/
+        /**
+         * @brief Display an admin page for memebr join forms         
+		 **/
         function dispMemberAdminInsertJoinForm() {
-            // Get the value of join_form            $member_join_form_srl = Context::get('member_join_form_srl');
+            // Get the value of join_form            
+			$member_join_form_srl = Context::get('member_join_form_srl');
             if($member_join_form_srl) {
                 $oMemberModel = &getModel('member');
                 $join_form = $oMemberModel->getJoinForm($member_join_form_srl);
@@ -364,11 +422,14 @@ EOD;
             $this->setTemplateFile('insert_join_form');
         }
 
-        /** O
-         * @brief Display denied ID list         **/
+        /**
+         * @brief Display denied ID list         
+		 **/
         function dispMemberAdminDeniedIDList() {
-            // Create a member model object            $oMemberModel = &getModel('member');
-            // Get a denied ID list            $output = $oMemberModel->getDeniedIDList();
+            // Create a member model object            
+			$oMemberModel = &getModel('member');
+            // Get a denied ID list            
+			$output = $oMemberModel->getDeniedIDList();
 
             Context::set('total_count', $output->total_count);
             Context::set('total_page', $output->total_page);
@@ -382,12 +443,15 @@ EOD;
         }
 
         /**
-         * @brief Update all the member groups         **/
+         * @brief Update all the member groups         
+		 **/
         function dispMemberAdminManageGroup() {
-            // Get a list of the selected member            $args->member_srl = trim(Context::get('member_srls'));
+            // Get a list of the selected member            
+			$args->member_srl = trim(Context::get('member_srls'));
             $output = executeQueryArray('member.getMembers', $args);
             Context::set('member_list', $output->data);
-            // Get a list of the selected member            $oMemberModel = &getModel('member');
+            // Get a list of the selected member            
+			$oMemberModel = &getModel('member');
             Context::set('member_groups', $oMemberModel->getGroups());
 			
 			$security = new Security();
@@ -398,9 +462,11 @@ EOD;
         }
 
         /**
-         * @brief Delete all members         **/
+         * @brief Delete all members         
+		 **/
         function dispMemberAdminDeleteMembers() {
-            // Get a list of the selected member            $args->member_srl = trim(Context::get('member_srls'));
+            // Get a list of the selected member            
+			$args->member_srl = trim(Context::get('member_srls'));
             $output = executeQueryArray('member.getMembers', $args);
             Context::set('member_list', $output->data);
 
