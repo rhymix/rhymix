@@ -5,7 +5,7 @@
     * @brief contains methods for accessing file system
     **/
 
-    class FileHandler extends Handler {
+    class FileHandler {
         /**
          * @brief changes path of target file, directory into absolute path
          * @param[in] $source path
