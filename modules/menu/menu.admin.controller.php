@@ -334,9 +334,12 @@
 
 			if(is_array($result))
 			{
+				$i = 0;
 				foreach($result AS $key=>$node)
 				{
-					$this->_recursiveMoveMenuItem($node);
+					$this->moveMenuItem($this->menuSrl, 0, $i, $node->node, 'move');	//move parent node
+					$this->_recursiveMoveMenuItem($node);	//move child node
+					$i = $node->node;
 				}
 			}
 
