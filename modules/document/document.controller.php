@@ -1645,7 +1645,7 @@ class documentController extends document {
 			$output = $oDocumentAdminController->copyDocumentModule($document_srl_list, $module_srl, $category_srl);
 			if(!$output->toBool()) return new Object(-1, 'fail_to_move');
 
-			$msg_code = 'success_registed';
+			$msg_code = 'success_copy';
 
 		} elseif($type =='delete') {
 			$oDB = &DB::getInstance();

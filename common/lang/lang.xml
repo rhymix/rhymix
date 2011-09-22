@@ -2807,6 +2807,10 @@ Xin vui lòng kiểm tra lại thông tin Database.]]></value>
 		<value xml:lang="vi"><![CDATA[Đã chuyển.]]></value>
 		<value xml:lang="mn"><![CDATA[Шилжсэн]]></value>
 	</item>
+	<item name="success_copy">
+		<value xml:lang="ko"><![CDATA[복사했습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Copyied successfully]]></value>
+	</item>
 	<item name="success_sended">
 		<value xml:lang="ko"><![CDATA[발송했습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Sent successfully]]></value>
