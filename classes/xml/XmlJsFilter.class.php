@@ -241,7 +241,8 @@
 			for($i=0;$i<$target_count;$i++) {
 				$target = $target_list[$i];
 				if(!$lang->{$target}) $lang->{$target} = $target;
-				$js_messages[] = sprintf("v.cast('ADD_MESSAGE',['%s','%s']);", $target, addslashes($lang->{$target}));
+				$text = preg_replace('@\r?\n@', '\\n', addslashes($lang->{$target}));
+				$js_messages[] = "v.cast('ADD_MESSAGE',['{$target}','{$text}']);";
 			}
 
 			// writes the target type
@@ -257,6 +258,7 @@
 			// writes error messages
 			foreach($lang->filter as $key => $val) {
 				if(!$val) $val = $key;
+				$val = preg_replace('@\r?\n@', '\\n', addslashes($val));
 				$js_messages[] = sprintf("v.cast('ADD_MESSAGE',['%s','%s']);", $key, $val);
 			}
 

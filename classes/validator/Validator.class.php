@@ -478,7 +478,7 @@ class Validator
 		// error messages
 		foreach($lang->filter as $key=>$text) {
 			if($text) {
-				$text = addslashes($text);
+				$text = preg_replace('@\r?\n@', '\\n', addslashes($text));
 				$messages[] = "v.cast('ADD_MESSAGE',['{$key}','{$text}']);";
 			}
 		}
