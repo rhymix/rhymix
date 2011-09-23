@@ -159,9 +159,9 @@
 				if(!$args->skin) $args->skin = "default";
 				if(!$args->colorset) $args->colorset = "white";
 
-				if($args->profile_image !='Y') $args->profile_image = 'N';
-				if($args->image_name !='Y') $args->image_name = 'N';
-				if($args->image_mark !='Y') $args->image_mark = 'N';
+				$args->profile_image = $args->profile_image?'Y':'N';
+				$args->image_name = $args->image_name?'Y':'N';
+				$args->image_mark = $args->image_mark?'Y':'N';
 				if($args->signature!='Y') $args->signature = 'N';
 				$args->identifier = $all_args->identifier;
 
@@ -180,7 +180,7 @@
 					$signupItem->title = $lang->{$key};
 					$signupItem->mustRequired = in_array($key, $mustRequireds);
 					$signupItem->imageType = (strpos($key, 'image') !== false);
-					$signupItem->required = ($all_args->{$key} == 'required') || $signupItem->mustRequired;
+					$signupItem->required = ($all_args->{$key} == 'required') || $signupItem->mustRequired || $signupItem->isIdentifier;
 					$signupItem->isUse = in_array($key, $usable_list) || $signupItem->required;
 
 					if ($signupItem->imageType){
@@ -239,8 +239,12 @@
 				if ($formInfo->required || $formInfo->mustRequired){
 					if($formInfo->name == 'password')
 						$fields[] = '<field name="password" ><if test="$act == \'procMemberInsert\'" attr="password" value="true" /></field>';
-					else
+					else if($formInfo->name == 'find_account_question'){
+						$fields[] = '<field name="find_account_question" required="true" />';
+						$fields[] = '<field name="find_account_answer" required="true" />';
+					}else{
 						$fields[] = sprintf('<field name="%s" required="true" />', $formInfo->name);
+					}
 				}
 			}
 
