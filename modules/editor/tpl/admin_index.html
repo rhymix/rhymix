@@ -14,7 +14,7 @@
 		$('#fontSize').keyup(function(){
 			var mySize = $(this).val();
 			fontPreview.css('fontSize',mySize+'px');
-			if(mySize.length==0){fontPreview.css('fontSize','')};
+			if(mySize.length==0){ fontPreview.css('fontSize','') };
 			if(mySize>28){
 				alert('{$lang->msg_font_too_big}');
 				$(this).val('28');
