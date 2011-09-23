@@ -44,7 +44,8 @@
 
 		function show(){
                         if(!$this->argument) return false;
-			if(!$this->argument->getValue()) return false;
+                        $value = $this->argument->getValue();
+			if(!isset($value)) return false;
 			return true;
 		}
 

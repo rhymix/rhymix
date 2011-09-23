@@ -66,6 +66,17 @@
 			$this->_test($xml_file, $argsString, $expected);
 		}
 
+
+		function test_menu_updateMenuItemNode(){
+			$xml_file = _XE_PATH_ . "modules/menu/queries/updateMenuItemNode.xml";
+			$argsString = '$args->parent_srl = 0;
+                            $args->menu_srl = 237423;
+                            $args->listorder = -8;
+                            $args->menu_item_srl = 237431;';
+			$expected = 'UPDATE "xe_menu_item" SET "parent_srl" = 0, "listorder" = -8 WHERE  "menu_item_srl" = 237431';
+			$this->_test($xml_file, $argsString, $expected);
+		}
+
 //	$queryTester->test_admin_deleteActionForward();
 //	$queryTester->test_module_insertModule();
 
