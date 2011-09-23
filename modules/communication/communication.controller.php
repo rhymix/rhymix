@@ -76,8 +76,8 @@
                 $oMail = new Mail();
                 $oMail->setTitle($title);
                 $oMail->setContent($content);
-                $oMail->setSender($logged_info->user_name, $logged_info->email_address);
-                $oMail->setReceiptor($receiver_member_info->user_name, $receiver_member_info->email_address);
+                $oMail->setSender($logged_info->nick_name, $logged_info->email_address);
+                $oMail->setReceiptor($receiver_member_info->nick_name, $receiver_member_info->email_address);
                 $oMail->send();
             }
 
