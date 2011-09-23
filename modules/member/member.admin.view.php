@@ -131,6 +131,7 @@
 			$extendForm = $oMemberModel->getCombineJoinForm($this->memberInfo);            
 			Context::set('extend_form_list', $extendForm);			
 			$memberInfo = get_object_vars(Context::get('member_info'));			
+			if (!is_array($memberInfo['group_list'])) $memberInfo['group_list'] = array();
 			Context::set('memberInfo', $memberInfo);			
 			
 			$disableColumns = array('password', 'find_account_question');			
