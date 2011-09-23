@@ -154,7 +154,7 @@
 			}
 
 			// replace value of src in img/input/script tag
-			$buff = preg_replace_callback('/<(?:img|input|script)(?:(?!<[a-zA-Z]+[:a-zA-Z0-9]+[\s>]).)* src="(?!https?:\/\/|[\/\{])(.+?)"/is', array($this, '_replacePath'), $buff);
+			$buff = preg_replace_callback('/<(?:img|input|script)(?:(?!["\'\/]\s*>).)* src="(?!https?:\/\/|[\/\{])([^"]+)"/is', array($this, '_replacePath'), $buff);
 
 			// replace loop and cond template syntax
 			$buff = $this->_parseInline($buff);
@@ -356,7 +356,7 @@
 		function _parseResource($m)
 		{
 			// {$var} or {func(...)}
-			if($m[9]) 
+			if($m[9])
 			{
 				return '<?php echo '.$this->_replaceVar($m[9]).' ?>';
 			}
@@ -435,7 +435,7 @@
 
 				return $result;
 			}
-			
+
 			// <!--#include--> or <include ..>
 			if($m[1]=='include' || $m[3]=='#include')
 			{
@@ -453,7 +453,7 @@
 
 				return "<?php echo TemplateHandler::getInstance()->compile('{$fileDir}','{$pathinfo['basename']}') ?>";
 			}
-			
+
 			// <!--%load_js_plugin-->
 			if($m[3]=='%load_js_plugin')
 			{
@@ -461,7 +461,7 @@
 				if(strpos($plugin, '$__Context') === false) $plugin = "'{$plugin}'";
 				return "<?php Context::loadJavascriptPlugin({$plugin}); ?>";
 			}
-			
+
 			// <!--@..--> such as <!--@if($cond)-->, <!--@else-->, <!--@end-->
 			if($m[6])
 			{
