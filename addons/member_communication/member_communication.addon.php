@@ -26,21 +26,20 @@
         $oMemberController->addMemberMenu('dispCommunicationMessages', 'cmd_view_message_box');
         // Pop-up to display messages if a flag on new message is set
         $flag_path = './files/member_extra_info/new_message_flags/'.getNumberingPath($logged_info->member_srl);
-        $flag_file = sprintf('%s%s', $flag_path, $logged_info->member_srl);
+        $flag_file = $flag_path.$logged_info->member_srl;
 
         if(file_exists($flag_file)) {
-            $new_message_count = FileHandler::readFile($flag_file);
+            $new_message_count = trim(FileHandler::readFile($flag_file));
             FileHandler::removeFile($flag_file);
             Context::loadLang('./addons/member_communication/lang');
+			Context::loadFile(array('./addons/member_communication/tpl/member_communication.js'));
 
-            $script =  sprintf('<script type="text/javascript"> jQuery(function() { if(confirm("%s")) { popopen("%s"); } }); </script>', sprintf(Context::getLang('alert_new_message_arrived'), $new_message_count), Context::getRequestUri().'?module=communication&act=dispCommunicationNewMessage');
+			$text   = preg_replace('@\r?\n@', '\\n', addslashes(Context::getLang('alert_new_message_arrived')));
+			$link   = Context::getRequestUri().'?module=communication&act=dispCommunicationNewMessage';
+            $script = "<script type=\"text/javascript\">jQuery(function(){ xeNotifyMessage('{$text}','{$new_message_count}'); });</script>";
 
-            Context::addHtmlHeader( $script );
-        }
-
-    /**
-     * Links are added on the pop-up menu which appears when clicking user name
-     **/
+			Context::addHtmlFooter($script);
+		}
     } elseif($called_position == 'before_module_proc' && $this->act == 'getMemberMenu') {
 
         $oMemberController = &getController('member');
