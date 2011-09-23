@@ -145,9 +145,9 @@ var Validator = xe.createApp('Validator', {
 
 			if(f['if']) {
 				if(!$.isArray(f['if'])) f['if'] = [f['if']];
-				for(i in f['if']) {
+				for(i=0;i<f['if'].length;i++) {
 					if_ = f['if'][i];
-					fn  = new Function('el', 'return !!(' + (if_.test.replace(/$(\w+)/g, 'el["$1"]')) +')');
+					fn  = new Function('el', 'return !!(' + (if_.test.replace(/\$(\w+)/g, 'el["$1"].value')) +')');
 					if(fn(elems)) f[if_.attr] = if_.value;
 				}
 			}
