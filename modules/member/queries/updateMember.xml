@@ -7,6 +7,7 @@
         <column name="user_name" var="user_name" notnull="notnull" minlength="2" maxlength="40" />
         <column name="nick_name" var="nick_name" notnull="notnull" minlength="2" maxlength="40" />
         <column name="user_id" var="user_id" notnull="notnull" />
+		<column name="email_address" var="email_address" notnull="notnull"/>
         <column name="find_account_question" var="find_account_question" />
         <column name="find_account_answer" var="find_account_answer" />
         <column name="homepage" var="homepage" default="" />

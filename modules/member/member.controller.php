@@ -1705,28 +1705,44 @@
                 unset($args->denied);
             }
 
-            list($args->email_id, $args->email_host) = explode('@', $args->email_address);
+			// check mamber identifier form
+			$config = $oMemberModel->getMemberConfig();
+			if (!$config->identifier) $config->identifier = 'user_id'; 
+
+			$output = executeQuery('member.getMemberInfoByMemberSrl', $args);
+			$orgMemberInfo = $output->data;
+
+			if ($config->identifier == 'email_address'){
+				$member_srl = $oMemberModel->getMemberSrlByEmailAddress($args->email_address);
+				if($member_srl&&$args->member_srl!=$member_srl) return new Object(-1,'msg_exists_email_address');
+
+				$args->user_id = $orgMemberInfo->user_id;
+			}else{
+				$member_srl = $oMemberModel->getMemberSrlByUserID($args->user_id);
+				if($member_srl&&$args->member_srl!=$member_srl) return new Object(-1,'msg_exists_email_address');
+
+				$args->email_address = $orgMemberInfo->email_address;
+			}
+
+			list($args->email_id, $args->email_host) = explode('@', $args->email_address);
             // Website, blog, checks the address
             if($args->homepage && !preg_match("/^[a-z]+:\/\//is",$args->homepage)) $args->homepage = 'http://'.$args->homepage;
             if($args->blog && !preg_match("/^[a-z]+:\/\//is",$args->blog)) $args->blog = 'http://'.$args->blog;
 
-            $member_srl = $oMemberModel->getMemberSrlByEmailAddress($args->email_address);
-            if($member_srl&&$args->member_srl!=$member_srl) return new Object(-1,'msg_exists_email_address');
 
             $oDB = &DB::getInstance();
             $oDB->begin();
             // DB in the update
 
-			$output = executeQuery('member.getMemberInfoByMemberSrl', $args);
-			$orgMemberInfo = $output->data;
             if($args->password) $args->password = md5($args->password);
             else $args->password = $orgMemberInfo->password;
-
 			if(!$args->user_name) $args->user_name = $orgMemberInfo->user_name;
 			if(!$args->user_id) $args->user_id = $orgMemberInfo->user_id;
-			if(!$args->nick_name) $args->user_name = $orgMemberInfo->nick_name;
+			if(!$args->nick_name) $args->nick_name = $orgMemberInfo->nick_name;
 
 			if(!$args->description) $args->description = '';
+
+
             $output = executeQuery('member.updateMember', $args);
             if(!$output->toBool()) {
                 $oDB->rollback();
