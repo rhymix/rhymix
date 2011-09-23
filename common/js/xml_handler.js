@@ -312,10 +312,7 @@ $.exec_xml = window.exec_xml = function(module, act, params, callback_func, resp
 	// ajax 통신중 대기 메세지 출력 (show_waiting_message값을 false로 세팅시 보이지 않음)
 	var waiting_obj = $('.wfsr');
 	if(show_waiting_message && waiting_obj.length) {
-		var d = $(document);
-		waiting_obj.html(waiting_message).css({
-			'display' : 'none'
-		});
+		waiting_obj.html(waiting_message).show();
 	}
 }
 function send_by_form(url, params) {
@@ -359,10 +356,7 @@ $.exec_json = function(action,data,func){
     if(typeof(data) == 'undefined') data = {};
     action = action.split(".");
     if(action.length == 2){
-
-        if(show_waiting_message) {
-            $(".wfsr").html(waiting_message).css('display','none');
-        }
+        if(show_waiting_message) $(".wfsr").html(waiting_message).show();
 
         $.extend(data,{module:action[0],act:action[1]});
         if(typeof(xeVid)!='undefined') $.extend(data,{vid:xeVid});
@@ -373,7 +367,7 @@ $.exec_json = function(action,data,func){
             ,contentType:"application/json"
             ,data:$.param(data)
             ,success : function(data){
-                $(".wfsr").css('display','none');
+                $(".wfsr").hide();
                 if(data.error > 0) alert(data.message);
                 if($.isFunction(func)) func(data);
             }
@@ -388,9 +382,7 @@ $.fn.exec_html = function(action,data,type,func,args){
     var self = $(this);
     action = action.split(".");
     if(action.length == 2){
-        if(show_waiting_message) {
-            $(".wfsr").html(waiting_message).css('display','none');
-        }
+        if(show_waiting_message) $(".wfsr").html(waiting_message).show();
 
         $.extend(data,{module:action[0],act:action[1]});
         $.ajax({
@@ -399,7 +391,7 @@ $.fn.exec_html = function(action,data,type,func,args){
             ,url:request_uri
             ,data:$.param(data)
             ,success : function(html){
-                $(".wfsr").css('display','none');
+                $(".wfsr").hide();
                 self[type](html);
                 if($.isFunction(func)) func(args);
             }
