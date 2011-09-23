@@ -177,6 +177,9 @@ $('div.adminMenu')
 
 					$this.slideDown(100, function(){ $this.removeClass('active') });
 					$li.slideUp(100, function(){ var $par = $li.parent(); $li.remove(); if(!$par.children('li').length) $par.remove()  });
+
+					// trigger 'dropped.st' event
+					$this.trigger('dropped.st');
 				});
 
 			return false;
