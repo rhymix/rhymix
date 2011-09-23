@@ -68,7 +68,7 @@
 				<td>{htmlspecialchars($item->current_version)}</td>
 				<td>
 					<a cond="!$item->current_version" href="{getUrl('act','dispAutoinstallAdminInstall','package_srl',$item->package_srl)}">{$lang->install}</a>
-					<a cond="$item->current_version && $item->avail_remove" href="{getUrl('act','dispAutoinstallAdminUninstall','package_srl',$item->package_srl)}">{$lang->cmd_delete}</a>
+					<a cond="!$show_ftp_note && $item->current_version && $item->avail_remove" href="{getUrl('act','dispAutoinstallAdminUninstall','package_srl',$item->package_srl)}">{$lang->cmd_delete}</a>
 					<a cond="$item->current_version && $item->need_update == 'Y'" href="{getUrl('act','dispAutoinstallAdminInstall','package_srl',$item->package_srl)}">{$lang->update}</a>
 				</td>
 			</tr>

@@ -205,6 +205,9 @@
 
 		function getRemoveUrlByPackageSrl($packageSrl)
 		{
+            $ftp_info =  Context::getFTPInfo();
+            if (!$ftp_info->ftp_root_path) return;
+			
 			if (!$packageSrl) return;
 
 			return getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAutoinstallAdminUninstall', 'package_srl', $packageSrl);
@@ -213,6 +216,9 @@
 		function getRemoveUrlByPath($path)
 		{
 			if (!$path) return;
+
+            $ftp_info =  Context::getFTPInfo();
+            if (!$ftp_info->ftp_root_path) return;
 
 			$packageSrl = $this->getPackageSrlByPath($path);
 			if (!$packageSrl) return;
