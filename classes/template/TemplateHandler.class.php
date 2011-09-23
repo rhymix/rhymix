@@ -487,7 +487,7 @@
 		function _getRelativeDir($path)
 		{
 			$fileDir   = dirname(strtr(realpath($this->file),'\\','/'));
-			if($path{0} != '/') $path = strtr(realpath($fileDir.'/'.$path,'\\','/'));
+			if($path{0} != '/') $path = strtr(realpath($fileDir.'/'.$path),'\\','/'));
 
 			$path = preg_replace('/^'.preg_quote(_XE_PATH_,'/').'/', '', $path);
 			$path = ltrim($path, '/');
