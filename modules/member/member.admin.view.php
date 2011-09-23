@@ -180,7 +180,6 @@
 			$member_config = $oMemberModel->getMemberConfig();			
 			
 			global $lang;			
-			if (!$member_config->identifier) $member_config->identifier = 'user_id';			
 			$identifierForm->title = $lang->{$member_config->identifier};			
 			$identifierForm->name = $member_config->identifier;			
 			$identifierForm->value = $memberInfo->{$member_config->identifier};			

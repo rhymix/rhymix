@@ -2003,6 +2003,9 @@
 		<value xml:lang="tr"><![CDATA[Hesap bilginiz, kayıt olduğunuz e-posta adresine gönderilecektir.<br />Kayıt esnasında kullandığınız e-posta adresini giriniz ve "Hesap Bilgisini Bul" tuşuna basınız.<br />]]></value>
 		<value xml:lang="vi"><![CDATA[Thông tin tài khoản của bạn sẽ được tìm thấy với Email bạn đã đăng kí.<br />Xin vui lòng nhập Email mà bạn đã đăng kí và bấm "Lấy lại thông tin" để nhận được thông tin đăng nhập!.<br />]]></value>
 	</item>
+	<item name="about_temp_password">
+		<value xml:lang="ko"><![CDATA[임시 비밀번호가 정상적으로 발급되었습니다.<br />로그인 후 반드시 비밀번호를 변경하시기 바랍니다.<br/>]]></value>
+	</item>
 	<item name="about_member">
 		<value xml:lang="ko"><![CDATA[회원을 생성/수정/삭제 할 수 있고 그룹관리나 가입 폼 관리 등을 할 수 있는 회원 관리 모듈입니다.
 기본으로 생성된 그룹외의 그룹을 생성하여 회원 관리가 가능하고 가입 폼 관리를 통한 기본 정보외의 추가 정보를 요구할 수도 있습니다.]]></value>

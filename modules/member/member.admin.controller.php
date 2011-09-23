@@ -214,6 +214,7 @@
 				// create Ruleset
 				$this->_createSignupRuleset($signupForm);
 				$this->_createLoginRuleset($args->identifier);
+				$this->_createFindAccountByQuestion($args->identifier);
 			}
 			$output = $oModuleController->updateModuleConfig('member', $args);
 			// default setting end
@@ -270,11 +271,36 @@
 			$fields[] = '<field name="password" required="true" />';
 
 			$xml_buff = sprintf($buff, implode('', $fields));
-            FileHandler::writeFile($xml_file, $xml_buff);
+            filehandler::writefile($xml_file, $xml_buff);
 
-			$validator   = new Validator($xml_file);
-			$validator->setCacheDir('files/cache');
-			$validator->getJsPath();
+			$validator   = new validator($xml_file);
+			$validator->setcachedir('files/cache');
+			$validator->getjspath();
+		}
+
+		function _createFindAccountByQuestion($identifier){
+			$xml_file = './files/ruleset/find_member_account_by_question.xml';
+			$buff = '<?xml version="1.0" encoding="utf-8"?>'
+					.'<ruleset version="1.5.0">'
+				    .'<customrules>'
+					.'</customrules>'
+					.'<fields>%s</fields>'						
+					.'</ruleset>';
+
+			$fields = array();
+			if ($identifier == 'user_id')
+				$fields[] = '<field name="user_id" required="true" rule="userid" />';
+
+			$fields[] = '<field name="email_address" required="true" rule="email" />';
+			$fields[] = '<field name="find_account_question" required="true" />';
+			$fields[] = '<field name="find_account_answer" required="true" length=":250"/>';
+
+			$xml_buff = sprintf($buff, implode('', $fields));
+            filehandler::writefile($xml_file, $xml_buff);
+
+			$validator   = new validator($xml_file);
+			$validator->setcachedir('files/cache');
+			$validator->getjspath();
 		}
 
         /**

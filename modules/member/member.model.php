@@ -40,6 +40,8 @@
             if(!$config->editor_skin || $config->editor_skin == 'default') $config->editor_skin = "xpresseditor";
             if(!$config->group_image_mark) $config->group_image_mark = "N";
 
+			if (!$config->identifier) $config->identifier = 'user_id';
+
             return $config;
         }
 

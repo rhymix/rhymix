@@ -493,6 +493,8 @@
 			}
             $args->member_srl = getNextSequence();
             $args->list_order = -1 * $args->member_srl;
+			$args->find_account_answer = Context::get('find_account_answer');
+
 			if($args->password1) $args->password = $args->password1;
 
             // Remove some unnecessary variables from all the vars
@@ -970,9 +972,24 @@
             if(!$output->toBool()) return $output;
             // Get content of the email to send a member
             Context::set('auth_args', $args);
-            Context::set('member_info', $member_info);
 
             $member_config = $oModuleModel->getModuleConfig('member');
+			global $lang;
+			if (is_array($member_config->signupForm)){
+				$exceptForm=array('password', 'find_account_question');
+				foreach($member_config->signupForm as $form){
+					if(!in_array($form->name, $exceptForm) && $form->isDefaultForm && ($form->required || $form->mustRequired)){
+						$memberInfo[$lang->{$form->name}] = $member_info->{$form->name};
+					}
+				}
+			}else{
+				$memberInfo[$lang->user_id] = $args->user_id;
+				$memberInfo[$lang->user_name] = $args->user_name;
+				$memberInfo[$lang->nick_name] = $args->nick_name;
+				$memberInfo[$lang->email_address] = $args->email_address;
+			}
+			Context::set('memberInfo', $memberInfo);
+
             if(!$member_config->skin) $member_config->skin = "default";
             if(!$member_config->colorset) $member_config->colorset = "white";
 
@@ -1006,14 +1023,16 @@
          * @brief Generate a temp password by answering to the pre-determined question
          **/
         function procMemberFindAccountByQuestion() {
+            $oMemberModel = &getModel('member');
+			$config = $oMemberModel->getMemberConfig();
+
             $email_address = Context::get('email_address');
             $user_id = Context::get('user_id');
             $find_account_question = trim(Context::get('find_account_question'));
             $find_account_answer = trim(Context::get('find_account_answer'));
 
-            if(!$user_id || !$email_address || !$find_account_question || !$find_account_answer) return new Object(-1, 'msg_invalid_request');
+            if(($config->identifier == 'user_id' && !$user_id) || !$email_address || !$find_account_question || !$find_account_answer) return new Object(-1, 'msg_invalid_request');
 
-            $oMemberModel = &getModel('member');
             $oModuleModel = &getModel('module');
             // Check if a member having the same email address exists
             $member_srl = $oMemberModel->getMemberSrlByEmailAddress($email_address);
@@ -1026,6 +1045,10 @@
             if (!$member_info->find_account_question || !$member_info->find_account_answer) return new Object(-1, 'msg_question_not_exists');
 
             if(trim($member_info->find_account_question) != $find_account_question || trim($member_info->find_account_answer) != $find_account_answer) return new Object(-1, 'msg_answer_not_matches');
+
+			if ($config->identifier == 'email_address'){
+				$user_id = $email_address;
+			}
 
             // Update to a temporary password and set change_password_date to 1
             $args->member_srl = $member_srl;
@@ -1040,6 +1063,12 @@
             $_SESSION['xe_temp_password_'.$user_id] = $temp_password;
 
             $this->add('user_id',$user_id);
+
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '');
+				$this->setRedirectUrl($returnUrl.'&user_id='.$user_id);
+				return;
+			}
         }
 
         /**
@@ -1723,7 +1752,6 @@
 
 			// check mamber identifier form
 			$config = $oMemberModel->getMemberConfig();
-			if (!$config->identifier) $config->identifier = 'user_id'; 
 
 			$output = executeQuery('member.getMemberInfoByMemberSrl', $args);
 			$orgMemberInfo = $output->data;
