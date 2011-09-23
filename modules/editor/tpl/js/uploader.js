@@ -43,10 +43,10 @@ function start(cfg) {
 
 	seq     = cfg.editorSequence;
 	id      = cfg.replaceButtonID;
-	$button = $('#'+id).css('position', 'relative');
+	$button = $('#'+id).wrap('<span style="position:relative" />');
 	width   = $button.width();
 	height  = $button.height();
-	$span   = $('<span id="dummy'+id+'" />').appendTo($button);
+	$span   = $('<span id="dummy'+id+'" />').insertAfter($button);
 
 	settings = {
 		flash_url   : request_uri + 'modules/editor/tpl/images/SWFUpload.swf',
