@@ -1,4 +1,5 @@
 <include target="header.html" />
+<load target="js/waiting.js" usecdn="true" />
 
 <h2 class="h2">{$package->title} ver. {$package->version}</h2>
 <p cond="$package->installed">{$lang->current_version}: {$package->cur_version} <block cond="$package->need_update">({$lang->require_update})</block></p>
