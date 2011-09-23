@@ -46,10 +46,9 @@
             // Get information from the DB
             $args->site_srl = $site_srl ;
             $args->menu_srl = $menu_srl;
-            $output = executeQuery('menu.getMenus', $args);
+            $output = executeQueryArray('menu.getMenus', $args);
             if(!$output->data) return;
             $menus = $output->data;
-            if(!is_array($menus)) $menus = array($menus);
             return $menus;
         }
 
