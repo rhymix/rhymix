@@ -154,7 +154,7 @@
 			}
 
 			// replace value of src in img/input/script tag
-			$buff = preg_replace_callback('/(<(?:img|input|script)(?:->|[^<>\-])*)\ssrc="(?!https?:\/\/|[\/\{])(.+?)"/is', array($this, '_replacePath'), $buff);
+			$buff = preg_replace_callback('/<(?:img|input|script)(?:(?!<[a-zA-Z]+[:a-zA-Z0-9]+[\s>]).)* src="(?!https?:\/\/|[\/\{])(.+?)"/is', array($this, '_replacePath'), $buff);
 
 			// replace loop and cond template syntax
 			$buff = $this->_parseInline($buff);
@@ -263,13 +263,13 @@
          **/
 		function _replacePath($matches)
 		{
-			$src = preg_replace('@^(\./)+@', '', trim($matches[2]));
+			$src = preg_replace('@^(\./)+@', '', trim($matches[1]));
 			$src = $this->web_path.$src;
 			$src = str_replace('/./', '/', $src);
 
 			while(($tmp=preg_replace('@[^/]+/\.\./@', '', $src))!==$src) $src = $tmp;
 
-			return "{$matches[1]} src=\"{$src}\"";
+			return substr($matches[0],0,-strlen($matches[1])-6)."src=\"{$src}\"";
 		}
 
 		function _parseInline($buff)
