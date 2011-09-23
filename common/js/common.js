@@ -448,26 +448,22 @@ function zbxe_folder_close(id) {
  * popup_layout 에서 window.onload 시 자동 요청됨.
  **/
 function setFixedPopupSize() {
-	var $ = jQuery;
-	var $win = $(window);
-	var $pc  = $('body>.popup');
-	var w    = Math.max($pc[0].offsetWidth, 600);
-	var h    = $pc[0].offsetHeight;
-	var dw   = $win.width();
-	var dh   = $win.height();
-	var _w = 0, _h = 0;
+	var $ = jQuery, $win = $(window), $pc = $('body>.popup'), w, h, dw, dh, offset;
 
-	if (w != dw) _w = w - dw;
-	if (h != dh) _h = h - dh;
+	offset = $pc.css({overflow:'scroll'}).offset();
 
-	if (_w || _h) {
-		window.resizeBy(_w, _h);
-	}
+	w = $pc.width(10).height(10000).get(0).scrollWidth + offset.left*2;
+	h = $pc.height(10).width(10000).get(0).scrollHeight + offset.top*2;
 
-	if (!arguments.callee.executed) {
-		setTimeout(setFixedPopupSize, 300);
-		arguments.callee.executed = true;
-	}
+	if(w < 600) w = 600 + offset.left*2;
+
+	dw = $win.width();
+	dh = $win.height();
+
+	if(w != dw) window.resizeBy(w - dw, 0);
+	if(h != dh) window.resizeBy(0, h - dh);
+
+	$pc.width(w-offset.left*2).css({overflow:'',height:''});
 }
 
 /**
