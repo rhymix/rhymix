@@ -554,13 +554,14 @@ $.fn.xeSortableTable = function(){
 		.not('.xe-sortable-table')
 		.addClass('xe-sortable-table')
 		.delegate('button.dragBtn', 'mousedown.st', function(event){
-			var $this, $tr, $table, $th, height, width, offset, position, offsets, i, dropzone, cols;
+			var $this, $tr, $table, $th, height, width, offset, position, offsets, i, dropzone, cols, ofspar;
 
 			if(event.which != 1) return;
 
 			$this  = $(this);
 			$tr    = $this.closest('tr');
-			$table = $this.closest('table').css('position','relative');
+			$table = $this.closest('table');
+			ofspar = $table.get(0).offsetParent;
 			height = $tr.height();
 			width  = $tr.width();
 
@@ -572,7 +573,7 @@ $.fn.xeSortableTable = function(){
 			if(before_event.isDefaultPrevented()) return false;
 
 			position = {x:event.pageX, y:event.pageY};
-			offset   = getOffset($tr.get(0), $table.get(0));
+			offset   = getOffset($tr.get(0), ofspar);
 
 			$clone = $tr.attr('target', true).clone(true).appendTo($table);
 
@@ -586,7 +587,7 @@ $.fn.xeSortableTable = function(){
 			$table.find('tbody>tr:not([target],.sticky,:hidden)').each(function() {
 				var $this = $(this), o;
 
-				o = getOffset(this, $table.get(0));
+				o = getOffset(this, ofspar);
 				offsets.push({top:o.top, bottom:o.top+$this.height(), $item:$this});
 			});
 
