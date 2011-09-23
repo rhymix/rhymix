@@ -238,7 +238,7 @@
 			foreach($signupForm as $formInfo){
 				if ($formInfo->required || $formInfo->mustRequired){
 					if($formInfo->name == 'password')
-						$fields[] = '<field name="password" ><if test="$act == \'procMemberInsert\'" attr="password" value="true" /></field>';
+						$fields[] = '<field name="password" ><if test="$act == \'procMemberInsert\'" attr="required" value="true" /></field>';
 					else if($formInfo->name == 'find_account_question'){
 						$fields[] = '<field name="find_account_question" required="true" />';
 						$fields[] = '<field name="find_account_answer" required="true" />';

@@ -1622,6 +1622,8 @@
                     }
                 }
             }
+
+			$member_config = $oModuleModel->getModuleConfig('member');
             // When using email authentication mode (when you subscribed members denied a) certified mail sent
             if ($args->denied == 'Y') {
                 // Insert data into the authentication DB
@@ -1638,9 +1640,23 @@
                 }
                 // Get content of the email to send a member
                 Context::set('auth_args', $auth_args);
-                Context::set('member_info', $args);
 
-                $member_config = $oModuleModel->getModuleConfig('member');
+				global $lang;
+				if (is_array($member_config->signupForm)){
+					$exceptForm=array('password', 'find_account_question');
+					foreach($member_config->signupForm as $form){
+						if(!in_array($form->name, $exceptForm) && $form->isDefaultForm && ($form->required || $form->mustRequired)){
+							$memberInfo[$lang->{$form->name}] = $args->{$form->name};
+						}
+					}
+				}else{
+					$memberInfo[$lang->user_id] = $args->user_id;
+					$memberInfo[$lang->user_name] = $args->user_name;
+					$memberInfo[$lang->nick_name] = $args->nick_name;
+					$memberInfo[$lang->email_address] = $args->email_address;
+				}
+                Context::set('memberInfo', $memberInfo);
+
                 if(!$member_config->skin) $member_config->skin = "default";
                 if(!$member_config->colorset) $member_config->colorset = "white";
 
