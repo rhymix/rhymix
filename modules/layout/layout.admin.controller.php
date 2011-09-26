@@ -27,7 +27,7 @@
             $args->layout_srl = getNextSequence();
             $args->layout = Context::get('layout');
             $args->title = Context::get('title');
-			$args->layout_type = Context::get('layout_type');
+			$args->layout_type = Context::get('_layout_type');
 			if(!$args->layout_type) $args->layout_type = "P";
 
 			// Insert into the DB

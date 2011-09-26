@@ -8,7 +8,7 @@
 <input type="hidden" name="act" value="procLayoutAdminUpdate"|cond="$act == 'dispLayoutAdminModify'" value="procLayoutAdminInsert"|cond="$act == 'dispLayoutAdminInsert'" />
 <input type="hidden" name="layout_srl" value="{$layout_srl}" />
 <input type="hidden" name="layout" value="{$selected_layout->layout}" />
-<input type="hidden" name="layout_type" value="{$selected_layout->layout_type}" />
+<input type="hidden" name="_layout_type" value="{$selected_layout->layout_type}" />
 <input type="hidden" name="success_return_url" value="{getUrl('act', 'dispLayoutAdminInstanceList')}" />
 
 	<ul>
@@ -68,7 +68,7 @@
 				</block>
 
 				<select cond="$var->type == 'select'" name="{$name}">
-					<option loop="$var->options => $key, $val" value="{$key}" selected="selected"|cond="$key == $var->value">{$val->val}</option>
+					<option loop="$var->options => $key, $val" value="{$key}" selected="selected"|cond="$key == $var->value">{$val}</option>
 				</select>
 
 				<block cond="$var->type == 'radio'">
