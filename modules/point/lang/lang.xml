@@ -309,7 +309,7 @@
 	</item>
 	<item name="point_signup">
 		<value xml:lang="ko"><![CDATA[가입]]></value>
-		<value xml:lang="en"><![CDATA[Signup]]></value>
+		<value xml:lang="en"><![CDATA[Sign up]]></value>
 		<value xml:lang="jp"><![CDATA[加入]]></value>
 		<value xml:lang="zh-CN"><![CDATA[注册]]></value>
 		<value xml:lang="zh-TW"><![CDATA[註冊]]></value>
@@ -426,7 +426,7 @@
 	</item>
 	<item name="point_blamed">
 		<value xml:lang="ko"><![CDATA[비추천 받음]]></value>
-		<value xml:lang="en"><![CDATA[On Accused]]></value>
+		<value xml:lang="en"><![CDATA[On Not Recommended]]></value>
 		<value xml:lang="jp"><![CDATA[非推薦]]></value>
 		<value xml:lang="zh-CN"><![CDATA[反对]]></value>
 		<value xml:lang="zh-TW"><![CDATA[反對]]></value>
@@ -496,7 +496,7 @@
 	</item>
 	<item name="msg_disallow_by_point">
 		<value xml:lang="ko"><![CDATA[포인트가 부족하여 글을 읽으실 수 없습니다. (필요한 포인트 : %d, 현재 포인트 : %d)]]></value>
-		<value xml:lang="en"><![CDATA[You need more points to read the article (You need %d, but you have %d)]]></value>
+		<value xml:lang="en"><![CDATA[You need more points to read the article (You need %d, but you have %d).]]></value>
 		<value xml:lang="jp"><![CDATA[ポイントが不足しているため、閲覧が出来ません。(必要ポイント : %d、 保有ポイント : %d)]]></value>
 		<value xml:lang="zh-CN"><![CDATA[积分不够，无法查看主题。(所需积分 : %d, 当前积分 : %d)]]></value>
 		<value xml:lang="zh-TW"><![CDATA[點數不足無法閱讀文章 (需要 : %d, 目前 : %d)]]></value>
@@ -531,6 +531,6 @@
 	</item>
 	<item name="point_update_desc">
 		<value xml:lang="ko"><![CDATA[포인트를 증가시키려면 +를 감소시키려면 -를 숫자앞에 표기한 후 업데이트 해 주세요. + 또는 - 표시가 없으면 입력한 값으로 설정 됩니다.]]></value>
-		<value xml:lang="en"><![CDATA[포인트를 증가시키려면 +를 감소시키려면 -를 숫자앞에 표기한 후 업데이트 해 주세요. + 또는 - 표시가 없으면 입력한 값으로 설정 됩니다.]]></value>
+		<value xml:lang="en"><![CDATA[Insert + in front of the number to increase the point or - to decrease, and update the point. If you don’t insert + or -, the point will be set as the value you entered.]]></value>
 	</item>
 </lang>

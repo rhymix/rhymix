@@ -2,22 +2,22 @@
 <lang>	
 	<item name="msg_avail_install">
 		<value xml:lang="ko"><![CDATA[이 항목 설치가 가능합니다.]]></value>
-		<value xml:lang="en"><![CDATA[이 항목 설치가 가능합니다.]]></value>
+		<value xml:lang="en"><![CDATA[You can install this item.]]></value>
     </item>
 	<item name="msg_avail_update">
 		<value xml:lang="ko"><![CDATA[이 항목 업데이트가 가능합니다.]]></value>
-		<value xml:lang="en"><![CDATA[이 항목 업데이트가 가능합니다.]]></value>
+		<value xml:lang="en"><![CDATA[You can update this item.]]></value>
     </item>
 	<item name="msg_avail_easy_update">
 		<value xml:lang="ko"><![CDATA[이 항목의 새로운 버전이 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[There is new version for this item.]]></value>
     </item>
 	<item name="msg_do_you_like_install">
-		<value xml:lang="ko"><![CDATA[설치 하시겠습니까?]]></value>
+		<value xml:lang="ko"><![CDATA[설치하시겠습니까?]]></value>
 		<value xml:lang="en"><![CDATA[Would you like to install?]]></value>
 	</item>
 	<item name="msg_do_you_like_update">
-		<value xml:lang="ko"><![CDATA[업데이트 하시겠습니까?]]></value>
+		<value xml:lang="ko"><![CDATA[업데이트하시겠습니까?]]></value>
 		<value xml:lang="en"><![CDATA[Would you like to update?]]></value>
 	</item>
 	<item name="virtual_site">
@@ -125,7 +125,7 @@
 	</item>
 	<item name="module_history">
 		<value xml:lang="ko"><![CDATA[변경 이력 ]]></value>
-		<value xml:lang="en"><![CDATA[Update history]]></value>
+		<value xml:lang="en"><![CDATA[Revision History]]></value>
 		<value xml:lang="jp"><![CDATA[変更履歴 ]]></value>
 		<value xml:lang="zh-CN"><![CDATA[更新事项 ]]></value>
 		<value xml:lang="zh-TW"><![CDATA[更新紀錄]]></value>
@@ -231,7 +231,7 @@
 	</item>
 	<item name="skin_history">
 		<value xml:lang="ko"><![CDATA[변경 이력]]></value>
-		<value xml:lang="en"><![CDATA[Update history]]></value>
+		<value xml:lang="en"><![CDATA[Revision History]]></value>
 		<value xml:lang="jp"><![CDATA[変更内容]]></value>
 		<value xml:lang="zh-CN"><![CDATA[更新日志]]></value>
 		<value xml:lang="zh-TW"><![CDATA[更新事項]]></value>
@@ -442,7 +442,7 @@
 	</item>
 	<item name="grant_to_login_user">
 		<value xml:lang="ko"><![CDATA[로그인 사용자]]></value>
-		<value xml:lang="en"><![CDATA[Logged users]]></value>
+		<value xml:lang="en"><![CDATA[Login users]]></value>
 		<value xml:lang="jp"><![CDATA[ログインユーザー]]></value>
 		<value xml:lang="zh-CN"><![CDATA[已登录用户]]></value>
 		<value xml:lang="zh-TW"><![CDATA[已登入用戶]]></value>
@@ -462,8 +462,8 @@
 		<value xml:lang="vi"><![CDATA[Đã đăng kí]]></value>
 	</item>
 	<item name="grant_to_group">
-		<value xml:lang="ko"><![CDATA[특정 그룹 사용자]]></value>
-		<value xml:lang="en"><![CDATA[Specification group users]]></value>
+		<value xml:lang="ko"><![CDATA[선택 그룹 사용자]]></value>
+		<value xml:lang="en"><![CDATA[Selected group users]]></value>
 		<value xml:lang="jp"><![CDATA[特定グループのユーザー]]></value>
 		<value xml:lang="zh-CN"><![CDATA[特定用户组]]></value>
 		<value xml:lang="zh-TW"><![CDATA[特定群組]]></value>
@@ -647,7 +647,7 @@
 	</item>
 	<item name="msg_move_failed">
 		<value xml:lang="ko"><![CDATA[이동 실패하였습니다.]]></value>
-		<value xml:lang="en"><![CDATA[Failed to move]]></value>
+		<value xml:lang="en"><![CDATA[Failed to move.]]></value>
 		<value xml:lang="jp"><![CDATA[移動することが出来ませんでした。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[移动失败！]]></value>
 		<value xml:lang="zh-TW"><![CDATA[移動失敗！]]></value>
@@ -907,7 +907,7 @@ Le module [Administration des Modules] montera tous les modules installés et vo
 	</item>
 	<item name="about_extra_vars_default_value">
 		<value xml:lang="ko"><![CDATA[다중/단일 선택 등 기본 값이 여러 개가 필요한 경우 , (콤마)로 연결하시면 됩니다.]]></value>
-		<value xml:lang="en"><![CDATA[If multiple default values are needed,	you can link them with comma.]]></value>
+		<value xml:lang="en"><![CDATA[If multiple default values are needed, you can link them with comma.]]></value>
 		<value xml:lang="jp"><![CDATA[多重・単一選択などのデフォルト値が、複数必要な場合は、「, （コンマ）」で区切って追加することが出来ます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[复选/单选缺省值需要多个时,用,(逗号)来分隔。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[當復選或單選的預設值需要很多個時，用逗號(,)區隔。]]></value>
@@ -919,7 +919,7 @@ Le module [Administration des Modules] montera tous les modules installés et vo
 	</item>
 	<item name="about_search_virtual_site">
 		<value xml:lang="ko"><![CDATA[가상 사이트(예:cafeXE) 도메인을 입력하신 후 검색하세요.<br/>가상 사이트 이외의 모듈은 내용을 비우고 검색하시면 됩니다. (http:// 는 제외)]]></value>
-		<value xml:lang="en"><![CDATA[Input domain of virtual sites.<br />To search modules of non-virtual site, search with blank]]></value>
+		<value xml:lang="en"><![CDATA[Enter domain of virtual sites.<br />To search modules of non-virtual site, search with blank]]></value>
 		<value xml:lang="jp"><![CDATA[バーチャル(Virtual)サイト（：cafeXEなど）のドメインを入力して検索して下さい。<br />バーチャル(Virtual)サイト以外のモジュールは内容を空にしてから検索します。（http://は省く）]]></value>
 		<value xml:lang="zh-CN"><![CDATA[请输入子站点域名后再进行搜索。<br/>子站点以外的模块可以留空搜索。(输入时http://除外)。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[請輸入網站域名後再搜尋。<br/>網站以外的模組可直接進行搜尋。(http://不用輸入)。]]></value>
@@ -930,7 +930,8 @@ Le module [Administration des Modules] montera tous les modules installés et vo
 		<value xml:lang="vi"><![CDATA[Hãy nhập tên miền thực tế của Website.<br />Để tìm kiếm những Module không thực tế của Website hãy để trống.]]></value>
 	</item>
 	<item name="about_extra_vars_eid_value">
-		<value xml:lang="ko"><![CDATA[확장 변수의 이름을 적어주세요. (영문+[영문+숫자+_] 만 가능)]]></value>
+		<value xml:lang="ko"><![CDATA[확장 변수의 이름을 적어주세요. 영문, 숫자, _를 조합해서 사용할 수 있으며 첫 글자는 영문이어야 합니다.]]></value>
+		<value xml:lang="en"><![CDATA[Enter the name of extra var. You can use a combination of English alphabets, numbers and underscore(_), as long as it starts with an alphabet.]]></value>
 		<value xml:lang="jp"><![CDATA[拡張変数名を入力して下さい。　（英字+[英字+数字+_]のみ可能（全て半角））]]></value>
 		<value xml:lang="zh-CN"><![CDATA[请输入扩展变量名称(只允许英文字母+[英文字母+数字+_])。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[請輸入延伸變數名稱。( 只允許使用英文 + [ 英文，數字及底線 ] )]]></value>
@@ -962,9 +963,10 @@ Le module [Administration des Modules] montera tous les modules installés et vo
 	</item>
 	<item name="multilingual_desc">
 		<value xml:lang="ko"><![CDATA[현재 12 종류의 다국어 문자를 지원할 수 있습니다. 다른 종류의 다국어 지원을 원하는 경우 /common/lang/ 폴더의 다국어 가운데 하나의 세트를 번역해서 XE 개발자(contact@xpressengine.com)에게 보내주세요.]]></value>
+		<value xml:lang="en"><![CDATA[XE supports 12 languages currently. If you want to use another language, translate one set of languages in /common/lang/ folder into that language and send it to us (contact@xpressengine.com).]]></value>
 	</item>
 	<item name="add_word">
 		<value xml:lang="ko"><![CDATA[새로운 단어 또는 문장 추가...]]></value>
-		<value xml:lang="en"><![CDATA[Add New Word...]]></value>
+		<value xml:lang="en"><![CDATA[Add New Word or Sentence...]]></value>
 	</item>
 </lang>

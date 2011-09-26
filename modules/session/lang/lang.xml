@@ -38,7 +38,7 @@ Thường xuyên xắp xếp Session sẽ giúp Website của bạn hoạt độ
 	</item>
 	<item name="session_cleared">
 		<value xml:lang="ko"><![CDATA[쓸모 없는 세션 정보가 정리되었습니다.]]></value>
-		<value xml:lang="en"><![CDATA[Session data have been arranged succesfully]]></value>
+		<value xml:lang="en"><![CDATA[The old sessions have been cleaned up.]]></value>
 		<value xml:lang="jp"><![CDATA[ごみセッションが整理されました。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[无用会话已清理完毕。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[SESSION已清理完畢。]]></value>

@@ -26,6 +26,7 @@
 	</item>
 	<item name="cmd_toggle_checked_comment">
 		<value xml:lang="ko"><![CDATA[선택항목 반전]]></value>
+		<value xml:lang="en"><![CDATA[Invert Selection]]></value>
 		<value xml:lang="jp"><![CDATA[選択項目の反転]]></value>
 		<value xml:lang="zh-CN"><![CDATA[反选]]></value>
 		<value xml:lang="zh-TW"><![CDATA[反選]]></value>
@@ -46,9 +47,11 @@
 	</item>
 	<item name="trash">
 		<value xml:lang="ko"><![CDATA[휴지통]]></value>
+		<value xml:lang="en"><![CDATA[Recycle Bin]]></value>
 	</item>
 	<item name="cmd_trash">
 		<value xml:lang="ko"><![CDATA[휴지통으로 이동]]></value>
+		<value xml:lang="en"><![CDATA[Move to Recycle Bin]]></value>
 	</item>
 	<item name="comment_count">
 		<value xml:lang="ko"><![CDATA[댓글 수]]></value>
@@ -65,7 +68,7 @@
 	</item>
 	<item name="about_comment_count">
 		<value xml:lang="ko"><![CDATA[댓글을 정해진 수 만큼만 표시하고 그 이상일 경우 목록으로 이동할 수 있게 합니다.]]></value>
-		<value xml:lang="en"><![CDATA[Display the total number of comments.]]></value>
+		<value xml:lang="en"><![CDATA[Display comments and if the number of them is over a specified number, move to the comment list.]]></value>
 		<value xml:lang="jp"><![CDATA[コメントを指定した数だけ表示し、それ以上はリスト化します。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[可以指定要显示的每页评论数。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[可以指定要顯示的每頁評論數。]]></value>
@@ -76,7 +79,7 @@
 	</item>
 	<item name="msg_cart_is_null">
 		<value xml:lang="ko"><![CDATA[삭제할 글을 선택해주세요.]]></value>
-		<value xml:lang="en"><![CDATA[Please select an article to delete]]></value>
+		<value xml:lang="en"><![CDATA[Please select an article to delete.]]></value>
 		<value xml:lang="jp"><![CDATA[削除するコメントを選択して下さい。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[请选择要删除的评论。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[請選擇要刪除的評論。]]></value>
@@ -226,14 +229,16 @@
 	<item name="secret_name_list" type="array">
 		<item name="Y">
 			<value xml:lang="ko"><![CDATA[비밀]]></value>
+			<value xml:lang="en"><![CDATA[Secret]]></value>
 		</item>
 		<item name="N">
 			<value xml:lang="ko"><![CDATA[공개]]></value>
+			<value xml:lang="en"><![CDATA[Public]]></value>
 		</item>
 	</item>
 	<item name="comment_manager">
 		<value xml:lang="ko"><![CDATA[선택한 댓글 관리]]></value>
-		<value xml:lang="en"><![CDATA[Comment Manager]]></value>
+		<value xml:lang="en"><![CDATA[Manage Selected Comment]]></value>
 	</item>
 	<item name="selected_comment">
 		<value xml:lang="ko"><![CDATA[선택한 댓글]]></value>

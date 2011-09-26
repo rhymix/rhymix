@@ -2,7 +2,7 @@
 <lang>
 	<item name="about_captcha">
 		<value xml:lang="ko"><![CDATA[위 영어 알파벳을 순서대로 입력해 주세요. 대소문자는 구분하지 않습니다.]]></value>
-		<value xml:lang="en"><![CDATA[Please type in the displayed characters in the same order. They are case-insensitive.]]></value>
+		<value xml:lang="en"><![CDATA[Please type the characters you see in the picture above. They are not case-sensitive.]]></value>
 		<value xml:lang="zh-TW"><![CDATA[請依序輸入圖片中的文字，不分大小寫。]]></value>
 	</item>
 	<item name="captcha_reload">
@@ -12,12 +12,12 @@
 	</item>
 	<item name="captcha_play">
 		<value xml:lang="ko"><![CDATA[음성으로 듣기]]></value>
-		<value xml:lang="en"><![CDATA[Pronounce the letters]]></value>
+		<value xml:lang="en"><![CDATA[Listen and type the letters you hear.]]></value>
 		<value xml:lang="zh-TW"><![CDATA[播放]]></value>
 	</item>
 	<item name="captcha_denied">
 		<value xml:lang="ko"><![CDATA[잘못 입력하셨습니다]]></value>
-		<value xml:lang="en"><![CDATA[You have typed wrong characters.]]></value>
+		<value xml:lang="en"><![CDATA[The characters you entered didn't match the word verification.]]></value>
 		<value xml:lang="zh-TW"><![CDATA[輸入錯誤]]></value>
 	</item>
 </lang>

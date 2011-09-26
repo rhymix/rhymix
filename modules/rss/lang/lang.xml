@@ -2,6 +2,7 @@
 <lang>
 	<item name="feed">
 		<value xml:lang="ko"><![CDATA[피드(Feed) 발행]]></value>
+		<value xml:lang="en"><![CDATA[Publish RSS Feed]]></value>
 		<value xml:lang="jp"><![CDATA[RSS発行]]></value>
 		<value xml:lang="zh-CN"><![CDATA[RSS发布]]></value>
 		<value xml:lang="zh-TW"><![CDATA[RSS Feed]]></value>
@@ -9,6 +10,7 @@
 	</item>
 	<item name="total_feed">
 		<value xml:lang="ko"><![CDATA[통합 피드]]></value>
+		<value xml:lang="en"><![CDATA[Aggregated Feeds]]></value>
 		<value xml:lang="jp"><![CDATA[統合RSS]]></value>
 		<value xml:lang="zh-CN"><![CDATA[整站RSS]]></value>
 		<value xml:lang="zh-TW"><![CDATA[RSS]]></value>
@@ -16,7 +18,7 @@
 	</item>
 	<item name="rss_disable">
 		<value xml:lang="ko"><![CDATA[피드(Feed) 끄기]]></value>
-		<value xml:lang="en"><![CDATA[Disable RSS]]></value>
+		<value xml:lang="en"><![CDATA[Disable RSS Feed]]></value>
 		<value xml:lang="jp"><![CDATA[RSS機能オフ]]></value>
 		<value xml:lang="zh-CN"><![CDATA[关闭RSS]]></value>
 		<value xml:lang="zh-TW"><![CDATA[關閉 RSS Feed]]></value>
@@ -28,6 +30,7 @@
 	</item>
 	<item name="feed_copyright">
 		<value xml:lang="ko"><![CDATA[저작권]]></value>
+		<value xml:lang="en"><![CDATA[Copyright]]></value>
 		<value xml:lang="jp"><![CDATA[著作権]]></value>
 		<value xml:lang="zh-CN"><![CDATA[版权]]></value>
 		<value xml:lang="zh-TW"><![CDATA[版權]]></value>
@@ -35,6 +38,7 @@
 	</item>
 	<item name="feed_document_count">
 		<value xml:lang="ko"><![CDATA[한 페이지당 글 수]]></value>
+		<value xml:lang="en"><![CDATA[Number of articles per page]]></value>
 		<value xml:lang="jp"><![CDATA[RSSコンテンツ数]]></value>
 		<value xml:lang="zh-CN"><![CDATA[每页主题数]]></value>
 		<value xml:lang="zh-TW"><![CDATA[每頁主題數]]></value>
@@ -42,6 +46,7 @@
 	</item>
 	<item name="feed_image">
 		<value xml:lang="ko"><![CDATA[피드 이미지]]></value>
+		<value xml:lang="en"><![CDATA[Feed Image]]></value>
 		<value xml:lang="jp"><![CDATA[RSSイメージ]]></value>
 		<value xml:lang="zh-CN"><![CDATA[RSS图片]]></value>
 		<value xml:lang="zh-TW"><![CDATA[RSS 圖片]]></value>
@@ -111,6 +116,7 @@
 	</item>
 	<item name="open_feed_to_total">
 		<value xml:lang="ko"><![CDATA[통합 피드에 포함]]></value>
+		<value xml:lang="en"><![CDATA[Included in aggregated feed]]></value>
 		<value xml:lang="jp"><![CDATA[統合RSSに含む]]></value>
 		<value xml:lang="zh-CN"><![CDATA[包含到整站RSS]]></value>
 		<value xml:lang="zh-TW"><![CDATA[是否使用]]></value>
@@ -154,24 +160,28 @@
 	</item>
 	<item name="about_feed_description">
 		<value xml:lang="ko"><![CDATA[발행될 피드에 대한 설명을 입력하실 수 있습니다. 설명을 입력하지 않으실 경우, 해당 모듈에 설정된 관리용 설명이 포함됩니다.]]></value>
+		<value xml:lang="en"><![CDATA[You can enter the description on the RSS feed to be published. If you don't enter this, the description of each module is displayed by default.]]></value>
 		<value xml:lang="jp"><![CDATA[発行するRSSに関する説明を入力します。未入力した場合は該当モジュールで設定された管理用説明が含まれます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[可以输入简单说明,留空输出该模块的说明。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[請輸入簡介。 也可輸入相關管理使用說明。]]></value>
 	</item>
 	<item name="about_feed_copyright">
 		<value xml:lang="ko"><![CDATA[발행될 피드에 대한 저작권 정보를 입력하실 수 있습니다.]]></value>
+		<value xml:lang="en"><![CDATA[You can enter copyright information on the RSS feed.]]></value>
 		<value xml:lang="jp"><![CDATA[発行するRSSのコンテンツに対する著作権情報です。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[RSS Feed版权信息。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[請輸入 Feed 著作權資料。]]></value>
 	</item>
 	<item name="about_part_feed_copyright">
 		<value xml:lang="ko"><![CDATA[입력하지 않으면 전체 피드 저작권 설정과 동일하게 적용됩니다.]]></value>
+		<value xml:lang="en"><![CDATA[If you don't enter this, the copyright of the entire RSS feeds is applied.]]></value>
 		<value xml:lang="jp"><![CDATA[未入力の場合、全体RSS著作権の設定と同様に適用されます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[留空版权信息参照整站RSS的版权信息。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[著作權將會適用所有的 Feed 內容。]]></value>
 	</item>
 	<item name="about_feed_document_count">
 		<value xml:lang="ko"><![CDATA[피드 한 페이지에 공개되는 글 수. (기본 값 : 15)]]></value>
+		<value xml:lang="en"><![CDATA[Number of articles to be displayed on one feed page (default: 15)]]></value>
 		<value xml:lang="jp"><![CDATA[RSSに配信するコンテンツの数 (デフォルト : 15)]]></value>
 		<value xml:lang="zh-CN"><![CDATA[每页要显示的主题数(默认: 15)。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[每頁要顯示的主題數。(預設: 15)]]></value>
@@ -190,6 +200,7 @@
 	</item>
 	<item name="msg_rss_invalid_image_format">
 		<value xml:lang="ko"><![CDATA[이미지의 형식이 잘못되었습니다.\nJPEG, GIF, PNG 파일만 지원합니다.]]></value>
+		<value xml:lang="en"><![CDATA[Invalid image format. \nOnly JPEG, GIF, and PNG files are supported.]]></value>
 		<value xml:lang="jp"><![CDATA[サポートしないイメージファイルです。\nJPEG, GIF, PNGファイルのみサポートします。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[上传的文件格式错误！\n只允许上传JPEG, GIF, PNG图片文件。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[錯誤的檔案格式，無法上傳。\n只允許上傳 JPEG, GIF, PNG 等檔案格式。]]></value>

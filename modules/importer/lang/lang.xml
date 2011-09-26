@@ -26,27 +26,27 @@
 	</item>
 	<item name="preprocessing">
 		<value xml:lang="ko"><![CDATA[데이터 이전을 위한 사전 준비 중입니다.]]></value>
-		<value xml:lang="en"><![CDATA[Zeroboard is preparing for importing.]]></value>
+		<value xml:lang="en"><![CDATA[XE is preparing for importing.]]></value>
 		<value xml:lang="jp"><![CDATA[データ移転のため、準備中です。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[正准备数据导入...]]></value>
 		<value xml:lang="zh-TW"><![CDATA[匯入資料中...]]></value>
 		<value xml:lang="fr"><![CDATA[On est en train de préparer pour transférer les données.]]></value>
 		<value xml:lang="ru"><![CDATA[Идет подготовка для импортирования данных...]]></value>
 		<value xml:lang="es"><![CDATA[데이터 이전을 위한 사전 준비중입니다.]]></value>
-		<value xml:lang="tr"><![CDATA[Zeroboard içe aktarım için hazırlanıyor.]]></value>
+		<value xml:lang="tr"><![CDATA[XE içe aktarım için hazırlanıyor.]]></value>
 		<value xml:lang="vi"><![CDATA[Đang chuẩn bị cho việc chuyển dữ liệu.]]></value>
 	</item>
 	<item name="importer">
 		<value xml:lang="ko"><![CDATA[데이터 들여오기]]></value>
-		<value xml:lang="en"><![CDATA[Zeroboard Data Importer]]></value>
+		<value xml:lang="en"><![CDATA[XE Data Importer]]></value>
 		<value xml:lang="jp"><![CDATA[XEデータ変換]]></value>
 		<value xml:lang="zh-CN"><![CDATA[数据导入]]></value>
 		<value xml:lang="zh-TW"><![CDATA[匯入]]></value>
-		<value xml:lang="fr"><![CDATA[Transférer les Données du Zeroboard]]></value>
-		<value xml:lang="ru"><![CDATA[Импортировать данные zeroboard]]></value>
-		<value xml:lang="es"><![CDATA[Transferir los datos de zeroboard]]></value>
-		<value xml:lang="tr"><![CDATA[Zeroboard Veri Alıcısı]]></value>
-		<value xml:lang="vi"><![CDATA[Chuyển Zeroboard Data]]></value>
+		<value xml:lang="fr"><![CDATA[Transférer les Données du XE]]></value>
+		<value xml:lang="ru"><![CDATA[Импортировать данные XE]]></value>
+		<value xml:lang="es"><![CDATA[Transferir los datos de XE]]></value>
+		<value xml:lang="tr"><![CDATA[XE Veri Alıcısı]]></value>
+		<value xml:lang="vi"><![CDATA[Chuyển XE Data]]></value>
 	</item>
 	<item name="source_type">
 		<value xml:lang="ko"><![CDATA[이전 대상]]></value>
@@ -174,7 +174,7 @@
 			<value xml:lang="vi"><![CDATA[Bước 1-3. Chọn chuyên đề]]></value>
 		</item>
 		<item name="2">
-			<value xml:lang="ko"><![CDATA[Step 2. XML파일 지정]]></value>
+			<value xml:lang="ko"><![CDATA[Step 2. XML 파일 지정]]></value>
 			<value xml:lang="en"><![CDATA[Step 2. XML File Location]]></value>
 			<value xml:lang="jp"><![CDATA[Step 2. XMLファイルアップロード]]></value>
 			<value xml:lang="zh-CN"><![CDATA[Step 2. XML文件]]></value>
@@ -223,7 +223,7 @@
 			<value xml:lang="vi"><![CDATA[Xin hãy chọn Data dưới dạng XML để đồng bộ hóa.]]></value>
 		</item>
 		<item name="12">
-			<value xml:lang="ko"><![CDATA[데이터를 이전 받을 대상 모듈을 선택해주세요.]]></value>
+			<value xml:lang="ko"><![CDATA[데이터를 이전 받을 대상 모듈을 선택해 주세요.]]></value>
 			<value xml:lang="en"><![CDATA[Please select the module you wish to import data.]]></value>
 			<value xml:lang="jp"><![CDATA[データ変換を行う対象モジュールを選択して下さい。]]></value>
 			<value xml:lang="zh-CN"><![CDATA[请选择要导入的对象模块。]]></value>
@@ -314,26 +314,27 @@ Hãy nhập đường dẫn cho File chứa Data trên Host dưới dạng http:
 	</item>
 	<item name="xml_path">
 		<value xml:lang="ko"><![CDATA[XML 파일의 경로를 입력하세요.]]></value>
-		<value xml:lang="en"><![CDATA[XML 파일의 경로를 입력하세요.]]></value>
+		<value xml:lang="en"><![CDATA[Please enter the path of XML file.]]></value>
 	</item>
 	<item name="path_info">
 		<value xml:lang="ko"><![CDATA[상대 경로와 절대 경로 모두 입력 가능합니다.]]></value>
-		<value xml:lang="en"><![CDATA[상대 경로와 절대 경로 모두 입력 가능합니다.]]></value>
+		<value xml:lang="en"><![CDATA[You can enter either relative path or absolute path.]]></value>
 	</item>
 	<item name="data_destination">
 		<value xml:lang="ko"><![CDATA[데이터의 목적지를 선택하세요.]]></value>
-		<value xml:lang="en"><![CDATA[데이터의 목적지를 선택하세요.]]></value>
+		<value xml:lang="en"><![CDATA[Select the destination of data.]]></value>
 	</item>
 	<item name="document_destination">
 		<value xml:lang="ko"><![CDATA[글 데이터의 목적지를 선택하세요.]]></value>
-		<value xml:lang="en"><![CDATA[글 데이터의 목적지를 선택하세요.]]></value>
+		<value xml:lang="en"><![CDATA[Select the destination of document data.]]></value>
 	</item>
 	<item name="guestbook_destination">
 		<value xml:lang="ko"><![CDATA[방명록 데이터의 목적지를 선택하세요.]]></value>
-		<value xml:lang="en"><![CDATA[방명록 데이터의 목적지를 선택하세요.]]></value>
+		<value xml:lang="en"><![CDATA[Select the destination of guestbook data.]]></value>
 	</item>
 	<item name="import_desc">
 		<value xml:lang="ko"><![CDATA[가상 사이트의 도메인을 입력한 후 <em>사이트 찾기</em>를 클릭하면 됩니다. 도메인을 빈 칸으로 남겨두면 모든 사이트의 목록을 보여줍니다.]]></value>
+		<value xml:lang="en"><![CDATA[Enter the domain of virtual site, and click <em>Find Site</em>. If you leave the domain field empty, list of all the sites is displayed.]]></value>
 	</item>
 	<item name="msg_sync_member">
 		<value xml:lang="ko"><![CDATA[동기화 버튼을 클릭하시면 회원정보와 게시물 정보의 동기화를 시작합니다.]]></value>
@@ -352,8 +353,8 @@ Hãy nhập đường dẫn cho File chứa Data trên Host dưới dạng http:
 		<value xml:lang="en"><![CDATA[Check the path]]></value>
 	</item>
 	<item name="msg_exist_xml_file">
-		<value xml:lang="ko"><![CDATA[XML파일을 찾았습니다.]]></value>
-		<value xml:lang="en"><![CDATA[Success find the XML file.]]></value>
+		<value xml:lang="ko"><![CDATA[XML 파일을 찾았습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Found the XML file.]]></value>
 	</item>
 	<item name="msg_no_xml_file">
 		<value xml:lang="ko"><![CDATA[XML파일을 찾을 수 없습니다. 경로를 다시 확인해주세요.]]></value>
@@ -368,7 +369,7 @@ Hãy nhập đường dẫn cho File chứa Data trên Host dưới dạng http:
 		<value xml:lang="vi"><![CDATA[Không tìm yhấy File XML. Xin hãy kiểm tra lại đường dẫn!]]></value>
 	</item>
 	<item name="msg_invalid_xml_file">
-		<value xml:lang="ko"><![CDATA[잘못된 형식의 XML파일입니다.]]></value>
+		<value xml:lang="ko"><![CDATA[잘못된 형식의 XML 파일입니다.]]></value>
 		<value xml:lang="en"><![CDATA[Invalid type of XML file.]]></value>
 		<value xml:lang="jp"><![CDATA[XMLファイルのフォーマットが正しくありません。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[错误形式的XML文件！]]></value>

@@ -224,7 +224,7 @@
 	</item>
 	<item name="about_widget_fix_width">
 		<value xml:lang="ko"><![CDATA[선택하시면 가로 길이가 고정됩니다.]]></value>
-		<value xml:lang="en"><![CDATA[Please check to fix the width.]]></value>
+		<value xml:lang="en"><![CDATA[Check this to fix the width.]]></value>
 		<value xml:lang="jp"><![CDATA[チェックすると横幅が固定されます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[选择此项将固定控件显示宽度。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[選擇此項將固定Widget顯示寬度。]]></value>

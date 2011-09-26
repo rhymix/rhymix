@@ -12,7 +12,7 @@
 	</item>
 	<item name="about_communication">
 		<value xml:lang="ko"><![CDATA[회원 간의 쪽지나 친구 관리 등 커뮤니케이션 기능을 수행하는 모듈입니다.]]></value>
-		<value xml:lang="en"><![CDATA[Communication module is for communications between members with messages or friends.]]></value>
+		<value xml:lang="en"><![CDATA[This module is used for communication between members, such as exchanging messages or mamaging friends.]]></value>
 		<value xml:lang="jp"><![CDATA[会員間にメッセージや友達管理などコミュニティ機能を提供するモジュールです。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[管理在线会员间短信息及好友功能的模块。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[管理短訊息及好友功能的模組。]]></value>
@@ -74,7 +74,7 @@
 	<item name="message_box" type="array">
 		<item name="R">
 			<value xml:lang="ko"><![CDATA[받은 쪽지함]]></value>
-			<value xml:lang="en"><![CDATA[Received]]></value>
+			<value xml:lang="en"><![CDATA[Inbox]]></value>
 			<value xml:lang="jp"><![CDATA[メッセージ受信箱]]></value>
 			<value xml:lang="zh-CN"><![CDATA[收件箱]]></value>
 			<value xml:lang="zh-TW"><![CDATA[收信箱]]></value>
@@ -98,7 +98,7 @@
 		</item>
 		<item name="T">
 			<value xml:lang="ko"><![CDATA[보관함]]></value>
-			<value xml:lang="en"><![CDATA[Mailbox]]></value>
+			<value xml:lang="en"><![CDATA[Archive]]></value>
 			<value xml:lang="jp"><![CDATA[保存箱]]></value>
 			<value xml:lang="zh-CN"><![CDATA[保管箱]]></value>
 			<value xml:lang="zh-TW"><![CDATA[儲存箱]]></value>
@@ -123,7 +123,7 @@
 	</item>
 	<item name="sender">
 		<value xml:lang="ko"><![CDATA[보낸이]]></value>
-		<value xml:lang="en"><![CDATA[Sender]]></value>
+		<value xml:lang="en"><![CDATA[From]]></value>
 		<value xml:lang="jp"><![CDATA[送信者]]></value>
 		<value xml:lang="zh-CN"><![CDATA[寄件人]]></value>
 		<value xml:lang="zh-TW"><![CDATA[寄件人]]></value>
@@ -135,7 +135,7 @@
 	</item>
 	<item name="receiver">
 		<value xml:lang="ko"><![CDATA[받는이]]></value>
-		<value xml:lang="en"><![CDATA[Receiver]]></value>
+		<value xml:lang="en"><![CDATA[To]]></value>
 		<value xml:lang="jp"><![CDATA[受信者]]></value>
 		<value xml:lang="zh-CN"><![CDATA[收件人]]></value>
 		<value xml:lang="zh-TW"><![CDATA[收件人]]></value>
@@ -267,7 +267,7 @@
 	</item>
 	<item name="msg_no_message">
 		<value xml:lang="ko"><![CDATA[쪽지가 없습니다.]]></value>
-		<value xml:lang="en"><![CDATA[There is no message]]></value>
+		<value xml:lang="en"><![CDATA[There is no message.]]></value>
 		<value xml:lang="jp"><![CDATA[メッセージがありません。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[没有短消息。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[沒有短訊息。]]></value>
@@ -279,7 +279,7 @@
 	</item>
 	<item name="message_received">
 		<value xml:lang="ko"><![CDATA[쪽지가 왔습니다.]]></value>
-		<value xml:lang="en"><![CDATA[You have a new message]]></value>
+		<value xml:lang="en"><![CDATA[You have a new message.]]></value>
 		<value xml:lang="jp"><![CDATA[メッセージが届きました。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[您有新消息。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[您有新訊息。]]></value>
@@ -291,7 +291,7 @@
 	</item>
 	<item name="msg_title_is_null">
 		<value xml:lang="ko"><![CDATA[쪽지 제목을 입력해주세요.]]></value>
-		<value xml:lang="en"><![CDATA[Please input the title of teh message]]></value>
+		<value xml:lang="en"><![CDATA[Please enter the title of message.]]></value>
 		<value xml:lang="jp"><![CDATA[メッセージのタイトルを入力して下さい。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[请输入短消息标题。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[請輸入短訊息標題。]]></value>
@@ -303,7 +303,7 @@
 	</item>
 	<item name="msg_content_is_null">
 		<value xml:lang="ko"><![CDATA[내용을 입력해주세요.]]></value>
-		<value xml:lang="en"><![CDATA[Please input the content]]></value>
+		<value xml:lang="en"><![CDATA[Please enter the content.]]></value>
 		<value xml:lang="jp"><![CDATA[内容を入力して下さい。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[请输入内容。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[請輸入內容。]]></value>
@@ -315,7 +315,7 @@
 	</item>
 	<item name="msg_allow_message_to_friend">
 		<value xml:lang="ko"><![CDATA[친구에게만 쪽지 발송을 허용한 사용자라서 쪽지 발송을 하지 못했습니다.]]></value>
-		<value xml:lang="en"><![CDATA[Failed to send because receiver accepts only friends' messages]]></value>
+		<value xml:lang="en"><![CDATA[Failed to send a message because the recipient accepts messages from friends only.]]></value>
 		<value xml:lang="jp"><![CDATA[友達からのみメッセージを受信出来るように設定したユーザであるため、送信出来ませんでした。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[因其为只允许接收好友短消息的用户，所以不能发送短消息。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[只允許接收好友短訊息的用戶，不能發送短訊息。]]></value>
@@ -327,7 +327,7 @@
 	</item>
 	<item name="msg_disallow_message">
 		<value xml:lang="ko"><![CDATA[쪽지 수신을 거부한 사용자라서 쪽지 발송을 하지 못했습니다.]]></value>
-		<value xml:lang="en"><![CDATA[Failed to send because receiver rejects message reception]]></value>
+		<value xml:lang="en"><![CDATA[Failed to send a message because the recipient blocked receiving messages.]]></value>
 		<value xml:lang="jp"><![CDATA[メッセージの受信を拒否している受信者であるため、送信出来ませんでした。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[因其为拒绝接收短消息的用户，所以不能发送短消息。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[拒絕接收短訊息的用戶，不能發送短訊息。]]></value>
@@ -339,7 +339,7 @@
 	</item>
 	<item name="about_allow_message">
 		<value xml:lang="ko"><![CDATA[쪽지 수신 여부를 결정할 수 있습니다.]]></value>
-		<value xml:lang="en"><![CDATA[You can decide message reception]]></value>
+		<value xml:lang="en"><![CDATA[You can set whether to receive messages or not.]]></value>
 		<value xml:lang="jp"><![CDATA[メッセージを受信するかを設定します。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[可以选择短消息接收与否。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[可選擇是否接收短訊息。]]></value>
@@ -351,6 +351,6 @@
 	</item>
 	<item name="message_notice">
 		<value xml:lang="ko"><![CDATA[저작자에게 쪽지를 발송해서 이 사실을 알립니다. 작성하지 않으면 발송하지 않습니다.]]></value>
-		<value xml:lang="en"><![CDATA[저작자에게 쪽지를 발송해서 이 사실을 알립니다. 작성하지 않으면 발송하지 않습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Send a message to the author about this. If you don't write a message, it is not sent.]]></value>
 	</item>
 </lang>

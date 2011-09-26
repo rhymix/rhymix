@@ -11,10 +11,6 @@
 		<value xml:lang="tr"><![CDATA[Sayfa]]></value>
 		<value xml:lang="vi"><![CDATA[Trang]]></value>
 	</item>
-	<item name="page_management">
-		<value xml:lang="ko"><![CDATA[페이지 관리]]></value>
-		<value xml:lang="en"><![CDATA[Page Management]]></value>
-	</item>
 	<item name="about_page">
 		<value xml:lang="ko"><![CDATA[하나의 완성된 페이지를 제작할 수 있는 페이지 모듈입니다.
 최근게시물이나 기타 위젯을 이용해서 동적인 페이지 생성이 가능하고 에디터 컴포넌트를 통해서 다양한 모습으로 꾸밀 수 있습니다.
@@ -74,6 +70,7 @@ Nếu chọn là mặc định, nó sẽ là trang chủ của Website.]]></valu
 	</item>
 	<item name="cmd_page_article_create">
 		<value xml:lang="ko"><![CDATA[Article 생성]]></value>
+		<value xml:lang="en"><![CDATA[Create an Article]]></value>
 	</item>
 	<item name="page_caching_interval">
 		<value xml:lang="ko"><![CDATA[캐싱 시간 설정]]></value>
@@ -113,16 +110,16 @@ Nếu chọn là mặc định, nó sẽ là trang chủ của Website.]]></valu
 	</item>
 	<item name="page_type">
 		<value xml:lang="ko"><![CDATA[페이지 타입]]></value>
-		<value xml:lang="en"><![CDATA[페이지 타입]]></value>
+		<value xml:lang="en"><![CDATA[Page Type]]></value>
 	</item>
 	<item name="click_choice">
 		<value xml:lang="ko"><![CDATA[선택해 주세요.]]></value>
-		<value xml:lang="en"><![CDATA[선택해 주세요.]]></value>
+		<value xml:lang="en"><![CDATA[Select]]></value>
 	</item>
 	<item name="page_type_name" type="array">
 		<item name="WIDGET">
 			<value xml:lang="ko"><![CDATA[위젯]]></value>
-			<value xml:lang="en"><![CDATA[위젯]]></value>
+			<value xml:lang="en"><![CDATA[Widget]]></value>
 		</item>
 		<item name="ARTICLE">
 			<value xml:lang="ko"><![CDATA[문서]]></value>
@@ -134,8 +131,8 @@ Nếu chọn là mặc định, nó sẽ là trang chủ của Website.]]></valu
 		</item>
 	</item>
 	<item name="about_page_type">
-		<value xml:lang="ko"><![CDATA[페이지 타입을 선택하여 원하는 화면을 구성할 수 있습니다. <ol><li>위젯형 : 여러가지 위젯들을 생성하여 화면을 구성합니다.</li><li>문서형 : 제목, 내용, 태그를 갖는 문서를 제작하여 포스팅 형식의 페이지를 작성합니다. </li><li>외부페이지형 : 외부HTML또는 PHP 파일을 XE에서 사용할 수 있습니다.</li></ol>]]></value>
-		<value xml:lang="en"><![CDATA[페이지 타입을 선택하여 원하는 화면을 구성할 수 있습니다. <ol><li>위젯형 : 여러가지 위젯들을 생성하여 화면을 구성합니다.</li><li>문서형 : 제목, 내용, 태그를 갖는 문서를 제작하여 포스팅 형식의 페이지를 작성합니다. </li><li>외부페이지형 : 외부HTML또는 PHP 파일을 XE에서 사용할 수 있습니다.</li></ol>]]></value>
+		<value xml:lang="ko"><![CDATA[페이지 타입을 선택하여 원하는 화면을 구성할 수 있습니다. <ol><li>위젯형 : 여러가지 위젯들을 생성하여 화면을 구성합니다.</li><li>문서형 : 제목, 내용, 태그를 갖는 문서를 제작하여 포스팅 형식의 페이지를 작성합니다. </li><li>외부페이지형 : 외부 HTML 또는 PHP 파일을 XE에서 사용할 수 있습니다.</li></ol>]]></value>
+		<value xml:lang="en"><![CDATA[Select Page Type to build a page. <ol><li>Widget: Create multiple widgets.</li><li>Article: Create articles with titles, contents and tags for posting page. </li><li>External Page: Use external HTML or PHP files in XE.</li></ol>]]></value>
 	</item>
 	<item name="opage_path">
 		<value xml:lang="ko"><![CDATA[외부 문서 위치]]></value>
@@ -147,7 +144,7 @@ Nếu chọn là mặc định, nó sẽ là trang chủ của Website.]]></valu
 	</item>
 	<item name="about_opage_path">
 		<value xml:lang="ko"><![CDATA[외부문서의 위치를 입력해주세요.<br />/path1/path2/sample.php 와 같이 절대경로나 ../path2/sample.php와 같은 상대경로 모두 사용가능합니다.<br />http://url/sample.php 와 같이 사용하면 해당 페이지를 웹으로 전송 받아 출력 하게 됩니다.<br />현재 XE가 설치된 절대경로는 다음과 같습니다.<br />]]></value>
-		<value xml:lang="en"><![CDATA[Please input the location of external document.<br />Both absolute path such as '/path1/path2/sample.php' or relative path such as '../path2/sample.php' can be used.<br />If you input the path like 'http://url/sample.php', the result will be received and then displayed.<br />This is current XE's absolute path.<br />]]></value>
+		<value xml:lang="en"><![CDATA[Please enter the location of external document.<br />Both absolute path such as '/path1/path2/sample.php' or relative path such as '../path2/sample.php' can be used.<br />If you input the path like 'http://url/sample.php', the result will be received and then displayed.<br />This is current XE's absolute path.<br />]]></value>
 	</item>
 	<item name="opage_mobile_path">
 		<value xml:lang="ko"><![CDATA[모바일용 외부 문서 위치]]></value>
@@ -155,6 +152,6 @@ Nếu chọn là mặc định, nó sẽ là trang chủ của Website.]]></valu
 	</item>
 	<item name="about_opage_mobile_path">
 		<value xml:lang="ko"><![CDATA[모바일용 외부문서의 위치를 입력해주세요. 입력하지 않으면 위에서 지정한 외부문서 위치의 페이지를 이용합니다. <br />/path1/path2/sample.php 와 같이 절대경로나 ../path2/sample.php와 같은 상대경로 모두 사용가능합니다.<br />http://url/sample.php 와 같이 사용하면 해당 페이지를 웹으로 전송 받아 출력 하게 됩니다.<br />현재 XE가 설치된 절대경로는 다음과 같습니다.<br />]]></value>
-		<value xml:lang="en"><![CDATA[Please input the location of external document for mobile view. If not inputted, it uses the external document specified above.<br />Both absolute path such as '/path1/path2/sample.php' or relative path such as '../path2/sample.php' can be used.<br />If you input the path like 'http://url/sample.php', the result will be received and then displayed.<br />This is current XE's absolute path.<br />]]></value>
+		<value xml:lang="en"><![CDATA[Please enter the location of external document for mobile view. If not inputted, it uses the external document specified above.<br />Both absolute path such as '/path1/path2/sample.php' or relative path such as '../path2/sample.php' can be used.<br />If you input the path like 'http://url/sample.php', the result will be received and then displayed.<br />This is current XE's absolute path.<br />]]></value>
 	</item>
 </lang>

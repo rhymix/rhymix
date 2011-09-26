@@ -242,10 +242,10 @@
 	</item>
 	<item name="poll_manager">
 		<value xml:lang="ko"><![CDATA[선택한 설문 관리]]></value>
-		<value xml:lang="en"><![CDATA[선택한 설문 관리]]></value>
+		<value xml:lang="en"><![CDATA[Manage selected poll]]></value>
 	</item>
 	<item name="selected_poll">
 		<value xml:lang="ko"><![CDATA[선택한 설문]]></value>
-		<value xml:lang="en"><![CDATA[선택한 설문]]></value>
+		<value xml:lang="en"><![CDATA[Selected poll]]></value>
 	</item>
 </lang>

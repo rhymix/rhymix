@@ -38,7 +38,7 @@
 	</item>
 	<item name="denied_ip">
 		<value xml:lang="ko"><![CDATA[금지 IP]]></value>
-		<value xml:lang="en"><![CDATA[IP Address]]></value>
+		<value xml:lang="en"><![CDATA[Blocked IP Address]]></value>
 		<value xml:lang="jp"><![CDATA[禁止IP]]></value>
 		<value xml:lang="zh-CN"><![CDATA[禁止IP]]></value>
 		<value xml:lang="zh-TW"><![CDATA[禁止IP]]></value>
@@ -62,7 +62,7 @@
 	</item>
 	<item name="limit_count">
 		<value xml:lang="ko"><![CDATA[제한 수]]></value>
-		<value xml:lang="en"><![CDATA[No. of posting limitation]]></value>
+		<value xml:lang="en"><![CDATA[No. of post limited]]></value>
 		<value xml:lang="jp"><![CDATA[制限数]]></value>
 		<value xml:lang="zh-CN"><![CDATA[限制数]]></value>
 		<value xml:lang="zh-TW"><![CDATA[限制數]]></value>
@@ -233,12 +233,24 @@ l'article qui comporte le mot ne sera pas affichagé.]]></value>
 	</item>
 	<item name="cmd_interval">
 		<value xml:lang="ko"><![CDATA[10초 동안 3회 이상 글을 작성하면 스패머로 간주할까요? 글, 댓글 작성과 엮인글 발송을 차단합니다.]]></value>
+		<value xml:lang="en"><![CDATA[Do you want to blacklist the users who attempt to post articles more than 3 times for 10 seconds? The blacklisted users cannot write articles or comments and send trackbacks.]]></value>
 	</item>
 	<item name="cmd_check_trackback">
 		<value xml:lang="ko"><![CDATA[하나의 글에 2회 이상 엮인글을 등록하면 스패머로 간주할까요? 엮인글을 차단합니다.]]></value>
+		<value xml:lang="en"><![CDATA[Do you want to blacklist the users who attempt to post more than 2 trackbacks to one article? The blacklisted users cannot post trackbacks.]]></value>
 	</item>
-	<item name="invalid">
-		<value xml:lang="ko"><![CDATA[형식이 올바르지 않습니다]]></value>
-		<value xml:lang="de"><![CDATA[inavlid]]></value>
+	<item name="add">
+		<value xml:lang="ko"><![CDATA[추가]]></value>
+		<value xml:lang="en"><![CDATA[Add]]></value>
+	</item>
+	<item name="yes">
+		<value xml:lang="ko"><![CDATA[예]]></value>
+		<value xml:lang="en"><![CDATA[Yes]></value>
+	</item>
+	<item name="no">
+		<value xml:lang="ko"><![CDATA[아니오]]></value>
+		<value xml:lang="en"><![CDATA[No]]></value>
+		<value xml:lang="de"><![CDATA[Nein]]></value>
+		<value xml:lang="mn"><![CDATA[Дугаар]]></value>
 	</item>
 </lang>

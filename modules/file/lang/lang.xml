@@ -100,7 +100,7 @@
 	</item>
 	<item name="allow_outlink">
 		<value xml:lang="ko"><![CDATA[다른 사이트에서 첨부파일 링크하는 것을 허용할까요?]]></value>
-		<value xml:lang="en"><![CDATA[External Link]]></value>
+		<value xml:lang="en"><![CDATA[Allow External Link?]]></value>
 		<value xml:lang="jp"><![CDATA[外部からのファイルリンク]]></value>
 		<value xml:lang="zh-CN"><![CDATA[防盗链]]></value>
 		<value xml:lang="zh-TW"><![CDATA[外部檔案連結]]></value>
@@ -166,7 +166,7 @@
 	</item>
 	<item name="enable_download_group">
 		<value xml:lang="ko"><![CDATA[다운로드 가능 그룹]]></value>
-		<value xml:lang="en"><![CDATA[Download Allowed Groups]]></value>
+		<value xml:lang="en"><![CDATA[Downloadable Groups]]></value>
 		<value xml:lang="jp"><![CDATA[ダウンロード可能グループ]]></value>
 		<value xml:lang="zh-CN"><![CDATA[允许下载的用户组]]></value>
 		<value xml:lang="zh-TW"><![CDATA[允許下載的群組]]></value>
@@ -178,7 +178,7 @@
 	</item>
 	<item name="about_allow_outlink">
 		<value xml:lang="ko"><![CDATA[리퍼러에 따라 파일 외부 링크를 차단할 수 있습니다. (*.wmv, *.mp3등 미디어 파일 제외)]]></value>
-		<value xml:lang="en"><![CDATA[You can shut external links according to referers. (except media files like *.wmv, *.mp3)]]></value>
+		<value xml:lang="en"><![CDATA[You can block external links according to referers (except media files like *.wmv and *.mp3).]]></value>
 		<value xml:lang="jp"><![CDATA[リファラーによって外部からのファイルリンクを制御出来ます。(*.wmv, *.mp3などのメディアファイルは除く)]]></value>
 		<value xml:lang="zh-CN"><![CDATA[根据反向链接防止盗链。(*.wmv, *.mp3等媒体文件除外)]]></value>
 		<value xml:lang="zh-TW"><![CDATA[是否允許連結外部檔案。(*.wmv, *.mp3等影音檔案除外)]]></value>
@@ -279,8 +279,8 @@
 		<value xml:lang="tr"><![CDATA[İndir]]></value>
 	</item>
 	<item name="msg_not_permitted_download">
-		<value xml:lang="ko"><![CDATA[다운로드 할 수 있는 권한이 없습니다.]]></value>
-		<value xml:lang="en"><![CDATA[You do not have a permission to download]]></value>
+		<value xml:lang="ko"><![CDATA[다운로드할 수 있는 권한이 없습니다.]]></value>
+		<value xml:lang="en"><![CDATA[You do not have a permission to download.]]></value>
 		<value xml:lang="jp"><![CDATA[ダウンロード権限がありません。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[您不具备下载的权限。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[您不具備下載的權限。]]></value>
@@ -292,7 +292,7 @@
 	</item>
 	<item name="msg_cart_is_null">
 		<value xml:lang="ko"><![CDATA[삭제할 파일을 선택해주세요.]]></value>
-		<value xml:lang="en"><![CDATA[Please select file(s) to delete]]></value>
+		<value xml:lang="en"><![CDATA[Please select a file(s) to delete.]]></value>
 		<value xml:lang="jp"><![CDATA[削除するファイルを選択して下さい]]></value>
 		<value xml:lang="zh-CN"><![CDATA[ 请选择要删除的文件。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[ 請選擇要刪除的檔案。]]></value>
@@ -304,7 +304,7 @@
 	</item>
 	<item name="msg_checked_file_is_deleted">
 		<value xml:lang="ko"><![CDATA[%d개의 첨부 파일이 삭제되었습니다.]]></value>
-		<value xml:lang="en"><![CDATA[%d attachment(s) was(were) deleted]]></value>
+		<value xml:lang="en"><![CDATA[%d attachment(s) was(were) deleted.]]></value>
 		<value xml:lang="jp"><![CDATA[%d個の添付ファイルを削除しました]]></value>
 		<value xml:lang="zh-CN"><![CDATA[已删除%d个文件！]]></value>
 		<value xml:lang="zh-TW"><![CDATA[已刪除 %d 個檔案！]]></value>
@@ -316,7 +316,7 @@
 	</item>
 	<item name="msg_exceeds_limit_size">
 		<value xml:lang="ko"><![CDATA[허용된 용량을 초과하여 첨부가 되지 않았습니다.]]></value>
-		<value xml:lang="en"><![CDATA[File size of attachment is bigger than allowed size.]]></value>
+		<value xml:lang="en"><![CDATA[This file exceeds the attachment limit.]]></value>
 		<value xml:lang="jp"><![CDATA[ファイルサイズの制限を超えたため、添付出来ません。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[已超过系统指定的上传文件大小！]]></value>
 		<value xml:lang="zh-TW"><![CDATA[已超過系統指定的檔案大小！]]></value>
@@ -471,7 +471,7 @@
 		</item>
 	</item>
 	<item name="msg_not_allowed_outlink">
-		<value xml:lang="ko"><![CDATA[외부링크에서 다운로드 할 수 없습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[외부링크에서 다운로드할 수 없습니다.]]></value>
 		<value xml:lang="en"><![CDATA[It is not allowed to download files from sites other than this.]]></value>
 		<value xml:lang="jp"><![CDATA[外部リンクからのダウンロードは許可されていません。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[此站不允许外链下载。]]></value>
@@ -483,7 +483,7 @@
 		<value xml:lang="vi"><![CDATA[Không cho phép tải file từ những trang khác ngoài trang này.]]></value>
 	</item>
 	<item name="msg_not_permitted_create">
-		<value xml:lang="ko"><![CDATA[파일 또는 디렉토리를 생성할 수 없습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[파일 또는 디렉터리를 생성할 수 없습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Failed to create a file or directory.]]></value>
 		<value xml:lang="jp"><![CDATA[ファイルまたはディレクトリを生成できません。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[无法生成文件或文件夹。]]></value>
@@ -502,10 +502,10 @@
 	</item>
 	<item name="file_manager">
 		<value xml:lang="ko"><![CDATA[선택한 파일 관리]]></value>
-		<value xml:lang="en"><![CDATA[선택한 파일 관리]]></value>
+		<value xml:lang="en"><![CDATA[Manage selected files]]></value>
 	</item>
 	<item name="selected_file">
 		<value xml:lang="ko"><![CDATA[선택한 파일]]></value>
-		<value xml:lang="en"><![CDATA[선택한 파일]]></value>
+		<value xml:lang="en"><![CDATA[Selected files]]></value>
 	</item>
 </lang>

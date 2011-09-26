@@ -1,3 +1,4 @@
+
 <?xml version='1.0' encoding='UTF-8'?>
 <lang>
 	<item name="autoinstall">
@@ -68,7 +69,7 @@
 	</item>
 	<item name="description_ftp_note">
 		<value xml:lang="ko"><![CDATA[%s이 되어 있지 않으면 설치 및 업데이트가 진행되지 않습니다.]]></value>
-		<value xml:lang="en"><![CDATA[If the %s is not set, the installation will not work. Pleas configure the FTP information]]></value>
+		<value xml:lang="en"><![CDATA[If the %s is not set, the installation or update will not work. Pleas configure the FTP information.]]></value>
 		<value xml:lang="jp"><![CDATA[%sが完了されないと、イージーインストールが動作しません。 FTP設定を確認して下さい。]]></value>
 		<value xml:lang="ru"><![CDATA[If %s is not set, installation would not work. Please configure FTP information]]></value>
 		<value xml:lang="zh-TW"><![CDATA[請先將 %s好，否則無法執行自動安裝功能。]]></value>
@@ -81,7 +82,7 @@
 	</item>
 	<item name="description_update">
 		<value xml:lang="ko"><![CDATA[쉬운설치 사용전 %s를 해주세요.]]></value>
-		<value xml:lang="en"><![CDATA[If you have upgraded or installed programs without EasyInstall module, please press %s to renew new information.]]></value>
+		<value xml:lang="en"><![CDATA[Click %s before using EasyInstall.]]></value>
 		<value xml:lang="jp"><![CDATA[新しくインストールしたモジュールバージョン情報などは%sを押すと反映されます。]]></value>
 		<value xml:lang="ru"><![CDATA[If you have upgraded or installed programs without EasyInstall module, please press %s to renew new information]]></value>
 	</item>
@@ -143,7 +144,7 @@
 	</item>
 	<item name="description_install">
 		<value xml:lang="ko"><![CDATA[설치를 진행하면, 이 프로그램이 의존하고 있는 모든 프로그램을 업데이트/설치 합니다.]]></value>
-		<value xml:lang="en"><![CDATA[EasyInstall will also install/update all other programs which this program depends on]]></value>
+		<value xml:lang="en"><![CDATA[EasyInstall will also install/update all other programs which this program depends on.]]></value>
 		<value xml:lang="jp"><![CDATA[インストールに進みますと、本プログラムが依存している全てのプログラムをアップデート/インストールします。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[安装时，与其联动的插件/控件也会同时被安装(更新)。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[自動安裝也能夠同時安裝與更新其他相關程式]]></value>
@@ -208,7 +209,7 @@
 		<value xml:lang="vi"><![CDATA[points]]></value>
 	</item>
 	<item name="thumbnail">
-		<value xml:lang="ko"><![CDATA[썸네일]]></value>
+		<value xml:lang="ko"><![CDATA[섬네일]]></value>
 		<value xml:lang="en"><![CDATA[Thumbnail]]></value>
 	</item>
 	<item name="name">
@@ -217,7 +218,7 @@
 	</item>
 	<item name="about_depending_programs">
 		<value xml:lang="ko"><![CDATA[이 패키지 사용을 위해서는 아래 프로그램이 설치되어 있어야 합니다.]]></value>
-		<value xml:lang="en"><![CDATA[To use this package must be installed the fllowing program.]]></value>
+		<value xml:lang="en"><![CDATA[To use this package, the following program should have been installed.]]></value>
 	</item>
 	<item name="ftp_password">
 		<value xml:lang="ko"><![CDATA[FTP 비밀번호]]></value>
@@ -225,7 +226,7 @@
 	</item>
 	<item name="msg_dependency_package">
 		<value xml:lang="ko"><![CDATA[이 패키지를 의존하고 있는 다른 패키지가 있기 때문에 삭제할 수 없습니다.]]></value>
-		<value xml:lang="en"><![CDATA[Can not remove this package because there exists another package dependent on this.]]></value>
+		<value xml:lang="en"><![CDATA[Cannot remove this package because there exists another packages dependent on this.]]></value>
 	</item>
 	<item name="dependant_list">
 		<value xml:lang="ko"><![CDATA[이 패키지에 의존하는 패키지 목록]]></value>
@@ -246,34 +247,10 @@
 	</item>
 	<item name="msg_connection_fail">
 		<value xml:lang="ko"><![CDATA[서버 접속이 원할하지 않습니다.]]></value>
-		<value xml:lang="en"><![CDATA[Connection failed.]]></value>
+		<value xml:lang="en"><![CDATA[Failed to connect to server.]]></value>
 	</item>
 	<item name="msg_not_match_server">
 		<value xml:lang="ko"><![CDATA[서버 설정이 올바르지 않습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Server settings are incorrect.]]></value>
-	</item>
-	<item name="msg_ftp_invalid_auth_info">
-		<value xml:lang="ko"><![CDATA[FTP 인증 정보가 올바르지 않습니다.]]></value>
-		<value xml:lang="en"><![CDATA[FTP authentication information is incorrect.]]></value>
-	</item>
-	<item name="msg_ftp_password_input">
-		<value xml:lang="ko"><![CDATA[FTP 비밀번호를 입력하세요.]]></value>
-		<value xml:lang="en"><![CDATA[Enter your FTP password.]]></value>
-	</item>
-	<item name="msg_ftp_not_connected">
-		<value xml:lang="ko"><![CDATA[FTP 접속 실패]]></value>
-		<value xml:lang="en"><![CDATA[FTP connection failed]]></value>
-	</item>
-	<item name="msg_make_directory_failed">
-		<value xml:lang="ko"><![CDATA[디렉터리 생성 실패]]></value>
-		<value xml:lang="en"><![CDATA[Failed to create directory]]></value>
-	</item>
-	<item name="msg_permission_adjust_failed">
-		<value xml:lang="ko"><![CDATA[퍼미션 변경 실패]]></value>
-		<value xml:lang="en"><![CDATA[Failure to change the permissions]]></value>
-	</item>
-	<item name="msg_ftp_upload_failed">
-		<value xml:lang="ko"><![CDATA[FTP 파일 업로드 실패]]></value>
-		<value xml:lang="en"><![CDATA[FTP file upload fails]]></value>
 	</item>
 </lang>

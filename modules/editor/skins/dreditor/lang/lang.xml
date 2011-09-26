@@ -12,7 +12,7 @@
 		</item>
 		<item name="insert_dr_title">
 			<value xml:lang="ko"><![CDATA[단락의 제목을 입력해 주세요]]></value>
-			<value xml:lang="en"><![CDATA[Please input the title]]></value>
+			<value xml:lang="en"><![CDATA[Please enter the title.]]></value>
 			<value xml:lang="jp"><![CDATA[段落のタイトルを入力して下さい。]]></value>
 			<value xml:lang="zh-CN"><![CDATA[请输入段落标题。]]></value>
 			<value xml:lang="zh-TW"><![CDATA[請輸入標題]]></value>
@@ -30,7 +30,7 @@
 		</item>
 		<item name="insert_site_name">
 			<value xml:lang="ko"><![CDATA[사이트 이름을 입력할 수 있습니다]]></value>
-			<value xml:lang="en"><![CDATA[Please input the name of the site]]></value>
+			<value xml:lang="en"><![CDATA[Please enter the name of the site.]]></value>
 			<value xml:lang="jp"><![CDATA[サイト名を入力します。]]></value>
 			<value xml:lang="zh-CN"><![CDATA[在此可以输入网站名称。]]></value>
 			<value xml:lang="zh-TW"><![CDATA[請輸入網站名稱]]></value>
@@ -39,7 +39,7 @@
 		</item>
 		<item name="insert_explain">
 			<value xml:lang="ko"><![CDATA[설명을 추가로 입력할 수 있습니다]]></value>
-			<value xml:lang="en"><![CDATA[Please input the description]]></value>
+			<value xml:lang="en"><![CDATA[Please enter the description.]]></value>
 			<value xml:lang="jp"><![CDATA[説明の追加入力が出来ます。]]></value>
 			<value xml:lang="zh-CN"><![CDATA[在此可以输入简单说明。]]></value>
 			<value xml:lang="zh-TW"><![CDATA[請輸入說明]]></value>
@@ -78,7 +78,7 @@
 		</item>
 		<item name="insert_blockquote">
 			<value xml:lang="ko"><![CDATA[인용 문구를 입력해 주세요]]></value>
-			<value xml:lang="en"><![CDATA[Please input the quote]]></value>
+			<value xml:lang="en"><![CDATA[Please enter the quote.]]></value>
 			<value xml:lang="jp"><![CDATA[引用文を入力して下さい。]]></value>
 			<value xml:lang="zh-CN"><![CDATA[请输入要引用的内容。]]></value>
 			<value xml:lang="zh-TW"><![CDATA[請輸入引用]]></value>
@@ -87,7 +87,7 @@
 		</item>
 		<item name="insert_cite">
 			<value xml:lang="ko"><![CDATA[출처를 입력할 수 있습니다 <a>, <strong>, <em> 태그를 쓸 수 있습니다]]></value>
-			<value xml:lang="en"><![CDATA[You can input the original source. <a>, <strong>, <em> tags are allowed.]]></value>
+			<value xml:lang="en"><![CDATA[You can enter the original source, using <a>, <strong>, and <em> tags.]]></value>
 			<value xml:lang="jp"><![CDATA[出所を入力します。 <a>、<strong>、<em> タグの入力も可能です。]]></value>
 			<value xml:lang="zh-CN"><![CDATA[在此可以输入引用出处(可用HTML标签：<a>, <strong>, <em>)。]]></value>
 			<value xml:lang="zh-TW"><![CDATA[請輸入來源，可輸入 <a>, <strong>, <em> 等標籤。]]></value>
@@ -122,8 +122,8 @@
 			<value xml:lang="vi"><![CDATA[Đang Upload ...]]></value>
 		</item>
 		<item name="uploading_info">
-			<value xml:lang="ko"><![CDATA[%s MB 까지 업로드가 가능 합니다]]></value>
-			<value xml:lang="en"><![CDATA[You can upload maximum %sMB]]></value>
+			<value xml:lang="ko"><![CDATA[%s MB까지 업로드할 수 있습니다]]></value>
+			<value xml:lang="en"><![CDATA[You can upload maximum %s MB.]]></value>
 			<value xml:lang="jp"><![CDATA[%sMBまでアップロード出来ます。]]></value>
 			<value xml:lang="zh-CN"><![CDATA[上传限制：%s MB]]></value>
 			<value xml:lang="zh-TW"><![CDATA[最大可上傳 %sMB]]></value>
@@ -158,8 +158,8 @@
 			<value xml:lang="vi"><![CDATA[Giảm kích thước]]></value>
 		</item>
 		<item name="resize_info">
-			<value xml:lang="ko"><![CDATA[지정한 크기의 사본을 만들며 원본은 유지 됩니다]]></value>
-			<value xml:lang="en"><![CDATA[A new copy of the image will be created in the specified size. Original image will still remain]]></value>
+			<value xml:lang="ko"><![CDATA[지정한 크기의 사본을 만들며 원본은 유지됩니다]]></value>
+			<value xml:lang="en"><![CDATA[A copy of the specified size is created, and the original file still remains.]]></value>
 			<value xml:lang="jp"><![CDATA[指定したサイズのコピーを生成し、元の画像は維持されます。]]></value>
 			<value xml:lang="zh-CN"><![CDATA[创建指定大小的复件并保留原图。]]></value>
 			<value xml:lang="zh-TW"><![CDATA[輸入要建立的圖片大小，原始圖片將會保留。]]></value>
@@ -168,7 +168,7 @@
 		</item>
 		<item name="resize_error">
 			<value xml:lang="ko"><![CDATA[원본 이미지보다 작은 크기의 값을 입력하세요]]></value>
-			<value xml:lang="en"><![CDATA[Please input smaller size than the original image size]]></value>
+			<value xml:lang="en"><![CDATA[Please enter a value smaller than the original image size.]]></value>
 			<value xml:lang="jp"><![CDATA[オリジナル画像より小さいサイズを入力して下さい。]]></value>
 			<value xml:lang="zh-CN"><![CDATA[请输入比原图宽度小的值。]]></value>
 			<value xml:lang="zh-TW"><![CDATA[請輸入比原始圖片要小的數值]]></value>
@@ -177,7 +177,7 @@
 		</item>
 		<item name="insert_image_explain">
 			<value xml:lang="ko"><![CDATA[이미지의 설명을 입력할 수 있습니다. <a>, <strong>, <em> 태그를 쓸 수 있습니다.]]></value>
-			<value xml:lang="en"><![CDATA[Please input the description. <a>, <strong>, <em> tags are available.]]></value>
+			<value xml:lang="en"><![CDATA[Please enter the description of image, using <a>, <strong>, and <em> tags.]]></value>
 			<value xml:lang="jp"><![CDATA[画像の説明を入力します。 <a>, <strong>, <em> タグの入力も可能です。]]></value>
 			<value xml:lang="zh-CN"><![CDATA[在此可以输入简单图片说明(可用HTML标签：<a>, <strong>, <em>)。]]></value>
 			<value xml:lang="zh-TW"><![CDATA[請輸入圖片簡介。可使用 <a>, <strong>, <em> 等標籤。]]></value>
@@ -186,7 +186,7 @@
 		</item>
 		<item name="mov">
 			<value xml:lang="ko"><![CDATA[동영상]]></value>
-			<value xml:lang="en"><![CDATA[Movie]]></value>
+			<value xml:lang="en"><![CDATA[Video]]></value>
 			<value xml:lang="jp"><![CDATA[動画]]></value>
 			<value xml:lang="zh-CN"><![CDATA[视频]]></value>
 			<value xml:lang="zh-TW"><![CDATA[影片]]></value>
@@ -195,7 +195,7 @@
 		</item>
 		<item name="insert_mov">
 			<value xml:lang="ko"><![CDATA[<object> 또는 <embed>로 시작하는 멀티미디어 삽입 코드를 넣어주세요]]></value>
-			<value xml:lang="en"><![CDATA[Input the multimedia insertion code which starts with <object> or <embed>]]></value>
+			<value xml:lang="en"><![CDATA[Enter the multimedia insertion code which starts with <object> or <embed>.]]></value>
 			<value xml:lang="jp"><![CDATA[<object> または <embed>で始まるマルチメディアのコードを挿入して下さい。]]></value>
 			<value xml:lang="zh-CN"><![CDATA[请输入<object>或<embed>标签开头的视频代码。]]></value>
 			<value xml:lang="zh-TW"><![CDATA[請輸入 <object> 或 <embed> 開頭的影片原始碼。]]></value>
@@ -204,7 +204,7 @@
 		</item>
 		<item name="insert_mov_explain">
 			<value xml:lang="ko"><![CDATA[동영상의 설명을 입력할 수 있습니다. <a>, <strong>, <em> 태그를 쓸 수 있습니다.]]></value>
-			<value xml:lang="en"><![CDATA[Please input description. <a>, <strong>, <em> tags are available.]]></value>
+			<value xml:lang="en"><![CDATA[Please enter the description of video, using <a>, <strong>, and <em> tags.]]></value>
 			<value xml:lang="jp"><![CDATA[動画の説明を入力します。 <a>, <strong>, <em> タグの入力も可能です。]]></value>
 			<value xml:lang="zh-CN"><![CDATA[在此可以输入简单视频描述(可用HTML标签：<a>, <strong>, <em>)。]]></value>
 			<value xml:lang="zh-TW"><![CDATA[請輸入影片簡介。可使用 <a>, <strong>, <em> 等標籤。]]></value>
@@ -222,7 +222,7 @@
 		</item>
 		<item name="file_select">
 			<value xml:lang="ko"><![CDATA[업로드할 파일을 선택해 주세요]]></value>
-			<value xml:lang="en"><![CDATA[Please select a file to upload]]></value>
+			<value xml:lang="en"><![CDATA[Please select a file to upload.]]></value>
 			<value xml:lang="jp"><![CDATA[アップロードするファイルを選択して下さい。]]></value>
 			<value xml:lang="zh-CN"><![CDATA[选择上传附件]]></value>
 			<value xml:lang="zh-TW"><![CDATA[請選擇要上傳的檔案]]></value>
@@ -230,8 +230,8 @@
 			<value xml:lang="vi"><![CDATA[Chọn File muốn Upload]]></value>
 		</item>
 		<item name="file_uploadinfo">
-			<value xml:lang="ko"><![CDATA[개당 %sMB, 모두 합쳐 %sMB 까지 업로드가 가능 합니다]]></value>
-			<value xml:lang="en"><![CDATA[You can upload files each maximum %sMB, %sMB total]]></value>
+			<value xml:lang="ko"><![CDATA[개당 %sMB, 모두 합쳐 %sMB까지 업로드가 가능합니다]]></value>
+			<value xml:lang="en"><![CDATA[You can upload files of up to %s MB, up to a total of %s MB.]]></value>
 			<value xml:lang="jp"><![CDATA[１個当り %sMB、全体としては %sMBまでアップロードが出来ます。]]></value>
 			<value xml:lang="zh-CN"><![CDATA[每个附件限制大小：%sMB, 每次上传限制：%sMB]]></value>
 			<value xml:lang="zh-TW"><![CDATA[每個檔案上傳的大小 %s MB，總共 %s MB]]></value>
@@ -248,7 +248,7 @@
 		</item>
 		<item name="insert_file_explain">
 			<value xml:lang="ko"><![CDATA[파일의 설명을 입력할 수 있습니다]]></value>
-			<value xml:lang="en"><![CDATA[Please input description]]></value>
+			<value xml:lang="en"><![CDATA[Please enter the description of file.]]></value>
 			<value xml:lang="jp"><![CDATA[ファイルの説明を入力します。]]></value>
 			<value xml:lang="zh-CN"><![CDATA[在此可输入文件说明。]]></value>
 			<value xml:lang="zh-TW"><![CDATA[請輸入檔案簡介。]]></value>
@@ -288,7 +288,7 @@
 		</item>
 		<item name="title1">
 			<value xml:lang="ko"><![CDATA[큰제목]]></value>
-			<value xml:lang="en"><![CDATA[Large]]></value>
+			<value xml:lang="en"><![CDATA[Heading 1]]></value>
 			<value xml:lang="jp"><![CDATA[サブタイトル（大）]]></value>
 			<value xml:lang="zh-CN"><![CDATA[大标题]]></value>
 			<value xml:lang="zh-TW"><![CDATA[大]]></value>
@@ -297,7 +297,7 @@
 		</item>
 		<item name="title2">
 			<value xml:lang="ko"><![CDATA[중간제목]]></value>
-			<value xml:lang="en"><![CDATA[Medium]]></value>
+			<value xml:lang="en"><![CDATA[Heading 2]]></value>
 			<value xml:lang="jp"><![CDATA[サブタイトル（中）]]></value>
 			<value xml:lang="zh-CN"><![CDATA[中标题]]></value>
 			<value xml:lang="zh-TW"><![CDATA[中]]></value>
@@ -306,7 +306,7 @@
 		</item>
 		<item name="title3">
 			<value xml:lang="ko"><![CDATA[작은제목]]></value>
-			<value xml:lang="en"><![CDATA[Small]]></value>
+			<value xml:lang="en"><![CDATA[Heading 3]]></value>
 			<value xml:lang="jp"><![CDATA[サブタイトル（小）]]></value>
 			<value xml:lang="zh-CN"><![CDATA[小标题]]></value>
 			<value xml:lang="zh-TW"><![CDATA[小]]></value>
@@ -409,7 +409,7 @@
 		</item>
 		<item name="msg_insert_value">
 			<value xml:lang="ko"><![CDATA[값을 입력해 주세요.]]></value>
-			<value xml:lang="en"><![CDATA[Please input the value.]]></value>
+			<value xml:lang="en"><![CDATA[Please enter the value.]]></value>
 			<value xml:lang="jp"><![CDATA[値を入力して下さい。]]></value>
 			<value xml:lang="zh-CN"><![CDATA[请输入相应的值。]]></value>
 			<value xml:lang="zh-TW"><![CDATA[請輸入數值]]></value>
@@ -442,7 +442,7 @@
 		</item>
 		<item name="help_first_dd_1">
 			<value xml:lang="ko"><![CDATA[도구모음 버튼을 클릭함으로써 새 단락 쓰기를 시작할 수 있습니다. 도구모음 버튼에는 배치된 순서대로 왼쪽으로부터 1~9까지 단축키가 할당되어 있습니다. 숫자키 '0' 또는 ESC키 바로 아래 위치한 [`] 그레이브(grave) 키를 누르시면 숨겨진 도구모음 버튼을 보거나 토글(toggle)할 수 있습니다.]]></value>
-			<value xml:lang="en"><![CDATA[To start writing a new paragraph click on the toolbar. The buttons on the toolbar have keyboard shortcuts starting from 1 to 9, 1 representing the first left button. To toggle the toolbar, press the numeric '0' or Esc key.]]></value>
+			<value xml:lang="en"><![CDATA[To start writing a new paragraph click on the toolbar. The buttons on the toolbar have keyboard shortcuts starting from 1 to 9, 1 representing the first left button. To toggle the toolbar, press the numeric '0' or the grave key (`) under the Esc key.]]></value>
 			<value xml:lang="zh-TW"><![CDATA[藉由點選工具列的按鈕可以編寫新的內容。 工具列的快速鍵是鍵盤的 1~9 數字鍵。 數字鍵 '0' 或是 ESC 鍵底下的 [`] 波浪鍵(grave) 可隱藏、顯示及切換(toggle)工具列。]]></value>
 			<value xml:lang="vi"><![CDATA[Bằng cách nhấn vào một nút trên thanh công cụ tương ứng với các số trên bàn phím bạn có thể bắt đầu viết một đoạn văn mới. Các phím tắt của thanh công cụ được đặt theo thứ tự [1 ~ 9] từ trái qua phải. Phím số [0] và phím [`] sẽ mở thêm và đóng lại những phím chức năng khác ẩn trong thanh công cụ, phím [ESC] sẽ đóng lại phiên làm việc hiện tại.]]></value>
 		</item>

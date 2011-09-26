@@ -121,7 +121,7 @@
 	</item>
 	<item name="layout_preview_content">
 		<value xml:lang="ko"><![CDATA[내용이 출력되는 부분입니다.]]></value>
-		<value xml:lang="en"><![CDATA[The content gets displayed here]]></value>
+		<value xml:lang="en"><![CDATA[The content gets displayed here.]]></value>
 		<value xml:lang="jp"><![CDATA[内容が出力される部分です。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[显示内容的部分。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[顯示內容的部分。]]></value>
@@ -156,7 +156,7 @@
 		<value xml:lang="vi"><![CDATA[Danh sách đã tạo]]></value>
 	</item>
 	<item name="about_downloaded_layouts">
-		<value xml:lang="ko"><![CDATA[다운로드 되어 있는 레이아웃 목록]]></value>
+		<value xml:lang="ko"><![CDATA[다운로드되어 있는 레이아웃 목록]]></value>
 		<value xml:lang="en"><![CDATA[List of downloaded layouts]]></value>
 		<value xml:lang="jp"><![CDATA[ダウンロードのレイアウトリスト]]></value>
 		<value xml:lang="zh-CN"><![CDATA[已下载的布局目录]]></value>
@@ -168,8 +168,8 @@
 		<value xml:lang="vi"><![CDATA[Danh sách đã Download]]></value>
 	</item>
 	<item name="about_title">
-		<value xml:lang="ko"><![CDATA[모듈에 연결시 쉽게 구분할 수 있는 제목을 입력해주세요.]]></value>
-		<value xml:lang="en"><![CDATA[Please input the title that is easy to verify when connecting to the module]]></value>
+		<value xml:lang="ko"><![CDATA[모듈에 연결 시 쉽게 구분할 수 있는 제목을 입력해주세요.]]></value>
+		<value xml:lang="en"><![CDATA[Please enter the title that is easy to verify when connecting to the module]]></value>
 		<value xml:lang="jp"><![CDATA[モジュールとの連動をわかりやすく区分するためのタイトルを入力して下さい。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[请输入连接模块时容易区分的标题。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[連結模組時，請輸入容易區分的標題。]]></value>
@@ -180,7 +180,7 @@
 		<value xml:lang="vi"><![CDATA[Xin hãy nhập tiêu đề của giao diện cho dễ dàng lựa chọn về sau.]]></value>
 	</item>
 	<item name="about_not_apply_menu">
-		<value xml:lang="ko"><![CDATA[체크 하시면 연결된 모든 메뉴의 모듈 레이아웃을 일괄 변경합니다.]]></value>
+		<value xml:lang="ko"><![CDATA[체크하시면 연결된 모든 메뉴의 모듈 레이아웃을 일괄 변경합니다.]]></value>
 		<value xml:lang="en"><![CDATA[Layouts of all modules connected via menu will be changed en bloc by checking this option.]]></value>
 		<value xml:lang="jp"><![CDATA[チェックを入れると連動するすべてのメニューのモジュールのレイアウトを一括変更します。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[勾选表示连接到此布局的菜单项全部采用此布局。]]></value>
@@ -1036,11 +1036,11 @@
 		</item>
 		<item name="5">
 			<value xml:lang="ko"><![CDATA[FTP를 통해 ./layouts에 업로드합니다.]]></value>
-			<value xml:lang="en"><![CDATA[Upload it at ./layouts.]]></value>
+			<value xml:lang="en"><![CDATA[Upload to ./layouts through FTP.]]></value>
 		</item>
 		<item name="6">
 			<value xml:lang="ko"><![CDATA[레이아웃 목록에서 업로드한 레이아웃을 이용하여 레이아웃을 생성합니다. 이때 레이아웃 경로가 업로드한 경로가 맞는지 확인하세요. 로고 이미지 등 레이아웃 설정은 다시 하셔야 합니다.]]></value>
-			<value xml:lang="en"><![CDATA[Insert new layout from installed layout. You make sure that check layout's path. And you re-set layout configuration.]]></value>
+			<value xml:lang="en"><![CDATA[Insert new layout from installed layout. Make sure to check if the path of layout is the same as the uploaded path. You need to set the layout including logo images.]]></value>
 		</item>
 	</item>
 </lang>

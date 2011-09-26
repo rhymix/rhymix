@@ -35,7 +35,7 @@
 	</item>
 	<item name="poll_chk_count">
 		<value xml:lang="ko"><![CDATA[선택항목 수]]></value>
-		<value xml:lang="en"><![CDATA[Number of Checking Item]]></value>
+		<value xml:lang="en"><![CDATA[Number of checked items]]></value>
 		<value xml:lang="jp"><![CDATA[選択項目数]]></value>
 		<value xml:lang="zh-CN"><![CDATA[选择项目数]]></value>
 		<value xml:lang="zh-TW"><![CDATA[選擇項目數]]></value>
@@ -83,7 +83,7 @@
 	</item>
 	<item name="msg_poll_cannot_modify">
 		<value xml:lang="ko"><![CDATA[설문조사는 수정할 수 없습니다. 삭제 후 다시 생성하셔야 합니다.]]></value>
-		<value xml:lang="en"><![CDATA[You cannot modify the poll. You need to delete it if you want to create a new poll.]]></value>
+		<value xml:lang="en"><![CDATA[You cannot modify the poll. You need to delete it and create a new one.]]></value>
 		<value xml:lang="jp"><![CDATA[アンケートは修正出来ません。削除後、改めて新しく作成して下さい。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[投票调查不提供修改功能。必须删除后再生成]]></value>
 		<value xml:lang="zh-TW"><![CDATA[投票調查不提供修改功能。必須刪除後再新增]]></value>

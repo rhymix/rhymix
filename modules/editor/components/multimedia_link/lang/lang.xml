@@ -13,7 +13,7 @@
 	</item>
 	<item name="multimedia_caption">
 		<value xml:lang="ko"><![CDATA[설명 입력]]></value>
-		<value xml:lang="en"><![CDATA[Input Description]]></value>
+		<value xml:lang="en"><![CDATA[Enter Description]]></value>
 		<value xml:lang="jp"><![CDATA[説明入力]]></value>
 		<value xml:lang="zh-CN"><![CDATA[输入说明]]></value>
 		<value xml:lang="zh-TW"><![CDATA[輸入說明]]></value>
@@ -56,20 +56,24 @@
 	</item>
 	<item name="multimedia_wmode">
 		<value xml:lang="ko"><![CDATA[위치]]></value>
+		<value xml:lang="en"><![CDATA[Position]]></value>
 		<value xml:lang="jp"><![CDATA[位置]]></value>
 	</item>
 	<item name="multimedia_wmode_window">
 		<value xml:lang="ko"><![CDATA[항상 위]]></value>
+		<value xml:lang="en"><![CDATA[Always on Top]]></value>
 		<value xml:lang="jp"><![CDATA[常に上へ]]></value>
 		<value xml:lang="zh-TW"><![CDATA[總是在上]]></value>
 	</item>
 	<item name="multimedia_wmode_opaque">
 		<value xml:lang="ko"><![CDATA[배경 불투명]]></value>
+		<value xml:lang="en"><![CDATA[Background opaque]]></value>
 		<value xml:lang="jp"><![CDATA[不透明背景]]></value>
 		<value xml:lang="zh-TW"><![CDATA[背景不透明]]></value>
 	</item>
 	<item name="multimedia_wmode_transparent">
 		<value xml:lang="ko"><![CDATA[배경 투명]]></value>
+		<value xml:lang="en"><![CDATA[Background transparent]]></value>
 		<value xml:lang="jp"><![CDATA[透明背景]]></value>
 		<value xml:lang="zh-TW"><![CDATA[透明背景]]></value>
 	</item>

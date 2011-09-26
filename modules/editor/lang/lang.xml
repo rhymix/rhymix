@@ -62,7 +62,7 @@
 	</item>
 	<item name="guide_choose_text_formatting">
 		<value xml:lang="ko"><![CDATA[본문 서식을 선택하세요.]]></value>
-		<value xml:lang="en"><![CDATA[Choose the text formatting.]]></value>
+		<value xml:lang="en"><![CDATA[Choose the body format.]]></value>
 		<value xml:lang="jp"><![CDATA[Choose the text formatting.]]></value>
 		<value xml:lang="zh-CN"><![CDATA[Choose the text formatting.]]></value>
 		<value xml:lang="zh-TW"><![CDATA[Choose the text formatting.]]></value>
@@ -72,7 +72,7 @@
 	</item>
 	<item name="guide_choose_font_body">
 		<value xml:lang="ko"><![CDATA[본문 글꼴을 선택하세요.]]></value>
-		<value xml:lang="en"><![CDATA[Choose the font body.]]></value>
+		<value xml:lang="en"><![CDATA[Choose the body font.]]></value>
 		<value xml:lang="jp"><![CDATA[Choose the font body.]]></value>
 		<value xml:lang="zh-CN"><![CDATA[Choose the font body.]]></value>
 		<value xml:lang="zh-TW"><![CDATA[Choose the font body.]]></value>
@@ -82,7 +82,7 @@
 	</item>
 	<item name="guide_choose_font_size_body">
 		<value xml:lang="ko"><![CDATA[본문 글꼴크기를 선택하세요.]]></value>
-		<value xml:lang="en"><![CDATA[Choose the font size body.]]></value>
+		<value xml:lang="en"><![CDATA[Choose the font size of body.]]></value>
 		<value xml:lang="jp"><![CDATA[Choose the font size body.]]></value>
 		<value xml:lang="zh-CN"><![CDATA[Choose the font size body.]]></value>
 		<value xml:lang="zh-TW"><![CDATA[Choose the font size body.]]></value>
@@ -105,12 +105,12 @@
                 <value xml:lang="en"><![CDATA[There is new version for this item.]]></value>
         </item>
         <item name="msg_do_you_like_update">
-                <value xml:lang="ko"><![CDATA[업데이트 하시겠습니까?]]></value>
+                <value xml:lang="ko"><![CDATA[업데이트하시겠습니까?]]></value>
                 <value xml:lang="en"><![CDATA[Would you like to update?]]></value>
         </item>
         <item name="msg_font_too_big">
                 <value xml:lang="ko"><![CDATA[글꼴이 너무 큽니다.]]></value>
-                <value xml:lang="en"><![CDATA[글꼴이 너무 큽니다.]]></value>
+                <value xml:lang="en"><![CDATA[The font is too big.]]></value>
         </item>
 	<item name="editor_option">
 		<value xml:lang="ko"><![CDATA[]]></value>
@@ -373,7 +373,7 @@
 	</item>
 	<item name="msg_component_is_not_founded">
 		<value xml:lang="ko"><![CDATA[%s 에디터 컴포넌트를 찾을 수 없습니다.]]></value>
-		<value xml:lang="en"><![CDATA[Cannot find editor component %s]]></value>
+		<value xml:lang="en"><![CDATA[Cannot find editor component %s.]]></value>
 		<value xml:lang="jp"><![CDATA[%s エディターのコンポーネントが見つかりません。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[找不到%s 组件说明！]]></value>
 		<value xml:lang="zh-TW"><![CDATA[找不到%s 組件說明！]]></value>
@@ -385,7 +385,7 @@
 	</item>
 	<item name="msg_component_is_inserted">
 		<value xml:lang="ko"><![CDATA[선택하신 컴포넌트는 이미 입력되어 있습니다.]]></value>
-		<value xml:lang="en"><![CDATA[Selected component is already inserted]]></value>
+		<value xml:lang="en"><![CDATA[Selected component is already inserted.]]></value>
 		<value xml:lang="jp"><![CDATA[選択されたコンポーネントは既に入力されています。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[您选择的组件已插入！]]></value>
 		<value xml:lang="zh-TW"><![CDATA[您選擇的組件已插入！]]></value>
@@ -397,7 +397,7 @@
 	</item>
 	<item name="msg_component_is_first_order">
 		<value xml:lang="ko"><![CDATA[선택하신 컴포넌트는 첫 번째에 위치하고 있습니다.]]></value>
-		<value xml:lang="en"><![CDATA[Selected component is located at the first position]]></value>
+		<value xml:lang="en"><![CDATA[Selected component is located at the first position.]]></value>
 		<value xml:lang="jp"><![CDATA[選択されたコンポーネントは最初に位置しています。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[您选择的组件已到最上端位置！]]></value>
 		<value xml:lang="zh-TW"><![CDATA[您選擇的組件已達最頂端位置！]]></value>
@@ -409,7 +409,7 @@
 	</item>
 	<item name="msg_component_is_last_order">
 		<value xml:lang="ko"><![CDATA[선택하신 컴포넌트는 마지막에 위치하고 있습니다.]]></value>
-		<value xml:lang="en"><![CDATA[Selected component is located at the last position]]></value>
+		<value xml:lang="en"><![CDATA[Selected component is located at the last position.]]></value>
 		<value xml:lang="jp"><![CDATA[選択されたコンポーネントは最後に位置しています。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[您选择的组件已到最下端位置！]]></value>
 		<value xml:lang="zh-TW"><![CDATA[您選擇的組件已達最底端位置！]]></value>
@@ -422,8 +422,7 @@
 	<item name="msg_load_saved_doc">
 		<value xml:lang="ko"><![CDATA[자동 저장된 글이 있습니다. 복구하시겠습니까?
 글을 다 쓰신 후 저장하시면 자동 저장 본은 사라집니다.]]></value>
-		<value xml:lang="en"><![CDATA[There is an automatically saved article. Do you wish to recover it?
-The auto-saved draft will be discarded after saving the current article]]></value>
+		<value xml:lang="en"><![CDATA[There is a draft automatically saved. Do you want to restore it? The auto-saved draft will be discarded when you write and save it.]]></value>
 		<value xml:lang="jp"><![CDATA[自動保存された書き込みがあります。復旧しますか？
 書き終わってから登録すると前の自動保存データは削除されます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[有自动保存的内容， 确定要恢复吗？
@@ -443,7 +442,7 @@ Bài viết tự động lưu sẽ tự động hủy sau khi bạn hoàn thành
 	</item>
 	<item name="msg_auto_saved">
 		<value xml:lang="ko"><![CDATA[자동 저장되었습니다.]]></value>
-		<value xml:lang="en"><![CDATA[Automatically Saved]]></value>
+		<value xml:lang="en"><![CDATA[Automatically Saved.]]></value>
 		<value xml:lang="jp"><![CDATA[自動保存されました。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[已自动保存！]]></value>
 		<value xml:lang="zh-TW"><![CDATA[已自動儲存！]]></value>
@@ -491,7 +490,7 @@ Bài viết tự động lưu sẽ tự động hủy sau khi bạn hoàn thành
 	</item>
 	<item name="upload_file_grant">
 		<value xml:lang="ko"><![CDATA[파일 첨부 권한]]></value>
-		<value xml:lang="en"><![CDATA[Permission for Uploading]]></value>
+		<value xml:lang="en"><![CDATA[Permission to upload files]]></value>
 		<value xml:lang="jp"><![CDATA[ファイル添付権限]]></value>
 		<value xml:lang="zh-CN"><![CDATA[文件上传权限]]></value>
 		<value xml:lang="zh-TW"><![CDATA[檔案上傳權限]]></value>
@@ -503,7 +502,7 @@ Bài viết tự động lưu sẽ tự động hủy sau khi bạn hoàn thành
 	</item>
 	<item name="enable_default_component_grant">
 		<value xml:lang="ko"><![CDATA[기본 컴포넌트 사용 권한]]></value>
-		<value xml:lang="en"><![CDATA[Permission for Default Components]]></value>
+		<value xml:lang="en"><![CDATA[Permission to use default components]]></value>
 		<value xml:lang="jp"><![CDATA[基本コンポーネント使用権限]]></value>
 		<value xml:lang="zh-CN"><![CDATA[默认组件使用权限]]></value>
 		<value xml:lang="zh-TW"><![CDATA[預設組件使用權限]]></value>
@@ -515,7 +514,7 @@ Bài viết tự động lưu sẽ tự động hủy sau khi bạn hoàn thành
 	</item>
 	<item name="enable_component_grant">
 		<value xml:lang="ko"><![CDATA[컴포넌트 사용 권한]]></value>
-		<value xml:lang="en"><![CDATA[Permission for Components]]></value>
+		<value xml:lang="en"><![CDATA[Permission to use components]]></value>
 		<value xml:lang="jp"><![CDATA[コンポーネント使用権限]]></value>
 		<value xml:lang="zh-CN"><![CDATA[组件使用权限]]></value>
 		<value xml:lang="zh-TW"><![CDATA[組件使用權限]]></value>
@@ -526,8 +525,8 @@ Bài viết tự động lưu sẽ tự động hủy sau khi bạn hoàn thành
 		<value xml:lang="vi"><![CDATA[Quyền sử dụng Thành phần]]></value>
 	</item>
 	<item name="enable_html_grant">
-		<value xml:lang="ko"><![CDATA[HTML편집 권한]]></value>
-		<value xml:lang="en"><![CDATA[Permission for HTML]]></value>
+		<value xml:lang="ko"><![CDATA[HTML 편집 권한]]></value>
+		<value xml:lang="en"><![CDATA[Permission to edit HTML]]></value>
 		<value xml:lang="jp"><![CDATA[HTML編集権限]]></value>
 		<value xml:lang="zh-CN"><![CDATA[HTML编辑权限]]></value>
 		<value xml:lang="zh-TW"><![CDATA[HTML編輯權限]]></value>
@@ -539,7 +538,7 @@ Bài viết tự động lưu sẽ tự động hủy sau khi bạn hoàn thành
 	</item>
 	<item name="enable_autosave">
 		<value xml:lang="ko"><![CDATA[자동저장 사용]]></value>
-		<value xml:lang="en"><![CDATA[Auto-Save]]></value>
+		<value xml:lang="en"><![CDATA[Enable Auto-Save]]></value>
 		<value xml:lang="jp"><![CDATA[自動保存使用]]></value>
 		<value xml:lang="zh-CN"><![CDATA[内容自动保存]]></value>
 		<value xml:lang="zh-TW"><![CDATA[內容自動儲存]]></value>
@@ -671,7 +670,7 @@ Bài viết tự động lưu sẽ tự động hủy sau khi bạn hoàn thành
 	</item>
 	<item name="about_enable_html_grant">
 		<value xml:lang="ko"><![CDATA[HTML편집 권한을 부여할 수 있습니다.]]></value>
-		<value xml:lang="en"><![CDATA[Selected group(s) will be able to use HTML]]></value>
+		<value xml:lang="en"><![CDATA[Selected group(s) will be able to use HTML.]]></value>
 		<value xml:lang="jp"><![CDATA[HTML編集権限を設定します。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[HTML代码编辑权限设置。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[HTML原始碼編輯權限設置。]]></value>
@@ -732,24 +731,39 @@ Bài viết tự động lưu sẽ tự động hủy sau khi bạn hoàn thành
 		<item name="fontlist" type="array">	
 			<item name="arial">
 				<value xml:lang="ko"><![CDATA[Arial, Helvetica, sans-serif]]></value>
+				<value xml:lang="en"><![CDATA[Arial, Helvetica, sans-serif]]></value>
 			</item>
 			<item name="tahoma">
 				<value xml:lang="ko"><![CDATA[Tahoma, Geneva, sans-serif]]></value>
+				<value xml:lang="en"><![CDATA[Tahoma, Geneva, sans-serif]]></value>
 			</item>
 			<item name="verdana">
 				<value xml:lang="ko"><![CDATA[Verdana, Geneva, sans-serif]]></value>
+				<value xml:lang="en"><![CDATA[Verdana, Geneva, sans-serif]]></value>
+			</item>
+			<item name="sans-serif">
+				<value xml:lang="ko"><![CDATA[Sans-serif]]></value>
+				<value xml:lang="en"><![CDATA[Sans-serif]]></value>
 			</item>
 			<item name="georgia">
 				<value xml:lang="ko"><![CDATA[Georgia, 'Times New Roman', Times, serif]]></value>
+				<value xml:lang="en"><![CDATA[Georgia, 'Times New Roman', Times, serif]]></value>
 			</item>
 			<item name="palatinoLinotype">
 				<value xml:lang="ko"><![CDATA['Palatino Linotype', 'Book Antiqua', Palatino, serif]]></value>
+				<value xml:lang="en"><![CDATA['Palatino Linotype', 'Book Antiqua', Palatino, serif]]></value>
 			</item>
 			<item name="timesNewRoman">
 				<value xml:lang="ko"><![CDATA['Times New Roman', Times, serif]]></value>
+				<value xml:lang="en"><![CDATA['Times New Roman', Times, serif]]></value>
+			</item>		
+			<item name="serif">
+				<value xml:lang="ko"><![CDATA[Serif]]></value>
+				<value xml:lang="en"><![CDATA[Serif]]></value>
 			</item>		
 			<item name="courierNew">
 				<value xml:lang="ko"><![CDATA['Courier New', Courier, monospace]]></value>
+				<value xml:lang="en"><![CDATA['Courier New', Courier, monospace]]></value>
 			</item>		
 			<item name="lucidaConsole">
 				<value xml:lang="ko"><![CDATA['Lucida Console', Monaco, monospace]]></value>
@@ -769,7 +783,7 @@ Bài viết tự động lưu sẽ tự động hủy sau khi bạn hoàn thành
 		<item name="header_list" type="array">
 			<item name="h1">
 				<value xml:lang="ko"><![CDATA[제목 1]]></value>
-				<value xml:lang="en"><![CDATA[Subject 1]]></value>
+				<value xml:lang="en"><![CDATA[Header 1]]></value>
 				<value xml:lang="jp"><![CDATA[見出し１]]></value>
 				<value xml:lang="zh-CN"><![CDATA[标题 1]]></value>
 				<value xml:lang="zh-TW"><![CDATA[標題 1]]></value>
@@ -781,7 +795,7 @@ Bài viết tự động lưu sẽ tự động hủy sau khi bạn hoàn thành
 			</item>
 			<item name="h2">
 				<value xml:lang="ko"><![CDATA[제목 2]]></value>
-				<value xml:lang="en"><![CDATA[Subject 2]]></value>
+				<value xml:lang="en"><![CDATA[Header 2]]></value>
 				<value xml:lang="jp"><![CDATA[見出し２]]></value>
 				<value xml:lang="zh-CN"><![CDATA[标题 2]]></value>
 				<value xml:lang="zh-TW"><![CDATA[標題 2]]></value>
@@ -793,7 +807,7 @@ Bài viết tự động lưu sẽ tự động hủy sau khi bạn hoàn thành
 			</item>
 			<item name="h3">
 				<value xml:lang="ko"><![CDATA[제목 3]]></value>
-				<value xml:lang="en"><![CDATA[Subject 3]]></value>
+				<value xml:lang="en"><![CDATA[Header 3]]></value>
 				<value xml:lang="jp"><![CDATA[見出し３]]></value>
 				<value xml:lang="zh-CN"><![CDATA[标题 3]]></value>
 				<value xml:lang="zh-TW"><![CDATA[標題 3]]></value>
@@ -805,7 +819,7 @@ Bài viết tự động lưu sẽ tự động hủy sau khi bạn hoàn thành
 			</item>
 			<item name="h4">
 				<value xml:lang="ko"><![CDATA[제목 4]]></value>
-				<value xml:lang="en"><![CDATA[Subject 4]]></value>
+				<value xml:lang="en"><![CDATA[Header 4]]></value>
 				<value xml:lang="jp"><![CDATA[見出し４]]></value>
 				<value xml:lang="zh-CN"><![CDATA[标题 4]]></value>
 				<value xml:lang="zh-TW"><![CDATA[標題 4]]></value>
@@ -817,7 +831,7 @@ Bài viết tự động lưu sẽ tự động hủy sau khi bạn hoàn thành
 			</item>
 			<item name="h5">
 				<value xml:lang="ko"><![CDATA[제목 5]]></value>
-				<value xml:lang="en"><![CDATA[Subject 5]]></value>
+				<value xml:lang="en"><![CDATA[Header 5]]></value>
 				<value xml:lang="jp"><![CDATA[見出し５]]></value>
 				<value xml:lang="zh-CN"><![CDATA[标题 5]]></value>
 				<value xml:lang="zh-TW"><![CDATA[標題 5]]></value>
@@ -829,7 +843,7 @@ Bài viết tự động lưu sẽ tự động hủy sau khi bạn hoàn thành
 			</item>
 			<item name="h6">
 				<value xml:lang="ko"><![CDATA[제목 6]]></value>
-				<value xml:lang="en"><![CDATA[Subject 6]]></value>
+				<value xml:lang="en"><![CDATA[Header 6]]></value>
 				<value xml:lang="jp"><![CDATA[見出し６]]></value>
 				<value xml:lang="zh-CN"><![CDATA[标题 6]]></value>
 				<value xml:lang="zh-TW"><![CDATA[標題 6]]></value>
@@ -901,7 +915,7 @@ Bài viết tự động lưu sẽ tự động hủy sau khi bạn hoàn thành
 		</item>
 		<item name="strike">
 			<value xml:lang="ko"><![CDATA[취소선]]></value>
-			<value xml:lang="en"><![CDATA[Strike]]></value>
+			<value xml:lang="en"><![CDATA[Strikethrough]]></value>
 			<value xml:lang="jp"><![CDATA[取り消し線]]></value>
 			<value xml:lang="zh-CN"><![CDATA[取消线]]></value>
 			<value xml:lang="zh-TW"><![CDATA[虛線]]></value>
@@ -910,7 +924,7 @@ Bài viết tự động lưu sẽ tự động hủy sau khi bạn hoàn thành
 		</item>
 		<item name="sup">
 			<value xml:lang="ko"><![CDATA[위 첨자]]></value>
-			<value xml:lang="en"><![CDATA[Sup]]></value>
+			<value xml:lang="en"><![CDATA[Super]]></value>
 			<value xml:lang="jp"><![CDATA[上付き文字]]></value>
 			<value xml:lang="zh-CN"><![CDATA[上标]]></value>
 			<value xml:lang="zh-TW"><![CDATA[上標]]></value>
@@ -926,7 +940,7 @@ Bài viết tự động lưu sẽ tự động hủy sau khi bạn hoàn thành
 		</item>
 		<item name="redo">
 			<value xml:lang="ko"><![CDATA[다시 실행]]></value>
-			<value xml:lang="en"><![CDATA[Re Do]]></value>
+			<value xml:lang="en"><![CDATA[Redo]]></value>
 			<value xml:lang="jp"><![CDATA[繰り返し]]></value>
 			<value xml:lang="zh-CN"><![CDATA[恢复]]></value>
 			<value xml:lang="zh-TW"><![CDATA[重新操作]]></value>
@@ -935,7 +949,7 @@ Bài viết tự động lưu sẽ tự động hủy sau khi bạn hoàn thành
 		</item>
 		<item name="undo">
 			<value xml:lang="ko"><![CDATA[되돌리기]]></value>
-			<value xml:lang="en"><![CDATA[Un Do]]></value>
+			<value xml:lang="en"><![CDATA[Undo]]></value>
 			<value xml:lang="jp"><![CDATA[元に戻す]]></value>
 			<value xml:lang="zh-CN"><![CDATA[撤销]]></value>
 			<value xml:lang="zh-TW"><![CDATA[返回操作]]></value>
@@ -1026,7 +1040,7 @@ Bài viết tự động lưu sẽ tự động hủy sau khi bạn hoàn thành
 		</item>
 		<item name="help_remove_format">
 			<value xml:lang="ko"><![CDATA[선택된 영역 내의 태그를 지웁니다.]]></value>
-			<value xml:lang="en"><![CDATA[Tags in selected area will be removed]]></value>
+			<value xml:lang="en"><![CDATA[Tags in selected area will be removed.]]></value>
 			<value xml:lang="jp"><![CDATA[選択領域の中のタグを消します。]]></value>
 			<value xml:lang="zh-CN"><![CDATA[清除格式。]]></value>
 			<value xml:lang="zh-TW"><![CDATA[移除格式]]></value>
@@ -1037,7 +1051,7 @@ Bài viết tự động lưu sẽ tự động hủy sau khi bạn hoàn thành
 		</item>
 		<item name="help_strike_through">
 			<value xml:lang="ko"><![CDATA[글자에 취소선을 표시합니다.]]></value>
-			<value xml:lang="en"><![CDATA[Strike will be on the words]]></value>
+			<value xml:lang="en"><![CDATA[Mark the text with strikethrough.]]></value>
 			<value xml:lang="jp"><![CDATA[テキストに取り消し線を表示します。]]></value>
 			<value xml:lang="zh-CN"><![CDATA[取消线。]]></value>
 			<value xml:lang="zh-TW"><![CDATA[文字刪除線]]></value>
@@ -1058,7 +1072,7 @@ Bài viết tự động lưu sẽ tự động hủy sau khi bạn hoàn thành
 		</item>
 		<item name="help_fontcolor">
 			<value xml:lang="ko"><![CDATA[글자의 색상을 지정합니다.]]></value>
-			<value xml:lang="en"><![CDATA[Select font color]]></value>
+			<value xml:lang="en"><![CDATA[Select the text color.]]></value>
 			<value xml:lang="jp"><![CDATA[テキストの色を指定します。]]></value>
 			<value xml:lang="zh-CN"><![CDATA[文本颜色。]]></value>
 			<value xml:lang="zh-TW"><![CDATA[文字顏色]]></value>
@@ -1070,7 +1084,7 @@ Bài viết tự động lưu sẽ tự động hủy sau khi bạn hoàn thành
 		</item>
 		<item name="help_fontbgcolor">
 			<value xml:lang="ko"><![CDATA[글자의 배경색상을 지정합니다.]]></value>
-			<value xml:lang="en"><![CDATA[Select the background color of the text]]></value>
+			<value xml:lang="en"><![CDATA[Select the background color of the text.]]></value>
 			<value xml:lang="jp"><![CDATA[テキストの背景色を指定します。]]></value>
 			<value xml:lang="zh-CN"><![CDATA[背景颜色。]]></value>
 			<value xml:lang="zh-TW"><![CDATA[背景顏色]]></value>
@@ -1082,7 +1096,7 @@ Bài viết tự động lưu sẽ tự động hủy sau khi bạn hoàn thành
 		</item>
 		<item name="help_bold">
 			<value xml:lang="ko"><![CDATA[글자를 진하게 합니다.]]></value>
-			<value xml:lang="en"><![CDATA[Make font bold]]></value>
+			<value xml:lang="en"><![CDATA[Make the text bold.]]></value>
 			<value xml:lang="jp"><![CDATA[テキストを太字に指定します。]]></value>
 			<value xml:lang="zh-CN"><![CDATA[粗体]]></value>
 			<value xml:lang="zh-TW"><![CDATA[粗體]]></value>
@@ -1094,7 +1108,7 @@ Bài viết tự động lưu sẽ tự động hủy sau khi bạn hoàn thành
 		</item>
 		<item name="help_italic">
 			<value xml:lang="ko"><![CDATA[글자를 기울이게 합니다.]]></value>
-			<value xml:lang="en"><![CDATA[Make italic font]]></value>
+			<value xml:lang="en"><![CDATA[Make the text italic.]]></value>
 			<value xml:lang="jp"><![CDATA[テキストを斜体にします。]]></value>
 			<value xml:lang="zh-CN"><![CDATA[斜体]]></value>
 			<value xml:lang="zh-TW"><![CDATA[斜體]]></value>
@@ -1106,7 +1120,7 @@ Bài viết tự động lưu sẽ tự động hủy sau khi bạn hoàn thành
 		</item>
 		<item name="help_underline">
 			<value xml:lang="ko"><![CDATA[밑줄을 긋습니다.]]></value>
-			<value xml:lang="en"><![CDATA[Underline font]]></value>
+			<value xml:lang="en"><![CDATA[Underline the text.]]></value>
 			<value xml:lang="jp"><![CDATA[テキストに下線（アンダーライン）を引きます。]]></value>
 			<value xml:lang="zh-CN"><![CDATA[下划线]]></value>
 			<value xml:lang="zh-TW"><![CDATA[底線]]></value>
@@ -1118,7 +1132,7 @@ Bài viết tự động lưu sẽ tự động hủy sau khi bạn hoàn thành
 		</item>
 		<item name="help_strike">
 			<value xml:lang="ko"><![CDATA[취소선을 긋습니다.]]></value>
-			<value xml:lang="en"><![CDATA[Strike font]]></value>
+			<value xml:lang="en"><![CDATA[Mark the text with strikethrough.]]></value>
 			<value xml:lang="jp"><![CDATA[取り消し線を引きます。]]></value>
 			<value xml:lang="zh-CN"><![CDATA[取消线]]></value>
 			<value xml:lang="zh-TW"><![CDATA[虛線]]></value>
@@ -1129,7 +1143,7 @@ Bài viết tự động lưu sẽ tự động hủy sau khi bạn hoàn thành
 		</item>
 		<item name="help_sup">
 			<value xml:lang="ko"><![CDATA[위 첨자를 입력합니다.]]></value>
-			<value xml:lang="en"><![CDATA[Superscript]]></value>
+			<value xml:lang="en"><![CDATA[Make the text superscript.]]></value>
 			<value xml:lang="jp"><![CDATA[上付き文字]]></value>
 			<value xml:lang="zh-CN"><![CDATA[上标]]></value>
 			<value xml:lang="zh-TW"><![CDATA[上標]]></value>
@@ -1140,7 +1154,7 @@ Bài viết tự động lưu sẽ tự động hủy sau khi bạn hoàn thành
 		</item>
 		<item name="help_sub">
 			<value xml:lang="ko"><![CDATA[아래 첨자를 입력합니다.]]></value>
-			<value xml:lang="en"><![CDATA[Subscript]]></value>
+			<value xml:lang="en"><![CDATA[Make the text subscript.]]></value>
 			<value xml:lang="jp"><![CDATA[下付き文字]]></value>
 			<value xml:lang="zh-CN"><![CDATA[下标]]></value>
 			<value xml:lang="zh-TW"><![CDATA[下標]]></value>
@@ -1244,7 +1258,7 @@ Bài viết tự động lưu sẽ tự động hủy sau khi bạn hoàn thành
 		</item>
 		<item name="help_list_number">
 			<value xml:lang="ko"><![CDATA[숫자로된 목록을 적용합니다.]]></value>
-			<value xml:lang="en"><![CDATA[Apply number list]]></value>
+			<value xml:lang="en"><![CDATA[Apply ordered list.]]></value>
 			<value xml:lang="jp"><![CDATA[番号付リスト]]></value>
 			<value xml:lang="zh-CN"><![CDATA[有序列表]]></value>
 			<value xml:lang="zh-TW"><![CDATA[編號]]></value>
@@ -1256,7 +1270,7 @@ Bài viết tự động lưu sẽ tự động hủy sau khi bạn hoàn thành
 		</item>
 		<item name="help_list_bullet">
 			<value xml:lang="ko"><![CDATA[기호로된 목록을 적용합니다.]]></value>
-			<value xml:lang="en"><![CDATA[Apply bullet list]]></value>
+			<value xml:lang="en"><![CDATA[Apply bullet list.]]></value>
 			<value xml:lang="jp"><![CDATA[箇条書き]]></value>
 			<value xml:lang="zh-CN"><![CDATA[无序列表]]></value>
 			<value xml:lang="zh-TW"><![CDATA[清單符號]]></value>
@@ -1268,7 +1282,7 @@ Bài viết tự động lưu sẽ tự động hủy sau khi bạn hoàn thành
 		</item>
 		<item name="help_use_paragraph">
 			<value xml:lang="ko"><![CDATA[문단 나누기를 하시려면 Ctrl+Enter를 누르시면 됩니다. (글 작성완료 후 Alt+S를 누르면 저장이 됩니다.)]]></value>
-			<value xml:lang="en"><![CDATA[Press Ctrl+Enter to use paragraph. (Press Alt+S to submit)]]></value>
+			<value xml:lang="en"><![CDATA[Press Ctrl+Enter to use paragraph break. (Press Alt+S to save it.)]]></value>
 			<value xml:lang="jp"><![CDATA[段落機能を使用する場合は、「Ctrl+Enter」を押します（書き終わった後、「Alt+S」を押すと保存されます）。]]></value>
 			<value xml:lang="zh-CN"><![CDATA[分段请按 Ctrl＋回车． (发表主题快捷键：Alt＋S)]]></value>
 			<value xml:lang="zh-TW"><![CDATA[換行請按 Ctrl+Backspace (快速發表主題：Alt+S)]]></value>
@@ -1314,7 +1328,7 @@ Bài viết tự động lưu sẽ tự động hủy sau khi bạn hoàn thành
 		</item>
 		<item name="multimedia">
 			<value xml:lang="ko"><![CDATA[동영상]]></value>
-			<value xml:lang="en"><![CDATA[Movie]]></value>
+			<value xml:lang="en"><![CDATA[Video]]></value>
 			<value xml:lang="jp"><![CDATA[動画]]></value>
 			<value xml:lang="zh-CN"><![CDATA[视频]]></value>
 			<value xml:lang="zh-TW"><![CDATA[影片]]></value>
@@ -1387,7 +1401,7 @@ Bài viết tự động lưu sẽ tự động hủy sau khi bạn hoàn thành
 		</item>
 		<item name="icon_align_left">
 			<value xml:lang="ko"><![CDATA[글의 왼쪽으로]]></value>
-			<value xml:lang="en"><![CDATA[Align Left]]></value>
+			<value xml:lang="en"><![CDATA[Left of Article]]></value>
 			<value xml:lang="jp"><![CDATA[左揃え]]></value>
 			<value xml:lang="zh-CN"><![CDATA[文本左侧]]></value>
 			<value xml:lang="zh-TW"><![CDATA[靠左]]></value>
@@ -1411,7 +1425,7 @@ Bài viết tự động lưu sẽ tự động hủy sau khi bạn hoàn thành
 		</item>
 		<item name="icon_align_right">
 			<value xml:lang="ko"><![CDATA[글의 우측으로]]></value>
-			<value xml:lang="en"><![CDATA[Align Right]]></value>
+			<value xml:lang="en"><![CDATA[Right of Article]]></value>
 			<value xml:lang="jp"><![CDATA[右揃え]]></value>
 			<value xml:lang="zh-CN"><![CDATA[文本右侧]]></value>
 			<value xml:lang="zh-TW"><![CDATA[靠右]]></value>
@@ -1676,7 +1690,7 @@ Bài viết tự động lưu sẽ tự động hủy sau khi bạn hoàn thành
 		</item>
 		<item name="table_config">
 			<value xml:lang="ko"><![CDATA[표 속성 지정]]></value>
-			<value xml:lang="en"><![CDATA[Table Config]]></value>
+			<value xml:lang="en"><![CDATA[Table Properties]]></value>
 			<value xml:lang="jp"><![CDATA[テーブル属性の設定]]></value>
 			<value xml:lang="zh-CN"><![CDATA[表格属性]]></value>
 			<value xml:lang="zh-TW"><![CDATA[設置]]></value>
@@ -2118,7 +2132,7 @@ Bài viết tự động lưu sẽ tự động hủy sau khi bạn hoàn thành
 	</item>
 	<item name="about_dblclick_in_editor">
 		<value xml:lang="ko"><![CDATA[배경, 글자, 이미지, 인용문등에서 더블클릭을 하시면 상세한 컴포넌트 설정이 가능합니다.]]></value>
-		<value xml:lang="en"><![CDATA[You may set the component's detailed configurations by double-clicking background, text, images, or quotations]]></value>
+		<value xml:lang="en"><![CDATA[You may set the component's detailed configurations by double-clicking background, text, images, or quotations.]]></value>
 		<value xml:lang="jp"><![CDATA[背景、文字、イメージ、引用文の上にカーソルを合わせ、ダブルクリックすると詳細設定出来るコンポーネントを表示します。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[双击背景, 文本, 图片, 引用即可对其相关组件进行详细设置。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[對背景，文字，圖片，引用等組件按兩下，即可對其相關組件進行詳細設置。]]></value>

@@ -14,7 +14,7 @@
 	</item>
 	<item name="cmd_menu_management">
 		<value xml:lang="ko"><![CDATA[메뉴 설정]]></value>
-		<value xml:lang="en"><![CDATA[Menu Management]]></value>
+		<value xml:lang="en"><![CDATA[Menu Setting]]></value>
 		<value xml:lang="jp"><![CDATA[メニュー設定]]></value>
 		<value xml:lang="zh-CN"><![CDATA[菜单设置]]></value>
 		<value xml:lang="zh-TW"><![CDATA[選單設置]]></value>
@@ -36,7 +36,7 @@
 	</item>
 	<item name="menu_count">
 		<value xml:lang="ko"><![CDATA[메뉴 수]]></value>
-		<value xml:lang="en"><![CDATA[No. of menu]]></value>
+		<value xml:lang="en"><![CDATA[No. of menus]]></value>
 		<value xml:lang="jp"><![CDATA[メニュー数]]></value>
 		<value xml:lang="zh-CN"><![CDATA[菜单数]]></value>
 		<value xml:lang="zh-TW"><![CDATA[選單數]]></value>
@@ -48,7 +48,7 @@
 	</item>
 	<item name="menu_management">
 		<value xml:lang="ko"><![CDATA[메뉴 관리]]></value>
-		<value xml:lang="en"><![CDATA[Menu Management]]></value>
+		<value xml:lang="en"><![CDATA[Manage Menu]]></value>
 		<value xml:lang="jp"><![CDATA[メニュー管理]]></value>
 		<value xml:lang="zh-CN"><![CDATA[菜单管理]]></value>
 		<value xml:lang="zh-TW"><![CDATA[選單管理]]></value>
@@ -385,13 +385,9 @@
 		<value xml:lang="ko"><![CDATA[최상위 메뉴는 삭제할 수 없습니다.]]></value>
 		<value xml:lang="en"><![CDATA[A top menu cannot be deleted]]></value>
 	</item>
-	<item name="msg_adminmenu_cannot_delete">
-		<value xml:lang="ko"><![CDATA[관리자 메뉴는 삭제 불가능합니다.]]></value>
-		<value xml:lang="en"><![CDATA[Admin Menu cannot be removed]]></value>
-	</item>
 	<item name="about_title">
 		<value xml:lang="ko"><![CDATA[모듈에 연결할 때, 쉽게 구분할 수 있는 제목을 입력해주세요.]]></value>
-		<value xml:lang="en"><![CDATA[Please input the title that is easy to verify when connecting to the module.]]></value>
+		<value xml:lang="en"><![CDATA[Please enter the title that is easy to verify when connecting to the module.]]></value>
 		<value xml:lang="jp"><![CDATA[モジュールをリンクする際に分かりやすいタイトルを入力して下さい。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[请输入连接模块时容易区分的标题。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[請輸入連接模組時，容易區分的標題。]]></value>
