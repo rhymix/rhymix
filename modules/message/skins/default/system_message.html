@@ -10,6 +10,7 @@
 	<div class="mLogin" id="gLogin" cond="!$is_logged && $module == 'admin'">
 		<form ruleset="@login" action="./" method="post" id="gForm">
 		<input type="hidden" name="act" value="procMemberLogin" />
+		<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
 			<fieldset>
 				<ul class="idpw">
 					<li><input type="text" name="user_id" id="uid" value="" class="inputText" title="{$lang->user_id}" /></li>
