@@ -872,9 +872,9 @@ Lütfen son sürümü için indirme linkine tıklayınız.]]></value>
 	쉬운 설치가 불가능한 경우 PHP의 safe_mode를 On으로 변경해야 합니다.
 ]]></value>
 		<value xml:lang="en"><![CDATA[
-	FTP 정보를 입력하면 쉬운 설치를 가능하도록 합니다.<br />
-	FTP정보는 files/config/ftp.config.php 파일에 저장됩니다.<br />
-	쉬운 설치가 불가능한 경우 PHP의 safe_mode를 On으로 변경해야 합니다.
+	When you enter FTP information to enable easy installation.<br />
+	The information on FTP is stored in files/config/ftp.config.php.<br />
+	If you are unable to easy install, PHP's 'safe_mode' must be changed 'On'
 ]]></value>
 	</item>
 	<item name="about_favicon">
