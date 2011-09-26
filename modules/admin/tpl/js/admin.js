@@ -1150,3 +1150,10 @@ function completeInstallModule(ret_obj) {
 jQuery(document).ready(function($){
 	$('body').ajaxComplete(function(){ hideWaitingFogLayer() });
 });
+
+/* admin single column layout */
+jQuery(function($){
+	if($('.x>.body>.lnb').length == 0){ // When it have no lnb
+		$('.x>.body>.content').addClass('single'); // Add class single
+	}
+});
