@@ -3,14 +3,13 @@ var confirm_restore_msg = '{$lang->confirm_restore}';
 var no_text_comment = '{$lang->no_text_comment}';
 </script>
 <load target="js/trash_admin.js" usecdn="true" />
-<div class="content" id="content">
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 	<form ruleset="emptyTrash" action="./" method="post" class="form">
-	<input type="hidden" name="act" value="procTrashAdminEmptyTrash" />
-	<input type="hidden" name="page" value="{$page}" />
-	<input type="hidden" name="is_all" value="true" />
+		<input type="hidden" name="act" value="procTrashAdminEmptyTrash" />
+		<input type="hidden" name="page" value="{$page}" />
+		<input type="hidden" name="is_all" value="true" />
 		<h1 class="h1">{$lang->trash}</h1>
 		<div class="table even">
 			<table width="100%" border="1" cellspacing="0" id="trashListTable">
@@ -86,33 +85,32 @@ var no_text_comment = '{$lang->no_text_comment}';
 			</div>
 		</form>
 	</div>
-	<div class="search">
-<form action="" class="pagination">
-	<input type="hidden" name="error_return_url" value="" />
-	<input type="hidden" name="module" value="{$module}" />
-	<input type="hidden" name="act" value="{$act}" />
-  	<input cond="$search_keyword" type="hidden" name="search_keyword" value="{$search_keyword}" />
-  	<input cond="$search_target" type="hidden" name="search_target" value="{$search_target}" />
-
-	<a href="{getUrl('page', '')}" class="direction">&laquo; FIRST</a>
-	<block cond="$page_navigation->first_page + $page_navigation->page_count > $page_navigation->last_page && $page_navigation->page_count != $page_navigation->total_page">
-		<a href="{getUrl('page', '')}">1</a>
-		<a href="#goTo" class="tgAnchor" title="{$lang->cmd_go_to_page}">...</a>
-	</block>
-	<!--@while($page_no = $page_navigation->getNextPage())-->
-		{@$last_page = $page_no}
-		<strong cond="$page_no == $page">{$page_no}</strong>
-		<a cond="$page_no != $page" href="{getUrl('page', $page_no)}">{$page_no}</a>
-	<!--@end-->
-	<block cond="$last_page != $page_navigation->last_page">
-		<a href="#goTo" class="tgAnchor" title="{$lang->cmd_go_to_page}">...</a>
-		<a href="{getUrl('page', $page_navigation->last_page)}">{$page_navigation->last_page}</a>
-	</block>
-	<a href="{getUrl('page', $page_navigation->last_page)}" class="direction">LAST &raquo;</a>
-	<span id="goTo" class="tgContent">
-		<input name="page" title="{$lang->cmd_go_to_page}" />
-		<button type="submit">Go</button>
-	</span>
-</form>
-	</div>
+<div class="search">
+	<form action="" class="pagination">
+		<input type="hidden" name="error_return_url" value="" />
+		<input type="hidden" name="module" value="{$module}" />
+		<input type="hidden" name="act" value="{$act}" />
+		<input cond="$search_keyword" type="hidden" name="search_keyword" value="{$search_keyword}" />
+		<input cond="$search_target" type="hidden" name="search_target" value="{$search_target}" />
+	
+		<a href="{getUrl('page', '')}" class="direction">&laquo; FIRST</a>
+		<block cond="$page_navigation->first_page + $page_navigation->page_count > $page_navigation->last_page && $page_navigation->page_count != $page_navigation->total_page">
+			<a href="{getUrl('page', '')}">1</a>
+			<a href="#goTo" class="tgAnchor" title="{$lang->cmd_go_to_page}">...</a>
+		</block>
+		<!--@while($page_no = $page_navigation->getNextPage())-->
+			{@$last_page = $page_no}
+			<strong cond="$page_no == $page">{$page_no}</strong>
+			<a cond="$page_no != $page" href="{getUrl('page', $page_no)}">{$page_no}</a>
+		<!--@end-->
+		<block cond="$last_page != $page_navigation->last_page">
+			<a href="#goTo" class="tgAnchor" title="{$lang->cmd_go_to_page}">...</a>
+			<a href="{getUrl('page', $page_navigation->last_page)}">{$page_navigation->last_page}</a>
+		</block>
+		<a href="{getUrl('page', $page_navigation->last_page)}" class="direction">LAST &raquo;</a>
+		<span id="goTo" class="tgContent">
+			<input name="page" title="{$lang->cmd_go_to_page}" />
+			<button type="submit">Go</button>
+		</span>
+	</form>
 </div>

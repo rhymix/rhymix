@@ -14,121 +14,119 @@
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
-<div class="content" id="content">
-	<h1 class="h1">{$lang->group}</h1>
-	<form action="" class="form" method="post" ruleset="insertGroupConfig">
-		<input type="hidden" name="act" value="procMemberAdminGroupConfig" />
+<h1 class="h1">{$lang->group}</h1>
+<form action="" class="form" method="post" ruleset="insertGroupConfig">
+	<input type="hidden" name="act" value="procMemberAdminGroupConfig" />
 {$lang->use_group_image_mark}
-		<input type="radio" name="group_image_mark" id="yes" value="Y" checked="checked"|cond="$config->group_image_mark == 'Y'" /> <label for="yes">{$lang->cmd_yes}</label>
-		<input type="radio" name="group_image_mark" id="no" value="N" checked="checked"|cond="$config->group_image_mark != 'Y'" /> <label for="no">{$lang->cmd_no}</label>
-		<div class="table even">
-			<table width="100%" border="1" cellspacing="0" class="sortable">
-				<caption>
-				<strong>{count($group_list)}</strong> groups are exist.
-				</caption>
-				<thead>
-					<tr>
-						<th scope="col">{$lang->group_title}</th>
-						<th scope="col">{$lang->description}</th>
-						<th scope="col">{$lang->is_default}
-							[<a href="#helpDefault" class="tgAnchor">?</a>]
-							<div class="tgContent layer" id="helpDefault" style="right:0">
-								<p>{$lang->about_member_default}</p>
-							</div>
-						</th>
-						<th scope="col" class="_imageMarkButton">{$lang->group_image_mark}</th>
-						<th scope="col">Action</th>
-					</tr>
-				</thead>
-				<tfoot>
-					<tr>
-						<td>&nbsp;</td>
-						<td>&nbsp;</td>
-						<td>&nbsp;</td>
-						<td class="_imageMarkButton">&nbsp;</td>
-						<td><a href="#" class="_addGroup">Add Group</a></td>
-					</tr>
-				</tfoot>
-				<tbody class="uDrag _groupList">
-					<tr loop="$group_list=>$group_srl,$group_info">
-						<td class="multiLangEdit"><div class="wrap" style="height:22px"><button type="button" class="dragBtn">Move to</button>
-							<input type="hidden" name="group_srls[]" value="{$group_info->group_srl}" />
-							<input type="hidden" name="group_titles[]" value="{htmlspecialchars($group_info->title)}" class="vLang"/>
-							<input type="text" value="{$group_info->title}" class="vLang" />
-							<span class="desc"><a href="#langEdit" class="tgAnchor editUserLang" data-effect="slide">{$lang->cmd_set_multilingual}</a></span>
-							</div>
-						</td>
-						<td><input type="text" name="descriptions[]" value="{$group_info->description}" style="width:240px" /></td>
-						<td><input type="radio" name="defaultGroup" value="{$group_info->group_srl}" title="Default" checked="checked"|cond="$group_info->is_default=='Y'" /></td>
-						<td class="_imageMarkButton"><input type="hidden" name="image_marks[]" value="{$group_info->image_mark}" class="_imgMarkHidden" />
-							<img src="{$group_info->image_mark}" alt="{$group_info->title}" cond="$config->group_image_mark == 'Y' && $group_info->image_mark" />
-							<a href="#imageMark" class="modalAnchor _imageMark filebox">{$lang->cmd_modify}</a></td>
-						<td><div class="_deleteTD" style="display:none"|cond="$group_info->is_default == 'Y'"><a href="#{$group_srl}" class="_deleteGroup">{$lang->cmd_delete}</a></div></td>
-					</tr>
-					<tr style="display:none" class="_template">
-						<td class="multiLangEdit"><div class="wrap" style="height:22px"><button type="button" class="dragBtn">Move to</button>
-							<input type="hidden" name="group_srls[]" value="new" disabled="disabled"/>
-							<input type="hidden" name="group_titles[]" value=""  disabled="disabled" class="vLang" />
-							<input type="text" value="" class="vLang" />
-							<span class="desc"><a href="#langEdit" class="tgAnchor editUserLang">{$lang->cmd_set_multilingual}</a></span>
-							</div>
-						</td>
-						<td><input type="text" name="descriptions[]" value="" style="width:240px" disabled="disabled" /></td>
-						<td><input type="radio" name="defaultGroup" value="" title="Default" disabled="disabled" /></td>
-						<td class="_imageMarkButton"><input type="hidden" name="image_marks[]" value="" class="_imgMarkHidden" disabled="disabled" />
-							<a href="#imageMark" class="modalAnchor _imageMark">{$lang->cmd_modify}</a></td>
-						<td><div class="_deleteTD"><a href="#new" class="_deleteGroup">{$lang->cmd_delete}</a></div></td>
-					</tr>
+	<input type="radio" name="group_image_mark" id="yes" value="Y" checked="checked"|cond="$config->group_image_mark == 'Y'" /> <label for="yes">{$lang->cmd_yes}</label>
+	<input type="radio" name="group_image_mark" id="no" value="N" checked="checked"|cond="$config->group_image_mark != 'Y'" /> <label for="no">{$lang->cmd_no}</label>
+	<div class="table even">
+		<table width="100%" border="1" cellspacing="0" class="sortable">
+			<caption>
+			<strong>{count($group_list)}</strong> groups are exist.
+			</caption>
+			<thead>
+				<tr>
+					<th scope="col">{$lang->group_title}</th>
+					<th scope="col">{$lang->description}</th>
+					<th scope="col">{$lang->is_default}
+						[<a href="#helpDefault" class="tgAnchor">?</a>]
+						<div class="tgContent layer" id="helpDefault" style="right:0">
+							<p>{$lang->about_member_default}</p>
+						</div>
+					</th>
+					<th scope="col" class="_imageMarkButton">{$lang->group_image_mark}</th>
+					<th scope="col">Action</th>
+				</tr>
+			</thead>
+			<tfoot>
+				<tr>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td class="_imageMarkButton">&nbsp;</td>
+					<td><a href="#" class="_addGroup">Add Group</a></td>
+				</tr>
+			</tfoot>
+			<tbody class="uDrag _groupList">
+				<tr loop="$group_list=>$group_srl,$group_info">
+					<td class="multiLangEdit"><div class="wrap" style="height:22px"><button type="button" class="dragBtn">Move to</button>
+						<input type="hidden" name="group_srls[]" value="{$group_info->group_srl}" />
+						<input type="hidden" name="group_titles[]" value="{htmlspecialchars($group_info->title)}" class="vLang"/>
+						<input type="text" value="{$group_info->title}" class="vLang" />
+						<span class="desc"><a href="#langEdit" class="tgAnchor editUserLang" data-effect="slide">{$lang->cmd_set_multilingual}</a></span>
+						</div>
+					</td>
+					<td><input type="text" name="descriptions[]" value="{$group_info->description}" style="width:240px" /></td>
+					<td><input type="radio" name="defaultGroup" value="{$group_info->group_srl}" title="Default" checked="checked"|cond="$group_info->is_default=='Y'" /></td>
+					<td class="_imageMarkButton"><input type="hidden" name="image_marks[]" value="{$group_info->image_mark}" class="_imgMarkHidden" />
+						<img src="{$group_info->image_mark}" alt="{$group_info->title}" cond="$config->group_image_mark == 'Y' && $group_info->image_mark" />
+						<a href="#imageMark" class="modalAnchor _imageMark filebox">{$lang->cmd_modify}</a></td>
+					<td><div class="_deleteTD" style="display:none"|cond="$group_info->is_default == 'Y'"><a href="#{$group_srl}" class="_deleteGroup">{$lang->cmd_delete}</a></div></td>
+				</tr>
+				<tr style="display:none" class="_template">
+					<td class="multiLangEdit"><div class="wrap" style="height:22px"><button type="button" class="dragBtn">Move to</button>
+						<input type="hidden" name="group_srls[]" value="new" disabled="disabled"/>
+						<input type="hidden" name="group_titles[]" value=""  disabled="disabled" class="vLang" />
+						<input type="text" value="" class="vLang" />
+						<span class="desc"><a href="#langEdit" class="tgAnchor editUserLang">{$lang->cmd_set_multilingual}</a></span>
+						</div>
+					</td>
+					<td><input type="text" name="descriptions[]" value="" style="width:240px" disabled="disabled" /></td>
+					<td><input type="radio" name="defaultGroup" value="" title="Default" disabled="disabled" /></td>
+					<td class="_imageMarkButton"><input type="hidden" name="image_marks[]" value="" class="_imgMarkHidden" disabled="disabled" />
+						<a href="#imageMark" class="modalAnchor _imageMark">{$lang->cmd_modify}</a></td>
+					<td><div class="_deleteTD"><a href="#new" class="_deleteGroup">{$lang->cmd_delete}</a></div></td>
+				</tr>
 
-				</tbody>
-			</table>
-		</div>
-		<div class="btnArea">
-			<span class="btn medium"><input type="submit" value="Save" /></span>
-		</div>
+			</tbody>
+		</table>
+	</div>
+	<div class="btnArea">
+		<span class="btn medium"><input type="submit" value="Save" /></span>
+	</div>
 
-		<!-- Multilingual -->
-		<div id="langEdit" class="langEdit tgContent">
-			<ul class="langList"></ul>
-			<div id="langInput">
-				<h2>다국어 <strong>수정</strong> | <a href="#langEdit">추가</a></h2>
-				<ul>
-					{@
-						/* move current language to the top */
-						$a = array($lang_type=>$lang_supported[$lang_type]);
-						unset($lang_supported[$lang_type]);
-						$lang_supported = array_merge($a, $lang_supported);
-					}
-					<li loop="$lang_supported=>$code,$name" class="{$code}"><label for="{$code}_var1">{$name}</label> <input type="text" value="" id="{$code}_var1" /></li>
-				</ul>
-				<div class="action">
-					<div class="btnArea">
-						<span class="btn small"><input type="submit" value="사용|저장 후 사용" /></span>
-					</div>
-					<p><a href="{getUrl('act','dispModuleAdminLangcode')}">{$lang->multilingual_manager}</a></p>
+	<!-- Multilingual -->
+	<div id="langEdit" class="langEdit tgContent">
+		<ul class="langList"></ul>
+		<div id="langInput">
+			<h2>다국어 <strong>수정</strong> | <a href="#langEdit">추가</a></h2>
+			<ul>
+				{@
+					/* move current language to the top */
+					$a = array($lang_type=>$lang_supported[$lang_type]);
+					unset($lang_supported[$lang_type]);
+					$lang_supported = array_merge($a, $lang_supported);
+				}
+				<li loop="$lang_supported=>$code,$name" class="{$code}"><label for="{$code}_var1">{$name}</label> <input type="text" value="" id="{$code}_var1" /></li>
+			</ul>
+			<div class="action">
+				<div class="btnArea">
+					<span class="btn small"><input type="submit" value="사용|저장 후 사용" /></span>
 				</div>
+				<p><a href="{getUrl('act','dispModuleAdminLangcode')}">{$lang->multilingual_manager}</a></p>
 			</div>
 		</div>
-	</form>
+	</div>
+</form>
 
-	<div class="modal" id="imageMark">
-		<div class="fg portlet">
-			<div class="_useImageMark" style="display:none">
-			<h2>{$lang->use_group_image_mark}</h2>
-					<input id="useImageMark" type="radio" name="useImageMark" value="Y" />
-					<label for="useImageMark">{$lang->use}</label>
-					<input id="noImageMark" type="radio" name="useImageMark" value="N" />
-					<label for="noImageMark">{$lang->notuse}</label>
-			</div>
-			<!--@if($fileBoxList)-->
-			<div>
-			<h2>{$lang->usable_group_image_mark_list}</h2>
-			<div class="filebox_list">
-			</div>
-			</div>
-			<!--@end-->
-			<h2>{$lang->add_group_image_mark}</h2>
-			<a href="{getUrl('', 'module','admin', 'act', 'dispModuleAdminFileBox')}" target="_blank">{$lang->link_file_box}</a>
+<div class="modal" id="imageMark">
+	<div class="fg portlet">
+		<div class="_useImageMark" style="display:none">
+		<h2>{$lang->use_group_image_mark}</h2>
+				<input id="useImageMark" type="radio" name="useImageMark" value="Y" />
+				<label for="useImageMark">{$lang->use}</label>
+				<input id="noImageMark" type="radio" name="useImageMark" value="N" />
+				<label for="noImageMark">{$lang->notuse}</label>
 		</div>
+		<!--@if($fileBoxList)-->
+		<div>
+		<h2>{$lang->usable_group_image_mark_list}</h2>
+		<div class="filebox_list">
+		</div>
+		</div>
+		<!--@end-->
+		<h2>{$lang->add_group_image_mark}</h2>
+		<a href="{getUrl('', 'module','admin', 'act', 'dispModuleAdminFileBox')}" target="_blank">{$lang->link_file_box}</a>
 	</div>
 </div>

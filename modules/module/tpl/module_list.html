@@ -5,68 +5,66 @@
 	xe.lang.favorite_off = '{$lang->favorite}({$lang->off})';
 </script>
 
-<div class="content" id="content">
-	<h1 class="h1">Installed Module</h1>
-	<div class="table even easyList">
-		<table width="100%" border="1" cellspacing="0">
-			<caption>
-			All({count($module_list)})
-			</caption>
-			<thead>
-				<tr>
-					<th scope="col">{$lang->favorite}</th>
-					<th scope="col" class="title">{$lang->module_name}</th>
-					<th scope="col">{$lang->version}</th>
-					<th scope="col">{$lang->author}</th>
-					<th scope="col">{$lang->path}</th>
-					<th scope="col">{$lang->cmd_delete}</th>
-				</tr>
-			</thead>
-			<tbody>
-				<!--@foreach($module_list as $key => $val)-->
-				<tr>
-					<td>
-						<!--@if(in_array($val->module,$favoriteModuleList))-->
-						<a href="#" class="fvOn" onclick="doToggleFavoriteModule(this, '{$val->module}'); return false;">{$lang->favorite}({$lang->on})</a>
+<h1 class="h1">Installed Module</h1>
+<div class="table even easyList">
+	<table width="100%" border="1" cellspacing="0">
+		<caption>
+		All({count($module_list)})
+		</caption>
+		<thead>
+			<tr>
+				<th scope="col">{$lang->favorite}</th>
+				<th scope="col" class="title">{$lang->module_name}</th>
+				<th scope="col">{$lang->version}</th>
+				<th scope="col">{$lang->author}</th>
+				<th scope="col">{$lang->path}</th>
+				<th scope="col">{$lang->cmd_delete}</th>
+			</tr>
+		</thead>
+		<tbody>
+			<!--@foreach($module_list as $key => $val)-->
+			<tr>
+				<td>
+					<!--@if(in_array($val->module,$favoriteModuleList))-->
+					<a href="#" class="fvOn" onclick="doToggleFavoriteModule(this, '{$val->module}'); return false;">{$lang->favorite}({$lang->on})</a>
+					<!--@else-->
+					<a href="#" class="fvOff" onclick="doToggleFavoriteModule(this, '{$val->module}'); return false;">{$lang->favorite}({$lang->off})</a>
+					<!--@end-->
+				</td>
+				<td class="title">
+					<p>
+						<!--@if($val->admin_index_act)-->	
+						<a href="{getUrl('','module','admin','act',$val->admin_index_act)}">{$val->title}</a>
 						<!--@else-->
-						<a href="#" class="fvOff" onclick="doToggleFavoriteModule(this, '{$val->module}'); return false;">{$lang->favorite}({$lang->off})</a>
+						<strong>{$val->title}</strong>
 						<!--@end-->
-					</td>
-					<td class="title">
-						<p>
-							<!--@if($val->admin_index_act)-->	
-							<a href="{getUrl('','module','admin','act',$val->admin_index_act)}">{$val->title}</a>
-							<!--@else-->
-							<strong>{$val->title}</strong>
-							<!--@end-->
-						</p>
-						<p>{$val->description}</p>
-							<p cond="$val->need_install" class="update">{$lang->msg_avail_install} <a href="#" onclick="doInstallModule('{$val->module}');return false;">{$lang->msg_do_you_like_install}</a></p>
-							<p cond="$val->need_update" class="update">{$lang->msg_avail_update} <a href=="#" onclick="doUpdateModule('{$val->module}'); return false;">{$lang->msg_do_you_like_update}</a></p>
-							<p cond="$val->need_autoinstall_update == 'Y'" class="update">{$lang->msg_avail_easy_update}<a href="{$val->update_url}&amp;return_url={urlencode(getRequestUriByServerEnviroment())}">{$lang->msg_do_you_like_update}</a></p>
-					</td>
-					<td>{$val->version}</td>
-					<td>
-						<!--@foreach($val->author as $author)-->
-							<!--@if($author->homepage)-->
-							<a href="{$author->homepage}" onclick="window.open(this.href);return false;"  target="_blank">
-							<!--@end-->
-							{$author->name}
-							<!--@if($author->homepage)-->
-							</a>
-							<!--@end-->
-						<!--@endforeach-->
-					</td>
-					<td>{$val->path}</td>
-					<td>
-						<!--@if($val->delete_url)-->
-						<a href="{$val->delete_url}&amp;return_url={urlencode(getRequestUriByServerEnviroment())}">{$lang->cmd_delete}</a>
+					</p>
+					<p>{$val->description}</p>
+						<p cond="$val->need_install" class="update">{$lang->msg_avail_install} <a href="#" onclick="doInstallModule('{$val->module}');return false;">{$lang->msg_do_you_like_install}</a></p>
+						<p cond="$val->need_update" class="update">{$lang->msg_avail_update} <a href=="#" onclick="doUpdateModule('{$val->module}'); return false;">{$lang->msg_do_you_like_update}</a></p>
+						<p cond="$val->need_autoinstall_update == 'Y'" class="update">{$lang->msg_avail_easy_update}<a href="{$val->update_url}&amp;return_url={urlencode(getRequestUriByServerEnviroment())}">{$lang->msg_do_you_like_update}</a></p>
+				</td>
+				<td>{$val->version}</td>
+				<td>
+					<!--@foreach($val->author as $author)-->
+						<!--@if($author->homepage)-->
+						<a href="{$author->homepage}" onclick="window.open(this.href);return false;"  target="_blank">
 						<!--@end-->
-					</td>
-				</tr>
-				<!--@end-->
+						{$author->name}
+						<!--@if($author->homepage)-->
+						</a>
+						<!--@end-->
+					<!--@endforeach-->
+				</td>
+				<td>{$val->path}</td>
+				<td>
+					<!--@if($val->delete_url)-->
+					<a href="{$val->delete_url}&amp;return_url={urlencode(getRequestUriByServerEnviroment())}">{$lang->cmd_delete}</a>
+					<!--@end-->
+				</td>
+			</tr>
+			<!--@end-->
 
-			</tbody>
-		</table>
-	</div>
+		</tbody>
+	</table>
 </div>

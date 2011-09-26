@@ -969,4 +969,8 @@ Le module [Administration des Modules] montera tous les modules installés et vo
 		<value xml:lang="ko"><![CDATA[새로운 단어 또는 문장 추가...]]></value>
 		<value xml:lang="en"><![CDATA[Add New Word or Sentence...]]></value>
 	</item>
+	<item name="installed_module">
+		<value xml:lang="ko"><![CDATA[설치된 모듈]]></value>
+		<value xml:lang="en"><![CDATA[Installed Module]]></value>
+	</item>
 </lang>
