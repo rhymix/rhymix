@@ -51,9 +51,8 @@ body>.message{margin:1em}
 .message.error{border-color:#EFDCDC;background:#FFECEC url(../../common/img/msg.error.png) no-repeat 1em .5em}
 .message.update{border-color:#EAE9DC;background:#FFFDEF url(../../common/img/msg.update.png) no-repeat 1em .5em}
 /* Waiting for server response */
-.wfsr{display:none;position:absolute;position:fixed;left:0;top:0;z-index:100; border:1px solid #EAE9DC;background:#FFFDEF url(../../common/img/msg.update.png) no-repeat 1em .5em;margin:1em;padding:1em 1em 1em 55px;border-radius:5px;line-height:1.4;font-size:12px}
+.wfsr{display:none;position:absolute;position:fixed;left:0;top:0;z-index:100; border:1px solid #EAE9DC;background:#FFFDEF url(../../common/img/msg.loading.gif) no-repeat 1em .5em;margin:1em;padding:1em 1em 1em 55px;border-radius:5px;line-height:1.4;font-size:12px}
 /* Waiting for server response - Modal Window */
 .wfsr_fog{position:absolute;top:0;left:0;width:100%;_height:100%;min-height:100%;z-index:100}
 .wfsr_fog .bg{position:absolute;background:#000;_background:none;width:100%;height:100%;opacity:.5;z-index:2;filter:progid:DXImageTransform.Microsoft.Alpha(opacity=50);zoom:1}
 .wfsr_fog .ie6{position:absolute;left:0;top:0;width:100%;height:100%;border:0;opacity:0;filter:alpha(opacity=0);z-index:1}
-.wfsr_fog .message.update{background:#FFFDEF url(../../common/img/msg.loading.gif) no-repeat 1em .5em}
