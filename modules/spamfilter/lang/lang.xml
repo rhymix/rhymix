@@ -253,4 +253,8 @@ l'article qui comporte le mot ne sera pas affichagé.]]></value>
 		<value xml:lang="de"><![CDATA[Nein]]></value>
 		<value xml:lang="mn"><![CDATA[Дугаар]]></value>
 	</item>
+	<item name="invalid">
+		<value xml:lang="ko"><![CDATA[형식이 유효하지 않습니다.]]></value>
+		<value xml:lang="en"><![CDATA[The value is invalid.]]></value>
+	</item>
 </lang>
