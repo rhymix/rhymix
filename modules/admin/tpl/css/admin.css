@@ -109,7 +109,7 @@ body>.popup{margin:1em}
 /* Global Navigation Bar */
 .x .gnb{position:relative;clear:both;border:1px solid #c1c1c1;border-left:0;border-right:0;background-color:#efefef;background:#efefef -webkit-gradient(linear, 0% 0%, 0% 100%, from(#efefef), to(#dcdcdc));background:#efefef -moz-linear-gradient(top, #efefef, #dcdcdc);filter:progid:DXImageTransform.Microsoft.gradient(startColorStr=#efefef, endColorStr=#dcdcdc);zoom:1}
 .x .gnb ul{margin:0;padding:0 0 0 2em;list-style:none;border:1px solid #fff;border-left:0;border-right:0;zoom:1}
-.x .gnb ul ul{position:absolute;top:30px;left:0;border:1px solid #ccc;padding:0;background:#fff}
+.x .gnb ul ul{position:absolute;top:30px;left:0;border:1px solid #ccc;border-top:0;padding:1px 0 0 0;background:#fff}
 .x .gnb ul:after{content:"";display:block;clear:both}
 .x .gnb li{position:relative;float:left;border:1px solid #fff;border-top:0;border-bottom:0;margin:0 -1px 0 0}
 .x .gnb li li{float:none;clear:both;overflow:hidden;border:0;border-top:1px dotted #ccc;margin:0;padding:2px}
@@ -118,12 +118,12 @@ body>.popup{margin:1em}
 .x .gnb li a:hover,
 .x .gnb li a:active,
 .x .gnb li a:focus,
-.x .gnb li.active a,
-.x .gnb li.activeOn a{background:#fff;border:1px solid #ddd;padding:7px 17px}
-.x .gnb li li a{display:block;float:none;color:#555;padding:5px 15px !important;font-weight:normal !important;border:0 !important}
-.x .gnb li li a:hover,
-.x .gnb li li a:active,
-.x .gnb li li a:focus{border:0;background:#eee}
+.x .gnb li.active a{background:#f4f4f4;border:1px solid #ccc;border-bottom:0;padding:7px 17px 8px 17px}
+.x .gnb li.activeOn a{background:#fff;border:1px solid #ccc;border-bottom:0;padding:7px 17px 8px 17px}
+.x .gnb li.active li a{display:block;float:none;color:#555;background:#fff;padding:5px 15px !important;font-weight:normal !important;border:0 !important}
+.x .gnb li.active li a:hover,
+.x .gnb li.active li a:active,
+.x .gnb li.active li a:focus{border:0;background:#eee}
 .x .gnb .setting{position:absolute;top:8px;right:2em;width:16px;height:0;padding:16px 0 0 0;overflow:hidden;background:url(../img/iconSetting.gif) no-repeat center}
 .x .gnb.jx ul{display:block;position:static;padding:0}
 .x .gnb.jx li{float:none;clear:both;border-top:1px solid #ccc}
