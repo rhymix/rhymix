@@ -733,7 +733,15 @@
         function _setDBInfo(){
             $db_info = Context::getDBInfo();
             $this->master_db = $db_info->master_db;
-            $this->slave_db = $db_info->slave_db;
+            if($db_info->master_db["db_hostname"] == $db_info->slave_db[0]["db_hostname"]
+                    && $db_info->master_db["db_port"] == $db_info->slave_db[0]["db_port"]
+                    && $db_info->master_db["db_userid"] == $db_info->slave_db[0]["db_userid"]
+                    && $db_info->master_db["db_password"] == $db_info->slave_db[0]["db_password"]
+                    && $db_info->master_db["db_database"] == $db_info->slave_db[0]["db_database"]
+                    )
+                    $this->slave_db = &$this->master_db;
+            else
+                    $this->slave_db = $db_info->slave_db;
             $this->prefix = $db_info->master_db["db_table_prefix"];
         }
 
