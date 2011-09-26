@@ -68,7 +68,7 @@
 				</block>
 
 				<select cond="$var->type == 'select'" name="{$name}">
-					<option loop="$var->options => $key, $val" value="{$key}" selected="selected"|cond="$key == $var->value">{$val}</option>
+					<option loop="$var->options => $key, $val" value="{$key}" selected="selected"|cond="$key == $var->value">{$val->val}</option>
 				</select>
 
 				<block cond="$var->type == 'radio'">

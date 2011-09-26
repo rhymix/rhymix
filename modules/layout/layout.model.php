@@ -66,7 +66,16 @@
 	            if(!$output->data) return;
 	            // Return xml file informaton after listing up the layout and extra_vars
 	            $layout_info = $this->getLayoutInfo($layout, $output->data, $output->data->layout_type);
-	            //insert in cache
+
+				// If deleted layout files, delete layout instance
+				if (!$layout_info) {
+					$oLayoutController = &getAdminController('layout');
+					$oLayoutController->deleteLayout($layout_srl);
+					debugPrint('delete');
+					return;
+				}
+	            
+				//insert in cache
 	            if($oCacheHandler->isSupport()) $oCacheHandler->put($cache_key,$layout_info);
 			}
         	return $layout_info;
@@ -405,7 +414,7 @@
                             if(!is_array($options)) $options = array($options);
                             $options_count = count($options);
                             for($j=0;$j<$options_count;$j++) {
-                                $buff .= sprintf('$layout_info->extra_var->%s->options["%s"] = "%s";', $var->attrs->name, $options[$j]->value->body, $options[$j]->title->body);
+                                $buff .= sprintf('$layout_info->extra_var->%s->options["%s"]->val = "%s";', $var->attrs->name, $options[$j]->value->body, $options[$j]->title->body);
                             }
                         }
                     }
