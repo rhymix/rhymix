@@ -33,7 +33,13 @@
 						<!--@end-->
 					</td>
 					<td class="title">
-						<p><a href="{getUrl('','module','admin','act',$val->admin_index_act)}">{$val->title}</a></p>
+						<p>
+							<!--@if($val->admin_index_act)-->	
+							<a href="{getUrl('','module','admin','act',$val->admin_index_act)}">{$val->title}</a>
+							<!--@else-->
+							<strong>{$val->title}</strong>
+							<!--@end-->
+						</p>
 						<p>{$val->description}</p>
 							<p cond="$val->need_install" class="update">{$lang->msg_avail_install} <a href="#" onclick="doInstallModule('{$val->module}');return false;">{$lang->msg_do_you_like_install}</a></p>
 							<p cond="$val->need_update" class="update">{$lang->msg_avail_update} <a href=="#" onclick="doUpdateModule('{$val->module}'); return false;">{$lang->msg_do_you_like_update}</a></p>
