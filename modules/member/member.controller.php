@@ -1576,8 +1576,11 @@
             $logged_info = Context::get('logged_info');
             // If the date of the temporary restrictions limit further information on the date of
             if($config->limit_day) $args->limit_date = date("YmdHis", time()+$config->limit_day*60*60*24);
+
+            $args->member_srl = getNextSequence();
             // Enter the user's identity changed to lowercase
-            $args->user_id = strtolower($args->user_id);
+			if (!$args->user_id) $args->user_id = 't'.$args->member_srl;
+			else $args->user_id = strtolower($args->user_id);
             // Control of essential parameters
             if($args->allow_mailing!='Y') $args->allow_mailing = 'N';
             if($args->denied!='Y') $args->denied = 'N';
@@ -1610,7 +1613,6 @@
             $oDB = &DB::getInstance();
             $oDB->begin();
             // Insert data into the DB
-            $args->member_srl = getNextSequence();
             $args->list_order = -1 * $args->member_srl;
 			$args->nick_name = htmlspecialchars($args->nick_name);
 			$args->homepage = htmlspecialchars($args->homepage);
