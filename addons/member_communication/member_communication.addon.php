@@ -32,7 +32,7 @@
             $new_message_count = trim(FileHandler::readFile($flag_file));
             FileHandler::removeFile($flag_file);
             Context::loadLang('./addons/member_communication/lang');
-			Context::loadFile(array('./addons/member_communication/tpl/member_communication.js'));
+			Context::loadFile(array('./addons/member_communication/tpl/member_communication.js'), true);
 
 			$text   = preg_replace('@\r?\n@', '\\n', addslashes(Context::getLang('alert_new_message_arrived')));
 			$link   = Context::getRequestUri().'?module=communication&act=dispCommunicationNewMessage';

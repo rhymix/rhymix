@@ -16,6 +16,7 @@ window.xeNotifyMessage = function(text, count){
 			.appendTo(document.body);
 	}
 
+	text = text.replace('%d', count);
 	h = $bar.html('<a href="'+current_url.setQuery('act','dispCommunicationMessages')+'">'+text+'</a>').height();
 	$bar.css('top', -h-4).show().animate({top:0});
 
