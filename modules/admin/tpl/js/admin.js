@@ -1114,10 +1114,15 @@ $('.filebox')
 
 /* insert fog layer */
 function showWaitingFogLayer() {
-	jQuery('.wfsr').wrap('<div class="wfsr_fog" />');
+	var $bg = jQuery('<span class="bg"></span>');
+	$bg.height(jQuery(window).height());
+	jQuery('.wfsr')
+		.wrap('<div class="wfsr_fog" />')
+		.before($bg);
 }
 
 function hideWaitingFogLayer() {
+	jQuery('.wfsr').prev('span').remove();
 	jQuery('.wfsr').unwrap();
 }
 
@@ -1138,7 +1143,10 @@ function doUpdateModule(module) {
 }
 
 function completeInstallModule(ret_obj) {
-	hideWaitingFogLayer();
     alert(ret_obj['message']);
     location.reload();
 }
+
+jQuery(document).ready(function($){
+	$('body').ajaxComplete(function(){ hideWaitingFogLayer() });
+});
