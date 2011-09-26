@@ -252,7 +252,7 @@
             if($args->site_srl == 0) $vid='';
             else $vid=$args->domain;
 
-            $module_info = $oModuleModel->getModuleInfoByModuleSrl($args->index_module_srl)->mid;  
+            $module_info = $oModuleModel->getModuleInfoByModuleSrl($args->index_module_srl);  
             $mid = $module_info->mid;  
 
 	        $oCacheHandler = &CacheHandler::getInstance('object');
