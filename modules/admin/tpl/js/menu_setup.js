@@ -51,6 +51,20 @@ jQuery(function($){
 // menu - drag and drop
 jQuery(function($){
 
+$('form.siteMap')
+	.delegate('li:not(.placeholder)', 'dropped.st', function() {
+		var $this = $(this), $pkey, $mkey, is_child;
+
+		$pkey = $this.find('>input._parent_key');
+		is_child = !!$this.parent('ul').parent('li').length;
+
+		if(is_child) {
+			$pkey.val($this.parent('ul').parent('li').find('>input._item_key').val());
+		} else {
+			$pkey.val('0');
+		}
+	})
+
 var 
 	dragging = false,
 	$holder  = $('<li class="placeholder">');
