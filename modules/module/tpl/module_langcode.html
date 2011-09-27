@@ -16,6 +16,12 @@
 			<input type="hidden" name="act" value="procModuleAdminInsertLang" />
 			<input type="hidden" name="lang_name" value="{$langName}" />
 			<ul>
+				{@
+					/* move current language to the top */
+					$a = array($lang_type=>$lang_supported[$lang_type]);
+					unset($lang_supported[$lang_type]);
+					$lang_supported = array_merge($a, $lang_supported);
+				}
 				<li class="{$key2}" loop="$lang_supported=>$key2,$value2"><label for="{$langName}_{$key2}">{$value2}</label> <textarea rows="1" cols="42" name="{$key2}" id="{$langName}_{$key2}"></textarea></li>
 			</ul>
 			<div class="btnArea">

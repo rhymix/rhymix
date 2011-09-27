@@ -4,7 +4,7 @@ jQuery(function($){
 $('#langList')
 	.find('form').hide().attr('aria-hidden','true').end() // collapse all language input control
 	.delegate('button._edit', 'click', function(){
-		var $this = $(this), $form = $this.next('form');
+		var $this = $(this), $form = $this.parent().next('form');
 
 		// toggle input control
 		if($form.attr('aria-hidden') == 'false') {
@@ -22,14 +22,14 @@ $('#langList')
 		function on_complete(ret) {
 			var name = ret['lang_name'], list = ret['lang_list']['item'], elems = $form[0].elements, item;
 
-			$form.find('label+textarea').prev('label').css('visibility','hidden');
+			$form.find('label+textarea').prev('label').css('visibility','visible');
 
 			if(!$.isArray(list)) list = [list];
 			for(var i=0,c=list.length; i < c; i++) {
 				item = list[i];
 				if(item && item.lang_code && elems[item.lang_code]) {
 					elems[item.lang_code].value = item.value;
-					if(!item.value) $(elems[item.lang_code]).prev('label').css('visibility','visible');
+					if(item.value) $(elems[item.lang_code]).prev('label').css('visibility','hidden');
 				}
 			}
 		}
