@@ -14,38 +14,50 @@
         }
 
 
-		function procSpamfilterAdminInsertSetting() {
+		function procSpamfilterAdminInsertConfig() {
 
             // Get the default information
             $argsConfig = Context::gets('limits','check_trackback');
-			$ipaddressList = Context::get('ipaddressList');
-			$wordList = Context::get('wordList');
 			$flag = Context::get('flag');
 			//interval, limit_count
+            if($argsConfig->check_trackback!='Y') $argsConfig->check_trackback = 'N';
+       	    if($argsConfig->limits!='Y') $argsConfig->limits = 'N';
+            // Create and insert the module Controller object
+   	        $oModuleController = &getController('module');
+       	    $moduleConfigOutput = $oModuleController->insertModuleConfig('spamfilter',$argsConfig);
+			if(!$moduleConfigOutput->toBool()) return $moduleConfigOutput;
 
-			if(!$flag){
-	            if($argsConfig->check_trackback && $argsConfig->check_trackback!='Y') $argsConfig->check_trackback = 'N';
-				//컬럼 변경하거나. 변경이 불가능하다면 룰셋에서 값을 고정 할 수 잇는지 알아볼 것 (config에서 값을 10,2f로 세팅할 것)
-        	    if($argsConfig->limits && $argsConfig->limits!='Y') $argsConfig->limits = 'N';
-	            // Create and insert the module Controller object
-    	        $oModuleController = &getController('module');
-        	    $moduleConfigOutput = $oModuleController->insertModuleConfig('spamfilter',$argsConfig);
-				if(!$moduleConfigOutput->toBool()) return $moduleConfigOutput;
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispSpamfilterAdminSetting');
+				header('location:'.$returnUrl);
+				return;
 			}
-			
+            return false;
+		}
+
+		function procSpamfilterAdminInsertDeniedIP(){
 			//스팸IP  추가
+			$ipaddressList = Context::get('ipaddressList');
             $oSpamfilterController = &getController('spamfilter');
 			if($ipaddressList){
             	$insertIPOutput = $oSpamfilterController->insertIP($ipaddressList);
 				if(!$insertIPOutput->toBool()) return $insertIPOutput;
 			}
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispSpamfilterAdminSetting');
+				header('location:'.$returnUrl);
+				return;
+			}
+            return false;
 
+		}
+		function procSpamfilterAdminInsertDeniedWord(){
 			//스팸 키워드 추가
+			$wordList = Context::get('wordList');
           	if($wordList){
 				$insertWordOutput = $this->insertWord($wordList);
 				if(!$insertWordOutput->toBool()) return $insertWordOutput;
 			}
-
 			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
 				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispSpamfilterAdminSetting');
 				header('location:'.$returnUrl);

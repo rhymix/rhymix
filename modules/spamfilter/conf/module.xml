@@ -19,10 +19,13 @@
 	</menus>
     <actions>
         <action name="dispSpamfilterAdminSetting" type="view" admin_index="true" standalone="true" menu_name="spamFilter" menu_index="true" />
-        
+
+		<action name="procSpamfilterAdminInsertDeniedIP" type="controller" standalone="true" ruleset="insertDeniedIp" />
+        <action name="procSpamfilterAdminInsertDeniedWord" type="controller" standalone="true" ruleset="insertDeniedWord" />
+
         <action name="procSpamfilterAdminDeleteDeniedIP" type="controller" standalone="true" ruleset="deleteDeniedIp" />
         <action name="procSpamfilterAdminDeleteDeniedWord" type="controller" standalone="true" ruleset="deleteDeniedWord" />
-        <action name="procSpamfilterAdminInsertSetting" type="controller" standalone="true" ruleset="insertSetting" />
+        <action name="procSpamfilterAdminInsertConfig" type="controller" standalone="true" ruleset="insertSetting" />
 
 	</actions>
 </module>

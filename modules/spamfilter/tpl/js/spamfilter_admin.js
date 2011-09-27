@@ -19,31 +19,26 @@ function doDeleteDeniedWord(word) {
 	fo_obj.ruleset.value = 'deleteDeniedWord';
 	fo_obj.submit();
 }
-
-function checkSomeValid(some){
+function doInsertDeniedIP(msg_invalid_format){
 	var fo_obj = get_by_id('spamfilterInsert');
-
 	var reg_ipaddress = /^(\d{1,3}(?:.(\d{1,3}|\*)){3}\s*(\/\/[^\r\n]*)?[\r\n]*)*$/;
 	var matchStr_ipaddress = fo_obj.ipaddressList.value;
-	
+	if(!matchStr_ipaddress.match(reg_ipaddress)) { 
+		alert(msg_invalid_format); return false;
+	}
+	fo_obj.act.value = "procSpamfilterAdminInsertDeniedIP";
+	fo_obj.ruleset.value = "insertDeniedIp";
+	fo_obj.submit();
+}
+function doInsertDeniedWord(msg_invalid_format){
+	var fo_obj = get_by_id('spamfilterInsert');
 	var reg_word = /^(.{2,40}[\r\n]+)*.{0,40}$/;
 	var matchStr_word = fo_obj.wordList.value;
-	
-	var valid_word = true;
-	var valid_ip = true;
-	
-	if(!matchStr_ipaddress.match(reg_ipaddress)) valid_ip = false;
-	if(!matchStr_word.match(reg_word)) valid_word = false;
-
-	if(some == 'ip'){
-		fo_obj.wordList.value = '';
-		valid_word = true;
-	} else if(some == 'word'){
-		fo_obj.ipaddressList.value = '';
-		valid_ip = true;
+	if(!matchStr_word.match(reg_word)) { 
+		alert(msg_invalid_format); return false;
 	}
-
-	if(valid_ip && valid_word) return true; 
-	else return false;
+	fo_obj.act.value = "procSpamfilterAdminInsertDeniedWord";
+	fo_obj.ruleset.value = "insertDeniedWord";
+	fo_obj.submit();
 }
 

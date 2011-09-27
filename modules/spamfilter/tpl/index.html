@@ -1,26 +1,20 @@
 <script type="text/javascript">
-function doInsertDeniedSome(some){
-	if(!checkSomeValid(some)) {
-		alert('{$lang->invalid}');
-		return false;
-	} else {
-		jQuery("#spamfilterInsert").submit();	
-	}
-}
 </script>
 <load target="js/spamfilter_admin.js" usecdn="true" />
+<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+    <p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
 <form id="spamfilterDelete" action="" method="post">
 	<input type="hidden" name="act" value="" />
 	<input type="hidden" name="ipaddress" value="" />
 	<input type="hidden" name="word" value="" />
 	<input type="hidden" name="ruleset" value="">
 </form>
-<form action="" id="spamfilterInsert" class="form" ruleset="@insertSetting">
-	<input type="hidden" name="act" value="procSpamfilterAdminInsertSetting">
+<form action="" id="spamfilterConfig" class="form" ruleset="@insertConfig">
+	<input type="hidden" name="act" value="procSpamfilterAdminInsertConfig">
 	<input type="hidden" name="module" value="spamfilter">
-	<input type="hidden" name="ruleset" value="insertSetting">
-	<input type="hidden" name="flag" value="">
-	<h1 class="h1">Spam Filter</h1>
+	<input type="hidden" name="ruleset" value="insertConfig">
+	<h1 class="h1">{$lang->spamfilter}</h1>
 	<ul>
 		<li>
 			<p class="q">{$lang->cmd_interval}</p>
@@ -38,6 +32,16 @@ function doInsertDeniedSome(some){
 				<input type="radio" name="check_trackback" id="spamCond2_yes" value="N" <!--@if($config->check_trackback!='Y' &&  $config->check_trackback!='')--> checked="checked"<!--@end--> / > <label for="spamCond2_yes">{$lang->cmd_no}</label>
 			</p>
 		</li>
+	</ul>
+	<div class="btnArea">
+		<span class="btn medium"><input type="submit" value="Save" /></span>
+	</div>
+</form>
+<form action="" id="spamfilterInsert" class="form">
+	<input type="hidden" name="act" value="">
+	<input type="hidden" name="module" value="spamfilter">
+	<input type="hidden" name="ruleset" value="">
+	<ul>
 		<li>
 			<p class="q">{$lang->cmd_denied_ip}</p>
 			<div class="a">
@@ -51,7 +55,7 @@ function doInsertDeniedSome(some){
 			</div>
 			<p class="a">
 				<textarea rows="4" cols="42" name="ipaddressList" title="스팸 IP 추가"></textarea>
-				<span class="btn small"><button type="button" onclick="doInsertDeniedSome('ip')">{$lang->cmd_insert}</button></span>
+				<span class="btn small"><button type="button" onclick="doInsertDeniedIP('{$lang->msg_invalid_format}')">{$lang->cmd_insert}</button></span>
 				<span class="desc">{$lang->about_denied_ip}</span>
 			</p>
 		</li>
@@ -66,12 +70,9 @@ function doInsertDeniedSome(some){
 			</div>
 			<p class="a">
 				<textarea rows="4" cols="42" name="wordList" title="스팸 키워드 추가"></textarea>
-				<span class="btn small"><button type="button" onclick="doInsertDeniedSome('word')">{$lang->add}</button></span>
+				<span class="btn small"><button type="button" onclick="doInsertDeniedWord('{$lang->msg_invalid_format}')">{$lang->add}</button></span>
 				<span class="desc">{$lang->about_denied_word}</span>
 			</p>
 		</li>
 	</ul>
-	<div class="btnArea">
-		<span class="btn medium"><input type="submit" value="Save" /></span>
-	</div>
 </form>
