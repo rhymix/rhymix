@@ -41,6 +41,7 @@
 
             // get a list
             $oDocumentModel = &getModel('document');
+			$columnList = array('document_srl', 'title', 'member_srl', 'nick_name', 'readed_count', 'voted_count', 'blamed_count', 'regdate', 'ipaddress', 'status');
             $output = $oDocumentModel->getDocumentList($args);
 
 			// get Status name list
