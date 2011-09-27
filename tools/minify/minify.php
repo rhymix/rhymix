@@ -179,7 +179,7 @@ function get_target_files($ext, $dir, $files_to_skip) {
 }
 
 function closure_compile($content) {
-	require_once dirname(__FILE__).'/../classes/httprequest/XEHttpRequest.class.php';
+	require_once dirname(__FILE__).'/../../classes/httprequest/XEHttpRequest.class.php';
 
 	$req = new XEHttpRequest('closure-compiler.appspot.com', 80);
 	$ret = $req->send('/compile', 'POST', 5, array(
