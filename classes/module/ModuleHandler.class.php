@@ -220,7 +220,6 @@
 				}
 
 			}
-			unset($logged_info);
 			
 			// if(type == view, and case for using mobilephone)
 			if($type == "view" && Mobile::isFromMobilePhone() && Context::isInstalled())
@@ -244,6 +243,13 @@
 			if(!is_object($oModule)) {
 				$this->error = 'msg_module_does_not_exist';
 				return;
+			}
+
+			if($kind == 'admin' && $logged_info->is_admin == 'Y'){
+				$oAdminView = &getAdminView('admin');
+				$oAdminView->makeGnbUrl($forward->module);
+				$oModule->setLayoutPath("./modules/admin/tpl");
+				$oModule->setLayoutFile("layout.html");
 			}
 
 			// If there is no such action in the module object
@@ -298,11 +304,9 @@
 					}
                     $xml_info = $oModuleModel->getModuleActionXml($forward->module);
 					$oMemberModel = &getModel('member');
-					$logged_info = $oMemberModel->getLoggedInfo();
 
 					if($this->module == "admin" && $type == "view")
 					{
-						$logged_info = Context::get('logged_info');
 						if($logged_info->is_admin=='Y'){
 							if ($this->act != 'dispLayoutAdminLayoutModify')
 							{
@@ -387,11 +391,11 @@
 			}
 
 			if($type == "view" && $kind != 'admin'){
-        			$module_config= $oModuleModel->getModuleConfig('module');
-		                if($module_config->htmlFooter){
-                		        Context::addHtmlFooter($module_config->htmlFooter);
-	                	}
-        		}
+				$module_config= $oModuleModel->getModuleConfig('module');
+				if($module_config->htmlFooter){
+						Context::addHtmlFooter($module_config->htmlFooter);
+				}
+			}
 
 
             // if failed message exists in session, set context
@@ -427,6 +431,7 @@
 				$_SESSION['XE_VALIDATOR_RETURN_URL'] = $redirectUrl;
 			}	
 			
+			unset($logged_info);
             return $oModule;
         }
 
