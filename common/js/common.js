@@ -46,6 +46,7 @@ if(jQuery) jQuery.noConflict();
                         itemName = arguments[0];
                     } else {
                         $.extend(options, arguments[0] || {});
+						itemName = 'cart';
                     }
                     break;
                 case 2:
@@ -61,8 +62,8 @@ if(jQuery) jQuery.noConflict();
             } else {
                 var obj = $('input[name='+itemName+']:checkbox');
             }
-
-            if(options.checked == 'toggle') {
+			
+			if(options.checked == 'toggle') {
                 obj.each(function() {
                     $(this).attr('checked', ($(this).attr('checked')) ? false : true);
                 });
