@@ -739,7 +739,7 @@
                     && $db_info->master_db["db_password"] == $db_info->slave_db[0]["db_password"]
                     && $db_info->master_db["db_database"] == $db_info->slave_db[0]["db_database"]
                     )
-                    $this->slave_db = &$this->master_db;
+                    $this->slave_db[0] = &$this->master_db;
             else
                     $this->slave_db = $db_info->slave_db;
             $this->prefix = $db_info->master_db["db_table_prefix"];
