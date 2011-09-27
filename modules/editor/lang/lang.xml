@@ -10,6 +10,26 @@
 		<value xml:lang="tr"><![CDATA[Editor Preview]]></value>
 		<value xml:lang="vi"><![CDATA[Editor Preview]]></value>
 	</item>
+	<item name="main_editor">
+		<value xml:lang="ko"><![CDATA[본문 에디터]]></value>
+		<value xml:lang="en"><![CDATA[Main editor]]></value>
+		<value xml:lang="jp"><![CDATA[Main editor]]></value>
+		<value xml:lang="zh-CN"><![CDATA[Main editor]]></value>
+		<value xml:lang="zh-TW"><![CDATA[Main editor]]></value>
+		<value xml:lang="ru"><![CDATA[Main editor]]></value>
+		<value xml:lang="tr"><![CDATA[Main editor]]></value>
+		<value xml:lang="vi"><![CDATA[Main editor]]></value>
+	</item>
+	<item name="comment_editor">
+		<value xml:lang="ko"><![CDATA[댓글 에디터]]></value>
+		<value xml:lang="en"><![CDATA[Comment editor]]></value>
+		<value xml:lang="jp"><![CDATA[Comment editor]]></value>
+		<value xml:lang="zh-CN"><![CDATA[Comment editor]]></value>
+		<value xml:lang="zh-TW"><![CDATA[Comment editor]]></value>
+		<value xml:lang="ru"><![CDATA[Comment editor]]></value>
+		<value xml:lang="tr"><![CDATA[Comment editor]]></value>
+		<value xml:lang="vi"><![CDATA[Comment editor]]></value>
+	</item>
 	<item name="editor_option">
 		<value xml:lang="ko"><![CDATA[에디터 옵션]]></value>
 		<value xml:lang="en"><![CDATA[Editor Option]]></value>
