@@ -235,7 +235,7 @@ $.exec_xml = window.exec_xml = function(module, act, params, callback_func, resp
 	function onsuccess(data, textStatus, xhr) {
 		var resp_xml = $(data).find('response')[0], resp_obj, txt='', ret=[], tags={}, json_str='';
 
-		waiting_obj.css('display', 'none');
+		waiting_obj.css('display', 'none').trigger('cancel_confirm');
 
 		if(!resp_xml) {
 			alert(_xhr.responseText);
@@ -277,7 +277,6 @@ $.exec_xml = window.exec_xml = function(module, act, params, callback_func, resp
 		if($.isFunction(callback_func)) callback_func(ret, response_tags, callback_func_arg, fo_obj);
 	}
 
-	$(window).bind('beforeunload', beforeUnloadHandler);
 	// 모든 xml데이터는 POST방식으로 전송. try-catch문으로 오류 발생시 대처
 	try {
 		$.ajax({
@@ -303,9 +302,6 @@ $.exec_xml = window.exec_xml = function(module, act, params, callback_func, resp
 				try{
 					console.log(msg);
 				}catch(ee){}
-			},
-			complete	: function() {
-				$(window).unbind('beforeunload', beforeUnloadHandler);
 			}
 		});
 	} catch(e) {
@@ -353,9 +349,6 @@ function arr2obj(arr) {
 	return ret;
 }
 
-function beforeUnloadHandler(){
-	return '';
-}
 
 /**
  * @brief exec_json (exec_xml와 같은 용도)
@@ -365,7 +358,6 @@ $.exec_json = function(action,data,func){
     action = action.split(".");
     if(action.length == 2){
         if(show_waiting_message) $(".wfsr").html(waiting_message).show();
-		$(window).bind('beforeunload', beforeUnloadHandler);
 
         $.extend(data,{module:action[0],act:action[1]});
         if(typeof(xeVid)!='undefined') $.extend(data,{vid:xeVid});
@@ -376,13 +368,10 @@ $.exec_json = function(action,data,func){
             ,contentType:"application/json"
             ,data:$.param(data)
             ,success : function(data){
-                $(".wfsr").hide();
+                $(".wfsr").hide().trigger('cancel_confirm');
                 if(data.error > 0) alert(data.message);
                 if($.isFunction(func)) func(data);
             }
-			,complete : function(){
-				$(window).unbind('beforeunload', beforeUnloadHandler);
-			}
         });
     }
 };
@@ -395,7 +384,6 @@ $.fn.exec_html = function(action,data,type,func,args){
     action = action.split(".");
     if(action.length == 2){
         if(show_waiting_message) $(".wfsr").html(waiting_message).show();
-		$(window).bind('beforeunload', beforeUnloadHandler);
 
         $.extend(data,{module:action[0],act:action[1]});
         $.ajax({
@@ -404,14 +392,26 @@ $.fn.exec_html = function(action,data,type,func,args){
             ,url:request_uri
             ,data:$.param(data)
             ,success : function(html){
-                $(".wfsr").hide();
+                $(".wfsr").hide().trigger('cancel_confirm');
                 self[type](html);
                 if($.isFunction(func)) func(args);
             }
-			,complete : function(){
-				$(window).unbind('beforeunload', beforeUnloadHandler);
-			}
         });
     }
 };
+
+function beforeUnloadHandler(){
+	return '';
+}
+
+$(function($){
+	$('.wfsr')
+		.ajaxStart(function(){
+			$(window).bind('beforeunload', beforeUnloadHandler);
+		})
+		.bind('ajaxStop cancel_confirm', function(){
+			$(window).unbind('beforeunload', beforeUnloadHandler);
+		});
+});
+
 })(jQuery);
