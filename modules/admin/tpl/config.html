@@ -25,38 +25,7 @@ jQuery(function($){
 	<fieldset class="section">
 		<h2 class="h2">{$lang->subtitle_primary}</h2>
 		<ul>
-			<li>
-				<p class="q"><label for="time_zone">{$lang->about_timezone}</label></p>
-				<p class="a">
-					<select name="time_zone" id="time_zone" class="fullWidth">
-						<!--@foreach($time_zone_list as $key => $val)-->
-						<option value="{$key}" <!--@if($time_zone==$key)-->selected="selected"<!--@end-->>{$val}</option>
-						<!--@endforeach-->
-					</select>
-				</p>
-			</li>
-			<li>
-				<p class="q">{$lang->about_lang_select}</p>
-				<p class="a">
-					<!--@foreach($langs as $key => $val)-->
-					<!--@if($key==$selected_lang)-->
-					<input type="hidden" name="selected_lang[]" value="{$key}" />
-					<input type="checkbox" checked="checked" disabled="disabled" />
-					<label>{$val}</label>
-					<!--@else-->
-					<input type="checkbox" name="selected_lang[]" id="lang_{$key}" value="{$key}" <!--@if(isset($lang_selected[$key]))-->checked="checked" <!--@end-->/>
-					<label for="lang_{$key}">{$val}</label>
-					<!--@end-->
-					<!--@endforeach-->
-				</p>
-			</li>
-			<li>
-				<p class="q">{$lang->about_html_dtd}</p>
-				<p class="a">
-					<input type="radio" name="use_html5" id="xhtml" value="N" <!--@if($use_html5 != 'Y')-->checked="checked" <!--@end-->/> <label for="xhtml">{$lang->xhtml_transitional}</label>
-					<input type="radio" name="use_html5" id="html5" value="Y"  <!--@if($use_html5 == 'Y')-->checked="checked" <!--@end-->/> <label for="html5">{$lang->html5}</label>
-				</p>
-			</li>
+
 			<li class="modulefinder">
 				<p class="q">{$lang->about_start_module}</p>
 				<p class="a">
@@ -79,10 +48,28 @@ jQuery(function($){
 				</p>
 			</li>
 			<li>
-				<p class="q"><label for="">{$lang->about_use_rewrite}</label></p>
+				<p class="q">{$lang->about_lang_select}</p>
 				<p class="a">
-					<input type="radio" name="use_rewrite" id="use_rewrite_y" value="Y" <!--@if($use_rewrite == 'Y')-->checked="checked" <!--@end-->/> <label for="use_rewrite_y">{$lang->cmd_yes}</label>
-					<input type="radio" name="use_rewrite" id="use_rewrite_n" value="N" <!--@if($use_rewrite != 'Y')-->checked="checked" <!--@end-->/> <label for="use_rewrite_n">{$lang->cmd_no}</label>
+					<!--@foreach($langs as $key => $val)-->
+					<!--@if($key==$selected_lang)-->
+					<input type="hidden" name="selected_lang[]" value="{$key}" />
+					<input type="checkbox" checked="checked" disabled="disabled" />
+					<label>{$val}</label>
+					<!--@else-->
+					<input type="checkbox" name="selected_lang[]" id="lang_{$key}" value="{$key}" <!--@if(isset($lang_selected[$key]))-->checked="checked" <!--@end-->/>
+					<label for="lang_{$key}">{$val}</label>
+					<!--@end-->
+					<!--@endforeach-->
+				</p>
+			</li>
+			<li>
+				<p class="q"><label for="time_zone">{$lang->about_timezone}</label></p>
+				<p class="a">
+					<select name="time_zone" id="time_zone" class="fullWidth">
+						<!--@foreach($time_zone_list as $key => $val)-->
+						<option value="{$key}" <!--@if($time_zone==$key)-->selected="selected"<!--@end-->>{$val}</option>
+						<!--@endforeach-->
+					</select>
 				</p>
 			</li>
 			<li>
@@ -102,11 +89,8 @@ jQuery(function($){
 				</p>
 			</li>
 			<li>
-				<p class="q"><label for="admin_ip">{$lang->about_admin_ip_limit}</label>[<a href="#helpAdminip" class="tgAnchor">?</a>]</p>
-				<div class="tgContent layer" id="helpAdminip">
-					<p>{$lang->detail_about_admin_ip_limit}</p>
-				</div>
-				<p class="a"><input type="text" name="admin_ip" id="admin_ip" value="{$admin_ip}" /></p>
+				<p class="q">{$lang->input_footer_script}<p>
+				<p class="a"><textarea name="htmlFooter" id="htmlFooter" rows="4" cols="42">{$htmlFooter}</textarea></p>
 			</li>
 			<li>
 				<p class="q"><label for="ftp_host">{$lang->ftp_host}</label> [<a href="#helpFTP" class="tgAnchor">?</a>]</p>
@@ -175,16 +159,16 @@ jQuery(function($){
 		<h2 class="h2">{$lang->subtitle_advanced}</h2>
 		<ul>
 			<li>
+				<p class="q"><label for="admin_ip">{$lang->about_admin_ip_limit}</label>[<a href="#helpAdminip" class="tgAnchor">?</a>]</p>
+				<div class="tgContent layer" id="helpAdminip">
+					<p>{$lang->detail_about_admin_ip_limit}</p>
+				</div>
+				<p class="a"><input type="text" name="admin_ip" id="admin_ip" value="{$admin_ip}" /></p>
+			</li>
+			<li>
 				<p class="q"><label for="default_url">{$lang->default_url}</label></p>
 				<p class="a"><input type="text" name="default_url" id="default_url" value="{$default_url}"/></p>
 				<p class="desc">{$lang->about_default_url}</p>
-			</li>
-			<li>
-				<p class="q">{$lang->about_use_sso}</p>
-				<p class="a">
-					<input type="radio" name="use_sso" id="sso_y" value="Y" <!--@if($use_sso=='Y')-->checked="checked" <!--@end-->/> <label for="sso_y">{$lang->cmd_yes}</label>
-					<input type="radio" name="use_sso" id="sso_n" value="N" <!--@if($use_sso!='Y')-->checked="checked" <!--@end-->/> <label for="sso_n">{$lang->cmd_no}</label>
-				</p>
 			</li>
 			<li>
 				<p class="q">{$lang->use_ssl}</p>
@@ -195,6 +179,14 @@ jQuery(function($){
 				</p>
 			</li>
 			<li>
+				<p class="q">{$lang->server_ports}</p>
+				<p class="a">
+					<label for="">HTTP:</label> <input type="text" name="http_port" id="http_port" size="5" value="{$http_port}" style="width:40px" />
+					&nbsp;&nbsp;
+					<label for="">HTTPS:</label> <input type="text" name="https_port" id="https_port" size="5" value="{$https_port}" style="width:40px" />
+				</p>
+			</li>
+			<li>
 				<p class="q">{$lang->about_cdn}</p>
 				<p class="a">
 					<input type="radio" name="use_cdn" id="cdn_y" value="Y" <!--@if($use_cdn=='Y')-->checked="checked" <!--@end-->/> <label for="cdn_y">{$lang->cmd_yes}</label>
@@ -202,11 +194,17 @@ jQuery(function($){
 				</p>
 			</li>
 			<li>
-				<p class="q">{$lang->server_ports}</p>
+				<p class="q"><label for="">{$lang->about_use_rewrite}</label></p>
 				<p class="a">
-					<label for="">HTTP:</label> <input type="text" name="http_port" id="http_port" size="5" value="{$http_port}" style="width:40px" />
-					&nbsp;&nbsp;
-					<label for="">HTTPS:</label> <input type="text" name="https_port" id="https_port" size="5" value="{$https_port}" style="width:40px" />
+					<input type="radio" name="use_rewrite" id="use_rewrite_y" value="Y" <!--@if($use_rewrite == 'Y')-->checked="checked" <!--@end-->/> <label for="use_rewrite_y">{$lang->cmd_yes}</label>
+					<input type="radio" name="use_rewrite" id="use_rewrite_n" value="N" <!--@if($use_rewrite != 'Y')-->checked="checked" <!--@end-->/> <label for="use_rewrite_n">{$lang->cmd_no}</label>
+				</p>
+			</li>
+			<li>
+				<p class="q">{$lang->about_use_sso}</p>
+				<p class="a">
+					<input type="radio" name="use_sso" id="sso_y" value="Y" <!--@if($use_sso=='Y')-->checked="checked" <!--@end-->/> <label for="sso_y">{$lang->cmd_yes}</label>
+					<input type="radio" name="use_sso" id="sso_n" value="N" <!--@if($use_sso!='Y')-->checked="checked" <!--@end-->/> <label for="sso_n">{$lang->cmd_no}</label>
 				</p>
 			</li>
 			<li>
@@ -224,8 +222,11 @@ jQuery(function($){
 				</p>
 			</li>
 			<li>
-				<p class="q">{$lang->input_footer_script}<p>
-				<p class="a"><textarea name="htmlFooter" id="htmlFooter" rows="4" cols="42">{$htmlFooter}</textarea></p>
+				<p class="q">{$lang->about_html_dtd}</p>
+				<p class="a">
+					<input type="radio" name="use_html5" id="xhtml" value="N" <!--@if($use_html5 != 'Y')-->checked="checked" <!--@end-->/> <label for="xhtml">{$lang->xhtml_transitional}</label>
+					<input type="radio" name="use_html5" id="html5" value="Y"  <!--@if($use_html5 == 'Y')-->checked="checked" <!--@end-->/> <label for="html5">{$lang->html5}</label>
+				</p>
 			</li>
 		</ul>
 	</fieldset>
