@@ -372,6 +372,7 @@
          **/
         function getGroups($site_srl = 0) {
             if(!$GLOBALS['__group_info__'][$site_srl]) {
+		if(!isset($site_srl)) $site_srl = 0;
                 $args->site_srl = $site_srl;
 				$args->sort_index = 'list_order';
 				$args->order_type = 'asc';
