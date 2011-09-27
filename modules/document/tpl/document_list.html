@@ -80,6 +80,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 		<form action="./" method="post" class="fg form" id="manageForm">
 		<input type="hidden" name="act" value="procDocumentManageCheckedDocument" />
 		<input type="hidden" name="type" value="" />
+		<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList', 'search_target', $search_target, 'search_keyword', $search_keyword)}" cond="!empty($search_target) && !empty($search_keyword)" />
 			<h2 class="h2">{$lang->document_manager}</h2>
 			<div class="table even">
 				<table width="100%" border="1" cellspacing="0" id="documentManageListTable">
