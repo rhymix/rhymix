@@ -5,7 +5,7 @@
 	<div class="table">
 		<table width="100%" border="1" cellspacing="0">
 		<tr>
-			<th scope="col"><div>{$lang->thumbnail_type}</div></th>
+			<th scope="col">{$lang->thumbnail_type}</th>
 		</tr>
 		<tr>
 			<td>
@@ -13,12 +13,10 @@
 				<input type="radio" name="thumbnail_type" value="ratio" <!--@if($config->thumbnail_type == 'ratio')-->checked="checked"<!--@end-->/> {$lang->thumbnail_ratio}
 			</td>
 		</tr>
-		<tr>
-			<th class="button"><span class="button black strong"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span></th>
-		</tr>
 		</table>
 	</div>
     <div class="btnArea">
+		<span class="btn"><input type="submit" value="{$lang->cmd_registration}" /></span>
 		<span class="btn"><input type="button" value="{$lang->cmd_delete_all_thumbnail}" onclick="doDeleteAllThumbnail(); return false;"/></span>
 	</div>
 </form>

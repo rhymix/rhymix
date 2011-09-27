@@ -2,7 +2,7 @@
 <load target="js/member_admin.js" usecdn="true" />
 <!--#include("header.html")-->
 
-<form action="./" method="get" onsubmit="return procFilter(this, delete_member)" class="gap1">
+<form action="./" method="get" onsubmit="return procFilter(this, delete_member)">
 	<input type="hidden" name="page" value="{$page}" />
 	<input type="hidden" name="member_srl" value="{$member_info->member_srl}" />
     <h3 class="h3">{$lang->confirm_delete}</h3>
@@ -10,7 +10,7 @@
 		<table width="100%" border="1" cellspacing="0">
 			<tr>
 				<th scope="row">{$lang->user_id}</th>
-				<td class="wide">{$member_info->user_id}</td>
+				<td>{$member_info->user_id}</td>
 			</tr>
 			<tr>
 				<th scope="row">{$lang->nick_name}</th>
@@ -20,13 +20,10 @@
 				<th scope="row">{$lang->email_address}</th>
 				<td>{$member_info->email_address}</td>
 			</tr>
-			<tr>
-				<th colspan="2" class="button">
-					<span class="button black strong"><input type="submit" value="{$lang->cmd_delete}" /></span>
-					<a href="{getUrl('act','dispMemberAdminList')}" class="button"><span>{$lang->cmd_back}</span></a>
-				</th>
-			</tr>
 		</table>
+	</div>
+	<div class="btnArea">
+		<span class="btn"><input type="submit" value="{$lang->cmd_delete}" /></span>
 	</div>
 </form>
 

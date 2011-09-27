@@ -5,141 +5,140 @@
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <form ruleset="insertPage" id="fo_insert_page" action="./" method="post" enctype="multipart/form-data">
-<input type="hidden" name="act" value="procPageAdminInsert" />
-<input type="hidden" name="page" value="{$page}" />
-<input type="hidden" name="module_srl" value="{$module_srl}" />
-    <table cellspacing="0" class="rowTable topGap">
-	<!--@if($module_srl)-->
-    <tr class="row2">
-        <th scope="row"><div>{$lang->page_type}</div></th>
-			<td></td>
-	</tr>
-	<!--@else-->
-    <tr class="row2">
-        <th scope="row"><div>{$lang->page_type}</div></th>
-        <td colspan="3">
-            <select name="page_type">
-                <option value="">{$lang->click_choice}</option>
-                <option value="WIDGET">{$lang->page_type_name['WIDGET']}</option>
-                <option value="ARTICLE">{$lang->page_type_name['ARTICLE']}</option>
-                <option value="OUTSIDE">{$lang->page_type_name['OUTSIDE']}</option>
-            </select>
-            <p>{$lang->about_page_type}</p>
-        </td>
-    </tr>
-	<!--@end-->
-    <!--@if($logged_info->is_admin!='Y')-->
-    <input type="hidden" name="page_name" value="{$module_info->mid}" />
-    <!--@else-->
-    <tr class="row2">
-        <th scope="row"><div>{$lang->mid}</div></th>
-        <td colspan="3">
-            <input type="text" name="page_name" value="{$module_info->mid}" class="inputTypeText w200" />
-            <p>{$lang->about_mid}</p>
-        </td>
-    </tr>
-    <!--@end-->
-    <tr class="row2">
-        <th scope="row"><div>{$lang->module_category}</div></th>
-        <td colspan="3">
-            <select name="module_category_srl">
-                <option value="0">{$lang->notuse}</option>
-                <!--@foreach($module_category as $key => $val)-->
-                <option value="{$key}" <!--@if($module_info->module_category_srl==$key)-->selected="selected"<!--@end-->>{$val->title}</option>
-                <!--@end-->
-            </select>
-            <p>{$lang->about_module_category}</p>
-        </td>
-    </tr>
-    <tr>
-        <th scope="row"><div>{$lang->browser_title}</div></th>
-        <td colspan="3">
-            <input type="text" name="browser_title" value="{$module_info->browser_title}"  class="inputTypeText w400" id="browser_title"/>
-            <a href="{getUrl('','module','module','act','dispModuleAdminLangcode','target','browser_title')}" onclick="popopen(this.href);return false;" class="buttonSet buttonSetting"><span>{$lang->cmd_find_langcode}</span></a>
-            <p>{$lang->about_browser_title}</p>
-        </td>
-    </tr>
-    <tr class="row2">
-        <th scope="row"><div>{$lang->layout}</div></th>
-        <td colspan="3">
-            <select name="layout_srl">
-            <option value="0">{$lang->notuse}</option>
-            <!--@foreach($layout_list as $key => $val)-->
-            <option value="{$val->layout_srl}" <!--@if($module_info->layout_srl==$val->layout_srl)-->selected="selected"<!--@end-->>{$val->title} ({$val->layout})</option>
-            <!--@end-->
-            </select>
-            <p>{$lang->about_layout}</p>
-        </td>
-    </tr>
-	<tr>
-		<th scope="row"><div>{$lang->mobile_view}</div></th>
-		<td>
-			<input type="checkbox" name="use_mobile" value="Y" <!--@if($module_info->use_mobile == "Y")-->checked="checked"<!--@end--> />
-			<p>{$lang->about_mobile_view}</p>
-		</td>
-	</tr>
-    <tr>
-        <th scope="row"><div>{$lang->mobile_layout}</div></th>
-        <td>
-            <select name="mlayout_srl">
-            <option value="0">{$lang->notuse}</option>
-            <!--@foreach($mlayout_list as $key => $val)-->
-            <option value="{$val->layout_srl}" <!--@if($module_info->mlayout_srl==$val->layout_srl)-->selected="selected"<!--@end-->>{$val->title} ({$val->layout})</option>
-            <!--@end-->
-            </select>
-            <p>{$lang->about_layout}</p>
-        </td>
-    </tr>
-    <tr class="optionnalData widgetType outsideType">
-        <th scope="row"><div>{$lang->page_caching_interval}</div></th>
-        <td colspan="3">
-            <input type="text" name="page_caching_interval" value="{(int)$module_info->caching_interval}"  class="inputTypeText w40" /> {$lang->unit_min}
-            <p>{$lang->about_page_caching_interval}</p>
-        </td>
-    </tr>
-    <tr class="row2 optionnalData articleType">
-        <th scope="row"><div>{$lang->skin}</div></th>
-        <td>
-            <select name="skin">
-                <!--@foreach($skin_list as $key=>$val)-->
-                <option value="{$key}" <!--@if($module_info->skin==$key ||(!$module_info->skin && $key=='default'))-->selected="selected"<!--@end-->>{$val->title}</option>
-                <!--@end-->
-            </select>
-            <p>{$lang->about_skin}</p>
-        </td>
-    </tr>
-    <tr class="optionnalData articleType">
-        <th scope="row"><div>{$lang->mobile_skin}</div></th>
-        <td>
-            <select name="mskin">
-                <!--@foreach($mskin_list as $key=>$val)-->
-                <option value="{$key}" <!--@if($module_info->mskin==$key ||(!$module_info->mskin && $key=='default'))-->selected="selected"<!--@end-->>{$val->title}</option>
-                <!--@end-->
-            </select>
-            <p>{$lang->about_skin}</p>
-        </td>
-    </tr>
-    <tr class="row2 optionnalData outsideType">
-        <th scope="row"><div>{$lang->opage_path}</div></th>
-        <td colspan="3">
-            <input type="text" name="path" value="{htmlspecialchars($module_info->path)}"  class="inputTypeText w400" />
-            <p>{$lang->about_opage_path}<b>{realpath("./")}</b></p>
-        </td>
-    </tr>
-    <tr class="row optionnalData outsideType">
-        <th scope="row"><div>{$lang->opage_mobile_path}</div></th>
-        <td colspan="3">
-            <input type="text" name="mpath" value="{htmlspecialchars($module_info->mpath)}"  class="inputTypeText w400" />
-            <p>{$lang->about_opage_mobile_path}<b>{realpath("./")}</b></p>
-        </td>
-    </tr>
-    <tr class="row2">
-        <th colspan="4" class="button">
-            <span class="button black strong"><input type="submit" value="{$lang->cmd_save}" accesskey="s" /></span>
-        </th>
-    </tr>
-    </table>
-
+	<input type="hidden" name="act" value="procPageAdminInsert" />
+	<input type="hidden" name="page" value="{$page}" />
+	<input type="hidden" name="module_srl" value="{$module_srl}" />
+	<div class="table">
+		<table width="100%" border="1" cellspacing="0">
+			<!--@if($module_srl)-->
+			<tr class="row2">
+				<th scope="row">{$lang->page_type}</th>
+				<td></td>
+				</tr>
+			<!--@else-->
+			<tr class="row2">
+				<th scope="row">{$lang->page_type}</th>
+				<td colspan="3">
+					<select name="page_type">
+						<option value="">{$lang->click_choice}</option>
+						<option value="WIDGET">{$lang->page_type_name['WIDGET']}</option>
+						<option value="ARTICLE">{$lang->page_type_name['ARTICLE']}</option>
+						<option value="OUTSIDE">{$lang->page_type_name['OUTSIDE']}</option>
+						</select>
+					<p>{$lang->about_page_type}</p>
+					</td>
+				</tr>
+			<!--@end-->
+			<!--@if($logged_info->is_admin!='Y')-->
+			<input type="hidden" name="page_name" value="{$module_info->mid}" />
+			<!--@else-->
+			<tr class="row2">
+				<th scope="row">{$lang->mid}</th>
+				<td colspan="3">
+					<input type="text" name="page_name" value="{$module_info->mid}" class="inputTypeText w200" />
+					<p>{$lang->about_mid}</p>
+					</td>
+				</tr>
+			<!--@end-->
+			<tr class="row2">
+				<th scope="row">{$lang->module_category}</th>
+				<td colspan="3">
+					<select name="module_category_srl">
+						<option value="0">{$lang->notuse}</option>
+						<!--@foreach($module_category as $key => $val)-->
+						<option value="{$key}" <!--@if($module_info->module_category_srl==$key)-->selected="selected"<!--@end-->>{$val->title}</option>
+						<!--@end-->
+						</select>
+					<p>{$lang->about_module_category}</p>
+					</td>
+				</tr>
+			<tr>
+				<th scope="row">{$lang->browser_title}</th>
+				<td colspan="3">
+					<input type="text" name="browser_title" value="{$module_info->browser_title}"  class="inputTypeText w400" id="browser_title"/>
+					<a href="{getUrl('','module','module','act','dispModuleAdminLangcode','target','browser_title')}" onclick="popopen(this.href);return false;" class="buttonSet buttonSetting"><span>{$lang->cmd_find_langcode}</span></a>
+					<p>{$lang->about_browser_title}</p>
+					</td>
+				</tr>
+			<tr class="row2">
+				<th scope="row">{$lang->layout}</th>
+				<td colspan="3">
+					<select name="layout_srl">
+						<option value="0">{$lang->notuse}</option>
+						<!--@foreach($layout_list as $key => $val)-->
+						<option value="{$val->layout_srl}" <!--@if($module_info->layout_srl==$val->layout_srl)-->selected="selected"<!--@end-->>{$val->title} ({$val->layout})</option>
+						<!--@end-->
+						</select>
+					<p>{$lang->about_layout}</p>
+					</td>
+				</tr>
+			<tr>
+				<th scope="row">{$lang->mobile_view}</th>
+				<td>
+					<input type="checkbox" name="use_mobile" value="Y" <!--@if($module_info->use_mobile == "Y")-->checked="checked"<!--@end--> />
+					<p>{$lang->about_mobile_view}</p>
+					</td>
+				</tr>
+			<tr>
+				<th scope="row">{$lang->mobile_layout}</th>
+				<td>
+					<select name="mlayout_srl">
+						<option value="0">{$lang->notuse}</option>
+						<!--@foreach($mlayout_list as $key => $val)-->
+						<option value="{$val->layout_srl}" <!--@if($module_info->mlayout_srl==$val->layout_srl)-->selected="selected"<!--@end-->>{$val->title} ({$val->layout})</option>
+						<!--@end-->
+						</select>
+					<p>{$lang->about_layout}</p>
+					</td>
+				</tr>
+			<tr class="optionnalData widgetType outsideType">
+				<th scope="row">{$lang->page_caching_interval}</th>
+				<td colspan="3">
+					<input type="text" name="page_caching_interval" value="{(int)$module_info->caching_interval}"  class="inputTypeText w40" /> {$lang->unit_min}
+					<p>{$lang->about_page_caching_interval}</p>
+					</td>
+				</tr>
+			<tr class="row2 optionnalData articleType">
+				<th scope="row">{$lang->skin}</th>
+				<td>
+					<select name="skin">
+						<!--@foreach($skin_list as $key=>$val)-->
+						<option value="{$key}" <!--@if($module_info->skin==$key ||(!$module_info->skin && $key=='default'))-->selected="selected"<!--@end-->>{$val->title}</option>
+						<!--@end-->
+						</select>
+					<p>{$lang->about_skin}</p>
+					</td>
+				</tr>
+			<tr class="optionnalData articleType">
+				<th scope="row">{$lang->mobile_skin}</th>
+				<td>
+					<select name="mskin">
+						<!--@foreach($mskin_list as $key=>$val)-->
+						<option value="{$key}" <!--@if($module_info->mskin==$key ||(!$module_info->mskin && $key=='default'))-->selected="selected"<!--@end-->>{$val->title}</option>
+						<!--@end-->
+						</select>
+					<p>{$lang->about_skin}</p>
+					</td>
+				</tr>
+			<tr class="row2 optionnalData outsideType">
+				<th scope="row">{$lang->opage_path}</th>
+				<td colspan="3">
+					<input type="text" name="path" value="{htmlspecialchars($module_info->path)}"  class="inputTypeText w400" />
+					<p>{$lang->about_opage_path}<b>{realpath("./")}</b></p>
+					</td>
+				</tr>
+			<tr class="row optionnalData outsideType">
+				<th scope="row">{$lang->opage_mobile_path}</th>
+				<td colspan="3">
+					<input type="text" name="mpath" value="{htmlspecialchars($module_info->mpath)}"  class="inputTypeText w400" />
+					<p>{$lang->about_opage_mobile_path}<b>{realpath("./")}</b></p>
+					</td>
+				</tr>
+		</table>
+	</div>
+    <div class="btnArea">
+		<span class="btn"><input type="submit" value="{$lang->cmd_save}" /></span>
+	</div>
 </form>
 <script type="text/javascript">
 (function($){
@@ -150,8 +149,6 @@
 		if(select != ""){
 			$('.'+select.toLowerCase()+'Type').show();
 		}
-
-		
 	});
  })(jQuery);
 </script>

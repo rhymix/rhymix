@@ -42,11 +42,9 @@
 				<td><a href="#" onclick="doDeleteLayout('{$val->layout_srl}');return false;" title="{htmlspecialchars($lang->cmd_delete)}" class="buttonSet buttonDelete"><span>{$lang->cmd_delete}</span></a></td>
 			</tr>
 			<!--@end-->
-			<tr class="row2">
-				<th colspan="7" class="button">
-					<a href="{getUrl('act','dispLayoutAdminInsert','layout_srl','')}" class="button black strong"><span>{$lang->cmd_make}</span></a>
-				</th>
-			</tr>
 		</tbody>
 	</table>
+</div>
+<div class="btnArea">
+	<span class="btn"><a href="{getUrl('act','dispLayoutAdminInsert','layout_srl','')}">{$lang->cmd_make}</a></span>
 </div>

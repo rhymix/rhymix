@@ -14,7 +14,7 @@
         {$lang->msg_no_result}
         <!--@if($last_division)-->
         <br />{$lang->msg_document_more_search}
-        <br /><a href="{getUrl('where','document','page',1,'document_srl','','search_target',$search_target,'is_keyword',$is_keyword,'division',$last_division,'last_division','')}" class="button"><span>{$lang->cmd_search_next}</span></a>
+        <br /><span class="btn"><a href="{getUrl('where','document','page',1,'document_srl','','search_target',$search_target,'is_keyword',$is_keyword,'division',$last_division,'last_division','')}">{$lang->cmd_search_next}</a></span>
         <!--@end-->
     </span>
 <!--@else-->

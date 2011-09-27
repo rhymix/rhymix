@@ -51,7 +51,7 @@
 			<tr>
 				<th scope="row">{$lang->menu_normal_btn}</th>
 				<td> <div id="menu_normal_btn_zone" <!--@if(!$item_info->normal_btn)-->style="display:none;"<!--@end-->> <img src="{$item_info->normal_btn}" alt="" id="menu_normal_btn_img" /><br />
-					<a href="#" onclick="doDeleteButton('menu_normal_btn');return false;" class="button"><span>{$lang->cmd_delete}</span></a>
+					<button type="button" onclick="doDeleteButton('menu_normal_btn');">{$lang->cmd_delete}</button>
 			
 					</div>
 			
@@ -65,7 +65,7 @@
 			<tr>
 				<th scope="row">{$lang->menu_hover_btn}</th>
 				<td> <div id="menu_hover_btn_zone") <!--@if(!$item_info->hover_btn)-->style="display:none;"<!--@end-->> <img src="{$item_info->hover_btn}" alt="" id="menu_hover_btn_img" /><br />
-					<a href="#" onclick="doDeleteButton('menu_hover_btn');return false;" class="button"><span>{$lang->cmd_delete}</span></a>
+					<button type="button" onclick="doDeleteButton('menu_hover_btn');return false;">{$lang->cmd_delete}</button>
 			
 					</div>
 			
@@ -79,7 +79,7 @@
 			<tr>
 				<th scope="row">{$lang->menu_active_btn}</th>
 				<td> <div id="menu_active_btn_zone" <!--@if(!$item_info->active_btn)-->style="display:none;"<!--@end-->> <img src="{$item_info->active_btn}" alt="" id="menu_active_btn_img" /><br />
-					<a href="#" onclick="doDeleteButton('menu_active_btn');return false;" class="button"><span>{$lang->cmd_delete}</span></a>
+					<button type="button" onclick="doDeleteButton('menu_active_btn');return false;">{$lang->cmd_delete}</button>
 			
 					</div>
 			

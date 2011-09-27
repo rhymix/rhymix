@@ -18,107 +18,106 @@
     <input type="hidden" name="success_return_url" value="{getUrl('', 'module', $module, 'act', $act, 'module_srl', $module_srl)}" />
 
         <h3 class="h3">{$lang->extra_vars} {$selected_var_idx}</h3>
-        <table cellspacing="0" class="crossTable ">
-        <tr>
-            <th><div>{$lang->eid}</div></th>
-            <td class="wide">
-                <input type="text" name="eid" value="{$selected_var->eid}" class="inputTypeText w200" id="eid" /><p>{$lang->about_extra_vars_eid_value}</p>
-            </td>
-        </tr>
-        <tr>
-            <th><div>{$lang->column_name}</div></th>
-            <td class="wide">
-                <input type="text" name="name" value="{$selected_var->name}" class="inputTypeText w200" id="name" /><a href="{getUrl('','module','module','act','dispModuleAdminLangcode','target','name')}" onclick="popopen(this.href);return false;" class="buttonSet buttonSetting"><span>{$lang->cmd_find_langcode}</span></a> 
-            </td>
-        </tr>
-        <tr>
-            <th><div>{$lang->column_type}</div></th>
-            <td>
-                <select name="type">
-                    <!--@foreach($lang->column_type_list as $k => $v)-->
-                        <!--@if($key != 'kr_zip')-->
-                        <option value="{$k}" <!--@if($selected_var->type==$k)-->selected="selected"<!--@end-->>{$lang->column_type_list[$k]}</option>
-                        <!--@end-->
-                    <!--@end-->
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <th><div>{$lang->is_required}</div></th>
-            <td><input type="checkbox" name="is_required" value="Y" <!--@if($selected_var->is_required=='Y')-->checked="checked"<!--@end--> /></td>
-        </tr>
-        <tr>
-            <th><div>{$lang->default_value}</div></th>
-            <td><input type="text" name="default" value="{$selected_var->default}" class="inputTypeText w400" /><p>{$lang->about_extra_vars_default_value}</p></td>
-        </tr>
-        <tr>
-            <th><div>{$lang->description}</div></th>
-            <td><input type="text" name="desc" value="{$selected_var->desc}" id="desc" class="inputTypeText w400" /><a href="{getUrl('','module','module','act','dispModuleAdminLangcode','target','desc')}" onclick="popopen(this.href);return false;" class="buttonSet buttonSetting"><span>{$lang->cmd_find_langcode}</span></a></td>
-        </tr>
-        <tr>
-            <th><div>{$lang->cmd_search}</div></th>
-            <td><input type="checkbox" name="search" value="Y" <!--@if($selected_var->search=='Y')-->checked="checked"<!--@end--> /></td>
-        </tr>
-        <tr>
-            <th colspan="2" class="button">
-                <!--@if($selected_var)-->
-                <span class="button strong black"><input type="submit" value="{$lang->cmd_modify}" accesskey="s" /></span>
-                <!--@else-->
-                <span class="button strong black"><input type="submit" value="{$lang->cmd_insert}" accesskey="s" /></span>
-                <!--@end-->
-                <a href="{getUrl('type','','selected_var_idx','')}"  class="button"><span>{$lang->cmd_back}</span></a>
-            </th>
-        </tr>
-        </table>
-
-    </form>
+		<div class="table">
+			<table width="100%" border="1" cellspacing="0">
+				<tr>
+					<th>{$lang->eid}</th>
+					<td class="wide">
+						<input type="text" name="eid" value="{$selected_var->eid}" class="inputTypeText w200" id="eid" /><p>{$lang->about_extra_vars_eid_value}</p>
+					</td>
+				</tr>
+				<tr>
+					<th>{$lang->column_name}</th>
+					<td class="wide">
+						<input type="text" name="name" value="{$selected_var->name}" class="inputTypeText w200" id="name" /><a href="{getUrl('','module','module','act','dispModuleAdminLangcode','target','name')}" onclick="popopen(this.href);return false;" class="buttonSet buttonSetting"><span>{$lang->cmd_find_langcode}</span></a> 
+					</td>
+				</tr>
+				<tr>
+					<th>{$lang->column_type}</th>
+					<td>
+						<select name="type">
+							<!--@foreach($lang->column_type_list as $k => $v)-->
+							<!--@if($key != 'kr_zip')-->
+							<option value="{$k}" <!--@if($selected_var->type==$k)-->selected="selected"<!--@end-->>{$lang->column_type_list[$k]}</option>
+							<!--@end-->
+							<!--@end-->
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th>{$lang->is_required}</th>
+					<td><input type="checkbox" name="is_required" value="Y" <!--@if($selected_var->is_required=='Y')-->checked="checked"<!--@end--> /></td>
+				</tr>
+				<tr>
+					<th>{$lang->default_value}</th>
+					<td><input type="text" name="default" value="{$selected_var->default}" class="inputTypeText w400" /><p>{$lang->about_extra_vars_default_value}</p></td>
+				</tr>
+				<tr>
+					<th>{$lang->description}</th>
+					<td><input type="text" name="desc" value="{$selected_var->desc}" id="desc" class="inputTypeText w400" /><a href="{getUrl('','module','module','act','dispModuleAdminLangcode','target','desc')}" onclick="popopen(this.href);return false;" class="buttonSet buttonSetting"><span>{$lang->cmd_find_langcode}</span></a></td>
+				</tr>
+				<tr>
+					<th>{$lang->cmd_search}</th>
+					<td><input type="checkbox" name="search" value="Y" <!--@if($selected_var->search=='Y')-->checked="checked"<!--@end--> /></td>
+				</tr>
+			</table>
+		</div>
+		<div class="btnArea">
+			<!--@if($selected_var)-->
+			<span class="btn"><input type="submit" value="{$lang->cmd_modify}" /></span>
+			<!--@else-->
+			<span class="btn"><input type="submit" value="{$lang->cmd_insert}" /></span>
+			<!--@end-->
+			<span class="btn"><a href="{getUrl('type','','selected_var_idx','')}">{$lang->cmd_back}</a></span>
+		</div>
+	</form>
 <!--@else-->
 
     <h3 class="h3">{$lang->extra_vars}</h3>
-    <table cellspacing="0" class="crossTable ">
-    <thead>
-    <tr>
-        <th><div>{$lang->no}</div></th>
-        <th><div>{$lang->eid}</div></th>
-        <th><div>{$lang->column_name}</div></th>
-        <th><div>{$lang->column_type}</div></th>
-        <th><div>{$lang->is_required}</div></th>
-        <th><div>{$lang->cmd_search}</div></th>
-        <th><div>&nbsp;</div></th>
-    </tr>
-    </thead>
-    <tbody>
-    <!--@foreach($extra_keys as $key => $val)-->
-    <tr>
-        <td rowspan="3">{$val->idx}</td>
-        <td rowspan="3">{$val->eid}</td>
-        <td class="nowrap"><b>{$val->name}</b></td>
-        <td class="nowrap">{$lang->column_type_list[$val->type]}</td>
-        <td rowspan="3"><!--@if($val->is_required=='Y')--><b>{$lang->is_required}</b><!--@else-->N<!--@end--></td>
-        <td rowspan="3"><!--@if($val->search=='Y')--><b>{$lang->search_target}</b><!--@else-->N<!--@end--></td>
-        <td rowspan="3" class="nowrap">
-            <!--@if($val->idx>1)--><a href="#" onclick="moveVar('up','{$module_srl}','{$val->idx}'); return false;" class="buttonSet buttonUp"><span>{$lang->cmd_modify}</span></a><!--@end-->
-            <a href="#" onclick="moveVar('down','{$module_srl}','{$val->idx}');return false;" class="buttonSet buttonDown"><span>{$lang->cmd_modify}</a></span>
-            <a href="{getUrl('selected_var_idx',$val->idx)}" class="buttonSet buttonSetting"><span>{$lang->cmd_modify}</span></a>
-            <a href="#" onclick="return doDeleteExtraKey('{$module_srl}','{$val->idx}');" class="buttonSet buttonDelete"><span>{$lang->cmd_delete}</span></a>
-        </td>
-    </tr>
-    <tr>
-        <td>{$lang->default_value}</td>
-        <td class="wide">{$val->default}&nbsp;</td>
-    </tr>
-    <tr>
-        <td>{$lang->description}</td>
-        <td class="wide">{$val->desc}&nbsp;</td>
-    </tr>
-    <!--@end-->
-    <tr>
-        <th colspan="9" class="button">
-            <a href="{getUrl('type','insertExtraForm','selected_var_idx','')}" class="button black strong"><span>{$lang->cmd_insert}</span></a>
-        </th>
-    </tr>
-    </tbody>
-    </table>
+	<div class="table">
+		<table width="100%" border="1" cellspacing="0">
+			<thead>
+				<tr>
+					<th>{$lang->no}</th>
+					<th>{$lang->eid}</th>
+					<th>{$lang->column_name}</th>
+					<th>{$lang->column_type}</th>
+					<th>{$lang->is_required}</th>
+					<th>{$lang->cmd_search}</th>
+					<th>&nbsp;</th>
+				</tr>
+			</thead>
+			<tbody>
+				<!--@foreach($extra_keys as $key => $val)-->
+				<tr>
+					<td rowspan="3">{$val->idx}</td>
+					<td rowspan="3">{$val->eid}</td>
+					<td class="nowrap"><b>{$val->name}</b></td>
+					<td class="nowrap">{$lang->column_type_list[$val->type]}</td>
+					<td rowspan="3"><!--@if($val->is_required=='Y')--><b>{$lang->is_required}</b><!--@else-->N<!--@end--></td>
+					<td rowspan="3"><!--@if($val->search=='Y')--><b>{$lang->search_target}</b><!--@else-->N<!--@end--></td>
+					<td rowspan="3" class="nowrap">
+						<!--@if($val->idx>1)--><a href="#" onclick="moveVar('up','{$module_srl}','{$val->idx}'); return false;" class="buttonSet buttonUp"><span>{$lang->cmd_modify}</span></a><!--@end-->
+						<a href="#" onclick="moveVar('down','{$module_srl}','{$val->idx}');return false;" class="buttonSet buttonDown">{$lang->cmd_modify}</a>
+						<a href="{getUrl('selected_var_idx',$val->idx)}" class="buttonSet buttonSetting"><span>{$lang->cmd_modify}</span></a>
+						<a href="#" onclick="return doDeleteExtraKey('{$module_srl}','{$val->idx}');" class="buttonSet buttonDelete"><span>{$lang->cmd_delete}</span></a>
+					</td>
+				</tr>
+				<tr>
+					<td>{$lang->default_value}</td>
+					<td class="wide">{$val->default}&nbsp;</td>
+				</tr>
+				<tr>
+					<td>{$lang->description}</td>
+					<td class="wide">{$val->desc}&nbsp;</td>
+				</tr>
+				<!--@end-->
+			</tbody>
+			</table>
+	</div>
+	<div class="btnArea">
+		<span class="btn"><a href="{getUrl('type','insertExtraForm','selected_var_idx','')}">{$lang->cmd_insert}</a></span>
+	</div>
 <!--@end-->
 
 <form id="fo_delete" name="fo_delete" method="post" action="./">

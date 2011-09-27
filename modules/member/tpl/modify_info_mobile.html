@@ -47,7 +47,7 @@
 				<!--@if($member_info->profile_image->src)-->
 				<div id="p_image">
 					<img src="{$member_info->profile_image->src}" border="0" alt="profile_image" />
-					<a href="#" onclick="doDeleteProfileImage({$member_info->member_srl});return false;" class="bn"><span>{$lang->cmd_delete}</span></a>
+					<button type="button" onclick="doDeleteProfileImage({$member_info->member_srl});">{$lang->cmd_delete}</button>
 				</div>
 				<!--@end-->
 				<div id="p_image">
@@ -62,7 +62,7 @@
 				<!--@if($member_info->image_name->src)-->
 				<div id="p_image">
 					<div><img src="{$member_info->image_name->src}" border="0" alt="image_name" /></div>
-					<a href="#" onclick="doDeleteImageName({$member_info->member_srl});return false;" class="button"><span>{$lang->cmd_delete}</span></a>
+					<button type="button" onclick="doDeleteImageName({$member_info->member_srl});">{$lang->cmd_delete}</button>
 				</div>
 				<!--@end-->
 				<div id="p_image">
@@ -77,7 +77,7 @@
 				<!--@if($member_info->image_mark->src)-->
 				<div id="image_mark">
 					<img src="{$member_info->image_mark->src}" border="0" alt="image_mark" />
-					<a href="#" onclick="doDeleteImageMark({$member_info->member_srl});return false;" class="bn"><span>{$lang->cmd_delete}</span></a>
+					<button type="button" onclick="doDeleteImageMark({$member_info->member_srl});return false;">{$lang->cmd_delete}</button>
 				</div>
 				<!--@end-->
 

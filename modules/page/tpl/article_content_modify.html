@@ -13,13 +13,13 @@
         <input type="text" name="tags" value="{htmlspecialchars($oDocument->get('tags'))}" class="inputText" title="Tag" />
 		<p>{$lang->about_tag}</p>
     </div>
-	<div class="boardNavigation">
+	<div class="btnArea">
         <!--@if($is_logged)-->
 		<!--@if(!$oDocument->isExists() || $oDocument->get('status') == 'TEMP')-->
-        <span class="button"><button type="button" onclick="doDocumentSave(this); return false;">{$lang->cmd_temp_save}</button></span>
-        <span class="button"><button type="button" onclick="doDocumentLoad(this); return false;">{$lang->cmd_load}</button></span>
+        <span class="btn"><button type="button" onclick="doDocumentSave(this);">{$lang->cmd_temp_save}</button></span>
+        <span class="btn"><button type="button" onclick="doDocumentLoad(this);">{$lang->cmd_load}</button></span>
 		<!--@end-->
         <!--@end-->
-		<span class="button red strong"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+		<span class="btn"><input type="submit" value="{$lang->cmd_registration}" /></span>
 	</div>
 </form>

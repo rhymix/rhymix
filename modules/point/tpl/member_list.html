@@ -87,8 +87,8 @@
             <option value="{$key}" <!--@if($search_target==$key)-->selected="selected"<!--@end-->>{$val}</option>
             <!--@end-->
         </select>
-        <input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" class="inputTypeText" />
-        <span class="button black strong"><input type="submit" value="{$lang->cmd_search}" /></span>
-        <a href="#" onclick="location.href='{getUrl('','module',$module,'act',$act)}';return false;" class="button"><span>{$lang->cmd_cancel}</span></a>
+        <input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" />
+        <span class="btn"><input type="submit" value="{$lang->cmd_search}" /></span>
+        <button type="button" onclick="location.href='{getUrl('','module',$module,'act',$act)}';return false;">{$lang->cmd_cancel}</button>
     </fieldset>
 </form>

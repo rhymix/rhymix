@@ -58,18 +58,15 @@
     <table width="100%" border="1" cellspacing="0">
     <tr>
         <th scope="row">{$lang->user_id}</th>
-        <td class="wide"><input type="text" name="user_id" class="inputTypeText w400" /></td>
+        <td class="wide"><input type="text" name="user_id" /></td>
     </tr>
     <tr>
         <th scope="row">{$lang->description}</th>
-        <td class="left"><textarea name="description" class="inputTypeTextArea w400"></textarea></td>
-    </tr>
-    <tr>
-        <th colspan="2" class="button">
-            <span class="button black strong"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
-        </th>
+        <td class="left"><textarea name="description"></textarea></td>
     </tr>
     </table>
 </div>
-
+<div class="btnArea">
+	<span class="btn"><input type="submit" value="{$lang->cmd_registration}" /></span>
+</div>
 </form>

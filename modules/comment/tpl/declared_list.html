@@ -34,17 +34,15 @@
 				<td>{$oComment->get('ipaddress')}</td>
 			</tr>
 			<!--@end-->
-			<tr>
-				<th colspan="6" class="button">
-					<a href="#" onclick="doCancelDeclare();return false;" class="button strong black"><span>{$lang->cmd_cancel_declare}</span></a>
-					<a href="javascript:XE.checkboxToggleAll({ checked:true })" class="button"><span>{$lang->cmd_select_all}</span></a>
-					<a href="javascript:XE.checkboxToggleAll()" class="button"><span>{$lang->cmd_reverse_all}</span></a>
-					<span class="button"><input type="submit" value="{$lang->cmd_delete_checked_comment}" onclick="this.form.is_trash.value=false" /></span>
-					<span class="button"><input type="submit" name="trash" value="{$lang->cmd_trash}" onclick="this.form.is_trash.value=true" /></span>
-				</th>
-			</tr>
 		</tbody>
 		</table>
+	</div>
+	<div class="btnArea">
+		<span class="btn"><button type="button" onclick="doCancelDeclare();">{$lang->cmd_cancel_declare}</button></span>
+		<span class="btn"><a href="javascript:XE.checkboxToggleAll({ checked:true })">{$lang->cmd_select_all}</a></span>
+		<span class="btn"><a href="javascript:XE.checkboxToggleAll()">{$lang->cmd_reverse_all}</a></span>
+		<span class="btn"><input type="submit" value="{$lang->cmd_delete_checked_comment}" onclick="this.form.is_trash.value=false" /></span>
+		<span class="btn"><input type="submit" name="trash" value="{$lang->cmd_trash}" onclick="this.form.is_trash.value=true" /></span>
 	</div>
 </form>
 
