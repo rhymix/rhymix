@@ -6,24 +6,22 @@
 </div>
 <form ruleset="insertMenu" action="./" method="post">
 <input type="hidden" name="act" value="procMenuAdminInsert" />
-
-    <table cellspacing="0" class="rowTable">
-    <tr>
-        <th scope="col"><div>{$lang->cmd_menu_insert}</div></th>
-        <td>{nl2br($lang->about_menu_management)}</td>
-    </tr>
-    <tr class="row2">
-        <th scope="col"><div>{$lang->title}</div></th>
-        <td>
-            <input type="text" name="title" value="{$menu_info->title}" class="inputTypeText w400" />
-            <p>{$lang->about_title}</p>
-        </td>
-    </tr>
-    <tr>
-        <th colspan="2" class="button">
-            <span class="button black strong"><input type="submit" value="{$lang->cmd_submit}" accesskey="s" /></span>
-        </th>
-    </tr>
-    </table>
-
+<div class="table">
+	<table width="100%" border="1" cellspacing="0">
+		<tr>
+			<th scope="col">{$lang->cmd_menu_insert}</th>
+			<td>{nl2br($lang->about_menu_management)}</td>
+		</tr>
+		<tr class="row2">
+			<th scope="col">{$lang->title}</th>
+			<td>
+				<input type="text" name="title" value="{$menu_info->title}" class="inputTypeText w400" />
+				<p>{$lang->about_title}</p>
+			</td>
+		</tr>
+	</table>
+</div>
+<div class="btnArea">
+	<span class="btn"><input type="submit" value="{$lang->cmd_submit}" /></span>
+</div>
 </form>

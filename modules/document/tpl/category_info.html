@@ -4,12 +4,12 @@
 
 <div class="layer boxModelController" style="display:block">
 
-    <h4 class="xeAdmin">{$lang->category}</h4>
+    <h3 class="h3">{$lang->category}</h3>
     <button class="xButton" type="button" onclick="hideCategoryInfo();return false" ><span>{$lang->cmd_close}</span></button>
 
     <div class="layerBody">
-
-        <table cellspacing="0" class="rowTable">
+		<div class="table">
+        	<table width="100%" border="1" cellspacing="0">
         <!--@if($category_info->parent_category_title)-->
         <tr>
             <th scope="row"><div>{$lang->parent_category_title}</div></th>
@@ -62,7 +62,7 @@
             </th>
         </tr>
         </table>
-
+		</div>
     </div>
 </div>
 <script type="text/javascript">

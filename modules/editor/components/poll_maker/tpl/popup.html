@@ -10,19 +10,13 @@
     var msg_poll_cannot_modify = "{$lang->msg_poll_cannot_modify}";
 </script>
 
-<div id="popHeader" class="wide">
-    <h3 class="xeAdmin">{$component_info->title} ver. {$component_info->version}</h3>
-</div>
-
+<h1 class="h1">{$component_info->title} ver. {$component_info->version}</h1>
 <form action="./" method="post" id="fo_component" onSubmit="procFilter(this, insert_poll); return false;">
-<input type="hidden" name="component" value="{$component_info->component_name}" />
-<input type="hidden" name="method" value="insertPoll" />
-<input type="hidden" name="poll_srl" value="" />
-
-
-    <div id="popBody">
-
-        <table cellspacing="0" class="rowTable">
+	<input type="hidden" name="component" value="{$component_info->component_name}" />
+	<input type="hidden" name="method" value="insertPoll" />
+	<input type="hidden" name="poll_srl" value="" />
+    <div class="table">
+        <table width="100%" border="1" cellspacing="0">
         <col width="100" />
         <col />
         <tr>
@@ -62,7 +56,6 @@
             </td>
         </tr>
         </table>
-
         <div id="poll_source" class="clear" style="display:none">
             <div class="clear"></div>
 
@@ -93,14 +86,10 @@
 			<button type="button" class="_del_item">{$lang->cmd_del_item}</button>
 			<button type="button" class="_del_poll">{$lang->cmd_del_poll}</button>
         </div>
-
     </div>
-
-    <div id="popFooter">
-            <span class="button black strong"><input type="submit" value="{$lang->cmd_submit}" /></span>
-			<button type="button" id="add_poll">{$lang->cmd_add_poll}</button>
-            <a href="./?module=editor&amp;act=dispEditorComponentInfo&amp;component_name={$component_info->component_name}" class="button _xe_popup"><span>{$lang->about_component}</span></a>
+	<div class="btnArea">
+		<span class="btn"><input type="submit" value="{$lang->cmd_submit}" /></span>
+		<span class="btn"><button type="button" id="add_poll">{$lang->cmd_add_poll}</button></span>
+		<span class="btn"><a href="./?module=editor&amp;act=dispEditorComponentInfo&amp;component_name={$component_info->component_name}" target="_blank">{$lang->about_component}</a></span>
     </div>
-
-
 </form>

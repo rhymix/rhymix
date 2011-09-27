@@ -8,43 +8,45 @@
 </form>
 
 <!-- 목록 -->
-<table cellspacing="0" class="crossTable">
-<thead>
-    <tr>
-        <th scope="col"><div>{$lang->no}</div></th>
-        <th scope="col"><div>{$lang->layout}</div></th>
-        <th scope="col"><div>{$lang->title}</div></th>
-        <th scope="col"><div>{$lang->regdate}</div></th>
-        <th scope="col" colspan="3"><div>&nbsp;</div></th>
-    </tr>
-</thead>
-<tbody>
-    <!--@foreach($layout_list as $no => $val)-->
-    <tr class="row{$cycle_idx}">
-        <td class="number center">{$no+1}</td>
-        <td>
-            {$val->layout}
-            <!--@if($val->module_srl)-->
-            (module) 
-            <!--@end-->
-        </td>
-        <td class="wide">{$val->title}</td>
-        <td class="nowrap">{zdate($val->regdate,"Y-m-d")}</td>
-        <td>
-            <!--@if(!$val->module_srl)-->
-                <a href="{getUrl('act','dispLayoutAdminModify','layout_srl',$val->layout_srl)}" title="{htmlspecialchars($lang->cmd_layout_management)}" class="buttonSet buttonSetting"><span>{$lang->cmd_layout_management}</span></a>
-            <!--@else-->
-                &nbsp;
-            <!--@end-->
-        </td>
-        <td><a href="{getUrl('act','dispLayoutAdminEdit','layout_srl',$val->layout_srl)}" title="{htmlspecialchars($lang->cmd_layout_edit)}" class="buttonSet buttonLayoutEditor"><span>{$lang->cmd_layout_edit}</span></a></td>
-        <td><a href="#" onclick="doDeleteLayout('{$val->layout_srl}');return false;" title="{htmlspecialchars($lang->cmd_delete)}" class="buttonSet buttonDelete"><span>{$lang->cmd_delete}</span></a></td>
-    </tr>
-    <!--@end-->
-    <tr class="row2">
-        <th colspan="7" class="button">
-            <a href="{getUrl('act','dispLayoutAdminInsert','layout_srl','')}" class="button black strong"><span>{$lang->cmd_make}</span></a>
-        </th>
-    </tr>
-</tbody>
-</table>
+<div class="table">
+	<table width="100%" border="1" cellspacing="0">
+		<thead>
+			<tr>
+				<th scope="col"><div>{$lang->no}</div></th>
+				<th scope="col"><div>{$lang->layout}</div></th>
+				<th scope="col"><div>{$lang->title}</div></th>
+				<th scope="col"><div>{$lang->regdate}</div></th>
+				<th scope="col" colspan="3"><div>&nbsp;</div></th>
+			</tr>
+		</thead>
+		<tbody>
+			<!--@foreach($layout_list as $no => $val)-->
+			<tr class="row{$cycle_idx}">
+				<td class="number center">{$no+1}</td>
+				<td>
+					{$val->layout}
+					<!--@if($val->module_srl)-->
+					(module) 
+					<!--@end-->
+				</td>
+				<td class="wide">{$val->title}</td>
+				<td class="nowrap">{zdate($val->regdate,"Y-m-d")}</td>
+				<td>
+					<!--@if(!$val->module_srl)-->
+					<a href="{getUrl('act','dispLayoutAdminModify','layout_srl',$val->layout_srl)}" title="{htmlspecialchars($lang->cmd_layout_management)}" class="buttonSet buttonSetting"><span>{$lang->cmd_layout_management}</span></a>
+					<!--@else-->
+					&nbsp;
+					<!--@end-->
+				</td>
+				<td><a href="{getUrl('act','dispLayoutAdminEdit','layout_srl',$val->layout_srl)}" title="{htmlspecialchars($lang->cmd_layout_edit)}" class="buttonSet buttonLayoutEditor"><span>{$lang->cmd_layout_edit}</span></a></td>
+				<td><a href="#" onclick="doDeleteLayout('{$val->layout_srl}');return false;" title="{htmlspecialchars($lang->cmd_delete)}" class="buttonSet buttonDelete"><span>{$lang->cmd_delete}</span></a></td>
+			</tr>
+			<!--@end-->
+			<tr class="row2">
+				<th colspan="7" class="button">
+					<a href="{getUrl('act','dispLayoutAdminInsert','layout_srl','')}" class="button black strong"><span>{$lang->cmd_make}</span></a>
+				</th>
+			</tr>
+		</tbody>
+	</table>
+</div>

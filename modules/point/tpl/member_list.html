@@ -5,49 +5,51 @@
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
-<table cellspacing="0" class="crossTable">
-<caption>Total {number_format($total_count)}, Page {number_format($page)}/{number_format($total_page)}</caption>
-<thead>
-    <tr>
-        <th scope="col"><div>{$lang->no}</div></th>
-        <th scope="col"><div>{$lang->user_id}</div></th>
-        <th scope="col"><div>{$lang->user_name}</div></th>
-        <th scope="col"><div>{$lang->nick_name}</div></th>
-        <th scope="col"><div>{$lang->point}</div></th>
-        <th scope="col"><div>{$lang->level}</div></th>
-    </tr>
-</thead>
-<tbody>
-    <!--@foreach($member_list as $no => $val)-->
-    <tr class="row{$cycle_idx}">
-        <td class="center number">{$no}</td>
-        <td class="nowrap">{$val->user_id}</td>
-        <td class="nowrap">{$val->user_name}</td>
-        <td class="nowrap"><span class="member_{$val->member_srl}">{$val->nick_name}</span></td>
-        <td class="nowrap">
-            <form action="./" method="get">
-                <input type="hidden" name="member_srl" value="{$val->member_srl}" />
-                <input type="text" name="orgpoint" value="{$val->point}" class="inputTypeText w80" readonly />
-                <input type="text" id="point_{$val->member_srl}" name="point" class="inputTypeText w80" />
-                <span class="button"><input type="button" value="{$lang->cmd_update}" onclick="updatePoint({$val->member_srl})" /></span>
-            </form>
-        </td>
-        <td class="number center">{$val->level}</td>
-    </tr>
-    <!--@end-->
-</tbody>
-</table>
+<div class="table">
+	<table width="100%" border="1" cellspacing="0">
+		<caption>Total {number_format($total_count)}, Page {number_format($page)}/{number_format($total_page)}</caption>
+		<thead>
+			<tr>
+				<th scope="col">{$lang->no}</th>
+				<th scope="col">{$lang->user_id}</th>
+				<th scope="col">{$lang->user_name}</th>
+				<th scope="col">{$lang->nick_name}</th>
+				<th scope="col">{$lang->point}</th>
+				<th scope="col">{$lang->level}</th>
+			</tr>
+		</thead>
+		<tbody>
+			<!--@foreach($member_list as $no => $val)-->
+			<tr>
+				<td>{$no}</td>
+				<td>{$val->user_id}</td>
+				<td>{$val->user_name}</td>
+				<td><a href="#popup_menu_area" class="member_{$val->member_srl}">{$val->nick_name}</a></td>
+				<td>
+					<form action="./" method="get">
+						<input type="hidden" name="member_srl" value="{$val->member_srl}" />
+						<input type="text" name="orgpoint" value="{$val->point}" class="inputTypeText w80" readonly />
+						<input type="text" id="point_{$val->member_srl}" name="point" class="inputTypeText w80" />
+						<span class="button"><input type="button" value="{$lang->cmd_update}" onclick="updatePoint({$val->member_srl})" /></span>
+					</form>
+				</td>
+				<td>{$val->level}</td>
+			</tr>
+			<!--@end-->
+		</tbody>
+	</table>
+</div>
 
 <form ruleset="updatePoint" id="updateForm" action="./" method="POST">
 	<input type="hidden" name="act" value="procPointAdminUpdatePoint" />
     <input type="hidden" id="update_member_srl" name="member_srl" value="" />
-    <input type="hidden" id="update_point" name="point" class="inputTypeText w80" />
+    <input type="hidden" id="update_point" name="point" />
 </form>
 
 
 <!-- 페이지 네비게이션 -->
-<div class="pagination a1">
-    <a href="{getUrl('page','','module_srl','')}" class="prevEnd">{$lang->first_page}</a>
+<div class="pagination">
+    <a href="{getUrl('page','','module_srl','')}" class="direction">&lsaquo; {$lang->first_page}</a>
     <!--@while($page_no = $page_navigation->getNextPage())-->
         <!--@if($page == $page_no)-->
             <strong>{$page_no}</strong>
@@ -55,7 +57,7 @@
             <a href="{getUrl('page',$page_no,'module_srl','')}">{$page_no}</a>
         <!--@end-->
     <!--@end-->
-    <a href="{getUrl('page',$page_navigation->last_page,'module_srl','')}" class="nextEnd">{$lang->last_page}</a>
+    <a href="{getUrl('page',$page_navigation->last_page,'module_srl','')}" class="direction">{$lang->last_page} &rsaquo;</a>
 </div>
 
 <!-- 검색 -->

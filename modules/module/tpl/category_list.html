@@ -10,50 +10,48 @@
 	<input type="hidden" name="act" value="procModuleAdminDeleteCategory" />
     <input type="hidden" name="module_category_srl" value="" />
 </form>
-
-<table cellspacing="0" class="rowTable">
-<thead>
-    <tr>
-        <th scope="col" class="wide"><div>{$lang->category_title}</div></th>
-        <th scope="col"><div>{$lang->regdate}</div></th>
-        <th scope="col" colspan="2"><div>&nbsp;</div></th>
-    </tr>
-</thead>
-<tbody>
-    <!--@if(!count($category_list))-->
-    <tr>
-        <td colspan="4">{$lang->msg_category_is_null}</td>
-    </tr>
-    <!--@end-->
-    <!--@foreach($category_list as $key => $val)-->
-    <tr>
-        <td class="wide">{$val->title}</td>
-        <td class="nowrap">{zdate($val->regdate,"Y-m-d H:i:s")}</td>
-        <td><a href="{getUrl('module_category_srl',$val->module_category_srl)}" class="buttonSet buttonSetting"><span>{$lang->cmd_modify}</span></a></td>
-        <td><a href="#" onclick="doUpdateCategory('{$val->module_category_srl}','{$lang->confirm_delete}');return false;" class="buttonSet buttonDelete"><span>{$lang->cmd_delete}</span></a></td>
-    </tr>
-    <!--@end-->
-</tbody>
-</table>
+<div class="table">
+	<table width="100%" border="1" cellspacing="0">
+		<thead>
+			<tr>
+				<th scope="col" class="wide">{$lang->category_title}</th>
+				<th scope="col">{$lang->regdate}</th>
+				<th scope="col" colspan="2">&nbsp;</th>
+			</tr>
+		</thead>
+		<tbody>
+			<!--@if(!count($category_list))-->
+			<tr>
+				<td colspan="3">{$lang->msg_category_is_null}</td>
+			</tr>
+			<!--@end-->
+			<!--@foreach($category_list as $key => $val)-->
+			<tr>
+				<td class="wide">{$val->title}</td>
+				<td class="nowrap">{zdate($val->regdate,"Y-m-d H:i:s")}</td>
+				<td>
+					<a href="{getUrl('module_category_srl',$val->module_category_srl)}">{$lang->cmd_modify}</a>
+					<button type="button" class="text" onclick="doUpdateCategory('{$val->module_category_srl}','{$lang->confirm_delete}');return false;">{$lang->cmd_delete}</button>
+				</td>
+			</tr>
+			<!--@end-->
+		</tbody>
+	</table>
+</div>
 
 <!-- 카테고리 추가 -->
-<form ruleset="insertCategory" action="./" method="post">
-<input type="hidden" name="act" value="procModuleAdminInsertCategory" />
-<input type="hidden" name="page" value="{$page}" />
-<input type="hidden" name="module_srl" value="{$module_srl}" />
-<input type="hidden" name="module_category_srl" value="" />
-
-    <table cellspacing="0" class="rowTable">
-    <tr>
-        <th scope="row"><div>{$lang->category_title}</div></th>
-        <td>
-            <input type="text" name="title" class="inputTypeText w300" />
-        </td>
-    </tr>
-    <tr class="row2">
-        <th colspan="2" class="button">
-            <span class="button strong black"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
-        </th>
-    </tr>
-    </table>
+<form ruleset="insertCategory" action="./" method="post" class="form">
+	<input type="hidden" name="act" value="procModuleAdminInsertCategory" />
+	<input type="hidden" name="page" value="{$page}" />
+	<input type="hidden" name="module_srl" value="{$module_srl}" />
+	<input type="hidden" name="module_category_srl" value="" />
+	<ul>
+		<li>
+			<p class="q"><label for="category_title">{$lang->category_title}</label></p>
+			<p class="a"><input type="text" name="title" id="category_title" /></p>
+		</li>
+	</ul>
+    <div class="btnArea">
+		<span class="btn"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+	</div>
 </form>

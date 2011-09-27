@@ -1,18 +1,19 @@
 <!--%import("js/opage_admin.js")-->
-<h3 class="xeAdmin">{$lang->opage} <span class="gray">{$lang->cmd_management}</span></h3>
-
-<div class="infoText">{nl2br($lang->about_opage)}</div>
-
+<h2 class="h2">{$lang->opage} {$lang->cmd_management}</h2>
+<p>{nl2br($lang->about_opage)}</p>
 <!--@if($module_info)-->
-<div class="header4">
-    <!--@if($module_info->mid)-->
-    <h4 class="xeAdmin">{$module_info->mid} <!--@if($module_info->is_default=='Y')--><span class="bracket">({$lang->is_default})</span><!--@end--> <span class="vr">|</span> <a href="{getSiteUrl($module_info->domain,'','mid',$module_info->mid)}" onclick="window.open(this.href); return false;" class="view">View</a></h4>
-    <!--@end-->
-
-    <ul class="localNavigation">
-        <li><a href="{getUrl('act','dispOpageAdminContent','module_srl','')}">{$lang->cmd_back}</a></li>
-        <li <!--@if($act=='dispOpageAdminInsert')-->class="on"<!--@end-->><a href="{getUrl('act','dispOpageAdminInsert')}">{$lang->cmd_setup}</a></li>
-        <li <!--@if($act=='dispOpageAdminGrantInfo')-->class="on"<!--@end-->><a href="{getUrl('act','dispOpageAdminGrantInfo')}">{$lang->cmd_manage_grant}</a></li>
-    </ul>
+<!--@if($module_info->mid)-->
+<h3 class="h3">
+	{$module_info->mid} <!--@if($module_info->is_default=='Y')-->({$lang->is_default})<!--@end--> 
+	| 
+	<a href="{getSiteUrl($module_info->domain,'','mid',$module_info->mid)}" target="_blank">View</a>
+</h3>
+<!--@end-->
+<div class="cnb">
+	<ul>
+		<li><a href="{getUrl('act','dispOpageAdminContent','module_srl','')}">{$lang->cmd_back}</a></li>
+		<li <!--@if($act=='dispOpageAdminInsert')-->class="active"<!--@end-->><a href="{getUrl('act','dispOpageAdminInsert')}">{$lang->cmd_setup}</a></li>
+		<li <!--@if($act=='dispOpageAdminGrantInfo')-->class="active"<!--@end-->><a href="{getUrl('act','dispOpageAdminGrantInfo')}">{$lang->cmd_manage_grant}</a></li>
+	</ul>
 </div>
 <!--@end-->

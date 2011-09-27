@@ -169,10 +169,15 @@ body>.popup{margin:1em}
 .x .lnb li.active ul{display:block;border-top:1px solid #eee}
 .x .lnb li.active li.active a span{color:#13b200;font-weight:bold;letter-spacing:-1px}
 /* Content Navigation */
-.x cnb{margin:1em 0;position:relative;zoom:1}
-.x cnb:after{content:"";display:block;clear:both}
-.x cnb .active{font-weight:bold;color:#333;text-decoration:none}
-.x cnb .side{float:right}
+.x .cnb{margin:1em 0;position:relative;zoom:1}
+.x .cnb:after{content:"";display:block;clear:both}
+.x .cnb ul{list-style:none;margin:0;padding:0}
+.x .cnb li{display:inline}
+.x .cnb li:before{content:"| ";color:#ccc}
+.x .cnb li:first-child:before{content:"";}
+.x .cnb .active,
+.x .cnb .active a{font-weight:bold;color:#333;text-decoration:none}
+.x .cnb .side{float:right}
 /* Pagination */
 .x .pagination{margin:1em 0;text-align:center;line-height:normal}
 .x .pagination *{vertical-align:middle}

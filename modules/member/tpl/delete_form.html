@@ -3,29 +3,30 @@
 <!--#include("header.html")-->
 
 <form action="./" method="get" onsubmit="return procFilter(this, delete_member)" class="gap1">
-<input type="hidden" name="page" value="{$page}" />
-<input type="hidden" name="member_srl" value="{$member_info->member_srl}" />
-    <h4 class="xeAdmin">{$lang->confirm_delete}</h4>
-    <table cellspacing="0" class="rowTable">
-    <tr>
-        <th scope="row"><div>{$lang->user_id}</div></th>
-        <td class="wide">{$member_info->user_id}</td>
-    </tr>
-    <tr>
-        <th scope="row"><div>{$lang->nick_name}</div></th>
-        <td>{$member_info->nick_name}</td>
-    </tr>
-    <tr>
-        <th scope="row"><div>{$lang->email_address}</div></th>
-        <td>{$member_info->email_address}</td>
-    </tr>
-    <tr>
-        <th colspan="2" class="button">
-            <span class="button black strong"><input type="submit" value="{$lang->cmd_delete}" /></span>
-            <a href="{getUrl('act','dispMemberAdminList')}" class="button"><span>{$lang->cmd_back}</span></a>
-        </th>
-    </tr>
-    </table>
-
+	<input type="hidden" name="page" value="{$page}" />
+	<input type="hidden" name="member_srl" value="{$member_info->member_srl}" />
+    <h3 class="h3">{$lang->confirm_delete}</h3>
+	<div class="table">
+		<table width="100%" border="1" cellspacing="0">
+			<tr>
+				<th scope="row">{$lang->user_id}</th>
+				<td class="wide">{$member_info->user_id}</td>
+			</tr>
+			<tr>
+				<th scope="row">{$lang->nick_name}</th>
+				<td>{$member_info->nick_name}</td>
+			</tr>
+			<tr>
+				<th scope="row">{$lang->email_address}</th>
+				<td>{$member_info->email_address}</td>
+			</tr>
+			<tr>
+				<th colspan="2" class="button">
+					<span class="button black strong"><input type="submit" value="{$lang->cmd_delete}" /></span>
+					<a href="{getUrl('act','dispMemberAdminList')}" class="button"><span>{$lang->cmd_back}</span></a>
+				</th>
+			</tr>
+		</table>
+	</div>
 </form>
 

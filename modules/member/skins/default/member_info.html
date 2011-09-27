@@ -60,12 +60,12 @@
     </table>
 </div>
 <div class="btnArea" cond="$memberInfo['member_srl'] == $logged_info->member_srl">
-	<a href="{getUrl('act','dispMemberModifyInfo','member_srl','')}" class="button black strong"><span>{$lang->cmd_modify_member_info}</span></a>
+	<span class="btn"><a href="{getUrl('act','dispMemberModifyInfo','member_srl','')}">{$lang->cmd_modify_member_info}</a></span>
 	<!--@if($logged_info->is_openid)-->
-		<a href="{getUrl('act','dispMemberOpenIDLeave','member_srl','')}" class="button red"><span>{$lang->cmd_leave}</span></a>
+	<span class="btn"><a href="{getUrl('act','dispMemberOpenIDLeave','member_srl','')}">{$lang->cmd_leave}</a></span>
 	<!--@else-->
-		<a href="{getUrl('act','dispMemberModifyPassword','member_srl','')}" class="button green"><span>{$lang->cmd_modify_member_password}</span></a>
-		<a href="{getUrl('act','dispMemberLeave','member_srl','')}" class="button red"><span>{$lang->cmd_leave}</span></a>
+	<span class="btn"><a href="{getUrl('act','dispMemberModifyPassword','member_srl','')}">{$lang->cmd_modify_member_password}</a></span>
+	<span class="btn"><a href="{getUrl('act','dispMemberLeave','member_srl','')}">{$lang->cmd_leave}</a></span>
 	<!--@end-->
 </div>
 <include target="./common_footer.html" />

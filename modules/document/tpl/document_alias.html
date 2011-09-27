@@ -3,52 +3,52 @@
 <!--%import("filter/delete_alias.xml")-->
 
 <form ruleset="deleteAlias" id="deleteForm" action="./" method="post">
-<input type="hidden" name="act" value="procDocumentAdminDeleteAlias" />
-<input type="hidden" id="target_srl" name="target_srl" value="" />
-<input type="hidden" name="document_srl" value="{$document_srl}" />
+	<input type="hidden" name="act" value="procDocumentAdminDeleteAlias" />
+	<input type="hidden" id="target_srl" name="target_srl" value="" />
+	<input type="hidden" name="document_srl" value="{$document_srl}" />
 </form>
 
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <form ruleset="insertAlias" action="{Context::getRequestUri()}" method="post">
-<input type="hidden" name="act" value="procDocumentAdminInsertAlias" />
-<input type="hidden" name="document_srl" value="{$document_srl}" />
-<input type="hidden" name="module_srl" value="{$oDocument->get('module_srl')}" />
-
-<h4 class="xeAdmin">{$lang->alias}</h4>
-
-<table cellspacing="0" class="crossTable">
-<thead>
-<tr>
-    <th scope="col" class="half_wide"><div>{$lang->title}</div></th>
-    <th scope="col" class="half_wide"><div>{$lang->alias}</div></th>
-    <th scope="col"></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-    <td rowspan="{count($aliases)+1}">{$oDocument->getTitle()}</td>
-    {@ $bFirst = true; }
-    <!--@foreach($aliases as $val)-->
-    <!--@if(!$bFirst)-->
-<tr>
-    {@ $bFirst = false; }
-    <!--@end-->
-    <td>{$val->alias_title}</td>
-    <td><a href="#" onclick="deleteByFilter('{$val->alias_srl}', delete_alias);"><img src="images/buttonDeleteX.gif" alt="" /></a>
-    </td>
-</tr>
-    <!--@end-->
-    <!--@if(!$bFirst)-->
-<tr>
-    <!--@end-->
-    <td>
-    <input type="text" class="inputTypeText fixWidth" name="alias_title" />
-    </td>
-    <td><span class="button black strong"><input type="submit" value="{$lang->cmd_registration}" accesskey="s"class="btnSubmit" /></span></td>
-</tr>
-</tbody>
-</table>
-
+	<input type="hidden" name="act" value="procDocumentAdminInsertAlias" />
+	<input type="hidden" name="document_srl" value="{$document_srl}" />
+	<input type="hidden" name="module_srl" value="{$oDocument->get('module_srl')}" />
+	
+	<h3 class="h3">{$lang->alias}</h3>
+	<div class="table">
+		<table width="100%" border="1" cellspacing="0">
+			<thead>
+		<tr>
+			<th scope="col" class="half_wide"><div>{$lang->title}</div></th>
+			<th scope="col" class="half_wide"><div>{$lang->alias}</div></th>
+			<th scope="col"></th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr>
+			<td rowspan="{count($aliases)+1}">{$oDocument->getTitle()}</td>
+			{@ $bFirst = true; }
+			<!--@foreach($aliases as $val)-->
+			<!--@if(!$bFirst)-->
+		<tr>
+			{@ $bFirst = false; }
+			<!--@end-->
+			<td>{$val->alias_title}</td>
+			<td><a href="#" onclick="deleteByFilter('{$val->alias_srl}', delete_alias);"><img src="images/buttonDeleteX.gif" alt="" /></a>
+			</td>
+		</tr>
+			<!--@end-->
+			<!--@if(!$bFirst)-->
+		<tr>
+			<!--@end-->
+			<td>
+			<input type="text" class="inputTypeText fixWidth" name="alias_title" />
+			</td>
+			<td><span class="button black strong"><input type="submit" value="{$lang->cmd_registration}" accesskey="s"class="btnSubmit" /></span></td>
+		</tr>
+		</tbody>
+		</table>
+	</div>
 </form>

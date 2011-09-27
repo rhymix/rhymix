@@ -11,20 +11,11 @@
         <input type="hidden" name="guestbook_target_module" value="" />
         <input type="hidden" name="unit_count" value="" />
         <input type="hidden" name="user_id" value="" />
-
-        <h4 class="xeAdmin">{$lang->import_step_title[99]} - {$lang->import_step_desc[99]}</h4>
-        <table cellspacing="0" class="rowTable">
-        <tr>
-            <td>
-                <div id="status"></div>
-            </td>
-        </tr>
-        <tr>    
-            <th class="button">
-                <div id="btn_continue" style="display:none;"><span class="button black strong"><input type="submit" value="{$lang->cmd_continue}" /></span></div>
-                <div id="btn_reload" style="display:block;"><span class="button"><input type="button" value="{$lang->cmd_reload}" onclick="location.reload(); return false;"/></span></div>
-            </th>
-        </tr>
-        </table>
-    </form>
+        <h3 class="h3">{$lang->import_step_title[99]} - {$lang->import_step_desc[99]}</h3>
+        <div id="status"></div>
+        <div class="btnArea"> 
+			<span class="btn" id="btn_continue" style="display:none;"><input type="submit" value="{$lang->cmd_continue}" /></span>
+			<span class="btn" id="btn_reload" style="display:block;"><input type="button" value="{$lang->cmd_reload}" onclick="location.reload(); return false;"/></span>
+		</div>
+	</form>
 </div>

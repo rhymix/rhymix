@@ -6,14 +6,10 @@
 	<load target="popup.min.css" />
 	<load target="popup.min.js" />
 <!--@end-->
-
-<div id="popHeader">
-    <h3 class="xeAdmin">{$component_info->title} ver. {$component_info->version}</h3>
-</div>
-
+<h1 class="h1">{$component_info->title} ver. {$component_info->version}</h1>
 <form action="./" method="get" onsubmit="return false" id="fo">
-    <div id="popBody">
-        <table cellspacing="0" class="rowTable">
+    <div class="table">
+        <table width="100%" border="1" cellspacing="0">
         <col width="150" />
         <col />
         <tr>
@@ -48,9 +44,9 @@
             </td>
         </table>
     </div>
-    <div id="popFooter">
-        <a href="#" class="button black strong _insert"><span>{$lang->cmd_insert}</span></a>
-        <a href="./?module=editor&amp;act=dispEditorComponentInfo&amp;component_name={$component_info->component_name}" class="button _xe_popup"><span>{$lang->about_component}</span></a>
+    <div class="btnArea">
+        <span class="btn"><button type="button">{$lang->cmd_insert}</button></span>
+        <span class="btn"><a href="./?module=editor&amp;act=dispEditorComponentInfo&amp;component_name={$component_info->component_name}" target="_blank">{$lang->about_component}</a></span>
     </div>
 
 </form>

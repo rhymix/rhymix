@@ -4,41 +4,44 @@
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <form action="./" method="post" id="fo_point">
-<input type="hidden" name="act" value="procPointAdminInsertModuleConfig" />
-
-    <table cellspacing="0" class="crossTable">
-    <thead>
-        <tr>
-            <th><div>{$lang->point_insert_document}</div></th>
-            <th><div>{$lang->point_insert_comment}</div></th>
-            <th><div>{$lang->point_upload_file}</div></th>
-            <th><div>{$lang->point_download_file}</div></th>
-            <th><div>{$lang->point_read_document}</div></th>
-            <th><div>{$lang->point_voted}</div></th>
-            <th><div>{$lang->point_blamed}</div></th>
-        </tr>
-    </thead>
-    <tbody>
-    <!--@foreach($mid_list as $key => $val)-->
-    <tr class="row2">
-        <th colspan="7" scope="col"><div><strong>{$val->browser_title}</strong> ({$val->mid})</div></th>
-    </tr>
-    <tr>
-        <td><input type="text" name="insert_document_{$val->module_srl}" value="{$module_config[$val->module_srl]['insert_document']}" class="inputTypeText w40" /> {$config->point_name}</td>
-        <td><input type="text" name="insert_comment_{$val->module_srl}" value="{$module_config[$val->module_srl]['insert_comment']}" class="inputTypeText w40" /> {$config->point_name}</td>
-        <td><input type="text" name="upload_file_{$val->module_srl}" value="{$module_config[$val->module_srl]['upload_file']}" class="inputTypeText w40" /> {$config->point_name}</td>
-        <td><input type="text" name="download_file_{$val->module_srl}" value="{$module_config[$val->module_srl]['download_file']}" class="inputTypeText w40" /> {$config->point_name}</td>
-        <td><input type="text" name="read_document_{$val->module_srl}" value="{$module_config[$val->module_srl]['read_document']}" class="inputTypeText w40" /> {$config->point_name}</td>
-        <td><input type="text" name="voted_{$val->module_srl}" value="{$module_config[$val->module_srl]['voted']}" class="inputTypeText w40" /> {$config->point_name}</td>
-        <td><input type="text" name="blamed_{$val->module_srl}" value="{$module_config[$val->module_srl]['blamed']}" class="inputTypeText w40" /> {$config->point_name}</td>
-    </tr>
-    <!--@end-->
-    <tr>
-        <th colspan="7" class="button">
-            <span class="button black strong"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
-        </th>
-    </tr>
-    </tbody>
-    </table>
-
+	<input type="hidden" name="act" value="procPointAdminInsertModuleConfig" />
+	<div class="table">
+		<table width="100%" border="1" cellspacing="0">
+			<thead>
+				<tr>
+					<th>{$lang->point_insert_document}</th>
+					<th>{$lang->point_insert_comment}</th>
+					<th>{$lang->point_upload_file}</th>
+					<th>{$lang->point_download_file}</th>
+					<th>{$lang->point_read_document}</th>
+					<th>{$lang->point_voted}</th>
+					<th>{$lang->point_blamed}</th>
+					</tr>
+				</thead>
+			<tbody>
+				<!--@foreach($mid_list as $key => $val)-->
+				<tr class="row2">
+					<th colspan="7" scope="col"><strong>{$val->browser_title}</strong> ({$val->mid})</th>
+					</tr>
+				<tr>
+					<td><input type="text" name="insert_document_{$val->module_srl}" value="{$module_config[$val->module_srl]['insert_document']}" class="inputTypeText w40" /> {$config->point_name}</td>
+					<td><input type="text" name="insert_comment_{$val->module_srl}" value="{$module_config[$val->module_srl]['insert_comment']}" class="inputTypeText w40" /> {$config->point_name}</td>
+					<td><input type="text" name="upload_file_{$val->module_srl}" value="{$module_config[$val->module_srl]['upload_file']}" class="inputTypeText w40" /> {$config->point_name}</td>
+					<td><input type="text" name="download_file_{$val->module_srl}" value="{$module_config[$val->module_srl]['download_file']}" class="inputTypeText w40" /> {$config->point_name}</td>
+					<td><input type="text" name="read_document_{$val->module_srl}" value="{$module_config[$val->module_srl]['read_document']}" class="inputTypeText w40" /> {$config->point_name}</td>
+					<td><input type="text" name="voted_{$val->module_srl}" value="{$module_config[$val->module_srl]['voted']}" class="inputTypeText w40" /> {$config->point_name}</td>
+					<td><input type="text" name="blamed_{$val->module_srl}" value="{$module_config[$val->module_srl]['blamed']}" class="inputTypeText w40" /> {$config->point_name}</td>
+					</tr>
+				<!--@end-->
+				<tr>
+					<th colspan="7" class="button">
+						
+						</th>
+					</tr>
+				</tbody>
+		</table>
+	</div>
+    <div class="btnArea">
+		<span class="btn"><input type="submit" value="{$lang->cmd_registration}" /></span>
+	</div>
 </form>

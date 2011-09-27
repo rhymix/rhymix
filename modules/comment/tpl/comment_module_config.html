@@ -1,44 +1,45 @@
 <form ruleset="insertCommentModuleConfig" action="./" method="post">
-<input type="hidden" name="act" value="procCommentInsertModuleConfig" />
-<input type="hidden" name="success_return_url" value="{getUrl('', 'module', $module, 'act', $act, 'module_srl', $module_srl)}" />
-<input type="hidden" name="target_module_srl" value="{$module_info->module_srl?$module_info->module_srl:$module_srls}" />
-
-    <h4 class="xeAdmin">{$lang->comment}</h4>
-    <table cellspacing="0" class="rowTable">
-    <tr>    
-        <th><div>{$lang->comment_count}</div></th>
-        <td class="wide">
-			<p>{$lang->about_comment_count}</p>
-            <input type="text" name="comment_count" value="{$comment_config->comment_count}" class="inputTypeText w80" />
-
-        </td>
-    </tr>
-    <tr>    
-        <th><div>{$lang->cmd_vote}</div></th>
-        <td>
-		    <select name="use_vote_up" class="w100">
-                <option value="Y" <!--@if($comment_config->use_vote_up=='Y')-->selected="selected"<!--@end-->>{$lang->use}</option>
-                <option value="S" <!--@if($comment_config->use_vote_up=='S')-->selected="selected"<!--@end-->>{$lang->show_voted_member}</option>
-                <option value="N" <!--@if($comment_config->use_vote_up=='N')-->selected="selected"<!--@end-->>{$lang->notuse}</option>
-            </select>
-        </td>
-    </tr>
-    <tr>    
-        <th><div>{$lang->cmd_vote_down}</div></th>
-        <td>
-		    <select name="use_vote_down" class="w100">
-                <option value="Y" <!--@if($comment_config->use_vote_down=='Y')-->selected="selected"<!--@end-->>{$lang->use}</option>
-                <option value="S" <!--@if($comment_config->use_vote_down=='S')-->selected="selected"<!--@end-->>{$lang->show_voted_member}</option>
-                <option value="N" <!--@if($comment_config->use_vote_down=='N')-->selected="selected"<!--@end-->>{$lang->notuse}</option>
-            </select>
-        </td>
-    </tr>
-
-    <tr>
-        <th colspan="2" class="button">
-            <span class="button strong black"><input type="submit" value="{$lang->cmd_save}"/></span>
-        </th>
-    </tr>
-    </table>
+	<input type="hidden" name="act" value="procCommentInsertModuleConfig" />
+	<input type="hidden" name="success_return_url" value="{getUrl('', 'module', $module, 'act', $act, 'module_srl', $module_srl)}" />
+	<input type="hidden" name="target_module_srl" value="{$module_info->module_srl?$module_info->module_srl:$module_srls}" />
+    <h3 class="h3">{$lang->comment}</h3>
+	<div class="table">
+		<table width="100%" border="1" cellspacing="0">
+		<tr>    
+			<th><div>{$lang->comment_count}</div></th>
+			<td class="wide">
+				<p>{$lang->about_comment_count}</p>
+				<input type="text" name="comment_count" value="{$comment_config->comment_count}" class="inputTypeText w80" />
+	
+			</td>
+		</tr>
+		<tr>    
+			<th><div>{$lang->cmd_vote}</div></th>
+			<td>
+				<select name="use_vote_up" class="w100">
+					<option value="Y" <!--@if($comment_config->use_vote_up=='Y')-->selected="selected"<!--@end-->>{$lang->use}</option>
+					<option value="S" <!--@if($comment_config->use_vote_up=='S')-->selected="selected"<!--@end-->>{$lang->show_voted_member}</option>
+					<option value="N" <!--@if($comment_config->use_vote_up=='N')-->selected="selected"<!--@end-->>{$lang->notuse}</option>
+				</select>
+			</td>
+		</tr>
+		<tr>    
+			<th><div>{$lang->cmd_vote_down}</div></th>
+			<td>
+				<select name="use_vote_down" class="w100">
+					<option value="Y" <!--@if($comment_config->use_vote_down=='Y')-->selected="selected"<!--@end-->>{$lang->use}</option>
+					<option value="S" <!--@if($comment_config->use_vote_down=='S')-->selected="selected"<!--@end-->>{$lang->show_voted_member}</option>
+					<option value="N" <!--@if($comment_config->use_vote_down=='N')-->selected="selected"<!--@end-->>{$lang->notuse}</option>
+				</select>
+			</td>
+		</tr>
+	
+		<tr>
+			<th colspan="2" class="button">
+				<span class="button strong black"><input type="submit" value="{$lang->cmd_save}"/></span>
+			</th>
+		</tr>
+		</table>
+	</div>
 
 </form>

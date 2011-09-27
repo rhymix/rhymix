@@ -21,8 +21,7 @@
 <div class="btnArea">
     <span class="etc"><button type="button" onclick="location.href=location.href;return false;">{$lang->cmd_next}</button></span>
     <!--@if($message->member_srl != $logged_info->member_srl)-->
-        <button type="button" onclick="doSendMessage('{$message->sender_srl}','{$message->message_srl}');return false;">
-    {$lang->cmd_reply_message}</button>
+        <button type="button" onclick="doSendMessage('{$message->sender_srl}','{$message->message_srl}');return false;">{$lang->cmd_reply_message}</button>
     <!--@end-->
     <button type="button" onclick="doStoreMessage('{$message->message_srl}');return false;">{$lang->cmd_store}</button>
     <button type="button" onclick="doDeleteMessage('{$message->message_srl}');return false;">{$lang->cmd_delete}</button>

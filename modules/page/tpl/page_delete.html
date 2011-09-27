@@ -5,25 +5,25 @@
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <form ruleset="deletePage" action="./" method="post">
-<input type="hidden" name="act" value="procPageAdminDelete" />
-<input type="hidden" name="page" value="{$page}" />
-<input type="hidden" name="module_srl" value="{$module_info->module_srl}" />
-    <h4 class="xeAdmin">{$lang->confirm_delete}</h4>
-    <table cellspacing="0" class="rowTable">
-    <tr>
-        <th scope="row"><div>{$lang->module_name}</div></th>
-        <td class="wide">{$module_info->mid}</td>
-    </tr>
-    <tr>
-        <th scope="row"><div>{$lang->module}</div></th>
-        <td>{$module_info->module}</td>
-    </tr>
-    <tr>
-        <th colspan="2" class="button">
-            <span class="button black strong"><input type="submit" value="{$lang->cmd_delete}" /></span>
-            <a href="{getUrl('act','dispPageAdminContent')}" class="button"><span>{$lang->cmd_back}</span></a>
-        </th>
-    </tr>
-    </table>
+	<input type="hidden" name="act" value="procPageAdminDelete" />
+	<input type="hidden" name="page" value="{$page}" />
+	<input type="hidden" name="module_srl" value="{$module_info->module_srl}" />
+    <h3 class="h3">{$lang->confirm_delete}</h3>
+	<div class="table">
+		<table width="100%" border="1" cellspacing="0">
+			<tr>
+				<th scope="row">{$lang->module_name}</th>
+				<td class="wide">{$module_info->mid}</td>
+			</tr>
+			<tr>
+				<th scope="row">{$lang->module}</th>
+				<td>{$module_info->module}</td>
+			</tr>
+		</table>
+	</div>
+	<div class="btnArea">
+		<span class="btn"><input type="submit" value="{$lang->cmd_delete}" /></span>
+		<span class="btn"><a href="{getUrl('act','dispPageAdminContent')}">{$lang->cmd_back}</a></span>
+	</div>
 </form>
 

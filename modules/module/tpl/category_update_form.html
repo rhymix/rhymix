@@ -4,22 +4,18 @@
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
-<form ruleset="updateCategory" action="./" method="post" enctype="multipart/form-data">
-<input type="hidden" name="act" value="procModuleAdminUpdateCategory" />
-<input type="hidden" name="module_category_srl" value="{$selected_category->module_category_srl}" />
-<input type="hidden" name="mode" value="update" />
-
-    <table cellspacing="0" class="rowTable">
-    <tr>
-        <th scope="row"><div>{$lang->category_title}</div></th>
-        <td><input type="text" name="title" value="{$selected_category->title}" class="inputTypeText w300" /></td>
-    </tr>
-    <tr class="row2">
-        <th colspan="2" class="button">
-            <span class="button strong black"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
-        </th>
-    </tr>
-    </table>
-
+<form ruleset="updateCategory" action="./" method="post" enctype="multipart/form-data" class="form">
+	<input type="hidden" name="act" value="procModuleAdminUpdateCategory" />
+	<input type="hidden" name="module_category_srl" value="{$selected_category->module_category_srl}" />
+	<input type="hidden" name="mode" value="update" />
+	<ul>
+		<li>
+			<p class="q"><label for="category_title">{$lang->category_title}</label></p>
+			<p class="a"><input type="text" name="title" id="category_title" value="{$selected_category->title}" /></p>
+		</li>
+	</ul>
+	<div class="btnArea">
+		<span class="btn"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+	</div>
 </form>
 <!--@end-->

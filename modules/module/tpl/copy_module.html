@@ -1,84 +1,76 @@
 <load target="js/module_admin.js" usecdn="true" />
-<div id="popHeader" class="wide">
-    <h3 class="xeAdmin">{$lang->module_copy}</h3>
-</div>
-
+<h1 class="h1">{$lang->module_copy}</h1>
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <form rule="copyModule" action="./" method="post">
-<input type="hidden" name="act" value="procModuleAdminCopyModule" />
-<input type="hidden" name="module_srl" value="{$module_info->module_srl}" />
-
-<div id="popBody">
-
-    <table cellspacing="0" class="rowTable">
-    <tr>
-        <th scope="row"><div>{$lang->module}</div></th>
-        <td class="wide">{$module_info->module}</td>
-    </tr>
-    <tr>
-        <th scope="row"><div>{$lang->mid}</div></th>
-        <td>{$module_info->mid}</td>
-    </tr>
-    <tr>
-        <th scope="row"><div>{$lang->browser_title}</div></th>
-        <td>{$module_info->browser_title}</td>
-    </tr>
-    </table>
-
-
-    <table cellspacing="0" class="rowTable">
-    <tr>
-        <th scope="col"><div>{$lang->mid}<div></th>
-        <th scope="col"><div>{$lang->browser_title}<div></th>
-    </tr>
-    <tr class="row2">
-        <td><input type="text" name="mid_1" class="inputTypeText w200" /></td>
-        <td><input type="text" name="browser_title_1" class="inputTypeText w200" /></td>
-    </tr>
-    <tr>
-        <td><input type="text" name="mid_2" class="inputTypeText w200" /></td>
-        <td><input type="text" name="browser_title_2" class="inputTypeText w200" /></td>
-    </tr>
-    <tr class="row2">
-        <td><input type="text" name="mid_3" class="inputTypeText w200" /></td>
-        <td><input type="text" name="browser_title_3" class="inputTypeText w200" /></td>
-    </tr>
-    <tr>
-        <td><input type="text" name="mid_4" class="inputTypeText w200" /></td>
-        <td><input type="text" name="browser_title_4" class="inputTypeText w200" /></td>
-    </tr>
-    <tr class="row2">
-        <td><input type="text" name="mid_5" class="inputTypeText w200" /></td>
-        <td><input type="text" name="browser_title_5" class="inputTypeText w200" /></td>
-    </tr>
-    <tr>
-        <td><input type="text" name="mid_6" class="inputTypeText w200" /></td>
-        <td><input type="text" name="browser_title_6" class="inputTypeText w200" /></td>
-    </tr>
-    <tr class="row2">
-        <td><input type="text" name="mid_7" class="inputTypeText w200" /></td>
-        <td><input type="text" name="browser_title_7" class="inputTypeText w200" /></td>
-    </tr>
-    <tr>
-        <td><input type="text" name="mid_8" class="inputTypeText w200" /></td>
-        <td><input type="text" name="browser_title_8" class="inputTypeText w200" /></td>
-    </tr>
-    <tr class="row2">
-        <td><input type="text" name="mid_9" class="inputTypeText w200" /></td>
-        <td><input type="text" name="browser_title_9" class="inputTypeText w200" /></td>
-    </tr>
-    <tr>
-        <td><input type="text" name="mid_10" class="inputTypeText w200" /></td>
-        <td><input type="text" name="browser_title_10" class="inputTypeText w200" /></td>
-    </tr>
-    </table>
-
-</div>
-
-<div id="popFooter">
-    <span class="button black strong"><input type="submit" value="{$lang->cmd_save}" /></span>
-</div>
-
+	<input type="hidden" name="act" value="procModuleAdminCopyModule" />
+	<input type="hidden" name="module_srl" value="{$module_info->module_srl}" />
+	<div class="table">
+		<table width="100%" border="1" cellspacing="0">
+			<tr>
+				<th scope="row">{$lang->module}</th>
+				<td class="wide">{$module_info->module}</td>
+				</tr>
+			<tr>
+				<th scope="row">{$lang->mid}</th>
+				<td>{$module_info->mid}</td>
+				</tr>
+			<tr>
+				<th scope="row">{$lang->browser_title}</th>
+				<td>{$module_info->browser_title}</td>
+				</tr>
+		</table>
+	</div>
+	<div class="table">
+		<table width="100%" border="1" cellspacing="0">
+			<tr>
+				<th scope="col"><div>{$lang->mid}<div></th>
+				<th scope="col"><div>{$lang->browser_title}<div></th>
+				</tr>
+			<tr class="row2">
+				<td><input type="text" name="mid_1" class="inputTypeText w200" /></td>
+				<td><input type="text" name="browser_title_1" class="inputTypeText w200" /></td>
+				</tr>
+			<tr>
+				<td><input type="text" name="mid_2" class="inputTypeText w200" /></td>
+				<td><input type="text" name="browser_title_2" class="inputTypeText w200" /></td>
+				</tr>
+			<tr class="row2">
+				<td><input type="text" name="mid_3" class="inputTypeText w200" /></td>
+				<td><input type="text" name="browser_title_3" class="inputTypeText w200" /></td>
+				</tr>
+			<tr>
+				<td><input type="text" name="mid_4" class="inputTypeText w200" /></td>
+				<td><input type="text" name="browser_title_4" class="inputTypeText w200" /></td>
+				</tr>
+			<tr class="row2">
+				<td><input type="text" name="mid_5" class="inputTypeText w200" /></td>
+				<td><input type="text" name="browser_title_5" class="inputTypeText w200" /></td>
+				</tr>
+			<tr>
+				<td><input type="text" name="mid_6" class="inputTypeText w200" /></td>
+				<td><input type="text" name="browser_title_6" class="inputTypeText w200" /></td>
+				</tr>
+			<tr class="row2">
+				<td><input type="text" name="mid_7" class="inputTypeText w200" /></td>
+				<td><input type="text" name="browser_title_7" class="inputTypeText w200" /></td>
+				</tr>
+			<tr>
+				<td><input type="text" name="mid_8" class="inputTypeText w200" /></td>
+				<td><input type="text" name="browser_title_8" class="inputTypeText w200" /></td>
+				</tr>
+			<tr class="row2">
+				<td><input type="text" name="mid_9" class="inputTypeText w200" /></td>
+				<td><input type="text" name="browser_title_9" class="inputTypeText w200" /></td>
+				</tr>
+			<tr>
+				<td><input type="text" name="mid_10" class="inputTypeText w200" /></td>
+				<td><input type="text" name="browser_title_10" class="inputTypeText w200" /></td>
+				</tr>
+		</table>
+	</div>
+	<div class="btnArea">
+		<span class="btn"><input type="submit" value="{$lang->cmd_save}" /></span>
+	</div>
 </form>

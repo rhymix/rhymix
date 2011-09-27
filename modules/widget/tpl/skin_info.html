@@ -1,10 +1,7 @@
 <load target="../../admin/tpl/css/admin.css" usecdn="true" />
-<div id="popHeader" class="wide">
-    <h3 class="xeAdmin">{$skin_info->title}</h3>
-</div>
-
-<div id="popBody">
-    <table cellspacing="0" class="rowTable">
+<h1 class="h1">{$skin_info->title}</h1>
+<div class="table">
+    <table width="100%" border="1" cellspacing="0">
     <col width="100" />
     <col />
     <tr>
@@ -50,12 +47,10 @@
 </div>
 
 <!--@if($skin_info->history)-->
-<div id="popHistoryHeadder">
-    <h3 class="xeAdmin">{$lang->skin_history}</h3>
-</div>
+<h1 class="h1">{$lang->skin_history}</h1>
 
-<div id="popHistoryBody">
-    <table cellspacing="0" class="rowTable">
+<div class="table">
+    <table width="100%" border="1" cellspacing="0">
     <col width="100" />
     <col />
 
