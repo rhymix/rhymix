@@ -362,7 +362,8 @@
 
             Context::set('lang_selected', Context::loadLangSelected());
 
-            Context::set('admin_ip', $db_info->admin_ip);
+			$admin_ip_list = preg_replace("/[,]+/","\r\n",$db_info->admin_ip_list);
+            Context::set('admin_ip_list', $admin_ip_list);
 
 			$oAdminModel = &getAdminModel('admin');
 			$favicon_url = $oAdminModel->getFaviconUrl();
@@ -375,14 +376,17 @@
 
 			$oDocumentModel = &getModel('document');
 			$config = $oDocumentModel->getDocumentConfig();
-        		Context::set('thumbnail_type',$config->thumbnail_type);
+       		Context::set('thumbnail_type',$config->thumbnail_type);
+			
+			$oModuleAdminModel = &getAdminModel('module');
+			$IP = $oModuleAdminModel->getModuleAdminCurrentIP();
+			Context::set('IP',$IP);
 			
 			$oModuleModel = &getModel('module');
 			$config = $oModuleModel->getModuleConfig('module');
-        		Context::set('htmlFooter',$config->htmlFooter);
+       		Context::set('htmlFooter',$config->htmlFooter);
 
 
-			$oModuleModel = &getModel('module');
 			$columnList = array('modules.mid', 'modules.browser_title', 'sites.index_module_srl');
 			$start_module = $oModuleModel->getSiteInfo(0, $columnList);
             Context::set('start_module', $start_module);
@@ -392,6 +396,7 @@
 
 			$security = new Security();
 			$security->encodeHTML('news..', 'released_version', 'download_link', 'selected_lang', 'module_list..', 'module_list..author..', 'addon_list..', 'addon_list..author..', 'start_module.');
+
         }
 
 		/**

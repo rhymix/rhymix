@@ -206,19 +206,15 @@
             if(!$kind && $this->module == 'admin') $kind = 'admin';
 			if($this->module_info->use_mobile != "Y") Mobile::setMobile(false);
 
+			// Admin ip
 			$logged_info = Context::get('logged_info');
-
-			if($kind == 'admin' && $logged_info->is_admin == 'Y'){
-				$oModuleAdminModel = &getAdminModel('module');
-				if(!$oModuleAdminModel->getModuleAdminIPCheck()) {
-					$this->error = "msg_not_permitted_act";
-					$oMessageObject = &ModuleHandler::getModuleInstance('message',$type);
-					$oMessageObject->setError(-1);
-					$oMessageObject->setMessage($this->error);
-					$oMessageObject->dispMessage();
-					return $oMessageObject;
-				}
-
+			if($kind == 'admin' && $_SESSION['denied_admin'] == 'Y'){
+				$this->error = "msg_not_permitted_act";
+				$oMessageObject = &ModuleHandler::getModuleInstance('message',$type);
+				$oMessageObject->setError(-1);
+				$oMessageObject->setMessage($this->error);
+				$oMessageObject->dispMessage();
+				return $oMessageObject;
 			}
 			
 			// if(type == view, and case for using mobilephone)

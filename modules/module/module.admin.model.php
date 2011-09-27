@@ -260,29 +260,38 @@
 		function getModuleAdminIPCheck() {
 		
 			$db_info = Context::getDBInfo();
-			$admin_ip = $db_info->admin_ip;
-			
-			if(preg_match('/^(\d{1,3}(?:.(\d{1,3}|\*)){3})$/', $admin_ip, $matches)) {				
-				if(!empty($_SERVER['HTTP_CLIENT_IP']) && getenv('HTTP_CLIENT_IP')){  
-					$ip = $_SERVER['HTTP_CLIENT_IP'];  
-				} 
-				else if(!empty($_SERVER['HTTP_X_FORWARDED_FOR']) && getenv('HTTP_X_FORWARDED_FOR')){  
-					$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];  
-				} 
-				else if(!empty($_SERVER['REMOTE_HOST']) && getenv('REMOTE_HOST')){  
-					$ip =  $_SERVER['REMOTE_HOST'];  
-				} 
-				else if(!empty($_SERVER['REMOTE_ADDR']) && getenv('REMOTE_ADDR')){  
-					$ip =  $_SERVER['REMOTE_ADDR'];  
-				}
-				if($ip) {
+			$admin_ip_list = $db_info->admin_ip_list;
+			$admin_ip_list = explode(",",$admin_ip_list);
+			$ip = $this->getModuleAdminCurrentIP();
+			$falg = false;
+			foreach($admin_ip_list as $admin_ip_list_key => $admin_ip_value) {
+				if(preg_match('/^\d{1,3}(?:.(\d{1,3}|\*)){3}\s*$/', $admin_ip_value, $matches) && $ip) {
+					$admin_ip = $matches[0];
 					$admin_ip = str_replace('*','',$admin_ip);
 					$admin_ip_patterns[] = preg_quote($admin_ip);				
 					$admin_ip_pattern = '/^('.implode($admin_ip_patterns,'|').')/';				
-					if(!preg_match($admin_ip_pattern, $ip, $matches)) return false;
+					if(preg_match($admin_ip_pattern, $ip, $matches)) return true;
+					$flag = true;
 				} 
+
 			}
-			return true;
+			if(!$flag) return true;
+			return false;
+		}
+		function getModuleAdminCurrentIP(){
+			if(!empty($_SERVER['HTTP_CLIENT_IP']) && getenv('HTTP_CLIENT_IP')){  
+				$ip = $_SERVER['HTTP_CLIENT_IP'];  
+			} 
+			else if(!empty($_SERVER['HTTP_X_FORWARDED_FOR']) && getenv('HTTP_X_FORWARDED_FOR')){  
+				$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];  
+			} 
+			else if(!empty($_SERVER['REMOTE_HOST']) && getenv('REMOTE_HOST')){  
+				$ip =  $_SERVER['REMOTE_HOST'];  
+			} 
+			else if(!empty($_SERVER['REMOTE_ADDR']) && getenv('REMOTE_ADDR')){  
+				$ip =  $_SERVER['REMOTE_ADDR'];  
+			}
+			return $ip;
 		}
     }
 ?>

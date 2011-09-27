@@ -1477,6 +1477,12 @@
                 $autologin_output = executeQuery('member.insertAutologin', $autologin_args);
                 if($autologin_output->toBool()) setCookie('xeak',$autologin_args->autologin_key, time()+60*60*24*365, '/');
             }
+			if($this->memberInfo->is_admin == 'Y') {
+				 $oModuleAdminModel = &getAdminModel('module');
+				if(!$oModuleAdminModel->getModuleAdminIPCheck()) {
+		            $_SESSION['denied_admin'] = 'Y';
+				}
+			}
 
             $this->setSessionInfo();
 
@@ -1509,8 +1515,8 @@
             $_SESSION['is_logged'] = true;
             $_SESSION['ipaddress'] = $_SERVER['REMOTE_ADDR'];
             $_SESSION['member_srl'] = $this->memberInfo->member_srl;
-            $_SESSION['is_admin'] = '';
-            // Do not save your password in the session jiwojum;;
+			$_SESSION['is_admin'] = '';
+			// Do not save your password in the session jiwojum;;
             //unset($this->memberInfo->password);
             // User Group Settings
             /*

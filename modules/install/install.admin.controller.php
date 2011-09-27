@@ -75,9 +75,12 @@
 			$use_mobile_view = Context::get('use_mobile_view');
 			if($use_mobile_view!='Y') $use_mobile_view = 'N';
 
-			$admin_ip = Context::get('admin_ip');
+			$admin_ip_list = Context::get('admin_ip_list');
 
-            $db_info = Context::getDBInfo();
+			$admin_ip_list = preg_replace("/[\r|\n|\r\n]+/",",",$admin_ip_list);
+			$admin_ip_list = preg_replace("/\s+/","",$admin_ip_list);
+
+			$db_info = Context::getDBInfo();
             $db_info->default_url = Context::get('default_url');
             if($db_info->default_url && !preg_match('/^(http|https):\/\//i', $db_info->default_url)) $db_info->default_url = 'http://'.$db_info->default_url;
             $db_info->time_zone = $time_zone;
@@ -89,7 +92,7 @@
 			$db_info->use_cdn = $use_cdn;
 			$db_info->use_html5 = $use_html5;
 			$db_info->use_mobile_view = $use_mobile_view;
-			$db_info->admin_ip = $admin_ip;
+			$db_info->admin_ip_list = $admin_ip_list;
 
 			if($http_port) $db_info->http_port = (int) $http_port;
             else if($db_info->http_port) unset($db_info->http_port);

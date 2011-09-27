@@ -26,6 +26,7 @@
         <action name="procModuleFileBoxAdd" type="controller" standalone="true" />
         <action name="procModuleFileBoxDelete" type="controller" standalone="true" />
 
+		<action name="getModuleAdminCurrentIP" type="model" standalone="true" />
         <action name="getModuleAdminModuleList" type="model" standalone="true" />
         <action name="getModuleAdminLangCode" type="model" standalone="true" />
         <action name="getModuleAdminLangListByName" type="model" standalone="true" />
