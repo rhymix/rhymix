@@ -378,9 +378,7 @@
 			$config = $oDocumentModel->getDocumentConfig();
        		Context::set('thumbnail_type',$config->thumbnail_type);
 			
-			$oModuleAdminModel = &getAdminModel('module');
-			$IP = $oModuleAdminModel->getModuleAdminCurrentIP();
-			Context::set('IP',$IP);
+			Context::set('IP',$_SERVER['REMOTE_ADDR']);
 			
 			$oModuleModel = &getModel('module');
 			$config = $oModuleModel->getModuleConfig('module');

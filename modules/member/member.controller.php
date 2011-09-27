@@ -1478,8 +1478,8 @@
                 if($autologin_output->toBool()) setCookie('xeak',$autologin_args->autologin_key, time()+60*60*24*365, '/');
             }
 			if($this->memberInfo->is_admin == 'Y') {
-				 $oModuleAdminModel = &getAdminModel('module');
-				if(!$oModuleAdminModel->getModuleAdminIPCheck()) {
+				 $oMemberAdminModel = &getAdminModel('member');
+				if(!$oMemberAdminModel->getMemberAdminIPCheck()) {
 		            $_SESSION['denied_admin'] = 'Y';
 				}
 			}

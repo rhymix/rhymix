@@ -186,11 +186,7 @@
          * @brief Supported languages (was procInstallAdminSaveLangSelected)
          **/
 		function saveLangSelected($selected_lang){
-			/*$selected_lang = trim($selected_lang);
-            if(!$selected_lang) return new Object(-1,'msg_invalid_request');
-            $langs = explode('|@|', $selected_lang);*/
 			$langs = $selected_lang;
-			//fileter로 넘어오지 않으므로 위에 처럼 변경
 
             $lang_supported = Context::loadLangSupported();
             $buff = null;

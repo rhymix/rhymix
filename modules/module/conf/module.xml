@@ -26,12 +26,10 @@
         <action name="procModuleFileBoxAdd" type="controller" standalone="true" />
         <action name="procModuleFileBoxDelete" type="controller" standalone="true" />
 
-		<action name="getModuleAdminCurrentIP" type="model" standalone="true" />
         <action name="getModuleAdminModuleList" type="model" standalone="true" />
         <action name="getModuleAdminLangCode" type="model" standalone="true" />
         <action name="getModuleAdminLangListByName" type="model" standalone="true" />
         <action name="getModuleAdminLangListByValue" type="model" standalone="true" />
-		<action name="getModuleAdminIPCheck" type="model" standalone="true" />
         <action name="getLangListByLangcodeForAutoComplete" type="model" standalone="true" />
 		<action name="getFileBoxListHtml" type="model" />
 		<action name="getLangByLangcode" type="model" />

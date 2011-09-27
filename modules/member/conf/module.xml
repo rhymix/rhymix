@@ -35,6 +35,7 @@
         <action name="getMemberMenu" type="model" standalone="true" />
         <action name="getMemberAdminColorset" type="model" standalone="true" />
 		<action name="getMemberAdminInsertJoinForm" type="model" />
+		<action name="getMemberAdminIPCheck" type="model" standalone="true" />
 
         <action name="procMemberLogin" type="controller" standalone="true" ruleset="@login" />
         <action name="procMemberOpenIDLogin" type="controller" standalone="true" ruleset="openidLogin" />
