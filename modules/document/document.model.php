@@ -104,7 +104,7 @@
         /**
          * @brief Bringing multiple documents (or paging)
          **/
-        function getDocuments($document_srls, $is_admin = false, $load_extra_vars=true) {
+        function getDocuments($document_srls, $is_admin = false, $load_extra_vars=true, $columnList = array()) {
             if(is_array($document_srls)) {
                 $list_count = count($document_srls);
                 $document_srls = implode(',',$document_srls);
@@ -115,7 +115,7 @@
             $args->list_count = $list_count;
             $args->order_type = 'asc';
 
-            $output = executeQuery('document.getDocuments', $args);
+            $output = executeQuery('document.getDocuments', $args, $columnList);
             $document_list = $output->data;
             if(!$document_list) return;
             if(!is_array($document_list)) $document_list = array($document_list);

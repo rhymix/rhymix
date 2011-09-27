@@ -1776,7 +1776,8 @@ class documentController extends document {
 
 		if(count($documentSrlList) > 0) {
 			$oDocumentModel = &getModel('document');
-			$documentList = $oDocumentModel->getDocuments($documentSrlList, $this->grant->is_admin);
+			$columnList = array('document_srl', 'title', 'nick_name', 'status');
+			$documentList = $oDocumentModel->getDocuments($documentSrlList, $this->grant->is_admin, false, $columnList);
 		}
 		else
 		{
