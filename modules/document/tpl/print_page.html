@@ -1,17 +1,14 @@
 <load target="./js/document_admin.js" usecdn="true" />
 <load target="./css/document.css" usecdn="true" />
-<div class="printContent">
-	<h1 class="h1">{$oDocument->getTitleText()}</h1>
-    <a href="#popup_menu_area" class="member_{$oDocument->get('member_srl')}">{$oDocument->get('nick_name')}</a>
-    {$oDocument->getRegdate()}
-    <!--@if($oDocument->isExtraVarsExists() && (!$oDocument->isSecret() || $oDocument->isGranted()) )-->
-    <!--@foreach($oDocument->getExtraVars() as $key => $val)-->    
-	{$val->name}: {$val->getValueHtml()}
-    <!--@end-->
-	<!--@end-->    
-	{$oDocument->getContent(false, false)} 
-</div>
-
+<h1 class="h1">{$oDocument->getTitleText()}</h1>
+<a href="#popup_menu_area" class="member_{$oDocument->get('member_srl')}">{$oDocument->get('nick_name')}</a>
+{$oDocument->getRegdate()}
+<!--@if($oDocument->isExtraVarsExists() && (!$oDocument->isSecret() || $oDocument->isGranted()) )-->
+<!--@foreach($oDocument->getExtraVars() as $key => $val)-->    
+{$val->name}: {$val->getValueHtml()}
+<!--@end-->
+<!--@end-->    
+{$oDocument->getContent(false, false)} 
 <script type="text/javascript">
 //<![CDATA[
     jQuery(window).load(function() { window.print(); } );

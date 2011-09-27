@@ -850,4 +850,8 @@
 		<value xml:lang="ko"><![CDATA[분류를 선택하세요.]]></value>
 		<value xml:lang="en"><![CDATA[Select a category.]]></value>
 	</item>
+	<item name="category_description">
+		<value xml:lang="ko"><![CDATA[카테고리 설명]]></value>
+		<value xml:lang="en"><![CDATA[Category Description]]></value>
+	</item>
 </lang>

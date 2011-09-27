@@ -6,17 +6,16 @@
 	<caption>Total : {number_format($total_count)}, Page {number_format($page)}/{number_format($total_page)}</caption>
 <thead>
 	<tr>
-		<th class="title"><div>{$lang->date}</div></th>
-		<th class="title"><div>{$lang->title}</div></th>
-		<th class="title"><div>{$lang->cmd_select}</div></th>
+		<th class="title">{$lang->date}</th>
+		<th class="title">{$lang->title}</th>
+		<th class="title">{$lang->cmd_select}</th>
 	</tr>
 </thead>
 <tbody>
 	<!--@foreach($document_list as $no => $val)-->
 	<tr>
 		<td>{$val->getRegdate("Y-m-d H:i:s")}</td>
-		<td >
-			<div><a href="#" onclick="jQuery('#saved_document_{$val->document_srl}').toggle(); setFixedPopupSize(); return false;">{$val->getTitle()}</a></div>
+		<td > <a href="#" onclick="jQuery('#saved_document_{$val->document_srl}').toggle(); setFixedPopupSize(); return false;">{$val->getTitle()}</a>
 			<div id="saved_document_{$val->document_srl}" class="saved_content" style="display:none;">{$val->getContent(false)}</div>
 		</td>
 		<td><a href="#" onclick="doDocumentSelect('{$val->document_srl}'); return false;" class="buttonSet buttonActive"><span>{$lang->cmd_select}</span></a></td>

@@ -12,7 +12,7 @@
 </script>
 
 <div class="x" style="padding: 0 10px;">
-	<h2 class="h2">{$lang->widgetstyle}</h2>
+	<h1 class="h1">{$lang->widgetstyle}</h1>
 
 	<form class="form" action="./" method="post" id="fo_widget">
 		<input type="hidden" name="module_srl" value="{$module_srl}" />
@@ -31,7 +31,7 @@
 		<a loop="$widgetStyle_list => $key, $widgetStyle" cond="$widgetStyle->preview" href="{getUrl('widgetstyle',$widgetStyle->widgetStyle)}" class="widgetStyle <!--@if($widgetStyle->widgetStyle==$widgetstyle)-->selected<!--@end-->"><img src="{getUrl()}{$widgetStyle->preview}" title="{$widgetStyle->title}" /><span>{$widgetStyle->title}</span></a>
 		<block cond="$widgetstyle_info">
 
-			<h3 class="h3">{$widgetstyle_info->title} ver {$widgetstyle_info->version}</h3>
+			<h2 class="h2">{$widgetstyle_info->title} ver {$widgetstyle_info->version}</h2>
 			<ul>
 				<li>
 					<p class="q">{$lang->description}</p>

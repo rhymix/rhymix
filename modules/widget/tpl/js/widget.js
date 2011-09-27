@@ -137,7 +137,7 @@ function getContentWidgetCode(childObj, widget) {
             if(!value) continue;
             attrs += name+'="'+escape(value)+'" ';
         }
-        return '<img src="./common/img/widget_bg.jpg" class="zbxe_widget_output" widget="widgetContent" style="'+getStyle(childObj)+'" body="'+body+'" document_srl="'+document_srl+'" widget_padding_left="'+getPadding(childObj,'left')+'" widget_padding_right="'+getPadding(childObj, 'right')+'" widget_padding_top="'+getPadding(childObj, 'top')+'" widget_padding_bottom="'+getPadding(childObj,'bottom')+'" '+attrs+' />';
+        return '<img class="zbxe_widget_output" widget="widgetContent" style="'+getStyle(childObj)+'" body="'+body+'" document_srl="'+document_srl+'" widget_padding_left="'+getPadding(childObj,'left')+'" widget_padding_right="'+getPadding(childObj, 'right')+'" widget_padding_top="'+getPadding(childObj, 'top')+'" widget_padding_bottom="'+getPadding(childObj,'bottom')+'" '+attrs+' />';
     }else{
         return '';
     }
@@ -269,10 +269,10 @@ function completeAddContent(ret_obj, response_tags, params, fo_obj) {
 
     var tpl = ''+
         '<div class="widgetOutput" style="'+fo_obj.style.value+'" widget_padding_left="'+fo_obj.widget_padding_left.value+'" widget_padding_right="'+fo_obj.widget_padding_right.value+'" widget_padding_top="'+fo_obj.widget_padding_top.value+'" widget_padding_bottom="'+fo_obj.widget_padding_bottom.value+'" document_srl="'+document_srl+'" widget="widgetContent">'+
-        '<div class="widgetResize"></div>'+
-        '<div class="widgetResizeLeft"></div>'+
+        '<button type="button" class="widgetResize"></button>'+
+        '<button type="button" class="widgetResizeLeft"></button>'+
         '<div class="widgetBorder">'+
-        '<div style="padding:'+fo_obj.widget_padding_top.value+'px '+fo_obj.widget_padding_right.value+'px'+fo_obj.widget_padding_bottom.value+'px'+fo_obj.widget_padding_left.value+'px"></div>'+content+'<div class="clear"></div>'+
+        '<div style="padding:'+fo_obj.widget_padding_top.value+'px '+fo_obj.widget_padding_right.value+'px'+fo_obj.widget_padding_bottom.value+'px'+fo_obj.widget_padding_left.value+'px"></div>'+content+
         '</div>'+
         '<div class="widgetContent" style="display:none;width:1px;height:1px;overflow:hidden;"></div>'+
         '</div>';
@@ -296,8 +296,8 @@ function completeAddContent(ret_obj, response_tags, params, fo_obj) {
 function doAddWidgetBox() {
     var tpl = ''+
     '<div class="widgetOutput" style="float:left;width:100%;height:12px;" widget="widgetBox" >'+
-        '<div class="widgetBoxResize"></div>'+
-        '<div class="widgetBoxResizeLeft"></div>'+
+        '<button type="button" class="widgetBoxResize"></button>'+
+        '<button type="button" class="widgetBoxResizeLeft"></button>'+
         '<div class="widgetBoxBorder">'+
             '<div class="nullWidget" style="width:100%;height:100px;"></div>'+
         '</div>'+

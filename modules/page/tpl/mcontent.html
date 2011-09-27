@@ -1,14 +1,13 @@
-<div>{$page_content}</div>
-
+{$page_content}
 <!--@if($grant->manager)-->
     <load target="./js/page_admin.js" usecdn="true" />
-    <div class="tRight gap1 clear">
-        <a href="#" onclick="doRemoveWidgetCache({$module_info->module_srl}); return false;" class="button blue"><span>{$lang->cmd_remake_cache}</span></a>
+    <div class="btnArea">
+        <span class="btn"><button type="button" onclick="doRemoveWidgetCache({$module_info->module_srl}); return false;">{$lang->cmd_remake_cache}</button></span>
         <!--@if($logged_info->is_admin=='Y')-->
-        <a href="{getUrl('act','dispPageAdminInfo','module_srl',$module_info->module_srl)}" class="button green"><span>{$lang->cmd_setup}</span></a>
+        <span class="btn"><a href="{getUrl('act','dispPageAdminInfo','module_srl',$module_info->module_srl)}">{$lang->cmd_setup}</a></span>
         <!--@end-->
-        <a href="{getUrl('act','dispPageAdminMobileContentModify','document_srl','')}" class="button red"><span>{$lang->cmd_page_modify}</span></a>
-        <a href="{getUrl('act','','module_srl',$module_info->module_srl)}" class="button black"><span>PC</span></a>
-		<p style="color:#777">{$lang->about_mcontent}</p>
+        <span class="btn"><a href="{getUrl('act','dispPageAdminMobileContentModify','document_srl','')}">{$lang->cmd_page_modify}</a></span>
+        <span class="btn"><a href="{getUrl('act','','module_srl',$module_info->module_srl)}">PC</a></span>
+		<p>{$lang->about_mcontent}</p>
     </div>
 <!--@end-->
