@@ -378,10 +378,10 @@ body.modalContainer{_height:100%;_width:100%} /* IE6 only */
 .x .langEdit .langList li a{display:inline-block;width:80px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
 .x .langEdit .langList li.active{background:url(../img/iconArrow.gif) no-repeat right -188px}
 .x .langEdit.showChild .langList{display:block}
-.x .langEdit #langInput{background:#fff}
-.x .langEdit #langInput h2{padding:5px 10px;margin:0 0 -1px 0;font-size:12px;font-weight:normal;color:#666;border:1px solid #eee;border-top-color:#ccc}
-.x .langEdit #langInput h2 strong{color:#000;font-size:14px}
-.x .langEdit.showChild #langInput{position:absolute;left:285px;top:0}
+.x .langEdit .langInput{background:#fff}
+.x .langEdit .langInput h2{padding:5px 10px;margin:0 0 -1px 0;font-size:12px;font-weight:normal;color:#666;border:1px solid #eee;border-top-color:#ccc}
+.x .langEdit .langInput h2 strong{color:#000;font-size:14px}
+.x .langEdit.showChild .langInput{position:absolute;left:285px;top:0}
 .x .langEdit li.en input, 
 .x .langEdit li.en textarea, 
 .x .mLangEdit li.en textarea{background:url(../img/flag.us.gif) no-repeat 99% 5px}

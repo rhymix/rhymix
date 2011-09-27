@@ -835,7 +835,7 @@ $('.multiLangEdit')
 
 			// reset
 			$layer.trigger('multilang-reset').removeClass('showChild').find('.langList').empty().end();
-			$('#langInput li.'+xe.current_lang).find('>input:text,>textarea').val(text).prev('label').css('visibility','hidden');
+			$layer.find('.langInput li.'+xe.current_lang).find('>input:text,>textarea').val(text).prev('label').css('visibility','hidden');
 
 			// hide suggestion layer
 			$suggest.trigger('hide');
@@ -863,7 +863,8 @@ $('.multiLangEdit')
 				$.each(list, function(key){
 					var $li = $('<li />').appendTo($langlist);
 
-					$('<a href="#langInput" class="langItem" />')
+					var anchor_id = $layer.data('layer_index');
+					$('<a href="#langInput_'+anchor_id+'" class="langItem" />')
 						.text(this[xe.current_lang])
 						.data('multilang-name', key)
 						.appendTo($li);
@@ -912,6 +913,7 @@ $suggest = $('<div class="suggestion"><ul></ul></div>')
 		$(this).hide();
 	});
 
+var layer_index = 0;
 function initLayer($layer) {
 	var $submit, $input, value='', current_status = 0, mode, cmd_add, cmd_edit, status_texts=[];
 	var USE = 0, UPDATE_AND_USE = 1, MODE_SAVE = 0, MODE_UPDATE = 1;
@@ -923,7 +925,7 @@ function initLayer($layer) {
 		.bind('multilang-reset', function(){
 			$layer
 				.data('multilang-current-name', '')
-				.find('#langInput li').find('>input:text,>textarea').val(' ').prev('label').css('visibility','visible');
+				.find('.langInput li').find('>input:text,>textarea').val(' ').prev('label').css('visibility','visible');
 
 			mode = MODE_SAVE;
 			setTitleText();
@@ -945,7 +947,7 @@ function initLayer($layer) {
 			if(!list || !list[name]) return;
 			list = list[name];
 
-			$controls = $('#langInput');
+			$controls = $layer.find('.langInput');
 
 			$layer
 				.trigger('multilang-reset') // reset
@@ -968,7 +970,9 @@ function initLayer($layer) {
 			setTitleText();
 
 			return false;
-		});
+		})
+		.data('layer_index', layer_index)
+		.find('.langInput').attr('id', 'langInput_' + layer_index++);
 
 	cmd_edit = $layer.find('h2 strong').text();
 	cmd_add  = $layer.find('h2 a').text();
@@ -1006,7 +1010,7 @@ function initLayer($layer) {
 			function use_lang() {
 				$layer.hide().closest('.multiLangEdit').find('.vLang')
 					.eq(0).val('$user_lang->'+name).end()
-					.eq(1).val($('#langInput li.'+xe.current_lang).find('>input:text,>textarea').val()).end();
+					.eq(1).val($layer.find('.langInput li.'+xe.current_lang).find('>input:text,>textarea').val()).end();
 			};
 
 			function save_lang() {
