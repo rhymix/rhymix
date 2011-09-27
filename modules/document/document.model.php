@@ -585,11 +585,6 @@
             $args->sort_index = $opt->sort_index;
             $args->order_type = $opt->order_type;
 
-            // 검색 옵션 정리
-            $searchOpt->search_target = $opt->search_target;
-            $searchOpt->search_keyword = $opt->search_keyword;
-			$this->_setSearchOption($searchOpt, $args, $query_id, $use_division);
-
             // Guhanhu total number of the article search page
             $output = executeQuery('document.getDocumentPage', $args);
             $count = $output->data->count;
