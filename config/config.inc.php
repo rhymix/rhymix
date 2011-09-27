@@ -132,7 +132,7 @@
 	/**
 	 * @brief CDN version
 	 **/
-	if(!defined('__XE_CDN_VERSION__')) define('__XE_CDN_VERSION__', 'alpha2');
+	if(!defined('__XE_CDN_VERSION__')) define('__XE_CDN_VERSION__', '%__XE_CDN_VERSION__%');
 
     /**
      * @brief Require specific files when using Firebug console output

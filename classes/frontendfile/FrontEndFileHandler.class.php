@@ -135,7 +135,7 @@
 			$result = array();
 			foreach($map as $file)
 			{
-				if ($useCdn == 'Y' && $file->useCdn)
+				if ($useCdn == 'Y' && $file->useCdn && $file->cdnVersion != '%__XE_CDN_VERSION__%')
 				{
 					$fullFilePath = $file->cdnPrefix . $file->cdnVersion . '/' . substr($file->cdnPath, 2) . '/' . $file->fileName;
 				}
@@ -170,7 +170,7 @@
 			$result = array();
 			foreach($map as $file)
 			{
-				if ($useCdn == 'Y' && $file->useCdn)
+				if ($useCdn == 'Y' && $file->useCdn && $file->cdnVersion != '%__XE_CDN_VERSION__%')
 				{
 					$fullFilePath = $file->cdnPrefix . $file->cdnVersion . '/' . substr($file->cdnPath, 2) . '/' . $file->fileName;
 				}
