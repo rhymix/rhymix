@@ -83,7 +83,7 @@ $('#theme').data('themes', themes);
 								</li>
 								<li>&middot; {$lang->description}: {$val->description}</li>
 								<li>&middot; {$lang->path}: {$val->path}</li>
-								<li>&middot; {$lang->cmd_setup}: <a href="#">Edit</a></li>
+								<li>&middot; {$lang->cmd_setup}: <a href="{getUrl('', 'module', 'admin', 'act', 'dispLayoutAdminModify', 'layout', $val->layout,'layout_srl', $val->layout_srl)}">{$lang->cmd_edit}</a></li>
 							</ul>
 						</li>
 					</ul>
