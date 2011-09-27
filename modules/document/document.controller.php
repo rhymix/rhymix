@@ -1169,7 +1169,7 @@ class documentController extends document {
 		$this->add('parent_srl', $args->parent_srl);
 
 		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispBoardAdminCategoryInfo', 'module_srl', $args->module_srl);
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : Context::get('error_return_url'); 
 			header('location:'.$returnUrl);
 			return;
 		}
