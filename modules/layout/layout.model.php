@@ -71,7 +71,6 @@
 				if (!$layout_info) {
 					$oLayoutController = &getAdminController('layout');
 					$oLayoutController->deleteLayout($layout_srl);
-					debugPrint('delete');
 					return;
 				}
 	            
