@@ -94,14 +94,14 @@ _xe_base = {
 	 * @brief Unregister an application instance
 	 */
 	unregisterApp : function(oApp) {
-		var sName  = oPlugin.getName().toLowerCase();
+		var sName  = oApp.getName().toLowerCase();
 		var nIndex = $.inArray(oApp, _apps);
 
-		if (nIndex >= 0) _apps.splice(nIndex, 1);
+		if (nIndex >= 0) _apps = _apps.splice(nIndex, 1);
 
 		if ($.isArray(_apps[sName])) {
 			nIndex = $.inArray(oApp, _apps[sName]);
-			if (nIndex >= 0) _apps[sName].splice(nIndex, 1);
+			if (nIndex >= 0) _apps[sName] = _apps[sName].splice(nIndex, 1);
 		}
 
 		// unregister event
@@ -316,8 +316,8 @@ if(jQuery) jQuery.noConflict();
          * @brief 특정 name을 가진 체크박스들의 checked 속성 변경
          * @param [itemName='cart',][options={}]
          */
-        checkboxToggleAll : function() {
-            var itemName='cart';
+        checkboxToggleAll : function(itemName) {
+            if(!is_def(itemName)) itemName='cart';
             var options = {
                 wrap : null,
                 checked : 'toggle',
@@ -330,6 +330,7 @@ if(jQuery) jQuery.noConflict();
                         itemName = arguments[0];
                     } else {
                         $.extend(options, arguments[0] || {});
+						itemName = 'cart';
                     }
                     break;
                 case 2:
@@ -345,8 +346,8 @@ if(jQuery) jQuery.noConflict();
             } else {
                 var obj = $('input[name='+itemName+']:checkbox');
             }
-
-            if(options.checked == 'toggle') {
+			
+			if(options.checked == 'toggle') {
                 obj.each(function() {
                     $(this).attr('checked', ($(this).attr('checked')) ? false : true);
                 });
@@ -384,9 +385,6 @@ if(jQuery) jQuery.noConflict();
                             switch(target) {
                                 case "popup" :
                                         click_str = " onclick=\"popopen(this.href,'"+target+"'); return false;\"";
-                                    break;
-                                case "self" :
-                                        //click_str = " onclick=\"location.href='"+url+"' return false;\"";
                                     break;
                                 case "javascript" :
                                         click_str = " onclick=\""+url+"; return false; \"";
@@ -735,26 +733,22 @@ function zbxe_folder_close(id) {
  * popup_layout 에서 window.onload 시 자동 요청됨.
  **/
 function setFixedPopupSize() {
-	var $ = jQuery;
-	var $win = $(window);
-	var $pc  = $('body>.popup');
-	var w    = Math.max($pc[0].offsetWidth, 600);
-	var h    = $pc[0].offsetHeight;
-	var dw   = $win.width();
-	var dh   = $win.height();
-	var _w = 0, _h = 0;
+	var $ = jQuery, $win = $(window), $pc = $('body>.popup'), w, h, dw, dh, offset;
 
-	if (w != dw) _w = w - dw;
-	if (h != dh) _h = h - dh;
+	offset = $pc.css({overflow:'scroll'}).offset();
 
-	if (_w || _h) {
-		window.resizeBy(_w, _h);
-	}
+	w = $pc.width(10).height(10000).get(0).scrollWidth + offset.left*2;
+	h = $pc.height(10).width(10000).get(0).scrollHeight + offset.top*2;
 
-	if (!arguments.callee.executed) {
-		setTimeout(setFixedPopupSize, 300);
-		arguments.callee.executed = true;
-	}
+	if(w < 600) w = 600 + offset.left*2;
+
+	dw = $win.width();
+	dh = $win.height();
+
+	if(w != dw) window.resizeBy(w - dw, 0);
+	if(h != dh) window.resizeBy(0, h - dh);
+
+	$pc.width(w-offset.left*2).css({overflow:'',height:''});
 }
 
 /**
@@ -1235,14 +1229,16 @@ jQuery(function($){
 		};
 		var response_tags = 'error message menus'.split(' ');
 
+		// prevent default action
+		evt.preventDefault();
+		evt.stopPropagation();
+
 		if(is_def(window.xeVid)) params.vid = xeVid;
-		if(is_def(XE.loaded_popup_menus[params.menu_id])) return XE.displayPopupMenu(params, response_tags, params) && false;
+		if(is_def(XE.loaded_popup_menus[params.menu_id])) return XE.displayPopupMenu(params, response_tags, params);
 
 		show_waiting_message = false;
 		exec_xml('member', action, params, XE.displayPopupMenu, response_tags, params);
         show_waiting_message = true;
-
-		return false;
     });
 
 	/**
@@ -1426,7 +1422,7 @@ function xml2json(xml, tab, ignoreAttrib) {
       xml = xml.documentElement;
 
    var json_obj = X.toObj(X.removeWhite(xml)), json_str;
-   
+
    if (typeof(JSON)=='object' && jQuery.isFunction(JSON.stringify) && false) {
 	   var obj = {}; obj[xml.nodeName] = json_obj;
 	   json_str = JSON.stringify(obj);
@@ -1468,7 +1464,7 @@ $.exec_xml = window.exec_xml = function(module, act, params, callback_func, resp
 
 		if(port != 443) target += ':'+port;
 		if(_ul.pathname[0] != '/') target += '/';
-		
+
 		target += _ul.pathname;
 		xml_path = target.replace(/\/$/, '')+'/index.php';
 	}
@@ -1498,7 +1494,7 @@ $.exec_xml = window.exec_xml = function(module, act, params, callback_func, resp
 	function onsuccess(data, textStatus, xhr) {
 		var resp_xml = $(data).find('response')[0], resp_obj, txt='', ret=[], tags={}, json_str='';
 
-		waiting_obj.css('display', 'none');
+		waiting_obj.css('display', 'none').trigger('cancel_confirm');
 
 		if(!resp_xml) {
 			alert(_xhr.responseText);
@@ -1562,7 +1558,9 @@ $.exec_xml = window.exec_xml = function(module, act, params, callback_func, resp
 					msg = textStatus;
 				}
 
-				alert(msg);
+				try{
+					console.log(msg);
+				}catch(ee){}
 			}
 		});
 	} catch(e) {
@@ -1573,10 +1571,7 @@ $.exec_xml = window.exec_xml = function(module, act, params, callback_func, resp
 	// ajax 통신중 대기 메세지 출력 (show_waiting_message값을 false로 세팅시 보이지 않음)
 	var waiting_obj = $('.wfsr');
 	if(show_waiting_message && waiting_obj.length) {
-		var d = $(document);
-		waiting_obj.html(waiting_message).css({
-			'display' : 'none'
-		});
+		waiting_obj.html(waiting_message).show();
 	}
 }
 function send_by_form(url, params) {
@@ -1608,10 +1603,11 @@ function send_by_form(url, params) {
 function arr2obj(arr) {
 	var ret = {};
 	for(var key in arr) {
-		if(arr.hasOwnProperty(key)) ret[key] = arr[key];		
+		if(arr.hasOwnProperty(key)) ret[key] = arr[key];
 	}
 	return ret;
 }
+
 
 /**
  * @brief exec_json (exec_xml와 같은 용도)
@@ -1620,10 +1616,7 @@ $.exec_json = function(action,data,func){
     if(typeof(data) == 'undefined') data = {};
     action = action.split(".");
     if(action.length == 2){
-
-        if(show_waiting_message) {
-            $(".wfsr").html(waiting_message).css('display','none');
-        }
+        if(show_waiting_message) $(".wfsr").html(waiting_message).show();
 
         $.extend(data,{module:action[0],act:action[1]});
         if(typeof(xeVid)!='undefined') $.extend(data,{vid:xeVid});
@@ -1634,7 +1627,7 @@ $.exec_json = function(action,data,func){
             ,contentType:"application/json"
             ,data:$.param(data)
             ,success : function(data){
-                $(".wfsr").css('display','none');
+                $(".wfsr").hide().trigger('cancel_confirm');
                 if(data.error > 0) alert(data.message);
                 if($.isFunction(func)) func(data);
             }
@@ -1649,9 +1642,7 @@ $.fn.exec_html = function(action,data,type,func,args){
     var self = $(this);
     action = action.split(".");
     if(action.length == 2){
-        if(show_waiting_message) {
-            $(".wfsr").html(waiting_message).css('display','none');
-        }
+        if(show_waiting_message) $(".wfsr").html(waiting_message).show();
 
         $.extend(data,{module:action[0],act:action[1]});
         $.ajax({
@@ -1660,13 +1651,28 @@ $.fn.exec_html = function(action,data,type,func,args){
             ,url:request_uri
             ,data:$.param(data)
             ,success : function(html){
-                $(".wfsr").css('display','none');
+                $(".wfsr").hide().trigger('cancel_confirm');
                 self[type](html);
                 if($.isFunction(func)) func(args);
             }
         });
     }
 };
+
+function beforeUnloadHandler(){
+	return '';
+}
+
+$(function($){
+	$('.wfsr')
+		.ajaxStart(function(){
+			$(window).bind('beforeunload', beforeUnloadHandler);
+		})
+		.bind('ajaxStop cancel_confirm', function(){
+			$(window).unbind('beforeunload', beforeUnloadHandler);
+		});
+});
+
 })(jQuery);
 /**
  * @file   common/js/xml_js_filter.js
@@ -1680,7 +1686,7 @@ $.fn.exec_html = function(action,data,type,func,args){
 
 var messages  = [];
 var rules     = [];
-var filters   = [];
+var filters   = {};
 var callbacks = [];
 var extras    = {};
 
@@ -1698,16 +1704,16 @@ var Validator = xe.createApp('Validator', {
 		this.cast('ADD_RULE', ['user_id', regUserid]);
 
 		// url
-		var regUrl = /^(https?|ftp|mms):\/\/[0-9a-z-]+(\.[_0-9a-z-\/\~]+)+(:[0-9]{2,4})*$/;
+		var regUrl = /^(https?|ftp|mms):\/\/[0-9a-z-]+(\.[_0-9a-z-]+)+(:\d+)?/;
 		this.cast('ADD_RULE', ['url', regUrl]);
 		this.cast('ADD_RULE', ['homepage', regUrl]);
 
 		// korean
-		var regKor = /^[가-힣]*$/;
+		var regKor = new RegExp('^[\uAC00-\uD7A3]*$');
 		this.cast('ADD_RULE', ['korean', regKor]);
 
 		// korean_number
-		var regKorNum = /^[가-힣0-9]*$/;
+		var regKorNum = new RegExp('^[\uAC00-\uD7A30-9]*$');
 		this.cast('ADD_RULE', ['korean_number', regKorNum]);
 
 		// alpha
@@ -1755,23 +1761,72 @@ var Validator = xe.createApp('Validator', {
 			});
 	},
 	API_VALIDATE : function(sender, params) {
-		var result = true, form = params[0], filter=null, callback=null;
-		var name, el, val, mod, len, lenb, max, min, maxb, minb, rules, e_el, e_val, i, c, r, result;
+		var result = true, form = params[0], elems = form.elements, filter, filter_to_add, ruleset, callback;
+		var fields, names, name, el, val, mod, len, lenb, max, min, maxb, minb, rules, e_el, e_val, i, c, r, if_, fn;
 
-		if (form.elements['_filter']) filter = form.elements['_filter'].value;
-		if (!filter) return true;
-		if ($.isFunction(callbacks[filter])) callback = callbacks[filter];
+		if(elems['ruleset']) filter = form.elements['ruleset'].value;
+		else if(elems['_filter']) filter = form.elements['_filter'].value;
+		if(!filter) return true;
+
+		if($.isFunction(callbacks[filter])) callback = callbacks[filter];
 		filter = $.extend({}, filters[filter.toLowerCase()] || {}, extras);
+
+		function regex_quote(str){
+			return str.replace(/([\.\+\-\[\]\{\}\(\)\\])/g, '\\$1');
+		};
+
+		// get form names
+		fields = [];
+		for(i=0,c=form.elements.length; i < c; i++) {
+			el   = elems[i];
+			name = el.name;
+
+			if(!name || !elems[name]) continue;
+			if(!elems[name].length || elems[name][0] === el) fields.push(name);
+		};
+		fields = fields.join('\n');
+
+		// get field names matching patterns
+		filter_to_add = {};
+		for(name in filter) {
+			if(!filter.hasOwnProperty(name)) continue;
+
+			names = [];
+			if(name.substr(0,1) == '^') {
+				names = fields.match( (new RegExp('^'+regex_quote(name.substr(1))+'.*$','gm')) );
+			} else {
+				continue;
+			}
+			if(!names) names = [];
+
+			for(i=0,c=names.length; i < c; i++) {
+				filter_to_add[names[i]]= filter[name];
+			}
+
+			filter[name] = null;
+			delete filter[name];
+		};
+
+		filter = $.extend(filter, filter_to_add);
 
 		for(name in filter) {
 			if(!filter.hasOwnProperty(name)) continue;
 
 			f   = filter[name];
-			el  = form.elements[name];
+			el  = elems[name];
 			val = el?$.trim(get_value($(el))):'';
 			mod = (f.modifier||'')+',';
 
-			if(!el) continue;
+			if(!el || el.disabled) continue;
+
+			if(f['if']) {
+				if(!$.isArray(f['if'])) f['if'] = [f['if']];
+				for(i=0;i<f['if'].length;i++) {
+					if_ = f['if'][i];
+					fn  = new Function('el', 'return !!(' + (if_.test.replace(/\$(\w+)/g, 'el["$1"].value')) +')');
+					if(fn(elems)) f[if_.attr] = if_.value;
+				}
+			}
 
 			if(!val) {
 				if(f['default']) val = f['default'];
@@ -1790,7 +1845,7 @@ var Validator = xe.createApp('Validator', {
 			}
 			
 			if(f.equalto) {
-				e_el  = form.elements[f.equalto];
+				e_el  = elems[f.equalto];
 				e_val = e_el?$.trim(get_value($(e_el))):'';
 				if(e_el && e_val !== val) {
 					return this.cast('ALERT', [form, name, 'equalto']) && false;
@@ -1807,9 +1862,9 @@ var Validator = xe.createApp('Validator', {
 					return this.cast('ALERT', [form, name, 'invalid_'+r]) && false;
 				}
 			}
-		}
+		};
 
-		if ($.isFunction(callback)) return callback(form);
+		if($.isFunction(callback)) return callback(form);
 
 		return true;
 	},
@@ -1943,17 +1998,17 @@ var EditorStub = xe.createPlugin('editor_stub', {
 oValidator.registerPlugin(new EditorStub);
 
 // functions
-function get_value(elem) {
+function get_value($elem) {
 	var vals = [];
-	if (elem.is(':radio')){
-		return elem.filter(':checked').val();
-	} else if (elem.is(':checkbox')) {
-		elem.filter(':checked').each(function(){
+	if ($elem.is(':radio')){
+		return $elem.filter(':checked').val();
+	} else if ($elem.is(':checkbox')) {
+		$elem.filter(':checked').each(function(){
 			vals.push(this.value);
 		});
 		return vals.join('|@|');
 	} else {
-		return elem.val();
+		return $elem.val();
 	}
 }
 
