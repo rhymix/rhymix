@@ -489,7 +489,7 @@
                                 $inner_style);
 
                             $widget_content_body = $body;
-                            $widget_content_footer = sprintf('</div><div class="clear"></div>'.
+                            $widget_content_footer = sprintf('</div>'.
                                     '</div>'.
                                     '<div class="widgetContent" style="display:none;width:1px;height:1px;overflow:hidden;">%s</div>'.
                                 '</div>',base64_encode($body));
@@ -538,7 +538,7 @@
                                     $widget_padding_top, $widget_padding_right, $widget_padding_bottom, $widget_padding_left,
                                     $widget, implode(' ',$attribute));
 
-                            $widget_content_body = sprintf('<div style="%s">%s</div><div class="clear"></div>',$inner_style, $widget_content);
+                            $widget_content_body = sprintf('<div style="%s">%s</div>',$inner_style, $widget_content);
 
                             $widget_content_footer = '</div></div>';
 

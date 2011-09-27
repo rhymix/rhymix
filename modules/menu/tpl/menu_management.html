@@ -33,7 +33,7 @@
 				</tr>
 				<tr>
 					<th scope="col">{$lang->menu_management}</th>
-					<td class="left">
+					<td >
 						{nl2br($lang->about_menu_management)} 
 						<button type="button" onclick="doReloadTreeMenu('{$menu_info->menu_srl}');return false;">{$lang->cmd_remake_cache}</button>
 					</td>
@@ -47,20 +47,20 @@
         	<table width="100%" border="1" cellspacing="0">
         		<tr>
         			<th scope="col">{$lang->title}</th>
-        			<td class="left">
+        			<td >
         				{$menu_info->title}
        				</td>
        			</tr>
         		<tr>
         			<th scope="col">{$lang->menu_management}</th>
-        			<td class="left">{nl2br($lang->about_menu_management)}</td>
+        			<td >{nl2br($lang->about_menu_management)}</td>
        			</tr>
 			</table>
 		</div>
     <!--@end-->
 
 
-	<form ruleset="insertMenuItem" id="fo_menu" action="./" method="post" class="clear" enctype="multipart/form-data">
+	<form ruleset="insertMenuItem" id="fo_menu" action="./" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="act" value="procMenuAdminInsertItem" />
 		<input type="hidden" name="title" value="{$menu_info->title}" />
 		<input type="hidden" name="menu_srl" value="{$menu_info->menu_srl}" />

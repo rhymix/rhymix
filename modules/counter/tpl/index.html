@@ -19,10 +19,8 @@
 		<table width="100%" border="1" cellspacing="0">
 			<thead>
 			<tr>
-				<th scope="row" class="half_wide"><div>{$lang->total_counter}</div></th>
-				<th scope="row" class="half_wide">
-					<div>
-						<span id="str_selected_date">{zdate($selected_date, "Y-m-d")}</span>
+				<th scope="row">{$lang->total_counter}</th>
+				<th scope="row"> <span id="str_selected_date">{zdate($selected_date, "Y-m-d")}</span>
 						<input type="hidden" class="inputDate" value="{zdate($selected_date,'Y-m-d')}" />
 <script type="text/javascript">
 	(function($){
@@ -47,15 +45,13 @@
 			$(".inputDate").datepicker(option);
 		});
 	})(jQuery);
-</script>
-					</div>
-				</th>
+</script>				</th>
 			</tr>
 			</thead>
 			<tbody>
 			<tr>
-				<td class="number center">Visitor <strong>{number_format($total_counter->unique_visitor)}</strong> &nbsp;/&nbsp; Pageview : <strong>{number_format($total_counter->pageview)}</strong></td>
-				<td class="number center">Visitor : <strong>{number_format($selected_day_counter->unique_visitor)}</strong> &nbsp;/&nbsp; Pageview : <strong>{number_format($selected_day_counter->pageview)}</strong></td>
+				<td>Visitor <strong>{number_format($total_counter->unique_visitor)}</strong> &nbsp;/&nbsp; Pageview : <strong>{number_format($total_counter->pageview)}</strong></td>
+				<td>Visitor : <strong>{number_format($selected_day_counter->unique_visitor)}</strong> &nbsp;/&nbsp; Pageview : <strong>{number_format($selected_day_counter->pageview)}</strong></td>
 			</tr>
 			</tbody>
 			</table>
@@ -64,7 +60,7 @@
 	<div class="cnb">
 		<ul>
 			<!--@foreach($lang->cmd_select_counter_type as $key => $val)-->
-			<li <!--@if($type==$key || (!$type && $key == "hour"))-->class="on"<!--@end-->><a href="{getUrl('type',$key)}">{$val}</a></li>
+			<li <!--@if($type==$key || (!$type && $key == "hour"))-->class="active"<!--@end-->><a href="{getUrl('type',$key)}">{$val}</a></li>
 			<!--@end-->
 		</ul>
 	</div>
@@ -91,9 +87,7 @@
 		<!--@end-->
 	<tr>
 		<!--@if(Context::getLangType()=='en')-->
-		<th scope="row">
-			<div>
-			<!--// 시간대별 -->
+		<th scope="row"> <!--// 시간대별 -->
 			<!--@if($type == 'year')-->
 				<em>{$key}</em>
 			<!--@elseif($type == 'month')-->
@@ -102,13 +96,9 @@
 				<em>{$key}</em> {$lang->unit_day}
 			<!--@else-->
 				<em>{$key}</em>
-			<!--@end-->
-			</div>
-		</th>
+			<!--@end-->			</th>
 		<!--@else-->
-		<th scope="row">
-			<div>
-			<!--// 시간대별 -->
+		<th scope="row"> <!--// 시간대별 -->
 			<!--@if($type == 'year')-->
 				<em>{$key}</em> {$lang->unit_year}
 			<!--@elseif($type == 'month')-->
@@ -117,12 +107,10 @@
 				<em>{$key}</em> {$lang->unit_day}
 			<!--@else-->
 				<em>{$key}</em> {$lang->unit_hour}
-			<!--@end-->
-			</div>
-		</th>
+			<!--@end-->			</th>
 		<!--@end-->
 		{@ $img_width = (int)$percent; $img_width = $img_width?$img_width.'%':'3px'; }
-		<td class="wide">
+		<td >
 			<div class="barContainer">
 				<span class="graphHr" style="width:{$img_width}">
 					<span>{number_format($val)}({$percent}%)</span>

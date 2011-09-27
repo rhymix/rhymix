@@ -9,11 +9,11 @@
         <col width="120" />
         <col />
         <tr>
-            <th scope="row"><div>{$lang->width}</div></th>
-            <td><input type="text" class="inputTypeText" size="3" id="width" value="400" />px</td>
+            <th scope="row">{$lang->width}</th>
+            <td><input type="text" size="3" id="width" value="400" />px</td>
         </tr>
         <tr>
-            <th scope="row"><div>{$lang->gallery_style}</div></th>
+            <th scope="row">{$lang->gallery_style}</th>
             <td>
                 <select id="gallery_style">
                     <option value="slide">{$lang->gallery_slide_style}</option>
@@ -22,7 +22,7 @@
             </td>
         </tr>
         <tr>
-            <th scope="row"><div>{$lang->gallery_slide_align}</div></th>
+            <th scope="row">{$lang->gallery_slide_align}</th>
             <td>
                 <select id="gallery_align">
                     <option value="center">{$lang->gallery_slide_center}</option>
@@ -32,11 +32,11 @@
             </td>
         </tr>
         <tr>
-            <th scope="row"><div>{$lang->gallery_border_thickness}</div></th>
-            <td><input type="text" class="inputTypeText" size="1" id="border_thickness" value="0" />px</td>
+            <th scope="row">{$lang->gallery_border_thickness}</th>
+            <td><input type="text" size="1" id="border_thickness" value="0" />px</td>
         </tr>
         <tr>
-            <th scope="row"><div>{$lang->gallery_border_color}</div></th>
+            <th scope="row">{$lang->gallery_border_color}</th>
             <td>
                 <div class="editor_color_box">
                     <script type="text/javascript">
@@ -45,12 +45,12 @@
                 </div>
                 <ul class="buttonLeft">
                     <li><img src="./images/border_solid.gif" alt="blank" class="border_preview_color" id="border_preview_color" /></li>
-                    <li>#<input type="text" id="border_color_input" size="7" maxlength="6" class="inputTypeText" value="000000" onkeyup="manual_select_color('border',this)"/></li>
+                    <li>#<input type="text" id="border_color_input" size="7" maxlength="6"  value="000000" onkeyup="manual_select_color('border',this)"/></li>
                 </ul>
             </td>
         </tr>
         <tr>
-            <th scope="row"><div>{$lang->gallery_bg_color}</div></th>
+            <th scope="row">{$lang->gallery_bg_color}</th>
             <td>
                 <div class="editor_color_box">
                     <script type="text/javascript">
@@ -59,12 +59,12 @@
                 </div>
                 <ul class="buttonLeft">
                     <li><img src="./images/blank.gif" alt="blank" class="bg_preview_color" id="bg_preview_color" /></li>
-                    <li>#<input type="text" id="bg_color_input" size="7" maxlength="6" class="inputTypeText" value="FFFFFF" onkeyup="manual_select_color('bg',this)"/></li>
+                    <li>#<input type="text" id="bg_color_input" size="7" maxlength="6"  value="FFFFFF" onkeyup="manual_select_color('bg',this)"/></li>
                 </ul>
             </td>
         </tr>
         <tr>
-            <th scope="row"><div>{$lang->image_list}</div></th>
+            <th scope="row">{$lang->image_list}</th>
             <td>
                 <select id="image_list" size="6" multiple="true" class="image_list">
                 </select>

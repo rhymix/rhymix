@@ -15,21 +15,21 @@
     	<table width="100%" border="1" cellspacing="0">
     		<tr>
     			<th scope="row">{$lang->group_title}</th>
-    			<td class="left"><input type="text" name="title" id="title" class="inputTypeText w400 lang_code" value="{$selected_group->title}"/></td>
+    			<td ><input type="text" name="title" id="title" value="{$selected_group->title}"/></td>
    			</tr>
     		<!--@if($selected_group->is_default!='Y' && $selected_group->is_admin!='Y')-->
-    		<tr class="row2">
+    		<tr>
     			<th scope="row">{$lang->is_default}</th>
-    			<td class="left"><input type="checkbox" name="is_default" value="Y" class="checkbox" /> {$lang->about_member_default}</td>
+    			<td ><input type="checkbox" name="is_default" value="Y" class="checkbox" /> {$lang->about_member_default}</td>
    			</tr>
     		<!--@end-->
     		<tr>
     			<th scope="row">{$lang->description}</th>
-    			<td class="left"><textarea name="description" class="inputTypeTextArea w400">{$selected_group->description}</textarea></td>
+    			<td ><textarea name="description">{$selected_group->description}</textarea></td>
    			</tr>
     		<tr>
     			<th scope="row">{$lang->group_image_mark}</th>
-    			<td class="left">
+    			<td >
     				<div id="filebox_preview_image_mark" style="width:100px;height:100px;<!--@if(!$selected_group->image_mark)-->display:none<!--@endif-->"></div>
     				<input type="hidden" name="image_mark" value="{$selected_group->image_mark}" />
     				<span class="button black"><button type="button" onclick="XE.filebox.open(jQuery('[name=image_mark]').get(0), 'jpg,jpeg,gif,png')">{$lang->cmd_select}</button></span>

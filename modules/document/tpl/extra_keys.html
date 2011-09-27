@@ -22,14 +22,14 @@
 			<table width="100%" border="1" cellspacing="0">
 				<tr>
 					<th>{$lang->eid}</th>
-					<td class="wide">
-						<input type="text" name="eid" value="{$selected_var->eid}" class="inputTypeText w200" id="eid" /><p>{$lang->about_extra_vars_eid_value}</p>
+					<td >
+						<input type="text" name="eid" value="{$selected_var->eid}" id="eid" /><p>{$lang->about_extra_vars_eid_value}</p>
 					</td>
 				</tr>
 				<tr>
 					<th>{$lang->column_name}</th>
-					<td class="wide">
-						<input type="text" name="name" value="{$selected_var->name}" class="inputTypeText w200" id="name" /><a href="{getUrl('','module','module','act','dispModuleAdminLangcode','target','name')}" onclick="popopen(this.href);return false;" class="buttonSet buttonSetting"><span>{$lang->cmd_find_langcode}</span></a> 
+					<td >
+						<input type="text" name="name" value="{$selected_var->name}" id="name" /><a href="{getUrl('','module','module','act','dispModuleAdminLangcode','target','name')}" onclick="popopen(this.href);return false;" class="buttonSet buttonSetting"><span>{$lang->cmd_find_langcode}</span></a> 
 					</td>
 				</tr>
 				<tr>
@@ -50,11 +50,11 @@
 				</tr>
 				<tr>
 					<th>{$lang->default_value}</th>
-					<td><input type="text" name="default" value="{$selected_var->default}" class="inputTypeText w400" /><p>{$lang->about_extra_vars_default_value}</p></td>
+					<td><input type="text" name="default" value="{$selected_var->default}" /><p>{$lang->about_extra_vars_default_value}</p></td>
 				</tr>
 				<tr>
 					<th>{$lang->description}</th>
-					<td><input type="text" name="desc" value="{$selected_var->desc}" id="desc" class="inputTypeText w400" /><a href="{getUrl('','module','module','act','dispModuleAdminLangcode','target','desc')}" onclick="popopen(this.href);return false;" class="buttonSet buttonSetting"><span>{$lang->cmd_find_langcode}</span></a></td>
+					<td><input type="text" name="desc" value="{$selected_var->desc}" id="desc" /><a href="{getUrl('','module','module','act','dispModuleAdminLangcode','target','desc')}" onclick="popopen(this.href);return false;" class="buttonSet buttonSetting"><span>{$lang->cmd_find_langcode}</span></a></td>
 				</tr>
 				<tr>
 					<th>{$lang->cmd_search}</th>
@@ -92,11 +92,11 @@
 				<tr>
 					<td rowspan="3">{$val->idx}</td>
 					<td rowspan="3">{$val->eid}</td>
-					<td class="nowrap"><b>{$val->name}</b></td>
-					<td class="nowrap">{$lang->column_type_list[$val->type]}</td>
+					<td><b>{$val->name}</b></td>
+					<td>{$lang->column_type_list[$val->type]}</td>
 					<td rowspan="3"><!--@if($val->is_required=='Y')--><b>{$lang->is_required}</b><!--@else-->N<!--@end--></td>
 					<td rowspan="3"><!--@if($val->search=='Y')--><b>{$lang->search_target}</b><!--@else-->N<!--@end--></td>
-					<td rowspan="3" class="nowrap">
+					<td rowspan="3">
 						<!--@if($val->idx>1)--><a href="#" onclick="moveVar('up','{$module_srl}','{$val->idx}'); return false;" class="buttonSet buttonUp"><span>{$lang->cmd_modify}</span></a><!--@end-->
 						<a href="#" onclick="moveVar('down','{$module_srl}','{$val->idx}');return false;" class="buttonSet buttonDown">{$lang->cmd_modify}</a>
 						<a href="{getUrl('selected_var_idx',$val->idx)}" class="buttonSet buttonSetting"><span>{$lang->cmd_modify}</span></a>
@@ -105,11 +105,11 @@
 				</tr>
 				<tr>
 					<td>{$lang->default_value}</td>
-					<td class="wide">{$val->default}&nbsp;</td>
+					<td >{$val->default}&nbsp;</td>
 				</tr>
 				<tr>
 					<td>{$lang->description}</td>
-					<td class="wide">{$val->desc}&nbsp;</td>
+					<td >{$val->desc}&nbsp;</td>
 				</tr>
 				<!--@end-->
 			</tbody>

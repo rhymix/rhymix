@@ -14,8 +14,8 @@
 <tbody>
 	<!--@foreach($document_list as $no => $val)-->
 	<tr>
-		<td class="nowrap">{$val->getRegdate("Y-m-d H:i:s")}</td>
-		<td class="wide">
+		<td>{$val->getRegdate("Y-m-d H:i:s")}</td>
+		<td >
 			<div><a href="#" onclick="jQuery('#saved_document_{$val->document_srl}').toggle(); setFixedPopupSize(); return false;">{$val->getTitle()}</a></div>
 			<div id="saved_document_{$val->document_srl}" class="saved_content" style="display:none;">{$val->getContent(false)}</div>
 		</td>

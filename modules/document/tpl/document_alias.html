@@ -21,8 +21,8 @@
 		<table width="100%" border="1" cellspacing="0">
 			<thead>
 		<tr>
-			<th scope="col" class="half_wide"><div>{$lang->title}</div></th>
-			<th scope="col" class="half_wide"><div>{$lang->alias}</div></th>
+			<th scope="col">{$lang->title}</th>
+			<th scope="col">{$lang->alias}</th>
 			<th scope="col"></th>
 		</tr>
 		</thead>
@@ -36,7 +36,7 @@
 			{@ $bFirst = false; }
 			<!--@end-->
 			<td>{$val->alias_title}</td>
-			<td><a href="#" onclick="deleteByFilter('{$val->alias_srl}', delete_alias);"><img src="images/buttonDeleteX.gif" alt="" /></a>
+			<td><button type="button" onclick="deleteByFilter('{$val->alias_srl}', delete_alias);">Delete</button>
 			</td>
 		</tr>
 			<!--@end-->
@@ -44,9 +44,9 @@
 		<tr>
 			<!--@end-->
 			<td>
-			<input type="text" class="inputTypeText fixWidth" name="alias_title" />
+			<input type="text" name="alias_title" />
 			</td>
-			<td><span class="button black strong"><input type="submit" value="{$lang->cmd_registration}" accesskey="s"class="btnSubmit" /></span></td>
+			<td><span class="btn"><input type="submit" value="{$lang->cmd_registration}" /></span></td>
 		</tr>
 		</tbody>
 		</table>

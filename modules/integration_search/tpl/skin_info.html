@@ -12,9 +12,9 @@
 		<table width="100%" border="1" cellspacing="0">
 			<tr>
 			<th scope="row">{$lang->skin}</th>
-			<td class="wide" >{$skin_info->title}</td>
+			<td  >{$skin_info->title}</td>
 		</tr>
-		<tr class="row2">
+		<tr>
 			<th scope="row">{$lang->skin_author}</th>
 			<td>
 				<!--@foreach($skin_info->author as $author)-->
@@ -26,7 +26,7 @@
 			<th scope="row">{$lang->homepage}</th>
 			<td><a href="{$skin_info->homepage}" onclick="window.open(this.href);return false;">{$skin_info->homepage}</a>&nbsp;</td>
 		</tr>
-		<tr class="row2">
+		<tr>
 			<th scope="row">{$lang->date}</th>
 			<td>{zdate($skin_info->date, 'Y-m-d')}</td>
 		</tr>
@@ -40,7 +40,7 @@
 			&nbsp;
 			</td>
 		</tr>
-		<tr class="row2">
+		<tr>
 			<th scope="row">{$lang->description}</th>
 			<td>{nl2br($skin_info->description)}</td>
 		</tr>
@@ -51,7 +51,7 @@
     	<table width="100%" border="1" cellspacing="0">
     	<tr valign="top">
         <th scope="row">{$lang->colorset}</th>
-        <td class="wide">
+        <td >
             <!--@foreach($skin_info->colorset as $key => $val)-->
                 <!--@if($val->screenshot)-->
                     {@ $_img_info = getImageSize($val->screenshot); $_height = $_img_info[1]+40; $_width = $_img_info[0]+20; $_talign = "center"; }
@@ -81,15 +81,15 @@
 			<caption>{$group}</caption>
 		<!--@end-->
 	
-		<tr class="row2">
+		<tr>
 			<th scope="row">{$val->title}</th>
-			<td class="wide">
+			<td >
 				<!--@if($val->type=="text")-->
 					<!--@if(!$val->value)-->{@ $val->value = $val->default}<!--@endif-->
-					<input type="text" name="{$val->name}" value="{$val->value}" class="inputTypeText w400" />
+					<input type="text" name="{$val->name}" value="{$val->value}" />
 	
 				<!--@elseif($val->type=="textarea")-->
-					<textarea name="{$val->name}" class="inputTypeTextArea w400">{$val->value}</textarea>
+					<textarea name="{$val->name}">{$val->value}</textarea>
 	
 				<!--@elseif($val->type=="select")-->
 					<select name="{$val->name}">

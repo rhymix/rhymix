@@ -22,15 +22,15 @@
 		<tbody>
 			<!--@foreach($layout_list as $no => $val)-->
 			<tr class="row{$cycle_idx}">
-				<td class="number center">{$no+1}</td>
+				<td>{$no+1}</td>
 				<td>
 					{$val->layout}
 					<!--@if($val->module_srl)-->
 					(module) 
 					<!--@end-->
 				</td>
-				<td class="wide">{$val->title}</td>
-				<td class="nowrap">{zdate($val->regdate,"Y-m-d")}</td>
+				<td >{$val->title}</td>
+				<td>{zdate($val->regdate,"Y-m-d")}</td>
 				<td>
 					<!--@if(!$val->module_srl)-->
 					<a href="{getUrl('act','dispLayoutAdminModify','layout_srl',$val->layout_srl)}" title="{htmlspecialchars($lang->cmd_layout_management)}" class="buttonSet buttonSetting"><span>{$lang->cmd_layout_management}</span></a>

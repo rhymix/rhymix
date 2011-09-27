@@ -9,15 +9,15 @@
 			<!--@if($logged_info->is_admin!='Y')-->
 			<input type="hidden" name="mid" value="{$module_info->mid}" />
 			<!--@else-->
-			<tr class="row2">
+			<tr>
 				<th scope="row">{$lang->mid}</th>
 				<td colspan="3">
-					<input type="text" name="mid" value="{$module_info->mid}" class="inputTypeText w200" />
+					<input type="text" name="mid" value="{$module_info->mid}" />
 					<p>{$lang->about_mid}</p>
 					</td>
 				</tr>
 			<!--@end-->
-			<tr class="row2">
+			<tr>
 				<th scope="row">{$lang->module_category}</th>
 				<td colspan="3">
 					<select name="module_category_srl">
@@ -32,12 +32,12 @@
 			<tr>
 				<th scope="row">{$lang->browser_title}</th>
 				<td colspan="3">
-					<input type="text" name="browser_title" value="{$module_info->browser_title}"  class="inputTypeText w400" id="browser_title"/>
+					<input type="text" name="browser_title" value="{$module_info->browser_title}"  id="browser_title"/>
 					<a href="{getUrl('','module','module','act','dispModuleAdminLangcode','target','browser_title')}" onclick="popopen(this.href);return false;" class="buttonSet buttonSetting"><span>{$lang->cmd_find_langcode}</span></a>
 					<p>{$lang->about_browser_title}</p>
 					</td>
 				</tr>
-			<tr class="row2">
+			<tr>
 				<th scope="row">{$lang->layout}</th>
 				<td colspan="3">
 					<select name="layout_srl">
@@ -71,21 +71,21 @@
 			<tr>
 				<th scope="row">{$lang->opage_caching_interval}</th>
 				<td colspan="3">
-					<input type="text" name="opage_caching_interval" value="{(int)$module_info->caching_interval}"  class="inputTypeText w40" /> {$lang->unit_min}
+					<input type="text" name="opage_caching_interval" value="{(int)$module_info->caching_interval}"  /> {$lang->unit_min}
 					<p>{$lang->about_opage_caching_interval}</p>
 					</td>
 				</tr>
-			<tr class="row2">
+			<tr>
 				<th scope="row">{$lang->opage_path}</th>
 				<td colspan="3">
-					<input type="text" name="opage_path" value="{$module_info->path}"  class="inputTypeText w400" />
+					<input type="text" name="opage_path" value="{$module_info->path}"  />
 					<p>{$lang->about_opage_path}<b>{realpath("./")}</b></p>
 					</td>
 				</tr>
 			<tr class="row">
 				<th scope="row">{$lang->opage_mobile_path}</th>
 				<td colspan="3">
-					<input type="text" name="opage_mpath" value="{$module_info->mpath}"  class="inputTypeText w400" />
+					<input type="text" name="opage_mpath" value="{$module_info->mpath}"  />
 					<p>{$lang->about_opage_mobile_path}<b>{realpath("./")}</b></p>
 					</td>
 				</tr>

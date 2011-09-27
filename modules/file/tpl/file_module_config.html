@@ -5,25 +5,25 @@
     <h3 class="h3">{$lang->file}</h3>
     <div class="table">
 		<table width="100%" border="1" cellspacing="0">
-			<tr class="row2">
+			<tr>
 			<th scope="col"><div>{$lang->allowed_filesize}</div></th>
 			<td>
-				<input type="text" name="allowed_filesize" value="{$file_config->allowed_filesize}" class="inputTypeText" size="3" />MB
+				<input type="text" name="allowed_filesize" value="{$file_config->allowed_filesize}"  size="3" />MB
 				<p>{$lang->about_allowed_filesize}</p>
 			</td>
 		</tr>
 		<tr>
 			<th scope="col"><div>{$lang->allowed_attach_size}</div></th>
 			<td>
-				<input type="text" name="allowed_attach_size" value="{$file_config->allowed_attach_size}" class="inputTypeText" size="3" />MB
+				<input type="text" name="allowed_attach_size" value="{$file_config->allowed_attach_size}"  size="3" />MB
 				/ {ini_get('upload_max_filesize')}
 				<p>{$lang->about_allowed_attach_size}</p>
 			</td>
 		</tr>
-		<tr class="row2">
+		<tr>
 			<th scope="col"><div>{$lang->allowed_filetypes}</div></th>
 			<td>
-				<input type="text" name="allowed_filetypes" value="{$file_config->allowed_filetypes}" class="inputTypeText w100" />
+				<input type="text" name="allowed_filetypes" value="{$file_config->allowed_filetypes}" />
 				<p>{$lang->about_allowed_filetypes}</p>
 			</td>
 		</tr>

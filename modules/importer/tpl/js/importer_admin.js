@@ -212,7 +212,7 @@ function displayProgress(total, cur) {
 
 	$stat = jQuery('#status');
 	if(!$stat.find('div.progress1').length) {
-		$stat.html( '<div class="progressBox"><div class="progress1"></div><div class="progress2"></div><div class="clear"></div></div>' );
+		$stat.html( '<div class="progressBox"><div class="progress1"></div><div class="progress2"></div></div>' );
 	}
 
 	$stat

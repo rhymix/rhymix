@@ -2,7 +2,7 @@
 
 <div class="table">
     <table width="100%" border="1" cellspacing="0">
-    <tr class="row2">
+    <tr>
         <th scope="row"><div>{$lang->title}</div></th>
         <td>{$layout_info->title} ver {$layout_info->version}</td>
     </tr>
@@ -15,7 +15,7 @@
         </td>
     </tr>
 <!--@if($layout_info->homepage)-->
-    <tr class="row2">
+    <tr>
         <th scope="row"><div>{$lang->homepage}</div></th>
         <td><a href="{$layout_info->author->homepage}" onclick="window.open(this.href);return false;">{$layout_info->homepage}</a></td>
     </tr><!--@end-->
@@ -24,7 +24,7 @@
         <td>{zdate($layout_info->date, 'Y-m-d')}</td>
     </tr>
 <!--@if($layout_info->license || $layout_info->license_link)-->
-    <tr class="row2">
+    <tr>
         <th scope="row"><div>{$lang->layout_license}</div></th>
         <td>
             {nl2br(trim($layout_info->license))}

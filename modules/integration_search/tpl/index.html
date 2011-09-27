@@ -10,10 +10,10 @@
 	<input type="hidden" name="target_module_srl" id="target_module_srl" value="{$config->target_module_srl}" />
 	<div class="table">
 		<table width="100%" border="1" cellspacing="0">
-			<tr class="row2">
+			<tr>
 			<th scope="row">{$lang->sample_code}</th>
-			<td class="wide">
-				<textarea class="inputTypeTextArea fullWidth" readonly="readonly">{$sample_code}</textarea>
+			<td >
+				<textarea readonly="readonly">{$sample_code}</textarea>
 				<p>{$lang->about_sample_code}</p>
 			</td>
 		</tr>
@@ -28,7 +28,7 @@
 				<p>{$lang->about_skin}</p>
 			</td>
 		</tr>
-		<tr class="row2">
+		<tr>
 			<th scope="row">{$lang->target}</th>
 			<td>
 				<select name="target">

@@ -1,25 +1,19 @@
 <load target="./js/document_admin.js" usecdn="true" />
 <load target="./css/document.css" usecdn="true" />
-
 <div class="printContent">
-
-    <div><h1 class="xeAdmin">{$oDocument->getTitleText()}</h1></div>
-
-    <div class="member_{$oDocument->get('member_srl')} gap1 fl">{$oDocument->get('nick_name')}</div>
-    <div class="gap1 fr">{$oDocument->getRegdate()}</div>
-    <div class="clear"></div>
-
-
+	<h1 class="h1">{$oDocument->getTitleText()}</h1>
+    <a href="#popup_menu_area" class="member_{$oDocument->get('member_srl')}">{$oDocument->get('nick_name')}</a>
+    {$oDocument->getRegdate()}
     <!--@if($oDocument->isExtraVarsExists() && (!$oDocument->isSecret() || $oDocument->isGranted()) )-->
-    <!--@foreach($oDocument->getExtraVars() as $key => $val)-->
-    <div class="gap1">{$val->name} : {$val->getValueHtml()}</div>
-    <div class="clear"></div>
+    <!--@foreach($oDocument->getExtraVars() as $key => $val)-->    
+	{$val->name}: {$val->getValueHtml()}
     <!--@end-->
-    <!--@end-->
-    <div class="gap1">{$oDocument->getContent(false, false)}</div>
-
+	<!--@end-->    
+	{$oDocument->getContent(false, false)} 
 </div>
 
-<script type="text/javascript">//<![CDATA[
+<script type="text/javascript">
+//<![CDATA[
     jQuery(window).load(function() { window.print(); } );
-//]]></script>
+//]]>
+</script>

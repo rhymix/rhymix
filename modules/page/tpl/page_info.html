@@ -10,20 +10,20 @@
 	<div class="table">
 		<table width="100%" border="1" cellspacing="0">
 			<tr>
-				<th scope="row"><div>{$lang->page_type}</div></th>
+				<th scope="row">{$lang->page_type}</th>
 				<td colspan="3">
 					{$lang->page_type_name[$module_info->page_type]}
 				</td>
 			</tr>
 			<tr>
-				<th scope="row"><div>{$lang->mid}</div></th>
+				<th scope="row">{$lang->mid}</th>
 				<td colspan="3">
-					<input type="text" name="page_name" value="{$module_info->mid}" class="inputTypeText w200" />
+					<input type="text" name="page_name" value="{$module_info->mid}" />
 					<p>{$lang->about_mid}</p>
 				</td>
 			</tr>
 			<tr>
-				<th scope="row"><div>{$lang->module_category}</div></th>
+				<th scope="row">{$lang->module_category}</th>
 				<td colspan="3">
 					<select name="module_category_srl">
 						<option value="0">{$lang->notuse}</option>
@@ -35,15 +35,15 @@
 				</td>
 			</tr>
 			<tr>
-				<th scope="row"><div>{$lang->browser_title}</div></th>
+				<th scope="row">{$lang->browser_title}</th>
 				<td colspan="3">
-					<input type="text" name="browser_title" value="{$module_info->browser_title}"  class="inputTypeText w400" id="browser_title"/>
+					<input type="text" name="browser_title" value="{$module_info->browser_title}"  id="browser_title"/>
 					<a href="{getUrl('','module','module','act','dispModuleAdminLangcode','target','browser_title')}" onclick="popopen(this.href);return false;" class="buttonSet buttonSetting"><span>{$lang->cmd_find_langcode}</span></a>
 					<p>{$lang->about_browser_title}</p>
 				</td>
 			</tr>
 			<tr>
-				<th scope="row"><div>{$lang->layout}</div></th>
+				<th scope="row">{$lang->layout}</th>
 				<td colspan="3">
 					<select name="layout_srl">
 						<option value="0">{$lang->notuse}</option>
@@ -55,14 +55,14 @@
 				</td>
 			</tr>
 			<tr>
-				<th scope="row"><div>{$lang->mobile_view}</div></th>
+				<th scope="row">{$lang->mobile_view}</th>
 				<td>
 					<input type="checkbox" name="use_mobile" value="Y" <!--@if($module_info->use_mobile == "Y")-->checked="checked"<!--@end--> />
 					<p>{$lang->about_mobile_view}</p>
 				</td>
 			</tr>
 			<tr>
-				<th scope="row"><div>{$lang->mobile_layout}</div></th>
+				<th scope="row">{$lang->mobile_layout}</th>
 				<td>
 					<select name="mlayout_srl">
 						<option value="0">{$lang->notuse}</option>
@@ -75,32 +75,32 @@
 			</tr>
 			<!--@if($module_info->page_type != 'ARTICLE')-->
 			<tr>
-				<th scope="row"><div>{$lang->page_caching_interval}</div></th>
+				<th scope="row">{$lang->page_caching_interval}</th>
 				<td colspan="3">
-					<input type="text" name="page_caching_interval" value="{(int)$module_info->page_caching_interval}"  class="inputTypeText w40" /> {$lang->unit_min}
+					<input type="text" name="page_caching_interval" value="{(int)$module_info->page_caching_interval}"  /> {$lang->unit_min}
 					<p>{$lang->about_page_caching_interval}</p>
 				</td>
 			</tr>
 			<!--@end-->
 			<!--@if($module_info->page_type == 'OUTSIDE')-->
-			<tr class="row2">
-				<th scope="row"><div>{$lang->opage_path}</div></th>
+			<tr>
+				<th scope="row">{$lang->opage_path}</th>
 				<td colspan="3">
-					<input type="text" name="path" value="{htmlspecialchars($module_info->path)}"  class="inputTypeText w400" />
+					<input type="text" name="path" value="{htmlspecialchars($module_info->path)}"  />
 					<p>{$lang->about_opage_path}<b>{realpath("./")}</b></p>
 				</td>
 			</tr>
 			<tr class="row">
-				<th scope="row"><div>{$lang->opage_mobile_path}</div></th>
+				<th scope="row">{$lang->opage_mobile_path}</th>
 				<td colspan="3">
-					<input type="text" name="mpath" value="{htmlspecialchars($module_info->mpath)}"  class="inputTypeText w400" />
+					<input type="text" name="mpath" value="{htmlspecialchars($module_info->mpath)}"  />
 					<p>{$lang->about_opage_mobile_path}<b>{realpath("./")}</b></p>
 				</td>
 			</tr>
 			<!--@end-->
 			<!--@if($module_info->page_type == 'ARTICLE')-->
-			<tr class="row2 optionnalData articleType">
-				<th scope="row"><div>{$lang->skin}</div></th>
+			<tr>
+				<th scope="row">{$lang->skin}</th>
 				<td>
 					<select name="skin">
 						<!--@foreach($skin_list as $key=>$val)-->
@@ -111,7 +111,7 @@
 				</td>
 			</tr>
 			<tr class="optionnalData articleType">
-				<th scope="row"><div>{$lang->mobile_skin}</div></th>
+				<th scope="row">{$lang->mobile_skin}</th>
 				<td>
 					<select name="mskin">
 						<!--@foreach($mskin_list as $key=>$val)-->

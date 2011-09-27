@@ -20,7 +20,7 @@
         <col width="100" />
         <col />
         <tr>
-            <th scope="row"><div>{$lang->poll_stop_date}</div></th>
+            <th scope="row">{$lang->poll_stop_date}</th>
             <td>
 
             <input type="hidden" name="stop_date" id="stop_date" value="{date('Ymd',time()+60*60*24*30)}" />
@@ -46,7 +46,7 @@
             </td>
         </tr>
         <tr>
-            <th scope="row"><div>{$lang->skin}</div></th>
+            <th scope="row">{$lang->skin}</th>
             <td>
                 <select name="skin">
                     <!--@foreach($skin_list as $skin=>$skin_info)-->
@@ -56,32 +56,31 @@
             </td>
         </tr>
         </table>
-        <div id="poll_source" class="clear" style="display:none">
-            <div class="clear"></div>
-
-            <table cellspacing="0" class="rowTable gap1">
-            <col width="100" />
-            <col />
-            <tr>
-            <th scope="row"><div><label>{$lang->poll_chk_count}</label></div></th>
-            <td><input type="text" name="checkcount_tidx" value="1" size="1" class="inputTypeText" /></td>
-            </tr>
-            <tr>
-                <th scope="row"><div>{$lang->poll_title}</div></th>
-                <td><input type="text" name="title_tidx" class="inputTypeText w400" /></td>
-            </tr>
-
-            <tr>
-                <th scope="row"><div>{$lang->poll_item} 1</div></th>
-                <td><input type="text" name="item_tidx_1" class="inputTypeText w400" /></td>
-            </tr>
-
-            <tr>
-                <th scope="row"><div>{$lang->poll_item} 2</div></th>
-                <td><input type="text" name="item_tidx_2" class="inputTypeText w400" /></td>
-            </tr>
-            </table>
-
+        <div id="poll_source" style="display:none">
+			<div class="table">
+				<table width="100%" border="1" cellspacing="0">
+					<col width="100" />
+					<col />
+					<tr>
+						<th scope="row"><div><label>{$lang->poll_chk_count}</label></div></th>
+						<td><input type="text" name="checkcount_tidx" value="1" size="1"  /></td>
+					</tr>
+					<tr>
+						<th scope="row"><div>{$lang->poll_title}</div></th>
+						<td><input type="text" name="title_tidx" /></td>
+					</tr>
+					
+					<tr>
+						<th scope="row"><div>{$lang->poll_item} 1</div></th>
+						<td><input type="text" name="item_tidx_1" /></td>
+					</tr>
+					
+					<tr>
+						<th scope="row"><div>{$lang->poll_item} 2</div></th>
+						<td><input type="text" name="item_tidx_2" /></td>
+					</tr>
+				</table>
+			</div>
 			<button type="button" class="_add_item">{$lang->cmd_add_item}</button>
 			<button type="button" class="_del_item">{$lang->cmd_del_item}</button>
 			<button type="button" class="_del_poll">{$lang->cmd_del_poll}</button>

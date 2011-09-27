@@ -33,44 +33,44 @@
     <h3 class="h3">{$lang->is_default}</h3>
 	<div class="table">
 		<table width="100%" border="1" cellspacing="0">
-			<tr class="row2">
+			<tr>
 				<td>{$lang->point_signup}</td>
 				<td>
-					<input type="text" class="inputTypeText w80" value="{$config->signup_point}" name="signup_point" /> {$config->point_name}
+					<input type="text" value="{$config->signup_point}" name="signup_point" /> {$config->point_name}
 					<p>{$lang->about_point_signup}</p>
 				</td>
 			</tr>
 			<tr>
 				<td>{$lang->cmd_login}</td>
-				<td><input type="text" class="inputTypeText w80" value="{$config->login_point}" name="login_point" /> {$config->point_name}</td>
+				<td><input type="text" value="{$config->login_point}" name="login_point" /> {$config->point_name}</td>
 			</tr>
-			<tr class="row2">
+			<tr>
 				<td>{$lang->point_insert_document}</td>
-				<td><input type="text" name="insert_document" value="{$config->insert_document}" class="inputTypeText w80" /> {$config->point_name}</td>
+				<td><input type="text" name="insert_document" value="{$config->insert_document}" /> {$config->point_name}</td>
 			</tr>
 			<tr>
 				<td>{$lang->point_insert_comment}</td>
-				<td><input type="text" name="insert_comment" value="{$config->insert_comment}" class="inputTypeText w80" /> {$config->point_name}</td>
+				<td><input type="text" name="insert_comment" value="{$config->insert_comment}" /> {$config->point_name}</td>
 			</tr>
-			<tr class="row2">
+			<tr>
 				<td>{$lang->point_upload_file}</td>
-				<td><input type="text" name="upload_file" value="{$config->upload_file}" class="inputTypeText w80" /> {$config->point_name}</td>
+				<td><input type="text" name="upload_file" value="{$config->upload_file}" /> {$config->point_name}</td>
 			</tr>
 			<tr>
 				<td>{$lang->point_download_file}</td>
-				<td><input type="text" name="download_file" value="{$config->download_file}" class="inputTypeText w80" /> {$config->point_name}</td>
+				<td><input type="text" name="download_file" value="{$config->download_file}" /> {$config->point_name}</td>
 			</tr>
-			<tr class="row2">
+			<tr>
 				<td>{$lang->point_read_document}</td>
-				<td><input type="text" name="read_document" value="{$config->read_document}" class="inputTypeText w80" /> {$config->point_name}</td>
+				<td><input type="text" name="read_document" value="{$config->read_document}" /> {$config->point_name}</td>
 			</tr>
 			<tr>
 				<td>{$lang->point_voted}</td>
-				<td><input type="text" name="voted" value="{$config->voted}" class="inputTypeText w80" /> {$config->point_name}</td>
+				<td><input type="text" name="voted" value="{$config->voted}" /> {$config->point_name}</td>
 			</tr>
-			<tr class="row2">
+			<tr>
 				<td>{$lang->point_blamed}</td>
-				<td><input type="text" name="blamed" value="{$config->blamed}" class="inputTypeText w80" /> {$config->point_name}</td>
+				<td><input type="text" name="blamed" value="{$config->blamed}" /> {$config->point_name}</td>
 			</tr>
 		</table>
 	</div>
@@ -122,15 +122,15 @@
 		<table width="100%" border="1" cellspacing="0">
 			<thead>
 				<tr>
-					<th class="half_wide"><div>{$lang->group}<div></th>
-					<th class="half_wide"><div>{$lang->level}<div></th>
+					<th>{$lang->group}</th>
+					<th>{$lang->level}</th>
 				</tr>
 			</thead>
 			<tbody>
 				<!--@foreach($group_list as $key => $val)-->
 				<tr class="row{$cycle_idx}">
-					<td class="center">{$val->title}</td>
-					<td class="center"><input type="text" class="inputTypeText w80" value="{$config->point_group[$key]}" name="point_group_{$key}" /></td>
+					<td>{$val->title}</td>
+					<td><input type="text" value="{$config->point_group[$key]}" name="point_group_{$key}" /></td>
 				</tr>
 				<!--@end-->
 				<tr class="row{$cycle_idx}">

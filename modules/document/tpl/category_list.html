@@ -11,27 +11,25 @@
     var category_title = "{$lang->category}";
 </script>
 
-<span style="float:right"><a href="#"  onclick="doReloadTreeCategory('{$module_info->module_srl}');return false;" class="button black"><span>{$lang->cmd_remake_cache}</span></a></span>
 
-    <div class="gap1">
-		<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
-			<p>{$XE_VALIDATOR_MESSAGE}</p>
-		</div>
-        <form ruleset="insertCategory" id="fo_category" action="./" method="post">
-		<input type="hidden" name="act" value="procDocumentInsertCategory" />
-        <input type="hidden" name="module_srl" value="{$module_info->module_srl}" />
-        <input type="hidden" name="xml_file" value="{$category_xml_file}" />
-		<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
-            <div id="category_info"></div>
-        </form>
-            <div id="menu">
-                <ul class="simpleTree">
-                    <li class="root" id='tree_0'><span>{$lang->category}</span></li>
-                </ul>
-            </div>
-    </div>
-
-
+<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
+<form ruleset="insertCategory" id="fo_category" action="./" method="post">
+<input type="hidden" name="act" value="procDocumentInsertCategory" />
+<input type="hidden" name="module_srl" value="{$module_info->module_srl}" />
+<input type="hidden" name="xml_file" value="{$category_xml_file}" />
+<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
+	<div id="category_info"></div>
+</form>
+<div id="menu">
+	<ul class="simpleTree">
+		<li class="root" id='tree_0'><span>{$lang->category}</span></li>
+	</ul>
+</div>
+<div class="btnArea">
+	<span class="btn"><button type="button" onclick="doReloadTreeCategory('{$module_info->module_srl}');return false;">{$lang->cmd_remake_cache}</button></span>
+</div>
 <script type="text/javascript">
     var simpleTreeCollection;
     var max_menu_depth = 999;

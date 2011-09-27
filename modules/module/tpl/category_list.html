@@ -14,7 +14,7 @@
 	<table width="100%" border="1" cellspacing="0">
 		<thead>
 			<tr>
-				<th scope="col" class="wide">{$lang->category_title}</th>
+				<th scope="col" >{$lang->category_title}</th>
 				<th scope="col">{$lang->regdate}</th>
 				<th scope="col" colspan="2">&nbsp;</th>
 			</tr>
@@ -27,8 +27,8 @@
 			<!--@end-->
 			<!--@foreach($category_list as $key => $val)-->
 			<tr>
-				<td class="wide">{$val->title}</td>
-				<td class="nowrap">{zdate($val->regdate,"Y-m-d H:i:s")}</td>
+				<td >{$val->title}</td>
+				<td>{zdate($val->regdate,"Y-m-d H:i:s")}</td>
 				<td>
 					<a href="{getUrl('module_category_srl',$val->module_category_srl)}">{$lang->cmd_modify}</a>
 					<button type="button" class="text" onclick="doUpdateCategory('{$val->module_category_srl}','{$lang->confirm_delete}');return false;">{$lang->cmd_delete}</button>

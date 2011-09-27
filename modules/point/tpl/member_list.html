@@ -28,8 +28,8 @@
 				<td>
 					<form action="./" method="get">
 						<input type="hidden" name="member_srl" value="{$val->member_srl}" />
-						<input type="text" name="orgpoint" value="{$val->point}" class="inputTypeText w80" readonly />
-						<input type="text" id="point_{$val->member_srl}" name="point" class="inputTypeText w80" />
+						<input type="text" name="orgpoint" value="{$val->point}" readonly />
+						<input type="text" id="point_{$val->member_srl}" name="point" />
 						<span class="button"><input type="button" value="{$lang->cmd_update}" onclick="updatePoint({$val->member_srl})" /></span>
 					</form>
 				</td>

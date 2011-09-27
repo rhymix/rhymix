@@ -11,12 +11,12 @@
 	<div class="table">
 		<table width="100%" border="1" cellspacing="0">
 			<!--@if($module_srl)-->
-			<tr class="row2">
+			<tr>
 				<th scope="row">{$lang->page_type}</th>
 				<td></td>
 				</tr>
 			<!--@else-->
-			<tr class="row2">
+			<tr>
 				<th scope="row">{$lang->page_type}</th>
 				<td colspan="3">
 					<select name="page_type">
@@ -32,15 +32,15 @@
 			<!--@if($logged_info->is_admin!='Y')-->
 			<input type="hidden" name="page_name" value="{$module_info->mid}" />
 			<!--@else-->
-			<tr class="row2">
+			<tr>
 				<th scope="row">{$lang->mid}</th>
 				<td colspan="3">
-					<input type="text" name="page_name" value="{$module_info->mid}" class="inputTypeText w200" />
+					<input type="text" name="page_name" value="{$module_info->mid}" />
 					<p>{$lang->about_mid}</p>
 					</td>
 				</tr>
 			<!--@end-->
-			<tr class="row2">
+			<tr>
 				<th scope="row">{$lang->module_category}</th>
 				<td colspan="3">
 					<select name="module_category_srl">
@@ -55,12 +55,12 @@
 			<tr>
 				<th scope="row">{$lang->browser_title}</th>
 				<td colspan="3">
-					<input type="text" name="browser_title" value="{$module_info->browser_title}"  class="inputTypeText w400" id="browser_title"/>
+					<input type="text" name="browser_title" value="{$module_info->browser_title}"  id="browser_title"/>
 					<a href="{getUrl('','module','module','act','dispModuleAdminLangcode','target','browser_title')}" onclick="popopen(this.href);return false;" class="buttonSet buttonSetting"><span>{$lang->cmd_find_langcode}</span></a>
 					<p>{$lang->about_browser_title}</p>
 					</td>
 				</tr>
-			<tr class="row2">
+			<tr>
 				<th scope="row">{$lang->layout}</th>
 				<td colspan="3">
 					<select name="layout_srl">
@@ -94,11 +94,11 @@
 			<tr class="optionnalData widgetType outsideType">
 				<th scope="row">{$lang->page_caching_interval}</th>
 				<td colspan="3">
-					<input type="text" name="page_caching_interval" value="{(int)$module_info->caching_interval}"  class="inputTypeText w40" /> {$lang->unit_min}
+					<input type="text" name="page_caching_interval" value="{(int)$module_info->caching_interval}"  /> {$lang->unit_min}
 					<p>{$lang->about_page_caching_interval}</p>
 					</td>
 				</tr>
-			<tr class="row2 optionnalData articleType">
+			<tr>
 				<th scope="row">{$lang->skin}</th>
 				<td>
 					<select name="skin">
@@ -120,17 +120,17 @@
 					<p>{$lang->about_skin}</p>
 					</td>
 				</tr>
-			<tr class="row2 optionnalData outsideType">
+			<tr>
 				<th scope="row">{$lang->opage_path}</th>
 				<td colspan="3">
-					<input type="text" name="path" value="{htmlspecialchars($module_info->path)}"  class="inputTypeText w400" />
+					<input type="text" name="path" value="{htmlspecialchars($module_info->path)}"  />
 					<p>{$lang->about_opage_path}<b>{realpath("./")}</b></p>
 					</td>
 				</tr>
 			<tr class="row optionnalData outsideType">
 				<th scope="row">{$lang->opage_mobile_path}</th>
 				<td colspan="3">
-					<input type="text" name="mpath" value="{htmlspecialchars($module_info->mpath)}"  class="inputTypeText w400" />
+					<input type="text" name="mpath" value="{htmlspecialchars($module_info->mpath)}"  />
 					<p>{$lang->about_opage_mobile_path}<b>{realpath("./")}</b></p>
 					</td>
 				</tr>

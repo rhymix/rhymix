@@ -25,10 +25,10 @@
 						<option value="">---------</option>
 						<option value="-1">{$lang->cmd_management}</option>
 						</select>
-					<input type="submit" name="go_button" id="go_button" value="GO" class="buttonTypeGo" />
+					<input type="submit" name="go_button" id="go_button" value="GO" />
         		</th>
-				<th scope="col" class="half_wide">{$lang->mid}</th>
-				<th scope="col" class="half_wide">{$lang->browser_title}</th>
+				<th scope="col">{$lang->mid}</th>
+				<th scope="col">{$lang->browser_title}</th>
 				<th scope="col">{$lang->regdate}</th>
 				<th scope="col">&nbsp;</th>
 				</tr>
@@ -37,8 +37,8 @@
 		<tbody>
 			<!--@foreach($opage_list as $no => $val)-->
 			<tr class="row{$cycle_idx}">
-				<td class="number center">{$no}</td>
-				<td class="center"><input type="checkbox" name="cart" value="{$val->module_srl}" /></td>
+				<td>{$no}</td>
+				<td><input type="checkbox" name="cart" value="{$val->module_srl}" /></td>
 				<td>
 					<!--@if(!$val->module_category_srl)-->
 					{$lang->not_exists}

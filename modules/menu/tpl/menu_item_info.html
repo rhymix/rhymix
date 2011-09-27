@@ -19,15 +19,15 @@
 			<tr>
 				<th scope="row">{$lang->menu_name}</th>
 				<td>
-					<input type="text" name="menu_name" id="menu_name" value="{$item_info->name}" class="inputTypeText w300"/>
+					<input type="text" name="menu_name" id="menu_name" value="{$item_info->name}" />
 					<a href="{getUrl('','module','module','act','dispModuleAdminLangcode','target','menu_name')}" onclick="popopen(this.href);return false;" class="buttonSet buttonSetting"><span>{$lang->cmd_find_langcode}</span></a> </td>
 			</tr>
 			<tr>
 				<th scope="row">{$lang->menu_url}</th>
 				<td>
-					<input type="text" name="menu_url" value="{$item_info->url}" class="inputTypeText" />
+					<input type="text" name="menu_url" value="{$item_info->url}"  />
 					<a href="{getUrl('module','menu','act','dispMenuAdminMidList')}" onclick="popopen(this.href);return false;" class="button black"><span>{$lang->cmd_search_mid}</span> </a>
-					<p class="clear">{$lang->about_menu_url}</p>
+					<p>{$lang->about_menu_url}</p>
 				</td>
 			</tr>
 			<tr>
@@ -55,7 +55,7 @@
 			
 					</div>
 			
-			<input type="file" name="menu_normal_btn" value="" class="inputTypeText" onchange="doMenuUploadButton(this); return false;"/>
+			<input type="file" name="menu_normal_btn" value=""  onchange="doMenuUploadButton(this); return false;"/>
 			
 					</td>
 			
@@ -69,7 +69,7 @@
 			
 					</div>
 			
-			<input type="file" name="menu_hover_btn" value="" class="inputTypeText" onchange="doMenuUploadButton(this); return false;"/>
+			<input type="file" name="menu_hover_btn" value=""  onchange="doMenuUploadButton(this); return false;"/>
 			
 					</td>
 			
@@ -83,7 +83,7 @@
 			
 					</div>
 			
-			<input type="file" name="menu_active_btn" value="" class="inputTypeText" onchange="doMenuUploadButton(this); return false;"/>
+			<input type="file" name="menu_active_btn" value=""  onchange="doMenuUploadButton(this); return false;"/>
 			
 					</td>
 			

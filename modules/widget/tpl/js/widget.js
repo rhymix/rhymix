@@ -168,24 +168,8 @@ function getWidgetBoxCode(childObj, widget) {
     }
 
     var body = getWidgetContent(o);
-    return '<div widget="widgetBox" style="'+getStyle(childObj)+'" widget_padding_left="'+getPadding(childObj,'left')+'" widget_padding_right="'+getPadding(childObj,'right')+'" widget_padding_top="'+getPadding(childObj, 'top')+'" widget_padding_bottom="'+getPadding(childObj, 'bottom')+'" '+attrs+'><div><div>'+body+'<div class="clear"></div></div></div></div>';
+    return '<div widget="widgetBox" style="'+getStyle(childObj)+'" widget_padding_left="'+getPadding(childObj,'left')+'" widget_padding_right="'+getPadding(childObj,'right')+'" widget_padding_top="'+getPadding(childObj, 'top')+'" widget_padding_bottom="'+getPadding(childObj, 'bottom')+'" '+attrs+'><div><div>'+body+'</div></div></div>';
 
-/*
-    var cobj = childObj.firstChild;
-    while(cobj) {
-        if(cobj.className == "widgetBorder" || cobj.className == "widgetBoxBorder") {
-            var c2obj = cobj.firstChild;
-            while(c2obj) {
-                if(c2obj.className == "nullWidget") {
-                    var body = getWidgetContent(c2obj);
-                    return '<div widget="widgetBox" style="'+getStyle(childObj)+'" widget_padding_left="'+getPadding(childObj,'left')+'" widget_padding_right="'+getPadding(childObj,'right')+'" widget_padding_top="'+getPadding(childObj, 'top')+'" widget_padding_bottom="'+getPadding(childObj, 'bottom')+'" '+attrs+'><div><div>'+body+'<div class="clear"></div></div></div></div>';
-                }
-                c2obj = c2obj.nextSibling;
-            }
-        }
-        cobj = cobj.nextSibling;
-    }
-*/
 }
 
 
@@ -316,7 +300,6 @@ function doAddWidgetBox() {
         '<div class="widgetBoxResizeLeft"></div>'+
         '<div class="widgetBoxBorder">'+
             '<div class="nullWidget" style="width:100%;height:100px;"></div>'+
-            '<div class="clear"></div>'+
         '</div>'+
     '</div>';
     xInnerHtml(zonePageObj, xInnerHtml(zonePageObj)+tpl);

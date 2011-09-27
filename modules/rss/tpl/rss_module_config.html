@@ -9,7 +9,7 @@
 		<table width="100%" border="1" cellspacing="0">
 			<tr>
 				<th scope="row">{$lang->open_rss}</th>
-				<td class="wide">
+				<td >
 					<select name="open_rss" class="w200">
 						<!--@foreach($lang->open_rss_types as $key=>$val)-->
 						<option value="{$key}" <!--@if(!$rss_config->open_rss && $key=='N')-->selected="selected"<!--@elseif($rss_config->open_rss==$key)-->selected="selected"<!--@end-->>{$val}</option>
@@ -19,7 +19,7 @@
 			</tr>
 			<tr>
 				<th scope="row">{$lang->open_feed_to_total}</th>
-				<td class="wide">
+				<td >
 					<select name="open_total_feed" class="w200">
 						<option value="N" <!--@if(!$rss_config->open_total_feed || $rss_config->open_total_feed == 'N')-->selected="selected"<!--@end-->>{$lang->use}</option>
 						<option value="T_N" <!--@if($rss_config->open_total_feed == 'T_N')-->selected="selected"<!--@end-->>{$lang->notuse}</option>
@@ -28,15 +28,15 @@
 			</tr>
 			<tr>
 				<th scope="row">{$lang->description}</th>
-				<td class="wide">
-					<textarea name="feed_description" class="inputTypeTextArea">{$rss_config->feed_description}</textarea>
+				<td >
+					<textarea name="feed_description" >{$rss_config->feed_description}</textarea>
 					<p>{$lang->about_feed_description}</p>
 				</td>
 			</tr>
 			<tr>
 				<th scope="row">{$lang->feed_copyright}</th>
-				<td class="wide">
-					<input type="text" class="inputTypeText" name="feed_copyright" value="{htmlspecialchars($rss_config->feed_copyright)}" />
+				<td >
+					<input type="text"  name="feed_copyright" value="{htmlspecialchars($rss_config->feed_copyright)}" />
 					<p>{$lang->about_feed_copyright}<br />{$lang->about_part_feed_copyright}</p>
 				</td>
 			</tr>
