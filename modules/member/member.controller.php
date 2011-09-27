@@ -18,7 +18,6 @@
          * @brief Log-in by checking user_id and password
          **/
         function procMemberLogin($user_id = null, $password = null, $keep_signed = null) {
-			debugPrint('로그인합니당');
             // Variables
             if(!$user_id) $user_id = Context::get('user_id');
             $user_id = trim($user_id);
