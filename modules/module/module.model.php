@@ -68,70 +68,62 @@
          * @brief Get the defaul mid according to the domain
          **/
         function getDefaultMid() {
-	            $default_url = preg_replace('/\/$/','',Context::getDefaultUrl());
-	            $request_url = preg_replace('/\/$/','',Context::getRequestUri());
-	            $vid = Context::get('vid');
-	            $mid = Context::get('mid');
-		        $oCacheHandler = &CacheHandler::getInstance('object');
-					if($oCacheHandler->isSupport()){
-						$cache_key = 'object_default_mid:'.$vid.'_'.$mid;
-						$output = $oCacheHandler->get($cache_key);
+			$default_url = preg_replace('/\/$/','',Context::getDefaultUrl());
+			$request_url = preg_replace('/\/$/','',Context::getRequestUri());
+			$vid = Context::get('vid');
+			$mid = Context::get('mid');
+			
+			// Check a virtual site if the default URL is already set and is is defferent from a requested URL
+			if($default_url && $default_url != $request_url) {
+				$url_info = parse_url($request_url);
+				$hostname = $url_info['host'];
+				$path = preg_replace('/\/$/','',$url_info['path']);
+				$sites_args->domain = sprintf('%s%s%s', $hostname, $url_info['port']&&$url_info['port']!=80?':'.$url_info['port']:'',$path);
+				$output = executeQuery('module.getSiteInfoByDomain', $sites_args);
+			}
+			if(!$output || !$output->data)
+			{
+				if(!$vid) $vid = $mid;
+				if($vid) {
+					$vid_args->domain = $vid;
+					$output = executeQuery('module.getSiteInfoByDomain', $vid_args);
+					if($output->toBool() && $output->data) {
+						Context::set('vid', $output->data->domain, true);
+						if($mid==$output->data->domain) Context::set('mid',$output->data->mid,true);
 					}
-				if(!$output){
-		            // Check a virtual site if the default URL is already set and is is defferent from a requested URL
-		            if($default_url && $default_url != $request_url) {
-		                $url_info = parse_url($request_url);
-		                $hostname = $url_info['host'];
-		                $path = preg_replace('/\/$/','',$url_info['path']);
-		                $sites_args->domain = sprintf('%s%s%s', $hostname, $url_info['port']&&$url_info['port']!=80?':'.$url_info['port']:'',$path);
-		                $output = executeQuery('module.getSiteInfoByDomain', $sites_args);
-		                if($oCacheHandler->isSupport() && $output->data) $oCacheHandler->put($cache_key,$output);
-		            }
-		            if(!$output || !$output->data)
-		            {
-		                if(!$vid) $vid = $mid;
-		                if($vid) {
-		                    $vid_args->domain = $vid;
-		                    $output = executeQuery('module.getSiteInfoByDomain', $vid_args);
-		                    if($output->toBool() && $output->data) {
-		                        Context::set('vid', $output->data->domain, true);
-		                        if($mid==$output->data->domain) Context::set('mid',$output->data->mid,true);
-		                    }
-		                    if($oCacheHandler->isSupport() && $output->data) $oCacheHandler->put($cache_key,$output);
-		                }
-		            }
-		            // If it is not a virtual site, get a default site information
-		            if(!$output->data) {
-		                $args->site_srl = 0;
-		                $output = executeQuery('module.getSiteInfo', $args);
-		                // Update the related informaion if there is no default site info
-		                if(!$output->data) {
-		                    // Create a table if sites table doesn't exist
-		                    $oDB = &DB::getInstance();
-		                    if(!$oDB->isTableExists('sites')) $oDB->createTableByXmlFile(_XE_PATH_.'modules/module/schemas/sites.xml');
-		                    if(!$oDB->isTableExists('sites')) return;
-		                    // Get mid, language
-		                    $mid_output = $oDB->executeQuery('module.getDefaultMidInfo', $args);
-		                    $db_info = Context::getDBInfo();
-		                    $domain = Context::getDefaultUrl();
-		                    $url_info = parse_url($domain);
-		                    $domain = $url_info['host'].( (!empty($url_info['port'])&&$url_info['port']!=80)?':'.$url_info['port']:'').$url_info['path'];
-		                    $site_args->site_srl = 0;
-		                    $site_args->index_module_srl  = $mid_output->data->module_srl;
-		                    $site_args->domain = $domain;
-		                    $site_args->default_language = $db_info->lang_type;
-
-		                    if($output->data && !$output->data->index_module_srl) {
-		                        $output = executeQuery('module.updateSite', $site_args);
-		                    } else {
-		                        $output = executeQuery('module.insertSite', $site_args);
-		                        if(!$output->toBool()) return $output;
-		                    }
-		                    $output = executeQuery('module.getSiteInfo', $args);
-		                }
-		                if($oCacheHandler->isSupport()) $oCacheHandler->put($cache_key,$output);
-		            }
 				}
+			}
+			// If it is not a virtual site, get a default site information
+			if(!$output->data) {
+				$args->site_srl = 0;
+				$output = executeQuery('module.getSiteInfo', $args);
+				// Update the related informaion if there is no default site info
+				if(!$output->data) {
+					// Create a table if sites table doesn't exist
+					$oDB = &DB::getInstance();
+					if(!$oDB->isTableExists('sites')) $oDB->createTableByXmlFile(_XE_PATH_.'modules/module/schemas/sites.xml');
+					if(!$oDB->isTableExists('sites')) return;
+					// Get mid, language
+					$mid_output = $oDB->executeQuery('module.getDefaultMidInfo', $args);
+					$db_info = Context::getDBInfo();
+					$domain = Context::getDefaultUrl();
+					$url_info = parse_url($domain);
+					$domain = $url_info['host'].( (!empty($url_info['port'])&&$url_info['port']!=80)?':'.$url_info['port']:'').$url_info['path'];
+					$site_args->site_srl = 0;
+					$site_args->index_module_srl  = $mid_output->data->module_srl;
+					$site_args->domain = $domain;
+					$site_args->default_language = $db_info->lang_type;
+
+					if($output->data && !$output->data->index_module_srl) {
+						$output = executeQuery('module.updateSite', $site_args);
+					} else {
+						$output = executeQuery('module.insertSite', $site_args);
+						if(!$output->toBool()) return $output;
+					}
+					$output = executeQuery('module.getSiteInfo', $args);
+				}
+			}
+				
             $module_info = $output->data;
             if(!$module_info->module_srl) return $module_info;
             if(is_array($module_info) && $module_info->data[0]) $module_info = $module_info[0];
