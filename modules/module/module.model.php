@@ -68,66 +68,221 @@
          * @brief Get the defaul mid according to the domain
          **/
         function getDefaultMid() {
-			$default_url = preg_replace('/\/$/','',Context::getDefaultUrl());
-			$request_url = preg_replace('/\/$/','',Context::getRequestUri());
-			$vid = Context::get('vid');
-			$mid = Context::get('mid');
-			
-			// Check a virtual site if the default URL is already set and is is defferent from a requested URL
-			if($default_url && $default_url != $request_url) {
-				$url_info = parse_url($request_url);
-				$hostname = $url_info['host'];
-				$path = preg_replace('/\/$/','',$url_info['path']);
-				$sites_args->domain = sprintf('%s%s%s', $hostname, $url_info['port']&&$url_info['port']!=80?':'.$url_info['port']:'',$path);
-				$output = executeQuery('module.getSiteInfoByDomain', $sites_args);
-			}
-			if(!$output || !$output->data)
-			{
+            $default_url = preg_replace('/\/$/','',Context::getDefaultUrl());
+            $request_url = preg_replace('/\/$/','',Context::getRequestUri());
+            $vid = Context::get('vid');
+            $mid = Context::get('mid');
+
+            // Set up
+            // test.xe.com
+			$domain = '';
+            if($default_url && $default_url != $request_url) {
+                $url_info = parse_url($request_url);
+                $hostname = $url_info['host'];
+                $path = preg_replace('/\/$/','',$url_info['path']);
+                $domain = sprintf('%s%s%s', $hostname, $url_info['port']&&$url_info['port']!=80?':'.$url_info['port']:'',$path);
+            }
+            // xe.com/blog
+			if($domain === ''){
 				if(!$vid) $vid = $mid;
 				if($vid) {
-					$vid_args->domain = $vid;
-					$output = executeQuery('module.getSiteInfoByDomain', $vid_args);
-					if($output->toBool() && $output->data) {
+					$domain = $vid;
+				}
+			}
+			// If no domain is set, go for default site
+			$oCacheHandler = &CacheHandler::getInstance('object');
+			if($domain === ''){
+				if($oCacheHandler->isSupport())	$output = $oCacheHandler->get('default_site');
+				if(!$output){
+					$args->site_srl = 0;
+					$output = executeQuery('module.getSiteInfo', $args);
+					// Update the related informaion if there is no default site info
+					if(!$output->data) {
+						// Create a table if sites table doesn't exist
+						$oDB = &DB::getInstance();
+						if(!$oDB->isTableExists('sites')) $oDB->createTableByXmlFile(_XE_PATH_.'modules/module/schemas/sites.xml');
+						if(!$oDB->isTableExists('sites')) return;
+						// Get mid, language
+						$mid_output = $oDB->executeQuery('module.getDefaultMidInfo', $args);
+						$db_info = Context::getDBInfo();
+						$domain = Context::getDefaultUrl();
+						$url_info = parse_url($domain);
+						$domain = $url_info['host'].( (!empty($url_info['port'])&&$url_info['port']!=80)?':'.$url_info['port']:'').$url_info['path'];
+						$site_args->site_srl = 0;
+						$site_args->index_module_srl  = $mid_output->data->module_srl;
+						$site_args->domain = $domain;
+						$site_args->default_language = $db_info->lang_type;
+
+						if($output->data && !$output->data->index_module_srl) {
+							$output = executeQuery('module.updateSite', $site_args);
+						} else {
+							$output = executeQuery('module.insertSite', $site_args);
+							if(!$output->toBool()) return $output;
+						}
+						$output = executeQuery('module.getSiteInfo', $args);
+					}
+					if($oCacheHandler->isSupport()) $oCacheHandler->put('default_site',$output);					
+				}
+			}
+			else {
+				if($oCacheHandler->isSupport()) $output = $oCacheHandler->get('domain_' . $domain);
+				if(!$output){
+					$args->domain = $domain;
+                    $output = executeQuery('module.getSiteInfoByDomain', $args);
+                    if($oCacheHandler->isSupport() && $output->data) $oCacheHandler->put('domain_' . $domain, $output);				
+				}
+				if($output->toBool() && $output->data && $vid) {
+					Context::set('vid', $output->data->domain, true);
+					if($mid==$output->data->domain) Context::set('mid',$output->data->mid,true);
+				}									
+			}
+/*
+            // Try to retrieve from cache
+			$oCacheHandler = &CacheHandler::getInstance('object');
+			if($oCacheHandler->isSupport()){			
+				// First look for subdomains ..
+				if($sites_args){
+					$output = $oCacheHandler->get($sites_args->domain);
+					var_dump("PRIMUL IF");
+					var_dump($output);
+				}
+				// If not found, look for "/virtual_site_name"
+				if(!$output && $vid_args){
+					$output = $oCacheHandler->get($vid_args->domain);
+					if($output && $output->toBool() && $output->data) {
 						Context::set('vid', $output->data->domain, true);
 						if($mid==$output->data->domain) Context::set('mid',$output->data->mid,true);
 					}
+					var_dump("AL DOILEA IF");
+					var_dump($output);
+				}
+				// If still not found, look for default site in cache
+				if(!$output){
+					$output = $oCacheHandler->get('default_site');
+					var_dump("AL TREILEA IF");
+					var_dump($output);
 				}
 			}
-			// If it is not a virtual site, get a default site information
-			if(!$output->data) {
-				$args->site_srl = 0;
-				$output = executeQuery('module.getSiteInfo', $args);
-				// Update the related informaion if there is no default site info
-				if(!$output->data) {
-					// Create a table if sites table doesn't exist
-					$oDB = &DB::getInstance();
-					if(!$oDB->isTableExists('sites')) $oDB->createTableByXmlFile(_XE_PATH_.'modules/module/schemas/sites.xml');
-					if(!$oDB->isTableExists('sites')) return;
-					// Get mid, language
-					$mid_output = $oDB->executeQuery('module.getDefaultMidInfo', $args);
-					$db_info = Context::getDBInfo();
-					$domain = Context::getDefaultUrl();
-					$url_info = parse_url($domain);
-					$domain = $url_info['host'].( (!empty($url_info['port'])&&$url_info['port']!=80)?':'.$url_info['port']:'').$url_info['path'];
-					$site_args->site_srl = 0;
-					$site_args->index_module_srl  = $mid_output->data->module_srl;
-					$site_args->domain = $domain;
-					$site_args->default_language = $db_info->lang_type;
+	*/
+	/*
+            // If nothing was found in cache, retrieve from database
+            if(!$output){
+                // First look for subdomain ...
+                if($site_args){
+                    $output = executeQuery('module.getSiteInfoByDomain', $sites_args);
+                    if($oCacheHandler->isSupport() && $output->data) $oCacheHandler->put($sites_args->domain,$output);
+                }
+                // Then look for "/virtual_site_name"
+                if((!$output || !$output->data) && $vid_args){
+                    $output = executeQuery('module.getSiteInfoByDomain', $vid_args);
+                    if($output->toBool() && $output->data) {
+                        Context::set('vid', $output->data->domain, true);
+                        if($mid==$output->data->domain) Context::set('mid',$output->data->mid,true);
+                        if($oCacheHandler->isSupport() && $output->data) $oCacheHandler->put($vid_args->domain,$output);
+                    }
+                }
+                // If nothing was found, get default site info
+                if(!$output->data){
+                    $args->site_srl = 0;
+                    $output = executeQuery('module.getSiteInfo', $args);
+                    // Update the related informaion if there is no default site info
+                    if(!$output->data) {
+                        // Create a table if sites table doesn't exist
+                        $oDB = &DB::getInstance();
+                        if(!$oDB->isTableExists('sites')) $oDB->createTableByXmlFile(_XE_PATH_.'modules/module/schemas/sites.xml');
+                        if(!$oDB->isTableExists('sites')) return;
+                        // Get mid, language
+                        $mid_output = $oDB->executeQuery('module.getDefaultMidInfo', $args);
+                        $db_info = Context::getDBInfo();
+                        $domain = Context::getDefaultUrl();
+                        $url_info = parse_url($domain);
+                        $domain = $url_info['host'].( (!empty($url_info['port'])&&$url_info['port']!=80)?':'.$url_info['port']:'').$url_info['path'];
+                        $site_args->site_srl = 0;
+                        $site_args->index_module_srl  = $mid_output->data->module_srl;
+                        $site_args->domain = $domain;
+                        $site_args->default_language = $db_info->lang_type;
 
-					if($output->data && !$output->data->index_module_srl) {
-						$output = executeQuery('module.updateSite', $site_args);
-					} else {
-						$output = executeQuery('module.insertSite', $site_args);
-						if(!$output->toBool()) return $output;
-					}
-					$output = executeQuery('module.getSiteInfo', $args);
-				}
-			}
-				
+                        if($output->data && !$output->data->index_module_srl) {
+                            $output = executeQuery('module.updateSite', $site_args);
+                        } else {
+                            $output = executeQuery('module.insertSite', $site_args);
+                            if(!$output->toBool()) return $output;
+                        }
+                        $output = executeQuery('module.getSiteInfo', $args);
+                    }
+                    if($oCacheHandler->isSupport()) $oCacheHandler->put('default_site',$output);
+                }
+            }
+			*/
             $module_info = $output->data;
             if(!$module_info->module_srl) return $module_info;
             if(is_array($module_info) && $module_info->data[0]) $module_info = $module_info[0];
             return $this->addModuleExtraVars($module_info);
+
+
+//
+//
+////		        $oCacheHandler = &CacheHandler::getInstance('object');
+////					if($oCacheHandler->isSupport()){
+////						$cache_key = 'object_default_mid:'.$vid.'_'.$mid;
+////						$output = $oCacheHandler->get($cache_key);
+////					}
+////				if(!$output){
+//		            // Check a virtual site if the default URL is already set and is is defferent from a requested URL
+//		            if($default_url && $default_url != $request_url) {
+//		                $url_info = parse_url($request_url);
+//		                $hostname = $url_info['host'];
+//		                $path = preg_replace('/\/$/','',$url_info['path']);
+//		                $sites_args->domain = sprintf('%s%s%s', $hostname, $url_info['port']&&$url_info['port']!=80?':'.$url_info['port']:'',$path);
+//		                $output = executeQuery('module.getSiteInfoByDomain', $sites_args);
+//		                if($oCacheHandler->isSupport() && $output->data) $oCacheHandler->put($cache_key,$output);
+//		            }
+//		            if(!$output || !$output->data)
+//		            {
+//		                if(!$vid) $vid = $mid;
+//		                if($vid) {
+//		                    $vid_args->domain = $vid;
+//		                    $output = executeQuery('module.getSiteInfoByDomain', $vid_args);
+//		                    if($output->toBool() && $output->data) {
+//		                        Context::set('vid', $output->data->domain, true);
+//		                        if($mid==$output->data->domain) Context::set('mid',$output->data->mid,true);
+//		                    }
+//		                    if($oCacheHandler->isSupport() && $output->data) $oCacheHandler->put($cache_key,$output);
+//		                }
+//		            }
+//		            // If it is not a virtual site, get a default site information
+//		            if(!$output->data) {
+//		                $args->site_srl = 0;
+//		                $output = executeQuery('module.getSiteInfo', $args);
+//		                // Update the related informaion if there is no default site info
+//		                if(!$output->data) {
+//		                    // Create a table if sites table doesn't exist
+//		                    $oDB = &DB::getInstance();
+//		                    if(!$oDB->isTableExists('sites')) $oDB->createTableByXmlFile(_XE_PATH_.'modules/module/schemas/sites.xml');
+//		                    if(!$oDB->isTableExists('sites')) return;
+//		                    // Get mid, language
+//		                    $mid_output = $oDB->executeQuery('module.getDefaultMidInfo', $args);
+//		                    $db_info = Context::getDBInfo();
+//		                    $domain = Context::getDefaultUrl();
+//		                    $url_info = parse_url($domain);
+//		                    $domain = $url_info['host'].( (!empty($url_info['port'])&&$url_info['port']!=80)?':'.$url_info['port']:'').$url_info['path'];
+//		                    $site_args->site_srl = 0;
+//		                    $site_args->index_module_srl  = $mid_output->data->module_srl;
+//		                    $site_args->domain = $domain;
+//		                    $site_args->default_language = $db_info->lang_type;
+//
+//		                    if($output->data && !$output->data->index_module_srl) {
+//		                        $output = executeQuery('module.updateSite', $site_args);
+//		                    } else {
+//		                        $output = executeQuery('module.insertSite', $site_args);
+//		                        if(!$output->toBool()) return $output;
+//		                    }
+//		                    $output = executeQuery('module.getSiteInfo', $args);
+//		                }
+//		                if($oCacheHandler->isSupport()) $oCacheHandler->put($cache_key,$output);
+//		            }
+//				//}
+
         }
 
         /**
@@ -940,15 +1095,14 @@
                     $config = unserialize($output->data->config);
                     //insert in cache
                     if($oCacheHandler->isSupport()) {
-                        if(!$config) $config = 'empty_module_config';
-                        $oCacheHandler->put($cache_key,$config);
+                        if($config) 
+							$oCacheHandler->put($cache_key,$config);
                     }
                     $GLOBALS['__ModuleConfig__'][$site_srl][$module] = $config;
                 }
                 return $GLOBALS['__ModuleConfig__'][$site_srl][$module];
-            } elseif($config == 'empty_module_config') {
-                return;
             }
+			
             return $config;
         }
 
@@ -971,15 +1125,13 @@
                     $config = unserialize($output->data->config);
                     //insert in cache
                     if($oCacheHandler->isSupport()) {
-                        if(!$config) $config = 'empty_module_config';
-                        $oCacheHandler->put($cache_key,$config);
+                        if($config) $oCacheHandler->put($cache_key,$config);
                     }
                     $GLOBALS['__ModulePartConfig__'][$module][$module_srl] = $config;
                 }
-            return $GLOBALS['__ModulePartConfig__'][$module][$module_srl];
-            } elseif($config == 'empty_module_config') {
-                return;
-            }
+				return $GLOBALS['__ModulePartConfig__'][$module][$module_srl];
+            } 
+			
             return $config;
 
         }
