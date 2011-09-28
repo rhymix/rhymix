@@ -1001,4 +1001,8 @@ Lütfen son sürümü için indirme linkine tıklayınız.]]></value>
 		<value xml:lang="ko"><![CDATA[관리자 메뉴 추가]]></value>
 		<value xml:lang="en"><![CDATA[Add Admin Menu]]></value>
 	</item>
+	<item name="bug_report">
+		<value xml:lang="ko"><![CDATA[버그 리포트]]></value>
+		<value xml:lang="en"><![CDATA[Bug Report]]></value>
+	</item>
 </lang>
