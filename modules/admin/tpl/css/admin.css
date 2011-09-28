@@ -276,9 +276,12 @@ body.modalContainer{_height:100%;_width:100%} /* IE6 only */
 .x .header .account a:active,
 .x .header .account a:focus{color:#6e9cf2;text-decoration:underline}
 /* Footer */
-.x .footer{border-top:1px solid #ddd;text-align:center;font-size:12px;padding:1.5em 0;margin:0 2em}
+.x .footer{border-top:1px solid #ddd;text-align:center;font-size:12px;padding:1.5em 0;margin:0 2em;zoom:1}
+.x .footer:after{content:"";display:block;clear:both}
 .x .footer p{margin:0}
 .x .footer a{color:#6e9cf2;text-decoration:none}
+.x .footer .power{float:left}
+.x .footer .cache{float:right}
 /* Body */
 .x .body{position:relative;z-index:1;padding:1em 2em 1em 260px;zoom:1}
 .x .body:after{content:"";display:block;clear:both}

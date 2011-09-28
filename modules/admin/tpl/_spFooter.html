@@ -1,19 +1,10 @@
-	<fieldset class="section form content"> 
-		<h2 class="h2">{$lang->subtitle_etc}</h2>
-		<ul>
-			<li>
-				<p class="q">{$lang->about_recompile_cache}</p>
-				<p class="a"><a href="#" onclick="doRecompileCacheFile();return false;">{$lang->cmd_remake_cache}</a></p>
-			</li>
-			<li>
-				<p class="q">{$lang->about_arrange_session}</p>
-				<p class="a"><a href="#" onclick="doClearSession();return false;">{$lang->cmd_clear_session}</a></p>
-			</li>
-		</ul>
-	</fieldset>
 	</div>
 	<div class="footer">
-		<p>Powered by <strong><a href="{_XE_LOCATION_SITE_}">XE</a></strong>.</p>
+		<p class="power">Powered by <strong><a href="{_XE_LOCATION_SITE_}">XE</a></strong>.</p>
+		<p class="cache">
+			<button type="button" class="text" onclick="doRecompileCacheFile();">{$lang->cmd_remake_cache}</button>
+			<button type="button" class="text" onclick="doClearSession();">{$lang->cmd_clear_session}</button>
+		</p>
 	</div>
 </div>
 <script type="text/javascript">
