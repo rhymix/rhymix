@@ -133,7 +133,7 @@
             $args->parent_srl = $source_args->parent_srl;
             $args->menu_srl = $source_args->menu_srl;
             $args->menu_id = $source_args->menu_id;
-            $args->name = $source_args->menu_name;
+            $args->name = $source_args->menu_name_key;
             $args->url = trim($source_args->menu_url);
             $args->open_window = $source_args->menu_open_window;
             $args->expand = $source_args->menu_expand;
@@ -148,7 +148,7 @@
 				$site_module_info = Context::get('site_module_info');
 				$cmArgs->site_srl = (int)$site_module_info->site_srl;
 				$cmArgs->mid = $source_args->create_menu_url;
-				$cmArgs->browser_title = $source_args->menu_name;
+				$cmArgs->browser_title = $source_args->menu_name_key;
 
 				switch ($source_args->module_type){
 					case 'WIDGET' :

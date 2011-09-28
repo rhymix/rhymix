@@ -152,6 +152,10 @@
 			}
 			$menuItem->groupList = $groupList;
 
+			$oModuleController = &getController('module');
+			$menuItem->name_key = $menuItem->name;
+			$oModuleController->replaceDefinedLangCode($menuItem->name);
+
 			$this->add('menu_item', $menuItem);
         }
 
