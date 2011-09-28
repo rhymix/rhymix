@@ -45,7 +45,7 @@
 				<!--@foreach($latestDocumentList AS $key=>$value)-->
 				{@$document = $value->variables}
 				<li>
-					<a href="{getUrl('', 'document_srl', $document['document_srl'])}" target="_blank">{$document['title']}</a> <span class="side">{$document['nick_name']}</span>
+					<a href="{getUrl('', 'document_srl', $document['document_srl'])}" target="_blank">{$value->getTitle()}</a> <span class="side">{$document['nick_name']}</span>
 					<span class="action">
 						<form>
 						<input type="hidden" name="module" value="admin" />
@@ -65,7 +65,7 @@
 			<ul class="lined">
 				<!--@foreach($latestCommentList AS $key=>$value)-->
 				<li>
-					<a href="{getUrl('', 'document_srl', $value->document_srl)}#comment_{$value->comment_srl}" target="_blank"><!--@if(trim($value->content))-->{$value->content}<!--@else--><strong>{$lang->no_text_comment}</strong><!--@end--></a> <span class="side">{$value->nick_name}</span> 
+					<a href="{getUrl('', 'document_srl', $value->document_srl)}#comment_{$value->comment_srl}" target="_blank"><!--@if(trim($value->content))-->{$value->getSummray()}<!--@else--><strong>{$lang->no_text_comment}</strong><!--@end--></a> <span class="side">{$value->nick_name}</span> 
 					<span class="action">
 						<form>
 						<input type="hidden" name="module" value="admin" />
