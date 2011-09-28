@@ -13,7 +13,7 @@
 					<li><label for="ftpport">{$lang->ftp_port}</label><input name="ftp_port" type="text" id="ftpport" class="iText" /></li>
 					<li><label for="ftppath">{$lang->msg_ftp_installed_ftp_realpath}</label><input name="ftp_root_path" value="{$ftp_info->ftp_root_path}" type="text" id="ftppath" class="iText" />
 					<div class="desc" style="margin:1em 0; position:relative;"><p style="margin:1em 0;">{$lang->msg_ftp_installed_realpath}:<br/> {_XE_PATH_}</p>
-					<span class="btn" style="position:absolute; top:1em; right:1em;"><button type="button" onclick="getFTPList(); return false;">{$lang->ftp_get_list}</button></span>
+					<span class="ibtn" style="position:absolute; top:1em; right:1em;"><button type="button" onclick="getFTPList(); return false;">{$lang->ftp_get_list}</button></span>
 					<ul id="ftplist">
 					</ul>
 					</div></li>
@@ -26,14 +26,14 @@
 					</ul>
 					<p>{$lang->msg_safe_mode_ftp_config}</p>
 				</div>
-				<div class="btnArea">
+				<div class="ibtnArea">
 					<div class="fLeft">
-						<span class="btn icon"><span class="back"></span> <a href="{getUrl('', 'act', 'dispInstallCheckEnv')}">{$lang->cmd_back}</a></span>
+						<span class="ibtn icon"><span class="back"></span> <a href="{getUrl('', 'act', 'dispInstallCheckEnv')}">{$lang->cmd_back}</a></span>
 					</div>
 					<div class="fRight">
-						<span class="btn"><input name="" type="submit" value="{$lang->cmd_pass_step}" /></span> 
-						<span class="btn icon"><span class="monitor"></span> <button type="button" onclick="doCheckFTPInfo(); return false;">{$lang->cmd_check_ftp_connect}</button></span> 
-						<span class="btn icon"><span class="check"></span> <input name="" type="submit" value="{$lang->cmd_next}" /></span>
+						<span class="ibtn"><input name="" type="submit" value="{$lang->cmd_pass_step}" /></span> 
+						<span class="ibtn icon"><span class="monitor"></span> <button type="button" onclick="doCheckFTPInfo(); return false;">{$lang->cmd_check_ftp_connect}</button></span> 
+						<span class="ibtn icon"><span class="check"></span> <input name="" type="submit" value="{$lang->cmd_next}" /></span>
 					</div>
 				</div>
 			</form>
