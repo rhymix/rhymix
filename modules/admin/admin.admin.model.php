@@ -300,6 +300,8 @@
 						$GLOBALS['__ThemeModuleSkin__'][$val]['title'] = $moduleInfo->title;
 						$GLOBALS['__ThemeModuleSkin__'][$val]['skins'] = array();
 					}
+					if(!$GLOBALS['__ThemeModuleSkin__'][$val]['skins'])
+						$GLOBALS['__ThemeModuleSkin__'][$val]['skins'] = array();
 					$GLOBALS['__ThemeModuleSkin__'][$val]['skins'] = array_merge($GLOBALS['__ThemeModuleSkin__'][$val]['skins'], $skin_list);
 				}
 			}
