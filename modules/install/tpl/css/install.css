@@ -29,20 +29,6 @@ html{height:100%;background:url(../img/bgHtml.gif) repeat-x 0 0}
 #xei #progress li.done{background-position:10px -40px}
 #xei #progress li.active{background-color:#666;background-position:10px -80px;font-weight:bold;color:#fff;margin-right:-1px}
 #xei #content{position:relative;width:580px;min-height:328px;_height:328px;padding:20px 0 60px 0;background:#666}
-/* Button */
-.btn,
-.btn *{position:relative;margin:0;padding:0;display:inline-block;height:30px;line-height:30px;text-decoration:none !important;border:0;font-size:12px;font-family:Tahoma, Sans-serif;white-space:nowrap;background:url(../img/btnPack.gif) no-repeat;vertical-align:top;overflow:visible;color:#eee}
-.btn {margin-right:4px;background-position:left -30px}
-.btn *{left:4px;cursor:pointer;_cursor:hand;padding:0 10px 0 6px;background-position:right -30px}
-.btn *:hover,
-.btn *:active,
-.btn *:focus{color:#ff0}
-.btn.strong *{font-weight:bold !important}
-.btn.icon *{padding-left:20px}
-.btn.icon span{width:20px;margin-right:-18px;padding:0 !important}
-.btn .check{background-position:4px -146px}
-.btn .back{background-position:-14px -146px}
-.btn .monitor{background-position:-37px -147px}
 /* Button Area */
 .btnArea{position:absolute;bottom:0;right:0;width:540px;margin:0;padding:15px 20px;text-align:center;*zoom:1;color:#fff;border-top:1px solid #444;background:#555}
 .btnArea:after{content:"";display:block;clear:both}
