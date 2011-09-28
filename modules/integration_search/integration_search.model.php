@@ -45,10 +45,16 @@
          * @brief Comment Search
          **/
         function getComments($target, $module_srls_list, $search_keyword, $page=1, $list_count = 20) {
-            if(is_array($module_srls_list)) $module_srls = implode(',',$module_srls_list);
-            else $module_srls = $module_srls_list;
+            if(is_array($module_srls_list)){
+				if (count($module_srls_list) > 0) $module_srls = implode(',',$module_srls_list); 
+				else $module_srls = 0; 
+			}
+            else {
+				$module_srls = ($module_srls_list)?$module_srls_list:0;
+			}
             if($target == 'exclude') $args->exclude_module_srl = $module_srls;
             else $args->module_srl = $module_srls;
+
             $args->page = $page;
             $args->list_count = $list_count;
             $args->page_count = 10;

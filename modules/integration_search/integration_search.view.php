@@ -35,7 +35,12 @@
 
             $target = $config->target;
             if(!$target) $target = 'include';
-            $module_srl_list = explode(',',$config->target_module_srl);
+			
+			if (empty($config->target_module_srl))
+				$module_srl_list = array();
+			else
+	            $module_srl_list = explode(',',$config->target_module_srl);
+
             // Set a variable for search keyword
             $is_keyword = Context::get('is_keyword');
             // Set page variables
