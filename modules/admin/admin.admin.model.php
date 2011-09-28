@@ -157,6 +157,7 @@
 					$theme_info[$val] = $this->getThemeInfo($val);
 				}
 			}
+			debugPrint($theme_info);
 
 			return $theme_info;
 		}
@@ -270,8 +271,11 @@
 				$skins[$module_name] = $skin_info;
 
 				if ($is_theme){
-					if (!$GLOBALS['__ThemeModuleSkin__'][$module_name]) $GLOBALS['__ThemeModuleSkin__'][$module_name] = array();
-					$GLOBALS['__ThemeModuleSkin__'][$module_name][$skin_info->name] = $oModuleModel->loadSkinInfo($skin_info->path, '', '');
+					if (!$GLOBALS['__ThemeModuleSkin__'][$module_name]){
+						$GLOBALS['__ThemeModuleSkin__'][$module_name] = array();
+						$GLOBALS['__ThemeModuleSkin__'][$module_name]['skins'] = array();
+					}
+					$GLOBALS['__ThemeModuleSkin__'][$module_name]['skins'][$skin_info->name] = $oModuleModel->loadSkinInfo($skin_info->path, '', '');
 				}
 			}
 			$theme_info->skin_infos = $skins;
@@ -296,12 +300,11 @@
 
 				if (is_array($skin_list) && count($skin_list) > 0 && !in_array($val, $exceptionModule)){
 					if(!$GLOBALS['__ThemeModuleSkin__'][$val]){
+						$GLOBALS['__ThemeModuleSkin__'][$val] = array();
 						$moduleInfo = $oModuleModel->getModuleInfoXml($val);
 						$GLOBALS['__ThemeModuleSkin__'][$val]['title'] = $moduleInfo->title;
 						$GLOBALS['__ThemeModuleSkin__'][$val]['skins'] = array();
 					}
-					if(!$GLOBALS['__ThemeModuleSkin__'][$val]['skins'])
-						$GLOBALS['__ThemeModuleSkin__'][$val]['skins'] = array();
 					$GLOBALS['__ThemeModuleSkin__'][$val]['skins'] = array_merge($GLOBALS['__ThemeModuleSkin__'][$val]['skins'], $skin_list);
 				}
 			}
