@@ -192,8 +192,8 @@ class HTMLDisplayHandler {
 				$oContext->loadFile('./modules/admin/tpl/js/admin.js', true);
 			} else {
 				$oContext->loadFile(array('./modules/admin/tpl/css/admin.min.css', 'all', '', 100000), true);
-				$oContext->loadFile(array("./modules/admin/tpl/css/admin_{$lang_type}.min.css", 'all', '',10000), true);
-				$oContext->loadFile('./modules/admin/tpl/js/admin.js', true);
+				$oContext->loadFile(array("./modules/admin/tpl/css/admin_{$lang_type}.css", 'all', '',10000), true);
+				$oContext->loadFile('./modules/admin/tpl/js/admin.min.js', true);
 			}
 		}
 	}
