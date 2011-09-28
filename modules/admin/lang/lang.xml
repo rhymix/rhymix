@@ -721,6 +721,10 @@ Lütfen son sürümü için indirme linkine tıklayınız.]]></value>
 		<value xml:lang="ko"><![CDATA[Passive 모드를 사용하시겠습니까?]]></value>
 		<value xml:lang="en"><![CDATA[Use FTP Passive Mode?]]></value>
 	</item>
+	<item name="about_use_sftp_support">
+		<value xml:lang="ko"><![CDATA[SFTP 를 사용하시겠습니까?]]></value>
+		<value xml:lang="en"><![CDATA[Use SFTP?]]></value>
+	</item>
 	<item name="msg_self_restart_cache_engine">
 		<value xml:lang="ko"><![CDATA[Memcached 또는 캐쉬데몬을 재시작 해주세요.]]></value>
 		<value xml:lang="en"><![CDATA[Please restart Memcached or cache daemon.]]></value>
