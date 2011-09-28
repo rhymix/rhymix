@@ -554,6 +554,9 @@
                 }
             }
 
+			$security = new Security($mid_list);
+			$security->encodeHTML('....browser_title');
+			
 			$this->add('module_list', $mid_list);
 		}
 
