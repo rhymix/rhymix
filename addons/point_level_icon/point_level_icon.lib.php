@@ -42,7 +42,7 @@
             $title = sprintf('%s:%s%s%s, %s:%s/%s', Context::getLang('point'), $point, $config->point_name, $per?' ('.$per.')':'', Context::getLang('level'), $level, $config->max_level);
             $alt = sprintf('[%s:%s]', Context::getLang('level'), $level);
 
-//            $GLOBALS['_pointLevelIcon'][$member_srl] = sprintf('<img src="%s" alt="%s" title="%s" style="vertical-align:middle; margin-right:3px;" />', $level_icon, $alt, $title);
+            $GLOBALS['_pointLevelIcon'][$member_srl] = sprintf('<img src="%s" alt="%s" title="%s" style="vertical-align:middle; margin-right:3px;" />', $level_icon, $alt, $title);
         }
         $text = $GLOBALS['_pointLevelIcon'][$member_srl];
 
