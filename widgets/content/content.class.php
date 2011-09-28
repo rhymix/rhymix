@@ -212,6 +212,7 @@
             $obj->sort_index = $args->order_target;
             $obj->order_type = $args->order_type=="desc"?"asc":"desc";
             $obj->list_count = $args->list_count * $args->page_count;
+			$obj->statusList = array('PUBLIC');
             $output = executeQueryArray('widgets.content.getNewestDocuments', $obj);
             if(!$output->toBool() || !$output->data) return;
             // If the result exists, make each document as an object
