@@ -119,7 +119,8 @@
 		function dispMenuAdminSiteMap()
 		{
 			$oMenuAdminModel = &getAdminModel('menu');
-			$output = array_reverse($oMenuAdminModel->getMenus());
+			$menuListFromDB = $oMenuAdminModel->getMenus();
+			if(is_array($menuListFromDB)) $output = array_reverse($menuListFromDB);
 
 			$menuList = array();
 			if(is_array($output))
