@@ -2216,6 +2216,10 @@ Bạn có thể quản lý thành viên bằng cách tạo những nhóm mới, 
 		<value xml:lang="ko"><![CDATA[관리할 회원을 선택해주세요.]]></value>
 		<value xml:lang="en"><![CDATA[Please select a member to manage.]]></value>
 	</item>
+	<item name="msg_delete_user">
+		<value xml:lang="ko"><![CDATA[선택한 회원을 삭제합니다.]]></value>
+		<value xml:lang="en"><![CDATA[Delete the selected member.]]></value>
+	</item>
 	<item name="cmd_selected_user_manage">
 		<value xml:lang="ko"><![CDATA[선택한 회원 관리]]></value>
 		<value xml:lang="en"><![CDATA[Manage selected memter]]></value>
