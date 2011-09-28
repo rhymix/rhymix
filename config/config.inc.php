@@ -5,7 +5,7 @@
      * @brief set the include of the class file and other environment configurations
      **/
 
-    @error_reporting(E_ALL ^ E_NOTICE);
+    @error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED);
 
     if(!defined('__ZBXE__')) exit();
 
