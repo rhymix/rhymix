@@ -21,12 +21,18 @@
 			// Set a layout list
 			$oLayoutModel = &getModel('layout');
 			$layout_list = $oLayoutModel->getDownloadedLayoutList('P', true);
+			
+			// get Theme layout
+			$oAdminModel = &getAdminModel('admin');
+			$themeList = $oAdminModel->getThemeList();
+			$themeLayoutList = array();
+			foreach($themeList as $themeInfo){
+				if(strpos($themeInfo->layout_info->name, '.') === false) continue;
+				$themeLayoutList[] = $oLayoutModel->getLayoutInfo($themeInfo->layout_info->name, null, 'P');
+			}
+			$layout_list = array_merge($layout_list, $themeLayoutList);
 			$layout_list[] = $oLayoutModel->getLayoutInfo('faceoff', null, 'P');
 			Context::set('type', 'P');
-			
-			//Security
-			$security = new Security();
-			$security->encodeHTML('layout_list..layout','layout_list..title');						
 
 			$pcLayoutCount = $oLayoutModel->getInstalledLayoutCount('P');
 			$mobileLayoutCount = $oLayoutModel->getInstalledLayoutCount('M');

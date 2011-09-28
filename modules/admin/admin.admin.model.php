@@ -273,6 +273,8 @@
 					if (!$GLOBALS['__ThemeModuleSkin__'][$module_name]){
 						$GLOBALS['__ThemeModuleSkin__'][$module_name] = array();
 						$GLOBALS['__ThemeModuleSkin__'][$module_name]['skins'] = array();
+						$moduleInfo = $oModuleModel->getModuleInfoXml($module_name);
+						$GLOBALS['__ThemeModuleSkin__'][$module_name]['title'] = $moduleInfo->title;
 					}
 					$GLOBALS['__ThemeModuleSkin__'][$module_name]['skins'][$skin_info->name] = $oModuleModel->loadSkinInfo($skin_info->path, '', '');
 				}
