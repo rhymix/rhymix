@@ -15,16 +15,17 @@ class HTMLDisplayHandler {
 		else
 			$skin = $oModule->module_config->skin;
 
-		if ($skin && is_string($skin)){
-			$theme_skin = explode('.', $skin);
-			if (count($theme_skin) == 2)
-				$template_path = sprintf('./themes/%s/modules/%s/', $theme_skin[0], $theme_skin[1]);
-			else
+		if(Context::get('module')!='admin' && strpos(Context::get('act'),'Admin') === false){
+			if ($skin && is_string($skin)){
+				$theme_skin = explode('.', $skin);
+				if (count($theme_skin) == 2)
+					$template_path = sprintf('./themes/%s/modules/%s/', $theme_skin[0], $theme_skin[1]);
+				else
+					$template_path = $oModule->getTemplatePath();
+			}else{
 				$template_path = $oModule->getTemplatePath();
-		}else{
-			$template_path = $oModule->getTemplatePath();
-		}
-
+			}
+		}else $template_path = $oModule->getTemplatePath();
 		$tpl_file = $oModule->getTemplateFile();
 
 		$output = $oTemplate->compile($template_path, $tpl_file);
