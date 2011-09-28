@@ -241,13 +241,6 @@
 				return;
 			}
 
-			if($kind == 'admin' && $logged_info->is_admin == 'Y'){
-				$oAdminView = &getAdminView('admin');
-				$oAdminView->makeGnbUrl($forward->module);
-				$oModule->setLayoutPath("./modules/admin/tpl");
-				$oModule->setLayoutFile("layout.html");
-			}
-
 			// If there is no such action in the module object
 			if(!isset($xml_info->action->{$this->act}) || !method_exists($oModule, $this->act))
 			{
