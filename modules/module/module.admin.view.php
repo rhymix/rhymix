@@ -84,6 +84,7 @@
 			$security->encodeHTML('module_info...');
 
 			// Set the layout to be pop-up
+			$this->setLayoutPath('./common/tpl');
             $this->setLayoutFile('popup_layout');
             // Set a template file
             $this->setTemplateFile('module_info');
@@ -135,6 +136,7 @@
             $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);
             Context::set('module_info', $module_info);
             // Set the layout to be pop-up
+			$this->setLayoutPath('./common/tpl');
             $this->setLayoutFile('popup_layout');
             // Set a template file
             $this->setTemplateFile('copy_module');
@@ -169,6 +171,7 @@
 			$security->encodeHTML('module_category...');
 
 			// Set the layout to be pop-up
+			$this->setLayoutPath('./common/tpl');
             $this->setLayoutFile('popup_layout');
             // Set a template file
             $this->setTemplateFile('module_setup');
@@ -190,6 +193,7 @@
             $output = ModuleHandler::triggerCall('module.dispAdditionSetup', 'after', $content);
             Context::set('setup_content', $content);
             // Set the layout to be pop-up
+			$this->setLayoutPath('./common/tpl');
             $this->setLayoutFile('popup_layout');
             // Set a template file
             $this->setTemplateFile('module_addition_setup');
@@ -230,6 +234,7 @@
 			$security->encodeHTML('group_list..title');
 
 			// Set the layout to be pop-up
+			$this->setLayoutPath('./common/tpl');
             $this->setLayoutFile('popup_layout');
             // Set a template file
             $this->setTemplateFile('module_grant_setup');
