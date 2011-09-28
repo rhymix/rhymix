@@ -279,7 +279,6 @@ body.modalContainer{_height:100%;_width:100%} /* IE6 only */
 .x .footer{border-top:1px solid #ddd;text-align:center;font-size:12px;padding:1.5em 0;margin:0 2em;zoom:1}
 .x .footer:after{content:"";display:block;clear:both}
 .x .footer p{margin:0}
-.x .footer a{color:#6e9cf2;text-decoration:none}
 .x .footer .power{float:left}
 .x .footer .cache{float:right}
 /* Body */
