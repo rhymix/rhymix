@@ -116,8 +116,10 @@ function iconDeleteMessage(ret_obj){
 	}
 }
 function doRecompileCacheFile() {
+	if (!confirm(xe.lang.confirm_run)) return;
 	var params = new Array();
 	exec_xml("admin","procAdminRecompileCacheFile", params, completeCacheMessage);
+	showWaitingFogLayer();
 }
 function completeCacheMessage(ret_obj) {
     alert(ret_obj['message']);

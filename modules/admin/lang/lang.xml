@@ -579,6 +579,10 @@ Lütfen son sürümü için indirme linkine tıklayınız.]]></value>
 		<value xml:lang="ko"><![CDATA[쓸모 없어졌거나 잘못된 캐시파일들을 지우시겠습니까?]]></value>
 		<value xml:lang="en"><![CDATA[Delete useless or invalid cache files?]]></value>
 	</item>
+	<item name="confirm_run">
+		<value xml:lang="ko"><![CDATA[오랜 시간이 걸릴 수 있습니다. 실행하시겠습니까?]]></value>
+		<value xml:lang="en"><![CDATA[It may take a long time. Do you want to run?]]></value>
+	</item>
 	<item name="use_ssl">
 		<value xml:lang="ko"><![CDATA[SSL(Secure Sockets Layer)을 사용하시겠습니까?]]></value>
 		<value xml:lang="en"><![CDATA[Do you want to use Secure Sockets Layer (SSL)?]]></value>
