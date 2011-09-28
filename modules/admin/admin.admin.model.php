@@ -157,7 +157,6 @@
 					$theme_info[$val] = $this->getThemeInfo($val);
 				}
 			}
-			debugPrint($theme_info);
 
 			return $theme_info;
 		}

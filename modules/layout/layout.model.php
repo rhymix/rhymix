@@ -85,13 +85,14 @@
          * @brief Get a layout path
          **/
         function getLayoutPath($layout_name, $layout_type = "P") {
-            if($layout_name == 'faceoff'){
+			$layout_parse = explode('.', $layout_name);
+			if (count($layout_parse) > 1){
+				$class_path = './themes/'.$layout_parse[0].'/layouts/'.$layout_parse[1].'/';
+			}else if($layout_name == 'faceoff'){
                 $class_path = './modules/layout/faceoff/';
             }else if($layout_type == "M") {
 				$class_path = sprintf("./m.layouts/%s/", $layout_name);
-			}
-			else
-			{
+			}else {
                 $class_path = sprintf('./layouts/%s/', $layout_name);
             }
             if(is_dir($class_path)) return $class_path;

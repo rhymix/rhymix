@@ -6,7 +6,6 @@ jQuery(function($){
 var themes = {};
 
 <!--@foreach($theme_list as $key=>$val)-->
-// Example - default theme
 {@$skins = array()}
 <!--@foreach($val->skin_infos as $module=>$skin_info)-->
 	{@$skins[] = "'".$module."' : '".$skin_info->name."'";}
