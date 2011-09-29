@@ -232,7 +232,7 @@
 			}
 			else if(strpos($file, '../') === 0)
 			{
-				$file = $this->_normalizeFilePath(dirname($_SERVER['SCRIPT_NAME']) . "/{$path}");
+				$path= $this->_normalizeFilePath(dirname($_SERVER['SCRIPT_NAME']) . "/{$path}");
 			}
 
 			return $path;
