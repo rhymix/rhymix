@@ -414,7 +414,7 @@
      * @brief If the recent post within a day, output format of YmdHis is "min/hours ago from now". If not within a day, it return format string.
      **/
     function getTimeGap($date, $format = 'Y.m.d') {
-        $gap = time() - zgap() - ztime($date);
+        $gap = time() + zgap() - ztime($date);
 
         $lang_time_gap = Context::getLang('time_gap');
         if($gap<60) $buff = sprintf($lang_time_gap['min'], (int)($gap / 60)+1);
