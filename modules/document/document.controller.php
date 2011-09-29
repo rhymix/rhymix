@@ -239,7 +239,7 @@ class documentController extends document {
 		$output->add('category_srl',$obj->category_srl);
 		//remove from cache
         $oCacheHandler = &CacheHandler::getInstance('object');
-        if($oCacheHandler->isSupport()) 
+        if($oCacheHandler->isSupport())
         {
             $cache_key = 'object:'.$obj->document_srl;
             $oCacheHandler->delete($cache_key);
@@ -410,7 +410,7 @@ class documentController extends document {
 		$output->add('document_srl',$obj->document_srl);
 		//remove from cache
         $oCacheHandler = &CacheHandler::getInstance('object');
-        if($oCacheHandler->isSupport()) 
+        if($oCacheHandler->isSupport())
         {
             $cache_key = 'object:'.$obj->document_srl;
             $oCacheHandler->delete($cache_key);
@@ -428,7 +428,7 @@ class documentController extends document {
             $cache_key = 'object_document_item:'.$obj->document_srl;
             $oCacheHandler->delete($cache_key);
         }
-		
+
 		return $output;
 	}
 
@@ -501,7 +501,7 @@ class documentController extends document {
 
 		//remove from cache
         $oCacheHandler = &CacheHandler::getInstance('object');
-        if($oCacheHandler->isSupport()) 
+        if($oCacheHandler->isSupport())
         {
             $cache_key = 'object:'.$document_srl;
             $oCacheHandler->delete($cache_key);
@@ -893,6 +893,27 @@ class documentController extends document {
 			$args->last_updater = $last_updater;
 		}
 
+		//remove from cache
+                $oCacheHandler = &CacheHandler::getInstance('object');
+                if($oCacheHandler->isSupport())
+                {
+                    $cache_key = 'object:'.$document_srl;
+                    $oCacheHandler->delete($cache_key);
+                    $cache_object = $oCacheHandler->get('module_list_documents');
+                    if(isset($cache_object) && is_array($cache_object)){
+                        foreach ($cache_object as $object){
+                            $cache_key_object = $object;
+                            $oCacheHandler->delete($cache_key_object);
+                        }
+                    }elseif(!is_array($cache_object)) {
+                        $oCacheHandler->delete($cache_key_object);
+                    }
+                    $oCacheHandler->delete('module_list_documents');
+                    //remove document item from cache
+                    $cache_key = 'object_document_item:'.$document_srl;
+                    $oCacheHandler->delete($cache_key);
+                }
+
 		return executeQuery('document.updateCommentCount', $args);
 	}
 
@@ -1169,7 +1190,7 @@ class documentController extends document {
 		$this->add('parent_srl', $args->parent_srl);
 
 		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : Context::get('error_return_url'); 
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : Context::get('error_return_url');
 			header('location:'.$returnUrl);
 			return;
 		}
@@ -1427,10 +1448,10 @@ class documentController extends document {
 			$oModuleAdminModel = &getAdminModel('module');
 			$langs = $oModuleAdminModel->getLangCode($site_srl, $title);
 			if(count($langs)) foreach($langs as $key => $val) $xml_header_buff .= sprintf('$_titles[%d]["%s"] = "%s"; ', $category_srl, $key, str_replace('"','\\"',htmlspecialchars($val)));
-			
+
 			$langx = $oModuleAdminModel->getLangCode($site_srl, $description);
 			if(count($langx)) foreach($langx as $key => $val) $xml_header_buff .= sprintf('$_descriptions[%d]["%s"] = "%s"; ', $category_srl, $key, str_replace('"','\\"',htmlspecialchars($val)));
-			
+
 			$attribute = sprintf(
 					'mid="%s" module_srl="%d" node_srl="%d" parent_srl="%d" category_srl="%d" text="<?php echo (%s?($_titles[%d][$lang_type]):"")?>" url="%s" expand="%s" color="%s" description="<?php echo (%s?($_descriptions[%d][$lang_type]):"")?>" document_count="%d" ',
 					$mid,
