@@ -5,7 +5,7 @@
      * @brief  admin controller class of admin module
      **/
 
-    class adminloggingController extends admin {
+    class adminloggingController extends adminlogging {
         /**
          * @brief initialization
          * @return none
