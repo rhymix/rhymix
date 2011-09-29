@@ -52,7 +52,7 @@
             $args->called_position = $called_position;
 
             $output = executeQuery('module.insertTrigger', $args);
-            
+
             //remove from cache
             $oCacheHandler = &CacheHandler::getInstance('object');
             if($oCacheHandler->isSupport())
@@ -60,12 +60,12 @@
                 $cache_key = 'object:'.$trigger_name.'_'.$called_position;
                 $oCacheHandler->delete($cache_key);
             }
-            
+
             // Delete all the files which contain trigger information
             FileHandler::removeFilesInDir("./files/cache/triggers");
 
             return $output;
-            
+
         }
 
         /**
@@ -80,7 +80,7 @@
             $args->called_position = $called_position;
 
             $output = executeQuery('module.deleteTrigger', $args);
-            
+
             //remove from cache
             $oCacheHandler = &CacheHandler::getInstance('object');
             if($oCacheHandler->isSupport())
@@ -88,7 +88,7 @@
                 $cache_key = 'object:'.$trigger_name.'_'.$called_position;
                 $oCacheHandler->delete($cache_key);
             }
-            
+
             // Remove the trigger cache
             FileHandler::removeFilesInDir('./files/cache/triggers');
 
@@ -186,7 +186,7 @@
 
             $output = executeQuery('module.deleteModulePartConfig', $args);
             if(!$output->toBool()) return $output;
-            
+
             //remove from cache
             $oCacheHandler = &CacheHandler::getInstance('object');
             if($oCacheHandler->isSupport())
@@ -194,11 +194,11 @@
                 $cache_key = 'object_module_part_config:'.$module.'_'.$module_srl;
                 $oCacheHandler->delete($cache_key);
             }
-            
+
             $output = executeQuery('module.insertModulePartConfig', $args);
-            
-            
-            
+
+
+
             return $output;
         }
 
@@ -252,8 +252,8 @@
             if($args->site_srl == 0) $vid='';
             else $vid=$args->domain;
 
-            $module_info = $oModuleModel->getModuleInfoByModuleSrl($args->index_module_srl);  
-            $mid = $module_info->mid;  
+            $module_info = $oModuleModel->getModuleInfoByModuleSrl($args->index_module_srl);
+            $mid = $module_info->mid;
 
 	        $oCacheHandler = &CacheHandler::getInstance('object');
             if($oCacheHandler->isSupport()){
@@ -377,13 +377,16 @@
             $oDB->commit();
 
             $output->add('module_srl',$args->module_srl);
-			//remove from cache
+
+            //remove from cache
             $oCacheHandler = &CacheHandler::getInstance('object');
             if($oCacheHandler->isSupport()){
             	$cache_key = 'object_module_info:'.$args->module_srl;
             	$oCacheHandler->delete($cache_key);
             	$cache_key = 'object:'.$args->mid.'_'.$args->site_srl;
             	$oCacheHandler->delete($cache_key);
+                $cache_key = 'object:module_extra_vars_'.$args->module_srl;
+                $oCacheHandler->delete($cache_key);
             }
             return $output;
         }
@@ -458,7 +461,7 @@
             $args->skin_vars = $skin_vars;
             $output = executeQuery('module.updateModuleSkinVars', $args);
             if(!$output->toBool()) return $output;
-            
+
             //remove from cache
             $oCacheHandler = &CacheHandler::getInstance('object');
             if($oCacheHandler->isSupport())
@@ -466,7 +469,7 @@
                 $cache_key = 'object_module_skin_vars:'.$module_srl;
                 $oCacheHandler->delete($cache_key);
             }
-            
+
             return $output;
         }
 
@@ -583,7 +586,7 @@
          **/
         function deleteModuleSkinVars($module_srl) {
             $args->module_srl = $module_srl;
-            
+
             //remove from cache
             $oCacheHandler = &CacheHandler::getInstance('object');
             if($oCacheHandler->isSupport())
@@ -591,7 +594,7 @@
                 $cache_key = 'object_module_skin_vars:'.$module_srl;
                 $oCacheHandler->delete($cache_key);
             }
-            
+
             return executeQuery('module.deleteModuleSkinVars', $args);
         }
 
