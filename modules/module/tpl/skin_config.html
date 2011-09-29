@@ -1,4 +1,4 @@
-<form action="{Context::getRequestUri()}" method="post" enctype="multipart/form-data" target="hidden_iframe">
+<form action="{Context::getRequestUri()}" method="post" enctype="multipart/form-data" target="hidden_iframe" class="form">
 	<input type="hidden" name="module" value="module" />
 	<input type="hidden" name="vid" value="{$vid}" />
 	<input type="hidden" name="mid" value="{$mid}" />
@@ -72,8 +72,6 @@
 					<!--@end-->
 				</td>
 			</tr>
-			
-			
 			<!--@foreach($skin_info->extra_vars as $key => $val)-->
 			
 			<!--@if($val->group && ((!$group) || $group != $val->group))-->
@@ -93,7 +91,7 @@
 					<a href="{getUrl('','module','module','act','dispModuleAdminLangcode','target','target'.$val->name)}" onclick="popopen(this.href);return false;" class="buttonSet buttonSetting"><span>{$lang->cmd_find_langcode}</span></a>
 					
 					<!--@elseif($val->type=="textarea")-->
-					<textarea name="{$val->name}" id="target{$val->name}">{$val->value}</textarea>
+					<textarea name="{$val->name}" id="target{$val->name}" rows="5" cols="42">{$val->value}</textarea>
 					<a href="{getUrl('','module','module','act','dispModuleAdminLangcode','target','target'.$val->name)}" onclick="popopen(this.href);return false;" class="buttonSet buttonSetting"><span>{$lang->cmd_find_langcode}</span></a>
 					
 					<!--@elseif($val->type=="select")-->
@@ -137,8 +135,7 @@
 				</td>
 			</tr>
 			<!--@end-->
-			
-			<!--@if($group)-->
+			<!--@if(!$group)-->
 		</table>
 	</div>
     <!--@end-->
