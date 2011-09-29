@@ -442,7 +442,7 @@ class Context {
 		$oModuleController = &getController('module');
 		$oModuleController->replaceDefinedLangCode($self->site_title);
 
-		return $self->site_title;
+		return htmlspecialchars($self->site_title);
 	}
 	/**
 	 * @deprecated
