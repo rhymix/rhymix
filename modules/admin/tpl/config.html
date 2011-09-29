@@ -193,7 +193,7 @@ jQuery(function($){
 					<label for="">HTTPS:</label> <input type="text" name="https_port" id="https_port" size="5" value="{$https_port}" style="width:40px" />
 				</p>
 			</li>
-			<li>
+			<li cond="__XE_CDN_VERSION__!='%__XE_CDN_VERSION__%'">
 				<p class="q">{$lang->about_cdn}</p>
 				<p class="a">
 					<input type="radio" name="use_cdn" id="cdn_y" value="Y" <!--@if($use_cdn=='Y')-->checked="checked" <!--@end-->/> <label for="cdn_y">{$lang->cmd_yes}</label>
