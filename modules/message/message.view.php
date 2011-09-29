@@ -21,8 +21,16 @@
             $oModuleModel = &getModel('module');
             $this->module_config = $config = $oModuleModel->getModuleConfig('message', $this->module_info->site_srl);
             if(!$config->skin) $config->skin = 'default';
+			else{
+				//check theme
+				$config_parse = explode('.', $config->skin);
+				if (count($config_parse) > 1){
+					$template_path = sprintf('./themes/%s/modules/message/', $config_parse[0]);
+				}else{
+					$template_path = sprintf('%sskins/%s', $this->module_path, $config->skin);
+				}
+			}
             // Template path
-            $template_path = sprintf('%sskins/%s', $this->module_path, $config->skin);
             $this->setTemplatePath($template_path);
 
             // Get the member configuration
