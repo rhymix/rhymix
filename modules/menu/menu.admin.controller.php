@@ -133,7 +133,12 @@
             $args->parent_srl = $source_args->parent_srl;
             $args->menu_srl = $source_args->menu_srl;
             $args->menu_id = $source_args->menu_id;
-            $args->name = $source_args->menu_name_key;
+
+			if ($source_args->menu_name_key)
+	            $args->name = $source_args->menu_name_key;
+			else
+				$args->name = $source_args->menu_name;
+
             $args->url = trim($source_args->menu_url);
             $args->open_window = $source_args->menu_open_window;
             $args->expand = $source_args->menu_expand;
