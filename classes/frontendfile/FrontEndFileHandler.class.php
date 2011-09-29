@@ -221,7 +221,7 @@
 
 			if(strpos($path, './') === 0)
 			{
-				if (dirname($_SERVER['SCRIPT_NAME']) == '/')
+				if (dirname($_SERVER['SCRIPT_NAME']) == '/' || dirname($_SERVER['SCRIPT_NAME']) == '\\')
 				{
 					$path = '/' . substr($path, 2);
 				}
