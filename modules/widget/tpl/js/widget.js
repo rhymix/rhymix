@@ -132,12 +132,13 @@ function getContentWidgetCode(childObj, widget) {
                 || name == "widget_padding_left"
                 || name == "widget_padding_right"
                 || name == "widget_padding_top"
-                || name == "widget_padding_bottom") continue;
+                || name == "widget_padding_bottom"
+				|| name == "hasContent") continue;
             var value = childObj.attributes[i].nodeValue;
             if(!value) continue;
             attrs += name+'="'+escape(value)+'" ';
         }
-        return '<img class="zbxe_widget_output" widget="widgetContent" style="'+getStyle(childObj)+'" body="'+body+'" document_srl="'+document_srl+'" widget_padding_left="'+getPadding(childObj,'left')+'" widget_padding_right="'+getPadding(childObj, 'right')+'" widget_padding_top="'+getPadding(childObj, 'top')+'" widget_padding_bottom="'+getPadding(childObj,'bottom')+'" '+attrs+' />';
+        return '<img hasContent="true" class="zbxe_widget_output" widget="widgetContent" style="'+getStyle(childObj)+'" body="'+body+'" document_srl="'+document_srl+'" widget_padding_left="'+getPadding(childObj,'left')+'" widget_padding_right="'+getPadding(childObj, 'right')+'" widget_padding_top="'+getPadding(childObj, 'top')+'" widget_padding_bottom="'+getPadding(childObj,'bottom')+'" '+attrs+' />';
     }else{
         return '';
     }
