@@ -199,8 +199,17 @@
 				$args->start_date = $obj->start_date?$obj->start_date:null;
 				$args->end_date = $obj->end_date?$obj->end_date:null;
 				$args->member_srl = $obj->member_srl;
-				$args->statusList = $obj->statusList?$obj->statusList:array($this->getConfigStatus('secret'), $this->getConfigStatus('public'));
-				if($logged_info->is_admin == 'Y') $args->statusList = array($this->getConfigStatus('secret'), $this->getConfigStatus('public'), $this->getConfigStatus('temp'));
+
+				// only admin document list, temp document showing
+				if($obj->statusList) $args->statusList;
+				else
+				{
+					if($logged_info->is_admin == 'Y' && !$obj->module_srl)
+						$args->statusList = array($this->getConfigStatus('secret'), $this->getConfigStatus('public'), $this->getConfigStatus('temp'));
+					else
+						$args->statusList = array($this->getConfigStatus('secret'), $this->getConfigStatus('public'));
+				}
+
 				// Category is selected, further sub-categories until all conditions
 				if($args->category_srl) {
 					$category_list = $this->getCategoryList($args->module_srl);
