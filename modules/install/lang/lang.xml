@@ -730,6 +730,18 @@
 		<value xml:lang="tr"><![CDATA[Sqlite veriyi dosyaya kaydeder. Veritabanı dosyası tarayıcıyla erişilebilir olmamalıdır.<br/><span style="color:red">Veri dosyası 707 yetki kapsamı içinde olmalıdır.</span>]]></value>
 		<value xml:lang="vi"><![CDATA[Sqlite lưu trữ dữ liệu trong một File, vì vậy cần tới sự truy cập đến nó trong Database. <br/><span style="color:red">Hãy CHMOD thành 707.</span>]]></value>
 	</item>
+	<item name="about_sso">
+		<value xml:lang="ko"><![CDATA[사용자가 한 번만 로그인하면 기본 사이트와 가상 사이트에 동시에 로그인이 됩니다.<br />가상 사이트를 사용할 때만 필요합니다.]]></value>
+		<value xml:lang="en"><![CDATA[SSO will enable users to sign in just once for both default and virtual site.<br />You will need this only if you are using virtual sites.]]></value>
+		<value xml:lang="jp"><![CDATA[ユーザが一度のログインで基本サイトと仮想サイトに同時にログインされる機能です。<br />仮想サイトの機能を使用してない場合、設定する必要がありません。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[SSO will enable users to sign in just once for both default and virtual site.<br />You will need this only if you are using virtual sites.]]></value>
+		<value xml:lang="zh-TW"><![CDATA[此功能可讓用戶只需登入一次即可訪問多個網站。<br />使用虛擬網站，這將會是很重要的功能。]]></value>
+		<value xml:lang="fr"><![CDATA[SSO will enable users to sign in just once for both default and virtual site.<br />You will need this only if you are using virtual sites.]]></value>
+		<value xml:lang="ru"><![CDATA[SSO will enable users to sign in just once for both default and virtual site.<br />You will need this only if you are using virtual sites.]]></value>
+		<value xml:lang="es"><![CDATA[SSO will enable users to sign in just once for both default and virtual site.<br />You will need this only if you are using virtual sites.]]></value>
+		<value xml:lang="tr"><![CDATA[SSO kullanıcıları, geçreli ya da sanal siteye bir kere kayıt olmakla, ikisinden de yararlandıracaktır.<br />Bu, size sadece sanal websiteler kullandığınız durumda lazım olacaktır.]]></value>
+		<value xml:lang="vi"><![CDATA[SSO will enable users to sign in just once for both default and virtual site.<br />You will need this only if you are using virtual sites.]]></value>
+	</item>
 	<item name="success_installed">
 		<value xml:lang="ko"><![CDATA[설치가 되었습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Installation has been completed.]]></value>

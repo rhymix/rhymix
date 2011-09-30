@@ -335,6 +335,8 @@
          * @return none
          **/
         function dispAdminConfig() {
+		    Context::loadLang('modules/install/lang');
+
             $db_info = Context::getDBInfo();
 
 			Context::set('sftp_support', function_exists(ssh2_sftp));

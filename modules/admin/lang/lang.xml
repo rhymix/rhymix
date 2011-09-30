@@ -575,6 +575,10 @@ Lütfen son sürümü için indirme linkine tıklayınız.]]></value>
 		<value xml:lang="ko"><![CDATA[지원할 언어를 설정하세요.]]></value>
 		<value xml:lang="en"><![CDATA[Select a language.]]></value>
 	</item>
+	<item name="about_default_lang">
+		<value xml:lang="ko"><![CDATA[기본 언어를 선택하세요.]]></value>
+		<value xml:lang="en"><![CDATA[Select default language.]]></value>
+	</item>
 	<item name="about_recompile_cache">
 		<value xml:lang="ko"><![CDATA[쓸모 없어졌거나 잘못된 캐시파일들을 지우시겠습니까?]]></value>
 		<value xml:lang="en"><![CDATA[Delete useless or invalid cache files?]]></value>
@@ -626,9 +630,12 @@ Lütfen son sürümü için indirme linkine tıklayınız.]]></value>
 		</item>
 	</item>
 	<item name="about_use_ssl">
-		<value xml:lang="ko"><![CDATA['선택적으로'는 회원가입, 정보수정 등의 지정된 action에서 SSL을 사용하고 '항상 사용'은 모든 서비스에 SSL을 사용 합니다.]]></value>
-		<value xml:lang="en"><![CDATA[Select 'Optional' to use SSL for the specified actions such as signing up and changing information, and 'Always' to use SSL for all services.]]></value>
-		<value xml:lang="jp"><![CDATA[「部分的に使う場合」は「会員登録/会員情報変更」など特定のactionでSSLを利用する場合、「常に使う」は全てのサービスがSSLを使う場合に選択します。]]></value>
+		<value xml:lang="ko"><![CDATA[<strong>선택적으로</strong> -  회원가입, 정보수정 등의 지정된 action에서 SSL을 사용합니다.<br />
+<strong>항상 사용</strong> - 모든 서비스에 SSL을 사용 합니다.]]></value>
+		<value xml:lang="en"><![CDATA[<strong>Optional</strong> - Use SSL for the specified actions such as signing up and changing information.<br />
+<strong>Always</storng> - Use SSL for all services.]]></value>
+		<value xml:lang="jp"><![CDATA[<strong>部分的に使う場合</strong> - 「会員登録/会員情報変更」など特定のactionでSSLを利用する場合。<br />
+<strong>常に使う</strong> - 全てのサービスがSSLを使う場合に選択します。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[选择性使用选项应用于新用户注册/修改用户信息等已指定的action当中，使用选项应用于所有服务。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[選擇手動時，在會員註冊或修改資料等動作時才會使用 SSL功能。<br/>選擇開啟時，所有的服務都會使用 SSL功能。]]></value>
 		<value xml:lang="fr"><![CDATA[Si l'on choisit 'Optionnel' , on utilise protocole SSL seulement dans quelques services comme inscription ou modification. Si l'on choisit 'Toujours', on utilise protocole SSL dans tous les services.]]></value>
