@@ -18,7 +18,12 @@
 
             Context::set('communication_config', $this->communication_config);
 
-            $tpl_path = sprintf('%sskins/%s', $this->module_path, $skin);
+			$config_parse = explode('.', $skin);
+			if (count($config_parse) > 1){
+				$tpl_path = sprintf('./themes/%s/modules/communication/', $config_parse[0]);
+			}else{
+				$tpl_path = sprintf('%sskins/%s', $this->module_path, $skin);
+			}
             $this->setTemplatePath($tpl_path);
         }
 
