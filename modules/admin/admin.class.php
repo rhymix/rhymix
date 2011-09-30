@@ -6,6 +6,7 @@
      **/
 
     class admin extends ModuleObject {
+
         /**
          * @brief install admin module
          * @return new Object
@@ -43,7 +44,7 @@
 		function createXeAdminMenu()
 		{
 			//insert menu
-            $args->title = $this->xeMenuTitle;
+            $args->title = '__XE_ADMIN__';
             $args->menu_srl = getNextSequence();
             $args->listorder = $args->menu_srl * -1;
             $output = executeQuery('menu.insertMenu', $args);

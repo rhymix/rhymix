@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <addon version="0.2">
     <title xml:lang="ko">어드민 메뉴 접근 로깅</title>
+    <title xml:lang="en">admin menu access logging</title>
     <description xml:lang="ko">
+		admin menu에 접근한 기록을 로깅하는 애드온입니다.
     </description>
     <version>0.1</version>
     <date>2011-09-28</date>

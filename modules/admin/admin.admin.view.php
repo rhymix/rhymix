@@ -8,7 +8,6 @@
     class adminAdminView extends admin {
 
 		var $layout_list;
-		var $xeMenuTitle;
 		var $easyinstallCheckFile = './files/env/easyinstall_last';
 
         /**
@@ -16,8 +15,6 @@
          * @return none
          **/
         function init() {
-			$this->xeMenuTitle = '__XE_ADMIN__';
-
             // forbit access if the user is not an administrator
             $oMemberModel = &getModel('member');
             $logged_info = $oMemberModel->getLoggedInfo();
