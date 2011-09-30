@@ -1769,12 +1769,12 @@
 				$member_srl = $oMemberModel->getMemberSrlByEmailAddress($args->email_address);
 				if($member_srl&&$args->member_srl!=$member_srl) return new Object(-1,'msg_exists_email_address');
 
-				$args->user_id = $orgMemberInfo->user_id;
+				$args->email_address = $orgMemberInfo->email_address;
 			}else{
 				$member_srl = $oMemberModel->getMemberSrlByUserID($args->user_id);
 				if($member_srl&&$args->member_srl!=$member_srl) return new Object(-1,'msg_exists_email_address');
 
-				$args->email_address = $orgMemberInfo->email_address;
+				$args->user_id = $orgMemberInfo->user_id;
 			}
 
 			list($args->email_id, $args->email_host) = explode('@', $args->email_address);
