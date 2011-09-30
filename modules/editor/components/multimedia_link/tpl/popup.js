@@ -24,7 +24,7 @@ jQuery(function($){
 
 })();
 
-$('a._insert').click(function(){
+$('.btnArea button').click(function(){
 	if(!is_def(opener)) return;
 
 	var el_wmode = get_by_id('fo').elements['multimedia_wmode'];
