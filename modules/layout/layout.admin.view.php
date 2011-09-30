@@ -175,7 +175,7 @@
 			$security->encodeHTML('menu_list..');
 
 			$security = new Security($layout_info);
-			$layout_info = $security->encodeHTML('.', 'author..', 'extra_var..', 'extra_var....');
+			$layout_info = $security->encodeHTML('.', 'author..', 'extra_var..');
 
 			$layout_info->description = nl2br(trim($layout_info->description));
 			if (!is_object($layout_info->extra_var)) $layout_info->extra_var = new StdClass();
