@@ -15,14 +15,16 @@ function completeInsertPoll(ret_obj) {
     var poll_srl = ret_obj["poll_srl"];
     if(!poll_srl) return null;
 
-    var text = "<img src=\"../../../../common/img/blank.gif\" poll_srl=\""+poll_srl+"\" editor_component=\"poll_maker\" skin=\""+skin+"\" style=\"width:400px;height:300px;border:2px dotted #4371B9;background:url(./modules/editor/components/poll_maker/tpl/poll_maker_component.gif) no-repeat center;\"  />";
+    var text = "<img src=\"../../../../common/img/blank.gif\" poll_srl=\""+poll_srl+"\" editor_component=\"poll_maker\" skin=\""+skin+"\" style=\"display:block;width:400px;height:300px;border:2px dotted #4371B9;background:url(./modules/editor/components/poll_maker/tpl/poll_maker_component.gif) no-repeat center;\"  />";
 
     alert(ret_obj['message']);
 
-    var iframe_obj = opener.editorGetIFrame(opener.editorPrevSrl)
-    opener.editorReplaceHTML(iframe_obj, text);
+	opener.editorFocus(opener.editorPrevSrl);
 
-    opener.focus();
+	var iframe_obj = opener.editorGetIFrame(opener.editorPrevSrl)
+
+	opener.editorReplaceHTML(iframe_obj, text);
+	opener.editorFocus(opener.editorPrevSrl);
     window.close();
 
     return null;
@@ -47,7 +49,7 @@ jQuery(function($){
 	$('button._add_item').click(function(){
 		var $tr_src, $tr_new, $th, idx;
 
-		$tr_src = $(this).prev('table').find('>tbody>tr:last');
+		$tr_src = $(this).prev().children('table').find('>tbody>tr:last');
 		$tr_new = $tr_src.clone();
 
 		match = $tr_src.find('td>input').attr('name').match(/item_(\d+)_(\d+)$/);
@@ -67,7 +69,7 @@ jQuery(function($){
 	$('button._del_item').click(function(){
 		var $tr, match;
 
-		$tr = $(this).prevAll('table:first').find('>tbody>tr:last');
+		$tr = $(this).prevAll('div').children('table').find('>tbody>tr:last');
 		match = $tr.find('td>input').attr('name').match(/item_(\d+)_(\d+)/);
 		if(!match || match[2] == 2) return;
 
