@@ -19,16 +19,10 @@ function getEmoticons(emoName) {
 function completeGetEmoticons(ret_obj) {
     var emoticons = ret_obj['emoticons'].split("\n");
     var html = [];
-
     for(var i=0;i<emoticons.length;i++) {
 		html[html.length] = '<img src="./modules/editor/components/emoticon/tpl/images/'+emoticons[i]+'" class="emoticon" />';
     }
-	jQuery('#popBody').html(html.join('')).find('img.emoticon').click(insertEmoticon);
-
-	if (_isPoped) {
-		setFixedPopupSize();
-		setTimeout(setFixedPopupSize,1000);
-	}
+	jQuery('#emoticons').html(html.join('')).find('img.emoticon').click(insertEmoticon);
 }
 
 /**
