@@ -13,7 +13,7 @@
     /**
      * Just before displaying, change image name/ image mark
      **/
-    if($called_position != "before_display_content" || Context::get('act')=='dispPageAdminContentModify') return;
+    if($called_position != "before_display_content" || Context::get('act')=='dispPageAdminContentModify' || Context::getRequestMethod() != 'HTML') return;
     // Include a file having functions to replace member image name/mark
     require_once('./addons/member_extra_info/member_extra_info.lib.php');
     // 1. Find a part <div class="member_번호"> content </div> in the output document, change it to image name/mark by using MemberController::transImageName()
