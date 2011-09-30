@@ -713,17 +713,22 @@ $('.multiLangEdit')
 
 			// remove lagnauge key
 			$this.data('mle-langkey').val('');
+			
+			// copy current string to hidden input
+			$this.prev('input.vLang').val(val);
 
 			function request() {
 				$this.addClass('loading');
 
 				if($ul.parent().is(':visible')) $ul.parent().hide();
 
+				show_waiting_message = false;
 				$.exec_json(
 					'module.getLangListByLangcodeForAutoComplete',
 					{search_keyword:val},
 					(function(i){ return function(data){ on_complete(data,i) } })(r_idx++)
 				);
+				show_waiting_message = true;
 			};
 
 			function on_complete(data, idx){
