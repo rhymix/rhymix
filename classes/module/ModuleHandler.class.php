@@ -207,18 +207,21 @@
 			if($this->module_info->use_mobile != "Y") Mobile::setMobile(false);
 
 			// admin menu check
-			$oMenuAdminModel = &getAdminModel('menu');
-			$output = $oMenuAdminModel->getMenuByTitle('__XE_ADMIN__');
+            if(Context::isInstalled())
+			{
+				$oMenuAdminModel = &getAdminModel('menu');
+				$output = $oMenuAdminModel->getMenuByTitle('__XE_ADMIN__');
 
-			if(!$output->menu_srl)
-			{
-				$oAdminClass = &getClass('admin');
-				$oAdminClass->createXeAdminMenu();
-			}
-			else if(!is_readable($output->php_file))
-			{
-				$oMenuAdminController = &getAdminController('menu');
-				$oMenuAdminController->makeXmlFile($output->menu_srl);
+				if(!$output->menu_srl)
+				{
+					$oAdminClass = &getClass('admin');
+					$oAdminClass->createXeAdminMenu();
+				}
+				else if(!is_readable($output->php_file))
+				{
+					$oMenuAdminController = &getAdminController('menu');
+					$oMenuAdminController->makeXmlFile($output->menu_srl);
+				}
 			}
 
 			// Admin ip
