@@ -1,16 +1,16 @@
 <script type="text/javascript">
 jQuery(function($){
 	$('#favicon').change(function(){
-		var re_favicon = /favicon\.ico$/
+		var re_favicon = /[^.]+\.ico$/
 		if(re_favicon.test($(this).val()) != true){
-			alert('{$lang->msg_not_correct_iconname} favicon.ico {$lang->msg_possible_only_file}');
+			alert('*.ico {$lang->msg_possible_only_file}');
 			return false;
 		}
 	});
 	$('#mobicon').change(function(){
-		var re_favicon = /mobicon\.png$/
+		var re_favicon = /[^.]+\.png$/
 		if(re_favicon.test($(this).val()) != true){
-			alert('{$lang->msg_not_correct_iconname} mobicon.png {$lang->msg_possible_only_file}');
+			alert('*.png {$lang->msg_possible_only_file}');
 			return false;
 		}
 	});
@@ -151,22 +151,22 @@ jQuery(function($){
 				<p class="desc">{$lang->msg_ftp_installed_realpath} : {_XE_PATH_} </p>
 			</li>
 			<li>
-				<p class="q">{$lang->about_use_favicon}</p>
+				<p class="q">{$lang->allow_use_favicon}</p>
 				<p class="a faviconPreview">
 					<img src="{$favicon_url}" alt="favicon" width="16" height="16" class="fn1">
 					<img src="{$favicon_url}" alt="favicon Image" width="16" height="16" class="fn2">
 					<a href="javascript:deleteIcon('favicon\.ico');">{$lang->cmd_delete}</a>
 				</p>
-				<p class="a"><input type="file" name="favicon" id="favicon" title="favicon" /> <span class="desc">{$lang->detail_about_use_favicon}</span></p>
+				<p class="a"><input type="file" name="favicon" id="favicon" title="favicon" /> <span class="desc">{$lang->about_use_favicon}</span></p>
 			</li>
 			<li>
-				<p class="q">{$lang->about_mobilehome_icon}</p>
+				<p class="q">{$lang->allow_use_mobile_icon}</p>
 				<p class="a mobiconPreview">
 					<img src="{$mobicon_url}" alt="Mobile Home Icon" width="32" height="32" />
 					<span>www</span>
 					<a href="javascript:deleteIcon('mobicon\.png');">{$lang->cmd_delete}</a>
 				</p>
-				<p class="a"><input type="file" name="mobicon" id="mobicon" title="Mobile Home Icon"/> <span class="desc">{$lang->detail_about_mobilehome_icon}</span></p>
+				<p class="a"><input type="file" name="mobicon" id="mobicon" title="Mobile Home Icon"/> <span class="desc">{$lang->detail_use_mobile_icon}</span></p>
 			</li>
 		</ul>
 	</fieldset>

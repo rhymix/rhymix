@@ -900,21 +900,21 @@ Lütfen son sürümü için indirme linkine tıklayınız.]]></value>
 	If you are unable to easy install, PHP's 'safe_mode' must be changed 'On'
 ]]></value>
 	</item>
-	<item name="about_favicon">
+	<item name="allow_use_favicon">
 		<value xml:lang="ko"><![CDATA[파비콘을 사용할까요?]]></value>
 		<value xml:lang="en"><![CDATA[Do you want to use favicon?]]></value>
 	</item>
-	<item name="detail_about_use_favicon">
-		<value xml:lang="ko"><![CDATA[16 x 16 크기의 <em>favicon.ico</em> 파일만 업로드 가능.]]></value>
-		<value xml:lang="en"><![CDATA[You can upload 16x16 size <em>favicon.ico</em> file only.]]></value>
+	<item name="about_use_favicon">
+		<value xml:lang="ko"><![CDATA[16 x 16 크기의 <em>*.ico</em> 파일만 업로드 가능.]]></value>
+		<value xml:lang="en"><![CDATA[You can upload 16x6 size <em>*.ico</em> file only.]]></value>
 	</item>
-	<item name="about_mobilehome_icon">
+	<item name="allow_use_mobile_icon">
 		<value xml:lang="ko"><![CDATA[모바일 홈 화면 아이콘을 사용할까요?]]></value>
 		<value xml:lang="en"><![CDATA[Do you want to use the mobile home screen icon?]]></value>
 	</item>
-	<item name="detail_about_mobilehome_icon">
-		<value xml:lang="ko"><![CDATA[57 x 57 또는 114 x 114 크기의 <em>mobicon.png</em> 파일만 업로드 가능.]]></value>
-		<value xml:lang="en"><![CDATA[You can upload 57x57 or 114x114 size <em>mobicon.png</em> file only.]]></value>
+	<item name="detail_use_mobile_icon">
+		<value xml:lang="ko"><![CDATA[57 x 57 또는 114 x 114 크기의 <em>*.png</em> 파일만 업로드 가능.]]></value>
+		<value xml:lang="en"><![CDATA[You can upload 57x57 or 114x114 size <em>*.png</em> file only.]]></value>
 	</item>
 	<item name="about_use_sso">
 		<value xml:lang="ko"><![CDATA[SSO(Single Sign On)를 사용하시겠습니까?]]></value>
@@ -931,10 +931,6 @@ Lütfen son sürümü için indirme linkine tıklayınız.]]></value>
 	<item name="cmd_clear_session">
 		<value xml:lang="ko"><![CDATA[세션 정리]]></value>
 		<value xml:lang="en"><![CDATA[Clean up session]]></value>
-	</item>
-	<item name="msg_not_correct_iconname">
-		<value xml:lang="ko"><![CDATA[아이콘 형식이 바르지 않습니다.]]></value>
-		<value xml:lang="en"><![CDATA[Invalid icon type]]></value>
 	</item>
 	<item name="msg_possible_only_file">
 		<value xml:lang="ko"><![CDATA[파일만 업로드 가능합니다.]]></value>

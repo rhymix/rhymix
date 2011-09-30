@@ -172,11 +172,11 @@
 
 			//파비콘
 			$favicon = Context::get('favicon');
-			$this->saveIcon($favicon);
+			$this->saveIcon($favicon,'favicon.ico');
 
 			//모바일아이콘
 			$mobicon = Context::get('mobicon');
-			$this->saveIcon($mobicon);
+			$this->saveIcon($mobicon,'mobicon.png');
 
 			$this->setRedirectUrl(Context::get('error_return_url'));
 		}
@@ -215,15 +215,13 @@
 			return $output;
 		}
 
-		function saveIcon($icon){
+		function saveIcon($icon,$iconname){
 			$mobicon_size = array('57','114');
-			$iconname = $icon['name'];
 			$target_file = $icon['tmp_name'];
 			$type = $icon['type'];
 			$target_filename = _XE_PATH_.'files/attach/xeicon/'.$iconname;
 
 			list($width, $height, $type_no, $attrs) = @getimagesize($target_file);
-
 			if($iconname == 'favicon.ico' && preg_match('/^.*(icon).*$/',$type)){
 				$fitHeight = $fitWidth = '16';
 			} else if($iconname == 'mobicon.png' && preg_match('/^.*(png).*$/',$type) && in_array($height,$mobicon_size) && in_array($width,$mobicon_size)) {
