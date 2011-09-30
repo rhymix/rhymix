@@ -68,7 +68,7 @@
 					<td>{zdate($member_info['regdate'], 'Y-m-d')}</td>
 					<td>{zdate($member_info['last_login'], 'Y-m-d')}</td>
 					<td class="text">{$member_info['group_list']}&nbsp;</td>
-					{@ $lang_denied = ($member_info['denied'] == 'N')?$lang->use:$lang->denied}
+					{@ $lang_denied = ($member_info['denied'] == 'N')?$lang->approval:$lang->denied}
 					<td>{$lang_denied}</td>
 					<td>
 						<a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminInfo', 'member_srl', $member_info['member_srl'])}">{$lang->cmd_view}</a>
