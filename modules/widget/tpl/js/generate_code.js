@@ -273,12 +273,12 @@ jQuery(document).ready(function($){
 
 	$('#fo_widget').bind('submit', function(){
 		function on_complete(data){
-			if (data.error){
-				alert(data.message);
+			if (data['error'] != '0'){
+				alert(data['message']);
 				return;
 			}
 
-			completeGenerateCodeInPage(data.widget_code);
+			completeGenerateCodeInPage(data['widget_code']);
 		}
 
 		var datas = $(this).serializeArray();
@@ -291,7 +291,7 @@ jQuery(document).ready(function($){
 			else params[data.name] = data.value;
 		}
 
-		$.exec_json('widget.procWidgetGenerateCodeInPage', params, on_complete);
+		exec_xml('widget', 'procWidgetGenerateCodeInPage', params, on_complete, ['error', 'message', 'widget_code']);
 
 		return false;
 	});
