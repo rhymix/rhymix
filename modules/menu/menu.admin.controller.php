@@ -153,7 +153,7 @@
 				$site_module_info = Context::get('site_module_info');
 				$cmArgs->site_srl = (int)$site_module_info->site_srl;
 				$cmArgs->mid = $source_args->create_menu_url;
-				$cmArgs->browser_title = $source_args->menu_name_key;
+				$cmArgs->browser_title = $args->name;
 
 				switch ($source_args->module_type){
 					case 'WIDGET' :
