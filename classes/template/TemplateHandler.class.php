@@ -606,6 +606,7 @@
 				}
 			}
 
+			$output .= '<?php unset($_load_attrs); ?>';
 			if($meta_file) $output = '<!--#Meta:'.$meta_file.'-->'.$output;
 			return $output;
 		}
