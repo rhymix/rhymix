@@ -4,7 +4,8 @@
     <permissions />
     <actions>
         <action name="dispAdminIndex" type="view" standalone="true" index="true" />
-        <action name="dispAdminConfig" type="view" standalone="true" menu_name="adminConfiguration" menu_index="true" />
+        <action name="dispAdminConfigGeneral" type="view" standalone="true" menu_name="adminConfigurationGeneral" menu_index="true" />
+        <action name="dispAdminConfigFtp" type="view" standalone="true" menu_name="adminConfigurationFtp" menu_index="true" />
         <action name="dispAdminTheme" type="view" standalone="true" menu_name="theme" menu_index="true" />
         <action name="dispAdminSetup" type="view" standalone="true" menu_name="adminMenuSetup" menu_index="true" />
 
@@ -22,7 +23,7 @@
         <action name="getSiteAllList" type="model" standalone="true" />
     </actions>
 	<menus>
-		<menu name="adminConfiguration" type="all">
+		<menu name="adminConfigurationGeneral" type="all">
 			<title xml:lang="en">General</title>
 			<title xml:lang="ko">일반</title>
 			<title xml:lang="zh-CN">General</title>
@@ -47,6 +48,19 @@
 			<title xml:lang="vi">Admin Setup</title>
 			<title xml:lang="mn">Admin Setup</title>
 			<title xml:lang="tr">Admin Setup</title>
+		</menu>
+		<menu name="adminConfigurationFtp" type="all">
+			<title xml:lang="en">General</title>
+			<title xml:lang="ko">FTP 설정</title>
+			<title xml:lang="zh-CN">FTP Configuration</title>
+			<title xml:lang="jp">FTP Configuration</title>
+			<title xml:lang="es">FTP Configuration</title>
+			<title xml:lang="ru">FTP Configuration</title>
+			<title xml:lang="fr">FTP Configuration</title>
+			<title xml:lang="zh-TW">FTP Configuration</title>
+			<title xml:lang="vi">FTP Configuration</title>
+			<title xml:lang="mn">FTP Configuration</title>
+			<title xml:lang="tr">FTP Configuration</title>
 		</menu>
 		<menu name="theme" type="site">
 			<title xml:lang="en">Theme</title>

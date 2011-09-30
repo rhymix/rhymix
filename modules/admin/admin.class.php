@@ -157,7 +157,7 @@
 				),
 				19=>array(
 					'module'=>'admin',
-					'subMenu'=>array('adminConfiguration', 'adminMenuSetup'),
+					'subMenu'=>array('adminConfigurationGeneral', 'adminConfigurationFtp', 'adminMenuSetup'),
 				),
 				20=>array(
 					'module'=>'file',
@@ -242,7 +242,8 @@
 				case 'spamFilter':
 					return 'extensions';
 					break;
-				case 'adminConfiguration':
+				case 'adminConfigurationGeneral':
+				case 'adminConfigurationFtp':
 				case 'adminMenuSetup':
 				case 'fileUpload':
 				case 'filebox':

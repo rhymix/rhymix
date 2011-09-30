@@ -22,7 +22,7 @@ jQuery(function($){
 
 <form action="" method="post" id="ftp_form" class="form" enctype="multipart/form-data">
 	 <input type="hidden" name="act" value="procInstallAdminConfig" />
-	<h1 class="h1">{$lang->title_genaral}</h1>
+	<h1 class="h1">{$lang->menu_gnb_sub['adminConfigurationGeneral']}</h1>
 	<fieldset class="section">
 		<h2 class="h2">{$lang->subtitle_primary}</h2>
 		<ul>
@@ -106,49 +106,6 @@ jQuery(function($){
 				<p class="a">
 					<textarea name="htmlFooter" id="htmlFooter" rows="4" cols="42">{$htmlFooter}</textarea>
 				</p>
-			</li>
-			<li>
-				<p class="q"><label for="ftp_host">{$lang->ftp_host}</label> [<a href="#helpFTP" class="tgAnchor">?</a>]</p>
-				<div class="tgContent layer" id="helpFTP">
-					<p>{$lang->detail_about_ftp_info}</p>
-				</div>
-				<p class="a"><input type="text" name="ftp_host" id="ftp_host" value="{$ftp_info->ftp_host}" /></p>
-			</li>
-			<li>
-				<p class="q"><label for="ftp_user">{$lang->user_id}</label></p>
-				<p class="a"><input type="text" name="ftp_user" id="ftp_user" value="{$ftp_info->ftp_user}" /></p>
-			<li>
-				<p class="q"><label for="ftp_password">{$lang->password}</label></p>
-				<p class="a"><input type="password" name="ftp_password" id="ftp_password" value="" /> <span class="desc">{$lang->about_ftp_password}</span></p>
-			</li>
-			<li>
-				<p class="q"><label for="ftp_port">{$lang->ftp_port}</label></p>
-				<p class="a"><input type="text" name="ftp_port" id="ftp_port" value="{$ftp_info->ftp_port}" /></p>
-			</li>
-			<li>
-				<p class="q"><label for="ftp_passive">{$lang->about_use_ftp_passive_mode}</label></p>
-				<p class="a">
-					<input type="radio" name="ftp_pasv" id="ftp_passive_y" value="Y" <!--@if($ftp_info->ftp_pasv == 'Y')-->checked="checked" <!--@end-->/> <label for="ftp_passive_y">{$lang->cmd_yes}</label>
-					<input type="radio" name="ftp_pasv" id="ftp_passive_n" value="N" <!--@if($ftp_info->ftp_pasv != 'Y')-->checked="checked" <!--@end-->/> <label for="ftp_passive_n">{$lang->cmd_no}</label>
-				</p>
-			</li>
-			<li>
-				<p class="q"><label for="sftp">{$lang->about_use_sftp_support}</label></p>
-				<p class="a">
-					<input type="radio" name="sftp" id="sftp_y" value="Y" <!--@if($ftp_info->sftp == 'Y')-->checked="checked" <!--@end-->/> <label for="sftp_y">{$lang->cmd_yes}</label>
-					<input type="radio" name="sftp" id="sftp_n" value="N" <!--@if($ftp_info->sftp != 'Y')-->checked="checked" <!--@end-->/> <label for="sftp_n">{$lang->cmd_no}</label>
-				</p>
-			</li>
-			<li>
-				<p class="q"><label for="ftp_path">{$lang->msg_ftp_installed_ftp_realpath}</label></p>
-				<p class="a">
-					<input type="text" name="ftp_root_path" id="ftp_root_path" value="{$ftp_info->ftp_root_path}" />
-					<a href="#ftpSuggestion" onclick="getFTPList(); return false;" class="tgAnchor">{$lang->ftp_get_list}</a>
-
-				</p>
-				<div id="ftpSuggestion">
-				</div>
-				<p class="desc">{$lang->msg_ftp_installed_realpath} : {_XE_PATH_} </p>
 			</li>
 			<li>
 				<p class="q">{$lang->allow_use_favicon}</p>

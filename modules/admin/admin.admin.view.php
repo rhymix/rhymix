@@ -334,7 +334,7 @@
          * @brief Display Configuration(settings) page
          * @return none
          **/
-        function dispAdminConfig() {
+        function dispAdminConfigGeneral() {
 		    Context::loadLang('modules/install/lang');
 
             $db_info = Context::getDBInfo();
@@ -357,9 +357,6 @@
             Context::set('favicon_url', $favicon_url);
 			Context::set('mobicon_url', $mobicon_url);
 
-            $ftp_info = Context::getFTPInfo();
-            Context::set('ftp_info', $ftp_info);
-
 			$oDocumentModel = &getModel('document');
 			$config = $oDocumentModel->getDocumentConfig();
        		Context::set('thumbnail_type',$config->thumbnail_type);
@@ -376,10 +373,27 @@
             Context::set('start_module', $start_module);
 
             Context::set('pwd',$pwd);
-            $this->setTemplateFile('config');
+            $this->setTemplateFile('config_general');
 
 			$security = new Security();
 			$security->encodeHTML('news..', 'released_version', 'download_link', 'selected_lang', 'module_list..', 'module_list..author..', 'addon_list..', 'addon_list..author..', 'start_module.');
+
+        }
+
+        /**
+         * @brief Display Configuration(settings) page
+         * @return none
+         **/
+        function dispAdminConfigFtp() {
+		    Context::loadLang('modules/install/lang');
+
+            $ftp_info = Context::getFTPInfo();
+            Context::set('ftp_info', $ftp_info);
+
+            $this->setTemplateFile('config_ftp');
+
+//			$security = new Security();
+//			$security->encodeHTML('ftp_info..');
 
         }
 

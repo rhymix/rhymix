@@ -153,13 +153,11 @@
             FileHandler::WriteFile($config_file, $buff);
             if($_SESSION['ftp_password']) unset($_SESSION['ftp_password']);
             $this->setMessage('success_updated');
-        }
+			$this->setRedirectUrl(Context::get('error_return_url'));
+		}
 
 		function procInstallAdminConfig(){
 			$this->procInstallAdminSaveTimeZone();
-
-			//FTP 정보
-			$this->procInstallAdminSaveFTPInfo();
 
 			//언어 선택
 			$selected_lang = Context::get('selected_lang');

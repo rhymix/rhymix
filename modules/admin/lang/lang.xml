@@ -1,9 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <lang>
-	<item name="title_genaral">
-		<value xml:lang="ko"><![CDATA[일반]]></value>
-		<value xml:lang="en"><![CDATA[Genaral]]></value>
-	</item>
 	<item name="subtitle_primary">
 		<value xml:lang="ko"><![CDATA[기본]]></value>
 		<value xml:lang="en"><![CDATA[Primary]]></value>
