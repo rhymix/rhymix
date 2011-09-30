@@ -438,6 +438,7 @@
 		{
 			$this->_deleteDeclaredComments($args);
 			$this->_deleteVotedComments($args);
+			return new Object(0, 'success');
 		}
 
         /**

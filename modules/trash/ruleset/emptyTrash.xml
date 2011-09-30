@@ -3,6 +3,8 @@
     <customrules>
     </customrules>
     <fields>
-		<field name="trash_srls" required="true" />
+		<field name="cart">
+			<if test="$is_all != 'true'" attr="required" value="true" />
+		</field>
     </fields>
 </ruleset>
