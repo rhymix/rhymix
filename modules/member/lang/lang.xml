@@ -676,7 +676,7 @@
 	</item>
 	<item name="about_keep_signed">
 		<value xml:lang="ko"><![CDATA[브라우저를 닫더라도 로그인이 계속 유지될 수 있습니다.\n\n로그인 유지 기능을 사용할 경우 다음 접속부터는 로그인을 하실 필요가 없습니다.\n\n단, 게임방, 학교 등 공공장소에서 이용 시 개인정보가 유출될 수 있으니 꼭 로그아웃을 해주세요.]]></value>
-		<value xml:lang="en"><![CDATA[You will be still signed in even when the browser is closed.\n\nIt is not recommended to use this if you are using a public computer, for your personal information could be violated.]]></value>
+		<value xml:lang="en"><![CDATA[You will be still signed in even when the browser is closed.\n\nIt is not recommended to use this if you are using a public computer, because your personal information could be violated.]]></value>
 		<value xml:lang="jp"><![CDATA[ブラウザを閉じてもログイン状態が維持されます。\n\nログイン維持機能を利用すると、次回からログインする必要がなくなります。\n\nただ、インターネットカフェ、学校など公共場所で利用する場合、個人情報が流出する恐れがありますので、必ずログアウトして下さい。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[关闭浏览器后也将维持登录状态。\n\n使用自动登录功能，可解决每次访问都要输入用户名及密码的麻烦。\n\n为防止个人信息泄露，在网吧，学校等公共场所请务必要确认解除登录状态。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[關閉瀏覽器後也將維持登入狀態。\n\n使用此功能，可解決每次訪問都要輸入帳號及密碼的麻煩。\n\n為防止個人資料洩露，在網咖，學校等公共場所，請務必要確認解除登入狀態。]]></value>
