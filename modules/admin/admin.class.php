@@ -40,7 +40,7 @@
          * @brief regenerate xe admin default menu
          * @return none
          **/
-		function _createXeAdminMenu()
+		function createXeAdminMenu()
 		{
 			//insert menu
             $args->title = $this->xeMenuTitle;

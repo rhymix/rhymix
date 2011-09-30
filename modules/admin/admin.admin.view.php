@@ -16,20 +16,7 @@
          * @return none
          **/
         function init() {
-			// admin menu check
 			$this->xeMenuTitle = '__XE_ADMIN__';
-			$oMenuAdminModel = &getAdminModel('menu');
-			$output = $oMenuAdminModel->getMenuByTitle($this->xeMenuTitle);
-
-			if(!$output->menu_srl)
-			{
-				parent::_createXeAdminMenu();
-			}
-			else if(!is_readable($output->php_file))
-			{
-				$oMenuAdminController = &getAdminController('menu');
-				$oMenuAdminController->makeXmlFile($output->menu_srl);
-			}
 
             // forbit access if the user is not an administrator
             $oMemberModel = &getModel('member');

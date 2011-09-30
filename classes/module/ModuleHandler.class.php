@@ -206,6 +206,21 @@
             if(!$kind && $this->module == 'admin') $kind = 'admin';
 			if($this->module_info->use_mobile != "Y") Mobile::setMobile(false);
 
+			// admin menu check
+			$oMenuAdminModel = &getAdminModel('menu');
+			$output = $oMenuAdminModel->getMenuByTitle('__XE_ADMIN__');
+
+			if(!$output->menu_srl)
+			{
+				$oAdminClass = &getClass('admin');
+				$oAdminClass->createXeAdminMenu();
+			}
+			else if(!is_readable($output->php_file))
+			{
+				$oMenuAdminController = &getAdminController('menu');
+				$oMenuAdminController->makeXmlFile($output->menu_srl);
+			}
+
 			// Admin ip
 			$logged_info = Context::get('logged_info');
 			if($kind == 'admin' && $_SESSION['denied_admin'] == 'Y'){
