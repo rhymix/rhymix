@@ -1,5 +1,5 @@
 <!--%load_js_plugin("filebox")-->
-		<h1 class="h1">File Box</h1>
+		<h1 class="h1">{$lang->filebox}</h1>
 		<div class="fileBox">
 			<form action="" class="portlet form" method="post" enctype="multipart/form-data">
 				<input type="hidden" name="module" value="module" />
@@ -7,8 +7,8 @@
 				<input type="hidden" name="vid" value="{$vid}" />
 				<input type="hidden" name="filter" value="{$filter}" />
 				<input type="hidden" name="input" value="{$input}" />
-				<h2>파일 올리기</h2>
-				<span class="more"><a href="#fileUp" class="tgAnchor" data-effect="slide" data-duration="200">보기/숨김</a></span>
+				<h2>{$lang->upload_file}</h2>
+				<span class="more"><a href="#fileUp" class="tgAnchor" data-effect="slide" data-duration="200">{$lang->msg_show_hide}</a></span>
 				<div class="tgContent" id="fileUp">
 					<p>
 						<label for="fileDescription">{$lang->description}</label> <input type="text" name="comment" id="fileDescription" /><br />

@@ -318,6 +318,10 @@
 		<value xml:lang="ru"><![CDATA[Файлбокс]]></value>
 		<value xml:lang="tr"><![CDATA[Dosya Kutusu]]></value>
 	</item>
+	<item name="upload_file">
+		<value xml:lang="ko"><![CDATA[파일 올리기]]></value>
+		<value xml:lang="en"><![CDATA[Upload File]]></value>
+	</item>
 	<item name="access_type">
 		<value xml:lang="ko"><![CDATA[접속 방법]]></value>
 		<value xml:lang="en"><![CDATA[Access Type]]></value>
@@ -972,5 +976,9 @@ Le module [Administration des Modules] montera tous les modules installés et vo
 	<item name="installed_module">
 		<value xml:lang="ko"><![CDATA[설치된 모듈]]></value>
 		<value xml:lang="en"><![CDATA[Installed Module]]></value>
+	</item>
+	<item name="cmd_show_hide">
+		<value xml:lang="ko"><![CDATA[보기/숨김]]></value>
+		<value xml:lang="en"><![CDATA[show/hide]]></value>
 	</item>
 </lang>
