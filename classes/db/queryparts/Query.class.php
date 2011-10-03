@@ -15,6 +15,8 @@
 
                 var $columnList = null;
 
+		var $_orderByString;
+
 		function Query($queryID = null
 			, $action = null
 			, $columns = null
@@ -209,9 +211,10 @@
 			return $from;
 		}
 
-		function getWhereString($with_values = true){
+		function getWhereString($with_values = true, $with_optimization = true){
 			$where = '';
                         $condition_count = 0;
+			
                         foreach($this->conditions as $conditionGroup){
                                 if($condition_count === 0){
                                     $conditionGroup->setPipe("");
@@ -220,7 +223,24 @@
                                 $where .= $condition_string;
                                 $condition_count++;
                         }
-                        return trim($where);
+			
+			if($with_optimization && 
+				(strstr($this->getOrderByString(), 'list_order') || strstr($this->getOrderByString(), 'update_order'))){
+			    
+			    if($condition_count !== 0) $where = '(' . $where .') ';
+			    
+			    foreach($this->orderby as $order){
+				$colName = $order->getColumnName();
+				if(strstr($colName, 'list_order') || strstr($colName, 'update_order')){
+				    $opt_condition = new ConditionWithoutArgument($colName, 2100000000, 'less', 'and');
+				    if ($condition_count === 0) $opt_condition->setPipe("");
+				    $where .= $opt_condition->toString($with_values).' ';
+				    $condition_count++;
+				}
+			    }
+			}
+			
+                    return trim($where);
 		}
 
 		function getGroupByString(){
@@ -231,13 +251,16 @@
 		}
 
 		function getOrderByString(){
-			if(count($this->orderby) === 0) return '';
-			$orderBy = '';
-			foreach($this->orderby as $order){
-				$orderBy .= $order->toString() .', ';
+			if(!$this->_orderByString){
+			    if(count($this->orderby) === 0) return '';
+			    $orderBy = '';
+			    foreach($this->orderby as $order){
+    				$orderBy .= $order->toString() .', ';
+			    }
+			    $orderBy = substr($orderBy, 0, -2);
+			    $this->_orderByString = $orderBy;
 			}
-			$orderBy = substr($orderBy, 0, -2);
-			return $orderBy;
+			return $this->_orderByString;
 		}
 
 		function getLimit(){

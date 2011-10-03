@@ -9,10 +9,14 @@
 		}
 		
 		function toString(){
-			$result = is_a($this->column_name, 'Argument') ? $this->column_name->getValue() : $this->column_name;
+			$result = $this->getColumnName();
 			$result .= ' ';
 			$result .= is_a($this->sort_order, 'Argument') ? $this->sort_order->getValue() : $this->sort_order;
 			return $result;
+		}
+		
+		function getColumnName(){
+		    return is_a($this->column_name, 'Argument') ? $this->column_name->getValue() : $this->column_name;
 		}
 		
 		function getArguments(){

@@ -478,7 +478,8 @@
     function queryPageLimit($queryObject, $data) {
         if ($queryObject->getLimit() && $queryObject->getLimit()->isPageHandler()) {
             // Total count
-            $count_query = sprintf('select count(*) as "count" %s %s', 'FROM ' . $queryObject->getFromString(), ($queryObject->getWhereString() === '' ? '' : ' WHERE ' . $queryObject->getWhereString()));
+	    $temp_where = $queryObject->getWhereString(true, false);
+            $count_query = sprintf('select count(*) as "count" %s %s', 'FROM ' . $queryObject->getFromString(), ($temp_where === '' ? '' : ' WHERE ' . $temp_where));
             if ($queryObject->getGroupByString() != '') {
                 $count_query = sprintf('select count(*) as "count" from (%s) xet', $count_query);
             }
@@ -556,13 +557,8 @@
         $from = ' FROM ' . $from;
 
         $where = $query->getWhereString($with_values);
-        if ($where != '') {
+        if ($where != '')
             $where = ' WHERE ' . $where;
-            if (strstr($where, 'list_order'))
-                $where .= ' and list_order < 2100000000 ';
-            if (strstr($where, 'update_order'))
-                $where .= ' and update_order < 2100000000 ';
-        }
 
         $groupBy = $query->getGroupByString();
         if ($groupBy != '')

@@ -616,7 +616,8 @@
         		if ($limit && $limit->isPageHandler()) {
 
 		 	// Total count
-		 	$count_query = sprintf('select count(*) as "count" %s %s', 'FROM ' . $queryObject->getFromString(), ($queryObject->getWhereString() === '' ? '' : ' WHERE '. $queryObject->getWhereString()));
+			$temp_where = $queryObject->getWhereString(true, false);
+		 	$count_query = sprintf('select count(*) as "count" %s %s', 'FROM ' . $queryObject->getFromString(), ($temp_where === '' ? '' : ' WHERE '. $temp_where));
 			if ($queryObject->getGroupByString() != '') {
 				$count_query = sprintf('select count(*) as "count" from (%s) xet', $count_query);
 			}
@@ -683,11 +684,8 @@
                     $from = ' FROM '.$from;
 
                     $where = $query->getWhereString($with_values);
-                    if($where != ''){
+                    if($where != '')
                         $where = ' WHERE ' . $where;
-                        if(strstr($where,'list_order')) $where .= ' and list_order < 2100000000 ';
-                        if(strstr($where,'update_order'))   $where .= ' and update_order < 2100000000 ';
-                    }
 
                     $groupBy = $query->getGroupByString();
                     if($groupBy != '') $groupBy = ' GROUP BY ' . $groupBy;
@@ -696,23 +694,7 @@
                     if($orderBy != '') $orderBy = ' ORDER BY ' . $orderBy;
 
                     $limit = $query->getLimitString();
-                    if ($limit != '') {
-                        if ($query->getLimit()) {
-
-                            if($orderBy != '')
-                                $limit = sprintf (' for orderby_num() between %d and %d', $start_count + 1, $list_count + $start_count);
-                            else{
-                                if($groupBy != '')
-                                    $limit = sprintf (' having groupby_num() between %d and %d', $start_count + 1, $list_count + $start_count);
-                                else{
-                                    if ($where != '')
-					$limit = sprintf (' and inst_num() between %d and %d', $start_count + 1, $list_count + $start_count);
-                                    else
-					$limit = sprintf(' where inst_num() between %d and %d', $start_count + 1, $list_count + $start_count);
-                                }
-                            }
-                        }
-                    }
+		    if ($limit != '') $limit = sprintf (' LIMIT %d, %d', $start_count, $list_count);
 
                     return $select . ' ' . $from . ' ' . $where . ' ' . $groupBy . ' ' . $orderBy . ' ' . $limit;
                 }

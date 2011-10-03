@@ -492,7 +492,8 @@
                     $limit = $queryObject->getLimit();
 			 	if ($limit && $limit->isPageHandler()) {
 		 		// Total count
-		 		$count_query = sprintf('select count(*) as "count" %s %s', 'FROM ' . $queryObject->getFromString(), ($queryObject->getWhereString() === '' ? '' : ' WHERE '. $queryObject->getWhereString()));
+				$temp_where = $queryObject->getWhereString(true, false);
+		 		$count_query = sprintf('select count(*) as "count" %s %s', 'FROM ' . $queryObject->getFromString(), ($temp_where === '' ? '' : ' WHERE '. $temp_where));
 				if ($queryObject->getGroupByString() != '') {
 					$count_query = sprintf('select count(*) as "count" from (%s) xet', $count_query);
 				}
