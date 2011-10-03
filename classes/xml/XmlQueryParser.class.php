@@ -15,6 +15,7 @@
         require(_XE_PATH_.'classes/xml/xmlquery/tags/query/QueryTag.class.php');
 
         require(_XE_PATH_.'classes/xml/xmlquery/tags/table/TableTag.class.php');
+        require(_XE_PATH_.'classes/xml/xmlquery/tags/table/HintTableTag.class.php');
         require(_XE_PATH_.'classes/xml/xmlquery/tags/table/TablesTag.class.php');
 
 	require(_XE_PATH_.'classes/xml/xmlquery/tags/column/ColumnTag.class.php');

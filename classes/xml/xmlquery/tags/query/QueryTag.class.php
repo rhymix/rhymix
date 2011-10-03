@@ -139,7 +139,10 @@ class QueryTag {
 	}
 
 	function getTables(){
-		return $this->tables = new TablesTag($this->query->tables);
+                if($this->query->index_hint->attrs->for == 'ALL' || Context::getDBType() == strtolower($this->query->index_hint->attrs->for))
+                    return $this->tables = new TablesTag($this->query->tables, $this->query->index_hint);
+                else
+                    return $this->tables = new TablesTag($this->query->tables);
 	}
 
 	function getConditions(){

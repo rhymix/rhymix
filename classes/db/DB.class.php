@@ -28,6 +28,9 @@
         require(_XE_PATH_.'classes/db/queryparts/expression/UpdateExpression.class.php');
         require(_XE_PATH_.'classes/db/queryparts/table/Table.class.php');
         require(_XE_PATH_.'classes/db/queryparts/table/JoinTable.class.php');
+        require(_XE_PATH_.'classes/db/queryparts/table/CubridTableWithHint.class.php');
+        require(_XE_PATH_.'classes/db/queryparts/table/MysqlTableWithHint.class.php');
+        require(_XE_PATH_.'classes/db/queryparts/table/IndexHint.class.php');
         require(_XE_PATH_.'classes/db/queryparts/condition/ConditionGroup.class.php');
         require(_XE_PATH_.'classes/db/queryparts/condition/Condition.class.php');
         require(_XE_PATH_.'classes/db/queryparts/condition/ConditionWithArgument.class.php');
@@ -557,6 +560,15 @@
 			$where = $query->getWhereString($with_values);
 			if($where != '') $where = ' WHERE ' . $where;
 
+                        $tableObjects = $query->getTables();
+                        $index_hint_list = '';
+                        foreach($tableObjects as $tableObject){
+                            if(is_a($tableObject, 'CubridTableWithHint'))
+                                    $index_hint_list .= $tableObject->getIndexHintString() . ', ';
+                        }
+                        if($index_hint_list != '')
+                            $index_hint_list = 'USING INDEX ' . substr($index_hint_list, 0, -2);
+
 			$groupBy = $query->getGroupByString();
 			if($groupBy != '') $groupBy = ' GROUP BY ' . $groupBy;
 
@@ -566,7 +578,7 @@
 		 	$limit = $query->getLimitString();
 		 	if($limit != '') $limit = ' LIMIT ' . $limit;
 
-		 	return $select . ' ' . $from . ' ' . $where . ' ' . $groupBy . ' ' . $orderBy . ' ' . $limit;
+		 	return $select . ' ' . $from . ' ' . $where . ' ' . $index_hint_list . ' ' . $groupBy . ' ' . $orderBy . ' ' . $limit;
 		}
 
    		function getDeleteSql($query, $with_values = true){

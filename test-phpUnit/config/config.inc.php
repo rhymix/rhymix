@@ -13,6 +13,7 @@
         require_once(_XE_PATH_.'test-phpUnit/db/CubridOnlineTest.php');
         require_once(_XE_PATH_.'test-phpUnit/db/MssqlTest.php');
         require_once(_XE_PATH_.'test-phpUnit/db/MssqlOnlineTest.php');
+        require_once(_XE_PATH_.'test-phpUnit/db/MysqlTest.php');
 
         require_once(_XE_PATH_.'config/config.inc.php');
 //	require_once(_XE_PATH_.'classes/object/Object.class.php');
@@ -26,6 +27,7 @@
 	require_once(_XE_PATH_.'classes/db/DB.class.php');
 	require_once(_XE_PATH_.'classes/db/DBCubrid.class.php');
 	require_once(_XE_PATH_.'classes/db/DBMssql.class.php');
+        require_once(_XE_PATH_.'classes/db/DBMysql.class.php');
 
     require_once(_XE_PATH_.'classes/xml/xmlquery/DBParser.class.php');
     require_once(_XE_PATH_.'classes/xml/xmlquery/argument/Argument.class.php');
@@ -38,6 +40,9 @@
     require_once(_XE_PATH_.'classes/db/queryparts/expression/UpdateExpression.class.php');
     require_once(_XE_PATH_.'classes/db/queryparts/table/Table.class.php');
     require_once(_XE_PATH_.'classes/db/queryparts/table/JoinTable.class.php');
+    require_once(_XE_PATH_.'classes/db/queryparts/table/CubridTableWithHint.class.php');
+    require_once(_XE_PATH_.'classes/db/queryparts/table/MysqlTableWithHint.class.php');
+    require_once(_XE_PATH_.'classes/db/queryparts/table/IndexHint.class.php');
     require_once(_XE_PATH_.'classes/db/queryparts/condition/ConditionGroup.class.php');
     require_once(_XE_PATH_.'classes/db/queryparts/condition/Condition.class.php');
     require_once(_XE_PATH_.'classes/db/queryparts/condition/ConditionWithArgument.class.php');
@@ -50,6 +55,7 @@
     require_once(_XE_PATH_.'classes/db/queryparts/Subquery.class.php');
 
     require_once(_XE_PATH_.'classes/xml/xmlquery/tags/table/TableTag.class.php');
+    require_once(_XE_PATH_.'classes/xml/xmlquery/tags/table/HintTableTag.class.php');
     require_once(_XE_PATH_.'classes/xml/xmlquery/tags/condition/ConditionTag.class.php');
     require_once(_XE_PATH_.'classes/xml/xmlquery/queryargument/QueryArgument.class.php');
     require_once(_XE_PATH_.'classes/xml/xmlquery/queryargument/SortQueryArgument.class.php');

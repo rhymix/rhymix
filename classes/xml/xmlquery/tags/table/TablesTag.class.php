@@ -19,18 +19,32 @@
 	class TablesTag {
 		var $tables;
 
-		function TablesTag($xml_tables_tag){
+		function TablesTag($xml_tables_tag, $xml_index_hints_tag = NULL){
                     $this->tables = array();
 
                     $xml_tables = $xml_tables_tag->table;
                     if(!is_array($xml_tables)) $xml_tables = array($xml_tables);
+
+                    if($xml_index_hints_tag){
+                        $index_nodes = $xml_index_hints_tag->index;
+                        if(!is_array($index_nodes)) $index_nodes = array($index_nodes);
+                        foreach($index_nodes as $index_node) {
+                            if(!$indexes[$index_node->attrs->table]) $indexes[$index_node->attrs->table] = array();
+                            $count = count($indexes[$index_node->attrs->table]);
+                            $indexes[$index_node->attrs->table][$count]->name = $index_node->attrs->name;
+                            $indexes[$index_node->attrs->table][$count]->type = $index_node->attrs->type;
+                        }
+                    }
 
                     foreach($xml_tables as $tag){
                         if($tag->attrs->query == 'true'){
                             $this->tables[] = new QueryTag($tag, true);
                         }
                         else {
-                            $this->tables[] = new TableTag($tag);
+                            if($indexes && $indexes[$tag->attrs->name])
+                                $this->tables[] = new HintTableTag($tag, $indexes[$tag->attrs->name]);
+                            else
+                                $this->tables[] = new TableTag($tag);
                         }
                     }
 		}
