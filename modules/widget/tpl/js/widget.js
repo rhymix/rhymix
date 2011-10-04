@@ -200,7 +200,7 @@ function getWidgetCode(childObj, widget) {
 // 팝업 띄움
 function doAddContent(mid) {
     var url = request_uri.setQuery('module','widget').setQuery('act','dispWidgetAdminAddContent').setQuery('module_srl',zoneModuleSrl).setQuery('mid',mid);
-	window.open(url,'addContent', 'location=0, menubar=0, toolbar=0, scrollbars=1');
+	popopen(url, "addContent");
 }
 
 // 직접 내용을 입력하기 위한 에디터 활성화 작업 및 form 데이터 입력
@@ -316,8 +316,7 @@ function doAddWidget(fo) {
     var module_srl = fo.module_srl.value;
 
     var url = request_uri.setQuery('module','widget').setQuery('act','dispWidgetGenerateCodeInPage').setQuery('selected_widget', val).setQuery('module_srl', module_srl);
-    //popopen(url,'GenerateWidgetCode');
-	window.open(url, 'GenerateWidgetCode', 'location=0, menubar=0, toolbar=0, scrollbars=1');
+    popopen(url,'GenerateWidgetCode');
 }
 
 
@@ -477,8 +476,8 @@ function doCheckWidget(e) {
         var widget = p_obj.getAttribute("widget");
         if(!widget) return;
         selectedWidget = p_obj;
-        if(widget == 'widgetContent') window.open(request_uri+"?module=widget&act=dispWidgetAdminAddContent&module_srl="+zoneModuleSrl+"&document_srl="+p_obj.getAttribute("document_srl")+'&mid='+current_mid, "addContent", 'location=0, menubar=0, toolbar=0, scrollbars=1');
-        else window.open(request_uri+"?module=widget&act=dispWidgetGenerateCodeInPage&selected_widget="+widget+"&widgetstyle="+widgetstyle,'GenerateCodeInPage', 'location=0, menubar=0, toolbar=0, scrollbars=1');
+        if(widget == 'widgetContent') popopen(request_uri+"?module=widget&act=dispWidgetAdminAddContent&module_srl="+zoneModuleSrl+"&document_srl="+p_obj.getAttribute("document_srl"), "addContent");
+        else popopen(request_uri+"?module=widget&act=dispWidgetGenerateCodeInPage&selected_widget="+widget+"&widgetstyle="+widgetstyle,'GenerateCodeInPage');
         return;
 
     // 위젯 스타일
@@ -488,7 +487,7 @@ function doCheckWidget(e) {
         var widgetstyle = p_obj.getAttribute("widgetstyle");
         if(!widget) return;
         selectedWidget = p_obj;
-        window.open(request_uri+"?module=widget&act=dispWidgetStyleGenerateCodeInPage&selected_widget="+widget+"&widgetstyle="+widgetstyle,'GenerateCodeInPage', 'location=0, menubar=0, toolbar=0, scrollbars=1');
+        popopen(request_uri+"?module=widget&act=dispWidgetStyleGenerateCodeInPage&selected_widget="+widget+"&widgetstyle="+widgetstyle,'GenerateCodeInPage');
         return;
 
     // 위젯 복사
