@@ -708,6 +708,7 @@ $('.multiLangEdit')
 			if(!val || skip_textchange) {
 				skip_textchange = false;
 				$ul.parent().hide();
+				$this.prev('input.vLang').val('');
 				return;
 			}
 
