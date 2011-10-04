@@ -34,5 +34,25 @@
                 $this->_test($xml_file, $argsString, $expected);
         }
 
+        function testThreeIndexHintsAndTwoTables_ForceAndIgnore(){
+                $xml_file = $this->xmlPath . "three_index_hints_two_tables_combined.xml";
+                $argsString = '';
+                $expected = 'select * from `xe_member` as `member` force index (`idx_member_list_order`, `idx_member_srl`)
+                    , `xe_document` as `document` ignore index (`idx_document_srl`)';
+                $this->_test($xml_file, $argsString, $expected);
+        }
+
+        /**
+         * Tests that index is added if "for" attribute is "ALL"
+         *
+         * example: <index_hint for="ALL"> ... </index_hint>
+         */
+        function testIndexHintForAll(){
+                $xml_file = $this->xmlPath . "index_hint_for_all.xml";
+                $argsString = '';
+                $expected = 'select * from `xe_member` as `member` use index (`idx_member_list_order`)';
+                $this->_test($xml_file, $argsString, $expected);
+        }
+
     }
 ?>

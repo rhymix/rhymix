@@ -12,9 +12,19 @@
 
 		function getIndexHintString(){
                     $result = '';
+
+                    // Retrieve table prefix, to add it to index name
+                    $db_info = Context::getDBInfo();
+                    $prefix = $db_info->master_db["db_table_prefix"];
+
                     foreach($this->index_hints_list as $index_hint){
-                        $result .= $this->alias . '.' . $index_hint->getIndexName()
-                                . ($index_hint->getIndexHintType() == 'FORCE' ? '(+)' : '') . ', ';
+                        $index_hint_type = $index_hint->getIndexHintType();
+                        if($index_hint_type !== 'IGNORE'){
+                            $result .= $this->alias . '.'
+                                        . '"' . $prefix . substr($index_hint->getIndexName(), 1)
+                                        . ($index_hint_type == 'FORCE' ? '(+)' : '')
+                                        . ', ';
+                        }
 
                     }
                     $result = substr($result, 0, -2);

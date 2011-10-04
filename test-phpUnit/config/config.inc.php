@@ -42,6 +42,7 @@
     require_once(_XE_PATH_.'classes/db/queryparts/table/JoinTable.class.php');
     require_once(_XE_PATH_.'classes/db/queryparts/table/CubridTableWithHint.class.php');
     require_once(_XE_PATH_.'classes/db/queryparts/table/MysqlTableWithHint.class.php');
+    require_once(_XE_PATH_.'classes/db/queryparts/table/MssqlTableWithHint.class.php');
     require_once(_XE_PATH_.'classes/db/queryparts/table/IndexHint.class.php');
     require_once(_XE_PATH_.'classes/db/queryparts/condition/ConditionGroup.class.php');
     require_once(_XE_PATH_.'classes/db/queryparts/condition/Condition.class.php');

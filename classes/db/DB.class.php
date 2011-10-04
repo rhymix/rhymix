@@ -30,6 +30,7 @@
         require(_XE_PATH_.'classes/db/queryparts/table/JoinTable.class.php');
         require(_XE_PATH_.'classes/db/queryparts/table/CubridTableWithHint.class.php');
         require(_XE_PATH_.'classes/db/queryparts/table/MysqlTableWithHint.class.php');
+        require(_XE_PATH_.'classes/db/queryparts/table/MssqlTableWithHint.class.php');
         require(_XE_PATH_.'classes/db/queryparts/table/IndexHint.class.php');
         require(_XE_PATH_.'classes/db/queryparts/condition/ConditionGroup.class.php');
         require(_XE_PATH_.'classes/db/queryparts/condition/Condition.class.php');
@@ -566,8 +567,9 @@
                             if(is_a($tableObject, 'CubridTableWithHint'))
                                     $index_hint_list .= $tableObject->getIndexHintString() . ', ';
                         }
+                        $index_hint_list = substr($index_hint_list, 0, -2);
                         if($index_hint_list != '')
-                            $index_hint_list = 'USING INDEX ' . substr($index_hint_list, 0, -2);
+                            $index_hint_list = 'USING INDEX ' . $index_hint_list;
 
 			$groupBy = $query->getGroupByString();
 			if($groupBy != '') $groupBy = ' GROUP BY ' . $groupBy;
