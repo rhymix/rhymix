@@ -29,6 +29,24 @@
 
 		function toString(){
 			$validator = '';
+			if($this->filter){
+				$validator .= sprintf("$%s_argument->checkFilter('%s');\n"
+					, $this->argument_name
+					, $this->filter
+					);
+			}
+			if($this->min_length){
+				$validator .= sprintf("$%s_argument->checkMinLength(%s);\n"
+					, $this->argument_name
+					, $this->min_length
+					);
+			}
+			if($this->max_length){
+				$validator .= sprintf("$%s_argument->checkMaxLength(%s);\n"
+					, $this->argument_name
+					, $this->max_length
+					);
+			}
 			if(isset($this->default_value)){
                                 $this->default_value = new DefaultValue($this->argument_name, $this->default_value);
                                 if($this->default_value->isSequence())
@@ -46,24 +64,6 @@
 			if($this->notnull){
 				$validator .= sprintf("$%s_argument->checkNotNull();\n"
 					, $this->argument_name
-					);
-			}
-			if($this->filter){
-				$validator .= sprintf("$%s_argument->checkFilter('%s');\n"
-					, $this->argument_name
-					, $this->filter
-					);
-			}
-			if($this->min_length){
-				$validator .= sprintf("$%s_argument->checkMinLength(%s);\n"
-					, $this->argument_name
-					, $this->min_length
-					);
-			}
-			if($this->max_length){
-				$validator .= sprintf("$%s_argument->checkMaxLength(%s);\n"
-					, $this->argument_name
-					, $this->max_length
 					);
 			}
 			return $validator;

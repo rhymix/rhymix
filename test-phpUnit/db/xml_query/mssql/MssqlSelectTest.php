@@ -30,7 +30,7 @@
 
 		function test_module_getDefaultModules(){
 			$xml_file = _XE_PATH_ . "modules/module/queries/getDefaultModules.xml";
-			$argsString = '';
+			$argsString = '$args->site_srl = 0;';
 			$expected = 'SELECT [modules].[site_srl]
 							, [modules].[module]
 							, [modules].[mid]
@@ -127,15 +127,19 @@
 			$this->_test($xml_file, $argsString, $expected, array("'10'"));
 		}
 
+                /**
+                 * Query fails because XML is wrong - title column does not exist
+                 * in xe_modules. Maybe the developer ment "browser_title"
+                 */
 		function test_opage_getOpageList(){
 			$xml_file = _XE_PATH_ . "modules/opage/queries/getOpageList.xml";
 			$argsString = '$args->s_title = "yuhuu";
-							$args->module = \'opage\';';
+					$args->module = \'opage\';';
 			$expected = 'SELECT TOP 20 *
 						FROM [xe_modules] as [modules]
-						WHERE  [module] = ? and ([title] like ?)
+						WHERE  [module] = \'opage\' and ([title] like ?)
 						ORDER BY [module_srl] desc';
-			$this->_test($xml_file, $argsString, $expected, array("'opage'", "'%yuhuu%'"));
+			$this->_test($xml_file, $argsString, $expected, array("'%yuhuu%'"));
 		}
 
                 function test_module_getExtraVars(){

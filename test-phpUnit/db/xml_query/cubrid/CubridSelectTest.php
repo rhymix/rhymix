@@ -30,7 +30,7 @@
 
 		function test_module_getDefaultModules(){
 			$xml_file = _XE_PATH_ . "modules/module/queries/getDefaultModules.xml";
-			$argsString = '';
+			$argsString = '$args->site_srl = 0;';
 			$expected = 'SELECT "modules"."site_srl"
 							, "modules"."module"
 							, "modules"."mid"

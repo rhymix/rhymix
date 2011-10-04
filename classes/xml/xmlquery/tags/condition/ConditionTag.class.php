@@ -23,20 +23,25 @@
 			$dbParser = DB::getParser();
 			$this->column_name = $dbParser->parseColumnName($condition->attrs->column);
 
-			$isColumnName = strpos($condition->attrs->default, '.');
-			$isColumnName = $isColumnName || strpos($condition->attrs->var, '.');
+                        // If default value is column name, it should be escaped
+			if($isColumnName = strpos($condition->attrs->default, '.')){
+                            $condition->attrs->default = $dbParser->parseColumnName($condition->attrs->default);
+                        }
 
                         if($condition->node_name == 'query'){
                                 $this->query = new QueryTag($condition, true);
                                 $this->default_column = $this->query->toString();
                         }
-			else if(($condition->attrs->var && !$isColumnName) || $isColumnName === false){
+                        else if($condition->attrs->var && !strpos($condition->attrs->var, '.')){
 				$this->argument = new QueryArgument($condition);
 				$this->argument_name = $this->argument->getArgumentName();
 			}
 			else {
-                            if($condition->attrs->default)
-				$this->default_column = "'" .  $dbParser->parseColumnName($condition->attrs->default)  . "'" ;
+                            if($condition->attrs->default){
+                                if(!$isColumnName && !is_numeric($condition->attrs->default))
+                                    $condition->attrs->default = "\'" . $condition->attrs->default . "\'";
+				$this->default_column = "'" .  $condition->attrs->default  . "'" ;
+                            }
                             else
                                 $this->default_column = "'" .  $dbParser->parseColumnName($condition->attrs->var)  . "'" ;
 			}
