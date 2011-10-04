@@ -3,6 +3,7 @@
 	class Query extends Object {
 		var $queryID;
 		var $action;
+		var $priority;
 
 		var $columns;
 		var $tables;
@@ -27,6 +28,7 @@
 			, $limit = null){
 			$this->queryID = $queryID;
 			$this->action = $action;
+			$this->priority = $priority;
 
                         if(!isset($tables)) return;
 			$this->columns = $this->setColumns($columns);
@@ -47,6 +49,10 @@
 
 		function setAction($action){
 			$this->action = $action;
+		}
+		
+		function setPriority($priority){
+			$this->priority = $priority;
 		}
 
                 function setColumnList($columnList){
@@ -151,6 +157,10 @@
 
 		function getAction(){
 			return $this->action;
+		}
+		
+		function getPriority(){
+			return $this->priority?'LOW_PRIORITY':'';
 		}
 
 		function getSelectString($with_values = true){

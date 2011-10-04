@@ -3,6 +3,7 @@
 class QueryTag {
 	var $action;
 	var $query_id;
+	var $priority;
 	var $column_type;
 	var $query;
 
@@ -23,6 +24,7 @@ class QueryTag {
 	function QueryTag($query, $isSubQuery = false){
 		$this->action = $query->attrs->action;
 		$this->query_id = $query->attrs->id;
+		$this->priority = $query->attrs->priority;
 		$this->query = $query;
 		$this->isSubQuery = $isSubQuery;
 		if($this->isSubQuery) $this->action = 'select';
@@ -45,6 +47,10 @@ class QueryTag {
 
 	function getQueryId(){
 		return $this->query->attrs->query_id ? $this->query->attrs->query_id : $this->query->attrs->id;
+	}
+	
+	function getPriority(){
+		return $this->query->attrs->priority;
 	}
 
 	function getAction(){
@@ -124,6 +130,7 @@ class QueryTag {
 		$buff .= '$query = new Query();'.PHP_EOL;
 		$buff .= sprintf('$query->setQueryId("%s");%s', $this->query_id, "\n");
 		$buff .= sprintf('$query->setAction("%s");%s', $this->action, "\n");
+		$buff .= sprintf('$query->setPriority("%s");%s', $this->priority, "\n");
 		$buff .= $this->preBuff;
 		if($this->columns)
 			$buff .= '$query->setColumns(' . $this->columns->toString() . ');'.PHP_EOL;

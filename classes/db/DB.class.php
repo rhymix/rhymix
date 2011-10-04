@@ -583,9 +583,10 @@
 		 	return $select . ' ' . $from . ' ' . $where . ' ' . $index_hint_list . ' ' . $groupBy . ' ' . $orderBy . ' ' . $limit;
 		}
 
-   		function getDeleteSql($query, $with_values = true){
+   		function getDeleteSql($query, $with_values = true, $with_priority = false){
 			$sql = 'DELETE ';
 
+			$sql .= $with_priority?$query->getPriority():'';
 			$tables = $query->getTables();
 
 			$sql .= $tables[0]->getAlias();
@@ -600,7 +601,7 @@
 			return $sql;
 		}
 
-    	function getUpdateSql($query, $with_values = true){
+    	function getUpdateSql($query, $with_values = true, $with_priority = false){
 			$columnsList = $query->getUpdateString($with_values);
 			if($columnsList == '') return new Object(-1, "Invalid query");
 
@@ -609,15 +610,18 @@
 
 			$where = $query->getWhereString($with_values);
 			if($where != '') $where = ' WHERE ' . $where;
+			
+			$priority = $with_priority?$query->getPriority():'';
 
-			return "UPDATE $tableName SET $columnsList ".$where;
+			return "UPDATE $priority $tableName SET $columnsList ".$where;
 		}
 
-    	function getInsertSql($query, $with_values = true){
+    	function getInsertSql($query, $with_values = true, $with_priority = false){
 			$tableName = $query->getFirstTableName();
 			$values = $query->getInsertString($with_values);
-
-			return "INSERT INTO $tableName \n $values";
+			$priority = $with_priority?$query->getPriority():'';
+			
+			return "INSERT $priority INTO $tableName \n $values";
 		}
 
         function _getSlaveConnectionStringIndex() {

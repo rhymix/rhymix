@@ -369,7 +369,7 @@
 			//$priority = '';
 			//if($output->priority) $priority = $output->priority['type'].'_priority';
 
-            $query = $this->getInsertSql($queryObject);
+            $query = $this->getInsertSql($queryObject, true, true);
             if(is_a($query, 'Object')) return;
             return $this->_query($query);
         }
@@ -383,7 +383,7 @@
 			//$priority = '';
 			//if($output->priority) $priority = $output->priority['type'].'_priority';
 
-            $query = $this->getUpdateSql($queryObject);
+            $query = $this->getUpdateSql($queryObject, true, true);
             if(is_a($query, 'Object')) return;
             return $this->_query($query);
         }
@@ -392,7 +392,7 @@
          * @brief Handle deleteAct
          **/
         function _executeDeleteAct($queryObject) {
-        	$query = $this->getDeleteSql($queryObject);
+        	$query = $this->getDeleteSql($queryObject, true, true);
 
         	if(is_a($query, 'Object')) return;
 
