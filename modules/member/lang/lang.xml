@@ -2344,4 +2344,16 @@ Bạn có thể quản lý thành viên bằng cách tạo những nhóm mới, 
 		<value xml:lang="ko"><![CDATA[로그인에 사용할 계정을 선택해주세요.]]></value>
 		<value xml:lang="en"><![CDATA[Please select an account to use when logging in.]]></value>
 	</item>
+	<item name="use_after_save">
+		<value xml:lang="ko"><![CDATA[저장 후 사용]]></value>
+		<value xml:lang="en"><![CDATA[Use after saved]]></value>
+	</item>
+	<item name="cmd_add_group">
+		<value xml:lang="ko"><![CDATA[그룹 추가]]></value>
+		<value xml:lang="en"><![CDATA[Add group]]></value>
+	</item>
+	<item name="msg_groups_exist">
+		<value xml:lang="ko"><![CDATA[개 그룹이 존재합니다.]]></value>
+		<value xml:lang="en"><![CDATA[groups are exist.]]></value>
+	</item>
 </lang>

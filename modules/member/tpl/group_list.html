@@ -23,7 +23,7 @@
 	<div class="table even">
 		<table width="100%" border="1" cellspacing="0" class="sortable">
 			<caption>
-			<strong>{count($group_list)}</strong> groups are exist.
+			<strong>{count($group_list)}</strong> {$lang->msg_groups_exist}
 			</caption>
 			<thead>
 				<tr>
@@ -36,7 +36,7 @@
 						</div>
 					</th>
 					<th scope="col" class="_imageMarkButton">{$lang->group_image_mark}</th>
-					<th scope="col">Action</th>
+					<th scope="col"></th>
 				</tr>
 			</thead>
 			<tfoot>
@@ -45,7 +45,7 @@
 					<td>&nbsp;</td>
 					<td>&nbsp;</td>
 					<td class="_imageMarkButton">&nbsp;</td>
-					<td><a href="#" class="_addGroup">Add Group</a></td>
+					<td><a href="#" class="_addGroup">{$lang->cmd_add_group}</a></td>
 				</tr>
 			</tfoot>
 			<tbody class="uDrag _groupList">
@@ -83,14 +83,14 @@
 		</table>
 	</div>
 	<div class="btnArea">
-		<span class="btn medium"><input type="submit" value="Save" /></span>
+		<span class="btn medium"><input type="submit" value="{$lang->cmd_save}" /></span>
 	</div>
 
 	<!-- Multilingual -->
 	<div id="langEdit" class="langEdit tgContent">
 		<ul class="langList"></ul>
 		<div class="langInput">
-			<h2>다국어 <strong>수정</strong> | <a href="#langEdit">추가</a></h2>
+			<h2>{$lang->cmd_multilingual} <strong>{$lang->cmd_modify}</strong> | <a href="#langEdit">{$lang->cmd_insert}</a></h2>
 			<ul>
 				{@
 					/* move current language to the top */
@@ -102,7 +102,7 @@
 			</ul>
 			<div class="action">
 				<div class="btnArea">
-					<span class="btn small"><input type="submit" value="사용|저장 후 사용" /></span>
+					<span class="btn small"><input type="submit" value="{$lang->use}|{$lang->use_after_save}" /></span>
 				</div>
 				<p><a href="{getUrl('act','dispModuleAdminLangcode')}">{$lang->multilingual_manager}</a></p>
 			</div>
