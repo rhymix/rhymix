@@ -1209,7 +1209,7 @@ jQuery(function($){
 		$area.hide();
 
 		var $target = $(evt.target).filter('a,div,span');
-		if(!$target.length) $target = $target.parents('a,div,span').eq(0);
+		if(!$target.length) $target = $(evt.target).closest('a,div,span');
 		if(!$target.length) return;
 
         // 객체의 className값을 구함
