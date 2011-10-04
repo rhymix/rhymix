@@ -21,7 +21,7 @@
 			$this->operation = $condition->attrs->operation;
 			$this->pipe = $condition->attrs->pipe;
 			$dbParser = DB::getParser();
-			$this->column_name = $dbParser->parseColumnName($condition->attrs->column);
+                        $this->column_name = $dbParser->parseExpression($condition->attrs->column);
 
                         // If default value is column name, it should be escaped
 			if($isColumnName = strpos($condition->attrs->default, '.')){

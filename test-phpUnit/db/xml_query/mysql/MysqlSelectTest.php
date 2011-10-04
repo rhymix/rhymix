@@ -80,4 +80,11 @@
                                         and `item`.`item_srl` = 10';
 			$this->_test($xml_file, $argsString, $expected);
 		}
+
+                function testSubstring(){
+			$xml_file = _TEST_PATH_ . "db/xml_query/mysql/data/substring.xml";
+			$argsString = '$args->var_start_mmdd = "1102"; ';
+			$expected = 'select * from `xe_member` as `member` where substr(`extra_vars_t1`.`value`,5,4) >= 1102';
+			$this->_test($xml_file, $argsString, $expected);
+                }
 	}
