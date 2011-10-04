@@ -55,7 +55,7 @@
                             // Instantiation
                             $arg = sprintf("\n$%s_argument = new ConditionArgument('%s', %s, '%s');\n"
                                                     , $this->argument_name
-                                                    , $this->argument_name
+                                                    , $this->variable_name
                                                     , '$args->'.$this->variable_name
                                                     , $this->operation
                                                     );
@@ -76,7 +76,7 @@
                     else {
                             $arg = sprintf("\n$%s_argument = new Argument('%s', %s);\n"
                                                     , $this->argument_name
-                                                    , $this->argument_name
+                                                    , $this->variable_name
                                                     , '$args->'.$this->variable_name);
 
                             $arg .= $this->argument_validator->toString();
