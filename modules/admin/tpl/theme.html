@@ -21,12 +21,12 @@ $('#theme').data('themes', themes);
 });
 </script>
 
-	<h1 class="h1">Theme</h1>
+	<h1 class="h1">{$lang->menu_gnb_sub['theme']}</h1>
 	<p class="xe_validator_error">{$XE_VALIDATOR_ERROR}</p>
 	<form ruleset="insertThemeInfo" action="./" method="post" class="form">
 	<input type="hidden" name="act" value="procAdminInsertThemeInfo">
 		<fieldset id="theme">
-			<h2 class="h2">Theme Setting</h2>
+			<h2 class="h2">{$lang->theme_setting}</h2>
 			<p>{$lang->theme_desc}</p>
 			<ul class="thumbPreview">
 				<li>
@@ -34,7 +34,7 @@ $('#theme').data('themes', themes);
 					<ul class="a">
 						{@$current_theme = ($theme_info)?$theme_info->theme:'user_define'}
 						<li class="i" loop="$theme_list=>$key,$val">
-							<span class="thumb"><!--@if($val->thumbnail)--><img src="{$val->thumbnail}" alt="" /><!--@else-->Thumbnail does not exist<!--@end--></span>
+							<span class="thumb"><!--@if($val->thumbnail)--><img src="{$val->thumbnail}" alt="" /><!--@else-->{$lang->msg_thumbnail_not_exist}<!--@end--></span>
 							<input type="radio" name="themeItem" id="{$key}" value="{$key}" <!--@if($key == $current_theme)-->checked="checked"<!--@end--> />
 							<label for="{$key}">{$val->title}({$key})</label>
 							<ul>
@@ -50,9 +50,9 @@ $('#theme').data('themes', themes);
 							</ul>
 						</li>
 						<li class="i userDefine">
-							<span class="thumb">By You</span>
+							<span class="thumb">{$lang->by_you}</span>
 							<input type="radio" name="themeItem" id="theme_user_define" value="user_define" <!--@if($current_theme == 'user_define')-->checked="checked"<!--@end--> />
-							<label for="theme_user_define">User Defined</label>
+							<label for="theme_user_define">{$lang->user_theme}</label>
 							<ul>
 								<li>&middot; {$lang->description}: {$lang->no_selected_theme_desc}</li>
 							</ul>
@@ -62,14 +62,13 @@ $('#theme').data('themes', themes);
 			</ul>
 		</fieldset>
 		<fieldset id="skin">
-			<h2 class="h2">Skin Setting</h2>
 			<p>{$lang->user_define_skin_select_desc} <button type="button" class="showAll"></button></p>
 			<ul class="thumbPreview jx">
 				<li data-skintype="layout">
 					<p class="q">{$lang->selected_layout}</p>
 					<ul class="a">
 						<li class="i" loop="$layout_list=>$val">
-							<span class="thumb"><span class="frame"><!--@if($val->thumbnail)--><img src="{$val->thumbnail}" alt="" /><!--@else-->Thumbnail does not exist<!--@end--></span></span>
+							<span class="thumb"><span class="frame"><!--@if($val->thumbnail)--><img src="{$val->thumbnail}" alt="" /><!--@else-->{$lang->msg_thumbnail_not_exist}<!--@end--></span></span>
 							<input type="radio" name="layout" id="layout_{$val->layout_srl}" value="{$val->layout_srl}" <!--@if($val->layout_srl == $current_layout)-->checked="checked"<!--@end--> />
 							<label for="layout_{$val->layout_srl}">{$val->layout_title.'('.$val->layout.')'}</label>
 							<ul>

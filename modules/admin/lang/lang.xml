@@ -1004,4 +1004,28 @@ Lütfen son sürümü için indirme linkine tıklayınız.]]></value>
 		<value xml:lang="ko"><![CDATA[버그 리포트]]></value>
 		<value xml:lang="en"><![CDATA[Bug Report]]></value>
 	</item>
+	<item name="theme_setting">
+		<value xml:lang="ko"><![CDATA[테마 설정]]></value>
+		<value xml:lang="en"><![CDATA[Theme Setting]]></value>
+	</item>
+	<item name="skin_setting">
+		<value xml:lang="ko"><![CDATA[스킨 설정]]></value>
+		<value xml:lang="en"><![CDATA[Skin Setting]]></value>
+	</item>
+	<item name="msg_thumbnail_not_exist">
+		<value xml:lang="ko"><![CDATA[썸네일이 없습니다]]></value>
+		<value xml:lang="en"><![CDATA[Thumbnail does not exist]]></value>
+	</item>
+	<item name="user_theme">
+		<value xml:lang="ko"><![CDATA[사용자 테마]]></value>
+		<value xml:lang="en"><![CDATA[User Theme]]></value>
+	</item>
+	<item name="by_you">
+		<value xml:lang="ko"><![CDATA[사용자 설정]]></value>
+		<value xml:lang="en"><![CDATA[By You]]></value>
+	</item>
+	<item name="update_available">
+		<value xml:lang="ko"><![CDATA[업데이트 가능]]></value>
+		<value xml:lang="en"><![CDATA[Update Available]]></value>
+	</item>
 </lang>
