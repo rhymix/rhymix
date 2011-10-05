@@ -296,7 +296,7 @@ function completeAddContent(ret_obj, response_tags, params, fo_obj) {
 /* 박스 위젯 추가 */
 function doAddWidgetBox() {
     var tpl = ''+
-    '<div class="widgetOutput" style="float:left;width:100%;height:12px;" widget="widgetBox" >'+
+    '<div class="widgetOutput" style="float:left;width:100%;height:20px;" widget="widgetBox" >'+
         '<button type="button" class="widgetBoxResize"></button>'+
         '<button type="button" class="widgetBoxResizeLeft"></button>'+
         '<div class="widgetBoxBorder">'+
