@@ -38,14 +38,17 @@
 			}
 			else {
                             $default_value = $condition->attrs->default;
-                            if($default_value){
+                            if(isset($default_value)){
                                 if($isColumnName){
                                     $default_value = "'" . $default_value . "'";
                                 }
                                 else if(in_array($this->operation, array('in', 'between', 'not in')))
                                     $default_value = "\"" . $default_value . "\"";
                                 else if(!$isColumnName && !is_numeric($default_value) && !is_array($default_value)){
-                                    $default_value = "\"" . $default_value . "\"";
+                                    if(strpos($default_value, "'"))
+                                        $default_value = "\"\'" . $default_value . "\"\'";
+                                    else
+                                        $default_value = "\"'" . $default_value . "'\"";
                                 }
                                 $this->default_column = $default_value;
                             }
@@ -76,7 +79,7 @@
                                             , $this->pipe ? ", '" . $this->pipe . "'" : ''
                                             );
                         }
-                        else if($this->default_column){
+                        else if(isset($this->default_column)){
                             return sprintf("new ConditionWithoutArgument('%s',%s,%s%s)"
                                             , $this->column_name
                                             , $this->default_column
