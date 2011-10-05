@@ -37,10 +37,17 @@
 				$this->argument_name = $this->argument->getArgumentName();
 			}
 			else {
-                            if($condition->attrs->default){
-                                if(!$isColumnName && !is_numeric($condition->attrs->default))
-                                    $condition->attrs->default = "\'" . $condition->attrs->default . "\'";
-				$this->default_column = "'" .  $condition->attrs->default  . "'" ;
+                            $default_value = $condition->attrs->default;
+                            if($default_value){
+                                if($isColumnName){
+                                    $default_value = "'" . $default_value . "'";
+                                }
+                                else if(in_array($this->operation, array('in', 'between', 'not in')))
+                                    $default_value = "\"" . $default_value . "\"";
+                                else if(!$isColumnName && !is_numeric($default_value) && !is_array($default_value)){
+                                    $default_value = "\"" . $default_value . "\"";
+                                }
+                                $this->default_column = $default_value;
                             }
                             else
                                 $this->default_column = "'" .  $dbParser->parseColumnName($condition->attrs->var)  . "'" ;

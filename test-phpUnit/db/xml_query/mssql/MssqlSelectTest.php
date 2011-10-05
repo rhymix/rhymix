@@ -162,12 +162,10 @@
 			$expected = 'select count(*) as [count]
                                         from [xe_module_grants] as [module_grants]
                                         where [module_srl] = ?
-                                            and [name] in (?,?,?)
-                                            and (
-                                                [group_srl] >= ?
-                                                or [group_srl] = ?
-                                                or [group_srl] = ?
-                                               )';
-			$this->_test($xml_file, $argsString, $expected, array(67, array('\'access\'', '\'view\'', '\'list\''), 1, -1, -2));
+                                            and [name] in (\'access\',\'view\',\'list\')
+                                            and ([group_srl] >= 1
+                                                    or [group_srl] = -1
+                                                    or [group_srl] = -2)';
+			$this->_test($xml_file, $argsString, $expected, array(67));
                 }
 	}

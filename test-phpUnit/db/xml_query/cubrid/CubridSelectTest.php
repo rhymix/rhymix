@@ -163,7 +163,8 @@
                                     $args->s_member_srl = 4;';
                     $expected = 'select *
                                     from "xe_documents" as "documents"
-                                    where "member_srl" = 4
+                                    where ("member_srl" = 4)
+                                        and "list_order" <= 2100000000
                                     order by "list_order" asc
                                     limit 0, 30';
                     $this->_test($xml_file, $argsString, $expected);
@@ -205,7 +206,9 @@
                                     $args->sort_order = \'asc\';
                                     $args->list_count = 40;
                                     $args->page_count = 10;';
-                    $expected = 'select * from "xe_member" as "member"
+                    $expected = 'select *
+                                    from "xe_member" as "member"
+                                    where "list_order" <= 2100000000
                                  order by "list_order" asc
                                  limit 0, 40';
                     $this->_test($xml_file, $argsString, $expected);
