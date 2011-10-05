@@ -1028,4 +1028,8 @@ Lütfen son sürümü için indirme linkine tıklayınız.]]></value>
 		<value xml:lang="ko"><![CDATA[업데이트 가능]]></value>
 		<value xml:lang="en"><![CDATA[Update Available]]></value>
 	</item>
+	<item name="admin_menu_setup">
+		<value xml:lang="ko"><![CDATA[관리자 메뉴 설정]]></value>
+		<value xml:lang="en"><![CDATA[Admin Menu Setup]]></value>
+	</item>
 </lang>
