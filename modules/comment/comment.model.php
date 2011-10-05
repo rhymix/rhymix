@@ -24,7 +24,7 @@
             $mid = Context::get('cur_mid');
             $logged_info = Context::get('logged_info');
             $act = Context::get('cur_act');
-            
+
             // array values for menu_list, "comment post, target, url"
             $menu_list = array();
             // call a trigger
@@ -59,7 +59,7 @@
             }
             // call a trigger (after)
             ModuleHandler::triggerCall('comment.getCommentMenu', 'after', $menu_list);
-            // find a comment by IP matching if an administrator. 
+            // find a comment by IP matching if an administrator.
             if($logged_info->is_admin == 'Y') {
                 $oCommentModel = &getModel('comment');
                 $oComment = $oCommentModel->getComment($comment_srl);
@@ -168,12 +168,12 @@
             $args->module_srl = $module_srl;
 			$output = executeQuery('comment.getCommentCount', $args);
 			$total_count = $output->data->count;
-			
+
             return (int)$total_count;
         }
 
 
-        /** 
+        /**
          * @brief get the comment in corresponding with mid.
          **/
         function getNewestCommentList($obj, $columnList = array()) {
@@ -182,7 +182,7 @@
                 $obj->module_srl = $oModuleModel->getModuleSrlByMid($obj->mid);
                 unset($obj->mid);
             }
-            // check if module_srl is an arrary. 
+            // check if module_srl is an arrary.
             if(is_array($obj->module_srl)) $args->module_srl = implode(',', $obj->module_srl);
             else $args->module_srl = $obj->module_srl;
             $args->list_count = $obj->list_count;
@@ -197,7 +197,7 @@
             	if($oCacheHandler->isSupport()) $oCacheHandler->put($cache_key,$output);
 			}
             if(!$output->toBool()) return $output;
-			
+
             $comment_list = $output->data;
             if($comment_list) {
                 if(!is_array($comment_list)) $comment_list = array($comment_list);
@@ -215,26 +215,16 @@
             return $result;
         }
 
-        /** 
+        /**
          * @brief get a comment list of the doc in corresponding woth document_srl.
          **/
         function getCommentList($document_srl, $page = 0, $is_admin = false, $count = 0) {
         	// cache controll
 			$oCacheHandler = &CacheHandler::getInstance('object');
 			if($oCacheHandler->isSupport()){
-				$cache_key = 'object:'.$document_srl.'_'.$page;
+				$object_key = 'object:'.$document_srl.'_'.$page.'_'.($is_admin ? 'Y' : 'N') .'_' . $count;
+                                $cache_key = $oCacheHandler->getGroupKey('commentList', $object_key);
 				$output = $oCacheHandler->get($cache_key);
-				$cache_object = $oCacheHandler->get('comment_list_document_pages');
-				if($cache_object) {
-					if(!in_array($cache_key, $cache_object)) {
-						$cache_object[]=$cache_key;
-						$oCacheHandler->put('comment_list_document_pages',$cache_object);
-					}
-				} else {
-					$cache_object = array();
-					$cache_object[] = $cache_key;
-					$oCacheHandler->put('comment_list_document_pages',$cache_object);
-				}
 			}
         	if(!$output){
         		// get the number of comments on the document module
@@ -247,7 +237,7 @@
 	            if($oDocument->getCommentCount()<1) return;
 	            // get a list of comments
 	            $module_srl = $oDocument->get('module_srl');
-	
+
 	            if(!$count) {
 	                $comment_config = $this->getCommentConfig($module_srl);
 	                $comment_count = $comment_config->comment_count;
@@ -256,7 +246,7 @@
 	                $comment_count = $count;
 	            }
 	            // get a very last page if no page exists
-	            if(!$page) $page = (int)( ($oDocument->getCommentCount()-1) / $comment_count) + 1;                
+	            if(!$page) $page = (int)( ($oDocument->getCommentCount()-1) / $comment_count) + 1;
 	            // get a list of comments
 	            $args->document_srl = $document_srl;
 	            $args->list_count = $comment_count;
@@ -273,12 +263,12 @@
 	            }
 	            //insert in cache
 	            if($oCacheHandler->isSupport()) $oCacheHandler->put($cache_key,$output);
-        		
+
         	}
-        	
+
             return $output;
         }
-            
+
         /**
          * @brief update a list of comments in corresponding with document_srl
          * take care of previously used data than GA version

@@ -78,17 +78,12 @@
 			}
 
 			$oDB->commit();
-			
+
 			//remove from cache
             $oCacheHandler = &CacheHandler::getInstance('object');
-            if($oCacheHandler->isSupport()) 
+            if($oCacheHandler->isSupport())
             {
-            	$cache_object = $oCacheHandler->get('comment_list_document_pages');
-            	foreach ($cache_object as $object){
-            		$cache_key = $object;
-                	$oCacheHandler->delete($cache_key);
-            	}
-                $oCacheHandler->delete('comment_list_document_pages');
+                $oCacheHandler->invalidateGroupKey('commentList');
             }
 
 			$msgCode = '';
@@ -176,14 +171,9 @@
             $output = executeQuery('comment.deleteModuleCommentsList', $args);
 			//remove from cache
             $oCacheHandler = &CacheHandler::getInstance('object');
-            if($oCacheHandler->isSupport()) 
+            if($oCacheHandler->isSupport())
             {
-            	$cache_object = $oCacheHandler->get('comment_list_document_pages');
-            	foreach ($cache_object as $object){
-            		$cache_key = $object;
-                	$oCacheHandler->delete($cache_key);
-            	}
-                $oCacheHandler->delete('comment_list_document_pages');
+                $oCacheHandler->invalidateGroupKey('commentList');
             }
             return $output;
         }

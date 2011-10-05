@@ -2,7 +2,7 @@
     /**
      * @class  commentController
      * @author NHN (developers@xpressengine.com)
-     * @brief controller class of the comment module 
+     * @brief controller class of the comment module
      **/
 
     class commentController extends comment {
@@ -242,20 +242,11 @@
             $output->add('comment_srl', $obj->comment_srl);
 			//remove from cache
             $oCacheHandler = &CacheHandler::getInstance('object');
-            if($oCacheHandler->isSupport()) 
+            if($oCacheHandler->isSupport())
             {
             	$cache_key_newest = 'object_newest_comment_list:'.$obj->module_srl;
                 $oCacheHandler->delete($cache_key_newest);
-            	$cache_object = $oCacheHandler->get('comment_list_document_pages');
-            	if(isset($cache_object) && is_array($cache_object)){
-				    foreach ($cache_object as $object){
-						$cache_key = $object;
-						$oCacheHandler->delete($cache_key);
-				    }
-				}elseif(!is_array($cache_object)) {
-				    $oCacheHandler->delete($cache_key);
-				}
-		                $oCacheHandler->delete('comment_list_document_pages');
+                $oCacheHandler->invalidateGroupKey('commentList');
             }
             return $output;
         }
@@ -335,20 +326,11 @@
             $output->add('comment_srl', $obj->comment_srl);
 			//remove from cache
             $oCacheHandler = &CacheHandler::getInstance('object');
-            if($oCacheHandler->isSupport()) 
+            if($oCacheHandler->isSupport())
             {
             	$cache_key_newest = 'object_newest_comment_list:'.$obj->module_srl;
                 $oCacheHandler->delete($cache_key_newest);
-            	$cache_object = $oCacheHandler->get('comment_list_document_pages');
-            	if(isset($cache_object) && is_array($cache_object)){
-		    foreach ($cache_object as $object){
-			$cache_key = $object;
-			$oCacheHandler->delete($cache_key);
-		    }
-		}elseif(!is_array($cache_object)) {
-		    $oCacheHandler->delete($cache_key);
-		}
-                $oCacheHandler->delete('comment_list_document_pages');
+                $oCacheHandler->invalidateGroupKey('commentList');
             }
             return $output;
         }
@@ -388,7 +370,7 @@
             $comment_count = $oCommentModel->getCommentCount($document_srl);
             // create the controller object of the document
             $oDocumentController = &getController('document');
-            // update comment count of the article posting 
+            // update comment count of the article posting
             $output = $oDocumentController->updateCommentCount($document_srl, $comment_count, null, false);
             if(!$output->toBool()) {
                 $oDB->rollback();
@@ -415,18 +397,9 @@
             $output->add('document_srl', $document_srl);
 			//remove from cache
             $oCacheHandler = &CacheHandler::getInstance('object');
-            if($oCacheHandler->isSupport()) 
+            if($oCacheHandler->isSupport())
             {
-            	$cache_object = $oCacheHandler->get('comment_list_document_pages');
-            	if(isset($cache_object) && is_array($cache_object)){
-		    foreach ($cache_object as $object){
-			$cache_key = $object;
-			$oCacheHandler->delete($cache_key);
-		    }
-		}elseif(!is_array($cache_object)) {
-		    $oCacheHandler->delete($cache_key);
-		}
-                $oCacheHandler->delete('comment_list_document_pages');
+                $oCacheHandler->invalidateGroupKey('commentList');
             }
             return $output;
         }
@@ -483,18 +456,9 @@
 			}
 			//remove from cache
             $oCacheHandler = &CacheHandler::getInstance('object');
-            if($oCacheHandler->isSupport()) 
+            if($oCacheHandler->isSupport())
             {
-            	$cache_object = $oCacheHandler->get('comment_list_document_pages');
-            	if(isset($cache_object) && is_array($cache_object)){
-		    foreach ($cache_object as $object){
-			$cache_key = $object;
-			$oCacheHandler->delete($cache_key);
-		    }
-		}elseif(!is_array($cache_object)) {
-		    $oCacheHandler->delete($cache_key);
-		}
-                $oCacheHandler->delete('comment_list_document_pages');
+                $oCacheHandler->invalidateGroupKey('commentList');
             }
 
             return $output;
@@ -533,7 +497,7 @@
                 $success_message = 'success_blamed';
             }
 
-            // invalid vote if vote info exists in the session info. 
+            // invalid vote if vote info exists in the session info.
             if($_SESSION['voted_comment'][$comment_srl]) return new Object(-1, $failed_voted);
 
             $oCommentModel = &getModel('comment');
@@ -543,18 +507,18 @@
                 $_SESSION['voted_comment'][$comment_srl] = true;
                 return new Object(-1, $failed_voted);
             }
-            // if the comment author is a member 
+            // if the comment author is a member
             if($oComment->get('member_srl')) {
                 // create the member model object
                 $oMemberModel = &getModel('member');
                 $member_srl = $oMemberModel->getLoggedMemberSrl();
-                // session registered if the author information matches to the current logged-in user's. 
+                // session registered if the author information matches to the current logged-in user's.
                 if($member_srl && $member_srl == $oComment->get('member_srl')) {
                     $_SESSION['voted_comment'][$comment_srl] = true;
                     return new Object(-1, $failed_voted);
                 }
             }
-            // If logged-in, use the member_srl. otherwise use the ipaddress. 
+            // If logged-in, use the member_srl. otherwise use the ipaddress.
             if($member_srl) {
                 $args->member_srl = $member_srl;
             } else {
@@ -562,7 +526,7 @@
             }
             $args->comment_srl = $comment_srl;
             $output = executeQuery('comment.getCommentVotedLogInfo', $args);
-            // session registered if log info contains recommendation vote log. 
+            // session registered if log info contains recommendation vote log.
             if($output->data->count) {
                 $_SESSION['voted_comment'][$comment_srl] = true;
                 return new Object(-1, $failed_voted);
@@ -596,7 +560,7 @@
             $args->comment_srl = $comment_srl;
             $output = executeQuery('comment.getDeclaredComment', $args);
             if(!$output->toBool()) return $output;
-            // get the original comment 
+            // get the original comment
             $oCommentModel = &getModel('comment');
             $oComment = $oCommentModel->getComment($comment_srl, false, false);
             // failed if both ip addresses between author's and the current user are same.
@@ -604,9 +568,9 @@
                 $_SESSION['declared_comment'][$comment_srl] = true;
                 return new Object(-1, 'failed_declared');
             }
-            // if the comment author is a member 
+            // if the comment author is a member
             if($oComment->get('member_srl')) {
-                // create the member model object 
+                // create the member model object
                 $oMemberModel = &getModel('member');
                 $member_srl = $oMemberModel->getLoggedMemberSrl();
                 // session registered if the author information matches to the current logged-in user's.
@@ -628,7 +592,7 @@
                 $_SESSION['declared_comment'][$comment_srl] = true;
                 return new Object(-1, 'failed_declared');
             }
-            // execute insert 
+            // execute insert
             if($output->data->declared_count > 0) $output = executeQuery('comment.updateDeclaredComment', $args);
             else $output = executeQuery('comment.insertDeclaredComment', $args);
             if(!$output->toBool()) return $output;
@@ -657,7 +621,7 @@
         }
 
         /**
-         * @brief save the comment extension form for each module 
+         * @brief save the comment extension form for each module
          **/
         function procCommentInsertModuleConfig() {
             $module_srl = Context::get('target_module_srl');

@@ -10,10 +10,11 @@
     class CacheHandler extends Handler {
 
 		var $handler = null;
+                var $keyGroupVersions = null;
 
-        function &getInstance($target='object') {
-			return new CacheHandler($target);
-        }
+                function &getInstance($target='object') {
+                    return new CacheHandler($target);
+                }
 
 		function CacheHandler($target, $info=null) {
 			if(!$info) $info = Context::getDBInfo();
@@ -36,6 +37,11 @@
 					$class = 'Cache' . ucfirst($type);
 					include_once sprintf('%sclasses/cache/%s.class.php', _XE_PATH_, $class);
 					$this->handler = call_user_func(array($class,'getInstance'), $url);
+                                        $this->keyGroupVersions = $this->handler->get('key_group_versions', 0);
+                                        if(!$this->keyGroupVersions) {
+                                            $this->keyGroupVersions = array();
+                                            $this->handler->put('key_group_versions', $this->keyGroupVersions, 0);
+                                        }
 				}
 			}
 		}
@@ -69,7 +75,7 @@
 			if(!$this->handler) return false;
 			return $this->handler->truncate();
 		}
-                
+
                 /**
                  * Function used for generating keys for similar objects.
                  *
@@ -85,6 +91,7 @@
                 function getGroupKey($keyGroupName, $key){
                     if(!$this->keyGroupVersions[$keyGroupName]){
                         $this->keyGroupVersions[$keyGroupName] = 1;
+                        $this->handler->put('key_group_versions', $this->keyGroupVersions, 0);
                     }
 
                     return $this->keyGroupVersions[$keyGroupName] . ':' . $keyGroupName . ':' . $key;
@@ -92,12 +99,11 @@
 
                 function invalidateGroupKey($keyGroupName){
                     $this->keyGroupVersions[$keyGroupName]++;
+                    $this->handler->put('key_group_versions', $this->keyGroupVersions, 0);
                 }
     }
 
 	class CacheBase{
-                var $keyGroupVersions = array();
-
 		function get($key, $modified_time = 0){
 			return false;
 		}
