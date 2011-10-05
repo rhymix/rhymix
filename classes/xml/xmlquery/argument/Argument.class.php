@@ -67,7 +67,7 @@
 				return $dbParser->parseExpression($value);
                         }
                         if(!isset($value)) return null;
-			if(in_array($this->type, array('date', 'varchar', 'char','text', 'bigtext'))){
+			if(in_array($this->getType(), array('date', 'varchar', 'char','text', 'bigtext'))){
 				if(!is_array($value))
 					$value = $this->_escapeStringValue ($value);
 				else {
