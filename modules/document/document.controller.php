@@ -479,6 +479,8 @@ class documentController extends document {
 		executeQuery('document.deleteDeclared', $args);
 		// Delete extra variable
 		$this->deleteDocumentExtraVars($oDocument->get('module_srl'), $oDocument->document_srl);
+
+		//this
 		// Call a trigger (after)
 		if($output->toBool()) {
 			$trigger_obj = $oDocument->getObjectVars();
@@ -500,20 +502,20 @@ class documentController extends document {
 		$oDB->commit();
 
 		//remove from cache
-        $oCacheHandler = &CacheHandler::getInstance('object');
-        if($oCacheHandler->isSupport())
-        {
-            $cache_key = 'object:'.$document_srl;
-            $oCacheHandler->delete($cache_key);
-            $cache_object = $oCacheHandler->get('module_list_documents');
-            if(isset($cache_object) && is_array($cache_object)){
-		foreach ($cache_object as $object){
-		    $cache_key_object = $object;
-		    $oCacheHandler->delete($cache_key_object);
-		}
-	    }elseif(!is_array($cache_object)) {
-		$oCacheHandler->delete($cache_key_object);
-	    }
+		$oCacheHandler = &CacheHandler::getInstance('object');
+		if($oCacheHandler->isSupport())
+		{
+			$cache_key = 'object:'.$document_srl;
+			$oCacheHandler->delete($cache_key);
+			$cache_object = $oCacheHandler->get('module_list_documents');
+			if(isset($cache_object) && is_array($cache_object)){
+				foreach ($cache_object as $object){
+					$cache_key_object = $object;
+					$oCacheHandler->delete($cache_key_object);
+				}
+			}elseif(!is_array($cache_object)) {
+				$oCacheHandler->delete($cache_key_object);
+			}
             $oCacheHandler->delete('module_list_documents');
             $cache_key = 'object_document_item:'.$document_srl;
             $oCacheHandler->delete($cache_key);

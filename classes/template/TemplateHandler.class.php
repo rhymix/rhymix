@@ -222,15 +222,13 @@
 
 					if (strpos($m[1],'@') !== false){
 						$path = str_replace('@', '', $m[1]);
-						$validator   = new Validator("./files/ruleset/{$path}.xml");
-						$validator->setCacheDir('files/cache');
-						$matches[1]  = '<?php Context::addJsFile("'.$validator->getJsPath().'") ?'.'>'.$matches[1];
+						$path = './files/ruleset/'.$path.'.xml';
 					}else if(preg_match('@(?:^|\.?/)(modules/[\w-]+)@', $this->path, $mm)) {
 						$module_path = $mm[1];
-						$validator   = new Validator("{$module_path}/ruleset/{$m[1]}.xml");
-						$validator->setCacheDir('files/cache');
-						$matches[1]  = '<?php Context::addJsFile("'.$validator->getJsPath().'") ?'.'>'.$matches[1];
+						$path = $module_path.'/ruleset/'.$m[1].'.xml';
 					}
+					//assign to addJsFile method for js dynamic recache
+					$matches[1]  = '<?php Context::addJsFile("'.$path.'", false, "", 0, "head", true) ?'.'>'.$matches[1];
 				}
 			}
 

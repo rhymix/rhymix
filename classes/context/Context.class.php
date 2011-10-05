@@ -1121,7 +1121,14 @@ class Context {
 	 * @brief Add the js file
 	 * @deprecated
 	 **/
-	function addJsFile($file, $optimized = false, $targetie = '',$index=0, $type='head') {
+	function addJsFile($file, $optimized = false, $targetie = '',$index=0, $type='head', $isRuleset = false) {
+		if($isRuleset)
+		{
+			$validator   = new Validator($file);
+			$validator->setCacheDir('files/cache');
+			$file = $validator->getJsPath();
+		}
+
 		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
 		$self->oFrontEndFileHandler->loadFile(array($file, $type, $targetie, $index));
 	}
