@@ -41,8 +41,8 @@
             if($output->toBool() && $output->data) {
                 foreach($output->data as $key => $val) {
                     if(!isset($val->value)) continue;
-                    if(!$extra_vars[$val->module_srl][$val->document_srl][$val->var_idx][0]) $extra_vars[$val->module_srl][$val->document_srl][$val->var_idx][0] = trim($val->value); 
-                    $extra_vars[$val->document_srl][$val->var_idx][$val->lang_code] = trim($val->value); 
+                    if(!$extra_vars[$val->module_srl][$val->document_srl][$val->var_idx][0]) $extra_vars[$val->module_srl][$val->document_srl][$val->var_idx][0] = trim($val->value);
+                    $extra_vars[$val->document_srl][$val->var_idx][$val->lang_code] = trim($val->value);
                 }
             }
 
@@ -76,8 +76,8 @@
                 if($vars[-1][$user_lang_code]) $GLOBALS['XE_DOCUMENT_LIST'][$document_srl]->add('title',$vars[-1][$user_lang_code]);
                 // Information processing
                 if($vars[-2][$user_lang_code]) $GLOBALS['XE_DOCUMENT_LIST'][$document_srl]->add('content',$vars[-2][$user_lang_code]);
-			
-                if($vars[-1][$user_lang_code] || $vars[-2][$user_lang_code]){ 
+
+                if($vars[-1][$user_lang_code] || $vars[-2][$user_lang_code]){
 					unset($checked_documents[$document_srl]);
 				}
 
@@ -155,22 +155,12 @@
             // cache controll
 			$oCacheHandler = &CacheHandler::getInstance('object');
 			if($oCacheHandler->isSupport()){
-				$cache_key = 'object:'.$obj->module_srl.'_category_srl:'.$obj->category_srl.'_list_count:'.$obj->list_count.'_search_target:'.$obj->search_target.'_search_keyword:'.$obj->search_keyword.'_page'.$obj->page;
-				$output = $oCacheHandler->get($cache_key);
-				$cache_object = $oCacheHandler->get('module_list_documents');
-				if($cache_object) {
-					if(!in_array($cache_key, $cache_object)) {
-						$cache_object[]=$cache_key;
-						$oCacheHandler->put('module_list_documents',$cache_object);
-					}
-				} else {
-					$cache_object = array();
-					$cache_object[] = $cache_key;
-					$oCacheHandler->put('module_list_documents',$cache_object);
-				}
+				$object_key = 'object:'.$obj->module_srl.'_category_srl:'.$obj->category_srl.'_list_count:'.$obj->list_count.'_search_target:'.$obj->search_target.'_search_keyword:'.$obj->search_keyword.'_page'.$obj->page;
+				$cache_key = $oCacheHandler->getGroupKey('documentList', $object_key);
+                                $output = $oCacheHandler->get($cache_key);
 			}
         	if(!$output){
-			
+
 				$logged_info = Context::get('logged_info');
 				$sort_check = $this->_setSortIndex($obj, $load_extra_vars);
 
@@ -334,7 +324,7 @@
 					} else {
 						$output = executeQueryArray($query_id, $args, $columnList);
 					}
-				} 
+				}
 				// Return if no result or an error occurs
 				if(!$output->toBool()||!count($output->data)) return $output;
 
@@ -823,7 +813,7 @@
             // Bringing existing extra_keys
             $extra_keys = $this->getExtraKeys($module_srl);
             Context::set('extra_keys', $extra_keys);
-			$security = new Security();				
+			$security = new Security();
 			$security->encodeHTML('extra_keys..name','extra_keys..eid');
 
 			// Get information of module_grants
@@ -885,8 +875,8 @@
 
             $category_info->title = htmlspecialchars($category_info->title);
             Context::set('category_info', $category_info);
-			
-			$security = new Security();				
+
+			$security = new Security();
 			$security->encodeHTML('group_list..title');
 
             // tpl template file directly compile and will return a variable and puts it on.
@@ -1067,7 +1057,7 @@
 		{
 			$sortIndex = $obj->sort_index;
 			$isExtraVars = false;
-            if(!in_array($sortIndex, array('list_order','regdate','last_update','update_order','readed_count','voted_count','comment_count','trackback_count','uploaded_count','title','category_srl'))) 
+            if(!in_array($sortIndex, array('list_order','regdate','last_update','update_order','readed_count','voted_count','comment_count','trackback_count','uploaded_count','title','category_srl')))
 			{
 				// get module_srl extra_vars list
 				if ($load_extra_vars)

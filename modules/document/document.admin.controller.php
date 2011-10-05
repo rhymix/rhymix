@@ -35,7 +35,7 @@
             $this->setMessage( sprintf(Context::getLang('msg_checked_document_is_deleted'), $document_count) );
         }
 
-        /** 
+        /**
          * @brief change the module to move a specific article
          **/
         function moveDocumentModule($document_srl_list, $module_srl, $category_srl) {
@@ -129,7 +129,7 @@
                 $oDB->rollback();
                 return $output;
             }
-            // move the trackback 
+            // move the trackback
             $output = executeQuery('trackback.updateTrackbackModule', $args);
             if(!$output->toBool()) {
                 $oDB->rollback();
@@ -147,11 +147,11 @@
                 $oDB->rollback();
                 return $output;
             }
-            
+
             $oDB->commit();
 			//remove from cache
 	        $oCacheHandler = &CacheHandler::getInstance('object');
-	        if($oCacheHandler->isSupport()) 
+	        if($oCacheHandler->isSupport())
 	        {
 	        	foreach($document_srl_list as $document_srl)
 	        	{
@@ -160,17 +160,12 @@
                             $cache_key_item = 'object_document_item:'.$document_srl;
                             $oCacheHandler->delete($cache_key_item);
 	        	}
-	            $cache_object = $oCacheHandler->get('module_list_documents');
-	            foreach ($cache_object as $object){
-	            	$cache_key_object = $object;
-	                $oCacheHandler->delete($cache_key_object);
-	            }
-	            $oCacheHandler->delete('module_list_documents');
+                        $oCacheHandler->invalidateGroupKey('documentList');
 	        }
             return new Object();
         }
 
-        /** 
+        /**
          * @brief Copy the post
          **/
         function copyDocumentModule($document_srl_list, $module_srl, $category_srl) {
@@ -218,7 +213,7 @@
                         }
                     }
                 }
-                
+
                 // Write a post
                 $output = $oDocumentController->insertDocument($obj, true);
                 if(!$output->toBool()) {
@@ -296,7 +291,7 @@
 			}
 			//remove from cache
 	        $oCacheHandler = &CacheHandler::getInstance('object');
-	        if($oCacheHandler->isSupport()) 
+	        if($oCacheHandler->isSupport())
 	        {
 	        	foreach($document_srl_list as $document_srl)
 	        	{
@@ -305,12 +300,7 @@
                             $cache_key_item = 'object_document_item:'.$document_srl;
                             $oCacheHandler->delete($cache_key_item);
 	        	}
-	            $cache_object = $oCacheHandler->get('module_list_documents');
-	            foreach ($cache_object as $object){
-	            	$cache_key_object = $object;
-	                $oCacheHandler->delete($cache_key_object);
-	            }
-	            $oCacheHandler->delete('module_list_documents');
+                        $oCacheHandler->invalidateGroupKey('documentList');
 	        }
             return $output;
         }
@@ -431,7 +421,7 @@
 
             $this->setMessage('success_deleted');
         }
- 
+
         /**
          * @brief control the order of extra variables
          **/
@@ -453,7 +443,7 @@
             if($type == 'up') $new_idx = $var_idx-1;
             else $new_idx = $var_idx+1;
             if($new_idx<1) return new Object(-1,'msg_invalid_request');
-			
+
 			$args->module_srl = $module_srl;
 			$args->var_idx = $new_idx;
 			$output = executeQuery('document.getDocumentExtraKeys', $args);
@@ -499,12 +489,12 @@
         function procDocumentAdminInsertAlias() {
             $args = Context::gets('module_srl','document_srl', 'alias_title');
             $alias_srl = Context::get('alias_srl');
-            if(!$alias_srl) 
+            if(!$alias_srl)
             {
                 $args->alias_srl = getNextSequence();
                 $query = "document.insertAlias";
             }
-            else 
+            else
             {
                 $args->alias_srl = $alias_srl;
                 $query = "document.updateAlias";

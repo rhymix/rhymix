@@ -8,7 +8,7 @@
      **/
 
     class CacheHandler extends Handler {
-			
+
 		var $handler = null;
 
         function &getInstance($target='object') {
@@ -21,13 +21,13 @@
 				if($target == 'object'){
 					if($info->use_object_cache =='apc') $type = 'apc';
 					else if(substr($info->use_object_cache,0,8)=='memcache'){
-						$type = 'memcache'; 
+						$type = 'memcache';
 						$url = $info->use_object_cache;
 					}
 				}else if($target == 'template'){
 					if($info->use_template_cache =='apc') $type = 'apc';
 					else if(substr($info->use_template_cache,0,8)=='memcache'){
-						$type = 'memcache'; 
+						$type = 'memcache';
 						$url = $info->use_template_cache;
 					}
 				}
@@ -69,9 +69,35 @@
 			if(!$this->handler) return false;
 			return $this->handler->truncate();
 		}
+                
+                /**
+                 * Function used for generating keys for similar objects.
+                 *
+                 * Ex: 1:document:123
+                 *     1:document:777
+                 *
+                 * This allows easily removing all object of type "document"
+                 * from cache by simply invalidating the group key.
+                 *
+                 * The new key will be 2:document:123, thus forcing the document
+                 * to be reloaded from the database.
+                 */
+                function getGroupKey($keyGroupName, $key){
+                    if(!$this->keyGroupVersions[$keyGroupName]){
+                        $this->keyGroupVersions[$keyGroupName] = 1;
+                    }
+
+                    return $this->keyGroupVersions[$keyGroupName] . ':' . $keyGroupName . ':' . $key;
+                }
+
+                function invalidateGroupKey($keyGroupName){
+                    $this->keyGroupVersions[$keyGroupName]++;
+                }
     }
 
 	class CacheBase{
+                var $keyGroupVersions = array();
+
 		function get($key, $modified_time = 0){
 			return false;
 		}

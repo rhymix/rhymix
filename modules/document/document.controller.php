@@ -243,16 +243,7 @@ class documentController extends document {
         {
             $cache_key = 'object:'.$obj->document_srl;
             $oCacheHandler->delete($cache_key);
-            $cache_object = $oCacheHandler->get('module_list_documents');
-            if(isset($cache_object) && is_array($cache_object)){
-		foreach ($cache_object as $object){
-		    $cache_key_object = $object;
-		    $oCacheHandler->delete($cache_key_object);
-		}
-	    }elseif(!is_array($cache_object)) {
-		$oCacheHandler->delete($cache_key_object);
-	    }
-            $oCacheHandler->delete('module_list_documents');
+            $oCacheHandler->invalidateGroupKey('documentList');
         }
 
 		return $output;
@@ -414,16 +405,7 @@ class documentController extends document {
         {
             $cache_key = 'object:'.$obj->document_srl;
             $oCacheHandler->delete($cache_key);
-            $cache_object = $oCacheHandler->get('module_list_documents');
-            if(isset($cache_object) && is_array($cache_object)){
-		foreach ($cache_object as $object){
-		    $cache_key_object = $object;
-		    $oCacheHandler->delete($cache_key_object);
-		}
-	    }elseif(!is_array($cache_object)) {
-		$oCacheHandler->delete($cache_key_object);
-	    }
-            $oCacheHandler->delete('module_list_documents');
+            $oCacheHandler->invalidateGroupKey('documentList');
             //remove document item from cache
             $cache_key = 'object_document_item:'.$obj->document_srl;
             $oCacheHandler->delete($cache_key);
@@ -507,19 +489,10 @@ class documentController extends document {
 		{
 			$cache_key = 'object:'.$document_srl;
 			$oCacheHandler->delete($cache_key);
-			$cache_object = $oCacheHandler->get('module_list_documents');
-			if(isset($cache_object) && is_array($cache_object)){
-				foreach ($cache_object as $object){
-					$cache_key_object = $object;
-					$oCacheHandler->delete($cache_key_object);
-				}
-			}elseif(!is_array($cache_object)) {
-				$oCacheHandler->delete($cache_key_object);
-			}
-            $oCacheHandler->delete('module_list_documents');
-            $cache_key = 'object_document_item:'.$document_srl;
-            $oCacheHandler->delete($cache_key);
-        }
+                        $oCacheHandler->invalidateGroupKey('documentList');
+                        $cache_key = 'object_document_item:'.$document_srl;
+                        $oCacheHandler->delete($cache_key);
+               }
 
 		return $output;
 	}
@@ -901,16 +874,7 @@ class documentController extends document {
                 {
                     $cache_key = 'object:'.$document_srl;
                     $oCacheHandler->delete($cache_key);
-                    $cache_object = $oCacheHandler->get('module_list_documents');
-                    if(isset($cache_object) && is_array($cache_object)){
-                        foreach ($cache_object as $object){
-                            $cache_key_object = $object;
-                            $oCacheHandler->delete($cache_key_object);
-                        }
-                    }elseif(!is_array($cache_object)) {
-                        $oCacheHandler->delete($cache_key_object);
-                    }
-                    $oCacheHandler->delete('module_list_documents');
+                    $oCacheHandler->invalidateGroupKey('documentList');
                     //remove document item from cache
                     $cache_key = 'object_document_item:'.$document_srl;
                     $oCacheHandler->delete($cache_key);
