@@ -1,7 +1,6 @@
 <load target="js/document_admin.js" usecdn="true" />
 <!--%import("filter/insert_extra_var.xml")-->
 <!--%import("filter/delete_extra_var.xml")-->
-<load target="js/module_admin.js" usecdn="true" />
 
 <!--@if($selected_var_idx && $extra_keys[$selected_var_idx])-->
     {@ $selected_var = $extra_keys[$selected_var_idx] }
@@ -97,8 +96,8 @@
 					<td rowspan="3"><!--@if($val->is_required=='Y')--><b>{$lang->is_required}</b><!--@else-->N<!--@end--></td>
 					<td rowspan="3"><!--@if($val->search=='Y')--><b>{$lang->search_target}</b><!--@else-->N<!--@end--></td>
 					<td rowspan="3">
-						<!--@if($val->idx>1)--><a href="#" onclick="moveVar('up','{$module_srl}','{$val->idx}'); return false;" class="buttonSet buttonUp"><span>{$lang->cmd_modify}</span></a><!--@end-->
-						<a href="#" onclick="moveVar('down','{$module_srl}','{$val->idx}');return false;" class="buttonSet buttonDown">{$lang->cmd_modify}</a>
+						<!--@if($val->idx>1)--><a href="#" onclick="moveVar('up','{$module_srl}','{$val->idx}'); return false;" class="buttonSet buttonUp"><span>{$lang->cmd_move_up}</span></a><!--@end-->
+						<a cond="count($extra_keys) > $val->idx" href="#" onclick="moveVar('down','{$module_srl}','{$val->idx}');return false;" class="buttonSet buttonDown">{$lang->cmd_move_down}</a>
 						<a href="{getUrl('selected_var_idx',$val->idx)}" class="buttonSet buttonSetting"><span>{$lang->cmd_modify}</span></a>
 						<a href="#" onclick="return doDeleteExtraKey('{$module_srl}','{$val->idx}');" class="buttonSet buttonDelete"><span>{$lang->cmd_delete}</span></a>
 					</td>

@@ -453,6 +453,14 @@
             if($type == 'up') $new_idx = $var_idx-1;
             else $new_idx = $var_idx+1;
             if($new_idx<1) return new Object(-1,'msg_invalid_request');
+			
+			$args->module_srl = $module_srl;
+			$args->var_idx = $new_idx;
+			$output = executeQuery('document.getDocumentExtraKeys', $args);
+			if (!$output->toBool()) return $output;
+			if (!$output->data) return new Object(-1, 'msg_invalid_request');
+			unset($args);
+
             // update immediately if there is no idx to change
             if(!$extra_keys[$new_idx]) {
                 $args->module_srl = $module_srl;
