@@ -14,45 +14,54 @@
 	<item name="lgpl_agree">
 		<value xml:lang="ko"><![CDATA[GNU 약소 일반 공중 사용 허가서(LGPL v2) 동의]]></value>
 		<value xml:lang="en"><![CDATA[GNU Lesser General Public License(LGPL v2) Agreement]]></value>
+		<value xml:lang="jp"><![CDATA[GNU LGPL v2への同意]]></value>
 	</item>
 	<item name="enviroment_gather">
 		<value xml:lang="ko"><![CDATA[설치 환경 수집 동의]]></value>
 		<value xml:lang="en"><![CDATA[Agreement on gathering installation environment information]]></value>
+		<value xml:lang="jp"><![CDATA[インストール環境収集に同意する]]></value>
 	</item>
 	<item name="install_progress_menu" type="array">
 		<item name="agree">
 			<value xml:lang="ko"><![CDATA[라이선스 동의]]></value>
 			<value xml:lang="en"><![CDATA[Acceptance of terms]]></value>
+			<value xml:lang="jp"><![CDATA[ライセンスに同意]]></value>
 		</item>
 		<item name="condition">
 			<value xml:lang="ko"><![CDATA[설치 조건 확인]]></value>
 			<value xml:lang="en"><![CDATA[Check the installation conditions]]></value>
+			<value xml:lang="ko"><![CDATA[インストール条件確認]]></value>
 		</item>
 		<item name="ftp">
 			<value xml:lang="ko"><![CDATA[FTP 정보 입력]]></value>
 			<value xml:lang="en"><![CDATA[Input FTP information]]></value>
+			<value xml:lang="jp"><![CDATA[FTP情報入力]]></value>
 		</item>
 		<item name="dbSelect">
 			<value xml:lang="ko"><![CDATA[DB 선택]]></value>
 			<value xml:lang="en"><![CDATA[Choose database type]]></value>
+			<value xml:lang="jp"><![CDATA[DB選択]]></value>
 		</item>
 		<item name="dbInfo">
 			<value xml:lang="ko"><![CDATA[DB 정보 입력]]></value>
 			<value xml:lang="en"><![CDATA[Input Database information]]></value>
+			<value xml:lang="jp"><![CDATA[DB情報入力]]></value>
 		</item>
 		<item name="configInfo">
 			<value xml:lang="ko"><![CDATA[환경 설정]]></value>
 			<value xml:lang="en"><![CDATA[Settings]]></value>
+			<value xml:lang="jp"><![CDATA[環境設定]]></value>
 		</item>
 		<item name="adminInfo">
 			<value xml:lang="ko"><![CDATA[관리자 정보 입력]]></value>
 			<value xml:lang="en"><![CDATA[Enter Administrator information]]></value>
+			<value xml:lang="jp"><![CDATA[管理者情報入力]]></value>
 		</item>
 	</item>
 	<item name="install_condition_title">
 		<value xml:lang="ko"><![CDATA[필수 설치조건을 확인하세요.]]></value>
 		<value xml:lang="en"><![CDATA[Please check the installation requirement.]]></value>
-		<value xml:lang="jp"><![CDATA[インストールするための必須条件を確認して下さい。]]></value>
+		<value xml:lang="jp"><![CDATA[インストールするための必須条件を確認してください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[检测运行环境]]></value>
 		<value xml:lang="zh-TW"><![CDATA[確認安裝時必備的條件]]></value>
 		<value xml:lang="fr"><![CDATA[Vérifiez  les conditions obligatoires pour l'installation, S.V.P.]]></value>
@@ -137,13 +146,14 @@
 		<item name="lgpl">
 			<value xml:lang="ko"><![CDATA[GNU 약소 일반 공중 사용 허가서(LGPL v2)에 동의해야 합니다.]]></value>
 			<value xml:lang="en"><![CDATA[You have to agree to the GNU Lesser General Public License(LGPL v2).]]></value>
+			<value xml:lang="jp"><![CDATA[GNU LGPL v2に同意しなければなりません。]]></value>
 		</item>
 	</item>
 	<item name="install_checklist_desc" type="array">
 		<item name="php_version">
 			<value xml:lang="ko"><![CDATA[[필수] PHP버전이 5.2.2일 경우 PHP의 버그로 인하여 설치되지 않습니다.]]></value>
 			<value xml:lang="en"><![CDATA[[Required] If PHP version is 5.2.2, XE will not be installed because of a bug]]></value>
-			<value xml:lang="jp"><![CDATA[【必須】PHPバージョンが 5.2.2の場合は、PHPのセキュリティバグのため、インストール出来ません。]]></value>
+			<value xml:lang="jp"><![CDATA[【必須】PHPバージョンが 5.2.2の場合は、PHPのセキュリティバグのため、インストールできません。]]></value>
 			<value xml:lang="zh-CN"><![CDATA[[必须] 由于 PHP 5.2.2 版本BUG，无法安装 XE。]]></value>
 			<value xml:lang="zh-TW"><![CDATA[[必須] 由於 PHP 5.2.2 版本的問題，無法安裝 XE 程式。]]></value>
 			<value xml:lang="fr"><![CDATA[[Obligatoire] Si la version de PHP est 5.2.2, XE ne sera pas  installé à cause du bogue]]></value>
@@ -155,7 +165,7 @@
 		<item name="permission">
 			<value xml:lang="ko"><![CDATA[[필수] XE의 설치 경로 또는 ./files 디렉토리의 퍼미션이 707이어야 합니다.]]></value>
 			<value xml:lang="en"><![CDATA[[Required] XE installation path or ./files directory's permission must be 707]]></value>
-			<value xml:lang="jp"><![CDATA[【必須】XEのインストールパスまたは「./files」ディレクトリのパーミッションを「707」に設定して下さい。]]></value>
+			<value xml:lang="jp"><![CDATA[【必須】XEのインストールパスまたは「./files」ディレクトリのパーミッションを「707」に設定してください。]]></value>
 			<value xml:lang="zh-CN"><![CDATA[[必须] 的安装路径或 ./files目录属性必须是707]]></value>
 			<value xml:lang="zh-TW"><![CDATA[[必須] XE的資料夾或『./files』資料夾權限必須是『707』。]]></value>
 			<value xml:lang="fr"><![CDATA[[Obligatoire] Chemin de l'installation de XE ou la permission de  répertoire de ./files doit être 707]]></value>
@@ -167,7 +177,7 @@
 		<item name="xml">
 			<value xml:lang="ko"><![CDATA[[필수] XML통신을 위하여 XML 라이브러리가 필요합니다.]]></value>
 			<value xml:lang="en"><![CDATA[[Required] XML Library is needed for XML communication]]></value>
-			<value xml:lang="jp"><![CDATA[【必須】XML通信のためにXMLライブラリが必要です]]></value>
+			<value xml:lang="jp"><![CDATA[【必須】XML通信のためにXMLライブラリが必要です。]]></value>
 			<value xml:lang="zh-CN"><![CDATA[[必须]为了 XML通讯，将需要XML库]]></value>
 			<value xml:lang="zh-TW"><![CDATA[[必須] 必須要安裝『XML Library』，才能夠使用 XML 通訊。]]></value>
 			<value xml:lang="fr"><![CDATA[[Obligatoire] La bibliothèque de XML est nécessaire pour la communication de XML]]></value>
@@ -179,7 +189,7 @@
 		<item name="session">
 			<value xml:lang="ko"><![CDATA[[필수] XE에서 세션 사용을 위해 php.ini 설정의 session.auto_start=0 이어야 합니다.]]></value>
 			<value xml:lang="en"><![CDATA[[Required] PHP setting file's (php.ini) 'Session.auto_start' must equal to zero in order for XE to use the session]]></value>
-			<value xml:lang="jp"><![CDATA[【必須】XEでは、セッションを使用しているため、「php.ini」の設定を「session.auto_start=0」にして下さい。]]></value>
+			<value xml:lang="jp"><![CDATA[【必須】XEでは、セッションを使用しているため、「php.ini」の設定を「session.auto_start=0」にしてください。]]></value>
 			<value xml:lang="zh-CN"><![CDATA[[必须] 为了使用缓冲功能，必须在php.ini当中设置 session.auto_start=0]]></value>
 			<value xml:lang="zh-TW"><![CDATA[[必須] 在『php.ini』中必須要設定『session.auto_start=0』，才能使用暫存功能]]></value>
 			<value xml:lang="fr"><![CDATA[[Obligatoire] 'Session.auto_start' dans le fichier de configuration pour PHP (php.ini) doit être égal à zéro car XE utilise la session]]></value>
@@ -300,6 +310,7 @@
 	<item name="install_notandum">
 		<value xml:lang="ko"><![CDATA[모든 항목을 반드시 작성해야 합니다. 모든 항목을 관리자 환경에서 수정할 수 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[All form must be filled, but you can modify all of settings after finish the installation.]]></value>
+		<value xml:lang="jp"><![CDATA[すべての項目を必ず作成してください。すべての項目を管理者環境にて修正できます。]]></value>
 	</item>
 	<item name="cmd_agree_license">
 		<value xml:lang="ko"><![CDATA[라이선스에 동의합니다.]]></value>
@@ -350,7 +361,7 @@
 		<item name="mysql">
 			<value xml:lang="ko"><![CDATA[MySQL DB를 php의 mysql*()함수를 이용하여 사용합니다.<br />DB 파일은 myisam으로 생성되기에 트랜잭션이 이루어지지 않습니다.]]></value>
 			<value xml:lang="en"><![CDATA[Use MySQL as a database with mysql*() functions in php.<br />Transactions will not be processed since DB file is created in myisam.]]></value>
-			<value xml:lang="jp"><![CDATA[MySQL DBでPHPの「mysql*()」関数を利用してデータの入出力を行います。<br />DBは「myisam」タイプで作成されるため、トランザクション処理は出来ません。]]></value>
+			<value xml:lang="jp"><![CDATA[MySQL DBでPHPの「mysql*()」関数を利用してデータの入出力を行います。<br />DBは「myisam」タイプで作成されるため、トランザクション処理はできません。]]></value>
 			<value xml:lang="zh-CN"><![CDATA[利用php的 mysql*()函数使用mysql DB。<br />DB数据是以myisam生成，因此不能实现transaction。]]></value>
 			<value xml:lang="zh-TW"><![CDATA[利用 PHP 的『mysql*()』函數使用 MySQL 資料庫。<br />利用『myisam』建立資料庫檔案，因此不能實現transaction。]]></value>
 			<value xml:lang="fr"><![CDATA[Utilisera fonction mysql*() pour utiliser la base de données de mysql.<br />La transaction sera invalidé parce que le fichier de Base de Données est créé par myisam.]]></value>
@@ -362,7 +373,7 @@
 		<item name="mysqli">
 			<value xml:lang="ko"><![CDATA[MySQL DB를 php의 mysqli*()함수를 이용하여 사용합니다.<br />DB 파일은 myisam으로 생성되기에 트랜잭션이 이루어지지 않습니다.]]></value>
 			<value xml:lang="en"><![CDATA[Use MySQL as a database with mysqli*() functions in php.<br />Transactions will not be processed since DB file is created in myisam]]></value>
-			<value xml:lang="jp"><![CDATA[MySQL DBでPHPの「mysqli*()」関数を利用してデータの入出力を行います。<br />DBは「myisam」タイプで作成されるため、トランザクション処理は出来ません。]]></value>
+			<value xml:lang="jp"><![CDATA[MySQL DBでPHPの「mysqli*()」関数を利用してデータの入出力を行います。<br />DBは「myisam」タイプで作成されるため、トランザクション処理はできせん。]]></value>
 			<value xml:lang="zh-CN"><![CDATA[利用php的 mysqli*()函数使用mysql DB。<br />DB数据是以myisam生成，因此不能实现transaction。]]></value>
 			<value xml:lang="zh-TW"><![CDATA[利用 PHP 的『mysqli*()』函數使用 MySQL 資料庫。<br />利用『myisam』建立資料庫檔案，因此不能實現transaction。]]></value>
 			<value xml:lang="fr"><![CDATA[Utilisera fonction mysqli*() pour utiliser la base de données de mysql.<br />La transaction sera invalidé parce que le fichier de Base de Données est créé par myisam.]]></value>
@@ -386,7 +397,7 @@
 		<item name="sqlite2">
 			<value xml:lang="ko"><![CDATA[파일로 데이터를 저장하는 sqlite2를 지원합니다.<br />설치 시 DB파일은 웹에서 접근할 수 없는 곳에 생성하여 주셔야 합니다.<br />(안정화 테스트가 되지 않았습니다.)]]></value>
 			<value xml:lang="en"><![CDATA[Use sqlite2 as a database which saves the data in files.<br />DB file <b>must not be</b> accessible from the web.<br />(Never been tested for stabilization)]]></value>
-			<value xml:lang="jp"><![CDATA[ファイルタイプデータベースである「sqlite2」をサポートします。<br />インストール時、セキュリティのため、DBファイルはウェブがらアクセス出来ない場所に作成して下さい。<br />（安定化までのテストは行われていません）]]></value>
+			<value xml:lang="jp"><![CDATA[ファイルタイプデータベースである「sqlite2」をサポートします。<br />インストール時、セキュリティのため、DBファイルはウェブがらアクセスできない場所に作成してください。<br />（安定化までのテストは行われていません）]]></value>
 			<value xml:lang="zh-CN"><![CDATA[支持用文件形式保存数据的sqlite2。<br />安装时DB文件应在web不能访问的地方生成。<br />(还没有通过安全的测试)]]></value>
 			<value xml:lang="zh-TW"><![CDATA[支援用檔案形式保存數據的『sqlite2』。<br />安裝時，資料庫數據應建立在 web 無法訪問的地方。<br />(尚未通過安全測試)]]></value>
 			<value xml:lang="fr"><![CDATA[Surpporter sqlite2 qui conserve les données dans les fichiers.<br />Quand vous installez, vous devez créer le fichier de Base de Données dans une place que l'on ne peut pas accéder par web.<br />(Jamais  testé sur  stabilization)]]></value>
@@ -398,7 +409,7 @@
 		<item name="sqlite3_pdo">
 			<value xml:lang="ko"><![CDATA[PHP의 PDO로 sqlite3를 지원합니다.<br />설치 시 DB파일은 웹에서 접근할 수 없는 곳에 생성하여 주셔야 합니다.]]></value>
 			<value xml:lang="en"><![CDATA[Use sqlite3 as a database which supports PHP PDO.<br />DB file <b>must not be</b> accessible from the web.]]></value>
-			<value xml:lang="jp"><![CDATA[PHPのPDOを経由うして「sqlite3」をサポートします。<br />インストール時、セキュリティのため、DBファイルはウェブからアクセス出来ない場所に作成して下さい。]]></value>
+			<value xml:lang="jp"><![CDATA[PHPのPDOを経由して「sqlite3」をサポートします。<br />インストール時、セキュリティのため、DBファイルはウェブからアクセスできない場所に作成してください。]]></value>
 			<value xml:lang="zh-CN"><![CDATA[用PHP的 PDO支持 sqlite3。<br />安装时DB文件应在web不能访问的地方生成。]]></value>
 			<value xml:lang="zh-TW"><![CDATA[用 PHP 的 PDO 支援『sqlite3』。<br />安裝時，資料庫數據應建立在網頁無法訪問的地方。]]></value>
 			<value xml:lang="fr"><![CDATA[Supporter sqlite3 PDO de PHP.<br />Quand vous installez, vous devez cr?r le fichier de Base de Données dans une place que l'on ne peut pas accéder par Web.]]></value>
@@ -494,7 +505,7 @@
 	<item name="select_db_type">
 		<value xml:lang="ko"><![CDATA[사용하시려는 DB를 선택해주세요.]]></value>
 		<value xml:lang="en"><![CDATA[Please select the DB you want to use.]]></value>
-		<value xml:lang="jp"><![CDATA[使用するデータベース種類を選択して下さい。]]></value>
+		<value xml:lang="jp"><![CDATA[使用するデータベース種類を選択してください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[选择数据库]]></value>
 		<value xml:lang="zh-TW"><![CDATA[請選擇要使用的資料庫。]]></value>
 		<value xml:lang="fr"><![CDATA[Choisissez la Base de Données que vous voulez utiliser.]]></value>
@@ -530,7 +541,7 @@
 	<item name="db_userid">
 		<value xml:lang="ko"><![CDATA[DB 아이디]]></value>
 		<value xml:lang="en"><![CDATA[DB ID]]></value>
-		<value xml:lang="jp"><![CDATA[ユーザＩＤ]]></value>
+		<value xml:lang="jp"><![CDATA[ユーザーID]]></value>
 		<value xml:lang="zh-CN"><![CDATA[DB用户名]]></value>
 		<value xml:lang="zh-TW"><![CDATA[使用者名稱]]></value>
 		<value xml:lang="fr"><![CDATA[Compte(ID) pour le Base de Données]]></value>
@@ -588,6 +599,7 @@
 	<item name="db_info_desc">
 		<value xml:lang="ko"><![CDATA[<p><strong>DB 호스트 네임</strong>, <strong>DB Port</strong>, <strong>DB 아이디</strong>, <strong>DB 비밀번호</strong>, <strong>DB 이름</strong> 정보는 서버 호스팅 관리자로부터 정보를 확인 하세요.</p><p><strong>DB 테이블 머리말</strong> 정보는 사용자 정의 할 수 있습니다. 영문 소문자를 권장 합니다. 숫자를 포함할 수 있습니다. 특수 문자를 사용할 수 없습니다.</p>]]></value>
 		<value xml:lang="en"><![CDATA[<p>Please check <strong>database information</strong> to server master.</p><p>You can modify database <strong>table preface</strong>, and can use small letters(small letter is recommended), and numbers, but you can not use special letters.</p>]]></value>
+	　　<value xml:lang="jp"><![CDATA[<p><strong>DBホスト名</strong>, <strong>DB Port</strong>, <strong>DB ID</strong>, <strong>DB パスワード</strong>, <strong>DB 名稱</strong> 情報は、サーバーホスティング管理者に情報を確認してください。</p><p><strong>DBテーブルプレフィックス</strong> 情報は、ユーザーが定義できます。英文小文字の使用を推奨します。数字を含めることができます。特殊文字は、使用できません。</p>]]></value>
 	</item>
 	<item name="admin_title">
 		<value xml:lang="ko"><![CDATA[관리자 정보]]></value>
@@ -651,7 +663,7 @@
 	<item name="use_sso">
 		<value xml:lang="ko"><![CDATA[SSO 사용]]></value>
 		<value xml:lang="en"><![CDATA[Single Sign On]]></value>
-		<value xml:lang="jp"><![CDATA[SSO]]></value>
+		<value xml:lang="jp"><![CDATA[SSO使用]]></value>
 		<value xml:lang="zh-CN"><![CDATA[SSO]]></value>
 		<value xml:lang="zh-TW"><![CDATA[單一登入]]></value>
 		<value xml:lang="fr"><![CDATA[SSO]]></value>
@@ -663,7 +675,7 @@
 	<item name="about_rewrite">
 		<value xml:lang="ko"><![CDATA[이 기능을 사용하면 <em>http://yourdomain/<strong>?document_srl=123</strong></em> 과 같이 복잡한 주소를 <em>http://yourdomain/<strong>123</strong></em> 과 같이 간단하게 줄일 수 있습니다. 이 기능을 사용하려면 웹 서버에서 rewrite_mod를 지원해야 합니다. 웹 서버에서 rewrite_mod를 지원하는지 여부는 서버 관리자에게 문의하세요.]]></value>
 		<value xml:lang="en"><![CDATA[If web server provides rewrite mod, long URL such as http://blah/?document_srl=123 can be shortened like http://blah/123]]></value>
-		<value xml:lang="jp"><![CDATA[Webサーバで「リライト・モジュール（mod_rewrite）」をサポートしている場合は、「http://アドレス/?document_srl=123」のようなアドレスを動的だけど「http://アドレス/123」のように静的なページに見せることが出来ます。]]></value>
+		<value xml:lang="jp"><![CDATA[Webサーバで「リライト・モジュール（mod_rewrite）」をサポートしている場合は、「http://アドレス/?document_srl=123」のようなアドレスを、動的だけど「http://アドレス/123」のように静的なページに見せることができます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[如服务器支持rewrite模块且选择此项，可以简化复杂的网址。<br />例如，http://域名/?document_srl=123简化为http://域名/123。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[如果支援 rewrite 功能，可縮短冗長的網址。<br />例>『http://域名/?document_srl=123』縮短成『http://域名/123』。]]></value>
 		<value xml:lang="fr"><![CDATA[Si le serveur de web est capable d'utiliser le mode de récrire, URL longue comme http://murmure/?document_srl=123 peut être abrégé comme http://murmure/123]]></value>
@@ -687,7 +699,7 @@
 	<item name="about_time_zone">
 		<value xml:lang="ko"><![CDATA[서버의 설정시간과 사용하려는 장소의 시간이 차이가 날 경우 표준 시간대를 지정하면 표시되는 시간을 지정된 곳의 시간으로 사용하실 수 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[If the server time and the time on your location don't accord each other, you can set the time to be same as your location by using the time zone]]></value>
-		<value xml:lang="jp"><![CDATA[サーバの設定時間とサービスしているローカル時間との差がある場合、タイムゾーンを指定して表示時間を合わせることが出来ます。]]></value>
+		<value xml:lang="jp"><![CDATA[サーバの設定時間とサービスしているローカル時間との差がある場合、タイムゾーンを指定して表示時間を合わせることができます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[服务器时间和您所处的时间有差异时，可以设置时区来满足你所需要的时间显示。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[主機時間和您所處的時間有差異時，可以設置時區來滿足你所需要的時間顯示。]]></value>
 		<value xml:lang="fr"><![CDATA[Si l'heure de serveur et celle de votre emplacement ne s'accordent pas,  vous pouvez remettre l'heure comme le même heure de votre lieu en configurant le fuseau horaire ]]></value>
@@ -710,7 +722,7 @@
 	<item name="about_qmail_compatibility">
 		<value xml:lang="ko"><![CDATA[Qmail등 CRLF를 줄 구분자로 인식하지 못하는 MTA에서 메일이 발송되도록 합니다.]]></value>
 		<value xml:lang="en"><![CDATA[It will enable sending mails from MTA which cannot distinguish CRLF like Qmail.]]></value>
-		<value xml:lang="jp"><![CDATA[Qmail等、CRLFを改行コードとして認識出来ないMTA（Message Transfer Agent）で、メールの送信が出来るようにします。]]></value>
+		<value xml:lang="jp"><![CDATA[Qmail等、CRLFを改行コードとして認識できないMTA（Message Transfer Agent）で、メールの送信ができるようにします。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[支持不能识别CRLF为换行符的Qmail等MTA，也能发送电子邮件。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[支援無法識別 CRLF 為換行符的 Qmail 等 MTA，也能發送電子郵件。]]></value>
 		<value xml:lang="fr"><![CDATA[Le mél sera envoyé en MTA qui ne peut pas reconnaître le CRLF comme délimiteur des lignes comme le Qmail.]]></value>
@@ -721,7 +733,7 @@
 	<item name="about_database_file">
 		<value xml:lang="ko"><![CDATA[Sqlite는 파일에 데이터를 저장합니다. 데이터베이스 파일의 위치를 웹에서 접근할 수 없는 곳으로 하셔야 합니다.<br/><span style="color:red">데이터 파일은 707퍼미션 설정된 곳으로 지정해주세요.</span>]]></value>
 		<value xml:lang="en"><![CDATA[Sqlite saves data in a file. Location of the database file should be unreachable by web<br/><span style="color:red">Data file should be inside the permission of 707.</span>]]></value>
-		<value xml:lang="jp"><![CDATA[Sqliteはファイルにデータを保存します。そのため、データベースファイルにはウェブからアクセス出来ない場所にしなければなりません。<br/><span style="color:red">データファイルのパーミッションは「707」に設定して下さい。</span>]]></value>
+		<value xml:lang="jp"><![CDATA[Sqliteはファイルにデータを保存します。そのため、データベースファイルにはウェブからアクセスできない場所にしなければなりません。<br/><span style="color:red">データファイルのパーミッションは「707」に設定してください。</span>]]></value>
 		<value xml:lang="zh-CN"><![CDATA[Sqlite是文件里保存数据。数据库的文件位置应该放在web不能访问的地方。<br/><span style="color:red">数据文件应放在具有707属性的位置。</span>]]></value>
 		<value xml:lang="zh-TW"><![CDATA[Sqlite是保存資料於檔案中。資料庫的檔案位置應該放在 web 不能訪問的地方。<br/><span style="color:red">資料檔案應放在具有 707 權限的位置。</span>]]></value>
 		<value xml:lang="fr"><![CDATA[Sqlite conserve des données dans le fichier. Vous devez placer le fichier de la base de données où l'on ne peut pas accéder par web.<br/><span style="color:red">Le fichier des Donées doit être en dedans la permission 707.</span>]]></value>
@@ -757,7 +769,7 @@
 	<item name="msg_cannot_proc">
 		<value xml:lang="ko"><![CDATA[설치 환경이 갖춰지지 않아 요청을 실행할 수가 없습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Installation environment is not proper to proceed.]]></value>
-		<value xml:lang="jp"><![CDATA[インストール出来る環境が整っていないため、リクエストを実行出来ませんでした。]]></value>
+		<value xml:lang="jp"><![CDATA[インストールできる環境が整っていないため、リクエストを実行できませんでした。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[不具备安装所需环境，不能继续进行。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[不具備安裝所需環境，無法繼續安裝。]]></value>
 		<value xml:lang="fr"><![CDATA[Environnement d'Installation n'est pas équipé à procéder.]]></value>
@@ -784,7 +796,7 @@ DB정보를 다시 확인해주세요.]]></value>
 		<value xml:lang="en"><![CDATA[An error has occurred while connecting to DB.
 Please check DB information again.]]></value>
 		<value xml:lang="jp"><![CDATA[データベースアクセスにエラーが発生しました。
-データベースの情報をもう一度確認して下さい。]]></value>
+データベースの情報をもう一度確認してください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[连接DB时发生错误。
 请重新确认DB信息。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[連接資料庫時發生錯誤。
@@ -828,7 +840,7 @@ File Config đã đuwọc thiết lập lại.]]></value>
 		<value xml:lang="en"><![CDATA[Installation has been completed.
 Thank you for choosing XE]]></value>
 		<value xml:lang="jp"><![CDATA[インストールが完了しました。
-ありがとうございます。]]></value>
+ありがとうございました。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[安装完成。
 非常感谢。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[安裝完成。
@@ -859,6 +871,7 @@ Xin cảm ơn đã sử dụng XE!]]></value>
 	<item name="ftp_get_list">
 		<value xml:lang="ko"><![CDATA[목록 가져오기]]></value>
 		<value xml:lang="en"><![CDATA[Get List]]></value>
+		<value xml:lang="jp"><![CDATA[リストを取得する]]></value>
 		<value xml:lang="zh-CN"><![CDATA[载入FTP列表]]></value>
 		<value xml:lang="zh-TW"><![CDATA[取得列表]]></value>
 		<value xml:lang="tr"><![CDATA[Liste Al]]></value>
@@ -867,22 +880,27 @@ Xin cảm ơn đã sử dụng XE!]]></value>
 	<item name="read_all">
 		<value xml:lang="ko"><![CDATA[전문 읽기]]></value>
 		<value xml:lang="en"><![CDATA[Read Full Text]]></value>
+		<value xml:lang="jp"><![CDATA[フルテキスト読み込み]]></value>
 	</item>
 	<item name="license_agreement_desc">
 		<value xml:lang="ko"><![CDATA[XE를 사용하려면 <em>이 항목에 반드시 동의해야 합니다</em>.]]></value>
 		<value xml:lang="en"><![CDATA[To use XE, <em>you have to agree to this</em>.]]></value>
+		<value xml:lang="jp"><![CDATA[XEを使用するには、<em>この項目に必ず同意しなければなりません。</em>]]></value>
 	</item>
 	<item name="license_agreement_alert">
 		<value xml:lang="ko"><![CDATA[XE를 사용하려면 'GNU 약소 일반 공중 사용 허가서(LGPL v2)'에 반드시 동의해야 합니다.]]></value>
 		<value xml:lang="en"><![CDATA[To use XE, <em>you have to agree to the GNU Lesser General Public License(LGPL v2)</em>.]]></value>
+		<value xml:lang="jp"><![CDATA[XEを使用するには、LGPL v2に必ず同意しなければなりません。]]></value>
 	</item>
 	<item name="install_env_agreement">
 		<value xml:lang="ko"><![CDATA[설치 환경 수집 동의]]></value>
 		<value xml:lang="en"><![CDATA[Agreement on gathering installation environment information]]></value>
+		<value xml:lang="jp"><![CDATA[インストール環境収集に同意する]]></value>
 	</item>
 	<item name="install_env_agreement_desc">
 		<value xml:lang="ko"><![CDATA['<em>웹 서버, DBMS, PHP 버전 및 Extension, XE 모듈 및 애드온</em>' 정보가 XE 통계 수집 서버로 전송됩니다. 더 나은 SW를 제작하기 위한 목적으로 활용합니다. 익명으로 수집되며 이 정보를 외부에 공개하지 않습니다. <em>이 항목에 동의하지 않아도 됩니다.</em>]]></value>
 		<value xml:lang="en"><![CDATA[Information on '<em>web server, DBMS, PHP version and extension, XE modules and addons</em>' is sent to the XE statistics collection server. This information is collected anonymously and used to improve our software only.<em> You don't have to agree to this.</em>]]></value>
+	　　<value xml:lang="jp"><![CDATA['<em>ウェブサーバー、DBMS、PHPバージョンおよびExtension、XEモジュール、およびアドオン</em>'情報が、XE統計収集サーバーへ転送されます。より良いソフトウェアを製作するための目的で活用されます。情報は、匿名で収集され、外部へ公開することはありません。<em>この項目は、同意しなくても構いません。</em>]]></value>
 	</item>
 	<item name="lgpl_license_url">
 		<value xml:lang="ko"><![CDATA[http://korea.gnu.org/people/chsong/copyleft/lgpl.ko.html]]></value>
