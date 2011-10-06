@@ -166,4 +166,8 @@ Nếu chọn là mặc định, nó sẽ là trang chủ của Website.]]></valu
 		<value xml:lang="en"><![CDATA[Please enter the location of external document for mobile view. If not inputted, it uses the external document specified above.<br />Both absolute path such as '/path1/path2/sample.php' or relative path such as '../path2/sample.php' can be used.<br />If you input the path like 'http://url/sample.php', the result will be received and then displayed.<br />This is current XE's absolute path.<br />]]></value>
 	　　<value xml:lang="jp"><![CDATA[モバイル用外部ドキュメントの位置を入力してください。入力しないと上記で指定した外部ドキュメントの位置のページを利用します。<br />/path1/path2/sample.phpのように絶対パス、もしくは../path2/sample.phpのような相対パス両方とも使用できます。<br />http://url/sample.phpのように使用すると、該当ページをウェブへ転送し、出力します。<br />現在、XEのインストールされている絶対パスは、次のとおりです。<br />]]></value>
 	</item>
+	<item name="page_management">
+		<value xml:lang="ko"><![CDATA[페이지 관리]]></value>
+		<value xml:lang="en"><![CDATA[Manage of page]]></value>
+	</item>
 </lang>
