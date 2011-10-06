@@ -61,6 +61,15 @@
                 if($member_info->member_srl != $args->member_srl) unset($args->member_srl);
             }
 
+			// remove whitespace
+			$checkInfos = array('user_id', 'nick_name', 'email_address');
+			$replaceStr = array("\r\n", "\r", "\n", " ", "\t", "\xC2\xAD");
+			foreach($checkInfos as $val){
+				if(isset($args->{$val})){
+					$args->{$val} = str_replace($replaceStr, '', $args->{$val});
+				}
+			}
+
             $oMemberController = &getController('member');
             // Execute insert or update depending on the value of member_srl
             if(!$args->member_srl) {
@@ -239,10 +248,14 @@
 			foreach($signupForm as $formInfo){
 				if ($formInfo->required || $formInfo->mustRequired){
 					if($formInfo->name == 'password')
-						$fields[] = '<field name="password" ><if test="$act == \'procMemberInsert\'" attr="required" value="true" /></field>';
+						$fields[] = '<field name="password" length="3:20" ><if test="$act == \'procMemberInsert\'" attr="required" value="true" /></field>';
 					else if($formInfo->name == 'find_account_question'){
 						$fields[] = '<field name="find_account_question" required="true" />';
-						$fields[] = '<field name="find_account_answer" required="true" />';
+						$fields[] = '<field name="find_account_answer" required="true" length=":250"/>';
+					}else if($formInfo->name == 'email_address'){
+						$fields[] = sprintf('<field name="%s" required="true" rule="email"/>', $formInfo->name);
+					}else if($formInfo->name == 'user_id'){
+						$fields[] = sprintf('<field name="%s" required="true" rule="userid" length="3:20" />', $formInfo->name);
 					}else{
 						$fields[] = sprintf('<field name="%s" required="true" />', $formInfo->name);
 					}
@@ -271,11 +284,11 @@
 			$fields[] = '<field name="password" required="true" />';
 
 			$xml_buff = sprintf($buff, implode('', $fields));
-            filehandler::writefile($xml_file, $xml_buff);
+            Filehandler::writeFile($xml_file, $xml_buff);
 
-			$validator   = new validator($xml_file);
-			$validator->setcachedir('files/cache');
-			$validator->getjspath();
+			$validator   = new Validator($xml_file);
+			$validator->setCacheDir('files/cache');
+			$validator->getJsPath();
 		}
 
 		function _createFindAccountByQuestion($identifier){
@@ -296,11 +309,11 @@
 			$fields[] = '<field name="find_account_answer" required="true" length=":250"/>';
 
 			$xml_buff = sprintf($buff, implode('', $fields));
-            filehandler::writefile($xml_file, $xml_buff);
+            Filehandler::writeFile($xml_file, $xml_buff);
 
-			$validator   = new validator($xml_file);
-			$validator->setcachedir('files/cache');
-			$validator->getjspath();
+			$validator   = new Validator($xml_file);
+			$validator->setCacheDir('files/cache');
+			$validator->getJsPath();
 		}
 
         /**

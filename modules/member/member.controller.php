@@ -523,6 +523,15 @@
 			if (!$args->user_id) $args->user_id = 't'.$args->member_srl;
 			if (!$args->user_name) $args->user_name = $args->member_srl;
 			if (!$args->nick_name) $args->nick_name = $args->member_srl;
+
+			// remove whitespace
+			$checkInfos = array('user_id', 'nick_name', 'email_address');
+			$replaceStr = array("\r\n", "\r", "\n", " ", "\t", "\xC2\xAD");
+			foreach($checkInfos as $val){
+				if(isset($args->{$val})){
+					$args->{$val} = str_replace($replaceStr, '', $args->{$val});
+				}
+			}
             $output = $this->insertMember($args);
             if(!$output->toBool()) return $output;
 
@@ -600,6 +609,15 @@
             $args->extra_vars = serialize($extra_vars);
             // Create a member model object
             $oMemberModel = &getModel('member');
+
+			// remove whitespace
+			$checkInfos = array('user_id', 'nick_name', 'email_address');
+			$replaceStr = array("\r\n", "\r", "\n", " ", "\t", "\xC2\xAD");
+			foreach($checkInfos as $val){
+				if(isset($args->{$val})){
+					$args->{$val} = str_replace($replaceStr, '', $args->{$val});
+				}
+			}
             // Execute insert or update depending on the value of member_srl
             $output = $this->updateMember($args);
             if(!$output->toBool()) return $output;

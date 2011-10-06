@@ -20,6 +20,7 @@
             // Create a directory to use in the module module
             FileHandler::makeDir('./files/cache/module_info');
             FileHandler::makeDir('./files/cache/triggers');
+			FileHandler::makeDir('./files/ruleset');
             // Insert site information into the sites table
             $args->site_srl = 0;
             $output = $oDB->executeQuery('module.getSite', $args);
@@ -75,6 +76,8 @@
 			if(!$oDB->isColumnExists("modules", "is_skin_fix")) return true;
 			
 			if(!$oDB->isColumnExists("module_config", "site_srl")) return true;
+
+			if(!is_dir('./files/ruleset')) return true;
 
             return false;
         }
@@ -311,6 +314,7 @@
 			if(!$oDB->isColumnExists("module_config", "site_srl")){
 				$oDB->addColumn('module_config', 'site_srl', 'number', 11, 0, true);
 			}
+			FileHandler::makeDir('./files/ruleset');
             return new Object(0, 'success_updated');
         }
 

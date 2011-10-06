@@ -56,6 +56,7 @@
 			$config = $oMemberModel->getMemberConfig();			
 			$memberIdentifiers = array('user_id'=>'user_id', 'user_name'=>'user_name', 'nick_name'=>'nick_name');			
 			$usedIdentifiers = array();			
+
 			foreach($config->signupForm as $signupItem){				
 				if (!count($memberIdentifiers)) break;				
 				if(in_array($signupItem->name, $memberIdentifiers) && ($signupItem->required || $signupItem->isUse)){					
@@ -190,7 +191,9 @@
 		function _getMemberInputTag($memberInfo){
             $oMemberModel = &getModel('member');
             $extend_form_list = $oMemberModel->getCombineJoinForm($memberInfo);
-			$memberInfo = get_object_vars($memberInfo);
+			
+			if ($memberInfo)
+				$memberInfo = get_object_vars($memberInfo);
 			$member_config = $oMemberModel->getMemberConfig();
 			$formTags = array();
 			global $lang;

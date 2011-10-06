@@ -56,14 +56,9 @@
 
 			global $lang;
 			$oMemberModel = &getModel('member');
-
-			$extendItems = $oMemberModel->getJoinFormList();
-			
 			$identifier = 'email_address';
 			$items = array('user_id', 'password', 'user_name', 'nick_name', 'email_address', 'find_account_question', 'homepage', 'blog', 'birthday', 'signature', 'profile_image', 'image_name', 'image_mark');
 			$mustRequireds = array('email_address', 'nick_name','password', 'find_account_question');
-			$orgRequireds = array('email_address', 'nick_name','password', 'find_account_question');
-			$orgUse = array('email_address', 'nick_name', 'password', 'find_account_question');
 			$list_order = array();
 			foreach($items as $key){
 				unset($signupItem);
@@ -72,8 +67,8 @@
 				$signupItem->title = $lang->{$key};
 				$signupItem->mustRequired = in_array($key, $mustRequireds);
 				$signupItem->imageType = (strpos($key, 'image') !== false);
-				$signupItem->required = in_array($key, $orgRequireds);
-				$signupItem->isUse = ($config->{$key} == 'Y') || in_array($key, $orgUse);
+				$signupItem->required = $signupItem->mustRequired;
+				$signupItem->isUse = $signupItem->mustRequired;
 				$signupItem->isIdentifier = ($key == $identifier);
 				if ($signupItem->imageType){
 					$signupItem->max_width = $config->{$key.'_max_width'};
@@ -84,31 +79,20 @@
 				else
 					$list_order[] = $signupItem;
 			}
-			if (is_array($extendItems)){
-				foreach($extendItems as $form_srl=>$item_info){
-					unset($signupItem);
-					$signupItem->name = $item_info->column_name;
-					$signupItem->title = $item_info->column_title;
-					$signupItem->type = $item_info->column_type;
-					$signupItem->member_join_form_srl = $form_srl;
-					$signupItem->mustRequired = in_array($key, $mustRequireds);
-					$signupItem->required = ($item_info->required == 'Y');
-					$signupItem->isUse = ($item_info->is_active == 'Y');
-					$signupItem->description = $item_info->description;
-					if ($signupItem->imageType){
-						$signupItem->max_width = $config->{$key.'_max_width'};
-						$signupItem->max_height = $config->{$key.'_max_height'};
-					}
-					$list_order[] = $signupItem;
-				}
-			}
 			$args->signupForm = $list_order;
 			$args->identifier = $identifier;
 
             $oModuleController->insertModuleConfig('member',$args);
+
             // Create a member controller object
             $oMemberController = &getController('member');
             $oMemberAdminController = &getAdminController('member');
+
+			// Create Ruleset File
+			FileHandler::makeDir('./files/ruleset');
+			$oMemberAdminController->_createSignupRuleset($args->signupForm);
+			$oMemberAdminController->_createLoginRuleset($args->identifier);
+			$oMemberAdminController->_createFindAccountByQuestion($args->identifier);
 
             $groups = $oMemberModel->getGroups();
             if(!count($groups)) {
@@ -201,6 +185,10 @@
             $config = $oMemberModel->getMemberConfig();
 			// check signup form ordering info
 			if (!$config->signupForm) return true;
+
+			if (!is_readable('./files/ruleset/insertMember.xml')) return true;
+			if (!is_readable('./files/ruleset/login.xml')) return true;
+			if (!is_readable('./files/ruleset/find_member_account_by_question.xml')) return true;
 
             return false;
         }
@@ -325,6 +313,16 @@
 				$config->identifier = $identifier;
 				$output = $oModuleController->updateModuleConfig('member', $config);
 			}
+
+			
+			FileHandler::makeDir('./files/ruleset');
+			$oMemberAdminController = &getAdminController('member');
+			if (!is_readable('./files/ruleset/insertMember.xml'))
+				$oMemberAdminController->_createSignupRuleset($config->signupForm);
+			if (!is_readable('./files/ruleset/login.xml'))
+				$oMemberAdminController->_createLoginRuleset($config->identifier);
+			if (!is_readable('./files/ruleset/find_member_account_by_question.xml'))
+				$oMemberAdminController->_createFindAccountByQuestion($config->identifier);
 
             return new Object(0, 'success_updated');
         }
