@@ -121,7 +121,7 @@
 	<item name="msg_cart_is_null">
 		<value xml:lang="ko"><![CDATA[삭제할 설문을 선택해주세요.]]></value>
 		<value xml:lang="en"><![CDATA[Please select a poll to delete.]]></value>
-		<value xml:lang="jp"><![CDATA[削除するアンケートを選択して下さい。]]></value>
+		<value xml:lang="jp"><![CDATA[削除するアンケートを選択してください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[请选择要删除的问卷。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[請選擇要刪除的問卷。]]></value>
 		<value xml:lang="fr"><![CDATA[Choisissez des Enquêtes à supprimer.]]></value>
@@ -145,7 +145,7 @@
 	<item name="msg_check_poll_item">
 		<value xml:lang="ko"><![CDATA[설문에 응할 항목을 선택하여 주세요. (설문조사 마다 필수 선택항목이 다를 수 있습니다.)]]></value>
 		<value xml:lang="en"><![CDATA[Please select a poll item to poll.\n(Required poll item(s) may be different in each poll.)]]></value>
-		<value xml:lang="jp"><![CDATA[アンケート調査の項目を選択して下さい（アンケート調査ごと必須の選択項目が異なる場合があります）。]]></value>
+		<value xml:lang="jp"><![CDATA[アンケート調査の項目を選択してください（アンケート調査ごと必須の選択項目が異なる場合があります）。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[请选择问卷回应的项目。 (每个问卷调查有不同的必选项目)]]></value>
 		<value xml:lang="zh-TW"><![CDATA[請選擇問卷回應的項目。 (每個問卷調查有不同的必選項目)]]></value>
 		<value xml:lang="fr"><![CDATA[Choisissez un des item.\n(Nombre obligé à choisir peut être différent par chaque Enquête.)]]></value>
@@ -171,7 +171,7 @@
 다시 설정해주세요.]]></value>
 		<value xml:lang="en"><![CDATA[No item value exists to post a poll. Please re-try.]]></value>
 		<value xml:lang="jp"><![CDATA[アンケート調査に登録する項目がありません。
-もう一度設定して下さい。]]></value>
+もう一度設定してください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[没有要登录为投票调查的值。
 请重新设置。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[沒有要登錄為投票調查的值。
@@ -185,7 +185,7 @@
 	<item name="confirm_poll_submit">
 		<value xml:lang="ko"><![CDATA[설문조사에 응하시겠습니까?]]></value>
 		<value xml:lang="en"><![CDATA[Confirm to submit the poll?]]></value>
-		<value xml:lang="jp"><![CDATA[アンケート調査にご応募しますか？]]></value>
+		<value xml:lang="jp"><![CDATA[アンケート調査に応募しますか？]]></value>
 		<value xml:lang="zh-CN"><![CDATA[您要参与投票吗？]]></value>
 		<value xml:lang="zh-TW"><![CDATA[您要參與投票嗎？]]></value>
 		<value xml:lang="fr"><![CDATA[Vous voulez sûrement soumettre?]]></value>
@@ -235,17 +235,21 @@
 	<item name="single_check">
 		<value xml:lang="ko"><![CDATA[단일 선택]]></value>
 		<value xml:lang="en"><![CDATA[Single Check]]></value>
+		<value xml:lang="jp"><![CDATA[ひとつだけ選択]]></value>
 	</item>
 	<item name="multi_check">
 		<value xml:lang="ko"><![CDATA[다중 선택]]></value>
 		<value xml:lang="en"><![CDATA[Multi Check]]></value>
+		<value xml:lang="jp"><![CDATA[複数選択]]></value>
 	</item>
 	<item name="poll_manager">
 		<value xml:lang="ko"><![CDATA[선택한 설문 관리]]></value>
 		<value xml:lang="en"><![CDATA[Manage selected poll]]></value>
+		<value xml:lang="jp"><![CDATA[選択したアンケートの管理]]></value>
 	</item>
 	<item name="selected_poll">
 		<value xml:lang="ko"><![CDATA[선택한 설문]]></value>
 		<value xml:lang="en"><![CDATA[Selected poll]]></value>
+		<value xml:lang="jp"><![CDATA[選択したアンケート]]></value>
 	</item>
 </lang>

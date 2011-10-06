@@ -19,8 +19,8 @@
 Using latest or other widgets, you can create a dynamic page. Through the editor component, you can also create a great variety of pages.
 Its URL is same as other module's such as mid=module name.
  If it is selected as a default, it will be the main page of the site.]]></value>
-		<value xml:lang="jp"><![CDATA[一枚のページを作成出来るモジュールです。
-最新書き込みウィジェットや他のウィジェットを用いて動的なページが作成が出来、さらにエディターのコンポネントで様々なデザインも出来ます。
+		<value xml:lang="jp"><![CDATA[一枚のページを作成できるモジュールです。
+最新書き込みウィジェットや他のウィジェットを用いて動的なページが作成ができ、さらにエディターのコンポネントで様々なデザインもできます。
 接続URLは、他のモジュールと同様に、「mid=モジュール名」でアクセスし、デフォルトとして指定するとサイトにアクセスする際、メインページとして使われます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[可制作完整页面的模块。
 利用最新主题列表或其他控件可以生成动态的页面，且通过网页编辑器做出形式多样的页面。
@@ -71,6 +71,7 @@ Nếu chọn là mặc định, nó sẽ là trang chủ của Website.]]></valu
 	<item name="cmd_page_article_create">
 		<value xml:lang="ko"><![CDATA[Article 생성]]></value>
 		<value xml:lang="en"><![CDATA[Create an Article]]></value>
+		<value xml:lang="jp"><![CDATA[Article作成]]></value>
 	</item>
 	<item name="page_caching_interval">
 		<value xml:lang="ko"><![CDATA[캐싱 시간 설정]]></value>
@@ -87,7 +88,7 @@ Nếu chọn là mặc định, nó sẽ là trang chủ của Website.]]></valu
 	<item name="about_page_caching_interval">
 		<value xml:lang="ko"><![CDATA[분 단위이며 정해진 시간동안은 임시 저장한 데이터를 출력합니다.<br />다른 서버의 정보를 출력하거나, 데이터 출력하는데 많은 자원이 필요한 경우, 원하시는 분 단위 시간 간격으로 캐싱하는 것을 추천합니다.<br />0 으로 하시면 캐싱을 하지 않습니다.]]></value>
 		<value xml:lang="en"><![CDATA[The unit is minute, and it displays temporary saved data for assigned time.<br />It is recommended to cache for proper time if a lot of resources are needed when displaying other servers' data or information.<br />A value of 0 will not cache.]]></value>
-		<value xml:lang="jp"><![CDATA[分単位で指定出来、設定された時間の間は、臨時保存されたデータを出力します。<br />他のサーバの情報を出力したり、データを出力する際、リソースが多く使われるため、数分単位でキャッシングすることをお勧めします。<br />「0」に指定するとキャッシングされません。]]></value>
+		<value xml:lang="jp"><![CDATA[分単位で指定でき、設定された時間の間は、一時保存されたデータを出力します。<br />他のサーバの情報を出力したり、データを出力する際、リソースが多く使われるため、数分単位でキャッシングすることをお勧めします。<br />「0」に指定するとキャッシングされません。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[单位为分。缓冲时间间隔内页面将输出临时储存的数据。<br />显示外链服务器信息或数据时，如消耗资源很大，尽量把缓冲时间设置为大一点的相应值。<br />0 表示无缓冲。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[單位為分。暫存時間內頁面將輸出臨時儲存的資料。<br />輸出外部主機訊息或資料時，如消耗資源很大，盡量把暫存時間設大一點。<br />『0』表示不暫存。]]></value>
 		<value xml:lang="fr"><![CDATA[L'unité est minute, et ça exposera des données conservées temporairement pendant le temps assigné.<br />Il est recommandé d'utiliser l'antémémoire pendant le temps convenable si beaucoup de ressource est nécessaire pour représenter les données ou l'information d'autre serveur.<br />La valeur 0 signifie de ne pas utiliser antémémoire.]]></value>
@@ -111,47 +112,58 @@ Nếu chọn là mặc định, nó sẽ là trang chủ của Website.]]></valu
 	<item name="page_type">
 		<value xml:lang="ko"><![CDATA[페이지 타입]]></value>
 		<value xml:lang="en"><![CDATA[Page Type]]></value>
+		<value xml:lang="jp"><![CDATA[ページタイプ]]></value>
 	</item>
 	<item name="click_choice">
 		<value xml:lang="ko"><![CDATA[선택해 주세요.]]></value>
 		<value xml:lang="en"><![CDATA[Select]]></value>
+		<value xml:lang="jp"><![CDATA[選択してください。]]></value>
 	</item>
 	<item name="page_type_name" type="array">
 		<item name="WIDGET">
 			<value xml:lang="ko"><![CDATA[위젯]]></value>
 			<value xml:lang="en"><![CDATA[Widget]]></value>
+			<value xml:lang="jp"><![CDATA[ウィジェット]]></value>
 		</item>
 		<item name="ARTICLE">
 			<value xml:lang="ko"><![CDATA[문서]]></value>
 			<value xml:lang="en"><![CDATA[Article]]></value>
+			<value xml:lang="jp"><![CDATA[書き込み]]></value>
 		</item>
 		<item name="OUTSIDE">
 			<value xml:lang="ko"><![CDATA[외부페이지]]></value>
 			<value xml:lang="en"><![CDATA[External Page]]></value>
+			<value xml:lang="jp"><![CDATA[外部ページ]]></value>
 		</item>
 	</item>
 	<item name="about_page_type">
 		<value xml:lang="ko"><![CDATA[페이지 타입을 선택하여 원하는 화면을 구성할 수 있습니다. <ol><li>위젯형 : 여러가지 위젯들을 생성하여 화면을 구성합니다.</li><li>문서형 : 제목, 내용, 태그를 갖는 문서를 제작하여 포스팅 형식의 페이지를 작성합니다. </li><li>외부페이지형 : 외부 HTML 또는 PHP 파일을 XE에서 사용할 수 있습니다.</li></ol>]]></value>
 		<value xml:lang="en"><![CDATA[Select Page Type to build a page. <ol><li>Widget: Create multiple widgets.</li><li>Article: Create articles with titles, contents and tags for posting page. </li><li>External Page: Use external HTML or PHP files in XE.</li></ol>]]></value>
+	　　<value xml:lang="jp"><![CDATA[ページタイプを選択して好きな画面を構成できます。<ol><li>ウィジェット型 : いろんなウィジェットを生成して画面を構成します。</li><li>ドキュメント型 : タイトル、内容、タグのあるドキュメントを製作して、投稿形式のページを作成します。</li><li>外部ページ型 : 外部HTML、またはPHPファイルをXEで使用できます。]]></value>
 	</item>
 	<item name="opage_path">
 		<value xml:lang="ko"><![CDATA[외부 문서 위치]]></value>
 		<value xml:lang="en"><![CDATA[Location of External Document]]></value>
+		<value xml:lang="jp"><![CDATA[外部ドキュメントの位置]]></value>
 	</item>
 	<item name="about_opage">
 		<value xml:lang="ko"><![CDATA[XE가 아닌 외부 HTML 또는 PHP파일을 XE에서 사용할 수 있도록 하는 모듈입니다.<br />절대경로, 상대경로를 이용할 수 있으며 http:// 로 시작할 경우 서버 외부의 페이지도 표시할 수 있습니다]]></value>
 		<value xml:lang="en"><![CDATA[This module enables to use external html or php files in XE.<br />It allows absolute or relative path, and if the url starts with 'http://' , it can display the external page of the server.]]></value>
+	　　<value xml:lang="jp"><![CDATA[XEではなく、外部HTML、またはPHPファイルをXEで使用できるようにするモジュールです。<br />絶対パス、相対パスを利用でき、http://で開始する場合にサーバー外部のページも表示できます。]]></value>
 	</item>
 	<item name="about_opage_path">
 		<value xml:lang="ko"><![CDATA[외부문서의 위치를 입력해주세요.<br />/path1/path2/sample.php 와 같이 절대경로나 ../path2/sample.php와 같은 상대경로 모두 사용가능합니다.<br />http://url/sample.php 와 같이 사용하면 해당 페이지를 웹으로 전송 받아 출력 하게 됩니다.<br />현재 XE가 설치된 절대경로는 다음과 같습니다.<br />]]></value>
 		<value xml:lang="en"><![CDATA[Please enter the location of external document.<br />Both absolute path such as '/path1/path2/sample.php' or relative path such as '../path2/sample.php' can be used.<br />If you input the path like 'http://url/sample.php', the result will be received and then displayed.<br />This is current XE's absolute path.<br />]]></value>
+	　　<value xml:lang="jp"><![CDATA[外部ドキュメントの位置を入力してください。<br />/path1/path2/sample.phpのような絶対パス、もしくは../path2/sample.phpのような相対パス両方とも使用できます。<br />http://url/sample.phpのように使用すると、該当ページをウェブへ転送し、出力します。<br />現在、XEがインストールされている絶対パスは、次のとおりです。<br />]]></value>
 	</item>
 	<item name="opage_mobile_path">
 		<value xml:lang="ko"><![CDATA[모바일용 외부 문서 위치]]></value>
 		<value xml:lang="en"><![CDATA[Location of External Document for Mobile View]]></value>
+		<value xml:lang="jp"><![CDATA[モバイル用外部ドキュメントの位置]]></value>
 	</item>
 	<item name="about_opage_mobile_path">
 		<value xml:lang="ko"><![CDATA[모바일용 외부문서의 위치를 입력해주세요. 입력하지 않으면 위에서 지정한 외부문서 위치의 페이지를 이용합니다. <br />/path1/path2/sample.php 와 같이 절대경로나 ../path2/sample.php와 같은 상대경로 모두 사용가능합니다.<br />http://url/sample.php 와 같이 사용하면 해당 페이지를 웹으로 전송 받아 출력 하게 됩니다.<br />현재 XE가 설치된 절대경로는 다음과 같습니다.<br />]]></value>
 		<value xml:lang="en"><![CDATA[Please enter the location of external document for mobile view. If not inputted, it uses the external document specified above.<br />Both absolute path such as '/path1/path2/sample.php' or relative path such as '../path2/sample.php' can be used.<br />If you input the path like 'http://url/sample.php', the result will be received and then displayed.<br />This is current XE's absolute path.<br />]]></value>
+	　　<value xml:lang="jp"><![CDATA[モバイル用外部ドキュメントの位置を入力してください。入力しないと上記で指定した外部ドキュメントの位置のページを利用します。<br />/path1/path2/sample.phpのように絶対パス、もしくは../path2/sample.phpのような相対パス両方とも使用できます。<br />http://url/sample.phpのように使用すると、該当ページをウェブへ転送し、出力します。<br />現在、XEのインストールされている絶対パスは、次のとおりです。<br />]]></value>
 	</item>
 </lang>

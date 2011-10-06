@@ -106,7 +106,7 @@
 	<item name="latest_hit">
 		<value xml:lang="ko"><![CDATA[최근 히트]]></value>
 		<value xml:lang="en"><![CDATA[Latest Hits]]></value>
-		<value xml:lang="jp"><![CDATA[最近ヒット]]></value>
+		<value xml:lang="jp"><![CDATA[最新ヒット]]></value>
 		<value xml:lang="zh-CN"><![CDATA[最后点击]]></value>
 		<value xml:lang="tr"><![CDATA[Son Hit'ler]]></value>
 		<value xml:lang="vi"><![CDATA[Truy cập mới nhất]]></value>
@@ -114,7 +114,7 @@
 	<item name="about_interval">
 		<value xml:lang="ko"><![CDATA[지정된 시간 내에 글을 등록하지 못하게 합니다.]]></value>
 		<value xml:lang="en"><![CDATA[All articles attempted for posting within the assigned time will be blocked.]]></value>
-		<value xml:lang="jp"><![CDATA[指定された時間内の書き込みが行えないようにします。]]></value>
+		<value xml:lang="jp"><![CDATA[指定された時間に書き込みが行えないようにします。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[指定的时间内禁止发表新主题。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[指定的時間內禁止發表新主題。]]></value>
 		<value xml:lang="fr"><![CDATA[L'affichage sera bloqué pendant le temps designé.]]></value>
@@ -127,7 +127,7 @@
 		<value xml:lang="ko"><![CDATA[지정된 시간 내에 제한수를 넘겨서 글 작성을 시도하면 스팸으로 인식, 해당 IP의 글 작성, 댓글 작성, 트랙백 발송 등을 금지합니다.]]></value>
 		<value xml:lang="en"><![CDATA[If exceeded the posting limitation,
  that IP will be regarded as a spam, thus will have limitations on posting articles, comments, and trackbacks.]]></value>
-		<value xml:lang="jp"><![CDATA[指定された時間内に制限数を超える書き込みが行われるとスパムとして認識し、該当するＩＰを禁止します。]]></value>
+		<value xml:lang="jp"><![CDATA[指定した時間に制限数を超える書き込みが行われるとスパムとして認識し、該当IPを禁止します。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[在指定时间内发表的新主题超过限制数时，系统将把它认为是垃圾主题，将自动禁止对方的IP。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[在指定時間內發表的新主題超過限制數時，系統將會認為是垃圾主題，並自動禁止對方的IP。]]></value>
 		<value xml:lang="fr"><![CDATA[Si l'on excéde la limite d'affichage pendant le temps désigné,
@@ -144,7 +144,7 @@ les articles en plus seront reconnus comme polluriel, et l'adresse IP sera bloqu
 	<item name="about_denied_ip">
 		<value xml:lang="ko"><![CDATA['<em>스팸 IP // 메모</em>' 형식으로 입력하세요. 여러개의 항목은 줄을 바꾸어 입력하세요.]]></value>
 		<value xml:lang="en"><![CDATA[You can add IP address range like 127.0.0.* by using *.]]></value>
-		<value xml:lang="jp"><![CDATA[「127.0.0.* 」のように「*」で、「127.0.0」以下ののIP帯域をすべて禁止することが出来ます。]]></value>
+		<value xml:lang="jp"><![CDATA[「127.0.0.* 」のように「*」で、「127.0.0」以下のIP帯域をすべて禁止することができます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[禁止IP可以使用通配符。(如：如 "127.0.*.*"）]]></value>
 		<value xml:lang="zh-TW"><![CDATA[禁止IP可以使用通配符。(如：如 "127.0.*.*"）]]></value>
 		<value xml:lang="fr"><![CDATA[Vous pouvez bloquer l'étendue de l'adresse IP comme 127.0.0.* en utilisant *.]]></value>
@@ -157,7 +157,7 @@ les articles en plus seront reconnus comme polluriel, et l'adresse IP sera bloqu
 		<value xml:lang="ko"><![CDATA[여러개의 항목은 줄을 바꾸어 입력하세요.]]></value>
 		<value xml:lang="en"><![CDATA[When you add a word to Word Blacklist,
  articles including it will be blocked.]]></value>
-		<value xml:lang="jp"><![CDATA[禁止ワードとして登録されると該当するワードが存在する書き込みを禁することが出来ます。]]></value>
+		<value xml:lang="jp"><![CDATA[禁止ワードとして登録されると該当するワードが存在する書き込みを禁することができます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[登录为敏感词，可以对要发表的主题进行检测并禁止含有敏感词的主题发表。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[登錄為敏感詞，可以對要發表的主題進行檢測並禁止含有敏感詞的主題發表。]]></value>
 		<value xml:lang="fr"><![CDATA[Quand vous enrégistrez un mot dans la liste noire, 
@@ -174,7 +174,7 @@ l'article qui comporte le mot ne sera pas affichagé.]]></value>
 	<item name="about_check_trackback">
 		<value xml:lang="ko"><![CDATA[한 글에 한 IP에만 트랙백을 허용할 수 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[A single IP per article is allowed for trackbacks.]]></value>
-		<value xml:lang="jp"><![CDATA[一つのIPからのみトラックバックを受信するようにします。]]></value>
+		<value xml:lang="jp"><![CDATA[ひとつのIPからのみトラックバックを受信するようにします。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[对一个主题只允许一个IP引用。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[對一個主題只允許一個IP引用。]]></value>
 		<value xml:lang="fr"><![CDATA[Le rétrolien peut être permis à un seul IP par article.]]></value>
@@ -210,7 +210,7 @@ l'article qui comporte le mot ne sera pas affichagé.]]></value>
 	<item name="msg_alert_registered_denied_ip">
 		<value xml:lang="ko"><![CDATA[금지 IP에 등록되셔서 정상적인 활동에 제한을 받게 되셨습니다. 문의는 사이트 관리자에게 해주시기 바랍니다.]]></value>
 		<value xml:lang="en"><![CDATA[Your IP address is blacklisted,\n so you may have limitations on normal using of this site.\n If you have any questions on that matter, please contact the site administrator.]]></value>
-		<value xml:lang="jp"><![CDATA[禁止IPに登録され、サイト内で正常な活動が制限されています。管理者にお問い合わせ下さい。]]></value>
+		<value xml:lang="jp"><![CDATA[禁止IPに登録され、サイト内で正常な活動が制限されています。管理者にお問い合わせください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[您的IP已被禁止，详情请联系网站管理员。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[您的IP已被禁止，詳情請聯繫網站管理員。]]></value>
 		<value xml:lang="fr"><![CDATA[Your IP address is blacklisted,\n so you may have limitations on normal using of this site.\n If you have any questions on that matter, please contact to the site administrator. Votre adresse IP est dans la liste noire, \nvous pouvez donc avoir limitation d'activité dans ce site. Si vous avez quelque question sur ce fait, contactez l'administrateur du site, S.V.P.]]></value>
@@ -220,9 +220,9 @@ l'article qui comporte le mot ne sera pas affichagé.]]></value>
 		<value xml:lang="vi"><![CDATA[IP của bạn đã bị nằm trong danh sách cấm,\n vì vậy bạn bị giới hạn sử dụng trên Website này.\n Nếu bạn có bất cứ thắc mắc gì, xin vui lòng liên hệ với Webmaster để được giải đáp.]]></value>
 	</item>
 	<item name="msg_alert_trackback_denied">
-		<value xml:lang="ko"><![CDATA[한 글에는 하나의 트랙백만 허용 됩니다.]]></value>
+		<value xml:lang="ko"><![CDATA[한 글에는 하나의 트랙백만 허용됩니다.]]></value>
 		<value xml:lang="en"><![CDATA[Only one trackback per an article is allowed.]]></value>
-		<value xml:lang="jp"><![CDATA[一つの書き込みには、１つのトラックバックしか受け取れません。]]></value>
+		<value xml:lang="jp"><![CDATA[ひとつの書き込みには、１つのトラックバックしか受け取れません。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[一个主题只允许一个引用。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[一個主題只允許一個引用。]]></value>
 		<value xml:lang="fr"><![CDATA[Un seul rétrolien par article est permis.]]></value>
@@ -234,22 +234,27 @@ l'article qui comporte le mot ne sera pas affichagé.]]></value>
 	<item name="cmd_interval">
 		<value xml:lang="ko"><![CDATA[10초 동안 3회 이상 글을 작성하면 스패머로 간주할까요? 글, 댓글 작성과 엮인글 발송을 차단합니다.]]></value>
 		<value xml:lang="en"><![CDATA[Do you want to blacklist the users who attempt to post articles more than 3 times for 10 seconds? The blacklisted users cannot write articles or comments and send trackbacks.]]></value>
+	　　<value xml:lang="jp"><![CDATA[10秒の間3回以上書き込みをすると、スパムとみなしますか？書き込み、コメント作成とトラックバックの送信をブロックします。]]></value>
 	</item>
 	<item name="cmd_check_trackback">
 		<value xml:lang="ko"><![CDATA[하나의 글에 2회 이상 엮인글을 등록하면 스패머로 간주할까요? 엮인글을 차단합니다.]]></value>
 		<value xml:lang="en"><![CDATA[Do you want to blacklist the users who attempt to post more than 2 trackbacks to one article? The blacklisted users cannot post trackbacks.]]></value>
+	　　<value xml:lang="jp"><![CDATA[ひとつの書き込みに2回以上トラックバックを登録するとスパムとみなしますか？トラックバックをブロックします。]]></value>
 	</item>
 	<item name="add">
 		<value xml:lang="ko"><![CDATA[추가]]></value>
 		<value xml:lang="en"><![CDATA[Add]]></value>
+		<value xml:lang="jp"><![CDATA[追加]]></value>
 	</item>
 	<item name="yes">
 		<value xml:lang="ko"><![CDATA[예]]></value>
-		<value xml:lang="en"><![CDATA[Yes]></value>
+		<value xml:lang="en"><![CDATA[Yes]]></value>
+		<value xml:lang="jp"><![CDATA[はい]]></value>
 	</item>
 	<item name="no">
 		<value xml:lang="ko"><![CDATA[아니오]]></value>
 		<value xml:lang="en"><![CDATA[No]]></value>
+		<value xml:lang="jp"><![CDATA[いいえ]]></value>
 		<value xml:lang="de"><![CDATA[Nein]]></value>
 		<value xml:lang="mn"><![CDATA[Дугаар]]></value>
 	</item>

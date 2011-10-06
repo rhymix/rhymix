@@ -156,7 +156,7 @@
 	<item name="about_image_list">
 		<value xml:lang="ko"><![CDATA[이미지 갤러리에  추가할 파일을 선택하세요. 선택 후 드래그 또는 shift+클릭(범위선택), ctrl+클릭(개별선택) 가능합니다.]]></value>
 		<value xml:lang="en"><![CDATA[Select an image file to add to the gallery. You can drag it after selecting, Shift+click to select multiple files or Ctrl+click to select each file.]]></value>
-		<value xml:lang="jp"><![CDATA[イメージギャラリーに追加するファイルを選択して下さい。選択した後、ドラッグまたは「Shift+クリック（範囲選択）、Ctrl+クリック（個別選択）」が出来ます。]]></value>
+		<value xml:lang="jp"><![CDATA[イメージギャラリーに追加するファイルを選択してください。選択した後、ドラッグまたは「Shift+クリック（範囲選択）、Ctrl+クリック（個別選択）」ができます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[请选择要添加的图像文件。 选择后可以拖动或按 shift+点击(范围选择), ctrl+点击(个别选择)]]></value>
 		<value xml:lang="zh-TW"><![CDATA[請選擇要新增的圖片檔案。可以框選或按住 shift+左鍵(範圍選擇), ctrl+左鍵(個別選擇)選擇檔案。]]></value>
 		<value xml:lang="ru"><![CDATA[Выберите файл для добавления в галлерею изображений. Вы можете перетащить его после выбора или нажав shift+click(для широкого выделения), ctrl+click(для индивидуального выделения)]]></value>

@@ -3,18 +3,22 @@
 	<item name="cmd_trash">
 		<value xml:lang="ko"><![CDATA[휴지통]]></value>
 		<value xml:lang="en"><![CDATA[Recycle Bin]]></value>
+		<value xml:lang="jp"><![CDATA[ゴミ箱]]></value>
 	</item>
 	<item name="cmd_restore">
 		<value xml:lang="ko"><![CDATA[복원]]></value>
 		<value xml:lang="en"><![CDATA[Restore]]></value>
+		<value xml:lang="jp"><![CDATA[復元]]></value>
 	</item>
 	<item name="cmd_restore_all">
 		<value xml:lang="ko"><![CDATA[모두 복원]]></value>
 		<value xml:lang="en"><![CDATA[Restore All]]></value>
+		<value xml:lang="jp"><![CDATA[すべて復元]]></value>
 	</item>
 	<item name="in_trash">
 		<value xml:lang="ko"><![CDATA[휴지통]]></value>
 		<value xml:lang="en"><![CDATA[Recycle Bin]]></value>
+		<value xml:lang="jp"><![CDATA[ゴミ箱]]></value>
 	</item>
 	<item name="trash_nick_name">
 		<value xml:lang="ko"><![CDATA[옮긴 사람]]></value>
@@ -23,41 +27,51 @@
 	<item name="trash_date">
 		<value xml:lang="ko"><![CDATA[삭제 날짜]]></value>
 		<value xml:lang="en"><![CDATA[Deleted date]]></value>
+		<value xml:lang="jp"><![CDATA[削除日]]></value>
 	</item>
 	<item name="trash_description">
 		<value xml:lang="ko"><![CDATA[설명]]></value>
 		<value xml:lang="en"><![CDATA[Description]]></value>
+		<value xml:lang="jp"><![CDATA[説明]]></value>
 	</item>
 	<item name="success_trashed">
 		<value xml:lang="ko"><![CDATA[휴지통으로 옮겼습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Moved to Recycle Bin.]]></value>
+		<value xml:lang="jp"><![CDATA[ゴミ箱に移動しました。]]></value>
 	</item>
 	<item name="empty_trash_all">
 		<value xml:lang="ko"><![CDATA[휴지통 비우기]]></value>
 		<value xml:lang="en"><![CDATA[Empty Recycle Bin]]></value>
+		<value xml:lang="jp"><![CDATA[ゴミ箱を空にする]]></value>		
 	</item>
 	<item name="confirm_restore">
 		<value xml:lang="ko"><![CDATA[복원하시겠습니까?]]></value>
 		<value xml:lang="en"><![CDATA[Are you sure you want to restore?]]></value>
+		<value xml:lang="jp"><![CDATA[復元しますか?]]></value>
 	</item>
 	<item name="success_empty">
 		<value xml:lang="ko"><![CDATA[휴지통을 비웠습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Recycle Bin emptied successfully.]]></value>
+		<value xml:lang="jp"><![CDATA[ゴミ箱を空にしました。]]></value>
 	</item>
 	<item name="fail_empty">
 		<value xml:lang="ko"><![CDATA[휴지통을 비우지 못했습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Failed to empty Recycle Bin.]]></value>
+		<value xml:lang="jp"><![CDATA[ゴミ箱を空にできませんでした。]]></value>
 	</item>
 	<item name="success_restore">
 		<value xml:lang="ko"><![CDATA[복원했습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Restored successfully.]]></value>
+		<value xml:lang="jp"><![CDATA[復元しました。]]></value>
 	</item>
 	<item name="fail_restore">
 		<value xml:lang="ko"><![CDATA[복원하지 못했습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Failed to restore.]]></value>
+		<value xml:lang="jp"><![CDATA[復元できませんでした。]]></value>
 	</item>
 	<item name="origin_module_type">
 		<value xml:lang="ko"><![CDATA[원본 타입]]></value>
 		<value xml:lang="en"><![CDATA[Source Type]]></value>
+		<value xml:lang="jp"><![CDATA[原本タイプ]]></value>
 	</item>
 </lang>

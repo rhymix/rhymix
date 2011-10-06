@@ -122,7 +122,7 @@
 	<item name="layout_preview_content">
 		<value xml:lang="ko"><![CDATA[내용이 출력되는 부분입니다.]]></value>
 		<value xml:lang="en"><![CDATA[The content gets displayed here.]]></value>
-		<value xml:lang="jp"><![CDATA[内容が出力される部分です。]]></value>
+		<value xml:lang="jp"><![CDATA[内容が表示される部分です。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[显示内容的部分。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[顯示內容的部分。]]></value>
 		<value xml:lang="fr"><![CDATA[Le contenu sera exposé ici.]]></value>
@@ -170,7 +170,7 @@
 	<item name="about_title">
 		<value xml:lang="ko"><![CDATA[모듈에 연결 시 쉽게 구분할 수 있는 제목을 입력해주세요.]]></value>
 		<value xml:lang="en"><![CDATA[Please enter the title that is easy to verify when connecting to the module]]></value>
-		<value xml:lang="jp"><![CDATA[モジュールとの連動をわかりやすく区分するためのタイトルを入力して下さい。]]></value>
+		<value xml:lang="jp"><![CDATA[モジュールとの連動をわかりやすく区分するためのタイトルを入力してください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[请输入连接模块时容易区分的标题。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[連結模組時，請輸入容易區分的標題。]]></value>
 		<value xml:lang="fr"><![CDATA[Entrez le titre pour distinguer facilement quand vous le liez à un module.]]></value>
@@ -194,7 +194,7 @@
 	<item name="about_layout">
 		<value xml:lang="ko"><![CDATA[레이아웃 모듈은 사이트의 레이아웃을 쉽게 만들 수 있도록 도와줍니다.<br />레이아웃 설정과 메뉴의 연결을 통해서 다양한 모듈이 완성된 사이트의 모습으로 보여줄 수 있도록 합니다.<br />* 삭제나 수정이 불가능한 레이아웃은 블로그나 기타 모듈의 자체 레이아웃이므로 해당 모듈로 가서 설정하셔야 합니다.]]></value>
 		<value xml:lang="en"><![CDATA[Layout module helps you create the site's layout easily.<br />By using layout setting and menu connection, website's completed shape will be displayed with various modules.<br />* Layouts which you cannot delete are the default layouts of blogs or other moduels, thus you have to delete them from their setting pages.]]></value>
-		<value xml:lang="jp"><![CDATA[レイアウトのモジュールはサイトのレイアウトを分かりやすく作成出来るようにします。<br />レイアウトの設定とメニューのリンクで様々なモジュールで完成されたサイト構築が出来ます。<br />※ ブログまたは他のモジュールのレイアウトなどの削除・修正が出来ないレイアウトは、該当モジュールにて設定を行って下さい。]]></value>
+		<value xml:lang="jp"><![CDATA[レイアウトのモジュールはサイトのレイアウトを分かりやすく作成できるようにします。<br />レイアウトの設定とメニューのリンクで様々なモジュールで完成されたサイト構築ができます。<br />※ ブログまたは他のモジュールのレイアウトなどの削除・修正ができないレイアウトは、該当モジュールにて設定を行ってください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[布局模块使网站制作变得更简单。<br />通过布局设置及菜单的链接，可以轻松制作以多种模块组成的完整网站。<br />- 无法删除和修改的布局可能是博客或其他模块自带的模板，因此应到相关模块进行设置。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[版面設計模組使網站製作變得更簡單。<br />透過版面設置及選單的連結，利用多種模組可以輕鬆製作組合出完整的網站。<br />- 無法刪除和修改的版面，可能是部落格或其他模組的原始樣板，因此應到相關模組進行設置。]]></value>
 		<value xml:lang="fr"><![CDATA[Le module de Mise en Page vous aide à créer facilement le Mise en Page du site. <br />Vous pouvez présentez la forme du site Web complété par les modules divers en utilisant la configuration du Mise en Page et la connexion sur le menu. <br />* Les Mises en Page qui ne sont pas possibles à supprimer ou à modifier sont propres à ceux des blogues ou d'autres Mises en Page. Essayez à modifier/supprimer en dedans elles-mêmes]]></value>
@@ -213,8 +213,8 @@
         Please first preview your code and then save it.
         You can refer grammar of XE's template from <a href="#" onclick="winopen('http://trac.zeroboard.com/trac/wiki/TemplateHandler');return false;">XE Template</a>.]]></value>
 		<value xml:lang="jp"><![CDATA[下のレイアウトコードを修正し、保存するとサービスに反映されます。
-        必ずプレビューで確認してから保存して下さい。
-        XEのテンプレート文法は<a href="#" onclick="winopen('http://xe.xpressengine.net/18180861');return false;">XEテンプレート</a>を参考して下さい。]]></value>
+        必ずプレビューで確認してから保存してください。
+        XEのテンプレート文法は<a href="#" onclick="winopen('http://xe.xpressengine.net/18180861');return false;">XEテンプレート</a>を参考してください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[修改的布局代码保存后即可生效。
 	保存之前请必须先预览后再保存。
         XE布局语法请参考<strong><a href="#" onclick="winopen('http://trac.zeroboard.com/trac/wiki/TemplateHandler');return false;">XE模板</a></strong>。]]></value>
@@ -737,7 +737,7 @@
 		<item name="44">
 			<value xml:lang="ko"><![CDATA[배경 그림 반복]]></value>
 			<value xml:lang="en"><![CDATA[Repeat Background]]></value>
-			<value xml:lang="jp"><![CDATA[背景画像リピート]]></value>
+			<value xml:lang="jp"><![CDATA[背景画像繰り返し]]></value>
 			<value xml:lang="zh-CN"><![CDATA[背景重复]]></value>
 			<value xml:lang="zh-TW"><![CDATA[背景重複]]></value>
 			<value xml:lang="tr"><![CDATA[Arkaplan Tekrarı]]></value>
@@ -746,7 +746,7 @@
 		<item name="45">
 			<value xml:lang="ko"><![CDATA[반복]]></value>
 			<value xml:lang="en"><![CDATA[Repeat]]></value>
-			<value xml:lang="jp"><![CDATA[リピート]]></value>
+			<value xml:lang="jp"><![CDATA[繰り返し]]></value>
 			<value xml:lang="zh-CN"><![CDATA[平铺]]></value>
 			<value xml:lang="zh-TW"><![CDATA[重複]]></value>
 			<value xml:lang="tr"><![CDATA[Tekrar]]></value>
@@ -755,7 +755,7 @@
 		<item name="46">
 			<value xml:lang="ko"><![CDATA[반복 안함]]></value>
 			<value xml:lang="en"><![CDATA[No Repeat]]></value>
-			<value xml:lang="jp"><![CDATA[リピートしない]]></value>
+			<value xml:lang="jp"><![CDATA[繰り返ししない]]></value>
 			<value xml:lang="zh-CN"><![CDATA[不重复]]></value>
 			<value xml:lang="zh-TW"><![CDATA[不重複]]></value>
 			<value xml:lang="tr"><![CDATA[Tekrar Yok]]></value>
@@ -764,7 +764,7 @@
 		<item name="47">
 			<value xml:lang="ko"><![CDATA[가로 반복]]></value>
 			<value xml:lang="en"><![CDATA[Repeat Width]]></value>
-			<value xml:lang="jp"><![CDATA[横方向リピート]]></value>
+			<value xml:lang="jp"><![CDATA[横方向繰り返し]]></value>
 			<value xml:lang="zh-CN"><![CDATA[水平重复]]></value>
 			<value xml:lang="zh-TW"><![CDATA[水平重複]]></value>
 			<value xml:lang="tr"><![CDATA[Genişlik Tekrarı]]></value>
@@ -773,7 +773,7 @@
 		<item name="48">
 			<value xml:lang="ko"><![CDATA[세로 반복]]></value>
 			<value xml:lang="en"><![CDATA[Repeat Height]]></value>
-			<value xml:lang="jp"><![CDATA[縦方向リピート]]></value>
+			<value xml:lang="jp"><![CDATA[縦方向繰り返し]]></value>
 			<value xml:lang="zh-CN"><![CDATA[垂直重复]]></value>
 			<value xml:lang="zh-TW"><![CDATA[垂直重複]]></value>
 			<value xml:lang="tr"><![CDATA[Uzunluk Tekrarı]]></value>
@@ -827,7 +827,7 @@
 		<item name="54">
 			<value xml:lang="ko"><![CDATA[글자 색]]></value>
 			<value xml:lang="en"><![CDATA[Font Color]]></value>
-			<value xml:lang="jp"><![CDATA[テキストの色]]></value>
+			<value xml:lang="jp"><![CDATA[文字の色]]></value>
 			<value xml:lang="zh-CN"><![CDATA[文字颜色]]></value>
 			<value xml:lang="zh-TW"><![CDATA[文字顏色]]></value>
 			<value xml:lang="tr"><![CDATA[Yazı Rengi]]></value>
@@ -846,7 +846,7 @@
 	<item name="about_layout_image_repository">
 		<value xml:lang="ko"><![CDATA[선택된 레이아웃에 사용될 이미지/플래시파일 등을 올릴 수 있습니다. 내보내기에 같이 포함 됩니다.]]></value>
 		<value xml:lang="en"><![CDATA[You can upload image/flash files for the selected layout. They will be included in exports.]]></value>
-		<value xml:lang="jp"><![CDATA[選択したレイアウトに使う画像・Ｆｌａｓｈファイル等のアップロード出来ます。また、エクスポートする際、一緒に含まれます。]]></value>
+		<value xml:lang="jp"><![CDATA[選択したレイアウトに使う画像・Flashファイル等のアップロードできます。また、エクスポートする際、一緒に含まれます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[可以上传要在所选布局中使用的图片/FLASH文件(导出时包含此库文件)。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[可在所選擇的版面中上傳圖片/ Flash 檔案。匯出時將包含此檔案。]]></value>
 		<value xml:lang="fr"><![CDATA[선택된 레이아웃에 사용될 이미지/플래시파일등을 올릴 수 있습니다. 내보내기에 같이 포함이 됩니다]]></value>
@@ -882,7 +882,7 @@
 (아직은 faceOff레이아웃만 내보내기/들이기가 됩니다.)]]></value>
 		<value xml:lang="en"><![CDATA[You can export or import the editted layout as a tar file.
 (So far only FaceOff supports exports/imports)]]></value>
-		<value xml:lang="jp"><![CDATA[修正したレイアウトをtar形式の圧縮ファイルにエクスポートしたり、tar形式として保存されたファイルをインポートすることが出来ます。
+		<value xml:lang="jp"><![CDATA[修正したレイアウトをtar形式の圧縮ファイルにエクスポートしたり、tar形式として保存されたファイルをインポートすることができます。
 (まだ、faceOffレイアウトのみエクスポート/インポートが可能です。)]]></value>
 		<value xml:lang="zh-CN"><![CDATA[可以把已修改好的布局导出为tar文件或把已有的tar文件直接导入。
 (目前此功能只能在faceOff布局中使用)]]></value>
@@ -912,7 +912,7 @@
 		<item name="description">
 			<value xml:lang="ko"><![CDATA[FaceOff Layout관리자로 웹상에서 쉽게 레이아웃을 꾸밀 수 있습니다.<br/>아래 그림을 보시고 구성요소와 기능을 이용하여 원하시는 레이아웃을 만드세요.]]></value>
 			<value xml:lang="en"><![CDATA[FaceOff Layout Manager willl help you design layout on the web easily.<br/>Please design your own layout with components and functions as shown below.]]></value>
-			<value xml:lang="jp"><![CDATA[FaceOffレイアウト管理ツールはウェブ上で、手軽なレイアウト変更を可能にします。<br />下の図を参照しながら構成要素と機能を理解し、自由にレイアウトをカスタマイズしてみて下さい。]]></value>
+			<value xml:lang="jp"><![CDATA[FaceOffレイアウト管理ツールでウェブ上で、かんたんにレイアウトを変更することができます。<br />下の図を参照しながら構成要素と機能を理解し、自由にレイアウトをカスタマイズしてみてください。]]></value>
 			<value xml:lang="zh-CN"><![CDATA[利用FaceOff布局管理工具，可以在线随意布置您的布局。<br/>请仔细查看下面的布局示意图和功能简介后，尽情发挥吧！<br/>FaceOff的布局示意图如下：]]></value>
 			<value xml:lang="zh-TW"><![CDATA[FaceOff Layout 版面管理者，可方便地在線上修改與設計版面。<br/>下圖為版面架構示意圖和功能簡介，瞭解後發揮創意製作出自己想要的版面吧!]]></value>
 			<value xml:lang="fr"><![CDATA[FaceOff Layout관리자는 웹상에서 쉽게 레이아웃을 꾸밀 수 있습니다.<br/>아래 그림을 보시고 구성요소와 기능을 이용하여 원하시는 레이아웃을 만드세요]]></value>
@@ -923,7 +923,7 @@
 		<item name="layout">
 			<value xml:lang="ko"><![CDATA[FaceOff는 위와 같은 HTML 구조로 되어 있습니다.<br/>이 구조에서 CSS를 이용하여 형태/배열/정렬을 할 수 있고 또 Style을 이용하여 꾸밀 수 있습니다.<br/>위젯 추가는 Extension(e1, e2)과 Neck, Knee에서 가능합니다.<br/>이 외 Body, Layout, Header, Body, Footer는 Style을 꾸밀 수 있고 Content는 모듈의 내용이 출력됩니다.]]></value>
 			<value xml:lang="en"><![CDATA[FaceOff has HTML structure as above.<br/>You can arrange/align with CSS, or use Style to design.<br/>You can add widget from Extension(e1, e2), Neck and Knee.<br/>Also Body, Layout, Header, Body, Footer can designed by Style, and Content will display content.]]></value>
-			<value xml:lang="jp"><![CDATA[FaceOffは上のようなHTML構造になっています。<br />この構造にてCSSを用いた「レイアウト／配列／整列」の調整が可能になり、さらにStyleを使った自由なカスタマイズが出来ます。<br />ウィジェットの追加はExtension(e1、e2)と Neck、 Kneeにて可能です。<br />その他にもBody、Layout、Header、Body、FooterはStyleをカスタマイズが出来、Contentではモジュールの内容が出力されます。]]></value>
+			<value xml:lang="jp"><![CDATA[FaceOffは上記のようなHTML構造になっています。<br />この構造にてCSSを用いた「レイアウト／配列／整列」の調整が可能になり、さらにStyleを使った自由なカスタマイズができます。<br />ウィジェットの追加はExtension(e1、e2)と Neck、 Kneeにて可能です。<br />その他にもBody、Layout、Header、Body、FooterはStyleをカスタマイズができ、Contentではモジュールの内容が出力されます。]]></value>
 			<value xml:lang="zh-CN"><![CDATA[根据布局示意图，对其进行宽度/版式/对齐方式的调整。<br/>控件插入区为Extension(e1, e2)区和Neck, Knee区。<br/>另外的Body, Layout, Header, Body, Footer区可以使用Style来进行渲染，Content区是内容显示区。]]></value>
 			<value xml:lang="zh-TW"><![CDATA[FaceOff 的架構和 HTML 相同。<br/>可以使用 CSS 或樣式設計。<br/>可新增 Widget 到 Extension(e1, e2), Neck, Knee 等區域。<br/>另外 Body, Layout, Header, Body, Footer 可以使用樣式設計，而 Content 區域會顯示內容。]]></value>
 			<value xml:lang="fr"><![CDATA[FaceOff는 위와 같은 HTML 구조로 되어 있습니다.<br/>이 구조에서 CSS를 이용하여 형태/배열/정렬을 할 수 있고 또 Style을 이용하여 꾸밀 수 있습니다.<br/>위젯 추가는 Extension(e1, e2)와 Neck, Knee에서 가능합니다.<br/>이 외 Body, Layout, Header, Body, Footer는 Style을 꾸밀 수 있고 Content는 모듈의 내용이 출력됩니다.]]></value>
@@ -934,7 +934,7 @@
 		<item name="setting">
 			<value xml:lang="ko"><![CDATA[좌측 상단의 메뉴에 대해 설명 드립니다.<br/><ul><li>저장 : 설정된 내용을 저장합니다.</li><li>취소 : 설정한 내용을 저장하지 않고 돌아갑니다.</li><li>초기화 : 아무 설정도 되어 있지 않은 백지 상태로 돌립니다.</li><li>형태 : 고정/ 가변/ 고정+가변(내용)의 형태를 지정합니다.</li><li>배열 : Extension 2개와 Content를 배열합니다.</li><li>정렬 : 레이아웃의 위치를 정렬시킬 수 있습니다.</li></ul>]]></value>
 			<value xml:lang="en"><![CDATA[Here are the explanations of the upper menu on the left.<br/><ul><li>Save : Save current settings.</li><li>Cancel : Discard current settings and go back.</li><li>Reset : Clear current settings</li><li>Form : Set form as Fixed/ Variable/ Fixed+Variable(Content).</li><li>Arrange : Arrange 2 Extensions and Content.</li><li>Align : Align the position of layout.</li></ul>]]></value>
-			<value xml:lang="jp"><![CDATA[左側上段のメニューの説明<br/><ul><li>保存 : 設定内容を保存します。</li><li>取り消し : 設定内容を保存せずに、差し戻します。</li><li>初期化 : 何の設定もない白紙状態（もしくはインストール時のデフォールト状態）に戻ります。</li><li>レイアウトタイプ : 固定／可変／固定+可変（内容）型のレイアウトを指定します。</li><li>配列 : Body部分に2つのExtensionとContentを配列します。</li><li>整列 : レイアウトの位置を整列します。</li></ul>]]></value>
+			<value xml:lang="jp"><![CDATA[左上メニューの説明<br/><ul><li>保存 : 設定内容を保存します。</li><li>取り消し : 設定内容を保存せずに、差し戻します。</li><li>初期化 : 何の設定もない白紙状態（もしくはインストール時のデフォールト状態）に戻ります。</li><li>レイアウトタイプ : 固定／可変／固定+可変（内容）型のレイアウトを指定します。</li><li>配列 : Body部分に2つのExtensionとContentを配列します。</li><li>整列 : レイアウトの位置を整列します。</li></ul>]]></value>
 			<value xml:lang="zh-CN"><![CDATA[布局管理工具顶部左侧菜单说明：<br/><ul><li>保存 : 保存已修改的设置</li><li>取消 : 不保存返回</li><li>初始化 : 重置为空白布局</li><li>宽度 : 可指定固定/自适应/固定+自适应(内容)布局宽度样式</li><li>版式 : 可布置2个Extension区和Content区的样式</li><li>对齐 : 布局对齐方式</li></ul>]]></value>
 			<value xml:lang="zh-TW"><![CDATA[左上方的選單說明：<br/><ul><li>儲存 : 儲存設定內容</li><li>取消 : 不儲存設定內容並返回上一頁</li><li>重置 : 重新設置回到最原始的版面設定</li><li>模式 : 可設定版面模式為固定/ 變動/ 固定+變動(內容)</li><li>樣式 : 可設置兩個 Extension 區域和 Content 區域</li><li>對齊 : 可選擇版面的對齊方式</li></ul>]]></value>
 			<value xml:lang="fr"><![CDATA[좌측 상단의 메뉴에 대해 설명 드립니다.<br/><ul><li>저장 : 설정된 내용을 저장합니다.</li><li>취소 : 설정한 내용을 저장하지 않고 돌아갑니다.</li><li>초기화 : 아무 설정도 되어 있지 않은 백지 상태로 돌립니다</li><li>형태 : 고정/ 가변/ 고정+가변(내용)의 형태를 지정합니다.</li><li>배열 : Extension 2개와 Content를 배열합니다.</li><li>정렬 : 레이아웃의 위치를 정렬시킬 수 있습니다.</li></ul>]]></value>
@@ -946,7 +946,7 @@
 		<item name="hotkey">
 			<value xml:lang="ko"><![CDATA[마우스로 각 영역을 선택하면서 Hot Key를 이용하시면 더 쉽게 꾸미실 수 있습니다.<br/><ul><li>tab 키 : 위젯이 선택되어 있지 않으면 Header, Body, Footer 순으로 선택됩니다. 위젯이 선택되어 있다면 다음 위젯으로 선택이 이동됩니다.</li><li>Shift + tab키 : tab키와 반대 역할을 합니다.</li><li>Esc : 아무것도 선택되어 있지 않을 때 Esc를 누르면 Neck, Extension(e1,e2),Knee 순서대로 선택이 되며 위젯이 선택되어 있다면 선택된 위젯을 감싸는 영역이 선택됩니다.</li><li>방향키 : 위젯이 선택되어 있을 때 방향키를 이용하여 위젯을 다른 영역으로 이동시킬 수 있습니다.</li></ul>]]></value>
 			<value xml:lang="en"><![CDATA[You can design your layout more easily with Hot Keys.<br/><ul><li>tab : Unless a widget is selected, Header, Body, Footer will be selected in order. If not, next widget will be selected.</li><li>Shift + tab : It does the opposite function to tab key.</li><li>Esc : If nothing is selected, Neck, Extension(e1,e2), Knee will be selected in order, if a widget is selected, area of the widget will be selected.</li><li>Arrow Key : If a widget is selected, arrow key will move the widget to other areas.</li></ul>]]></value>
-			<value xml:lang="jp"><![CDATA[マウスを使って各スペースを選択しながら、Hot Keyを利用すると、より便利なカスタマイズ出来ます。<br/><ul><li>tabキー : ウィジェットが選択されてない場合、Header、Body、 Footer順に選択されます。ウィジェットが選択されている場合は、次のウィジェットに選択されます。</li><li>Shift + tabキー : tabキーと逆の役割をします。</li><li>Esc : 何も選択されてない場合、Escを押すとNeck、Extension(e1、e2)、Knee順に選択され、また、ウィジェットが選択されている場合は選択されたウィジェットを囲む領域が選択されます。</li><li>矢印 : ウィジェットが選択されている時、矢印キーを用いて、ウィジェットを他の領域に移せます。</li></ul>]]></value>
+			<value xml:lang="jp"><![CDATA[マウスを使って各領域を選択しながら、Hot Keyを利用すると、より便利なカスタマイズできます。<br/><ul><li>tabキー : ウィジェットが選択されてない場合、Header、Body、 Footer順に選択されます。ウィジェットが選択されている場合は、次のウィジェットに選択されます。</li><li>Shift + tabキー : tabキーと逆の役割をします。</li><li>Esc : 何も選択されてない場合、Escを押すとNeck、Extension(e1、e2)、Knee順に選択され、また、ウィジェットが選択されている場合は選択されたウィジェットを囲む領域が選択されます。</li><li>矢印 : ウィジェットが選択されている時、矢印キーを用いて、ウィジェットを他の領域に移せます。</li></ul>]]></value>
 			<value xml:lang="zh-CN"><![CDATA[选取各个区域可以利用鼠标，还可以利用快捷键：<br/><ul><li>tab键 : 当前没有被选取的控件，选取顺序为： Header, Body, Footer；已有被选取的控件，将选取下一个控件。</li><li>Shift + tab键 : 与tab键作用相反。</li><li>Esc键 : 当前没有被选取的区域，选取顺序为： Neck, Extension(e1,e2),Knee；已有被选取的控件，将选取包含此控件的区域。</li><li>方向键 : 已有被选取的控件时，可以利用方向键移到别的区域。</li></ul>]]></value>
 			<value xml:lang="zh-TW"><![CDATA[除了可利用滑鼠選取各區域外，也能使用熱鍵選取：<br/><ul><li>tab鍵 : 當沒有選取 Widget 時，選擇順序是： Header, Footer, Body；當有選取 Widget 時，將會選擇下一個。</li><li>Shift + tab 鍵 : 功能和 tab 鍵相反</li><li>Esc 鍵 : 當沒有選擇區域時，選擇順序是： Neck, Extension(e1,e2),Knee；當有選擇 Widget 時，將會選則此 Widget 所屬的區域。</li><li>方向鍵 : 當有選擇 Widget 時，可利用方向鍵作移動。</li></ul>]]></value>
 			<value xml:lang="fr"><![CDATA[마우스로 각 영역을 선택하면서 Hot Key를 이용하시면 더 쉽게 꾸미실 수 있습니다.<br/><ul><li>tab 키 : 위젯이 선택되어 있지 않으면 Header, Body, Footer 순으로 선택됩니다. 위젯이 선택되어 있다면 다음 위젯으로 선택이 이동됩니다.</li><li>Shift + tab키 : tab키와 반대 역할을 합니다.</li><li>Esc : 아무것도 선택되어 있지 않을때 Esc를 누르면 Neck, Extension(e1,e2),Knee 순서대로 선택이 되며 위젯이 선택되어 있다면 선택된 위젯을 감싸는 영역이 선택됩니다.</li><li>방향키 : 위젯이 선택되어 있을때 방향키를 이용하여 위젯을 다른 영역으로 이동시킬 수 있습니다.</li></ul>]]></value>
@@ -992,7 +992,7 @@
 	<item name="about_apply_mobile_view">
 		<value xml:lang="ko"><![CDATA[체크하시면 연결된 모든 메뉴에서 모바일 뷰를 사용합니다.]]></value>
 		<value xml:lang="en"><![CDATA[All connected modules use the mobile view to display when accessing with mobile device.]]></value>
-		<value xml:lang="jp"><![CDATA[活性化すると連結されている全てのモジュールでモバイルスキンが適用されます。]]></value>
+		<value xml:lang="jp"><![CDATA[チェックを入れると、繋がっているすべてのモジュールでモバイルスキンが適用されます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[勾选表示连接到此布局的所有菜单项全部采用此移动版布局。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[All connected module use mobile view to display when accessing with mobile device.]]></value>
 		<value xml:lang="fr"><![CDATA[All connected module use mobile view to display when accessing with mobile device.]]></value>
@@ -1004,43 +1004,54 @@
 	<item name="installed_layout">
 		<value xml:lang="ko"><![CDATA[설치된 레이아웃]]></value>
 		<value xml:lang="en"><![CDATA[Installed Layout]]></value>
+		<value xml:lang="jp"><![CDATA[インストールされているレイアウト]]></value>
 	</item>
 	<item name="faceoff_export">
 		<value xml:lang="ko"><![CDATA[FaceOff 레이아웃 내보내기]]></value>
 		<value xml:lang="en"><![CDATA[Export FaceOff layout]]></value>
+		<value xml:lang="jp"><![CDATA[Faceoffレイアウトをエクスポートする]]></value>
 	</item>
 	<item name="about_faceoff_export">
 		<value xml:lang="ko"><![CDATA[FaceOff 레이아웃을 tar 파일로 내보낼 수 있습니다. 백업 받은 FaceOff 레이아웃을 일반 레이아웃으로 변경하세요.]]></value>
 		<value xml:lang="en"><![CDATA[You can download current edited layout. Use this, you can change FaceOff layout to general layout.]]></value>
+		<value xml:lang="jp"><![CDATA[FaceOffレイアウトをtarファイルでエクスポートすることができます。バックアップしたFaceOffレイアウトを一般レイアウトに変更してください。]]></value>
 	</item>
 	<item name="faceoff_migration" type="array">
 		<item name="0">
 			<value xml:lang="ko"><![CDATA[FaceOff 레이아웃은 지원이 중단될 예정입니다. 반드시 안내에 따라 FaceOff 레이아웃을 일반 레이아웃으로 변경하여 주시기 바랍니다.]]></value>
 			<value xml:lang="en"><![CDATA[FaceOff layout will deprecated. You must change faceoff layout to general layout.]]></value>
+			<value xml:lang="jp"><![CDATA[FaceOffレイアウトは、サポートが中断される予定です。必ず案内に従って、FaceOffレイアウトを一般レイアウトに変更してください。]]></value>
+			
 		</item>
 		<item name="1">
 			<value xml:lang="ko"><![CDATA[FaceOff 레이아웃 변경 안내]]></value>
 			<value xml:lang="en"><![CDATA[Instruction of change FaceOff layout to general layout]]></value>
+			<value xml:lang="jp"><![CDATA[FaceOffレイアウト変更案内]]></value>
 		</item>
 		<item name="2">
 			<value xml:lang="ko"><![CDATA[사용 중인 FaceOff 레이아웃의 내보내기를 통해 레이아웃을 백업 받습니다.]]></value>
 			<value xml:lang="en"><![CDATA[Export FaceOff layout.]]></value>
+			<value xml:lang="jp"><![CDATA[使用中のFaceOffレイアウトのエクスポートを通じてレイアウトをバックアップします。]]></value>
 		</item>
 		<item name="3">
 			<value xml:lang="ko"><![CDATA[내려받은 tar 파일의 압축을 해제합니다.]]></value>
 			<value xml:lang="en"><![CDATA[Untar downloaded tar file.]]></value>
+			<value xml:lang="jp"><![CDATA[ダウンロードしたtarファイルの圧縮を解凍します。]]></value>
 		</item>
 		<item name="4">
 			<value xml:lang="ko"><![CDATA[폴더명을 임의의 이름으로 변경합니다.]]></value>
 			<value xml:lang="en"><![CDATA[Change folder name to any name.]]></value>
+			<value xml:lang="jp"><![CDATA[フォルダ名を任意の名前に変更します。]]></value>
 		</item>
 		<item name="5">
 			<value xml:lang="ko"><![CDATA[FTP를 통해 ./layouts에 업로드합니다.]]></value>
 			<value xml:lang="en"><![CDATA[Upload to ./layouts through FTP.]]></value>
+			<value xml:lang="jp"><![CDATA[FTPを通じて ./layoutsにアップロードします。]]></value>
 		</item>
 		<item name="6">
 			<value xml:lang="ko"><![CDATA[레이아웃 목록에서 업로드한 레이아웃을 이용하여 레이아웃을 생성합니다. 이때 레이아웃 경로가 업로드한 경로가 맞는지 확인하세요. 로고 이미지 등 레이아웃 설정은 다시 하셔야 합니다.]]></value>
 			<value xml:lang="en"><![CDATA[Insert new layout from installed layout. Make sure to check if the path of layout is the same as the uploaded path. You need to set the layout including logo images.]]></value>
+		　　<value xml:lang="jp"><![CDATA[レイアウトリストでアップロードしたレイアウトを利用してレイアウトを生成します。このとき、レイアウトのパスが、アップロードしたパスであるか確認してください。ロゴイメージはなどレイアウトの設定は、改めて行ってください。]]></value>
 		</item>
 	</item>
 </lang>

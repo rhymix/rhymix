@@ -14,7 +14,7 @@
 		<value xml:lang="en"><![CDATA[This module manages sessions.
 Frequent session arrangement will provide a better environment for your site.]]></value>
 		<value xml:lang="jp"><![CDATA[セッションを管理するモジュールです。
-定期的なセッションの整理はサイトパフォーマンスに効果的です。]]></value>
+定期的なセッションの整理はサイトのパフォーマンスに効果的です。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[管理会话的模块。
 有时间清理无用会话，可提高网站效率。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[管理SESSION的模組。
@@ -39,7 +39,7 @@ Thường xuyên xắp xếp Session sẽ giúp Website của bạn hoạt độ
 	<item name="session_cleared">
 		<value xml:lang="ko"><![CDATA[쓸모 없는 세션 정보가 정리되었습니다.]]></value>
 		<value xml:lang="en"><![CDATA[The old sessions have been cleaned up.]]></value>
-		<value xml:lang="jp"><![CDATA[ごみセッションが整理されました。]]></value>
+		<value xml:lang="jp"><![CDATA[使わないセッションを整理しました。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[无用会话已清理完毕。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[SESSION已清理完畢。]]></value>
 		<value xml:lang="fr"><![CDATA[Les données de Session sont arrangées avec succès]]></value>

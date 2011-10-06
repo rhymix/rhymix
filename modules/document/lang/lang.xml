@@ -117,7 +117,7 @@
 	<item name="category_color">
 		<value xml:lang="ko"><![CDATA[분류 폰트색깔]]></value>
 		<value xml:lang="en"><![CDATA[Category Font Color]]></value>
-		<value xml:lang="jp"><![CDATA[カテゴリフォント色]]></value>
+		<value xml:lang="jp"><![CDATA[カテゴリ文字色]]></value>
 		<value xml:lang="zh-CN"><![CDATA[分类颜色]]></value>
 		<value xml:lang="zh-TW"><![CDATA[分類顏色]]></value>
 		<value xml:lang="ru"><![CDATA[Цвет шрифта категории]]></value>
@@ -127,7 +127,7 @@
 	<item name="expand">
 		<value xml:lang="ko"><![CDATA[펼침]]></value>
 		<value xml:lang="en"><![CDATA[Expand]]></value>
-		<value xml:lang="jp"><![CDATA[拡張表示]]></value>
+		<value xml:lang="jp"><![CDATA[展開]]></value>
 		<value xml:lang="zh-CN"><![CDATA[展开]]></value>
 		<value xml:lang="zh-TW"><![CDATA[展開]]></value>
 		<value xml:lang="fr"><![CDATA[Etendre]]></value>
@@ -162,7 +162,7 @@
 	<item name="cmd_enable_move_category">
 		<value xml:lang="ko"><![CDATA[카테고리 위치 변경 (선택 후 위 메뉴를 드래그하세요.)]]></value>
 		<value xml:lang="en"><![CDATA[Change category position (Select a category and drag it to the position you want.)]]></value>
-		<value xml:lang="jp"><![CDATA[カテゴリ位置変更（選択後上のメニューをドラッグして下さい）]]></value>
+		<value xml:lang="jp"><![CDATA[カテゴリ位置変更（選択後上のメニューをドラッグしてください）]]></value>
 		<value xml:lang="zh-CN"><![CDATA[分类顺序(勾选后用鼠标拖动分类项)]]></value>
 		<value xml:lang="zh-TW"><![CDATA[分類順序(勾選後用滑鼠拖曳分類項目)]]></value>
 		<value xml:lang="fr"><![CDATA[Bouger la position de la catégorie (Cochez la case et puis glisser la catégorie que vous voulez déplacer)]]></value>
@@ -174,7 +174,7 @@
 	<item name="about_category_title">
 		<value xml:lang="ko"><![CDATA[카테고리 이름을 입력해주세요.]]></value>
 		<value xml:lang="en"><![CDATA[Please enter a category name.]]></value>
-		<value xml:lang="jp"><![CDATA[カテゴリ名を入力して下さい。]]></value>
+		<value xml:lang="jp"><![CDATA[カテゴリ名を入力してください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[请输入分类名。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[請輸入分類名稱。]]></value>
 		<value xml:lang="fr"><![CDATA[Entrez le nom de la catégorie, S.V.P.]]></value>
@@ -186,7 +186,7 @@
 	<item name="about_expand">
 		<value xml:lang="ko"><![CDATA[선택하시면 늘 펼쳐진 상태로 있게 합니다.]]></value>
 		<value xml:lang="en"><![CDATA[Select this option, and they will stay expanded.]]></value>
-		<value xml:lang="jp"><![CDATA[チェックすると常に展開された状態になります。]]></value>
+		<value xml:lang="jp"><![CDATA[チェックを入れると常に展開された状態になります。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[选择此项将维持展开状态。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[選擇此項將維持展開狀態。]]></value>
 		<value xml:lang="fr"><![CDATA[Si vous cochez la case à cocher, ce sera toujours tendu]]></value>
@@ -198,7 +198,7 @@
 	<item name="about_category_group_srls">
 		<value xml:lang="ko"><![CDATA[선택하신 그룹만 현재 카테고리를 지정할 수 있도록 합니다.]]></value>
 		<value xml:lang="en"><![CDATA[Only the selected group will be able to use this category.]]></value>
-		<value xml:lang="jp"><![CDATA[選択したグループのみ、現在のカテゴリの指定が出来ます。]]></value>
+		<value xml:lang="jp"><![CDATA[選択したグループのみ、現在のカテゴリの指定ができます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[所选用户组才可以查看此分类。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[被選擇的群組才可以檢視此分類。]]></value>
 		<value xml:lang="fr"><![CDATA[Le groupe choisi seulement pourra utiliser la catégorie courante]]></value>
@@ -210,7 +210,7 @@
 	<item name="about_category_color">
 		<value xml:lang="ko"><![CDATA[분류 폰트색깔을 지정합니다. 예) red 또는 #ff0000]]></value>
 		<value xml:lang="en"><![CDATA[You can set the font color of the category. e.g.) red or #ff0000]]></value>
-		<value xml:lang="jp"><![CDATA[カテゴリのフォント色を設定します。]]></value>
+		<value xml:lang="jp"><![CDATA[カテゴリの文字色を設定します。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[请指定分类颜色（必须带#符号）。ex）#ff0000]]></value>
 		<value xml:lang="zh-TW"><![CDATA[設定分類顏色。例)紅色為 #ff0000]]></value>
 		<value xml:lang="fr"><![CDATA[You can set font color of category.]]></value>
@@ -282,7 +282,7 @@
 	<item name="msg_cart_is_null">
 		<value xml:lang="ko"><![CDATA[삭제할 글을 선택해주세요.]]></value>
 		<value xml:lang="en"><![CDATA[Please select the articles to delete.]]></value>
-		<value xml:lang="jp"><![CDATA[削除する書き込みを選択して下さい。]]></value>
+		<value xml:lang="jp"><![CDATA[削除する書き込みを選択してください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[请选择要删除的文章。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[請選擇要刪除的文章。]]></value>
 		<value xml:lang="fr"><![CDATA[Choisissez les articles à supprimer, S.V.P.]]></value>
@@ -294,7 +294,7 @@
 	<item name="msg_category_not_moved">
 		<value xml:lang="ko"><![CDATA[이동할 수 없습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Could not be moved]]></value>
-		<value xml:lang="jp"><![CDATA[移動出来ません。]]></value>
+		<value xml:lang="jp"><![CDATA[移動できません。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[不能移动！]]></value>
 		<value xml:lang="zh-TW"><![CDATA[無法移動！]]></value>
 		<value xml:lang="fr"><![CDATA[Ne peut(peuvent) pas être bougé(s)]]></value>
@@ -391,7 +391,7 @@
 		<item name="user_name">
 			<value xml:lang="ko"><![CDATA[사용자 이름]]></value>
 			<value xml:lang="en"><![CDATA[User Name]]></value>
-			<value xml:lang="jp"><![CDATA[ユーザ名]]></value>
+			<value xml:lang="jp"><![CDATA[ユーザー名]]></value>
 			<value xml:lang="zh-CN"><![CDATA[姓名]]></value>
 			<value xml:lang="zh-TW"><![CDATA[姓名]]></value>
 			<value xml:lang="fr"><![CDATA[Nom]]></value>
@@ -540,7 +540,7 @@
 		<item name="last_update">
 			<value xml:lang="ko"><![CDATA[최근 수정일]]></value>
 			<value xml:lang="en"><![CDATA[Last updated]]></value>
-			<value xml:lang="jp"><![CDATA[最近修正日]]></value>
+			<value xml:lang="jp"><![CDATA[最終更新日]]></value>
 			<value xml:lang="zh-CN"><![CDATA[最近更新日期]]></value>
 			<value xml:lang="zh-TW"><![CDATA[最近更新]]></value>
 			<value xml:lang="fr"><![CDATA[La Dernière Mise à Jour]]></value>
@@ -581,7 +581,7 @@
 	<item name="about_use_history">
 		<value xml:lang="ko"><![CDATA[히스토리 기능의 사용여부를 지정합니다. 히스토리 기능을 사용할 경우, 문서 수정 후 이전 수정판으로 복원할 수 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[You can set whether to use History which allows you to restore an updated article to the previous version.]]></value>
-		<value xml:lang="jp"><![CDATA[履歴機能を使用するかを設定します。履歴機能を使用すると文書修正のバージョンを管理し、過去のバージョンから復元することも可能です。]]></value>
+		<value xml:lang="jp"><![CDATA[履歴機能を使用するか設定します。履歴機能を使用すると文書修正のバージョンを管理し、過去のバージョンから復元することも可能です。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[启用历史版本功能它将记录主题修改版本，并还可以复原到之前版本。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[選擇是否使用歷史記錄功能。選擇使用，將能夠編輯歷史紀錄並還原。]]></value>
 		<value xml:lang="fr"><![CDATA[히스토리 기능의 사용여부를 지정합니다. 히스토리 기능을 사용할 경우 문서 수정시 이전 리비전을 기록하고 복원할 수 있습니다.]]></value>
@@ -602,7 +602,7 @@
 	<item name="cmd_trash">
 		<value xml:lang="ko"><![CDATA[휴지통]]></value>
 		<value xml:lang="en"><![CDATA[Recycle Bin]]></value>
-		<value xml:lang="jp"><![CDATA[ごみ箱]]></value>
+		<value xml:lang="jp"><![CDATA[ゴミ箱]]></value>
 		<value xml:lang="zh-CN"><![CDATA[回收箱]]></value>
 		<value xml:lang="zh-TW"><![CDATA[垃圾桶]]></value>
 		<value xml:lang="ru"><![CDATA[Корзина]]></value>
@@ -632,7 +632,7 @@
 	<item name="in_trash">
 		<value xml:lang="ko"><![CDATA[휴지통]]></value>
 		<value xml:lang="en"><![CDATA[Recycle Bin]]></value>
-		<value xml:lang="jp"><![CDATA[ごみ箱]]></value>
+		<value xml:lang="jp"><![CDATA[ゴミ箱]]></value>
 		<value xml:lang="zh-CN"><![CDATA[回收箱]]></value>
 		<value xml:lang="zh-TW"><![CDATA[垃圾桶]]></value>
 		<value xml:lang="ru"><![CDATA[Корзина]]></value>
@@ -786,7 +786,7 @@
 	<item name="success_trashed">
 		<value xml:lang="ko"><![CDATA[휴지통으로 이동되었습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Successfully moved to Recycle Bin.]]></value>
-		<value xml:lang="jp"><![CDATA[ごみ箱に移動させました。]]></value>
+		<value xml:lang="jp"><![CDATA[ごみ箱に移動しました。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[已成功移除到回收箱。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[成功地移到垃圾桶]]></value>
 		<value xml:lang="tr"><![CDATA[Başarıyla silindi]]></value>
@@ -802,53 +802,65 @@
 	<item name="show_voted_member">
 		<value xml:lang="ko"><![CDATA[사용자 노출]]></value>
 		<value xml:lang="en"><![CDATA[Show Voters]]></value>
+		<value xml:lang="jp"><![CDATA[ユーザー公開]]></value>
 		<value xml:lang="zh-TW"><![CDATA[投票會員]]></value>
 	</item>
 	<item name="status">
 		<value xml:lang="ko"><![CDATA[상태]]></value>
 		<value xml:lang="en"><![CDATA[Status]]></value>
+		<value xml:lang="jp"><![CDATA[状態]]></value>
 	</item>
 	<item name="status_name_list" type="array">
 		<item name="PRIVATE">
 			<value xml:lang="ko"><![CDATA[비공개]]></value>
 			<value xml:lang="en"><![CDATA[Private]]></value>
+			<value xml:lang="jp"><![CDATA[非公開]]></value>
 		</item>
 		<item name="PUBLIC">
 			<value xml:lang="ko"><![CDATA[공개]]></value>
 			<value xml:lang="en"><![CDATA[Public]]></value>
+			<value xml:lang="jp"><![CDATA[公開]]></value>
 		</item>
 		<item name="SECRET">
 			<value xml:lang="ko"><![CDATA[비밀]]></value>
 			<value xml:lang="en"><![CDATA[Secret]]></value>
+			<value xml:lang="jp"><![CDATA[非公開]]></value>
 		</item>
 		<item name="TEMP">
 			<value xml:lang="ko"><![CDATA[임시]]></value>
 			<value xml:lang="en"><![CDATA[Temporary]]></value>
+			<value xml:lang="jp"><![CDATA[テンポラリ]]></value>
 		</item>
 	</item>
 	<item name="document_manager">
 		<value xml:lang="ko"><![CDATA[선택한 글 관리]]></value>
 		<value xml:lang="en"><![CDATA[Manage selected articles]]></value>
+		<value xml:lang="jp"><![CDATA[選択した書き込みを管理]]></value>
 	</item>
 	<item name="selected_document">
 		<value xml:lang="ko"><![CDATA[선택한 글]]></value>
 		<value xml:lang="en"><![CDATA[Selected articles]]></value>
+		<value xml:lang="jp"><![CDATA[選択した書き込み]]></value>
 	</item>
 	<item name="selected_document_move">
 		<value xml:lang="ko"><![CDATA[선택한 글을 다음 위치로 옮기거나 복사할 수 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[You can move or copy the selected articles to the following position.]]></value>
+		<value xml:lang="jp"><![CDATA[選択した書き込みを次の位置へ移動したり、コピーしたりできます。]]></value>
 	</item>
 	<item name="select_module">
 		<value xml:lang="ko"><![CDATA[모듈을 선택하세요.]]></value>
 		<value xml:lang="en"><![CDATA[Select a module.]]></value>
+		<value xml:lang="jp"><![CDATA[モジュールを選択してください。]]></value>
 	</item>
 	<item name="select_module_id">
 		<value xml:lang="ko"><![CDATA[모듈 아이디를 선택하세요.]]></value>
 		<value xml:lang="en"><![CDATA[Select a module ID.]]></value>
+		<value xml:lang="jp"><![CDATA[モジュールIDを選択してください。]]></value>
 	</item>
 	<item name="select_category">
 		<value xml:lang="ko"><![CDATA[분류를 선택하세요.]]></value>
 		<value xml:lang="en"><![CDATA[Select a category.]]></value>
+		<value xml:lang="jp"><![CDATA[カテゴリを選択してください。]]></value>
 	</item>
 	<item name="category_description">
 		<value xml:lang="ko"><![CDATA[카테고리 설명]]></value>

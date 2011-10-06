@@ -27,7 +27,7 @@
 	<item name="msg_cart_is_null">
 		<value xml:lang="ko"><![CDATA[삭제할 글을 선택해주세요.]]></value>
 		<value xml:lang="en"><![CDATA[Please select a trackback to delete.]]></value>
-		<value xml:lang="jp"><![CDATA[削除する書き込みを選択して下さい。]]></value>
+		<value xml:lang="jp"><![CDATA[削除する書き込みを選択してください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[请选择要删除的文章]]></value>
 		<value xml:lang="zh-TW"><![CDATA[請選擇要刪除的文章]]></value>
 		<value xml:lang="fr"><![CDATA[Choisissez un rétrolien à supprimer, S.V.P.]]></value>
@@ -71,7 +71,7 @@
 	<item name="msg_trackback_send_success">
 		<value xml:lang="ko"><![CDATA[엮인글을 발송했습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Sent successfully.]]></value>
-		<value xml:lang="jp"><![CDATA[トラックバックの送信が成功しました。]]></value>
+		<value xml:lang="jp"><![CDATA[トラックバックを送信しました。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[成功发送引用。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[成功發送。]]></value>
 		<value xml:lang="fr"><![CDATA[Envoyé avec succès]]></value>
@@ -179,17 +179,21 @@
 	<item name="no_trackbacks">
 		<value xml:lang="ko"><![CDATA[엮인글이 없습니다.]]></value>
 		<value xml:lang="en"><![CDATA[No Trackbacks]]></value>
+		<value xml:lang="jp"><![CDATA[トラックバックがありません。]]></value>
 	</item>
 	<item name="trackback_manager">
 		<value xml:lang="ko"><![CDATA[선택한 엮인글 관리]]></value>
 		<value xml:lang="en"><![CDATA[Manage selected trackbacks]]></value>
+		<value xml:lang="jp"><![CDATA[選択したトラックバック管理]]></value>
 	</item>
 	<item name="selected_trackback">
 		<value xml:lang="ko"><![CDATA[선택한 엮인글]]></value>
 		<value xml:lang="en"><![CDATA[Selected trackbacks]]></value>
+		<value xml:lang="jp"><![CDATA[選択したトラックバック]]></value>
 	</item>
 	<item name="site">
 		<value xml:lang="ko"><![CDATA[사이트]]></value>
 		<value xml:lang="en"><![CDATA[Site]]></value>
+		<value xml:lang="jp"><![CDATA[サイト]]></value>
 	</item>
 </lang>

@@ -213,7 +213,7 @@
 		<item name="1">
 			<value xml:lang="ko"><![CDATA[이전하려는 XML파일의 종류를 선택해주세요.]]></value>
 			<value xml:lang="en"><![CDATA[Please select the XML file's type you wish to migrate.]]></value>
-			<value xml:lang="jp"><![CDATA[変換するXMLファイルの種類を選択して下さい。]]></value>
+			<value xml:lang="jp"><![CDATA[変換するXMLファイルの種類を選択してください。]]></value>
 			<value xml:lang="zh-CN"><![CDATA[请选择要导入的XML文件种类。]]></value>
 			<value xml:lang="zh-TW"><![CDATA[請選擇要匯入的 XML 檔案類型。]]></value>
 			<value xml:lang="fr"><![CDATA[Choisissez la sorte du fichier en XML que vous voulez transférer.]]></value>
@@ -225,7 +225,7 @@
 		<item name="12">
 			<value xml:lang="ko"><![CDATA[데이터를 이전 받을 대상 모듈을 선택해 주세요.]]></value>
 			<value xml:lang="en"><![CDATA[Please select the module you wish to import data.]]></value>
-			<value xml:lang="jp"><![CDATA[データ変換を行う対象モジュールを選択して下さい。]]></value>
+			<value xml:lang="jp"><![CDATA[データ変換を行う対象モジュールを選択してください。]]></value>
 			<value xml:lang="zh-CN"><![CDATA[请选择要导入的对象模块。]]></value>
 			<value xml:lang="zh-TW"><![CDATA[請選擇要匯入的目標模組。]]></value>
 			<value xml:lang="fr"><![CDATA[Choisissez le module objectif dans lequel vous voulez tranférer les données.]]></value>
@@ -257,7 +257,7 @@
 		<item name="13">
 			<value xml:lang="ko"><![CDATA[데이터 이전을 할 대상 분류를 선택해주세요.]]></value>
 			<value xml:lang="en"><![CDATA[Please select the category you wish to import data.]]></value>
-			<value xml:lang="jp"><![CDATA[データ変換を行う対象カテゴリを選択して下さい。]]></value>
+			<value xml:lang="jp"><![CDATA[データ変換を行う対象カテゴリを選択してください。]]></value>
 			<value xml:lang="zh-CN"><![CDATA[请选择要导入的对象分类。]]></value>
 			<value xml:lang="zh-TW"><![CDATA[請選擇要匯入的目標分類。]]></value>
 			<value xml:lang="fr"><![CDATA[Choisissez la catégorie objective dans laquelle vous voulez transférer les données.]]></value>
@@ -271,7 +271,7 @@
 상대 또는 절대 경로를 입력하시면 됩니다.]]></value>
 			<value xml:lang="en"><![CDATA[Please input the XML file's location that contains data to import.
 You may input both the absolute and relative path.]]></value>
-			<value xml:lang="jp"><![CDATA[データ変換を行うXMLファイルパスを入力して下さい。同じアカウントのサーバ上では、相対または絶対パスを、異なるサーバにアップロードされている場合は「http://アドレス..」を入力して下さい。]]></value>
+			<value xml:lang="jp"><![CDATA[データ変換を行うXMLファイルパスを入力してください。同じアカウントのサーバ上では、相対または絶対パスを、異なるサーバにアップロードされている場合は「http://アドレス..」を入力してください。]]></value>
 			<value xml:lang="zh-CN"><![CDATA[请输入要导入的XML文件的位置。
 可输入相对或绝对路径。]]></value>
 			<value xml:lang="zh-TW"><![CDATA[請輸入要匯入的 XML 檔案位置。
@@ -290,7 +290,7 @@ Hãy nhập đường dẫn cho File chứa Data trên Host dưới dạng http:
 		<item name="3">
 			<value xml:lang="ko"><![CDATA[회원정보와 게시물 정보가 이전 후에 맞지 않을 수 있습니다. 이때 동기화를 하시면 user_id를 기반으로 올바르게 동작하도록 합니다.]]></value>
 			<value xml:lang="en"><![CDATA[Member and article data may not be corrected after the import. If so, please synchronize to recover them with user_id.]]></value>
-			<value xml:lang="jp"><![CDATA[会員情報と書き込みデータの情報の変換を行った後、データが合わない場合があります。この時に同期化を行うと「user_id」をもとに正しく動作するようにします。]]></value>
+			<value xml:lang="jp"><![CDATA[会員情報と変換後の書き込みデータが一致しない場合があります。この場合は、同期化を行うと「user_id」をもとに正しく動作するようになります。]]></value>
 			<value xml:lang="zh-CN"><![CDATA[数据导入后可能会导致会员信息和文章内容信息的误差。这时以user_id进行同步即可解决问题。]]></value>
 			<value xml:lang="zh-TW"><![CDATA[資料匯入後，可能會導致會員資料和文章內容產生誤差。請以『user_id』進行同步即可解決。]]></value>
 			<value xml:lang="fr"><![CDATA[Les données des membres et ceux des articles peuvent ne pas s'accorder après la transfèrement. Dans ce cas, synchronisez S.V.P. Ça arrangera les données en étant basé sur le compte d'utilisateur.]]></value>
@@ -302,7 +302,7 @@ Hãy nhập đường dẫn cho File chứa Data trên Host dưới dạng http:
 		<item name="99">
 			<value xml:lang="ko"><![CDATA[데이터 이전중입니다.]]></value>
 			<value xml:lang="en"><![CDATA[Importing...]]></value>
-			<value xml:lang="jp"><![CDATA[データを移転しています。]]></value>
+			<value xml:lang="jp"><![CDATA[データを変換しています。]]></value>
 			<value xml:lang="zh-CN"><![CDATA[正在数据导入中...]]></value>
 			<value xml:lang="zh-TW"><![CDATA[資料匯入中...]]></value>
 			<value xml:lang="fr"><![CDATA[En train de transférer]]></value>
@@ -315,26 +315,32 @@ Hãy nhập đường dẫn cho File chứa Data trên Host dưới dạng http:
 	<item name="xml_path">
 		<value xml:lang="ko"><![CDATA[XML 파일의 경로를 입력하세요.]]></value>
 		<value xml:lang="en"><![CDATA[Please enter the path of XML file.]]></value>
+		<value xml:lang="jp"><![CDATA[XMLファイルのパスを入力してください。]]></value>
 	</item>
 	<item name="path_info">
 		<value xml:lang="ko"><![CDATA[상대 경로와 절대 경로 모두 입력 가능합니다.]]></value>
 		<value xml:lang="en"><![CDATA[You can enter either relative path or absolute path.]]></value>
+		<value xml:lang="jp"><![CDATA[相対パスと絶対パスを入力できます。]]></value>
 	</item>
 	<item name="data_destination">
 		<value xml:lang="ko"><![CDATA[데이터의 목적지를 선택하세요.]]></value>
 		<value xml:lang="en"><![CDATA[Select the destination of data.]]></value>
+		<value xml:lang="jp"><![CDATA[データの目的地を選択してください。]]></value>
 	</item>
 	<item name="document_destination">
 		<value xml:lang="ko"><![CDATA[글 데이터의 목적지를 선택하세요.]]></value>
 		<value xml:lang="en"><![CDATA[Select the destination of document data.]]></value>
+		<value xml:lang="en"><![CDATA[ドキュメントデータの目的地を選択してください。]]></value>
 	</item>
 	<item name="guestbook_destination">
 		<value xml:lang="ko"><![CDATA[방명록 데이터의 목적지를 선택하세요.]]></value>
 		<value xml:lang="en"><![CDATA[Select the destination of guestbook data.]]></value>
+		<value xml:lang="jp"><![CDATA[ゲストブックデータの目的地を選択してください。]]></value>
 	</item>
 	<item name="import_desc">
 		<value xml:lang="ko"><![CDATA[가상 사이트의 도메인을 입력한 후 <em>사이트 찾기</em>를 클릭하면 됩니다. 도메인을 빈 칸으로 남겨두면 모든 사이트의 목록을 보여줍니다.]]></value>
 		<value xml:lang="en"><![CDATA[Enter the domain of virtual site, and click <em>Find Site</em>. If you leave the domain field empty, list of all the sites is displayed.]]></value>
+	　　<value xml:lang="jp"><![CDATA[仮想サイトのドメインを入力し、<em>サイト検索</em>をクリックします。ドメインを空欄にしておくと、すべてのサイトのリストを表示します。]]></value>
 	</item>
 	<item name="msg_sync_member">
 		<value xml:lang="ko"><![CDATA[동기화 버튼을 클릭하시면 회원정보와 게시물 정보의 동기화를 시작합니다.]]></value>
@@ -351,15 +357,17 @@ Hãy nhập đường dẫn cho File chứa Data trên Host dưới dạng http:
 	<item name="cmd_check_path">
 		<value xml:lang="ko"><![CDATA[경로 확인]]></value>
 		<value xml:lang="en"><![CDATA[Check the path]]></value>
+		<value xml:lang="jp"><![CDATA[パス確認]]></value>
 	</item>
 	<item name="msg_exist_xml_file">
 		<value xml:lang="ko"><![CDATA[XML 파일을 찾았습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Found the XML file.]]></value>
+		<value xml:lang="jp"><![CDATA[XMLファイルが見つかりました。]]></value>
 	</item>
 	<item name="msg_no_xml_file">
 		<value xml:lang="ko"><![CDATA[XML파일을 찾을 수 없습니다. 경로를 다시 확인해주세요.]]></value>
 		<value xml:lang="en"><![CDATA[Could not find the XML file. Please check the path again]]></value>
-		<value xml:lang="jp"><![CDATA[XMLファイルが見つかりません。パスをもう一度確認して下さい。]]></value>
+		<value xml:lang="jp"><![CDATA[XMLファイルが見つかりません。パスをもう一度確認してください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[找不到XML文件，请重新确认路径。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[找不到 XML 檔案，請重新確認路徑。]]></value>
 		<value xml:lang="fr"><![CDATA[On ne peut pas trouver le fichier de XML. Vérifiez le chemin encore une fois, S.V.P.]]></value>
@@ -383,7 +391,7 @@ Hãy nhập đường dẫn cho File chứa Data trên Host dưới dạng http:
 	<item name="msg_importing">
 		<value xml:lang="ko"><![CDATA[%d개의 데이터 중 %d개를 입력중입니다. (계속 멈추어 있으면 "계속진행" 버튼을 클릭해주세요.)]]></value>
 		<value xml:lang="en"><![CDATA[Import %d items out of %d. (if process is stopped, click on Continue button)]]></value>
-		<value xml:lang="jp"><![CDATA[%d個のデータの内、%d個を変換中です（止まったままの場合は「続ける」ボタンをクリックして下さい）。]]></value>
+		<value xml:lang="jp"><![CDATA[%d個のデータの内、%d個を変換しています。(止まったままの場合は「続ける」ボタンをクリックしてください）。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[%d个的数据中正在输入 %d个。 （长时间没有响应时请按“继续进行”按钮）]]></value>
 		<value xml:lang="zh-TW"><![CDATA[%d個的資料中正在輸入 %d 個。(長時間沒有回應時，請按「繼續進行」按鈕)]]></value>
 		<value xml:lang="fr"><![CDATA[On écrit %d données sur %d. (Si c'est arrêté longtemps, cliquez le bouton "Continuer")]]></value>
@@ -419,7 +427,7 @@ Hãy nhập đường dẫn cho File chứa Data trên Host dưới dạng http:
 	<item name="about_type_member">
 		<value xml:lang="ko"><![CDATA[데이터 이전 대상이 회원정보일 경우 선택해주세요.]]></value>
 		<value xml:lang="en"><![CDATA[If you are to import a member data, please select this option]]></value>
-		<value xml:lang="jp"><![CDATA[データ変換の対象が会員情報の場合は選択して下さい。]]></value>
+		<value xml:lang="jp"><![CDATA[データ変換の対象が会員情報の場合は選択してください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[数据导入对象为会员信息时请选择此项。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[資料匯入目標為會員資料時，請選擇此項。]]></value>
 		<value xml:lang="fr"><![CDATA[Choisissez cette option si vous voulez transférer les informations des membres]]></value>
@@ -431,7 +439,7 @@ Hãy nhập đường dẫn cho File chứa Data trên Host dưới dạng http:
 	<item name="about_type_message">
 		<value xml:lang="ko"><![CDATA[데이터 이전 대상이 쪽지(메시지)일 경우 선택해주세요.]]></value>
 		<value xml:lang="en"><![CDATA[If you are to import a message data, please select this option]]></value>
-		<value xml:lang="jp"><![CDATA[データ移転対象がメッセージの場合選択して下さい。]]></value>
+		<value xml:lang="jp"><![CDATA[データ移転対象がメッセージの場合に選択してください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[数据导入对象为短信息(MemoBox)时请选择此项。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[資料匯入目標為短訊息時，請選擇此項。]]></value>
 		<value xml:lang="fr"><![CDATA[Choisissez cette option si vous voulez transférer les informations des messages]]></value>
@@ -443,7 +451,7 @@ Hãy nhập đường dẫn cho File chứa Data trên Host dưới dạng http:
 	<item name="about_type_ttxml">
 		<value xml:lang="ko"><![CDATA[데이터 이전 대상이 TTXML(textcube계열)일 경우 선택해주세요.]]></value>
 		<value xml:lang="en"><![CDATA[If you are to import a TTXML (textcube) data, please select this option]]></value>
-		<value xml:lang="jp"><![CDATA[データ移転対象が、TTXML(textcube系列)の場合選択して下さい。]]></value>
+		<value xml:lang="jp"><![CDATA[データ移転対象が、TTXML(textcube系列)の場合に選択してください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[数据导入对象为TTXML(textcube系列)时请选择此项。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[資料匯入目標為 TTXML (textcube系列)時，請選擇此項。]]></value>
 		<value xml:lang="fr"><![CDATA[Choisissez cette option si vous voulez transférer les informations des TTXML(textcube)]]></value>
@@ -455,7 +463,7 @@ Hãy nhập đường dẫn cho File chứa Data trên Host dưới dạng http:
 	<item name="about_ttxml_user_id">
 		<value xml:lang="ko"><![CDATA[글쓴이로 설정할 사용자 아이디를 입력해주세요. (가입된 아이디만 가능)]]></value>
 		<value xml:lang="en"><![CDATA[Please input a user ID to set as author of the TTXML data. (user ID must be already signed up.)]]></value>
-		<value xml:lang="jp"><![CDATA[TTXML移転時に投稿者として指定するユーザIDを入力して下さい（すでに加入されているIDでなければなりません）。]]></value>
+		<value xml:lang="jp"><![CDATA[TTXML移転時に投稿者として指定するユーザーIDを入力してください（すでに加入されているIDでなければなりません）。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[请输入导入TTXML数据时指定为主题发布者的ID(必须是已注册会员)。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[請輸入匯入 TTXML 資料時，指定為主題發表者的 ID (必須是已註冊會員)。]]></value>
 		<value xml:lang="fr"><![CDATA[Entrez le compte d'utilisateur pour déclarer comme l'auteur. (Le compte d'utilisateur doit être déjà inscrit)]]></value>
@@ -467,7 +475,7 @@ Hãy nhập đường dẫn cho File chứa Data trên Host dưới dạng http:
 	<item name="about_type_module">
 		<value xml:lang="ko"><![CDATA[데이터 이전 대상이 게시판 등의 게시물 정보일 경우 선택해주세요.]]></value>
 		<value xml:lang="en"><![CDATA[If you are to import an article data, please select this option]]></value>
-		<value xml:lang="jp"><![CDATA[データ変換の対象が書き込みデータである場合は選択して下さい。]]></value>
+		<value xml:lang="jp"><![CDATA[データ変換の対象が書き込みデータである場合は選択してください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[数据导入对象为版面主题时请选择此项。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[資料匯入目標為討論板主題時，請選擇此項。]]></value>
 		<value xml:lang="fr"><![CDATA[Choisissez cette option si vous voulez transférer les informations des panneaux ou des articles.]]></value>
@@ -479,7 +487,7 @@ Hãy nhập đường dẫn cho File chứa Data trên Host dưới dạng http:
 	<item name="about_type_syncmember">
 		<value xml:lang="ko"><![CDATA[회원정보와 게시물정보 등을 이전 후, 회원정보를 동기화해야 할 때 선택해주세요.]]></value>
 		<value xml:lang="en"><![CDATA[If you are to import and synchronize member and article data, please select this option.]]></value>
-		<value xml:lang="jp"><![CDATA[会員情報と書き込みデータなどの変換を行った後、会員情報を同期化する必要がある場合は、選択して下さい。]]></value>
+		<value xml:lang="jp"><![CDATA[会員情報と書き込みデータなどの変換を行った後、会員情報を同期化する必要がある場合は、選択してください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[导入会员信息和文章信息后需要同步会员信息时请选择此项。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[匯入會員和文章資料後，需要同步會員資料時，請選擇此項。]]></value>
 		<value xml:lang="fr"><![CDATA[Choisissez cette option si vous voulez synchroniser les informations des membres après le transfér des informations des membres et des articles.]]></value>
@@ -492,8 +500,8 @@ Hãy nhập đường dẫn cho File chứa Data trên Host dưới dạng http:
 		<value xml:lang="ko"><![CDATA[다른 프로그램의 데이터를 XE 데이터로 이전할 수 있습니다. 이전을 위해서는 <a href="http://svn.xpressengine.com/zeroboard_xe/migration_tools/" onclick="winopen(this.href);return false;">XML Exporter</a>를 이용해서 원하는 데이터를 XML파일로 생성 후 업로드해주셔야 합니다.]]></value>
 		<value xml:lang="en"><![CDATA[Data Importer will help you import Zeroboard4, Zeroboard5 Beta or other program's data into XE.
 In order to import, you first have to use <a href="http://svn.xpressengine.net/migration/" onclick="winopen(this.href);return false;">XML Exporter</a> to convert the data you want into XML File.]]></value>
-		<value xml:lang="jp"><![CDATA[ゼロボード4、zb5betaまたは他のプログラムの書き込みデータをXEのデータに変換することが出来ます。
-変換するためには、<a href="http://svn.xpressengine.com/zeroboard_xe/migration_tools/" onclick="winopen(this.href);return false;">XML Exporter</a>を利用して変換したい書き込みデータをXMLファイルで作成してアップロードして下さい。]]></value>
+		<value xml:lang="jp"><![CDATA[ゼロボード4、zb5betaまたは他のプログラムの書き込みデータをXEのデータに変換することができます。
+変換するためには、<a href="http://svn.xpressengine.com/zeroboard_xe/migration_tools/" onclick="winopen(this.href);return false;">XML Exporter</a>を利用して変換したい書き込みデータをXMLファイルで作成してアップロードしてください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[不仅可以导入Zeroboard 4，Zb5beta的数据,也可以把其他程序数据导入到XE当中。
 导入数据时请利用 <a href="http://svn.xpressengine.com/zeroboard_xe/migration_tools/" onclick="winopen(this.href);return false;">XML Exporter</a>生成XML文件后再上传。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[不僅可以匯入 Zeroboard 4，Zb5beta 的資料，也能夠把其他程式資料匯入到 XE 當中。
@@ -516,7 +524,7 @@ Para la transferencia debe utilizar <a href="http://svn.xpressengine.com/zeroboa
 		<value xml:lang="en"><![CDATA[To get attachments from Zeroboard4, please input the path where Zeroboard4 is installed.
 If it is located in the same server, please input Zeroboard4's path such as /home/USERID/public_html/bbs
 If not, please input the address where Zeroboard4 is installed. ex. http://Domain/bbs]]></value>
-		<value xml:lang="jp"><![CDATA[添付ファイルをダウンロードするためには、ゼロボード4がインストールされた場所を入力して下さい。同じサーバ上にある場合は「/home/ID/public_html/bbs」のように入力し、他のサーバにある場合は、「http://ドメイン/bbs」のようにゼロボードがインストールされているURLを入力して下さい。]]></value>
+		<value xml:lang="jp"><![CDATA[添付ファイルをダウンロードするためには、ゼロボード4がインストールされた場所を入力してください。同じサーバ上にある場合は「/home/ID/public_html/bbs」のように入力し、他のサーバにある場合は、「http://ドメイン/bbs」のようにゼロボードがインストールされているURLを入力してください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[为了下载附件请输入Zeroboard 4的安装位置。
 位置在同一个服务器时，请输入如 /home/id/public_html/bbs的路径,在不同服务器时，请输入如 http://域名/bbs的url地址。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[為了下載附檔請輸入 Zeroboard 4 的安裝位置。

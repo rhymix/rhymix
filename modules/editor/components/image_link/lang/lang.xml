@@ -47,7 +47,7 @@
 	<item name="image_align_normal">
 		<value xml:lang="ko"><![CDATA[한 문단을 차지]]></value>
 		<value xml:lang="en"><![CDATA[Occupy a Paragraph]]></value>
-		<value xml:lang="jp"><![CDATA[一段落]]></value>
+		<value xml:lang="jp"><![CDATA[一段落占め]]></value>
 		<value xml:lang="zh-CN"><![CDATA[占一个段落]]></value>
 		<value xml:lang="zh-TW"><![CDATA[段落]]></value>
 		<value xml:lang="ru"><![CDATA[Занять параграф]]></value>
@@ -102,7 +102,7 @@
 	<item name="image_margin">
 		<value xml:lang="ko"><![CDATA[바깥 여백]]></value>
 		<value xml:lang="en"><![CDATA[Image Margin]]></value>
-		<value xml:lang="jp"><![CDATA[外側の空白(Margin)]]></value>
+		<value xml:lang="jp"><![CDATA[外側の余白(Margin)]]></value>
 		<value xml:lang="zh-CN"><![CDATA[外边距]]></value>
 		<value xml:lang="zh-TW"><![CDATA[圖片邊距]]></value>
 		<value xml:lang="tr"><![CDATA[Resim Kenar Boşluğu]]></value>
@@ -117,7 +117,7 @@
 	<item name="about_url_link_open_window">
 		<value xml:lang="ko"><![CDATA[선택하시면 링크 선택 시 새 창으로 열립니다.]]></value>
 		<value xml:lang="en"><![CDATA[Select this to open a link in a new window.]]></value>
-		<value xml:lang="jp"><![CDATA[チェックすると、リンクをクリックする際、新しいウィンドウで開きます。]]></value>
+		<value xml:lang="jp"><![CDATA[チェックを入れると、リンクをクリックする際に新しいウィンドウで開きます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[将在新窗口中打开链接。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[開啟連結於新視窗。]]></value>
 		<value xml:lang="ru"><![CDATA[Создайте ссылку для открытия в новом окне]]></value>

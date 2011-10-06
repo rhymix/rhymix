@@ -4,6 +4,7 @@
 		<item name="fold">
 			<value xml:lang="ko"><![CDATA[접기]]></value>
 			<value xml:lang="en"><![CDATA[Fold]]></value>
+			<value xml:lang="jp"><![CDATA[畳む]]></value>
 			<value xml:lang="zh-TW"><![CDATA[摺疊]]></value>
 			<value xml:lang="tr"><![CDATA[Katla]]></value>
 			<value xml:lang="vi"><![CDATA[Co giãn]]></value>
@@ -11,6 +12,7 @@
 		<item name="fold_default">
 			<value xml:lang="ko"><![CDATA[펼치기..|접기..]]></value>
 			<value xml:lang="en"><![CDATA[More..|Less..]]></value>
+			<value xml:lang="jp"><![CDATA[展開|畳む]]></value>
 			<value xml:lang="zh-TW"><![CDATA[展開..|收合..]]></value>
 			<value xml:lang="tr"><![CDATA[Aç..|Kapat..]]></value>
 			<value xml:lang="vi"><![CDATA[Giãn ra.. | Co lại..]]></value>
@@ -18,6 +20,7 @@
 		<item name="fold_description">
 			<value xml:lang="ko"><![CDATA['펼치기|접기'와 같이 입력해주세요.]]></value>
 			<value xml:lang="en"><![CDATA[Enter together with 'More|Less'.]]></value>
+			<value xml:lang="jp"><![CDATA[「展開|畳む」のように入力してください。]]></value>
 			<value xml:lang="zh-TW"><![CDATA['展開|收合'와 같이 입력해주세요.]]></value>
 			<value xml:lang="tr"><![CDATA['Aç|Kapat'Yukarıdaki örnekteki gibi gir]]></value>
 			<value xml:lang="vi"><![CDATA[Hãy nhập từ thay cho từ mặc định là 'Giãn ra|Co lại'.]]></value>

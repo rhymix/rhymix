@@ -125,7 +125,7 @@
 	<item name="about_rss_disable">
 		<value xml:lang="ko"><![CDATA[체크하시면 피드(Feed) 출력을 하지 않습니다.]]></value>
 		<value xml:lang="en"><![CDATA[If checked, RSS will be disabled.]]></value>
-		<value xml:lang="jp"><![CDATA[チェックするとRSSの出力を行いません。]]></value>
+		<value xml:lang="jp"><![CDATA[チェックを入れるとRSSの出力を行いません。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[选此项不显示RSS。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[隱藏 RSS Feed。]]></value>
 		<value xml:lang="fr"><![CDATA[Si vous cochez, RSS sera invalidé.]]></value>
@@ -137,7 +137,7 @@
 	<item name="about_rss_type">
 		<value xml:lang="ko"><![CDATA[출력하실 피드(Feed) 형식을 지정하실 수 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[You can assign RSS feed type.]]></value>
-		<value xml:lang="jp"><![CDATA[出力するRSSタイプを指定することが出来ます。]]></value>
+		<value xml:lang="jp"><![CDATA[出力するRSSタイプを指定することができます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[可以指定要显示的RSS形式。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[指定要顯示的 RSS Feed 類型。]]></value>
 		<value xml:lang="fr"><![CDATA[Vous pouvez désignez le format pour inprimer RSS.]]></value>
@@ -149,7 +149,7 @@
 	<item name="about_open_rss">
 		<value xml:lang="ko"><![CDATA[현재 모듈에 대한 피드(Feed) 공개를 선택하실 수 있습니다. 글 열람 권한과 상관없이 옵션에 따라 RSS가 공개됩니다.]]></value>
 		<value xml:lang="en"><![CDATA[You can select RSS on the current module to be open to the public.\nIf it is enabled, the article will be open to the public despite its view permissions.]]></value>
-		<value xml:lang="jp"><![CDATA[現在のモジュールに対して「RSS配信」を選択することが出来ます。書き込みの内容が読める権限とは関係なくオプションによってRSSが配信されます。]]></value>
+		<value xml:lang="jp"><![CDATA[現在のモジュールに対して「RSS配信」を選択することができます。書き込みの内容が読める権限とは関係なくオプションによってRSSが配信されます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[可以指定RSS公开程度,RSS公开不受查看内容权限的限制。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[選擇該模組 RSS Feed 的公開程度。公開 RSS Feed 將不受檢視內容權限的限制，隨公開 RSS Feed 的選項公開 RSS Feed。]]></value>
 		<value xml:lang="fr"><![CDATA[Vous pouvez exposez au publique le RSS du module courant ou non.\nN'importe comment est la permission de l'article, RSS sera exposé au publique selon son option.]]></value>

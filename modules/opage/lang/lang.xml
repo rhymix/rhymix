@@ -39,7 +39,7 @@
 	<item name="about_opage">
 		<value xml:lang="ko"><![CDATA[XE가 아닌 외부 HTML 또는 PHP파일을 XE에서 사용할 수 있도록 하는 모듈입니다.<br />절대경로, 상대경로를 이용할 수 있으며 http:// 로 시작할 경우 서버 외부의 페이지도 표시할 수 있습니다]]></value>
 		<value xml:lang="en"><![CDATA[This module enables to use external html or php files in XE.<br />It allows absolute or relative path, and if the url starts with 'http://' , it can display the external page of the server.]]></value>
-		<value xml:lang="jp"><![CDATA[外部のHTMLまたはPHPファイルをXE内部で使用出来るようにするモジュールです。<br />絶対パス、相対パスで指定出来、「http://」で始まるサーバの外部ページも表示出来ます。]]></value>
+		<value xml:lang="jp"><![CDATA[外部のHTMLまたはPHPファイルをXE内部で使用できるようにするモジュールです。<br />絶対パス、相対パスで指定でき、「http://」で始まるサーバの外部ページも表示できます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[此模块是一种可以把外部html或php文件插入到XE内部的模块。<br />可以使用绝对路径及相对路径。而且使用以http:// 开头的地址时，可以把外部服务器中的页面插入到XE当中。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[此模組可把外部HTML或PHP檔案插入到XE中的模組。<br />可以使用絕對路徑及相對路徑。而且使用以『http://』開頭的網址時，可以把外部主機中的頁面插入到XE當中。]]></value>
 		<value xml:lang="fr"><![CDATA[Ce module vous fait pouvoir utiliser des documents extérieurs en html ou en php dans XE.<br />Il est possible d'utiliser le chemin absolu ou relatif, et si l'URL commence avec 'http://' , il est possible de représenter des pages extérieurs du serveur.]]></value>
@@ -51,7 +51,7 @@
 	<item name="about_opage_path">
 		<value xml:lang="ko"><![CDATA[외부문서의 위치를 입력해주세요.<br />/path1/path2/sample.php 와 같이 절대경로나 ../path2/sample.php와 같은 상대경로 모두 사용가능합니다.<br />http://url/sample.php 와 같이 사용하면 해당 페이지를 웹으로 전송 받아 출력 하게 됩니다.<br />현재 XE가 설치된 절대경로는 다음과 같습니다.<br />]]></value>
 		<value xml:lang="en"><![CDATA[Please enter the location of external document.<br />Both absolute path such as '/path1/path2/sample.php' or relative path such as '../path2/sample.php' can be used.<br />If you input the path like 'http://url/sample.php', the result will be received and then displayed.<br />This is current XE's absolute path.<br />]]></value>
-		<value xml:lang="jp"><![CDATA[外部ドキュメントの場所を入力して下さい。<br />「/path1/path2/sample.php」のような絶対パス、「../path2/sample.php」のような相対パスが使用出来ます。<br />「http://URL/sample.php」のように使用すると結果を読み込んで表示します。<br />現在XEがインストールされている絶対パスは次のようになっています。<br />]]></value>
+		<value xml:lang="jp"><![CDATA[外部ドキュメントの場所を入力してください。<br />「/path1/path2/sample.php」のような絶対パス、「../path2/sample.php」のような相対パスが使用できます。<br />「http://URL/sample.php」のように使用すると結果を読み込んで表示します。<br />現在XEがインストールされている絶対パスは次のようになっています。<br />]]></value>
 		<value xml:lang="zh-CN"><![CDATA[请输入外部文件路径。<br />可以使用如同 /path1/path2/sample.php的绝对路径或如 ../path2/sample.php的相对路径。<br />如使用http://url/sample.php之类的地址，可以把此页面的输出结果显示到XE内部的指定位置。<br />现安装的XE绝对路径如下:<br />]]></value>
 		<value xml:lang="zh-TW"><![CDATA[請輸入外部檔案路徑。<br />可以使用像『/path1/path2/sample.php』的絕對路徑或是『../path2/sample.php』的相對路徑。<br />如果是用『http://url/sample.php』之類的網址，會將此頁面的結果顯示到XE內部的指定位置。<br />目前安裝的XE絕對路徑如下:<br />]]></value>
 		<value xml:lang="fr"><![CDATA[Entrez la localisation du document extérieur.<br />Non seulement le chemin absolu comme '/path1/path2/sample.php' mais aussi le chemin relatif comme '../path2/sample.php' peuvent être utilisés.<br />Si vous entrez le chemin comme 'http://url/sample.php', le résultat sera reçu et puis exposé<br />Le chemin suivant, c'est le chemin absolu de XE.<br />]]></value>
@@ -63,7 +63,7 @@
 	<item name="about_opage_caching_interval">
 		<value xml:lang="ko"><![CDATA[분 단위이며 정해진 시간동안은 임시 저장한 데이터를 출력합니다.<br />다른 서버의 정보를 출력하거나, 데이터 출력하는데 많은 자원이 필요한 경우, 원하시는 분 단위 시간 간격으로 캐싱하는 것을 추천합니다.<br />0 으로 하시면 캐싱을 하지 않습니다.]]></value>
 		<value xml:lang="en"><![CDATA[The unit is minute, and it displays temporary saved data for assigned time.<br />It is recommended to cache for proper time if a lot of resources are needed when displaying other servers' data or information.<br />A value of 0 will not cache.]]></value>
-		<value xml:lang="jp"><![CDATA[分単位で指定出来、設定された時間の間は、臨時保存されたデータを出力します。<br />他のサーバの情報を出力したり、データを出力する際、リソースが多く使われるため、数分単位でキャッシングすることをお勧めします。<br />「0」に指定するとキャッシングされません。]]></value>
+		<value xml:lang="jp"><![CDATA[分単位で指定でき、設定された時間の間は、臨時保存されたデータを出力します。<br />他のサーバの情報を出力したり、データを出力する際、リソースが多く使われるため、数分単位でキャッシングすることをお勧めします。<br />「0」に指定するとキャッシングされません。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[单位为分。缓冲时间内页面将输出临时储存的数据。<br />输出外部服务器信息或数据时，如消耗资源很大，尽量把缓冲时间设置为大一点的相应值。<br />0 表示无缓冲。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[單位為分。暫存時間內頁面將輸出臨時儲存的資料。<br />輸出外部主機訊息或資料時，如消耗資源很大，盡量把暫存時間設大一點。<br />『0』表示不暫存。]]></value>
 		<value xml:lang="fr"><![CDATA[L'unité est minute, et ça exposera des données conservées temporairement pendant le temps assigné.<br />Il est recommandé d'utiliser l'antémémoire pendant le temps convenable si beaucoup de ressource est nécessaire pour représenter les données ou l'information d'autre serveur.<br />La valeur 0 signifie de ne pas utiliser antémémoire.]]></value>
@@ -75,14 +75,14 @@
 	<item name="opage_mobile_path">
 		<value xml:lang="ko"><![CDATA[모바일용 외부 문서 위치]]></value>
 		<value xml:lang="en"><![CDATA[Location of External Document for Mobile View]]></value>
-		<value xml:lang="jp"><![CDATA[モバイルバージョン文書へのパス]]></value>
+		<value xml:lang="jp"><![CDATA[モバイルバージョンドキュメントへのパス]]></value>
 		<value xml:lang="zh-CN"><![CDATA[移动版外部页面路径]]></value>
 		<value xml:lang="tr"><![CDATA[Harici Dosyanın Hareketli Görünüm için Konumu]]></value>
 	</item>
 	<item name="about_opage_mobile_path">
 		<value xml:lang="ko"><![CDATA[모바일용 외부문서의 위치를 입력해주세요. 입력하지 않으면 위에서 지정한 외부문서 위치의 페이지를 이용합니다. <br />/path1/path2/sample.php 와 같이 절대경로나 ../path2/sample.php와 같은 상대경로 모두 사용가능합니다.<br />http://url/sample.php 와 같이 사용하면 해당 페이지를 웹으로 전송 받아 출력 하게 됩니다.<br />현재 XE가 설치된 절대경로는 다음과 같습니다.<br />]]></value>
 		<value xml:lang="en"><![CDATA[Please enter the location of external document for mobile view. If not inputted, it uses the external document specified above.<br />Both absolute path such as '/path1/path2/sample.php' or relative path such as '../path2/sample.php' can be used.<br />If you input the path like 'http://url/sample.php', the result will be received and then displayed.<br />This is current XE's absolute path.<br />]]></value>
-		<value xml:lang="jp"><![CDATA[モバイルバージョンドキュメントへのパスを指定して下さい。　指定してないと一般ドキュメントのパスに指定されます。<br />/path1/path2/sample.php のような絶対パスや ../path2/sample.phpのような相対パス両方とも指定できます。<br />指定すると対応するドキュメントをウェブからダウンロードして表示します。<br />現在、XEの設置されている絶対パスは次のようになります。]]></value>
+		<value xml:lang="jp"><![CDATA[モバイルバージョンドキュメントへのパスを指定してください。　指定してないと一般ドキュメントのパスに指定されます。<br />/path1/path2/sample.php のような絶対パスや ../path2/sample.phpのような相対パス両方とも指定できます。<br />指定すると対応するドキュメントをウェブからダウンロードして表示します。<br />現在、XEの設置されている絶対パスは次のようになります。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[请输入移动版外部文件路径。留空默认使用上面指定的的普通外部页面。<br />可以使用如同 /path1/path2/sample.php的绝对路径或如 ../path2/sample.php的相对路径。<br />如使用http://url/sample.php之类的地址，可以把此页面的输出结果显示到XE内部的指定位置。<br />现安装的XE绝对路径如下:<br />]]></value>
 		<value xml:lang="zh-TW"><![CDATA[Please input the location of external document for mobile view. If not inputted, it uses the the external document specified above.<br />Both absolute path such as '/path1/path2/sample.php' or relative path such as '../path2/sample.php' can be used.<br />If you input the path like 'http://url/sample.php' , the result will be received and then displayed.<br />This is current XE's absolute path.<br />]]></value>
 		<value xml:lang="fr"><![CDATA[Please input the location of external document for mobile view. If not inputted, it uses the the external document specified above.<br />Both absolute path such as '/path1/path2/sample.php' or relative path such as '../path2/sample.php' can be used.<br />If you input the path like 'http://url/sample.php' , the result will be received and then displayed.<br />This is current XE's absolute path.<br />]]></value>

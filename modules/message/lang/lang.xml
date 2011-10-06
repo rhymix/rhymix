@@ -15,7 +15,7 @@
 	<item name="about_skin">
 		<value xml:lang="ko"><![CDATA[오류 메시지용 스킨을 지정하실 수 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[You may select skins for error messages.]]></value>
-		<value xml:lang="jp"><![CDATA[メッセージを表示する際のスキンが指定出来ます。]]></value>
+		<value xml:lang="jp"><![CDATA[エラーメッセージを表示する際のスキンを指定できます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[提示信息可以指定皮肤。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[提示訊息時，可以指定面板。]]></value>
 		<value xml:lang="fr"><![CDATA[Vous pouvez choisir un habillage pour le message des erreurs]]></value>

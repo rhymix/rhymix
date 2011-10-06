@@ -27,7 +27,7 @@
 	<item name="about_target_module">
 		<value xml:lang="ko"><![CDATA[선택된 모듈만 검색 대상으로 정합니다. 권한설정에 대한 주의를 바랍니다.]]></value>
 		<value xml:lang="en"><![CDATA[Only chosen modules are the target. Please be careful on setting the permissions.]]></value>
-		<value xml:lang="jp"><![CDATA[選択されたモジュールだけを検索対象とします。各モジュールの権限設定にも注意して下さい。]]></value>
+		<value xml:lang="jp"><![CDATA[選択されたモジュールだけを検索対象とします。各モジュールの権限設定にも注意してください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[所选模块作为搜索对象。请注意权限设置。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[只將所選擇的模組當作搜尋對象。請注意權限設置。]]></value>
 		<value xml:lang="fr"><![CDATA[Les modules choisis seulement seront les objectifs. Faites attention quand vous mettez la permission, S.V.P.]]></value>
@@ -51,7 +51,7 @@
 	<item name="msg_no_keyword">
 		<value xml:lang="ko"><![CDATA[검색어를 입력해주세요.]]></value>
 		<value xml:lang="en"><![CDATA[Please enter keyword to search]]></value>
-		<value xml:lang="jp"><![CDATA[検索語を入力して下さい。]]></value>
+		<value xml:lang="jp"><![CDATA[検索語を入力してください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[请输入搜索关键词。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[請輸入關鍵字]]></value>
 		<value xml:lang="fr"><![CDATA[Entrez le mot de clé à rechercher, S.V.P.]]></value>

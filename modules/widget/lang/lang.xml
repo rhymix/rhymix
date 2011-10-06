@@ -118,7 +118,7 @@
 	<item name="widget_position">
 		<value xml:lang="ko"><![CDATA[위치]]></value>
 		<value xml:lang="en"><![CDATA[Position]]></value>
-		<value xml:lang="jp"><![CDATA[ポジッション]]></value>
+		<value xml:lang="jp"><![CDATA[ポジション]]></value>
 		<value xml:lang="zh-CN"><![CDATA[位置]]></value>
 		<value xml:lang="zh-TW"><![CDATA[位置]]></value>
 		<value xml:lang="ru"><![CDATA[Позиция]]></value>
@@ -225,7 +225,7 @@
 	<item name="about_widget_fix_width">
 		<value xml:lang="ko"><![CDATA[선택하시면 가로 길이가 고정됩니다.]]></value>
 		<value xml:lang="en"><![CDATA[Check this to fix the width.]]></value>
-		<value xml:lang="jp"><![CDATA[チェックすると横幅が固定されます。]]></value>
+		<value xml:lang="jp"><![CDATA[チェックを入れると横幅が固定されます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[选择此项将固定控件显示宽度。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[選擇此項將固定Widget顯示寬度。]]></value>
 		<value xml:lang="fr"><![CDATA[Cochez pour fixer la largeur, S.V.P.]]></value>
@@ -237,7 +237,7 @@
 	<item name="about_widget_width">
 		<value xml:lang="ko"><![CDATA[가로 길이를 입력해주세요.]]></value>
 		<value xml:lang="en"><![CDATA[Please set width for the widget.]]></value>
-		<value xml:lang="jp"><![CDATA[縦幅サイズを選択して下さい。]]></value>
+		<value xml:lang="jp"><![CDATA[縦幅サイズを選択してください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[请输入宽度大小。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[請輸入寬度大小。]]></value>
 		<value xml:lang="fr"><![CDATA[Configurez la largeur du gadget, S.V.P.]]></value>
@@ -249,7 +249,7 @@
 	<item name="about_widget_position">
 		<value xml:lang="ko"><![CDATA[한 줄에 여러 개의 위젯을 나열하고 싶을 때는 위치를 선택해주세요.]]></value>
 		<value xml:lang="en"><![CDATA[Please select the position if you want to display many widgets on one line.]]></value>
-		<value xml:lang="jp"><![CDATA[一つのラインに多数のウィジェットを羅列したい場合は、ポジッションを選択して下さい。]]></value>
+		<value xml:lang="jp"><![CDATA[一行に多数のウィジェットを並べたい場合は、ポジションを選択してください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[想要横向显示多个控件时，请选择位置。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[想要橫向顯示多個Widget時，請選擇位置。]]></value>
 		<value xml:lang="fr"><![CDATA[Choisissez la position si vous voulez représenter plusieurs gadgets dans une ligne, S.V.P.]]></value>
@@ -261,7 +261,7 @@
 	<item name="about_widget_margin">
 		<value xml:lang="ko"><![CDATA[지정된 위젯의 상하좌우 여백을 지정할 수 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[You may set the top, bottom, right or left margins for the widget.]]></value>
-		<value xml:lang="jp"><![CDATA[一つのラインに多数のウィジェットを羅列したい場合は、ポジッションを選択して下さい。]]></value>
+		<value xml:lang="jp"><![CDATA[一行に多数のウィジェットを並べたい場合は、ポジションを選択してください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[想要横向显示多个控件时，请设置边距。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[想要橫向顯示多個Widget時，請設置邊距。]]></value>
 		<value xml:lang="fr"><![CDATA[Vous pouvez désigner la marge de gadget 'de tête, en pied, à droite et à gauche.]]></value>
@@ -273,7 +273,7 @@
 	<item name="about_widget_cache">
 		<value xml:lang="ko"><![CDATA[지정된 시간동안 캐시된 데이터를 이용할 수 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Cached data can be used during the time you have set.]]></value>
-		<value xml:lang="jp"><![CDATA[指定された時間内にキャッシュされたデータが利用出来ます。]]></value>
+		<value xml:lang="jp"><![CDATA[指定時間にキャッシュされたデータを利用できます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[指定的时间内可以利用已缓冲的数据。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[指定的時間內可以利用已暫存的資料。]]></value>
 		<value xml:lang="fr"><![CDATA[Les données d'antémémoire peuvent être utilisées pendant le temps que vous désignez.]]></value>
@@ -318,7 +318,7 @@
 	<item name="msg_widget_object_is_null">
 		<value xml:lang="ko"><![CDATA[%s 위젯의 객체 생성을 할 수 없습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Object of '%s' could not be created.]]></value>
-		<value xml:lang="jp"><![CDATA[%s ウィジェットのオブジェクトが生成出来ません。]]></value>
+		<value xml:lang="jp"><![CDATA[%s ウィジェットのオブジェクトが生成できません。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[无法生成%s控件对象！]]></value>
 		<value xml:lang="zh-TW"><![CDATA[無法建立 %s Widget目標！]]></value>
 		<value xml:lang="fr"><![CDATA[L'Objet de '%s' n'a pas pu être créé.]]></value>
@@ -330,7 +330,7 @@
 	<item name="msg_widget_proc_is_null">
 		<value xml:lang="ko"><![CDATA[%s 위젯의 proc() 를 실행할 수 없습니다.]]></value>
 		<value xml:lang="en"><![CDATA[proc() of '%s' could not be executed.]]></value>
-		<value xml:lang="jp"><![CDATA[%s ウィセットの proc() が実行出来ません。]]></value>
+		<value xml:lang="jp"><![CDATA[%s ウィジェットの proc()を実行できません。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[不能执行%s控件的 proc()！]]></value>
 		<value xml:lang="zh-TW"><![CDATA[無法執行 %s Widget的 proc()！]]></value>
 		<value xml:lang="fr"><![CDATA[proc() de '%s' n'a pas pu être exécuté.]]></value>
@@ -342,7 +342,7 @@
 	<item name="msg_widget_skin_is_null">
 		<value xml:lang="ko"><![CDATA[위젯의 스킨을 선택해 주셔야 정상적으로 동작할 수 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[You should select widget's skin.]]></value>
-		<value xml:lang="jp"><![CDATA[ウィセットスキンを選択してから正常に動作します。]]></value>
+		<value xml:lang="jp"><![CDATA[ウィジェットスキンを選択しないと正常に動作できません。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[请选择控件皮肤！]]></value>
 		<value xml:lang="zh-TW"><![CDATA[請選擇一個可正常使用的Widget面板]]></value>
 		<value xml:lang="fr"><![CDATA[위젯의 스킨을 선택해 주셔야 정상적으로 동작할 수 있습니다]]></value>
@@ -354,7 +354,7 @@
 	<item name="about_widget_code">
 		<value xml:lang="ko"><![CDATA[선택하신 위젯에서 요구하는 아래 항목들의 값을 넣고 [코드생성]버튼을 누르시면 제일 아래 칸에 템플릿 파일에 적용할 수 있는 코드가 출력 됩니다.]]></value>
 		<value xml:lang="en"><![CDATA[Please input the required value first, and click [Generate Code] button to generate the code for adding to the template file.]]></value>
-		<value xml:lang="jp"><![CDATA[選択されたウィゼットで求められる下の項目の値を入力し、「コード生成」ボタンをクリックすると、<br />一番下にテンプレートファイルに適用出来るコードが出力されます。]]></value>
+		<value xml:lang="jp"><![CDATA[選択したウィジェットで要求する下記項目の値を入力し、「コード生成」ボタンをクリックすると、<br />一番下にテンプレートファイルに適用できるコードが出力されます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[输入所选控件所需要的下列各项后，按『代码生成』按钮，即可在页面下方获得可以用在布局模版代码片断。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[輸入所選Widget所需要的各項資料後，按『建立原始碼』按鈕，即可在頁面下方獲得運用在版面設計中的部分原始碼。]]></value>
 		<value xml:lang="fr"><![CDATA[Entrez les valeurs qui sont requises par le gadget choisi, et puis cliquz le bouton [Générer le Code] pour générer le code. Le code à appliquer au fichier de modèl se présentera en bas.]]></value>
@@ -366,7 +366,7 @@
 	<item name="about_widget_code_in_page">
 		<value xml:lang="ko"><![CDATA[아래 필요한 값들을 입력하신 후 추가 버튼을 누르시면 페이지 내에 위젯이 삽입됩니다.]]></value>
 		<value xml:lang="en"><![CDATA[After entering the required values, click the [Add] button to insert the widget code into the page.]]></value>
-		<value xml:lang="jp"><![CDATA[下に必要な値を入力した後、追加ボタンをクリックするとページ内にウィジェットが挿入されます。]]></value>
+		<value xml:lang="jp"><![CDATA[下記に必要な値を入力した後、追加ボタンをクリックするとページ内にウィジェットが挿入されます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[输入下列各项必要值后，按『生成代码』按钮，即可把控件插入到页面当中。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[輸入下列各項必要資料後，按『建立原始碼』按鈕，即可把Widget插入到頁面當中。]]></value>
 		<value xml:lang="fr"><![CDATA[Après entrer les valeurs requies, cliquez le bouton [Ajouter] pour insérer le gadjet dans la page.]]></value>
@@ -382,7 +382,7 @@ XE의 페이지 모듈이나 레이아웃 모듈을 사용하지 않더라도 [�
 		<value xml:lang="en"><![CDATA[A widget is a small free-standing application used in a layout or page module.
  It can be linked with internal module or external Open API. Through its configuration setting, wide application is possible. 
  You can directly add a widget by using the [Generate Code] function without using the XE page module or layout module.]]></value>
-		<value xml:lang="jp"><![CDATA[ウィジェットまたはページモジュールに用いられる単体の構成要素です。内部モジュールまたは外部のOPEN API と連動が出来、設定によって様々な応用が可能です。XEのページモジュールまたはレイアウトモジュールを使用しなくても、「コード生成」機能で直接ウィジェットも追加出来ます。]]></value>
+		<value xml:lang="jp"><![CDATA[ウィジェット、またはページモジュールに用いられる単体の構成要素です。内部モジュールまたは外部のOPEN API と連動ができ、設定によって様々な応用が可能です。XEのページモジュールまたはレイアウトモジュールを使用しなくても、「コード生成」機能で直接ウィジェットも追加できます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[控件是在布局或页面模块中使用的一种小部件。
 不仅可以关联内部模块或外部open api，而且通过设置可以用在多种用途。
 即使不使用XE的页面模块或布局模块，也可以通过『代码生成』功能直接可以添加相应控件。]]></value>
@@ -402,7 +402,7 @@ Sin la necesidad de utilizar los módulos de página o del diseño de XE, Usted 
 	<item name="cmd_content_insert">
 		<value xml:lang="ko"><![CDATA[내용 직접 추가]]></value>
 		<value xml:lang="en"><![CDATA[Insert Content by Yourself]]></value>
-		<value xml:lang="jp"><![CDATA[内容直接追加]]></value>
+		<value xml:lang="jp"><![CDATA[内容追加]]></value>
 		<value xml:lang="zh-CN"><![CDATA[添加内容]]></value>
 		<value xml:lang="zh-TW"><![CDATA[新增內容]]></value>
 		<value xml:lang="fr"><![CDATA[Insérer le Contenu par vous-même]]></value>
@@ -620,5 +620,6 @@ Sin la necesidad de utilizar los módulos de página o del diseño de XE, Usted 
 	<item name="installed_widget">
 		<value xml:lang="ko"><![CDATA[설치된 위젯]]></value>
 		<value xml:lang="en"><![CDATA[Installed Widget]]></value>
+		<value xml:lang="jp"><![CDATA[インストールされたウィジェット]]></value>
 	</item>
 </lang>

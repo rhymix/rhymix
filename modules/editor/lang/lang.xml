@@ -3,7 +3,7 @@
 	<item name="editor_preview">
 		<value xml:lang="ko"><![CDATA[에디터 미리보기]]></value>
 		<value xml:lang="en"><![CDATA[Editor Preview]]></value>
-		<value xml:lang="jp"><![CDATA[Editor Preview]]></value>
+		<value xml:lang="jp"><![CDATA[エディタープレビュー]]></value>
 		<value xml:lang="zh-CN"><![CDATA[Editor Preview]]></value>
 		<value xml:lang="zh-TW"><![CDATA[Editor Preview]]></value>
 		<value xml:lang="ru"><![CDATA[Editor Preview]]></value>
@@ -13,7 +13,7 @@
 	<item name="main_editor">
 		<value xml:lang="ko"><![CDATA[본문 에디터]]></value>
 		<value xml:lang="en"><![CDATA[Main editor]]></value>
-		<value xml:lang="jp"><![CDATA[Main editor]]></value>
+		<value xml:lang="jp"><![CDATA[本文 エディター]]></value>
 		<value xml:lang="zh-CN"><![CDATA[Main editor]]></value>
 		<value xml:lang="zh-TW"><![CDATA[Main editor]]></value>
 		<value xml:lang="ru"><![CDATA[Main editor]]></value>
@@ -23,7 +23,7 @@
 	<item name="comment_editor">
 		<value xml:lang="ko"><![CDATA[댓글 에디터]]></value>
 		<value xml:lang="en"><![CDATA[Comment editor]]></value>
-		<value xml:lang="jp"><![CDATA[Comment editor]]></value>
+		<value xml:lang="jp"><![CDATA[コメントエディター]]></value>
 		<value xml:lang="zh-CN"><![CDATA[Comment editor]]></value>
 		<value xml:lang="zh-TW"><![CDATA[Comment editor]]></value>
 		<value xml:lang="ru"><![CDATA[Comment editor]]></value>
@@ -33,7 +33,7 @@
 	<item name="editor_option">
 		<value xml:lang="ko"><![CDATA[에디터 옵션]]></value>
 		<value xml:lang="en"><![CDATA[Editor Option]]></value>
-		<value xml:lang="jp"><![CDATA[Editor Option]]></value>
+		<value xml:lang="jp"><![CDATA[エディターオプション]]></value>
 		<value xml:lang="zh-CN"><![CDATA[Editor Option]]></value>
 		<value xml:lang="zh-TW"><![CDATA[Editor Option]]></value>
 		<value xml:lang="ru"><![CDATA[Editor Option]]></value>
@@ -43,7 +43,7 @@
 	<item name="guide_choose_main_editor">
 		<value xml:lang="ko"><![CDATA[본문 에디터를 선택하세요.]]></value>
 		<value xml:lang="en"><![CDATA[Choose the main editor.]]></value>
-		<value xml:lang="jp"><![CDATA[Choose the main editor.]]></value>
+		<value xml:lang="jp"><![CDATA[本文エディターを選択してください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[Choose the main editor.]]></value>
 		<value xml:lang="zh-TW"><![CDATA[Choose the main editor.]]></value>
 		<value xml:lang="ru"><![CDATA[Choose the main editor.]]></value>
@@ -53,7 +53,7 @@
 	<item name="guide_set_height_main_editor">
 		<value xml:lang="ko"><![CDATA[본문 에디터의 높이를 설정하세요.]]></value>
 		<value xml:lang="en"><![CDATA[Set height of the main editor.]]></value>
-		<value xml:lang="jp"><![CDATA[Set height of the main editor.]]></value>
+		<value xml:lang="jp"><![CDATA[本文エディターの高さを設定してください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[Set height of the main editor.]]></value>
 		<value xml:lang="zh-TW"><![CDATA[Set height of the main editor.]]></value>
 		<value xml:lang="ru"><![CDATA[Set height of the main editor.]]></value>
@@ -63,7 +63,7 @@
 	<item name="guide_choose_comment_editor">
 		<value xml:lang="ko"><![CDATA[댓글 에디터를 선택하세요.]]></value>
 		<value xml:lang="en"><![CDATA[Choose the comment editor.]]></value>
-		<value xml:lang="jp"><![CDATA[Choose the comment editor.]]></value>
+		<value xml:lang="jp"><![CDATA[コメントエディターを選択してください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[Choose the comment editor.]]></value>
 		<value xml:lang="zh-TW"><![CDATA[Choose the comment editor.]]></value>
 		<value xml:lang="ru"><![CDATA[Choose the comment editor.]]></value>
@@ -73,7 +73,7 @@
 	<item name="guide_set_height_comment_editor">
 		<value xml:lang="ko"><![CDATA[댓글 에디터의 높이를 설정하세요.]]></value>
 		<value xml:lang="en"><![CDATA[Set height of the comment editor.]]></value>
-		<value xml:lang="jp"><![CDATA[Set height of the comment editor.]]></value>
+		<value xml:lang="jp"><![CDATA[コメントエディターの高さを設定してください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[Set height of the comment editor.]]></value>
 		<value xml:lang="zh-TW"><![CDATA[Set height of the comment editor.]]></value>
 		<value xml:lang="ru"><![CDATA[Set height of the comment editor.]]></value>
@@ -83,7 +83,7 @@
 	<item name="guide_choose_text_formatting">
 		<value xml:lang="ko"><![CDATA[본문 서식을 선택하세요.]]></value>
 		<value xml:lang="en"><![CDATA[Choose the body format.]]></value>
-		<value xml:lang="jp"><![CDATA[Choose the text formatting.]]></value>
+		<value xml:lang="jp"><![CDATA[本文のスタイルを選択してください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[Choose the text formatting.]]></value>
 		<value xml:lang="zh-TW"><![CDATA[Choose the text formatting.]]></value>
 		<value xml:lang="ru"><![CDATA[Choose the text formatting.]]></value>
@@ -93,7 +93,7 @@
 	<item name="guide_choose_font_body">
 		<value xml:lang="ko"><![CDATA[본문 글꼴을 선택하세요.]]></value>
 		<value xml:lang="en"><![CDATA[Choose the body font.]]></value>
-		<value xml:lang="jp"><![CDATA[Choose the font body.]]></value>
+		<value xml:lang="jp"><![CDATA[本文のフォントを選択してください。]]></value>		
 		<value xml:lang="zh-CN"><![CDATA[Choose the font body.]]></value>
 		<value xml:lang="zh-TW"><![CDATA[Choose the font body.]]></value>
 		<value xml:lang="ru"><![CDATA[Choose the font body.]]></value>
@@ -103,7 +103,7 @@
 	<item name="guide_choose_font_size_body">
 		<value xml:lang="ko"><![CDATA[본문 글꼴크기를 선택하세요.]]></value>
 		<value xml:lang="en"><![CDATA[Choose the font size of body.]]></value>
-		<value xml:lang="jp"><![CDATA[Choose the font size body.]]></value>
+		<value xml:lang="jp"><![CDATA[本文の文字サイズを選択してください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[Choose the font size body.]]></value>
 		<value xml:lang="zh-TW"><![CDATA[Choose the font size body.]]></value>
 		<value xml:lang="ru"><![CDATA[Choose the font size body.]]></value>
@@ -123,14 +123,17 @@
 	<item name="msg_avail_easy_update">
                 <value xml:lang="ko"><![CDATA[이 항목의 새로운 버전이 있습니다.]]></value>
                 <value xml:lang="en"><![CDATA[There is new version for this item.]]></value>
+				<value xml:lang="jp"><![CDATA[この項目の新しいバージョンがあります。]]></value>
         </item>
         <item name="msg_do_you_like_update">
                 <value xml:lang="ko"><![CDATA[업데이트하시겠습니까?]]></value>
                 <value xml:lang="en"><![CDATA[Would you like to update?]]></value>
+				<value xml:lang="jp"><![CDATA[アップデートしますか？]]></value>
         </item>
         <item name="msg_font_too_big">
                 <value xml:lang="ko"><![CDATA[글꼴이 너무 큽니다.]]></value>
                 <value xml:lang="en"><![CDATA[The font is too big.]]></value>
+				<value xml:lang="jp"><![CDATA[文字サイズが大きすぎます。]]></value>
         </item>
 	<item name="editor_option">
 		<value xml:lang="ko"><![CDATA[]]></value>
@@ -370,7 +373,7 @@
 	<item name="about_component_grant">
 		<value xml:lang="ko"><![CDATA[기본 컴포넌트외의 확장 컴포넌트 기능을 사용할 수 있는 권한을 지정할 수 있습니다.<br /> (모두 해제 시 아무나 사용 가능합니다)]]></value>
 		<value xml:lang="en"><![CDATA[Selected group(s) will be able to use expanded components of editor.<br />(Leave them blank if you want all groups to have permissions.)]]></value>
-		<value xml:lang="jp"><![CDATA[基本コンポーネント以外の拡張コンポーネント機能が利用可能な権限の設定が出来ます。<br />(選択なしの場合、誰でも利用可能)]]></value>
+		<value xml:lang="jp"><![CDATA[基本コンポーネント以外の拡張コンポーネント機能が利用可能な権限の設定ができます。<br />(選択なしの場合、誰でも利用可能)]]></value>
 		<value xml:lang="zh-CN"><![CDATA[可以设置除默认组件外的扩展组件使用权限<br />(全部解除时任何用户都可以使用)。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[除預設組件外，可設置延伸組件的使用權限<br />(全部解除時，任何用戶都可使用)。]]></value>
 		<value xml:lang="fr"><![CDATA[Vous pouvez configurer la Permission d'utiliser des composants additionnels de l'Editeur.<br /> (Tout le monde aura la Permission si vous ne cochez rien)]]></value>
@@ -418,7 +421,7 @@
 	<item name="msg_component_is_first_order">
 		<value xml:lang="ko"><![CDATA[선택하신 컴포넌트는 첫 번째에 위치하고 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Selected component is located at the first position.]]></value>
-		<value xml:lang="jp"><![CDATA[選択されたコンポーネントは最初に位置しています。]]></value>
+		<value xml:lang="jp"><![CDATA[選択されたコンポーネントは最上位にあります。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[您选择的组件已到最上端位置！]]></value>
 		<value xml:lang="zh-TW"><![CDATA[您選擇的組件已達最頂端位置！]]></value>
 		<value xml:lang="fr"><![CDATA[Composant choisi est localisé à la première position]]></value>
@@ -430,7 +433,7 @@
 	<item name="msg_component_is_last_order">
 		<value xml:lang="ko"><![CDATA[선택하신 컴포넌트는 마지막에 위치하고 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Selected component is located at the last position.]]></value>
-		<value xml:lang="jp"><![CDATA[選択されたコンポーネントは最後に位置しています。]]></value>
+		<value xml:lang="jp"><![CDATA[選択されたコンポーネントは最下位にあります。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[您选择的组件已到最下端位置！]]></value>
 		<value xml:lang="zh-TW"><![CDATA[您選擇的組件已達最底端位置！]]></value>
 		<value xml:lang="fr"><![CDATA[Composant choisi est localisé à la position dernière]]></value>
@@ -595,7 +598,7 @@ Bài viết tự động lưu sẽ tự động hủy sau khi bạn hoàn thành
 	<item name="about_editor_skin">
 		<value xml:lang="ko"><![CDATA[에디터 스킨을 선택하실 수 있습니다]]></value>
 		<value xml:lang="en"><![CDATA[You may select the skin for the editor.]]></value>
-		<value xml:lang="jp"><![CDATA[エディターのスキンの選択が出来ます。]]></value>
+		<value xml:lang="jp"><![CDATA[エディターのスキンの選択ができます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[可以选择编辑器皮肤。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[選擇編輯器面板。]]></value>
 		<value xml:lang="fr"><![CDATA[Vous pouvez choisir l'habillage de l'Editeur.]]></value>
@@ -631,7 +634,7 @@ Bài viết tự động lưu sẽ tự động hủy sau khi bạn hoàn thành
 	<item name="about_content_font_size">
 		<value xml:lang="ko"><![CDATA[문서 편집 및 내용 출력 시 원하는 폰트의 크기를 지정할 수 있습니다.<br/>12px, 1em등 단위까지 포함해서 입력해주세요.]]></value>
 		<value xml:lang="en"><![CDATA[You may select the font size for editting an article or displaying a content.<br/>Please input units such as px or em.]]></value>
-		<value xml:lang="jp"><![CDATA[コンテンツの編集、および内容表示の際のフォントサイズを指定します。<br/>12px、1emなどサイズ単位まで入力して下さい。]]></value>
+		<value xml:lang="jp"><![CDATA[コンテンツの編集、および内容表示の際のフォントサイズを指定します。<br/>12px、1emなどサイズ単位まで入力してください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[可以指定编辑或打印文档时的文档字体大小。<br/>指定时请包含字体单位(如12px, 1em)。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[修改內容時，可指定要顯示的內容字體大小。<br/>請輸入單位，像是12px, 1em等。]]></value>
 		<value xml:lang="fr"><![CDATA[문서 편집 및 내용 출력시 원하는 폰트의 크기를 지정할 수 있습니다.<br/>12px, 1em등 단위까지 포함해서 입력해주세요.]]></value>
@@ -643,7 +646,7 @@ Bài viết tự động lưu sẽ tự động hủy sau khi bạn hoàn thành
 	<item name="about_upload_file_grant">
 		<value xml:lang="ko"><![CDATA[파일을 첨부할 수 있는 권한을 지정하실 수 있습니다. (모두 해제 시 아무나 첨부 가능합니다)]]></value>
 		<value xml:lang="en"><![CDATA[Selected group(s) will be able to upload files. (Leave them blank if you want all groups to have this permission.)]]></value>
-		<value xml:lang="jp"><![CDATA[ファイル添付可能な権限の設定が出来ます。(選択なしの場合、誰でも添付が可能)]]></value>
+		<value xml:lang="jp"><![CDATA[ファイル添付権限の設定ができます。(選択なしの場合、誰でも添付が可能)]]></value>
 		<value xml:lang="zh-CN"><![CDATA[可以设置上传文件的权限(全部解除为无限制)。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[設置上傳檔案的權限(全部解除為無限制)。]]></value>
 		<value xml:lang="fr"><![CDATA[Vous pouvez configurer la permission d'attacher les fichiers. (Tout le monde aura la permission si vous ne cochez rien)]]></value>
@@ -655,7 +658,7 @@ Bài viết tự động lưu sẽ tự động hủy sau khi bạn hoàn thành
 	<item name="about_default_component_grant">
 		<value xml:lang="ko"><![CDATA[에디터에서 사용되는 기본 컴포넌트를 사용할 수 있는 권한을 지정할 수 있습니다. (모두 해제 시 아무나 사용 가능합니다)]]></value>
 		<value xml:lang="en"><![CDATA[Selected group(s) will be able to use default components of editor. (Leave them blank if you want all groups to have this permission.)]]></value>
-		<value xml:lang="jp"><![CDATA[エディターでの基本コンポーネントを使用可能な権限の設定が出来ます。(選択なしの場合、誰でも利用可能)]]></value>
+		<value xml:lang="jp"><![CDATA[エディターの基本コンポーネントの使用権限の設定ができます。(選択なしの場合、誰でも利用可能)]]></value>
 		<value xml:lang="zh-CN"><![CDATA[可以设置编辑器默认组件的使用权限(全部解除为无限制)。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[設置編輯器預設組件的使用權限(全部解除為無限制)。]]></value>
 		<value xml:lang="fr"><![CDATA[Vous pouvez configurer la permission d'utiliser les Composants Par Défaut de l'Editeur. (Tout le monde aura la permission si vous ne cochez rien)]]></value>
@@ -679,7 +682,7 @@ Bài viết tự động lưu sẽ tự động hủy sau khi bạn hoàn thành
 	<item name="about_editor_height_resizable">
 		<value xml:lang="ko"><![CDATA[에디터의 높이를 직접 변경할 수 있도록 허용합니다.]]></value>
 		<value xml:lang="en"><![CDATA[You may decide whether the height of the editor can be resized.]]></value>
-		<value xml:lang="jp"><![CDATA[エディターの高さを変更出来るようにします。]]></value>
+		<value xml:lang="jp"><![CDATA[エディターの高さを変更できるようにします。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[允许用户拖动编辑器高度。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[允許用戶拖曳編輯器高度。]]></value>
 		<value xml:lang="fr"><![CDATA[Permettre de remettre l'hauteur de l'Editeur.]]></value>
@@ -702,7 +705,7 @@ Bài viết tự động lưu sẽ tự động hủy sau khi bạn hoàn thành
 	<item name="about_enable_autosave">
 		<value xml:lang="ko"><![CDATA[글 작성 시 자동 저장 기능을 활성화 시킬 수 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[You may decide whether the auto-save function will be used.]]></value>
-		<value xml:lang="jp"><![CDATA[書き込みのとき、自動保存機能をオンにします。]]></value>
+		<value xml:lang="jp"><![CDATA[書き込みの際に自動保存機能をオンにします。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[发表主题时激活内容自动保存功能。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[發表主題時，開啟內容自動儲存功能。]]></value>
 		<value xml:lang="fr"><![CDATA[Vous pouvez valider la fonction à Conserver Automatiquement pendant écrire des articles.]]></value>
@@ -792,7 +795,7 @@ Bài viết tự động lưu sẽ tự động hủy sau khi bạn hoàn thành
 		<item name="header">
 			<value xml:lang="ko"><![CDATA[형식]]></value>
 			<value xml:lang="en"><![CDATA[Style]]></value>
-			<value xml:lang="jp"><![CDATA[見出し]]></value>
+			<value xml:lang="jp"><![CDATA[スタイル]]></value>
 			<value xml:lang="zh-CN"><![CDATA[样式]]></value>
 			<value xml:lang="zh-TW"><![CDATA[樣式]]></value>
 			<value xml:lang="ru"><![CDATA[Стиль]]></value>
@@ -1141,7 +1144,7 @@ Bài viết tự động lưu sẽ tự động hủy sau khi bạn hoàn thành
 		<item name="help_underline">
 			<value xml:lang="ko"><![CDATA[밑줄을 긋습니다.]]></value>
 			<value xml:lang="en"><![CDATA[Underline the text.]]></value>
-			<value xml:lang="jp"><![CDATA[テキストに下線（アンダーライン）を引きます。]]></value>
+			<value xml:lang="jp"><![CDATA[テキストに下線を引きます。]]></value>
 			<value xml:lang="zh-CN"><![CDATA[下划线]]></value>
 			<value xml:lang="zh-TW"><![CDATA[底線]]></value>
 			<value xml:lang="fr"><![CDATA[Caractère souligné]]></value>
@@ -1410,7 +1413,7 @@ Bài viết tự động lưu sẽ tự động hủy sau khi bạn hoàn thành
 		<item name="icon_align_article">
 			<value xml:lang="ko"><![CDATA[한 문단을 차지]]></value>
 			<value xml:lang="en"><![CDATA[Occupy a paragraph]]></value>
-			<value xml:lang="jp"><![CDATA[一段落]]></value>
+			<value xml:lang="jp"><![CDATA[一段落占め]]></value>
 			<value xml:lang="zh-CN"><![CDATA[占一个段落]]></value>
 			<value xml:lang="zh-TW"><![CDATA[段落]]></value>
 			<value xml:lang="fr"><![CDATA[Occuper un paragraphe]]></value>
@@ -1538,7 +1541,7 @@ Bài viết tự động lưu sẽ tự động hủy sau khi bạn hoàn thành
 		<item name="target_blank">
 			<value xml:lang="ko"><![CDATA[새 창으로]]></value>
 			<value xml:lang="en"><![CDATA[New Window]]></value>
-			<value xml:lang="jp"><![CDATA[別のウィンドウズで]]></value>
+			<value xml:lang="jp"><![CDATA[新しいウィンドウで]]></value>
 			<value xml:lang="zh-CN"><![CDATA[新窗口]]></value>
 			<value xml:lang="zh-TW"><![CDATA[新視窗]]></value>
 			<value xml:lang="fr"><![CDATA[새창으로]]></value>
@@ -1633,7 +1636,7 @@ Bài viết tự động lưu sẽ tự động hủy sau khi bạn hoàn thành
 		<item name="set_sel">
 			<value xml:lang="ko"><![CDATA[칸 수 지정]]></value>
 			<value xml:lang="en"><![CDATA[Set Cell Count]]></value>
-			<value xml:lang="jp"><![CDATA[マス数の指定]]></value>
+			<value xml:lang="jp"><![CDATA[セル数の指定]]></value>
 			<value xml:lang="zh-CN"><![CDATA[表格大小]]></value>
 			<value xml:lang="zh-TW"><![CDATA[表格]]></value>
 			<value xml:lang="ru"><![CDATA[Установить количество ячеек]]></value>
@@ -1890,7 +1893,7 @@ Bài viết tự động lưu sẽ tự động hủy sau khi bạn hoàn thành
 		<item name="search_replace">
 			<value xml:lang="ko"><![CDATA[찾기/바꾸기]]></value>
 			<value xml:lang="en"><![CDATA[Find/Replace]]></value>
-			<value xml:lang="jp"><![CDATA[検索/置換]]></value>
+			<value xml:lang="jp"><![CDATA[検索/置換え]]></value>
 			<value xml:lang="zh-CN"><![CDATA[查找/替换]]></value>
 			<value xml:lang="zh-TW"><![CDATA[搜尋/置換]]></value>
 			<value xml:lang="ru"><![CDATA[Найти/Переместить]]></value>
@@ -1900,7 +1903,7 @@ Bài viết tự động lưu sẽ tự động hủy sau khi bạn hoàn thành
 		<item name="close_search_replace">
 			<value xml:lang="ko"><![CDATA[찾기/바꾸기 레이어 닫기]]></value>
 			<value xml:lang="en"><![CDATA[Close Find/Replace Layer]]></value>
-			<value xml:lang="jp"><![CDATA[検索/置換レイヤーを閉じる]]></value>
+			<value xml:lang="jp"><![CDATA[検索/置換えレイヤーを閉じる]]></value>
 			<value xml:lang="zh-CN"><![CDATA[关闭]]></value>
 			<value xml:lang="zh-TW"><![CDATA[關閉搜尋/置換圖層]]></value>
 			<value xml:lang="ru"><![CDATA[Закрыть слой "Найти/Переместить"]]></value>
@@ -1910,7 +1913,7 @@ Bài viết tự động lưu sẽ tự động hủy sau khi bạn hoàn thành
 		<item name="replace_all">
 			<value xml:lang="ko"><![CDATA[모두 바꾸기]]></value>
 			<value xml:lang="en"><![CDATA[Replace All]]></value>
-			<value xml:lang="jp"><![CDATA[すべて置換]]></value>
+			<value xml:lang="jp"><![CDATA[すべて置換え]]></value>
 			<value xml:lang="zh-CN"><![CDATA[全部替换]]></value>
 			<value xml:lang="zh-TW"><![CDATA[全部置換]]></value>
 			<value xml:lang="fr"><![CDATA[모두바꾸기]]></value>
@@ -1934,7 +1937,7 @@ Bài viết tự động lưu sẽ tự động hủy sau khi bạn hoàn thành
 		<item name="replace_words">
 			<value xml:lang="ko"><![CDATA[바꿀 단어]]></value>
 			<value xml:lang="en"><![CDATA[Words to Replace]]></value>
-			<value xml:lang="jp"><![CDATA[置換テキスト]]></value>
+			<value xml:lang="jp"><![CDATA[置換えテキスト]]></value>
 			<value xml:lang="zh-CN"><![CDATA[替换为]]></value>
 			<value xml:lang="zh-TW"><![CDATA[置換文字]]></value>
 			<value xml:lang="fr"><![CDATA[바꿀단어]]></value>
@@ -2122,7 +2125,7 @@ Bài viết tự động lưu sẽ tự động hủy sau khi bạn hoàn thành
 		<item name="confirm_submit_without_saving">
 			<value xml:lang="ko"><![CDATA[저장하지 않은 단락이 있습니다.\n그냥 전송하시겠습니까?]]></value>
 			<value xml:lang="en"><![CDATA[There are paragraphs which were not saved.\nProceed anyway?]]></value>
-			<value xml:lang="jp"><![CDATA[まだ保存してない内容があります。\nそのまま転送して宜しいでしょうか？]]></value>
+			<value xml:lang="jp"><![CDATA[まだ保存してない内容があります。\nそのまま転送してよろしいでしょうか？]]></value>
 			<value xml:lang="zh-CN"><![CDATA[尚有未保存的段落。\n确定要提交吗？]]></value>
 			<value xml:lang="zh-TW"><![CDATA[有內容尚未儲存。\n是否要繼續進行?]]></value>
 			<value xml:lang="ru"><![CDATA[Есть несохраненные параграфы\nПродолжить?]]></value>
@@ -2153,7 +2156,7 @@ Bài viết tự động lưu sẽ tự động hủy sau khi bạn hoàn thành
 	<item name="about_dblclick_in_editor">
 		<value xml:lang="ko"><![CDATA[배경, 글자, 이미지, 인용문등에서 더블클릭을 하시면 상세한 컴포넌트 설정이 가능합니다.]]></value>
 		<value xml:lang="en"><![CDATA[You may set the component's detailed configurations by double-clicking background, text, images, or quotations.]]></value>
-		<value xml:lang="jp"><![CDATA[背景、文字、イメージ、引用文の上にカーソルを合わせ、ダブルクリックすると詳細設定出来るコンポーネントを表示します。]]></value>
+		<value xml:lang="jp"><![CDATA[背景、文字、イメージ、引用文の上にカーソルを合わせ、ダブルクリックすると詳細設定できるコンポーネントを表示します。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[双击背景, 文本, 图片, 引用即可对其相关组件进行详细设置。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[對背景，文字，圖片，引用等組件按兩下，即可對其相關組件進行詳細設置。]]></value>
 		<value xml:lang="fr"><![CDATA[Vous pouvez configurer en détail des composants par double-clic sur un arrière-plan, un texte, une image ou une citation]]></value>

@@ -26,7 +26,7 @@
 	<item name="about_point_module">
 		<value xml:lang="ko"><![CDATA[포인트 모듈은 글 작성/댓글작성/업로드/다운로드 등의 행동을 할 때 포인트를 부여할 수 있게 합니다.]]></value>
 		<value xml:lang="en"><![CDATA[You can grant points for writing/adding comments/uploading/downloading.]]></value>
-		<value xml:lang="jp"><![CDATA[ポイントモジュールでは、書き込み作成/コメント作成/アップロード/ダウンロードなどのユーザの活動に対してポイントの計算を行います。]]></value>
+		<value xml:lang="jp"><![CDATA[ポイントモジュールでは、書き込み作成/コメント作成/アップロード/ダウンロードなどのユーザーの活動に対してポイントの計算を行います。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[积分系统可以在发表新帖及评论，上传/下载文件等动作时，付与其相应的积分的模块。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[點數系統可以在發表/刪除主題，發表/刪除評論，上傳/下載/刪除/檔案等動作時，付出相對應的點數。]]></value>
 		<value xml:lang="fr"><![CDATA[Vous pouvez donnez des poins sur l'action d'écrire/d'ajouter commentaire/de télécharger vers le serveur/de télécharger vers le PC etc.]]></value>
@@ -62,7 +62,7 @@
 	<item name="about_max_level">
 		<value xml:lang="ko"><![CDATA[최고레벨을 지정할 수 있습니다. 레벨 아이콘을 염두에 두셔야 하고 최고 레벨은 1000이 한계입니다.]]></value>
 		<value xml:lang="en"><![CDATA[You may set the max level. Level icons should be considered and the level of 1000 is the maximum value you can set]]></value>
-		<value xml:lang="jp"><![CDATA[最高レベルを指定することが出来ます。最高レベルは「1000」がマクシマムなので、レベルアイコンに注意が必要です。]]></value>
+		<value xml:lang="jp"><![CDATA[最高レベルを指定することができます。最高レベルは「1000」が最大値であるため、レベルアイコンに注意が必要です。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[可以指定最高级别。级别共设1000级，因此制作级别图标时要好好考虑一下。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[可以指定最高等級。等級共設1000級，因此製作等級圖示時要好好考慮一下。]]></value>
 		<value xml:lang="fr"><![CDATA[Vous pouvez configurer le niveau le plus haut. Les icônes des niveaux doit être réflechissés et le niveau de 1 000 est la valeur maximum que vous pouvez configurer.]]></value>
@@ -86,7 +86,7 @@
 	<item name="about_level_icon">
 		<value xml:lang="ko"><![CDATA[레벨 아이콘은 ./modules/point/icons/레벨.gif 로 지정되며 최고레벨과 아이콘셋이 다를 수 있으니 주의해주세요!]]></value>
 		<value xml:lang="en"><![CDATA[Path of level icon is "./module/point/icons/[level].gif" and max level could be different with icon set. So please be careful]]></value>
-		<value xml:lang="jp"><![CDATA[レベルアイコンは、「./modules/point/icons/レベル.gif」で指定されるため、最高レベルとアイコンセットが異なる場合があります。ご注意下さい。]]></value>
+		<value xml:lang="jp"><![CDATA[レベルアイコンは、「./modules/point/icons/レベル.gif」で指定されるため、最高レベルとアイコンセットが異なる場合があります。ご注意ください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[级别图标要以 ./modules/point/icons/级别.gif形式指定，有时出现最高级别的图标跟您指定的最高级别图标不同的现象，敬请注意。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[等級圖示格式與位置 ./modules/point/icons/等級.gif，請注意，有時出現最高等級的圖示跟您指定的最高等級圖示不同的現象。]]></value>
 		<value xml:lang="fr"><![CDATA[Le Chemin d'icône est "./module/point/icons/[niveau].gif" et le niveau le plus haut peut différer de l'ensemble des icônes. Alors faites attention, S.V.P.]]></value>
@@ -110,7 +110,7 @@
 	<item name="about_point_name">
 		<value xml:lang="ko"><![CDATA[포인트 이름이나 단위를 정할 수 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[You may give a name or unit to a point]]></value>
-		<value xml:lang="jp"><![CDATA[ポイントの名前、単位が指定出来ます。]]></value>
+		<value xml:lang="jp"><![CDATA[ポイントの名前、単位を指定できます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[可以指定积分名或积分单位。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[可指定點數名稱或點數單位。]]></value>
 		<value xml:lang="fr"><![CDATA[Vous pouvez nommer le point ou configurer l'unité du point]]></value>
@@ -158,7 +158,7 @@
 	<item name="about_disable_download">
 		<value xml:lang="ko"><![CDATA[포인트가 부족할 경우 다운로드를 금지 합니다. (이미지 파일, 동영상 파일등 직접 링크가 가능한 파일들은 예외입니다.)]]></value>
 		<value xml:lang="en"><![CDATA[This will prohibit downloads when there are not enough points. (Exclude image files)]]></value>
-		<value xml:lang="jp"><![CDATA[チェックするとポイントがない場合、ダウンロードを禁止します（イメージファイル除外）。]]></value>
+		<value xml:lang="jp"><![CDATA[チェックを入れるとポイントがない場合、ダウンロードを禁止します（イメージファイル除外）。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[没有积分时，将禁止下载。 (图片除外)]]></value>
 		<value xml:lang="zh-TW"><![CDATA[沒有點數時，將禁止下載。(圖片除外)]]></value>
 		<value xml:lang="fr"><![CDATA[Il est impossible de télécharger quand il n'y a pas de points suffisants. (Sauf les fichier d'images)]]></value>
@@ -202,7 +202,7 @@
 	<item name="expression">
 		<value xml:lang="ko"><![CDATA[레벨 변수 <b>i</b>를 사용하여 자바스크립트 수식을 입력하세요. 예: Math.pow(i, 2) * 90]]></value>
 		<value xml:lang="en"><![CDATA[Please input Javascript formula by using level variable <b>i</b>. ex) Math.pow(i, 2) * 90]]></value>
-		<value xml:lang="jp"><![CDATA[レベル変数<b>i</b>を使用してJavaスクリプト数式を入力して下さい（例: Math.pow(i, 2) * 90）。]]></value>
+		<value xml:lang="jp"><![CDATA[レベル変数<b>i</b>を使用してJavaスクリプト数式を入力してください（例: Math.pow(i, 2) * 90）。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[使用级别变数<b>"i"</b>输入JS数学函数。例: Math.pow(i, 2) * 90]]></value>
 		<value xml:lang="zh-TW"><![CDATA[使用等級變數<b>"i"</b>輸入JS數學函數。例: Math.pow(i,2) * 90]]></value>
 		<value xml:lang="fr"><![CDATA[Entrez la formule en Javascript en utilisant la Variable de Niveau <b>i</b>. ex) Math.pow(i, 2) * 90]]></value>
@@ -243,9 +243,9 @@
 		<value xml:lang="vi"><![CDATA[Thiết lập lại điểm]]></value>
 	</item>
 	<item name="about_cmd_point_recal">
-		<value xml:lang="ko"><![CDATA[게시글/댓글/첨부파일/회원가입 점수만 이용하여 모든 포인트 점수를 초기화 합니다.<br />회원 가입 점수는 초기화 후 해당 회원이 활동을 하면 부여되고 그 전에는 부여되지 않습니다.<br />데이터 이전 등을 하여 포인트를 완전히 초기화해야 할 경우에만 사용하세요.]]></value>
+		<value xml:lang="ko"><![CDATA[게시글/댓글/첨부파일/회원가입 점수만 이용하여 모든 포인트 점수를 초기화합니다.<br />회원 가입 점수는 초기화 후 해당 회원이 활동을 하면 부여되고 그 전에는 부여되지 않습니다.<br />데이터 이전 등을 하여 포인트를 완전히 초기화해야 할 경우에만 사용하세요.]]></value>
 		<value xml:lang="en"><![CDATA[All point will be initialized only with articles/comments/attachments/join points.<br />Only members who do website activities will get signup points after reset.<br />Please use this function when complete initialization is required in case of data transferring or other situations.]]></value>
-		<value xml:lang="jp"><![CDATA[書き込み/コメント/添付ファイル/会員登録のポイントのみ取り、全ての他のポイントを初期化します。<br />但し、会員登録ポイントは初期化後、該当会員の活動がスタートしたら付与されます。<br />データ移管などによるポイントを完全に初期化する必要がある場合など、利用は慎重に行なって下さい。]]></value>
+		<value xml:lang="jp"><![CDATA[書き込み/コメント/添付ファイル/会員登録のポイントのみを利用し、すべての他のポイントを初期化します。<br />会員登録ポイントは、初期化後に該当会員の活動がスタートしたときにポイントが付けられます。<br />データ移転などによるポイントを完全に初期化するのみ使用し、利用は慎重に行ってください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[积分初始化。即只保留文章/评论/附件/新会员注册的相关积分项。<br />其中，初始化后的新会员注册积分项，将在会员有相关动作(发表主题/评论等)时，才付与其相应的积分。<br />此项功能请务必慎用！此项功能只能在数据转移或真的需要初始化所有积分时才可以使用。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[重置點數。即只保留文章/評論/附加檔案/新會員註冊的相關點數項目。<br />其中，重置後的新會員註冊點數，將在會員有相關動作(例如:發表主題/評論等)時，才付與其相對應的點數。<br />此項功能請務必慎用！此項功能只能在資料轉移或真的需要重置所有點數時才可以使用。]]></value>
 		<value xml:lang="fr"><![CDATA[Tous les points seront recalculés basé seulement sur les points des articles/commentaires/annexes/inscription.<br />Après la restauration, Les membres gagneront le point d'inscription seulement quand il fait de l'activité dans le site Web.<br />Utilisez cette fonction seulement quand l'initialisation complète est necessaire comme le cas de transfert des données etc.]]></value>
@@ -268,7 +268,7 @@
 	<item name="point_group_reset_and_add">
 		<value xml:lang="ko"><![CDATA[설정된 그룹 초기화 후 새 그룹 부여]]></value>
 		<value xml:lang="en"><![CDATA[Reset adjusted groups and add new groups]]></value>
-		<value xml:lang="jp"><![CDATA[設定されたグループの初期化後、新規グループに付与]]></value>
+		<value xml:lang="jp"><![CDATA[設定されたグループを初期化後に新規グループに付与]]></value>
 		<value xml:lang="zh-CN"><![CDATA[初始化已有用户组重新设置]]></value>
 		<value xml:lang="zh-TW"><![CDATA[重新調整與新增群組]]></value>
 		<value xml:lang="tr"><![CDATA[Düzenlenmiş grupları sıfırla ve yeni gruplar ekle]]></value>
@@ -286,7 +286,7 @@
 	<item name="about_point_link_group">
 		<value xml:lang="ko"><![CDATA[그룹에 원하는 레벨을 지정하면, 회원의 포인트가 해당 레벨의 포인트에 도달할 때 그룹이 변경됩니다.]]></value>
 		<value xml:lang="en"><![CDATA[If you specify level for a specific group, users are assigned into the group when they advance to the level by getting points.]]></value>
-		<value xml:lang="jp"><![CDATA[グループにレベルを指定すると、該当レベルになったらグループが変更されます。]]></value>
+		<value xml:lang="jp"><![CDATA[グループにレベルを指定すると、該当レベルになったときにグループが変更されます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[即级别绑定用户组。当级别达到指定级别时，会员所属用户组将自动更新为与其相对应的用户组。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[即群組隨等級變化。當等級達到指定等級時，會員所屬群組將自動更新成相對應的群組。]]></value>
 		<value xml:lang="fr"><![CDATA[Si vous designez un niveau à un groupe particulier, les utilisateur s sont assignés dans le groupe quand ils s'avancent au groupe en gagnant des points.]]></value>
@@ -298,7 +298,7 @@
 	<item name="about_module_point">
 		<value xml:lang="ko"><![CDATA[모듈별 포인트를 지정할 수 있으며 지정되지 않은 모듈은 기본 포인트를 이용합니다.<br />모든 점수는 반대 행동을 하였을 경우 원상복구 됩니다.]]></value>
 		<value xml:lang="en"><![CDATA[You can set point for each module, and modules which don't have any value will use the default point.<br />All points will be restored on acting reverse.]]></value>
-		<value xml:lang="jp"><![CDATA[モジュール別にポイントを指定することが出来ますが、指定されていないモジュールでは、デフォルトポイントが使用されます。すべてのポイント数は、反対のアクションを行った際には原状復帰されます。]]></value>
+		<value xml:lang="jp"><![CDATA[モジュール別にポイントを指定することができますが、指定されていないモジュールには、デフォルトポイントが使用されます。すべてのポイントは、反対の行動の行った場合に元に戻ります。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[可以分别对各模块进行积分设置，没有被设置的模块将使用默认值。<br />所有积分在相反动作下恢复原始值。即：发表新帖后再删除得到的积分为0分。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[可以分別對各模組進行點數設置，沒有設置的模組將使用預設值。<br />所有動作在反向操作下將恢復原始值。即：發表主題後再刪除得到的點數為零。]]></value>
 		<value xml:lang="fr"><![CDATA[Vous pouvez configurer les points pour chaque module. Le module qui n'a pas de valeurs utilisera les points par défaut.<br />Tous les points seront restaurés quand on fait de l'action inverse.]]></value>
@@ -485,7 +485,7 @@
 	<item name="msg_cannot_download">
 		<value xml:lang="ko"><![CDATA[포인트가 부족하여 다운로드를 하실 수 없습니다.]]></value>
 		<value xml:lang="en"><![CDATA[You don't have enough points to download]]></value>
-		<value xml:lang="jp"><![CDATA[ポイントが不足しているため、ダウンロード出来ません。]]></value>
+		<value xml:lang="jp"><![CDATA[ポイントが不足しているため、ダウンロードできません。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[积分不足无法下载！]]></value>
 		<value xml:lang="zh-TW"><![CDATA[點數不足無法下載！]]></value>
 		<value xml:lang="fr"><![CDATA[Vous n'avez pas assez de point pour télécharger]]></value>
@@ -497,7 +497,7 @@
 	<item name="msg_disallow_by_point">
 		<value xml:lang="ko"><![CDATA[포인트가 부족하여 글을 읽으실 수 없습니다. (필요한 포인트 : %d, 현재 포인트 : %d)]]></value>
 		<value xml:lang="en"><![CDATA[You need more points to read the article (You need %d, but you have %d).]]></value>
-		<value xml:lang="jp"><![CDATA[ポイントが不足しているため、閲覧が出来ません。(必要ポイント : %d、 保有ポイント : %d)]]></value>
+		<value xml:lang="jp"><![CDATA[ポイントが不足しているため、閲覧ができません。(必要なポイント : %d、 現在のポイント : %d)]]></value>
 		<value xml:lang="zh-CN"><![CDATA[积分不够，无法查看主题。(所需积分 : %d, 当前积分 : %d)]]></value>
 		<value xml:lang="zh-TW"><![CDATA[點數不足無法閱讀文章 (需要 : %d, 目前 : %d)]]></value>
 		<value xml:lang="fr"><![CDATA[포인트가 부족하여 글을 읽을 수 없습니다 (필요포인트 : %d, 현재포인트 : %d)]]></value>
@@ -509,7 +509,7 @@
 	<item name="point_recal_message">
 		<value xml:lang="ko"><![CDATA[포인트 적용중입니다. (%d / %d)]]></value>
 		<value xml:lang="en"><![CDATA[Adjusting Point. (%d / %d)]]></value>
-		<value xml:lang="jp"><![CDATA[ただ今ポイントを適用しています。 (%d / %d)]]></value>
+		<value xml:lang="jp"><![CDATA[ポイントを適用しています。 (%d / %d)]]></value>
 		<value xml:lang="zh-CN"><![CDATA[计算并应用中(%d / %d)。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[計算並套用中(%d / %d)。]]></value>
 		<value xml:lang="fr"><![CDATA[En train d'Adjuster le Point. (%d / %d)]]></value>
@@ -520,7 +520,7 @@
 	<item name="point_recal_finished">
 		<value xml:lang="ko"><![CDATA[포인트 재계산이 완료되었습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Point recalculation is finished.]]></value>
-		<value xml:lang="jp"><![CDATA[ポイント再計算が完了しました。]]></value>
+		<value xml:lang="jp"><![CDATA[ポイントの再計算が完了しました。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[积分重新计算并应用完毕。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[點數重新計算並套用完畢。]]></value>
 		<value xml:lang="fr"><![CDATA[Recalcul des Points est fini.]]></value>
@@ -530,7 +530,8 @@
 		<value xml:lang="vi"><![CDATA[Đã kết thúc việc tính toán lại điểm.]]></value>
 	</item>
 	<item name="point_update_desc">
-		<value xml:lang="ko"><![CDATA[포인트를 증가시키려면 +를 감소시키려면 -를 숫자앞에 표기한 후 업데이트 해 주세요. + 또는 - 표시가 없으면 입력한 값으로 설정 됩니다.]]></value>
+		<value xml:lang="ko"><![CDATA[포인트를 증가시키려면 +를 감소시키려면 -를 숫자앞에 표기한 후 업데이트 해 주세요. + 또는 - 표시가 없으면 입력한 값으로 설정됩니다.]]></value>
 		<value xml:lang="en"><![CDATA[Insert + in front of the number to increase the point or - to decrease, and update the point. If you don’t insert + or -, the point will be set as the value you entered.]]></value>
+	　　<value xml:lang="jp"><![CDATA[ポイントを増加させるには+を、減少させるには-を、数字の前に表記した後、アップデートしてください。+、または-表示がなければ入力した値が設定されます。]]></value>
 	</item>
 </lang>
