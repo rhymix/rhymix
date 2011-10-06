@@ -164,6 +164,16 @@ class TemplateHandlerTest extends PHPUnit_Framework_TestCase
 				'<a href="{$layout_info->index_url}" cond="$layout_info->logo_image"><img src="{$layout_info->logo_image}" alt="logo" border="0" class="iePngFix" /></a>',
 				'<?php if($__Context->layout_info->logo_image){ ?><a href="<?php echo $__Context->layout_info->index_url ?>"><img src="<?php echo $__Context->layout_info->logo_image ?>" alt="logo" border="0" class="iePngFix" /></a><?php } ?>'
 			),
+			// error case - ignore stylesheets
+			array(
+				'<style>body{background-color:black}</style>',
+				'<style>body{background-color:black}</style>'
+			),
+			// error case - ignore json
+			array(
+				'<script type="text/javascript">var json = {hello:"world"};</script>',
+				'<script type="text/javascript">var json = {hello:"world"};</script>'
+			),
 			// issue 103
 			array(
 				'<load target="http://aaa.com/aaa.js" />',
