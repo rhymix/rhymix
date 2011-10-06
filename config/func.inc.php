@@ -5,7 +5,7 @@
      * @brief function library files for convenience
     **/
 
-    if(!defined('__ZBXE__')) exit();
+    if(!defined('__XE__')) exit();
 
     /**
      * @brief define clone for php5
@@ -28,7 +28,6 @@
             }
         ');
     }
-
 
     // time zone
     $time_zone = array(
@@ -653,13 +652,13 @@
      **/
     function removeHackTag($content) {
         // change the specific tags to the common texts
-        $content = preg_replace('/<(\/?)(iframe|script|meta|style|applet|link|base|html|body)/is', '&lt;$1$2', $content);
+        $content = preg_replace('@<(\/?(?:html|body|head|title|meta|base|link|script|style|applet|iframe)[\s>])@i', '&lt;$1', $content);
 
         /**
          * Remove codes to abuse the admin session in src by tags of imaages and video postings
          * - Issue reported by Sangwon Kim
          **/
-        $content = preg_replace_callback("!<(/?)([a-z]+)(.*?)>!is", removeSrcHack, $content);
+		$content = preg_replace_callback('@<(/?)([a-z]+[0-9]?)([^>]*?\b(?:on[a-z]+|data|style|background|href|(?:dyn|low)?src)\s*=[\s\S]*?)(/?)>@i', 'removeSrcHack', $content);
 
 		// xmp tag 확인 및 추가
 		$content = checkXmpTag($content);
@@ -671,6 +670,8 @@
      * @brief xmp tag 확인 및 닫히지 않은 경우 추가
      **/
 	function checkXmpTag($content) {
+		$content = preg_replace('@<(/?)xmp.*?>@i', '<\1xmp>', $content);
+
 		if(($start_xmp = strrpos($content, '<xmp>')) !==false) {
 			if(($close_xmp = strrpos($content, '</xmp>')) === false) $content .= '</xmp>';
 			else if($close_xmp < $start_xmp) $content .= '</xmp>';
@@ -679,106 +680,41 @@
 		return $content;
 	}
 
-    function removeSrcHack($matches) {
-        $tag = strtolower(trim($matches[2]));
-		
+    function removeSrcHack($match) {
+        $tag = strtolower($match[2]);
+
 		// xmp tag 정리
-		if($tag=='xmp') return '<'.$matches[1].'xmp>';
- 		if($matches[1]=='/') return $matches[0];
+		if($tag=='xmp') return "<{$match[1]}xmp>";
+ 		if($match[1]) return $match[0];
+		if($match[4]) $match[4] = ' '.$match[4];
 
-        //$buff = trim(preg_replace('/(\/>|>)/','/>',$matches[0]));
-        $buff = $matches[0];
-        $buff = str_replace(array('&amp;','&'),array('&','&amp;'),$buff);
-        $buff = preg_replace_callback('/([^=^"^ ]*)=([^ ^>]*)/i', 'fixQuotation', $buff);
+		$attrs = array();
+		if(preg_match_all('/([\w:-]+)\s*=(?:\s*(["\']))?(?(2)(.*?)\2|([^ ]+))/s', $match[3], $m)) {
+			foreach($m[1] as $idx=>$name){
+				if(substr($name,0,2) == 'on') continue;
 
-        $oXmlParser = new XmlParser();
-        $xml_doc = $oXmlParser->parse($buff);
-		if(!$xml_doc) return sprintf("<%s>", $tag);
+				$val = preg_replace('/&#(?:x([a-fA-F0-9]+)|0*(\d+));/e','chr("\\1"?0x00\\1:\\2+0)',$m[3][$idx].$m[4][$idx]);
+				$val = preg_replace('/^\s+|[\t\n\r]+/', '', $val);
 
-        // invalidate the value if src value is module = admin.
-        $src = $xml_doc->attrs->src;
-        $dynsrc = $xml_doc->attrs->dynsrc;
-        $lowsrc = $xml_doc->attrs->lowsrc;
-        $href = $xml_doc->attrs->href;
-		$data = $xml_doc->attrs->data;
-		$background = $xml_doc->attrs->background;
-		$style = $xml_doc->attrs->style;
-		if($style) {
-			$url = preg_match_all('/url\s*\(([^\)]+)\)/is', $style, $matches2);
-			if(count($matches2[0]))
-			{
-				foreach($matches2[1] as $target)
-				{
-					if(_isHackedSrc($target)) return sprintf("<%s>",$tag);
-				}
+				if(preg_match('/^[a-z]+script:/i', $val)) continue;
+
+				$attrs[$name] = $val;
 			}
 		}
-        if(_isHackedSrc($src) || _isHackedSrc($dynsrc) || _isHackedSrc($lowsrc) || _isHackedSrc($href) || _isHackedSrc($data) || _isHackedSrc($background) || _isHackedSrcExp($style)) return sprintf("<%s>",$tag);
 
-		if($tag=='param' && $xml_doc->attrs->value && preg_match('/^javascript:/i',$xml_doc->attrs->value)) return sprintf("<%s>",$tag);
-		if($tag=='object' && $xml_doc->attrs->data && preg_match('/^javascript:/i',$xml_doc->attrs->data)) return sprintf("<%s>",$tag);
-
-        return $buff;
-    }
-
-	function _isHackedSrcExp($style) {
-		if(!$style) return false;
-		if(preg_match('/((\/\*)|(\*\/)|(\\n)|(expression))/i', $style)) return true;
-		return false;
-	}
-
-    function _isHackedSrc($src) {
-        if(!$src) return false;
-        if($src) {
-			$target = trim($src);
-			if(preg_match('/(\s|(\&\#)|(script:))/i', $target)) return true;
-			if(preg_match('/data:/i', $target)) return true;
-
-            $url_info = parse_url($src);
-            $query = $url_info['query'];
-			if(!trim($query)) return false;
-			$query = str_replace("&amp;","&",$query);
-            $queries = explode('&', $query);
-            $cnt = count($queries);
-            for($i=0;$i<$cnt;$i++) {
-                $tmp_str = strtolower(trim($queries[$i]));
-                $pos = strpos($tmp_str,'=');
-                if($pos === false) continue;
-                $key = strtolower(trim(substr($tmp_str, 0, $pos)));
-                $val = strtolower(trim(substr($tmp_str,$pos+1)));
-                if( ($key=='module'&&$val=='admin') || ($key=='act'&&preg_match('/admin/i',$val)) ) return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * @brief function to enclose attribute values to double quotes(")
-     **/
-    function fixQuotation($matches) {
-        $key = $matches[1];
-        $val = trim($matches[2]);
-
-		$close_tag = false;
-		if(substr($val,-1)=='/') {
-			$close_tag = true;
-			$val = rtrim(substr($val,0,-1));
+		if(isset($attrs['style']) && preg_match('@(?:/\*|\*/|\n|:\s*expression\s*\()@i', $attrs['style'])) {
+			unset($attrs['style']);
 		}
 
-		if($val{0}=="'" && substr($val,-1)=="'")
-		{
-			$val = sprintf('"%s"', substr($val,1,-1));
+		$attr = array();
+		foreach($attrs as $name=>$val) {
+			$attr[] = $name."=\"{$val}\"";
 		}
+		$attr = count($attr)?' '.implode(' ',$attr):'';
 
-		if($close_tag) $val .= ' /';
-		
-		// attribute on* remove
-		if(preg_match('/^on([a-z]+)/i',preg_replace('/[^a-zA-Z_]/','',$key))) return '';
-       
-		$output = sprintf('%s=%s', $key, $val);
-
-		return $output;
+        return "<{$match[1]}{$tag}{$attr}{$match[4]}>";
     }
+
     // convert hexa value to RGB
     if(!function_exists('hexrgb')) {
         function hexrgb($hexstr) {
@@ -788,7 +724,6 @@
                        'green' => 0xFF & ($int >> 0x8),
                        'blue' => 0xFF & $int);
         }
-
     }
 
     /**
