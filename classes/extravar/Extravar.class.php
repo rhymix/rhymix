@@ -258,7 +258,7 @@
                             '<script type="text/javascript">'."\n".
                             '(function($){'."\n".
                             '    $(function(){'."\n".
-                            '        var option = { changeMonth:true, changeYear:true, gotoCurrent: false,yearRange:\'-100:+10\', onSelect:function(){'."\n".
+                            '        var option = { dateFormat: "yy-mm-dd", changeMonth:true, changeYear:true, gotoCurrent: false,yearRange:\'-100:+10\', onSelect:function(){'."\n".
                             '            $(this).prev(\'input[type="hidden"]\').val(this.value.replace(/-/g,""))}'."\n".
                             '        };'."\n".
                             '        $.extend(option,$.datepicker.regional[\''.Context::getLangType().'\']);'."\n".
