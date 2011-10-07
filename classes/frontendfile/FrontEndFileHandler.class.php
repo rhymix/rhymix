@@ -12,12 +12,18 @@
 		var $cssMapIndex = array();
 		var $jsHeadMapIndex = array();
 		var $jsBodyMapIndex = array();
-		var $is_ssl = false;
 
-		function FrontEndFileHandler()
+		function isSsl()
 		{
-			$url_info = parse_url(getRequestUriByServerEnviroment());
-			if ($url_info['scheme'] == 'https') $this->is_ssl = true;
+			if ($GLOBAL['__XE_IS_SSL__']) return $GLOBAL['__XE_IS_SSL__'];
+
+			$url_info = parse_url(Context::getRequestUrl());
+			if ($url_info['scheme'] == 'https')
+				$GLOBAL['__XE_IS_SSL__'] = true;
+			else
+				$GLOBAL['__XE_IS_SSL__'] = false;
+
+			return $GLOBAL['__XE_IS_SSL__'];
 		}
 
 		/**
@@ -142,7 +148,7 @@
 			$result = array();
 			foreach($map as $file)
 			{
-				if ($this->is_ssl == false && $useCdn == 'Y' && $file->useCdn && $file->cdnVersion != '%__XE_CDN_VERSION__%')
+				if ($this->isSsl() == false && $useCdn == 'Y' && $file->useCdn && $file->cdnVersion != '%__XE_CDN_VERSION__%')
 				{
 					$fullFilePath = $file->cdnPrefix . $file->cdnVersion . '/' . substr($file->cdnPath, 2) . '/' . $file->fileName;
 				}
@@ -177,7 +183,7 @@
 			$result = array();
 			foreach($map as $file)
 			{
-				if ($this->is_ssl == false && $useCdn == 'Y' && $file->useCdn && $file->cdnVersion != '%__XE_CDN_VERSION__%')
+				if ($this->isSsl() == false && $useCdn == 'Y' && $file->useCdn && $file->cdnVersion != '%__XE_CDN_VERSION__%')
 				{
 					$fullFilePath = $file->cdnPrefix . $file->cdnVersion . '/' . substr($file->cdnPath, 2) . '/' . $file->fileName;
 				}
