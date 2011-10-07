@@ -191,28 +191,29 @@
          * @brief Convert editor component codes to be returned
          **/
         function transComponent($content) {
-            $content = preg_replace_callback('!<div([^\>]*)editor_component=([^\>]*)>(.*?)\<\/div\>!is', array($this,'transEditorComponent'), $content);
-            $content = preg_replace_callback('!<img([^\>]*)editor_component=([^\>]*?)\>!is', array($this,'transEditorComponent'), $content);
+            $content = preg_replace_callback('!<(?:(div)|img)([^>]*)editor_component=([^>]*)>(?(1)(.*?)</div>)!is', array($this,'transEditorComponent'), $content);
             return $content;
         }
 
         /**
          * @brief Convert editor component code of the contents
          **/
-        function transEditorComponent($matches) {
-            $script = sprintf(' %s editor_component=%s', $matches[1], $matches[2]);
-            $script = preg_replace_callback('/([^=^"^ ]*)=([^ ^>]*)/i', fixQuotation, $script);
-            preg_match_all('/([a-z0-9\-\_]+)\=\"([^\"]+)\"/is', $script, $m);
+        function transEditorComponent($match) {
+            $script = " {$match[2]} editor_component={$match[3]}";
+            $script = preg_replace('/([\w:-]+)\s*=(?:\s*(["\']))?((?(2).*?|[^ ]+))\2/i', '\1="\3"', $script);
+            preg_match_all('/([a-z0-9_-]+)="([^"]+)"/is', $script, $m);
+
+			$xml_obj = new stdClass;
             for($i=0,$c=count($m[0]);$i<$c;$i++) {
                 $xml_obj->attrs->{$m[1][$i]} = $m[2][$i];
             }
-            $xml_obj->body = $matches[3];
+            $xml_obj->body = $match[4];
 
-            if(!$xml_obj->attrs->editor_component) return $matches[0];
+            if(!$xml_obj->attrs->editor_component) return $match[0];
             // Get converted codes by using component::transHTML()
             $oEditorModel = &getModel('editor');
             $oComponent = &$oEditorModel->getComponentObject($xml_obj->attrs->editor_component, 0);
-            if(!is_object($oComponent)||!method_exists($oComponent, 'transHTML')) return $matches[0];
+            if(!is_object($oComponent)||!method_exists($oComponent, 'transHTML')) return $match[0];
 
             return $oComponent->transHTML($xml_obj);
         }
