@@ -12,6 +12,13 @@
 		var $cssMapIndex = array();
 		var $jsHeadMapIndex = array();
 		var $jsBodyMapIndex = array();
+		var $is_ssl = false;
+
+		function FrontEndFileHandler()
+		{
+			$url_info = parse_url(getRequestUriByServerEnviroment());
+			if ($url_info['scheme'] == 'https') $this->is_ssl = true;
+		}
 
 		/**
 		 * @brief load front end file
@@ -135,7 +142,7 @@
 			$result = array();
 			foreach($map as $file)
 			{
-				if ($useCdn == 'Y' && $file->useCdn && $file->cdnVersion != '%__XE_CDN_VERSION__%')
+				if ($this->is_ssl == false && $useCdn == 'Y' && $file->useCdn && $file->cdnVersion != '%__XE_CDN_VERSION__%')
 				{
 					$fullFilePath = $file->cdnPrefix . $file->cdnVersion . '/' . substr($file->cdnPath, 2) . '/' . $file->fileName;
 				}
@@ -170,7 +177,7 @@
 			$result = array();
 			foreach($map as $file)
 			{
-				if ($useCdn == 'Y' && $file->useCdn && $file->cdnVersion != '%__XE_CDN_VERSION__%')
+				if ($this->is_ssl == false && $useCdn == 'Y' && $file->useCdn && $file->cdnVersion != '%__XE_CDN_VERSION__%')
 				{
 					$fullFilePath = $file->cdnPrefix . $file->cdnVersion . '/' . substr($file->cdnPath, 2) . '/' . $file->fileName;
 				}
