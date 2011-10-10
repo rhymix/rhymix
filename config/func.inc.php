@@ -219,21 +219,23 @@
      * 3. URL made of args_list added to RequestUri if the first argument value is ''.
      **/
     function getUrl() {
-        $num_args = func_num_args();
+        $num_args  = func_num_args();
         $args_list = func_get_args();
 
-        if(!$num_args) return Context::getRequestUri();
+		if($num_args) $url = Context::getUrl($num_args, $args_list);
+		else $url = Context::getRequestUri();
 
-        return Context::getUrl($num_args, $args_list);
+		return preg_replace('@\berror_return_url=[^&]*|\w+=(?:&|$)@', '', $url);
     }
 
     function getNotEncodedUrl() {
         $num_args = func_num_args();
         $args_list = func_get_args();
 
-        if(!$num_args) return Context::getRequestUri();
+		if($num_args) $url = Context::getUrl($num_args, $args_list, null, false);
+		else $url = Context::getRequestUri();
 
-        return Context::getUrl($num_args, $args_list, null, false);
+		return preg_replace('@\berror_return_url=[^&]*|\w+=(?:&|$)@', '', $url);
     }
 
     /**
