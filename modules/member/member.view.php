@@ -49,8 +49,6 @@
             $member_config = $oModuleModel->getModuleConfig('member');
             Context::set('member_config', $member_config);
 
-			$memberInfo = get_object_vars(Context::get('member_info'));
-			Context::set('memberInfo', $memberInfo);
             $site_module_info = Context::get('site_module_info');
 			$columnList = array('member_srl', 'user_name', 'nick_name', 'homepage', 'blog', 'birthday', 'regdate', 'last_login');
             $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl, $site_module_info->site_srl, $columnList);
