@@ -262,6 +262,7 @@
 			// If there is no such action in the module object
 			if(!isset($xml_info->action->{$this->act}) || !method_exists($oModule, $this->act))
 			{
+
 				if(!Context::isInstalled())
 				{
 					$this->error = 'msg_invalid_request';
@@ -422,6 +423,7 @@
 					$this->error = $message;
 					if (!$redirectUrl && Context::get('error_return_url')) $redirectUrl = Context::get('error_return_url');
 					$this->_setInputValueToSession();
+
 				}
 				else
 				{
@@ -463,6 +465,7 @@
 		function _setInputValueToSession()
 		{
 			$requestVars = Context::getRequestVars();
+			unset($requestVars->act, $requestVars->mid, $requestVars->vid, $requestVars->success_return_url, $requestVars->error_return_url);
 			foreach($requestVars AS $key=>$value) $_SESSION['INPUT_ERROR'][$key] = $value;
 		}
 
