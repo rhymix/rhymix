@@ -1,7 +1,7 @@
 <?php
 
 define('__DEBUG__', 1);
-define('_XE_PATH_', realpath(dirname(__FILE__).'/../../../'));
+define('_XE_PATH_', str_replace('tests/classes/template/TemplateHandlerTest.class.php', '', strtr(__FILE__, '\\', '/')));
 require _XE_PATH_.'/classes/file/FileHandler.class.php';
 require _XE_PATH_.'/classes/template/TemplateHandler.class.php';
 
