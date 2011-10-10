@@ -358,6 +358,18 @@
                     $this->_test($xml_file, $argsString, $expected);
                 }
 
+               function test_file_getFileList_Not_In_Empty_String_Value(){
+                    $xml_file = _XE_PATH_ . "modules/file/queries/getFileList.xml";
+                    $argsString = '$args->exclude_module_srl = ""; $args->s_module_srl = array(12); ';
+                    $expected = 'select "files".*
+                                    from "xe_files" as "files"
+                                        left join "xe_member" as "member" on "files"."member_srl" = "member"."member_srl"
+                                    where "files"."module_srl" in (12)
+                                    order by "files"."file_srl" desc
+                                    limit 0, 20';
+                    $this->_test($xml_file, $argsString, $expected);
+                }
+
                 function test_document_getDeclaredList_In_Query(){
                     $xml_file = _XE_PATH_ . "modules/document/queries/getDeclaredList.xml";
                     $argsString = "\$args->list_count = 30;

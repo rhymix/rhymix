@@ -57,7 +57,11 @@
 		}
 
 		function toString($value){
-			if(is_array($value)) return (count($value) !== 0 ? '('.implode(',', $value).')' : '');
+			if(is_array($value)){
+                            if(count($value) === 0) return '';
+                            if(count($value) === 1 && $value[0] === '') return '';
+                            return '('.implode(',', $value).')';
+                        }
 			return $value;
 		}
 
