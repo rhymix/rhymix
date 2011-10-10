@@ -32,6 +32,9 @@
 
             Context::set('system_message', nl2br($this->getMessage()));
 
+			Context::set('act', 'procMemberLogin');
+			Context::set('mid', '');
+
             $this->setTemplatePath($template_path);
             $this->setTemplateFile('system_message');
         }

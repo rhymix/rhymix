@@ -36,4 +36,7 @@
 	<div class="logOut" cond="$is_logged && $module == 'admin'">
 		<span class="buttonAccount"><a href="{getUrl('act','dispMemberLogout','module','')}">{$lang->cmd_logout}</a></span>
 	</div>
+	<div class="logOut" cond="!$is_logged && $module != 'admin'">
+		<span class="buttonAccount"><a href="{getUrl('act','dispMemberLoginForm','module','', 'mid', '')}">{$lang->cmd_login}</a></span>
+	</div>
 </div>
