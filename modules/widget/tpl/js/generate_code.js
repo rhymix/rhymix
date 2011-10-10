@@ -122,6 +122,7 @@ function doFillWidgetVars() {
                     var unescaped_val = unescape(val);
                     if(!unescaped_val) node.value = val;
                     else node.value = unescaped_val;
+					jQuery('#'+name).val(node.value);
                 break;
             case "checkbox" :
                     if(selected_node.getAttribute(name)) {
