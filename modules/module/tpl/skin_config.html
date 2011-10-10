@@ -105,7 +105,7 @@
 					<!--@foreach($val->options as $k=>$v)-->
 					<span>
 						<input type="checkbox" name="{$val->name}[]" value="{$v->value}" id="ch_{$key}_{$k}" <!--@if(in_array($v->value, $val->value))-->checked="checked"<!--@end--> class="checkbox" /> 
-						<label for="ch_{$key}_{$k}">{$v->value}</label>
+						<label for="ch_{$key}_{$k}">{$v->title}</label>
 					</span>
 					<!--@end-->
 					
@@ -113,7 +113,7 @@
 					<!--@foreach($val->options as $k=>$v)-->
 					<span>
 						<input type="radio" name="{$val->name}" value="{$v->value}" id="ch_{$key}_{$k}" <!--@if($v->value==$val->value)-->checked="checked"<!--@end-->/> 
-						<label for="ch_{$key}_{$k}">{$v->value}</label>
+						<label for="ch_{$key}_{$k}">{$v->title}</label>
 					</span>
 					<!--@end-->
 					
