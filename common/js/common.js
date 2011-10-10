@@ -471,9 +471,11 @@ function setFixedPopupSize() {
  * @brief 추천/비추천,스크랩,신고기능등 특정 srl에 대한 특정 module/action을 호출하는 함수
  **/
 function doCallModuleAction(module, action, target_srl) {
-    var params = new Array();
-    params['target_srl'] = target_srl;
-    params['cur_mid'] = current_mid;
+    var params = {
+		target_srl : target_srl,
+		cur_mid    : current_mid,
+		mid        : current_mid
+	};
     exec_xml(module, action, params, completeCallModuleAction);
 }
 
