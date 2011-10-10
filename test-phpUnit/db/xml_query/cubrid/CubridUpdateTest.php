@@ -18,7 +18,7 @@
 							$args->use_mobile = "";
 							$args->site_srl = 0;
 							$args->module_srl = 47374;';
-			$expected = 'UPDATE "xe_modules"
+			$expected = 'UPDATE "xe_modules" as "modules"
 						 SET "module" = \'page\'
 						 	, "mid" = \'test\'
 						 	, "browser_title" = \'test\'
@@ -29,14 +29,14 @@
 						 	, "footer_text" = \'\'
 						 	, "use_mobile" = \'n\'
 						WHERE  "site_srl" = 0
-							AND "module_srl" = 47374';
+						AND "module_srl" = 47374';
 			$this->_test($xml_file, $argsString, $expected);
 		}
 		function test_member_updateLastLogin(){
 			$xml_file = _XE_PATH_ . "modules/member/queries/updateLastLogin.xml";
 			$argsString = ' $args->member_srl = 4;
 							$args->last_login = "20110607120549";';
-			$expected = 'UPDATE "xe_member" SET "member_srl" = 4, "last_login" = \'20110607120549\'  WHERE  "member_srl" = 4';
+			$expected = 'UPDATE "xe_member" as "member" SET "member_srl" = 4, "last_login" = \'20110607120549\'  WHERE  "member_srl" = 4';
 			$this->_test($xml_file, $argsString, $expected);
 		}
 
@@ -44,7 +44,7 @@
 			$xml_file = _XE_PATH_ . "modules/point/queries/updatePoint.xml";
 			$argsString = ' $args->member_srl = 4;
 							$args->point = 105;';
-			$expected = 'UPDATE "xe_point" SET "point" = 105  WHERE  "member_srl" = 4';
+			$expected = 'UPDATE "xe_point" as "point" SET "point" = 105  WHERE  "member_srl" = 4';
 			$this->_test($xml_file, $argsString, $expected);
 		}
 
@@ -62,7 +62,7 @@
 			$argsString = '$args->menu_srl = 204;
 						$args->title = "test_menu";
 						';
-			$expected = 'UPDATE "xe_menu" SET "title" = \'test_menu\'  WHERE  "menu_srl" = 204';
+			$expected = 'UPDATE "xe_menu" as "menu" SET "title" = \'test_menu\'  WHERE  "menu_srl" = 204';
 			$this->_test($xml_file, $argsString, $expected);
 		}
 
@@ -73,7 +73,7 @@
                             $args->menu_srl = 237423;
                             $args->listorder = -8;
                             $args->menu_item_srl = 237431;';
-			$expected = 'UPDATE "xe_menu_item" SET "parent_srl" = 0, "listorder" = -8 WHERE  "menu_item_srl" = 237431';
+			$expected = 'UPDATE "xe_menu_item" as "menu_item" SET "parent_srl" = 0, "listorder" = -8 WHERE  "menu_item_srl" = 237431';
 			$this->_test($xml_file, $argsString, $expected);
 		}
 

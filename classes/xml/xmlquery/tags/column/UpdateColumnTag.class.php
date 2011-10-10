@@ -11,18 +11,28 @@
 
 	class UpdateColumnTag extends ColumnTag {
 		var $argument;
+                var $default_value;
 
 		function UpdateColumnTag($column) {
 			parent::ColumnTag($column->attrs->name);
 			$dbParser = DB::getParser();
 			$this->name = $dbParser->parseColumnName($this->name);
-			$this->argument = new QueryArgument($column);
+                        if($column->attrs->var)
+                            $this->argument = new QueryArgument($column);
+                        else
+                            $this->default_value = $dbParser->parseColumnName($column->attrs->default);
 		}
 
 		function getExpressionString(){
+                    if($this->argument)
 			return sprintf('new UpdateExpression(\'%s\', $%s_argument)'
 						, $this->name
 						, $this->argument->argument_name);
+                    else {
+			return sprintf('new UpdateExpressionWithoutArgument(\'%s\', \'%s\')'
+						, $this->name
+						, $this->default_value);
+                    }
 		}
 
 		function getArgument(){

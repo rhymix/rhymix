@@ -26,6 +26,7 @@
         require(_XE_PATH_.'classes/db/queryparts/expression/SelectExpression.class.php');
         require(_XE_PATH_.'classes/db/queryparts/expression/InsertExpression.class.php');
         require(_XE_PATH_.'classes/db/queryparts/expression/UpdateExpression.class.php');
+        require(_XE_PATH_.'classes/db/queryparts/expression/UpdateExpressionWithoutArgument.class.php');
         require(_XE_PATH_.'classes/db/queryparts/table/Table.class.php');
         require(_XE_PATH_.'classes/db/queryparts/table/JoinTable.class.php');
         require(_XE_PATH_.'classes/db/queryparts/table/CubridTableWithHint.class.php');
@@ -605,22 +606,22 @@
 			$columnsList = $query->getUpdateString($with_values);
 			if($columnsList == '') return new Object(-1, "Invalid query");
 
-			$tableName = $query->getFirstTableName();
-			if($tableName == '') return new Object(-1, "Invalid query");
+                        $tables = $query->getFromString($with_values);
+                        if($tables == '') return new Object(-1, "Invalid query");
 
 			$where = $query->getWhereString($with_values);
 			if($where != '') $where = ' WHERE ' . $where;
-			
+
 			$priority = $with_priority?$query->getPriority():'';
 
-			return "UPDATE $priority $tableName SET $columnsList ".$where;
+			return "UPDATE $priority $tables SET $columnsList ".$where;
 		}
 
     	function getInsertSql($query, $with_values = true, $with_priority = false){
 			$tableName = $query->getFirstTableName();
 			$values = $query->getInsertString($with_values);
 			$priority = $with_priority?$query->getPriority():'';
-			
+
 			return "INSERT $priority INTO $tableName \n $values";
 		}
 

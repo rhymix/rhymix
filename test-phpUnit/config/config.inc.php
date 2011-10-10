@@ -5,6 +5,7 @@
 
 	if(!defined('__DEBUG__')) define('__DEBUG__', 4);
         define('__ZBXE__', true);
+        define('__XE__',   true);
 
 	require_once(_XE_PATH_.'test-phpUnit/Helper.class.php');
         require_once(_XE_PATH_.'test-phpUnit/QueryTester.class.php');
@@ -38,6 +39,7 @@
     require_once(_XE_PATH_.'classes/db/queryparts/expression/SelectExpression.class.php');
     require_once(_XE_PATH_.'classes/db/queryparts/expression/InsertExpression.class.php');
     require_once(_XE_PATH_.'classes/db/queryparts/expression/UpdateExpression.class.php');
+    require_once(_XE_PATH_.'classes/db/queryparts/expression/UpdateExpressionWithoutArgument.class.php');
     require_once(_XE_PATH_.'classes/db/queryparts/table/Table.class.php');
     require_once(_XE_PATH_.'classes/db/queryparts/table/JoinTable.class.php');
     require_once(_XE_PATH_.'classes/db/queryparts/table/CubridTableWithHint.class.php');
