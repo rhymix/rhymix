@@ -18,44 +18,44 @@
          * @brief Log-in by checking user_id and password
          **/
         function procMemberLogin($user_id = null, $password = null, $keep_signed = null) {
-            // Variables
-            if(!$user_id) $user_id = Context::get('user_id');
-            $user_id = trim($user_id);
+			// Variables
+			if(!$user_id) $user_id = Context::get('user_id');
+			$user_id = trim($user_id);
 
-            if(!$password) $password = Context::get('password');
-            $password = trim($password);
+			if(!$password) $password = Context::get('password');
+			$password = trim($password);
 
-            if(!$keep_signed) $keep_signed = Context::get('keep_signed');
-            // Return an error when id and password doesn't exist
-            if(!$user_id) return new Object(-1,'null_user_id');
-            if(!$password) return new Object(-1,'null_password');
+			if(!$keep_signed) $keep_signed = Context::get('keep_signed');
+			// Return an error when id and password doesn't exist
+			if(!$user_id) return new Object(-1,'null_user_id');
+			if(!$password) return new Object(-1,'null_password');
 
-            $output = $this->doLogin($user_id, $password, $keep_signed=='Y'?true:false);
-	    if (!$output->toBool()) return $output;
+			$output = $this->doLogin($user_id, $password, $keep_signed=='Y'?true:false);
+			if (!$output->toBool()) return $output;
 
-            $oModuleModel = &getModel('module');
-            $config = $oModuleModel->getModuleConfig('member');
-            if($config->after_login_url) $this->setRedirectUrl($config->after_login_url);
+			$oModuleModel = &getModel('module');
+			$config = $oModuleModel->getModuleConfig('member');
+			if($config->after_login_url) $this->setRedirectUrl($config->after_login_url);
 
-            // Check change_password_date
-            $limit_date = $config->change_password_date;
+			// Check change_password_date
+			$limit_date = $config->change_password_date;
 
-            // Check if change_password_date is set
-            if ($limit_date > 0) {
-                $oMemberModel = &getModel('member');
-                //$member_info = $oMemberModel->getMemberInfoByUserID($user_id, $columnList);
-                if ($this->memberInfo->change_password_date < date ('YmdHis', strtotime ('-' . $limit_date . ' day'))) {
-                    $this->setRedirectUrl(getNotEncodedUrl('','vid',Context::get('vid'),'mid',Context::get('mid'),'act','dispMemberModifyPassword'));
-                }
-            }
+			// Check if change_password_date is set
+			if ($limit_date > 0) {
+				$oMemberModel = &getModel('member');
+				//$member_info = $oMemberModel->getMemberInfoByUserID($user_id, $columnList);
+				if ($this->memberInfo->change_password_date < date ('YmdHis', strtotime ('-' . $limit_date . ' day'))) {
+					$this->setRedirectUrl(getNotEncodedUrl('','vid',Context::get('vid'),'mid',Context::get('mid'),'act','dispMemberModifyPassword'));
+				}
+			}
 
-	    if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-		    $returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '');
-		    $this->setRedirectUrl($returnUrl);
-		    return;
-	    }
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '');
+				$this->setRedirectUrl($returnUrl);
+				return;
+			}
 
-            return $output;
+			return $output;
         }
 
         /**
@@ -508,6 +508,7 @@
             unset($all_args->body);
             unset($all_args->accept_agreement);
             unset($all_args->signature);
+            unset($all_args->password);
             unset($all_args->password2);
             unset($all_args->mid);
             unset($all_args->error_return_url);
@@ -603,6 +604,7 @@
             unset($all_args->mid);
             unset($all_args->error_return_url);
             unset($all_args->ruleset);
+            unset($all_args->password);
 
             // Add extra vars after excluding necessary information from all the requested arguments
             $extra_vars = delObjectVars($all_args, $args);
