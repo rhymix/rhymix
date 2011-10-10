@@ -30,7 +30,7 @@
 		<item name="condition">
 			<value xml:lang="ko"><![CDATA[설치 조건 확인]]></value>
 			<value xml:lang="en"><![CDATA[Check the installation conditions]]></value>
-			<value xml:lang="ko"><![CDATA[インストール条件確認]]></value>
+			<value xml:lang="jp"><![CDATA[インストール条件確認]]></value>
 		</item>
 		<item name="ftp">
 			<value xml:lang="ko"><![CDATA[FTP 정보 입력]]></value>
