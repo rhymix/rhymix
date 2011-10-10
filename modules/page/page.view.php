@@ -85,7 +85,12 @@
 				Context::set('document_srl', $document_srl);
 			}
 			Context::set('oDocument', $oDocument);
-            $this->setTemplatePath(sprintf($this->module_path.'skins/%s', $this->module_info->skin));
+
+			if ($this->module_info->skin)
+				$this->setTemplatePath(sprintf($this->module_path.'skins/%s', $this->module_info->skin));
+			else
+				$this->setTemplatePath($this->module_path.'skins/default');
+				
 		}
 
 		function _getOutsideContent(){
