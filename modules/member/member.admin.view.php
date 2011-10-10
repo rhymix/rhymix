@@ -57,14 +57,15 @@
 			$memberIdentifiers = array('user_id'=>'user_id', 'user_name'=>'user_name', 'nick_name'=>'nick_name');			
 			$usedIdentifiers = array();			
 
-			foreach($config->signupForm as $signupItem){				
-				if (!count($memberIdentifiers)) break;				
-				if(in_array($signupItem->name, $memberIdentifiers) && ($signupItem->required || $signupItem->isUse)){					
-					unset($memberIdentifiers[$signupItem->name]);					
-					$usedIdentifiers[$signupItem->name] = $lang->{$signupItem->name};				
-				}			
+			if (is_array($config->signupForm)){
+				foreach($config->signupForm as $signupItem){				
+					if (!count($memberIdentifiers)) break;				
+					if(in_array($signupItem->name, $memberIdentifiers) && ($signupItem->required || $signupItem->isUse)){					
+						unset($memberIdentifiers[$signupItem->name]);					
+						$usedIdentifiers[$signupItem->name] = $lang->{$signupItem->name};				
+					}			
+				}
 			}
-
 			Context::set('total_count', $output->total_count);
             Context::set('total_page', $output->total_page);
             Context::set('page', $output->page);
