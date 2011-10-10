@@ -122,9 +122,13 @@
 			{
 				$oModuleModel = &getModel('module');
 				$moduleInfo = $oModuleModel->getModuleInfoByMid($menuItem->url);
-				if($moduleInfo->mid == $menuItem->url) {
-					$menuItem->moduleType = $moduleInfo->module;
-					$menuItem->pageType = $moduleInfo->page_type;
+				if(!$moduleInfo) $menuItem->moduleType = 'url';
+				else
+				{
+					if($moduleInfo->mid == $menuItem->url) {
+						$menuItem->moduleType = $moduleInfo->module;
+						$menuItem->pageType = $moduleInfo->page_type;
+					}
 				}
 			}
 			else $menuItem->moduleType = 'url';

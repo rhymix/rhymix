@@ -3,11 +3,11 @@
     <grants />
     <permissions />
     <actions>
-        <action name="dispMenuAdminContent" type="view" admin_index="true" standalone="true" />
+        <action name="dispMenuAdminContent" type="view" standalone="true" />
         <action name="dispMenuAdminInsert" type="view" standalone="true" />
         <action name="dispMenuAdminManagement" type="view" standalone="true" />
         <action name="dispMenuAdminMidList" type="view" standalone="true" />
-        <action name="dispMenuAdminSiteMap" type="view" standalone="true" menu_name="siteMap" menu_index="true" />
+        <action name="dispMenuAdminSiteMap" type="view" standalone="true" admin_index="true" menu_name="siteMap" menu_index="true" />
 
         <action name="getMenuAdminTplInfo" type="model" standalone="true" />
         <action name="getMenuAdminItemInfo" type="model" standalone="true" />
