@@ -144,7 +144,6 @@
             FileHandler::makeDir('./files/member_extra_info/profile_image');
             FileHandler::makeDir('./files/member_extra_info/signature');
 
-            $oDB->addIndex("member_openid_association","idx_assoc", array("server_url(255)","handle"), false);
             return new Object();
         }
 
