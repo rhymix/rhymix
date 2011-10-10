@@ -457,7 +457,7 @@
 									$result = "Context::unloadFile('{$attr['target']}','{$attr['targetie']}');";
 								} else {
 									$metafile = $attr['target'];
-									$result = "\$__tmp=array('{$attr['target']}','{$attr['type']}','{$attr['targetie']}','{$attr['index']}','{$attr['usecdn']}','{$attr['cdnprefix']}','{$attr['cdnversion']}');Context::loadFile(\$__tmp);unset(\$__tmp);";
+									$result = "\$__tmp=array('{$attr['target']}','{$attr['type']}','{$attr['targetie']}','{$attr['index']}');Context::loadFile(\$__tmp,'{$attr['usecdn']}','{$attr['cdnprefix']}','{$attr['cdnversion']}');unset(\$__tmp);";
 								}
 								break;
 							case 'css':
@@ -465,7 +465,7 @@
 									$result = "Context::unloadFile('{$attr['target']}','{$attr['targetie']}','{$attr['media']}');";
 								} else {
 									$metafile = $attr['target'];
-									$result = "\$__tmp=array('{$attr['target']}','{$attr['media']}','{$attr['targetie']}','{$attr['index']}','{$attr['usecdn']}','{$attr['cdnprefix']}','{$attr['cdnversion']}');Context::loadFile(\$__tmp);unset(\$__tmp);";
+									$result = "\$__tmp=array('{$attr['target']}','{$attr['media']}','{$attr['targetie']}','{$attr['index']}');Context::loadFile(\$__tmp,'{$attr['usecdn']}','{$attr['cdnprefix']}','{$attr['cdnversion']}');unset(\$__tmp);";
 								}
 								break;
 						}
