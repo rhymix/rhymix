@@ -87,10 +87,10 @@
 				$key = $file->filePath . $file->fileName . "\t" . $file->targetIe;
 			}
 
-			if (!isset($map[$key]) || $map[$key]->index > $file->index)
+			if (!isset($map[$key]) || $mapIndex[$key] != $file->index)
 			{
-				$file->index = ((int)$file->index + count($map));
-				$map[$key] = $file;
+				$this->unloadFile($args[0], $args[2], $args[1]);
+				$map[$file->index][$key] = $file;
 				$mapIndex[$key] = $file->index;
 			}
 		}
@@ -106,15 +106,27 @@
 			if ($fileExtension == 'css')
 			{
 				$key .= "\t" . $media;
-				unset($this->cssMap[$key]);
-				unset($this->cssMapIndex[$key]);
+				if (isset($this->cssMapIndex[$key]))
+				{
+					$index = $this->cssMapIndex[$key];
+					unset($this->cssMap[$index][$key]);
+					unset($this->cssMapIndex[$key]);
+				}
 			}
 			else
 			{
-				unset($this->jsHeadMap[$key]);
-				unset($this->jsBodyMap[$key]);
-				unset($this->jsHeadMapIndex[$key]);
-				unset($this->jsBodyMapIndex[$key]);
+				if (isset($this->jsHeadMapIndex[$key]))
+				{
+					$index = $this->jsHeadMapIndex[$key];
+					unset($this->jsHeadMap[$index][$key]);
+					unset($this->jsHeadMapIndex[$key]);
+				}
+				if (isset($this->jsBodyMapIndex[$key]))
+				{
+					$index = $this->jsBodyMapIndex[$key];
+					unset($this->jsBodyMap[$index][$key]);
+					unset($this->jsBodyMapIndex[$key]);
+				}
 			}
 		}
 
@@ -146,17 +158,20 @@
 			$useCdn = $dbInfo->use_cdn;
 
 			$result = array();
-			foreach($map as $file)
+			foreach($map as $indexedMap)
 			{
-				if ($this->isSsl() == false && $useCdn == 'Y' && $file->useCdn && $file->cdnVersion != '%__XE_CDN_VERSION__%')
+				foreach($indexedMap as $file)
 				{
-					$fullFilePath = $file->cdnPrefix . $file->cdnVersion . '/' . substr($file->cdnPath, 2) . '/' . $file->fileName;
+					if ($this->isSsl() == false && $useCdn == 'Y' && $file->useCdn && $file->cdnVersion != '%__XE_CDN_VERSION__%')
+					{
+						$fullFilePath = $file->cdnPrefix . $file->cdnVersion . '/' . substr($file->cdnPath, 2) . '/' . $file->fileName;
+					}
+					else
+					{
+						$fullFilePath = $file->filePath . '/' . $file->fileName;
+					}
+					$result[] = array('file' => $fullFilePath, 'media' => $file->media, 'targetie' => $file->targetIe);
 				}
-				else
-				{
-					$fullFilePath = $file->filePath . '/' . $file->fileName;
-				}
-				$result[] = array('file' => $fullFilePath, 'media' => $file->media, 'targetie' => $file->targetIe);
 			}
 
 			return $result;
@@ -181,17 +196,20 @@
 			$useCdn = $dbInfo->use_cdn;
 
 			$result = array();
-			foreach($map as $file)
+			foreach($map as $indexedMap)
 			{
-				if ($this->isSsl() == false && $useCdn == 'Y' && $file->useCdn && $file->cdnVersion != '%__XE_CDN_VERSION__%')
+				foreach($indexedMap as $file)
 				{
-					$fullFilePath = $file->cdnPrefix . $file->cdnVersion . '/' . substr($file->cdnPath, 2) . '/' . $file->fileName;
+					if ($this->isSsl() == false && $useCdn == 'Y' && $file->useCdn && $file->cdnVersion != '%__XE_CDN_VERSION__%')
+					{
+						$fullFilePath = $file->cdnPrefix . $file->cdnVersion . '/' . substr($file->cdnPath, 2) . '/' . $file->fileName;
+					}
+					else
+					{
+						$fullFilePath = $file->filePath . '/' . $file->fileName;
+					}
+					$result[] = array('file' => $fullFilePath, 'targetie' => $file->targetIe);
 				}
-				else
-				{
-					$fullFilePath = $file->filePath . '/' . $file->fileName;
-				}
-				$result[] = array('file' => $fullFilePath, 'targetie' => $file->targetIe);
 			}
 
 			return $result;
@@ -199,16 +217,7 @@
 
 		function _sortMap(&$map, &$index)
 		{
-
-			asort($index);
-
-			$sortedMap = array();
-			foreach($index as $key => $val)
-			{
-				$sortedMap[$key] = $map[$key];
-			}
-
-			$map = $sortedMap;
+			ksort($map);
 		}
 
 		function _normalizeFilePath($path)
