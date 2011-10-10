@@ -465,7 +465,7 @@
         }
 
         function getComments() {
-            if(!$this->allowComment() || !$this->getCommentCount()) return;
+            if(!$this->getCommentCount()) return;
             if(!$this->isGranted() && $this->isSecret()) return;
             // cpage is a number of comment pages
             $cpage = Context::get('cpage');
@@ -704,9 +704,9 @@
         function isEnableComment() {
             // Return false if not authorized, if a secret document, if the document is set not to allow any comment
 			// old version allowed admin(isGranted() method use), but admin not allow comment below condition
-            if( $this->isSecret() || $this->isLocked() || !$this->allowComment() ) return false;
+            if( $this->isGranted() && $this->allowComment() ) return true;
 
-            return true;
+            return false;
         }
 
         /**
