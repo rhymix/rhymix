@@ -417,7 +417,7 @@
 
 						if(!$fileDir) return '';
 
-						return "<?php echo TemplateHandler::getInstance()->compile('{$fileDir}','{$pathinfo['basename']}') ?>";
+						return "<?php \$__tpl=TemplateHandler::getInstance();echo \$__tpl->compile('{$fileDir}','{$pathinfo['basename']}') ?>";
 
 					// <!--%load_js_plugin-->
 					case 'load_js_plugin': 
@@ -451,7 +451,7 @@
 								if($pathinfo['basename'] == 'lang.xml' && substr($pathinfo['dirname'],-5) == '/lang') {
 									$result = "Context::loadLang('{$relativeDir}');";
 								} else {
-									$result = "require_once('./classes/xml/XmlJsFilter.class.php');\$__xmlFilter = new XmlJsFilter('{$relativeDir}','{$pathinfo['basename']}');\$__xmlFilter->compile();";
+									$result = "require_once('./classes/xml/XmlJsFilter.class.php');\$__xmlFilter=new XmlJsFilter('{$relativeDir}','{$pathinfo['basename']}');\$__xmlFilter->compile();";
 								}
 								break;
 							case 'js':

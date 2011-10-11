@@ -102,12 +102,12 @@ class TemplateHandlerTest extends PHPUnit_Framework_TestCase
 			// #include
 			array(
 				'<dummy /><!--#include("sample.html")--><div>This is another dummy</div>',
-				'<dummy /><?php echo TemplateHandler::getInstance()->compile(\'tests/classes/template\',\'sample.html\') ?><div>This is another dummy</div>'
+				'<dummy /><?php $__tpl=TemplateHandler::getInstance();echo $__tpl->compile(\'tests/classes/template\',\'sample.html\') ?><div>This is another dummy</div>'
 			),
 			// <include target="file">
 			array(
 				'<dummy /><include target="../sample.html" /><div>This is another dummy</div>',
-				'<dummy /><?php echo TemplateHandler::getInstance()->compile(\'tests/classes\',\'sample.html\') ?><div>This is another dummy</div>'
+				'<dummy /><?php $__tpl=TemplateHandler::getInstance();echo $__tpl->compile(\'tests/classes\',\'sample.html\') ?><div>This is another dummy</div>'
 			),
 			// <load target="../../../modules/page/lang/lang.xml">
 			array(
@@ -127,7 +127,7 @@ class TemplateHandlerTest extends PHPUnit_Framework_TestCase
 			// <!--%import("../../../modules/page/tpl/filter/insert_config.xml")-->
 			array(
 				'<dummy /><!--%import("../../../modules/page/tpl/filter/insert_config.xml")--><dummy />',
-				'<dummy /><?php require_once(\'./classes/xml/XmlJsFilter.class.php\');$__xmlFilter = new XmlJsFilter(\'modules/page/tpl/filter\',\'insert_config.xml\');$__xmlFilter->compile(); ?><dummy />'
+				'<dummy /><?php require_once(\'./classes/xml/XmlJsFilter.class.php\');$__xmlFilter=new XmlJsFilter(\'modules/page/tpl/filter\',\'insert_config.xml\');$__xmlFilter->compile(); ?><dummy />'
 			),
 			// <!--%import("../script.js",type="body")-->
 			array(
