@@ -437,6 +437,11 @@
 
 						if(!$isRemote) {
 							if(!preg_match('@^\.?/@',$attr['target'])) $attr['target'] = './'.$attr['target'];
+							if(substr($attr['target'], -5) == '/lang') {
+								$pathinfo['dirname']  .= '/lang';
+								$pathinfo['basename']  = '';
+								$pathinfo['extension'] = 'xml';
+							}
 
 							$relativeDir = $this->_getRelativeDir($pathinfo['dirname']);
 
@@ -448,7 +453,7 @@
 							case 'xml':
 								if($isRemote || $doUnload) return '';
 								// language file?
-								if($pathinfo['basename'] == 'lang.xml' && substr($pathinfo['dirname'],-5) == '/lang') {
+								if($pathinfo['basename'] == 'lang.xml' || substr($pathinfo['dirname'],-5) == '/lang') {
 									$result = "Context::loadLang('{$relativeDir}');";
 								} else {
 									$result = "require_once('./classes/xml/XmlJsFilter.class.php');\$__xmlFilter=new XmlJsFilter('{$relativeDir}','{$pathinfo['basename']}');\$__xmlFilter->compile();";
