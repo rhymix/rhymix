@@ -514,7 +514,7 @@
 		{
 			$_path = $path;
 
-			$fileDir = strtr(realpath(dirname($this->file)),'\\','/');
+			$fileDir = strtr(realpath($this->path),'\\','/');
 			if($path{0} != '/') $path = strtr(realpath($fileDir.'/'.$path),'\\','/');
 
 			// for backward compatibility
