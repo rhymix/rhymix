@@ -247,9 +247,10 @@
 			$fields = array();
 			foreach($signupForm as $formInfo){
 				if ($formInfo->required || $formInfo->mustRequired){
-					if($formInfo->name == 'password')
+					if($formInfo->name == 'password'){
 						$fields[] = '<field name="password"><if test="$act == \'procMemberInsert\'" attr="required" value="true" /><if test="$act == \'procMemberInsert\'" attr="length" value="3:20" /></field>';
-					else if($formInfo->name == 'find_account_question'){
+						$fields[] = '<field name="password2"><if test="$act == \'procMemberInsert\'" attr="required" value="true" /><if test="$act == \'procMemberInsert\'" attr="equalto" value="password" /></field>';
+					}else if($formInfo->name == 'find_account_question'){
 						$fields[] = '<field name="find_account_question" required="true" />';
 						$fields[] = '<field name="find_account_answer" required="true" length=":250"/>';
 					}else if($formInfo->name == 'email_address'){
@@ -280,7 +281,8 @@
 					.'</ruleset>';
 
 			$fields = array();
-			$fields[] = sprintf('<field name="user_id" required="true" rule="%s"/>', $identifier);
+			$trans = array('email_address'=>'email', 'user_id'=> 'userid');
+			$fields[] = sprintf('<field name="user_id" required="true" rule="%s"/>', $trans[$identifier]);
 			$fields[] = '<field name="password" required="true" />';
 
 			$xml_buff = sprintf($buff, implode('', $fields));
