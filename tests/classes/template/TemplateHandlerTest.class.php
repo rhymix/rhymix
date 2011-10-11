@@ -199,6 +199,16 @@ class TemplateHandlerTest extends PHPUnit_Framework_TestCase
 				'<div cond="$ii < $nn" loop="$dummy => $k, $v">Hello, world!</div>',
 				'<?php if($__Context->ii < $__Context->nn){ ?><?php if($__Context->dummy&&count($__Context->dummy))foreach($__Context->dummy as $__Context->k=>$__Context->v){ ?><div>Hello, world!</div><?php }} ?>'
 			),
+			// issue 190
+			array(
+				'<div cond="!($i >= $n)" loop="$dummy => $k, $v">Hello, world!</div>',
+				'<?php if(!($__Context->i >= $__Context->n)){ ?><?php if($__Context->dummy&&count($__Context->dummy))foreach($__Context->dummy as $__Context->k=>$__Context->v){ ?><div>Hello, world!</div><?php }} ?>'
+			),
+			// issue 183
+			array(
+				'<table><thead><tr><th loop="$vvvls => $vvv">{$vvv}</th></tr></thead>'."\n".'<tbody><tr><td>C</td><td>D</td></tr></tbody></table>',
+				'<table><thead><tr><?php if($__Context->vvvls&&count($__Context->vvvls))foreach($__Context->vvvls as $__Context->vvv){ ?><th><?php echo $__Context->vvv ?></th><?php } ?></tr></thead>'."\n".'<tbody><tr><td>C</td><td>D</td></tr></tbody></table>'
+			),
 		);
 	}
 
