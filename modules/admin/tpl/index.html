@@ -58,6 +58,7 @@
 					</span>
 				</li>
 				<!--@end-->
+				<li cond="!is_array($latestDocumentList) || count($latestDocumentList) < 1">{$lang->no_data}</li>
 			</ul>
 		</div>
 		<div class="portlet">
@@ -78,6 +79,7 @@
 					</span>
 				</li>
 				<!--@end-->
+				<li cond="!is_array($latestCommentList) || count($latestCommentList) < 1">{$lang->no_data}</li>
 			</ul>
 		</div>
 		<div class="portlet">
@@ -97,6 +99,7 @@
 					</span>
 				</li>
 				<!--@end-->
+				<li cond="!is_array($latestTrackbackList) || count($latestTrackbackList) < 1">{$lang->no_data}</li>
 			</ul>
 		</div>
 		<div class="portlet">
@@ -105,6 +108,7 @@
 				<!--@foreach($news AS $key=>$value)-->
 				<li><a href="{$value->url}" target="_blank">{$value->title}</a> <span class="side">{zdate($value->date, 'Y-m-d')}</span></li>
 				<!--@end-->
+				<li cond="!is_array($news) || count($news) < 1">{$lang->no_data}</li>
 			</ul>
 		</div>
 		<div class="portlet">
@@ -121,6 +125,7 @@
 						<button type="submit" class="text">{$lang->cmd_delete}</button>
 					</form>
 				</li>
+				<li cond="!is_array($favorite_list) || count($favorite_list) < 1">{$lang->no_data}</li>
 			</UL>
 		</div>
 	</div>
