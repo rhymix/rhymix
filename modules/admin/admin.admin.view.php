@@ -138,6 +138,11 @@
 
 			$browserTitle = ($subMenuTitle ? $subMenuTitle : 'Dashboard').' - '.$gnbTitleInfo->adminTitle;
 
+			// Get list of favorite
+			$oAdminAdminModel = &getAdminModel('admin');
+			$output = $oAdminAdminModel->getFavoriteList(0, true);
+            Context::set('favorite_list', $output->get('favoriteList'));
+
 			Context::set('subMenuTitle', $subMenuTitle);
 			Context::set('gnbUrlList',   $menu->list);
 			Context::set('parentSrl',    $parentSrl);
@@ -321,11 +326,6 @@
 			if(file_exists($path)) $isEnviromentGatheringAgreement = true;
 			Context::set('isEnviromentGatheringAgreement', $isEnviromentGatheringAgreement);
             Context::set('layout','none');
-
-			// Get list of favorite
-			$oAdminAdminModel = &getAdminModel('admin');
-			$output = $oAdminAdminModel->getFavoriteList(0, true);
-            Context::set('favorite_list', $output->get('favoriteList'));
 
             $this->setTemplateFile('index');
         }
