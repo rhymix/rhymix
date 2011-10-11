@@ -273,7 +273,7 @@
 						$extentionReplace = array('tel_0' => $extendForm->value[0],
 												  'tel_1' => $extendForm->value[1],
 												  'tel_2' => $extendForm->value[2]);
-						$template = '<input type="text" name="%column_name%[]" value="%tel_0%" size="4" />-<input type="text" name="%column_name%[]" value="%tel_1%" size="4" />-<input type="text" name="%column_name%" value="%tel_2%" size="4" />';
+						$template = '<input type="text" name="%column_name%[]" value="%tel_0%" size="4" />-<input type="text" name="%column_name%[]" value="%tel_1%" size="4" />-<input type="text" name="%column_name%[]" value="%tel_2%" size="4" />';
 					}elseif($extendForm->column_type == 'textarea'){
 						$template = '<textarea name="%column_name%">%value%</textarea>';
 					}elseif($extendForm->column_type == 'checkbox'){
