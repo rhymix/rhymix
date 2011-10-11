@@ -24,22 +24,22 @@ RewriteRule ^([a-zA-Z0-9_]+)/([0-9]+)/(.+)/trackback$ ./index.php?vid=$1&documen
 RewriteRule ^admin/?$ ./index.php?module=admin [L]
 
 # document permanent link
-RewriteRule ^([0-9]+)$ ./index.php?document_srl=$1 [L]
+RewriteRule ^([0-9]+)$ ./index.php?document_srl=$1 [L,QSA]
 
 # mid link
 RewriteCond %{SCRIPT_FILENAME} !-d
-RewriteRule ^([a-zA-Z0-9_]+)/?$ ./index.php?mid=$1 [L]
+RewriteRule ^([a-zA-Z0-9_]+)/?$ ./index.php?mid=$1 [L,QSA]
 # mid + document link
-RewriteRule ^([a-zA-Z0-9_]+)/([0-9]+)$ ./index.php?mid=$1&document_srl=$2 [L]
+RewriteRule ^([a-zA-Z0-9_]+)/([0-9]+)$ ./index.php?mid=$1&document_srl=$2 [L,QSA]
 
 # vid + mid link
 RewriteCond %{SCRIPT_FILENAME} !-d
-RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/?$ ./index.php?vid=$1&mid=$2 [L]
+RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/?$ ./index.php?vid=$1&mid=$2 [L,QSA]
 # vid + mid + document link
-RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/([0-9]+)$ ./index.php?vid=$1&mid=$2&document_srl=$3 [L]
+RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/([0-9]+)$ ./index.php?vid=$1&mid=$2&document_srl=$3 [L,QSA]
 
 # mid + entry title
-RewriteRule ^([a-zA-Z0-9_]+)/entry/(.+)$ ./index.php?mid=$1&entry=$2 [L]
+RewriteRule ^([a-zA-Z0-9_]+)/entry/(.+)$ ./index.php?mid=$1&entry=$2 [L,QSA]
 # vid + mid + entry title
-RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/entry/(.+)$ ./index.php?vid=$1&mid=$2&entry=$3 [L]
+RewriteRule ^([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)/entry/(.+)$ ./index.php?vid=$1&mid=$2&entry=$3 [L,QSA]
 
