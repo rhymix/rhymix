@@ -534,7 +534,7 @@
 		 * @brief replace PHP variables of $ character
 		 **/
 		function _replaceVar($php) {
-			if(!$php) return '';
+			if(!strlen($php)) return '';
 			return preg_replace('@(?<!::|\\\\)\$([a-z]|_[a-z0-9])@i', '\$__Context->$1', $php);
 		}
     }
