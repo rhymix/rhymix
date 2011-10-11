@@ -150,7 +150,7 @@
             // Still no module? it's an error
             if(!$this->module)
 			{
-				$this->error = 'msg_module_does_not_exist';
+				$this->error = 'msg_module_is_not_exists';
 				$this->httpStatusCode = '404';
 			}
 
@@ -204,7 +204,8 @@
 
             // still no act means error
             if(!$this->act) {
-                $this->error = 'msg_module_does_not_exist';
+                $this->error = 'msg_module_is_not_exists';
+				$this->httpStatusCode = '404';
                 return;
             }
 
@@ -264,7 +265,8 @@
 			}
 
 			if(!is_object($oModule)) {
-				$this->error = 'msg_module_does_not_exist';
+				$this->error = 'msg_module_is_not_exists';
+				$this->httpStatusCode = '404';
 				return;
 			}
 
@@ -486,7 +488,8 @@
         function displayContent($oModule = NULL) {
             // If the module is not set or not an object, set error
             if(!$oModule || !is_object($oModule)) {
-                $this->error = 'msg_module_does_not_exists';
+                $this->error = 'msg_module_is_not_exists';
+				$this->httpStatusCode = '404';
             }
 
             // If connection to DB has a problem even though it's not install module, set error
@@ -513,6 +516,7 @@
 					$type = Mobile::isFromMobilePhone() ? 'mobile' : 'view';
 					$oMessageObject = &ModuleHandler::getModuleInstance('message',$type);
 					$oMessageObject->setError(-1);
+					debugPrint($this->error);
 					$oMessageObject->setMessage($this->error);
 					$oMessageObject->dispMessage();
 
