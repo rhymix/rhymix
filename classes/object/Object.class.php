@@ -13,6 +13,7 @@
         var $message = 'success'; // / "Error message (if success, it is not an error)
 
         var $variables = array(); // /< an additional variable
+        var $httpStatusCode = NULL; ///< http status code.
 
         /**
          * @brief constructor
@@ -36,6 +37,16 @@
         function getError() {
             return $this->error;
         }
+
+		function setHttpStatusCode($code = '200')
+		{
+			$this->httpStatusCode = $code;
+		}
+
+		function getHttpStatusCode()
+		{
+			return $this->httpStatusCode;
+		}
 
         /**
          * @brief Setter to set set the error message

@@ -49,28 +49,35 @@
 			}
 
 			$output = $handler->toDoc($oModule);
-            // call a trigger before display
-            ModuleHandler::triggerCall('display', 'before', $output);
-            // execute add-on
-            $called_position = 'before_display_content';
-            $oAddonController = &getController('addon');
-            $addon_file = $oAddonController->getCacheFilePath(Mobile::isFromMobilePhone()?"mobile":"pc");
-            @include($addon_file);
+			// call a trigger before display
+			ModuleHandler::triggerCall('display', 'before', $output);
+			// execute add-on
+			$called_position = 'before_display_content';
+			$oAddonController = &getController('addon');
+			$addon_file = $oAddonController->getCacheFilePath(Mobile::isFromMobilePhone()?"mobile":"pc");
+			@include($addon_file);
 
 			if(method_exists($handler, "prepareToPrint")) $handler->prepareToPrint($output);
-            // header output
-            if($this->gz_enabled) header("Content-Encoding: gzip");
-			if(Context::getResponseMethod() == 'JSON') $this->_printJSONHeader();
-			else if(Context::getResponseMethod() != 'HTML') $this->_printXMLHeader();
-			else $this->_printHTMLHeader();
-            // debugOutput output
-            $this->content_size = strlen($output);
-            $output .= $this->_debugOutput();
-            // results directly output
-            if($this->gz_enabled) print ob_gzhandler($output, 5);
-            else print $output;
-            // call a trigger after display
-            ModuleHandler::triggerCall('display', 'after', $content);
+			// header output
+			if($this->gz_enabled) header("Content-Encoding: gzip");
+
+			$httpStatusCode = $oModule->getHttpStatusCode();
+			if($httpStatusCode && $httpStatusCode != 200) $this->_printHttpStatusCode($httpStatusCode);
+			else
+			{
+				if(Context::getResponseMethod() == 'JSON') $this->_printJSONHeader();
+				else if(Context::getResponseMethod() != 'HTML') $this->_printXMLHeader();
+				else $this->_printHTMLHeader();
+			}
+
+			// debugOutput output
+			$this->content_size = strlen($output);
+			$output .= $this->_debugOutput();
+			// results directly output
+			if($this->gz_enabled) print ob_gzhandler($output, 5);
+			else print $output;
+			// call a trigger after display
+			ModuleHandler::triggerCall('display', 'after', $content);
         }
 
 
@@ -252,7 +259,12 @@
 		}
 
 
-
-
+		/**
+		 * @brief print a HTTP HEADER for HTML, which is encoded in UTF-8
+		 **/
+		function _printHttpStatusCode($code) {
+			$statusMessage = Context::get('http_status_message');
+			header("HTTP/1.0 $code $statusMessage");
+		}
     }
 ?>

@@ -20,6 +20,7 @@
         var $module_info = NULL; ///< Module Info. Object
 
         var $error = NULL; ///< an error code.
+        var $httpStatusCode = NULL; ///< http status code.
 
         /**
          * @brief constructor
@@ -109,7 +110,7 @@
             }
 
             // If module_info is not set still, and $module does not exist, find the default module
-            if(!$module_info && !$this->module) $module_info = $site_module_info;
+            if(!$module_info && !$this->module && !$this->mid) $module_info = $site_module_info;
 
             if(!$module_info && !$this->module && $site_module_info->module_site_srl) $module_info = $site_module_info;
 
@@ -147,7 +148,11 @@
 			$this->module_info->site_srl = $site_module_info->site_srl;
 
             // Still no module? it's an error
-            if(!$this->module) $this->error = 'msg_module_does_not_exist';
+            if(!$this->module)
+			{
+				$this->error = 'msg_module_does_not_exist';
+				$this->httpStatusCode = '404';
+			}
 
             // If mid exists, set mid into context
             if($this->mid) Context::set('mid', $this->mid, true);
@@ -179,6 +184,10 @@
                 $oMessageObject->setError(-1);
                 $oMessageObject->setMessage($this->error);
                 $oMessageObject->dispMessage();
+				if($this->httpStatusCode)
+				{
+					$oMessageObject->setHttpStatusCode($this->httpStatusCode);
+				}
                 return $oMessageObject;
             }
 
@@ -507,6 +516,12 @@
 					$oMessageObject->setMessage($this->error);
 					$oMessageObject->dispMessage();
 
+					if($oMessageObject->getHttpStatusCode() && $oMessageObject->getHttpStatusCode() != '200')
+					{
+						$this->_setHttpStatusMessage($oMessageObject->getHttpStatusCode());
+						$oMessageObject->setTemplateFile('http_status_code');
+					}
+
                     // If module was called normally, change the templates of the module into ones of the message view module
                     if($oModule) {
 						$oModule->setTemplatePath($oMessageObject->getTemplatePath());
@@ -705,5 +720,58 @@
 
             return new Object();
         }
+
+		/**
+		 * @brief get http status message by http status code
+		 **/
+		function _setHttpStatusMessage($code) {
+			$statusMessageList = array(
+				'100'=>'Continue',
+				'101'=>'Switching Protocols',
+				'201'=>'OK',
+				'201'=>'Created',
+				'202'=>'Accepted',
+				'203'=>'Non-Authoritative Information',
+				'204'=>'No Content',
+				'205'=>'Reset Content',
+				'206'=>'Partial Content',
+				'300'=>'Multiple Choices',
+				'301'=>'Moved Permanently',
+				'302'=>'Found',
+				'303'=>'See Other',
+				'304'=>'Not Modified',
+				'305'=>'Use Proxy',
+				'307'=>'Temporary Redirect',
+				'400'=>'Bad Request',
+				'401'=>'Unauthorized',
+				'402'=>'Payment Required',
+				'403'=>'Forbidden',
+				'404'=>'Not Found',
+				'405'=>'Method Not Allowed',
+				'406'=>'Not Acceptable',
+				'407'=>'Proxy Authentication Required',
+				'408'=>'Request Timeout',
+				'409'=>'Conflict',
+				'410'=>'Gone',
+				'411'=>'Length Required',
+				'412'=>'Precondition Failed',
+				'413'=>'Request Entity Too Large',
+				'414'=>'Request-URI Too Long',
+				'415'=>'Unsupported Media Type',
+				'416'=>'Requested Range Not Satisfiable',
+				'417'=>'Expectation Failed',
+				'500'=>'Internal Server Error',
+				'501'=>'Not Implemented',
+				'502'=>'Bad Gateway',
+				'503'=>'Service Unavailable',
+				'504'=>'Gateway Timeout',
+				'505'=>'HTTP Version Not Supported',
+            );
+			$statusMessage = $statusMessageList[$code];
+			if(!$statusMessage) $statusMessage = 'OK';
+
+			Context::set('http_status_code', $code);
+			Context::set('http_status_message', $statusMessage);
+		}
     }
 ?>
