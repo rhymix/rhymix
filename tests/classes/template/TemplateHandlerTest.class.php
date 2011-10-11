@@ -194,6 +194,11 @@ class TemplateHandlerTest extends PHPUnit_Framework_TestCase
 				'<br cond="$var==\'foo\'" />bar',
 				'<?php if($__Context->var==\'foo\'){ ?><br /><?php } ?>bar'
 			),
+			// issue 188
+			array(
+				'<div cond="$ii < $nn" loop="$dummy => $k, $v">Hello, world!</div>',
+				'<?php if($__Context->ii < $__Context->nn){ ?><?php if($__Context->dummy&&count($__Context->dummy))foreach($__Context->dummy as $__Context->k=>$__Context->v){ ?><div>Hello, world!</div><?php }} ?>'
+			),
 		);
 	}
 

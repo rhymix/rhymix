@@ -324,7 +324,9 @@
 						case 'loop':
 							if(!preg_match('@^(?:(.+?)=>(.+?)(?:,(.+?))?|(.*?;.*?;.*?)|(.+?)\s*=\s*(.+?))$@', $expr, $expr_m)) break;
 							if($expr_m[1]) {
-								if($expr_m[3]) $expr_m[2] .= '=>'.$expr_m[3];
+								$expr_m[1] = trim($expr_m[1]);
+								$expr_m[2] = trim($expr_m[2]);
+								if($expr_m[3]) $expr_m[2] .= '=>'.trim($expr_m[3]);
 								$nodes[$idx-1] .= "<?php if({$expr_m[1]}&&count({$expr_m[1]}))foreach({$expr_m[1]} as {$expr_m[2]}){ ?>";
 							}elseif($expr_m[4]) {
 								$nodes[$idx-1] .= "<?php for({$expr_m[4]}){ ?>";
