@@ -87,7 +87,16 @@ jQuery(function($){
 			});
 
 	// Display the dashboard in two column
-	$('.dashboard>.section>.portlet:odd').after('<br style="clear:both" />');
+	$(window).resize(function(){
+		if($(document).width() < 1280){
+			$('.dashboard>.section>br').remove();
+			$('.dashboard>.section>.portlet:odd').after('<br style="clear:both" />');
+		} else {
+			$('.dashboard>.section>br').remove();
+			$('.dashboard>.section>.portlet:eq(2),.dashboard>.section>.portlet:eq(5)').after('<br style="clear:both" />');
+		}
+	});
+	$(window).resize();
 
 
 	// Popup list : 'Move to site' and 'Site map'
