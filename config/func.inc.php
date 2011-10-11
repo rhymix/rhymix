@@ -5,7 +5,7 @@
      * @brief function library files for convenience
     **/
 
-    if(!defined('__XE__')) exit();
+    if(!defined('__XE__') && !defined('__ZBXE__')) exit();
 
     /**
      * @brief define clone for php5
