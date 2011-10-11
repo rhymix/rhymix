@@ -179,7 +179,7 @@
 			$buff = $this->_parseInline($buff);
 
 			// include, unload/load, import
-			$buff = preg_replace_callback('/{(@[\s\S]+?|(?=\$\w+|__[A-Z]+|\w+(?:\(|::)|\d+|[\'"].*?[\'"]).+?)}|<(!--[#%])?(include|import|(un)?load(?(4)|(?:_js_plugin)?))(?(2)\("([^"]+)")(.*?)(?(2)\)--|\/)>|<!--(@[a-z@]+)(.*?)-->/', array($this, '_parseResource'), $buff);
+			$buff = preg_replace_callback('/{(@[\s\S]+?|(?=\$\w+|__[A-Z]+|[!\(+-]|\w+(?:\(|::)|\d+|[\'"].*?[\'"]).+?)}|<(!--[#%])?(include|import|(un)?load(?(4)|(?:_js_plugin)?))(?(2)\("([^"]+)")(.*?)(?(2)\)--|\/)>|<!--(@[a-z@]+)(.*?)-->/', array($this, '_parseResource'), $buff);
 
 			// remove block which is a virtual tag and remove comments
 			$buff = preg_replace('@</?block\s*>|\s?<!--//(.*?)-->@is','',$buff);
