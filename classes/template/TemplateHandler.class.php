@@ -231,7 +231,7 @@
 				$generatedHidden = '';
 				foreach($resultArray AS $key=>$value)
 				{
-					$generatedHidden .= '<input type="hidden" name="'.$value.'" value="<?php echo $'.$value.' ?>">';
+					$generatedHidden .= '<input type="hidden" name="'.$value.'" value="<?php echo $__Context->'.$value.' ?>">';
 				}
 				$matches[2] = $generatedHidden.$matches[2];
 			}

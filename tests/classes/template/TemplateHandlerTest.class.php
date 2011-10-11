@@ -177,7 +177,7 @@ class TemplateHandlerTest extends PHPUnit_Framework_TestCase
 			// error case - inline javascript
 			array(
 				'<form onsubmit="jQuery(this).find(\'input\').each(function(){if(this.title==this.value)this.value=\'\';}); return procFilter(this, insert_comment)"></form>',
-				'<form onsubmit="jQuery(this).find(\'input\').each(function(){if(this.title==this.value)this.value=\'\';}); return procFilter(this, insert_comment)"><input type="hidden" name="error_return_url" value="<?php echo getRequestUriByServerEnviroment() ?>" /><input type="hidden" name="act" value="<?php echo $act ?>"><input type="hidden" name="mid" value="<?php echo $mid ?>"><input type="hidden" name="vid" value="<?php echo $vid ?>"></form>'
+				'<form onsubmit="jQuery(this).find(\'input\').each(function(){if(this.title==this.value)this.value=\'\';}); return procFilter(this, insert_comment)"><input type="hidden" name="error_return_url" value="<?php echo getRequestUriByServerEnviroment() ?>" /><input type="hidden" name="act" value="<?php echo $__Context->act ?>"><input type="hidden" name="mid" value="<?php echo $__Context->mid ?>"><input type="hidden" name="vid" value="<?php echo $__Context->vid ?>"></form>'
 			),
 			// issue 103
 			array(
