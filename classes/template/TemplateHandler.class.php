@@ -170,7 +170,7 @@
 			}
 
 			// replace comments
-			$buff = preg_replace('@<!--//.*?-->@', '', $buff);
+			$buff = preg_replace('@<!--//.*?-->@s', '', $buff);
 
 			// replace value of src in img/input/script tag
 			$buff = preg_replace_callback('/<(?:img|input|script)(?:(?!["\'\/]\s*>).)* src="(?!https?:\/\/|[\/\{])([^"]+)"/is', array($this, '_replacePath'), $buff);
