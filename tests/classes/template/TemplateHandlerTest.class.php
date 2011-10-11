@@ -117,7 +117,7 @@ class TemplateHandlerTest extends PHPUnit_Framework_TestCase
 			// <load target="style.css">
 			array(
 				'<dummy /><load target="css/style.css" /><dummy />',
-				'<dummy /><!--#Meta:tests/classes/template/css/style.css--><?php $__tmp=array(\'tests/classes/template/css/style.css\',\'\',\'\',\'\',\'\',\'\',\'\');Context::loadFile($__tmp);unset($__tmp); ?><dummy />'
+				'<dummy /><!--#Meta:tests/classes/template/css/style.css--><?php $__tmp=array(\'tests/classes/template/css/style.css\',\'\',\'\',\'\');Context::loadFile($__tmp,\'\',\'\',\'\');unset($__tmp); ?><dummy />'
 			),
 			// <unload target="style.css">
 			array(
@@ -132,7 +132,7 @@ class TemplateHandlerTest extends PHPUnit_Framework_TestCase
 			// <!--%import("../script.js",type="body")-->
 			array(
 				'<dummy /><!--%import("../script.js",type="body")--><dummy />',
-				'<dummy /><!--#Meta:tests/classes/script.js--><?php $__tmp=array(\'tests/classes/script.js\',\'body\',\'\',\'\',\'\',\'\',\'\');Context::loadFile($__tmp);unset($__tmp); ?><dummy />'
+				'<dummy /><!--#Meta:tests/classes/script.js--><?php $__tmp=array(\'tests/classes/script.js\',\'body\',\'\',\'\');Context::loadFile($__tmp,\'\',\'\',\'\');unset($__tmp); ?><dummy />'
 			),
 			// <!--%unload("../script.js",type="body")-->
 			array(
@@ -174,10 +174,15 @@ class TemplateHandlerTest extends PHPUnit_Framework_TestCase
 				'<script type="text/javascript">var json = {hello:"world"};</script>',
 				'<script type="text/javascript">var json = {hello:"world"};</script>'
 			),
+			// error case - inline javascript
+			array(
+				'<form onsubmit="jQuery(this).find(\'input\').each(function(){if(this.title==this.value)this.value=\'\';}); return procFilter(this, insert_comment)"></form>',
+				'<form onsubmit="jQuery(this).find(\'input\').each(function(){if(this.title==this.value)this.value=\'\';}); return procFilter(this, insert_comment)"><input type="hidden" name="error_return_url" value="<?php echo getRequestUriByServerEnviroment() ?>" /><input type="hidden" name="act" value="<?php echo $act ?>"><input type="hidden" name="mid" value="<?php echo $mid ?>"><input type="hidden" name="vid" value="<?php echo $vid ?>"></form>'
+			),
 			// issue 103
 			array(
 				'<load target="http://aaa.com/aaa.js" />',
-				'<!--#Meta:http://aaa.com/aaa.js--><?php $__tmp=array(\'http://aaa.com/aaa.js\',\'\',\'\',\'\',\'\',\'\',\'\');Context::loadFile($__tmp);unset($__tmp); ?>'
+				'<!--#Meta:http://aaa.com/aaa.js--><?php $__tmp=array(\'http://aaa.com/aaa.js\',\'\',\'\',\'\');Context::loadFile($__tmp,\'\',\'\',\'\');unset($__tmp); ?>'
 			),
 			// issue 135
 			array(

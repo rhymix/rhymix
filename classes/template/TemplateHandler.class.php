@@ -379,6 +379,8 @@
 			// {@ ... } or {$var} or {func(...)}
 			if($m[1])
 			{
+				if(preg_match('@^(\w+)\(@', $m[1], $mm) && !function_exists($mm[1])) return $m[0];
+
 				$echo = 'echo ';
 				if($m[1]{0} == '@') {
 					$echo = '';
