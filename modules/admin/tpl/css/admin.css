@@ -265,9 +265,10 @@ body.modalContainer{_height:100%;_width:100%} /* IE6 only */
 .x .header .account li{position:relative;display:inline;border-left:1px solid #666;padding:0 6px 0 10px}
 .x .header .account li:first-child{border:0}
 .x .header .account a{color:#fff;display:inline-block;height:14px}
-.x .header .account a.language{padding-right:2px}
+.x .header .account a.language{padding-right:16px;background:url(/xe/modules/admin/tpl/img/iconArrow.gif) no-repeat right -160px}
 .x .header #language{position:absolute;top:19px;right:-2em;padding:6px 4px !important;border:1px solid #666;border-top:0;background:#333}
-.x .header #language li{border:0;display:block;padding:1px 8px;text-align:left;line-height:1}
+.x .header #language li{border:0;display:block;padding:1px 8px 1px 10px;text-align:left;line-height:1}
+.x .header #language li.selected{background:url(/xe/modules/admin/tpl/img/iconCheck.gif) no-repeat left center}
 .x .header #language li.selected a{text-decoration:underline}
 .x .header h1 a:hover,
 .x .header h1 a:active,
