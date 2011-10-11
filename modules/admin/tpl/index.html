@@ -112,16 +112,14 @@
 			<ul class="lined">
 				<li loop="$favorite_list => $favorite">
 					<a href="{getUrl('act', $favorite->admin_index_act)}">{$favorite->title}</a>
-					<span class="action">
-						<form>
+					<form class="action" action="">
 						<input type="hidden" name="module" value="admin" />
 						<input type="hidden" name="act" value="procAdminToggleFavorite" />
 						<input type="hidden" name="site_srl" value="0" />
 						<input type="hidden" name="module_name" value="{$favorite->module}" />
 						<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin')}" />
 						<button type="submit" class="text">{$lang->cmd_delete}</button>
-						</form>
-					</span>
+					</form>
 				</li>
 			</UL>
 		</div>
