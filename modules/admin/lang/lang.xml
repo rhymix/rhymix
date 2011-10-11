@@ -1096,4 +1096,8 @@ Lütfen son sürümü için indirme linkine tıklayınız.]]></value>
 		<value xml:lang="ko"><![CDATA[관리자 메뉴 설정]]></value>
 		<value xml:lang="en"><![CDATA[Admin Menu Setup]]></value> 
 	</item>
+	<item name="no_data">
+		<value xml:lang="ko"><![CDATA[등록된 데이터가 없습니다.]]></value>
+		<value xml:lang="en"><![CDATA[There is no data.]]></value> 
+	</item>
 </lang>
