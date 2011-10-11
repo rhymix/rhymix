@@ -989,4 +989,8 @@ Le module [Administration des Modules] montera tous les modules installés et vo
 		<value xml:lang="ko"><![CDATA[보기/숨김]]></value>
 		<value xml:lang="en"><![CDATA[show/hide]]></value>
 	</item>
+	<item name="no_multi_lang">
+		<value xml:lang="ko"><![CDATA[아직 등록된 다국어가 없습니다.]]></value>
+		<value xml:lang="en"><![CDATA[There is no multi language.]]></value>
+	</item>
 </lang>

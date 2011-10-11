@@ -9,6 +9,9 @@
 		<span class="btn"><a href="#addWord" class="modalAnchor">{$lang->add_word}</a></span>
 	</div>
 	<ul id="langList">
+		<li cond="!is_array($lang_code_list) || count($lang_code_list) < 1">
+			<p>{$lang->no_multi_lang}</p>
+		</li>
 		<li loop="$lang_code_list=>$key,$value">
 		{@$langName = $value->name}
 		<strong>{$value->value}</strong> <span class="side"><button type="button" class="text" cond="$module != 'admin'" onclick="doInsertLangCode('{$value->name}', '{$target}')">{$lang->cmd_apply}</button><button type="button" class="text _edit">{$lang->cmd_edit}</button></span>
