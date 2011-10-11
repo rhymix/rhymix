@@ -21,6 +21,7 @@ $('form.siteMap')
 	var menuUrl = null;
 
 	$('a._edit').click(function(){
+		resetEditForm();
 		var itemKey = $(this).parent().prevAll('._item_key').val();
 		menuSrl = $(this).parents().prevAll('input[name=menu_srl]').val();
 		menuForm = $('#menu_'+menuSrl);
@@ -103,15 +104,14 @@ $('form.siteMap')
 	var createModuleLayer = $('#createModule');
 	var selectModuleLayer = $('#selectModule');
 	var insertUrlLayer = $('#insertUrl');
-	kindModuleLayer.hide();
-	createModuleLayer.hide();
-	selectModuleLayer.hide();
-	insertUrlLayer.hide();
 
-	$('a._add').click(function()
+	function resetEditForm()
 	{
-		editForm.find('.h2').html('Add Menu');
-		editForm.find('input[name=menu_srl]').val($(this).parents().prevAll('input[name=menu_srl]').val());
+		kindModuleLayer.hide();
+		createModuleLayer.hide()
+		selectModuleLayer.hide()
+		insertUrlLayer.hide()
+
 		editForm.find('input[name=menu_item_srl]').val('');
 		editForm.find('input[name=parent_srl]').val(0);
 		editForm.find('input[name=menu_name]').val('');
@@ -121,6 +121,13 @@ $('form.siteMap')
 		editForm.find('input=[name=menu_url]').val('');
 		editForm.find('input=[name=menu_open_window]')[0].checked = true;
 		editForm.find('input=[name=group_srls\\[\\]]').attr('checked', false);
+	}
+
+	$('a._add').click(function()
+	{
+		editForm.find('.h2').html('Add Menu');
+		editForm.find('input[name=menu_srl]').val($(this).parents().prevAll('input[name=menu_srl]').val());
+		resetEditForm();
 	});
 
 	$('input._typeCheck').click(typeCheck);
