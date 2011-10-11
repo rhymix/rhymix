@@ -33,6 +33,12 @@
 					<input type="password" name="password" value=""/>
 				</p>
 			</li>
+			<li>
+				<p class="q">{$lang->password2} <em style="color:red">*</em></p>
+				<p class="a">
+					<input type="password" name="password2" value=""/>
+				</p>
+			</li>
 			<li loop="$formTags=>$formTag">
 				<p class="q">{$formTag->title}</p>
 				<div class="a" cond="$formTag->name != 'signature'">{$formTag->inputTag}</div>
@@ -62,7 +68,7 @@
 	<script type="text/javascript">
 	(function($){
 		$(function(){
-			var option = { changeMonth: true, changeYear: true, gotoCurrent: false,yearRange:'-100:+10', onSelect:function(){
+			var option = { changeMonth: true, changeYear: true, gotoCurrent: false,yearRange:'-100:+10', dateFormat:'yy-mm-dd', onSelect:function(){
 	
 				$(this).prev('input[type="hidden"]').val(this.value.replace(/-/g,""))}
 			};
