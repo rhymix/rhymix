@@ -39,9 +39,9 @@
 
 <link cond="$favicon_url" rel="shortcut icon" href="{$favicon_url}" />
 <link cond="$mobicon_url" rel="apple-touch-icon" href="{$mobicon_url}" />
-
+<!--[if lt IE 9]>
 <script type="text/javascript" src="../js/html5.js" cond="$db_info->use_html5=='Y'"></script>
-<!--[if lt IE 9]><script type="text/javascript" src="../js/respond.min.js"></script><![endif]-->
+<![endif]-->
 {@ $ssl_actions = Context::getSSLActions() }
     <script type="text/javascript">//<![CDATA[
         var current_url = "{$current_url}";
