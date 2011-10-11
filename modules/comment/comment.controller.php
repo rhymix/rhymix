@@ -244,8 +244,6 @@
             $oCacheHandler = &CacheHandler::getInstance('object');
             if($oCacheHandler->isSupport())
             {
-            	$cache_key_newest = 'object_newest_comment_list:'.$obj->module_srl;
-                $oCacheHandler->delete($cache_key_newest);
                 $oCacheHandler->invalidateGroupKey('commentList');
             }
             return $output;
@@ -328,8 +326,6 @@
             $oCacheHandler = &CacheHandler::getInstance('object');
             if($oCacheHandler->isSupport())
             {
-            	$cache_key_newest = 'object_newest_comment_list:'.$obj->module_srl;
-                $oCacheHandler->delete($cache_key_newest);
                 $oCacheHandler->invalidateGroupKey('commentList');
             }
             return $output;

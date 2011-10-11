@@ -189,7 +189,8 @@
         	// cache controll
 			$oCacheHandler = &CacheHandler::getInstance('object');
 			if($oCacheHandler->isSupport()){
-				$cache_key = 'object_newest_comment_list:'.$obj->module_srl;
+				$object_key = 'object_newest_comment_list:'.$obj->module_srl;
+                                $cache_key = $oCacheHandler->getGroupKey('commentList', $object_key);
 				$output = $oCacheHandler->get($cache_key);
 			}
 			if(!$output){
