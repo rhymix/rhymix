@@ -388,8 +388,8 @@
             else $cache_time = -1;
 
             // if there is no cache file or is not new, find original xml query file and parse it
-            if($cache_time < filemtime($xml_file) || $cache_time < filemtime(_XE_PATH_.'classes/db/DB.class.php') || $cache_time < filemtime(_XE_PATH_.'classes/xml/XmlQueryParser.class.php')) {
-                require_once(_XE_PATH_.'classes/xml/XmlQueryParser.class.php');
+            if($cache_time < filemtime($xml_file) || $cache_time < filemtime(_XE_PATH_.'classes/db/DB.class.php') || $cache_time < filemtime(_XE_PATH_.'classes/xml/XmlQueryParser.150.class.php')) {
+                require_once(_XE_PATH_.'classes/xml/XmlQueryParser.150.class.php');
                 $oParser = new XmlQueryParser();
                 $oParser->parse($query_id, $xml_file, $cache_file);
             }
