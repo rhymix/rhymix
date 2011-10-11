@@ -1,117 +1,84 @@
-{@ Context::loadFile(array("./common/js/jquery.js", 'head', '', -100000), true) }
-{@ Context::loadFile(array("./common/js/js_app.js", 'head', '', -100000), true) }
-{@ Context::loadFile(array("./common/js/common.js", 'head', '', -100000), true) }
-{@ Context::loadFile(array("./common/js/xml_handler.js", 'head', '', -100000), true) }
-{@ Context::loadFile(array("./common/js/xml_js_filter.js", 'head', '', -100000), true) }
-
 <load target="css/msignup.css" usecdn="true" />
 <load target="js/signup_check.js" usecdn="true" />
-<!--%import("../skins/default/filter/signup.xml")-->
-<load target="../skins/default/js/member.js" usecdn="true" />
+<!--%load_js_plugin("ui")-->
+<!--%load_js_plugin("ui.datepicker")-->
 <div class="bd">
 	<div class="hx h2">
 		<h2>{$lang->cmd_signup}</h2>
 	</div>
-	<div class="hx h3">
-		<h3>{$lang->member_default_info}</h3>
+	<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+		<p>{$XE_VALIDATOR_MESSAGE}</p>
 	</div>
-	<form id="fo_insert_member" action="./" method="get" class="ff" onsubmit="return procFilter(this, signup)">
-	<fieldset>
+    <form ruleset="@insertMember" id="fo_insert_member" class="form" action="./" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="act" value="procMemberInsert" />
+		<!--@if(!$is_logged && $member_config->agreement)-->
+		<div class="agreement">
+			<div class="text">
+				{$member_config->agreement}
+			</div>
+			<div class="confirm">
+				<input type="checkbox" name="accept_agreement" value="Y" id="accept_agree" />
+				<label for="accept_agree">{$lang->about_accept_agreement}</label>
+			</div>
+		</div>
+		<!--@end-->
 		<ul>
-			<li><label for="id">{$lang->user_id}</label><input name="user_id" type="text" id="id" value="" /><p>{$lang->about_user_id}</p></li>
-			<li><label for="pw">{$lang->password}</label><input name="password1" type="password" id="pw" value="" /><p>{$lang->about_password}</p></li>
-			<li><label for="pw2">{$lang->password2}</label><input name="password2" type="password" id="pw2" value="" /></li>
-			<li><label for="uname">{$lang->user_name}</label><input name="user_name" type="text" id="uname" value="" /><p>{$lang->about_user_name}</p></li>
-			<li><label for="nname">{$lang->nick_name}</label><input name="nick_name" type="text" id="nname" value="" /><p>{$lang->about_nick_name}</p></li>
-			<li><label for="email">{$lang->email_address}</label><input name="email_address" type="text" id="email" value="" /><p>{$lang->about_email_address}</p></li>
-			<li><label for="hpage">{$lang->homepage}</label><input name="homepage" type="text" id="hpage" value="" /><p>{$lang->about_homepage}</p></li>
-			<li><label for="bpage">{$lang->blog}</label><input name="blog" type="text" id="bpage" value="" /><p>{$lang->about_blog_url}</p></li>
-			<li><label for="bday">{$lang->birthday}</label><input name="birthday" type="text" id="bday" value="" /><p>{$lang->about_birthday}</p></li>
+			<li>
+				<p class="q">{$identifierForm->title} <em style="color:red">*</em></p>
+				<p class="a">
+					<input type="text" name="{$identifierForm->name}" value="{$identifierForm->value}" />
+				</p>
+			</li>
+			<li>
+				<p class="q">{$lang->password} <em style="color:red">*</em></p>
+				<p class="a">
+					<input type="password" name="password" value=""/>
+				</p>
+			</li>
+			<li>
+				<p class="q">{$lang->password2} <em style="color:red">*</em></p>
+				<p class="a">
+					<input type="password" name="password2" value=""/>
+				</p>
+			</li>
+			<li loop="$formTags=>$formTag">
+				<p class="q">{$formTag->title}</p>
+				<div class="a" cond="$formTag->name != 'signature'">{$formTag->inputTag}</div>
+				<div class="a" cond="$formTag->name =='signature'">{$editor}</div>
+			</li>
+			<li>
+				<p class="q">{$lang->allow_mailing}</p>
+				<p class="a">
+					<input type="radio" name="allow_mailing" id="mailingYes" value="Y" checked="checked"|cond="$member_info->allow_mailing == 'Y'"> <label for="mailingYes">{$lang->cmd_yes}</label>
+					<input type="radio" name="allow_mailing" id="mailingNo" value="N" checked="checked"|cond="$member_info->allow_mailing != 'Y'" > <label for="mailingNo">{$lang->cmd_no}</label>
+				</p>
+			</li>
+			<li>
+				<p class="q">{$lang->allow_message}</p>
+				<p class="a">
+					<block loop="$lang->allow_message_type=>$key,$val">
+						<input type="radio" name="allow_message" value="{$key}" checked="checked"|cond="$member_info->allow_message == $key" id="allow_{$key}" /> <label for="allow_{$key}">{$val}</label>
+					</block>
+				</p>
+			</li>
 		</ul>
-	</fieldset>
-	<!--@if($extend_form_list)-->
-	<div class="hx h3">
-		<h3>{$lang->member_extend_info}</h3>
-	</div>
-	<fieldset>
-		<ul>
-			<!--@foreach($extend_form_list as $key => $val)--><!--@if($val->is_active=='Y')-->
-				<li><label>{htmlspecialchars($val->column_title)}</label>
-				<!--// 일반 text -->
-				<!--@if($val->column_type == 'text')-->
-					<input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value)}" />
-				<!--// 홈페이지 주소 -->
-				<!--@elseif($val->column_type == 'homepage')-->
-					<input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value)}" />
-				<!--// Email 주소 -->
-				<!--@elseif($val->column_type == 'email_address')-->
-					<input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value)}" />
-				<!--// 전화번호 -->
-				<!--@elseif($val->column_type == 'tel')-->
-					<input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value[0])}" size="4"/>
-					<input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value[1])}" size="4"/>
-					<input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value[2])}" size="4"/>
-				<!--// textarea -->
-				<!--@elseif($val->column_type == 'textarea')-->
-					<textarea name="{$val->column_name}">{htmlspecialchars($val->value)}</textarea>
-				<!--// 다중 선택 -->
-				<!--@elseif($val->column_type == 'checkbox')-->
-					<!--@if($val->default_value)-->
-						<!--@foreach($val->default_value as $v)-->
-							<input type="checkbox" id="{$v}" name="{$val->column_name}" value="{$v}" <!--@if(is_array($val->value)&&in_array($v, $val->value))-->checked="checked"<!--@end-->/><label for="{$v}">{$v}</label>
-						<!--@end-->
-					<!--@end-->
-				<!--@elseif($val->column_type == 'radio')-->
-					<!--@if($val->default_value)-->
-					   <!--@foreach($val->default_value as $v)-->
-							<input type="radio" name="{$val->column_name}" value="{$v}" <!--@if(is_array($val->value)&&in_array($v, $val->value))-->checked="checked"<!--@end-->/><label for="{$v}">{$v}</label>
-						<!--@end-->
-					<!--@end-->
-
-				<!--// 단일 선택 -->
-				<!--@elseif($val->column_type == 'select')-->
-					<select name="{$val->column_name}">
-					<!--@if($val->default_value)-->
-						<!--@foreach($val->default_value as $v)-->
-							<option value="{$v}" <!--@if($v == $val->value)-->selected="selected"<!--@end-->>{$v}</option>
-						<!--@end-->
-					<!--@end-->
-					</select>
-
-				<!--// 한국 주소 검색 -->
-				<!--@elseif($val->column_type == 'kr_zip')-->
-					<div class="krZip">
-						<div id="zone_address_search_{$val->column_name}" style="display:<!--@if($val->value[0])-->none<!--@else-->block<!--@end-->;">
-							<input type="text" id="krzip_address1_{$val->column_name}" value="{$lang->msg_kr_address}" onfocus="this.value=''" />
-							<button type="button" class="bn">{$lang->cmd_search}</button>
-						</div>
-						<div id="zone_address_list_{$val->column_name}" style="display:none">
-							<select name="{$val->column_name}" id="address_list_{$val->column_name}" class="w300"></select>
-							<button type="button" class="bn">{$lang->cmd_search_again}</button>
-						</div>
-						<div class="address2">
-							<input type="text" name="{$val->column_name}" id="krzip_address2_{$val->column_name}" value="{$lang->msg_kr_address_etc}" onfocus="this.value=''" />
-						</div>
-					</div>
-					<load target="js/krzip_search.js" type="body" usecdn="true" />
-					<script type="text/javascript">jQuery(function($){ $.krzip('{$val->column_name}') });</script>
-				<!--// 일본 주소 검색 -->
-				<!--@elseif($val->column_type == 'jp_zip')-->
-					<input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value)}" />
-				<!--// 날짜 입력 -->
-				<!--@elseif($val->column_type == 'date')-->
-					<input type="hidden" name="{$val->column_name}" id="date_{$val->column_name}" value="{$val->value}" />
-					<input type="text" class="inputDate inputTypeText" value="" />
-				<!--@end-->
-				<p>{$val->description}</p>
-				<!--// 공개 필드 css확인 필요 -->
-				<!--input type="checkbox" class="checkbox" name="open_{$val->column_name}" value="Y" id="open_{$val->column_name}" /><label for="open_{$val->column_name}">{$lang->public}</label--></li>
-		<!--@end--><!--@end-->
-		</ul>
-	</fieldset>
-	<!--@end-->
 	<div class="bna">
 		<input type="submit" class="bn dark" value="{$lang->cmd_registration}" accesskey="s" />
 	</div>
 	</form>
 </div>
+	<script type="text/javascript">
+	(function($){
+		$(function(){
+			var option = { changeMonth: true, changeYear: true, gotoCurrent: false,yearRange:'-100:+10', dateFormat:'yy-mm-dd', onSelect:function(){
+	
+				$(this).prev('input[type="hidden"]').val(this.value.replace(/-/g,""))}
+			};
+			$.extend(option,$.datepicker.regional['{$lang_type}']);
+			$(".inputDate").datepicker(option);
+			$(".dateRemover").click(function() {
+				$(this).parent().prevAll('input').val('');
+				return false;});
+		});
+	})(jQuery);
+	</script>

@@ -45,11 +45,19 @@ class memberMobile extends member
         if(!$trigger_output->toBool()) return $trigger_output;
 
         if ($this->member_config->enable_join != 'Y') return $this->stop('msg_signup_disabled');
-        Context::set('extend_form_list', $oMemberModel->getCombineJoinForm($member_info));
+		$oMemberAdminView = &getAdminView('member');
+		$formTags = $oMemberAdminView->_getMemberInputTag($member_info);
+		Context::set('formTags', $formTags);
 
-        $member_config = $oMemberModel->getMemberConfig();
-        Context::set('member_config', $member_config);
+		$member_config = $oMemberModel->getMemberConfig();
+		Context::set('member_config', $member_config);
 
+		global $lang;
+		$identifierForm->title = $lang->{$member_config->identifier};
+		$identifierForm->name = $member_config->identifier;
+		$identifierForm->value = $member_info->{$member_config->identifier};
+		Context::set('identifierForm', $identifierForm);
+		// Set a template file
         $this->setTemplateFile('signup_form');
     }
 
