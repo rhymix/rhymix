@@ -52,7 +52,7 @@ $('#theme').data('themes', themes);
 						<li class="i userDefine">
 							<span class="thumb">{$lang->by_you}</span>
 							<input type="radio" name="themeItem" id="theme_user_define" value="user_define" <!--@if($current_theme == 'user_define')-->checked="checked"<!--@end--> />
-							<label for="theme_user_define">{$lang->user_theme}</label>
+							<label for="theme_user_define">{$lang->user_define}</label>
 							<ul>
 								<li>&middot; {$lang->description}: {$lang->no_selected_theme_desc}</li>
 							</ul>
@@ -91,14 +91,14 @@ $('#theme').data('themes', themes);
 					<ul class="a">
 						<li class="i noDirection" cond="!$theme_info->skin_info[$mkey]">
 							<span class="thumb"><span class="frame"></span></span>
-							<strong>{sprintf($lang->no_selected_skin, $mkey)}</strong>
+							<strong>{sprintf($lang->no_selected_skin, $mval['title'])}</strong>
 							<ul>
 								<li>{$lang->no_selected_skin_desc}</li>
 							</ul>
 						</li>
 						<li class="i" loop="$mval['skins']=>$skey,$sval">
 							{@ $id = $mkey.'_'.$skey }
-							<span class="thumb"><span class="frame"><!--@if($sval->thumbnail)--><img src="{$sval->thumbnail}" alt="" /><!--@else-->Thumbnail does not exist<!--@end--></span></span>
+							<span class="thumb"><span class="frame"><!--@if($sval->thumbnail)--><img src="{$sval->thumbnail}" alt="" /><!--@else-->{$lang->msg_thumbnail_not_exist}<!--@end--></span></span>
 							<input type="radio" name="{$mkey}-skin" id="{$id}" value="{$skey}" checked="checked"|cond="$theme_info->skin_info[$mkey]==$skey" />
 							<label for="{$id}">{$sval->title.'('.$skey.')'}</label>
 							<ul>
@@ -113,7 +113,7 @@ $('#theme').data('themes', themes);
 							</ul>
 						</li>
 						<li class="i">
-							<span class="thumb"><span class="frame">Thumbnail does not exists</span></span>
+							<span class="thumb"><span class="frame">{$lang->msg_thumbnail_not_exist}</span></span>
 							<input type="radio" name="{$mkey}-skin" id="{$mkey}_none" value="" checked="checked"|cond="!$theme_info->skin_info[$mkey]" />
 							<label for="{$mkey}_none">{$lang->no_select}</label>
 						</li>
