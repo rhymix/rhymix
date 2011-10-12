@@ -125,9 +125,13 @@ $('form.siteMap')
 
 	$('a._add').click(function()
 	{
-		editForm.find('.h2').html('Add Menu');
-		editForm.find('input[name=menu_srl]').val($(this).parents().prevAll('input[name=menu_srl]').val());
+		var $this = $(this);
+
 		resetEditForm();
+
+		editForm.find('.h2').html('Add Menu');
+		editForm.find('input[name=menu_srl]').val($this.closest('form').find('input[name=menu_srl]:first').val());
+		editForm.find('input[name=parent_srl]').val($this.parent().prevAll('input._item_key').val());
 	});
 
 	$('input._typeCheck').click(typeCheck);
