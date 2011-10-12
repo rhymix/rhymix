@@ -39,10 +39,9 @@
 					<input type="password" name="password2" value=""/>
 				</p>
 			</li>
-			<li loop="$formTags=>$formTag">
+			<li loop="$formTags=>$formTag" cond="$formTag->name != 'signature'">
 				<p class="q">{$formTag->title}</p>
-				<div class="a" cond="$formTag->name != 'signature'">{$formTag->inputTag}</div>
-				<div class="a" cond="$formTag->name =='signature'">{$editor}</div>
+				<div class="a">{$formTag->inputTag}</div>
 			</li>
 			<li>
 				<p class="q">{$lang->allow_mailing}</p>
