@@ -430,20 +430,6 @@ Lütfen son sürümü için indirme linkine tıklayınız.]]></value>
 		<value xml:lang="tr"><![CDATA[Sürüm]]></value>
 		<value xml:lang="vi"><![CDATA[Phiên bản]]></value>
 	</item>
-	<item name="author">
-		<value xml:lang="ko"><![CDATA[저자]]></value>
-		<value xml:lang="en"><![CDATA[Author]]></value>
-		<value xml:lang="jp"><![CDATA[制作者]]></value>
-		<value xml:lang="zh-CN"><![CDATA[作者]]></value>
-		<value xml:lang="zh-TW"><![CDATA[作者]]></value>
-		<value xml:lang="fr"><![CDATA[Auteur]]></value>
-		<value xml:lang="de"><![CDATA[Entwickler]]></value>
-		<value xml:lang="ru"><![CDATA[Разработчик]]></value>
-		<value xml:lang="es"><![CDATA[Autor]]></value>
-		<value xml:lang="tr"><![CDATA[Geliştirici]]></value>
-		<value xml:lang="vi"><![CDATA[Thiết kế]]></value>
-		<value xml:lang="mn"><![CDATA[Бичсэн]]></value>
-	</item>
 	<item name="table_count">
 		<value xml:lang="ko"><![CDATA[테이블 수]]></value>
 		<value xml:lang="en"><![CDATA[Number of Table]]></value>
