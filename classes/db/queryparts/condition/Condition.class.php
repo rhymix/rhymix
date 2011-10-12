@@ -61,6 +61,9 @@
                                 case 'like_tail' :
                                 case 'like_prefix' :
                                 case 'like' :
+                                case 'notlike_tail' :
+                                case 'notlike_prefix' :
+                                case 'notlike' :
                                 case 'in' :
                                 case 'notin' :
                                 case 'notequal' :
@@ -102,6 +105,11 @@
                             case 'like_prefix' :
                             case 'like' :
                                     return $name.' like '.$value;
+                                break;
+                            case 'notlike_tail' :
+                            case 'notlike_prefix' :
+                            case 'notlike' :
+                                    return $name.' not like '.$value;
                                 break;
                             case 'in' :
                                     return $name.' in '.$value;

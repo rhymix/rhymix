@@ -143,4 +143,52 @@
                                             and (`group_srl` >= 1 or `group_srl` = -1 or `group_srl` = -2) group by `module_srl`';
 			$this->_test($xml_file, $argsString, $expected);
                 }
+
+                function test_Like_Clause(){
+			$xml_file = _TEST_PATH_ . "db/xml_query/mysql/data/opage.getOpageList.like.xml";
+			$argsString = '$args->s_mid = "test";';
+			$expected = 'select *
+                                        from `xe_modules` as `modules`
+                                        where `module` = \'opage\'
+                                            and (`mid` like \'%test%\')
+                                        order by `module_srl` desc
+                                        limit 0, 20';
+			$this->_test($xml_file, $argsString, $expected);
+                }
+
+                function test_NotLike_Clause(){
+			$xml_file = _TEST_PATH_ . "db/xml_query/mysql/data/opage.getOpageList.notlike.xml";
+			$argsString = '$args->s_mid = "test";';
+			$expected = 'select *
+                                        from `xe_modules` as `modules`
+                                        where `module` = \'opage\'
+                                            and (`mid` not like \'%test%\')
+                                        order by `module_srl` desc
+                                        limit 0, 20';
+			$this->_test($xml_file, $argsString, $expected);
+                }
+
+                function test_NotLikeTail_Clause(){
+			$xml_file = _TEST_PATH_ . "db/xml_query/mysql/data/opage.getOpageList.notliketail.xml";
+			$argsString = '$args->s_mid = "test";';
+			$expected = 'select *
+                                        from `xe_modules` as `modules`
+                                        where `module` = \'opage\'
+                                            and (`mid` not like \'%test\')
+                                        order by `module_srl` desc
+                                        limit 0, 20';
+			$this->_test($xml_file, $argsString, $expected);
+                }
+
+                function test_NotLikePrefix_Clause(){
+			$xml_file = _TEST_PATH_ . "db/xml_query/mysql/data/opage.getOpageList.notlikeprefix.xml";
+			$argsString = '$args->s_mid = "test";';
+			$expected = 'select *
+                                        from `xe_modules` as `modules`
+                                        where `module` = \'opage\'
+                                            and (`mid` not like \'test%\')
+                                        order by `module_srl` desc
+                                        limit 0, 20';
+			$this->_test($xml_file, $argsString, $expected);
+                }
 	}

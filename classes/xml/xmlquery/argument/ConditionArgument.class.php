@@ -31,6 +31,15 @@
                             case 'like' :
                                     $this->value = '%'.$value.'%';
                                 break;
+                            case 'notlike' :
+                                    $this->value = '%'.$value.'%';
+                                break;
+                            case 'notlike_prefix' :
+                                    $this->value = $value.'%';
+                                break;
+                            case 'notlike_tail' :
+                                    $this->value = '%'.$value;
+                                break;
                             case 'in':
                                     if(!is_array($value)) $this->value = array($value);
                                 break;
