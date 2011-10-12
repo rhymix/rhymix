@@ -279,22 +279,29 @@
 				Context::loadFile(array('./addons/captcha/inline_captcha.js','body'));
 
 				global $lang;
-?>
-<img src="<?php echo getUrl('captcha_action','captchaImage', 'rand', rand(10000000, 99999999)) ?>" id="captcha_image" alt="CAPTCHA" width="240" height="50" style="width:240px; height:50px; border:1px solid #b0b0b0" />
+
+				$tags=<<<EOD
+<img src="%s" id="captcha_image" alt="CAPTCHA" width="240" height="50" style="width:240px; height:50px; border:1px solid #b0b0b0" />
 <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,0,0" width="0" height="0" id="captcha_audio" align="middle">
 	<param name="allowScriptAccess" value="always" />
 	<param name="quality" value="high" />
-	<param name="movie" value="<?php echo $swfURL ?>" />
+	<param name="movie" value="%s" />
 	<param name="wmode" value="window" /> 
 	<param name="allowFullScreen" value="false">
 	<param name="bgcolor" value="#fffff" /> 
-	<embed src="<?php echo $swfURL ?>" quality="high" wmode="window" allowFullScreen="false" bgcolor="#ffffff" width="0" height="0" name="captcha_audio" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" /> 
+	<embed src="%s" quality="high" wmode="window" allowFullScreen="false" bgcolor="#ffffff" width="0" height="0" name="captcha_audio" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" /> 
 </object>
-<button type="button" class="captchaReload text"><?php echo $lang->reload ?></button>
-<button type="button" class="captchaPlay text"><?php echo $lang->play ?></button><br />
+<button type="button" class="captchaReload text">%s</button>
+<button type="button" class="captchaPlay text">%s</button><br />
 <input type="hidden" name="captchaType" value="inline" />
 <input name="secret_text" type="text" id="secret_text" />
-<?php
+EOD;
+				$tags = sprintf($tags, getUrl('captcha_action','captchaImage', 'rand', mt_rand(10000, 99999))
+								, $swfURL
+								, $swfURL
+								, $lang->reload
+								, $lang->play);
+				return $tags;
 			}
 		}
 
