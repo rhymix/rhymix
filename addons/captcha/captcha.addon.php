@@ -33,6 +33,8 @@
 				if($this->addon_info->target != 'all' && Context::get('is_logged')) return false;
 				if($_SESSION['captcha_authed']) return false;
 
+				$type = Context::get('captchaType');
+
 				$target_acts = array('procBoardInsertDocument','procBoardInsertComment','procIssuetrackerInsertIssue','procIssuetrackerInsertHistory','procTextyleInsertComment');
 				if($this->addon_info->apply_find_account=='apply') $target_acts[] = 'procMemberFindAccount';
 				if($this->addon_info->apply_resend_auth_mail=='apply') $target_acts[] = 'procMemberResendAuthMail';
@@ -40,17 +42,32 @@
 
 				if(Context::getRequestMethod()!='XMLRPC' && Context::getRequestMethod()!=='JSON')
 				{
-					Context::addHtmlHeader('<script type="text/javascript"> var captchaTargetAct = new Array("'.implode('","',$target_acts).'"); </script>');
-					Context::loadFile(array('./addons/captcha/captcha.js', 'body', '', null), true);
+					if($type == 'inline') {
+						$this->compareCaptcha();
+					}  else {
+						Context::addHtmlHeader('<script type="text/javascript"> var captchaTargetAct = new Array("'.implode('","',$target_acts).'"); </script>');
+						Context::loadFile(array('./addons/captcha/captcha.js', 'body', '', null), true);
+					}
 				}
-				// compare session when calling actions such as writing a post or a comment on the board/issue tracker module
 
+				// compare session when calling actions such as writing a post or a comment on the board/issue tracker module
 				if(!$_SESSION['captcha_authed'] && in_array(Context::get('act'), $target_acts)) {
 					Context::loadLang('./addons/captcha/lang');
 					$ModuleHandler->error = "captcha_denied";
 				}
 
 				return true;
+			}
+
+			function createKeyword()
+			{
+				$type = Context::get('captchaType');
+				if ($type == 'inline' && $_SESSION['captcha_keyword']) return;
+
+				$arr = range('A','Y');
+				shuffle($arr);
+				$arr = array_slice($arr,0,6);
+                $_SESSION['captcha_keyword'] = join('', $arr);
 			}
 
 			function before_module_init_setCaptchaSession()
@@ -61,10 +78,7 @@
 				Context::loadLang(_XE_PATH_.'addons/captcha/lang');
 				// Generate keywords
 
-				$arr = range('A','Y');
-				shuffle($arr);
-				$arr = array_slice($arr,0,6);
-                $_SESSION['captcha_keyword'] = join('', $arr);
+				$this->createKeyword();
 
                 $target = Context::getLang('target_captcha');
                 header("Content-Type: text/xml; charset=UTF-8");
@@ -87,6 +101,7 @@
 			function before_module_init_captchaImage()
 			{
 				if($_SESSION['captcha_authed']) return false;
+				if(Context::get('renew')) $this->createKeyword();
 
 			    $keyword = $_SESSION['captcha_keyword'];
 				$im = $this->createCaptchaImage($keyword);
@@ -224,12 +239,23 @@
 				return $data;
 			}
 
+			function compareCaptcha()
+			{
+				if($_SESSION['captcha_authed']) return true;
+
+                if(strtoupper($_SESSION['captcha_keyword']) == strtoupper(Context::get('secret_text'))) {
+					$_SESSION['captcha_authed'] = true;
+					return true;
+				}
+
+				unset($_SESSION['captcha_authed']);
+
+				return false;
+			}
+
 			function before_module_init_captchaCompare()
 			{
-				if($_SESSION['captcha_authed']) return false;
-
-                if(strtoupper($_SESSION['captcha_keyword']) == strtoupper(Context::get('secret_text'))) $_SESSION['captcha_authed'] = true;
-                else unset($_SESSION['captcha_authed']);
+				if(!$this->compareCaptcha()) return false;
 
                 header("Content-Type: text/xml; charset=UTF-8");
                 header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
@@ -242,10 +268,39 @@
                 Context::close();
                 exit();
 			}
+
+			function inlineDisplay()
+			{
+				unset($_SESSION['captcha_authed']);
+				$this->createKeyword();
+
+				$swfURL = getUrl().'addons/captcha/swf/play.swf';
+				Context::unloadFile('./addons/captcha/captcha.js');
+				Context::loadFile(array('./addons/captcha/inline_captcha.js','body'));
+
+				global $lang;
+?>
+<img src="<?php echo getUrl('captcha_action','captchaImage', 'rand', rand(10000000, 99999999)) ?>" id="captcha_image" alt="CAPTCHA" width="240" height="50" style="width:240px; height:50px; border:1px solid #b0b0b0" />
+<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,0,0" width="0" height="0" id="captcha_audio" align="middle">
+	<param name="allowScriptAccess" value="always" />
+	<param name="quality" value="high" />
+	<param name="movie" value="<?php echo $swfURL ?>" />
+	<param name="wmode" value="window" /> 
+	<param name="allowFullScreen" value="false">
+	<param name="bgcolor" value="#fffff" /> 
+	<embed src="<?php echo $swfURL ?>" quality="high" wmode="window" allowFullScreen="false" bgcolor="#ffffff" width="0" height="0" name="captcha_audio" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" /> 
+</object>
+<button type="button" class="captchaReload text"><?php echo $lang->reload ?></button>
+<button type="button" class="captchaPlay text"><?php echo $lang->play ?></button><br />
+<input type="hidden" name="captchaType" value="inline" />
+<input name="secret_text" type="text" id="secret_text" />
+<?php
+			}
 		}
 
 		$GLOBALS['__AddonCaptcha__'] = new AddonCaptcha;
 		$GLOBALS['__AddonCaptcha__']->setInfo($addon_info);
+		Context::set('oCaptcha', &$GLOBALS['__AddonCaptcha__']);
 	}
 
 	$oAddonCaptcha = &$GLOBALS['__AddonCaptcha__'];

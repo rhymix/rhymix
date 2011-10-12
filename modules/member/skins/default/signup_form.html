@@ -58,6 +58,12 @@
 					</block>
 				</p>
 			</li>
+			<li cond="class_exists('AddonCaptcha') && $oCaptcha && $oCaptcha->addon_info->apply_signup=='apply'">
+				<p class="q">{$lang->captcha}</p>
+				<p class="a">
+					{$oCaptcha->inlineDisplay()}
+				</p>
+			</li>
 		</ul>
 		<div class="btnArea">
 			<span class="btn"><input type="submit" value="{$lang->cmd_registration}" /></span>

@@ -3796,4 +3796,16 @@ Bitte melden Sie sich dem Administrator des Moduls!]]></value>
 		<value xml:lang="en"><![CDATA[Find Site]]></value>
 		<value xml:lang="de"><![CDATA[Website Finden]]></value>
 	</item>
+	<item name="captcha">
+		<value xml:lang="ko"><![CDATA[Captcha]]></value>
+		<value xml:lang="en"><![CDATA[Captcha]]></value>
+	</item>
+	<item name="reload">
+		<value xml:lang="ko"><![CDATA[새로고침]]></value>
+		<value xml:lang="en"><![CDATA[reload]]></value>
+	</item>
+	<item name="play">
+		<value xml:lang="ko"><![CDATA[음성재생]]></value>
+		<value xml:lang="en"><![CDATA[play]]></value>
+	</item>
 </lang>
