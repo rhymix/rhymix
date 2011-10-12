@@ -537,7 +537,13 @@
          **/
         function insertAdminId($module_srl, $admin_id) {
             $oMemberModel = &getModel('member');
-            $member_info = $oMemberModel->getMemberInfoByUserID($admin_id);
+			$member_config = $oMemberModel->getMemberConfig();
+
+			if ($member_config->identifier == 'email_address')
+	            $member_info = $oMemberModel->getMemberInfoByEmailAddress($admin_id);
+			else
+	            $member_info = $oMemberModel->getMemberInfoByUserID($admin_id);
+
             if(!$member_info->member_srl) return;
             $args->module_srl = $module_srl;
             $args->member_srl = $member_info->member_srl;

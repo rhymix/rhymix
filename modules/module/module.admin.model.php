@@ -55,6 +55,11 @@
          * Available when using module instance in all the modules
          **/
         function getModuleGrantHTML($module_srl, $source_grant_list) {
+			// get member module's config
+			$oMemberModel = &getModel('member');
+			$member_config = $oMemberModel->getMemberConfig();
+			Context::set('member_config', $member_config);
+
             $oModuleModel = &getModel('module');
 			$columnList = array('module_srl', 'site_srl');
             $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);

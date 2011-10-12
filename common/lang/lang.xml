@@ -1122,6 +1122,10 @@
 		<value xml:lang="tr"><![CDATA[Yönetici Kimliği]]></value>
 		<value xml:lang="mn"><![CDATA[Хариуцагч ID]]></value>
 	</item>
+	<item name="admin_email_address">
+		<value xml:lang="ko"><![CDATA[관리자 Email 주소]]></value>
+		<value xml:lang="en"><![CDATA[Admin Email Address]]></value>
+	</item>
 	<item name="writer">
 		<value xml:lang="ko"><![CDATA[글쓴이]]></value>
 		<value xml:lang="en"><![CDATA[Author]]></value>
