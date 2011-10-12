@@ -247,7 +247,9 @@
 			$fields = array();
 			foreach($signupForm as $formInfo){
 				if ($formInfo->required || $formInfo->mustRequired){
-					if($formInfo->name == 'password'){
+					if($formInfo->type == 'tel' || $formInfo->type == 'kr_zip'){
+						$fields[] = sprintf('<field name="%s[]" required="true" />', $formInfo->name);
+					}else if($formInfo->name == 'password'){
 						$fields[] = '<field name="password"><if test="$act == \'procMemberInsert\'" attr="required" value="true" /><if test="$act == \'procMemberInsert\'" attr="length" value="3:20" /></field>';
 						$fields[] = '<field name="password2"><if test="$act == \'procMemberInsert\'" attr="required" value="true" /><if test="$act == \'procMemberInsert\'" attr="equalto" value="password" /></field>';
 					}else if($formInfo->name == 'find_account_question'){
