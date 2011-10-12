@@ -11,7 +11,7 @@
 <form action="./" class="form" ruleset="insertConfig" method="post">
 <input type="hidden" name="act" value="procMemberAdminInsertConfig" />
 <input type="hidden" name="success_return_url" value="{getUrl('act', $act)}" />
-<input type="hidden" name="agreement" value="{htmlspecialchars($config->agreement)}" />
+<input type="hidden" name="agreement" value="{$config->agreement}" />
 	<h1 class="h1">{$lang->cmd_member_config}</h1>
 	<fieldset class="section suSetting">
 		<h2 class="h2">{$lang->cmd_module_config}</h2>
