@@ -2500,7 +2500,7 @@
 		</item>
 	</item>
 	<item name="about_tag">
-		<value xml:lang="ko"><![CDATA[태그 입력 시 , (쉼표)를 이용하시면 복수 등록이 가능합니다.]]></value>
+		<value xml:lang="ko"><![CDATA[쉼표(,)를 이용하여 복수 등록]]></value>
 		<value xml:lang="en"><![CDATA[You may submit multiple tags by inserting commas (,) between tags.]]></value>
 		<value xml:lang="jp"><![CDATA[タグは「,」(半角コンマ)を使って複数登録できます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[用逗号分隔多个标签]]></value>
@@ -2514,7 +2514,7 @@
 		<value xml:lang="mn"><![CDATA[tag оруулахдаа таслал ашиглавал давтан оруулж болно]]></value>
 	</item>
 	<item name="about_layout">
-		<value xml:lang="ko"><![CDATA[레이아웃은 모듈의 껍데기를 꾸며줍니다. 상단 레이아웃 메뉴에서 관리하실 수 있습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[레이아웃은 모듈의 겉모습을 꾸며줍니다. 상단 레이아웃 메뉴에서 관리하실 수 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Layouts decorate the appearance of your modules. You can configure them from the Layout menu on the top.]]></value>
 		<value xml:lang="jp"><![CDATA[モジュールのレイアウトをデザインします。上部のレイアウトメニューにて管理できます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[布局是布置模块的外观，在上端布局菜里单可以进行管理]]></value>
@@ -2528,7 +2528,7 @@
 		<value xml:lang="mn"><![CDATA[Лэйаут нь модиулын гадаад байдлыг чимж өгнө. Дээрх лэйаут менюнээс удирдаж болно]]></value>
 	</item>
 	<item name="msg_call_server">
-		<value xml:lang="ko"><![CDATA[서버에 요청중입니다. 잠시만 기다려주세요.]]></value>
+		<value xml:lang="ko"><![CDATA[서버에 요청 중입니다. 잠시만 기다려주세요.]]></value>
 		<value xml:lang="en"><![CDATA[Requesting to the server, please wait.]]></value>
 		<value xml:lang="jp"><![CDATA[サーバへ問合わせ中です。しばらくお待ちください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[系统正在连接服务器，请稍后…]]></value>
@@ -2542,7 +2542,7 @@
 		<value xml:lang="mn"><![CDATA[Сервер ачаалж байна. Түр хүлээнэ үү.]]></value>
 	</item>
 	<item name="msg_db_not_setted">
-		<value xml:lang="ko"><![CDATA[DB설정이 되어 있지 않습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[DB 설정이 되어 있지 않습니다.]]></value>
 		<value xml:lang="en"><![CDATA[DB configuration has not been set.]]></value>
 		<value xml:lang="jp"><![CDATA[DBが設定されていません。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[还没有设定 DB]]></value>
@@ -2556,7 +2556,7 @@
 		<value xml:lang="mn"><![CDATA[DB тохируулга хийгдээгүй байна.]]></value>
 	</item>
 	<item name="msg_dbconnect_failed">
-		<value xml:lang="ko"><![CDATA[DB접속 오류가 발생했습니다.
+		<value xml:lang="ko"><![CDATA[DB 접속 오류가 발생했습니다.
 DB정보를 다시 확인해주세요.]]></value>
 		<value xml:lang="en"><![CDATA[Error has occurred while connecting to the DB.
 Please check the DB information again.]]></value>
