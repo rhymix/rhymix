@@ -22,7 +22,7 @@
 //	require_once(_XE_PATH_.'classes/context/Context.class.php');
 //	require_once(_XE_PATH_.'classes/file/FileHandler.class.php');
 //	require_once(_XE_PATH_.'classes/xml/XmlParser.class.php');
-	require_once(_XE_PATH_.'classes/xml/XmlQueryParser.class.php');
+	require_once(_XE_PATH_.'classes/xml/XmlQueryParser.150.class.php');
 //
 
 	require_once(_XE_PATH_.'classes/db/DB.class.php');

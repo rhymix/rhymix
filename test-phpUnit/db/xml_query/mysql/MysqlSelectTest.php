@@ -133,4 +133,14 @@
                                        limit 0, 20';
 			$this->_test($xml_file, $argsString, $expected);
 		}
+
+                function test_Syndication_getGrantedModules(){
+			$xml_file = _TEST_PATH_ . "db/xml_query/mysql/data/syndication.getGrantedModules.xml";
+			$argsString = '';
+			$expected = 'select `module_srl`
+                                        from `xe_module_grants` as `module_grants`
+                                        where `name` in (\'access\',\'view\',\'list\')
+                                            and (`group_srl` >= 1 or `group_srl` = -1 or `group_srl` = -2) group by `module_srl`';
+			$this->_test($xml_file, $argsString, $expected);
+                }
 	}
