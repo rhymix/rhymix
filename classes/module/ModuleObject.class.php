@@ -135,7 +135,11 @@
                     $grant = $oModuleModel->getGrant($request_module, $logged_info);
                 }
             } else {
-                $grant = $oModuleModel->getGrant($module_info, $logged_info, $xml_info);
+				// have at least access grant
+				if ($this->module == $module_info->module)
+	                $grant = $oModuleModel->getGrant($module_info, $logged_info, $xml_info);
+				else
+					$grant->access = 1;
             }
             // display no permission if the current module doesn't have an access privilege
             //if(!$grant->access) return $this->stop("msg_not_permitted");
@@ -293,7 +297,9 @@
 
             if(isset($this->xml_info->action->{$this->act}) && method_exists($this, $this->act)) {
                 // Check permissions
-                if(!$this->grant->access) return $this->stop("msg_not_permitted_act");
+                if(!$this->grant->access){
+					return $this->stop("msg_not_permitted_act");
+				}
                 // integrate skin information of the module(change to sync skin info with the target module only by seperating its table)
                 $oModuleModel = &getModel('module');
                 $oModuleModel->syncSkinInfoToModuleInfo($this->module_info);
