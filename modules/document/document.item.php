@@ -38,7 +38,8 @@
                 $args->document_srl = $this->document_srl;
                 $output = executeQuery('document.getDocument', $args, $this->columnList);
                 //insert in cache
-	        if($oCacheHandler->isSupport()) $oCacheHandler->put($cache_key,$output);
+                if($output->data->document_srl && $oCacheHandler->isSupport())
+                   $oCacheHandler->put($cache_key,$output);
             }
             $this->setAttribute($output->data,$load_extra_vars);
         }
