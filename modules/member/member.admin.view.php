@@ -243,7 +243,7 @@
 								,zdate($memberInfo['birthday'], 'Y-m-d', false)
 								,$lang->cmd_delete);
 					}elseif($formInfo->name == 'find_account_question'){
-						$inputTag = '<select name="find_account_question" style="width:290px">%s</select><br />';
+						$inputTag = '<select name="find_account_question" style="width:290px">%s</select>';
 						$optionTag = array();
 						foreach($lang->find_account_question_items as $key=>$val){
 							if($key == $memberInfo['find_account_question']) $selected = 'selected="selected"';

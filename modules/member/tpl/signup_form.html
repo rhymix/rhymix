@@ -9,7 +9,7 @@
 	<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 		<p>{$XE_VALIDATOR_MESSAGE}</p>
 	</div>
-    <form ruleset="@insertMember" id="fo_insert_member" class="form" action="./" method="post" enctype="multipart/form-data">
+    <form ruleset="@insertMember" id="fo_insert_member" class="ff" action="./" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="act" value="procMemberInsert" />
 		<!--@if(!$is_logged && $member_config->agreement)-->
 		<div class="agreement">
@@ -23,43 +23,33 @@
 		</div>
 		<!--@end-->
 		<ul>
-			<li>
-				<p class="q">{$identifierForm->title} <em style="color:red">*</em></p>
-				<p class="a">
-					<input type="text" name="{$identifierForm->name}" value="{$identifierForm->value}" />
-				</p>
+			<li> 
+				<label for="{$identifierForm->name}">{$identifierForm->title} <em style="color:red">*</em></label>
+				<input type="text" name="{$identifierForm->name}" id="{$identifierForm->name}" value="{$identifierForm->value}" />
 			</li>
-			<li>
-				<p class="q">{$lang->password} <em style="color:red">*</em></p>
-				<p class="a">
-					<input type="password" name="password" value=""/>
-				</p>
+			<li> 
+				<label for="password">{$lang->password} <em style="color:red">*</em></label>
+				<input type="password" name="password" id="password" value=""/>
 			</li>
-			<li>
-				<p class="q">{$lang->password2} <em style="color:red">*</em></p>
-				<p class="a">
-					<input type="password" name="password2" value=""/>
-				</p>
+			<li> 
+				<label for="password2">{$lang->password2} <em style="color:red">*</em></label>
+				<input type="password" name="password2" id="password2" value=""/>
 			</li>
-			<li loop="$formTags=>$formTag">
-				<p class="q">{$formTag->title}</p>
-				<div class="a" cond="$formTag->name != 'signature'">{$formTag->inputTag}</div>
-				<div class="a" cond="$formTag->name =='signature'">{$editor}</div>
+			<li loop="$formTags=>$formTag"> 
+				<label>{$formTag->title}</label>
+				<block cond="$formTag->name != 'signature'">{$formTag->inputTag}</block>
+				<block cond="$formTag->name =='signature'">{$editor}</block>
 			</li>
-			<li>
-				<p class="q">{$lang->allow_mailing}</p>
-				<p class="a">
-					<input type="radio" name="allow_mailing" id="mailingYes" value="Y" checked="checked"|cond="$member_info->allow_mailing == 'Y'"> <label for="mailingYes">{$lang->cmd_yes}</label>
-					<input type="radio" name="allow_mailing" id="mailingNo" value="N" checked="checked"|cond="$member_info->allow_mailing != 'Y'" > <label for="mailingNo">{$lang->cmd_no}</label>
-				</p>
+			<li> 
+				<label>{$lang->allow_mailing}</label>
+				<input type="radio" name="allow_mailing" id="mailingYes" value="Y" checked="checked"|cond="$member_info->allow_mailing == 'Y'"> <label for="mailingYes">{$lang->cmd_yes}</label>
+				<input type="radio" name="allow_mailing" id="mailingNo" value="N" checked="checked"|cond="$member_info->allow_mailing != 'Y'" > <label for="mailingNo">{$lang->cmd_no}</label>
 			</li>
-			<li>
-				<p class="q">{$lang->allow_message}</p>
-				<p class="a">
-					<block loop="$lang->allow_message_type=>$key,$val">
-						<input type="radio" name="allow_message" value="{$key}" checked="checked"|cond="$member_info->allow_message == $key" id="allow_{$key}" /> <label for="allow_{$key}">{$val}</label>
-					</block>
-				</p>
+			<li> 
+				<label>{$lang->allow_message}</label>
+				<block loop="$lang->allow_message_type=>$key,$val">
+					<input type="radio" name="allow_message" value="{$key}" checked="checked"|cond="$member_info->allow_message == $key" id="allow_{$key}" /> <label for="allow_{$key}">{$val}</label>
+				</block>
 			</li>
 		</ul>
 	<div class="bna">
