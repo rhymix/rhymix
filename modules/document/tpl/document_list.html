@@ -15,6 +15,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 				| <a href="{getUrl('search_target', 'is_secret', 'search_keyword', 'N')}" <!--@if($search_target == 'is_secret' && $search_keyword == 'N')-->class="active"<!--@end-->>{$status_name_list['PUBLIC']}</a>
 				| <a href="{getUrl('search_target', 'is_secret', 'search_keyword', 'Y')}" <!--@if($search_target == 'is_secret' && $search_keyword == 'Y')-->class="active"<!--@end-->>{$status_name_list['SECRET']}</a>
 				| <a href="{getUrl('search_target', 'is_secret', 'search_keyword', 'temp')}" <!--@if($search_target == 'is_secret' && $search_keyword == 'temp')-->class="active"<!--@end-->>{$status_name_list['TEMP']}</a>
+				| <a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminDeclared')}">{$lang->cmd_declared_list}</a>
 			</div>
 			<table width="100%" border="1" cellspacing="0" id="documentListTable">
 				<caption>

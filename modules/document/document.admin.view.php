@@ -84,37 +84,40 @@
          * @brief display a report list on the admin page
          **/
         function dispDocumentAdminDeclared() {
-            // option for a list
-            $args->page = Context::get('page'); // /< Page
-            $args->list_count = 30; // /< the number of posts to display on a single page
-            $args->page_count = 10; // /< the number of pages that appear in the page navigation
+			// option for a list
+			$args->page = Context::get('page'); // /< Page
+			$args->list_count = 30; // /< the number of posts to display on a single page
+			$args->page_count = 10; // /< the number of pages that appear in the page navigation
 
-            $args->sort_index = 'document_declared.declared_count'; // /< sorting values
-            $args->order_type = 'desc'; // /< sorting values by order
+			$args->sort_index = 'document_declared.declared_count'; // /< sorting values
+			$args->order_type = 'desc'; // /< sorting values by order
 
-            // get a list
-            $declared_output = executeQuery('document.getDeclaredList', $args);
+			// get Status name list
+			$oDocumentModel = &getModel('document');
+			$statusNameList = $oDocumentModel->getStatusNameList();
 
-            if($declared_output->data && count($declared_output->data)) {
-                $document_list = array();
+			// get a list
+			$declared_output = executeQuery('document.getDeclaredList', $args);
+			if($declared_output->data && count($declared_output->data)) {
+				$document_list = array();
 
-                $oDocumentModel = &getModel('document');
-                foreach($declared_output->data as $key => $document) {
-                    $document_list[$key] = new documentItem();
-                    $document_list[$key]->setAttribute($document);
-                }
-                $declared_output->data = $document_list;
-            }
-        
-            // Set values of document_model::getDocumentList() objects for a template
-            Context::set('total_count', $declared_output->total_count);
-            Context::set('total_page', $declared_output->total_page);
-            Context::set('page', $declared_output->page);
-            Context::set('document_list', $declared_output->data);
-            Context::set('page_navigation', $declared_output->page_navigation);
-            // Set the template
-            $this->setTemplatePath($this->module_path.'tpl');
-            $this->setTemplateFile('declared_list');
+				foreach($declared_output->data as $key => $document) {
+					$document_list[$key] = new documentItem();
+					$document_list[$key]->setAttribute($document);
+				}
+				$declared_output->data = $document_list;
+			}
+
+			// Set values of document_model::getDocumentList() objects for a template
+			Context::set('total_count', $declared_output->total_count);
+			Context::set('total_page', $declared_output->total_page);
+			Context::set('page', $declared_output->page);
+			Context::set('document_list', $declared_output->data);
+			Context::set('page_navigation', $declared_output->page_navigation);
+            Context::set('status_name_list', $statusNameList);
+			// Set the template
+			$this->setTemplatePath($this->module_path.'tpl');
+			$this->setTemplateFile('declared_list');
         }
 
         function dispDocumentAdminAlias() {

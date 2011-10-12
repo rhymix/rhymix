@@ -1625,8 +1625,8 @@ class documentController extends document {
 		// Set a spam-filer not to be filtered to spams
 		$oSpamController = &getController('spamfilter');
 		$oSpamController->setAvoidLog();
-		$oDocumentAdminController = &getAdminController('document');
 
+		$oDocumentAdminController = &getAdminController('document');
 		if($type == 'move') {
 			if(!$module_srl) return new Object(-1, 'fail_to_move');
 
@@ -1635,7 +1635,8 @@ class documentController extends document {
 
 			$msg_code = 'success_moved';
 
-		} elseif($type == 'copy') {
+		}
+		elseif($type == 'copy') {
 			if(!$module_srl) return new Object(-1, 'fail_to_move');
 
 			$output = $oDocumentAdminController->copyDocumentModule($document_srl_list, $module_srl, $category_srl);
@@ -1643,7 +1644,8 @@ class documentController extends document {
 
 			$msg_code = 'success_copy';
 
-		} elseif($type =='delete') {
+		}
+		elseif($type =='delete') {
 			$oDB = &DB::getInstance();
 			$oDB->begin();
 			for($i=0;$i<$document_srl_count;$i++) {
@@ -1653,7 +1655,8 @@ class documentController extends document {
 			}
 			$oDB->commit();
 			$msg_code = 'success_deleted';
-		} elseif($type == 'trash') {
+		}
+		elseif($type == 'trash') {
 			$args->description = $message_content;
 
 			$oDB = &DB::getInstance();
@@ -1665,6 +1668,10 @@ class documentController extends document {
 			}
 			$oDB->commit();
 			$msg_code = 'success_trashed';
+		}
+		elseif($type == 'cancelDeclare') {
+			$args->document_srl = $document_srl_list;
+			$output = executeQuery('document.deleteDeclaredDocuments', $args);
 		}
 
 		$_SESSION['document_management'] = array();
