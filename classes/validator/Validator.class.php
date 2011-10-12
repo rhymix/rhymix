@@ -486,7 +486,7 @@ class Validator
 		$content  = implode(',', $content);
 		$messages = implode("\n", $messages);
 
-		return "(function($,v){\nv=xe.getApp('validator')[0];if(!v)return;\n{$addrules}\nv.cast('ADD_FILTER',['{$ruleset}', {{$content}}]);\n{$messages} // Hello\n})(jQuery);";
+		return "(function($,v){\nv=xe.getApp('validator')[0];if(!v)return;\n{$addrules}\nv.cast('ADD_FILTER',['{$ruleset}', {{$content}}]);\n{$messages}\n})(jQuery);";
 	}
 }
 
