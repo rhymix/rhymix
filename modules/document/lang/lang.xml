@@ -563,7 +563,7 @@
 		</item>
 	</item>
 	<item name="alias">
-		<value xml:lang="ko"><![CDATA[Alias]]></value>
+		<value xml:lang="ko"><![CDATA[별칭(Alias)]]></value>
 		<value xml:lang="en"><![CDATA[Alias]]></value>
 		<value xml:lang="jp"><![CDATA[アリアス（Alias）]]></value>
 		<value xml:lang="tr"><![CDATA[Diğer Adıyla]]></value>

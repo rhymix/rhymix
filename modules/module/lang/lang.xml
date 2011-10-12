@@ -358,24 +358,24 @@
 		<value xml:lang="vi"><![CDATA[Với ID Website]]></value>
 	</item>
 	<item name="about_domain">
-		<value xml:lang="ko"><![CDATA[1개 이상의 사이트를 만들기 위해서는 전용 도메인이 있어야 합니다.<br/>독립 도메인이나 서브 도메인이 있으면 되고 XE가 설치된 경로까지 같이 넣어주세요.<br />예) www.xpressengine.com/xe]]></value>
+		<value xml:lang="ko"><![CDATA[1개 이상의 사이트를 만들기 위해서는 전용 도메인이 있어야 합니다.<br />독립 도메인이나 서브 도메인이 있으면 되고 XE가 설치된 경로까지 같이 넣어주세요.<br />예) www.xpressengine.com/xe]]></value>
 		<value xml:lang="en"><![CDATA[In order to create more than one virtual site, every club needs to have its own domain name.<br />A sub-domain (e.g., aaa.bbb.com of bbb.com) also can be used. Input the address including the path where XE is installed. <br /> ex) www.xpressengine.com/xe]]></value>
 		<value xml:lang="jp"><![CDATA[複数のホームページを作成するためには、「オリジナルドメイン」や「サブ ドメイン」のような専用のドメインが必要です。<br />また、 XEのインストールパスも一緒に記入してください。<br />ex) www.xpressengine.com/xe]]></value>
-		<value xml:lang="zh-CN"><![CDATA[要创建一个站点必须有一个专用域名。<br/>一级域名或二级域名皆可。输入的时候请把XE安装路径也一起输入。<br />ex) www.xpressengine.com/xe]]></value>
-		<value xml:lang="zh-TW"><![CDATA[要建立網站必須要有個專屬域名。<br/>頂級域名或次級域名都可以。輸入時，請將 XE 安裝路徑也一起輸入。<br />例) www.xpressengine.com/xe]]></value>
-		<value xml:lang="es"><![CDATA[Para crear un dominio privado de la site requiere. <br/> Independiente de dominio o subdominio, y XE está instalado, el camino que en su conjunto. <br /> Ej.) www.xpressengine.com / zbxe]]></value>
+		<value xml:lang="zh-CN"><![CDATA[要创建一个站点必须有一个专用域名。<br />一级域名或二级域名皆可。输入的时候请把XE安装路径也一起输入。<br />ex) www.xpressengine.com/xe]]></value>
+		<value xml:lang="zh-TW"><![CDATA[要建立網站必須要有個專屬域名。<br />頂級域名或次級域名都可以。輸入時，請將 XE 安裝路徑也一起輸入。<br />例) www.xpressengine.com/xe]]></value>
+		<value xml:lang="es"><![CDATA[Para crear un dominio privado de la site requiere. <br /> Independiente de dominio o subdominio, y XE está instalado, el camino que en su conjunto. <br /> Ej.) www.xpressengine.com / zbxe]]></value>
 		<value xml:lang="tr"><![CDATA[Birden fazla sanal website oluşturabilmek için, her birinin kendi alanadına ihtiyacı vardır.<br />Alt-alanadı (örn., aaa.bbb.com of bbb.com) da kullanılabilir. XE'nin de içinde kurulu olduğu yolun adresini giriniz. <br /> örn.) www.xpressengine.com/xe]]></value>
 		<value xml:lang="vi"><![CDATA[Để tạo nhiều Website nhỏ, các Website nhỏ này cần những tên miền riêng của mình.<br />Có thể sử dụng những Subdomain dạng aaa.bbb.com của bbb.com. Hãy nhập địa chỉ bao gồm cả Domain cài đặt XE. <br /> Ví dụ: www.vietxe.net/xe]]></value>
 	</item>
 	<item name="about_vid">
-		<value xml:lang="ko"><![CDATA[별도의 도메인이 아닌 http://XE주소/ID 로 접속할 수 있습니다. 모듈명(mid)과 중복될 수 없습니다.<br/>첫 글자는 영문으로 시작해야 하고 영문과 숫자 그리고 _ 만 사용할 수 있습니다]]></value>
+		<value xml:lang="ko"><![CDATA[별도의 도메인이 아닌 http://XE주소/ID 로 접속할 수 있습니다. 모듈명(mid)과 중복될 수 없습니다.<br />첫 글자는 영문으로 시작해야 하고 영문과 숫자 그리고 _ 만 사용할 수 있습니다]]></value>
 		<value xml:lang="en"><![CDATA[Users can access via http://XEaddress/ID. You cannot use same site id as the existing module name(mid).<br />Site id should start with an alphabet character. Alphabet characters, numbers and underscore can be used for the site id.]]></value>
-		<value xml:lang="jp"><![CDATA[別途のドメインではなく、「http://XEアドレス/ID」へのアクセスが可能です。この際、モジュール名(mid)と重複しないように登録してください。<br/>必ず、頭文字は半角英文字にし、「（すべて半角の）英数字・_ 」 だけの組み合わせで入力してください。]]></value>
-		<value xml:lang="zh-CN"><![CDATA[直接以http://XE安装地址/ID的方式访问。<br/>模块名(mid)不能重复。<br/>模块名要以英文字母开头，且只允许使用英文字母，数字及"_"。]]></value>
-		<value xml:lang="zh-TW"><![CDATA[直接以 http://程式安裝位址/ID 的方式訪問。模組名稱(mid)不能重複。<br/>必須要以英文字母開頭，只允許使用底線、英文及數字。]]></value>
-		<value xml:lang="fr"><![CDATA[별도의 도메인이 아닌 http://XE주소/ID 로 접속할 수 있습니다. 모듈명(mid)와 중복될 수 없습니다.<br/>첫글자는 영문으로 시작해야 하고 영문과 숫자 그리고 _ 만 사용할 수 있습니다]]></value>
-		<value xml:lang="ru"><![CDATA[별도의 도메인이 아닌 http://XE주소/ID 로 접속할 수 있습니다. 모듈명(mid)와 중복될 수 없습니다.<br/>첫글자는 영문으로 시작해야 하고 영문과 숫자 그리고 _ 만 사용할 수 있습니다]]></value>
-		<value xml:lang="es"><![CDATA[별도의 도메인이 아닌 http://XE주소/ID 로 접속할 수 있습니다. 모듈명(mid)와 중복될 수 없습니다.<br/>첫글자는 영문으로 시작해야 하고 영문과 숫자 그리고 _ 만 사용할 수 있습니다]]></value>
+		<value xml:lang="jp"><![CDATA[別途のドメインではなく、「http://XEアドレス/ID」へのアクセスが可能です。この際、モジュール名(mid)と重複しないように登録してください。<br />必ず、頭文字は半角英文字にし、「（すべて半角の）英数字・_ 」 だけの組み合わせで入力してください。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[直接以http://XE安装地址/ID的方式访问。<br />模块名(mid)不能重复。<br />模块名要以英文字母开头，且只允许使用英文字母，数字及"_"。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[直接以 http://程式安裝位址/ID 的方式訪問。模組名稱(mid)不能重複。<br />必須要以英文字母開頭，只允許使用底線、英文及數字。]]></value>
+		<value xml:lang="fr"><![CDATA[별도의 도메인이 아닌 http://XE주소/ID 로 접속할 수 있습니다. 모듈명(mid)와 중복될 수 없습니다.<br />첫글자는 영문으로 시작해야 하고 영문과 숫자 그리고 _ 만 사용할 수 있습니다]]></value>
+		<value xml:lang="ru"><![CDATA[별도의 도메인이 아닌 http://XE주소/ID 로 접속할 수 있습니다. 모듈명(mid)와 중복될 수 없습니다.<br />첫글자는 영문으로 시작해야 하고 영문과 숫자 그리고 _ 만 사용할 수 있습니다]]></value>
+		<value xml:lang="es"><![CDATA[별도의 도메인이 아닌 http://XE주소/ID 로 접속할 수 있습니다. 모듈명(mid)와 중복될 수 없습니다.<br />첫글자는 영문으로 시작해야 하고 영문과 숫자 그리고 _ 만 사용할 수 있습니다]]></value>
 		<value xml:lang="tr"><![CDATA[Kullanıcılar, http://XEaddress/ID adresiyle ulaşabilirler. Varolan bir modül adıyla(mid) aynı olan site kimliği kullanamazsınız .<br />Site kimliği bir harfle başlamaladır . Alfabetik karakterler, sayılar ve _ işareti site kimliği için kullanılabilir.]]></value>
 		<value xml:lang="vi"><![CDATA[Người sử dụng có thể truy cập qua http://XEaddress/ID. Bạn không thể sử dụng ID giống nhau và giống tên Module đã có.<br />Teen ID có dạng là các chữ cái, số và dấu gạch dưới (_).]]></value>
 	</item>
@@ -392,12 +392,12 @@
 		<value xml:lang="vi"><![CDATA[Tên ID này đã được đăng kí. Xin hãy chọn tên khác.]]></value>
 	</item>
 	<item name="msg_already_registed_domain">
-		<value xml:lang="ko"><![CDATA[이미 등록된 도메인입니다. 다른 도메인을 사용해주세요]]></value>
+		<value xml:lang="ko"><![CDATA[이미 등록된 도메인입니다. 다른 도메인을 사용해주세요.]]></value>
 		<value xml:lang="en"><![CDATA[Domain name has already been used. Please input another domain name.]]></value>
 		<value xml:lang="jp"><![CDATA[既に登録されているドメインです。異なるドメインを利用してください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[对不起！已有相同的域名。请重新输入。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[已註冊的域名。請使用其他的網域。]]></value>
-		<value xml:lang="es"><![CDATA[Ya es de dominio registrado. Por favor, use un dominio diferente]]></value>
+		<value xml:lang="es"><![CDATA[Ya es de dominio registrado. Por favor, use un dominio diferente.]]></value>
 		<value xml:lang="tr"><![CDATA[Bu alanadı önceden kullanıldı. Lütfen farklı bir alanadı giriniz.]]></value>
 		<value xml:lang="vi"><![CDATA[Tên miền đã được sử dụng. Xin hãy chọn tên khác.]]></value>
 	</item>
@@ -411,7 +411,7 @@
 		<value xml:lang="tr"><![CDATA[Başlık Betiği(script)]]></value>
 	</item>
 	<item name="about_header_script">
-		<value xml:lang="ko"><![CDATA[HTML의 &lt;head&gt;와 &lt;/head&gt; 사이에 들어가는 코드를 직접 입력할 수 있습니다.<br />&lt;script, &lt;style 또는 &lt;meta 태그 등을 이용하실 수 있습니다]]></value>
+		<value xml:lang="ko"><![CDATA[HTML의 &lt;head&gt;와 &lt;/head&gt; 사이에 들어가는 코드를 직접 입력할 수 있습니다.<br />&lt;script, &lt;style 또는 &lt;meta 태그 등을 이용하실 수 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[You can input the html script between &lt;header&gt; and &lt;/header&gt; by yourself.<br />You can use &lt;script, &lt;style or &lt;meta tags.]]></value>
 		<value xml:lang="jp"><![CDATA[HTMLの&lt;header&gt;と&lt;/header&gt;の間に入れるコードを直接入力できます。<br />&lt;script、&lt;styleまたは&lt;metaタグなどを利用できます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[可以直接输入插入到html中&lt;head&gt;区的代码。<br />可使用&lt;script, &lt;style 或 &lt;meta 等标签。]]></value>
@@ -655,7 +655,7 @@
 		<value xml:lang="vi"><![CDATA[Không có bài viết nào được kiểm tra.]]></value>
 	</item>
 	<item name="msg_move_failed">
-		<value xml:lang="ko"><![CDATA[이동 실패하였습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[이동에 실패하였습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Failed to move.]]></value>
 		<value xml:lang="jp"><![CDATA[移動できませんでした。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[移动失败！]]></value>
