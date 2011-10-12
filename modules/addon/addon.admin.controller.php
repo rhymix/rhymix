@@ -30,6 +30,11 @@
 			if (!$fixed) $fixed = array();
 			if (!$favorite) $favorite = array();
 
+			if (!is_array($pc)) $pc = array($pc);
+			if (!is_array($mobile)) $pc = array($mobile);
+			if (!is_array($fixed)) $pc = array($fixed);
+			if (!is_array($favorite)) $pc = array($favorite);
+
 			// get current addon info
 			$oModel = &getAdminModel('addon');
 			$currentAddonList = $oModel->getAddonList(0, 'site');
