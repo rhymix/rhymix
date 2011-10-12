@@ -703,10 +703,10 @@
          **/
         function isEnableComment() {
             // Return false if not authorized, if a secret document, if the document is set not to allow any comment
-			// old version allowed admin(isGranted() method use), but admin not allow comment below condition
-            if( $this->isGranted() && $this->allowComment() ) return true;
+			if (!$this->allowComment()) return false;
+			if(!$this->isGranted() && $this->isSecret()) return false;
 
-            return false;
+			return true;
         }
 
         /**
