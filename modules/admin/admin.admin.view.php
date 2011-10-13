@@ -377,7 +377,6 @@
 
 			$security = new Security();
 			$security->encodeHTML('news..', 'released_version', 'download_link', 'selected_lang', 'module_list..', 'module_list..author..', 'addon_list..', 'addon_list..author..', 'start_module.');
-
         }
 
         /**
