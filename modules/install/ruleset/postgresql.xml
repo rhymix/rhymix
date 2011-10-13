@@ -9,6 +9,6 @@
 		<field name="db_userid" required="true" length="1:250" rule="alpha_number" />
 		<field name="db_password" required="true" length="1:250"/>
 		<field name="db_database" required="true" length="1:250" />
-		<field name="db_table_prefix" required="true" length="2:20" rule="alpha" default="xe" />
+		<field name="db_table_prefix" length="2:20" rule="alpha" />
     </fields>
 </ruleset>

@@ -437,7 +437,7 @@
                 $buff .= 'array(';
                 foreach($con_string as $k => $v){
                     if(in_array($k, array('resource', 'is_connected'))) continue;
-                    if($k == 'db_table_prefix'){
+                    if($k == 'db_table_prefix' && !empty($v)){
                            if(substr($v,-1)!='_') $v .= '_';
                     }
                     $buff .= "'$k' => '$v',";

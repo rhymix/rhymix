@@ -5,6 +5,6 @@
     <fields>
 		<field name="db_type" required="true" default="mysql" />
 		<field name="db_database" required="true" length="1:250" />
-		<field name="db_table_prefix" required="true" length="2:20" rule="alpha" default="xe" />
+		<field name="db_table_prefix" length="2:20" rule="alpha" />
     </fields>
 </ruleset>
