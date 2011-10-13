@@ -120,8 +120,9 @@
 	</block>
 	</ul>
 
-	<h3 class="h3">{$lang->menu}</h3>
-	<ul>
+
+	<h3 class="h3" cond="$selected_layout->menu">{$lang->menu}</h3>
+	<ul cond="$selected_layout->menu">
 		<li loop="$selected_layout->menu => $menu_name, $menu_info">
 			<p class="q">{$menu_info->title} ({$menu_name})</p>
 			<p class="a">

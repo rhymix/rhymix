@@ -83,7 +83,9 @@
             $oLayoutModel = &getModel('layout');
             $oMenuAdminModel = &getAdminModel('menu');
             $layout_info = $oLayoutModel->getLayout($args->layout_srl);
-            $menus = get_object_vars($layout_info->menu);
+			if($layout_info->menu) {
+	            $menus = get_object_vars($layout_info->menu);
+			}
             if(count($menus) ) {
                 foreach($menus as $menu_id => $val) {
                     $menu_srl = Context::get($menu_id);
