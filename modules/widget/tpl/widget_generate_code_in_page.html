@@ -12,6 +12,26 @@
 	});
 </script>
 
+<div cond="$type=='faceoff'" class="x" style="padding: 0 10px;">
+	<form class="form">
+	<input type="hidden" name="module" value="widget" />
+	<input type="hidden" name="type" value="faceoff" />
+	<input type="hidden" name="act" value="dispWidgetGenerateCodeInPage" />
+	<input type="hidden" name="error_return_url" value="" />
+
+	<h2 class="h2">{$lang->widget}</h2>
+		<ul>
+			<li>
+				<p class="a">
+					<select name="selected_widget">
+						<option loop="$widget_list => $list_widget_info" value="{$list_widget_info->widget}">{$list_widget_info->title}</option>
+					</select>
+					<input type="submit" value="{$lang->cmd_select}" />
+				</p>
+			</li>
+		</ul>
+	</form>
+</div>
 <div class="x" style="padding: 0 10px;">
 	<h2 class="h2">{$widget_info->title}</h2>
 	<p>{$widget_info->description}</p>
@@ -28,6 +48,7 @@
 		<input type="hidden" name="widget_padding_top" value="" />
 		<input type="hidden" name="widget_padding_bottom" value="" />
 		<input type="hidden" name="selected_widget" value="{$widget_info->widget}" />
+
 		<include target="widget_generate_code.include.html" />
 
 		<div class="btnArea">

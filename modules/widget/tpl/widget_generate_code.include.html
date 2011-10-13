@@ -7,13 +7,13 @@
 <ul>
 	<li>
 		<p class="q"><label for="skin">{$lang->skin}</label></p>
-		<a class="a">
+		<p class="a">
 			<select name="skin" id="skin" style="width:280px">
 				<option value="">{$lang->select}</option>
 				<option loop="$skin_list => $skin_name, $skin" value="{$skin_name}">{$skin->title} ({$skin_name})</option>
 			</select>
 			<input type="button" value="{$lang->cmd_select}" />
-		</a>
+		</p>
 	</li>
 	<li>
 		<p class="q"><label for="colorset">{$lang->colorset}</label></p>
