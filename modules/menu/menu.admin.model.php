@@ -61,7 +61,7 @@
             $args->menu_srl = $menu_srl;
             $output = executeQuery('menu.getMenu', $args);
             if(!$output->data) return;
-            
+
             $menu_info = $output->data;
             $menu_info->xml_file = sprintf('./files/cache/menu/%s.xml.php',$menu_srl);
             $menu_info->php_file = sprintf('./files/cache/menu/%s.php',$menu_srl);
@@ -77,7 +77,7 @@
             $args->title = $title;
             $output = executeQuery('menu.getMenuByTitle', $args);
             if(!$output->data) return;
-            
+
             $menu_info = $output->data;
             $menu_info->xml_file = sprintf('./files/cache/menu/%s.xml.php',$menu_info->menu_srl);
             $menu_info->php_file = sprintf('./files/cache/menu/%s.php',$menu_info->menu_srl);
@@ -121,7 +121,7 @@
 			else if(!preg_match('/^http/i',$menuItem->url))
 			{
 				$oModuleModel = &getModel('module');
-				$moduleInfo = $oModuleModel->getModuleInfoByMid($menuItem->url);
+				$moduleInfo = $oModuleModel->getModuleInfoByMid($menuItem->url, 0);
 				if(!$moduleInfo) $menuItem->moduleType = 'url';
 				else
 				{
@@ -216,15 +216,15 @@
             }
             Context::set('item_info', $item_info);
 			//Security
-			$security = new Security();						
+			$security = new Security();
 			$security->encodeHTML('group_list..title');
 			$security->encodeHTML('item_info.url');
-			$security->encodeHTML('item_info.name');			
+			$security->encodeHTML('item_info.name');
 
 			// Compile the template file into tpl variable and then return it
             $oTemplate = &TemplateHandler::getInstance();
-            $tpl = $oTemplate->compile($this->module_path.'tpl', 'menu_item_info');			
-			
+            $tpl = $oTemplate->compile($this->module_path.'tpl', 'menu_item_info');
+
             $this->add('tpl', str_replace("\n"," ",$tpl));
         }
 

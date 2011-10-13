@@ -107,7 +107,7 @@
             }
             // If no virtual website was found, get default website
             if($domain === '') {
-                if($oCacheHandler->isSupport())	$output = $oCacheHandler->get('default_site');			
+                if($oCacheHandler->isSupport())	$output = $oCacheHandler->get('default_site');
                 if(!$output){
                     $args->site_srl = 0;
                     $output = executeQuery('module.getSiteInfo', $args);
@@ -148,7 +148,7 @@
         /**
          * @brief Get module information by mid
          **/
-        function getModuleInfoByMid($mid, $site_srl = 0, $columnList = array()) {
+        function getModuleInfoByMid($mid, $site_srl, $columnList = array()) {
             $args->mid = $mid;
             $args->site_srl = (int)$site_srl;
             $oCacheHandler = &CacheHandler::getInstance('object');

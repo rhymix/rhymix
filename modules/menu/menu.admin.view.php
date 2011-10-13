@@ -30,22 +30,22 @@
 
             Context::set('total_count', $output->total_count);
             Context::set('total_page', $output->total_page);
-            Context::set('page', $output->page);			
+            Context::set('page', $output->page);
             Context::set('menu_list', $output->data);
 			Context::set('page_navigation', $output->page_navigation);
-			
+
 			//Security
 			$security = new Security();
-			$security->encodeHTML('menu_list..title');	
-			
+			$security->encodeHTML('menu_list..title');
+
             $this->setTemplateFile('index');
         }
- 
+
         /**
          * @brief Page to insert a menu
          **/
         function dispMenuAdminInsert() {
-            // Set the menu with menu information            
+            // Set the menu with menu information
             $menu_srl = Context::get('menu_srl');
 
             if($menu_srl) {
@@ -57,7 +57,7 @@
 
             $this->setTemplateFile('menu_insert');
         }
- 
+
         /**
          * @brief Menu admin page
          **/
@@ -75,7 +75,7 @@
 
 			//Security
 			$security = new Security();
-			$security->encodeHTML('menu_info..title');			
+			$security->encodeHTML('menu_info..title');
 
 			// Set the layout to be pop-up
             $this->setTemplateFile('menu_management');
@@ -107,7 +107,7 @@
 			$security->encodeHTML('module_category..title');
 			$security->encodeHTML('module_list..module');
 			$security->encodeHTML('mid_list..module');
-			$security->encodeHTML('mid_list..browser_title');			
+			$security->encodeHTML('mid_list..browser_title');
 
 			// Set a template file
             $this->setTemplateFile('mid_list');
@@ -184,7 +184,7 @@
 			{
 				unset($midInfo);
 				unset($moduleInfo);
-				$midInfo = $oModuleModel->getModuleInfoByMid($menu['url']);
+				$midInfo = $oModuleModel->getModuleInfoByMid($menu['url'], 0);
 				$moduleInfo = $oModuleModel->getModuleInfoXml($midInfo->module);
 				if($moduleInfo->setup_index_act)
 				{
