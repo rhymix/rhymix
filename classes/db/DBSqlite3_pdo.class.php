@@ -63,13 +63,17 @@
             return class_exists('PDO');
         }
 
+        function isConnected() {
+            return $this->is_connected;
+        }
+
         /**
          * @brief DB settings and connect/close
          **/
         function _setDBInfo() {
             $db_info = Context::getDBInfo();
-            $this->database = $db_info->db_database;
-            $this->prefix = $db_info->db_table_prefix;
+            $this->database = $db_info->master_db["db_database"];
+            $this->prefix = $db_info->master_db["db_table_prefix"];
             if(!substr($this->prefix,-1)!='_') $this->prefix .= '_';
         }
 
@@ -574,6 +578,10 @@
         }
 
         return $select . ' ' . $from . ' ' . $where . ' ' . $groupBy . ' ' . $orderBy . ' ' . $limit;
+    }
+
+    function getParser() {
+        return new DBParser('"', '"', $this->prefix);
     }
 
 }
