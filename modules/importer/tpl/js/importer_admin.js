@@ -181,13 +181,29 @@ function doImport(formId) {
 		if(ret.total > ret.cur) {
 			doImport(formId);
 		} else {
-			alert(ret.message);
-			jQuery('a[href="#process"].modalAnchor').unbind('before-close.mw').trigger('close.mw');
+			function resultAlertMessage()
+			{
+				alert(ret.message);
+				jQuery('a[href="#process"].modalAnchor').unbind('before-close.mw').trigger('close.mw');
 
-			try {
-				form.reset();
-				get_by_id(formId).reset();
-			} catch(e){};
+				try {
+					form.reset();
+					get_by_id(formId).reset();
+				} catch(e){};
+			}
+
+			fo_import = get_by_id(formId);
+			if(fo_import.isSync.checked)
+			{
+				exec_xml(
+					'importer', // module
+					'procImporterAdminSync', // act
+					params,
+					function(ret){if(ret && (!ret.error || ret.error == '0'))resultAlertMessage()}, // callback
+					resp = ['error','message'] // response tags
+				);
+			}
+			else resultAlertMessage();
 		}
 	}
 

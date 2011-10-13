@@ -62,12 +62,16 @@
 			<p class="q">{$lang->about_ttxml_user_id}</p>
 			<p class="a"><input type="text" name="user_id" value="{$logged_info->user_id}" /></p>
 		</li>
+		<li>
+			<p class="q">{$lang->import_step_desc[3]}</p>
+			<p class="a"><input type="checkbox" name="isSync" value="Y" /> {$lang->type_syncmember}</p>
+		</li>
 	</ul>
 	<div class="btnArea">
 		<span class="btn"><input type="submit" value="{$lang->importer}" /></span>
 	</div>
 </form>
-<form action="./" class="form" method="get" onsubmit="return doPreProcessing(this, 'memberFrom')" id="memberForm">
+<form action="./" class="form" method="get" onsubmit="return doPreProcessing(this, 'memberForm')" id="memberForm">
 	<input type="hidden" name="type" value="member" />
 	<input type="hidden" name="unit_count" value="100" />
 	<h2 class="h2">{$lang->type_member}</h2>
@@ -80,6 +84,10 @@
 				<em class="desc error">{$lang->msg_no_xml_file}</em>
 				<em class="desc success">{$lang->msg_exist_xml_file}</em>
 			</p>
+		</li>
+		<li>
+			<p class="q">{$lang->import_step_desc[3]}</p>
+			<p class="a"><input type="checkbox" name="isSync" value="Y" /> {$lang->type_syncmember}</p>
 		</li>
 	</ul>
 	<div class="btnArea">
