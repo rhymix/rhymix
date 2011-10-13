@@ -42,5 +42,14 @@
 			$this->_test($xml_file, $argsString, $expected);
                 }
 
-
+                function test_menu_updateMenuItemListorder(){
+			$xml_file = _TEST_PATH_ . "db/xml_query/mysql/data/menu.updateMenuItemListorder.xml";
+			$argsString = '$args->menu_srl = 10; $args->parent_srl = 11; $args->listorder = 12;';
+			$expected = 'update `xe_menu_item` as `menu_item`
+                                        set `listorder` = `listorder` - 1
+                                        where `menu_srl` = 10
+                                            and `parent_srl` = 11
+                                            and `listorder` <= 12';
+			$this->_test($xml_file, $argsString, $expected);
+                }
 	}

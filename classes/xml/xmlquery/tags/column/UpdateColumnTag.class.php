@@ -22,7 +22,7 @@
                         else {
                             $default_value = new DefaultValue($this->name, $column->attrs->default);
                             if($default_value->isOperation())
-                                    $this->argument = new QueryArgument($column);
+                                    $this->argument = new QueryArgument($column, true);
                             else $this->default_value = $dbParser->parseColumnName($column->attrs->default);
                         }
 		}

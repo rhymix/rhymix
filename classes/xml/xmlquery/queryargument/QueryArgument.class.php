@@ -7,7 +7,9 @@
 		var $column_name;
 		var $operation;
 
-		function QueryArgument($tag){
+                var $ignore_value;
+
+		function QueryArgument($tag, $ignore_value = false){
                         static $number_of_arguments = 0;
 
 			$this->argument_name = $tag->attrs->var;
@@ -30,7 +32,7 @@
 			if($tag->attrs->operation) $this->operation = $tag->attrs->operation;
 
 			$this->argument_validator = new QueryArgumentValidator($tag, $this);
-
+                        $this->ignore_value = $ignore_value;
 		}
 
 		function getArgumentName(){
@@ -77,7 +79,7 @@
                             $arg = sprintf("\n$%s_argument = new Argument('%s', %s);\n"
                                                     , $this->argument_name
                                                     , $this->variable_name
-                                                    , '$args->'.$this->variable_name);
+                                                    , $this->ignore_value ? 'null' : '$args->'.$this->variable_name);
 
                             $arg .= $this->argument_validator->toString();
 
