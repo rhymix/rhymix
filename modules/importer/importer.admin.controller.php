@@ -246,7 +246,7 @@
             // When completing, success message appears and remove the cache files
             if($total <= $cur) {
                 $this->setMessage( sprintf(Context::getLang('msg_import_finished'), $cur, $total) );
-                FileHandler::removeFilesInDir('./files/cache/importer/'.$key);
+                FileHandler::removeDir('./files/cache/importer/'.$key);
             } else $this->setMessage( sprintf(Context::getLang('msg_importing'), $total, $cur) );
         }
 

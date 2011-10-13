@@ -116,10 +116,11 @@
         }
 
         function saveItems() {
-            $this->index = 0;
-            while(!$this->isFinished()) {
-                $this->getItem();
-            }
+			FileHandler::removeDir($this->cache_path.$this->key);
+			$this->index = 0;
+			while(!$this->isFinished()) {
+				$this->getItem();
+			}
         }
 
         function mergeItems($filename) {
