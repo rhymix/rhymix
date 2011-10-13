@@ -177,16 +177,20 @@
                     $selected_lang = array();
                     $rand_name = $tmp[Context::getLangType()];
                     if(!$rand_name) $rand_name = array_shift($tmp);
-                    foreach($lang_supported as $key => $val) {
-                        $selected_lang[$key] = $tmp[$key]?$tmp[$key]:$rand_name;
-                    }
+					if(is_array($lang_supported))
+					{
+						foreach($lang_supported as $key => $val)
+							$selected_lang[$key] = $tmp[$key]?$tmp[$key]:$rand_name;
+					}
                 }
             }
 
             $output = array();
-            foreach($lang_supported as $key => $val) {
-                $output[$key] = $selected_lang[$key]?$selected_lang[$key]:$name;
-            }
+			if(is_array($lang_supported))
+			{
+				foreach($lang_supported as $key => $val)
+					$output[$key] = $selected_lang[$key]?$selected_lang[$key]:$name;
+			}
             return $output;
         }
 
