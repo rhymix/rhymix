@@ -19,8 +19,12 @@
 			$this->name = $dbParser->parseColumnName($this->name);
                         if($column->attrs->var)
                             $this->argument = new QueryArgument($column);
-                        else
-                            $this->default_value = $dbParser->parseColumnName($column->attrs->default);
+                        else {
+                            $default_value = new DefaultValue($this->name, $column->attrs->default);
+                            if($default_value->isOperation())
+                                    $this->argument = new QueryArgument($column);
+                            else $this->default_value = $dbParser->parseColumnName($column->attrs->default);
+                        }
 		}
 
 		function getExpressionString(){

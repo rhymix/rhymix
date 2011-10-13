@@ -30,5 +30,17 @@
 			$this->_test($xml_file, $argsString, $expected);
                 }
 
+                function test_document_updateItemDownloadedCount(){
+			$xml_file = _TEST_PATH_ . "db/xml_query/mysql/data/document.updateItemDownloadedCount.xml";
+			$argsString = '$args->module_srl = 10; $args->package_srl = 11; $args->item_srl = 12;';
+			$expected = 'update `xe_resource_items` as `resource_items`
+                                        set `downloaded` = `downloaded` + 1
+                                        where `module_srl` = 10
+                                            and `package_srl` = 11
+                                            and `item_srl` = 12
+                        ';
+			$this->_test($xml_file, $argsString, $expected);
+                }
+
 
 	}

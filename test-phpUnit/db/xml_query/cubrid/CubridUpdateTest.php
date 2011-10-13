@@ -18,18 +18,32 @@
 							$args->use_mobile = "";
 							$args->site_srl = 0;
 							$args->module_srl = 47374;';
-			$expected = 'UPDATE "xe_modules" as "modules"
-						 SET "module" = \'page\'
-						 	, "mid" = \'test\'
-						 	, "browser_title" = \'test\'
-						 	, "description" = \'\'
-						 	, "is_default" = \'N\'
-						 	, "open_rss" = \'Y\'
-						 	, "header_text" = \'\'
-						 	, "footer_text" = \'\'
-						 	, "use_mobile" = \'n\'
-						WHERE  "site_srl" = 0
-						AND "module_srl" = 47374';
+                        $expected = 'update "xe_modules" as "modules"
+                                        set "module" = \'page\'
+                                            , "module_category_srl" = 0
+                                            , "layout_srl" = 0
+                                            , "mid" = \'test\'
+                                            , "browser_title" = \'test\'
+                                            , "description" = \'\'
+                                            , "is_default" = \'n\'
+                                            , "open_rss" = \'y\'
+                                            , "header_text" = \'\'
+                                            , "footer_text" = \'\'
+                                            , "mlayout_srl" = 0
+                                            , "use_mobile" = \'n\'
+                                    where "site_srl" = 0 and "module_srl" = 47374';
+//			$expected = 'UPDATE "xe_modules" as "modules"
+//						 SET "module" = \'page\'
+//						 	, "mid" = \'test\'
+//						 	, "browser_title" = \'test\'
+//						 	, "description" = \'\'
+//						 	, "is_default" = \'N\'
+//						 	, "open_rss" = \'Y\'
+//						 	, "header_text" = \'\'
+//						 	, "footer_text" = \'\'
+//						 	, "use_mobile" = \'n\'
+//						WHERE  "site_srl" = 0
+//						AND "module_srl" = 47374';
 			$this->_test($xml_file, $argsString, $expected);
 		}
 		function test_member_updateLastLogin(){
@@ -52,7 +66,7 @@
 			$xml_file = _XE_PATH_ . "modules/counter/queries/updateCounterUnique.xml";
 			$argsString = '$args->regdate = 20110607;
 							';
-			$expected = 'UPDATE "xe_counter_status" SET "unique_visitor" = "unique_visitor" + 1,
+			$expected = 'UPDATE "xe_counter_status" as "counter_status" SET "unique_visitor" = "unique_visitor" + 1,
 						"pageview" = "pageview" + 1  WHERE  "regdate" = 20110607 ';
 			$this->_test($xml_file, $argsString, $expected);
 		}
