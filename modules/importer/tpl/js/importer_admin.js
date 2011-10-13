@@ -16,7 +16,7 @@ $('.checkxml')
 	.end()
 	.find('button')
 		.click(function(){
-			var $this, $container, $input, $messages, $loading, $form, count;
+			var $this, $container, $input, $messages, $loading, $form, $syncmember, count;
 
 			$this      = $(this).prop('disabled', true);
 			$form      = $this.closest('form');
@@ -45,18 +45,13 @@ $('.checkxml')
 				restore();
 				$messages.filter('.success').fadeIn(300);
 				$form.find(':submit').removeAttr('disabled');
+
+				$syncmember = $form.find('.syncmember:hidden');
 				
 				if(data.type == 'XML') {
-					$ttxml = $ttxml.filter(':visible:not(.xml)');
-					$ttxml.eq(-1).slideUp(100, function(){
-						$ttxml = $ttxml.slice(0,-1).eq(-1).slideUp(100,arguments.callee);
-					});
-					if(!$xml.is(':visible')) $xml.slideDown(300);
+					$xml.not(':visible').add($syncmember).slideDown(300);
 				} else if(data.type == 'TTXML') {
-					$ttxml = $ttxml.not(':visible');
-					$ttxml.eq(0).slideDown(100, function(){
-						$ttxml = $ttxml.slice(1).eq(0).slideDown(100,arguments.callee);
-					});
+					$ttxml.not(':visible').add($syncmember).slideDown(300);
 					$form.find('input[name=type]').val('ttxml');
 				}
 			};
@@ -64,6 +59,7 @@ $('.checkxml')
 			function restore() {
 				$input.prop('disabled', false).removeClass('loading');
 				$this.prop('disabled', false);
+				$form.find('.syncmember:visible').slideUp(100);
 				return false;
 			};
 
@@ -74,6 +70,9 @@ $('.checkxml')
 	.find('.desc').hide().end()
 	.closest('ul').find('>li.ttxml').hide().end().end()
 	.closest('form').find(':submit').attr('disabled','disabled');
+
+// hide 'sync member' block
+$('.syncmember').hide();
 
 });
 
@@ -184,12 +183,18 @@ function doImport(formId) {
 			function resultAlertMessage()
 			{
 				alert(ret.message);
-				jQuery('a[href="#process"].modalAnchor').unbind('before-close.mw').trigger('close.mw');
+				jQuery('a[href="#process"].modalAnchor')
+					.unbind('before-close.mw')
+					.trigger('close.mw')
+					.find('#progressBar').width(1).end()
+					.find('#progressPercent').html('0%').end();
 
 				try {
 					form.reset();
 					get_by_id(formId).reset();
-				} catch(e){};
+				} catch(e){ };
+
+				jQuery('span.btn > input[type=submit]').attr('disabled','disabled');
 			}
 
 			fo_import = get_by_id(formId);
