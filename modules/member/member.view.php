@@ -298,10 +298,8 @@
         function dispMemberLogout() {
             $oMemberController = &getController('member');
             $oMemberController->procMemberLogout();
-
-            Context::set('layout','none');
-            $this->setTemplatePath($this->module_path.'/tpl');
-            $this->setTemplateFile('logout');
+			$this->setRedirectUrl(getNotEncodedUrl('act', ''));
+			return;
         }
 
         /**
