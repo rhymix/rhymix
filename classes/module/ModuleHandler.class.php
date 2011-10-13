@@ -33,7 +33,6 @@
                 $this->act = Context::get('act');
                 return;
             }
-
             // Set variables from request arguments
             $this->module = $module?$module:Context::get('module');
             $this->act    = $act?$act:Context::get('act');
@@ -347,7 +346,7 @@
 						$grant = $oModuleModel->getGrant($this->module_info, $logged_info);		
 						if(!$grant->is_admin && !$grant->manager) {
                             $this->error = 'msg_is_not_manager';
-                            $oMessageObject = &ModuleHandler::getModuleInstance('message',$type);
+                            $oMessageObject = &ModuleHandler::getModuleInstance('message','view');
                             $oMessageObject->setError(-1);
                             $oMessageObject->setMessage($this->error);
                             $oMessageObject->dispMessage();
