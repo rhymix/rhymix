@@ -290,7 +290,6 @@ function reloadFileList(cfg) {
 				uploadedFiles[file_srl] = itm;
 
 				itm.previewAreaID = cfg.previewAreaID;
-				itm.download_url  = encodeURI(itm.download_url).replace(/&/g, '&amp;');
 
 				if(/\.(jpe?g|png|gif)$/i.test(itm.download_url)) {
 					loaded_images[file_srl] = $('<img />').attr('src', itm.download_url).get(0);
