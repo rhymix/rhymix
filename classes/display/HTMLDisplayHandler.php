@@ -114,7 +114,7 @@ class HTMLDisplayHandler {
 			$keys = array_keys($INPUT_ERROR);
 			$keys = '('.implode('|', $keys).')';
 
-			$output = preg_replace('/(<input[^>]*?)(?:value="[^"]*"([^>]*?name="'.$keys.'"[^>])|(name="'.$keys.'"[^>]*?)(?:value="[^"]*")?)([^>]*?\/?>)/ise', '"\\1\\2\\4 value=\\"".@htmlspecialchars($INPUT_ERROR["\\3\\5"])."\\" \\6"', $output);
+			$output = preg_replace_callback('@(<input)([^>]*?)\sname="'.$keys.'"([^>]*?)/?>@is', array(&$this, '_preserveValue'), $output);
 		}
 
 		if(__DEBUG__==3) $GLOBALS['__trans_content_elapsed__'] = getMicroTime()-$start;
@@ -144,6 +144,33 @@ class HTMLDisplayHandler {
 		// replace the user-defined-language
 		$oModuleController = &getController('module');
 		$oModuleController->replaceDefinedLangCode($output);
+	}
+
+	function _preserveValue($match)
+	{
+		$INPUT_ERROR = Context::get('INPUT_ERROR');
+
+		$str = $match[1].$match[2].' name="'.$match[3].'"'.$match[4];
+
+		// get type
+		$type = 'text';
+		if(preg_match('/\stype="([a-z]+)"/i', $str, $m)) $type = strtolower($m[1]);
+
+		switch($type){
+			case 'text':
+			case 'hidden':
+				$str = preg_replace('@\svalue="[^"]*?"@', ' ', $str).' value="'.$INPUT_ERROR[$match[3]].'"';
+				break;
+			case 'radio':
+			case 'checkbox':
+				$str = preg_replace('@\schecked(="[^"]*?")?@', ' ', $str);
+				if(preg_match('@\s(?i:value)="'.$INPUT_ERROR[$match[3]].'"@', $str)) {
+					$str .= ' checked="checked"';
+				}
+				break;
+		}
+
+		return $str.' />';
 	}
 
 	/**
