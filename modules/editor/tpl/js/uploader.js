@@ -43,7 +43,7 @@ function start(cfg) {
 
 	seq     = cfg.editorSequence;
 	id      = cfg.replaceButtonID;
-	$button = $('#'+id).wrap('<span style="position:relative" />');
+	$button = $('#'+id).wrap('<span style="position:relative;display:inline-block" />');
 	width   = $button.width();
 	height  = $button.height();
 	$span   = $('<span id="dummy'+id+'" />').insertAfter($button);
@@ -125,7 +125,7 @@ function start(cfg) {
 		cursor   : 'pointer',
 		position : 'absolute',
 		left     : 0,
-		top      : '-3px',
+		top      : 0,
 		width    : width + 'px',
 		height   : height + 'px'
 	});
