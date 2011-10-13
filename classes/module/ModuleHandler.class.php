@@ -516,7 +516,6 @@
 					$type = Mobile::isFromMobilePhone() ? 'mobile' : 'view';
 					$oMessageObject = &ModuleHandler::getModuleInstance('message',$type);
 					$oMessageObject->setError(-1);
-					debugPrint($this->error);
 					$oMessageObject->setMessage($this->error);
 					$oMessageObject->dispMessage();
 

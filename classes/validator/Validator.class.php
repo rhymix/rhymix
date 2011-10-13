@@ -159,6 +159,9 @@ class Validator
 			$names = array();
 			if($key{0} == '^') {
 				$names = preg_grep('/^'.preg_quote(substr($key,1)).'/', $field_names);
+			}elseif(substr($key,-2) == '[]'){
+				$filters[substr($key,0,-2)] = $filter;
+				unset($filters[$key]);
 			}
 
 			if(!count($names)) continue;
@@ -171,10 +174,12 @@ class Validator
 		}
 
 		foreach($filters as $key=>$filter) {
-			$fname  = $key;
+			$fname  = preg_replace('/\[\]$/', '', $key);
 			$exists = array_key_exists($key, $fields);
 			$filter = array_merge($filter_default, $filter);
 			$value  = $exists ? $fields[$fname] : null;
+
+			if(is_array($value)) $value = implode('', $value);
 
 			// conditional statement
 			foreach($filter['if'] as $cond) {

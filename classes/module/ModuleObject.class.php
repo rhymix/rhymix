@@ -135,11 +135,10 @@
                     $grant = $oModuleModel->getGrant($request_module, $logged_info);
                 }
             } else {
+				$grant = $oModuleModel->getGrant($module_info, $logged_info, $xml_info);
 				// have at least access grant
- 				if ($module_info->module == 'admin' || $this->module == $module_info->module)
-	                $grant = $oModuleModel->getGrant($module_info, $logged_info, $xml_info);
- 				else
- 					$grant->access = 1;
+				if( substr_count($this->act, 'Member') || substr_count($this->act, 'Communication'))
+					$grant->access = 1;
             }
             // display no permission if the current module doesn't have an access privilege
             //if(!$grant->access) return $this->stop("msg_not_permitted");
