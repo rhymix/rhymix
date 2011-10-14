@@ -495,6 +495,8 @@
             $args->member_srl = getNextSequence();
             $args->list_order = -1 * $args->member_srl;
 			$args->find_account_answer = Context::get('find_account_answer');
+			$args->allow_mailing = Context::get('allow_mailing');
+			$args->allow_message = Context::get('allow_message');
 
 			if($args->password1) $args->password = $args->password1;
 
@@ -513,6 +515,8 @@
             unset($all_args->mid);
             unset($all_args->error_return_url);
             unset($all_args->ruleset);
+            unset($all_args->captchaType);
+            unset($all_args->secret_text);
 
             // Set the user state as "denied" when using mail authentication
             if ($config->enable_confirm == 'Y') $args->denied = 'Y';
