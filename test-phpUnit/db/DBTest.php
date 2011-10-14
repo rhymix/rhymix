@@ -29,7 +29,7 @@
                 echo PHP_EOL . ' ----------------------------------- ' .PHP_EOL;
                 echo $xml_file;
                 echo PHP_EOL . ' ----------------------------------- ' .PHP_EOL;
-                
+
                 $tester = new QueryTester();
                 $outputString = $tester->getNewParserOutputString($xml_file, $argsString);
                 echo $outputString;

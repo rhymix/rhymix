@@ -15,6 +15,7 @@
         require_once(_XE_PATH_.'test-phpUnit/db/MssqlTest.php');
         require_once(_XE_PATH_.'test-phpUnit/db/MssqlOnlineTest.php');
         require_once(_XE_PATH_.'test-phpUnit/db/MysqlTest.php');
+        require_once(_XE_PATH_.'test-phpUnit/db/SqliteTest.php');
 
         require_once(_XE_PATH_.'config/config.inc.php');
 //	require_once(_XE_PATH_.'classes/object/Object.class.php');

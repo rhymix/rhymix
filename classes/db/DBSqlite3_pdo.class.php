@@ -74,7 +74,7 @@
             $db_info = Context::getDBInfo();
             $this->database = $db_info->master_db["db_database"];
             $this->prefix = $db_info->master_db["db_table_prefix"];
-            if(!substr($this->prefix,-1)!='_') $this->prefix .= '_';
+            //if(!substr($this->prefix,-1)!='_') $this->prefix .= '_';
         }
 
         /**
@@ -130,7 +130,13 @@
          **/
         function commit($force = false) {
             if(!$force && (!$this->is_connected || !$this->transaction_started)) return;
-            $this->handler->commit();
+            try {
+                $this->handler->commit();
+            }
+            catch(PDOException $e){
+                // There was no transaction started, so just continue.
+                error_log($e->getMessage());
+            }
             $this->transaction_started = false;
         }
 
@@ -403,6 +409,10 @@
             }
         }
 
+    function _getConnection($type = null){
+        return null;
+    }
+
     /**
      * @brief insertAct
      * */
@@ -457,6 +467,7 @@
 
         $this->_prepare($query);
         $data = $this->_execute();
+        // TODO isError is called twice
         if ($this->isError())
             return;
 
