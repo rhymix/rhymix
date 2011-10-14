@@ -41,6 +41,8 @@
 <div class="modal" id="addWord">
 	<form action="./" method="post" class="form mLangEdit fg" id="langForm_new" >
 	<input type="hidden" name="act" value="procModuleAdminInsertLang" />
+	<input type="hidden" name="module" value="{$module}" />
+	<input type="hidden" name="target" value="{$target}" />
 	<h2 class="h2">{$lang->add_word}</h2>
 	<ul>
 		<li class="{$key2}" loop="$lang_supported=>$key2,$value2"><label for="{$langName}_{$key2}">{$value2}</label> <textarea rows="1" cols="42" name="{$key2}" id="{$langName}_{$key2}"></textarea></li>

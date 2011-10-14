@@ -161,6 +161,9 @@ class HTMLDisplayHandler {
 			case 'hidden':
 				$str = preg_replace('@\svalue="[^"]*?"@', ' ', $str).' value="'.$INPUT_ERROR[$match[3]].'"';
 				break;
+			case 'password':
+				$str = preg_replace('@\svalue="[^"]*?"@', ' ', $str);
+				break;
 			case 'radio':
 			case 'checkbox':
 				$str = preg_replace('@\schecked(="[^"]*?")?@', ' ', $str);

@@ -440,6 +440,8 @@
         function procModuleAdminInsertLang() {
             // Get language code
             $site_module_info = Context::get('site_module_info');
+			$target = Context::get('target');
+			$module = Context::get('module');
             $args->site_srl = (int)$site_module_info->site_srl;
             $args->name = str_replace(' ','_',Context::get('lang_code'));
             $args->lang_name = str_replace(' ','_',Context::get('lang_name'));
@@ -472,7 +474,7 @@
             $this->add('name', $args->name);
             $this->setMessage("success_saved", 'info');
 			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispModuleAdminLangcode');
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', $module, 'target', $target, 'act', 'dispModuleAdminLangcode');
 				$this->setRedirectUrl($returnUrl);
 				return;
 			}
