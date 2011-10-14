@@ -3,7 +3,7 @@
 define('__DEBUG__', 1);
 define('_XE_PATH_', str_replace('tests/classes/template/TemplateHandlerTest.php', '', strtr(__FILE__, '\\', '/')));
 require _XE_PATH_.'/classes/file/FileHandler.class.php';
-require _XE_PATH_.'/classes/template/TemplateHandler.php';
+require _XE_PATH_.'/classes/template/TemplateHandler.class.php';
 
 $_SERVER['SCRIPT_NAME'] = '/xe/index.php';
 
