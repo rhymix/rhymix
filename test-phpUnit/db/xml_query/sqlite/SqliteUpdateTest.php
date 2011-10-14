@@ -1,7 +1,7 @@
 <?php
 	require(_XE_PATH_ . 'test-phpUnit/config/config.inc.php');
 
-	class SqliteDeleteTest extends SqliteTest {
+	class SqliteUpdateTest extends SqliteTest {
 
                 function _test($xml_file, $argsString, $expected, $columnList = null){
                     $this->_testQuery($xml_file, $argsString, $expected, 'getUpdateSql', $columnList);

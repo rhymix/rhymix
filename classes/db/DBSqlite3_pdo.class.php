@@ -595,6 +595,33 @@
         return new DBParser('"', '"', $this->prefix);
     }
 
+    function getUpdateSql($query, $with_values = true, $with_priority = false){
+                    $columnsList = $query->getUpdateString($with_values);
+                    if($columnsList == '') return new Object(-1, "Invalid query");
+
+                    $tableName = $query->getFirstTableName();
+    		    if($tableName == '') return new Object(-1, "Invalid query");
+
+                    $where = $query->getWhereString($with_values);
+                    if($where != '') $where = ' WHERE ' . $where;
+
+                    $priority = $with_priority?$query->getPriority():'';
+
+                    return "UPDATE $priority $tableName SET $columnsList ".$where;
+            }
+
+   		function getDeleteSql($query, $with_values = true, $with_priority = false){
+			$sql = 'DELETE ';
+
+        		$tables = $query->getTables();
+                        $from = $tables[0]->getName();
+			$sql .= ' FROM '.$from;
+
+			$where = $query->getWhereString($with_values);
+			if($where != '') $sql .= ' WHERE ' . $where;
+
+			return $sql;
+		}
 }
 
 return new DBSqlite3_pdo;
