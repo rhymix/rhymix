@@ -33,7 +33,12 @@ class FuncIncTest extends PHPUnit_Framework_TestCase
 			array(
 				"<img src=\"invalid\"\nonerror=\"alert(1)\" />",
 				'<img src="invalid" />'
-			)
+			),
+			// issue 534
+			array(
+				'<img src=\'as"df dummy=\'"1234\'" 4321\' asdf/*/>*/"  onerror="console.log(\'Yet another XSS\')">',
+				'<img src="as&quot;df dummy=" />*/"  onerror="console.log(\'Yet another XSS\')">'
+			),
 		);
 	}
 
