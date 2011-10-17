@@ -155,8 +155,9 @@
 		<table width="100%" border="1" cellspacing="0">
 			<tr>
 				<td>
-					<input name="expression" value="{$config->expression}" size="4" /> <input type="button" onclick="exp_calc(this.form)" value="{$lang->cmd_exp_calc}" /> 
-					<input type="button" onclick="exp_calc(this.form, true)" value="{$lang->cmd_exp_reset}" />
+					<input value="{$config->expression}" size="30" class="level_expression" />
+					<button type="button" class="calc_point">{$lang->cmd_exp_calc}</button> 
+					<button type="button" class="calc_point _reset">{$lang->cmd_exp_reset}</button>
 					<p>{$lang->expression}</p>
 				</td>
 			</tr>

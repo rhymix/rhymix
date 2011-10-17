@@ -4,19 +4,31 @@
  * @brief  point 모듈의 관리자용 javascript
  **/
 
-function exp_calc (form, reset) {
-    var fo_obj = get_by_id(form);
-    var level = fo_obj.max_level.value;
-    var exp = fo_obj.expression;
-    var exp_default = "Math.pow(i, 2) * 90";
+jQuery(function($){
 
-    if(reset || !exp.value) exp.value = exp_default;
+$('button.calc_point').click(function(){
+	var $this, form, elems, reset, el, fn, i=0;
+	
+	$this = $(this);
+	$expr = $('input.level_expression');
+	form  = this.form;
+	elems = form.elements;
+	reset = $this.hasClass('_reset');
 
-    for(i = 1; i <= level; i++) {
-        point = eval("fo_obj.level_step_" + i);
-        point.value = eval(exp.value);
-    }
-}
+	if(reset || !$expr.val()) $expr.val('Math.pow(i,2) * 90');
+
+	try {
+		fn = new Function('i', 'return ('+$expr.val()+')');
+	} catch(e){
+		fn = null;
+	}
+
+	if(!fn) return;
+
+	while(el = elems['level_step_'+(++i)]) el.value = fn(i);
+});
+
+});
 
 /**
  * @brief 포인트를 전부 체크하여 재계산하는 action 호출
