@@ -167,6 +167,10 @@
 					'module'=>'module',
 					'subMenu'=>array('filebox'),
 				),
+				22=>array(
+					'module'=>'point',
+					'subMenu'=>array('point')
+				),
 			);
 
 			$oMemberModel = &getModel('member');
@@ -217,6 +221,7 @@
 				case 'userList':
 				case 'userSetting':
 				case 'userGroup':
+				case 'point':
 					return 'user';
 					break;
 				case 'document':

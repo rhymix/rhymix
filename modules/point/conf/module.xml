@@ -3,9 +3,9 @@
     <grants />
     <permissions />
     <actions>
-        <action name="dispPointAdminConfig" type="view" admin_index="true" standalone="true" />
-        <action name="dispPointAdminModuleConfig" type="view" standalone="true" />
-        <action name="dispPointAdminPointList" type="view" standalone="true" />
+        <action name="dispPointAdminConfig" type="view" admin_index="true" menu_name="point" standalone="true" menu_index="true" />
+        <action name="dispPointAdminModuleConfig" type="view" standalone="true" menu_name="point" />
+        <action name="dispPointAdminPointList" type="view" standalone="true" menu_name="point" />
 
         <action name="procPointAdminInsertConfig" type="controller" standalone="true" ruleset="insertConfig" />
         <action name="procPointAdminInsertModuleConfig" type="controller" standalone="true" />
