@@ -26,6 +26,14 @@ body>.popup{margin:1em}
 .x .h2{border-bottom-width:3px;font-size:20px}
 .x .h3{border-bottom-width:2px;font-size:16px}
 .x .h4{border-bottom-width:1px;font-size:12px}
+.x .h1 + ul,
+.x .h2 + ul,
+.x .h3 + ul,
+.x .h4 + ul,
+.x .h1 + .table table, 
+.x .h2 + .table table, 
+.x .h3 + .table table, 
+.x .h4 + .table table{border-top:0}
 /* Portlet */
 .x .portlet{position:relative;border:1px solid #e9e9e9;margin:1em 0;padding:0;background:#fff;zoom:1;overflow:hidden;border-radius:5px}
 .x .portlet h2, 
@@ -96,14 +104,6 @@ body>.popup{margin:1em}
 .x .form .q{font-weight:bold;margin:0 0 5px 0}
 .x .form .a{margin:0 0 5px 0}
 .x .form .tgForm{margin-right:1em}
-.x .form .h1 + ul,
-.x .form .h2 + ul,
-.x .form .h3 + ul,
-.x .form .h4 + ul,
-.x .form .h1 + .table table, 
-.x .form .h2 + .table table, 
-.x .form .h3 + .table table, 
-.x .form .h4 + .table table{border-top:0}
 /* Global Navigation Bar */
 .x .gnb{position:relative;clear:both;border:1px solid #c1c1c1;border-left:0;border-right:0;background-color:#efefef;background:#efefef -webkit-gradient(linear, 0% 0%, 0% 100%, from(#efefef), to(#dcdcdc));background:#efefef -moz-linear-gradient(top, #efefef, #dcdcdc);filter:progid:DXImageTransform.Microsoft.gradient(startColorStr=#efefef, endColorStr=#dcdcdc);zoom:1}
 .x .gnb ul{margin:0;padding:0 0 0 2em;list-style:none;border:1px solid #fff;border-left:0;border-right:0;zoom:1}
