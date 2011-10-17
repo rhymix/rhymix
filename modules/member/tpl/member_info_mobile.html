@@ -29,7 +29,7 @@
 			<!--@if($member_info->signature)-->
 			<li><label for="sign" class="db fb al">{$lang->signature}</label><div>{$member_info->signature}</div></li>
 			<!--@end-->
-			<li><label for="group" class="db fb al">{$lang->group}</label><div><!--@foreach($member_info->group_list as $key => $val)-->{$val} <!--@end--></div></li>
+			<li><label for="group" class="db fb al">{$lang->member_group}</label><div><!--@foreach($member_info->group_list as $key => $val)-->{$val} <!--@end--></div></li>
 			<li><label for="sdate" class="db fb al">{$lang->signup_date}</label><div id="sdate">{zdate($member_info->regdate,"Y-m-d H:i")}</div></li>
 			<!--@if($member_info->member_srl == $logged_info->member_srl || $logged_info->is_admin == 'Y' )-->
 			<li><label for="llogin" class="db fb al">{$lang->last_login}</label><div>{zdate($member_info->last_login,"Y-m-d H:i")}</div></li>

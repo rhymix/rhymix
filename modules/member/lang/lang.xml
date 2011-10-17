@@ -210,9 +210,9 @@
 		<value xml:lang="tr"><![CDATA[Süperadmin Yetkisi]]></value>
 		<value xml:lang="vi"><![CDATA[Toàn quyền Administrator]]></value>
 	</item>
-	<item name="group">
-		<value xml:lang="ko"><![CDATA[소속 그룹]]></value>
-		<value xml:lang="en"><![CDATA[Group]]></value>
+	<item name="member_group">
+		<value xml:lang="ko"><![CDATA[회원 그룹]]></value>
+		<value xml:lang="en"><![CDATA[Member Group]]></value>
 		<value xml:lang="jp"><![CDATA[所属グループ]]></value>
 		<value xml:lang="zh-CN"><![CDATA[用户组]]></value>
 		<value xml:lang="zh-TW"><![CDATA[群組]]></value>
@@ -2390,5 +2390,9 @@ Bạn có thể quản lý thành viên bằng cách tạo những nhóm mới, 
 	<item name="msg_groups_exist">
 		<value xml:lang="ko"><![CDATA[개 그룹이 존재합니다.]]></value>
 		<value xml:lang="en"><![CDATA[groups are exist.]]></value>
+	</item>
+	<item name="cmd_member_config">
+		<value xml:lang="ko"><![CDATA[회원 설정]]></value>
+		<value xml:lang="en"><![CDATA[Member Configuration]]></value>
 	</item>
 </lang>

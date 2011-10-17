@@ -32,7 +32,7 @@
 					<th scope="col" loop="$usedIdentifiers=>$name,$title">{$title}</th>
 					<th scope="col">{$lang->signup_date}</th>
 					<th scope="col">{$lang->last_login}</th>
-					<th scope="col" class="text">{$lang->group}</th>
+					<th scope="col" class="text">{$lang->member_group}</th>
 					<th scope="col">{$lang->status}</th>
 					<th scope="col">{$lang->cmd_view}</th>
 					<th scope="col">{$lang->cmd_modify}</th>
@@ -47,7 +47,7 @@
 					<th scope="col" loop="$usedIdentifiers=>$name,$title">{$title}</th>
 					<th scope="col">{$lang->signup_date}</th>
 					<th scope="col">{$lang->last_login}</th>
-					<th scope="col" class="text">{$lang->group}</th>
+					<th scope="col" class="text">{$lang->member_group}</th>
 					<th scope="col">{$lang->status}</th>
 					<th scope="col">{$lang->cmd_view}</th>
 					<th scope="col">{$lang->cmd_modify}</th>
@@ -101,7 +101,7 @@
 					<tr>
 						<th scope="col">{$lang->email_address}</th>
 						<th scope="col" loop="$usedIdentifiers=>$name,$title">{$title}</th>
-						<th scope="col" class="text">{$lang->group}</th>
+						<th scope="col" class="text">{$lang->member_group}</th>
 						<th scope="col">{$lang->status}</th>
 					</tr>
 				</thead>
@@ -114,7 +114,7 @@
 			<input type="radio" name="denied" id="approval" value="N" > <label for="approval">{$lang->approval}</label>
 			<input type="radio" name="denied" id="deny" value="Y" > <label for="deny">{$lang->denied}</label>
 		</p>
-		<p class="q">{$lang->group}</p>
+		<p class="q">{$lang->member_group}</p>
 		<p>
 			<!--@foreach($group_list as $key=>$val)-->
 			<input type="checkbox" name="groups[]" id="g{$val->group_srl}" value="{$val->group_srl}"/> <label for="g{$val->group_srl}">{$val->title}</label>
