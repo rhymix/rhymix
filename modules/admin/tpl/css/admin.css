@@ -441,10 +441,10 @@ body.modalContainer{_height:100%;_width:100%} /* IE6 only */
 .x .mLangEdit li.mn textarea{background:url(../img/flag.mn.gif) no-repeat 99% 5px}
 .x .langEdit li.zh-CN input, 
 .x .langEdit li.zh-CN textarea, 
-.x .mLangEdit li.zh-CN textarea, 
+.x .mLangEdit li.zh-CN textarea{background:url(../img/flag.cn.gif) no-repeat 99% 5px}
 .x .langEdit li.zh-TW input, 
 .x .langEdit li.zh-TW textarea, 
-.x .mLangEdit li.zh-TW textarea{background:url(../img/flag.cn.gif) no-repeat 99% 5px}
+.x .mLangEdit li.zh-TW textarea{background:url(../img/flag.tw.gif) no-repeat 99% 5px}
 .x .mLangEdit.en strong{background:url(../img/flag.us.gif) no-repeat 0 10px}
 .x .mLangEdit.ko strong{background:url(../img/flag.kr.gif) no-repeat 0 10px}
 .x .mLangEdit.jp strong{background:url(../img/flag.jp.gif) no-repeat 0 10px}
@@ -455,8 +455,8 @@ body.modalContainer{_height:100%;_width:100%} /* IE6 only */
 .x .mLangEdit.tr strong{background:url(../img/flag.tr.gif) no-repeat 0 10px}
 .x .mLangEdit.vi strong{background:url(../img/flag.vn.gif) no-repeat 0 10px}
 .x .mLangEdit.mn strong{background:url(../img/flag.mn.gif) no-repeat 0 10px}
-.x .mLangEdit.zh-CN strong, 
-.x .mLangEdit.zh-TW strong{background:url(../img/flag.cn.gif) no-repeat 0 10px}
+.x .mLangEdit.zh-CN strong{background:url(../img/flag.cn.gif) no-repeat 0 10px}
+.x .mLangEdit.zh-TW strong{background:url(../img/flag.tw.gif) no-repeat 0 10px}
 .x .mLangEdit ul ul{border:0}
 .x .mLangEdit li{position:relative;padding:0}
 .x .mLangEdit li strong{display:inline-block;padding:6px 100px 8px 24px;font-weight:normal;line-height:1.5}
