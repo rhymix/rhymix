@@ -2086,3 +2086,5 @@ function legacy_filter(filter_name, form, module, act, callback, responses, conf
 
 	return false;
 }
+/* Modal Fog Layer */
+jQuery(function($){$('.wfsr_fog>.bg').height($(document).height());});
