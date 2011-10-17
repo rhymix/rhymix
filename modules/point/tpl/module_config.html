@@ -3,40 +3,37 @@
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
-<form action="./" method="post" id="fo_point">
+<form action="./" method="post" id="fo_point" class="form">
 	<input type="hidden" name="act" value="procPointAdminInsertModuleConfig" />
 	<div class="table">
 		<table width="100%" border="1" cellspacing="0">
 			<thead>
 				<tr>
-					<th>{$lang->point_insert_document}</th>
-					<th>{$lang->point_insert_comment}</th>
-					<th>{$lang->point_upload_file}</th>
-					<th>{$lang->point_download_file}</th>
-					<th>{$lang->point_read_document}</th>
-					<th>{$lang->point_voted}</th>
-					<th>{$lang->point_blamed}</th>
-					</tr>
-				</thead>
+					<th scope="col">{$lang->module}</th>
+					<th scope="col">{$lang->point_insert_document}</th>
+					<th scope="col">{$lang->point_insert_comment}</th>
+					<th scope="col">{$lang->point_upload_file}</th>
+					<th scope="col">{$lang->point_download_file}</th>
+					<th scope="col">{$lang->point_read_document}</th>
+					<th scope="col">{$lang->point_voted}</th>
+					<th scope="col">{$lang->point_blamed}</th>
+				</tr>
+			</thead>
 			<tbody>
-				<!--@foreach($mid_list as $key => $val)-->
-				<tr>
-					<th colspan="7" scope="col"><strong>{$val->browser_title}</strong> ({$val->mid})</th>
-					</tr>
-				<tr>
-					<td><input type="text" name="insert_document_{$val->module_srl}" value="{$module_config[$val->module_srl]['insert_document']}" /> {$config->point_name}</td>
-					<td><input type="text" name="insert_comment_{$val->module_srl}" value="{$module_config[$val->module_srl]['insert_comment']}" /> {$config->point_name}</td>
-					<td><input type="text" name="upload_file_{$val->module_srl}" value="{$module_config[$val->module_srl]['upload_file']}" /> {$config->point_name}</td>
-					<td><input type="text" name="download_file_{$val->module_srl}" value="{$module_config[$val->module_srl]['download_file']}" /> {$config->point_name}</td>
-					<td><input type="text" name="read_document_{$val->module_srl}" value="{$module_config[$val->module_srl]['read_document']}" /> {$config->point_name}</td>
-					<td><input type="text" name="voted_{$val->module_srl}" value="{$module_config[$val->module_srl]['voted']}" /> {$config->point_name}</td>
-					<td><input type="text" name="blamed_{$val->module_srl}" value="{$module_config[$val->module_srl]['blamed']}" /> {$config->point_name}</td>
-					</tr>
-				<!--@end-->
-				</tbody>
+				<tr loop="$mid_list => $key,$val">
+					<th scope="row">{$val->browser_title}({$val->mid})</th>
+					<td><input type="text" style="width:30px;text-align:right" name="insert_document_{$val->module_srl}" value="{$module_config[$val->module_srl]['insert_document']}" /> {$config->point_name}</td>
+					<td><input type="text" style="width:30px;text-align:right" name="insert_comment_{$val->module_srl}" value="{$module_config[$val->module_srl]['insert_comment']}" /> {$config->point_name}</td>
+					<td><input type="text" style="width:30px;text-align:right" name="upload_file_{$val->module_srl}" value="{$module_config[$val->module_srl]['upload_file']}" /> {$config->point_name}</td>
+					<td><input type="text" style="width:30px;text-align:right" name="download_file_{$val->module_srl}" value="{$module_config[$val->module_srl]['download_file']}" /> {$config->point_name}</td>
+					<td><input type="text" style="width:30px;text-align:right" name="read_document_{$val->module_srl}" value="{$module_config[$val->module_srl]['read_document']}" /> {$config->point_name}</td>
+					<td><input type="text" style="width:30px;text-align:right" name="voted_{$val->module_srl}" value="{$module_config[$val->module_srl]['voted']}" /> {$config->point_name}</td>
+					<td><input type="text" style="width:30px;text-align:right" name="blamed_{$val->module_srl}" value="{$module_config[$val->module_srl]['blamed']}" /> {$config->point_name}</td>
+				</tr>
+			</tbody>
 		</table>
 	</div>
     <div class="btnArea">
-		<span class="btn"><input type="submit" value="{$lang->cmd_registration}" /></span>
+		<span class="btn medium"><input type="submit" value="{$lang->cmd_registration}" /></span>
 	</div>
 </form>

@@ -88,13 +88,7 @@ body>.popup{margin:1em}
 .x .form input.loading[type=password]{padding-right:24px;width:260px;background:transparent url(../img/preLoader16.gif) no-repeat 265px center}
 .x .form input[type=checkbox],
 .x .form input[type=radio]{margin:0;padding:0;width:13px;height:13px;vertical-align:middle}
-.x .form input[type=text][disabled=disabled],
-.x .form input[type=password][disabled=disabled],
-.x .form input[type=checkbox][disabled=disabled],
-.x .form input[type=radio][disabled=disabled],
-.x .form input[type=file][disabled=disabled],
-.x .form textarea[disabled=disabled],
-.x .form select[disabled=disabled]{background:#ddd !important;text-shadow:1px 1px 0 #fff}
+.x .form *[disabled=disabled]{background:#ddd !important;text-shadow:1px 1px 0 #fff}
 .x .form textarea{padding:3px 4px;vertical-align:top}
 .x .form span.desc, 
 .x .form em.desc{line-height:22px;vertical-align:middle;margin:0 10px}
@@ -594,7 +588,7 @@ body.modalContainer{_height:100%;_width:100%} /* IE6 only */
 .x h5.xeAdmin{border-bottom-width:2px;font-size:16px}
 .x h6.xeAdmin{border-bottom-width:1px;font-size:12px}
 .x .adminSearch{margin:1em 0}
-.x .adminSearch fieldset{border:1px solid #ccc}
+.x .adminSearch fieldset{border:1px solid #ccc;margin:0;padding:.5em 1em}
 .x .localNavigation{padding:0;list-style:none}
 .x .localNavigation li{display:inline}
 .x .localNavigation li.on a{font-weight:bold;color:#333;text-decoration:none}

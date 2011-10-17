@@ -4,7 +4,7 @@
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
-<div class="table">
+<div class="table form">
 	<table width="100%" border="1" cellspacing="0">
 		<caption>Total {number_format($total_count)}, Page {number_format($page)}/{number_format($total_page)}</caption>
 		<thead>
@@ -27,9 +27,9 @@
 				<td>
 					<form action="./" method="get">
 						<input type="hidden" name="member_srl" value="{$val->member_srl}" />
-						<input type="text" name="orgpoint" value="{$val->point}" readonly />
-						<input type="text" id="point_{$val->member_srl}" name="point" />
-						<span class="button"><input type="button" value="{$lang->cmd_update}" onclick="updatePoint({$val->member_srl})" /></span>
+						<input type="text" name="orgpoint" value="{$val->point}" disabled="disabled" style="width:40px;text-align:right" />
+						<input type="text" id="point_{$val->member_srl}" name="point" style="width:40px;text-align:right" />
+						<input type="button" value="{$lang->cmd_update}" onclick="updatePoint({$val->member_srl})" class="text" />
 					</form>
 				</td>
 				<td>{$val->level}</td>
@@ -88,6 +88,6 @@
         </select>
         <input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" />
         <span class="btn"><input type="submit" value="{$lang->cmd_search}" /></span>
-        <button type="button" onclick="location.href='{getUrl('','module',$module,'act',$act)}';return false;">{$lang->cmd_cancel}</button>
+        <span class="btn"><button type="button" onclick="location.href='{getUrl('','module',$module,'act',$act)}';return false;">{$lang->cmd_cancel}</button></span>
     </fieldset>
 </form>

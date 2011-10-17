@@ -392,16 +392,16 @@
 		<value xml:lang="vi"><![CDATA[Khi xóa File]]></value>
 	</item>
 	<item name="point_download_file">
-		<value xml:lang="ko"><![CDATA[파일 다운로드 (이미지 제외)]]></value>
-		<value xml:lang="en"><![CDATA[On Downloading Files (Exclude images)]]></value>
+		<value xml:lang="ko"><![CDATA[파일 다운로드(이미지 제외)]]></value>
+		<value xml:lang="en"><![CDATA[On Downloading Files(Exclude images)]]></value>
 		<value xml:lang="jp"><![CDATA[ダウンロード]]></value>
-		<value xml:lang="zh-CN"><![CDATA[下载文件 (图片除外)]]></value>
-		<value xml:lang="zh-TW"><![CDATA[下載檔案 (圖片除外)]]></value>
+		<value xml:lang="zh-CN"><![CDATA[下载文件(图片除外)]]></value>
+		<value xml:lang="zh-TW"><![CDATA[下載檔案(圖片除外)]]></value>
 		<value xml:lang="fr"><![CDATA[Télécharger les Fichiers sur PC(Sauf des images)]]></value>
-		<value xml:lang="ru"><![CDATA[При скачке файлов (кроме изображений)]]></value>
-		<value xml:lang="es"><![CDATA[Al descargar archivos (Excepto imágenes)]]></value>
-		<value xml:lang="tr"><![CDATA[Dosyaları İndirmeye (resimler hariç)]]></value>
-		<value xml:lang="vi"><![CDATA[Khi Download (Trừ hình ảnh)]]></value>
+		<value xml:lang="ru"><![CDATA[При скачке файлов(кроме изображений)]]></value>
+		<value xml:lang="es"><![CDATA[Al descargar archivos(Excepto imágenes)]]></value>
+		<value xml:lang="tr"><![CDATA[Dosyaları İndirmeye(resimler hariç)]]></value>
+		<value xml:lang="vi"><![CDATA[Khi Download(Trừ hình ảnh)]]></value>
 	</item>
 	<item name="point_read_document">
 		<value xml:lang="ko"><![CDATA[게시글 조회]]></value>
