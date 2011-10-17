@@ -1,14 +1,11 @@
-<!--@if($colorset == "black" || $colorset == "white")-->
-    <!--%import("./css/widget.css")-->
-<!--@end-->
-
+<load target="./css/widget.css" />
 <div class="widgetContainer<!--@if($colorset=="black")--> black<!--@end-->">
     <dl class="widgetCounter">
-        <dt>{$lang->today} :</dt>
+        <dt>{$lang->today}:</dt>
         <dd>{number_format($today_counter->unique_visitor)}</dd>
-        <dt>{$lang->yesterday} :</dt>
+        <dt>{$lang->yesterday}:</dt>
         <dd>{number_format($yesterday_counter->unique_visitor)}</dd>
-        <dt>{$lang->total} :</dt>
+        <dt>{$lang->total}:</dt>
         <dd>{number_format($total_counter->unique_visitor)}</dd>
     </dl>
 </div>
