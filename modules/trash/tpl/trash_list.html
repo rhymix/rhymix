@@ -43,7 +43,7 @@ var no_text_comment = '{$lang->no_text_comment}';
     				<!--@foreach($trash_list as $no => $oTrashVO)-->
 					<tr>
 						<td class="title"><!--@if(!trim($oTrashVO->getTitle()) && $oTrashVO->getOriginModule() == 'comment')--><strong>{$lang->no_text_comment}</strong><!--@else-->{$oTrashVO->getTitle()}<!--@end--> (<!--@if($oTrashVO->getOriginModule() == 'document')-->{$lang->document}<!--@else-->{$lang->comment}<!--@end-->)</td>
-						<td><span class="member_{$oTrashVO->getMemberSrl()}">{htmlspecialchars($oTrashVO->getNickName())}</span></td>
+						<td><span class="member_{$oTrashVO->getRemoverSrl()}">{htmlspecialchars($oTrashVO->getNickName())}</span></td>
 						<td>{zdate($oTrashVO->getRegdate(), "Y-m-d H:i:s")}</td>
 						<td>{$oTrashVO->getIpaddress()}</td>
 						<td>{$oTrashVO->getDescription()}</td>
