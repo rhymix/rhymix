@@ -45,7 +45,7 @@
 				<!--@foreach($latestDocumentList AS $key=>$value)-->
 				{@$document = $value->variables}
 				<li>
-					<a href="{getUrl('', 'document_srl', $document['document_srl'])}" target="_blank">{$value->getTitle()}</a> <span class="side">{$document['nick_name']}</span>
+					<a href="{getUrl('', 'document_srl', $document['document_srl'])}" target="_blank"><!--@if(trim($value->getTitle()))-->{$value->getTitle()}<!--@else--><strong>{$lang->no_title_document}</strong><!--@end--></a> <span class="side">{$document['nick_name']}</span>
 					<span class="action">
 						<form>
 						<input type="hidden" name="module" value="admin" />

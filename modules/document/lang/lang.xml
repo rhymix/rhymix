@@ -866,4 +866,8 @@
 		<value xml:lang="ko"><![CDATA[카테고리 설명]]></value>
 		<value xml:lang="en"><![CDATA[Category Description]]></value>
 	</item>
+	<item name="no_title_document">
+		<value xml:lang="ko"><![CDATA[제목이 없는 문서입니다.]]></value>
+		<value xml:lang="en"><![CDATA[No title in this document.]]></value>
+	</item>
 </lang>

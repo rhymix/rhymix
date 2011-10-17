@@ -60,7 +60,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 				<tbody>
     				<!--@foreach($document_list as $no => $oDocument)-->
 					<tr>
-						<td class="title"><a href="{getUrl('','document_srl',$oDocument->document_srl)}" target="_blank">{$oDocument->getTitle()}</a></td>
+						<td class="title"><a href="{getUrl('','document_srl',$oDocument->document_srl)}" target="_blank"><!--@if(trim($oDocument->getTitle()))-->{$oDocument->getTitle()}<!--@else--><em>{$lang->no_title_document}</em><!--@end--></a></td>
 						<td><a href="#popup_menu_area" class="member_{$oDocument->get('member_srl')}">{$oDocument->getNickName()}</a></td>
 						<td>{$oDocument->get('readed_count')}</td>
 						<td>{$oDocument->get('voted_count')}/{$oDocument->get('blamed_count')}</td>
