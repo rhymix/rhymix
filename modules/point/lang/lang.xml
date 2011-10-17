@@ -36,8 +36,8 @@
 		<value xml:lang="vi"><![CDATA[Bạn có thể đặt mức điểm khi thành viên gửi, thêm bài viết, bình luận, Download, Upload.<br />Nhưng điểm chỉ có thể cho và tích lũy khi Addon điểm được kích hoạt.]]></value>
 	</item>
 	<item name="about_act_config">
-		<value xml:lang="ko"><![CDATA[게시판, 블로그 등 각 모듈마다 글 작성/삭제/댓글작성/삭제 등의 action이 있습니다.<br />게시판/블로그 외에 다른 모듈에 포인트 기능 연동을 하고 싶을 때는 각 기능에 맞는 act값을 추가 하시면 됩니다.<br />연결은 ,(콤마)로 하시면 됩니다.]]></value>
-		<value xml:lang="en"><![CDATA[Each module like board/blog has its own actions such as "writing/deleting/adding comments/deleting comments".<br />You can just add act values to link modules with point system except board/blog.<br />Comma (,) will distinguish multiple values.]]></value>
+		<value xml:lang="ko"><![CDATA[게시판, 블로그 등 각 모듈마다 글 작성/삭제/댓글작성/삭제 등의 action이 있습니다. 게시판/블로그 외에 다른 모듈에 포인트 기능 연동을 하고 싶을 때는 각 기능에 맞는 act값을 추가 하시면 됩니다.<br />연결은 ,(콤마)로 하시면 됩니다.]]></value>
+		<value xml:lang="en"><![CDATA[Each module like board/blog has its own actions such as "writing/deleting/adding comments/deleting comments". You can just add act values to link modules with point system except board/blog.<br />Comma (,) will distinguish multiple values.]]></value>
 		<value xml:lang="jp"><![CDATA[掲示板、ブログなどのモジュールごとに「書き込み作成・削除/コメント作成・削除」などのアクションがあります。掲示板/ブログ以外のモジュールにポイントシステムを連動させたい場合は、各機能のアクションの「act値」を追加します。連動は半角「,（コンマ）」で区切って追加します。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[版面，博客等模块都有发表/删除新帖，发表/删除评论等动作。 <br />要想与版面/博客之外的模块关联积分功能时，添加与其各模块功能相适合的act值即可。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[討論板，部落格等模組都有發表/刪除主題，發表/刪除評論等動作。 <br />想要與討論板/部落格之外的模組關聯點數功能時，新增與其各模組功能適合的act值即可。]]></value>
@@ -243,8 +243,8 @@
 		<value xml:lang="vi"><![CDATA[Thiết lập lại điểm]]></value>
 	</item>
 	<item name="about_cmd_point_recal">
-		<value xml:lang="ko"><![CDATA[게시글/댓글/첨부파일/회원가입 점수만 이용하여 모든 포인트 점수를 초기화합니다.<br />회원 가입 점수는 초기화 후 해당 회원이 활동을 하면 부여되고 그 전에는 부여되지 않습니다.<br />데이터 이전 등을 하여 포인트를 완전히 초기화해야 할 경우에만 사용하세요.]]></value>
-		<value xml:lang="en"><![CDATA[All point will be initialized only with articles/comments/attachments/join points.<br />Only members who do website activities will get signup points after reset.<br />Please use this function when complete initialization is required in case of data transferring or other situations.]]></value>
+		<value xml:lang="ko"><![CDATA[게시글/댓글/첨부파일/회원가입 점수만 이용하여 모든 포인트 점수를 초기화합니다. 회원 가입 점수는 초기화 후 해당 회원이 활동을 하면 부여되고 그 전에는 부여되지 않습니다. 데이터 이전 등을 하여 포인트를 완전히 초기화해야 할 경우에만 사용하세요.]]></value>
+		<value xml:lang="en"><![CDATA[All point will be initialized only with articles/comments/attachments/join points. Only members who do website activities will get signup points after reset. Please use this function when complete initialization is required in case of data transferring or other situations.]]></value>
 		<value xml:lang="jp"><![CDATA[書き込み/コメント/添付ファイル/会員登録のポイントのみを利用し、すべての他のポイントを初期化します。<br />会員登録ポイントは、初期化後に該当会員の活動がスタートしたときにポイントが付けられます。<br />データ移転などによるポイントを完全に初期化するのみ使用し、利用は慎重に行ってください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[积分初始化。即只保留文章/评论/附件/新会员注册的相关积分项。<br />其中，初始化后的新会员注册积分项，将在会员有相关动作(发表主题/评论等)时，才付与其相应的积分。<br />此项功能请务必慎用！此项功能只能在数据转移或真的需要初始化所有积分时才可以使用。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[重置點數。即只保留文章/評論/附加檔案/新會員註冊的相關點數項目。<br />其中，重置後的新會員註冊點數，將在會員有相關動作(例如:發表主題/評論等)時，才付與其相對應的點數。<br />此項功能請務必慎用！此項功能只能在資料轉移或真的需要重置所有點數時才可以使用。]]></value>
@@ -296,8 +296,8 @@
 		<value xml:lang="vi"><![CDATA[Nếu bạn đặt cấp độ cho một nhóm đặc biệt nào đó, người sử dụng trong nhóm đó khi đạt đến số điểm giới hạn sẽ tự động được chuyển sang nhóm mới.]]></value>
 	</item>
 	<item name="about_module_point">
-		<value xml:lang="ko"><![CDATA[모듈별 포인트를 지정할 수 있으며 지정되지 않은 모듈은 기본 포인트를 이용합니다.<br />모든 점수는 반대 행동을 하였을 경우 원상복구 됩니다.]]></value>
-		<value xml:lang="en"><![CDATA[You can set point for each module, and modules which don't have any value will use the default point.<br />All points will be restored on acting reverse.]]></value>
+		<value xml:lang="ko"><![CDATA[모듈별 포인트를 지정할 수 있으며 지정되지 않은 모듈은 기본 포인트를 이용합니다. 모든 점수는 반대 행동을 하였을 경우 원상복구 됩니다.]]></value>
+		<value xml:lang="en"><![CDATA[You can set point for each module, and modules which don't have any value will use the default point. All points will be restored on acting reverse.]]></value>
 		<value xml:lang="jp"><![CDATA[モジュール別にポイントを指定することができますが、指定されていないモジュールには、デフォルトポイントが使用されます。すべてのポイントは、反対の行動の行った場合に元に戻ります。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[可以分别对各模块进行积分设置，没有被设置的模块将使用默认值。<br />所有积分在相反动作下恢复原始值。即：发表新帖后再删除得到的积分为0分。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[可以分別對各模組進行點數設置，沒有設置的模組將使用預設值。<br />所有動作在反向操作下將恢復原始值。即：發表主題後再刪除得到的點數為零。]]></value>
@@ -531,7 +531,11 @@
 	</item>
 	<item name="point_update_desc">
 		<value xml:lang="ko"><![CDATA[포인트를 증가시키려면 +를 감소시키려면 -를 숫자앞에 표기한 후 업데이트 해 주세요. + 또는 - 표시가 없으면 입력한 값으로 설정됩니다.]]></value>
-		<value xml:lang="en"><![CDATA[Insert + in front of the number to increase the point or - to decrease, and update the point. If you don’t insert + or -, the point will be set as the value you entered.]]></value>
+		<value xml:lang="en"><![CDATA[Insert + in front of the number to increase the point or - to decrease, and update the point. If you don't insert + or -, the point will be set as the value you entered.]]></value>
 	　　<value xml:lang="jp"><![CDATA[ポイントを増加させるには+を、減少させるには-を、数字の前に表記した後、アップデートしてください。+、または-表示がなければ入力した値が設定されます。]]></value>
+	</item>
+	<item name="give_point">
+		<value xml:lang="ko"><![CDATA[포인트 부여]]></value>
+		<value xml:lang="en"><![CDATA[Give the point]]></value>
 	</item>
 </lang>

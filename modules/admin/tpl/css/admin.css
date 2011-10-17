@@ -105,7 +105,11 @@ body>.popup{margin:1em}
 .x .form .h1 + ul,
 .x .form .h2 + ul,
 .x .form .h3 + ul,
-.x .form .h4 + ul{border-top:0}
+.x .form .h4 + ul,
+.x .form .h1 + .table table, 
+.x .form .h2 + .table table, 
+.x .form .h3 + .table table, 
+.x .form .h4 + .table table{border-top:0}
 /* Global Navigation Bar */
 .x .gnb{position:relative;clear:both;border:1px solid #c1c1c1;border-left:0;border-right:0;background-color:#efefef;background:#efefef -webkit-gradient(linear, 0% 0%, 0% 100%, from(#efefef), to(#dcdcdc));background:#efefef -moz-linear-gradient(top, #efefef, #dcdcdc);filter:progid:DXImageTransform.Microsoft.gradient(startColorStr=#efefef, endColorStr=#dcdcdc);zoom:1}
 .x .gnb ul{margin:0;padding:0 0 0 2em;list-style:none;border:1px solid #fff;border-left:0;border-right:0;zoom:1}
