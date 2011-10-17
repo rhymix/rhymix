@@ -17,13 +17,15 @@
 <h1 class="h1">{$lang->member_group}</h1>
 <form action="" class="form" method="post" ruleset="insertGroupConfig">
 	<input type="hidden" name="act" value="procMemberAdminGroupConfig" />
-{$lang->use_group_image_mark}
-	<input type="radio" name="group_image_mark" id="yes" value="Y" checked="checked"|cond="$config->group_image_mark == 'Y'" /> <label for="yes">{$lang->cmd_yes}</label>
-	<input type="radio" name="group_image_mark" id="no" value="N" checked="checked"|cond="$config->group_image_mark != 'Y'" /> <label for="no">{$lang->cmd_no}</label>
 	<div class="table even">
 		<table width="100%" border="1" cellspacing="0" class="sortable">
 			<caption>
-			<strong>{count($group_list)}</strong> {$lang->msg_groups_exist}
+				<strong>{count($group_list)}</strong> {$lang->msg_groups_exist}
+				<span class="side">
+					{$lang->use_group_image_mark}: 
+					<input type="radio" name="group_image_mark" id="yes" value="Y" checked="checked"|cond="$config->group_image_mark == 'Y'" /> <label for="yes">{$lang->cmd_yes}</label>
+					<input type="radio" name="group_image_mark" id="no" value="N" checked="checked"|cond="$config->group_image_mark != 'Y'" /> <label for="no">{$lang->cmd_no}</label>
+				</span>
 			</caption>
 			<thead>
 				<tr>
