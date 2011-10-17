@@ -125,22 +125,26 @@ jQuery(function($){
 			.each(function(){
 				var $this = $(this), text = $this.text();
 				var reg_mail = /^([\w\-\.]+?)@(([\w-]+\.)+[a-z]{2,})$/ig;
-				$this.data('originalText', text);
 
 				if(reg_mail.test(text)) {
-					$this.data('maskedText', RegExp.$1+'...');
+					$this
+						.html(text.replace(/(@.+)$/, '<span class="ellipsis">...</span><span class="cover">$1</span>'))
+						.find('>.ellipsis')
+							.css({position:'absolute',zIndex:1})
+							.hover(
+								function(){ $(this).next('.cover').mouseover() },
+								function(){ $(this).next('.cover').mouseout() }
+							)
+						.end()
+						.find('>.cover')
+							.css({zIndex:2,opacity:0})
+							.hover(
+								function(){ $(this).css('opacity',1).prev('span').css('visibility','hidden') },
+								function(){ $(this).css('opacity',0).prev('span').css('visibility','visible') }
+							)
+						.end();
 				}
-
-				$this.text( $this.data('maskedText') );
 			})
-			.mouseover(function(){
-				$(this).text( $(this).data('originalText') );
-			})
-			.mouseout(function(){
-				$(this).text( $(this).data('maskedText') );
-			})
-			.focus(function(){ $(this).mouseover(); })
-			.blur(function(){ $(this).mouseout(); });
 	};
 	$('.masked').xeMask();
 });
