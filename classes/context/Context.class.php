@@ -505,10 +505,9 @@ class Context {
 	}
 
 	function _loadPhpLang($path) {
-
 		if(substr($path,-1)!='/') $path .= '/';
 		$path_tpl = $path.'%s.lang.php';
-		$file = sprintf($path_tpl, $self->lang_type);
+		$file = sprintf($path_tpl, $this->lang_type);
 
 		$langs = array('ko','en'); // this will be configurable.
 		while(!is_readable($file) && $langs[0]) {
