@@ -1,44 +1,44 @@
 <!--%import("filter/insert_point_module_config.xml")-->
 <load target="js/point_admin.js" usecdn="true" />
-<form action="./" method="get" onsubmit="return procFilter(this, insert_point_module_config);" id="fo_point">
+<form action="./" method="get" onsubmit="return procFilter(this, insert_point_module_config);" id="fo_point" class="form">
 	<input type="hidden" name="target_module_srl" value="{$module_config['module_srl']?$module_config['module_srl']:$module_srls}" />
 	
 	<h3 class="h3">{$lang->point}</h3>
 	<div class="table">
 		<table width="100%" border="1" cellspacing="0">
 			<tr>
-				<th>{$lang->point_insert_document}</th>
-				<td ><input type="text" name="insert_document" value="{$module_config['insert_document']}" /> {$module_config['point_name']}</td>
-				</tr>
+				<th scope="row"><label for="insert_document">{$lang->point_insert_document}</label></th>
+				<td class="text"><input type="text" name="insert_document" id="insert_document" value="{$module_config['insert_document']}" style="width:30px" /> {$module_config['point_name']}</td>
+			</tr>
 			<tr>
-				<th>{$lang->point_insert_comment}</th>
-				<td><input type="text" name="insert_comment" value="{$module_config['insert_comment']}" /> {$module_config['point_name']}</td>
-				</tr>
+				<th scope="row"><label for="insert_comment">{$lang->point_insert_comment}</label></th>
+				<td class="text"><input type="text" name="insert_comment" id="insert_comment" value="{$module_config['insert_comment']}" style="width:30px" /> {$module_config['point_name']}</td>
+			</tr>
 			<tr>
-				<th>{$lang->point_upload_file}</th>
-				<td><input type="text" name="upload_file" value="{$module_config['upload_file']}" /> {$module_config['point_name']}</td>
-				</tr>
+				<th scope="row"><label for="upload_file">{$lang->point_upload_file}</label></th>
+				<td class="text"><input type="text" name="upload_file" id="upload_file" value="{$module_config['upload_file']}" style="width:30px" /> {$module_config['point_name']}</td>
+			</tr>
 			<tr>
-				<th>{$lang->point_download_file}</th>
-				<td><input type="text" name="download_file" value="{$module_config['download_file']}" /> {$module_config['point_name']}</td>
-				</tr>
+				<th scope="row"><label for="download_file">{$lang->point_download_file}</label></th>
+				<td class="text"><input type="text" name="download_file" id="download_file" value="{$module_config['download_file']}" style="width:30px" /> {$module_config['point_name']}</td>
+			</tr>
 			<tr>
-				<th>{$lang->point_read_document}</th>
-				<td><input type="text" name="read_document" value="{$module_config['read_document']}" /> {$module_config['point_name']}</td>
-				</tr>
+				<th scope="row"><label for="read_document">{$lang->point_read_document}</label></th>
+				<td class="text"><input type="text" name="read_document" id="read_document" value="{$module_config['read_document']}" style="width:30px" /> {$module_config['point_name']}</td>
+			</tr>
 			<tr>
-				<th>{$lang->point_voted}</th>
-				<td><input type="text" name="voted" value="{$module_config['voted']}" /> {$module_config['point_name']}</td>
-				</tr>
+				<th scope="row"><label for="voted">{$lang->point_voted}</label></th>
+				<td class="text"><input type="text" name="voted" id="voted" value="{$module_config['voted']}" style="width:30px" /> {$module_config['point_name']}</td>
+			</tr>
 			<tr>
-				<th>{$lang->point_blamed}</th>
-				<td><input type="text" name="blamed" value="{$module_config['blamed']}" /> {$module_config['point_name']}</td>
-				</tr>
+				<th scope="row"><label for="blamed">{$lang->point_blamed}</label></th>
+				<td class="text"><input type="text" name="blamed" id="blamed" value="{$module_config['blamed']}" style="width:30px" /> {$module_config['point_name']}</td>
+			</tr>
 		</table>
 	</div>
 	<div class="btnArea">
 		<span class="btn"><input type="submit" value="{$lang->cmd_save}" /></span>
-		<span class="btn"><input type="button" value="{$lang->cmd_reset}" onclick="doPointReset('{$module_config['module_srl']?$module_config['module_srl']:$module_srls}'); return false"/></span>
+		<span class="btn"><button type="button" onclick="doPointReset('{$module_config['module_srl']?$module_config['module_srl']:$module_srls}')">{$lang->cmd_reset}</button></span>
 	</div>
 	
 	<!-- 버튼 -->

@@ -799,12 +799,6 @@
 		<value xml:lang="zh-TW"><![CDATA[尚未選擇主題]]></value>
 		<value xml:lang="tr"><![CDATA[Hiçbir makale seçilmedi.]]></value>
 	</item>
-	<item name="show_voted_member">
-		<value xml:lang="ko"><![CDATA[사용자 노출]]></value>
-		<value xml:lang="en"><![CDATA[Show Voters]]></value>
-		<value xml:lang="jp"><![CDATA[ユーザー公開]]></value>
-		<value xml:lang="zh-TW"><![CDATA[投票會員]]></value>
-	</item>
 	<item name="status">
 		<value xml:lang="ko"><![CDATA[상태]]></value>
 		<value xml:lang="en"><![CDATA[Status]]></value>

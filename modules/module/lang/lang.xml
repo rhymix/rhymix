@@ -870,18 +870,6 @@ URL для менеджера модулей <a href="./?module=admin&amp;act=di
 		<value xml:lang="tr"><![CDATA[Modüle tam yetkisi olan bir yönetici atayabilirsiniz.]]></value>
 		<value xml:lang="vi"><![CDATA[Bạn có thể đặt quyền hạn cho người sử dụng khi truy cập tới Module.]]></value>
 	</item>
-	<item name="about_grant">
-		<value xml:lang="ko"><![CDATA[특정 권한의 대상을 모두 해제하면 로그인하지 않은 회원까지 권한을 가질 수 있습니다.]]></value>
-		<value xml:lang="en"><![CDATA[If you disable all permissions for a specific object, members who has not logged in would get permission.]]></value>
-		<value xml:lang="jp"><![CDATA[特定権限の対象をすべて解除すると、ログインしていない会員ユーザーまで権限が与えられます。]]></value>
-		<value xml:lang="zh-CN"><![CDATA[全部解除特定权限的对象时，没有登录的会员也将具有相关权限。]]></value>
-		<value xml:lang="zh-TW"><![CDATA[全部解除特定權限的對象時，沒有登錄的會員也將具有相關權限。]]></value>
-		<value xml:lang="fr"><![CDATA[Si vous ne donnez pas la permission à aucune personne, même les membres qui n'a pas ouvert la connexion auront la permission. ]]></value>
-		<value xml:lang="ru"><![CDATA[Если Вы отключите все права доступа для отдельного объекта, не прошедшие процедуру входа на сайт пользователи получат доступ.]]></value>
-		<value xml:lang="es"><![CDATA[Si usted desea desactivar a todos los objetos teniendo atribuciones especificas, incluso el usuario no conectado pueden tener atribuciones.]]></value>
-		<value xml:lang="tr"><![CDATA[Belirli bir nesne için tüm yetkileri kapatırsanız, siteye üye girişi yapmamış üyeler yetki sahibi olacaklardır.]]></value>
-		<value xml:lang="vi"><![CDATA[Nếu bạn khóa tất cả quyền hạn cho một thành viên đặc biệt nào đó, những thành viên đó sẽ không được phép đăng nhập.]]></value>
-	</item>
 	<item name="about_grant_deatil">
 		<value xml:lang="ko"><![CDATA[가입한 사용자는 cafeXE 등 분양형 가상 사이트에 가입을 한 로그인 사용자를 의미합니다.]]></value>
 		<value xml:lang="en"><![CDATA[Registered users mean users who signed-up to the virtual sites (e.g., cafeXE).]]></value>
@@ -992,5 +980,13 @@ Le module [Administration des Modules] montera tous les modules installés et vo
 	<item name="no_multi_lang">
 		<value xml:lang="ko"><![CDATA[아직 등록된 다국어가 없습니다.]]></value>
 		<value xml:lang="en"><![CDATA[There is no multi language.]]></value>
+	</item>
+	<item name="module_admin">
+		<value xml:lang="ko"><![CDATA[모듈 관리자]]></value>
+		<value xml:lang="en"><![CDATA[Module Administrator]]></value>
+	</item>
+	<item name="permission_setting">
+		<value xml:lang="ko"><![CDATA[권한 설정]]></value>
+		<value xml:lang="en"><![CDATA[Permission Setting]]></value>
 	</item>
 </lang>

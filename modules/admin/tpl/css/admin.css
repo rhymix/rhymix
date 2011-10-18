@@ -33,7 +33,7 @@ body>.popup{margin:1em}
 .x .h1 + .table table, 
 .x .h2 + .table table, 
 .x .h3 + .table table, 
-.x .h4 + .table table{border-top:0}
+.x .h4 + .table table{border-top:0;margin-top:-1em}
 /* Portlet */
 .x .portlet{position:relative;border:1px solid #e9e9e9;margin:1em 0;padding:0;background:#fff;zoom:1;overflow:hidden;border-radius:5px}
 .x .portlet h2, 
@@ -66,11 +66,11 @@ body>.popup{margin:1em}
 .x .table thead th{border-bottom:1px solid #999}
 .x .table tfoot td{font-weight:bold;background:#f8f8f8}
 .x .table.even tbody tr:nth-of-type(even) td{background-color:#fafafa}
-.x .table td>input[type=text]{margin:-1px 0 -3px 0 !important;vertical-align:middle}
+.x .table td>input[type=text]{margin:-1px 0 !important;vertical-align:middle}
 .x .table img{vertical-align:middle}
 .x .table em{font-style:normal;font-weight:normal;color:#e00}
 .x .table .title,
-.x .table .text{white-space:normal}
+.x .table .text{white-space:normal;width:100%}
 /* Form */
 .x .form{margin:1em 0;padding:0}
 .x .form fieldset{margin:0 0 2em 0;padding:0;border:0}
@@ -79,7 +79,7 @@ body>.popup{margin:1em}
 .x .form input[type=checkbox]+label,
 .x .form input[type=radio]+label,
 .x .form input[type=file]{cursor:pointer}
-.x .form ul{position:relative;margin:0;padding:0;list-style:none;border-top:2px solid #ccc;border-bottom:1px solid #ccc;zoom:1}
+.x .form ul{position:relative;margin:1em 0;padding:0;list-style:none;border-top:2px solid #ccc;border-bottom:1px solid #ccc;zoom:1}
 .x .form li{list-style:none;border:1px solid #ddd;border-left:0;border-right:0;margin:-1px 0;padding:8px 0;vertical-align:top;zoom:1}
 .x .form li:first-child{border-top:0}
 .x .form li>label:first-child{display:block;font-weight:bold}

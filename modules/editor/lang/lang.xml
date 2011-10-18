@@ -121,89 +121,19 @@
 	</item>
 
 	<item name="msg_avail_easy_update">
-                <value xml:lang="ko"><![CDATA[이 항목의 새로운 버전이 있습니다.]]></value>
-                <value xml:lang="en"><![CDATA[There is new version for this item.]]></value>
-				<value xml:lang="jp"><![CDATA[この項目の新しいバージョンがあります。]]></value>
-        </item>
-        <item name="msg_do_you_like_update">
-                <value xml:lang="ko"><![CDATA[업데이트하시겠습니까?]]></value>
-                <value xml:lang="en"><![CDATA[Would you like to update?]]></value>
-				<value xml:lang="jp"><![CDATA[アップデートしますか？]]></value>
-        </item>
-        <item name="msg_font_too_big">
-                <value xml:lang="ko"><![CDATA[글꼴이 너무 큽니다.]]></value>
-                <value xml:lang="en"><![CDATA[The font is too big.]]></value>
-				<value xml:lang="jp"><![CDATA[文字サイズが大きすぎます。]]></value>
-        </item>
-	<item name="editor_option">
-		<value xml:lang="ko"><![CDATA[]]></value>
-		<value xml:lang="en"><![CDATA[]]></value>
-		<value xml:lang="jp"><![CDATA[]]></value>
-		<value xml:lang="zh-CN"><![CDATA[]]></value>
-		<value xml:lang="zh-TW"><![CDATA[]]></value>
-		<value xml:lang="ru"><![CDATA[]]></value>
-		<value xml:lang="tr"><![CDATA[]]></value>
-		<value xml:lang="vi"><![CDATA[]]></value>
+		<value xml:lang="ko"><![CDATA[이 항목의 새로운 버전이 있습니다.]]></value>
+		<value xml:lang="en"><![CDATA[There is new version for this item.]]></value>
+		<value xml:lang="jp"><![CDATA[この項目の新しいバージョンがあります。]]></value>
 	</item>
-	<item name="editor_option">
-		<value xml:lang="ko"><![CDATA[]]></value>
-		<value xml:lang="en"><![CDATA[]]></value>
-		<value xml:lang="jp"><![CDATA[]]></value>
-		<value xml:lang="zh-CN"><![CDATA[]]></value>
-		<value xml:lang="zh-TW"><![CDATA[]]></value>
-		<value xml:lang="ru"><![CDATA[]]></value>
-		<value xml:lang="tr"><![CDATA[]]></value>
-		<value xml:lang="vi"><![CDATA[]]></value>
+	<item name="msg_do_you_like_update">
+		<value xml:lang="ko"><![CDATA[업데이트하시겠습니까?]]></value>
+		<value xml:lang="en"><![CDATA[Would you like to update?]]></value>
+		<value xml:lang="jp"><![CDATA[アップデートしますか？]]></value>
 	</item>
-	<item name="editor_option">
-		<value xml:lang="ko"><![CDATA[]]></value>
-		<value xml:lang="en"><![CDATA[]]></value>
-		<value xml:lang="jp"><![CDATA[]]></value>
-		<value xml:lang="zh-CN"><![CDATA[]]></value>
-		<value xml:lang="zh-TW"><![CDATA[]]></value>
-		<value xml:lang="ru"><![CDATA[]]></value>
-		<value xml:lang="tr"><![CDATA[]]></value>
-		<value xml:lang="vi"><![CDATA[]]></value>
-	</item>
-	<item name="editor_option">
-		<value xml:lang="ko"><![CDATA[]]></value>
-		<value xml:lang="en"><![CDATA[]]></value>
-		<value xml:lang="jp"><![CDATA[]]></value>
-		<value xml:lang="zh-CN"><![CDATA[]]></value>
-		<value xml:lang="zh-TW"><![CDATA[]]></value>
-		<value xml:lang="ru"><![CDATA[]]></value>
-		<value xml:lang="tr"><![CDATA[]]></value>
-		<value xml:lang="vi"><![CDATA[]]></value>
-	</item>
-	<item name="editor_option">
-		<value xml:lang="ko"><![CDATA[]]></value>
-		<value xml:lang="en"><![CDATA[]]></value>
-		<value xml:lang="jp"><![CDATA[]]></value>
-		<value xml:lang="zh-CN"><![CDATA[]]></value>
-		<value xml:lang="zh-TW"><![CDATA[]]></value>
-		<value xml:lang="ru"><![CDATA[]]></value>
-		<value xml:lang="tr"><![CDATA[]]></value>
-		<value xml:lang="vi"><![CDATA[]]></value>
-	</item>
-	<item name="editor_option">
-		<value xml:lang="ko"><![CDATA[]]></value>
-		<value xml:lang="en"><![CDATA[]]></value>
-		<value xml:lang="jp"><![CDATA[]]></value>
-		<value xml:lang="zh-CN"><![CDATA[]]></value>
-		<value xml:lang="zh-TW"><![CDATA[]]></value>
-		<value xml:lang="ru"><![CDATA[]]></value>
-		<value xml:lang="tr"><![CDATA[]]></value>
-		<value xml:lang="vi"><![CDATA[]]></value>
-	</item>
-	<item name="editor_option">
-		<value xml:lang="ko"><![CDATA[]]></value>
-		<value xml:lang="en"><![CDATA[]]></value>
-		<value xml:lang="jp"><![CDATA[]]></value>
-		<value xml:lang="zh-CN"><![CDATA[]]></value>
-		<value xml:lang="zh-TW"><![CDATA[]]></value>
-		<value xml:lang="ru"><![CDATA[]]></value>
-		<value xml:lang="tr"><![CDATA[]]></value>
-		<value xml:lang="vi"><![CDATA[]]></value>
+	<item name="msg_font_too_big">
+		<value xml:lang="ko"><![CDATA[글꼴이 너무 큽니다.]]></value>
+		<value xml:lang="en"><![CDATA[The font is too big.]]></value>
+		<value xml:lang="jp"><![CDATA[文字サイズが大きすぎます。]]></value>
 	</item>
 	<item name="editor">
 		<value xml:lang="ko"><![CDATA[위지윅 에디터]]></value>
@@ -371,28 +301,28 @@
 		<value xml:lang="vi"><![CDATA[Thông tin Thành phần]]></value>
 	</item>
 	<item name="about_component_grant">
-		<value xml:lang="ko"><![CDATA[기본 컴포넌트외의 확장 컴포넌트 기능을 사용할 수 있는 권한을 지정할 수 있습니다.<br /> (모두 해제 시 아무나 사용 가능합니다)]]></value>
-		<value xml:lang="en"><![CDATA[Selected group(s) will be able to use expanded components of editor.<br />(Leave them blank if you want all groups to have permissions.)]]></value>
-		<value xml:lang="jp"><![CDATA[基本コンポーネント以外の拡張コンポーネント機能が利用可能な権限の設定ができます。<br />(選択なしの場合、誰でも利用可能)]]></value>
-		<value xml:lang="zh-CN"><![CDATA[可以设置除默认组件外的扩展组件使用权限<br />(全部解除时任何用户都可以使用)。]]></value>
-		<value xml:lang="zh-TW"><![CDATA[除預設組件外，可設置延伸組件的使用權限<br />(全部解除時，任何用戶都可使用)。]]></value>
-		<value xml:lang="fr"><![CDATA[Vous pouvez configurer la Permission d'utiliser des composants additionnels de l'Editeur.<br /> (Tout le monde aura la Permission si vous ne cochez rien)]]></value>
-		<value xml:lang="ru"><![CDATA[Возможен выбор дополнительных компонентов.<br /> (Каждый может использовать его, если режим выключен)]]></value>
-		<value xml:lang="es"><![CDATA[Usted puede configurar el permiso de utilizar la ampliación de los componentes de editor.<br /> (Todo el mundo tendría permiso si no comprobado)]]></value>
-		<value xml:lang="tr"><![CDATA[Seçilen grup(lar), editörün genişletilmiş bileşenlerini kullanabilirler.<br />(Eğer tüm grupların bu yetkiye sahip olmasını istiyorsanız, boş bırakınız)]]></value>
-		<value xml:lang="vi"><![CDATA[Những nhóm đã chọn sẽ được phép sử dụng Thành phần mở rộng cho biên tập.<br />(Để trống nếu bạn muốn tất cả các nhóm đều được phép sử dụng.)]]></value>
+		<value xml:lang="ko"><![CDATA[기본 컴포넌트외의 확장 컴포넌트 기능을 사용할 수 있는 권한을 지정할 수 있습니다.(모두 해제 시 아무나 사용 가능합니다)]]></value>
+		<value xml:lang="en"><![CDATA[Selected group(s) will be able to use expanded components of editor.(Leave them blank if you want all groups to have permissions.)]]></value>
+		<value xml:lang="jp"><![CDATA[基本コンポーネント以外の拡張コンポーネント機能が利用可能な権限の設定ができます。(選択なしの場合、誰でも利用可能)]]></value>
+		<value xml:lang="zh-CN"><![CDATA[可以设置除默认组件外的扩展组件使用权限(全部解除时任何用户都可以使用)。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[除預設組件外，可設置延伸組件的使用權限(全部解除時，任何用戶都可使用)。]]></value>
+		<value xml:lang="fr"><![CDATA[Vous pouvez configurer la Permission d'utiliser des composants additionnels de l'Editeur. (Tout le monde aura la Permission si vous ne cochez rien)]]></value>
+		<value xml:lang="ru"><![CDATA[Возможен выбор дополнительных компонентов. (Каждый может использовать его, если режим выключен)]]></value>
+		<value xml:lang="es"><![CDATA[Usted puede configurar el permiso de utilizar la ampliación de los componentes de editor. (Todo el mundo tendría permiso si no comprobado)]]></value>
+		<value xml:lang="tr"><![CDATA[Seçilen grup(lar), editörün genişletilmiş bileşenlerini kullanabilirler.(Eğer tüm grupların bu yetkiye sahip olmasını istiyorsanız, boş bırakınız)]]></value>
+		<value xml:lang="vi"><![CDATA[Những nhóm đã chọn sẽ được phép sử dụng Thành phần mở rộng cho biên tập.(Để trống nếu bạn muốn tất cả các nhóm đều được phép sử dụng.)]]></value>
 	</item>
 	<item name="about_component_mid">
-		<value xml:lang="ko"><![CDATA[에디터 컴포넌트가 사용될 대상을 지정할 수 있습니다.<br />(모두 해제 시 모든 대상에서 사용 가능합니다)]]></value>
-		<value xml:lang="en"><![CDATA[Editor components can select targets.<br />(All targets will be selected when nothing is selected.)]]></value>
-		<value xml:lang="jp"><![CDATA[エディターコンポーネントが使われる対象を指定します。<br />(選択なしの場合、全ての対象で利用可能)]]></value>
-		<value xml:lang="zh-CN"><![CDATA[可以指定使用编辑器组件的对象。<br />(全部解除时任何用户都可以使用)。]]></value>
-		<value xml:lang="zh-TW"><![CDATA[可以指定使用編輯器組件的對象。<br />(全部解除時，任何用戶都可使用)。]]></value>
-		<value xml:lang="fr"><![CDATA[Vous pouvez désigner les objectifs auquels les composants s'appliquent<br />(Tous les objectifs auront la Permission quand rien n'est choisi.)]]></value>
-		<value xml:lang="ru"><![CDATA[Можно установить пользователя Редактора.<br />(Каждый может использовать его, если режим выключен)]]></value>
-		<value xml:lang="es"><![CDATA[에디터 컴포넌트가 사용될 대상을 지정할 수 있습니다.<br />(모두 해제시 모든 대상에서 사용 가능합니다)]]></value>
-		<value xml:lang="tr"><![CDATA[Hedef editör bileşenlerini seçebilirsiniz.<br />(Hiçbir şey seçilmediğinde, tüm hedefler seçilecektir)]]></value>
-		<value xml:lang="vi"><![CDATA[Có thể lựa chọn khu vực sử dụng Thành phần.<br />(Nếu để trống là tất cả các khu vực đều có thể sử dụng.)]]></value>
+		<value xml:lang="ko"><![CDATA[에디터 컴포넌트가 사용될 대상을 지정할 수 있습니다.(모두 해제 시 모든 대상에서 사용 가능합니다)]]></value>
+		<value xml:lang="en"><![CDATA[Editor components can select targets.(All targets will be selected when nothing is selected.)]]></value>
+		<value xml:lang="jp"><![CDATA[エディターコンポーネントが使われる対象を指定します。(選択なしの場合、全ての対象で利用可能)]]></value>
+		<value xml:lang="zh-CN"><![CDATA[可以指定使用编辑器组件的对象。(全部解除时任何用户都可以使用)。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[可以指定使用編輯器組件的對象。(全部解除時，任何用戶都可使用)。]]></value>
+		<value xml:lang="fr"><![CDATA[Vous pouvez désigner les objectifs auquels les composants s'appliquent(Tous les objectifs auront la Permission quand rien n'est choisi.)]]></value>
+		<value xml:lang="ru"><![CDATA[Можно установить пользователя Редактора.(Каждый может использовать его, если режим выключен)]]></value>
+		<value xml:lang="es"><![CDATA[에디터 컴포넌트가 사용될 대상을 지정할 수 있습니다.(모두 해제시 모든 대상에서 사용 가능합니다)]]></value>
+		<value xml:lang="tr"><![CDATA[Hedef editör bileşenlerini seçebilirsiniz.(Hiçbir şey seçilmediğinde, tüm hedefler seçilecektir)]]></value>
+		<value xml:lang="vi"><![CDATA[Có thể lựa chọn khu vực sử dụng Thành phần.(Nếu để trống là tất cả các khu vực đều có thể sử dụng.)]]></value>
 	</item>
 	<item name="msg_component_is_not_founded">
 		<value xml:lang="ko"><![CDATA[%s 에디터 컴포넌트를 찾을 수 없습니다.]]></value>
@@ -620,27 +550,27 @@ Bài viết tự động lưu sẽ tự động hủy sau khi bạn hoàn thành
 		<value xml:lang="vi"><![CDATA[Bạn có thể chọn kiểu viết bài hay kiểu hiển thị.]]></value>
 	</item>
 	<item name="about_content_font">
-		<value xml:lang="ko"><![CDATA[문서 편집 및 내용 출력 시 원하는 폰트를 지정할 수 있습니다.<br />지정하지 않으면 사용자 설정에 따르게 됩니다<br /> ,(콤마)로 여러 폰트를 지정할 수 있습니다.]]></value>
-		<value xml:lang="en"><![CDATA[You may select a font for editting an article or displaying a content.<br />The default font is your own font.<br />Please use comma for multiple input.]]></value>
-		<value xml:lang="jp"><![CDATA[コンテンツの編集、および内容表示の際のフォントを指定します。<br />指定してない場合、ユーザーの設定を従います。<br /> 半角コンマ（,）区切りで複数フォントの登録が出来ます。]]></value>
-		<value xml:lang="zh-CN"><![CDATA[可以指定编辑或打印文档时的文档字体，不指定随用户设置。<br />多个字体可以用逗号(，)区分输入。]]></value>
-		<value xml:lang="zh-TW"><![CDATA[修改內容時，可指定要顯示的內容字體。<br />如果沒有指定的話，以系統預設為主。<br /> 以逗號(，)區分多個字體。]]></value>
-		<value xml:lang="fr"><![CDATA[문서 편집 및 내용 출력시 원하는 폰트를 지정할 수 있습니다.<br />지정하지 않으면 사용자 설정에 따르게 됩니다<br /> ,(콤마)로 여러 폰트를 지정할 수 있습니다.]]></value>
-		<value xml:lang="ru"><![CDATA[Вы можете выбрать шрифт для редактирования и просмотра записи.<br /> Используйте запятую(,) если выбрали несколько шрифтов.]]></value>
-		<value xml:lang="es"><![CDATA[문서 편집 및 내용 출력시 원하는 폰트를 지정할 수 있습니다.<br />지정하지 않으면 사용자 설정에 따르게 됩니다<br /> ,(콤마)로 여러 폰트를 지정할 수 있습니다.]]></value>
-		<value xml:lang="tr"><![CDATA[Makale düzenleme veya içerik gösterme için yazı tipi seçebilirsiniz.<br />Varsayılan yazı tipi sizin kendi yazı tipinizdir<br /> Lütfen çoklu giriş için virgül(,) kullanınız.]]></value>
-		<value xml:lang="vi"><![CDATA[Bạn có thể chọn Font chữ để viết và hiển thị trong bài viết.<br />Để đặt mặc định chỉ Font chữ bạn hay sử dụng, hãy đặt dấu (,) vào giữa các Font.]]></value>
+		<value xml:lang="ko"><![CDATA[문서 편집 및 내용 출력 시 원하는 폰트를 지정할 수 있습니다. 지정하지 않으면 사용자 설정에 따르게 됩니다. 콤마(,)로 여러 폰트를 지정할 수 있습니다.]]></value>
+		<value xml:lang="en"><![CDATA[You may select a font for editting an article or displaying a content. The default font is your own font. Please use comma for multiple input.]]></value>
+		<value xml:lang="jp"><![CDATA[コンテンツの編集、および内容表示の際のフォントを指定します。 指定してない場合、ユーザーの設定を従います。  半角コンマ（,）区切りで複数フォントの登録が出来ます。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[可以指定编辑或打印文档时的文档字体，不指定随用户设置。 多个字体可以用逗号(，)区分输入。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[修改內容時，可指定要顯示的內容字體。 如果沒有指定的話，以系統預設為主。  以逗號(，)區分多個字體。]]></value>
+		<value xml:lang="fr"><![CDATA[문서 편집 및 내용 출력시 원하는 폰트를 지정할 수 있습니다. 지정하지 않으면 사용자 설정에 따르게 됩니다. 콤마(,)로 여러 폰트를 지정할 수 있습니다.]]></value>
+		<value xml:lang="ru"><![CDATA[Вы можете выбрать шрифт для редактирования и просмотра записи.  Используйте запятую(,) если выбрали несколько шрифтов.]]></value>
+		<value xml:lang="es"><![CDATA[문서 편집 및 내용 출력시 원하는 폰트를 지정할 수 있습니다. 지정하지 않으면 사용자 설정에 따르게 됩니다. 콤마(,)로 여러 폰트를 지정할 수 있습니다.]]></value>
+		<value xml:lang="tr"><![CDATA[Makale düzenleme veya içerik gösterme için yazı tipi seçebilirsiniz. Varsayılan yazı tipi sizin kendi yazı tipinizdir  Lütfen çoklu giriş için virgül(,) kullanınız.]]></value>
+		<value xml:lang="vi"><![CDATA[Bạn có thể chọn Font chữ để viết và hiển thị trong bài viết. Để đặt mặc định chỉ Font chữ bạn hay sử dụng, hãy đặt dấu (,) vào giữa các Font.]]></value>
 	</item>
 	<item name="about_content_font_size">
-		<value xml:lang="ko"><![CDATA[문서 편집 및 내용 출력 시 원하는 폰트의 크기를 지정할 수 있습니다.<br />12px, 1em등 단위까지 포함해서 입력해주세요.]]></value>
-		<value xml:lang="en"><![CDATA[You may select the font size for editting an article or displaying a content.<br />Please input units such as px or em.]]></value>
-		<value xml:lang="jp"><![CDATA[コンテンツの編集、および内容表示の際のフォントサイズを指定します。<br />12px、1emなどサイズ単位まで入力してください。]]></value>
-		<value xml:lang="zh-CN"><![CDATA[可以指定编辑或打印文档时的文档字体大小。<br />指定时请包含字体单位(如12px, 1em)。]]></value>
-		<value xml:lang="zh-TW"><![CDATA[修改內容時，可指定要顯示的內容字體大小。<br />請輸入單位，像是12px, 1em等。]]></value>
-		<value xml:lang="fr"><![CDATA[문서 편집 및 내용 출력시 원하는 폰트의 크기를 지정할 수 있습니다.<br />12px, 1em등 단위까지 포함해서 입력해주세요.]]></value>
-		<value xml:lang="ru"><![CDATA[Вы можете выбрать размер шрифта для редактирования и просмотра записи.<br /> Пожалуйста, выберите единицы такие как px или em.]]></value>
-		<value xml:lang="es"><![CDATA[문서 편집 및 내용 출력시 원하는 폰트의 크기를 지정할 수 있습니다.<br />12px, 1em등 단위까지 포함해서 입력해주세요.]]></value>
-		<value xml:lang="tr"><![CDATA[Makale düzenleme veya içerik görüntüleme için yazı boyutu seçebilirsiniz.<br />Lütfen px veya em gibi birimler kullanınız.]]></value>
+		<value xml:lang="ko"><![CDATA[문서 편집 및 내용 출력 시 원하는 폰트의 크기를 지정할 수 있습니다. 12px, 1em등 단위까지 포함해서 입력해주세요.]]></value>
+		<value xml:lang="en"><![CDATA[You may select the font size for editting an article or displaying a content. Please input units such as px or em.]]></value>
+		<value xml:lang="jp"><![CDATA[コンテンツの編集、および内容表示の際のフォントサイズを指定します。 12px、1emなどサイズ単位まで入力してください。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[可以指定编辑或打印文档时的文档字体大小。 指定时请包含字体单位(如12px, 1em)。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[修改內容時，可指定要顯示的內容字體大小。 請輸入單位，像是12px, 1em等。]]></value>
+		<value xml:lang="fr"><![CDATA[문서 편집 및 내용 출력시 원하는 폰트의 크기를 지정할 수 있습니다. 12px, 1em등 단위까지 포함해서 입력해주세요.]]></value>
+		<value xml:lang="ru"><![CDATA[Вы можете выбрать размер шрифта для редактирования и просмотра записи.  Пожалуйста, выберите единицы такие как px или em.]]></value>
+		<value xml:lang="es"><![CDATA[문서 편집 및 내용 출력시 원하는 폰트의 크기를 지정할 수 있습니다. 12px, 1em등 단위까지 포함해서 입력해주세요.]]></value>
+		<value xml:lang="tr"><![CDATA[Makale düzenleme veya içerik görüntüleme için yazı boyutu seçebilirsiniz. Lütfen px veya em gibi birimler kullanınız.]]></value>
 		<value xml:lang="vi"><![CDATA[Bạn có thể chọn cỡ chữ để viết bài và hiển thị theo định dạng "px" hoặc "em".]]></value>
 	</item>
 	<item name="about_upload_file_grant">

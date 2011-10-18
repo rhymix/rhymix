@@ -1,40 +1,40 @@
 <!--%import("filter/insert_document_module_config.xml")-->
-<form action="./" method="post" onsubmit="return procFilter(this, insert_document_module_config)">
+<form action="./" method="post" onsubmit="return procFilter(this, insert_document_module_config)" class="form">
 	<input type="hidden" name="target_module_srl" value="{$module_info->module_srl?$module_info->module_srl:$module_srls}" />
     <h3 class="h3">{$lang->document}</h3>
     <div class="table">
 		<table width="100%" border="1" cellspacing="0">
-		<tr>    
-			<th>{$lang->history}</th>
-			<td>
-				<p>{$lang->about_use_history}</p>
-				<select name="use_history" class="w100">
-					<option value="N" <!--@if($document_config->use_history=='N')-->selected="selected"<!--@end-->>{$lang->notuse}</option>
-					<option value="Y" <!--@if($document_config->use_history=='Y')-->selected="selected"<!--@end-->>{$lang->use}</option>
-					<option value="Trace" <!--@if($document_config->use_history=='Trace')-->selected="selected"<!--@end-->>{$lang->trace_only}</option>
-				</select>
-			</td>
-		</tr>
-		<tr>    
-			<th>{$lang->cmd_vote}</th>
-			<td>
-				<select name="use_vote_up" class="w100">
-					<option value="Y" <!--@if($document_config->use_vote_up=='Y')-->selected="selected"<!--@end-->>{$lang->use}</option>
-					<option value="S" <!--@if($document_config->use_vote_up=='S')-->selected="selected"<!--@end-->>{$lang->show_voted_member}</option>
-					<option value="N" <!--@if($document_config->use_vote_up=='N')-->selected="selected"<!--@end-->>{$lang->notuse}</option>
-				</select>
-			</td>
-		</tr>
-		<tr>    
-			<th>{$lang->cmd_vote_down}</th>
-			<td>
-				<select name="use_vote_down" class="w100">
-					<option value="Y" <!--@if($document_config->use_vote_down=='Y')-->selected="selected"<!--@end-->>{$lang->use}</option>
-					<option value="S" <!--@if($document_config->use_vote_down=='S')-->selected="selected"<!--@end-->>{$lang->show_voted_member}</option>
-					<option value="N" <!--@if($document_config->use_vote_down=='N')-->selected="selected"<!--@end-->>{$lang->notuse}</option>
-				</select>
-			</td>
-		</tr>
+			<tr>    
+				<th scope="row"><label for="use_history">{$lang->history}</label></th>
+				<td class="text">
+					<select name="use_history" id="use_history">
+						<option value="N" <!--@if($document_config->use_history=='N')-->selected="selected"<!--@end-->>{$lang->notuse}</option>
+						<option value="Y" <!--@if($document_config->use_history=='Y')-->selected="selected"<!--@end-->>{$lang->use}</option>
+						<option value="Trace" <!--@if($document_config->use_history=='Trace')-->selected="selected"<!--@end-->>{$lang->trace_only}</option>
+					</select>
+					<span class="desc">{$lang->about_use_history}</span>
+				</td>
+			</tr>
+			<tr>    
+				<th scope="row"><label for="use_vote_up">{$lang->cmd_vote}</label></th>
+				<td class="text">
+					<select name="use_vote_up" id="use_vote_up">
+						<option value="Y" <!--@if($document_config->use_vote_up=='Y')-->selected="selected"<!--@end-->>{$lang->use}</option>
+						<option value="S" <!--@if($document_config->use_vote_up=='S')-->selected="selected"<!--@end-->>{$lang->use_and_display}</option>
+						<option value="N" <!--@if($document_config->use_vote_up=='N')-->selected="selected"<!--@end-->>{$lang->notuse}</option>
+					</select>
+				</td>
+			</tr>
+			<tr>    
+				<th scope="row"><label for="use_vote_down">{$lang->cmd_vote_down}</label></th>
+				<td class="text">
+					<select name="use_vote_down" id="use_vote_down">
+						<option value="Y" <!--@if($document_config->use_vote_down=='Y')-->selected="selected"<!--@end-->>{$lang->use}</option>
+						<option value="S" <!--@if($document_config->use_vote_down=='S')-->selected="selected"<!--@end-->>{$lang->use_and_display}</option>
+						<option value="N" <!--@if($document_config->use_vote_down=='N')-->selected="selected"<!--@end-->>{$lang->notuse}</option>
+					</select>
+				</td>
+			</tr>
 		</table>
 	</div>
     <div class="btnArea">

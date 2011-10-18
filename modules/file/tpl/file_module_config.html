@@ -1,4 +1,4 @@
-<form ruleset="fileModuleConfig" action="./" method="post">
+<form ruleset="fileModuleConfig" action="./" method="post" class="form">
 	<input type="hidden" name="act" value="procFileAdminInsertModuleConfig" />
 	<input type="hidden" name="success_return_url" value="{getUrl('', 'module', $module, 'act', $act, 'module_srl', $module_srl)}" />
 	<input type="hidden" name="target_module_srl" value="{$module_info->module_srl?$module_info->module_srl:$module_srls}" />
@@ -6,30 +6,30 @@
     <div class="table">
 		<table width="100%" border="1" cellspacing="0">
 			<tr>
-			<th scope="col"><div>{$lang->allowed_filesize}</div></th>
-			<td>
-				<input type="text" name="allowed_filesize" value="{$file_config->allowed_filesize}"  size="3" />MB
-				<p>{$lang->about_allowed_filesize}</p>
+			<th scope="row"><label for="allowed_filesize">{$lang->allowed_filesize}</label></th>
+			<td class="text">
+				<input type="text" name="allowed_filesize" id="allowed_filesize" value="{$file_config->allowed_filesize}"  size="3" style="width:30px" /> MB
+				<p class="desc">{$lang->about_allowed_filesize}</p>
 			</td>
 		</tr>
 		<tr>
-			<th scope="col"><div>{$lang->allowed_attach_size}</div></th>
-			<td>
-				<input type="text" name="allowed_attach_size" value="{$file_config->allowed_attach_size}"  size="3" />MB
+			<th scope="row"><label for="allowed_attach_size">{$lang->allowed_attach_size}</label></th>
+			<td class="text">
+				<input type="text" name="allowed_attach_size" id="allowed_attach_size" value="{$file_config->allowed_attach_size}" size="3" style="width:30px" /> MB
 				/ {ini_get('upload_max_filesize')}
-				<p>{$lang->about_allowed_attach_size}</p>
+				<p class="desc">{$lang->about_allowed_attach_size}</p>
 			</td>
 		</tr>
 		<tr>
-			<th scope="col"><div>{$lang->allowed_filetypes}</div></th>
-			<td>
-				<input type="text" name="allowed_filetypes" value="{$file_config->allowed_filetypes}" />
-				<p>{$lang->about_allowed_filetypes}</p>
+			<th scope="row"><label for="allowed_filetypes">{$lang->allowed_filetypes}</label></th>
+			<td class="text">
+				<input type="text" name="allowed_filetypes" id="allowed_filetypes" value="{$file_config->allowed_filetypes}" />
+				<p class="desc">{$lang->about_allowed_filetypes}</p>
 			</td>
 		</tr>
 		<tr>
-			<th scope="col"><div>{$lang->enable_download_group}</div></th>
-			<td>
+			<th scope="row">{$lang->enable_download_group}</th>
+			<td class="text">
 				<!--@foreach($group_list as $k => $v)-->
 				<input type="checkbox" class="checkbox" name="download_grant[]" value="{$v->group_srl}" id="grant_{$key}_{$v->group_srl}" <!--@if(in_array($v->group_srl, $file_config->download_grant))-->checked="checked"<!--@end-->/> 
 				<label for="grant_{$key}_{$v->group_srl}">{$v->title}</label>

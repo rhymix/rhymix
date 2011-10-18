@@ -1,39 +1,37 @@
-<form ruleset="insertCommentModuleConfig" action="./" method="post">
+<form ruleset="insertCommentModuleConfig" action="./" method="post" class="form">
 	<input type="hidden" name="act" value="procCommentInsertModuleConfig" />
 	<input type="hidden" name="success_return_url" value="{getUrl('', 'module', $module, 'act', $act, 'module_srl', $module_srl)}" />
 	<input type="hidden" name="target_module_srl" value="{$module_info->module_srl?$module_info->module_srl:$module_srls}" />
     <h3 class="h3">{$lang->comment}</h3>
 	<div class="table">
 		<table width="100%" border="1" cellspacing="0">
-		<tr>    
-			<th>{$lang->comment_count}</th>
-			<td >
-				<p>{$lang->about_comment_count}</p>
-				<input type="text" name="comment_count" value="{$comment_config->comment_count}" />
-	
-			</td>
-		</tr>
-		<tr>    
-			<th>{$lang->cmd_vote}</th>
-			<td>
-				<select name="use_vote_up" class="w100">
-					<option value="Y" <!--@if($comment_config->use_vote_up=='Y')-->selected="selected"<!--@end-->>{$lang->use}</option>
-					<option value="S" <!--@if($comment_config->use_vote_up=='S')-->selected="selected"<!--@end-->>{$lang->show_voted_member}</option>
-					<option value="N" <!--@if($comment_config->use_vote_up=='N')-->selected="selected"<!--@end-->>{$lang->notuse}</option>
-				</select>
-			</td>
-		</tr>
-		<tr>    
-			<th>{$lang->cmd_vote_down}</th>
-			<td>
-				<select name="use_vote_down" class="w100">
-					<option value="Y" <!--@if($comment_config->use_vote_down=='Y')-->selected="selected"<!--@end-->>{$lang->use}</option>
-					<option value="S" <!--@if($comment_config->use_vote_down=='S')-->selected="selected"<!--@end-->>{$lang->show_voted_member}</option>
-					<option value="N" <!--@if($comment_config->use_vote_down=='N')-->selected="selected"<!--@end-->>{$lang->notuse}</option>
-				</select>
-			</td>
-		</tr>
-	
+			<tr>    
+				<th scope="row"><label for="comment_count">{$lang->comment_count}</label></th>
+				<td class="text">
+					<input type="text" name="comment_count" id="comment_count" value="{$comment_config->comment_count}" style="width:30px" />
+					<span class="desc">{$lang->about_comment_count}</span>
+				</td>
+			</tr>
+			<tr>    
+				<th scope="row"><label for="use_vote_up">{$lang->cmd_vote}</label></th>
+				<td class="text">
+					<select name="use_vote_up" id="use_vote_up">
+						<option value="Y" <!--@if($comment_config->use_vote_up=='Y')-->selected="selected"<!--@end-->>{$lang->use}</option>
+						<option value="S" <!--@if($comment_config->use_vote_up=='S')-->selected="selected"<!--@end-->>{$lang->use_and_display}</option>
+						<option value="N" <!--@if($comment_config->use_vote_up=='N')-->selected="selected"<!--@end-->>{$lang->notuse}</option>
+					</select>
+				</td>
+			</tr>
+			<tr>    
+				<th scope="row"><label for="use_vote_down">{$lang->cmd_vote_down}</label></th>
+				<td class="text">
+					<select name="use_vote_down" id="use_vote_down">
+						<option value="Y" <!--@if($comment_config->use_vote_down=='Y')-->selected="selected"<!--@end-->>{$lang->use}</option>
+						<option value="S" <!--@if($comment_config->use_vote_down=='S')-->selected="selected"<!--@end-->>{$lang->use_and_display}</option>
+						<option value="N" <!--@if($comment_config->use_vote_down=='N')-->selected="selected"<!--@end-->>{$lang->notuse}</option>
+					</select>
+				</td>
+			</tr>
 		</table>
 	</div>
 	<div class="btnArea">

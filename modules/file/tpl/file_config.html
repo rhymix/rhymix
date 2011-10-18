@@ -4,59 +4,59 @@
 	<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 		<p>{$XE_VALIDATOR_MESSAGE}</p>
 	</div>
-	<form ruleset="insertConfig" action="./" method="post">
-	<input type="hidden" name="act" value="procFileAdminInsertConfig" />
-	<div class="table">
-		<table width="100%" border="1" cellspacing="0">
+	<form ruleset="insertConfig" action="./" method="post" class="form">
+		<input type="hidden" name="act" value="procFileAdminInsertConfig" />
+		<div class="table">
+			<table width="100%" border="1" cellspacing="0">
+				<tr>
+				<th scope="col">{$lang->allow_outlink}</th>
+				<td class="text">
+					<select name="allow_outlink">
+						<option value="Y"<!--@if($config->allow_outlink=='Y')--> selected="selected"<!--@end-->>{$lang->enable}</option>
+						<option value="N"<!--@if($config->allow_outlink=='N')--> selected="selected"<!--@end-->>{$lang->disable}</option>
+					</select>
+					<p>{$lang->about_allow_outlink}</p>
+				</td>
+			</tr>
 			<tr>
-			<th scope="col"><div>{$lang->allow_outlink}</div></th>
-			<td>
-				<select name="allow_outlink">
-					<option value="Y"<!--@if($config->allow_outlink=='Y')--> selected="selected"<!--@end-->>{$lang->enable}</option>
-					<option value="N"<!--@if($config->allow_outlink=='N')--> selected="selected"<!--@end-->>{$lang->disable}</option>
-				</select>
-				<p>{$lang->about_allow_outlink}</p>
-			</td>
-		</tr>
-		<tr>
-			<th scope="col"><div>{$lang->allow_outlink_format}</div></th>
-			<td>
-				<input type="text" name="allow_outlink_format" value="{$config->allow_outlink_format}"  />
-				<p>{$lang->about_allow_outlink_format}</p>
-			</td>
-		</tr>
-		<tr>
-			<th scope="col"><div>{$lang->allow_outlink_site}</div></th>
-			<td>
-				<textarea name="allow_outlink_site" class="fullWidth">{$config->allow_outlink_site}</textarea>
-				<p>{$lang->about_allow_outlink_site}</p>
-			</td>
-		</tr>
-		<tr>
-			<th scope="col"><div>{$lang->allowed_filesize}</div></th>
-			<td>
-				<input type="text" name="allowed_filesize" value="{$config->allowed_filesize}"  size="3" />MB
-				<p>{$lang->about_allowed_filesize}</p>
-			</td>
-		</tr>
-		<tr>
-			<th scope="col"><div>{$lang->allowed_attach_size}</div></th>
-			<td>
-				<input type="text" name="allowed_attach_size" value="{$config->allowed_attach_size}"  size="3" />MB
-				/ {ini_get('upload_max_filesize')}
-				<p>{$lang->about_allowed_attach_size}</p>
-			</td>
-		</tr>
-		<tr>
-			<th scope="col"><div>{$lang->allowed_filetypes}</div></th>
-			<td>
-				<input type="text" name="allowed_filetypes" value="{$config->allowed_filetypes}" />
-				<p>{$lang->about_allowed_filetypes}</p>
-			</td>
-		</tr>
-		</table>
-	</div>
-	<div class="btnArea">
-		<span class="btn"><input type="submit" value="{$lang->cmd_registration}" /></span>
-	</div>
+				<th scope="col">{$lang->allow_outlink_format}</th>
+				<td class="text">
+					<input type="text" name="allow_outlink_format" value="{$config->allow_outlink_format}"  />
+					<p>{$lang->about_allow_outlink_format}</p>
+				</td>
+			</tr>
+			<tr>
+				<th scope="col">{$lang->allow_outlink_site}</th>
+				<td class="text">
+					<textarea name="allow_outlink_site" class="fullWidth">{$config->allow_outlink_site}</textarea>
+					<p>{$lang->about_allow_outlink_site}</p>
+				</td>
+			</tr>
+			<tr>
+				<th scope="col">{$lang->allowed_filesize}</th>
+				<td class="text">
+					<input type="text" name="allowed_filesize" value="{$config->allowed_filesize}"  size="3" />MB
+					<p>{$lang->about_allowed_filesize}</p>
+				</td>
+			</tr>
+			<tr>
+				<th scope="col">{$lang->allowed_attach_size}</th>
+				<td class="text">
+					<input type="text" name="allowed_attach_size" value="{$config->allowed_attach_size}"  size="3" />MB
+					/ {ini_get('upload_max_filesize')}
+					<p>{$lang->about_allowed_attach_size}</p>
+				</td>
+			</tr>
+			<tr>
+				<th scope="col">{$lang->allowed_filetypes}</th>
+				<td class="text">
+					<input type="text" name="allowed_filetypes" value="{$config->allowed_filetypes}" />
+					<p>{$lang->about_allowed_filetypes}</p>
+				</td>
+			</tr>
+			</table>
+		</div>
+		<div class="btnArea">
+			<span class="btn"><input type="submit" value="{$lang->cmd_registration}" /></span>
+		</div>
 	</form>

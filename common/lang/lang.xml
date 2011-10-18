@@ -3812,4 +3812,8 @@ Bitte melden Sie sich dem Administrator des Moduls!]]></value>
 		<value xml:lang="ko"><![CDATA[음성재생]]></value>
 		<value xml:lang="en"><![CDATA[play]]></value>
 	</item>
+	<item name="use_and_display">
+		<value xml:lang="ko"><![CDATA[사용+노출]]></value>
+		<value xml:lang="en"><![CDATA[Use+Display]]></value>
+	</item>
 </lang>
