@@ -201,9 +201,12 @@ $('form.siteMap')
 
 	$('a.tgMap').click(function() {
 		var $this = $(this);
+		var curToggleStatus = getCookie('sitemap_toggle_'+$this.attr('href'));
+		var toggleStatus = curToggleStatus == 1 ? '0' : 1;
 
 		$($this.attr('href')).slideToggle('fast');
 		$this.closest('.siteMap').toggleClass('fold');
+		setCookie('sitemap_toggle_'+$this.attr('href'), toggleStatus);
 
 		return false;
 	});
