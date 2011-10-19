@@ -120,18 +120,18 @@ Nếu chọn là mặc định, nó sẽ là trang chủ của Website.]]></valu
 		<value xml:lang="jp"><![CDATA[選択してください。]]></value>
 	</item>
 	<item name="page_type_name" type="array">
-		<item name="WIDGET">
-			<value xml:lang="ko"><![CDATA[위젯]]></value>
-			<value xml:lang="en"><![CDATA[Widget]]></value>
-			<value xml:lang="jp"><![CDATA[ウィジェット]]></value>
-		</item>
 		<item name="ARTICLE">
-			<value xml:lang="ko"><![CDATA[문서]]></value>
-			<value xml:lang="en"><![CDATA[Article]]></value>
-			<value xml:lang="jp"><![CDATA[書き込み]]></value>
+			<value xml:lang="ko"><![CDATA[문서 페이지]]></value>
+			<value xml:lang="en"><![CDATA[Article Page]]></value>
+			<value xml:lang="jp"><![CDATA[書き込み Page]]></value>
+		</item>
+		<item name="WIDGET">
+			<value xml:lang="ko"><![CDATA[위젯 페이지]]></value>
+			<value xml:lang="en"><![CDATA[Widget Page]]></value>
+			<value xml:lang="jp"><![CDATA[ウィジェット Page]]></value>
 		</item>
 		<item name="OUTSIDE">
-			<value xml:lang="ko"><![CDATA[외부페이지]]></value>
+			<value xml:lang="ko"><![CDATA[외부 페이지]]></value>
 			<value xml:lang="en"><![CDATA[External Page]]></value>
 			<value xml:lang="jp"><![CDATA[外部ページ]]></value>
 		</item>

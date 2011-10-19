@@ -32,7 +32,7 @@
 		<thead>
 			<tr>
 				<th scope="col">{$lang->category}</th>
-				<th scope="col" class="title">{$lang->thumbnail}</th>
+				<th scope="col">{$lang->thumbnail}</th>
 				<th scope="col" class="title">{$lang->name}</th>
 				<th scope="col">{$lang->distribute_version}</th>
 				<th scope="col">{$lang->current_version}</th>
@@ -43,7 +43,7 @@
 			<tr loop="$item_list => $key, $item">
 				{@ $target_url = $original_site."?mid=download&package_srl=".$item->package_srl; }
 				<td>{$item->category}</td>
-				<td class="title"><img src="{str_replace('./', $uri, $item->item_screenshot_url)}" alt="" width="100" height="100" /></td>
+				<td><img src="{str_replace('./', $uri, $item->item_screenshot_url)}" alt="" width="100" height="100" /></td>
 				<td class="title">
 					<p><a href="{$target_url}">{htmlspecialchars($item->title)}</a></p>
 					<p>{cut_str(htmlspecialchars($item->package_description),200)}</p>

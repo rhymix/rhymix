@@ -1,19 +1,17 @@
 <include target="header.html" />
-
-<p>
-	<block cond="$show_ftp_note">
-		{@$ftp_link = sprintf('<a href="%s#ftpSetup">%s</a>', getUrl('', 'module', 'admin', 'act', 'dispAdminConfig'), $lang->ftp_setup)}
-		{sprintf($lang->description_ftp_note, $ftp_link)}
-	</block>
-	<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
-		<p>{$XE_VALIDATOR_MESSAGE}</p>
-	</div>
-	<form action="" method="post">
-		<input type="hidden" name="module" value="autoinstall" />
-		<input type="hidden" name="act" value="procAutoinstallAdminUpdateinfo" />
+<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
+<form action="" method="post">
+	<input type="hidden" name="module" value="autoinstall" />
+	<input type="hidden" name="act" value="procAutoinstallAdminUpdateinfo" />
+	<p>
+		<block cond="$show_ftp_note">
+			{@$ftp_link = sprintf('<a href="%s#ftpSetup">%s</a>', getUrl('', 'module', 'admin', 'act', 'dispAdminConfig'), $lang->ftp_setup)}
+			{sprintf($lang->description_ftp_note, $ftp_link)}
+		</block>
 		{@$btnUpdate = sprintf('<input type="submit" value="%s" class="text" />', $lang->status_update)}
 		{sprintf($lang->description_update, $btnUpdate)}
-	</form>
-</p>
-
+	</p>
+</form>
 <include target="list.html" />

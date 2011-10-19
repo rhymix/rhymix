@@ -1,5 +1,5 @@
 @charset "utf-8";
-/* NHN (developers@xpressengine.com) */
+/* Element Reset */
 body,table,input,textarea,select,button{font-family:Tahoma,Geneva,sans-serif;font-size:12px}
 img{border:0}
 /* Button */
@@ -10,7 +10,7 @@ img{border:0}
 .btn a, 
 .btn button[type=button]{border-color:#ccc;color:#333 !important;background:#eee -webkit-gradient(linear,0% 0%,0% 100%,from(#fff),to(#ddd));background:#eee -moz-linear-gradient(top,#fff,#ddd);background-color:#eee;text-shadow:1px 1px 0 #fff;filter:progid:DXImageTransform.Microsoft.gradient(startColorStr=#ffffff, endColorStr=#dddddd)}
 .btn input, 
-.btn button[type=submit]{border-color:#666;background:#333 -webkit-gradient(linear,0% 0%,0% 100%,from(#777),to(#777),color-stop(0.5,#333),color-stop(0.5,#000));background:#333 -moz-linear-gradient(top,#777,#000);background-color:#333;color:#ffc !important;filter:progid:DXImageTransform.Microsoft.gradient(startColorStr=#777777, endColorStr=#333333)}
+.btn button[type=submit]{border-color:#666;background:#333 -webkit-gradient(linear,0% 0%,0% 100%,from(#777),to(#777),color-stop(0.5,#333),color-stop(0.5,#000)) !important;background:#333 -moz-linear-gradient(top,#777,#000) !important;background-color:#333 !important;color:#ffc !important;filter:progid:DXImageTransform.Microsoft.gradient(startColorStr=#777777, endColorStr=#333333)}
 .btn a{height:22px}
 .btn.medium *{padding:0 12px;font-size:16px;height:30px;line-height:28px}
 .btn.medium a{height:28px}

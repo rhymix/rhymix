@@ -9,7 +9,7 @@
 	<input type="hidden" name="module_srl" value="{$module_srl}" />
 	<input type="hidden" name="admin_member" value="<!--@foreach($admin_member as $key => $val)-->{$val->user_id},<!--@end-->" />
 	
-	<h2 class="h2">{$lang->module_admin}</h2>
+	<h3 class="h3">{$lang->module_admin}</h3>
 	<p>{$lang->about_admin_id}</p>
 	<ul>
 		<li>
@@ -33,7 +33,7 @@
 			</p>
 		</li>
 	</ul>
-	<h2 class="h2">{$lang->permission_setting}</h2>
+	<h3 class="h3">{$lang->permission_setting}</h3>
 	<p>{$lang->about_grant_deatil}</p>
 	<div class="table">
 		<table width="100%" border="1" cellspacing="0">
