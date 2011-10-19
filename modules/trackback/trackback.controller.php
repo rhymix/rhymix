@@ -97,7 +97,7 @@
             // Add a link sent yeokingeul
             $oDocumentController = &getController('document');
             $url = getUrl('','module','trackback','act','dispTrackbackSend','document_srl', $document_srl);
-            $oDocumentController->addDocumentPopupMenu($url,'cmd_send_trackback','./modules/document/tpl/icons/send_trackback.gif','popup');
+            $oDocumentController->addDocumentPopupMenu($url,'cmd_send_trackback','','popup');
 
             return new Object();
         }
