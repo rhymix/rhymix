@@ -14,9 +14,9 @@
 	<table width="100%" border="1" cellspacing="0">
 		<thead>
 			<tr>
-				<th scope="col" >{$lang->category_title}</th>
+				<th scope="col" class="title">{$lang->category_title}</th>
 				<th scope="col">{$lang->regdate}</th>
-				<th scope="col" colspan="2">&nbsp;</th>
+				<th scope="col">&nbsp;</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -27,7 +27,7 @@
 			<!--@end-->
 			<!--@foreach($category_list as $key => $val)-->
 			<tr>
-				<td >{$val->title}</td>
+				<td class="title">{$val->title}</td>
 				<td>{zdate($val->regdate,"Y-m-d H:i:s")}</td>
 				<td>
 					<a href="{getUrl('module_category_srl',$val->module_category_srl)}">{$lang->cmd_modify}</a>
@@ -45,13 +45,9 @@
 	<input type="hidden" name="page" value="{$page}" />
 	<input type="hidden" name="module_srl" value="{$module_srl}" />
 	<input type="hidden" name="module_category_srl" value="" />
-	<ul>
-		<li>
-			<p class="q"><label for="category_title">{$lang->category_title}</label></p>
-			<p class="a"><input type="text" name="title" id="category_title" /></p>
-		</li>
-	</ul>
     <div class="btnArea">
-		<span class="btn"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+		<label for="category_title">{$lang->category_title}</label>
+		<input type="text" name="title" id="category_title" />
+		<span class="btn"><input type="submit" value="{$lang->cmd_registration}" /></span>
 	</div>
 </form>

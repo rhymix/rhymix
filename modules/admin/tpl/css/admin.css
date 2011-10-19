@@ -1,7 +1,6 @@
 @charset "utf-8";
 /* Element Reset */
 header,footer,section,article,aside,nav,hgroup,details,menu,figure,figcaption{display:block}
-body>.popup{margin:1em}
 .x,
 .x table,
 .x input,
@@ -67,13 +66,18 @@ body>.popup{margin:1em}
 .x .table td>input[type=text]{margin:-1px 0 !important;vertical-align:middle}
 .x .table img{vertical-align:middle}
 .x .table em{font-style:normal;font-weight:normal;color:#e00}
-.x .table .title,
-.x .table .text{white-space:normal;width:100%}
+.x .table th.title,
+.x .table td.title,
+.x .table th.text,
+.x .table td.text{white-space:normal;width:100%}
 /* Form */
 .x .form{margin:1em 0;padding:0}
 .x .form fieldset{margin:0 0 2em 0;padding:0;border:0}
+.x .form.search fieldset{border:1px solid #ccc;padding:5px 15px;border-radius:3px}
 .x .form em{font-style:normal;color:#e00}
-.x .form label{margin-right:1em;line-height:1;vertical-align:middle}
+.x .form label{line-height:1;vertical-align:middle}
+.x .form input[type=radio]+label,
+.x .form input[type=checkbox]+label{margin-right:1em}
 .x .form input[type=checkbox]+label,
 .x .form input[type=radio]+label,
 .x .form input[type=file]{cursor:pointer}
