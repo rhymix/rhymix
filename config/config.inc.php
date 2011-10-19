@@ -13,7 +13,7 @@
      * @brief display XE's full version
      * Even The file should be revised when releasing altough no change is made
      **/
-    define('__ZBXE_VERSION__', '1.5.0.5_beta');
+    define('__ZBXE_VERSION__', '1.5.0.6_beta');
 
     /**
      * @brief The base path to where you installed zbXE Wanted
