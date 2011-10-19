@@ -52,4 +52,14 @@
                                             and `listorder` <= 12';
 			$this->_test($xml_file, $argsString, $expected);
                 }
+
+                function test_communication_setMessageReaded(){
+			$xml_file = _XE_PATH_ . "modules/communication/queries/setMessageReaded.xml";
+			$argsString = '$args->message_srl = 339321; $args->related_srl = 339321;';
+			$expected = 'update `xe_member_message` as `member_message`
+                                        set `readed` = \'y\'
+                                            , `readed_date` = ' . date("YmdHis") . '
+                                        where `message_srl` = 339321 or `related_srl` = 339321';
+			$this->_test($xml_file, $argsString, $expected);
+                }
 	}

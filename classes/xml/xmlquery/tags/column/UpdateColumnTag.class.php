@@ -20,10 +20,22 @@
                         if($column->attrs->var)
                             $this->argument = new QueryArgument($column);
                         else {
-                            $default_value = new DefaultValue($this->name, $column->attrs->default);
-                            if($default_value->isOperation())
+                            if(strpos($column->attrs->default, '.') !== false)
+                                    $this->default_value = "'" . $dbParser->parseColumnName($column->attrs->default) . "'";
+                            else {
+                                $default_value = new DefaultValue($this->name, $column->attrs->default);
+                                if($default_value->isOperation())
                                     $this->argument = new QueryArgument($column, true);
-                            else $this->default_value = $dbParser->parseColumnName($column->attrs->default);
+                            //else $this->default_value = $dbParser->parseColumnName($column->attrs->default);
+                                else {
+                                    $this->default_value = $default_value->toString();
+                                    if($default_value->isString()){
+                                        $this->default_value = '"' . $this->default_value . '"';
+                                    }
+                                }
+
+
+                            }
                         }
 		}
 
@@ -33,7 +45,7 @@
 						, $this->name
 						, $this->argument->argument_name);
                     else {
-			return sprintf('new UpdateExpressionWithoutArgument(\'%s\', \'%s\')'
+			return sprintf('new UpdateExpressionWithoutArgument(\'%s\', %s)'
 						, $this->name
 						, $this->default_value);
                     }
