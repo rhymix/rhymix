@@ -29,9 +29,15 @@
 				$this->Memcache->addServer($info['host'], $info['port']);
 			}
 		}
-		
+
 		function isSupport(){
-			return $this->Memcache->set('xe', 'xe', MEMCACHE_COMPRESSED, 1);
+                	if($GLOBALS['XE_MEMCACHE_SUPPORT']) return true;
+			if($this->Memcache->set('xe', 'xe', MEMCACHE_COMPRESSED, 1)) {
+				$GLOBALS['XE_MEMCACHE_SUPPORT'] = true;
+			} else {
+				$GLOBALS['XE_MEMCACHE_SUPPORT'] = false;
+			}
+			return $GLOBALS['XE_MEMCACHE_SUPPORT'];
 		}
 
 		function getKey($key){
@@ -55,7 +61,7 @@
 				$this->_delete($_key);
 				return false;
 			}
-			
+
 			return true;
 		}
 
