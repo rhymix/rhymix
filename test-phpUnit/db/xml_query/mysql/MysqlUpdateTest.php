@@ -62,4 +62,14 @@
                                         where `message_srl` = 339321 or `related_srl` = 339321';
 			$this->_test($xml_file, $argsString, $expected);
                 }
+
+                function test_session_updateSession(){
+			$xml_file = _XE_PATH_ . "modules/session/queries/updateSession.xml";
+			$argsString = '$args->session_key = 339321; $args->val = "yuhuu";';
+			$expected = 'update `xe_session` as `session`
+                                        set `member_srl` = 0, `val` = \'yuhuu\'
+                                        , `last_update` = ' . date("YmdHis") . '
+                                       where `session_key` = \'339321\'';
+			$this->_test($xml_file, $argsString, $expected);
+                }
 	}

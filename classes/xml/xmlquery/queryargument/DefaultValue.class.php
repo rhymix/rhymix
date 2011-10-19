@@ -7,6 +7,8 @@
                 var $is_operation = false;
                 var $operation = '';
 
+                var $_is_string = false;
+
 		function DefaultValue($column_name, $value){
                         $dbParser = &DB::getParser();
 			$this->column_name = $dbParser->parseColumnName($column_name);
@@ -15,9 +17,10 @@
 		}
 
 		function isString(){
-			$str_pos = strpos($this->value, '(');
-                        if($str_pos===false) return true;
-                        return false;
+                    return $this->_is_string;
+                    $str_pos = strpos($this->value, '(');
+                    if($str_pos===false) return true;
+                    return false;
 		}
 
                 function isSequence(){
@@ -43,7 +46,10 @@
 
                         $str_pos = strpos($this->value, '(');
                         // // TODO Replace this with parseExpression
-                        if($str_pos===false) return '\''.$this->value.'\'';
+                        if($str_pos===false) {
+                            $this->_is_string = true;
+                            return '\''.$this->value.'\'';
+                        }
                         //if($str_pos===false) return $this->value;
 
                         $func_name = substr($this->value, 0, $str_pos);
