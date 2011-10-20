@@ -207,17 +207,5 @@
 	    	<title xml:lang="vi">Menu trên</title>
             <title xml:lang="tr">Ana Menü</title>
         </menu>
-        <menu name="bottom_menu" maxdepth="1">
-            <title xml:lang="ko">하단 메뉴 </title>
-            <title xml:lang="jp">下段用メニュー</title>
-            <title xml:lang="zh-CN">底部菜单</title>
-            <title xml:lang="zh-TW">底部選單</title>
-            <title xml:lang="en">Bottom menu</title>
-            <title xml:lang="ge">Bottom-Menü</title>
-            <title xml:lang="ru">Внизу меню</title>
-            <title xml:lang="es">Menú Inferior </title>
-	    	<title xml:lang="vi">Menu dưới</title>
-	    	<title xml:lang="tr">Alt Menü</title>
-        </menu>
     </menus>
 </layout>
