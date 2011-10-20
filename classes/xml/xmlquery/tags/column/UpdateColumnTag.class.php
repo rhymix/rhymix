@@ -29,6 +29,9 @@
                             //else $this->default_value = $dbParser->parseColumnName($column->attrs->default);
                                 else {
                                     $this->default_value = $default_value->toString();
+                                    if($default_value->isStringFromFunction()){
+                                        $this->default_value = '"\'".' . $this->default_value . '."\'"';
+                                    }
                                     if($default_value->isString()){
                                         $this->default_value = '"' . $this->default_value . '"';
                                     }

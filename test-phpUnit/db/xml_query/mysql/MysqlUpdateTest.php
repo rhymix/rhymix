@@ -68,8 +68,9 @@
 			$argsString = '$args->session_key = 339321; $args->val = "yuhuu";';
 			$expected = 'update `xe_session` as `session`
                                         set `member_srl` = 0, `val` = \'yuhuu\'
+                                        , `ipaddress` = \''. $_SERVER['REMOTE_ADDR'] .'\'
                                         , `last_update` = ' . date("YmdHis") . '
-                                       where `session_key` = \'339321\'';
+                                        where `session_key` = \'339321\'';
 			$this->_test($xml_file, $argsString, $expected);
                 }
 	}

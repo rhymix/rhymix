@@ -7,7 +7,8 @@
                 var $is_operation = false;
                 var $operation = '';
 
-                var $_is_string = false;
+                var $_is_string = false; ///< Checks if value is plain string or name of XE function (ipaddress, plus, etc).
+                var $_is_string_from_function = false; //< Checks if value is string resulted from evaluating a piece of PHP code (see $_SERVER[REMOTE_ADDR])
 
 		function DefaultValue($column_name, $value){
                         $dbParser = &DB::getParser();
@@ -22,6 +23,10 @@
                     if($str_pos===false) return true;
                     return false;
 		}
+
+                function isStringFromFunction(){
+                    return $this->_is_string_from_function;
+                }
 
                 function isSequence(){
                     return $this->is_sequence;
@@ -58,6 +63,7 @@
 			switch($func_name) {
 				case 'ipaddress' :
 						$val = '$_SERVER[\'REMOTE_ADDR\']';
+                                                $this->_is_string_from_function = true;
 					break;
 				case 'unixtime' :
 						$val = 'time()';
