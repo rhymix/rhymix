@@ -850,11 +850,27 @@
 
                     if(file_exists($file_obj->file)) {
                         // Set upload path by checking if the attachement is an image or other kind of file
-                        if(preg_match("/\.(jpg|jpeg|gif|png|wmv|wma|mpg|mpeg|avi|swf|flv|mp1|mp2|mp3|mp4|asf|wav|asx|mid|midi|asf|mov|moov|qt|rm|ram|ra|rmm|m4v)$/i", $file_obj->source_filename)) {
-                            $path = sprintf("./files/attach/images/%s/%s", $module_srl,getNumberingPath($upload_target_srl,3));
-                            $filename = $path.$file_obj->source_filename;
-                            $file_obj->direct_download = 'Y';
-                        } else {
+						if(preg_match("/\.(jpe?g|gif|png|wm[va]|mpe?g|avi|swf|flv|mp[1-4]|as[fx]|wav|midi?|moo?v|qt|r[am]{1,2}|m4v)$/i", $file_obj->source_filename))
+						{
+							// Immediately remove the direct file if it has any kind of extensions for hacking
+							$file_obj->source_filename = preg_replace('/\.(php|phtm|html?|cgi|pl|exe|jsp|asp|inc)/i', '$0-x', $file_obj->source_filename);
+							$file_obj->source_filename = str_replace(array('<', '>'), array('%3C', '%3E'), $file_obj->source_filename);
+
+							$path = sprintf("./files/attach/images/%s/%s", $module_srl, getNumberingPath($upload_target_srl, 3));
+
+							$ext = substr(strrchr($file_info['name'],'.'),1);
+							$_filename = md5(crypt(rand(1000000, 900000), rand(0, 100))).'.'.$ext;
+							$filename  = $path.$_filename;
+
+							$idx = 1;
+							while(file_exists($filename)) {
+								$filename = $path.preg_replace('/\.([a-z0-9]+)$/i','_'.$idx.'.$1', $_filename);
+								$idx++;
+							}
+
+							$file_obj->direct_download = 'Y';
+						}
+						else {
                             $path = sprintf("./files/attach/binaries/%s/%s", $module_srl, getNumberingPath($upload_target_srl,3));
                             $filename = $path.md5(crypt(rand(1000000,900000), rand(0,100)));
                             $file_obj->direct_download = 'N';
