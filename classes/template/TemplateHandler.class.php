@@ -18,6 +18,7 @@
 		var $xe_path = null;  ///< XpressEngine base path
 		var $web_path = null; ///< tpl file web path
 		var $compiled_file = null; ///< tpl file web path
+		var $skipTags = null;
 
 		var $handler_mtime = 0;
 
@@ -74,6 +75,8 @@
 
 			// compare various file's modified time for check changed
 			$this->handler_mtime = filemtime(__FILE__);
+
+			$skip = array('');
 		}
 
         /**
@@ -167,6 +170,11 @@
 
 				// read tpl file
 				$buff = FileHandler::readFile($this->file);
+			}
+
+			// HTML tags to skip
+			if(is_null($this->skipTags)) {
+				$this->skipTags = array('marquee');
 			}
 
 			// replace comments
@@ -297,7 +305,11 @@
 		{
 			if(preg_match_all('/<([a-zA-Z]+\d?)(?>(?!<[a-z]+\d?[\s>]).)*?(?:[ \|]cond| loop)="/s', $buff, $match) === false) return $buff;
 
-			$tags = '(?:'.implode('|',array_unique($match[1])).')';
+			$tags = array_diff(array_unique($match[1]), $this->skipTags);
+
+			if(!count($tags)) return $buff;
+
+			$tags = '(?:'.implode('|',$tags).')';
 			$split_regex = "@(<(?>/?{$tags})(?>[^<>\{\}\"']+|<!--.*?-->|{[^}]+}|\".*?\"|'.*?'|.)*?>)@s";
 
 			$nodes = preg_split($split_regex, $buff, -1, PREG_SPLIT_DELIM_CAPTURE);
@@ -309,6 +321,10 @@
 				if(!($node=$nodes[$idx])) continue;
 
 				if(preg_match_all('@\s(loop|cond)="([^"]+)"@', $node, $matches)) {
+					// this tag
+					$tag = substr($node, 1, strpos($node, ' ')-1);
+
+					// if the vale of $closing is 0, it means 'skipping'
 					$closing = 0;
 
 					// process opening tag
@@ -337,9 +353,6 @@
 						}
 					}
 					$node = preg_replace('@\s(loop|cond)="([^"]+)"@', '', $node);
-
-					// this tag
-					$tag = substr($node, 1, strpos($node, ' ')-1);
 
 					// find closing tag
 					$close_php = '<?php '.str_repeat('}', $closing).' ?>';
