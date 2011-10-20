@@ -254,7 +254,7 @@
 
                         $buff .=
                             '<input type="hidden" name="'.$column_name.'" value="'.$value.'" />'.
-                            '<input type="text" id="date_'.$column_name.'" value="'.zdate($value,'Y-m-d').'" readonly="readonly" class="date" />'."\n".
+                            '<input type="text" id="date_'.$column_name.'" value="'.zdate($value,'Y-m-d').'" class="date" />'."\n".
                             '<script type="text/javascript">'."\n".
                             '(function($){'."\n".
                             '    $(function(){'."\n".
