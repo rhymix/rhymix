@@ -15,8 +15,15 @@
 
         /**
          * @brief Counter logs
+		 * @deprecated, if want use below function, you can use 'counterExecute' function instead this function
          **/
         function procCounterExecute() {
+        }
+
+        /**
+         * @brief Counter logs
+         **/
+        function counterExecute() {
             $oDB = &DB::getInstance();
             $oDB->begin();
 

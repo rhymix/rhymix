@@ -9,6 +9,6 @@
     // Execute if called_position is before_display_content
     if(Context::isInstalled() && $called_position == 'before_module_init' && Context::get('module')!='admin' && Context::getResponseMethod() == 'HTML') {
         $oCounterController = &getController('counter');
-        $oCounterController->procCounterExecute();
+        $oCounterController->counterExecute();
     }
 ?>
