@@ -159,8 +159,17 @@
             $logged_info->is_admin = 'Y';
             Context::set('logged_info', $logged_info);
 
-			include $this->db_tmp_config_file;
-			include $this->etc_tmp_config_file;
+			// check install config
+			if (Context::get('install_config'))
+			{
+				$db_info = $this->_makeDbInfoByInstallConfig();
+			}
+
+			// install by default XE UI
+			else{
+				include $this->db_tmp_config_file;
+				include $this->etc_tmp_config_file;
+			}
 
             // Set DB type and information
             Context::setDBInfo($db_info);
@@ -195,6 +204,26 @@
 				return;
 			}
         }
+
+		/**
+		 * @brief Make DB Information by Install Config
+		 **/
+		function _makeDbInfoByInstallConfig()
+		{
+			$db_info->master_db['db_type'] = Context::get('db_type');
+			$db_info->master_db['db_port'] = Context::get('db_port');
+			$db_info->master_db['db_hostname'] = Context::get('db_hostname');
+			$db_info->master_db['db_userid'] = Context::get('db_userid');
+			$db_info->master_db['db_password'] = Context::get('db_password');
+			$db_info->master_db['db_database'] = Context::get('db_database');
+			$db_info->master_db['db_table_prefix'] = Context::get('db_table_prefix');
+			$db_info->slave_db = array($db_info->master_db);
+			$db_info->default_url = Context::getRequestUri();
+			$db_info->lang_type = Context::getLangType();
+			$db_info->use_rewrite = Context::get('use_rewrite');
+			$db_info->time_zone = Context::get('time_zone');
+			return $db_info;
+		}
 
         /**
          * @brief Set FTP Information
@@ -422,7 +451,6 @@
             unset($oModule);
             $oModule = &getClass($module);
             if(method_exists($oModule, 'moduleInstall')) $oModule->moduleInstall();
-
             return new Object();
         }
 

@@ -34,8 +34,10 @@
 				if(is_array($install_config)){
 					foreach($install_config as $k => $v) Context::set($k,$v,true);
 					unset($GLOBALS['__DB__']);
+					Context::set('install_config', true, true);
 					$oInstallController = &getController('install');
-					$oInstallController->procInstall();
+					$output = $oInstallController->procInstall();
+					if (!$output->toBool()) return $output;
 					header("location: ./");
 					Context::close();
 					exit;
