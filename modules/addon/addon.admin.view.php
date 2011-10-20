@@ -54,14 +54,14 @@
             $oModuleAdminModel = &getAdminModel('module');
 
             if($site_module_info->site_srl) $args->site_srl = $site_module_info->site_srl;
-			$columnList = array('module_srl', 'mid', 'browser_title');
+			$columnList = array('module_srl', 'module_category_srl', 'mid', 'browser_title');
             $mid_list = $oModuleModel->getMidList($args, $columnList);
             // module_category and module combination
             if(!$site_module_info->site_srl) {
                 // Get a list of module categories
                 $module_categories = $oModuleModel->getModuleCategories();
 
-                if($mid_list) {
+                if(is_array($mid_list)) {
                     foreach($mid_list as $module_srl => $module) {
                         $module_categories[$module->module_category_srl]->list[$module_srl] = $module;
                     }
