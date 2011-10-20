@@ -3734,6 +3734,10 @@ Bitte melden Sie sich dem Administrator des Moduls!]]></value>
 			<value xml:lang="vi"><![CDATA[Định dạng của %s không hợp lệ. Chỉ sử dụng các kí tự từ a-z và các chữ số]]></value>
 			<value xml:lang="mn"><![CDATA[%s-ын хэлбэр буруу байна. Зөвхөн латин үсэг болон тоогоор л оруулах ёстой.]]></value>
 		</item>
+		<item name="invalid_mid">
+			<value xml:lang="ko"><![CDATA[%s의 형식이 잘못되었습니다. 첫 글자는 영문으로 시작해야 하며 '영문+숫자+_'로만 입력하셔야 합니다.]]></value>
+			<value xml:lang="en"><![CDATA[The format of %s is invalid. Module ID should be begun with a letter. Subsequent characters may be letters, digits or underscore characters.]]></value>
+		</item>
 		<item name="invalid_number">
 			<value xml:lang="ko"><![CDATA[%s의 형식이 잘못되었습니다. 숫자로만 입력하셔야 합니다.]]></value>
 			<value xml:lang="en"><![CDATA[The format of %s is invalid. Please enter numbers only.]]></value>
