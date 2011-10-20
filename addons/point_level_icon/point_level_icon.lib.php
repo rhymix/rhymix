@@ -23,6 +23,7 @@
             if(!$GLOBALS['_pointModel']) $GLOBALS['_pointModel'] = getModel('point');
             $oPointModel = &$GLOBALS['_pointModel'];
             // Get points
+			if(!$oPointModel->isExistsPoint($member_srl)) return $matches[0];
             $point = $oPointModel->getPoint($member_srl);
             // Get level
             $level = $oPointModel->getLevel($point, $config->level_step);

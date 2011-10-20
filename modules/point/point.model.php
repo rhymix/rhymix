@@ -20,11 +20,27 @@
         function isExistsPoint($member_srl) {
             $member_srl = abs($member_srl);
 
+			// Get from instance memory
 			if($this->pointList[$member_srl]) return true;
+
+			// Get from file cache
+            $path = sprintf('./files/member_extra_info/point/%s',getNumberingPath($member_srl));
+            $cache_filename = sprintf('%s%d.cache.txt', $path, $member_srl);
+            if(file_exists($cache_filename))
+			{
+				if(!$this->pointList[$member_srl])
+					$this->pointList[$member_srl] = trim(FileHandler::readFile($cache_filename));
+				return true;
+			}
 
             $args->member_srl = $member_srl;
             $output = executeQuery('point.getPoint', $args);
-            if($output->data->member_srl == $member_srl) return true;
+            if($output->data->member_srl == $member_srl)
+			{
+				if(!$this->pointList[$member_srl])
+					$this->pointList[$member_srl] = (int)$output->data->point;
+				return true;
+			}
             return false;
         }
 
@@ -35,12 +51,10 @@
             $member_srl = abs($member_srl);
 
 			// Get from instance memory
-			if(!$from_db && $this->pointList[$member_srl])
-				return $this->pointList[$member_srl];
+			if(!$from_db && $this->pointList[$member_srl]) return $this->pointList[$member_srl];
 
 			// Get from file cache
             $path = sprintf('./files/member_extra_info/point/%s',getNumberingPath($member_srl));
-            if(!is_dir($path)) FileHandler::makeDir($path);
             $cache_filename = sprintf('%s%d.cache.txt', $path, $member_srl);
 
             if(!$from_db && file_exists($cache_filename))
@@ -49,12 +63,16 @@
             // Get from the DB
             $args->member_srl = $member_srl;
             $output = executeQuery('point.getPoint', $args);
-            $point = (int)$output->data->point;
 
-			$this->pointList[$member_srl] = $point;
-            FileHandler::writeFile($cache_filename, $point);
-
-            return $point;
+			if(isset($output->data->member_srl))
+			{
+				$point = (int)$output->data->point;
+				$this->pointList[$member_srl] = $point;
+            	if(!is_dir($path)) FileHandler::makeDir($path);
+				FileHandler::writeFile($cache_filename, $point);
+            	return $point;
+			}
+			return 0;
         }
 
         /**
