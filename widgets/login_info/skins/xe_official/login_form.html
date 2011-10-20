@@ -22,15 +22,15 @@
 			<div class="idpw">
 				<input name="user_id" type="text" title="user id" />
 				<input name="password" type="password" title="password" />
+				<p class="keep">
+					<input type="checkbox" name="keep_signed" id="keep_signed" value="Y" />
+					<label for="keep_signed">{$lang->keep_signed}</label>
+				</p>
 			</div>
 			<input type="image" src="./images/{$colorset}/buttonLogin.gif" alt="login" class="login" />
 		</div>
 		<p cond="$member_config->enable_ssl=='Y'" class="securitySignIn <!--@if($ssl_mode)-->SSL<!--@else-->noneSSL<!--@end-->">
-			<a href="#" onclick="toggleSecuritySignIn(); return false;">{$lang->security_sign_in}</a>
-		</p>
-		<p class="keep">
-			<input type="checkbox" name="keep_signed" id="keep_signed" value="Y" />
-			<label for="keep_signed">{$lang->keep_signed}</label>
+			<button type="button" class="text" onclick="toggleSecuritySignIn(); return false;">{$lang->security_sign_in}</button>
 		</p>
 		<p class="keep_msg">{$lang->about_keep_warning}</p>
 		<ul class="help">
