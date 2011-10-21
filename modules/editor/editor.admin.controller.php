@@ -16,63 +16,74 @@
 		/**
          * @brief 컴포넌트 사용설정, 목록 순서 변경
          **/	
-		function procEditorAdminCheckUseListOrder(){			
+		function procEditorAdminCheckUseListOrder(){
+			$site_module_info = Context::get('site_module_info');
 			$enables = Context::get('enables');			
 			$component_names = Context::get('component_names');
 			$unables = array_diff($component_names, $enables);
+			$componentList = array();	
 			
-			
-			$output = $this->editorCheckUse($enables,$unables);			
+			foreach($enables as $component_name) {
+				$componentList[$component_name] = 'Y';
+			}
+			foreach($unables as $component_name) {
+				$componentList[$component_name] = 'N';
+			}
+
+			$output = $this->editorCheckUse($componentList,$site_module_info->site_srl);			
 			if(!$output->toBool()) return new Object();
 			
-			$output = $this->editorListOrder($component_names);
+			$output = $this->editorListOrder($component_names,$site_module_info->site_srl);
 			if(!$output->toBool()) return new Object();
 			
 			$oEditorController = &getController('editor');
-            $oEditorController->removeCache($args->site_srl);
+            $oEditorController->removeCache($site_module_info->site_srl);
 			$this->setRedirectUrl(Context::get('error_return_url'));
 		}
 		
 		/**
          * @brief check use component
          **/	
-		function editorCheckUse($enables,$unables){			
-			if(is_array($enables)){
-				$args->enabled = 'Y';
-				foreach($enables as $component_name){
-					$args->component_name = $component_name;				
+		function editorCheckUse($componentList, $site_srl = 0){			
+			$args->site_srl = $site_srl;
+			
+			foreach($componentList as $componentName => $value){
+				$args->component_name = $componentName;				
+				$args->enabled = $value;
+				if($site_srl == 0) {
 					$output = executeQuery('editor.updateComponent', $args);
+				} else {
+					$output = executeQuery('editor.updateSiteComponent', $args);
 				}
 			}
 			if(!$output->toBool()) return new Object();
 			
-			if(is_array($unables)){				
-				$args->enabled = 'N';
-				foreach($unables as $component_name){
-					$args->component_name = $component_name;				
-					$output = executeQuery('editor.updateComponent', $args);
-				}
-			}
-			if(!$output->toBool()) return new Object();			
-			unset($args->enabled);
+			unset($componentList);
 			return $output;
 		}
 		
 		/**
          * @brief list order componet
          **/
-		function editorListOrder($component_names){		
+		function editorListOrder($component_names, $site_srl = 0){		
+			$args->site_srl = $site_srl;
 			$list_order_num = '30';
 			if(is_array($component_names)) {			
 				foreach($component_names as $name){
 					$args->list_order = $list_order_num;
-					$args->component_name = $name;					
-					$output = executeQuery('editor.updateComponent', $args);					
+					$args->component_name = $name;
+					if($site_srl == 0) {
+						$output = executeQuery('editor.updateComponent', $args);					
+					} else {
+						$output = executeQuery('editor.updateSiteComponent', $args);					
+					}
+
 			
 					if(!$output->toBool()) return new Object();
 					$list_order_num++;
 				}
 			}	
+			unset($component_names);
 			return $output;
 		}
 

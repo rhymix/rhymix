@@ -10,6 +10,16 @@
 		<value xml:lang="tr"><![CDATA[Editor Preview]]></value>
 		<value xml:lang="vi"><![CDATA[Editor Preview]]></value>
 	</item>
+	<item name="editor_component">
+		<value xml:lang="ko"><![CDATA[에디터 컴포넌트]]></value>
+		<value xml:lang="en"><![CDATA[Editor Component]]></value>
+		<value xml:lang="jp"><![CDATA[エディターコンポーネント]]></value>
+		<value xml:lang="zh-CN"><![CDATA[Editor Component]]></value>
+		<value xml:lang="zh-TW"><![CDATA[Editor Component]]></value>
+		<value xml:lang="ru"><![CDATA[Editor Component]]></value>
+		<value xml:lang="tr"><![CDATA[Editor Component]]></value>
+		<value xml:lang="vi"><![CDATA[Editor Component]]></value>
+	</item>
 	<item name="main_editor">
 		<value xml:lang="ko"><![CDATA[본문 에디터]]></value>
 		<value xml:lang="en"><![CDATA[Main editor]]></value>
