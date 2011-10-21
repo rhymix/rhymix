@@ -88,6 +88,7 @@
 		<value xml:lang="ko"><![CDATA[전체]]></value>
 		<value xml:lang="en"><![CDATA[All]]></value>
 		<value xml:lang="jp"><![CDATA[すべて]]></value>
+		<value xml:lang="zh-TW"><![CDATA[All全部]]></value>
 	</item>
 	<item name="cmd_view_all">
 		<value xml:lang="ko"><![CDATA[전체 보기]]></value>
@@ -563,7 +564,7 @@
 		<value xml:lang="en"><![CDATA[Reverse]]></value>
 		<value xml:lang="jp"><![CDATA[反転選択]]></value>
 		<value xml:lang="zh-CN"><![CDATA[反选]]></value>
-		<value xml:lang="zh-TW"><![CDATA[反選]]></value>
+		<value xml:lang="zh-TW"><![CDATA[反向選擇]]></value>
 		<value xml:lang="fr"><![CDATA[Renverser la Sélection]]></value>
 		<value xml:lang="de"><![CDATA[entgegengesetzt]]></value>
 		<value xml:lang="ru"><![CDATA[Перевернуть]]></value>
@@ -867,16 +868,19 @@
 		<value xml:lang="ko"><![CDATA[이 단계를 생략]]></value>
 		<value xml:lang="en"><![CDATA[Skip this step.]]></value>
 		<value xml:lang="jp"><![CDATA[この段階を省略]]></value>
+		<value xml:lang="zh-TW"><![CDATA[略過此步]]></value>
 	</item>
 	<item name="cmd_complete">
 		<value xml:lang="ko"><![CDATA[완료]]></value>
 		<value xml:lang="en"><![CDATA[Done]]></value>
 		<value xml:lang="jp"><![CDATA[完了]]></value>
+		<value xml:lang="zh-TW"><![CDATA[完成]]></value>
 	</item>
 	<item name="cmd_go_to_page">
 		<value xml:lang="ko"><![CDATA[페이지 직접 이동]]></value>
 		<value xml:lang="en"><![CDATA[Go to page]]></value>
 		<value xml:lang="jp"><![CDATA[ページへ移動]]></value>
+		<value xml:lang="zh-TW"><![CDATA[Go to page]]></value>
 	</item>
 	<item name="enable">
 		<value xml:lang="ko"><![CDATA[가능]]></value>
@@ -910,18 +914,21 @@
 		<value xml:lang="ko"><![CDATA[동의]]></value>
 		<value xml:lang="en"><![CDATA[Agree]]></value>
 		<value xml:lang="jp"><![CDATA[同意する]]></value>
+		<value xml:lang="zh-TW"><![CDATA[同意]]></value>
 		<value xml:lang="de"><![CDATA[akzeptieren]]></value>
 	</item>
 	<item name="disagree">
 		<value xml:lang="ko"><![CDATA[동의안함]]></value>
 		<value xml:lang="en"><![CDATA[Disagree]]></value>
 		<value xml:lang="jp"><![CDATA[同意しない]]></value>
+		<value xml:lang="zh-TW"><![CDATA[不同意]]></value>
 		<value xml:lang="de"><![CDATA[nicht akzeptieren]]></value>
 	</item>
 	<item name="favorite">
 		<value xml:lang="ko"><![CDATA[즐겨찾기]]></value>
 		<value xml:lang="en"><![CDATA[Favorite]]></value>
 		<value xml:lang="jp"><![CDATA[お気に入り]]></value>
+		<value xml:lang="zh-TW"><![CDATA[我的最愛]]></value>
 		<value xml:lang="de"><![CDATA[Lesezeichen]]></value>
 	</item>
 	<item name="menu">
@@ -1125,6 +1132,7 @@
 	<item name="admin_email_address">
 		<value xml:lang="ko"><![CDATA[관리자 Email 주소]]></value>
 		<value xml:lang="en"><![CDATA[Admin Email Address]]></value>
+		<value xml:lang="zh-TW"><![CDATA[管理員電子郵件位址]]></value>
 	</item>
 	<item name="writer">
 		<value xml:lang="ko"><![CDATA[글쓴이]]></value>
@@ -1265,6 +1273,7 @@
 		<value xml:lang="ko"><![CDATA[제목 없음]]></value>
 		<value xml:lang="en"><![CDATA[No Title]]></value>
 		<value xml:lang="jp"><![CDATA[タイトルなし]]></value>
+		<value xml:lang="zh-TW"><![CDATA[無標題]]></value>
 		<value xml:lang="de"><![CDATA[Kein Titel]]></value>
 	</item>
 	<item name="topic">
@@ -1380,7 +1389,7 @@
 		<value xml:lang="en"><![CDATA[Allow Comments]]></value>
 		<value xml:lang="jp"><![CDATA[コメント許可]]></value>
 		<value xml:lang="zh-CN"><![CDATA[允许评论]]></value>
-		<value xml:lang="zh-TW"><![CDATA[允許評論]]></value>
+		<value xml:lang="zh-TW"><![CDATA[允許回覆]]></value>
 		<value xml:lang="fr"><![CDATA[Permettre Commentaires]]></value>
 		<value xml:lang="de"><![CDATA[Kommentar erlauben]]></value>
 		<value xml:lang="ru"><![CDATA[Позволить комментарии]]></value>
@@ -1394,7 +1403,7 @@
 		<value xml:lang="en"><![CDATA[Block Comments]]></value>
 		<value xml:lang="jp"><![CDATA[コメントロック]]></value>
 		<value xml:lang="zh-CN"><![CDATA[关闭评论]]></value>
-		<value xml:lang="zh-TW"><![CDATA[關閉評論]]></value>
+		<value xml:lang="zh-TW"><![CDATA[關閉回覆]]></value>
 		<value xml:lang="fr"><![CDATA[Bloquer Commentaires]]></value>
 		<value xml:lang="de"><![CDATA[Kommentar sperren]]></value>
 		<value xml:lang="ru"><![CDATA[Заблокировать комментарии]]></value>
@@ -1669,6 +1678,7 @@
 		<value xml:lang="en"><![CDATA[Widget]]></value>
 		<value xml:lang="jp"><![CDATA[ウィジェット]]></value>
 		<value xml:lang="zh-CN"><![CDATA[控件 ]]></value>
+		<value xml:lang="zh-TW"><![CDATA[Widget]]></value>
 		<value xml:lang="fr"><![CDATA[Gadget]]></value>
 		<value xml:lang="de"><![CDATA[Widget]]></value>
 		<value xml:lang="ru"><![CDATA[Виджет]]></value>
@@ -1691,7 +1701,7 @@
 		<value xml:lang="en"><![CDATA[Theme]]></value>
 		<value xml:lang="jp"><![CDATA[スキン]]></value>
 		<value xml:lang="zh-CN"><![CDATA[皮肤]]></value>
-		<value xml:lang="zh-TW"><![CDATA[面板]]></value>
+		<value xml:lang="zh-TW"><![CDATA[佈景]]></value>
 		<value xml:lang="fr"><![CDATA[Habillage]]></value>
 		<value xml:lang="de"><![CDATA[Oberfläche]]></value>
 		<value xml:lang="ru"><![CDATA[Тема]]></value>
@@ -1705,7 +1715,7 @@
 		<value xml:lang="en"><![CDATA[Mobile Theme]]></value>
 		<value xml:lang="jp"><![CDATA[モバイルスキン]]></value>
 		<value xml:lang="zh-CN"><![CDATA[移动版皮肤]]></value>
-		<value xml:lang="zh-TW"><![CDATA[手機面板]]></value>
+		<value xml:lang="zh-TW"><![CDATA[手機佈景]]></value>
 		<value xml:lang="fr"><![CDATA[Mobile Habillage]]></value>
 		<value xml:lang="de"><![CDATA[Oberfläche zum Mobile]]></value>
 		<value xml:lang="es"><![CDATA[Mobile Tema]]></value>
@@ -1778,7 +1788,7 @@
 		<value xml:lang="en"><![CDATA[Trackback URL]]></value>
 		<value xml:lang="jp"><![CDATA[トラックバックＵＲＬ]]></value>
 		<value xml:lang="zh-CN"><![CDATA[引用地址]]></value>
-		<value xml:lang="zh-TW"><![CDATA[引用]]></value>
+		<value xml:lang="zh-TW"><![CDATA[引用位址]]></value>
 		<value xml:lang="fr"><![CDATA[Rétrolien URL]]></value>
 		<value xml:lang="de"><![CDATA[URL-Adresse des Trackbacks]]></value>
 		<value xml:lang="ru"><![CDATA[URL трекбека]]></value>
@@ -1904,7 +1914,7 @@
 		<value xml:lang="en"><![CDATA[Comments]]></value>
 		<value xml:lang="jp"><![CDATA[コメント数]]></value>
 		<value xml:lang="zh-CN"><![CDATA[评论]]></value>
-		<value xml:lang="zh-TW"><![CDATA[評論]]></value>
+		<value xml:lang="zh-TW"><![CDATA[回覆數]]></value>
 		<value xml:lang="fr"><![CDATA[Commentaires]]></value>
 		<value xml:lang="de"><![CDATA[Anzahl der Kommentare]]></value>
 		<value xml:lang="ru"><![CDATA[Комментарии]]></value>
@@ -2168,12 +2178,14 @@
 		<value xml:lang="ko"><![CDATA[켜짐]]></value>
 		<value xml:lang="en"><![CDATA[On]]></value>
 		<value xml:lang="jp"><![CDATA[オン]]></value>
+		<value xml:lang="zh-TW"><![CDATA[開啟]]></value>
 		<value xml:lang="de"><![CDATA[An]]></value>
 	</item>
 	<item name="off">
 		<value xml:lang="ko"><![CDATA[꺼짐]]></value>
 		<value xml:lang="en"><![CDATA[Off]]></value>
 		<value xml:lang="jp"><![CDATA[オフ]]></value>
+		<value xml:lang="zh-TW"><![CDATA[關閉]]></value>
 		<value xml:lang="de"><![CDATA[Aus]]></value>
 	</item>
 	<item name="not_exists">
@@ -2221,6 +2233,7 @@
 		<value xml:lang="ko"><![CDATA[기타]]></value>
 		<value xml:lang="en"><![CDATA[Others]]></value>
 		<value xml:lang="jp"><![CDATA[その他]]></value>
+		<value xml:lang="zh-TW"><![CDATA[其他]]></value>
 		<value xml:lang="de"><![CDATA[Sonstiges]]></value>
 	</item>
 	<item name="unit_sec">
@@ -2508,7 +2521,7 @@
 		<value xml:lang="en"><![CDATA[You may submit multiple tags by inserting commas (,) between tags.]]></value>
 		<value xml:lang="jp"><![CDATA[タグは「,」(半角コンマ)を使って複数登録できます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[用逗号分隔多个标签]]></value>
-		<value xml:lang="zh-TW"><![CDATA[用逗號分隔多個標籤]]></value>
+		<value xml:lang="zh-TW"><![CDATA[用逗號(,)區隔多個標籤]]></value>
 		<value xml:lang="fr"><![CDATA[Vous pouvez enrégistrer plusieurs balises en utilisant ,(virgule) entre chaque balise]]></value>
 		<value xml:lang="de"><![CDATA[Sie können mehrere Etiketten mit Komma eingeben.]]></value>
 		<value xml:lang="ru"><![CDATA[Вы можете применить несколько тегов, разделенных запятыми (,)]]></value>
@@ -2550,7 +2563,7 @@
 		<value xml:lang="en"><![CDATA[DB configuration has not been set.]]></value>
 		<value xml:lang="jp"><![CDATA[DBが設定されていません。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[还没有设定 DB]]></value>
-		<value xml:lang="zh-TW"><![CDATA[還沒有設定資料庫]]></value>
+		<value xml:lang="zh-TW"><![CDATA[尚未設定資料庫]]></value>
 		<value xml:lang="fr"><![CDATA[La configuration de Base de Données n'a pas été établie.]]></value>
 		<value xml:lang="de"><![CDATA[Die Datenbank ist noch nicht festgelegt.]]></value>
 		<value xml:lang="ru"><![CDATA[Даза данных не сконфигурирована]]></value>
@@ -2746,13 +2759,11 @@ Xin vui lòng kiểm tra lại thông tin Database.]]></value>
 		<value xml:lang="mn"><![CDATA[Хүсэлт гаргасан үйлдлийг хэрэгжүүлэх эрх байхгүй.]]></value>
 	</item>
 	<item name="msg_module_is_not_exists">
-		<value xml:lang="ko"><![CDATA[요청하신 모듈을 찾을 수 없습니다.
-사이트 관리자에게 모듈 점검 요청 바랍니다]]></value>
+		<value xml:lang="ko"><![CDATA[요청하신 모듈을 찾을 수 없습니다.  사이트 관리자에게 모듈 점검 요청 바랍니다]]></value>
 		<value xml:lang="en"><![CDATA[Cannot find the module you requested. Ask your Site Admin to check the module.]]></value>
-		<value xml:lang="jp"><![CDATA[モジュールが見つかりません。
-サイトマネージャへモジュールの点検をお問い合わせください。]]></value>
-		<value xml:lang="de"><![CDATA[Das aufgeforderte Modul ist nicht zu finden.
-Bitte melden Sie sich dem Administrator des Moduls!]]></value>
+		<value xml:lang="jp"><![CDATA[モジュールが見つかりません。 サイトマネージャへモジュールの点検をお問い合わせください。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[找不到所登錄的模組。 請詢問網站管理員檢查模組。]]></value>
+		<value xml:lang="de"><![CDATA[Das aufgeforderte Modul ist nicht zu finden.  Bitte melden Sie sich dem Administrator des Moduls!]]></value>
 	</item>
 	<item name="msg_module_is_not_standalone">
 		<value xml:lang="ko"><![CDATA[요청하신 모듈은 독립적으로 동작할 수 없습니다.]]></value>
@@ -2890,7 +2901,7 @@ Bitte melden Sie sich dem Administrator des Moduls!]]></value>
 		<value xml:lang="en"><![CDATA[Sent successfully.]]></value>
 		<value xml:lang="jp"><![CDATA[送信しました。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[发送成功！]]></value>
-		<value xml:lang="zh-TW"><![CDATA[發送成功！]]></value>
+		<value xml:lang="zh-TW"><![CDATA[成功送出！]]></value>
 		<value xml:lang="fr"><![CDATA[Envoyé avec succès]]></value>
 		<value xml:lang="de"><![CDATA[Es ist erfolgreich Gesendet.]]></value>
 		<value xml:lang="ru"><![CDATA[Отправлено успешно]]></value>
@@ -2945,6 +2956,7 @@ Bitte melden Sie sich dem Administrator des Moduls!]]></value>
 		<value xml:lang="ko"><![CDATA[등록하지 못했습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Failed to register.]]></value>
 		<value xml:lang="jp"><![CDATA[登録できませんでした。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[註冊失敗。]]></value>
 		<value xml:lang="de"><![CDATA[Misserfolg der Registrierung]]></value>
 	</item>
 	<item name="fail_to_delete">
@@ -3022,7 +3034,7 @@ Bitte melden Sie sich dem Administrator des Moduls!]]></value>
 		<value xml:lang="en"><![CDATA[Cannot delete the article with comments.]]></value>
 		<value xml:lang="jp"><![CDATA[返信の書き込みがあり、削除できません。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[不能删除有回复的评论！]]></value>
-		<value xml:lang="zh-TW"><![CDATA[不能刪除有回覆的評論！]]></value>
+		<value xml:lang="zh-TW"><![CDATA[不能刪除有回覆的主題！]]></value>
 		<value xml:lang="fr"><![CDATA[Essayez encore une fois après avoir suprimé les reponses, S.V.P.]]></value>
 		<value xml:lang="de"><![CDATA[Es ist nicht in der Lage, zu löschen, da Kommentare daran hängen bleiben.]]></value>
 		<value xml:lang="ru"><![CDATA[Невозможно удаление из-за наличия ответов в записи]]></value>
@@ -3169,7 +3181,7 @@ Bitte melden Sie sich dem Administrator des Moduls!]]></value>
 			<value xml:lang="en"><![CDATA[one-line text]]></value>
 			<value xml:lang="jp"><![CDATA[入力フィールド(text)]]></value>
 			<value xml:lang="zh-CN"><![CDATA[单行文本输入区(text)]]></value>
-			<value xml:lang="zh-TW"><![CDATA[文字輸入(text)]]></value>
+			<value xml:lang="zh-TW"><![CDATA[單行文字]]></value>
 			<value xml:lang="fr"><![CDATA[Texte en une seul ligne]]></value>
 			<value xml:lang="de"><![CDATA[eine Zeile Text]]></value>
 			<value xml:lang="ru"><![CDATA[Однострочное окно ввода]]></value>
@@ -3195,7 +3207,7 @@ Bitte melden Sie sich dem Administrator des Moduls!]]></value>
 			<value xml:lang="en"><![CDATA[Email]]></value>
 			<value xml:lang="jp"><![CDATA[メールアドレスタイプ(email)]]></value>
 			<value xml:lang="zh-CN"><![CDATA[邮件格式(email)]]></value>
-			<value xml:lang="zh-TW"><![CDATA[郵件格式(email)]]></value>
+			<value xml:lang="zh-TW"><![CDATA[電子郵件]]></value>
 			<value xml:lang="fr"><![CDATA[Mél]]></value>
 			<value xml:lang="de"><![CDATA[E-Mail]]></value>
 			<value xml:lang="es"><![CDATA[Correo Electrónico]]></value>
@@ -3396,6 +3408,16 @@ Bitte melden Sie sich dem Administrator des Moduls!]]></value>
 	<item name="ftp">
 		<value xml:lang="ko"><![CDATA[FTP]]></value>
 		<value xml:lang="en"><![CDATA[FTP]]></value>
+		<value xml:lang="jp"><![CDATA[FTP]]></value>
+		<value xml:lang="zh-CN"><![CDATA[FTP]]></value>
+		<value xml:lang="zh-TW"><![CDATA[FTP]]></value>
+		<value xml:lang="fr"><![CDATA[FTP]]></value>
+		<value xml:lang="de"><![CDATA[FTP]]></value>
+		<value xml:lang="ru"><![CDATA[FTP]]></value>
+		<value xml:lang="es"><![CDATA[FTP]]></value>
+		<value xml:lang="tr"><![CDATA[FTP]]></value>
+		<value xml:lang="vi"><![CDATA[FTP]]></value>
+		<value xml:lang="mn"><![CDATA[FTP]]></value>
 	</item>
 	<item name="ftp_host">
 		<value xml:lang="ko"><![CDATA[FTP 서버 주소]]></value>
@@ -3422,7 +3444,7 @@ Bitte melden Sie sich dem Administrator des Moduls!]]></value>
 		<value xml:lang="en"><![CDATA[FTP password will not be stored.]]></value>
 		<value xml:lang="jp"><![CDATA[FTP情報は保存できません。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[FTP密码不会被保存。]]></value>
-		<value xml:lang="zh-TW"><![CDATA[FTP 密碼將不會被儲存]]></value>
+		<value xml:lang="zh-TW"><![CDATA[不會儲存 FTP 密碼]]></value>
 		<value xml:lang="de"><![CDATA[Das Passwort des FTPs wird nicht gespeichert.]]></value>
 		<value xml:lang="tr"><![CDATA[FTP şifresi saklanmayacaktır.]]></value>
 		<value xml:lang="vi"><![CDATA[Mật khẩu của FTP sẽ không lưu lại]]></value>
@@ -3456,10 +3478,12 @@ Bitte melden Sie sich dem Administrator des Moduls!]]></value>
 		<value xml:lang="ko"><![CDATA[모듈의 쉬운 설치 또는 업데이트가 가능해 집니다.]]></value>
 		<value xml:lang="en"><![CDATA[Easy installation or update of module is enabled.]]></value>
 		<value xml:lang="jp"><![CDATA[モジュールのイージーインストール、または更新が可能になります。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[Easy installation or update of module is enabled.]]></value>
 	</item>
 	<item name="msg_safe_mode_ftp_config">
 		<value xml:lang="ko"><![CDATA[이 정보는 <strong>files/config/ftp.config.php</strong> 파일에 저장 됩니다. 설치 후 환경설정 페이지에서도 등록, 변경, 제거 할 수 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[This information is stored in <strong>files/config/ftp.config.php</strong>. You can add, change or delete this on the Settings page after the installation.]]></value>
+		<value xml:lang="zh-TW"><![CDATA[This information is stored in <strong>files/config/ftp.config.php</strong>. You can add, change or delete this on the Settings page after the installation.]]></value>
 		<value xml:lang="de"><![CDATA[Die Angabe wird unter <strong>files/config/ftp.config.php</strong> gespeichert. Nach der Installation ist es auch möglich, dass die Angabe von Administrator modifiziert oder gelöscht werden kann.]]></value>
 	</item>
 	<item name="msg_ftp_not_connected">
@@ -3467,7 +3491,7 @@ Bitte melden Sie sich dem Administrator des Moduls!]]></value>
 		<value xml:lang="en"><![CDATA[Connection to the localhost via FTP failed. Please check the port number and whether the FTP service is available.]]></value>
 		<value xml:lang="jp"><![CDATA[localhostへのFTP接続エラーが発生しました。FTPポート(port)番号をはじめ、FTPサービスが可能であるかを確認してください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[发生本地(localhost)FTP连接错误。请确认ftp端口号及支持ftp服务与否。]]></value>
-		<value xml:lang="zh-TW"><![CDATA[本地(localhost) FTP 連線錯誤。請檢查 FTP 埠口並確認是否支援 FTP 功能。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[本地(localhost) FTP連線錯誤。請檢查 FTP 埠口並確認是否支援 FTP 功能。]]></value>
 		<value xml:lang="fr"><![CDATA[localhost로의 FTP 접속 오류가 발생하였습니다. ftp 포트 번호를 확인해주시거나 ftp 서비스가 가능한지 확인해주세요]]></value>
 		<value xml:lang="de"><![CDATA[Ein Verbindungsfehler des FTPs an localhost ist aufgetreten. Bitte FTP_Port checken, oder ob FTP_Service möglich ist.]]></value>
 		<value xml:lang="ru"><![CDATA[Connection to localhost via FTP failed. Please check the port number and if FTP service is available.]]></value>
@@ -3580,7 +3604,7 @@ Bitte melden Sie sich dem Administrator des Moduls!]]></value>
 			<value xml:lang="en"><![CDATA[Please try to keep the text length of %s.]]></value>
 			<value xml:lang="jp"><![CDATA[%sの文字の長さを合わせてください。]]></value>
 			<value xml:lang="zh-CN"><![CDATA[请确认%s字数]]></value>
-			<value xml:lang="zh-TW"><![CDATA[請確認%s字數]]></value>
+			<value xml:lang="zh-TW"><![CDATA[請確認 %s 字數]]></value>
 			<value xml:lang="fr"><![CDATA[Aligner la longueur du texte de %s]]></value>
 			<value xml:lang="de"><![CDATA[Bitte richten Sie die Textlänge von% s]]></value>
 			<value xml:lang="es"><![CDATA[Se ha excedido el máximo número de letras permitido en el %s]]></value>
@@ -3605,13 +3629,14 @@ Bitte melden Sie sich dem Administrator des Moduls!]]></value>
 			<value xml:lang="ko"><![CDATA[%s의 값이 올바르지 않습니다.]]></value>
 			<value xml:lang="en"><![CDATA[The value of %s is invalid.]]></value>
 			<value xml:lang="jp"><![CDATA[%sの値が正しくありません。]]></value>
+			<value xml:lang="zh-TW"><![CDATA[%s值有誤。]]></value>
 		</item>
 		<item name="invalid_email">
 			<value xml:lang="ko"><![CDATA[%s의 값은 올바른 메일 주소가 아닙니다.]]></value>
 			<value xml:lang="en"><![CDATA[%s is NOT a valid email address.]]></value>
 			<value xml:lang="jp"><![CDATA[%sのメール形式が正しくありません。(例: developers@xepressengine.com)]]></value>
 			<value xml:lang="zh-CN"><![CDATA[%s格式有误。（例：developers@xpressengine.com)]]></value>
-			<value xml:lang="zh-TW"><![CDATA[%s格式有誤。(例：developers@xpressengine.com)]]></value>
+			<value xml:lang="zh-TW"><![CDATA[%s E-mail格式有誤。(例：developers@xpressengine.com)]]></value>
 			<value xml:lang="fr"><![CDATA[Le format de %s est invalide. ex) developers@xpressengine.com]]></value>
 			<value xml:lang="de"><![CDATA[% s ist eine ungültige Mail. ex) developers@xpressengine.com]]></value>
 			<value xml:lang="ru"><![CDATA[The format of %s is invalid. ex) developers@xpressengine.com]]></value>
@@ -3681,6 +3706,7 @@ Bitte melden Sie sich dem Administrator des Moduls!]]></value>
 			<value xml:lang="ko"><![CDATA[%s의 형식이 잘못되었습니다. (예: http://www.xpressengine.com)]]></value>
 			<value xml:lang="en"><![CDATA[The format of %s is invalid. e.g.) http://xpressengine.com/]]></value>
 			<value xml:lang="jp"><![CDATA[%sの形式が正しくありません。例) http://xpressengine.com/]]></value>
+			<value xml:lang="zh-TW"><![CDATA[%s 格式錯誤。 例) http://xpressengine.com/]]></value>
 		</item>
 		<item name="invalid_korean">
 			<value xml:lang="ko"><![CDATA[%s의 형식이 잘못되었습니다. 한글로만 입력하셔야 합니다.]]></value>
@@ -3757,7 +3783,7 @@ Bitte melden Sie sich dem Administrator des Moduls!]]></value>
 		<value xml:lang="en"><![CDATA[Due to security concern, administrators are not allowed to view embedded items.<BR /> To view them, please use another non-administrator ID.]]></value>
 		<value xml:lang="jp"><![CDATA[セキュリティ問題のため、管理者IDではembedを見ることができません。<br />他のIDでログインしてください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[由于安全问题，不允许用系统管理员ID操作embed对象，请使用其他拥有管理权限的ID操作。]]></value>
-		<value xml:lang="zh-TW"><![CDATA[由於安全的關係，管理員無法檢視嵌入的物件。<BR /> 請使用其他非管理員帳號檢視。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[基於安全因素，管理員無法檢視嵌入的物件。<BR /> 請使用其他非管理員帳號檢視。]]></value>
 		<value xml:lang="de"><![CDATA[Aus Sicherheitsgründen ist es nicht erlaubt, dass der Administrator den eingebetteten Teil sehen. Wenn Sie das sehen möchten, loggen Sie sich mit einem anderen ID ein.]]></value>
 		<value xml:lang="tr"><![CDATA[Güvenlik nedeniyle, yöneticiler yerleşik öğeleri görüntülemeye yetkili değildirler.<BR /> Yerleşik öğeleri görüntüleyebilmek için, lütfen yönetici olmayan bir hesap kullanın.]]></value>
 		<value xml:lang="vi"><![CDATA[Vì vấn đề bảo mật, nên Administrator không được phép xem các mục đã nhúng mã.<BR /> Để xem được chúng, hãy sử dụng một tên truy cập khác không có quyền quản trị.]]></value>
@@ -3780,6 +3806,7 @@ Bitte melden Sie sich dem Administrator des Moduls!]]></value>
 		<value xml:lang="ko"><![CDATA[예]]></value>
 		<value xml:lang="en"><![CDATA[Yes]]></value>
 		<value xml:lang="jp"><![CDATA[はい]]></value>
+		<value xml:lang="zh-TW"><![CDATA[是]]></value>
 		<value xml:lang="de"><![CDATA[Ja]]></value>
 
 	</item>
@@ -3787,37 +3814,45 @@ Bitte melden Sie sich dem Administrator des Moduls!]]></value>
 		<value xml:lang="ko"><![CDATA[아니오]]></value>
 		<value xml:lang="en"><![CDATA[No]]></value>
 		<value xml:lang="jp"><![CDATA[いいえ]]></value>
+		<value xml:lang="zh-TW"><![CDATA[否]]></value>
 		<value xml:lang="de"><![CDATA[Nein]]></value>
 	</item>
 	<item name="cmd_set_multilingual">
 		<value xml:lang="ko"><![CDATA[다국어 설정]]></value>
 		<value xml:lang="en"><![CDATA[Select Language]]></value>
+		<value xml:lang="zh-TW"><![CDATA[選擇語言]]></value>
 		<value xml:lang="de"><![CDATA[Sprache wählen]]></value>
 	</item>
 	<item name="cmd_multilingual">
 		<value xml:lang="ko"><![CDATA[다국어]]></value>
 		<value xml:lang="en"><![CDATA[Language]]></value>
+		<value xml:lang="zh-TW"><![CDATA[語言]]></value>
 		<value xml:lang="de"><![CDATA[Sprache]]></value>
 	</item>
 	<item name="find_site">
 		<value xml:lang="ko"><![CDATA[사이트 찾기]]></value>
 		<value xml:lang="en"><![CDATA[Find Site]]></value>
+		<value xml:lang="zh-TW"><![CDATA[尋找網站]]></value>
 		<value xml:lang="de"><![CDATA[Website Finden]]></value>
 	</item>
 	<item name="captcha">
 		<value xml:lang="ko"><![CDATA[Captcha]]></value>
 		<value xml:lang="en"><![CDATA[Captcha]]></value>
+		<value xml:lang="zh-TW"><![CDATA[圖形驗證]]></value>
 	</item>
 	<item name="reload">
 		<value xml:lang="ko"><![CDATA[새로고침]]></value>
 		<value xml:lang="en"><![CDATA[reload]]></value>
+		<value xml:lang="zh-TW"><![CDATA[重新讀取]]></value>
 	</item>
 	<item name="play">
 		<value xml:lang="ko"><![CDATA[음성재생]]></value>
 		<value xml:lang="en"><![CDATA[play]]></value>
+		<value xml:lang="zh-TW"><![CDATA[播放]]></value>
 	</item>
 	<item name="use_and_display">
 		<value xml:lang="ko"><![CDATA[사용+노출]]></value>
 		<value xml:lang="en"><![CDATA[Use+Display]]></value>
+		<value xml:lang="zh-TW"><![CDATA[Use+Display]]></value>
 	</item>
 </lang>
