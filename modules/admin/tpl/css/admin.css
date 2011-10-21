@@ -626,12 +626,15 @@ body.modalContainer{_height:100%;_width:100%} /* IE6 only */
 .x .rowTable caption .side,
 .x .colTable caption .side,
 .x .crossTable caption .side{float:right;font-weight:normal;margin-left:1em}
-.x .rowTable th,.rowTable td,
-.x .colTable th,.rowTable td,
-.x .crossTable th,.rowTable td{border:0;padding:8px;vertical-align:top;text-align:left;border-bottom:1px solid #ddd;white-space:nowrap}
+.x .rowTable th,
+.x .rowTable td,
+.x .colTable th,
+.x .rowTable td,
+.x .crossTable th,
+.x .rowTable td{border:0;padding:8px;vertical-align:top;text-align:left;border-bottom:1px solid #ddd}
 .x .rowTable th,
 .x .colTable th,
-.x .crossTable th{background:#f8f8f8}
+.x .crossTable th{background:#f8f8f8;white-space:nowrap}
 .x .rowTable thead th,
 .x .colTable thead th,
 .x .crossTable thead th{border-bottom:1px solid #999}
