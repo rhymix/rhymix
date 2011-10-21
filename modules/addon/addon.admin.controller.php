@@ -23,17 +23,14 @@
 			$pc = Context::get('pc');
 			$mobile = Context::get('mobile');
 			$fixed = Context::get('fixed');
-			$favorite = Context::get('favorite');
 
 			if (!$pc) $pc = array();
 			if (!$mobile) $mobile = array();
 			if (!$fixed) $fixed = array();
-			if (!$favorite) $favorite = array();
 
 			if (!is_array($pc)) $pc = array($pc);
 			if (!is_array($mobile)) $pc = array($mobile);
 			if (!is_array($fixed)) $pc = array($fixed);
-			if (!is_array($favorite)) $pc = array($favorite);
 
 			// get current addon info
 			$oModel = &getAdminModel('addon');
@@ -103,20 +100,67 @@
          **/
         function procAddonAdminToggleActivate() {
             $oAddonModel = &getAdminModel('addon');
-
             $site_module_info = Context::get('site_module_info');
-            // batahom addon values
-            $addon = Context::get('addon');
-			$type = Context::get('type');
-			if(!$type) $type = "pc";
-            if($addon) {
-                // If enabled Disables
-                if($oAddonModel->isActivatedAddon($addon, $site_module_info->site_srl, $type)) $this->doDeactivate($addon, $site_module_info->site_srl, $type);
-                // If it is disabled Activate
-                else $this->doActivate($addon, $site_module_info->site_srl, $type);
-            }
+			
+			$pc = Context::get('pc');
+			$mobile = Context::get('mobile');
 
-            $this->makeCacheFile($site_module_info->site_srl, $type);
+			if (!$pc) $pc = array();
+			if (!$mobile) $mobile = array();
+
+			if (!is_array($pc)) $pc = array($pc);
+			if (!is_array($mobile)) $pc = array($mobile);
+			
+			// get current addon info
+			$oModel = &getAdminModel('addon');
+			$currentAddonList = $oModel->getAddonList($site_module_info->site_srl, 'site');
+			
+			// get need update addon list
+			$updateList = array();
+			foreach($currentAddonList as $addon)
+			{
+				if ($addon->activated !== in_array($addon->addon_name, $pc))
+				{
+					$updateList[] = $addon->addon_name;
+					continue;
+				}
+
+				if ($addon->mactivated !== in_array($addon->addon_name, $mobile))
+				{
+					$updateList[] = $addon->addon_name;
+					continue;
+				}
+			}
+
+			// update
+			foreach($updateList as $targetAddon)
+			{
+				unset($args);
+
+				if (in_array($targetAddon, $pc))
+					$args->is_used = 'Y';
+				else
+					$args->is_used = 'N';
+
+				if (in_array($targetAddon, $mobile))
+					$args->is_used_m = 'Y';
+				else
+					$args->is_used_m = 'N';
+
+				$args->addon = $targetAddon;
+				$args->site_srl = $site_module_info->site_srl;
+
+				$output = executeQuery('addon.updateSiteAddon', $args);
+				if (!$output->toBool()) return $output;
+			}
+
+			if (count($updateList))
+			{
+            	$this->makeCacheFile($site_module_info->site_srl, 'pc', 'site');
+	            $this->makeCacheFile($site_module_info->site_srl, 'mobile', 'site');	
+			}
+
+			$this->setRedirectUrl(getNotEncodedUrl('', 'module', 'homepage', 'act', 'dispHomepageComponent'));
         }
 
         /**
@@ -124,6 +168,7 @@
          **/
         function procAddonAdminSetupAddon() {
             $args = Context::getRequestVars();
+			$module = $args->module;
             $addon_name = $args->addon_name;
             unset($args->module);
             unset($args->act);
@@ -139,7 +184,7 @@
             $this->makeCacheFile($site_module_info->site_srl, "pc", 'site');
             $this->makeCacheFile($site_module_info->site_srl, "mobile", 'site');
 
-			$this->setRedirectUrl(getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAddonAdminSetup', 'selected_addon', $addon_name));
+			$this->setRedirectUrl(getNotEncodedUrl('', 'module', $module, 'act', 'dispAddonAdminSetup', 'selected_addon', $addon_name));
         }
 
 
