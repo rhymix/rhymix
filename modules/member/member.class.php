@@ -64,7 +64,7 @@
 				unset($signupItem);
 				$signupItem->isDefaultForm = true;
 				$signupItem->name = $key;
-				$signupItem->title = $lang->{$key};
+				$signupItem->title = $key;
 				$signupItem->mustRequired = in_array($key, $mustRequireds);
 				$signupItem->imageType = (strpos($key, 'image') !== false);
 				$signupItem->required = $signupItem->mustRequired;
