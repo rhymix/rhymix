@@ -25,6 +25,15 @@
             // Get member configuration stored in the DB
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('member');
+			//for multi language
+			if(is_array($config->signupForm))
+			{
+				foreach($config->signupForm AS $key=>$value)
+				{
+					$config->signupForm[$key]->title = Context::getLang($value->title);
+				}
+			}
+
             // Get terms of user
             $agreement_file = _XE_PATH_.'files/member_extra_info/agreement.txt';
             if(file_exists($agreement_file)) $config->agreement = FileHandler::readFile($agreement_file);

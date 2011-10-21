@@ -186,7 +186,8 @@
 					$signupItem->isDefaultForm = in_array($key, $items);
 					
 					$signupItem->name = $key;
-					$signupItem->title = $lang->{$key};
+					if(in_array($key, $items)) $signupItem->title = $key;
+					else $signupItem->title = $lang->{$key};
 					$signupItem->mustRequired = in_array($key, $mustRequireds);
 					$signupItem->imageType = (strpos($key, 'image') !== false);
 					$signupItem->required = ($all_args->{$key} == 'required') || $signupItem->mustRequired || $signupItem->isIdentifier;
