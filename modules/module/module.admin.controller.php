@@ -463,6 +463,12 @@
                 $args->lang_code = $key;
                 $args->value = trim(Context::get($key));
 
+				// if request method is json, strip slashes
+				if (Context::getRequestMethod() == 'JSON' && version_compare(PHP_VERSION, "5.9.0", "<") && get_magic_quotes_gpc())
+				{
+					$args->value = stripslashes($args->value);
+				}
+
 				if($args->value)
 				{
 					$output = executeQuery('module.insertLang', $args);
@@ -558,7 +564,7 @@
 
 			$security = new Security($mid_list);
 			$security->encodeHTML('....browser_title');
-			
+
 			$this->add('module_list', $mid_list);
 		}
 
