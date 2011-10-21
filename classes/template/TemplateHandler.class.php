@@ -555,7 +555,7 @@ class TemplateHandler {
 	 **/
 	function _replaceVar($php) {
 		if(!strlen($php)) return '';
-		return preg_replace('@(?<!::|\\\\)\$([a-z]|_[a-z0-9])@i', '\$__Context->$1', $php);
+		return preg_replace('@(?<!::|\\\\|\')\$([a-z]|_[a-z0-9])@i', '\$__Context->$1', $php);
 	}
 }
 
