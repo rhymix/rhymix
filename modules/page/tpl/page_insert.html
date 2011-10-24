@@ -5,6 +5,7 @@
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <form ruleset="insertPage" id="fo_insert_page" action="./" method="post" enctype="multipart/form-data">
+	<input type="hidden" name="module" value="page" />
 	<input type="hidden" name="act" value="procPageAdminInsert" />
 	<input type="hidden" name="page" value="{$page}" />
 	<input type="hidden" name="module_srl" value="{$module_srl}" />
