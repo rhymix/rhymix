@@ -399,7 +399,6 @@
                 $obj->readed = base64_decode($xmlObj->message->readed->body)=='Y'?'Y':'N';
                 $obj->regdate = base64_decode($xmlObj->message->regdate->body);
                 $obj->readed_date = base64_decode($xmlObj->message->readed_date->body);
-                $obj->receiver = base64_decode($xmlObj->message->receiver->body);
                 // Get member_srl of sender/recipient (If not exists, pass)
                 if(!$obj->sender) continue;
                 $sender_args->user_id = $obj->sender;
