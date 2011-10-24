@@ -4,7 +4,7 @@
     </customrules>
     <fields>
 		<field name="module_srl" required="true" rule="number" default="0" />
-		<field name="category_srl" required="true" rule="number" default="0" />
+		<field name="category_srl" rule="number" default="0" />
 		<field name="category_title" required="true" />
     </fields>
 </ruleset>

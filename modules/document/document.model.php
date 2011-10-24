@@ -866,10 +866,6 @@
             } else {
                 // If category_srl the menu brings the information
                 if($category_srl) $category_info = $this->getCategory($category_srl);
-                // If you do not add value d which pertain to the menu to see the new values guhaejum category_srl
-                if(!$category_info->category_srl) {
-                    $category_info->category_srl = getNextSequence();
-                }
             }
 
 
