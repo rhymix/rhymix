@@ -8,9 +8,9 @@
 				<th scope="row"><label for="use_history">{$lang->history}</label></th>
 				<td class="text">
 					<select name="use_history" id="use_history">
-						<option value="N" <!--@if($document_config->use_history=='N')-->selected="selected"<!--@end-->>{$lang->notuse}</option>
-						<option value="Y" <!--@if($document_config->use_history=='Y')-->selected="selected"<!--@end-->>{$lang->use}</option>
-						<option value="Trace" <!--@if($document_config->use_history=='Trace')-->selected="selected"<!--@end-->>{$lang->trace_only}</option>
+						<option value="N" selected="selected"|cond="$document_config->use_history=='N'">{$lang->notuse}</option>
+						<option value="Y" selected="selected"|cond="$document_config->use_history=='Y'">{$lang->use}</option>
+						<option value="Trace" selected="selected"|cond="$document_config->use_history=='Trace'">{$lang->trace_only}</option>
 					</select>
 					<span class="desc">{$lang->about_use_history}</span>
 				</td>
@@ -19,9 +19,9 @@
 				<th scope="row"><label for="use_vote_up">{$lang->cmd_vote}</label></th>
 				<td class="text">
 					<select name="use_vote_up" id="use_vote_up">
-						<option value="Y" <!--@if($document_config->use_vote_up=='Y')-->selected="selected"<!--@end-->>{$lang->use}</option>
-						<option value="S" <!--@if($document_config->use_vote_up=='S')-->selected="selected"<!--@end-->>{$lang->use_and_display}</option>
-						<option value="N" <!--@if($document_config->use_vote_up=='N')-->selected="selected"<!--@end-->>{$lang->notuse}</option>
+						<option value="Y" selected="selected"|cond="$document_config->use_vote_up=='Y'">{$lang->use}</option>
+						<option value="S" selected="selected"|cond="$document_config->use_vote_up=='S'">{$lang->use_and_display}</option>
+						<option value="N" selected="selected"|cond="$document_config->use_vote_up=='N'">{$lang->notuse}</option>
 					</select>
 				</td>
 			</tr>
@@ -29,9 +29,9 @@
 				<th scope="row"><label for="use_vote_down">{$lang->cmd_vote_down}</label></th>
 				<td class="text">
 					<select name="use_vote_down" id="use_vote_down">
-						<option value="Y" <!--@if($document_config->use_vote_down=='Y')-->selected="selected"<!--@end-->>{$lang->use}</option>
-						<option value="S" <!--@if($document_config->use_vote_down=='S')-->selected="selected"<!--@end-->>{$lang->use_and_display}</option>
-						<option value="N" <!--@if($document_config->use_vote_down=='N')-->selected="selected"<!--@end-->>{$lang->notuse}</option>
+						<option value="Y" selected="selected"|cond="$document_config->use_vote_down=='Y'">{$lang->use}</option>
+						<option value="S" selected="selected"|cond="$document_config->use_vote_down=='S'">{$lang->use_and_display}</option>
+						<option value="N" selected="selected"|cond="$document_config->use_vote_down=='N'">{$lang->notuse}</option>
 					</select>
 				</td>
 			</tr>

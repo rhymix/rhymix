@@ -16,9 +16,9 @@
 				<th scope="row"><label for="use_vote_up">{$lang->cmd_vote}</label></th>
 				<td class="text">
 					<select name="use_vote_up" id="use_vote_up">
-						<option value="Y" <!--@if($comment_config->use_vote_up=='Y')-->selected="selected"<!--@end-->>{$lang->use}</option>
-						<option value="S" <!--@if($comment_config->use_vote_up=='S')-->selected="selected"<!--@end-->>{$lang->use_and_display}</option>
-						<option value="N" <!--@if($comment_config->use_vote_up=='N')-->selected="selected"<!--@end-->>{$lang->notuse}</option>
+						<option value="Y" selected="selected"|cond="$comment_config->use_vote_up=='Y'">{$lang->use}</option>
+						<option value="S" selected="selected"|cond="$comment_config->use_vote_up=='S'">{$lang->use_and_display}</option>
+						<option value="N" selected="selected"|cond="$comment_config->use_vote_up=='N'">{$lang->notuse}</option>
 					</select>
 				</td>
 			</tr>
@@ -26,9 +26,9 @@
 				<th scope="row"><label for="use_vote_down">{$lang->cmd_vote_down}</label></th>
 				<td class="text">
 					<select name="use_vote_down" id="use_vote_down">
-						<option value="Y" <!--@if($comment_config->use_vote_down=='Y')-->selected="selected"<!--@end-->>{$lang->use}</option>
-						<option value="S" <!--@if($comment_config->use_vote_down=='S')-->selected="selected"<!--@end-->>{$lang->use_and_display}</option>
-						<option value="N" <!--@if($comment_config->use_vote_down=='N')-->selected="selected"<!--@end-->>{$lang->notuse}</option>
+						<option value="Y" selected="selected"|cond="$comment_config->use_vote_down=='Y'">{$lang->use}</option>
+						<option value="S" selected="selected"|cond="$comment_config->use_vote_down=='S'">{$lang->use_and_display}</option>
+						<option value="N" selected="selected"|cond="$comment_config->use_vote_down=='N'">{$lang->notuse}</option>
 					</select>
 				</td>
 			</tr>
