@@ -989,4 +989,8 @@ Le module [Administration des Modules] montera tous les modules installés et vo
 		<value xml:lang="ko"><![CDATA[권한 설정]]></value>
 		<value xml:lang="en"><![CDATA[Permission Setting]]></value>
 	</item>
+	<item name="msg_cannot_delete_startmodule">
+		<value xml:lang="ko"><![CDATA[시작 모듈은 삭제할 수 없습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Cannot delete a start module.]]></value>
+	</item>
 </lang>

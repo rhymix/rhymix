@@ -408,6 +408,13 @@
          **/
         function deleteModule($module_srl) {
             if(!$module_srl) return new Object(-1,'msg_invalid_request');
+
+			// check start module
+            $oModuleModel = &getModel('module');
+			$columnList = array('sites.index_module_srl');
+			$start_module = $oModuleModel->getSiteInfo(0, $columnList);
+			if($module_srl == $start_module->index_module_srl) return new Object(-1, 'msg_cannot_delete_startmodule');
+
             // Call a trigger (before)
             $trigger_obj->module_srl = $module_srl;
             $output = ModuleHandler::triggerCall('module.deleteModule', 'before', $trigger_obj);
