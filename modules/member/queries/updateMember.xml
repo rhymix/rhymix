@@ -9,7 +9,7 @@
         <column name="user_id" var="user_id" notnull="notnull" />
 		<column name="email_address" var="email_address" notnull="notnull"/>
         <column name="find_account_question" var="find_account_question" />
-        <column name="find_account_answer" var="find_account_answer" />
+        <column name="find_account_answer" var="find_account_answer" default="" />
         <column name="homepage" var="homepage" default="" />
         <column name="blog" var="blog" default="" />
         <column name="birthday" var="birthday" />

@@ -1819,7 +1819,6 @@
 
 			if(!$args->description) $args->description = '';
 
-
             $output = executeQuery('member.updateMember', $args);
             if(!$output->toBool()) {
                 $oDB->rollback();

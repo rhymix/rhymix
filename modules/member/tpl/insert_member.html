@@ -9,7 +9,7 @@
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
-<form action="./" class="form" ruleset="@insertMember" method="post" enctype="multipart/form-data">
+<form action="./" class="form" ruleset="@insertAdminMember" method="post" enctype="multipart/form-data">
 	<input type="hidden" name="module" value="member" />
 	<input type="hidden" name="act" value="procMemberAdminInsert" />
 	<input type="hidden" name="member_srl" value="{$member_srl}" />
