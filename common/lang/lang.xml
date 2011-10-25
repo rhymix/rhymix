@@ -880,7 +880,7 @@
 		<value xml:lang="ko"><![CDATA[페이지 직접 이동]]></value>
 		<value xml:lang="en"><![CDATA[Go to page]]></value>
 		<value xml:lang="jp"><![CDATA[ページへ移動]]></value>
-		<value xml:lang="zh-TW"><![CDATA[Go to page]]></value>
+		<value xml:lang="zh-TW"><![CDATA[前往頁面]]></value>
 	</item>
 	<item name="enable">
 		<value xml:lang="ko"><![CDATA[가능]]></value>
@@ -3478,12 +3478,12 @@ Xin vui lòng kiểm tra lại thông tin Database.]]></value>
 		<value xml:lang="ko"><![CDATA[모듈의 쉬운 설치 또는 업데이트가 가능해 집니다.]]></value>
 		<value xml:lang="en"><![CDATA[Easy installation or update of module is enabled.]]></value>
 		<value xml:lang="jp"><![CDATA[モジュールのイージーインストール、または更新が可能になります。]]></value>
-		<value xml:lang="zh-TW"><![CDATA[Easy installation or update of module is enabled.]]></value>
+		<value xml:lang="zh-TW"><![CDATA[可用的安裝或更新。]]></value>
 	</item>
 	<item name="msg_safe_mode_ftp_config">
 		<value xml:lang="ko"><![CDATA[이 정보는 <strong>files/config/ftp.config.php</strong> 파일에 저장 됩니다. 설치 후 환경설정 페이지에서도 등록, 변경, 제거 할 수 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[This information is stored in <strong>files/config/ftp.config.php</strong>. You can add, change or delete this on the Settings page after the installation.]]></value>
-		<value xml:lang="zh-TW"><![CDATA[This information is stored in <strong>files/config/ftp.config.php</strong>. You can add, change or delete this on the Settings page after the installation.]]></value>
+		<value xml:lang="zh-TW"><![CDATA[此資料會儲存在 <strong>files/config/ftp.config.php</strong> 檔案中。 安裝後可在設定頁面中新增、更改或刪除此資訊。]]></value>
 		<value xml:lang="de"><![CDATA[Die Angabe wird unter <strong>files/config/ftp.config.php</strong> gespeichert. Nach der Installation ist es auch möglich, dass die Angabe von Administrator modifiziert oder gelöscht werden kann.]]></value>
 	</item>
 	<item name="msg_ftp_not_connected">
@@ -3763,6 +3763,7 @@ Xin vui lòng kiểm tra lại thông tin Database.]]></value>
 		<item name="invalid_mid">
 			<value xml:lang="ko"><![CDATA[%s의 형식이 잘못되었습니다. 첫 글자는 영문으로 시작해야 하며 '영문+숫자+_'로만 입력하셔야 합니다.]]></value>
 			<value xml:lang="en"><![CDATA[The format of %s is invalid. Module ID should be begun with a letter. Subsequent characters may be letters, digits or underscore characters.]]></value>
+			<value xml:lang="zh-TW"><![CDATA[%s 格式錯誤。 模組名稱只能使用英文、數字及底線，開頭必須是英文。]]></value>
 		</item>
 		<item name="invalid_number">
 			<value xml:lang="ko"><![CDATA[%s의 형식이 잘못되었습니다. 숫자로만 입력하셔야 합니다.]]></value>
