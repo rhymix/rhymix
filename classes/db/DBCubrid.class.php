@@ -585,16 +585,24 @@
 		 * a method, navigation, is used
 		 **/
 		 function _executeSelectAct($queryObject, $connection = null){
-			$query = $this->getSelectSql($queryObject);
-			if(is_a($query, 'Object')) return;
+                        $limit = $queryObject->getLimit();
+        		if ($limit && $limit->isPageHandler())
+                                return $this->queryPageLimit($queryObject, $result, $connection);
+                        else {
+                            $query = $this->getSelectSql($queryObject);
+                            if(is_a($query, 'Object')) return;
 
-			$query .= (__DEBUG_QUERY__&1 && $queryObject->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
-			$result = $this->_query ($query, $connection);
+                            $query .= (__DEBUG_QUERY__&1 && $queryObject->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
+                            $result = $this->_query ($query, $connection);
 
-			if ($this->isError ())
-                                return $this->queryError($queryObject);
-			else
-                            return $this->queryPageLimit($queryObject, $result, $connection);
+                            if ($this->isError ())
+                                    return $this->queryError($queryObject);
+
+                            $data = $this->_fetch($result);
+                            $buff = new Object ();
+                            $buff->data = $data;
+                            return $buff;
+                        }
 		}
 
 		function queryError($queryObject){
@@ -612,9 +620,6 @@
 		}
 
 		function queryPageLimit($queryObject, $result, $connection){
-                        $limit = $queryObject->getLimit();
-        		if ($limit && $limit->isPageHandler()) {
-
 		 	// Total count
 			$temp_where = $queryObject->getWhereString(true, false);
 		 	$count_query = sprintf('select count(*) as "count" %s %s', 'FROM ' . $queryObject->getFromString(), ($temp_where === '' ? '' : ' WHERE '. $temp_where));
@@ -661,11 +666,6 @@
 			$buff->page = $page;
 			$buff->data = $data;
 			$buff->page_navigation = new PageHandler($total_count, $total_page, $page, $page_count);
-			}else{
-				$data = $this->_fetch($result);
-				$buff = new Object ();
-				$buff->data = $data;
-			}
 			return $buff;
 		}
 
