@@ -351,13 +351,17 @@
 
             $this->setMessage('success_registed');
 			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				global $lang;
-				htmlHeader();
-				alertScript($lang->success_registed);
-				closePopupScript();
-				htmlFooter();
-				Context::close();
-				exit;
+				if (Context::get('success_return_url')) {
+					$this->setRedirectUrl(Context::get('success_return_url'));
+				}else{
+					global $lang;
+					htmlHeader();
+					alertScript($lang->success_registed);
+					closePopupScript();
+					htmlFooter();
+					Context::close();
+					exit;
+				}
 			}
         }
 
@@ -424,13 +428,17 @@
             }
             $this->setMessage('success_registed');
 			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				global $lang;
-				htmlHeader();
-				alertScript($lang->success_registed);
-				closePopupScript();
-				htmlFooter();
-				Context::close();
-				exit;
+				if (Context::get('success_return_url')) {
+					$this->setRedirectUrl(Context::get('success_return_url'));
+				}else{
+					global $lang;
+					htmlHeader();
+					alertScript($lang->success_registed);
+					closePopupScript();
+					htmlFooter();
+					Context::close();
+					exit;
+				}
 			}
         }
 
