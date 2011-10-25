@@ -191,7 +191,7 @@
 				$args->member_srl = $obj->member_srl;
 
 				// only admin document list, temp document showing
-				if($obj->statusList) $args->statusList;
+				if($obj->statusList) $args->statusList = $obj->statusList;
 				else
 				{
 					if($logged_info->is_admin == 'Y' && !$obj->module_srl)
