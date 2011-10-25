@@ -515,8 +515,10 @@
         function insertSiteAdmin($site_srl, $arr_admins) {
             // Remove the site administrator
             $args->site_srl = $site_srl;
-            $output = executeQuery('module.deleteSiteAdmin', $args);
-            if(!$output->toBool()) return $output;
+
+	        $output = executeQuery('module.deleteSiteAdmin', $args);
+            
+			if(!$output->toBool()) return $output;
             // Get user id of an administrator
             if(!is_array($arr_admins) || !count($arr_admins)) return new Object();
             foreach($arr_admins as $key => $user_id) {
@@ -525,11 +527,17 @@
             }
             if(!count($admins)) return new Object();
 
-            $args->user_ids = '\''.implode('\',\'',$admins).'\'';
-            $output = executeQueryArray('module.getAdminSrls', $args);
+			$oMemberModel = &getModel('member');
+			$member_config = $oMemberModel->getMemberConfig();
+			if($member_config->identifier == 'email_address') {	
+				$args->email_address = '\''.implode('\',\'',$admins).'\'';
+			} else {
+				$args->user_ids = '\''.implode('\',\'',$admins).'\'';
+			}	
+           	$output = executeQueryArray('module.getAdminSrls', $args);
             if(!$output->toBool()||!$output->data) return $output;
-
-            foreach($output->data as $key => $val) {
+			
+			foreach($output->data as $key => $val) {
                 unset($args);
                 $args->site_srl = $site_srl;
                 $args->member_srl = $val->member_srl;
