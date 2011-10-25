@@ -233,6 +233,29 @@
                             $comment_srl = getNextSequence();
                             $p_comment_srl[$comment_obj->comment_srl] = $comment_srl;
 
+							// Pre-register the attachment
+							if($comment_obj->uploaded_count) {
+								$files = $oFileModel->getFiles($comment_obj->comment_srl, true);
+								debugPrint($files);
+								foreach($files as $key => $val) {
+									$file_info = array();
+									$file_info['tmp_name'] = $val->uploaded_filename;
+									$file_info['name'] = $val->source_filename;
+									$oFileController = &getController('file');
+									$inserted_file = $oFileController->insertFile($file_info, $module_srl, $comment_srl, 0, true);
+									// if image/video files
+									if($val->direct_download == 'Y') {
+										$source_filename = substr($val->uploaded_filename,2);
+										$target_filename = substr($inserted_file->get('uploaded_filename'),2);
+										$comment_obj->content = str_replace($source_filename, $target_filename, $comment_obj->content);
+									// If binary file
+									} else {
+										$comment_obj->content = str_replace('file_srl='.$val->file_srl, 'file_srl='.$inserted_file->get('file_srl'), $comment_obj->content);
+										$comment_obj->content = str_replace('sid='.$val->sid, 'sid='.$inserted_file->get('sid'), $comment_obj->content);
+									}
+								}
+							}
+
                             $comment_obj->module_srl = $obj->module_srl;
                             $comment_obj->document_srl = $obj->document_srl;
                             $comment_obj->comment_srl = $comment_srl;
