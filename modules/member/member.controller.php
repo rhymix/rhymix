@@ -1258,7 +1258,7 @@
         /**
          * @brief Join a virtual site
          **/
-        function procModuleSiteSignUp() {
+        function procMemberSiteSignUp() {
             $site_module_info = Context::get('site_module_info');
             $logged_info = Context::get('logged_info');
             if(!$site_module_info->site_srl || !Context::get('is_logged') || count($logged_info->group_srl_list) ) return new Object(-1,'msg_invalid_request');
@@ -1274,7 +1274,7 @@
         /**
          * @brief Leave the virtual site
          **/
-        function procModuleSiteLeave() {
+        function procMemberSiteLeave() {
             $site_module_info = Context::get('site_module_info');
             $logged_info = Context::get('logged_info');
             if(!$site_module_info->site_srl || !Context::get('is_logged') || count($logged_info->group_srl_list) ) return new Object(-1,'msg_invalid_request');

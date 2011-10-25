@@ -56,6 +56,8 @@
         <action name="procMemberDeleteProfileImage" type="controller" standalone="true" />
         <action name="procMemberDeleteImageName" type="controller" standalone="true" />
         <action name="procMemberDeleteImageMark" type="controller" standalone="true" />
+        <action name="procMemberSiteSignUp" type="controller" standalone="true" />
+        <action name="procMemberSiteLeave" type="controller" standalone="true" />
 
         <action name="procMemberScrapDocument" type="controller" standalone="true" />
         <action name="procMemberDeleteScrap" type="controller" standalone="true" />
