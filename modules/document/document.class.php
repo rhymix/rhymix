@@ -109,6 +109,9 @@
 			//2011. 06. 07 check comment status update
 			if($oDB->isColumnExists('documents', 'allow_comment') || $oDB->isColumnExists('documents', 'lock_comment')) return true;
 
+            // 2011. 10. 25 status index check
+            if(!$oDB->isIndexExists("documents", "idx_module_status")) return true;
+
             return false;
         }
 
@@ -286,6 +289,9 @@
 
 			if($oDB->isColumnExists('documents', 'lock_comment') && $oDB->isColumnExists('documents', 'comment_status'))
 				$oDB->dropColumn('documents', 'lock_comment');
+
+            if(!$oDB->isIndexExists("documents", "idx_module_status"))
+                $oDB->addIndex("documents", "idx_module_status", array("module_srl","status"));
 
             return new Object(0,'success_updated');
         }
