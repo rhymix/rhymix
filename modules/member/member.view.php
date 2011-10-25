@@ -50,7 +50,7 @@
             Context::set('member_config', $member_config);
 
             $site_module_info = Context::get('site_module_info');
-			$columnList = array('member_srl', 'user_name', 'nick_name', 'homepage', 'blog', 'birthday', 'regdate', 'last_login');
+			$columnList = array('member_srl', 'user_id', 'email_address', 'user_name', 'nick_name', 'homepage', 'blog', 'birthday', 'regdate', 'last_login', 'extra_vars');
             $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl, $site_module_info->site_srl, $columnList);
             unset($member_info->password);
             unset($member_info->email_id);

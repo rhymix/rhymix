@@ -12,6 +12,7 @@ class memberMobile extends member
 		// if member_srl exists, set memberInfo
 		$member_srl = Context::get('member_srl');
 		if($member_srl) {
+			$oMemberModel = &getModel('member');
 			$this->memberInfo = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
 			if(!$this->memberInfo) Context::set('member_srl','');
 			else Context::set('member_info',$this->memberInfo);
