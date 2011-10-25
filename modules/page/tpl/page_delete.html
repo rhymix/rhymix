@@ -5,6 +5,7 @@
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <form ruleset="deletePage" action="./" method="post">
+	<input type="hidden" name="module" value="page" />
 	<input type="hidden" name="act" value="procPageAdminDelete" />
 	<input type="hidden" name="page" value="{$page}" />
 	<input type="hidden" name="module_srl" value="{$module_info->module_srl}" />

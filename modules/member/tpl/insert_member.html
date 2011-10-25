@@ -10,6 +10,7 @@
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <form action="./" class="form" ruleset="@insertMember" method="post" enctype="multipart/form-data">
+	<input type="hidden" name="module" value="member" />
 	<input type="hidden" name="act" value="procMemberAdminInsert" />
 	<input type="hidden" name="member_srl" value="{$member_srl}" />
 	<input type="hidden" name="signature" value="{htmlspecialchars($member_info->signature)}" />

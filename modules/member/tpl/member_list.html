@@ -92,6 +92,7 @@
 </form>
 <div class="modal" id="listManager">
 	<form action="./" ruleset="updateSeletecdMemberInfo" class="fg form" method="post">
+	<input type="hidden" name="module" value="member" />
 	<input type="hidden" name="act" value="procMemberAdminSelectedMemberManage" />
 	<input type="hidden" name="success_return_url" value="{getUrl('act', $act)}" />
 		<h2 class="h2">{$lang->cmd_selected_user_manage}</h2>
@@ -169,6 +170,7 @@
 		</span>
 	</form>
 	<form action="" method="post">
+		<input type="hidden" name="module" value="{$module}" />
 		<select name="search_target">
 			<option value="">{$lang->search_target}</option>
 			{@$lang->search_target_list = array_merge($lang->search_target_list, $usedIdentifiers)}

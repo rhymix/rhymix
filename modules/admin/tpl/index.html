@@ -5,6 +5,7 @@
 </div>
 	<!--@if(!$isEnviromentGatheringAgreement)-->
 	<form action="./" method="post" class="message info">
+	<input type="hidden" name="module" value="admin" />
 	<input type="hidden" name="act" value="procAdminEnviromentGatheringAgreement" />
 		<h2>{$lang->install_env_agreement}</h2>
 		<p>{$lang->install_env_agreement_desc}</p>

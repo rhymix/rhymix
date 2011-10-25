@@ -19,6 +19,7 @@
 		<p>{$XE_VALIDATOR_MESSAGE}</p>
 	</div>
 	<form ruleset="updateMenuTitle" action="./" method="post">
+		<input type="hidden" name="module" value="menu" />
 		<input type="hidden" name="act" value="procMenuAdminUpdate" />
 		<input type="hidden" name="menu_srl" value="{$menu_info->menu_srl}" />
 		<h3 class="h3">{$lang->menu_management}</h3>
@@ -61,6 +62,7 @@
 
 
 	<form ruleset="insertMenuItem" id="fo_menu" action="./" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="module" value="menu" />
 		<input type="hidden" name="act" value="procMenuAdminInsertItem" />
 		<input type="hidden" name="title" value="{$menu_info->title}" />
 		<input type="hidden" name="menu_srl" value="{$menu_info->menu_srl}" />

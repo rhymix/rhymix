@@ -3,6 +3,7 @@
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <form ruleset="insertModuleSetup" action="./" method="post" enctype="multipart/form-data" class="form">
+	<input type="hidden" name="module" value="module" />
 	<input type="hidden" name="act" value="procModuleAdminModuleSetup" />
 	<input type="hidden" name="module_srls" value="{$module_srls}" />
 	<h1 class="h1">{$lang->bundle_setup}</h1>

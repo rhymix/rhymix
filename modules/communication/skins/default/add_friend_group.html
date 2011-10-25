@@ -11,6 +11,7 @@
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <form ruleset="addFriendGroup" action="./" method="post" class="form">
+	<input type="hidden" name="module" value="communication" />
 	<input type="hidden" name="act" value="procCommunicationAddFriendGroup" />
 	<input type="hidden" name="friend_group_srl" value="{$friend_group->friend_group_srl}" />
 	<ul>

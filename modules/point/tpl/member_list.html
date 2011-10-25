@@ -4,7 +4,7 @@
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
-<div class="table form">
+<div class="table form">	
 	<table width="100%" border="1" cellspacing="0">
 		<caption>Total {number_format($total_count)}, Page {number_format($page)}/{number_format($total_page)}</caption>
 		<thead>
@@ -26,6 +26,7 @@
 				<td><a href="#popup_menu_area" class="member_{$val->member_srl}">{$val->nick_name}</a></td>
 				<td>
 					<form action="./" method="get">
+						<input type="hidden" name="module" value="point" />
 						<input type="hidden" name="member_srl" value="{$val->member_srl}" />
 						<input type="text" name="orgpoint" value="{$val->point}" disabled="disabled" style="width:40px;text-align:right" />
 						<input type="text" id="point_{$val->member_srl}" name="point" style="width:40px;text-align:right" />
@@ -40,6 +41,7 @@
 </div>
 
 <form ruleset="updatePoint" id="updateForm" action="./" method="POST">
+	<input type="hidden" name="module" value="point" />
 	<input type="hidden" name="act" value="procPointAdminUpdatePoint" />
     <input type="hidden" id="update_member_srl" name="member_srl" value="" />
     <input type="hidden" id="update_point" name="point" />

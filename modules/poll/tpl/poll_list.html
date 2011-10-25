@@ -7,6 +7,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <form action="" class="form">
+	<input type="hidden" name="module" value="poll" />
 	<h1 class="h1">{$lang->poll}</h1>
 	<div class="table even">
 		<table width="100%" border="1" cellspacing="0" id="pollListTable">
@@ -56,6 +57,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 </form>
 <div class="modal" id="listManager">
 	<form ruleset="deleteChecked" action="./" method="post" class="fg form">
+	<input type="hidden" name="module" value="poll" />
 	<input type="hidden" name="act" value="procPollAdminDeleteChecked" />
 	<input type="hidden" name="page" value="{$page}" />
 		<h2 class="h2">{$lang->poll_manager}</h2>
@@ -109,7 +111,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 	</span>
 </form>
 
-	<form action="./" method="get" onsubmit="return checkSearch(this)">
+	<form action="./" method="get" onsubmit="return checkSearch(this)">		
 	<input type="hidden" name="module" value="{$module}" />
 	<input type="hidden" name="act" value="{$act}" />
 		<select name="search_target">

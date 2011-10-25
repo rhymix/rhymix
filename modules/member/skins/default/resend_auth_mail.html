@@ -3,6 +3,7 @@
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <form ruleset="resendAuthMail" class="form" action="./" method="post">
+	<input type="hidden" name="module" value="member" />
 	<input type="hidden" name="act" value="procMemberResendAuthMail" />
     <h1 class="h1">{$lang->cmd_resend_auth_mail}</h1>
     <p>{$lang->about_resend_auth_mail}</p>

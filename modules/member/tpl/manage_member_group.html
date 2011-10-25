@@ -4,6 +4,7 @@
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <form ruleset="manageMemberGroup" action="./" method="post" id="fo_management">
+	<input type="hidden" name="module" value="member" />
 	<input type="hidden" name="act" value="procMemberAdminUpdateMembersGroup" />
 	<input type="hidden" name="member_srl" value="{$member_srls}" />
 	<div class="table">

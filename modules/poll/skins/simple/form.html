@@ -16,6 +16,7 @@
 		<p>{$XE_VALIDATOR_MESSAGE}</p>
 	</div>
     <form action="./" method="post" onsubmit="return doPoll(this)">
+	<input type="hidden" name="module" value="poll" />
 	<input type="hidden" name="act" value="procPoll" />
     <input type="hidden" name="poll_srl" value="{$poll->poll_srl}" />
     <input type="hidden" name="poll_srl_indexes" value="" />

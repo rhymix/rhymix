@@ -9,6 +9,7 @@
 		<input type="submit" value="{$lang->cmd_select}" />
 	</form>
 	<form action="./" method="POST" class="setupMessage">
+		<input type="hidden" name="module" value="communication" />
 		<input type="hidden" name="act" value="procCommunicationUpdateAllowMessage" />
 		<input type="hidden" name="message_type" value="{$message_type}" />
 		<select name="allow_message">
@@ -42,6 +43,7 @@
 </div>
 
 <form action="./" method="get" id="fo_message_list">
+	<input type="hidden" name="module" value="communication" />
 	<input type="hidden" name="act" value="procCommunicationDeleteMessages" />
 	<input type="hidden" name="message_type" value="{$message_type}" />
 	<div class="table even">

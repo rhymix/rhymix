@@ -7,6 +7,7 @@
 </div>
 <!-- 카테고리의 위/아래, 삭제와 관련된 form -->
 <form id="fo_category_info" action="./" method="post">
+	<input type="hidden" name="module" value="module" />
 	<input type="hidden" name="act" value="procModuleAdminDeleteCategory" />
     <input type="hidden" name="module_category_srl" value="" />
 </form>
@@ -41,6 +42,7 @@
 
 <!-- 카테고리 추가 -->
 <form ruleset="insertCategory" action="./" method="post" class="form">
+	<input type="hidden" name="module" value="module" />
 	<input type="hidden" name="act" value="procModuleAdminInsertCategory" />
 	<input type="hidden" name="page" value="{$page}" />
 	<input type="hidden" name="module_srl" value="{$module_srl}" />

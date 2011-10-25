@@ -4,6 +4,7 @@
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <form ruleset="deleteChecked" id="fo_list" action="./" method="post">
+	<input type="hidden" name="module" value="comment" />
 	<input type="hidden" name="act" value="procCommentAdminDeleteChecked" />
 	<input type="hidden" value="{getUrl('', 'module', $module, 'act', $act)}" name="success_return_url">
 	<input type="hidden" name="page" value="{$page}" />

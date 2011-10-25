@@ -3,6 +3,7 @@
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <form ruleset="sendTrackback" action="./" method="post">
+	<input type="hidden" name="module" value="trackback" />
 	<input type="hidden" name="act" value="procTrackbackSend" />
 	<input type="hidden" name="target_srl" value="{$oDocument->document_srl}" />
 	<div class="table">

@@ -6,6 +6,7 @@
 <p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <form ruleset="installFtpInfo" action="./" method="post" id="ftp_form" class="form" enctype="multipart/form-data">
+	<input type="hidden" name="module" value="install" />
 	<input type="hidden" name="act" value="procInstallAdminSaveFTPInfo" />
 	<fieldset class="section">
 		<h1 class="h1">{$lang->menu_gnb_sub['adminConfigurationFtp']}</h1>

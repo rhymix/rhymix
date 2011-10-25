@@ -13,6 +13,7 @@ xe.lang.confirm_delete = "{$lang->confirm_delete}";
 <block loop="$menu_list=>$key,$value">
 {@$menuSrl = $value->menuSrl}
 <form class="portlet siteMap" id="menu_{$menuSrl}" method="post">
+<input type="hidden" name="module" value="{$module}" />
 <input type="hidden" name="act" value="procMenuAdminArrangeItem" />
 <input type="hidden" name="menu_srl" value="{$menuSrl}" />
 <input type="hidden" name="menu_item_srl" value="" />
@@ -49,6 +50,7 @@ xe.lang.confirm_delete = "{$lang->confirm_delete}";
 <div class="modal" id="editMenu">
 	<div class="fg">
 		<form ruleset="insertMenuItem" id="editForm" action="./" method="post" enctype="multipart/form-data" class="form">
+		<input type="hidden" name="module" value="menu" />
 		<input type="hidden" name="act" value="procMenuAdminInsertItem" />
 		<input type="hidden" name="menu_srl" value="" />
 		<input type="hidden" name="menu_item_srl" value="{$menu_info->menu_srl}" />

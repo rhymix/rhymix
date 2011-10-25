@@ -7,6 +7,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <form id="fo_list" action="./" method="post" class="form">
+	<input type="hidden" name="module" value="file" />
 	<h1 class="h1">{$lang->file}</h1>
 	<div class="table">
 		<div class="cnb">
@@ -113,6 +114,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 </form>
 <div class="modal" id="listManager">
 	<form ruleset="deleteChecked" action="./" method="post" class="fg form">
+	<input type="hidden" name="module" value="file" />
 	<input type="hidden" name="act" value="procFileAdminDeleteChecked" />
 	<input type="hidden" name="page" value="{$page}" />
 		<h2 class="h2">{$lang->file_manager}</h2>

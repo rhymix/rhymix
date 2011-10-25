@@ -6,6 +6,7 @@
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <form ruleset="addFriend" action="./" method="post" class="form">
+	<input type="hidden" name="module" value="communication" />
 	<input type="hidden" name="act" value="procCommunicationAddFriend" />
 	<input type="hidden" name="target_srl" value="{$target_info->member_srl}" />
 	<div class="table">

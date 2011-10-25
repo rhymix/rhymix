@@ -11,6 +11,7 @@
 
 <!--@if($type == 'insertExtraForm' || $selected_var_idx)-->
     <form ruleset="insertExtraVar" action="./" method="post">
+	<input type="hidden" name="module" value="document" />
     <input type="hidden" name="act" value="procDocumentAdminInsertExtraVar" />
     <input type="hidden" name="module_srl" value="{$module_srl}" />
     <input type="hidden" name="var_idx" value="{$selected_var_idx}" />

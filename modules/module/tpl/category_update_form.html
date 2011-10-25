@@ -5,6 +5,7 @@
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <form ruleset="updateCategory" action="./" method="post" enctype="multipart/form-data" class="form">
+	<input type="hidden" name="module" value="module" />
 	<input type="hidden" name="act" value="procModuleAdminUpdateCategory" />
 	<input type="hidden" name="module_category_srl" value="{$selected_category->module_category_srl}" />
 	<input type="hidden" name="mode" value="update" />

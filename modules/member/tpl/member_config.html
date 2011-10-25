@@ -9,6 +9,7 @@
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <form action="./" class="form" ruleset="insertConfig" method="post">
+<input type="hidden" name="module" value="member" />
 <input type="hidden" name="act" value="procMemberAdminInsertConfig" />
 <input type="hidden" name="success_return_url" value="{getUrl('act', $act)}" />
 <input type="hidden" name="agreement" value="{$config->agreement}" />
@@ -195,6 +196,7 @@
 </form>
 <div class="modal" id="userDefine">
 	<form action="./" class="fg form" ruleset="insertJoinForm" method="post">
+		<input type="hidden" name="module" value="member" />
 		<input type="hidden" name="act" value="procMemberAdminInsertJoinForm" />
 		<input type="hidden" name="success_return_url" value="{getUrl('act', $act)}" />
 		<div id="extendForm">

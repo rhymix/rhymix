@@ -14,6 +14,7 @@
 		<!--%import("./filter/openid_login.xml")-->
 		<div class="mLogin" id="gLogin">
 			<form action="./" method="post" ruleset="@login" id="gForm" class="ff">
+			<input type="hidden" name="module" value="member" />
 			<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
 				<fieldset>
 					<ul>

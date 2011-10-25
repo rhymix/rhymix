@@ -16,6 +16,7 @@
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <form ruleset="insertCategory" id="fo_category" action="./" method="post">
+<input type="hidden" name="module" value="document" />
 <input type="hidden" name="act" value="procDocumentInsertCategory" />
 <input type="hidden" name="module_srl" value="{$module_info->module_srl}" />
 <input type="hidden" name="xml_file" value="{$category_xml_file}" />

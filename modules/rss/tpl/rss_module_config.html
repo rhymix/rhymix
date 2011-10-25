@@ -1,4 +1,5 @@
 <form ruleset="insertRssModuleConfig" action="./" method="post" class="form">
+<input type="hidden" name="module" value="rss" />
 <input type="hidden" name="act" value="procRssAdminInsertModuleConfig" />
 <input type="hidden" name="success_return_url" value="{getUrl('', 'module', $module, 'act', $act, 'module_srl', $module_srl)}" />
 <input type="hidden" name="target_module_srl" value="{$rss_config->module_srl?$rss_config->module_srl:$module_srls}" />

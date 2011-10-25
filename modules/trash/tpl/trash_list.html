@@ -7,6 +7,7 @@ var no_text_comment = '{$lang->no_text_comment}';
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 	<form ruleset="emptyTrash" action="./" method="post" class="form">
+		<input type="hidden" name="module" value="trash" />
 		<input type="hidden" name="act" value="procTrashAdminEmptyTrash" />
 		<input type="hidden" name="page" value="{$page}" />
 		<input type="hidden" name="is_all" value="true" />
@@ -60,6 +61,7 @@ var no_text_comment = '{$lang->no_text_comment}';
 	</form>
 	<div class="modal" id="listManager">
 		<form ruleset="emptyTrash" id="fo_list" action="./" method="post" class="fg form">
+		<input type="hidden" name="module" value="trash" />
 		<input type="hidden" name="act" value="procTrashAdminEmptyTrash" />
 		<input type="hidden" name="page" value="{$page}" />
 		<input type="hidden" name="is_all" value="false" />

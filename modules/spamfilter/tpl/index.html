@@ -5,15 +5,16 @@
     <p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <form id="spamfilterDelete" action="" method="post">
+	<input type="hidden" name="module" value="spamfilter" />
 	<input type="hidden" name="act" value="" />
 	<input type="hidden" name="ipaddress" value="" />
 	<input type="hidden" name="word" value="" />
 	<input type="hidden" name="ruleset" value="">
 </form>
-<form action="" id="spamfilterConfig" class="form" ruleset="@insertConfig">
-	<input type="hidden" name="act" value="procSpamfilterAdminInsertConfig">
-	<input type="hidden" name="module" value="spamfilter">
-	<input type="hidden" name="ruleset" value="insertConfig">
+<form action="" id="spamfilterConfig" class="form" ruleset="@insertConfig">	
+	<input type="hidden" name="act" value="procSpamfilterAdminInsertConfig" />
+	<input type="hidden" name="module" value="spamfilter" />
+	<input type="hidden" name="ruleset" value="insertConfig" />
 	<h1 class="h1">{$lang->spamfilter}</h1>
 	<ul>
 		<li>
@@ -38,9 +39,9 @@
 	</div>
 </form>
 <form action="" id="spamfilterInsert" class="form">
-	<input type="hidden" name="act" value="">
-	<input type="hidden" name="module" value="spamfilter">
-	<input type="hidden" name="ruleset" value="">
+	<input type="hidden" name="act" value="" />
+	<input type="hidden" name="module" value="spamfilter" />
+	<input type="hidden" name="ruleset" value="" />
 	<ul>
 		<li>
 			<p class="q">{$lang->cmd_denied_ip}</p>

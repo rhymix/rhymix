@@ -4,6 +4,7 @@
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <form rule="copyModule" action="./" method="post">
+	<input type="hidden" name="module" value="module" />
 	<input type="hidden" name="act" value="procModuleAdminCopyModule" />
 	<input type="hidden" name="module_srl" value="{$module_info->module_srl}" />
 	<div class="table">

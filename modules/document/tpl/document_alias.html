@@ -3,6 +3,7 @@
 <!--%import("filter/delete_alias.xml")-->
 
 <form ruleset="deleteAlias" id="deleteForm" action="./" method="post">
+	<input type="hidden" name="module" value="document" />
 	<input type="hidden" name="act" value="procDocumentAdminDeleteAlias" />
 	<input type="hidden" id="target_srl" name="target_srl" value="" />
 	<input type="hidden" name="document_srl" value="{$document_srl}" />
@@ -12,6 +13,7 @@
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <form ruleset="insertAlias" action="{Context::getRequestUri()}" method="post">
+	<input type="hidden" name="module" value="document" />
 	<input type="hidden" name="act" value="procDocumentAdminInsertAlias" />
 	<input type="hidden" name="document_srl" value="{$document_srl}" />
 	<input type="hidden" name="module_srl" value="{$oDocument->get('module_srl')}" />

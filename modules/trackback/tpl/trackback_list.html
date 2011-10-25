@@ -54,6 +54,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 </form>
 <div class="modal" id="listManager">
 	<form ruleset="deleteChecked" action="./" method="post" class="fg">
+	<input type="hidden" name="module" value="trackback" />
 	<input type="hidden" name="act" value="procTrackbackAdminDeleteChecked" />
 	<input type="hidden" name="page" value="{$page}" />
 		<h2 class="h2">{$lang->trackback_manager}</h2>
