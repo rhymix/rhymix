@@ -1,7 +1,7 @@
 <form ruleset="insertCommentModuleConfig" action="./" method="post" class="form">
 	<input type="hidden" name="module" value="comment" />
 	<input type="hidden" name="act" value="procCommentInsertModuleConfig" />
-	<input type="hidden" name="success_return_url" value="{getUrl('', 'module', $module, 'act', $act, 'module_srl', $module_srl)}" />
+	<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
 	<input type="hidden" name="target_module_srl" value="{$module_info->module_srl?$module_info->module_srl:$module_srls}" />
     <h3 class="h3">{$lang->comment}</h3>
 	<div class="table">

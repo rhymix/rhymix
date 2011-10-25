@@ -1,7 +1,7 @@
 <form action="./" method="post" class="form">
 <input type="hidden" name="module" value="trackback" />
 <input type="hidden" name="act" value="procTrackbackAdminInsertModuleConfig" />
-<input type="hidden" name="success_return_url" value="{getUrl('', 'module', $module, 'act', $act, 'module_srl', $module_srl)}" />
+<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
 <input type="hidden" name="target_module_srl" value="{$trackback_config->module_srl?$trackback_config->module_srl:$module_srls}" />
 
     <h3 class="h3">{$lang->trackback}</h3>
