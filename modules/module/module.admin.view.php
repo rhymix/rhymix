@@ -266,8 +266,11 @@
             Context::set('lang_code_list', $output->data);
             Context::set('page_navigation', $output->page_navigation);
 			
-			$this->setLayoutPath('./common/tpl');
-			$this->setLayoutFile('popup_layout');
+			if(Context::get('module') != 'admin')
+			{
+				$this->setLayoutPath('./common/tpl');
+				$this->setLayoutFile('popup_layout');
+			}
             // Set a template file
             $this->setTemplateFile('module_langcode');
         }
