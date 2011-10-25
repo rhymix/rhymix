@@ -1090,4 +1090,12 @@ Lütfen son sürümü için indirme linkine tıklayınız.]]></value>
 		<value xml:lang="ko"><![CDATA[등록된 데이터가 없습니다.]]></value>
 		<value xml:lang="en"><![CDATA[There is no data.]]></value> 
 	</item>
+	<item name="cmd_admin_menu_reset">
+		<value xml:lang="ko"><![CDATA[관리자 메뉴 초기화]]></value>
+		<value xml:lang="en"><![CDATA[Reset admin menu]]></value> 
+	</item>
+	<item name="confirm_reset_admin_menu">
+		<value xml:lang="ko"><![CDATA[관리자 메뉴를 초기화하시겠습니까?]]></value>
+		<value xml:lang="en"><![CDATA[Are you sure you want to initialize the admin menu?]]></value> 
+	</item>
 </lang>

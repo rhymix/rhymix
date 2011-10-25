@@ -93,6 +93,7 @@
 
 			$oMenuAdminModel = &getAdminModel('menu');
 			$menu_info = $oMenuAdminModel->getMenuByTitle('__XE_ADMIN__');
+			Context::set('admin_menu_srl', $menu_info->menu_srl);
 
 			if(!is_readable($menu_info->php_file)) return;
 
