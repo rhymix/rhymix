@@ -286,10 +286,10 @@
 	<param name="allowScriptAccess" value="always" />
 	<param name="quality" value="high" />
 	<param name="movie" value="%s" />
-	<param name="wmode" value="window" /> 
+	<param name="wmode" value="window" />
 	<param name="allowFullScreen" value="false">
-	<param name="bgcolor" value="#fffff" /> 
-	<embed src="%s" quality="high" wmode="window" allowFullScreen="false" bgcolor="#ffffff" width="0" height="0" name="captcha_audio" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" /> 
+	<param name="bgcolor" value="#fffff" />
+	<embed src="%s" quality="high" wmode="window" allowFullScreen="false" bgcolor="#ffffff" width="0" height="0" name="captcha_audio" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" />
 </object>
 <button type="button" class="captchaReload text">%s</button>
 <button type="button" class="captchaPlay text">%s</button><br />
@@ -314,13 +314,13 @@ EOD;
 
 	if(method_exists($oAddonCaptcha, $called_position))
 	{
-		if(!call_user_func(array(&$oAddonCaptcha, $called_position), $this)) return false;
+		if(!call_user_func_array(array(&$oAddonCaptcha, $called_position), array(&$this))) return false;
 	}
 
 	$addon_act = Context::get('captcha_action');
 	if($addon_act && method_exists($oAddonCaptcha, $called_position.'_'.$addon_act))
 	{
-		if(!call_user_func(array(&$oAddonCaptcha, $called_position.'_'.$addon_act), $this)) return false;
+		if(!call_user_func_array(array(&$oAddonCaptcha, $called_position.'_'.$addon_act), array(&$this))) return false;
 	}
 
 ?>
