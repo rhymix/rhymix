@@ -620,6 +620,7 @@
 		}
 
 		function queryPageLimit($queryObject, $result, $connection){
+                        $limit = $queryObject->getLimit();
 		 	// Total count
 			$temp_where = $queryObject->getWhereString(true, false);
 		 	$count_query = sprintf('select count(*) as "count" %s %s', 'FROM ' . $queryObject->getFromString(), ($temp_where === '' ? '' : ' WHERE '. $temp_where));
