@@ -1,6 +1,8 @@
 <!--%import("filter/insert_point_module_config.xml")-->
 <load target="js/point_admin.js" usecdn="true" />
-<form action="./" method="get" onsubmit="return procFilter(this, insert_point_module_config);" id="fo_point" class="form">
+<form action="./" method="post" id="fo_point" class="form">
+	<input type="hidden" name="module" value="point" />
+	<input type="hidden" name="act" value="procPointAdminInsertPointModuleConfig" />
 	<input type="hidden" name="target_module_srl" value="{$module_config['module_srl']?$module_config['module_srl']:$module_srls}" />
 	
 	<h3 class="h3">{$lang->point}</h3>
