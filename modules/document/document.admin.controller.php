@@ -236,7 +236,6 @@
 							// Pre-register the attachment
 							if($comment_obj->uploaded_count) {
 								$files = $oFileModel->getFiles($comment_obj->comment_srl, true);
-								debugPrint($files);
 								foreach($files as $key => $val) {
 									$file_info = array();
 									$file_info['tmp_name'] = $val->uploaded_filename;
