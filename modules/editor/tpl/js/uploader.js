@@ -73,7 +73,7 @@ function start(cfg) {
 		button_window_mode : 'transparent',
 		button_placeholder : $span.get(0),
 		button_text : null,
-		button_image_url : '',
+		button_image_url : request_uri+'common/img/blank.gif',
 		button_width  : width,
 		button_height : height,
 		button_text_style : null,
