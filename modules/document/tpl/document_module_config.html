@@ -1,5 +1,8 @@
 <!--%import("filter/insert_document_module_config.xml")-->
-<form action="./" method="post" onsubmit="return procFilter(this, insert_document_module_config)" class="form">
+<form action="./" method="post" class="form">
+<input type="hidden" name="module" value="document" />
+<input type="hidden" name="act" value="procDocumentInsertModuleConfig" />
+<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
 	<input type="hidden" name="target_module_srl" value="{$module_info->module_srl?$module_info->module_srl:$module_srls}" />
     <h3 class="h3">{$lang->document}</h3>
     <div class="table">
