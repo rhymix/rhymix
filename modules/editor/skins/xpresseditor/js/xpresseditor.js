@@ -5244,7 +5244,7 @@ xe.XE_Extension = $.Class({
 			}
 		};
 
-		$('img,div[editor_component]', doc).each(function(){
+		$(doc).find('img,div[editor_component]').each(function(){
 			var obj = $(this);
 			if(this.nodeName == 'IMG' && !obj.attr('editor_component')) {
 				obj.attr('editor_component','image_link');
@@ -5841,7 +5841,6 @@ function editorStart_xe(editor_sequence, primary_key, content_key, editor_height
 
 	oEditor.registerPlugin(new xe.XE_XHTMLFormatter);
 	oEditor.registerPlugin(new xe.XE_GET_WYSYWYG_MODE(editor_sequence));
-	oEditor.registerPlugin(new xe.XE_GET_WYSYWYG_CONTENT());
 
 	if(jQuery("ul.extra1").length) {
 		oEditor.registerPlugin(new xe.XE_ColorPalette(elAppContainer));
@@ -6004,35 +6003,6 @@ xe.XE_GET_WYSYWYG_MODE = jQuery.Class({
 
 	$ON_CHANGE_EDITING_MODE : function(mode) {
 		editorMode[this.editor_sequence] = (mode =='HTMLSrc') ? 'html' : 'wysiwyg';
-	}
-});
-
-// 이미지등의 상대경로를 절대경로로 바꾸는 플러그인
-xe.XE_GET_WYSYWYG_CONTENT = jQuery.Class({
-	name : "XE_GET_WYSYWYG_CONTENT",
-
-	$ON_MSG_APP_READY : function() {
-		this.oApp.addConverter("IR_TO_WYSIWYG", this.replaceXE2HTTP);
-		this.oApp.addConverter("WYSIWYG_TO_IR", this.replaceHTTP2XE);
-	},
-
-	replaceXE2HTTP : function(content) {
-		// src, href, url의 XE 상대경로를 http로 시작하는 full path로 변경
-		content = editorReplacePath(content);
-
-		return content;
-	},
-
-	replaceHTTP2XE : function(content) {
-		// src, href, url에서 http로 시작하는 full path를 XE 상대경로로 변경
-		contENT = content.replace(/(src=|href=|url\()("|\')*([^"\'\)]+)("|\'|\))*(\s|>|\))*/ig, function(m0,m1,m2,m3,m4,m5) {
-			var uriReg = new RegExp('^'+request_uri.replace('\/','\\/'),'ig'), val;
-			if(m1=="url(") { m2=''; m4=')'; } else { m2 = m2 || '"'; m4 = m4 || '"'; }
-			val = uriReg.test(val=jQuery.trim(m3))?val.replace(uriReg,''):m3;
-
-			return m1+m2+val+m4+(m5||'');
-		});
-		return content;
 	}
 });
 
