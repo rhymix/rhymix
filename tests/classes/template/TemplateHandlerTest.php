@@ -214,6 +214,11 @@ class TemplateHandlerTest extends PHPUnit_Framework_TestCase
 				'<div class="topimgContex"><marquee direction="up" scrollamount="1" height="130" loop="infinity" behavior="lscro">{$lang->sl_show_topimgtext}</marquee></div>',
 				'<div class="topimgContex"><marquee direction="up" scrollamount="1" height="130" loop="infinity" behavior="lscro"><?php echo $__Context->lang->sl_show_topimgtext ?></marquee></div>'
 			),
+			// issue 584
+			array(
+				'<img cond="$oBodex->display_extra_images[\'mobile\'] && $arr_extra && $arr_extra->bodex->mobile" src="./images/common/mobile.gif" title="mobile" alt="mobile" />',
+				'<?php if($__Context->oBodex->display_extra_images[\'mobile\'] && $__Context->arr_extra && $__Context->arr_extra->bodex->mobile){ ?><img src="/xe/tests/classes/template/images/common/mobile.gif" title="mobile" alt="mobile" /><?php } ?>'
+			),
 		);
 	}
 
