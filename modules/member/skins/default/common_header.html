@@ -4,7 +4,7 @@
     <div class="nav" cond="$is_logged && $logged_info->menu_list && (!$member_srl || $member_srl == $logged_info->member_srl)">
 		<ul>
 			<li loop="$logged_info->menu_list=>$key,$val" class="active"|cond="$key==$act">
-				<a href="{getUrl('', 'act',$key)}"><span>{Context::getLang($val)}</span></a>
+				<a href="{getUrl('', 'act',$key, 'mid', $mid, 'vid', $vid)}"><span>{Context::getLang($val)}</span></a>
 			</li>
 		</ul>
 	</div>

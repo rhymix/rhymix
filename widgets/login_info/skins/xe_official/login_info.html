@@ -10,7 +10,7 @@
 			<p class="latestLogin">{$lang->last_login}: {zDate($logged_info->last_login, "Y-m-d")}</p>
 		</div>
 		<ul class="userMenu">
-			<li loop="$logged_info->menu_list => $key,$val"><a href="{getUrl('', 'act',$key,'member_srl','','page','')}">{Context::getLang($val)}</a></li>
+			<li loop="$logged_info->menu_list => $key,$val"><a href="{getUrl('', 'act',$key, 'mid', $mid, 'vid', $vid)}">{Context::getLang($val)}</a></li>
 			<li cond="$logged_info->is_admin=='Y' && !$site_module_info->site_srl"><a href="{getUrl('','module','admin')}">{$lang->cmd_management}</a></li>
 		</ul>
 	</fieldset>
