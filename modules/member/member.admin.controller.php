@@ -732,10 +732,13 @@
         function insertGroup($args) {
             if(!$args->site_srl) $args->site_srl = 0;
             // Check the value of is_default. 
-            if($args->is_default!='Y') $args->is_default = 'N';
+            if($args->is_default!='Y') {
+				$args->is_default = 'N';
+			} else {
+				 $output = executeQuery('member.updateGroupDefaultClear', $args);
+				 if(!$output->toBool()) return $output;
+			}
 			
-			if (!$args->group_srl) $args->group_srl = getNextSequence();
-
 			if (!$args->group_srl) $args->group_srl = getNextSequence();
             return executeQuery('member.insertGroup', $args);
         }
@@ -745,7 +748,13 @@
          **/
         function updateGroup($args) {
             // Check the value of is_default. 
-            if($args->is_default!='Y') $args->is_default = 'N';
+			if(!$args->group_srl) return new Object(-1, 'lang->msg_not_founded');
+            if($args->is_default!='Y') {
+				$args->is_default = 'N';
+			} else {
+				 $output = executeQuery('member.updateGroupDefaultClear', $args);
+				 if(!$output->toBool()) return $output;
+			}
 
             return executeQuery('member.updateGroup', $args);
         }

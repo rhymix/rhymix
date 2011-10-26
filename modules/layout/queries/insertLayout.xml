@@ -8,6 +8,7 @@
         <column name="layout" var="layout" notnull="notnull" />
         <column name="title" var="title" notnull="notnull" />
         <column name="module_srl" var="module_srl" />
+        <column name="extra_vars" var="extra_vars" />
         <column name="layout_path" var="layout_path" />
         <column name="regdate" var="regdate" default="curdate()" />
 		<column name="layout_type" var="layout_type" default="P" />
