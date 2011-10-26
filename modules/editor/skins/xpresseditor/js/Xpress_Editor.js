@@ -3102,6 +3102,7 @@ xe.XE_EditingArea_WYSIWYG = $.Class({
 		var sContent = this.doc.body.innerHTML;
 		var sIR;
 
+
 		if(this.oApp.applyConverter)
 			sIR = this.oApp.applyConverter(this.sMode+"_TO_IR", sContent);
 		else
@@ -5143,9 +5144,9 @@ xe.XE_XHTMLFormatter = $.Class({
 			sContent = sContent.replace(/<(\w+) ([^>]+)>/g, function(m0,m1,m2){
 				return '<'+m1+' '+
 					m2.replace(regex_quote_attr, function(s0,s1,s2,s3){
-						if (s1) return s1;
+						if(s1) return s1;
 						if(/^"/.test(s3)||/"$/.test(s3)) return s2+'='+s3;
-						return s2+'="'+s3+'"';
+						return s2+'="'+(s3||s2)+'"';
 					}) + '>';
 			});
 		}
