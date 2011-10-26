@@ -1,8 +1,9 @@
 <!--// 스킨 css 로드 -->
-<!--%import("css/default.css")-->
+<load target="css/default.css" />
 
 <!--// 기본 JS 로드 -->
-<!--%import("../../tpl/js/editor_common.js")-->
+<load target="../../tpl/js/editor_common.js" cond="__DEBUG__" />
+<load target="../../tpl/js/editor_common.min.js" cond="!__DEBUG__" />
 
 <!--@if($colorset == "black" || $colorset == "black_texteditor" || $colorset == "black_text_nohtml" || $colorset == "black_text_usehtml")-->
     <!--%import("css/black.css")-->
@@ -10,7 +11,8 @@
 <!--@end-->
 
 <!--@if($colorset == "white_texteditor" || $colorset == "black_texteditor" || $colorset == "white_text_nohtml" || $colorset == "black_text_nohtml" || $colorset == "white_text_usehtml" || $colorset == "black_text_usehtml")-->
-    <!--%import("js/xe_textarea.js")-->
+	<load target="js/xe_textarea.js" cond="__DEBUG__" />
+	<load target="js/xe_textarea.min.js" cond="!__DEBUG__" />
 
     <div class="xeTextEditor {$editor_class}">
         <input type="hidden" id="htm_{$editor_sequence}" value="<!--@if($colorset == "white_text_nohtml" || $colorset == "black_text_nohtml")-->n<!--@end--><!--@if($colorset == "white_texteditor" || $colorset == "white_texteditor")-->br<!--@end-->" />
@@ -23,8 +25,9 @@
 <!--@else-->
 
     <!--// 기본 js/언어파일 로드 -->
-    <!--%import("js/Xpress_Editor.js")-->
-    <!--%import("js/xe_interface.js")-->
+	<load target="js/Xpress_Editor.js" cond="__DEBUG__" />
+	<load target="js/xe_interface.js" cond="__DEBUG__" />
+	<load target="js/xpresseditor.min.js" cond="!__DEBUG__" />
 
     <!-- 자동저장용 폼 -->
 

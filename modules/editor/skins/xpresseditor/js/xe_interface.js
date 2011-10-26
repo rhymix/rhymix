@@ -261,7 +261,7 @@ xe.XE_GET_WYSYWYG_CONTENT = jQuery.Class({
 
 	replaceHTTP2XE : function(content) {
 		// src, href, url에서 http로 시작하는 full path를 XE 상대경로로 변경
-		content = content.replace(/(src=|href=|url\()("|\')*([^"\'\)]+)("|\'|\))*(\s|>|\))*/ig, function(m0,m1,m2,m3,m4,m5) {
+		contENT = content.replace(/(src=|href=|url\()("|\')*([^"\'\)]+)("|\'|\))*(\s|>|\))*/ig, function(m0,m1,m2,m3,m4,m5) {
 			var uriReg = new RegExp('^'+request_uri.replace('\/','\\/'),'ig'), val;
 			if(m1=="url(") { m2=''; m4=')'; } else { m2 = m2 || '"'; m4 = m4 || '"'; }
 			val = uriReg.test(val=jQuery.trim(m3))?val.replace(uriReg,''):m3;
