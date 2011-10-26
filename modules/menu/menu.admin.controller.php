@@ -674,6 +674,7 @@
                 '%s; '.
                 '%s; '.
                 '$menu->list = array(%s); '.
+				'Context::set("included_menu", $menu); '.
                 '?>',
                 $header_script,
                 $php_output['name'],
