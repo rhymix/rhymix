@@ -20,6 +20,10 @@
 			$site_module_info = Context::get('site_module_info');
 			$enables = Context::get('enables');			
 			$component_names = Context::get('component_names');
+
+			if(!is_array($component_names)) $component_names = array();
+			if(!is_array($enables)) $enables = array();
+
 			$unables = array_diff($component_names, $enables);
 			$componentList = array();	
 			
@@ -30,10 +34,10 @@
 				$componentList[$component_name] = 'N';
 			}
 
-			$output = $this->editorCheckUse($componentList,$site_module_info->site_srl);			
+			$output = $this->editorListOrder($component_names,$site_module_info->site_srl);
 			if(!$output->toBool()) return new Object();
 			
-			$output = $this->editorListOrder($component_names,$site_module_info->site_srl);
+			$output = $this->editorCheckUse($componentList,$site_module_info->site_srl);			
 			if(!$output->toBool()) return new Object();
 			
 			$oEditorController = &getController('editor');
