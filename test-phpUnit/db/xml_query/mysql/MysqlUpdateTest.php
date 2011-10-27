@@ -58,7 +58,7 @@
 			$argsString = '$args->message_srl = 339321; $args->related_srl = 339321;';
 			$expected = 'update `xe_member_message` as `member_message`
                                         set `readed` = \'y\'
-                                            , `readed_date` = ' . date("YmdHis") . '
+                                            , `readed_date` = \'' . date("YmdHis") . '\'
                                         where `message_srl` = 339321 or `related_srl` = 339321';
 			$this->_test($xml_file, $argsString, $expected);
                 }
@@ -69,7 +69,7 @@
 			$expected = 'update `xe_session` as `session`
                                         set `member_srl` = 0, `val` = \'yuhuu\'
                                         , `ipaddress` = \''. $_SERVER['REMOTE_ADDR'] .'\'
-                                        , `last_update` = ' . date("YmdHis") . '
+                                        , `last_update` = \'' . date("YmdHis") . '\'
                                         where `session_key` = \'339321\'';
 			$this->_test($xml_file, $argsString, $expected);
                 }

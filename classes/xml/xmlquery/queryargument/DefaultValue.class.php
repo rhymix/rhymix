@@ -70,6 +70,7 @@
 					break;
 				case 'curdate' :
 						$val = 'date("YmdHis")';
+                                                $this->_is_string_from_function = true;
 					break;
 				case 'sequence' :
                                                 $this->is_sequence = true;
