@@ -81,8 +81,8 @@ class TemplateHandlerTest extends PHPUnit_Framework_TestCase
 			),
 			// <!--@switch--> ~ <!--@case--> ~ <!--@break--> ~ <!--@default --> ~ <!--@endswitch-->
 			array(
-				'<dummy /><!--@switch($var)--><!--@case("A")-->A<!--@break--><!--@case("B")-->B<!--@break--><!--@default-->C<!--@endswitch--><dummy />',
-				'<dummy /><?php switch($__Context->var){ ?><?php case "A": ?>A<?php break; ?><?php case "B": ?>B<?php break; ?><?php default : ?>C<?php } ?><dummy />'
+				'<dummy /><!--@switch($var)--> <!--@case("A")--> A<!--@break--> <!--@case(\'B\')-->B<!--@break--><!--@default-->C<!--@endswitch--><dummy />',
+				'<dummy /><?php switch($__Context->var){ ?><?php case "A": ?> A<?php break; ?><?php case \'B\': ?>B<?php break; ?><?php default : ?>C<?php } ?><dummy />'
 			),
 			// invalid block statement
 			array(

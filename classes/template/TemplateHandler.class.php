@@ -187,7 +187,7 @@ class TemplateHandler {
 		$buff = $this->_parseInline($buff);
 
 		// include, unload/load, import
-		$buff = preg_replace_callback('/{(@[\s\S]+?|(?=\$\w+|_{1,2}[A-Z]+|[!\(+-]|\w+(?:\(|::)|\d+|[\'"].*?[\'"]).+?)}|<(!--[#%])?(include|import|(un)?load(?(4)|(?:_js_plugin)?))(?(2)\("([^"]+)")(.*?)(?(2)\)--|\/)>|<!--(@[a-z@]+)(.*?)-->/', array($this, '_parseResource'), $buff);
+		$buff = preg_replace_callback('/{(@[\s\S]+?|(?=\$\w+|_{1,2}[A-Z]+|[!\(+-]|\w+(?:\(|::)|\d+|[\'"].*?[\'"]).+?)}|<(!--[#%])?(include|import|(un)?load(?(4)|(?:_js_plugin)?))(?(2)\("([^"]+)")(.*?)(?(2)\)--|\/)>|<!--(@[a-z@]+)(.*?)-->(\s*)/', array($this, '_parseResource'), $buff);
 
 		// remove block which is a virtual tag and remove comments
 		$buff = preg_replace('@</?block\s*>|\s?<!--//(.*?)-->@is','',$buff);
@@ -508,14 +508,16 @@ class TemplateHandler {
 				if($mm[1]{0} == 'e') return '<?php } ?>';
 
 				$precheck = '';
-				if($mm[1] == 'foreach') {
+				if($mm[1] == 'switch') {
+					$m[9] = '';
+				} elseif($mm[1] == 'foreach') {
 					$var = preg_replace('/^\s*\(\s*(.+?) .*$/', '$1', $m[8]);
 					$precheck = "if({$var}&&count({$var}))";
 				}
-				return '<?php '.$this->_replaceVar($precheck.$m[7].$m[8]).'{ ?>';
+				return '<?php '.$this->_replaceVar($precheck.$m[7].$m[8]).'{ ?>'.$m[9];
 			}
-			if($mm[2]) return "<?php }{$m[7]}".$this->_replaceVar($m[8])."{ ?>";
-			if($mm[4]) return "<?php ".($mm[3]?'break;':'')."{$m[7]} ".trim($m[8],'()').": ?>";
+			if($mm[2]) return "<?php }{$m[7]}".$this->_replaceVar($m[8])."{ ?>".$m[9];
+			if($mm[4]) return "<?php ".($mm[3]?'break;':'')."{$m[7]} ".trim($m[8],'()').": ?>".$m[9];
 			if($mm[5]) return "<?php break; ?>";
 			return '';
 		}
