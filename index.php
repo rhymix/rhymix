@@ -1,5 +1,5 @@
-<?php 
-    /**
+<?php
+    /** this is test
      * @file  index.php
      * @author NHN (developers@xpressengine.com)
      * @brief Start page
@@ -7,7 +7,7 @@
      * Find and create module object by mif, act in Request Argument \n
      * Set module information
      *
-     * @mainpage XpressEngine 
+     * @mainpage XpressEngine
      * @section intro introduction
      * XE is an opensource and being developed in the opensource project. \N
      * For more information, please see the link below.
