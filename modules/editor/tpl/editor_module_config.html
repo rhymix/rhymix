@@ -4,6 +4,7 @@
 	<input type="hidden" name="act" value="procEditorInsertModuleConfig" />
 	<input type="hidden" name="module" value="editor" />
 	<input type="hidden" name="target_module_srl" value="{$module_info->module_srl?$module_info->module_srl:$module_srls}" />
+	<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
     <h3 class="h3">{$lang->editor}</h3>
     <div class="table">
 		<table width="100%" border="1" cellspacing="0">
