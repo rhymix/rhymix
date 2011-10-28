@@ -198,7 +198,7 @@ function doImport(formId) {
 			}
 
 			fo_import = get_by_id(formId);
-			if(fo_import.isSync.checked)
+			if(fo_import != null && fo_import.isSync.checked)
 			{
 				exec_xml(
 					'importer', // module
