@@ -2790,6 +2790,14 @@ Xin vui lòng kiểm tra lại thông tin Database.]]></value>
 		<value xml:lang="ru"><![CDATA[Default URL is not define]]></value>
 		<value xml:lang="tr"><![CDATA[Varsayılan URL tanımlı değil.]]></value>
 	</item>
+	<item name="msg_empty_search_target">
+		<value xml:lang="ko"><![CDATA[검색대상이 없습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Cannot find the Search target.]]></value>
+	</item>
+	<item name="msg_empty_search_keyword">
+		<value xml:lang="ko"><![CDATA[검색어가 없습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Cannot find the Keyword.]]></value>
+	</item>
 	<item name="success_registed">
 		<value xml:lang="ko"><![CDATA[등록했습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Registered successfully.]]></value>
