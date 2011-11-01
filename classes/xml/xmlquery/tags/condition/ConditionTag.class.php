@@ -37,19 +37,29 @@
 				$this->argument_name = $this->argument->getArgumentName();
 			}
 			else {
-                            $default_value = $condition->attrs->default;
-                            if(isset($default_value)){
-                                if($isColumnName){
-                                    $default_value = "'" . $default_value . "'";
-                                }
-                                else if(in_array($this->operation, array('in', 'between', 'not in')))
-                                    $default_value = "\"" . $default_value . "\"";
-                                else if(!$isColumnName && !is_numeric($default_value) && !is_array($default_value)){
-                                    if(strpos($default_value, "'"))
-                                        $default_value = "\"\'" . $default_value . "\"\'";
+                            if(isset($condition->attrs->default)){
+                              if(in_array($this->operation, array('in', 'between', 'not in'))){
+                                    $default_value = $condition->attrs->default;
+                                    if(strpos($default_value, "'") !== false)
+                                        $default_value = "\"" . $default_value . "\"";
                                     else
-                                        $default_value = "\"'" . $default_value . "'\"";
+                                        $default_value = "'" . $default_value . "'";
+                              }
+                              else {
+                                $default_value_object = new DefaultValue($this->column_name, $condition->attrs->default);
+                                $default_value = $default_value_object->toString();
+
+                                if($default_value_object->isStringFromFunction()){
+                                    $default_value = '"\'".' . $default_value . '."\'"';
                                 }
+
+                                if($default_value_object->isString() && !$isColumnName && !is_numeric( $condition->attrs->default)){
+                                    if(strpos($default_value, "'") !== false)
+                                        $default_value = "\"" . $default_value . "\"";
+                                    else
+                                        $default_value = "'" . $default_value . "'";
+                                }
+                              }
                                 $this->default_column = $default_value;
                             }
                             else

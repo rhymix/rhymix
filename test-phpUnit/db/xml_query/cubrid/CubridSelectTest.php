@@ -385,4 +385,13 @@
                     $this->_test($xml_file, $argsString, $expected);
                 }
 
+                function test_getExpiredSession_curdate(){
+                    $xml_file = _XE_PATH_ . "modules/session/queries/getExpiredSessions.xml";
+                    $argsString = '';
+                    $expected = 'select "session_key"
+                                        from "xe_session" as "session"
+                                        where "expired" <= ' . date("YmdHis");
+                    $this->_test($xml_file, $argsString, $expected);
+                }
+
 	}
