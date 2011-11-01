@@ -15,7 +15,8 @@
 
             $oContext->setDbInfo($db_info);
 
-            DB::getParser(true);
+            $db = new MockDb();
+            $db->getParser(true);
         }
 
         protected function tearDown() {
