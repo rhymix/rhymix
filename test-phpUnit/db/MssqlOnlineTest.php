@@ -14,6 +14,7 @@
          * Prepare runtime context - tell DB class that current DB is MSSQL
          */
         protected function setUp() {
+            $this->markTestSkipped();
             $oContext = &Context::getInstance();
 
             $db_info->master_db = array('db_type' => 'mssql'

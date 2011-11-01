@@ -1,0 +1,17 @@
+<query id="getGrantedModule" action="select">
+    <tables>
+        <table name="module_grants" />
+    </tables>
+    <columns>
+        <column name="count(*)" alias="count" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="module_srl" var="module_srl" filter="number" notnull="notnull" />
+        <condition operation="in" column="name" default="'access','view','list'" notnull="notnull" pipe="and" />
+        <group pipe="and">
+            <condition operation="more" column="group_srl" default="1" notnull="notnull" />
+            <condition operation="equal" column="group_srl" default="-1" notnull="notnull" pipe="or" />
+            <condition operation="equal" column="group_srl" default="-2" notnull="notnull" pipe="or" />
+        </group>
+    </conditions>
+</query>

@@ -21,7 +21,7 @@ class ConditionTagTest extends CubridTest {
             $tag = new ConditionTag($xml_obj->condition);
             $arguments = $tag->getArguments();
 
-            $expected = "new Condition('\"user_id\"',\$" . $arguments[0]->getArgumentName() . "_argument,\"equal\")";
+            $expected = "new ConditionWithArgument('\"user_id\"',\$" . $arguments[0]->getArgumentName() . "_argument,\"equal\")";
             $actual = $tag->getConditionString();
             $this->assertEquals($expected, $actual);
 
@@ -38,7 +38,7 @@ class ConditionTagTest extends CubridTest {
             $xml_obj = Helper::getXmlObject($xml_file);
             $tag = new ConditionTag($xml_obj->condition);
 
-            $expected = "new Condition('\"comments\".\"user_id\"','\"member\".\"user_id\"',\"equal\")";
+            $expected = "new ConditionWithoutArgument('\"comments\".\"user_id\"','\"member\".\"user_id\"',\"equal\")";
             $actual = $tag->getConditionString();
             $this->assertEquals($expected, $actual);
 
@@ -57,7 +57,7 @@ class ConditionTagTest extends CubridTest {
             $tag = new ConditionTag($xml_obj->condition);
             $arguments = $tag->getArguments();
 
-            $expected = "new Condition('\"type\"',\$" . $arguments[0]->getArgumentName() . "_argument,\"equal\", 'and')";
+            $expected = "new ConditionWithArgument('\"type\"',\$" . $arguments[0]->getArgumentName() . "_argument,\"equal\", 'and')";
             $actual = $tag->getConditionString();
             $this->assertEquals($expected, $actual);
 
@@ -74,7 +74,7 @@ class ConditionTagTest extends CubridTest {
             $xml_obj = Helper::getXmlObject($xml_file);
             $tag = new ConditionTag($xml_obj->condition);
 
-            $expected = "new Condition('\"modules\".\"module_srl\"','\"documents\".\"module_srl\"',\"equal\", 'and')";
+            $expected = "new ConditionWithoutArgument('\"modules\".\"module_srl\"','\"documents\".\"module_srl\"',\"equal\", 'and')";
             $actual = $tag->getConditionString();
             $this->assertEquals($expected, $actual);
 

@@ -8,8 +8,7 @@ class ArgumentTest extends CubridTest {
 
     public function testErrorMessageIsSent_NotNullCheck(){
         global $lang;
-        include(_XE_PATH_.'common/lang/en.lang.php');
-
+        include(_TEST_PATH_ . "classes/xml/xmlquery/argument/data/en.lang.php");
         $page_argument = new Argument('page', $args->page);
         $page_argument->checkNotNull();
         $this->assertFalse($page_argument->isValid());
@@ -18,7 +17,7 @@ class ArgumentTest extends CubridTest {
 
     public function testErrorMessageIsSent_MinLengthCheck(){
         global $lang;
-        include(_XE_PATH_.'common/lang/en.lang.php');
+        include(_TEST_PATH_ . "classes/xml/xmlquery/argument/data/en.lang.php");
 
         $args->page = '123';
         $page_argument = new Argument('page', $args->page);
@@ -29,7 +28,7 @@ class ArgumentTest extends CubridTest {
 
     public function testErrorMessageIsSent_MaxLengthCheck(){
         global $lang;
-        include(_XE_PATH_.'common/lang/en.lang.php');
+        include(_TEST_PATH_ . "classes/xml/xmlquery/argument/data/en.lang.php");
 
         $args->page = '123';
         $page_argument = new Argument('page', $args->page);
@@ -215,7 +214,7 @@ class ArgumentTest extends CubridTest {
         $member_srl_argument = new ConditionArgument('"mid"', 'forum', 'like_prefix');
         $member_srl_argument->createConditionValue();
 
-        $this->assertEquals('forum%', $member_srl_argument->getValue());
+        $this->assertEquals('\'forum%\'', $member_srl_argument->getValue());
     }
 
      /**
@@ -225,7 +224,7 @@ class ArgumentTest extends CubridTest {
         $member_srl_argument = new ConditionArgument('"mid"', 'forum', 'like_tail');
         $member_srl_argument->createConditionValue();
 
-        $this->assertEquals('%forum', $member_srl_argument->getValue());
+        $this->assertEquals('\'%forum\'', $member_srl_argument->getValue());
     }
 
      /**
@@ -235,7 +234,7 @@ class ArgumentTest extends CubridTest {
         $member_srl_argument = new ConditionArgument('"mid"', 'forum', 'like');
         $member_srl_argument->createConditionValue();
 
-        $this->assertEquals('%forum%', $member_srl_argument->getValue());
+        $this->assertEquals('\'%forum%\'', $member_srl_argument->getValue());
     }
 
 

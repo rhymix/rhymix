@@ -132,7 +132,7 @@
                  * in xe_modules. Maybe the developer ment "browser_title"
                  */
 		function test_opage_getOpageList(){
-			$xml_file = _XE_PATH_ . "modules/opage/queries/getOpageList.xml";
+			$xml_file = _TEST_PATH_ . "db/xml_query/mssql/data/opage.getOpageList.xml";
 			$argsString = '$args->s_title = "yuhuu";
 					$args->module = \'opage\';';
 			$expected = 'SELECT TOP 20 *
@@ -157,7 +157,7 @@
                 }
 
                 function test_syndication_getGrantedModule(){
-                        $xml_file = _XE_PATH_ . "modules/syndication/queries/getGrantedModule.xml";
+                        $xml_file = _TEST_PATH_ . "db/xml_query/mssql/data/syndication.getGrantedModule.xml";
 			$argsString = '$args->module_srl = 67;';
 			$expected = 'select count(*) as [count]
                                         from [xe_module_grants] as [module_grants]

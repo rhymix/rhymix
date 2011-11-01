@@ -128,7 +128,7 @@
 		}
 
 		function test_opage_getOpageList(){
-			$xml_file = _XE_PATH_ . "modules/opage/queries/getOpageList.xml";
+			$xml_file = _TEST_PATH_ . "db/xml_query/cubrid/data/opage.getOpageList.xml";
 			$argsString = '$args->s_title = "yuhuu";
 							$args->module = \'opage\';';
 			$expected = 'SELECT *
@@ -140,7 +140,7 @@
 		}
 
 		function test_syndication_getGrantedModules(){
-			$xml_file = _XE_PATH_ . "modules/syndication/queries/getGrantedModules.xml";
+			$xml_file = _TEST_PATH_ . "db/xml_query/cubrid/data/syndication.getGrantedModules.xml";
 			$argsString = '$args->module_srl = 12;
                                        $args->name = array(\'access\',\'view\',\'list\');';
 			$expected = 'select "module_srl"
@@ -219,7 +219,7 @@
                  * Query argument is a single value - not in (12)
                  */
                 function test_module_getModules_Notin_Single_Value(){
-                    $xml_file = _XE_PATH_ . "modules/syndication/queries/getModules.xml";
+                    $xml_file = _TEST_PATH_ . "db/xml_query/cubrid/data/syndication.getModules.xml";
                     $argsString = '$args->except_module_srls = 12;';
                     $expected = 'select "modules"."site_srl" as "site_srl"
                                     , "modules"."module_srl" as "module_srl"
@@ -239,7 +239,7 @@
                 }
 
                 function test_module_getModules_Notin_Multiple_Value_String(){
-                    $xml_file = _XE_PATH_ . "modules/syndication/queries/getModules.xml";
+                    $xml_file = _TEST_PATH_ . "db/xml_query/cubrid/data/syndication.getModules.xml";
                     $argsString = '$args->except_module_srls = "12, 13, 14";';
                     $expected = 'select "modules"."site_srl" as "site_srl"
                                     , "modules"."module_srl" as "module_srl"
@@ -259,7 +259,7 @@
                 }
 
                 function test_module_getModules_Notin_Multiple_Value_Array(){
-                    $xml_file = _XE_PATH_ . "modules/syndication/queries/getModules.xml";
+                    $xml_file = _TEST_PATH_ . "db/xml_query/cubrid/data/syndication.getModules.xml";
                     $argsString = '$args->except_module_srls = array(12, 13, 14);';
                     $expected = 'select "modules"."site_srl" as "site_srl"
                                     , "modules"."module_srl" as "module_srl"
@@ -279,7 +279,7 @@
                 }
 
                function test_module_getModules_In_Single_Value(){
-                    $xml_file = _XE_PATH_ . "modules/syndication/queries/getModules.xml";
+                    $xml_file = _TEST_PATH_ . "db/xml_query/cubrid/data/syndication.getModules.xml";
                     $argsString = '$args->module_srls = 12;';
                     $expected = 'select "modules"."site_srl" as "site_srl"
                                     , "modules"."module_srl" as "module_srl"
@@ -299,7 +299,7 @@
                 }
 
                 function test_module_getModules_In_Multiple_Value_String(){
-                    $xml_file = _XE_PATH_ . "modules/syndication/queries/getModules.xml";
+                    $xml_file = _TEST_PATH_ . "db/xml_query/cubrid/data/syndication.getModules.xml";
                     $argsString = '$args->module_srls = "12, 13, 14";';
                     $expected = 'select "modules"."site_srl" as "site_srl"
                                     , "modules"."module_srl" as "module_srl"
@@ -319,7 +319,7 @@
                 }
 
                 function test_module_getModules_In_Multiple_Value_Array(){
-                    $xml_file = _XE_PATH_ . "modules/syndication/queries/getModules.xml";
+                    $xml_file = _TEST_PATH_ . "db/xml_query/cubrid/data/syndication.getModules.xml";
                     $argsString = '$args->module_srls = array(12, 13, 14);';
                     $expected = 'select "modules"."site_srl" as "site_srl"
                                     , "modules"."module_srl" as "module_srl"
@@ -390,7 +390,7 @@
                     $argsString = '';
                     $expected = 'select "session_key"
                                         from "xe_session" as "session"
-                                        where "expired" <= ' . date("YmdHis");
+                                        where "expired" <= \'' . date("YmdHis") . '\'';
                     $this->_test($xml_file, $argsString, $expected);
                 }
 

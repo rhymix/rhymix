@@ -8,7 +8,7 @@
 		}
 
                 function testConditionWithVarAndColumnDefaultValue_WithoutArgument(){
-			$xml_file = _XE_PATH_ . "modules/resource/queries/getLatestItem.xml";
+                        $xml_file = _TEST_PATH_ . "db/xml_query/mysql/data/resource.getLatestItem.xml";
 			$argsString = '$args->item_srl = "";';
 			$expected = 'select `package`.`module_srl` as `module_srl`
                                             , `package`.`status` as `status`
@@ -45,7 +45,7 @@
 		}
 
 		function testConditionWithVarAndColumnDefaultValue_WithArgument(){
-			$xml_file = _XE_PATH_ . "modules/resource/queries/getLatestItem.xml";
+                        $xml_file = _TEST_PATH_ . "db/xml_query/mysql/data/resource.getLatestItem.xml";
 			$argsString = '$args->item_srl = "10";';
 			$expected = 'select `package`.`module_srl` as `module_srl`
                                             , `package`.`status` as `status`
@@ -89,7 +89,7 @@
                 }
 
                 function testResource_getLatestItemList(){
-			$xml_file = _XE_PATH_ . "modules/resource/queries/getLatestItemList.xml";
+                        $xml_file = _TEST_PATH_ . "db/xml_query/mysql/data/resource.getLatestItemList.xml";
 			$argsString = '';
 			$expected = 'select `package`.`module_srl` as `module_srl`
                                             , `package`.`status` as `status`
