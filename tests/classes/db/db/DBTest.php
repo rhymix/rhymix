@@ -1,5 +1,6 @@
 <?php
-    class DBTest extends PHPUnit_Framework_TestCase {
+
+class DBTest extends PHPUnit_Framework_TestCase {
 
         function _testQuery($xml_file, $argsString, $expected, $methodName, $columnList = null){
                 echo PHP_EOL . ' ----------------------------------- ' .PHP_EOL;

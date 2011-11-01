@@ -1,5 +1,4 @@
 <?php
-	require(_XE_PATH_ . 'test-phpUnit/config/config.inc.php');
 
 	class MysqlSelectTest extends MysqlTest {
 

@@ -1,7 +1,6 @@
 <?php
-	require(_XE_PATH_ . 'test-phpUnit/config/config.inc.php');
 
-	class MysqlUpdateTest extends MysqlTest {
+        class MysqlUpdateTest extends MysqlTest {
 
                 function _test($xml_file, $argsString, $expected, $columnList = null){
                     $this->_testQuery($xml_file, $argsString, $expected, 'getUpdateSql', $columnList);

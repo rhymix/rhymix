@@ -1,6 +1,4 @@
 <?php
-	require(_XE_PATH_ . 'test-phpUnit/config/config.inc.php');
-
          /**
          * Test class for TableTag.
          */
