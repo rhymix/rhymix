@@ -79,13 +79,6 @@
 
 			$oDB->commit();
 
-			//remove from cache
-            $oCacheHandler = &CacheHandler::getInstance('object');
-            if($oCacheHandler->isSupport())
-            {
-                $oCacheHandler->invalidateGroupKey('commentList');
-            }
-
 			$msgCode = '';
 			if($isTrash == 'true') $msgCode = 'success_trashed';
 			else $msgCode = 'success_deleted';
@@ -169,11 +162,13 @@
             if(!$output->toBool()) return $output;
 
             $output = executeQuery('comment.deleteModuleCommentsList', $args);
-			//remove from cache
+
+            //remove from cache
             $oCacheHandler = &CacheHandler::getInstance('object');
             if($oCacheHandler->isSupport())
             {
-                $oCacheHandler->invalidateGroupKey('commentList');
+                // Invalidate newest comments. Per document cache is invalidated inside document admin controller.
+                $oCacheHandler->invalidateGroupKey('newestCommentsList');
             }
             return $output;
         }

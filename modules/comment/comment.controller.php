@@ -244,7 +244,8 @@
             $oCacheHandler = &CacheHandler::getInstance('object');
             if($oCacheHandler->isSupport())
             {
-                $oCacheHandler->invalidateGroupKey('commentList');
+                $oCacheHandler->invalidateGroupKey('commentList_' . $document_srl);
+                $oCacheHandler->invalidateGroupKey('newestCommentsList');
             }
             return $output;
         }
@@ -326,7 +327,8 @@
             $oCacheHandler = &CacheHandler::getInstance('object');
             if($oCacheHandler->isSupport())
             {
-                $oCacheHandler->invalidateGroupKey('commentList');
+                $oCacheHandler->invalidateGroupKey('commentList_' . $obj->document_srl);
+                $oCacheHandler->invalidateGroupKey('newestCommentsList');
             }
             return $output;
         }
@@ -395,7 +397,8 @@
             $oCacheHandler = &CacheHandler::getInstance('object');
             if($oCacheHandler->isSupport())
             {
-                $oCacheHandler->invalidateGroupKey('commentList');
+                $oCacheHandler->invalidateGroupKey('commentList_' . $document_srl);
+                $oCacheHandler->invalidateGroupKey('newestCommentsList');
             }
             return $output;
         }
@@ -454,7 +457,8 @@
             $oCacheHandler = &CacheHandler::getInstance('object');
             if($oCacheHandler->isSupport())
             {
-                $oCacheHandler->invalidateGroupKey('commentList');
+                $oCacheHandler->invalidateGroupKey('commentList_' . $document_srl);
+                $oCacheHandler->invalidateGroupKey('newestCommentsList');
             }
 
             return $output;

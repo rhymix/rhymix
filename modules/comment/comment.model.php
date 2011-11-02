@@ -175,6 +175,7 @@
 
         /**
          * @brief get the comment in corresponding with mid.
+         * TODO add commentItems to cache too
          **/
         function getNewestCommentList($obj, $columnList = array()) {
             if($obj->mid) {
@@ -190,7 +191,7 @@
 			$oCacheHandler = &CacheHandler::getInstance('object');
 			if($oCacheHandler->isSupport()){
 				$object_key = 'object_newest_comment_list:'.$obj->module_srl;
-                                $cache_key = $oCacheHandler->getGroupKey('commentList', $object_key);
+                                $cache_key = $oCacheHandler->getGroupKey('newestCommentsList', $object_key);
 				$output = $oCacheHandler->get($cache_key);
 			}
 			if(!$output){
@@ -220,17 +221,18 @@
          * @brief get a comment list of the doc in corresponding woth document_srl.
          **/
         function getCommentList($document_srl, $page = 0, $is_admin = false, $count = 0) {
+                if(!isset($document_srl)) return;
         	// cache controll
-			$oCacheHandler = &CacheHandler::getInstance('object');
-			if($oCacheHandler->isSupport()){
-				$object_key = 'object:'.$document_srl.'_'.$page.'_'.($is_admin ? 'Y' : 'N') .'_' . $count;
-                                $cache_key = $oCacheHandler->getGroupKey('commentList', $object_key);
-				$output = $oCacheHandler->get($cache_key);
-			}
+                $oCacheHandler = &CacheHandler::getInstance('object');
+                if($oCacheHandler->isSupport()){
+                        $object_key = 'object:'.$document_srl.'_'.$page.'_'.($is_admin ? 'Y' : 'N') .'_' . $count;
+                        $cache_key = $oCacheHandler->getGroupKey('commentList_' . $document_srl, $object_key);
+                        $output = $oCacheHandler->get($cache_key);
+                }
         	if(!$output){
-        		// get the number of comments on the document module
+                    // get the number of comments on the document module
 	            $oDocumentModel = &getModel('document');
-				$columnList = array('document_srl', 'module_srl', 'comment_count');
+                    $columnList = array('document_srl', 'module_srl', 'comment_count');
 	            $oDocument = $oDocumentModel->getDocument($document_srl, false, true, $columnList);
 	            // return if no doc exists.
 	            if(!$oDocument->isExists()) return;

@@ -321,6 +321,7 @@
 	            	$oCacheHandler->delete($cache_key);
                             $cache_key_item = 'object_document_item:'.$document_srl;
                             $oCacheHandler->delete($cache_key_item);
+                            $oCacheHandler->invalidateGroupKey('commentList_' . $document_srl);
 	        	}
                         $oCacheHandler->invalidateGroupKey('documentList');
 	        }
