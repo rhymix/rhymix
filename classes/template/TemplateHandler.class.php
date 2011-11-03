@@ -187,7 +187,7 @@ class TemplateHandler {
 		$buff = $this->_parseInline($buff);
 
 		// include, unload/load, import
-		$buff = preg_replace_callback('/{(@[\s\S]+?|(?=\$\w+|_{1,2}[A-Z]+|[!\(+-]|\w+(?:\(|::)|\d+|[\'"].*?[\'"]).+?)}|<(!--[#%])?(include|import|(un)?load(?(4)|(?:_js_plugin)?))(?(2)\("([^"]+)")(.*?)(?(2)\)--|\/)>|<!--(@[a-z@]+)(.*?)-->(\s*)/', array($this, '_parseResource'), $buff);
+		$buff = preg_replace_callback('/{(@[\s\S]+?|(?=\$\w+|_{1,2}[A-Z]+|[!\(+-]|\w+(?:\(|::)|\d+|[\'"].*?[\'"]).+?)}|<(!--[#%])?(include|import|(un)?load(?(4)|(?:_js_plugin)?))(?(2)\("([^"]+)")(.*?)(?(2)\)--|\/)>|<!--(@[a-z@]+)([\s\S]*?)-->(\s*)/', array($this, '_parseResource'), $buff);
 
 		// remove block which is a virtual tag and remove comments
 		$buff = preg_replace('@</?block\s*>|\s?<!--//(.*?)-->@is','',$buff);
@@ -508,7 +508,7 @@ class TemplateHandler {
 			$m[7] = substr($m[7],1);
 			if(!preg_match('/^(?:((?:end)?(?:if|switch|for(?:each)?|while)|end)|(else(?:if)?)|(break@)?(case|default)|(break))$/', $m[7], $mm)) return '';
 			if($mm[1]) {
-				if($mm[1]{0} == 'e') return '<?php } ?>';
+				if($mm[1]{0} == 'e') return '<?php } ?>'.$m[9];
 
 				$precheck = '';
 				if($mm[1] == 'switch') {

@@ -46,8 +46,8 @@ class TemplateHandlerTest extends PHPUnit_Framework_TestCase
 			),
 			// <!--@if--> ~ <!--@end-->
 			array(
-				'<a>Link</a><!--@if($cond)--><strong>Hello, world</strong><!--@end--><dummy />',
-				'<a>Link</a><?php if($__Context->cond){ ?><strong>Hello, world</strong><?php } ?><dummy />'
+				'<a>Link</a><!--@if($cond)--><strong>Hello, world</strong><!--@end--> <dummy />',
+				'<a>Link</a><?php if($__Context->cond){ ?><strong>Hello, world</strong><?php } ?> <dummy />'
 			),
 			// <!--@if--> ~ <!--@endif-->
 			array(
@@ -218,6 +218,11 @@ class TemplateHandlerTest extends PHPUnit_Framework_TestCase
 			array(
 				'<img cond="$oBodex->display_extra_images[\'mobile\'] && $arr_extra && $arr_extra->bodex->mobile" src="./images/common/mobile.gif" title="mobile" alt="mobile" />',
 				'<?php if($__Context->oBodex->display_extra_images[\'mobile\'] && $__Context->arr_extra && $__Context->arr_extra->bodex->mobile){ ?><img src="/xe/tests/classes/template/images/common/mobile.gif" title="mobile" alt="mobile" /><?php } ?>'
+			),
+			// issue 831
+			array(
+				"<li <!--@if(in_array(\$act, array(\n'dispNmsAdminGroupList',\n'dispNmsAdminInsertGroup',\n'dispNmsAdminGroupInfo',\n'dispNmsAdminDeleteGroup')))-->class=\"on\"<!--@endif-->>",
+				"<li <?php if(in_array(\$__Context->act, array(\n'dispNmsAdminGroupList',\n'dispNmsAdminInsertGroup',\n'dispNmsAdminGroupInfo',\n'dispNmsAdminDeleteGroup'))){ ?>class=\"on\"<?php } ?>>"
 			),
 		);
 	}
