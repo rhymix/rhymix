@@ -553,6 +553,9 @@
             }
             // Log-in
             if ($config->enable_confirm != 'Y') $this->doLogin($args->user_id);
+            //get redirect url from cookie and invalidate cookie
+            $config->redirect_url = $_COOKIE["XE_REDIRECT_URL"];
+            setcookie("XE_REDIRECT_URL", '', 1);
             // Results
             $this->add('member_srl', $args->member_srl);
             if($config->redirect_url) $this->add('redirect_url', $config->redirect_url);

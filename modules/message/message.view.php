@@ -17,6 +17,8 @@
          * @brief Display messages
          **/
         function dispMessage() {
+        	//setcookie for redirect url in case of going to member sign up
+        	setcookie("XE_REDIRECT_URL", $_SERVER['REQUEST_URI']);
             // Get configurations (using module model object)
             $oModuleModel = &getModel('module');
             $this->module_config = $config = $oModuleModel->getModuleConfig('message', $this->module_info->site_srl);
