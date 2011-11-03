@@ -23,6 +23,11 @@
 			$pc = Context::get('pc');
 			$mobile = Context::get('mobile');
 			$fixed = Context::get('fixed');
+			
+			$site_module_info = Context::get('site_module_info');
+			
+			if($site_module_info->site_srl) $site_srl = $site_module_info->site_srl;
+			else $site_srl = 0;
 
 			if (!$pc) $pc = array();
 			if (!$mobile) $mobile = array();
@@ -34,7 +39,7 @@
 
 			// get current addon info
 			$oModel = &getAdminModel('addon');
-			$currentAddonList = $oModel->getAddonList(0, 'site');
+			$currentAddonList = $oModel->getAddonList($site_srl, 'site');
 
 			// get need update addon list
 			$updateList = array();
@@ -80,7 +85,7 @@
 					$args->fixed = 'N';
 
 				$args->addon = $targetAddon;
-				$args->site_srl = 0;
+				$args->site_srl = $site_srl;
 
 				$output = executeQuery('addon.updateSiteAddon', $args);
 				if (!$output->toBool()) return $output;
@@ -88,8 +93,8 @@
 
 			if (count($updateList))
 			{
-				$this->makeCacheFile(0, 'pc', 'site');
-				$this->makeCacheFile(0, 'mobile', 'site');
+				$this->makeCacheFile($site_srl, 'pc', 'site');
+				$this->makeCacheFile($site_srl, 'mobile', 'site');
 			}
 
 			if (Context::get('success_return_url'))
