@@ -18,7 +18,7 @@
 			<directory path="./modules/page/skins/default" />
 		</skinInfo>
 		<skinInfo>
-			<directory path="./modules/board/skins/xe_board" />
+			<directory path="./modules/board/skins/xe_v3_default" />
 		</skinInfo>
 		<skinInfo>
 			<directory path="./modules/member/skins/default" />
