@@ -1,6 +1,7 @@
 <form action="./" method="post">
 	<input type="hidden" name="module" value="addon" />
 	<input type="hidden" name="act" value="procAddonAdminSaveActivate" />
+	<input type="hidden" name="sccess_return_url" value="{getRequestUriByServerEnviroment()}" />
 
 	<h1 class="h1">{$lang->installed_addon}</h1>
 	<p>{$lang->about_installed_addon}</p>

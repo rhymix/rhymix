@@ -75,6 +75,12 @@
             // Template specifies the path and file
             $this->setTemplateFile('setup_addon');
 
+			if(Context::get('module') != 'admin')
+			{
+				$this->setLayoutPath('./common/tpl');
+				$this->setLayoutFile('popup_layout');
+			}
+
 			$security = new Security();
 			$security->encodeHTML('addon_info.', 'addon_info.author..', 'mid_list....');
         }
