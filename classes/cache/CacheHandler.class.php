@@ -12,9 +12,12 @@
 		var $handler = null;
                 var $keyGroupVersions = null;
 
-                function &getInstance($target='object') {
-                    return new CacheHandler($target);
-                }
+	    function &getInstance($target='object') {
+			if(!$GLOBALS['__XE_CACHE_HANDLER__'][$target]) {
+	        	$GLOBALS['__XE_CACHE_HANDLER__'][$target] = new CacheHandler($target);
+	      	}
+	      	return $GLOBALS['__XE_CACHE_HANDLER__'][$target];
+		}
 
 		function CacheHandler($target, $info=null) {
 			if(!$info) $info = Context::getDBInfo();

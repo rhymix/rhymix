@@ -152,10 +152,12 @@
          * @brief module_srl value, bringing the list of documents
          **/
         function getDocumentList($obj, $except_notice = false, $load_extra_vars=true, $columnList = array()) {
-            // cache controll
+            $sort_check = $this->_setSortIndex($obj, $load_extra_vars);
+            $obj->sort_index = $sort_check->sort_index; 
+        	// cache controll
 			$oCacheHandler = &CacheHandler::getInstance('object');
 			if($oCacheHandler->isSupport()){
-				$object_key = 'object:'.$obj->module_srl.'_category_srl:'.$obj->category_srl.'_list_count:'.$obj->list_count.'_search_target:'.$obj->search_target.'_search_keyword:'.$obj->search_keyword.'_page'.$obj->page;
+				$object_key = 'object:'.$obj->module_srl.'_category_srl:'.$obj->category_srl.'_list_count:'.$obj->list_count.'_search_target:'.$obj->search_target.'_search_keyword:'.$obj->search_keyword.'_page'.$obj->page.'_sort_index:'.$obj->sort_index;
 				$cache_key = $oCacheHandler->getGroupKey('documentList', $object_key);
                                 $output = $oCacheHandler->get($cache_key);
 			}
