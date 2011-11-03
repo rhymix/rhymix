@@ -66,6 +66,10 @@
                                 case 'notlike' :
                                 case 'in' :
                                 case 'notin' :
+                                case 'and':
+                                case 'or':
+                                case 'xor':
+                                case 'not':
                                 case 'notequal' :
                                         // if variable is not set or is not string or number, return
                                         if(!isset($this->_value)) { $this->_show = false; break;}
@@ -126,7 +130,19 @@
                             case 'null' :
                                     return $name.' is null';
                                 break;
-                                            case 'between' :
+                            case 'and' :
+                                    return $name.' & '.$value;
+                                break;
+                            case 'or' :
+                                    return $name.' | '.$value;
+                                break;
+                            case 'xor' :
+                                    return $name.' ^ '.$value;
+                                break;
+                            case 'not' :
+                                    return $name.' ~ '.$value;
+                                break;
+                            case 'between' :
                             return $name.' between ' . $value[0] . ' and ' . $value[1];
                                             break;
                 }

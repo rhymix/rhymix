@@ -51,6 +51,42 @@ class ConditionWithArgumentTest extends CubridTest {
 
         $this->assertEquals(' "member_srl" in (\'a\',\'b\',\'c\')', $tag->toString());
     }
+
+     /**
+     * Checks and operation
+     */
+    public function testConditionString_And() {
+        $tag = new ConditionWithoutArgument('"member_srl"', "20", 'and', null);
+
+        $this->assertEquals(' "member_srl" & 20', $tag->toString());
+    }
+
+     /**
+     * Checks or operation
+     */
+    public function testConditionString_Or() {
+        $tag = new ConditionWithoutArgument('"member_srl"', "20", 'or', null);
+
+        $this->assertEquals(' "member_srl" | 20', $tag->toString());
+    }
+
+     /**
+     * Checks xor operation
+     */
+    public function testConditionString_Xor() {
+        $tag = new ConditionWithoutArgument('"member_srl"', "20", 'xor', null);
+
+        $this->assertEquals(' "member_srl" ^ 20', $tag->toString());
+    }
+
+     /**
+     * Checks not operation
+     */
+    public function testConditionString_Not() {
+        $tag = new ConditionWithoutArgument('"member_srl"', "20", 'not', null);
+
+        $this->assertEquals(' "member_srl" ~ 20', $tag->toString());
+    }
 }
 
 ?>
