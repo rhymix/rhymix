@@ -1268,4 +1268,8 @@ Lütfen son sürümü için indirme linkine tıklayınız.]]></value>
 		<value xml:lang="tr"><![CDATA[XE Salt FTP Yolu]]></value>
 		<value xml:lang="vi"><![CDATA[Đường dẫn tuyệt đối của thư mục cài đặt XE trên FTP]]></value>
 	</item>
+	<item name="admin_setup">
+		<value xml:lang="ko"><![CDATA[관리자 설정]]></value>
+		<value xml:lang="en"><![CDATA[Admin Setup]]></value>
+	</item>
 </lang>

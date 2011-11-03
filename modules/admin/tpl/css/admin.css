@@ -18,11 +18,11 @@ header,footer,section,article,aside,nav,hgroup,details,menu,figure,figcaption{di
 .x .h1, 
 .x .h2, 
 .x .h3, 
-.x .h4{position:relative;border-bottom-style:solid;zoom:1}
-.x .h1{border-bottom-width:4px;font-size:24px;border-bottom-color:#666}
-.x .h2{border-bottom-width:3px;font-size:20px;border-bottom-color:#888}
-.x .h3{border-bottom-width:2px;font-size:16px;border-bottom-color:#aaa}
-.x .h4{border-bottom-width:1px;font-size:12px;border-bottom-color:#ccc}
+.x .h4{position:relative;border-style:solid;border-top:0;border-right:0;zoom:1;padding-left:8px}
+.x .h1{border-width:4px;font-size:24px;border-color:#666}
+.x .h2{border-width:3px;font-size:20px;border-color:#888}
+.x .h3{border-width:2px;font-size:16px;border-color:#aaa}
+.x .h4{border-width:1px;font-size:12px;border-color:#ccc}
 .x .h1 + ul,
 .x .h2 + ul,
 .x .h3 + ul,
@@ -169,7 +169,7 @@ header,footer,section,article,aside,nav,hgroup,details,menu,figure,figcaption{di
 }
 /* Local Navigation */
 .x .lnb{position:relative;float:left;width:210px;margin:1em 0 1em -240px;line-height:normal;zoom:1;display:inline}
-.x .lnb .h2{margin-top:0}
+.x .lnb .h2{margin-top:0;border-left:0;padding-left:0}
 .x .lnb ul{margin:0 !important;padding:0;list-style:none}
 .x .lnb li{position:relative;margin:0 0 -1px 0;vertical-align:top;zoom:1}
 .x .lnb li a{display:block;position:relative;padding:8px 10px;text-decoration:none;color:#666;font-weight:bold;background:#fafafa;border:1px solid #eee;zoom:1}
