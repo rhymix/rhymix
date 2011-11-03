@@ -190,4 +190,21 @@
                                         limit 0, 20';
 			$this->_test($xml_file, $argsString, $expected);
                 }
+
+                function test_WidgetsNewestDocument_getNewestDocuments(){
+			$xml_file = _TEST_PATH_ . "db/xml_query/mysql/data/widgets.newest_document.getNewestDocuments.xml";
+			$argsString = '$args->module_srl = "566036,3777868";';
+			$expected = 'select `modules`.`site_srl` as `site_srl`
+                                        , `modules`.`mid` as `mid`
+                                        , `documents`.*
+                                     from `xe_modules` as `modules`
+                                        , `xe_documents` as `documents`
+                                     where (
+                                        `documents`.`module_srl` in (566036,3777868)
+                                        and `modules`.`module_srl` = `documents`.`module_srl`)
+                                        and `documents`.`list_order` <= 2100000000
+                                     order by `documents`.`list_order` asc
+                                     limit 20';
+			$this->_test($xml_file, $argsString, $expected);
+                }
 	}
