@@ -24,23 +24,55 @@
 		 */
 		function procImporterAdminCheckXmlFile() {
 			$filename = Context::get('filename');
-			$realPath = FileHandler::getRealPath($filename);
-
 			$isExists = 'false';
-			if(file_exists($realPath) && is_file($realPath)) $isExists = 'true';
-			$this->add('exists', $isExists);
 
-			if($isExists == 'true')
+			if(preg_match('/^http/i', $filename))
 			{
-				$type = 'XML';
+				if(ini_get('allow_url_fopen'))
+				{
+					$fp = @fopen($filename, "r");
+					if($fp)
+					{
+						$str = fgets($fp, 100);
+						if(strlen($str) > 0)
+						{
+							$isExists = 'true';
+							$type = 'XML';
+							if(stristr($str, 'tattertools')) $type = 'TTXML';
 
-				$fp = fopen($realPath, "r");
-				$str = fgets($fp, 100);
-				if(stristr($str, 'tattertools')) $type = 'TTXML';
-				fclose($fp);
+							$this->add('type', $type);
+						}
+						fclose($fp);
+						$resultMessage = $lang->found_xml_file;
+					}
+					else $resultMessage = $lang->cannot_url_file;
+				}
+				else $resultMessage = $lang->cannot_allow_fopen_in_phpini;
 
-				$this->add('type', $type);
+				$this->add('exists', $isExists);
 			}
+			else
+			{
+				$realPath = FileHandler::getRealPath($filename);
+
+				if(file_exists($realPath) && is_file($realPath)) $isExists = 'true';
+				$this->add('exists', $isExists);
+
+				if($isExists == 'true')
+				{
+					$type = 'XML';
+
+					$fp = fopen($realPath, "r");
+					$str = fgets($fp, 100);
+					if(stristr($str, 'tattertools')) $type = 'TTXML';
+					fclose($fp);
+
+					$this->add('type', $type);
+					$resultMessage = $lang->found_xml_file;
+				}
+				else $resultMessage = $lang->not_found_xml_file;
+			}
+			$this->add('result_message', $resultMessage);
 		}
 
         /**

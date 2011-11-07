@@ -354,6 +354,22 @@ Hãy nhập đường dẫn cho File chứa Data trên Host dưới dạng http:
 		<value xml:lang="tr"><![CDATA[Lütfen senkronizasyonu başlatmak için Senkronizasyon düğmesine basınız.]]></value>
 		<value xml:lang="vi"><![CDATA[Data thành viên và bài viết sẽ được đồng bộ hóa sau khi bấm "Đồng bộ".]]></value>
 	</item>
+	<item name="found_xml_file">
+		<value xml:lang="ko"><![CDATA[XML 파일을 찾았습니다.]]></value>
+		<value xml:lang="en"><![CDATA[found XML file]]></value>
+	</item>
+	<item name="not_found_xml_file">
+		<value xml:lang="ko"><![CDATA[XML 파일을 찾을 수 없습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Can not found XML file]]></value>
+	</item>
+	<item name="cannot_allow_fopen_in_phpini">
+		<value xml:lang="ko"><![CDATA[php.ini 환경설정에서 원격지의 파일을 열지 못하도록 되어 있습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Can not found XML file]]></value>
+	</item>
+	<item name="cannot_url_file">
+		<value xml:lang="ko"><![CDATA[원격지의 파일을 열지 못하였습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Can not found XML file]]></value>
+	</item>
 	<item name="cmd_check_path">
 		<value xml:lang="ko"><![CDATA[경로 확인]]></value>
 		<value xml:lang="en"><![CDATA[Check the path]]></value>
