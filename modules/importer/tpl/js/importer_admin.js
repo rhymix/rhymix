@@ -11,7 +11,7 @@ jQuery(function($){
 $('.checkxml')
 	.find('input:text')
 		.change(function(){
-			$(this).closest('.checkxml').find('.desc').hide();
+			$(this).closest('.checkxml').find('.desr').hide();
 		})
 	.end()
 	.find('button')
@@ -22,7 +22,7 @@ $('.checkxml')
 			$form      = $this.closest('form');
 			$container = $this.closest('.checkxml');
 			$input     = $container.find('input').prop('disabled', true).addClass('loading');
-			$messages  = $container.find('.desc').hide();
+			$message   = $container.find('.desc').hide();
 
 			function on_complete(data) {
 				var $ul, $ttxml, $xml;
@@ -30,10 +30,12 @@ $('.checkxml')
 				$ul    = $this.closest('ul');
 				$xml   = $ul.find('>.xml');
 				$ttxml = $ul.find('>.ttxml');
+
+				$message.text(data.result_message);
 					
 				// when the file doesn't exists or any other error occurs
 				if(data.error || data.exists != 'true') {
-					$messages.filter('.error').fadeIn(300);
+					$message.attr('class', 'desc error').fadeIn(300);
 					$ttxml = $ttxml.filter(':visible');
 					$ttxml.eq(-1).slideUp(100, function(){
 						$ttxml = $ttxml.slice(0,-1).eq(-1).slideUp(100,arguments.callee);
@@ -43,7 +45,7 @@ $('.checkxml')
 				}
 
 				restore();
-				$messages.filter('.success').fadeIn(300);
+				$message.attr('class', 'desc success').fadeIn(300);
 				$form.find(':submit').removeAttr('disabled');
 
 				$syncmember = $form.find('.syncmember:hidden');

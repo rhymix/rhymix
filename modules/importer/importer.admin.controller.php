@@ -23,6 +23,8 @@
 		 * @brief Check whether the passing filename exists or not. Detect the file type, too.
 		 */
 		function procImporterAdminCheckXmlFile() {
+			global $lang;
+
 			$filename = Context::get('filename');
 			$isExists = 'false';
 
