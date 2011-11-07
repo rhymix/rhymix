@@ -170,7 +170,14 @@
             }
 
             // Check if a permission for file download is granted
-            if(is_array($file_module_config->download_grant) && count($file_module_config->download_grant)>0) {
+			$downloadGrantCount = 0;
+			if(is_array($file_module_config->download_grant))
+			{
+				foreach($file_module_config->download_grant AS $value)
+					if($value) $downloadGrantCount++;
+			}
+
+            if(is_array($file_module_config->download_grant) && $downloadGrantCount>0) {
                 if(!Context::get('is_logged')) return $this->stop('msg_not_permitted_download');
                 $logged_info = Context::get('logged_info');
                 if($logged_info->is_admin != 'Y') {
