@@ -640,7 +640,7 @@
 		<value xml:lang="vi"><![CDATA[Thùng rác]]></value>
 	</item>
 	<item name="trash_nick_name">
-		<value xml:lang="ko"><![CDATA[옮긴 사람]]></value>
+		<value xml:lang="ko"><![CDATA[옮긴사람]]></value>
 		<value xml:lang="en"><![CDATA[Deleted by]]></value>
 		<value xml:lang="jp"><![CDATA[削除者のニックネーム]]></value>
 		<value xml:lang="zh-CN"><![CDATA[操作人昵称]]></value>
@@ -751,16 +751,6 @@
 			<value xml:lang="ru"><![CDATA[Имя удалителя]]></value>
 			<value xml:lang="tr"><![CDATA[Silici İsmi]]></value>
 			<value xml:lang="vi"><![CDATA[Tên người xóa]]></value>
-		</item>
-		<item name="trash_nick_name">
-			<value xml:lang="ko"><![CDATA[삭제자 닉네임]]></value>
-			<value xml:lang="en"><![CDATA[Nickname]]></value>
-			<value xml:lang="jp"><![CDATA[削除者ニックネーム]]></value>
-			<value xml:lang="zh-CN"><![CDATA[操作人昵称]]></value>
-			<value xml:lang="zh-TW"><![CDATA[移除暱稱]]></value>
-			<value xml:lang="ru"><![CDATA[Ник удалителя]]></value>
-			<value xml:lang="tr"><![CDATA[Silici rumuzu]]></value>
-			<value xml:lang="vi"><![CDATA[NickName người xóa]]></value>
 		</item>
 		<item name="trash_date">
 			<value xml:lang="ko"><![CDATA[삭제일]]></value>

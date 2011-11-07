@@ -20,10 +20,6 @@
 		<value xml:lang="en"><![CDATA[Recycle Bin]]></value>
 		<value xml:lang="jp"><![CDATA[ゴミ箱]]></value>
 	</item>
-	<item name="trash_nick_name">
-		<value xml:lang="ko"><![CDATA[옮긴 사람]]></value>
-		<value xml:lang="en"><![CDATA[Deleted by]]></value>
-	</item>
 	<item name="trash_date">
 		<value xml:lang="ko"><![CDATA[삭제 날짜]]></value>
 		<value xml:lang="en"><![CDATA[Deleted date]]></value>
