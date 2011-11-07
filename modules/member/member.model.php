@@ -36,7 +36,7 @@
 
             // Get terms of user
             $agreement_file = _XE_PATH_.'files/member_extra_info/agreement.txt';
-            if(file_exists($agreement_file)) $config->agreement = FileHandler::readFile($agreement_file);
+            if(!$config->agreement && file_exists($agreement_file)) $config->agreement = FileHandler::readFile($agreement_file);
 
             if(!$config->webmaster_name) $config->webmaster_name = 'webmaster';
             if(!$config->image_name_max_width) $config->image_name_max_width = 90;
