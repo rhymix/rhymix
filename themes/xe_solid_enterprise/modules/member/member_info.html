@@ -1,0 +1,77 @@
+<!--#include("./common_header.html")-->
+
+<h3 class="pTitle1">{$lang->cmd_view_member_info}</h3>
+    <table cellspacing="0" cellpadding="0" class="rowTable">
+			<!--@foreach($member_config->signupForm as $no=>$formInfo)-->
+			<!--@if($formInfo->isUse && ($formInfo->name != 'password' && $formInfo->name != 'find_account_question'))-->
+			<!--@if($formInfo->isDefaultForm)-->
+	{@$title = $formInfo->title}
+	{@$value = $memberInfo[$formInfo->name]}
+				<!--@if($formInfo->name == 'profile_image' && $memberInfo['profile_image'])-->
+	{@$target = $memberInfo['profile_image']}
+	{@$value = '<img src="'.$target->src.'" />'}
+				<!--@elseif($formInfo->name == 'image_name' && $memberInfo['image_name'])-->
+	{@$target = $memberInfo['image_name']}
+	{@$value = '<img src="'.$target->src.'" />'}
+				<!--@elseif($formInfo->name == 'image_mark' && $memberInfo['image_mark'])-->
+	{@$target = $memberInfo['image_mark']}
+	{@$value = '<img src="'.$target->src.'" />'}
+				<!--@end-->
+			<!--@else-->
+	{@$title = $extend_form_list[$formInfo->member_join_form_srl]->column_title}
+	{@$orgValue = $extend_form_list[$formInfo->member_join_form_srl]->value}
+			<!--@if($formInfo->type=='tel')-->
+				{@$value = htmlspecialchars($orgValue[0])}
+					<!--@if($orgValue[1])-->-<!--@end-->
+				{@$value .= htmlspecialchars($orgValue[1])}
+					<!--@if($orgValue[2])-->-<!--@end-->
+				{@$value .= htmlspecialchars($orgValue[2])}
+			<!--@elseif($formInfo->type=='kr_zip')-->
+				{@$value = htmlspecialchars($orgValue[0])}<!--@if($orgValue[1]&&$orgValue[0])--><br /><!--@end-->{@$value .= htmlspecialchars($orgValue[1])}
+			<!--@elseif($formInfo->type=='checkbox' && is_array($orgValue))-->
+				{@$value = htmlspecialchars(implode(", ",$orgValue))}
+			<!--@elseif($formInfo->type=='date')-->
+				{@$value = zdate($orgValue, "Y-m-d")}
+			<!--@else-->
+				{@$value = nl2br(htmlspecialchars($orgValue))}
+			<!--@end-->
+		<!--@end-->
+
+		<tr>
+			<th scope="row" >{$title} <em cond="$formInfo->required || $formInfo->mustRequired">*</em></th>
+			<td class="text">{$value}</td>
+		</tr>
+		<!--@end-->
+		<!--@end-->
+
+		<tr>
+			<th scope="row">{$lang->group}</th>
+			<td class="text">{implode(', ', $memberInfo['group_list'])}</td>
+		</tr>
+		<tr>
+			<th>{$lang->signup_date}</th>
+			<td>{zdate($memberInfo[regdate],"Y-m-d")}</td>
+		</tr>
+		<!--@if($memberInfo[member_srl] == $logged_info->member_srl || $logged_info->is_admin == 'Y' )-->
+		<tr>
+			<th>{$lang->last_login}</th>
+			<td>{zdate($memberInfo[last_login],"Y-m-d")}</td>
+		</tr>
+		<!--@end-->
+
+</table>
+
+<div class="btn_bar_r">
+	<!--@if($member_info->member_srl == $logged_info->member_srl)-->
+	<a href="{getUrl('act','dispMemberModifyInfo','member_srl','')}" class="grayBtn"><span>{$lang->cmd_modify_member_info}</span></a>
+		<!--@if($logged_info->is_openid)-->
+			<a href="{getUrl('act','dispMemberOpenIDLeave','member_srl','')}" class="grayBtn"><span>{$lang->cmd_leave}</span></a>
+		<!--@else-->
+			<a href="{getUrl('act','dispMemberModifyPassword','member_srl','')}" class="grayBtn"><span>{$lang->cmd_modify_member_password}</span></a>
+			<a href="{getUrl('act','dispMemberLeave','member_srl','')}" class="grayBtn"><span>{$lang->cmd_leave}</span></a>
+		<!--@end-->
+	<!--@end-->
+	<a href="{getUrl('act','','member_srl','')}" class="whiteBtn"><span>{$lang->cmd_back}</span></a>
+</div><!-- //btn_bar_r -->
+
+<!--#include("./common_footer.html")-->

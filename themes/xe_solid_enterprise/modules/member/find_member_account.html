@@ -1,0 +1,68 @@
+<!--#include("./common_header.html")-->
+<!--%import("filter/find_member_account.xml")-->
+<!--%import("filter/find_member_account_by_question.xml")-->
+<h3 class="pTitle">{$lang->cmd_find_member_account}</h3>
+<div class="find_account">
+
+<table cellpadding="0" cellspacing="0" class="findTable">
+	<colgroup>
+    	<col width="180" />
+        <col width="" />
+    </colgroup>
+	<tbody>
+		<form action="./" method="get" onsubmit="return procFilter(this, find_member_account)">
+		<input type="hidden" name="mid" value="{$mid}" />
+		<input type="hidden" name="document_srl" value="{$document_srl}" />
+		<input type="hidden" name="page" value="{$page}" />
+
+        <tr class="bLine"><td colspan="2"></td></tr>
+    	<tr class="mLine">
+        	<th class=""><div>{$lang->email_address}</div></th>
+            <td class=""><input type="email" name="email_address" class="tInput" /><p>{$lang->about_find_member_account}</p></td>
+        </tr>
+        <tr class="btnLine">
+            <th></th>
+            <td><span class="grayBtn"><input type="submit" accesskey="s" value="{$lang->cmd_find_member_account}" /></span></td>
+        </tr>
+        <tr class="bLine"><td colspan="2"></td></tr>
+		</form>
+
+		<form action="./" method="get" onsubmit="return procFilter(this, find_member_account_by_question)">
+		<input type="hidden" name="mid" value="{$mid}" />
+		<input type="hidden" name="document_srl" value="{$document_srl}" />
+		<input type="hidden" name="page" value="{$page}" />
+
+
+        <tr class="sLine">
+        	<th><div>{$lang->user_id}</div></th>
+            <td><input type="text" name="user_id" class="tInput" /></td>
+        </tr>
+        <tr class="sLine">
+        	<th><div>{$lang->email_address}</div></th>
+            <td><input type="text" name="email_address" class="tInput" /></td>
+        </tr>
+        <tr class="mLine">
+        	<th><div>{$lang->find_account_question}</div></th>
+            <td>
+				<select name="find_account_question">
+				<!--@for($i=1,$c=count($lang->find_account_question_items);$i<$c;$i++)-->
+					<option value="{$i}">{$lang->find_account_question_items[$i]}</option>
+				<!--@end-->
+				</select><br /><br />
+            	<input type="text" name="find_account_answer" value=""  /><br />
+                <p>{$lang->about_find_account_question}</p>
+                
+            </td>
+        </tr>
+        <tr class="btnLine">
+        	<th></th>
+            <td class=""><span class="grayBtn"><input type="submit" value="{$lang->cmd_get_temp_password}" accesskey="s" /></td>
+        </tr>
+        <tr class="bLine"><td colspan="2"></td></tr>
+    </tbody>
+</table>
+</form>
+</div><!-- //find_account -->
+
+
+<!--#include("./common_footer.html")-->

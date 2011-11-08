@@ -1,0 +1,151 @@
+@charset "utf-8";
+/* CSS Document */
+#communicationModule							{font-family:Arial, Helvetica, sans-serif;}
+
+#communicationModule caption{ font-size:11px; font-family:Tahoma; color:#888; text-align:left;}
+/* Button */
+a.grayBtn								{display:inline-block;height:29px;padding-left:4px; background:url(../images/btn_gray_left.gif) no-repeat top left; text-decoration:none;cursor:pointer;}
+a.grayBtn span							{display:inline-block;height:24px;padding:5px 14px 0 11px;white-space:nowrap;color:#FFF;font-weight:bold;background:url(../images/btn_gray_right.gif) no-repeat top right;}
+a.whiteBtn								{display:inline-block;height:29px;padding-left:4px; background:url(../images/btn_white_left.gif) no-repeat top left; text-decoration:none;cursor:pointer;}
+a.whiteBtn span							{display:inline-block;height:24px;padding:5px 14px 0 11px;white-space:nowrap;color:#808080;font-weight:bold;background:url(../images/btn_white_right.gif) no-repeat top right;}
+span.whiteBtn							{display:inline-block;height:27px;padding-left:4px; vertical-align:middle; _vertical-align:baseline; white-space:nowrap; background:url(../images/btn_white_left.gif) no-repeat top left; text-decoration:none;cursor:pointer;}
+span.whiteBtn input						{display:inline-block;height:29px;white-space:nowrap;color:#808080;font-weight:bold;background:url(../images/btn_white_right.gif) no-repeat top right;cursor:pointer; border:0 none; top;font-size:12px;font-family:Arial, Helvetica, sans-serif; vertical-align:middle; text-align: line-height:11px;}
+span.grayBtn							{display:inline-block;height:27px;padding-left:4px; vertical-align:middle; _vertical-align:baseline; white-space:nowrap; background:url(../images/btn_gray_left.gif) no-repeat top left; text-decoration:none;cursor:pointer;}
+span.grayBtn input						{display:inline-block;padding:0 12px 0 7px;height:26px;white-space:nowrap;color:#808080;font-weight:bold;background:url(../images/btn_gray_right.gif) no-repeat top right;cursor:pointer; border:0 none; top;font-size:12px;font-family:Arial, Helvetica, sans-serif; vertical-align:middle;color:#FFF; text-align: line-height:11px;}
+
+.localNavigation						{width:100%;height:31px;margin:0;padding:1px 0 0 0;background: url(../images/title_bg_repeat.gif) repeat-x top left;}
+.localNavigation li						{float:left;list-style:none;}
+.localNavigation .mLeft					{width:3px;height:31px;margin-top:-1px;float:left;}
+.localNavigation .mRight				{width:5px;height:31px;margin-top:-1px;float:right;}
+.localNavigation .item					{height:24px; margin:0;background:url(../images/title_item_vr.gif) no-repeat top right;}
+.localNavigation .item a				{display:inline-block;height:19px;padding:5px 16px 0 14px;outline:none;font-family:Arial, Helvetica, sans-serif;color:#5a5a5a;text-decoration:none;}
+.localNavigation .l_on					{background:none;margin-left:-2px;margin-top:1px;}
+.localNavigation .l_on .l_on_left		{display:block;width:3px;height:24px;float:left;background:url(../images/title_on_left.gif) no-repeat top left;}
+.localNavigation .l_on a				{ color:#FFF;_margin-left:-3px;background:url(../images/title_on_right.gif) no-repeat top right;}
+.localNavigation .l_last				{background:none;}
+
+
+#communicationModule h3.pTitle					{height:23px;margin:10px 0 5px 0;padding:5px 0 0 10px;color:#3f3f3f; font-size:12px;font-family:Arial, Helvetica, sans-serif;}
+#communicationModule h3.pTitle1				{height:23px;margin:20px 0 12px 0;padding:8px 0 0 37px;border-bottom:#9b989a solid 1px;color:#3f3f3f; background:url(../images/icon_member_info.gif) no-repeat 13px 6px; font-size:12px;font-family:Arial, Helvetica, sans-serif;}
+#communicationModule h3.pTitle6				{height:23px;margin:20px 0 12px 0;padding:8px 0 0 37px;border-bottom:#9b989a solid 1px;color:#3f3f3f; background:url(../images/icon_message.gif) no-repeat 13px 6px; font-size:12px;font-family:Arial, Helvetica, sans-serif;}
+#communicationModule h3.pTitle7				{height:23px;margin:20px 0 12px 0;padding:8px 0 0 37px;border-bottom:#9b989a solid 1px;color:#3f3f3f; background:url(../images/icon_message.gif) no-repeat 13px 6px; font-size:12px;font-family:Arial, Helvetica, sans-serif;}
+
+#communicationModule .rowTable					{width:100%; border-bottom:#c3c1c2 solid 1px;}
+.rowTable th							{border-bottom:#E5E5E5 solid 1px;vertical-align:top;padding:13px 11px;;text-align:left;}
+.rowTable th div						{white-space:nowrap;color:#5a5a5a;}
+.rowTable td							{width:100%; padding:13px 10px 13px 25px;border-bottom:#E5E5E5 solid 1px;color:#000000;}
+.rowTable td input.txt					{border:#C1C1C1 solid 1px;height:20px;}
+
+#communicationModule .col_table				{width:100%;border-bottom:#c9c7c8 solid 1px;}
+.col_table tr							{height:27px;}
+.col_table thead tr						{height:25px;background:url(../images/coltable_head_bg.gif) repeat-x top left;}
+.col_table thead th						{height:25px;background:url(../images/coltable_head_bg.gif) repeat-x top left;}
+.col_table .chk							{background:transparent url(../images/coltable_head_left.gif) no-repeat top left;}
+.col_table input						{margin:0;padding:0;}
+.col_table th,
+.col_table td							{text-align:left;padding-left:20px;}
+.col_table th.button_col					{text-align:right;padding:5px 0;}
+.col_table .subject						{text-align:left;padding-left:20px;}
+.col_table .subject a					{text-decoration:none;color:#333;font-weight:bold;}
+.col_table .subject em					{font-size:10px;font-style:italic;}
+.col_table .subject em.red				{color:#C00;}
+.col_table .subject em.green			{color:#390;}
+.col_table .subject input				{margin-right:10px;vertical-align:text-bottom;}
+.col_table th.th_right					{text-align:center;padding:0;background-color:transparent; background:url(../images/coltable_head_right.gif) no-repeat top right;}
+.col_table th.th_tc,
+.col_table td.td_tc						{text-align:center; padding:0;}
+.col_table .savedContent				{padding:10px;}
+.col_table .doc_title					{padding:7px 5px 0 0;}
+.col_table .doc_title a					{text-decoration:none;color:#333;font-weight:bold;}
+.col_table th.button					{padding:6px 0 10px 0;border-top:#EEE solid 1px;}
+.msg_table tbody tr						{height:30px;}
+#communicationModule .find_account				{padding-left:11px;height:482px;background:url(../images/find_bg_left.png) no-repeat top left;}
+#communicationModule p.tDesc					{margin:0 0 10px 0;padding:0;}
+#communicationModule .findTable				{width:100%; height:482px; background:url(../images/find_bg_right.png) no-repeat top right;}
+.findTable th							{padding:9px 18px 9px 40px;text-align:left;background:none;}
+.findTable td							{padding:9px 18px 9px 40px;background:none;}
+.findTable .btnLine						{height:30px;}
+.findTable .sLine						{height:40px;}
+.findTable .mLine						{height:50px;}
+.findTable .bLine						{text-align:center;}
+.findTable .tInput						{width:185px;height:17px;font-size:12px;border:#CECECE solid 1px;}
+.btn_bar_r								{text-align:right;margin:16px 0;}
+.btn_bar_l								{text-align:left;}
+
+.signPanel								{width:318px; height:191px; margin:10px auto; background:#093 url(../images/login_panel_bg.gif) no-repeat top left;}
+.signPanel .left						{width:192px;height:138px;padding:18px 0 0 23px; _padding-top:28px;_height:128px;float:left;}
+.signPanel .right						{width:100px;height:111px;padding-top:45px;float:right;}
+.signPanel .left .tInBox				{width:185px;height:18px;padding:0 0 0 4px;background:url(../images/signPanel_input_bg.gif) no-repeat top left;}
+.signPanel .left .tInBox img			{padding-top:3px;}
+.signPanel .left .tInBox input			{width:160px;padding-left:5px;height:18px;border:0 none;background:none;}
+.signPanel .left label					{display:block;margin:10px 0 3px 0;}
+.signPanel .left label input			{margin:0 7px 0 0;padding:0;}
+.signPanel .left .lb_chk				{margin-top:10px;_margin:0;padding:0;}
+.signPanel .bottom_bar					{width:245px;text-align:center;padding:9px 0 0 73px;float:left;border-top:#e1e1e1 solid 1px;}
+.signPanel .bottom_bar a				{dispaly:block;padding-left:10px;float:left;text-decoration:none;color:#757575;}
+.signPanel .bottom_bar a.vr				{padding-right:10px;border-right:#a8a8a8 solid 1px;}
+
+
+
+
+#communicationModule p { margin:3px 0 0 0; padding:0;}
+#dummy_check_nick_name { color:red; margin:3px 0 0 0; padding:0; }
+#communicationModule .require { color:red; font-size:10px; font-family:tahoma; font-weight:bold; margin-left:5px; }
+#communicationModule .publicItem { margin:5px 0 0 0; padding:0; color:#aaa; }
+#communicationModule .publicItem input { padding:0; margin: 0; }
+
+#communicationModule caption{ font-size:11px; font-family:Tahoma; color:#888; text-align:left;}
+
+#communicationModule td.openids div { float:left; margin-right:10px; margin-bottom:10px; }
+#communicationModule td.openids div a { color:#AAA; text-decoration:none;}
+#communicationModule .openid_user_id { background: url(../img/openid_login_bg.gif) left no-repeat; background-color: #ffffff; background-position: 0 50%; padding:3px 3px 3px 18px; border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; line-height:1em; vertical-align:middle; color:#666666; width:200px;}
+#communicationModule .insertOpenID { clear:both; margin-top:10px; }
+#communicationModule .savedContent { margin-top:10px; border:1px solid #EEE; padding:10px; }
+
+#communicationModule .pagination{ padding:15px 0; margin:0; text-align:center; clear:both; }
+#communicationModule .pagination *{ margin:0; padding:0;}
+#communicationModule .pagination img{ border:0;}
+#communicationModule .pagination a,
+#communicationModule .pagination strong{ position:relative; display:inline-block; text-decoration:none; line-height:normal; color:#333; font-family:Tahoma, Sans-serif; vertical-align:middle;}
+#communicationModule .pagination a:hover,
+#communicationModule .pagination a:active,
+#communicationModule .pagination a:focus{ background-color:#f4f4f4 !important; }
+#communicationModule .pagination strong{ color:#ff6600 !important;}
+#communicationModule .pagination a.prev,
+#communicationModule .pagination a.prevEnd,
+#communicationModule .pagination a.next,
+#communicationModule .pagination a.nextEnd{ font-weight:normal !important; border:none !important; margin:0 !important; white-space:nowrap; }
+
+#communicationModule .pagination.a1 a,
+#communicationModule .pagination.a1 strong{ margin:0 -4px; padding:1px 10px 1px 8px; border:none; border-left:1px solid #ccc; border-right:1px solid #ddd; font-weight:bold; font-size:12px; background:#fff;}
+#communicationModule .pagination.a1 a.prev{ padding-left:10px; background:#fff url(../img/arrowPrevA1.gif) no-repeat left center; }
+#communicationModule .pagination.a1 a.prevEnd{ padding-left:15px; background:#fff url(../img/arrowPrevEndA1.gif) no-repeat left center; }
+#communicationModule .pagination.a1 a.next{ padding-right:10px; background:#fff url(../img/arrowNextA1.gif) no-repeat right center; }
+#communicationModule .pagination.a1 a.nextEnd{ padding-right:15px; background:#fff url(../img/arrowNextEndA1.gif) no-repeat right center; }
+
+#communicationModule .regdate { font-size:10px; font-family:tahoma; color:#AAA; }
+#communicationModule .readed_date  { font-size:10px; font-family:tahoma; color:#888; letter-spacing:-1px;}
+
+
+#communicationModule .xeGroups { position:relative; }
+#communicationModule .xeMessages select ,
+#communicationModule .xeGroups select { margin:0; padding:0; vertical-align:middle; }
+#communicationModule .setupGroup	{ position:absolute; right:0; top:0;}
+#communicationModule .setupMessage	{float:right;margin-top:7px;}
+
+#communicationModule .jumpMenu { margin-bottom:5px; text-align:right; }
+
+#communicationModule .xeMessages .msg_title		{width:100%;height:25px;padding-top:3px;margin-top:10px;float:left;font-weight:bold;text-align:center;border:#E2E2E2 solid 1px;background:#F2F2F2;}
+#communicationModule .xeMessages .msg_meta		{width:100%;float:left;height:26px;padding-top:9px;border-bottom:#F2F2F2 solid 1px;}
+#communicationModule .xeMessages .msg_meta span	{padding:0 5px;}
+#communicationModule .xeMessages .msg_message	{width:100%;float:left;padding:10px;min-height:100px;height:auto !important;height:100px;}
+#communicationModule .xeMessages .msg_view_btns	{width:100%;float:left;text-align:center;padding:9px 9px 0 9px;}
+
+
+#communicationModule .isTab				{margin:10px 0 0 0;padding-left:0;float:left;}
+#communicationModule .isTab	li			{padding:0 10px;border-right:#d8d8d8 solid 1px;float:left;list-style:none;}
+#communicationModule .isTab	li.last		{border:none;}
+#communicationModule .isTab	li a		{text-decoration:none;color:#7b7b7b;}
+#communicationModule .isTab	li.on a		{color:#595c72;}
+
+#fo_message_list .msg_table				{width:100%;float:left;margin-top:10px;}

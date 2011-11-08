@@ -1,0 +1,307 @@
+<!--#include("./common_header.html")-->
+<!--%import("../../tpl/js/signup_check.js")-->
+
+<!--%import("filter/modify_info.xml")-->
+<!--@if($member_config->profile_image == 'Y')-->
+    <!--%import("filter/delete_profile_image.xml")-->
+<!--@end-->
+
+<!--@if($member_config->image_name == 'Y')-->
+    <!--%import("filter/delete_image_name.xml")-->
+<!--@end-->
+
+<!--@if($member_config->image_mark == 'Y')-->
+    <!--%import("filter/delete_image_mark.xml")-->
+<!--@end-->
+
+<!--@if($member_config->enable_openid=="Y")-->
+    <!--%import("filter/add_openid_to_member.xml")-->
+    <!--%import("filter/delete_openid_from_member.xml")-->
+<!--@end-->
+
+<!--// datepicker javascript plugin load -->
+<!--%load_js_plugin("ui")-->
+<!--%load_js_plugin("ui.datepicker")-->
+
+    <h3 class="pTitle">{$lang->msg_update_member}</h3>
+
+    <form id="fo_insert_member" action="{getUrl()}" method="post" onsubmit="return procFilter(this, modify_info)" <!--@if($member_config->profile_image == 'Y' || $member_config->image_name=='Y' || $member_config->image_mark=='Y')-->enctype="multipart/form-data"<!--@end--> target="tmp_upload_iframe">
+    <input type="hidden" name="act" value="" />
+    <input type="hidden" name="module" value="member" />
+    <input type="hidden" name="member_srl" value="{$member_info->member_srl}" />
+    <input type="hidden" name="signature" value="{htmlspecialchars($member_info->signature)}" />
+    <input type="hidden" name="page" value="{$page}" />
+
+    <table cellspacing="0" class="rowTable">
+    <tr><th colspan="2" class="title"><div>{$lang->member_default_info}</div></th></tr>
+    <tr>
+        <th><div>{$lang->user_id}</div></th>
+        <td class="wide">{htmlspecialchars($member_info->user_id)}</td>
+    </tr>
+    <tr>
+        <th><div>{$lang->user_name} <span class="require">*</span></div></th>
+        <td class="wide"><input type="text" class="txt" name="user_name" value="{htmlspecialchars($member_info->user_name)}" /> <p>{$lang->about_user_name}</p></td>
+    </tr>
+    <tr>
+        <th><div>{$lang->nick_name} <span class="require">*</span></div></th>
+        <td><input type="text" class="txt" name="nick_name" value="{htmlspecialchars(htmlspecialchars_decode($member_info->nick_name))}" /> <p>{$lang->about_nick_name}</p></td>
+    </tr>
+    <tr>
+        <th><div>{$lang->email_address} <span class="require">*</span></div></th>
+        <td><input type="text" class="txt" name="email_address" value="{htmlspecialchars($member_info->email_address)}" /><p>{$lang->about_email_address}</p></td>
+    </tr>
+	<!--@if(count($lang->find_account_question_items)>1)-->
+    <tr>
+        <th><div>{$lang->find_account_question} <span class="require">*</span></div></th>
+        <td>
+			<select name="find_account_question">
+			<!--@for($i=1,$c=count($lang->find_account_question_items);$i<$c;$i++)-->
+				<option value="{$i}">{$lang->find_account_question_items[$i]}</option>
+			<!--@end-->
+			</select>
+            <br />
+			<input type="text" class="txt" name="find_account_answer" value="{$member_info->find_account_answer}" class="txt w300"/>
+        </td>
+    </tr>
+	<!--@end-->
+
+    <!--@if($member_config->profile_image == 'Y')-->
+    <tr>
+        <th><div>{$lang->profile_image}</div></th>
+        <td>
+            <!--@if($member_info->profile_image->src)-->
+            <div class="memberImage">
+                <div class="info"><img src="{$member_info->profile_image->src}" border="0" alt="profile_image" /></div>
+                <a href="#" onclick="doDeleteProfileImage({$member_info->member_srl});return false;" class="button"><span>{$lang->cmd_delete}</span></a>
+            </div>
+            <!--@end-->
+
+            <div class="memberImage">
+                <div class="form"><input type="file" name="profile_image" value="" /></div>
+                <a href="#" onclick="doUploadProfileImage();return false;" class="button"><span>{$lang->cmd_registration}</span></a>
+            </div>
+            <p>{$lang->profile_image_max_width} : {$member_config->profile_image_max_width}px, {$lang->profile_image_max_height} : {$member_config->profile_image_max_height}px</p>
+        </td>
+    </tr>
+    <!--@end-->
+    <!--@if($member_config->image_name == 'Y')-->
+    <tr>
+        <th><div>{$lang->image_name}</div></th>
+        <td>
+            <!--@if($member_info->image_name->src)-->
+            <div class="memberImage">
+                <div class="info"><img src="{$member_info->image_name->src}" border="0" alt="image_name" /></div>
+                <a href="#" onclick="doDeleteImageName({$member_info->member_srl});return false;" class="button"><span>{$lang->cmd_delete}</span></a>
+            </div>
+            <!--@end-->
+
+            <div class="memberImage">
+                <div class="form"><input type="file" name="image_name" value="" /></div>
+                <a href="#" onclick="doUploadImageName();return false;" class="button"><span>{$lang->cmd_registration}</span></a>
+            </div>
+            <p>{$lang->image_name_max_width} : {$member_config->image_name_max_width}px, {$lang->image_name_max_height} : {$member_config->image_name_max_height}px</p>
+        </td>
+    </tr>
+    <!--@end-->
+    <!--@if($member_config->image_mark == 'Y')-->
+    <tr>
+        <th><div>{$lang->image_mark}</div></th>
+        <td>
+            <!--@if($member_info->image_mark->src)-->
+            <div class="memberImage">
+                <div class="info"><img src="{$member_info->image_mark->src}" border="0" alt="image_mark" /></div>
+                <a href="#" onclick="doDeleteImageMark({$member_info->member_srl});return false;" class="button"><span>{$lang->cmd_delete}</span></a>
+            </div>
+            <!--@end-->
+
+            <div class="memberImage">
+                <div class="form"><input type="file" name="image_mark" value="" /></div>
+                <a href="#" onclick="doUploadImageMark();return false;" class="button"><span>{$lang->cmd_registration}</span></a>
+            </div>
+            <p>{$lang->image_mark_max_width} : {$member_config->image_mark_max_width}px, {$lang->image_mark_max_height} : {$member_config->image_mark_max_height}px</p>
+        </td>
+    </tr>
+    <!--@end-->
+    <tr>
+        <th><div>{$lang->homepage}</div></th>
+        <td><input type="text" class="txt" name="homepage" value="{htmlspecialchars(htmlspecialchars_decode($member_info->homepage))}" /> <p>{$lang->about_homepage}</p></td>
+    </tr>
+    <tr>
+        <th><div>{$lang->blog}</div></th>
+        <td><input type="text" class="txt" name="blog" value="{htmlspecialchars(htmlspecialchars_decode($member_info->blog))}" /> <p>{$lang->about_blog_url}</p></td>
+    </tr>
+    <tr>
+        <th><div>{$lang->birthday}</div></th>
+        <td>
+
+            <input type="hidden" name="birthday" value="{$member_info->birthday}" />
+            <input type="text" class="inputDate txt" value="{zdate($member_info->birthday,'Y-m-d')}" readonly="readonly" />
+			<span class="button"><input type="button" value="{$lang->cmd_delete}" class="dateRemover" /></span>
+            <p>{$lang->about_birthday}</p>
+
+        </td>
+    </tr>
+    <tr>
+        <th><div>{$lang->allow_mailing}</div></th>
+        <td><input type="checkbox" name="allow_mailing" value="Y" class="checkbox" <!--@if($member_info->allow_mailing!='N')-->checked="checked"<!--@end--> /> <p>{$lang->about_allow_mailing}</p></td>
+    </tr>
+    <!--@if($member_config->signature != 'N')-->
+    <tr>
+        <th><div>{$lang->signature}</div></th>
+        <td>{$editor}</td>
+    </tr>
+    <!--@end-->
+
+    <!--@if($extend_form_list)-->
+    <tr><th colspan="2" class="title"><div>{$lang->member_extend_info}</div></th></tr>
+    {@ $dummy_chk = 0 }
+    <!--@foreach($extend_form_list as $key => $val)--><!--@if($val->is_active=='Y')-->
+    <tr <!--@if($dummy_chk==0)-->class="first-child" {@ $dummy_chk = 1; }<!--@end-->>
+        <th>
+            {htmlspecialchars($val->column_title)}
+            <!--@if($val->required=='Y')--><span class="require">*</span><!--@end-->
+        </th>
+        <td>
+            <!--// 일반 text -->
+            <!--@if($val->column_type == 'text')-->
+                <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value)}" class="w400 txt" />
+
+            <!--// 홈페이지 주소 -->
+            <!--@elseif($val->column_type == 'homepage')-->
+                <input type="text w400" class="txt" name="{$val->column_name}" value="{htmlspecialchars(htmlspecialchars_decode($val->value))}" />
+
+            <!--// Email 주소 -->
+            <!--@elseif($val->column_type == 'email_address')-->
+                <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value)}" class="txt w400" />
+
+            <!--// 전화번호 -->
+            <!--@elseif($val->column_type == 'tel')-->
+                <input type="text" class="txt" name="{$val->column_name}" value="{htmlspecialchars($val->value[0])}" size="4" />
+                <input type="text" class="txt" name="{$val->column_name}" value="{htmlspecialchars($val->value[1])}" size="4" />
+                <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value[2])}" size="4" class="txt" />
+
+            <!--// textarea -->
+            <!--@elseif($val->column_type == 'textarea')-->
+                <textarea name="{$val->column_name}" class="iTextArea w400">{htmlspecialchars($val->value)}</textarea>
+
+            <!--// 다중 선택 -->
+            <!--@elseif($val->column_type == 'checkbox')-->
+                <!--@if($val->default_value)-->
+                    <ul class="checkbox">
+                    <!--@foreach($val->default_value as $v)-->
+                        <li><input type="checkbox" name="{$val->column_name}" value="{$v}" <!--@if(is_array($val->value)&&in_array($v, $val->value))-->checked="checked"<!--@end-->/>{$v}</li>
+                    <!--@end-->
+                    </ul>
+                <!--@end-->
+
+            <!--// 라디오 버튼 -->
+            <!--@elseif($val->column_type == 'radio')-->
+                <!--@if($val->default_value)-->
+                    <ul class="radio">
+                    <!--@foreach($val->default_value as $v)-->
+                        <li><input type="radio" name="{$val->column_name}" value="{$v}" <!--@if($val->value == $v)-->checked="checked"<!--@end-->/>{$v}</li>
+                    <!--@end-->
+                    </ul>
+                <!--@end-->
+
+            <!--// 단일 선택 -->
+            <!--@elseif($val->column_type == 'select')-->
+                <select name="{$val->column_name}">
+                <!--@if($val->default_value)-->
+                    <!--@foreach($val->default_value as $v)-->
+                        <option value="{$v}" <!--@if($v == $val->value)-->selected="selected"<!--@end-->>{$v}</option>
+                    <!--@end-->
+                <!--@end-->
+                </select>
+
+            <!--// 한국 주소 검색 -->
+            <!--@elseif($val->column_type == 'kr_zip')-->
+                <div class="krZip">
+                    <div class="item" id="zone_address_search_{$val->column_name}" style="display:none"|cond="$val->value[0]">
+						<label for="krzip_address1_{$val->column_name}" class="iLabel">{$lang->msg_kr_address}</label>
+                        <input type="text" id="krzip_address1_{$val->column_name}" class="w200 txt" value="" />
+                        <span class="button"><button type="button">{$lang->cmd_search}</button></span>
+                    </div>
+                    <div class="item" id="zone_address_list_{$val->column_name}" style="display:none"|cond="!$val->value[0]">
+                        <select name="{$val->column_name}" id="address_list_{$val->column_name}" class="w300">
+							<option value="{$val->value[0]}"|cond="$val->value[0]">{$val->value[0]}</option>
+						</select>
+                        <span class="button"><button type="button">{$lang->cmd_search_again}</button></span>
+                    </div>
+                    <div class="item address2">
+						<label for="krzip_address2_{$val->column_name}" class="iLabel">{$lang->msg_kr_address_etc}</label>
+                        <input type="text" name="{$val->column_name}" id="krzip_address2_{$val->column_name}" value="{htmlspecialchars($val->value[1])}" class="w300 txt" />
+                    </div>
+                </div>
+				<load target="../../tpl/js/krzip_search.js" type="body" />
+				<script type="text/javascript">jQuery(function($){ $.krzip('{$val->column_name}') });</script>
+
+            <!--// 일본 주소 검색 -->
+            <!--@elseif($val->column_type == 'jp_zip')-->
+                <input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value)}" class="w300" />
+
+            <!--// 날짜 입력 -->
+            <!--@elseif($val->column_type == 'date')-->
+                <input type="hidden" name="{$val->column_name}" id="date_{$val->column_name}" value="{$val->value}" />
+                <input type="text" class="inputDate" value="{zdate($val->value,'Y-m-d')}" />
+				<span class="button"><input type="button" value="{$lang->cmd_delete}" class="dateRemover" /></span>
+
+
+
+            <!--@end-->
+
+            <p>{$val->description}</p>
+            <div class="publicItem">
+                <input type="checkbox" class="checkbox" name="open_{$val->column_name}" <!--@if($val->is_opened)-->checked="checked"<!--@end--> value="Y" id="open_{$val->column_name}" />
+                <label for="open_{$val->column_name}">{$lang->public}</label>
+            </div>
+        </td>
+    </tr>
+    <!--@end--><!--@end-->
+    <!--@end-->
+
+    <!--@if($member_config->enable_openid=="Y")-->
+    <tr><th class="title" colspan="2"><div>{$lang->openid}</div></th></tr>
+    <tr>
+        <td colspan="2" class="openids">
+            <!--@foreach($openids as $openid)-->
+            <div><a href="{$openid->bookmarklet}">{$openid->openid}</a> <a onclick="doDeleteOpenIDFromMember('{$openid->openid}')" class="buttonSet buttonDelete"><span>{$lang->cmd_delete}</span></a></div>
+            <!--@end-->
+
+            <div class="insertOpenID">
+                <input name="openid" type="text" class="openid_user_id" />
+                <input name="openid_to_delete" type="hidden" />
+                <a onclick="doAddOpenIDToMember()" class="button"><span>{$lang->cmd_insert}</span></a>
+            </div>
+        </td>
+    </tr>
+    <!--@end-->
+    <tr>
+        <th class="button_col" colspan="2">
+            <span class="grayBtn"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+            <a href="{getUrl('act','dispMemberInfo','member_srl','')}" class="whiteBtn"><span>{$lang->cmd_cancel}</span></a>
+        </th>
+    </tr>
+    </table>
+</form>
+
+
+<script type="text/javascript">
+(function($){
+    $(function(){
+        var option = { changeMonth: true, changeYear: true, gotoCurrent: false,yearRange:'-100:+10', onSelect:function(){
+
+            $(this).prev('input[type="hidden"]').val(this.value.replace(/-/g,""))}
+        };
+        $.extend(option,$.datepicker.regional['{$lang_type}']);
+        $(".inputDate").datepicker(option);
+		$(".dateRemover").click(function() {
+			$(this).parent().prevAll('input').val('');
+			return false;});
+    });
+})(jQuery);
+</script>
+
+<iframe id="tmp_upload_iframe" name="tmp_upload_iframe" style="display:none;width:1px;height:1px;position:absolute;top:-10px;left:-10px"></iframe>
+
+<!--#include("./common_footer.html")-->
