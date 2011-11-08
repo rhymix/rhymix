@@ -132,10 +132,7 @@ function getScreen() {
 		};
 
 		// 스크린을 닫는 상황
-		$(document).scroll(xScreen.xeHide);
 		$(document).keydown(xScreen.xeHide);
-		$(window).resize(xScreen.xeHide);
-		$(window).scroll(xScreen.xeHide);
 	} else {
 		controls = $("#xe_gallery_controls");
 		imgframe = $("#xe_gallery_holder");
