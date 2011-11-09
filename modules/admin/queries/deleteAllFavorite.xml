@@ -1,0 +1,5 @@
+<query id="deleteAllFavorite" action="delete">
+	<tables>
+		<table name="admin_favorite" />
+	</tables>
+</query>
