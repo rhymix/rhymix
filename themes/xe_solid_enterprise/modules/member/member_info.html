@@ -58,11 +58,9 @@
 			<td>{zdate($memberInfo[last_login],"Y-m-d")}</td>
 		</tr>
 		<!--@end-->
-
 </table>
-
 <div class="btn_bar_r">
-	<!--@if($member_info->member_srl == $logged_info->member_srl)-->
+	<!--@if($memberInfo['member_srl'] == $logged_info->member_srl)-->
 	<a href="{getUrl('act','dispMemberModifyInfo','member_srl','')}" class="grayBtn"><span>{$lang->cmd_modify_member_info}</span></a>
 		<!--@if($logged_info->is_openid)-->
 			<a href="{getUrl('act','dispMemberOpenIDLeave','member_srl','')}" class="grayBtn"><span>{$lang->cmd_leave}</span></a>
