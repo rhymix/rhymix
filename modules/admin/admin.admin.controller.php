@@ -276,10 +276,12 @@
 		/**
 		 * @brief Insert favorite
 		 **/
-		function _insertFavorite($siteSrl, $module)
+		function _insertFavorite($siteSrl, $module, $type = 'module')
 		{
+			$args->adminFavoriteSrl = getNextSequence();
 			$args->site_srl = $siteSrl;
 			$args->module = $module;
+			$args->type = $type;
 			$output = executeQuery('admin.insertFavorite', $args);
 			return $output;
 		}
@@ -291,6 +293,16 @@
 		{
 			$args->admin_favorite_srl = $favoriteSrl;
 			$output = executeQuery('admin.deleteFavorite', $args);
+			return $output;
+		}
+
+		/**
+		 * @brief Delete favorite
+		 **/
+		function _deleteAllFavorite()
+		{
+			$args = null;
+			$output = executeQuery('admin.deleteAllFavorite', $args);
 			return $output;
 		}
 

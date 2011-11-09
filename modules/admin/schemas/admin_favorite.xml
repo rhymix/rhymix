@@ -2,4 +2,5 @@
 	<column name="admin_favorite_srl" type="number" size="11" notnull="notnull" primary_key="primary_key" auto_increment="auto_increment" />
 	<column name="site_srl" type="number" size="11" default="0" />
 	<column name="module" type="varchar" size="80" />
+	<column name="type" type="varchar" size="30" />
 </table>

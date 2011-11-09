@@ -19,6 +19,9 @@
          * @brief if update is necessary it returns true
          **/
         function checkUpdate() {
+            $oDB = &DB::getInstance();
+            if(!$oDB->isColumnExists("admin_favorite", "type")) return true;
+
             return false;
         }
 
@@ -27,6 +30,26 @@
          * @return new Object
          **/
         function moduleUpdate() {
+            $oDB = &DB::getInstance();
+            if(!$oDB->isColumnExists("admin_favorite", "type"))
+			{
+				$oAdminAdminModel = &getAdminModel('admin');
+				$output = $oAdminAdminModel->getFavoriteList();
+				$favoriteList = $output->get('favoriteList');
+
+				$oDB->dropColumn('admin_favorite', 'admin_favorite_srl');
+            	$oDB->addColumn('admin_favorite',"admin_favorite_srl","number",11,0);
+				if(is_array($favoriteList))
+				{
+					$oAdminAdminController = &getAdminController('admin');
+					$oAdminAdminController->_deleteAllFavorite();
+					foreach($favoriteList AS $key=>$value)
+					{
+						$oAdminAdminController->_insertFavorite($value->site_srl, $value->module);
+					}
+				}
+            	$oDB->addColumn('admin_favorite',"type","varchar",30, 'module');
+			}
             return new Object();
         }
 
