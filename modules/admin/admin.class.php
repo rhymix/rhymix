@@ -39,6 +39,7 @@
 
 				$oDB->dropColumn('admin_favorite', 'admin_favorite_srl');
             	$oDB->addColumn('admin_favorite',"admin_favorite_srl","number",11,0);
+            	$oDB->addColumn('admin_favorite',"type","varchar",30, 'module');
 				if(is_array($favoriteList))
 				{
 					$oAdminAdminController = &getAdminController('admin');
@@ -48,7 +49,6 @@
 						$oAdminAdminController->_insertFavorite($value->site_srl, $value->module);
 					}
 				}
-            	$oDB->addColumn('admin_favorite',"type","varchar",30, 'module');
 			}
             return new Object();
         }
