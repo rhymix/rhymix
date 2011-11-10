@@ -10,9 +10,9 @@ var keep_signed_msg = "{$lang->about_keep_signed}";
 
 </script>
 
+<form action="./" method="post" ruleset="@login" id="fo_login_widget">
 <fieldset id="login">
 <legend>{$lang->cmd_login}</legend>
-<form action="./" method="post" ruleset="@login" id="fo_login_widget">
 <input type="hidden" name="act" value="procMemberLogin" />
 <input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
 <div id="sign_box">
@@ -45,5 +45,5 @@ var keep_signed_msg = "{$lang->about_keep_signed}";
 		<span class="tail"><img src="images/signin_bg_tail.png" width="219" height="3" alt="" class="iePngFix" /></span>
 	</div><!-- //signin_window -->
 </div>
-</form>
 </fieldset>
+</form>

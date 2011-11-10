@@ -9,9 +9,9 @@
 
 <!--%import("./filter/logout.xml")-->
 
+<form action="" method="post">
 <fieldset id="login" class="login_{$colorset}">
 <legend>{$lang->cmd_login}</legend>
-<form action="" method="post">
 
     <div class="userName">
         <div class="fl u_name"><div class="member_{$logged_info->member_srl}"><strong>{$logged_info->nick_name}</strong></div></div>
@@ -27,5 +27,5 @@
         <!--@end-->
     </ul>
     <p class="latestLogin">{$lang->last_login}<br /><span>{zDate($logged_info->last_login, "Y-m-d H:i")}</span></p>
-</form>
 </fieldset>
+</form>

@@ -17,9 +17,9 @@
 </script>
 
 
-<fieldset id="login" class="login_{$colorset}">
-<legend>{$lang->cmd_login}</legend>
-<form action="./" method="post" ruleset="@login" id="fo_login_widget">
+<form action="./" method="post" ruleset="@login" id="fo_login_widget" class="fo_login_widget">
+	<fieldset id="login" class="login_{$colorset}">
+	<legend>{$lang->cmd_login}</legend>
 	<input type="hidden" name="act" value="procMemberLogin" />
 	<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
 	<h2>Login</h2>
@@ -50,14 +50,14 @@
         <li><a href="{getUrl('act','dispMemberFindAccount')}">{$lang->cmd_find_member_account}</a></li>
         <li><a href="{getUrl('act','dispMemberResendAuthMail')}">{$lang->cmd_resend_auth_mail}</a></li>
     </ul>
+	</fieldset>
 </form> 
-</fieldset>
 
 <!-- OpenID -->
 <!--@if($member_config->enable_openid=='Y')-->
+<form action="{getUrl('module','member','act','procMemberOpenIDLogin')}" method="post" onsubmit="return procFilter(this, openid_login)" >
 <fieldset id="openid_login" class="openid_login_{$colorset}" style="display:none;">
 <legend>{$lang->cmd_login}</legend>
-  <form action="{getUrl('module','member','act','procMemberOpenIDLogin')}" method="post" onsubmit="return procFilter(this, openid_login)" >
       <div class="idpwWrap">
         <div class="idpw">
           <p>{$lang->openid}</p>
@@ -69,8 +69,8 @@
           <input name="use_open_id" id="use_open_id_2" type="checkbox" value="Y" onclick="toggleLoginForm(this); return false;"/>
           <label for="use_open_id_2">Open ID</label>
       </p>
-  </form>
 </fieldset>
+</form>
 <!--@end-->
 
 <script type="text/javascript">
