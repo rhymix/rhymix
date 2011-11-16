@@ -6,13 +6,12 @@
 <!--@if(!$layout_info->use_banner)-->
 	{@ $layout_info->use_banner = 'demo';}
 <!--@end-->
-
 <div id="wrap">
 <div class="top">
     <div class="header">
     	<div class="logo">
-			<a href="{getUrl('','mid','','act','')}" cond="$layout_info->logo_image"><img src="{$layout_info->logo_image}" class="iePngFix" alt="LOGO" title="LOGO" /></a>
-			<a href="{getUrl('','mid','','act','')}" cond="!$layout_info->logo_image">{$layout_info->logo_image_alt}</a>
+			<a href="{$layout_info->index_url}" cond="$layout_info->logo_image"><img src="{$layout_info->logo_image}" class="iePngFix" alt="LOGO" title="LOGO" /></a>
+			<a href="{$layout_info->index_url}" cond="!$layout_info->logo_image">{$layout_info->logo_image_alt}</a>
 		</div>
 		<ul class="gnb">
         	<!--<li class="m1 m_on">-->
