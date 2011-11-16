@@ -2,10 +2,10 @@
 
 define('__DEBUG__', 1);
 $xe_path = realpath(dirname(__FILE__).'/../../../');
-require "{$xe_path}/classes/xml/XmlParser.class.php";
-require "{$xe_path}/classes/handler/Handler.class.php";
-require "{$xe_path}/classes/file/FileHandler.class.php";
-require "{$xe_path}/classes/validator/Validator.class.php";
+require_once "{$xe_path}/classes/xml/XmlParser.class.php";
+require_once "{$xe_path}/classes/handler/Handler.class.php";
+require_once "{$xe_path}/classes/file/FileHandler.class.php";
+require_once "{$xe_path}/classes/validator/Validator.class.php";
 
 error_reporting(E_ALL & ~E_NOTICE);
 

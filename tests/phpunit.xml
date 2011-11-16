@@ -1,0 +1,13 @@
+<phpunit bootstrap="./Bootstrap.php">
+	<testsuites>
+		<testsuite name="XE Core Test Suite">
+			<directory>.</directory>
+			<exclude>./classes/db/</exclude>
+			<exclude>./classes/security/</exclude>
+		</testsuite>
+	</testsuites>
+	<logging>
+		<log type="junit" target="./logs/junit.xml" />
+		<log type="coverage-clover" target="./logs/clover.xml"/>
+	</logging>
+</phpunit>
