@@ -67,8 +67,7 @@
 
             if(!$member_info->member_srl) return $this->dispMemberSignUpForm();
 			
-            $memberInfo =get_object_vars($member_info);
-			Context::set('memberInfo', $memberInfo );
+			Context::set('memberInfo', get_object_vars($member_info));
 
 			$extendForm = $oMemberModel->getCombineJoinForm($member_info);
             unset($extendForm->find_member_account);
