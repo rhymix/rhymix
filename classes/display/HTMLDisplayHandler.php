@@ -63,13 +63,13 @@ class HTMLDisplayHandler {
 
 					if(file_exists($edited_layout_css)) Context::loadFile(array($edited_layout_css,'all','',100));
 				}
-				if(!$layout_path) $layout_path = "./common/tpl";
-				if(!$layout_file) $layout_file = "default_layout";
+				if(!$layout_path) $layout_path = './common/tpl';
+				if(!$layout_file) $layout_file = 'default_layout';
 				$output = $oTemplate->compile($layout_path, $layout_file, $edited_layout_file);
 
 				if(__DEBUG__==3) $GLOBALS['__layout_compile_elapsed__'] = getMicroTime()-$start;
 
-				if(preg_match('/MSIE/i',$_SERVER['HTTP_USER_AGENT']) && (Context::get("_use_ssl")=='optional'||Context::get("_use_ssl")=="always")) {
+				if(preg_match('/MSIE/i',$_SERVER['HTTP_USER_AGENT']) && (Context::get('_use_ssl') == 'optional' || Context::get('_use_ssl') == 'always')) {
 					Context::addHtmlFooter('<iframe id="xeTmpIframe" name="xeTmpIframe" style="width:1px;height:1px;position:absolute;top:-2px;left:-2px;"></iframe>');
 				}
 			}
@@ -138,6 +138,7 @@ class HTMLDisplayHandler {
 		else
 		{
 			$this->_loadJSCSS();
+			$this->_addMetaTag();
 			$output = $oTemplate->compile('./common/tpl', 'common_layout');
 		}
 
@@ -227,5 +228,12 @@ class HTMLDisplayHandler {
 				$oContext->loadFile('./modules/admin/tpl/js/admin.min.js', true);
 			}
 		}
+	}
+
+	function _addMetaTag()
+	{
+		$oContext =& Context::getInstance();
+		$oContext->addMetaTag('Content-Type', 'text/html; charset=UTF-8', true);
+		$oContext->addMetaTag('imagetoolbar', 'no');
 	}
 }

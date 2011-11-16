@@ -12,6 +12,12 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="Generator" content="XpressEngine" />
+	{@ $meta_tags = Context::getMetaTag() }
+	<block loop="$meta_tags=>$key,$meta_tag">
+	<meta http-equiv="{$meta_tag['name']}" content="{$meta_tag['content']}" cond="$meta_tag['is_http_equiv']" />
+	<meta name="{$meta_tag['name']}" content="{$meta_tag['content']}" cond="!$meta_tag['is_http_equiv']" />
+	</block>
+
 <!--@if($module_info->module)-->
     <meta name="module" content="{$module_info->module}" />
 <!--@end-->

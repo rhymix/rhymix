@@ -131,12 +131,12 @@ class Context {
 			$oSessionModel = &getModel('session');
 			$oSessionController = &getController('session');
 			session_set_save_handler(
-				array(&$oSessionController,"open"),
-				array(&$oSessionController,"close"),
-				array(&$oSessionModel,"read"),
-				array(&$oSessionController,"write"),
-				array(&$oSessionController,"destroy"),
-				array(&$oSessionController,"gc")
+				array(&$oSessionController, 'open'),
+				array(&$oSessionController, 'close'),
+				array(&$oSessionModel, 'read'),
+				array(&$oSessionController, 'write'),
+				array(&$oSessionController, 'destroy'),
+				array(&$oSessionController, 'gc')
 			);
 		}
 		session_start();
@@ -239,7 +239,7 @@ class Context {
                     $oInstallController->makeConfigFile();
                 }
 
-		if(!$db_info->time_zone) $db_info->time_zone = date("O");
+		if(!$db_info->time_zone) $db_info->time_zone = date('O');
 		$GLOBALS['_time_zone'] = $db_info->time_zone;
 
 		if($db_info->qmail_compatibility != 'Y') $db_info->qmail_compatibility = 'N';
@@ -359,7 +359,7 @@ class Context {
 				$url_info = parse_url($url);
 				$url_info['query'].= ($url_info['query']?'&':'').'SSOID='.session_id();
 				$redirect_url = sprintf('%s://%s%s%s?%s',$url_info['scheme'],$url_info['host'],$url_info['port']?':'.$url_info['port']:'',$url_info['path'], $url_info['query']);
-				header("location:".$redirect_url);
+				header('location:'.$redirect_url);
 				return false;
 			}
 		// for sites requesting SSO validation
@@ -370,13 +370,13 @@ class Context {
 				setcookie(session_name(), $session_name);
 
 				$url = preg_replace('/([\?\&])$/','',str_replace('SSOID='.$session_name,'',Context::getRequestUrl()));
-				header("location:".$url);
+				header('location:'.$url);
 				return false;
 			// send SSO request
 			} else if($_COOKIE['sso']!=md5(Context::getRequestUri()) && !Context::get('SSOID')) {
 				setcookie('sso',md5(Context::getRequestUri()),0,'/');
 				$url = sprintf("%s?default_url=%s", $default_url, base64_encode(Context::getRequestUrl()));
-				header("location:".$url);
+				header('location:'.$url);
 				return false;
 			}
 		}
@@ -654,7 +654,7 @@ class Context {
 		if(!count($_REQUEST)) return;
 
 		foreach($_REQUEST as $key => $val) {
-			if($val === "" || Context::get($key)) continue;
+			if($val === '' || Context::get($key)) continue;
 			$val = $this->_filterRequestVar($key, $val);
 
 			if($this->getRequestMethod()=='GET'&&isset($_GET[$key])) $set_to_vars = true;
@@ -710,15 +710,15 @@ class Context {
 	 * @return filtered value
 	 **/
 	function _filterRequestVar($key, $val, $do_stripslashes = 1) {
-		if( ($key == "page" || $key == "cpage" || substr($key,-3)=="srl")) return !preg_match('/^[0-9,]+$/',$val)?(int)$val:$val;
+		if( ($key == 'page' || $key == 'cpage' || substr($key,-3)=='srl')) return !preg_match('/^[0-9,]+$/',$val)?(int)$val:$val;
 		if(is_array($val) && count($val) ) {
 			foreach($val as $k => $v) {
-				if($do_stripslashes && version_compare(PHP_VERSION, "5.9.0", "<") && get_magic_quotes_gpc()) $v = stripslashes($v);
+				if($do_stripslashes && version_compare(PHP_VERSION, '5.9.0', '<') && get_magic_quotes_gpc()) $v = stripslashes($v);
 				$v = trim($v);
 				$val[$k] = $v;
 			}
 		} else {
-			if($do_stripslashes && version_compare(PHP_VERSION, "5.9.0", "<") && get_magic_quotes_gpc()) $val = stripslashes($val);
+			if($do_stripslashes && version_compare(PHP_VERSION, '5.9.0', '<') && get_magic_quotes_gpc()) $val = stripslashes($val);
 			$val = trim($val);
 		}
 		return $val;
@@ -739,7 +739,7 @@ class Context {
 	 **/
 	function _setUploadedArgument() {
 		if($this->getRequestMethod() != 'POST') return;
-		if(!preg_match("/multipart\/form-data/i",$_SERVER['CONTENT_TYPE'])) return;
+		if(!preg_match('/multipart\/form-data/i',$_SERVER['CONTENT_TYPE'])) return;
 		if(!$_FILES) return;
 
 		foreach($_FILES as $key => $val) {
@@ -936,7 +936,7 @@ class Context {
 
 		// HTTP Request가 아니면 패스
 		if(!isset($_SERVER['SERVER_PROTOCOL'])) return ;
-		if(Context::get('_use_ssl') == "always") $ssl_mode = ENFORCE_SSL;
+		if(Context::get('_use_ssl') == 'always') $ssl_mode = ENFORCE_SSL;
 
 		if($domain) $domain_key = md5($domain);
 		else $domain_key = 'default';
@@ -975,7 +975,7 @@ class Context {
 			elseif($url_info['port']==80) unset($url_info['port']);
 		}
 
-		$url[$ssl_mode][$domain_key] = sprintf("%s://%s%s%s",$use_ssl?'https':$url_info['scheme'], $url_info['host'], $url_info['port']&&$url_info['port']!=80?':'.$url_info['port']:'',$url_info['path']);
+		$url[$ssl_mode][$domain_key] = sprintf('%s://%s%s%s',$use_ssl?'https':$url_info['scheme'], $url_info['host'], $url_info['port']&&$url_info['port']!=80?':'.$url_info['port']:'',$url_info['path']);
 
 		return $url[$ssl_mode][$domain_key];
 	}
@@ -1228,7 +1228,7 @@ class Context {
 		if($loaded_plugins[$plugin_name]) return;
 		$loaded_plugins[$plugin_name] = true;
 
-		$plugin_path = "./common/js/plugins/$plugin_name/";
+		$plugin_path = './common/js/plugins/'.$plugin_name.'/';
 		$info_file   = $plugin_path.'plugin.load';
 		if(!is_readable($info_file)) return;
 
@@ -1315,14 +1315,14 @@ class Context {
 	 * @brief returns the path of the config file that contains database settings
 	 **/
 	function getConfigFile() {
-		return _XE_PATH_."files/config/db.config.php";
+		return _XE_PATH_.'files/config/db.config.php';
 	}
 
 	/**
 	 * @brief returns the path of the config file that contains FTP settings
 	 **/
 	function getFTPConfigFile() {
-		return _XE_PATH_."files/config/ftp.config.php";
+		return _XE_PATH_.'files/config/ftp.config.php';
 	}
 
 	/**
@@ -1382,6 +1382,37 @@ class Context {
 		$path = '/'.implode('/', $_path);
 		if(substr($path,-1)!='/') $path .= '/';
 		return $path;
+	}
+
+	/**
+	 * @brief returns the list of meta tags
+	 **/
+	function getMetaTag() {
+		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
+
+		if(!is_array($self->meta_tags)) $self->meta_tags = array();
+
+		$ret = array();
+		$map = &$self->meta_tags;
+
+		foreach($map as $key=>$val) {
+			list($name, $is_http_equiv) = explode("\t", $key);
+			$ret[] = array('name'=>$name, 'is_http_equiv'=>$is_http_equiv, 'content' => $val);
+		}
+
+		return $ret;
+	}
+
+	/**
+	 * @brief Add the meta tag
+	 **/
+	function addMetaTag($name, $content, $is_http_equiv = false) {
+		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
+
+		$key = $name."\t".($is_http_equiv ? '1' : '0');
+		$map = &$self->meta_tags;
+
+		$map[$key] = $content;
 	}
 }
 ?>
