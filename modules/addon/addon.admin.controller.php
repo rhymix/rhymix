@@ -158,9 +158,9 @@
          * @brief Add-on
          * Adds Add to DB
          **/
-        function doInsert($addon, $site_srl = 0, $gtype = 'site') {
+        function doInsert($addon, $site_srl = 0, $gtype = 'site', $isUsed = 'N') {
             $args->addon = $addon;
-            $args->is_used = 'N';
+            $args->is_used = $isUsed;
             if($gtype == 'global') return executeQuery('addon.insertAddon', $args);
             $args->site_srl = $site_srl;
             return executeQuery('addon.insertSiteAddon', $args);
