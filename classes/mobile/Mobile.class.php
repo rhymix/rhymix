@@ -55,7 +55,7 @@ class Mobile {
 
 	function isMobileCheckByAgent()
 	{
-		return !!preg_match('/(iPod|iPhone|Android|BlackBerry|SymbianOS|SCH-M\d+|Googlebot-Mobile)/',$_SERVER['HTTP_USER_AGENT']);
+		return !!preg_match('/(iPod|iPhone|Android|BlackBerry|SymbianOS|SCH-M\d+|SPH-M\d+|Windows Phone|Dorothy Browser|Googlebot-Mobile)/',$_SERVER['HTTP_USER_AGENT']);
 	}
 
 	function setMobile($ismobile)
