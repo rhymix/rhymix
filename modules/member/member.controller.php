@@ -35,7 +35,6 @@
 
 			$oModuleModel = &getModel('module');
 			$config = $oModuleModel->getModuleConfig('member');
-			if($config->after_login_url) $this->setRedirectUrl($config->after_login_url);
 
 			// Check change_password_date
 			$limit_date = $config->change_password_date;
@@ -50,7 +49,13 @@
 			}
 
 			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '');
+				
+				if(!$config->after_login_url) {
+					$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '');
+				} else {
+					$returnUrl = $config->after_login_url;
+				}
+
 				$this->setRedirectUrl($returnUrl);
 				return;
 			}
