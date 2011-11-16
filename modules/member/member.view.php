@@ -66,8 +66,9 @@
             unset($member_info->email_host);
 
             if(!$member_info->member_srl) return $this->dispMemberSignUpForm();
-
-            Context::set('memberInfo', get_object_vars($member_info));
+			
+            $memberInfo =get_object_vars($member_info);
+			Context::set('memberInfo', $memberInfo );
 
 			$extendForm = $oMemberModel->getCombineJoinForm($member_info);
             unset($extendForm->find_member_account);
@@ -310,8 +311,12 @@
          **/
         function dispMemberLogout() {
             $oMemberController = &getController('member');
-            $oMemberController->procMemberLogout();
-			$this->setRedirectUrl(getNotEncodedUrl('act', ''));
+            $output = $oMemberController->procMemberLogout();
+			if(!$output->redirect_url)
+				$this->setRedirectUrl(getNotEncodedUrl('act', ''));
+			else
+				$this->setRedirectUrl($output->redirect_url);
+		
 			return;
         }
 

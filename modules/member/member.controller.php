@@ -352,7 +352,8 @@
 
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('member');
-            if($config->after_logout_url) Context::set('redirect_url', $config->after_logout_url);
+            if($config->after_logout_url) 
+				$output->redirect_url = $config->after_logout_url;
 
             return $output;
         }
