@@ -941,7 +941,7 @@ class Context {
 				parse_str($parsedUrl['query'], $output);
 				$encode_queries = array();
 				foreach($output as $key=>$value){
-					if (!preg_match('/&[a-z]{2,};/', $value)){
+					if (!preg_match('/&([a-z]{2,}|#\d+);/', $value)){
 						$value = htmlspecialchars($value);
 					}
 					$encode_queries[] = $key.'='.$value;
