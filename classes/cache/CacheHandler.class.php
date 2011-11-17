@@ -4,21 +4,20 @@
  * @author NHN (developer@xpressengine.com)
  * @brief Cache Handler
  * @version 0.1
- *
  **/
 
 class CacheHandler extends Handler {
 	var $handler = null;
 	var $keyGroupVersions = null;
 
-	function &getInstance($target='object') {
+	function &getInstance($target = 'object') {
 		if(!$GLOBALS['__XE_CACHE_HANDLER__'][$target]) {
 			$GLOBALS['__XE_CACHE_HANDLER__'][$target] = new CacheHandler($target);
 		}
 		return $GLOBALS['__XE_CACHE_HANDLER__'][$target];
 	}
 
-	function CacheHandler($target, $info=null) {
+	function CacheHandler($target, $info = null) {
 		if(!$info) $info = Context::getDBInfo();
 		if($info){
 			if($target == 'object'){
@@ -39,11 +38,11 @@ class CacheHandler extends Handler {
 				$class = 'Cache' . ucfirst($type);
 				include_once sprintf('%sclasses/cache/%s.class.php', _XE_PATH_, $class);
 				$this->handler = call_user_func(array($class,'getInstance'), $url);
-				$this->keyGroupVersions = $this->handler->get('key_group_versions', 0);
-				if(!$this->keyGroupVersions) {
-					$this->keyGroupVersions = array();
-					$this->handler->put('key_group_versions', $this->keyGroupVersions, 0);
-				}
+									$this->keyGroupVersions = $this->handler->get('key_group_versions', 0);
+									if(!$this->keyGroupVersions) {
+										$this->keyGroupVersions = array();
+										$this->handler->put('key_group_versions', $this->keyGroupVersions, 0);
+									}
 			}
 		}
 	}
@@ -127,4 +126,5 @@ class CacheBase{
 	}
 }
 
-/* End of file : CacheHandler.class.php */
+/* End of file CacheHandler.class.php */
+/* Location: ./classes/cache/CacheHandler.class.php */
