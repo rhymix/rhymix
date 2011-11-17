@@ -238,6 +238,15 @@
 		return preg_replace('@\berror_return_url=[^&]*|\w+=(?:&|$)@', '', $url);
     }
 
+    function getAutoEncodedUrl() {
+        $num_args = func_num_args();
+        $args_list = func_get_args();
+
+		if($num_args) $url = Context::getUrl($num_args, $args_list, null, true, true);
+		else $url = Context::getRequestUri();
+
+		return preg_replace('@\berror_return_url=[^&]*|\w+=(?:&|$)@', '', $url);
+    }
     /**
      * @brief return the value adding request uri to getUrl()
      * to get the full url
