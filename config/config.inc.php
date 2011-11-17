@@ -13,7 +13,8 @@
      * @brief display XE's full version
      * Even The file should be revised when releasing altough no change is made
      **/
-    define('__ZBXE_VERSION__', '1.5.0.8');
+	define('__XE_VERSION__', '1.5.0.8');
+    define('__ZBXE_VERSION__', __XE_VERSION__); // deprecated : __ZBXE_VERSION__ will be removed. Use __XE_VERSION__ instead.
 
     /**
      * @brief The base path to where you installed zbXE Wanted
