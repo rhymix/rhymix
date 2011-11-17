@@ -283,6 +283,16 @@ class Context {
 	}
 
 	/**
+	 * @brief return ssl status
+	 * @return none|always|optional
+	 **/
+	function getSslStatus()
+	{
+		$dbInfo = Context::getDBInfo();
+		return $dbInfo->use_ssl;
+	}
+
+	/**
 	 * @brief return default URL
 	 * @return default URL string
 	 **/

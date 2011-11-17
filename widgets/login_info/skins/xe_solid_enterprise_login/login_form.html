@@ -26,11 +26,9 @@ var keep_signed_msg = "{$lang->about_keep_signed}";
 					<div class="input_text mb_pw"><img src="images/bullet_input_pw.gif" alt="" title="" /><input name="password"type="password" title="password" /></div>
 					<label><input  type="checkbox" name="keep_signed" id="keepid" class="sign_check" value="Y" onclick="if(this.checked) return confirm(keep_signed_msg);" />{$lang->keep_signed}</label>
 					
-					<!--@if($member_config->enable_ssl=='Y')-->
-					<p class="securitySignIn <!--@if($ssl_mode)-->SSL<!--@else-->noneSSL<!--@end-->">
+					<p cond="$ssl_mode" class="securitySignIn <!--@if($ssl_mode)-->SSL<!--@else-->noneSSL<!--@end-->">
 						<a href="#" onclick="toggleSecuritySignIn(); return false;">{$lang->security_sign_in}</a>
 					</p>
-					<!--@end-->
 				</div>
 				<div class="m_right">
 					<input class="sign_submit" type="image" src="images/btn_signin.gif" width="51" height="46" />

@@ -39,11 +39,9 @@
 		</p>
         <p class="login_mod"><input type="image" src="./images/{$colorset}/buttonLogin.gif" alt="login" class="login" /></p>
     </div>
-    <!--@if($member_config->enable_ssl=='Y')-->
-    <p class="securitySignIn <!--@if($ssl_mode)-->SSL<!--@else-->noneSSL<!--@end-->">
+    <p cond="$ssl_mode" class="securitySignIn <!--@if($ssl_mode)-->SSL<!--@else-->noneSSL<!--@end-->">
         <a href="#" onclick="toggleSecuritySignIn(); return false;">{$lang->security_sign_in}</a>
     </p>
-    <!--@end-->
     <ul class="help">
         <li class="first-child"><a href="{getUrl('act','dispMemberSignUpForm')}">{$lang->cmd_signup}</a></li>
         <li><a href="{getUrl('act','dispMemberFindAccount')}">{$lang->cmd_find_member_account}</a></li>

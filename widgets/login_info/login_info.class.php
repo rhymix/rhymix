@@ -26,12 +26,16 @@
             $oModuleModel = &getModel('module');
             $this->member_config = $oModuleModel->getModuleConfig('member');
             Context::set('member_config', $this->member_config);
+
             // Set a flag to check if the https connection is made when using SSL and create https url 
             $ssl_mode = false;
-            if($this->member_config->enable_ssl == 'Y') {
-                if(preg_match('/^https:\/\//i',Context::getRequestUri())) $ssl_mode = true;
+			$useSsl = Context::getSslStatus();
+            if($useSsl != 'none')
+			{
+                if(preg_match('/^https:\/\//i', Context::getRequestUri())) $ssl_mode = true;
             }
             Context::set('ssl_mode',$ssl_mode);
+
             // Compile a template
             $oTemplate = &TemplateHandler::getInstance();
             return $oTemplate->compile($tpl_path, $tpl_file);
