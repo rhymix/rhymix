@@ -789,7 +789,7 @@ class Context {
 	 * @brief make URL with args_list upon request URL
 	 * @return result URL
 	 **/
-	function getUrl($num_args=0, $args_list=array(), $domain = null, $encode = true, $auto = false) {
+	function getUrl($num_args=0, $args_list=array(), $domain = null, $encode = true, $autoEncode = false) {
 		static $site_module_info = null;
 		static $current_info = null;
 
@@ -936,21 +936,22 @@ class Context {
 		}
 
 		if ($encode){
-			if($auto){
+			if($autoEncode){
 				$parsedUrl = parse_url($query);
 				parse_str($parsedUrl['query'], $output);
 				$encode_queries = array();
 				foreach($output as $key=>$value){
-					if (!preg_match('/&([a-z]{2,}|#\d+);/', $value)){
-						$value = htmlspecialchars($value);
+					if (preg_match('/&([a-z]{2,}|#\d+);/', urldecode($value))){
+						$value = urlencode(htmlspecialchars_decode(urldecode($value)));
 					}
 					$encode_queries[] = $key.'='.$value;
 				}
-				$encode_query = implode('&amp;', $encode_queries);
-				return $parsedUrl['path'].'?'.$encode_query;
+				$encode_query = implode('&', $encode_queries);
+				return htmlspecialchars($parsedUrl['path'].'?'.$encode_query);
 			}
-			else
+			else{
 				return htmlspecialchars($query);
+			}
 		}else{
 			return $query;		
 		}

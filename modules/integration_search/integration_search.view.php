@@ -98,6 +98,9 @@
             } else {
                 $this->setTemplateFile("no_keywords");
             }
+
+			$security = new Security();
+			$security->encodeHTML('is_keyword', 'search_target', 'where', 'page');
         }
     }
 ?>
