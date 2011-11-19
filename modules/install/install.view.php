@@ -13,6 +13,8 @@
          * @brief Initialization
          **/
         function init() {
+			// Set browser title
+			Context::setBrowserTitle(Context::getLang('introduce_title'));
             // Specify the template path
             $this->setTemplatePath($this->module_path.'tpl');
             // Error occurs if already installed
