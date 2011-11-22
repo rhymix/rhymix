@@ -24,16 +24,6 @@
 		<value xml:lang="tr"><![CDATA[Menü Yönetimi]]></value>
 		<value xml:lang="vi"><![CDATA[Quản lý Menu]]></value>
 	</item>
-	<item name="menu">
-		<value xml:lang="ko"><![CDATA[메뉴]]></value>
-		<value xml:lang="en"><![CDATA[Menu]]></value>
-		<value xml:lang="jp"><![CDATA[メニュー]]></value>
-		<value xml:lang="zh-CN"><![CDATA[菜单]]></value>
-		<value xml:lang="zh-TW"><![CDATA[選單]]></value>
-		<value xml:lang="ru"><![CDATA[Меню]]></value>
-		<value xml:lang="es"><![CDATA[Menú]]></value>
-		<value xml:lang="tr"><![CDATA[Menü]]></value>
-	</item>
 	<item name="menu_count">
 		<value xml:lang="ko"><![CDATA[메뉴 수]]></value>
 		<value xml:lang="en"><![CDATA[No. of menus]]></value>

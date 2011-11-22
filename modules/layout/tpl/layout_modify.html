@@ -29,18 +29,18 @@
 			<p class="a"><a href="{$selected_layout->author->homepage}" target="_blank">{$selected_layout->author->name}</a></p>
 		</li>
 		<li>
+			<p class="q">{$lang->title} <em>*</em></p>
+			<p class="a">
+				<input type="text" name="title" value="{$selected_layout->layout_title}" />
+			</p>
+			<p class="desc">{$lang->about_title}</p>
+		</li>
+		<li>
 			<p class="q">{$lang->header_script}</p>
 			<p class="a">
 				<textarea name="header_script" cols="42" rows="5">{$selected_layout->header_script}</textarea>
 			</p>
 			<p class="desc">{$lang->about_header_script}</p>
-		</li>
-		<li>
-			<p class="q">{$lang->title}</p>
-			<p class="a">
-				<input type="text" name="title" value="{$selected_layout->layout_title}" />
-			</p>
-			<p class="desc">{$lang->about_title}</p>
 		</li>
 	</ul>
 
@@ -124,13 +124,13 @@
 	<h3 class="h3" cond="$selected_layout->menu">{$lang->menu}</h3>
 	<ul cond="$selected_layout->menu">
 		<li loop="$selected_layout->menu => $menu_name, $menu_info">
-			<p class="q">{$menu_info->title} ({$menu_name})</p>
+			<p class="q">{$menu_info->title}({$menu_name})</p>
 			<p class="a">
 				<select name="{$menu_name}">
-					<option value="0">------------------------</option>
+					<option value="0">{$lang->cmd_select}</option>
 					<option loop="$menu_list => $key, $val" value="{$val->menu_srl}" selected="selected"|cond="$val->menu_srl == $menu_info->menu_srl">{$val->title}</option>
 				</select>
-				<a href="#">{$lang->cmd_management}</a>
+				<a href="{getUrl('module','admin','act','dispMenuAdminSiteMap')}">{$lang->cmd_management}</a>
 			</p>
 		</li>
 		<li>

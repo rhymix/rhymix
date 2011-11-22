@@ -411,16 +411,16 @@
 		<value xml:lang="tr"><![CDATA[Başlık Betiği(script)]]></value>
 	</item>
 	<item name="about_header_script">
-		<value xml:lang="ko"><![CDATA[HTML의 &lt;head&gt;와 &lt;/head&gt; 사이에 들어가는 코드를 직접 입력할 수 있습니다.<br />&lt;script, &lt;style 또는 &lt;meta 태그 등을 이용하실 수 있습니다.]]></value>
-		<value xml:lang="en"><![CDATA[You can input the html script between &lt;header&gt; and &lt;/header&gt; by yourself.<br />You can use &lt;script, &lt;style or &lt;meta tags.]]></value>
-		<value xml:lang="jp"><![CDATA[HTMLの&lt;header&gt;と&lt;/header&gt;の間に入れるコードを直接入力できます。<br />&lt;script、&lt;styleまたは&lt;metaタグなどを利用できます。]]></value>
-		<value xml:lang="zh-CN"><![CDATA[可以直接输入插入到html中&lt;head&gt;区的代码。<br />可使用&lt;script, &lt;style 或 &lt;meta 等标签。]]></value>
-		<value xml:lang="zh-TW"><![CDATA[可以直接輸入，並插入到 HTML 的&lt;head&gt;之間。<br />可使用&lt;script&gt;,&lt;style&gt;或&lt;meta&gt;等標籤。]]></value>
-		<value xml:lang="fr"><![CDATA[Vous pouvez entrer un script en html par vous-même entre &lt;header&gt; et &lt;/header&gt;.<br />Vous pouvez utiliser &lt;script, &lt;style ou &lt;meta tag]]></value>
-		<value xml:lang="ru"><![CDATA[html의 &lt;header&gt;와 &lt;/header&gt; 사이에 들어가는 코드를 직접 입력할 수 있습니다.<br />&lt;script, &lt;style 또는 &lt;meta 태그등을 이용하실 수 있습니다]]></value>
-		<value xml:lang="es"><![CDATA[html의 &lt;header&gt;와 &lt;/header&gt; 사이에 들어가는 코드를 직접 입력할 수 있습니다.<br />&lt;script, &lt;style 또는 &lt;meta 태그등을 이용하실 수 있습니다]]></value>
-		<value xml:lang="tr"><![CDATA[Html betiğini(script) &lt;header&gt; ile &lt;/header&gt; arasına kendiniz ekleyebilirsiniz.<br /> &lt;script, &lt;style or &lt;meta tag kullanabilirsiniz]]></value>
-		<value xml:lang="vi"><![CDATA[Bạn co thể nhập mã dang HTML vào giữa  &lt;header&gt; và &lt;/header&gt;.<br />Bạn có thể sử dụng &lt;script, &lt;style hay &lt;meta tag]]></value>
+		<value xml:lang="ko"><![CDATA[HTML &lt;head&gt;...&lt;/head&gt; 사이에 들어가는 코드를 직접 입력할 수 있습니다. 예) &lt;script&gt;, &lt;style&gt;, &lt;meta&gt; ...]]></value>
+		<value xml:lang="en"><![CDATA[You can input the html script between &lt;header&gt; and &lt;/header&gt; by yourself. You can use &lt;script&gt;, &lt;style&gt; or &lt;meta&gt; tags.]]></value>
+		<value xml:lang="jp"><![CDATA[HTMLの&lt;header&gt;と&lt;/header&gt;の間に入れるコードを直接入力できます。 &lt;script&gt;、&lt;style&gt;または&lt;meta&gt;タグなどを利用できます。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[可以直接输入插入到html中&lt;head&gt;区的代码。 可使用&lt;script&gt;, &lt;style&gt; 或 &lt;meta&gt; 等标签。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[可以直接輸入，並插入到 HTML 的&lt;head&gt;之間。 可使用&lt;script&gt;,&lt;style&gt;或&lt;meta&gt;等標籤。]]></value>
+		<value xml:lang="fr"><![CDATA[Vous pouvez entrer un script en html par vous-même entre &lt;header&gt; et &lt;/header&gt;. Vous pouvez utiliser &lt;script&gt;, &lt;style&gt; ou &lt;meta&gt; tag]]></value>
+		<value xml:lang="ru"><![CDATA[html의 &lt;header&gt;와 &lt;/header&gt; 사이에 들어가는 코드를 직접 입력할 수 있습니다. &lt;script&gt;, &lt;style&gt;, &lt;meta&gt; 태그등을 이용하실 수 있습니다]]></value>
+		<value xml:lang="es"><![CDATA[html의 &lt;header&gt;와 &lt;/header&gt; 사이에 들어가는 코드를 직접 입력할 수 있습니다. &lt;script&gt;, &lt;style&gt;, &lt;meta&gt; 태그등을 이용하실 수 있습니다]]></value>
+		<value xml:lang="tr"><![CDATA[Html betiğini(script) &lt;header&gt; ile &lt;/header&gt; arasına kendiniz ekleyebilirsiniz.  &lt;script&gt;, &lt;style&gt;, &lt;meta&gt; tag kullanabilirsiniz]]></value>
+		<value xml:lang="vi"><![CDATA[Bạn co thể nhập mã dang HTML vào giữa  &lt;header&gt; và &lt;/header&gt;. Bạn có thể sử dụng &lt;script&gt;, &lt;style&gt; hay &lt;meta&gt; tag]]></value>
 	</item>
 	<item name="grant_access">
 		<value xml:lang="ko"><![CDATA[접근 권한]]></value>
