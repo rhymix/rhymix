@@ -81,8 +81,11 @@
 			if(is_array($output->data)) $menu_info = $output->data[0];
 			else $menu_info = $output->data;
 
-            $menu_info->xml_file = sprintf('./files/cache/menu/%s.xml.php',$menu_info->menu_srl);
-            $menu_info->php_file = sprintf('./files/cache/menu/%s.php',$menu_info->menu_srl);
+            if($menu_info->menu_srl)
+			{
+				$menu_info->xml_file = sprintf('./files/cache/menu/%s.xml.php',$menu_info->menu_srl);
+	            $menu_info->php_file = sprintf('./files/cache/menu/%s.php',$menu_info->menu_srl);
+			}
             return $menu_info;
         }
 
