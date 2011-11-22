@@ -1854,6 +1854,9 @@
 							return $output;
 						}
 					}
+
+					// if group is changed, point changed too.
+					$this->_updatePointByGroup($orgMemberInfo->member_srl, $group_srl_list);
 				}
 			}
             // Call a trigger (after)
@@ -1980,5 +1983,34 @@
                 executeQuery('member.deleteAutologin', $args);
             }
         }
+
+		function _updatePointByGroup($memberSrl, $groupSrlList)
+		{
+			$oModuleModel = &getModel('module');
+			$pointModuleConfig = $oModuleModel->getModuleConfig('point');
+			$pointGroup = $pointModuleConfig->point_group;
+
+			if(is_array($pointGroup) && count($pointGroup)>0)
+			{
+				$levelGroup = array_flip($pointGroup);
+				ksort($levelGroup);
+			}
+			$maxLevel = 0;
+			$resultGroup = array_intersect($levelGroup, $groupSrlList);
+			if(count($resultGroup) > 0)
+				$maxLevel = max(array_flip($resultGroup));
+
+			if($maxLevel > 0)
+			{
+				$oPointModel = &getModel('point');
+				$originPoint = $oPointModel->getPoint($memberSrl);
+
+				if($pointModuleConfig->level_step[$maxLevel] > $originPoint)
+				{
+					$oPointController = &getController('point');
+					$oPointController->setPoint($memberSrl, $pointModuleConfig->level_step[$maxLevel], 'update');
+				}
+			}
+		}
     }
 ?>
