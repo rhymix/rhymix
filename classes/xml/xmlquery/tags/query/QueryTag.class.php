@@ -28,7 +28,10 @@ class QueryTag {
 		$this->query = $query;
 		$this->isSubQuery = $isSubQuery;
 		if($this->isSubQuery) $this->action = 'select';
-		$this->alias = $query->attrs->alias;
+                if($query->attrs->alias){
+                    $dbParser = DB::getParser();
+                    $this->alias = $dbParser->escape($query->attrs->alias);
+                }
                 $this->join_type = $query->attrs->join_type;
 
 		$this->getColumns();
@@ -48,7 +51,7 @@ class QueryTag {
 	function getQueryId(){
 		return $this->query->attrs->query_id ? $this->query->attrs->query_id : $this->query->attrs->id;
 	}
-	
+
 	function getPriority(){
 		return $this->query->attrs->priority;
 	}
@@ -112,7 +115,7 @@ class QueryTag {
 		$buff = '';
 		if($this->isSubQuery){
 			$buff = 'new Subquery(';
-			$buff .= "'\"" . $this->alias . '"\', ';
+			$buff .= "'" . $this->alias . '\', ';
 			$buff .=  ($this->columns ? $this->columns->toString() : 'null' ). ', '.PHP_EOL;
                         $buff .=  $this->tables->toString() .','.PHP_EOL;
                         $buff .=  $this->conditions->toString() .',' .PHP_EOL;
