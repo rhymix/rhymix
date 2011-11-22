@@ -3,6 +3,7 @@
 if(!defined('FOLLOW_REQUEST_SSL')) define('FOLLOW_REQUEST_SSL',0);
 if(!defined('ENFORCE_SSL')) define('ENFORCE_SSL',1);
 if(!defined('RELEASE_SSL')) define('RELEASE_SSL',2);
+if(!defined('MOCK_CONTEXT')) define('MOCK_CONTEXT', 1);
 
 class Context
 {

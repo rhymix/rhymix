@@ -8,7 +8,7 @@ require_once _XE_PATH_.'classes/validator/Validator.class.php';
 
 class ValidatorTest extends PHPUnit_Framework_TestCase
 {
-	public function _testRequired() {
+	public function testRequired() {
 		$vd = new Validator();
 		$vd->addFilter('userid', array('required'=>'true'));
 
@@ -19,9 +19,9 @@ class ValidatorTest extends PHPUnit_Framework_TestCase
 
 		// context data
 		$this->assertFalse( $vd->validate() );
-		Context::set('userid', '');
+		Context::set('userid', '', true);
 		$this->assertFalse( $vd->validate() );
-		Context::set('userid', 'myuserid');
+		Context::set('userid', 'myuserid', true);
 		$this->assertTrue( $vd->validate() );
 		$vd->removeFilter('userid');
 		$this->assertTrue( $vd->validate() );
@@ -31,14 +31,14 @@ class ValidatorTest extends PHPUnit_Framework_TestCase
 		$vd = new Validator();
 		$vd->addFilter('^user_', array('length'=>'5:'));
 
-		Context::set('user_123', 'abcd');
-		Context::set('user_456', '123');
+		Context::set('user_123', 'abcd', true);
+		Context::set('user_456', '123', true);
 		$this->assertFalse( $vd->validate() );
 
-		Context::set('user_123', 'abcdefg');
+		Context::set('user_123', 'abcdefg', true);
 		$this->assertFalse( $vd->validate() );
 
-		Context::set('user_456', '123456');
+		Context::set('user_456', '123456', true);
 		$this->assertTrue( $vd->validate() );
 	}
 
@@ -59,7 +59,7 @@ class ValidatorTest extends PHPUnit_Framework_TestCase
  		$vd->validate(&$arr);
  		$this->assertEquals( $arr, array('userid'=>'ownid') );
 
-		if(method_exists()) {
+		if(defined('MOCK_CONTEXT')) {
 			// context data
 			$mock_vars = array(); // empty context variables
 			$vd->validate();
@@ -67,7 +67,7 @@ class ValidatorTest extends PHPUnit_Framework_TestCase
 
 			$vd->load(dirname(__FILE__).'/login.xml');
 
-			Context::set('userid', '');
+			Context::set('userid', '', true);
 			$vd->validate();
 			$this->assertEquals( 'idididid', Context::get('userid') );
 		}
