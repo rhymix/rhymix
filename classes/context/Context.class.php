@@ -1059,7 +1059,8 @@ class Context {
 	 **/
 	function getRequestVars() {
 		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
-		return clone($self->get_vars);
+		if($self->get_vars) return clone($self->get_vars);
+		return new stdClass;
 	}
 
 	/**
