@@ -2,8 +2,8 @@
 	<testsuites>
 		<testsuite name="XE Core Test Suite">
 			<directory>.</directory>
+			<exclude>./classes/context/Context.mock.php</exclude>
 			<exclude>./classes/db/</exclude>
-			<exclude>./classes/security/</exclude>
 		</testsuite>
 	</testsuites>
 	<logging>

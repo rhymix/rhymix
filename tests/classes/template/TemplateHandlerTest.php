@@ -1,11 +1,9 @@
 <?php
 
-define('__DEBUG__', 1);
-define('_XE_PATH_', str_replace('tests/classes/template/TemplateHandlerTest.php', '', strtr(__FILE__, '\\', '/')));
-require_once _XE_PATH_.'/classes/file/FileHandler.class.php';
-require_once _XE_PATH_.'/classes/template/TemplateHandler.class.php';
+if(!defined('__XE__')) require dirname(__FILE__).'/../../Bootstrap.php';
 
-$_SERVER['SCRIPT_NAME'] = '/xe/index.php';
+require_once _XE_PATH_.'classes/file/FileHandler.class.php';
+require_once _XE_PATH_.'classes/template/TemplateHandler.class.php';
 
 class TemplateHandlerTest extends PHPUnit_Framework_TestCase
 {

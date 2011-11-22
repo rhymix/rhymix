@@ -1,8 +1,8 @@
 <?php
 
-define('__DEBUG__', 1);
-$xe_path = realpath(dirname(__FILE__).'/../../../');
-require "{$xe_path}/classes/security/Security.class.php";
+if(!defined('__XE__')) require dirname(__FILE__).'/../../Bootstrap.php';
+
+require_once _XE_PATH_.'/classes/security/Security.class.php';
 
 error_reporting(E_ALL & ~E_NOTICE);
 
@@ -119,32 +119,10 @@ class SecurityTest extends PHPUnit_Framework_TestCase
 	}
 }
 
-$mock_vars = array();
-
-class Context
+if(!class_exists('Context'))
 {
-	public function gets() {
-		global $mock_vars;
-
-		$args = func_get_args();
-		$output = new stdClass;
-
-		foreach($args as $name) {
-			$output->{$name} = $mock_vars[$name];
-		}
-
-		return $output;
-	}
-
-	public function get($name) {
-		global $mock_vars;
-		return array_key_exists($name, $mock_vars)?$mock_vars[$name]:'';
-	}
-
-	public function set($name, $value) {
-		global $mock_vars;
-
-		$mock_vars[$name] = $value;
-	}
-
+	require _XE_PATH_.'/tests/classes/context/Context.mock.php';
 }
+
+/* End of file SecurityTest.php */
+/* Location: ./tests/classes/security/SecurityTest.php */

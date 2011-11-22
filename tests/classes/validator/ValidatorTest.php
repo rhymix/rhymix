@@ -1,13 +1,10 @@
 <?php
 
-define('__DEBUG__', 1);
-$xe_path = realpath(dirname(__FILE__).'/../../../');
-require_once "{$xe_path}/classes/xml/XmlParser.class.php";
-require_once "{$xe_path}/classes/handler/Handler.class.php";
-require_once "{$xe_path}/classes/file/FileHandler.class.php";
-require_once "{$xe_path}/classes/validator/Validator.class.php";
-
-error_reporting(E_ALL & ~E_NOTICE);
+if(!defined('__XE__')) require dirname(__FILE__).'/../../Bootstrap.php';
+require_once _XE_PATH_.'classes/xml/XmlParser.class.php';
+require_once _XE_PATH_.'classes/handler/Handler.class.php';
+require_once _XE_PATH_.'classes/file/FileHandler.class.php';
+require_once _XE_PATH_.'classes/validator/Validator.class.php';
 
 class ValidatorTest extends PHPUnit_Framework_TestCase
 {
@@ -46,8 +43,6 @@ class ValidatorTest extends PHPUnit_Framework_TestCase
 	}
 
 	public function testDefault() {
-		global $mock_vars;
-
 		$vd = new Validator();
 		$vd->addFilter('userid', array('default'=>'ididid'));
 
@@ -64,16 +59,18 @@ class ValidatorTest extends PHPUnit_Framework_TestCase
  		$vd->validate(&$arr);
  		$this->assertEquals( $arr, array('userid'=>'ownid') );
 
-		// context data
-		$mock_vars = array(); // empty context variables
-		$vd->validate();
-		$this->assertEquals( 'ididid', Context::get('userid') );
+		if(method_exists()) {
+			// context data
+			$mock_vars = array(); // empty context variables
+			$vd->validate();
+			$this->assertEquals( 'ididid', Context::get('userid') );
 
-		$vd->load(dirname(__FILE__).'/login.xml');
+			$vd->load(dirname(__FILE__).'/login.xml');
 
-		Context::set('userid', '');
-		$vd->validate();
-		$this->assertEquals( 'idididid', Context::get('userid') );
+			Context::set('userid', '');
+			$vd->validate();
+			$this->assertEquals( 'idididid', Context::get('userid') );
+		}
 	}
 
 	public function testLength() {
@@ -130,44 +127,10 @@ class ValidatorTest extends PHPUnit_Framework_TestCase
 	}
 }
 
-$mock_vars = array();
-
-class Context
+if(!class_exists('Context'))
 {
-	public function gets() {
-		global $mock_vars;
-
-		$args = func_get_args();
-		$output = new stdClass;
-
-		foreach($args as $name) {
-			$output->{$name} = $mock_vars[$name];
-		}
-
-		return $output;
-	}
-
-	public function getRequestVars() {
-		global $mock_vars;
-
-		return $mock_vars;
-	}
-
-	public function get($name) {
-		global $mock_vars;
-		return array_key_exists($name, $mock_vars)?$mock_vars[$name]:'';
-	}
-
-	public function set($name, $value) {
-		global $mock_vars;
-
-		$mock_vars[$name] = $value;
-	}
-
-	public function getLangType() {
-		return 'en';
-	}
-	public function getLang($str) {
-		return $str;
-	}
+	require _XE_PATH_.'tests/classes/context/Context.mock.php';
 }
+
+/* End of file ValidatorTest.php */
+/* Location: ./tests/classes/validator/ValidatorTest.php */
