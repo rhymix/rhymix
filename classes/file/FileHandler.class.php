@@ -321,8 +321,9 @@ class FileHandler {
 	 * @return file size string
 	 **/
 	function filesize($size) {
-		if(!$size) return "0Byte";
-		if($size < 1024) return ($size."Byte");
+		if(!$size) return '0Byte';
+		if($size === 1) return '1Byte';
+		if($size < 1024) return $size.'Bytes';
 		if($size >= 1024 && $size < 1024*1024) return sprintf("%0.1fKB",$size / 1024);
 		return sprintf("%0.2fMB",$size / (1024*1024));
 	}
@@ -426,6 +427,7 @@ class FileHandler {
 		if($last == 'g') $val *= 1024*1024*1024;
 		else if($last == 'm') $val *= 1024*1024;
 		else if($last == 'k') $val *= 1024;
+		else $val *= 1;
 
 		return $val;
 	}
