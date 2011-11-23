@@ -116,6 +116,12 @@ class SecurityTest extends PHPUnit_Framework_TestCase
 		$security = new Security($array);
 		$returned = $security->encodeHTML('.');
 		$this->assertEquals($returned, array('Hello', 'World', '&lt;b&gt;Bold&lt;/b&gt; is not bald'));
+
+		// associative array
+		$array = array('first'=>'Hello', 'second'=>'World', '3rd'=>'<b>Bold</b> is not bald');
+		$security = new Security($array);
+		$returned = $security->encodeHTML('first','3rd');
+		$this->assertEquals($returned, array('first'=>'Hello', 'second'=>'World', '3rd'=>'&lt;b&gt;Bold&lt;/b&gt; is not bald'));
 	}
 }
 

@@ -8,6 +8,15 @@ require_once _XE_PATH_.'classes/validator/Validator.class.php';
 
 class ValidatorTest extends PHPUnit_Framework_TestCase
 {
+	protected function setUp() {
+		global $lang;
+
+		$lang->filter = new stdClass;
+		$lang->filter->isnull = 'isnull';
+		$lang->filter->outofrange = 'outofrange';
+		$lang->filter->equalto = 'equalto';
+	}
+
 	public function testRequired() {
 		$vd = new Validator();
 		$vd->addFilter('userid', array('required'=>'true'));
@@ -42,6 +51,26 @@ class ValidatorTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue( $vd->validate() );
 	}
 
+	public function testEqualTo() {
+		$vd = new Validator();
+		$vd->addFilter('pass1', array('equalto'=>'pass2'));
+
+		Context::set('pass1', 'MyPassword', true);
+		$this->assertFalse( $vd->validate() );
+		Context::set('pass2', 'WorngPassword', true);
+		$this->assertFalse( $vd->validate() );
+		Context::set('pass2', 'MyPassword', true);
+		$this->assertTrue( $vd->validate() );
+	}
+
+	public function testArrayTrim() {
+		$vd = new Validator();
+
+		$arr = array('red'=>'apple', 'yellow'=>'banana ', 'green'=>' papaya ');
+		$this->assertEquals($vd->arrayTrim($arr), array('red'=>'apple', 'yellow'=>'banana', 'green'=>'papaya'));
+		$this->assertEquals($vd->arrayTrim(' string '), 'string');
+	}
+
 	public function testDefault() {
 		$vd = new Validator();
 		$vd->addFilter('userid', array('default'=>'ididid'));
@@ -60,17 +89,19 @@ class ValidatorTest extends PHPUnit_Framework_TestCase
  		$this->assertEquals( $arr, array('userid'=>'ownid') );
 
 		if(defined('MOCK_CONTEXT')) {
+			Context::truncate();
+
 			// context data
-			$mock_vars = array(); // empty context variables
 			$vd->validate();
 			$this->assertEquals( 'ididid', Context::get('userid') );
 
-			$vd->load(dirname(__FILE__).'/login.xml');
-
-			Context::set('userid', '', true);
-			$vd->validate();
-			$this->assertEquals( 'idididid', Context::get('userid') );
 		}
+
+		$vd->load(dirname(__FILE__).'/login.xml');
+
+		Context::set('userid', '', true);
+		$vd->validate();
+		$this->assertEquals( 'idididid', Context::get('userid') );
 	}
 
 	public function testLength() {
@@ -83,11 +114,6 @@ class ValidatorTest extends PHPUnit_Framework_TestCase
 	}
 
 	public function testCustomRule() {
-	}
-
-	public function testJSCompile() {
-		$vd = new Validator();
-		$vd->setCacheDir(dirname(__FILE__));
 	}
 
 	public function testCondition() {
@@ -113,6 +139,7 @@ class ValidatorTest extends PHPUnit_Framework_TestCase
 	}
 
 	public function testConditionXml() {
+
 		$vd = new Validator(dirname(__FILE__).'/condition.xml');
 		$data = array('greeting1'=>'hello');
 
@@ -124,6 +151,24 @@ class ValidatorTest extends PHPUnit_Framework_TestCase
 
 		$data['greeting2'] = 'World';
 		$this->assertTrue($vd->validate($data));
+
+		// javascript
+		$vd->setCacheDir(dirname(__FILE__));
+		$js = $vd->getJsPath();
+		$this->assertFileEquals($js, dirname(__FILE__).'/condition.en.js');
+	}
+
+	protected function tearDown()
+	{
+		// remove cache directory
+		$cache_dir = dirname(__FILE__).'/ruleset';
+		if(is_dir($cache_dir)) {
+			$files = (array)glob($cache_dir.'/*');
+			foreach($files as $file) {
+				unlink($file);
+			}
+			rmdir($cache_dir);
+		}
 	}
 }
 
