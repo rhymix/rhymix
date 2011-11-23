@@ -644,15 +644,15 @@ class Context {
 
 	/**
 	 * @brief determine request method (GET/POST/XMLRPC/JSON)
-	 * @param[in] $type request method
+	 * @param[in] $type request method (optional)
 	 * @return none
 	 **/
-	function setRequestMethod($type) {
+	function setRequestMethod($type='') {
 		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
 
 		($type && $self->request_method=$type) or
-		(strpos($_SERVER['CONTENT_TYPE'],'json') && $this->request_method='JSON') or
-		($GLOBALS['HTTP_RAW_POST_DATA'] && $this->request_method='XMLRPC') or
+		(strpos($_SERVER['CONTENT_TYPE'],'json') && $self->request_method='JSON') or
+		($GLOBALS['HTTP_RAW_POST_DATA'] && $self->request_method='XMLRPC') or
 		($self->request_method = $_SERVER['REQUEST_METHOD']);
 	}
 
