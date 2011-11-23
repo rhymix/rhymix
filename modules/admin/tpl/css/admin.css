@@ -70,6 +70,7 @@ header,footer,section,article,aside,nav,hgroup,details,menu,figure,figcaption{di
 .x .table td.title,
 .x .table th.text,
 .x .table td.text{white-space:normal;width:100%}
+.x .table td[colspan]{white-space:normal}
 /* Form */
 .x .form{margin:1em 0;padding:0}
 .x .form fieldset{margin:0 0 2em 0;padding:0;border:0}

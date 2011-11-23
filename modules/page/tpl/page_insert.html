@@ -14,12 +14,12 @@
 			<!--@if($module_srl)-->
 			<tr>
 				<th scope="row">{$lang->page_type}</th>
-				<td></td>
-				</tr>
+				<td class="text"></td>
+			</tr>
 			<!--@else-->
 			<tr>
 				<th scope="row">{$lang->page_type}</th>
-				<td colspan="3">
+				<td class="text">
 					<select name="page_type">
 						<option value="">{$lang->click_choice}</option>
 						<option value="WIDGET">{$lang->page_type_name['WIDGET']}</option>
@@ -35,7 +35,7 @@
 			<!--@else-->
 			<tr>
 				<th scope="row">{$lang->mid}</th>
-				<td colspan="3">
+				<td class="text">
 					<input type="text" name="page_name" value="{$module_info->mid}" />
 					<p>{$lang->about_mid}</p>
 					</td>
@@ -43,7 +43,7 @@
 			<!--@end-->
 			<tr>
 				<th scope="row">{$lang->module_category}</th>
-				<td colspan="3">
+				<td class="text">
 					<select name="module_category_srl">
 						<option value="0">{$lang->notuse}</option>
 						<!--@foreach($module_category as $key => $val)-->
@@ -55,7 +55,7 @@
 				</tr>
 			<tr>
 				<th scope="row">{$lang->browser_title}</th>
-				<td colspan="3">
+				<td class="text">
 					<input type="text" name="browser_title" value="{$module_info->browser_title}"  id="browser_title"/>
 					<a href="{getUrl('','module','module','act','dispModuleAdminLangcode','target','browser_title')}" onclick="popopen(this.href);return false;" class="buttonSet buttonSetting"><span>{$lang->cmd_find_langcode}</span></a>
 					<p>{$lang->about_browser_title}</p>
@@ -63,7 +63,7 @@
 				</tr>
 			<tr>
 				<th scope="row">{$lang->layout}</th>
-				<td colspan="3">
+				<td class="text">
 					<select name="layout_srl">
 						<option value="0">{$lang->notuse}</option>
 						<!--@foreach($layout_list as $key => $val)-->
@@ -75,14 +75,14 @@
 				</tr>
 			<tr>
 				<th scope="row">{$lang->mobile_view}</th>
-				<td>
-					<input type="checkbox" name="use_mobile" value="Y" <!--@if($module_info->use_mobile == "Y")-->checked="checked"<!--@end--> />
-					<p>{$lang->about_mobile_view}</p>
+				<td class="text">
+					<input type="checkbox" name="use_mobile" id="use_mobile" value="Y" <!--@if($module_info->use_mobile == "Y")-->checked="checked"<!--@end--> />
+					<label for="use_mobile">{$lang->about_mobile_view}</label>
 					</td>
 				</tr>
 			<tr>
 				<th scope="row">{$lang->mobile_layout}</th>
-				<td>
+				<td class="text">
 					<select name="mlayout_srl">
 						<option value="0">{$lang->notuse}</option>
 						<!--@foreach($mlayout_list as $key => $val)-->
@@ -94,14 +94,14 @@
 				</tr>
 			<tr class="optionnalData widgetType outsideType">
 				<th scope="row">{$lang->page_caching_interval}</th>
-				<td colspan="3">
+				<td class="text">
 					<input type="text" name="page_caching_interval" value="{(int)$module_info->caching_interval}"  /> {$lang->unit_min}
 					<p>{$lang->about_page_caching_interval}</p>
 					</td>
 				</tr>
 			<tr>
 				<th scope="row">{$lang->skin}</th>
-				<td>
+				<td class="text">
 					<select name="skin">
 						<!--@foreach($skin_list as $key=>$val)-->
 						<option value="{$key}" <!--@if($module_info->skin==$key ||(!$module_info->skin && $key=='default'))-->selected="selected"<!--@end-->>{$val->title}</option>
@@ -112,7 +112,7 @@
 				</tr>
 			<tr class="optionnalData articleType">
 				<th scope="row">{$lang->mobile_skin}</th>
-				<td>
+				<td class="text">
 					<select name="mskin">
 						<!--@foreach($mskin_list as $key=>$val)-->
 						<option value="{$key}" <!--@if($module_info->mskin==$key ||(!$module_info->mskin && $key=='default'))-->selected="selected"<!--@end-->>{$val->title}</option>
@@ -123,14 +123,14 @@
 				</tr>
 			<tr>
 				<th scope="row">{$lang->opage_path}</th>
-				<td colspan="3">
+				<td class="text">
 					<input type="text" name="path" value="{htmlspecialchars($module_info->path)}"  />
 					<p>{$lang->about_opage_path}<b>{realpath("./")}</b></p>
 					</td>
 				</tr>
 			<tr class="row optionnalData outsideType">
 				<th scope="row">{$lang->opage_mobile_path}</th>
-				<td colspan="3">
+				<td class="text">
 					<input type="text" name="mpath" value="{htmlspecialchars($module_info->mpath)}"  />
 					<p>{$lang->about_opage_mobile_path}<b>{realpath("./")}</b></p>
 					</td>

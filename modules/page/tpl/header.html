@@ -1,15 +1,15 @@
 <load target="js/page_admin.js" usecdn="true" />
-<h2 class="h2">{$lang->page_management}</h2>
+<h1 class="h1">{$lang->page_management}</h1>
 
 <p>{nl2br($lang->about_page)}</p>
 
 <!--@if($module_info)-->
 <!--@if($module_info->mid)-->
-<h3 class="h3">
+<h2 class="h2">
 	{$module_info->mid} <!--@if($module_info->is_default=='Y')-->({$lang->is_default})<!--@end--> 
 	| 
-	<a href="{getSiteUrl($module_info->domain,'','mid',$module_info->mid)}" target="_blank">View</a>
-</h3>
+	<a href="{getSiteUrl($module_info->domain,'','mid',$module_info->mid)}">View</a>
+</h2>
 <!--@end-->
 <div class="cnb">
 	<ul>
