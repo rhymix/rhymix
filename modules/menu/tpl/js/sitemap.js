@@ -129,7 +129,6 @@ $('form.siteMap')
 
 		resetEditForm();
 
-		editForm.find('.h2').html('Add Menu');
 		editForm.find('input[name=menu_srl]').val($this.closest('form').find('input[name=menu_srl]:first').val());
 		editForm.find('input[name=parent_srl]').val($this.parent().prevAll('input._item_key').val());
 	});

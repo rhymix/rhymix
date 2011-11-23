@@ -28,7 +28,7 @@ xe.lang.confirm_delete = "{$lang->confirm_delete}";
 	</block>
 	</ul>
 	<p class="btnArea">
-		<span class="btn"><a href="#editMenu" class="modalAnchor _add">{$lang->add_menu}</a></span>
+		<span class="btn"><a href="#editMenu" class="modalAnchor _add">{$lang->add_menu}...</a></span>
 		<span class="btn"><button value="procMenuAdminArrangeItem" name="act" type="submit">{$lang->cmd_save}</button></span>
 		<span class="etc">
 			<span class="btn"><button value="procMenuAdminDelete" name="act" type="submit" onclick="return confirmDelete();">{$lang->cmd_delete}</button></span>
@@ -44,7 +44,7 @@ xe.lang.confirm_delete = "{$lang->confirm_delete}";
 <input type="hidden" name="title" value="{$lang->untitle}" />
 <input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin', 'act', 'dispMenuAdminSiteMap')}" />
 <div class="btnArea">
-	<span class="btn medium"><button type="submit">{$lang->add_new_sitemap}</button></span>
+	<span class="btn medium"><button type="submit">{$lang->add_new_sitemap}...</button></span>
 </div>
 </form>
 <div class="modal" id="editMenu">
@@ -55,7 +55,7 @@ xe.lang.confirm_delete = "{$lang->confirm_delete}";
 		<input type="hidden" name="menu_srl" value="" />
 		<input type="hidden" name="menu_item_srl" value="{$menu_info->menu_srl}" />
 		<input type="hidden" name="parent_srl" value="{$menu_info->menu_srl}" />
-			<h2 class="h2"></h2>
+			<h2 class="h2">{$lang->add_menu}</h2>
 			<ul>
 				<li>
 					<p class="q"><label for="name">{$lang->menu_name}</label></p>
