@@ -13,7 +13,7 @@
 		<div class="gnb">
 			.gnb
 			<ul>
-				<li loop="$main_menu->list=>$key1,$val1" class="active"|cond="$val1['selected']"><a href="{$val1['href']}" target="_blank"|cond="$val1['open_window']=='Y'">{$val1['link']}</a>
+				<li loop="$global_menu->list=>$key1,$val1" class="active"|cond="$val1['selected']"><a href="{$val1['href']}" target="_blank"|cond="$val1['open_window']=='Y'">{$val1['link']}</a>
 					<ul cond="$val1['list']">
 						<li loop="$val1['list']=>$key2,$val2" class="active"|cond="$val2['selected']"><a href="{$val2['href']}" target="_blank"|cond="$val2['open_window']=='Y'">{$val2['link']}</a></li>
 					</ul>
@@ -29,8 +29,8 @@
 			</div>
 			<hr />
 			.lnb
-			<h2 loop="$main_menu->list=>$key1,$val1" cond="$val1['selected']"><a href="{$val1['href']}" target="_blank"|cond="$val1['open_window']=='Y'">{$val1['link']}</a></h2>
-			<ul loop="$main_menu->list=>$key1,$val1" cond="$val1['selected'] && $val1['list']">
+			<h2 loop="$global_menu->list=>$key1,$val1" cond="$val1['selected']"><a href="{$val1['href']}" target="_blank"|cond="$val1['open_window']=='Y'">{$val1['link']}</a></h2>
+			<ul loop="$global_menu->list=>$key1,$val1" cond="$val1['selected'] && $val1['list']">
 				<li loop="$val1['list']=>$key2,$val2" class="active"|cond="$val2['selected']"><a href="{$val2['href']}" target="_blank"|cond="$val2['open_window']=='Y'">{$val2['link']}</a>
 					<ul cond="$val2['list']">
 						<li loop="$val2['list']=>$key3,$val3" class="active"|cond="$val3['selected']"><a href="{$val3['href']}" target="_blank"|cond="$val3['open_window']=='Y'">{$val3['link']}</a>
