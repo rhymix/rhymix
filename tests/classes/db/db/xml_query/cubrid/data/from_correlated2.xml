@@ -1,0 +1,33 @@
+<query id="getMemberInfo" action="select">
+    <tables>
+        <table query="true" alias="a">
+        	<tables>
+        		<table name="documents" alias="documents" />
+        	</tables>
+        	<columns>
+        		<column name="member_srl" alias="member_srl" />
+        		<column name="count(*)" alias="count" />
+        	</columns>
+                <conditions>
+                    <condition operation="equal" column="module_srl" var="module_srl" notnull="notnull" />
+                </conditions>        		        	                
+                <groups>
+                   <group column="member_srl" />
+                </groups>        		        	
+        </table>
+        <table name="member" alias="m" type="left join">
+            <conditions>
+                <condition operation="equal" column="m.member" default="a.member_srl" />
+            </conditions>
+        </table>
+    </tables>
+    <columns>
+        <column name="m.member_srl" />
+        <column name="m.nickname" />
+        <column name="m.regdate" />
+        <column name="a.count" />
+    </columns>
+    <conditions>
+        <condition operation="more" column="a.count" var="count" notnull="notnull" />
+    </conditions>        		        	                    
+</query>

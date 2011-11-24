@@ -1,40 +1,163 @@
-<!--%import("js/editor_admin.js")-->
+<load target="js/editor_module_config.js" usecdn="true" />
+<script type="text/javascript">
+	jQuery(function($){
+		var fontPreview = $('.fontPreview');
+		var fontRadio = $('.fontSelector>:radio');
+		var checkedFont = fontRadio.filter(':checked').next('label').css('fontFamily');
+		fontPreview.css('fontFamily',checkedFont);
+		fontRadio.change(function(){
+			var myFont = $(this).next('label').css('fontFamily');
+			fontPreview.css('fontFamily',myFont);
+		});
+		var changedSize = $('#fontSize').val();
+		fontPreview.css('fontSize',changedSize+'px');
+		$('#fontSize').keyup(function(){
+			var mySize = $(this).val();
+			fontPreview.css('fontSize',mySize+'px');
+			if(mySize.length==0){ fontPreview.css('fontSize','') };
+			if(mySize>28){
+				alert('{$lang->msg_font_too_big}');
+				$(this).val('28');
+				fontPreview.css('fontSize','28px');
+			};
+		});
+	});
+</script>
+<h1 class="h1">{$lang->editor}</h1>
+<h2 class="h2">{$lang->editor_preview}</h2>
 
-<h3 class="xeAdmin">{$lang->editor} <span class="gray">{$lang->cmd_management}</span></h3>
+<!-- Editor Preview -->
+<a href="{getUrl('module', 'admin', 'act', 'dispEditorConfigPreview')}" target="_blank">{$lang->cmd_preview}</a>
+<!-- /Editor Preview -->
+<form action="./" method="post" class="form" ruleset="generalConfig">
+	<input type="hidden" name="module" value="editor" />
+	<input type="hidden" name="act" value="procEditorAdminGeneralConfig	" />
 
-<table cellspacing="0" class="crossTable">
-<thead>
-    <tr>
-        <th scope="col" class="half_wide"><div>{$lang->description}</div></th>
-        <th scope="col" class="half_wide"><div>{$lang->component_author}</div></th>
-        <th scope="col" colspan="2"><div>{$lang->component_version}</div></th>
-        <th scope="col"><div>{$lang->component_date}</div></th>
-    </tr>
-</thead>
-<tbody>
-    <!--@foreach($component_list as $component_name => $xml_info)-->
-    <tr class="row2">
-        <th colspan="2" scope="row"><div><a href="{getUrl('module','editor','act','dispEditorComponentInfo','component_name',$component_name)}" onclick="popopen(this.href);return false;"><strong>{$xml_info->title}</strong></a> ({$component_name})</div></th>
-        <th><a href="#" onclick="doSetupComponent('{$component_name}'); return false;" title="{htmlspecialchars($lang->cmd_setup)}" class="buttonSet buttonSetting"><span>{$lang->cmd_setup}</span></a></th>
-        <th>
-            <!--@if($xml_info->enabled=='Y')-->
-                <a href="#" onclick="doDisableComponent('{$component_name}');return false;" title="{htmlspecialchars($lang->cmd_enable)}" class="buttonSet buttonActive"><span>{$lang->cmd_enable}</span></a>
-            <!--@else-->
-                <a href="#" onclick="doEnableComponent('{$component_name}');return false;" title="{htmlspecialchars($lang->cmd_disable)}" class="buttonSet buttonDisable"><span>{$lang->cmd_disable}</span></a>
-            <!--@end-->
-        </th>
-        <th><a href="#" onclick="doMoveListOrder('{$component_name}','up');return false;" title="{htmlspecialchars($lang->cmd_move_up)}" class="buttonSet buttonUp"><span>{$lang->cmd_move_up}</span></a><a href="#" onclick="doMoveListOrder('{$component_name}','down');return false;" title="{htmlspecialchars($lang->cmd_move_down)}" class="buttonSet buttonDown"><span>{$lang->cmd_move_down}</span></a></th>
-    </tr>
-    <tr>
-        <td>{nl2br($xml_info->description)}</td>
-        <td class="nowrap">
-            <!--@foreach($xml_info->author as $author)-->
-            <a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->name}</a>
-            <!--@endforeach-->
-        </td>
-        <td colspan="2">{$xml_info->version}</td>
-        <td>{$xml_info->date}</td>
-    </tr>
-    <!--@end-->
-</tbody>
-</table>
+	<fieldset class="section">
+		<h2 class="h2">{$lang->editor_option}</h2>
+		<ul>
+			<li>
+				<p class="q">{$lang->guide_choose_main_editor}</p>
+				<p class="a">
+					<!--@foreach($editor_skin_list as $editor)-->
+					<input type="radio" name="editor_skin" value="{$editor}" id="doc_{$editor}" onClick="getEditorSkinColorList(this.value, null, 'document','doc_{$editor}')" <!--@if($editor==$editor_config->editor_skin)-->checked="checked" <!--@end-->/>
+					<label for="doc_{$editor}" value='sdf'>{$editor}</label>
+					<select name="sel_editor_colorset"  <!--@if($editor==$editor_config->editor_skin)--> >
+						<!--@foreach($editor_colorset_list as $key => $val)-->
+						<option value="{$val->name}" <!--@if($editor_config->sel_editor_colorset == $val->name)-->selected="selected"<!--@end-->>{$val->title}</option>
+						<!--@end-->
+						<!--@else-->style="display:none"> <!--@end-->
+					</select>
+					<br />
+					<!--@end-->
+				</p>
+			</li>
+			<li>
+				<p class="q"><label for="editor_height">{$lang->guide_set_height_main_editor}</label></p>
+				<p class="a"><input type="text" name="editor_height" id="editor_height" value="<!--@if($editor_config->editor_height)-->{$editor_config->editor_height}<!--@else-->{$editor_config_default['editor_height']}<!--@end-->" style="width:30px" /> px</p>
+			</li>
+			<li>
+				<p class="q">{$lang->guide_choose_comment_editor}</p>
+				<p class="a">
+					<!--@foreach($editor_skin_list as $editor)-->
+					<input type="radio" name="comment_editor_skin" value="{$editor}" id="com_{$editor}"  onclick="getEditorSkinColorList(this.value, null, 'reply','com_{$editor}')" <!--@if($editor == $editor_config->comment_editor_skin)-->checked="checked" <!--@end-->/>
+					<label for="com_{$editor}">{$editor}</label>
+					<select name="sel_comment_editor_colorset" <!--@if($editor==$editor_config->comment_editor_skin)-->	 >
+						<!--@foreach($editor_colorset_list as $key => $val)-->
+						<option value="{$val->name}" <!--@if($editor_config->sel_comment_editor_colorset == $val->name)-->selected="selected"<!--@end-->>{$val->title}</option>
+						<!--@end-->
+						<!--@else-->style="display:none"> <!--@end-->
+					</select>
+					<br />
+					<!--@end-->
+				</p>
+			</li>
+			<li>
+				<p class="q"><label for="comment_editor_height">{$lang->guide_set_height_comment_editor}</label></p>
+				<p class="a"><input type="text" name="comment_editor_height"id="comment_editor_height" value="<!--@if($editor_config->comment_editor_height)-->{$editor_config->comment_editor_height}<!--@else-->{$editor_config_default['comment_editor_height']}<!--@end-->" style="width:30px" /> px</p>
+			</li>
+			<li>
+				<p class="q">{$lang->guide_choose_text_formatting}</p>
+				<p class="a">
+					<!--@foreach($content_style_list as $key => $val)-->
+					<input type="radio" name="content_style" value="{$key}" id="style_{$key}" <!--@if($key==$editor_config->content_style||!$editor_config->content_style&&$key=='default')-->checked="checked"<!--@end-->><label for="style_{$key}">{$key}</label>
+					<!--@end-->
+				</p>
+			</li>
+			<li>
+				<p class="q">{$lang->guide_choose_font_body}</p>
+				<textarea rows="3" cols="42" class="fontPreview" title="Font Preview">{$lang->font_preview}</textarea>
+				<p class="answer fontSelector">
+					<input type="radio" name="content_font" id="font_noFont" value="" <!--@if(!$editor_config->content_font)-->checked="checked" <!--@end-->/> <label for="font_noFont" style="font-family:''">none(inherit)</label><br />
+					<!--@foreach($lang->edit->fontlist as $name => $detail)-->
+					<input type="radio" name="content_font" id="font_{$name}" value="{$name}" <!--@if($editor_config->content_font==$name)-->checked="checked" <!--@end-->/> <label for="font_{$name}" style="font-family:{$detail}">{$detail}</label><br />
+					<!--@end-->
+				</p>
+			</li>
+			<li>
+				<p class="q"><label for="fontSize">{$lang->guide_choose_font_size_body}</label></p>
+				<textarea rows="3" cols="42" class="fontPreview" title="Font Preview">{$lang->font_preview}</textarea>
+				<p class="a"><input type="text" id="fontSize" name="content_font_size" value="<!--@if($editor_config->content_font_size)-->{str_replace('px','',$editor_config->content_font_size)}<!--@else-->{str_replace('px','',$editor_config_default['content_font_size'])}<!--@end-->" style="width:30px" /> px</p>
+			</li>
+		</ul>
+		<div class="btnArea">
+			<span class="btn"><input type="submit" value="{$lang->cmd_save}" /></span>
+		</div>
+	</fieldset>
+</form>
+<form action="./" method="post" class="form" ruleset="componentOrderAndUse">
+	<input type="hidden" name="module" value="editor" />
+	<input type="hidden" name="act" value="procEditorAdminCheckUseListOrder" />
+	<fieldset class="section">
+		<h2 class="h2">Editor Component</h2>
+		<div class="table even easyList">
+			<table id="sortable_table" class="sortable"width="100%" border="1" cellspacing="0">
+				<caption>
+				All({$component_count})
+				</caption>
+				<thead>
+					<tr>
+						<th scope="col">{$lang->cmd_move}</th>
+						<th scope="col" class="title">{$lang->component_name} {$lang->user_name}</th>
+						<th scope="col">{$lang->version}</th>
+						<th scope="col">{$lang->author}</th>
+						<th scope="col">{$lang->path}</th>
+						<th scope="col">{$lang->use}</th>
+						<th scope="col">{$lang->cmd_delete}</th>
+					</tr>
+				</thead>
+				<tbody class="uDrag">
+					<!--@foreach($component_list as $component_name => $xml_info)-->
+					<tr>
+						<td><div class="wrap" style="height:80px"><button type="button" class="dragBtn">Move to</button></div></td>
+						<td class="title">
+							<input type="hidden" name="component_names[]" value="{$xml_info->component_name}" />
+							<p><b>{$xml_info->title}</b></p>
+							<p>{nl2br($xml_info->description)}</p>
+							<!--@if($xml_info->version && $xml_info->need_update == 'Y')-->
+							<p class="update">{$lang->msg_avail_easy_update}<a href="{getUrl('act','dispAutoinstallAdminInstall','package_srl',$xml_info->package_srl)}">{$lang->msg_do_you_like_update}</a></p>
+							<!--@end-->
+						</td>
+						<td>{$xml_info->version}</td>
+						<td>
+						   <!--@foreach($xml_info->author as $author)-->
+							<a href="{$author->homepage}" target="_blank">{$author->name}</a>
+							<!--@endforeach-->
+						</td>
+						<td>{$xml_info->path}</td>
+						<td><input type="checkbox" name="enables[]" id="enable" value="{$xml_info->component_name}" title="Use this component " <!--@if($xml_info->enabled=='Y')--> checked="checked"<!--@end--> /></td>
+						<td>
+							<!--@if($xml_info->version && $xml_info->delete_url)-->
+							<a href="{$xml_info->delete_url}">Delete</a>
+							<!--@end-->
+						</td>
+					</tr>
+					<!--@end-->
+				</tbody>
+			</table>
+		</div>
+		<div class="btnArea">
+			<span class="btn"><input type="submit" value="{$lang->cmd_save}" /></span>
+		</div>
+	</fieldset>
+</form>

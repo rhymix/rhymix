@@ -10,7 +10,8 @@
         var $mid = NULL; ///< string to represent run-time instance of Module (XE Module)
         var $module = NULL; ///< Class name of Xe Module that is identified by mid
         var $module_srl = NULL; ///< integer value to represent a run-time instance of Module (XE Module)
-        var $module_info = NULL; ///< an object containing the module information 
+        var $module_info = NULL; ///< an object containing the module information
+		var $origin_module_info = NULL;
         var $xml_info = NULL; ///< an object containing the module description extracted from XML file
 
         var $module_path = NULL; ///< a path to directory where module source code resides
@@ -25,6 +26,8 @@
         var $edited_layout_file = ''; ///< name of temporary layout files that is modified in an admin mode
 
         var $stop_proc = false; ///< a flag to indicating whether to stop the execution of code.
+
+		var $module_config = NULL;
 
         /**
          * @brief setter to set the name of module
@@ -52,10 +55,46 @@
             $this->add('redirect_url', $url);
         }
 
+		/**
+		 * @brief get url for redirection
+		 **/
+		function getRedirectUrl(){
+			return $this->get('redirect_url');
+		}
+
+		/**
+		 * @brief set message
+		 * @param $message a message string
+		 * @param $type type of message (error, info, update)
+		 **/
+		function setMessage($message, $type = null){
+			parent::setMessage($message);
+			$this->setMessageType($type);
+		}
+
+		/**
+		 * @brief set type of message
+		 * @param $type type of message (error, info, update)
+		 **/
+		function setMessageType($type){
+			$this->add('message_type', $type);
+		}
+
+		/**
+		 * @brief get type of message
+		 **/
+		function getMessageType(){
+			$type = $this->get('message_type');
+			if (!in_array($type, array('error', 'info', 'update'))){
+				$type = $this->getError()?'error':'info';
+			}
+			return $type;
+		}
+
         /**
          * @brief sett to set the template path for refresh.html
          * @remark refresh.html is executed as a result of method execution
-         * 공통 tpl중 refresh.html을 실행할 뿐..
+         * Tpl as the common run of the refresh.html ..
          **/
         function setRefreshPage() {
             $this->setTemplatePath('./common/tpl');
@@ -76,21 +115,19 @@
          * @param[in] $xml_info object containing module description
         **/
         function setModuleInfo($module_info, $xml_info) {
-            // 기본 변수 설정
+            // The default variable settings
             $this->mid = $module_info->mid;
             $this->module_srl = $module_info->module_srl;
             $this->module_info = $module_info;
+            $this->origin_module_info = $module_info;
             $this->xml_info = $xml_info;
             $this->skin_vars = $module_info->skin_vars;
-
-            // 웹서비스에서 꼭 필요한 인증 정보와 권한 설정 체크
+            // validate certificate info and permission settings necessary in Web-services
             $is_logged = Context::get('is_logged');
             $logged_info = Context::get('logged_info');
-
-            // module model 객체 생성
+            // module model create an object
             $oModuleModel = &getModel('module');
-
-            // XE에서 access, manager (== is_admin) 는 고정된 권한명이며 이와 관련된 권한 설정
+            // permission settings. access, manager(== is_admin) are fixed and privilege name in XE
             $module_srl = Context::get('module_srl');
             if(!$module_info->mid && preg_match('/^([0-9]+)$/',$module_srl)) {
                 $request_module = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
@@ -98,21 +135,20 @@
                     $grant = $oModuleModel->getGrant($request_module, $logged_info);
                 }
             } else {
-                $grant = $oModuleModel->getGrant($module_info, $logged_info, $xml_info);
+				$grant = $oModuleModel->getGrant($module_info, $logged_info, $xml_info);
+				// have at least access grant
+				if( substr_count($this->act, 'Member') || substr_count($this->act, 'Communication'))
+					$grant->access = 1;
             }
-
-            // 현재 모듈의 access 권한이 없으면 권한 없음 표시
+            // display no permission if the current module doesn't have an access privilege
             //if(!$grant->access) return $this->stop("msg_not_permitted");
-
-            // 관리 권한이 없으면 permision, action 확인
+            // checks permission and action if you don't have an admin privilege
             if(!$grant->manager) {
-                // 현재 요청된 action의 퍼미션 type(guest, member, manager, root)를 구함
+                // get permission types(guest, member, manager, root) of the currently requested action
                 $permission_target = $xml_info->permission->{$this->act};
-
-                // module.xml에 명시된 퍼미션이 없을때 action명에 Admin이 있으면 manager로 체크
+                // check manager if a permission in module.xml otherwise action if no permission
                 if(!$permission_target && substr_count($this->act, 'Admin')) $permission_target = 'manager';
-
-                // 권한 체크
+                // Check permissions
                 switch($permission_target) {
                     case 'root' :
                             $this->stop('msg_not_permitted_act');
@@ -125,27 +161,27 @@
                         break;
                 }
             }
-
-            // 권한변수 설정
+            // permission variable settings
             $this->grant = $grant;
+
             Context::set('grant', $grant);
+
+			$this->module_config = $oModuleModel->getModuleConfig($this->module, $module_info->site_srl);
 
             if(method_exists($this, 'init')) $this->init();
         }
 
         /**
          * @brief set the stop_proc and approprate message for msg_code
-         * @param $msg_code an error code 
+         * @param $msg_code an error code
          **/
         function stop($msg_code) {
-            // proc 수행을 중지 시키기 위한 플래그 세팅
+            // flag setting to stop the proc processing
             $this->stop_proc = true;
-
-            // 에러 처리
+            // Error handling
             $this->setError(-1);
             $this->setMessage($msg_code);
-
-            // message 모듈의 에러 표시
+            // Error message display by message module
 			$type = Mobile::isFromMobilePhone() ? 'mobile' : 'view';
 			$oMessageObject = &ModuleHandler::getModuleInstance('message',$type);
 			$oMessageObject->setError(-1);
@@ -237,11 +273,11 @@
         }
 
         /**
-         * @brief excute the member method specified by $act variable 
+         * @brief excute the member method specified by $act variable
          *
          **/
         function proc() {
-            // stop_proc==true이면 그냥 패스
+            // pass if stop_proc is true
             if($this->stop_proc) return false;
 
             // trigger call
@@ -252,25 +288,24 @@
                 return false;
             }
 
-            // addon 실행(called_position 를 before_module_proc로 하여 호출)
+            // execute an addon(call called_position as before_module_proc)
             $called_position = 'before_module_proc';
             $oAddonController = &getController('addon');
             $addon_file = $oAddonController->getCacheFilePath(Mobile::isFromMobilePhone()?"mobile":"pc");
             @include($addon_file);
 
             if(isset($this->xml_info->action->{$this->act}) && method_exists($this, $this->act)) {
-
-                // 권한 체크
-                if(!$this->grant->access) return $this->stop("msg_not_permitted_act");
-
-                // 모듈의 스킨 정보를 연동 (스킨 정보의 테이블 분리로 동작대상 모듈에만 스킨 정보를 싱크시키도록 변경)
+                // Check permissions
+                if(!$this->grant->access){
+					return $this->stop("msg_not_permitted_act");
+				}
+                // integrate skin information of the module(change to sync skin info with the target module only by seperating its table)
                 $oModuleModel = &getModel('module');
                 $oModuleModel->syncSkinInfoToModuleInfo($this->module_info);
                 Context::set('module_info', $this->module_info);
-
-                // 실행
+                // Run
                 $output = $this->{$this->act}();
-            } 
+            }
 			else {
 				return false;
 			}
@@ -282,8 +317,8 @@
                 $this->setMessage($triggerOutput->getMessage());
                 return false;
             }
-			
-            // addon 실행(called_position 를 after_module_proc로 하여 호출)
+
+            // execute an addon(call called_position as after_module_proc)
             $called_position = 'after_module_proc';
             $oAddonController = &getController('addon');
             $addon_file = $oAddonController->getCacheFilePath(Mobile::isFromMobilePhone()?"mobile":"pc");
@@ -292,10 +327,10 @@
             if(is_a($output, 'Object') || is_subclass_of($output, 'Object')) {
                 $this->setError($output->getError());
                 $this->setMessage($output->getMessage());
-                return false;
-            }
 
-            // view action이고 결과 출력이 XMLRPC 또는 JSON일 경우 해당 모듈의 api method를 실행
+				if (!$output->toBool()) return false;
+            }
+            // execute api methos of the module if view action is and result is XMLRPC or JSON
             if($this->module_info->module_type == 'view'){
                 if(Context::getResponseMethod() == 'XMLRPC' || Context::getResponseMethod() == 'JSON') {
                     $oAPI = getAPI($this->module_info->module, 'api');
@@ -304,7 +339,6 @@
                     }
                 }
             }
-
             return true;
         }
     }

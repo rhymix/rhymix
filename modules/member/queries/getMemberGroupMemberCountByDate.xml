@@ -1,0 +1,14 @@
+<query id="getMemberGroupMemberCountByDate" action="select">
+    <tables>
+        <table name="member_group_member" />
+    </tables>
+    <columns>
+        <column name="count(*)" alias="count" />
+    </columns>
+    <conditions>
+		<condition operation="like_prefix" column="regdate" var="regDate" />
+    </conditions>
+    <groups>
+		<group column="member_srl" />
+    </groups>
+</query>

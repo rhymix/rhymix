@@ -1,14 +1,40 @@
-<!--#include("header.html")-->
-<!--%import("css/autoinstall.css")-->
-<!--%import("js/autoinstall.js")-->
-<div class="infoText">
-	<p><strong>{$package->title}</strong> [{$package->type}] - {$package->path}</p>
-	<p class="caution"><strong>{$lang->description_uninstall}</strong></p>
-	<form action="./" method="POST" onsubmit="return procFilter(this, uninstall_package);">
-	<input type="hidden" name="package_srl" value="{$package_srl}" />
-    <!--@if($need_password)-->
-    <p><label for="ftp_password">FTP {$lang->password} ({$lang->about_ftp_password}):</label><input type="password" name="ftp_password" id="ftp_password" class="inputTypeText" /></p>
-    <!--@end-->
-	<span class="button strong"><input type="submit" value="{$lang->cmd_delete}" /></span>
+<include target="header.html" />
+<load target="js/waiting.js" usecdn="true" />
+
+<h2 class="h2">{$package->title}</h2>
+<p>{$package->type} ({$package->path})</p>
+
+<block cond="$package->avail_remove">
+	<div class="message info">
+		<p>{$lang->description_uninstall}</p>
+	</div>
+
+	<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+		<p>{$XE_VALIDATOR_MESSAGE}</p>
+	</div>
+	<form action="./" class="form" method="post" ruleset="ftp">
+		<input type="hidden" name="module" value="autoinstall" />
+		<input type="hidden" name="act" value="procAutoinstallAdminUninstallPackage" />
+		<input type="hidden" name="package_srl" value="{$package_srl}" />
+		<input type="hidden" name="return_url" value="{$return_url}" />
+		<input cond="!$need_password" type="hidden" name="ftp_password" value="dummy" />
+
+		<block cond="$need_password">
+			<p class="q"><label for="ftp_password">FTP {$lang->password}</label></p>
+			<p class="a"><input type="password" name="ftp_password" id="ftp_password" value="" /> <span class="desc">{$lang->about_ftp_password}</span></p>
+		</block>
+
+		<div class="btnArea">
+			<span class="btn medium"><input type="submit" value="{$lang->cmd_delete}" /></span>
+		</div>
 	</form>
-</div>
+</block>
+<block cond="!$package->avail_remove">
+	<div class="message error">
+		<p>{$lang->msg_dependency_package}</p>
+	</div>
+	<p cond="$package->deps">{$lang->dependant_list}:</p>
+	<ul cond="$package->deps">
+		<li loop="$package->deps => $dep_package_srl">{$installed[$dep_package_srl]->title}</li>
+	</ul>
+</block>

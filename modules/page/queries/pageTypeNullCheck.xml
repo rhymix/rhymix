@@ -1,0 +1,20 @@
+<query id="pageTypeNullCheck" action="select">
+    <tables>
+        <table name="modules" alias="m" />
+        <table name="module_extra_vars" alias="ev" type="left join">
+			<conditions>
+			<condition operation="equal" column="ev.name" default="page_type" />
+				<condition operation="equal" column="m.module_srl" default="ev.module_srl" pipe="and" />
+			</conditions>
+		</table>
+    </tables>
+    <columns>
+        <column name="m.module_srl" />
+        <column name="m.mid" />
+		<column name="ev.value" />
+    </columns>
+    <conditions>
+		<condition operation="equal" column="m.module" default="page" />
+		<condition operation="null" column="ev.value" default="NULL" pipe="and" />
+    </conditions>
+</query>

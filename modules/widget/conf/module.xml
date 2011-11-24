@@ -7,9 +7,12 @@
         <action name="dispWidgetGenerateCode" type="view" standalone="true" />
         <action name="dispWidgetGenerateCodeInPage" type="view" standalone="true" />
         <action name="dispWidgetStyleGenerateCodeInPage" type="view" standalone="true" />
-        <action name="dispWidgetAdminDownloadedList" type="view" standalone="true" admin_index="true" />
+        
+		<action name="dispWidgetAdminDownloadedList" type="view" standalone="true" admin_index="true" menu_name="installedWidget" menu_index="true" />
         <action name="dispWidgetAdminAddContent" type="view" standalone="true" />
-        <action name="procWidgetGenerateCode" type="controller" standalone="true" />
+		<action name="dispWidgetAdminGenerateCode" type="view" menu_name="installedWidget" />
+        
+		<action name="procWidgetGenerateCode" type="controller" standalone="true" />
         <action name="procWidgetStyleExtraImageUpload" type="controller" standalone="true" />
         <action name="procWidgetStyleGenerateCodeInPage" type="controller" standalone="true" />
         <action name="procWidgetAddContent" type="controller" standalone="true" />
@@ -22,4 +25,19 @@
         <action name="procWidgetStyleExtraImageUpload" type="controller" standalone="true" />
         <action name="procWidgetStyleGenerateCodeInPage" type="controller" standalone="true" />
     </actions>
+	<menus>
+		<menu name="installedWidget">
+			<title xml:lang="en">Installed Widget</title>
+			<title xml:lang="ko">설치된 위젯</title>
+			<title xml:lang="zh-CN">Installed Widget</title>
+			<title xml:lang="jp">Installed Widget</title>
+			<title xml:lang="es">Installed Widget</title>
+			<title xml:lang="ru">Installed Widget</title>
+			<title xml:lang="fr">Installed Widget</title>
+			<title xml:lang="zh-TW">Installed Widget</title>
+			<title xml:lang="vi">Installed Widget</title>
+			<title xml:lang="mn">Installed Widget</title>
+			<title xml:lang="tr">Installed Widget</title>
+		</menu>
+	</menus>
 </module>

@@ -2,65 +2,59 @@
     /**
      * @class  tag
      * @author NHN (developers@xpressengine.com)
-     * @brief  tag 모듈의 high class
+     * @brief high class of the tag module
      **/
 
     class tag extends ModuleObject {
 
         /**
-         * @brief 설치시 추가 작업이 필요할시 구현
+         * @brief Implement if additional tasks are necessary when installing
          **/
         function moduleInstall() {
             $oModuleController = &getController('module');
             $oDB = &DB::getInstance();
 
             $oDB->addIndex("tags","idx_tag", array("document_srl","tag"));
-
-            // 2007. 10. 17 document.insertDocument, updateDocument, deleteDocument에 대한 trigger 등록
+            // 2007. 10. 17 document.insertDocument, updateDocument, deleteDocument trigger property for
             $oModuleController->insertTrigger('document.insertDocument', 'tag', 'controller', 'triggerArrangeTag', 'before');
             $oModuleController->insertTrigger('document.insertDocument', 'tag', 'controller', 'triggerInsertTag', 'after');
             $oModuleController->insertTrigger('document.updateDocument', 'tag', 'controller', 'triggerArrangeTag', 'before');
             $oModuleController->insertTrigger('document.updateDocument', 'tag', 'controller', 'triggerInsertTag', 'after');
             $oModuleController->insertTrigger('document.deleteDocument', 'tag', 'controller', 'triggerDeleteTag', 'after');
-
-            // 2007. 10. 17 모듈이 삭제될때 등록된 태그도 모두 삭제하는 트리거 추가
+            // 2007. 10. 17 modules are deleted when you delete all registered triggers that add tag
             $oModuleController->insertTrigger('module.deleteModule', 'tag', 'controller', 'triggerDeleteModuleTags', 'after');
             
             return new Object();
         }
 
         /**
-         * @brief 설치가 이상이 없는지 체크하는 method
+         * @brief a method to check if successfully installed
          **/
         function checkUpdate() {
             $oModuleModel = &getModel('module');
             $oDB = &DB::getInstance();
-
-            // 2007. 10. 17 trigger 등록이 안되어 있으면 등록
+            // 2007. 10. 17 trigger registration, if registered upset
             if(!$oModuleModel->getTrigger('document.insertDocument', 'tag', 'controller', 'triggerArrangeTag', 'before')) return true;
             if(!$oModuleModel->getTrigger('document.insertDocument', 'tag', 'controller', 'triggerInsertTag', 'after')) return true;
             if(!$oModuleModel->getTrigger('document.updateDocument', 'tag', 'controller', 'triggerArrangeTag', 'before')) return true;
             if(!$oModuleModel->getTrigger('document.updateDocument', 'tag', 'controller', 'triggerInsertTag', 'after')) return true;
             if(!$oModuleModel->getTrigger('document.deleteDocument', 'tag', 'controller', 'triggerDeleteTag', 'after')) return true;
-
-            // 2007. 10. 17 모듈이 삭제될때 등록된 태그도 모두 삭제하는 트리거 추가
+            // 2007. 10. 17 modules are deleted when you delete all registered triggers that add tag
             if(!$oModuleModel->getTrigger('module.deleteModule', 'tag', 'controller', 'triggerDeleteModuleTags', 'after')) return true;
-
-            // tag 테이블의 tag 컬럼에 index
+            // tag in the index column of the table tag
             if(!$oDB->isIndexExists("tags","idx_tag")) return true;
 
             return false;
         }
 
         /**
-         * @brief 업데이트 실행
+         * @brief Execute update
          **/
         function moduleUpdate() {
             $oModuleModel = &getModel('module');
             $oModuleController = &getController('module');
             $oDB = &DB::getInstance();
-
-            // 2007. 10. 17 document.insertDocument, updateDocument, deleteDocument에 대한 trigger 등록
+            // 2007. 10. 17 document.insertDocument, updateDocument, deleteDocument trigger property for
             if(!$oModuleModel->getTrigger('document.insertDocument', 'tag', 'controller', 'triggerArrangeTag', 'before')) 
                 $oModuleController->insertTrigger('document.insertDocument', 'tag', 'controller', 'triggerArrangeTag', 'before');
 
@@ -75,12 +69,10 @@
 
             if(!$oModuleModel->getTrigger('document.triggerDeleteTag', 'tag', 'controller', 'triggerDeleteTag', 'after')) 
                 $oModuleController->insertTrigger('document.deleteDocument', 'tag', 'controller', 'triggerDeleteTag', 'after');
-
-            // 2007. 10. 17 모듈이 삭제될때 등록된 태그도 모두 삭제하는 트리거 추가
+            // 2007. 10. 17 modules are deleted when you delete all registered triggers that add tag
             if(!$oModuleModel->getTrigger('module.deleteModule', 'tag', 'controller', 'triggerDeleteModuleTags', 'after'))
                 $oModuleController->insertTrigger('module.deleteModule', 'tag', 'controller', 'triggerDeleteModuleTags', 'after');
-
-            // tag 테이블의 tag 컬럼에 index
+            // tag in the index column of the table tag
             if(!$oDB->isIndexExists("tags","idx_tag")) 
                 $oDB->addIndex("tags","idx_tag", array("document_srl","tag"));
 
@@ -88,7 +80,7 @@
         }
 
         /**
-         * @brief 캐시 파일 재생성
+         * @brief Re-generate the cache file
          **/
         function recompileCache() {
         }

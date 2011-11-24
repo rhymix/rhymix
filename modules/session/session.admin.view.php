@@ -2,22 +2,22 @@
     /**
      * @class  sessionAdminView
      * @author NHN (developers@xpressengine.com)
-     * @brief  session모듈의 admin view class
+     * @brief The admin view class of the session module
      **/
 
     class sessionAdminView extends session {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
         }
 
         /**
-         * @brief 설정 
+         * @brief Configure
          **/
         function dispSessionAdminIndex() {
-            // 템플릿 파일 지정
+            // Set the template file
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('index');
         }

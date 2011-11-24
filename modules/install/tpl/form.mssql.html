@@ -1,51 +1,35 @@
-<!--%import("filter/mssql.xml")-->
 <!--%import("js/install_admin.js")-->
 <!--#include("header.html")-->
-
-<form action="./" method="post" onsubmit="return procFilter(this, install)">
-<input type="hidden" name="db_type" value="{$db_type}" />
-
-<h2 class="xeAdmin">{$lang->form_title}</h2>
-
-    <table cellspacing="0" class="tableType7">
-    <col width="100" />
-    <col width="160" />
-    <col />
-
-    <tr>
-        <th rowspan="6" class="hr" scope="row">{$db_type}</th>
-        <th class="second" scope="row"><label for="textfield11">{$lang->db_hostname}</label></th>
-        <td><input type="text" name="db_hostname" value="localhost" class="inputTypeText w100" id="textfield11" /></td>
-    </tr>
-    <tr>
-        <th class="second" scope="row"><label for="textfield12">{$lang->db_port}</label></th>
-        <td><input type="text" name="db_port" value="" class="inputTypeText w100" id="textfield12" /></td>
-    </tr>
-    <tr>
-        <th class="second" scope="row"><label for="textfield13">{$lang->db_userid}</label></th>
-        <td><input type="text" name="db_userid" value="" class="inputTypeText w100" id="textfield13" /></td>
-    </tr>
-    <tr>
-        <th class="second" scope="row"><label for="textfield14">{$lang->db_password}</label></th>
-        <td><input type="password" name="db_password" value="" class="inputTypeText w100" id="textfield14" /></td>
-    </tr>
-    <tr>
-        <th class="second" scope="row"><label for="textfield15">{$lang->db_database}</label></th>
-        <td><input type="text" name="db_database" value="" class="inputTypeText w100" id="textfield15" /></td>
-    </tr>
-    <tr>
-        <th class="second hr" scope="row"><label for="textfield16">{$lang->db_table_prefix}</label></th>
-        <td class="hr"><input type="text" name="db_table_prefix" value="xe" class="inputTypeText w100" id="textfield16" /></td>
-    </tr>
-
-    <!--#include("form.install.html")-->
-
-    </table>
-
-    <div class="buttonCenter">
-        <span class="button blue"><input type="submit" value="{$lang->cmd_registration}" /></span>
-    </div>
-
-</form>
-
+	<div id="body">
+<!--#include("progress_menu.html")-->
+		<span class="dummy"></span>
+		<div id="content">
+			<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+				<p>{$XE_VALIDATOR_MESSAGE}</p>
+			</div>
+			<form rule="mssql" action="./" method="post">
+			<input type="hidden" value="{getUrl('', 'act', $act, 'db_type', $db_type)}" name="error_return_url">
+			<input type="hidden" name="act" value="procMssqlDBSetting" />
+			<input type="hidden" name="db_type" value="{$db_type}" />
+				<h2 class="h2">{$db_type}</h2>
+				<ul class="form formDbInfo">
+					<li><label for="dbHostName">{$lang->db_hostname}</label><input name="db_hostname" value="localhost" type="text" class="iText" id="dbHostName" /></li>
+					<li><label for="dbPort">{$lang->db_port}</label><input name="db_port" value="3306" type="text" class="iText" id="dbPort" /></li>
+					<li><label for="dbId">{$lang->db_userid}</label><input name="db_userid" type="text" class="iText" id="dbId" /></li>
+					<li><label for="dbPw">{$lang->db_password}</label><input name="db_password" type="password" class="iText" id="dbPw" /></li>
+					<li><label for="dbName">{$lang->db_database}</label><input name="db_database" type="text" class="iText" id="dbName" /></li>
+					<li><label for="dbPrefix">{$lang->db_table_prefix}</label><input name="db_table_prefix" type="text" class="iText" id="dbPrefix" value="xe" /></li>
+				</ul>
+				<div class="desc">{$lang->db_info_desc}</div>
+				<div class="ibtnArea">
+					<div class="fLeft">
+						<span class="ibtn icon"><span class="back"></span> <a href="{getUrl('', 'act', 'dispInstallSelectDB')}">{$lang->cmd_back}</a></span>
+					</div>
+					<div class="fRight">
+							<span class="ibtn icon"><span class="check"></span> <input name="" type="submit" value="{$lang->cmd_next}" /></span>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
 <!--#include("footer.html")-->

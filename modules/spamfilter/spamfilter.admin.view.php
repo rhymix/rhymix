@@ -2,64 +2,43 @@
     /**
      * @class  spamfilterAdminView
      * @author NHN (developers@xpressengine.com)
-     * @brief  spamfilter 모듈의 admin view class
+     * @brief The admin view class of the spamfilter module
      **/
 
     class spamfilterAdminView extends spamfilter {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
-            // 템플릿 경로 지정 
+            // Set template path
             $this->setTemplatePath($this->module_path.'tpl');
         }
 
         /**
-         * @brief 스팸필터의 설정 화면
+         * @brief Spam Filter configurations
+		 *        Output the list of banned IPs and words
          **/
-        function dispSpamfilterAdminConfig() {
-            // 설정 정보를 받아옴 (module model 객체를 이용)
+		function dispSpamfilterAdminSetting() {
+            // Get configurations (using module model object)
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('spamfilter');
-            Context::set('config',$config);
-
-            // 템플릿 파일 지정
-            $this->setTemplateFile('index');
-        }
-
-        /**
-         * @brief 금지 목록 출력
-         **/
-        function dispSpamfilterAdminDeniedIPList() {
-            // 등록된 금지 IP 목록을 가져옴
-            $oSpamFilterModel = &getModel('spamfilter');
+			
+			// Get the list of denied IP addresses and words
+			$oSpamFilterModel = &getModel('spamfilter');
             $ip_list = $oSpamFilterModel->getDeniedIPList();
-
-            Context::set('ip_list', $ip_list);
-			
-			$security = new Security();
-			$security->encodeHTML('ip_list..');
-			
-            // 템플릿 파일 지정
-            $this->setTemplateFile('denied_ip_list');
-        }
-
-        /**
-         * @brief 금지 목록 출력
-         **/
-        function dispSpamfilterAdminDeniedWordList() {
-            // 등록된 금지 Word 목록을 가져옴
-            $oSpamFilterModel = &getModel('spamfilter');
             $word_list = $oSpamFilterModel->getDeniedWordList();
 
+            Context::set('config',$config);
+            Context::set('ip_list', $ip_list);
             Context::set('word_list', $word_list);
-			
+            
 			$security = new Security();
 			$security->encodeHTML('word_list..word');
-			
-            // 템플릿 파일 지정
-            $this->setTemplateFile('denied_word_list');
-        }
+			$security->encodeHTML('ip_list..');
+
+			// Set a template file
+            $this->setTemplateFile('index');
+		}
     }
 ?>

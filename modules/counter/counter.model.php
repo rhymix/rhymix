@@ -2,19 +2,19 @@
     /**
      * @class  counterModel
      * @author NHN (developers@xpressengine.com)
-     * @brief  counter 모듈의 Model class
+     * @brief Model class of counter module
      **/
 
     class counterModel extends counter {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
         }
 
         /**
-         * @brief 로그 검사
+         * @brief Verify logs
          **/
         function isLogged($site_srl=0) {
             $args->regdate = date("Ymd");
@@ -25,7 +25,7 @@
         }
 
         /**
-         * @brief 오늘자 카운터 현황 row 있는지 체크
+         * @brief Check if a row of today's counter status exists 
          **/
         function isInsertedTodayStatus($site_srl=0) {
             $args->regdate = date("Ymd");
@@ -39,15 +39,14 @@
         }
 
         /**
-         * @brief 특정 일의 접속 통계를 가져옴
+         * @brief Get access statistics for a given date
          **/
         function getStatus($selected_date, $site_srl=0) {
-            // 여러개의 날짜 로그를 가져올 경우
+            // If more than one date logs are selected
             if(is_array($selected_date)) {
                 $date_count = count($selected_date);
                 $args->regdate = implode(',',$selected_date);
-
-            // 단일 날짜의 로그를 가져올 경우
+            // If a single date log is selected
             } else {
                 if(strlen($selected_date)==8) $selected_date = $selected_date;
                 $args->regdate = $selected_date;
@@ -73,14 +72,14 @@
         }
 
         /**
-         * @brief 지정된 일자의 시간대별 로그 가져오기
+         * @brief Select hourly logs of a given date
          **/
         function getHourlyStatus($type='hour', $selected_date, $site_srl=0) {
             $max = 0;
             $sum = 0;
             switch($type) {
                 case 'year' :
-                        // 카운터 시작일 구함
+                        // Get a date to start counting
                         if($site_srl) {
                             $args->site_srl = $site_srl;
                             $output = executeQuery('counter.getSiteStartLogDate', $args);

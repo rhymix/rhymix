@@ -2,35 +2,35 @@
     /**
      * @class  fileAdminView
      * @author NHN (developers@xpressengine.com)
-     * @brief  file 모듈의 admin view 클래스
+     * @brief admin view of the module class file
      **/
 
     class fileAdminView extends file {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
         }
 
         /**
-         * @brief 목록 출력 (관리자용)
+         * @brief Display output list (for administrator)
          **/
         function dispFileAdminList() {
-            // 목록을 구하기 위한 옵션
-            $args->page = Context::get('page'); ///< 페이지
-            $args->list_count = 30; ///< 한페이지에 보여줄 글 수
-            $args->page_count = 10; ///< 페이지 네비게이션에 나타날 페이지의 수
+            // Options to get a list
+            $args->page = Context::get('page'); // /< Page
+            $args->list_count = 30; // /< Number of documents that appear on a single page
+            $args->page_count = 10; // /< Number of pages that appear in the page navigation
 
-            $args->sort_index = 'file_srl'; ///< 소팅 값
+            $args->sort_index = 'file_srl'; // /< Sorting values
             $args->isvalid = Context::get('isvalid');
             $args->module_srl = Context::get('module_srl');
-
-            // 목록 구함
-            $oFileModel = &getAdminModel('file');
-            $output = $oFileModel->getFileList($args);
-
-            // 목록의 loop를 돌면서 document를 구하기
+            // Get a list
+            $oFileAdminModel = &getAdminModel('file');
+			$columnList = array('file_srl', 'upload_target_srl', 'upload_target_type', 'sid', 'module_srl'
+					, 'source_filename', 'isvalid', 'file_size', 'download_count', 'files.regdate', 'ipaddress');
+            $output = $oFileAdminModel->getFileList($args, $columnList);
+            // Get the document for looping a list
             if($output->data) {
                 $oCommentModel = &getModel('comment');
                 $oDocumentModel = &getModel('document');
@@ -50,10 +50,9 @@
                     $target_srl = $file->upload_target_srl;
                     $file_update_args = null;
                     $file_update_args->file_srl = $file_srl;
-
-                    // upload_target_type이 없으면 찾아서 업데이트
+                    // Find and update if upload_target_type doesn't exist
                     if(!$file->upload_target_type) {
-                        // 찾아둔게 있으면 패스
+                        // Pass if upload_target_type is already found 
                         if($document_list[$target_srl]) {
                             $file->upload_target_type = 'doc';
                         } else if($comment_list[$target_srl]) {
@@ -79,7 +78,7 @@
                                     $doc_srls[] = $comment->document_srl;
                                 }
                             }
-                            // module (페이지인 경우)
+                            // module (for a page)
                             if(!$file->upload_target_type) {
                                 $module = $oModuleModel->getModulesInfo($target_srl);
                                 if($module) {
@@ -92,8 +91,7 @@
                                 executeQuery('file.updateFileTargetType', $file_update_args);
                             }
                         }
-
-                        // 이미 구해진 데이터가 있는 확인
+                        // Check if data is already obtained
                         for($i = 0; $i < $com_srls_count; ++$i) {
                             if($comment_list[$com_srls[$i]]) delete($com_srls[$i]);
                         }
@@ -114,13 +112,11 @@
                     $file_list[$file_srl] = $file;
                     $mod_srls[] = $file->module_srl;
                 }
-
-                // 중복 제거
+                // Remove duplication
                 $doc_srls = array_unique($doc_srls);
                 $com_srls = array_unique($com_srls);
                 $mod_srls = array_unique($mod_srls);
-
-                // 댓글 목록
+                // Comment list
                 $com_srls_count = count($com_srls);
                 if($com_srls_count) {
                     $comment_output = $oCommentModel->getComments($com_srls);
@@ -129,20 +125,22 @@
                         $doc_srls[] = $comment->document_srl;
                     }
                 }
-
-                // 문서 목록
+                // Document list
                 $doc_srls_count = count($doc_srls);
                 if($doc_srls_count) {
                     $document_output = $oDocumentModel->getDocuments($doc_srls);
-                    foreach($document_output as $document) {
-                        $document_list[$document->document_srl] = $document;
-                    }
+					if(is_array($document_output))
+					{
+						foreach($document_output as $document) {
+							$document_list[$document->document_srl] = $document;
+						}
+					}
                 }
-
-                // 모듈 목록
+                // Module List
                 $mod_srls_count = count($mod_srls);
                 if($mod_srls_count) {
-                    $module_output = $oModuleModel->getModulesInfo($mod_srls);
+					$columnList = array('module_srl', 'mid', 'browser_title');
+                    $module_output = $oModuleModel->getModulesInfo($mod_srls, $columnList);
 					if($module_output && is_array($module_output)){
 						foreach($module_output as $module) {
 							$module_list[$module->module_srl] = $module;
@@ -156,6 +154,7 @@
                     }
                 }
             }
+
             Context::set('file_list', $file_list);
             Context::set('document_list', $document_list);
             Context::set('comment_list', $comment_list);
@@ -163,29 +162,27 @@
             Context::set('total_count', $output->total_count);
             Context::set('total_page', $output->total_page);
             Context::set('page', $output->page);
-            Context::set('page_navigation', $output->page_navigation);			
-			
+            Context::set('page_navigation', $output->page_navigation);
+            // Set a template
 			$security = new Security();
 			$security->encodeHTML('file_list..source_filename','file_list..ipaddress');
 			$security->encodeHTML('module_list..browser_title','module_list..mid');						
-				
-			// 템플릿 지정
+
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('file_list');
 
         }
 
         /**
-         * @brief 첨부파일 정보 설정 (관리자용)
+         * @brief Set attachment information (for administrator)
          **/
         function dispFileAdminConfig() {
             $oFileModel = &getModel('file');
             $config = $oFileModel->getFileConfig();
             Context::set('config',$config);
-
-            // 템플릿 파일 지정
+            // Set a template file
             $this->setTemplatePath($this->module_path.'tpl');
-            $this->setTemplateFile('file_config');
+            $this->setTemplateFile('adminConfig');
         }
 
     }

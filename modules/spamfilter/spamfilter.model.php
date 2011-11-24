@@ -2,28 +2,28 @@
     /**
      * @class  spamfilterModel
      * @author NHN (developers@xpressengine.com)
-     * @brief  spamfilter 모듈의 Model class
+     * @brief The Model class of the spamfilter module
      **/
 
     class spamfilterModel extends spamfilter {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
         }
 
         /**
-         * @brief 스팸필터 모듈의 사용자 설정 값 return
+         * @brief Return the user setting values of the Spam filter module
          **/
         function getConfig() {
-            // 설정 정보를 받아옴 (module model 객체를 이용)
+            // Get configurations (using the module model object)
             $oModuleModel = &getModel('module');
             return $oModuleModel->getModuleConfig('spamfilter');
         }
 
         /**
-         * @brief 등록된 금지 IP의 목록을 return
+         * @brief Return the list of registered IP addresses which were banned
          **/
         function getDeniedIPList() {
             $args->sort_index = "regdate";
@@ -35,7 +35,7 @@
         }
 
         /**
-         * @brief 인자로 넘겨진 ipaddress가 금지 ip인지 체크하여 return
+         * @brief Check if the ipaddress is in the list of banned IP addresses
          **/
         function isDeniedIP() {
             $ipaddress = $_SERVER['REMOTE_ADDR'];
@@ -58,7 +58,7 @@
         }
 
         /**
-         * @brief 등록된 금지 Word 의 목록을 return
+         * @brief Return the list of registered Words which were banned
          **/
         function getDeniedWordList() {
             $args->sort_index = "hit";
@@ -69,7 +69,7 @@
         }
 
         /**
-         * @brief 넘어온 text에 금지 단어가 있는지 확인
+         * @brief Check if the text, received as a parameter, is banned or not
          **/
         function isDeniedWord($text) {
             $word_list = $this->getDeniedWordList();
@@ -89,26 +89,25 @@
         }
 
         /**
-         * @brief 지정된 시간을 체크
+         * @brief Check the specified time
          **/
         function checkLimited() {
             $config = $this->getConfig();
-            $limit_count = $config->limit_count?$config->limit_count:5;
-            $interval = $config->interval;
-            if(!$interval) return new Object();
+			
+			if($config->limits != 'Y') return new Object(); 
+			$limit_count = '3';
+			$interval = '10';
 
             $count = $this->getLogCount($interval);
 
             $ipaddress = $_SERVER['REMOTE_ADDR'];
-
-            // 정해진 시간보다 클 경우 금지 ip로 등록
+            // Ban the IP address if the interval is exceeded
             if($count>=$limit_count) {
                 $oSpamFilterController = &getController('spamfilter');
                 $oSpamFilterController->insertIP($ipaddress, 'AUTO-DENIED : Over limit');
                 return new Object(-1, 'msg_alert_registered_denied_ip');
             }
-
-            // 제한 글수까지는 아니지만 정해진 시간내에 글 작성을 계속 할때
+            // If the number of limited posts is not reached, keep creating.
             if($count) {
                 $message = sprintf(Context::getLang('msg_alert_limited_by_config'), $interval);
 
@@ -122,7 +121,7 @@
         }
 
         /**
-         * @brief 특정 글에 이미 엮인글이 등록되어 있는지 확인
+         * @brief Check if the trackbacks have already been registered to a particular article
          **/
         function isInsertedTrackback($document_srl) {
             $oTrackbackModel = &getModel('trackback');
@@ -133,7 +132,7 @@
         }
 
         /**
-         * @brief 지정된 IPaddress의 특정 시간대 내의 로그 수를 return
+         * @brief Return the number of logs recorded within the interval for the specified IPaddress
          **/
         function getLogCount($time = 60, $ipaddress='') {
             if(!$ipaddress) $ipaddress = $_SERVER['REMOTE_ADDR'];

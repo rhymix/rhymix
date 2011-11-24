@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ruleset version="1.5.0">
+    <customrules>
+    </customrules>
+    <fields>
+		<field name="member_srls" required="true" />
+		<field name="groups">
+			<if test="$type == 'modify'" attr="required" value="true" />
+		</field>
+    </fields>
+</ruleset>

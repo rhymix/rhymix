@@ -1,17 +1,17 @@
-<?php 
+<?php
     /**
      * @file  index.php
      * @author NHN (developers@xpressengine.com)
-     * @brief 시작 페이지
+     * @brief Start page
      *
-     * Request Argument에서 mid, act로 module 객체를 찾아서 생성하고 \n
-     * 모듈 정보를 세팅함
+     * Find and create module object by mif, act in Request Argument \n
+     * Set module information
      *
-     * @mainpage XpressEngine 
-     * @section intro 소개
-     * XE 는 오픈 프로젝트로 개발되는 오픈 소스입니다.\n
-     * 자세한 내용은 아래 링크를 참조하세요.
-     * - 공식홈페이지        : http://www.xpressengine.com
+     * @mainpage XpressEngine
+     * @section intro introduction
+     * XE is an opensource and being developed in the opensource project. \N
+     * For more information, please see the link below.
+     * - Official website: http://www.xpressengine.com
      * - SVN Repository      : http://svn.xpressengine.net/xe
      * \n
      * "XpressEngine (XE)" is free software; you can redistribute it and/or \n
@@ -31,24 +31,25 @@
      **/
 
     /**
-     * @brief 기본적인 상수 선언,  웹에서 직접 호출되는 것을 막기 위해 체크하는 상수 선언
+     * @brief Declare constants for generic use and for checking to avoid a direct call from the Web
      **/
-    define('__ZBXE__', true);
+	define('__XE__',   true);
+    define('__ZBXE__', true); // deprecated : __ZBXE__ will be removed. Use __XE__ instead.
 
     /**
-     * @brief 필요한 설정 파일들을 include 
+     * @brief Include the necessary configuration files
      **/
     require('./config/config.inc.php');
 
     /**
-     * @brief Context 객체를 생성하여 초기화
-     * 모든 Request Argument/ 환경변수등을 세팅
+     * @brief Initialize by creating Context object
+     * Set all Request Argument/Environment variables
      **/
     $oContext = &Context::getInstance();
     $oContext->init();
 
     /**
-     * @brief default_url 이 설정되어 있고 현재 url이 default_url과 다르면 SSO인증을 위한 rediret 시도 후 모듈 동작
+     * @brief If default_url is set and it is different from the current url, attempt to redirect for SSO authentication and then process the module
      **/
     if($oContext->checkSSO()) {
         $oModuleHandler = new ModuleHandler();

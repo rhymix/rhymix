@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<module>
+    <grants />
+    <permissions>
+        <permission action="dispTrashAdminList" target="manager" />
+        <permission action="procTrashAdminRestore" target="manager" />
+    </permissions>
+    <actions>
+        <action name="dispTrashAdminList" type="view" standalone="true" admin_index="true" menu_name="trash" menu_index="true" />
+
+        <action name="procTrashAdminEmptyTrash" type="controller" standalone="true" ruleset="emptyTrash" />
+        <action name="procTrashAdminRestore" type="controller" standalone="true" />
+        <action name="procTrashAdminGetList" type="controller" standalone="true" />
+    </actions>
+	<menus>
+		<menu name="trash">
+			<title xml:lang="en">Trash</title>
+			<title xml:lang="ko">휴지통</title>
+			<title xml:lang="zh-CN">Trash</title>
+			<title xml:lang="jp">Trash</title>
+			<title xml:lang="es">Trash</title>
+			<title xml:lang="ru">Trash</title>
+			<title xml:lang="fr">Trash</title>
+			<title xml:lang="zh-TW">Trash</title>
+			<title xml:lang="vi">Trash</title>
+			<title xml:lang="mn">Trash</title>
+			<title xml:lang="tr">Trash</title>
+		</menu>
+	</menus>
+</module>

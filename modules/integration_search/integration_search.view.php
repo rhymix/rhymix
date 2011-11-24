@@ -2,9 +2,9 @@
     /**
      * @class  integration_searchView
      * @author NHN (developers@xpressengine.com)
-     * @brief  integration_search module의 view class
+     * @brief view class of the integration_search module
      *
-     * 통합검색 출력
+     * Search Output
      *
      **/
 
@@ -14,19 +14,18 @@
         var $skin = 'default';
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
         }
 
         /**
-         * @brief 통합 검색 출력
+         * @brief Search Result
          **/
         function IS() {
             $oFile = &getClass('file');
             $oModuleModel = &getModel('module');
-
-            // 권한 체크
+            // Check permissions
             if(!$this->grant->access) return new Object(-1,'msg_not_permitted');
 
             $config = $oModuleModel->getModuleConfig('integration_search');
@@ -36,19 +35,20 @@
 
             $target = $config->target;
             if(!$target) $target = 'include';
-            $module_srl_list = explode(',',$config->target_module_srl);
+			
+			if (empty($config->target_module_srl))
+				$module_srl_list = array();
+			else
+	            $module_srl_list = explode(',',$config->target_module_srl);
 
-            // 검색어 변수 설정
+            // Set a variable for search keyword
             $is_keyword = Context::get('is_keyword');
-
-            // 페이지 변수 설정
+            // Set page variables
             $page = (int)Context::get('page');
             if(!$page) $page = 1;
-
-            // 검색탭에 따른 검색
+            // Search by search tab
             $where = Context::get('where');
-
-            // integration search model객체 생성
+            // Create integration search model object 
             if($is_keyword) {
                 $oIS = &getModel('integration_search');
                 switch($where) {
@@ -98,6 +98,9 @@
             } else {
                 $this->setTemplateFile("no_keywords");
             }
+
+			$security = new Security();
+			$security->encodeHTML('is_keyword', 'search_target', 'where', 'page');
         }
     }
 ?>

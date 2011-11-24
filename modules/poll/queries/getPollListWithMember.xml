@@ -1,0 +1,24 @@
+<query id="getPollList" action="select">
+    <tables>
+        <table name="poll_title" alias="P" />
+        <table name="member" alias="M" />
+    </tables>
+    <columns>
+        <column name="*" />
+    </columns>
+    <conditions>
+		<group pipe="and">
+			<condition operation="equal" column="P.member_srl" var="M.member_srl" notnull="notnull" />
+			<condition operation="in" column="poll_index_srl" var="pollIndexSrlList" filter="number" pipe="and" />
+		</group>
+        <condition operation="like" column="P.title" var="s_title" pipe="or"/>
+        <condition operation="like_prefix" column="P.regdate" var="s_regdate" pipe="or" />
+        <condition operation="like_prefix" column="P.ipaddress" var="s_ipaddress" pipe="or" />
+    </conditions>
+    <navigation>
+        <index var="sort_index" default="P.list_order" order="asc" />
+        <list_count var="list_count" default="20" />
+        <page_count var="page_count" default="10" />
+        <page var="page" default="1" />
+    </navigation>
+</query>

@@ -15,59 +15,36 @@ $.fn.toolbar = function(settings) {
 		hide    : function(){}
 	}, settings);
 	
-	// get elements
-	var items = this.find(settings.items);
-	var menus = items.find('+ ul');
-	var menuitems = menus.find('> li');
-	
-	// hover action - submenu
-	menus.mouseout(
-		function(event) {
-			var el = $(event.relatedTarget).parents().add(event.relatedTarget);
+	this.find(settings.items)
+		.mouseover(function(){
+			var $ul = $(this).next('ul');
+			if($ul.length) showMenu($ul, settings);
+		})
+		.find('+ul>li')
+			.mouseover(function(){
+				var clss = 'tb-menu-item-hover';
+				$(this).siblings('li').removeClass(clss).end().addClass(clss);
 
-			if ( el.index(this) < 0 && el.index($(this).prev()) < 0 ) hideMenu($(this), settings);
-		}
-	).click(
-		function(event) {
-			var item = $(event.target).parent();
+				// callback
+				settings.hover(createData(this));
+			})
+			.find('>button')
+				.click(function(){
+					var data = createData(this.parentNode);
 
-			var data = createData(item);
-			
-			if ( !item.is('li') ) return;
-			
-			// radio button
-			selectItem(data);
-			
-			// callback
-			settings.click(data);
-		}
-	);
-	
-	menuitems.mouseover(
-		function(event){
-			var item = $(this);
-			
-			item.parent().find('> li').removeClass('tb-menu-item-hover');
-			item.addClass('tb-menu-item-hover');
-			
-			// callback
-			settings.hover(createData(item));
-		}
-	);
-	
-	// hover action - button
-	items.hover(
-		function(event) {
-			showMenu($(this).find('+ ul'), settings);
-		},
-		function(event) {
-			var menu = $(this).find('+ ul');
-			var el   = $(event.relatedTarget).parents().add(event.relatedTarget);
-			
-			// hide menu
-			if ( el.index(menu) < 0 && el.index(this) < 0 ) hideMenu(menu, settings);
-		}
-	);
+					// radio button
+					selectItem(data);
+					
+					// callback
+					settings.click(data);
+				})
+			.end()
+		.end()
+		.parent()
+			.mouseleave(function(){
+				var $ul = $(this).find('>ul:visible');
+				if($ul.length) hideMenu($ul,settings);
+			});
 	
 	return this;
 }
@@ -127,11 +104,12 @@ function selectItem(data) {
 }
 
 function createData(item) {
+	var $item = $(item);
 	return {
-		element : item,
-		type    : item.attr('tb:type'),
-		arg     : item.attr('tb:arg'),
-		checked : item.hasClass('tb-menu-item-selected')
+		element : $item,
+		type    : $item.attr('tb:type'),
+		arg     : $item.attr('tb:arg'),
+		checked : $item.hasClass('tb-menu-item-selected')
 	};
 }
 

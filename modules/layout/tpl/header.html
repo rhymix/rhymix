@@ -1,17 +1,44 @@
-<!--%import("js/layout_admin.js")-->
+<style type="text/css">
+	#faceoff_migration_info img { border: 1px solid #ccc; padding: 5px; }
+</style>
 
-<h3 class="xeAdmin"><span class="gray">{$lang->layout_management}</span></h3>
+<h1 class="h1">{$lang->installed_layout}</h1>
 
-<div class="infoText">{nl2br($lang->about_layout)}</div>
-
-<!-- 관리자 페이지용 메뉴 -->
-<!--@if($module == 'admin')-->
-<div class="header4">
-    <ul class="localNavigation">
-        <li <!--@if($act=='dispLayoutAdminContent')-->class="on"<!--@end-->><a href="{getUrl('act','dispLayoutAdminContent','layout_type','')}">{$lang->layout_list}</a></li>
-        <li <!--@if($act=='dispLayoutAdminDownloadedList')-->class="on"<!--@end-->><a href="{getUrl('act','dispLayoutAdminDownloadedList','layout_type','')}">{$lang->downloaded_list}</a></li>
-        <li <!--@if($act=='dispLayoutAdminMobileContent')-->class="on"<!--@end-->><a href="{getUrl('act','dispLayoutAdminMobileContent','layout_type','')}">{$lang->mobile_layout_list}</a></li>
-        <li <!--@if($act=='dispLayoutAdminDownloadedMobileList')-->class="on"<!--@end-->><a href="{getUrl('act','dispLayoutAdminDownloadedMobileList','layout_type','')}">{$lang->mobile_downloaded_list}</a></li>
-    </ul>
+<div cond="$layout == 'faceoff'" class="message error">
+	<p>{$lang->faceoff_migration[0]}</p>
+	<p><a href="#faceoff_migration_info" class="modalAnchor">{$lang->faceoff_migration[1]}</a></p>
 </div>
-<!--@end-->
+<div cond="$layout == 'faceoff'" id="faceoff_migration_info" class="modal">
+	<div class="fg">
+		<ol>
+			<li>
+				<p>{$lang->faceoff_migration[2]}</p>
+				<img cond="$lang_type == 'ko'" src="./faceoff_migration/01.png" alt="" />
+				<img cond="$lang_type != 'ko'" src="./faceoff_migration/01_en.png" alt="" />
+			</li>
+			<li>
+				<p>{$lang->faceoff_migration[3]}</p>
+				<img cond="$lang_type == 'ko'" src="./faceoff_migration/02.png" alt="" />
+				<img cond="$lang_type != 'ko'" src="./faceoff_migration/02_en.png" alt="" />
+			</li>
+			<li>
+				<p>{$lang->faceoff_migration[4]}</p>
+				<img src="./faceoff_migration/03.png" alt="" />
+			</li>
+			<li>
+				<p>{$lang->faceoff_migration[5]}</p>
+				<img cond="$lang_type == 'ko'" src="./faceoff_migration/04.png" alt="" />
+				<img cond="$lang_type != 'ko'" src="./faceoff_migration/04_en.png" alt="" />
+			</li>
+			<li>
+				<p>{$lang->faceoff_migration[6]}</p>
+				<img cond="$lang_type == 'ko'" src="./faceoff_migration/05.png" alt="" />
+				<img cond="$lang_type != 'ko'" src="./faceoff_migration/05_en.png" alt="" />
+			</li>
+		</ol>
+	</div>
+</div>
+
+<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>

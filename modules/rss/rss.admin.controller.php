@@ -2,22 +2,22 @@
     /**
      * @class  rssAdminController
      * @author NHN (developers@xpressengine.com)
-     * @brief  rss module의 admin controller class
+     * @brief The admin controller class of the rss module
      *
-     * RSS 2.0형식으로 문서 출력
+     * RSS 2.0 format document output
      *
      **/
 
     class rssAdminController extends rss {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
         }
 
         /**
-         * @brief RSS 전체피드 설정
+         * @brief All RSS feeds configurations
          **/
         function procRssAdminInsertConfig() {
             $oModuleModel = &getModel('module');
@@ -33,28 +33,26 @@
             if($config_vars->image || $config_vars->del_image) {
                 $image_obj = $config_vars->image;
                 $config_vars->image = $total_config->image;
-
-                // 삭제 요청에 대한 변수를 구함
+                // Get a variable for the delete request
                 if($config_vars->del_image == 'Y' || $image_obj) {
                     FileHandler::removeFile($config_vars->image);
                     $config_vars->image = '';
                     $total_config->image = '';
                 }
-
-                // 정상적으로 업로드된 파일이 아니면 무시
+                // Ignore if the file is not the one which has been successfully uploaded
                 if($image_obj['tmp_name'] && is_uploaded_file($image_obj['tmp_name'])) {
-                    // 이미지 파일이 아니어도 무시 (swf는 패스~)
+                    // Ignore if the file is not an image (swf is accepted ~)
                     $image_obj['name'] = Context::convertEncodingStr($image_obj['name']);
 
                     if(!preg_match("/\.(jpg|jpeg|gif|png)$/i", $image_obj['name'])) $alt_message = 'msg_rss_invalid_image_format';
                     else {
-                        // 경로를 정해서 업로드
+                        // Upload the file to a path
                         $path = './files/attach/images/rss/';
-                        // 디렉토리 생성
+                        // Create a directory
                         if(!FileHandler::makeDir($path)) $alt_message = 'msg_error_occured';
                         else{
                             $filename = $path.$image_obj['name'];
-                            // 파일 이동
+                            // Move the file
                             if(!move_uploaded_file($image_obj['tmp_name'], $filename)) $alt_message = 'msg_error_occured';
                             else {
                                 $config_vars->image = $filename;
@@ -72,21 +70,25 @@
             $alt_message = Context::getLang($alt_message);
             Context::set('msg', $alt_message);
 
-            $this->setLayoutPath('./common/tpl');
-            $this->setLayoutFile('default_layout.html');
-            $this->setTemplatePath($this->module_path.'tpl');
-            $this->setTemplateFile("top_refresh.html");
+            //$this->setLayoutPath('./common/tpl');
+            //$this->setLayoutFile('default_layout.html');
+            //$this->setTemplatePath($this->module_path.'tpl');
+            //$this->setTemplateFile("top_refresh.html");
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispRssAdminIndex');
+				header('location:'.$returnUrl);
+				return;
+			}
         }
 
 
         /**
-         * @brief RSS 모듈별 설정
+         * @brief RSS Module configurations
          **/
         function procRssAdminInsertModuleConfig() {
-            // 대상을 구함
+            // Get the object
             $module_srl = Context::get('target_module_srl');
-
-            // 여러개의 모듈 일괄 설정일 경우
+            // In case of batch configuration of several modules
             if(preg_match('/^([0-9,]+)$/',$module_srl)) $module_srl = explode(',',$module_srl);
             else $module_srl = array($module_srl);
             if(!is_array($module_srl)) $module_srl[0] = $module_srl;
@@ -101,26 +103,29 @@
             if(!$module_srl || !$open_rss) return new Object(-1, 'msg_invalid_request');
 
             if(!in_array($open_rss, array('Y','H','N'))) $open_rss = 'N';
-
-            // 설정 저장
+            // Save configurations
             for($i=0;$i<count($module_srl);$i++) {
                 $srl = trim($module_srl[$i]);
                 if(!$srl) continue;
                 $output = $this->setRssModuleConfig($srl, $open_rss, $open_total_feed, $feed_description, $feed_copyright);
             }
 
-            $this->setError(-1);
-            $this->setMessage('success_updated');
+            //$this->setError(0);
+            $this->setMessage('success_updated', 'info');
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispBoardAdminContent');
+				header('location:'.$returnUrl);
+				return;
+			}
         }
 
 
         /**
-         * @brief Feed 전체 포함/미포함 체인지
+         * @brief All Feeds with or without change
          **/
         function procRssAdminToggleActivate() {
             $oRssModel = &getModel('rss');
-
-            // mid값을 받아옴
+            // Get mid value
             $module_srl = Context::get('module_srl');
             if($module_srl) {
                 $config = $oRssModel->getRssModuleConfig($module_srl);
@@ -139,7 +144,7 @@
 
 
         /**
-         * @brief RSS모듈의 전체 Feed 설정용 함수
+         * @brief A funciton to configure all Feeds of the RSS module
          **/
         function setFeedConfig($config) {
             $oModuleController = &getController('module');
@@ -149,7 +154,7 @@
 
 
         /**
-         * @brief RSS 모듈별 설정 함수
+         * @brief A function t configure the RSS module
          **/
         function setRssModuleConfig($module_srl, $open_rss, $open_total_feed = 'N', $feed_description = 'N', $feed_copyright = 'N') {
             $oModuleController = &getController('module');

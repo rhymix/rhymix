@@ -1,0 +1,11 @@
+<query id="getMemberCountByDate" action="select">
+    <tables>
+        <table name="member" />
+    </tables>
+    <columns>
+        <column name="count(*)" alias="count" />
+    </columns>
+    <conditions>
+		<condition operation="like_prefix" column="regdate" var="regDate" />
+    </conditions>
+</query>

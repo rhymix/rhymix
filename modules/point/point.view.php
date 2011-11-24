@@ -2,23 +2,23 @@
     /**
      * @class  pointView
      * @author NHN (developers@xpressengine.com)
-     * @brief  point module의 view class
+     * @brief The view class of the point module
      *
-     * POINT 2.0형식으로 문서 출력
+     * POINT 2.0 format document output
      *
      **/
 
     class pointView extends point {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
         }
 
         /**
-         * @brief 서비스형 모듈의 추가 설정을 위한 부분
-         * point의 사용 형태에 대한 설정만 받음
+         * @brief Additional configurations for a service module
+         * Receive the form for the form used by point
          **/
         function triggerDispPointAdditionSetup(&$obj) {
             $current_module_srl = Context::get('module_srl');
@@ -29,8 +29,7 @@
                 $current_module_srl = $current_module_info->module_srl;
                 if(!$current_module_srl) return new Object();
             }
-
-            // 설정 정보 가져오기
+            // Get the configuration information
             $oModuleModel = &getModel('module');
 
             if($current_module_srl) {
@@ -50,8 +49,7 @@
             $module_config['module_srl'] = $current_module_srl;
             $module_config['point_name'] = $config->point_name;
             Context::set('module_config', $module_config);
-
-            // 템플릿 파일 지정
+            // Set the template file
             $oTemplate = &TemplateHandler::getInstance();
             $tpl = $oTemplate->compile($this->module_path.'tpl', 'point_module_config');
             $obj .= $tpl;

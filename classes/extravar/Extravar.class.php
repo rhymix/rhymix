@@ -2,7 +2,7 @@
     /**
      * @class ExtraVar
      * @author NHN (developers@xpressengine.com)
-     * @brief 게시글, 회원등에서 사용하는 확장변수를 핸들링하는 클래스
+     * @brief a class to handle extra variables used in posts, member and others
      *
      **/
     class ExtraVar {
@@ -25,7 +25,7 @@
         }
 
         /**
-         * @brief 확장변수 키를 등록
+         * @brief register a key of extra variable
          * @param module_srl, idx, name, type, default, desc, is_required, search, value
          **/
         function setExtraVarKeys($extra_keys) {
@@ -38,7 +38,7 @@
         }
 
         /**
-         * @brief 확장변수 객체 배열 return
+         * @brief Return an array of extra vars
          **/
         function getExtraVars() {
             return $this->keys;
@@ -48,7 +48,7 @@
     /**
      * @class ExtraItem
      * @author NHN (developers@xpressengine.com)
-     * @brief 확장변수의 개별 값
+     * @brief each value of the extra vars
      **/
     class ExtraItem {
         var $module_srl = 0;
@@ -80,14 +80,14 @@
         }
 
         /**
-         * @brief 값 지정
+         * @brief Values
          **/
         function setValue($value) {
             $this->value = $value;
         }
 
         /**
-         * @brief type에 따라서 주어진 값을 변형하여 원형 값을 return
+         * @brief return a given value converted based on its type
          **/
         function _getTypeValue($type, $value) {
             $value = trim($value);
@@ -134,8 +134,8 @@
         }
 
         /**
-         * @brief 값을 return
-         * 원형 값을 HTML 결과물로 return
+         * @brief Return value
+         * return the original values for HTML result
          **/
         function getValueHTML() {
             $value = $this->_getTypeValue($this->type, $this->value);
@@ -174,7 +174,7 @@
         }
 
         /**
-         * @brief type에 따른 form을 리턴
+         * @brief return a form based on its type
          **/
         function getFormHTML() {
 			static $id_num = 1000;
@@ -188,17 +188,15 @@
 
             $buff = '';
             switch($type) {
-                // 홈페이지 주소
+                // Homepage
                 case 'homepage' :
                         $buff .= '<input type="text" name="'.$column_name.'" value="'.$value.'" class="homepage" />';
                     break;
-
-                // Email 주소
+                // Email Address
                 case 'email_address' :
                         $buff .= '<input type="text" name="'.$column_name.'" value="'.$value.'" class="email_address" />';
                     break;
-
-                // 전화번호
+                // Phone Number
                 case 'tel' :
                         $buff .=
                             '<input type="text" name="'.$column_name.'" value="'.$value[0].'" size="4" class="tel" />'.
@@ -210,8 +208,7 @@
                 case 'textarea' :
                         $buff .= '<textarea name="'.$column_name.'" class="textarea">'.$value.'</textarea>';
                     break;
-
-                // 다중 선택
+                // multiple choice
                 case 'checkbox' :
                         $buff .= '<ul>';
                         foreach($default as $v) {
@@ -225,8 +222,7 @@
                         }
                         $buff .= '</ul>';
                     break;
-
-                // 단일 선택
+                // single choice
                 case 'select' :
                         $buff .= '<select name="'.$column_name.'" class="select">';
                         foreach($default as $v) {
@@ -251,19 +247,18 @@
                         }
                         $buff .= '</ul>';
                     break;
-
-                // 날짜 입력
+                // date
                 case 'date' :
                         // datepicker javascript plugin load
                         Context::loadJavascriptPlugin('ui.datepicker');
 
                         $buff .=
                             '<input type="hidden" name="'.$column_name.'" value="'.$value.'" />'.
-                            '<input type="text" id="date_'.$column_name.'" value="'.zdate($value,'Y-m-d').'" readonly="readonly" class="date" />'."\n".
+                            '<input type="text" id="date_'.$column_name.'" value="'.zdate($value,'Y-m-d').'" class="date" />'."\n".
                             '<script type="text/javascript">'."\n".
                             '(function($){'."\n".
                             '    $(function(){'."\n".
-                            '        var option = { changeMonth:true, changeYear:true, gotoCurrent: false,yearRange:\'-100:+10\', onSelect:function(){'."\n".
+                            '        var option = { dateFormat: "yy-mm-dd", changeMonth:true, changeYear:true, gotoCurrent: false,yearRange:\'-100:+10\', onSelect:function(){'."\n".
                             '            $(this).prev(\'input[type="hidden"]\').val(this.value.replace(/-/g,""))}'."\n".
                             '        };'."\n".
                             '        $.extend(option,$.datepicker.regional[\''.Context::getLangType().'\']);'."\n".
@@ -272,8 +267,7 @@
                             '})(jQuery);'."\n".
                             '</script>';
                     break;
-
-                // 주소 입력
+                // address
                 case "kr_zip" :
                         // krzip address javascript plugin load
                         Context::loadJavascriptPlugin('ui.krzip');
@@ -298,8 +292,7 @@
                             '<input type="text" name="'.$column_name.'" value="'.htmlspecialchars($value[1]).'" class="address" />'.
                             '';
                     break;
-
-                // 일반 text
+                // General text
                 default :
                         $buff .=' <input type="text" name="'.$column_name.'" value="'.$value.'" class="text" />';
                     break;

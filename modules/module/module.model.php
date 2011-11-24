@@ -2,37 +2,34 @@
     /**
      * @class  moduleModel
      * @author NHN (developers@xpressengine.com)
-     * @brief  module 모듈의 Model class
+     * @brief Model class of module module
      **/
 
     class moduleModel extends module {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
         }
 
         /**
-         * @brief mid, vid 사용할 수 있는지 검사
+         * @brief Check if mid, vid are available
          **/
         function isIDExists($id, $site_srl = 0) {
             if(!preg_match('/^[a-z]{1}([a-z0-9_]+)$/i',$id)) return true;
-
-            // directory 및 rss/atom/api 등 예약어 검사
+            // directory and rss/atom/api reserved checking, etc.
             $dirs = FileHandler::readDir(_XE_PATH_);
             $dirs[] = 'rss';
             $dirs[] = 'atom';
             $dirs[] = 'api';
             if(in_array($id, $dirs)) return true;
-
-            // mid 검사
+            // mid test
             $args->mid = $id;
             $args->site_srl = $site_srl;
             $output = executeQuery('module.isExistsModuleName', $args);
             if($output->data->count) return true;
-
-            // vid 검사 (site_srl이 0일때 즉 가상사이트가 아닌 경우 mid != vid임을 체크)
+            // vid test (check mid != vid if site_srl=0, which means it is not a virtual site)
             if(!$site_srl) {
                 $site_args->domain = $id;
                 $output = executeQuery('module.isExistsSiteDomain', $site_args);
@@ -43,23 +40,23 @@
         }
 
         /**
-         * @brief site 정보를 구함
+         * @brief Get site information
          **/
-        function getSiteInfo($site_srl) {
+        function getSiteInfo($site_srl, $columnList = array()) {
             $args->site_srl = $site_srl;
-            $output = executeQuery('module.getSiteInfo', $args);
+            $output = executeQuery('module.getSiteInfo', $args, $columnList);
             return $output->data;
         }
 
-        function getSiteInfoByDomain($domain) {
+        function getSiteInfoByDomain($domain, $columnList = array()) {
             $args->domain= $domain;
-            $output = executeQuery('module.getSiteInfoByDomain', $args);
+            $output = executeQuery('module.getSiteInfoByDomain', $args, $columnList);
             return $output->data;
         }
 
         /**
-         * @brief document_srl로 모듈의 정보르 구함
-         * 이 경우는 캐시파일을 이용할 수가 없음
+         * @brief Get module information with document_srl
+         * In this case, it is unable to use the cache file
          **/
         function getModuleInfoByDocumentSrl($document_srl) {
             $args->document_srl = $document_srl;
@@ -68,7 +65,7 @@
         }
 
         /**
-         * @brief domain에 따른 기본 mid를 구함
+         * @brief Get the defaul mid according to the domain
          **/
         function getDefaultMid() {
             $default_url = preg_replace('/\/$/','',Context::getDefaultUrl());
@@ -76,57 +73,70 @@
             $vid = Context::get('vid');
             $mid = Context::get('mid');
 
-            // 기본 URL이 설정되어 있고 이 기본 URL과 요청 URL이 다르면 가상 사이트 확인
+            // Set up
+            // test.xe.com
+            $domain = '';
             if($default_url && $default_url != $request_url) {
                 $url_info = parse_url($request_url);
                 $hostname = $url_info['host'];
                 $path = preg_replace('/\/$/','',$url_info['path']);
-                $sites_args->domain = sprintf('%s%s%s', $hostname, $url_info['port']&&$url_info['port']!=80?':'.$url_info['port']:'',$path);
-                $output = executeQuery('module.getSiteInfoByDomain', $sites_args);
+                $domain = sprintf('%s%s%s', $hostname, $url_info['port']&&$url_info['port']!=80?':'.$url_info['port']:'',$path);
             }
-            if(!$output || !$output->data)
-            {
-                if(!$vid) $vid = $mid;
-                if($vid) {
-                    $vid_args->domain = $vid;
-                    $output = executeQuery('module.getSiteInfoByDomain', $vid_args);
-                    if($output->toBool() && $output->data) {
-                        Context::set('vid', $output->data->domain, true);
-                        if($mid==$output->data->domain) Context::set('mid',$output->data->mid,true);
+            // xe.com/blog
+            if($domain === ''){
+                    if(!$vid) $vid = $mid;
+                    if($vid) {
+                            $domain = $vid;
                     }
+            }
+
+            $oCacheHandler = &CacheHandler::getInstance('object');
+            // If domain is set, look for subsite
+            if($domain !== ''){
+                if($oCacheHandler->isSupport()) $output = $oCacheHandler->get('domain_' . $domain);
+                if(!$output){
+                    $args->domain = $domain;
+                    $output = executeQuery('module.getSiteInfoByDomain', $args);
+                    if($oCacheHandler->isSupport() && $output->data) $oCacheHandler->put('domain_' . $domain, $output);
                 }
+                if($output->toBool() && $output->data && $vid) {
+                    Context::set('vid', $output->data->domain, true);
+                    if($mid==$output->data->domain) Context::set('mid',$output->data->mid,true);
+                }
+                if(!$output || !$output->data) { $domain = ''; unset($output); }
             }
-
-            // 가상 사이트가 아닐 경우 기본 사이트 정보를 구함
-            if(!$output->data) {
-                $args->site_srl = 0;
-                $output = executeQuery('module.getSiteInfo', $args);
-
-                // 기본 사이트 정보가 없으면 관련된 정보를 갱신
-                if(!$output->data) {
-                    // sites 테이블이 없을 경우 생성
-                    $oDB = &DB::getInstance();
-                    if(!$oDB->isTableExists('sites')) $oDB->createTableByXmlFile(_XE_PATH_.'modules/module/schemas/sites.xml');
-                    if(!$oDB->isTableExists('sites')) return;
-
-                    // 기본 mid, 언어 구함
-                    $mid_output = $oDB->executeQuery('module.getDefaultMidInfo', $args);
-                    $db_info = Context::getDBInfo();
-                    $domain = Context::getDefaultUrl();
-                    $url_info = parse_url($domain);
-                    $domain = $url_info['host'].( (!empty($url_info['port'])&&$url_info['port']!=80)?':'.$url_info['port']:'').$url_info['path'];
-                    $site_args->site_srl = 0;
-                    $site_args->index_module_srl  = $mid_output->data->module_srl;
-                    $site_args->domain = $domain;
-                    $site_args->default_language = $db_info->lang_type;
-
-                    if($output->data && !$output->data->index_module_srl) {
-                        $output = executeQuery('module.updateSite', $site_args);
-                    } else {
-                        $output = executeQuery('module.insertSite', $site_args);
-                        if(!$output->toBool()) return $output;
-                    }
+            // If no virtual website was found, get default website
+            if($domain === '') {
+                if($oCacheHandler->isSupport())	$output = $oCacheHandler->get('default_site');
+                if(!$output){
+                    $args->site_srl = 0;
                     $output = executeQuery('module.getSiteInfo', $args);
+                    // Update the related informaion if there is no default site info
+                    if(!$output->data) {
+                        // Create a table if sites table doesn't exist
+                        $oDB = &DB::getInstance();
+                        if(!$oDB->isTableExists('sites')) $oDB->createTableByXmlFile(_XE_PATH_.'modules/module/schemas/sites.xml');
+                        if(!$oDB->isTableExists('sites')) return;
+                        // Get mid, language
+                        $mid_output = $oDB->executeQuery('module.getDefaultMidInfo', $args);
+                        $db_info = Context::getDBInfo();
+                        $domain = Context::getDefaultUrl();
+                        $url_info = parse_url($domain);
+                        $domain = $url_info['host'].( (!empty($url_info['port'])&&$url_info['port']!=80)?':'.$url_info['port']:'').$url_info['path'];
+                        $site_args->site_srl = 0;
+                        $site_args->index_module_srl  = $mid_output->data->module_srl;
+                        $site_args->domain = $domain;
+                        $site_args->default_language = $db_info->lang_type;
+
+                        if($output->data && !$output->data->index_module_srl) {
+                                $output = executeQuery('module.updateSite', $site_args);
+                        } else {
+                                $output = executeQuery('module.insertSite', $site_args);
+                                if(!$output->toBool()) return $output;
+                        }
+                        $output = executeQuery('module.getSiteInfo', $args);
+                    }
+                    if($oCacheHandler->isSupport()) $oCacheHandler->put('default_site',$output);
                 }
             }
             $module_info = $output->data;
@@ -136,36 +146,68 @@
         }
 
         /**
-         * @brief mid로 모듈의 정보를 구함
+         * @brief Get module information by mid
          **/
-        function getModuleInfoByMid($mid, $site_srl = 0) {
+        function getModuleInfoByMid($mid, $site_srl = 0, $columnList = array()) {
             $args->mid = $mid;
             $args->site_srl = (int)$site_srl;
-            $output = executeQuery('module.getMidInfo', $args);
+            $oCacheHandler = &CacheHandler::getInstance('object');
+        	if($oCacheHandler->isSupport()){
+					$cache_key = 'object:'.$mid.'_'.$site_srl;
+					$module_srl = $oCacheHandler->get($cache_key);
+					if($module_srl){
+						$cache_key = 'object_module_info:'.$module_srl;
+						$output = $oCacheHandler->get($cache_key);
+					}
+			}
+			if(!$output){
+				$output = executeQuery('module.getMidInfo', $args);
+				if($oCacheHandler->isSupport()) {
+					$cache_key = 'object:'.$mid.'_'.$site_srl;
+					$oCacheHandler->put($cache_key,$output->data->module_srl);
+					$cache_key = 'object_module_info:'.$output->data->module_srl;
+					$oCacheHandler->put($cache_key,$output);
+				}
+			}
+
             $module_info = $output->data;
             if(!$module_info->module_srl && $module_info->data[0]) $module_info = $module_info->data[0];
             return $this->addModuleExtraVars($module_info);
         }
 
         /**
-         * @brief module_srl에 해당하는 모듈의 정보를 구함
+         * @brief Get module information corresponding to module_srl
          **/
-        function getModuleInfoByModuleSrl($module_srl) {
-            // 데이터를 가져옴
+        function getModuleInfoByModuleSrl($module_srl, $columnList = array()) {
+            // Get data
             $args->module_srl = $module_srl;
-            $output = executeQuery('module.getMidInfo', $args);
-            if(!$output->data) return;
-            $module_info = $this->addModuleExtraVars($output->data);
-            return $module_info;
+        	$oCacheHandler = &CacheHandler::getInstance('object');
+			if($oCacheHandler->isSupport()){
+				$cache_key = 'object:'.$module_srl;
+				$output = $oCacheHandler->get($cache_key);
+			}
+			if(!$output){
+            	$output = executeQuery('module.getMidInfo', $args );
+            	if(!$output->data) return;
+            	if($oCacheHandler->isSupport()) $oCacheHandler->put($cache_key,$output);
+			}
+    		if(count($columnList)){
+				foreach ($output->data as $key => $item) {
+		            if (in_array($key, $columnList)){
+		            	$module_info->$key = $item;
+		            }
+	            }
+			} else $module_info = $output->data;
+            return $this->addModuleExtraVars($module_info);
         }
 
         /**
-         * @brief layout_srl에 해당하는 모듈의 정보를 구함
+         * @brief Get module information corresponding to layout_srl
          **/
-        function getModulesInfoByLayout($layout_srl) {
-            // 데이터를 가져옴
+        function getModulesInfoByLayout($layout_srl, $columnList = array()) {
+            // Imported data
             $args->layout_srl = $layout_srl;
-            $output = executeQueryArray('module.getModulesByLayout', $args);
+            $output = executeQueryArray('module.getModulesByLayout', $args, $columnList);
 
             $count = count($output->data);
 
@@ -177,33 +219,31 @@
         }
 
         /**
-         * @brief 여러개의 module_srl에 해당하는 모듈의 정보를 구함
+         * @brief Get module information corresponding to multiple module_srls
          **/
-        function getModulesInfo($module_srls) {
+        function getModulesInfo($module_srls, $columnList = array()) {
             if(is_array($module_srls)) $module_srls = implode(',',$module_srls);
             $args->module_srls = $module_srls;
-            $output = executeQueryArray('module.getModulesInfo', $args);
+            $output = executeQueryArray('module.getModulesInfo', $args, $columnList);
             if(!$output->toBool()) return;
             return $this->addModuleExtraVars($output->data);
         }
 
         /**
-         * @brief 모듈의 기본 정보에 추가 변수 구함
+         * @brief Add extra vars to the module basic information
          **/
         function addModuleExtraVars($module_info) {
-            // 1개 이상의 모듈정보를 요청받아도 처리 가능하도록
+            // Process although one or more module informaion is requested
             if(!is_array($module_info)) $target_module_info = array($module_info);
             else $target_module_info = $module_info;
-
-            // 모듈 번호를 구함
+            // Get module_srl
             $module_srls = array();
             foreach($target_module_info as $key => $val) {
                 $module_srl = $val->module_srl;
                 if(!$module_srl) continue;
                 $module_srls[] = $val->module_srl;
             }
-
-            // 모듈의 추가정보/ 스킨 정보를 추출
+            // Extract extra information of the module and skin
             $extra_vars = $this->getModuleExtraVars($module_srls);
             if(!count($module_srls) || !count($extra_vars)) return $module_info;
 
@@ -219,10 +259,10 @@
         }
 
         /**
-         * @brief DB에 생성된 mid 전체 목록을 구해옴
+         * @brief Get a complete list of mid, which is created in the DB
          **/
-        function getMidList($args = null) {
-            $output = executeQuery('module.getMidList', $args);
+        function getMidList($args = null, $columnList = array()) {
+            $output = executeQuery('module.getMidList', $args, $columnList);
             if(!$output->toBool()) return $output;
 
             $list = $output->data;
@@ -237,7 +277,21 @@
         }
 
         /**
-         * @brief mid 목록에 대응하는 module_srl을 배열로 return
+         * @brief Get a complete list of module_srl, which is created in the DB
+         **/
+		function getModuleSrlList($args = null, $columnList = array())
+		{
+            $output = executeQueryArray('module.getMidList', $args, $columnList);
+            if(!$output->toBool()) return $output;
+
+            $list = $output->data;
+            if(!$list) return;
+
+			return $list;
+		}
+
+        /**
+         * @brief Return an array of module_srl corresponding to a mid list
          **/
         function getModuleSrlByMid($mid) {
             if($mid && !is_array($mid)) $mid = explode(',',$mid);
@@ -262,7 +316,7 @@
         }
 
         /**
-         * @brief act 값에 의한 forward 값을 구함
+         * @brief Get forward value by the value of act
          **/
         function getActionForward($act, $module = "") {
             $args->act = $act;
@@ -273,17 +327,26 @@
         }
 
         /**
-         * @brief trigger_name에 등록된 모든 목록을 추출
+         * @brief Get a list of all triggers on the trigger_name
          **/
         function getTriggers($trigger_name, $called_position) {
-            $args->trigger_name = $trigger_name;
-            $args->called_position = $called_position;
-            $output = executeQueryArray('module.getTriggers',$args);
+             // cache controll
+            $oCacheHandler = &CacheHandler::getInstance('object');
+            if($oCacheHandler->isSupport()){
+                    $cache_key = 'object:'.$trigger_name.'_'.$called_position;
+                    $output = $oCacheHandler->get($cache_key);
+            }
+            if(!$output) {
+                $args->trigger_name = $trigger_name;
+                $args->called_position = $called_position;
+                $output = executeQueryArray('module.getTriggers',$args);
+                if($oCacheHandler->isSupport()) $oCacheHandler->put($cache_key,$output);
+            }
             return $output->data;
         }
 
         /**
-         * @brief 특정 trigger_name의 특정 대상을 추출
+         * @brief Get specific triggers from the trigger_name
          **/
         function getTrigger($trigger_name, $module, $type, $called_method, $called_position) {
             $args->trigger_name = $trigger_name;
@@ -296,7 +359,7 @@
         }
 
         /**
-         * @brief 특정 module extend 가져옴
+         * @brief Get module extend
          **/
 		function getModuleExtend($parent_module, $type, $kind='') {
 			$key = $parent_module.'.'.$kind.'.'.$type;
@@ -311,7 +374,7 @@
 		}
 
         /**
-         * @brief 모든 module extend 가져옴
+         * @brief Get all the module extend
          **/
 		function loadModuleExtends() {
 			$cache_file = './files/config/module_extend.php';
@@ -335,7 +398,7 @@
 					FileHandler::writeFile($cache_file, $str);
 				}
 
-				
+
 				if(file_exists($cache_file)) {
 					$GLOBALS['__MODULE_EXTEND__'] = include($cache_file);
 				} else {
@@ -347,14 +410,13 @@
 		}
 
         /**
-         * @brief 모듈의 conf/info.xml 을 읽어서 정보를 구함
+         * @brief Get information from conf/info.xml
          **/
         function getModuleInfoXml($module) {
-            // 요청된 모듈의 경로를 구한다. 없으면 return
+            // Get a path of the requested module. Return if not exists.
             $module_path = ModuleHandler::getModulePath($module);
             if(!$module_path) return;
-
-            // 현재 선택된 모듈의 스킨의 정보 xml 파일을 읽음
+            // Read the xml file for module skin information
             $xml_file = sprintf("%s/conf/info.xml", $module_path);
             if(!file_exists($xml_file)) return;
 
@@ -363,8 +425,7 @@
             $xml_obj = $tmp_xml_obj->module;
 
             if(!$xml_obj) return;
-
-            // 모듈 정보
+            // Module Information
             if($xml_obj->version && $xml_obj->attrs->version == '0.2') {
                 // module format 0.2
                 $module_info->title = $xml_obj->title->body;
@@ -446,8 +507,7 @@
                 $author_obj->homepage = $xml_obj->author->attrs->link;
                 $module_info->author[] = $author_obj;
             }
-
-            // action 정보를 얻어서 admin_index를 추가
+            // Add admin_index by using action information
             $action_info = $this->getModuleActionXml($module);
             $module_info->admin_index_act = $action_info->admin_index_act;
             $module_info->default_index_act = $action_info->default_index_act;
@@ -457,39 +517,36 @@
         }
 
         /**
-         * @brief module의 conf/module.xml 을 통해 grant(권한) 및 action 데이터를 return
-         * module.xml 파일의 경우 파싱하는데 시간이 걸리기에 캐싱을 한다...
-         * 캐싱을 할때 바로 include 할 수 있도록 역시 코드까지 추가하여 캐싱을 한다.
-         * 이게 퍼포먼스 상으로는 좋은데 어떤 부정적인 결과를 유도할지는 잘 모르겠...
+         * @brief Return permisson and action data by conf/module.xml in the module
+         * Cache it because it takes too long to parse module.xml file
+         * When caching, add codes so to include it directly
+         * This is apparently good for performance, but not sure about its side-effects
          **/
         function getModuleActionXml($module) {
-            // 요청된 모듈의 경로를 구한다. 없으면 return
+            // Get a path of the requested module. Return if not exists.
             $class_path = ModuleHandler::getModulePath($module);
             if(!$class_path) return;
-
-            // 해당 경로에 module.xml 파일이 있는지 체크한다. 없으면 return
+            // Check if module.xml exists in the path. Return if not exist
             $xml_file = sprintf("%sconf/module.xml", $class_path);
             if(!file_exists($xml_file)) return;
-
-            // 캐시된 파일이 있는지 확인
-            $cache_file = sprintf("./files/cache/module_info/%s.%s.php", $module, Context::getLangType());
-
-            // 캐시 파일이 없거나 캐시 파일이 xml 파일보다 오래되었으면 내용 다시 갱신
+            // Check if cached file exists
+            $cache_file = sprintf("./files/cache/module_info/%s.%s.%s.php", $module, Context::getLangType(), __ZBXE_VERSION__);
+            // Update if no cache file exists or it is older than xml file
             if(!file_exists($cache_file) || filemtime($cache_file)<filemtime($xml_file)) {
 
-                $buff = ""; ///< 캐시 파일에 쓸 buff 변수 설정
+                $buff = ""; // /< Set buff variable to use in the cache file
 
-                $xml_obj = XmlParser::loadXmlFile($xml_file); ///< xml 파일을 읽어서 xml object로 변환
+                $xml_obj = XmlParser::loadXmlFile($xml_file); // /< Read xml file and convert it to xml object
 
-                if(!count($xml_obj->module)) return; ///< xml 내용중에 module 태그가 없다면 오류;;
+                if(!count($xml_obj->module)) return; // /< Error occurs if module tag doesn't included in the xml
 
-                $grants = $xml_obj->module->grants->grant; ///< 권한 정보 (없는 경우도 있음)
-                $permissions = $xml_obj->module->permissions->permission; ///< 권한 대행 (없는 경우도 있음)
-                $actions = $xml_obj->module->actions->action; ///< action list (필수)
+                $grants = $xml_obj->module->grants->grant; // /< Permission information
+                $permissions = $xml_obj->module->permissions->permission; // /<  Acting permission
+                $menus = $xml_obj->module->menus->menu;
+                $actions = $xml_obj->module->actions->action; // /< Action list (required)
 
                 $default_index = $admin_index = '';
-
-                // 권한 정보의 정리
+                // Arrange permission information
                 if($grants) {
                     if(is_array($grants)) $grant_list = $grants;
                     else $grant_list[] = $grants;
@@ -506,8 +563,7 @@
                         $buff .= sprintf('$info->grant->%s->default=\'%s\';', $name, $default);
                     }
                 }
-
-                // 권한 허용 정리
+                // Permissions to grant
                 if($permissions) {
                     if(is_array($permissions)) $permission_list = $permissions;
                     else $permission_list[] = $permissions;
@@ -521,8 +577,27 @@
                         $buff .= sprintf('$info->permission->%s = \'%s\';', $action, $target);
                     }
                 }
+				// for admin menus
+				if($menus)
+				{
+                    if(is_array($menus)) $menu_list = $menus;
+                    else $menu_list[] = $menus;
 
-                // actions 정리
+                    foreach($menu_list as $menu) {
+						$menu_name = $menu->attrs->name;
+						$menu_title = is_array($menu->title) ? $menu->title[0]->body : $menu->title->body;
+						$menu_type = $menu->attrs->type;
+
+						$info->menu->{$menu_name}->title = $menu_title;
+						$info->menu->{$menu_name}->acts = array();
+						$info->menu->{$menu_name}->type = $menu_type;
+
+                        $buff .= sprintf('$info->menu->%s->title=\'%s\';', $menu_name, $menu_title);
+                        $buff .= sprintf('$info->menu->%s->type=\'%s\';', $menu_name, $menu_type);
+					}
+				}
+
+                // actions
                 if($actions) {
                     if(is_array($actions)) $action_list = $actions;
                     else $action_list[] = $actions;
@@ -533,10 +608,12 @@
                         $type = $action->attrs->type;
                         $grant = $action->attrs->grant?$action->attrs->grant:'guest';
                         $standalone = $action->attrs->standalone=='true'?'true':'false';
+                        $ruleset = $action->attrs->ruleset?$action->attrs->ruleset:'';
 
                         $index = $action->attrs->index;
                         $admin_index = $action->attrs->admin_index;
                         $setup_index = $action->attrs->setup_index;
+                        $menu_index = $action->attrs->menu_index;
 
                         $output->action->{$name}->type = $type;
                         $output->action->{$name}->grant = $grant;
@@ -545,10 +622,25 @@
                         $info->action->{$name}->type = $type;
                         $info->action->{$name}->grant = $grant;
                         $info->action->{$name}->standalone = $standalone=='true'?true:false;
+                        $info->action->{$name}->ruleset = $ruleset;
+						if($action->attrs->menu_name)
+						{
+							if($menu_index == 'true')
+							{
+								$info->menu->{$action->attrs->menu_name}->index = $name;
+                        		$buff .= sprintf('$info->menu->%s->index=\'%s\';', $action->attrs->menu_name, $name);
+							}
+							array_push($info->menu->{$action->attrs->menu_name}->acts, $name);
+							$currentKey = array_search($name, $info->menu->{$action->attrs->menu_name}->acts);
+
+                        	$buff .= sprintf('$info->menu->%s->acts[%d]=\'%s\';', $action->attrs->menu_name, $currentKey, $name);
+							$i++;
+						}
 
                         $buff .= sprintf('$info->action->%s->type=\'%s\';', $name, $type);
                         $buff .= sprintf('$info->action->%s->grant=\'%s\';', $name, $grant);
                         $buff .= sprintf('$info->action->%s->standalone=%s;', $name, $standalone);
+                        $buff .= sprintf('$info->action->%s->ruleset=\'%s\';', $name, $ruleset);
 
                         if($index=='true') {
                             $default_index_act = $name;
@@ -578,8 +670,8 @@
 
 
         /**
-         * @brief 주어진 곳의 스킨 목록을 구함
-         * 스킨과 skin.xml 파일을 분석 정리한 결과를 return
+         * @brief Get a list of skins for the module
+         * Return file analysis of skin and skin.xml
          **/
         function getSkins($path, $dir = 'skins') {
             $skin_path = sprintf("%s/%s/", $path, $dir);
@@ -600,28 +692,22 @@
         }
 
         /**
-         * @brief 특정 위치의 특정 스킨의 정보를 구해옴
+         * @brief Get skin information on a specific location
          **/
         function loadSkinInfo($path, $skin, $dir = 'skins') {
-
-            // 모듈의 스킨의 정보 xml 파일을 읽음
+            // Read xml file having skin information
             if(substr($path,-1)!='/') $path .= '/';
             $skin_xml_file = sprintf("%s%s/%s/skin.xml", $path, $dir, $skin);
             if(!file_exists($skin_xml_file)) return;
-
-            // XmlParser 객체 생성
+            // Create XmlParser object
             $oXmlParser = new XmlParser();
             $_xml_obj = $oXmlParser->loadXmlFile($skin_xml_file);
-
-            // 스킨 정보가 없으면 return
+            // Return if no skin information is
             if(!$_xml_obj->skin) return;
             $xml_obj = $_xml_obj->skin;
-
-            // 스킨이름
+            // Skin Name
             $skin_info->title = $xml_obj->title->body;
-
-
-            // 작성자 정보
+            // Author information
             if($xml_obj->version && $xml_obj->attrs->version == '0.2') {
                 // skin format v0.2
                 sscanf($xml_obj->date->body, '%d-%d-%d', $date_obj->y, $date_obj->m, $date_obj->d);
@@ -642,8 +728,7 @@
                     $author_obj->homepage = $author->attrs->link;
                     $skin_info->author[] = $author_obj;
                 }
-
-                // 확장변수를 정리
+                // List extra vars
                 if($xml_obj->extra_vars) {
                     $extra_var_groups = $xml_obj->extra_vars->group;
                     if(!$extra_var_groups) $extra_var_groups = $xml_obj->extra_vars;
@@ -666,8 +751,7 @@
                             $obj->default = $val->attrs->default;
                             if(strpos($obj->value, '|@|') != false) { $obj->value = explode('|@|', $obj->value); }
                             if($obj->type == 'mid_list' && !is_array($obj->value)) { $obj->value = array($obj->value); }
-
-                            // 'select'type에서 option목록을 구한다.
+                            // Get an option list from 'select'type
                             if(is_array($val->options)) {
                                 $option_count = count($val->options);
 
@@ -743,8 +827,7 @@
                 $skin_info->author[0]->name = $xml_obj->maker->name->body;
                 $skin_info->author[0]->email_address = $xml_obj->maker->attrs->email_address;
                 $skin_info->author[0]->homepage = $xml_obj->maker->attrs->link;
-
-                // 스킨에서 사용되는 변수들
+                // Variables used in the skin
                 $extra_var_groups = $xml_obj->extra_vars->group;
                 if(!$extra_var_groups) $extra_var_groups = $xml_obj->extra_vars;
                 if(!is_array($extra_var_groups)) $extra_var_groups = array($extra_var_groups);
@@ -765,8 +848,7 @@
                             $type = $var->attrs->type;
                             $title = $var->title->body;
                             $description = $var->description->body;
-
-                            // 'select'type에서 option목록을 구한다.
+                            // Get an option list from 'select'type.
                             if(is_array($var->default)) {
                                 $option_count = count($var->default);
 
@@ -820,8 +902,7 @@
                     $skin_info->colorset[] = $obj;
                 }
             }
-
-            // 메뉴 종류 (레이아웃을 위한 설정)
+            // Menu type (settings for layout)
             if($xml_obj->menus->menu) {
                 $menus = $xml_obj->menus->menu;
                 if(!is_array($menus)) $menus = array($menus);
@@ -840,11 +921,13 @@
                 }
             }
 
+            $thumbnail = sprintf("%s%s/%s/thumbnail.png", $path, $dir, $skin);
+            $skin_info->thumbnail = (file_exists($thumbnail))?$thumbnail:null;
             return $skin_info;
         }
 
         /**
-         * @brief 특정 가상 사이트에 등록된 특정 모듈의 개수를 return
+         * @brief Return the number of modules which are registered on a virtual site
          **/
         function getModuleCount($site_srl, $module = null) {
             $args->site_srl = $site_srl;
@@ -854,36 +937,67 @@
         }
 
         /**
-         * @brief 특정 모듈의 설정 return
-         * board, member등 특정 모듈의 global config 관리용
+         * @brief Return module configurations
+         * Global configuration is used to manage board, member and others
          **/
-        function getModuleConfig($module) {
-            if(!$GLOBALS['__ModuleConfig__'][$module]) {
-                $args->module = $module;
-                $output = executeQuery('module.getModuleConfig', $args);
-                $config = unserialize($output->data->config);
-                $GLOBALS['__ModuleConfig__'][$module] = $config;
+        function getModuleConfig($module, $site_srl = 0) {
+            // cache controll
+            $oCacheHandler = &CacheHandler::getInstance('object');
+            if($oCacheHandler->isSupport()){
+                    $cache_key = 'object:module_config:module_'.$module.'_site_srl_'.$site_srl;
+                    $config = $oCacheHandler->get($cache_key);
             }
-            return $GLOBALS['__ModuleConfig__'][$module];
+            if(!$config) {
+                if(!$GLOBALS['__ModuleConfig__'][$site_srl][$module]) {
+                    $args->module = $module;
+                    $args->site_srl = $site_srl;
+                    $output = executeQuery('module.getModuleConfig', $args);
+                    $config = unserialize($output->data->config);
+                    //insert in cache
+                    if($oCacheHandler->isSupport()) {
+                        if($config)
+							$oCacheHandler->put($cache_key,$config);
+                    }
+                    $GLOBALS['__ModuleConfig__'][$site_srl][$module] = $config;
+                }
+                return $GLOBALS['__ModuleConfig__'][$site_srl][$module];
+            }
+
+            return $config;
         }
 
         /**
-         * @brief 특정 mid의 모듈 설정 정보 return
-         * mid의 모듈 의존적인 설정을 관리
+         * @brief Return the module configuration of mid
+         * Manage mid configurations which depend on module
          **/
         function getModulePartConfig($module, $module_srl) {
-            if(!$GLOBALS['__ModulePartConfig__'][$module][$module_srl]) {
-                $args->module = $module;
-                $args->module_srl = $module_srl;
-                $output = executeQuery('module.getModulePartConfig', $args);
-                $config = unserialize($output->data->config);
-                $GLOBALS['__ModulePartConfig__'][$module][$module_srl] = $config;
+            // cache controll
+            $oCacheHandler = &CacheHandler::getInstance('object');
+            if($oCacheHandler->isSupport()){
+                    $cache_key = 'object_module_part_config:'.$module.'_'.$module_srl;
+                    $config = $oCacheHandler->get($cache_key);
             }
-            return $GLOBALS['__ModulePartConfig__'][$module][$module_srl];
+            if(!$config) {
+                if(!$GLOBALS['__ModulePartConfig__'][$module][$module_srl]) {
+                    $args->module = $module;
+                    $args->module_srl = $module_srl;
+                    $output = executeQuery('module.getModulePartConfig', $args);
+                    $config = unserialize($output->data->config);
+                    //insert in cache
+                    if($oCacheHandler->isSupport()) {
+                        if($config) $oCacheHandler->put($cache_key,$config);
+                    }
+                    $GLOBALS['__ModulePartConfig__'][$module][$module_srl] = $config;
+                }
+				return $GLOBALS['__ModulePartConfig__'][$module][$module_srl];
+            }
+
+            return $config;
+
         }
 
         /**
-         * @brief mid별 모듈 설정 정보 전체를 구함
+         * @brief Get all of module configurations for each mid
          **/
         function getModulePartConfigs($module, $site_srl = 0) {
             $args->module = $module;
@@ -899,10 +1013,10 @@
 
 
         /**
-         * @brief 모듈 카테고리의 목록을 구함
+         * @brief Get a list of module category
          **/
         function getModuleCategories() {
-            // 데이터를 DB에서 가져옴
+            // Get data from the DB
             $output = executeQuery('module.getModuleCategories');
             if(!$output->toBool()) return $output;
             $list = $output->data;
@@ -916,10 +1030,10 @@
         }
 
         /**
-         * @brief 특정 모듈 카테고리의 내용을 구함
+         * @brief Get content from the module category
          **/
         function getModuleCategory($module_category_srl) {
-            // 데이터를 DB에서 가져옴
+            // Get data from the DB
             $args->module_category_srl = $module_category_srl;
             $output = executeQuery('module.getModuleCategory', $args);
             if(!$output->toBool()) return $output;
@@ -927,22 +1041,21 @@
         }
 
         /**
-         * @brief 모듈의 xml 정보만 구함
+         * @brief Get xml information of the module
          **/
         function getModulesXmlInfo() {
-            // 다운받은 모듈과 설치된 모듈의 목록을 구함
+            // Get a list of downloaded and installed modules
             $searched_list = FileHandler::readDir('./modules');
             $searched_count = count($searched_list);
             if(!$searched_count) return;
             sort($searched_list);
 
             for($i=0;$i<$searched_count;$i++) {
-                // 모듈의 이름
+                // Module name
                 $module_name = $searched_list[$i];
 
                 $path = ModuleHandler::getModulePath($module_name);
-
-                // 해당 모듈의 정보를 구함
+                // Get information of the module
                 $info = $this->getModuleInfoXml($module_name);
                 unset($obj);
 
@@ -966,24 +1079,22 @@
             {
                 $tmp_files = FileHandler::readDir($moduledir."schemas", '/(\.xml)$/');
                 $table_count = count($tmp_files);
-
-                // 테이블이 설치되어 있는지 체크
+                // Check if the table is created
                 $created_table_count = 0;
                 for($j=0;$j<count($tmp_files);$j++) {
                     list($table_name) = explode(".",$tmp_files[$j]);
                     if($oDB->isTableExists($table_name)) $created_table_count ++;
                 }
-
-                // 설치 유무 체크 (설치는 DB의 설치만 관리)
-                if($table_count > $created_table_count) return true; 
-                else return false; 
+                // Check if DB is installed
+                if($table_count > $created_table_count) return true;
+                else return false;
             }
             return false;
         }
 
         function checkNeedUpdate($module_name)
         {
-            // 각 모듈의 module.class.php로 upgrade 유무 체크
+            // Check if it is upgraded to module.class.php on each module
             $oDummy = &getModule($module_name, 'class');
             if($oDummy && method_exists($oDummy, "checkUpdate")) {
                 return $oDummy->checkUpdate();
@@ -992,37 +1103,35 @@
         }
 
         /**
-         * @brief 모듈의 종류와 정보를 구함
+         * @brief Get a type and information of the module
          **/
         function getModuleList() {
-            // DB 객체 생성
+            // Create DB Object
             $oDB = &DB::getInstance();
-
-            // 다운받은 모듈과 설치된 모듈의 목록을 구함
-            $searched_list = FileHandler::readDir('./modules');
+            // Get a list of downloaded and installed modules
+            $searched_list = FileHandler::readDir('./modules', '/^([a-zA-Z0-9_-]+)$/');
             sort($searched_list);
 
             $searched_count = count($searched_list);
             if(!$searched_count) return;
 
             for($i=0;$i<$searched_count;$i++) {
-                // 모듈의 이름
+                // module name
                 $module_name = $searched_list[$i];
 
                 $path = ModuleHandler::getModulePath($module_name);
+				if(!is_dir(FileHandler::getRealPath($path))) continue;
 
-                // schemas내의 테이블 생성 xml파일수를 구함
+                // Get the number of xml files to create a table in schemas
                 $tmp_files = FileHandler::readDir($path."schemas", '/(\.xml)$/');
                 $table_count = count($tmp_files);
-
-                // 테이블이 설치되어 있는지 체크
+                // Check if the table is created
                 $created_table_count = 0;
                 for($j=0;$j<count($tmp_files);$j++) {
                     list($table_name) = explode(".",$tmp_files[$j]);
                     if($oDB->isTableExists($table_name)) $created_table_count ++;
                 }
-
-                // 해당 모듈의 정보를 구함
+                // Get information of the module
                 $info = $this->getModuleInfoXml($module_name);
                 unset($obj);
 
@@ -1032,12 +1141,10 @@
                 $info->table_count = $table_count;
                 $info->path = $path;
                 $info->admin_index_act = $info->admin_index_act;
-
-                // 설치 유무 체크 (설치는 DB의 설치만 관리)
+                // Check if DB is installed
                 if($table_count > $created_table_count) $info->need_install = true;
                 else $info->need_install = false;
-
-                // 각 모듈의 module.class.php로 upgrade 유무 체크
+                // Check if it is upgraded to module.class.php on each module
                 $oDummy = null;
                 $oDummy = &getModule($module_name, 'class');
                 if($oDummy && method_exists($oDummy, "checkUpdate")) {
@@ -1054,9 +1161,9 @@
         }
 
         /**
-         * @brief 특정 module srls를 sites의 domain과 결합
-         * 아직 XE DBHandler에서 left outer join이 안되어서..
-         * $output->data[]->module_srl 과 같은 구조여야 함
+         * @brief Combine module_srls with domain of sites
+         * Because XE DBHandler doesn't support left outer join,
+         * it should be as same as $Output->data[]->module_srl.
          **/
         function syncModuleToSite(&$data) {
             if(!$data) return;
@@ -1087,7 +1194,7 @@
         }
 
         /**
-         * @brief site_module_info의 관리자 인지 체크
+         * @brief Check if it is an administrator of site_module_info
          **/
         function isSiteAdmin($member_info, $site_srl = null) {
             if(!$member_info->member_srl) return false;
@@ -1112,7 +1219,7 @@
         }
 
         /**
-         * @brief site의 관리자 정보를 구함
+         * @brief Get admin information of the site
          **/
         function getSiteAdmin($site_srl) {
             $args->site_srl = $site_srl;
@@ -1121,7 +1228,7 @@
         }
 
         /**
-         * @brief 특정 모듈의 관리자 아이디 구함
+         * @brief Get admin ID of the module
          **/
         function getAdminId($module_srl) {
             $obj->module_srl = $module_srl;
@@ -1132,25 +1239,38 @@
         }
 
         /**
-         * @brief 특정 모듈의 추가 변수를 구함
-         * modules 테이블의 기본 정보 이외의 것
+         * @brief Get extra vars of the module
+         * Extra information, not in the modules table
          **/
         function getModuleExtraVars($module_srl) {
-            if(is_array($module_srl)) $module_srl = implode(',',$module_srl);
-            $args->module_srl = $module_srl;
-            $output = executeQueryArray('module.getModuleExtraVars',$args);
-            if(!$output->toBool() || !$output->data) return;
-
-            $vars = array();
-            foreach($output->data as $key => $val) {
-                if(in_array($val->name, array('mid','module')) || $val->value == 'Array') continue;
-                $vars[$val->module_srl]->{$val->name} = $val->value;
+             if(is_array($module_srl)) $module_srl = implode(',',$module_srl);
+            // cache controll
+            $oCacheHandler = &CacheHandler::getInstance('object');
+            if($oCacheHandler->isSupport()){
+                    $cache_key = 'object:module_extra_vars_'.$module_srl;
+                    $vars = $oCacheHandler->get($cache_key);
+            }
+            if(!$vars) {
+                $args->module_srl = $module_srl;
+                $output = executeQueryArray('module.getModuleExtraVars',$args);
+                if(!$output->toBool() || !$output->data) {
+                    if($oCacheHandler->isSupport()) $oCacheHandler->put($cache_key,'empty_extra_vars');
+                    return;
+                }
+                $vars = array();
+                foreach($output->data as $key => $val) {
+                    if(in_array($val->name, array('mid','module')) || $val->value == 'Array') continue;
+                    $vars[$val->module_srl]->{$val->name} = $val->value;
+                }
+                if($oCacheHandler->isSupport()) $oCacheHandler->put($cache_key,$vars);
+            } elseif($vars == 'empty_extra_vars') {
+                return;
             }
             return $vars;
         }
 
         /**
-         * @brief 특정 모듈의 스킨 정보를 구함
+         * @brief Get skin information of the module
          **/
         function getModuleSkinVars($module_srl) {
             $args->module_srl = $module_srl;
@@ -1163,13 +1283,22 @@
         }
 
         /**
-         * @brief 특정 모듈의 스킨 정보를 모듈 정보와 결합
+         * @brief Combine skin information with module information
          **/
         function syncSkinInfoToModuleInfo(&$module_info) {
             if(!$module_info->module_srl) return;
-
-            $args->module_srl = $module_info->module_srl;
-            $output = executeQueryArray('module.getModuleSkinVars',$args);
+            // cache controll
+            $oCacheHandler = &CacheHandler::getInstance('object');
+            if($oCacheHandler->isSupport()){
+                    $cache_key = 'object_module_skin_vars:'.$module_info->module_srl;
+                    $output = $oCacheHandler->get($cache_key);
+            }
+            if(!$output) {
+                $args->module_srl = $module_info->module_srl;
+                $output = executeQueryArray('module.getModuleSkinVars',$args);
+                //insert in cache
+	        if($oCacheHandler->isSupport()) $oCacheHandler->put($cache_key,$output);
+            }
             if(!$output->toBool() || !$output->data) return;
 
             foreach($output->data as $val) {
@@ -1179,14 +1308,14 @@
         }
 
         /**
-         * @brief 특정 모듈정보와 XML, 그리고 회원 정보로 권한을 return
+         * @brief Return permission by using module info, xml info and member info
          **/
         function getGrant($module_info, $member_info, $xml_info = '') {
             if(!$xml_info) {
                 $module = $module_info->module;
                 $xml_info = $this->getModuleActionXml($module);
             }
-            // 그룹 권한 설정에 필요한 변수를 세팅
+            // Set variables to grant group permission
             $module_srl = $module_info->module_srl;
             $grant_info = $xml_info->grant;
             if($member_info->member_srl) {
@@ -1195,32 +1324,26 @@
             } else {
                 $group_list = array();
             }
-
-            // module_srl이 없는 즉 별도의 권한 설정이 안되는 경우
+            // If module_srl doesn't exist(if unable to set permissions)
             if(!$module_srl) {
                 $grant->access = true;
-                if($this->isSiteAdmin($member_info)) $grant->access = $grant->is_admin = $grant->manager = true;
+                if($this->isSiteAdmin($member_info, $module_info->site_srl)) $grant->access = $grant->is_admin = $grant->manager = $grant->is_site_admin = true;
                 else $grant->is_admin = $grant->manager = $member_info->is_admin=='Y'?true:false;
-
-            // module_srl이 있는 경우
+            // If module_srl exists
             } else {
-
-                // grant 종류를 구함
-                $grant->access = $grant->is_admin = $grant->manager = ($member_info->is_admin=='Y'||$this->isSiteAdmin($member_info))?true:false;
-
-                // 관리자가 아니라 로그인 회원일 경우 이 모듈의 관리자인지 확인
+                // Get a type of granted permission
+                $grant->access = $grant->is_admin = $grant->manager = $grant->is_site_admin = ($member_info->is_admin=='Y'||$this->isSiteAdmin($member_info, $module_info->site_srl))?true:false;
+                // If a just logged-in member is, check if the member is a module administrator
                 if(!$grant->manager && $member_info->member_srl) {
                     $args->module_srl = $module_srl;
                     $args->member_srl = $member_info->member_srl;
                     $output = executeQuery('module.getModuleAdmin',$args);
                     if($output->data && $output->data->member_srl == $member_info->member_srl) $grant->manager = $grant->is_admin = true;
                 }
-
-                // 관리자가 아니면 직접 DB에서 정보를 구해서 권한 설정
+                // If not an administrator, get information from the DB and grant manager privilege.
                 if(!$grant->manager) {
                     $args = null;
-
-                    // 플래닛인 경우 planet home의 권한 설정을 가져온다
+                    // If planet, get permission settings from the planet home
                     if ($module_info->module == 'planet') {
                         $output = executeQueryArray('module.getPlanetGrants', $args);
                     }
@@ -1232,35 +1355,32 @@
                     $grant_exists = $granted = array();
 
                     if($output->data) {
-                        // 1차적으로 권한 대상 이름과 그룹을 정리
+                        // Arrange names and groups who has privileges
                         foreach($output->data as $val) {
                             $grant_exists[$val->name] = true;
                             if($granted[$val->name]) continue;
-
-                            // 로그인 회원만
+                            // Log-in member only
                             if($val->group_srl == -1) {
                                 $granted[$val->name] = true;
                                 if($member_info->member_srl) $grant->{$val->name} = true;
-
-                            // 사이트 가입한 회원만
+                            // Site-joined member only
                             } elseif($val->group_srl == -2) {
                                 $granted[$val->name] = true;
-                                // 비로그인 회원이면 권한 미부여
+                                // Do not grant any permission for non-logged member
                                 if(!$member_info->member_srl) $grant->{$val->name} = false;
-                                // 로그인 회원
+                                // Log-in member
                                 else {
                                     $site_module_info = Context::get('site_module_info');
-                                    // 현재 접속된 사이트 정보가 없으면 권한 부여
+                                    // Permission granted if no information of the currently connected site exists
                                     if(!$site_module_info->site_srl) $grant->{$val->name} = true;
-                                    // 현재 접속된 사이트의 그룹 정보가 있 으면 권한 미부여
+                                    // Permission is not granted if information of the currently connected site exists
                                     elseif(count($group_list)) $grant->{$val->name} = true;
                                 }
-
-                            // 비로그인 회원 모두
+                            // All of non-logged members
                             } elseif($val->group_srl == 0) {
                                 $granted[$val->name] = true;
                                 $grant->{$val->name} = true;
-                            // 특정 그룹 대상일 경우
+                            // If a target is a group
                             } else {
                                 if($group_list && count($group_list) && in_array($val->group_srl, $group_list)) {
                                     $grant->{$val->name} = true;
@@ -1269,8 +1389,7 @@
                             }
                         }
                     }
-
-                    // 가상 그룹인 access에 대해서 별도 처리
+                    // Separate processing for the virtual group access
                     if(!$grant_exists['access']) $grant->access = true;
                     if(count($grant_info)) {
                         foreach($grant_info as  $grant_name => $grant_item) {
@@ -1297,8 +1416,7 @@
                         }
                     }
                 }
-
-                // 관리자일 경우 모든 권한에 대해 true 지정
+                // Set true to grant all privileges if an administrator is
                 if($grant->manager) {
                     $grant->access = true;
                     if(count($grant_info)) {
@@ -1312,8 +1430,6 @@
             return $grant;
         }
 
-
-
         function getModuleFileBox($module_filebox_srl){
             $args->module_filebox_srl = $module_filebox_srl;
             return executeQuery('module.getModuleFileBox', $args);
@@ -1321,13 +1437,105 @@
 
         function getModuleFileBoxList(){
             $args->page = Context::get('page');
-            $args->list_count = 10;
-            $args->page_count = 10;
+            $args->list_count = 5;
+            $args->page_count = 5;
             return executeQuery('module.getModuleFileBoxList', $args);
         }
+
+		function getFileBoxListHtml()
+		{
+			$logged_info = Context::get('logged_info');
+			if($logged_info->is_admin !='Y' && !$logged_info->is_site_admin) return new Object(-1, 'msg_not_permitted');
+
+			$oModuleModel = &getModel('module');
+			$output = $oModuleModel->getModuleFileBoxList();
+			Context::set('filebox_list', $output->data);
+
+			$page = Context::get('page');
+			if (!$page) $page = 1;
+			Context::set('page', $page);
+			Context::set('page_navigation', $output->page_navigation);
+
+			$security = new Security();
+			$security->encodeHTML('filebox_list..comment');
+
+			$oTemplate = &TemplateHandler::getInstance();
+			$html = $oTemplate->compile('./modules/module/tpl/', 'filebox_list_html');
+
+			$this->add('html', $html);
+		}
 
         function getModuleFileBoxPath($module_filebox_srl){
             return sprintf("./files/attach/filebox/%s",getNumberingPath($module_filebox_srl,3));
         }
+
+        /**
+         * @brief Return ruleset cache file path
+		 * @param module, act
+         **/
+        function getValidatorFilePath($module, $ruleset) {
+			// load dynamic ruleset xml file
+			if (strpos($ruleset, '@') !== false){
+				$rulsetFile = str_replace('@', '', $ruleset);
+				$xml_file = sprintf('./files/ruleset/%s.xml', $rulsetFile);
+				return FileHandler::getRealPath($xml_file);
+			}
+            // Get a path of the requested module. Return if not exists.
+            $class_path = ModuleHandler::getModulePath($module);
+            if(!$class_path) return;
+
+            // Check if module.xml exists in the path. Return if not exist
+            $xml_file = sprintf("%sruleset/%s.xml", $class_path, $ruleset);
+            if(!file_exists($xml_file)) return;
+
+			return $xml_file;
+        }
+
+		function getLangListByLangcodeForAutoComplete() {
+			$keyword = Context::get('search_keyword');
+
+			$requestVars = Context::getRequestVars();
+
+            $args->site_srl = (int)$requestVars->site_srl;
+            $args->page = 1; // /< Page
+            $args->list_count = 100; // /< the number of posts to display on a single page
+            $args->page_count = 5; // /< the number of pages that appear in the page navigation
+            $args->sort_index = 'name';
+            $args->order_type = 'asc';
+            $args->search_keyword = Context::get('search_keyword'); // /< keyword to search*/
+
+            $output = executeQueryArray('module.getLangListByLangcode', $args);
+
+			$list = array();
+
+			if($output->toBool()){
+				foreach((array)$output->data as $code_info){
+					unset($codeInfo);
+					$codeInfo = array('name'=>'$user_lang->'.$code_info->name, 'value'=>$code_info->value);
+					$list[] = $codeInfo;
+				}
+			}
+			$this->add('results', $list);
+		}
+
+        /**
+         * @brief already instance created module list
+         **/
+		function getModuleListByInstance($columnList = array())
+		{
+			$output = executeQueryArray('module.getModuleListByInstance', $args, $columnList);
+			return $output;
+		}
+
+		function getLangByLangcode()
+		{
+			$langCode = Context::get('langCode');
+			if (!$langCode) return;
+
+			$oModuleController = &getController('module');
+			$oModuleController->replaceDefinedLangCode($langCode);
+
+			$this->add('lang', $langCode);
+		}
     }
 ?>

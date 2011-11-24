@@ -11,57 +11,56 @@
 <input type="hidden" name="page" value="{$page}" />
 
 <!-- 모듈 선택 -->
-<div class="fr">
-    <a href="{getUrl('','module','module','act','dispModuleSelectList','id','target_module','type','single')}" onclick="popopen(this.href,'ModuleSelect');return false;" class="button green"><span>{$lang->cmd_find_module}</span></a>
-    <!-- <a href="{getUrl('','module','document','act','dispDocumentManageDocument')}" onclick="popopen(this.href,'manageDocument'); return false;" class="button blue"><span>{$lang->cmd_manage_document}</span></a> -->
+<div class="btnArea">
+    <span class="btn"><a href="{getUrl('','module','module','act','dispModuleSelectList','id','target_module','type','single')}" onclick="popopen(this.href,'ModuleSelect');return false;">{$lang->cmd_find_module}</a></span>
 </div>
 
 <!-- 목록 -->
-<table cellspacing="0" class="rowTable clear">
-<caption>Total {number_format($total_count)}, Page {number_format($page)}/{number_format($total_page)}</caption>
-<thead>
-    <tr>
-        <th scope="col"><div>{$lang->no}</div></th>
-        <!--<th scope="col"><div><input type="checkbox" onclick="XE.checkboxToggleAll({ doClick:true }); return false;" /></div></th>-->
-        <th scope="col" class="wide"><div>{$lang->document}</div></th>
-        <th scope="col"><div>{$lang->trash_nick_name}</div></th>
-        <th scope="col"><div>{$lang->trash_date}</div></th>
-        <th scope="col"><div>{$lang->ipaddress}</div></th>
-        <th scope="col"><dib>{$lang->trash_description}</div></th>
-        <th scope="col"><div>{$lang->cmd_restore}</div></th>
-    </tr>
-</thead>
-<tbody>
-    <!--@foreach($document_list as $no => $oDocument)-->
-    <tr>
-        <td class="number center">{$no}</td>
-        <!--<td class="center"><input type="checkbox" name="cart" value="{$oDocument->document_srl}" onclick="doAddDocumentCart(this)" <!--@if($oDocument->isCarted())-->checked="checked"<!--@end-->/></td>-->
-        <td class="left subject">
-            {$oDocument->getTitle()}
-
-            <!--@if($oDocument->getCommentCount())-->
-                [{$oDocument->getCommentCount()}]
-            <!--@end-->
-
-            <!--@if($oDocument->getTrackbackCount())-->
-                [{$oDocument->getTrackbackCount()}]
-            <!--@end-->
-        </td>
-        <td class="nowrap"><span class="member_{$oDocument->get('trash_member_srl')}">{htmlspecialchars($oDocument->get('trash_nick_name'))}</span></td>
-        <td class="date center nowrap">{zdate($oDocument->get('trash_date'), "Y-m-d H:i:s")}</td>
-        <td class="number center nowrap">{$oDocument->get('ipaddress')}</td>
-        <td class="left">{$oDocument->get('trash_description')}</td>
-        <td class="center"><a href="#" onclick="executeFilterByTargetSrl('restore_form', {$oDocument->get('trash_srl')}, restore_trash);">{$lang->cmd_restore}</a></td>
-    </tr>
-    <!--@end-->
-</tbody>
-</table>
+<div class="table">
+	<table width="100%" border="1" cellspacing="0">
+		<caption>Total {number_format($total_count)}, Page {number_format($page)}/{number_format($total_page)}</caption>
+		<thead>
+			<tr>
+				<th scope="col">{$lang->no}</th>
+				<th scope="col" >{$lang->document}</th>
+				<th scope="col">{$lang->trash_nick_name}</th>
+				<th scope="col">{$lang->trash_date}</th>
+				<th scope="col">{$lang->ipaddress}</th>
+				<th scope="col">{$lang->trash_description}</th>
+				<th scope="col">{$lang->cmd_restore}</th>
+				</tr>
+			</thead>
+		<tbody>
+			<!--@foreach($document_list as $no => $oDocument)-->
+			<tr>
+				<td>{$no}</td>
+				<td>
+					{$oDocument->getTitle()}
+					
+					<!--@if($oDocument->getCommentCount())-->
+					[{$oDocument->getCommentCount()}]
+					<!--@end-->
+					
+					<!--@if($oDocument->getTrackbackCount())-->
+					[{$oDocument->getTrackbackCount()}]
+					<!--@end-->
+					</td>
+				<td><a href="#popup_menu_area" class="member_{$oDocument->get('trash_member_srl')}">{htmlspecialchars($oDocument->get('trash_nick_name'))}</a></td>
+				<td>{zdate($oDocument->get('trash_date'), "Y-m-d H:i:s")}</td>
+				<td>{$oDocument->get('ipaddress')}</td>
+				<td >{$oDocument->get('trash_description')}</td>
+				<td><button type="button" onclick="executeFilterByTargetSrl('restore_form', {$oDocument->get('trash_srl')}, restore_trash);">{$lang->cmd_restore}</button></td>
+				</tr>
+			<!--@end-->
+			</tbody>
+	</table>
+</div>
 
 </form>
 
 <!-- 페이지 네비게이션 -->
-<div class="pagination a1">
-    <a href="{getUrl('page','','module_srl',$module_srl)}" class="prevEnd">{$lang->first_page}</a> 
+<div class="pagination">
+    <a href="{getUrl('page','','module_srl',$module_srl)}" class="direction">&lsaquo; {$lang->first_page}</a> 
     <!--@while($page_no = $page_navigation->getNextPage())-->
         <!--@if($page == $page_no)-->
             <strong>{$page_no}</strong> 
@@ -69,5 +68,5 @@
             <a href="{getUrl('page',$page_no,'module_srl',$module_srl)}">{$page_no}</a> 
         <!--@end-->
     <!--@end-->
-    <a href="{getUrl('page',$page_navigation->last_page,'module_srl',$module_srl)}" class="nextEnd">{$lang->last_page}</a>
+    <a href="{getUrl('page',$page_navigation->last_page,'module_srl',$module_srl)}" class="direction">{$lang->last_page} &rsaquo;</a>
 </div>

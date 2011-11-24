@@ -1,8 +1,9 @@
 <!--// 스킨 css 로드 -->
-<!--%import("css/default.css")-->
+<load target="css/default.css" />
 
 <!--// 기본 JS 로드 -->
-<!--%import("../../tpl/js/editor_common.js")-->
+<load target="../../tpl/js/editor_common.js" cond="__DEBUG__" />
+<load target="../../tpl/js/editor_common.min.js" cond="!__DEBUG__" />
 
 <!--@if($colorset == "black" || $colorset == "black_texteditor" || $colorset == "black_text_nohtml" || $colorset == "black_text_usehtml")-->
     <!--%import("css/black.css")-->
@@ -10,7 +11,8 @@
 <!--@end-->
 
 <!--@if($colorset == "white_texteditor" || $colorset == "black_texteditor" || $colorset == "white_text_nohtml" || $colorset == "black_text_nohtml" || $colorset == "white_text_usehtml" || $colorset == "black_text_usehtml")-->
-    <!--%import("js/xe_textarea.js")-->
+	<load target="js/xe_textarea.js" cond="__DEBUG__" />
+	<load target="js/xe_textarea.min.js" cond="!__DEBUG__" />
 
     <div class="xeTextEditor {$editor_class}">
         <input type="hidden" id="htm_{$editor_sequence}" value="<!--@if($colorset == "white_text_nohtml" || $colorset == "black_text_nohtml")-->n<!--@end--><!--@if($colorset == "white_texteditor" || $colorset == "white_texteditor")-->br<!--@end-->" />
@@ -23,8 +25,9 @@
 <!--@else-->
 
     <!--// 기본 js/언어파일 로드 -->
-    <!--%import("js/Xpress_Editor.js")-->
-    <!--%import("js/xe_interface.js")-->
+	<load target="js/Xpress_Editor.js" cond="__DEBUG__" />
+	<load target="js/xe_interface.js" cond="__DEBUG__" />
+	<load target="js/xpresseditor.min.js" cond="!__DEBUG__" />
 
     <!-- 자동저장용 폼 -->
 
@@ -59,7 +62,7 @@
                     <select class="xpress_xeditor_ui_fontName_select" disabled="disabled">
                         <option value="">{$lang->edit->fontname}</option>
                         <!--@foreach($lang->edit->fontlist as $key=>$obj)-->
-                        <option value="{$key}" style="font-family:{$key}">{$obj}</option>
+                        <option value="{$key}" style="font-family:{$obj}">{$obj}</option>
                         <!--@end-->
                     </select>
                 </li>
@@ -406,7 +409,7 @@
                     <div class="layer extension2 xpress_xeditor_extension_layer" id="editorExtension_{$editor_sequence}">
                         <ul id="editor_component_{$editor_sequence}" class="editorComponent">
                             <!--@foreach($component_list as $component_name => $component)-->
-                                <li><!--@if($component->component_icon)--><img src="../../components/{$component_name}/component_icon.gif" alt="" width="13" height="12"/> <!--@end--><a href="#" onclick="return false;" id="component_{$editor_sequence}_{$component_name}">{$component->title}</a></li>
+                                <li><a href="#" onclick="return false;" id="component_{$editor_sequence}_{$component_name}">{$component->title}</a></li>
                             <!--@end-->
                         </ul>
                     </div>
@@ -466,9 +469,9 @@
                 <select id="uploaded_file_list_{$editor_sequence}" multiple="multiple" class="fileList" title="Attached File List"><option></option></select>
             </div>
             <div class="fileUploadControl">
-                <span class="button {$btn_class}" id="swfUploadButton{$editor_sequence}"><button type="button">{$lang->edit->upload_file}</button></span>
-                <span class="button {$btn_class}"><button type="button" onclick="removeUploadedFile('{$editor_sequence}');return false;">{$lang->edit->delete_selected}</button></span>
-                <span class="button {$btn_class}"><button type="button" onclick="insertUploadedFile('{$editor_sequence}');return false;">{$lang->edit->link_file}</button></span>
+				<button type="button" id="swfUploadButton{$editor_sequence}" class="text">{$lang->edit->upload_file}</button>
+				<button type="button" onclick="removeUploadedFile('{$editor_sequence}');" class="text">{$lang->edit->delete_selected}</button>
+				<button type="button" onclick="insertUploadedFile('{$editor_sequence}');" class="text">{$lang->edit->link_file}</button>
             </div>
             <div class="file_attach_info" id="uploader_status_{$editor_sequence}">{$upload_status}</div>
         </div>

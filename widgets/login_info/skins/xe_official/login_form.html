@@ -11,65 +11,32 @@
 <!--%import("./filter/openid_login.xml")-->
 <!--%import("./js/login.js")-->
 
-<script type="text/javascript">
-    var keep_signed_msg = "{$lang->about_keep_signed}";
-    xAddEventListener(window, "load", function(){ doFocusUserId("fo_login_widget"); });
-</script>
-
-<fieldset id="login" class="login_{$colorset}">
-<legend>{$lang->cmd_login}</legend>
-<form action="./" method="post" onsubmit="return procFilter(this, widget_login)" id="fo_login_widget">
-
-    <div class="idpwWrap">
-        <div class="idpw">
-            <input name="user_id" type="text" title="user id" />
-            <input name="password" type="password" title="password" />
-        </div>
-        <input type="image" src="./images/{$colorset}/buttonLogin.gif" alt="login" class="login" />
-    </div>
-    <!--@if($member_config->enable_ssl=='Y')-->
-    <p class="securitySignIn <!--@if($ssl_mode)-->SSL<!--@else-->noneSSL<!--@end-->">
-        <a href="#" onclick="toggleSecuritySignIn(); return false;">{$lang->security_sign_in}</a>
-    </p>
-    <!--@end-->
-    <p class="save">
-        <input type="checkbox" name="keep_signed" id="keepid" value="Y" onclick="if(this.checked) return confirm(keep_signed_msg);" />
-        <label for="keepid">{$lang->keep_signed}</label>
-
-        <!--@if($member_config->enable_openid=='Y')-->
-        <br />
-        <input name="use_open_id" id="use_open_id" type="checkbox" value="Y" onclick="toggleLoginForm(this); return false;" />
-        <label for="use_open_id">Open ID</label>
-        <!--@end-->
-    </p>
-    <ul class="help">
-        <li class="first-child"><a href="{getUrl('act','dispMemberSignUpForm')}">{$lang->cmd_signup}</a></li>
-        <li><a href="{getUrl('act','dispMemberFindAccount')}">{$lang->cmd_find_member_account}</a></li>
-        <li><a href="{getUrl('act','dispMemberResendAuthMail')}">{$lang->cmd_resend_auth_mail}</a></li>
-    </ul>
+<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
+<form id="fo_login_widget" action="./" method="post" ruleset="@login" class="login_{$colorset}">
+	<fieldset>
+		<input type="hidden" name="act" value="procMemberLogin" />
+		<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
+		<div class="idpwWrap">
+			<div class="idpw">
+				<input name="user_id" type="text" title="user id" />
+				<input name="password" type="password" title="password" />
+				<p class="keep">
+					<input type="checkbox" name="keep_signed" id="keep_signed" value="Y" />
+					<label for="keep_signed">{$lang->keep_signed}</label>
+				</p>
+			</div>
+			<input type="image" src="./images/{$colorset}/buttonLogin.gif" alt="login" class="login" />
+		</div>
+		<p cond="$ssl_mode" class="securitySignIn <!--@if($ssl_mode)-->SSL<!--@else-->noneSSL<!--@end-->">
+			<button type="button" class="text" onclick="toggleSecuritySignIn(); return false;">{$lang->security_sign_in}</button>
+		</p>
+		<p class="keep_msg">{$lang->about_keep_warning}</p>
+		<ul class="help">
+			<li><a href="{getUrl('act','dispMemberSignUpForm')}">{$lang->cmd_signup}</a></li>
+			<li><a href="{getUrl('act','dispMemberFindAccount')}">{$lang->cmd_find_member_account}</a></li>
+			<li><a href="{getUrl('act','dispMemberResendAuthMail')}">{$lang->cmd_resend_auth_mail}</a></li>
+		</ul>
+	</fieldset>
 </form> 
-</fieldset>
-
-<!-- OpenID -->
-<!--@if($member_config->enable_openid=='Y')-->
-<fieldset id="openid_login" class="openid_login_{$colorset}" style="display:none;">
-<legend>{$lang->cmd_login}</legend>
-  <form action="{getUrl('module','member','act','procMemberOpenIDLogin')}" method="post" onsubmit="return procFilter(this, openid_login)" >
-      <div class="idpwWrap">
-        <div class="idpw">
-          <p>{$lang->openid}</p>
-          <input type="text" name="openid" class="openid_user_id" />
-        </div>
-        <input type="image" src="./images/{$colorset}/buttonLogin.gif" alt="login" class="login" />
-      </div>
-      <p class="save">
-          <input name="use_open_id" id="use_open_id_2" type="checkbox" value="Y" onclick="toggleLoginForm(this); return false;"/>
-          <label for="use_open_id_2">Open ID</label>
-      </p>
-  </form>
-</fieldset>
-<!--@end-->
-
-<script type="text/javascript">
-  xAddEventListener(window, "load", function(){ doFocusUserId("fo_login_widget"); });
-</script>

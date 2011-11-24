@@ -2,19 +2,19 @@
     /**
      * @class  pollController
      * @author NHN (developers@xpressengine.com)
-     * @brief  poll모듈의 Controller class
+     * @brief Controller class for poll module
      **/
 
     class pollController extends poll {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
         }
 
         /**
-         * @brief 팝업창에서 설문 작성 완료후 저장을 누를때 설문 등록
+         * @brief after a qeustion is created in the popup window, register the question during the save time
          **/
         function procInsert() {
             $stop_date = Context::get('stop_date');
@@ -32,7 +32,7 @@
 
                 if(Context::get('is_logged')) {
                     $logged_info = Context::get('logged_info');
-                    // 세션에서 최고 관리자가 아니면 태그 제거
+                    // Remove the tag if the it is not the top administrator in the session
                     if($logged_info->is_admin != 'Y') $val = htmlspecialchars($val);
                 }
 
@@ -49,8 +49,7 @@
             if(!count($args->poll)) return new Object(-1, 'cmd_null_item');
 
             $args->stop_date = $stop_date;
-
-            // 변수 설정
+            // Configure the variables
             $poll_srl = getNextSequence();
 
             $logged_info = Context::get('logged_info');
@@ -58,8 +57,7 @@
 
             $oDB = &DB::getInstance();
             $oDB->begin();
-
-            // 설문의 등록
+            // Register the poll
             unset($poll_args);
             $poll_args->poll_srl = $poll_srl;
             $poll_args->member_srl = $member_srl;
@@ -71,8 +69,7 @@
                 $oDB->rollback();
                 return $output;
             }
-
-            // 개별 설문 등록
+            // Individual poll registration
             foreach($args->poll as $key => $val) {
                 unset($title_args);
                 $title_args->poll_srl = $poll_srl;
@@ -88,8 +85,7 @@
                     $oDB->rollback();
                     return $output;
                 }
-
-                // 개별 설문의 항목 추가
+                // Add the individual survey items
                 foreach($val->item as $k => $v) {
                     unset($item_args);
                     $item_args->poll_srl = $poll_srl;
@@ -112,7 +108,7 @@
         }
 
         /**
-         * @brief 설문 조사에 응함
+         * @brief Accept the poll
          **/
         function procPoll() {
             $poll_srl = Context::get('poll_srl'); 
@@ -124,10 +120,9 @@
                 $item_srls[] = $srl;
             }
 
-            // 응답항목이 없으면 오류
+            // If there is no response item, display an error
             if(!count($item_srls)) return new Object(-1, 'msg_check_poll_item');
-
-            // 이미 설문하였는지 조사
+            // Make sure is the poll has already been taken
             $oPollModel = &getModel('poll');
             if($oPollModel->isPolled($poll_srl)) return new Object(-1, 'msg_already_poll');
 
@@ -135,24 +130,21 @@
             $oDB->begin();
 
             $args->poll_srl = $poll_srl;
-
-            // 해당 글의 모든 설문조사의 응답수 올림
+            // Update all poll responses related to the post
             $output = executeQuery('poll.updatePoll', $args);
             $output = executeQuery('poll.updatePollTitle', $args);
             if(!$output->toBool()) {
                 $oDB->rollback();
                 return $output;
             }
-
-            // 각 설문조사의 선택된 항목을 기록
+            // Record each polls selected items
             $args->poll_item_srl = implode(',',$item_srls);
             $output = executeQuery('poll.updatePollItems', $args);
             if(!$output->toBool()) {
                 $oDB->rollback();
                 return $output;
             }
-
-            // 응답자 정보를 로그로 남김
+            // Log the respondent's information
             $log_args->poll_srl = $poll_srl;
 
             $logged_info = Context::get('logged_info');
@@ -170,17 +162,21 @@
 
             $skin = Context::get('skin'); 
             if(!$skin || !is_dir('./modules/poll/skins/'.$skin)) $skin = 'default';
-
-            // tpl 가져오기
+            // Get tpl
             $tpl = $oPollModel->getPollHtml($poll_srl, '', $skin);
 
             $this->add('poll_srl', $poll_srl);
             $this->add('tpl',$tpl);
             $this->setMessage('success_poll');
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispPollAdminConfig');
+				header('location:'.$returnUrl);
+				return;
+			}
         }
 
         /**
-         * @brief 결과 미리 보기
+         * @brief Preview the results
          **/
         function procPollViewResult() {
             $poll_srl = Context::get('poll_srl'); 
@@ -196,7 +192,41 @@
         }
 
         /**
-         * @brief 게시글 등록시 poll 연결하는 trigger
+         * @brief poll list
+         **/
+        function procPollGetList()
+		{
+			if(!Context::get('is_logged')) return new Object(-1,'msg_not_permitted');
+			$pollSrls = Context::get('poll_srls');
+			if($pollSrls) $pollSrlList = explode(',', $pollSrls);
+
+			global $lang;
+			if(count($pollSrlList) > 0) {
+				$oPollAdminModel = &getAdminModel('poll');
+				$args->pollIndexSrlList = $pollSrlList;
+				$output = $oPollAdminModel->getPollListWithMember($args);
+				$pollList = $output->data;
+
+				if(is_array($pollList))
+				{
+					foreach($pollList AS $key=>$value)
+					{
+						if($value->checkcount == 1) $value->checkName = $lang->single_check;
+						else $value->checkName = $lang->multi_check;
+					}
+				}
+			}
+			else
+			{
+				$pollList = array();
+				$this->setMessage($lang->no_documents);
+			}
+
+			$this->add('poll_list', $pollList);
+        }
+
+        /**
+         * @brief A poll synchronization trigger when a new post is registered
          **/
         function triggerInsertDocumentPoll(&$obj) {
             $this->syncPoll($obj->document_srl, $obj->content);
@@ -204,7 +234,7 @@
         }
 
         /**
-         * @brief 댓글 등록시 poll 연결하는 trigger
+         * @brief A poll synchronization trigger when a new comment is registered
          **/
         function triggerInsertCommentPoll(&$obj) {
             $this->syncPoll($obj->comment_srl, $obj->content);
@@ -212,7 +242,7 @@
         }
 
         /**
-         * @brief 게시글 수정시 poll 연결하는 trigger
+         * @brief A poll synchronization trigger when a post is updated
          **/
         function triggerUpdateDocumentPoll(&$obj) {
             $this->syncPoll($obj->document_srl, $obj->content);
@@ -220,7 +250,7 @@
         }
 
         /**
-         * @brief 댓글 등록시 poll 연결하는 trigger
+         * @brief A poll synchronization trigger when a comment is updated
          **/
         function triggerUpdateCommentPoll(&$obj) {
             $this->syncPoll($obj->comment_srl, $obj->content);
@@ -228,13 +258,12 @@
         }
 
         /**
-         * @brief 게시글 삭제시 poll 삭제하는 trigger
+         * @brief A poll deletion trigger when a post is removed
          **/
         function triggerDeleteDocumentPoll(&$obj) {
             $document_srl = $obj->document_srl;
             if(!$document_srl) return new Object();
-
-            // 설문조사를 구함
+            // Get the poll
             $args->upload_target_srl = $document_srl;
             $output = executeQuery('poll.getPollByTargetSrl', $args);
             if(!$output->data) return new Object();
@@ -260,13 +289,12 @@
         }
 
         /**
-         * @brief 댓글 삭제시 poll 삭제하는 trigger
+         * @brief A poll deletion trigger when a comment is removed
          **/
         function triggerDeleteCommentPoll(&$obj) {
             $comment_srl = $obj->comment_srl;
             if(!$comment_srl) return new Object();
-
-            // 설문조사를 구함
+            // Get the poll
             $args->upload_target_srl = $comment_srl;
             $output = executeQuery('poll.getPollByTargetSrl', $args);
             if(!$output->data) return new Object();
@@ -292,7 +320,7 @@
         }
 
         /**
-         * @brief 게시글 내용의 설문조사를 구해와서 문서 번호와 연결 
+         * @brief As post content's poll is obtained, synchronize the poll using the document number
          **/
         function syncPoll($upload_target_srl, $content) {
             $match_cnt = preg_match_all('!<img([^\>]*)poll_srl=(["\']?)([0-9]*)(["\']?)([^\>]*?)\>!is',$content, $matches);

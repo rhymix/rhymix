@@ -11,10 +11,11 @@
         {@ Context::addJsFile("./common/js/common.js", true, '', -100000) }
         {@ Context::addJsFile("./common/js/xml_handler.js", true, '', -100000) }
         {@ Context::addJsFile("./common/js/xml_js_filter.js", true, '', -100000) }
-		<!--%import("./filter/login.xml")-->
 		<!--%import("./filter/openid_login.xml")-->
 		<div class="mLogin" id="gLogin">
-			<form action="./" method="post" onsubmit="return procFilter(this, message_login)" id="gForm" class="ff">
+			<form action="./" method="post" ruleset="@login" id="gForm" class="ff">
+			<input type="hidden" name="module" value="member" />
+			<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
 				<fieldset>
 					<ul>
 						<li><label for="uid">{$lang->user_id}</label><input type="text" name="user_id" id="uid" value="" /></li>

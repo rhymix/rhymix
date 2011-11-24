@@ -2,19 +2,19 @@
     /**
      * @class  addonAdminModel
      * @author NHN (developers@xpressengine.com)
-     * @brief  addon 모듈의 admin model class
+     * @brief admin model class of addon modules
      **/
 
     class addonAdminModel extends addon {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
         }
 
         /**
-         * @brief 애드온의 경로를 구함
+         * @brief Wanted to add the path to
          **/
         function getAddonPath($addon_name) {
             $class_path = sprintf('./addons/%s/', $addon_name);
@@ -22,46 +22,72 @@
             return "";
         }
 
-        /**
-         * @brief 애드온의 종류와 정보를 구함
-         **/
-        function getAddonList($site_srl = 0) {
-            // activated된 애드온 목록을 구함
-            $inserted_addons = $this->getInsertedAddons($site_srl);
+		/**
+		 * @brief Get addon list for super admin
+		 **/
+		function getAddonListForSuperAdmin()
+		{
+			$addonList = $this->getAddonList(0, 'site');
 
-            // 다운받은 애드온과 설치된 애드온의 목록을 구함
-            $searched_list = FileHandler::readDir('./addons');
+			$oAutoinstallModel = &getModel('autoinstall');
+			foreach($addonList as $key => $addon)
+			{
+				// get easyinstall remove url
+				$packageSrl = $oAutoinstallModel->getPackageSrlByPath($addon->path);
+				$addonList[$key]->remove_url = $oAutoinstallModel->getRemoveUrlByPackageSrl($packageSrl);
+
+				// get easyinstall need update
+				$package = $oAutoinstallModel->getInstalledPackages($packageSrl);
+				$addonList[$key]->need_update = $package[$packageSrl]->need_update;
+
+				// get easyinstall update url
+				if ($addonList[$key]->need_update == 'Y')
+				{
+					$addonList[$key]->update_url = $oAutoinstallModel->getUpdateUrlByPackageSrl($packageSrl);
+				}
+			}
+
+			return $addonList;
+		}
+
+        /**
+         * @brief Wanted to add the kind of information and
+         **/
+        function getAddonList($site_srl = 0, $gtype = 'site') {
+            // Wanted to add a list of activated
+            $inserted_addons = $this->getInsertedAddons($site_srl, $gtype);
+            // Downloaded and installed add-on to the list of Wanted
+            $searched_list = FileHandler::readDir('./addons','/^([a-zA-Z0-9-_]+)$/');
             $searched_count = count($searched_list);
             if(!$searched_count) return;
             sort($searched_list);
 
+			$oAddonAdminController = &getAdminController('addon');
+
             for($i=0;$i<$searched_count;$i++) {
-                // 애드온의 이름
+                // Add the name of
                 $addon_name = $searched_list[$i];
 				if($addon_name == "smartphone") continue;
-
-                // 애드온의 경로 (files/addons가 우선)
+                // Add the path (files/addons precedence)
                 $path = $this->getAddonPath($addon_name);
-
-                // 해당 애드온의 정보를 구함
+                // Wanted information on the add-on
                 unset($info);
-                $info = $this->getAddonInfoXml($addon_name, $site_srl);
+                $info = $this->getAddonInfoXml($addon_name, $site_srl, $gtype);
 
                 $info->addon = $addon_name;
                 $info->path = $path;
                 $info->activated = false;
 				$info->mactivated = false;
-
-                // DB에 입력되어 있는지 확인
+				$info->fixed = false;
+                // Check if a permossion is granted entered in DB
                 if(!in_array($addon_name, array_keys($inserted_addons))) {
-                    // DB에 입력되어 있지 않으면 입력 (model에서 이런짓 하는거 싫지만 귀찮아서.. ㅡ.ㅜ)
-                    $oAddonAdminController = &getAdminController('addon');
-                    $oAddonAdminController->doInsert($addon_name, $site_srl);
-
-                // 활성화 되어 있는지 확인
+                    // If not, type in the DB type (model, perhaps because of the hate doing this haneungeo .. ㅡ. ㅜ)
+                    $oAddonAdminController->doInsert($addon_name, $site_srl, $type);
+                // Is activated
                 } else {
                     if($inserted_addons[$addon_name]->is_used=='Y') $info->activated = true;
                     if($inserted_addons[$addon_name]->is_used_m=='Y') $info->mactivated = true;
+					if ($gtype == 'global' && $inserted_addons[$addon_name]->is_fixed == 'Y') $info->fixed = true;
                 }
 
                 $list[] = $info;
@@ -70,14 +96,13 @@
         }
 
         /**
-         * @brief 모듈의 conf/info.xml 을 읽어서 정보를 구함
+         * @brief Modules conf/info.xml wanted to read the information
          **/
-        function getAddonInfoXml($addon, $site_srl = 0) {
-            // 요청된 모듈의 경로를 구한다. 없으면 return
+        function getAddonInfoXml($addon, $site_srl = 0, $gtype = 'site') {
+            // Get a path of the requested module. Return if not exists.
             $addon_path = $this->getAddonPath($addon);
             if(!$addon_path) return;
-
-            // 현재 선택된 모듈의 스킨의 정보 xml 파일을 읽음
+            // Read the xml file for module skin information
             $xml_file = sprintf("%sconf/info.xml", $addon_path);
             if(!file_exists($xml_file)) return;
 
@@ -88,9 +113,9 @@
             if(!$xml_obj) return;
 
 
-            // DB에 설정된 내역을 가져온다
+            // DB is set to bring history
             $db_args->addon = $addon;
-            if(!$site_srl) $output = executeQuery('addon.getAddonInfo',$db_args);
+            if($gtype == 'global') $output = executeQuery('addon.getAddonInfo',$db_args);
             else {
                 $db_args->site_srl = $site_srl;
                 $output = executeQuery('addon.getSiteAddonInfo',$db_args);
@@ -104,7 +129,7 @@
             }
 
 
-            // 애드온 정보
+            // Add information
             if($xml_obj->version && $xml_obj->attrs->version == '0.2') {
                 // addon format v0.2
                 sscanf($xml_obj->date->body, '%d-%d-%d', $date_obj->y, $date_obj->m, $date_obj->d);
@@ -129,7 +154,7 @@
                     $addon_info->author[] = $author_obj;
                 }
 
-                // 확장변수를 정리
+                // Expand the variable order
                 if($xml_obj->extra_vars) {
                     $extra_var_groups = $xml_obj->extra_vars->group;
                     if(!$extra_var_groups) $extra_var_groups = $xml_obj->extra_vars;
@@ -152,7 +177,7 @@
                             if(strpos($obj->value, '|@|') != false) { $obj->value = explode('|@|', $obj->value); }
                             if($obj->type == 'mid_list' && !is_array($obj->value)) { $obj->value = array($obj->value); }
 
-                            // 'select'type에서 option목록을 구한다.
+                            // 'Select'type obtained from the option list.
                             if(is_array($val->options)) {
                                 $option_count = count($val->options);
 
@@ -227,7 +252,7 @@
                 $addon_info->author[] = $author_obj;
 
                 if($xml_obj->extra_vars) {
-                    // 확장변수를 정리
+                    // Expand the variable order
                     $extra_var_groups = $xml_obj->extra_vars->group;
                     if(!$extra_var_groups) $extra_var_groups = $xml_obj->extra_vars;
                     if(!is_array($extra_var_groups)) $extra_var_groups = array($extra_var_groups);
@@ -247,8 +272,7 @@
                             $obj->value = $extra_vals->{$obj->name};
                             if(strpos($obj->value, '|@|') != false) { $obj->value = explode('|@|', $obj->value); }
                             if($obj->type == 'mid_list' && !is_array($obj->value)) { $obj->value = array($obj->value); }
-
-                            // 'select'type에서 option목록을 구한다.
+                            // 'Select'type obtained from the option list.
                             if(is_array($val->options)) {
                                 $option_count = count($val->options);
 
@@ -271,11 +295,11 @@
         }
 
         /**
-         * @brief 활성화된 애드온 목록을 구해옴
+         * @brief Add to the list of active guhaeom
          **/
-        function getInsertedAddons($site_srl = 0) {
+        function getInsertedAddons($site_srl = 0, $gtype = 'site') {
             $args->list_order = 'addon';
-            if(!$site_srl) $output = executeQuery('addon.getAddons', $args);
+            if($gtype == 'global') $output = executeQuery('addon.getAddons', $args);
             else {
                 $args->site_srl = $site_srl;
                 $output = executeQuery('addon.getSiteAddons', $args);
@@ -292,11 +316,11 @@
         }
 
         /**
-         * @brief 애드온이 활성화 되어 있는지 체크
+         * @brief Add-on is enabled, check whether
          **/
-        function isActivatedAddon($addon, $site_srl = 0, $type = "pc") {
+        function isActivatedAddon($addon, $site_srl = 0, $type = "pc", $gtype = 'site') {
             $args->addon = $addon;
-            if(!$site_srl) {
+            if($gtype == 'global') {
 				if($type == "pc") $output = executeQuery('addon.getAddonIsActivated', $args);
 				else $output = executeQuery('addon.getMAddonIsActivated', $args);
 			}

@@ -8,6 +8,7 @@
     <conditions>
         <condition operation="equal" column="site_srl" var="site_srl" filter="number" default="0" notnull="notnull" />
         <condition operation="equal" column="layout_type" var="layout_type" default="P" pipe="and" />
+		<condition operation="equal" column="layout" var="layout" pipe="and" />
     </conditions>
     <navigation>
         <index var="sort_index" default="layout_srl" order="desc" />

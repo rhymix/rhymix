@@ -1,12 +1,14 @@
-<!--%import("js/module_admin.js")-->
+<load target="js/module_admin.js" usecdn="true" />
 
-<h3 class="xeAdmin">{$lang->module} <span class="gray">{$lang->cmd_management}</span></h3>
+<script type="text/javascript">
+	xe.lang.favorite_on = '{$lang->favorite}({$lang->on})';
+	xe.lang.favorite_off = '{$lang->favorite}({$lang->off})';
+</script>
 
-<!--@if($act == 'dispModuleAdminContent')-->
-<div class="infoText">{nl2br($lang->about_module)}</div>
-<!--@end-->
+<h1 class="h1">{$lang->installed_module}</h1>
 
-<ul class="localNavigation">
-    <li <!--@if($act=='dispModuleAdminContent')-->class="on"<!--@end-->><a href="{getUrl('act','dispModuleAdminContent')}">{$lang->module_index}</a></li>
-    <li <!--@if($act=='dispModuleAdminCategory')-->class="on"<!--@end-->><a href="{getUrl('act','dispModuleAdminCategory')}">{$lang->module_category}</a></li>
-</ul>
+<div class="cnb">
+	<a href="{getUrl('', 'module', 'admin', 'act', 'dispModuleAdminContent')}" class="active"|cond="$act=='dispModuleAdminContent'">{$lang->installed_module}</a>
+	|
+	<a href="{getUrl('', 'module', 'admin', 'act', 'dispModuleAdminCategory')}" class="active"|cond="$act=='dispModuleAdminCategory'">{$lang->module_category}</a>
+</div>

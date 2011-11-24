@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ruleset version="1.5.0">
+    <customrules>
+		<rule name="extension" type="regex" test="/^(?:\*\.\*|(\*\.\w+;\s*)*\*\.\w+;?)$/i"  />
+    </customrules>
+    <fields>
+		<field name="allowed_filesize" required="true" rule="number" default="2" />
+		<field name="allowed_attach_size" required="true" rule="number" default="2" />
+		<field name="allowed_filetypes" required="true" rule="extension" />
+    </fields>
+</ruleset>

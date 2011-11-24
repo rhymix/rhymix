@@ -1,5 +1,5 @@
-<!--%import("js/member_admin.js")-->
-<!--%import("css/member_admin.css")-->
+<load target="js/member_admin.js" usecdn="true" />
+<load target="css/member_admin.css" usecdn="true" />
 <!--%load_js_plugin("ui")-->
 
 <h3 class="xeAdmin">{$lang->member} <span class="gray">{$lang->cmd_management}</span></h3>
@@ -8,10 +8,10 @@
 
 <div class="header4">
     <ul class="localNavigation">
-        <li <!--@if($act=='dispMemberAdminList')-->class="on"<!--@end-->><a href="{getUrl('act','dispMemberAdminList','member_srl','')}">{$lang->cmd_member_list}</a></li>
-        <li <!--@if($act=='dispMemberAdminConfig')-->class="on"<!--@end-->><a href="{getUrl('act','dispMemberAdminConfig')}">{$lang->cmd_module_config}</a></li>
-        <li <!--@if($act=='dispMemberAdminGroupList')-->class="on"<!--@end-->><a href="{getUrl('act','dispMemberAdminGroupList')}">{$lang->cmd_member_group}</a></li>
-        <li <!--@if($act=='dispMemberAdminJoinFormList')-->class="on"<!--@end-->><a href="{getUrl('act','dispMemberAdminJoinFormList')}">{$lang->cmd_manage_form}</a></li>
-        <li <!--@if($act=='dispMemberAdminDeniedIDList')-->class="on"<!--@end-->><a href="{getUrl('act','dispMemberAdminDeniedIDList')}">{$lang->cmd_manage_id}</a></li>
+        <li <!--@if($act=='dispMemberAdminList')-->class="on"<!--@end-->><a href="{getUrl('', 'module', 'admin', 'act','dispMemberAdminList','member_srl','')}">{$lang->cmd_member_list}</a></li>
+        <li <!--@if($act=='dispMemberAdminConfig')-->class="on"<!--@end-->><a href="{getUrl('', 'module', 'admin', 'act','dispMemberAdminConfig')}">{$lang->cmd_module_config}</a></li>
+        <li <!--@if($act=='dispMemberAdminGroupList')-->class="on"<!--@end-->><a href="{getUrl('', 'module', 'admin', 'act','dispMemberAdminGroupList')}">{$lang->cmd_member_group}</a></li>
+        <li <!--@if($act=='dispMemberAdminJoinFormList')-->class="on"<!--@end-->><a href="{getUrl('', 'module', 'admin', 'act','dispMemberAdminJoinFormList')}">{$lang->cmd_manage_form}</a></li>
+        <li <!--@if($act=='dispMemberAdminDeniedIDList')-->class="on"<!--@end-->><a href="{getUrl('', 'module', 'admin', 'act','dispMemberAdminDeniedIDList')}">{$lang->cmd_manage_id}</a></li>
     </ul>
 </div>

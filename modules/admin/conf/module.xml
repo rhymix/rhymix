@@ -4,10 +4,76 @@
     <permissions />
     <actions>
         <action name="dispAdminIndex" type="view" standalone="true" index="true" />
-        <action name="dispAdminConfig" type="view" standalone="true" />
+        <action name="dispAdminConfigGeneral" type="view" standalone="true" menu_name="adminConfigurationGeneral" menu_index="true" />
+        <action name="dispAdminConfigFtp" type="view" standalone="true" menu_name="adminConfigurationFtp" menu_index="true" />
+        <action name="dispAdminTheme" type="view" standalone="true" menu_name="theme" menu_index="true" />
+        <action name="dispAdminSetup" type="view" standalone="true" menu_name="adminMenuSetup" menu_index="true" />
 
-        <action name="procAdminRecompileCacheFile" type="controller" standalone="true" />
+        <action name="procAdminRemoveIcons" type="controller" standalone="true" />
+		<action name="procAdminRecompileCacheFile" type="controller" standalone="true" />
         <action name="procAdminLogout" type="controller" standalone="true" />
+        <action name="procAdminInsertThemeInfo" type="controller" standalone="true" ruleset="insertThemeInfo" />
+		<action name="procAdminToggleFavorite" type="controller" ruleset="toggleFavorite" />
+		<action name="procAdminEnviromentGatheringAgreement" type="controller" standalone="true" />
+		<action name="procAdminUpdateConfig" type="controller" standalone="true" />
+		<action name="procAdminDeleteLogo" type="controller" standalone="true" />
+		<action name="procAdminMenuReset" type="controller" />
+
         <action name="getAdminFTPList" type="model" standalone="true" />
+        <action name="getSiteAllList" type="model" standalone="true" />
     </actions>
+	<menus>
+		<menu name="adminConfigurationGeneral" type="all">
+			<title xml:lang="en">General</title>
+			<title xml:lang="ko">일반</title>
+			<title xml:lang="zh-CN">General</title>
+			<title xml:lang="jp">General</title>
+			<title xml:lang="es">General</title>
+			<title xml:lang="ru">General</title>
+			<title xml:lang="fr">General</title>
+			<title xml:lang="zh-TW">General</title>
+			<title xml:lang="vi">General</title>
+			<title xml:lang="mn">General</title>
+			<title xml:lang="tr">General</title>
+		</menu>
+		<menu name="adminMenuSetup" type="all">
+			<title xml:lang="en">Admin Setup</title>
+			<title xml:lang="ko">관리자 설정</title>
+			<title xml:lang="zh-CN">Admin Setup</title>
+			<title xml:lang="jp">Admin Setup</title>
+			<title xml:lang="es">Admin Setup</title>
+			<title xml:lang="ru">Admin Setup</title>
+			<title xml:lang="fr">Admin Setup</title>
+			<title xml:lang="zh-TW">Admin Setup</title>
+			<title xml:lang="vi">Admin Setup</title>
+			<title xml:lang="mn">Admin Setup</title>
+			<title xml:lang="tr">Admin Setup</title>
+		</menu>
+		<menu name="adminConfigurationFtp" type="all">
+			<title xml:lang="en">FTP Configuration</title>
+			<title xml:lang="ko">FTP 설정</title>
+			<title xml:lang="zh-CN">FTP Configuration</title>
+			<title xml:lang="jp">FTP Configuration</title>
+			<title xml:lang="es">FTP Configuration</title>
+			<title xml:lang="ru">FTP Configuration</title>
+			<title xml:lang="fr">FTP Configuration</title>
+			<title xml:lang="zh-TW">FTP Configuration</title>
+			<title xml:lang="vi">FTP Configuration</title>
+			<title xml:lang="mn">FTP Configuration</title>
+			<title xml:lang="tr">FTP Configuration</title>
+		</menu>
+		<menu name="theme" type="site">
+			<title xml:lang="en">Theme</title>
+			<title xml:lang="ko">테마</title>
+			<title xml:lang="zh-CN">Theme</title>
+			<title xml:lang="jp">Theme</title>
+			<title xml:lang="es">Theme</title>
+			<title xml:lang="ru">Theme</title>
+			<title xml:lang="fr">Theme</title>
+			<title xml:lang="zh-TW">Theme</title>
+			<title xml:lang="vi">Theme</title>
+			<title xml:lang="mn">Theme</title>
+			<title xml:lang="tr">Theme</title>
+		</menu>
+	</menus>
 </module>

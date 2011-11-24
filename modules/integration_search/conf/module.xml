@@ -8,7 +8,7 @@
         <action name="dispIntegration_searchAdminGrantInfo" type="view" />
         <action name="dispIntegration_searchAdminSkinInfo" type="view" />
 
-        <action name="procIntegration_searchAdminInsertConfig" type="controller" />
+        <action name="procIntegration_searchAdminInsertConfig" type="controller" ruleset="insertConfig" />
         <action name="procIntegration_searchAdminInsertSkin" type="controller" />
     </actions>
 </module>

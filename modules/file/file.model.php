@@ -2,21 +2,21 @@
     /**
      * @class  fileModel
      * @author NHN (developers@xpressengine.com)
-     * @brief  file 모듈의 model 클래스
+     * @brief model class of the file module
      **/
 
     class fileModel extends file {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
         }
 
         /**
-         * @brief 특정 문서에 속한 첨부파일 목록을 return
-         * 문서 생성/ 수정시 ajax로 특정 upload_target_srl에 대해서 파일 목록을 요청받을 때 사용됨.
-         * upload_target_srl이 정해지지 않은 경우 서버측 session의 값으로 대체 시도
+         * @brief Return a file list attached in the document
+         * It is used when a file list of the upload_target_srl is requested for creating/updating a document.
+         * Attempt to replace with sever-side session if upload_target_srl is not yet determined
          **/
         function getFileList() {
             $oModuleModel = &getModel('module');
@@ -50,16 +50,14 @@
                 $attached_size = 0;
                 $files = array();
             }
-
-            // 업로드 상태 표시 작성
+            // Display upload status
             $upload_status = $this->getUploadStatus($attached_size);
+            // Check remained file size until upload complete
+            //$config = $oModuleModel->getModuleInfoByMid($mid);	//perhaps config varialbles not used
 
-            // 남은 용량 체크
-            $config = $oModuleModel->getModuleInfoByMid($mid);
             $file_config = $this->getUploadConfig();
             $left_size = $file_config->allowed_attach_size*1024*1024 - $attached_size;
-
-            // 필요한 정보들 세팅
+            // Settings of required information
             $this->add("files",$files);
             $this->add("editor_sequence",$editor_sequence);
             $this->add("upload_target_srl",$upload_target_srl);
@@ -68,7 +66,7 @@
         }
 
         /**
-         * @brief 특정 문서에 속한 첨부파일의 개수를 return
+         * @brief Return number of attachments which belongs to a specific document
          **/
         function getFilesCount($upload_target_srl) {
             $args->upload_target_srl = $upload_target_srl;
@@ -77,17 +75,17 @@
         }
 
         /**
-         * @brief 다운로드 경로를 구함
+         * @brief Get a download path
          **/
         function getDownloadUrl($file_srl, $sid) {
             return sprintf('?module=%s&amp;act=%s&amp;file_srl=%s&amp;sid=%s', 'file', 'procFileDownload', $file_srl, $sid);
         }
 
         /**
-         * @brief 파일 설정 정보를 구함
+         * @brief Get file cinfigurations
          **/
         function getFileConfig($module_srl = null) {
-            // 설정 정보를 받아옴 (module model 객체를 이용)
+            // Get configurations (using module model object)
             $oModuleModel = &getModel('module');
 
             $file_module_config = $oModuleModel->getModuleConfig('file');
@@ -104,8 +102,7 @@
                 $config->allow_outlink_site = $file_config->allow_outlink_site;
                 $config->allow_outlink_format = $file_config->allow_outlink_format;
             }
-
-            // 전체 파일첨부 속성을 먼저 따른다
+            // Property for all files comes first than each property
             if(!$config->allowed_filesize) $config->allowed_filesize = $file_module_config->allowed_filesize;
             if(!$config->allowed_attach_size) $config->allowed_attach_size = $file_module_config->allowed_attach_size;
             if(!$config->allowed_filetypes) $config->allowed_filetypes = $file_module_config->allowed_filetypes;
@@ -113,8 +110,7 @@
             if(!$config->allow_outlink_site) $config->allow_outlink_site = $file_module_config->allow_outlink_site;
             if(!$config->allow_outlink_format) $config->allow_outlink_format = $file_module_config->allow_outlink_format;
             if(!$config->download_grant) $config->download_grant = $file_module_config->download_grant;
-
-            // 그래도 없으면 default로 
+            // Default setting if not exists
             if(!$config->allowed_filesize) $config->allowed_filesize = '2';
             if(!$config->allowed_attach_size) $config->allowed_attach_size = '3';
             if(!$config->allowed_filetypes) $config->allowed_filetypes = '*.*';
@@ -125,26 +121,41 @@
         }
 
         /**
-         * @brief 파일 정보를 구함
+         * @brief Get file information
          **/
-        function getFile($file_srl) {
+        function getFile($file_srl, $columnList = array()) {
             $args->file_srl = $file_srl;
-            $output = executeQuery('file.getFile', $args);
+            $output = executeQueryArray('file.getFile', $args, $columnList);
             if(!$output->toBool()) return $output;
 
-            $file = $output->data;
-            $file->download_url = $this->getDownloadUrl($file->file_srl, $file->sid);
+			// old version compatibility
+			if(count($output->data) == 1)
+			{
+				$file = $output->data[0];
+				$file->download_url = $this->getDownloadUrl($file->file_srl, $file->sid);
 
-            return $file;
+				return $file;
+			}
+			else
+			{
+				$fileList = array();
+				foreach($output->data AS $key=>$value)
+				{
+					$file = $value;
+					$file->download_url = $this->getDownloadUrl($file->file_srl, $file->sid);
+					array_push($fileList, $file);
+				}
+				return $fileList;
+			}
         }
 
         /**
-         * @brief 특정 문서에 속한 파일을 모두 return
+         * @brief Return all files which belong to a specific document
          **/
-        function getFiles($upload_target_srl) {
+        function getFiles($upload_target_srl, $columnList = array()) {
             $args->upload_target_srl = $upload_target_srl;
             $args->sort_index = 'file_srl';
-            $output = executeQuery('file.getFiles', $args);
+            $output = executeQuery('file.getFiles', $args, $columnList);
             if(!$output->data) return;
 
             $file_list = $output->data;
@@ -163,7 +174,7 @@
         }
 
         /**
-         * @brief 첨부파일에 대한 설정을 return (관리자/비관리자 자동 구분)
+         * @brief Return configurations of the attachement (it automatically checks if an administrator is)
          **/
         function getUploadConfig() {
             $logged_info = Context::get('logged_info');
@@ -173,7 +184,7 @@
                 $file_config->allowed_filetypes = '*.*';
             } else {
                 $module_srl = Context::get('module_srl');
-                // module_srl이 없으면 현재 모듈
+                // Get the current module if module_srl doesn't exist
                 if(!$module_srl) {
                     $current_module_info = Context::get('current_module_info');
                     $module_srl = $current_module_info->module_srl;
@@ -184,12 +195,11 @@
         }
 
         /**
-         * @brief 파일 업로드를 위한 관리자/비관리자에 따른 안내문구 return
+         * @brief Return messages for file upload and it depends whether an admin is or not
          **/
         function getUploadStatus($attached_size = 0) {
             $file_config = $this->getUploadConfig();
-
-            // 업로드 상태 표시 작성
+            // Display upload status
             $upload_status = sprintf(
                     '%s : %s/ %s<br /> %s : %s (%s : %s)',
                     Context::getLang('allowed_attach_size'),
@@ -204,7 +214,7 @@
         }
 
         /**
-         * @brief 특정 모듈의 file 설정을 return
+         * @brief Return file configuration of the module
          **/
         function getFileModuleConfig($module_srl) {
             return $this->getFileConfig($module_srl);

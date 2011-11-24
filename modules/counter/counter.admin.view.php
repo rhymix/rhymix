@@ -2,38 +2,35 @@
     /**
      * @class  counterAdminView
      * @author NHN (developers@xpressengine.com)
-     * @brief  counter 모듈의 Admin view class
+     * @brief Admin view class of counter module
      **/
 
     class counterAdminView extends counter {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
-            // 템플릿 경로 지정 
+            // set the template path
             $this->setTemplatePath($this->module_path.'tpl');
         }
 
         /**
-         * @brief 관리자 페이지 초기화면
+         * @brief Admin page 
          **/
         function dispCounterAdminIndex() {
-            // 정해진 일자가 없으면 오늘자로 설정
+            // set today's if no date is given
             $selected_date = Context::get('selected_date');
             if(!$selected_date) $selected_date = date("Ymd");
             Context::set('selected_date', $selected_date);
-
-            // counter model 객체 생성
+            // create the counter model object
             $oCounterModel = &getModel('counter');
-
-            // 전체 카운터 및 지정된 일자의 현황 가져오기
+            // get a total count and daily count
             $site_module_info = Context::get('site_module_info');
             $status = $oCounterModel->getStatus(array(0,$selected_date),$site_module_info->site_srl);
             Context::set('total_counter', $status[0]);
             Context::set('selected_day_counter', $status[$selected_date]);
-
-            // 시간, 일, 월, 년도별로 데이터 가져오기
+            // get data by time, day, month, and year
             $type = Context::get('type');
             if(!$type) {
                 $type = 'day';
@@ -42,7 +39,7 @@
             $detail_status = $oCounterModel->getHourlyStatus($type, $selected_date, $site_module_info->site_srl);
             Context::set('detail_status', $detail_status);
             
-            // 표시
+            // display
             $this->setTemplateFile('index');
         }
 

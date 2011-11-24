@@ -2,31 +2,29 @@
     /**
      * @class  layout
      * @author NHN (developers@xpressengine.com)
-     * @brief  layout 모듈의 high class
+     * @brief high class of the layout module 
      **/
 
     class layout extends ModuleObject {
 
         /**
-         * @brief 설치시 추가 작업이 필요할시 구현
+         * @brief Implement if additional tasks are necessary when installing
          **/
         function moduleInstall() {
-            // 레이아웃에서 사용할 디렉토리 생성
+            // Create a directory to be used in the layout
             FileHandler::makeDir('./files/cache/layout');
 
             return new Object();
         }
 
         /**
-         * @brief 설치가 이상이 없는지 체크하는 method
+         * @brief a method to check if successfully installed
          **/
         function checkUpdate() {
             $oDB = &DB::getInstance();
-
-            // 2009. 02. 11 layout 테이블에 site_srl 추가
+            // 2009. 02. 11 Add site_srl to layout table
             if(!$oDB->isColumnExists('layouts', 'site_srl')) return true;
-
-            // 2009. 02. 26 faceOff에 맞춰 기존 레이아웃 편집본을 이동
+            // 2009. 02. 26 Move the previous layout for faceoff
             $files = FileHandler::readDir('./files/cache/layout');
             for($i=0,$c=count($files);$i<$c;$i++) {
                 $filename = $files[$i];
@@ -39,17 +37,15 @@
         }
 
         /**
-         * @brief 업데이트 실행
+         * @brief Execute update
          **/
         function moduleUpdate() {
             $oDB = &DB::getInstance();
-
-            // 2009. 02. 11 menu 테이블에 site_srl 추가
+            // 2009. 02. 11 Add site_srl to menu table
             if(!$oDB->isColumnExists('layouts', 'site_srl')) {
                 $oDB->addColumn('layouts','site_srl','number',11,0,true);
             }
-
-            // 2009. 02. 26 faceOff에 맞춰 기존 레이아웃 편집본을 이동
+            // 2009. 02. 26 Move the previous layout for faceoff
             $oLayoutModel = &getModel('layout');
             $files = FileHandler::readDir('./files/cache/layout');
             for($i=0,$c=count($files);$i<$c;$i++) {
@@ -72,22 +68,14 @@
 
 
         /**
-         * @brief 캐시 파일 재생성
+         * @brief Re-generate the cache file
          **/
         function recompileCache() {
-            // 레이아웃 캐시 삭제 (수정본은 지우지 않음)
             $path = './files/cache/layout';
             if(!is_dir($path)) {
                 FileHandler::makeDir($path);
                 return;
             }
-
-            $directory = dir($path);
-            while($entry = $directory->read()) {
-                if ($entry == "." || $entry == ".." || preg_match('/\.html$/i',$entry) ) continue;
-                FileHandler::removeFile($path."/".$entry);
-            }
-            $directory->close();
         }
     }
 ?>

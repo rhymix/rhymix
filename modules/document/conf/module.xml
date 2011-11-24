@@ -2,6 +2,8 @@
 <module>
     <grants />
     <permissions>
+        <permission action="dispDocumentAdminList" target="manager" />
+
         <permission action="dispDocumentManageDocument" target="member" />
         <permission action="getDocumentCategories" target="member" />
         <permission action="getDocumentCategoryTplInfo" target="member" />
@@ -17,6 +19,7 @@
         <action name="dispDocumentPrint" type="view" standalone="true" />
         <action name="dispDocumentPreview" type="view" standalone="true" />
         <action name="dispDocumentManageDocument" type="view" standalone="true" />
+        <action name="dispTempSavedList" type="view" standalone="true" />
 
         <action name="getDocumentCategories" type="model" standalone="true" />
         <action name="getDocumentMenu" type="model" standalone="true" />
@@ -28,26 +31,28 @@
         <action name="procDocumentManageCheckedDocument" type="controller" standalone="true" />
         <action name="procDocumentInsertModuleConfig" type="controller" standalone="true" />
 
-        <action name="dispDocumentAdminList" type="view" admin_index="true" standalone="true" />
+        <action name="dispDocumentAdminList" type="view" admin_index="true" standalone="true" menu_name="document" menu_index="true" />
         <action name="dispDocumentAdminConfig" type="view" standalone="true" />
-        <action name="dispDocumentAdminAlias" type="view" standalone="true" />
-        <action name="dispDocumentAdminDeclared" type="view" standalone="true" />
-        <action name="dispDocumentAdminTrashList" type="view" standalone="true" />
+        <action name="dispDocumentAdminAlias" type="view" standalone="true" menu_name="document" />
+        <action name="dispDocumentAdminDeclared" type="view" standalone="true" menu_name="document" />
+        <action name="dispDocumentAdminTrashList" type="view" standalone="true" menu_name="document" />
 
         <action name="getDocumentCategoryTplInfo" type="model" standalone="true" />
         <action name="getDocumentVotedMemberList" type="model" standalone="true" />
 
-        <action name="procDocumentInsertCategory" type="controller" standalone="true" />
+        <action name="procDocumentInsertCategory" type="controller" standalone="true" ruleset="insertCategory" />
         <action name="procDocumentDeleteCategory" type="controller" standalone="true" />
         <action name="procDocumentMoveCategory" type="controller" standalone="true" />
         <action name="procDocumentMakeXmlFile" type="controller" standalone="true" />
+        <action name="procDocumentTempSave" type="controller" standalone="true" />
+        <action name="procDocumentGetList" type="controller" standalone="true" />
 
-        <action name="procDocumentAdminInsertAlias" type="controller" standalone="true" />
-        <action name="procDocumentAdminDeleteAlias" type="controller" standalone="true" />
+        <action name="procDocumentAdminInsertAlias" type="controller" standalone="true" ruleset="insertAlias" />
+        <action name="procDocumentAdminDeleteAlias" type="controller" standalone="true" ruleset="deleteAlias" />
         <action name="procDocumentAdminRestoreTrash" type="controller" standalone="true" />
         <action name="procDocumentAdminMoveExtraVar" type="controller" standalone="true" />
 
-        <action name="procDocumentAdminInsertExtraVar" type="controller" standalone="true" />
+        <action name="procDocumentAdminInsertExtraVar" type="controller" standalone="true" ruleset="insertExtraVar" />
         <action name="procDocumentAdminDeleteExtraVar" type="controller" standalone="true" />
         <action name="procDocumentAdminDeleteChecked" type="controller" standalone="true" />
         <action name="procDocumentAdminInsertConfig" type="controller" standalone="true" />
@@ -55,4 +60,19 @@
         <action name="procDocumentAdminCancelDeclare" type="controller" standalone="true" />
 	
     </actions>
+	<menus>
+		<menu name="document">
+			<title xml:lang="en">Document</title>
+			<title xml:lang="ko">문서</title>
+			<title xml:lang="zh-CN">Document</title>
+			<title xml:lang="jp">Document</title>
+			<title xml:lang="es">Document</title>
+			<title xml:lang="ru">Document</title>
+			<title xml:lang="fr">Document</title>
+			<title xml:lang="zh-TW">Document</title>
+			<title xml:lang="vi">Document</title>
+			<title xml:lang="mn">Document</title>
+			<title xml:lang="tr">Document</title>
+		</menu>
+	</menus>
 </module>

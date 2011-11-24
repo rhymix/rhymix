@@ -2,13 +2,13 @@
     /**
      * @file   config/func.inc.php
      * @author NHN (developers@xpressengine.com)
-     * @brief  편의 목적으로 만든 함수라이브러리 파일
+     * @brief function library files for convenience
     **/
 
-    if(!defined('__ZBXE__')) exit();
+    if(!defined('__XE__') && !defined('__ZBXE__')) exit();
 
     /**
-     * @brief php5에 대비하여 clone 정의
+     * @brief define clone for php5
      **/
     if (version_compare(phpversion(), '5.0') < 0) {
         eval('
@@ -19,7 +19,7 @@
     }
 
     /**
-     * @brief iconv 함수가 없을 경우 빈 함수를 만들어서 오류가 생기지 않도록 정의
+     * @brief define an empty function to avoid errors when iconv function doesn't exist
      **/
     if(!function_exists('iconv')) {
         eval('
@@ -27,8 +27,15 @@
                 return $str;
             }
         ');
-    }
+	}
 
+	if ( !function_exists('htmlspecialchars_decode') )
+	{
+		function htmlspecialchars_decode($text)
+		{
+			return strtr($text, array_flip(get_html_translation_table(HTML_SPECIALCHARS)));
+		}
+	}
 
     // time zone
     $time_zone = array(
@@ -74,8 +81,8 @@
     ) ;
 
     /**
-     * @brief ModuleHandler::getModuleObject($module_name, $type)을 쓰기 쉽게 함수로 선언
-     * @param module_name 모듈이름
+     * @brief define a function to use ModuleHandler::getModuleObject ($module_name, $type)
+     * @param module_name
      * @param type disp, proc, controller, class
      * @param kind admin, null
      * @return module instance
@@ -85,8 +92,8 @@
     }
 
     /**
-     * @brief module의 controller 객체 생성용
-     * @param module_name 모듈이름
+     * @brief create a controller instance of the module
+     * @param module_name
      * @return module controller instance
      **/
     function &getController($module_name) {
@@ -94,8 +101,8 @@
     }
 
     /**
-     * @brief module의 admin controller 객체 생성용
-     * @param module_name 모듈이름
+     * @brief create a controller instance of the module
+     * @param module_name
      * @return module admin controller instance
      **/
     function &getAdminController($module_name) {
@@ -103,8 +110,8 @@
     }
 
     /**
-     * @brief module의 view 객체 생성용
-     * @param module_name 모듈이름
+     * @brief create a view instance of the module
+     * @param module_name
      * @return module view instance
      **/
     function &getView($module_name) {
@@ -112,8 +119,8 @@
     }
 
     /**
-     * @brief module의 mobile 객체 생성용
-     * @param module_name 모듈이름
+     * @brief create a view instance of the module
+     * @param module_name
      * @return module mobile instance
      **/
     function &getMobile($module_name) {
@@ -130,8 +137,8 @@
     }
 
     /**
-     * @brief module의 model 객체 생성용
-     * @param module_name 모듈이름
+     * @brief create a model instance of the module
+     * @param module_name
      * @return module model instance
      **/
     function &getModel($module_name) {
@@ -139,8 +146,8 @@
     }
 
     /**
-     * @brief module의 admin model 객체 생성용
-     * @param module_name 모듈이름
+     * @brief create an admin model instance of the module
+     * @param module_name
      * @return module admin model instance
      **/
     function &getAdminModel($module_name) {
@@ -148,8 +155,8 @@
     }
 
     /**
-     * @brief module의 api 객체 생성용
-     * @param module_name 모듈이름
+     * @brief create an api instance of the module
+     * @param module_name
      * @return module api class instance
      **/
     function &getAPI($module_name) {
@@ -157,8 +164,8 @@
     }
 
     /**
-     * @brief module의 wap 객체 생성용
-     * @param module_name 모듈이름
+     * @brief create a wap instance of the module
+     * @param module_name
      * @return module wap class instance
      **/
     function &getWAP($module_name) {
@@ -166,8 +173,8 @@
     }
 
     /**
-     * @brief module의 상위 class 객체 생성용
-     * @param module_name 모듈이름
+     * @brief create a class instance of the module
+     * @param module_name
      * @return module class instance
      **/
     function &getClass($module_name) {
@@ -175,25 +182,25 @@
     }
 
     /**
-     * @brief DB::executeQuery() 의 alias
-     * @param query_id 쿼리 ID ( 모듈명.쿼리XML파일 )
-     * @param args object 변수로 선언된 인자값
-     * @return 처리결과
+     * @brief the alias of DB::executeQuery() 
+     * @param query_id (module name.query XML file)
+     * @param argument values of args object
+     * @return results
      **/
-    function executeQuery($query_id, $args = null) {
+    function executeQuery($query_id, $args = null, $arg_columns = null) {
         $oDB = &DB::getInstance();
-        return $oDB->executeQuery($query_id, $args);
+        return $oDB->executeQuery($query_id, $args, $arg_columns);
     }
 
     /**
-     * @brief DB::executeQuery() 의 결과값을 무조건 배열로 처리하도록 하는 함수
-     * @param query_id 쿼리 ID ( 모듈명.쿼리XML파일 )
-     * @param args object 변수로 선언된 인자값
-     * @return 처리결과
+     * @brief function to handle the result of DB::executeQuery() as an array
+     * @param query_id(module name.query XML file)
+     * @param argument values of args object
+     * @return results
      **/
-    function executeQueryArray($query_id, $args = null) {
+    function executeQueryArray($query_id, $args = null, $arg_columns = null) {
         $oDB = &DB::getInstance();
-        $output = $oDB->executeQuery($query_id, $args);
+        $output = $oDB->executeQuery($query_id, $args, $arg_columns);
         if(!is_array($output->data) && count($output->data) > 0){
             $output->data = array($output->data);
         }
@@ -201,7 +208,7 @@
     }
 
     /**
-     * @brief DB::getNextSequence() 의 alias
+     * @brief DB:: alias of getNextSequence() 
      * @return big int
      **/
     function getNextSequence() {
@@ -210,36 +217,47 @@
     }
 
     /**
-     * @brief Context::getUrl()를 쓰기 쉽게 함수로 선언
+     * @brief define a function to use Context::getUrl()
      * @return string
      *
-     * getUrl()은 현재 요청된 RequestURI에 주어진 인자의 값으로 변형하여 url을 리턴한다\n
-     * 1. 인자는 (key, value)... 의 형식으로 주어져야 한다.\n
-     *    ex) getUrl('key1','val1', 'key2', '') : key1, key2를 val1과 '' 로 변형\n
-     * 2. 아무런 인자가 없으면 argument를 제외한 url을 리턴
-     * 3. 첫 인자값이 '' 이면 RequestUri에다가 추가된 args_list로 url을 만듬
+     * getUrl() returns the URL transformed from given arguments of RequestURI\n
+     * 1. argument format follows as (key, value).\.
+     * ex) getUrl('key1', 'val1', 'key2',''): transform key1 and key2 to val1 and '' respectively\n
+     * 2. returns URL without the argument if no argument is given.
+     * 3. URL made of args_list added to RequestUri if the first argument value is ''.
      **/
     function getUrl() {
-        $num_args = func_num_args();
+        $num_args  = func_num_args();
         $args_list = func_get_args();
 
-        if(!$num_args) return Context::getRequestUri();
+		if($num_args) $url = Context::getUrl($num_args, $args_list);
+		else $url = Context::getRequestUri();
 
-        return Context::getUrl($num_args, $args_list);
+		return preg_replace('@\berror_return_url=[^&]*|\w+=(?:&|$)@', '', $url);
     }
 
     function getNotEncodedUrl() {
         $num_args = func_num_args();
         $args_list = func_get_args();
 
-        if(!$num_args) return Context::getRequestUri();
+		if($num_args) $url = Context::getUrl($num_args, $args_list, null, false);
+		else $url = Context::getRequestUri();
 
-        return Context::getUrl($num_args, $args_list, null, false);
+		return preg_replace('@\berror_return_url=[^&]*|\w+=(?:&|$)@', '', $url);
     }
 
+    function getAutoEncodedUrl() {
+        $num_args = func_num_args();
+        $args_list = func_get_args();
+
+		if($num_args) $url = Context::getUrl($num_args, $args_list, null, true, true);
+		else $url = Context::getRequestUri();
+
+		return preg_replace('@\berror_return_url=[^&]*|\w+=(?:&|$)@', '', $url);
+    }
     /**
-     * @brief getUrl()의 값에 request uri를 추가하여 reutrn
-     * full url을 얻기 위함
+     * @brief return the value adding request uri to getUrl()
+     * to get the full url
      **/
     function getFullUrl() {
         $num_args = func_num_args();
@@ -271,11 +289,12 @@
     }
 
     /**
-     * @brief Context::getUrl()를 쓰기 쉽게 함수로 선언
+     * @brief Context:: getUrl() function is declared as easier to write
      * @return string
      *
-     * getSiteUrl()은 지정된 도메인에 대해 주어진 인자의 값으로 변형하여 url을 리턴한다\n
-     * 첫 인자는 도메인(http://등이 제외된)+path 여야 함.
+     * getSiteUrl() returns the URL by transforming the given argument value of domain\n
+     * The first argument should consist of domain("http://" not included) and path
+     * 
      **/
     function getSiteUrl() {
         $num_args = func_num_args();
@@ -302,8 +321,8 @@
     }
 
     /**
-     * @brief getSiteUrl()의 값에 request uri를 추가하여 reutrn
-     * full url을 얻기 위함
+     * @brief return the value adding request uri to the getSiteUrl()
+     * To get the full url
      **/
     function getFullSiteUrl() {
         $num_args = func_num_args();
@@ -324,17 +343,17 @@
     }
 
     /**
-     * @brief 가상사이트의 Domain이 url형식인지 site id인지 return
+     * @brief return if domain of the virtual site is url type or id type
      **/
     function isSiteID($domain) {
         return preg_match('/^([a-z0-9\_]+)$/i', $domain);
     }
 
     /**
-     * @brief 주어진 문자를 주어진 크기로 자르고 잘라졌을 경우 주어진 꼬리를 담
-     * @param string 자를 원 문자열
-     * @param cut_size 주어진 원 문자열을 자를 크기
-     * @param tail 잘라졌을 경우 문자열의 제일 뒤에 붙을 꼬리
+     * @brief put a given tail after trimming string to the specified size
+     * @param the original string to trim
+     * @param cut_size: the size to be
+     * @param tail: tail to put in the end of the string after trimming
      * @return string
      **/
     function cut_str($string,$cut_size=0,$tail = '...') {
@@ -388,8 +407,8 @@
     }
 
     /**
-     * @brief YYYYMMDDHHIISS 형식의 시간값을 unix time으로 변경
-     * @param str YYYYMMDDHHIISS 형식의 시간값
+     * @brief YYYYMMDDHHIISS format changed to unix time value
+     * @param str: time value in format of YYYYMMDDHHIISS
      * @return int
      **/
     function ztime($str) {
@@ -410,10 +429,10 @@
     }
 
     /**
-     * @brief YmdHis의 시간 형식을 지금으로 부터 몇분/몇시간전, 1일 이상 차이나면 format string return
+     * @brief If the recent post within a day, output format of YmdHis is "min/hours ago from now". If not within a day, it return format string.
      **/
     function getTimeGap($date, $format = 'Y.m.d') {
-        $gap = time() - zgap() - ztime($date);
+        $gap = time() + zgap() - ztime($date);
 
         $lang_time_gap = Context::getLang('time_gap');
         if($gap<60) $buff = sprintf($lang_time_gap['min'], (int)($gap / 60)+1);
@@ -425,7 +444,7 @@
     }
 
     /**
-     * @brief 월이름을 return
+     * @brief Name of the month return
      **/
     function getMonthName($month, $short = true) {
         $short_month = array('','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec');
@@ -434,17 +453,16 @@
     }
 
     /**
-     * @brief YYYYMMDDHHIISS 형식의 시간값을 원하는 시간 포맷으로 변형
-     * @param string|int str YYYYMMDDHHIISS 형식의 시간 값
-     * @param string format php date()함수의 시간 포맷
-     * @param bool conversion 언어에 따라 날짜 포맷의 자동변환 여부
+     * @brief change the time format YYYYMMDDHHIISS to the user defined format
+     * @param string|int str is YYYYMMDDHHIISS format time values
+     * @param string format is time format of php date() function
+     * @param bool conversion means whether to convert automatically according to the language
      * @return string
      **/
     function zdate($str, $format = 'Y-m-d H:i:s', $conversion=true) {
-        // 대상 시간이 없으면 null return
+        // return null if no target time is specified
         if(!$str) return;
-
-        // 언어권에 따라서 지정된 날짜 포맷을 변경
+        // convert the date format according to the language
         if($conversion == true) {
             switch(Context::getLangType()) {
                 case 'en' :
@@ -462,7 +480,7 @@
             }
         }
 
-        // 년도가 1970년 이전이면 별도 처리
+        // If year value is less than 1970, handle it separately.
         if((int)substr($str,0,4) < 1970) {
             $hour  = (int)substr($str,8,2);
             $min   = (int)substr($str,10,2);
@@ -493,11 +511,10 @@
 
             $string = strtr($format, $trans);
         } else {
-            // 1970년 이후라면 ztime()함수로 unixtime을 구하고 date함수로 처리
+            // if year value is greater than 1970, get unixtime by using ztime() for date() function's argument. 
             $string = date($format, ztime($str));
         }
-
-        // 요일, am/pm을 각 언어에 맞게 변경
+        // change day and am/pm for each language
         $unit_week = Context::getLang('unit_week');
         $unit_meridiem = Context::getLang('unit_meridiem');
         $string = str_replace(array('Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'),$unit_week, $string);
@@ -505,14 +522,22 @@
         return $string;
     }
 
+	function getEncodeEmailAddress($email) {
+	    $return = '';
+		for ($i=0,$c=strlen($email);$i<$c;$i++) {
+			$return .= '&#' . (rand(0,1)==0 ? ord($email[$i]) : 'X'.dechex(ord($email[$i]))) . ';';
+		}
+		return $return;
+	}
+
     /**
      * @brief prints debug messages 
      * @param debug_output target object to be printed
      * @param display_line boolean flag whether to print seperator (default:true)
      * @return none
      *
-     * ./files/_debug_message.php 파일에 $buff 내용을 출력한다.
-     * tail -f ./files/_debug_message.php 하여 계속 살펴 볼 수 있다
+     * Display $buff contents into the file ./files/_debug_message.php.
+     * You can see the file on your prompt by command: tail-f./files/_debug_message.php
      **/
     function debugPrint($debug_output = null, $display_option = true, $file = '_debug_message.php') {
         if(!(__DEBUG__ & 1)) return;
@@ -533,11 +558,9 @@
             {
                 $label = sprintf('[%s:%d] ', $file_name, $line_num);
             }
-
-            // FirePHP 옵션 체크
+            // Check a FirePHP option
             if($display_option === 'TABLE') $label = $display_option;
-
-            // __DEBUG_PROTECT__ 옵션으로 지정된 IP와 접근 IP가 동일한지 체크
+            // Check if the IP specified by __DEBUG_PROTECT__ option is same as the access IP.
             if(__DEBUG_PROTECT__ === 1 && __DEBUG_PROTECT_IP__ != $_SERVER['REMOTE_ADDR']) {
                 $debug_output = 'The IP address is not allowed. Change the value of __DEBUG_PROTECT_IP__ into your IP address in config/config.user.inc.php or config/config.inc.php';
                 $label = null;
@@ -579,9 +602,9 @@
     }
 
     /**
-     * @brief 첫번째 인자로 오는 object var에서 2번째 object의 var들을 제거
-     * @param target_obj 원 object
-     * @param del_obj 원 object의 vars에서 del_obj의 vars를 제거한다
+     * @brief Delete the second object vars from the first argument
+     * @param target_obj is an original object
+     * @param del_obj is object vars to delete from the original object
      * @return object
      **/
     function delObjectVars($target_obj, $del_obj) {
@@ -607,7 +630,7 @@
     }
 
     /**
-     * @brief php5 이상에서 error_handing을 debugPrint로 변경
+     * @brief change error_handing to debugPrint on php5 higher 
      * @param errno
      * @param errstr
      * @return file
@@ -625,9 +648,9 @@
     }
 
     /**
-     * @brief 주어진 숫자를 주어진 크기로 recursive하게 잘라줌
-     * @param no 주어진 숫자
-     * @param size 잘라낼 크기
+     * @brief Trim a given number to a fiven size recursively
+     * @param no : a given number
+     * @param size : a given digits
      **/
     function getNumberingPath($no, $size=3) {
         $mod = pow(10, $size);
@@ -637,24 +660,24 @@
     }
 
     /**
-     * @brief 한글이 들어간 url의 decode
+     * @brief decode the URL in Korean
      **/
     function url_decode($str) {
         return preg_replace('/%u([[:alnum:]]{4})/', '&#x\\1;',$str);
     }
 
     /**
-     * @brief 해킹 시도로 의심되는 코드들을 미리 차단
+     * @brief Pre-block the codes which may be hacking attempts
      **/
     function removeHackTag($content) {
-        // 특정 태그들을 일반 문자로 변경
-        $content = preg_replace('/<(\/?)(iframe|script|meta|style|applet|link|base|html|body)/is', '&lt;$1$2', $content);
+        // change the specific tags to the common texts
+        $content = preg_replace('@<(\/?(?:html|body|head|title|meta|base|link|script|style|applet|iframe)[\s>])@i', '&lt;$1', $content);
 
         /**
-         * 이미지나 동영상등의 태그에서 src에 관리자 세션을 악용하는 코드를 제거
-         * - 취약점 제보 : 김상원님
+         * Remove codes to abuse the admin session in src by tags of imaages and video postings
+         * - Issue reported by Sangwon Kim
          **/
-        $content = preg_replace_callback("!<(/?)([a-z]+)(.*?)>!is", removeSrcHack, $content);
+		$content = preg_replace_callback('@<(/?)([a-z]+[0-9]?)((?>"[^"]*"|\'[^\']*\'|[^>])*?\b(?:on[a-z]+|data|style|background|href|(?:dyn|low)?src)\s*=[\s\S]*?)(/?)>@i', 'removeSrcHack', $content);
 
 		// xmp tag 확인 및 추가
 		$content = checkXmpTag($content);
@@ -666,6 +689,8 @@
      * @brief xmp tag 확인 및 닫히지 않은 경우 추가
      **/
 	function checkXmpTag($content) {
+		$content = preg_replace('@<(/?)xmp.*?>@i', '<\1xmp>', $content);
+
 		if(($start_xmp = strrpos($content, '<xmp>')) !==false) {
 			if(($close_xmp = strrpos($content, '</xmp>')) === false) $content .= '</xmp>';
 			else if($close_xmp < $start_xmp) $content .= '</xmp>';
@@ -674,108 +699,43 @@
 		return $content;
 	}
 
-    function removeSrcHack($matches) {
-        $tag = strtolower(trim($matches[2]));
-		
+    function removeSrcHack($match) {
+        $tag = strtolower($match[2]);
+
 		// xmp tag 정리
-		if($tag=='xmp') return '<'.$matches[1].'xmp>';
- 		if($matches[1]=='/') return $matches[0];
+		if($tag=='xmp') return "<{$match[1]}xmp>";
+ 		if($match[1]) return $match[0];
+		if($match[4]) $match[4] = ' '.$match[4];
 
-        //$buff = trim(preg_replace('/(\/>|>)/','/>',$matches[0]));
-        $buff = $matches[0];
-        $buff = str_replace(array('&amp;','&'),array('&','&amp;'),$buff);
-        $buff = preg_replace_callback('/([^=^"^ ]*)=([^ ^>]*)/i', 'fixQuotation', $buff);
+		$attrs = array();
+		if(preg_match_all('/([\w:-]+)\s*=(?:\s*(["\']))?(?(2)(.*?)\2|([^ ]+))/s', $match[3], $m)) {
+			foreach($m[1] as $idx=>$name){
+				if(substr($name,0,2) == 'on') continue;
 
-        $oXmlParser = new XmlParser();
-        $xml_doc = $oXmlParser->parse($buff);
-		if(!$xml_doc) return sprintf("<%s>", $tag);
+				$val = preg_replace('/&#(?:x([a-fA-F0-9]+)|0*(\d+));/e','chr("\\1"?0x00\\1:\\2+0)',$m[3][$idx].$m[4][$idx]);
+				$val = preg_replace('/^\s+|[\t\n\r]+/', '', $val);
 
-        // src값에 module=admin이라는 값이 입력되어 있으면 이 값을 무효화 시킴
-        $src = $xml_doc->attrs->src;
-        $dynsrc = $xml_doc->attrs->dynsrc;
-        $lowsrc = $xml_doc->attrs->lowsrc;
-        $href = $xml_doc->attrs->href;
-		$data = $xml_doc->attrs->data;
-		$background = $xml_doc->attrs->background;
-		$style = $xml_doc->attrs->style;
-		if($style) {
-			$url = preg_match_all('/url\s*\(([^\)]+)\)/is', $style, $matches2);
-			if(count($matches2[0]))
-			{
-				foreach($matches2[1] as $target)
-				{
-					if(_isHackedSrc($target)) return sprintf("<%s>",$tag);
-				}
+				if(preg_match('/^[a-z]+script:/i', $val)) continue;
+
+				$attrs[$name] = $val;
 			}
 		}
-        if(_isHackedSrc($src) || _isHackedSrc($dynsrc) || _isHackedSrc($lowsrc) || _isHackedSrc($href) || _isHackedSrc($data) || _isHackedSrc($background) || _isHackedSrcExp($style)) return sprintf("<%s>",$tag);
 
-		if($tag=='param' && $xml_doc->attrs->value && preg_match('/^javascript:/i',$xml_doc->attrs->value)) return sprintf("<%s>",$tag);
-		if($tag=='object' && $xml_doc->attrs->data && preg_match('/^javascript:/i',$xml_doc->attrs->data)) return sprintf("<%s>",$tag);
-
-        return $buff;
-    }
-
-	function _isHackedSrcExp($style) {
-		if(!$style) return false;
-		if(preg_match('/((\/\*)|(\*\/)|(\\n)|(expression))/i', $style)) return true;
-		return false;
-	}
-
-    function _isHackedSrc($src) {
-        if(!$src) return false;
-        if($src) {
-			$target = trim($src);
-			if(preg_match('/(\s|(\&\#)|(script:))/i', $target)) return true;
-			if(preg_match('/data:/i', $target)) return true;
-
-            $url_info = parse_url($src);
-            $query = $url_info['query'];
-			if(!trim($query)) return false;
-			$query = str_replace("&amp;","&",$query);
-            $queries = explode('&', $query);
-            $cnt = count($queries);
-            for($i=0;$i<$cnt;$i++) {
-                $tmp_str = strtolower(trim($queries[$i]));
-                $pos = strpos($tmp_str,'=');
-                if($pos === false) continue;
-                $key = strtolower(trim(substr($tmp_str, 0, $pos)));
-                $val = strtolower(trim(substr($tmp_str,$pos+1)));
-                if( ($key=='module'&&$val=='admin') || ($key=='act'&&preg_match('/admin/i',$val)) ) return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * @brief attribute의 value를 " 로 둘러싸도록 처리하는 함수
-     **/
-    function fixQuotation($matches) {
-        $key = $matches[1];
-        $val = trim($matches[2]);
-
-		$close_tag = false;
-		if(substr($val,-1)=='/') {
-			$close_tag = true;
-			$val = rtrim(substr($val,0,-1));
+		if(isset($attrs['style']) && preg_match('@(?:/\*|\*/|\n|:\s*expression\s*\()@i', $attrs['style'])) {
+			unset($attrs['style']);
 		}
 
-		if($val{0}=="'" && substr($val,-1)=="'")
-		{
-			$val = sprintf('"%s"', substr($val,1,-1));
+		$attr = array();
+		foreach($attrs as $name=>$val) {
+			$val    = str_replace('"', '&quot;', $val);
+			$attr[] = $name."=\"{$val}\"";
 		}
+		$attr = count($attr)?' '.implode(' ',$attr):'';
 
-		if($close_tag) $val .= ' /';
-		
-		// attribute on* remove
-		if(preg_match('/^on([a-z]+)/i',preg_replace('/[^a-zA-Z_]/','',$key))) return '';
-       
-		$output = sprintf('%s=%s', $key, $val);
-
-		return $output;
+        return "<{$match[1]}{$tag}{$attr}{$match[4]}>";
     }
 
-    // hexa값을 RGB로 변환
+    // convert hexa value to RGB
     if(!function_exists('hexrgb')) {
         function hexrgb($hexstr) {
           $int = hexdec($hexstr);
@@ -784,13 +744,12 @@
                        'green' => 0xFF & ($int >> 0x8),
                        'blue' => 0xFF & $int);
         }
-
     }
 
     /**
-     * @brief mysql old_password 의 php 구현 함수
-     * 제로보드4나 기타 mysql4.1 이전의 old_password()함수를 쓴 데이터의 사용을 위해서
-     * mysql의 password.c 소스 참조해서 구현함
+     * @brief php function for mysql old_password()
+     * provides backward compatibility for zero board4 which uses old_password() of mysql 4.1 earlier versions. 
+     * the function implemented by referring to the source codes of password.c file in mysql
      **/
     function mysql_pre4_hash_password($password) {
         $nr = 1345345333;
@@ -816,7 +775,7 @@
     }
 
     /**
-     * 현재 요청받은 스크립트 경로를 return
+     * return the requested script path
      **/
     function getScriptPath() {
         static $url = null;
@@ -825,7 +784,15 @@
     }
 
     /**
-     * javascript의 escape의 php unescape 함수
+     * return the requested script path
+     **/
+	function getRequestUriByServerEnviroment()
+	{
+		return $_SERVER['REQUEST_URI'];
+	}
+
+    /**
+     * php unescape function of javascript's escape
      * Function converts an Javascript escaped string back into a string with specified charset (default is UTF-8).
      * Modified function from http://pure-essence.net/stuff/code/utf8RawUrlDecode.phps
      **/
@@ -976,4 +943,38 @@
 		}
 	}
 
+	function htmlHeader()
+	{
+		echo <<<HTMLHEADER
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="ko" xml:lang="ko" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+HTMLHEADER;
+	}
+
+	function htmlFooter()
+	{
+		echo '</body></html>';
+	}
+
+	function alertScript($msg)
+	{
+		if(!$msg) return;
+		echo '<script  type="text/javascript">alert("'.$msg.'");</script>';
+	}
+
+	function closePopupScript()
+	{
+		echo '<script  type="text/javascript">window.close();</script>';
+	}
+
+	function reload($isOpener = false)
+	{
+		$reloadScript = $isOpener ? 'window.opener.location.reload()' : 'document.location.reload()';
+
+		echo '<script  type="text/javascript">'.$reloadScript.'</script>';
+	}
 ?>

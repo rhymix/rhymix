@@ -2,22 +2,22 @@
     /**
      * @class  pollAdminView
      * @author NHN (developers@xpressengine.com)
-     * @brief  poll모듈의 admin view class
+     * @brief The admin view class of the poll module
      **/
 
     class pollAdminView extends poll {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
         }
 
         /**
-         * @brief 관리자 페이지
+         * @brief Administrator's Page
          **/
         function dispPollAdminList() {
-            // 검색 옵션 정리
+            // Arrange the search options
             $search_target = trim(Context::get('search_target'));
             $search_keyword = trim(Context::get('search_keyword'));
 
@@ -35,18 +35,49 @@
                         break;
                 }
             }
-            // 목록을 구하기 위한 옵션
-            $args->page = Context::get('page'); ///< 페이지
-            $args->list_count = 50; ///< 한페이지에 보여줄 글 수
-            $args->page_count = 10; ///< 페이지 네비게이션에 나타날 페이지의 수
+            // Options to get a list of pages
+            $args->page = Context::get('page');
+            $args->list_count = 50; // The number of posts to show on one page
+            $args->page_count = 10; // The number of pages to display in the page navigation
 
-            $args->sort_index = 'list_order'; ///< 소팅 값
+            $args->sort_index = 'P.list_order'; // Sorting value
 
-            // 목록 구함
+            // Get the list
             $oPollAdminModel = &getAdminModel('poll');
-            $output = $oPollAdminModel->getPollList($args);
+            $output = $oPollAdminModel->getPollListWithMember($args);
 
-            // 템플릿 변수 설정
+			// check poll type. document or comment
+			if(is_array($output->data))
+			{
+				$uploadTargetSrlList = array();
+				foreach($output->data AS $key=>$value)
+				{
+					array_push($uploadTargetSrlList, $value->upload_target_srl);
+				}
+
+            	$oDocumentModel = &getModel('document');
+				$targetDocumentOutput = $oDocumentModel->getDocuments($uploadTargetSrlList);
+				if(!is_array($targetDocumentOutput)) $targetDocumentOutput = array();
+
+				$oCommentModel = &getModel('comment');
+				$columnList = array('comment_srl', 'document_srl');
+				$targetCommentOutput = $oCommentModel->getComments($uploadTargetSrlList, $columnList);
+				if(!is_array($targetCommentOutput)) $targetCommentOutput = array();
+
+				foreach($output->data AS $key=>$value)
+				{
+					if(array_key_exists($value->upload_target_srl, $targetDocumentOutput))
+						$value->document_srl = $value->upload_target_srl;
+
+					if(array_key_exists($value->upload_target_srl, $targetCommentOutput))
+					{
+						$value->comment_srl = $value->upload_target_srl;
+						$value->document_srl = $targetCommentOutput[$value->comment_srl]->document_srl;
+					}
+				}
+			}
+
+            // Configure the template variables
             Context::set('total_count', $output->total_count);
             Context::set('total_page', $output->total_page);
             Context::set('page', $output->page);
@@ -56,29 +87,25 @@
 			
 			$security = new Security();				
 			$security->encodeHTML('poll_list..title');
-
-            // 템플릿 지정
+            // Set a template
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('poll_list');
         }
 
         /**
-         * @brief 설문조사 스킨, 컬러셋 설정
+         * @brief Confgure the poll skin and colorset
          **/
         function dispPollAdminConfig() {
             $oModuleModel = &getModel('module');
-
-            // 설정 정보 가져오기
+            // Get the configuration information
             $config = $oModuleModel->getModuleConfig('poll');
             Context::set('config', $config);
-
-            // 스킨 정보 가져오기
+            // Get the skin information
             $skin_list = $oModuleModel->getSkins($this->module_path);
             Context::set('skin_list', $skin_list);
 
             if(!$skin_list[$config->skin]) $config->skin = "default";
-
-            // 설정된 스킨의 컬러셋 설정
+            // Set the skin colorset once the configurations is completed
             Context::set('colorset_list', $skin_list[$config->skin]->colorset);
 			
 			$security = new Security();				
@@ -86,19 +113,18 @@
 			$security->encodeHTML('skin_list..title');
 			$security->encodeHTML('colorset_list..name','colorset_list..title');
 			
-            // 템플릿 지정
+            // Set a template
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('config');
         }
 
         /**
-         * @brief 설문조사 결과
+         * @brief Poll Results
          **/
         function dispPollAdminResult() {
-            // 팝업 레이아웃
+            // Popup layout
             $this->setLayoutFile("popup_layout");
-
-            // 결과 뽑기
+            // Draw results
             $args->poll_srl = Context::get('poll_srl'); 
             $args->poll_index_srl = Context::get('poll_index_srl'); 
 
@@ -122,8 +148,7 @@
             $poll->poll_srl = $poll_srl;
 
             Context::set('poll',$poll);
-
-            // 기본 설정의 스킨, 컬러셋 설정 
+            // Configure the skin and the colorset for the default configuration
             $oModuleModel = &getModel('module');
             $poll_config = $oModuleModel->getModuleConfig('poll');
             Context::set('poll_config', $poll_config);

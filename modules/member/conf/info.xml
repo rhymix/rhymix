@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module version="0.2">
-    <title xml:lang="ko">회원 관리</title>
-    <title xml:lang="zh-CN">会员管理</title>
-    <title xml:lang="jp">会員 管理</title>
-    <title xml:lang="en">Member Management</title>
+    <title xml:lang="ko">회원</title>
+    <title xml:lang="zh-CN">会员</title>
+    <title xml:lang="jp">会員</title>
+    <title xml:lang="en">Member</title>
     <title xml:lang="vi">Quản lý thành viên</title>
     <title xml:lang="es">Usuario Gestión</title>
     <title xml:lang="ru">Управление пользователями</title>
     <title xml:lang="zh-TW">會員 管理</title>
     <title xml:lang="tr">Üye Yönetimi</title>
-    <description xml:lang="ko">회원 관리 및 회원 관련 설정등을 하는 모듈입니다.</description>
+    <description xml:lang="ko">회원 관리 및 설정을 하는 모듈입니다.</description>
     <description xml:lang="zh-CN">对会员进行管理及相关设置的模块。</description>
     <description xml:lang="jp">会員管理及び会員関連設定などを行うモジュールです。</description>
     <description xml:lang="en">This module is for managing or configuring members.</description>

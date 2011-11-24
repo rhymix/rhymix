@@ -3,19 +3,19 @@
      * @class  menuAdminModel
      * @author NHN (developers@xpressengine.com)
      * @version 0.1
-     * @brief  menu 모듈의 admin model class
+     * @brief admin model class of the menu module
      **/
 
     class menuAdminModel extends menu {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
         }
 
         /**
-         * @brief 전체 메뉴 목록을 구해옴
+         * @brief Get a list of all menus
          **/
         function getMenuList($obj) {
             if(!$obj->site_srl) {
@@ -27,44 +27,41 @@
             $args->page = $obj->page?$obj->page:1;
             $args->list_count = $obj->list_count?$obj->list_count:20;
             $args->page_count = $obj->page_count?$obj->page_count:10;
-
-            // document.getDocumentList 쿼리 실행
+            // document.getDocumentList query execution
             $output = executeQuery('menu.getMenuList', $args);
-
-            // 결과가 없거나 오류 발생시 그냥 return
+            // Return if no result or an error occurs
             if(!$output->toBool()||!count($output->data)) return $output;
 
             return $output;
         }
 
         /**
-         * @brief 등록된 모든 메뉴를 return
+         * @brief Return all menus
          **/
         function getMenus($site_srl = null) {
             if(!isset($site_srl)) {
                 $site_module_info = Context::get('site_module_info');
                 $site_srl = (int)$site_module_info->site_srl;
             }
-            // 일단 DB에서 정보를 가져옴
+            // Get information from the DB
             $args->site_srl = $site_srl ;
             $args->menu_srl = $menu_srl;
-            $output = executeQuery('menu.getMenus', $args);
+            $output = executeQueryArray('menu.getMenus', $args);
             if(!$output->data) return;
             $menus = $output->data;
-            if(!is_array($menus)) $menus = array($menus);
             return $menus;
         }
 
         /**
-         * @brief DB 에 생성된 한개의 메뉴 정보를 구함
-         * 생성된 메뉴의 DB정보+XML정보를 return
+         * @brief Get information of a new menu from the DB
+         * Return DB and XML information of the menu
          **/
         function getMenu($menu_srl) {
-            // 일단 DB에서 정보를 가져옴
+            // Get information from the DB
             $args->menu_srl = $menu_srl;
             $output = executeQuery('menu.getMenu', $args);
             if(!$output->data) return;
-            
+
             $menu_info = $output->data;
             $menu_info->xml_file = sprintf('./files/cache/menu/%s.xml.php',$menu_srl);
             $menu_info->php_file = sprintf('./files/cache/menu/%s.php',$menu_srl);
@@ -72,11 +69,32 @@
         }
 
         /**
-         * @brief 특정 menu_srl의 아이템 정보를 return
-         * 이 정보중에 group_srls의 경우는 , 로 연결되어 들어가며 사용시에는 explode를 통해 array로 변환 시킴
+         * @brief Get information of a new menu from the DB, search condition is menu title
+         * Return DB and XML information of the menu
+         **/
+        function getMenuByTitle($title) {
+            // Get information from the DB
+            $args->title = $title;
+            $output = executeQuery('menu.getMenuByTitle', $args);
+            if(!$output->data) return;
+
+			if(is_array($output->data)) $menu_info = $output->data[0];
+			else $menu_info = $output->data;
+
+            if($menu_info->menu_srl)
+			{
+				$menu_info->xml_file = sprintf('./files/cache/menu/%s.xml.php',$menu_info->menu_srl);
+	            $menu_info->php_file = sprintf('./files/cache/menu/%s.php',$menu_info->menu_srl);
+			}
+            return $menu_info;
+        }
+
+        /**
+         * @brief Return item information of the menu_srl
+         * group_srls uses a seperator with comma(,) and converts to an array by explode
          **/
         function getMenuItemInfo($menu_item_srl) {
-            // menu_item_srl이 있으면 해당 메뉴의 정보를 가져온다
+            // Get the menu information if menu_item_srl exists
             $args->menu_item_srl = $menu_item_srl;
             $output = executeQuery('menu.getMenuItem', $args);
             $node = $output->data;
@@ -94,67 +112,163 @@
         }
 
         /**
-         * @brief 다국어 지원을 위해 menu의 name을 언어별로 나눠서 return
+         * @brief Return item information of the menu_srl
+         **/
+        function getMenuAdminItemInfo()
+		{
+			$menuItemSrl = Context::get('menu_item_srl');
+			$menuItem = $this->getMenuItemInfo($menuItemSrl);
+
+			if(!$menuItem->url)
+			{
+				$menuItem->moduleType = null;
+			}
+			else if(!preg_match('/^http/i',$menuItem->url))
+			{
+				$oModuleModel = &getModel('module');
+				$moduleInfo = $oModuleModel->getModuleInfoByMid($menuItem->url, 0);
+				if(!$moduleInfo) $menuItem->moduleType = 'url';
+				else
+				{
+					if($moduleInfo->mid == $menuItem->url) {
+						$menuItem->moduleType = $moduleInfo->module;
+						$menuItem->pageType = $moduleInfo->page_type;
+					}
+				}
+			}
+			else $menuItem->moduleType = 'url';
+
+			// get groups
+			$oMemberModel = &getModel('member');
+			$oModuleAdminModel = &getAdminModel('module');
+			$output = $oMemberModel->getGroups();
+			if(is_array($output))
+			{
+				$groupList = array();
+				foreach($output AS $key=>$value)
+				{
+
+					$groupList[$value->group_srl]->group_srl = $value->group_srl;
+            		if(substr($value->title,0,12)=='$user_lang->') {
+						$tmp = $oModuleAdminModel->getLangCode(0, $value->title);
+						$groupList[$value->group_srl]->title = $tmp[Context::getLangType()];
+					}
+					else $groupList[$value->group_srl]->title = $value->title;
+
+					if(in_array($key, $menuItem->group_srls)) $groupList[$value->group_srl]->isChecked = true;
+					else $groupList[$value->group_srl]->isChecked = false;
+				}
+			}
+			$menuItem->groupList = $groupList;
+
+			$oModuleController = &getController('module');
+			$menuItem->name_key = $menuItem->name;
+			$oModuleController->replaceDefinedLangCode($menuItem->name);
+
+			$this->add('menu_item', $menuItem);
+        }
+
+		function getMenuItems($menu_srl, $parent_srl = null, $columnList = array())
+		{
+			$args->menu_srl = $menu_srl;
+			$args->parent_srl = $parent_srl;
+
+			$output = executeQueryArray('menu.getMenuItems', $args, $columnList);
+			return $output;
+		}
+
+        /**
+         * @brief Return menu name in each language to support multi-language
          */
         function getMenuItemNames($source_name, $site_srl = null) {
             if(!$site_srl) {
                 $site_module_info = Context::get('site_module_info');
                 $site_srl = (int)$site_module_info->site_srl;
             }
-
-            // 언어코드 구함
+            // Get language code
             $oModuleAdminModel = &getAdminModel('module');
             return $oModuleAdminModel->getLangCode($site_srl, $source_name);
         }
 
         /**
-         * @brief 특정 menu_srl의 정보를 이용하여 템플릿을 구한후 return
-         * 관리자 페이지에서 특정 메뉴의 정보를 추가하기 위해 서버에서 tpl을 컴파일 한후 컴파일 된 html을 직접 return
+         * @brief Get a template by using the menu_srl and retrun.
+         * Return html after compiling tpl on the server in order to add menu information on the admin page
          **/
         function getMenuAdminTplInfo() {
-            // 해당 메뉴의 정보를 가져오기 위한 변수 설정
+            // Get information on the menu for the parameter settings
             $menu_item_srl = Context::get('menu_item_srl');
             $parent_srl = Context::get('parent_srl');
-
-            // 회원 그룹의 목록을 가져옴
+            // Get a list of member groups
             $oMemberModel = &getModel('member');
             $group_list = $oMemberModel->getGroups();
-            Context::set('group_list', $group_list);	
-			
-            // parent_srl이 있고 menu_item_srl이 없으면 하부 메뉴 추가임
+            Context::set('group_list', $group_list);
+            // Add a sub-menu if there is parent_srl but not menu_item_srl
             if(!$menu_item_srl && $parent_srl) {
-                // 상위 메뉴의 정보를 가져옴
+                // Get information of the parent menu
                 $parent_info = $this->getMenuItemInfo($parent_srl);
-
-                // 추가하려는 메뉴의 기본 변수 설정 
+                // Default parameter settings for a new menu
                 $item_info->menu_item_srl = getNextSequence();
                 $item_info->parent_srl = $parent_srl;
                 $item_info->parent_menu_name = $parent_info->name;
-
-            // root에 메뉴 추가하거나 기존 메뉴의 수정일 경우
+            // In case of modifying the existing menu or addting a new menu to the root
             } else {
-                // menu_item_srl 이 있으면 해당 메뉴의 정보를 가져온다
+                // Get information of the menu if menu_item_srl exists
                 if($menu_item_srl) $item_info = $this->getMenuItemInfo($menu_item_srl);
-
-                // 찾아진 값이 없다면 신규 메뉴 추가로 보고 menu_item_srl값만 구해줌
+                // Get only menu_item_srl if no values found, considering it as adding a new menu
                 if(!$item_info->menu_item_srl) {
                     $item_info->menu_item_srl = getNextSequence();
                 }
             }
             Context::set('item_info', $item_info);
-			
 			//Security
-			$security = new Security();						
+			$security = new Security();
 			$security->encodeHTML('group_list..title');
 			$security->encodeHTML('item_info.url');
-			$security->encodeHTML('item_info.name');			
-				
-            // template 파일을 직접 컴파일한후 tpl변수에 담아서 return한다.
+			$security->encodeHTML('item_info.name');
+
+			// Compile the template file into tpl variable and then return it
             $oTemplate = &TemplateHandler::getInstance();
-            $tpl = $oTemplate->compile($this->module_path.'tpl', 'menu_item_info');			
-			
+            $tpl = $oTemplate->compile($this->module_path.'tpl', 'menu_item_info');
+
             $this->add('tpl', str_replace("\n"," ",$tpl));
         }
 
+        /**
+         * @brief when menu add in sitemap, select module list
+		 * this menu showing with trigger
+         **/
+		function getModuleListInSitemap()
+		{
+			$oModuleModel = &getModel('module');
+			$columnList = array('module');
+			$moduleList = array('page');
+
+			$output = $oModuleModel->getModuleListByInstance($columnList);
+			if(is_array($output->data))
+			{
+				foreach($output->data AS $key=>$value)
+				{
+					array_push($moduleList, $value->module);
+				}
+			}
+
+            // after trigger
+            $output = ModuleHandler::triggerCall('menu.getModuleListInSitemap', 'after', $moduleList);
+            if(!$output->toBool()) return $output;
+
+			$moduleList = array_unique($moduleList);
+
+			$moduleInfoList = array();
+			if(is_array($moduleList))
+			{
+				foreach($moduleList AS $key=>$value)
+				{
+					$moduleInfo = $oModuleModel->getModuleInfoXml($value);
+					$moduleInfoList[$value] = $moduleInfo;
+				}
+			}
+
+            return $moduleInfoList;
+		}
     }
 ?>

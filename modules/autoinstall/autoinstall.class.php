@@ -2,7 +2,7 @@
     /**
      * @class  autoinstall
      * @author NHN (developers@xpressengine.com)
-     * @brief  autoinstall 모듈의 high class
+     * @brief high class of the autoinstall module
      **/
 
     class XmlGenerater {
@@ -22,7 +22,7 @@
         function getXmlDoc(&$params)
         {
             $body = XmlGenerater::generate($params);
-            $buff = FileHandler::getRemoteResource($this->uri, $body, 3, "POST", "application/xml");
+            $buff = FileHandler::getRemoteResource(_XE_DOWNLOAD_SERVER_, $body, 3, "POST", "application/xml");
             if(!$buff) return;
             $xml = new XmlParser();
             $xmlDoc = $xml->parse($buff);
@@ -31,55 +31,94 @@
     }
 
     class autoinstall extends ModuleObject {
-        var $uri = "http://download.xpressengine.com/";
-        var $original_site = "http://www.xpressengine.com/";
 		var $tmp_dir = './files/cache/autoinstall/';
 
+		function autoinstall()
+		{
+			$oModuleModel = &getModel('module');
+			$config = $oModuleModel->getModuleConfig('autoinstall');
+			if ($config->downloadServer != _XE_DOWNLOAD_SERVER_)
+			{
+				$this->stop('msg_not_match_server');
+			}
+		}
+
         /**
-         * @brief 설치시 추가 작업이 필요할시 구현
+         * @brief for additional tasks required when installing
          **/
         function moduleInstall() {
+			$oModuleController = &getController('module');
+
+			$config->downloadServer = _XE_DOWNLOAD_SERVER_;
+			$oModuleController->insertModuleConfig('autoinstall', $config);
         }
 
         /**
-         * @brief 설치가 이상이 없는지 체크하는 method
+         * @brief method to check if installation is succeeded
          **/
         function checkUpdate() {
             $oDB =& DB::getInstance();
-            if(!file_exists(FileHandler::getRealPath("./modules/autoinstall/schemas/autoinstall_installed_packages.xml"))  
+			$oModuleModel = &getModel('module');
+
+            if(!file_exists(FileHandler::getRealPath("./modules/autoinstall/schemas/autoinstall_installed_packages.xml"))
                 && $oDB->isTableExists("autoinstall_installed_packages"))
             {
                 return true;
             }
-            if(!file_exists(FileHandler::getRealPath("./modules/autoinstall/schemas/autoinstall_remote_categories.xml"))  
+            if(!file_exists(FileHandler::getRealPath("./modules/autoinstall/schemas/autoinstall_remote_categories.xml"))
                 && $oDB->isTableExists("autoinstall_remote_categories"))
             {
                 return true;
             }
+
+			// 2011.08.08 add column 'list_order' in ai_remote_categories
+			if (!$oDB->isColumnExists('ai_remote_categories', 'list_order'))	return true;
+
+			// 2011.08.08 set _XE_DOWNLOAD_SERVER_ at module config
+			$config = $oModuleModel->getModuleConfig('autoinstall');
+			if (!isset($config->downloadServer))	return true;
 
             return false;
         }
 
         /**
-         * @brief 업데이트 실행
+         * @brief Execute update
          **/
         function moduleUpdate() {
             $oDB =& DB::getInstance();
-            if(!file_exists(FileHandler::getRealPath("./modules/autoinstall/schemas/autoinstall_installed_packages.xml"))  
+			$oModuleModel = &getModel('module');
+			$oModuleController = &getController('module');
+
+            if(!file_exists(FileHandler::getRealPath("./modules/autoinstall/schemas/autoinstall_installed_packages.xml"))
                 && $oDB->isTableExists("autoinstall_installed_packages"))
             {
                 $oDB->dropTable("autoinstall_installed_packages");
             }
-            if(!file_exists(FileHandler::getRealPath("./modules/autoinstall/schemas/autoinstall_remote_categories.xml"))  
+            if(!file_exists(FileHandler::getRealPath("./modules/autoinstall/schemas/autoinstall_remote_categories.xml"))
                 && $oDB->isTableExists("autoinstall_remote_categories"))
             {
                 $oDB->dropTable("autoinstall_remote_categories");
             }
+
+			// 2011.08.08 add column 'list_order' in 'ai_remote_categories
+			if (!$oDB->isColumnExists('ai_remote_categories', 'list_order'))
+			{
+				$oDB->addColumn('ai_remote_categories', 'list_order', 'number', 11, null, true);
+				$oDB->addIndex('ai_remote_categories', 'idx_list_order', array('list_order'));
+			}
+
+			// 2011. 08. 08 set _XE_DOWNLOAD_SERVER_ at module config
+			$config = $oModuleModel->getModuleConfig('autoinstall');
+			if (!isset($config->downloadServer)){
+				$config->downloadServer = _XE_DOWNLOAD_SERVER_;
+				$oModuleController->insertModuleConfig('autoinstall', $config);
+			}
+
             return new Object(0, 'success_updated');
         }
 
         /**
-         * @brief 캐시 파일 재생성
+         * @brief Re-generate the cache file
          **/
         function recompileCache() {
         }

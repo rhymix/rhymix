@@ -1,26 +1,22 @@
-<!--%import("css/poll.css")-->
-<div id="popHeader" class="wide">
-    <h3 class="xeAdmin">{$lang->poll_stop_date} : {zdate($poll->stop_date, "Y-m-d H:i")} {$lang->poll_join_count} : {number_format($poll->poll_count)}</h3>
-</div>
-<div class="popBody">
-        <!--@foreach($poll->poll as $poll_srl_index => $val)-->
-        <div class="poll_detail_box">
-            <div class="title">{$val->title} ({$val->poll_count})</div>
-            <!--@foreach($val->item as $item_srl => $item)-->
-                {@$per = (int)(( $item->poll_count / $val->poll_count)*100) }
+<load target="css/poll.css" usecdn="true" />
+<h1 class="h1">{$lang->poll_stop_date} : {zdate($poll->stop_date, "Y-m-d H:i")} {$lang->poll_join_count} : {number_format($poll->poll_count)}</h1>
+<!--@foreach($poll->poll as $poll_srl_index => $val)-->
+<div class="poll_detail_box">
+	<div class="title">{$val->title} ({$val->poll_count})</div>
+	<!--@foreach($val->item as $item_srl => $item)-->
+		{@$per = (int)(( $item->poll_count / $val->poll_count)*100) }
 
-                <div class="text">
-                    {$item_srl+1}. {$item->title} : {$item->poll_count} ({$per}%)
-                </div>
-                <div class="bar_box">
-                <!--@if($per)-->
-                    <div class="bar" style="width:{$per}%;"><img src="./images/blank.gif" alt="bar" width="1" height="5" /></div>
-                <!--@else-->
-                    <div class="bar" style="width:2px;"><img src="./images/blank.gif" alt="bar" width="1" height="5" /></div>
-                <!--@end-->
-                </div>
-            <!--@end-->
+		<div class="text">
+			{$item_srl+1}. {$item->title} : {$item->poll_count} ({$per}%)
+		</div>
+		<div class="bar_box">
+		<!--@if($per)-->
+			<div class="bar" style="width:{$per}%;"><img src="./images/blank.gif" alt="bar" width="1" height="5" /></div>
+		<!--@else-->
+			<div class="bar" style="width:2px;"><img src="./images/blank.gif" alt="bar" width="1" height="5" /></div>
+		<!--@end-->
+		</div>
+	<!--@end-->
 
-        </div>
-        <!--@end-->
 </div>
+<!--@end-->

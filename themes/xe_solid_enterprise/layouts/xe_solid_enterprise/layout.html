@@ -1,0 +1,166 @@
+<load target="js/script.js" />
+<load target="js/slides.min.jquery.js" />
+<load target="css/style.css" />
+<load target="css/banner.css" />
+
+<!--@if(!$layout_info->use_banner)-->
+	{@ $layout_info->use_banner = 'demo';}
+<!--@end-->
+<div id="wrap">
+<div class="top">
+    <div class="header">
+    	<div class="logo">
+			<a href="{$layout_info->index_url}" cond="$layout_info->logo_image"><img src="{$layout_info->logo_image}" class="iePngFix" alt="LOGO" title="LOGO" /></a>
+			<a href="{$layout_info->index_url}" cond="!$layout_info->logo_image">{$layout_info->logo_image_alt}</a>
+		</div>
+		<ul class="gnb">
+        	<!--<li class="m1 m_on">-->
+			<li loop="$main_menu->list=>$key1,$val1" class="m1">
+				<a class="m1_a" href="{$val1['href']}" target="_blank"|cond="$val1['open_window']=='Y'"><span class="m1_span">{$val1['link']}</span></a>
+				<div class="sub" cond="$val1['list']">
+					<ul class="lnb">
+						<li loop="$val1['list']=>$key2,$val2" class="s1"><a href="{$val2['href']}" target="_blank"|cond="$val2['open_window']=='Y'">{$val2['link']}</a></li>
+					</ul>
+					<div class="bottom"><span></span></div>
+				</div>
+			</li>
+        </ul><!-- //gnb -->
+		<img class="zbxe_widget_output" widget="login_info" skin="xe_solid_enterprise_login" colorset="default" />
+
+    </div><!-- //header -->
+</div><!-- //top -->
+
+<div class="main">
+	<!--@if($layout_info->use_banner == 'custom')-->
+		{@ $hasImage = 0;}
+		<!--@if($layout_info->banner_image_1 || $layout_info->banner_image_2 || $layout_info->banner_image_3 || $layout_info->banner_image_4 || $layout_info->banner_image_5)-->
+			{@ $hasImage = 1;}
+		<!--@end-->
+	<!--@end-->
+
+	<!--@if($layout_info->use_banner == 'demo' || ($layout_info->use_banner == 'custom' && $hasImage == 1) )-->
+		<!--@if($act != 'dispMemberInfo' && $act != 'dispMemberScrappedDocument' && $act != 'dispMemberSavedDocument' && $act != 'dispMemberOwnDocument' && $act != 'dispCommunicationFriend' && $act != 'dispCommunicationMessages' && $act != 'dispMemberSignUpForm' && $act != 'dispMemberFindAccount' && $act != 'dispMemberResendAuthMail' )-->
+			<div class="slide_banner" style="display:none">
+				<div class="slide_widget">
+					<div class="mask">
+						<div id="slides" class="slides">
+							<div class="slides_container">
+								<!--@if($layout_info->use_banner == 'demo')-->
+									<!--@for($i=1; $i<=3; $i++)-->
+										{@ $banner_image_src = './themes/xe_solid_enterprise/layouts/xe_solid_enterprise/images/defaultImg'.$i.'.jpg';}
+										<div>
+											<div class="section section">
+												<div>
+													<a href="http://www.xpressengine.com"><img src="{$banner_image_src}" width='958px' height='396px'/></a>
+												</div>
+											</div>
+										</div>
+									<!--@end-->
+								<!--@end-->
+
+								<!--@if($layout_info->use_banner == 'custom')-->
+									<!--@for($i=1; $i<6; $i++)-->
+										{@
+										   $banner_image_src = null;
+										   $banner_image_url = 'http://www.xpressengine.com';
+										}
+										<!--@if($i==1 && $layout_info->banner_image_1)-->
+											{@ $banner_image_src = $layout_info->banner_image_1;
+											   $banner_image_url = $layout_info->url_image_1;}
+										<!--@elseif($i==2 && $layout_info->banner_image_2)-->
+											{@ $banner_image_src = $layout_info->banner_image_2;
+											   $banner_image_url = $layout_info->url_image_2;}
+										<!--@elseif($i==3 && $layout_info->banner_image_3)-->
+											{@ $banner_image_src = $layout_info->banner_image_3;
+											   $banner_image_url = $layout_info->url_image_3;}
+										<!--@elseif($i==4 && $layout_info->banner_image_4)-->
+											{@ $banner_image_src = $layout_info->banner_image_4;
+											   $banner_image_url = $layout_info->url_image_4;}
+										<!--@elseif($i==5 && $layout_info->banner_image_5)-->
+											{@ $banner_image_src = $layout_info->banner_image_5;
+											   $banner_image_url = $layout_info->url_image_5;}
+										<!--@end-->
+										<!--@if($banner_image_src)-->
+											<div>
+												<div class="section section">
+													<div>
+														<a href="{$banner_image_url}"><img src="{$banner_image_src}" width='958px' height='396px'/></a>
+													</div>
+												</div>
+											</div>
+										<!--@end-->
+								<!--@end-->
+							<!--@end-->
+							</div>
+						</div>
+						<div id="shadow" class="shadow" style="height:99px!important;display:none">
+							<img src="./images/slide_shadow.png" height="99" width="927" alt="" class="iePngFix" />
+						</div>
+					</div>
+				</div>
+			</div>
+		<!--@end-->
+	<!--@end-->
+    <div class="container">
+		<div class="search_box_layout">
+			<form action="{getUrl()}" method="get">
+			<input type="hidden" name="vid" value="{$vid}" />
+			<input type="hidden" name="mid" value="{$mid}" />
+			<input type="hidden" name="act" value="IS" />
+			<div class="inputBox">
+				<input type="text" name="is_keyword" class="inputTypeText" value="{$is_keyword}" />
+				<input type="image" src="images/icon_search.gif" class="is_submit" value="{$lang->cmd_search}" />
+			</div>
+			</form>
+		</div><!-- //search_box -->
+    	{$content}
+    </div><!-- //container -->
+</div><!-- //main -->
+
+<div class="footer">
+	<p class="footer_p">Powered by <span class="fwB">XE</span></p>
+    <dl id="selectLang">
+    	<dt>language</dt>
+        <dd>
+        	<div class="langBtn" title="{$lang_type}">{$lang_supported[$lang_type]}</div>
+            <ul class="langSet">
+				<li loop="$lang_supported=>$key,$val" cond="$key!= $lang_type">
+				<a onclick="doChangeLangType('{$key}');return false;" href="#">{$val}</a>
+				</li>
+			</ul>
+        </dd>
+    </dl>
+</div><!-- //tail -->
+</div><!-- //#wrap -->
+
+<script type="text/javascript">
+jQuery(function($){
+	$('#slides').slides({
+		preload: true,
+		generateNextPrev: false,
+		play: 5000,
+		slideSpeed:1000,
+		paginationClass: "pagination",
+		pause:1,
+		hoverPause: true
+	});
+
+	$(".pagination").addClass('pagination');
+	$('ul.pagination li a').html('&nbsp;&nbsp;');
+
+	if($.browser.msie&&($.browser.version == "6.0")&&!$.support.style){
+		var width = $('ul.pagination').width()+30;
+		$('ul.pagination').width(width);
+		$('div#shadow').css('margin-top','-120px');
+		if('{$act}' == 'IS'){
+			$('div#shadow').css('margin-top','-150px');
+			$('.slide_widget').find('ul').css('bottom','33px');
+		}
+	}
+	if('{$act}' == 'IS')
+		$('.slide_widget').find('ul').css('bottom','33px');
+
+	$('div.slide_banner').show();
+	$('#shadow').show();
+});
+</script>

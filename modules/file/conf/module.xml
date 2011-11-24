@@ -3,16 +3,46 @@
     <grants />
     <permissions />
     <actions>
-        <action name="dispFileAdminList" type="view" admin_index="true" standalone="true" />
-        <action name="dispFileAdminConfig" type="view" standalone="true" />
+        <action name="dispFileAdminList" type="view" admin_index="true" standalone="true" menu_name="file" menu_index="true" />
+        <action name="dispFileAdminConfig" type="view" menu_name="fileUpload" menu_index="true" />
         <action name="getFileList" type="model" standalone="true" />
         <action name="procFileUpload" type="controller" standalone="true" />
         <action name="procFileIframeUpload" type="controller" standalone="true" />
         <action name="procFileImageResize" type="controller" standalone="true" />
         <action name="procFileDelete" type="controller" standalone="true" />
         <action name="procFileDownload" type="controller" standalone="true" />
-        <action name="procFileAdminDeleteChecked" type="controller" standalone="true" />
-        <action name="procFileAdminInsertConfig" type="controller" standalone="true" />
-        <action name="procFileAdminInsertModuleConfig" type="controller" standalone="true" />
+        <action name="procFileAdminDeleteChecked" type="controller" standalone="true" ruleset="deleteChecked" />
+        <action name="procFileAdminInsertConfig" type="controller" standalone="true" ruleset="insertConfig" />
+        <action name="procFileAdminInsertModuleConfig" type="controller" standalone="true" ruleset="fileModuleConfig" />
+        <action name="procFileAdminAddCart" type="controller" standalone="true" />
+        <action name="procFileGetList" type="controller" standalone="true" />
     </actions>
+	<menus>
+		<menu name="file">
+			<title xml:lang="en">File</title>
+			<title xml:lang="ko">파일</title>
+			<title xml:lang="zh-CN">File</title>
+			<title xml:lang="jp">File</title>
+			<title xml:lang="es">File</title>
+			<title xml:lang="ru">File</title>
+			<title xml:lang="fr">File</title>
+			<title xml:lang="zh-TW">File</title>
+			<title xml:lang="vi">File</title>
+			<title xml:lang="mn">File</title>
+			<title xml:lang="tr">File</title>
+		</menu>
+		<menu name="fileUpload">
+			<title xml:lang="en">File Upload</title>
+			<title xml:lang="ko">파일 업로드</title>
+			<title xml:lang="zh-CN">File Upload</title>
+			<title xml:lang="jp">File Upload</title>
+			<title xml:lang="es">File Upload</title>
+			<title xml:lang="ru">File Upload</title>
+			<title xml:lang="fr">File Upload</title>
+			<title xml:lang="zh-TW">File Upload</title>
+			<title xml:lang="vi">File Upload</title>
+			<title xml:lang="mn">File Upload</title>
+			<title xml:lang="tr">File Upload</title>
+		</menu>
+	</menus>
 </module>

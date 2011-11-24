@@ -2,32 +2,40 @@
     /**
      * @class  memberAdminModel
      * @author NHN (developers@xpressengine.com)
-     * @brief  member module의 admin model class
+     * @brief  admin model class of member module
      **/
 
     class memberAdminModel extends member {
 
         /**
-         * @brief 자주 호출될거라 예상되는 데이터는 내부적으로 가지고 있자...
+         * @brief Keep data internally which may be frequently called.
          **/
         var $member_info = NULL;
         var $member_groups = NULL;
         var $join_form_list = NULL;
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
         }
 
         /**
-         * @brief 회원 목록을 구함
+         * @brief Get a member list
          **/
         function getMemberList() {
-            // 검색 옵션 정리
+            // Search option
             $args->is_admin = Context::get('is_admin')=='Y'?'Y':'';
             $args->is_denied = Context::get('is_denied')=='Y'?'Y':'';
             $args->selected_group_srl = Context::get('selected_group_srl');
+
+			$filter = Context::get('filter_type');
+			switch($filter){
+				case 'super_admin' : $args->is_admin = 'Y';break;
+				case 'site_admin' : $args->member_srls = $this->getSiteAdminMemberSrls();break;
+				case 'enable' : $args->is_denied = 'N';break;
+				case 'disable' : $args->is_denied = 'Y';break;
+			}
 
             $search_target = trim(Context::get('search_target'));
             $search_keyword = trim(Context::get('search_keyword'));
@@ -70,12 +78,12 @@
                             $args->s_last_login_less = substr(preg_replace("/[^0-9]/","",$search_keyword) . '00000000000000',0,14);
                         break;
                     case 'extra_vars' :
-                            $args->s_extra_vars = ereg_replace("[^0-9]","",$search_keyword);
+                            $args->s_extra_vars = $search_keyword;
                         break;
                 }
             }
 
-            // selected_group_srl이 있으면 query id를 변경 (table join때문에)
+            // Change the query id if selected_group_srl exists (for table join)
             $sort_order = Context::get('sort_order');
             $sort_index = Context::get('sort_index');
             if($sort_index != 'last_login') {
@@ -93,17 +101,17 @@
             if($sort_order != "desc") $sort_order = "asc";
             $args->sort_order = $sort_order;
             Context::set('sort_order', $sort_order);
-
-            // 기타 변수들 정리
+            // Other variables
             $args->page = Context::get('page');
             $args->list_count = 40;
             $args->page_count = 10;
             $output = executeQuery($query_id, $args);
+
             return $output;
         }
 
         /**
-         * @brief 사이트별 회원 목록을 구함
+         * @brief Get a memebr list for each site
          **/
         function getSiteMemberList($site_srl, $page = 1) {
             $args->site_srl = $site_srl;
@@ -115,8 +123,20 @@
             return $output;
         }
 
+		function getSiteAdminMemberSrls(){
+			$output = executeQueryArray('member.getSiteAdminMemberSrls');
+			if (!$output->toBool() || !$output->data) return array();
+
+			$member_srls = array();
+			foreach($output->data as $member_info){
+				$member_srls[] = $member_info->member_srl;
+			}
+
+			return $member_srls;
+		}
+
         /**
-         * @brief 회원 모듈의 특정 스킨에 속한 컬러셋 목록을 return
+         * @brief Return colorset list of a skin in the member module
          **/
         function getMemberAdminColorset() {
             $skin = Context::get('skin');
@@ -138,5 +158,75 @@
             $this->add('tpl', $tpl);
         }
 
+        /**
+         * @brief Return member count with date
+         **/
+        function getMemberCountByDate($date = '') {
+			if($date) $args->regDate = date('Ymd', strtotime($date));
+
+			$output = executeQuery('member.getMemberCountByDate', $args);
+			if(!$output->toBool()) return 0;
+
+			return $output->data->count;
+        }
+
+        /**
+         * @brief Return site join member count with date
+         **/
+        function getMemberGroupMemberCountByDate($date = '') {
+			if($date) $args->regDate = date('Ymd', strtotime($date));
+
+			$output = executeQuery('member.getMemberGroupMemberCountByDate', $args);
+			if(!$output->toBool()) return 0;
+
+			return count($output->data);
+        }
+
+        /**
+         * @brief Return add join Form
+         **/
+        function getMemberAdminInsertJoinForm() {
+			$member_join_form_srl = Context::get('member_join_form_srl');
+
+			$args->member_join_form_srl = $member_join_form_srl;
+			$output = executeQuery('member.getJoinForm', $args);
+
+			if($output->toBool() && $output->data){
+				$formInfo = $output->data;
+				$default_value = $formInfo->default_value;
+				if ($default_value){
+					$default_value = unserialize($default_value);
+					Context::set('default_value', $default_value);
+				}
+				Context::set('formInfo', $output->data);
+			}
+
+            $oTemplate = &TemplateHandler::getInstance();
+            $tpl = $oTemplate->compile($this->module_path.'tpl', 'insert_join_form');
+
+            $this->add('tpl', str_replace("\n"," ",$tpl));
+		}
+		function getMemberAdminIPCheck() {
+		
+			$db_info = Context::getDBInfo();
+			$admin_ip_list = $db_info->admin_ip_list;
+			$admin_ip_list = explode(",",$admin_ip_list);
+			$oMemberModel = &getModel('member');
+			$ip = $_SERVER['REMOTE_ADDR'];
+			$falg = false;
+			foreach($admin_ip_list as $admin_ip_list_key => $admin_ip_value) {
+				if(preg_match('/^\d{1,3}(?:.(\d{1,3}|\*)){3}\s*$/', $admin_ip_value, $matches) && $ip) {
+					$admin_ip = $matches[0];
+					$admin_ip = str_replace('*','',$admin_ip);
+					$admin_ip_patterns[] = preg_quote($admin_ip);				
+					$admin_ip_pattern = '/^('.implode($admin_ip_patterns,'|').')/';				
+					if(preg_match($admin_ip_pattern, $ip, $matches)) return true;
+					$flag = true;
+				} 
+
+			}
+			if(!$flag) return true;
+			return false;
+		}
     }
 ?>

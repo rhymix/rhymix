@@ -1,0 +1,13 @@
+<filter name="config" module="install" act="procConfigSetting">
+    <form>
+        <node target="time_zone" required="true" />
+    </form>
+    <parameter>
+        <param name="use_rewrite" target="use_rewrite" />
+        <param name="time_zone" target="time_zone" />
+    </parameter>
+    <response callback_func="completeConfigSetting">
+        <tag name="error" />
+        <tag name="message" />
+    </response>
+</filter>

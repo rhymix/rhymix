@@ -2,33 +2,30 @@
     /**
      * @class  pointAdminController
      * @author NHN (developers@xpressengine.com)
-     * @brief  point모듈의 admin controller class
+     * @brief The admin controller class of the point module
      **/
 
     class pointAdminController extends point {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
         }
 
         /**
-         * @brief 기본 설정 저장
+         * @brief Save the default configurations
          **/
         function procPointAdminInsertConfig() {
-            // 설정 정보 가져오기
+            // Get the configuration information
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('point');
-
-            // 변수 정리
+            // Arrange variables
             $args = Context::getRequestVars();
-
-            // 포인트 이름 체크
+            // Check the point name
             $config->point_name = $args->point_name;
             if(!$config->point_name) $config->point_name = 'point';
-
-            // 기본 포인트 지정
+            // Specify the default points
             $config->signup_point = (int)$args->signup_point;
             $config->login_point = (int)$args->login_point;
             $config->insert_document = (int)$args->insert_document;
@@ -38,24 +35,19 @@
             $config->download_file = (int)$args->download_file;
             $config->voted = (int)$args->voted;
             $config->blamed = (int)$args->blamed;
-
-            // 최고 레벨
+            // The highest level
             $config->max_level = $args->max_level;
             if($config->max_level>1000) $config->max_level = 1000;
             if($config->max_level<1) $config->max_level = 1;
-
-            // 레벨 아이콘 설정
+            // Set the level icon
             $config->level_icon = $args->level_icon;
-
-            // 포인트 미달시 다운로드 금지 여부 체크
+            // Check if downloads are not allowed
             if($args->disable_download == 'Y') $config->disable_download = 'Y';
             else $config->disable_download = 'N';
-
-            // 포인트 미달시 글 열람 금지 여부 체크
+            // Check if reading a document is not allowed
             if($args->disable_read_document == 'Y') $config->disable_read_document = 'Y';
             else $config->disable_read_document = 'N';
-
-            // 레벨별 그룹 설정
+            // Per-level group configurations
             foreach($args as $key => $val) {
                 if(substr($key, 0, strlen('point_group_')) != 'point_group_') continue;
                 $group_srl = substr($key, strlen('point_group_'));
@@ -64,28 +56,28 @@
                 else $config->point_group[$group_srl] = $level;
             }
             $config->group_reset = $args->group_reset;
-
-            // 레벨별 포인트 설정
+            // Per-level point configurations
             unset($config->level_step);
             for($i=1;$i<=$config->max_level;$i++) {
                 $key = "level_step_".$i;
                 $config->level_step[$i] = (int)$args->{$key};
             }
-
-            // 레벨별 포인트 계산 함수
+            // A function to calculate per-level points
             $config->expression = $args->expression;
-
-            // 저장
+            // Save
             $oModuleController = &getController('module');
             $oModuleController->insertModuleConfig('point', $config);
 
-            $this->cacheActList();
-
             $this->setMessage('success_updated');
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispPointAdminConfig');
+				header('location:'.$returnUrl);
+				return;
+			}
         }
 
         /**
-         * @brief 모듈별 설정 저장
+         * @brief Save per-module configurations
          **/
         function procPointAdminInsertModuleConfig() {
             $args = Context::getRequestVars();
@@ -105,23 +97,24 @@
                 }
             }
 
-            $this->cacheActList();
-
             $this->setMessage('success_updated');
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispPointAdminModuleConfig');
+				header('location:'.$returnUrl);
+				return;
+			}
         }
 
         /**
-         * @brief 모듈별 개별 포인트 저장
+         * @brief Save individual points per module
          **/
         function procPointAdminInsertPointModuleConfig() {
             $module_srl = Context::get('target_module_srl');
             if(!$module_srl) return new Object(-1, 'msg_invalid_request');
-
-            // 여러개의 모듈 일괄 설정일 경우
+            // In case of batch configuration of several modules
             if(preg_match('/^([0-9,]+)$/',$module_srl)) $module_srl = explode(',',$module_srl);
             else $module_srl = array($module_srl);
-
-            // 설정 저장
+            // Save configurations
             $oModuleController = &getController('module');
             for($i=0;$i<count($module_srl);$i++) {
                 $srl = trim($module_srl[$i]);
@@ -138,37 +131,66 @@
             }
 
             $this->setError(-1);
-            $this->setMessage('success_updated');
+            $this->setMessage('success_updated', 'info');
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispBoardAdminContent');
+				$this->setRedirectUrl($returnUrl);
+				return;
+			}
         }
 
         /**
-         * @brief 회원 포인트 변경
+         * @brief Change members points
          **/
         function procPointAdminUpdatePoint() {
-            $action = Context::get('action');
             $member_srl = Context::get('member_srl');
             $point = Context::get('point');
 
+			preg_match('/^(\+|-)?([1-9][0-9]*)$/', $point, $m);
+
+			$action = '';
+			switch($m[1])
+			{
+				case '+':
+					$action = 'add';
+					break;
+
+				case '-':
+					$action = 'minus';
+					break;
+
+				default:
+					$action = 'update';
+					break;
+			}
+			$point = $m[2];
+
             $oPointController = &getController('point');
-            return $oPointController->setPoint($member_srl, (int)$point, $action);
+            $output = $oPointController->setPoint($member_srl, (int)$point, $action);
+
+            $this->setError(-1);
+            $this->setMessage('success_updated', 'info');
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispPointAdminPointList');
+				$this->setRedirectUrl($returnUrl);
+				return;
+			}
+			return $output;
         }
 
         /**
-         * @brief 전체글/ 댓글/ 첨부파일과 가입정보를 바탕으로 포인트를 재계산함. 단 로그인 점수는 1번만 부여됨
+         * @brief Recalculate points based on the list/comment/attachment and registration information. Granted only once a first-time login score.
          **/
         function procPointAdminReCal() {
             set_time_limit(0);
-
-            // 모듈별 포인트 정보를 가져옴
+            // Get per-module points information
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('point');
 
             $module_config = $oModuleModel->getModulePartConfigs('point');
-
-            // 회원의 포인트 저장을 위한 변수
+            // A variable to store member's points
             $member = array();
-
-            // 게시글 정보를 가져옴
+            // Get post information
             $output = executeQueryArray('point.getDocumentPoint');
             if(!$output->toBool()) return $output;
 
@@ -183,8 +205,7 @@
                 }
             }
             $output = null;
-
-            // 댓글 정보를 가져옴
+            // Get comments information
             $output = executeQueryArray('point.getCommentPoint');
             if(!$output->toBool()) return $output;
 
@@ -199,8 +220,7 @@
                 }
             }
             $output = null;
-
-            // 첨부파일 정보를 가져옴
+            // Get the attached files' information
             $output = executeQueryArray('point.getFilePoint');
             if(!$output->toBool()) return $output;
 
@@ -215,12 +235,10 @@
                 }
             }
             $output = null;
-
-            // 모든 회원의 포인트를 0으로 세팅
+            // Set all members' points to 0
             $output = executeQuery("point.initMemberPoint");
             if(!$output->toBool()) return $output;
-
-            // 임시로 파일 저장
+            // Save the file temporarily
             $f = fopen("./files/cache/pointRecal.txt","w");
             foreach($member as $key => $val) {
                 $val += (int)$config->signup_point;
@@ -234,7 +252,7 @@
         }
 
         /**
-         * @brief 파일로 저장한 회원 포인트를 5000명 단위로 적용
+         * @brief Apply member points saved by file to units of 5,000 people
          **/
         function procPointAdminApplyPoint() {
             $position = (int)Context::get('position');
@@ -268,7 +286,6 @@
             }
             fclose($f);
 
-
             $this->add('total', $total);
             $this->add('position', $idx);
             $this->setMessage(sprintf(Context::getLang('point_recal_message'), $idx, $total));
@@ -276,17 +293,15 @@
         }
 
         /**
-         * @brief 개별 모듈의 포인트 리셋
+         * @brief Reset points for each module
          **/
         function procPointAdminReset() {
             $module_srl = Context::get('module_srls');
             if(!$module_srl) return new Object(-1, 'msg_invalid_request');
-
-            // 여러개의 모듈 일괄 설정일 경우
+            // In case of batch configuration of several modules
             if(preg_match('/^([0-9,]+)$/',$module_srl)) $module_srl = explode(',',$module_srl);
             else $module_srl = array($module_srl);
-
-            // 설정 저장
+            // Save configurations
             $oModuleController = &getController('module');
             for($i=0;$i<count($module_srl);$i++) {
                 $srl = trim($module_srl[$i]);
@@ -301,7 +316,8 @@
         }
 
         /**
-         * @brief 캐시파일 저장
+         * @brief Save the cache files
+		 * @deprecated
          **/
         function cacheActList() {
             return;

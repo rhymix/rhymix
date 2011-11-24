@@ -43,39 +43,29 @@ function _doUploadImage(fo_obj, act) {
 
 /* 프로필 이미지/ 이미지 이름/마크 등록 */
 function doUploadProfileImage() {
-    var fo_obj = xGetElementById("fo_insert_member");
+    var fo_obj = get_by_id("fo_insert_member");
     if(!fo_obj.profile_image.value) return;
     _doUploadImage(fo_obj, 'procMemberInsertProfileImage');
 }
 function doUploadImageName() {
-    var fo_obj = xGetElementById("fo_insert_member");
+    var fo_obj = get_by_id("fo_insert_member");
     if(!fo_obj.image_name.value) return;
     _doUploadImage(fo_obj, 'procMemberInsertImageName');
 }
 
 function doUploadImageMark() {
-    var fo_obj = xGetElementById("fo_insert_member");
+    var fo_obj = get_by_id("fo_insert_member");
     if(!fo_obj.image_mark.value) return;
     _doUploadImage(fo_obj, 'procMemberInsertImageMark');
 }
 
-/* 로그인 영역에 포커스 */
-function doFocusUserId(fo_id) {
-    if(xScrollTop()) return;
-    var fo_obj = xGetElementById(fo_id);
-    if(fo_obj.user_id) {
-        try{
-            fo_obj.user_id.focus();
-        } catch(e) {};
-    }
-}
 
 /* 로그인 후 */
 function completeLogin(ret_obj, response_tags, params, fo_obj) {
     if(fo_obj.remember_user_id && fo_obj.remember_user_id.checked) {
         var expire = new Date();
         expire.setTime(expire.getTime()+ (7000 * 24 * 3600000));
-        xSetCookie('user_id', fo_obj.user_id.value, expire);
+        setCookie('user_id', fo_obj.user_id.value, expire);
     }
 
     var url =  current_url.setQuery('act','');
@@ -102,23 +92,45 @@ function completeResendAuthMail(ret_obj, response_tags) {
 	if(error != 0) alert(error);
 }
 
-/* 프로필 이미지/이미지 이름, 마크 삭제 */
+/* 프로필 이미지, 이미지 이름, 마크 삭제 */
 function doDeleteProfileImage(member_srl) {
-        var fo_obj = xGetElementById("fo_insert_member");
-        fo_obj.member_srl.value = member_srl;
-        procFilter(fo_obj, delete_profile_image);
+	if (!member_srl) return;
+
+	if (!confirm(xe.lang.deleteProfileImage)) return false;
+
+	exec_xml(
+		'member',
+		'procMemberDeleteProfileImage',
+		{member_srl:member_srl},
+		function(){jQuery('#profile_imagetag').remove()},
+		['error','message']
+	);
 }
 
 function doDeleteImageName(member_srl) {
-        var fo_obj = xGetElementById("fo_insert_member");
-        fo_obj.member_srl.value = member_srl;
-        procFilter(fo_obj, delete_image_name);
+	if (!member_srl) return;
+
+	if (!confirm(xe.lang.deleteImageName)) return false;
+	exec_xml(
+		'member',
+		'procMemberDeleteImageName',
+		{member_srl:member_srl},
+		function(){jQuery('#image_nametag').remove()},
+		['error','message']
+	);
 }
 
 function doDeleteImageMark(member_srl) {
-        var fo_obj = xGetElementById("fo_insert_member");
-        fo_obj.member_srl.value = member_srl;
-        procFilter(fo_obj, delete_image_mark);
+	if (!member_srl) return;
+
+	if (!confirm(xe.lang.deleteImageMark)) return false;
+	exec_xml(
+		'member',
+		'procMemberDeleteImageMark',
+		{member_srl:member_srl},
+		function(){jQuery('#image_marktag').remove()},
+		['error','message']
+	);
 }
 
 /* 스크랩 삭제 */
@@ -157,14 +169,13 @@ function insertSelectedModule(id, module_srl, mid, browser_title) {
 
 /* 오픈아이디 연결 */
 function doAddOpenIDToMember() {
-    var fo_obj = xGetElementById("fo_insert_member");
+    var fo_obj = get_by_id("fo_insert_member");
     procFilter(fo_obj, add_openid_to_member);
 }
 
 /* 오픈아이디 연결 해제 */
 function doDeleteOpenIDFromMember(openid) {
-    var fo_obj = xGetElementById("fo_insert_member");
+    var fo_obj = get_by_id("fo_insert_member");
     fo_obj.openid_to_delete.value = openid;
     procFilter(fo_obj, delete_openid_from_member);
 }
-

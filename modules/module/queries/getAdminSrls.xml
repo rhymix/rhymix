@@ -7,5 +7,6 @@
     </columns>
     <conditions>
         <condition operation="in" column="user_id" var="user_ids" />
+        <condition operation="in" column="email_address" var="email_address" />
     </conditions>
 </query>

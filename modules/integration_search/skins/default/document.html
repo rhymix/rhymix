@@ -14,7 +14,7 @@
         {$lang->msg_no_result}
         <!--@if($last_division)-->
         <br />{$lang->msg_document_more_search}
-        <br /><a href="{getUrl('where','document','page',1,'document_srl','','search_target',$search_target,'is_keyword',$is_keyword,'division',$last_division,'last_division','')}" class="button"><span>{$lang->cmd_search_next}</span></a>
+        <br /><span class="btn"><a href="{getUrl('where','document','page',1,'document_srl','','search_target',$search_target,'is_keyword',$is_keyword,'division',$last_division,'last_division','')}">{$lang->cmd_search_next}</a></span>
         <!--@end-->
     </span>
 <!--@else-->
@@ -37,17 +37,17 @@
 
     <!--@if($where == 'document' && $output->page_navigation)-->
         <div class="pagination a1">
-            <a href="{getUrl('page','')}" class="prevEnd">{$lang->first_page}</a> 
+            <a href="{getAutoEncodedUrl('page','')}" class="prevEnd">{$lang->first_page}</a> 
             <!--@while($page_no = $output->page_navigation->getNextPage())-->
                 <!--@if($page == $page_no)-->
                     <strong>{$page_no}</strong> 
                 <!--@else-->
-                    <a href="{getUrl('page',$page_no)}">{$page_no}</a>
+                    <a href="{getAutoEncodedUrl('page',$page_no)}">{$page_no}</a>
                 <!--@end-->
             <!--@end-->
-            <a href="{getUrl('page',$output->page_navigation->last_page)}" <!--@if(!$last_division)-->class="nextEnd"<!--@end-->>{$lang->last_page}</a>
+            <a href="{getAutoEncodedUrl('page',$output->page_navigation->last_page)}" <!--@if(!$last_division)-->class="nextEnd"<!--@end-->>{$lang->last_page}</a>
             <!--@if($last_division)-->
-            <a href="{getUrl('page',1,'document_srl','','search_target',$search_target,'is_keyword',$is_keyword,'division',$last_division,'last_division','')}" class="nextEnd">{$lang->cmd_search_next}</a>
+            <a href="{getAutoEncodedUrl('page',1,'document_srl','','search_target',$search_target,'is_keyword',$is_keyword,'division',$last_division,'last_division','')}" class="nextEnd">{$lang->cmd_search_next}</a>
             <!--@end-->
         </div>
     <!--@end-->

@@ -10,6 +10,7 @@
         <group pipe="and">
             <condition operation="equal" column="member.is_admin" var="is_admin" />
             <condition operation="equal" column="member.denied" var="is_denied" pipe="and" />
+			<condition operation="in" column="member.member_srls" var="member_srls" pipe="and" />
         </group>
         <group pipe="and">
             <condition operation="like" column="member.user_id" var="s_user_id" />
@@ -26,6 +27,9 @@
             <condition operation="less" column="member.last_login" var="s_last_login_less" pipe="or" />
         </group>
     </conditions>
+	<groups>
+		<group column="member.member_srl" />
+	</groups>
     <navigation>
         <index var="sort_index" default="member.list_order" order="sort_order" />
         <list_count var="list_count" default="20" />

@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<lang>
+	<item name="poll_title">
+		<value xml:lang="ko"><![CDATA[제목]]></value>
+		<value xml:lang="en"><![CDATA[Title]]></value>
+		<value xml:lang="jp"><![CDATA[タイトル]]></value>
+		<value xml:lang="zh-CN"><![CDATA[标题]]></value>
+		<value xml:lang="zh-TW"><![CDATA[標題]]></value>
+		<value xml:lang="ru"><![CDATA[Заголовок]]></value>
+		<value xml:lang="es"><![CDATA[Titulo]]></value>
+		<value xml:lang="tr"><![CDATA[Başlık]]></value>
+		<value xml:lang="vi"><![CDATA[Tiêu đề]]></value>
+	</item>
+	<item name="poll_item">
+		<value xml:lang="ko"><![CDATA[항목]]></value>
+		<value xml:lang="en"><![CDATA[Items]]></value>
+		<value xml:lang="jp"><![CDATA[項目]]></value>
+		<value xml:lang="zh-CN"><![CDATA[项目]]></value>
+		<value xml:lang="zh-TW"><![CDATA[項目]]></value>
+		<value xml:lang="ru"><![CDATA[Пункты]]></value>
+		<value xml:lang="es"><![CDATA[Temas]]></value>
+		<value xml:lang="tr"><![CDATA[Parça]]></value>
+		<value xml:lang="vi"><![CDATA[Mục]]></value>
+	</item>
+	<item name="poll_stop_date">
+		<value xml:lang="ko"><![CDATA[종료 일자]]></value>
+		<value xml:lang="en"><![CDATA[Expiration Date]]></value>
+		<value xml:lang="jp"><![CDATA[終了日]]></value>
+		<value xml:lang="zh-CN"><![CDATA[结束日期]]></value>
+		<value xml:lang="zh-TW"><![CDATA[結束日期]]></value>
+		<value xml:lang="ru"><![CDATA[Дата истечения]]></value>
+		<value xml:lang="es"><![CDATA[Fecha de Expiracion]]></value>
+		<value xml:lang="tr"><![CDATA[Sonlandırma Tarihi]]></value>
+		<value xml:lang="vi"><![CDATA[Ngày hết hạn]]></value>
+	</item>
+	<item name="poll_chk_count">
+		<value xml:lang="ko"><![CDATA[선택항목 수]]></value>
+		<value xml:lang="en"><![CDATA[Number of checked items]]></value>
+		<value xml:lang="jp"><![CDATA[選択項目数]]></value>
+		<value xml:lang="zh-CN"><![CDATA[选择项目数]]></value>
+		<value xml:lang="zh-TW"><![CDATA[選擇項目數]]></value>
+		<value xml:lang="ru"><![CDATA[Число пунктов выбора]]></value>
+		<value xml:lang="es"><![CDATA[Numero de Comprobacion de Partida]]></value>
+		<value xml:lang="tr"><![CDATA[Denetlenen Parça Sayısı]]></value>
+		<value xml:lang="vi"><![CDATA[Số phiếu]]></value>
+	</item>
+	<item name="cmd_add_poll">
+		<value xml:lang="ko"><![CDATA[설문 추가]]></value>
+		<value xml:lang="en"><![CDATA[Add a poll]]></value>
+		<value xml:lang="jp"><![CDATA[アンケート追加]]></value>
+		<value xml:lang="zh-CN"><![CDATA[添加投票]]></value>
+		<value xml:lang="zh-TW"><![CDATA[新增投票]]></value>
+		<value xml:lang="ru"><![CDATA[Добавить опрос]]></value>
+		<value xml:lang="es"><![CDATA[Anadir Encuesta]]></value>
+		<value xml:lang="tr"><![CDATA[Oylama Ekle]]></value>
+		<value xml:lang="vi"><![CDATA[Tạo thăm dò]]></value>
+	</item>
+	<item name="cmd_del_poll">
+		<value xml:lang="ko"><![CDATA[설문 제거]]></value>
+		<value xml:lang="en"><![CDATA[Delete this poll]]></value>
+		<value xml:lang="jp"><![CDATA[アンケート削除]]></value>
+		<value xml:lang="zh-CN"><![CDATA[解除投票]]></value>
+		<value xml:lang="zh-TW"><![CDATA[刪除投票]]></value>
+		<value xml:lang="ru"><![CDATA[Удалить опрос]]></value>
+		<value xml:lang="es"><![CDATA[Borrar encuesta]]></value>
+		<value xml:lang="tr"><![CDATA[Parçayı Sil]]></value>
+		<value xml:lang="vi"><![CDATA[Xóa thăm dò]]></value>
+	</item>
+	<item name="cmd_add_item">
+		<value xml:lang="ko"><![CDATA[항목 추가]]></value>
+		<value xml:lang="en"><![CDATA[Add an item]]></value>
+		<value xml:lang="jp"><![CDATA[項目追加]]></value>
+		<value xml:lang="zh-CN"><![CDATA[添加项目]]></value>
+		<value xml:lang="zh-TW"><![CDATA[新增項目]]></value>
+		<value xml:lang="ru"><![CDATA[Добавить пункт]]></value>
+		<value xml:lang="es"><![CDATA[Anadir Tema]]></value>
+		<value xml:lang="tr"><![CDATA[Parça Ekle]]></value>
+		<value xml:lang="vi"><![CDATA[Thêm mục]]></value>
+	</item>
+	<item name="cmd_del_item">
+		<value xml:lang="ko"><![CDATA[마지막 항목 제거]]></value>
+		<value xml:lang="en"><![CDATA[Delete last item]]></value>
+		<value xml:lang="jp"><![CDATA[最後の項目削除]]></value>
+	</item>
+	<item name="msg_poll_cannot_modify">
+		<value xml:lang="ko"><![CDATA[설문조사는 수정할 수 없습니다. 삭제 후 다시 생성하셔야 합니다.]]></value>
+		<value xml:lang="en"><![CDATA[You cannot modify the poll. You need to delete it and create a new one.]]></value>
+		<value xml:lang="jp"><![CDATA[アンケートは修正できません。削除後、改めて作成してください。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[投票调查不提供修改功能。必须删除后再生成]]></value>
+		<value xml:lang="zh-TW"><![CDATA[投票調查不提供修改功能。必須刪除後再新增]]></value>
+		<value xml:lang="ru"><![CDATA[Вы не можете изменить этот опрос. Его следует удалить для того, чтобы создать новый.]]></value>
+		<value xml:lang="es"><![CDATA[No se puede modificar la encuesta. Por lo que debe suprimirse para crear una nueva encuesta]]></value>
+		<value xml:lang="tr"><![CDATA[Oylamayı düzenleyemezsiniz. Yeni oylama oluşturmak için, oylamanın silinmesi gerekiyor.]]></value>
+		<value xml:lang="vi"><![CDATA[Bạn không thể sửa đổi được. Nó sẽ được xóa để tạo cuộc thăm dò mới.]]></value>
+	</item>
+</lang>

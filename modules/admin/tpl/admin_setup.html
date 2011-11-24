@@ -1,0 +1,85 @@
+<load target="./js/menu_setup.js" usecdn="true" />
+<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
+<h1 class="h1">{$lang->admin_setup}</h1>
+<form action="./" method="post" enctype="multipart/form-data">
+	<input type="hidden" name="module" value="admin" />
+	<input type="hidden" name="act" value="procAdminUpdateConfig" />
+	<fieldset class="section">
+		<h2 class="h2">{$lang->admin_title}</h2>
+		<ul class="form">
+			<li>
+				<p class="q"><label for="adminLogo">{$lang->admin_logo}</label></p>
+				<p class="a">
+					<!--@if($config_object->adminLogo)-->
+					<img src="{getUrl('').$config_object->adminLogo}" />
+					<button type="submit" value="procAdminDeleteLogo" name="act" class="text">{$lang->cmd_delete}</button>
+					<!--@else-->
+					<img src="{getUrl('')}{$gnb_title_info->adminLogo}" />
+					<!--@end-->
+				</p>
+				<p class="a"><input type="file" name="adminLogo" id="adminLogo" /></p>
+			</li>
+			<li>
+				<p class="q"><label for="adminTitle">{$lang->admin_title}</label></p>
+				<p class="a"><input type="text" name="adminTitle" id="adminTitle" value="{$config_object->adminTitle}" /></p>
+			</li>
+		</ul>
+		<p class="btnArea"><span class="btn small"><button value="procAdminUpdateConfig" name="act" type="submit">{$lang->cmd_save}</button></span></p>
+	</fieldset>
+</form>
+<form id="listForm" action="./" class="siteMap" method="post">
+	<input type="hidden" name="module" value="admin" />
+	<input type="hidden" name="act" value="procMenuAdminDeleteItem" />
+	<input type="hidden" name="menu_srl" value="{$menu_srl}" />
+	<input type="hidden" name="title" value="{$menu_title}" />
+	<input type="hidden" name="menu_item_srl" value="" />
+	<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin', 'act', 'dispAdminSetup')}" />
+	<fieldset class="section">
+	<h2 class="h2">{$lang->admin_menu_setup}</h2>
+	<div class="adminMenu portlet">
+		<ul class="lined">
+			<li class="parent" loop="$gnbUrlList=>$key,$value">
+				<input type="hidden" name="parent_key[]" value="{$value['parent_srl']}" class="_parent_key" />
+				<input type="hidden" name="item_key[]" value="{$value['node_srl']}" class="_item_key" />
+				<span>{$value['text']}</span> <span class="side"><a href="#editMenu" class="modalAnchor _add">{$lang->add}</a></span>
+				<ul cond="is_array($value['list']) && count($value['list'])>0">
+					<li loop="$value['list']=>$key2,$value2">
+					<input type="hidden" name="parent_key[]" value="{$value2['parent_srl']}" class="_parent_key" />
+					<input type="hidden" name="item_key[]" value="{$value2['node_srl']}" class="_item_key" />
+					<span>{$value2['text']}</span><span class="side"><a href="#delete" class="_child_delete">{$lang->delete}</a></span>
+					</li>
+				</ul>
+			</li>
+		</ul>
+		<p class="btnArea">
+			<span class="btn small" style="float: left;"><button value="procAdminMenuReset" name="act" type="submit">{$lang->cmd_reset}</button></span>
+			<span class="btn small"><button value="procMenuAdminArrangeItem" name="act" type="submit">{$lang->cmd_save}</button></span>
+		</p>
+	</div>
+	</fieldset>
+</form>
+<div class="modal" id="editMenu">
+	<div class="fg">
+		<form id="editForm" action="./" class="form">
+		<input type="hidden" name="module" value="menu" />
+		<input type="hidden" name="act" value="procMenuAdminInsertItemForAdminMenu" />
+		<input type="hidden" name="menu_srl" value="{$menu_srl}" />
+		<input type="hidden" name="parent_srl" value="" />
+			<h2 class="h2">{$lang->admin_menu_add}</h2>
+			<ul>
+				<li>
+					<p class="q"><label for="name">{$lang->module}</label></p>
+					<div class="a">
+						<select name="menu_name" id="menuNameList">
+						</select>
+					</div>
+				</li>
+			</ul>
+			<div class="btnArea">
+				<span class="btn"><input type="submit" value="{$lang->cmd_save}" /></span>
+			</div>
+		</form>
+	</div>
+</div>

@@ -7,7 +7,7 @@
     var filebox = {
         selected : null,
         /**
-         * 파일 박스 창 팝업
+         * pop up the file box
          */
         open : function(input_obj, filter) {
             this.selected = input_obj;
@@ -22,7 +22,7 @@
         },
 
         /**
-         * 파일 선택
+         * select a file
          */
         selectFile : function(file_url, module_filebox_srl){
             var target = $(opener.XE.filebox.selected);
@@ -37,7 +37,7 @@
         },
 
         /**
-         * 파일 선택 취소
+         * cancel
          */
         cancel : function(name) {
             $('[name=' + name + ']').val('');
@@ -46,7 +46,7 @@
         },
 
         /**
-         * 파일 삭제
+         * delete a file
          */
         deleteFile : function(module_filebox_srl){
             var params = {
@@ -57,7 +57,7 @@
         },
 
         /**
-         * 초기화
+         * initialize
          */
         init : function(name) {
             var file;
@@ -76,7 +76,7 @@
         }
     };
 
-    // XE에 담기
+    // put the file into XE
     $.extend(window.XE, {'filebox' : filebox});
 
 }) (jQuery);

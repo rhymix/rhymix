@@ -1,26 +1,25 @@
-<!--%import("filter/generate_code.xml")-->
-<!--%import("js/widget_admin.js")-->
-<!--%import("css/widget.css")-->
-<!--%import("../../admin/tpl/css/admin.css")-->
+<include cond="$in_admin" target="header.html" />
+<load target="js/generate_code.js" usecdn="true" />
 
-<form action="./" method="get" onsubmit="return procFilter(this, generate_code);" id="fo_widget">
-    <div id="popHeader" class="wide">
-        <h3 class="xeAdmin">{$lang->cmd_generate_code}</h3>
-    </div>
+<h2 class="h2">{$widget_info->title}</h2>
+<p>{$widget_info->description}</p>
+<form id="widget_code_form" class="form" action="./" method="post">
+	<input type="hidden" name="module" value="widget" />
+	<input type="hidden" name="act" value="procWidgetGenerateCode" />
+	<input type="hidden" name="selected_widget" value="{$widget_info->widget}" />
 
-    <div id="popBody">
-        {@ $_caption = $lang->about_widget_code}
-        <!--#include("widget_generate_code.include.html")-->
-        <h3 class="xeAdmin">{$lang->widget_code}</h3>
-        <table cellspacing="0" class="rowTable">
-        <tr>
-            <td class="wide"><textarea readonly="true" id="widget_code" class="inputTypeTextArea fullWidth"></textarea></td>
-        </tr>
-        </table>
-    </div>
+	<h3 class="h3">{$lang->cmd_generate_code}</h3>
+	<p>{$lang->about_widget_code}</p>
+	<include target="widget_generate_code.include.html" />
 
-    <div id="popFooter">
-        <span class="button black strong"><input type="submit" value="{$lang->cmd_generate_code}"  /></span>
-    </div>
-
+	<div class="btnArea">
+		<span class="btn small"><input type="submit" value="{$lang->cmd_generate_code}" /></span>
+	</div>
 </form>
+
+<h3 class="h3">{$lang->widget_code}</h3>
+<p><textarea id="widget_code" style="width: 100%; height: 50px;" readonly="readonly"></textarea>
+
+<include target="widget_generate_code.filebox.html" />
+<include target="widget_generate_code.multilang.html" />
+	<include target="widget_generate_code.multilang.textarea.html" />

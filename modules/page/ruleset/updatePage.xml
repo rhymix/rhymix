@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ruleset version="1.5.0">
+    <customrules>
+		<rule name="mid" type="regex" test="/^[a-zA-Z]+[0-9a-zA-Z_]*$/"  />
+    </customrules>
+    <fields>
+		<field name="page_name" required="true" length=":40" rule="mid" />
+		<field name="browser_title" required="true" length=":250" />
+		<field name="path">
+			<if test="$page_type == 'OUTSIDE'" attr="required" value="true" />
+		</field>
+    </fields>
+</ruleset>

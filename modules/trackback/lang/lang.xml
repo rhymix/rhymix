@@ -1,0 +1,199 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<lang>
+	<item name="cmd_toggle_checked_trackback">
+		<value xml:lang="ko"><![CDATA[선택항목 반전]]></value>
+		<value xml:lang="en"><![CDATA[Invert Selection]]></value>
+		<value xml:lang="jp"><![CDATA[選択トラックバック反転]]></value>
+		<value xml:lang="zh-CN"><![CDATA[反选]]></value>
+		<value xml:lang="zh-TW"><![CDATA[反選]]></value>
+		<value xml:lang="fr"><![CDATA[Renverser les rétroliens choisis]]></value>
+		<value xml:lang="ru"><![CDATA[Reverse selected trackback(s)]]></value>
+		<value xml:lang="es"><![CDATA[Reverse selected trackback(s)]]></value>
+		<value xml:lang="tr"><![CDATA[Seçili geri izlemeleri iptal et]]></value>
+		<value xml:lang="vi"><![CDATA[Nhận liên kết Web đã chọn]]></value>
+	</item>
+	<item name="cmd_delete_checked_trackback">
+		<value xml:lang="ko"><![CDATA[선택항목 삭제]]></value>
+		<value xml:lang="en"><![CDATA[Delete selected]]></value>
+		<value xml:lang="jp"><![CDATA[選択トラックバック削除]]></value>
+		<value xml:lang="zh-CN"><![CDATA[删除所选]]></value>
+		<value xml:lang="zh-TW"><![CDATA[刪除所選]]></value>
+		<value xml:lang="fr"><![CDATA[Supprimer les rétroliens choisis]]></value>
+		<value xml:lang="ru"><![CDATA[Удалить выбранные трекбеки]]></value>
+		<value xml:lang="es"><![CDATA[Trackback(s) es eliminado]]></value>
+		<value xml:lang="tr"><![CDATA[Seçili geri izlemeleri sil]]></value>
+		<value xml:lang="vi"><![CDATA[Xóa liên kết Web đã chọn]]></value>
+	</item>
+	<item name="msg_cart_is_null">
+		<value xml:lang="ko"><![CDATA[삭제할 글을 선택해주세요.]]></value>
+		<value xml:lang="en"><![CDATA[Please select a trackback to delete.]]></value>
+		<value xml:lang="jp"><![CDATA[削除する書き込みを選択してください。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[请选择要删除的文章]]></value>
+		<value xml:lang="zh-TW"><![CDATA[請選擇要刪除的文章]]></value>
+		<value xml:lang="fr"><![CDATA[Choisissez un rétrolien à supprimer, S.V.P.]]></value>
+		<value xml:lang="ru"><![CDATA[Пожалуйста, выберите трекбек для удаления.]]></value>
+		<value xml:lang="es"><![CDATA[Seleccione un trackback para ser eliminado.]]></value>
+		<value xml:lang="tr"><![CDATA[Lütfen silinecek geri izlemeyi seçin.]]></value>
+		<value xml:lang="vi"><![CDATA[Xin hãy chọn liên kết Web muốn xóa.]]></value>
+	</item>
+	<item name="msg_checked_trackback_is_deleted">
+		<value xml:lang="ko"><![CDATA[%d개의 엮인글을 삭제했습니다.]]></value>
+		<value xml:lang="en"><![CDATA[%d trackback(s) deleted.]]></value>
+		<value xml:lang="jp"><![CDATA[%d個のトラックバックが削除されました。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[已删除%d个引用]]></value>
+		<value xml:lang="zh-TW"><![CDATA[已刪除%d個引用]]></value>
+		<value xml:lang="fr"><![CDATA[%d rétrolien(s) est(sont) supprimé(s).]]></value>
+		<value xml:lang="ru"><![CDATA[%d трекбеков удалено.]]></value>
+		<value xml:lang="es"><![CDATA[%d trackback(s) eliminado.]]></value>
+		<value xml:lang="tr"><![CDATA[%d geri izlemeleri silindi.]]></value>
+		<value xml:lang="vi"><![CDATA[%d đã được xóa.]]></value>
+	</item>
+	<item name="send_trackback_url">
+		<value xml:lang="ko"><![CDATA[발송할 주소]]></value>
+		<value xml:lang="en"><![CDATA[Destination URL]]></value>
+		<value xml:lang="jp"><![CDATA[送信するURL]]></value>
+		<value xml:lang="zh-CN"><![CDATA[发送地址]]></value>
+		<value xml:lang="zh-TW"><![CDATA[發送網址]]></value>
+		<value xml:lang="fr"><![CDATA[URL de Destination]]></value>
+		<value xml:lang="tr"><![CDATA[Hedef URL]]></value>
+		<value xml:lang="vi"><![CDATA[Địa chỉ muốn gửi]]></value>
+	</item>
+	<item name="msg_trackback_url_is_invalid">
+		<value xml:lang="ko"><![CDATA[발송할 대상의 주소가 올바르지 않습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Destination URL is invalid.]]></value>
+		<value xml:lang="jp"><![CDATA[トラックバックのurlが正しくありません。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[错误的发送地址！]]></value>
+		<value xml:lang="zh-TW"><![CDATA[發送錯誤！]]></value>
+		<value xml:lang="fr"><![CDATA[URL de Destination est invalide]]></value>
+		<value xml:lang="tr"><![CDATA[Hedef URL geçersiz.]]></value>
+		<value xml:lang="vi"><![CDATA[Địa chỉ muốn gửi không hợp lệ]]></value>
+	</item>
+	<item name="msg_trackback_send_success">
+		<value xml:lang="ko"><![CDATA[엮인글을 발송했습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Sent successfully.]]></value>
+		<value xml:lang="jp"><![CDATA[トラックバックを送信しました。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[成功发送引用。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[成功發送。]]></value>
+		<value xml:lang="fr"><![CDATA[Envoyé avec succès]]></value>
+		<value xml:lang="tr"><![CDATA[Başarıyla gönderildi]]></value>
+		<value xml:lang="vi"><![CDATA[Đã gửi thành công.]]></value>
+	</item>
+	<item name="search_target_list" type="array">
+		<item name="url">
+			<value xml:lang="ko"><![CDATA[대상 URL]]></value>
+			<value xml:lang="en"><![CDATA[Target URL]]></value>
+			<value xml:lang="jp"><![CDATA[URL]]></value>
+			<value xml:lang="zh-CN"><![CDATA[对象URL]]></value>
+			<value xml:lang="zh-TW"><![CDATA[目標網址]]></value>
+			<value xml:lang="fr"><![CDATA[URL objectif]]></value>
+			<value xml:lang="ru"><![CDATA[URL назначения]]></value>
+			<value xml:lang="es"><![CDATA[URL objetivo]]></value>
+			<value xml:lang="tr"><![CDATA[Hedef URL]]></value>
+			<value xml:lang="vi"><![CDATA[URL muốn gửi]]></value>
+		</item>
+		<item name="blog_name">
+			<value xml:lang="ko"><![CDATA[대상 사이트 이름]]></value>
+			<value xml:lang="en"><![CDATA[Target Site Name]]></value>
+			<value xml:lang="jp"><![CDATA[サイト（ブログ）名]]></value>
+			<value xml:lang="zh-CN"><![CDATA[对象网站名称]]></value>
+			<value xml:lang="zh-TW"><![CDATA[目標網站名稱]]></value>
+			<value xml:lang="fr"><![CDATA[Nom du Site objectif]]></value>
+			<value xml:lang="ru"><![CDATA[Имя сайта]]></value>
+			<value xml:lang="es"><![CDATA[Ojetivo del nombre de sitio]]></value>
+			<value xml:lang="tr"><![CDATA[Hedef Site Adı]]></value>
+			<value xml:lang="vi"><![CDATA[Tên Website muốn gửi]]></value>
+		</item>
+		<item name="title">
+			<value xml:lang="ko"><![CDATA[제목]]></value>
+			<value xml:lang="en"><![CDATA[Title]]></value>
+			<value xml:lang="jp"><![CDATA[タイトル]]></value>
+			<value xml:lang="zh-CN"><![CDATA[标题]]></value>
+			<value xml:lang="zh-TW"><![CDATA[標題]]></value>
+			<value xml:lang="fr"><![CDATA[Titre]]></value>
+			<value xml:lang="ru"><![CDATA[Заголовок]]></value>
+			<value xml:lang="es"><![CDATA[Título]]></value>
+			<value xml:lang="tr"><![CDATA[Başlık]]></value>
+			<value xml:lang="vi"><![CDATA[Tiêu đề]]></value>
+		</item>
+		<item name="excerpt">
+			<value xml:lang="ko"><![CDATA[내용]]></value>
+			<value xml:lang="en"><![CDATA[Excerpt]]></value>
+			<value xml:lang="jp"><![CDATA[要約内容]]></value>
+			<value xml:lang="zh-CN"><![CDATA[内容]]></value>
+			<value xml:lang="zh-TW"><![CDATA[內容]]></value>
+			<value xml:lang="fr"><![CDATA[Contenu]]></value>
+			<value xml:lang="ru"><![CDATA[Выдержка]]></value>
+			<value xml:lang="es"><![CDATA[Contenido]]></value>
+			<value xml:lang="tr"><![CDATA[Alıntı]]></value>
+			<value xml:lang="vi"><![CDATA[Trích đoạn]]></value>
+		</item>
+		<item name="regdate">
+			<value xml:lang="ko"><![CDATA[등록일]]></value>
+			<value xml:lang="en"><![CDATA[Posted Date]]></value>
+			<value xml:lang="jp"><![CDATA[登録日]]></value>
+			<value xml:lang="zh-CN"><![CDATA[登录日期]]></value>
+			<value xml:lang="zh-TW"><![CDATA[登錄日期]]></value>
+			<value xml:lang="fr"><![CDATA[Jour]]></value>
+			<value xml:lang="ru"><![CDATA[Дата отправки]]></value>
+			<value xml:lang="es"><![CDATA[Fecha del posteo]]></value>
+			<value xml:lang="tr"><![CDATA[Gönderilme Tarihi]]></value>
+			<value xml:lang="vi"><![CDATA[Ngày gửi]]></value>
+		</item>
+		<item name="ipaddress">
+			<value xml:lang="ko"><![CDATA[IP 주소]]></value>
+			<value xml:lang="en"><![CDATA[IP Address]]></value>
+			<value xml:lang="jp"><![CDATA[IPアドレス]]></value>
+			<value xml:lang="zh-CN"><![CDATA[IP地址]]></value>
+			<value xml:lang="zh-TW"><![CDATA[IP位址]]></value>
+			<value xml:lang="fr"><![CDATA[Adresse IP]]></value>
+			<value xml:lang="ru"><![CDATA[IP-адрес]]></value>
+			<value xml:lang="es"><![CDATA[Dirección IP]]></value>
+			<value xml:lang="tr"><![CDATA[IP Adresi]]></value>
+			<value xml:lang="vi"><![CDATA[IP]]></value>
+		</item>
+	</item>
+	<item name="enable_trackback">
+		<value xml:lang="ko"><![CDATA[엮인글 허용]]></value>
+		<value xml:lang="en"><![CDATA[Allow Trackback]]></value>
+		<value xml:lang="jp"><![CDATA[トラックバックを可能にする]]></value>
+		<value xml:lang="zh-CN"><![CDATA[使用引用]]></value>
+		<value xml:lang="zh-TW"><![CDATA[使用引用]]></value>
+		<value xml:lang="fr"><![CDATA[Utiliser le Rétrolien]]></value>
+		<value xml:lang="ru"><![CDATA[Включить трекбек]]></value>
+		<value xml:lang="es"><![CDATA[Usar trackback]]></value>
+		<value xml:lang="tr"><![CDATA[Geri izleme kullan.]]></value>
+		<value xml:lang="vi"><![CDATA[Sử dụng liên kết Web]]></value>
+	</item>
+	<item name="about_enable_trackback">
+		<value xml:lang="ko"><![CDATA[체크를 해제하면 모든 글의 엮인글 접수를 중지합니다.]]></value>
+		<value xml:lang="en"><![CDATA[When it is unchecked, all the trackback collection on the site will be stopped.]]></value>
+		<value xml:lang="jp"><![CDATA[チェックを外すと、すべてのコンテンツに対し、トラックバックの受信を中止します。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[取消此项勾选将对网站内的所有主题禁止接收引用。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[不選取的話，將會使網站內所有的主題都禁止接收引用。]]></value>
+		<value xml:lang="fr"><![CDATA[Si vous annulez la coché, on arrêtera de ramasser les rétroliens de tous les articles du site]]></value>
+		<value xml:lang="ru"><![CDATA[Эта опция включает/выключает фукцию трекбека.]]></value>
+		<value xml:lang="es"><![CDATA[Si no selecciona esta opción, desactiva la inscripción de trackback en todos los documentos del sitio]]></value>
+		<value xml:lang="tr"><![CDATA[Geri izleme devredışı bırakıldığında, sitedeki tüm geri izleme (trackback) koleksiyonları durdurulacaktır.]]></value>
+		<value xml:lang="vi"><![CDATA[Khi chọn là tắt chức năng này, mọi liên kết Web trên Website sẽ ngừng hoạt động.]]></value>
+	</item>
+	<item name="no_trackbacks">
+		<value xml:lang="ko"><![CDATA[엮인글이 없습니다.]]></value>
+		<value xml:lang="en"><![CDATA[No Trackbacks]]></value>
+		<value xml:lang="jp"><![CDATA[トラックバックがありません。]]></value>
+	</item>
+	<item name="trackback_manager">
+		<value xml:lang="ko"><![CDATA[선택한 엮인글 관리]]></value>
+		<value xml:lang="en"><![CDATA[Manage selected trackbacks]]></value>
+		<value xml:lang="jp"><![CDATA[選択したトラックバック管理]]></value>
+	</item>
+	<item name="selected_trackback">
+		<value xml:lang="ko"><![CDATA[선택한 엮인글]]></value>
+		<value xml:lang="en"><![CDATA[Selected trackbacks]]></value>
+		<value xml:lang="jp"><![CDATA[選択したトラックバック]]></value>
+	</item>
+	<item name="site">
+		<value xml:lang="ko"><![CDATA[사이트]]></value>
+		<value xml:lang="en"><![CDATA[Site]]></value>
+		<value xml:lang="jp"><![CDATA[サイト]]></value>
+	</item>
+</lang>

@@ -2,13 +2,13 @@
     /**
      * @class  sessionModel
      * @author NHN (developers@xpressengine.com)
-     * @brief  session 모듈의 Model class
+     * @brief The Model class of the session module
      **/
 
     class sessionModel extends session {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
         }
@@ -19,34 +19,41 @@
 
         function read($session_key) {
             if(!$session_key || !$this->session_started) return;
+            
+        	$oCacheHandler = &CacheHandler::getInstance('object');
+			if($oCacheHandler->isSupport()){
+				$cache_key = 'object:'.$session_key;
+				$output->data = $oCacheHandler->get($cache_key);
+			}
+			if(!$output->data) {
 
-            $args->session_key = $session_key;
-            $output = executeQuery('session.getSession', $args);
-
-            // 읽기 오류 발생시 테이블 생성 유무 확인
-            if(!$output->toBool()) {
-                $oDB = &DB::getInstance();
-                if(!$oDB->isTableExists('session')) $oDB->createTableByXmlFile($this->module_path.'schemas/session.xml');
-                if(!$oDB->isColumnExists("session","cur_mid")) $oDB->addColumn('session',"cur_mid","varchar",128);
-                $output = executeQuery('session.getSession', $args);
-            }
-
-            // 세션 정보에서 cur_mid값이 없을 경우 테이블 생성 체크
-            if(!isset($output->data->cur_mid)) {
-                $oDB = &DB::getInstance();
-                if(!$oDB->isColumnExists("session","cur_mid")) $oDB->addColumn('session',"cur_mid","varchar",128);
-            }
-
+				$args->session_key = $session_key;
+				$columnList = array('session_key', 'cur_mid', 'val');
+	            $output = executeQuery('session.getSession', $args, $columnList);
+	            // Confirm there is a table created if read error occurs
+	            if(!$output->toBool()) {
+	                $oDB = &DB::getInstance();
+	                if(!$oDB->isTableExists('session')) $oDB->createTableByXmlFile($this->module_path.'schemas/session.xml');
+	                if(!$oDB->isColumnExists("session","cur_mid")) $oDB->addColumn('session',"cur_mid","varchar",128);
+	                $output = executeQuery('session.getSession', $args);
+	            }
+	            // Check if there is a table created in case there is no "cur_mid" value in the sessions information
+	            if(!isset($output->data->cur_mid)) {
+	                $oDB = &DB::getInstance();
+	                if(!$oDB->isColumnExists("session","cur_mid")) $oDB->addColumn('session',"cur_mid","varchar",128);
+	            }
+	           
+			}
             return $output->data->val;
         }
 
         /**
-         * @brief 현재 접속중인 사용자의 목록을 구함
-         * 여러개의 인자값을 필요로 해서 object를 인자로 받음
-         * limit_count : 대상 수
-         * page : 페이지 번호
-         * period_time : 인자의 값을 n으로 하여 최근 n분 이내에 세션을 갱신한 대상을 추출함
-         * mid : 특정 mid에 속한 사용자
+         * @brief Get a list of currently connected users
+         * Requires "object" argument because multiple arguments are expected
+         * limit_count : the number of objects
+         * page : the page number
+         * period_time: "n" specifies the time range in minutes since the last update
+         * mid: a user who belong to a specified mid
          **/
         function getLoggedMembers($args) {
             if(!$args->site_srl) {

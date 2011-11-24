@@ -1,14 +1,14 @@
-{@ Context::addJsFile("./common/js/jquery.js", true, '', -100000) }
-{@ Context::addJsFile("./common/js/js_app.js", true, '', -100000) }
-{@ Context::addJsFile("./common/js/common.js", true, '', -100000) }
-{@ Context::addJsFile("./common/js/xml_handler.js", true, '', -100000) }
-{@ Context::addJsFile("./common/js/xml_js_filter.js", true, '', -100000) }
+{@ Context::loadFile(array("./common/js/jquery.js", 'head', '', -100000), true) }
+{@ Context::loadFile(array("./common/js/js_app.js", 'head', '', -100000), true) }
+{@ Context::loadFile(array("./common/js/common.js", 'head', '', -100000), true) }
+{@ Context::loadFile(array("./common/js/xml_handler.js", 'head', '', -100000), true) }
+{@ Context::loadFile(array("./common/js/xml_js_filter.js", 'head', '', -100000), true) }
 
-<!--%import("css/msignup.css")-->
-<!--%import("js/signup_check.js")-->
-<!--%import("js/krzip_search.js")-->
+<load target="css/msignup.css" usecdn="true" />
+<load target="js/signup_check.js" usecdn="true" />
+<load target="js/krzip_search.js" usecdn="true" />
 <!--%import("../skins/default/filter/modify_info.xml")-->
-<!--%import("../skins/default/js/member.js")-->
+<load target="../skins/default/js/member.js" usecdn="true" />
 
 <!--@if($member_config->profile_image == 'Y')-->
     <!--%import("../skins/default/filter/delete_profile_image.xml")-->
@@ -47,7 +47,7 @@
 				<!--@if($member_info->profile_image->src)-->
 				<div id="p_image">
 					<img src="{$member_info->profile_image->src}" border="0" alt="profile_image" />
-					<a href="#" onclick="doDeleteProfileImage({$member_info->member_srl});return false;" class="bn"><span>{$lang->cmd_delete}</span></a>
+					<button type="button" onclick="doDeleteProfileImage({$member_info->member_srl});">{$lang->cmd_delete}</button>
 				</div>
 				<!--@end-->
 				<div id="p_image">
@@ -62,7 +62,7 @@
 				<!--@if($member_info->image_name->src)-->
 				<div id="p_image">
 					<div><img src="{$member_info->image_name->src}" border="0" alt="image_name" /></div>
-					<a href="#" onclick="doDeleteImageName({$member_info->member_srl});return false;" class="button"><span>{$lang->cmd_delete}</span></a>
+					<button type="button" onclick="doDeleteImageName({$member_info->member_srl});">{$lang->cmd_delete}</button>
 				</div>
 				<!--@end-->
 				<div id="p_image">
@@ -77,7 +77,7 @@
 				<!--@if($member_info->image_mark->src)-->
 				<div id="image_mark">
 					<img src="{$member_info->image_mark->src}" border="0" alt="image_mark" />
-					<a href="#" onclick="doDeleteImageMark({$member_info->member_srl});return false;" class="bn"><span>{$lang->cmd_delete}</span></a>
+					<button type="button" onclick="doDeleteImageMark({$member_info->member_srl});return false;">{$lang->cmd_delete}</button>
 				</div>
 				<!--@end-->
 
@@ -134,7 +134,7 @@
 							<input type="radio" name="{$val->column_name}" value="{$v}" <!--@if(is_array($val->value)&&in_array($v, $val->value))-->checked="checked"<!--@end-->/><label for="{$v}">{$v}</label>
 						<!--@end-->
 					<!--@end-->
-				
+
 				<!--// 단일 선택 -->
 				<!--@elseif($val->column_type == 'select')-->
 					<select name="{$val->column_name}">
@@ -153,7 +153,7 @@
 							<a href="#" onclick="doHideKrZipList('{$val->column_name}'); return false;" class="bn"><span>{$lang->cmd_cancel}</span></a>
 						</div>
 						<div id="zone_address_list_{$val->column_name}" style="display:none">
-							<select name="_tmp_address_list_{$val->column_name}" class="w300"></select>
+							<select name="_tmp_address_list_{$val->column_name}"></select>
 							<a href="#" onclick="doSelectKrZip('{$val->column_name}'); return false;" class="bn"><span>{$lang->cmd_select}</span></a>
 							<a href="#" onclick="doHideKrZipList('{$val->column_name}'); return false;" class="bn"><span>{$lang->cmd_cancel}</span></a>
 						</div>

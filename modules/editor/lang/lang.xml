@@ -1,0 +1,2109 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<lang>
+	<item name="editor_preview">
+		<value xml:lang="ko"><![CDATA[에디터 미리보기]]></value>
+		<value xml:lang="en"><![CDATA[Editor Preview]]></value>
+		<value xml:lang="jp"><![CDATA[エディタープレビュー]]></value>
+		<value xml:lang="zh-CN"><![CDATA[Editor Preview]]></value>
+		<value xml:lang="zh-TW"><![CDATA[Editor Preview]]></value>
+		<value xml:lang="ru"><![CDATA[Editor Preview]]></value>
+		<value xml:lang="tr"><![CDATA[Editor Preview]]></value>
+		<value xml:lang="vi"><![CDATA[Editor Preview]]></value>
+	</item>
+	<item name="editor_component">
+		<value xml:lang="ko"><![CDATA[에디터 컴포넌트]]></value>
+		<value xml:lang="en"><![CDATA[Editor Component]]></value>
+		<value xml:lang="jp"><![CDATA[エディターコンポーネント]]></value>
+		<value xml:lang="zh-CN"><![CDATA[Editor Component]]></value>
+		<value xml:lang="zh-TW"><![CDATA[Editor Component]]></value>
+		<value xml:lang="ru"><![CDATA[Editor Component]]></value>
+		<value xml:lang="tr"><![CDATA[Editor Component]]></value>
+		<value xml:lang="vi"><![CDATA[Editor Component]]></value>
+	</item>
+	<item name="main_editor">
+		<value xml:lang="ko"><![CDATA[본문 에디터]]></value>
+		<value xml:lang="en"><![CDATA[Main editor]]></value>
+		<value xml:lang="jp"><![CDATA[本文 エディター]]></value>
+		<value xml:lang="zh-CN"><![CDATA[Main editor]]></value>
+		<value xml:lang="zh-TW"><![CDATA[Main editor]]></value>
+		<value xml:lang="ru"><![CDATA[Main editor]]></value>
+		<value xml:lang="tr"><![CDATA[Main editor]]></value>
+		<value xml:lang="vi"><![CDATA[Main editor]]></value>
+	</item>
+	<item name="comment_editor">
+		<value xml:lang="ko"><![CDATA[댓글 에디터]]></value>
+		<value xml:lang="en"><![CDATA[Comment editor]]></value>
+		<value xml:lang="jp"><![CDATA[コメントエディター]]></value>
+		<value xml:lang="zh-CN"><![CDATA[Comment editor]]></value>
+		<value xml:lang="zh-TW"><![CDATA[Comment editor]]></value>
+		<value xml:lang="ru"><![CDATA[Comment editor]]></value>
+		<value xml:lang="tr"><![CDATA[Comment editor]]></value>
+		<value xml:lang="vi"><![CDATA[Comment editor]]></value>
+	</item>
+	<item name="editor_option">
+		<value xml:lang="ko"><![CDATA[에디터 옵션]]></value>
+		<value xml:lang="en"><![CDATA[Editor Option]]></value>
+		<value xml:lang="jp"><![CDATA[エディターオプション]]></value>
+		<value xml:lang="zh-CN"><![CDATA[Editor Option]]></value>
+		<value xml:lang="zh-TW"><![CDATA[Editor Option]]></value>
+		<value xml:lang="ru"><![CDATA[Editor Option]]></value>
+		<value xml:lang="tr"><![CDATA[Editor Option]]></value>
+		<value xml:lang="vi"><![CDATA[Editor Option]]></value>
+	</item>
+	<item name="guide_choose_main_editor">
+		<value xml:lang="ko"><![CDATA[본문 에디터를 선택하세요.]]></value>
+		<value xml:lang="en"><![CDATA[Choose the main editor.]]></value>
+		<value xml:lang="jp"><![CDATA[本文エディターを選択してください。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[Choose the main editor.]]></value>
+		<value xml:lang="zh-TW"><![CDATA[Choose the main editor.]]></value>
+		<value xml:lang="ru"><![CDATA[Choose the main editor.]]></value>
+		<value xml:lang="tr"><![CDATA[Choose the main editor.]]></value>
+		<value xml:lang="vi"><![CDATA[Choose the main editor.]]></value>
+	</item>
+	<item name="guide_set_height_main_editor">
+		<value xml:lang="ko"><![CDATA[본문 에디터의 높이를 설정하세요.]]></value>
+		<value xml:lang="en"><![CDATA[Set height of the main editor.]]></value>
+		<value xml:lang="jp"><![CDATA[本文エディターの高さを設定してください。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[Set height of the main editor.]]></value>
+		<value xml:lang="zh-TW"><![CDATA[Set height of the main editor.]]></value>
+		<value xml:lang="ru"><![CDATA[Set height of the main editor.]]></value>
+		<value xml:lang="tr"><![CDATA[Set height of the main editor.]]></value>
+		<value xml:lang="vi"><![CDATA[Set height of the main editor.]]></value>
+	</item>
+	<item name="guide_choose_comment_editor">
+		<value xml:lang="ko"><![CDATA[댓글 에디터를 선택하세요.]]></value>
+		<value xml:lang="en"><![CDATA[Choose the comment editor.]]></value>
+		<value xml:lang="jp"><![CDATA[コメントエディターを選択してください。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[Choose the comment editor.]]></value>
+		<value xml:lang="zh-TW"><![CDATA[Choose the comment editor.]]></value>
+		<value xml:lang="ru"><![CDATA[Choose the comment editor.]]></value>
+		<value xml:lang="tr"><![CDATA[Choose the comment editor.]]></value>
+		<value xml:lang="vi"><![CDATA[Choose the comment editor.]]></value>
+	</item>
+	<item name="guide_set_height_comment_editor">
+		<value xml:lang="ko"><![CDATA[댓글 에디터의 높이를 설정하세요.]]></value>
+		<value xml:lang="en"><![CDATA[Set height of the comment editor.]]></value>
+		<value xml:lang="jp"><![CDATA[コメントエディターの高さを設定してください。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[Set height of the comment editor.]]></value>
+		<value xml:lang="zh-TW"><![CDATA[Set height of the comment editor.]]></value>
+		<value xml:lang="ru"><![CDATA[Set height of the comment editor.]]></value>
+		<value xml:lang="tr"><![CDATA[Set height of the comment editor.]]></value>
+		<value xml:lang="vi"><![CDATA[Set height of the comment editor.]]></value>
+	</item>
+	<item name="guide_choose_text_formatting">
+		<value xml:lang="ko"><![CDATA[본문 서식을 선택하세요.]]></value>
+		<value xml:lang="en"><![CDATA[Choose the body format.]]></value>
+		<value xml:lang="jp"><![CDATA[本文のスタイルを選択してください。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[Choose the text formatting.]]></value>
+		<value xml:lang="zh-TW"><![CDATA[Choose the text formatting.]]></value>
+		<value xml:lang="ru"><![CDATA[Choose the text formatting.]]></value>
+		<value xml:lang="tr"><![CDATA[Choose the text formatting.]]></value>
+		<value xml:lang="vi"><![CDATA[Choose the text formatting.]]></value>
+	</item>
+	<item name="guide_choose_font_body">
+		<value xml:lang="ko"><![CDATA[본문 글꼴을 선택하세요.]]></value>
+		<value xml:lang="en"><![CDATA[Choose the body font.]]></value>
+		<value xml:lang="jp"><![CDATA[本文のフォントを選択してください。]]></value>		
+		<value xml:lang="zh-CN"><![CDATA[Choose the font body.]]></value>
+		<value xml:lang="zh-TW"><![CDATA[Choose the font body.]]></value>
+		<value xml:lang="ru"><![CDATA[Choose the font body.]]></value>
+		<value xml:lang="tr"><![CDATA[Choose the font body.]]></value>
+		<value xml:lang="vi"><![CDATA[Choose the font body.]]></value>
+	</item>
+	<item name="guide_choose_font_size_body">
+		<value xml:lang="ko"><![CDATA[본문 글꼴크기를 선택하세요.]]></value>
+		<value xml:lang="en"><![CDATA[Choose the font size of body.]]></value>
+		<value xml:lang="jp"><![CDATA[本文の文字サイズを選択してください。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[Choose the font size body.]]></value>
+		<value xml:lang="zh-TW"><![CDATA[Choose the font size body.]]></value>
+		<value xml:lang="ru"><![CDATA[Choose the font size body.]]></value>
+		<value xml:lang="tr"><![CDATA[Choose the font size body.]]></value>
+		<value xml:lang="vi"><![CDATA[Choose the font size body.]]></value>
+	</item>
+	
+	<item name="font_preview">
+		<value xml:lang="ko"><![CDATA[The quick brown fox jumps over the lazy dog.
+いろはにほへと / ちりぬるを / わかよたれそ / つねならむ / うゐのおくやま / けふこえて / あさきゆめみし / ゑひもせす
+키스의 고유 조건은 입술끼리 만나야 하고 특별한 기술은 필요치 않다.]]></value>
+		<value xml:lang="en"><![CDATA[The quick brown fox jumps over the lazy dog.
+いろはにほへと / ちりぬるを / わかよたれそ / つねならむ / うゐのおくやま / けふこえて / あさきゆめみし / ゑひもせす
+키스의 고유 조건은 입술끼리 만나야 하고 특별한 기술은 필요치 않다.]]></value>
+	</item>
+
+	<item name="msg_avail_easy_update">
+		<value xml:lang="ko"><![CDATA[이 항목의 새로운 버전이 있습니다.]]></value>
+		<value xml:lang="en"><![CDATA[There is new version for this item.]]></value>
+		<value xml:lang="jp"><![CDATA[この項目の新しいバージョンがあります。]]></value>
+	</item>
+	<item name="msg_do_you_like_update">
+		<value xml:lang="ko"><![CDATA[업데이트하시겠습니까?]]></value>
+		<value xml:lang="en"><![CDATA[Would you like to update?]]></value>
+		<value xml:lang="jp"><![CDATA[アップデートしますか？]]></value>
+	</item>
+	<item name="msg_font_too_big">
+		<value xml:lang="ko"><![CDATA[글꼴이 너무 큽니다.]]></value>
+		<value xml:lang="en"><![CDATA[The font is too big.]]></value>
+		<value xml:lang="jp"><![CDATA[文字サイズが大きすぎます。]]></value>
+	</item>
+	<item name="editor">
+		<value xml:lang="ko"><![CDATA[위지윅 에디터]]></value>
+		<value xml:lang="en"><![CDATA[WYSIWYG Editor]]></value>
+		<value xml:lang="jp"><![CDATA[ウイジウイグエディター]]></value>
+		<value xml:lang="zh-CN"><![CDATA[网页编辑器]]></value>
+		<value xml:lang="zh-TW"><![CDATA[網頁編輯器]]></value>
+		<value xml:lang="fr"><![CDATA[Tel-tel Editeur]]></value>
+		<value xml:lang="ru"><![CDATA[WYSIWYG-Редактор]]></value>
+		<value xml:lang="es"><![CDATA[Editor WYSIWYG]]></value>
+		<value xml:lang="vi"><![CDATA[WYSIWYG toàn diện]]></value>
+	</item>
+	<item name="component_name">
+		<value xml:lang="ko"><![CDATA[컴포넌트]]></value>
+		<value xml:lang="en"><![CDATA[Component]]></value>
+		<value xml:lang="jp"><![CDATA[コンポーネント]]></value>
+		<value xml:lang="zh-CN"><![CDATA[组件]]></value>
+		<value xml:lang="zh-TW"><![CDATA[組件]]></value>
+		<value xml:lang="fr"><![CDATA[Composant]]></value>
+		<value xml:lang="ru"><![CDATA[Компонент]]></value>
+		<value xml:lang="es"><![CDATA[Componente]]></value>
+		<value xml:lang="tr"><![CDATA[Bileşen]]></value>
+		<value xml:lang="vi"><![CDATA[Thành phần]]></value>
+	</item>
+	<item name="component_version">
+		<value xml:lang="ko"><![CDATA[버전]]></value>
+		<value xml:lang="en"><![CDATA[Version]]></value>
+		<value xml:lang="jp"><![CDATA[バージョン]]></value>
+		<value xml:lang="zh-CN"><![CDATA[版本]]></value>
+		<value xml:lang="zh-TW"><![CDATA[版本]]></value>
+		<value xml:lang="ru"><![CDATA[Версия]]></value>
+		<value xml:lang="es"><![CDATA[Versión]]></value>
+		<value xml:lang="tr"><![CDATA[Sürüm]]></value>
+		<value xml:lang="vi"><![CDATA[Phiên bản]]></value>
+	</item>
+	<item name="component_author">
+		<value xml:lang="ko"><![CDATA[제작자]]></value>
+		<value xml:lang="en"><![CDATA[Developer]]></value>
+		<value xml:lang="jp"><![CDATA[作者]]></value>
+		<value xml:lang="zh-CN"><![CDATA[作者]]></value>
+		<value xml:lang="zh-TW"><![CDATA[作者]]></value>
+		<value xml:lang="fr"><![CDATA[Développeur]]></value>
+		<value xml:lang="ru"><![CDATA[Разработчик]]></value>
+		<value xml:lang="es"><![CDATA[Autor]]></value>
+		<value xml:lang="tr"><![CDATA[Geliştirici]]></value>
+		<value xml:lang="vi"><![CDATA[Người phát triển]]></value>
+	</item>
+	<item name="component_link">
+		<value xml:lang="ko"><![CDATA[링크]]></value>
+		<value xml:lang="en"><![CDATA[Link]]></value>
+		<value xml:lang="jp"><![CDATA[リンク]]></value>
+		<value xml:lang="zh-CN"><![CDATA[链接]]></value>
+		<value xml:lang="zh-TW"><![CDATA[連結]]></value>
+		<value xml:lang="fr"><![CDATA[Lien]]></value>
+		<value xml:lang="ru"><![CDATA[Ссылка]]></value>
+		<value xml:lang="es"><![CDATA[Enlace]]></value>
+	</item>
+	<item name="component_date">
+		<value xml:lang="ko"><![CDATA[제작일]]></value>
+		<value xml:lang="en"><![CDATA[Date]]></value>
+		<value xml:lang="jp"><![CDATA[作成日]]></value>
+		<value xml:lang="zh-CN"><![CDATA[编写日期]]></value>
+		<value xml:lang="zh-TW"><![CDATA[編寫日期]]></value>
+		<value xml:lang="fr"><![CDATA[Jour de Création]]></value>
+		<value xml:lang="ru"><![CDATA[Дата]]></value>
+		<value xml:lang="es"><![CDATA[Fecha]]></value>
+		<value xml:lang="tr"><![CDATA[Tarih]]></value>
+		<value xml:lang="vi"><![CDATA[Ngày]]></value>
+	</item>
+	<item name="component_license">
+		<value xml:lang="ko"><![CDATA[라이선스]]></value>
+		<value xml:lang="en"><![CDATA[License]]></value>
+		<value xml:lang="jp"><![CDATA[ライセンス]]></value>
+		<value xml:lang="zh-CN"><![CDATA[版权]]></value>
+		<value xml:lang="zh-TW"><![CDATA[版權]]></value>
+		<value xml:lang="fr"><![CDATA[Licence]]></value>
+		<value xml:lang="tr"><![CDATA[Lisans]]></value>
+		<value xml:lang="vi"><![CDATA[Cấp phép]]></value>
+	</item>
+	<item name="component_history">
+		<value xml:lang="ko"><![CDATA[변경 이력]]></value>
+		<value xml:lang="en"><![CDATA[Updates]]></value>
+		<value xml:lang="jp"><![CDATA[変更履歴]]></value>
+		<value xml:lang="zh-CN"><![CDATA[更新日志]]></value>
+		<value xml:lang="zh-TW"><![CDATA[更新紀錄]]></value>
+		<value xml:lang="fr"><![CDATA[Histoire]]></value>
+		<value xml:lang="ru"><![CDATA[History]]></value>
+		<value xml:lang="es"><![CDATA[History]]></value>
+		<value xml:lang="tr"><![CDATA[Güncelleştirmeler]]></value>
+		<value xml:lang="vi"><![CDATA[Cập nhật]]></value>
+	</item>
+	<item name="component_description">
+		<value xml:lang="ko"><![CDATA[설명]]></value>
+		<value xml:lang="en"><![CDATA[Description]]></value>
+		<value xml:lang="jp"><![CDATA[説明]]></value>
+		<value xml:lang="zh-CN"><![CDATA[说明]]></value>
+		<value xml:lang="zh-TW"><![CDATA[說明]]></value>
+		<value xml:lang="ru"><![CDATA[Описание]]></value>
+		<value xml:lang="es"><![CDATA[Descripción]]></value>
+		<value xml:lang="tr"><![CDATA[Açıklama]]></value>
+		<value xml:lang="vi"><![CDATA[Mô tả]]></value>
+	</item>
+	<item name="component_extra_vars">
+		<value xml:lang="ko"><![CDATA[설정 변수]]></value>
+		<value xml:lang="en"><![CDATA[Option Variable]]></value>
+		<value xml:lang="jp"><![CDATA[設定変数]]></value>
+		<value xml:lang="zh-CN"><![CDATA[变数设置]]></value>
+		<value xml:lang="zh-TW"><![CDATA[變數設置]]></value>
+		<value xml:lang="fr"><![CDATA[Variables d'Option]]></value>
+		<value xml:lang="ru"><![CDATA[Экстра перем.]]></value>
+		<value xml:lang="es"><![CDATA[Varibles Extras]]></value>
+		<value xml:lang="tr"><![CDATA[Değişken Seçenek]]></value>
+		<value xml:lang="vi"><![CDATA[Thông tin bổ xung]]></value>
+	</item>
+	<item name="component_grant">
+		<value xml:lang="ko"><![CDATA[권한설정]]></value>
+		<value xml:lang="en"><![CDATA[Permission Setting]]></value>
+		<value xml:lang="jp"><![CDATA[権限設定]]></value>
+		<value xml:lang="zh-CN"><![CDATA[权限设置]]></value>
+		<value xml:lang="zh-TW"><![CDATA[權限設置]]></value>
+		<value xml:lang="fr"><![CDATA[Configuration de la Permission]]></value>
+		<value xml:lang="ru"><![CDATA[Настройки прав доступа]]></value>
+		<value xml:lang="es"><![CDATA[Ajuste de las atribuciones]]></value>
+		<value xml:lang="tr"><![CDATA[Yetki Ayarı]]></value>
+		<value xml:lang="vi"><![CDATA[Thiết lập quyền]]></value>
+	</item>
+	<item name="content_style">
+		<value xml:lang="ko"><![CDATA[문서 서식]]></value>
+		<value xml:lang="en"><![CDATA[Content Style]]></value>
+		<value xml:lang="jp"><![CDATA[コンテンツスタイル]]></value>
+		<value xml:lang="zh-CN"><![CDATA[文档样式]]></value>
+		<value xml:lang="zh-TW"><![CDATA[內容樣式]]></value>
+		<value xml:lang="tr"><![CDATA[İçerik Tarzı]]></value>
+		<value xml:lang="vi"><![CDATA[Kiểu dáng của nội dung]]></value>
+	</item>
+	<item name="content_font">
+		<value xml:lang="ko"><![CDATA[문서 폰트]]></value>
+		<value xml:lang="en"><![CDATA[Content Font]]></value>
+		<value xml:lang="jp"><![CDATA[コンテンツフォント]]></value>
+		<value xml:lang="zh-CN"><![CDATA[文档字体]]></value>
+		<value xml:lang="zh-TW"><![CDATA[內容字體]]></value>
+		<value xml:lang="tr"><![CDATA[İçerik Yazı Tipi]]></value>
+		<value xml:lang="vi"><![CDATA[Font chữ của nội dung]]></value>
+	</item>
+	<item name="content_font_size">
+		<value xml:lang="ko"><![CDATA[문서 폰트 크기]]></value>
+		<value xml:lang="en"><![CDATA[Content Font Size]]></value>
+		<value xml:lang="jp"><![CDATA[コンテンツフォントサイズ]]></value>
+		<value xml:lang="zh-CN"><![CDATA[字体大小]]></value>
+		<value xml:lang="zh-TW"><![CDATA[字體大小]]></value>
+		<value xml:lang="ru"><![CDATA[Размер шрифта]]></value>
+		<value xml:lang="tr"><![CDATA[İçerik Yazı Boyutu]]></value>
+		<value xml:lang="vi"><![CDATA[Cỡ chữ của nội dung]]></value>
+	</item>					
+	<item name="about_component">
+		<value xml:lang="ko"><![CDATA[컴포넌트 소개]]></value>
+		<value xml:lang="en"><![CDATA[About component]]></value>
+		<value xml:lang="jp"><![CDATA[コンポーネント情報]]></value>
+		<value xml:lang="zh-CN"><![CDATA[组件简介]]></value>
+		<value xml:lang="zh-TW"><![CDATA[組件簡介]]></value>
+		<value xml:lang="fr"><![CDATA[Sur le Composant]]></value>
+		<value xml:lang="ru"><![CDATA[О компоненте]]></value>
+		<value xml:lang="es"><![CDATA[Presentación del componente]]></value>
+		<value xml:lang="tr"><![CDATA[Bileşen hakkında]]></value>
+		<value xml:lang="vi"><![CDATA[Thông tin Thành phần]]></value>
+	</item>
+	<item name="about_component_grant">
+		<value xml:lang="ko"><![CDATA[기본 컴포넌트외의 확장 컴포넌트 기능을 사용할 수 있는 권한을 지정할 수 있습니다.(모두 해제 시 아무나 사용 가능합니다)]]></value>
+		<value xml:lang="en"><![CDATA[Selected group(s) will be able to use expanded components of editor.(Leave them blank if you want all groups to have permissions.)]]></value>
+		<value xml:lang="jp"><![CDATA[基本コンポーネント以外の拡張コンポーネント機能が利用可能な権限の設定ができます。(選択なしの場合、誰でも利用可能)]]></value>
+		<value xml:lang="zh-CN"><![CDATA[可以设置除默认组件外的扩展组件使用权限(全部解除时任何用户都可以使用)。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[除預設組件外，可設置延伸組件的使用權限(全部解除時，任何用戶都可使用)。]]></value>
+		<value xml:lang="fr"><![CDATA[Vous pouvez configurer la Permission d'utiliser des composants additionnels de l'Editeur. (Tout le monde aura la Permission si vous ne cochez rien)]]></value>
+		<value xml:lang="ru"><![CDATA[Возможен выбор дополнительных компонентов. (Каждый может использовать его, если режим выключен)]]></value>
+		<value xml:lang="es"><![CDATA[Usted puede configurar el permiso de utilizar la ampliación de los componentes de editor. (Todo el mundo tendría permiso si no comprobado)]]></value>
+		<value xml:lang="tr"><![CDATA[Seçilen grup(lar), editörün genişletilmiş bileşenlerini kullanabilirler.(Eğer tüm grupların bu yetkiye sahip olmasını istiyorsanız, boş bırakınız)]]></value>
+		<value xml:lang="vi"><![CDATA[Những nhóm đã chọn sẽ được phép sử dụng Thành phần mở rộng cho biên tập.(Để trống nếu bạn muốn tất cả các nhóm đều được phép sử dụng.)]]></value>
+	</item>
+	<item name="about_component_mid">
+		<value xml:lang="ko"><![CDATA[에디터 컴포넌트가 사용될 대상을 지정할 수 있습니다.(모두 해제 시 모든 대상에서 사용 가능합니다)]]></value>
+		<value xml:lang="en"><![CDATA[Editor components can select targets.(All targets will be selected when nothing is selected.)]]></value>
+		<value xml:lang="jp"><![CDATA[エディターコンポーネントが使われる対象を指定します。(選択なしの場合、全ての対象で利用可能)]]></value>
+		<value xml:lang="zh-CN"><![CDATA[可以指定使用编辑器组件的对象。(全部解除时任何用户都可以使用)。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[可以指定使用編輯器組件的對象。(全部解除時，任何用戶都可使用)。]]></value>
+		<value xml:lang="fr"><![CDATA[Vous pouvez désigner les objectifs auquels les composants s'appliquent(Tous les objectifs auront la Permission quand rien n'est choisi.)]]></value>
+		<value xml:lang="ru"><![CDATA[Можно установить пользователя Редактора.(Каждый может использовать его, если режим выключен)]]></value>
+		<value xml:lang="es"><![CDATA[에디터 컴포넌트가 사용될 대상을 지정할 수 있습니다.(모두 해제시 모든 대상에서 사용 가능합니다)]]></value>
+		<value xml:lang="tr"><![CDATA[Hedef editör bileşenlerini seçebilirsiniz.(Hiçbir şey seçilmediğinde, tüm hedefler seçilecektir)]]></value>
+		<value xml:lang="vi"><![CDATA[Có thể lựa chọn khu vực sử dụng Thành phần.(Nếu để trống là tất cả các khu vực đều có thể sử dụng.)]]></value>
+	</item>
+	<item name="msg_component_is_not_founded">
+		<value xml:lang="ko"><![CDATA[%s 에디터 컴포넌트를 찾을 수 없습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Cannot find editor component %s.]]></value>
+		<value xml:lang="jp"><![CDATA[%s エディターのコンポーネントが見つかりません。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[找不到%s 组件说明！]]></value>
+		<value xml:lang="zh-TW"><![CDATA[找不到%s 組件說明！]]></value>
+		<value xml:lang="fr"><![CDATA[Ne peut pas trouver Composant %s]]></value>
+		<value xml:lang="ru"><![CDATA[Невозможно найти компонент редактора %s]]></value>
+		<value xml:lang="es"><![CDATA[No se puede encontrar el componente del editor %s]]></value>
+		<value xml:lang="tr"><![CDATA[Editör bileşeni %s bulunamıyor]]></value>
+		<value xml:lang="vi"><![CDATA[Không tìm thấy biên tập Thành phần %s]]></value>
+	</item>
+	<item name="msg_component_is_inserted">
+		<value xml:lang="ko"><![CDATA[선택하신 컴포넌트는 이미 입력되어 있습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Selected component is already inserted.]]></value>
+		<value xml:lang="jp"><![CDATA[選択されたコンポーネントは既に入力されています。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[您选择的组件已插入！]]></value>
+		<value xml:lang="zh-TW"><![CDATA[您選擇的組件已插入！]]></value>
+		<value xml:lang="fr"><![CDATA[Composant choisi est déjà entré]]></value>
+		<value xml:lang="ru"><![CDATA[Выбранный компонент уже присутствует]]></value>
+		<value xml:lang="es"><![CDATA[El componente seleccionado ya esta insertado]]></value>
+		<value xml:lang="tr"><![CDATA[Seçilen bileşen zaten eklenmiş durumda]]></value>
+		<value xml:lang="vi"><![CDATA[Đã chèn Thành phần được chọn.]]></value>
+	</item>
+	<item name="msg_component_is_first_order">
+		<value xml:lang="ko"><![CDATA[선택하신 컴포넌트는 첫 번째에 위치하고 있습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Selected component is located at the first position.]]></value>
+		<value xml:lang="jp"><![CDATA[選択されたコンポーネントは最上位にあります。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[您选择的组件已到最上端位置！]]></value>
+		<value xml:lang="zh-TW"><![CDATA[您選擇的組件已達最頂端位置！]]></value>
+		<value xml:lang="fr"><![CDATA[Composant choisi est localisé à la première position]]></value>
+		<value xml:lang="ru"><![CDATA[Выбранный компонент находится на первой позиции]]></value>
+		<value xml:lang="es"><![CDATA[El componente seleccionado se localiza en la primera posición]]></value>
+		<value xml:lang="tr"><![CDATA[Seçilen bileşen ilk pozisyona yerleştirilmiştir]]></value>
+		<value xml:lang="vi"><![CDATA[Lựa chọn Thành phần trước một khu vực.]]></value>
+	</item>
+	<item name="msg_component_is_last_order">
+		<value xml:lang="ko"><![CDATA[선택하신 컴포넌트는 마지막에 위치하고 있습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Selected component is located at the last position.]]></value>
+		<value xml:lang="jp"><![CDATA[選択されたコンポーネントは最下位にあります。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[您选择的组件已到最下端位置！]]></value>
+		<value xml:lang="zh-TW"><![CDATA[您選擇的組件已達最底端位置！]]></value>
+		<value xml:lang="fr"><![CDATA[Composant choisi est localisé à la position dernière]]></value>
+		<value xml:lang="ru"><![CDATA[Выбранный компонент находится на последней позиции]]></value>
+		<value xml:lang="es"><![CDATA[El componente seleccionado se localiza en la última posición]]></value>
+		<value xml:lang="tr"><![CDATA[Seçilen bileşen son pozisyonda yerleşmiştir]]></value>
+		<value xml:lang="vi"><![CDATA[Lựa chọn Thành phần sau một khu vực.]]></value>
+	</item>
+	<item name="msg_load_saved_doc">
+		<value xml:lang="ko"><![CDATA[자동 저장된 글이 있습니다. 복구하시겠습니까?
+글을 다 쓰신 후 저장하시면 자동 저장 본은 사라집니다.]]></value>
+		<value xml:lang="en"><![CDATA[There is a draft automatically saved. Do you want to restore it? The auto-saved draft will be discarded when you write and save it.]]></value>
+		<value xml:lang="jp"><![CDATA[自動保存された書き込みがあります。復旧しますか？
+書き終わってから登録すると前の自動保存データは削除されます。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[有自动保存的内容， 确定要恢复吗？
+发布主题后，自动保存的文本将会被删除。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[有自動儲存的內容，確定要恢復嗎?
+儲存內容後，自動儲存的內容將會被刪除。]]></value>
+		<value xml:lang="fr"><![CDATA[Il y a un article conservé automatiquement. Voulez-vous le réstaurer?
+L'esquisse conservé automatiquement va être débarrasser après conserver l'article courant.]]></value>
+		<value xml:lang="ru"><![CDATA[Существует автоматически сохраненная статья. Хотите ли Вы ее восстановить?
+Автоматически сохраненный черновик будет отменен после сохранения текущей статьи]]></value>
+		<value xml:lang="es"><![CDATA[Existe un documento guardado automáticamente ¿desea recuperarlo ?
+Después de guardar el documento escrito, el documento autoguardado sera eliminado.]]></value>
+		<value xml:lang="tr"><![CDATA[Kendiliğinden kaydolan bir makale mevcut. Bunu kurtarmak ister misiniz?
+Otomatik kaydolan taslak, geçerli makaleyi kaydedince, çıkartılacaktır]]></value>
+		<value xml:lang="vi"><![CDATA[Đã có bài viết tự động lưu. Bạn có muốn khôi phục nó không?
+Bài viết tự động lưu sẽ tự động hủy sau khi bạn hoàn thành bài viết này và bấm 'Gửi']]></value>
+	</item>
+	<item name="msg_auto_saved">
+		<value xml:lang="ko"><![CDATA[자동 저장되었습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Automatically Saved.]]></value>
+		<value xml:lang="jp"><![CDATA[自動保存されました。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[已自动保存！]]></value>
+		<value xml:lang="zh-TW"><![CDATA[已自動儲存！]]></value>
+		<value xml:lang="fr"><![CDATA[Conservé automatiquement]]></value>
+		<value xml:lang="ru"><![CDATA[Автоматически сохранено]]></value>
+		<value xml:lang="es"><![CDATA[Documento guardado automáticamente]]></value>
+		<value xml:lang="tr"><![CDATA[Kendiliğinden Kaydedildi]]></value>
+		<value xml:lang="vi"><![CDATA[Đã tự động lưu]]></value>
+	</item>
+	<item name="cmd_disable">
+		<value xml:lang="ko"><![CDATA[비활성]]></value>
+		<value xml:lang="en"><![CDATA[Inactive]]></value>
+		<value xml:lang="jp"><![CDATA[未使用]]></value>
+		<value xml:lang="zh-CN"><![CDATA[非激活]]></value>
+		<value xml:lang="zh-TW"><![CDATA[暫停]]></value>
+		<value xml:lang="fr"><![CDATA[Invalider]]></value>
+		<value xml:lang="ru"><![CDATA[Неактивно]]></value>
+		<value xml:lang="es"><![CDATA[Desactivado]]></value>
+		<value xml:lang="tr"><![CDATA[Devre Dışı]]></value>
+		<value xml:lang="vi"><![CDATA[Không hoạt động]]></value>
+	</item>
+	<item name="cmd_enable">
+		<value xml:lang="ko"><![CDATA[활성]]></value>
+		<value xml:lang="en"><![CDATA[Active]]></value>
+		<value xml:lang="jp"><![CDATA[使用]]></value>
+		<value xml:lang="zh-CN"><![CDATA[激活]]></value>
+		<value xml:lang="zh-TW"><![CDATA[啟動]]></value>
+		<value xml:lang="fr"><![CDATA[Valider]]></value>
+		<value xml:lang="ru"><![CDATA[Активно]]></value>
+		<value xml:lang="es"><![CDATA[activado]]></value>
+		<value xml:lang="tr"><![CDATA[Etkin]]></value>
+		<value xml:lang="vi"><![CDATA[Hoạt động]]></value>
+	</item>
+	<item name="editor_skin">
+		<value xml:lang="ko"><![CDATA[에디터 스킨]]></value>
+		<value xml:lang="en"><![CDATA[Editor Skin]]></value>
+		<value xml:lang="jp"><![CDATA[エディタースキン]]></value>
+		<value xml:lang="zh-CN"><![CDATA[编辑器皮肤]]></value>
+		<value xml:lang="zh-TW"><![CDATA[編輯器面板]]></value>
+		<value xml:lang="fr"><![CDATA[Habillage de l'Editeur]]></value>
+		<value xml:lang="ru"><![CDATA[Скин Редактора]]></value>
+		<value xml:lang="es"><![CDATA[Editor de Cuidado de la Piel]]></value>
+		<value xml:lang="tr"><![CDATA[Editor Dış Görünümü]]></value>
+		<value xml:lang="vi"><![CDATA[Giao diện gửi bài]]></value>
+	</item>
+	<item name="upload_file_grant">
+		<value xml:lang="ko"><![CDATA[파일 첨부 권한]]></value>
+		<value xml:lang="en"><![CDATA[Permission to upload files]]></value>
+		<value xml:lang="jp"><![CDATA[ファイル添付権限]]></value>
+		<value xml:lang="zh-CN"><![CDATA[文件上传权限]]></value>
+		<value xml:lang="zh-TW"><![CDATA[檔案上傳權限]]></value>
+		<value xml:lang="fr"><![CDATA[Permission de télécharger(téléverser) ]]></value>
+		<value xml:lang="ru"><![CDATA[Разрешить прикреплять файлы]]></value>
+		<value xml:lang="es"><![CDATA[La autorización para cargar]]></value>
+		<value xml:lang="tr"><![CDATA[Karşıya Yükleme Yetkisi]]></value>
+		<value xml:lang="vi"><![CDATA[Quyền Upload]]></value>
+	</item>
+	<item name="enable_default_component_grant">
+		<value xml:lang="ko"><![CDATA[기본 컴포넌트 사용 권한]]></value>
+		<value xml:lang="en"><![CDATA[Permission to use default components]]></value>
+		<value xml:lang="jp"><![CDATA[基本コンポーネント使用権限]]></value>
+		<value xml:lang="zh-CN"><![CDATA[默认组件使用权限]]></value>
+		<value xml:lang="zh-TW"><![CDATA[預設組件使用權限]]></value>
+		<value xml:lang="fr"><![CDATA[Permission d'utiliser les Composants Par Défaut]]></value>
+		<value xml:lang="ru"><![CDATA[Разрешить использование основного компонента]]></value>
+		<value xml:lang="es"><![CDATA[La autorización del uso de los componentes por defecto]]></value>
+		<value xml:lang="tr"><![CDATA[Varsayılan Bileşenler için Yetki]]></value>
+		<value xml:lang="vi"><![CDATA[Quyền sử dụng Thành phần cơ bản]]></value>
+	</item>
+	<item name="enable_component_grant">
+		<value xml:lang="ko"><![CDATA[컴포넌트 사용 권한]]></value>
+		<value xml:lang="en"><![CDATA[Permission to use components]]></value>
+		<value xml:lang="jp"><![CDATA[コンポーネント使用権限]]></value>
+		<value xml:lang="zh-CN"><![CDATA[组件使用权限]]></value>
+		<value xml:lang="zh-TW"><![CDATA[組件使用權限]]></value>
+		<value xml:lang="fr"><![CDATA[Permission d'utiliser des composants]]></value>
+		<value xml:lang="ru"><![CDATA[Разрешить ипользование компонента]]></value>
+		<value xml:lang="es"><![CDATA[La autorización de la utilización de componentes]]></value>
+		<value xml:lang="tr"><![CDATA[Bileşenler için Yetki]]></value>
+		<value xml:lang="vi"><![CDATA[Quyền sử dụng Thành phần]]></value>
+	</item>
+	<item name="enable_html_grant">
+		<value xml:lang="ko"><![CDATA[HTML 편집 권한]]></value>
+		<value xml:lang="en"><![CDATA[Permission to edit HTML]]></value>
+		<value xml:lang="jp"><![CDATA[HTML編集権限]]></value>
+		<value xml:lang="zh-CN"><![CDATA[HTML编辑权限]]></value>
+		<value xml:lang="zh-TW"><![CDATA[HTML編輯權限]]></value>
+		<value xml:lang="fr"><![CDATA[Permission d'utiliser HTML]]></value>
+		<value xml:lang="ru"><![CDATA[Разрешить коррекцию HTML]]></value>
+		<value xml:lang="es"><![CDATA[La autorización de uso de HTML]]></value>
+		<value xml:lang="tr"><![CDATA[HTML için Yetki]]></value>
+		<value xml:lang="vi"><![CDATA[Quyền sử dụng HTML]]></value>
+	</item>
+	<item name="enable_autosave">
+		<value xml:lang="ko"><![CDATA[자동저장 사용]]></value>
+		<value xml:lang="en"><![CDATA[Enable Auto-Save]]></value>
+		<value xml:lang="jp"><![CDATA[自動保存使用]]></value>
+		<value xml:lang="zh-CN"><![CDATA[内容自动保存]]></value>
+		<value xml:lang="zh-TW"><![CDATA[內容自動儲存]]></value>
+		<value xml:lang="fr"><![CDATA[Valider à conserver automatiquement]]></value>
+		<value xml:lang="ru"><![CDATA[Автосохранение]]></value>
+		<value xml:lang="es"><![CDATA[Utilice función de guardado automático,]]></value>
+		<value xml:lang="tr"><![CDATA[Oto-Kayıt]]></value>
+		<value xml:lang="vi"><![CDATA[Tự động lưu]]></value>
+	</item>
+	<item name="height_resizable">
+		<value xml:lang="ko"><![CDATA[높이 조절 가능]]></value>
+		<value xml:lang="en"><![CDATA[Height Resizable]]></value>
+		<value xml:lang="jp"><![CDATA[高さの調整]]></value>
+		<value xml:lang="zh-CN"><![CDATA[高度调整]]></value>
+		<value xml:lang="zh-TW"><![CDATA[高度調整]]></value>
+		<value xml:lang="fr"><![CDATA[Permettre de remettre l'hauteur]]></value>
+		<value xml:lang="ru"><![CDATA[Возможна коррекция высоты]]></value>
+		<value xml:lang="es"><![CDATA[Altura cambiar de tamaño]]></value>
+		<value xml:lang="tr"><![CDATA[Yükseklik Yeniden Boyutlandırılabilir]]></value>
+		<value xml:lang="vi"><![CDATA[Mở rộng chiều cao]]></value>
+	</item>
+	<item name="editor_height">
+		<value xml:lang="ko"><![CDATA[에디터 높이]]></value>
+		<value xml:lang="en"><![CDATA[Height of Editor]]></value>
+		<value xml:lang="jp"><![CDATA[エディターの高さ]]></value>
+		<value xml:lang="zh-CN"><![CDATA[编辑器高度]]></value>
+		<value xml:lang="zh-TW"><![CDATA[編輯器高度]]></value>
+		<value xml:lang="fr"><![CDATA[Hauteur de l'Editeur]]></value>
+		<value xml:lang="ru"><![CDATA[Высота Редактора]]></value>
+		<value xml:lang="es"><![CDATA[Altura de Editor]]></value>
+		<value xml:lang="tr"><![CDATA[Editör Yüksekliği]]></value>
+		<value xml:lang="vi"><![CDATA[Chiều cao khung viết bài]]></value>
+	</item>
+	<item name="about_editor_skin">
+		<value xml:lang="ko"><![CDATA[에디터 스킨을 선택하실 수 있습니다.]]></value>
+		<value xml:lang="en"><![CDATA[You may select the skin for the editor.]]></value>
+		<value xml:lang="jp"><![CDATA[エディターのスキンの選択ができます。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[可以选择编辑器皮肤。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[選擇編輯器面板。]]></value>
+		<value xml:lang="fr"><![CDATA[Vous pouvez choisir l'habillage de l'Editeur.]]></value>
+		<value xml:lang="ru"><![CDATA[Выберите скин редактора]]></value>
+		<value xml:lang="es"><![CDATA[Usted puede seleccionar la piel del editor.]]></value>
+		<value xml:lang="tr"><![CDATA[Editör dış görünümünü seçebilirsiniz.]]></value>
+		<value xml:lang="vi"><![CDATA[Bạn có thể chọn kiểu gửi bài.]]></value>
+	</item>
+	<item name="about_content_style">
+		<value xml:lang="ko"><![CDATA[문서 편집 및 내용 출력 시 원하는 서식을 지정할 수 있습니다.]]></value>
+		<value xml:lang="en"><![CDATA[You may select a style for editting an article or displaying a content]]></value>
+		<value xml:lang="jp"><![CDATA[コンテンツの編集、および内容表示の際のスタイルを指定します。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[可以指定编辑或打印文档时的文档样式。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[修改內容時，可指定要顯示的內容樣式]]></value>
+		<value xml:lang="fr"><![CDATA[문서 편집 및 내용 출력시 원하는 서식을 지정할 수 있습니다]]></value>
+		<value xml:lang="ru"><![CDATA[Вы можете выбрать стиль для редактирования и просмотра записи ]]></value>
+		<value xml:lang="es"><![CDATA[문서 편집 및 내용 출력시 원하는 서식을 지정할 수 있습니다]]></value>
+		<value xml:lang="tr"><![CDATA[Makale düzenleme veya içerik gösterme için tarz seçebilirsiniz]]></value>
+		<value xml:lang="vi"><![CDATA[Bạn có thể chọn kiểu viết bài hay kiểu hiển thị.]]></value>
+	</item>
+	<item name="about_content_font">
+		<value xml:lang="ko"><![CDATA[문서 편집 및 내용 출력 시 원하는 폰트를 지정할 수 있습니다. 지정하지 않으면 사용자 설정에 따르게 됩니다. 콤마(,)로 여러 폰트를 지정할 수 있습니다.]]></value>
+		<value xml:lang="en"><![CDATA[You may select a font for editting an article or displaying a content. The default font is your own font. Please use comma for multiple input.]]></value>
+		<value xml:lang="jp"><![CDATA[コンテンツの編集、および内容表示の際のフォントを指定します。 指定してない場合、ユーザーの設定を従います。  半角コンマ（,）区切りで複数フォントの登録が出来ます。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[可以指定编辑或打印文档时的文档字体，不指定随用户设置。 多个字体可以用逗号(，)区分输入。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[修改內容時，可指定要顯示的內容字體。 如果沒有指定的話，以系統預設為主。  以逗號(，)區分多個字體。]]></value>
+		<value xml:lang="fr"><![CDATA[문서 편집 및 내용 출력시 원하는 폰트를 지정할 수 있습니다. 지정하지 않으면 사용자 설정에 따르게 됩니다. 콤마(,)로 여러 폰트를 지정할 수 있습니다.]]></value>
+		<value xml:lang="ru"><![CDATA[Вы можете выбрать шрифт для редактирования и просмотра записи.  Используйте запятую(,) если выбрали несколько шрифтов.]]></value>
+		<value xml:lang="es"><![CDATA[문서 편집 및 내용 출력시 원하는 폰트를 지정할 수 있습니다. 지정하지 않으면 사용자 설정에 따르게 됩니다. 콤마(,)로 여러 폰트를 지정할 수 있습니다.]]></value>
+		<value xml:lang="tr"><![CDATA[Makale düzenleme veya içerik gösterme için yazı tipi seçebilirsiniz. Varsayılan yazı tipi sizin kendi yazı tipinizdir  Lütfen çoklu giriş için virgül(,) kullanınız.]]></value>
+		<value xml:lang="vi"><![CDATA[Bạn có thể chọn Font chữ để viết và hiển thị trong bài viết. Để đặt mặc định chỉ Font chữ bạn hay sử dụng, hãy đặt dấu (,) vào giữa các Font.]]></value>
+	</item>
+	<item name="about_content_font_size">
+		<value xml:lang="ko"><![CDATA[문서 편집 및 내용 출력 시 원하는 폰트의 크기를 지정할 수 있습니다. 12px, 1em등 단위까지 포함해서 입력해주세요.]]></value>
+		<value xml:lang="en"><![CDATA[You may select the font size for editting an article or displaying a content. Please input units such as px or em.]]></value>
+		<value xml:lang="jp"><![CDATA[コンテンツの編集、および内容表示の際のフォントサイズを指定します。 12px、1emなどサイズ単位まで入力してください。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[可以指定编辑或打印文档时的文档字体大小。 指定时请包含字体单位(如12px, 1em)。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[修改內容時，可指定要顯示的內容字體大小。 請輸入單位，像是12px, 1em等。]]></value>
+		<value xml:lang="fr"><![CDATA[문서 편집 및 내용 출력시 원하는 폰트의 크기를 지정할 수 있습니다. 12px, 1em등 단위까지 포함해서 입력해주세요.]]></value>
+		<value xml:lang="ru"><![CDATA[Вы можете выбрать размер шрифта для редактирования и просмотра записи.  Пожалуйста, выберите единицы такие как px или em.]]></value>
+		<value xml:lang="es"><![CDATA[문서 편집 및 내용 출력시 원하는 폰트의 크기를 지정할 수 있습니다. 12px, 1em등 단위까지 포함해서 입력해주세요.]]></value>
+		<value xml:lang="tr"><![CDATA[Makale düzenleme veya içerik görüntüleme için yazı boyutu seçebilirsiniz. Lütfen px veya em gibi birimler kullanınız.]]></value>
+		<value xml:lang="vi"><![CDATA[Bạn có thể chọn cỡ chữ để viết bài và hiển thị theo định dạng "px" hoặc "em".]]></value>
+	</item>
+	<item name="about_upload_file_grant">
+		<value xml:lang="ko"><![CDATA[파일을 첨부할 수 있는 권한을 지정하실 수 있습니다. (모두 해제 시 아무나 첨부 가능합니다)]]></value>
+		<value xml:lang="en"><![CDATA[Selected group(s) will be able to upload files. (Leave them blank if you want all groups to have this permission.)]]></value>
+		<value xml:lang="jp"><![CDATA[ファイル添付権限の設定ができます。(選択なしの場合、誰でも添付が可能)]]></value>
+		<value xml:lang="zh-CN"><![CDATA[可以设置上传文件的权限(全部解除为无限制)。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[設置上傳檔案的權限(全部解除為無限制)。]]></value>
+		<value xml:lang="fr"><![CDATA[Vous pouvez configurer la permission d'attacher les fichiers. (Tout le monde aura la permission si vous ne cochez rien)]]></value>
+		<value xml:lang="ru"><![CDATA[Вы можете разрешить прикреплять файлы выбранным группам. (Если оставить поле пустым то право прикреплять файлы будут иметь все)]]></value>
+		<value xml:lang="es"><![CDATA[Usted puede configurar el permiso de archivo adjunto. (Todo el mundo tendría permiso si no comprobado)]]></value>
+		<value xml:lang="tr"><![CDATA[Seçilen (gruplar) dosyaları karşıya yükleme yetkisine sahip olacaklardır. (Eğer tüm grupların bu yetkiye sahip olmasını istiyorsanız lütfen boş bırakınız)]]></value>
+		<value xml:lang="vi"><![CDATA[Chọn nhóm được phép Upload File. (Để trống nếu bạn muốn tất cả các nhóm đều có thể Upload.)]]></value>
+	</item>
+	<item name="about_default_component_grant">
+		<value xml:lang="ko"><![CDATA[에디터에서 사용되는 기본 컴포넌트를 사용할 수 있는 권한을 지정할 수 있습니다. (모두 해제 시 아무나 사용 가능합니다)]]></value>
+		<value xml:lang="en"><![CDATA[Selected group(s) will be able to use default components of editor. (Leave them blank if you want all groups to have this permission.)]]></value>
+		<value xml:lang="jp"><![CDATA[エディターの基本コンポーネントの使用権限の設定ができます。(選択なしの場合、誰でも利用可能)]]></value>
+		<value xml:lang="zh-CN"><![CDATA[可以设置编辑器默认组件的使用权限(全部解除为无限制)。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[設置編輯器預設組件的使用權限(全部解除為無限制)。]]></value>
+		<value xml:lang="fr"><![CDATA[Vous pouvez configurer la permission d'utiliser les Composants Par Défaut de l'Editeur. (Tout le monde aura la permission si vous ne cochez rien)]]></value>
+		<value xml:lang="ru"><![CDATA[Selected group(s) will be able to use default components of editor. (Leave them blank if you want all groups to have permission)]]></value>
+		<value xml:lang="es"><![CDATA[Usted puede configurar el permiso de uso de los componentes de editor por defecto. (Todo el mundo tendría permiso si no comprobado)]]></value>
+		<value xml:lang="tr"><![CDATA[Seçilen grup(lar) editörün varsayılan bileşenlerini kullanabileceklerdir. (Eğer tüm grupların bu yetkiye sahip olmasını istiyorsanız lütfen boş bırakınız)]]></value>
+		<value xml:lang="vi"><![CDATA[Chọn nhóm được phép sử dụng Thành phần mặc định. (Để trống nếu bạn muốn tất cả đều có thể sử dụng.)]]></value>
+	</item>
+	<item name="about_editor_height">
+		<value xml:lang="ko"><![CDATA[에디터의 기본 높이를 지정하실 수 있습니다.]]></value>
+		<value xml:lang="en"><![CDATA[You may set the height of the editor.]]></value>
+		<value xml:lang="jp"><![CDATA[エディターの基本高さを設定します。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[可以指定编辑器的默认高度。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[指定編輯器的預設高度。]]></value>
+		<value xml:lang="fr"><![CDATA[Vous pouvez configurer l'hauteur de l'Editeur.]]></value>
+		<value xml:lang="ru"><![CDATA[You may set the height of editor.]]></value>
+		<value xml:lang="es"><![CDATA[Usted puede configurar la altura del editor.]]></value>
+		<value xml:lang="tr"><![CDATA[Editör yüksekliğini ayarlayabilirsiniz.]]></value>
+		<value xml:lang="vi"><![CDATA[Bạn có thể đặt chiều cao của khung viết bài.]]></value>
+	</item>
+	<item name="about_editor_height_resizable">
+		<value xml:lang="ko"><![CDATA[에디터의 높이를 직접 변경할 수 있도록 허용합니다.]]></value>
+		<value xml:lang="en"><![CDATA[You may decide whether the height of the editor can be resized.]]></value>
+		<value xml:lang="jp"><![CDATA[エディターの高さを変更できるようにします。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[允许用户拖动编辑器高度。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[允許用戶拖曳編輯器高度。]]></value>
+		<value xml:lang="fr"><![CDATA[Permettre de remettre l'hauteur de l'Editeur.]]></value>
+		<value xml:lang="ru"><![CDATA[You may decide whether height of editor can be resized.]]></value>
+		<value xml:lang="es"><![CDATA[Permiso para cambiar el tamaño de la altura del editor.]]></value>
+		<value xml:lang="tr"><![CDATA[Editörün yüksekliğinin yeniden boyutlandırıp-boyutlandırılamayacağı kararını verebilirsiniz.]]></value>
+		<value xml:lang="vi"><![CDATA[Đặt chiều cao có thể thay đổi.]]></value>
+	</item>
+	<item name="about_enable_html_grant">
+		<value xml:lang="ko"><![CDATA[HTML 편집 권한을 부여할 수 있습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Selected group(s) will be able to use HTML.]]></value>
+		<value xml:lang="jp"><![CDATA[HTML編集権限を設定します。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[HTML代码编辑权限设置。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[HTML原始碼編輯權限設置。]]></value>
+		<value xml:lang="fr"><![CDATA[Vous pouvez permettre d'utiliser HTML]]></value>
+		<value xml:lang="es"><![CDATA[Usted puede dar el permiso de uso de HTML]]></value>
+		<value xml:lang="tr"><![CDATA[Seçilen grup(lar) HTML kullanabileceklerdir]]></value>
+		<value xml:lang="vi"><![CDATA[Chọn nhóm được phép sử dụng HTML]]></value>
+	</item>
+	<item name="about_enable_autosave">
+		<value xml:lang="ko"><![CDATA[글 작성 시 자동 저장 기능을 활성화 시킬 수 있습니다.]]></value>
+		<value xml:lang="en"><![CDATA[You may decide whether the auto-save function will be used.]]></value>
+		<value xml:lang="jp"><![CDATA[書き込みの際に自動保存機能をオンにします。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[发表主题时激活内容自动保存功能。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[發表主題時，開啟內容自動儲存功能。]]></value>
+		<value xml:lang="fr"><![CDATA[Vous pouvez valider la fonction à Conserver Automatiquement pendant écrire des articles.]]></value>
+		<value xml:lang="ru"><![CDATA[You may decide whether auto-save function will be used.]]></value>
+		<value xml:lang="es"><![CDATA[Usted puede permitir que la función de guardado automático, en tanto que función de la redacción de artículos]]></value>
+		<value xml:lang="tr"><![CDATA[Oto-Kayıt özelliğinin kullanılabilmesi kararını verebilirsiniz.]]></value>
+		<value xml:lang="vi"><![CDATA[Bạn có thể đặt chức năng Tự động lưu.]]></value>
+	</item>
+	<item name="edit">
+		<item name="fontname">
+			<value xml:lang="ko"><![CDATA[글꼴]]></value>
+			<value xml:lang="en"><![CDATA[Font]]></value>
+			<value xml:lang="jp"><![CDATA[フォント]]></value>
+			<value xml:lang="zh-CN"><![CDATA[字体]]></value>
+			<value xml:lang="zh-TW"><![CDATA[字體]]></value>
+			<value xml:lang="fr"><![CDATA[Police de caractères]]></value>
+			<value xml:lang="ru"><![CDATA[Шрифт]]></value>
+			<value xml:lang="es"><![CDATA[Fuente]]></value>
+			<value xml:lang="tr"><![CDATA[Yazı Tipi]]></value>
+			<value xml:lang="vi"><![CDATA[Kiểu chữ]]></value>
+		</item>
+		<item name="fontsize">
+			<value xml:lang="ko"><![CDATA[크기]]></value>
+			<value xml:lang="en"><![CDATA[Size]]></value>
+			<value xml:lang="jp"><![CDATA[フォントサイズ]]></value>
+			<value xml:lang="zh-CN"><![CDATA[大小]]></value>
+			<value xml:lang="zh-TW"><![CDATA[大小]]></value>
+			<value xml:lang="fr"><![CDATA[Mesure]]></value>
+			<value xml:lang="ru"><![CDATA[Размер]]></value>
+			<value xml:lang="es"><![CDATA[Tamaño]]></value>
+			<value xml:lang="tr"><![CDATA[Boyut]]></value>
+			<value xml:lang="vi"><![CDATA[Cỡ chữ]]></value>
+		</item>
+		<item name="use_paragraph">
+			<value xml:lang="ko"><![CDATA[문단기능]]></value>
+			<value xml:lang="en"><![CDATA[Paragraph Function]]></value>
+			<value xml:lang="jp"><![CDATA[段落機能]]></value>
+			<value xml:lang="zh-CN"><![CDATA[段落功能]]></value>
+			<value xml:lang="zh-TW"><![CDATA[段落功能]]></value>
+			<value xml:lang="fr"><![CDATA[Fonctions sur Paragraphe]]></value>
+			<value xml:lang="ru"><![CDATA[Функции параграфа]]></value>
+			<value xml:lang="es"><![CDATA[Párrafo]]></value>
+			<value xml:lang="tr"><![CDATA[Paragraf Özelliği]]></value>
+			<value xml:lang="vi"><![CDATA[Chức năng Paragraph]]></value>
+		</item>
+		<item name="fontlist" type="array">	
+			<item name="arial">
+				<value xml:lang="ko"><![CDATA[Arial, Helvetica, sans-serif]]></value>
+				<value xml:lang="en"><![CDATA[Arial, Helvetica, sans-serif]]></value>
+			</item>
+			<item name="tahoma">
+				<value xml:lang="ko"><![CDATA[Tahoma, Geneva, sans-serif]]></value>
+				<value xml:lang="en"><![CDATA[Tahoma, Geneva, sans-serif]]></value>
+			</item>
+			<item name="verdana">
+				<value xml:lang="ko"><![CDATA[Verdana, Geneva, sans-serif]]></value>
+				<value xml:lang="en"><![CDATA[Verdana, Geneva, sans-serif]]></value>
+			</item>
+			<item name="sans-serif">
+				<value xml:lang="ko"><![CDATA[Sans-serif]]></value>
+				<value xml:lang="en"><![CDATA[Sans-serif]]></value>
+			</item>
+			<item name="georgia">
+				<value xml:lang="ko"><![CDATA[Georgia, 'Times New Roman', Times, serif]]></value>
+				<value xml:lang="en"><![CDATA[Georgia, 'Times New Roman', Times, serif]]></value>
+			</item>
+			<item name="palatinoLinotype">
+				<value xml:lang="ko"><![CDATA['Palatino Linotype', 'Book Antiqua', Palatino, serif]]></value>
+				<value xml:lang="en"><![CDATA['Palatino Linotype', 'Book Antiqua', Palatino, serif]]></value>
+			</item>
+			<item name="timesNewRoman">
+				<value xml:lang="ko"><![CDATA['Times New Roman', Times, serif]]></value>
+				<value xml:lang="en"><![CDATA['Times New Roman', Times, serif]]></value>
+			</item>		
+			<item name="serif">
+				<value xml:lang="ko"><![CDATA[Serif]]></value>
+				<value xml:lang="en"><![CDATA[Serif]]></value>
+			</item>		
+			<item name="courierNew">
+				<value xml:lang="ko"><![CDATA['Courier New', Courier, monospace]]></value>
+				<value xml:lang="en"><![CDATA['Courier New', Courier, monospace]]></value>
+			</item>		
+			<item name="lucidaConsole">
+				<value xml:lang="ko"><![CDATA['Lucida Console', Monaco, monospace]]></value>
+			</item>		
+		</item>					
+		<item name="header">
+			<value xml:lang="ko"><![CDATA[형식]]></value>
+			<value xml:lang="en"><![CDATA[Style]]></value>
+			<value xml:lang="jp"><![CDATA[スタイル]]></value>
+			<value xml:lang="zh-CN"><![CDATA[样式]]></value>
+			<value xml:lang="zh-TW"><![CDATA[樣式]]></value>
+			<value xml:lang="ru"><![CDATA[Стиль]]></value>
+			<value xml:lang="es"><![CDATA[Estilo]]></value>
+			<value xml:lang="tr"><![CDATA[Tarz]]></value>
+			<value xml:lang="vi"><![CDATA[Tiêu đề lớn]]></value>
+		</item>
+		<item name="header_list" type="array">
+			<item name="h1">
+				<value xml:lang="ko"><![CDATA[제목 1]]></value>
+				<value xml:lang="en"><![CDATA[Header 1]]></value>
+				<value xml:lang="jp"><![CDATA[見出し１]]></value>
+				<value xml:lang="zh-CN"><![CDATA[标题 1]]></value>
+				<value xml:lang="zh-TW"><![CDATA[標題 1]]></value>
+				<value xml:lang="fr"><![CDATA[Titre 1]]></value>
+				<value xml:lang="ru"><![CDATA[Заголовок 1]]></value>
+				<value xml:lang="es"><![CDATA[Título 1]]></value>
+				<value xml:lang="tr"><![CDATA[Konu 1]]></value>
+				<value xml:lang="vi"><![CDATA[Cỡ 1]]></value>
+			</item>
+			<item name="h2">
+				<value xml:lang="ko"><![CDATA[제목 2]]></value>
+				<value xml:lang="en"><![CDATA[Header 2]]></value>
+				<value xml:lang="jp"><![CDATA[見出し２]]></value>
+				<value xml:lang="zh-CN"><![CDATA[标题 2]]></value>
+				<value xml:lang="zh-TW"><![CDATA[標題 2]]></value>
+				<value xml:lang="fr"><![CDATA[Titre 2]]></value>
+				<value xml:lang="ru"><![CDATA[Заголовок 2]]></value>
+				<value xml:lang="es"><![CDATA[Título 2]]></value>
+				<value xml:lang="tr"><![CDATA[Konu 2]]></value>
+				<value xml:lang="vi"><![CDATA[Cỡ 2]]></value>
+			</item>
+			<item name="h3">
+				<value xml:lang="ko"><![CDATA[제목 3]]></value>
+				<value xml:lang="en"><![CDATA[Header 3]]></value>
+				<value xml:lang="jp"><![CDATA[見出し３]]></value>
+				<value xml:lang="zh-CN"><![CDATA[标题 3]]></value>
+				<value xml:lang="zh-TW"><![CDATA[標題 3]]></value>
+				<value xml:lang="fr"><![CDATA[Titre 3]]></value>
+				<value xml:lang="ru"><![CDATA[Заголовок 3]]></value>
+				<value xml:lang="es"><![CDATA[Título 3]]></value>
+				<value xml:lang="tr"><![CDATA[Konu 3]]></value>
+				<value xml:lang="vi"><![CDATA[Cỡ 3]]></value>
+			</item>
+			<item name="h4">
+				<value xml:lang="ko"><![CDATA[제목 4]]></value>
+				<value xml:lang="en"><![CDATA[Header 4]]></value>
+				<value xml:lang="jp"><![CDATA[見出し４]]></value>
+				<value xml:lang="zh-CN"><![CDATA[标题 4]]></value>
+				<value xml:lang="zh-TW"><![CDATA[標題 4]]></value>
+				<value xml:lang="fr"><![CDATA[Titre 4]]></value>
+				<value xml:lang="ru"><![CDATA[Заголовок 4]]></value>
+				<value xml:lang="es"><![CDATA[Título 4]]></value>
+				<value xml:lang="tr"><![CDATA[Konu 4]]></value>
+				<value xml:lang="vi"><![CDATA[Cỡ 4]]></value>
+			</item>
+			<item name="h5">
+				<value xml:lang="ko"><![CDATA[제목 5]]></value>
+				<value xml:lang="en"><![CDATA[Header 5]]></value>
+				<value xml:lang="jp"><![CDATA[見出し５]]></value>
+				<value xml:lang="zh-CN"><![CDATA[标题 5]]></value>
+				<value xml:lang="zh-TW"><![CDATA[標題 5]]></value>
+				<value xml:lang="fr"><![CDATA[Titre 5]]></value>
+				<value xml:lang="ru"><![CDATA[Заголовок 5]]></value>
+				<value xml:lang="es"><![CDATA[Título 5]]></value>
+				<value xml:lang="tr"><![CDATA[Konu 5]]></value>
+				<value xml:lang="vi"><![CDATA[Cỡ 5]]></value>
+			</item>
+			<item name="h6">
+				<value xml:lang="ko"><![CDATA[제목 6]]></value>
+				<value xml:lang="en"><![CDATA[Header 6]]></value>
+				<value xml:lang="jp"><![CDATA[見出し６]]></value>
+				<value xml:lang="zh-CN"><![CDATA[标题 6]]></value>
+				<value xml:lang="zh-TW"><![CDATA[標題 6]]></value>
+				<value xml:lang="fr"><![CDATA[Titre 6]]></value>
+				<value xml:lang="ru"><![CDATA[Заголовок 6]]></value>
+				<value xml:lang="es"><![CDATA[Título 6]]></value>
+				<value xml:lang="tr"><![CDATA[Konu 6]]></value>
+				<value xml:lang="vi"><![CDATA[Cỡ 6]]></value>
+			</item>
+		</item>
+		<item name="submit">
+			<value xml:lang="ko"><![CDATA[확인]]></value>
+			<value xml:lang="en"><![CDATA[Submit]]></value>
+			<value xml:lang="jp"><![CDATA[送信]]></value>
+			<value xml:lang="zh-CN"><![CDATA[确认]]></value>
+			<value xml:lang="zh-TW"><![CDATA[確認]]></value>
+			<value xml:lang="fr"><![CDATA[Soumettre]]></value>
+			<value xml:lang="ru"><![CDATA[Принять]]></value>
+			<value xml:lang="es"><![CDATA[Confirmar]]></value>
+			<value xml:lang="tr"><![CDATA[Gönder]]></value>
+			<value xml:lang="vi"><![CDATA[Gửi bài]]></value>
+		</item>
+		<item name="fontcolor">
+			<value xml:lang="ko"><![CDATA[글자 색]]></value>
+			<value xml:lang="en"><![CDATA[Text Color]]></value>
+			<value xml:lang="jp"><![CDATA[テキストの色]]></value>
+			<value xml:lang="zh-CN"><![CDATA[文本颜色]]></value>
+			<value xml:lang="zh-TW"><![CDATA[文字顏色]]></value>
+			<value xml:lang="ru"><![CDATA[Цвет текста]]></value>
+			<value xml:lang="tr"><![CDATA[Yazı Rengi]]></value>
+			<value xml:lang="vi"><![CDATA[Màu chữ]]></value>
+		</item>
+		<item name="fontbgcolor">
+			<value xml:lang="ko"><![CDATA[글자 배경색]]></value>
+			<value xml:lang="en"><![CDATA[Background Color]]></value>
+			<value xml:lang="jp"><![CDATA[テキストの背景色]]></value>
+			<value xml:lang="zh-CN"><![CDATA[背景颜色]]></value>
+			<value xml:lang="zh-TW"><![CDATA[背景顏色]]></value>
+			<value xml:lang="ru"><![CDATA[Цвет Фона]]></value>
+			<value xml:lang="tr"><![CDATA[Arkaplan Rengi]]></value>
+			<value xml:lang="vi"><![CDATA[Màu nền]]></value>
+		</item>
+		<item name="bold">
+			<value xml:lang="ko"><![CDATA[진하게]]></value>
+			<value xml:lang="en"><![CDATA[Bold]]></value>
+			<value xml:lang="jp"><![CDATA[太字]]></value>
+			<value xml:lang="zh-CN"><![CDATA[粗体]]></value>
+			<value xml:lang="zh-TW"><![CDATA[粗體]]></value>
+			<value xml:lang="tr"><![CDATA[Kalın]]></value>
+			<value xml:lang="vi"><![CDATA[Chữ đậm]]></value>
+		</item>
+		<item name="italic">
+			<value xml:lang="ko"><![CDATA[기울임]]></value>
+			<value xml:lang="en"><![CDATA[Italic]]></value>
+			<value xml:lang="jp"><![CDATA[斜体]]></value>
+			<value xml:lang="zh-CN"><![CDATA[斜体]]></value>
+			<value xml:lang="zh-TW"><![CDATA[斜體]]></value>
+			<value xml:lang="tr"><![CDATA[Italik]]></value>
+			<value xml:lang="vi"><![CDATA[Chữ nghiêng]]></value>
+		</item>
+		<item name="underline">
+			<value xml:lang="ko"><![CDATA[밑줄]]></value>
+			<value xml:lang="en"><![CDATA[Underline]]></value>
+			<value xml:lang="jp"><![CDATA[下線]]></value>
+			<value xml:lang="zh-CN"><![CDATA[下划线]]></value>
+			<value xml:lang="zh-TW"><![CDATA[底線]]></value>
+			<value xml:lang="tr"><![CDATA[Altıçizili]]></value>
+			<value xml:lang="vi"><![CDATA[Chứ gạch chân]]></value>
+		</item>
+		<item name="strike">
+			<value xml:lang="ko"><![CDATA[취소선]]></value>
+			<value xml:lang="en"><![CDATA[Strikethrough]]></value>
+			<value xml:lang="jp"><![CDATA[取り消し線]]></value>
+			<value xml:lang="zh-CN"><![CDATA[取消线]]></value>
+			<value xml:lang="zh-TW"><![CDATA[虛線]]></value>
+			<value xml:lang="tr"><![CDATA[Göze Çarpan]]></value>
+			<value xml:lang="vi"><![CDATA[Chữ gạch giữa]]></value>
+		</item>
+		<item name="sup">
+			<value xml:lang="ko"><![CDATA[위 첨자]]></value>
+			<value xml:lang="en"><![CDATA[Super]]></value>
+			<value xml:lang="jp"><![CDATA[上付き文字]]></value>
+			<value xml:lang="zh-CN"><![CDATA[上标]]></value>
+			<value xml:lang="zh-TW"><![CDATA[上標]]></value>
+			<value xml:lang="vi"><![CDATA[Chỉ số trên]]></value>
+		</item>
+		<item name="sub">
+			<value xml:lang="ko"><![CDATA[아래 첨자]]></value>
+			<value xml:lang="en"><![CDATA[Sub]]></value>
+			<value xml:lang="jp"><![CDATA[下付き文字]]></value>
+			<value xml:lang="zh-CN"><![CDATA[下标]]></value>
+			<value xml:lang="zh-TW"><![CDATA[下標]]></value>
+			<value xml:lang="vi"><![CDATA[Chỉ số dưới]]></value>
+		</item>
+		<item name="redo">
+			<value xml:lang="ko"><![CDATA[다시 실행]]></value>
+			<value xml:lang="en"><![CDATA[Redo]]></value>
+			<value xml:lang="jp"><![CDATA[繰り返し]]></value>
+			<value xml:lang="zh-CN"><![CDATA[恢复]]></value>
+			<value xml:lang="zh-TW"><![CDATA[重新操作]]></value>
+			<value xml:lang="tr"><![CDATA[Yinele]]></value>
+			<value xml:lang="vi"><![CDATA[Phía sau]]></value>
+		</item>
+		<item name="undo">
+			<value xml:lang="ko"><![CDATA[되돌리기]]></value>
+			<value xml:lang="en"><![CDATA[Undo]]></value>
+			<value xml:lang="jp"><![CDATA[元に戻す]]></value>
+			<value xml:lang="zh-CN"><![CDATA[撤销]]></value>
+			<value xml:lang="zh-TW"><![CDATA[返回操作]]></value>
+			<value xml:lang="tr"><![CDATA[Geri Al]]></value>
+			<value xml:lang="vi"><![CDATA[Trở lại]]></value>
+		</item>
+		<item name="align_left">
+			<value xml:lang="ko"><![CDATA[왼쪽 정렬]]></value>
+			<value xml:lang="en"><![CDATA[Align Left]]></value>
+			<value xml:lang="jp"><![CDATA[左揃え]]></value>
+			<value xml:lang="zh-CN"><![CDATA[左对齐]]></value>
+			<value xml:lang="zh-TW"><![CDATA[靠左對齊]]></value>
+			<value xml:lang="tr"><![CDATA[Sola Hizalama]]></value>
+			<value xml:lang="vi"><![CDATA[Căn trái]]></value>
+		</item>
+		<item name="align_center">
+			<value xml:lang="ko"><![CDATA[가운데 정렬]]></value>
+			<value xml:lang="en"><![CDATA[Align Center]]></value>
+			<value xml:lang="jp"><![CDATA[中央揃え]]></value>
+			<value xml:lang="zh-CN"><![CDATA[居中对齐]]></value>
+			<value xml:lang="zh-TW"><![CDATA[置中對齊]]></value>
+			<value xml:lang="tr"><![CDATA[Ortalı Hizalama]]></value>
+			<value xml:lang="vi"><![CDATA[Căn giữa]]></value>
+		</item>
+		<item name="align_right">
+			<value xml:lang="ko"><![CDATA[오른쪽 정렬]]></value>
+			<value xml:lang="en"><![CDATA[Align Right]]></value>
+			<value xml:lang="jp"><![CDATA[右揃え]]></value>
+			<value xml:lang="zh-CN"><![CDATA[右对齐]]></value>
+			<value xml:lang="zh-TW"><![CDATA[靠右對齊]]></value>
+			<value xml:lang="tr"><![CDATA[Sağa Hizalama]]></value>
+			<value xml:lang="vi"><![CDATA[Căn phải]]></value>
+		</item>
+		<item name="align_justify">
+			<value xml:lang="ko"><![CDATA[양쪽 정렬]]></value>
+			<value xml:lang="en"><![CDATA[Align Justify]]></value>
+			<value xml:lang="jp"><![CDATA[均等割付]]></value>
+			<value xml:lang="zh-CN"><![CDATA[两端对齐]]></value>
+			<value xml:lang="zh-TW"><![CDATA[左右對齊]]></value>
+			<value xml:lang="tr"><![CDATA[Kenara Yaslı Hizalama]]></value>
+			<value xml:lang="vi"><![CDATA[Căn đều]]></value>
+		</item>
+		<item name="add_indent">
+			<value xml:lang="ko"><![CDATA[들여쓰기]]></value>
+			<value xml:lang="en"><![CDATA[Indent]]></value>
+			<value xml:lang="jp"><![CDATA[インデント増]]></value>
+			<value xml:lang="zh-CN"><![CDATA[增加缩进]]></value>
+			<value xml:lang="zh-TW"><![CDATA[縮排]]></value>
+			<value xml:lang="tr"><![CDATA[Girinti]]></value>
+			<value xml:lang="vi"><![CDATA[Thụt lề]]></value>
+		</item>
+		<item name="remove_indent">
+			<value xml:lang="ko"><![CDATA[내어쓰기]]></value>
+			<value xml:lang="en"><![CDATA[Outdent]]></value>
+			<value xml:lang="jp"><![CDATA[インデント減]]></value>
+			<value xml:lang="zh-CN"><![CDATA[减少缩进]]></value>
+			<value xml:lang="zh-TW"><![CDATA[凸排]]></value>
+			<value xml:lang="tr"><![CDATA[Çıkıntı]]></value>
+			<value xml:lang="vi"><![CDATA[Dàn đều]]></value>
+		</item>
+		<item name="list_number">
+			<value xml:lang="ko"><![CDATA[번호 매기기]]></value>
+			<value xml:lang="en"><![CDATA[Orderd List]]></value>
+			<value xml:lang="jp"><![CDATA[番号付リスト]]></value>
+			<value xml:lang="zh-CN"><![CDATA[有序列表]]></value>
+			<value xml:lang="zh-TW"><![CDATA[編號]]></value>
+			<value xml:lang="tr"><![CDATA[Sıralanan Listesi]]></value>
+			<value xml:lang="vi"><![CDATA[Thứ tự số]]></value>
+		</item>
+		<item name="list_bullet">
+			<value xml:lang="ko"><![CDATA[목록]]></value>
+			<value xml:lang="en"><![CDATA[Unordered List]]></value>
+			<value xml:lang="jp"><![CDATA[箇条書き]]></value>
+			<value xml:lang="zh-CN"><![CDATA[无序列表]]></value>
+			<value xml:lang="zh-TW"><![CDATA[清單符號]]></value>
+			<value xml:lang="tr"><![CDATA[Sırasız Listesi]]></value>
+			<value xml:lang="vi"><![CDATA[Thứ tự chấm]]></value>
+		</item>
+		<item name="remove_format">
+			<value xml:lang="ko"><![CDATA[글맵시 지우기]]></value>
+			<value xml:lang="en"><![CDATA[Style Remover]]></value>
+			<value xml:lang="jp"><![CDATA[書式をクリア]]></value>
+			<value xml:lang="zh-CN"><![CDATA[删除文字格式]]></value>
+			<value xml:lang="zh-TW"><![CDATA[移除格式]]></value>
+			<value xml:lang="ru"><![CDATA[Удалить стиль]]></value>
+			<value xml:lang="tr"><![CDATA[Tarz Silicisi]]></value>
+			<value xml:lang="vi"><![CDATA[Xóa định dạng]]></value>
+		</item>
+		<item name="help_remove_format">
+			<value xml:lang="ko"><![CDATA[선택된 영역 내의 태그를 지웁니다.]]></value>
+			<value xml:lang="en"><![CDATA[Tags in selected area will be removed.]]></value>
+			<value xml:lang="jp"><![CDATA[選択領域の中のタグを消します。]]></value>
+			<value xml:lang="zh-CN"><![CDATA[清除格式。]]></value>
+			<value xml:lang="zh-TW"><![CDATA[移除格式]]></value>
+			<value xml:lang="fr"><![CDATA[Supprimer les balises dans l'endroit sélectionné]]></value>
+			<value xml:lang="ru"><![CDATA[Выделенный объект будет удален]]></value>
+			<value xml:lang="tr"><![CDATA[Seçili alandaki etiketler silinecektir]]></value>
+			<value xml:lang="vi"><![CDATA[Những Tag đã chọn sẽ bị xóa]]></value>
+		</item>
+		<item name="help_strike_through">
+			<value xml:lang="ko"><![CDATA[글자에 취소선을 표시합니다.]]></value>
+			<value xml:lang="en"><![CDATA[Mark the text with strikethrough.]]></value>
+			<value xml:lang="jp"><![CDATA[テキストに取り消し線を表示します。]]></value>
+			<value xml:lang="zh-CN"><![CDATA[取消线。]]></value>
+			<value xml:lang="zh-TW"><![CDATA[文字刪除線]]></value>
+			<value xml:lang="fr"><![CDATA[Représenter la ligne d'annulation sur les lettres.]]></value>
+			<value xml:lang="tr"><![CDATA[Strike ]]></value>
+			<value xml:lang="vi"><![CDATA[Đường kẻ sẽ nằm lên chữ]]></value>
+		</item>
+		<item name="help_align_full">
+			<value xml:lang="ko"><![CDATA[좌우 폭에 맞게 정렬을 합니다.]]></value>
+			<value xml:lang="en"><![CDATA[Align left and right]]></value>
+			<value xml:lang="jp"><![CDATA[左右の余白に合わせて文字列を配置します。]]></value>
+			<value xml:lang="zh-CN"><![CDATA[两端对齐。]]></value>
+			<value xml:lang="zh-TW"><![CDATA[左右對齊]]></value>
+			<value xml:lang="fr"><![CDATA[Aligner pleinement selon largeur]]></value>
+			<value xml:lang="ru"><![CDATA[Выровнять (вправо/влево)]]></value>
+			<value xml:lang="tr"><![CDATA[Sol ve sağ hizalama]]></value>
+			<value xml:lang="vi"><![CDATA[Căn trái và phải]]></value>
+		</item>
+		<item name="help_fontcolor">
+			<value xml:lang="ko"><![CDATA[글자의 색상을 지정합니다.]]></value>
+			<value xml:lang="en"><![CDATA[Select the text color.]]></value>
+			<value xml:lang="jp"><![CDATA[テキストの色を指定します。]]></value>
+			<value xml:lang="zh-CN"><![CDATA[文本颜色。]]></value>
+			<value xml:lang="zh-TW"><![CDATA[文字顏色]]></value>
+			<value xml:lang="fr"><![CDATA[Désigner la couleur de la Police de caractères]]></value>
+			<value xml:lang="ru"><![CDATA[Выбрать цвет шрифта]]></value>
+			<value xml:lang="es"><![CDATA[Selecciona el color de las letras]]></value>
+			<value xml:lang="tr"><![CDATA[Yazı rengi seç]]></value>
+			<value xml:lang="vi"><![CDATA[Màu chữ]]></value>
+		</item>
+		<item name="help_fontbgcolor">
+			<value xml:lang="ko"><![CDATA[글자의 배경색상을 지정합니다.]]></value>
+			<value xml:lang="en"><![CDATA[Select the background color of the text.]]></value>
+			<value xml:lang="jp"><![CDATA[テキストの背景色を指定します。]]></value>
+			<value xml:lang="zh-CN"><![CDATA[背景颜色。]]></value>
+			<value xml:lang="zh-TW"><![CDATA[背景顏色]]></value>
+			<value xml:lang="fr"><![CDATA[Désigner la couleur de l'arrière-plan de la Police de caractères.]]></value>
+			<value xml:lang="ru"><![CDATA[Выбрать цвет фона шрифта]]></value>
+			<value xml:lang="es"><![CDATA[Selecciona el color del fondo de la letras]]></value>
+			<value xml:lang="tr"><![CDATA[Yazı tipinin arkaplan rengini seç]]></value>
+			<value xml:lang="vi"><![CDATA[Màu nền]]></value>
+		</item>
+		<item name="help_bold">
+			<value xml:lang="ko"><![CDATA[글자를 진하게 합니다.]]></value>
+			<value xml:lang="en"><![CDATA[Make the text bold.]]></value>
+			<value xml:lang="jp"><![CDATA[テキストを太字に指定します。]]></value>
+			<value xml:lang="zh-CN"><![CDATA[粗体]]></value>
+			<value xml:lang="zh-TW"><![CDATA[粗體]]></value>
+			<value xml:lang="fr"><![CDATA[Caractère gras]]></value>
+			<value xml:lang="ru"><![CDATA[Сделать шрифт жирным]]></value>
+			<value xml:lang="es"><![CDATA[Letra gruesa]]></value>
+			<value xml:lang="tr"><![CDATA[Yazı tipini kalın yap]]></value>
+			<value xml:lang="vi"><![CDATA[ Chữ đậm]]></value>
+		</item>
+		<item name="help_italic">
+			<value xml:lang="ko"><![CDATA[글자를 기울이게 합니다.]]></value>
+			<value xml:lang="en"><![CDATA[Make the text italic.]]></value>
+			<value xml:lang="jp"><![CDATA[テキストを斜体にします。]]></value>
+			<value xml:lang="zh-CN"><![CDATA[斜体]]></value>
+			<value xml:lang="zh-TW"><![CDATA[斜體]]></value>
+			<value xml:lang="fr"><![CDATA[Caractère italique]]></value>
+			<value xml:lang="ru"><![CDATA[Сделать шрифт наклонным]]></value>
+			<value xml:lang="es"><![CDATA[Letra cursiva]]></value>
+			<value xml:lang="tr"><![CDATA[Yazı tipini italik yap]]></value>
+			<value xml:lang="vi"><![CDATA[ Chữ nghiêng]]></value>
+		</item>
+		<item name="help_underline">
+			<value xml:lang="ko"><![CDATA[밑줄을 긋습니다.]]></value>
+			<value xml:lang="en"><![CDATA[Underline the text.]]></value>
+			<value xml:lang="jp"><![CDATA[テキストに下線を引きます。]]></value>
+			<value xml:lang="zh-CN"><![CDATA[下划线]]></value>
+			<value xml:lang="zh-TW"><![CDATA[底線]]></value>
+			<value xml:lang="fr"><![CDATA[Caractère souligné]]></value>
+			<value xml:lang="ru"><![CDATA[Сделать шрифт подчеркнутым]]></value>
+			<value xml:lang="es"><![CDATA[Letra subrayada]]></value>
+			<value xml:lang="tr"><![CDATA[Altıçizili yazı tipi]]></value>
+			<value xml:lang="vi"><![CDATA[ Chữ gạch chân]]></value>
+		</item>
+		<item name="help_strike">
+			<value xml:lang="ko"><![CDATA[취소선을 긋습니다.]]></value>
+			<value xml:lang="en"><![CDATA[Mark the text with strikethrough.]]></value>
+			<value xml:lang="jp"><![CDATA[取り消し線を引きます。]]></value>
+			<value xml:lang="zh-CN"><![CDATA[取消线]]></value>
+			<value xml:lang="zh-TW"><![CDATA[虛線]]></value>
+			<value xml:lang="fr"><![CDATA[Caractère biffé]]></value>
+			<value xml:lang="ru"><![CDATA[Сделать шрифт зачеркнутым]]></value>
+			<value xml:lang="es"><![CDATA[Letra con linea]]></value>
+			<value xml:lang="vi"><![CDATA[ Chữ gạch giữa]]></value>
+		</item>
+		<item name="help_sup">
+			<value xml:lang="ko"><![CDATA[위 첨자를 입력합니다.]]></value>
+			<value xml:lang="en"><![CDATA[Make the text superscript.]]></value>
+			<value xml:lang="jp"><![CDATA[上付き文字]]></value>
+			<value xml:lang="zh-CN"><![CDATA[上标]]></value>
+			<value xml:lang="zh-TW"><![CDATA[上標]]></value>
+			<value xml:lang="fr"><![CDATA[Sup]]></value>
+			<value xml:lang="ru"><![CDATA[Sup]]></value>
+			<value xml:lang="es"><![CDATA[Sup]]></value>
+			<value xml:lang="vi"><![CDATA[Chỉ số trên]]></value>
+		</item>
+		<item name="help_sub">
+			<value xml:lang="ko"><![CDATA[아래 첨자를 입력합니다.]]></value>
+			<value xml:lang="en"><![CDATA[Make the text subscript.]]></value>
+			<value xml:lang="jp"><![CDATA[下付き文字]]></value>
+			<value xml:lang="zh-CN"><![CDATA[下标]]></value>
+			<value xml:lang="zh-TW"><![CDATA[下標]]></value>
+			<value xml:lang="fr"><![CDATA[Sub]]></value>
+			<value xml:lang="ru"><![CDATA[Sub]]></value>
+			<value xml:lang="es"><![CDATA[Sub]]></value>
+			<value xml:lang="vi"><![CDATA[Chỉ số dưới]]></value>
+		</item>
+		<item name="help_redo">
+			<value xml:lang="ko"><![CDATA[다음 동작으로 돌아갑니다.]]></value>
+			<value xml:lang="en"><![CDATA[Redo]]></value>
+			<value xml:lang="jp"><![CDATA[繰り返し]]></value>
+			<value xml:lang="zh-CN"><![CDATA[恢复]]></value>
+			<value xml:lang="zh-TW"><![CDATA[重新操作]]></value>
+			<value xml:lang="fr"><![CDATA[Réfaire]]></value>
+			<value xml:lang="ru"><![CDATA[Восстановить отмененное]]></value>
+			<value xml:lang="es"><![CDATA[Rehacer]]></value>
+			<value xml:lang="tr"><![CDATA[Yine]]></value>
+			<value xml:lang="vi"><![CDATA[Tiếp tục]]></value>
+		</item>
+		<item name="help_undo">
+			<value xml:lang="ko"><![CDATA[이전 동작으로 돌아갑니다.]]></value>
+			<value xml:lang="en"><![CDATA[Undo]]></value>
+			<value xml:lang="jp"><![CDATA[元に戻す]]></value>
+			<value xml:lang="zh-CN"><![CDATA[撤销]]></value>
+			<value xml:lang="zh-TW"><![CDATA[返回操作]]></value>
+			<value xml:lang="fr"><![CDATA[Annuler]]></value>
+			<value xml:lang="ru"><![CDATA[Отмена]]></value>
+			<value xml:lang="es"><![CDATA[Deshacer]]></value>
+			<value xml:lang="tr"><![CDATA[Geri al]]></value>
+			<value xml:lang="vi"><![CDATA[Trở lại]]></value>
+		</item>
+		<item name="help_align_left">
+			<value xml:lang="ko"><![CDATA[왼쪽 정렬을 합니다.]]></value>
+			<value xml:lang="en"><![CDATA[Align left]]></value>
+			<value xml:lang="jp"><![CDATA[テキストを左揃えで表示します。]]></value>
+			<value xml:lang="zh-CN"><![CDATA[左对齐]]></value>
+			<value xml:lang="zh-TW"><![CDATA[靠左對齊]]></value>
+			<value xml:lang="fr"><![CDATA[Aligner à gauche]]></value>
+			<value xml:lang="ru"><![CDATA[Выровнять по левому краю]]></value>
+			<value xml:lang="es"><![CDATA[Margen izquierdo]]></value>
+			<value xml:lang="tr"><![CDATA[Sola Hizala]]></value>
+			<value xml:lang="vi"><![CDATA[Căn trái]]></value>
+		</item>
+		<item name="help_align_center">
+			<value xml:lang="ko"><![CDATA[가운데 정렬을 합니다.]]></value>
+			<value xml:lang="en"><![CDATA[Align center]]></value>
+			<value xml:lang="jp"><![CDATA[テキストを中央揃えで表示します。]]></value>
+			<value xml:lang="zh-CN"><![CDATA[居中对齐]]></value>
+			<value xml:lang="zh-TW"><![CDATA[置中對齊]]></value>
+			<value xml:lang="fr"><![CDATA[Aligner centr]]></value>
+			<value xml:lang="ru"><![CDATA[Выровнять по центру]]></value>
+			<value xml:lang="es"><![CDATA[Margen central]]></value>
+			<value xml:lang="tr"><![CDATA[Ortalı Hizala]]></value>
+			<value xml:lang="vi"><![CDATA[Căn giữa]]></value>
+		</item>
+		<item name="help_align_right">
+			<value xml:lang="ko"><![CDATA[오른쪽 정렬을 합니다.]]></value>
+			<value xml:lang="en"><![CDATA[Align right]]></value>
+			<value xml:lang="jp"><![CDATA[テキストを右揃えで表示します。]]></value>
+			<value xml:lang="zh-CN"><![CDATA[右对齐]]></value>
+			<value xml:lang="zh-TW"><![CDATA[靠右對齊]]></value>
+			<value xml:lang="fr"><![CDATA[Aligner  droite]]></value>
+			<value xml:lang="ru"><![CDATA[Выровнять по правому краю]]></value>
+			<value xml:lang="es"><![CDATA[Margen derecho]]></value>
+			<value xml:lang="tr"><![CDATA[Sağa Hizala]]></value>
+			<value xml:lang="vi"><![CDATA[Căn phải]]></value>
+		</item>
+		<item name="help_align_justify">
+			<value xml:lang="ko"><![CDATA[양쪽 정렬을 합니다.]]></value>
+			<value xml:lang="en"><![CDATA[Align justity]]></value>
+			<value xml:lang="jp"><![CDATA[テキストを両端揃えで表示します。]]></value>
+			<value xml:lang="zh-CN"><![CDATA[两端对齐]]></value>
+			<value xml:lang="zh-TW"><![CDATA[左右對齊]]></value>
+			<value xml:lang="tr"><![CDATA[Kenara Yaslı Hizalama]]></value>
+			<value xml:lang="vi"><![CDATA[Đều hai bên]]></value>
+		</item>
+		<item name="help_add_indent">
+			<value xml:lang="ko"><![CDATA[단락의 들여쓰기 수준을 높입니다.]]></value>
+			<value xml:lang="en"><![CDATA[Add indent]]></value>
+			<value xml:lang="jp"><![CDATA[インデントを増やします。]]></value>
+			<value xml:lang="zh-CN"><![CDATA[增加缩进]]></value>
+			<value xml:lang="zh-TW"><![CDATA[縮排]]></value>
+			<value xml:lang="fr"><![CDATA[Ajouter un Rentré]]></value>
+			<value xml:lang="ru"><![CDATA[Добавить отступ]]></value>
+			<value xml:lang="es"><![CDATA[Anadir tabulación]]></value>
+			<value xml:lang="tr"><![CDATA[Girinti Ekle]]></value>
+			<value xml:lang="vi"><![CDATA[Thụt vào]]></value>
+		</item>
+		<item name="help_remove_indent">
+			<value xml:lang="ko"><![CDATA[단락의 들여쓰기 수준을 낮춥니다.]]></value>
+			<value xml:lang="en"><![CDATA[Remove indent]]></value>
+			<value xml:lang="jp"><![CDATA[インデントを減らします。]]></value>
+			<value xml:lang="zh-CN"><![CDATA[减少缩进]]></value>
+			<value xml:lang="zh-TW"><![CDATA[凸排]]></value>
+			<value xml:lang="fr"><![CDATA[Enlever un Rentré]]></value>
+			<value xml:lang="ru"><![CDATA[Удалить отступ]]></value>
+			<value xml:lang="es"><![CDATA[Quitar tabulación]]></value>
+			<value xml:lang="tr"><![CDATA[Girinti sil]]></value>
+			<value xml:lang="vi"><![CDATA[Giãn ra]]></value>
+		</item>
+		<item name="help_list_number">
+			<value xml:lang="ko"><![CDATA[숫자로된 목록을 적용합니다.]]></value>
+			<value xml:lang="en"><![CDATA[Apply ordered list.]]></value>
+			<value xml:lang="jp"><![CDATA[番号付リスト]]></value>
+			<value xml:lang="zh-CN"><![CDATA[有序列表]]></value>
+			<value xml:lang="zh-TW"><![CDATA[編號]]></value>
+			<value xml:lang="fr"><![CDATA[Appliquer la liste numroté]]></value>
+			<value xml:lang="ru"><![CDATA[Применить числовой список]]></value>
+			<value xml:lang="es"><![CDATA[Aplicar la lista con números]]></value>
+			<value xml:lang="tr"><![CDATA[Sayı listesini uygula]]></value>
+			<value xml:lang="vi"><![CDATA[Thứ tự số]]></value>
+		</item>
+		<item name="help_list_bullet">
+			<value xml:lang="ko"><![CDATA[기호로된 목록을 적용합니다.]]></value>
+			<value xml:lang="en"><![CDATA[Apply bullet list.]]></value>
+			<value xml:lang="jp"><![CDATA[箇条書き]]></value>
+			<value xml:lang="zh-CN"><![CDATA[无序列表]]></value>
+			<value xml:lang="zh-TW"><![CDATA[清單符號]]></value>
+			<value xml:lang="fr"><![CDATA[Appliquer la liste à puces]]></value>
+			<value xml:lang="ru"><![CDATA[Применить маркированный список]]></value>
+			<value xml:lang="es"><![CDATA[Aplicar la lista con símbolos]]></value>
+			<value xml:lang="tr"><![CDATA[Bullet listesi uygula]]></value>
+			<value xml:lang="vi"><![CDATA[Thứ tự chấm]]></value>
+		</item>
+		<item name="help_use_paragraph">
+			<value xml:lang="ko"><![CDATA[문단 나누기를 하시려면 Ctrl+Enter를 누르시면 됩니다. (글 작성완료 후 Alt+S를 누르면 저장이 됩니다.)]]></value>
+			<value xml:lang="en"><![CDATA[Press Ctrl+Enter to use paragraph break. (Press Alt+S to save it.)]]></value>
+			<value xml:lang="jp"><![CDATA[段落機能を使用する場合は、「Ctrl+Enter」を押します（書き終わった後、「Alt+S」を押すと保存されます）。]]></value>
+			<value xml:lang="zh-CN"><![CDATA[分段请按 Ctrl＋回车． (发表主题快捷键：Alt＋S)]]></value>
+			<value xml:lang="zh-TW"><![CDATA[換行請按 Ctrl+Backspace (快速發表主題：Alt+S)]]></value>
+			<value xml:lang="fr"><![CDATA[Appuyez Ctrl+Enter pour séparer les paragraphe. (Appuyez Alt+S pour conserver)]]></value>
+			<value xml:lang="ru"><![CDATA[Нажмите Ctrl+Enter, чтобы отметить параграф. (Нажмите Alt+S , чтобы сохранить)]]></value>
+			<value xml:lang="es"><![CDATA[Presiona Ctrl+Enter para usar el párrafo (Presiona Alt+S para guardar)]]></value>
+			<value xml:lang="tr"><![CDATA[Paragraf yapmak için Ctrl+Enter tuşlarına basınız. (Göndermek için Alt+S e basınız)]]></value>
+			<value xml:lang="vi"><![CDATA[Bấm "Ctrl+Enter" để sử dụng Paragraph. Bấm phím "Alt+S" để gửi.]]></value>
+		</item>
+		<item name="url">
+			<value xml:lang="ko"><![CDATA[링크]]></value>
+			<value xml:lang="en"><![CDATA[URL]]></value>
+			<value xml:lang="jp"><![CDATA[リンク]]></value>
+			<value xml:lang="zh-CN"><![CDATA[链接]]></value>
+			<value xml:lang="zh-TW"><![CDATA[連結]]></value>
+		</item>
+		<item name="blockquote">
+			<value xml:lang="ko"><![CDATA[인용문]]></value>
+			<value xml:lang="en"><![CDATA[Blockquote]]></value>
+			<value xml:lang="jp"><![CDATA[引用文]]></value>
+			<value xml:lang="zh-CN"><![CDATA[注释框]]></value>
+			<value xml:lang="zh-TW"><![CDATA[引用]]></value>
+			<value xml:lang="tr"><![CDATA[Blokalıntı]]></value>
+			<value xml:lang="vi"><![CDATA[Trích dẫn]]></value>
+		</item>
+		<item name="table">
+			<value xml:lang="ko"><![CDATA[표]]></value>
+			<value xml:lang="en"><![CDATA[Table]]></value>
+			<value xml:lang="jp"><![CDATA[表]]></value>
+			<value xml:lang="zh-CN"><![CDATA[表格]]></value>
+			<value xml:lang="zh-TW"><![CDATA[表格]]></value>
+			<value xml:lang="tr"><![CDATA[Tablo]]></value>
+			<value xml:lang="vi"><![CDATA[Bảng]]></value>
+		</item>
+		<item name="image">
+			<value xml:lang="ko"><![CDATA[그림]]></value>
+			<value xml:lang="en"><![CDATA[Image]]></value>
+			<value xml:lang="jp"><![CDATA[イメージ]]></value>
+			<value xml:lang="zh-CN"><![CDATA[图片]]></value>
+			<value xml:lang="zh-TW"><![CDATA[圖片]]></value>
+			<value xml:lang="tr"><![CDATA[Resim]]></value>
+			<value xml:lang="vi"><![CDATA[Hình ảnh]]></value>
+		</item>
+		<item name="multimedia">
+			<value xml:lang="ko"><![CDATA[동영상]]></value>
+			<value xml:lang="en"><![CDATA[Video]]></value>
+			<value xml:lang="jp"><![CDATA[動画]]></value>
+			<value xml:lang="zh-CN"><![CDATA[视频]]></value>
+			<value xml:lang="zh-TW"><![CDATA[影片]]></value>
+			<value xml:lang="tr"><![CDATA[Film]]></value>
+			<value xml:lang="vi"><![CDATA[Chèn Media]]></value>
+		</item>
+		<item name="emoticon">
+			<value xml:lang="ko"><![CDATA[이모티콘]]></value>
+			<value xml:lang="en"><![CDATA[Emoticon]]></value>
+			<value xml:lang="jp"><![CDATA[絵文字]]></value>
+			<value xml:lang="zh-CN"><![CDATA[表情图标]]></value>
+			<value xml:lang="zh-TW"><![CDATA[表情符號]]></value>
+			<value xml:lang="tr"><![CDATA[His Simgesi]]></value>
+			<value xml:lang="vi"><![CDATA[Diễn tả cảm xúc]]></value>
+		</item>
+		<item name="upload">
+			<value xml:lang="ko"><![CDATA[첨부]]></value>
+			<value xml:lang="en"><![CDATA[Attachment]]></value>
+			<value xml:lang="jp"><![CDATA[添付]]></value>
+			<value xml:lang="zh-CN"><![CDATA[上传]]></value>
+			<value xml:lang="zh-TW"><![CDATA[上傳]]></value>
+			<value xml:lang="fr"><![CDATA[Attacher]]></value>
+			<value xml:lang="ru"><![CDATA[Вложение]]></value>
+			<value xml:lang="es"><![CDATA[Adjuntar]]></value>
+			<value xml:lang="tr"><![CDATA[Ekler]]></value>
+			<value xml:lang="vi"><![CDATA[Đính kèm]]></value>
+		</item>
+		<item name="upload_file">
+			<value xml:lang="ko"><![CDATA[파일 첨부]]></value>
+			<value xml:lang="en"><![CDATA[Attach]]></value>
+			<value xml:lang="jp"><![CDATA[ファイル添付]]></value>
+			<value xml:lang="zh-CN"><![CDATA[上传附件]]></value>
+			<value xml:lang="zh-TW"><![CDATA[上傳附檔]]></value>
+			<value xml:lang="fr"><![CDATA[Attacher un(des) Fichier(s)]]></value>
+			<value xml:lang="ru"><![CDATA[Прикрепить файл]]></value>
+			<value xml:lang="es"><![CDATA[Archivo adjunto]]></value>
+			<value xml:lang="tr"><![CDATA[İliştir]]></value>
+			<value xml:lang="vi"><![CDATA[Đính kèm]]></value>
+		</item>
+		<item name="link_file">
+			<value xml:lang="ko"><![CDATA[본문 삽입]]></value>
+			<value xml:lang="en"><![CDATA[Insert to Content]]></value>
+			<value xml:lang="jp"><![CDATA[テキスト挿入]]></value>
+			<value xml:lang="zh-CN"><![CDATA[插入附件]]></value>
+			<value xml:lang="zh-TW"><![CDATA[插入檔案]]></value>
+			<value xml:lang="fr"><![CDATA[Insérer dans le Texte]]></value>
+			<value xml:lang="ru"><![CDATA[Вставить в содержание]]></value>
+			<value xml:lang="es"><![CDATA[Insertar en el contenido del documento]]></value>
+			<value xml:lang="tr"><![CDATA[İçeriğe Ekle]]></value>
+			<value xml:lang="vi"><![CDATA[Chèn vào bài viết]]></value>
+		</item>
+		<item name="delete_selected">
+			<value xml:lang="ko"><![CDATA[선택 삭제]]></value>
+			<value xml:lang="en"><![CDATA[Delete Selected]]></value>
+			<value xml:lang="jp"><![CDATA[選択削除]]></value>
+			<value xml:lang="zh-TW"><![CDATA[刪除所選]]></value>
+			<value xml:lang="tr"><![CDATA[Seçileni Sil]]></value>
+		</item>
+		<item name="icon_align_article">
+			<value xml:lang="ko"><![CDATA[한 문단을 차지]]></value>
+			<value xml:lang="en"><![CDATA[Occupy a paragraph]]></value>
+			<value xml:lang="jp"><![CDATA[一段落占め]]></value>
+			<value xml:lang="zh-CN"><![CDATA[占一个段落]]></value>
+			<value xml:lang="zh-TW"><![CDATA[段落]]></value>
+			<value xml:lang="fr"><![CDATA[Occuper un paragraphe]]></value>
+			<value xml:lang="ru"><![CDATA[Занять весь параграф]]></value>
+			<value xml:lang="es"><![CDATA[Ocupar un párrafo]]></value>
+			<value xml:lang="tr"><![CDATA[Paragraf Yap]]></value>
+			<value xml:lang="vi"><![CDATA[Vị trí trong bài viết]]></value>
+		</item>
+		<item name="icon_align_left">
+			<value xml:lang="ko"><![CDATA[글의 왼쪽으로]]></value>
+			<value xml:lang="en"><![CDATA[Left of Article]]></value>
+			<value xml:lang="jp"><![CDATA[左揃え]]></value>
+			<value xml:lang="zh-CN"><![CDATA[文本左侧]]></value>
+			<value xml:lang="zh-TW"><![CDATA[靠左]]></value>
+			<value xml:lang="fr"><![CDATA[Placer à gauche du texte]]></value>
+			<value xml:lang="ru"><![CDATA[Выровнять по левому краю]]></value>
+			<value xml:lang="es"><![CDATA[Margen izquierdo]]></value>
+			<value xml:lang="tr"><![CDATA[Sola Hizala]]></value>
+			<value xml:lang="vi"><![CDATA[Trái]]></value>
+		</item>
+		<item name="icon_align_middle">
+			<value xml:lang="ko"><![CDATA[가운데 정렬]]></value>
+			<value xml:lang="en"><![CDATA[Align Center]]></value>
+			<value xml:lang="jp"><![CDATA[中央揃え]]></value>
+			<value xml:lang="zh-CN"><![CDATA[居中对齐]]></value>
+			<value xml:lang="zh-TW"><![CDATA[置中]]></value>
+			<value xml:lang="fr"><![CDATA[Placer au centre]]></value>
+			<value xml:lang="ru"><![CDATA[Выровнять по центру]]></value>
+			<value xml:lang="es"><![CDATA[Margen central]]></value>
+			<value xml:lang="tr"><![CDATA[Ortaya Hizala]]></value>
+			<value xml:lang="vi"><![CDATA[Giữa]]></value>
+		</item>
+		<item name="icon_align_right">
+			<value xml:lang="ko"><![CDATA[글의 우측으로]]></value>
+			<value xml:lang="en"><![CDATA[Right of Article]]></value>
+			<value xml:lang="jp"><![CDATA[右揃え]]></value>
+			<value xml:lang="zh-CN"><![CDATA[文本右侧]]></value>
+			<value xml:lang="zh-TW"><![CDATA[靠右]]></value>
+			<value xml:lang="fr"><![CDATA[Placer à droite du texte]]></value>
+			<value xml:lang="ru"><![CDATA[Выровнять по правому краю]]></value>
+			<value xml:lang="es"><![CDATA[Margen derecho]]></value>
+			<value xml:lang="tr"><![CDATA[Sağa Hizala]]></value>
+			<value xml:lang="vi"><![CDATA[Phải]]></value>
+		</item>
+		<item name="rich_editor">
+			<value xml:lang="ko"><![CDATA[스타일 편집기]]></value>
+			<value xml:lang="en"><![CDATA[Rich Text Editor]]></value>
+			<value xml:lang="jp"><![CDATA[ウイジウイグ編集]]></value>
+			<value xml:lang="zh-CN"><![CDATA[常规]]></value>
+			<value xml:lang="zh-TW"><![CDATA[所見即得]]></value>
+			<value xml:lang="ru"><![CDATA[редактировать стиль]]></value>
+			<value xml:lang="tr"><![CDATA[Zengin Metin Editörü]]></value>
+			<value xml:lang="vi"><![CDATA[Kiểu trù phú]]></value>
+		</item>
+		<item name="html_editor">
+			<value xml:lang="ko"><![CDATA[HTML 편집기]]></value>
+			<value xml:lang="en"><![CDATA[HTML Editor]]></value>
+			<value xml:lang="jp"><![CDATA[HTMLタグ編集]]></value>
+			<value xml:lang="zh-CN"><![CDATA[HTML]]></value>
+			<value xml:lang="zh-TW"><![CDATA[HTML]]></value>
+			<value xml:lang="ru"><![CDATA[редактировать HTML]]></value>
+			<value xml:lang="tr"><![CDATA[HTML Editörü]]></value>
+			<value xml:lang="vi"><![CDATA[Kiểu HTML]]></value>
+		</item>
+		<item name="extension">
+			<value xml:lang="ko"><![CDATA[확장 컴포넌트]]></value>
+			<value xml:lang="en"><![CDATA[Extension Components]]></value>
+			<value xml:lang="jp"><![CDATA[拡張コンポーネント]]></value>
+			<value xml:lang="zh-CN"><![CDATA[扩展组件]]></value>
+			<value xml:lang="zh-TW"><![CDATA[延伸組件]]></value>
+			<value xml:lang="ru"><![CDATA[Расширенный компонент]]></value>
+			<value xml:lang="tr"><![CDATA[Uzantı Bileşenleri]]></value>
+			<value xml:lang="vi"><![CDATA[Thành phần mở rộng]]></value>
+		</item>
+		<item name="help">
+			<value xml:lang="ko"><![CDATA[도움말]]></value>
+			<value xml:lang="en"><![CDATA[Help]]></value>
+			<value xml:lang="jp"><![CDATA[ヘルプ]]></value>
+			<value xml:lang="zh-CN"><![CDATA[帮助]]></value>
+			<value xml:lang="zh-TW"><![CDATA[使用說明]]></value>
+			<value xml:lang="ru"><![CDATA[Помощь]]></value>
+			<value xml:lang="tr"><![CDATA[Yardım]]></value>
+			<value xml:lang="vi"><![CDATA[Trợ giúp]]></value>
+		</item>
+		<item name="help_command">
+			<value xml:lang="ko"><![CDATA[단축키 안내]]></value>
+			<value xml:lang="en"><![CDATA[Help Hotkeys]]></value>
+			<value xml:lang="jp"><![CDATA[ショートカット‐キーの説明]]></value>
+			<value xml:lang="zh-CN"><![CDATA[快捷键说明]]></value>
+			<value xml:lang="zh-TW"><![CDATA[熱鍵指引]]></value>
+			<value xml:lang="ru"><![CDATA[Горячие клавиши]]></value>
+			<value xml:lang="tr"><![CDATA[Kısayol Yardım Tuşları]]></value>
+			<value xml:lang="vi"><![CDATA[Phím nóng]]></value>
+		</item>
+		<item name="lineheight">
+			<value xml:lang="ko"><![CDATA[줄 간격]]></value>
+			<value xml:lang="en"><![CDATA[Line Height]]></value>
+			<value xml:lang="jp"><![CDATA[行間]]></value>
+			<value xml:lang="zh-CN"><![CDATA[行间距]]></value>
+			<value xml:lang="zh-TW"><![CDATA[行距]]></value>
+			<value xml:lang="fr"><![CDATA[줄간격]]></value>
+			<value xml:lang="ru"><![CDATA[Высота строки]]></value>
+			<value xml:lang="es"><![CDATA[줄간격]]></value>
+			<value xml:lang="tr"><![CDATA[Satır Yüksekliği]]></value>
+			<value xml:lang="vi"><![CDATA[Chiều cao dòng]]></value>
+		</item>
+		<item name="fontbgsampletext">
+			<value xml:lang="ko"><![CDATA[가나다]]></value>
+			<value xml:lang="en"><![CDATA[ABC]]></value>
+			<value xml:lang="jp"><![CDATA[あいうえお]]></value>
+			<value xml:lang="zh-CN"><![CDATA[我爱中华！]]></value>
+			<value xml:lang="zh-TW"><![CDATA[ㄅㄆㄇ]]></value>
+			<value xml:lang="ru"><![CDATA[АВС]]></value>
+		</item>
+		<item name="hyperlink">
+			<value xml:lang="ko"><![CDATA[하이퍼링크]]></value>
+			<value xml:lang="en"><![CDATA[Hyperlink]]></value>
+			<value xml:lang="jp"><![CDATA[ハイパーリンク]]></value>
+			<value xml:lang="zh-CN"><![CDATA[链接]]></value>
+			<value xml:lang="zh-TW"><![CDATA[超連結]]></value>
+			<value xml:lang="ru"><![CDATA[гиперссылка]]></value>
+			<value xml:lang="tr"><![CDATA[Köprü]]></value>
+			<value xml:lang="vi"><![CDATA[Link liên kết]]></value>
+		</item>
+		<item name="target_blank">
+			<value xml:lang="ko"><![CDATA[새 창으로]]></value>
+			<value xml:lang="en"><![CDATA[New Window]]></value>
+			<value xml:lang="jp"><![CDATA[新しいウィンドウで]]></value>
+			<value xml:lang="zh-CN"><![CDATA[新窗口]]></value>
+			<value xml:lang="zh-TW"><![CDATA[新視窗]]></value>
+			<value xml:lang="fr"><![CDATA[새창으로]]></value>
+			<value xml:lang="ru"><![CDATA[Новое окно]]></value>
+			<value xml:lang="es"><![CDATA[새창으로]]></value>
+			<value xml:lang="tr"><![CDATA[Yeni Pencere]]></value>
+			<value xml:lang="vi"><![CDATA[Mở trang mới]]></value>
+		</item>
+		<item name="quotestyle1">
+			<value xml:lang="ko"><![CDATA[왼쪽 실선]]></value>
+			<value xml:lang="en"><![CDATA[Left Solid]]></value>
+			<value xml:lang="jp"><![CDATA[左側実線]]></value>
+			<value xml:lang="zh-CN"><![CDATA[左侧实线]]></value>
+			<value xml:lang="zh-TW"><![CDATA[左側實線]]></value>
+			<value xml:lang="tr"><![CDATA[Sol Düzçizgi]]></value>
+			<value xml:lang="vi"><![CDATA[Liền viền trái]]></value>
+		</item>
+		<item name="quotestyle2">
+			<value xml:lang="ko"><![CDATA[인용 부호]]></value>
+			<value xml:lang="en"><![CDATA[Quote]]></value>
+			<value xml:lang="jp"><![CDATA[引用記号]]></value>
+			<value xml:lang="zh-CN"><![CDATA[引用符号]]></value>
+			<value xml:lang="zh-TW"><![CDATA[引用符號]]></value>
+			<value xml:lang="tr"><![CDATA[Alıntı]]></value>
+			<value xml:lang="vi"><![CDATA[Trích]]></value>
+		</item>
+		<item name="quotestyle3">
+			<value xml:lang="ko"><![CDATA[실선]]></value>
+			<value xml:lang="en"><![CDATA[Solid]]></value>
+			<value xml:lang="jp"><![CDATA[実線]]></value>
+			<value xml:lang="zh-CN"><![CDATA[实线]]></value>
+			<value xml:lang="zh-TW"><![CDATA[實線]]></value>
+			<value xml:lang="tr"><![CDATA[Düzçizgi]]></value>
+			<value xml:lang="vi"><![CDATA[Viền liền]]></value>
+		</item>
+		<item name="quotestyle4">
+			<value xml:lang="ko"><![CDATA[실선 + 배경]]></value>
+			<value xml:lang="en"><![CDATA[Solid + Background]]></value>
+			<value xml:lang="jp"><![CDATA[実線 + 背景]]></value>
+			<value xml:lang="zh-CN"><![CDATA[实线 + 背景]]></value>
+			<value xml:lang="zh-TW"><![CDATA[實線 + 背景]]></value>
+			<value xml:lang="tr"><![CDATA[Düzçizgi + Arkaplan]]></value>
+			<value xml:lang="vi"><![CDATA[Viền liền+Nền]]></value>
+		</item>
+		<item name="quotestyle5">
+			<value xml:lang="ko"><![CDATA[굵은 실선]]></value>
+			<value xml:lang="en"><![CDATA[Bold Solid]]></value>
+			<value xml:lang="jp"><![CDATA[太い実線]]></value>
+			<value xml:lang="zh-CN"><![CDATA[粗实线]]></value>
+			<value xml:lang="zh-TW"><![CDATA[粗框]]></value>
+			<value xml:lang="tr"><![CDATA[Kalın Düzçizgi]]></value>
+			<value xml:lang="vi"><![CDATA[Liền đậm]]></value>
+		</item>
+		<item name="quotestyle6">
+			<value xml:lang="ko"><![CDATA[점선]]></value>
+			<value xml:lang="en"><![CDATA[Dotted]]></value>
+			<value xml:lang="jp"><![CDATA[点線]]></value>
+			<value xml:lang="zh-CN"><![CDATA[虚线]]></value>
+			<value xml:lang="zh-TW"><![CDATA[虛線]]></value>
+			<value xml:lang="tr"><![CDATA[Noktalı]]></value>
+			<value xml:lang="vi"><![CDATA[Viền chấm]]></value>
+		</item>
+		<item name="quotestyle7">
+			<value xml:lang="ko"><![CDATA[점선 + 배경]]></value>
+			<value xml:lang="en"><![CDATA[Dotted + Background]]></value>
+			<value xml:lang="jp"><![CDATA[点線 + 背景]]></value>
+			<value xml:lang="zh-CN"><![CDATA[虚线 + 背景]]></value>
+			<value xml:lang="zh-TW"><![CDATA[虛線 + 背景]]></value>
+			<value xml:lang="tr"><![CDATA[Noktalı + Arkaplan]]></value>
+			<value xml:lang="vi"><![CDATA[Chấm+Nền]]></value>
+		</item>
+		<item name="quotestyle8">
+			<value xml:lang="ko"><![CDATA[적용 취소]]></value>
+			<value xml:lang="en"><![CDATA[Cancel]]></value>
+			<value xml:lang="jp"><![CDATA[適用取り消し]]></value>
+			<value xml:lang="zh-CN"><![CDATA[取消应用]]></value>
+			<value xml:lang="zh-TW"><![CDATA[取消]]></value>
+			<value xml:lang="ru"><![CDATA[Отменить]]></value>
+			<value xml:lang="tr"><![CDATA[İptal]]></value>
+			<value xml:lang="vi"><![CDATA[Loại bỏ]]></value>
+		</item>
+		<item name="jumptoedit">
+			<value xml:lang="ko"><![CDATA[편집 도구모음 건너뛰기]]></value>
+			<value xml:lang="en"><![CDATA[Skip Edit Toolbox]]></value>
+			<value xml:lang="jp"><![CDATA[編集ツール省略]]></value>
+			<value xml:lang="zh-CN"><![CDATA[跳转]]></value>
+			<value xml:lang="zh-TW"><![CDATA[跳過編輯工具列]]></value>
+			<value xml:lang="ru"><![CDATA[Пропустить Инструменты редактирования]]></value>
+			<value xml:lang="tr"><![CDATA[Araç Çubuğu Düzenini Geç]]></value>
+			<value xml:lang="vi"><![CDATA[Bỏ qua công cụ chỉnh sửa]]></value>
+		</item>
+		<item name="set_sel">
+			<value xml:lang="ko"><![CDATA[칸 수 지정]]></value>
+			<value xml:lang="en"><![CDATA[Set Cell Count]]></value>
+			<value xml:lang="jp"><![CDATA[セル数の指定]]></value>
+			<value xml:lang="zh-CN"><![CDATA[表格大小]]></value>
+			<value xml:lang="zh-TW"><![CDATA[表格]]></value>
+			<value xml:lang="ru"><![CDATA[Установить количество ячеек]]></value>
+			<value xml:lang="tr"><![CDATA[Hücre sayımını ayarla]]></value>
+			<value xml:lang="vi"><![CDATA[Số hàng cột]]></value>
+		</item>
+		<item name="row">
+			<value xml:lang="ko"><![CDATA[행]]></value>
+			<value xml:lang="en"><![CDATA[Row]]></value>
+			<value xml:lang="jp"><![CDATA[行]]></value>
+			<value xml:lang="zh-CN"><![CDATA[行]]></value>
+			<value xml:lang="zh-TW"><![CDATA[行]]></value>
+			<value xml:lang="ru"><![CDATA[Строка]]></value>
+			<value xml:lang="tr"><![CDATA[Satır]]></value>
+			<value xml:lang="vi"><![CDATA[Hàng]]></value>
+		</item>
+		<item name="col">
+			<value xml:lang="ko"><![CDATA[열]]></value>
+			<value xml:lang="en"><![CDATA[Column]]></value>
+			<value xml:lang="jp"><![CDATA[列]]></value>
+			<value xml:lang="zh-CN"><![CDATA[列]]></value>
+			<value xml:lang="zh-TW"><![CDATA[列]]></value>
+			<value xml:lang="ru"><![CDATA[Колонка]]></value>
+			<value xml:lang="tr"><![CDATA[Sütun]]></value>
+			<value xml:lang="vi"><![CDATA[Cột]]></value>
+		</item>
+		<item name="add_one_row">
+			<value xml:lang="ko"><![CDATA[1행 추가]]></value>
+			<value xml:lang="en"><![CDATA[Add 1 Row]]></value>
+			<value xml:lang="jp"><![CDATA[1行追加]]></value>
+			<value xml:lang="zh-CN"><![CDATA[添加1行]]></value>
+			<value xml:lang="zh-TW"><![CDATA[新增一行]]></value>
+			<value xml:lang="fr"><![CDATA[1행추가]]></value>
+			<value xml:lang="ru"><![CDATA[Добавить 1 строку]]></value>
+			<value xml:lang="es"><![CDATA[1행추가]]></value>
+			<value xml:lang="tr"><![CDATA[1 Satır Ekle]]></value>
+			<value xml:lang="vi"><![CDATA[Thêm 1 hàng]]></value>
+		</item>
+		<item name="del_one_row">
+			<value xml:lang="ko"><![CDATA[1행 삭제]]></value>
+			<value xml:lang="en"><![CDATA[Remove 1 Row]]></value>
+			<value xml:lang="jp"><![CDATA[1行削除]]></value>
+			<value xml:lang="zh-CN"><![CDATA[删除1行]]></value>
+			<value xml:lang="zh-TW"><![CDATA[刪除一行]]></value>
+			<value xml:lang="fr"><![CDATA[1행삭제]]></value>
+			<value xml:lang="ru"><![CDATA[Удалить 1 строку]]></value>
+			<value xml:lang="es"><![CDATA[1행삭제]]></value>
+			<value xml:lang="tr"><![CDATA[1 Satır Sil]]></value>
+			<value xml:lang="vi"><![CDATA[Xóa 1 hàng]]></value>
+		</item>
+		<item name="add_one_col">
+			<value xml:lang="ko"><![CDATA[1열 추가]]></value>
+			<value xml:lang="en"><![CDATA[Add 1 Column]]></value>
+			<value xml:lang="jp"><![CDATA[1列追加]]></value>
+			<value xml:lang="zh-CN"><![CDATA[添加1列]]></value>
+			<value xml:lang="zh-TW"><![CDATA[新增一列]]></value>
+			<value xml:lang="fr"><![CDATA[1열추가]]></value>
+			<value xml:lang="ru"><![CDATA[Добавить 1 колонку]]></value>
+			<value xml:lang="es"><![CDATA[1열추가]]></value>
+			<value xml:lang="tr"><![CDATA[1 Sütun Ekle]]></value>
+			<value xml:lang="vi"><![CDATA[Thêm một cột]]></value>
+		</item>
+		<item name="del_one_col">
+			<value xml:lang="ko"><![CDATA[1열 삭제]]></value>
+			<value xml:lang="en"><![CDATA[Remove 1 Column]]></value>
+			<value xml:lang="jp"><![CDATA[1列削除]]></value>
+			<value xml:lang="zh-CN"><![CDATA[删除1列]]></value>
+			<value xml:lang="zh-TW"><![CDATA[刪除一列]]></value>
+			<value xml:lang="fr"><![CDATA[1열삭제]]></value>
+			<value xml:lang="ru"><![CDATA[Удалить 1 колонку]]></value>
+			<value xml:lang="es"><![CDATA[1열삭제]]></value>
+			<value xml:lang="tr"><![CDATA[1 Sütun Sil]]></value>
+			<value xml:lang="vi"><![CDATA[Xóa một cột]]></value>
+		</item>
+		<item name="table_config">
+			<value xml:lang="ko"><![CDATA[표 속성 지정]]></value>
+			<value xml:lang="en"><![CDATA[Table Properties]]></value>
+			<value xml:lang="jp"><![CDATA[テーブル属性の設定]]></value>
+			<value xml:lang="zh-CN"><![CDATA[表格属性]]></value>
+			<value xml:lang="zh-TW"><![CDATA[設置]]></value>
+			<value xml:lang="ru"><![CDATA[Конфигурация таблицы]]></value>
+			<value xml:lang="tr"><![CDATA[Tablo Yapılandırması]]></value>
+			<value xml:lang="vi"><![CDATA[Thiết lập viền]]></value>
+		</item>
+		<item name="border_width">
+			<value xml:lang="ko"><![CDATA[테두리 굵기]]></value>
+			<value xml:lang="en"><![CDATA[Border Width]]></value>
+			<value xml:lang="jp"><![CDATA[外枠太さ]]></value>
+			<value xml:lang="zh-CN"><![CDATA[表格边框]]></value>
+			<value xml:lang="zh-TW"><![CDATA[邊框寬度]]></value>
+			<value xml:lang="ru"><![CDATA[Ширина рамки]]></value>
+			<value xml:lang="tr"><![CDATA[Kenarlık Genişliği]]></value>
+			<value xml:lang="vi"><![CDATA[Độ rộng]]></value>
+		</item>
+		<item name="border_color">
+			<value xml:lang="ko"><![CDATA[테두리 색]]></value>
+			<value xml:lang="en"><![CDATA[Border Color]]></value>
+			<value xml:lang="jp"><![CDATA[外枠色]]></value>
+			<value xml:lang="zh-CN"><![CDATA[边框颜色]]></value>
+			<value xml:lang="zh-TW"><![CDATA[邊框顏色]]></value>
+			<value xml:lang="ru"><![CDATA[Цвет рамки]]></value>
+			<value xml:lang="tr"><![CDATA[Kenarlık Rengi]]></value>
+			<value xml:lang="vi"><![CDATA[Màu viền]]></value>
+		</item>
+		<item name="add">
+			<value xml:lang="ko"><![CDATA[더하기]]></value>
+			<value xml:lang="en"><![CDATA[Add]]></value>
+			<value xml:lang="jp"><![CDATA[挿入]]></value>
+			<value xml:lang="zh-CN"><![CDATA[加]]></value>
+			<value xml:lang="zh-TW"><![CDATA[新增]]></value>
+			<value xml:lang="ru"><![CDATA[Добавить]]></value>
+			<value xml:lang="tr"><![CDATA[Ekle]]></value>
+			<value xml:lang="vi"><![CDATA[Thêm]]></value>
+		</item>
+		<item name="del">
+			<value xml:lang="ko"><![CDATA[빼기]]></value>
+			<value xml:lang="en"><![CDATA[Sub]]></value>
+			<value xml:lang="jp"><![CDATA[削除]]></value>
+			<value xml:lang="zh-CN"><![CDATA[减]]></value>
+			<value xml:lang="zh-TW"><![CDATA[刪除]]></value>
+			<value xml:lang="ru"><![CDATA[Удалить]]></value>
+			<value xml:lang="vi"><![CDATA[Xóa]]></value>
+		</item>
+		<item name="search_color">
+			<value xml:lang="ko"><![CDATA[색상 찾기]]></value>
+			<value xml:lang="en"><![CDATA[Search Colors]]></value>
+			<value xml:lang="jp"><![CDATA[その他の色]]></value>
+			<value xml:lang="zh-CN"><![CDATA[修改颜色]]></value>
+			<value xml:lang="zh-TW"><![CDATA[其他顏色]]></value>
+			<value xml:lang="fr"><![CDATA[색상찾기]]></value>
+			<value xml:lang="ru"><![CDATA[Подобрать цвет]]></value>
+			<value xml:lang="es"><![CDATA[색상찾기]]></value>
+			<value xml:lang="tr"><![CDATA[Renk Ara]]></value>
+			<value xml:lang="vi"><![CDATA[Tìm màu]]></value>
+		</item>
+		<item name="table_backgroundcolor">
+			<value xml:lang="ko"><![CDATA[표 배경색]]></value>
+			<value xml:lang="en"><![CDATA[Table Background Color]]></value>
+			<value xml:lang="jp"><![CDATA[表の背景色]]></value>
+			<value xml:lang="zh-CN"><![CDATA[背景颜色]]></value>
+			<value xml:lang="zh-TW"><![CDATA[背景顏色]]></value>
+			<value xml:lang="ru"><![CDATA[Цвет фона таблицы]]></value>
+			<value xml:lang="tr"><![CDATA[Tablo Arkaplan Rengi]]></value>
+			<value xml:lang="vi"><![CDATA[Màu nền]]></value>
+		</item>
+		<item name="special_character">
+			<value xml:lang="ko"><![CDATA[특수문자]]></value>
+			<value xml:lang="en"><![CDATA[Special Characters]]></value>
+			<value xml:lang="jp"><![CDATA[特殊文字]]></value>
+			<value xml:lang="zh-CN"><![CDATA[特殊字符]]></value>
+			<value xml:lang="zh-TW"><![CDATA[特殊符號]]></value>
+			<value xml:lang="ru"><![CDATA[Специальные символы]]></value>
+			<value xml:lang="tr"><![CDATA[Özek Karekterler]]></value>
+			<value xml:lang="vi"><![CDATA[Kí tự đặc biệt]]></value>
+		</item>
+		<item name="insert_special_character">
+			<value xml:lang="ko"><![CDATA[특수문자 삽입]]></value>
+			<value xml:lang="en"><![CDATA[Insert Special Characters]]></value>
+			<value xml:lang="jp"><![CDATA[特殊文字挿入]]></value>
+			<value xml:lang="zh-CN"><![CDATA[插入特殊字符]]></value>
+			<value xml:lang="zh-TW"><![CDATA[插入特殊符號]]></value>
+			<value xml:lang="ru"><![CDATA[Добавить специальные символы]]></value>
+			<value xml:lang="tr"><![CDATA[Özel Karakterler Ekle]]></value>
+			<value xml:lang="vi"><![CDATA[Chèn kí tự đặc biệt.]]></value>
+		</item>
+		<item name="close_special_character">
+			<value xml:lang="ko"><![CDATA[특수문자 레이어 닫기]]></value>
+			<value xml:lang="en"><![CDATA[Close Special Characters Layer]]></value>
+			<value xml:lang="jp"><![CDATA[特殊文字レイヤーを閉じる]]></value>
+			<value xml:lang="zh-CN"><![CDATA[关闭]]></value>
+			<value xml:lang="zh-TW"><![CDATA[關閉]]></value>
+			<value xml:lang="ru"><![CDATA[Закрыть слой специальных символов]]></value>
+			<value xml:lang="tr"><![CDATA[Özel Karakter Katmanını Kapat]]></value>
+			<value xml:lang="vi"><![CDATA[Tắt bản kí tự đặc biệt.]]></value>
+		</item>
+		<item name="symbol">
+			<value xml:lang="ko"><![CDATA[일반기호]]></value>
+			<value xml:lang="en"><![CDATA[Symbols]]></value>
+			<value xml:lang="jp"><![CDATA[一般記号]]></value>
+			<value xml:lang="zh-CN"><![CDATA[基本符号]]></value>
+			<value xml:lang="zh-TW"><![CDATA[一般符號]]></value>
+			<value xml:lang="ru"><![CDATA[Символы]]></value>
+			<value xml:lang="tr"><![CDATA[Semboller]]></value>
+			<value xml:lang="vi"><![CDATA[Biểu tượng]]></value>
+		</item>
+		<item name="number_unit">
+			<value xml:lang="ko"><![CDATA[숫자와 단위]]></value>
+			<value xml:lang="en"><![CDATA[Numbers and Units]]></value>
+			<value xml:lang="jp"><![CDATA[数字と単位]]></value>
+			<value xml:lang="zh-CN"><![CDATA[数字/单位]]></value>
+			<value xml:lang="zh-TW"><![CDATA[數字、單位]]></value>
+			<value xml:lang="ru"><![CDATA[Числа и единицы измерения]]></value>
+			<value xml:lang="tr"><![CDATA[Sayılar ve Birimler]]></value>
+			<value xml:lang="vi"><![CDATA[Số và đơn vị]]></value>
+		</item>
+		<item name="circle_bracket">
+			<value xml:lang="ko"><![CDATA[원, 괄호]]></value>
+			<value xml:lang="en"><![CDATA[Circles, Brackets]]></value>
+			<value xml:lang="jp"><![CDATA[円、括弧]]></value>
+			<value xml:lang="zh-CN"><![CDATA[数字序号]]></value>
+			<value xml:lang="zh-TW"><![CDATA[圓、括弧]]></value>
+			<value xml:lang="fr"><![CDATA[원,괄호]]></value>
+			<value xml:lang="ru"><![CDATA[Круг, скобки]]></value>
+			<value xml:lang="es"><![CDATA[원,괄호]]></value>
+			<value xml:lang="tr"><![CDATA[Çemberler, Köşeli Ayraçlar]]></value>
+			<value xml:lang="vi"><![CDATA[Vòng tròn, Ngoặc]]></value>
+		</item>
+		<item name="korean">
+			<value xml:lang="ko"><![CDATA[한글]]></value>
+			<value xml:lang="en"><![CDATA[Korean]]></value>
+			<value xml:lang="jp"><![CDATA[韓国語]]></value>
+			<value xml:lang="zh-CN"><![CDATA[韩文]]></value>
+			<value xml:lang="zh-TW"><![CDATA[韓國語]]></value>
+			<value xml:lang="ru"><![CDATA[Корейский]]></value>
+			<value xml:lang="tr"><![CDATA[Korece]]></value>
+		</item>
+		<item name="greece">
+			<value xml:lang="ko"><![CDATA[그리스]]></value>
+			<value xml:lang="en"><![CDATA[Greek]]></value>
+			<value xml:lang="jp"><![CDATA[ギリシャ語]]></value>
+			<value xml:lang="zh-CN"><![CDATA[希腊]]></value>
+			<value xml:lang="zh-TW"><![CDATA[希臘語]]></value>
+			<value xml:lang="ru"><![CDATA[Греческий]]></value>
+			<value xml:lang="tr"><![CDATA[Yunanca]]></value>
+		</item>
+		<item name="Latin">
+			<value xml:lang="ko"><![CDATA[라틴어]]></value>
+			<value xml:lang="en"><![CDATA[Latin]]></value>
+			<value xml:lang="jp"><![CDATA[ラテン語]]></value>
+			<value xml:lang="zh-CN"><![CDATA[拉丁]]></value>
+			<value xml:lang="zh-TW"><![CDATA[拉丁語]]></value>
+			<value xml:lang="ru"><![CDATA[Латинский]]></value>
+			<value xml:lang="tr"><![CDATA[Latince]]></value>
+		</item>
+		<item name="japan">
+			<value xml:lang="ko"><![CDATA[일본어]]></value>
+			<value xml:lang="en"><![CDATA[Japanese]]></value>
+			<value xml:lang="jp"><![CDATA[日本語]]></value>
+			<value xml:lang="zh-CN"><![CDATA[日文]]></value>
+			<value xml:lang="zh-TW"><![CDATA[日本語]]></value>
+			<value xml:lang="ru"><![CDATA[Японский]]></value>
+			<value xml:lang="tr"><![CDATA[Japonca]]></value>
+		</item>
+		<item name="selected_symbol">
+			<value xml:lang="ko"><![CDATA[선택한 기호]]></value>
+			<value xml:lang="en"><![CDATA[Selected Symbols]]></value>
+			<value xml:lang="jp"><![CDATA[選択した記号]]></value>
+			<value xml:lang="zh-CN"><![CDATA[被选字符]]></value>
+			<value xml:lang="zh-TW"><![CDATA[選擇符號]]></value>
+			<value xml:lang="ru"><![CDATA[Выбранные символы]]></value>
+			<value xml:lang="tr"><![CDATA[Seçili Semboller]]></value>
+			<value xml:lang="vi"><![CDATA[Kí tự đã chọn:]]></value>
+		</item>
+		<item name="search_replace">
+			<value xml:lang="ko"><![CDATA[찾기/바꾸기]]></value>
+			<value xml:lang="en"><![CDATA[Find/Replace]]></value>
+			<value xml:lang="jp"><![CDATA[検索/置換え]]></value>
+			<value xml:lang="zh-CN"><![CDATA[查找/替换]]></value>
+			<value xml:lang="zh-TW"><![CDATA[搜尋/置換]]></value>
+			<value xml:lang="ru"><![CDATA[Найти/Переместить]]></value>
+			<value xml:lang="tr"><![CDATA[Bul/Değiştir]]></value>
+			<value xml:lang="vi"><![CDATA[Tìm/Ghi đè]]></value>
+		</item>
+		<item name="close_search_replace">
+			<value xml:lang="ko"><![CDATA[찾기/바꾸기 레이어 닫기]]></value>
+			<value xml:lang="en"><![CDATA[Close Find/Replace Layer]]></value>
+			<value xml:lang="jp"><![CDATA[検索/置換えレイヤーを閉じる]]></value>
+			<value xml:lang="zh-CN"><![CDATA[关闭]]></value>
+			<value xml:lang="zh-TW"><![CDATA[關閉搜尋/置換圖層]]></value>
+			<value xml:lang="ru"><![CDATA[Закрыть слой "Найти/Переместить"]]></value>
+			<value xml:lang="tr"><![CDATA[Bul'u Kapat/Katmanı Değiştir]]></value>
+			<value xml:lang="vi"><![CDATA[Tắt bảng Tìm/Ghi đè]]></value>
+		</item>
+		<item name="replace_all">
+			<value xml:lang="ko"><![CDATA[모두 바꾸기]]></value>
+			<value xml:lang="en"><![CDATA[Replace All]]></value>
+			<value xml:lang="jp"><![CDATA[すべて置換え]]></value>
+			<value xml:lang="zh-CN"><![CDATA[全部替换]]></value>
+			<value xml:lang="zh-TW"><![CDATA[全部置換]]></value>
+			<value xml:lang="fr"><![CDATA[모두바꾸기]]></value>
+			<value xml:lang="ru"><![CDATA[Переместить все]]></value>
+			<value xml:lang="es"><![CDATA[모두바꾸기]]></value>
+			<value xml:lang="tr"><![CDATA[Tümünü Değiştir]]></value>
+			<value xml:lang="vi"><![CDATA[Ghi đè tất cả]]></value>
+		</item>
+		<item name="search_words">
+			<value xml:lang="ko"><![CDATA[찾을 단어]]></value>
+			<value xml:lang="en"><![CDATA[Words to Find]]></value>
+			<value xml:lang="jp"><![CDATA[検索テキスト]]></value>
+			<value xml:lang="zh-CN"><![CDATA[查找内容]]></value>
+			<value xml:lang="zh-TW"><![CDATA[搜尋文字]]></value>
+			<value xml:lang="fr"><![CDATA[찾을단어]]></value>
+			<value xml:lang="ru"><![CDATA[Искомое слово]]></value>
+			<value xml:lang="es"><![CDATA[찾을단어]]></value>
+			<value xml:lang="tr"><![CDATA[Bulunacak Sözcükler]]></value>
+			<value xml:lang="vi"><![CDATA[Tìm từ]]></value>
+		</item>
+		<item name="replace_words">
+			<value xml:lang="ko"><![CDATA[바꿀 단어]]></value>
+			<value xml:lang="en"><![CDATA[Words to Replace]]></value>
+			<value xml:lang="jp"><![CDATA[置換えテキスト]]></value>
+			<value xml:lang="zh-CN"><![CDATA[替换为]]></value>
+			<value xml:lang="zh-TW"><![CDATA[置換文字]]></value>
+			<value xml:lang="fr"><![CDATA[바꿀단어]]></value>
+			<value xml:lang="ru"><![CDATA[Слово для замены]]></value>
+			<value xml:lang="es"><![CDATA[바꿀단어]]></value>
+			<value xml:lang="tr"><![CDATA[Değiştirilecek Sözcükler]]></value>
+			<value xml:lang="vi"><![CDATA[Từ ghi đè]]></value>
+		</item>
+		<item name="next_search_words">
+			<value xml:lang="ko"><![CDATA[다음 찾기]]></value>
+			<value xml:lang="en"><![CDATA[Find Next]]></value>
+			<value xml:lang="jp"><![CDATA[次を検索]]></value>
+			<value xml:lang="zh-CN"><![CDATA[查找下一个]]></value>
+			<value xml:lang="zh-TW"><![CDATA[搜尋下一個]]></value>
+			<value xml:lang="fr"><![CDATA[다음찾기]]></value>
+			<value xml:lang="ru"><![CDATA[Искать дальше]]></value>
+			<value xml:lang="es"><![CDATA[다음찾기]]></value>
+			<value xml:lang="tr"><![CDATA[Sonrakini Bul]]></value>
+			<value xml:lang="vi"><![CDATA[Tìm tiếp]]></value>
+		</item>
+		<item name="edit_height_control">
+			<value xml:lang="ko"><![CDATA[입력창 크기 조절]]></value>
+			<value xml:lang="en"><![CDATA[Set Edit Form Size]]></value>
+			<value xml:lang="jp"><![CDATA[入力サイズ調整]]></value>
+			<value xml:lang="zh-CN"><![CDATA[调整输入框大小]]></value>
+			<value xml:lang="zh-TW"><![CDATA[設定大小]]></value>
+			<value xml:lang="ru"><![CDATA[Изменить размеры окна ввода]]></value>
+			<value xml:lang="tr"><![CDATA[Düzen Formunun Boyutunu Ayarla]]></value>
+			<value xml:lang="vi"><![CDATA[Đặt kích thước mẫu]]></value>
+		</item>
+		<item name="merge_cells">
+			<value xml:lang="ko"><![CDATA[셀 병합]]></value>
+			<value xml:lang="en"><![CDATA[Merge Table Cells]]></value>
+			<value xml:lang="jp"><![CDATA[セルの結合]]></value>
+			<value xml:lang="zh-CN"><![CDATA[合并单元格]]></value>
+			<value xml:lang="zh-TW"><![CDATA[合併儲存格]]></value>
+			<value xml:lang="ru"><![CDATA[Объединить ячейки]]></value>
+			<value xml:lang="tr"><![CDATA[Tablo Hücrelerini Birleştir]]></value>
+			<value xml:lang="vi"><![CDATA[Nối bảng]]></value>
+		</item>
+		<item name="split_row">
+			<value xml:lang="ko"><![CDATA[행 분할]]></value>
+			<value xml:lang="en"><![CDATA[Split Row]]></value>
+			<value xml:lang="jp"><![CDATA[行の挿入]]></value>
+			<value xml:lang="zh-CN"><![CDATA[跨行]]></value>
+			<value xml:lang="zh-TW"><![CDATA[分割行]]></value>
+			<value xml:lang="ru"><![CDATA[Разбить строки]]></value>
+			<value xml:lang="tr"><![CDATA[Satır Ayır]]></value>
+			<value xml:lang="vi"><![CDATA[Chia hàng]]></value>
+		</item>
+		<item name="split_col">
+			<value xml:lang="ko"><![CDATA[열 분할]]></value>
+			<value xml:lang="en"><![CDATA[Split Column]]></value>
+			<value xml:lang="jp"><![CDATA[列の挿入]]></value>
+			<value xml:lang="zh-CN"><![CDATA[跨列]]></value>
+			<value xml:lang="zh-TW"><![CDATA[分割列]]></value>
+			<value xml:lang="ru"><![CDATA[Разбить колонки]]></value>
+			<value xml:lang="tr"><![CDATA[Sütun Ayır]]></value>
+			<value xml:lang="vi"><![CDATA[Chia cột]]></value>
+		</item>
+		<item name="toggle_list">
+			<value xml:lang="ko"><![CDATA[목록 접기/펼치기]]></value>
+			<value xml:lang="en"><![CDATA[Fold/Unfold]]></value>
+			<value xml:lang="jp"><![CDATA[リストを折りたたむ/展開する]]></value>
+			<value xml:lang="zh-CN"><![CDATA[展开/折叠列表]]></value>
+			<value xml:lang="zh-TW"><![CDATA[摺疊/展開]]></value>
+			<value xml:lang="ru"><![CDATA[Свернуть/Развернуть список]]></value>
+			<value xml:lang="tr"><![CDATA[Kıvır/Geriaç]]></value>
+			<value xml:lang="vi"><![CDATA[Hiện/Ẩn]]></value>
+		</item>
+		<item name="minimize_list">
+			<value xml:lang="ko"><![CDATA[최소화]]></value>
+			<value xml:lang="en"><![CDATA[Minimize]]></value>
+			<value xml:lang="jp"><![CDATA[最小化]]></value>
+			<value xml:lang="zh-CN"><![CDATA[最小化]]></value>
+			<value xml:lang="zh-TW"><![CDATA[最小化]]></value>
+			<value xml:lang="ru"><![CDATA[Уменьшить]]></value>
+			<value xml:lang="tr"><![CDATA[Simge Durumuna Küçült]]></value>
+			<value xml:lang="vi"><![CDATA[Thu nhỏ]]></value>
+		</item>
+		<item name="move">
+			<value xml:lang="ko"><![CDATA[이동]]></value>
+			<value xml:lang="en"><![CDATA[Move]]></value>
+			<value xml:lang="jp"><![CDATA[移動]]></value>
+			<value xml:lang="zh-CN"><![CDATA[移动]]></value>
+			<value xml:lang="zh-TW"><![CDATA[搬移]]></value>
+			<value xml:lang="ru"><![CDATA[Перейти]]></value>
+			<value xml:lang="tr"><![CDATA[Taşı]]></value>
+			<value xml:lang="vi"><![CDATA[Di chuyển]]></value>
+		</item>
+		<item name="refresh">
+			<value xml:lang="ko"><![CDATA[새로 고침]]></value>
+			<value xml:lang="en"><![CDATA[Refresh]]></value>
+			<value xml:lang="jp"><![CDATA[再読み込み]]></value>
+			<value xml:lang="zh-CN"><![CDATA[刷新]]></value>
+			<value xml:lang="zh-TW"><![CDATA[重整]]></value>
+			<value xml:lang="ru"><![CDATA[Обновить]]></value>
+			<value xml:lang="tr"><![CDATA[Yenile]]></value>
+			<value xml:lang="vi"><![CDATA[Làm mới]]></value>
+		</item>
+		<item name="materials">
+			<value xml:lang="ko"><![CDATA[글감 보관함]]></value>
+			<value xml:lang="en"><![CDATA[Materials]]></value>
+			<value xml:lang="jp"><![CDATA[資料箱]]></value>
+			<value xml:lang="zh-CN"><![CDATA[素材库]]></value>
+			<value xml:lang="zh-TW"><![CDATA[素材]]></value>
+			<value xml:lang="fr"><![CDATA[글감보관함]]></value>
+			<value xml:lang="ru"><![CDATA[Материалы]]></value>
+			<value xml:lang="es"><![CDATA[글감보관함]]></value>
+			<value xml:lang="tr"><![CDATA[Malzemeler]]></value>
+			<value xml:lang="vi"><![CDATA[Vật liệu]]></value>
+		</item>
+		<item name="temporary_savings">
+			<value xml:lang="ko"><![CDATA[임시 저장 목록]]></value>
+			<value xml:lang="en"><![CDATA[Temporary Saved List]]></value>
+			<value xml:lang="jp"><![CDATA[下書きリスト]]></value>
+			<value xml:lang="zh-CN"><![CDATA[临时保存列表]]></value>
+			<value xml:lang="zh-TW"><![CDATA[暫存檔列表]]></value>
+			<value xml:lang="fr"><![CDATA[임시저장목록]]></value>
+			<value xml:lang="ru"><![CDATA[Список временных сохранений]]></value>
+			<value xml:lang="es"><![CDATA[임시저장목록]]></value>
+			<value xml:lang="tr"><![CDATA[Geçici Kayıtlı Listesi]]></value>
+			<value xml:lang="vi"><![CDATA[Danh sách lưu tạm thời]]></value>
+		</item>
+		<item name="paging_prev">
+			<value xml:lang="ko"><![CDATA[이전]]></value>
+			<value xml:lang="en"><![CDATA[Prev]]></value>
+			<value xml:lang="jp"><![CDATA[前へ]]></value>
+			<value xml:lang="zh-CN"><![CDATA[上一个]]></value>
+			<value xml:lang="zh-TW"><![CDATA[前頁]]></value>
+			<value xml:lang="ru"><![CDATA[Предыдущий]]></value>
+			<value xml:lang="tr"><![CDATA[Önceki]]></value>
+			<value xml:lang="vi"><![CDATA[Trước]]></value>
+		</item>
+		<item name="paging_next">
+			<value xml:lang="ko"><![CDATA[다음]]></value>
+			<value xml:lang="en"><![CDATA[Next]]></value>
+			<value xml:lang="jp"><![CDATA[次へ]]></value>
+			<value xml:lang="zh-CN"><![CDATA[下一个]]></value>
+			<value xml:lang="zh-TW"><![CDATA[次頁]]></value>
+			<value xml:lang="ru"><![CDATA[Следующий]]></value>
+			<value xml:lang="tr"><![CDATA[Sonraki]]></value>
+			<value xml:lang="vi"><![CDATA[Tiếp]]></value>
+		</item>
+		<item name="paging_prev_help">
+			<value xml:lang="ko"><![CDATA[이전 페이지로 이동합니다.]]></value>
+			<value xml:lang="en"><![CDATA[Move to previous page.]]></value>
+			<value xml:lang="jp"><![CDATA[前のページへ移動します。]]></value>
+			<value xml:lang="zh-CN"><![CDATA[上一页。]]></value>
+			<value xml:lang="zh-TW"><![CDATA[往上一頁]]></value>
+			<value xml:lang="ru"><![CDATA[Перейти к предыдущей странице]]></value>
+			<value xml:lang="tr"><![CDATA[Önceki sayfaya git.]]></value>
+			<value xml:lang="vi"><![CDATA[Chuyển về trang trước.]]></value>
+		</item>
+		<item name="paging_next_help">
+			<value xml:lang="ko"><![CDATA[다음 페이지로 이동합니다.]]></value>
+			<value xml:lang="en"><![CDATA[Move to next page.]]></value>
+			<value xml:lang="jp"><![CDATA[次のページへ移動します。]]></value>
+			<value xml:lang="zh-CN"><![CDATA[下一页。]]></value>
+			<value xml:lang="zh-TW"><![CDATA[往下一頁]]></value>
+			<value xml:lang="ru"><![CDATA[Перейти кследующей странице]]></value>
+			<value xml:lang="tr"><![CDATA[Sonraki sayfaya git.]]></value>
+			<value xml:lang="vi"><![CDATA[Chuyển tới trang tiếp.]]></value>
+		</item>
+		<item name="toc">
+			<value xml:lang="ko"><![CDATA[목차]]></value>
+			<value xml:lang="en"><![CDATA[Table of Contents]]></value>
+			<value xml:lang="jp"><![CDATA[リスト]]></value>
+			<value xml:lang="zh-CN"><![CDATA[列表]]></value>
+			<value xml:lang="zh-TW"><![CDATA[目錄]]></value>
+			<value xml:lang="ru"><![CDATA[Оглавление]]></value>
+			<value xml:lang="tr"><![CDATA[İçerik Tablosu]]></value>
+			<value xml:lang="vi"><![CDATA[Board của nội dung]]></value>
+		</item>
+		<item name="close_help">
+			<value xml:lang="ko"><![CDATA[도움말 닫기]]></value>
+			<value xml:lang="en"><![CDATA[Close Help]]></value>
+			<value xml:lang="jp"><![CDATA[ヘルプを閉じる]]></value>
+			<value xml:lang="zh-CN"><![CDATA[关闭帮助]]></value>
+			<value xml:lang="zh-TW"><![CDATA[關閉]]></value>
+			<value xml:lang="ru"><![CDATA[Закрыть помощь]]></value>
+			<value xml:lang="tr"><![CDATA[Yardımı Kapat]]></value>
+			<value xml:lang="vi"><![CDATA[Đóng hướng dẫn]]></value>
+		</item>
+		<item name="confirm_submit_without_saving">
+			<value xml:lang="ko"><![CDATA[저장하지 않은 단락이 있습니다.\n그냥 전송하시겠습니까?]]></value>
+			<value xml:lang="en"><![CDATA[There are paragraphs which were not saved.\nProceed anyway?]]></value>
+			<value xml:lang="jp"><![CDATA[まだ保存してない内容があります。\nそのまま転送してよろしいでしょうか？]]></value>
+			<value xml:lang="zh-CN"><![CDATA[尚有未保存的段落。\n确定要提交吗？]]></value>
+			<value xml:lang="zh-TW"><![CDATA[有內容尚未儲存。\n是否要繼續進行?]]></value>
+			<value xml:lang="ru"><![CDATA[Есть несохраненные параграфы\nПродолжить?]]></value>
+			<value xml:lang="tr"><![CDATA[Kaydedilmemiş paragraflar var.\nYine de devam etmek ister misiniz?]]></value>
+			<value xml:lang="vi"><![CDATA[Nội dung chưa được lưu.\nBạn có chắc chắn muốn gửi không?]]></value>
+		</item>
+		<item name="image_align">
+			<value xml:lang="ko"><![CDATA[이미지 정렬]]></value>
+			<value xml:lang="en"><![CDATA[Image Alignment]]></value>
+			<value xml:lang="jp"><![CDATA[イメージの配置]]></value>
+			<value xml:lang="zh-CN"><![CDATA[图片对齐]]></value>
+			<value xml:lang="zh-TW"><![CDATA[圖片對齊]]></value>
+			<value xml:lang="ru"><![CDATA[Выровнять изображения]]></value>
+			<value xml:lang="tr"><![CDATA[Resim Hizalaması]]></value>
+			<value xml:lang="vi"><![CDATA[Sắp xếp hình ảnh]]></value>
+		</item>
+		<item name="attached_files">
+			<value xml:lang="ko"><![CDATA[첨부 파일]]></value>
+			<value xml:lang="en"><![CDATA[Attachments]]></value>
+			<value xml:lang="jp"><![CDATA[添付ファイル]]></value>
+			<value xml:lang="zh-CN"><![CDATA[附件]]></value>
+			<value xml:lang="zh-TW"><![CDATA[附加檔案]]></value>
+			<value xml:lang="ru"><![CDATA[Прикрепленный файл]]></value>
+			<value xml:lang="tr"><![CDATA[Ekler]]></value>
+			<value xml:lang="vi"><![CDATA[File đính kèm]]></value>
+		</item>
+	</item>
+	<item name="about_dblclick_in_editor">
+		<value xml:lang="ko"><![CDATA[배경, 글자, 이미지, 인용문등에서 더블클릭을 하시면 상세한 컴포넌트 설정이 가능합니다.]]></value>
+		<value xml:lang="en"><![CDATA[You may set the component's detailed configurations by double-clicking background, text, images, or quotations.]]></value>
+		<value xml:lang="jp"><![CDATA[背景、文字、イメージ、引用文の上にカーソルを合わせ、ダブルクリックすると詳細設定できるコンポーネントを表示します。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[双击背景, 文本, 图片, 引用即可对其相关组件进行详细设置。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[對背景，文字，圖片，引用等組件按兩下，即可對其相關組件進行詳細設置。]]></value>
+		<value xml:lang="fr"><![CDATA[Vous pouvez configurer en détail des composants par double-clic sur un arrière-plan, un texte, une image ou une citation]]></value>
+		<value xml:lang="ru"><![CDATA[Вы можете установить детальную конфигурацию компонента двойным щелчком по фону, тексту, рисункам или цитатам]]></value>
+		<value xml:lang="es"><![CDATA[Para la configuracion más detallada debera hacer dobleclick sobre el texto, imagen, fondo, etc.]]></value>
+		<value xml:lang="tr"><![CDATA[Detaylı bileşen yapılandırmasını; arkaplana, metne, resme ya da alıntılara çift tıklayarak ayarlayabilirsiniz]]></value>
+		<value xml:lang="vi"><![CDATA[Thiết lập khi bấm 2 lần vào nền, Chữ, Hình ảnh hoặc Trích dẫn]]></value>
+	</item>
+
+</lang>

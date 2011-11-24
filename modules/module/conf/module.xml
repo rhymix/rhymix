@@ -8,15 +8,16 @@
         <action name="dispModuleSelectList" type="view" standalone="true" />
         <action name="dispModuleSkinInfo" type="view" standalone="true" />
 
-        <action name="dispModuleAdminContent" type="view" standalone="true" admin_index="true" />
+        <action name="dispModuleAdminContent" type="view" standalone="true"  menu_name="installedModule" menu_index="true" admin_index="true" />
         <action name="dispModuleAdminList" type="view" standalone="true" />
-        <action name="dispModuleAdminCategory" type="view" standalone="true" />
+        <action name="dispModuleAdminCategory" type="view" standalone="true" menu_name="installedModule" />
         <action name="dispModuleAdminInfo" type="view" standalone="true" />
         <action name="dispModuleAdminModuleSetup" type="view" standalone="true" />
         <action name="dispModuleAdminModuleAdditionSetup" type="view" standalone="true" />
         <action name="dispModuleAdminModuleGrantSetup" type="view" standalone="true" />
         <action name="dispModuleAdminCopyModule" type="view" standalone="true" />
-        <action name="dispModuleAdminLangcode" type="view" standalone="true" />
+        <action name="dispModuleAdminLangcode" type="view" standalone="true" menu_name="multilingual" menu_index="true" />
+        <action name="dispModuleAdminFileBox" type="view" menu_name="filebox" menu_index="true" />
 
         <action name="dispModuleFileBox" type="view" standalone="true" />
         <action name="dispModuleFileBoxAdd" type="view" standalone="true" />
@@ -27,17 +28,65 @@
 
         <action name="getModuleAdminModuleList" type="model" standalone="true" />
         <action name="getModuleAdminLangCode" type="model" standalone="true" />
+        <action name="getModuleAdminLangListByName" type="model" standalone="true" />
+        <action name="getModuleAdminLangListByValue" type="model" standalone="true" />
+        <action name="getLangListByLangcodeForAutoComplete" type="model" standalone="true" />
+		<action name="getFileBoxListHtml" type="model" />
+		<action name="getLangByLangcode" type="model" />
 
-        <action name="procModuleAdminInsertCategory" type="controller" standalone="true" />
-        <action name="procModuleAdminUpdateCategory" type="controller" standalone="true" />
-        <action name="procModuleAdminCopyModule" type="controller" standalone="true" />
+        <action name="procModuleAdminInsertCategory" type="controller" standalone="true" ruleset="insertCategory" />
+        <action name="procModuleAdminUpdateCategory" type="controller" standalone="true" ruleset="updateCategory" />
+        <action name="procModuleAdminDeleteCategory" type="controller" standalone="true" ruleset="deleteCategory" />
+        <action name="procModuleAdminCopyModule" type="controller" standalone="true" ruleset="copyModule" />
         <action name="procModuleAdminInsertGrant" type="controller" standalone="true" />
         <action name="procModuleAdminUpdateSkinInfo" type="controller" standalone="true" />
-        <action name="procModuleAdminModuleSetup" type="controller" standalone="true" />
-        <action name="procModuleAdminModuleGrantSetup" type="controller" standalone="true" />
+        <action name="procModuleAdminModuleSetup" type="controller" standalone="true" ruleset="insertModuleSetup" />
+        <action name="procModuleAdminModuleGrantSetup" type="controller" standalone="true" ruleset="insertModulesGrant" />
         <action name="procModuleAdminInsertLang" type="controller" standalone="true" />
         <action name="procModuleAdminDeleteLang" type="controller" standalone="true" />
+        <action name="procModuleAdminGetList" type="controller" standalone="true" />
 
 		<action name="dispModuleChangeLang" type="mobile" />
     </actions>
+	<menus>
+		<menu name="installedModule">
+			<title xml:lang="en">Installed Module</title>
+			<title xml:lang="ko">설치된 모듈</title>
+			<title xml:lang="zh-CN">Installed Module</title>
+			<title xml:lang="jp">Installed Module</title>
+			<title xml:lang="es">Installed Module</title>
+			<title xml:lang="ru">Installed Module</title>
+			<title xml:lang="fr">Installed Module</title>
+			<title xml:lang="zh-TW">Installed Module</title>
+			<title xml:lang="vi">Installed Module</title>
+			<title xml:lang="mn">Installed Module</title>
+			<title xml:lang="tr">Installed Module</title>
+		</menu>
+		<menu name="multilingual">
+			<title xml:lang="en">Multilingual</title>
+			<title xml:lang="ko">다국어</title>
+			<title xml:lang="zh-CN">Multilingual</title>
+			<title xml:lang="jp">Multilingual</title>
+			<title xml:lang="es">Multilingual</title>
+			<title xml:lang="ru">Multilingual</title>
+			<title xml:lang="fr">Multilingual</title>
+			<title xml:lang="zh-TW">Multilingual</title>
+			<title xml:lang="vi">Multilingual</title>
+			<title xml:lang="mn">Multilingual</title>
+			<title xml:lang="tr">Multilingual</title>
+		</menu>
+		<menu name="filebox">
+			<title xml:lang="en">FileBox</title>
+			<title xml:lang="ko">파일박스</title>
+			<title xml:lang="zh-CN">FileBox</title>
+			<title xml:lang="jp">FileBox</title>
+			<title xml:lang="es">FileBox</title>
+			<title xml:lang="ru">FileBox</title>
+			<title xml:lang="fr">FileBox</title>
+			<title xml:lang="zh-TW">FileBox</title>
+			<title xml:lang="vi">FileBox</title>
+			<title xml:lang="mn">FileBox</title>
+			<title xml:lang="tr">FileBox</title>
+		</menu>
+	</menus>
 </module>

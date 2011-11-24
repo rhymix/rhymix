@@ -2,23 +2,23 @@
     /**
      * @class  integration_searchAdminController
      * @author NHN (developers@xpressengine.com)
-     * @brief  integration_search module의 admin view class
+     * @brief admin view class of the integration_search module
      *
-     * 통합검색 관리
+     * Search Management
      *
      **/
 
     class integration_searchAdminController extends integration_search {
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {}
 
         /**
-         * @brief 설정 저장
+         * @brief Save Settings
          **/
         function procIntegration_searchAdminInsertConfig() {
-            // 설정 정보를 받아옴 (module model 객체를 이용)
+            // Get configurations (using module model object)
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('integration_search');
 
@@ -29,87 +29,89 @@
             $args->skin_vars = $config->skin_vars;
 
             $oModuleController = &getController('module');
-            return $oModuleController->insertModuleConfig('integration_search',$args);
+            $output = $oModuleController->insertModuleConfig('integration_search',$args);
+
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispIntegration_searchAdminContent');
+				header('location:'.$returnUrl);
+				return;
+			}
+			else return $output;
         }
 
         /**
-         * @brief 스킨 정보 저장
+         * @brief Save the skin information
          **/
         function procIntegration_searchAdminInsertSkin() {
-            // 설정 정보를 받아옴 (module model 객체를 이용)
+            // Get configurations (using module model object)
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('integration_search');
 
             $args->skin = $config->skin;
             $args->target_module_srl = $config->target_module_srl;
-
-            // 스킨의 정보를 구해옴 (extra_vars를 체크하기 위해서)
+            // Get skin information (to check extra_vars)
             $skin_info = $oModuleModel->loadSkinInfo($this->module_path, $config->skin);
-
-            // 입력받은 변수들을 체크 (mo, act, module_srl, page등 기본적인 변수들 없앰)
+            // Check received variables (delete the basic variables such as mo, act, module_srl, page)
             $obj = Context::getRequestVars();
             unset($obj->act);
             unset($obj->module_srl);
             unset($obj->page);
-
-            // 원 skin_info에서 extra_vars의 type이 image일 경우 별도 처리를 해줌
+            // Separately handle if the extra_vars is an image type in the original skin_info
             if($skin_info->extra_vars) {
                 foreach($skin_info->extra_vars as $vars) {
                     if($vars->type!='image') continue;
 
                     $image_obj = $obj->{$vars->name};
-
-                    // 삭제 요청에 대한 변수를 구함
+                    // Get a variable on a request to delete
                     $del_var = $obj->{"del_".$vars->name};
                     unset($obj->{"del_".$vars->name});
                     if($del_var == 'Y') {
                         FileHandler::removeFile($module_info->{$vars->name});
                         continue;
                     }
-
-                    // 업로드 되지 않았다면 이전 데이터를 그대로 사용
+                    // Use the previous data if not uploaded
                     if(!$image_obj['tmp_name']) {
                         $obj->{$vars->name} = $module_info->{$vars->name};
                         continue;
                     }
-
-                    // 정상적으로 업로드된 파일이 아니면 무시
+                    // Ignore if the file is not successfully uploaded
                     if(!is_uploaded_file($image_obj['tmp_name'])) {
                         unset($obj->{$vars->name});
                         continue;
                     }
-
-                    // 이미지 파일이 아니어도 무시
+                    // Ignore if the file is not an image
                     if(!preg_match("/\.(jpg|jpeg|gif|png)$/i", $image_obj['name'])) {
                         unset($obj->{$vars->name});
                         continue;
                     }
-
-                    // 경로를 정해서 업로드
+                    // Upload the file to a path
                     $path = sprintf("./files/attach/images/%s/", $module_srl);
-
-                    // 디렉토리 생성
+                    // Create a directory
                     if(!FileHandler::makeDir($path)) return false;
 
                     $filename = $path.$image_obj['name'];
-
-                    // 파일 이동
+                    // Move the file
                     if(!move_uploaded_file($image_obj['tmp_name'], $filename)) {
                         unset($obj->{$vars->name});
                         continue;
                     }
-
-                    // 변수를 바꿈
+                    // Change a variable
                     unset($obj->{$vars->name});
                     $obj->{$vars->name} = $filename;
                 }
             }
-
-            // serialize하여 저장
+            // Serialize and save 
             $args->skin_vars = serialize($obj);
 
             $oModuleController = &getController('module');
-            return $oModuleController->insertModuleConfig('integration_search',$args);
+			$output = $oModuleController->insertModuleConfig('integration_search',$args);
+
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispIntegration_searchAdminSkinInfo');
+				header('location:'.$returnUrl);
+				return;
+			}
+			else $output;
         }
     }
 ?>

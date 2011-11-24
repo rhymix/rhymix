@@ -98,7 +98,6 @@ var FaceOff = {
             var filter = '#xe .widgetOutput, #xe .extension, #body, #header, #footer, #toolbar, #propertyDialog, #faceoffSelector, .overlay';
             var target = $(event.target);
             var selection = target.parents(filter).add(target);
-
             if (selection.is('#toolbar, #propertyDialog, #faceoffSelector, .overlay')) return;
 
             if (selection.is(filter)) {
@@ -216,7 +215,7 @@ var FaceOff = {
 
                     var content = $(this).children('div.widgetContent');
                     if (!content.length) return;
-                    return text.push('<img src="./common/tpl/images/widget_bg.jpg" class="zbxe_widget_output" widget="widgetContent" '+attr.join(' ')+' />');
+                    return text.push('<img src="./common/img/widget_bg.jpg" class="zbxe_widget_output" widget="widgetContent" '+attr.join(' ')+' />');
                 default:
                     var div  = $('<div>');
                     var attr = [];
@@ -461,8 +460,8 @@ var FaceOff = {
                 left : pos_cur.left - pos_sel.left,
                 top  : pos_cur.top  - pos_sel.top
             })
-            .width(cur.attr('offsetWidth'))
-            .height(cur.attr('offsetHeight'));
+            .width(cur.outerWidth())
+            .height(cur.outerHeight());
 
             if (cur.is('#body, #header, #footer')) {
                 $('#for-block').show();
@@ -739,7 +738,7 @@ var PropertyDialog = {
         });
 
 
-        // font 
+        // font
         this.target.css({
             'font-family' : $('#font-family').val(),
             'color' : $('#color').val()

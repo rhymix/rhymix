@@ -3,24 +3,44 @@
     <grants />
     <permissions />
     <actions>
-        <action name="dispMenuAdminContent" type="view" admin_index="true" standalone="true" />
+        <action name="dispMenuAdminContent" type="view" standalone="true" />
         <action name="dispMenuAdminInsert" type="view" standalone="true" />
         <action name="dispMenuAdminManagement" type="view" standalone="true" />
         <action name="dispMenuAdminMidList" type="view" standalone="true" />
+        <action name="dispMenuAdminSiteMap" type="view" standalone="true" admin_index="true" menu_name="siteMap" menu_index="true" />
 
         <action name="getMenuAdminTplInfo" type="model" standalone="true" />
+        <action name="getMenuAdminItemInfo" type="model" standalone="true" />
 
-        <action name="procMenuAdminInsert" type="controller" standalone="true" />
-        <action name="procMenuAdminUpdate" type="controller" standalone="true" />
+        <action name="procMenuAdminInsert" type="controller" standalone="true" ruleset="insertMenu" />
+        <action name="procMenuAdminUpdate" type="controller" standalone="true" ruleset="updateMenuTitle" />
         <action name="procMenuAdminDelete" type="controller" standalone="true" />
-        <action name="procMenuAdminInsertItem" type="controller" standalone="true" />
+        <action name="procMenuAdminInsertItem" type="controller" standalone="true" ruleset="insertMenuItem" />
+        <action name="procMenuAdminInsertItemForAdminMenu" type="controller" standalone="true" />
         <action name="procMenuAdminDeleteItem" type="controller" standalone="true" />
         <action name="procMenuAdminMakeXmlFile" type="controller" standalone="true" />
         <action name="procMenuAdminMoveItem" type="controller" standalone="true" />
+        <action name="procMenuAdminArrangeItem" type="controller" standalone="true" />
 
         <action name="procMenuAdminUploadButton" type="controller" standalone="true" />
         <action name="procMenuAdminDeleteButton" type="controller" standalone="true" />
+        <action name="procMenuAdminAllActList" type="controller" standalone="true" />
 
 		<action name="dispMenuMenu" type="mobile" standalone="true" />
     </actions>
+	<menus>
+		<menu name="siteMap">
+			<title xml:lang="en">Site Map</title>
+			<title xml:lang="ko">사이트맵</title>
+			<title xml:lang="zh-CN">Site Map</title>
+			<title xml:lang="jp">Site Map</title>
+			<title xml:lang="es">Site Map</title>
+			<title xml:lang="ru">Site Map</title>
+			<title xml:lang="fr">Site Map</title>
+			<title xml:lang="zh-TW">Site Map</title>
+			<title xml:lang="vi">Site Map</title>
+			<title xml:lang="mn">Site Map</title>
+			<title xml:lang="tr">Site Map</title>
+		</menu>
+	</menus>
 </module>

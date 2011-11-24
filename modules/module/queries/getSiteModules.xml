@@ -17,7 +17,7 @@
         <condition operation="equal" column="sites.site_srl" default="modules.site_srl" pipe="and" />
     </conditions>
     <navigation>
-        <index  var="sort_index" default="modules.module" order="asc" />
-        <index  var="sort_index" default="modules.mid" order="asc" />
+        <index  var="sort_index1" default="modules.module" order="asc" />
+        <index  var="sort_index2" default="modules.mid" order="asc" />
     </navigation>
 </query>

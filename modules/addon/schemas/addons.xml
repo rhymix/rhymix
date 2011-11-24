@@ -2,6 +2,7 @@
     <column name="addon" type="varchar" size="250" notnull="notnull" primary_key="primary_key" />
     <column name="is_used" type="char" size="1" default="Y" notnull="notnull" />
     <column name="is_used_m" type="char" size="1" default="N" notnull="notnull" />
+	<column name="is_fixed" type="char" size="1" default="N" notnull="notnull" />
     <column name="extra_vars" type="text" />
     <column name="regdate" type="date" index="idx_regdate" />
 </table>

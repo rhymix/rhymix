@@ -3,18 +3,18 @@
     <title xml:lang="ko">설문조사 기본 스킨</title>
     <title xml:lang="zh-CN">投票系统默认皮肤</title>
     <title xml:lang="jp">アンケート調査デフォルトスキン</title>
-    <title xml:lang="en">Default Skin of Poll</title>
+    <title xml:lang="en">Default Skin of teh Poll</title>
     <title xml:lang="vi">Skin mặc định của thăm dò</title>
     <title xml:lang="zh-TW">投票系統預設面板</title>
     <title xml:lang="tr">Oylamanın Varsayılan Dış Görünümü</title>
     <description xml:lang="ko">설문조사 기본 스킨</description>
     <description xml:lang="zh-CN">投票系统默认皮肤。</description>
     <description xml:lang="jp">アンケート調査デフォルトスキン</description>
-    <description xml:lang="en">Default Skin of Poll</description>
+    <description xml:lang="en">Default Skin of the Poll</description>
     <description xml:lang="vi">Skin mặc định của thăm dò.</description>
     <description xml:lang="zh-TW">投票系統預設面板。</description>
     <description xml:lang="tr">Oylamanın Varsayılan Dış Görünümü</description>
-    <version>0.1</version>
+    <version>0.2</version>
     <date>2007-02-28</date>
 
     <author email_address="developers@xpressengine.com" link="http://xpressengine.com/">

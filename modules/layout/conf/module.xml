@@ -4,30 +4,49 @@
     <permissions />
     <actions>
         <action name="dispLayoutInfo" type="view" standalone="true" />
-        <action name="dispLayoutAdminContent" type="view" admin_index="true" standalone="true" />
-        <action name="dispLayoutAdminInsert" type="view" standalone="true" />
-        <action name="dispLayoutAdminModify" type="view" standalone="true" />
-        <action name="dispLayoutAdminEdit" type="view" standalone="true" />
-        <action name="dispLayoutAdminDownloadedList" type="view" standalone="true" />
-        <action name="dispLayoutAdminPreview" type="view" standalone="true" />
+        <action name="dispLayoutAdminContent" type="view" standalone="true" />
         <action name="dispLayoutAdminInfo" type="view" standalone="true" />
         <action name="dispLayoutAdminLayoutModify" type="view" standalone="true" />
         <action name="dispLayoutAdminLayoutImageList" type="view" standalone="true" />
-
 		<action name="dispLayoutAdminMobileContent" type="view" standalone="true" />
-		<action name="dispLayoutAdminDownloadedMobileList" type="view" standalone="true" />
 
+		<action name="dispLayoutAdminInstalledList" type="view" admin_index="true" menu_name="installedLayout" menu_index="true" />
+		<action name="dispLayoutAdminInstalledMobileList" type="view" menu_name="installedLayout" />
+		<action name="dispLayoutAdminInstanceList" type="view" menu_name="installedLayout" />
+		<action name="dispLayoutAdminInsert" type="view" menu_name="installedLayout" />
+		<action name="dispLayoutAdminModify" type="view" menu_name="installedLayout" />
+		<action name="dispLayoutAdminEdit" type="view" menu_name="installedLayout" />
 
-        <action name="procLayoutAdminInsert" type="controller" standalone="true" />
-        <action name="procLayoutAdminUpdate" type="controller" standalone="true" />
-        <action name="procLayoutAdminDelete" type="controller" standalone="true" />
-        <action name="procLayoutAdminCodeUpdate" type="controller" standalone="true" />
+		<action name="dispLayoutPreview" type="view" />
+
+		<action name="procLayoutAdminUpdate" type="controller" ruleset="updateLayout" />
+		<action name="procLayoutAdminCodeUpdate" type="controller" ruleset="codeUpdate" />
+		<action name="procLayoutAdminUserImageUpload" type="controller" ruleset="imageUpload" />
+		<action name="procLayoutAdminUserImageDelete" type="controller" />
+		<action name="procLayoutAdminDelete" type="controller" ruleset="deleteLayout" />
+
+        <action name="procLayoutAdminInsert" type="controller" standalone="true" ruleset="insertLayout" />
+
         <action name="procLayoutAdminCodeReset" type="controller" standalone="true" />
-        <action name="procLayoutAdminUserImageUpload" type="controller" standalone="true" />
-        <action name="procLayoutAdminUserImageDelete" type="controller" standalone="true" />
+
         <action name="procLayoutAdminUserValueInsert" type="controller" standalone="true" />
         <action name="procLayoutAdminUserLayoutExport" type="controller" standalone="true" />
-        <action name="procLayoutAdminUserLayoutImport" type="controller" standalone="true" />
+        <action name="procLayoutAdminUserLayoutImport" type="controller" standalone="true" ruleset="userLayoutImport" />
 
     </actions>
+	<menus>
+		<menu name="installedLayout">
+			<title xml:lang="en">Installed Layout</title>
+			<title xml:lang="ko">설치된 레이아웃</title>
+			<title xml:lang="zh-CN">Installed Layout</title>
+			<title xml:lang="jp">Installed Layout</title>
+			<title xml:lang="es">Installed Layout</title>
+			<title xml:lang="ru">Installed Layout</title>
+			<title xml:lang="fr">Installed Layout</title>
+			<title xml:lang="zh-TW">Installed Layout</title>
+			<title xml:lang="vi">Installed Layout</title>
+			<title xml:lang="mn">Installed Layout</title>
+			<title xml:lang="tr">Installed Layout</title>
+		</menu>
+	</menus>
 </module>

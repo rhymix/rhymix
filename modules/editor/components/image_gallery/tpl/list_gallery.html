@@ -1,14 +1,25 @@
-<!--%import("list_gallery.js")-->
-<script type='text/javascript'>
-    // 이미지갤러리에 보여줄 이미지 등록
-    <!--@foreach($gallery_info->images_list as $image)-->
-        list_gallery_add_image({$gallery_info->srl},'{$image}');
-    <!--@end-->
+<!--@if(__DEBUG__)-->
+	<load target="gallery.js" />
+	<load target="list_gallery.js" />
+<!--@else-->
+	<load target="gallery.min.js" />
+	<load target="list_gallery.min.js" />
+<!--@end-->
+<script type="text/javascript">
+(function(){
 
-    // window.onLoad 이벤트 후에 이미지갤러리 시작 
-    xAddEventListener(window,'load',start_list_gallery);
+var gallery = xe.getApp('gallery')[0];
+
+// Add images
+<!--@foreach($gallery_info->images_list as $img)-->
+gallery.cast('ADD_IMAGE', [{$gallery_info->srl}, '{$img}']);
+<!--@end-->
+
+gallery.cast('SET_STYLE', [{$gallery_info->srl}, 'list']);
+
+})();
 </script>
 
 <div align="{$gallery_info->gallery_align}">
-    <div id='zone_list_gallery_{$gallery_info->srl}' style="width:{$gallery_info->width}px;background-color:#{$gallery_info->bg_color};border:{$gallery_info->border_thickness}px solid #{$gallery_info->border_color};text-align:left;"></div>
+    <div id="zone_list_gallery_{$gallery_info->srl}" style="width:{$gallery_info->width}px;background-color:#{$gallery_info->bg_color};border:{$gallery_info->border_thickness}px solid #{$gallery_info->border_color};text-align:left;"><p style="text-align:center">Loading images...</p></div>
 </div>

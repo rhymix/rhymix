@@ -2,10 +2,7 @@
 <hr noshade="noshade" />
 <ul>
     <li>Site : <a href="{getUrl()}" target="_blank">{getUrl()}</a></li>
-    <li>{$lang->user_id} : {$member_info->user_id}</li>
-    <li>{$lang->user_name} : {$member_info->user_name}</li>
-    <li>{$lang->nick_name} :  {$member_info->nick_name}</li>
-    <li>{$lang->email_address} : {$member_info->email_address}</li>
+    <li loop="$memberInfo=>$name,$value">{$name} : {$value}</li>
     <li>{$lang->password} : <span style="color:red">{$auth_args->new_password}</span></li>
 </ul>
 <hr noshade="noshade" />

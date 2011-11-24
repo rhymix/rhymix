@@ -1,0 +1,266 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<lang>
+	<item name="autoinstall">
+		<value xml:lang="ko"><![CDATA[쉬운 설치]]></value>
+		<value xml:lang="en"><![CDATA[EasyInstall]]></value>
+		<value xml:lang="jp"><![CDATA[イージーインストール]]></value>
+		<value xml:lang="zh-CN"><![CDATA[安装·更新]]></value>
+		<value xml:lang="zh-TW"><![CDATA[自動安裝]]></value>
+		<value xml:lang="tr"><![CDATA[KolayKurulum]]></value>
+		<value xml:lang="vi"><![CDATA[Cập nhật tự động]]></value>
+	</item>
+	<item name="package_update">
+		<value xml:lang="ko"><![CDATA[최근 업데이트]]></value>
+		<value xml:lang="en"><![CDATA[Recent Update]]></value>
+		<value xml:lang="jp"><![CDATA[最新アップデート]]></value>
+		<value xml:lang="zh-CN"><![CDATA[最新更新]]></value>
+		<value xml:lang="zh-TW"><![CDATA[最近更新]]></value>
+		<value xml:lang="tr"><![CDATA[Son Güncellemeler]]></value>
+		<value xml:lang="vi"><![CDATA[Cập nhật]]></value>
+	</item>
+	<item name="package_downloaded_count">
+		<value xml:lang="ko"><![CDATA[전체 다운로드]]></value>
+		<value xml:lang="en"><![CDATA[Download Count]]></value>
+		<value xml:lang="jp"><![CDATA[全体ダウンロード]]></value>
+		<value xml:lang="zh-CN"><![CDATA[总下载]]></value>
+		<value xml:lang="zh-TW"><![CDATA[下載次數]]></value>
+		<value xml:lang="tr"><![CDATA[İndirme Sayısı]]></value>
+		<value xml:lang="vi"><![CDATA[Lượt Download]]></value>
+	</item>
+	<item name="order_newest">
+		<value xml:lang="ko"><![CDATA[신규 등록]]></value>
+		<value xml:lang="en"><![CDATA[Newest]]></value>
+		<value xml:lang="jp"><![CDATA[新規登録]]></value>
+		<value xml:lang="zh-CN"><![CDATA[最新发布]]></value>
+		<value xml:lang="zh-TW"><![CDATA[最新發表]]></value>
+		<value xml:lang="ru"><![CDATA[Новый]]></value>
+		<value xml:lang="tr"><![CDATA[En Yeniler]]></value>
+		<value xml:lang="vi"><![CDATA[Mới nhất]]></value>
+	</item>
+	<item name="order_popular">
+		<value xml:lang="ko"><![CDATA[인기]]></value>
+		<value xml:lang="en"><![CDATA[Popular]]></value>
+		<value xml:lang="jp"><![CDATA[人気]]></value>
+		<value xml:lang="zh-CN"><![CDATA[热门]]></value>
+		<value xml:lang="zh-TW"><![CDATA[熱門]]></value>
+		<value xml:lang="ru"><![CDATA[Популярный]]></value>
+		<value xml:lang="tr"><![CDATA[Popüler]]></value>
+		<value xml:lang="vi"><![CDATA[Phổ biến]]></value>
+	</item>
+	<item name="order_download">
+		<value xml:lang="ko"><![CDATA[다운로드]]></value>
+		<value xml:lang="en"><![CDATA[Download]]></value>
+		<value xml:lang="jp"><![CDATA[ダウンロード]]></value>
+		<value xml:lang="zh-CN"><![CDATA[下载]]></value>
+		<value xml:lang="zh-TW"><![CDATA[下載]]></value>
+		<value xml:lang="ru"><![CDATA[Скачать]]></value>
+		<value xml:lang="tr"><![CDATA[İndirme]]></value>
+	</item>
+	<item name="success_installed">
+		<value xml:lang="ko"><![CDATA[설치가 성공하였습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Successfully Installed]]></value>
+		<value xml:lang="jp"><![CDATA[インストールが成功しました。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[安装成功！]]></value>
+		<value xml:lang="zh-TW"><![CDATA[安裝成功]]></value>
+		<value xml:lang="ru"><![CDATA[Установлено успешно]]></value>
+		<value xml:lang="tr"><![CDATA[Başarıyla Kuruldu]]></value>
+		<value xml:lang="vi"><![CDATA[Đã cài đặt thành công.]]></value>
+	</item>
+	<item name="description_ftp_note">
+		<value xml:lang="ko"><![CDATA[%s이 되어 있지 않으면 설치 및 업데이트가 진행되지 않습니다.]]></value>
+		<value xml:lang="en"><![CDATA[If the %s is not set, the installation or update will not work. Pleas configure the FTP information.]]></value>
+		<value xml:lang="jp"><![CDATA[%sが完了されないと、イージーインストールが動作しません。 FTP設定を確認してください。]]></value>
+		<value xml:lang="ru"><![CDATA[If %s is not set, installation would not work. Please configure FTP information]]></value>
+		<value xml:lang="zh-TW"><![CDATA[請先將 %s好，否則無法執行自動安裝功能。]]></value>
+	</item>
+	<item name="ftp_setup">
+		<value xml:lang="ko"><![CDATA[FTP 설정]]></value>
+		<value xml:lang="en"><![CDATA[FTP configuration]]></value>
+		<value xml:lang="jp"><![CDATA[FTP設定]]></value>
+		<value xml:lang="zh-TW"><![CDATA[FTP設定]]></value>
+	</item>
+	<item name="description_update">
+		<value xml:lang="ko"><![CDATA[쉬운설치 사용전 %s를 해주세요.]]></value>
+		<value xml:lang="en"><![CDATA[Click %s before using EasyInstall.]]></value>
+		<value xml:lang="jp"><![CDATA[新しくインストールしたモジュールバージョン情報などは%sを押すと反映されます。]]></value>
+		<value xml:lang="ru"><![CDATA[If you have upgraded or installed programs without EasyInstall module, please press %s to renew new information]]></value>
+	</item>
+	<item name="status_update">
+		<value xml:lang="ko"><![CDATA[상태 업데이트]]></value>
+		<value xml:lang="en"><![CDATA[update button]]></value>
+		<value xml:lang="jp"><![CDATA[アップデート]]></value>
+	</item>
+	<item name="install">
+		<value xml:lang="ko"><![CDATA[설치]]></value>
+		<value xml:lang="en"><![CDATA[Install]]></value>
+		<value xml:lang="jp"><![CDATA[インストール]]></value>
+		<value xml:lang="zh-CN"><![CDATA[安装]]></value>
+		<value xml:lang="zh-TW"><![CDATA[安裝]]></value>
+		<value xml:lang="ru"><![CDATA[Инсталлировать]]></value>
+		<value xml:lang="tr"><![CDATA[Kurulum]]></value>
+		<value xml:lang="vi"><![CDATA[Cài đặt]]></value>
+	</item>
+	<item name="update">
+		<value xml:lang="ko"><![CDATA[업데이트]]></value>
+		<value xml:lang="en"><![CDATA[Update]]></value>
+		<value xml:lang="jp"><![CDATA[アップデート]]></value>
+		<value xml:lang="zh-CN"><![CDATA[更新]]></value>
+		<value xml:lang="zh-TW"><![CDATA[更新]]></value>
+		<value xml:lang="ru"><![CDATA[Обновить]]></value>
+		<value xml:lang="tr"><![CDATA[Güncelle]]></value>
+		<value xml:lang="vi"><![CDATA[Cập nhật]]></value>
+	</item>
+	<item name="current_version">
+		<value xml:lang="ko"><![CDATA[설치 버전]]></value>
+		<value xml:lang="en"><![CDATA[Version]]></value>
+		<value xml:lang="jp"><![CDATA[現インストールバージョン]]></value>
+		<value xml:lang="zh-CN"><![CDATA[现用版本]]></value>
+		<value xml:lang="zh-TW"><![CDATA[版本]]></value>
+		<value xml:lang="fr"><![CDATA[Version Courante]]></value>
+		<value xml:lang="es"><![CDATA[Versión actual]]></value>
+		<value xml:lang="tr"><![CDATA[Sürüm]]></value>
+		<value xml:lang="vi"><![CDATA[Phiên bản đang dùng]]></value>
+	</item>
+	<item name="require_update">
+		<value xml:lang="ko"><![CDATA[업데이트가 필요합니다.]]></value>
+		<value xml:lang="en"><![CDATA[Update is required.]]></value>
+		<value xml:lang="jp"><![CDATA[アップデートが必要です。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[需要更新]]></value>
+		<value xml:lang="zh-TW"><![CDATA[需要更新]]></value>
+		<value xml:lang="ru"><![CDATA[Update is required]]></value>
+		<value xml:lang="tr"><![CDATA[Güncelleme gerekmektedir.]]></value>
+		<value xml:lang="vi"><![CDATA[Yêu cầu cập nhật.]]></value>
+	</item>
+	<item name="require_installation">
+		<value xml:lang="ko"><![CDATA[설치가 필요합니다.]]></value>
+		<value xml:lang="en"><![CDATA[Installation is required.]]></value>
+		<value xml:lang="jp"><![CDATA[インストールが必要です。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[需要安装]]></value>
+		<value xml:lang="zh-TW"><![CDATA[需要安裝]]></value>
+		<value xml:lang="ru"><![CDATA[Installation is required]]></value>
+		<value xml:lang="tr"><![CDATA[Kurulum gerekmektedir.]]></value>
+		<value xml:lang="vi"><![CDATA[Yêu cầu cài đặt.]]></value>
+	</item>
+	<item name="description_install">
+		<value xml:lang="ko"><![CDATA[설치를 진행하면, 이 프로그램이 의존하고 있는 모든 프로그램을 업데이트/설치 합니다.]]></value>
+		<value xml:lang="en"><![CDATA[EasyInstall will also install/update all other programs which this program depends on.]]></value>
+		<value xml:lang="jp"><![CDATA[インストールに進みますと、このプログラムが依存しているすべてのプログラムをアップデート/インストールします。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[安装时，与其联动的插件/控件也会同时被安装(更新)。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[自動安裝也能夠同時安裝與更新其他相關程式]]></value>
+		<value xml:lang="ru"><![CDATA[EasyInstall will also install/update all other programs which this program is depending on]]></value>
+		<value xml:lang="tr"><![CDATA[KolayKurulum, bu program için gerekli olan tüm diğer programları kurup/güncelleştirecektir.]]></value>
+		<value xml:lang="vi"><![CDATA[Quá trình Cài đặt / Cập nhật này phụ thuộc vào ]]></value>
+	</item>
+	<item name="description_download">
+		<value xml:lang="ko"><![CDATA[FTP를 이용할 수 없는 경우, 직접 다운로드 하여 해당 path에 설치하셔야 합니다. (한칸 상위에서 압축을 푸시면 됩니다. ./modules/board의 경우 ./modules에서 tar를 푸세요)]]></value>
+		<value xml:lang="en"><![CDATA[If FTP is unavailable, you should manually download and extract it into the target path. (If the target path is ./modules/board, extract it to ./modules)]]></value>
+		<value xml:lang="jp"><![CDATA[FTPの利用ができない場合は、直接ダウンロードし、サーバー上の該当パスにてインストールしてください。 (一つ上の階層にて解凍します。　./modules/board　の場合 ./modulesに tarを解凍してください。)]]></value>
+		<value xml:lang="zh-CN"><![CDATA[无法使用FTP时，需得自行下载安装到指定路径。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[如果 FTP無法使用的話，必須要手動下載並解壓縮到目標路徑。(假設目標路徑為 ./modules/board 的話，將檔案解壓縮到 ./modules就可以了)]]></value>
+		<value xml:lang="ru"><![CDATA[If FTP is unavailable, you should manually download it and extract it into target path. (if target path is ./modules/board, extract it at ./modules)]]></value>
+		<value xml:lang="tr"><![CDATA[Eğer FTP kullanılamaz durumduysa, indirmeyi kendiniz yapmanız ve dosyaları hedef dizine çıkartmanız gerekmektedir. (eğer hedef yol ./modules/board ise, çıkarma işlemini ./modules yoluna yapınız)]]></value>
+		<value xml:lang="vi"><![CDATA[Khi FTP không được mở, bạn nên tải về và giả nén, sau đó Upload theo đường dẫn. (Nếu đường dẫn là ./modules/board, thì giải nén vào ./modules)]]></value>
+	</item>
+	<item name="path">
+		<value xml:lang="ko"><![CDATA[설치경로]]></value>
+		<value xml:lang="en"><![CDATA[Path]]></value>
+		<value xml:lang="jp"><![CDATA[インストールパス]]></value>
+		<value xml:lang="zh-CN"><![CDATA[安装路径]]></value>
+		<value xml:lang="zh-TW"><![CDATA[路徑]]></value>
+		<value xml:lang="de"><![CDATA[Pfad]]></value>
+		<value xml:lang="tr"><![CDATA[Yol]]></value>
+		<value xml:lang="vi"><![CDATA[Đường dẫn]]></value>
+		<value xml:lang="mn"><![CDATA[Байрлал]]></value>
+	</item>
+	<item name="cmd_download">
+		<value xml:lang="ko"><![CDATA[다운로드]]></value>
+		<value xml:lang="en"><![CDATA[Download]]></value>
+		<value xml:lang="jp"><![CDATA[ダウンロード]]></value>
+		<value xml:lang="zh-CN"><![CDATA[下载]]></value>
+		<value xml:lang="zh-TW"><![CDATA[下載]]></value>
+		<value xml:lang="tr"><![CDATA[İndirme]]></value>
+	</item>
+	<item name="description_uninstall">
+		<value xml:lang="ko"><![CDATA[패키지를 삭제합니다. 모듈의 경우 모든 데이터가 사라집니다.]]></value>
+		<value xml:lang="en"><![CDATA[Package will be uninstalled. For modules, all data will be deleted.]]></value>
+		<value xml:lang="jp"><![CDATA[パッケージを削除します。モジュールの場合、すべてのデータを失います。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[确定要删除此数据包吗？如果此数据包为模块，模块中的数据将会全部消失。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[移除模組，所有資料將會被刪除。]]></value>
+		<value xml:lang="tr"><![CDATA[Paket kaldırılacaktır. Modüller için, tüm veriler silinecektir.]]></value>
+		<value xml:lang="vi"><![CDATA[Loại bỏ gói cài đặt. Tất cả dữ liệu của các gói sẽ đồng thời bị xóa.]]></value>
+	</item>
+	<item name="distribute_version">
+		<value xml:lang="ko"><![CDATA[배포 버전]]></value>
+		<value xml:lang="en"><![CDATA[Distribute version]]></value>
+		<value xml:lang="jp"><![CDATA[配布バージョン]]></value>
+	</item>
+	<item name="run">
+		<value xml:lang="ko"><![CDATA[실행]]></value>
+		<value xml:lang="en"><![CDATA[Run]]></value>
+		<value xml:lang="jp"><![CDATA[実行]]></value>
+	</item>
+	<item name="rate">
+		<value xml:lang="ko"><![CDATA[%s점]]></value>
+		<value xml:lang="en"><![CDATA[%s points]]></value>
+		<value xml:lang="jp"><![CDATA[points]]></value>
+		<value xml:lang="zh-CN"><![CDATA[points]]></value>
+		<value xml:lang="zh-TW"><![CDATA[% points]]></value>
+		<value xml:lang="ru"><![CDATA[points]]></value>
+		<value xml:lang="tr"><![CDATA[points]]></value>
+		<value xml:lang="vi"><![CDATA[points]]></value>
+	</item>
+	<item name="thumbnail">
+		<value xml:lang="ko"><![CDATA[섬네일]]></value>
+		<value xml:lang="en"><![CDATA[Thumbnail]]></value>
+		<value xml:lang="jp"><![CDATA[サムネイル]]></value>
+	</item>
+	<item name="name">
+		<value xml:lang="ko"><![CDATA[이름]]></value>
+		<value xml:lang="en"><![CDATA[Name]]></value>
+		<value xml:lang="jp"><![CDATA[名前]]></value>
+	</item>
+	<item name="about_depending_programs">
+		<value xml:lang="ko"><![CDATA[이 패키지 사용을 위해서는 아래 프로그램이 설치되어 있어야 합니다.]]></value>
+		<value xml:lang="en"><![CDATA[To use this package, the following program should have been installed.]]></value>
+		<value xml:lang="jp"><![CDATA[このパッケージを使用するには、下記のプログラムがインストールされていなければなりません。]]></value>
+	</item>
+	<item name="ftp_password">
+		<value xml:lang="ko"><![CDATA[FTP 비밀번호]]></value>
+		<value xml:lang="en"><![CDATA[FTP password]]></value>
+		<value xml:lang="jp"><![CDATA[FTP パスワード]]></value>
+	</item>
+	<item name="msg_dependency_package">
+		<value xml:lang="ko"><![CDATA[이 패키지를 의존하고 있는 다른 패키지가 있기 때문에 삭제할 수 없습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Cannot remove this package because there exists another packages dependent on this.]]></value>
+		<value xml:lang="jp"><![CDATA[このパッケージに依存している他のパッケージがあるため、削除できません。]]></value>
+	</item>
+	<item name="dependant_list">
+		<value xml:lang="ko"><![CDATA[이 패키지에 의존하는 패키지 목록]]></value>
+		<value xml:lang="en"><![CDATA[Dependant package list of the current package]]></value>
+		<value xml:lang="jp"><![CDATA[このパッケージに依存しているパッケージのリスト]]></value>
+		<value xml:lang="zh-CN"><![CDATA[联动数据包列表]]></value>
+		<value xml:lang="zh-TW"><![CDATA[與此程式相關程式列表]]></value>
+		<value xml:lang="tr"><![CDATA[Mevcut pakete bağlı paket listesi]]></value>
+		<value xml:lang="vi"><![CDATA[Gói cài đặt này phụ thuộc vào các gói khác trong danh sách]]></value>
+	</item>
+	<item name="msg_avail_easy_update">
+		<value xml:lang="ko"><![CDATA[이 항목의 새로운 버전이 있습니다.]]></value>
+		<value xml:lang="en"><![CDATA[There is new version for this item.]]></value>
+		<value xml:lang="jp"><![CDATA[この項目の新しいバージョンがあります。]]></value>
+	</item>
+	<item name="msg_do_you_like_update">
+		<value xml:lang="ko"><![CDATA[업데이트 하시겠습니까?]]></value>
+		<value xml:lang="en"><![CDATA[Would you like to update?]]></value>
+		<value xml:lang="jp"><![CDATA[アップデートしますか？]]></value>
+	</item>
+	<item name="msg_connection_fail">
+		<value xml:lang="ko"><![CDATA[서버 접속이 원활하지 않습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Failed to connect to server.]]></value>
+		<value xml:lang="jp"><![CDATA[サーバに接続できませんでした。]]></value>
+	</item>
+	<item name="msg_not_match_server">
+		<value xml:lang="ko"><![CDATA[서버 설정이 올바르지 않습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Server settings are incorrect.]]></value>
+		<value xml:lang="jp"><![CDATA[サーバー設定が正しくありません。]]></value>
+	</item>
+</lang>

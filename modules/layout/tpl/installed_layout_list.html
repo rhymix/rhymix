@@ -1,0 +1,57 @@
+<include target="header.html" />
+<div class="table even easyList">
+	<table width="100%" border="1" cellspacing="0">
+		<caption>
+				<a cond="$act != 'dispLayoutAdminInstalledList'" href="{getUrl('act', 'dispLayoutAdminInstalledList')}">PC({$pcLayoutCount})</a>
+				<block cond="$act == 'dispLayoutAdminInstalledList'">PC({$pcLayoutCount})</block>
+				|
+				<a cond="$act != 'dispLayoutAdminInstalledMobileList'" href="{getUrl('act', 'dispLayoutAdminInstalledMobileList')}">Mobile({$mobileLayoutCount})</a>
+				<block cond="$act == 'dispLayoutAdminInstalledMobileList'">Mobile({$mobileLayoutCount})</block>
+		</caption>
+		<thead>
+			<tr>
+				<th scope="col" class="title">{$lang->layout_name}</th>
+				<th scope="col">{$lang->version}</th>
+				<th scope="col">{$lang->author}</th>
+				<th scope="col">{$lang->path}</th>
+				<th scope="col">{$lang->cmd_delete}</th>
+			</tr>
+		</thead>
+		<tbody>
+			<block loop="$layout_list => $key, $layout">
+			<tr>
+				<block cond="$layout->title">
+					<td class="title">
+						<p><a href="{getUrl('act', 'dispLayoutAdminInstanceList', 'type', $type, 'layout', $layout->layout)}">{$layout->title}</a></p>
+						<p>{$layout->description}</p>
+						<p cond="$layout->need_update == 'Y'" class="update">
+							{$lang->msg_avail_easy_update} <a href="{$layout->update_url}&amp;return_url={urlencode(getRequestUriByServerEnviroment())}">{$lang->msg_do_you_like_update}</a>
+						</p>
+					</td>
+					<td>{$layout->version}</td>
+					<td>
+						<block loop="$layout->author => $author">
+							<a cond="$author->homepage" href="{$author->homepage}" target="_blank">{$author->name}</a>
+							<block cond="!$author->homepage">{$author->name}</block>
+						</block>
+					</td>
+					<td>{$layout->path}</td>
+					<td><a cond="$layout->remove_url" href="{$layout->remove_url}&amp;return_url={urlencode(getRequestUriByServerEnviroment())}">{$lang->cmd_delete}</a></td>
+				</block>
+				<block cond="!$layout->title">
+					<td class="title">
+						<p><a href="{getUrl('act', 'dispLayoutAdminInstanceList', 'type', $type, 'layout', $layout->layout)}">{$layout->layout}</a></p>
+						<p cond="$layout->need_update == 'Y'" class="update">
+							{$lang->msg_avail_easy_update} <a href="{$layout->update_url}&amp;return_url={urlencode(getRequestUriByServerEnviroment())}">{$lang->msg_do_you_like_update}</a>
+						</p>
+					</td>
+					<td>-</td>
+					<td>-</td>
+					<td>{$layout->path}</td>
+					<td><a cond="$layout->remove_url" href="{$layout->remove_url}&amp;return_url={urlencodegetRequestUriByServerEnviroment()}">{$lang->cmd_delete}</a></td>
+				</block>
+			</tr>
+			</block>
+		</tbody>
+	</table>
+</div>

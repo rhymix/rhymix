@@ -1,52 +1,57 @@
 <!--#include("./header.html")-->
 
-<form action="{Context::getRequestUri()}" method="post" enctype="multipart/form-data" target="hidden_iframe">
+<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
+<form action="{Context::getRequestUri()}" method="post" enctype="multipart/form-data">
 <input type="hidden" name="module" value="integration_search" />
 <input type="hidden" name="act" value="procIntegration_searchAdminInsertSkin" />
 
-    <h4 class="xeAdmin">{$lang->skin_default_info}</h4>
-    <table cellspacing="0" class="rowTable">
-    <tr>
-        <th scope="row"><div>{$lang->skin}</div></th>
-        <td class="wide" >{$skin_info->title}</td>
-    </tr>
-    <tr class="row2">
-        <th scope="row"><div>{$lang->skin_author}</div></th>
-        <td>
-            <!--@foreach($skin_info->author as $author)-->
-            {$author->name} (<a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->homepage}</a>, <a href="mailto:{$author->email_address}">{$author->email_address}</a>)<br />
-            <!--@endforeach-->
-        </td>
-    </tr>
-    <tr>
-        <th scope="row"><div>{$lang->homepage}</div></th>
-        <td><a href="{$skin_info->homepage}" onclick="window.open(this.href);return false;">{$skin_info->homepage}</a>&nbsp;</td>
-    </tr>
-    <tr class="row2">
-        <th scope="row"><div>{$lang->date}</div></th>
-        <td>{zdate($skin_info->date, 'Y-m-d')}</td>
-    </tr>
-    <tr>
-        <th scope="row"><div>{$lang->skin_license}</div></th>
-        <td>
-            {nl2br(trim($skin_info->license))}
-        <!--@if($skin_info->license_link)-->
-            <p><a href="{$skin_info->license_link}" onclick="window.close(); return false;">{$skin_info->license_link}</a></p>
-        <!--@end-->
-        &nbsp;
-        </td>
-    </tr>
-    <tr class="row2">
-        <th scope="row"><div>{$lang->description}</div></th>
-        <td>{nl2br($skin_info->description)}</td>
-    </tr>
-    </table>
-
-    <h4 class="xeAdmin">{$lang->extra_vars}</h4>
-    <table cellspacing="0" class="rowTable">
-    <tr valign="top">
-        <th scope="row"><div>{$lang->colorset}</div></th>
-        <td class="wide">
+    <h3 class="h3">{$lang->skin_default_info}</h3>
+    <div class="table">
+		<table width="100%" border="1" cellspacing="0">
+			<tr>
+			<th scope="row">{$lang->skin}</th>
+			<td  >{$skin_info->title}</td>
+		</tr>
+		<tr>
+			<th scope="row">{$lang->skin_author}</th>
+			<td>
+				<!--@foreach($skin_info->author as $author)-->
+				{$author->name} (<a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->homepage}</a>, <a href="mailto:{$author->email_address}">{$author->email_address}</a>)<br />
+				<!--@endforeach-->
+			</td>
+		</tr>
+		<tr>
+			<th scope="row">{$lang->homepage}</th>
+			<td><a href="{$skin_info->homepage}" onclick="window.open(this.href);return false;">{$skin_info->homepage}</a>&nbsp;</td>
+		</tr>
+		<tr>
+			<th scope="row">{$lang->date}</th>
+			<td>{zdate($skin_info->date, 'Y-m-d')}</td>
+		</tr>
+		<tr>
+			<th scope="row">{$lang->skin_license}</th>
+			<td>
+				{nl2br(trim($skin_info->license))}
+			<!--@if($skin_info->license_link)-->
+				<p><a href="{$skin_info->license_link}" onclick="window.close(); return false;">{$skin_info->license_link}</a></p>
+			<!--@end-->
+			&nbsp;
+			</td>
+		</tr>
+		<tr>
+			<th scope="row">{$lang->description}</th>
+			<td>{nl2br($skin_info->description)}</td>
+		</tr>
+		</table>
+	</div>
+    <h3 class="h3">{$lang->extra_vars}</h3>
+    <div class="table">
+    	<table width="100%" border="1" cellspacing="0">
+    	<tr valign="top">
+        <th scope="row">{$lang->colorset}</th>
+        <td >
             <!--@foreach($skin_info->colorset as $key => $val)-->
                 <!--@if($val->screenshot)-->
                     {@ $_img_info = getImageSize($val->screenshot); $_height = $_img_info[1]+40; $_width = $_img_info[0]+20; $_talign = "center"; }
@@ -70,74 +75,69 @@
     <!--@if($val->group && ((!$group) || $group != $val->group))-->
     {@$group = $val->group}
     </table>
-    <table cellspacing="0" class="adminTable">
-    <caption>{$group}</caption>
+	</div>
+    <div class="table">
+		<table width="100%" border="1" cellspacing="0">
+			<caption>{$group}</caption>
+		<!--@end-->
+	
+		<tr>
+			<th scope="row">{$val->title}</th>
+			<td >
+				<!--@if($val->type=="text")-->
+					<!--@if(!$val->value)-->{@ $val->value = $val->default}<!--@endif-->
+					<input type="text" name="{$val->name}" value="{$val->value}" />
+	
+				<!--@elseif($val->type=="textarea")-->
+					<textarea name="{$val->name}">{$val->value}</textarea>
+	
+				<!--@elseif($val->type=="select")-->
+					<select name="{$val->name}">
+						<!--@foreach($val->options as $k=>$v)-->
+						<option value="{$v->value}" <!--@if($v->value == $val->value)-->selected="selected"<!--@end-->>{$v->title}</option>
+						<!--@end-->
+					</select>
+	
+				<!--@elseif($val->type=="checkbox")-->
+					<!--@foreach($val->default as $k=>$v)-->
+					<span>
+						<input type="checkbox" name="{$val->name}[]" value="{$v}" id="ch_{$key}_{$k}" <!--@if(in_array($v, $val->value))-->checked="checked"<!--@end--> class="checkbox" /> 
+						<label for="ch_{$key}_{$k}">{$v}</label>
+					</span>
+					<!--@end-->
+	
+				<!--@elseif($val->type=="radio")-->
+					<!--@foreach($val->default as $k=>$v)-->
+					<span>
+						<input type="radio" name="{$val->name}" value="{$v}" id="ch_{$key}_{$k}" <!--@if($v==$val->value)-->checked="checked"<!--@end-->/> 
+						<label for="ch_{$key}_{$k}">{$v}</label>
+					</span>
+					<!--@end-->
+	
+				<!--@elseif($val->type=="image")-->
+					<!--@if($val->value)-->
+					<div>
+						<img src="{$val->value}" /><br />
+						<input type="checkbox" name="del_{$val->name}" value="Y" id="del_{$val->name}" class="checkbox" />
+						<label for="del_{$val->name}">{$lang->cmd_delete}</label>
+					</div>
+					<!--@end-->
+	
+					<input type="file" name="{$val->name}" value="" />
+				<!--@end-->
+	
+				<!--@if($val->description)-->
+				<p>{nl2br(trim($val->description))}</p>
+				<!--@end-->
+			</td>
+		</tr>
+		<!--@end-->
+	
+		<!--@if($group)-->
+		</table>
+	</div>
     <!--@end-->
-
-    <tr class="row2">
-        <th scope="row"><div>{$val->title}</div></th>
-        <td class="wide">
-            <!--@if($val->type=="text")-->
-                <!--@if(!$val->value)-->{@ $val->value = $val->default}<!--@endif-->
-                <input type="text" name="{$val->name}" value="{$val->value}" class="inputTypeText w400" />
-
-            <!--@elseif($val->type=="textarea")-->
-                <textarea name="{$val->name}" class="inputTypeTextArea w400">{$val->value}</textarea>
-
-            <!--@elseif($val->type=="select")-->
-                <select name="{$val->name}">
-                    <!--@foreach($val->options as $k=>$v)-->
-                    <option value="{$v->value}" <!--@if($v->value == $val->value)-->selected="selected"<!--@end-->>{$v->title}</option>
-                    <!--@end-->
-                </select>
-
-            <!--@elseif($val->type=="checkbox")-->
-                <!--@foreach($val->default as $k=>$v)-->
-                <span>
-                    <input type="checkbox" name="{$val->name}[]" value="{$v}" id="ch_{$key}_{$k}" <!--@if(in_array($v, $val->value))-->checked="checked"<!--@end--> class="checkbox" /> 
-                    <label for="ch_{$key}_{$k}">{$v}</label>
-                </span>
-                <!--@end-->
-
-            <!--@elseif($val->type=="radio")-->
-                <!--@foreach($val->default as $k=>$v)-->
-                <span>
-                    <input type="radio" name="{$val->name}" value="{$v}" id="ch_{$key}_{$k}" <!--@if($v==$val->value)-->checked="checked"<!--@end-->/> 
-                    <label for="ch_{$key}_{$k}">{$v}</label>
-                </span>
-                <!--@end-->
-
-            <!--@elseif($val->type=="image")-->
-                <!--@if($val->value)-->
-                <div>
-                    <img src="{$val->value}" /><br />
-                    <input type="checkbox" name="del_{$val->name}" value="Y" id="del_{$val->name}" class="checkbox" />
-                    <label for="del_{$val->name}">{$lang->cmd_delete}</label>
-                </div>
-                <!--@end-->
-
-                <input type="file" name="{$val->name}" value="" />
-            <!--@end-->
-
-            <!--@if($val->description)-->
-            <p>{nl2br(trim($val->description))}</p>
-            <!--@end-->
-        </td>
-    </tr>
-    <!--@end-->
-
-    <!--@if($group)-->
-    </table>
-    <table cellspacing="0" class="adminTable">
-    <!--@end-->
-
-    <tr class="row2">
-        <th colspan="2" class="right">
-            <span class="button strong black strong black"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
-        </th>
-    </tr>
-    </table>
-
+    <div class="btnArea">
+		<span class="btn"><input type="submit" value="{$lang->cmd_registration}" /></span>
+	</div>
 </form>
-
-<iframe name="hidden_iframe" frameborder="0" style="display:none"></iframe>

@@ -2,7 +2,7 @@
     /**
      * @class  autoinstallModel
      * @author NHN (developers@xpressengine.com)
-     * @brief  autoinstall 모듈의 Model class
+     * @brief Model class of the autoinstall module
      **/
 
     class autoinstallModel extends autoinstall {
@@ -94,7 +94,7 @@
             {
                 $siblingList .= ",".$this->setDepth($list[$child->category_srl], $depth+1, $list, $resultList);
             }
-            if(count($item->children) < 1) 
+            if(count($item->children) < 1)
             {
                 $item->nPackages = $this->getPackageCount($item->category_srl);
             }
@@ -123,12 +123,17 @@
         function getInstalledPackageList($page)
         {
             $args->page = $page;
+			$args->list_count = 10;
+			$args->page_count = 5;
             $output = executeQueryArray("autoinstall.getInstalledPackageList", $args);
             $res = array();
-            foreach($output->data as $val)
-            {
-                $res[$val->package_srl] = $val;
-            }
+			if ($output->data)
+			{
+				foreach($output->data as $val)
+				{
+					$res[$val->package_srl] = $val;
+				}
+			}
             $output->data = $res;
             return $output;
         }
@@ -159,7 +164,7 @@
 					$config_file = "/info.xml";
 				break;
 				case "m.skin":
-				case "skin":    
+				case "skin":
 				case "widgetstyle":
 				case "style":
 					$config_file = "/skin.xml";
@@ -176,10 +181,66 @@
 			$path_array = explode("/", $path);
             $target_name = array_pop($path_array);
 			$oModule =& getModule($target_name, "class");
-			if(!$oModule) return false;	
+			if(!$oModule) return false;
 			if(method_exists($oModule, "moduleUninstall")) return true;
 			else return false;
 		}
 
+		function getPackageSrlByPath($path)
+		{
+			if (!$path) return;
+
+			if(substr($path,-1) == '/') $path = substr($path, 0, strlen($path)-1);
+
+			if (!$GLOBLAS['XE_AUTOINSTALL_PACKAGE_SRL_BY_PATH'][$path])
+			{
+				$args->path = $path;
+				$output = executeQuery('autoinstall.getPackageSrlByPath', $args);
+
+				$GLOBLAS['XE_AUTOINSTALL_PACKAGE_SRL_BY_PATH'][$path] = $output->data->package_srl;
+			}
+
+			return $GLOBLAS['XE_AUTOINSTALL_PACKAGE_SRL_BY_PATH'][$path];
+		}
+
+		function getRemoveUrlByPackageSrl($packageSrl)
+		{
+            $ftp_info =  Context::getFTPInfo();
+            if (!$ftp_info->ftp_root_path) return;
+			
+			if (!$packageSrl) return;
+
+			return getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAutoinstallAdminUninstall', 'package_srl', $packageSrl);
+		}
+
+		function getRemoveUrlByPath($path)
+		{
+			if (!$path) return;
+
+            $ftp_info =  Context::getFTPInfo();
+            if (!$ftp_info->ftp_root_path) return;
+
+			$packageSrl = $this->getPackageSrlByPath($path);
+			if (!$packageSrl) return;
+
+			return getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAutoinstallAdminUninstall', 'package_srl', $packageSrl);
+		}
+
+		function getUpdateUrlByPackageSrl($packageSrl)
+		{
+			if (!$packageSrl) return;
+
+			return getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAutoinstallAdminInstall', 'package_srl', $packageSrl);
+		}
+
+		function getUpdateUrlByPath($path)
+		{
+			if (!$path) return;
+
+			$packageSrl = $this->getPackageSrlByPath($path);
+			if (!$packageSrl) return;
+
+			return getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAutoinstallAdminInstall', 'package_srl', $packageSrl);
+		}
    }
 ?>

@@ -3,7 +3,7 @@
     <grants />
     <permissions />
     <actions>
-        <action name="dispPollAdminList" type="view" admin_index="true" standalone="true" />
+        <action name="dispPollAdminList" type="view" admin_index="true" standalone="true" menu_name="poll" menu_index="true" />
         <action name="dispPollAdminResult" type="view" standalone="true" />
 
         <action name="dispPollAdminConfig" type="view" standalone="true" />
@@ -13,9 +13,26 @@
         <action name="getPollAdminTarget" type="model" standalone="true" />
 
         <action name="procInsert" type="controller" standalone="true" />
-        <action name="procPoll" type="controller" standalone="true" />
+        <action name="procPoll" type="controller" standalone="true" ruleset="poll" />
         <action name="procPollViewResult" type="controller" standalone="true" />
-        <action name="procPollAdminDeleteChecked" type="controller" standalone="true" />
-        <action name="procPollAdminInsertConfig" type="controller" standalone="true" />
+        <action name="procPollGetList" type="controller" standalone="true" />
+        <action name="procPollAdminDeleteChecked" type="controller" standalone="true" ruleset="deleteChecked" />
+        <action name="procPollAdminInsertConfig" type="controller" standalone="true" ruleset="insertConfig" />
+        <action name="procPollAdminAddCart" type="controller" standalone="true" />
     </actions>
+	<menus>
+		<menu name="poll">
+			<title xml:lang="en">Poll</title>
+			<title xml:lang="ko">설문</title>
+			<title xml:lang="zh-CN">Poll</title>
+			<title xml:lang="jp">Poll</title>
+			<title xml:lang="es">Poll</title>
+			<title xml:lang="ru">Poll</title>
+			<title xml:lang="fr">Poll</title>
+			<title xml:lang="zh-TW">Poll</title>
+			<title xml:lang="vi">Poll</title>
+			<title xml:lang="mn">Poll</title>
+			<title xml:lang="tr">Poll</title>
+		</menu>
+	</menus>
 </module>

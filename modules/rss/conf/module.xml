@@ -3,11 +3,26 @@
     <grants />
     <permissions />
     <actions>
-        <action name="dispRssAdminIndex" type="view" index="true" standalone="true" admin_index="true" />
+        <action name="dispRssAdminIndex" type="view" index="true" standalone="true" admin_index="true" menu_name="rss" menu_index="true" />
         <action name="rss" type="view" standalone="true" />
         <action name="atom" type="view" standalone="true" />
         <action name="procRssAdminToggleActivate" type="controller" standalone="true" />
-        <action name="procRssAdminInsertConfig" type="controller" standalone="true" />
-        <action name="procRssAdminInsertModuleConfig" type="controller" standalone="true" />
+        <action name="procRssAdminInsertConfig" type="controller" standalone="true" ruleset="insertRssConfig" />
+        <action name="procRssAdminInsertModuleConfig" type="controller" standalone="true" ruleset="insertRssModuleConfig" />
     </actions>
+	<menus>
+		<menu name="rss">
+			<title xml:lang="en">RSS</title>
+			<title xml:lang="ko">RSS</title>
+			<title xml:lang="zh-CN">RSS</title>
+			<title xml:lang="jp">RSS</title>
+			<title xml:lang="es">RSS</title>
+			<title xml:lang="ru">RSS</title>
+			<title xml:lang="fr">RSS</title>
+			<title xml:lang="zh-TW">RSS</title>
+			<title xml:lang="vi">RSS</title>
+			<title xml:lang="mn">RSS</title>
+			<title xml:lang="tr">RSS</title>
+		</menu>
+	</menus>
 </module>

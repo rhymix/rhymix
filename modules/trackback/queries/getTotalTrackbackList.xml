@@ -6,7 +6,8 @@
         <column name="*" />
     </columns>
     <conditions>
-        <condition operation="in" column="module_srl" var="s_module_srl" />
+        <condition operation="in" column="trackback_srl" var="trackbackSrlList" filter="number" />
+        <condition operation="in" column="module_srl" var="s_module_srl" pipe="and" />
         <condition operation="notin" column="module_srl" var="exclude_module_srl" pipe="and" />
         <group pipe="and">
             <condition operation="like" column="url" var="s_url" />

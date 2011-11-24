@@ -3,19 +3,19 @@
      * @class  widgetModel
      * @author NHN (developers@xpressengine.com)
      * @version 0.1
-     * @brief  widget 모듈의 Model class
+     * @brief Model class for widget modules
      **/
 
     class widgetModel extends widget {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
         }
 
         /**
-         * @brief 위젯의 경로를 구함
+         * @brief Wanted widget's path
          **/
         function getWidgetPath($widget_name) {
             $path = sprintf('./widgets/%s/', $widget_name);
@@ -26,7 +26,7 @@
 
 
         /**
-         * @brief 위젯 스타일의 경로를 구함
+         * @brief Wanted widget style path
          **/
         function getWidgetStylePath($widgetStyle_name) {
             $path = sprintf('./widgetstyles/%s/', $widgetStyle_name);
@@ -36,7 +36,7 @@
         }
 
         /**
-         * @brief 위젯 스타일의 경로를 구함
+         * @brief Wanted widget style path
          **/
         function getWidgetStyleTpl($widgetStyle_name) {
             $path = $this->getWidgetStylePath($widgetStyle_name);
@@ -45,23 +45,37 @@
         }
 
         /**
-         * @brief 위젯의 종류와 정보를 구함
-         * 다운로드되어 있는 위젯의 종류 (생성과 다른 의미)
+         * @brief Wanted photos of the type and information
+         * Download a widget with type (generation and other means)
          **/
         function getDownloadedWidgetList() {
-            // 다운받은 위젯과 설치된 위젯의 목록을 구함
+			$oAutoinstallModel = &getModel('autoinstall');
+
+            // 've Downloaded the widget and the widget's list of installed Wanted
             $searched_list = FileHandler::readDir('./widgets');
             $searched_count = count($searched_list);
             if(!$searched_count) return;
             sort($searched_list);
-
-            // 찾아진 위젯 목록을 loop돌면서 필요한 정보를 간추려 return
+            // D which pertain to the list of widgets loop spins return statement review the information you need
             for($i=0;$i<$searched_count;$i++) {
-                // 위젯의 이름
+                // The name of the widget
                 $widget = $searched_list[$i];
-
-                // 해당 위젯의 정보를 구함
+                // Wanted information on the Widget
                 $widget_info = $this->getWidgetInfo($widget);
+
+				// get easyinstall remove url
+				$packageSrl = $oAutoinstallModel->getPackageSrlByPath($widget_info->path);
+				$widget_info->remove_url = $oAutoinstallModel->getRemoveUrlByPackageSrl($packageSrl);
+
+				// get easyinstall need update
+				$package = $oAutoinstallModel->getInstalledPackages($packageSrl);
+				$widget_info->need_update = $package[$packageSrl]->need_update;
+
+				// get easyinstall update url
+				if ($widget_info->need_update == 'Y')
+				{
+					$widget_info->update_url = $oAutoinstallModel->getUpdateUrlByPackageSrl($packageSrl);
+				}
 
                 $list[] = $widget_info;
             }
@@ -69,22 +83,20 @@
         }
 
         /**
-         * @brief 위젯의 종류와 정보를 구함
-         * 다운로드되어 있는 위젯의 종류 (생성과 다른 의미)
+         * @brief Wanted photos of the type and information
+         * Download a widget with type (generation and other means)
          **/
         function getDownloadedWidgetStyleList() {
-            // 다운받은 위젯과 설치된 위젯의 목록을 구함
+            // 've Downloaded the widget and the widget's list of installed Wanted
             $searched_list = FileHandler::readDir('./widgetstyles');
             $searched_count = count($searched_list);
             if(!$searched_count) return;
             sort($searched_list);
-
-            // 찾아진 위젯 목록을 loop돌면서 필요한 정보를 간추려 return
+            // D which pertain to the list of widgets loop spins return statement review the information you need
             for($i=0;$i<$searched_count;$i++) {
-                // 위젯의 이름
+                // The name of the widget
                 $widgetStyle = $searched_list[$i];
-
-                // 해당 위젯의 정보를 구함
+                // Wanted information on the Widget
                 $widgetStyle_info = $this->getWidgetStyleInfo($widgetStyle);
 
                 $list[] = $widgetStyle_info;
@@ -94,19 +106,17 @@
 
 
         /**
-         * @brief 모듈의 conf/info.xml 을 읽어서 정보를 구함
-         * 이것 역시 캐싱을 통해서 xml parsing 시간을 줄인다..
+         * @brief Modules conf/info.xml wanted to read the information
+         * It uses caching to reduce time for xml parsing ..
          **/
         function getWidgetInfo($widget) {
-            // 요청된 모듈의 경로를 구한다. 없으면 return
+            // Get a path of the requested module. Return if not exists.
             $widget_path = $this->getWidgetPath($widget);
             if(!$widget_path) return;
-
-            // 현재 선택된 모듈의 스킨의 정보 xml 파일을 읽음
+            // Read the xml file for module skin information
             $xml_file = sprintf("%sconf/info.xml", $widget_path);
             if(!file_exists($xml_file)) return;
-
-            // cache 파일을 비교하여 문제 없으면 include하고 $widget_info 변수를 return
+            // If the problem by comparing the cache file and include the return variable $widget_info
             $cache_file = sprintf('./files/cache/widget/%s.%s.cache.php', $widget, Context::getLangType());
 
 
@@ -114,8 +124,7 @@
                 @include($cache_file);
                 return $widget_info;
             }
-
-            // cache 파일이 없으면 xml parsing하고 변수화 한 후에 캐시 파일에 쓰고 변수 바로 return
+            // If no cache file exists, parse the xml and then return the variable.
             $oXmlParser = new XmlParser();
             $tmp_xml_obj = $oXmlParser->loadXmlFile($xml_file);
             $xml_obj = $tmp_xml_obj->widget;
@@ -124,7 +133,7 @@
             $buff = '';
 
             if($xml_obj->version && $xml_obj->attrs->version == '0.2') {
-                // 위젯의 제목, 버전
+                // Title of the widget, version
                 $buff .= sprintf('$widget_info->widget = "%s";', $widget);
                 $buff .= sprintf('$widget_info->path = "%s";', $widget_path);
                 $buff .= sprintf('$widget_info->title = "%s";', $xml_obj->title->body);
@@ -138,8 +147,7 @@
                 $buff .= sprintf('$widget_info->license_link = "%s";', $xml_obj->license->attrs->link);
                 $buff .= sprintf('$widget_info->widget_srl = $widget_srl;');
                 $buff .= sprintf('$widget_info->widget_title = $widget_title;');
-
-                // 작성자 정보
+                // Author information
                 if(!is_array($xml_obj->author)) $author_list[] = $xml_obj->author;
                 else $author_list = $xml_obj->author;
 
@@ -183,8 +191,7 @@
                 }
 
             } else {
-
-                // 위젯의 제목, 버전
+                // Title of the widget, version
                 $buff .= sprintf('$widget_info->widget = "%s";', $widget);
                 $buff .= sprintf('$widget_info->path = "%s";', $widget_path);
                 $buff .= sprintf('$widget_info->title = "%s";', $xml_obj->title->body);
@@ -195,15 +202,12 @@
                 $buff .= sprintf('$widget_info->date = "%s";', $date);
                 $buff .= sprintf('$widget_info->widget_srl = $widget_srl;');
                 $buff .= sprintf('$widget_info->widget_title = $widget_title;');
-
-                // 작성자 정보
+                // Author information
                 $buff .= sprintf('$widget_info->author[0]->name = "%s";', $xml_obj->author->name->body);
                 $buff .= sprintf('$widget_info->author[0]->email_address = "%s";', $xml_obj->author->attrs->email_address);
                 $buff .= sprintf('$widget_info->author[0]->homepage = "%s";', $xml_obj->author->attrs->link);
             }
-
-
-            // 추가 변수 (템플릿에서 사용할 제작자 정의 변수)
+            // Extra vars (user defined variables to use in a template)
             $extra_var_groups = $xml_obj->extra_vars->group;
             if(!$extra_var_groups) $extra_var_groups = $xml_obj->extra_vars;
             if(!is_array($extra_var_groups)) $extra_var_groups = array($extra_var_groups);
@@ -262,8 +266,8 @@
 
 
         /**
-         * @brief 모듈의 conf/info.xml 을 읽어서 정보를 구함
-         * 이것 역시 캐싱을 통해서 xml parsing 시간을 줄인다..
+         * @brief Modules conf/info.xml wanted to read the information
+         * It uses caching to reduce time for xml parsing ..
          **/
         function getWidgetStyleInfo($widgetStyle) {
 
@@ -271,24 +275,21 @@
             if(!$widgetStyle_path) return;
             $xml_file = sprintf("%sskin.xml", $widgetStyle_path);
             if(!file_exists($xml_file)) return;
-
-            // cache 파일을 비교하여 문제 없으면 include하고 $widgetStyle_info 변수를 return
+            // If the problem by comparing the cache file and include the return variable $widgetStyle_info
             $cache_file = sprintf('./files/cache/widgetstyles/%s.%s.cache.php', $widgetStyle, Context::getLangType());
 
             if(file_exists($cache_file)&&filemtime($cache_file)>filemtime($xml_file)) {
                 @include($cache_file);
                 return $widgetStyle_info;
             }
-
-            // cache 파일이 없으면 xml parsing하고 변수화 한 후에 캐시 파일에 쓰고 변수 바로 return
+            // If no cache file exists, parse the xml and then return the variable.
             $oXmlParser = new XmlParser();
             $tmp_xml_obj = $oXmlParser->loadXmlFile($xml_file);
             $xml_obj = $tmp_xml_obj->widgetstyle;
             if(!$xml_obj) return;
 
             $buff = '';
-
-            // 위젯의 제목, 버전
+            // Title of the widget, version
             $buff .= sprintf('$widgetStyle_info->widgetStyle = "%s";', $widgetStyle);
             $buff .= sprintf('$widgetStyle_info->path = "%s";', $widgetStyle_path);
             $buff .= sprintf('$widgetStyle_info->title = "%s";', $xml_obj->title->body);
@@ -305,8 +306,7 @@
             if(!$xml_obj->preview->body) $xml_obj->preview->body = 'preview.jpg';
             $preview_file = sprintf("%s%s", $widgetStyle_path,$xml_obj->preview->body);
             if(file_exists($preview_file)) $buff .= sprintf('$widgetStyle_info->preview = "%s";', $preview_file);
-
-            // 작성자 정보
+            // Author information
             if(!is_array($xml_obj->author)) $author_list[] = $xml_obj->author;
             else $author_list = $xml_obj->author;
 
@@ -348,9 +348,7 @@
                     }
                 }
             }
-
-
-            // 추가 변수 (템플릿에서 사용할 제작자 정의 변수)
+            // Extra vars (user defined variables to use in a template)
             $extra_var_groups = $xml_obj->extra_vars->group;
             if(!$extra_var_groups) $extra_var_groups = $xml_obj->extra_vars;
             if(!is_array($extra_var_groups)) $extra_var_groups = array($extra_var_groups);

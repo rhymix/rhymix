@@ -1,70 +1,154 @@
-<!--%import("filter/delete_checked.xml")-->
-<!--%import("filter/manage_checked_document.xml")-->
-<!--#include("header.html")-->
-
-<form id="fo_list" action="./" method="get" onsubmit="return procFilter(this, delete_checked)">
-<input type="hidden" name="page" value="{$page}" />
-
-<!-- 목록 -->
-<table cellspacing="0" class="rowTable">
-<caption>Total {number_format($total_count)}, Page {number_format($page)}/{number_format($total_page)}</caption>
-<thead>
-    <tr>
-        <th scope="col"><div>{$lang->no}</div></th>
-        <th scope="col"><div><input type="checkbox" onclick="XE.checkboxToggleAll(); return false;" /></div></th>
-        <th scope="col" class="wide"><div>{$lang->title}</div></th>
-        <th scope="col"><div>{$lang->user_name}</div></th>
-        <th scope="col"><div>{$lang->cmd_declare}</div></th>
-        <th scope="col"><div>{$lang->readed_count}</div></th>
-        <th scope="col"><div>{$lang->voted_count}</div></th>
-        <th scope="col"><div>{$lang->date}</div></th>
-    </tr>
-</thead>
-<tbody>
-    <!--@foreach($document_list as $no => $oDocument)-->
-    <tr>
-        <td>{$no}</td>
-        <td><input type="checkbox" name="cart" value="{$oDocument->document_srl}" onclick="doAddDocumentCart(this)" <!--@if($oDocument->isCarted())-->checked="checked"<!--@end-->/></td>
-        <td>
-            <a href="{getUrl('','document_srl',$oDocument->document_srl)}" onclick="window.open(this.href);return false">{$oDocument->getTitleText()}</a>
-
-            <!--@if($oDocument->getCommentCount())-->
-                [{$oDocument->getCommentCount()}]
-            <!--@end-->
-
-            <!--@if($oDocument->getTrackbackCount())-->
-                [{$oDocument->getTrackbackCount()}]
-            <!--@end-->
-        </td>
-        <td><span class="member_{$oDocument->get('member_srl')}">{$oDocument->getNickName()}</span></td>
-        <td><strong>{$oDocument->get('declared_count')}</strong></td>
-        <td>{$oDocument->get('readed_count')}</td>
-        <td>{$oDocument->get('voted_count')}</td>
-        <td>{$oDocument->getRegdate("Y-m-d")}</td>
-    </tr>
-    <!--@end-->
-    <tr>
-        <th colspan="8" class="button">
-            <a href="{getUrl('','module','document','act','dispDocumentManageDocument')}" onclick="popopen(this.href,'manageDocument'); return false;" class="button black strong"><span>{$lang->cmd_manage_document}</span></a>
-            <a href="#" onclick="doCancelDeclare();return false;" class="button"><span>{$lang->cmd_cancel_declare}</span></a>
-        </th>
-    </tr>
-</tbody>
-</table>
-
-
-</form>
-
-<!-- 페이지 네비게이션 -->
-<div class="clear"></div>
-<div class="pagination a1">
-    <a href="{getUrl('page','','module_srl','')}" class="prevEnd">{$lang->first_page}</a> 
-    <!--@while($page_no = $page_navigation->getNextPage())-->
-        <!--@if($page == $page_no)-->
-            <strong>{$page_no}</strong> 
-        <!--@else-->
-            <a href="{getUrl('page',$page_no,'module_srl','')}">{$page_no}</a> 
-        <!--@end-->
-    <!--@end-->
-    <a href="{getUrl('page',$page_navigation->last_page,'module_srl','')}" class="nextEnd">{$lang->last_page}</a>
+<script type="text/javascript">
+xe.lang.msg_empty_search_target = '{$lang->msg_empty_search_target}';
+xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
+</script>
+<load target="js/document_admin.js" usecdn="true" />
+<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
+	<form id="fo_list" action="./" method="get" class="form">
+	<input type="hidden" name="module" value="document" />
+	<input type="hidden" name="page" value="{$page}" />
+		<h1 class="h1">{$lang->cmd_declared_list}</h1>
+		<div class="table even">
+			<div class="cnb">
+				<a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList')}">{$lang->all}</a>
+				| <a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList', 'search_target', 'is_secret', 'search_keyword', 'N')}">{$status_name_list['PUBLIC']}</a>
+				| <a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList', 'search_target', 'is_secret', 'search_keyword', 'Y')}">{$status_name_list['SECRET']}</a>
+				| <a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList', 'search_target', 'is_secret', 'search_keyword', 'temp')}">{$status_name_list['TEMP']}</a>
+				| <a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminDeclared')}" class="active">{$lang->cmd_declared_list}</a>
+			</div>
+			<table width="100%" border="1" cellspacing="0" id="documentListTable">
+				<caption>
+					{$lang->all} ({number_format($total_count)})
+					<div class="side">
+						<span class="btn"><a href="#listManager" class="modalAnchor" onclick="getDocumentList();">{$lang->document_manager}...</a></span>
+					</div>
+				</caption>
+				<thead>
+					<tr>
+						<th scope="col" class="title">{$lang->title}</th>
+						<th scope="col">{$lang->writer}</th>
+						<th scope="col">{$lang->cmd_declare}</th>
+						<th scope="col">{$lang->readed_count}</th>
+						<th scope="col">{$lang->cmd_vote}(+/-)</th>
+						<th scope="col">{$lang->date}</th>
+						<th scope="col"><input type="checkbox" data-name="cart" title="Check All" /></th>
+					</tr>
+				</thead>
+				<tfoot>
+					<tr>
+						<th scope="col" class="title">{$lang->title}</th>
+						<th scope="col">{$lang->writer}</th>
+						<th scope="col">{$lang->cmd_declare}</th>
+						<th scope="col">{$lang->readed_count}</th>
+						<th scope="col">{$lang->cmd_vote}(+/-)</th>
+						<th scope="col">{$lang->date}</th>
+						<th scope="col"><input type="checkbox" data-name="cart" title="Check All" /></th>
+					</tr>
+				</tfoot>
+				<tbody>
+    				<!--@foreach($document_list as $no => $oDocument)-->
+					<tr>
+						<td class="title"><a href="{getUrl('','document_srl',$oDocument->document_srl)}" target="_blank">{$oDocument->getTitle()}</a></td>
+						<td><a href="#popup_menu_area" class="member_{$oDocument->get('member_srl')}">{$oDocument->getNickName()}</a></td>
+						<td>{$oDocument->get('declared_count')}</td>
+						<td>{$oDocument->get('readed_count')}</td>
+						<td>{$oDocument->get('voted_count')}/{$oDocument->get('blamed_count')}</td>
+						<td>{$oDocument->getRegdate("Y-m-d H:i")}</td>
+						<td><input type="checkbox" name="cart" value="{$oDocument->document_srl}" /></td>
+					</tr>
+					<!--@end-->
+				</tbody>
+			</table>
+			<div class="btnArea">
+				<span class="btn"><a href="#listManager" class="modalAnchor" onclick="getDocumentList();">{$lang->document_manager}...</a></span>
+			</div>
+		</div>
+	</form>
+	<div class="modal" id="listManager">
+		<form action="./" method="post" class="fg form" id="manageForm">
+		<input type="hidden" name="module" value="document" />
+		<input type="hidden" name="act" value="procDocumentManageCheckedDocument" />
+		<input type="hidden" name="type" value="" />
+		<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminDeclared')}" />
+			<h2 class="h2">{$lang->document_manager}</h2>
+			<div class="table even">
+				<table width="100%" border="1" cellspacing="0" id="documentManageListTable">
+					<caption>{$lang->selected_document} <strong id="selectedDocumentCount"></strong></caption>
+					<thead>
+						<tr>
+							<th scope="col" class="title">{$lang->title}</th>
+							<th scope="col">{$lang->writer}</th>
+							<th scope="col">{$lang->status}</th>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+			</div>
+			<p class="q"><label for="site">{$lang->selected_document_move}</label></p>
+			<div class="a">
+				<input type="text" name="site_keyword" id="site" />
+				<span class="desc"><a href="#suggestion" class="tgAnchor" onclick="getModuleList();">{$lang->find_site}</a></span>
+				<p>
+					<select name="target_module" id="module_list" style="width:290px">
+						<option>{$lang->select_module}</option>
+					</select>
+				</p>
+				<p>
+					<select name="module_srl" id="mid_list" style="width:290px">
+						<option>{$lang->select_module_id}</option>
+					</select>
+				</p>
+				<p>
+					<select id="target_category" name="target_category" style="width:290px">
+						<option>{$lang->select_category}</option>
+					</select>
+				</p>
+			</div>
+			<p class="q"><label for="message">{$lang->message_notice}</label></p>
+			<p>
+				<textarea cols="42" rows="3" name="message_content" id="message" style="width:98%"></textarea>
+			</p>
+			<div class="btnArea">
+				<span class="btn"><button type="submit" name="type" value="trash">{$lang->cmd_trash}</button></span>
+				<span class="btn"><button type="submit" name="type" value="delete">{$lang->cmd_delete}</button></span>
+				<span class="btn"><button type="submit" name="type" value="move">{$lang->cmd_move}</button></span>
+				<span class="btn"><button type="submit" name="type" value="copy">{$lang->cmd_copy}</button></span>
+				<span class="btn"><button type="submit" name="type" value="cancelDeclare">{$lang->cmd_cancel_declare}</button></span>
+			</div>
+		</form>
+	</div>
+	<div class="search">
+
+<form action="" class="pagination">
+	<input type="hidden" name="error_return_url" value="" />
+	<input type="hidden" name="module" value="{$module}" />
+	<input type="hidden" name="act" value="{$act}" />
+  	<input cond="$search_keyword" type="hidden" name="search_keyword" value="{$search_keyword}" />
+  	<input cond="$search_target" type="hidden" name="search_target" value="{$search_target}" />
+
+	<a href="{getUrl('page', '')}" class="direction">&laquo; FIRST</a>
+	<block cond="$page_navigation->first_page + $page_navigation->page_count > $page_navigation->last_page && $page_navigation->page_count != $page_navigation->total_page">
+		{@$isGoTo = true}
+		<a href="{getUrl('page', '')}">1</a>
+		<a href="#goTo" class="tgAnchor" title="{$lang->cmd_go_to_page}">...</a>
+	</block>
+	<!--@while($page_no = $page_navigation->getNextPage())-->
+		{@$last_page = $page_no}
+		<strong cond="$page_no == $page">{$page_no}</strong>
+		<a cond="$page_no != $page" href="{getUrl('page', $page_no)}">{$page_no}</a>
+	<!--@end-->
+	<block cond="$last_page != $page_navigation->last_page">
+		{@$isGoTo = true}
+		<a href="#goTo" class="tgAnchor" title="{$lang->cmd_go_to_page}">...</a>
+		<a href="{getUrl('page', $page_navigation->last_page)}">{$page_navigation->last_page}</a>
+	</block>
+	<a href="{getUrl('page', $page_navigation->last_page)}" class="direction">LAST &raquo;</a>
+	<span cond="$isGoTo" id="goTo" class="tgContent">
+		<input name="page" title="{$lang->cmd_go_to_page}" />
+		<button type="submit">Go</button>
+	</span>
+</form>
+	</div>

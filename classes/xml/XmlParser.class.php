@@ -19,10 +19,10 @@
         var $input = NULL; ///< input xml
         var $output = array(); ///< output object
 
-        var $lang = "en"; ///< 기본 언어타입
+        var $lang = "en"; // /< The default language type
 
         /**
-         * @brief load a xml file specified by a filename and parse it to return the resultant data object
+         * @brief load a xml file specified by a filename and parse it to Return the resultant data object
          * @param[in] $filename a file path of file
          * @return Returns a data object containing data extracted from a xml file or NULL if a specified file does not exist
          **/
@@ -40,7 +40,7 @@
          * @return Returns a resultant data object or NULL in case of error
          **/
         function parse($input = '') {
-            // 디버그를 위한 컴파일 시작 시간 저장
+            // Save the compile starting time for debugging
             if(__DEBUG__==3) $start = getMicroTime();
 
             $this->lang = Context::getLangType();
@@ -48,12 +48,12 @@
             $this->input = $input?$input:$GLOBALS['HTTP_RAW_POST_DATA'];
 			$this->input = str_replace(array('',''),array('',''),$this->input);
 
-            // 지원언어 종류를 뽑음
+            // extracts a supported language
             preg_match_all("/xml:lang=\"([^\"].+)\"/i", $this->input, $matches);
 
-            // xml:lang이 쓰였을 경우 지원하는 언어종류를 뽑음
+            // extracts the supported lanuage when xml:lang is used
             if(count($matches[1]) && $supported_lang = array_unique($matches[1])) {
-                // supported_lang에 현재 접속자의 lang이 없으면 en이 있는지 확인하여 en이 있으면 en을 기본, 아니면 첫번째것을..
+                // if lang of the first log-in user doesn't exist, apply en by default if exists. Otherwise apply the first lang.
                 if(!in_array($this->lang, $supported_lang)) {
                     if(in_array('en', $supported_lang)) {
                         $this->lang = 'en';
@@ -61,9 +61,9 @@
                         $this->lang = array_shift($supported_lang);
                     }
                 }
-            // 특별한 언어가 지정되지 않았다면 언어체크를 하지 않음
+            // uncheck the language if no specific language is set.
             } else {
-                unset($this->lang);
+				$this->lang = '';
             }
 
             $this->oParser = xml_parser_create('UTF-8');
@@ -78,8 +78,7 @@
             if(!count($this->output)) return;
 
             $output = array_shift($this->output);
-
-            // 디버그를 위한 컴파일 시작 시간 저장
+            // Save compile starting time for debugging
             if(__DEBUG__==3) $GLOBALS['__xmlparse_elapsed__'] += getMicroTime() - $start;
 
             return $output;
@@ -124,7 +123,7 @@
             if($this->lang&&$cur_obj->attrs->{'xml:lang'}&&$cur_obj->attrs->{'xml:lang'}!=$this->lang) return;
             if($this->lang&&$parent_obj->{$node_name}->attrs->{'xml:lang'}&&$parent_obj->{$node_name}->attrs->{'xml:lang'}!=$this->lang) return;
 
-            if($parent_obj->{$node_name}) {
+            if(isset($parent_obj->{$node_name})) {
                 $tmp_obj = $parent_obj->{$node_name};
                 if(is_array($tmp_obj)) {
                     array_push($parent_obj->{$node_name}, $cur_obj);

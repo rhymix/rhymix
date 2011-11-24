@@ -1,105 +1,77 @@
-<!--%import("filter/setup_addon.xml")-->
-<!--%import("css/addon.css")-->
-<!--%import("js/addon.js")-->
-
-<div id="popHeader" class="wide">
-    <h3 class="xeAdmin">{$lang->cmd_setup}</h3>
+<h1 class="h1">{$lang->installed_addon}</h1>
+<h2 class="h2">{$addon_info->title}</h2>
+<ul>
+	<li>{$lang->version}: {$addon_info->version} ({zdate($addon_info->date, 'Y-m-d')})</li>
+	<li>
+		{$lang->author}:
+		<block loop="$addon_info->author => $author">
+			{$author->name} (<a cond="$author->homepage" href="{$author->homepage}" target="_blank">{$author->homepage}</a>, <a cond="$author->email_address" href="mailto:{$author->email_address}">{$author->email_address}</a>) <br />
+		</block>
+	</li>
+	<li cond="$addon_info->homepage">{$lang->homepage}: <a href="{$addon_info->homepage}" target="_blank">{$addon_info->homepage}</a></li>
+</ul>
+<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
+<form action="./" method="post" class="form">
+	<input type="hidden" name="module" value="{$module}" />
+	<input type="hidden" name="act" value="procAddonAdminSetupAddon" />
+	<input type="hidden" name="addon_name" value="{$addon_info->addon_name}" />
 
-<form action="./" method="get" onsubmit="return procFilter(this, setup_addon);">
-<input type="hidden" name="addon_name" value="{$addon_info->addon_name}" />
-
-    <div id="popBody">
-        <table cellspacing="0" class="rowTable">
-        <tr>
-            <th scope="row"><div><label for="textfield1">{$lang->title}</label></div></th>
-            <td>{$addon_info->title} ver. {$addon_info->version} ({zdate($addon_info->date, 'Y-m-d')})</td>
-        </tr>
-        <tr>
-            <th scope="row"><div>{$lang->author}</div></th>
-            <td>
-            <!--@foreach($addon_info->author as $author)-->
-            {$author->name} (<a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->homepage}</a>, <a href="mailto:{$author->email_address}">{$author->email_address}</a>)<br />
-            <!--@endforeach-->
-            </td>
-        </tr>
-        <tr>
-            <th scope="row"><div><label for="textfield2">{$lang->homepage}</label></div></th>
-            <td class="blue"><a href="{$addon_info->homepage}" onclick="window.open(this.href);return false;">{$addon_info->homepage}</a>&nbsp;</td>
-        </tr>
-
-        <!--@foreach($addon_info->extra_vars as $id => $var)-->
-
-        <!--@if($var->group && ((!$group) || $group != $var->group))-->
-        {@$group = $var->group}
-        </table>
-
-        <h4 class="xeAdmin">{$group}</h4>
-        <table cellspacing="0" class="rowTable">
-        <col width="100" />
-        <col width="*" />
-        <!--@end-->
-
-        <tr class="row{$cycle_idx}">
-            <th scope="row"><div>{$var->title}</div></th>
-            <td>
-                <!--@if($var->type == 'text')-->
-                <input type="text" name="{$var->name}" id="{$var->name}" value="{htmlspecialchars($var->value)}" class="inputTypeText w400 lang_code" />
-
-                <!--@elseif($var->type == 'textarea')-->
-                <textarea name="{$var->name}" id="{$var->name}" class="inputTypeTextArea lang_code">{htmlspecialchars($var->value)}</textarea>
-
-                <!--@elseif($var->type == 'select')-->
-                <select name="{$var->name}">
-                    <!--@foreach($var->options as $val)-->
-                    <option value="{$val->value}"<!--@if($var->value == $val->value)--> selected="selected"<!--@end-->>{$val->title}</option>
-                    <!--@end-->
-                </select>
-                <!--@end-->
-                <p class="clear">{nl2br($var->description)}</p>
-            </td>
-        </tr>
-        <!--@end-->
-
-        <!--@if($group)-->
-        </table>
-        <table cellspacing="0" class="rowTable">
-        <!--@end-->
-
-        <!--@if($mid_list)-->
-        <tr>
-            <th scope="row"><div>
-                {$lang->module}
-                <input type="checkbox" onclick="XE.checkboxToggleAll('mid_list'); return false;" />
-            </div></th>
-            <td>
-                <p>{$lang->about_addon_mid}</p>
-                <!--@foreach($mid_list as $module_category_srl => $modules)-->
-                    <div class="module_category_title">
-                        <input type="checkbox" onclick="XE.checkboxToggleAll('mid_list', { wrap:'section_{$module_category_srl}' });" />
-                    <!--@if($modules->title)-->
-                        {$modules->title}
-                    <!--@else-->
-                        {$lang->none_category}
-                    <!--@end-->
-                    </div>
-
-                    <div id="section_{$module_category_srl}">
-                    <!--@foreach($modules->list as $key => $val)-->
-                        <div class="module_list">
-                            <input type="checkbox" value="{$key}" name="mid_list" id="chk_mid_list_{$key}" <!--@if(in_array($key, $addon_info->mid_list))-->checked="checked"<!--@end--> />
-                            <label for="chk_mid_list_{$key}">{$key} ({$val->browser_title})</label>
-                        </div>
-                    <!--@end-->
-                    </div>
-                <!--@end-->
-            </td>
-        </tr>
-        <!--@endif-->
-        </table>
-    </div>
-
-    <div id="popFooter">
-        <span class="button black strong"><input type="submit" value="{$lang->cmd_apply}" /></span>
-    </div>
+	<block cond="count($addon_info->extra_vars)">
+		<block loop="$addon_info->extra_vars => $id, $var">
+			<block cond="!$not_first && !$var->group"><ul></block>
+			<block cond="$group != $var->group">
+				<block cond="$not_first"></ul></block>
+				<h3 class="h3">{$var->group}</h3>
+				<ul>
+				{@$group = $var->group}
+			</block>
+			{@$not_first = true}
+			<li>
+				<p class="q"><label for="{$var->name}">{$var->title}</label></p>
+				<p class="a">
+					<input cond="$var->type == 'text'" type="text" name="{$var->name}" id="{$var->name}" value="{htmlspecialchars($var->value)}" class="lang_code">
+					<textarea cond="$var->type == 'textarea'" name="{$var->name}" id="{$var->name}" class="lang_code">{htmlspecialchars($var->value)}</textarea>
+					<select cond="$var->type == 'select'" name="{$var->name}" id="{$var->name}">
+						<option loop="$var->options => $option" value="{$option->value}" selected="selected"|cond="$var->value == $option->value">{$option->title}</option>
+					</select>
+				</p>
+				<p class="desc">{nl2br($var->description)}</p>
+			</li>
+		</block>
+		</ul>
+	</block>
+	<div cond="!count($addon_info->extra_vars)" class="message info">
+		<p>{$lang->msg_not_exist_option}</p>
+	</div>
+	<block cond="$mid_list">
+		<h3 class="h3">{$lang->module}</h3>
+		<p>{$lang->about_addon_mid}</p>
+		<p><input type="checkbox" id="check_all" /> <label for="check_all">Check all</label></p>
+		<fieldset loop="$mid_list => $module_category_srl, $modules" style="border: 1px solid #ccc; margin:1em 0; padding:.5em 1em">
+			<legend cond="$modules->title">{$modules->title}</legend>
+			<legend cond="!$modules->title">{$lang->none_category}</legend>
+			<div loop="$modules->list => $key, $val">
+				<input type="checkbox" value="{$key}" name="mid_list[]" id="chk_mid_list_{$key}" checked="checked"|cond="in_array($key, $addon_info->mid_list)"/>
+				<label for="chk_mid_list_{$key}">{$key} ({$val->browser_title})</label>
+			</div>
+		</fieldset>
+	</block>
+	<div class="btnArea">
+		<span class="btn medium"><input type="submit" value="{$lang->cmd_save}" /></span>
+	</div>
 </form>
+</block>
+<script type="text/javascript">
+(function($){
+	$('#check_all')
+		.bind('click', function(e){
+			if (this.checked){
+				$('input[name=mid_list\\[\\]]').attr('checked', 'checked');
+			}else{
+				$('input[name=mid_list\\[\\]]').removeAttr('checked');
+			}
+		});
+})(jQuery);
+</script>

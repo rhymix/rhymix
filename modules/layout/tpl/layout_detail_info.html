@@ -1,10 +1,8 @@
-<div id="popHeader">
-    <h3 class="xeAdmin">{$lang->layout_maker}</h3>
-</div>
+<h1 class="h1">{$lang->layout_maker}</h1>
 
-<div id="popBody">
-    <table cellspacing="0" class="rowTable">
-    <tr class="row2">
+<div class="table">
+    <table width="100%" border="1" cellspacing="0">
+    <tr>
         <th scope="row"><div>{$lang->title}</div></th>
         <td>{$layout_info->title} ver {$layout_info->version}</td>
     </tr>
@@ -17,7 +15,7 @@
         </td>
     </tr>
 <!--@if($layout_info->homepage)-->
-    <tr class="row2">
+    <tr>
         <th scope="row"><div>{$lang->homepage}</div></th>
         <td><a href="{$layout_info->author->homepage}" onclick="window.open(this.href);return false;">{$layout_info->homepage}</a></td>
     </tr><!--@end-->
@@ -26,7 +24,7 @@
         <td>{zdate($layout_info->date, 'Y-m-d')}</td>
     </tr>
 <!--@if($layout_info->license || $layout_info->license_link)-->
-    <tr class="row2">
+    <tr>
         <th scope="row"><div>{$lang->layout_license}</div></th>
         <td>
             {nl2br(trim($layout_info->license))}
@@ -45,12 +43,10 @@
 </div>
 
 <!--@if($layout_info->history)-->
-<div id="popHistoryHeadder">
-    <h3 class="xeAdmin">{$lang->layout_history}</h3>
-</div>
+<h1 class="h1">{$lang->layout_history}</h1>
 
-<div id="popHistoryBody">
-    <table cellspacing="0" class="rowTable">
+<div class="table">
+    <table width="100%" border="1" cellspacing="0">
     <!--@foreach($layout_info->history as $history)-->
     <tr class="row{$cycle_idx}">
         <th scope="row"><div>

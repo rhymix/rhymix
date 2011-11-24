@@ -17,7 +17,7 @@
     </description>
     <description xml:lang="en">
         This module manages session data.
-        You will get not only session setting or using but also session-level data such as visitors by using session data.
+        It will allow you to get session setting, usage, and session-level data such as visitors.
     </description>
     <description xml:lang="tr">
         Bu modül oturum verisini yönetir.

@@ -1,0 +1,47 @@
+<load target="user_layout.css" />
+<div class="user_layout">
+	<div class="header">
+		<h1>Site Logo</h1>
+		<form action="{getUrl()}" method="get" class="search">
+			<input type="hidden" name="vid" value="{$vid}" />
+			<input type="hidden" name="mid" value="{$mid}" />
+			<input type="hidden" name="act" value="IS" />
+			<input type="text" name="is_keyword" value="{$is_keyword}" title="{$lang->cmd_search}" />
+			<input type="submit" value="{$lang->cmd_search}" />
+		</form>
+		<hr />
+		<div class="gnb">
+			.gnb
+			<ul>
+				<li loop="$global_menu->list=>$key1,$val1" class="active"|cond="$val1['selected']"><a href="{$val1['href']}" target="_blank"|cond="$val1['open_window']=='Y'">{$val1['link']}</a>
+					<ul cond="$val1['list']">
+						<li loop="$val1['list']=>$key2,$val2" class="active"|cond="$val2['selected']"><a href="{$val2['href']}" target="_blank"|cond="$val2['open_window']=='Y'">{$val2['link']}</a></li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<hr />
+	<div class="body">
+		<div class="lnb">
+			<div class="account">
+				<img widget="login_info" skin="xe_official" />
+			</div>
+			<hr />
+			.lnb
+			<h2 loop="$global_menu->list=>$key1,$val1" cond="$val1['selected']"><a href="{$val1['href']}" target="_blank"|cond="$val1['open_window']=='Y'">{$val1['link']}</a></h2>
+			<ul loop="$global_menu->list=>$key1,$val1" cond="$val1['selected'] && $val1['list']">
+				<li loop="$val1['list']=>$key2,$val2" class="active"|cond="$val2['selected']"><a href="{$val2['href']}" target="_blank"|cond="$val2['open_window']=='Y'">{$val2['link']}</a>
+					<ul cond="$val2['list']">
+						<li loop="$val2['list']=>$key3,$val3" class="active"|cond="$val3['selected']"><a href="{$val3['href']}" target="_blank"|cond="$val3['open_window']=='Y'">{$val3['link']}</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+		<hr />
+		<div class="content">.content{$content}</div>
+	</div>
+	<hr />
+	<div class="footer">.footer</div>
+</div>

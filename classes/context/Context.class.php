@@ -24,8 +24,7 @@ class Context {
 	var $ftp_info = NULL;       ///< FTP info.
 
 	var $ssl_actions = array(); ///< list of actions to be sent via ssl (it is used by javascript xml handler for ajax)
-	var $js_files_map  = array(); ///< hash map of javascript files. The file name is used as a key
-	var $css_files_map = array(); ///< hash map of css files. The file name is used as a key
+	var $oFrontEndFileHandler;
 
 	var $html_header = NULL;    ///< script codes in <head>..</head>
 	var $body_class  = array();  ///< classnames of <body>
@@ -55,6 +54,14 @@ class Context {
 		if(!$theInstance) $theInstance = new Context();
 
 		return $theInstance;
+	}
+
+	/**
+	 * @brief cunstructor
+	 **/
+	function Context()
+	{
+		$this->oFrontEndFileHandler = new FrontEndFileHandler();
 	}
 
 	/**
@@ -120,19 +127,20 @@ class Context {
 		$this->loadLang(_XE_PATH_.'modules/module/lang');
 
 		// set session handler
-		if($this->db_info->use_db_session != 'N') {
+		if(Context::isInstalled() && $this->db_info->use_db_session != 'N') {
 			$oSessionModel = &getModel('session');
 			$oSessionController = &getController('session');
 			session_set_save_handler(
-				array(&$oSessionController,"open"),
-				array(&$oSessionController,"close"),
-				array(&$oSessionModel,"read"),
-				array(&$oSessionController,"write"),
-				array(&$oSessionController,"destroy"),
-				array(&$oSessionController,"gc")
+				array(&$oSessionController, 'open'),
+				array(&$oSessionController, 'close'),
+				array(&$oSessionModel, 'read'),
+				array(&$oSessionController, 'write'),
+				array(&$oSessionController, 'destroy'),
+				array(&$oSessionController, 'gc')
 			);
 		}
 		session_start();
+		if($sess=$_POST[session_name()]) session_id($sess);
 
 		// set authentication information in Context and session
 		if(Context::isInstalled()) {
@@ -166,7 +174,7 @@ class Context {
 		if($_SERVER['REQUEST_METHOD'] == 'GET') {
 			if($this->get_vars) {
 				foreach($this->get_vars as $key=>$val) {
-					if(!$val) continue;
+					if(!strlen($val)) continue;
 					if(is_array($val)&&count($val)) {
 						foreach($val as $k => $v) {
 							$url .= ($url?'&':'').$key.'['.$k.']='.urlencode($v);
@@ -210,7 +218,28 @@ class Context {
 		$config_file = $self->getConfigFile();
 		if(is_readable($config_file)) @include($config_file);
 
-		if(!$db_info->time_zone) $db_info->time_zone = date("O");
+                // If master_db information does not exist, the config file needs to be updated
+                if(!isset($db_info->master_db)) {
+                    $db_info->master_db = array();
+                    $db_info->master_db["db_type"] = $db_info->db_type; unset($db_info->db_type);
+                    $db_info->master_db["db_port"] = $db_info->db_port; unset($db_info->db_port);
+                    $db_info->master_db["db_hostname"] = $db_info->db_hostname; unset($db_info->db_hostname);
+                    $db_info->master_db["db_password"] = $db_info->db_password; unset($db_info->db_password);
+                    $db_info->master_db["db_database"] = $db_info->db_database; unset($db_info->db_database);
+                    $db_info->master_db["db_userid"] = $db_info->db_userid; unset($db_info->db_userid);
+                    $db_info->master_db["db_table_prefix"] = $db_info->db_table_prefix; unset($db_info->db_table_prefix);
+                    if(substr($db_info->master_db["db_table_prefix"],-1)!='_') $db_info->master_db["db_table_prefix"] .= '_';
+
+                    $slave_db = $db_info->master_db;
+                    $db_info->slave_db = array($slave_db);
+					
+                    $self->setDBInfo($db_info);
+
+                    $oInstallController = &getController('install');
+                    $oInstallController->makeConfigFile();
+                }
+
+		if(!$db_info->time_zone) $db_info->time_zone = date('O');
 		$GLOBALS['_time_zone'] = $db_info->time_zone;
 
 		if($db_info->qmail_compatibility != 'Y') $db_info->qmail_compatibility = 'N';
@@ -231,7 +260,7 @@ class Context {
 	 **/
 	function getDBType() {
 		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
-		return $self->db_info->db_type;
+		return $self->db_info->master_db["db_type"];
 	}
 
 	/**
@@ -251,6 +280,16 @@ class Context {
 	function getDBInfo() {
 		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
 		return $self->db_info;
+	}
+
+	/**
+	 * @brief return ssl status
+	 * @return none|always|optional
+	 **/
+	function getSslStatus()
+	{
+		$dbInfo = Context::getDBInfo();
+		return $dbInfo->use_ssl;
 	}
 
 	/**
@@ -330,7 +369,7 @@ class Context {
 				$url_info = parse_url($url);
 				$url_info['query'].= ($url_info['query']?'&':'').'SSOID='.session_id();
 				$redirect_url = sprintf('%s://%s%s%s?%s',$url_info['scheme'],$url_info['host'],$url_info['port']?':'.$url_info['port']:'',$url_info['path'], $url_info['query']);
-				header("location:".$redirect_url);
+				header('location:'.$redirect_url);
 				return false;
 			}
 		// for sites requesting SSO validation
@@ -341,13 +380,13 @@ class Context {
 				setcookie(session_name(), $session_name);
 
 				$url = preg_replace('/([\?\&])$/','',str_replace('SSOID='.$session_name,'',Context::getRequestUrl()));
-				header("location:".$url);
+				header('location:'.$url);
 				return false;
 			// send SSO request
 			} else if($_COOKIE['sso']!=md5(Context::getRequestUri()) && !Context::get('SSOID')) {
 				setcookie('sso',md5(Context::getRequestUri()),0,'/');
 				$url = sprintf("%s?default_url=%s", $default_url, base64_encode(Context::getRequestUrl()));
-				header("location:".$url);
+				header('location:'.$url);
 				return false;
 			}
 		}
@@ -413,7 +452,7 @@ class Context {
 		$oModuleController = &getController('module');
 		$oModuleController->replaceDefinedLangCode($self->site_title);
 
-		return $self->site_title;
+		return htmlspecialchars($self->site_title);
 	}
 	/**
 	 * @deprecated
@@ -432,20 +471,61 @@ class Context {
 		if(!is_object($lang)) $lang = new stdClass;
 		if(!$self->lang_type) return;
 
-		if(substr($path,-1)!='/') $path .= '/';
-		$path_tpl = $path.'%s.lang.php';
-		$filename = sprintf($path_tpl, $self->lang_type);
-		$langs    = array('ko','en'); // this will be configurable.
-		while(!is_readable($filename) && $langs[0]) {
-			$filename = sprintf($path_tpl, array_shift($langs));
-		}
-		if(!is_readable($filename)) return;
+		$filename = $self->_loadXmlLang($path);
+		if(!$filename) $filename = $self->_loadPhpLang($path);
 
 		if(!is_array($self->loaded_lang_files)) $self->loaded_lang_files = array();
 		if(in_array($filename, $self->loaded_lang_files)) return;
-		$self->loaded_lang_files[] = $filename;
 
-		@include($filename);
+		if ($filename && is_readable($filename)){
+			$self->loaded_lang_files[] = $filename;
+			@include($filename);
+		}else{
+			$self->_evalxmlLang($path);
+		}
+	}
+
+	function _evalxmlLang($path) {
+		global $lang;
+		
+		$_path = 'eval://'.$path;
+
+		if(in_array($_path, $this->loaded_lang_files)) return;
+
+		if(substr($path,-1)!='/') $path .= '/';
+		$file = $path.'lang.xml';
+
+		$oXmlLangParser = new XmlLangParser($file, $this->lang_type);
+		$content = $oXmlLangParser->getCompileContent();
+
+		if ($content){
+			$this->loaded_lang_files[] = $_path;
+			eval($content);
+		}
+	}
+
+	function _loadXmlLang($path) {
+		if(substr($path,-1)!='/') $path .= '/';
+		$file = $path.'lang.xml';
+
+		$oXmlLangParser = new XmlLangParser($file, $this->lang_type);
+		$file = $oXmlLangParser->compile();
+
+		return $file;
+	}
+
+	function _loadPhpLang($path) {
+		if(substr($path,-1)!='/') $path .= '/';
+		$path_tpl = $path.'%s.lang.php';
+		$file = sprintf($path_tpl, $this->lang_type);
+
+		$langs = array('ko','en'); // this will be configurable.
+		while(!is_readable($file) && $langs[0]) {
+			$file = sprintf($path_tpl, array_shift($langs));
+		}
+
+		if(!is_readable($file)) return false;
+		return $file;
 	}
 
 	/**
@@ -564,15 +644,15 @@ class Context {
 
 	/**
 	 * @brief determine request method (GET/POST/XMLRPC/JSON)
-	 * @param[in] $type request method
+	 * @param[in] $type request method (optional)
 	 * @return none
 	 **/
-	function setRequestMethod($type) {
+	function setRequestMethod($type='') {
 		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
 
 		($type && $self->request_method=$type) or
-		(strpos($_SERVER['CONTENT_TYPE'],'json') && $this->request_method='JSON') or
-		($GLOBALS['HTTP_RAW_POST_DATA'] && $this->request_method='XMLRPC') or
+		(strpos($_SERVER['CONTENT_TYPE'],'json') && $self->request_method='JSON') or
+		($GLOBALS['HTTP_RAW_POST_DATA'] && $self->request_method='XMLRPC') or
 		($self->request_method = $_SERVER['REQUEST_METHOD']);
 	}
 
@@ -584,7 +664,7 @@ class Context {
 		if(!count($_REQUEST)) return;
 
 		foreach($_REQUEST as $key => $val) {
-			if($val === "" || Context::get($key)) continue;
+			if($val === '' || Context::get($key)) continue;
 			$val = $this->_filterRequestVar($key, $val);
 
 			if($this->getRequestMethod()=='GET'&&isset($_GET[$key])) $set_to_vars = true;
@@ -640,15 +720,15 @@ class Context {
 	 * @return filtered value
 	 **/
 	function _filterRequestVar($key, $val, $do_stripslashes = 1) {
-		if( ($key == "page" || $key == "cpage" || substr($key,-3)=="srl")) return !preg_match('/^[0-9,]+$/',$val)?(int)$val:$val;
+		if( ($key == 'page' || $key == 'cpage' || substr($key,-3)=='srl')) return !preg_match('/^[0-9,]+$/',$val)?(int)$val:$val;
 		if(is_array($val) && count($val) ) {
 			foreach($val as $k => $v) {
-				if($do_stripslashes && version_compare(PHP_VERSION, "5.9.0", "<") && get_magic_quotes_gpc()) $v = stripslashes($v);
+				if($do_stripslashes && version_compare(PHP_VERSION, '5.9.0', '<') && get_magic_quotes_gpc()) $v = stripslashes($v);
 				$v = trim($v);
 				$val[$k] = $v;
 			}
 		} else {
-			if($do_stripslashes && version_compare(PHP_VERSION, "5.9.0", "<") && get_magic_quotes_gpc()) $val = stripslashes($val);
+			if($do_stripslashes && version_compare(PHP_VERSION, '5.9.0', '<') && get_magic_quotes_gpc()) $val = stripslashes($val);
 			$val = trim($val);
 		}
 		return $val;
@@ -669,7 +749,7 @@ class Context {
 	 **/
 	function _setUploadedArgument() {
 		if($this->getRequestMethod() != 'POST') return;
-		if(!preg_match("/multipart\/form-data/i",$_SERVER['CONTENT_TYPE'])) return;
+		if(!preg_match('/multipart\/form-data/i',$_SERVER['CONTENT_TYPE'])) return;
 		if(!$_FILES) return;
 
 		foreach($_FILES as $key => $val) {
@@ -709,7 +789,7 @@ class Context {
 	 * @brief make URL with args_list upon request URL
 	 * @return result URL
 	 **/
-	function getUrl($num_args=0, $args_list=array(), $domain = null, $encode = true) {
+	function getUrl($num_args=0, $args_list=array(), $domain = null, $encode = true, $autoEncode = false) {
 		static $site_module_info = null;
 		static $current_info = null;
 
@@ -788,7 +868,9 @@ class Context {
 			// if using rewrite mod
 			if($self->allow_rewrite) {
 				$var_keys = array_keys($get_vars);
-				$target   = implode('.', $var_keys);
+				sort($var_keys);
+
+				$target = implode('.', $var_keys);
 
 				$act = $get_vars['act'];
 				$vid = $get_vars['vid'];
@@ -817,7 +899,7 @@ class Context {
 					'act.document_srl.key.vid'=>($act=='trackback')?"$vid/$srl/$key/$act":''
 				);
 
-				$query = $target_map[$target];
+				$query  = $target_map[$target];
 			}
 
 			if(!$query) {
@@ -853,18 +935,37 @@ class Context {
 			else $query = getScriptPath().$query;
 		}
 
-		return $encode?htmlspecialchars($query):$query;
+		if ($encode){
+			if($autoEncode){
+				$parsedUrl = parse_url($query);
+				parse_str($parsedUrl['query'], $output);
+				$encode_queries = array();
+				foreach($output as $key=>$value){
+					if (preg_match('/&([a-z]{2,}|#\d+);/', urldecode($value))){
+						$value = urlencode(htmlspecialchars_decode(urldecode($value)));
+					}
+					$encode_queries[] = $key.'='.$value;
+				}
+				$encode_query = implode('&', $encode_queries);
+				return htmlspecialchars($parsedUrl['path'].'?'.$encode_query);
+			}
+			else{
+				return htmlspecialchars($query);
+			}
+		}else{
+			return $query;		
+		}
 	}
 
 	/**
-	 * @brief 요청이 들어온 URL에서 argument를 제거하여 return
+	 * @brief Return after removing an argument on the requested URL
 	 **/
 	function getRequestUri($ssl_mode = FOLLOW_REQUEST_SSL, $domain = null) {
 		static $url = array();
 
 		// HTTP Request가 아니면 패스
 		if(!isset($_SERVER['SERVER_PROTOCOL'])) return ;
-		if(Context::get('_use_ssl') == "always") $ssl_mode = ENFORCE_SSL;
+		if(Context::get('_use_ssl') == 'always') $ssl_mode = ENFORCE_SSL;
 
 		if($domain) $domain_key = md5($domain);
 		else $domain_key = 'default';
@@ -903,7 +1004,7 @@ class Context {
 			elseif($url_info['port']==80) unset($url_info['port']);
 		}
 
-		$url[$ssl_mode][$domain_key] = sprintf("%s://%s%s%s",$use_ssl?'https':$url_info['scheme'], $url_info['host'], $url_info['port']&&$url_info['port']!=80?':'.$url_info['port']:'',$url_info['path']);
+		$url[$ssl_mode][$domain_key] = sprintf('%s://%s%s%s',$use_ssl?'https':$url_info['scheme'], $url_info['host'], $url_info['port']&&$url_info['port']!=80?':'.$url_info['port']:'',$url_info['path']);
 
 		return $url[$ssl_mode][$domain_key];
 	}
@@ -919,17 +1020,19 @@ class Context {
 	}
 
 	/**
-	 * @brief key값에 해당하는 값을 return
+	 * @brief return key value
 	 **/
 	function get($key) {
 		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
+
+		if(!isset($self->context->{$key})) return null;
 		return $self->context->{$key};
 	}
 
 	/**
-	 * @brief 받고자 하는 변수만 object에 입력하여 받음
-	 *
-	 * key1, key2, key3 .. 등의 인자를 주어 여러개의 변수를 object vars로 세팅하여 받을 수 있음
+    * @brief get a specified var in object
+    *
+    * get one more vars in object vars with given arguments(key1, key2, key3,...)
 	 **/
 	function gets() {
 		$num_args = func_num_args();
@@ -944,7 +1047,7 @@ class Context {
 	}
 
 	/**
-	 * @brief 모든 데이터를 return
+	 * @brief Return all data
 	 **/
 	function getAll() {
 		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
@@ -952,16 +1055,17 @@ class Context {
 	}
 
 	/**
-	 * @brief GET/POST/XMLRPC에서 넘어온 변수값을 return
+	 * @brief Return values from the GET/POST/XMLRPC
 	 **/
 	function getRequestVars() {
 		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
-		return clone($self->get_vars);
+		if($self->get_vars) return clone($self->get_vars);
+		return new stdClass;
 	}
 
 	/**
-	 * @brief SSL로 인증되어야 할 action이 있을 경우 등록
-	 * common/js/xml_handler.js에서 이 action들에 대해서 https로 전송되도록 함
+    * @brief Register if actions is to be encrypted by SSL
+    * Those actions are sent to https in common/js/xml_handler.js
 	 **/
 	function addSSLAction($action) {
 		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
@@ -982,6 +1086,7 @@ class Context {
 	/**
 	 * @brief normalize file path
 	 * @return normalized file path
+	 * @deprecated
 	 */
 	function normalizeFilePath($file) {
 		if(strpos($file,'://')===false && $file{0}!='/' && $file{0}!='.') $file = './'.$file;
@@ -992,37 +1097,78 @@ class Context {
 	}
 
 	/**
-	 * @brief js file을 추가
+	 * @deprecated
 	 **/
-	function addJsFile($file, $optimized = false, $targetie = '',$index=0, $type='head') {
-		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
+	function getAbsFileUrl($file) {
+		$file = Context::normalizeFilePath($file);
+		if(strpos($file,'./')===0) $file = dirname($_SERVER['SCRIPT_NAME']).'/'.substr($file,2);
+		elseif(strpos($file,'../')===0) $file = Context::normalizeFilePath(dirname($_SERVER['SCRIPT_NAME'])."/{$file}");
 
-		$avail_types = array('head', 'body');
-		if(!in_array($type, $avail_types)) $type = $avail_types[0];
-
-		$key = $self->normalizeFilePath($file)."\t".$targetie;
-		$map = &$self->js_files_map;
-
-		// Is this file already registered?
-		if (!is_array($map[$type])) $map[$type] = array();
-		if (!isset($map[$type][$key]) || (int)$map[$type][$key] > (int)$index) $map[$type][$key] = (int)$index+count($map[$type])/1000-1;
+		return $file;
 	}
 
 	/**
-	 * @brief js file을 제거
+	 * @brief load front end file
+	 * @params $args array
+	 * case js
+	 *		$args[0]: file name
+	 *		$args[1]: type (head | body)
+	 *		$args[2]: target IE
+	 *		$args[3]: index
+	 * case css
+	 *		$args[0]: file name
+	 *		$args[1]: media
+	 *		$args[2]: target IE
+	 *		$args[3]: index
+	 **/
+	function loadFile($args, $useCdn = false, $cdnPrefix = '', $cdnVersion = '')
+	{
+		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
+
+		if ($useCdn && !$cdnPrefix)
+		{
+			$cdnPrefix = __XE_CDN_PREFIX__;
+			$cdnVersion = __XE_CDN_VERSION__;
+		}
+
+		$self->oFrontEndFileHandler->loadFile($args, $useCdn, $cdnPrefix, $cdnVersion);
+	}
+
+	function unloadFile($file, $targetIe = '', $media = 'all')
+	{
+		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
+		$self->oFrontEndFileHandler->unloadFile($file, $targetIe, $media);
+	}
+
+	function unloadAllFiles($type = 'all')
+	{
+		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
+		$self->oFrontEndFileHandler->unloadAllFiles($type);
+	}
+
+	/**
+	 * @brief Add the js file
+	 * @deprecated
+	 **/
+	function addJsFile($file, $optimized = false, $targetie = '',$index=0, $type='head', $isRuleset = false) {
+		if($isRuleset)
+		{
+			$validator   = new Validator($file);
+			$validator->setCacheDir('files/cache');
+			$file = $validator->getJsPath();
+		}
+
+		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
+		$self->oFrontEndFileHandler->loadFile(array($file, $type, $targetie, $index));
+	}
+
+	/**
+	 * @brief Remove the js file
+	 * @deprecated
 	 **/
 	function unloadJsFile($file, $optimized = false, $targetie = '') {
 		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
-
-		$realfile = realpath($file);
-
-		foreach($self->js_files_map as $key=>$val) {
-			list($_file, $_targetie) = explode("\t", $key);
-			if(realpath($_file)==$realfile && $_targetie == $targetie) {
-				unset($self->js_files_map[$key]);
-				return;
-			}
-		}
+		$self->oFrontEndFileHandler->unloadFile($file, $targetie);
 	}
 
 	/**
@@ -1030,18 +1176,18 @@ class Context {
 	 **/
 	function unloadAllJsFiles() {
 		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
-		$self->js_files_map = array();
+		$self->oFrontEndFileHandler->unloadAllJsFiles();
 	}
 
 	/**
-	 * @brief javascript filter 추가
+	 * @brief Add javascript filter
 	 **/
 	function addJsFilter($path, $filename) {
 		$oXmlFilter = new XmlJSFilter($path, $filename);
 		$oXmlFilter->compile();
 	}
 	/**
-	 * @brief array_unique와 동작은 동일하나 file 첨자에 대해서만 동작함
+	 * @brief Same as array_unique but works only for file subscript
 	 * @deprecated
  	 **/
 	function _getUniqueFileList($files) {
@@ -1063,49 +1209,25 @@ class Context {
 	 **/
 	function getJsFile($type='head') {
 		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
-
-		if(!is_array($self->js_files_map[$type])) $self->js_files_map[$type] = array();
-
-		$ret = array();
-		$map = &$self->js_files_map[$type];
-
-		asort($self->js_files_map[$type]);
-
-		foreach($map as $key=>$val) {
-			list($file, $targetie) = explode("\t", $key);
-			$ret[] = array('file'=>$file, 'targetie'=>$targetie);
-		}
-
-		return $ret;
+		return $self->oFrontEndFileHandler->getJsFileList($type);
 	}
 
 	/**
-	 * @brief CSS file 추가
+	 * @brief Add CSS file
+	 * @deprecated
 	 **/
 	function addCSSFile($file, $optimized=false, $media='all', $targetie='',$index=0) {
 		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
-
-		$key = $self->normalizeFilePath($file)."\t".$targetie."\t".$media;
-		$map = &$self->css_files_map;
-
-		if (!isset($map[$key]) || (int)$map[$key] > (int)$index) $map[$key] = (int)$index+count($map)/100-1;
+		$self->oFrontEndFileHandler->loadFile(array($file, $media, $targetie, $index));
 	}
 
 	/**
-	 * @brief css file을 제거
+	 * @brief Remove css file
+	 * @deprecated
 	 **/
 	function unloadCSSFile($file, $optimized = false, $media = 'all', $targetie = '') {
 		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
-
-		$realfile = realpath($file);
-
-		foreach($self->css_files_map as $key => $val) {
-			list($_file, $_targetie, $_media) = explode("\t", $key);
-			if(realpath($_file)==$realfile && $_media==$media && $_targetie==$targetie) {
-				unset($self->css_files_map[$key]);
-				return;
-			}
-		}
+		$self->oFrontEndFileHandler->unloadFile($file, $targetie, $media);
 	}
 
 	/**
@@ -1113,7 +1235,7 @@ class Context {
 	 **/
 	function unloadAllCSSFiles() {
 		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
-		$self->css_files_map = array();
+		$self->oFrontEndFileHandler->unloadAllCssFiles();
 	}
 
 	/**
@@ -1121,16 +1243,7 @@ class Context {
 	 **/
 	function getCSSFile() {
 		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
-	
-		asort($self->css_files_map);
-		$ret = array();
-		
-		foreach($self->css_files_map as $key=>$val) {
-			list($_file, $_targetie, $_media) = explode("\t", $key);
-			$ret[] = array('file'=>$_file, 'media'=>$_media, 'targetie'=>$_targetie);
-		}
-		
-		return $ret;
+		return $self->oFrontEndFileHandler->getCssFileList();
 	}
 
 	/**
@@ -1145,7 +1258,7 @@ class Context {
 		if($loaded_plugins[$plugin_name]) return;
 		$loaded_plugins[$plugin_name] = true;
 
-		$plugin_path = "./common/js/plugins/$plugin_name/";
+		$plugin_path = './common/js/plugins/'.$plugin_name.'/';
 		$info_file   = $plugin_path.'plugin.load';
 		if(!is_readable($info_file)) return;
 
@@ -1155,15 +1268,15 @@ class Context {
 			if(!$filename) continue;
 
 			if(substr($filename,0,2)=='./') $filename = substr($filename,2);
-			if(preg_match('/\.js$/i',  $filename))     $self->addJsFile($plugin_path.$filename, false, '', 0, 'body');
-			elseif(preg_match('/\.css$/i', $filename)) $self->addCSSFile($plugin_path.$filename, false, 'all', '', 0);
+			if(preg_match('/\.js$/i',  $filename))     $self->loadFile(array($plugin_path.$filename, 'body', '', 0), true);
+			elseif(preg_match('/\.css$/i', $filename)) $self->loadFile(array($plugin_path.$filename, 'all', '', 0), true);
 		}
 
 		if(is_dir($plugin_path.'lang')) $self->loadLang($plugin_path.'lang');
 	}
 
 	/**
-	 * @brief HtmlHeader 추가
+	 * @brief Add HtmlHeader
 	 **/
 	function addHtmlHeader($header) {
 		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
@@ -1179,7 +1292,7 @@ class Context {
 	}
 
 	/**
-	 * @brief Html Body에 css class 추가
+	 * @brief Add css class to Html Body
 	 **/
 	function addBodyClass($class_name) {
 		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
@@ -1187,7 +1300,7 @@ class Context {
 	}
 
 	/**
-	 * @brief Html Body에 css class return
+	 * @brief Return css class to Html Body
 	 **/
 	function getBodyClass() {
 		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
@@ -1232,14 +1345,14 @@ class Context {
 	 * @brief returns the path of the config file that contains database settings
 	 **/
 	function getConfigFile() {
-		return _XE_PATH_."files/config/db.config.php";
+		return _XE_PATH_.'files/config/db.config.php';
 	}
 
 	/**
 	 * @brief returns the path of the config file that contains FTP settings
 	 **/
 	function getFTPConfigFile() {
-		return _XE_PATH_."files/config/ftp.config.php";
+		return _XE_PATH_.'files/config/ftp.config.php';
 	}
 
 	/**
@@ -1251,7 +1364,7 @@ class Context {
 	}
 
 	/**
-	 * @brief 내용의 위젯이나 기타 기능에 대한 code를 실제 code로 변경
+	 * @brief Transforms codes about widget or other features into the actual code, deprecatred
 	 **/
 	function transContent($content) {
 		return $content;
@@ -1299,6 +1412,37 @@ class Context {
 		$path = '/'.implode('/', $_path);
 		if(substr($path,-1)!='/') $path .= '/';
 		return $path;
+	}
+
+	/**
+	 * @brief returns the list of meta tags
+	 **/
+	function getMetaTag() {
+		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
+
+		if(!is_array($self->meta_tags)) $self->meta_tags = array();
+
+		$ret = array();
+		$map = &$self->meta_tags;
+
+		foreach($map as $key=>$val) {
+			list($name, $is_http_equiv) = explode("\t", $key);
+			$ret[] = array('name'=>$name, 'is_http_equiv'=>$is_http_equiv, 'content' => $val);
+		}
+
+		return $ret;
+	}
+
+	/**
+	 * @brief Add the meta tag
+	 **/
+	function addMetaTag($name, $content, $is_http_equiv = false) {
+		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
+
+		$key = $name."\t".($is_http_equiv ? '1' : '0');
+		$map = &$self->meta_tags;
+
+		$map[$key] = $content;
 	}
 }
 ?>

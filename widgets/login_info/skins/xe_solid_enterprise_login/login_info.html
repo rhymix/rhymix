@@ -1,0 +1,33 @@
+<!--%import("css/style.css")-->
+<!--%import("./filter/logout.xml")-->
+<!--%import("./js/login.js")-->
+
+<form action="" method="post">
+<fieldset id="login" class="login_{$colorset}">
+<legend>{$lang->cmd_login}</legend>
+<div id="sign_box">
+    <div class="txt sign_state1"><span class="label">{$logged_info->nick_name}</span></div>
+	<div class="mbInfo_window" style="overflow:hidden;">
+		<span class="head"></span>
+		<div class="body" style="z-index:1000">
+			<ul>
+				{@ $i = 1;}
+				<!--@foreach($logged_info->menu_list as $key => $val)-->
+				<li class="i{$i}">
+
+				<a href="{getUrl('act',$key,'member_srl','','page','')}">{Context::getLang($val)}</a></li>
+				{@ $i++;}
+				<!--@end-->
+				<li class="i7"><a href="{getUrl('','module','admin')}" onclick="window.open(this.href);return false;">{$lang->cmd_management}</a></li>
+			</ul>
+			<div class="btnbar">
+				<p>{$lang->last_login}<br />{zDate($logged_info->last_login, "Y-m-d")}</p>
+				<a href="{getUrl('act','dispMemberLogout')}"><img src="images/btn_signout.gif" alt="{$lang->cmd_logout}"/></a>
+			</div>
+			<iframe class="T_iframe" border=0 style="top:0px;left:0px;width:219px;height:400px;z-index:-1;position:absolute;"></iframe>
+		</div><!-- //body -->
+		<span class="tail"><img src="images/minfo_bg_tail.png" width="172" height="3" alt="" class="iePngFix" /></span>
+	</div><!-- //mbInfo_window -->
+</div><!-- //sign_box -->
+</fieldset>
+</form>

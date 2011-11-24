@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ruleset version="1.5.0">
+    <customrules>
+		<rule name="open_type" type="enum" test="Y,N,H" />
+		<rule name="total_type" type="enum" test="N,T_N" />
+    </customrules>
+    <fields>
+		<field name="act" required="true" default="procRssAdminInsertModuleConfig" />
+		<field name="target_module_srl" required="true" />
+		<field name="open_rss" required="true" rule="open_type" default="Y" />
+		<field name="open_total_feed" required="true" rule="total_type" default="N" />
+    </fields>
+</ruleset>

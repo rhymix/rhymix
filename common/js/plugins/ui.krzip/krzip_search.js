@@ -1,119 +1,85 @@
-function doSearchKrZip(obj, column_name) {
-    var fo_obj = obj;
-    while(fo_obj) {
-        if(fo_obj.nodeName == 'FORM') break;
-        fo_obj = fo_obj.parentNode;
-    }
-    if(fo_obj.nodeName != 'FORM') return;
+function doSearchKrZip(form, column_name) {
+	var $=jQuery, $form, field_obj, params, response_tags;
 
-    var field_obj = fo_obj['addr_search_'+column_name];
-    if(!field_obj) return;
+	$form = $(form);
+	if (!$form.filter('form').length) $form = $form.parents('form:first');
+	if (!$form.length) return;
 
-    var addr = field_obj.value;
-    if(!addr) return;
+	field_obj = $form.get(0).elements['addr_search_'+column_name];
+	if(!field_obj || !field_obj.value) return;
 
-    var params = new Array();
-    params['addr'] = addr;
-    params['column_name'] = column_name;
-    var response_tags = new Array('error','message','address_list');
-    exec_xml('krzip', 'getKrzipCodeList', params, completeSearchKrZip, response_tags, params, fo_obj);
+	params = {
+		addr : field_obj.value,
+		column_name : column_name
+	};
+	response_tags = 'error message address_list'.split(' ');
+
+	exec_xml('krzip', 'getKrzipCodeList', params, completeSearchKrZip, response_tags, params, $form[0]);
 }
 
 function completeSearchKrZip(ret_obj, response_tags, callback_args, fo_obj) {
-    if(!ret_obj['address_list']) {
-            alert(alert_msg['address']);
-            return;
-    }
-    var address_list = ret_obj['address_list'].split("\n");
-    var column_name = callback_args['column_name'];
+	var $=jQuery, addr_list, column_name, $zone_list, $zone_search, $select;
 
-    var zone_list_obj = xGetElementById('addr_list_'+column_name);
-    if(!zone_list_obj) return;
+	if(!ret_obj['address_list']) return alert(alert_msg['address']);
 
-    var zone_search_obj = xGetElementById('addr_search_'+column_name);
-    if(!zone_search_obj) return;
+	addr_list   = ret_obj['address_list'].split('\n');
+	column_name = callback_args['column_name'];
 
-    var sel_obj = fo_obj['addr_list_'+column_name];
-    if(!sel_obj) return;
+	if (!($zone_list=$('#addr_list_'+column_name)).length) return;
+	if (!($zone_search=$('#addr_search_'+column_name)).length) return;
+	if (!($select=$(fo_obj.elements['addr_list_'+column_name])).length) return;
 
-    for(var i=0;i<sel_obj.length;i++) {
-        sel_obj.remove(0);
-    }
-    for(var i=0;i<address_list.length;i++) {
-        if(!address_list[i]) continue;
-        var opt = new Option(address_list[i],address_list[i],false,false);
-        sel_obj.options[sel_obj.options.length] = opt;
-    }
+	for(var i=0,c=addr_list.length; i<c; i++) {
+		addr_list[i] = '<option value="'+addr_list[i]+'">'+addr_list[i]+'</option>';
+	}
 
-    sel_obj.selectedIndex = 0;
+	$select.html(addr_list.join('')).get(0).selectedIndex = 0;
 
-    zone_search_obj.style.display = 'none';
-    zone_list_obj.style.display = 'block';
+	$zone_search.hide();
+	$zone_list.show();
 }
 
-function doHideKrZipList(obj, column_name) {
-    var fo_obj = obj;
-    while(fo_obj) {
-        if(fo_obj.nodeName == 'FORM') break;
-        fo_obj = fo_obj.parentNode;
-    }
+function doHideKrZipList(form, column_name) {
+	var $=jQuery, $form, $zone_search, $zone_list;
 
-    if(fo_obj.nodeName != 'FORM') return;
+	$form = $(form);
+	if (!$form.filter('form').length) $form = $form.parents('form:first');
+	if (!$form.length) return;
 
-    var zone_list_obj = xGetElementById('addr_list_'+column_name);
-    if(!zone_list_obj) return;
+	if (!($zone_list=$('#addr_list_'+column_name)).length) return;
+	if (!($zone_search=$('#addr_search_'+column_name)).length) return;
 
-    var zone_search_obj = xGetElementById('addr_search_'+column_name);
-    if(!zone_search_obj) return;
+	$zone_search.show();
+	$zone_list.hide();
 
-    zone_list_obj.style.display = 'none';
-    zone_search_obj.style.display = 'block';
-
-    fo_obj['addr_search_'+column_name].focus();
+	try {
+		$form.get(0).elements['addr_search_'+column_name].focus();
+	} catch(e){};
 }
 
-function doSelectKrZip(obj, column_name) {
-    var fo_obj = obj;
-    while(fo_obj) {
-        if(fo_obj.nodeName == 'FORM') break;
-        fo_obj = fo_obj.parentNode;
-    }
+function doSelectKrZip(form, column_name) {
+	var $=jQuery, $form, $zone_list, $zone_search, $zone_searched, $select;
 
-    if(fo_obj.nodeName != 'FORM') return;
+	$form = $(form);
+	if (!$form.filter('form').length) $form = $form.parents('form:first');
+	if (!$form.length) return;
 
-    var zone_list_obj = xGetElementById('addr_list_'+column_name);
-    if(!zone_list_obj) return;
+	if (!($zone_list=$('#addr_list_'+column_name)).length) return;
+	if (!($zone_search=$('#addr_search_'+column_name)).length) return;
+	if (!($zone_searched=$('#addr_searched_'+column_name)).length) return;
+	if (!($select=$form.find('select[name="addr_list_'+column_name+'"]')).length) return;
 
-    var zone_search_obj = xGetElementById('addr_search_'+column_name);
-    if(!zone_search_obj) return;
+	$zone_searched.show();
+	$zone_list.hide();
+	$zone_search.hide();
 
-    var zone_searched_obj = xGetElementById('addr_searched_'+column_name);
-    if(!zone_searched_obj) return;
-
-    var sel_obj = fo_obj['addr_list_'+column_name];
-    if(!sel_obj) return;
-
-    var address = sel_obj.options[sel_obj.selectedIndex].value;
-    fo_obj[column_name][0].value = address;
-
-    zone_searched_obj.style.display = 'block';
-    zone_list_obj.style.display = 'none';
-    zone_search_obj.style.display = 'none';
-
-    fo_obj[column_name][1].focus();
+	$form.get(0).elements[column_name][0].value = $select.val();
+	$form.get(0).elements[column_name][1].focus();
 }
 
 function doShowKrZipSearch(obj, column_name) {
-    var zone_list_obj = xGetElementById('addr_list_'+column_name);
-    if(!zone_list_obj) return;
-
-    var zone_search_obj = xGetElementById('addr_search_'+column_name);
-    if(!zone_search_obj) return;
-
-    var zone_searched_obj = xGetElementById('addr_searched_'+column_name);
-    if(!zone_searched_obj) return;
-
-    zone_searched_obj.style.display = 'none';
-    zone_list_obj.style.display = 'none';
-    zone_search_obj.style.display = 'block';
+	var $=jQuery;
+	$('#addr_list_'+column_name).hide();
+	$('#addr_search_'+column_name).show();
+	$('#addr_searched_'+column_name).hide();
 }

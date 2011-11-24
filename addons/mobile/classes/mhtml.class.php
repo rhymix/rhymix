@@ -13,23 +13,22 @@
         }
 
         /**
-         * @brief hdml 헤더 출력
+         * @brief hdml header output
          **/
         function printHeader() {
             print("<html><head>\n");
             if($this->totalPage > $this->mobilePage) $titlePageStr = sprintf("(%d/%d)",$this->mobilePage, $this->totalPage);
             printf("<title>%s%s</title></head><body>\n", htmlspecialchars($this->title),htmlspecialchars($titlePageStr));
         }
-
-        // 제목을 출력
+        // Output title
         function printTitle() {
             if($this->totalPage > $this->mobilePage) $titlePageStr = sprintf("(%d/%d)",$this->mobilePage, $this->totalPage);
             printf('&lt;%s%s&gt;<br>%s', htmlspecialchars($this->title),htmlspecialchars($titlePageStr),"\n");
         }
 
         /**
-         * @brief 내용을 출력
-         * hasChilds()가 있으면 목록형을 그렇지 않으면 컨텐츠를 출력
+         * @brief Output information
+         * hasChilds() if there is a list of content types, otherwise output
          **/
         function printContent() {
             if($this->hasChilds()) {
@@ -45,7 +44,7 @@
         }
 
         /**
-         * @brief 버튼을 출력함
+         * @brief Button to output
          **/
         function printBtn() {
             if($this->nextUrl) {
@@ -56,7 +55,7 @@
                 $url = $this->prevUrl;
                 printf('<a href="%s">%s</a><br>%s', $url->url, $url->text, "\n");
             }
-            // 언어선택
+            // Select Language
             if(!parent::isLangChange()){
                 $url = getUrl('','lcm','1','sel_lang',Context::getLangType(),'return_uri',Context::get('current_url'));
                 printf('<a href="%s">%s</a><br>%s', $url, 'Language : '.Context::getLang('select_lang'), "\n");
@@ -73,8 +72,7 @@
                 printf('<a btn="%s" href="%s">%s</a><br>%s', $url->text, $url->url, $url->text, "\n");
             }
         }
-
-        // 푸터 정보를 출력
+        // Footer information output
         function printFooter() {
             print("</body></html>\n");
         }

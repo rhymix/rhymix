@@ -2,29 +2,28 @@
     /**
      * @class  documentAdminController
      * @author NHN (developers@xpressengine.com)
-     * @brief  document 모듈의 admin controller 클래스
+     * @brief document the module's admin controller class
      **/
 
     class documentAdminController extends document {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
         }
 
         /**
-         * @brief 관리자 페이지에서 선택된 문서들 삭제
+         * @brief Remove the selected docs from admin page
          **/
         function procDocumentAdminDeleteChecked() {
-            // 선택된 글이 없으면 오류 표시
+            // error appears if no doc is selected
             $cart = Context::get('cart');
             if(!$cart) return $this->stop('msg_cart_is_null');
             $document_srl_list= explode('|@|', $cart);
             $document_count = count($document_srl_list);
             if(!$document_count) return $this->stop('msg_cart_is_null');
-
-            // 글삭제
+            // Delete a doc
             $oDocumentController = &getController('document');
             for($i=0;$i<$document_count;$i++) {
                 $document_srl = trim($document_srl_list[$i]);
@@ -36,8 +35,8 @@
             $this->setMessage( sprintf(Context::getLang('msg_checked_document_is_deleted'), $document_count) );
         }
 
-        /** 
-         * @brief 특정 게시물들의 소속 모듈 변경 (게시글 이동시에 사용)
+        /**
+         * @brief change the module to move a specific article
          **/
         function moveDocumentModule($document_srl_list, $module_srl, $category_srl) {
             if(!count($document_srl_list)) return;
@@ -51,8 +50,7 @@
             $triggerObj->document_srls = implode(',',$document_srl_list);
             $triggerObj->module_srl = $module_srl;
             $triggerObj->category_srl = $category_srl;
-
-            // Call trigger (before)
+            // Call a trigger (before)
             $output = ModuleHandler::triggerCall('document.moveDocumentModule', 'before', $triggerObj);
             if(!$output->toBool()) {
                 $oDB->rollback();
@@ -68,8 +66,7 @@
 
                 unset($obj);
                 $obj = $oDocument->getObjectVars();
-
-                // 대상 모듈이 다를 경우 첨부파일 이동
+                // Move the attached file if the target module is different
                 if($module_srl != $obj->module_srl && $oDocument->hasUploadedFiles()) {
                     $oFileController = &getController('file');
 
@@ -80,24 +77,21 @@
                         $file_info['name'] = $val->source_filename;
                         $inserted_file = $oFileController->insertFile($file_info, $module_srl, $obj->document_srl, $val->download_count, true);
                         if($inserted_file && $inserted_file->toBool()) {
-                            // 이미지/동영상등일 경우
+                            // for image/video files
                             if($val->direct_download == 'Y') {
                                 $source_filename = substr($val->uploaded_filename,2);
                                 $target_filename = substr($inserted_file->get('uploaded_filename'),2);
                                 $obj->content = str_replace($source_filename, $target_filename, $obj->content);
-
-                            // binary 파일일 경우
+                            // For binary files
                             } else {
                                 $obj->content = str_replace('file_srl='.$val->file_srl, 'file_srl='.$inserted_file->get('file_srl'), $obj->content);
                                 $obj->content = str_replace('sid='.$val->sid, 'sid='.$inserted_file->get('sid'), $obj->content);
                             }
                         }
-
-                        // 기존 파일 삭제
+                        // Delete an existing file
                         $oFileController->deleteFile($val->file_srl);
                     }
-
-                    // 등록된 모든 파일을 유효로 변경
+                    // Set the all files to be valid
                     $oFileController->setFilesValid($obj->document_srl);
                 }
 
@@ -105,8 +99,7 @@
                 {
                     $oDocumentController->deleteDocumentAliasByDocument($obj->document_srl);
                 }
-
-                // 게시물의 모듈 이동
+                // Move a module of the article
                 $obj->module_srl = $module_srl;
                 $obj->category_srl = $category_srl;
                 $output = executeQuery('document.updateDocumentModule', $obj);
@@ -114,8 +107,7 @@
                     $oDB->rollback();
                     return $output;
                 }
-
-                // 카테고리가 변경되었으면 검사후 없는 카테고리면 0으로 세팅
+                // Set 0 if a new category doesn't exist after catergory change
                 if($source_category_srl != $category_srl) {
                     if($source_category_srl) $oDocumentController->updateCategoryCount($oDocument->get('module_srl'), $source_category_srl);
                     if($category_srl) $oDocumentController->updateCategoryCount($module_srl, $category_srl);
@@ -125,8 +117,7 @@
 
             $args->document_srls = implode(',',$document_srl_list);
             $args->module_srl = $module_srl;
-
-            // 댓글의 이동
+            // move the comment
             $output = executeQuery('comment.updateCommentModule', $args);
             if(!$output->toBool()) {
                 $oDB->rollback();
@@ -138,34 +129,44 @@
                 $oDB->rollback();
                 return $output;
             }
-
-            // 엮인글의 이동
+            // move the trackback
             $output = executeQuery('trackback.updateTrackbackModule', $args);
             if(!$output->toBool()) {
                 $oDB->rollback();
                 return $output;
             }
-
-            // 태그
+            // Tags
             $output = executeQuery('tag.updateTagModule', $args);
             if(!$output->toBool()) {
                 $oDB->rollback();
                 return $output;
             }
-
-            // Call trigger (before)
+            // Call a trigger (before)
             $output = ModuleHandler::triggerCall('document.moveDocumentModule', 'after', $triggerObj);
             if(!$output->toBool()) {
                 $oDB->rollback();
                 return $output;
             }
-            
+
             $oDB->commit();
+			//remove from cache
+	        $oCacheHandler = &CacheHandler::getInstance('object');
+	        if($oCacheHandler->isSupport())
+	        {
+	        	foreach($document_srl_list as $document_srl)
+	        	{
+	        		$cache_key = 'object:'.$document_srl;
+                            $oCacheHandler->delete($cache_key);
+                            $cache_key_item = 'object_document_item:'.$document_srl;
+                            $oCacheHandler->delete($cache_key_item);
+	        	}
+                        $oCacheHandler->invalidateGroupKey('documentList');
+	        }
             return new Object();
         }
 
-        /** 
-         * @brief 게시글의 복사
+        /**
+         * @brief Copy the post
          **/
         function copyDocumentModule($document_srl_list, $module_srl, $category_srl) {
             if(!count($document_srl_list)) return;
@@ -191,8 +192,7 @@
                 $obj->password_is_hashed = true;
                 $obj->comment_count = 0;
                 $obj->trackback_count = 0;
-
-                // 첨부파일 미리 등록
+                // Pre-register the attachment
                 if($oDocument->hasUploadedFiles()) {
                     $files = $oDocument->getUploadedFiles();
                     foreach($files as $key => $val) {
@@ -201,29 +201,26 @@
                         $file_info['name'] = $val->source_filename;
                         $oFileController = &getController('file');
                         $inserted_file = $oFileController->insertFile($file_info, $module_srl, $obj->document_srl, 0, true);
-
-                        // 이미지/동영상등일 경우
+                        // if image/video files
                         if($val->direct_download == 'Y') {
                             $source_filename = substr($val->uploaded_filename,2);
                             $target_filename = substr($inserted_file->get('uploaded_filename'),2);
                             $obj->content = str_replace($source_filename, $target_filename, $obj->content);
-
-                        // binary 파일일 경우
+                        // If binary file
                         } else {
                             $obj->content = str_replace('file_srl='.$val->file_srl, 'file_srl='.$inserted_file->get('file_srl'), $obj->content);
                             $obj->content = str_replace('sid='.$val->sid, 'sid='.$inserted_file->get('sid'), $obj->content);
                         }
                     }
                 }
-                
-                // 글의 등록
+
+                // Write a post
                 $output = $oDocumentController->insertDocument($obj, true);
                 if(!$output->toBool()) {
                     $oDB->rollback();
                     return $output;
                 }
-
-                // 댓글 이전
+                // Move the comments
                 if($oDocument->getCommentCount()) {
                     $oCommentModel = &getModel('comment');
                     $comment_output = $oCommentModel->getCommentList($document_srl, 0, true, 99999999);
@@ -235,6 +232,28 @@
                         foreach($comments as $comment_obj) {
                             $comment_srl = getNextSequence();
                             $p_comment_srl[$comment_obj->comment_srl] = $comment_srl;
+
+							// Pre-register the attachment
+							if($comment_obj->uploaded_count) {
+								$files = $oFileModel->getFiles($comment_obj->comment_srl, true);
+								foreach($files as $key => $val) {
+									$file_info = array();
+									$file_info['tmp_name'] = $val->uploaded_filename;
+									$file_info['name'] = $val->source_filename;
+									$oFileController = &getController('file');
+									$inserted_file = $oFileController->insertFile($file_info, $module_srl, $comment_srl, 0, true);
+									// if image/video files
+									if($val->direct_download == 'Y') {
+										$source_filename = substr($val->uploaded_filename,2);
+										$target_filename = substr($inserted_file->get('uploaded_filename'),2);
+										$comment_obj->content = str_replace($source_filename, $target_filename, $comment_obj->content);
+									// If binary file
+									} else {
+										$comment_obj->content = str_replace('file_srl='.$val->file_srl, 'file_srl='.$inserted_file->get('file_srl'), $comment_obj->content);
+										$comment_obj->content = str_replace('sid='.$val->sid, 'sid='.$inserted_file->get('sid'), $comment_obj->content);
+									}
+								}
+							}
 
                             $comment_obj->module_srl = $obj->module_srl;
                             $comment_obj->document_srl = $obj->document_srl;
@@ -250,8 +269,7 @@
                     }
 
                 }
-
-                // 엮인글 이전
+                // Move the trackbacks
                 if($oDocument->getTrackbackCount()) {
                     $oTrackbackModel = &getModel('trackback');
                     $trackbacks = $oTrackbackModel->getTrackbackList($oDocument->document_srl);
@@ -264,8 +282,7 @@
                             $output = executeQuery('trackback.insertTrackback', $trackback_obj);
                             if($output->toBool()) $success_count++;
                         }
-
-                        // 엮인글 수 업데이트
+                        // Update the number of trackbacks
                         $oDocumentController->updateTrackbackCount($obj->document_srl, $success_count);
                     }
                 }
@@ -280,29 +297,57 @@
         }
 
         /**
-         * @brief 특정 모듈의 전체 문서 삭제
+         * @brief Delete all documents of the module
          **/
         function deleteModuleDocument($module_srl) {
             $args->module_srl = $module_srl;
+			$oDocumentModel = &getModel('document');
+            $args->module_srl = $module_srl;
+            $document_list = $oDocumentModel->getDocumentList($args);
+            $documents = $document_list->data;
             $output = executeQuery('document.deleteModuleDocument', $args);
+			if (is_array($documents)){
+				foreach ($documents as $oDocument){
+					$document_srl_list[] = $oDocument->document_srl;
+				}
+			}
+			//remove from cache
+	        $oCacheHandler = &CacheHandler::getInstance('object');
+	        if($oCacheHandler->isSupport())
+	        {
+	        	foreach($document_srl_list as $document_srl)
+	        	{
+	        		$cache_key = 'object:'.$document_srl;
+	            	$oCacheHandler->delete($cache_key);
+                            $cache_key_item = 'object_document_item:'.$document_srl;
+                            $oCacheHandler->delete($cache_key_item);
+                            $oCacheHandler->invalidateGroupKey('commentList_' . $document_srl);
+	        	}
+                        $oCacheHandler->invalidateGroupKey('documentList');
+	        }
             return $output;
         }
 
         /**
-         * @brief 문서 모듈의 기본설정 저장
+         * @brief Save the default settings of the document module
          **/
         function procDocumentAdminInsertConfig() {
-            // 기본 정보를 받음
+            // Get the basic information
             $config = Context::gets('thumbnail_type');
-
-            // module Controller 객체 생성하여 입력
+            // Insert by creating the module Controller object
             $oModuleController = &getController('module');
             $output = $oModuleController->insertModuleConfig('document',$config);
+
+			if($output->toBool() && !in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispDocumentAdminConfig');
+				header('location:'.$returnUrl);
+				return;
+			}
             return $output;
         }
 
         /**
-         * @brief 선택된 글들에 대해 신고 취소
+         * @brief Revoke declaration of the blacklisted posts
          **/
         function procDocumentAdminCancelDeclare() {
             $document_srl = trim(Context::get('document_srl'));
@@ -315,14 +360,12 @@
         }
 
         /**
-         * @brief 모든 생성된 섬네일 삭제
+         * @brief Delete all thumbnails
          **/
         function procDocumentAdminDeleteAllThumbnail() {
-
-            // files/attaches/images/ 디렉토리를 순환하면서 thumbnail_*.jpg 파일을 모두 삭제 (1.0.4 이전까지)
+            // delete all of thumbnail_ *. jpg files from files/attaches/images/ directory (prior versions to 1.0.4)
             $this->deleteThumbnailFile('./files/attach/images');
-
-            // files/cache/thumbnails 디렉토리 자체를 삭제 (1.0.5 이후 변경된 섬네일 정책)
+            // delete a directory itself, files/cache/thumbnails (thumbnail policies have changed since version 1.0.5)
             FileHandler::removeFilesInDir('./files/cache/thumbnails');
 
             $this->setMessage('success_deleted');
@@ -344,7 +387,7 @@
         }
 
         /**
-         * @brief 모듈의 확장 변수 추가 또는 수정
+         * @brief Add or modify extra variables of the module
          **/
         function procDocumentAdminInsertExtraVar() {
             $module_srl = Context::get('module_srl');
@@ -358,15 +401,14 @@
 			$eid = Context::get('eid');
 
             if(!$module_srl || !$name || !$eid) return new Object(-1,'msg_invalid_request');
-
-            // idx가 지정되어 있지 않으면 최고 값을 지정
+            // set the max value if idx is not specified
             if(!$var_idx) {
                 $obj->module_srl = $module_srl;
                 $output = executeQuery('document.getDocumentMaxExtraKeyIdx', $obj);
                 $var_idx = $output->data->var_idx+1;
             }
 
-			// 이미 존재하는 모듈 이름인지 체크
+			// Check if the module name already exists
 			$obj->module_srl = $module_srl;
 			$obj->var_idx = $var_idx;
 			$obj->eid = $eid;
@@ -381,10 +423,15 @@
             if(!$output->toBool()) return $output;
 
             $this->setMessage('success_registed');
+			if($output->toBool() && !in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispDocumentAdminAlias', 'document_srl', $args->document_srl);
+				$this->setRedirectUrl($returnUrl);
+				return;
+			}
         }
 
         /**
-         * @brief 모듈의 확장 변수 삭제
+         * @brief delete extra variables of the module
          **/
         function procDocumentAdminDeleteExtraVar() {
             $module_srl = Context::get('module_srl');
@@ -397,9 +444,9 @@
 
             $this->setMessage('success_deleted');
         }
- 
+
         /**
-         * @brief 확장변수 순서 조절
+         * @brief control the order of extra variables
          **/
         function procDocumentAdminMoveExtraVar() {
             $type = Context::get('type');
@@ -420,7 +467,14 @@
             else $new_idx = $var_idx+1;
             if($new_idx<1) return new Object(-1,'msg_invalid_request');
 
-            // 바꿀 idx가 없으면 바로 업데이트
+			$args->module_srl = $module_srl;
+			$args->var_idx = $new_idx;
+			$output = executeQuery('document.getDocumentExtraKeys', $args);
+			if (!$output->toBool()) return $output;
+			if (!$output->data) return new Object(-1, 'msg_invalid_request');
+			unset($args);
+
+            // update immediately if there is no idx to change
             if(!$extra_keys[$new_idx]) {
                 $args->module_srl = $module_srl;
                 $args->var_idx = $var_idx;
@@ -429,7 +483,7 @@
                 if(!$output->toBool()) return $output;
                 $output = executeQuery('document.updateDocumentExtraVarIdx', $args);
                 if(!$output->toBool()) return $output;
-            // 있으면 기존의 꺼랑 교체
+            // replace if exists
             } else {
                 $args->module_srl = $module_srl;
                 $args->var_idx = $new_idx;
@@ -458,31 +512,38 @@
         function procDocumentAdminInsertAlias() {
             $args = Context::gets('module_srl','document_srl', 'alias_title');
             $alias_srl = Context::get('alias_srl');
-            if(!$alias_srl) 
+            if(!$alias_srl)
             {
                 $args->alias_srl = getNextSequence();
                 $query = "document.insertAlias";
             }
-            else 
+            else
             {
                 $args->alias_srl = $alias_srl;
                 $query = "document.updateAlias";
             }
             $output = executeQuery($query, $args);
-            if(!$output->toBool())
-            {
-                return $output;
-            }
+
+			if($output->toBool() && !in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispDocumentAdminAlias', 'document_srl', $args->document_srl);
+				header('location:'.$returnUrl);
+				return;
+			}
+			return $output;
         }
 
         function procDocumentAdminDeleteAlias() {
-            $alias_srl = Context::get('alias_srl');
+			$document_srl = Context::get('document_srl');
+            $alias_srl = Context::get('target_srl');
             $args->alias_srl = $alias_srl;
             $output = executeQuery("document.deleteAlias", $args);
-            if (!$output->toBool())
-            {
-                return $output;
-            }
+
+			if($output->toBool() && !in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispDocumentAdminAlias', 'document_srl', $document_srl);
+				header('location:'.$returnUrl);
+				return;
+			}
+			return $output;
         }
 
         function procDocumentAdminRestoreTrash() {
@@ -490,7 +551,7 @@
 			$this->restoreTrash($trash_srl);
         }
 
-		function restoreTrash($trash_srl){
+		/*function restoreTrash($trash_srl){
             $oDB = &DB::getInstance();
             $oDocumentModel = &getModel('document');
 
@@ -523,15 +584,13 @@
                 $oDB->rollback();
                 return $output;
             }
-
-            // 임시 저장되었던 글이 아닌 경우, 등록된 첨부파일의 상태를 유효로 지정
+            // If the post was not temorarily saved, set the attachment's status to be valid
             if($oDocument->hasUploadedFiles() && $document_args->member_srl != $document_args->module_srl) {
                 $args->upload_target_srl = $oDocument->document_srl;
                 $args->isvalid = 'Y';
                 executeQuery('file.updateFileValid', $args);
             }
-
-            // trigger 호출 (after)
+            // call a trigger (after)
             if($output->toBool()) {
                 $trigger_output = ModuleHandler::triggerCall('document.restoreTrash', 'after', $document_args);
                 if(!$trigger_output->toBool()) {
@@ -543,7 +602,64 @@
             // commit
             $oDB->commit();
 			return $output;
+		}*/
+
+        /**
+         * @brief restore document from trash module, called by trash module
+		 * this method is passived
+         **/
+		function restoreTrash($originObject)
+		{
+			if(is_array($originObject)) $originObject = (object)$originObject;
+
+			$oDocumentController = &getController('document');
+            $oDocumentModel = &getModel('document');
+
+            $oDB = &DB::getInstance();
+            $oDB->begin();
+
+			//DB restore
+			$output = $oDocumentController->insertDocument($originObject, false, true);
+			if(!$output->toBool()) return new Object(-1, $output->getMessage());
+
+			//FILE restore
+            $oDocument = $oDocumentModel->getDocument($originObject->document_srl);
+            // If the post was not temorarily saved, set the attachment's status to be valid
+            if($oDocument->hasUploadedFiles() && $originObject->member_srl != $originObject->module_srl) {
+                $args->upload_target_srl = $oDocument->document_srl;
+                $args->isvalid = 'Y';
+                $output = executeQuery('file.updateFileValid', $args);
+            }
+
+            // call a trigger (after)
+            if($output->toBool()) {
+                $trigger_output = ModuleHandler::triggerCall('document.restoreTrash', 'after', $originObject);
+                if(!$trigger_output->toBool()) {
+                    $oDB->rollback();
+                    return $trigger_output;
+                }
+            }
+
+            // commit
+            $oDB->commit();
+			return new Object(0, 'success');
 		}
 
+        /**
+         * @brief empty document in trash, called by trash module
+		 * this method is passived
+         **/
+		function emptyTrash($originObject)
+		{
+			$originObject = unserialize($originObject);
+			if(is_array($originObject)) $originObject = (object) $originObject;
+
+			$oDocument = new documentItem();
+			$oDocument->setAttribute($originObject);
+
+			$oDocumentController = &getController('document');
+			$output = $oDocumentController->deleteDocument($oDocument->get('document_srl'), true, true, $oDocument);
+			return $output;
+		}
     }
 ?>

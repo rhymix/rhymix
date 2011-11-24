@@ -126,16 +126,13 @@ function getScreen() {
             if(!src) src = this.list.eq(this.index).attr("src");
 
 			imgframe.attr("src", src).css({
-    					left : Math.round( Math.max( (clientWidth-imgframe.width()-14)/2, 0 ) ) + "px",
-    					top  : Math.round( Math.max( (clientHeight-imgframe.height()-14)/2, 0 ) ) + "px"
-    				});
+				left : Math.round( Math.max( (clientWidth-imgframe.width()-14)/2, 0 ) ) + "px",
+				top  : Math.round( Math.max( (clientHeight-imgframe.height()-14)/2, 0 ) ) + "px"
+			});
 		};
 
 		// 스크린을 닫는 상황
-		$(document).scroll(xScreen.xeHide);
 		$(document).keydown(xScreen.xeHide);
-		$(window).resize(xScreen.xeHide);
-		$(window).scroll(xScreen.xeHide);
 	} else {
 		controls = $("#xe_gallery_controls");
 		imgframe = $("#xe_gallery_holder");
@@ -149,7 +146,7 @@ function getScreen() {
 
 // 이미지 슬라이드를 보는 함수
 function slideshow(event) {
-	var container  = $(this).parents(".xe_content");
+	var container  = $(this).closest('.xe_content');
 	var imglist    = container.find("img[rel=xe_gallery]");
 	var currentIdx = $.inArray($(this).get(0), imglist.get());
 	var xScreen    = getScreen();
@@ -203,8 +200,7 @@ $(function() {
 	}
 
 	$('div.xe_content').each(function() {
-		dummy.appendTo(this);
-		var contentWidth = dummy.width();
+		var contentWidth = dummy.appendTo(this).width();
 		dummy.remove();
 		if(!contentWidth) return;
 

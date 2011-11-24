@@ -1,0 +1,910 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<lang>
+	<item name="introduce_title">
+		<value xml:lang="ko"><![CDATA[XE 설치]]></value>
+		<value xml:lang="en"><![CDATA[XE Installation]]></value>
+		<value xml:lang="jp"><![CDATA[XEのインストール]]></value>
+		<value xml:lang="zh-CN"><![CDATA[安装XE]]></value>
+		<value xml:lang="zh-TW"><![CDATA[XE程式安裝]]></value>
+		<value xml:lang="fr"><![CDATA[Installation du XE ]]></value>
+		<value xml:lang="ru"><![CDATA[Установка XE]]></value>
+		<value xml:lang="es"><![CDATA[Instalación de XE ]]></value>
+		<value xml:lang="vi"><![CDATA[Cài đặt XE]]></value>
+	</item>
+	<item name="lgpl_agree">
+		<value xml:lang="ko"><![CDATA[GNU 약소 일반 공중 사용 허가서(LGPL v2) 동의]]></value>
+		<value xml:lang="en"><![CDATA[GNU Lesser General Public License(LGPL v2) Agreement]]></value>
+		<value xml:lang="jp"><![CDATA[GNU LGPL v2への同意]]></value>
+	</item>
+	<item name="enviroment_gather">
+		<value xml:lang="ko"><![CDATA[설치 환경 수집 동의]]></value>
+		<value xml:lang="en"><![CDATA[Agreement on gathering installation environment information]]></value>
+		<value xml:lang="jp"><![CDATA[インストール環境収集に同意する]]></value>
+	</item>
+	<item name="install_progress_menu" type="array">
+		<item name="agree">
+			<value xml:lang="ko"><![CDATA[라이선스 동의]]></value>
+			<value xml:lang="en"><![CDATA[Acceptance of terms]]></value>
+			<value xml:lang="jp"><![CDATA[ライセンスに同意]]></value>
+		</item>
+		<item name="condition">
+			<value xml:lang="ko"><![CDATA[설치 조건 확인]]></value>
+			<value xml:lang="en"><![CDATA[Check the installation conditions]]></value>
+			<value xml:lang="jp"><![CDATA[インストール条件確認]]></value>
+		</item>
+		<item name="ftp">
+			<value xml:lang="ko"><![CDATA[FTP 정보 입력]]></value>
+			<value xml:lang="en"><![CDATA[Input FTP information]]></value>
+			<value xml:lang="jp"><![CDATA[FTP情報入力]]></value>
+		</item>
+		<item name="dbSelect">
+			<value xml:lang="ko"><![CDATA[DB 선택]]></value>
+			<value xml:lang="en"><![CDATA[Choose database type]]></value>
+			<value xml:lang="jp"><![CDATA[DB選択]]></value>
+		</item>
+		<item name="dbInfo">
+			<value xml:lang="ko"><![CDATA[DB 정보 입력]]></value>
+			<value xml:lang="en"><![CDATA[Input Database information]]></value>
+			<value xml:lang="jp"><![CDATA[DB情報入力]]></value>
+		</item>
+		<item name="configInfo">
+			<value xml:lang="ko"><![CDATA[환경 설정]]></value>
+			<value xml:lang="en"><![CDATA[Settings]]></value>
+			<value xml:lang="jp"><![CDATA[環境設定]]></value>
+		</item>
+		<item name="adminInfo">
+			<value xml:lang="ko"><![CDATA[관리자 정보 입력]]></value>
+			<value xml:lang="en"><![CDATA[Enter Administrator information]]></value>
+			<value xml:lang="jp"><![CDATA[管理者情報入力]]></value>
+		</item>
+	</item>
+	<item name="install_condition_title">
+		<value xml:lang="ko"><![CDATA[필수 설치조건을 확인하세요.]]></value>
+		<value xml:lang="en"><![CDATA[Please check the installation requirement.]]></value>
+		<value xml:lang="jp"><![CDATA[インストールするための必須条件を確認してください。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[检测运行环境]]></value>
+		<value xml:lang="zh-TW"><![CDATA[確認安裝時必備的條件]]></value>
+		<value xml:lang="fr"><![CDATA[Vérifiez  les conditions obligatoires pour l'installation, S.V.P.]]></value>
+		<value xml:lang="ru"><![CDATA[Пожалуйста, проверьте требования к установке.]]></value>
+		<value xml:lang="es"><![CDATA[Por favor chequee los requerimientos de la instalación.]]></value>
+		<value xml:lang="tr"><![CDATA[Lütfen kurulum gereksinimlerini kontrol ediniz.]]></value>
+		<value xml:lang="vi"><![CDATA[Xin hãy kiểm tra những yêu cầu cài đặt.]]></value>
+	</item>
+	<item name="install_checklist_title" type="array">
+		<item name="php_version">
+			<value xml:lang="ko"><![CDATA[PHP Version]]></value>
+			<value xml:lang="en"><![CDATA[PHP Version]]></value>
+			<value xml:lang="jp"><![CDATA[PHPバージョン]]></value>
+			<value xml:lang="zh-CN"><![CDATA[PHP版本]]></value>
+			<value xml:lang="zh-TW"><![CDATA[PHP版本]]></value>
+			<value xml:lang="fr"><![CDATA[Version de PHP]]></value>
+			<value xml:lang="ru"><![CDATA[Версия PHP]]></value>
+			<value xml:lang="es"><![CDATA[Versión PHP]]></value>
+			<value xml:lang="tr"><![CDATA[PHP Sürümü]]></value>
+			<value xml:lang="vi"><![CDATA[Phiên bản PHP]]></value>
+		</item>
+		<item name="permission">
+			<value xml:lang="ko"><![CDATA[퍼미션]]></value>
+			<value xml:lang="en"><![CDATA[Permission]]></value>
+			<value xml:lang="jp"><![CDATA[パーミッション]]></value>
+			<value xml:lang="zh-CN"><![CDATA[权限]]></value>
+			<value xml:lang="zh-TW"><![CDATA[權限]]></value>
+			<value xml:lang="fr"><![CDATA[Autorisation]]></value>
+			<value xml:lang="ru"><![CDATA[Права доступа]]></value>
+			<value xml:lang="es"><![CDATA[Atribución]]></value>
+			<value xml:lang="tr"><![CDATA[Yetki]]></value>
+			<value xml:lang="vi"><![CDATA[Sự cho phép]]></value>
+		</item>
+		<item name="xml">
+			<value xml:lang="ko"><![CDATA[XML 라이브러리]]></value>
+			<value xml:lang="en"><![CDATA[XML Library]]></value>
+			<value xml:lang="jp"><![CDATA[XMLライブラリ]]></value>
+			<value xml:lang="zh-CN"><![CDATA[XML库]]></value>
+			<value xml:lang="fr"><![CDATA[Bibliothèque de XML]]></value>
+			<value xml:lang="ru"><![CDATA[XML библиотека]]></value>
+			<value xml:lang="es"><![CDATA[Librería XML]]></value>
+			<value xml:lang="tr"><![CDATA[XML Kitaplığı]]></value>
+		</item>
+		<item name="iconv">
+			<value xml:lang="ko"><![CDATA[ICONV 라이브러리]]></value>
+			<value xml:lang="en"><![CDATA[ICONV Library]]></value>
+			<value xml:lang="jp"><![CDATA[ICONVライブラリ]]></value>
+			<value xml:lang="zh-CN"><![CDATA[ICONV库]]></value>
+			<value xml:lang="fr"><![CDATA[Bibliothèque de ICONV]]></value>
+			<value xml:lang="ru"><![CDATA[ICONV библиотека]]></value>
+			<value xml:lang="es"><![CDATA[Librería ICONV]]></value>
+			<value xml:lang="tr"><![CDATA[ICONV Kitaplığı]]></value>
+		</item>
+		<item name="gd">
+			<value xml:lang="ko"><![CDATA[GD 라이브러리]]></value>
+			<value xml:lang="en"><![CDATA[GD Library]]></value>
+			<value xml:lang="jp"><![CDATA[GDライブラリ]]></value>
+			<value xml:lang="zh-CN"><![CDATA[GD库]]></value>
+			<value xml:lang="fr"><![CDATA[Bibliothèque de GD]]></value>
+			<value xml:lang="ru"><![CDATA[GD библиотека]]></value>
+			<value xml:lang="es"><![CDATA[Librería GD]]></value>
+			<value xml:lang="tr"><![CDATA[GD Kitaplığı]]></value>
+		</item>
+		<item name="session">
+			<value xml:lang="ko"><![CDATA[Session.auto_start 설정]]></value>
+			<value xml:lang="en"><![CDATA[Session.auto_start setting]]></value>
+			<value xml:lang="jp"><![CDATA[Session.auto_startの設定]]></value>
+			<value xml:lang="zh-CN"><![CDATA[Session.auto_start 设置]]></value>
+			<value xml:lang="zh-TW"><![CDATA[Session.auto_start設置]]></value>
+			<value xml:lang="fr"><![CDATA[Configuration de Session.auto_start]]></value>
+			<value xml:lang="ru"><![CDATA[Session.auto_start настройка]]></value>
+			<value xml:lang="es"><![CDATA[Configuración Session.auto_start]]></value>
+			<value xml:lang="tr"><![CDATA[Session.auto_start(otomatik.oturum_acma) ayarı]]></value>
+			<value xml:lang="vi"><![CDATA[Thiết lập Session.auto_start]]></value>
+		</item>
+		<item name="db">
+			<value xml:lang="ko"><![CDATA[DB]]></value>
+			<value xml:lang="en"><![CDATA[DB]]></value>
+		</item>
+	</item>
+	<item name="install_license_desc" type="array">
+		<item name="lgpl">
+			<value xml:lang="ko"><![CDATA[GNU 약소 일반 공중 사용 허가서(LGPL v2)에 동의해야 합니다.]]></value>
+			<value xml:lang="en"><![CDATA[You have to agree to the GNU Lesser General Public License(LGPL v2).]]></value>
+			<value xml:lang="jp"><![CDATA[GNU LGPL v2に同意しなければなりません。]]></value>
+		</item>
+	</item>
+	<item name="install_checklist_desc" type="array">
+		<item name="php_version">
+			<value xml:lang="ko"><![CDATA[[필수] PHP버전이 5.2.2일 경우 PHP의 버그로 인하여 설치되지 않습니다.]]></value>
+			<value xml:lang="en"><![CDATA[[Required] If PHP version is 5.2.2, XE will not be installed because of a bug]]></value>
+			<value xml:lang="jp"><![CDATA[【必須】PHPバージョンが 5.2.2の場合は、PHPのセキュリティバグのため、インストールできません。]]></value>
+			<value xml:lang="zh-CN"><![CDATA[[必须] 由于 PHP 5.2.2 版本BUG，无法安装 XE。]]></value>
+			<value xml:lang="zh-TW"><![CDATA[[必須] 由於 PHP 5.2.2 版本的問題，無法安裝 XE 程式。]]></value>
+			<value xml:lang="fr"><![CDATA[[Obligatoire] Si la version de PHP est 5.2.2, XE ne sera pas  installé à cause du bogue]]></value>
+			<value xml:lang="ru"><![CDATA[[Требуется] Если версия PHP равна 5.2.2, то XE не будет установлена из-за бага]]></value>
+			<value xml:lang="es"><![CDATA[[Requerido] Si la versión de PHP es 5.2.2, XE no sera instalado por errores]]></value>
+			<value xml:lang="tr"><![CDATA[[Gerekli] Eğer PHP sürümü 5.2.2 ise, XE yazılım hatasından dolayı kurulmayacaktır]]></value>
+			<value xml:lang="vi"><![CDATA[[Bắt buộc] Nếu phiên bản của PHP là 5.2.2, XE sẽ không thể cài đặt vì có lỗi.]]></value>
+		</item>
+		<item name="permission">
+			<value xml:lang="ko"><![CDATA[[필수] XE의 설치 경로 또는 ./files 디렉토리의 퍼미션이 707이어야 합니다.]]></value>
+			<value xml:lang="en"><![CDATA[[Required] XE installation path or ./files directory's permission must be 707]]></value>
+			<value xml:lang="jp"><![CDATA[【必須】XEのインストールパスまたは「./files」ディレクトリのパーミッションを「707」に設定してください。]]></value>
+			<value xml:lang="zh-CN"><![CDATA[[必须] 的安装路径或 ./files目录属性必须是707]]></value>
+			<value xml:lang="zh-TW"><![CDATA[[必須] XE的資料夾或『./files』資料夾權限必須是『707』。]]></value>
+			<value xml:lang="fr"><![CDATA[[Obligatoire] Chemin de l'installation de XE ou la permission de  répertoire de ./files doit être 707]]></value>
+			<value xml:lang="ru"><![CDATA[[Требуется] Путь установки XE или директория ./files должна иметь права доступа 707]]></value>
+			<value xml:lang="es"><![CDATA[[Requerido] La ruta de la instalación de XE o el directorio de ./archivos deberia tener la atribución 707]]></value>
+			<value xml:lang="tr"><![CDATA[[Gerekli] XE kurulum yolu ya da ./files directory yolunun yetkisi 707 olmalıdır]]></value>
+			<value xml:lang="vi"><![CDATA[[Bắt buộc] Thư mục cài đặt của XE hay ./files directory phải CHMOD thành 707]]></value>
+		</item>
+		<item name="xml">
+			<value xml:lang="ko"><![CDATA[[필수] XML통신을 위하여 XML 라이브러리가 필요합니다.]]></value>
+			<value xml:lang="en"><![CDATA[[Required] XML Library is needed for XML communication]]></value>
+			<value xml:lang="jp"><![CDATA[【必須】XML通信のためにXMLライブラリが必要です。]]></value>
+			<value xml:lang="zh-CN"><![CDATA[[必须]为了 XML通讯，将需要XML库]]></value>
+			<value xml:lang="zh-TW"><![CDATA[[必須] 必須要安裝『XML Library』，才能夠使用 XML 通訊。]]></value>
+			<value xml:lang="fr"><![CDATA[[Obligatoire] La bibliothèque de XML est nécessaire pour la communication de XML]]></value>
+			<value xml:lang="ru"><![CDATA[[Требуется] XML Библиотека нужна для XML коммуникации]]></value>
+			<value xml:lang="es"><![CDATA[[Requerido] Libreria XML es necesario para la comunicación de XML]]></value>
+			<value xml:lang="tr"><![CDATA[[Gerekli] XML iletişimi için XML kitaplığı gereklidir.]]></value>
+			<value xml:lang="vi"><![CDATA[[Bắt buộc] XML Library cần thiết cho việc truyền thông File XML.]]></value>
+		</item>
+		<item name="session">
+			<value xml:lang="ko"><![CDATA[[필수] XE에서 세션 사용을 위해 php.ini 설정의 session.auto_start=0 이어야 합니다.]]></value>
+			<value xml:lang="en"><![CDATA[[Required] PHP setting file's (php.ini) 'Session.auto_start' must equal to zero in order for XE to use the session]]></value>
+			<value xml:lang="jp"><![CDATA[【必須】XEでは、セッションを使用しているため、「php.ini」の設定を「session.auto_start=0」にしてください。]]></value>
+			<value xml:lang="zh-CN"><![CDATA[[必须] 为了使用缓冲功能，必须在php.ini当中设置 session.auto_start=0]]></value>
+			<value xml:lang="zh-TW"><![CDATA[[必須] 在『php.ini』中必須要設定『session.auto_start=0』，才能使用暫存功能]]></value>
+			<value xml:lang="fr"><![CDATA[[Obligatoire] 'Session.auto_start' dans le fichier de configuration pour PHP (php.ini) doit être égal à zéro car XE utilise la session]]></value>
+			<value xml:lang="ru"><![CDATA[[Требуется] Файл настроек PHP (php.ini) 'Session.auto_start' должен быть равен нулю, чтобы XE могла использовать сессии]]></value>
+			<value xml:lang="es"><![CDATA[[Requerido] Para el uso de la sesion de XE, el archivo php.ini deberia estar configurada  session.auto_start=0]]></value>
+			<value xml:lang="tr"><![CDATA[[Gerekli] PHP ayar dosyasındaki (php.ini) 'Session.auto_start' XE'nin oturumu kullanabilmesi için sıfıra eşit olmalıdır]]></value>
+			<value xml:lang="vi"><![CDATA[[Bắt buộc] File thiết lập của PHP (php.ini) 'Session.auto_start' phải là 0 theo thứ tự số cho phiên làm việc của XE hoạt động.]]></value>
+		</item>
+		<item name="iconv">
+			<value xml:lang="ko"><![CDATA[UTF-8과 다른 언어셋의 변환을 위한 iconv설치가 필요합니다.]]></value>
+			<value xml:lang="en"><![CDATA[Iconv should be installed in order to convert between UTF-8 and other language sets]]></value>
+			<value xml:lang="jp"><![CDATA[UTF-8と多言語サポート及び文字コード変換のため、「iconv」をインストールする必要があります。]]></value>
+			<value xml:lang="zh-CN"><![CDATA[为了UTF-8和其他语言环境之间的互相转换，必须安装iconv]]></value>
+			<value xml:lang="zh-TW"><![CDATA[安裝『iconv』，才能使 UTF-8 和其他語言文字作互相轉換。]]></value>
+			<value xml:lang="fr"><![CDATA[Iconv doit être installé afin de convertir UTF-8 et des autres assortiments des  langues]]></value>
+			<value xml:lang="ru"><![CDATA[Iconv должна быть установлена для конвертирования между UTF-8 и иными языковыми кодировками]]></value>
+			<value xml:lang="es"><![CDATA[Para transformar UTF-8 y otra paquete del idioma deberia estar instalado el Iconv.]]></value>
+			<value xml:lang="tr"><![CDATA[Iconv, UTF-8 ve diğer dil ayarlarını değiştirebilmek için kurulmuş olmalıdır]]></value>
+			<value xml:lang="vi"><![CDATA[<b>Iconv</b> cần phải được cài đặt cho việc chuyển đổi ngôn ngữ thàng UTFF-8 của những ngôn ngữ khác.]]></value>
+		</item>
+		<item name="gd">
+			<value xml:lang="ko"><![CDATA[이미지변환 기능을 사용하기 위해 GD라이브러리가 설치되어 있어야 합니다.]]></value>
+			<value xml:lang="en"><![CDATA[GD Library should be installed in order to use functions to convert images]]></value>
+			<value xml:lang="jp"><![CDATA[イメージ変換機能を使用するためには、「GDライブラリ」をインストールする必要があります。]]></value>
+			<value xml:lang="zh-CN"><![CDATA[为了使用图片转换功能，必须先得安装GD库]]></value>
+			<value xml:lang="zh-TW"><![CDATA[安裝『GD Library』才可以使用圖片轉換功能。]]></value>
+			<value xml:lang="fr"><![CDATA[La bibliothèque de GD doit être installé afin d'utiliser la fonction à convertir des images]]></value>
+			<value xml:lang="ru"><![CDATA[GD Библиотека должна быть установлена для использования функции конвертироваия изображений]]></value>
+			<value xml:lang="es"><![CDATA[Libreria GD deberia estar instalado para utilizar la funcion de convertir la imagen]]></value>
+			<value xml:lang="tr"><![CDATA[GD Kitaplığı, resim değiştirme özelliğini kullanabilmek için kurulmuş, olmalıdır]]></value>
+			<value xml:lang="vi"><![CDATA[<b>GD Library</b> cần phải được cài đặt cho việc chuyển đổi hình ảnh.]]></value>
+		</item>
+	</item>
+	<item name="install_checklist_xml">
+		<value xml:lang="ko"><![CDATA[XML라이브러리 설치]]></value>
+		<value xml:lang="en"><![CDATA[Install XML Library]]></value>
+		<value xml:lang="jp"><![CDATA[XMLライブラリのインストール]]></value>
+		<value xml:lang="zh-CN"><![CDATA[安装XML库]]></value>
+		<value xml:lang="zh-TW"><![CDATA[安裝 XML Library]]></value>
+		<value xml:lang="fr"><![CDATA[Installation la bibliothèque de XML]]></value>
+		<value xml:lang="ru"><![CDATA[Установить XML библиотеку]]></value>
+		<value xml:lang="es"><![CDATA[Instalar Librería XML ]]></value>
+		<value xml:lang="tr"><![CDATA[XML Kitaplığını Kur]]></value>
+		<value xml:lang="vi"><![CDATA[Cài đặt XML Library]]></value>
+	</item>
+	<item name="install_without_xml">
+		<value xml:lang="ko"><![CDATA[xml 라이브러리가 설치되어 있지 않습니다.]]></value>
+		<value xml:lang="en"><![CDATA[XML Library is not installed]]></value>
+		<value xml:lang="jp"><![CDATA[XMLライブラリがインストールされていません。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[还没有安装xml库！]]></value>
+		<value xml:lang="zh-TW"><![CDATA[尚未安裝 XML Library！]]></value>
+		<value xml:lang="fr"><![CDATA[La bibliothèque de XML n'est pas installée]]></value>
+		<value xml:lang="ru"><![CDATA[XML библиотека не установлена]]></value>
+		<value xml:lang="es"><![CDATA[Librería XML no esta instalado]]></value>
+		<value xml:lang="tr"><![CDATA[XML Kitaplığı kurulmamış]]></value>
+		<value xml:lang="vi"><![CDATA[XML Library đã không được cài đặt.]]></value>
+	</item>
+	<item name="install_checklist_gd">
+		<value xml:lang="ko"><![CDATA[GD라이브러리 설치]]></value>
+		<value xml:lang="en"><![CDATA[Install GD Library]]></value>
+		<value xml:lang="jp"><![CDATA[GDライブラリのインストール]]></value>
+		<value xml:lang="zh-CN"><![CDATA[安装GD库]]></value>
+		<value xml:lang="zh-TW"><![CDATA[安裝 GD Library]]></value>
+		<value xml:lang="fr"><![CDATA[Installation la bibliothèque de  GD]]></value>
+		<value xml:lang="ru"><![CDATA[Установить GD библиотеку]]></value>
+		<value xml:lang="es"><![CDATA[Intalar Librería GD]]></value>
+		<value xml:lang="tr"><![CDATA[GD Kitaplığını Kur]]></value>
+		<value xml:lang="vi"><![CDATA[Cài đặt GD Library]]></value>
+	</item>
+	<item name="install_without_gd">
+		<value xml:lang="ko"><![CDATA[이미지 변환을 위한 GD 라이브러리가 설치되어 있지 않습니다.]]></value>
+		<value xml:lang="en"><![CDATA[GD Library is not installed for image convertion]]></value>
+		<value xml:lang="jp"><![CDATA[イメージ変換用のGDライブラリがインストールされていません。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[还没有安装负责转换图片功能的GD库！]]></value>
+		<value xml:lang="zh-TW"><![CDATA[尚未安裝負責轉換圖片功能的 GD Library！]]></value>
+		<value xml:lang="fr"><![CDATA[La bibliothèque de GD pour convertir des images n'est pas installée]]></value>
+		<value xml:lang="ru"><![CDATA[GD библиотека не установлена]]></value>
+		<value xml:lang="es"><![CDATA[Libreria GD no esta instalado para la conversión de la imagen]]></value>
+		<value xml:lang="tr"><![CDATA[GD Library, resim dönüştürmek için, kurulmamış]]></value>
+		<value xml:lang="vi"><![CDATA[GD Library đã không được cài đặt cho sự chuyển đổi hình ảnh.]]></value>
+	</item>
+	<item name="install_without_iconv">
+		<value xml:lang="ko"><![CDATA[문자열을 처리하기 위한 iconv 라이브러리가 설치되어 있지 않습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Iconv Library is not installed for processing characters]]></value>
+		<value xml:lang="jp"><![CDATA[文字列処理のための「iconv」ライブラリがインストールされていません。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[还没有安装负责处理字串的iconv库！]]></value>
+		<value xml:lang="zh-TW"><![CDATA[尚未安裝負責處理字串的『iconv』！]]></value>
+		<value xml:lang="fr"><![CDATA[La bibliothèque d'Iconv pour traiter les caractères  n'est pas installée]]></value>
+		<value xml:lang="ru"><![CDATA[Iconv библиотека не установлена]]></value>
+		<value xml:lang="es"><![CDATA[Libreria Iconv no esta instalado para procesar las fuentes]]></value>
+		<value xml:lang="tr"><![CDATA[Iconv Kitaplığı, karakterleri sıralamak için, kurulmamış]]></value>
+		<value xml:lang="vi"><![CDATA[Iconv Library đã không được cài đặt cho việc xử lý những đặc tính.]]></value>
+	</item>
+	<item name="install_session_auto_start">
+		<value xml:lang="ko"><![CDATA[php설정의 session.auto_start==1 이라 세션 처리에 문제가 발생할 수 있습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Possible problems might occur due to the php setting. session.auto_start is equal to 1]]></value>
+		<value xml:lang="jp"><![CDATA[PHPの設定で「session.auto_start==1」 にするとセッション処理に問題が発生することがあります。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[PHP设置中设置成session.auto_start==1，可能处理session时发生错误。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[PHP設置中設置成『session.auto_start==1』，可能在處理 session 時會發生錯誤。]]></value>
+		<value xml:lang="fr"><![CDATA[Des problèmes possibles peuvent avoir lieu car  session.auto_start==1 dans la configuration de PHP]]></value>
+		<value xml:lang="ru"><![CDATA[Возможно возникнут проблемы из-за настройки PHP session.auto_start, установленной в 1]]></value>
+		<value xml:lang="es"><![CDATA[Puede provocar errores si en la configuración de php esta configurada "session.auto_start=1"]]></value>
+		<value xml:lang="tr"><![CDATA[Olası hatalar php ayarlarından dolayı oluşabilir. session.auto_start 1'e eşit olmalıdır]]></value>
+		<value xml:lang="vi"><![CDATA[Đã có lỗi xảy ra, có lẽ do sự thiết đặt PHP. session.auto_start không phải là 1]]></value>
+	</item>
+	<item name="install_permission_denied">
+		<value xml:lang="ko"><![CDATA[설치대상 디렉토리의 퍼미션이 707이 아닙니다.]]></value>
+		<value xml:lang="en"><![CDATA[Installation path's permission doesn't equal to 707]]></value>
+		<value xml:lang="jp"><![CDATA[インストールする対象ディレクトリのパーミッションが「707」になっていません。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[安装目录属性不是707！]]></value>
+		<value xml:lang="zh-TW"><![CDATA[安裝目錄權限不是『707』！]]></value>
+		<value xml:lang="fr"><![CDATA[La permission du chemin d'installation n'est pas égale à 707]]></value>
+		<value xml:lang="ru"><![CDATA[Права доступа пути не установлены в 707]]></value>
+		<value xml:lang="es"><![CDATA[La atribución de la ruta de instalacion no es igual a 707]]></value>
+		<value xml:lang="tr"><![CDATA[Kurulum yolu yetkisi 707'ye eşit değil]]></value>
+		<value xml:lang="vi"><![CDATA[Sự cho phép của thư mục cài đặt không phải là 707]]></value>
+	</item>
+	<item name="install_notandum">
+		<value xml:lang="ko"><![CDATA[모든 항목을 반드시 작성해야 합니다. 모든 항목을 관리자 환경에서 수정할 수 있습니다.]]></value>
+		<value xml:lang="en"><![CDATA[All form must be filled, but you can modify all of settings after finish the installation.]]></value>
+		<value xml:lang="jp"><![CDATA[すべての項目を必ず作成してください。すべての項目を管理者環境にて修正できます。]]></value>
+	</item>
+	<item name="cmd_agree_license">
+		<value xml:lang="ko"><![CDATA[라이선스에 동의합니다.]]></value>
+		<value xml:lang="en"><![CDATA[I agree with the license]]></value>
+		<value xml:lang="jp"><![CDATA[ライセンスに同意します。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[同意]]></value>
+		<value xml:lang="zh-TW"><![CDATA[同意使用條款]]></value>
+		<value xml:lang="fr"><![CDATA[Je suis d'accord avec la licence]]></value>
+		<value xml:lang="ru"><![CDATA[Я согласен с данной лицензией]]></value>
+		<value xml:lang="es"><![CDATA[Yo accepto la licencia]]></value>
+		<value xml:lang="tr"><![CDATA[Lisansı kabul ediyorum]]></value>
+		<value xml:lang="vi"><![CDATA[Tôi đã đọc và đồng ý với giấy phép này.]]></value>
+	</item>
+	<item name="cmd_install_fix_checklist">
+		<value xml:lang="ko"><![CDATA[필수 설치조건을 설정하였습니다.]]></value>
+		<value xml:lang="en"><![CDATA[I have fixed the required conditions.]]></value>
+		<value xml:lang="jp"><![CDATA[インストール必須条件を設定しました。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[已设置了必要的安装条件。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[重新檢查]]></value>
+		<value xml:lang="fr"><![CDATA[J'ai corrigé les conditions obligatoires.]]></value>
+		<value xml:lang="ru"><![CDATA[Я удоволетворил требуемые условия]]></value>
+		<value xml:lang="es"><![CDATA[Yo he configurado las condiciones necesarias para la instalación.]]></value>
+		<value xml:lang="tr"><![CDATA[Gerekli koşulları tamamladım.]]></value>
+		<value xml:lang="vi"><![CDATA[Tôi đã thay đổi để phù hợp với yêu cầu cài đặt.]]></value>
+	</item>
+	<item name="cmd_install_next">
+		<value xml:lang="ko"><![CDATA[설치를 진행합니다.]]></value>
+		<value xml:lang="en"><![CDATA[Continue installation]]></value>
+		<value xml:lang="jp"><![CDATA[インストールを続けます。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[开始安装]]></value>
+		<value xml:lang="zh-TW"><![CDATA[開始進行安裝]]></value>
+		<value xml:lang="fr"><![CDATA[Continuer à  installer]]></value>
+		<value xml:lang="ru"><![CDATA[Продолжить установку]]></value>
+		<value xml:lang="es"><![CDATA[Continuar la instalación]]></value>
+		<value xml:lang="tr"><![CDATA[Kuruluma Devam Et]]></value>
+		<value xml:lang="vi"><![CDATA[Tiếp tục cài đặt]]></value>
+	</item>
+	<item name="cmd_ignore">
+		<value xml:lang="ko"><![CDATA[무시]]></value>
+		<value xml:lang="en"><![CDATA[Ignore]]></value>
+		<value xml:lang="jp"><![CDATA[FTP設定を省略する]]></value>
+		<value xml:lang="zh-CN"><![CDATA[忽略]]></value>
+		<value xml:lang="zh-TW"><![CDATA[忽略]]></value>
+		<value xml:lang="tr"><![CDATA[Önemseme]]></value>
+		<value xml:lang="vi"><![CDATA[Bỏ qua]]></value>
+	</item>
+	<item name="db_desc" type="array">
+		<item name="mysql">
+			<value xml:lang="ko"><![CDATA[MySQL DB를 php의 mysql*()함수를 이용하여 사용합니다.<br />DB 파일은 myisam으로 생성되기에 트랜잭션이 이루어지지 않습니다.]]></value>
+			<value xml:lang="en"><![CDATA[Use MySQL as a database with mysql*() functions in php.<br />Transactions will not be processed since DB file is created in myisam.]]></value>
+			<value xml:lang="jp"><![CDATA[MySQL DBでPHPの「mysql*()」関数を利用してデータの入出力を行います。<br />DBは「myisam」タイプで作成されるため、トランザクション処理はできません。]]></value>
+			<value xml:lang="zh-CN"><![CDATA[利用php的 mysql*()函数使用mysql DB。<br />DB数据是以myisam生成，因此不能实现transaction。]]></value>
+			<value xml:lang="zh-TW"><![CDATA[利用 PHP 的『mysql*()』函數使用 MySQL 資料庫。<br />利用『myisam』建立資料庫檔案，因此不能實現transaction。]]></value>
+			<value xml:lang="fr"><![CDATA[Utilisera fonction mysql*() pour utiliser la base de données de mysql.<br />La transaction sera invalidé parce que le fichier de Base de Données est créé par myisam.]]></value>
+			<value xml:lang="ru"><![CDATA[Используем mysql*() функцию, чтобы использовать базу данных mysql.<br />Транзакция отключена из-за того, что файл базы данных создан посредством myisam.]]></value>
+			<value xml:lang="es"><![CDATA[Utilizando las funciones mysql*() de PHP usar DB mysql.<br />La transacción es desabilitado ya que DB(Bases de Datos) está creado por myisam.]]></value>
+			<value xml:lang="tr"><![CDATA[PHP'de mysql*() özellikleri için MySQL'ü veritabanı olarak kullanınız.<br />İşlemler, veritabanı dosyası myisam 'da oluşturulduğu zaman işlenmeyecektir.]]></value>
+			<value xml:lang="vi"><![CDATA[Dùng chức năng <b>mysql*()</b> để sử dụng MySql Database.<br />Giao dịch được vô hiệu hóa bởi File Database được tạo ra bởi myisam.]]></value>
+		</item>
+		<item name="mysqli">
+			<value xml:lang="ko"><![CDATA[MySQL DB를 php의 mysqli*()함수를 이용하여 사용합니다.<br />DB 파일은 myisam으로 생성되기에 트랜잭션이 이루어지지 않습니다.]]></value>
+			<value xml:lang="en"><![CDATA[Use MySQL as a database with mysqli*() functions in php.<br />Transactions will not be processed since DB file is created in myisam]]></value>
+			<value xml:lang="jp"><![CDATA[MySQL DBでPHPの「mysqli*()」関数を利用してデータの入出力を行います。<br />DBは「myisam」タイプで作成されるため、トランザクション処理はできせん。]]></value>
+			<value xml:lang="zh-CN"><![CDATA[利用php的 mysqli*()函数使用mysql DB。<br />DB数据是以myisam生成，因此不能实现transaction。]]></value>
+			<value xml:lang="zh-TW"><![CDATA[利用 PHP 的『mysqli*()』函數使用 MySQL 資料庫。<br />利用『myisam』建立資料庫檔案，因此不能實現transaction。]]></value>
+			<value xml:lang="fr"><![CDATA[Utilisera fonction mysqli*() pour utiliser la base de données de mysql.<br />La transaction sera invalidé parce que le fichier de Base de Données est créé par myisam.]]></value>
+			<value xml:lang="ru"><![CDATA[Используем mysqli*() функцию, чтобы использовать базу данных mysql.<br />Транзакция отключена из-за того, что файл базы данных создан посредством myisam.]]></value>
+			<value xml:lang="es"><![CDATA[Utilizando las funciones mysqli*() de PHP usar DB mysql.<br />La transacción es desabilitado ya que DB(Bases de Datos) está creado por myisam.]]></value>
+			<value xml:lang="tr"><![CDATA[PHP'de mysqli*() özellikleri için MySQL'ü veritabanı olarak kullanınız.<br />İşlemler, veritabanı dosyası myisam 'da oluşturulduğu zaman işlenmeyecektir.]]></value>
+			<value xml:lang="vi"><![CDATA[Dùng chức năng <b>mysqli*()</b> để sử dụng MySql Database.<br />Giao dịch được vô hiệu hóa bởi File Database được tạo ra bởi myisam.]]></value>
+		</item>
+		<item name="mysql_innodb">
+			<value xml:lang="ko"><![CDATA[MySQL DB를 innodb를 이용하여 사용합니다.<br />innodb는 트랜잭션을 사용할 수 있습니다.]]></value>
+			<value xml:lang="en"><![CDATA[Use MySQL as a database with innodb.<br />Transactions will be processed with innodb]]></value>
+			<value xml:lang="jp"><![CDATA[MySQL DBで「innodb」タイプでデータの入出力を行います。<br />「innodb」ではトランザクションの処理が行えます。]]></value>
+			<value xml:lang="zh-CN"><![CDATA[利用innodb使用mysql DB。<br />innodb可以使用transaction。]]></value>
+			<value xml:lang="zh-TW"><![CDATA[利用『innodb』使用 Mysql 資料庫。<br />innodb可以使用 transaction。]]></value>
+			<value xml:lang="fr"><![CDATA[Utilisera innodb pour utiliser Base de Données de mysql.<br />La transaction sera validé pour innodb]]></value>
+			<value xml:lang="ru"><![CDATA[Используем innodb  чтобы использовать базу данных mysql.<br />Транзакция включена для innodb]]></value>
+			<value xml:lang="es"><![CDATA[Utilizando innodb usar BD mysql.<br />La transacción es hablilitado para innodb]]></value>
+			<value xml:lang="tr"><![CDATA[innodb ile MySQL'ü veritabanı olrak kullanınız.<br />İşlemler, innodb ile işlenecektir]]></value>
+			<value xml:lang="vi"><![CDATA[Dùng chức năng <b>innodb</b> để sử dụng MySql Database.<br />Giao dịch được kích hoạt cho innodb]]></value>
+		</item>
+		<item name="sqlite2">
+			<value xml:lang="ko"><![CDATA[파일로 데이터를 저장하는 sqlite2를 지원합니다.<br />설치 시 DB파일은 웹에서 접근할 수 없는 곳에 생성하여 주셔야 합니다.<br />(안정화 테스트가 되지 않았습니다.)]]></value>
+			<value xml:lang="en"><![CDATA[Use sqlite2 as a database which saves the data in files.<br />DB file <b>must not be</b> accessible from the web.<br />(Never been tested for stabilization)]]></value>
+			<value xml:lang="jp"><![CDATA[ファイルタイプデータベースである「sqlite2」をサポートします。<br />インストール時、セキュリティのため、DBファイルはウェブがらアクセスできない場所に作成してください。<br />（安定化までのテストは行われていません）]]></value>
+			<value xml:lang="zh-CN"><![CDATA[支持用文件形式保存数据的sqlite2。<br />安装时DB文件应在web不能访问的地方生成。<br />(还没有通过安全的测试)]]></value>
+			<value xml:lang="zh-TW"><![CDATA[支援用檔案形式保存數據的『sqlite2』。<br />安裝時，資料庫數據應建立在 web 無法訪問的地方。<br />(尚未通過安全測試)]]></value>
+			<value xml:lang="fr"><![CDATA[Surpporter sqlite2 qui conserve les données dans les fichiers.<br />Quand vous installez, vous devez créer le fichier de Base de Données dans une place que l'on ne peut pas accéder par web.<br />(Jamais  testé sur  stabilization)]]></value>
+			<value xml:lang="ru"><![CDATA[Поддерживает sqlite2, которая сохраняет данные в файл.<br />Устанавливая, следует размещать файл базы данных в недоступном с веб месте.<br />(Никогда не тестировалось на стабильность)]]></value>
+			<value xml:lang="es"><![CDATA[Soporta sqlite2, el cual almacena los datos en archivos <br />En la instalacion, es necesario crear archivo de BD en un lugar inaccesible de la web.<br />(Testeo de la estabilización no realizada)]]></value>
+			<value xml:lang="tr"><![CDATA['Verileri dosya olarak kaydeden sqlite2 'yi veritabanı olarak kullanınız. <br />VT dosyası tarayıcıdan erişilebilir <b>olmamalıdır</b>.<br />(Sabitleme için hiç test edilmedi)]]></value>
+			<value xml:lang="vi"><![CDATA[Hỗ trợ <b>sqlite2</b> khi lưu Database thành File.<br />Khi cài đặt, File Database phải được tạo ra tại chỗ không sử dụng được từ Web.<br />(Không khẳng định sẽ hoạt động ổn định)]]></value>
+		</item>
+		<item name="sqlite3_pdo">
+			<value xml:lang="ko"><![CDATA[PHP의 PDO로 sqlite3를 지원합니다.<br />설치 시 DB파일은 웹에서 접근할 수 없는 곳에 생성하여 주셔야 합니다.]]></value>
+			<value xml:lang="en"><![CDATA[Use sqlite3 as a database which supports PHP PDO.<br />DB file <b>must not be</b> accessible from the web.]]></value>
+			<value xml:lang="jp"><![CDATA[PHPのPDOを経由して「sqlite3」をサポートします。<br />インストール時、セキュリティのため、DBファイルはウェブからアクセスできない場所に作成してください。]]></value>
+			<value xml:lang="zh-CN"><![CDATA[用PHP的 PDO支持 sqlite3。<br />安装时DB文件应在web不能访问的地方生成。]]></value>
+			<value xml:lang="zh-TW"><![CDATA[用 PHP 的 PDO 支援『sqlite3』。<br />安裝時，資料庫數據應建立在網頁無法訪問的地方。]]></value>
+			<value xml:lang="fr"><![CDATA[Supporter sqlite3 PDO de PHP.<br />Quand vous installez, vous devez cr?r le fichier de Base de Données dans une place que l'on ne peut pas accéder par Web.]]></value>
+			<value xml:lang="ru"><![CDATA[Поддерживает sqlite3 посредством PHP's PDO.<br />Устанавливая, следует размещать файл базы данных в недоступном с веб месте.]]></value>
+			<value xml:lang="es"><![CDATA[A través de PDO de PHP soporta sqlite2 <br />En la instalación, es necesario crear archivo de BD en un lugar inaccesible de la web.]]></value>
+			<value xml:lang="tr"><![CDATA[PHP'nin PDO'sunun desteğiyle sqlite3'ü veritabanı olarak kullanınız.<br />VT dosyası tarayıcıdan erişilebilir <b>olmamalıdır</b>.]]></value>
+			<value xml:lang="vi"><![CDATA[Hỗ trợ <b>sqlite3</b> bởi PDO của PHP.<br />Khi cài đặt, File Database phải được tạo ra tại chỗ không sử dụng được từ Web.]]></value>
+		</item>
+		<item name="cubrid">
+			<value xml:lang="ko"><![CDATA[CUBRID DB를 이용합니다. <a href="http://xe.xpressengine.net/18180659" target="_blank">Manual</a>]]></value>
+			<value xml:lang="en"><![CDATA[Use CUBRID as a database. See <a href="http://www.xpressengine.com/?mid=manual&pageid=2880556" target="_blank">Manual</a> for more info]]></value>
+			<value xml:lang="jp"><![CDATA[CUBRID DBを利用します。 <a href="http://www.xpressengine.com/?mid=manual&pageid=2880556" target="_blank">Manual</a>]]></value>
+			<value xml:lang="zh-CN"><![CDATA[使用CUBRID DB。 <a href="http://www.xpressengine.com/?mid=manual&pageid=2880556" target="_blank">Manual</a>]]></value>
+			<value xml:lang="zh-TW"><![CDATA[使用 CUBRID DB。 <a href="http://www.xpressengine.com/?mid=manual&pageid=2880556" target="_blank">Manual</a>]]></value>
+			<value xml:lang="fr"><![CDATA[Utiliser la Base de Données de CUBRID.  <a href="http://www.xpressengine.com/?mid=manual&pageid=2880556" target="_blank">Manual</a>]]></value>
+			<value xml:lang="ru"><![CDATA[Используем CUBRID DB. <a href="http://www.xpressengine.com/?mid=manual&pageid=2880556" target="_blank">Manual</a>]]></value>
+			<value xml:lang="es"><![CDATA[Usar BD CUBRID. <a href="http://www.xpressengine.com/?mid=manual&pageid=2880556" target="_blank">Manual</a>]]></value>
+			<value xml:lang="tr"><![CDATA[CUBRID'ü veritabanı olarak kullanın. Daha fazla bilgi için <a href="http://www.xpressengine.com/?mid=manual&pageid=2880556" target="_blank">Manuel</a>i inceleyiniz]]></value>
+			<value xml:lang="vi"><![CDATA[Sử dụng <b>CUBRID</b> Database.  <a href="#" target="_blank">Hướng dẫn</a>]]></value>
+		</item>
+		<item name="mssql">
+			<value xml:lang="ko"><![CDATA[MSSQL DB를 이용합니다.]]></value>
+			<value xml:lang="en"><![CDATA[Use MSSQL as a database]]></value>
+			<value xml:lang="jp"><![CDATA[MSSQL DBを利用します。]]></value>
+			<value xml:lang="zh-CN"><![CDATA[使用MSSQL DB。]]></value>
+			<value xml:lang="zh-TW"><![CDATA[使用 MSSQL DB。]]></value>
+			<value xml:lang="fr"><![CDATA[Utiliser la Base de Données de MSSQL.]]></value>
+			<value xml:lang="ru"><![CDATA[Используем MSSQL DB.]]></value>
+			<value xml:lang="es"><![CDATA[Usar BD MSSQL.]]></value>
+			<value xml:lang="tr"><![CDATA[MSSQL'ü veritabanı olarak kullanın]]></value>
+		</item>
+		<item name="postgresql">
+			<value xml:lang="ko"><![CDATA[PostgreSql을 이용합니다.]]></value>
+			<value xml:lang="en"><![CDATA[Use PostgreSql as a database.]]></value>
+			<value xml:lang="jp"><![CDATA[PostgreSql DBを利用します。]]></value>
+			<value xml:lang="zh-CN"><![CDATA[使用PostgreSql DB。]]></value>
+			<value xml:lang="zh-TW"><![CDATA[使用 PostgreSql DB。]]></value>
+			<value xml:lang="fr"><![CDATA[Utiliser la Base de Données de PostgreSql.]]></value>
+			<value xml:lang="ru"><![CDATA[Используем PostgreSql DB.]]></value>
+			<value xml:lang="es"><![CDATA[Usar BD PostgreSql.]]></value>
+			<value xml:lang="tr"><![CDATA[PostgreSql'ü veritabanı olarak kullanın.]]></value>
+			<value xml:lang="vi"><![CDATA[Sử dụng <b>PostgreSql</b> Database.]]></value>
+		</item>
+		<item name="firebird">
+			<value xml:lang="ko"><![CDATA[Firebird를 이용합니다.<br />DB 생성 방법 (create database "/path/dbname.fdb" page_size=8192 default character set UTF-8;)]]></value>
+			<value xml:lang="en"><![CDATA[Use Firebird as a database.<br />You can create a database with (create database "/path/dbname.fdb" page_size=8192 default character set UTF-8;)]]></value>
+			<value xml:lang="jp"><![CDATA[Firebird DBを利用します。<br />DB生成方法 (create database "/path/dbname.fdb" page_size=8192 default character set UTF8;)]]></value>
+			<value xml:lang="zh-CN"><![CDATA[使用Firebird DB。]]></value>
+			<value xml:lang="zh-TW"><![CDATA[使用 Firebird DB。<br />DB 建立方式 (create database "/path/dbname.fdb" page_size=8192 default character set UTF8;)]]></value>
+			<value xml:lang="fr"><![CDATA[Utiliser la Base de Données de firebird.]]></value>
+			<value xml:lang="ru"><![CDATA[Используем firebird DB.]]></value>
+			<value xml:lang="es"><![CDATA[Usar BD firebird. Cómo crear <br /> PP (crear base de datos "/ path / dbname.fdb" page_size = 8192 el conjunto de caracteres UTF8 por defecto;)]]></value>
+			<value xml:lang="tr"><![CDATA[Firebird'ü veritabanı olarak kullanın.<br /> (create database "/path/dbname.fdb" page_size=8192 default character set UTF-8;) ile veritabanı oluşturabilirsiniz]]></value>
+			<value xml:lang="vi"><![CDATA[Sử dụng <b>firebird</b> Database.]]></value>
+		</item>
+	</item>
+	<item name="form_title">
+		<value xml:lang="ko"><![CDATA[DB &amp; 관리자 정보 입력]]></value>
+		<value xml:lang="en"><![CDATA[Database &amp; Administrator Information]]></value>
+		<value xml:lang="jp"><![CDATA[データベース &amp; 管理者情報入力]]></value>
+		<value xml:lang="zh-CN"><![CDATA[数据库及管理员基本信息]]></value>
+		<value xml:lang="zh-TW"><![CDATA[輸入資料庫及管理員資訊]]></value>
+		<value xml:lang="fr"><![CDATA[Entrer des informations de Base de données et Administrateur]]></value>
+		<value xml:lang="ru"><![CDATA[Пожалуйста, введите дазу данных &amp; Административная Информация]]></value>
+		<value xml:lang="es"><![CDATA[Ingresar  BD &amp; Información del Administrador;]]></value>
+		<value xml:lang="tr"><![CDATA[Veritabanı &amp; Yönetici Bilgisi]]></value>
+		<value xml:lang="vi"><![CDATA[Hãy nhập thông tin Database và thông tin Administrator]]></value>
+	</item>
+	<item name="db_title">
+		<value xml:lang="ko"><![CDATA[DB 정보 입력]]></value>
+		<value xml:lang="en"><![CDATA[Please input DB information]]></value>
+		<value xml:lang="jp"><![CDATA[データベース情報入力]]></value>
+		<value xml:lang="zh-CN"><![CDATA[输入数据库信息]]></value>
+		<value xml:lang="zh-TW"><![CDATA[輸入資料庫資訊]]></value>
+		<value xml:lang="fr"><![CDATA[Entrez l'information de Base de Données, S.V.P.]]></value>
+		<value xml:lang="ru"><![CDATA[Пожалуйста, введите информацию базы данных]]></value>
+		<value xml:lang="es"><![CDATA[Por favor escribir información de BD]]></value>
+		<value xml:lang="tr"><![CDATA[Lütfen Veritabanı bilgisini giriniz]]></value>
+		<value xml:lang="vi"><![CDATA[Xin hãy nhập thông tin Database]]></value>
+	</item>
+	<item name="db_type">
+		<value xml:lang="ko"><![CDATA[DB 종류]]></value>
+		<value xml:lang="en"><![CDATA[DB Type]]></value>
+		<value xml:lang="jp"><![CDATA[データベースの種類]]></value>
+		<value xml:lang="zh-CN"><![CDATA[数据库类型]]></value>
+		<value xml:lang="zh-TW"><![CDATA[資料庫類型]]></value>
+		<value xml:lang="fr"><![CDATA[Sorte de Base de Données]]></value>
+		<value xml:lang="ru"><![CDATA[Тип базы данных]]></value>
+		<value xml:lang="es"><![CDATA[Tipo de BD]]></value>
+		<value xml:lang="tr"><![CDATA[Veritabanı Tipi]]></value>
+		<value xml:lang="vi"><![CDATA[Định dạng Database]]></value>
+	</item>
+	<item name="select_db_type">
+		<value xml:lang="ko"><![CDATA[사용하시려는 DB를 선택해주세요.]]></value>
+		<value xml:lang="en"><![CDATA[Please select the DB you want to use.]]></value>
+		<value xml:lang="jp"><![CDATA[使用するデータベース種類を選択してください。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[选择数据库]]></value>
+		<value xml:lang="zh-TW"><![CDATA[請選擇要使用的資料庫。]]></value>
+		<value xml:lang="fr"><![CDATA[Choisissez la Base de Données que vous voulez utiliser.]]></value>
+		<value xml:lang="ru"><![CDATA[Пожалуйста, выберите базу данных, которую Вы хотите использовать.]]></value>
+		<value xml:lang="es"><![CDATA[Seleccione el tipo de BD que desea usar.]]></value>
+		<value xml:lang="tr"><![CDATA[Lütfen kullanmak istediğiniz Veritabanını seçiniz.]]></value>
+		<value xml:lang="vi"><![CDATA[Xin hãy chọn Database bạn muốn sử dụng.]]></value>
+	</item>
+	<item name="db_hostname">
+		<value xml:lang="ko"><![CDATA[DB 호스트네임]]></value>
+		<value xml:lang="en"><![CDATA[DB Hostname]]></value>
+		<value xml:lang="jp"><![CDATA[ホスト名]]></value>
+		<value xml:lang="zh-CN"><![CDATA[服务器名]]></value>
+		<value xml:lang="zh-TW"><![CDATA[主機名稱]]></value>
+		<value xml:lang="fr"><![CDATA[Hostname(Nom de l'ordinateur central) de Base de Données (LOCALHOST généralement)]]></value>
+		<value xml:lang="ru"><![CDATA[Хост базы данных]]></value>
+		<value xml:lang="es"><![CDATA[Hostname de BD]]></value>
+		<value xml:lang="tr"><![CDATA[Veritabanı Sunucuadı]]></value>
+		<value xml:lang="vi"><![CDATA[Hostname]]></value>
+	</item>
+	<item name="db_port">
+		<value xml:lang="ko"><![CDATA[DB Port]]></value>
+		<value xml:lang="en"><![CDATA[DB Port]]></value>
+		<value xml:lang="jp"><![CDATA[ポート番号]]></value>
+		<value xml:lang="zh-CN"><![CDATA[数据库端口]]></value>
+		<value xml:lang="zh-TW"><![CDATA[埠口]]></value>
+		<value xml:lang="fr"><![CDATA[Port de Base de Données]]></value>
+		<value xml:lang="ru"><![CDATA[Порт базы данных]]></value>
+		<value xml:lang="es"><![CDATA[Port de BD]]></value>
+		<value xml:lang="tr"><![CDATA[Veritabanı Portu]]></value>
+		<value xml:lang="vi"><![CDATA[Port]]></value>
+	</item>
+	<item name="db_userid">
+		<value xml:lang="ko"><![CDATA[DB 아이디]]></value>
+		<value xml:lang="en"><![CDATA[DB ID]]></value>
+		<value xml:lang="jp"><![CDATA[ユーザーID]]></value>
+		<value xml:lang="zh-CN"><![CDATA[DB用户名]]></value>
+		<value xml:lang="zh-TW"><![CDATA[使用者名稱]]></value>
+		<value xml:lang="fr"><![CDATA[Compte(ID) pour le Base de Données]]></value>
+		<value xml:lang="ru"><![CDATA[ID базы данных]]></value>
+		<value xml:lang="es"><![CDATA[ID de BD]]></value>
+		<value xml:lang="tr"><![CDATA[Veritabanı ID]]></value>
+		<value xml:lang="vi"><![CDATA[Tên truy cập]]></value>
+	</item>
+	<item name="db_password">
+		<value xml:lang="ko"><![CDATA[DB 비밀번호]]></value>
+		<value xml:lang="en"><![CDATA[DB Password]]></value>
+		<value xml:lang="jp"><![CDATA[パスワード]]></value>
+		<value xml:lang="zh-CN"><![CDATA[DB密码]]></value>
+		<value xml:lang="zh-TW"><![CDATA[密碼]]></value>
+		<value xml:lang="fr"><![CDATA[Mot de passe pour le Base de Données]]></value>
+		<value xml:lang="ru"><![CDATA[Пароль базы данных]]></value>
+		<value xml:lang="es"><![CDATA[Contraseña de BD]]></value>
+		<value xml:lang="tr"><![CDATA[Veritabanı Şifresi]]></value>
+		<value xml:lang="vi"><![CDATA[Mật khẩu]]></value>
+	</item>
+	<item name="db_database">
+		<value xml:lang="ko"><![CDATA[DB 데이터베이스]]></value>
+		<value xml:lang="en"><![CDATA[DB Database]]></value>
+		<value xml:lang="jp"><![CDATA[データベース名]]></value>
+		<value xml:lang="zh-CN"><![CDATA[数据库名]]></value>
+		<value xml:lang="zh-TW"><![CDATA[資料庫名稱]]></value>
+		<value xml:lang="fr"><![CDATA[Nom de Base de Données]]></value>
+		<value xml:lang="ru"><![CDATA[Имя базы данных]]></value>
+		<value xml:lang="es"><![CDATA[Base de datos BD]]></value>
+		<value xml:lang="vi"><![CDATA[Tên Database]]></value>
+	</item>
+	<item name="db_database_file">
+		<value xml:lang="ko"><![CDATA[DB 데이터베이스 파일]]></value>
+		<value xml:lang="en"><![CDATA[DB Database File]]></value>
+		<value xml:lang="jp"><![CDATA[データベースファイル]]></value>
+		<value xml:lang="zh-CN"><![CDATA[数据库文件]]></value>
+		<value xml:lang="zh-TW"><![CDATA[資料庫檔案]]></value>
+		<value xml:lang="fr"><![CDATA[Fichier de Base de Données]]></value>
+		<value xml:lang="ru"><![CDATA[Файл базы данных]]></value>
+		<value xml:lang="es"><![CDATA[Archivo de base de datos BD]]></value>
+		<value xml:lang="vi"><![CDATA[File Database]]></value>
+	</item>
+	<item name="db_table_prefix">
+		<value xml:lang="ko"><![CDATA[테이블 머리말]]></value>
+		<value xml:lang="en"><![CDATA[Table Header]]></value>
+		<value xml:lang="jp"><![CDATA[テーブルプレフィックス]]></value>
+		<value xml:lang="zh-CN"><![CDATA[前缀]]></value>
+		<value xml:lang="zh-TW"><![CDATA[前置字元]]></value>
+		<value xml:lang="fr"><![CDATA[En-tête de la table]]></value>
+		<value xml:lang="ru"><![CDATA[Префикс таблиц]]></value>
+		<value xml:lang="es"><![CDATA[Encabezado de la tabla]]></value>
+		<value xml:lang="tr"><![CDATA[Tablo Başlığı]]></value>
+		<value xml:lang="vi"><![CDATA[Tên Table]]></value>
+	</item>
+	<item name="db_info_desc">
+		<value xml:lang="ko"><![CDATA[<p><strong>DB 호스트 네임</strong>, <strong>DB Port</strong>, <strong>DB 아이디</strong>, <strong>DB 비밀번호</strong>, <strong>DB 이름</strong> 정보는 서버 호스팅 관리자로부터 정보를 확인 하세요.</p><p><strong>DB 테이블 머리말</strong> 정보는 사용자 정의 할 수 있습니다. 영문 소문자를 권장 합니다. 숫자를 포함할 수 있습니다. 특수 문자를 사용할 수 없습니다.</p>]]></value>
+		<value xml:lang="en"><![CDATA[<p>Please check <strong>database information</strong> to server master.</p><p>You can modify database <strong>table preface</strong>, and can use small letters(small letter is recommended), and numbers, but you can not use special letters.</p>]]></value>
+	　　<value xml:lang="jp"><![CDATA[<p><strong>DBホスト名</strong>, <strong>DB Port</strong>, <strong>DB ID</strong>, <strong>DB パスワード</strong>, <strong>DB 名稱</strong> 情報は、サーバーホスティング管理者に情報を確認してください。</p><p><strong>DBテーブルプレフィックス</strong> 情報は、ユーザーが定義できます。英文小文字の使用を推奨します。数字を含めることができます。特殊文字は、使用できません。</p>]]></value>
+	</item>
+	<item name="admin_title">
+		<value xml:lang="ko"><![CDATA[관리자 정보]]></value>
+		<value xml:lang="en"><![CDATA[Administrator Info]]></value>
+		<value xml:lang="jp"><![CDATA[管理者情報]]></value>
+		<value xml:lang="zh-CN"><![CDATA[管理员信息]]></value>
+		<value xml:lang="zh-TW"><![CDATA[管理員資料]]></value>
+		<value xml:lang="fr"><![CDATA[Informations d'Administrateur]]></value>
+		<value xml:lang="ru"><![CDATA[Административная информация]]></value>
+		<value xml:lang="es"><![CDATA[Información del Administrator]]></value>
+		<value xml:lang="tr"><![CDATA[Yönetici Bilgisi]]></value>
+		<value xml:lang="vi"><![CDATA[Thông tin Administrator]]></value>
+	</item>
+	<item name="env_title">
+		<value xml:lang="ko"><![CDATA[환경 설정]]></value>
+		<value xml:lang="en"><![CDATA[Settings]]></value>
+		<value xml:lang="jp"><![CDATA[環境設定]]></value>
+		<value xml:lang="zh-CN"><![CDATA[环境设置]]></value>
+		<value xml:lang="zh-TW"><![CDATA[環境設置]]></value>
+		<value xml:lang="ru"><![CDATA[Конфигурация]]></value>
+		<value xml:lang="es"><![CDATA[Configuración]]></value>
+		<value xml:lang="tr"><![CDATA[Yapılandırma]]></value>
+		<value xml:lang="vi"><![CDATA[Cấu hình]]></value>
+	</item>
+	<item name="use_optimizer">
+		<value xml:lang="ko"><![CDATA[Optimizer 사용]]></value>
+		<value xml:lang="en"><![CDATA[Enable Optimizer]]></value>
+		<value xml:lang="jp"><![CDATA[オプティマイザー使用]]></value>
+		<value xml:lang="zh-CN"><![CDATA[使用Optimizer]]></value>
+		<value xml:lang="zh-TW"><![CDATA[Optimizer]]></value>
+		<value xml:lang="fr"><![CDATA[Valider Optimiseur]]></value>
+		<value xml:lang="ru"><![CDATA[Включить оптимизатор]]></value>
+		<value xml:lang="es"><![CDATA[Habilitar el optimizador]]></value>
+		<value xml:lang="tr"><![CDATA[Optimizasyonu Etkinleştir]]></value>
+		<value xml:lang="vi"><![CDATA[Tối ưu hóa]]></value>
+	</item>
+	<item name="about_optimizer">
+		<value xml:lang="ko"><![CDATA[Optimizer를 사용하면 다수의 CSS/JS파일을 통합/압축 전송하여 매우 빠르게 사이트 접속이 가능하게 합니다.<br />다만 CSS나 JS에 따라서 문제가 생길 수 있습니다. 이때는 Optimizer 비활성화 하시면 정상적인 동작은 가능합니다.]]></value>
+		<value xml:lang="en"><![CDATA[If optimizer is enabled, users can quickly access to this site, since multiple CSS / JS files are put together and compressed before transmission. <br /> Nevertheless, this optimization might be problematic according to CSS or JS. If you disable it, it would work properly though it would work slower.]]></value>
+		<value xml:lang="jp"><![CDATA[オプティマイザーを使用すると多数の「CSS/JS」ファイルを、統合・圧縮して転送するのでレスポンスが早くなります。<br />但し、CSSまたはJSファイルによっては問題が生じる場合があります。この場合は、チェックを外すと正常に動作します。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[使用Optimizer可以对大部分的CSS/ JS文件进行整合/压缩传送使之加快网站访问速度。<br />只是有时会发生小小的问题。这时候请暂时不要使用Optimizer。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[使用 Optimizer 可對大部分的『CSS/JS』檔案進行整合/壓縮加快網站訪問速度。<br />只是有時會發生小小的問題，這時候請暫時不要使用 Optimizer 功能。]]></value>
+		<value xml:lang="fr"><![CDATA[Si l'optimiseur est validé, utilisateur peut accéder rapidement ce site parce que plusieurs fichiers de CSS / JS sont reliés ensemble et comprimés avant transmission. <br /> Néanmoins, cette optimisation peut arriver problématique selong CSS ou JS. Si vous l'invalidez, ça marchera correctement pourtant il marchera plus lentement.]]></value>
+		<value xml:lang="ru"><![CDATA[Если оптимизатор включен, пользователи могут быстро использовать этот сайт, поскольку несколько CSS / JS файлов собраны вместе и сжаты до передачи. <br /> Тем не менее, эта оптимизация может быть проблематичной согласно CSS или JS. Если Вы выключите ее, движок будет работать правильно, хотя и медленее.]]></value>
+		<value xml:lang="es"><![CDATA[Si optimizador está habilitado, los usuarios pueden acceder rápidamente a este sitio, ya que hay múltiples CSS / JS archivos son comprimidos juntos y antes de la transmisión. <br /> No obstante, esta optimización podría ser problemáticas de acuerdo con CSS o JS. Si inhabilitarlo, que funciona correctamente a pesar de que sería más lento el trabajo.]]></value>
+		<value xml:lang="tr"><![CDATA[Eğer Optimizasyon etkinleştirildiyse, çoklu CSS / JS dosyaları gönderimden önce sıkıştırılıp bir araya konulduğundan, kullanıcılar siteye hızlı bir şekilde ulaşacaktır. <br /> Ancak;  bu optimizasyon, CSS ve JS'ye göre sorunlu olabilir. Eğer bunu devre dışı bırakırsanız, düzgün bir şekilde çalışmasına karşın daha yavaş çalışacaktır.]]></value>
+		<value xml:lang="vi"><![CDATA[Nếu tối ưu hóa được kích hoạt, người sử dụng sẽ truy cập nhanh hơn vì những File CSS / JS sẽ được nén lại trước khi được tải xuống. <br /> Tuy vậy, sự tối ưu này cũng làm ảnh hưởng một chút tới File CSS và JS. Nếu bạn tắt, Website của bạn tải chậm hơn.]]></value>
+	</item>
+	<item name="use_rewrite">
+		<value xml:lang="ko"><![CDATA[짧은 주소 사용]]></value>
+		<value xml:lang="en"><![CDATA[Rewrite Mod]]></value>
+		<value xml:lang="jp"><![CDATA[リライト・モジュールを使用]]></value>
+		<value xml:lang="zh-CN"><![CDATA[使用rewrite模块]]></value>
+		<value xml:lang="zh-TW"><![CDATA[Rewrite]]></value>
+		<value xml:lang="fr"><![CDATA[Utiliser mode de récrire(rewrite mod)]]></value>
+		<value xml:lang="ru"><![CDATA[Использовать<br /> модуль перезаписи<br />(rewrite mod)]]></value>
+		<value xml:lang="es"><![CDATA[Usar rewrite mod]]></value>
+		<value xml:lang="tr"><![CDATA[YenidenYazma Modu (mod_rewrite)]]></value>
+		<value xml:lang="vi"><![CDATA[Mod Rewrite]]></value>
+	</item>
+	<item name="use_sso">
+		<value xml:lang="ko"><![CDATA[SSO 사용]]></value>
+		<value xml:lang="en"><![CDATA[Single Sign On]]></value>
+		<value xml:lang="jp"><![CDATA[SSO使用]]></value>
+		<value xml:lang="zh-CN"><![CDATA[SSO]]></value>
+		<value xml:lang="zh-TW"><![CDATA[單一登入]]></value>
+		<value xml:lang="fr"><![CDATA[SSO]]></value>
+		<value xml:lang="ru"><![CDATA[SSO]]></value>
+		<value xml:lang="es"><![CDATA[SSO]]></value>
+		<value xml:lang="tr"><![CDATA[Tekli Oturum Açma]]></value>
+		<value xml:lang="vi"><![CDATA[SSO]]></value>
+	</item>
+	<item name="about_rewrite">
+		<value xml:lang="ko"><![CDATA[이 기능을 사용하면 <em>http://yourdomain/<strong>?document_srl=123</strong></em> 과 같이 복잡한 주소를 <em>http://yourdomain/<strong>123</strong></em> 과 같이 간단하게 줄일 수 있습니다. 이 기능을 사용하려면 웹 서버에서 rewrite_mod를 지원해야 합니다. 웹 서버에서 rewrite_mod를 지원하는지 여부는 서버 관리자에게 문의하세요.]]></value>
+		<value xml:lang="en"><![CDATA[If web server provides rewrite mod, long URL such as http://blah/?document_srl=123 can be shortened like http://blah/123]]></value>
+		<value xml:lang="jp"><![CDATA[Webサーバで「リライト・モジュール（mod_rewrite）」をサポートしている場合は、「http://アドレス/?document_srl=123」のようなアドレスを、動的だけど「http://アドレス/123」のように静的なページに見せることができます。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[如服务器支持rewrite模块且选择此项，可以简化复杂的网址。<br />例如，http://域名/?document_srl=123简化为http://域名/123。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[如果支援 rewrite 功能，可縮短冗長的網址。<br />例>『http://域名/?document_srl=123』縮短成『http://域名/123』。]]></value>
+		<value xml:lang="fr"><![CDATA[Si le serveur de web est capable d'utiliser le mode de récrire, URL longue comme http://murmure/?document_srl=123 peut être abrégé comme http://murmure/123]]></value>
+		<value xml:lang="ru"><![CDATA[Если сервер предлагает rewrite mod, длинные URL такие как  http://blah/?document_srl=123 могут быть сокращены до http://blah/123]]></value>
+		<value xml:lang="es"><![CDATA[Si el servidor de la web soporte rewrite mod, URL largas como http://bla/?documento_srl=123 puede abreviarse como  http://bla/123]]></value>
+		<value xml:lang="tr"><![CDATA[Eğer websunucusu yenidenyazma(rewritemod) destekliyorsa, http://ornek/?dosya_no=123 gibi URLler http://ornek/123 olarak kısaltılabilir]]></value>
+		<value xml:lang="vi"><![CDATA[Nếu Host của bạn hỗ trợ Mod Rewrite, khi địa chỉ có dạng <b>http://blah/?document_srl=123</b> sẽ được rút ngắn thành <b>http://blah/123</b>]]></value>
+	</item>
+	<item name="time_zone">
+		<value xml:lang="ko"><![CDATA[표준 시간대]]></value>
+		<value xml:lang="en"><![CDATA[Time Zone]]></value>
+		<value xml:lang="jp"><![CDATA[タイムゾーン]]></value>
+		<value xml:lang="zh-CN"><![CDATA[时区]]></value>
+		<value xml:lang="zh-TW"><![CDATA[時區]]></value>
+		<value xml:lang="fr"><![CDATA[Fuseau horaire]]></value>
+		<value xml:lang="ru"><![CDATA[Часовой пояс]]></value>
+		<value xml:lang="es"><![CDATA[La Hora por Zona]]></value>
+		<value xml:lang="tr"><![CDATA[Zaman Dilimi]]></value>
+		<value xml:lang="vi"><![CDATA[Múi giờ]]></value>
+	</item>
+	<item name="about_time_zone">
+		<value xml:lang="ko"><![CDATA[서버의 설정시간과 사용하려는 장소의 시간이 차이가 날 경우 표준 시간대를 지정하면 표시되는 시간을 지정된 곳의 시간으로 사용하실 수 있습니다.]]></value>
+		<value xml:lang="en"><![CDATA[If the server time and the time on your location don't accord each other, you can set the time to be same as your location by using the time zone]]></value>
+		<value xml:lang="jp"><![CDATA[サーバの設定時間とサービスしているローカル時間との差がある場合、タイムゾーンを指定して表示時間を合わせることができます。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[服务器时间和您所处的时间有差异时，可以设置时区来满足你所需要的时间显示。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[主機時間和您所處的時間有差異時，可以設置時區來滿足你所需要的時間顯示。]]></value>
+		<value xml:lang="fr"><![CDATA[Si l'heure de serveur et celle de votre emplacement ne s'accordent pas,  vous pouvez remettre l'heure comme le même heure de votre lieu en configurant le fuseau horaire ]]></value>
+		<value xml:lang="ru"><![CDATA[Если серверное время и Ваше локальное время не совпадают, Вы можете установить такое же время, как Ваше локальное, используя часовой пояс]]></value>
+		<value xml:lang="es"><![CDATA[Si la hora del servidor y la hora de su ubicación es diferente, Usted puede elegir la hora por zona para corregir]]></value>
+		<value xml:lang="tr"><![CDATA[Eğer sunucu zaman dilimi ve bulunduğunuz yerin zaman dilimi uyumlu değilse; zaman dilimi özelliğini kullanarak zamanı bulunduğunuz yere göre ayarlayabilirsiniz ]]></value>
+		<value xml:lang="vi"><![CDATA[Nếu thời gian của khu vực bạn không tự động cập nhật. Bạn có thể chọn thời gian để hiển thị cho Website.]]></value>
+	</item>
+	<item name="qmail_compatibility">
+		<value xml:lang="ko"><![CDATA[Qmail 호환]]></value>
+		<value xml:lang="en"><![CDATA[Enable Qmail]]></value>
+		<value xml:lang="jp"><![CDATA[Qmail 互換]]></value>
+		<value xml:lang="zh-CN"><![CDATA[Qmail互换]]></value>
+		<value xml:lang="zh-TW"><![CDATA[Qmail互換]]></value>
+		<value xml:lang="fr"><![CDATA[Compatible avec Qmail]]></value>
+		<value xml:lang="es"><![CDATA[Compatible con Qmail]]></value>
+		<value xml:lang="tr"><![CDATA[Qmail'i Etkinleştir]]></value>
+		<value xml:lang="vi"><![CDATA[Mở Qmail]]></value>
+	</item>
+	<item name="about_qmail_compatibility">
+		<value xml:lang="ko"><![CDATA[Qmail등 CRLF를 줄 구분자로 인식하지 못하는 MTA에서 메일이 발송되도록 합니다.]]></value>
+		<value xml:lang="en"><![CDATA[It will enable sending mails from MTA which cannot distinguish CRLF like Qmail.]]></value>
+		<value xml:lang="jp"><![CDATA[Qmail等、CRLFを改行コードとして認識できないMTA（Message Transfer Agent）で、メールの送信ができるようにします。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[支持不能识别CRLF为换行符的Qmail等MTA，也能发送电子邮件。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[支援無法識別 CRLF 為換行符的 Qmail 等 MTA，也能發送電子郵件。]]></value>
+		<value xml:lang="fr"><![CDATA[Le mél sera envoyé en MTA qui ne peut pas reconnaître le CRLF comme délimiteur des lignes comme le Qmail.]]></value>
+		<value xml:lang="es"><![CDATA[Qmail como MTA no reconoce CRLF como la línea de separación que se enviará por correo.]]></value>
+		<value xml:lang="tr"><![CDATA[Bu size QMail gibi CRLF'den ayırt edilemeyen MTA'dan mail gönderme imkanı sağlayacaktır.]]></value>
+		<value xml:lang="vi"><![CDATA[Nó sẽ cho phép gửi thư từ MTA mà không phân biệt CRLF.]]></value>
+	</item>
+	<item name="about_database_file">
+		<value xml:lang="ko"><![CDATA[Sqlite는 파일에 데이터를 저장합니다. 데이터베이스 파일의 위치를 웹에서 접근할 수 없는 곳으로 하셔야 합니다.<br/><span style="color:red">데이터 파일은 707퍼미션 설정된 곳으로 지정해주세요.</span>]]></value>
+		<value xml:lang="en"><![CDATA[Sqlite saves data in a file. Location of the database file should be unreachable by web<br/><span style="color:red">Data file should be inside the permission of 707.</span>]]></value>
+		<value xml:lang="jp"><![CDATA[Sqliteはファイルにデータを保存します。そのため、データベースファイルにはウェブからアクセスできない場所にしなければなりません。<br/><span style="color:red">データファイルのパーミッションは「707」に設定してください。</span>]]></value>
+		<value xml:lang="zh-CN"><![CDATA[Sqlite是文件里保存数据。数据库的文件位置应该放在web不能访问的地方。<br/><span style="color:red">数据文件应放在具有707属性的位置。</span>]]></value>
+		<value xml:lang="zh-TW"><![CDATA[Sqlite是保存資料於檔案中。資料庫的檔案位置應該放在 web 不能訪問的地方。<br/><span style="color:red">資料檔案應放在具有 707 權限的位置。</span>]]></value>
+		<value xml:lang="fr"><![CDATA[Sqlite conserve des données dans le fichier. Vous devez placer le fichier de la base de données où l'on ne peut pas accéder par web.<br/><span style="color:red">Le fichier des Donées doit être en dedans la permission 707.</span>]]></value>
+		<value xml:lang="ru"><![CDATA[Sqlite сохраняет данные в файл. Размещение базы данных должно быть недоступно с веб<br/><span style="color:red">Файл базы данных должен иметь права доступа 707.</span>]]></value>
+		<value xml:lang="es"><![CDATA[Sqlite guarda el dato en el archivo. Es necesario crear archivo de BD en un lugar inaccesible de la web.<br/><span style="color:red">El archivo de dato debe estar ubicado en un lugar con la atribución 707.</span>]]></value>
+		<value xml:lang="tr"><![CDATA[Sqlite veriyi dosyaya kaydeder. Veritabanı dosyası tarayıcıyla erişilebilir olmamalıdır.<br/><span style="color:red">Veri dosyası 707 yetki kapsamı içinde olmalıdır.</span>]]></value>
+		<value xml:lang="vi"><![CDATA[Sqlite lưu trữ dữ liệu trong một File, vì vậy cần tới sự truy cập đến nó trong Database. <br/><span style="color:red">Hãy CHMOD thành 707.</span>]]></value>
+	</item>
+	<item name="about_sso">
+		<value xml:lang="ko"><![CDATA[사용자가 한 번만 로그인하면 기본 사이트와 가상 사이트에 동시에 로그인이 됩니다.<br />가상 사이트를 사용할 때만 필요합니다.]]></value>
+		<value xml:lang="en"><![CDATA[SSO will enable users to sign in just once for both default and virtual site.<br />You will need this only if you are using virtual sites.]]></value>
+		<value xml:lang="jp"><![CDATA[ユーザが一度のログインで基本サイトと仮想サイトに同時にログインされる機能です。<br />仮想サイトの機能を使用してない場合、設定する必要がありません。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[SSO will enable users to sign in just once for both default and virtual site.<br />You will need this only if you are using virtual sites.]]></value>
+		<value xml:lang="zh-TW"><![CDATA[此功能可讓用戶只需登入一次即可訪問多個網站。<br />使用虛擬網站，這將會是很重要的功能。]]></value>
+		<value xml:lang="fr"><![CDATA[SSO will enable users to sign in just once for both default and virtual site.<br />You will need this only if you are using virtual sites.]]></value>
+		<value xml:lang="ru"><![CDATA[SSO will enable users to sign in just once for both default and virtual site.<br />You will need this only if you are using virtual sites.]]></value>
+		<value xml:lang="es"><![CDATA[SSO will enable users to sign in just once for both default and virtual site.<br />You will need this only if you are using virtual sites.]]></value>
+		<value xml:lang="tr"><![CDATA[SSO kullanıcıları, geçreli ya da sanal siteye bir kere kayıt olmakla, ikisinden de yararlandıracaktır.<br />Bu, size sadece sanal websiteler kullandığınız durumda lazım olacaktır.]]></value>
+		<value xml:lang="vi"><![CDATA[SSO will enable users to sign in just once for both default and virtual site.<br />You will need this only if you are using virtual sites.]]></value>
+	</item>
+	<item name="success_installed">
+		<value xml:lang="ko"><![CDATA[설치가 되었습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Installation has been completed.]]></value>
+		<value xml:lang="jp"><![CDATA[正常にインストールされました。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[已完成安装。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[已完成安裝。]]></value>
+		<value xml:lang="fr"><![CDATA[Installation s'est complété]]></value>
+		<value xml:lang="ru"><![CDATA[Установка завершена]]></value>
+		<value xml:lang="es"><![CDATA[Instalación finalizada]]></value>
+		<value xml:lang="tr"><![CDATA[Kurulum tamamlandı]]></value>
+		<value xml:lang="vi"><![CDATA[Chúc mừng bạn đã cài đặt XE thành công!]]></value>
+	</item>
+	<item name="msg_cannot_proc">
+		<value xml:lang="ko"><![CDATA[설치 환경이 갖춰지지 않아 요청을 실행할 수가 없습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Installation environment is not proper to proceed.]]></value>
+		<value xml:lang="jp"><![CDATA[インストールできる環境が整っていないため、リクエストを実行できませんでした。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[不具备安装所需环境，不能继续进行。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[不具備安裝所需環境，無法繼續安裝。]]></value>
+		<value xml:lang="fr"><![CDATA[Environnement d'Installation n'est pas équipé à procéder.]]></value>
+		<value xml:lang="ru"><![CDATA[Невозможно исполнить запрос, поскольку окружение установки не указано]]></value>
+		<value xml:lang="es"><![CDATA[No puede ser ejecutado lo requerido por no disponer del ambiente de instalación.]]></value>
+		<value xml:lang="tr"><![CDATA[Kurulum ortamı devam etmek için uygun değil.]]></value>
+		<value xml:lang="vi"><![CDATA[Môi trường cài đặt không thích hợp.]]></value>
+	</item>
+	<item name="msg_already_installed">
+		<value xml:lang="ko"><![CDATA[이미 설치가 되어 있습니다.]]></value>
+		<value xml:lang="en"><![CDATA[XE is already installed.]]></value>
+		<value xml:lang="jp"><![CDATA[既にインストールされています。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[已安装]]></value>
+		<value xml:lang="zh-TW"><![CDATA[已安裝]]></value>
+		<value xml:lang="fr"><![CDATA[XE est déjà installé]]></value>
+		<value xml:lang="ru"><![CDATA[XE уже установлена]]></value>
+		<value xml:lang="es"><![CDATA[Instalación de XE ya existe.]]></value>
+		<value xml:lang="tr"><![CDATA[XE zaten kurulmuştur]]></value>
+		<value xml:lang="vi"><![CDATA[Một phiên bản nào đó của XE đã được cài đặt từ trước.<br />Xin hãy kiểm tra lại!]]></value>
+	</item>
+	<item name="msg_dbconnect_failed">
+		<value xml:lang="ko"><![CDATA[DB접속 오류가 발생하였습니다.
+DB정보를 다시 확인해주세요.]]></value>
+		<value xml:lang="en"><![CDATA[An error has occurred while connecting to DB.
+Please check DB information again.]]></value>
+		<value xml:lang="jp"><![CDATA[データベースアクセスにエラーが発生しました。
+データベースの情報をもう一度確認してください。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[连接DB时发生错误。
+请重新确认DB信息。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[連接資料庫時發生錯誤。
+請重新確認資料庫資訊。]]></value>
+		<value xml:lang="fr"><![CDATA[Erreur a lieu en essayant connecter à la Base de Données.
+Vérifiez encore une fois les informations sur la Base de Données, S.V.P.]]></value>
+		<value xml:lang="ru"><![CDATA[Произошла ошибка подключения к базе данных.
+Пожалуйста, проверьте иформацию базы данных еще раз]]></value>
+		<value xml:lang="es"><![CDATA[Ha ocurrido un error en la conección de BD.
+ Por favor chequee la información de BD nuevamente]]></value>
+		<value xml:lang="tr"><![CDATA[VT'ye ulaşırken bir hata oluştu.
+Lütfen VT bilgisini tekrar kontrol ediniz]]></value>
+		<value xml:lang="vi"><![CDATA[Đã có lỗi xảy ra khi kết nối tới Database.
+Xin vui lòng kiểm tra lại thông tin!]]></value>
+	</item>
+	<item name="msg_table_is_exists">
+		<value xml:lang="ko"><![CDATA[이미 DB에 테이블이 생성되어 있습니다.
+config 파일을 재생성하였습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Table is already created in the DB.
+Config file is recreated.]]></value>
+		<value xml:lang="jp"><![CDATA[既にデータベースにデーブルが作成されています。
+configファイルを再作成しました。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[已生成数据表。
+重新生成了config文件。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[已建立資料表。
+重新建立 config 檔案。]]></value>
+		<value xml:lang="fr"><![CDATA[La Table est déjà créée dans la Base de Données.
+Le fichier de Configuration est recréé.]]></value>
+		<value xml:lang="ru"><![CDATA[Таблица существует в базе данных.
+Файл конфигурации создан заново]]></value>
+		<value xml:lang="es"><![CDATA[La tabla ya ha sido creado en BD.
+ Creado nuevamente el archivo de configuración.]]></value>
+		<value xml:lang="tr"><![CDATA[Tablo zaten VT'da oluşturuldu.
+Yapılandırma dosyası yeniden oluşturuldu]]></value>
+		<value xml:lang="vi"><![CDATA[Table đã có sẵn trên Database.
+File Config đã đuwọc thiết lập lại.]]></value>
+	</item>
+	<item name="msg_install_completed">
+		<value xml:lang="ko"><![CDATA[설치가 완료되었습니다.
+감사합니다.]]></value>
+		<value xml:lang="en"><![CDATA[Installation has been completed.
+Thank you for choosing XE]]></value>
+		<value xml:lang="jp"><![CDATA[インストールが完了しました。
+ありがとうございました。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[安装完成。
+非常感谢。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[安裝完成。
+非常感謝。]]></value>
+		<value xml:lang="fr"><![CDATA[Installation a complété.
+Merci pour choisir XE]]></value>
+		<value xml:lang="ru"><![CDATA[Установка завершена.
+Спасибо Вам за выбор XE]]></value>
+		<value xml:lang="es"><![CDATA[Instalación finalizada.
+ Muchas gracias.]]></value>
+		<value xml:lang="tr"><![CDATA[Kurulum tamamlandı.
+XE'yi seçtiğiniz için teşekkür ederiz]]></value>
+		<value xml:lang="vi"><![CDATA[Đã cài đặt XE thành công!.
+Xin cảm ơn đã sử dụng XE!]]></value>
+	</item>
+	<item name="msg_install_failed">
+		<value xml:lang="ko"><![CDATA[설치 파일 생성 시에 오류가 발생하였습니다.]]></value>
+		<value xml:lang="en"><![CDATA[An error has occurred while creating installation file.]]></value>
+		<value xml:lang="jp"><![CDATA[インストールファイルを作成する際にエラーが発生しました。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[生成安装文件时发生错误。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[建立安裝檔案時，發生錯誤。]]></value>
+		<value xml:lang="fr"><![CDATA[Une erreur a lieu en créant le fichier d'installation.]]></value>
+		<value xml:lang="ru"><![CDATA[Произошла ошибка при создании файла конфигурации.]]></value>
+		<value xml:lang="es"><![CDATA[Ha ocurrido un error al crear el archivo de instalación.]]></value>
+		<value xml:lang="tr"><![CDATA[Kurulum dosyası oluşturulurken bir hata oluştu.]]></value>
+		<value xml:lang="vi"><![CDATA[Đã có lỗi xảy ra khi tạo File cài đặt.]]></value>
+	</item>
+	<item name="ftp_get_list">
+		<value xml:lang="ko"><![CDATA[목록 가져오기]]></value>
+		<value xml:lang="en"><![CDATA[Get List]]></value>
+		<value xml:lang="jp"><![CDATA[リストを取得する]]></value>
+		<value xml:lang="zh-CN"><![CDATA[载入FTP列表]]></value>
+		<value xml:lang="zh-TW"><![CDATA[取得列表]]></value>
+		<value xml:lang="tr"><![CDATA[Liste Al]]></value>
+		<value xml:lang="vi"><![CDATA[Nhận danh sách]]></value>
+	</item>
+	<item name="read_all">
+		<value xml:lang="ko"><![CDATA[전문 읽기]]></value>
+		<value xml:lang="en"><![CDATA[Read Full Text]]></value>
+		<value xml:lang="jp"><![CDATA[フルテキスト読み込み]]></value>
+	</item>
+	<item name="license_agreement_desc">
+		<value xml:lang="ko"><![CDATA[XE를 사용하려면 <em>이 항목에 반드시 동의해야 합니다</em>.]]></value>
+		<value xml:lang="en"><![CDATA[To use XE, <em>you have to agree to this</em>.]]></value>
+		<value xml:lang="jp"><![CDATA[XEを使用するには、<em>この項目に必ず同意しなければなりません。</em>]]></value>
+	</item>
+	<item name="license_agreement_alert">
+		<value xml:lang="ko"><![CDATA[XE를 사용하려면 'GNU 약소 일반 공중 사용 허가서(LGPL v2)'에 반드시 동의해야 합니다.]]></value>
+		<value xml:lang="en"><![CDATA[To use XE, <em>you have to agree to the GNU Lesser General Public License(LGPL v2)</em>.]]></value>
+		<value xml:lang="jp"><![CDATA[XEを使用するには、LGPL v2に必ず同意しなければなりません。]]></value>
+	</item>
+	<item name="install_env_agreement">
+		<value xml:lang="ko"><![CDATA[설치 환경 수집 동의]]></value>
+		<value xml:lang="en"><![CDATA[Agreement on gathering installation environment information]]></value>
+		<value xml:lang="jp"><![CDATA[インストール環境収集に同意する]]></value>
+	</item>
+	<item name="install_env_agreement_desc">
+		<value xml:lang="ko"><![CDATA['<em>웹 서버, DBMS, PHP 버전 및 Extension, XE 모듈 및 애드온</em>' 정보가 XE 통계 수집 서버로 전송됩니다. 더 나은 SW를 제작하기 위한 목적으로 활용합니다. 익명으로 수집되며 이 정보를 외부에 공개하지 않습니다. <em>이 항목에 동의하지 않아도 됩니다.</em>]]></value>
+		<value xml:lang="en"><![CDATA[Information on '<em>web server, DBMS, PHP version and extension, XE modules and addons</em>' is sent to the XE statistics collection server. This information is collected anonymously and used to improve our software only.<em> You don't have to agree to this.</em>]]></value>
+	　　<value xml:lang="jp"><![CDATA['<em>ウェブサーバー、DBMS、PHPバージョンおよびExtension、XEモジュール、およびアドオン</em>'情報が、XE統計収集サーバーへ転送されます。より良いソフトウェアを製作するための目的で活用されます。情報は、匿名で収集され、外部へ公開することはありません。<em>この項目は、同意しなくても構いません。</em>]]></value>
+	</item>
+	<item name="lgpl_license_url">
+		<value xml:lang="ko"><![CDATA[http://korea.gnu.org/people/chsong/copyleft/lgpl.ko.html]]></value>
+		<value xml:lang="en"><![CDATA[http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html]]></value>
+		<value xml:lang="jp"><![CDATA[http://www.gnu.org/licenses/old-licenses/lgpl-2.1.ja.html]]></value>
+	</item>
+</lang>

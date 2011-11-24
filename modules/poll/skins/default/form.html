@@ -1,6 +1,10 @@
-<!--%import("filter/poll.xml")-->
-<!--%import("js/poll.js")-->
-<!--%import("css/poll.css")-->
+<!--@if(__DEBUG__)-->
+	<load target="css/poll.css" />
+	<load target="../../tpl/js/poll.js" />
+<!--@else-->
+	<load target="css/poll.min.css" />
+	<load target="../../tpl/js/poll.min.js" />
+<!--@end-->
 
 <script type="text/javascript">
     var poll_alert_lang = "{$lang->msg_check_poll_item}";
@@ -8,10 +12,16 @@
 
 <div id="poll_{$poll->poll_srl}" style="{$poll->style}">
 
-    <form action="./" method="get" onsubmit="return doPoll(this)">
+	<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+		<p>{$XE_VALIDATOR_MESSAGE}</p>
+	</div>
+    <form ruleset="poll" action="./" method="post" onsubmit="return doPoll(this)">
+	<input type="hidden" name="module" value="poll" />
+	<input type="hidden" name="act" value="procPoll" />
     <input type="hidden" name="poll_srl" value="{$poll->poll_srl}" />
     <input type="hidden" name="poll_srl_indexes" value="" />
     <input type="hidden" name="skin" value="{$skin}" />
+	<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
 
     <table cellspacing="0" class="poll_table">
     <col width="7" />
@@ -67,8 +77,8 @@
     <tr>
         <td colspan="3" class="poll_button">
             <div>
-                <span class="button"><input type="button" value="{$lang->cmd_view_result}" class="poll_button" onclick="doPollViewResult('{$poll->poll_srl}','{$skin}'); return false;"/></span>
-                <span class="button"><input type="submit" value="{$lang->cmd_apply_poll}" class="poll_button" /></span>
+                <span class="btn"><input type="button" value="{$lang->cmd_view_result}" class="poll_button _poll_result _srl_{$poll->poll_srl} _skin_{$skin}" /></span>
+                <span class="btn"><input type="submit" value="{$lang->cmd_apply_poll}" class="poll_button" /></span>
             </div>
         </td>
     </tr>

@@ -6,9 +6,9 @@
         <column name="*" />
     </columns>
     <conditions>
-		<condition operation="notin" column="documents.module_srl" pipe="and" />
         <condition operation="in" column="documents.module_srl" var="module_srl" filter="number" notnull="notnull" pipe="and" />
 		<condition operation="equal" column="documents.category_srl" var="category_srl" pipe="and" />
+		<condition operation="in" column="status" var="statusList" pipe="and" />
     </conditions>
     <navigation>
         <index var="sort_index" default="documents.list_order" order="order_type" />

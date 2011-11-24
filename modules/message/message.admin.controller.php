@@ -2,30 +2,34 @@
     /**
      * @class  messageAdminController
      * @author NHN (developers@xpressengine.com)
-     * @brief  message module의 admin controller class
+     * @brief admin controller class of message module
      **/
 
     class messageAdminController extends message {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
         }
 
         /**
-         * @brief 설정
+         * @brief Configuration
          **/
         function procMessageAdminInsertConfig() {
-            // 기본 정보를 받음
+            // Get information
             $args->skin = Context::get('skin');
-
-            // module Controller 객체 생성하여 입력
+            // Create a module Controller object 
             $oModuleController = &getController('module');
             $output = $oModuleController->insertModuleConfig('message',$args);
             if(!$output->toBool()) return $output;
 
             $this->setMessage('success_updated');
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMessageAdminConfig');
+				header('location:'.$returnUrl);
+				return;
+			}
         }
     }
 ?>

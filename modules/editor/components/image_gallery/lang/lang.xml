@@ -1,0 +1,200 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<lang>
+	<item name="image_gallery">
+		<value xml:lang="ko"><![CDATA[이미지 갤러리 제작]]></value>
+		<value xml:lang="en"><![CDATA[Make Image Gallery]]></value>
+		<value xml:lang="jp"><![CDATA[イメージギャラリー作成]]></value>
+		<value xml:lang="zh-CN"><![CDATA[图像编辑]]></value>
+		<value xml:lang="zh-TW"><![CDATA[圖片編輯]]></value>
+		<value xml:lang="ru"><![CDATA[Создать галлерею изображений]]></value>
+		<value xml:lang="es"><![CDATA[Haga Galeria de Imagenes]]></value>
+		<value xml:lang="tr"><![CDATA[Resim Galerisi Oluştur]]></value>
+		<value xml:lang="vi"><![CDATA[Tạo Slide Show]]></value>
+	</item>
+	<item name="width">
+		<value xml:lang="ko"><![CDATA[가로]]></value>
+		<value xml:lang="en"><![CDATA[Width]]></value>
+		<value xml:lang="jp"><![CDATA[横幅サイズ]]></value>
+		<value xml:lang="zh-CN"><![CDATA[宽度]]></value>
+		<value xml:lang="zh-TW"><![CDATA[寬度]]></value>
+		<value xml:lang="ru"><![CDATA[Ширина]]></value>
+		<value xml:lang="es"><![CDATA[Ancho]]></value>
+		<value xml:lang="tr"><![CDATA[Genişlik]]></value>
+		<value xml:lang="vi"><![CDATA[Chiều rộng]]></value>
+	</item>
+	<item name="height">
+		<value xml:lang="ko"><![CDATA[세로]]></value>
+		<value xml:lang="en"><![CDATA[Height]]></value>
+		<value xml:lang="jp"><![CDATA[縦幅サイズ]]></value>
+		<value xml:lang="zh-CN"><![CDATA[高度]]></value>
+		<value xml:lang="zh-TW"><![CDATA[高度]]></value>
+		<value xml:lang="ru"><![CDATA[Высота]]></value>
+		<value xml:lang="tr"><![CDATA[Yükseklik]]></value>
+		<value xml:lang="vi"><![CDATA[Chiều cao]]></value>
+	</item>
+	<item name="image_list">
+		<value xml:lang="ko"><![CDATA[이미지 목록]]></value>
+		<value xml:lang="en"><![CDATA[Image List]]></value>
+		<value xml:lang="jp"><![CDATA[イメージリスト]]></value>
+		<value xml:lang="zh-CN"><![CDATA[图像目录]]></value>
+		<value xml:lang="zh-TW"><![CDATA[圖片列表]]></value>
+		<value xml:lang="ru"><![CDATA[Список изображений]]></value>
+		<value xml:lang="es"><![CDATA[Lista de imagenes]]></value>
+		<value xml:lang="tr"><![CDATA[Resim Listesi]]></value>
+		<value xml:lang="vi"><![CDATA[Danh sách hình ảnh]]></value>
+	</item>
+	<item name="gallery_style">
+		<value xml:lang="ko"><![CDATA[갤러리 형식 ]]></value>
+		<value xml:lang="en"><![CDATA[Gallery Style]]></value>
+		<value xml:lang="jp"><![CDATA[ギャラリースタイル]]></value>
+		<value xml:lang="zh-CN"><![CDATA[风格]]></value>
+		<value xml:lang="zh-TW"><![CDATA[風格]]></value>
+		<value xml:lang="ru"><![CDATA[Стиль галлереи]]></value>
+		<value xml:lang="es"><![CDATA[Galeria de Estilo]]></value>
+		<value xml:lang="tr"><![CDATA[Galeri Tarzı]]></value>
+		<value xml:lang="vi"><![CDATA[Kiểu dáng Show]]></value>
+	</item>
+	<item name="gallery_slide_style">
+		<value xml:lang="ko"><![CDATA[슬라이드 형식]]></value>
+		<value xml:lang="en"><![CDATA[Slide Style]]></value>
+		<value xml:lang="jp"><![CDATA[スライドスタイル]]></value>
+		<value xml:lang="zh-CN"><![CDATA[幻灯片风格]]></value>
+		<value xml:lang="zh-TW"><![CDATA[幻燈片]]></value>
+		<value xml:lang="ru"><![CDATA[Стиль слайда]]></value>
+		<value xml:lang="es"><![CDATA[Estilo de diapositivas]]></value>
+		<value xml:lang="tr"><![CDATA[Slayt Tarzı]]></value>
+		<value xml:lang="vi"><![CDATA[Kiểu Slide]]></value>
+	</item>
+	<item name="gallery_slide_align">
+		<value xml:lang="ko"><![CDATA[정렬방식]]></value>
+		<value xml:lang="en"><![CDATA[Align Style]]></value>
+		<value xml:lang="jp"><![CDATA[アライン位置]]></value>
+		<value xml:lang="zh-CN"><![CDATA[对齐方式]]></value>
+		<value xml:lang="zh-TW"><![CDATA[對齊方式]]></value>
+		<value xml:lang="ru"><![CDATA[Стиль выравнивания]]></value>
+		<value xml:lang="es"><![CDATA[Alinear Estilo]]></value>
+		<value xml:lang="tr"><![CDATA[Hizalama Tarzı]]></value>
+		<value xml:lang="vi"><![CDATA[Kiểu căn chỉnh]]></value>
+	</item>
+	<item name="gallery_slide_center">
+		<value xml:lang="ko"><![CDATA[가운데]]></value>
+		<value xml:lang="en"><![CDATA[Center]]></value>
+		<value xml:lang="jp"><![CDATA[中央揃え]]></value>
+		<value xml:lang="zh-CN"><![CDATA[居中对齐]]></value>
+		<value xml:lang="zh-TW"><![CDATA[置中]]></value>
+		<value xml:lang="ru"><![CDATA[Центр]]></value>
+		<value xml:lang="es"><![CDATA[Centro]]></value>
+		<value xml:lang="tr"><![CDATA[Ortalı]]></value>
+		<value xml:lang="vi"><![CDATA[Giữa]]></value>
+	</item>
+	<item name="gallery_slide_left">
+		<value xml:lang="ko"><![CDATA[왼쪽]]></value>
+		<value xml:lang="en"><![CDATA[Left]]></value>
+		<value xml:lang="jp"><![CDATA[左揃え]]></value>
+		<value xml:lang="zh-CN"><![CDATA[左对齐]]></value>
+		<value xml:lang="zh-TW"><![CDATA[靠左]]></value>
+		<value xml:lang="ru"><![CDATA[Лево]]></value>
+		<value xml:lang="es"><![CDATA[Izquierda]]></value>
+		<value xml:lang="tr"><![CDATA[Sol]]></value>
+		<value xml:lang="vi"><![CDATA[Trái]]></value>
+	</item>
+	<item name="gallery_slide_right">
+		<value xml:lang="ko"><![CDATA[오른쪽]]></value>
+		<value xml:lang="en"><![CDATA[Right]]></value>
+		<value xml:lang="jp"><![CDATA[右揃え]]></value>
+		<value xml:lang="zh-CN"><![CDATA[右对齐]]></value>
+		<value xml:lang="zh-TW"><![CDATA[靠右]]></value>
+		<value xml:lang="ru"><![CDATA[Право]]></value>
+		<value xml:lang="es"><![CDATA[Derecho]]></value>
+		<value xml:lang="tr"><![CDATA[Sağ]]></value>
+		<value xml:lang="vi"><![CDATA[Phải]]></value>
+	</item>
+	<item name="gallery_list_style">
+		<value xml:lang="ko"><![CDATA[모두 펼침]]></value>
+		<value xml:lang="en"><![CDATA[Expand All]]></value>
+		<value xml:lang="jp"><![CDATA[展開表示（リスト）]]></value>
+		<value xml:lang="zh-CN"><![CDATA[全部展开]]></value>
+		<value xml:lang="zh-TW"><![CDATA[全部展開]]></value>
+		<value xml:lang="ru"><![CDATA[Раскрыть все]]></value>
+		<value xml:lang="es"><![CDATA[Mostrar todos]]></value>
+		<value xml:lang="tr"><![CDATA[Hepsini Genişlet]]></value>
+		<value xml:lang="vi"><![CDATA[Mở rộng tất cả]]></value>
+	</item>
+	<item name="gallery_border_color">
+		<value xml:lang="ko"><![CDATA[테두리 색]]></value>
+		<value xml:lang="en"><![CDATA[Border Color]]></value>
+		<value xml:lang="jp"><![CDATA[ボーダーカラー]]></value>
+		<value xml:lang="zh-CN"><![CDATA[边框颜色]]></value>
+		<value xml:lang="zh-TW"><![CDATA[邊框顏色]]></value>
+		<value xml:lang="ru"><![CDATA[Цыет рамки]]></value>
+		<value xml:lang="es"><![CDATA[Color del borde]]></value>
+		<value xml:lang="tr"><![CDATA[Kenarlık Rengi]]></value>
+		<value xml:lang="vi"><![CDATA[Màu viền]]></value>
+	</item>
+	<item name="gallery_border_thickness">
+		<value xml:lang="ko"><![CDATA[테두리 두께]]></value>
+		<value xml:lang="en"><![CDATA[Border Thickness]]></value>
+		<value xml:lang="jp"><![CDATA[ボーダー]]></value>
+		<value xml:lang="zh-CN"><![CDATA[边框粗细]]></value>
+		<value xml:lang="zh-TW"><![CDATA[邊框粗細]]></value>
+		<value xml:lang="ru"><![CDATA[Толщина рамки]]></value>
+		<value xml:lang="es"><![CDATA[Grosor de Fronteras]]></value>
+		<value xml:lang="tr"><![CDATA[Kenarlık Kalınlığı]]></value>
+		<value xml:lang="vi"><![CDATA[Độ dày viền]]></value>
+	</item>
+	<item name="gallery_bg_color">
+		<value xml:lang="ko"><![CDATA[배경색]]></value>
+		<value xml:lang="en"><![CDATA[Background Color]]></value>
+		<value xml:lang="jp"><![CDATA[背景色]]></value>
+		<value xml:lang="zh-CN"><![CDATA[背景颜色]]></value>
+		<value xml:lang="zh-TW"><![CDATA[背景顏色]]></value>
+		<value xml:lang="ru"><![CDATA[Цвет фона]]></value>
+		<value xml:lang="es"><![CDATA[Color de fondo]]></value>
+		<value xml:lang="tr"><![CDATA[Arkaplan Rengi]]></value>
+		<value xml:lang="vi"><![CDATA[Màu nền]]></value>
+	</item>
+	<item name="about_image_list">
+		<value xml:lang="ko"><![CDATA[이미지 갤러리에  추가할 파일을 선택하세요. 선택 후 드래그 또는 shift+클릭(범위선택), ctrl+클릭(개별선택) 가능합니다.]]></value>
+		<value xml:lang="en"><![CDATA[Select an image file to add to the gallery. You can drag it after selecting, Shift+click to select multiple files or Ctrl+click to select each file.]]></value>
+		<value xml:lang="jp"><![CDATA[イメージギャラリーに追加するファイルを選択してください。選択した後、ドラッグまたは「Shift+クリック（範囲選択）、Ctrl+クリック（個別選択）」ができます。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[请选择要添加的图像文件。 选择后可以拖动或按 shift+点击(范围选择), ctrl+点击(个别选择)]]></value>
+		<value xml:lang="zh-TW"><![CDATA[請選擇要新增的圖片檔案。可以框選或按住 shift+左鍵(範圍選擇), ctrl+左鍵(個別選擇)選擇檔案。]]></value>
+		<value xml:lang="ru"><![CDATA[Выберите файл для добавления в галлерею изображений. Вы можете перетащить его после выбора или нажав shift+click(для широкого выделения), ctrl+click(для индивидуального выделения)]]></value>
+		<value xml:lang="es"><![CDATA[Seleccione archivo para anadir a la galeria de imagenes. Puede arrastrar despues de la seleccion o cambio + clic (para seleccionar ampliamente), ctrl + clic (para seleccionar individualmente)]]></value>
+		<value xml:lang="tr"><![CDATA[Resim galerisine eklenecek dosyayı seçiniz. Seçtikten sonra dosyayı sürükleyebilirsiniz ya da shift+click(geniş ölçüde seçimler için), ctrl+click(bireysel seçimler için)komutlarını kullanabilirsiniz]]></value>
+		<value xml:lang="vi"><![CDATA[Chọn hình ảnh để thêm vào Show. Bạn có thể di chuyển hình ảnh bằng cách bấm tổ hợp 'Shift+Click' để di chuyển nhiều hình ảnh, hoặc 'Ctrl+Click' để di chuyển từng hình ảnh.]]></value>
+	</item>
+	<item name="cmd_gallery_prev">
+		<value xml:lang="ko"><![CDATA[이전 그림 보기]]></value>
+		<value xml:lang="en"><![CDATA[Previous Picture]]></value>
+		<value xml:lang="jp"><![CDATA[前のイメージ表示]]></value>
+		<value xml:lang="zh-CN"><![CDATA[上一个]]></value>
+		<value xml:lang="zh-TW"><![CDATA[上一個]]></value>
+		<value xml:lang="ru"><![CDATA[Предыдущее изображение]]></value>
+		<value xml:lang="es"><![CDATA[Imagen anterior]]></value>
+		<value xml:lang="tr"><![CDATA[Önceki Resim]]></value>
+		<value xml:lang="vi"><![CDATA[Hình trước]]></value>
+	</item>
+	<item name="cmd_gallery_next">
+		<value xml:lang="ko"><![CDATA[다음 그림 보기]]></value>
+		<value xml:lang="en"><![CDATA[Next Picture]]></value>
+		<value xml:lang="jp"><![CDATA[次のイメージ表示]]></value>
+		<value xml:lang="zh-CN"><![CDATA[下一个]]></value>
+		<value xml:lang="zh-TW"><![CDATA[下一個]]></value>
+		<value xml:lang="ru"><![CDATA[Следующее изображение]]></value>
+		<value xml:lang="es"><![CDATA[Imagen siguiente]]></value>
+		<value xml:lang="tr"><![CDATA[Sonraki Resim]]></value>
+		<value xml:lang="vi"><![CDATA[Hình sau]]></value>
+	</item>
+	<item name="cmd_gallery_thumbnail">
+		<value xml:lang="ko"><![CDATA[섬네일 보기]]></value>
+		<value xml:lang="en"><![CDATA[Thumbnail]]></value>
+		<value xml:lang="jp"><![CDATA[サムネール表示]]></value>
+		<value xml:lang="zh-CN"><![CDATA[查看缩略图il]]></value>
+		<value xml:lang="zh-TW"><![CDATA[檢視縮圖]]></value>
+		<value xml:lang="ru"><![CDATA[Миниатюра]]></value>
+		<value xml:lang="es"><![CDATA[Miniatura]]></value>
+		<value xml:lang="tr"><![CDATA[Küçük Resim]]></value>
+		<value xml:lang="vi"><![CDATA[Hình nhỏ]]></value>
+	</item>
+</lang>

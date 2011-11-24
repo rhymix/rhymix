@@ -3,12 +3,28 @@
     <grants />
     <permissions />
     <actions>
-        <action name="dispAddonAdminIndex" type="view" standalone="true" admin_index="true" />
+        <action name="dispAddonAdminIndex" type="view" standalone="true" admin_index="true" menu_name="installedAddon" menu_index="true" />
         <action name="dispAddonAdminInfo" type="view" standalone="true" />
-        <action name="dispAddonAdminSetup" type="view" standalone="true" />
+        <action name="dispAddonAdminSetup" type="view" standalone="true" menu_name="installedAddon" />
         <action name="procAddonAdminToggleActivate" type="controller" standalone="true" />
-        <action name="procAddonAdminSetupAddon" type="controller" standalone="true" />
+        <action name="procAddonAdminSetupAddon" type="controller" standalone="true" ruleset="updateAddonSetup" />
         <action name="procAddonSetupAddonAddMid" type="controller" />
         <action name="procAddonSetupAddonDelMid" type="controller" />
+		<action name="procAddonAdminSaveActivate" type="controller" />
     </actions>
+	<menus>
+		<menu name="installedAddon">
+			<title xml:lang="en">Installed Addon</title>
+			<title xml:lang="ko">설치된 애드온</title>
+			<title xml:lang="zh-CN">Installed Addon</title>
+			<title xml:lang="jp">Installed Addon</title>
+			<title xml:lang="es">Installed Addon</title>
+			<title xml:lang="ru">Installed Addon</title>
+			<title xml:lang="fr">Installed Addon</title>
+			<title xml:lang="zh-TW">Installed Addon</title>
+			<title xml:lang="vi">Installed Addon</title>
+			<title xml:lang="mn">Installed Addon</title>
+			<title xml:lang="tr">Installed Addon</title>
+		</menu>
+	</menus>
 </module>

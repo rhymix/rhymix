@@ -2,52 +2,47 @@
     /**
      * @class  documentModel
      * @author NHN (developers@xpressengine.com)
-     * @brief  document 모듈의 model 클래스
+     * @brief model class of the module document
      **/
 
     class documentModel extends document {
-
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
         }
 
         /**
-         * @brief document에 대한 권한을 세션값으로 체크
+         * @brief document checked the permissions on the session values
          **/
         function isGranted($document_srl) {
             return $_SESSION['own_document'][$document_srl];
         }
 
         /**
-         * @brief 확장변수를 매 문서마다 처리하지 않기 위해 매크로성으로 일괄 select 및 적용
+         * @brief extra variables for each article will not be processed bulk select and apply the macro city
          **/
         function setToAllDocumentExtraVars() {
             static $checked_documents = array();
-
-            // XE에서 모든 문서 객체는 XE_DOCUMENT_LIST라는 전역 변수에 세팅을 함
+            // XE XE_DOCUMENT_LIST all documents that the object referred to the global variable settings
             if(!count($GLOBALS['XE_DOCUMENT_LIST'])) return;
-
-            // 모든 호출된 문서 객체를 찾아서 확장변수가 설정되었는지를 확인
+            // Find all called the document object variable has been set extension
             $document_srls = array();
             foreach($GLOBALS['XE_DOCUMENT_LIST'] as $key => $val) {
                 if(!$val->document_srl || $checked_documents[$val->document_srl]) continue;
                 $checked_documents[$val->document_srl] = true;
                 $document_srls[] = $val->document_srl;
             }
-
-            // 검출된 문서 번호가 없으면 return
+            // If the document number, return detected
             if(!count($document_srls)) return;
-
-            // 확장변수 미지정된 문서에 대해서 일단 현재 접속자의 언어코드로 확장변수를 검색
+            // Expand variables mijijeongdoen article about a current visitor to the extension of the language code, the search variable
             $obj->document_srl = implode(',',$document_srls);
             $output = executeQueryArray('document.getDocumentExtraVars', $obj);
             if($output->toBool() && $output->data) {
                 foreach($output->data as $key => $val) {
                     if(!isset($val->value)) continue;
-                    if(!$extra_vars[$val->module_srl][$val->document_srl][$val->var_idx][0]) $extra_vars[$val->module_srl][$val->document_srl][$val->var_idx][0] = trim($val->value); 
-                    $extra_vars[$val->document_srl][$val->var_idx][$val->lang_code] = trim($val->value); 
+                    if(!$extra_vars[$val->module_srl][$val->document_srl][$val->var_idx][0]) $extra_vars[$val->module_srl][$val->document_srl][$val->var_idx][0] = trim($val->value);
+                    $extra_vars[$val->document_srl][$val->var_idx][$val->lang_code] = trim($val->value);
                 }
             }
 
@@ -62,8 +57,7 @@
                 $extra_keys = $this->getExtraKeys($module_srl);
                 $vars = $extra_vars[$document_srl];
                 $document_lang_code = $GLOBALS['XE_DOCUMENT_LIST'][$document_srl]->get('lang_code');
-
-                // 확장변수 처리
+                // Expand the variable processing
                 if(count($extra_keys)) {
                 foreach($extra_keys as $idx => $key) {
                         $val = $vars[$idx];
@@ -78,14 +72,12 @@
                 unset($evars);
                 $evars = new ExtraVar($module_srl);
                 $evars->setExtraVarKeys($extra_keys);
-
-                // 제목 처리
+                // Title Processing
                 if($vars[-1][$user_lang_code]) $GLOBALS['XE_DOCUMENT_LIST'][$document_srl]->add('title',$vars[-1][$user_lang_code]);
-
-                // 내용 처리
+                // Information processing
                 if($vars[-2][$user_lang_code]) $GLOBALS['XE_DOCUMENT_LIST'][$document_srl]->add('content',$vars[-2][$user_lang_code]);
-			
-                if($vars[-1][$user_lang_code] || $vars[-2][$user_lang_code]){ 
+
+                if($vars[-1][$user_lang_code] || $vars[-2][$user_lang_code]){
 					unset($checked_documents[$document_srl]);
 				}
 
@@ -94,13 +86,13 @@
         }
 
         /**
-         * @brief 문서 가져오기
+         * @brief Import Document
          **/
-        function getDocument($document_srl=0, $is_admin = false, $load_extra_vars=true) {
+        function getDocument($document_srl=0, $is_admin = false, $load_extra_vars=true, $columnList = array()) {
             if(!$document_srl) return new documentItem();
 
             if(!isset($GLOBALS['XE_DOCUMENT_LIST'][$document_srl])) {
-                $oDocument = new documentItem($document_srl, $load_extra_vars);
+                $oDocument = new documentItem($document_srl, $load_extra_vars, $columnList);
                 $GLOBALS['XE_DOCUMENT_LIST'][$document_srl] = $oDocument;
                 if($load_extra_vars) $this->setToAllDocumentExtraVars();
             }
@@ -110,9 +102,9 @@
         }
 
         /**
-         * @brief 여러개의 문서들을 가져옴 (페이징 아님)
+         * @brief Bringing multiple documents (or paging)
          **/
-        function getDocuments($document_srls, $is_admin = false, $load_extra_vars=true) {
+        function getDocuments($document_srls, $is_admin = false, $load_extra_vars=true, $columnList = array()) {
             if(is_array($document_srls)) {
                 $list_count = count($document_srls);
                 $document_srls = implode(',',$document_srls);
@@ -123,7 +115,7 @@
             $args->list_count = $list_count;
             $args->order_type = 'asc';
 
-            $output = executeQuery('document.getDocuments', $args);
+            $output = executeQuery('document.getDocuments', $args, $columnList);
             $document_list = $output->data;
             if(!$document_list) return;
             if(!is_array($document_list)) $document_list = array($document_list);
@@ -157,203 +149,240 @@
         }
 
         /**
-         * @brief module_srl값을 가지는 문서의 목록을 가져옴
+         * @brief module_srl value, bringing the list of documents
          **/
-        function getDocumentList($obj, $except_notice = false, $load_extra_vars=true) {
-            // 정렬 대상과 순서 체크
-            if(!in_array($obj->sort_index, array('list_order','regdate','last_update','update_order','readed_count','voted_count','comment_count','trackback_count','uploaded_count','title','category_srl'))) $obj->sort_index = 'list_order';
-            if(!in_array($obj->order_type, array('desc','asc'))) $obj->order_type = 'asc';
+        function getDocumentList($obj, $except_notice = false, $load_extra_vars=true, $columnList = array()) {
+            $sort_check = $this->_setSortIndex($obj, $load_extra_vars);
+            $obj->sort_index = $sort_check->sort_index; 
+        	// cache controll
+			$oCacheHandler = &CacheHandler::getInstance('object');
+			if($oCacheHandler->isSupport()){
+				$object_key = 'object:'.$obj->module_srl.'_category_srl:'.$obj->category_srl.'_list_count:'.$obj->list_count.'_search_target:'.$obj->search_target.'_search_keyword:'.$obj->search_keyword.'_page'.$obj->page.'_sort_index:'.$obj->sort_index;
+				$cache_key = $oCacheHandler->getGroupKey('documentList', $object_key);
+                                $output = $oCacheHandler->get($cache_key);
+			}
+        	if(!$output){
 
-            // module_srl 대신 mid가 넘어왔을 경우는 직접 module_srl을 구해줌
-            if($obj->mid) {
-                $oModuleModel = &getModel('module');
-                $obj->module_srl = $oModuleModel->getModuleSrlByMid($obj->mid);
-                unset($obj->mid);
-            }
+				$logged_info = Context::get('logged_info');
+				$sort_check = $this->_setSortIndex($obj, $load_extra_vars);
 
-            // 넘어온 module_srl은 array일 수도 있기에 array인지를 체크
-            if(is_array($obj->module_srl)) $args->module_srl = implode(',', $obj->module_srl);
-            else $args->module_srl = $obj->module_srl;
+				$obj->sort_index = $sort_check->sort_index;
+				// Check the target and sequence alignment
+				if(!in_array($obj->order_type, array('desc','asc'))) $obj->order_type = 'asc';
+				// If that came across mid module_srl instead of a direct module_srl guhaejum
+				if($obj->mid) {
+					$oModuleModel = &getModel('module');
+					$obj->module_srl = $oModuleModel->getModuleSrlByMid($obj->mid);
+					unset($obj->mid);
+				}
+				// Module_srl passed the array may be a check whether the array
+				if(is_array($obj->module_srl)) $args->module_srl = implode(',', $obj->module_srl);
+				else $args->module_srl = $obj->module_srl;
+				// Except for the test module_srl
+				if(is_array($obj->exclude_module_srl)) $args->exclude_module_srl = implode(',', $obj->exclude_module_srl);
+				else $args->exclude_module_srl = $obj->exclude_module_srl;
+				// Variable check
+				$args->category_srl = $obj->category_srl?$obj->category_srl:null;
+				$args->sort_index = $obj->sort_index;
+				$args->order_type = $obj->order_type;
+				$args->page = $obj->page?$obj->page:1;
+				$args->list_count = $obj->list_count?$obj->list_count:20;
+				$args->page_count = $obj->page_count?$obj->page_count:10;
+				$args->start_date = $obj->start_date?$obj->start_date:null;
+				$args->end_date = $obj->end_date?$obj->end_date:null;
+				$args->member_srl = $obj->member_srl;
 
-            // 제외 module_srl에 대한 검사
-            if(is_array($obj->exclude_module_srl)) $args->exclude_module_srl = implode(',', $obj->exclude_module_srl);
-            else $args->exclude_module_srl = $obj->exclude_module_srl;
+				// only admin document list, temp document showing
+				if($obj->statusList) $args->statusList = $obj->statusList;
+				else
+				{
+					if($logged_info->is_admin == 'Y' && !$obj->module_srl)
+						$args->statusList = array($this->getConfigStatus('secret'), $this->getConfigStatus('public'), $this->getConfigStatus('temp'));
+					else
+						$args->statusList = array($this->getConfigStatus('secret'), $this->getConfigStatus('public'));
+				}
 
-            // 변수 체크
-            $args->category_srl = $obj->category_srl?$obj->category_srl:null;
-            $args->sort_index = $obj->sort_index;
-            $args->order_type = $obj->order_type;
-            $args->page = $obj->page?$obj->page:1;
-            $args->list_count = $obj->list_count?$obj->list_count:20;
-            $args->page_count = $obj->page_count?$obj->page_count:10;
-            $args->start_date = $obj->start_date?$obj->start_date:null;
-            $args->end_date = $obj->end_date?$obj->end_date:null;
-            $args->member_srl = $obj->member_srl;
+				// Category is selected, further sub-categories until all conditions
+				if($args->category_srl) {
+					$category_list = $this->getCategoryList($args->module_srl);
+					$category_info = $category_list[$args->category_srl];
+					$category_info->childs[] = $args->category_srl;
+					$args->category_srl = implode(',',$category_info->childs);
+				}
+				// Used to specify the default query id (based on several search options to query id modified)
+				$query_id = 'document.getDocumentList';
+				// If the search by specifying the document division naeyonggeomsaekil processed for
+				$use_division = false;
 
-            // 카테고리가 선택되어 있으면 하부 카테고리까지 모두 조건에 추가
-            if($args->category_srl) {
-                $category_list = $this->getCategoryList($args->module_srl);
-                $category_info = $category_list[$args->category_srl];
-                $category_info->childs[] = $args->category_srl;
-                $args->category_srl = implode(',',$category_info->childs);
-            }
+				// Search options
+				$searchOpt->search_target = $obj->search_target;
+				$searchOpt->search_keyword = $obj->search_keyword;
+				$this->_setSearchOption($searchOpt, $args, $query_id, $use_division);
 
-            // 기본으로 사용할 query id 지정 (몇가지 검색 옵션에 따라 query id가 변경됨)
-            $query_id = 'document.getDocumentList';
+				if ($sort_check->isExtraVars)
+				{
+					$query_id = 'document.getDocumentListExtraSort';
+					$output = executeQueryArray($query_id, $args);
+				}
+				else
+				{
+					/**
+					 * list_order asc sort of division that can be used only when
+					 **/
+					if($args->sort_index != 'list_order' || $args->order_type != 'asc') $use_division = false;
 
-            // 내용검색일 경우 document division을 지정하여 검색하기 위한 처리
-            $use_division = false;
+					/**
+					 * If it is true, use_division changed to use the document division
+					 **/
+					if($use_division) {
+						// Division begins
+						$division = (int)Context::get('division');
 
-            // 검색 옵션 정리
-            $searchOpt->search_target = $obj->search_target;
-            $searchOpt->search_keyword = $obj->search_keyword;
-			$this->_setSearchOption($searchOpt, &$args, &$query_id, &$use_division);
+						// order by list_order and (module_srl===0 or module_srl many count), therefore case table full scan
+						if($args->sort_index == 'list_order' && ((int)$args->exclude_module_srl === 0 || count($args->module_srl) > 10))
+						{
+							$listSqlID = 'document.getDocumentListUseIndex';
+							$divisionSqlID = 'document.getDocumentDivisionUseIndex';
+						}
+						else
+						{
+							$listSqlID = 'document.getDocumentList';
+							$divisionSqlID = 'document.getDocumentDivision';
+						}
 
-            /**
-             * division은 list_order의 asc 정렬일때만 사용할 수 있음
-             **/
-            if($args->sort_index != 'list_order' || $args->order_type != 'asc') $use_division = false;
+						// If you do not value the best division top
+						if(!$division) {
+							$division_args->module_srl = $args->module_srl;
+							$division_args->exclude_module_srl = $args->exclude_module_srl;
+							$division_args->list_count = 1;
+							$division_args->sort_index = $args->sort_index;
+							$division_args->order_type = $args->order_type;
+							$division_args->statusList = $args->statusList;
+							$output = executeQuery($listSqlID, $division_args, $columnList);
+							if($output->data) {
+								$item = array_pop($output->data);
+								$division = $item->list_order;
+							}
+							$division_args = null;
+						}
+						// The last division
+						$last_division = (int)Context::get('last_division');
+						// Division after division from the 5000 value of the specified Wanted
+						if(!$last_division) {
+							$last_division_args->module_srl = $args->module_srl;
+							$last_division_args->exclude_module_srl = $args->exclude_module_srl;
+							$last_division_args->list_count = 1;
+							$last_division_args->sort_index = $args->sort_index;
+							$last_division_args->order_type = $args->order_type;
+							$last_division_args->list_order = $division;
+							$last_division_args->page = 5001;
+							$output = executeQuery($divisionSqlID, $last_division_args, $columnList);
+							if($output->data) {
+								$item = array_pop($output->data);
+								$last_division = $item->list_order;
+							}
+						}
+						// Make sure that after last_division article
+						if($last_division) {
+							$last_division_args = null;
+							$last_division_args->module_srl = $args->module_srl;
+							$last_division_args->exclude_module_srl = $args->exclude_module_srl;
+							$last_division_args->list_order = $last_division;
+							$output = executeQuery("document.getDocumentDivisionCount", $last_division_args);
+							if($output->data->count<1) $last_division = null;
+						}
 
-            /**
-             * 만약 use_division이 true일 경우 document division을 이용하도록 변경
-             **/
-            if($use_division) {
-                // 시작 division
-                $division = (int)Context::get('division');
+						$args->division = $division;
+						$args->last_division = $last_division;
+						Context::set('division', $division);
+						Context::set('last_division', $last_division);
+					}
+					// document.getDocumentList query execution
+					// Query_id if you have a group by clause getDocumentListWithinTag getDocumentListWithinComment or used again to perform the query because
+					if(in_array($query_id, array('document.getDocumentListWithinComment', 'document.getDocumentListWithinTag'))) {
+						$group_args = clone($args);
+						$group_args->sort_index = 'documents.'.$args->sort_index;
+						$output = executeQueryArray($query_id, $group_args);
+						if(!$output->toBool()||!count($output->data)) return $output;
 
-                // division값이 없다면 제일 상위
-                if(!$division) {
-                    $division_args->module_srl = $args->module_srl;
-                    $division_args->exclude_module_srl = $args->exclude_module_srl;
-                    $division_args->list_count = 1;
-                    $division_args->sort_index = $args->sort_index;
-                    $division_args->order_type = $args->order_type;
-                    $output = executeQuery("document.getDocumentList", $division_args);
-                    if($output->data) {
-                        $item = array_pop($output->data);
-                        $division = $item->list_order;
-                    }
-                    $division_args = null;
-                }
+						foreach($output->data as $key => $val) {
+							if($val->document_srl) $target_srls[] = $val->document_srl;
+						}
 
-                // 마지막 division
-                $last_division = (int)Context::get('last_division');
+						$page_navigation = $output->page_navigation;
+						$keys = array_keys($output->data);
+						$virtual_number = $keys[0];
 
-                // 지정된 division에서부터 5000개 후의 division값을 구함
-                if(!$last_division) {
-                    $last_division_args->module_srl = $args->module_srl;
-                    $last_division_args->exclude_module_srl = $args->exclude_module_srl;
-                    $last_division_args->list_count = 1;
-                    $last_division_args->sort_index = $args->sort_index;
-                    $last_division_args->order_type = $args->order_type;
-                    $last_division_args->list_order = $division;
-                    $last_division_args->page = 5001;
-                    $output = executeQuery("document.getDocumentDivision", $last_division_args);
-                    if($output->data) {
-                        $item = array_pop($output->data);
-                        $last_division = $item->list_order;
-                    }
+						$target_args->document_srls = implode(',',$target_srls);
+						$target_args->list_order = $args->sort_index;
+						$target_args->order_type = $args->order_type;
+						$target_args->list_count = $args->list_count;
+						$target_args->page = 1;
+						$output = executeQueryArray('document.getDocuments', $target_args);
+						$output->page_navigation = $page_navigation;
+						$output->total_count = $page_navigation->total_count;
+						$output->total_page = $page_navigation->total_page;
+						$output->page = $page_navigation->cur_page;
+					} else {
+						$output = executeQueryArray($query_id, $args, $columnList);
+					}
+				}
+				// Return if no result or an error occurs
+				if(!$output->toBool()||!count($output->data)) return $output;
 
-                }
+				$idx = 0;
+				$data = $output->data;
+				unset($output->data);
 
-                // last_division 이후로 글이 있는지 확인
-                if($last_division) {
-                    $last_division_args = null;
-                    $last_division_args->module_srl = $args->module_srl;
-                    $last_division_args->exclude_module_srl = $args->exclude_module_srl;
-                    $last_division_args->list_order = $last_division;
-                    $output = executeQuery("document.getDocumentDivisionCount", $last_division_args);
-                    if($output->data->count<1) $last_division = null;
-                }
+				if(!isset($virtual_number))
+				{
+					$keys = array_keys($data);
+					$virtual_number = $keys[0];
+				}
 
-                $args->division = $division;
-                $args->last_division = $last_division;
-                Context::set('division', $division);
-                Context::set('last_division', $last_division);
-            }
+				if($except_notice) {
+					foreach($data as $key => $attribute) {
+						if($attribute->is_notice == 'Y') $virtual_number --;
+					}
+				}
 
-            // document.getDocumentList 쿼리 실행
-            // 만약 query_id가 getDocumentListWithinComment 또는 getDocumentListWithinTag일 경우 group by 절 사용 때문에 쿼리를 한번더 수행
-            if(in_array($query_id, array('document.getDocumentListWithinComment', 'document.getDocumentListWithinTag'))) {
-                $group_args = clone($args);
-                $group_args->sort_index = 'documents.'.$args->sort_index;
-                $output = executeQueryArray($query_id, $group_args);
-                if(!$output->toBool()||!count($output->data)) return $output;
+				foreach($data as $key => $attribute) {
+					if($except_notice && $attribute->is_notice == 'Y') continue;
+					$document_srl = $attribute->document_srl;
+					if(!$GLOBALS['XE_DOCUMENT_LIST'][$document_srl]) {
+						$oDocument = null;
+						$oDocument = new documentItem();
+						$oDocument->setAttribute($attribute, false);
+						if($is_admin) $oDocument->setGrant();
+						$GLOBALS['XE_DOCUMENT_LIST'][$document_srl] = $oDocument;
+					}
 
-                foreach($output->data as $key => $val) {
-                    if($val->document_srl) $target_srls[] = $val->document_srl;
-                }
+					$output->data[$virtual_number] = $GLOBALS['XE_DOCUMENT_LIST'][$document_srl];
+					$virtual_number --;
 
-                $page_navigation = $output->page_navigation;
-                $keys = array_keys($output->data);
-                $virtual_number = $keys[0];
+				}
 
-                $target_args->document_srls = implode(',',$target_srls);
-                $target_args->list_order = $args->sort_index;
-                $target_args->order_type = $args->order_type;
-                $target_args->list_count = $args->list_count;
-                $target_args->page = 1;
-                $output = executeQueryArray('document.getDocuments', $target_args);
-                $output->page_navigation = $page_navigation;
-                $output->total_count = $page_navigation->total_count;
-                $output->total_page = $page_navigation->total_page;
-                $output->page = $page_navigation->cur_page;
-            } else {
-                $output = executeQueryArray($query_id, $args);
-            }
+				if($load_extra_vars) $this->setToAllDocumentExtraVars();
 
-            // 결과가 없거나 오류 발생시 그냥 return
-            if(!$output->toBool()||!count($output->data)) return $output;
-
-            $idx = 0;
-            $data = $output->data;
-            unset($output->data);
-
-            if(!isset($virtual_number))
-            {
-                $keys = array_keys($data);
-                $virtual_number = $keys[0];
-            }
-
-            if($except_notice) {
-                foreach($data as $key => $attribute) {
-                    if($attribute->is_notice == 'Y') $virtual_number --;
-                }
-            }
-
-            foreach($data as $key => $attribute) {
-                if($except_notice && $attribute->is_notice == 'Y') continue;
-                $document_srl = $attribute->document_srl;
-                if(!$GLOBALS['XE_DOCUMENT_LIST'][$document_srl]) {
-                    $oDocument = null;
-                    $oDocument = new documentItem();
-                    $oDocument->setAttribute($attribute, false);
-                    if($is_admin) $oDocument->setGrant();
-                    $GLOBALS['XE_DOCUMENT_LIST'][$document_srl] = $oDocument;
-                }
-
-                $output->data[$virtual_number] = $GLOBALS['XE_DOCUMENT_LIST'][$document_srl];
-                $virtual_number --;
-
-            }
-            
-			if($load_extra_vars) $this->setToAllDocumentExtraVars();
-
-            if(count($output->data)) {
-                foreach($output->data as $number => $document) {
-                    $output->data[$number] = $GLOBALS['XE_DOCUMENT_LIST'][$document->document_srl];
-                }
-            }
+				if(count($output->data)) {
+					foreach($output->data as $number => $document) {
+						$output->data[$number] = $GLOBALS['XE_DOCUMENT_LIST'][$document->document_srl];
+					}
+				}
+				//insert in cache
+				if($oCacheHandler->isSupport()) $oCacheHandler->put($cache_key,$output);
+			}
 
             return $output;
         }
 
         /**
-         * @brief module_srl값을 가지는 문서의 공지사항만 가져옴
+         * @brief module_srl value, bringing the document's gongjisa Port
          **/
-        function getNoticeList($obj) {
+        function getNoticeList($obj, $columnList = array()) {
             $args->module_srl = $obj->module_srl;
-            $output = executeQueryArray('document.getNoticeList', $args);
+            $args->category_srl= $obj->category_srl;
+            $output = executeQueryArray('document.getNoticeList', $args, $columnList);
             if(!$output->toBool()||!$output->data) return;
 
             foreach($output->data as $key => $val) {
@@ -378,8 +407,8 @@
         }
 
         /**
-         * @brief document의 확장 변수 키값을 가져오는 함수
-         * $form_include : 글 작성시에 필요한 확장변수의 input form 추가 여부
+         * @brief function to retrieve the key values of the extended variable document
+         * $Form_include: writing articles whether to add the necessary extensions of the variable input form
          **/
         function getExtraKeys($module_srl) {
             if(is_null($GLOBALS['XE_EXTRA_KEYS'][$module_srl])) {
@@ -398,11 +427,11 @@
         }
 
         /**
-         * @brief 특정 document의 확장 변수 값을 가져오는 함수
+         * @brief A particular document to get the value of the extra variable function
          **/
         function getExtraVars($module_srl, $document_srl) {
             if(!isset($GLOBALS['XE_EXTRA_VARS'][$document_srl])) {
-                // 확장변수 값을 추출하여 세팅
+                // Extended to extract the values of variables set
                 $oDocument = $this->getDocument($document_srl, false);
                 $GLOBALS['XE_DOCUMENT_LIST'][$document_srl] = $oDocument;
                 $this->setToAllDocumentExtraVars();
@@ -412,31 +441,28 @@
         }
 
         /**
-         * @brief 선택된 게시물의 팝업메뉴 표시
+         * @brief Show pop-up menu of the selected posts
          *
-         * 인쇄, 스크랩, 추천, 비추천, 신고 기능 추가
+         * Printing, scrap, recommendations and negative, reported the Add Features
          **/
         function getDocumentMenu() {
-
-            // 요청된 게시물 번호와 현재 로그인 정보 구함
+            // Post number and the current login information requested Wanted
             $document_srl = Context::get('target_srl');
             $mid = Context::get('cur_mid');
             $logged_info = Context::get('logged_info');
             $act = Context::get('cur_act');
-
-            // menu_list 에 "표시할글,target,url" 을 배열로 넣는다
+            // to menu_list "pyosihalgeul, target, url" put into an array
             $menu_list = array();
-
-            // trigger 호출
+            // call trigger
             ModuleHandler::triggerCall('document.getDocumentMenu', 'before', $menu_list);
 
             $oDocumentController = &getController('document');
-
-            // 회원이어야만 가능한 기능
+            // Members must be a possible feature
             if($logged_info->member_srl) {
 
 				$oDocumentModel = &getModel('document');
-				$oDocument = $oDocumentModel->getDocument($document_srl, false, false);
+				$columnList = array('document_srl', 'module_srl', 'member_srl', 'ipaddress');
+				$oDocument = $oDocumentModel->getDocument($document_srl, false, false, $columnList);
 				$module_srl = $oDocument->get('module_srl');
 				$member_srl = $oDocument->get('member_srl');
 				if(!$module_srl) return new Object(-1, 'msg_invalid_request');
@@ -444,65 +470,59 @@
 				$oModuleModel = &getModel('module');
 				$document_config = $oModuleModel->getModulePartConfig('document',$module_srl);
 				if($document_config->use_vote_up!='N' && $member_srl!=$logged_info->member_srl){
-					// 추천 버튼 추가
+					// Add a Referral Button
 					$url = sprintf("doCallModuleAction('document','procDocumentVoteUp','%s')", $document_srl);
-					$oDocumentController->addDocumentPopupMenu($url,'cmd_vote','./modules/document/tpl/icons/vote_up.gif','javascript');
+					$oDocumentController->addDocumentPopupMenu($url,'cmd_vote','','javascript');
 				}
 
 				if($document_config->use_vote_down!='N' && $member_srl!=$logged_info->member_srl){
-					// 비추천 버튼 추가
+					// Add button to negative
 					$url= sprintf("doCallModuleAction('document','procDocumentVoteDown','%s')", $document_srl);
-					$oDocumentController->addDocumentPopupMenu($url,'cmd_vote_down','./modules/document/tpl/icons/vote_down.gif','javascript');
+					$oDocumentController->addDocumentPopupMenu($url,'cmd_vote_down','','javascript');
 				}
 
-                // 신고 기능 추가
+                // Adding Report
                 $url = sprintf("doCallModuleAction('document','procDocumentDeclare','%s')", $document_srl);
-                $oDocumentController->addDocumentPopupMenu($url,'cmd_declare','./modules/document/tpl/icons/declare.gif','javascript');
+                $oDocumentController->addDocumentPopupMenu($url,'cmd_declare','','javascript');
 
-                // 스크랩 버튼 추가
+                // Add Bookmark button
                 $url = sprintf("doCallModuleAction('member','procMemberScrapDocument','%s')", $document_srl);
-                $oDocumentController->addDocumentPopupMenu($url,'cmd_scrap','./modules/document/tpl/icons/scrap.gif','javascript');
+                $oDocumentController->addDocumentPopupMenu($url,'cmd_scrap','','javascript');
             }
-
-            // 인쇄 버튼 추가
+            // Add print button
             $url = getUrl('','module','document','act','dispDocumentPrint','document_srl',$document_srl);
-            $oDocumentController->addDocumentPopupMenu($url,'cmd_print','./modules/document/tpl/icons/print.gif','printDocument');
-
-            // trigger 호출 (after)
+            $oDocumentController->addDocumentPopupMenu($url,'cmd_print','','printDocument');
+            // Call a trigger (after)
             ModuleHandler::triggerCall('document.getDocumentMenu', 'after', $menu_list);
-
-            // 관리자일 경우 ip로 글 찾기
+            // If you are managing to find posts by ip
             if($logged_info->is_admin == 'Y') {
                 $oDocumentModel = &getModel('document');
-                $oDocument = $oDocumentModel->getDocument($document_srl);
+                $oDocument = $oDocumentModel->getDocument($document_srl);	//before setting document recycle
 
                 if($oDocument->isExists()) {
-                    // ip주소에 해당하는 글 찾기
-                    $url = getUrl('','module','admin','act','dispDocumentAdminList','search_target','ipaddress','search_keyword',$oDocument->get('ipaddress'));
-                    $icon_path = './modules/member/tpl/images/icon_management.gif';
+                    // Find a post equivalent to ip address
+                    $url = getUrl('','module','admin','act','dispDocumentAdminList','search_target','ipaddress','search_keyword',$oDocument->getIpAddress());
                     $oDocumentController->addDocumentPopupMenu($url,'cmd_search_by_ipaddress',$icon_path,'TraceByIpaddress');
 
-                    $url = sprintf("var params = new Array(); params['ipaddress']='%s'; exec_xml('spamfilter', 'procSpamfilterAdminInsertDeniedIP', params, completeCallModuleAction)", $oDocument-> getIpAddress());
-                    $oDocumentController->addDocumentPopupMenu($url,'cmd_add_ip_to_spamfilter','./modules/document/tpl/icons/declare.gif','javascript');
+                    $url = sprintf("var params = new Array(); params['ipaddress']='%s'; exec_xml('spamfilter', 'procSpamfilterAdminInsertDeniedIP', params, completeCallModuleAction)", $oDocument->getIpAddress());
+                    $oDocumentController->addDocumentPopupMenu($url,'cmd_add_ip_to_spamfilter','','javascript');
                 }
             }
-
-            // 팝업메뉴의 언어 변경
+            // Changing the language of pop-up menu
             $menus = Context::get('document_popup_menu_list');
             $menus_count = count($menus);
             for($i=0;$i<$menus_count;$i++) {
                 $menus[$i]->str = Context::getLang($menus[$i]->str);
             }
-
-            // 최종적으로 정리된 팝업메뉴 목록을 구함
+            // Wanted to finally clean pop-up menu list
             $this->add('menus', $menus);
         }
 
         /**
-         * @brief module_srl에 해당하는 문서의 전체 갯수를 가져옴
+         * @brief module_srl the total number of documents that are bringing
          **/
         function getDocumentCount($module_srl, $search_obj = NULL) {
-            // 검색 옵션 추가
+            // Additional search options
             $args->module_srl = $module_srl;
             $args->s_title = $search_obj->s_title;
             $args->s_content = $search_obj->s_content;
@@ -513,16 +533,35 @@
             $args->category_srl = $search_obj->category_srl;
 
             $output = executeQuery('document.getDocumentCount', $args);
-
-            // 전체 갯수를 return
+            // Return total number of
             $total_count = $output->data->count;
             return (int)$total_count;
         }
+
         /**
-         * @brief 해당 document의 page 가져오기, module_srl이 없으면 전체에서..
+         * @brief module_srl the total number of documents that are bringing
+         **/
+        function getDocumentCountByGroupStatus($search_obj = NULL) {
+            // Additional search options
+            $args->module_srl = $search_obj->module_srl;
+            $args->s_title = $search_obj->s_title;
+            $args->s_content = $search_obj->s_content;
+            $args->s_user_name = $search_obj->s_user_name;
+            $args->s_member_srl = $search_obj->s_member_srl;
+            $args->s_ipaddress = $search_obj->s_ipaddress;
+            $args->s_regdate = $search_obj->s_regdate;
+            $args->category_srl = $search_obj->category_srl;
+
+            $output = executeQuery('document.getDocumentCountByGroupStatus', $args);
+			if(!$output->toBool()) return array();
+
+			return $output->data;
+        }
+        /**
+         * @brief Import page of the document, module_srl Without throughout ..
          **/
         function getDocumentPage($oDocument, $opt) {
-            // 정렬 형식에 따라서 query args 변경
+            // Sort type changes depending on the query args
             switch($opt->sort_index) {
                 case 'update_order' :
                         if($opt->order_type == 'desc') $args->rev_update_order = $oDocument->get('update_order');
@@ -547,12 +586,7 @@
             $args->sort_index = $opt->sort_index;
             $args->order_type = $opt->order_type;
 
-            // 검색 옵션 정리
-            $searchOpt->search_target = $opt->search_target;
-            $searchOpt->search_keyword = $opt->search_keyword;
-			$this->_setSearchOption($searchOpt, &$args, &$query_id, &$use_division);
-
-            // 전체 갯수를 구한후 해당 글의 페이지를 검색
+            // Guhanhu total number of the article search page
             $output = executeQuery('document.getDocumentPage', $args);
             $count = $output->data->count;
             $page = (int)(($count-1)/$opt->list_count)+1;
@@ -560,11 +594,11 @@
         }
 
         /**
-         * @brief 카테고리의 정보를 가져옴
+         * @brief Imported Category of information
          **/
-        function getCategory($category_srl) {
+        function getCategory($category_srl, $columnList = array()) {
             $args->category_srl = $category_srl;
-            $output = executeQuery('document.getCategory', $args);
+            $output = executeQuery('document.getCategory', $args, $columnList);
 
             $node = $output->data;
             if(!$node) return;
@@ -581,7 +615,7 @@
         }
 
         /**
-         * @brief 특정 카테고리에 child가 있는지 체크
+         * @brief Check whether the child has a specific category
          **/
         function getCategoryChlidCount($category_srl) {
             $args->category_srl = $category_srl;
@@ -591,29 +625,27 @@
         }
 
         /**
-         * @brief 특정 모듈의 카테고리 목록을 가져옴
-         * 속도나 여러가지 상황을 고려해서 카테고리 목록은 php로 생성된 script를 include하여 사용하는 것을 원칙으로 함
+         * @brief Bringing the Categories list the specific module
+         * Speed and variety of categories, considering the situation created by the php script to include a list of the must, in principle, to use
          **/
-        function getCategoryList($module_srl) {
-            // 대상 모듈의 카테고리 파일을 불러옴
+        function getCategoryList($module_srl, $columnList = array()) {
+            // Category of the target module file swollen
             $filename = sprintf("./files/cache/document_category/%s.php", $module_srl);
-
-            // 대상 파일이 없으면 카테고리 캐시 파일을 재생성
+            // If the target file to the cache file regeneration category
             if(!file_exists($filename)) {
                 $oDocumentController = &getController('document');
                 if(!$oDocumentController->makeCategoryFile($module_srl)) return array();
             }
 
             @include($filename);
-
-            // 카테고리의 정리
+            // Cleanup of category
             $document_category = array();
             $this->_arrangeCategory($document_category, $menu->list, 0);
             return $document_category;
         }
 
         /**
-         * @brief 카테고리를 1차 배열 형식으로 변경하는 내부 method
+         * @brief Category within a primary method to change the array type
          **/
         function _arrangeCategory(&$document_category, $list, $depth) {
             if(!count($list)) return;
@@ -626,6 +658,7 @@
                 $obj->category_srl = $val['category_srl'];
                 $obj->parent_srl = $val['parent_srl'];
                 $obj->title = $obj->text = $val['text'];
+                $obj->description = $val['description'];
                 $obj->expand = $val['expand']=='Y'?true:false;
                 $obj->color = $val['color'];
                 $obj->document_count = $val['document_count'];
@@ -640,8 +673,7 @@
                 $obj->selected = $selected;
 
                 $list_order[$idx++] = $obj->category_srl;
-
-                // 부모 카테고리가 있으면 자식노드들의 데이터를 적용
+                // If you have a parent category of child nodes apply data
                 if($obj->parent_srl) {
 
                     $parent_srl = $obj->parent_srl;
@@ -668,7 +700,7 @@
         }
 
         /**
-         * @brief 카테고리에 속한 문서의 갯수를 구함
+         * @brief Wanted number of documents belonging to category
          **/
         function getCategoryDocumentCount($module_srl, $category_srl) {
             $args->module_srl = $module_srl;
@@ -678,7 +710,7 @@
         }
 
         /**
-         * @brief 문서 category정보의 xml 캐시 파일을 return
+         * @brief Xml cache file of the document category return information
          **/
         function getCategoryXmlFile($module_srl) {
             $xml_file = sprintf('files/cache/document_category/%s.xml.php',$module_srl);
@@ -690,7 +722,7 @@
         }
 
         /**
-         * @brief 문서 category정보의 php 캐시 파일을 return
+         * @brief Php cache files in the document category return information
          **/
         function getCategoryPhpFile($module_srl) {
             $php_file = sprintf('files/cache/document_category/%s.php',$module_srl);
@@ -702,7 +734,7 @@
         }
 
         /**
-         * @brief 월별 글 보관현황을 가져옴
+         * @brief Imported post monthly archive status
          **/
         function getMonthlyArchivedList($obj) {
             if($obj->mid) {
@@ -710,8 +742,7 @@
                 $obj->module_srl = $oModuleModel->getModuleSrlByMid($obj->mid);
                 unset($obj->mid);
             }
-
-            // 넘어온 module_srl은 array일 수도 있기에 array인지를 체크
+            // Module_srl passed the array may be a check whether the array
             if(is_array($obj->module_srl)) $args->module_srl = implode(',', $obj->module_srl);
             else $args->module_srl = $obj->module_srl;
 
@@ -724,7 +755,7 @@
         }
 
         /**
-         * @brief 특정달의 일별 글 현황을 가져옴
+         * @brief Bringing a month on the status of the daily posts
          **/
         function getDailyArchivedList($obj) {
             if($obj->mid) {
@@ -732,8 +763,7 @@
                 $obj->module_srl = $oModuleModel->getModuleSrlByMid($obj->mid);
                 unset($obj->mid);
             }
-
-            // 넘어온 module_srl은 array일 수도 있기에 array인지를 체크
+            // Module_srl passed the array may be a check whether the array
             if(is_array($obj->module_srl)) $args->module_srl = implode(',', $obj->module_srl);
             else $args->module_srl = $obj->module_srl;
             $args->regdate = $obj->regdate;
@@ -747,15 +777,14 @@
         }
 
         /**
-         * @brief 특정 모듈의 분류를 구함
+         * @brief Get a list for a particular module
          **/
         function getDocumentCategories() {
             if(!Context::get('is_logged')) return new Object(-1,'msg_not_permitted');
             $module_srl = Context::get('module_srl');
             $categories= $this->getCategoryList($module_srl);
             $lang = Context::get('lang');
-
-            // 분류 없음 추가
+            // No additional category
             $output = "0,0,{$lang->none_category}\n";
             if($categories){
                 foreach($categories as $category_srl => $category) {
@@ -766,7 +795,7 @@
         }
 
         /**
-         * @brief 문서 설정 정보를 구함
+         * @brief Wanted to set document information
          **/
         function getDocumentConfig() {
             if(!$GLOBALS['__document_config__']) {
@@ -779,24 +808,23 @@
         }
 
         /**
-         * @brief 공통 :: 모듈의 확장 변수 관리
-         * 모듈의 확장변수 관리는  모든 모듈에서 document module instance를 이용할때 사용할 수 있음
+         * @brief Common:: Module extensions of variable management
+         * Expansion parameter management module in the document module instance, when using all the modules available
          **/
         function getExtraVarsHTML($module_srl) {
-            // 기존의 extra_keys 가져옴
+            // Bringing existing extra_keys
             $extra_keys = $this->getExtraKeys($module_srl);
             Context::set('extra_keys', $extra_keys);
-			
-			$security = new Security();				
+			$security = new Security();
 			$security->encodeHTML('extra_keys..name','extra_keys..eid');
-			
-            // grant 정보를 추출
+
+			// Get information of module_grants
             $oTemplate = &TemplateHandler::getInstance();
             return $oTemplate->compile($this->module_path.'tpl', 'extra_keys');
         }
 
         /**
-         * @brief 공통 :: 모듈의 카테고리 변수 관리
+         * @brief Common:: Category parameter management module
          **/
         function getCategoryHTML($module_srl) {
             $category_xml_file = $this->getCategoryXmlFile($module_srl);
@@ -804,72 +832,59 @@
             Context::set('category_xml_file', $category_xml_file);
 
 			Context::loadJavascriptPlugin('ui.tree');
-            // grant 정보를 추출
+            // Get information of module_grants
             $oTemplate = &TemplateHandler::getInstance();
             return $oTemplate->compile($this->module_path.'tpl', 'category_list');
         }
 
         /**
-         * @brief 특정 카테고리의 정보를 이용하여 템플릿을 구한후 return
-         * 관리자 페이지에서 특정 메뉴의 정보를 추가하기 위해 서버에서 tpl을 컴파일 한후 컴파일 된 html을 직접 return
+         * @brief Certain categories of information, return the template guhanhu
+         * Manager on the page to add information about a particular menu from the server after compiling tpl compiled a direct return html
          **/
         function getDocumentCategoryTplInfo() {
             $oModuleModel = &getModel('module');
             $oMemberModel = &getModel('member');
-
-            // 해당 메뉴의 정보를 가져오기 위한 변수 설정
+            // Get information on the menu for the parameter settings
             $module_srl = Context::get('module_srl');
             $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
-
-            // 권한 체크 
+            // Check permissions
             $grant = $oModuleModel->getGrant($module_info, Context::get('logged_info'));
             if(!$grant->manager) return new Object(-1,'msg_not_permitted');
 
             $category_srl = Context::get('category_srl');
             $parent_srl = Context::get('parent_srl');
-
-            // 회원 그룹의 목록을 가져옴
+            // Get a list of member groups
             $group_list = $oMemberModel->getGroups($module_info->site_srl);
             Context::set('group_list', $group_list);
-			
-			// parent_srl이 있고 category_srl 이 없으면 하부 메뉴 추가임
+            // Without the sub-menu has parent_srl category_srl chugaim
             if(!$category_srl && $parent_srl) {
-                // 상위 메뉴의 정보를 가져옴
+                // Get information of the parent menu
                 $parent_info = $this->getCategory($parent_srl);
-
-                // 추가하려는 메뉴의 기본 변수 설정 
+                // Default parameter settings for a new menu
                 $category_info->category_srl = getNextSequence();
                 $category_info->parent_srl = $parent_srl;
                 $category_info->parent_category_title = $parent_info->title;
-
-            // root에 메뉴 추가하거나 기존 메뉴의 수정일 경우
+            // Add to the root menu, or if an existing menu Modified
             } else {
-                // category_srl 이 있으면 해당 메뉴의 정보를 가져온다
+                // If category_srl the menu brings the information
                 if($category_srl) $category_info = $this->getCategory($category_srl);
-
-                // 찾아진 값이 없다면 신규 메뉴 추가로 보고 category_srl값만 구해줌
-                if(!$category_info->category_srl) {
-                    $category_info->category_srl = getNextSequence();
-                }
             }
 
 
             $category_info->title = htmlspecialchars($category_info->title);
             Context::set('category_info', $category_info);
-			
-			$security = new Security();				
+
+			$security = new Security();
 			$security->encodeHTML('group_list..title');
 
-            // template 파일을 직접 컴파일한후 tpl변수에 담아서 return한다.
+            // tpl template file directly compile and will return a variable and puts it on.
             $oTemplate = &TemplateHandler::getInstance();
             $tpl = $oTemplate->compile('./modules/document/tpl', 'category_info');
             $tpl = str_replace("\n",'',$tpl);
-
-            // 사용자 정의 언어 변경
+            // Changing user-defined language
             $oModuleController = &getController('module');
             $oModuleController->replaceDefinedLangCode($tpl);
-
-            // return 할 변수 설정
+            // set of variables to return
             $this->add('tpl', $tpl);
         }
 
@@ -912,20 +927,17 @@
         }
 
         /**
-         * @brief module_srl값을 가지는 문서의 목록을 가져옴
+         * @brief module_srl value, bringing the list of documents
          **/
         function getTrashList($obj) {
-
-            // 변수 체크
+            // Variable check
             $args->category_srl = $obj->category_srl?$obj->category_srl:null;
             $args->sort_index = $obj->sort_index;
             $args->order_type = $obj->order_type?$obj->order_type:'desc';
             $args->page = $obj->page?$obj->page:1;
             $args->list_count = $obj->list_count?$obj->list_count:20;
             $args->page_count = $obj->page_count?$obj->page_count:10;
-
-
-            // 검색 옵션 정리
+            // Search options
             $search_target = $obj->search_target;
             $search_keyword = $obj->search_keyword;
             if($search_target && $search_keyword) {
@@ -955,9 +967,8 @@
                         break;
                     case 'is_notice' :
                     case 'is_secret' :
-                            if($search_keyword=='N') $args->{"s_".$search_target} = 'N';
-                            elseif($search_keyword=='Y') $args->{"s_".$search_target} = 'Y';
-                            else $args->{"s_".$search_target} = '';
+                            if($search_keyword=='N') $args->statusList = array($this->getConfigStatus('public'));
+                            elseif($search_keyword=='Y') $args->statusList = array($this->getConfigStatus('secret'));
                         break;
                     case 'member_srl' :
                     case 'readed_count' :
@@ -989,6 +1000,9 @@
             return $output;
         }
 
+        /**
+         * @brief vote up, vote down member list in Document View page
+         **/
 		function getDocumentVotedMemberList()
 		{
 			$document_srl = Context::get('document_srl');
@@ -998,7 +1012,8 @@
 			if($point != -1) $point = 1;
 
 			$oDocumentModel = &getModel('document');
-            $oDocument = $oDocumentModel->getDocument($document_srl, false, false);
+			$columnList = array('document_srl', 'module_srl');
+            $oDocument = $oDocumentModel->getDocument($document_srl, false, false, $columnList);
 			$module_srl = $oDocument->get('module_srl');
 			if(!$module_srl) return new Object(-1, 'msg_invalid_request');
 
@@ -1026,6 +1041,48 @@
 			}
 
 			$this->add('voted_member_list',$output->data);
+		}
+
+		function getStatusNameList()
+		{
+			global $lang;
+			if(!isset($lang->status_name_list))
+				return array_flip($this->getStatusList());
+			else return $lang->status_name_list;
+		}
+
+		function _setSortIndex($obj, $load_extra_vars)
+		{
+			$sortIndex = $obj->sort_index;
+			$isExtraVars = false;
+            if(!in_array($sortIndex, array('list_order','regdate','last_update','update_order','readed_count','voted_count','comment_count','trackback_count','uploaded_count','title','category_srl')))
+			{
+				// get module_srl extra_vars list
+				if ($load_extra_vars)
+				{
+					$extra_args->module_srl = $obj->module_srl;
+					$extra_output = executeQueryArray('document.getGroupsExtraVars', $extra_args);
+					if (!$extra_output->data || !$extra_output->toBool())
+					{
+						$sortIndex = 'list_order';
+					}
+					else
+					{
+						$check_array = array();
+						foreach($extra_output->data as $val){
+							$check_array[] = $val->eid;
+						}
+						if(!in_array($sortIndex, $check_array)) $sortIndex = 'list_order';
+						else $isExtraVars = true;
+					}
+				}
+				else
+					$sortIndex = 'list_order';
+			}
+			$returnObj->sort_index = $sortIndex;
+			$returnObj->isExtraVars = $isExtraVars;
+
+			return $returnObj;
 		}
 
         /**
@@ -1066,9 +1123,9 @@
                         break;
                     case 'is_notice' :
                     case 'is_secret' :
-                            if($search_keyword=='N') $args->{"s_".$search_target} = 'N';
-                            elseif($search_keyword=='Y') $args->{"s_".$search_target} = 'Y';
-                            else $args->{"s_".$search_target} = '';
+                            if($search_keyword=='N') $args->statusList = array($this->getConfigStatus('public'));
+                            elseif($search_keyword=='Y') $args->statusList = array($this->getConfigStatus('secret'));
+                            elseif($search_keyword=='temp') $args->statusList = array($this->getConfigStatus('temp'));
                         break;
                     case 'member_srl' :
                     case 'readed_count' :

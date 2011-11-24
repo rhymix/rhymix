@@ -1,0 +1,31 @@
+<!--// colorset의 값에 따라 css 파일을 import 한다 -->
+<!--@if($colorset=="black")-->
+    <!--%import("css/black.css")-->
+<!--@elseif($colorset=="white")-->
+    <!--%import("css/white.css")-->
+<!--@else-->
+    <!--%import("css/default.css")-->
+<!--@end-->
+
+<!--%import("./filter/logout.xml")-->
+
+<form action="" method="post" class="fo_login_widget">
+<fieldset id="login" class="login_{$colorset}">
+<legend>{$lang->cmd_login}</legend>
+
+    <div class="userName">
+        <div class="fl u_name"><div class="member_{$logged_info->member_srl}"><strong>{$logged_info->nick_name}</strong></div></div>
+        <div class="fr sign_btn"><a href="{getUrl('act','dispMemberLogout')}"><img src="./images/{$colorset}/buttonLogout.gif" alt="{$lang->cmd_logout}" width="58" height="22" /></a></div>
+    </div>
+    <ul class="userMenu">
+        <!--@foreach($logged_info->menu_list as $key => $val)-->
+        <li><a href="{getUrl('act',$key,'member_srl','','page','')}">{Context::getLang($val)}</a></li>
+        <!--@end-->
+
+        <!--@if($logged_info->is_admin=="Y" && !$site_module_info->site_srl)-->
+        <li><a href="{getUrl('','module','admin')}" onclick="window.open(this.href);return false;">{$lang->cmd_management}</a></li>
+        <!--@end-->
+    </ul>
+    <p class="latestLogin">{$lang->last_login}<br /><span>{zDate($logged_info->last_login, "Y-m-d H:i")}</span></p>
+</fieldset>
+</form>

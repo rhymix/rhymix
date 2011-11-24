@@ -1,0 +1,2398 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<lang>
+	<item name="member">
+		<value xml:lang="ko"><![CDATA[회원]]></value>
+		<value xml:lang="en"><![CDATA[Member]]></value>
+		<value xml:lang="jp"><![CDATA[会員]]></value>
+		<value xml:lang="zh-CN"><![CDATA[会员]]></value>
+		<value xml:lang="zh-TW"><![CDATA[會員]]></value>
+		<value xml:lang="fr"><![CDATA[Membre]]></value>
+		<value xml:lang="ru"><![CDATA[Пользователь]]></value>
+		<value xml:lang="es"><![CDATA[Usuario]]></value>
+		<value xml:lang="tr"><![CDATA[Üye]]></value>
+		<value xml:lang="vi"><![CDATA[Thành viên]]></value>
+	</item>
+	<item name="member_default_info">
+		<value xml:lang="ko"><![CDATA[기본 정보]]></value>
+		<value xml:lang="en"><![CDATA[Basic Info]]></value>
+		<value xml:lang="jp"><![CDATA[基本情報]]></value>
+		<value xml:lang="zh-CN"><![CDATA[基本资料]]></value>
+		<value xml:lang="zh-TW"><![CDATA[基本資料]]></value>
+		<value xml:lang="fr"><![CDATA[Information fondamentale]]></value>
+		<value xml:lang="ru"><![CDATA[Основная информация]]></value>
+		<value xml:lang="es"><![CDATA[Información Basica]]></value>
+		<value xml:lang="tr"><![CDATA[Temel Bilgi]]></value>
+		<value xml:lang="vi"><![CDATA[Thông tin cá nhân]]></value>
+	</item>
+	<item name="member_extend_info">
+		<value xml:lang="ko"><![CDATA[추가 정보]]></value>
+		<value xml:lang="en"><![CDATA[Additional Info]]></value>
+		<value xml:lang="jp"><![CDATA[追加情報]]></value>
+		<value xml:lang="zh-CN"><![CDATA[扩展信息]]></value>
+		<value xml:lang="zh-TW"><![CDATA[延伸資料]]></value>
+		<value xml:lang="fr"><![CDATA[Information additionnelle]]></value>
+		<value xml:lang="ru"><![CDATA[Дополнительная информация]]></value>
+		<value xml:lang="es"><![CDATA[Información adicional]]></value>
+		<value xml:lang="tr"><![CDATA[Detaylı Bilgi]]></value>
+		<value xml:lang="vi"><![CDATA[Thông tin bổ xung]]></value>
+	</item>
+	<item name="default_group_1">
+		<value xml:lang="ko"><![CDATA[준회원]]></value>
+		<value xml:lang="en"><![CDATA[Associate Member]]></value>
+		<value xml:lang="jp"><![CDATA[準会員]]></value>
+		<value xml:lang="zh-CN"><![CDATA[准会员]]></value>
+		<value xml:lang="zh-TW"><![CDATA[準會員]]></value>
+		<value xml:lang="fr"><![CDATA[Membre Associé]]></value>
+		<value xml:lang="ru"><![CDATA[Новичок]]></value>
+		<value xml:lang="es"><![CDATA[Usuario registrado]]></value>
+		<value xml:lang="tr"><![CDATA[Asil Üye]]></value>
+		<value xml:lang="vi"><![CDATA[Member]]></value>
+	</item>
+	<item name="default_group_2">
+		<value xml:lang="ko"><![CDATA[정회원]]></value>
+		<value xml:lang="en"><![CDATA[Regular Member]]></value>
+		<value xml:lang="jp"><![CDATA[正会員]]></value>
+		<value xml:lang="zh-CN"><![CDATA[正会员]]></value>
+		<value xml:lang="zh-TW"><![CDATA[正會員]]></value>
+		<value xml:lang="fr"><![CDATA[Membre Régulier]]></value>
+		<value xml:lang="ru"><![CDATA[Постоянный участник]]></value>
+		<value xml:lang="es"><![CDATA[Usuario regular]]></value>
+		<value xml:lang="tr"><![CDATA[Sıradan Üye]]></value>
+		<value xml:lang="vi"><![CDATA[Moderator]]></value>
+	</item>
+	<item name="admin_group">
+		<value xml:lang="ko"><![CDATA[관리그룹]]></value>
+		<value xml:lang="en"><![CDATA[Managing Group]]></value>
+		<value xml:lang="jp"><![CDATA[管理グループ]]></value>
+		<value xml:lang="zh-CN"><![CDATA[管理组]]></value>
+		<value xml:lang="zh-TW"><![CDATA[管理組]]></value>
+		<value xml:lang="fr"><![CDATA[Groupe des administrateurs]]></value>
+		<value xml:lang="ru"><![CDATA[Администратор]]></value>
+		<value xml:lang="es"><![CDATA[Manejo del grupo]]></value>
+		<value xml:lang="tr"><![CDATA[Grup Yönetimi]]></value>
+		<value xml:lang="vi"><![CDATA[Administrator]]></value>
+	</item>
+	<item name="keep_signed">
+		<value xml:lang="ko"><![CDATA[로그인 유지]]></value>
+		<value xml:lang="en"><![CDATA[Keep me signed in.]]></value>
+		<value xml:lang="jp"><![CDATA[次回からID入力を省略]]></value>
+		<value xml:lang="zh-CN"><![CDATA[自动登录]]></value>
+		<value xml:lang="zh-TW"><![CDATA[自動登入]]></value>
+		<value xml:lang="fr"><![CDATA[Garder la session ouverte]]></value>
+		<value xml:lang="ru"><![CDATA[Сохранить логин]]></value>
+		<value xml:lang="tr"><![CDATA[Beni bağlı tut]]></value>
+		<value xml:lang="vi"><![CDATA[Nhớ thông tin đăng nhập]]></value>
+	</item>
+	<item name="remember_user_id">
+		<value xml:lang="ko"><![CDATA[아이디 저장]]></value>
+		<value xml:lang="en"><![CDATA[Remember ID.]]></value>
+		<value xml:lang="jp"><![CDATA[ID保存]]></value>
+		<value xml:lang="zh-CN"><![CDATA[保存ID]]></value>
+		<value xml:lang="zh-TW"><![CDATA[儲存 ID]]></value>
+		<value xml:lang="fr"><![CDATA[Mémorisez mon Compte]]></value>
+		<value xml:lang="ru"><![CDATA[Сохранить ID]]></value>
+		<value xml:lang="es"><![CDATA[Guardar ID]]></value>
+		<value xml:lang="tr"><![CDATA[Kimliği Hatırla]]></value>
+		<value xml:lang="vi"><![CDATA[Lưu tên sử dụng]]></value>
+	</item>
+	<item name="already_logged">
+		<value xml:lang="ko"><![CDATA[이미 로그인되어 있습니다.]]></value>
+		<value xml:lang="en"><![CDATA[You are already signed in.]]></value>
+		<value xml:lang="jp"><![CDATA[既にログインされています。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[您已经登录！]]></value>
+		<value xml:lang="zh-TW"><![CDATA[您已經登入！]]></value>
+		<value xml:lang="fr"><![CDATA[La session est déjà ouverte]]></value>
+		<value xml:lang="ru"><![CDATA[Вы уже вошли]]></value>
+		<value xml:lang="es"><![CDATA[Ya está conectado]]></value>
+		<value xml:lang="tr"><![CDATA[Zaten giriş yaptınız]]></value>
+		<value xml:lang="vi"><![CDATA[Bạn đã đăng nhập]]></value>
+	</item>
+	<item name="denied_user_id">
+		<value xml:lang="ko"><![CDATA[사용 금지된 아이디입니다.]]></value>
+		<value xml:lang="en"><![CDATA[You have entered a prohibited ID.]]></value>
+		<value xml:lang="jp"><![CDATA[使用が禁じられているＩＤです。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[被禁止的用户名。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[被禁止的帳號。]]></value>
+		<value xml:lang="fr"><![CDATA[C'est un comte interdit.]]></value>
+		<value xml:lang="ru"><![CDATA[Извините. Этот ID запрещен]]></value>
+		<value xml:lang="es"><![CDATA[Este ID está prohibido.]]></value>
+		<value xml:lang="tr"><![CDATA[Yasaklanmış bir kimlik girdiniz.]]></value>
+		<value xml:lang="vi"><![CDATA[ID đăng nhập của bạn đã bị cấm sử dụng.]]></value>
+	</item>
+	<item name="null_user_id">
+		<value xml:lang="ko"><![CDATA[회원 아이디를 입력해주세요.]]></value>
+		<value xml:lang="en"><![CDATA[Please enter your ID.]]></value>
+		<value xml:lang="jp"><![CDATA[ユーザーIDをもう一度入力してください。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[请输入用户名。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[請輸入帳號。]]></value>
+		<value xml:lang="fr"><![CDATA[Entrez le compte, S.V.P.]]></value>
+		<value xml:lang="ru"><![CDATA[Пожалуйста, введите ID]]></value>
+		<value xml:lang="es"><![CDATA[IngresarID]]></value>
+		<value xml:lang="tr"><![CDATA[Lütfen kimliğinizi giriniz]]></value>
+		<value xml:lang="vi"><![CDATA[Xin vui lòng nhập ID đăng nhập]]></value>
+	</item>
+	<item name="null_password">
+		<value xml:lang="ko"><![CDATA[비밀번호를 입력해주세요.]]></value>
+		<value xml:lang="en"><![CDATA[Please enter your password.]]></value>
+		<value xml:lang="jp"><![CDATA[パスワードを入力してください。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[请输入密码。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[請輸入密碼。]]></value>
+		<value xml:lang="fr"><![CDATA[Entrez le mot de passe, S.V.P.]]></value>
+		<value xml:lang="ru"><![CDATA[Пожалуйста, введите пароль]]></value>
+		<value xml:lang="es"><![CDATA[Ingresar la contraseña]]></value>
+		<value xml:lang="tr"><![CDATA[Lütfen şifrenizi giriniz]]></value>
+		<value xml:lang="vi"><![CDATA[Xin vui lòng nhập mật khẩu]]></value>
+	</item>
+	<item name="invalid_authorization">
+		<value xml:lang="ko"><![CDATA[인증이 되지 않았습니다.]]></value>
+		<value xml:lang="en"><![CDATA[The account is not activated.]]></value>
+		<value xml:lang="jp"><![CDATA[認証できませんでした。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[还没有认证！]]></value>
+		<value xml:lang="zh-TW"><![CDATA[還沒有認證！]]></value>
+		<value xml:lang="fr"><![CDATA[Le compte n'est pas encore certifié.]]></value>
+		<value xml:lang="ru"><![CDATA[Вы не авторизированы]]></value>
+		<value xml:lang="es"><![CDATA[No está certificado]]></value>
+		<value xml:lang="tr"><![CDATA[Hesap etkinleştirilmemiş.]]></value>
+		<value xml:lang="vi"><![CDATA[Tài khoản đăng nhập không đúng.]]></value>
+	</item>
+	<item name="invalid_user_id">
+		<value xml:lang="ko"><![CDATA[존재하지 않는 회원 아이디입니다.]]></value>
+		<value xml:lang="en"><![CDATA[You have entered an invalid ID.]]></value>
+		<value xml:lang="jp"><![CDATA[存在しないユーザーIDです。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[该用户名不存在，请检查您的输入是否有误！]]></value>
+		<value xml:lang="zh-TW"><![CDATA[該帳號不存在，請檢查您的輸入是否有誤！]]></value>
+		<value xml:lang="fr"><![CDATA[C'est un compte qui n'existe pas.]]></value>
+		<value xml:lang="ru"><![CDATA[Указанный ID не существует]]></value>
+		<value xml:lang="es"><![CDATA[Este ID no existe]]></value>
+		<value xml:lang="tr"><![CDATA[Geçerli olmayan bir kimlik girdiniz]]></value>
+		<value xml:lang="vi"><![CDATA[Bạn đã nhập sai tên sử dụng]]></value>
+	</item>
+	<item name="invalid_password">
+		<value xml:lang="ko"><![CDATA[잘못된 비밀번호입니다.]]></value>
+		<value xml:lang="en"><![CDATA[You have entered an invalid password.]]></value>
+		<value xml:lang="jp"><![CDATA[無効なパスワードです。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[您的密码不正确！]]></value>
+		<value xml:lang="zh-TW"><![CDATA[您的密碼不正確！]]></value>
+		<value xml:lang="fr"><![CDATA[C'est un mot de passe invalide]]></value>
+		<value xml:lang="ru"><![CDATA[Неверный пароль]]></value>
+		<value xml:lang="es"><![CDATA[Contraseña incorrecta]]></value>
+		<value xml:lang="tr"><![CDATA[Hatalı bir şifre girdiniz]]></value>
+		<value xml:lang="vi"><![CDATA[Mật khẩu không đúng]]></value>
+	</item>
+	<item name="invalid_new_password">
+		<value xml:lang="ko"><![CDATA[이전 비밀번호와 같습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Please enter a password you haven't previously used.]]></value>
+		<value xml:lang="jp"><![CDATA[以前のパスワードと同じパスワードを使うことはできません。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[新密碼不能與舊密碼相同]]></value>
+		<value xml:lang="tr"><![CDATA[Yeni şifre, eski şifreyle aynı olmamalı.]]></value>
+	</item>
+	<item name="allow_mailing">
+		<value xml:lang="ko"><![CDATA[메일링 가입]]></value>
+		<value xml:lang="en"><![CDATA[Join Mailing]]></value>
+		<value xml:lang="jp"><![CDATA[メーリングリストに登録]]></value>
+		<value xml:lang="zh-CN"><![CDATA[接收邮件]]></value>
+		<value xml:lang="zh-TW"><![CDATA[接收郵件]]></value>
+		<value xml:lang="fr"><![CDATA[Inscrire au Mailing]]></value>
+		<value xml:lang="ru"><![CDATA[Получать рассылки]]></value>
+		<value xml:lang="es"><![CDATA[Registro del envío de mail]]></value>
+		<value xml:lang="tr"><![CDATA[Mailleşmeyi Aç]]></value>
+		<value xml:lang="vi"><![CDATA[Đồng ý nhận Email]]></value>
+	</item>
+	<item name="is_admin">
+		<value xml:lang="ko"><![CDATA[최고관리 권한]]></value>
+		<value xml:lang="en"><![CDATA[Superadmin Permission]]></value>
+		<value xml:lang="jp"><![CDATA[最高管理権限]]></value>
+		<value xml:lang="zh-CN"><![CDATA[最高管理权限]]></value>
+		<value xml:lang="zh-TW"><![CDATA[最高管理權限]]></value>
+		<value xml:lang="fr"><![CDATA[Permission Superadministrative]]></value>
+		<value xml:lang="ru"><![CDATA[Суперадминистративные права]]></value>
+		<value xml:lang="es"><![CDATA[Atribución del administrador superior]]></value>
+		<value xml:lang="tr"><![CDATA[Süperadmin Yetkisi]]></value>
+		<value xml:lang="vi"><![CDATA[Toàn quyền Administrator]]></value>
+	</item>
+	<item name="member_group">
+		<value xml:lang="ko"><![CDATA[회원 그룹]]></value>
+		<value xml:lang="en"><![CDATA[Member Group]]></value>
+		<value xml:lang="jp"><![CDATA[所属グループ]]></value>
+		<value xml:lang="zh-CN"><![CDATA[用户组]]></value>
+		<value xml:lang="zh-TW"><![CDATA[群組]]></value>
+		<value xml:lang="fr"><![CDATA[Groupe assigné]]></value>
+		<value xml:lang="ru"><![CDATA[Группа]]></value>
+		<value xml:lang="es"><![CDATA[Grupo asignado]]></value>
+		<value xml:lang="tr"><![CDATA[Grup]]></value>
+		<value xml:lang="vi"><![CDATA[Phân nhóm]]></value>
+	</item>
+	<item name="group_title">
+		<value xml:lang="ko"><![CDATA[그룹제목]]></value>
+		<value xml:lang="en"><![CDATA[Group Name]]></value>
+		<value xml:lang="jp"><![CDATA[グループ名]]></value>
+		<value xml:lang="zh-CN"><![CDATA[用户组标题]]></value>
+		<value xml:lang="zh-TW"><![CDATA[群組標題]]></value>
+		<value xml:lang="fr"><![CDATA[Nom du Groupe]]></value>
+		<value xml:lang="ru"><![CDATA[Имя группы]]></value>
+		<value xml:lang="es"><![CDATA[Nombre del grupo]]></value>
+		<value xml:lang="tr"><![CDATA[Grup Adı]]></value>
+		<value xml:lang="vi"><![CDATA[Tên nhóm]]></value>
+	</item>
+	<item name="group_srl">
+		<value xml:lang="ko"><![CDATA[그룹번호]]></value>
+		<value xml:lang="en"><![CDATA[Group Number]]></value>
+		<value xml:lang="jp"><![CDATA[グループ番号]]></value>
+		<value xml:lang="zh-CN"><![CDATA[用户组编号]]></value>
+		<value xml:lang="zh-TW"><![CDATA[群組編號]]></value>
+		<value xml:lang="fr"><![CDATA[Numéro du Groupe]]></value>
+		<value xml:lang="ru"><![CDATA[Номер группы]]></value>
+		<value xml:lang="es"><![CDATA[Número del grupo]]></value>
+		<value xml:lang="tr"><![CDATA[Grup Numarası]]></value>
+		<value xml:lang="vi"><![CDATA[Nhóm số]]></value>
+	</item>
+	<item name="group_order">
+		<value xml:lang="ko"><![CDATA[그룹 우선순위]]></value>
+		<value xml:lang="en"><![CDATA[Gropu Priority]]></value>
+		<value xml:lang="jp"><![CDATA[グループ優先順位]]></value>
+	</item>
+	<item name="group_order_change">
+		<value xml:lang="ko"><![CDATA[그룹 우선순위 변경]]></value>
+		<value xml:lang="en"><![CDATA[Change Group Priority]]></value>
+		<value xml:lang="jp"><![CDATA[グループ優先順位変更]]></value>
+	</item>
+	<item name="signature">
+		<value xml:lang="ko"><![CDATA[서명]]></value>
+		<value xml:lang="en"><![CDATA[Signature]]></value>
+		<value xml:lang="jp"><![CDATA[署名]]></value>
+		<value xml:lang="zh-CN"><![CDATA[签名]]></value>
+		<value xml:lang="zh-TW"><![CDATA[簽名檔]]></value>
+		<value xml:lang="ru"><![CDATA[Подпись]]></value>
+		<value xml:lang="es"><![CDATA[Firma]]></value>
+		<value xml:lang="tr"><![CDATA[İmza]]></value>
+		<value xml:lang="vi"><![CDATA[Chữ kí]]></value>
+	</item>
+	<item name="profile_image">
+		<value xml:lang="ko"><![CDATA[프로필 사진]]></value>
+		<value xml:lang="en"><![CDATA[Profile Image]]></value>
+		<value xml:lang="jp"><![CDATA[プロフィール写真]]></value>
+		<value xml:lang="zh-CN"><![CDATA[个性头像]]></value>
+		<value xml:lang="zh-TW"><![CDATA[個人圖片]]></value>
+		<value xml:lang="fr"><![CDATA[Image du profil]]></value>
+		<value xml:lang="ru"><![CDATA[Фотография участника]]></value>
+		<value xml:lang="es"><![CDATA[Perfil de Imagen]]></value>
+		<value xml:lang="tr"><![CDATA[Profil Resmi]]></value>
+		<value xml:lang="vi"><![CDATA[Hình đại diện]]></value>
+	</item>
+	<item name="profile_image_max_width">
+		<value xml:lang="ko"><![CDATA[가로 제한 길이]]></value>
+		<value xml:lang="en"><![CDATA[Max Width]]></value>
+		<value xml:lang="jp"><![CDATA[制限横幅サイズ]]></value>
+		<value xml:lang="zh-CN"><![CDATA[宽度限制]]></value>
+		<value xml:lang="zh-TW"><![CDATA[寬度限制]]></value>
+		<value xml:lang="fr"><![CDATA[Largeur Maximum]]></value>
+		<value xml:lang="ru"><![CDATA[Макс. ширина]]></value>
+		<value xml:lang="es"><![CDATA[Max Anchura]]></value>
+		<value xml:lang="tr"><![CDATA[En Yük. Genişlik]]></value>
+		<value xml:lang="vi"><![CDATA[Chiểu rộng tối đa]]></value>
+	</item>
+	<item name="profile_image_max_height">
+		<value xml:lang="ko"><![CDATA[세로 제한 길이]]></value>
+		<value xml:lang="en"><![CDATA[Max Height]]></value>
+		<value xml:lang="jp"><![CDATA[制限縦幅サイズ]]></value>
+		<value xml:lang="zh-CN"><![CDATA[高度限制]]></value>
+		<value xml:lang="zh-TW"><![CDATA[高度限制]]></value>
+		<value xml:lang="fr"><![CDATA[Hauteur Maximum]]></value>
+		<value xml:lang="ru"><![CDATA[Макс. высота]]></value>
+		<value xml:lang="es"><![CDATA[Max Altura]]></value>
+		<value xml:lang="tr"><![CDATA[En Yük. Uzunluk]]></value>
+		<value xml:lang="vi"><![CDATA[Chiều cao tối đa&nbsp;&nbsp;]]></value>
+	</item>
+	<item name="image_name">
+		<value xml:lang="ko"><![CDATA[이미지 이름]]></value>
+		<value xml:lang="en"><![CDATA[Image Name]]></value>
+		<value xml:lang="jp"><![CDATA[イメージ名]]></value>
+		<value xml:lang="zh-CN"><![CDATA[昵称图片]]></value>
+		<value xml:lang="zh-TW"><![CDATA[暱稱圖片]]></value>
+		<value xml:lang="fr"><![CDATA[Nom en Image]]></value>
+		<value xml:lang="ru"><![CDATA[Имя изображения]]></value>
+		<value xml:lang="es"><![CDATA[Nombre de la imagen]]></value>
+		<value xml:lang="tr"><![CDATA[Resim İsmi]]></value>
+		<value xml:lang="vi"><![CDATA[Hình thay thế tên hiển thị]]></value>
+	</item>
+	<item name="image_name_max_width">
+		<value xml:lang="ko"><![CDATA[가로 제한 길이]]></value>
+		<value xml:lang="en"><![CDATA[Max Width]]></value>
+		<value xml:lang="jp"><![CDATA[制限横幅サイズ]]></value>
+		<value xml:lang="zh-CN"><![CDATA[宽度限制]]></value>
+		<value xml:lang="zh-TW"><![CDATA[寬度限制]]></value>
+		<value xml:lang="fr"><![CDATA[Largeur Maximum]]></value>
+		<value xml:lang="ru"><![CDATA[Макс. ширина]]></value>
+		<value xml:lang="es"><![CDATA[Ancho Máximo]]></value>
+		<value xml:lang="tr"><![CDATA[En Yük. Genişlik]]></value>
+		<value xml:lang="vi"><![CDATA[Chiểu rộng tối đa]]></value>
+	</item>
+	<item name="image_name_max_height">
+		<value xml:lang="ko"><![CDATA[세로 제한 길이]]></value>
+		<value xml:lang="en"><![CDATA[Max Height]]></value>
+		<value xml:lang="jp"><![CDATA[制限縦幅サイズ]]></value>
+		<value xml:lang="zh-CN"><![CDATA[高度限制]]></value>
+		<value xml:lang="zh-TW"><![CDATA[高度限制]]></value>
+		<value xml:lang="fr"><![CDATA[Hauteur Maximum]]></value>
+		<value xml:lang="ru"><![CDATA[Макс. высота]]></value>
+		<value xml:lang="es"><![CDATA[Altura Máxima]]></value>
+		<value xml:lang="tr"><![CDATA[En Yük. Uzunluk]]></value>
+		<value xml:lang="vi"><![CDATA[Chiều cao tối đa&nbsp;&nbsp;]]></value>
+	</item>
+	<item name="image_mark">
+		<value xml:lang="ko"><![CDATA[이미지 마크]]></value>
+		<value xml:lang="en"><![CDATA[Image Mark]]></value>
+		<value xml:lang="jp"><![CDATA[イメージマーク]]></value>
+		<value xml:lang="zh-CN"><![CDATA[用户图标]]></value>
+		<value xml:lang="zh-TW"><![CDATA[用戶圖示]]></value>
+		<value xml:lang="fr"><![CDATA[Marque en Image]]></value>
+		<value xml:lang="es"><![CDATA[Marca de la imagen]]></value>
+		<value xml:lang="tr"><![CDATA[Resim İmi]]></value>
+		<value xml:lang="vi"><![CDATA[Hình đánh dấu]]></value>
+	</item>
+	<item name="image_mark_max_width">
+		<value xml:lang="ko"><![CDATA[가로 제한 길이]]></value>
+		<value xml:lang="en"><![CDATA[Max Width]]></value>
+		<value xml:lang="jp"><![CDATA[制限横幅サイズ]]></value>
+		<value xml:lang="zh-CN"><![CDATA[宽度限制]]></value>
+		<value xml:lang="zh-TW"><![CDATA[寬度限制]]></value>
+		<value xml:lang="fr"><![CDATA[Largeur Maximum]]></value>
+		<value xml:lang="ru"><![CDATA[Макс. ширина]]></value>
+		<value xml:lang="es"><![CDATA[Ancho Máximo]]></value>
+		<value xml:lang="tr"><![CDATA[En Yük. Genişlik]]></value>
+		<value xml:lang="vi"><![CDATA[Chiểu rộng tối đa]]></value>
+	</item>
+	<item name="image_mark_max_height">
+		<value xml:lang="ko"><![CDATA[세로 제한 길이]]></value>
+		<value xml:lang="en"><![CDATA[Max Height]]></value>
+		<value xml:lang="jp"><![CDATA[制限縦幅サイズ]]></value>
+		<value xml:lang="zh-CN"><![CDATA[高度限制]]></value>
+		<value xml:lang="zh-TW"><![CDATA[高度限制]]></value>
+		<value xml:lang="fr"><![CDATA[Hauteur Maximum]]></value>
+		<value xml:lang="ru"><![CDATA[Макс. высота]]></value>
+		<value xml:lang="es"><![CDATA[Altura Máxima]]></value>
+		<value xml:lang="tr"><![CDATA[En Yük. Uzunluk]]></value>
+		<value xml:lang="vi"><![CDATA[Chiều cao tối đa&nbsp;&nbsp;]]></value>
+	</item>
+	<item name="group_image_mark">
+		<value xml:lang="ko"><![CDATA[그룹 이미지 마크]]></value>
+		<value xml:lang="en"><![CDATA[Group Image Mark]]></value>
+		<value xml:lang="jp"><![CDATA[グループ用イメージマーク]]></value>
+		<value xml:lang="zh-CN"><![CDATA[用户组图标]]></value>
+		<value xml:lang="zh-TW"><![CDATA[群組圖示]]></value>
+		<value xml:lang="tr"><![CDATA[Grup Simgesi]]></value>
+		<value xml:lang="vi"><![CDATA[Hình đại diện nhóm]]></value>
+	</item>
+	<item name="group_image_mark_max_width">
+		<value xml:lang="ko"><![CDATA[가로 제한 길이]]></value>
+		<value xml:lang="en"><![CDATA[Max Width]]></value>
+		<value xml:lang="jp"><![CDATA[制限横幅サイズ]]></value>
+		<value xml:lang="zh-CN"><![CDATA[宽度限制]]></value>
+		<value xml:lang="zh-TW"><![CDATA[寬度限制]]></value>
+		<value xml:lang="fr"><![CDATA[Largeur Maximum]]></value>
+		<value xml:lang="ru"><![CDATA[Макс. ширина]]></value>
+		<value xml:lang="es"><![CDATA[Ancho Máximo]]></value>
+		<value xml:lang="tr"><![CDATA[En Yük. Genişlik]]></value>
+		<value xml:lang="vi"><![CDATA[Chiểu rộng tối đa]]></value>
+	</item>
+	<item name="group_image_mark_max_height">
+		<value xml:lang="ko"><![CDATA[세로 제한 길이]]></value>
+		<value xml:lang="en"><![CDATA[Max Height]]></value>
+		<value xml:lang="jp"><![CDATA[制限縦幅サイズ]]></value>
+		<value xml:lang="zh-CN"><![CDATA[高度限制]]></value>
+		<value xml:lang="zh-TW"><![CDATA[高度限制]]></value>
+		<value xml:lang="fr"><![CDATA[Hauteur Maximum]]></value>
+		<value xml:lang="ru"><![CDATA[Макс. высота]]></value>
+		<value xml:lang="es"><![CDATA[Altura Máxima]]></value>
+		<value xml:lang="tr"><![CDATA[En Yük. Uzunluk]]></value>
+		<value xml:lang="vi"><![CDATA[Chiều cao tối đa&nbsp;&nbsp;]]></value>
+	</item>
+	<item name="signature_max_height">
+		<value xml:lang="ko"><![CDATA[서명 높이 제한]]></value>
+		<value xml:lang="en"><![CDATA[Max Signature Height]]></value>
+		<value xml:lang="jp"><![CDATA[制限署名欄の高さ]]></value>
+		<value xml:lang="zh-CN"><![CDATA[签名高度限制]]></value>
+		<value xml:lang="zh-TW"><![CDATA[簽名檔高度限制]]></value>
+		<value xml:lang="fr"><![CDATA[Hauteur Maximum de la Signature]]></value>
+		<value xml:lang="tr"><![CDATA[En Yük. İmza Uzunluğu]]></value>
+		<value xml:lang="vi"><![CDATA[Chiều cao lớn nhất của chữ kí]]></value>
+	</item>
+	<item name="enable_openid">
+		<value xml:lang="ko"><![CDATA[OpenID 지원]]></value>
+		<value xml:lang="en"><![CDATA[Enable OpenID]]></value>
+		<value xml:lang="jp"><![CDATA[OpenIDサポート]]></value>
+		<value xml:lang="zh-CN"><![CDATA[支持OpenID]]></value>
+		<value xml:lang="zh-TW"><![CDATA[支援 OpenID]]></value>
+		<value xml:lang="fr"><![CDATA[Permettre OpenID]]></value>
+		<value xml:lang="ru"><![CDATA[Включить открытый ID (OpenID)]]></value>
+		<value xml:lang="es"><![CDATA[Activar OpenID]]></value>
+		<value xml:lang="tr"><![CDATA[OpenID Aç]]></value>
+		<value xml:lang="vi"><![CDATA[Kích hoạt OpenID]]></value>
+	</item>
+	<item name="enable_join">
+		<value xml:lang="ko"><![CDATA[회원 가입 허가]]></value>
+		<value xml:lang="en"><![CDATA[Accept New Members]]></value>
+		<value xml:lang="jp"><![CDATA[会員登録を許可する]]></value>
+		<value xml:lang="zh-CN"><![CDATA[允许会员注册]]></value>
+		<value xml:lang="zh-TW"><![CDATA[允許會員註冊]]></value>
+		<value xml:lang="fr"><![CDATA[Permettre l'inscription]]></value>
+		<value xml:lang="ru"><![CDATA[Разрешение на регистрацию]]></value>
+		<value xml:lang="es"><![CDATA[Permitir el registro del usuario]]></value>
+		<value xml:lang="tr"><![CDATA[Yeni Üye Kabul Et]]></value>
+		<value xml:lang="vi"><![CDATA[Đồng ý đăng kí thành viên]]></value>
+	</item>
+	<item name="enable_confirm">
+		<value xml:lang="ko"><![CDATA[메일 인증 사용]]></value>
+		<value xml:lang="en"><![CDATA[Email Activation]]></value>
+		<value xml:lang="jp"><![CDATA[メール認証機能を使用]]></value>
+		<value xml:lang="zh-CN"><![CDATA[使用邮件认证]]></value>
+		<value xml:lang="zh-TW"><![CDATA[使用郵件認證]]></value>
+		<value xml:lang="fr"><![CDATA[Utiliser Authentification par mél]]></value>
+		<value xml:lang="ru"><![CDATA[Активация по email]]></value>
+		<value xml:lang="tr"><![CDATA[E-posta Doğrulaması]]></value>
+		<value xml:lang="vi"><![CDATA[Xác nhận qua Email]]></value>
+	</item>
+	<item name="enable_ssl">
+		<value xml:lang="ko"><![CDATA[SSL 기능 사용]]></value>
+		<value xml:lang="en"><![CDATA[Enable SSL]]></value>
+		<value xml:lang="jp"><![CDATA[SSL使用]]></value>
+		<value xml:lang="zh-CN"><![CDATA[使用SSL功能]]></value>
+		<value xml:lang="zh-TW"><![CDATA[使用 SSL功能]]></value>
+		<value xml:lang="fr"><![CDATA[Utiliser SSL]]></value>
+		<value xml:lang="ru"><![CDATA[использоватьSSL]]></value>
+		<value xml:lang="es"><![CDATA[Activar SSL]]></value>
+		<value xml:lang="tr"><![CDATA[SSL Etkinleştir]]></value>
+		<value xml:lang="vi"><![CDATA[Mở SSL]]></value>
+	</item>
+	<item name="security_sign_in">
+		<value xml:lang="ko"><![CDATA[보안로그인 사용]]></value>
+		<value xml:lang="en"><![CDATA[Sign in using enhanced security]]></value>
+		<value xml:lang="jp"><![CDATA[セキュア（SSL）]]></value>
+		<value xml:lang="zh-CN"><![CDATA[使用安全登录]]></value>
+		<value xml:lang="zh-TW"><![CDATA[使用安全登入]]></value>
+		<value xml:lang="fr"><![CDATA[Ouvrir une Session en utilisant sécurité rehaussé]]></value>
+		<value xml:lang="tr"><![CDATA[Gelişmiş güvenliği kullanarak giriş yap]]></value>
+		<value xml:lang="vi"><![CDATA[Bảo mật đăng nhập]]></value>
+	</item>
+	<item name="limit_day">
+		<value xml:lang="ko"><![CDATA[임시 제한 일자]]></value>
+		<value xml:lang="en"><![CDATA[Temporary Limit Date]]></value>
+		<value xml:lang="jp"><![CDATA[一時制限期間（日）]]></value>
+		<value xml:lang="zh-CN"><![CDATA[认证限制]]></value>
+		<value xml:lang="zh-TW"><![CDATA[認證限制]]></value>
+		<value xml:lang="fr"><![CDATA[Jour de Limite Temporaire]]></value>
+		<value xml:lang="ru"><![CDATA[Дата временного лимит]]></value>
+		<value xml:lang="es"><![CDATA[Límite de la fecha temporal]]></value>
+		<value xml:lang="tr"><![CDATA[Geçici Zaman Sınırı]]></value>
+		<value xml:lang="vi"><![CDATA[Hạn sử dụng]]></value>
+	</item>
+	<item name="limit_date">
+		<value xml:lang="ko"><![CDATA[제한일]]></value>
+		<value xml:lang="en"><![CDATA[Limit Date]]></value>
+		<value xml:lang="jp"><![CDATA[制限日]]></value>
+		<value xml:lang="zh-CN"><![CDATA[限制日期]]></value>
+		<value xml:lang="zh-TW"><![CDATA[限制日期]]></value>
+		<value xml:lang="fr"><![CDATA[Jour de Limite]]></value>
+		<value xml:lang="ru"><![CDATA[Дата лимита]]></value>
+		<value xml:lang="es"><![CDATA[Límite de fecha]]></value>
+		<value xml:lang="tr"><![CDATA[Zaman Sınırı]]></value>
+		<value xml:lang="vi"><![CDATA[Ngày giới hạn]]></value>
+	</item>
+	<item name="after_login_url">
+		<value xml:lang="ko"><![CDATA[로그인 후 이동할 URL]]></value>
+		<value xml:lang="en"><![CDATA[URL to redirect after Sign in]]></value>
+		<value xml:lang="jp"><![CDATA[ログイン後、表示するページのURL]]></value>
+		<value xml:lang="zh-CN"><![CDATA[登录后页面转向]]></value>
+		<value xml:lang="zh-TW"><![CDATA[登入後頁面轉向]]></value>
+		<value xml:lang="fr"><![CDATA[URL après la connexion]]></value>
+		<value xml:lang="ru"><![CDATA[URL после логин]]></value>
+		<value xml:lang="es"><![CDATA[URL después del inicio de sesión]]></value>
+		<value xml:lang="tr"><![CDATA[Giriş yaptıktan sonraki URL]]></value>
+		<value xml:lang="vi"><![CDATA[URL sau khi đăng nhập]]></value>
+	</item>
+	<item name="after_logout_url">
+		<value xml:lang="ko"><![CDATA[로그아웃 후 이동할 URL]]></value>
+		<value xml:lang="en"><![CDATA[URL to redirect after Sign out]]></value>
+		<value xml:lang="jp"><![CDATA[ログアウト後、表示するページのURL]]></value>
+		<value xml:lang="zh-CN"><![CDATA[退出后页面转向]]></value>
+		<value xml:lang="zh-TW"><![CDATA[登出後頁面轉向]]></value>
+		<value xml:lang="fr"><![CDATA[URL après la déconnexion ]]></value>
+		<value xml:lang="ru"><![CDATA[URL после логаут]]></value>
+		<value xml:lang="es"><![CDATA[URL después de cerrar sesión]]></value>
+		<value xml:lang="tr"><![CDATA[Çıkış yaptıktan sonraki URL]]></value>
+		<value xml:lang="vi"><![CDATA[URL sau khi thoát]]></value>
+	</item>
+	<item name="redirect_url">
+		<value xml:lang="ko"><![CDATA[회원 가입 후 이동할 페이지]]></value>
+		<value xml:lang="en"><![CDATA[URL to redirect after Sign up]]></value>
+		<value xml:lang="jp"><![CDATA[会員登録後、表示するページ]]></value>
+		<value xml:lang="zh-CN"><![CDATA[注册会员后页面转向]]></value>
+		<value xml:lang="zh-TW"><![CDATA[會員註冊後頁面轉向]]></value>
+		<value xml:lang="fr"><![CDATA[URL après l'Inscription]]></value>
+		<value xml:lang="ru"><![CDATA[URL после регистрации]]></value>
+		<value xml:lang="es"><![CDATA[URL luego del registro]]></value>
+		<value xml:lang="tr"><![CDATA[Giriş yaptıktan sonraki URL]]></value>
+		<value xml:lang="vi"><![CDATA[URL sau khi đăng kí]]></value>
+	</item>
+	<item name="agreement">
+		<value xml:lang="ko"><![CDATA[회원 가입 약관]]></value>
+		<value xml:lang="en"><![CDATA[Terms of Service]]></value>
+		<value xml:lang="jp"><![CDATA[会員登録規約]]></value>
+		<value xml:lang="zh-CN"><![CDATA[会员注册条款]]></value>
+		<value xml:lang="zh-TW"><![CDATA[會員使用條款]]></value>
+		<value xml:lang="fr"><![CDATA[Accord de l'Inscription comme Membre]]></value>
+		<value xml:lang="ru"><![CDATA[Пользовательское соглашение о регистрации]]></value>
+		<value xml:lang="es"><![CDATA[Acuerdo del registro del usuario]]></value>
+		<value xml:lang="tr"><![CDATA[Üyelik Sözleşmesi]]></value>
+		<value xml:lang="vi"><![CDATA[Quy định sử dụng]]></value>
+	</item>
+	<item name="accept_agreement">
+		<value xml:lang="ko"><![CDATA[약관동의]]></value>
+		<value xml:lang="en"><![CDATA[Agree]]></value>
+		<value xml:lang="jp"><![CDATA[利用規約に同意する]]></value>
+		<value xml:lang="zh-CN"><![CDATA[同意条款]]></value>
+		<value xml:lang="zh-TW"><![CDATA[同意條款]]></value>
+		<value xml:lang="fr"><![CDATA[D'accord]]></value>
+		<value xml:lang="ru"><![CDATA[Согласен]]></value>
+		<value xml:lang="es"><![CDATA[Acepto]]></value>
+		<value xml:lang="tr"><![CDATA[Kabul Et]]></value>
+		<value xml:lang="vi"><![CDATA[Đồng ý]]></value>
+	</item>
+	<item name="member_info">
+		<value xml:lang="ko"><![CDATA[회원 정보]]></value>
+		<value xml:lang="en"><![CDATA[User Info]]></value>
+		<value xml:lang="jp"><![CDATA[会員情報]]></value>
+		<value xml:lang="zh-CN"><![CDATA[会员信息]]></value>
+		<value xml:lang="zh-TW"><![CDATA[會員資料]]></value>
+		<value xml:lang="fr"><![CDATA[Information de Membre]]></value>
+		<value xml:lang="ru"><![CDATA[Пользовательская информация]]></value>
+		<value xml:lang="es"><![CDATA[Información del Usuario]]></value>
+		<value xml:lang="tr"><![CDATA[Üye Bilgisi]]></value>
+		<value xml:lang="vi"><![CDATA[Thông tin cá nhân]]></value>
+	</item>
+	<item name="current_password">
+		<value xml:lang="ko"><![CDATA[현재 비밀번호]]></value>
+		<value xml:lang="en"><![CDATA[Current Password]]></value>
+		<value xml:lang="jp"><![CDATA[現在のパスワード]]></value>
+		<value xml:lang="zh-CN"><![CDATA[当前密码]]></value>
+		<value xml:lang="zh-TW"><![CDATA[舊密碼]]></value>
+		<value xml:lang="fr"><![CDATA[Mot de Passe courant]]></value>
+		<value xml:lang="ru"><![CDATA[Текущий пароль]]></value>
+		<value xml:lang="es"><![CDATA[Contraseña actual]]></value>
+		<value xml:lang="tr"><![CDATA[Geçerli Şifre]]></value>
+		<value xml:lang="vi"><![CDATA[Mật khẩu hiện tại]]></value>
+	</item>
+	<item name="openid">
+		<value xml:lang="ko"><![CDATA[OpenID]]></value>
+		<value xml:lang="en"><![CDATA[OpenID]]></value>
+	</item>
+	<item name="allow_message">
+		<value xml:lang="ko"><![CDATA[쪽지 허용]]></value>
+		<value xml:lang="en"><![CDATA[Allow Messages]]></value>
+		<value xml:lang="jp"><![CDATA[メッセージ許可]]></value>
+		<value xml:lang="zh-CN"><![CDATA[接收短消息]]></value>
+		<value xml:lang="zh-TW"><![CDATA[接收短訊息]]></value>
+		<value xml:lang="ru"><![CDATA[Сообщения разрешены]]></value>
+		<value xml:lang="tr"><![CDATA[Mesajlaşmaya İzin Ver]]></value>
+		<value xml:lang="vi"><![CDATA[Nhận tin nhắn]]></value>
+	</item>
+	<item name="allow_message_type" type="array">
+		<item name="Y">
+			<value xml:lang="ko"><![CDATA[모두 허용]]></value>
+			<value xml:lang="en"><![CDATA[Allow All]]></value>
+			<value xml:lang="jp"><![CDATA[すべて許可]]></value>
+			<value xml:lang="zh-CN"><![CDATA[全部接收]]></value>
+			<value xml:lang="zh-TW"><![CDATA[全部允許]]></value>
+			<value xml:lang="ru"><![CDATA[Разрешено всем]]></value>
+			<value xml:lang="tr"><![CDATA[Tümüne İzin Ver]]></value>
+			<value xml:lang="vi"><![CDATA[Tất cả]]></value>
+		</item>
+		<item name="F">
+			<value xml:lang="ko"><![CDATA[등록된 친구들만 허용]]></value>
+			<value xml:lang="en"><![CDATA[Allow for Friends only]]></value>
+			<value xml:lang="jp"><![CDATA[登録した友達のみ許可]]></value>
+			<value xml:lang="zh-CN"><![CDATA[拒收]]></value>
+			<value xml:lang="zh-TW"><![CDATA[允許好友]]></value>
+			<value xml:lang="ru"><![CDATA[Разрешено только зарегистрированным друзьям]]></value>
+			<value xml:lang="tr"><![CDATA[Arkadaşlara İzin Ver]]></value>
+			<value xml:lang="vi"><![CDATA[Chỉ của bạn bè]]></value>
+		</item>
+		<item name="N">
+			<value xml:lang="ko"><![CDATA[모두 금지]]></value>
+			<value xml:lang="en"><![CDATA[Reject All]]></value>
+			<value xml:lang="jp"><![CDATA[すべて禁止]]></value>
+			<value xml:lang="zh-CN"><![CDATA[只允许好友]]></value>
+			<value xml:lang="zh-TW"><![CDATA[全部禁止]]></value>
+			<value xml:lang="ru"><![CDATA[Запрещено всем]]></value>
+			<value xml:lang="tr"><![CDATA[Tümünü Geri Çevir]]></value>
+			<value xml:lang="vi"><![CDATA[Từ chối tất cả]]></value>
+		</item>
+	</item>
+	<item name="about_allow_message">
+		<value xml:lang="ko"><![CDATA[쪽지 허용 방법 및 대상을 지정할 수 있습니다.]]></value>
+		<value xml:lang="en"><![CDATA[You may allow or reject messages.]]></value>
+		<value xml:lang="jp"><![CDATA[メッセージの許可タイプ及び対象を設定します。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[可以指定接收短消息方法及对象。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[可選擇是否接收短訊息。]]></value>
+		<value xml:lang="fr"><![CDATA[쪽지 허용 방법 및 대상을 지정할 수 있습니다]]></value>
+		<value xml:lang="ru"><![CDATA[쪽지 허용 방법 및 대상을 지정할 수 있습니다]]></value>
+		<value xml:lang="es"><![CDATA[쪽지 허용 방법 및 대상을 지정할 수 있습니다]]></value>
+		<value xml:lang="tr"><![CDATA[Mesajlaşmaya izin verebilir/reddedebilirsiniz.]]></value>
+		<value xml:lang="vi"><![CDATA[Bạn có thể chấp nhận hoặc từ chối những tin nhắn.]]></value>
+	</item>
+	<item name="logged_users">
+		<value xml:lang="ko"><![CDATA[현재 접속자]]></value>
+		<value xml:lang="en"><![CDATA[Logged on Users]]></value>
+		<value xml:lang="jp"><![CDATA[現在ログイン中の会員]]></value>
+		<value xml:lang="zh-CN"><![CDATA[在线用户]]></value>
+		<value xml:lang="zh-TW"><![CDATA[線上會員]]></value>
+		<value xml:lang="fr"><![CDATA[Logged Users]]></value>
+		<value xml:lang="ru"><![CDATA[Logged Users]]></value>
+		<value xml:lang="es"><![CDATA[Logged Users]]></value>
+		<value xml:lang="tr"><![CDATA[Giriş yapmış Kullanıcılar]]></value>
+		<value xml:lang="vi"><![CDATA[Thành viên đăng nhập]]></value>
+	</item>
+	<item name="webmaster_name">
+		<value xml:lang="ko"><![CDATA[웹마스터 이름]]></value>
+		<value xml:lang="en"><![CDATA[Webmaster Name]]></value>
+		<value xml:lang="jp"><![CDATA[ウェブマスターの名前]]></value>
+		<value xml:lang="zh-CN"><![CDATA[管理员名]]></value>
+		<value xml:lang="zh-TW"><![CDATA[管理員名稱]]></value>
+		<value xml:lang="fr"><![CDATA[Nom de Webmestre]]></value>
+		<value xml:lang="ru"><![CDATA[Имя веб-мастера]]></value>
+		<value xml:lang="es"><![CDATA[Nombre del Webmaster]]></value>
+		<value xml:lang="tr"><![CDATA[Webmaster İsmi]]></value>
+		<value xml:lang="vi"><![CDATA[Tên Webmaster]]></value>
+	</item>
+	<item name="webmaster_email">
+		<value xml:lang="ko"><![CDATA[웹마스터 메일주소]]></value>
+		<value xml:lang="en"><![CDATA[Webmaster Email]]></value>
+		<value xml:lang="jp"><![CDATA[ウェブマスターのメールアドレス]]></value>
+		<value xml:lang="zh-CN"><![CDATA[管理员电子邮件]]></value>
+		<value xml:lang="zh-TW"><![CDATA[管理員電子郵件]]></value>
+		<value xml:lang="fr"><![CDATA[Mél de Webmestre]]></value>
+		<value xml:lang="ru"><![CDATA[Email веб-мастера]]></value>
+		<value xml:lang="es"><![CDATA[Correo electrónico Webmaster]]></value>
+		<value xml:lang="tr"><![CDATA[Webmaster E-postası]]></value>
+		<value xml:lang="vi"><![CDATA[ Email Webmaster]]></value>
+	</item>
+	<item name="about_keep_signed">
+		<value xml:lang="ko"><![CDATA[브라우저를 닫더라도 로그인이 계속 유지될 수 있습니다.\n\n로그인 유지 기능을 사용할 경우 다음 접속부터는 로그인을 하실 필요가 없습니다.\n\n단, 게임방, 학교 등 공공장소에서 이용 시 개인정보가 유출될 수 있으니 꼭 로그아웃을 해주세요.]]></value>
+		<value xml:lang="en"><![CDATA[You will be still signed in even when the browser is closed.\n\nIt is not recommended to use this if you are using a public computer, for your personal information could be violated.]]></value>
+		<value xml:lang="jp"><![CDATA[ブラウザを閉じてもログイン状態が維持されます。\n\nログイン維持機能を利用すると、次回からログインする必要がありません。\n\nただし、インターネットカフェ、学校など公共場所で利用する場合、個人情報が流出する恐れがありますので、必ずログアウトしてください。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[关闭浏览器后也将维持登录状态。\n\n使用自动登录功能，可解决每次访问都要输入用户名及密码的麻烦。\n\n为防止个人信息泄露，在网吧，学校等公共场所请务必要确认解除登录状态。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[關閉瀏覽器後也將維持登入狀態。\n\n使用此功能，可解決每次訪問都要輸入帳號及密碼的麻煩。\n\n為防止個人資料洩露，在網咖，學校等公共場所，請務必要確認解除登入狀態。]]></value>
+		<value xml:lang="fr"><![CDATA[Malgré que le navigateur est fermé, votre session peut rester ouverte. \n\nSi vous utilisez cette fonction sur l'ordinateur publique, vos informations privé peut être exposé. Nous vous recommandons de ne pas utiliser cette fonctions sur l'ordinateur publique.]]></value>
+		<value xml:lang="ru"><![CDATA[Вы будете в состоянии логин, даже при закрытии окна браузера.\n\nЕсли вы пользуетесь общественным компьютером, сделайте выход в целях сохранения персональных данных]]></value>
+		<value xml:lang="es"><![CDATA[브라우저를 닫더라도 로그인이 계속 유지될 수 있습니다.\n\n로그인 유지 기능을 사용할 경우 다음 접속부터는 로그인을 하실 필요가 없습니다.\n\n단, 게임방, 학교 등 공공장소에서 이용시 개인정보가 유출될 수 있으니 꼭 로그아웃을 해주세요]]></value>
+		<value xml:lang="tr"><![CDATA[Tarayıcıyı kapatsanız da sisteme bağlı kalacaksınız.\n\nEğer ortak bir bilgisayar kullanıyorsanız, kişisel bilgilerinizin gizliliği için bunu önermiyoruz]]></value>
+		<value xml:lang="vi"><![CDATA[Mặc dù tắt trình duyệt nhưng thông tin đăng nhập của bạn vẫn được lưu lại trên máy tính này.\n\nNếu bạn sử dụng máy tính dùng chung, người khác cũng có thể đăng nhập dưới tên truy cập của bạn. Vì vậy chức năng này không nên sử dụng nếu máy tính này không phải của riêng bạn!]]></value>
+	</item>
+	<item name="about_keep_warning">
+		<value xml:lang="ko"><![CDATA[브라우저를 닫더라도 로그인이 계속 유지될 수 있습니다. 로그인 유지 기능을 사용할 경우 다음 접속부터는 로그인을 하실 필요가 없습니다. 단, 게임방, 학교 등 공공장소에서 이용 시 개인정보가 유출될 수 있으니 꼭 로그아웃을 해주세요.]]></value>
+		<value xml:lang="en"><![CDATA[You will be still signed in even when the browser is closed. It is not recommended to use this if you are using a public computer, for your personal information could be violated]]></value>
+		<value xml:lang="jp"><![CDATA[ブラウザを閉じてもログイン状態が維持されます。\n\nログイン維持機能を利用すると、次回からログインする必要がありません。 ただし、インターネットカフェ、学校など公共場所で利用する場合、個人情報が流出する恐れがありますので、必ずログアウトしてください。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[关闭浏览器后也将维持登录状态。\n\n使用自动登录功能，可解决每次访问都要输入用户名及密码的麻烦。 为防止个人信息泄露，在网吧，学校等公共场所请务必要确认解除登录状态。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[關閉瀏覽器後也將維持登入狀態。使用此功能，可解決每次訪問都要輸入帳號及密碼的麻煩。為防止個人資料洩露，在網咖，學校等公共場所，請務必要確認解除登入狀態。]]></value>
+		<value xml:lang="fr"><![CDATA[Malgré que le navigateur est fermé, votre session peut rester ouverte. Si vous utilisez cette fonction sur l'ordinateur publique, vos informations privé peut être exposé. Nous vous recommandons de ne pas utiliser cette fonctions sur l'ordinateur publique.]]></value>
+		<value xml:lang="ru"><![CDATA[Вы будете в состоянии логин, даже при закрытии окна браузера.Если вы пользуетесь общественным компьютером, сделайте выход в целях сохранения персональных данных]]></value>
+		<value xml:lang="tr"><![CDATA[Tarayıcıyı kapatsanız da sisteme bağlı kalacaksınız. Eğer ortak bir bilgisayar kullanıyorsanız, kişisel bilgilerinizin gizliliği için bunu önermiyoruz]]></value>
+		<value xml:lang="vi"><![CDATA[Mặc dù tắt trình duyệt nhưng thông tin đăng nhập của bạn vẫn được lưu lại trên máy tính này. Nếu bạn sử dụng máy tính dùng chung, người khác cũng có thể đăng nhập dưới tên truy cập của bạn. Vì vậy chức năng này không nên sử dụng nếu máy tính này không phải của riêng bạn!]]></value>
+	</item>
+	<item name="about_webmaster_name">
+		<value xml:lang="ko"><![CDATA[인증 메일이나 기타 사이트 관리 시 사용될 웹마스터의 이름을 입력해주세요. (기본 : webmaster)]]></value>
+		<value xml:lang="en"><![CDATA[Please enter webmaster's name which will be used for verification mails or other site administration. (default : webmaster).]]></value>
+		<value xml:lang="jp"><![CDATA[確認メール、またはサイト管理時に使用されるウェブマスターの名前を入力してください（デフォルト : webmaster）。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[请输入认证所需的电子邮件地址或管理其他网站时要使用的网站管理员名称。(默认 : webmaster)]]></value>
+		<value xml:lang="zh-TW"><![CDATA[請輸入認證所需的電子郵件地址或管理其他網站時要使用的網站管理員名稱。(預設 : webmaster)]]></value>
+		<value xml:lang="fr"><![CDATA[Entrez le nom de webmestre qui va être utilisé pour le mél de certification ou l'autre administration du site. (défaut : webmestre)]]></value>
+		<value xml:lang="ru"><![CDATA[Пожалуйста, введите имя вебмастера, которое будет использоваться для авторизационных писем или другого адиминистрирования сайта. (по умолчанию : webmaster)]]></value>
+		<value xml:lang="es"><![CDATA[Por favor, webmaster de entrada el nombre que se utilizará para la autenticación de los correos u otros sitio de la administración. (Por defecto: webmaster)]]></value>
+		<value xml:lang="tr"><![CDATA[Lütfen onay maillerinde veya site yönetiminde kullanılacak webmaster ismini giriniz. (varsayılan : webmaster)]]></value>
+		<value xml:lang="vi"><![CDATA[Xin hãy nhập tên của Webmaster để nhận Email và quản lý. (Mặc định: webmaster)]]></value>
+	</item>
+	<item name="about_webmaster_email">
+		<value xml:lang="ko"><![CDATA[웹마스터의 메일 주소를 입력해주세요.]]></value>
+		<value xml:lang="en"><![CDATA[Please enter webmaster's email address.]]></value>
+		<value xml:lang="jp"><![CDATA[ウェブマスターのメールアドレスを入力してください。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[请输入网站管理员的电子邮件地址。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[請輸入網站管理員的電子郵件地址。]]></value>
+		<value xml:lang="fr"><![CDATA[Entrez l'adresse du mél de webmestre, S.V.P.]]></value>
+		<value xml:lang="ru"><![CDATA[Пожалуйста, введите email адрес вебмастера.]]></value>
+		<value xml:lang="es"><![CDATA[Introduzca la dirección de correo electrónico webmaster.]]></value>
+		<value xml:lang="tr"><![CDATA[Lütfen webmaster e-posta adresini giriniz.]]></value>
+		<value xml:lang="vi"><![CDATA[Xin hãy nhập Email của Webmaster.]]></value>
+	</item>
+	<item name="search_target_list" type="array">
+		<item name="email_address">
+			<value xml:lang="ko"><![CDATA[이메일]]></value>
+			<value xml:lang="en"><![CDATA[Email Address]]></value>
+			<value xml:lang="jp"><![CDATA[メールアドレス]]></value>
+			<value xml:lang="zh-CN"><![CDATA[邮箱地址]]></value>
+			<value xml:lang="zh-TW"><![CDATA[電子郵件]]></value>
+			<value xml:lang="fr"><![CDATA[Mél]]></value>
+			<value xml:lang="ru"><![CDATA[Email]]></value>
+			<value xml:lang="es"><![CDATA[Dirección de Email]]></value>
+			<value xml:lang="tr"><![CDATA[E-posta Adresi]]></value>
+			<value xml:lang="vi"><![CDATA[Địa chỉ Email]]></value>
+		</item>
+		<item name="regdate">
+			<value xml:lang="ko"><![CDATA[가입일시]]></value>
+			<value xml:lang="en"><![CDATA[Sign up Date]]></value>
+			<value xml:lang="jp"><![CDATA[登録日]]></value>
+			<value xml:lang="zh-CN"><![CDATA[注册日期]]></value>
+			<value xml:lang="zh-TW"><![CDATA[註冊日期]]></value>
+			<value xml:lang="fr"><![CDATA[Jour d'Inscription]]></value>
+			<value xml:lang="ru"><![CDATA[Дата регистрации]]></value>
+			<value xml:lang="es"><![CDATA[Fecha del registro]]></value>
+			<value xml:lang="tr"><![CDATA[Kayıt Tarihi]]></value>
+			<value xml:lang="vi"><![CDATA[Ngày đăng kí]]></value>
+		</item>
+		<item name="regdate_more">
+			<value xml:lang="ko"><![CDATA[가입일시(이상)]]></value>
+			<value xml:lang="en"><![CDATA[Sign up Date (more)]]></value>
+			<value xml:lang="jp"><![CDATA[登録日(以上)]]></value>
+			<value xml:lang="zh-CN"><![CDATA[注册日期(以上)]]></value>
+			<value xml:lang="zh-TW"><![CDATA[註冊日期(以上)]]></value>
+			<value xml:lang="ru"><![CDATA[Дата регистрации(more)]]></value>
+			<value xml:lang="tr"><![CDATA[Kayıt Tarihi (detaylı)]]></value>
+			<value xml:lang="vi"><![CDATA[Ngày đăng kí nhiều nhất]]></value>
+		</item>
+		<item name="regdate_less">
+			<value xml:lang="ko"><![CDATA[가입일시(이하)]]></value>
+			<value xml:lang="en"><![CDATA[Sign up Date (less)]]></value>
+			<value xml:lang="jp"><![CDATA[登録日(以下)]]></value>
+			<value xml:lang="zh-CN"><![CDATA[注册日期(以下)]]></value>
+			<value xml:lang="zh-TW"><![CDATA[註冊日期(以下)]]></value>
+			<value xml:lang="ru"><![CDATA[Дата регистрации(less)]]></value>
+			<value xml:lang="tr"><![CDATA[Kayıt Tarihi (basit)]]></value>
+			<value xml:lang="vi"><![CDATA[Ngày đăng kí ít nhất]]></value>
+		</item>
+		<item name="last_login">
+			<value xml:lang="ko"><![CDATA[최근 로그인 일시]]></value>
+			<value xml:lang="en"><![CDATA[Last Sign in Date]]></value>
+			<value xml:lang="jp"><![CDATA[最終ログイン]]></value>
+			<value xml:lang="zh-CN"><![CDATA[最后登录]]></value>
+			<value xml:lang="zh-TW"><![CDATA[最近登入]]></value>
+			<value xml:lang="fr"><![CDATA[Jour de la connexion dernière]]></value>
+			<value xml:lang="ru"><![CDATA[Дата последнего входа]]></value>
+			<value xml:lang="es"><![CDATA[Fecha de su última conección]]></value>
+			<value xml:lang="tr"><![CDATA[Son Giriş Tarihi]]></value>
+			<value xml:lang="vi"><![CDATA[Lần cuối đăng nhập]]></value>
+		</item>
+		<item name="last_login_more">
+			<value xml:lang="ko"><![CDATA[최근 로그인 일시(이상)]]></value>
+			<value xml:lang="en"><![CDATA[Last Sign in Date (more)]]></value>
+			<value xml:lang="jp"><![CDATA[最終ログイン日(以上)]]></value>
+			<value xml:lang="zh-CN"><![CDATA[最后登录(以上)]]></value>
+			<value xml:lang="zh-TW"><![CDATA[最近登入(以上)]]></value>
+			<value xml:lang="fr"><![CDATA[최근로그인일시(이상)]]></value>
+			<value xml:lang="es"><![CDATA[최근로그인일시(이상)]]></value>
+			<value xml:lang="tr"><![CDATA[Son Giriş Tarihi (detaylı)]]></value>
+			<value xml:lang="vi"><![CDATA[Đăng nhập nhiều nhất]]></value>
+		</item>
+		<item name="last_login_less">
+			<value xml:lang="ko"><![CDATA[최근 로그인 일시(이하)]]></value>
+			<value xml:lang="en"><![CDATA[Last Sign in Date (less)]]></value>
+			<value xml:lang="jp"><![CDATA[最終ログイン日(以下)]]></value>
+			<value xml:lang="zh-CN"><![CDATA[最后登录시(以下)]]></value>
+			<value xml:lang="zh-TW"><![CDATA[最近登入(以下)]]></value>
+			<value xml:lang="fr"><![CDATA[최근로그인일시(이하)]]></value>
+			<value xml:lang="es"><![CDATA[최근로그인일시(이하)]]></value>
+			<value xml:lang="tr"><![CDATA[Son Giriş Tarihi (basit)]]></value>
+			<value xml:lang="vi"><![CDATA[Đăng nhập ít nhất]]></value>
+		</item>
+		<item name="extra_vars">
+			<value xml:lang="ko"><![CDATA[확장변수]]></value>
+			<value xml:lang="en"><![CDATA[Extra Vars]]></value>
+			<value xml:lang="jp"><![CDATA[拡張変数]]></value>
+			<value xml:lang="zh-CN"><![CDATA[扩展信息]]></value>
+			<value xml:lang="zh-TW"><![CDATA[延伸變數]]></value>
+			<value xml:lang="fr"><![CDATA[Variables additionnels ]]></value>
+			<value xml:lang="ru"><![CDATA[Экстра перем.]]></value>
+			<value xml:lang="es"><![CDATA[Variables Extra]]></value>
+			<value xml:lang="tr"><![CDATA[Fazladan Çeş.]]></value>
+			<value xml:lang="vi"><![CDATA[Thông tin bổ xung]]></value>
+		</item>
+	</item>
+	<item name="cmd_login">
+		<value xml:lang="ko"><![CDATA[로그인]]></value>
+		<value xml:lang="en"><![CDATA[Sign In]]></value>
+		<value xml:lang="jp"><![CDATA[ログイン]]></value>
+		<value xml:lang="zh-CN"><![CDATA[登录]]></value>
+		<value xml:lang="zh-TW"><![CDATA[登入]]></value>
+		<value xml:lang="fr"><![CDATA[Connexion]]></value>
+		<value xml:lang="ru"><![CDATA[Вход на сайт]]></value>
+		<value xml:lang="es"><![CDATA[Conectar]]></value>
+		<value xml:lang="tr"><![CDATA[Giriş Yap]]></value>
+		<value xml:lang="vi"><![CDATA[Đăng nhập]]></value>
+	</item>
+	<item name="cmd_logout">
+		<value xml:lang="ko"><![CDATA[로그아웃]]></value>
+		<value xml:lang="en"><![CDATA[Sign Out]]></value>
+		<value xml:lang="jp"><![CDATA[ログアウト]]></value>
+		<value xml:lang="zh-CN"><![CDATA[退出]]></value>
+		<value xml:lang="zh-TW"><![CDATA[登出]]></value>
+		<value xml:lang="fr"><![CDATA[Déconnexion]]></value>
+		<value xml:lang="ru"><![CDATA[Выход]]></value>
+		<value xml:lang="es"><![CDATA[Desconectar]]></value>
+		<value xml:lang="tr"><![CDATA[Çıkış Yap]]></value>
+		<value xml:lang="vi"><![CDATA[Thoát]]></value>
+	</item>
+	<item name="cmd_signup">
+		<value xml:lang="ko"><![CDATA[회원 가입]]></value>
+		<value xml:lang="en"><![CDATA[Sign Up]]></value>
+		<value xml:lang="jp"><![CDATA[会員登録]]></value>
+		<value xml:lang="zh-CN"><![CDATA[新会员注册]]></value>
+		<value xml:lang="zh-TW"><![CDATA[會員註冊]]></value>
+		<value xml:lang="fr"><![CDATA[Inscription]]></value>
+		<value xml:lang="ru"><![CDATA[Регистрация]]></value>
+		<value xml:lang="es"><![CDATA[Registrar]]></value>
+		<value xml:lang="tr"><![CDATA[Kaydol]]></value>
+		<value xml:lang="vi"><![CDATA[Đăng kí]]></value>
+	</item>
+	<item name="cmd_site_signup">
+		<value xml:lang="ko"><![CDATA[가입]]></value>
+		<value xml:lang="en"><![CDATA[Sign Up]]></value>
+		<value xml:lang="jp"><![CDATA[登録]]></value>
+		<value xml:lang="zh-CN"><![CDATA[注册]]></value>
+		<value xml:lang="zh-TW"><![CDATA[加入]]></value>
+		<value xml:lang="fr"><![CDATA[Join]]></value>
+		<value xml:lang="ru"><![CDATA[Регистрация]]></value>
+		<value xml:lang="es"><![CDATA[Join]]></value>
+		<value xml:lang="tr"><![CDATA[Kaydol]]></value>
+		<value xml:lang="vi"><![CDATA[Đăng kí]]></value>
+	</item>
+	<item name="cmd_modify_member_info">
+		<value xml:lang="ko"><![CDATA[회원정보 변경]]></value>
+		<value xml:lang="en"><![CDATA[Change Member Info]]></value>
+		<value xml:lang="jp"><![CDATA[会員番号変更]]></value>
+	</item>
+	<item name="cmd_modify_member_password">
+		<value xml:lang="ko"><![CDATA[비밀번호 변경]]></value>
+		<value xml:lang="en"><![CDATA[Change Password]]></value>
+		<value xml:lang="jp"><![CDATA[パスワード変更]]></value>
+		<value xml:lang="zh-CN"><![CDATA[修改密码]]></value>
+		<value xml:lang="zh-TW"><![CDATA[修改密碼]]></value>
+		<value xml:lang="fr"><![CDATA[Modifier le Mot de Passe]]></value>
+		<value xml:lang="ru"><![CDATA[Изменить пароль]]></value>
+		<value xml:lang="es"><![CDATA[Cambiar la contraseña]]></value>
+		<value xml:lang="tr"><![CDATA[Şifreyi Düzenle]]></value>
+		<value xml:lang="vi"><![CDATA[Sửa đổi mật khẩu]]></value>
+	</item>
+	<item name="cmd_view_member_info">
+		<value xml:lang="ko"><![CDATA[회원 정보 보기]]></value>
+		<value xml:lang="en"><![CDATA[View Member Info]]></value>
+		<value xml:lang="jp"><![CDATA[会員情報確認]]></value>
+		<value xml:lang="zh-CN"><![CDATA[个人资料]]></value>
+		<value xml:lang="zh-TW"><![CDATA[會員資料]]></value>
+		<value xml:lang="fr"><![CDATA[Voir Mon Information]]></value>
+		<value xml:lang="ru"><![CDATA[Личная информация]]></value>
+		<value xml:lang="es"><![CDATA[Información del usuario]]></value>
+		<value xml:lang="tr"><![CDATA[Üye Bilgisi]]></value>
+		<value xml:lang="vi"><![CDATA[Xem thông tin cá nhân]]></value>
+	</item>
+	<item name="cmd_leave">
+		<value xml:lang="ko"><![CDATA[탈퇴]]></value>
+		<value xml:lang="en"><![CDATA[Delete Account]]></value>
+		<value xml:lang="jp"><![CDATA[退会]]></value>
+		<value xml:lang="zh-CN"><![CDATA[注销]]></value>
+		<value xml:lang="zh-TW"><![CDATA[退出]]></value>
+		<value xml:lang="fr"><![CDATA[Quitter]]></value>
+		<value xml:lang="ru"><![CDATA[Удалить аккаунт]]></value>
+		<value xml:lang="es"><![CDATA[Dejar de ser usuario]]></value>
+		<value xml:lang="tr"><![CDATA[Ayrıl]]></value>
+		<value xml:lang="vi"><![CDATA[Từ bỏ]]></value>
+	</item>
+	<item name="cmd_find_member_account">
+		<value xml:lang="ko"><![CDATA[아이디/비밀번호 찾기]]></value>
+		<value xml:lang="en"><![CDATA[Find Account Info]]></value>
+		<value xml:lang="jp"><![CDATA[IDとパスワードのリマインダー]]></value>
+		<value xml:lang="zh-CN"><![CDATA[查找用户名/密码]]></value>
+		<value xml:lang="zh-TW"><![CDATA[查詢帳號/密碼]]></value>
+		<value xml:lang="fr"><![CDATA[J'ai perdu le compte / le mot de passe]]></value>
+		<value xml:lang="ru"><![CDATA[Найти ID/пароль]]></value>
+		<value xml:lang="tr"><![CDATA[Hesap Bilgisi Bul]]></value>
+		<value xml:lang="vi"><![CDATA[Lấy lại thông tin]]></value>
+	</item>
+	<item name="cmd_resend_auth_mail">
+		<value xml:lang="ko"><![CDATA[인증 메일 재발송]]></value>
+		<value xml:lang="en"><![CDATA[Request for Activation Mail]]></value>
+		<value xml:lang="jp"><![CDATA[認証メール再申請]]></value>
+		<value xml:lang="zh-CN"><![CDATA[重新发送认证邮件]]></value>
+		<value xml:lang="zh-TW"><![CDATA[重寄認證郵件]]></value>
+		<value xml:lang="ru"><![CDATA[Послать email для авторизации]]></value>
+		<value xml:lang="tr"><![CDATA[Etkinleştirme Maili Talebinde Bulun]]></value>
+		<value xml:lang="vi"><![CDATA[Xác nhận lại Email]]></value>
+	</item>
+	<item name="cmd_member_list">
+		<value xml:lang="ko"><![CDATA[회원 목록]]></value>
+		<value xml:lang="en"><![CDATA[Member List]]></value>
+		<value xml:lang="jp"><![CDATA[会員リスト]]></value>
+		<value xml:lang="zh-CN"><![CDATA[会员目录]]></value>
+		<value xml:lang="zh-TW"><![CDATA[會員列表]]></value>
+		<value xml:lang="fr"><![CDATA[Liste de Membres]]></value>
+		<value xml:lang="ru"><![CDATA[Список пользователей]]></value>
+		<value xml:lang="es"><![CDATA[Lista de los Usuarios]]></value>
+		<value xml:lang="tr"><![CDATA[Üye Listesi]]></value>
+		<value xml:lang="vi"><![CDATA[Danh sách thành viên]]></value>
+	</item>
+	<item name="cmd_module_config">
+		<value xml:lang="ko"><![CDATA[기본 설정]]></value>
+		<value xml:lang="en"><![CDATA[Default Setting]]></value>
+		<value xml:lang="jp"><![CDATA[基本設定]]></value>
+		<value xml:lang="zh-CN"><![CDATA[常规选项]]></value>
+		<value xml:lang="zh-TW"><![CDATA[基本設置]]></value>
+		<value xml:lang="fr"><![CDATA[Configuration par Défaut]]></value>
+		<value xml:lang="ru"><![CDATA[Стандартные настройки]]></value>
+		<value xml:lang="es"><![CDATA[Configuración predefinidos]]></value>
+		<value xml:lang="tr"><![CDATA[Varsayılan Ayar]]></value>
+		<value xml:lang="vi"><![CDATA[Thiết lập mặc định]]></value>
+	</item>
+	<item name="cmd_member_group">
+		<value xml:lang="ko"><![CDATA[그룹 관리]]></value>
+		<value xml:lang="en"><![CDATA[Member Groups]]></value>
+		<value xml:lang="jp"><![CDATA[グループ管理]]></value>
+		<value xml:lang="zh-CN"><![CDATA[用户组]]></value>
+		<value xml:lang="zh-TW"><![CDATA[群組管理]]></value>
+		<value xml:lang="fr"><![CDATA[Administrer des Groupes]]></value>
+		<value xml:lang="ru"><![CDATA[Управление группами]]></value>
+		<value xml:lang="es"><![CDATA[Manejo del grupo]]></value>
+		<value xml:lang="tr"><![CDATA[Üye Grupları]]></value>
+		<value xml:lang="vi"><![CDATA[Quản lý nhóm]]></value>
+	</item>
+	<item name="cmd_send_mail">
+		<value xml:lang="ko"><![CDATA[메일발송]]></value>
+		<value xml:lang="en"><![CDATA[Send Mail]]></value>
+		<value xml:lang="jp"><![CDATA[メール送信]]></value>
+		<value xml:lang="zh-CN"><![CDATA[发送邮件]]></value>
+		<value xml:lang="zh-TW"><![CDATA[發送郵件]]></value>
+		<value xml:lang="fr"><![CDATA[Envoyer des Méls]]></value>
+		<value xml:lang="ru"><![CDATA[Отправить письмо]]></value>
+		<value xml:lang="es"><![CDATA[Enviar Email]]></value>
+		<value xml:lang="tr"><![CDATA[Mail Gönder]]></value>
+		<value xml:lang="vi"><![CDATA[Gửi Email]]></value>
+	</item>
+	<item name="cmd_manage_id">
+		<value xml:lang="ko"><![CDATA[금지 아이디 관리]]></value>
+		<value xml:lang="en"><![CDATA[Prohibited IDs]]></value>
+		<value xml:lang="jp"><![CDATA[禁止ID 管理]]></value>
+		<value xml:lang="zh-CN"><![CDATA[禁止用户名]]></value>
+		<value xml:lang="zh-TW"><![CDATA[禁止帳號管理]]></value>
+		<value xml:lang="fr"><![CDATA[Administrer les Comptes Interdits]]></value>
+		<value xml:lang="ru"><![CDATA[Управление запрещенными ID]]></value>
+		<value xml:lang="es"><![CDATA[Manejo de ID prohibidos]]></value>
+		<value xml:lang="tr"><![CDATA[Yasaklanmış Kimlikler]]></value>
+		<value xml:lang="vi"><![CDATA[Tên sử dụng cấm đăng kí]]></value>
+	</item>
+	<item name="cmd_manage_form">
+		<value xml:lang="ko"><![CDATA[가입 폼 관리]]></value>
+		<value xml:lang="en"><![CDATA[Signup Form]]></value>
+		<value xml:lang="jp"><![CDATA[会員登録フォーム管理]]></value>
+		<value xml:lang="zh-CN"><![CDATA[扩展注册表单]]></value>
+		<value xml:lang="zh-TW"><![CDATA[註冊表單管理]]></value>
+		<value xml:lang="fr"><![CDATA[Administrer la Forme d'Inscription]]></value>
+		<value xml:lang="ru"><![CDATA[Управление формой регистрации]]></value>
+		<value xml:lang="es"><![CDATA[Manejo de forma del registro]]></value>
+		<value xml:lang="tr"><![CDATA[Kayıt Formu]]></value>
+		<value xml:lang="vi"><![CDATA[Quản lý mẫu đăng kí]]></value>
+	</item>
+	<item name="cmd_view_own_document">
+		<value xml:lang="ko"><![CDATA[작성 글 보기]]></value>
+		<value xml:lang="en"><![CDATA[Written Articles]]></value>
+		<value xml:lang="jp"><![CDATA[書き込み履歴]]></value>
+		<value xml:lang="zh-CN"><![CDATA[会员话题]]></value>
+		<value xml:lang="zh-TW"><![CDATA[發表主題]]></value>
+		<value xml:lang="fr"><![CDATA[Voir les Articles écrits]]></value>
+		<value xml:lang="ru"><![CDATA[Просмотреть написанные записи]]></value>
+		<value xml:lang="es"><![CDATA[Ver documentos escritos]]></value>
+		<value xml:lang="tr"><![CDATA[Yazılmış Makaleler]]></value>
+		<value xml:lang="vi"><![CDATA[Bài gửi]]></value>
+	</item>
+	<item name="cmd_manage_member_info">
+		<value xml:lang="ko"><![CDATA[회원 정보 관리]]></value>
+		<value xml:lang="en"><![CDATA[Manage Member Info]]></value>
+		<value xml:lang="jp"><![CDATA[会員情報管理]]></value>
+		<value xml:lang="zh-CN"><![CDATA[管理会员信息]]></value>
+		<value xml:lang="zh-TW"><![CDATA[管理會員資料]]></value>
+		<value xml:lang="ru"><![CDATA[Изменить информацию пользователя]]></value>
+		<value xml:lang="tr"><![CDATA[Üye Bilgisini Yönet]]></value>
+		<value xml:lang="vi"><![CDATA[Quản lý thông tin thành viên]]></value>
+	</item>
+	<item name="cmd_trace_document">
+		<value xml:lang="ko"><![CDATA[작성글 추적]]></value>
+		<value xml:lang="en"><![CDATA[Trace Written Articles]]></value>
+		<value xml:lang="jp"><![CDATA[書き込みの追跡]]></value>
+		<value xml:lang="zh-CN"><![CDATA[主题追踪]]></value>
+		<value xml:lang="zh-TW"><![CDATA[主題追蹤]]></value>
+		<value xml:lang="fr"><![CDATA[Tracer les Articles écrits]]></value>
+		<value xml:lang="tr"><![CDATA[Yazılmış Makalelerini Gör]]></value>
+		<value xml:lang="vi"><![CDATA[Theo dõi chủ đề]]></value>
+	</item>
+	<item name="cmd_trace_comment">
+		<value xml:lang="ko"><![CDATA[작성 댓글 추적]]></value>
+		<value xml:lang="en"><![CDATA[Trace Written Comments]]></value>
+		<value xml:lang="jp"><![CDATA[コメント追跡]]></value>
+		<value xml:lang="zh-CN"><![CDATA[评论追踪]]></value>
+		<value xml:lang="zh-TW"><![CDATA[評論追蹤]]></value>
+		<value xml:lang="fr"><![CDATA[Tracer les Commentaires écrits]]></value>
+		<value xml:lang="tr"><![CDATA[Yazılmış Yorumlarını Gör]]></value>
+		<value xml:lang="vi"><![CDATA[Theo dõi thảo luận]]></value>
+	</item>
+	<item name="cmd_view_scrapped_document">
+		<value xml:lang="ko"><![CDATA[스크랩 보기]]></value>
+		<value xml:lang="en"><![CDATA[Scraps]]></value>
+		<value xml:lang="jp"><![CDATA[スクラップ]]></value>
+		<value xml:lang="zh-CN"><![CDATA[我的收藏]]></value>
+		<value xml:lang="zh-TW"><![CDATA[我的收藏]]></value>
+		<value xml:lang="fr"><![CDATA[Voir les Coupures]]></value>
+		<value xml:lang="ru"><![CDATA[Просмотреть Scraps]]></value>
+		<value xml:lang="es"><![CDATA[Ver Scraps]]></value>
+		<value xml:lang="tr"><![CDATA[Hasarlılar]]></value>
+		<value xml:lang="vi"><![CDATA[Phân loại]]></value>
+	</item>
+	<item name="cmd_view_saved_document">
+		<value xml:lang="ko"><![CDATA[저장함 보기]]></value>
+		<value xml:lang="en"><![CDATA[Saved Articles]]></value>
+		<value xml:lang="jp"><![CDATA[保存ドキュメント]]></value>
+		<value xml:lang="zh-CN"><![CDATA[临时保存箱]]></value>
+		<value xml:lang="zh-TW"><![CDATA[暫存主題]]></value>
+		<value xml:lang="fr"><![CDATA[Voir les Articles conservés]]></value>
+		<value xml:lang="ru"><![CDATA[Просмотреть сохраненные записи]]></value>
+		<value xml:lang="es"><![CDATA[Ver artículos guardados]]></value>
+		<value xml:lang="tr"><![CDATA[Kayıtlı Makaleler]]></value>
+		<value xml:lang="vi"><![CDATA[Bài viết đã lưu]]></value>
+	</item>
+	<item name="cmd_send_email">
+		<value xml:lang="ko"><![CDATA[메일 보내기]]></value>
+		<value xml:lang="en"><![CDATA[Send Mail]]></value>
+		<value xml:lang="jp"><![CDATA[メール送信]]></value>
+		<value xml:lang="zh-CN"><![CDATA[发送邮件]]></value>
+		<value xml:lang="zh-TW"><![CDATA[發送郵件]]></value>
+		<value xml:lang="fr"><![CDATA[Envoyer des Méls]]></value>
+		<value xml:lang="ru"><![CDATA[Отправить письмо]]></value>
+		<value xml:lang="es"><![CDATA[Enviar Email]]></value>
+		<value xml:lang="tr"><![CDATA[Mail Gönder]]></value>
+		<value xml:lang="vi"><![CDATA[Gửi eMail]]></value>
+	</item>
+	<item name="msg_email_not_exists">
+		<value xml:lang="ko"><![CDATA[이메일 주소가 존재하지 않습니다.]]></value>
+		<value xml:lang="en"><![CDATA[You have entered an invalid email address.]]></value>
+		<value xml:lang="jp"><![CDATA[登録されたメールアドレスがありません。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[没有找到您输入的Email地址。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[找不到您輸入的郵件地址。]]></value>
+		<value xml:lang="fr"><![CDATA[L'adresse mél n'existe pas.]]></value>
+		<value xml:lang="ru"><![CDATA[Email адрес не существует]]></value>
+		<value xml:lang="es"><![CDATA[Email address doesn't exists]]></value>
+		<value xml:lang="tr"><![CDATA[Geçerli olmayan bir e-posta adresi girdiniz]]></value>
+		<value xml:lang="vi"><![CDATA[Bạn đã nhập sai Email]]></value>
+	</item>
+	<item name="msg_alreay_scrapped">
+		<value xml:lang="ko"><![CDATA[이미 스크랩된 게시물입니다.]]></value>
+		<value xml:lang="en"><![CDATA[This article is already scrapped.]]></value>
+		<value xml:lang="jp"><![CDATA[既にスクラップされたコンテンツです。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[已收藏的主题！]]></value>
+		<value xml:lang="zh-TW"><![CDATA[已收藏的主題！]]></value>
+		<value xml:lang="fr"><![CDATA[Cet article est déjà coupé.]]></value>
+		<value xml:lang="ru"><![CDATA[Эта статья уже в Scraps]]></value>
+		<value xml:lang="es"><![CDATA[Este documento ya esta hecho scrap]]></value>
+		<value xml:lang="tr"><![CDATA[Bu makale zaten hasarlı]]></value>
+		<value xml:lang="vi"><![CDATA[Bài viết đã được phân loại.]]></value>
+	</item>
+	<item name="msg_cart_is_null">
+		<value xml:lang="ko"><![CDATA[대상을 선택해주세요.]]></value>
+		<value xml:lang="en"><![CDATA[Please select the target.]]></value>
+		<value xml:lang="jp"><![CDATA[対象を選択してください。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[请选择对象。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[請選擇對象。]]></value>
+		<value xml:lang="fr"><![CDATA[Choisissez l'Objet, S.V.P.]]></value>
+		<value xml:lang="ru"><![CDATA[Пожалуйста, выберите назначение]]></value>
+		<value xml:lang="es"><![CDATA[Seleciona el objetivo]]></value>
+		<value xml:lang="tr"><![CDATA[Lütfen hedefi seçiniz]]></value>
+		<value xml:lang="vi"><![CDATA[Xin vui lòng lựa chọn vị trí]]></value>
+	</item>
+	<item name="msg_checked_file_is_deleted">
+		<value xml:lang="ko"><![CDATA[%d개의 첨부 파일이 삭제되었습니다.]]></value>
+		<value xml:lang="en"><![CDATA[%d attached file(s) is(are) deleted.]]></value>
+		<value xml:lang="jp"><![CDATA[%d個の添付ファイルが削除されました。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[已删除%d个附件。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[已刪除%d個附檔。]]></value>
+		<value xml:lang="fr"><![CDATA[%d fichier(s) attaché(s) est(sont) supprimé(s)]]></value>
+		<value xml:lang="ru"><![CDATA[%d вложенные файлы удалены]]></value>
+		<value xml:lang="es"><![CDATA[%d archivos adjuntos son eliminados]]></value>
+		<value xml:lang="tr"><![CDATA[%d isimli ek dosya silindi]]></value>
+		<value xml:lang="vi"><![CDATA[%d đính kèm đã được xóa.]]></value>
+	</item>
+	<item name="msg_find_account_title">
+		<value xml:lang="ko"><![CDATA[아이디/비밀번호 정보입니다.]]></value>
+		<value xml:lang="en"><![CDATA[Account Info]]></value>
+		<value xml:lang="jp"><![CDATA[会員IDどパスワードの情報]]></value>
+		<value xml:lang="zh-CN"><![CDATA[注册信息。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[註冊資料。]]></value>
+		<value xml:lang="fr"><![CDATA[Information de compte]]></value>
+		<value xml:lang="ru"><![CDATA[Информация аккаунта]]></value>
+		<value xml:lang="tr"><![CDATA[Hesap Bilgisi]]></value>
+		<value xml:lang="vi"><![CDATA[Thông tin đăng kí tại Website http;//4all.kr]]></value>
+	</item>
+	<item name="msg_find_account_info">
+		<value xml:lang="ko"><![CDATA[요청하신 계정 정보는 아래와 같습니다.]]></value>
+		<value xml:lang="en"><![CDATA[This is requested account info.]]></value>
+		<value xml:lang="jp"><![CDATA[登録された会員情報は下記の通りです。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[您要查找的注册信息如下。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[您要尋找的註冊資料如下。]]></value>
+		<value xml:lang="fr"><![CDATA[Voilà votre information de compte.]]></value>
+		<value xml:lang="ru"><![CDATA[Запрашиваемая информация аккаунта.]]></value>
+		<value xml:lang="es"><![CDATA[Esto se solicita la información de la cuenta]]></value>
+		<value xml:lang="tr"><![CDATA[Talep edilen hesap bilgisi.]]></value>
+		<value xml:lang="vi"><![CDATA[Thông tin tài khoản.]]></value>
+	</item>
+	<item name="msg_find_account_comment">
+		<value xml:lang="ko"><![CDATA[아래 링크를 클릭하시면 위에 적힌 비밀번호로 바뀌게 됩니다.<br />로그인 하신 후 비밀번호를 바꾸어주세요.]]></value>
+		<value xml:lang="en"><![CDATA[The password will be modified as the one above as you click the link below.<br />Please modify the password after login.]]></value>
+		<value xml:lang="jp"><![CDATA[下のリンクをクリックすると上のパスワードに変更されます。<br />ログインしてからパスワードを変更してください。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[点击下面的链接您的注册密码将更新为上述的系统自动生成密码。<br />请重新登录后把密码改为您所熟悉的密码。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[按底下的連結，您的註冊密碼將更新為上述系統自動建立的密碼。<br />請重新登入，將密碼更改為您想要的密碼。]]></value>
+		<value xml:lang="fr"><![CDATA[Le Mot de Passe sera modifié comme celui ci-dessus si vous cliquez le lien ci-dessous.<br />Modifiez le Mot de Passe après ouvrir la connexion, S.V.P.]]></value>
+		<value xml:lang="ru"><![CDATA[Кликните на ссылку ниже и пароль будет изменен на указанный вами.<br />Пожалуйста, измените пароль после входа на сайт]]></value>
+		<value xml:lang="es"><![CDATA[La contraseña se modificará para arriba al hacer clic en un enlace a continuación. <br /> Por favor, después de modificar la contraseña de acceso.]]></value>
+		<value xml:lang="tr"><![CDATA[Şifreniz aşağıdaki linke tıkladığınızda, yukardaki gibi değiştirilecektir.<br />Lütfen giriş yaptıktan sonra şifrenizi değiştiriniz.]]></value>
+		<value xml:lang="vi"><![CDATA[Mật khẩu sẽ thay đổi khi bạn bấm vào đường Link này.<br />Xin vui lòng thay đổi mật khẩu sau khi đăng nhập!]]></value>
+	</item>
+	<item name="msg_confirm_account_title">
+		<value xml:lang="ko"><![CDATA[가입 인증 메일 입니다.]]></value>
+		<value xml:lang="en"><![CDATA[XE Account Activation]]></value>
+		<value xml:lang="jp"><![CDATA[確認メールです。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[会员注册]]></value>
+		<value xml:lang="zh-TW"><![CDATA[會員註冊]]></value>
+		<value xml:lang="fr"><![CDATA[Mél à confirmer l'Authentification]]></value>
+		<value xml:lang="ru"><![CDATA[Письмо, подтверждающее регистрацию]]></value>
+		<value xml:lang="es"><![CDATA[가입 인증 메일 입니다]]></value>
+		<value xml:lang="tr"><![CDATA[XE Hesap Etkinleştirmesi]]></value>
+		<value xml:lang="vi"><![CDATA[Thông tin đăng kí thành viên tại Website http://4all.kr]]></value>
+	</item>
+	<item name="msg_confirm_account_info">
+		<value xml:lang="ko"><![CDATA[가입하신 계정 정보는 아래와 같습니다.]]></value>
+		<value xml:lang="en"><![CDATA[This is your account information:]]></value>
+		<value xml:lang="jp"><![CDATA[作成した会員の情報]]></value>
+		<value xml:lang="zh-CN"><![CDATA[您的注册信息如下:]]></value>
+		<value xml:lang="zh-TW"><![CDATA[您的註冊資料如下:]]></value>
+		<value xml:lang="fr"><![CDATA[Voilà votre Information de l'inscription du Compte:]]></value>
+		<value xml:lang="ru"><![CDATA[Информация аккаунта при регистрации]]></value>
+		<value xml:lang="es"><![CDATA[가입하신 계정 정보는 아래와 같습니다]]></value>
+		<value xml:lang="tr"><![CDATA[Hesap Bilginiz:]]></value>
+		<value xml:lang="vi"><![CDATA[Đây là thông tin bạn đã đăng kí tại Website http://4all.kr:]]></value>
+	</item>
+	<item name="msg_confirm_account_comment">
+		<value xml:lang="ko"><![CDATA[아래 링크를 클릭하시면 가입 인증이 이루어집니다.]]></value>
+		<value xml:lang="en"><![CDATA[Click on the following link to complete your account activation.]]></value>
+		<value xml:lang="jp"><![CDATA[下記のURLをクリックして会員登録手続きを完了してください。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[请点击下面链接完成会员认证。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[請按下面連結完成會員認證。]]></value>
+		<value xml:lang="fr"><![CDATA[Cliquez le lien de confirmation suivant pour compléter votre inscription.]]></value>
+		<value xml:lang="ru"><![CDATA[Подтвердите авторизацию, кликнув на ссылку ниже]]></value>
+		<value xml:lang="tr"><![CDATA[Hesabınızı etkinleştirmek için takip eden linke tıklayınız.]]></value>
+		<value xml:lang="vi"><![CDATA[Bấm vào đường Link này để hoàn tất việc đăng kí.]]></value>
+	</item>
+	<item name="msg_auth_mail_sent">
+		<value xml:lang="ko"><![CDATA[%s 메일로 인증 정보를 담은 메일이 발송되었습니다. 메일을 확인하세요.]]></value>
+		<value xml:lang="en"><![CDATA[The activation mail has been sent to %s. Please check your mail.]]></value>
+		<value xml:lang="jp"><![CDATA[%s 宛に認証情報内容が送信されました。メールを確認してください。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[已向%s发送了认证邮件。请确认！！]]></value>
+		<value xml:lang="zh-TW"><![CDATA[已向%s發送了認證郵件。請確認！！]]></value>
+		<value xml:lang="fr"><![CDATA[Le mél de certification a été envoyé à %s. Vérifiez votre mél.]]></value>
+		<value xml:lang="ru"><![CDATA[Письмо с регистрационной информацией отправлено для %s. Пожалуйста, проверьте Вашу почту]]></value>
+		<value xml:lang="es"><![CDATA[La autenticación de correo ha sido enviado a% s. Por favor, compruebe su correo.]]></value>
+		<value xml:lang="tr"><![CDATA[Etknileştirme maili %s adresine gönderildi. Lütfen mailinizi kontrol ediniz.]]></value>
+		<value xml:lang="vi"><![CDATA[Email xác nhận đã được gửi đến %s. Xin vui lòng kiểm tra Inbox hoặc Bulk mail của bạn!]]></value>
+	</item>
+	<item name="msg_confirm_mail_sent">
+		<value xml:lang="ko"><![CDATA[%s 메일로 가입 인증 메일이 발송되었습니다. 메일을 확인하세요.]]></value>
+		<value xml:lang="en"><![CDATA[We have just sent the activation email to %s. Please check your mail.]]></value>
+		<value xml:lang="jp"><![CDATA[%s 宛に確認メールを送信しました。メールを確認してください。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[已向%s发送了认证邮件。请确认！！]]></value>
+		<value xml:lang="zh-TW"><![CDATA[已向%s發送了認證郵件。請確認！！]]></value>
+		<value xml:lang="fr"><![CDATA[On a justement envoyé un mél de confirmation à %s. Cliquez sur le lien de confirmation dans le mél pour compléter l'inscription.]]></value>
+		<value xml:lang="ru"><![CDATA[Письмо для авторизации отправлено для %s. Пожалуйста, проверьте Вашу почту]]></value>
+		<value xml:lang="tr"><![CDATA[%s adresine etkinleştirme maili gönderdik. Lütfen mailinizi kontrol ediniz.]]></value>
+		<value xml:lang="vi"><![CDATA[Chúng tôi đã gửi Email xác nhận đến %s. Xin vui lòng bấm vào Link đi kèm trong Email để hoàn tất việc đăng kí!]]></value>
+	</item>
+	<item name="msg_invalid_auth_key">
+		<value xml:lang="ko"><![CDATA[잘못된 계정 인증 요청입니다.<br />아이디/비밀번호 찾기를 다시 하시거나 사이트 관리자에게 계정 정보를 문의해주세요.]]></value>
+		<value xml:lang="en"><![CDATA[This is an invalid request of verification.<br />Please retry finding account info or contact the administrator.]]></value>
+		<value xml:lang="jp"><![CDATA[正しくないアカウントの認証要求です。<br />IDとパスワードの検索を行うか、サイト管理者にアカウント情報をお問い合わせください。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[错误的注册信息请求。<br />请重新查找用户名及密码， 或联系管理员。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[錯誤的註冊資料請求。<br />請重新尋找帳號及密碼，或聯繫管理員。]]></value>
+		<value xml:lang="fr"><![CDATA[Cette Requête à Certifier est invalide.<br />Essayez encore une fois à retrouver votre information de compte ou contactez l'administrateur.]]></value>
+		<value xml:lang="ru"><![CDATA[Неверный запрос на авторизацию.<br />Пожалуйста, попытайтеть найти информацию аккаунта или свяжитесь с администратором.]]></value>
+		<value xml:lang="es"><![CDATA[잘못된 계정 인증 요청입니다.<br />아이디/비밀번호 찾기를 다시 하시거나 사이트 관리자에게 계정 정보를 문의해주세요]]></value>
+		<value xml:lang="tr"><![CDATA[Geçersiz doğrulama talebi.<br />Lütfen hesap bilgisini tekrar bulmayı deneyin ya da yöneticilerle iletişime geçin.]]></value>
+		<value xml:lang="vi"><![CDATA[Xác nhận không hợp lệ.<br />Xin vui lòng kiểm tra lại hoặc liên hệ với Webmaster để được hỗ trợ!]]></value>
+	</item>
+	<item name="msg_success_authed">
+		<value xml:lang="ko"><![CDATA[인증이 정상적으로 되어 로그인 처리가 되었습니다.\n꼭 인증 메일에 표시된 비밀번호를 이용하여 원하시는 비밀번호로 변경하세요.]]></value>
+		<value xml:lang="en"><![CDATA[Your account has been successfully activated and logged on.\n Please modify the password to your own one with the password in the mail.]]></value>
+		<value xml:lang="jp"><![CDATA[認証が正常に行われ、ログインできました。\n必ず確認メールに記載されたパスワードを利用してお好みのパスワードに変更してください。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[新的注册信息已得到认证。请用邮件中的新密码修改您要想使用的密码。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[新註冊的資料已得到認證。請用郵件中的新密碼修改成您要想使用的密碼。]]></value>
+		<value xml:lang="fr"><![CDATA[Votre compte a été certifié avec succès et ouvert une session. \n Modifiez le Mot de Passe après vous ouvrez une session en utilisant le Mot de Passe dans le mél.]]></value>
+		<value xml:lang="ru"><![CDATA[Ваш аккаунт был успешно авторизован.\nВход произведен. Пожалуйста, измените пароль на Ваш собственный.]]></value>
+		<value xml:lang="es"><![CDATA[Esto no es válido solicitud de autenticación. <br /> Por favor, inténtelo encontrar información de la cuenta o póngase en contacto con el administrador.]]></value>
+		<value xml:lang="tr"><![CDATA[Hesabınız başarıyla etkinleştirildi ve giriş yapıldı.\n Lütfen mailinize gelen şifreyi kullanarak yeni şifreinizi oluşturunuz.]]></value>
+		<value xml:lang="vi"><![CDATA[Tài khoản của bạn đã được xác nhận.\n Xin vui lòng thay đổi mật khẩu khác với mật khẩu trong Email và dễ nhớ hơn!]]></value>
+	</item>
+	<item name="msg_success_confirmed">
+		<value xml:lang="ko"><![CDATA[가입 인증이 정상적으로 처리 되었습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Your account has been activated successfully.]]></value>
+		<value xml:lang="jp"><![CDATA[会員登録、有難うございます。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[注册信息已成功激活！]]></value>
+		<value xml:lang="zh-TW"><![CDATA[註冊資料已成功確認！]]></value>
+		<value xml:lang="fr"><![CDATA[L'authentification est complétée avec succèss.]]></value>
+		<value xml:lang="ru"><![CDATA[Авторизация Вашего аккаунта прошла успешно]]></value>
+		<value xml:lang="tr"><![CDATA[Hesabınız başarıyla etkinleştirildi.]]></value>
+		<value xml:lang="vi"><![CDATA[Đã xác nhận thành công.<br />Xin cảm ơn đã tham gia cùng chúng tôi!]]></value>
+	</item>
+	<item name="msg_new_member">
+		<value xml:lang="ko"><![CDATA[회원 추가]]></value>
+		<value xml:lang="en"><![CDATA[Add Member]]></value>
+		<value xml:lang="jp"><![CDATA[会員追加]]></value>
+		<value xml:lang="zh-CN"><![CDATA[会员注册]]></value>
+		<value xml:lang="zh-TW"><![CDATA[會員註冊]]></value>
+		<value xml:lang="fr"><![CDATA[Ajouter un membre]]></value>
+		<value xml:lang="ru"><![CDATA[Добавить пользователя]]></value>
+		<value xml:lang="es"><![CDATA[Agregar usuario]]></value>
+		<value xml:lang="tr"><![CDATA[Üye Ekle]]></value>
+		<value xml:lang="vi"><![CDATA[Thêm thành viên]]></value>
+	</item>
+	<item name="msg_update_member">
+		<value xml:lang="ko"><![CDATA[회원 정보 수정]]></value>
+		<value xml:lang="en"><![CDATA[Modify User Info]]></value>
+		<value xml:lang="jp"><![CDATA[会員情報修正]]></value>
+		<value xml:lang="zh-CN"><![CDATA[修改会员信息]]></value>
+		<value xml:lang="zh-TW"><![CDATA[修改會員資料]]></value>
+		<value xml:lang="fr"><![CDATA[Modifier l'Information de Membre]]></value>
+		<value xml:lang="ru"><![CDATA[Изменить информацию пользователя]]></value>
+		<value xml:lang="es"><![CDATA[Modificar información del usuario]]></value>
+		<value xml:lang="tr"><![CDATA[Üye Bilgisini Düzenle]]></value>
+		<value xml:lang="vi"><![CDATA[Sửa đổi thông tin thành viên]]></value>
+	</item>
+	<item name="msg_leave_member">
+		<value xml:lang="ko"><![CDATA[회원 탈퇴]]></value>
+		<value xml:lang="en"><![CDATA[Delete Account]]></value>
+		<value xml:lang="jp"><![CDATA[会員退会]]></value>
+		<value xml:lang="zh-CN"><![CDATA[注销会员]]></value>
+		<value xml:lang="zh-TW"><![CDATA[會員退出]]></value>
+		<value xml:lang="fr"><![CDATA[Sécession]]></value>
+		<value xml:lang="ru"><![CDATA[Удалить аккаунт]]></value>
+		<value xml:lang="es"><![CDATA[Dejar de ser usuario]]></value>
+		<value xml:lang="tr"><![CDATA[Ayrıl]]></value>
+		<value xml:lang="vi"><![CDATA[Loại bỏ]]></value>
+	</item>
+	<item name="msg_group_is_null">
+		<value xml:lang="ko"><![CDATA[등록된 그룹이 없습니다.]]></value>
+		<value xml:lang="en"><![CDATA[There is no group.]]></value>
+		<value xml:lang="jp"><![CDATA[登録されたグループがありません。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[没有用户组。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[無群組。]]></value>
+		<value xml:lang="fr"><![CDATA[Il n'y a pas de groupe enrégistré]]></value>
+		<value xml:lang="ru"><![CDATA[Зарегистрированной группы нет]]></value>
+		<value xml:lang="es"><![CDATA[No es un grupo registrado]]></value>
+		<value xml:lang="tr"><![CDATA[Grup yok]]></value>
+		<value xml:lang="vi"><![CDATA[Không đăng kí vào nhóm nào]]></value>
+	</item>
+	<item name="msg_not_delete_default">
+		<value xml:lang="ko"><![CDATA[기본 항목을 삭제할 수 없습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Default items cannot be deleted]]></value>
+		<value xml:lang="jp"><![CDATA[基本項目は削除できません。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[不能删除基本项目]]></value>
+		<value xml:lang="zh-TW"><![CDATA[無法刪除基本項目]]></value>
+		<value xml:lang="fr"><![CDATA[Elément fondamental ne pourra pas être supprimé]]></value>
+		<value xml:lang="ru"><![CDATA[Стандартные объекты не могут быть удалены]]></value>
+		<value xml:lang="es"><![CDATA[Los artículos predefinidos no pueden ser eliminados]]></value>
+		<value xml:lang="tr"><![CDATA[Varsayılan ögeler silinemez]]></value>
+		<value xml:lang="vi"><![CDATA[Mặc định không thể xóa]]></value>
+	</item>
+	<item name="msg_not_exists_member">
+		<value xml:lang="ko"><![CDATA[존재하지 않는 회원입니다.]]></value>
+		<value xml:lang="en"><![CDATA[Invalid member]]></value>
+		<value xml:lang="jp"><![CDATA[存在しないユーザーIDです。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[不存在的用户]]></value>
+		<value xml:lang="zh-TW"><![CDATA[不存在的帳號]]></value>
+		<value xml:lang="fr"><![CDATA[Membre Invalide]]></value>
+		<value xml:lang="ru"><![CDATA[Пользователь не существует]]></value>
+		<value xml:lang="es"><![CDATA[Este usuario no existe]]></value>
+		<value xml:lang="tr"><![CDATA[Geçersiz üye]]></value>
+		<value xml:lang="vi"><![CDATA[Thành viên không hợp lệ]]></value>
+	</item>
+	<item name="msg_cannot_delete_admin">
+		<value xml:lang="ko"><![CDATA[관리자 아이디는 삭제할 수 없습니다. 관리자 해제 후 다시 삭제시도해주세요.]]></value>
+		<value xml:lang="en"><![CDATA[Admin ID cannot be deleted. Please remove the ID from administration and try again.]]></value>
+		<value xml:lang="jp"><![CDATA[管理者ＩＤは削除できません。管理者権限を解除した上で削除してみてください。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[不能删除管理员 ID .解除管理后再删除]]></value>
+		<value xml:lang="zh-TW"><![CDATA[無法解除管理員帳號，請解除管理後再刪除]]></value>
+		<value xml:lang="fr"><![CDATA[Le Compte de l'Administrateur ne pourra pas être supprimé. Annulez l'administration du compte et essayez encore une fois.]]></value>
+		<value xml:lang="ru"><![CDATA[Административный ID не может быть удален. Пожалуйста, удалить ID  из администрации и попробуйте снова.]]></value>
+		<value xml:lang="es"><![CDATA[ID del Administrador no puede ser eliminado. Remover el ID desde la Administración y trate nuevamente.]]></value>
+		<value xml:lang="tr"><![CDATA[Admin Kimliği silinemez. Kimliği yönetimden çıkartıp tekrar deneyiniz.]]></value>
+		<value xml:lang="vi"><![CDATA[Admin ID không thể xóa!]]></value>
+	</item>
+	<item name="msg_exists_user_id">
+		<value xml:lang="ko"><![CDATA[이미 존재하는 아이디입니다. 다른 아이디를 입력해주세요.]]></value>
+		<value xml:lang="en"><![CDATA[This ID already exists. Please try another one.]]></value>
+		<value xml:lang="jp"><![CDATA[既に存在するユーザーIDです。他のIDを入力してください。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[重复的用户名 ，请重新输入用户名。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[重複的帳號，請重新輸入。]]></value>
+		<value xml:lang="fr"><![CDATA[Le compte existe déjà. Essayez un autre.]]></value>
+		<value xml:lang="ru"><![CDATA[Этот ID уже существует. Пожалуйста, попробуйте другой.]]></value>
+		<value xml:lang="es"><![CDATA[Este ID ya existe. Por favor trate con otro ID]]></value>
+		<value xml:lang="tr"><![CDATA[Bu kimlik önceden alınmış. Lütfen başka bir kimlik deneyiniz.]]></value>
+		<value xml:lang="vi"><![CDATA[Tên sử dụng này đã có người dùng. Xin vui lòng thử lại với tên truy cập khác!]]></value>
+	</item>
+	<item name="msg_exists_email_address">
+		<value xml:lang="ko"><![CDATA[이미 존재하는 메일 주소입니다. 다른 메일 주소를 입력해주세요.]]></value>
+		<value xml:lang="en"><![CDATA[This email address already exists. Please try another one.]]></value>
+		<value xml:lang="jp"><![CDATA[既に存在するメールアドレスです。他のメールアドレスを入力してください。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[重复的电子邮件地址，请重新输入电子邮件地址。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[重複的電子郵件地址，請重新輸入電子郵件地址。]]></value>
+		<value xml:lang="fr"><![CDATA[L'adresse mél existe déjà. Essayez une autre.]]></value>
+		<value xml:lang="ru"><![CDATA[Этот email адрес уже зарегистрирован. Пожалуйста, попробуйте другой.]]></value>
+		<value xml:lang="es"><![CDATA[Esta dirección del email ya existe. Por favor trate con otra dirección del email.]]></value>
+		<value xml:lang="tr"><![CDATA[Bu mail adresi zaten kullanımda. Lütfen başka bir mail adresi deneyiniz.]]></value>
+		<value xml:lang="vi"><![CDATA[Email này đã có người sử dụng. Xin vui lòng thử lại với Email khác!]]></value>
+	</item>
+	<item name="msg_exists_nick_name">
+		<value xml:lang="ko"><![CDATA[이미 존재하는 닉네임입니다. 다른 닉네임을 입력해주세요.]]></value>
+		<value xml:lang="en"><![CDATA[This nickname already exists. Please try another one.]]></value>
+		<value xml:lang="jp"><![CDATA[同じニックネームがすでに登録されています。他のニックネームを入力してください。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[重复的昵称，请重新输入昵称。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[重複的暱稱，請重新輸入。]]></value>
+		<value xml:lang="fr"><![CDATA[Le surnom existe déjà. Essayez un autre.]]></value>
+		<value xml:lang="ru"><![CDATA[Этот ник уже существует. Пожалуйста, попробуйте другой.]]></value>
+		<value xml:lang="es"><![CDATA[Este apodo ya existe. Por favor trate con otro apodo.]]></value>
+		<value xml:lang="tr"><![CDATA[Bu rumuz önceden alınmış. Lütfen başka bir rumuz deneyiniz.]]></value>
+		<value xml:lang="vi"><![CDATA[Nickname này đã có người sử dụng. Xin vui lòng thử lại với Nickname khác!]]></value>
+	</item>
+	<item name="msg_signup_disabled">
+		<value xml:lang="ko"><![CDATA[회원 가입을 하실 수 없습니다.]]></value>
+		<value xml:lang="en"><![CDATA[You are not able to sign up]]></value>
+		<value xml:lang="jp"><![CDATA[会員登録が制限されています。<br />サイト管理者にお問合せください。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[不能注册会员]]></value>
+		<value xml:lang="zh-TW"><![CDATA[無法註冊會員]]></value>
+		<value xml:lang="fr"><![CDATA[Vous ne pouvez pas vous inscrire.]]></value>
+		<value xml:lang="ru"><![CDATA[Вы не можете зарегистрироваться]]></value>
+		<value xml:lang="es"><![CDATA[Usted no puede ser registrado]]></value>
+		<value xml:lang="tr"><![CDATA[Kayıt olma yetkiniz bulunmamaktadır]]></value>
+		<value xml:lang="vi"><![CDATA[Bạn không thể đăng kí.]]></value>
+	</item>
+	<item name="msg_already_logged">
+		<value xml:lang="ko"><![CDATA[이미 회원 가입을 하신 상태입니다.]]></value>
+		<value xml:lang="en"><![CDATA[You have already signed up.]]></value>
+		<value xml:lang="jp"><![CDATA[既に会員登録されています。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[您是注册会员。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[您是註冊會員。]]></value>
+		<value xml:lang="fr"><![CDATA[Vous vous êtes déjà inscrit(e).]]></value>
+		<value xml:lang="ru"><![CDATA[Вы уже зарегистрированы]]></value>
+		<value xml:lang="es"><![CDATA[Usted ya ha sido registrado]]></value>
+		<value xml:lang="tr"><![CDATA[Zaten giriş yapmış bulunmaktasınız]]></value>
+		<value xml:lang="vi"><![CDATA[Bạn đã đăng kí rồi.]]></value>
+	</item>
+	<item name="msg_not_logged">
+		<value xml:lang="ko"><![CDATA[로그인을 하지 않으셨습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Please sign in first.]]></value>
+		<value xml:lang="jp"><![CDATA[ログインしていません。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[您还没有登录。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[您還沒登入。]]></value>
+		<value xml:lang="fr"><![CDATA[Ouvrez une session d'abord]]></value>
+		<value xml:lang="ru"><![CDATA[Пожалуйста, сначала сделайте вход на сайт]]></value>
+		<value xml:lang="es"><![CDATA[Por favor conectese primero]]></value>
+		<value xml:lang="tr"><![CDATA[Lütfen önce giriş yapınız]]></value>
+		<value xml:lang="vi"><![CDATA[Xin vui lòng đăng nhập trước!]]></value>
+	</item>
+	<item name="msg_insert_group_name">
+		<value xml:lang="ko"><![CDATA[그룹명을 입력해 주세요.]]></value>
+		<value xml:lang="en"><![CDATA[Please enter the name of group.]]></value>
+		<value xml:lang="jp"><![CDATA[グループ名を入力してください。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[请输入组名称]]></value>
+		<value xml:lang="zh-TW"><![CDATA[請輸入群組名稱]]></value>
+		<value xml:lang="fr"><![CDATA[Entrez le nom de groupe, S.V.P.]]></value>
+		<value xml:lang="ru"><![CDATA[Пожалуйста, введите имя группы]]></value>
+		<value xml:lang="es"><![CDATA[Por favor ingresar el nombre del grupo]]></value>
+		<value xml:lang="tr"><![CDATA[Lütfen grup ismini giriniz]]></value>
+		<value xml:lang="vi"><![CDATA[Xin vui lòng nhập tên của nhóm!]]></value>
+	</item>
+	<item name="msg_check_group">
+		<value xml:lang="ko"><![CDATA[그룹을 선택해 주세요.]]></value>
+		<value xml:lang="en"><![CDATA[Please select the group.]]></value>
+		<value xml:lang="jp"><![CDATA[グループを選択してください。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[请选择组]]></value>
+		<value xml:lang="zh-TW"><![CDATA[請選擇群組]]></value>
+		<value xml:lang="fr"><![CDATA[Choisissez le groupe]]></value>
+		<value xml:lang="ru"><![CDATA[Выберите группу]]></value>
+		<value xml:lang="es"><![CDATA[Introduce nombre de grupo]]></value>
+		<value xml:lang="tr"><![CDATA[Lütfen grubu seçiniz]]></value>
+		<value xml:lang="vi"><![CDATA[Xin vui lòng chọn nhóm!]]></value>
+	</item>
+	<item name="msg_not_uploaded_profile_image">
+		<value xml:lang="ko"><![CDATA[프로필 이미지를 등록할 수 없습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Profile image could not be registered.]]></value>
+		<value xml:lang="jp"><![CDATA[プロフィールイメージを登録することができません。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[不能登录签名图像！]]></value>
+		<value xml:lang="zh-TW"><![CDATA[無法登錄個人圖片！]]></value>
+		<value xml:lang="fr"><![CDATA[L'image de Profil n'a pas pu être enrégistré]]></value>
+		<value xml:lang="tr"><![CDATA[Profil resmi kaydedilemedi]]></value>
+		<value xml:lang="vi"><![CDATA[Không thể đăng kí được hình đại diện.]]></value>
+	</item>
+	<item name="msg_not_uploaded_image_name">
+		<value xml:lang="ko"><![CDATA[이미지 이름을 등록할 수 없습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Image name could not be registered.]]></value>
+		<value xml:lang="jp"><![CDATA[イメージ名を登録することができません。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[不能登录昵称图像！]]></value>
+		<value xml:lang="zh-TW"><![CDATA[無法登錄暱稱圖片！]]></value>
+		<value xml:lang="fr"><![CDATA[Le nom d'image n'a pas pu être enrégistré]]></value>
+		<value xml:lang="ru"><![CDATA[Невозможно зарегистрировать имя фотографии]]></value>
+		<value xml:lang="es"><![CDATA[Imagen del nombre no puede ser registrado]]></value>
+		<value xml:lang="tr"><![CDATA[Resim İsmi kaydedilemedi]]></value>
+		<value xml:lang="vi"><![CDATA[Không thể gửi được hình ảnh thay Nickname.]]></value>
+	</item>
+	<item name="msg_not_uploaded_image_mark">
+		<value xml:lang="ko"><![CDATA[이미지 마크를 등록할 수 없습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Image mark could not be registered.]]></value>
+		<value xml:lang="jp"><![CDATA[イメージマークを登録することができません。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[不能登录用户图标！]]></value>
+		<value xml:lang="zh-TW"><![CDATA[無法登錄用戶圖示！]]></value>
+		<value xml:lang="fr"><![CDATA[La marque en image n'a pas pu être enrégistrée]]></value>
+		<value xml:lang="ru"><![CDATA[Невозможно зарегистрировать марку фотографии]]></value>
+		<value xml:lang="es"><![CDATA[Imagen de marca no puede ser resistrado]]></value>
+		<value xml:lang="tr"><![CDATA[Resim İmi kaydedilemedi]]></value>
+		<value xml:lang="vi"><![CDATA[Hình đánh dấu đã không được gửi.]]></value>
+	</item>
+	<item name="msg_not_uploaded_group_image_mark">
+		<value xml:lang="ko"><![CDATA[그룹 이미지 마크를 등록할 수 없습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Group image mark could not be registered.]]></value>
+		<value xml:lang="jp"><![CDATA[グループ用イメージマークの登録ができません。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[可以指定用户组图标。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[無法登錄群組圖示！]]></value>
+		<value xml:lang="fr"><![CDATA[그룹 이미지 마크를 등록할 수가 없습니다]]></value>
+		<value xml:lang="ru"><![CDATA[Невозможно зарегистрировать марку изображения группы]]></value>
+		<value xml:lang="es"><![CDATA[그룹 이미지 마크를 등록할 수가 없습니다]]></value>
+		<value xml:lang="tr"><![CDATA[Grup resim imi kaydedilemedi]]></value>
+		<value xml:lang="vi"><![CDATA[Hình thay thế nhóm đã không được gửi]]></value>
+	</item>
+	<item name="msg_accept_agreement">
+		<value xml:lang="ko"><![CDATA[약관에 동의하셔야 합니다.]]></value>
+		<value xml:lang="en"><![CDATA[You have to accept the agreement.]]></value>
+		<value xml:lang="jp"><![CDATA[利用規約に同意しなければなりません。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[您必须同意条款。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[您必須同意條款。]]></value>
+		<value xml:lang="fr"><![CDATA[Vous devez agréer l'accord]]></value>
+		<value xml:lang="ru"><![CDATA[Вы должны принять Соглашение]]></value>
+		<value xml:lang="es"><![CDATA[Usted primero debe aceptar el acuerdo]]></value>
+		<value xml:lang="tr"><![CDATA[Sözleşmeyi kabul etmeniz gerekmektedir]]></value>
+		<value xml:lang="vi"><![CDATA[Bạn phải đồng ý với điều khoản sử dụng của chúng tôi.]]></value>
+	</item>
+	<item name="msg_user_denied">
+		<value xml:lang="ko"><![CDATA[입력하신 아이디의 사용이 중지되셨습니다.]]></value>
+		<value xml:lang="en"><![CDATA[You have entered a prohibited ID.]]></value>
+		<value xml:lang="jp"><![CDATA[利用が中止されているユーザIDです。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[您输入的用户名已禁止使用！]]></value>
+		<value xml:lang="zh-TW"><![CDATA[您輸入的帳號已禁止使用！]]></value>
+		<value xml:lang="fr"><![CDATA[Le compte que vous avez entré est suspendu]]></value>
+		<value xml:lang="ru"><![CDATA[Введенный ID запрещен]]></value>
+		<value xml:lang="es"><![CDATA[ID ingresado ha sido prohibido para su uso]]></value>
+		<value xml:lang="tr"><![CDATA[Yasaklanmış bir Kimlik girdiniz]]></value>
+		<value xml:lang="vi"><![CDATA[Tên sử dụng này đã bị cấm đăng kí.]]></value>
+	</item>
+	<item name="msg_user_not_confirmed">
+		<value xml:lang="ko"><![CDATA[아직 메일 인증이 이루어지지 않았습니다. 메일을 확인해 주세요.]]></value>
+		<value xml:lang="en"><![CDATA[Your account is not activated yet. Please check your email.]]></value>
+		<value xml:lang="jp"><![CDATA[メールでの認証が行われていません。メールを確認してください。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[您的注册信息还没有被激活，请确认您的电子邮箱。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[您的註冊資料還沒有被確認，請確認您的電子郵箱。]]></value>
+		<value xml:lang="fr"><![CDATA[Vous n'avez pas encore authentifié. Verifiez votre mél, S.V.P.]]></value>
+		<value xml:lang="ru"><![CDATA[Вы еще не прошли авторизацию, проверьте свою почту]]></value>
+		<value xml:lang="es"><![CDATA[아직 메일 인증이 이루어지지 않았습니다. 메일을 확인해 주세요]]></value>
+		<value xml:lang="tr"><![CDATA[Hesabınız henüz etkinleştirilmemiş. Lütfen mailinizi kontrol ediniz.]]></value>
+		<value xml:lang="vi"><![CDATA[Bạn chưa xác nhận việc đăng kí. Xin vui lòng kiểm tra Email!]]></value>
+	</item>
+	<item name="msg_user_limited">
+		<value xml:lang="ko"><![CDATA[입력하신 아이디는 %s 이후부터 사용하실 수 있습니다.]]></value>
+		<value xml:lang="en"><![CDATA[You have entered an ID that can be used after %s]]></value>
+		<value xml:lang="jp"><![CDATA[入力したユーザーIDは%s以降から使用できます。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[您输入的用户名%s以后才可以开始使用。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[您輸入的帳號%s以後才可以開始使用。]]></value>
+		<value xml:lang="fr"><![CDATA[Vous avez entré un compte qui peut être utilisé depuis %s]]></value>
+		<value xml:lang="ru"><![CDATA[Введенный ID возможно использовать после %s]]></value>
+		<value xml:lang="es"><![CDATA[ID ingresado puede ser usado luego de %s]]></value>
+		<value xml:lang="tr"><![CDATA[Bu kimlik, %s Tarihinden sonra kullanılabilir]]></value>
+		<value xml:lang="vi"><![CDATA[Bạn được phép sử dụng đến ngày %s]]></value>
+	</item>
+	<item name="about_user_id">
+		<value xml:lang="ko"><![CDATA[회원 ID는 3~20자 사이의 영문+숫자로 이루어져야 하며 영문으로 시작되어야 합니다.]]></value>
+		<value xml:lang="en"><![CDATA[User ID should be 3~20 characters long, consist of alphanumeric and start with a letter.]]></value>
+		<value xml:lang="jp"><![CDATA[ユーザーIDは、3~20字までの英数文字にしてください。先頭文字は英字でなければなりません。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[用户名长度必须由 3 ~20 字以内的英文+数字组成，且首个字母必须是英文字母。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[帳號必須由 3~20 字以內的英文+數字組成，開頭必須是英文。]]></value>
+		<value xml:lang="fr"><![CDATA[Le compte d'utilisateur doit être long de 3~20 lettres et se composer des alphabets et des chiffres avec un alphabet au premier.]]></value>
+		<value xml:lang="ru"><![CDATA[Юзер ID должен состоять из 3~20 знаков и содержать алфавит или цифры, начинаясь с алфавитного знака.]]></value>
+		<value xml:lang="es"><![CDATA[ID del usuario debe ser entre 3-20 letras que consiste en alfabetos+número con alfabeto como primera letra.]]></value>
+		<value xml:lang="tr"><![CDATA[Kullanıcı kimliği 3~20 karakter uzunluğunda ve hem harf hem rakam içermeli ve ilk bir harfle başlamalıdır.]]></value>
+		<value xml:lang="vi"><![CDATA[Độ dài của tên truy cập được giới hạn từ 3 đến 20 kí tự gồm a-z và các số.]]></value>
+	</item>
+	<item name="about_password">
+		<value xml:lang="ko"><![CDATA[비밀번호는 6~20자로 되어야 합니다.]]></value>
+		<value xml:lang="en"><![CDATA[Password should be 6~20 characters long.]]></value>
+		<value xml:lang="jp"><![CDATA[パスワードは6~20字にしてください。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[密码长度必须在6~20字以内。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[密碼必須在 6~20 字以內。]]></value>
+		<value xml:lang="fr"><![CDATA[Le Mot de Passe doit être long de 6~20 lettres.]]></value>
+		<value xml:lang="ru"><![CDATA[Пароль должен состоять из 6~20 знаков]]></value>
+		<value xml:lang="es"><![CDATA[Contraseña debe ser entre 6-20 letras]]></value>
+		<value xml:lang="tr"><![CDATA[Şifre 6~20 karakter uzunluğunda olmalıdır]]></value>
+		<value xml:lang="vi"><![CDATA[Độ dài mật khẩu giới hạn từ 6 đến 20 kí tự.]]></value>
+	</item>
+	<item name="about_user_name">
+		<value xml:lang="ko"><![CDATA[이름은 2~20자 이내여야 합니다.]]></value>
+		<value xml:lang="en"><![CDATA[Name should be 2~20 letters long.]]></value>
+		<value xml:lang="jp"><![CDATA[名前は2~20字にしてください。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[姓名必须是2~20字以内。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[姓名必須是 2~20 字以內。]]></value>
+		<value xml:lang="fr"><![CDATA[Le Nom doit être long de 2~20 lettres.]]></value>
+		<value xml:lang="ru"><![CDATA[Имя должно состоять из 2~20 знаков]]></value>
+		<value xml:lang="es"><![CDATA[Nombre debe ser entre 2-20 letras]]></value>
+		<value xml:lang="tr"><![CDATA[İsim 2~20 karakter uzunluğunda olmalıdır]]></value>
+		<value xml:lang="vi"><![CDATA[Giới hạn của tên từ 2 đến 20 kí tự.]]></value>
+	</item>
+	<item name="about_nick_name">
+		<value xml:lang="ko"><![CDATA[닉네임은 2~20자 이내여야 합니다.]]></value>
+		<value xml:lang="en"><![CDATA[Nickname should be 2~20 characters long.]]></value>
+		<value xml:lang="jp"><![CDATA[ニックネームは2~20字にしてください。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[昵称必须是2~20字以内。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[暱稱必須是 2~20 字以內。]]></value>
+		<value xml:lang="fr"><![CDATA[Le Surnom doit être long de 2~20 lettres.]]></value>
+		<value xml:lang="ru"><![CDATA[Ник должен состоять из  2~20 знаков]]></value>
+		<value xml:lang="es"><![CDATA[Apodo debe ser entre 2-20 letras]]></value>
+		<value xml:lang="tr"><![CDATA[Rumuz 2~20 karakter uzunluğunda olmalıdır]]></value>
+		<value xml:lang="vi"><![CDATA[Độ dài của Nickname từ 2 đến 20 kí tự.]]></value>
+	</item>
+	<item name="about_email_address">
+		<value xml:lang="ko"><![CDATA[메일주소는 메일인증 후 비밀번호 변경이나 찾기 등에 사용됩니다.]]></value>
+		<value xml:lang="en"><![CDATA[Email address will be used to modify/find password after email verification.]]></value>
+		<value xml:lang="jp"><![CDATA[メールアドレスはメール認証後に、パスワード変更または検索などに使われます。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[电子邮件地址除邮件认证外，在修改密码或找回密码时使用。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[電子郵件地址除郵件認證外，當修改密碼或忘記密碼時也可以使用。]]></value>
+		<value xml:lang="fr"><![CDATA[L'Adresse mél sera utilisé à modifier/trouver le Mot de Passe après la certification en mél.]]></value>
+		<value xml:lang="ru"><![CDATA[Email адрес используется для изменения/получения пароля после его авторизации.]]></value>
+		<value xml:lang="es"><![CDATA[Dirección de email es usado para modificar/encontrar contraseña luego de la certificación de email]]></value>
+		<value xml:lang="tr"><![CDATA[E-posta adresiniz, e-posta onaylamasından sonra şifre düzenlemesi için kullanılacaktır]]></value>
+		<value xml:lang="vi"><![CDATA[Email được sử dụng để lên lạc, xác nhận và lấy lại mật khẩu nếu lỡ quên.]]></value>
+	</item>
+	<item name="about_homepage">
+		<value xml:lang="ko"><![CDATA[홈페이지가 있을 경우 입력해주세요.]]></value>
+		<value xml:lang="en"><![CDATA[Please enter your homepage address if you have any.]]></value>
+		<value xml:lang="jp"><![CDATA[ホームページがある場合は入力してください。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[请输入您的主页地址。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[請輸入您的網址。]]></value>
+		<value xml:lang="fr"><![CDATA[Entrez si vous avez un site Web.]]></value>
+		<value xml:lang="ru"><![CDATA[Пожалуйста, введите, если у Вас есть вебсайт]]></value>
+		<value xml:lang="es"><![CDATA[Ingresar su sitio web, si es que lo tiene]]></value>
+		<value xml:lang="tr"><![CDATA[Lütfen varsa website adresinizi giriniz]]></value>
+		<value xml:lang="vi"><![CDATA[Nếu bạn có Website hãy nhập vào đây.]]></value>
+	</item>
+	<item name="about_blog_url">
+		<value xml:lang="ko"><![CDATA[운영하는 블로그가 있을 경우 입력해주세요.]]></value>
+		<value xml:lang="en"><![CDATA[Please enter your blog address if you have any.]]></value>
+		<value xml:lang="jp"><![CDATA[運用しているブログがあれば入力してください。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[请输入博客地址。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[請輸入部落格網址。]]></value>
+		<value xml:lang="fr"><![CDATA[Entrez si vous avez un blogue.]]></value>
+		<value xml:lang="ru"><![CDATA[Пожалуйста, введите, если у Вас есть блог]]></value>
+		<value xml:lang="es"><![CDATA[Ingresar su blog, si es que lo tiene]]></value>
+		<value xml:lang="tr"><![CDATA[Lütfen varsa blog adresinizi giriniz]]></value>
+		<value xml:lang="vi"><![CDATA[Nếu bạn có Blog hãy nhập vào đây.]]></value>
+	</item>
+	<item name="about_birthday">
+		<value xml:lang="ko"><![CDATA[생년월일을 입력해주세요.]]></value>
+		<value xml:lang="en"><![CDATA[Please enter your birth date.]]></value>
+		<value xml:lang="jp"><![CDATA[生年月日を入力してください。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[请输入您的出生年月日。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[請輸入您的出生年月日。]]></value>
+		<value xml:lang="fr"><![CDATA[Entrez votre anniversaire.]]></value>
+		<value xml:lang="ru"><![CDATA[Пожалуйста, введите Вашу дату рождения]]></value>
+		<value xml:lang="es"><![CDATA[Ingresar su fecha de nacimiento]]></value>
+		<value xml:lang="tr"><![CDATA[Lütfen doğum tarihinizi giriniz]]></value>
+		<value xml:lang="vi"><![CDATA[Hãy chọn ngày sinh nhật của bạn.]]></value>
+	</item>
+	<item name="about_allow_mailing">
+		<value xml:lang="ko"><![CDATA[메일링 가입이 체크되지 않으면 단체메일 발송시 메일을 받지 않습니다.]]></value>
+		<value xml:lang="en"><![CDATA[If you don't join mailing, you will not able to receive group mails]]></value>
+		<value xml:lang="jp"><![CDATA[メーリングリストにチェックしない場合は、全体メールの送信時にメールを受け取りません。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[如不选择此项，以后不能接收站内发送的重要信息。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[不選擇此項，以後無法接收站內發送的重要資料。]]></value>
+		<value xml:lang="fr"><![CDATA[Si vous ne vous inscrivez pas sur mailing, vous ne pouvez pas recevoir le mél du groupe.]]></value>
+		<value xml:lang="ru"><![CDATA[Если Вы не присоединитесь к списку рассылки, Вы не сможете получать почтовые сообщения, направленные Вашей группе]]></value>
+		<value xml:lang="es"><![CDATA[Si usted no se ha registrado el envío de email, usted no podrá recibir el email del grupo]]></value>
+		<value xml:lang="tr"><![CDATA[Eğer mailleşmeyi etkinleştirmezseniz, grup maillerini alamayacaksınız]]></value>
+		<value xml:lang="vi"><![CDATA[Nếu không đồng ý nhận Email, bạn sẽ không thể nhận được những liên lạc của bạn bè hoặc của nhóm.]]></value>
+	</item>
+	<item name="about_denied">
+		<value xml:lang="ko"><![CDATA[체크 시 아이디를 사용할 수 없도록 합니다.]]></value>
+		<value xml:lang="en"><![CDATA[Check this to prohibit the ID.]]></value>
+		<value xml:lang="jp"><![CDATA[チェックを入れると、ユーザーIDを使用できないようにします。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[选择时不能使用此用户名。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[選擇時不能使用此帳號。]]></value>
+		<value xml:lang="fr"><![CDATA[Cocher pour interdire le compte]]></value>
+		<value xml:lang="ru"><![CDATA[Запретить ID]]></value>
+		<value xml:lang="es"><![CDATA[Si selecciona esta opción prohibirá el uso del ID]]></value>
+		<value xml:lang="tr"><![CDATA[Kimliği yasaklanmak için işaretleyiniz]]></value>
+		<value xml:lang="vi"><![CDATA[Kiểm tra tên sử dụng bị cấm.]]></value>
+	</item>
+	<item name="about_is_admin">
+		<value xml:lang="ko"><![CDATA[체크 시 최고 관리자 권한을 가지게 됩니다.]]></value>
+		<value xml:lang="en"><![CDATA[Check this to give Superadmin permissions.]]></value>
+		<value xml:lang="jp"><![CDATA[チェックを入れると最高管理者権限が取得できます。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[选择时将具有最高管理权限。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[選擇時將具有最高管理權限。]]></value>
+		<value xml:lang="fr"><![CDATA[Cocher pour autoriser la permission de Superadministrateur]]></value>
+		<value xml:lang="ru"><![CDATA[Наделить Суперадминистративными правами]]></value>
+		<value xml:lang="es"><![CDATA[Si selecciona esta opción para obtener la atribución del administrador superior]]></value>
+		<value xml:lang="tr"><![CDATA[Superadmin yetkisi vermek için işaretleyiniz]]></value>
+		<value xml:lang="vi"><![CDATA[Kiểm tra toàn quyền Administrator]]></value>
+	</item>
+	<item name="about_member_description">
+		<value xml:lang="ko"><![CDATA[회원에 대한 관리자 메모입니다.]]></value>
+		<value xml:lang="en"><![CDATA[Administrator's memo about user.]]></value>
+		<value xml:lang="jp"><![CDATA[会員に対する管理者のメモ帳です。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[管理员对会员的备忘录。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[管理員對會員的註記。]]></value>
+		<value xml:lang="fr"><![CDATA[La description de l'Administrateur sur le membre]]></value>
+		<value xml:lang="ru"><![CDATA[Заметки администратора о пользователях]]></value>
+		<value xml:lang="es"><![CDATA[Nota del administrador acerca de los usuarios]]></value>
+		<value xml:lang="tr"><![CDATA[Yöneticinin kullanıcılar hakkındaki kısa notu]]></value>
+		<value xml:lang="vi"><![CDATA[Ghi nhớ của Admin về những thành viên]]></value>
+	</item>
+	<item name="about_group">
+		<value xml:lang="ko"><![CDATA[한 아이디는 여러 개의 group에 속할 수 있습니다.]]></value>
+		<value xml:lang="en"><![CDATA[An ID can belong to many groups.]]></value>
+		<value xml:lang="jp"><![CDATA[一つのユーザーIDは多数のグループに属することができます。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[一个用户名可属多个用户组。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[一個帳號可擁有多個群組。]]></value>
+		<value xml:lang="fr"><![CDATA[Un compte peut appartenir aux plusieurs groupes.]]></value>
+		<value xml:lang="ru"><![CDATA[ID может принадлежать нескольким группам]]></value>
+		<value xml:lang="es"><![CDATA[Un ID puede pertenecer a muchos grupos]]></value>
+		<value xml:lang="tr"><![CDATA[Bir kimlik, birçok grubun üyesi olabilir]]></value>
+		<value xml:lang="vi"><![CDATA[Một tên sử dụng có thể tham gia nhiều nhóm]]></value>
+	</item>
+	<item name="about_column_type">
+		<value xml:lang="ko"><![CDATA[추가하실 가입 폼의 형식을 지정해주세요.]]></value>
+		<value xml:lang="en"><![CDATA[Please set the format of additional signup form.]]></value>
+		<value xml:lang="jp"><![CDATA[追加する登録フォームのタイプを指定してください。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[请选择要添加的注册表单格式。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[請選擇要新增的註冊表單格式。]]></value>
+		<value xml:lang="fr"><![CDATA[Choisissez la format que vous voulez ajouter]]></value>
+		<value xml:lang="ru"><![CDATA[Пожалуйста, установите формат дополнительной формы регистрации]]></value>
+		<value xml:lang="es"><![CDATA[Definir el estilo de la forma de registro que desea agregar]]></value>
+		<value xml:lang="tr"><![CDATA[Lütfen detaylı kayıt formunun biçimini ayarlayınız]]></value>
+		<value xml:lang="vi"><![CDATA[Hãy chọn một định dạng để sử dụng.]]></value>
+	</item>
+	<item name="about_column_name">
+		<value xml:lang="ko"><![CDATA[템플릿에서 사용할 수 있는 영문으로 된 이름을 적어주세요. (변수명)]]></value>
+		<value xml:lang="en"><![CDATA[Please enter English name that can be used in the template (name as variable).]]></value>
+		<value xml:lang="jp"><![CDATA[テンプレートで使用できる英文字の名前を入力してください（変数名）。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[请输入在模板中可以使用的英文名称。（变数名）]]></value>
+		<value xml:lang="zh-TW"><![CDATA[請輸入在樣板中可以使用的英文名稱。(變數名稱)]]></value>
+		<value xml:lang="fr"><![CDATA[Entrez le nom composé en alphabet qui peut être utilisé dans le modèle (nom comme variable)]]></value>
+		<value xml:lang="ru"><![CDATA[Пожалуйста, введите английское название, которое будет использоваться в шаблоне как переменная]]></value>
+		<value xml:lang="es"><![CDATA[Ingresar el nombre en español para poder usar en plantilla (nombre como variable)]]></value>
+		<value xml:lang="tr"><![CDATA[Lütfen şablonda kullanılabilecek İngilizce bir isim giriniz. (isim değişkendir)]]></value>
+		<value xml:lang="vi"><![CDATA[Nhập tên theo Tiếng Anh.]]></value>
+	</item>
+	<item name="about_column_title">
+		<value xml:lang="ko"><![CDATA[가입 또는 정보 수정/조회시에 표시될 제목입니다.]]></value>
+		<value xml:lang="en"><![CDATA[This will be displayed on signup or modifying/viewing member info form.]]></value>
+		<value xml:lang="jp"><![CDATA[登録または情報修正・閲覧時に表示されるタイトルです。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[注册或修改/查看信息时要显示的标题。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[註冊或修改/檢視資料時要顯示的標題。]]></value>
+		<value xml:lang="fr"><![CDATA[Ce titre sera exposé sur la formule d'inscription ou sur l'écran pour modifier/voir les informations de membre]]></value>
+		<value xml:lang="ru"><![CDATA[Это будет отображено, когда пользователь регистрируется или изменяет/просматривает информацию пользователя]]></value>
+		<value xml:lang="es"><![CDATA[Esto sera mostrado cuando el usuario registra o modifica/visualiza la información del usuario]]></value>
+		<value xml:lang="tr"><![CDATA[Bu girdi, kayıt veya üye bilgisi düzenleme/görüntüleme formunda gösterilecektir]]></value>
+		<value xml:lang="vi"><![CDATA[Sẽ được hiển thị khi đăng kí, sửa đổi hay xem thông tin thành viên.]]></value>
+	</item>
+	<item name="about_default_value">
+		<value xml:lang="ko"><![CDATA[기본으로 입력될 값을 정하실 수 있습니다.]]></value>
+		<value xml:lang="en"><![CDATA[You can set the values to enter by default.]]></value>
+		<value xml:lang="jp"><![CDATA[デフォルトで入力される値を指定することができます。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[可以设置缺省值。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[可以設置預設值。]]></value>
+		<value xml:lang="fr"><![CDATA[Vous pouvez mettre les valeurs par défaut]]></value>
+		<value xml:lang="ru"><![CDATA[Вы можете установить значения по умолчанию]]></value>
+		<value xml:lang="es"><![CDATA[Usted puede predefinir los valores]]></value>
+		<value xml:lang="tr"><![CDATA[Varsayılan değerleri ayarlayabilirsiniz]]></value>
+		<value xml:lang="vi"><![CDATA[Bạn có thể đặt giá trị mặc định.]]></value>
+	</item>
+	<item name="about_active">
+		<value xml:lang="ko"><![CDATA[활성 항목에 체크를 하셔야 가입시 정상적으로 노출됩니다.]]></value>
+		<value xml:lang="en"><![CDATA[You have to check on active items to show on signup form.]]></value>
+		<value xml:lang="jp"><![CDATA[有効項目にチェックを入れないと加入時に正常に表示されません。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[必须选择此项后才可以正常启用。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[必須選擇此項後才可以正常啟用。]]></value>
+		<value xml:lang="fr"><![CDATA[Cochez si vous voulez l'exposer sur la formule d'inscription]]></value>
+		<value xml:lang="ru"><![CDATA[Вам следует выбрать активные объекты для отображения в форме регистрации]]></value>
+		<value xml:lang="es"><![CDATA[Si selecciona "Activar" los artículos seran mostrados en el momento de registrar]]></value>
+		<value xml:lang="tr"><![CDATA[Kayıt formunu gösterebilmeniz için, öğeleri etkinleştirdiğinizden emin olun]]></value>
+		<value xml:lang="vi"><![CDATA[Nếu chọn, thông tin này sẽ được hiển thị trong bảng đăng kí.]]></value>
+	</item>
+	<item name="about_form_description">
+		<value xml:lang="ko"><![CDATA[설명란에 입력을 하시면 가입시 표시가 됩니다.]]></value>
+		<value xml:lang="en"><![CDATA[If you enter description in this form, it will be displayed on join form.]]></value>
+		<value xml:lang="jp"><![CDATA[説明欄に入力すると登録時に表示されます。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[说明栏里输入的内容，注册时将会显示。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[說明欄裡輸入的內容，在註冊時會顯示。]]></value>
+		<value xml:lang="fr"><![CDATA[Si vous entrez la description, elle sera exposé sur la formule d'incription]]></value>
+		<value xml:lang="ru"><![CDATA[Если Вы введете описание, оно будет отображено в форме регистрации]]></value>
+		<value xml:lang="es"><![CDATA[Si Usted ingresa la forma de la descripción, será mostrado en el momento de registrar]]></value>
+		<value xml:lang="tr"><![CDATA[Eğer tanım formuna giriş yaparsanız, bu girdiler giriş formunda görünecektir]]></value>
+		<value xml:lang="vi"><![CDATA[Nếu bạn nhập mô tả, nó sẽ được hiển thị trong bảng đăng kí.]]></value>
+	</item>
+	<item name="about_required">
+		<value xml:lang="ko"><![CDATA[체크하시면 회원가입시 필수항목으로 입력하도록 됩니다.]]></value>
+		<value xml:lang="en"><![CDATA[Check this to make it mandatory item when signing up.]]></value>
+		<value xml:lang="jp"><![CDATA[チェックを入れると会員登録時に必須入力項目として設定されます。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[注册时成为必填项目。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[註冊時成為必填項目。]]></value>
+		<value xml:lang="fr"><![CDATA[Si vous cochez, ce sera obligatoire]]></value>
+		<value xml:lang="ru"><![CDATA[Сделать элемент обязательным в форме регистрации]]></value>
+		<value xml:lang="es"><![CDATA[Si selecciona esta opción, será artículo esencial para el registro]]></value>
+		<value xml:lang="tr"><![CDATA[Eğer işaretlerseniz, kayıt için gerekli bir öğe olacaktır]]></value>
+		<value xml:lang="vi"><![CDATA[Nếu chọn, thông tin này sẽ được hiển thị trong bảng đăng kí.]]></value>
+	</item>
+	<item name="about_enable_openid">
+		<value xml:lang="ko"><![CDATA[OpenID 지원을 할 경우 체크하시면 됩니다.]]></value>
+		<value xml:lang="en"><![CDATA[Check this if you want to provide an OpenID service.]]></value>
+		<value xml:lang="jp"><![CDATA[OpenIDをサポートする際にチェックを入れます。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[要想网站支持OpenID时请勾选此项。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[想要網站支援 OpenID時，請勾選此項。]]></value>
+		<value xml:lang="fr"><![CDATA[Cochez si vous voulez permettre OpenID]]></value>
+		<value xml:lang="ru"><![CDATA[Позволить пользователям регистрироваться как OpenID]]></value>
+		<value xml:lang="es"><![CDATA[Selecciona esta opción si activado OpenID]]></value>
+		<value xml:lang="tr"><![CDATA[Eğer OpenID hizmeti sunmak istiyorsanız, lütfen işaretleyiniz]]></value>
+		<value xml:lang="vi"><![CDATA[Kích hoạt đăng nhập bằng OpenID.]]></value>
+	</item>
+	<item name="about_enable_join">
+		<value xml:lang="ko"><![CDATA[체크하면 회원가입을 할 수 있습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Please check this if you want to allow new members to sign up your site.]]></value>
+		<value xml:lang="jp"><![CDATA[チェックを入れないとユーザーが会員に登録できません。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[选择此项后用户才可以注册。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[選擇此項後，用戶才可以註冊。]]></value>
+		<value xml:lang="fr"><![CDATA[Cochez si vous voulez permettre l'inscription]]></value>
+		<value xml:lang="ru"><![CDATA[Позволить пользователям регистрироваться]]></value>
+		<value xml:lang="es"><![CDATA[Debe seleccionar esta opción para permitir el registro de los usuarios]]></value>
+		<value xml:lang="tr"><![CDATA[Yeni üyelerin sitenize kayıt yapmalarına izin vermek istiyorsanız lütfen işaretleyiniz]]></value>
+		<value xml:lang="vi"><![CDATA[Cho phép thành viên đăng kí.]]></value>
+	</item>
+	<item name="about_enable_confirm">
+		<value xml:lang="ko"><![CDATA[입력된 메일 주소로 인증 메일을 보내 회원 가입을 확인 합니다.]]></value>
+		<value xml:lang="en"><![CDATA[Please check if you want new members to activate their accounts via their emails.]]></value>
+		<value xml:lang="jp"><![CDATA[登録されたメールアドレスに確認メールを送信し、会員登録を確認します。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[为激活会员注册信息，将向会员输入的邮件地址发送注册认证邮件。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[為確認會員註冊資料，會向會員輸入的郵件地址發送註冊認證郵件。]]></value>
+		<value xml:lang="fr"><![CDATA[Envoyer mél de confirmation pour compléter l'inscription.]]></value>
+		<value xml:lang="es"><![CDATA[입력된 메일 주소로 인증 메일을 보내 회원 가입을 확인 합니다]]></value>
+		<value xml:lang="tr"><![CDATA[Yeni üyelerin hesaplarını e-posta yoluyla etkinleştirmelerini istiyorsanız lütfen işaretleyiniz.]]></value>
+		<value xml:lang="vi"><![CDATA[Gửi Email xác nhận sau khi đăng kí.]]></value>
+	</item>
+	<item name="about_enable_ssl">
+		<value xml:lang="ko"><![CDATA[서버에서 SSL지원이 될 경우 회원가입, 정보수정, 로그인 등의 개인정보가 서버로 보내질 때 SSL(https)를 이용하도록 할 수 있습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Personal information from Sign up/Modify Member Info/Sign in can be sent as SSL(https) mode if server provides SSL service.]]></value>
+		<value xml:lang="jp"><![CDATA[サーバーでSSLが可能な場合、会員登録/情報変更/ログイン等の個人情報はSSL(https)経由でサーバーにより安全に送信されます。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[如服务器提供SSL协议服务，新会员注册/修改会员信息/登录等信息的传送将使用SSL(https)协议。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[如主機提供 SSL認證服務，新會員註冊/修改會員資料/登入等資料的傳送將使用 SSL(https)認證。]]></value>
+		<value xml:lang="fr"><![CDATA[Les informations personnelles (Inscription / Modification des informations du membre / Connexion) peuvent être envoyées comme mode SSL(https) si le serveur offre le service SSL.]]></value>
+		<value xml:lang="ru"><![CDATA[Personal information from Sign up/Modify Member Info/Sign in can be sent as SSL(https) mode if server provides SSL service]]></value>
+		<value xml:lang="es"><![CDATA[서버에서 SSL지원이 될 경우 회원가입/정보수정/로그인등의 개인정보가 서버로 보내질때 SSL(https)를 이용하도록 할 수 있습니다]]></value>
+		<value xml:lang="tr"><![CDATA[Kayıt Ol/Üye Bilgisini Değiştir/Giriş Yap 'daki kişisel bilgiler, eğer sunucunuz da SSL servisi veriyorsa, SSL (https) olarak ayarlanabilir.]]></value>
+		<value xml:lang="vi"><![CDATA[Thông tin cá nhân khi thành viên Đăng kí, Đăng nhập và Sủa đổi sẽ được gửi dưới dạng SSL(https). Hãy chọn nếu Server cho phép sử dụng chức năng này.]]></value>
+	</item>
+	<item name="about_limit_day">
+		<value xml:lang="ko"><![CDATA[회원 가입 후 정해진 일자동안 인증 제한을 할 수 있습니다.]]></value>
+		<value xml:lang="en"><![CDATA[You can limit activation date after sign up]]></value>
+		<value xml:lang="jp"><![CDATA[会員登録後一定の期間中、認証制限を行うことができます。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[注册会员后的认证有效期限。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[註冊會員後的認證有效期限。]]></value>
+		<value xml:lang="fr"><![CDATA[Vous pouvez limiter le jour de certification après l'inscription]]></value>
+		<value xml:lang="ru"><![CDATA[Вы можете ограничить дату авторизации после регистрации]]></value>
+		<value xml:lang="es"><![CDATA[Usted puede limitar la fecha de la certificación luego de registrar]]></value>
+		<value xml:lang="tr"><![CDATA[Kayıttan sonraki hesap etkinleştirme süresini kısıtlayabilirsiniz]]></value>
+		<value xml:lang="vi"><![CDATA[Bạn có thể giới hạn ngày xác nhận sau khi đăng kí.]]></value>
+	</item>
+	<item name="about_limit_date">
+		<value xml:lang="ko"><![CDATA[지정한 날짜까지 로그인을 할 수 없습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Users cannot sign in until the specified date]]></value>
+		<value xml:lang="jp"><![CDATA[指定された期間まで該当ユーザーはログインできなくします。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[直到指定日期该用户不能登录。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[直到指定日期，否則該帳號都無法登入。]]></value>
+		<value xml:lang="fr"><![CDATA[Utilisateur ne peut pas ouverir la connexion jusqu'au jour assigné]]></value>
+		<value xml:lang="ru"><![CDATA[Пользователь не может войти до указанной даты]]></value>
+		<value xml:lang="es"><![CDATA[Usuario no podra conectarse hasta la fecha indicada]]></value>
+		<value xml:lang="tr"><![CDATA[Üyeler, belirlenen tarihe kadar kayıt yapamazlar]]></value>
+		<value xml:lang="vi"><![CDATA[Thành viên không thể đăng nhập nếu quá hạn xác nhận đăng kí.]]></value>
+	</item>
+	<item name="about_after_login_url">
+		<value xml:lang="ko"><![CDATA[로그인 후 이동할 URL을 정하실 수 있습니다. 비어 있으면 해당 페이지가 유지됩니다.]]></value>
+		<value xml:lang="en"><![CDATA[You can set a URL after login. Blank means the current page.]]></value>
+		<value xml:lang="jp"><![CDATA[ログイン後表示されるページのURLを指定できます。指定のない場合、現在のページが維持されます。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[可以指定登录后的页面转向url(留空为当前页面)。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[可以指定登入後的頁面轉向網址(留空為目前頁面)。]]></value>
+		<value xml:lang="fr"><![CDATA[Vous pouvez indiquer URL où l'on va après la connexion. Le vide signifie la page courante.]]></value>
+		<value xml:lang="ru"><![CDATA[Возможен переход на указанный URL после логин. Если не укажете, то данная страница отобразиться.]]></value>
+		<value xml:lang="tr"><![CDATA[Giriş yaptıktan sonraki gidilecek URL'yi ayarlayabilirsiniz. Boş bırakmak, geçerli sayfayı bırakır.]]></value>
+		<value xml:lang="vi"><![CDATA[Bạn có thể thiết đặt địa chỉ nào đó sẽ hiển thị sau khi đăng nhập. Để trống nếu không sử dụng.]]></value>
+	</item>
+	<item name="about_after_logout_url">
+		<value xml:lang="ko"><![CDATA[로그아웃 후 이동할 URL을 정하실 수 있습니다. 비어 있으면 해당 페이지가 유지됩니다.]]></value>
+		<value xml:lang="en"><![CDATA[You can set a URL after logout. Blank means the current page.]]></value>
+		<value xml:lang="jp"><![CDATA[ログアウト後表示されるページのURLを指定できます。指定のない場合、現在のページが維持されます。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[可以指定退出登录后的页面转向url(留空为当前页面)。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[可以指定登出後的頁面轉向網址(留空為目前頁面)。]]></value>
+		<value xml:lang="fr"><![CDATA[Vous pouvez indiquer URL où l'on va après la déconnexion. Le vide signifie la page courrante.]]></value>
+		<value xml:lang="ru"><![CDATA[Возможен переход на указанный URL после выхода. Если не укажете, то данная страница отобразиться.]]></value>
+		<value xml:lang="tr"><![CDATA[Çıkış yaptıktan sonraki gidilecek URL'yi ayarlayabilirsiniz. Boş bırakmak, geçerli sayfa manasına gelir.]]></value>
+		<value xml:lang="vi"><![CDATA[Bạn có thể thiết đặt địa chỉ nào đó sẽ hiển thị sau khi thoát. Để trống nếu không sử dụng.]]></value>
+	</item>
+	<item name="about_redirect_url">
+		<value xml:lang="ko"><![CDATA[회원 가입 후 이동할 url을 입력해 주세요. 비어 있으면 가입 이전 페이지로 돌아갑니다.]]></value>
+		<value xml:lang="en"><![CDATA[Please enter a URL where users will go after sign up. When this is empty, it will be set as the previous page of the sign up page.]]></value>
+		<value xml:lang="jp"><![CDATA[会員登録後、表示されるページのURLを指定できます。指定のない場合は会員登録する前のページに戻ります。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[请输入注册会员后的页面转向 url。(留空为返回前页)]]></value>
+		<value xml:lang="zh-TW"><![CDATA[請輸入會員註冊後的頁面轉向網址。(留空為返回前頁)]]></value>
+		<value xml:lang="fr"><![CDATA[Entrez URL où l'utilisateur irra après l'inscription, S.V.P. Si c'est vide, ce sera la page précédente de la page d'inscription.]]></value>
+		<value xml:lang="ru"><![CDATA[Пожалуйста, введите URL, куда пользователи попадут после регистрации. Когда поле пустое, будет установлена страница предшествующая странице регистрации.]]></value>
+		<value xml:lang="es"><![CDATA[Ingresar la URL que va a abrir luego de registrar los usuarios. Cuando esto esta vacío, se habrirá la página anterior a la del registro.]]></value>
+		<value xml:lang="tr"><![CDATA[Lütfen üyelerin kayıt olduktan sonraki yönlendirilecekleri URL'yi giriniz. Bır url girilmediğinde, kayıt sayfasından bir önceki sayfaya yönlendirileceklerdir.]]></value>
+		<value xml:lang="vi"><![CDATA[Hãy nhập địa chỉ trang sẽ chuyển đến sau khi thành viên đăng kí. Để trống nếu không sử dụng.]]></value>
+	</item>
+	<item name="about_agreement">
+		<value xml:lang="ko"><![CDATA[회원 가입 약관이 없을 경우 표시되지 않습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Sign up Agreement will be displayed if it's not empty]]></value>
+		<value xml:lang="jp"><![CDATA[会員登録規約がない場合は表示されません。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[没有会员条款时不显示。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[沒有會員條款時不會顯示。]]></value>
+		<value xml:lang="fr"><![CDATA[L'Accord d'Inscription comme Membre sera exposé seulement quand il n'est pas vide.]]></value>
+		<value xml:lang="ru"><![CDATA[Регистрационное соглашение будет показано, если оно содержит текст]]></value>
+		<value xml:lang="es"><![CDATA[Acuerdo del registro no será mostrado si esta vacío]]></value>
+		<value xml:lang="tr"><![CDATA[Eğer boş bırakılmadıysa, Kayıt Sözleşmesi görüntülenecektir]]></value>
+		<value xml:lang="vi"><![CDATA[Điều khoản sử dụng sẽ hiển thị trong Form đăng kí nếu có nội dung.]]></value>
+	</item>
+	<item name="about_image_name">
+		<value xml:lang="ko"><![CDATA[회원의 이름을 글자 대신 이미지로 사용할 수 있게 합니다.]]></value>
+		<value xml:lang="en"><![CDATA[Members will be able to use image name instead of text]]></value>
+		<value xml:lang="jp"><![CDATA[ユーザーの名前を文字の代わりにイメージで表示させることができます。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[用户昵称可以用小图片来替代显示。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[用戶暱稱可以用圖片替代。]]></value>
+		<value xml:lang="fr"><![CDATA[Permettre aux utilisateurs d'utiliser une image pour présenter leurs noms au lieu des lettres]]></value>
+		<value xml:lang="ru"><![CDATA[Возможно использование изображение вместо текста]]></value>
+		<value xml:lang="es"><![CDATA[Permitir a los usuarios el uso de imagen del nombre en ves del nombre del usuario]]></value>
+		<value xml:lang="tr"><![CDATA[Üyeler, metin yerine resim adı kullanabileceklerdir]]></value>
+		<value xml:lang="vi"><![CDATA[Cho phép thành viên sử dụng hình ảnh thay cho tên.]]></value>
+	</item>
+	<item name="about_image_mark">
+		<value xml:lang="ko"><![CDATA[회원의 이름 앞에 마크를 달 수 있습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Members will be able to use image mark in front of their names]]></value>
+		<value xml:lang="jp"><![CDATA[使用者の名前の前にマークを付けることができます。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[显示在用户昵称前的小图标。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[顯示在用戶暱稱前的圖示。]]></value>
+		<value xml:lang="fr"><![CDATA[Permettre aux utilisateurs d'utiliser une marque devent leurs noms]]></value>
+		<value xml:lang="ru"><![CDATA[Возможно использование марки перед именем]]></value>
+		<value xml:lang="es"><![CDATA[Permitir a los usuarios el uso de imagen de marca delante de sus nombres]]></value>
+		<value xml:lang="tr"><![CDATA[Üyeler, isimlerinin önünde işaret resmi kullanabilirler]]></value>
+		<value xml:lang="vi"><![CDATA[Cho phép sử dụng hình ảnh nhỏ truóc tên của họ.]]></value>
+	</item>
+	<item name="about_group_image_mark">
+		<value xml:lang="ko"><![CDATA[회원의 이름 앞에 그룹 마크를 달 수 있습니다.]]></value>
+		<value xml:lang="en"><![CDATA[You may use group marks shown before their names]]></value>
+		<value xml:lang="jp"><![CDATA[ユーザー名の前にグループマークを表示します。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[用户名前显示用户组图标。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[顯示在用戶群組前的圖示。]]></value>
+		<value xml:lang="fr"><![CDATA[회원의 이름앞에 그룹 마크를 달 수 있습니다]]></value>
+		<value xml:lang="ru"><![CDATA[Возможно использование групповой марки перед именем]]></value>
+		<value xml:lang="es"><![CDATA[회원의 이름앞에 그룹 마크를 달 수 있습니다]]></value>
+		<value xml:lang="tr"><![CDATA[Kullanıcıların isimlerinin önlerinde görüntülenecek grup işaretleri kullanabilirsiniz]]></value>
+		<value xml:lang="vi"><![CDATA[Bạn có thể sử dụng biểu tượng nhóm sẽ hiển thị trước tên thành viên.]]></value>
+	</item>
+	<item name="about_profile_image">
+		<value xml:lang="ko"><![CDATA[회원의 프로필 이미지를 사용할 수 있게 합니다.]]></value>
+		<value xml:lang="en"><![CDATA[Members will be able to use profile images]]></value>
+		<value xml:lang="jp"><![CDATA[ユーザーのプロフィールイメージが使用できるようにします。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[可以使用签名图片。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[可以使用個人圖片。]]></value>
+		<value xml:lang="fr"><![CDATA[Permettre aux utilisateurs d'utiliser une image de profil]]></value>
+		<value xml:lang="ru"><![CDATA[Позволить пользователям использовать изображения профиля]]></value>
+		<value xml:lang="es"><![CDATA[Permitir a los usuarios a utilizar nombre de la imagen en lugar de texto nombre]]></value>
+		<value xml:lang="tr"><![CDATA[Üyeler, profil resmi kullanabilirler]]></value>
+		<value xml:lang="vi"><![CDATA[Cho phép thành viên sử dụng thông tin cá nhân bằng hình ảnh.]]></value>
+	</item>
+	<item name="about_signature_max_height">
+		<value xml:lang="ko"><![CDATA[서명란의 높이를 제한할 수 있습니다. (0 또는 비워두면 제한하지 않습니다.)]]></value>
+		<value xml:lang="en"><![CDATA[You can limit the signature max height. Set this as 0 or leave it blank not to limit it.]]></value>
+		<value xml:lang="jp"><![CDATA[署名欄の高さのサイズを制限します。 (0 もしくは空の場合は制限なし。)]]></value>
+		<value xml:lang="zh-CN"><![CDATA[可以限制签名栏高度(0或留空为不限制)。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[可以限制簽名檔高度(零或留空為不限制)。]]></value>
+		<value xml:lang="ru"><![CDATA[Возможно установить лимит подписи. (0 Если оставите пустым, то лимита не будет.)]]></value>
+	</item>
+	<item name="about_accept_agreement">
+		<value xml:lang="ko"><![CDATA[약관을 모두 읽었으며 동의합니다.]]></value>
+		<value xml:lang="en"><![CDATA[I have read the agreement and agree with it]]></value>
+		<value xml:lang="jp"><![CDATA[登録規約をすべて読み、同意します。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[已阅读全部条款并同意。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[已閱讀全部條款並同意。]]></value>
+		<value xml:lang="fr"><![CDATA[J'ai lu l'Accord et je suis d'accord.]]></value>
+		<value xml:lang="ru"><![CDATA[Я прочитал соглашение полностью и согласен]]></value>
+		<value xml:lang="es"><![CDATA[Yo he leído todo el acuerdo y acepto]]></value>
+		<value xml:lang="tr"><![CDATA[Anlaşmayı okudum ve kabul ediyorum]]></value>
+		<value xml:lang="vi"><![CDATA[Tôi đã đọc và đồng ý với điều khoản sử dụng của Website.]]></value>
+	</item>
+	<item name="about_member_default">
+		<value xml:lang="ko"><![CDATA[회원 가입을 한 사람이 최초에 속하는 그룹을 말합니다.]]></value>
+		<value xml:lang="en"><![CDATA[It will be set as the default group on sign up]]></value>
+		<value xml:lang="jp"><![CDATA[会員登録時に基本グループとして設定されます。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[将成为注册会员时的默认用户组。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[將成為註冊會員時的預設群組。]]></value>
+		<value xml:lang="fr"><![CDATA[On sera par défaut dans ce groupe après l'inscription]]></value>
+		<value xml:lang="ru"><![CDATA[При регистрации устанавливается стандартная группа]]></value>
+		<value xml:lang="es"><![CDATA[Al registrar se configura como grupo predefinido]]></value>
+		<value xml:lang="tr"><![CDATA[Varsayılan grup, kullanıcı kayıt olduktan sonra yönlendirileceği grup olacaktır]]></value>
+		<value xml:lang="vi"><![CDATA[Sẽ là nhóm mặc định khi thành viên đăng kí.]]></value>
+	</item>
+	<item name="about_openid">
+		<value xml:lang="ko"><![CDATA[오픈아이디로 가입시 아이디와 메일 등의 기본 정보는 이 사이트에 저장 되지만 비밀번호와 인증을 위한 처리는 해당 오픈아이디 제공서비스에서 이루어집니다.]]></value>
+		<value xml:lang="en"><![CDATA[When you join using an OpenID, basic info like ID or email address will be saved on this site, process for password and verification management will be done on current OpenID offering service]]></value>
+		<value xml:lang="jp"><![CDATA[OpenIDで登録する際、ＩＤとメールなどの基本情報は、このサイトに保存されますが、パスワードと認証のための処理用の情報は該当するOpenID提供サービス側で行われます。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[用OpenID注册时该网站只保存用户名和 邮件等基本信息，密码和认证处理是在提供OpenID服务的站点中得到解决。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[用 OpenID註冊時，該網站只儲存帳號和郵件等基本資料，密碼和認證處理是在提供 OpenID服務的網站中得到解決。]]></value>
+		<value xml:lang="fr"><![CDATA[Si vous vous inscrivez avec OpenID, vos informations primaires comme le Compte(ID) ou l'adresse mél sera gardés sur ce site. Mais le procès pour le Mot de Passe et la certification sera fait sur le service courant qui offre OpenID]]></value>
+		<value xml:lang="ru"><![CDATA[При регистраци как OpenID, основнаая информация (ID или email адрес) будет сохранена на сайте, но операции с паролем и авторизацией будут произведены над текущим OpenID в представленном сервисе]]></value>
+		<value xml:lang="es"><![CDATA[Cuando tu registra como OpenID, la información básica como ID o la dirección del email sera guardado en este sitio, pero la contraseña y la resolución de la certificación se hará en el servicio ofrecido por openID]]></value>
+		<value xml:lang="tr"><![CDATA[OpenID olarak giriş yaptığınızda, e-posta adresi ya da kimliğiniz gibi temel bilgi sitede kaydedilecektir, şifre ve onaylama yönetimi işlemi, hizmet veren geçerli OpenID tarafından yapılacaktır]]></value>
+		<value xml:lang="vi"><![CDATA[Khi bạn đăng nhập bằng OpenID, những thông tin cơ bản và Email của bạn sẽ lưu lại tại Website này. Việc này sẽ giúp bạn lấy lại thông tin nếu như bạn lỡ quên hoặc nhận những thông báo từ Ban Quản trị Website.]]></value>
+	</item>
+	<item name="about_openid_leave">
+		<value xml:lang="ko"><![CDATA[오픈아이디의 탈퇴는 현 사이트에서의 회원 정보를 삭제하는 것입니다.<br />탈퇴 후 로그인하시면 새로 가입하시는 것으로 되어 작성한 글에 대한 권한을 가질 수 없게 됩니다.]]></value>
+		<value xml:lang="en"><![CDATA[The secession of OpenID means deletion of your member info from this site.<br />If you login after secession, it will be recognized as a new member, so you will no longer have the permission for your ex-written articles.]]></value>
+		<value xml:lang="jp"><![CDATA[OpenIDの退会は現在のサイトから会員情報を削除することを意味します。<br />退会後ログインすると新しく登録することになり、書き込んだコンテンツに対する権限を維持することができません。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[删除OpenID就等于永久删除站内用户的信息。<br />被删除后的重新登录就等于新会员注册，因此对以前自己写的主题将失去相应权限。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[刪除 OpenID就等於永久刪除站內會員的資料。<br />被刪除後，再重新登錄就等於新會員註冊，因此對以前自己寫的主題將失去其權限。]]></value>
+		<value xml:lang="fr"><![CDATA[La sécession de OpenID nous fait supprimer vos informations du membre dans notre site.<br />Si vous ouvrez la connexion après la sécession, nous vous reconnaîtrons comme un nouveau membre, c'est-à-dire, vous n'aurez plus la permission sur les articles que vous avez écrits avant.]]></value>
+		<value xml:lang="ru"><![CDATA[Удаление аккаунта с OpenID производит удаление Вашей информации пользователя на сайте.<br />Если Вы войдете после удаления аккаунта, Вы будете разпознаны как новый пользователь и доступ к написанным Вами ранее записям будет закрыт.]]></value>
+		<value xml:lang="es"><![CDATA[La secesión de OpenID medios eliminación de su información de miembros de este sitio. <br /> Si se registra después de la secesión, se le reconocerá como un nuevo miembro, de modo que ya no tienen el permiso para que su ex-escrito artículos.]]></value>
+		<value xml:lang="tr"><![CDATA[OpenID'nin bu bölünmesi, üyelik bilginizin bu siteden silinmesi demektir.<br />Bölünmeden sonra giriş yaparsanız, yeni bir üye gibi kabul edilecekseniz, bu yüzden eski makalelerinize ulaşma yetkiniz olmayacaktır.]]></value>
+		<value xml:lang="vi"><![CDATA[Thông tin OpenID của bạn sẽ được cập nhật tại Website này.<br />Nếu bạn đăng nhập, Thông tin OpenID của bạn sẽ được lưu lại như một thành viên đã đăng kí, và bạn có thể gửi bài viết hay bình luận.]]></value>
+	</item>
+	<item name="about_find_member_account">
+		<value xml:lang="ko"><![CDATA[아이디/ 비밀번호는 가입시 등록한 메일 주소로 알려드립니다.<br />가입할 때 등록하신 메일 주소를 입력하시고 "아이디/비밀번호 찾기" 버튼을 클릭해주세요.<br />]]></value>
+		<value xml:lang="en"><![CDATA[Your account info will be sent to this email address.<br />Please input the email address you have entered during the registration, then press "Find Account Info" button.<br />]]></value>
+		<value xml:lang="jp"><![CDATA[ID/パスワードは登録時に登録されたメールにてお知らせします。<br />登録時に登録したメールアドレスを入力して「IDとパスワードのリマインダー」ボタンをクリックしてください。<br />]]></value>
+		<value xml:lang="zh-CN"><![CDATA[用户名/密码将发送到您注册时所输入的电子邮件当中。<br />输入注册时的电子邮件地址后，请点击“查找用户名/密码”按钮。<br />]]></value>
+		<value xml:lang="zh-TW"><![CDATA[帳號/密碼將發送到您註冊時，所輸入的電子郵件當中。<br />輸入註冊時的電子郵件地址後，請按「查詢帳號/密碼」按鈕。<br />]]></value>
+		<value xml:lang="fr"><![CDATA[Your account info will be noticed by registered email address.<br />Please input email address which you have input on registration, and press "Find Account Info" button.<br />]]></value>
+		<value xml:lang="ru"><![CDATA[ID и пароль при регистрации будут посланы Вам по имейл адресу.<br /> Введите имейл адрес, указанный при регистрации и кликните на кнопку "Поиск ID/пароль".<br />]]></value>
+		<value xml:lang="es"><![CDATA[Su información de la cuenta será observado por dirección de correo electrónico registrada. <br /> Introduce la dirección de correo electrónico que usted tiene de entrada en el registro, y pulse "Buscar" Información de la cuenta ". <br />]]></value>
+		<value xml:lang="tr"><![CDATA[Hesap bilginiz, kayıt olduğunuz e-posta adresine gönderilecektir.<br />Kayıt esnasında kullandığınız e-posta adresini giriniz ve "Hesap Bilgisini Bul" tuşuna basınız.<br />]]></value>
+		<value xml:lang="vi"><![CDATA[Thông tin tài khoản của bạn sẽ được tìm thấy với Email bạn đã đăng kí.<br />Xin vui lòng nhập Email mà bạn đã đăng kí và bấm "Lấy lại thông tin" để nhận được thông tin đăng nhập!.<br />]]></value>
+	</item>
+	<item name="about_temp_password">
+		<value xml:lang="ko"><![CDATA[임시 비밀번호가 정상적으로 발급되었습니다.<br />로그인 후 반드시 비밀번호를 변경하시기 바랍니다.<br/>]]></value>
+	</item>
+	<item name="about_member">
+		<value xml:lang="ko"><![CDATA[회원을 생성/수정/삭제 할 수 있고 그룹관리나 가입 폼 관리 등을 할 수 있는 회원 관리 모듈입니다.
+기본으로 생성된 그룹외의 그룹을 생성하여 회원 관리가 가능하고 가입 폼 관리를 통한 기본 정보외의 추가 정보를 요구할 수도 있습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Member module will help you create, modify and remove members and manage groups or the sign up form.
+You can add a custom group to manage members, and also get additional information by modifying the sign up form.]]></value>
+		<value xml:lang="jp"><![CDATA[会員の作成・修正・削除することができ、グループの管理、登録フォームの管理などが行える会員管理モジュールです。
+デフォルトで作成されたグループにグループを追加作成して会員管理ができるようにし、会員登録フォーム管理では基本情報の他、フォームの入力情報を追加することができます。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[可以添加/修改/删除会员及管理用户组或注册表单的会员管理模块。
+此模块不仅可以生成缺省用户组以外的其他用户组来管理会员，并且通过注册表单的管理获得除会员基本信息以外的扩展信息。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[可以新增/修改/刪除會員及管理群組或註冊表單的會員管理模組。
+此模組不僅可以建立預設群組以外的其他群組來管理會員，並且通過註冊表單的管理獲得會員基本資料以外的延伸資料。]]></value>
+		<value xml:lang="fr"><![CDATA[C'est le module pour administrer des membres avec lequel vous pouvez créer/modifier/supprimer des membres ou administrer les groupes et la formule d'inscription.
+Vous pouvez administrer membres par création un nouveau groupe, ou gagner les informations additionnelles par l'administration la formule d'inscrioption.]]></value>
+		<value xml:lang="ru"><![CDATA[Этот модуль служит для создания/изменения/удаления пользователей, управления их группами и формой регистрации.
+Вы можете управлять пользователями посредством создания новых групп, и получить дополнительную информацию, управляя формой регистрации]]></value>
+		<value xml:lang="es"><![CDATA[Esto es un módulo para crear/modificar/eliminar usuarios y manejar grupos o el formato del registro.
+ Usted puede manejar usuarios creando nuevos grupos, y obtener información adicional manejando el formato del registro]]></value>
+		<value xml:lang="tr"><![CDATA[Üye modülü size; üyeleri oluşturmada, düzenlemede, silmede ve kayıt formunu ya da grupları düzenlemede yardımcı olur.
+Üyeleri yönetmek için özel gruplar ekleyebilir ve aynı zamanda kayıt formunu değiştirerek üyeler hakkında ek bilgi alabilirsiniz.]]></value>
+		<value xml:lang="vi"><![CDATA[Chức năng của Module này sẽ cho phép bạn tạo, sửa, xóa thành viên và quản lý nhóm hay Form đăng kí.
+Bạn có thể quản lý thành viên bằng cách tạo những nhóm mới, và thêm những thông tin trong Form đăng kí.]]></value>
+	</item>
+	<item name="about_ssl_port">
+		<value xml:lang="ko"><![CDATA[기본 포트 이외의 SSL 포트를 사용하는 경우 포트번호를 입력해주세요.]]></value>
+		<value xml:lang="en"><![CDATA[Please enter if you are using non-default SSL port]]></value>
+		<value xml:lang="jp"><![CDATA[基本ポート以外のSSLポートを利用する場合、入力してください。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[請輸入想要使用 SSL預設埠口以外的埠口。]]></value>
+		<value xml:lang="fr"><![CDATA[Please input if you are using different SSL port with default one]]></value>
+		<value xml:lang="ru"><![CDATA[Please input if you are using different SSL port with default one]]></value>
+		<value xml:lang="es"><![CDATA[Please input if you are using different SSL port with default one]]></value>
+		<value xml:lang="tr"><![CDATA[Eğer varsayılan SSL portundan farklı bir port kullanıyorsanız, lütfen giriniz]]></value>
+		<value xml:lang="vi"><![CDATA[Xin hãy nhập cổng kết nối mặc định cho SSL.]]></value>
+	</item>
+	<item name="add_openid">
+		<value xml:lang="ko"><![CDATA[오픈아이디 추가]]></value>
+		<value xml:lang="en"><![CDATA[Add OpenID]]></value>
+		<value xml:lang="jp"><![CDATA[OpenIDの追加]]></value>
+		<value xml:lang="zh-TW"><![CDATA[新增 OpenID]]></value>
+		<value xml:lang="ru"><![CDATA[Добавить OpenID]]></value>
+		<value xml:lang="tr"><![CDATA[OpenID Ekle]]></value>
+		<value xml:lang="vi"><![CDATA[Thêm OpenID]]></value>
+	</item>
+	<item name="about_resend_auth_mail">
+		<value xml:lang="ko"><![CDATA[인증 메일을 받지 못하신 경우 다시 받으실 수 있습니다.]]></value>
+		<value xml:lang="en"><![CDATA[You can request for the activation email if you have not activated yet.]]></value>
+		<value xml:lang="jp"><![CDATA[認証メールが届いてなかった場合、再送信の申請が可能です。<br />※申請の前に、当サイトからメールの受信ができるように設定してください。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[没有收到认证邮件时，可以在此重新发送认证邮件。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[如果沒有收到認證郵件可以再重寄一次。]]></value>
+		<value xml:lang="fr"><![CDATA[You can request for authentication mail if you have failed before.]]></value>
+		<value xml:lang="ru"><![CDATA[Вы можете получить снова письмо для авторизации, если еще не получили.]]></value>
+		<value xml:lang="es"><![CDATA[You can request for authentication mail if you have failed before.]]></value>
+		<value xml:lang="tr"><![CDATA[Eğer daha önce etkinleştirmediyseniz, etkinleştirme maili talebinde bulunabilirsiniz]]></value>
+		<value xml:lang="vi"><![CDATA[Nhận lại mã kích hoạt nếu bạn đã không nhận được Email kích hoạt khi đăng kí.]]></value>
+	</item>
+	<item name="no_article">
+		<value xml:lang="ko"><![CDATA[글이 없습니다.]]></value>
+		<value xml:lang="en"><![CDATA[No articles]]></value>
+		<value xml:lang="jp"><![CDATA[書き込みがありません。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[主題不存在]]></value>
+		<value xml:lang="fr"><![CDATA[There exists no article]]></value>
+		<value xml:lang="ru"><![CDATA[Записей нет]]></value>
+		<value xml:lang="es"><![CDATA[There exists no article]]></value>
+		<value xml:lang="tr"><![CDATA[Hiçbir makale bulunmuyor]]></value>
+	</item>
+	<item name="find_account_question">
+		<value xml:lang="ko"><![CDATA[비밀번호 찾기 질문/답변]]></value>
+		<value xml:lang="en"><![CDATA[Question for a temporary password.]]></value>
+		<value xml:lang="jp"><![CDATA[秘密質問]]></value>
+		<value xml:lang="zh-TW"><![CDATA[密碼提示問答]]></value>
+		<value xml:lang="tr"><![CDATA[Geçici şifre sorusu]]></value>
+	</item>
+	<item name="find_account_answer">
+		<value xml:lang="ko"><![CDATA[비밀번호 찾기 답변]]></value>
+		<value xml:lang="en"><![CDATA[Answer for a temporary password.]]></value>
+		<value xml:lang="zh-TW"><![CDATA[忘記密碼提示]]></value>
+		<value xml:lang="jp"><![CDATA[秘密質問の答え]]></value>
+	</item>
+	<item name="about_find_account_question">
+		<value xml:lang="ko"><![CDATA[가입 시 아이디와 이메일, 질문/답변으로 임시 비밀번호를 발급 받을 수 있습니다.]]></value>
+		<value xml:lang="en"><![CDATA[You can get a temporary password by your ID, email address, and the answer for the question you have set.]]></value>
+		<value xml:lang="jp"><![CDATA[登録した時、入力したIDとメールアドレス、秘密質問の答えで仮のパスワードをもらえる事ができます。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[可透過帳號、電子郵件和設定提示問答來獲得臨時密碼。]]></value>
+		<value xml:lang="tr"><![CDATA[Kimliğinize, mail adresinize ya da cevapladığınız soruya göre geçici şifre edinebilirsiniz.]]></value>
+	</item>
+	<item name="find_account_question_items" type="array">
+		<item name="0">
+			<value xml:lang="ko"><![CDATA[]]></value>
+		</item>
+		<item name="1">
+			<value xml:lang="ko"><![CDATA[다른 이메일 주소는?]]></value>
+			<value xml:lang="en"><![CDATA[What is your alternate email address?]]></value>
+			<value xml:lang="jp"><![CDATA[他のメールアドレスは？]]></value>
+			<value xml:lang="zh-TW"><![CDATA[其他電子郵件?]]></value>
+			<value xml:lang="tr"><![CDATA[Diğer e-posta adresiniz nedir?]]></value>
+		</item>
+		<item name="2">
+			<value xml:lang="ko"><![CDATA[나의 보물 1호는?]]></value>
+			<value xml:lang="en"><![CDATA[What is your favorite thing?]]></value>
+			<value xml:lang="jp"><![CDATA[私の一番大事なものは？]]></value>
+			<value xml:lang="zh-TW"><![CDATA[我最愛的是?]]></value>
+			<value xml:lang="tr"><![CDATA[En sevdiğiniz şey?]]></value>
+		</item>
+		<item name="3">
+			<value xml:lang="ko"><![CDATA[나의 출신 초등학교는?]]></value>
+			<value xml:lang="en"><![CDATA[Which elementary school did you attend?]]></value>
+			<value xml:lang="jp"><![CDATA[私の卒業した小学校は？]]></value>
+			<value xml:lang="zh-TW"><![CDATA[我讀的國小是?]]></value>
+			<value xml:lang="tr"><![CDATA[Mezun olduğunuz ilkokul?]]></value>
+		</item>
+		<item name="4">
+			<value xml:lang="ko"><![CDATA[나의 출신 고향은?]]></value>
+			<value xml:lang="en"><![CDATA[Where is your hometown?]]></value>
+			<value xml:lang="jp"><![CDATA[私の生まれた街は？]]></value>
+			<value xml:lang="zh-TW"><![CDATA[我的出生地?]]></value>
+			<value xml:lang="tr"><![CDATA[Memleketiniz neresi?]]></value>
+		</item>
+		<item name="5">
+			<value xml:lang="ko"><![CDATA[나의 이상형은?]]></value>
+			<value xml:lang="en"><![CDATA[What is your ideal match?]]></value>
+			<value xml:lang="jp"><![CDATA[私の理想のタイプは？]]></value>
+			<value xml:lang="zh-TW"><![CDATA[我的理想?]]></value>
+			<value xml:lang="tr"><![CDATA[İdeal eşiniz nasıl olmalı?]]></value>
+		</item>
+		<item name="6">
+			<value xml:lang="ko"><![CDATA[어머니 성함은?]]></value>
+			<value xml:lang="en"><![CDATA[What is your mother's name?]]></value>
+			<value xml:lang="jp"><![CDATA[母の名前は？]]></value>
+			<value xml:lang="zh-TW"><![CDATA[母親的姓名?]]></value>
+			<value xml:lang="tr"><![CDATA[Annenizin adı?]]></value>
+		</item>
+		<item name="7">
+			<value xml:lang="ko"><![CDATA[아버지 성함은?]]></value>
+			<value xml:lang="en"><![CDATA[What is your father's name?]]></value>
+			<value xml:lang="jp"><![CDATA[父の名前は？]]></value>
+			<value xml:lang="zh-TW"><![CDATA[父親的姓名?]]></value>
+			<value xml:lang="tr"><![CDATA[Babanızın adı?]]></value>
+		</item>
+		<item name="8">
+			<value xml:lang="ko"><![CDATA[가장 좋아하는 색깔은?]]></value>
+			<value xml:lang="en"><![CDATA[What is your favorite color?]]></value>
+			<value xml:lang="jp"><![CDATA[好きな色は？]]></value>
+			<value xml:lang="zh-TW"><![CDATA[最喜歡的顏色?]]></value>
+			<value xml:lang="tr"><![CDATA[En sevdiğiniz renk?]]></value>
+		</item>
+		<item name="9">
+			<value xml:lang="ko"><![CDATA[가장 좋아하는 음식은?]]></value>
+			<value xml:lang="en"><![CDATA[What is your favorite food?]]></value>
+			<value xml:lang="jp"><![CDATA[好きな食べ物は？]]></value>
+			<value xml:lang="zh-TW"><![CDATA[最愛的食物是?]]></value>
+			<value xml:lang="tr"><![CDATA[En sevdiğiniz yemek?]]></value>
+		</item>
+	</item>
+	<item name="temp_password">
+		<value xml:lang="ko"><![CDATA[임시 비밀번호]]></value>
+		<value xml:lang="en"><![CDATA[Temporary password]]></value>
+		<value xml:lang="jp"><![CDATA[仮のパスワード]]></value>
+		<value xml:lang="zh-TW"><![CDATA[臨時密碼]]></value>
+		<value xml:lang="tr"><![CDATA[Geçici şifre]]></value>
+	</item>
+	<item name="cmd_get_temp_password">
+		<value xml:lang="ko"><![CDATA[임시 비밀번호 발급]]></value>
+		<value xml:lang="en"><![CDATA[Get a temporary password]]></value>
+		<value xml:lang="jp"><![CDATA[仮のパスワードをもらう]]></value>
+		<value xml:lang="zh-TW"><![CDATA[取得臨時密碼]]></value>
+		<value xml:lang="tr"><![CDATA[Geçici bir şifre edin]]></value>
+	</item>
+	<item name="about_get_temp_password">
+		<value xml:lang="ko"><![CDATA[로그인 후 비밀번호 변경해 주세요.]]></value>
+		<value xml:lang="en"><![CDATA[Change your password after you logged in.]]></value>
+		<value xml:lang="jp"><![CDATA[ログインしてから直ちにパスワードを変更してください。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[請再登入後變更密碼。]]></value>
+		<value xml:lang="tr"><![CDATA[Giriş yaptıktan sonra şifrenizi değiştirin.]]></value>
+	</item>
+	<item name="msg_question_not_exists">
+		<value xml:lang="ko"><![CDATA[등록한 비밀번호 찾기 질문/답변이 없습니다.]]></value>
+		<value xml:lang="en"><![CDATA[You haven`t set your question for a temporary password.]]></value>
+		<value xml:lang="jp"><![CDATA[秘密質問を決めていません。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[尚未輸入提示問答]]></value>
+		<value xml:lang="tr"><![CDATA[Geçici şifre için güvenlik sorusunu belirlemediniz.]]></value>
+	</item>
+	<item name="msg_answer_not_matches">
+		<value xml:lang="ko"><![CDATA[비밀번호 찾기 질문/답변 또는 정보가 올바르지 않습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Your answer for the question is not correct.]]></value>
+		<value xml:lang="jp"><![CDATA[秘密質問の答えが正しくありません。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[答案不正確]]></value>
+		<value xml:lang="tr"><![CDATA[Soru için verdiğiniz cevap doğru değil.]]></value>
+	</item>
+	<item name="change_password_date">
+		<value xml:lang="ko"><![CDATA[비밀번호 갱신주기]]></value>
+		<value xml:lang="en"><![CDATA[Password renewal cycle]]></value>
+		<value xml:lang="jp"><![CDATA[パスワード更新周期]]></value>
+		<value xml:lang="zh-TW"><![CDATA[密碼更新]]></value>
+		<value xml:lang="tr"><![CDATA[Şifre yenileme döngüsü]]></value>
+	</item>
+	<item name="about_change_password_date">
+		<value xml:lang="ko"><![CDATA[일정기간이 지나면 비밀번호 변경을 하도록 유도하는 기능입니다. (사용하지 않음 : 0 입력) ]]></value>
+		<value xml:lang="en"><![CDATA[If you set a value to this, you will be notified to change your password periodically. (If set to 0, disabled)]]></value>
+		<value xml:lang="jp"><![CDATA[設定した更新周期によってパスワード変更のお知らせがもらえます。（０に設定すると無効になる） ]]></value>
+		<value xml:lang="zh-TW"><![CDATA[可設定密碼更新週期，將會定期通知更換密碼。 (設為零則不使用)]]></value>
+		<value xml:lang="tr"><![CDATA[Eğer buna bir değer biçerseniz, şifrenizi belirli aralıklarla değiştirmeniz konusunda bildirim alacaksanız (eğer 0 olarak ayarlandıysa, devredışıdır)]]></value>
+	</item>
+	<item name="msg_kr_address">
+		<value xml:lang="ko"><![CDATA[읍, 면, 동 이름으로 검색하세요.]]></value>
+		<value xml:lang="en"><![CDATA[Search for the name of eup, myeon or dong of your address.]]></value>
+	</item>
+	<item name="msg_kr_address_etc">
+		<value xml:lang="ko"><![CDATA[나머지 주소(번지)를 입력하세요.]]></value>
+		<value xml:lang="en"><![CDATA[Enter the rest of your address.]]></value>
+		<value xml:lang="zh-TW"><![CDATA[請輸入剩餘的地址(街道)。]]></value>
+		<value xml:lang="jp"><![CDATA[住所を入力してください。]]></value>
+	</item>
+	<item name="cmd_search_again">
+		<value xml:lang="ko"><![CDATA[다시 검색]]></value>
+		<value xml:lang="en"><![CDATA[Search again]]></value>
+		<value xml:lang="jp"><![CDATA[再検索]]></value>
+		<value xml:lang="zh-TW"><![CDATA[再找一次]]></value>
+	</item>
+	<item name="msg_select_user">
+		<value xml:lang="ko"><![CDATA[관리할 회원을 선택해주세요.]]></value>
+		<value xml:lang="en"><![CDATA[Please select a member to manage.]]></value>
+		<value xml:lang="jp"><![CDATA[管理する会員を選択してください。]]></value>
+	</item>
+	<item name="msg_delete_user">
+		<value xml:lang="ko"><![CDATA[선택한 회원을 삭제합니다.]]></value>
+		<value xml:lang="en"><![CDATA[Delete the selected member.]]></value>
+	</item>
+	<item name="cmd_selected_user_manage">
+		<value xml:lang="ko"><![CDATA[선택한 회원 관리]]></value>
+		<value xml:lang="en"><![CDATA[Manage selected memter]]></value>
+		<value xml:lang="jp"><![CDATA[選択した会員管理]]></value>
+	</item>
+	<item name="about_change_user_group">
+		<value xml:lang="ko"><![CDATA[선택한 회원의 그룹을 다시 설정.]]></value>
+		<value xml:lang="en"><![CDATA[Resets the selected group of memebers.]]></value>
+		<value xml:lang="jp"><![CDATA[選択した会員のグループを再設定する。]]></value>
+	</item>
+	<item name="about_send_message">
+		<value xml:lang="ko"><![CDATA[회원에게 쪽지를 발송해서 이 사실을 알립니다. 작성하지 않으면 발송하지 않습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Send a message to the member about this. If you don't write a message, it is not sent.]]></value>
+		<value xml:lang="jp"><![CDATA[会員にメッセージを送信して、知らせます。作成しなければ送信されません。]]></value>
+	</item>
+	<item name="cmd_required">
+		<value xml:lang="ko"><![CDATA[필수]]></value>
+		<value xml:lang="en"><![CDATA[Required]]></value>
+		<value xml:lang="jp"><![CDATA[必須]]></value>
+	</item>
+	<item name="cmd_optional">
+		<value xml:lang="ko"><![CDATA[선택]]></value>
+		<value xml:lang="en"><![CDATA[Optional]]></value>
+		<value xml:lang="jp"><![CDATA[選択]]></value>
+	</item>
+	<item name="cmd_image_max_width">
+		<value xml:lang="ko"><![CDATA[너비 제한]]></value>
+		<value xml:lang="en"><![CDATA[Max Width]]></value>
+		<value xml:lang="jp"><![CDATA[横幅制限]]></value>
+	</item>
+	<item name="cmd_image_max_height">
+		<value xml:lang="ko"><![CDATA[높이 제한]]></value>
+		<value xml:lang="en"><![CDATA[Max Height]]></value>
+		<value xml:lang="jp"><![CDATA[高さ制限]]></value>
+	</item>
+	<item name="cmd_input_extend_form">
+		<value xml:lang="ko"><![CDATA[회원 정의 입력]]></value>
+		<value xml:lang="en"><![CDATA[User Defined Input]]></value>
+	</item>
+	<item name="about_multi_type">
+		<value xml:lang="ko"><![CDATA[다중 또는 단일 항목의 선택 값을 입력하세요.(줄 바꿈으로 구분)]]></value>
+		<value xml:lang="en"><![CDATA[Enter the value of multi-or single-item selection.(separated by line breaks)]]></value>
+	</item>
+	<item name="msg_delete_extend_form">
+		<value xml:lang="ko"><![CDATA[선택한 항목을 삭제합니다.]]></value>
+		<value xml:lang="en"><![CDATA[Delete the selected item.]]></value>
+	</item>
+	<item name="set_manage_id">
+		<value xml:lang="ko"><![CDATA[줄 바꿈으로 구분]]></value>
+		<value xml:lang="en"><![CDATA[Separated by line breaks.]]></value>
+		<value xml:lang="jp"><![CDATA[改行で区別]]></value>
+	</item>
+	<item name="count_manage_id">
+		<value xml:lang="ko"><![CDATA[<span class="_deniedIDCount">%s</span>개의 금지아이디가 있습니다.]]></value>
+		<value xml:lang="en"><![CDATA[There are <strong>%s</strong> prohibited ID.]]></value>
+		<value xml:lang="jp"><![CDATA[<span class="_deniedIDCount">%s</span>個の禁止IDがあります。]]></value>
+	</item>
+	<item name="user_list">
+		<value xml:lang="ko"><![CDATA[회원 목록]]></value>
+		<value xml:lang="en"><![CDATA[Member List]]></value>
+		<value xml:lang="jp"><![CDATA[会員リスト]]></value>
+	</item>
+	<item name="cmd_show_all_member">
+		<value xml:lang="ko"><![CDATA[모든 회원]]></value>
+		<value xml:lang="en"><![CDATA[All Member]]></value>
+		<value xml:lang="jp"><![CDATA[すべての会員]]></value>
+	</item>
+	<item name="cmd_show_super_admin_member">
+		<value xml:lang="ko"><![CDATA[최고 관리자]]></value>
+		<value xml:lang="en"><![CDATA[Super Admin]]></value>
+		<value xml:lang="jp"><![CDATA[最高管理者]]></value>
+	</item>
+	<item name="cmd_show_site_admin_member">
+		<value xml:lang="ko"><![CDATA[사이트 관리자]]></value>
+		<value xml:lang="en"><![CDATA[Site Admin]]></value>
+		<value xml:lang="jp"><![CDATA[サイト管理者]]></value>
+	</item>
+	<item name="approval">
+		<value xml:lang="ko"><![CDATA[승인]]></value>
+		<value xml:lang="en"><![CDATA[Approval]]></value>
+		<value xml:lang="jp"><![CDATA[承認]]></value>
+	</item>
+	<item name="denied">
+		<value xml:lang="ko"><![CDATA[거부]]></value>
+		<value xml:lang="en"><![CDATA[Denied]]></value>
+		<value xml:lang="jp"><![CDATA[拒否]]></value>
+	</item>
+	<item name="use_group_image_mark">
+		<value xml:lang="ko"><![CDATA[그룹 이미지 마크 사용]]></value>
+		<value xml:lang="en"><![CDATA[Use group image mark]]></value>
+		<value xml:lang="jp"><![CDATA[グループイメージマーク使用]]></value>
+	</item>
+	<item name="group_image_mark">
+		<value xml:lang="ko"><![CDATA[그룹 이미지 마크]]></value>
+		<value xml:lang="en"><![CDATA[Group image mark]]></value>
+		<value xml:lang="jp"><![CDATA[グループイメージマーク]]></value>
+	</item>
+	<item name="usable_group_image_mark_list">
+		<value xml:lang="ko"><![CDATA[사용가능한 그룹 이미지 마크 목록]]></value>
+		<value xml:lang="en"><![CDATA[ Usable list of group image mark]]></value>
+		<value xml:lang="jp"><![CDATA[使用可能なグループイメージマークリスト]]></value>
+	</item>
+	<item name="add_group_image_mark">
+		<value xml:lang="ko"><![CDATA[그룹 이미지 마크 추가]]></value>
+		<value xml:lang="en"><![CDATA[Add group image mark]]></value>
+		<value xml:lang="jp"><![CDATA[グループイメージマーク追加]]></value>
+	</item>
+	<item name="link_file_box">
+		<value xml:lang="ko"><![CDATA[파일박스 관리 바로가기...]]></value>
+		<value xml:lang="en"><![CDATA[Go to Manage FileBox...]]></value>
+		<value xml:lang="jp"><![CDATA[ファイルボックス管理]]></value>
+	</item>
+	<item name="msg_group_delete">
+		<value xml:lang="ko"><![CDATA[선택한 그룹을 삭제합니다.]]></value>
+		<value xml:lang="en"><![CDATA[Delete selected group.]]></value>
+		<value xml:lang="jp"><![CDATA[選択グループを削除します。]]></value>
+	</item>
+	<item name="email">
+		<value xml:lang="ko"><![CDATA[이메일]]></value>
+		<value xml:lang="en"><![CDATA[Email]]></value>
+		<value xml:lang="jp"><![CDATA[メール]]></value>
+	</item>
+	<item name="add_prohibited_id">
+		<value xml:lang="ko"><![CDATA[금지 아이디 추가]]></value>
+		<value xml:lang="en"><![CDATA[Add prohibited id]]></value>
+		<value xml:lang="jp"><![CDATA[禁止ID追加]]></value>
+	</item>
+	<item name="multi_line_input">
+		<value xml:lang="ko"><![CDATA[여러 항목은 줄을 바꾸어 입력하세요.]]></value>
+		<value xml:lang="en"><![CDATA[To enter multiple entries, please change the line input.]]></value>
+		<value xml:lang="jp"><![CDATA[複数の項目は、改行して入力してください。]]></value>
+	</item>
+	<item name="add_extend_form">
+		<value xml:lang="ko"><![CDATA[사용자 정의 항목 추가]]></value>
+		<value xml:lang="en"><![CDATA[Add user defined item]]></value>
+		<value xml:lang="jp"><![CDATA[ユーザー定義項目追加]]></value>
+	</item>
+	<item name="msg_null_prohibited_id">
+		<value xml:lang="ko"><![CDATA[추가할 금지 아이디를 입력해주세요.]]></value>
+		<value xml:lang="en"><![CDATA[Please enter an ID to prohibit.]]></value>
+		<value xml:lang="jp"><![CDATA[追加する禁止IDを入力してください。]]></value>
+	</item>
+	<item name="identifier">
+		<value xml:lang="ko"><![CDATA[로그인 계정]]></value>
+		<value xml:lang="en"><![CDATA[Login Account]]></value>
+		<value xml:lang="jp"><![CDATA[ログインアカウント]]></value>
+	</item>
+	<item name="about_identifier">
+		<value xml:lang="ko"><![CDATA[로그인에 사용할 계정을 선택해주세요.]]></value>
+		<value xml:lang="en"><![CDATA[Please select an account to use when logging in.]]></value>
+		<value xml:lang="jp"><![CDATA[ログインに使用するアカウントを選択してください。]]></value>
+	</item>
+	<item name="use_after_save">
+		<value xml:lang="ko"><![CDATA[저장 후 사용]]></value>
+		<value xml:lang="en"><![CDATA[Use after saved]]></value>
+	</item>
+	<item name="cmd_add_group">
+		<value xml:lang="ko"><![CDATA[그룹 추가]]></value>
+		<value xml:lang="en"><![CDATA[Add group]]></value>
+	</item>
+	<item name="msg_groups_exist">
+		<value xml:lang="ko"><![CDATA[개 그룹이 존재합니다.]]></value>
+		<value xml:lang="en"><![CDATA[groups are exist.]]></value>
+	</item>
+	<item name="cmd_member_config">
+		<value xml:lang="ko"><![CDATA[회원 설정]]></value>
+		<value xml:lang="en"><![CDATA[Member Configuration]]></value>
+	</item>
+</lang>

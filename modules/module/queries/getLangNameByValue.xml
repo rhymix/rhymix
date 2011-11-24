@@ -1,0 +1,15 @@
+<query id="getLangNameByValue" action="select">
+    <tables>
+        <table name="lang" />
+    </tables>
+    <columns>
+        <column name="*" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="site_srl" var="site_srl" notnull="notnull" filter="number" />
+		<condition operation="like_prefix" column="value" var="value" pipe="and" />
+    </conditions>
+	<groups>
+		<group column="name" />
+	</groups>
+</query>

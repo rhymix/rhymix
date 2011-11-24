@@ -1,25 +1,19 @@
 <!--%import("popup.js")-->
 <!--%import("popup.css")-->
 <!--%import("../lang")-->
-
-<div id="popHeader">
-    <h3 class="xeAdmin">{$component_info->title} ver. {$component_info->version}</h3>
-</div>
-
+<h1 class="h1">{$component_info->title} ver. {$component_info->version}</h1>
 <form action="./" method="get" onSubmit="return false" id="fo">
-<input type="hidden" name="editor_sequence" value="{$editor_sequence}" />
-
-    <div id="popBody">
-
-        <table cellspacing="0" class="rowTable">
+	<input type="hidden" name="editor_sequence" value="{$editor_sequence}" />
+    <div class="table">
+        <table width="100%" border="1" cellspacing="0">
         <col width="120" />
         <col />
         <tr>
-            <th scope="row"><div>{$lang->width}</div></th>
-            <td><input type="text" class="inputTypeText" size="3" id="width" value="400" />px</td>
+            <th scope="row">{$lang->width}</th>
+            <td><input type="text" size="3" id="width" value="400" />px</td>
         </tr>
         <tr>
-            <th scope="row"><div>{$lang->gallery_style}</div></th>
+            <th scope="row">{$lang->gallery_style}</th>
             <td>
                 <select id="gallery_style">
                     <option value="slide">{$lang->gallery_slide_style}</option>
@@ -28,7 +22,7 @@
             </td>
         </tr>
         <tr>
-            <th scope="row"><div>{$lang->gallery_slide_align}</div></th>
+            <th scope="row">{$lang->gallery_slide_align}</th>
             <td>
                 <select id="gallery_align">
                     <option value="center">{$lang->gallery_slide_center}</option>
@@ -38,11 +32,11 @@
             </td>
         </tr>
         <tr>
-            <th scope="row"><div>{$lang->gallery_border_thickness}</div></th>
-            <td><input type="text" class="inputTypeText" size="1" id="border_thickness" value="0" />px</td>
+            <th scope="row">{$lang->gallery_border_thickness}</th>
+            <td><input type="text" size="1" id="border_thickness" value="0" />px</td>
         </tr>
         <tr>
-            <th scope="row"><div>{$lang->gallery_border_color}</div></th>
+            <th scope="row">{$lang->gallery_border_color}</th>
             <td>
                 <div class="editor_color_box">
                     <script type="text/javascript">
@@ -51,12 +45,12 @@
                 </div>
                 <ul class="buttonLeft">
                     <li><img src="./images/border_solid.gif" alt="blank" class="border_preview_color" id="border_preview_color" /></li>
-                    <li>#<input type="text" id="border_color_input" size="7" maxlength="6" class="inputTypeText" value="000000" onkeyup="manual_select_color('border',this)"/></li>
+                    <li>#<input type="text" id="border_color_input" size="7" maxlength="6"  value="000000" onkeyup="manual_select_color('border',this)"/></li>
                 </ul>
             </td>
         </tr>
         <tr>
-            <th scope="row"><div>{$lang->gallery_bg_color}</div></th>
+            <th scope="row">{$lang->gallery_bg_color}</th>
             <td>
                 <div class="editor_color_box">
                     <script type="text/javascript">
@@ -65,12 +59,12 @@
                 </div>
                 <ul class="buttonLeft">
                     <li><img src="./images/blank.gif" alt="blank" class="bg_preview_color" id="bg_preview_color" /></li>
-                    <li>#<input type="text" id="bg_color_input" size="7" maxlength="6" class="inputTypeText" value="FFFFFF" onkeyup="manual_select_color('bg',this)"/></li>
+                    <li>#<input type="text" id="bg_color_input" size="7" maxlength="6"  value="FFFFFF" onkeyup="manual_select_color('bg',this)"/></li>
                 </ul>
             </td>
         </tr>
         <tr>
-            <th scope="row"><div>{$lang->image_list}</div></th>
+            <th scope="row">{$lang->image_list}</th>
             <td>
                 <select id="image_list" size="6" multiple="true" class="image_list">
                 </select>
@@ -79,10 +73,8 @@
         </tr>
         </table>
     </div>
-
-    <div id="popFooter">
-        <a href="#" onclick="insertSlideShow()" class="button black strong"><span>{$lang->cmd_insert}</span></a>
-        <a href="#" onclick="winopen('./?module=editor&amp;act=dispEditorComponentInfo&amp;component_name={$component_info->component_name}','ComponentInfo','left=10,top=10,width=10,height=10,resizable=no,scrollbars=no,toolbars=no');return false;" class="button"><span>{$lang->about_component}</span></a>
+    <div class="btnArea">
+        <span class="btn"><button type="button" onclick="insertSlideShow()">{$lang->cmd_insert}</button></span>
+        <span class="btn"><a href="./?module=editor&amp;act=dispEditorComponentInfo&amp;component_name={$component_info->component_name}" target="_blank" onclick="window.open('this.href','ComponentInfo','width=10,height=10');return false;">{$lang->about_component}</a></span>
     </div>
-
 </form>

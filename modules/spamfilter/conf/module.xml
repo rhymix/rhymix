@@ -2,15 +2,30 @@
 <module>
     <grants />
     <permissions />
+	<menus>
+		<menu name="spamFilter" tyle="super">
+			<title xml:lang="en">Spam Filter</title>
+			<title xml:lang="ko">스팸필터</title>
+			<title xml:lang="zh-CN">Spam Filter</title>
+			<title xml:lang="jp">Spam Filter</title>
+			<title xml:lang="es">Spam Filter</title>
+			<title xml:lang="ru">Spam Filter</title>
+			<title xml:lang="fr">Spam Filter</title>
+			<title xml:lang="zh-TW">Spam Filter</title>
+			<title xml:lang="vi">Spam Filter</title>
+			<title xml:lang="mn">Spam Filter</title>
+			<title xml:lang="tr">Spam Filter</title>
+		</menu>
+	</menus>
     <actions>
-        <action name="dispSpamfilterAdminConfig" type="view" admin_index="true" standalone="true" />
-        <action name="dispSpamfilterAdminDeniedIPList" type="view" standalone="true" />
-        <action name="dispSpamfilterAdminDeniedWordList" type="view" standalone="true" />
+        <action name="dispSpamfilterAdminSetting" type="view" admin_index="true" standalone="true" menu_name="spamFilter" menu_index="true" />
 
-        <action name="procSpamfilterAdminInsertConfig" type="controller" standalone="true" />
-        <action name="procSpamfilterAdminInsertDeniedIP" type="controller" standalone="true" />
-        <action name="procSpamfilterAdminDeleteDeniedIP" type="controller" standalone="true" />
-        <action name="procSpamfilterAdminInsertDeniedWord" type="controller" standalone="true" />
-        <action name="procSpamfilterAdminDeleteDeniedWord" type="controller" standalone="true" />
-    </actions>
+		<action name="procSpamfilterAdminInsertDeniedIP" type="controller" standalone="true" ruleset="insertDeniedIp" />
+        <action name="procSpamfilterAdminInsertDeniedWord" type="controller" standalone="true" ruleset="insertDeniedWord" />
+
+        <action name="procSpamfilterAdminDeleteDeniedIP" type="controller" standalone="true" ruleset="deleteDeniedIp" />
+        <action name="procSpamfilterAdminDeleteDeniedWord" type="controller" standalone="true" ruleset="deleteDeniedWord" />
+        <action name="procSpamfilterAdminInsertConfig" type="controller" standalone="true" ruleset="insertSetting" />
+
+	</actions>
 </module>

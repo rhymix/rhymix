@@ -1,0 +1,43 @@
+<query id="getDocumentCountByGroupStatus" action="select">
+    <tables>
+        <table name="documents" />
+    </tables>
+    <columns>
+        <column name="status" alias="status" />
+        <column name="count(*)" alias="count" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="module_srl" var="module_srl" filter="number" />
+        <condition operation="notin" column="module_srl" var="exclude_module_srl" filter="number" pipe="and" />
+        <condition operation="equal" column="category_srl" var="category_srl" />
+        <condition operation="equal" column="is_notice" var="s_is_notice" pipe="and" />
+        <condition operation="equal" column="member_srl" var="member_srl" filter="number" pipe="and" />
+        <condition operation="in" column="status" var="statusList" pipe="and" />
+        <group pipe="and">
+            <condition operation="like" column="title" var="s_title" />
+            <condition operation="like" column="content" var="s_content" pipe="and" />
+            <condition operation="like" column="user_name" var="s_user_name" pipe="and" />
+            <condition operation="like" column="user_id" var="s_user_id" pipe="or" />
+            <condition operation="like" column="nick_name" var="s_nick_name" pipe="or" />
+            <condition operation="like" column="email_address" var="s_email_addres" pipe="or" />
+            <condition operation="like" column="homepage" var="s_homepage" pipe="or" />
+            <condition operation="like" column="tags" var="s_tags" pipe="or" />
+            <condition operation="equal" column="member_srl" var="s_member_srl" pipe="and" />
+            <condition operation="more" column="readed_count" var="s_readed_count" pipe="or" />
+            <condition operation="more" column="voted_count" var="s_voted_count" pipe="or" />
+            <condition operation="more" column="comment_count" var="s_comment_count" pipe="or" />
+            <condition operation="more" column="trackback_count" var="s_trackback_count" pipe="or" />
+            <condition operation="more" column="uploaded_count" var="s_uploaded_count" pipe="or" />
+            <condition operation="like_prefix" column="regdate" var="s_regdate" pipe="and" />
+            <condition operation="like_prefix" column="last_update" var="s_last_update" pipe="or" />
+            <condition operation="like_prefix" column="ipaddress" var="s_ipaddress" pipe="and" />
+        </group>
+        <group pipe="and">
+            <condition operation="more" column="last_update" var="start_date" pipe="and" />
+            <condition operation="less" column="last_update" var="end_date" pipe="and" />
+        </group>
+    </conditions>
+	<groups>
+		<group column="status" />
+	</groups>
+</query>

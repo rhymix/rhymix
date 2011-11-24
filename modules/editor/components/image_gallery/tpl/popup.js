@@ -1,50 +1,45 @@
 var selected_node = null;
 function getSlideShow() {
+	var node, $node, selected_images = '', width, style, align, border_color, bg_color, thickness;
+
     // 부모창이 있는지 체크 
     if(typeof(opener)=="undefined") return;
 
     // 부모 위지윅 에디터에서 선택된 영역이 있으면 처리
-    var node = opener.editorPrevNode;
-    var selected_images = "";
-    if(node && node.nodeName == "IMG") {
+    node  = opener.editorPrevNode;
+	$node = jQuery(node);
+    if($node.is('img')) {
         selected_node = node;
 
-        var width = xWidth(selected_node)-4;
-        var gallery_style = selected_node.getAttribute("gallery_style");
-        var gallery_align = selected_node.getAttribute("gallery_align");
-        var border_color = selected_node.getAttribute("border_color");
-        var bg_color = selected_node.getAttribute("bg_color");
-        var border_thickness = selected_node.getAttribute("border_thickness");
-        if(!border_thickness) border_thickness = 1;
+        width = $(node).width() - 4;
+        style = $node.attr('gallery_style');
+        align = $node.attr('gallery_align') || 'center';
+        border_color = $node.attr('border_color');
+        bg_color  = $node.attr('bg_color');
+        thickness = $node.attr('border_thickness') || 1;
 
-        xGetElementById("width").value = width; 
+        get_by_id('width').value = width; 
+		get_by_id('gallery_style').selectedIndex = (style=='list')?1:0;
+		get_by_id('gallery_align').selectedIndex = (align=='left')?1:(align=='right')?2:0;
+        get_by_id('border_thickness').value = thickness; 
 
-        if(gallery_style=="list") xGetElementById("gallery_style").selectedIndex = 1;
-        else xGetElementById("gallery_style").selectedIndex = 0;
+        get_by_id('border_color_input').value = border_color; 
+        manual_select_color('border', get_by_id('border_color_input'));
 
-        if(!gallery_align || gallery_align=="center") xGetElementById("gallery_align").selectedIndex = 0;
-        else if(gallery_align=="left") xGetElementById("gallery_align").selectedIndex = 1;
-        else if(gallery_align=="right") xGetElementById("gallery_align").selectedIndex = 2;
+        get_by_id('bg_color_input').value = bg_color; 
+        manual_select_color("bg", get_by_id('bg_color_input'));
 
-        xGetElementById("border_thickness").value = border_thickness; 
-
-        xGetElementById("border_color_input").value = border_color; 
-        manual_select_color("border", xGetElementById("border_color_input"));
-
-        xGetElementById("bg_color_input").value = bg_color; 
-        manual_select_color("bg", xGetElementById("bg_color_input"));
-
-        selected_images = selected_node.getAttribute("images_list");
+        selected_images = $node.attr('images_list');
     }
 
     // 부모창의 업로드된 파일중 이미지 목록을 모두 가져와서 세팅 
-    var fo = xGetElementById("fo");
+    var fo = get_by_id("fo");
     var editor_sequence = fo.editor_sequence.value;
 
-    var parent_list_obj = opener.xGetElementById("uploaded_file_list_"+editor_sequence);
+    var parent_list_obj = opener.get_by_id("uploaded_file_list_"+editor_sequence);
     if(parent_list_obj) {
 
-        var list_obj = xGetElementById("image_list");
+        var list_obj = get_by_id("image_list");
 
         for(var i=0;i<parent_list_obj.length;i++) {
             var opt = parent_list_obj.options[i];
@@ -67,7 +62,7 @@ function insertSlideShow() {
     if(typeof(opener)=="undefined") return;
 
     var list = new Array();
-    var list_obj = xGetElementById("image_list");
+    var list_obj = get_by_id("image_list");
     for(var i=0;i<list_obj.length;i++) {
         var opt = list_obj.options[i];
         if(opt.selected) {
@@ -83,13 +78,13 @@ function insertSlideShow() {
         return;
     }
 
-    var width = xGetElementById("width").value;
+    var width = get_by_id("width").value;
 
-    var gallery_style = xGetElementById("gallery_style").options[xGetElementById("gallery_style").selectedIndex].value;
-    var gallery_align = xGetElementById("gallery_align").options[xGetElementById("gallery_align").selectedIndex].value;
-    var border_thickness = xGetElementById("border_thickness").value;
-    var border_color = xGetElementById("border_color_input").value;
-    var bg_color = xGetElementById("bg_color_input").value;
+    var gallery_style = get_by_id("gallery_style").options[get_by_id("gallery_style").selectedIndex].value;
+    var gallery_align = get_by_id("gallery_align").options[get_by_id("gallery_align").selectedIndex].value;
+    var border_thickness = get_by_id("border_thickness").value;
+    var border_color = get_by_id("border_color_input").value;
+    var bg_color = get_by_id("bg_color_input").value;
 
     var images_list = "";
     for(var i=0; i<list.length;i++) {
@@ -106,7 +101,7 @@ function insertSlideShow() {
         selected_node.setAttribute("images_list", images_list);
         selected_node.style.width = width+"px";
     } else {
-        var text = "<img src=\"../../../../common/tpl/images/blank.gif\" editor_component=\"image_gallery\" width=\""+width+"\" gallery_style=\""+gallery_style+"\" align=\""+gallery_align+"\" gallery_align=\""+gallery_align+"\" border_thickness=\""+border_thickness+"\" border_color=\""+border_color+"\" bg_color=\""+bg_color+"\" style=\"width:"+width+"px;border:2px dotted #4371B9;background:url(./modules/editor/components/image_gallery/tpl/image_gallery_component.gif) no-repeat center;\" images_list=\""+images_list+"\" />";
+        var text = "<img src=\"../../../../common/img/blank.gif\" editor_component=\"image_gallery\" width=\""+width+"\" gallery_style=\""+gallery_style+"\" align=\""+gallery_align+"\" gallery_align=\""+gallery_align+"\" border_thickness=\""+border_thickness+"\" border_color=\""+border_color+"\" bg_color=\""+bg_color+"\" style=\"width:"+width+"px;border:2px dotted #4371B9;background:url(./modules/editor/components/image_gallery/tpl/image_gallery_component.gif) no-repeat center;\" images_list=\""+images_list+"\" />";
         opener.editorFocus(opener.editorPrevSrl);
         var iframe_obj = opener.editorGetIFrame(opener.editorPrevSrl)
         opener.editorReplaceHTML(iframe_obj, text);
@@ -119,15 +114,15 @@ function insertSlideShow() {
 
 /* 색상 클릭시 */
 function select_color(type, code) {
-  xGetElementById(type+"_preview_color").style.backgroundColor = "#"+code;
-  xGetElementById(type+"_color_input").value = code;
+  get_by_id(type+"_preview_color").style.backgroundColor = "#"+code;
+  get_by_id(type+"_color_input").value = code;
 }
 
 /* 수동 색상 변경시 */
 function manual_select_color(type, obj) {
   if(obj.value.length!=6) return;
   code = obj.value;
-  xGetElementById(type+"_preview_color").style.backgroundColor = "#"+code;
+  get_by_id(type+"_preview_color").style.backgroundColor = "#"+code;
 }
 
 /* 색상표를 출력 */
@@ -160,4 +155,6 @@ function printColorBlock(type, code, blank_img_src) {
   }
 }
 
-xAddEventListener(window, "load", getSlideShow);
+jQuery(function($){
+	getSlideShow();
+});

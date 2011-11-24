@@ -2,31 +2,31 @@
     /**
      * @class  trackbackAdminController
      * @author NHN (developers@xpressengine.com)
-     * @brief  trackback모듈의 admin controller class
+     * @brief trackback module admin controller class
      **/
 
     class trackbackAdminController extends trackback {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
         }
 
         /**
-         * @brief 관리자 페이지에서 선택된 엮인글들을 삭제
+         * @brief Trackbacks delete selected in admin page
          **/
         function procTrackbackAdminDeleteChecked() {
-            // 선택된 글이 없으면 오류 표시
+            // An error appears if no document is selected
             $cart = Context::get('cart');
-            if(!$cart) return $this->stop('msg_cart_is_null');
-            $trackback_srl_list= explode('|@|', $cart);
+			if(!is_array($cart)) $trackback_srl_list= explode('|@|', $cart);
+			else $trackback_srl_list = $cart;
+
             $trackback_count = count($trackback_srl_list);
             if(!$trackback_count) return $this->stop('msg_cart_is_null');
 
             $oTrackbackController = &getController('trackback');
-
-            // 글삭제
+            // Delete the post
             for($i=0;$i<$trackback_count;$i++) {
                 $trackback_srl = trim($trackback_srl_list[$i]);
                 if(!$trackback_srl) continue;
@@ -35,10 +35,15 @@
             }
 
             $this->setMessage( sprintf(Context::getLang('msg_checked_trackback_is_deleted'), $trackback_count) );
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispTrackbackAdminList');
+				header('location:'.$returnUrl);
+				return;
+			}
         }
 
         /**
-         * @brief 설정 저장
+         * @brief Save Settings
          **/
         function procTrackbackAdminInsertConfig() {
             $config->enable_trackback = Context::get('enable_trackback');
@@ -46,14 +51,19 @@
 
             $oModuleController = &getController('module');
             $output = $oModuleController->insertModuleConfig('trackback',$config);
+			if($output->toBool() && !in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispTrackbackAdminList');
+				header('location:'.$returnUrl);
+				return;
+			}
             return $output;
         }
 
         /**
-         * @brief Trackback 모듈별 설정
+         * @brief Trackback Module Settings
          **/
         function procTrackbackAdminInsertModuleConfig() {
-            // 필요한 변수를 받아옴
+            // Get variables
             $module_srl = Context::get('target_module_srl');
             if(preg_match('/^([0-9,]+)$/',$module_srl)) $module_srl = explode(',',$module_srl);
             else $module_srl = array($module_srl);
@@ -70,11 +80,39 @@
             }
 
             $this->setError(-1);
-            $this->setMessage('success_updated');
+            $this->setMessage('success_updated', 'info');
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispBoardAdminContent');
+				header('location:'.$returnUrl);
+				return;
+			}
         }
 
         /**
-         * @brief Trackback 모듈별 설정 함수
+         * @brief Trackback Module Settings
+         **/
+        function procTrackbackAdminAddCart()
+		{
+			$trackback_srl = (int)Context::get('trackback_srl');
+
+			$oTrackbackAdminModel = &getAdminModel('trackback');
+			//$columnList = array('trackback_srl');
+			$args->trackbackSrlList = array($trackback_srl);
+
+			$output = $oTrackbackAdminModel->getTotalTrackbackList($args);
+
+			if(is_array($output->data))
+			{
+				foreach($output->data AS $key=>$value)
+				{
+					if($_SESSION['trackback_management'][$value->trackback_srl]) unset($_SESSION['trackback_management'][$value->trackback_srl]);
+					else $_SESSION['trackback_management'][$value->trackback_srl] = true;
+				}
+			}
+        }
+
+        /**
+         * @brief Trackback modular set function
          **/
         function setTrackbackModuleConfig($module_srl, $enable_trackback) {
             $config->enable_trackback = $enable_trackback;
@@ -85,10 +123,10 @@
         }
 
         /**
-         * @brief 모듈에 속한 모든 트랙백 삭제
+         * @brief Modules belonging to remove all trackbacks
          **/
         function deleteModuleTrackbacks($module_srl) {
-            // 삭제
+            // Delete
             $args->module_srl = $module_srl;
             $output = executeQuery('trackback.deleteModuleTrackbacks', $args);
 

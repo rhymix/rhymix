@@ -1,12 +1,6 @@
 <!--%import("popup.js")-->
 <!--%import("popup.css")-->
-
-<div id="popHeader" class="wide">
-    <h3 class="xeAdmin">
-        {$component_info->title} ver. {$component_info->version}
-    </h3>
-</div>
-
+<h1 class="h1">{$component_info->title} ver. {$component_info->version}</h1>
 <div class="emoticonList">
     <select name="list" id="selectEmoticonList">
     <!--@foreach($emoticon_list as $key => $val)-->
@@ -14,6 +8,4 @@
     <!--@end-->
     </select>
 </div>
-
-<div id="popBody">
-</div>
+<div id="emoticons"></div>

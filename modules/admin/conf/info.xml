@@ -10,7 +10,7 @@
     <title xml:lang="zh-TW">管理員模組</title>
     <title xml:lang="tr">Yönetici Modülü</title>
     <description xml:lang="ko">각 모듈들의 기능을 나열하고 관리자용 레이아웃을 적용하여 관리 기능을 사용할 수 있도록 하는 모듈입니다.</description>
-    <description xml:lang="en">This module shows a list of features of each module, and enables you to use a quite few of managers by applying layout for administrator.</description>
+    <description xml:lang="en">This module shows a list of features for each module. By applying the administrator layout it is possible to use administrator features.</description>
     <description xml:lang="vi">Module này hiển thị thông tin của những Module đã được cài đặt, và cho phép bạn sử dụng quyền của Administrator để thiết lập giao diện.</description>
     <description xml:lang="es">Este módulo muestra una lista de características de cada módulo, en donde puede activar la función de la administracion aplicando el diseño del administrador.</description>
     <description xml:lang="zh-CN">列出各模块的功能并使用管理员布局，可以让其使用管理功能的模块。</description>

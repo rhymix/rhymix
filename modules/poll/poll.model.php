@@ -2,19 +2,19 @@
     /**
      * @class  pollModel
      * @author NHN (developers@xpressengine.com)
-     * @brief  poll 모듈의 model class
+     * @brief The model class for the poll modules
      **/
 
     class pollModel extends poll {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
         }
 
         /**
-         * @brief 이미 설문 조사를 하였는지 검사하는 함수
+         * @brief The function examines if the user has already been polled
          **/
         function isPolled($poll_srl) {
             $args->poll_srl = $poll_srl;
@@ -31,22 +31,22 @@
         }
 
         /**
-         * @brief 설문조사의 html데이터를 return
-         * 설문조사에 응하였는지에 대한 체크를 한 후 결과를 return
+         * @brief Return the HTML data of the survey
+         * Return the result after checking if the poll has responses
          **/
         function getPollHtml($poll_srl, $style = '', $skin = 'default') {
-
             $args->poll_srl = $poll_srl;
-
-            // 해당 설문조사에 대한 내용을 조사
-            $output = executeQuery('poll.getPoll', $args);
+            // Get the information related to the survey
+			$columnList = array('poll_count', 'stop_date');
+            $output = executeQuery('poll.getPoll', $args, $columnList);
             if(!$output->data) return '';
 
             $poll->style = $style;
             $poll->poll_count = (int)$output->data->poll_count;
             $poll->stop_date = $output->data->stop_date;
 
-            $output = executeQuery('poll.getPollTitle', $args);
+			$columnList = array('poll_index_srl', 'title', 'checkcount', 'poll_count');
+            $output = executeQuery('poll.getPollTitle', $args, $columnList);
             if(!$output->data) return;
             if(!is_array($output->data)) $output->data = array($output->data);
             foreach($output->data as $key => $val) {
@@ -61,8 +61,7 @@
             }
 
             $poll->poll_srl = $poll_srl;
-
-            // 종료일이 지났으면 무조건 결과만
+            // Only ongoing poll results
             if($poll->stop_date > date("Ymd")) {
                 if($this->isPolled($poll_srl)) $tpl_file = "result";
                 else $tpl_file = "form";
@@ -72,8 +71,7 @@
 
             Context::set('poll',$poll);
             Context::set('skin',$skin);
-
-            // 기본 설정의 스킨, 컬러셋 설정 
+            // The skin for the default configurations, and the colorset configurations
             $tpl_path = sprintf("%sskins/%s/", $this->module_path, $skin);
 
             $oTemplate = &TemplateHandler::getInstance();
@@ -81,12 +79,11 @@
         }
 
         /**
-         * @brief 결과 html을 return
+         * @brief Return the result's HTML
          **/
         function getPollResultHtml($poll_srl, $skin = 'default') {
             $args->poll_srl = $poll_srl;
-
-            // 해당 설문조사에 대한 내용을 조사
+            // Get the information related to the survey
             $output = executeQuery('poll.getPoll', $args);
             if(!$output->data) return '';
 
@@ -94,7 +91,8 @@
             $poll->poll_count = (int)$output->data->poll_count;
             $poll->stop_date = $output->data->stop_date;
 
-            $output = executeQuery('poll.getPollTitle', $args);
+			$columnList = array('poll_index_srl', 'checkcount', 'poll_count');
+            $output = executeQuery('poll.getPollTitle', $args, $columnList);
             if(!$output->data) return;
             if(!is_array($output->data)) $output->data = array($output->data);
             foreach($output->data as $key => $val) {
@@ -113,16 +111,14 @@
             $tpl_file = "result";
 
             Context::set('poll',$poll);
-
-            // 기본 설정의 스킨, 컬러셋 설정 
+            // The skin for the default configurations, and the colorset configurations
             $tpl_path = sprintf("%sskins/%s/", $this->module_path, $skin);
 
             $oTemplate = &TemplateHandler::getInstance();
             return $oTemplate->compile($tpl_path, $tpl_file);
         }
-
-        /**
-         * @brief 선택된 설문조사 - 스킨의 컬러셋을 return
+        /** [TO REVIEW]
+         * @brief Selected poll - return the colorset of the skin
          **/
         function getPollGetColorsetList() {
             $skin = Context::get('skin');

@@ -2,63 +2,66 @@
     /**
      * @class  addonAdminView
      * @author NHN (developers@xpressengine.com)
-     * @brief  addon 모듈의 admin view class
+     * @brief admin view class of addon modules
      **/
 
     class addonAdminView extends addon {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
             $this->setTemplatePath($this->module_path.'tpl');
         }
 
         /**
-         * @brief 애드온 관리 메인 페이지 (목록 보여줌)
+         * @brief Add Management main page (showing the list)
          **/
         function dispAddonAdminIndex() {
-            $site_module_info = Context::get('site_module_info');
+			$oAdminModel = &getAdminModel('admin');
 
-            // 애드온 목록을 세팅
+            // Add to the list settings
             $oAddonModel = &getAdminModel('addon');
-            $addon_list = $oAddonModel->getAddonList($site_module_info->site_srl);
+            $addon_list = $oAddonModel->getAddonListForSuperAdmin();
+
+			$security = new Security($addon_list);
+			$addon_list = $security->encodeHTML('..', '..author..');
+
+			foreach($addon_list as $no => $addon_info)
+			{
+				$addon_list[$no]->description = nl2br(trim($addon_info->description));
+			}
+
             Context::set('addon_list', $addon_list);
-
-			$security = new Security();
-			$security->encodeHTML('addon_list..', 'addon_list..author..');
-
-            // 템플릿 패스 및 파일을 지정
+			Context::set('addon_count', count($addon_list));
+            // Template specifies the path and file
             $this->setTemplateFile('addon_list');
         }
 
         /**
-         * @biref 애드온 세부 설정 팝업 출력
+         * @biref Setting out the details pop-up add-on
          **/
         function dispAddonAdminSetup() {
             $site_module_info = Context::get('site_module_info');
-
-            // 요청된 애드온을 구함
+            // Wanted to add the requested
             $selected_addon = Context::get('selected_addon');
-
-            // 요청된 애드온의 정보를 구함
+            // Wanted to add the requested information
             $oAddonModel = &getAdminModel('addon');
-            $addon_info = $oAddonModel->getAddonInfoXml($selected_addon, $site_module_info->site_srl);
+            $addon_info = $oAddonModel->getAddonInfoXml($selected_addon, $site_module_info->site_srl, 'site');
             Context::set('addon_info', $addon_info);
-
-            // mid 목록을 가져옴
+            // Get a mid list
             $oModuleModel = &getModel('module');
             $oModuleAdminModel = &getAdminModel('module');
 
             if($site_module_info->site_srl) $args->site_srl = $site_module_info->site_srl;
-            $mid_list = $oModuleModel->getMidList($args);
-
-            // module_category와 module의 조합
+			$columnList = array('module_srl', 'module_category_srl', 'mid', 'browser_title');
+            $mid_list = $oModuleModel->getMidList($args, $columnList);
+            // module_category and module combination
             if(!$site_module_info->site_srl) {
-                // 모듈 카테고리 목록을 구함
+                // Get a list of module categories
                 $module_categories = $oModuleModel->getModuleCategories();
 
-                if($mid_list) {
+                if(is_array($mid_list)) {
                     foreach($mid_list as $module_srl => $module) {
                         $module_categories[$module->module_category_srl]->list[$module_srl] = $module;
                     }
@@ -69,34 +72,33 @@
 
             Context::set('mid_list',$module_categories);
 
-            // 레이아웃을 팝업으로 지정
-            $this->setLayoutFile('popup_layout');
-
-            // 템플릿 패스 및 파일을 지정
+            // Template specifies the path and file
             $this->setTemplateFile('setup_addon');
+
+			if(Context::get('module') != 'admin')
+			{
+				$this->setLayoutPath('./common/tpl');
+				$this->setLayoutFile('popup_layout');
+			}
 
 			$security = new Security();
 			$security->encodeHTML('addon_info.', 'addon_info.author..', 'mid_list....');
         }
 
         /**
-         * @brief 애드온의 상세 정보(conf/info.xml)를 팝업 출력
+         * @brief Add details (conf/info.xml) a pop-out
          **/
         function dispAddonAdminInfo() {
             $site_module_info = Context::get('site_module_info');
-
-            // 요청된 애드온을 구함
+            // Wanted to add the requested
             $selected_addon = Context::get('selected_addon');
-
-            // 요청된 애드온의 정보를 구함
+            // Wanted to add the requested information
             $oAddonModel = &getAdminModel('addon');
             $addon_info = $oAddonModel->getAddonInfoXml($selected_addon, $site_module_info->site_srl);
             Context::set('addon_info', $addon_info);
-
-            // 레이아웃을 팝업으로 지정
+            // Set the layout to be pop-up
             $this->setLayoutFile('popup_layout');
-
-            // 템플릿 패스 및 파일을 지정
+            // Template specifies the path and file
             $this->setTemplateFile('addon_info');
 
 			$security = new Security();

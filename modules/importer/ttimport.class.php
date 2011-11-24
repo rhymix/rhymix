@@ -13,26 +13,23 @@
         var $oXmlParser = null;
 
         /**
-         * @brief module.xml 형식의 데이터 import
+         * @brief import data in module.xml format
          **/
         function importModule($key, $cur, $index_file, $unit_count, $module_srl, $guestbook_module_srl, $user_id, $module_name=null) {
-            // 필요한 객체 미리 생성
+            // Pre-create the objects needed
             $this->oXmlParser = new XmlParser();
-
-            // 타겟 모듈의 카테고리 정보 구함
+            // Get category information of the target module
             $oDocumentController = &getController('document');
             $oDocumentModel = &getModel('document');
             $category_list = $category_titles = array();
             $category_list = $oDocumentModel->getCategoryList($module_srl);
             if(count($category_list)) foreach($category_list as $key => $val) $category_titles[$val->title] = $val->category_srl;
-
-            // 먼저 카테고리 정보를 입력함
+            // First handle categorty information
             $category_file = preg_replace('/index$/i', 'category.xml', $index_file);
             if(file_exists($category_file)) {
-                // xmlParser객체 생성
+                // Create the xmlParser object
                 $xmlDoc = $this->oXmlParser->loadXmlFile($category_file);
-
-                // 카테고리 정보를 정리
+                // List category information
                 if($xmlDoc->categories->category) {
                     $categories = array();
                     $idx = 0;
@@ -58,30 +55,24 @@
             $category_list = $category_titles = array();
             $category_list = $oDocumentModel->getCategoryList($module_srl);
             if(count($category_list)) foreach($category_list as $key => $val) $category_titles[$val->title] = $val->category_srl;
-
-            // 관리자 정보를 구함
+            // Get administrator information
             $oMemberModel = &getModel('member');
             $member_info = $oMemberModel->getMemberInfoByUserID($user_id);
 			$author_xml_id = 0;
           
             if(!$cur) $cur = 0;
-
-            // index파일을 염
+            // Open an index file
             $f = fopen($index_file,"r");
-
-            // 이미 읽혀진 것은 패스
+            // Pass if already read
             for($i=0;$i<$cur;$i++) fgets($f, 1024);
-
-            // 라인단위로 읽어들이면서 $cur보다 커지고 $cur+$unit_count개보다 작으면 중지
+            // Read each line until the codition meets
             for($idx=$cur;$idx<$cur+$unit_count;$idx++) {
                 if(feof($f)) break;
-
-                // 정해진 위치를 찾음
+                // Find a location
                 $target_file = trim(fgets($f, 1024));
 
                 if(!file_exists($target_file)) continue;
-
-                // 이제부터 데이터를 가져오면서 처리
+                // Start importing data
                 $fp = fopen($target_file,"r");
                 if(!$fp) continue;
 
@@ -94,17 +85,14 @@
 
                 $started = false;
                 $buff = null;
-
-                // 본문 데이터부터 처리 시작
+                // Start importing from the body data
                 while(!feof($fp)) {
                     $str = fgets($fp, 1024);
-
-                    // 한 아이템 준비 시작
+                    // Prepare an item
                     if(substr($str,0,5) == '<post') {
                         $started = true;
                         continue;
-
-                    // 첨부파일 입력
+                    // Import the attachment
                     } else if(substr($str,0,12) == '<attachment ') {
                         if($this->importAttaches($fp, $module_srl, $obj->document_srl, $files, $str)) $obj->uploaded_count++;
                         continue;
@@ -125,11 +113,11 @@
                 }
 
                 $obj->is_notice = 'N';
-                $obj->is_secret = in_array($xmlDoc->post->visibility->body, array('public','syndicated'))?'N':'Y';
+                $obj->status = in_array($xmlDoc->post->visibility->body, array('public','syndicated'))?$oDocumentModel->getConfigStatus('public'):$oDocumentModel->getConfigStatus('secret');
                 $obj->title = $xmlDoc->post->title->body;
                 $obj->content = $xmlDoc->post->content->body;
                 $obj->password = md5($xmlDoc->post->password->body);
-                $obj->allow_comment = $xmlDoc->post->acceptcomment->body=='1'?'Y':'N';
+                $obj->commentStatus = $xmlDoc->post->acceptcomment->body=='1'?'ALLOW':'DENY';
                 $obj->allow_trackback = $xmlDoc->post->accepttrackback->body=='1'?'Y':'N';
                 //$obj->allow_comment = $xmlDoc->post->acceptComment->body=='1'?'Y':'N';
                 //$obj->allow_trackback = $xmlDoc->post->acceptTrackback->body=='1'?'Y':'N';
@@ -156,10 +144,8 @@
                 $obj->homepage = $member_info->homepage;
                 $obj->ipaddress = $_REMOTE['SERVER_ADDR'];
                 $obj->list_order = $obj->update_order = $obj->document_srl*-1;
-                $obj->lock_comment = 'N';
                 $obj->notify_message = 'N';
-
-                // content 정보 변경 (첨부파일)
+                // Change content information (attachment)
                 $obj->content = str_replace('[##_ATTACH_PATH_##]/','',$obj->content);
                 if(count($files)) {
                     foreach($files as $key => $val) {
@@ -173,8 +159,7 @@
                     $this->files = $files;
                     $obj->content = preg_replace_callback('!\[##_([a-z0-9]+)\|([^\|]*)\|([^\|]*)\|(.*?)_##\]!is', array($this, '_replaceTTAttach'), $obj->content);
                 }
-
-                // 역인글 입력
+                // Trackback inserted
                 $obj->trackback_count = 0;
                 if($xmlDoc->post->trackback) {
                     $trackbacks = $xmlDoc->post->trackback;
@@ -197,8 +182,7 @@
                         }
                     }
                 }
-
-                // 댓글입력
+                // Comment
                 $obj->comment_count = 0;
                 if($xmlDoc->post->comment) {
                     $comment = $xmlDoc->post->comment;
@@ -224,20 +208,18 @@
                     $args->module_srl = $obj->module_srl;
                     $args->logs = serialize(null);
                     $output = executeQuery('textyle.insertPublishLog', $args);
-
-                    // 발행 상태의 visibility 값
+                    // Visibility value of published state
                     $status_published = array('public', 'syndicated');
-                    // 발행이 아닌 것들은 저장상태로
+                    // Save state if not published
                     if(!in_array($xmlDoc->post->visibility->body, $status_published)) {
                         $obj->module_srl = $member_info->member_srl; 
                     }
                 }
-
-                // 문서 입력
+                // Document
                 $output = executeQuery('document.insertDocument', $obj);
 
                 if($output->toBool()) {
-                    // 태그 입력
+                    // Tags
                     if($obj->tags) {
                         $tag_list = explode(',',$obj->tags);
                         $tag_count = count($tag_list);
@@ -261,15 +243,12 @@
             fclose($f);
 
             if(count($category_list)) foreach($category_list as $key => $val) $oDocumentController->updateCategoryCount($module_srl, $val->category_srl);
-
-
-            // 방명록 정보를 입력함
+            // Guestbook information
             $guestbook_file = preg_replace('/index$/i', 'guestbook.xml', $index_file);
             if (file_exists($guestbook_file)) {
-                // xmlParser객체 생성
+                // Create the xmlParser object
                 $xmlDoc = $this->oXmlParser->loadXmlFile($guestbook_file);
-
-                // 방명록 정보를 처리
+                // Handle guest book information
                 if($guestbook_module_srl && $xmlDoc->guestbook->comment) {
                     $comment = $xmlDoc->guestbook->comment;
                     if(!is_array($comment)) $comment = array($comment);
@@ -295,14 +274,14 @@
 							$obj->document_srl = getNextSequence();
 							$obj->uploaded_count = 0;
 							$obj->is_notice = 'N';
-							$obj->is_secret = $val->secret->body=='1'?'Y':'N';
+							$obj->status = $val->secret->body=='1'?$oDocumentModel->getConfigStatus('secret'):$oDocumentModel->getConfigStatus('public');
 							$obj->content = nl2br($val->content->body);
 
-							// 본문에서 제목 추출
+							// Extract a title form the bocy
 							$obj->title = cut_str(strip_tags($obj->content),20,'...');
 							if ($obj->title == '') $obj->title = 'Untitled';
 
-							$obj->allow_comment = 'Y';
+							$obj->commentStatus = 'ALLOW';
 							$obj->allow_trackback = 'N';
 							$obj->regdate = date("YmdHis",$val->written->body);
 							$obj->last_update = date("YmdHis", $val->written->body);
@@ -327,7 +306,6 @@
 							}
 							$obj->ipaddress = $val->commenter->ip->body;
 							$obj->list_order = $obj->update_order = $obj->document_srl*-1;
-							$obj->lock_comment = 'N';
 							$obj->notify_message = 'N';
 							$obj->trackback_count = 0;
 
@@ -341,7 +319,7 @@
 								}
 							}
 
-							// 문서 입력
+							// Document
 							$output = executeQuery('document.insertDocument', $obj);
 						}
 					}
@@ -395,7 +373,7 @@
 
 
         /**
-         * @brief 첨부파일 정리
+         * @brief Attachment
          **/
         function importAttaches($fp, $module_srl, $upload_target_srl, &$files, $buff) {
             $uploaded_count = 0;
@@ -407,11 +385,9 @@
 
             while(!feof($fp)) {
                 $str = fgets($fp, 1024);
-
-                // </attaches>로 끝나면 중단
+                // If it ends with </attaches>, break
                 if(trim($str) == '</attachment>') break;
-
-                // <file>로 시작하면 xml파일내의 첨부파일로 처리
+                // If it starts with <file>, handle the attachement in the xml file
                 if(substr($str, 0, 9)=='<content>') {
                     $file_obj->file = $this->saveTemporaryFile($fp, $str);
                     continue;
@@ -428,8 +404,7 @@
             $file_obj->source_filename = $xmlDoc->attachment->label->body;
             $file_obj->download_count = $xmlDoc->attachment->downloads->body;
             $name = $xmlDoc->attachment->name->body;
-
-            // 이미지인지 기타 파일인지 체크하여 upload path 지정
+            // Set upload path by checking if the attachement is an image or other kind of file
             if(preg_match("/\.(jpg|jpeg|gif|png|wmv|wma|mpg|mpeg|avi|swf|flv|mp1|mp2|mp3|mp4|asf|wav|asx|mid|midi|asf|mov|moov|qt|rm|ram|ra|rmm|m4v)$/i", $file_obj->source_filename)) {
                 $path = sprintf("./files/attach/images/%s/%s", $module_srl,getNumberingPath($upload_target_srl,3));
                 $filename = $path.$file_obj->source_filename;
@@ -439,13 +414,11 @@
                 $filename = $path.md5(crypt(rand(1000000,900000), rand(0,100)));
                 $file_obj->direct_download = 'N';
             }
-
-            // 디렉토리 생성
+            // Create a directory
             if(!FileHandler::makeDir($path)) return;
 
             FileHandler::rename($file_obj->file, $filename);
-
-            // DB입력
+            // Insert to the DB
             unset($file_obj->file);
             $file_obj->uploaded_filename = $filename;
             $file_obj->file_size = filesize($filename);
@@ -469,7 +442,7 @@
         }
 
         /**
-         * @biref 임의로 사용할 파일이름을 return
+         * @biref Return a filename to temporarily use
          **/
         function getTmpFilename() {
             $path = "./files/cache/importer";
@@ -480,7 +453,7 @@
         }
 
         /**
-         * @brief 특정 파일포인트로부터 key에 해당하는 값이 나타날때까지 buff를 읽음
+         * @brief Read buff until key value comes out from a specific file point
          **/
         function saveTemporaryFile($fp, $buff) {
             $temp_filename = $this->getTmpFilename();
@@ -501,32 +474,30 @@
         }
 
         /**
-         * @brief ttxml의 자체 img 태그를 치환
+         * @brief Replace img tag in the ttxml
          **/
         function _replaceTTAttach($matches) {
             $name = $matches[2];
             if(!$name) return $matches[0];
 
             $obj = $this->files[$name];
-
-            // 멀티미디어성 파일의 경우
+            // If multimedia file is,
             if($obj->direct_download == 'Y') {
-                // 이미지의 경우
+                // If image file is
                 if(preg_match('/\.(jpg|gif|jpeg|png)$/i', $obj->source_filename)) {
                     return sprintf('<img editor_component="image_link" src="%s" alt="%s" />', $obj->url, str_replace('"','\\"',$matches[4]));
-                // 이미지 외의 멀티미디어성 파일의 경우
+                // If other multimedia file but image is, 
                 } else {
-                   return sprintf('<img src="./common/tpl/images/blank.gif" editor_component="multimedia_link" multimedia_src="%s" width="400" height="320" style="display:block;width:400px;height:320px;border:2px dotted #4371B9;background:url(./modules/editor/components/multimedia_link/tpl/multimedia_link_component.gif) no-repeat center;" auto_start="false" alt="" />', $obj->url);
+                   return sprintf('<img src="./common/img/blank.gif" editor_component="multimedia_link" multimedia_src="%s" width="400" height="320" style="display:block;width:400px;height:320px;border:2px dotted #4371B9;background:url(./modules/editor/components/multimedia_link/tpl/multimedia_link_component.gif) no-repeat center;" auto_start="false" alt="" />', $obj->url);
                 }
-
-            // binary파일일 경우
+            // If binary file is
             } else {
                 return sprintf('<a href="%s">%s</a>', $obj->url, $obj->source_filename);
             }
         }
 
         /**
-         * @brief ttxml의 동영상 변환
+         * @brief Convert the video file
          **/
         function _replaceTTMovie($matches) {
             $key = $matches[1];
@@ -543,7 +514,7 @@
         }
 
         /**
-         * @brief 댓글 입력 
+         * @brief Comment
          **/
         function insertComment($val, $module_srl, $document_srl, $member_info, $parent_srl = 0, $author_xml_id) {
             $tobj = null;
@@ -573,26 +544,22 @@
             $tobj->list_order = $tobj->comment_srl*-1;
             $tobj->sequence = $sequence;
             $tobj->parent_srl = $parent_srl;
-
-            // 댓글 목록 부분을 먼저 입력
+            // Comment list first
             $list_args = null;
             $list_args->comment_srl = $tobj->comment_srl;
             $list_args->document_srl = $tobj->document_srl;
             $list_args->module_srl = $tobj->module_srl;
             $list_args->regdate = $tobj->regdate;
-
-            // 부모댓글이 없으면 바로 데이터를 설정
+            // Set data directly if parent comment doesn't exist
             if(!$tobj->parent_srl) {
                 $list_args->head = $list_args->arrange = $tobj->comment_srl;
                 $list_args->depth = 0;
-
-            // 부모댓글이 있으면 부모글의 정보를 구해옴
+            // Get parent_srl if parent comment exists
             } else {
-                // 부모댓글의 정보를 구함
+                // Get parent_srl
                 $parent_args->comment_srl = $tobj->parent_srl;
                 $parent_output = executeQuery('comment.getCommentListItem', $parent_args);
-
-                // 부모댓글이 존재하지 않으면 return
+                // Return if parent comment doesn't exist
                 if(!$parent_output->toBool() || !$parent_output->data) return false;
                 $parent = $parent_output->data;
 
@@ -613,8 +580,7 @@
             }
             return false;
         }
-
-        // 카테고리 정리
+        // List category
         function arrangeCategory($obj, &$category, &$idx, $parent = 0) {
             if(!$obj->category) return;
             if(!is_array($obj->category)) $c = array($obj->category);

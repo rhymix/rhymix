@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<theme>
+	<version>0.1</version>
+	<title xml:lang="ko">XE Solid Enterprise Theme</title>
+	<title xml:lang="en">XE Solid Enterprise Theme</title>
+	<title xml:lang="zh-CN">XE 标准企业主题</title>
+	<date>2011-09-26</date>
+	<publisher email_address="developers@xpressengine.com" link="http://www.xpressengine.com">
+		<name xml:lang="ko">NHN</name>
+		<name xml:lang="en">NHN</name>
+		<name xml:lang="zh-CN">NHN</name>
+	</publisher>
+	<description xml:lang="ko">XE 기본 기업용 테마는 심플하고 실용적인 특점을 살리고 있으며 어두운 파랑과 화이트가 사용되었습니다. 배너슬라이드 기능이 탑재되었으며 효율적으로 사용이 가능하며, 뚜렷한 정보제공에 치우치고 있습니다.</description>
+	<description xml:lang="en">THE XE Solid Enterprise Layout inherits the concise and functional style from other XE sites, it utilizes dark blue and white as the main color, provides a banner displaying function, make the enterprise user esay to read and search the site contents.</description>
+	<description xml:lang="zh-CN"> XE标准企业主题继承了XE网站简洁，实用的特点，色调以深蓝色和白色为主，提供显示广告栏功能，易于用户浏览，方便用户更快速的查找所需要的信息.</description>
+	<layout>
+			<directory path="./themes/xe_solid_enterprise/layouts/xe_solid_enterprise" />
+	</layout>
+	<skinInfos>
+		<skinInfo>
+			<directory path="./themes/xe_solid_enterprise/modules/communication" />
+		</skinInfo>
+		<skinInfo>
+			<directory path="./themes/xe_solid_enterprise/modules/member" />
+		</skinInfo>
+		<skinInfo>
+			<directory path="./themes/xe_solid_enterprise/modules/message" />
+		</skinInfo>
+	</skinInfos>
+</theme>

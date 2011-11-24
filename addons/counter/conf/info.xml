@@ -22,8 +22,8 @@
         把状态设置为"使用"时，才会记录网站访问信息.
     </description>
     <description xml:lang="en">
-        This addon logs access information based on the basic counter module within  XE.
-        The access information will be collected only if you turn on this addon.
+        This addon logs access information based on the basic counter module within XE.
+        The access information will be collected only if you enable this addon.
     </description>
     <description xml:lang="vi">
         Addon này sẽ tổng hợp tất cả những lượt truy cập vào Website qua Module Counter có sẵn bên trong XE.

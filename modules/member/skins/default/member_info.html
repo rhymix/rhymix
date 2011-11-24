@@ -1,133 +1,71 @@
-<!--#include("./common_header.html")-->
+<include target="./common_header.html" />
+<h1 class="h1">{$lang->member_info}</h1>
+<div class="table even">
+	<table width="100%" border="1" cellspacing="0">
+		<!--@foreach($member_config->signupForm as $no=>$formInfo)-->
+		<!--@if($formInfo->isUse && ($formInfo->name != 'password' && $formInfo->name != 'find_account_question'))-->
+		<!--@if($formInfo->isDefaultForm)-->
+{@$title = $formInfo->title}
+{@$value = $memberInfo[$formInfo->name]}
+			<!--@if($formInfo->name == 'profile_image' && $memberInfo['profile_image'])-->
+{@$target = $memberInfo['profile_image']}
+{@$value = '<img src="'.$target->src.'" />'}
+			<!--@elseif($formInfo->name == 'image_name' && $memberInfo['image_name'])-->
+{@$target = $memberInfo['image_name']}
+{@$value = '<img src="'.$target->src.'" />'}
+			<!--@elseif($formInfo->name == 'image_mark' && $memberInfo['image_mark'])-->
+{@$target = $memberInfo['image_mark']}
+{@$value = '<img src="'.$target->src.'" />'}
+			<!--@end-->
+		<!--@else-->
+{@$title = $extend_form_list[$formInfo->member_join_form_srl]->column_title}
+{@$orgValue = $extend_form_list[$formInfo->member_join_form_srl]->value}
+			<!--@if($formInfo->type=='tel')-->
+				{@$value = htmlspecialchars($orgValue[0])}
+					<!--@if($orgValue[1])-->-<!--@end-->
+				{@$value .= htmlspecialchars($orgValue[1])}
+					<!--@if($orgValue[2])-->-<!--@end-->
+				{@$value .= htmlspecialchars($orgValue[2])}
+			<!--@elseif($formInfo->type=='kr_zip')-->
+				{@$value = htmlspecialchars($orgValue[0])}<!--@if($orgValue[1]&&$orgValue[0])--><br /><!--@end-->{@$value .= htmlspecialchars($orgValue[1])}
+			<!--@elseif($formInfo->type=='checkbox' && is_array($orgValue))-->
+				{@$value = htmlspecialchars(implode(", ",$orgValue))}
+			<!--@elseif($formInfo->type=='date')-->
+				{@$value = zdate($orgValue, "Y-m-d")}
+			<!--@else-->
+				{@$value = nl2br(htmlspecialchars($orgValue))}
+			<!--@end-->
+		<!--@end-->
 
-    <h3>{$lang->cmd_view_member_info}</h3>
-
-    <table cellspacing="0" class="rowTable">
-    <tr><th colspan="2" class="title"><div>{$lang->member_default_info}</div></th></tr>
-    <tr>
-        <th><div>{$lang->user_name}</div></th>
-        <td class="wide">{htmlspecialchars($member_info->user_name)}</td>
-    </tr>
-    <tr>
-        <th><div>{$lang->nick_name}</div></th>
-        <td>{htmlspecialchars($member_info->nick_name)}</td>
-    </tr>
-    <!--@if($member_info->profile_image->src)-->
-    <tr>
-        <th><div>{$lang->profile_image}</div></th>
-        <td><img src="{$member_info->profile_image->src}" border="0" alt="profile_image" /></td>
-    </tr>
-    <!--@end-->
-    <!--@if($member_info->image_name->src)-->
-    <tr>
-        <th><div>{$lang->image_name}</div></th>
-        <td><img src="{$member_info->image_name->src}" border="0" alt="image_name" /></td>
-    </tr>
-    <!--@end-->
-    <!--@if($member_info->image_mark->src)-->
-    <tr>
-        <th><div>{$lang->image_mark}</div></th>
-        <td><img src="{$member_info->image_mark->src}" border="0" alt="image_mark" /></td>
-    </tr>
-    <!--@end-->
-    <tr>
-        <th><div>{$lang->homepage}</div></th>
-        <td><!--@if($member_info->homepage)--><a href="{htmlspecialchars($member_info->homepage)}" onclick="window.open(this.href); return false;">{htmlspecialchars($member_info->homepage)}</a><!--@else-->&nbsp;<!--@end--></td>
-    </tr>
-    <tr>
-        <th><div>{$lang->blog}</div></th>
-        <td><!--@if($member_info->blog)--><a href="{htmlspecialchars($member_info->blog)}" onclick="window.open(this.href); return false;">{htmlspecialchars($member_info->blog)}</a><!--@else-->&nbsp;<!--@end--></td>
-    </tr>
-    <tr>
-        <th><div>{$lang->birthday}</div></th>
-        <td><!--@if($member_info->birthday)-->{zdate($member_info->birthday,"Y-m-d")}<!--@else-->&nbsp;<!--@end--></td>
-    </tr>
-    <!--@if($member_info->signature)-->
-    <tr>
-        <th><div>{$lang->signature}</div></th>
-        <td>{$member_info->signature}</td>
-    </tr>
-    <!--@end-->
-    <tr>
-        <th><div>{$lang->group}</div></th>
-        <td><!--@foreach($member_info->group_list as $key => $val)-->{$val} <!--@end--></td>
-    </tr>
-    <tr>
-        <th><div>{$lang->signup_date}</div></th>
-        <td>{zdate($member_info->regdate,"Y-m-d H:i")}</td>
-    </tr>
-
-    <!--@if($member_info->member_srl == $logged_info->member_srl || $logged_info->is_admin == 'Y' )-->
-    <tr>
-        <th><div>{$lang->last_login}</div></th>
-        <td>{zdate($member_info->last_login,"Y-m-d H:i")}</td>
-    </tr>
-    <!--@end-->
-
-    <!--@if($member_config->enable_openid=="Y")-->
-    <!--@if(sizeof($openids) > 0)-->
-    <tr>
-        <th colspan="2" class="title"><div>{$lang->openid} </div></th>
-    </tr>
-    <!--@foreach($openids as $openid)-->
-    <tr>
-        <th><div>{$lang->openid}</div></th>
-        <td> <a href="{$openid->bookmarklet}">{$openid->openid}</a> </td>
-    </tr>
-    <!--@end-->
-    <!--@end-->
-    <!--@end-->
-
-    <!--@if($extend_form_list)-->
-    <tr>
-        <th class="title" colspan="2"><div>{$lang->member_extend_info}</div></th>
-    </tr>
-    {@ $dummy_chk = 0 }
-    <!--@foreach($extend_form_list as $key => $val)-->
-    <tr <!--@if($dummy_chk==0)-->class="first-child" {@ $dummy_chk = 1; }<!--@end-->>
-        <th>
-            <div>
-                {htmlspecialchars($val->column_title)}
-            </div>
-        </th>
-        <td>
-            <!--@if($val->is_private)-->
-                <span class="privateItem">{$lang->private}</span>
-            <!--@else--> 
-                <!--@if($val->column_type=='tel' && $val->value[0] && $val->value[1] && $val->value[2])-->
-                    {htmlspecialchars($val->value[0])} 
-                        <!--@if($val->value[1])-->-<!--@end-->
-                    {htmlspecialchars($val->value[1])} 
-                        <!--@if($val->value[2])-->-<!--@end-->
-                    {htmlspecialchars($val->value[2])}
-                <!--@elseif($val->column_type=='kr_zip')-->
-                    {htmlspecialchars($val->value[0])}<!--@if($val->value[1]&&$val->value[0])--><br /><!--@end-->{htmlspecialchars($val->value[1])}
-                <!--@elseif($val->column_type=='checkbox' && is_array($val->value))-->
-                    {htmlspecialchars(implode(", ",$val->value))}&nbsp;
-                <!--@elseif($val->column_type=='date' && $val->value)-->
-                    {zdate($val->value, "Y-m-d")}&nbsp;
-                <!--@else-->
-                    {nl2br(htmlspecialchars($val->value))}&nbsp;
-                <!--@end-->
-            <!--@end--> 
-        </td>
-    </tr>
-    <!--@end-->
-    <!--@end-->
-
-    <tr>
-        <th colspan="2" class="button">
-            <!--@if($member_info->member_srl == $logged_info->member_srl)-->
-            <a href="{getUrl('act','dispMemberModifyInfo','member_srl','')}" class="button black strong"><span>{$lang->cmd_modify_member_info}</span></a>
-                <!--@if($logged_info->is_openid)-->
-                    <a href="{getUrl('act','dispMemberOpenIDLeave','member_srl','')}" class="button red"><span>{$lang->cmd_leave}</span></a>
-                <!--@else-->
-                    <a href="{getUrl('act','dispMemberModifyPassword','member_srl','')}" class="button green"><span>{$lang->cmd_modify_member_password}</span></a>
-                    <a href="{getUrl('act','dispMemberLeave','member_srl','')}" class="button red"><span>{$lang->cmd_leave}</span></a>
-                <!--@end-->
-            <!--@end-->
-            <a href="{getUrl('act','','member_srl','')}" class="button"><span>{$lang->cmd_back}</span></a>
-    </tr>
+		<tr>
+			<th scope="row" >{$title} <em cond="$formInfo->required || $formInfo->mustRequired">*</em></th>
+			<td class="text">{$value}</td>
+		</tr>
+		<!--@end-->
+		<!--@end-->
+		<tr>
+			<th scope="row">{$lang->member_group}</th>
+			<td class="text">{implode(', ', $memberInfo['group_list'])}</td>
+		</tr>
+		<tr>
+			<th>{$lang->signup_date}</th>
+			<td>{zdate($memberInfo[regdate],"Y-m-d")}</td>
+		</tr>
+		<!--@if($memberInfo[member_srl] == $logged_info->member_srl || $logged_info->is_admin == 'Y' )-->
+		<tr>
+			<th>{$lang->last_login}</th>
+			<td>{zdate($memberInfo[last_login],"Y-m-d")}</td>
+		</tr>
+		<!--@end-->
     </table>
-
-<!--#include("./common_footer.html")-->
+</div>
+<div class="btnArea" cond="$memberInfo['member_srl'] == $logged_info->member_srl">
+	<span class="btn"><a href="{getUrl('act','dispMemberModifyInfo','member_srl','')}">{$lang->cmd_modify_member_info}</a></span>
+	<!--@if($logged_info->is_openid)-->
+	<span class="btn"><a href="{getUrl('act','dispMemberOpenIDLeave','member_srl','')}">{$lang->cmd_leave}</a></span>
+	<!--@else-->
+	<span class="btn"><a href="{getUrl('act','dispMemberModifyPassword','member_srl','')}">{$lang->cmd_modify_member_password}</a></span>
+	<span class="btn"><a href="{getUrl('act','dispMemberLeave','member_srl','')}">{$lang->cmd_leave}</a></span>
+	<!--@end-->
+</div>
+<include target="./common_footer.html" />

@@ -21,7 +21,9 @@ function doInstallPackage(package_srl) {
 }
 
 function completeUpdateNoMsg(ret_obj) {
-    location.reload();
+    //location.reload();
+	var src = current_url.setQuery('act', 'dispAutoinstallAdminIndex');
+	location.href = src;
 }
 
 function completeInstall(ret_obj) {

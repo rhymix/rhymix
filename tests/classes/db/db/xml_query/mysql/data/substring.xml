@@ -1,0 +1,11 @@
+<query id="substringTest" action="select">
+    <tables>
+        <table name="member" alias="member" />
+    </tables>
+    <columns>
+        <column name="*" />
+    </columns>
+    <conditions>
+        <condition operation="more"  column="substr(extra_vars_t1.value,5,4)" var="var_start_mmdd" notnull="notnull"  pipe="and" />
+    </conditions>
+</query>

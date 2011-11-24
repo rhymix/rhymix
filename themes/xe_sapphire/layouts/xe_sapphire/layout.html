@@ -1,0 +1,104 @@
+<!--// js 파일 import -->
+<!--%import("js/xe_global.js")-->
+<!--%import("js/xe_official.js")-->
+<!--// 레이아웃과 연동될 css 파일 import -->
+<!--%import("css/default.css")-->
+<!--@if($layout_info->background_image)-->
+<style type="text/css">
+    body {  background:#FFFFFF url({getUrl()}{$layout_info->background_image}) repeat-x left top; }
+</style>
+<!--@end-->
+<!--@if(!$layout_info->colorset)-->
+    {@$layout_info->colorset = "default"}
+<!--@end-->
+<div id="bodyWrap">
+    <div id="header">
+        <h1><a href="{$layout_info->index_url}"><!--@if($layout_info->logo_image)--><img src="{$layout_info->logo_image}" alt="{$layout_info->logo_text}"|cond="$layout_info->logo_text" alt="logo"|cond="!$layout_info->logo_text" border="0" class="iePngFix" /><!--@elseif($layout_info->logo_text)-->{$layout_info->logo_text}<!--@else-->Global XE<!--@end--></a></h1>
+		<!-- top_area -->
+		<div class="top_area">
+        <dl id="language">
+		<dt>Language</dt>
+		<dd><a href="#selectLang" onclick="showHide('selectLang');return false;">{$lang_supported[$lang_type]}</a>
+            <ul id="selectLang">
+			<!--@foreach($lang_supported as $key => $val)--><!--@if($key!= $lang_type)-->
+			<li><a href="#" onclick="doChangeLangType('{$key}');return false;">{$val}</a></li>
+			<!--@end--><!--@end-->
+            </ul>
+		</dd>
+        </dl>
+		<div class="search">
+		    <form action="{getUrl()}" method="post" id="isSearch">
+            <!--@if($vid)-->
+            <input type="hidden" name="vid" value="{$vid}" />
+            <!--@end-->
+            <input type="hidden" name="mid" value="{$mid}" />
+            <input type="hidden" name="act" value="IS" />
+            <input type="hidden" name="search_target" value="title_content" />
+            <input name="is_keyword" type="text" class="inputText" title="keyword" />
+            </form>
+		</div>
+		</div>
+        <div class="gnb">
+			<ul>
+			{@ $index = 0;}
+			<li loop="$main_menu->list=>$key1,$val1" class="on m1"|cond="$val1['selected']&&$index!=0" class="home_on"|cond="$val1['selected']&&$index==0" class="home"|cond="!$val1['selected']&&$index==0"><a href="{$val1['href']}" target="_blank"|cond="$val1['open_window']=='Y'">{$val1['link']}</a>
+				<ul class="sub" cond="$val1['list']">
+					<li loop="$val1['list']=>$key2,$val2"><a href="{$val2['href']}" class="subon"|cond="$val2['selected']"  target="_blank"|cond="$val2['open_window']=='Y'">{$val2['link']}</a></li>
+				</ul>
+				{@ $index ++;}
+			</li>
+			</ul>
+		</div>
+       </div>
+    <div id="contentBody">
+        <div id="columnLeft">
+			<div class="info">
+            <!-- 로그인 위젯 -->
+            <img src="./images/blank.gif" class="zbxe_widget_output" widget="login_info" skin="xe_globalTwo" colorset="{$layout_info->colorset}" />
+			</div>
+			<!--@if($main_menu->list)-->
+			<div class="lnb_Global">
+				<h2 loop="$main_menu->list=>$key1,$val1" cond="$val1['selected']"><a href="{$val1['href']}" target="_blank"|cond="$val1['open_window']=='Y'">{$val1['link']}</a></h2>
+				<ul class="list" loop="$main_menu->list=>$key1,$val1" cond="$val1['selected'] && $val1['list']">
+					<li loop="$val1['list']=>$key2,$val2" class="active"|cond="$val2['selected']"><a href="{$val2['href']}" target="_blank"|cond="$val2['open_window']=='Y'">{$val2['link']}</a>
+						<ul cond="$val2['list']">
+							<li loop="$val2['list']=>$key3,$val3" class="active"|cond="$val3['selected']"><a href="{$val3['href']}" target="_blank"|cond="$val3['open_window']=='Y'">{$val3['link']}</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+			<!--@end-->
+        </div>
+        <div id="columnRight">
+            <!-- 컨텐츠 시작 -->
+            {$content}
+        </div>
+    </div>
+	
+	{@ $index = 1;}
+	<div class="sitemap">
+		<ul>
+		<!--@foreach($bottom_menu->list as $key => $val)-->
+        <!--@if($val['link'])-->
+			<li <!--@if($index%4 == 0)-->class="last"<!--@end-->>
+			<dl class="list">
+			<dt><a href="{$val['href']}"<!--@if($val['open_window']=='Y')--> onclick="window.open(this.href);return false;"<!--@end-->>{$val['text']}</a></dt>
+			<!--@if($val['list'])-->
+				 <!--@foreach($val['list'] as $k => $v)-->
+                        <!--@if($val['link'])-->
+						<dd><a href="{$v['href']}"<!--@if($v['open_window']=='Y')--> onclick="window.open(this.href);return false;"<!--@end-->>{$v['text']}</a></dd>
+						<!--@end-->
+                 <!--@end-->
+			<!--@end-->
+			</dl>
+			</li>
+		{@ $index++;}
+		<!--@end-->
+		<!--@end-->
+		</ul>
+	</div>
+
+    <div id="footer">
+            <address>Powered&nbsp;by<strong>XE</strong></address>
+    </div>
+</div>

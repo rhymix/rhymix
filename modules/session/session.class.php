@@ -2,10 +2,10 @@
     /**
      * @class  session
      * @author NHN (developers@xpressengine.com)
-     * @brief  session 모듈의 high class
+     * @brief session module's high class
      * @version 0.1
      *
-     * session 관리를 하는 class
+     * The session management class
      **/
 
     class session extends ModuleObject {
@@ -18,7 +18,7 @@
         }
 
         /**
-         * @brief 설치시 추가 작업이 필요할시 구현
+         * @brief Additional tasks required to accomplish during the installation
          **/
         function moduleInstall() {
             $oDB = &DB::getInstance();
@@ -28,7 +28,7 @@
         }
 
         /**
-         * @brief 설치가 이상이 없는지 체크하는 method
+         * @brief A method to check if the installation has been successful
          **/
         function checkUpdate() {
             $oDB = &DB::getInstance();
@@ -39,7 +39,7 @@
         }
 
         /**
-         * @brief 업데이트 실행
+         * @brief Execute update
          **/
         function moduleUpdate() {
             $oDB = &DB::getInstance();
@@ -73,11 +73,9 @@
         }
 
         /**
-         * @brief 캐시 파일 재생성
+         * @brief Re-generate the cache file
          **/
         function recompileCache() {
-            // 기존 파일 기반의 세션 삭제
-            FileHandler::removeDir(_XE_PATH_."files/sessions");
         }
     }
 ?>

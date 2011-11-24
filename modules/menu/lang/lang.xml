@@ -1,0 +1,559 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<lang>
+	<item name="cmd_menu_insert">
+		<value xml:lang="ko"><![CDATA[메뉴 생성]]></value>
+		<value xml:lang="en"><![CDATA[Create Menu]]></value>
+		<value xml:lang="jp"><![CDATA[メニュー生成]]></value>
+		<value xml:lang="zh-CN"><![CDATA[生成菜单]]></value>
+		<value xml:lang="zh-TW"><![CDATA[建立選單]]></value>
+		<value xml:lang="fr"><![CDATA[Créer un Menu]]></value>
+		<value xml:lang="ru"><![CDATA[Создать меню]]></value>
+		<value xml:lang="es"><![CDATA[Crear Menú]]></value>
+		<value xml:lang="tr"><![CDATA[Menü Oluştur]]></value>
+		<value xml:lang="vi"><![CDATA[Tạo Menu]]></value>
+	</item>
+	<item name="cmd_menu_management">
+		<value xml:lang="ko"><![CDATA[메뉴 설정]]></value>
+		<value xml:lang="en"><![CDATA[Menu Setting]]></value>
+		<value xml:lang="jp"><![CDATA[メニュー設定]]></value>
+		<value xml:lang="zh-CN"><![CDATA[菜单设置]]></value>
+		<value xml:lang="zh-TW"><![CDATA[選單設置]]></value>
+		<value xml:lang="fr"><![CDATA[Administer des Menus]]></value>
+		<value xml:lang="ru"><![CDATA[Управление меню]]></value>
+		<value xml:lang="es"><![CDATA[Comfiguración del Menú]]></value>
+		<value xml:lang="tr"><![CDATA[Menü Yönetimi]]></value>
+		<value xml:lang="vi"><![CDATA[Quản lý Menu]]></value>
+	</item>
+	<item name="menu_count">
+		<value xml:lang="ko"><![CDATA[메뉴 수]]></value>
+		<value xml:lang="en"><![CDATA[No. of menus]]></value>
+		<value xml:lang="jp"><![CDATA[メニュー数]]></value>
+		<value xml:lang="zh-CN"><![CDATA[菜单数]]></value>
+		<value xml:lang="zh-TW"><![CDATA[選單數]]></value>
+		<value xml:lang="fr"><![CDATA[Somme de menu]]></value>
+		<value xml:lang="ru"><![CDATA[Меню No.]]></value>
+		<value xml:lang="es"><![CDATA[Número del menú]]></value>
+		<value xml:lang="tr"><![CDATA[Menü numarası]]></value>
+		<value xml:lang="vi"><![CDATA[Số Menu]]></value>
+	</item>
+	<item name="menu_management">
+		<value xml:lang="ko"><![CDATA[메뉴 관리]]></value>
+		<value xml:lang="en"><![CDATA[Manage Menu]]></value>
+		<value xml:lang="jp"><![CDATA[メニュー管理]]></value>
+		<value xml:lang="zh-CN"><![CDATA[菜单管理]]></value>
+		<value xml:lang="zh-TW"><![CDATA[選單管理]]></value>
+		<value xml:lang="fr"><![CDATA[Administration de Menu]]></value>
+		<value xml:lang="ru"><![CDATA[Управление меню]]></value>
+		<value xml:lang="es"><![CDATA[Configuración del Menú]]></value>
+		<value xml:lang="tr"><![CDATA[Menü Yönetimi]]></value>
+		<value xml:lang="vi"><![CDATA[Quản lý Menu]]></value>
+	</item>
+	<item name="collapsing">
+		<value xml:lang="ko"><![CDATA[접기]]></value>
+		<value xml:lang="en"><![CDATA[Collapse]]></value>
+		<value xml:lang="jp"><![CDATA[畳む]]></value>
+	</item>
+	<item name="expanding">
+		<value xml:lang="ko"><![CDATA[펼치기]]></value>
+		<value xml:lang="en"><![CDATA[Expand]]></value>
+		<value xml:lang="jp"><![CDATA[展開]]></value>
+	</item>
+	<item name="add_menu">
+		<value xml:lang="ko"><![CDATA[메뉴 추가]]></value>
+		<value xml:lang="en"><![CDATA[Add Menu]]></value>
+		<value xml:lang="jp"><![CDATA[メニュー追加]]></value>
+	</item>
+	<item name="edit_menu">
+		<value xml:lang="ko"><![CDATA[메뉴 편집]]></value>
+		<value xml:lang="en"><![CDATA[Edit Menu]]></value>
+		<value xml:lang="jp"><![CDATA[メニューの編集]]></value>
+	</item>
+	<item name="add_new_sitemap">
+		<value xml:lang="ko"><![CDATA[새 사이트맵 추가]]></value>
+		<value xml:lang="en"><![CDATA[Add New Site Map]]></value>
+		<value xml:lang="jp"><![CDATA[新しいサイトマップ追加]]></value>
+	</item>
+	<item name="module_or_url">
+		<value xml:lang="ko"><![CDATA[모듈 또는 URL]]></value>
+		<value xml:lang="en"><![CDATA[Module or URL]]></value>
+		<value xml:lang="jp"><![CDATA[モジュール、またはURL]]></value>
+	</item>
+	<item name="create_module_in_menu">
+		<value xml:lang="ko"><![CDATA[모듈 생성]]></value>
+		<value xml:lang="en"><![CDATA[Create Module]]></value>
+		<value xml:lang="jp"><![CDATA[モジュール生成]]></value>
+	</item>
+	<item name="select_module_in_menu">
+		<value xml:lang="ko"><![CDATA[모듈 선택]]></value>
+		<value xml:lang="en"><![CDATA[Select Module]]></value>
+		<value xml:lang="jp"><![CDATA[モジュール選択]]></value>
+	</item>
+	<item name="create_mid_in_menu">
+		<value xml:lang="ko"><![CDATA[모듈 아이디 생성]]></value>
+		<value xml:lang="en"><![CDATA[Create Module ID]]></value>
+		<value xml:lang="jp"><![CDATA[モジュールID生成]]></value>
+	</item>
+	<item name="select_mid_in_menu">
+		<value xml:lang="ko"><![CDATA[모듈 아이디 선택]]></value>
+		<value xml:lang="en"><![CDATA[Select Module ID]]></value>
+		<value xml:lang="jp"><![CDATA[モジュールID選択]]></value>
+	</item>
+	<item name="depth">
+		<value xml:lang="ko"><![CDATA[단계]]></value>
+		<value xml:lang="en"><![CDATA[Step]]></value>
+		<value xml:lang="jp"><![CDATA[階層]]></value>
+		<value xml:lang="zh-CN"><![CDATA[层级]]></value>
+		<value xml:lang="zh-TW"><![CDATA[層級]]></value>
+		<value xml:lang="fr"><![CDATA[Niveau]]></value>
+		<value xml:lang="ru"><![CDATA[Ступень]]></value>
+		<value xml:lang="es"><![CDATA[Nivel]]></value>
+		<value xml:lang="tr"><![CDATA[Adım]]></value>
+		<value xml:lang="vi"><![CDATA[Bước]]></value>
+	</item>
+	<item name="parent_menu_name">
+		<value xml:lang="ko"><![CDATA[상위 메뉴명]]></value>
+		<value xml:lang="en"><![CDATA[Parent Menu Name]]></value>
+		<value xml:lang="jp"><![CDATA[上位メニュー名]]></value>
+		<value xml:lang="zh-CN"><![CDATA[上级菜单名]]></value>
+		<value xml:lang="zh-TW"><![CDATA[主選單名稱]]></value>
+		<value xml:lang="fr"><![CDATA[Nom de Menu supérieur]]></value>
+		<value xml:lang="ru"><![CDATA[Имя верхнего меню]]></value>
+		<value xml:lang="es"><![CDATA[Nombre del Menú principal]]></value>
+		<value xml:lang="tr"><![CDATA[Üst Menü İsmi]]></value>
+		<value xml:lang="vi"><![CDATA[Tên Menu chính]]></value>
+	</item>
+	<item name="menu_name">
+		<value xml:lang="ko"><![CDATA[메뉴 이름]]></value>
+		<value xml:lang="en"><![CDATA[Menu Name]]></value>
+		<value xml:lang="jp"><![CDATA[メニュー名]]></value>
+		<value xml:lang="zh-CN"><![CDATA[菜单名]]></value>
+		<value xml:lang="zh-TW"><![CDATA[選單名稱]]></value>
+		<value xml:lang="fr"><![CDATA[Nom de Menu]]></value>
+		<value xml:lang="ru"><![CDATA[Имя меню]]></value>
+		<value xml:lang="es"><![CDATA[Nombre del menú]]></value>
+		<value xml:lang="tr"><![CDATA[Menü İsmi]]></value>
+		<value xml:lang="vi"><![CDATA[Tên Menu]]></value>
+	</item>
+	<item name="menu_srl">
+		<value xml:lang="ko"><![CDATA[메뉴 고유 번호]]></value>
+		<value xml:lang="en"><![CDATA[Menu Serial Number]]></value>
+		<value xml:lang="jp"><![CDATA[メニュー固有番号]]></value>
+		<value xml:lang="zh-CN"><![CDATA[菜单固有编号]]></value>
+		<value xml:lang="zh-TW"><![CDATA[選單編號]]></value>
+		<value xml:lang="fr"><![CDATA[Numéro de série de Menu]]></value>
+		<value xml:lang="ru"><![CDATA[SRL меню]]></value>
+		<value xml:lang="es"><![CDATA[Número característico del menú]]></value>
+		<value xml:lang="tr"><![CDATA[Menü Seri Numarası]]></value>
+		<value xml:lang="vi"><![CDATA[Số Serial của Menu]]></value>
+	</item>
+	<item name="menu_id">
+		<value xml:lang="ko"><![CDATA[메뉴 이름]]></value>
+		<value xml:lang="en"><![CDATA[Menu ID]]></value>
+		<value xml:lang="jp"><![CDATA[メニュー名]]></value>
+		<value xml:lang="zh-CN"><![CDATA[菜单名称]]></value>
+		<value xml:lang="zh-TW"><![CDATA[選單名稱]]></value>
+		<value xml:lang="fr"><![CDATA[Nom d'Identité de Menu]]></value>
+		<value xml:lang="ru"><![CDATA[ID меню]]></value>
+		<value xml:lang="es"><![CDATA[ID del menú]]></value>
+		<value xml:lang="tr"><![CDATA[Menü Kimliği]]></value>
+	</item>
+	<item name="menu_url">
+		<value xml:lang="ko"><![CDATA[연결 url]]></value>
+		<value xml:lang="en"><![CDATA[Menu URL]]></value>
+		<value xml:lang="jp"><![CDATA[リンクURL]]></value>
+		<value xml:lang="zh-CN"><![CDATA[链接]]></value>
+		<value xml:lang="zh-TW"><![CDATA[連結]]></value>
+		<value xml:lang="fr"><![CDATA[URL de Menu]]></value>
+		<value xml:lang="ru"><![CDATA[URL меню]]></value>
+		<value xml:lang="es"><![CDATA[URL del Menú]]></value>
+		<value xml:lang="tr"><![CDATA[Menü URLsi]]></value>
+	</item>
+	<item name="menu_open_window">
+		<value xml:lang="ko"><![CDATA[새 창 열기]]></value>
+		<value xml:lang="en"><![CDATA[Open a new window]]></value>
+		<value xml:lang="jp"><![CDATA[新規ウィンドウで開く]]></value>
+		<value xml:lang="zh-CN"><![CDATA[新窗口]]></value>
+		<value xml:lang="zh-TW"><![CDATA[新視窗]]></value>
+		<value xml:lang="fr"><![CDATA[Ouvrire une nouvelle fenêtre]]></value>
+		<value xml:lang="ru"><![CDATA[Открыть новое окно]]></value>
+		<value xml:lang="es"><![CDATA[Abrir en una nueva ventana]]></value>
+		<value xml:lang="tr"><![CDATA[Yeni pencere aç]]></value>
+		<value xml:lang="vi"><![CDATA[Mở ra trang mới]]></value>
+	</item>
+	<item name="menu_self_window">
+		<value xml:lang="ko"><![CDATA[현재창 열기]]></value>
+		<value xml:lang="en"><![CDATA[Open a self window]]></value>
+		<value xml:lang="jp"><![CDATA[現在のウィンドウで開く]]></value>
+	</item>
+	<item name="menu_expand">
+		<value xml:lang="ko"><![CDATA[펼침]]></value>
+		<value xml:lang="en"><![CDATA[Expand]]></value>
+		<value xml:lang="jp"><![CDATA[展開]]></value>
+		<value xml:lang="zh-CN"><![CDATA[展开]]></value>
+		<value xml:lang="zh-TW"><![CDATA[展開]]></value>
+		<value xml:lang="fr"><![CDATA[Étendre]]></value>
+		<value xml:lang="ru"><![CDATA[Раскрыть]]></value>
+		<value xml:lang="es"><![CDATA[Expandir]]></value>
+		<value xml:lang="tr"><![CDATA[Genişlet]]></value>
+		<value xml:lang="vi"><![CDATA[Trải rộng]]></value>
+	</item>
+	<item name="menu_img_btn">
+		<value xml:lang="ko"><![CDATA[이미지 버튼]]></value>
+		<value xml:lang="en"><![CDATA[Image button]]></value>
+		<value xml:lang="jp"><![CDATA[イメージボタン]]></value>
+		<value xml:lang="zh-CN"><![CDATA[图片按钮]]></value>
+		<value xml:lang="zh-TW"><![CDATA[圖片按鈕]]></value>
+		<value xml:lang="fr"><![CDATA[Bouton en Image]]></value>
+		<value xml:lang="ru"><![CDATA[Изображение кнопки]]></value>
+		<value xml:lang="es"><![CDATA[Botón de imagen]]></value>
+		<value xml:lang="tr"><![CDATA[Resim Tuşu]]></value>
+		<value xml:lang="vi"><![CDATA[Hình nút bấm]]></value>
+	</item>
+	<item name="menu_normal_btn">
+		<value xml:lang="ko"><![CDATA[일반]]></value>
+		<value xml:lang="en"><![CDATA[Normal]]></value>
+		<value xml:lang="jp"><![CDATA[一般ボタン]]></value>
+		<value xml:lang="zh-CN"><![CDATA[普通]]></value>
+		<value xml:lang="zh-TW"><![CDATA[普通]]></value>
+		<value xml:lang="ru"><![CDATA[Обычное]]></value>
+		<value xml:lang="vi"><![CDATA[Bình thường]]></value>
+	</item>
+	<item name="menu_hover_btn">
+		<value xml:lang="ko"><![CDATA[마우스 오버]]></value>
+		<value xml:lang="en"><![CDATA[Mouse over]]></value>
+		<value xml:lang="jp"><![CDATA[マウスオーバー]]></value>
+		<value xml:lang="zh-CN"><![CDATA[鼠标滑过]]></value>
+		<value xml:lang="zh-TW"><![CDATA[滑鼠移過]]></value>
+		<value xml:lang="fr"><![CDATA[Survolé]]></value>
+		<value xml:lang="ru"><![CDATA[Мышь над]]></value>
+		<value xml:lang="es"><![CDATA[Mouse arriba]]></value>
+		<value xml:lang="tr"><![CDATA[Fare üzerine geldiğinde]]></value>
+		<value xml:lang="vi"><![CDATA[Khi trỏ chuột]]></value>
+	</item>
+	<item name="menu_active_btn">
+		<value xml:lang="ko"><![CDATA[선택 시]]></value>
+		<value xml:lang="en"><![CDATA[When selected]]></value>
+		<value xml:lang="jp"><![CDATA[選択時のボタン]]></value>
+		<value xml:lang="zh-CN"><![CDATA[激活链接]]></value>
+		<value xml:lang="zh-TW"><![CDATA[啟動連結]]></value>
+		<value xml:lang="fr"><![CDATA[Choisi]]></value>
+		<value xml:lang="ru"><![CDATA[При выборе]]></value>
+		<value xml:lang="es"><![CDATA[Al momento de seleccionar]]></value>
+		<value xml:lang="tr"><![CDATA[Seçildiğinde]]></value>
+		<value xml:lang="vi"><![CDATA[Khi chọn]]></value>
+	</item>
+	<item name="menu_group_srls">
+		<value xml:lang="ko"><![CDATA[그룹 제한]]></value>
+		<value xml:lang="en"><![CDATA[Accessable Groups]]></value>
+		<value xml:lang="jp"><![CDATA[グループ制限]]></value>
+		<value xml:lang="zh-CN"><![CDATA[用户组]]></value>
+		<value xml:lang="zh-TW"><![CDATA[群組]]></value>
+		<value xml:lang="fr"><![CDATA[Groupes qui peuvent accéder]]></value>
+		<value xml:lang="ru"><![CDATA[Группы с доступом]]></value>
+		<value xml:lang="es"><![CDATA[Grupos accesibles]]></value>
+		<value xml:lang="tr"><![CDATA[Erişilebilir Gruplar]]></value>
+		<value xml:lang="vi"><![CDATA[Nhóm được phép]]></value>
+	</item>
+	<item name="layout_maker">
+		<value xml:lang="ko"><![CDATA[레이아웃 제작자]]></value>
+		<value xml:lang="en"><![CDATA[Layout Maker]]></value>
+		<value xml:lang="jp"><![CDATA[レイアウト作者]]></value>
+		<value xml:lang="zh-CN"><![CDATA[布局作者]]></value>
+		<value xml:lang="zh-TW"><![CDATA[版面作者]]></value>
+		<value xml:lang="fr"><![CDATA[Auteur de la Mise en Page]]></value>
+		<value xml:lang="ru"><![CDATA[Маркет лейаута]]></value>
+		<value xml:lang="es"><![CDATA[Marcar el diseño]]></value>
+		<value xml:lang="tr"><![CDATA[Yerleşim Düzeni Yapıcısı]]></value>
+		<value xml:lang="vi"><![CDATA[Người tạo giao diện]]></value>
+	</item>
+	<item name="layout_history">
+		<value xml:lang="ko"><![CDATA[변경 사항 ]]></value>
+		<value xml:lang="en"><![CDATA[Update History ]]></value>
+		<value xml:lang="jp"><![CDATA[変更内容]]></value>
+		<value xml:lang="zh-CN"><![CDATA[更新列表 ]]></value>
+		<value xml:lang="zh-TW"><![CDATA[更新列表]]></value>
+		<value xml:lang="fr"><![CDATA[Histoire des Mises à Jour]]></value>
+		<value xml:lang="ru"><![CDATA[История обновлений]]></value>
+		<value xml:lang="es"><![CDATA[Actualizar la historia]]></value>
+		<value xml:lang="tr"><![CDATA[Güncelleştirme Geçmişi ]]></value>
+		<value xml:lang="vi"><![CDATA[Lịch sử cập nhật]]></value>
+	</item>
+	<item name="layout_info">
+		<value xml:lang="ko"><![CDATA[레이아웃 정보]]></value>
+		<value xml:lang="en"><![CDATA[Layout Info]]></value>
+		<value xml:lang="jp"><![CDATA[レイアウト情報]]></value>
+		<value xml:lang="zh-CN"><![CDATA[布局信息]]></value>
+		<value xml:lang="zh-TW"><![CDATA[版面資料]]></value>
+		<value xml:lang="fr"><![CDATA[Information de la Mise en Page]]></value>
+		<value xml:lang="ru"><![CDATA[Информация лейаутов]]></value>
+		<value xml:lang="es"><![CDATA[Información del diseño]]></value>
+		<value xml:lang="tr"><![CDATA[Yer. Düzeni Bilgisi]]></value>
+		<value xml:lang="vi"><![CDATA[Thông tin giao diện]]></value>
+	</item>
+	<item name="layout_list">
+		<value xml:lang="ko"><![CDATA[레이아웃 목록]]></value>
+		<value xml:lang="en"><![CDATA[Layouts List]]></value>
+		<value xml:lang="jp"><![CDATA[レイアウトリスト]]></value>
+		<value xml:lang="zh-CN"><![CDATA[布局目录]]></value>
+		<value xml:lang="zh-TW"><![CDATA[版面列表]]></value>
+		<value xml:lang="fr"><![CDATA[Liste des Mises en Page]]></value>
+		<value xml:lang="ru"><![CDATA[Список лейаутов]]></value>
+		<value xml:lang="es"><![CDATA[Lista del diseño]]></value>
+		<value xml:lang="tr"><![CDATA[Yer. Düzeni Listesi]]></value>
+		<value xml:lang="vi"><![CDATA[Danh sách giao diện]]></value>
+	</item>
+	<item name="downloaded_list">
+		<value xml:lang="ko"><![CDATA[다운로드 목록]]></value>
+		<value xml:lang="en"><![CDATA[Downloads List]]></value>
+		<value xml:lang="jp"><![CDATA[ダウンロードリスト]]></value>
+		<value xml:lang="zh-CN"><![CDATA[下载目录]]></value>
+		<value xml:lang="zh-TW"><![CDATA[版面選擇]]></value>
+		<value xml:lang="fr"><![CDATA[Liste de Téléchargement]]></value>
+		<value xml:lang="ru"><![CDATA[Список закачек]]></value>
+		<value xml:lang="es"><![CDATA[Lista de descarga]]></value>
+		<value xml:lang="tr"><![CDATA[İndirilenler Listesi]]></value>
+		<value xml:lang="vi"><![CDATA[Danh sách Download]]></value>
+	</item>
+	<item name="limit_menu_depth">
+		<value xml:lang="ko"><![CDATA[표시 가능]]></value>
+		<value xml:lang="en"><![CDATA[Display Enabled]]></value>
+		<value xml:lang="jp"><![CDATA[表示可能]]></value>
+		<value xml:lang="zh-CN"><![CDATA[可显示]]></value>
+		<value xml:lang="zh-TW"><![CDATA[可顯示]]></value>
+		<value xml:lang="fr"><![CDATA[Niveau permis d'exposer]]></value>
+		<value xml:lang="ru"><![CDATA[Лимит глубины]]></value>
+		<value xml:lang="es"><![CDATA[Exhibicion permitido]]></value>
+		<value xml:lang="tr"><![CDATA[Görüntü Etkinleştirildi]]></value>
+		<value xml:lang="vi"><![CDATA[Được phép hiển thị]]></value>
+	</item>
+	<item name="cmd_make_child">
+		<value xml:lang="ko"><![CDATA[하부 메뉴 추가]]></value>
+		<value xml:lang="en"><![CDATA[Add a Child Menu]]></value>
+		<value xml:lang="jp"><![CDATA[下位メニュー追加]]></value>
+		<value xml:lang="zh-CN"><![CDATA[添加下级菜单]]></value>
+		<value xml:lang="zh-TW"><![CDATA[新增子選單]]></value>
+		<value xml:lang="fr"><![CDATA[Ajouter un menu inférieur]]></value>
+		<value xml:lang="ru"><![CDATA[Добавть дочернее меню]]></value>
+		<value xml:lang="es"><![CDATA[Agregar un submenú]]></value>
+		<value xml:lang="tr"><![CDATA[Alt Menü Ekle]]></value>
+		<value xml:lang="vi"><![CDATA[Thêm Menu con]]></value>
+	</item>
+	<item name="cmd_move_to_installed_list">
+		<value xml:lang="ko"><![CDATA[생성된 목록 보기]]></value>
+		<value xml:lang="en"><![CDATA[View Created List]]></value>
+		<value xml:lang="jp"><![CDATA[生成されたリスト表示]]></value>
+		<value xml:lang="zh-CN"><![CDATA[查看生成目录]]></value>
+		<value xml:lang="zh-TW"><![CDATA[檢視建立列表]]></value>
+		<value xml:lang="fr"><![CDATA[Voir la liste créé]]></value>
+		<value xml:lang="ru"><![CDATA[Просмотреть созданные меню]]></value>
+		<value xml:lang="es"><![CDATA[Ver la lista de los creadores]]></value>
+		<value xml:lang="tr"><![CDATA[Oluşturulanlar Listesini Görüntüle]]></value>
+		<value xml:lang="vi"><![CDATA[Xem danh sách đã tạo]]></value>
+	</item>
+	<item name="cmd_enable_move_menu">
+		<value xml:lang="ko"><![CDATA[메뉴 옮기기 (선택 후, 위 메뉴를 드래그하세요.)]]></value>
+		<value xml:lang="en"><![CDATA[Move Menu (Drag the top menu after selecting)]]></value>
+		<value xml:lang="jp"><![CDATA[メニュー移動（選択後メニューをドラッグしてください）]]></value>
+		<value xml:lang="zh-CN"><![CDATA[菜单顺序(勾选后用鼠标拖动)]]></value>
+		<value xml:lang="zh-TW"><![CDATA[選單順序(勾選後可用滑鼠拖曳)]]></value>
+		<value xml:lang="fr"><![CDATA[Bouger le Menu (glisser-déposer un menu après cocher)]]></value>
+		<value xml:lang="ru"><![CDATA[Переместить меню (Перетащите верхнее меню после выделения)]]></value>
+		<value xml:lang="es"><![CDATA[Mover el menú (Mover el menú luego de seleccionar)]]></value>
+		<value xml:lang="tr"><![CDATA[Menüyü Taşı (seçtikten sonra üst menüyü sürükleyin)]]></value>
+		<value xml:lang="vi"><![CDATA[Di chuyển Menu (Kéo lên Menu trên sau khi lựa chọn)]]></value>
+	</item>
+	<item name="cmd_search_mid">
+		<value xml:lang="ko"><![CDATA[mid 찾기]]></value>
+		<value xml:lang="en"><![CDATA[Search mid]]></value>
+		<value xml:lang="jp"><![CDATA[mid 検索]]></value>
+		<value xml:lang="zh-CN"><![CDATA[查找 mid]]></value>
+		<value xml:lang="zh-TW"><![CDATA[尋找 mid]]></value>
+		<value xml:lang="fr"><![CDATA[Rechercher mid]]></value>
+		<value xml:lang="ru"><![CDATA[Поиск mid]]></value>
+		<value xml:lang="es"><![CDATA[Buscar mid]]></value>
+		<value xml:lang="tr"><![CDATA[mid Ara]]></value>
+		<value xml:lang="vi"><![CDATA[Tìm kiếm Module]]></value>
+	</item>
+	<item name="msg_cannot_delete_for_child">
+		<value xml:lang="ko"><![CDATA[하부 메뉴가 있는 메뉴는 삭제하실 수 없습니다.]]></value>
+		<value xml:lang="en"><![CDATA[A menu with child menus cannot be deleted.]]></value>
+		<value xml:lang="jp"><![CDATA[下位メニューのあるメニューは削除できません。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[有下级菜单的菜单不能删除。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[有子選單的選單不能刪除。]]></value>
+		<value xml:lang="fr"><![CDATA[Un menu qui a des menus inférieurs ne peut pas être supprimé.]]></value>
+		<value xml:lang="ru"><![CDATA[Невозможно удалить меню с дочерними меню]]></value>
+		<value xml:lang="es"><![CDATA[No se puede eliminar un menú si posee un submenú.]]></value>
+		<value xml:lang="tr"><![CDATA[Altmenüleri olan bir menü silinemez.]]></value>
+		<value xml:lang="vi"><![CDATA[Không thể xóa Menu khi có những Menu con.]]></value>
+	</item>
+	<item name="msg_cannot_delete_for_admin_topmenu">
+		<value xml:lang="ko"><![CDATA[최상위 메뉴는 삭제할 수 없습니다.]]></value>
+		<value xml:lang="en"><![CDATA[A top menu cannot be deleted]]></value>
+		<value xml:lang="jp"><![CDATA[最上位メニューは、削除できません。]]></value>
+	</item>
+	<item name="about_title">
+		<value xml:lang="ko"><![CDATA[모듈에 연결할 때, 쉽게 구분할 수 있는 제목을 입력해주세요.]]></value>
+		<value xml:lang="en"><![CDATA[Please enter the title that is easy to verify when connecting to the module.]]></value>
+		<value xml:lang="jp"><![CDATA[モジュールをリンクする際に分かりやすいタイトルを入力してください。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[请输入连接模块时容易区分的标题。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[請輸入連接模組時，容易區分的標題。]]></value>
+		<value xml:lang="fr"><![CDATA[Entrez un titre facile à vérifier quand on le connecte à un module.]]></value>
+		<value xml:lang="ru"><![CDATA[Пожалуйста, введите название меню, которое легко проверить при подключению к модулю]]></value>
+		<value xml:lang="es"><![CDATA[Ingresar el título que sea fácil de identificar al momento de conectar al módulo.]]></value>
+		<value xml:lang="tr"><![CDATA[Modüle bağlanacakken, kolayca onaylanacak başlık giriniz.]]></value>
+		<value xml:lang="vi"><![CDATA[Xin hãy nhập tiêu đề để dễ dàng xác minh khi kết nối tới Module.]]></value>
+	</item>
+	<item name="about_menu_management">
+		<value xml:lang="ko"><![CDATA[메뉴관리는 선택하신 레이아웃에서 사용하는 메뉴를 구성할 수 있도록 합니다.
+정해진 단계까지 메뉴를 구성 가능하며 입력하신 메뉴를 클릭하시면 상세 정보를 입력할 수 있습니다.
+폴더 그림을 클릭하시면 메뉴를 확장하실 수 있습니다.
+간혹 메뉴가 정상적으로 나타나지 않으면 "캐시파일 재생성" 버튼을 눌러서 정보를 갱신하세요.
+* 정해진 단계 이상의 메뉴는 제대로 표시되지 않을 수 있습니다.]]></value>
+		<value xml:lang="en"><![CDATA[The menu management enables you to organize your menus in the selected layout.
+You can create menus up to setted depth and can enter information in details by clicking them.
+The menu will be expanded by clicking the folder image.
+If the menu is not shown normally, refresh the information by clicking the button "Re-create cache file".
+* The menu created over the depth limit may not be shown properly.]]></value>
+		<value xml:lang="jp"><![CDATA[メニュー管理では、選択したレイアウトを利用して、使用するメニューを構成できます。<br />決められた階層までメニューを構成することができ、入力したメニューをクリックして詳細情報を入力できます。<br />フォルダーのイメージをクリックするとメニューを展開することがれきます。<br />もしメニューが正常に表示されない場合は、 「キャッシュファイル再生成」ボタンをクリックして情報を更新してください。<br />* 一定レベル以上のメニューは正しく表示されない場合があります。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[在此创建要在布局中使用的菜单。
+点击菜单前的文件夹图标可以展开收缩菜单。
+偶尔不能正常显示菜单时，请按"更新缓冲"按钮更新信息。
+* 不能正常显示指定级(层级)以上的菜单，创建菜单项的时候，请确认你要使用的布局究竟支持多少级别的菜单。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[選單管理可以建構所選擇版面中使用的選單。
+不僅可以建構指定級(層級)選單，點擊輸入的選單名稱即可對其進行詳細設置。
+點擊選單前圖標可以展開選單。
+偶爾無法正常顯示選單時，請按"重新建立暫存檔"按鈕更新資料。
+* 可能無法正常顯示指定級(層級)以上的選單。]]></value>
+		<value xml:lang="fr"><![CDATA[Administration de Menu vous permet de composer le menu dans la Mise en Page que vous choisissez.
+Vous pouvez créer le menu jusqu'au niveau permis et entrer des informations détaillées si vou cliquez le menu.
+Menu sera étendu si vous cliquez l'image de dossier.
+Si le menu n'est pas représenté normalement, rafraîchir les informations en cliquant le bouton "Recréer 'antémémoire de fichier".
+* Menu cré qui passe plus que le niveau permis pourra être représenté incorrectement.]]></value>
+		<value xml:lang="ru"><![CDATA[Управление меню позволяет Вам заключить меню в вабранный лейаут.
+Вы можете создать меню до установленной грубины и ввести информацию детально посредством целчка по нему
+Меню будет разкрыто щелчком по изображению папки.
+Если меню не отображается нормально, обновите информацию щелчком по кнопке "Пересоздать файл кеша".
+* Меню, созданное за пределами лимита глубины может отображаться неверно.]]></value>
+		<value xml:lang="es"><![CDATA[Configuración del menú permite construir el menú del diseño seleccionado.
+Usted puede crear el menú hasta el nivel seleccionado y para la información más detallada debe seleccionar el menú ingresado.
+El menú será expandido al presionar la imagen del directorio.
+Si el menú no se ve correctamente, renueva la informacion presionado el botón"Rehacer archivo caché".
+ El menú creado sobre el nivel límite podría no verse apropiadamente.]]></value>
+		<value xml:lang="tr"><![CDATA[Menü yönetimi size, seçili yerleşim düzeninde menü oluşturma imkani sunar.
+Ayarlanmış derinlikte menü oluşturabilir ve menüye tıklayarak detaylı menü bilgisi girebilirsiniz.
+Dosya resmine tıklayınca menü genişletilecektir.
+Eğer menü normal görüntülenmiyorsa, "önbellek dosyasını tekrar oluştur" tuşuna basarak bilgiyi tazeleyiniz.
+* Menü, derinlik limitini geçecek şekilde oluşturulduysa, düzgün gösterilmeyebilir.]]></value>
+		<value xml:lang="vi"><![CDATA[Quản lý Menu cho phép bạn bố trí, chọn cách trình bày của Menu.
+Bạn có thể tạo những menu và nhập những thông tin khi menu được lựa chọn.
+Menu sẽ đuwọc trải rộng khi bấm và hình thư mục trên Menu.
+Nếu Menu không hiển thị một cách bình thường, hãy làm mới thông tin bằng cách bấm "Tạo File Cache mới".
+<font color='red'>*</font> Menu được tạo quá giới hạn có thể sẽ không hiển thị được như mong muốn.]]></value>
+	</item>
+	<item name="about_menu_name">
+		<value xml:lang="ko"><![CDATA[관리 및 이미지 버튼이 아닐 경우 메뉴 명으로 나타날 제목입니다.]]></value>
+		<value xml:lang="en"><![CDATA[The name will be shown as a menu name if it is not an admin or image button.]]></value>
+		<value xml:lang="jp"><![CDATA[管理ボタンやイメージボタンでない場合にメニュー名として表示されるタイトルです。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[输入不是图片按钮时显示为菜单名标题。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[輸入不是圖片按鈕時，顯示為選單名標題。]]></value>
+		<value xml:lang="fr"><![CDATA[Ce nom sera représenté comme le nom de menu si ce n'est pas le bouton en image ou le bouton pour administrer.]]></value>
+		<value xml:lang="ru"><![CDATA[Это имя будет показано, если это не административная книпка или кнопка с изображением.]]></value>
+		<value xml:lang="es"><![CDATA[El nombre se verá como un nombre de menú si no es un botón del administrador o botón de imagen.]]></value>
+		<value xml:lang="tr"><![CDATA[İsim, eğer yönetici tuşu veya resimli tuş değilse, menü ismi olarak görünecektir.]]></value>
+		<value xml:lang="vi"><![CDATA[Tên sẽ hiển thị là Tên Menu nếu không phải là Admin hay nút hình ảnh.]]></value>
+	</item>
+	<item name="about_menu_url">
+		<value xml:lang="ko"><![CDATA[메뉴 선택 시 이동할 URL입니다.<br />다른 모듈을 연결하고자 할 때는 mid값만 입력해주시면 됩니다.<br />내용이 없으면 이 메뉴를 선택해도 아무런 동작이 없습니다.]]></value>
+		<value xml:lang="en"><![CDATA[It is the menu URL when select the menu.<br />You may enter only id value to link to other module.<br />If no contents exist, nothing will happen even though you click the menu.]]></value>
+		<value xml:lang="jp"><![CDATA[メニュー選択時、移動するURLです。<br />他のモジュールとリンクを張る場合はIDの値のみ入力してください。<br />内容がない場合は、メニューを選択しても何の動作も行われません。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[点击菜单时要移动的URL。<br />连接其他模块时只输入id值即可。<br />没有内容时点击菜单也不会有什么动作。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[按選單名稱後，要移往的網址。<br />連結其他模組時，只要輸入模組mid即可。<br />沒有內容時，點擊選單不會產生任何事情。]]></value>
+		<value xml:lang="fr"><![CDATA[C'est le URL où l'on bouge quand on choisit le menu.<br />Vous pouvez entrer la valeur d'identité(nom d'idendité) seulement pour lier à un autre module.<br />Si nul contenu n'existe, rien n'aura lieu même si l'on clique le menu.]]></value>
+		<value xml:lang="ru"><![CDATA[Это URL, связанный с меню.<br />Вы можете ввести только ID значение к ссылке на другой модуль.<br />Если содержания нет, ничего не произойдет при щелчке по меню.]]></value>
+		<value xml:lang="es"><![CDATA[Este es el URL al momento de seleccionar el menú.<br />Si desea conectar a otro módulo sólo debe colocar el valor de id.<br />Si no hay contenido, no pasara nada aun cuando haya presinado el menú.]]></value>
+		<value xml:lang="tr"><![CDATA[Menü seçildiğindeki menü URLsidir.<br />Sadece diğer menüye köprü olacak id değerini girebilirsiniz.<br />Eğer hiçbir içerik yoksa, menüye tıklasanız da hiçbir eylem gerçekleşmeyecektir.]]></value>
+		<value xml:lang="vi"><![CDATA[Nó sẽ là đường dẫn khi bấm vào Menu.<br />Bạn có thể chỉ nhập ID cho đường dẫn của Module.<br />Nếu để trống, sẽ không thấy tác dụng gì khi bấm vào Menu.]]></value>
+	</item>
+	<item name="about_menu_open_window">
+		<value xml:lang="ko"><![CDATA[메뉴를 선택 했을 때, 새 창을 띄울 것인지 정할 수 있습니다.]]></value>
+		<value xml:lang="en"><![CDATA[You can assign it to open a page in a new window when the menu is clicked.]]></value>
+		<value xml:lang="jp"><![CDATA[メニューを選択した際に新しいウィンドウで開くかを指定することができます。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[可以设置点击菜单时是否要在新窗口中打开。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[按選單後，是否要以新視窗開啟。]]></value>
+		<value xml:lang="fr"><![CDATA[Vous pouvez faire ouvrir une page dans une nouvelle fenêtre quand le menu est cliqué.]]></value>
+		<value xml:lang="ru"><![CDATA[Вы можете присвоить это для открытия ссылки в новом окне при щелчке по меню.]]></value>
+		<value xml:lang="es"><![CDATA[Usted puede asignar si desea abrir la página en una nueva ventana al momento de presionar el menú.]]></value>
+		<value xml:lang="tr"><![CDATA[Menüye tıkladığında, sayfanın yeni pencerede açılmasını belirleyebilirsiniz.]]></value>
+		<value xml:lang="vi"><![CDATA[Hãy chọn nếu bạn muốn mở ra một trang mới khi bấm vào Menu.]]></value>
+	</item>
+	<item name="about_menu_expand">
+		<value xml:lang="ko"><![CDATA[트리메뉴(tree_menu.js)를 사용 하면, 메뉴가 늘 펼쳐진 상태로 있게 합니다.]]></value>
+		<value xml:lang="en"><![CDATA[It enables the menu to remain expanded when the tree menu(tree_menu.js) is used.]]></value>
+		<value xml:lang="jp"><![CDATA[ツリーメニュー（tree_menu.js）を利用すると、常にメニューが展開された状態になります。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[使用树型（tree_menu.js）菜单时总是呈展开状态。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[使用樹型選單(tree_menu.js)時，總是呈現展開狀態。]]></value>
+		<value xml:lang="fr"><![CDATA[L'Arbre de Menu(tree_menu.js) peut faire resté le menu étendu toujours.]]></value>
+		<value xml:lang="ru"><![CDATA[Это позволяет меню оставаться раскрытым, когда древовидное меню (tree_menu.js) используется.]]></value>
+		<value xml:lang="es"><![CDATA[Al usar el menú arbol(tree_menu.js) puede mantener el menú expandido.]]></value>
+		<value xml:lang="tr"><![CDATA[Bu, menünün agaç-menü(tree_menu.js) haline geldiği zaman geniş kalmasını sağlar.]]></value>
+		<value xml:lang="vi"><![CDATA[Cho phép Menu luôn trải ra khi (tree_menu.js) được sử dụng.]]></value>
+	</item>
+	<item name="about_menu_img_btn">
+		<value xml:lang="ko"><![CDATA[이미지 버튼을 등록하면 레이아웃에서 이 메뉴가 이미지 버튼으로 교체되어 표시 됩니다.]]></value>
+		<value xml:lang="en"><![CDATA[If you register an image button, it will automatically replace the text button, and will be shown in the layout.]]></value>
+		<value xml:lang="jp"><![CDATA[イメージボタンを登録するとレイアウトで自動的にイメージボタンに入れ替わって表示されます。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[如登录图片按钮，在布局中自动替换显示为图片按钮。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[如果登錄圖片按鈕，在版面中會自動替換顯示為圖片按鈕。]]></value>
+		<value xml:lang="fr"><![CDATA[Si vous enrégistez un bouton en image, l'image remplacera automatiquement le bouton en texte, et ce sera représenté dans la Mise en Page.]]></value>
+		<value xml:lang="ru"><![CDATA[Если Вы регистрируете кнопку с изображением, изображение автоматически заменит текстовую кнопку, и будет показано в лейауте.]]></value>
+		<value xml:lang="es"><![CDATA[Si Usted registra un botón de imagen, ese botón automáticamente reemplazará el botón de texto, y se mostrará en el diseño.]]></value>
+		<value xml:lang="tr"><![CDATA[Eğer bir resimli tuş kaydederseniz, resimli tuş otomatik olarak yazı düğmeciğinin yerini alacaktır ve bu yerleşim düzeninde görüntülenecektir.]]></value>
+		<value xml:lang="vi"><![CDATA[Nếu đăng kí nút hình ảnh, hình ảnh sẽ tự động chèn lên tên của Menu, và sẽ hiển thị trong giao diện.]]></value>
+	</item>
+	<item name="about_menu_group_srls">
+		<value xml:lang="ko"><![CDATA[그룹을 선택하시면 해당 그룹의 사용자만 메뉴가 보이게 됩니다. (xml파일을 직접 열람하면 노출이 됩니다.)]]></value>
+		<value xml:lang="en"><![CDATA[If you select a group, only the group members can see the menu. (if xml file is directly opened, it will be visible to anyone who opens it.)]]></value>
+		<value xml:lang="jp"><![CDATA[グループを選択すると該当するグループのユーザーにのみメニューが表示されます（XMLファイルを直接開くと情報が表示されます）。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[如选择用户组，只有所属组用户才能看到此菜单。 —（xml文件中不能隐藏）]]></value>
+		<value xml:lang="zh-TW"><![CDATA[如果選擇群組，只有所屬群組才能看到此選單。(如果可直接連結xml檔案，內容將無法隱藏)]]></value>
+		<value xml:lang="fr"><![CDATA[Si vous choisissez un groupe, les membres de ce groupe seulement peuvent voir le menu. (Si l'on ouvre un fichier xml, le fichier sera exposé.)]]></value>
+		<value xml:lang="ru"><![CDATA[Если Вы выберите группу, то только ее члены могут видеть это меню. (если XML файл открыт напрямую, оно будет показано.)]]></value>
+		<value xml:lang="es"><![CDATA[Si tu selecciona el grupo, sólo los usuarios del grupo pueden ver el menú. (Si el archivo xml es abierto directamente, lo mostrará.)]]></value>
+		<value xml:lang="tr"><![CDATA[Eğer bir grup seçerseniz, sadece grup üyeleri menüyü göreceklerdir. (eğer xml dosyası doğrudan açılırsa, menü görüntülenecektir.)]]></value>
+		<value xml:lang="vi"><![CDATA[Nếu lựa chọn nhóm, thì chỉ những nhóm được chọn mới thấy được Menu. (nếu File XML trực tiếp mở ra, nó sẽ được hiển thị).]]></value>
+	</item>
+	<item name="about_menu">
+		<value xml:lang="ko"><![CDATA[메뉴모듈은 생성된 모듈을 편리한 메뉴관리기를 통해 정리하고 레이아웃과 연결하여 별도의 수작업 없이 완성된 사이트를 구축하도록 도와줍니다.
+메뉴는 사이트를 관리하기 보다는 모듈과 레이아웃을 연결해 주며 레이아웃을 통해 여러 가지 형태의 메뉴를 표시할 수 있도록 하는 정보만 가지고 있습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Menu module will help you create a complete site through the convenient menu management which arranges the created modules and links to layouts without any manual work.
+However, menu is not a site manager. It just has the information which can link to modules and layouts so you can express different types of menus.]]></value>
+		<value xml:lang="jp"><![CDATA[メニューモジュールは、メニュー管理機能にて生成モジュールの整理やレイアウトとのリンクを設定し、かんたんに管理者画面でサイトを構築できるようにします。
+メニューはサイトを管理するというより、モジュールとレイアウトを繋げ、レイアウトを通じて様々なタイプのメニューを表示させる情報のみを持っています。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[菜单模块可以通过菜单管理器整理已生成的模块并同布局相连接来轻松建设一个完整的网站。
+菜单模块虽然具有连接模块和布局并通过布局来显示多种形态菜单的信息，但它不具备管理网站的功能。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[選單模組可以透過選單管理器，管理已建立的模組並可和版面相互連結，輕鬆架設一個完整的網站。
+選單模組雖然可連結模組和版面，並透過版面來顯示多種類型的選單，但它不具備管理網站的功能。]]></value>
+		<value xml:lang="fr"><![CDATA[Le Module de Menu vous aidrera à établir un site complet par l'administration confortable qui arrange les modules créés et liens à la mise en page sans aucun travaux manuels.
+Menu n'est pas un administrateur du Site, mais il a seulement l'information qui peut lier les modules à la mise en page, et on peut représenter les menu en formes diverses par la mise en page.]]></value>
+		<value xml:lang="ru"><![CDATA[Модуль меню поможет Вам создать полноценный сайт посредством удобного менеджмента меню, которое расставляет созданные модули и ссылки в лейауты без всякой ручной работы.
+Меню не является менеджером сайта, но оно содержит информацию, которая может связываться с модулями и лейаутами так, что Вы можете выразить различные виды меню.]]></value>
+		<value xml:lang="es"><![CDATA[Módulo del menú te ayudara a crear un sitio completo a través de un conveniente manejo del menú que ordena los módulos creados y conecta con el diseño sin ningún otro trabajo.
+El menú no es un manejador del sitio, sino que permite conectar los módulos con el diseño y a través del diseño puede expresar variados estilos del menú.]]></value>
+		<value xml:lang="tr"><![CDATA[Menü modülü size, oluşturulmuş menüleri ve linkleri otomatik yolla yerleşim düzenine uyduran uygun menü yönetim yoluyla bütün bir site oluşturmanıza yardımcı olur.
+Menü site yöneticisi değildir fakat; yerleşim düzenlerine ve modüllere köprüleme bilgisi vardır bu şekilde kendinizi farklı şekillerde ifade edebilirsiniz.]]></value>
+		<value xml:lang="vi"><![CDATA[Menu Module sẽ giúp bạn hoàn thiện một trang Web thông qua việc quản lý và sắp xếp thuận tiện, nó sẽ liên kết tới những Module trong Website.
+Menu không phải là người quản lý, nhiệm vụ của nó chỉ là liên kết và tạo sự phong phú trong Website của bạn.]]></value>
+	</item>
+	<item name="alert_image_only">
+		<value xml:lang="ko"><![CDATA[이미지 파일만 등록 가능합니다.]]></value>
+		<value xml:lang="en"><![CDATA[Only image files can be registered.]]></value>
+		<value xml:lang="jp"><![CDATA[イメージ(画像)ファイルのみ登録できます。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[只允许图形文件。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[只允許圖形檔案。]]></value>
+		<value xml:lang="fr"><![CDATA[Fichiers d'image seulement peuvent être enrégistrés.]]></value>
+		<value xml:lang="ru"><![CDATA[Возможна регистрация только картинок]]></value>
+		<value xml:lang="es"><![CDATA[Sólo los archivos de imagen pueden ser registradas.]]></value>
+		<value xml:lang="tr"><![CDATA[Sadece resim dosyaları kaydedilebilir.]]></value>
+		<value xml:lang="vi"><![CDATA[Chỉ được phép sử dụng File hình ảnh.]]></value>
+	</item>
+</lang>

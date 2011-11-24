@@ -2,7 +2,7 @@
     /**
      * @class DBMysql
      * @author NHN (developers@xpressengine.com)
-     * @brief MySQL DBMS를 이용하기 위한 class
+     * @brief Class to use MySQL DBMS
      * @version 0.1
      *
      * mysql handling class
@@ -11,20 +11,16 @@
     class DBMysql extends DB {
 
         /**
-         * @brief Mysql DB에 접속하기 위한 정보
+         * @brief Connection information for Mysql DB
          **/
-        var $hostname = '127.0.0.1'; ///< hostname
-        var $userid   = NULL; ///< user id
-        var $password   = NULL; ///< password
-        var $database = NULL; ///< database
-        var $prefix   = 'xe'; ///< XE에서 사용할 테이블들의 prefix  (한 DB에서 여러개의 XE 설치 가능)
-		var $comment_syntax = '/* %s */';
+        var $prefix   = 'xe_'; // / <prefix of a tablename (One or more XEs can be installed in a single DB)
+        var $comment_syntax = '/* %s */';
 
         /**
-         * @brief mysql에서 사용될 column type
+         * @brief Column type used in MySQL
          *
-         * column_type은 schema/query xml에서 공통 선언된 type을 이용하기 때문에
-         * 각 DBMS에 맞게 replace 해주어야 한다
+         * Becasue a common column type in schema/query xml is used for colum_type,
+         * it should be replaced properly for each DBMS
          **/
         var $column_type = array(
             'bignumber' => 'bigint',
@@ -41,16 +37,16 @@
          * @brief constructor
          **/
         function DBMysql() {
-            $this->_setDBInfo();
+			$this->_setDBInfo();
             $this->_connect();
         }
-		
+
 		function create() {
 			return new DBMysql;
 		}
 
         /**
-         * @brief 설치 가능 여부를 return
+         * @brief Return if it is installable
          **/
         function isSupported() {
             if(!function_exists('mysql_connect')) return false;
@@ -58,133 +54,114 @@
         }
 
         /**
-         * @brief DB정보 설정 및 connect/ close
+         * @brief DB Connection
          **/
-        function _setDBInfo() {
-            $db_info = Context::getDBInfo();
-            $this->hostname = $db_info->db_hostname;
-            $this->port = $db_info->db_port;
-            $this->userid   = $db_info->db_userid;
-            $this->password   = $db_info->db_password;
-            $this->database = $db_info->db_database;
-            $this->prefix = $db_info->db_table_prefix;
-            if(!substr($this->prefix,-1)!='_') $this->prefix .= '_';
-        }
+        function __connect($connection) {
+            // Ignore if no DB information exists
+           if (strpos($connection["db_hostname"], ':') === false && $connection["db_port"])
+                $connection["db_hostname"] .= ':' . $connection["db_port"];
 
-        /**
-         * @brief DB 접속
-         **/
-        function _connect() {
-            // db 정보가 없으면 무시
-            if(!$this->hostname || !$this->userid || !$this->password || !$this->database) return;
+            // Attempt to connect
+            $result = @mysql_connect($connection["db_hostname"], $connection["db_userid"], $connection["db_password"]);
 
-            if(strpos($this->hostname, ':')===false && $this->port) $this->hostname .= ':'.$this->port;
-
-            // 접속시도  
-            $this->fd = @mysql_connect($this->hostname, $this->userid, $this->password);
             if(mysql_error()) {
                 $this->setError(mysql_errno(), mysql_error());
                 return;
             }
-
-            // 버전 확인후 4.1 이하면 오류 표시
-            if(mysql_get_server_info($this->fd)<"4.1") {
+            // Error appears if the version is lower than 4.1
+            if(mysql_get_server_info($result)<"4.1") {
                 $this->setError(-1, "XE cannot be installed under the version of mysql 4.1. Current mysql version is ".mysql_get_server_info());
                 return;
             }
-
-            // db 선택
-            @mysql_select_db($this->database, $this->fd);
+            // select db
+            @mysql_select_db($connection["db_database"], $result);
             if(mysql_error()) {
                 $this->setError(mysql_errno(), mysql_error());
                 return;
             }
 
-            // 접속체크
-            $this->is_connected = true;
-			$this->password = md5($this->password);
+            return $result;
+        }
 
-            // mysql의 경우 utf8임을 지정
-            $this->_query("set names 'utf8'");
+        function _afterConnect($connection){
+            // Set utf8 if a database is MySQL
+            $this->_query("set names 'utf8'", $connection);
         }
 
         /**
-         * @brief DB접속 해제
+         * @brief DB disconnection
          **/
-        function close() {
-            if(!$this->isConnected()) return;
-            @mysql_close($this->fd);
+        function _close($connection) {
+            @mysql_close($connection);
         }
 
         /**
-         * @brief 쿼리에서 입력되는 문자열 변수들의 quotation 조절
+         * @brief Add quotes on the string variables in a query
          **/
         function addQuotes($string) {
             if(version_compare(PHP_VERSION, "5.9.0", "<") && get_magic_quotes_gpc()) $string = stripslashes(str_replace("\\","\\\\",$string));
-            if(!is_numeric($string)) $string = @mysql_escape_string($string);
+            if(!is_numeric($string)) $string = @mysql_real_escape_string($string);
             return $string;
         }
 
         /**
-         * @brief 트랜잭션 시작
+         * @brief Begin transaction
          **/
-        function begin() {
+        function _begin() {
+            return true;
         }
 
         /**
-         * @brief 롤백
+         * @brief Rollback
          **/
-        function rollback() {
+        function _rollback() {
+            return true;
         }
 
         /**
-         * @brief 커밋
+         * @brief Commits
          **/
-        function commit() {
+        function _commit() {
+            return true;
         }
 
         /**
-         * @brief : 쿼리문의 실행 및 결과의 fetch 처리
+         * @brief : Run a query and fetch the result
          *
-         * query : query문 실행하고 result return\n
-         * fetch : reutrn 된 값이 없으면 NULL\n
-         *         rows이면 array object\n
-         *         row이면 object\n
+         * query: run a query and return the result \n
+         * fetch: NULL if no value is returned \n
+         *        array object if rows are returned \n
+         *        object if a row is returned \n
          *         return\n
          **/
-        function _query($query) {
-            if(!$this->isConnected()) return;
-
-            // 쿼리 시작을 알림
-            $this->actStart($query);
-
-            // 쿼리 문 실행
-            $result = @mysql_query($query, $this->fd);
-
-            // 오류 체크
-            if(mysql_error($this->fd)) $this->setError(mysql_errno($this->fd), mysql_error($this->fd));
-
-            // 쿼리 실행 종료를 알림
-            $this->actFinish();
-
-            // 결과 리턴
+        function __query($query, $connection) {
+            // Run the query statement
+            $result = mysql_query($query, $connection);
+            // Error Check
+            if(mysql_error($connection)) $this->setError(mysql_errno($connection), mysql_error($connection));
+            // Return result
             return $result;
         }
 
         /**
-         * @brief 결과를 fetch
+         * @brief Fetch results
          **/
-        function _fetch($result) {
+        function _fetch($result, $arrayIndexEndValue = NULL) {
             if(!$this->isConnected() || $this->isError() || !$result) return;
             while($tmp = $this->db_fetch_object($result)) {
-                $output[] = $tmp;
+            	if($arrayIndexEndValue) $output[$arrayIndexEndValue--] = $tmp;
+                else $output[] = $tmp;
             }
-            if(count($output)==1) return $output[0];
+            if(count($output)==1){
+            	if(isset($arrayIndexEndValue)) return $output;
+            	else return $output[0];
+            }
+            mysql_free_result($result);
             return $output;
         }
 
         /**
-         * @brief 1씩 증가되는 sequence값을 return (mysql의 auto_increment는 sequence테이블에서만 사용)
+         * @brief Return sequence value incremented by 1(auto_increment is used in sequence table only in MySQL)
          **/
         function getNextSequence() {
             $query = sprintf("insert into `%ssequence` (seq) values ('0')", $this->prefix);
@@ -199,7 +176,7 @@
         }
 
         /**
-         * @brief mysql old password를 가져오는 함수 (mysql에서만 사용)
+         * @brief Function to obtain mysql old password(mysql only)
          **/
         function isValidOldPassword($password, $saved_password) {
             $query = sprintf("select password('%s') as password, old_password('%s') as old_password", $this->addQuotes($password), $this->addQuotes($password));
@@ -210,7 +187,7 @@
         }
 
         /**
-         * @brief 테이블 기생성 여부 return
+         * @brief Return if a table already exists
          **/
         function isTableExists($target_name) {
             $query = sprintf("show tables like '%s%s'", $this->prefix, $this->addQuotes($target_name));
@@ -221,7 +198,7 @@
         }
 
         /**
-         * @brief 특정 테이블에 특정 column 추가
+         * @brief Add a column to a table
          **/
         function addColumn($table_name, $column_name, $type='number', $size='', $default = '', $notnull=false) {
             $type = $this->column_type[$type];
@@ -237,7 +214,7 @@
         }
 
         /**
-         * @brief 특정 테이블에 특정 column 제거
+         * @brief Delete a column from a table
          **/
         function dropColumn($table_name, $column_name) {
             $query = sprintf("alter table `%s%s` drop `%s` ", $this->prefix, $table_name, $column_name);
@@ -245,7 +222,7 @@
         }
 
         /**
-         * @brief 특정 테이블의 column의 정보를 return
+         * @brief Return column information of a table
          **/
         function isColumnExists($table_name, $column_name) {
             $query = sprintf("show fields from `%s%s`", $this->prefix, $table_name);
@@ -263,7 +240,7 @@
         }
 
         /**
-         * @brief 특정 테이블에 특정 인덱스 추가
+         * @brief Add an index to a table
          * $target_columns = array(col1, col2)
          * $is_unique? unique : none
          **/
@@ -275,7 +252,7 @@
         }
 
         /**
-         * @brief 특정 테이블의 특정 인덱스 삭제
+         * @brief Drop an index from a table
          **/
         function dropIndex($table_name, $index_name, $is_unique = false) {
             $query = sprintf("alter table `%s%s` drop index `%s`", $this->prefix, $table_name, $index_name);
@@ -284,7 +261,7 @@
 
 
         /**
-         * @brief 특정 테이블의 index 정보를 return
+         * @brief Return index information of a table
          **/
         function isIndexExists($table_name, $index_name) {
             //$query = sprintf("show indexes from %s%s where key_name = '%s' ", $this->prefix, $table_name, $index_name);
@@ -302,24 +279,24 @@
         }
 
         /**
-         * @brief xml 을 받아서 테이블을 생성
+         * @brief Create a table by using xml file
          **/
         function createTableByXml($xml_doc) {
             return $this->_createTable($xml_doc);
         }
 
         /**
-         * @brief xml 을 받아서 테이블을 생성
+         * @brief Create a table by using xml file
          **/
         function createTableByXmlFile($file_name) {
             if(!file_exists($file_name)) return;
-            // xml 파일을 읽음
+            // read xml file
             $buff = FileHandler::readFile($file_name);
             return $this->_createTable($buff);
         }
 
         /**
-         * @brief schema xml을 이용하여 create table query생성
+         * @brief generate a query statement to create a table by using schema xml
          *
          * type : number, varchar, text, char, date, \n
          * opt : notnull, default, size\n
@@ -329,8 +306,7 @@
             // xml parsing
             $oXml = new XmlParser();
             $xml_obj = $oXml->parse($xml_doc);
-
-            // 테이블 생성 schema 작성
+            // Create a table schema
             $table_name = $xml_obj->table->attrs->name;
             if($this->isTableExists($table_name)) return;
             $table_name = $this->prefix.$table_name;
@@ -386,396 +362,175 @@
         }
 
         /**
-         * @brief 조건문 작성하여 return
+         * @brief Handle the insertAct
          **/
-        function getCondition($output) {
-            if(!$output->conditions) return;
-            $condition = $this->_getCondition($output->conditions,$output->column_type);
-            if($condition) $condition = ' where '.$condition;
-            return $condition;
-        }
+        function _executeInsertAct($queryObject) {
+            // TODO See what priority does
+			//priority setting
+			//$priority = '';
+			//if($output->priority) $priority = $output->priority['type'].'_priority';
 
-        function getLeftCondition($conditions,$column_type){
-            return $this->_getCondition($conditions,$column_type);
-        }
-
-
-        function _getCondition($conditions,$column_type) {
-            $condition = '';
-            foreach($conditions as $val) {
-                $sub_condition = '';
-                foreach($val['condition'] as $v) {
-                    if(!isset($v['value'])) continue;
-                    if($v['value'] === '') continue;
-                    if(!in_array(gettype($v['value']), array('string', 'integer', 'double', 'array'))) continue;
-
-                    $name = $v['column'];
-                    $operation = $v['operation'];
-                    $value = $v['value'];
-                    $type = $this->getColumnType($column_type,$name);
-                    $pipe = $v['pipe'];
-                    $value = $this->getConditionValue($name, $value, $operation, $type, $column_type);
-                    if(!$value) $value = $v['value'];
-                    $str = $this->getConditionPart($name, $value, $operation);
-                    if($sub_condition) $sub_condition .= ' '.$pipe.' ';
-                    $sub_condition .=  $str;
-                }
-                if($sub_condition) {
-                    if($condition && $val['pipe']) $condition .= ' '.$val['pipe'].' ';
-                    $condition .= '('.$sub_condition.')';
-                }
-            }
-            return $condition;
-        }
-
-        /**
-         * @brief insertAct 처리
-         **/
-        function _executeInsertAct($output) {
-            // 테이블 정리
-            foreach($output->tables as $key => $val) {
-                $table_list[] = '`'.$this->prefix.$val.'`';
-            }
-
-            // 컬럼 정리 
-            foreach($output->columns as $key => $val) {
-                $name = $val['name'];
-                $value = $val['value'];
-
-                if($output->column_type[$name]!='number') {
-
-					if(!is_null($value)){
-						$value = "'" . $this->addQuotes($value) ."'";
-					}else{
-						if($val['notnull']=='notnull') {
-							$value = "''";
-						} else {
-							//$value = 'null';
-							$value = "''";
-						}
-					}
-
-                }
-				//elseif(!$value || is_numeric($value)) $value = (int)$value;
-                else $this->_filterNumber(&$value);
-
-                $column_list[] = '`'.$name.'`';
-                $value_list[] = $value;
-            }
-
-            $query = sprintf("insert into %s (%s) values (%s);", implode(',',$table_list), implode(',',$column_list), implode(',', $value_list));
+            $query = $this->getInsertSql($queryObject, true, true);
+            if(is_a($query, 'Object')) return;
             return $this->_query($query);
         }
 
         /**
-         * @brief updateAct 처리
+         * @brief Handle updateAct
          **/
-        function _executeUpdateAct($output) {
-            // 테이블 정리
-            foreach($output->tables as $key => $val) {
-                $table_list[] = '`'.$this->prefix.$val.'` as '.$key;
-            }
+        function _executeUpdateAct($queryObject) {
+            // TODO See what proiority does
+			//priority setting
+			//$priority = '';
+			//if($output->priority) $priority = $output->priority['type'].'_priority';
 
-            // 컬럼 정리 
-            foreach($output->columns as $key => $val) {
-                if(!isset($val['value'])) continue;
-                $name = $val['name'];
-                $value = $val['value'];
-                if(strpos($name,'.')!==false&&strpos($value,'.')!==false) $column_list[] = $name.' = '.$value;
-                else {
-                    if($output->column_type[$name]!='number') $value = "'".$this->addQuotes($value)."'";
-                	else $this->_filterNumber(&$value);
-
-                    $column_list[] = sprintf("`%s` = %s", $name, $value);
-                }
-            }
-
-            // 조건절 정리
-            $condition = $this->getCondition($output);
-
-            $query = sprintf("update %s set %s %s", implode(',',$table_list), implode(',',$column_list), $condition);
-
+            $query = $this->getUpdateSql($queryObject, true, true);
+            if(is_a($query, 'Object')) return;
             return $this->_query($query);
         }
 
         /**
-         * @brief deleteAct 처리
+         * @brief Handle deleteAct
          **/
-        function _executeDeleteAct($output) {
-            // 테이블 정리
-            foreach($output->tables as $key => $val) {
-                $table_list[] = '`'.$this->prefix.$val.'`';
-            }
+        function _executeDeleteAct($queryObject) {
+        	$query = $this->getDeleteSql($queryObject, true, true);
 
-            // 조건절 정리
-            $condition = $this->getCondition($output);
+        	if(is_a($query, 'Object')) return;
 
-            $query = sprintf("delete from %s %s", implode(',',$table_list), $condition);
-
+        	//priority setting
+			// TODO Check what priority does
+			//$priority = '';
+			//if($output->priority) $priority = $output->priority['type'].'_priority';
             return $this->_query($query);
         }
 
         /**
-         * @brief selectAct 처리
+         * @brief Handle selectAct
          *
-         * select의 경우 특정 페이지의 목록을 가져오는 것을 편하게 하기 위해\n
-         * navigation이라는 method를 제공
+         * In order to get a list of pages easily when selecting \n
+         * it supports a method as navigation
          **/
-        function _executeSelectAct($output) {
-            // 테이블 정리
-            $table_list = array();
-            foreach($output->tables as $key => $val) {
-                $table_list[] = '`'.$this->prefix.$val.'` as '.$key;
-            }
+        function _executeSelectAct($queryObject, $connection = null) {
+            $limit = $queryObject->getLimit();
+            if ($limit && $limit->isPageHandler())
+                    return $this->queryPageLimit($queryObject, $result, $connection);
+            else {
+                $query = $this->getSelectSql($queryObject);
+		if(is_a($query, 'Object')) return;
+                    $query .= (__DEBUG_QUERY__&1 && $queryObject->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id):'';
 
-            $left_join = array();
-            // why???
-            $left_tables= (array)$output->left_tables;
+		$result = $this->_query ($query, $connection);
+		if ($this->isError ()) return $this->queryError($queryObject);
 
-            foreach($left_tables as $key => $val) {
-                $condition = $this->_getCondition($output->left_conditions[$key],$output->column_type);
-                if($condition){
-                    $left_join[] = $val . ' `'.$this->prefix.$output->_tables[$key].'` as '.$key  . ' on (' . $condition . ')';
-                }
-            }
-			
-            $click_count = array();
-            if(!$output->columns){
-				$output->columns = array(array('name'=>'*'));
-			}
-
-			$column_list = array();
-			foreach($output->columns as $key => $val) 
-			{
-				$name = $val['name'];
-				$alias = $val['alias'];
-				if($val['click_count']) $click_count[] = $val['name'];
-
-				if(substr($name,-1) == '*') 
-				{
-					$column_list[] = $name;
-				} 
-				else if(strpos($name,'.')===false && strpos($name,'(')===false) 
-				{
-					if($alias)
-					{
-						$col = sprintf('`%s` as `%s`', $name, $alias);
-						$column_list[$alias] = $col;
-					}
-					else
-					{
-						$column_list[] = sprintf('`%s`',$name);
-					}
-				} 
-				else 
-				{
-					if($alias)
-					{
-						$col = sprintf('%s as `%s`', $name, $alias);
-						$column_list[$alias] = $col;
-					}
-					else
-					{
-						$column_list[] = sprintf('%s',$name);
-					}
-				}
-			}
-
-			$columns = implode(',',$column_list);
-			$output->column_list = $column_list;
-            $condition = $this->getCondition($output);
-
-            if($output->list_count && $output->page) return $this->_getNavigationData($table_list, $columns, $left_join, $condition, $output);
-
-            // list_order, update_order 로 정렬시에 인덱스 사용을 위해 condition에 쿼리 추가
-            if($output->order) {
-                $conditions = $this->getConditionList($output);
-                if(!in_array('list_order', $conditions) && !in_array('update_order', $conditions)) {
-                    foreach($output->order as $key => $val) {
-                        $col = $val[0];
-                        if(!in_array($col, array('list_order','update_order'))) continue;
-                        if($condition) $condition .= sprintf(' and %s < 2100000000 ', $col);
-                        else $condition = sprintf(' where %s < 2100000000 ', $col);
-                    }
-                }
-            }
-
-
-            if(count($output->groups))
-			{
-				$groupby_query = sprintf(' group by %s', implode(',',$output->groups));
-
-				if(count($output->arg_columns))
-				{
-					foreach($output->groups as $group)
-					{
-						if($column_list[$group]) $output->arg_columns[] = $column_list[$group];
-					}
-				}
-			}
-	
-            if($output->order) {
-                foreach($output->order as $key => $val) {
-                    $index_list[] = sprintf('%s %s', $val[0], $val[1]);
-					if(count($output->arg_columns) && $column_list[$val[0]]) $output->arg_columns[] = $column_list[$val[0]];
-                }
-                if(count($index_list)) $orderby_query .= ' order by '.implode(',',$index_list);
-            }
-
-			if(count($output->arg_columns))
-			{
-				$columns = array();
-				foreach($output->arg_columns as $col){
-					if(strpos($col,'`')===false && strpos($col,' ')==false) $columns[] = '`'.$col.'`'; 
-					else $columns[] = $col;
-				}
-				
-				$columns = join(',',$columns);
-			}
-
-            $query = sprintf("select %s from %s %s %s %s", $columns, implode(',',$table_list),implode(' ',$left_join), $condition, $groupby_query.$orderby_query);
-
-            // list_count를 사용할 경우 적용
-            if($output->list_count['value']) $query = sprintf('%s limit %d', $query, $output->list_count['value']);
-
-			$query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id):'';
-
-            $result = $this->_query($query);
-            if($this->isError()) return;
-            if(count($click_count) && count($output->conditions)){
-                $_query = '';
-                foreach($click_count as $k => $c) $_query .= sprintf(',%s=%s+1 ',$c,$c);
-                $_query = sprintf('update %s set %s %s',implode(',',$table_list), substr($_query,1),  $condition);
-                $this->_query($_query);
-            }
-
-            $data = $this->_fetch($result);
-
-            $buff = new Object();
-            $buff->data = $data;
-
-            return $buff;
-        }
-
-        /**
-         * @brief query xml에 navigation 정보가 있을 경우 페이징 관련 작업을 처리한다
-         *
-         * 그닥 좋지는 않은 구조이지만 편리하다.. -_-;
-         **/
-        function _getNavigationData($table_list, $columns, $left_join, $condition, $output) {
-            require_once(_XE_PATH_.'classes/page/PageHandler.class.php');
-
-			$column_list = $output->column_list;
-
-            // 전체 개수를 구함
-			$count_condition = count($output->groups) ? sprintf('%s group by %s', $condition, implode(', ', $output->groups)) : $condition;
-			$count_query = sprintf("select count(*) as count from %s %s %s", implode(', ', $table_list), implode(' ', $left_join), $count_condition);
-			if (count($output->groups)) $count_query = sprintf('select count(*) as count from (%s) xet', $count_query);
-
-			$count_query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id . ' count(*)'):'';
-			$result = $this->_query($count_query);
-			$count_output = $this->_fetch($result);
-			$total_count = (int)$count_output->count;
-
-            $list_count = $output->list_count['value'];
-            if(!$list_count) $list_count = 20;
-            $page_count = $output->page_count['value'];
-            if(!$page_count) $page_count = 10;
-            $page = $output->page['value'];
-            if(!$page) $page = 1;
-
-            // 전체 페이지를 구함
-            if($total_count) $total_page = (int)( ($total_count-1) / $list_count) + 1;
-            else $total_page = 1;
-
-            // 페이지 변수를 체크
-            if($page > $total_page) $page = $total_page;
-            $start_count = ($page-1)*$list_count;
-
-            // list_order, update_order 로 정렬시에 인덱스 사용을 위해 condition에 쿼리 추가
-            if($output->order) {
-                $conditions = $this->getConditionList($output);
-                if(!in_array('list_order', $conditions) && !in_array('update_order', $conditions)) {
-                    foreach($output->order as $key => $val) {
-                        $col = $val[0];
-                        if(!in_array($col, array('list_order','update_order'))) continue;
-                        if($condition) $condition .= sprintf(' and %s < 2100000000 ', $col);
-                        else $condition = sprintf(' where %s < 2100000000 ', $col);
-                    }
-                }
-            }
-
-            if(count($output->groups)){
-				$groupby_query = sprintf(' group by %s', implode(',',$output->groups));
-
-				if(count($output->arg_columns))
-				{
-					foreach($output->groups as $group)
-					{
-						if($column_list[$group]) $output->arg_columns[] = $column_list[$group];
-					}
-				}
-			}
-
-            if(count($output->order)) {
-                foreach($output->order as $key => $val) {
-                    $index_list[] = sprintf('%s %s', $val[0], $val[1]);
-					if(count($output->arg_columns) && $column_list[$val[0]]) $output->arg_columns[] = $column_list[$val[0]];
-                }
-                if(count($index_list)) $orderby_query = ' order by '.implode(',',$index_list);
-            }
-
-			if(count($output->arg_columns))
-			{
-				$columns = array();
-				foreach($output->arg_columns as $col){
-					if(strpos($col,'`')===false && strpos($col,' ')==false) $columns[] = '`'.$col.'`'; 
-					else $columns[] = $col;
-				}
-				
-				$columns = join(',',$columns);
-			}
-
-            $query = sprintf("select %s from %s %s %s %s", $columns, implode(',',$table_list), implode(' ',$left_join), $condition, $groupby_query.$orderby_query);
-            $query = sprintf('%s limit %d, %d', $query, $start_count, $list_count);
-			$query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id):'';
-
-            $result = $this->_query($query);
-            if($this->isError()) {
-                $buff = new Object();
-                $buff->total_count = 0;
-                $buff->total_page = 0;
-                $buff->page = 1;
-                $buff->data = array();
-
-                $buff->page_navigation = new PageHandler($total_count, $total_page, $page, $page_count);
+                $data = $this->_fetch($result);
+                $buff = new Object ();
+                $buff->data = $data;
                 return $buff;
             }
+        }
 
-            $virtual_no = $total_count - ($page-1)*$list_count;
-			$data = array();
-            while($tmp = $this->db_fetch_object($result)) {
-                $data[$virtual_no--] = $tmp;
+        function db_insert_id()
+        {
+            $connection = $this->_getConnection('master');
+            return mysql_insert_id($connection);
+        }
+
+        function db_fetch_object(&$result)
+        {
+            return mysql_fetch_object($result);
+        }
+
+        function getParser(){
+            return new DBParser('`', '`', $this->prefix);
+        }
+
+        function queryError($queryObject){
+            $limit = $queryObject->getLimit();
+            if ($limit && $limit->isPageHandler()){
+                            $buff = new Object ();
+                            $buff->total_count = 0;
+                            $buff->total_page = 0;
+                            $buff->page = 1;
+                            $buff->data = array ();
+                            $buff->page_navigation = new PageHandler (/*$total_count*/0, /*$total_page*/1, /*$page*/1, /*$page_count*/10);//default page handler values
+                            return $buff;
+                    }else
+                            return;
+        }
+
+        function queryPageLimit($queryObject, $result, $connection){
+            $limit = $queryObject->getLimit();
+            // Total count
+            $temp_where = $queryObject->getWhereString(true, false);
+            $count_query = sprintf('select count(*) as "count" %s %s', 'FROM ' . $queryObject->getFromString(), ($temp_where === '' ? '' : ' WHERE '. $temp_where));
+            if ($queryObject->getGroupByString() != '') {
+                    $count_query = sprintf('select count(*) as "count" from (%s) xet', $count_query);
             }
-            $buff = new Object();
+
+            $count_query .= (__DEBUG_QUERY__&1 && $queryObject->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
+            $result_count = $this->_query($count_query, $connection);
+            $count_output = $this->_fetch($result_count);
+            $total_count = (int)$count_output->count;
+
+            $list_count = $limit->list_count->getValue();
+            if (!$list_count) $list_count = 20;
+            $page_count = $limit->page_count->getValue();
+            if (!$page_count) $page_count = 10;
+            $page = $limit->page->getValue();
+            if (!$page) $page = 1;
+
+            // total pages
+            if ($total_count)
+                    $total_page = (int) (($total_count - 1) / $list_count) + 1;
+            else
+                    $total_page = 1;
+
+            // check the page variables
+            if ($page > $total_page) $page = $total_page;
+            $start_count = ($page - 1) * $list_count;
+
+            $query = $this->getSelectPageSql($queryObject, true, $start_count, $list_count);
+
+            $query .= (__DEBUG_QUERY__&1 && $queryObject->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
+            $result = $this->_query ($query, $connection);
+            if ($this->isError ())
+                return $this->queryError($queryObject);
+
+            $virtual_no = $total_count - ($page - 1) * $list_count;
+            $data = $this->_fetch($result, $virtual_no);
+
+            $buff = new Object ();
             $buff->total_count = $total_count;
             $buff->total_page = $total_page;
             $buff->page = $page;
             $buff->data = $data;
-
             $buff->page_navigation = new PageHandler($total_count, $total_page, $page, $page_count);
             return $buff;
         }
 
-		function db_insert_id()
-		{
-            return mysql_insert_id($this->fd);
-		}
+        function getSelectPageSql($query, $with_values = true, $start_count = 0, $list_count = 0) {
+            $select = $query->getSelectString($with_values);
+            if($select == '') return new Object(-1, "Invalid query");
+            $select = 'SELECT ' .$select;
 
-		function db_fetch_object(&$result)
-		{
-			return mysql_fetch_object($result);
-		}
+            $from = $query->getFromString($with_values);
+            if($from == '') return new Object(-1, "Invalid query");
+            $from = ' FROM '.$from;
+
+            $where = $query->getWhereString($with_values);
+            if($where != '') $where = ' WHERE ' . $where;
+
+            $groupBy = $query->getGroupByString();
+            if($groupBy != '') $groupBy = ' GROUP BY ' . $groupBy;
+
+            $orderBy = $query->getOrderByString();
+            if($orderBy != '') $orderBy = ' ORDER BY ' . $orderBy;
+
+            $limit = $query->getLimitString();
+            if ($limit != '') $limit = sprintf (' LIMIT %d, %d', $start_count, $list_count);
+
+            return $select . ' ' . $from . ' ' . $where . ' ' . $groupBy . ' ' . $orderBy . ' ' . $limit;
+        }
     }
 
 return new DBMysql;

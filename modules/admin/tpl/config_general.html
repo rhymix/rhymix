@@ -1,0 +1,225 @@
+<script type="text/javascript">
+jQuery(function($){
+	$('#favicon').change(function(){
+		var re_favicon = /[^.]+\.ico$/
+		if(re_favicon.test($(this).val()) != true){
+			alert('*.ico {$lang->msg_possible_only_file}');
+			return false;
+		}
+	});
+	$('#mobicon').change(function(){
+		var re_favicon = /[^.]+\.png$/
+		if(re_favicon.test($(this).val()) != true){
+			alert('*.png {$lang->msg_possible_only_file}');
+			return false;
+		}
+	});
+});
+</script>
+<load target="./js/config.js" usecdn="true" />
+<load target="../install/lang/lang.xml" usecdn="true" />
+<load target="../../session/tpl/js/session.js" usecdn="true" />
+
+<form action="" method="post" id="ftp_form" class="form" enctype="multipart/form-data">
+	<input type="hidden" name="module" value="install" />
+	<input type="hidden" name="act" value="procInstallAdminConfig" />
+	<h1 class="h1">{$lang->menu_gnb_sub['adminConfigurationGeneral']}</h1>
+	<fieldset class="section">
+		<h2 class="h2">{$lang->subtitle_primary}</h2>
+		<ul>
+			<li class="modulefinder">
+				<p class="q">{$lang->about_start_module}</p>
+				<p class="a">
+					<input type="hidden" name="index_module_srl" id="index_module_srl" value="{$start_module->index_module_srl}" />
+					<input type="text" name="_target_module" id="_target_module" value="{$start_module->browser_title} ({$start_module->mid})" readonly />
+					<a href="#modalWindow" class="modalAnchor" onClick="viewSiteSearch()">{$lang->cmd_find}</a> </p>
+					<p class="site_keyword_search" style="display:none">
+						<input type="text" name="site_keyword" /> <a href="#suggestion3" class="tgAnchor findsite">{$lang->cmd_confirm}</a>
+						<div id="suggestion3" class="tgContent suggestion" >
+							<ul></ul>
+						</div>
+					</p>						
+					<p>
+						<select class="moduleList" style="width:290px"></select>
+					</p>
+					<p>
+						<select class="moduleIdList" style="width:290px"></select>
+						<a href="#" id="sitefind_addBtn" onclick="setStartModule()" style="display:none;">{$lang->cmd_select}</a>
+					</p>
+				</p>
+			</li>
+			<li>
+				<p class="q">{$lang->about_lang_select}</p>
+				<p class="a">
+					<!--@foreach($langs as $key => $val)-->
+					<!--@if($key==$selected_lang)-->
+					<input type="hidden" name="selected_lang[]" value="{$key}" />
+					<input type="checkbox" checked="checked" disabled="disabled" />
+					<label>{$val}</label>
+					<!--@else-->
+					<input type="checkbox" name="selected_lang[]" id="lang_{$key}" value="{$key}" <!--@if(isset($lang_selected[$key]))-->checked="checked" <!--@end-->/>
+					<label for="lang_{$key}">{$val}</label>
+					<!--@end-->
+					<!--@endforeach-->
+				</p>
+			</li>
+			<li>
+				<p class="q"><label for="">{$lang->about_default_lang}</label></p>
+				<p class="a">
+					<select name="change_lang_type">
+						<!--@foreach($lang_supported as $key => $val)-->
+						<option value="{$key}" <!--@if($key==$selected_lang)-->selected="selected"<!--@end-->>{$val}</option>
+						<!--@endforeach-->
+					</select>						
+				</p>
+			</li>
+			<li>
+				<p class="q"><label for="time_zone">{$lang->about_timezone}</label></p>
+				<p class="a">
+					<select name="time_zone" id="time_zone" class="fullWidth">
+						<!--@foreach($time_zone_list as $key => $val)-->
+						<option value="{$key}" <!--@if($time_zone==$key)-->selected="selected"<!--@end-->>{$val}</option>
+						<!--@endforeach-->
+					</select>
+				</p>
+			</li>
+			<li>
+				<p class="q">{$lang->about_question_mobile_view}</p>
+				<p class="a">
+					<input type="radio" name="use_mobile_view" id="use_mobile_view_y" value="Y" <!--@if($use_mobile_view == 'Y')-->checked="checked" <!--@end-->/> <label for="use_mobile_view_y">{$lang->cmd_yes}</label>
+					<input type="radio" name="use_mobile_view" id="use_mobile_view_n" value="N" <!--@if($use_mobile_view != 'Y')-->checked="checked" <!--@end-->/> <label for="use_mobile_view_n">{$lang->cmd_no}</label>
+				</p>
+			</li>
+			<li>
+				<p class="q">{$lang->about_thumbnail_type}</p>
+				<p class="a">
+					<input type="radio" name="thumbnail_type" id="thumbnail_type_crop" value="corp" <!--@if($thumbnail_type != 'ratio')-->checked="checked" <!--@end-->/>
+					<label for="thumbnail_type_crop">{$lang->corp}</label>
+					<input type="radio" name="thumbnail_type" id="thumbnail_type_ratio" value="ratio" <!--@if($thumbnail_type == 'ratio')-->checked="checked" <!--@end-->/>
+					<label for="thumbnail_type_ratio">{$lang->ratio}</label>
+				</p>
+			</li>
+			<li>
+				<p class="q"><label for="htmlFooter">{$lang->input_footer_script}</label>[<a href="#helpFooter" class="tgAnchor">?</a>]<p>
+				<div class="tgContent layer" id="helpFooter">
+					<p>{$lang->detail_input_footer_script}</p>
+				</div>	
+				<p class="a">
+					<textarea name="htmlFooter" id="htmlFooter" rows="4" cols="42">{$htmlFooter}</textarea>
+				</p>
+			</li>
+			<li>
+				<p class="q">{$lang->allow_use_favicon}</p>
+				<p class="a faviconPreview">
+					<img src="{$favicon_url}" alt="favicon" width="16" height="16" class="fn1">
+					<img src="{$favicon_url}" alt="favicon Image" width="16" height="16" class="fn2">
+					<a href="javascript:deleteIcon('favicon\.ico');">{$lang->cmd_delete}</a>
+				</p>
+				<p class="a"><input type="file" name="favicon" id="favicon" title="favicon" /> <span class="desc">{$lang->about_use_favicon}</span></p>
+			</li>
+			<li>
+				<p class="q">{$lang->allow_use_mobile_icon}</p>
+				<p class="a mobiconPreview">
+					<img src="{$mobicon_url}" alt="Mobile Home Icon" width="32" height="32" />
+					<span>www</span>
+					<a href="javascript:deleteIcon('mobicon\.png');">{$lang->cmd_delete}</a>
+				</p>
+				<p class="a"><input type="file" name="mobicon" id="mobicon" title="Mobile Home Icon"/> <span class="desc">{$lang->detail_use_mobile_icon}</span></p>
+			</li>
+		</ul>
+	</fieldset>
+	<fieldset class="section">
+		<h2 class="h2">{$lang->subtitle_advanced}</h2>
+		<ul>
+			<li>
+				<p class="q"><label for="admin_ip">{$lang->about_admin_ip_limit}</label>[<a href="#helpAdminip" class="tgAnchor">?</a>]</p>
+				<div class="tgContent layer" id="helpAdminip">
+					<p>{$lang->detail_about_admin_ip_limit}</p>
+				</div>
+				<p class="a">
+					<textarea name="admin_ip_list" id="admin_ip_list" rows="4" cols="42">{$admin_ip_list}</textarea>
+					{$lang->local_ip_address} : {$IP}</p>
+			</li>
+			<li>
+				<p class="q"><label for="default_url">{$lang->default_url}</label>[<a href="#helpDefaulturl" class="tgAnchor">?</a>]</p>
+				<div class="tgContent layer" id="helpDefaulturl">
+					<p>{$lang->about_default_url}</p>
+				</div>
+				<p class="a"><input type="text" name="default_url" id="default_url" value="{$default_url}"/></p>
+			</li>
+			<li>
+				<p class="q"><label for="use_ssl">{$lang->use_ssl}</label>[<a href="#helpUsessl" class="tgAnchor">?</a>]</p>
+				<div class="tgContent layer" id="helpUsessl">
+					<p>{$lang->about_use_ssl}</p>
+				</div>
+				<p class="a">
+					<!--@foreach($lang->ssl_options as $key => $val)-->
+					<input type="radio" name="use_ssl" id="ssl_{$key}" value="{$key}" <!--@if($use_ssl==$key)-->checked="checked" <!--@end-->/> <label for="ssl_{$key}">{$val}</label>
+					<!--@endforeach-->
+				</p>
+			</li>
+			<li>
+				<p class="q">{$lang->server_ports}</p>
+				<p class="a">
+					<label for="">HTTP:</label> <input type="text" name="http_port" id="http_port" size="5" value="{$http_port}" style="width:40px" />
+					&nbsp;&nbsp;
+					<label for="">HTTPS:</label> <input type="text" name="https_port" id="https_port" size="5" value="{$https_port}" style="width:40px" />
+				</p>
+			</li>
+			<li cond="__XE_CDN_VERSION__!='%__XE_CDN_VERSION__%'">
+				<p class="q">{$lang->about_cdn}</p>
+				<p class="a">
+					<input type="radio" name="use_cdn" id="cdn_y" value="Y" <!--@if($use_cdn=='Y')-->checked="checked" <!--@end-->/> <label for="cdn_y">{$lang->cmd_yes}</label>
+					<input type="radio" name="use_cdn" id="cdn_n" value="N" <!--@if($use_cdn!='Y')-->checked="checked" <!--@end-->/> <label for="cdn_n">{$lang->cmd_no}</label>
+				</p>
+			</li>
+			<li>
+				<p class="q"><label for="">{$lang->about_use_rewrite}</label></p>
+				<p class="a">
+					<input type="radio" name="use_rewrite" id="use_rewrite_y" value="Y" <!--@if($use_rewrite == 'Y')-->checked="checked" <!--@end-->/> <label for="use_rewrite_y">{$lang->cmd_yes}</label>
+					<input type="radio" name="use_rewrite" id="use_rewrite_n" value="N" <!--@if($use_rewrite != 'Y')-->checked="checked" <!--@end-->/> <label for="use_rewrite_n">{$lang->cmd_no}</label>
+				</p>
+			</li>
+			<li>
+				<p class="q"><label for="use_sso">{$lang->about_use_sso}</label>[<a href="#helpUsesso" class="tgAnchor">?</a>]</p>
+				<div class="tgContent layer" id="helpUsesso">
+					<p>{$lang->about_sso}</p>
+				</div>
+				<p class="a">
+					<input type="radio" name="use_sso" id="sso_y" value="Y" <!--@if($use_sso=='Y')-->checked="checked" <!--@end-->/> <label for="sso_y">{$lang->cmd_yes}</label>
+					<input type="radio" name="use_sso" id="sso_n" value="N" <!--@if($use_sso!='Y')-->checked="checked" <!--@end-->/> <label for="sso_n">{$lang->cmd_no}</label>
+				</p>
+			</li>
+			<li>
+				<p class="q"><label for="">{$lang->use_db_session}</label>[<a href="#helpUsedbSession" class="tgAnchor">?</a>]</p>
+				<div class="tgContent layer" id="helpUsedbSession">
+					<p>{$lang->about_db_session}</p>
+				</div>
+				<p class="a">
+					<input type="radio" name="use_db_session" id="use_db_session_y" value="Y" <!--@if($use_db_session=='Y')-->checked="checked" <!--@end-->/> <label for="use_db_session_y">{$lang->cmd_yes}</label>
+					<input type="radio" name="use_db_session" id="use_db_session_n" value="N" <!--@if($use_db_session!='Y')-->checked="checked" <!--@end-->/> <label for="use_db_session_n">{$lang->cmd_no}</label>
+				</p>
+			</li>
+			<li>
+				<p class="q"><label for="">{$lang->qmail_compatibility}</label>[<a href="#helpQmail" class="tgAnchor">?</a>]</p>
+				<div class="tgContent layer" id="helpQmail">
+					<p>{$lang->about_qmail_compatibility}</p>
+				</div>
+				<p class="a">
+					<input type="radio" name="qmail_compatibility" id="qmail_compatibility_y" value="Y" <!--@if($qmail_compatibility=='Y')-->checked="checked" <!--@end-->/> <label for="qmail_compatibility_y">{$lang->cmd_yes}</label>
+					<input type="radio" name="qmail_compatibility" id="qmail_compatibility_n" value="N" <!--@if($qmail_compatibility!='Y')-->checked="checked" <!--@end-->/> <label for="qmail_compatibility_n">{$lang->cmd_no}</label>
+				</p>
+			</li>
+			<li>
+				<p class="q">{$lang->about_html_dtd}</p>
+				<p class="a">
+					<input type="radio" name="use_html5" id="xhtml" value="N" <!--@if($use_html5 != 'Y')-->checked="checked" <!--@end-->/> <label for="xhtml">{$lang->xhtml_transitional}</label>
+					<input type="radio" name="use_html5" id="html5" value="Y"  <!--@if($use_html5 == 'Y')-->checked="checked" <!--@end-->/> <label for="html5">{$lang->html5}</label>
+				</p>
+			</li>
+		</ul>
+	</fieldset>
+	<div class="btnArea">
+		<span class="btn medium"><input type="submit" value="{$lang->cmd_save}" /></span>
+	</div>
+</form>

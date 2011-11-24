@@ -1,31 +1,28 @@
 <!--#include("header.html")-->
-
-<h2 class="xeAdmin">{$lang->install_condition_title}</h2>
-
-<table cellspacing="0" class="tableType6">
-<col width="180" /><col />
-
-<!--@foreach($checklist as $key => $val)-->
-<tr>
-    <th scope="row">{$lang->install_checklist_title[$key]}</th>
-    <td>
-        <!--@if($val)-->
-            {$lang->enable}
-        <!--@else-->
-            <span class="none">{$lang->disable}</span>
-            <br />{$lang->install_checklist_desc[$key]}
-        <!--@end-->
-    </td>
-</tr>
-<!--@end-->
-</table>
-
-<div class="buttonCenter">
-    <!--@if($install_enable)-->
-        <a href="{getUrl('','act','dispInstallSelectDB')}" class="button blue"><span>{$lang->cmd_install_next}</span></a>
-    <!--@else-->
-        <a href="{getUrl('','act',$act)}" class="button red"><span>{$lang->cmd_install_fix_checklist}</span></a>
-    <!--@end-->
-</div>
-
+	<div id="body">
+<!--#include("progress_menu.html")-->
+	<span class="dummy"></span>
+	<div id="content">
+		<div class="table">
+			<table border="1" cellspacing="0">
+				<tbody>
+					<!--@foreach($checklist as $key => $val)-->
+					<tr>
+						<th scope="row">{$lang->install_checklist_title[$key]}<!--@if($key == 'php_version')--> (Ver. {$phpversion})<!--@end--></th>
+						<td><!--@if($val)-->{$lang->enable}<!--@else--><strong>{$lang->disable}</strong><br />{$lang->install_checklist_desc[$key]}<!--@end--></td>
+					</tr>
+					<!--@end-->
+				</tbody>
+			</table>
+			
+		</div>
+		<div class="ibtnArea">
+			<div class="fLeft">
+				<span class="ibtn icon"><span class="back"></span> <a href="{getUrl('')}">{$lang->cmd_back}</a></span>
+			</div>
+			<div class="fRight">
+				<span class="ibtn icon"><span class="check"></span><!--@if($install_enable)--><a href="{getUrl('','act','dispInstallSelectDB')}">{$lang->cmd_install_next}</a><!--@else--><a href="{getUrl('','act',$act)}">{$lang->cmd_install_fix_checklist}</a><!--@end--></span>
+			</div>
+		</div>
+	</div>
 <!--#include("footer.html")-->

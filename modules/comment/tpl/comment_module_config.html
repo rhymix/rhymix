@@ -1,44 +1,41 @@
-<!--%import("filter/insert_comment_module_config.xml")-->
-
-<form action="./" method="post" onsubmit="return procFilter(this, insert_comment_module_config)">
-<input type="hidden" name="target_module_srl" value="{$module_info->module_srl?$module_info->module_srl:$module_srls}" />
-
-    <h4 class="xeAdmin">{$lang->comment}</h4>
-    <table cellspacing="0" class="rowTable">
-    <tr>    
-        <th><div>{$lang->comment_count}</div></th>
-        <td class="wide">
-			<p>{$lang->about_comment_count}</p>
-            <input type="text" name="comment_count" value="{$comment_config->comment_count}" class="inputTypeText w80" />
-
-        </td>
-    </tr>
-    <tr>    
-        <th><div>{$lang->cmd_vote}</div></th>
-        <td>
-		    <select name="use_vote_up" class="w100">
-                <option value="Y" <!--@if($comment_config->use_vote_up=='Y')-->selected="selected"<!--@end-->>{$lang->use}</option>
-                <option value="S" <!--@if($comment_config->use_vote_up=='S')-->selected="selected"<!--@end-->>{$lang->show_voted_member}</option>
-                <option value="N" <!--@if($comment_config->use_vote_up=='N')-->selected="selected"<!--@end-->>{$lang->notuse}</option>
-            </select>
-        </td>
-    </tr>
-    <tr>    
-        <th><div>{$lang->cmd_vote_down}</div></th>
-        <td>
-		    <select name="use_vote_down" class="w100">
-                <option value="Y" <!--@if($comment_config->use_vote_down=='Y')-->selected="selected"<!--@end-->>{$lang->use}</option>
-                <option value="S" <!--@if($comment_config->use_vote_down=='S')-->selected="selected"<!--@end-->>{$lang->show_voted_member}</option>
-                <option value="N" <!--@if($comment_config->use_vote_down=='N')-->selected="selected"<!--@end-->>{$lang->notuse}</option>
-            </select>
-        </td>
-    </tr>
-
-    <tr>
-        <th colspan="2" class="button">
-            <span class="button strong black"><input type="submit" value="{$lang->cmd_save}"/></span>
-        </th>
-    </tr>
-    </table>
-
+<form ruleset="insertCommentModuleConfig" action="./" method="post" class="form">
+	<input type="hidden" name="module" value="comment" />
+	<input type="hidden" name="act" value="procCommentInsertModuleConfig" />
+	<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
+	<input type="hidden" name="target_module_srl" value="{$module_info->module_srl?$module_info->module_srl:$module_srls}" />
+    <h3 class="h3">{$lang->comment}</h3>
+	<div class="table">
+		<table width="100%" border="1" cellspacing="0">
+			<tr>    
+				<th scope="row"><label for="comment_count">{$lang->comment_count}</label></th>
+				<td class="text">
+					<input type="text" name="comment_count" id="comment_count" value="{$comment_config->comment_count}" style="width:30px" />
+					<span class="desc">{$lang->about_comment_count}</span>
+				</td>
+			</tr>
+			<tr>    
+				<th scope="row"><label for="use_vote_up">{$lang->cmd_vote}</label></th>
+				<td class="text">
+					<select name="use_vote_up" id="use_vote_up">
+						<option value="Y" selected="selected"|cond="$comment_config->use_vote_up=='Y'">{$lang->use}</option>
+						<option value="S" selected="selected"|cond="$comment_config->use_vote_up=='S'">{$lang->use_and_display}</option>
+						<option value="N" selected="selected"|cond="$comment_config->use_vote_up=='N'">{$lang->notuse}</option>
+					</select>
+				</td>
+			</tr>
+			<tr>    
+				<th scope="row"><label for="use_vote_down">{$lang->cmd_vote_down}</label></th>
+				<td class="text">
+					<select name="use_vote_down" id="use_vote_down">
+						<option value="Y" selected="selected"|cond="$comment_config->use_vote_down=='Y'">{$lang->use}</option>
+						<option value="S" selected="selected"|cond="$comment_config->use_vote_down=='S'">{$lang->use_and_display}</option>
+						<option value="N" selected="selected"|cond="$comment_config->use_vote_down=='N'">{$lang->notuse}</option>
+					</select>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div class="btnArea">
+		<span class="btn"><input type="submit" value="{$lang->cmd_save}"/></span>
+	</div>
 </form>

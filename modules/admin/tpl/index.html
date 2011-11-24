@@ -1,314 +1,134 @@
-<!--#include("_header.html")-->
-
-<!--%import("./css/dashboard.css")-->
-<!--%import("../../install/lang")-->
-<!--%import("../../module/tpl/js/module_admin.js")-->
-<!--%import("../../session/tpl/js/session.js")-->
-<!--%import("../../addon/tpl/js/addon.js")-->
-<!--%import("../../addon/tpl/filter/toggle_activate_addon.xml")-->
-
-<div class="content">
-	<!-- Dashboard Header -->
-	<div class="dashboardHeader">
-		<h3 class="h3">{$lang->admin_index}</h3>
-	</div>
-	<!-- /Dashboard Header -->
-
-	<!-- Dashboard Statistic -->
-	<div class="section dashboardStatistic">
-		<div class="statistic">
-			<h4><span>TODAY <em>{date('Y.m.d')}</em></span></h4>
-			<dl class="visit">
-				<dt>{$lang->today_visitor}</dt>
-
-				<dd>
-					<object title="visitor" height="50" width="100%" align="middle" id="count_red" class="F1239845427590201480_undefined" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0" classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000">
-						<param value="{getUrl()}modules/admin/tpl/swf/count.swf" name="movie"/>
-						<param value="high" name="quality"/>
-						<param value="#FFFFFF" name="bgColor"/>
-						<param value="always" name="allowScriptAccess"/>
-						<param value="transparent" name="wmode"/>
-						<param value="false" name="menu"/>
-						<param value="true" name="allowFullScreen"/>
-						<param value="colorType=red&amp;viewNum={$status->visitor}" name="flashVars"/>
-						<!--[if !IE]> <-->
-						<object title="{$status->visitor}" height="50" width="100%" align="middle" name="count_red" class="F1239845427590201480_undefined" data="{getUrl()}modules/admin/tpl/swf/count.swf" type="application/x-shockwave-flash">
-							<param value="colorType=red&amp;viewNum={$status->visitor}" name="flashVars"/>
-							<param value="transparent" name="wmode"/>
-							{$status->visitor}
-						</object>
-						<!--> <![endif]-->
-					</object>
-				</dd>
-			</dl>
-			<dl class="reply">
-				<dt>{$lang->today_comments}</dt>
-				<dd>
-					<object title="{$status->comment->today}" height="50" width="100%" align="middle" id="count_blue" class="F1239845427590201480_undefined" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0" classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000">
-						<param value="{getUrl()}modules/admin/tpl/swf/count.swf" name="movie"/>
-						<param value="high" name="quality"/>
-						<param value="#FFFFFF" name="bgColor"/>
-						<param value="always" name="allowScriptAccess"/>
-						<param value="transparent" name="wmode"/>
-						<param value="false" name="menu"/>
-						<param value="true" name="allowFullScreen"/>
-						<param value="colorType=blue&amp;viewNum={$status->comment_count}" name="flashVars"/>
-						<!--[if !IE]> <-->
-						<object title="{$status->comment->today}" height="50" width="100%" align="middle" name="count_blue" class="F1239845427590201480_undefined" data="{getUrl()}modules/admin/tpl/swf/count.swf" type="application/x-shockwave-flash">
-							<param value="colorType=blue&amp;viewNum={$status->comment_count}" name="flashVars"/>
-							<param value="transparent" name="wmode"/>
-							{$status->comment->today}
-						</object>
-						<!--> <![endif]-->
-					</object>
-				</dd>
-			</dl>
-			<dl class="trackback">
-				<dt>{$lang->today_trackbacks}</dt>
-				<dd>
-					<object title="{$status->trackback->today}" height="50" width="100%" align="middle" id="count_gray" class="F1239845427590201480_undefined" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0" classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000">
-						<param value="{getUrl()}modules/admin/tpl/swf/count.swf" name="movie"/>
-						<param value="high" name="quality"/>
-						<param value="#FFFFFF" name="bgColor"/>
-						<param value="always" name="allowScriptAccess"/>
-						<param value="transparent" name="wmode"/>
-						<param value="false" name="menu"/>
-						<param value="true" name="allowFullScreen"/>
-						<param value="colorType=gray&amp;viewNum={$status->trackback_count}" name="flashVars"/>
-						<!--[if !IE]> <-->
-						<object title="{$status->trackback->today}" height="50" width="100%" align="middle" name="count_gray" class="F1239845427590201480_undefined" data="{getUrl()}modules/admin/tpl/swf/count.swf" type="application/x-shockwave-flash">
-							<param value="colorType=gray&amp;viewNum={$status->trackback_count}" name="flashVars"/>
-							<param value="transparent" name="wmode"/>
-							{$status->trackback->today}
-						</object>
-						<!--> <![endif]-->
-					</object>
-				</dd>
-			</dl>
-			<div class="summary">
-				<table border="1" cellspacing="0">
-					<tr>
-						<th scope="row"><a href="{getUrl('','module','admin','act','dispMemberAdminList')}">{$lang->member}</a></th>
-						<td><strong>{number_format($status->member->total)}</strong> <span class="description">(+<a href="{getUrl('','module','admin','act','dispMemberAdminList','search_target','regdate','search_keyword',date("Ymd"))}"><strong>{number_format($status->member->today)}</strong></a>)</span></td>
-					</tr>
-					<tr>
-						<th scope="row"><a href="{getUrl('','module','admin','act','dispDocumentAdminList')}">{$lang->document}</a></th>
-						<td><strong>{number_format($status->document->total)}</strong> <span class="description">(+<a href="{getUrl('','module','admin','act','dispDocumentAdminList','search_target','regdate','search_keyword',date("Ymd"))}"><strong>{number_format($status->document->today)}</strong></a>,-<a href="{getUrl('','module','admin','act','dispDocumentAdminDeclared')}"><strong>{number_format($status->documentDeclared->total)}</strong></a>)</span></td>
-					</tr>
-					<tr>
-						<th scope="row"><a href="{getUrl('','module','admin','act','dispCommentAdminList')}">{$lang->comment}</a></th>
-						<td><strong>{number_format($status->comment->total)}</strong> <span class="description">(+<a href="{getUrl('','module','admin','act','dispCommentAdminList','search_target','regdate','search_keyword',date("Ymd"))}"><strong>{number_format($status->comment->today)}</strong></a>,-<a href="{getUrl('','module','admin','act','dispCommentAdminDeclared')}"><strong>{number_format($status->commentDeclared->total)}</strong></a>)</span></td>
-					</tr>
-					<tr>
-						<th scope="row"><a href="{getUrl('','module','admin','act','dispTrackbackAdminList')}">{$lang->trackback}</a></th>
-						<td><strong>{number_format($status->trackback->total)}</strong> <span class="description">(+<a href="{getUrl('','module','admin','act','dispTrackbackAdminList','search_target','regdate','search_keyword',date("Ymd"))}"><strong>{number_format($status->trackback->today)}</strong></a>)</span></td>
-					</tr>
-					<tr>
-						<th scope="row"><a href="{getUrl('','module','admin','act','dispFileAdminList')}">{$lang->file}</a></th>
-						<td><strong>{number_format($status->file->total)}</strong> <span class="description">(+<a href="{getUrl('','module','admin','act','dispFileAdminList','search_target','regdate','search_keyword',date("Ymd"))}"><strong>{number_format($status->file->today)}</strong></a>)</span></td>
-					</tr>
-				</table>
-			</div>
-		</div>
-		<span class="outline ml"></span>
-		<span class="outline mr"></span>
-		<span class="outline tc"></span>
-		<span class="outline bc"></span>
-		<span class="outline tl"></span>
-		<span class="outline tr"></span>
-
-		<span class="outline bl"></span>
-		<span class="outline br"></span>
-	</div>
-	<!-- /Dashboard Statistic -->
-
-	<!-- Visotors Graph -->
-	<div class="section">
-
-		<h4 class="dashboardH4">{$lang->counter} <em>{date("Y.m.d")}</em></h4>
-		<div class="dashboardWire">
-			<dl class="legend">
-				<dt class="past"><img src="../../../common/tpl/images/blank.gif" width="5" height="5" alt="{$lang->yesterday}" /></dt>
-				<dd>{$lang->last_week}</dd>
-				<dt class="today"><img src="../../../common/tpl/images/blank.gif" width="5" height="5" alt="{$lang->today}" /></dt>
-				<dd>{$lang->this_week}</dd>
-
-			</dl>
-			<dl class="summary">
-				<dt>{$lang->today}</dt>
-				<dd>{number_format($status->visitor)}</dd>
-				<dt>{$lang->this_week}</dt>
-				<dd>{number_format($status->thisWeekSum)}</dd>
-				<dt>{$lang->total}</dt>
-				<dd>{number_format($status->total_visitor)}</dd>
-			</dl>
-			<div class="graph">
-				<!--@foreach($status->week as $key => $val)-->
-				<dl>
-					<dt><!--@if($key==date("Ymd"))--><strong>{$key}</strong><!--@else-->{$key}<!--@end--></dt>
-					<dd class="past" style="height:{$val->last/$status->week_max * 100}%" title="{$lang->last_week}:{number_format($val->last)}"><span>{$lang->last_week}:{number_format($val->last)}</span></dd>
-					<dd class="today" style="height:{$val->this/$status->week_max * 100}%" title="{$lang->this_week}:{number_format($val->this)}"><span>{$lang->this_week}:{number_format($val->this)}</span></dd>
-
-				</dl>
-				<!--@end-->
-			</div>
-		</div>
-	</div>
-	<!-- /Visotors Graph -->
-
-	<div class="section">
-	<h4 class="dashboardH4">{$lang->env_information} <a href="{getUrl('','module','admin','act','dispAdminConfig')}">{$lang->cmd_setup}</a></h4>
-        <!--@if(version_compare($current_version, $released_version, '<'))-->
-        <p class="summary red">{nl2br($lang->about_download_link)} [<a href="{$download_link}" onclick="window.open(this.href);return false;">{$lang->cmd_download}</a>]</p>
-        <!--@end-->
-        <table>
-		<col width="160" />
-		<col width="*" />
-        <tbody>
-        <tr>
-            <th><div>{$lang->current_version}</div></th>
-            <td class="wide">
-                <strong>{$current_version}</strong><!--@if($current_version == $released_version)--> [<a href="{$download_link}" onclick="window.open(this.href);return false;">{$lang->cmd_view}</a>]<!--@end-->
-            </td>
-        </tr>
-        <tr>
-            <th><div>{$lang->current_path}</div></th>
-            <td>{$installed_path}/</td>
-        </tr>
-        <tr>
-            <th><div>{$lang->start_module}</div></th>
-            <td><a href="{getSiteUrl('','','mid',$start_module->mid)}" onclick="window.open(this.href);return false;">{$start_module->browser_title}</a></td>
-        </tr>
-        <tr>
-            <th><div>{$lang->time_zone}</div></th>
-            <td><!--@foreach($time_zone_list as $key => $val)--><!--@if($time_zone==$key)-->{substr($val,1,10)}<!--@end--><!--@endforeach--></td>
-        </tr>
-        <tr>
-            <th><div>{$lang->use_rewrite}</div></th>
-            <td><!--@if($use_rewrite=='Y')-->{$lang->use}<!--@else-->{$lang->notuse}<!--@end--></td>
-        </tr>
-        <tr>
-            <th><div>{$lang->use_sso}</div></th>
-            <td><!--@if($use_sso=='Y')-->{$lang->use}<!--@else-->{$lang->notuse}<!--@end--></td>
-        </tr>
-		<tr>
-			<th><div>{$lang->mobile_view}</div></th>
-			<td><!--@if($use_mobile_view=='Y')-->{$lang->use}<!--@else-->{$lang->notuse}<!--@end--></td>
-		</tr>
-        <tr>
-            <th><div>Language</div></th>
-            <td><!--@foreach($lang_supported as $key => $val)--><!--@if($key == $selected_lang)-->{$val}<!--@endif--><!--@endforeach--></td>
-        </tr>
-        <tr>
-            <th><div>{$lang->qmail_compatibility}</div></th>
-            <td><!--@if($qmail_compatibility=='Y')-->{$lang->use}<!--@else-->{$lang->notuse}<!--@end--></td>
-        </tr>
-        <tr>
-            <th><div>{$lang->use_db_session}</div></th>
-            <td><!--@if($use_db_session =='Y')-->{$lang->use}<!--@else-->{$lang->notuse}<!--@end--></td>
-        </tr>
-        </tbody>
-        </table>
-	</div>
+<!--#include("./_spHeader.html")-->
+<div class="content dashboard" id="content">
+<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
-
-<div class="extension e2">
-    <div class="section">
-		<div class="contentBox">
-			<span class="button"><input type="button" value="{$lang->cmd_remake_cache}" onclick="doRecompileCacheFile(); return false;"/></span>
-			<span class="button"><input type="button" value="{$lang->cmd_clear_session}" onclick="doClearSession(); return false; "/></span>
+	<!--@if(!$isEnviromentGatheringAgreement)-->
+	<form action="./" method="post" class="message info">
+	<input type="hidden" name="module" value="admin" />
+	<input type="hidden" name="act" value="procAdminEnviromentGatheringAgreement" />
+		<h2>{$lang->install_env_agreement}</h2>
+		<p>{$lang->install_env_agreement_desc}</p>
+		<div class="btnArea">
+			<span class="btn"><button type="submit" name="is_agree" value="true">{$lang->agree}</button></span>
+			<span class="btn"><button type="submit" name="is_agree" value="false">{$lang->disagree}</button></span>
 		</div>
-	</div>
-
-	{@$_show_modules = false; }
-	<!--@foreach($module_list as $key => $val)-->
-		<!--@if($val->need_install || $val->need_update)-->
-			{@$_show_modules = true; }
-		<!--@end-->
+	</form>
 	<!--@end-->
-	<!--@if($_show_modules)-->
-	<div class="section">
-        <table>
-		<thead>
-			<th colspan="2">{$lang->module}</th>
-		</thead>
-        <tbody>
-        <!--@foreach($module_list as $key => $val)-->
-			<!--@if($val->need_install || $val->need_update)-->
-            <tr>
-                <th><a href="{getUrl('','module','admin','act',$val->admin_index_act)}" title="{trim(htmlspecialchars($val->description))}">{$val->title}</a> ({$val->module})</th>
-                <td class="alert">
-                    <!--@if($val->need_install)-->
-                        <a href="#" onclick="doInstallModule('{$val->module}');return false;" title="{htmlspecialchars($lang->cmd_install)}">{$lang->cmd_install}</a>
-                    <!--@elseif($val->need_update)-->
-                        <a href="#" onclick="doUpdateModule('{$val->module}'); return false;" title="{htmlspecialchars($lang->cmd_update)}">{$lang->cmd_update}</a>
-                    <!--@else-->
-					&nbsp;
-                    <!--@end-->
-                </td>
-            </tr>
+	<!--@if($isUpdated)-->
+	<div class="message update">
+		<h2>{$lang->update_available}</h2>
+		<ul>
+		<!--@foreach($module_list AS $key => $value)-->
+			<!--@if($value->need_install)-->
+			<li><a href="{getUrl('','module','admin','act',$val->admin_index_act)}">{$value->module}</a> - <a href="#" onclick="doInstallModule('{$value->module}');return false;">{$lang->cmd_install}</a></li>
+			<!--@else if($value->need_update)-->
+			<li><a href="{getUrl('','module','admin','act',$val->admin_index_act)}">{$value->module}</a> - <a href="#" onclick="doUpdateModule('{$value->module}')">{$lang->cmd_update}</a></li>
 			<!--@end-->
-        <!--@end-->
-        </tbody>
-        </table>
+		<!--@end-->
+		</ul>
 	</div>
 	<!--@end-->
-
-	<!--@if($news)-->
-    <div class="section">
-        <table>
-		<thead>
-			<th colspan="2">{$lang->newest_news}</th>
-		</thead>
-        <tbody>
-        <!--@foreach($news as $key => $val)-->
-        <tr>
-			<th><a href="{$val->url}" onclick="window.open(this.href);return false;" class="fl">{cut_str($val->title,36)}</a></th>
-            <td><span class="date fr">{zdate($val->date,"y-m-d")}</span></td>
-        </tr>
-        <!--@endforeach-->
-        </tbody>
-        </table>
-	</div>
-	<!--@endif-->
-
 	<div class="section">
-		<form id="fo_addon" action="./" method="get">
-			<input type="hidden" name="addon" value="" />
-		</form>
-		<table>
-		<thead>
-			<tr>
-				<th>{$lang->addon}</th>
-				<th>{$lang->cmd_setup}</th>
-				<th>PC</th>
-				<th>Mobile</th>
-			</tr>
-		</thead>
-		<tbody>
-		<!--@foreach($addon_list as $key => $val)-->
-		<tr>
-			<th><a href="{getUrl('','module','addon','act','dispAddonAdminInfo','selected_addon',$val->addon)}" onclick="popopen(this.href,'addon_info');return false">{cut_str($val->title,24)}</a></th>
-			<td class="center"><a href="{getUrl('','module','addon','act','dispAddonAdminSetup','selected_addon',$val->addon)}" onclick="popopen(this.href,'addon_info');return false" class="buttonSet buttonSetting"><span>{$lang->cmd_setup}</span></a></td>
-			<td class="center">
-				<!--@if($val->activated)-->
-				<a href="#" onclick="doToggleAddonInAdmin(this, '{$val->addon}');return false;" title="{htmlspecialchars($lang->use)}" class="buttonSet buttonActive"><span>{$lang->use}</span></a>
-				<!--@else-->
-				<a href="#" onclick="doToggleAddonInAdmin(this, '{$val->addon}');return false;" title="{htmlspecialchars($lang->notuse)}" class="buttonSet buttonDisable"><span>{$lang->notuse}</span></a>
+		<div class="portlet">
+			<h2 class="h2">{$lang->current_state}</h2>
+			<ul class="lined">
+				<li><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminList')}">{$lang->menu_gnb['user']}</a> <span class="side">{number_format($status->member->totalCount)}(<!--@if($status->member->todayCount > 0)-->+<!--@end-->{number_format($status->member->todayCount)})</span></li>
+				<li><a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList')}">{$lang->menu_gnb_sub['document']}</a> <span class="side">{number_format($status->document->totalCount)}(<!--@if($status->document->todayCount > 0)-->+<!--@end-->{number_format($status->document->todayCount)})</span></li>
+				<li><a href="{getUrl('', 'module', 'admin', 'act', 'dispCommentAdminList')}">{$lang->menu_gnb_sub['comment']}</a> <span class="side">{number_format($status->comment->totalCount)}(<!--@if($status->comment->todayCount > 0)-->+<!--@end-->{$status->comment->todayCount})</span></li>
+				<li><a href="{getUrl('', 'module', 'admin', 'act', 'dispTrackbackAdminList')}">{$lang->menu_gnb_sub['trackback']}</a> <span class="side">{number_format($status->trackback->totalCount)}(<!--@if($status->trackback->todayCount > 0)-->+<!--@end-->{$status->trackback->todayCount})</span></li>
+				<li><a href="{getUrl('', 'module', 'admin', 'act', 'dispFileAdminList')}">{$lang->menu_gnb_sub['file']}</a> <span class="side">{number_format($status->file->totalCount)}(<!--@if($status->file->todayCount > 0)-->+<!--@end-->{number_format($status->file->todayCount)})</span></li>
+			</ul>
+		</div>
+		<div class="portlet">
+			<h2 class="h2">{$lang->latest_document}</h2>
+			<ul class="lined">
+				<!--@foreach($latestDocumentList AS $key=>$value)-->
+				{@$document = $value->variables}
+				<li>
+					<a href="{getUrl('', 'document_srl', $document['document_srl'])}" target="_blank"><!--@if(trim($value->getTitle()))-->{$value->getTitle()}<!--@else--><strong>{$lang->no_title_document}</strong><!--@end--></a> <span class="side">{$document['nick_name']}</span>
+					<span class="action">
+						<form>
+						<input type="hidden" name="module" value="admin" />
+						<input type="hidden" name="act" value="procDocumentManageCheckedDocument" />
+						<input type="hidden" name="cart[]" value="{$document['document_srl']}" />
+						<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin')}" />
+						<button type="submit" name="type" value="trash" class="text">{$lang->cmd_trash}</button>
+						<button type="submit" name="type" value="delete" class="text">{$lang->cmd_delete}</button>
+						</form>
+					</span>
+				</li>
 				<!--@end-->
-			</td>
-			<td class="center">
-				<!--@if($val->mactivated)-->
-				<a href="#" onclick="doToggleAddonInAdmin(this, '{$val->addon}', 'mobile');return false;" title="{htmlspecialchars($lang->use)}" class="buttonSet buttonActive"><span>{$lang->use}</span></a>
-				<!--@else-->
-				<a href="#" onclick="doToggleAddonInAdmin(this, '{$val->addon}', 'mobile');return false;" title="{htmlspecialchars($lang->notuse)}" class="buttonSet buttonDisable"><span>{$lang->notuse}</span></a>
+				<li cond="!is_array($latestDocumentList) || count($latestDocumentList) < 1">{$lang->no_data}</li>
+			</ul>
+		</div>
+		<div class="portlet">
+			<h2 class="h2">{$lang->latest_comment}</h2>
+			<ul class="lined">
+				<!--@foreach($latestCommentList AS $key=>$value)-->
+				<li>
+					<a href="{getUrl('', 'document_srl', $value->document_srl)}#comment_{$value->comment_srl}" target="_blank"><!--@if(trim($value->content))-->{$value->getSummary()}<!--@else--><strong>{$lang->no_text_comment}</strong><!--@end--></a> <span class="side">{$value->nick_name}</span> 
+					<span class="action">
+						<form>
+						<input type="hidden" name="module" value="admin" />
+						<input type="hidden" name="act" value="procCommentAdminDeleteChecked" />
+						<input type="hidden" name="cart[]" value="{$value->comment_srl}" />
+						<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin')}" />
+						<button type="submit" name="is_trash" value="true" class="text">{$lang->cmd_trash}</button>
+						<button type="submit" name="is_trash" value="false" class="text">{$lang->cmd_delete}</button>
+						</form>
+					</span>
+				</li>
 				<!--@end-->
-			</td>
-		</tr>
-		<!--@end-->
-		</tbody>
-		</table>
-    </div>
+				<li cond="!is_array($latestCommentList) || count($latestCommentList) < 1">{$lang->no_data}</li>
+			</ul>
+		</div>
+		<div class="portlet">
+			<h2 class="h2">{$lang->latest_trackback}</h2>
+			<ul class="lined">
+				<!--@foreach($latestTrackbackList AS $key=>$value)-->
+				<li>
+					<a href="{$value->url}" target="_blank">{$value->title}</a> <span class="side">{$value->blog_name}</span>
+					<span class="action">
+						<form>
+						<input type="hidden" name="module" value="admin" />
+						<input type="hidden" name="act" value="procTrackbackAdminDeleteChecked" />
+						<input type="hidden" name="cart[]" value="{$value->trackback_srl}" />
+						<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin')}" />
+						<button type="submit" class="text">{$lang->cmd_delete}</button>
+						</form>
+					</span>
+				</li>
+				<!--@end-->
+				<li cond="!is_array($latestTrackbackList) || count($latestTrackbackList) < 1">{$lang->no_data}</li>
+			</ul>
+		</div>
+		<div class="portlet">
+			<h2 class="h2">{$lang->notice}</h2>
+			<ul class="lined">
+				<!--@foreach($news AS $key=>$value)-->
+				<li><a href="{$value->url}" target="_blank">{$value->title}</a> <span class="side">{zdate($value->date, 'Y-m-d')}</span></li>
+				<!--@end-->
+				<li cond="!is_array($news) || count($news) < 1">{$lang->no_data}</li>
+			</ul>
+		</div>
+		<div class="portlet">
+			<h2 class="h2">{$lang->favorite}</h2>
+			<ul class="lined">
+				<li loop="$favorite_list => $favorite">
+					<a href="{getUrl('act', $favorite->admin_index_act)}">{$favorite->title}</a>
+					<form class="action" action="">
+						<input type="hidden" name="module" value="admin" />
+						<input type="hidden" name="act" value="procAdminToggleFavorite" />
+						<input type="hidden" name="site_srl" value="0" />
+						<input type="hidden" name="module_name" value="{$favorite->module}" />
+						<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin')}" />
+						<button type="submit" class="text">{$lang->cmd_delete}</button>
+					</form>
+				</li>
+				<li cond="!is_array($favorite_list) || count($favorite_list) < 1">{$lang->no_data}</li>
+			</UL>
+		</div>
+	</div>
 </div>
-
-<!--#include("_footer.html")-->
+<!--#include("./_spFooter.html")-->

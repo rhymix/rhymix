@@ -2,48 +2,40 @@
     /**
      * Mobile XE Library Class ver 0.1
      * @author NHN (developers@xpressengine.com) / lang_select : misol
-     * @brief WAP 태그 출력을 위한 XE 라이브러리
+     * @brief XE library for WAP tag output
      **/
 
     class mobileXE {
-
-        // 기본 url
+        // Base url
         var $homeUrl = NULL;
         var $upperUrl = NULL;
         var $nextUrl = NULL;
         var $prevUrl = NULL;
         var $etcBtn = NULL;
-
-        // 메뉴 네비게이션을 위한 변수
+        // Variable for menu navigation
         var $childs = null;
-
-        // 기본 변수
+        // Basic variable
         var $title = NULL;
         var $content = NULL;
         var $mobilePage = 0;
         var $totalPage = 1;
         var $charset = 'UTF-8';
         var $no = 0;
-
-        // 네비게이션 관련 변수
+        // Navigation-related variables
         var $menu = null;
         var $listed_items = null;
         var $node_list = null;
         var $index_mid = null;
-
-        // Navigation On/ Off 상태 값
+        // Navigation On/Off status value
         var $navigationMode = 0;
-
-        // 현재 요청된 XE 모듈 정보 
+        // XE module information currently requested
         var $module_info = null;
-
-        // 현재 실행중인 모듈의 instance
+        // Currently running instance of the module
         var $oModule = null;
 
         // Deck size
         var $deckSize = 1024;
-
-        // 언어 설정 변경
+        // Changing the language setting
         var $languageMode = 0;
         var $lang = null;
         /**
@@ -59,8 +51,7 @@
 
                 $class_file = sprintf('%saddons/mobile/classes/%s.class.php', _XE_PATH_, $browserType);
                 require_once($class_file);
-
-                // 모바일 언어설정 로드(쿠키가 안되어 생각해낸 방법...-캐시파일 재생성을 클릭하면 초기화된다..)
+                // Download mobile language settings (cookies, not willing to come up when you click create cache file ...- is initialized ..)
                 $this->lang = FileHandler::readFile('./files/cache/addons/mobile/setLangType/personal_settings/'.md5(trim($_SERVER['HTTP_USER_AGENT']).trim($_SERVER['HTTP_PHONE_NUMBER']).trim($_SERVER['HTTP_HTTP_PHONE_NUMBER'])).'.php');
                 if($this->lang) {
                     $lang_supported = Context::get('lang_supported');
@@ -85,7 +76,7 @@
          * @brief constructor
          **/
         function mobileXE() {
-            // navigation mode 체크
+            // Check navigation mode
             if(Context::get('nm')) {
                 $this->navigationMode = 1;
                 $this->cmid = (int)Context::get('cmid');
@@ -98,16 +89,16 @@
         }
 
         /**
-         * @brief navigation mode 체크
-         * navigationMode 세팅과 모듈 정보의 menu_srl이 있어야 navigation mode = true로 return
+         * @brief Check navigation mode
+         * navigationMode settings and modules of information must be menu_srl return to navigation mode = true
          **/
         function isNavigationMode() {
             return ($this->navigationMode && $this->module_info->menu_srl)?true:false;
         }
 
         /**
-         * @brief langchange mode 체크
-         * languageMode 세팅 있어야 true return
+         * @brief Check langchange mode
+         * true return should be set languageMode
          **/
         function isLangChange() {
             if($this->languageMode) return true;
@@ -115,12 +106,12 @@
         }
 
         /**
-         * @brief 언어 설정
-         * 쿠키가 안되기 때문에 휴대전화마다 고유한 파일로 언어설정을 저장하는 파일 생성
+         * @brief Language settings
+         * Cookies Since you set your phone to store language-specific file, file creation
          **/
         function setLangType() {
             $lang_supported = Context::get('lang_supported');
-            // 언어 변수가 있는지 확인하고 변수가 유효한지 확인
+            // Make sure that the language variables and parameters are valid
             if($this->lang && isset($lang_supported[$this->lang])) {
                 $langbuff = FileHandler::readFile('./files/cache/addons/mobile/setLangType/personal_settings/'.md5(trim($_SERVER['HTTP_USER_AGENT']).trim($_SERVER['HTTP_PHONE_NUMBER']).trim($_SERVER['HTTP_HTTP_PHONE_NUMBER'])).'.php');
                 if($langbuff) FileHandler::removeFile('./files/cache/addons/mobile/setLangType/personal_settings/'.md5(trim($_SERVER['HTTP_USER_AGENT']).trim($_SERVER['HTTP_PHONE_NUMBER']).trim($_SERVER['HTTP_HTTP_PHONE_NUMBER'])).'.php');
@@ -130,7 +121,7 @@
         }
 
         /**
-         * @brief 현재 요청된 모듈 정보 세팅
+         * @brief Information currently requested module settings
          **/
         function setModuleInfo(&$module_info) {
             if($this->module_info) return; 
@@ -138,21 +129,18 @@
         }
 
         /**
-         * @brief 현재 실행중인 모듈 instance 세팅
+         * @brief Set the module instance is currently running
          **/
         function setModuleInstance(&$oModule) {
             if($this->oModule) return;
-
-            // instance 저장
+            // Save instance
             $this->oModule = $oModule;
-
-            // 현재 모듈의 메뉴가 설정되어 있으면 메뉴 정리
+            // Of the current module if there is a menu by menu
             $menu_cache_file = sprintf(_XE_PATH_.'files/cache/menu/%d.php', $this->module_info->menu_srl);
             if(!file_exists($menu_cache_file)) return;
 
             include $menu_cache_file;
-
-            // 정리된 menu들을 1차원으로 변경
+            // One-dimensional arrangement of menu changes
             $this->getListedItems($menu->list, $listed_items, $node_list);
 
             $this->listed_items = $listed_items;
@@ -162,8 +150,7 @@
             $k = array_keys($node_list);
             $v = array_values($node_list);
             $this->index_mid = $k[0];
-
-            // 현재 메뉴의 depth가 1이상이면 상위 버튼을 지정
+            // The depth of the current menu, the top button to specify if one or more
             $cur_menu_item = $listed_items[$node_list[$this->module_info->mid]];
             if($cur_menu_item['parent_srl']) {
                 $parent_srl = $cur_menu_item['parent_srl'];
@@ -177,39 +164,38 @@
         }
 
         /**
-         * @brief 접속 브라우저의 헤더를 판단하여 브라우저 타입을 return
-         * 모바일 브라우저가 아닐 경우 null return
+         * @brief Access the browser's header to determine the return type of the browser
+         * Mobile browser, if not null return
          **/
         function getBrowserType() {
             if(Context::get('smartphone')) return null;
-            // 브라우저 타입을 판별
+            // Determine the type of browser
             $browserAccept = $_SERVER['HTTP_ACCEPT'];
             $userAgent = $_SERVER['HTTP_USER_AGENT'];
             $wap_sid = $_SERVER['HTTP_X_UP_SUBNO'];
 
-            if(eregi("SKT11", $userAgent) || eregi("skt", $browserAccept)) {
+            if(preg_match("/SKT11/i", $userAgent) || preg_match("/skt/i", $browserAccept)) {
                 Context::set('mobile_skt',1);
                 return "wml";
             }
-            elseif(eregi("hdml", $browserAccept)) return "hdml";
-            elseif(eregi("CellPhone", $userAgent)) return  "mhtml";
+            elseif(preg_match("/hdml/i", $browserAccept)) return "hdml";
+            elseif(preg_match("/CellPhone/i", $userAgent)) return  "mhtml";
             return null;
         }
 
         /**
-         * @brief charset 지정
+         * @brief Specify charset
          **/
         function setCharSet($charset = 'UTF-8') {
             if(!$charset) $charset = 'UTF-8';
-
-            //SKT는 euc-kr만 지원
+            // SKT supports the euc-kr
             if(Context::get('mobile_skt')==1) $charset = 'euc-kr';
 
             $this->charset = $charset;
         }
 
         /**
-         * @brief 모바일 기기의 용량 제한에 다른 가상 페이지 지정
+         * @brief Limited capacity of mobile devices, specifying a different virtual page
          **/
         function setMobilePage($page=1) {
             if(!$page) $page = 1;
@@ -217,10 +203,10 @@
         }
 
         /**
-         * @brief 목록형 데이터 설정을 위한 child menu지정
+         * @brief Mokrokhyeong child menu for specifying the data set
          **/
         function setChilds($childs) {
-            // menu개수가 9개 이상일 경우 자체 페이징 처리
+            // If more than nine the number of menu paging processing itself
             $menu_count = count($childs);
             if($menu_count>9) {
                 $startNum = ($this->mobilePage-1)*9;
@@ -235,8 +221,7 @@
                 $childs = $new_childs;
 
                 $this->totalPage = (int)(($menu_count-1)/9)+1;
-
-                // next/prevUrl 지정
+                // next/prevUrl specify
                 if($this->mobilePage>1) {
                     $url = getUrl('mid',$_GET['mid'],'mpage',$this->mobilePage-1);
                     $text = sprintf('%s (%d/%d)', Context::getLang('cmd_prev'), $this->mobilePage-1, $this->totalPage);
@@ -253,21 +238,21 @@
         }
 
         /**
-         * @brief menu 출력대상이 있는지 확인
+         * @brief Check the menu to be output
          **/
         function hasChilds() {
             return count($this->childs)?true:0;
         }
 
         /**
-         * @brief child menu반환
+         * @brief Returns the child menu
          **/
         function getChilds() {
             return $this->childs;
         }
 
         /**
-         * @brief title 지정
+         * @brief Specify title
          **/
         function setTitle($title) {
             $oModuleController = &getController('module');
@@ -276,28 +261,24 @@
         }
 
         /**
-         * @brief title 반환
+         * @brief return title
          **/
         function getTitle() {
             return $this->title;
         }
 
         /**
-         * @brief 컨텐츠 정리
-         * HTML 컨텐츠에서 텍스트와 링크만 추출하는 기능
+         * @brief Content Cleanup
+         * In HTML content, the ability to extract text and links
          **/
         function setContent($content) {
             $oModuleController = &getController('module');
             $allow_tag_array = array('<a>','<br>','<p>','<b>','<i>','<u>','<em>','<small>','<strong>','<big>','<table>','<tr>','<td>');
-
-
-            // 링크/ 줄바꿈, 강조만 제외하고 모든 태그 제거
+            // Links/wrap, remove all tags except gangjoman
             $content = strip_tags($content, implode($allow_tag_array));
-
-            // 탭 여백 제거
+            // Margins tab removed
             $content = str_replace("\t", "", $content);
-
-            // 2번 이상 반복되는 공백과 줄나눔을 제거
+            // Repeat two more times the space and remove julnanumeul
             $content = preg_replace('/( ){2,}/s', '', $content);
             $content = preg_replace("/([\r\n]+)/s", "\r\n", $content);
             $content = preg_replace(array("/<a/i","/<\/a/i","/<b/i","/<\/b/i","/<br/i"),array('<a','</a','<b','</b','<br'),$content);
@@ -306,8 +287,7 @@
             while(strpos($content, '<br/><br/>')) {
                 $content = str_replace('<br/><br/>','<br/>',$content);
             }
-
-            // 모바일의 경우 한 덱에 필요한 사이즈가 적어서 내용을 모두 페이지로 나눔
+            // If the required size of a deck of mobile content to write down all the dividing pages
             $contents = array();
             while($content) {
                 $tmp = $this->cutStr($content, $this->deckSize, '');
@@ -335,8 +315,7 @@
             }
 
             $this->totalPage = count($contents);
-
-            // next/prevUrl 지정
+            // next/prevUrl specify
             if($this->mobilePage>1) {
                 $url = getUrl('mid',$_GET['mid'],'mpage',$this->mobilePage-1);
                 $text = sprintf('%s (%d/%d)', Context::getLang('cmd_prev'), $this->mobilePage-1, $this->totalPage);
@@ -355,21 +334,21 @@
         }
 
         /**
-         * @brief byte수로 자르는 함수
+         * @brief cutting the number of byte functions
          **/
         function cutStr($string, $cut_size) {
             return preg_match('/.{'.$cut_size.'}/su', $string, $arr) ? $arr[0] : $string; 
         }
 
         /**
-         * @brief 컨텐츠 반환
+         * @brief Return content
          **/
         function getContent() {
             return $this->content;
         }
 
         /**
-         * @brief home url 지정
+         * @brief Specifies the home url
          **/
         function setHomeUrl($url, $text) {
             if(!$url) $url = '#';
@@ -378,7 +357,7 @@
         }
 
         /**
-         * @brief upper url 지정
+         * @brief Specify upper url
          **/
         function setUpperUrl($url, $text) {
             if(!$url) $url = '#';
@@ -387,7 +366,7 @@
         }
 
         /**
-         * @brief prev url 지정
+         * @brief Specify prev url
          **/
         function setPrevUrl($url, $text) {
             if(!$url) $url = '#';
@@ -396,7 +375,7 @@
         }
 
         /**
-         * @brief next url 지정
+         * @brief Specify next url
          **/
         function setNextUrl($url, $text) {
             if(!$url) $url = '#';
@@ -405,7 +384,7 @@
         }
 
         /**
-         * @brief 다음, 이전, 상위 이외에 기타 버튼 지정
+         * @brief Next, Previous, Top button assignments other than
          **/
         function setEtcBtn($url, $text) {
             if(!$url) $url = '#';
@@ -418,32 +397,25 @@
          * @brief display
          **/
         function display() {
-            // 홈버튼 지정
+            // Home button assignments
             $this->setHomeUrl(getUrl(), Context::getLang('cmd_go_home'));
-
-            // 제목 지정
+            // Specify the title
             if(!$this->title) $this->setTitle(Context::getBrowserTitle());
 
             ob_start();
-
-            // 헤더를 출력
+            // Output header
             $this->printHeader();
-
-            // 제목을 출력
+            // Output title
             $this->printTitle();
-
-            // 내용 출력
+            // Information output
             $this->printContent();
-
-            // 버튼 출력
+            // Button output
             $this->printBtn();
-
-            // 푸터를 출력
+            // Footer output
             $this->printFooter();
 
             $content = ob_get_clean();
-
-            // 변환 후 출력
+            // After conversion output
             if(strtolower($this->charset) == 'utf-8') print $content;
             else print iconv('UTF-8',$this->charset."//TRANSLIT//IGNORE", $content);
 
@@ -451,7 +423,7 @@
         }
 
         /**
-         * @brief 페이지 이동
+         * @brief Move page
          **/
         function movepage($url) {
             header("location:$url");
@@ -459,7 +431,7 @@
         }
 
         /**
-         * @brief 목록등에서 일련 번호를 리턴한다
+         * @brief And returns a list of serial numbers in
          **/
         function getNo() {
             $this->no++;
@@ -468,7 +440,7 @@
         }
 
         /**
-         * @brief XE의 Menu 모듈이 값을 사용하기 쉽게 정리해주는 함수
+         * @brief XE is easy to use Menu module is relieved during the function, value
          **/
         function getListedItems($menu, &$listed_items, &$node_list) {
             if(!count($menu)) return;
@@ -486,7 +458,7 @@
         }
 
         /**
-         * @brief XE 네비게이션 출력
+         * @brief XE navigation output
          **/
         function displayNavigationContent() {
             $childs = array();
@@ -523,13 +495,12 @@
                 }
                 $this->setChilds($childs);
             }
-
-            // 출력
+            // Output
             $this->display();
         }
 
         /**
-         * @brief 언어설정 메뉴 출력
+         * @brief Language Settings menu, the output
          **/
         function displayLangSelect() {
             $childs = array();
@@ -561,37 +532,33 @@
         }
 
         /**
-         * @brief 모듈의 WAP 클래스 객체 생성하여 WAP 준비
+         * @brief Module to create a class object of the WAP WAP ready
          **/
         function displayModuleContent() {
-            // 선택된 모듈의 WAP class 객체 생성
+            // Create WAP class objects of the selected module
             $oModule = &getWap($this->module_info->module);
             if(!$oModule || !method_exists($oModule, 'procWAP') ) return;
 
             $vars = get_object_vars($this->oModule);
             if(count($vars)) foreach($vars as $key => $val) $oModule->{$key}  = $val;
-
-            // 실행
+            // Run
             $oModule->procWAP($this);
-
-            // 출력
+            // Output
             $this->display();
         }
 
         /**
-         * @brief WAP 컨텐츠를 별도로 구할 수 없으면 최종 결과물을 출력
+         * @brief WAP content is available as a separate output if the final results
          **/
         function displayContent() {
             Context::set('layout','none');
-
-            // 템플릿 컴파일
+            // Compile a template
             $oTemplate = new TemplateHandler();
             $oContext = &Context::getInstance();
 
             $content = $oTemplate->compile($this->oModule->getTemplatePath(), $this->oModule->getTemplateFile());
             $this->setContent($content);
-
-            // 출력
+            // Output
             $this->display();
         }
     }

@@ -2,67 +2,73 @@
     /**
      * @class  layoutAdminController
      * @author NHN (developers@xpressengine.com)
-     * @brief  layout 모듈의 admin controller class
+     * @brief admin controller class of the layout module
      **/
 
     class layoutAdminController extends layout {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
         }
 
+		// deprecated
         /**
-         * @brief 레이아웃 신규 생성
-         * 레이아웃의 신규 생성은 제목만 받아서 layouts테이블에 입력함
+         * @brief Create a new layout
+         * Insert a title into "layouts" table in order to create a layout
          **/
         function procLayoutAdminInsert() {
-            // 레이아웃 생성과 관련된 기본 정보를 받음
+			if(Context::get('layout') == 'faceoff') return $this->stop('not supported');
+
+            // Get information to create a layout
             $site_module_info = Context::get('site_module_info');
             $args->site_srl = (int)$site_module_info->site_srl;
             $args->layout_srl = getNextSequence();
             $args->layout = Context::get('layout');
             $args->title = Context::get('title');
-			$args->layout_type = Context::get('layout_type');
+			$args->layout_type = Context::get('_layout_type');
 			if(!$args->layout_type) $args->layout_type = "P";
 
-            // DB 입력
+			// Insert into the DB
             $output = $this->insertLayout($args);
             if(!$output->toBool()) return $output;
 
-            // faceOff 레이아웃일 경우 init 필요
+			// initiate if it is faceoff layout
             $this->initLayout($args->layout_srl, $args->layout);
 
-            // 결과 리턴
-            $this->add('layout_srl', $args->layout_srl);
+			// update layout info
+			Context::set('layout_srl', $args->layout_srl);
+			$output = $this->procLayoutAdminUpdate();
+			if (!$output->toBool()) return $output;
+
+			$this->setRedirectUrl(Context::get('success_return_url'));
         }
 
-        // 레이아웃 정보를 DB에 입력
+        // Insert layout information into the DB
         function insertLayout($args) {
             $output = executeQuery("layout.insertLayout", $args);
             return $output;
         }
 
-        // faceOff 레이아웃을 경우 init
+        // Initiate if it is faceoff layout
         function initLayout($layout_srl, $layout_name){
             $oLayoutModel = &getModel('layout');
-
-            // faceOff일 경우 sample import
+            // Import a sample layout if it is faceoff
             if($oLayoutModel->useDefaultLayout($layout_name)) {
                 $this->importLayout($layout_srl, $this->module_path.'tpl/faceOff_sample.tar');
-            // 디렉토리 제거
+            // Remove a directory
             } else {
                 FileHandler::removeDir($oLayoutModel->getUserLayoutPath($layout_srl));
             }
         }
 
         /**
-         * @brief 레이아웃 정보 변경
-         * 생성된 레이아웃의 제목과 확장변수(extra_vars)를 적용한다
+         * @brief Update layout information
+         * Apply a title of the new layout and extra vars
          **/
         function procLayoutAdminUpdate() {
-            // module, act, layout_srl, layout, title을 제외하면 확장변수로 판단.. 좀 구리다..
+            // Consider the rest of items as extra vars, except module, act, layout_srl, layout, and title  .. Some gurida ..
             $extra_vars = Context::getRequestVars();
             unset($extra_vars->module);
             unset($extra_vars->act);
@@ -73,12 +79,13 @@
 			unset($extra_vars->apply_mobile_view);
 
             $args = Context::gets('layout_srl','title');
-
-            // 레이아웃의 정보를 가져옴
+            // Get layout information
             $oLayoutModel = &getModel('layout');
             $oMenuAdminModel = &getAdminModel('menu');
             $layout_info = $oLayoutModel->getLayout($args->layout_srl);
-            $menus = get_object_vars($layout_info->menu);
+			if($layout_info->menu) {
+	            $menus = get_object_vars($layout_info->menu);
+			}
             if(count($menus) ) {
                 foreach($menus as $menu_id => $val) {
                     $menu_srl = Context::get($menu_id);
@@ -124,65 +131,53 @@
                     }
                 }
             }
-
-            // extra_vars의 type이 image일 경우 별도 처리를 해줌
+            // Separately handle if a type of extra_vars is an image
             if($layout_info->extra_var) {
                 foreach($layout_info->extra_var as $name => $vars) {
                     if($vars->type!='image') continue;
 
                     $image_obj = $extra_vars->{$name};
                     $extra_vars->{$name} = $layout_info->extra_var->{$name}->value;
-
-                    // 삭제 요청에 대한 변수를 구함
+                    // Get a variable on a request to delete
                     $del_var = $extra_vars->{"del_".$name};
                     unset($extra_vars->{"del_".$name});
-                    // 삭제 요청이 있거나, 새로운 파일이 업로드 되면, 기존 파일 삭제
+                    // Delete the old file if there is a request to delete or a new file is uploaded
                     if($del_var == 'Y' || $image_obj['tmp_name']) {
                         FileHandler::removeFile($extra_vars->{$name});
                         $extra_vars->{$name} = '';
                         if($del_var == 'Y' && !$image_obj['tmp_name']) continue;
                     }
-
-                    // 정상적으로 업로드된 파일이 아니면 무시
+                    // Ignore if the file is not successfully uploaded
                     if(!$image_obj['tmp_name'] || !is_uploaded_file($image_obj['tmp_name'])) continue;
-
-                    // 이미지 파일이 아니어도 무시 (swf는 패스~)
+                    // Ignore if the file is not an image (swf the paths ~)
                     if(!preg_match("/\.(jpg|jpeg|gif|png|swf)$/i", $image_obj['name'])) continue;
-
-                    // 경로를 정해서 업로드
+                    // Upload the file to a path
                     $path = sprintf("./files/attach/images/%s/", $args->layout_srl);
-
-                    // 디렉토리 생성
+                    // Create a directory
                     if(!FileHandler::makeDir($path)) continue;
 
                     $filename = $path.$image_obj['name'];
-
-                    // 파일 이동
+                    // Move the file
                     if(!move_uploaded_file($image_obj['tmp_name'], $filename)) continue;
 
                     $extra_vars->{$name} = $filename;
                 }
             }
-
-            // header script를 레이아웃 모듈의 config에 저장
+            // Save header script into "config" of layout module
             $oModuleModel = &getModel('module');
             $oModuleController = &getController('module');
             $layout_config->header_script = Context::get('header_script');
             $oModuleController->insertModulePartConfig('layout',$args->layout_srl,$layout_config);
-
-            //menu의 title도 저장하자
+            // Save a title of the menu
             $extra_vars->menu_name_list = $menu_name_list;
-
-            // DB에 입력하기 위한 변수 설정
+            // Variable setting for DB insert
             $args->extra_vars = serialize($extra_vars);
 
             $output = $this->updateLayout($args);
             if(!$output->toBool()) return $output;
 
-            $this->setLayoutPath('./common/tpl');
-            $this->setLayoutFile('default_layout.html');
-            $this->setTemplatePath($this->module_path.'tpl');
-            $this->setTemplateFile("top_refresh.html");
+			$this->setRedirectUrl(Context::get('error_return_url'));
+			return new Object();
         }
 
         function updateLayout($args) {
@@ -191,16 +186,24 @@
                 $oLayoutModel = &getModel('layout');
                 $cache_file = $oLayoutModel->getUserLayoutCache($args->layout_srl, Context::getLangType());
                 FileHandler::removeFile($cache_file);
+				//remove from cache
+                $oCacheHandler = &CacheHandler::getInstance('object');
+                if($oCacheHandler->isSupport())
+                {
+                	$cache_key = 'object:'.$args->layout_srl;
+                	$oCacheHandler->delete($cache_key);
+                }
             }
             return $output;
         }
 
         /**
-         * @brief 레이아웃 삭제
-         * 삭제시 메뉴 xml 캐시 파일도 삭제
+         * @brief Delete Layout
+         * Delete xml cache file too when deleting a layout
          **/
         function procLayoutAdminDelete() {
             $layout_srl = Context::get('layout_srl');
+			$this->setRedirectUrl(Context::get('error_return_url'));
             return $this->deleteLayout($layout_srl);
         }
 
@@ -212,23 +215,31 @@
 
             $layout_file = $oLayoutModel->getUserLayoutHtml($layout_srl);
             if(file_exists($layout_file)) FileHandler::removeFile($layout_file);
-
-            // 레이아웃 삭제
+            // Delete Layout
             $args->layout_srl = $layout_srl;
             $output = executeQuery("layout.deleteLayout", $args);
+			//remove from cache
+            $oCacheHandler = &CacheHandler::getInstance('object');
+            if($oCacheHandler->isSupport())
+            {
+            	$cache_key = 'object:'.$layout_srl;
+            	$oCacheHandler->delete($cache_key);
+            }
             if(!$output->toBool()) return $output;
 
             return new Object(0,'success_deleted');
         }
 
         /**
-         * @brief 레이아웃 코드 추가
+         * @brief Adding Layout Code
          **/
         function procLayoutAdminCodeUpdate() {
+			$mode = Context::get('mode');
+			if ($mode == 'reset') return $this->procLayoutAdminCodeReset();
+
             $layout_srl = Context::get('layout_srl');
             $code = Context::get('code');
             $code_css   = Context::get('code_css');
-			$return_url = Context::get('_return_url');
 			$is_post    = (Context::getRequestMethod() == 'POST');
             if(!$layout_srl || !$code) return new Object(-1, 'msg_invalid_request');
 
@@ -239,16 +250,12 @@
             $layout_css_file = $oLayoutModel->getUserLayoutCss($layout_srl);
             FileHandler::writeFile($layout_css_file, $code_css);
 
-			if($is_post) {
-				if(!$return_url) $return_url = getUrl('module','admin','act','dispLayoutAdminEdit', 'layout_srl', $layout_srl);
-				header('Location: '.$return_url);
-			} else {
-				$this->setMessage('success_updated');
-			}
+			$this->setRedirectUrl(Context::get('error_return_url'));
+			$this->setMessage('success_updated');
         }
 
         /**
-         * @brief 레이아웃 코드 초기화
+         * @brief Reset layout code
          **/
         function procLayoutAdminCodeReset() {
             $layout_srl = Context::get('layout_srl');
@@ -270,11 +277,12 @@
 
             $this->initLayout($layout_srl, $info->layout);
             $this->setMessage('success_reset');
+			$this->setRedirectUrl(Context::get('error_return_url'));
         }
 
 
         /**
-         * @brief 레이아웃 설정페이지 -> 이미지 업로드
+         * @brief Layout setting page -> Upload an image
          *
          **/
         function procLayoutAdminUserImageUpload(){
@@ -284,17 +292,15 @@
             $layout_srl = Context::get('layout_srl');
             if(!is_uploaded_file($image['tmp_name'])) exit();
 
-            if(!preg_match('/\.(gif|jpg|jpeg|gif|png|swf|flv)$/i', $image['name'])){
-                return false;
-            }
-
             $this->insertUserLayoutImage($layout_srl, $image);
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile("top_refresh.html");
+
+			$this->setRedirectUrl(Context::get('error_return_url'));
         }
 
         /**
-         * @brief 레이아웃 설정페이지 -> 이미지 업로드
+         * @brief Layout setting page -> Upload an image
          *
          **/
         function insertUserLayoutImage($layout_srl,$source){
@@ -315,7 +321,7 @@
 
 
         /**
-         * @brief 레이아웃 설정페이지 -> 이미지 삭제
+         * @brief Layout setting page -> Delete an image
          *
          **/
         function removeUserLayoutImage($layout_srl,$filename){
@@ -325,7 +331,7 @@
         }
 
         /**
-         * @brief 레이아웃 설정페이지 -> 이미지 삭제
+         * @brief Layout setting page -> Delete an image
          *
          **/
         function procLayoutAdminUserImageDelete(){
@@ -333,12 +339,13 @@
             $layout_srl = Context::get('layout_srl');
             $this->removeUserLayoutImage($layout_srl,$filename);
             $this->setMessage('success_deleted');
+			$this->setRedirectUrl(Context::get('error_return_url'));
         }
 
-
+		// deprecated
         /**
-         * @brief 레이아웃 설정 저장
-         * ini 로 저장한다 faceoff 용
+         * @brief Save layout configuration
+         * save in "ini" format for faceoff
          **/
         function procLayoutAdminUserValueInsert(){
             $oModuleModel = &getModel('module');
@@ -347,7 +354,8 @@
             if(!$mid) return new Object(-1, 'msg_invalid_request');
 
             $site_module_info = Context::get('site_module_info');
-            $module_info = $oModuleModel->getModuleInfoByMid($mid, $site_module_info->site_srl);
+			$columnList = array('layout_srl');
+            $module_info = $oModuleModel->getModuleInfoByMid($mid, $site_module_info->site_srl, $columnList);
             $layout_srl = $module_info->layout_srl;
             if(!$layout_srl) return new Object(-1, 'msg_invalid_request');
 
@@ -373,7 +381,7 @@
             FileHandler::writeFile($file,$content);
 
             // write faceoff.css
-            $css = Context::get('css');
+            $css = stripslashes(Context::get('css'));
 
             $css_file = $oLayoutModel->getUserLayoutFaceOffCss($layout_srl);
             FileHandler::writeFile($css_file,$css);
@@ -387,7 +395,7 @@
         }
 
         /**
-         * @brief 레이아웃 설정 ini 저장
+         * @brief Layout setting, save "ini"
          *
          **/
         function insertUserLayoutValue($layout_srl,$arr){
@@ -401,32 +409,32 @@
         }
 
         /**
-         * @brief faceoff용 위젯코드를 사용자 layout 파일에 직접 추가한다
+         * @brief Add the widget code for faceoff into user layout file
          *
          **/
         function addExtension($layout_srl,$arg,$content){
             $oLayoutModel = &getModel('layout');
-             $reg = '(<\!\-\- start\-e1 \-\->)(.*)(<\!\-\- end\-e1 \-\->)';
+             $reg = '/(<\!\-\- start\-e1 \-\->)(.*)(<\!\-\- end\-e1 \-\->)/i';
              $extension_content =  '\1' .stripslashes($arg->e1) . '\3';
-             $content = eregi_replace($reg,$extension_content,$content);
+             $content = preg_replace($reg,$extension_content,$content);
 
-             $reg = '(<\!\-\- start\-e2 \-\->)(.*)(<\!\-\- end\-e2 \-\->)';
+             $reg = '/(<\!\-\- start\-e2 \-\->)(.*)(<\!\-\- end\-e2 \-\->)/i';
              $extension_content =  '\1' .stripslashes($arg->e2) . '\3';
-             $content = eregi_replace($reg,$extension_content,$content);
+             $content = preg_replace($reg,$extension_content,$content);
 
-             $reg = '(<\!\-\- start\-neck \-\->)(.*)(<\!\-\- end\-neck \-\->)';
+             $reg = '/(<\!\-\- start\-neck \-\->)(.*)(<\!\-\- end\-neck \-\->)/i';
              $extension_content =  '\1' .stripslashes($arg->neck) . '\3';
-             $content = eregi_replace($reg,$extension_content,$content);
+             $content = preg_replace($reg,$extension_content,$content);
 
-             $reg = '(<\!\-\- start\-knee \-\->)(.*)(<\!\-\- end\-knee \-\->)';
+             $reg = '/(<\!\-\- start\-knee \-\->)(.*)(<\!\-\- end\-knee \-\->)/i';
              $extension_content =  '\1' .stripslashes($arg->knee) . '\3';
-             $content = eregi_replace($reg,$extension_content,$content);
+             $content = preg_replace($reg,$extension_content,$content);
             return $content;
         }
 
 
         /**
-         * @brief faceoff용 temp file들을 지운다
+         * @brief Delete temp files for faceoff
          *
          **/
          function deleteUserLayoutTempFile($layout_srl){
@@ -446,17 +454,71 @@
             if(!$layout_srl) return new Object('-1','msg_invalid_request');
 
             require_once(_XE_PATH_.'libs/tar.class.php');
-
-            // 압축할 파일 목록을 가져온다
             $oLayoutModel = &getModel('layout');
-            $file_list = $oLayoutModel->getUserLayoutFileList($layout_srl);
+			
+			// Copy files to temp path
+			$file_path = $oLayoutModel->getUserLayoutPath($layout_srl);
+			$target_path = $oLayoutModel->getUserLayoutPath(0);
+			FileHandler::copyDir($file_path, $target_path);
 
-            // 압축을 한다.
+			// replace path and ini config
+			$ini_config = $oLayoutModel->getUserLayoutIniConfig(0);
+            $file_list = $oLayoutModel->getUserLayoutFileList($layout_srl);
+			unset($file_list[2]);
+
+			foreach($file_list as $file)
+			{
+				if (preg_match('/^images/', $file)) continue;
+
+				// replace path
+				$file = $target_path . $file;
+				$content = FileHandler::readFile($file);
+				$pattern = '/(http:\/\/[^ ]+)?(\.\/)?' . str_replace('/', '\/', (str_replace('./', '', $file_path))) . '/';
+				if (basename($file) == 'faceoff.css' || basename($file) == 'layout.css')
+					$content = preg_replace($pattern, '../', $content);
+				else
+					$content = preg_replace($pattern, './', $content);
+
+				// replace ini config
+				foreach($ini_config as $key => $value)
+				{
+					$content = str_replace('{$layout_info->faceoff_ini_config[\'' . $key . '\']}', $value, $content);
+				}
+
+				FileHandler::writeFile($file, $content);
+			}
+
+			// make info.xml
+			$info_file = $target_path . 'conf/info.xml';
+			FileHandler::copyFile('./modules/layout/faceoff/conf/info.xml', $info_file);
+			$content = FileHandler::readFile($info_file);
+			$content = str_replace('type="faceoff"', '', $content);
+			FileHandler::writeFile($info_file, $content);
+			$file_list[] = 'conf/info.xml';
+
+			// make css file
+			$css_file = $target_path . 'css/layout.css';
+			FileHandler::copyFile('./modules/layout/faceoff/css/layout.css', $css_file);
+			$content = FileHandler::readFile('./modules/layout/tpl/css/widget.css');
+			FileHandler::writeFile($css_file, "\n" . $content, 'a');
+			$content = FileHandler::readFile($target_path . 'faceoff.css');
+			FileHandler::writeFile($css_file, "\n" . $content, 'a');
+			$content = FileHandler::readFile($target_path . 'layout.css');
+			FileHandler::writeFile($css_file, "\n" . $content, 'a');
+
+			// css load
+			$content = FileHandler::readFile($target_path . 'layout.html');
+			$content = "<load target=\"css/layout.css\" />\n" . $content;
+			FileHandler::writeFile($target_path . 'layout.html', $content);
+			unset($file_list[3]);
+			unset($file_list[1]);
+			$file_list[] = 'css/layout.css';
+
+            // Compress the files
             $tar = new tar();
-            $user_layout_path = FileHandler::getRealPath($oLayoutModel->getUserLayoutPath($layout_srl));
+            $user_layout_path = FileHandler::getRealPath($oLayoutModel->getUserLayoutPath(0));
             chdir($user_layout_path);
-            $replace_path = getNumberingPath($layout_srl,3);
-            foreach($file_list as $key => $file) $tar->addFile($file,$replace_path,'__LAYOUT_PATH__');
+            foreach($file_list as $key => $file) $tar->addFile($file);
 
             $stream = $tar->toTarStream();
             $filename = 'faceoff_' . date('YmdHis') . '.tar';
@@ -468,17 +530,23 @@
             header('Content-Disposition: attachment; filename="'. $filename .'"');
             header("Content-Transfer-Encoding: binary\n");
             echo $stream;
-
-            // Context를 강제로 닫고 종료한다.
+            // Close Context and then exit
             Context::close();
+
+			// delete temp path
+			FileHandler::removeDir($target_path);
+
             exit();
          }
 
+		// deprecated
         /**
          * @brief faceoff import
          *
          **/
          function procLayoutAdminUserLayoutImport(){
+			return $this->stop('not supported');
+
             // check upload
             if(!Context::isUploaded()) exit();
             $file = Context::get('file');
@@ -493,6 +561,8 @@
             if(!move_uploaded_file($file['tmp_name'], $user_layout_path . 'faceoff.tar')) exit();
 
             $this->importLayout($layout_srl, $user_layout_path.'faceoff.tar');
+
+			$this->setRedirectUrl(Context::get('error_return_url'));
         }
 
         function importLayout($layout_srl, $source_file) {
@@ -508,16 +578,14 @@
             FileHandler::makeDir($image_path);
             $tar = new tar();
             $tar->openTAR($source_file);
-
-            // layout.ini 파일이 없으면 
+            // If layout.ini file does not exist
             if(!$tar->getFile('layout.ini')) return;
 
             $replace_path = getNumberingPath($layout_srl,3);
             foreach($tar->files as $key => $info) {
                 FileHandler::writeFile($user_layout_path . $info['name'],str_replace('__LAYOUT_PATH__',$replace_path,$info['file']));
             }
-
-            // 업로드한 파일을 삭제
+            // Remove uploaded file
             FileHandler::removeFile($source_file);
          }
     }

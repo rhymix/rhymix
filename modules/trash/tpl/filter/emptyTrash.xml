@@ -1,0 +1,12 @@
+<filter name="emptyTrash" module="trash" act="procTrashAdminEmptyTrash" confirm_msg_code="confirm_delete">
+    <form>
+        <node target="trash_srl" />
+    </form>
+    <parameter>
+        <param name="trash_srl" target="trash_srl" />
+    </parameter>
+    <response callback_func="completeEmptyTrash">
+        <tag name="error" />
+        <tag name="message" />
+    </response>
+</filter>

@@ -2,59 +2,49 @@
     /**
      * @class mcontent
      * @author NHN (developers@xpressengine.com)
-     * @brief mcontent를 출력하는 위젯
+     * @brief widget to display mcontent
      * @version 0.1
      **/
 
     class mcontent extends WidgetHandler {
 
         /**
-         * @brief 위젯의 실행 부분
+         * @brief Widget execution
          *
-         * ./widgets/위젯/conf/info.xml 에 선언한 extra_vars를 args로 받는다
-         * 결과를 만든후 print가 아니라 return 해주어야 한다
+         * Get extra_vars declared in ./widgets/widget/conf/info.xml as arguments
+         * After generating the result, do not print but return it.
          **/
 
         function proc($args) {
-            // 정렬 대상
+            // Targets to sort
             if(!in_array($args->order_target, array('list_order','update_order'))) $args->order_target = 'list_order';
-
-            // 정렬 순서
+            // Sort order
             if(!in_array($args->order_type, array('asc','desc'))) $args->order_type = 'asc';
-
-            // 출력된 목록 수
+            // The number of displayed lists
             $args->list_count = (int)$args->list_count;
             if(!$args->list_count) $args->list_count = 5;
-
-            // 제목 길이 자르기
+            // Cut the length of the title
             if(!$args->subject_cut_size) $args->subject_cut_size = 0;
-
-            // 내용 길이 자르기
+            // Cut the length of contents
             if(!$args->content_cut_size) $args->content_cut_size = 100;
-
-            // 보기 옵션
+            // Viewing options
             $args->option_view_arr = explode(',',$args->option_view);
-
-            // markup 옵션
+            // markup options
             if(!$args->markup_type) $args->markup_type = 'list';
-
-            // 내부적으로 쓰이는 변수 설정
+            // Set variables for internal use
             $oModuleModel = &getModel('module');
             $module_srls = $args->modules_info = $args->module_srls_info = $args->mid_lists = array();
             $site_module_info = Context::get('site_module_info');
-
-            // rss 인 경우 URL정리
+            // List URLs if a type is RSS
             if($args->content_type == 'rss'){
                 $args->rss_urls = array();
                 $rss_urls = array_unique(array($args->rss_url0,$args->rss_url1,$args->rss_url2,$args->rss_url3,$args->rss_url4));
                 for($i=0,$c=count($rss_urls);$i<$c;$i++) {
                     if($rss_urls[$i]) $args->rss_urls[] = $rss_urls[$i];
                 }
-
-            // rss가 아닌 XE모듈일 경우 모듈 번호 정리 후 모듈 정보 구함
+            // Get module information after listing module_srls if the module is not RSS
             } else {
-
-                // 대상 모듈이 선택되어 있지 않으면 해당 사이트의 전체 모듈을 대상으로 함
+                // Apply to all modules in the site if a target module is not specified
                 if(!$args->module_srls){
                     unset($obj);
                     $obj->site_srl = (int)$site_module_info->site_srl;
@@ -69,7 +59,7 @@
                     }
 
                     $args->modules_info = $oModuleModel->getMidList($obj);
-                // 대상 모듈이 선택되어 있으면 해당 모듈만 추출
+                // Apply to the module only if a target module is specified
                 } else {
                     $obj->module_srls = $args->module_srls;
                     $output = executeQueryArray('widgets.content.getMids', $obj);
@@ -87,16 +77,15 @@
                         }
                     }
                 }
-
-                // 아무런 모듈도 검색되지 않았다면 종료
+                // Exit if no module is found
                 if(!count($args->modules_info)) return Context::get('msg_not_founded');
                 $args->module_srl = implode(',',$module_srls);
             }
 
             /**
-             * 컨텐츠 추출, 게시글/댓글/엮인글/RSS등 다양한 요소가 있어서 각 method를 따로 만듬
+             * Method is separately made because content extraction, articles, comments, trackbacks, RSS and other elements exist
              **/
-            // tab 형태
+            // tab mode
             if($args->tab_type == 'none' || $args->tab_type == '') {
                 switch($args->content_type){
                     case 'comment':
@@ -115,7 +104,7 @@
                             $content_items = $this->_getDocumentItems($args);
                         break;
                 }
-            // tab 형태가 아닐 경우
+            // If not a tab type
             } else {
                 $content_items = array();
 
@@ -155,15 +144,14 @@
         }
 
         /**
-         * @brief 댓글 목록을 추출하여 mcontentItem으로 return
+         * @brief Return to the list of comments extracted mcontentItem
          **/
         function _getCommentItems($args) {
-            // CommentModel::getCommentList()를 이용하기 위한 변수 정리
+            // CommentModel:: getCommentList() to take advantage of the variable order
             $obj->module_srl = $args->module_srl;
             $obj->sort_index = $args->order_target;
             $obj->list_count = $args->list_count;
-
-            // comment 모듈의 model 객체를 받아서 getCommentList() method를 실행
+            // Get model object of the comment module getCommentList() method runs
             $oCommentModel = &getModel('comment');
             $output = $oCommentModel->getNewestCommentList($obj);
 
@@ -194,10 +182,9 @@
         }
 
         function _getDocumentItems($args){
-            // document 모듈의 model 객체를 받아서 결과를 객체화 시킴
+            // Get model object of the document module and make the result as an object
             $oDocumentModel = &getModel('document');
-
-            // 분류 구함
+            // Get categories
             $obj->module_srl = $args->module_srl;
             $output = executeQueryArray('widgets.content.getCategories',$obj);
             if($output->toBool() && $output->data) {
@@ -205,16 +192,15 @@
                     $category_lists[$val->module_srl][$val->category_srl] = $val;
                 }
             }
-
-            // 글 목록을 구함
+            // Get a list of documents
             $obj->module_srl = $args->module_srl;
             $obj->sort_index = $args->order_target;
             $obj->order_type = $args->order_type=="desc"?"asc":"desc";
             $obj->list_count = $args->list_count;
+			$obj->statusList = array('PUBLIC');
             $output = executeQueryArray('widgets.content.getNewestDocuments', $obj);
             if(!$output->toBool() || !$output->data) return;
-
-            // 결과가 있으면 각 문서 객체화를 시킴
+            // If the result exists, make each document as an object
             $content_items = array();
             $first_thumbnail_idx = -1;
             if(count($output->data)) {
@@ -256,16 +242,14 @@
             $obj->module_srls = $obj->module_srl = $args->module_srl;
             $obj->direct_download = 'Y';
             $obj->isvalid = 'Y';
-
-            // 분류 구함
+            // Get categories
             $output = executeQueryArray('widgets.content.getCategories',$obj);
             if($output->toBool() && $output->data) {
                 foreach($output->data as $key => $val) {
                     $category_lists[$val->module_srl][$val->category_srl] = $val;
                 }
             }
-
-            // 정해진 모듈에서 문서별 파일 목록을 구함
+            // Get a file list in each document on the module
             $obj->list_count = $args->list_count;
             $files_output = executeQueryArray("file.getOneFileInDocument", $obj);
             $files_count = count($files_output->data);
@@ -352,34 +336,27 @@
         function _getSummary($content, $str_size = 50)
         {
             $content = preg_replace('!(<br[\s]*/{0,1}>[\s]*)+!is', ' ', $content);
-
-            // </p>, </div>, </li> 등의 태그를 공백 문자로 치환
+            // Replace tags such as </p> , </div> , </li> and others to a whitespace
             $content = str_replace(array('</p>', '</div>', '</li>'), ' ', $content);
-
-            // 태그 제거
+            // Remove Tag
             $content = preg_replace('!<([^>]*?)>!is','', $content);
-
-            // < , > , " 를 치환
+            // Replace tags to < , > , " 
             $content = str_replace(array('&lt;','&gt;','&quot;','&nbsp;'), array('<','>','"',' '), $content);
-
-            // 연속된 공백문자 삭제
+            // Delete a series of whitespaces
             $content = preg_replace('/ ( +)/is', ' ', $content);
-
-            // 문자열을 자름
+            // Truncate string
             $content = trim(cut_str($content, $str_size, $tail));
-
-            // >, <, "를 다시 복구
+            // Replace back < , > , "  to theoriginal tags
             $content = str_replace(array('<','>','"'),array('&lt;','&gt;','&quot;'), $content);
-
-            // 영문이 연결될 경우 개행이 안 되는 문제를 해결
+            // Fixed a newline bug on a set of consecutive English letters 
             $content = preg_replace('/([a-z0-9\+:\/\.\~,\|\!\@\#\$\%\^\&\*\(\)\_]){20}/is',"$0-",$content);
             return $content; 
         }
 
 
        /**
-         * @brief rss 주소로 부터 내용을 받아오는 함수
-         * tistory 의 경우 원본 주소가 location 헤더를 뿜는다. (내용은 없음)이를 해결하기 위한 수정 - rss_reader 위젯과 방식 동일
+         * @brief function to receive contents from rss url
+         * For Tistory blog in Korea, the original RSS url has location header without contents. Fixed to work as same as rss_reader widget.
          **/
         function requestFeedContents($rss_url) {
             $rss_url = str_replace('&amp;','&',Context::convertEncodingStr($rss_url));
@@ -387,7 +364,7 @@
         }
 
         function _getRssItems($args){
-            // 날짜 형태
+            // Date Format
             $DATE_FORMAT = $args->date_format ? $args->date_format : "Y-m-d H:i:s";
 
             $buff = $this->requestFeedContents($args->rss_url);
@@ -433,7 +410,7 @@
                     $content_items[] = $content_item;
                 }
             } elseif($xml_doc->{'rdf:rdf'}) {
-                // rss1.0 지원 (Xml이 대소문자를 구분해야 하는데 XE의 XML파서가 전부 소문자로 바꾸는 바람에 생긴 case) by misol
+                // rss1.0 supported (XE's XML is case-insensitive because XML parser converts all to small letters) Fixed by misol
                 $rss->title = $xml_doc->{'rdf:rdf'}->channel->title->body;
                 $rss->link = $xml_doc->{'rdf:rdf'}->channel->link->body;
 
@@ -467,7 +444,7 @@
                     $content_items[] = $content_item;
                 }
             } elseif($xml_doc->feed && $xml_doc->feed->attrs->xmlns == 'http://www.w3.org/2005/Atom') {
-                // Atom 1.0 spec 지원 by misol
+                // Atom 1.0 spec supported by misol
                 $rss->title = $xml_doc->feed->title->body;
                 $links = $xml_doc->feed->link;
                 if(is_array($links)) {
@@ -538,7 +515,7 @@
         }
 
         function _getTrackbackItems($args){
-            // 분류 구함
+            // Get categories
             $output = executeQueryArray('widgets.content.getCategories',$obj);
             if($output->toBool() && $output->data) {
                 foreach($output->data as $key => $val) {
@@ -549,15 +526,12 @@
             $obj->module_srl = $args->module_srl;
             $obj->sort_index = $args->order_target;
             $obj->list_count = $args->list_count;
-
-            // trackback 모듈의 model 객체를 받아서 getTrackbackList() method를 실행
+            // Get model object from the trackback module and execute getTrackbackList() method
             $oTrackbackModel = &getModel('trackback');
             $output = $oTrackbackModel->getNewestTrackbackList($obj);
-
-            // 오류가 생기면 그냥 무시
+            // If an error occurs, just ignore it.
             if(!$output->toBool() || !$output->data) return;
-
-            // 결과가 있으면 각 문서 객체화를 시킴
+            // If the result exists, make each document as an object
             $content_items = array();
             foreach($output->data as $key => $item) {
                 $domain = $args->module_srls_info[$item->module_srl]->domain;
@@ -582,8 +556,7 @@
 
         function _compile($args,$content_items){
             $oTemplate = &TemplateHandler::getInstance();
-
-            // 위젯에 넘기기 위한 변수 설정
+            // Set variables for widget
             $widget_info->modules_info = $args->modules_info;
             $widget_info->option_view_arr = $args->option_view_arr;
             $widget_info->list_count = $args->list_count;
@@ -668,8 +641,7 @@
         function setNickName($nick_name){
             $this->add('nick_name',$nick_name);
         }
-
-        // 글 작성자의 홈페이지 주소를 저장 by misol
+        // Save author's homepage url by misol
         function setAuthorSite($site_url){
             $this->add('author_site',$site_url);
         }

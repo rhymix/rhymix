@@ -2,15 +2,17 @@
     /**
      * @class  commentItem
      * @author NHN (developers@xpressengine.com)
-     * @brief  comment 객체
+     * @brief comment Object
      **/
 
     class commentItem extends Object {
 
         var $comment_srl = 0;
+		var $columnList = array();
 
-        function commentItem($comment_srl = 0) {
+        function commentItem($comment_srl = 0, $columnList = array()) {
             $this->comment_srl = $comment_srl;
+			$this->columnList = $columnList;
             $this->_loadFromDB();
         }
 
@@ -23,7 +25,7 @@
             if(!$this->comment_srl) return;
 
             $args->comment_srl = $this->comment_srl;
-            $output = executeQuery('comment.getComment', $args);
+            $output = executeQuery('comment.getComment', $args, $this->columnList);
 
             $this->setAttribute($output->data);
         }
@@ -35,8 +37,7 @@
             }
             $this->comment_srl = $attribute->comment_srl;
             $this->adds($attribute);
-
-            // 기존 스킨의 호환을 위해 변수를 객체 자신에 재선언
+            // define vars on the object for backward compatibility of skins
             if(count($attribute)) foreach($attribute as $key => $val) $this->{$key} = $val;
         }
 
@@ -101,33 +102,28 @@
         }
 
         function notify($type, $content) {
-            // useNotify가 아니면 return
+            // return if not useNotify
             if(!$this->useNotify()) return;
-
-            // 글쓴이가 로그인 유저가 아니면 패스~
+            // pass if the author is not logged-in user 
             if(!$this->get('member_srl')) return;
-
-            // 현재 로그인한 사용자와 글을 쓴 사용자를 비교하여 동일하면 return
+            // return if the currently logged-in user is an author of the comment.
             $logged_info = Context::get('logged_info');
             if($logged_info->member_srl == $this->get('member_srl')) return;
-
-            // 원본글의 주소를 구함
+            // get where the comment belongs to 
             $oDocumentModel = &getModel('document');
             $oDocument = $oDocumentModel->getDocument($this->get('document_srl'));
-
-            // 변수 정리
+            // Variables
             if($type) $title = "[".$type."] ";
             $title .= cut_str(strip_tags($content), 30, '...');
             $content = sprintf('%s<br /><br />from : <a href="%s#comment_%s" target="_blank">%s</a>',$content, getFullUrl('','document_srl',$this->get('document_srl')), $this->get('comment_srl'),  getFullUrl('','document_srl',$this->get('document_srl')));
             $receiver_srl = $this->get('member_srl');
             $sender_member_srl = $logged_info->member_srl;
-
-            // 쪽지 발송
+            // send a message
             $oCommunicationController = &getController('communication');
             $oCommunicationController->sendMessage($sender_member_srl, $receiver_srl, $title, $content, false);
         }
 
-        function getIpaddress() {
+        function getIpAddress() {
             if($this->isGranted()) return $this->get('ipaddress');
             return preg_replace('/([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)/','*.$2.$3.$4', $this->get('ipaddress'));
         }
@@ -177,8 +173,7 @@
 
             $content = $this->get('content');
             stripEmbedTagForAdmin($content, $this->get('member_srl'));
-
-            // 이 댓글을... 팝업메뉴를 출력할 경우
+            // when displaying the comment on the pop-up menu
             if($add_popup_menu && Context::get('is_logged') ) {
                 $content = sprintf(
                         '%s<div class="comment_popup_menu"><a href="#popup_menu_area" class="comment_%d" onclick="return false">%s</a></div>',
@@ -186,8 +181,7 @@
                         $this->comment_srl, Context::getLang('cmd_comment_do')
                 );
             }
-
-            // 컨텐츠에 대한 조작이 가능한 추가 정보를 설정하였을 경우
+            // if additional information which can access contents is set
             if($add_content_info) {
                 $content = sprintf(
                         '<!--BeforeComment(%d,%d)--><div class="comment_%d_%d xe_content">%s</div><!--AfterComment(%d,%d)-->',
@@ -196,7 +190,7 @@
                         $content,
                         $this->comment_srl, $this->get('member_srl')
                 );
-            // 컨텐츠에 대한 조작이 필요하지 않더라도 xe_content라는 클래스명을 꼭 부여
+            // xe_content class name should be specified although content access is not necessary.
             } else {
                 if($add_xe_content_class) $content = sprintf('<div class="xe_content">%s</div>', $content);
             }
@@ -206,26 +200,19 @@
 
         function getSummary($str_size = 50, $tail = '...') {
             $content = $this->getContent(false, false);
-
-            // 줄바꿈이 있을 때, 공백문자 삽입
+            // for newline, insert a blank.
             $content = preg_replace('!(<br[\s]*/{0,1}>[\s]*)+!is', ' ', $content);
-
-            // </p>, </div>, </li> 등의 태그를 공백 문자로 치환
+            // replace tags such as </p> , </div> , </li> by blanks.
             $content = str_replace(array('</p>', '</div>', '</li>'), ' ', $content);
-
-            // 태그 제거
+            // Remove tags
             $content = preg_replace('!<([^>]*?)>!is','', $content);
-
-            // < , > , " 를 치환
+            // replace < , >, " 
             $content = str_replace(array('&lt;','&gt;','&quot;','&nbsp;'), array('<','>','"',' '), $content);
-
-            // 연속된 공백문자 삭제
+            // delete a series of blanks
             $content = preg_replace('/ ( +)/is', ' ', $content);
-
-            // 문자열을 자름
+            // truncate strings
             $content = trim(cut_str($content, $str_size, $tail));
-
-            // >, <, "를 다시 복구
+            // restore >, <, , "\
             $content = str_replace(array('<','>','"'),array('&lt;','&gt;','&quot;'), $content);
 
             return $content;
@@ -288,7 +275,7 @@
         }
 
         /**
-         * @brief 에디터 html을 구해서 return
+         * @brief return the editor html
          **/
         function getEditor() {
             $module_srl = $this->get('module_srl');
@@ -298,7 +285,7 @@
         }
 
         /**
-         * @brief 작성자의 프로필 이미지를 return
+         * @brief return author's profile image
          **/
         function getProfileImage() {
             if(!$this->isExists() || !$this->get('member_srl')) return;
@@ -310,17 +297,15 @@
         }
 
         /**
-         * @brief 작성자의 서명을 return
+         * @brief return author's signiture
          **/
         function getSignature() {
-            // 존재하지 않는 글이면 패스~
+            // pass if the posting not exists.
             if(!$this->isExists() || !$this->get('member_srl')) return;
-
-            // 서명정보를 구함
+            // get the signiture information
             $oMemberModel = &getModel('member');
             $signature = $oMemberModel->getSignature($this->get('member_srl'));
-
-            // 회원모듈에서 서명 최고 높이 지정되었는지 검사
+            // check if max height of the signiture is specified on the member module
             if(!isset($GLOBALS['__member_signature_max_height'])) {
                $oModuleModel = &getModel('module');
                $member_config = $oModuleModel->getModuleConfig('member');
@@ -339,34 +324,27 @@
         }
 
         function getThumbnail($width = 80, $height = 0, $thumbnail_type = '') {
-            // 존재하지 않는 문서일 경우 return false
+            // return false if no doc exists
             if(!$this->comment_srl) return;
-
-            // 높이 지정이 별도로 없으면 정사각형으로 생성
+            // If signiture height setting is omitted, create a square
             if(!$height) $height = $width;
-
-            // 첨부파일이 없거나 내용중 이미지가 없으면 return false;
+            // return false if neigher attached file nor image;
             if(!$this->hasUploadedFiles() && !preg_match("!<img!is", $this->get('content'))) return;
-
-            // 문서 모듈의 기본 설정에서 Thumbnail의 생성 방법을 구함
+            // get thumbail generation info on the doc module configuration.
             if(!in_array($thumbnail_type, array('crop','ratio'))) $thumbnail_type = 'crop';
-
-            // 섬네일 정보 정의
+            // Define thumbnail information
             $thumbnail_path = sprintf('files/cache/thumbnails/%s',getNumberingPath($this->comment_srl, 3));
             $thumbnail_file = sprintf('%s%dx%d.%s.jpg', $thumbnail_path, $width, $height, $thumbnail_type);
             $thumbnail_url  = Context::getRequestUri().$thumbnail_file;
-
-            // 섬네일 파일이 있을 경우 파일의 크기가 0 이면 return false 아니면 경로 return
+            // return false if a size of existing thumbnail file is 0. otherwise return the file path
             if(file_exists($thumbnail_file)) {
                 if(filesize($thumbnail_file)<1) return false;
                 else return $thumbnail_url;
             }
-
-            // 대상 파일
+            // Target file
             $source_file = null;
             $is_tmp_file = false;
-
-            // 첨부된 파일중 이미지 파일이 있으면 찾음
+            // find an image file among attached files
             if($this->hasUploadedFiles()) {
                 $file_list = $this->getUploadedFiles();
                 if(count($file_list)) {
@@ -380,8 +358,7 @@
                     }
                 }
             }
-
-            // 첨부된 파일이 없으면 내용중 이미지 파일을 구함
+            // get an image file from the doc content if no file attached. 
             if(!$source_file) {
                 $content = $this->get('content');
                 $target_src = null;
@@ -411,15 +388,16 @@
             $output = FileHandler::createImageFile($source_file, $thumbnail_file, $width, $height, 'jpg', $thumbnail_type);
 
             if($is_tmp_file) FileHandler::removeFile($source_file);
-
-            // 섬네일 생성 성공시 경로 return
+            // return the thumbnail path if successfully generated.
             if($output) return $thumbnail_url;
-
-            // 차후 다시 섬네일 생성을 시도하지 않기 위해 빈 파일을 생성
+            // create an empty file not to attempt to generate the thumbnail afterwards
             else FileHandler::writeFile($thumbnail_file, '','w');
 
             return;
         }
 
+        function isCarted() {
+            return $_SESSION['comment_management'][$this->comment_srl];
+        }
     }
 ?>

@@ -1,0 +1,47 @@
+<load target="js/fileConfig.js" type="body" usecdn="true" />
+<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
+<form ruleset="insertConfig" action="./" method="post" class="form">
+	<input type="hidden" name="module" value="file" />
+	<input type="hidden" name="act" value="procFileAdminInsertConfig" />
+	<h1 class="h1">File Upload</h1>
+	<ul>
+		<li>
+			<p class="q">{$lang->allow_outlink}</p>
+			<p class="a">
+				<input type="radio" name="allow_outlink" value="Y" id="allow_outlink_y" checked="checked"|cond="$config->allow_outlink == 'Y'" /> <label for="allow_outlink_y">{$lang->cmd_yes}</label>
+				<input type="radio" name="allow_outlink" value="N" id="allow_outlink_n" checked="checked"|cond="$config->allow_outlink == 'N'" /> <label for="allow_outlink_n">{$lang->cmd_no}</label>
+			</p>
+		</li>
+		<li style="display:none"|cond="$config->allow_outlink == 'N'" class="_outLink">
+			<p class="q">{$lang->allow_outlink_format}</p>
+			<p class="a">
+				<input type="text" name="allow_outlink_format" value="{$config->allow_outlink_format}" />
+				<p>{$lang->about_allow_outlink_format}</p>
+			</p>
+		</li>
+		<li style="display:none"|cond="$config->allow_outlink == 'N'" class="_outLink">
+			<p class="q">{$lang->allow_outlink_site}</p>
+			<p class="a">
+				<textarea type="text" name="allow_outlink_site">{$config->allow_outlink_site}</textarea>
+				<p>{$lang->about_allow_outlink_site}</p>
+			</p>
+		</li>
+		<li>
+			<p class="q"><label for="filesize">{$lang->about_allowed_filesize}</label></p>
+			<p class="a"><input id="filesize" type="text" name="allowed_filesize" value="{$config->allowed_filesize}" style="width:40px" /> MB</p>
+		</li>
+		<li>
+			<p class="q"><label for="attachSize">{$lang->about_allowed_attach_size}</label></p>
+			<p class="a"><input id="attachSize" type="text" name="allowed_attach_size" value="{$config->allowed_attach_size}" style="width:40px" /> MB</p>
+		</li>
+		<li>
+			<p class="q"><label for="allowedFiletypes">{$lang->about_allowed_filetypes}</label></p>
+			<p class="a"><input id="allowedFiletypes" type="text" name="allowed_filetypes" value="{$config->allowed_filetypes}" /></p>
+		</li>
+	</ul>
+	<div class="btnArea">
+		<span class="btn medium"><input type="submit" value="{$lang->cmd_save}" /></span>
+	</div>
+</form>

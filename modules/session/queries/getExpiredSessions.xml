@@ -1,0 +1,12 @@
+<query id="getExpiredSession" action="select">
+    <tables>
+        <table name="session" />
+    </tables>
+    <columns>
+        <column name="session_key" />
+    </columns>
+    <conditions>
+        <condition operation="less" column="expired" default="curdate()" notnull="notnull" />
+    </conditions>
+</query>
+

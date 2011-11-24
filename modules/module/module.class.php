@@ -2,27 +2,26 @@
     /**
      * @class  module
      * @author NHN (developers@xpressengine.com)
-     * @brief  module 모듈의 high class
+     * @brief high class of the module module
      **/
 
     class module extends ModuleObject {
 
         /**
-         * @brief 설치시 추가 작업이 필요할시 구현
+         * @brief Implement if additional tasks are necessary when installing
          **/
         function moduleInstall() {
-            // action forward에 등록 (관리자 모드에서 사용하기 위함)
+            // Register action forward (to use in administrator mode)
             $oModuleController = &getController('module');
 
             $oDB = &DB::getInstance();
             $oDB->addIndex("modules","idx_site_mid", array("site_srl","mid"), true);
 			$oDB->addIndex('sites','unique_domain',array('domain'),true);
-
-            // module 모듈에서 사용할 디렉토리 생성
+            // Create a directory to use in the module module
             FileHandler::makeDir('./files/cache/module_info');
             FileHandler::makeDir('./files/cache/triggers');
-
-            // sites 테이블에 기본 사이트 정보 입력
+			FileHandler::makeDir('./files/ruleset');
+            // Insert site information into the sites table
             $args->site_srl = 0;
             $output = $oDB->executeQuery('module.getSite', $args);
             if(!$output->data || !$output->data->index_module_srl) {
@@ -43,34 +42,28 @@
         }
 
         /**
-         * @brief 설치가 이상이 없는지 체크하는 method
+         * @brief a method to check if successfully installed
          **/
         function checkUpdate() {
             $oDB = &DB::getInstance();
-
-            // 2008. 10. 27 module_part_config 테이블의 결합 인덱스 추가
+            // 2008. 10. 27 Add multi-index in the table, the module_part_config
             if(!$oDB->isIndexExists("module_part_config","idx_module_part_config")) return true;
-
-            // 2008. 11. 13 modules 의 mid를 unique를 없애고 site_srl을 추가 후에 site_srl + mid unique index
+            // 2008. 11. 13 Delete unique constraint on mid in modules. Add site_srl and then create unique index on site_srl and mid
             if(!$oDB->isIndexExists('modules',"idx_site_mid")) return true;
-
-            // 모든 모듈의 권한/스킨정보를 grants 테이블로 이전시키는 업데이트
+            // Move permissions/skin information of all modules to the table, grants.
             if($oDB->isColumnExists('modules', 'grants')) return true;
-
-            // 모든 모듈의 권한/스킨정보를 grants 테이블로 이전시키는 업데이트
+            // Move permissions/skin information of all modules to the table, grants.
             if(!$oDB->isColumnExists('sites', 'default_language')) return true;
-
-            // extra_vars* 컬럼 제거
+            // Delete extra_vars* column
             for($i=1;$i<=20;$i++) {
                 if($oDB->isColumnExists("documents","extra_vars".$i)) return true;
             }
-
-            // sites 테이블에 기본 사이트 정보 입력
+            // Insert site information to the table, sites
             $args->site_srl = 0;
             $output = $oDB->executeQuery('module.getSite', $args);
             if(!$output->data) return true;
 
-			// sites 테이블에서 도메인이 인덱스로 걸린경우
+			// If domain index is defined on the table, sites
             if($oDB->isIndexExists('sites', 'idx_domain')) return true;
 			if(!$oDB->isIndexExists('sites','unique_domain')) return true;
 
@@ -79,16 +72,22 @@
 			if(!$oDB->isColumnExists("modules", "mcontent")) return true;
 			if(!$oDB->isColumnExists("modules", "mskin")) return true;
 
+			// check fix skin
+			if(!$oDB->isColumnExists("modules", "is_skin_fix")) return true;
+			
+			if(!$oDB->isColumnExists("module_config", "site_srl")) return true;
+
+			if(!is_dir('./files/ruleset')) return true;
+
             return false;
         }
 
         /**
-         * @brief 업데이트 실행
+         * @brief Execute update
          **/
         function moduleUpdate() {
             $oDB = &DB::getInstance();
-
-            // 2008. 10. 27 module_part_config 테이블의 결합 인덱스 추가하고 기존에 module_config에 몰려 있던 모든 정보를 재점검
+            // 2008. 10. 27 module_part_config Add a multi-index to the table and check all information of module_configg
             if(!$oDB->isIndexExists("module_part_config","idx_module_part_config")) {
                 $oModuleModel = &getModel('module');
                 $oModuleController = &getController('module');
@@ -140,43 +139,35 @@
                 }
                 $oDB->addIndex("module_part_config","idx_module_part_config", array("module","module_srl"));
             }
-
-            // 2008. 11. 13 modules 의 mid를 unique를 없애고 site_srl을 추가 후에 site_srl + mid unique index
+            // 2008. 11. 13 drop index(unique_mid). Add a column and index on site_srl and mid columns
             if(!$oDB->isIndexExists('modules',"idx_site_mid")) {
                 $oDB->dropIndex("modules","unique_mid",true);
                 $oDB->addColumn('modules','site_srl','number',11,0,true);
                 $oDB->addIndex("modules","idx_site_mid", array("site_srl","mid"),true);
             }
-
-            // document 확장변수의 확장을 위한 처리
+            // document extra vars
             if(!$oDB->isTableExists('document_extra_vars')) $oDB->createTableByXmlFile('./modules/document/schemas/document_extra_vars.xml');
 
             if(!$oDB->isTableExists('document_extra_keys')) $oDB->createTableByXmlFile('./modules/document/schemas/document_extra_keys.xml');
-
-            // 모든 모듈의 권한, 스킨정보, 확장정보, 관리자 아이디를 grants 테이블로 이전시키는 업데이트
+            // Move permission, skin info, extection info, admin ID of all modules to the table, grants
             if($oDB->isColumnExists('modules', 'grants')) {
                 $oModuleController = &getController('module');
                 $oDocumentController = &getController('document');
-
-                // 현재 시스템 언어 코드값을 가져옴
+                // Get a value of the current system language code
                 $lang_code = Context::getLangType();
-
-                // 모든 모듈의 module_info를 가져옴
+                // Get module_info of all modules
                 $output = executeQueryArray('module.getModuleInfos');
                 if(count($output->data)) {
                     foreach($output->data as $module_info) {
-                        // 모듈들의 권한/ 확장변수(게시글 확장 포함)/ 스킨 변수/ 최고관리권한 정보 분리
+                        // Separate information about permission granted to the module, extra vars, skin vars, super-admin's authority
                         $module_srl = trim($module_info->module_srl);
-
-                        // 권한 등록
+                        // grant an authority
                         $grants = unserialize($module_info->grants);
                         if($grants) $oModuleController->insertModuleGrants($module_srl, $grants);
-
-                        // 스킨 변수 등록
+                        // Insert skin vars
                         $skin_vars = unserialize($module_info->skin_vars);
                         if($skin_vars) $oModuleController->insertModuleSkinVars($module_srl, $skin_vars);
-
-                        // 최고 관리자 아이디 등록
+                        // Insert super admin's ID
                         $admin_id = trim($module_info->admin_id);
                         if($admin_id && $admin_id != 'Array') {
                             $admin_ids = explode(',',$admin_id);
@@ -186,8 +177,7 @@
                                 }
                             }
                         }
-
-                        // 모듈별 추가 설정 저장 (기본 modules에 없던 컬럼 데이터)
+                        // Save extra configurations for each module(column data which doesn't exist in the defaut modules)
                         $extra_vars = unserialize($module_info->extra_vars);
                         $document_extra_keys = null;
                         if($extra_vars->extra_vars && count($extra_vars->extra_vars)) {
@@ -197,9 +187,9 @@
                         if($extra_vars) $oModuleController->insertModuleExtraVars($module_srl, $extra_vars);
 
                         /**
-                         * 게시글 확장변수 이동 (documents모듈에서 해야 하지만 modules 테이블의 추가 변수들이 정리되기에 여기서 함)
+                         * Move document extra vars(it should have conducted in the documents module however extra vars in modules table should be listed up in this module)
                          **/
-                        // 플래닛모듈의 경우 직접 추가 변수 입력
+                        // Insert extra vars if planet module is
                         if($module_info->module == 'planet') {
                             if(!$document_extra_keys || !is_array($document_extra_keys)) $document_extra_keys = array();
                             $planet_extra_keys->name = 'postscript';
@@ -210,22 +200,19 @@
                             $planet_extra_keys->desc = '';
                             $document_extra_keys[20] = $planet_extra_keys;
                         }
-
-                        // 게시글 확장변수 키 등록
+                        // Register keys for document extra vars
                         if(count($document_extra_keys)) {
                             foreach($document_extra_keys as $var_idx => $val) {
                                 $oDocumentController->insertDocumentExtraKey($module_srl, $var_idx, $val->name, $val->type, $val->is_required, $val->search, $val->default, $val->desc, 'extra_vars'.$var_idx);
                             }
-
-                            // 2009-04-14 #17923809 게시물 100개의 확장 변수만 이전되는 문제점 수정
+                            // 2009-04-14 Fixed a bug that only 100 extra vars are moved
                             $oDocumentModel = &getModel('document');
                             $total_count = $oDocumentModel->getDocumentCount($module_srl);
 
                             if ($total_count > 0) {
                                 $per_page = 100;
                                 $total_pages = (int) (($total_count - 1) / $per_page) + 1;
-
-                                // 확장변수가 존재하면 확장변수 가져오기
+                                // Get extra vars if exist
                                 $doc_args = null;
                                 $doc_args->module_srl = $module_srl;
                                 $doc_args->list_count = $per_page;
@@ -248,8 +235,7 @@
                                 } // for total_pages
                             } // if count
                         }
-
-                        // 해당 모듈들의 추가 변수들 제거
+                        // Additional variables of the module, remove
                         $module_info->grant = null;
                         $module_info->extra_vars = null;
                         $module_info->skin_vars = null;
@@ -257,30 +243,26 @@
                         executeQuery('module.updateModule', $module_info);
                     }
                 }
-
-                // 각종 column drop
+                // Various column drop
                 $oDB->dropColumn('modules','grants');
                 $oDB->dropColumn('modules','admin_id');
                 $oDB->dropColumn('modules','skin_vars');
                 $oDB->dropColumn('modules','extra_vars');
             }
-
-            // 모든 모듈의 권한/스킨정보를 grants 테이블로 이전시키는 업데이트
+            // Rights of all modules/skins transferring the information into a table Update grants
             if(!$oDB->isColumnExists('sites', 'default_language')) {
                 $oDB->addColumn('sites','default_language','varchar',255,0,false);
             }
-
-            // extra_vars* 컬럼 제거
+            // extra_vars * Remove Column
             for($i=1;$i<=20;$i++) {
                 if(!$oDB->isColumnExists("documents","extra_vars".$i)) continue;
                 $oDB->dropColumn('documents','extra_vars'.$i);
             }
-
-            // sites 테이블에 기본 사이트 정보 입력
+            // Enter the main site information sites on the table
             $args->site_srl = 0;
             $output = $oDB->executeQuery('module.getSite', $args);
             if(!$output->data) {
-                // 기본 mid, 언어 구함
+                // Basic mid, language Wanted
                 $mid_output = $oDB->executeQuery('module.getDefaultMidInfo', $args);
                 $db_info = Context::getDBInfo();
                 $domain = Context::getDefaultUrl();
@@ -315,7 +297,24 @@
 			if(!$oDB->isColumnExists("modules", "mskin")) {
 				$oDB->addColumn('modules','mskin','varchar',250);
 			}
-
+			if(!$oDB->isColumnExists("modules", "is_skin_fix")){
+				$oDB->addColumn('modules', 'is_skin_fix', 'char', 1, 'N');
+				$output = executeQueryArray('module.getAllSkinSetModule');
+				if ($output->toBool() && $output->data){
+					$module_srls = array();
+					foreach($output->data as $val){
+						$module_srls[] = $val->module_srl;
+					}
+					unset($args);
+					$args->module_srls = implode(',', $module_srls);
+					$args->is_skin_fix = 'Y';
+					$output = executeQuery('module.updateSkinFixModules', $args);
+				}
+			}
+			if(!$oDB->isColumnExists("module_config", "site_srl")){
+				$oDB->addColumn('module_config', 'site_srl', 'number', 11, 0, true);
+			}
+			FileHandler::makeDir('./files/ruleset');
             return new Object(0, 'success_updated');
         }
 
@@ -348,20 +347,11 @@
         }
 
         /**
-         * @brief 캐시 파일 재생성
+         * @brief Re-generate the cache file
          **/
         function recompileCache() {
-            // 모듈 정보 캐시 파일 모두 삭제
-            FileHandler::removeFilesInDir("./files/cache/module_info");
-
-            // 트리거 정보가 있는 파일 모두 삭제
-            FileHandler::removeFilesInDir("./files/cache/triggers");
-
-            // DB캐시 파일을 모두 삭제
-            FileHandler::removeFilesInDir("./files/cache/db");
-
-            // 기타 캐시 삭제
-            FileHandler::removeDir("./files/cache/tmp");
+			$oModuleModel = &getModel('module');
+			$oModuleModel->getModuleList();
         }
     }
 ?>

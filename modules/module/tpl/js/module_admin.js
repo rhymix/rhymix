@@ -3,16 +3,25 @@
  * @author NHN (developers@xpressengine.com)
  * @brief    module 모듈의 관리자용 javascript
  **/
+/* 모듈 즐겨찾기 */
+function doToggleFavoriteModule(obj, module_name) {
+	function on_complete(data){
+		if (data.result == 'on')
+			jQuery(obj).removeClass('fvOff').addClass('fvOn').html(xe.lang.favorite_on);
+		else
+			jQuery(obj).removeClass('fvOn').addClass('fvOff').html(xe.lang.favorite_off);
+	}
+
+	jQuery.exec_json('admin.procAdminToggleFavorite', {'module_name': module_name, 'site_srl': 0}, on_complete);
+}
 
 /* 카테고리 관련 작업들 */
-function doUpdateCategory(module_category_srl, mode, message) {
+function doUpdateCategory(module_category_srl, message) {
     if(typeof(message)!='undefined'&&!confirm(message)) return;
 
-    var fo_obj = xGetElementById('fo_category_info');
+    var fo_obj = get_by_id('fo_category_info');
     fo_obj.module_category_srl.value = module_category_srl;
-    fo_obj.mode.value = mode;
-
-    procFilter(fo_obj, update_category);
+	fo_obj.submit();
 }
 
 /* 카테고리 정보 수정 후 */
@@ -27,7 +36,7 @@ function completeUpdateCategory(ret_obj) {
 
 /* 선택된 모듈을 관리자 메뉴의 바로가기에 등록 */
 function doAddShortCut(module) {
-    var fo_obj = xGetElementById("fo_shortcut");
+    var fo_obj = get_by_id("fo_shortcut");
     fo_obj.selected_module.value = module;
     procFilter(fo_obj, insert_shortcut);
 }
@@ -89,7 +98,7 @@ function completeInsertGrant(ret_obj) {
 
 /* 관리자 아이디 등록/ 제거 */
 function doInsertAdmin() {
-    var fo_obj = xGetElementById("fo_obj");
+    var fo_obj = get_by_id("fo_obj");
     var sel_obj = fo_obj._admin_member;
     var admin_id = fo_obj.admin_id.value;
     if(!admin_id) return;
@@ -104,7 +113,7 @@ function doInsertAdmin() {
     var members = new Array();
     for(var i=0;i<sel_obj.options.length;i++) {
         members[members.length] = sel_obj.options[i].value;
-        
+
     }
     fo_obj.admin_member.value = members.join(',');
 
@@ -112,7 +121,7 @@ function doInsertAdmin() {
 }
 
 function doDeleteAdmin() {
-    var fo_obj = xGetElementById("fo_obj");
+    var fo_obj = get_by_id("fo_obj");
     var sel_obj = fo_obj._admin_member;
     sel_obj.remove(sel_obj.selectedIndex);
 
@@ -122,7 +131,7 @@ function doDeleteAdmin() {
     var members = new Array();
     for(var i=0;i<sel_obj.options.length;i++) {
         members[members.length] = sel_obj.options[i].value;
-        
+
     }
     fo_obj.admin_member.value = members.join(',');
 }
@@ -137,10 +146,10 @@ function completeModuleSetup(ret_obj) {
  * 언어 관련
  **/
 function doInsertLangCode(name) {
-    var fo_obj = xGetElementById("menu_fo");
+    var fo_obj = get_by_id("menu_fo");
     var target = fo_obj.target.value;
     if(window.opener && target) {
-        var obj = window.opener.xGetElementById(target);
+        var obj = window.opener.get_by_id(target);
         if(obj) obj.value = '$user_lang->'+name;
     }
     window.close();

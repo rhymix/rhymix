@@ -1,49 +1,45 @@
-<!--%import("filter/manage_member_group.xml")-->
-<!--%import("js/member_admin.js")-->
-
-<div id="popHeader" class="wide">
-    <h3 class="xeAdmin">{$lang->cmd_member_group} ({$lang->target} : {count($member_list)})</h3>
+<load target="js/member_admin.js" usecdn="true" />
+<h1 class="h1">{$lang->cmd_member_group} ({$lang->target} : {count($member_list)})</h1>
+<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
-
-<form action="./" method="get" id="fo_management" onsubmit="return procFilter(this, manage_member_group);">
-<input type="hidden" name="member_srl" value="{$member_srls}" />
-
-<div id="popBody">
-    <table cellspacing="0" class="rowTable">
-    <tr>
-        <td>
-            <!--@foreach($group_list as $key => $val)-->
-            <!--@if($val->is_admin != 'Y')-->
-            <input type="checkbox" value="{$key}" name="group_srls" id="member_group_{$key}"/> <label for="member_group_{$key}">{$val->title}</label> &nbsp;<br/>
-            <!--@end-->
-            <!--@end-->
-        </td>
-    </tr>
-    <!--@if(count($member_list))-->
-    <tr>
-        <th class="button">
-            <span class="button black strong"><input type="submit" value="{$lang->cmd_apply}" /></span>
-        </th>
-    </tr>
-    <!--@end-->
-    </table>
-
-    <table cellspacing="0" class="crossTable">
-    <thead>
-    <tr>
-        <th scope="col" class="half_wide"><div>{$lang->user_id}</div></th>
-        <th scope="col" class="half_wide"><div>{$lang->nick_name}</div></th>
-        <th scope="col"><div>{$lang->signup_date}</div></th>
-    </tr>
-    </thead>
-    <!--@foreach($member_list as $key => $val)-->
-    <tr>
-        <td>{$val->user_id}</td>
-        <td><div class="member_{$val->member_srl}">{$val->nick_name}</div></td>
-        <td class="date nowrap center">{zdate($val->regdate, "Y-m-d H:i")}</td>
-    </tr>
-    <!--@end-->
-    </table>
-</div>
+<form ruleset="manageMemberGroup" action="./" method="post" id="fo_management">
+	<input type="hidden" name="module" value="member" />
+	<input type="hidden" name="act" value="procMemberAdminUpdateMembersGroup" />
+	<input type="hidden" name="member_srl" value="{$member_srls}" />
+	<div class="table">
+		<table width="100%" border="1" cellspacing="0">
+			<tr>
+				<td>
+					<!--@foreach($group_list as $key => $val)-->
+					<!--@if($val->is_admin != 'Y')-->
+					<input type="checkbox" value="{$key}" name="group_srls[]" id="member_group_{$key}"/> <label for="member_group_{$key}">{$val->title}</label> &nbsp;<br/>
+					<!--@end-->
+					<!--@end-->
+					</td>
+				</tr>
+		</table>
+	</div>
+	<div class="btnArea" cond="count($member_list)">
+		<span class="btn"><input type="submit" value="{$lang->cmd_apply}" /></span>
+	</div>
+	<div class="table">
+		<table width="100%" border="1" cellspacing="0">
+			<thead>
+				<tr>
+					<th scope="col">{$lang->user_id}</th>
+					<th scope="col">{$lang->nick_name}</th>
+					<th scope="col">{$lang->signup_date}</th>
+					</tr>
+				</thead>
+			<!--@foreach($member_list as $key => $val)-->
+			<tr>
+				<td>{$val->user_id}</td>
+				<td><a href="#popup_menu_area" class="member_{$val->member_srl}">{$val->nick_name}</a></td>
+				<td>{zdate($val->regdate, "Y-m-d H:i")}</td>
+				</tr>
+			<!--@end-->
+		</table>
+	</div>
 
 </form>

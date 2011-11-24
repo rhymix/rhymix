@@ -2,35 +2,45 @@
     /**
      * @class  messageView
      * @author NHN (developers@xpressengine.com)
-     * @brief  message모듈의 view class
+     * @brief view class of the message module
      **/
 
     class messageView extends message {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
         }
 
         /**
-         * @brief 메세지 출력 
+         * @brief Display messages
          **/
         function dispMessage() {
-            // 설정 정보를 받아옴 (module model 객체를 이용)
+        	//setcookie for redirect url in case of going to member sign up
+        	setcookie("XE_REDIRECT_URL", $_SERVER['REQUEST_URI']);
+            // Get configurations (using module model object)
             $oModuleModel = &getModel('module');
-            $config = $oModuleModel->getModuleConfig('message');
-            if(!$config->skin) $config->skin = 'default';
+            $this->module_config = $config = $oModuleModel->getModuleConfig('message', $this->module_info->site_srl);
+            if(!$config->skin){
+	        $config->skin = 'default';
+		$template_path = sprintf('%sskins/%s', $this->module_path, $config->skin);
+	    }else{
+		//check theme
+		$config_parse = explode('.', $config->skin);
+		if (count($config_parse) > 1){
+		    $template_path = sprintf('./themes/%s/modules/message/', $config_parse[0]);
+		}else{
+		    $template_path = sprintf('%sskins/%s', $this->module_path, $config->skin);
+		}
+	    }
+            // Template path
+            $this->setTemplatePath($template_path);
 
-            // 템플릿 경로를 지정
-            $template_path = sprintf('%sskins/%s', $this->module_path, $config->skin);
-
-            // 회원 관리 정보를 받음
-            $oModuleModel = &getModel('module');
+            // Get the member configuration
             $member_config = $oModuleModel->getModuleConfig('member');
             Context::set('member_config', $member_config);
-
-            // ssl 사용시 현재 https접속상태인지에 대한 flag및 https url 생성
+            // Set a flag to check if the https connection is made when using SSL and create https url 
             $ssl_mode = false;
             if($member_config->enable_ssl == 'Y') {
                 if(preg_match('/^https:\/\//i',Context::getRequestUri())) $ssl_mode = true;
@@ -39,9 +49,7 @@
 
             Context::set('system_message', nl2br($this->getMessage()));
 
-            $this->setTemplatePath($template_path);
-            $this->setTemplateFile('system_message');
+			$this->setTemplateFile('system_message');
         }
-
     }
 ?>

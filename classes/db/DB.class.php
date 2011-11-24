@@ -13,6 +13,38 @@
      * queryid = module_name.query_name
      **/
 
+    if(!defined('__XE_LOADED_DB_CLASS__')){
+        define('__XE_LOADED_DB_CLASS__', 1);
+
+        require(_XE_PATH_.'classes/xml/xmlquery/DBParser.class.php');
+        require(_XE_PATH_.'classes/xml/xmlquery/QueryParser.class.php');
+        require(_XE_PATH_.'classes/xml/xmlquery/argument/Argument.class.php');
+        require(_XE_PATH_.'classes/xml/xmlquery/argument/SortArgument.class.php');
+        require(_XE_PATH_.'classes/xml/xmlquery/argument/ConditionArgument.class.php');
+
+        require(_XE_PATH_.'classes/db/queryparts/expression/Expression.class.php');
+        require(_XE_PATH_.'classes/db/queryparts/expression/SelectExpression.class.php');
+        require(_XE_PATH_.'classes/db/queryparts/expression/InsertExpression.class.php');
+        require(_XE_PATH_.'classes/db/queryparts/expression/UpdateExpression.class.php');
+        require(_XE_PATH_.'classes/db/queryparts/expression/UpdateExpressionWithoutArgument.class.php');
+        require(_XE_PATH_.'classes/db/queryparts/table/Table.class.php');
+        require(_XE_PATH_.'classes/db/queryparts/table/JoinTable.class.php');
+        require(_XE_PATH_.'classes/db/queryparts/table/CubridTableWithHint.class.php');
+        require(_XE_PATH_.'classes/db/queryparts/table/MysqlTableWithHint.class.php');
+        require(_XE_PATH_.'classes/db/queryparts/table/MssqlTableWithHint.class.php');
+        require(_XE_PATH_.'classes/db/queryparts/table/IndexHint.class.php');
+        require(_XE_PATH_.'classes/db/queryparts/condition/ConditionGroup.class.php');
+        require(_XE_PATH_.'classes/db/queryparts/condition/Condition.class.php');
+        require(_XE_PATH_.'classes/db/queryparts/condition/ConditionWithArgument.class.php');
+        require(_XE_PATH_.'classes/db/queryparts/condition/ConditionWithoutArgument.class.php');
+        require(_XE_PATH_.'classes/db/queryparts/condition/ConditionSubquery.class.php');
+        require(_XE_PATH_.'classes/db/queryparts/expression/StarExpression.class.php');
+        require(_XE_PATH_.'classes/db/queryparts/order/OrderByColumn.class.php');
+        require(_XE_PATH_.'classes/db/queryparts/limit/Limit.class.php');
+        require(_XE_PATH_.'classes/db/queryparts/Query.class.php');
+        require(_XE_PATH_.'classes/db/queryparts/Subquery.class.php');
+    }
+
     class DB {
 
         var $count_cache_path = 'files/cache/db';
@@ -28,14 +60,17 @@
             'null' => 'is null',
         );
 
-        var $fd = NULL; ///< connector resource or file description
+        var $master_db = NULL; // master database connection string
+        var $slave_db = NULL; // array of slave databases connection strings
 
         var $result = NULL; ///< result
 
         var $errno = 0; ///< error code (0 means no error)
         var $errstr = ''; ///< error message
         var $query = ''; ///< query string of latest executed query
+        var $connection = '';
         var $elapsed_time = 0; ///< elapsed time of latest executed query
+        var $elapsed_dbclass_time = 0; ///< elapsed time of latest executed query
 
         var $transaction_started = false; ///< transaction flag
 
@@ -44,6 +79,8 @@
         var $supported_list = array(); ///< list of supported db, (will be written by classes/DB/DB***.class.php)
 
         var $cache_file = 'files/cache/queries/'; ///< location of query cache
+
+		var $db_type; ///< stores database type: 'mysql','cubrid','mssql' etc. or 'db' when database is not yet set
 
         /**
          * @brief returns instance of certain db type
@@ -54,7 +91,8 @@
             if(!$db_type) $db_type = Context::getDBType();
             if(!$db_type && Context::isInstalled()) return new Object(-1, 'msg_db_not_setted');
 
-            if(!$GLOBALS['__DB__']) {
+			if(!isset($GLOBALS['__DB__'])) $GLOBALS['__DB__'] = array();
+            if(!isset($GLOBALS['__DB__'][$db_type])) {
                 $class_name = 'DB'.ucfirst($db_type);
                 $class_file = _XE_PATH_."classes/db/$class_name.class.php";
                 if(!file_exists($class_file)) return new Object(-1, 'msg_db_not_setted');
@@ -62,6 +100,7 @@
 				// get a singletone instance of the database driver class
 				require_once($class_file);
                 $GLOBALS['__DB__'][$db_type] = call_user_func(array($class_name, 'create'));
+				$GLOBALS['__DB__'][$db_type]->db_type = $db_type;
             }
 
             return $GLOBALS['__DB__'][$db_type];
@@ -87,6 +126,48 @@
         function getSupportedList() {
             $oDB = new DB();
             return $oDB->_getSupportedList();
+        }
+
+        /**
+         * @brief returns list of enable in supported db
+         * @return list of enable in supported db
+         **/
+        function getEnableList()
+        {
+                if(!$this->supported_list)
+                {
+                        $oDB = new DB();
+                        $this->supported_list = $oDB->_getSupportedList();
+                }
+
+                $enableList = array();
+                if(is_array($this->supported_list))
+                {
+                        foreach($this->supported_list AS $key=>$value)
+                                if($value->enable) array_push($enableList, $value);
+                }
+                return $enableList;
+        }
+
+        /**
+         * @brief returns list of disable in supported db
+         * @return list of disable in supported db
+         **/
+        function getDisableList()
+        {
+                if(!$this->supported_list)
+                {
+                        $oDB = new DB();
+                        $this->supported_list = $oDB->_getSupportedList();
+                }
+
+                $disableList = array();
+                if(is_array($this->supported_list))
+                {
+                        foreach($this->supported_list AS $key=>$value)
+                                if(!$value->enable) array_push($disableList, $value);
+                }
+                return $disableList;
         }
 
         /**
@@ -140,8 +221,9 @@
          * @brief check if is connected
          * @return true: connected, false: not connected
          **/
-        function isConnected() {
-            return $this->is_connected ? true : false;
+        function isConnected($type = 'master', $indx = 0) {
+            if($type == 'master') return $this->master_db["is_connected"] ? true : false;
+            else return $this->slave_db[$indx]["is_connected"] ? true : false;
         }
 
         /**
@@ -168,6 +250,7 @@
 
             $log['query'] = $this->query;
             $log['elapsed_time'] = $elapsed_time;
+            $log['connection'] = $this->connection;
 
             // leave error log if an error occured (if __DEBUG_DB_OUTPUT__ is defined)
             if($this->isError()) {
@@ -241,7 +324,7 @@
         }
 
         /**
-         * @brief query xml 파일을 실행하여 결과를 return
+         * @brief Run the result of the query xml file
          * @param[in] $query_id query id (module.queryname
          * @param[in] $args arguments for query
          * @return result of query
@@ -249,7 +332,11 @@
          **/
         function executeQuery($query_id, $args = NULL, $arg_columns = NULL) {
             if(!$query_id) return new Object(-1, 'msg_invalid_queryid');
-            $this->query_id = $query_id;
+			if(!$this->db_type) return;
+
+			$this->actDBClassStart();
+
+			$this->query_id = $query_id;
 
             $id_args = explode('.', $query_id);
             if(count($id_args) == 2) {
@@ -258,20 +345,31 @@
                 $id = $id_args[1];
             } elseif(count($id_args) == 3) {
                 $target = $id_args[0];
-                if(!in_array($target, array('addons','widgets'))) return;
+                if(!in_array($target, array('addons','widgets'))){
+		    $this->actDBClassFinish();
+		    return;
+		}
                 $module = $id_args[1];
                 $id = $id_args[2];
             }
-            if(!$target || !$module || !$id) return new Object(-1, 'msg_invalid_queryid');
+            if(!$target || !$module || !$id){
+		$this->actDBClassFinish();
+		return new Object(-1, 'msg_invalid_queryid');
+	    }
 
             $xml_file = sprintf('%s%s/%s/queries/%s.xml', _XE_PATH_, $target, $module, $id);
-            if(!file_exists($xml_file)) return new Object(-1, 'msg_invalid_queryid');
+            if(!file_exists($xml_file)){
+		$this->actDBClassFinish();
+		return new Object(-1, 'msg_invalid_queryid');
+	    }
 
             // look for cache file
             $cache_file = $this->checkQueryCacheFile($query_id, $xml_file);
+	    $result = $this->_executeQuery($cache_file, $args, $query_id, $arg_columns);
 
+	    $this->actDBClassFinish();
             // execute query
-            return $this->_executeQuery($cache_file, $args, $query_id, $arg_columns);
+            return $result;
         }
 
 
@@ -284,14 +382,14 @@
         function checkQueryCacheFile($query_id,$xml_file){
 
             // first try finding cache file
-            $cache_file = sprintf('%s%s%s.cache.php', _XE_PATH_, $this->cache_file, $query_id);
+            $cache_file = sprintf('%s%s%s.%s.%s.cache.php', _XE_PATH_, $this->cache_file, $query_id, __ZBXE_VERSION__, $this->db_type);
 
             if(file_exists($cache_file)) $cache_time = filemtime($cache_file);
             else $cache_time = -1;
 
             // if there is no cache file or is not new, find original xml query file and parse it
-            if($cache_time < filemtime($xml_file) || $cache_time < filemtime(_XE_PATH_.'classes/db/DB.class.php') || $cache_time < filemtime(_XE_PATH_.'classes/xml/XmlQueryParser.class.php')) {
-                require_once(_XE_PATH_.'classes/xml/XmlQueryParser.class.php');
+            if($cache_time < filemtime($xml_file) || $cache_time < filemtime(_XE_PATH_.'classes/db/DB.class.php') || $cache_time < filemtime(_XE_PATH_.'classes/xml/XmlQueryParser.150.class.php')) {
+                require_once(_XE_PATH_.'classes/xml/XmlQueryParser.150.class.php');
                 $oParser = new XmlQueryParser();
                 $oParser->parse($query_id, $xml_file, $cache_file);
             }
@@ -314,13 +412,12 @@
 
             if($source_args) $args = @clone($source_args);
 
-            $output = @include($cache_file);
+            $output = include($cache_file);
 
             if( (is_a($output, 'Object') || is_subclass_of($output, 'Object')) && !$output->toBool()) return $output;
-            $output->_tables = ($output->_tables && is_array($output->_tables)) ? $output->_tables : array();
-			
+
             // execute appropriate query
-            switch($output->action) {
+            switch($output->getAction()) {
                 case 'insert' :
                         $this->resetCountCache($output->tables);
                         $output = $this->_executeInsertAct($output);
@@ -334,11 +431,13 @@
                         $output = $this->_executeDeleteAct($output);
                     break;
                 case 'select' :
-						$output->arg_columns = is_array($arg_columns)?$arg_columns:array();
-                        $output = $this->_executeSelectAct($output);
+                        $arg_columns = is_array($arg_columns)?$arg_columns:array();
+                        $output->setColumnList($arg_columns);
+                        $connection = $this->_getConnection('slave');
+                        $output = $this->_executeSelectAct($output, $connection);
                     break;
             }
-			
+
             if($this->isError()) $output = $this->getError();
             else if(!is_a($output, 'Object') && !is_subclass_of($output, 'Object')) $output = new Object();
             $output->add('_query', $this->query);
@@ -347,233 +446,6 @@
             return $output;
         }
 
-        /**
-         * @brief check $val with $filter_type
-         * @param[in] $key key value
-         * @param[in] $val value of $key
-         * @param[in] $filter_type type of filter to check $val
-         * @return object
-         * @remarks this function is to be used from XmlQueryParser
-         **/
-        function checkFilter($key, $val, $filter_type) {
-            global $lang;
-
-            switch($filter_type) {
-                case 'email' :
-                case 'email_address' :
-                        if(!preg_match('/^[_0-9a-z-]+(\.[_0-9a-z-]+)*@[0-9a-z-]+(\.[0-9a-z-]+)*$/is', $val)) return new Object(-1, sprintf($lang->filter->invalid_email, $lang->{$key} ? $lang->{$key} : $key));
-                    break;
-                case 'homepage' :
-                        if(!preg_match('/^(http|https)+(:\/\/)+[0-9a-z_-]+\.[^ ]+$/is', $val)) return new Object(-1, sprintf($lang->filter->invalid_homepage, $lang->{$key} ? $lang->{$key} : $key));
-                    break;
-                case 'userid' :
-                case 'user_id' :
-                        if(!preg_match('/^[a-zA-Z]+([_0-9a-zA-Z]+)*$/is', $val)) return new Object(-1, sprintf($lang->filter->invalid_userid, $lang->{$key} ? $lang->{$key} : $key));
-                    break;
-                case 'number' :
-                case 'numbers' :
-						if(is_array($val)) $val = join(',', $val);
-                        if(!preg_match('/^(-?)[0-9]+(,\-?[0-9]+)*$/is', $val)) return new Object(-1, sprintf($lang->filter->invalid_number, $lang->{$key} ? $lang->{$key} : $key));
-                    break;
-                case 'alpha' :
-                        if(!preg_match('/^[a-z]+$/is', $val)) return new Object(-1, sprintf($lang->filter->invalid_alpha, $lang->{$key} ? $lang->{$key} : $key));
-                    break;
-                case 'alpha_number' :
-                        if(!preg_match('/^[0-9a-z]+$/is', $val)) return new Object(-1, sprintf($lang->filter->invalid_alpha_number, $lang->{$key} ? $lang->{$key} : $key));
-                    break;
-            }
-
-            return new Object();
-        }
-
-        /**
-         * @brief returns type of column
-         * @param[in] $column_type_list list of column type
-         * @param[in] $name name of column type
-         * @return column type of $name
-         * @remarks columns are usually like a.b, so it needs another function
-         **/
-        function getColumnType($column_type_list, $name) {
-            if(strpos($name, '.') === false) return $column_type_list[$name];
-            list($prefix, $name) = explode('.', $name);
-            return $column_type_list[$name];
-        }
-
-        /**
-         * @brief returns the value of condition
-         * @param[in] $name name of condition
-         * @param[in] $value value of condition
-         * @param[in] $operation operation this is used in condition
-         * @param[in] $type type of condition
-         * @param[in] $column_type type of column
-         * @return well modified $value
-         * @remarks if $operation is like or like_prefix, $value itself will be modified
-         * @remarks if $type is not 'number', call addQuotes() and wrap with ' '
-         **/
-        function getConditionValue($name, $value, $operation, $type, $column_type) {
-
-            if(!in_array($operation,array('in','notin','between')) && $type == 'number') {
-				if(is_array($value)){
-					$value = join(',',$value);
-				}
-                if(strpos($value, ',') === false && strpos($value, '(') === false) return (int)$value;
-                return $value;
-            }
-			
-            if(!is_array($value) && strpos($name, '.') !== false && strpos($value, '.') !== false) {
-                list($table_name, $column_name) = explode('.', $value);
-                if($column_type[$column_name]) return $value;
-            }
-
-            switch($operation) {
-                case 'like_prefix' :
-						if(!is_array($value)) $value = preg_replace('/(^\'|\'$){1}/', '', $value);
-                        $value = $value.'%';
-                    break;
-                case 'like_tail' :
-						if(!is_array($value)) $value = preg_replace('/(^\'|\'$){1}/', '', $value);
-                        $value = '%'.$value;
-                    break;
-                case 'like' :
-						if(!is_array($value)) $value = preg_replace('/(^\'|\'$){1}/', '', $value);
-                        $value = '%'.$value.'%';
-                    break;
-                case 'notin' :
-						if(is_array($value))
-						{
-							$value = $this->addQuotesArray($value);
-							if($type=='number') return join(',',$value);
-							else return "'". join("','",$value)."'";
-						}
-						else
-						{
-							return $value;
-						}
-                    break;
-                case 'in' :
-						if(is_array($value))
-						{
-							$value = $this->addQuotesArray($value);
-							if($type=='number') return join(',',$value);
-							else return "'". join("','",$value)."'";
-						}
-						else
-						{
-							return $value;
-						}
-                    break;
-                case 'between' :
-						if(!is_array($value)) $value = array($value);
-			            $value = $this->addQuotesArray($value);
-						if($type!='number')
-						{
-							foreach($value as $k=>$v)
-							{
-								$value[$k] = "'".$v."'";
-							}
-						}
-
-						return $value;
-                    break;
-				default:
-					if(!is_array($value)) $value = preg_replace('/(^\'|\'$){1}/', '', $value);
-            }
-
-            return "'".$this->addQuotes($value)."'";
-        }
-
-        /**
-         * @brief returns part of condition
-         * @param[in] $name name of condition
-         * @param[in] $value value of condition
-         * @param[in] $operation operation that is used in condition
-         * @return detail condition
-         **/
-        function getConditionPart($name, $value, $operation) {
-            switch($operation) {
-                case 'equal' :
-                case 'more' :
-                case 'excess' :
-                case 'less' :
-                case 'below' :
-                case 'like_tail' :
-                case 'like_prefix' :
-                case 'like' :
-                case 'in' :
-                case 'notin' :
-                case 'notequal' :
-                        // if variable is not set or is not string or number, return
-                        if(!isset($value)) return;
-                        if($value === '') return;
-                        if(!in_array(gettype($value), array('string', 'integer'))) return;
-				break;
-                case 'between' :
-					if(!is_array($value)) return;
-					if(count($value)!=2) return;
-
-            }
-
-            switch($operation) {
-                case 'equal' :
-                        return $name.' = '.$value;
-                    break;
-                case 'more' :
-                        return $name.' >= '.$value;
-                    break;
-                case 'excess' :
-                        return $name.' > '.$value;
-                    break;
-                case 'less' :
-                        return $name.' <= '.$value;
-                    break;
-                case 'below' :
-                        return $name.' < '.$value;
-                    break;
-                case 'like_tail' :
-                case 'like_prefix' :
-                case 'like' :
-                        return $name.' like '.$value;
-                    break;
-                case 'in' :
-                        return $name.' in ('.$value.')';
-                    break;
-                case 'notin' :
-                        return $name.' not in ('.$value.')';
-                    break;
-                case 'notequal' :
-                        return $name.' <> '.$value;
-                    break;
-                case 'notnull' :
-                        return $name.' is not null';
-                    break;
-                case 'null' :
-                        return $name.' is null';
-                    break;
-				case 'between' :
-                        return $name.' between ' . $value[0] . ' and ' . $value[1];
-					break;
-            }
-        }
-
-        /**
-         * @brief returns condition key
-         * @param[in] $output result of query
-         * @return array of conditions of $output
-         **/
-        function getConditionList($output) {
-            $conditions = array();
-            if(count($output->conditions)) {
-                foreach($output->conditions as $key => $val) {
-                    if($val['condition']) {
-                        foreach($val['condition'] as $k => $v) {
-                            $conditions[] = $v['column'];
-                        }
-                    }
-                }
-            }
-
-            return $conditions;
-        }
 
         /**
          * @brief returns counter cache data
@@ -678,31 +550,297 @@
             $this->_query($query);
         }
 
-		function addQuotesArray($arr)
-		{
-			if(is_array($arr))
-			{
-				foreach($arr as $k => $v)
-				{
-					$arr[$k] = $this->addQuotes($v);
-				}
-			}
-			else
-			{
-				$arr = $this->addQuotes($arr);
-			}
+    	function getSelectSql($query, $with_values = true){
+			$select = $query->getSelectString($with_values);
+			if($select == '') return new Object(-1, "Invalid query");
+			$select = 'SELECT ' .$select;
 
-			return $arr;
+			$from = $query->getFromString($with_values);
+			if($from == '') return new Object(-1, "Invalid query");
+			$from = ' FROM '.$from;
+
+			$where = $query->getWhereString($with_values);
+			if($where != '') $where = ' WHERE ' . $where;
+
+                        $tableObjects = $query->getTables();
+                        $index_hint_list = '';
+                        foreach($tableObjects as $tableObject){
+                            if(is_a($tableObject, 'CubridTableWithHint'))
+                                    $index_hint_list .= $tableObject->getIndexHintString() . ', ';
+                        }
+                        $index_hint_list = substr($index_hint_list, 0, -2);
+                        if($index_hint_list != '')
+                            $index_hint_list = 'USING INDEX ' . $index_hint_list;
+
+			$groupBy = $query->getGroupByString();
+			if($groupBy != '') $groupBy = ' GROUP BY ' . $groupBy;
+
+			$orderBy = $query->getOrderByString();
+			if($orderBy != '') $orderBy = ' ORDER BY ' . $orderBy;
+
+		 	$limit = $query->getLimitString();
+		 	if($limit != '') $limit = ' LIMIT ' . $limit;
+
+		 	return $select . ' ' . $from . ' ' . $where . ' ' . $index_hint_list . ' ' . $groupBy . ' ' . $orderBy . ' ' . $limit;
 		}
+
+   		function getDeleteSql($query, $with_values = true, $with_priority = false){
+			$sql = 'DELETE ';
+
+			$sql .= $with_priority?$query->getPriority():'';
+			$tables = $query->getTables();
+
+			$sql .= $tables[0]->getAlias();
+
+			$from = $query->getFromString($with_values);
+			if($from == '') return new Object(-1, "Invalid query");
+			$sql .= ' FROM '.$from;
+
+			$where = $query->getWhereString($with_values);
+			if($where != '') $sql .= ' WHERE ' . $where;
+
+			return $sql;
+		}
+
+    	function getUpdateSql($query, $with_values = true, $with_priority = false){
+			$columnsList = $query->getUpdateString($with_values);
+			if($columnsList == '') return new Object(-1, "Invalid query");
+
+                        $tables = $query->getFromString($with_values);
+                        if($tables == '') return new Object(-1, "Invalid query");
+
+			$where = $query->getWhereString($with_values);
+			if($where != '') $where = ' WHERE ' . $where;
+
+			$priority = $with_priority?$query->getPriority():'';
+
+			return "UPDATE $priority $tables SET $columnsList ".$where;
+		}
+
+    	function getInsertSql($query, $with_values = true, $with_priority = false){
+			$tableName = $query->getFirstTableName();
+			$values = $query->getInsertString($with_values);
+			$priority = $with_priority?$query->getPriority():'';
+
+			return "INSERT $priority INTO $tableName \n $values";
+		}
+
+        function _getSlaveConnectionStringIndex() {
+            $max = count($this->slave_db);
+            $indx = rand(0, $max - 1);
+            return $indx;
+        }
+
+        function _getConnection($type = 'master', $indx = NULL){
+            if($type == master){
+                if(!$this->master_db['is_connected'])
+                        $this->_connect($type);
+                $this->connection = 'Master ' . $this->master_db['db_hostname'];
+                return $this->master_db["resource"];
+            }
+
+            if($indx === NULL)
+                $indx = $this->_getSlaveConnectionStringIndex($type);
+
+            if(!$this->slave_db[$indx]['is_connected'])
+                    $this->_connect($type, $indx);
+
+            $this->connection = 'Slave ' . $this->slave_db[$indx]['db_hostname'];
+            return $this->slave_db[$indx]["resource"];
+        }
+
+        function _dbInfoExists() {
+            if (!$this->master_db)
+                return false;
+            if (count($this->slave_db) === 0)
+                return false;
+            return true;
+        }
+
+        function _close($connection){
+
+        }
 
         /**
-         * @brief Just like numbers, and operations needed to remove the rest
+         * @brief DB disconnection
+         * */
+        function close($type = 'master', $indx = 0) {
+            if (!$this->isConnected($type, $indx))
+                return;
+
+            if ($type == 'master')
+                $connection = &$this->master_db;
+            else
+                $connection = &$this->slave_db[$indx];
+
+            $this->_close($connection["resource"]);
+
+            $connection["is_connected"] = false;
+        }
+
+        function _begin(){
+            return true;
+        }
+        /**
+         * @brief Begin transaction
+         * */
+        function begin() {
+            if (!$this->isConnected() || $this->transaction_started)
+                return;
+
+            if($this->_begin())
+                 $this->transaction_started = true;
+        }
+
+        function _rollback(){
+            return true;
+        }
+
+        /**
+         * @brief Rollback
+         * */
+        function rollback() {
+            if (!$this->isConnected() || !$this->transaction_started)
+                return;
+            if($this->_rollback())
+                $this->transaction_started = false;
+        }
+
+        function _commit(){
+            return true;
+        }
+        /**
+         * @brief Commits
+         * */
+        function commit($force = false) {
+            if (!$force && (!$this->isConnected() || !$this->transaction_started))
+                return;
+            if($this->_commit())
+                $this->transaction_started = false;
+        }
+
+        function __query($query, $connection){
+
+        }
+        /**
+         * @brief : Run a query and fetch the result
+         *
+         * query: run a query and return the result \n
+         * fetch: NULL if no value is returned \n
+         *        array object if rows are returned \n
+         *        object if a row is returned \n
+         *         return\n
+         * */
+        function _query($query, $connection = null) {
+            if($connection == null)
+                $connection = $this->_getConnection('master');
+            // Notify to start a query execution
+            $this->actStart($query);
+
+            // Run the query statement
+            $result = $this->__query($query, $connection);
+
+            // Notify to complete a query execution
+            $this->actFinish();
+            // Return result
+            return $result;
+        }
+
+        /**
+         * @brief DB settings and connect/close
+         * */
+        function _setDBInfo(){
+            $db_info = Context::getDBInfo();
+            $this->master_db = $db_info->master_db;
+            if($db_info->master_db["db_hostname"] == $db_info->slave_db[0]["db_hostname"]
+                    && $db_info->master_db["db_port"] == $db_info->slave_db[0]["db_port"]
+                    && $db_info->master_db["db_userid"] == $db_info->slave_db[0]["db_userid"]
+                    && $db_info->master_db["db_password"] == $db_info->slave_db[0]["db_password"]
+                    && $db_info->master_db["db_database"] == $db_info->slave_db[0]["db_database"]
+                    )
+                    $this->slave_db[0] = &$this->master_db;
+            else
+                    $this->slave_db = $db_info->slave_db;
+            $this->prefix = $db_info->master_db["db_table_prefix"];
+        }
+
+        function __connect(){
+
+        }
+
+        function _afterConnect($connection){
+
+        }
+        /**
+         * @brief DB Connection
+         * */
+        function _connect($type = 'master', $indx = 0) {
+            if ($this->isConnected($type, $indx))
+                return;
+
+            // Ignore if no DB information exists
+            if (!$this->_dbInfoExists())
+                return;
+
+            if ($type == 'master')
+                $connection = &$this->master_db;
+            else
+                $connection = &$this->slave_db[$indx];
+
+            $result = $this->__connect($connection);
+            if($result === NULL || $result === false) {
+                $connection["is_connected"] = false;
+                return;
+            }
+
+            // Check connections
+            $connection["resource"] = $result;
+            $connection["is_connected"] = true;
+
+            // Save connection info for db logs
+            $this->connection = ucfirst($type) . ' ' . $connection["db_hostname"];
+
+            $this->_afterConnect($result);
+        }
+	/**
+         * @brief start recording DBClass log
+         * @return none
          **/
-		function _filterNumber(&$value)
-		{
-			$value = preg_replace('/[^\d\w\+\-\*\/\.\(\)]/', '', $value);
-			$value = preg_replace('@\b(?:select|update|delete)\b|[/+\*]{2,}|(-){2,}@i', '$1', $value);
-			if(!$value) $value = 0;
-		}
+        function actDBClassStart() {
+            $this->setError(0, 'success');
+            $this->act_dbclass_start = getMicroTime();
+            $this->elapsed_dbclass_time = 0;
+        }
+
+        /**
+         * @brief finish recording DBClass log
+         * @return none
+         **/
+        function actDBClassFinish() {
+            if(!$this->query) return;
+            $this->act_dbclass_finish = getMicroTime();
+            $elapsed_dbclass_time = $this->act_dbclass_finish - $this->act_dbclass_start;
+            $this->elapsed_dbclass_time = $elapsed_dbclass_time;
+            $GLOBALS['__dbclass_elapsed_time__'] += $elapsed_dbclass_time;
+        }
+
+        /**
+         * Returns a database specific parser class
+         * used for escaping expressions and table/column identifiers
+         *
+         * Requires an implementation of the DB class (won't work if database is not set)
+         *
+         * @remarks singleton
+         */
+       function &getParser($force = false){
+            static $dbParser = null;
+            if(!$dbParser || $force) {
+                $oDB = &DB::getInstance();
+                $dbParser = $oDB->getParser();
+            }
+
+            return $dbParser;
+        }
+
     }
 ?>

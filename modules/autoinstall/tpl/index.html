@@ -1,21 +1,17 @@
-<!--#include("header.html")-->
-<!--%import("css/autoinstall.css")-->
-<!--%import("js/autoinstall.js")-->
-<div class="infoText">
-	<!--@if($show_ftp_note)-->
-	<p class="warning">{$lang->description_ftp_note} <a href="{getUrl('','module','admin','act','dispAdminConfig')}#ftpSetup">FTP Setup</a> </p>
-	<!--@end-->
-	<!--@if($need_update)-->
-	<p class="update">{$lang->need_update}</p>
-	<!--@else-->
-	<p class="update">{$lang->description_update}</p>
-	<!--@end-->
-	<p><span class="button xLarge strong green"><button type="button" onclick="doUpdate()" title="update">Update</button></span></p>
+<include target="header.html" />
+<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
-
-<div class="install">
-<!--#include("leftBox.html")-->
-<!--@if($item_list)-->
-    <!--#include("list.html")-->
-<!--@end-->
-</div>
+<form action="" method="post">
+	<input type="hidden" name="module" value="autoinstall" />
+	<input type="hidden" name="act" value="procAutoinstallAdminUpdateinfo" />
+	<p>
+		<block cond="$show_ftp_note">
+			{@$ftp_link = sprintf('<a href="%s#ftpSetup">%s</a>', getUrl('', 'module', 'admin', 'act', 'dispAdminConfig'), $lang->ftp_setup)}
+			{sprintf($lang->description_ftp_note, $ftp_link)}
+		</block>
+		{@$btnUpdate = sprintf('<input type="submit" value="%s" class="text" />', $lang->status_update)}
+		{sprintf($lang->description_update, $btnUpdate)}
+	</p>
+</form>
+<include target="list.html" />

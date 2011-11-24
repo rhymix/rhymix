@@ -2,27 +2,28 @@
     /**
      * @class  trackbackModel
      * @author NHN (developers@xpressengine.com)
-     * @brief  trackback 모듈의 model class
+     * @brief trackback module model class
      **/
 
     class trackbackModel extends trackback {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
         }
 
         /**
-         * @brief 하나의 트랙백 정보를 구함
+         * @brief Wanted a trackback information
          **/
-        function getTrackback($trackback_srl) {
+        function getTrackback($trackback_srl, $columnList = array()) {
             $args->trackback_srl = $trackback_srl;
-            return executeQuery('trackback.getTrackback', $args);
+            $output = executeQuery('trackback.getTrackback', $args, $columnList);
+            return $output;
         }
 
         /**
-         * @brief document_srl 에 해당하는 엮인글의 전체 갯수를 가져옴
+         * @brief Trackbacks document_srl corresponding to the bringing of the total number of
          **/
         function getTrackbackCount($document_srl) {
             $args->document_srl = $document_srl;
@@ -34,7 +35,7 @@
 
 
         /**
-         * @brief module_srl 에 해당하는 엮인글의 전체 갯수를 가져옴
+         * @brief Trackbacks module_srl corresponding to the bringing of the total number of
          **/
         function getTrackbackAllCount($module_srl) {
             $args->module_srl = $module_srl;
@@ -46,8 +47,8 @@
 
 
         /**
-         * @brief 특정 document에 특정 ip로 기록된 트랙백의 갯수
-         * spamfilter 에서 사용할 method임
+         * @brief For a particular document to a specific ip number of trackbacks recorded
+         * Im spamfilter method used in
          **/
         function getTrackbackCountByIPAddress($document_srl, $ipaddress) {
             $args->document_srl = $document_srl;
@@ -59,7 +60,7 @@
         }
 
         /**
-         * @brief 특정 문서에 속한 엮인글의 목록을 가져옴
+         * @brief Trackbacks certain documents belonging to the bringing of the list
          **/
         function getTrackbackList($document_srl) {
             $args->document_srl = $document_srl;
@@ -76,7 +77,7 @@
         }
 
         /** 
-         * @brief mid 에 해당하는 엮인글을 가져옴
+         * @brief Bringing a mid Trackbacks
          **/
         function getNewestTrackbackList($obj) {
             if($obj->mid) {
@@ -84,8 +85,7 @@
                 $obj->module_srl = $oModuleModel->getModuleSrlByMid($obj->mid);
                 unset($obj->mid);
             }
-
-            // 넘어온 module_srl은 array일 수도 있기에 array인지를 체크 
+            // Module_srl passed the array may be a check whether the array
             if(is_array($obj->module_srl)) $args->module_srl = implode(',', $obj->module_srl);
             else $args->module_srl = $obj->module_srl;
             $args->list_count = $obj->list_count;
@@ -99,10 +99,10 @@
         }
         
         /**
-         * @brief 특정 모듈의 trackback 설정을 return
+         * @brief Return to a specific set of modules trackback
          **/
         function getTrackbackModuleConfig($module_srl) {
-            // trackback 모듈의 config를 가져옴
+            // Bringing trackback module config
             $oModuleModel = &getModel('module');
             $module_trackback_config = $oModuleModel->getModulePartConfig('trackback', $module_srl);
             if(!$module_trackback_config) {
@@ -114,7 +114,7 @@
         }
 
         /**
-         * @brief 정해진 시간내에 전체 엮인글 등록수를 구함
+         * @brief Fixed in time for the entire yeokingeul Wanted to Register
          **/
         function getRegistedTrackback($time, $ipaddress, $url, $blog_name, $title, $excerpt) {
             $obj->regdate = date("YmdHis",time()-$time);
@@ -128,8 +128,8 @@
         }
 
         /**
-         * @brief trackback url을 생성하여 return
-         * trackback url에 key값을 추가함.
+         * @brief return by creating a trackback url
+         * Adds the key value in the trackback url.
          **/
         function getTrackbackUrl($document_srl) {
             $url = getFullUrl('','document_srl',$document_srl,'act','trackback','key',$this->getTrackbackKey($document_srl));
@@ -137,9 +137,9 @@
         }
 
         /**
-         * @brief 키값을 생성하여 return
-         * key값은 db 비번 정보 + 10분 단위의 시간값을 합쳐서 hash결과를 이용함
-         * 단 url이 너무 길어져서 1, 10, 20 자리수의 글자 하나씩만을 조합해서 return
+         * @brief Return keys by generating
+         * db key value information, plus a 10 minute off-duty time together and hash values and deal with the results
+         * So was extended only url, 1, 10, 20-digit combination of letters only, one return
          **/
         function getTrackbackKey($document_srl) {
             $time = (int) (time()/(60*10));

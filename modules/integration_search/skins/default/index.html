@@ -3,30 +3,30 @@
 {@ $output = $search_result['document'] }
 <!--#include("document.html")-->
 <!--@if(count($output->data))-->
-<div class="isMore"><a href="{getUrl('where','document','page',1)}">more</a></div>
+<div class="isMore"><a href="{getAutoEncodedUrl('where','document','page',1)}">more</a></div>
 <!--@end-->
 
 {@ $output = $search_result['comment'] }
 <!--#include("comment.html")-->
 <!--@if(count($output->data))-->
-<div class="isMore"><a href="{getUrl('where','comment','page',1)}">more</a></div>
+<div class="isMore"><a href="{getAutoEncodedUrl('where','comment','page',1)}">more</a></div>
 <!--@end-->
 
 {@ $output = $search_result['trackback'] }
 {@ $search_target = 'title'; }
 <!--#include("trackback.html")-->
 <!--@if(count($output->data))-->
-<div class="isMore"><a href="{getUrl('where','trackback','page',1)}">more</a></div>
+<div class="isMore"><a href="{getAutoEncodedUrl('where','trackback','page',1)}">more</a></div>
 <!--@end-->
 
 {@ $output = $search_result['multimedia'] }
 <!--#include("multimedia.html")-->
 <!--@if(count($output->data))-->
-<div class="isMore"><a href="{getUrl('where','multimedia','page',1)}">more</a></div>
+<div class="isMore"><a href="{getAutoEncodedUrl('where','multimedia','page',1)}">more</a></div>
 <!--@end-->
 
 {@ $output = $search_result['file'] }
 <!--#include("file.html")-->
 <!--@if(count($output->data))-->
-<div class="isMore"><a href="{getUrl('where','file','page',1)}">more</a></div>
+<div class="isMore"><a href="{getAutoEncodedUrl('where','file','page',1)}">more</a></div>
 <!--@end-->

@@ -1,4 +1,39 @@
 /**
+ * @brief DB정보 Setting후 실행될 함수
+ */
+function completeAgreement(ret_obj)
+{
+    if(ret_obj['error'] != 0) {
+        alert(ret_obj['message']);
+        return;
+    } else {
+		var url = current_url.setQuery('act', 'dispInstallCheckEnv');
+		location.href = url;
+	}
+}
+
+function completeDBSetting(ret_obj) {
+    if(ret_obj['error'] != 0) {
+        alert(ret_obj['message']);
+        return;
+    } else {
+    	location.href = "./index.php?act=dispInstallConfigForm";
+	}
+}
+
+/**
+ * @brief Rewrite module, Time-zone Setting 후 실행될 함수
+ */
+function completeConfigSetting(ret_obj) {
+    if(ret_obj['error'] != 0) {
+        alert(ret_obj['message']);
+        return;
+    } else {
+    	location.href = "./index.php?act=dispInstallManagerForm";
+	}
+}
+
+/**
  * @brief 설치 완료후 실행될 함수
  */
 function completeInstalled(ret_obj) {
@@ -85,7 +120,7 @@ function completeGetFtpInfo(ret_obj)
         arr.pop();
         arr.push("");
         target = arr.join("/");
-        list = list + "<li><a href='#ftpSetup' onclick=\"getFTPList('"+target+"')\">../</a></li>";
+        list = list + "<li><a href='#ftpSetup' style='color:#fff; text-decoration:underline;' onclick=\"getFTPList('"+target+"')\">../</a></li>";
     }
     
     for(var i=0;i<ret_obj['list']['item'].length;i++)
@@ -101,10 +136,10 @@ function completeGetFtpInfo(ret_obj)
         }
         else
         {
-            list = list + "<li><a href='#ftpSetup' onclick=\"getFTPList('"+pwd+v+"')\">"+v+"</a></li>";
+            list = list + "<li><a href='#ftpSetup' style='color:#fff; text-decoration:underline;' onclick=\"getFTPList('"+pwd+v+"')\">"+v+"</a></li>";
         }
     }
 
-    list = "<td><ul>"+list+"</ul></td>";
+    //list = "<td><ul>"+list+"</ul></td>";
     e.append(jQuery(list));
 }

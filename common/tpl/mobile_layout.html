@@ -1,8 +1,12 @@
+<!--@if($db_info->use_html5=='Y')-->
+<!DOCTYPE html>
+<!--@else-->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--@end-->
 <html xmlns="http://www.w3.org/1999/xhtml" lang="{Context::getLangType()}" xml:lang="{Context::getLangType()}">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=yes, target-densitydpi=medium-dpi" />
 <title>{Context::getBrowserTitle()}</title>
 {@ $css_files = Context::getCssFile() }
 <!--@foreach($css_files as $key => $css_file)-->
@@ -32,6 +36,12 @@
     <link rel="alternate" type="application/rss+xml" title="Site RSS" href="{$general_rss_url}" />
     <link rel="alternate" type="application/atom+xml" title="Site Atom" href="{$general_atom_url}" />
 <!--@end-->
+
+<link cond="$favicon_url" rel="shortcut icon" href="{$favicon_url}" />
+<link cond="$mobicon_url" rel="apple-touch-icon" href="{$mobicon_url}" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="../js/html5.js" cond="$db_info->use_html5=='Y'"></script>
+<![endif]-->
 {@ $ssl_actions = Context::getSSLActions() }
     <script type="text/javascript">//<![CDATA[
         var current_url = "{$current_url}";

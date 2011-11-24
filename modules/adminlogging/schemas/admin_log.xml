@@ -1,0 +1,8 @@
+<table name="admin_log">
+    <column name="ipaddress" type="varchar" size="100" notnull="notnull" index="idx_admin_ip" />
+    <column name="regdate" type="date" index="idx_admin_date" />
+	<column name="site_srl" type="number" size="11" default="0" />
+	<column name="module" type="varchar" size="100" />
+	<column name="act" type="varchar" size="100" />
+	<column name="request_vars" type="text" />
+</table>

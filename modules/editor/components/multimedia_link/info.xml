@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component version="0.2">
-    <title xml:lang="ko">멀티미디어 자료 관리</title>
+    <title xml:lang="ko">멀티미디어 링크</title>
     <title xml:lang="jp">マルチメディア管理</title>
     <title xml:lang="zh-CN">多媒体</title>
-    <title xml:lang="en">Manage Multimedia Data</title>
+    <title xml:lang="en">Multimedia Link</title>
     <title xml:lang="es">Administrar datos multimedia </title>
     <title xml:lang="ru">Управление мультимедиа данными</title>
     <title xml:lang="zh-TW">多媒體管理</title>
@@ -12,13 +12,13 @@
     <description xml:lang="ko">에디터에 wmv,avi,flv등의 멀티미디어 자료를 추가하거나 속성을 수정할 수 있습니다.</description>
     <description xml:lang="jp">エディターに拡張子が「wmv,avi,flv」などのマルチメディアコンテンツを追加、または属性の修正ができます。</description>
     <description xml:lang="zh-CN">插入wmv,avi,flv等多媒体文件或修改其相应属性 。</description>
-    <description xml:lang="en">It can add multimedia data like wmv,avi,flv to editor or change the attribution of multimedia data.</description>
+    <description xml:lang="en">It can add multimedia data like wmv, avi, flv to editor or change the its attributes.</description>
     <description xml:lang="es">Se pueden agregar datos multimedia como wmv, avi, flv al editor o cambiar la atribución de datos multimedia.</description>
     <description xml:lang="ru">Это может добавить мультимедиа данные как wmv,avi,flv в редактор или изменить параметры данных мультимедиа.</description>
     <description xml:lang="zh-TW">可新增 wmv、avi、flv 等多媒體檔案或修改其相關屬性。</description>
     <description xml:lang="vi">Chèn Media dạng '.wmv,.avi,.flv,.mp3,.wma' vào bài viết.</description>
     <description xml:lang="tr">wmv, avi, flv gibi çoklu ortam dosyalarını editöre ekleyebilir veya çoklu ortam dosyasının niteliğini değiştirebilir.</description>
-    <version>0.1</version>
+    <version>0.2</version>
     <date>2007-02-28</date>
 
     <author email_address="developers@xpressengine.com" link="http://xpressengine.com/">

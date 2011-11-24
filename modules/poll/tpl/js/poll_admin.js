@@ -19,7 +19,7 @@ function doDisplaySkinColorset(sel, colorset) {
 
 /* 서버에서 받아온 컬러셋을 표시 */
 function completeGetSkinColorset(ret_obj, response_tags, params, fo_obj) {
-    var sel = xGetElementById("fo_poll").poll_colorset;
+    var sel = get_by_id("fo_poll").poll_colorset;
     var length = sel.options.length;
     var selected_colorset = params["colorset"];
     for(var i=0;i<length;i++) sel.remove(0);
@@ -53,4 +53,62 @@ function completeMovePoll(ret_obj, response_tags) {
     var url = request_uri.setQuery('document_srl', document_srl);
     if(comment_srl) url = url+'#comment_'+comment_srl;
     winopen(url, 'pollTarget');
+}
+
+function getPollList()
+{
+	var pollListTable = jQuery('#pollListTable');
+	var cartList = [];
+	pollListTable.find(':checkbox[name=cart]').each(function(){
+		if(this.checked) cartList.push(this.value); 
+	});
+
+    var params = new Array();
+    var response_tags = ['error','message', 'poll_list'];
+	params["poll_srls"] = cartList.join(",");
+
+    exec_xml('poll','procPollGetList',params, completeGetPollList, response_tags);
+}
+
+function completeGetPollList(ret_obj, response_tags)
+{
+	var htmlListBuffer = '';
+
+	if(ret_obj['poll_list'] == null)
+	{
+		htmlListBuffer = '<tr>' +
+							'<td colspan="3" style="text-align:center;">'+ret_obj['message']+'</td>' +
+						'</tr>';
+	}
+	else
+	{
+		var poll_list = ret_obj['poll_list']['item'];
+		if(!jQuery.isArray(poll_list)) poll_list = [poll_list];
+		for(var x in poll_list)
+		{
+			var objPoll = poll_list[x];
+			htmlListBuffer += '<tr>' +
+								'<td class="title">'+objPoll.title+'</td>' +
+								'<td>'+objPoll.poll_count+'</td>' +
+								'<td>'+objPoll.nick_name+'</td>' +
+							'</tr>' +
+							'<input type="hidden" name="cart[]" value="'+objPoll.poll_index_srl+'" />';
+		}
+		jQuery('#selectedPollCount').html(poll_list.length);
+	}
+	jQuery('#pollManageListTable>tbody').html(htmlListBuffer);
+}
+
+function checkSearch(form)
+{
+	if(form.search_target.value == '')
+	{
+		alert(xe.lang.msg_empty_search_target);
+		return false;
+	}
+	if(form.search_keyword.value == '')
+	{
+		alert(xe.lang.msg_empty_search_keyword);
+		return false;
+	}
 }

@@ -2,19 +2,19 @@
     /**
      * @class  communicationModel
      * @author NHN (developers@xpressengine.com)
-     * @brief  communication module의 Model class
+     * @brief communication module of the Model class
      **/
 
     class communicationModel extends communication {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
         }
 
         /**
-         * @brief 설정된 내용을 구함
+         * @brief get the configuration
          **/
         function getConfig() {
             $oModuleModel = &getModel('module');
@@ -28,21 +28,19 @@
         }
 
         /**
-         * @brief 쪽지 내용을 가져옴
+         * @brief get the message contents
          **/
-        function getSelectedMessage($message_srl) {
+        function getSelectedMessage($message_srl, $columnList = array()) {
             $logged_info = Context::get('logged_info');
 
             $args->message_srl = $message_srl;
-            $output = executeQuery('communication.getMessage',$args);
+            $output = executeQuery('communication.getMessage',$args, $columnList);
             $message = $output->data;
             if(!$message) return ;
-
-            // 보낸 쪽지일 경우 받는 사람 정보를 구함 
+            // get recipient's information if it is a sent message
             $oMemberModel = &getModel('member');
             if($message->sender_srl == $logged_info->member_srl && $message->message_type == 'S') $member_info = $oMemberModel->getMemberInfoByMemberSrl($message->receiver_srl);
-
-            // 보관/받은 쪽지일 경우 보낸 사람 정보를 구함
+            // get sendor's information if it is a received/archived message
             else $member_info = $oMemberModel->getMemberInfoByMemberSrl($message->sender_srl);
 
             if($member_info) {
@@ -50,8 +48,7 @@
                   if($key != 'regdate') $message->{$key} = $val;
                 }
             }
-
-            // 받은 쪽지이고 아직 읽지 않았을 경우 읽은 상태로 변경
+            // change the status if is a received and not yet read message
             if($message->message_type == 'R' && $message->readed != 'Y') {
                 $oCommunicationController = &getController('communication');
                 $oCommunicationController->setMessageReaded($message_srl);
@@ -62,14 +59,14 @@
         }
 
         /**
-         * @brief 새 쪽지를 가져옴
+         * @brief get a new message
          **/
-        function getNewMessage() {
+        function getNewMessage($columnList = array()) {
             $logged_info = Context::get('logged_info');
             $args->receiver_srl = $logged_info->member_srl;
             $args->readed = 'N';
 
-            $output = executeQuery('communication.getNewMessage', $args);
+            $output = executeQuery('communication.getNewMessage', $args, $columnList);
             if(!count($output->data)) return;
             $message = array_pop($output->data);
 
@@ -80,12 +77,12 @@
         }
 
         /**
-         * @brief 쪽지 목록 가져오기
-         * type = R : 받은 쪽지
-         * type = S : 보낸 쪽지 
-         * type = T : 보관함
+         * @brief get a message list
+         * type = R: Received Message 
+         * type = S: Sent Message
+         * type = T: Archive
          **/
-        function getMessages($message_type = "R") {
+        function getMessages($message_type = "R", $columnList = array()) {
             $logged_info = Context::get('logged_info');
 
             switch($message_type) {
@@ -106,35 +103,33 @@
                     break;
     
             }
-
-            // 기타 변수들 정리
+            // Other variables
             $args->sort_index = 'message.list_order';
             $args->page = Context::get('page');
             $args->list_count = 20;
             $args->page_count = 10;
-            return executeQuery($query_id, $args);
+            return executeQuery($query_id, $args, $columnList);
         }
 
         /**
-         * @brief 친구 목록 가져오기
+         * @brief Get a list of friends
          **/
-        function getFriends($friend_group_srl = 0) {
+        function getFriends($friend_group_srl = 0, $columnList = array()) {
             $logged_info = Context::get('logged_info');
 
             $args->friend_group_srl = $friend_group_srl;
             $args->member_srl = $logged_info->member_srl;
-
-            // 기타 변수들 정리
+            // Other variables
             $args->page = Context::get('page');
             $args->sort_index = 'friend.list_order';
             $args->list_count = 10;
             $args->page_count = 10;
-            $output = executeQuery('communication.getFriends', $args);
+            $output = executeQuery('communication.getFriends', $args, $columnList);
             return $output;
         }
 
         /**
-         * @brief 이미 친구로 등록되었는지 검사
+         * @brief check if a friend is already added
          **/
         function isAddedFriend($member_srl) {
             $logged_info = Context::get('logged_info');
@@ -146,7 +141,7 @@
         }
 
         /**
-         * @brief 특정 친구 그룹 가져오기 
+         * @brief Get a group of friends
          **/
         function getFriendGroupInfo($friend_group_srl) {
             $logged_info = Context::get('logged_info');
@@ -159,7 +154,7 @@
         }
 
         /**
-         * @brief 그룹 목록 가져오기
+         * @brief Get a list of groups
          **/
         function getFriendGroups() {
             $logged_info = Context::get('logged_info');
@@ -174,7 +169,7 @@
         }
 
         /**
-         * @brief 특정 회원의 친구 목록에 포함되어 있는지를 확인
+         * @brief check whether to be added in the friend list
          **/
         function isFriend($target_srl) {
             $logged_info = Context::get('logged_info');

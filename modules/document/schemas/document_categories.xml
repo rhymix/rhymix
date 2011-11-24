@@ -10,4 +10,5 @@
     <column name="list_order" type="number" size="11" notnull="notnull" />
     <column name="group_srls" type="text" />
     <column name="color" type="varchar" size="11" />
+	<column name="description" type="varchar" size="200" />
 </table>

@@ -1,0 +1,33 @@
+<!--%import("js/install_admin.js")-->
+<!--#include("header.html")-->
+	<div id="body">
+<!--#include("progress_menu.html")-->
+		<span class="dummy"></span>
+		<div id="content">
+			<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+				<p>{$XE_VALIDATOR_MESSAGE}</p>
+			</div>
+			<form rule="install" action="./" method="post">
+			<input type="hidden" name="act" value="procInstall" />
+				<ul class="form formAdmin">
+					<li><label for="aMail">{$lang->email_address}</label><input name="email_address" type="text" class="iText" id="aMail" /></li>
+					<li><label for="aPw1">{$lang->password1}</label><input name="password" type="password" class="iText" id="aPw1" /></li>
+					<li><label for="aPw2">{$lang->password2}</label><input name="password2" type="password" class="iText" id="aPw2" /></li>
+					<li><label for="aId">{$lang->user_id}</label><input name="user_id" type="text" value="admin" class="iText" id="aId" /></li>
+					<li><label for="aNick">{$lang->nick_name}</label><input name="nick_name" type="text" class="iText" id="aNick" /></li>
+				</ul>
+				<div class="desc">
+					<p>{$lang->install_notandum}</p>
+				</div>
+				<div class="ibtnArea">
+					<div class="fLeft">
+						<span class="ibtn icon"><span class="back"></span> <a href="{getUrl('', 'act', 'dispInstallConfigForm')}">{$lang->cmd_back}</a></span>
+					</div>
+					<div class="fRight">
+						<span class="ibtn icon"><span class="check"></span> <input name="" type="submit" value="{$lang->cmd_complete}" /></span>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+<!--#include("footer.html")-->

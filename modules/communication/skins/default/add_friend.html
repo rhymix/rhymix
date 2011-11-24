@@ -1,36 +1,33 @@
-<!--%import("filter/add_friend.xml")-->
-<!--%import("js/communication.js")-->
-
-<div id="popHeader" class="wide">
-    <h3 class="xeAdmin">{$lang->cmd_add_friend}</h3>
+<load target="filter/add_friend.xml" />
+<load target="css/communication.css" />
+<load target="js/communication.js" />
+<h1 class="h1">{$lang->cmd_add_friend}</h1>
+<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
-
-<form action="./" method="get" onsubmit="return procFilter(this, add_friend)">
-<input type="hidden" name="target_srl" value="{$target_info->member_srl}" />
-
-<div id="popBody">
-
-        <table cellspacing="0" class="rowTable">
-        <tr>
-            <th><div>{$lang->nick_name}</div></th>
-            <td><div class="member_{$target_info->member_srl}">{$target_info->nick_name}</div></td>
-        </tr>
-        <tr>
-            <th><div>{$lang->friend_group}</div></th>
-            <td colspan="2">
-                <select name="friend_group_srl" class="fl">
-                    <option value="">{$lang->default_friend_group}</option>
-                    <!--@foreach($friend_group_list as $key => $val)-->
-                    <option value="{$val->friend_group_srl}">{$val->title}</option>
-                    <!--@end-->
-                </select> <a href="{getUrl('act','dispCommunicationAddFriendGroup')}" onclick="popopen(this.href);return false;" class="buttonSet buttonSetting"><span>{$lang->cmd_add_friend_group}</span></a></span>
-            </td>
-        </tr>
-        </table>
-</div>
-
-<div id="popFooter">
-    <span class="button black strong"><input type="submit" value="{$lang->cmd_add_friend}" /></span>
-</div>
-
+<form ruleset="addFriend" action="./" method="post" class="form">
+	<input type="hidden" name="module" value="communication" />
+	<input type="hidden" name="act" value="procCommunicationAddFriend" />
+	<input type="hidden" name="target_srl" value="{$target_info->member_srl}" />
+	<div class="table">
+		<table width="100%" border="1" cellspacing="0">
+			<tr>
+				<th scope="row">{$lang->nick_name}</th>
+				<td>{$target_info->nick_name}</td>
+			</tr>
+			<tr>
+				<th scope="row"><label for="friend_group_srl">{$lang->friend_group}</label></th>
+				<td>
+					<select name="friend_group_srl" id="friend_group_srl">
+						<option value="">{$lang->default_friend_group}</option>
+						<option loop="$friend_group_list => $key,$val" value="{$val->friend_group_srl}">{$val->title}</option>
+					</select> 
+					<a href="{getUrl('act','dispCommunicationAddFriendGroup')}" onclick="popopen(this.href);return false;">{$lang->cmd_add_friend_group}</a>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div class="btnArea">
+		<span class="btn"><input type="submit" value="{$lang->cmd_add_friend}" /></span>
+	</div>
 </form>

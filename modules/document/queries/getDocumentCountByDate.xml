@@ -1,0 +1,13 @@
+<query id="getDocumentCountByDate" action="select">
+    <tables>
+        <table name="documents" />
+    </tables>
+    <columns>
+        <column name="count(*)" alias="count" />
+    </columns>
+    <conditions>
+		<condition operation="in" column="module_srl" var="moduleSrlList" />
+		<condition operation="like_prefix" column="regdate" var="regDate" pipe="and" />
+		<condition operation="in" column="status" var="statusList" pipe="and" />
+    </conditions>
+</query>

@@ -1,0 +1,8 @@
+<query id="deleteDocumentVotedLog" action="delete">
+    <tables>
+        <table name="document_voted_log" />
+    </tables>
+    <conditions>
+        <condition operation="in" column="document_srl" var="document_srl" filter="number" notnull="notnull" />
+    </conditions>
+</query>

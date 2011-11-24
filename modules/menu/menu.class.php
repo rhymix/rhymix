@@ -2,40 +2,38 @@
     /**
      * @class  menu
      * @author NHN (developers@xpressengine.com)
-     * @brief  menu 모듈의 high class
+     * @brief high class of the menu module
      **/
 
     class menu extends ModuleObject {
 
         /**
-         * @brief 설치시 추가 작업이 필요할시 구현
+         * @brief Implement if additional tasks are necessary when installing
          **/
         function moduleInstall() {
-            // 메뉴 사용할 디렉토리 생성
+            // Create a directory to use menu
             FileHandler::makeDir('./files/cache/menu');
 
             return new Object();
         }
 
         /**
-         * @brief 설치가 이상이 없는지 체크하는 method
+         * @brief a method to check if successfully installed
          **/
         function checkUpdate() {
             $oDB = &DB::getInstance();
-
-            // 2009. 02. 11 menu 테이블에 site_srl 추가
+            // 2009. 02. 11 menu added to the table site_srl
             if(!$oDB->isColumnExists('menu', 'site_srl')) return true;
 
             return false;
         }
 
         /**
-         * @brief 업데이트 실행
+         * @brief Execute update
          **/
         function moduleUpdate() {
             $oDB = &DB::getInstance();
-
-            // 2009. 02. 11 menu 테이블에 site_srl 추가
+            // 2009. 02. 11 menu added to the table site_srl
             if(!$oDB->isColumnExists('menu', 'site_srl')) {
                 $oDB->addColumn('menu','site_srl','number',11,0,true);
             }
@@ -44,20 +42,15 @@
         }
 
         /**
-         * @brief 캐시 파일 재생성
+         * @brief Re-generate the cache file
          **/
         function recompileCache() {
-            // 메뉴 모듈의 캐시 파일 모두 삭제
-            FileHandler::removeFilesInDir("./files/cache/menu");
-
             $oMenuAdminController = &getAdminController('menu');
-
-            // 블로그 모듈 목록을 모두 구함
+            // Wanted list of all the blog module
             $output = executeQueryArray("menu.getMenus");
             $list = $output->data;
             if(!count($list)) return;
-
-            // 메뉴 모듈에서 사용되는 모든 메뉴 목록을 재 생성
+            // The menu module is used in the re-create all the menu list
             foreach($list as $menu_item) {
                 $menu_srl = $menu_item->menu_srl;
                 $oMenuAdminController->makeXmlFile($menu_srl);

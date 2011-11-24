@@ -1,18 +1,11 @@
-<!--%import("js/point_admin.js")-->
-<h3 class="xeAdmin">{$lang->point} <span class="gray">{$lang->cmd_management}</span></h3>
-<!--@if($act=="dispPointAdminModuleConfig")-->
-<div class="infoText">{$lang->about_module_point}</div>
-<!--@else-->
-<div class="infoText">{$lang->about_point_module}</div>
-<!--@end-->
-
+<load target="js/point_admin.js" usecdn="true" />
+<h1 class="h1">{$lang->point} {$lang->cmd_management}</h1>
 <!--@if($module=='admin')-->
-<div class="header4">
-
-    <ul class="localNavigation">
-        <li <!--@if($act=='dispPointAdminConfig')-->class="on"<!--@end-->><a href="{getUrl('act','dispPointAdminConfig')}">{$lang->cmd_point_config}</a></li>
-        <li <!--@if($act=='dispPointAdminModuleConfig')-->class="on"<!--@end-->><a href="{getUrl('act','dispPointAdminModuleConfig')}">{$lang->cmd_point_module_config}</a></li>
-        <li <!--@if($act=='dispPointAdminPointList')-->class="on"<!--@end-->><a href="{getUrl('act','dispPointAdminPointList')}">{$lang->cmd_point_member_list}</a></li>
+<div class="cnb">
+    <ul>
+        <li <!--@if($act=='dispPointAdminConfig')-->class="active"<!--@end-->><a href="{getUrl('act','dispPointAdminConfig')}">{$lang->cmd_point_config}</a></li>
+        <li <!--@if($act=='dispPointAdminModuleConfig')-->class="active"<!--@end-->><a href="{getUrl('act','dispPointAdminModuleConfig')}">{$lang->cmd_point_module_config}</a></li>
+        <li <!--@if($act=='dispPointAdminPointList')-->class="active"<!--@end-->><a href="{getUrl('act','dispPointAdminPointList')}">{$lang->cmd_point_member_list}</a></li>
     </ul>
 </div>
 <!--@end-->

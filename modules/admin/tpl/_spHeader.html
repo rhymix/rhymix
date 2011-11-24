@@ -1,0 +1,45 @@
+{@Context::addHtmlHeader('<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=yes" />')}
+<div class="x">
+	<p class="skipNav"><a href="#content">Skip Navigation</a></p>
+	<div class="header">
+		<h1><a href="{getUrl('','module','admin')}"><img src="{getUrl('')}{$gnb_title_info->adminLogo}" alt="{$gnb_title_info->adminTitle}" /> {$gnb_title_info->adminTitle}</a></h1>
+		<p class="site"><a href="{getFullUrl('')}">{getFullUrl('')}</a></p>
+		<div class="account">
+			<ul>
+				<li><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminInfo', 'is_admin', 'Y', 'member_srl', $logged_info->member_srl)}">{$logged_info->email_address}</a></li>
+				<li><a href="{getUrl('', 'module','admin','act','procAdminLogout')}">Log-out</a></li>
+				<li><a href="#language" class="tgAnchor language" data-effect="slide" data-duration="100">{$lang_supported[$lang_type]}</a>
+					<ul class="tgContent" id="language">
+						<li loop="$lang_supported=>$key,$val" class="selected"|cond="$key==$lang_type"><a href="{getUrl('l',$key)}" data-langcode="{$key}" onclick="doChangeLangType('{$key}'); return false;">{$val}</a></li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+		<div class="gnb jx">
+			<ul>
+				<li loop="$gnbUrlList=>$key,$value" class="activeOn"|cond="$parentSrl==$key"><a href="{$value['href']}">{$value['text']}</a>
+					<ul cond="count($value['list'])">
+						<li loop="$value['list']=>$key2,$value2"><a href="{$value2['href']}">{$value2['text']}</a></li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+		<div class="bmk">
+			<a href="#bmk" class="tgAnchor" data-effect="fade" data-duration="200">{$lang->favorite}</a>
+			<ul id="bmk" class="tgContent">
+				<li loop="$favorite_list => $favorite">
+					<a href="{getUrl('act', $favorite->admin_index_act)}">{$favorite->title}</a>
+					<form class="action" action="">
+						<input type="hidden" name="module" value="admin" />
+						<input type="hidden" name="act" value="procAdminToggleFavorite" />
+						<input type="hidden" name="site_srl" value="0" />
+						<input type="hidden" name="module_name" value="{$favorite->module}" />
+						<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin')}" />
+						<button type="submit" class="text" title="{$lang->cmd_delete}">x</button>
+					</form>
+				</li>
+				<li cond="!is_array($favorite_list) || count($favorite_list) < 1">{$lang->no_data}</li>
+			</ul>
+		</div>
+	</div>
+	<div class="body">

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ruleset version="1.5.0">
+    <customrules>
+    </customrules>
+    <fields>
+		<field name="column_type" required="true" />
+		<field name="column_name" required="true" rule="alpha" />
+		<field name="column_title" required="true" />
+    </fields>
+</ruleset>

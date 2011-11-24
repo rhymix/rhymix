@@ -3,7 +3,7 @@
     <grants />
     <permissions />
     <actions>
-        <action name="dispImporterAdminContent" type="view" standalone="true" admin_index="true" />
+        <action name="dispImporterAdminImportForm" type="view" standalone="true" admin_index="true" menu_name="importer" menu_index="true" />
 
         <action name="procImporterAdminImport" type="controller" standalone="true" />
         <action name="procImporterAdminPreProcessing" type="controller" standalone="true" />
@@ -13,5 +13,21 @@
         <action name="procImporterAdminMessageImport" type="controller" standalone="true" />
         <action name="procImporterAdminModuleImport" type="controller" standalone="true" />
         <action name="procImporterAdminTTXMLImport" type="controller" standalone="true" />
+        <action name="procImporterAdminCheckXmlFile" type="controller" standalone="true" />
     </actions>
+	<menus>
+		<menu name="importer">
+			<title xml:lang="en">Data Migration</title>
+			<title xml:lang="ko">데이터 들여오기</title>
+			<title xml:lang="zh-CN">Data Migration</title>
+			<title xml:lang="jp">Data Migration</title>
+			<title xml:lang="es">Data Migration</title>
+			<title xml:lang="ru">Data Migration</title>
+			<title xml:lang="fr">Data Migration</title>
+			<title xml:lang="zh-TW">Data Migration</title>
+			<title xml:lang="vi">Data Migration</title>
+			<title xml:lang="mn">Data Migration</title>
+			<title xml:lang="tr">Data Migration</title>
+		</menu>
+	</menus>
 </module>

@@ -2,7 +2,7 @@
     /**
      * @class  addonAdminController
      * @author NHN (developers@xpressengine.com)
-     * @brief  addon 모듈의 admin controller class
+     * @brief admin controller class of addon modules
      **/
 
     require_once(_XE_PATH_.'modules/addon/addon.controller.php');
@@ -10,94 +10,187 @@
     class addonAdminController extends addonController {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
         }
 
+		/**
+		 * @brief Set addon activate
+		 **/
+		function procAddonAdminSaveActivate()
+		{
+			$pc = Context::get('pc');
+			$mobile = Context::get('mobile');
+			$fixed = Context::get('fixed');
+			
+			$site_module_info = Context::get('site_module_info');
+			
+			if($site_module_info->site_srl) $site_srl = $site_module_info->site_srl;
+			else $site_srl = 0;
+
+			if (!$pc) $pc = array();
+			if (!$mobile) $mobile = array();
+			if (!$fixed) $fixed = array();
+
+			if (!is_array($pc)) $pc = array($pc);
+			if (!is_array($mobile)) $pc = array($mobile);
+			if (!is_array($fixed)) $pc = array($fixed);
+
+			// get current addon info
+			$oModel = &getAdminModel('addon');
+			$currentAddonList = $oModel->getAddonList($site_srl, 'site');
+
+			// get need update addon list
+			$updateList = array();
+			foreach($currentAddonList as $addon)
+			{
+				if ($addon->activated !== in_array($addon->addon_name, $pc))
+				{
+					$updateList[] = $addon->addon_name;
+					continue;
+				}
+
+				if ($addon->mactivated !== in_array($addon->addon_name, $mobile))
+				{
+					$updateList[] = $addon->addon_name;
+					continue;
+				}
+
+				if ($addon->fixed !== in_array($addon->addon_name, $fixed))
+				{
+					$updateList[] = $addon->addon_name;
+					continue;
+				}
+			}
+
+			// update
+			foreach($updateList as $targetAddon)
+			{
+				unset($args);
+
+				if (in_array($targetAddon, $pc))
+					$args->is_used = 'Y';
+				else
+					$args->is_used = 'N';
+
+				if (in_array($targetAddon, $mobile))
+					$args->is_used_m = 'Y';
+				else
+					$args->is_used_m = 'N';
+
+				if (in_array($targetAddon, $fixed))
+					$args->fixed = 'Y';
+				else
+					$args->fixed = 'N';
+
+				$args->addon = $targetAddon;
+				$args->site_srl = $site_srl;
+
+				$output = executeQuery('addon.updateSiteAddon', $args);
+				if (!$output->toBool()) return $output;
+			}
+
+			if (count($updateList))
+			{
+				$this->makeCacheFile($site_srl, 'pc', 'site');
+				$this->makeCacheFile($site_srl, 'mobile', 'site');
+			}
+
+			if (Context::get('success_return_url'))
+			{
+				$this->setRedirectUrl(Context::get('success_return_url'));
+			}
+			else
+			{
+				$this->setRedirectUrl(getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAddonAdminIndex'));
+			}
+		}
+
         /**
-         * @brief 애드온의 활성/비활성 체인지
+         * @brief Add active/inactive change
          **/
         function procAddonAdminToggleActivate() {
-            $oAddonModel = &getAdminModel('addon');
+			$oAddonModel = &getAdminModel('addon');
 
-            $site_module_info = Context::get('site_module_info');
-
-            // addon값을 받아옴
-            $addon = Context::get('addon');
+			$site_module_info = Context::get('site_module_info');
+			// batahom addon values
+			$addon = Context::get('addon');
 			$type = Context::get('type');
 			if(!$type) $type = "pc";
-            if($addon) {
-                // 활성화 되어 있으면 비활성화 시킴
-                if($oAddonModel->isActivatedAddon($addon, $site_module_info->site_srl, $type)) $this->doDeactivate($addon, $site_module_info->site_srl, $type);
+			if($addon) {
+				// If enabled Disables
+				if($oAddonModel->isActivatedAddon($addon, $site_module_info->site_srl, $type)) $this->doDeactivate($addon, $site_module_info->site_srl, $type);
+				// If it is disabled Activate
+				else $this->doActivate($addon, $site_module_info->site_srl, $type);
+			}
 
-                // 비활성화 되어 있으면 활성화 시킴
-                else $this->doActivate($addon, $site_module_info->site_srl, $type);
-            }
-
-            $this->makeCacheFile($site_module_info->site_srl, $type);
+			$this->makeCacheFile($site_module_info->site_srl, $type);
         }
 
         /**
-         * @brief 애드온 설정 정보 입력
+         * @brief Add the configuration information input
          **/
         function procAddonAdminSetupAddon() {
             $args = Context::getRequestVars();
+			$module = $args->module;
             $addon_name = $args->addon_name;
             unset($args->module);
             unset($args->act);
             unset($args->addon_name);
             unset($args->body);
+			unset($args->error_return_url);
 
             $site_module_info = Context::get('site_module_info');
 
-            $this->doSetup($addon_name, $args, $site_module_info->site_srl);
+            $output = $this->doSetup($addon_name, $args, $site_module_info->site_srl, 'site');
+			if (!$output->toBool()) return $output;
 
-            $this->makeCacheFile($site_module_info->site_srl, "pc");
-            $this->makeCacheFile($site_module_info->site_srl, "mobile");
+            $this->makeCacheFile($site_module_info->site_srl, "pc", 'site');
+            $this->makeCacheFile($site_module_info->site_srl, "mobile", 'site');
+
+			$this->setRedirectUrl(getNotEncodedUrl('', 'module', $module, 'act', 'dispAddonAdminSetup', 'selected_addon', $addon_name));
         }
 
 
 
         /**
-         * @brief 애드온 추가
-         * DB에 애드온을 추가함
+         * @brief Add-on
+         * Adds Add to DB
          **/
-        function doInsert($addon, $site_srl = 0) {
+        function doInsert($addon, $site_srl = 0, $gtype = 'site', $isUsed = 'N') {
             $args->addon = $addon;
-            $args->is_used = 'N';
-            if(!$site_srl) return executeQuery('addon.insertAddon', $args);
+            $args->is_used = $isUsed;
+            if($gtype == 'global') return executeQuery('addon.insertAddon', $args);
             $args->site_srl = $site_srl;
             return executeQuery('addon.insertSiteAddon', $args);
         }
 
         /**
-         * @brief 애드온 활성화 
-         * addons라는 테이블에 애드온의 활성화 상태를 on 시켜줌
+         * @brief Add-activated
+         * addons add-ons to the table on the activation state sikyeojum
          **/
-        function doActivate($addon, $site_srl = 0, $type = "pc") {
+        function doActivate($addon, $site_srl = 0, $type = "pc", $gtype = 'site') {
             $args->addon = $addon;
 			if($type == "pc") $args->is_used = 'Y';
 			else $args->is_used_m = "Y";
-            if(!$site_srl) return executeQuery('addon.updateAddon', $args);
+            if($gtype == 'global') return executeQuery('addon.updateAddon', $args);
             $args->site_srl = $site_srl;
             return executeQuery('addon.updateSiteAddon', $args);
         }
 
         /**
-         * @brief 애드온 비활성화 
+         * @brief Disable Add-ons
          *
-         * addons라는 테이블에 애드온의 이름을 제거하는 것으로 비활성화를 시키게 된다
+         * addons add a table to remove the name of the deactivation is sikige
          **/
-        function doDeactivate($addon, $site_srl = 0, $type = "pc") {
+        function doDeactivate($addon, $site_srl = 0, $type = "pc", $gtype = 'site') {
             $args->addon = $addon;
 			if($type == "pc") $args->is_used = 'N';
 			else $args->is_used_m = 'N';
-            if(!$site_srl) return executeQuery('addon.updateAddon', $args);
+            if($gtype == 'global') return executeQuery('addon.updateAddon', $args);
             $args->site_srl = $site_srl;
             return executeQuery('addon.updateSiteAddon', $args);
         }
-
-
     }
 ?>

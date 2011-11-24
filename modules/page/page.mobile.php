@@ -1,13 +1,44 @@
 <?php
 
-class pageMobile extends ModuleObject {
+require_once(_XE_PATH_.'modules/page/page.view.php');
+
+class pageMobile extends pageView {
 	function init() {
-		// 템플릿 경로 구함 (page의 경우 tpl에 관리자용 템플릿 모아놓음)
+		// Get a template path (page in the administrative template tpl putting together)
 		$this->setTemplatePath($this->module_path.'tpl');
+
+		switch($this->module_info->page_type)
+		{
+			case 'WIDGET' : {
+								$this->cache_file = sprintf("%sfiles/cache/page/%d.%s.cache.php", _XE_PATH_, $this->module_info->module_srl, Context::getLangType());
+								$this->interval = (int)($this->module_info->page_caching_interval);
+								break;
+							}
+			case 'OUTSIDE' :  {
+								$this->cache_file = sprintf("./files/cache/opage/%d.cache.php", $this->module_info->module_srl); 
+								$this->interval = (int)($this->module_info->page_caching_interval);
+								$this->path = $this->module_info->mpath;
+								break;
+							  }
+		}
 	}
 
 	function dispPageIndex() {
-		// 위젯을 1렬로 정렬 
+		// Variables used in the template Context:: set()
+		if($this->module_srl) Context::set('module_srl',$this->module_srl);
+
+		$page_type_name = strtolower($this->module_info->page_type);
+		$method = '_get' . ucfirst($page_type_name) . 'Content';
+		if (method_exists($this, $method)) $page_content = $this->{$method}();
+		else return new Object(-1, sprintf('%s method is not exists', $method));
+		
+		Context::set('module_info', $this->module_info);
+		Context::set('page_content', $page_content);
+
+		$this->setTemplateFile('mobile');
+	}
+	function _getWidgetContent(){
+		// Arrange a widget ryeolro
 		if($this->module_info->mcontent)
 		{
             $cache_file = sprintf("%sfiles/cache/page/%d.%s.m.cache.php", _XE_PATH_, $this->module_info->module_srl, Context::getLangType());
@@ -28,18 +59,39 @@ class pageMobile extends ModuleObject {
                 if(file_exists($cache_file)) FileHandler::removeFile($cache_file);
                 $page_content = $this->module_info->mcontent;
             }
-            Context::set('content', $page_content);
 		}
 		else
 		{
 			preg_match_all('!(<img)([^\>]*)(widget=)([^\>]*?)(\>)!is', $this->module_info->content, $matches);
-			$content = '';
+			$page_content = '';
 			for($i=0,$c=count($matches[0]);$i<$c;$i++) {
-				$content .= preg_replace('/ style\=\"([^\"]+)\" /i',' style="overflow:hidden;clear:both;margin:0 0 20px 0; _margin-right:10px;" ',$matches[0][$i])."\n\n";
+				$page_content .= preg_replace('/ style\=\"([^\"]+)\" /i',' style="overflow:hidden;clear:both;margin:0 0 20px 0; _margin-right:10px;" ',$matches[0][$i])."\n\n";
 			}
-			Context::set('content', $content);
 		}
-		$this->setTemplateFile('mobile');
+		return $page_content;
+	}
+
+	function _getArticleContent(){
+		$oDocumentModel = &getModel('document');
+		$oDocument = $oDocumentModel->getDocument(0, true);
+		
+		if ($this->module_info->document_srl){
+			$document_srl = $this->module_info->document_srl;
+			$oDocument->setDocument($document_srl);
+			Context::set('document_srl', $document_srl);
+		}
+		Context::set('oDocument', $oDocument);
+		$this->setTemplatePath(sprintf($this->module_path.'m.skins/%s', $this->module_info->skin));
+	}
+
+	function _getOutsideContent(){
+		// check if it is http or internal file
+		if($this->path) {
+			if(preg_match("/^([a-z]+):\/\//i",$this->path)) $content = $this->getHtmlPage($this->path, $this->interval, $this->cache_file);
+			else $content = $this->executeFile($this->path, $this->interval, $this->cache_file);
+		}
+	
+		return $content;
 	}
 }
 

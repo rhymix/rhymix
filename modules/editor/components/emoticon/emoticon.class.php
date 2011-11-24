@@ -2,18 +2,17 @@
     /**
      * @class  emoticon
      * @author NHN (developers@xpressengine.com)
-     * @brief  이모티콘 이미지 연결 컴포넌트
+     * @brief Emoticons image connected components
      **/
 
     class emoticon extends EditorHandler {
-
-        // editor_sequence 는 에디터에서 필수로 달고 다녀야 함....
+        // editor_sequence from the editor must attend mandatory wearing ....
         var $editor_sequence = 0;
         var $component_path = '';
         var $emoticon_path = '';
 
         /**
-         * @brief editor_sequence과 컴포넌트의 경로를 받음
+         * @brief editor_sequence and components out of the path
          **/
         function emoticon($editor_sequence, $component_path) {
             $this->editor_sequence = $editor_sequence;
@@ -22,7 +21,7 @@
         }
 
         /**
-         * @brief 이모티콘 파일 목록을 리턴
+         * @brief Returns a list of emoticons file
          **/
         function getEmoticonList() {
             $emoticon = Context::get('emoticon');
@@ -34,7 +33,7 @@
         }
 
         /**
-        * @brief 재귀적으로 이모티콘이 될 법한 파일들을 하위 디렉토리까지 전부 검색한다. 8,000개까지는 테스트 해봤는데 스택오버프로우를 일으킬지 어떨지는 잘 모르겠음.(2007.9.6, 베니)
+        * @brief Likely to be recursively emoticons will search all the files to a subdirectory. 8000 gaekkajineun ran tests whether the stack and raise beef pro-overs and Unsure. (06/09/2007, Benny)
         **/
         function getEmoticons($path) {
             $emoticon_path = sprintf("%s/%s", $this->emoticon_path, $path);
@@ -51,10 +50,10 @@
         }
 
         /**
-         * @brief popup window요청시 popup window에 출력할 내용을 추가하면 된다
+         * @brief popup window to display in popup window request is to add content
          **/
         function getPopupContent() {
-            // 이모티콘 디렉토리 목록을 가져옴
+            // Bringing a list of emoticons directory
             $emoticon_dirs = FileHandler::readDir($this->emoticon_path);
             $emoticon_list = array();
             if($emoticon_dirs) {
@@ -63,12 +62,10 @@
                 }
             }
             Context::set('emoticon_list', $emoticon_list);
-
-            // 첫번째 이모티콘 디렉토리의 이미지 파일을 구함
+            // The first emoticon image files in the directory Wanted
             $emoticons = $this->getEmoticons($emoticon_list[0]);
             Context::set('emoticons', $emoticons);
-
-            // 템플릿을 미리 컴파일해서 컴파일된 소스를 return
+            // Pre-compiled source code to compile template return to
             $tpl_path = $this->component_path.'tpl';
             $tpl_file = 'popup.html';
 
@@ -77,7 +74,7 @@
         }
 
         /**
-        * @brief 이모티콘의 경로 문제 해결을 하기 위해 추가하였다. (2007.9.6 베니)
+        * @brief Emoticon of the path were added to solve the problem. (06/09/2007 Benny)
         **/
         function transHTML($xml_obj) {
             $src = $xml_obj->attrs->src;

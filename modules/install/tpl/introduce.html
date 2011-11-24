@@ -1,19 +1,37 @@
+<!--%import("js/install_admin.js")-->
 <!--#include("header.html")-->
-
-<h2 class="xeAdmin">{$lang->introduce_title}</h2>
-
-<div id="agreement">{nl2br($lang->license)}</div>
-
-<div class="tCenter">
-    Select language : <select name="lang_type" onchange="doChangeLangType(this)">
-        <!--@foreach($lang_supported as $key => $val)-->
-        <option value="{$key}" <!--@if($key == $lang_type)-->selected="selected"<!--@end-->>{$val}</option>
-        <!--@end-->
-    </select>
-</div>
-
-<div class="tCenter gap1">
-    <a class="button blue" href="{getUrl('','act','dispInstallCheckEnv')}"><span>{$lang->cmd_agree_license}</span></a>
-</div>
+	<div id="body">
+<!--#include("progress_menu.html")-->
+		<span class="dummy"></span>
+		<div id="content">
+			<form action="./" class="agreement" method="post">
+			<input type="hidden" name="module" value="install" />
+			<input type="hidden" name="act" value="procInstallAgreement" />
+			<input type="hidden" id="agree_license_text" value="{$lang->install_license_desc['lgpl']}" />
+				<div class="desc">
+					<p><input type="checkbox" name="lgpl_agree" value="Y" class="iCheck" id="lgpl" /> <label for="lgpl">{$lang->lgpl_agree}</label> - <a href="{$lang->lgpl_license_url}" target="_blank">{$lang->read_all}</a></p>
+					<p>{$lang->license_agreement_desc}</p>
+				</div>
+				<div class="desc">
+					<p><input type="checkbox" name="enviroment_gather" value="Y" class="iCheck" id="env" /> <label for="env">{$lang->install_env_agreement}</label></p>
+					<p>{$lang->install_env_agreement_desc}</p>
+				</div>
+				<div class="ibtnArea">
+					<div class="fLeft">
+						<div class="select open" style="width:160px;">
+							<span class="ctrl"><span class="arrow"></span></span>
+							<button type="button" class="myValue selected">{$lang_supported[Context::getLangType()]}</button>
+							<ul class="aList" style="bottom:20px;top:auto">
+								<li loop="$lang_supported=>$key,$val"><a href="{getUrl('l', $key)}">{$val}</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="fRight">
+						<span class="ibtn icon"><span class="check"></span> <input type="submit" value="{$lang->cmd_agree_license}" /></span>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
 
 <!--#include("footer.html")-->

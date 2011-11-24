@@ -6,17 +6,26 @@
         <action name="dispInstallIntroduce" type="view" standalone="true" index="true" />
         <action name="dispInstallCheckEnv" type="view" standalone="true" />
         <action name="dispInstallSelectDB" type="view" standalone="true" />
-        <action name="dispInstallForm" type="view" standalone="true" />
-
-        <action name="procInstall" type="controller" standalone="true" />
+        <action name="dispInstallDBForm" type="view" standalone="true" />
+        <action name="dispInstallConfigForm" type="view" standalone="true" />
+        <action name="dispInstallManagerForm" type="view" standalone="true" />
+        <action name="procInstallAgreement" type="controller" standalone="true" />
+        <action name="procCubridDBSetting" type="controller" standalone="true" ruleset="cubrid" />
+        <action name="procFirebirdDBSetting" type="controller" standalone="true" ruleset="firebird" />
+        <action name="procMssqlDBSetting" type="controller" standalone="true" ruleset="mssql" />
+        <action name="procMysqlDBSetting" type="controller" standalone="true" ruleset="mysql" />
+        <action name="procPostgresqlDBSetting" type="controller" standalone="true" ruleset="postgresql" />
+        <action name="procSqliteDBSetting" type="controller" standalone="true" ruleset="sqlite" />
+        <action name="procConfigSetting" type="controller" standalone="true" ruleset="config" />
+        <action name="procInstall" type="controller" standalone="true" ruleset="install" />
         <action name="procInstallFTP" type="controller" standalone="true" />
         <action name="procInstallCheckFTP" type="controller" standalone="true" />
         <action name="procInstallAdminInstall" type="controller" standalone="true" />
         <action name="procInstallAdminUpdate" type="controller" standalone="true" />
-        <action name="procInstallAdminSaveTimeZone" type="controller" standalone="true" />
-        <action name="procInstallAdminSaveLangSelected" type="controller" standalone="true" />
-        <action name="procInstallAdminSaveFTPInfo" type="controller" standalone="true" />
+        <action name="procInstallAdminSaveTimeZone" type="controller" standalone="true" />        
+        <action name="procInstallAdminSaveFTPInfo" type="controller" standalone="true" ruleset="installFtpInfo" />
         <action name="procInstallAdminRemoveFTPInfo" type="controller" standalone="true" />
+		<action name="procInstallAdminConfig" type="controller" standalone="true" />
         <action name="getInstallFTPList" type="model" standalone="true" />
     </actions>
 </module>

@@ -1,20 +1,20 @@
-<!--%import("filter/resend_auth_mail.xml")-->
-<!--%import("css/default.css")-->
-<!--%import("js/member.js")-->
-
-<div id="memberModule">
-<form action="./" method="post" onsubmit="return procFilter(this, resend_auth_mail)">
-    <h3>{$lang->cmd_resend_auth_mail}</h3>
-    <div class="infoText">{$lang->about_resend_auth_mail}</div>
-    <table cellspacing="0" class="rowTable">
-        <tr>
-            <th scope="row">{$lang->email_address}</th>
-            <td><input type="text" name="email_address" value="" class="iText" /></td>
-        </tr>
-        <tr>
-            <th colspan="2"><span class="button black"><input type="submit" value="{$lang->cmd_resend_auth_mail}" /></span></th>
-        </tr>
-    </table>
-
-</form>
+<include target="./common_header.html" />
+<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
+<form ruleset="resendAuthMail" class="form" action="./" method="post">
+	<input type="hidden" name="module" value="member" />
+	<input type="hidden" name="act" value="procMemberResendAuthMail" />
+    <h1 class="h1">{$lang->cmd_resend_auth_mail}</h1>
+    <p>{$lang->about_resend_auth_mail}</p>
+	<ul>
+		<li>
+			<p class="q"><label for="email_address">{$lang->email_address}</label></p>
+			<p class="a"><input type="text" id="email_address" name="email_address" value="" /></p>
+		</li>
+	</ul>
+	<div class="btnArea">
+		<span class="btn"><input type="submit" value="{$lang->cmd_resend_auth_mail}" /></span>
+	</div>
+</form>
+<include target="./common_footer.html" />

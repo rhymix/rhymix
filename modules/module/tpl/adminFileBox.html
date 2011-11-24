@@ -1,0 +1,82 @@
+<!--%load_js_plugin("filebox")-->
+		<h1 class="h1">{$lang->menu_gnb_sub['filebox']}</h1>
+		<div class="fileBox">
+			<form action="" class="portlet form" method="post" enctype="multipart/form-data">
+				<input type="hidden" name="module" value="module" />
+				<input type="hidden" name="act" value="procModuleFileBoxAdd" />
+				<input type="hidden" name="vid" value="{$vid}" />
+				<input type="hidden" name="filter" value="{$filter}" />
+				<input type="hidden" name="input" value="{$input}" />
+				<h2>{$lang->upload_file}</h2>
+				<span class="more"><a href="#fileUp" class="tgAnchor" data-effect="slide" data-duration="200">{$lang->cmd_show_hide}</a></span>
+				<div class="tgContent" id="fileUp">
+					<p>
+						<label for="fileDescription">{$lang->description}</label> <input type="text" name="comment" id="fileDescription" /><br />
+						<label for="file">{$lang->file}</label> <input type="file" name="addfile" id="file"/>
+					</p>
+					<div class="btnArea">
+						<span class="btn"><input type="submit" value="{$lang->cmd_save}" /></span>
+					</div>
+				</div>
+			</form>
+			<form action="" class="form">
+				<ul>
+					<li loop="$filebox_list=>$key,$val">
+						<p class="q">{$val->comment}</p>
+						<p class="a">
+							<!--@if($val->fileextension=='swf')-->
+
+							<object height="100" width="100" flashvars="" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,28,0" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" xmlns="http://www.w3.org/1999/xhtml">
+								<param value="{getUrl('')}{$val->filename}" name="movie" xmlns="http://www.w3.org/1999/xhtml" />
+								<param value="transparent" name="wmode" xmlns="http://www.w3.org/1999/xhtml" />
+								<param value="sameDomain" name="allowScriptAccess" xmlns="http://www.w3.org/1999/xhtml" />
+								<param value="high" name="quality" xmlns="http://www.w3.org/1999/xhtml" />
+								<embed height="100" width="100" wmode="transparent" flashvars="" autostart="false" src="{getUrl('')}{$val->filename}" xmlns="http://www.w3.org/1999/xhtml" />
+							</object>
+
+							<!--@elseif(in_array($val->fileextension,array('gif','png','jpg','jpeg')))-->
+								<img src="{getUrl('')}{$val->filename}" style="max-height:100px" />
+							<!--@end-->
+						</p>
+						<button type="button" class="side text" onclick="XE.filebox.deleteFile('{$val->module_filebox_srl}');" >{$lang->cmd_delete}</button>
+					</li>
+				</ul>
+			</form>
+		</div>
+		<form action="" class="pagination" method="post">
+			<input type="hidden" name="error_return_url" value="" />
+			<input type="hidden" name="module" value="{$module}" />
+			<input type="hidden" name="act" value="{$act}" />
+			<input cond="$order_target" type="hidden" name="order_target" value="{$order_target}" />
+			<input cond="$order_type" type="hidden" name="order_type" value="{$order_type}" />
+			<input cond="$category_srl" type="hidden" name="category_srl" value="{$category_srl}" />
+			<input cond="$childrenList" type="hidden" name="childrenList" value="{$childrenList}" />
+			<input cond="$search_keyword" type="hidden" name="search_keyword" value="{$search_keyword}" />
+
+			<a href="{getUrl('page', '')}" class="direction">&laquo; FIRST</a>
+
+			<block cond="$page_navigation->first_page + $page_navigation->page_count > $page_navigation->last_page && $page_navigation->page_count != $page_navigation->total_page">
+				{@$isGoTo = true}
+				<a href="{getUrl('page', '')}">1</a>
+				<a href="#goTo" class="tgAnchor" title="{$lang->cmd_go_to_page}">...</a>
+			</block>
+
+			<!--@while($page_no = $page_navigation->getNextPage())-->
+				{@$last_page = $page_no}
+				<strong cond="$page_no == $page">{$page_no}</strong>
+				<a cond="$page_no != $page" href="{getUrl('page', $page_no)}">{$page_no}</a>
+			<!--@end-->
+
+			<block cond="$last_page != $page_navigation->last_page">
+				{@$isGoTo = true}
+				<a href="#goTo" class="tgAnchor" title="{$lang->cmd_go_to_page}">...</a>
+				<a href="{getUrl('page', $page_navigation->last_page)}">{$page_navigation->last_page}</a>
+			</block>
+
+			<a href="{getUrl('page', $page_navigation->last_page)}" class="direction">LAST &raquo;</a>
+
+			<span cond="$isGoTo" id="goTo" class="tgContent">
+				<input name="page" title="{$lang->cmd_go_to_page}" />
+				<button type="submit">Go</button>
+			</span>
+		</form>

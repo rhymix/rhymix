@@ -2,59 +2,61 @@
     /**
      * @class  commentAdminView
      * @author NHN (developers@xpressengine.com)
-     * @brief  comment 모듈의 admin view 클래스
+     * @brief admin view class of the comment module
      **/
 
     class commentAdminView extends comment {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
         }
 
         /**
-         * @brief 목록 출력 (관리자용)
+         * @brief Display the list(for administrators)
          **/
         function dispCommentAdminList() {
-            // 목록을 구하기 위한 옵션
-            $args->page = Context::get('page'); ///< 페이지
-            $args->list_count = 30; ///< 한페이지에 보여줄 글 수
-            $args->page_count = 10; ///< 페이지 네비게이션에 나타날 페이지의 수
+            // option to get a list
+            $args->page = Context::get('page'); // /< Page
+            $args->list_count = 30; // / the number of postings to appear on a single page
+            $args->page_count = 5; // / the number of pages to appear on the page navigation
 
-            $args->sort_index = 'list_order'; ///< 소팅 값
+            $args->sort_index = 'list_order'; // /< Sorting values
 
             $args->module_srl = Context::get('module_srl');
 
-            // 목록 구함, comment->getCommentList 에서 걍 알아서 다 해버리는 구조이다... (아.. 이거 나쁜 버릇인데.. ㅡ.ㅜ 어쩔수 없다)
+            // get a list by using comment->getCommentList. 
             $oCommentModel = &getModel('comment');
-            $output = $oCommentModel->getTotalCommentList($args);
+			$secretNameList = $oCommentModel->getSecretNameList();
+			$columnList = array('comment_srl', 'document_srl', 'is_secret', 'content', 'comments.member_srl', 'comments.nick_name', 'comments.regdate', 'ipaddress');
+            $output = $oCommentModel->getTotalCommentList($args, $columnList);
 
-            // 템플릿에 쓰기 위해서 comment_model::getTotalCommentList() 의 return object에 있는 값들을 세팅
+            // set values in the return object of comment_model:: getTotalCommentList() in order to use a template.
             Context::set('total_count', $output->total_count);
             Context::set('total_page', $output->total_page);
             Context::set('page', $output->page);
             Context::set('comment_list', $output->data);
             Context::set('page_navigation', $output->page_navigation);
-
-            // 템플릿 지정 
+            Context::set('secret_name_list', $secretNameList);
+            // set the template 
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('comment_list');
         }
 
         /**
-         * @brief 관리자 페이지의 신고 목록 보기
+         * @brief show the blacklist of comments in the admin page
          **/
         function dispCommentAdminDeclared() {
-            // 목록을 구하기 위한 옵션
-            $args->page = Context::get('page'); ///< 페이지
-            $args->list_count = 30; ///< 한페이지에 보여줄 글 수
-            $args->page_count = 10; ///< 페이지 네비게이션에 나타날 페이지의 수
+            // option to get a blacklist
+            $args->page = Context::get('page'); // /< Page
+            $args->list_count = 30; // /< the number of comment postings to appear on a single page
+            $args->page_count = 10; // /< the number of pages to appear on the page navigation
 
-            $args->sort_index = 'comment_declared.declared_count'; ///< 소팅 값
-            $args->order_type = 'desc'; ///< 소팅 정렬 값
+            $args->sort_index = 'comment_declared.declared_count'; // /< sorting values
+            $args->order_type = 'desc'; // /< sorted value
 
-            // 목록을 구함
+            // get a list
             $declared_output = executeQuery('comment.getDeclaredList', $args);
 
             if($declared_output->data && count($declared_output->data)) {
@@ -68,14 +70,13 @@
                 $declared_output->data = $comment_list;
             }
         
-            // 템플릿에 쓰기 위해서 comment_model::getCommentList() 의 return object에 있는 값들을 세팅
+            // set values in the return object of comment_model:: getCommentList() in order to use a template.
             Context::set('total_count', $declared_output->total_count);
             Context::set('total_page', $declared_output->total_page);
             Context::set('page', $declared_output->page);
             Context::set('comment_list', $declared_output->data);
             Context::set('page_navigation', $declared_output->page_navigation);
-
-            // 템플릿 지정
+            // set the template
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('declared_list');
         }

@@ -28,10 +28,10 @@
         把状态设置为"使用"时，才会激活RSD标签及api。
     </description>
     <description xml:lang="en">
-        This blogApi addon supports metaWeblog.
+        This blogAPI addon supports metaWeblog.
         By using this option, it lets the RSD tag to be exposed to each module.
-        URL to the api is http://setup_path/module_name/api.
-        RSD tag and the api will work only if u use this addon.
+        URL to the API is http://setup_path/module_name/api.
+        RSD tag and the api will work only if you use this addon.
     </description>
     <description xml:lang="vi">
         Addon BlogAPI này hỗ trợ metaWeblog..

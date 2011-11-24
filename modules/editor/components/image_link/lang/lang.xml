@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<lang>
+	<item name="image_url">
+		<value xml:lang="ko"><![CDATA[이미지 경로]]></value>
+		<value xml:lang="en"><![CDATA[Image Path]]></value>
+		<value xml:lang="jp"><![CDATA[イメージパス]]></value>
+		<value xml:lang="zh-CN"><![CDATA[图像路径]]></value>
+		<value xml:lang="zh-TW"><![CDATA[圖片路徑]]></value>
+		<value xml:lang="ru"><![CDATA[Путь изображения]]></value>
+		<value xml:lang="es"><![CDATA[Ruta de la imagen]]></value>
+		<value xml:lang="tr"><![CDATA[Resim Yolu]]></value>
+		<value xml:lang="vi"><![CDATA[Đường dẫn]]></value>
+	</item>
+	<item name="image_alt">
+		<value xml:lang="ko"><![CDATA[설명 입력]]></value>
+		<value xml:lang="en"><![CDATA[Enter Description]]></value>
+		<value xml:lang="jp"><![CDATA[説明（Alt）入力]]></value>
+		<value xml:lang="zh-CN"><![CDATA[图像说明]]></value>
+		<value xml:lang="zh-TW"><![CDATA[圖片說明]]></value>
+		<value xml:lang="ru"><![CDATA[Введите описание]]></value>
+		<value xml:lang="es"><![CDATA[Descripcion de Entrada]]></value>
+		<value xml:lang="tr"><![CDATA[Açıklama Gir]]></value>
+		<value xml:lang="vi"><![CDATA[Mô tả]]></value>
+	</item>
+	<item name="image_scale">
+		<value xml:lang="ko"><![CDATA[이미지 크기]]></value>
+		<value xml:lang="en"><![CDATA[Image Size]]></value>
+		<value xml:lang="jp"><![CDATA[イメージサイズ]]></value>
+		<value xml:lang="zh-CN"><![CDATA[图像大小]]></value>
+		<value xml:lang="zh-TW"><![CDATA[圖片大小]]></value>
+		<value xml:lang="ru"><![CDATA[Размер изображения]]></value>
+		<value xml:lang="es"><![CDATA[Tamano de la Imagen]]></value>
+		<value xml:lang="tr"><![CDATA[Resim Boyutu]]></value>
+		<value xml:lang="vi"><![CDATA[Kích thước]]></value>
+	</item>
+	<item name="image_align">
+		<value xml:lang="ko"><![CDATA[정렬 방법]]></value>
+		<value xml:lang="en"><![CDATA[Alignment]]></value>
+		<value xml:lang="jp"><![CDATA[アライン位置]]></value>
+		<value xml:lang="zh-CN"><![CDATA[对齐方式]]></value>
+		<value xml:lang="zh-TW"><![CDATA[對齊方式]]></value>
+		<value xml:lang="ru"><![CDATA[Стиль выравнивания]]></value>
+		<value xml:lang="es"><![CDATA[Alinear Estilo]]></value>
+		<value xml:lang="tr"><![CDATA[Hizalama Tarzı]]></value>
+		<value xml:lang="vi"><![CDATA[Căn chỉnh]]></value>
+	</item>
+	<item name="image_align_normal">
+		<value xml:lang="ko"><![CDATA[한 문단을 차지]]></value>
+		<value xml:lang="en"><![CDATA[Occupy a Paragraph]]></value>
+		<value xml:lang="jp"><![CDATA[一段落占め]]></value>
+		<value xml:lang="zh-CN"><![CDATA[占一个段落]]></value>
+		<value xml:lang="zh-TW"><![CDATA[段落]]></value>
+		<value xml:lang="ru"><![CDATA[Занять параграф]]></value>
+		<value xml:lang="es"><![CDATA[Occupy un parrafo]]></value>
+		<value xml:lang="tr"><![CDATA[Paragraf Atla]]></value>
+		<value xml:lang="vi"><![CDATA[Một khoảng bài viết]]></value>
+	</item>
+	<item name="image_align_left">
+		<value xml:lang="ko"><![CDATA[글의 왼쪽으로]]></value>
+		<value xml:lang="en"><![CDATA[Left of Article]]></value>
+		<value xml:lang="jp"><![CDATA[左揃え]]></value>
+		<value xml:lang="zh-CN"><![CDATA[内容左侧]]></value>
+		<value xml:lang="zh-TW"><![CDATA[靠左]]></value>
+		<value xml:lang="ru"><![CDATA[Лево]]></value>
+		<value xml:lang="es"><![CDATA[Izquierda del articulo]]></value>
+		<value xml:lang="tr"><![CDATA[Makalenin Solunda]]></value>
+		<value xml:lang="vi"><![CDATA[Bên trái bài viết]]></value>
+	</item>
+	<item name="image_align_middle">
+		<value xml:lang="ko"><![CDATA[가운데]]></value>
+		<value xml:lang="en"><![CDATA[Center]]></value>
+		<value xml:lang="jp"><![CDATA[中央揃え]]></value>
+		<value xml:lang="zh-CN"><![CDATA[居中]]></value>
+		<value xml:lang="zh-TW"><![CDATA[置中]]></value>
+		<value xml:lang="ru"><![CDATA[Центр]]></value>
+		<value xml:lang="es"><![CDATA[Centro]]></value>
+		<value xml:lang="tr"><![CDATA[Ortalı]]></value>
+		<value xml:lang="vi"><![CDATA[Giữa]]></value>
+	</item>
+	<item name="image_align_right">
+		<value xml:lang="ko"><![CDATA[글의 우측으로]]></value>
+		<value xml:lang="en"><![CDATA[Right of Article]]></value>
+		<value xml:lang="jp"><![CDATA[右揃え]]></value>
+		<value xml:lang="zh-CN"><![CDATA[内容右侧]]></value>
+		<value xml:lang="zh-TW"><![CDATA[靠右]]></value>
+		<value xml:lang="ru"><![CDATA[Право]]></value>
+		<value xml:lang="es"><![CDATA[Derecho de articulo]]></value>
+		<value xml:lang="tr"><![CDATA[Makalenin Sağında]]></value>
+		<value xml:lang="vi"><![CDATA[Bên phải bài viết]]></value>
+	</item>
+	<item name="image_border">
+		<value xml:lang="ko"><![CDATA[경계선 두께]]></value>
+		<value xml:lang="en"><![CDATA[Border Thickness]]></value>
+		<value xml:lang="jp"><![CDATA[ボーダー]]></value>
+		<value xml:lang="zh-CN"><![CDATA[边框粗细]]></value>
+		<value xml:lang="zh-TW"><![CDATA[邊框粗細]]></value>
+		<value xml:lang="ru"><![CDATA[Толщина рамки]]></value>
+		<value xml:lang="es"><![CDATA[Grosor de Fronteras]]></value>
+		<value xml:lang="tr"><![CDATA[Kenarlık Kalınlığı]]></value>
+		<value xml:lang="vi"><![CDATA[Độ dày viền]]></value>
+	</item>
+	<item name="image_margin">
+		<value xml:lang="ko"><![CDATA[바깥 여백]]></value>
+		<value xml:lang="en"><![CDATA[Image Margin]]></value>
+		<value xml:lang="jp"><![CDATA[外側の余白(Margin)]]></value>
+		<value xml:lang="zh-CN"><![CDATA[外边距]]></value>
+		<value xml:lang="zh-TW"><![CDATA[圖片邊距]]></value>
+		<value xml:lang="tr"><![CDATA[Resim Kenar Boşluğu]]></value>
+		<value xml:lang="vi"><![CDATA[Lề của hình ảnh]]></value>
+	</item>
+	<item name="urllink_open_window">
+		<value xml:lang="ko"><![CDATA[새 창 열기]]></value>
+		<value xml:lang="en"><![CDATA[Open in new window]]></value>
+		<value xml:lang="jp"><![CDATA[新しいウィンドウで開く]]></value>
+		<value xml:lang="zh-CN"><![CDATA[新窗口打开]]></value>
+	</item>
+	<item name="about_url_link_open_window">
+		<value xml:lang="ko"><![CDATA[선택하시면 링크 선택 시 새 창으로 열립니다.]]></value>
+		<value xml:lang="en"><![CDATA[Select this to open a link in a new window.]]></value>
+		<value xml:lang="jp"><![CDATA[チェックを入れると、リンクをクリックする際に新しいウィンドウで開きます。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[将在新窗口中打开链接。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[開啟連結於新視窗。]]></value>
+		<value xml:lang="ru"><![CDATA[Создайте ссылку для открытия в новом окне]]></value>
+		<value xml:lang="es"><![CDATA[Hacer el vinculo para abrir una nueva ventana]]></value>
+		<value xml:lang="tr"><![CDATA[Köprüyü yeni pencerede aç.]]></value>
+		<value xml:lang="vi"><![CDATA[Mở ra trang mới khi bấm vào hình]]></value>
+	</item>
+	<item name="cmd_get_scale">
+		<value xml:lang="ko"><![CDATA[가로세로 구하기]]></value>
+		<value xml:lang="en"><![CDATA[Get Image Size]]></value>
+		<value xml:lang="jp"><![CDATA[イメージサイズを計算]]></value>
+		<value xml:lang="zh-CN"><![CDATA[获得图片大小]]></value>
+		<value xml:lang="zh-TW"><![CDATA[取得圖片大小]]></value>
+		<value xml:lang="ru"><![CDATA[Получить размер изображения]]></value>
+		<value xml:lang="es"><![CDATA[Obtener tamano de la imagen]]></value>
+		<value xml:lang="tr"><![CDATA[Resim Boyutunu Al]]></value>
+		<value xml:lang="vi"><![CDATA[Lấy kích thước thật của hình]]></value>
+	</item>
+</lang>

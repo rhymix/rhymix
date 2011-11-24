@@ -1,201 +1,158 @@
+<load target="js/multi_order.js" usecdn="true" />
+<load target="js/module_list.js" usecdn="true" />
+<load target="js/mid.js" usecdn="true" />
+<load target="js/multi_lang.js" usecdn="true" />
 <!--%load_js_plugin("ui.colorpicker")-->
-<!--%load_js_plugin("filebox")-->
-<!--%import("./js/widget.js")-->
-<p class="summary">{nl2br($_caption)}</p>
-<table cellspacing="0" class="rowTable">
-<tr>
-    <th scope="row"><div>{$lang->widget}</div></th>
-    <td>
-        <select name="selected_widget" class="fullWidth">
-        <!--@foreach($widget_list as $widget)-->
-        <option value="{$widget->widget}" <!--@if($widget_info->widget == $widget->widget)--> selected="selected" <!--@end-->>{$widget->title} ver {$widget->version}</option>
-        <!--@end-->
-        </select>
-        <a href="#" class="button small" onclick="selectWidget(jQuery('select[name=selected_widget]').val())"><span>{$lang->cmd_select}</span></a>
-        <!--@if($widget_info->author->description)-->
-        <div class="widget_description">{nl2br(trim($widget_info->author->description))}</div>
-        <!--@end-->
-    </td>
-</tr>
-<!--@if(count($skin_list))-->
-<tr>
-    <th scope="row"><div>{$lang->skin}</div></th>
-    <td>
-        <select name="skin" id="widget_skin" class="fullWidth">
-            <option value="">&nbsp;</option>
-        <!--@foreach($skin_list as $key => $val)-->
-            <option value="{$key}">{$val->title} ({$key})</option>
-        <!--@end-->
-        </select>
-<a href="#" class="button small" onclick="doDisplaySkinColorset(jQuery('#widget_skin').get(0))"><span>{$lang->cmd_select}</span></a>
-        <div id="colorset_area" style="display:none">
-            <div class="header">{$lang->colorset}</div>
-            <div class="footer">
-                <select name="colorset" id="widget_colorset">
-                </select>
-            </div>
-        </div>
-    </td>
-</tr>
-<!--@end-->
-<tr>
-    <th scope="row"><div>{$lang->widget_cache}</div></th>
-    <td>
-        <input type="text" name="widget_cache" value="0" class="inputTypeText" size="2" />{$lang->unit_min}
-        <p>{$lang->about_widget_cache}</p>
-    </td>
-</tr>
-<!--@foreach($widget_info->extra_var as $id => $var)-->
 
-<!--@if($var->group && ((!$group) || $group != $var->group))-->
-{@$group = $var->group}
-</table>
-
-
-<h3 class="xeAdmin">{$group}</h3>
-<table cellspacing="0" class="rowTable">
-<!--@end-->
-<tr class="row{$cycle_idx}">
-    <th scope="row">
-        <div>
-            {$var->name}
-            <!--@if($var->type == "mid_list")-->
-                <input type="checkbox" onclick="XE.checkboxToggleAll('{$id}'); return false;" />
-            <!--@end-->
-        </div>
-    </th>
-    <td>
-        <!--@if($var->type == "text")-->
-        <input type="text" name="{$id}" value="" class="inputTypeText fullWidth" id="lang_{$id}"/>
-        <a href="{getUrl('','module','module','act','dispModuleAdminLangcode','target','lang_'.$id)}" onclick="popopen(this.href);return false;" class="buttonSet buttonSetting"><span>{$lang->cmd_find_langcode}</span></a>
-
-        <!--@elseif($var->type == "color")-->
-        <input type="text" name="{$id}" value="" class="inputTypeText color-indicator" />
-
-        <!--@elseif($var->type == "textarea")-->
-        <textarea name="{$id}" class="inputTypeTextArea fullWidth" id="lang_{$id}"></textarea>
-        <a href="{getUrl('','module','module','act','dispModuleAdminLangcode','target','lang_'.$id)}" onclick="popopen(this.href);return false;" class="buttonSet buttonSetting"><span>{$lang->cmd_find_langcode}</span></a>
-
-        <!--@elseif($var->type == "select")-->
-        <select name="{$id}">
-            <!--@foreach($var->options as $key => $val)-->
-            <option value="{$key}">{$val}</option>
-            <!--@end-->
-        </select>
-
-
-
-        <!--@elseif($var->type == "select-multi-order")-->
-        <input type="hidden" name="{$id}" value="" />
-        <input type="hidden" name="default_{$id}" value="" />
-        <input type="hidden" name="init_{$id}" value="" />
-
-        <div style="float:left;margin-left:30px;">
-            <select name="show_{$id}" size="8" class="w100">
-                <!--@foreach($var->options as $key => $val)-->
-                <option value="{$key}">{$key}</option>
-                <!--@end-->
-            </select>
-        </div>
-        <div style="float:left;margin-left:30px;">
-            <a class="buttonSet buttonRight" onclick="MultiOrderAdd('{$id}'); return false;" href="#"></a>
-            <br/><br/>
-            <a class="buttonSet buttonLeft" onclick="MultiOrderDelete('{$id}'); return false;" href="#"></a>
-            <br/><br/>
-            <a class="buttonSet buttonUp" onclick="MultiOrderUp('{$id}'); return false;" href="#"></a>
-            <br/><br/>
-            <a class="buttonSet buttonDown" onclick="MultiOrderDown('{$id}'); return false;" href="#"></a>
-        </div>
-
-
-        <div style="float:left;margin-left:30px;">
-            <select name="selected_{$id}" name="selected_{$id}" size="8" class="w100">
-            </select>
-        </div>
-
-
-        <script type="text/javascript">
-            <!--@foreach($var->options as $key => $val)-->
-                <!--@if($var->default_options[$key] == true)-->
-                    jQuery("[name='default_{$id}']").get(0).value += '{$key},';
-                <!--@end-->
-
-                <!--@if($var->init_options[$key] == true)-->
-                    jQuery("[name='init_{$id}']").get(0).value += ','+'{$key}';
-                <!--@end-->
-
-            <!--@end-->
-
-            if(typeof(initMultiOrder)!=='undefined') {
-                doAddWindowLoadEventLoader( function() { initMultiOrder('{$id}'); } );
-            }
-//            MultiOrderSet('{$id}');
-        </script>
-        <!--@elseif($var->type == "mid_list")-->
-
-            <!--@foreach($mid_list as $module_category_srl => $modules)-->
-                <!--@if($modules->title)-->
-                    <div class="widget_title">{$modules->title}</div>
-                <!--@else-->
-                    <div class="widget_title">{$lang->none_category}</div>
-                <!--@end-->
-
-                <!--@foreach($modules->list as $key => $val)-->
-                    <div class="widget_mid_list">
-                        <input type="checkbox" value="{$key}" name="{$id}" id="chk_mid_list_{$key}" />
-                        <label for="chk_mid_list_{$key}">{$key} ({$val->browser_title})</label>
-                    </div>
-                <!--@end-->
-            <!--@end-->
-        <!--@elseif($var->type == "member_group")-->
-
-            <!--@foreach($group_list as $key => $val)-->
-                <input type="checkbox" value="{$key}" name="{$id}" id="chk_member_gruop_{$id}_{$key}" />
-                <label for="chk_member_gruop_{$id}_{$key}">{$val->title}</label>
-            <!--@end-->
-
-        <!--@elseif($var->type == "module_srl_list")-->
-            <input type="hidden" name="{$id}" id="{$id}" value="" />
-            <select name="_{$id}" id="_{$id}" size="8" class="w200 fl"></select>
-            <ul class="midCommand">
-                <li><a href="{getUrl('','module','module','act','dispModuleSelectList','id',$id)}" onclick="popopen(this.href, 'ModuleSelect');return false;" class="button blue"><span>{$lang->cmd_insert}</span></a></li>
-                <li><a href="#" onclick="midMoveUp('{$id}');return false;" class="button black"><span>{$lang->cmd_move_up}</span></a></li>
-                <li><a href="#" onclick="midMoveDown('{$id}');return false;" class="button black"><span>{$lang->cmd_move_down}</span></a></li>
-                <li><a href="#" onclick="midRemove('{$id}');return false;" class="button red"><span>{$lang->cmd_delete}</span></a></li>
-            </ul>
-            <script type="text/javascript">
-                if(typeof(getModuleSrlList)!=='undefined') {
-                    doAddWindowLoadEventLoader( function() { getModuleSrlList('{$id}'); } );
-                }
-            </script>
-        <!--@elseif($var->type == "mid")-->
-            <input type="hidden" name="{$id}" id="{$id}" value="" />
-            <input type="text" name="_{$id}" id="_{$id}" value="" class="inputTypeText w300" readonly="readonly"/><a href="{getUrl('','module','module','act','dispModuleSelectList','id',$id,'type','single')}" onclick="popopen(this.href, 'ModuleSelect');return false;" class="button blue"><span>{$lang->cmd_select}</span></a>
-            <script type="text/javascript">
-                if(typeof(getModuleSrlList)!=='undefined') {
-                    doAddWindowLoadEventLoader( function() { getModuleSrl('{$id}'); });
-                }
-            </script>
-        <!--@elseif($var->type == "filebox")-->
-            <div id="filebox_preview_{$id}" style="width:100px;height:100px;display:none" ></div>
-            <input type="hidden" name="{$id}" value="" />
-            <span class="button black"><button type="button" onclick="XE.filebox.open(jQuery('[name={$id}]', '#fo_widget').get(0), '{$var->filter}')">{$lang->cmd_select}</button></span>
-            <span id="filebox_cancel_{$id}" class="button red" style="display:none" ><button type="button" onclick="XE.filebox.cancel('{$id}')">{$lang->cmd_delete}</button></span>
-            <script type="text/javascript">//<![CDATA[
-                XE.filebox.init('{$id}');
-            //]]></script>
-
-
-        <!--@elseif($var->type == "menu")-->
-            <select name="{$id}" class="w300 fl">
-                <option value="">-</option>
-                <!--@foreach($menu_list as $key => $val)-->
-                <option value="{$val->menu_srl}">{$val->title}</option>
-                <!--@end-->
-            </select>
-        <!--@end-->
-        <p class="clear">{nl2br($var->description)}</p>
-    </td>
-</tr>
-<!--@end-->
-</table>
+<ul>
+	<li>
+		<p class="q"><label for="skin">{$lang->skin}</label></p>
+		<p class="a">
+			<select name="skin" id="skin" style="width:280px">
+				<option value="">{$lang->select}</option>
+				<option loop="$skin_list => $skin_name, $skin" value="{$skin_name}">{$skin->title} ({$skin_name})</option>
+			</select>
+			<input type="button" value="{$lang->cmd_select}" />
+		</p>
+	</li>
+	<li>
+		<p class="q"><label for="colorset">{$lang->colorset}</label></p>
+		<p class="a">
+			<select name="colorset" id="widget_colorset" style="width:280px">
+			</select>
+		</p>
+	</li>
+	<li>
+		<p class="q"><label for="widget_cache">{$lang->widget_cache}</label></p>
+		<p class="a">
+			<input type="text" name="widget_cache" id="widget_cache" value="0" size="2" style="width:auto" /> {$lang->unit_min}
+			({$lang->about_widget_cache})
+		</p>
+	</li>
+</ul>
+{@$suggestion_id = 0}
+<block loop="$widget_info->extra_var => $id, $var">
+	{@$suggestion_id++}
+	<block cond="!$not_first && !$var->group"><ul class="extra_vars"></block>
+	<block cond="$group != $var->group">
+		<block cond="$not_first"></ul></block>
+		<h3 class="h3">{$var->group}</h3>
+		<ul class="extra_vars">
+		{@$group = $var->group}
+	</block>
+	{@$not_first = true}
+	<li class="modulefinder"|cond="$var->type == 'mid' || $var->type == 'module_srl_list'">
+		<p class="q"><label for="{$id}">{$var->name}</label></p>
+		<div class="a">
+			<div cond="$var->type == 'text'" class="multiLangEdit">
+				{@$use_multilang = true}
+				<input type="hidden" name="{$id}" value="" class="vLang" />
+				<input type="text" id="{$id}" class="vLang" />
+				<span class="desc"><a href="#langEdit" class="editUserLang tgAnchor">{$lang->cmd_set_multilingual}</a></span>
+				<script type="text/javascript">
+					xe.registerApp(new xe.MultiLangManager('{$id}'));
+				</script>
+			</div>
+			<input cond="$var->type == 'color'" type="text" name="{$id}" value="" id="{$id}" class="color-indicator" />
+			<div cond="$var->type == 'textarea'" class="multiLangEdit">
+				{@$use_multilang_textarea = true}
+				<input type="hidden" name="{$id}" value="" class="vLang" />
+				<textarea cond="$var->type == 'textarea'" id="{$id}" class="vLang"></textarea>
+				<span class="desc"><a href="#langEditTextarea" class="editUserLang tgAnchor">{$lang->cmd_set_multilingual}</a></span>
+				<script type="text/javascript">
+					xe.registerApp(new xe.MultiLangManager('{$id}'));
+				</script>
+			</div>
+			<select cond="$var->type == 'select'" name="{$id}" id="{$id}" style="width:290px">
+				<option loop="$var->options => $key, $val" value="{$key}">{$val}</option>
+			</select>
+			<block cond="$var->type == 'select-multi-order'">
+				{@$inits = array_keys($var->init_options)}
+				<input type="hidden" name="{$id}" value="{implode(',', $inits)}" />
+				<select class="multiorder_show" size="8" multiple="multiple" style="width:290px;vertical-align:top">
+					<option loop="$var->options => $key, $val" cond="!$var->init_options[$key]" value="{$key}" default="true"|cond="$var->default_options[$key]">{$val}</option>
+				</select>
+				<button type="button" class="text multiorder_add" style="vertical-align:top">{$lang->cmd_insert}</button>
+				<select class="multiorder_selected" size="8" multiple="multiple" style="width:290px;vertical-align:top">
+					<option loop="$var->options => $key, $val" cond="$var->init_options[$key]" value="{$key}" default="true"|cond="$var->default_options[$key]">{$val}</option>
+				</select>
+				<button type="button" class="text multiorder_up" style="vertical-align:top">{$lang->cmd_move_up}</button>
+				<button type="button" class="text multiorder_down" style="vertical-align:top">{$lang->cmd_move_down}</button>
+				<button type="button" class="text multiorder_del" style="vertical-align:top">{$lang->cmd_delete}</button>
+				<script type="text/javascript">
+					xe.registerApp(new xe.MultiOrderManager('{$id}'));
+				</script>
+			</block>
+			<block cond="$var->type == 'mid_list'">
+				<fieldset loop="$mid_list => $module_category_srl, $modules" style="border: 1px solid #ccc; margin:1em 0; padding:.5em 1em">
+					<legend cond="$modules->title">{$modules->title}</legend>
+					<legend cond="!$modules->title">{$lang->none_category}</legend>
+					<div loop="$modules->list => $key, $val">
+						<input type="checkbox" value="{$key}" name="{$id}" id="chk_mid_list_{$key}" />
+						<label for="chk_mid_list_{$key}">{$key} ({$val->browser_title})</label>
+					</div>
+				</fieldset>
+			</block>
+			<block cond="$var->type == 'member_group'">
+				<block loop="$group_list => $key, $val">
+					<input type="checkbox" value="{$key}" name="{$id}" id="chk_member_gruop_{$id}_{$key}" />
+					<label for="chk_member_gruop_{$id}_{$key}">{$val->title}</label>
+				</block>
+			</block>
+			<block cond="$var->type == 'module_srl_list'">
+				<input type="hidden" name="{$id}" value="" />
+				<div class="a">
+					<input type="text" /> <a href="#suggestion_{$suggestion_id}" class="tgAnchor findsite">{$lang->find_site}</a>
+					<div id="suggestion_{$suggestion_id}" class="tgContent suggestion">
+						<ul>
+						</ul>
+					</div>
+				</div>
+				<p class="a">
+					<select class="moduleList" style="width:290px"></select>
+				</p>
+				<select class="moduleIdList" size="8" multiple="multiple" style="width:290px;vertical-align:top"></select>
+				<button type="button" class="text modulelist_add" style="vertical-align:top">{$lang->cmd_insert}</button>
+				<select class="modulelist_selected" size="8" multiple="multiple" style="width:290px;"></select>
+				<button type="button" class="text modulelist_up" style="vertical-align:top">{$lang->cmd_move_up}</button>
+				<button type="button" class="text modulelist_down" style="vertical-align:top">{$lang->cmd_move_down}</button>
+				<button type="button" class="text modulelist_del" style="vertical-align:top">{$lang->cmd_delete}</button>
+				<script type="text/javascript">
+					xe.registerApp(new xe.ModuleListManager('{$id}'));
+				</script>
+			</block>
+			<block cond="$var->type == 'mid'">
+				<input type="hidden" name="{$id}" value="" />
+				<input type="text" readonly="readonly" /> <button class="text search">{$lang->cmd_search}</button> <button class="text delete">{$lang->cmd_delete}</button>
+				<div class="finder" style="display: none;">
+					<div class="a">
+						<input type="text" class="site_keyword" /> <a href="#suggestion_{$suggestion_id}" class="tgAnchor findsite">{$lang->find_site}</a>
+						<div id="suggestion_{$suggestion_id}" class="tgContent suggestion">
+							<ul>
+							</ul>
+						</div>
+					</div>
+					<p class="a"><select class="moduleList" style="width:290px;"></select></p>
+					<p class="a"><select class="moduleIdList" style="width:290px;"></select> <button class="text">{$lang->cmd_select}</button></p>
+				</div>
+				<script type="text/javascript">
+					xe.registerApp(new xe.MidManager('{$id}'));
+				</script>
+			</block>
+			<block cond="$var->type == 'filebox'">
+				{@$use_filebox = true}
+				<input type="hidden" name="{$id}" />
+				<a class="modalAnchor filebox" href="#modalFilebox">{$lang->cmd_select}</a>
+			</block>
+			<select cond="$var->type == 'menu'" name="{$id}" style="width:290px">
+				<option value="">-</option>
+				<option loop="$menu_list => $key, $val" value="{$val->menu_srl}">{$val->title}</option>
+			</select>
+		</div>
+		<p class="desc">{$var->description}</p>
+	</li>
+</block>
+</ul>
+<script type="text/javascript">
+	xe.current_lang = "{$lang_type}";
+</script>

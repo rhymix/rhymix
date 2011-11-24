@@ -1,0 +1,77 @@
+<include target="./common_header.html" />
+<load target="./js/signup_check.js" />
+<!--// datepicker javascript plugin load -->
+<!--%load_js_plugin("ui")-->
+<!--%load_js_plugin("ui.datepicker")-->
+
+<h3 class="pTitle">{$lang->msg_update_member}</h3>
+<script type="text/javascript" >
+	xe.lang.deleteProfileImage = '{$lang->msg_delete_extend_form}';
+	xe.lang.deleteImageMark = '{$lang->msg_delete_extend_form}';
+	xe.lang.deleteImageName = '{$lang->msg_delete_extend_form}';
+</script>
+<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
+
+<form ruleset="@insertMember" id="fo_insert_member" class="form" action="{getUrl()}" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="act" value="procMemberModifyInfo" />
+    <input type="hidden" name="module" value="member" />
+    <input type="hidden" name="member_srl" value="{$member_info->member_srl}" />
+    <input type="hidden" name="signature" value="{htmlspecialchars($member_info->signature)}" />
+    <input type="hidden" name="page" value="{$page}" />
+
+    <table cellspacing="0" class="rowTable">
+    <tr><th colspan="2" class="title"><div>{$lang->member_default_info}</div></th></tr>
+    <tr>
+        <th><div>{$identifierForm->title} *</div></th>
+        <td class="wide">
+			{$identifierForm->name}
+			<input type="hidden" name="{$identifierForm->name}" value="{$identifierForm->value}" />
+		</td>
+    </tr>
+    <tr loop="$formTags=>$formTag">
+        <th><div>{$formTag->title}</div></th>
+        <td>
+			<div class="a" cond="$formTag->name != 'signature'">{$formTag->inputTag}</div>
+			<div class="a" cond="$formTag->name =='signature'">{$editor}</div>
+		</td>
+    </tr>
+    <tr>
+        <th><div>{$lang->allow_mailing}</div></th>
+        <td>
+			<input type="checkbox" name="allow_mailing" value="Y" checked="checked"|cond="$member_info->allow_mailing == 'Y'" /> <p>{$lang->about_allow_mailing}</p>
+		</td>
+    </tr>
+    <tr>
+        <th><div>{$lang->allow_message}</div></th>
+        <td>
+			<block loop="$lang->allow_message_type=>$key,$val">
+				<input type="radio" name="allow_message" value="{$key}" checked="checked"|cond="$member_info->allow_message == $key" id="allow_{$key}" /> <label for="allow_{$key}">{$val}</label>
+			</block>
+		</td>
+    </tr>
+    <tr>
+        <th class="button_col" colspan="2">
+            <span class="grayBtn"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+            <a href="{getUrl('act','dispMemberInfo','member_srl','')}" class="whiteBtn"><span>{$lang->cmd_cancel}</span></a>
+        </th>
+    </tr>
+    </table>
+</form>
+<script type="text/javascript">
+(function($){
+    $(function(){
+        var option = { changeMonth: true, changeYear: true, gotoCurrent: false,yearRange:'-100:+10', dateFormat:'yy-mm-dd', onSelect:function(){
+
+            $(this).prev('input[type="hidden"]').val(this.value.replace(/-/g,""))}
+        };
+        $.extend(option,$.datepicker.regional['{$lang_type}']);
+        $(".inputDate").datepicker(option);
+		$(".dateRemover").click(function() {
+			$(this).prevAll('input').val('');
+			return false;});
+    });
+})(jQuery);
+</script>
+<include target="./common_footer.html" />

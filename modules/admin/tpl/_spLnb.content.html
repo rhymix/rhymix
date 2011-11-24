@@ -1,0 +1,10 @@
+<div class="lnb">
+	<h2 class="h2">{$gnbUrlList[$parentSrl]['text']}</h2>
+	<ul>
+		<!--@if(count($gnbUrlList[$parentSrl]['list']) > 0)-->
+		<!--@foreach($gnbUrlList[$parentSrl]['list'] AS $key=>$value)-->
+		<li <!--@if($value['text'] == $subMenuTitle)-->class="active"<!--@end-->><a href="{html_entity_decode($value['href'])}">{$value['text']}</a></li>
+		<!--@end-->
+		<!--@end-->
+	</ul>
+</div>

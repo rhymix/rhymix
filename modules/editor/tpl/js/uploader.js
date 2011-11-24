@@ -3,11 +3,11 @@
  * @version 0.1.1
  * @brief 파일 업로드 관련
  **/
-var uploadedFiles = new Array();
-var uploaderSettings = new Array();
-var loaded_images = new Array();
-var swfUploadObjs = new Array();
-var uploadSettingObj = new Array();
+var uploadedFiles    = [];
+var uploaderSettings = [];
+var loaded_images    = [];
+var swfUploadObjs    = [];
+var uploadSettingObj = [];
 var uploadAutosaveChecker = false;
 
 /**
@@ -15,374 +15,381 @@ var uploadAutosaveChecker = false;
  * 이 함수는 editor.html 에서 파일 업로드 가능할 경우 호출됨
  **/
 // window.load 이벤트일 경우 && 문서 번호가 가상의 번호가 아니면 기존에 저장되어 있을지도 모르는 파일 목록을 가져옴
-function editorUploadInit(obj, exe) {
-    if(typeof(obj["editorSequence"])=="undefined") return;
-    if(typeof(obj["sessionName"])=="undefined") obj["sessionName"]= "PHPSESSID";
-    if(typeof(obj["allowedFileSize"])=="undefined") obj["allowedFileSize"]= 2*1024*1024;
-    if(typeof(obj["allowedFileTypes"])=="undefined") obj["allowedFileTypes"]= "*.*";
-    if(typeof(obj["allowedFileTypesDescription"])=="undefined") obj["allowedFileTypesDescription"]= "All Files";
-    if(typeof(obj["replaceButtonID"])=="undefined") obj["replaceButtonID"] = "swfUploadButton"+obj["editorSequence"];
-    if(typeof(obj["insertedFiles"])=="undefined") obj["insertedFiles"] = 0;
-    if(exe) XEUploaderStart(obj);
-    if(!exe) xAddEventListener(window,"load",function() { XEUploaderStart(obj) });
-    uploadSettingObj[obj["editorSequence"]] = obj;
+(function($){
+
+var defaultHandlers;
+
+function init(cfg, exe) {
+	var seq = cfg.editorSequence;
+	
+	if(!is_def(seq)) return;
+
+	cfg = $.extend({
+		sessionName : 'PHPSESSID',
+		allowedFileSize  : 2*1024*1024,
+		allowedFileTypes : '*.*',
+		allowedFileTypesDescription : 'All Files',
+		replaceButtonID : 'swfUploadButton'+cfg.editorSequence,
+		insertedFiles   : 0
+	}, cfg);
+
+    uploadSettingObj[seq] = cfg;
+	$(function(){ start(cfg) });
+
 }
 
-// 파일 업로드를 위한 기본 준비를 함
-function XEUploaderStart(obj) {
-    try { document.execCommand('BackgroundImageCache',false,true); } catch(e) { }
+function start(cfg) {
+	var $button, width, height, $span, seq, id, settings, handlers, name, fn, swfu, $swf;
 
-    var btnObj = xGetElementById(obj["replaceButtonID"]);
-    var btnWidth = xWidth(btnObj);
-    var btnHeight = xHeight(btnObj);
-    btnObj.style.position = "relative";
+	seq     = cfg.editorSequence;
+	id      = cfg.replaceButtonID;
+	$button = $('#'+id).wrap('<span style="position:relative;display:inline-block" />');
+	width   = $button.width();
+	height  = $button.height();
+	$span   = $('<span id="dummy'+id+'" />').insertAfter($button);
 
-    var dummy = xCreateElement("span");
-    dummy.id = "dummy"+obj["replaceButtonID"];
-    btnObj.appendChild(dummy);
+	settings = {
+		flash_url   : request_uri + 'modules/editor/tpl/images/SWFUpload.swf',
+		upload_url  : request_uri.replace(/^https/i, 'http')+'index.php',
+		post_params : {
+			mid : current_mid,
+			act : 'procFileUpload',
+			editor_sequence : seq,
+			uploadTargetSrl : editorRelKeys[seq].primary.value
+		},
+		http_success : [302],
+		file_size_limit   : Math.floor( (parseInt(cfg.allowedFileSize,10)||1024) / 1024 ),
+		file_queue_limit  : 0,
+		file_upload_limit : 0,
+		file_types : cfg.allowedFileTypes,
+		file_types_description : cfg.allowedFileTypesDescription,
+		custom_settings : {
+			progressTarget : null,
+			cancelButtonId : null
+		},
+		debug : false,
 
-    var settings = {
-        flash_url : request_uri+"modules/editor/tpl/images/SWFUpload.swf",
-        upload_url: request_uri.replace(/^https/i,'http'),
-        post_params: {
-            "mid" : current_mid,
-            "act" : "procFileUpload",
-            "editor_sequence" : obj["editorSequence"],
-            "uploadTargetSrl" : editorRelKeys[obj["editorSequence"]]["primary"].value
-        },
-        file_size_limit : parseInt(parseInt(obj["allowedFileSize"],10)/1024,10),
-        file_queue_limit : 0,
-        file_upload_limit : 0,
-        file_types : obj["allowedFileTypes"],
-        file_types_description : obj["allowedFileTypesDescription"],
-        custom_settings : {
-            progressTarget : null,
-            cancelButtonId : null
-        },
-        debug: false,
+		// Button settings
+		button_window_mode : 'transparent',
+		button_placeholder : $span.get(0),
+		button_text : null,
+		button_image_url : request_uri+'common/img/blank.gif',
+		button_width  : width,
+		button_height : height,
+		button_text_style : null,
+		button_text_left_padding : 0,
+		button_text_top_padding  : 0,
+		button_cursor : -2,
 
-        // Button settings
-        button_window_mode: 'transparent',
-        button_placeholder_id: dummy.id,
-        button_text: null,
-        button_image_url: "",
-        button_width: btnWidth,
-        button_height: btnHeight,
-        button_text_style: null,
-        button_text_left_padding: 0,
-        button_text_top_padding: 0,
-        button_cursor:-2,
+		editorSequence   : seq,
+		uploadTargetSrl  : editorRelKeys[seq].primary.value,
+		fileListAreaID   : cfg.fileListAreaID,
+		previewAreaID    : cfg.previewAreaID,
+		uploaderStatusID : cfg.uploaderStatusID
+	};
 
-        // The event handler functions are defined in handlers.js
-        file_queued_handler : fileQueued,
-        file_queue_error_handler : fileQueueError,
-        file_dialog_complete_handler : fileDialogComplete,
-        upload_start_handler : uploadStart,
-        upload_progress_handler : uploadProgress,
-        upload_error_handler : uploadError,
-        upload_success_handler : uploadSuccess,
-        upload_complete_handler : uploadComplete,
-        queue_complete_handler :queueComplete
-    };
-    if(typeof(xeVid)!='undefined') settings["post_params"]["vid"] = xeVid;
-    settings["post_params"][obj["sessionName"]] = xGetCookie(obj["sessionName"]);
-    settings["editorSequence"] = obj["editorSequence"];
-    settings["uploadTargetSrl"] = editorRelKeys[obj["editorSequence"]]["primary"].value;
-    settings["fileListAreaID"] = obj["fileListAreaID"];
-    settings["previewAreaID"] = obj["previewAreaID"];
-    settings["uploaderStatusID"] = obj["uploaderStatusID"];
+	// preview
+	$('#'+cfg.fileListAreaID).click(previewFiles);
 
-    uploaderSettings[obj["editorSequence"]] = settings;
+	// The event handler functions are defined in handlers.js
+	handlers = {
+		file_queued          : 'FileQueued',
+		file_queue_error     : 'FileQueueError',
+		file_dialog_complete : 'FileDialogComplete',
+		upload_start    : 'UploadStart',
+		upload_progress : 'UploadProgress',
+		upload_error    : 'UploadError',
+		upload_success  : 'UploadSuccess',
+		upload_complete : 'UploadComplete',
+		queue_complete  : 'QueueComplete'
+	};
 
-    var swfu = new SWFUpload(settings);
-    var swfObj = xGetElementById(swfu.movieName);
-    swfUploadObjs[obj["editorSequence"]] = swfu.movieName;
-    if(!swfObj) return;
+	for(name in handlers) {
+		if(!handlers.hasOwnProperty(name)) continue;
+		fn = 'on'+handlers[name];
+		settings[name+'_handler'] = cfg['on'+fn] || defaultHandlers[fn];
+	}
 
-    swfObj.style.display = "block";
-    swfObj.style.cursor = "pointer";
-    swfObj.style.position = "absolute";
-    swfObj.style.left = 0;
-    swfObj.style.top = "-3px";
-    swfObj.style.width = btnWidth+"px";
-    swfObj.style.height = btnHeight+"px";
+	if(is_def(window.xeVid)) settings.post_params.vid = xeVid;
+	settings.post_params[cfg.sessionName] = getCookie(cfg.sessionName);
 
-    if(obj["insertedFiles"]>0 || editorRelKeys[obj["editorSequence"]]["primary"].value > 0) reloadFileList(settings);
+	uploaderSettings[seq] = settings;
+
+	swfu = new SWFUpload(settings);
+	$swf = $('#'+swfu.movieName);
+	swfUploadObjs[seq] = swfu.movieName;
+	if(!$swf.length) return;
+
+	$swf.css({
+		display  : 'block',
+		cursor   : 'pointer',
+		position : 'absolute',
+		left     : 0,
+		top      : 0,
+		width    : width + 'px',
+		height   : height + 'px'
+	});
+
+	if(cfg.insertedFiles || editorRelKeys[seq].primary.value) reloadFileList(cfg);
 }
 
-function fileQueued(file) {
-}
+function _true(){ return true };
 
-function fileQueueError(file, errorCode, message) {
-    try {
-        switch(errorCode) {
-            case SWFUpload.QUEUE_ERROR.QUEUE_LIMIT_EXCEEDED :
-                alert("You have attempted to queue too many files.\n" + (message === 0 ? "You have reached the upload limit." : "You may select " + (message > 1 ? "up to " + message + " files." : "one file.")));
-                break;
-            case SWFUpload.QUEUE_ERROR.FILE_EXCEEDS_SIZE_LIMIT:
-                alert("Error Code: File too big, File name: " + file.name + ", File size: " + file.size + ", Message: " + message);
-                break;
-            case SWFUpload.QUEUE_ERROR.ZERO_BYTE_FILE:
-                alert("Error Code: Zero byte file, File name: " + file.name + ", File size: " + file.size + ", Message: " + message);
-                break;
-            case SWFUpload.QUEUE_ERROR.INVALID_FILETYPE:
-                alert("Error Code: Invalid File Type, File name: " + file.name + ", File size: " + file.size + ", Message: " + message);
-                break;
-            default:
-                alert("Error Code: " + errorCode + ", File name: " + file.name + ", File size: " + file.size + ", Message: " + message);
-                break;
-        }
-    } catch(ex) {
-        this.debug(ex);
-    }
-}
+defaultHandlers = {
+	onFileQueued : _true,
+	onFileQueueError : function(flie, errorCode, message) {
+		try {
+			switch(errorCode) {
+				case SWFUpload.QUEUE_ERROR.QUEUE_LIMIT_EXCEEDED :
+					alert("You have attempted to queue too many files.\n" + (message === 0 ? "You have reached the upload limit." : "You may select " + (message > 1 ? "up to " + message + " files." : "one file.")));
+					break;
+				case SWFUpload.QUEUE_ERROR.FILE_EXCEEDS_SIZE_LIMIT:
+					alert("Error Code: File too big, File name: " + file.name + ", File size: " + file.size + ", Message: " + message);
+					break;
+				case SWFUpload.QUEUE_ERROR.ZERO_BYTE_FILE:
+					alert("Error Code: Zero byte file, File name: " + file.name + ", File size: " + file.size + ", Message: " + message);
+					break;
+				case SWFUpload.QUEUE_ERROR.INVALID_FILETYPE:
+					alert("Error Code: Invalid File Type, File name: " + file.name + ", File size: " + file.size + ", Message: " + message);
+					break;
+				default:
+					alert("Error Code: " + errorCode + ", File name: " + file.name + ", File size: " + file.size + ", Message: " + message);
+					break;
+			}
+		} catch(e) {
+			this.debug(e);
+		}
+	},
+	onFileDialogComplete : function(numFilesSelected, numFilesQueued) {
+		try {
+			this.startUpload();
+		} catch (e)  {
+			this.debug(e);
+		}
+	},
+	onUploadStart : _true,
+	onUploadProgress : function(file, bytesLoaded, bytesTotal) {
+		try {
+			var $list, $lastopt, percent, filename;
 
-function fileDialogComplete(numFilesSelected, numFilesQueued) {
-    try {
-        this.startUpload();
-    } catch (ex)  {
-        this.debug(ex);
-    }
-}
+			$list    = $('#'+this.settings.fileListAreaID);
+			percent  = Math.ceil((bytesLoaded / bytesTotal) * 100);
+			filename = file.name;
+			$lastopt = $list.find('>option:last');
 
-function uploadStart(file) {
-    return true;
-}
+			if(filename.length>20) filename = filename.substr(0,20)+'...';
+			if(!$lastopt.length || $lastopt.attr('value') != file.id) {
+				$lastopt = $('<option />').attr('value', file.id).appendTo($list);
+			}
 
-function uploadProgress(file, bytesLoaded, bytesTotal) {
-    try {
-        var obj = xGetElementById(this.settings["fileListAreaID"]);
+			$lastopt.text(filename + ' (' + percent + '%)');
+		} catch (e)  {
+			this.debug(e);
+		}
+	},
+	onUploadSuccess : function(file, serveData) {
+		try {
+			if(this.getStats().files_queued !== 0) this.startUpload();
+		} catch (e)  {
+			this.debug(e);
+		}
+	},
+	onUploadError : function(file, errorCode, message) {
+		try {
+			switch (errorCode) {
+			case SWFUpload.UPLOAD_ERROR.HTTP_ERROR:
+				alert("Error Code: HTTP Error, File name: " + file.name + ", Message: " + message);
+				break;
+			case SWFUpload.UPLOAD_ERROR.UPLOAD_FAILED:
+				alert("Error Code: Upload Failed, File name: " + file.name + ", File size: " + file.size + ", Message: " + message);
+				break;
+			case SWFUpload.UPLOAD_ERROR.IO_ERROR:
+				alert("Error Code: IO Error, File name: " + file.name + ", Message: " + message);
+				break;
+			case SWFUpload.UPLOAD_ERROR.SECURITY_ERROR:
+				alert("Error Code: Security Error, File name: " + file.name + ", Message: " + message);
+				break;
+			case SWFUpload.UPLOAD_ERROR.UPLOAD_LIMIT_EXCEEDED:
+				alert("Error Code: Upload Limit Exceeded, File name: " + file.name + ", File size: " + file.size + ", Message: " + message);
+				break;
+			case SWFUpload.UPLOAD_ERROR.FILE_VALIDATION_FAILED:
+				alert("Error Code: File Validation Failed, File name: " + file.name + ", File size: " + file.size + ", Message: " + message);
+				break;
+			case SWFUpload.UPLOAD_ERROR.FILE_CANCELLED:
+				// If there aren't any files left (they were all cancelled) disable the cancel button
+				if (this.getStats().files_queued === 0) {
+					document.getElementById(this.customSettings.cancelButtonId).disabled = true;
+				}
+				break;
+			case SWFUpload.UPLOAD_ERROR.UPLOAD_STOPPED:
+				break;
+			default:
+				alert("Error Code: " + errorCode + ", File name: " + file.name + ", File size: " + file.size + ", Message: " + message);
+				break;
+			}
+		} catch (ex) {
+			this.debug(ex);
+		}
+	},
+	onUploadComplete : function(file) {
+		try {
+			var fileListAreaID = this.settings["fileListAreaID"];
+			var uploadTargetSrl = this.settings["uploadTargetSrl"];
+			reloadFileList(this.settings);
+		} catch(e) {
+			this.debug(ex);
+		}
+	}
+};
 
-        var percent = Math.ceil((bytesLoaded / bytesTotal) * 100);
-        var filename = file.name;
-        if(filename.length>20) filename = filename.substr(0,20)+'...';
+function reloadFileList(cfg) {
+	var params = {
+		mid : current_mid,
+		file_list_area_id : cfg.fileListAreaID,
+		editor_sequence   : cfg.editorSequence,
+		upload_target_srl : cfg.uploadTargetSrl
+	};
 
-        var text = filename + ' ('+percent+'%)';
-        if(!obj.options.length || obj.options[obj.options.length-1].value != file.id) {
-            var opt_obj = new Option(text, file.id, true, true);
-            obj.options[obj.options.length] = opt_obj;
-        } else {
-            obj.options[obj.options.length-1].text = text;
-        }
-    } catch (ex)  {
-        this.debug(ex);
-    }
-}
+	function autosave() {
+		if(typeof(_editorAutoSave) != 'function') return;
+		uploadAutosaveChecker = true;
+		_editorAutoSave(true);
+	}
 
-function uploadSuccess(file, serverData) {
-    try {
-        if(this.getStats().files_queued !== 0) this.startUpload();
-    } catch (ex)  {
-        this.debug(ex);
-    }
-}
+	function on_complete(ret, response_tags) {
+		var $list, seq, files, target_srl, up_status, remain, items, i, c, itm, file_srl;
 
-function uploadError(file, errorCode, message) {
-    try {
-        switch (errorCode) {
-        case SWFUpload.UPLOAD_ERROR.HTTP_ERROR:
-            alert("Error Code: HTTP Error, File name: " + file.name + ", Message: " + message);
-            break;
-        case SWFUpload.UPLOAD_ERROR.UPLOAD_FAILED:
-            alert("Error Code: Upload Failed, File name: " + file.name + ", File size: " + file.size + ", Message: " + message);
-            break;
-        case SWFUpload.UPLOAD_ERROR.IO_ERROR:
-            alert("Error Code: IO Error, File name: " + file.name + ", Message: " + message);
-            break;
-        case SWFUpload.UPLOAD_ERROR.SECURITY_ERROR:
-            alert("Error Code: Security Error, File name: " + file.name + ", Message: " + message);
-            break;
-        case SWFUpload.UPLOAD_ERROR.UPLOAD_LIMIT_EXCEEDED:
-            alert("Error Code: Upload Limit Exceeded, File name: " + file.name + ", File size: " + file.size + ", Message: " + message);
-            break;
-        case SWFUpload.UPLOAD_ERROR.FILE_VALIDATION_FAILED:
-            alert("Error Code: File Validation Failed, File name: " + file.name + ", File size: " + file.size + ", Message: " + message);
-            break;
-        case SWFUpload.UPLOAD_ERROR.FILE_CANCELLED:
-            // If there aren't any files left (they were all cancelled) disable the cancel button
-            if (this.getStats().files_queued === 0) {
-                document.getElementById(this.customSettings.cancelButtonId).disabled = true;
-            }
-            break;
-        case SWFUpload.UPLOAD_ERROR.UPLOAD_STOPPED:
-            break;
-        default:
-            alert("Error Code: " + errorCode + ", File name: " + file.name + ", File size: " + file.size + ", Message: " + message);
-            break;
-        }
-    } catch (ex) {
-        this.debug(ex);
-    }
-}
+		seq   = ret.editor_sequence;
+		files = ret.files;
+		up_status  = ret.upload_status;
+		target_srl = ret.upload_target_srl;
+		remain     = Math.floor((parseInt(ret.left_size,10)||0)/1024);
 
-function uploadComplete(file) {
-    try {
-        var fileListAreaID = this.settings["fileListAreaID"];
-        var uploadTargetSrl = this.settings["uploadTargetSrl"];
-        reloadFileList(this.settings);
-    } catch(e) {
-        this.debug(ex);
-    }
-}
+		$list = $('#'+cfg.fileListAreaID).empty();
 
-function queueComplete(numFilesUploaded) {
-}
+		if(target_srl) {
+			if(editorRelKeys[seq].primary.value != target_srl) {
+				editorRelKeys[seq].primary.value = target_srl;
+				autosave();
+			}
 
-function reloadFileList(settings) {
-    var params = new Array();
-    params["file_list_area_id"] = settings["fileListAreaID"];
-    params["editor_sequence"] = settings["editorSequence"];
-    params["upload_target_srl"] = settings["uploadTargetSrl"];
-    params["mid"] = current_mid;
-    var response_tags = new Array("error","message","files","upload_status","upload_target_srl","editor_sequence","left_size");
-    exec_xml("file","getFileList", params, completeReloadFileList, response_tags, settings);
-}
+			editorRelKeys[seq].primary.value = target_srl;
+			cfg.uploadTargetSrl = target_srl;
+		}
 
-function completeReloadFileList(ret_obj, response_tags, settings) {
-    var upload_target_srl = ret_obj['upload_target_srl'];
-    var editor_sequence = ret_obj['editor_sequence'];
-    var upload_status = ret_obj['upload_status'];
-    var files = ret_obj['files'];
-    var file_list_area_id = settings["fileListAreaID"];
-    var listObj = xGetElementById(file_list_area_id);
-    var left_size = parseInt(parseInt(ret_obj["left_size"],10)/1024,10);
-    while(listObj.options.length) {
-        listObj.remove(0);
-    }
+		$('#'+cfg.uploaderStatusID).html(up_status);
+		$('#'+cfg.previewAreaID).empty();
 
-    if(upload_target_srl && upload_target_srl != 0) {
-        // 자동 저장된 문서와 target_srl이 다르게 될 경우 다시 자동 저장.
-        if(editorRelKeys[editor_sequence]["primary"].value != upload_target_srl) {
-            editorRelKeys[editor_sequence]["primary"].value = upload_target_srl;
-            uploadAutosaveChecker = true;
-            _editorAutoSave(true);
-        }
+		if(files && files.item) {
+			items = files.item;
+			if(!$.isArray(items)) items = [items];
+			for(i=0,c=items.length; i < c; i++) {
+				itm = items[i];
 
-        editorRelKeys[editor_sequence]["primary"].value = upload_target_srl;
-        settings["uploadTargetSrl"] = upload_target_srl;
-    }
+				file_srl = itm.file_srl;
+				uploadedFiles[file_srl] = itm;
 
-    var statusObj = xGetElementById(settings["uploaderStatusID"]);
-    if(statusObj) xInnerHtml(statusObj, upload_status);
+				itm.previewAreaID = cfg.previewAreaID;
 
-    var previewObj = xGetElementById(settings["previewAreaID"]);
-    if(previewObj) xInnerHtml(previewObj,"");
+				if(/\.(jpe?g|png|gif)$/i.test(itm.download_url)) {
+					loaded_images[file_srl] = $('<img />').attr('src', itm.download_url).get(0);
+				}
 
-    if(files && typeof(files['item'])!='undefined') {
-        var item = files['item'];
-        if(typeof(item.length)=='undefined' || item.length<1) item = new Array(item);
-        if(item.length) {
-            for(var i=0;i<item.length;i++) {
-                var file_srl = item[i].file_srl;
-                item[i].previewAreaID = settings["previewAreaID"];
-                uploadedFiles[file_srl] = item[i];
-                var opt = new Option(item[i].source_filename+" ("+item[i].disp_file_size+")", file_srl, true, true);
-                listObj.options[listObj.options.length] = opt;
-                item[i].download_url = encodeURI(item[i].download_url);
-                if(/\.(jpg|jpeg|png|gif)$/i.test(item[i].download_url)) {
-                    var loadingImage = new Image();
-                    loadingImage.src = item[i].download_url;
-                    loaded_images[file_srl] = loadingImage;
-                    item[i].download_url = item[i].download_url.replace(/&/g, "&amp;");
-                }
-            }
-            previewFiles('', item[item.length-1].file_srl);
-        }
-    }
+				$('<option />')
+					.text(itm.source_filename + ' ('+itm.disp_file_size+' )')
+					.attr('value', file_srl)
+					.appendTo($list);
+			}
 
-    // var swfu = SWFUpload.instances[swfUploadObjs[editor_sequence]].setFileSizeLimit(left_size);
+			if(i) $list.prop('selectedIndex', i-1).click();
+		}
 
-    // 문서 강제 자동저장 1번만 사용 ( 첨부파일 target_srl로 자동 저장문서를 저장하기 위한 용도일 뿐 )
-    if(typeof(_editorAutoSave) == 'function' && uploadAutosaveChecker == false) {
-        uploadAutosaveChecker = true;
-        _editorAutoSave(true);
-    }
+		// 문서 강제 자동저장 1번만 사용 ( 첨부파일 target_srl로 자동 저장문서를 저장하기 위한 용도일 뿐 )
+		if(!uploadAutosaveChecker) autosave();
+	};
 
-    xAddEventListener(listObj,'click',previewFiles);
-}
+	exec_xml(
+		'file',         // module
+		'getFileList',  // act
+		params,         // parameters
+		on_complete,    // callback
+		'error,message,files,upload_status,upload_target_srl,editor_sequence,left_size'.split(',') // response_tags
+	);
+};
 
-function previewFiles(evt, given_file_srl) {
-    if(!given_file_srl) {
-    var e = new xEvent(evt);
-    var obj = e.target;
-    var selObj = null;
-    if(obj.nodeName=="OPTION") selObj = obj.parentNode;
-    else selObj = obj;
-    if(selObj.nodeName != "SELECT") return;
-    if(selObj.selectedIndex<0) return;
-    obj = selObj.options[selObj.selectedIndex];
+window.editorUploadInit = init;
+window.reloadFileList   = reloadFileList;
 
-    var file_srl = obj.value;
-    }
-    else {
-        var file_srl = given_file_srl;
-    }
-    if(!file_srl || typeof(uploadedFiles[file_srl])=="undefined") return;
-    var file_info = uploadedFiles[file_srl];
-    var previewAreaID = file_info.previewAreaID;
-    var previewObj = xGetElementById("previewAreaID");
-    if(!previewAreaID) return;
-    xInnerHtml(previewAreaID,"&nbsp;");
-    if(file_info.direct_download != "Y") {
-        var html = "<img src=\""+request_uri+"./modules/editor/tpl/images/files.gif\" border=\"0\" width=\"100%\" height=\"100%\" />";
-        xInnerHtml(previewAreaID, html);
-        return;
-    }
+$(function(){
+	try { document.execCommand('BackgroundImageCache',false,true); } catch(e) { }
+});
 
-    var html = "";
-    var uploaded_filename = file_info.download_url;
+})(jQuery);
 
-    // 플래쉬 동영상의 경우
-    if(/\.flv$/i.test(uploaded_filename)) {
-        html = "<embed src=\"./common/tpl/images/flvplayer.swf?autoStart=false&file="+uploaded_filename+"\" width=\"100%\" height=\"100%\" type=\"application/x-shockwave-flash\"></embed>";
+function previewFiles(event, file_srl) {
+	var $opt, $select, $preview, fileinfo, filename, match, html, $=jQuery;
 
-    // 플래쉬 파일의 경우
-    } else if(/\.swf$/i.test(uploaded_filename)) {
-        html = "<embed src=\""+uploaded_filename+"\" width=\"100%\" height=\"100%\" type=\"application/x-shockwave-flash\"></embed>";
+	if(!file_srl) {
+		$opt = $(event.target).parent().andSelf().filter('select').find('>option:selected');
+		if(!$opt.length) return;
 
-    // wmv, avi, mpg, mpeg등의 동영상 파일의 경우
-    } else if(/\.(wmv|avi|mpg|mpeg|asx|asf|mp3)$/i.test(uploaded_filename)) {
-        html = "<embed src=\""+uploaded_filename+"\" width=\"100%\" height=\"100%\" autostart=\"true\" Showcontrols=\"0\"></embed>";
+		file_srl = $opt.attr('value');
+	}
 
-    // 이미지 파일의 경우
-    } else if(/\.(jpg|jpeg|png|gif)$/i.test(uploaded_filename)) {
-        html = "<img src=\""+uploaded_filename+"\" border=\"0\" width=\"100%\" height=\"100%\" />";
-    } else if(uploaded_filename) {
-        html = "<img src=\""+request_uri+"/modules/editor/tpl/images/files.gif\" border=\"0\" width=\"100%\" height=\"100%\" />";
-    }
-    xInnerHtml(previewAreaID, html);
+	if(!file_srl || !is_def(fileinfo=uploadedFiles[file_srl])) return;
+
+	$preview = $('#'+fileinfo.previewAreaID).html('&nbsp;');
+	if(!$preview.length) return;
+
+	filename = fileinfo.download_url || '';
+	match    = filename.match(/\.(?:(flv)|(swf)|(wmv|avi|mpe?g|as[fx]|mp3)|(jpe?g|png|gif))$/i);
+
+	if(fileinfo.direct_download != 'Y' || !match) {
+		html = '<img src="'+request_uri+'modules/editor/tpl/images/files.gif" border="0" width="100%" height="100%" />';
+	} else if(match[1]) { // flash video file
+        html = '<embed src="'+request_uri+'common/img/flvplayer.swf?autoStart=false&file='+uploaded_filename+'" width="100%" height="100%" type="application/x-shockwave-flash" />';
+	} else if(match[2]) { // shockwave flash file
+		html = '<embed src="'+request_uri+filename+'" width="100%" height="100%" type="application/x-shockwave-flash"  />';
+	} else if(match[3]) { // movie file
+		html = '<embed src="'+request_uri+filename+'" width="100%" height="100%" autostart="true" showcontrols="0" />';
+	} else if(match[4]) { // image file
+		html = '<img src="'+request_uri+filename+'" border="0" width="100%" height="100%" />';
+	}
+
+	if(html) $preview.html(html);
 }
 
 function removeUploadedFile(editorSequence) {
-    var settings = uploaderSettings[editorSequence];
-    var fileListAreaID = settings["fileListAreaID"];
-    var fileListObj = xGetElementById(fileListAreaID);
-    if(!fileListObj) return;
+	var settings = uploaderSettings[editorSequence];
+	var fileListAreaID = settings["fileListAreaID"];
+	var fileListObj = get_by_id(fileListAreaID);
+	if(!fileListObj) return;
 
-    if(fileListObj.selectedIndex<0) return;
+	if(fileListObj.selectedIndex<0) return;
 
-    var file_srls = new Array();
-    for(var i=0;i<fileListObj.options.length;i++) {
-        if(!fileListObj.options[i].selected) continue;
-        var file_srl = fileListObj.options[i].value;
-        if(!file_srl) continue;
-        file_srls[file_srls.length] = file_srl;
-    }
+	var file_srls = new Array();
+	for(var i=0;i<fileListObj.options.length;i++) {
+		if(!fileListObj.options[i].selected) continue;
+		var file_srl = fileListObj.options[i].value;
+		if(!file_srl) continue;
+		file_srls[file_srls.length] = file_srl;
+	}
 
-    if(file_srls.length<1) return;
+	if(file_srls.length<1) return;
 
-    var params = new Array();
-    params["file_srls"]  = file_srls.join(',');
-    params["editor_sequence"] = editorSequence;
-    var response_tags = new Array("error","message");
-    exec_xml("file","procFileDelete", params, function() { reloadFileList(settings); } );
+	var params = {
+		file_srls       : file_srls.join(','),
+		editor_sequence : editorSequence
+	};
+
+	exec_xml("file","procFileDelete", params, function() { reloadFileList(settings); } );
 }
 
 function insertUploadedFile(editorSequence) {
 
     var settings = uploaderSettings[editorSequence];
     var fileListAreaID = settings["fileListAreaID"];
-    var fileListObj = xGetElementById(fileListAreaID);
+    var fileListObj = get_by_id(fileListAreaID);
     if(!fileListObj) return;
 
     if(editorMode[editorSequence]=='preview') return;
@@ -414,7 +421,7 @@ function insertUploadedFile(editorSequence) {
                 text.push(temp_code);
             // 이미지외의 경우는 multimedia_link 컴포넌트 연결
             } else {
-                text.push("<img src=\"common/tpl/images/blank.gif\" editor_component=\"multimedia_link\" multimedia_src=\""+file.download_url+"\" width=\"400\" height=\"320\" style=\"display:block;width:400px;height:320px;border:2px dotted #4371B9;background:url(./modules/editor/components/multimedia_link/tpl/multimedia_link_component.gif) no-repeat center;\" auto_start=\"false\" alt=\"\" />");
+                text.push("<img src=\"common/img/blank.gif\" editor_component=\"multimedia_link\" multimedia_src=\""+file.download_url+"\" width=\"400\" height=\"320\" style=\"display:block;width:400px;height:320px;border:2px dotted #4371B9;background:url(./modules/editor/components/multimedia_link/tpl/multimedia_link_component.gif) no-repeat center;\" auto_start=\"false\" alt=\"\" />");
             }
 
         // binary파일의 경우 url_link 컴포넌트 연결
@@ -425,7 +432,7 @@ function insertUploadedFile(editorSequence) {
 
     // html 모드
     if(editorMode[editorSequence]=='html'){
-        if(text.length>0) xGetElementById('editor_textarea_'+editorSequence).value += text.join('');
+        if(text.length>0) get_by_id('editor_textarea_'+editorSequence).value += text.join('');
 
     // 위지윅 모드
     }else{

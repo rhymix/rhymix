@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ruleset version="1.5.0">
+    <customrules>
+		<rule name="ip" type="regex" test="/^(\d{1,3}(?:.(\d{1,3}|\*)){3}\s*(\/\/[^\r\n]*)?[\r\n]*)*$/" />
+    </customrules>
+    <fields>
+		<field name="act" required="true" default="procSpamfilterAdminDeleteDeniedIP" />
+		<field name="ipaddress" required="true" rule="ip" />
+    </fields>
+</ruleset>

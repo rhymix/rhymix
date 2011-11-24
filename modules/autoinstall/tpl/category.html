@@ -1,0 +1,23 @@
+<div class="easyNav">
+	<div loop="$categories => $category" class="category">
+		<block cond="$category->depth == 0">
+			<h2>{$category->title}</h2>
+			<ul>
+				<li loop="$category->children => $children">
+					<block cond="$children->category_srl == $category_srl">
+						{@$current_category = $children->title}
+						<strong>{$children->title}({$children->nPackages})</strong>
+					</block>
+					<block cond="$children->category_srl != $category_srl"><a href="{getUrl('','module','admin','act','dispAutoinstallAdminIndex','category_srl',$children->category_srl,'childrenList','')}">{$children->title}({$children->nPackages})</a></block>
+				</li>
+			</ul>
+		</block>
+	</div>
+	<p class="filter">
+		<a cond="$act != 'dispAutoinstallAdminIndex'" href="{getUrl('', 'module', 'admin', 'act', 'dispAutoinstallAdminIndex')}">All({$tCount})</a>
+		<strong cond="$act == 'dispAutoinstallAdminIndex'">All({$tCount})</strong>
+		| 
+		<a cond="$act != 'dispAutoinstallAdminInstalledPackages'" href="{getUrl('', 'module', 'admin', 'act', 'dispAutoinstallAdminInstalledPackages')}">Installed({$iCount})</a>
+		<strong cond="$act == 'dispAutoinstallAdminInstalledPackages'">Installed({$iCount})</strong>
+	</p>
+</div>

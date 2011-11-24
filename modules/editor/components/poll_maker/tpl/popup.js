@@ -2,30 +2,6 @@
  * popup으로 열렸을 경우 부모창의 위지윅에디터에 select된 block이 있는지 체크하여
  * 있으면 가져와서 원하는 곳에 삽입
  **/
-var poll_index = 1;
-function setPoll() {
-    var node = opener.editorPrevNode;
-    if(node && node.getAttribute('editor_component')=='poll_maker') {
-        alert(msg_poll_cannot_modify);
-        window.close();
-        return;
-    }
-
-    var obj = xCreateElement("div");
-    var source = xGetElementById("poll_source");
-
-    var html = xInnerHtml(source);
-    html = html.replace(/tidx/g, poll_index);
-    xInnerHtml(obj, html);
-
-    obj.id = "poll_"+poll_index;
-    obj.className = "poll_box";
-    obj.style.display = "block";
-
-    source.parentNode.insertBefore(obj, source);
-
-    setFixedPopupSize();
-}
 
 /**
  * 부모창의 위지윅에디터에 데이터를 삽입
@@ -33,112 +9,114 @@ function setPoll() {
 function completeInsertPoll(ret_obj) {
     if(typeof(opener)=="undefined") return null;
 
-    var fo_obj = xGetElementById('fo_component');
+    var fo_obj = get_by_id('fo_component');
     var skin = fo_obj.skin.options[fo_obj.skin.selectedIndex].value;
 
     var poll_srl = ret_obj["poll_srl"];
     if(!poll_srl) return null;
 
-    var text = "<img src=\"../../../../common/tpl/images/blank.gif\" poll_srl=\""+poll_srl+"\" editor_component=\"poll_maker\" skin=\""+skin+"\" style=\"width:400px;height:300px;border:2px dotted #4371B9;background:url(./modules/editor/components/poll_maker/tpl/poll_maker_component.gif) no-repeat center;\"  />";
+    var text = "<img src=\"../../../../common/img/blank.gif\" poll_srl=\""+poll_srl+"\" editor_component=\"poll_maker\" skin=\""+skin+"\" style=\"display:block;width:400px;height:300px;border:2px dotted #4371B9;background:url(./modules/editor/components/poll_maker/tpl/poll_maker_component.gif) no-repeat center;\"  />";
 
     alert(ret_obj['message']);
 
-    var iframe_obj = opener.editorGetIFrame(opener.editorPrevSrl)
-    opener.editorReplaceHTML(iframe_obj, text);
+	opener.editorFocus(opener.editorPrevSrl);
 
-    opener.focus();
+	var iframe_obj = opener.editorGetIFrame(opener.editorPrevSrl)
+
+	opener.editorReplaceHTML(iframe_obj, text);
+	opener.editorFocus(opener.editorPrevSrl);
     window.close();
 
     return null;
 }
 
-xAddEventListener(window, "load", setPoll);
+jQuery(function($){
+	var $node, poll_last_idx = 1;
 
-/**
- * 새 설문 추가
- **/
-function doPollAdd() {
-    var obj = xCreateElement("div");
-    var source = xGetElementById("poll_source");
-    if(poll_index+1>8) return null;
-    poll_index++;
+	$node = $(opener.editorPrevNode);
+	if($node.length && $node.attr('editor_component') == 'poll_maker') {
+		alert(msg_poll_cannot_modify);
+		return window.close();
+	}
 
-    var html = xInnerHtml(source);
-    html = html.replace(/tidx/g, poll_index);
-    xInnerHtml(obj, html);
+	// Add a new poll
+	$('#add_poll').click(function(){
+		addPoll();
+		setFixedPopupSize();
+	});
 
-    obj.id = "poll_"+poll_index;
-    obj.className = "poll_box";
-    obj.style.display = "block";
+	// Add a new item
+	$('button._add_item').click(function(){
+		var $tr_src, $tr_new, $th, idx;
 
-    source.parentNode.insertBefore(obj, source);
+		$tr_src = $(this).prev().children('table').find('>tbody>tr:last');
+		$tr_new = $tr_src.clone();
 
-    setFixedPopupSize();
+		match = $tr_src.find('td>input').attr('name').match(/item_(\d+)_(\d+)$/);
+		if(!match) return;
 
-    return null;
-}
+		match[2]++;
 
-/**
- * 항목 삭제
- **/
-function doPollDelete(obj) {
-    var pobj = xPrevSib(xPrevSib(obj)).lastChild.lastChild;
-    if(!pobj || typeof(pobj.id)=='undefined') return;
-    var tmp_arr = pobj.id.split('_');
-    var index = tmp_arr[1];
-    if(index==1) return;
+		($th=$tr_new.find('th')).html( $th.html().replace(/ \d+/, ' '+match[2]) );
+		$tr_new.find('td>input').attr('name', 'item_'+match[1]+'_'+match[2]);
 
-    pobj.parentNode.removeChild(pobj);
+		$tr_src.after($tr_new);
 
-    var obj_list = xGetElementsByClassName('poll_box');
-    for(var i=0;i<obj_list.length;i++) {
-        var nobj = obj_list[i];
-        if(nobj.id == 'poll_source') continue;
-        var tmp_arr = nobj.id.split('_');
-        var index = tmp_arr[1];
-        nobj.id = 'poll_'+(i+1);
-    }
-    poll_index = i-1;
+		setFixedPopupSize();
+	});
 
-    setFixedPopupSize();
-}
+	// delete an item
+	$('button._del_item').click(function(){
+		var $tr, match;
 
-/**
- * 새 항목 추가
- **/
-function doPollAddItem(obj) {
-    var tbl = xPrevSib(obj);
-    var tbody = tbl.lastChild;
-    var tmp = tbody.firstChild;
-    var source = null;
-    while(tmp.nextSibling) {
-        tmp = tmp.nextSibling;
-        if(tmp.nodeName == "TR") source = tmp;
-    }
+		$tr = $(this).prevAll('div').children('table').find('>tbody>tr:last');
+		match = $tr.find('td>input').attr('name').match(/item_(\d+)_(\d+)/);
+		if(!match || match[2] == 2) return;
 
-    var new_obj = source.cloneNode(true);
-    new_obj.className = source.className;
-    source.parentNode.appendChild(new_obj);
+		$tr.remove();
 
-    var html = xInnerHtml(new_obj);
-    var idx_match = html.match(/ ([0-9]+)</i);
-    var idx = parseInt(idx_match[1],10);
+		setFixedPopupSize();
+	});
 
-    var tmp = new_obj.firstChild;
-    while(tmp) {
-        if(tmp.nodeName == "TH") {
-            var html = xInnerHtml(tmp);
-            html = html.replace(/ ([0-9]+)/, ' '+(idx+1));
-            xInnerHtml(tmp, html);
-        } else if(tmp.nodeName == "TD") {
-            var html = xInnerHtml(tmp);
-            html = html.replace(/item_([0-9]+)_([0-9]+)/, 'item_$1_'+(idx+1));
-            xInnerHtml(tmp, html);
-        }
-        tmp = tmp.nextSibling;
-    }
+	// delete a poll
+	$('button._del_poll').click(function(){
+		$(this).parent('.poll_box').remove();
 
-    setFixedPopupSize();
+		reindex();
+	});
 
-    return null;
-}
+	function reindex() {
+		var $polls = $('.poll_box'); $inputs = $polls.find('input'), poll_idx = 0;
+
+		$inputs.attr('name', function(idx, val) {
+			if(/^checkcount_/.test(val)) poll_idx++;
+			return val.replace(/^([a-z]+_)(?:tidx|\d+)/, '$1'+poll_idx);
+		});
+
+		// If there are two or more polls, show 'delete poll' button.
+		// Otherwise hide the button.
+		if($polls.length > 1) {
+			$polls.find('button._del_poll').show();
+		} else {
+			$polls.find('button._del_poll').hide();
+		}
+	}
+
+	function addPoll() {
+		var $src = $('#poll_source');
+
+		$src.before(
+			$src.clone(true)
+				.removeAttr('id')
+				.addClass('poll_box')
+				.css('display', 'block')
+		);
+
+		reindex();
+	}
+
+	// add a poll
+	addPoll();
+});
+
+jQuery(window).load(setFixedPopupSize);

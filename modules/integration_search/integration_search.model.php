@@ -2,18 +2,18 @@
     /**
      * @class  integrationModel
      * @author NHN (developers@xpressengine.com)
-     * @brief  integration 모듈의 Model class
+     * @brief Model class of integration module
      **/
 
     class integration_searchModel extends module {
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
         }
 
         /**
-         * @brief 게시글 검색
+         * @brief Search documents
          **/
         function getDocuments($target, $module_srls_list, $search_target, $search_keyword, $page=1, $list_count = 20) {
             if(is_array($module_srls_list)) $module_srls_list = implode(',',$module_srls_list);
@@ -35,21 +35,26 @@
             $args->sort_index = 'list_order'; 
             $args->order_type = 'asc';
             if(!$args->module_srl) unset($args->module_srl);
-
-            // 대상 문서들을 가져옴
+            // Get a list of documents
             $oDocumentModel = &getModel('document');
 
             return $oDocumentModel->getDocumentList($args);
         }
 
         /**
-         * @brief 댓글 검색
+         * @brief Comment Search
          **/
         function getComments($target, $module_srls_list, $search_keyword, $page=1, $list_count = 20) {
-            if(is_array($module_srls_list)) $module_srls = implode(',',$module_srls_list);
-            else $module_srls = $module_srls_list;
+            if(is_array($module_srls_list)){
+				if (count($module_srls_list) > 0) $module_srls = implode(',',$module_srls_list); 
+				else $module_srls = 0; 
+			}
+            else {
+				$module_srls = ($module_srls_list)?$module_srls_list:0;
+			}
             if($target == 'exclude') $args->exclude_module_srl = $module_srls;
             else $args->module_srl = $module_srls;
+
             $args->page = $page;
             $args->list_count = $list_count;
             $args->page_count = 10;
@@ -57,8 +62,7 @@
             $args->search_keyword = $search_keyword;
             $args->sort_index = 'list_order'; 
             $args->order_type = 'asc';
-
-            // 대상 문서들을 가져옴
+            // Get a list of documents
             $oCommentModel = &getModel('comment');
             $output = $oCommentModel->getTotalCommentList($args);
             if(!$output->toBool()|| !$output->data) return $output;
@@ -66,7 +70,7 @@
         }
 
         /**
-         * @brief 엮인글 검색
+         * @brief Search trackbacks
          **/
         function getTrackbacks($target, $module_srls_list, $search_target = "title", $search_keyword, $page=1, $list_count = 20) {
             if(is_array($module_srls_list)) $module_srls = implode(',',$module_srls_list);
@@ -80,8 +84,7 @@
             $args->search_keyword = $search_keyword;
             $args->sort_index = 'list_order'; 
             $args->order_type = 'asc';
-
-            // 대상 문서들을 가져옴
+            // Get a list of documents
             $oTrackbackModel = &getAdminModel('trackback');
             $output = $oTrackbackModel->getTotalTrackbackList($args);
             if(!$output->toBool()|| !$output->data) return $output;
@@ -89,7 +92,7 @@
         }
 
         /**
-         * @brief 파일 검색
+         * @brief File Search
          **/
         function _getFiles($target, $module_srls_list, $search_keyword, $page, $list_count, $direct_download = 'Y') {
             if(is_array($module_srls_list)) $module_srls = implode(',',$module_srls_list);
@@ -105,8 +108,7 @@
             $args->order_type = 'desc';
             $args->isvalid = 'Y';
             $args->direct_download = $direct_download=='Y'?'Y':'N';
-
-            // 대상 문서들을 가져옴
+            // Get a list of documents
             $oFileAdminModel = &getAdminModel('file');
             $output = $oFileAdminModel->getFileList($args);
             if(!$output->toBool() || !$output->data) return $output;
@@ -120,8 +122,7 @@
                 $obj->download_url = Context::getRequestUri().$val->download_url;
                 $obj->target_srl = $val->upload_target_srl;
                 $obj->file_size = $val->file_size;
-
-                // 이미지 
+                // Images
                 if(preg_match('/\.(jpg|jpeg|gif|png)$/i', $val->source_filename)) {
                     $obj->type = 'image';
 
@@ -131,13 +132,11 @@
                     $thumbnail_url  = Context::getRequestUri().$thumbnail_file;
                     if(!file_exists($thumbnail_file)) FileHandler::createImageFile($val->uploaded_filename, $thumbnail_file, 120, 120, 'jpg', 'crop');
                     $obj->src = sprintf('<img src="%s" alt="%s" width="%d" height="%d" />', $thumbnail_url, htmlspecialchars($obj->filename), 120, 120);
-
-                // 동영상
+                // Videos
                 } elseif(preg_match('/\.(swf|flv|wmv|avi|mpg|mpeg|asx|asf|mp3)$/i', $val->source_filename)) {
                     $obj->type = 'multimedia';
                     $obj->src = sprintf('<script type="text/javascript">displayMultimedia("%s",120,120);</script>', $obj->download_url);
-
-                // 기타
+                // Others
                 } else {
                     $obj->type = 'binary';
                     $obj->src = '';
@@ -176,14 +175,14 @@
         }
 
         /**
-         * @brief 멀티미디어 검색
+         * @brief Multimedia Search
          **/
         function getImages($target, $module_srls_list, $search_keyword, $page=1, $list_count = 20) {
             return $this->_getFiles($target, $module_srls_list, $search_keyword, $page, $list_count);
         }
 
         /**
-         * @brief 첨부파일 검색
+         * @brief Search for attachments
          **/
         function getFiles($target, $module_srls_list, $search_keyword, $page=1, $list_count = 20) {
             return $this->_getFiles($target, $module_srls_list, $search_keyword, $page, $list_count, 'N');

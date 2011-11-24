@@ -1,100 +1,135 @@
-<!--%import("filter/insert_group.xml")-->
-<!--%import("filter/update_group.xml")-->
+<load target="js/member_admin_group.js" usecdn="true" />
+<script type="text/javascript" >
+	xe.lang.groupDeleteMessage = '{$lang->msg_group_delete}';
+	xe.lang.multilingual = '{$lang->cmd_set_multilingual}';
+	xe.lang.modify = '{$lang->cmd_modify}';
+	xe.lang.delete = '{$lang->cmd_delete}';
+</script>
+<style type="text/css">
+	._imageMarkButton img { max-height:16px }
+	.filebox_item { border: 1px solid #ccc!important; padding: 2px; max-height: 16px; }
+	.x .multiLangEdit input.vLang { width:120px }
+	.x .multiLangEdit input.vLang.loading { padding-right:24px;width:100px;background:transparent url(../../admin/tpl/img/preLoader16.gif) no-repeat 96px center }
+</style>
+<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
+<h1 class="h1">{$lang->member_group}</h1>
+<form action="" class="form" method="post" ruleset="insertGroupConfig">
+	<input type="hidden" name="module" value="member" />
+	<input type="hidden" name="act" value="procMemberAdminGroupConfig" />
+	<div class="table even">
+		<table width="100%" border="1" cellspacing="0" class="sortable">
+			<caption>
+				<strong>{count($group_list)}</strong> {$lang->msg_groups_exist}
+				<span class="side">
+					{$lang->use_group_image_mark}: 
+					<input type="radio" name="group_image_mark" id="yes" value="Y" checked="checked"|cond="$config->group_image_mark == 'Y'" /> <label for="yes">{$lang->cmd_yes}</label>
+					<input type="radio" name="group_image_mark" id="no" value="N" checked="checked"|cond="$config->group_image_mark != 'Y'" /> <label for="no">{$lang->cmd_no}</label>
+				</span>
+			</caption>
+			<thead>
+				<tr>
+					<th scope="col">{$lang->group_title}</th>
+					<th scope="col">{$lang->description}</th>
+					<th scope="col">{$lang->is_default}
+						[<a href="#helpDefault" class="tgAnchor">?</a>]
+						<div class="tgContent layer" id="helpDefault" style="right:0">
+							<p>{$lang->about_member_default}</p>
+						</div>
+					</th>
+					<th scope="col" class="_imageMarkButton">{$lang->group_image_mark}</th>
+					<th scope="col"></th>
+				</tr>
+			</thead>
+			<tfoot>
+				<tr>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td class="_imageMarkButton">&nbsp;</td>
+					<td><a href="#" class="_addGroup">{$lang->cmd_add_group}</a></td>
+				</tr>
+			</tfoot>
+			<tbody class="uDrag _groupList">
+				<tr loop="$group_list=>$group_srl,$group_info">
+					<td class="multiLangEdit"><div class="wrap" style="height:22px"><button type="button" class="dragBtn">Move to</button>
+						<input type="hidden" name="group_srls[]" value="{$group_info->group_srl}" />
+						<input type="hidden" name="group_titles[]" value="{htmlspecialchars($group_info->title)}" class="vLang"/>
+						<input type="text" value="{$group_info->title}" class="vLang" />
+						<span class="desc"><a href="#langEdit" class="tgAnchor editUserLang" data-effect="slide">{$lang->cmd_set_multilingual}</a></span>
+						</div>
+					</td>
+					<td><input type="text" name="descriptions[]" value="{$group_info->description}" style="width:240px" /></td>
+					<td><input type="radio" name="defaultGroup" value="{$group_info->group_srl}" title="Default" checked="checked"|cond="$group_info->is_default=='Y'" /></td>
+					<td class="_imageMarkButton"><input type="hidden" name="image_marks[]" value="{$group_info->image_mark}" class="_imgMarkHidden" />
+						<img src="{$group_info->image_mark}" alt="{$group_info->title}" cond="$config->group_image_mark == 'Y' && $group_info->image_mark" />
+						<a href="#imageMark" class="modalAnchor _imageMark filebox">{$lang->cmd_modify}</a></td>
+					<td><div class="_deleteTD" style="display:none"|cond="$group_info->is_default == 'Y'"><a href="#{$group_srl}" class="_deleteGroup">{$lang->cmd_delete}</a></div></td>
+				</tr>
+				<tr style="display:none" class="_template">
+					<td class="multiLangEdit"><div class="wrap" style="height:22px"><button type="button" class="dragBtn">Move to</button>
+						<input type="hidden" name="group_srls[]" value="new" disabled="disabled"/>
+						<input type="hidden" name="group_titles[]" value=""  disabled="disabled" class="vLang" />
+						<input type="text" value="" class="vLang" />
+						<span class="desc"><a href="#langEdit" class="tgAnchor editUserLang">{$lang->cmd_set_multilingual}</a></span>
+						</div>
+					</td>
+					<td><input type="text" name="descriptions[]" value="" style="width:240px" disabled="disabled" /></td>
+					<td><input type="radio" name="defaultGroup" value="" title="Default" disabled="disabled" /></td>
+					<td class="_imageMarkButton"><input type="hidden" name="image_marks[]" value="" class="_imgMarkHidden" disabled="disabled" />
+						<a href="#imageMark" class="modalAnchor _imageMark">{$lang->cmd_modify}</a></td>
+					<td><div class="_deleteTD"><a href="#new" class="_deleteGroup">{$lang->cmd_delete}</a></div></td>
+				</tr>
 
-<!--#include("header.html")-->
-<!--%load_js_plugin("ui")-->
-<!--%load_js_plugin("filebox")-->
+			</tbody>
+		</table>
+	</div>
+	<div class="btnArea">
+		<span class="btn medium"><input type="submit" value="{$lang->cmd_save}" /></span>
+	</div>
 
-
-<!-- 그룹의 삭제와 관련된 form -->
-<form id="fo_group_info" action="./" method="get">
-<input type="hidden" name="act" value="procMemberAdminUpdateGroup" />
-<input type="hidden" name="group_srl" value="" />
-<input type="hidden" name="mode" value="" />
+	<!-- Multilingual -->
+	<div id="langEdit" class="langEdit tgContent">
+		<ul class="langList"></ul>
+		<div class="langInput">
+			<h2>{$lang->cmd_multilingual} <strong>{$lang->cmd_modify}</strong> | <a href="#langEdit">{$lang->cmd_insert}</a></h2>
+			<ul>
+				{@
+					/* move current language to the top */
+					$a = array($lang_type=>$lang_supported[$lang_type]);
+					unset($lang_supported[$lang_type]);
+					$lang_supported = array_merge($a, $lang_supported);
+				}
+				<li loop="$lang_supported=>$code,$name" class="{$code}"><label for="{$code}_var1">{$name}</label> <input type="text" value="" id="{$code}_var1" /></li>
+			</ul>
+			<div class="action">
+				<div class="btnArea">
+					<span class="btn small"><input type="submit" value="{$lang->use}|{$lang->use_after_save}" /></span>
+				</div>
+				<p><a href="{getUrl('act','dispModuleAdminLangcode')}">{$lang->multilingual_manager}</a></p>
+			</div>
+		</div>
+	</div>
 </form>
 
-<form id="fo_group_order" action="./" method="get">
-<input type="hidden" name="act" value="procMemberAdminUpdateGroupOrder" />
-<table cellspacing="0" class="rowTable">
-<thead>
-    <tr>
-        <th scope="col"><div>{$lang->group_order}</div></th>
-        <th scope="col" class="half_wide"><div>{$lang->group_title}</div></th>
-        <th scope="col" class="half_wide"><div>{$lang->description}</div></th>
-        <th scope="col"><div>{$lang->regdate}</div></th>
-        <th scope="col"><div>{$lang->is_default}</div></th>
-        <th scope="col" class="half_wide"><div>{$lang->group_order_change}</div></th>
-        <th scope="col" colspan="2"><div>&nbsp;</div></th>
-    </tr>
-</thead>
-<tbody>
-    <!--@if(!count($group_list))-->
-    <tr>
-        <td colspan="7">{$lang->msg_group_is_null}</td>
-    </tr>
-    <!--@end-->
-{@$__i=1}
-    <!--@foreach($group_list as $group_srl => $group_info)-->
-    <tr class="row{$cycle_idx}">
-		<input type="hidden" name="group_srls[]" value="{$group_info->group_srl}" />
-		<td>{$__i++}</td>
-        <td><!--@if($config->group_image_mark=='Y' && $group_info->image_mark)--><img src="{$group_info->image_mark}" style="vertical-align: middle; margin-right: 3px;" /><!--@endif-->{$group_info->title}</td>
-        <td>{nl2br($group_info->description)}&nbsp;</td>
-        <td>{zdate($group_info->regdate,"Y-m-d H:i:s")}</td>
-        <td><!--@if($group_info->is_default=='Y')-->Y<!--@else-->&nbsp;<!--@end--></td>
-		<td><a href="#" class="_up">위로</a> <a href="#" class="_down"><span>아래로</span></a></td>
-        <td><a href="{getUrl('group_srl',$group_info->group_srl)}" title="{$lang->cmd_modify}" class="buttonSet buttonSetting"><span>{$lang->cmd_modify}</span></a></td>
-        <td>
-            <!--@if($group_info->is_default!='Y' && $group_info->is_admin !='Y')-->
-            <a href="#" onclick="doUpdateGroup('{$group_info->group_srl}','delete','{$lang->confirm_delete}');return false;" title="{$lang->cmd_delete}" class="buttonSet buttonDelete"><span>{$lang->cmd_delete}</span></a>
-            <!--@else-->
-            &nbsp;
-            <!--@end-->
-        </td>
-    </tr>
-    <!--@end-->
-    <tr>
-        <th colspan="8" class="button">
-            <span class="button black strong"><input type="submit" value="{$lang->cmd_save}" accesskey="s" /></span>
-        </th>
-    </tr>
-</tbody>
-</table>
-</form>
-
-<!-- 그룹 추가 -->
-<form action="./" method="get" onsubmit="return procFilter(this, insert_group)">
-<input type="hidden" name="page" value="{$page}" />
-<input type="hidden" name="group_srl" value="" />
-
-    <table cellspacing="0" class="rowTable">
-    <tr>
-        <th scope="row"><div>{$lang->group_title}</div></th>
-        <td class="wide"><input type="text" name="title" class="inputTypeText w400" /></td>
-    </tr>
-    <tr class="row2">
-        <th scope="row"><div>{$lang->is_default}</div></th>
-        <td><input type="checkbox" name="is_default" value="Y" class="checkbox" /> {$lang->about_member_default}</td>
-    </tr>
-    <tr>
-        <th scope="row"><div>{$lang->description}</div></th>
-        <td><textarea name="description" class="inputTypeTextArea w400"></textarea></td>
-    </tr>
-
-    <tr class="row2">
-        <th scope="row"><div>{$lang->group_image_mark}</div></th>
-        <td class="left">
-            <div id="filebox_preview_image_mark" style="width:100px;height:100px;display:none"></div>
-            <input type="hidden" name="image_mark" value="" />
-            <span class="button black"><button type="button" onclick="XE.filebox.open(jQuery('[name=image_mark]').get(0), 'jpg,jpeg,gif,png')">{$lang->cmd_select}</button></span>
-            <span id="filebox_cancel_image_mark" class="button red" style="display:none"><button type="button" onclick="XE.filebox.cancel('image_mark')">{$lang->cmd_delete}</button></span>
-        </td>
-    </tr>
-
-    <tr>
-        <th colspan="2" class="button">
-            <span class="button black strong"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
-        </th>
-    </tr>
-    </table>
-</form>
+<div class="modal" id="imageMark">
+	<div class="fg portlet">
+		<div class="_useImageMark" style="display:none">
+		<h2>{$lang->use_group_image_mark}</h2>
+				<input id="useImageMark" type="radio" name="useImageMark" value="Y" />
+				<label for="useImageMark">{$lang->use}</label>
+				<input id="noImageMark" type="radio" name="useImageMark" value="N" />
+				<label for="noImageMark">{$lang->notuse}</label>
+		</div>
+		<!--@if($fileBoxList)-->
+		<div>
+		<h2>{$lang->usable_group_image_mark_list}</h2>
+		<div class="filebox_list">
+		</div>
+		</div>
+		<!--@end-->
+		<h2>{$lang->add_group_image_mark}</h2>
+		<a href="{getUrl('', 'module','admin', 'act', 'dispModuleAdminFileBox')}" target="_blank">{$lang->link_file_box}</a>
+	</div>
+</div>

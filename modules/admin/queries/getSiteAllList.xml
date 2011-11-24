@@ -1,0 +1,12 @@
+<query id="getSiteAllList" action="select">
+    <tables>
+        <table name="sites" />
+    </tables>
+    <columns>
+        <column name="*" />
+    </columns>
+    <conditions>
+        <condition operation="in" column="site_srl" var="siteSrls" />
+        <condition operation="like" column="domain" var="domain" pipe="and" />
+    </conditions>
+</query>

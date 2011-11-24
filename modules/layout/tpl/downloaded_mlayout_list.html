@@ -1,16 +1,17 @@
 <!--#include("header.html")-->
 
 <!-- 레이아웃의 목록 -->
-<table cellspacing="0" class="crossTable">
+<div class="table">
+	<table width="100%" border="1" cellspacing="0">
 <thead>
     <tr>
-        <th scope="col" class="halfwide"><div>{$lang->layout_name}</div></th>
-        <th scope="col"><div>{$lang->version}</div></th>
-        <th scope="col"><div>{$lang->author}</div></th>
-        <th scope="col"><div>{$lang->menu_count}</div></th>
-        <th scope="col"><div>{$lang->date}</div></th>
-        <th scope="col"><div>{$lang->path}</div></th>
-        <th scope="col"><div>{$lang->cmd_make}</div></th>
+        <th scope="col" class="halfwide">{$lang->layout_name}</th>
+        <th scope="col">{$lang->version}</th>
+        <th scope="col">{$lang->author}</th>
+        <th scope="col">{$lang->menu_count}</th>
+        <th scope="col">{$lang->date}</th>
+        <th scope="col">{$lang->path}</th>
+        <th scope="col">{$lang->cmd_make}</th>
     </tr>
 </thead>
 <tbody>
@@ -19,12 +20,8 @@
         <!--// 레이아웃 정보 파일(conf/info.xml)가 있는 경우-->
         <!--@if($val->title)-->
         <tr class="row{$cycle_idx}">
-            <th rowspan="2">
-                <div>
-                    <a href="{getUrl('','module','layout','act','dispLayoutAdminInfo','selected_layout',$val->layout)}" onclick="popopen(this.href,'layout_info');return false" class="blue">{$val->title}</a> <br />
-                    ({$val->layout})
-                </div>
-            </th>
+            <th rowspan="2"> <a href="{getUrl('','module','layout','act','dispLayoutAdminInfo','selected_layout',$val->layout)}" onclick="popopen(this.href,'layout_info');return false" class="blue">{$val->title}</a> <br />
+                ({$val->layout})            </th>
             <td>{$val->version}</td>
             <td>
                 <!--@foreach($val->author as $author)-->
@@ -34,10 +31,10 @@
             <td>{$val->menu_count}</td>
             <td>{zdate($val->date, 'Y-m-d')}</td>
             <td>{$val->path}</td>
-            <td><a href="{getUrl('act','dispLayoutAdminInsert','layout',$val->layout,'layout_type','M')}" class="button"><span>{$lang->cmd_make}</span></a></td>
+            <td><a href="{getUrl('act','dispLayoutAdminInsert','layout',$val->layout,'layout_type','M')}">{$lang->cmd_make}</a></td>
         </tr>
         <tr>
-            <td colspan="6" class="left">
+            <td colspan="6" >
                 {nl2br(trim($val->description))}
             </td>
         </tr>
@@ -52,3 +49,5 @@
     <!--@end-->
 </tbody>
 </table>
+</div>
+

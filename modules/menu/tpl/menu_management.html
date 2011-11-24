@@ -1,10 +1,9 @@
-<load target="filter/update_menu_title.xml" />
 <load target="filter/insert_menu_item.xml" />
 <load target="filter/delete_menu_item.xml" />
 <load target="filter/move_menu_item.xml" />
 
-<load target="js/menu_admin.js" type="body" />
-<load target="js/menu_tree.js" type="body" />
+<load target="js/menu_admin.js" type="body" usecdn="true" />
+<load target="js/menu_tree.js" type="body" usecdn="true" />
 
 <!--// tree javascript plugin load -->
 <!--%load_js_plugin("ui.tree")-->
@@ -16,67 +15,69 @@
 <div class="menuManagement">
 
     <!--@if($module == 'admin')-->
-        <form action="./" method="get" onsubmit="return procFilter(this, update_menu_title)">
-        <input type="hidden" name="menu_srl" value="{$menu_info->menu_srl}" />
-            <h4 class="xeAdmin">{$lang->menu_management}</h4>
-            <table cellspacing="0" class="rowTable">
-            <tr>
-                <th scope="col"><div>{$lang->title}</div></th>
-                <td>
-                    <div class="fl">
-                        <input type="text" name="title" value="{$menu_info->title}" class="inputTypeText" />
-                    </div>
-                    <div class="fr">
-                        <span class="button"><input type="submit" value="{$lang->cmd_modify}" /></span>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <th scope="col"><div>{$lang->menu_management}</div></th>
-                <td class="left">{nl2br($lang->about_menu_management)}
-<span style="float:right"><a href="#" onclick="doReloadTreeMenu('{$menu_info->menu_srl}');return false;" class="button"><span>{$lang->cmd_remake_cache}</span></a></span>
-                </td>
-            </tr>
-            </table>
-        </form>
+	<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+		<p>{$XE_VALIDATOR_MESSAGE}</p>
+	</div>
+	<form ruleset="updateMenuTitle" action="./" method="post">
+		<input type="hidden" name="module" value="menu" />
+		<input type="hidden" name="act" value="procMenuAdminUpdate" />
+		<input type="hidden" name="menu_srl" value="{$menu_info->menu_srl}" />
+		<h3 class="h3">{$lang->menu_management}</h3>
+		<div class="table">
+			<table width="100%" border="1" cellspacing="0">
+				<tr>
+					<th scope="col">{$lang->title}</th>
+					<td>
+						<input type="text" name="title" value="{$menu_info->title}" />
+						<input type="submit" value="{$lang->cmd_modify}" />					
+					</td>
+				</tr>
+				<tr>
+					<th scope="col">{$lang->menu_management}</th>
+					<td >
+						{nl2br($lang->about_menu_management)} 
+						<button type="button" onclick="doReloadTreeMenu('{$menu_info->menu_srl}');return false;">{$lang->cmd_remake_cache}</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</form>
 
     <!--@else-->
-        <table cellspacing="0" class="rowTable">
-        <tr>
-            <th scope="col"><div>{$lang->title}</div></th>
-            <td class="left">
-                {$menu_info->title}
-            </td>
-        </tr>
-        <tr>
-            <th scope="col"><div>{$lang->menu_management}</div></th>
-            <td class="left">{nl2br($lang->about_menu_management)}</td>
-        </tr>
-        </table>
+        <div class="table">
+        	<table width="100%" border="1" cellspacing="0">
+        		<tr>
+        			<th scope="col">{$lang->title}</th>
+        			<td >
+        				{$menu_info->title}
+       				</td>
+       			</tr>
+        		<tr>
+        			<th scope="col">{$lang->menu_management}</th>
+        			<td >{nl2br($lang->about_menu_management)}</td>
+       			</tr>
+			</table>
+		</div>
     <!--@end-->
 
 
-    <div class="gap1">
-        <form id="fo_menu" action="./" method="post" onsubmit="return procFilter(this, insert_menu_item)" class="clear" target="tmp_upload_iframe" enctype="multipart/form-data">
-        <input type="hidden" name="title" value="{$menu_info->title}" />
-        <input type="hidden" name="menu_srl" value="{$menu_info->menu_srl}" />
-        <input type="hidden" name="xml_file" value="{$menu_info->xml_file}" />
-        <input type="hidden" name="php_file" value="{$menu_info->php_file}" />
-        <input type="hidden" name="module" value="menu" />
-        <input type="hidden" name="act" value="" />
-        <input type="hidden" name="target" value="" />
-        <div id="menu_zone_info"></div>
-        </form>
-        <div id="menu">
-            <ul class="simpleTree">
-                <li class="root" id='tree_0'><span>{$lang->menu}</span></li>
-            </ul>
-        </div>
-    </div>
+	<form ruleset="insertMenuItem" id="fo_menu" action="./" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="module" value="menu" />
+		<input type="hidden" name="act" value="procMenuAdminInsertItem" />
+		<input type="hidden" name="title" value="{$menu_info->title}" />
+		<input type="hidden" name="menu_srl" value="{$menu_info->menu_srl}" />
+		<input type="hidden" name="xml_file" value="{$menu_info->xml_file}" />
+		<input type="hidden" name="php_file" value="{$menu_info->php_file}" />
+		<input type="hidden" name="module" value="menu" />
+		<input type="hidden" name="target" value="" />
+		<div id="menu_zone_info"></div>
+	</form>
+	<div id="menu">
+		<ul class="simpleTree">
+			<li class="root" id='tree_0'><span>{$lang->menu}</span></li>
+		</ul>
+	</div>
 </div>
-
-<iframe id='tmp_upload_iframe' name='tmp_upload_iframe' style='display:none;width:1px;height:1px;position:absolute;top:-10px;left:-10px'></iframe>
-
 
 <script type="text/javascript">//<![CDATA[
 //언어파일 로드용

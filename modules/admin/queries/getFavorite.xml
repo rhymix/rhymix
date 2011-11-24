@@ -1,0 +1,16 @@
+<query id="getFavorite" action="select">
+	<tables>
+		<table name="admin_favorite" />
+	</tables>
+	<columns>
+		<column name="*" />
+	</columns>
+	<conditions>
+		<condition operation="equal" column="admin_favorite_srl" var="favorite_srl" />
+		<condition operation="equal" column="site_srl" var="site_srl" pipe="and" />
+		<condition operation="equal" column="module" var="module" pipe="and" />
+	</conditions>
+	<navigation>
+		<index var="sort_index" default="admin_favorite_srl" order="desc" />
+	</navigation>
+</query>

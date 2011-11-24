@@ -1,0 +1,13 @@
+<query id="updateItemDownloadedCount" action="update">
+<tables>
+<table name="resource_items" />
+</tables>
+<columns>
+<column name="downloaded" default="plus(1)" notnull="notnull" />
+</columns>
+<conditions>
+<condition operation="equal" column="module_srl" var="module_srl" filter="number" notnull="notnull" />
+<condition operation="equal" column="package_srl" var="package_srl" filter="number" notnull="notnull" pipe="and" />
+<condition operation="equal" column="item_srl" var="item_srl" filter="number" notnull="notnull" pipe="and" />
+</conditions>
+</query>

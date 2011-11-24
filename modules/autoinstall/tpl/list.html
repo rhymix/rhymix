@@ -1,96 +1,122 @@
-<div class="content">
-    <!--@if($act == "dispAutoinstallAdminIndex")-->
-    <ul class="listOrder {$order_type}">
-        <!--@if($order_target=='newest')-->
-            <!--@if($order_type == 'desc')-->{@$_order_type = 'asc'}<!--@else-->{@$_order_type = 'desc'}<!--@end-->
-        <!--@else-->
-            {@$_order_type = 'desc'}
-        <!--@end-->
-        <li <!--@if($order_target=='newest')-->class="arrow"<!--@end-->><a href="{getUrl('order_target','newest','order_type',$_order_type)}">{$lang->order_newest}</a></li>
-        <!--@if($order_target=='download')-->
-            <!--@if($order_type == 'desc')-->{@$_order_type = 'asc'}<!--@else-->{@$_order_type = 'desc'}<!--@end-->
-        <!--@else-->
-            {@$_order_type = 'desc'}
-        <!--@end-->
-        <li <!--@if($order_target=='download')-->class="arrow"<!--@end-->><a href="{getUrl('order_target','download','order_type',$_order_type)}">{$lang->order_download}</a></li>
-        <!--@if($order_target=='popular')-->
-            <!--@if($order_type == 'desc')-->{@$_order_type = 'asc'}<!--@else-->{@$_order_type = 'desc'}<!--@end-->
-        <!--@else-->
-            {@$_order_type = 'desc'}
-        <!--@end-->
-        <li <!--@if($order_target=='popular')-->class="arrow"<!--@end-->><a href="{getUrl('order_target','popular','order_type',$_order_type)}">{$lang->order_popular}</a></li>
-    </ul>
-    <!--@end-->
+<include target="category.html" />
 
-    <table class="updateList" border="1" cellspacing="0">
-    <col width="120" /><col />
-    <!--@foreach($item_list as $key => $val)-->
-    <tr>
-        {@ $target_url = $original_site."?mid=download&package_srl=".$val->package_srl; }
-        <th><a href="{$target_url}"><img src="{str_replace('./', $uri, $val->item_screenshot_url)}" width="100" height="100" alt="" /></a></th>
-        <td>
-			<div class="title">
-				<h3>
-					<!--@if($val->category_srl)-->
-					<a href="{getUrl('category_srl',$val->category_srl)}">[{$categories[$val->category_srl]->title}]</a>
-					<!--@end-->
-					<a href="{$target_url}">{$val->title} ver. {$val->item_version}</a>
-				</h3>
-					<!--@if($val->current_version)-->
-					<p>{$lang->current_version} : {$val->current_version}
-						<!--@if($val->deps)-->
-					<br />
-						{$lang->dependant_list}	:
-						<!--@foreach($val->deps as $package_srl)-->
-						{$installed[$package_srl]->title}.
-						<!--@endforeach-->
-						<!--@end-->
+<div class="table even easyList">
+	<table width="100%" border="1" cellspacing="0">
+		<caption>
+			<block cond="$current_category">{$current_category}</block>
+			<block cond="!$current_category">All</block>
+			({sprintf('%d', $page_navigation->total_count)})
+			<span cond="$act == 'dispAutoinstallAdminIndex'" class="side">
+				<!--@if($order_target == 'newest')-->
+					<!--@if($order_type == 'desc')-->{@$_newest_order_type = 'asc'}<!--@else-->{@$_newest_order_type = 'desc'}<!--@end-->
+				<!--@else-->
+					{@$_newest_order_type = 'desc'}
+				<!--@end-->
+				<!--@if($order_target == 'download')-->
+					<!--@if($order_type == 'desc')-->{@$_download_order_type = 'asc'}<!--@else-->{@$_download_order_type = 'desc'}<!--@end-->
+				<!--@else-->
+					{@$_download_order_type = 'desc'}
+				<!--@end-->
+				<!--@if($order_target == 'popular')-->
+					<!--@if($order_type == 'desc')-->{@$_popular_order_type = 'asc'}<!--@else-->{@$_popular_order_type = 'desc'}<!--@end-->
+				<!--@else-->
+					{@$_popular_order_type = 'desc'}
+				<!--@end-->
+
+				Sort by
+				<a href="{getUrl('order_target','newest','order_type',$_newest_order_type)}">{$lang->order_newest}<!--@if($order_target == 'newest')--><!--@if($_newest_order_type == 'asc')-->▼<!--@else-->▲<!--@end--><!--@end--></a> |
+				<a href="{getUrl('order_target','download','order_type',$_download_order_type)}">{$lang->order_download}<!--@if($order_target == 'download')--><!--@if($_download_order_type == 'asc')-->▼<!--@else-->▲<!--@end--><!--@end--></a> |
+				<a href="{getUrl('order_target','popular','order_type',$_popular_order_type)}">{$lang->order_popular}<!--@if($order_target == 'popular')--><!--@if($_popular_order_type == 'asc')-->▼<!--@else-->▲<!--@end--><!--@end--></a>
+			</span>
+		</caption>
+		<thead>
+			<tr>
+				<th scope="col">{$lang->category}</th>
+				<th scope="col">{$lang->thumbnail}</th>
+				<th scope="col" class="title">{$lang->name}</th>
+				<th scope="col">{$lang->distribute_version}</th>
+				<th scope="col">{$lang->current_version}</th>
+				<th scope="col">{$lang->run}</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr loop="$item_list => $key, $item">
+				{@ $target_url = $original_site."?mid=download&package_srl=".$item->package_srl; }
+				<td>{$item->category}</td>
+				<td><img src="{str_replace('./', $uri, $item->item_screenshot_url)}" alt="" width="100" height="100" /></td>
+				<td class="title">
+					<p><a href="{$target_url}">{htmlspecialchars($item->title)}</a></p>
+					<p>{cut_str(htmlspecialchars($item->package_description),200)}</p>
+					<p>
+						<block cond="(int)$item->package_voter > 0">
+							<span class="starRating"><span style="width:{sprintf("%d",$item->package_voted/$item->package_voter*20)}%">{sprintf($lang->rate, $item->package_start)}</span></span>
+							{sprintf("%0.1f",$item->package_voted/$item->package_voter*2)}/{number_format($item->package_voter)} |
+						</block>
+						<block cond="(int)$item->package_voter <= 0">
+							<span class="starRating"><span style="width:0%">0</span></span>
+							0/0 |
+						</block>
+						{$lang->package_update} {zdate($item->item_regdate, "Y-m-d H:i")} |
+						{$lang->package_downloaded_count} : {number_format($item->package_downloaded)}
 					</p>
-						<div class="buttons">
-						<!--@if($val->avail_remove)-->
-						<a href="{getUrl('act','dispAutoinstallAdminUninstall','package_srl',$val->package_srl)}" class="button red strong"><span>{$lang->cmd_delete}</span></a>
-						<!--@end-->
-						<!--@if($val->need_update == 'Y')-->
-						<a href="{getUrl('act','dispAutoinstallAdminInstall','package_srl',$val->package_srl)}" class="button"><span>{$lang->update}</span></a>
-						<!--@end-->
-						</div>
-					<!--@else-->
-					<div class="buttons">
-					<a href="{getUrl('act','dispAutoinstallAdminInstall','package_srl',$val->package_srl)}" class="button"><span>{$lang->install}</span></a>
-					</div>
-					<!--@end-->
-			</div>
-			<div class="info">
-				<p class="desc">{cut_str($val->package_description,200)}</p>
-				<p class="meta">
-					<span class="reputation">
-						<!--@for($i=0;$i<5;$i++)-->
-							<!--@if($i<$val->package_star)-->
-							<img src="./img/starOn.gif" alt="" />
-							<!--@else-->
-							<img src="./img/starOff.gif" alt="" />
-							<!--@end-->
-						<!--@end-->
-						<span>{sprintf("%0.1f",$val->package_voted/$val->package_voter*2)}/{number_format($val->package_voter)}</span>
-					</span>
-					<span class="lastUpdate">{$lang->package_update} {zdate($val->item_regdate, "Y-m-d H:i")}</span>
-					<span class="download">{$lang->package_downloaded_count} : {number_format($val->package_downloaded)}</span>
-				</p>
-			</div>
-        </td>
-    </tr>
-    <!--@end-->
-    </table>
+					<p cond="$item->deps">{$lang->dependant_list}:</p>
+					<ul cond="$item->deps">
+						<li loop="$item->deps => $package_srl">{$installed[$package_srl]->title}</li>
+					</ul>
+				</td>
+				<td>{htmlspecialchars($item->item_version)}</td>
+				<td>{htmlspecialchars($item->current_version)}</td>
+				<td>
+					<a cond="!$item->current_version" href="{getUrl('act','dispAutoinstallAdminInstall','package_srl',$item->package_srl)}">{$lang->install}</a>
+					<a cond="!$show_ftp_note && $item->current_version && $item->avail_remove" href="{getUrl('act','dispAutoinstallAdminUninstall','package_srl',$item->package_srl)}">{$lang->cmd_delete}</a>
+					<a cond="$item->current_version && $item->need_update == 'Y'" href="{getUrl('act','dispAutoinstallAdminInstall','package_srl',$item->package_srl)}">{$lang->update}</a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<div class="search">
+	<form action="./" class="pagination" cond="$page_navigation">
+		<input type="hidden" name="error_return_url" value="" />
+		<input type="hidden" name="module" value="{$module}" />
+		<input type="hidden" name="act" value="{$act}" />
+		<input cond="$order_target" type="hidden" name="order_target" value="{$order_target}" />
+		<input cond="$order_type" type="hidden" name="order_type" value="{$order_type}" />
+		<input cond="$category_srl" type="hidden" name="category_srl" value="{$category_srl}" />
+		<input cond="$childrenList" type="hidden" name="childrenList" value="{$childrenList}" />
+		<input cond="$search_keyword" type="hidden" name="search_keyword" value="{$search_keyword}" />
 
-    <div class="pagination a1">
-        <a href="{getUrl('page','')}" class="prevEnd">{$lang->first_page}</a>
-        <!--@while($page_no = $page_navigation->getNextPage())-->
-            <!--@if($page == $page_no)-->
-                <strong>{$page_no}</strong>
-            <!--@else-->
-                <a href="{getUrl('page',$page_no)}">{$page_no}</a>
-            <!--@end-->
-        <!--@end-->
-        <a href="{getUrl('page',$page_navigation->last_page)}" class="nextEnd">{$lang->last_page}</a>
-    </div>
+		<a href="{getUrl('page', '')}" class="direction">&laquo; FIRST</a>
+		<block cond="$page_navigation->first_page + $page_navigation->page_count > $page_navigation->last_page && $page_navigation->page_count != $page_navigation->total_page">
+			{@$isGoTo = true}
+			<a href="{getUrl('page', '')}">1</a>
+			<a href="#goTo" class="tgAnchor" title="{$lang->cmd_go_to_page}">...</a>
+		</block>
+		<!--@while($page_no = $page_navigation->getNextPage())-->
+			{@$last_page = $page_no}
+			<strong cond="$page_no == $page">{$page_no}</strong>
+			<a cond="$page_no != $page" href="{getUrl('page', $page_no)}">{$page_no}</a>
+		<!--@end-->
+		<block cond="$last_page != $page_navigation->last_page">
+			{@$isGoTo = true}
+			<a href="#goTo" class="tgAnchor" title="{$lang->cmd_go_to_page}">...</a>
+			<a href="{getUrl('page', $page_navigation->last_page)}">{$page_navigation->last_page}</a>
+		</block>
+		<a href="{getUrl('page', $page_navigation->last_page)}" class="direction">LAST &raquo;</a>
+		<span cond="$isGoTo" id="goTo" class="tgContent">
+			<input name="page" title="{$lang->cmd_go_to_page}" />
+			<button type="submit">Go</button>
+		</span>
+	</form>
+	<form  cond="$act == 'dispAutoinstallAdminIndex'" action="./">
+		<input type="hidden" name="error_return_url" value="" />
+		<input type="hidden" name="module" value="{$module}" />
+		<input type="hidden" name="act" value="{$act}" />
+		<input cond="$order_target" type="hidden" name="order_target" value="{$order_target}" />
+		<input cond="$order_type" type="hidden" name="order_type" value="{$order_type}" />
+		<input cond="$category_srl" type="hidden" name="category_srl" value="{$category_srl}" />
+		<input cond="$childrenList" type="hidden" name="childrenList" value="{$childrenList}" />
+		<input name="search_keyword" title="Search" value="{$search_keyword}" />
+		<input type="submit" value="Search" />
+	</form>
 </div>

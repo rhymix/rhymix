@@ -64,7 +64,7 @@ function doStartPageModify(zoneID, module_srl) {
 // 내용 모두 삭제
 function removeAllWidget() {
     if(!confirm(confirm_delete_msg)) return;
-	restoreWidgetButtons(); 
+	restoreWidgetButtons();
 	xInnerHtml(zonePageObj,'');
 }
 
@@ -132,12 +132,13 @@ function getContentWidgetCode(childObj, widget) {
                 || name == "widget_padding_left"
                 || name == "widget_padding_right"
                 || name == "widget_padding_top"
-                || name == "widget_padding_bottom") continue;
+                || name == "widget_padding_bottom"
+				|| name == "hasContent") continue;
             var value = childObj.attributes[i].nodeValue;
             if(!value) continue;
             attrs += name+'="'+escape(value)+'" ';
         }
-        return '<img src="./common/tpl/images/widget_bg.jpg" class="zbxe_widget_output" widget="widgetContent" style="'+getStyle(childObj)+'" body="'+body+'" document_srl="'+document_srl+'" widget_padding_left="'+getPadding(childObj,'left')+'" widget_padding_right="'+getPadding(childObj, 'right')+'" widget_padding_top="'+getPadding(childObj, 'top')+'" widget_padding_bottom="'+getPadding(childObj,'bottom')+'" '+attrs+' />';
+        return '<img hasContent="true" class="zbxe_widget_output" widget="widgetContent" style="'+getStyle(childObj)+'" body="'+body+'" document_srl="'+document_srl+'" widget_padding_left="'+getPadding(childObj,'left')+'" widget_padding_right="'+getPadding(childObj, 'right')+'" widget_padding_top="'+getPadding(childObj, 'top')+'" widget_padding_bottom="'+getPadding(childObj,'bottom')+'" '+attrs+' />';
     }else{
         return '';
     }
@@ -168,24 +169,8 @@ function getWidgetBoxCode(childObj, widget) {
     }
 
     var body = getWidgetContent(o);
-    return '<div widget="widgetBox" style="'+getStyle(childObj)+'" widget_padding_left="'+getPadding(childObj,'left')+'" widget_padding_right="'+getPadding(childObj,'right')+'" widget_padding_top="'+getPadding(childObj, 'top')+'" widget_padding_bottom="'+getPadding(childObj, 'bottom')+'" '+attrs+'><div><div>'+body+'<div class="clear"></div></div></div></div>';
+    return '<div widget="widgetBox" style="'+getStyle(childObj)+'" widget_padding_left="'+getPadding(childObj,'left')+'" widget_padding_right="'+getPadding(childObj,'right')+'" widget_padding_top="'+getPadding(childObj, 'top')+'" widget_padding_bottom="'+getPadding(childObj, 'bottom')+'" '+attrs+'><div><div>'+body+'</div></div></div>';
 
-/*
-    var cobj = childObj.firstChild;
-    while(cobj) {
-        if(cobj.className == "widgetBorder" || cobj.className == "widgetBoxBorder") {
-            var c2obj = cobj.firstChild;
-            while(c2obj) {
-                if(c2obj.className == "nullWidget") {
-                    var body = getWidgetContent(c2obj);
-                    return '<div widget="widgetBox" style="'+getStyle(childObj)+'" widget_padding_left="'+getPadding(childObj,'left')+'" widget_padding_right="'+getPadding(childObj,'right')+'" widget_padding_top="'+getPadding(childObj, 'top')+'" widget_padding_bottom="'+getPadding(childObj, 'bottom')+'" '+attrs+'><div><div>'+body+'<div class="clear"></div></div></div></div>';
-                }
-                c2obj = c2obj.nextSibling;
-            }
-        }
-        cobj = cobj.nextSibling;
-    }
-*/
 }
 
 
@@ -215,7 +200,7 @@ function getWidgetCode(childObj, widget) {
 // 팝업 띄움
 function doAddContent(mid) {
     var url = request_uri.setQuery('module','widget').setQuery('act','dispWidgetAdminAddContent').setQuery('module_srl',zoneModuleSrl).setQuery('mid',mid);
-    popopen(url, "addContent");
+	popopen(url, "addContent");
 }
 
 // 직접 내용을 입력하기 위한 에디터 활성화 작업 및 form 데이터 입력
@@ -250,7 +235,7 @@ function doSyncPageContent() {
     if(typeof(editorStart)!='undefined') editorStart(1, "module_srl", "content", false, 400 );
     //editor_upload_start(1);
 
-    setFixedPopupSize();
+    //setFixedPopupSize();
 }
 
 // 부모창에 위젯을 추가
@@ -285,10 +270,10 @@ function completeAddContent(ret_obj, response_tags, params, fo_obj) {
 
     var tpl = ''+
         '<div class="widgetOutput" style="'+fo_obj.style.value+'" widget_padding_left="'+fo_obj.widget_padding_left.value+'" widget_padding_right="'+fo_obj.widget_padding_right.value+'" widget_padding_top="'+fo_obj.widget_padding_top.value+'" widget_padding_bottom="'+fo_obj.widget_padding_bottom.value+'" document_srl="'+document_srl+'" widget="widgetContent">'+
-        '<div class="widgetResize"></div>'+
-        '<div class="widgetResizeLeft"></div>'+
+        '<button type="button" class="widgetResize"></button>'+
+        '<button type="button" class="widgetResizeLeft"></button>'+
         '<div class="widgetBorder">'+
-        '<div style="padding:'+fo_obj.widget_padding_top.value+'px '+fo_obj.widget_padding_right.value+'px'+fo_obj.widget_padding_bottom.value+'px'+fo_obj.widget_padding_left.value+'px"></div>'+content+'<div class="clear"></div>'+
+        '<div style="padding:'+fo_obj.widget_padding_top.value+'px '+fo_obj.widget_padding_right.value+'px'+fo_obj.widget_padding_bottom.value+'px'+fo_obj.widget_padding_left.value+'px"></div>'+content+
         '</div>'+
         '<div class="widgetContent" style="display:none;width:1px;height:1px;overflow:hidden;"></div>'+
         '</div>';
@@ -311,12 +296,11 @@ function completeAddContent(ret_obj, response_tags, params, fo_obj) {
 /* 박스 위젯 추가 */
 function doAddWidgetBox() {
     var tpl = ''+
-    '<div class="widgetOutput" style="float:left;width:100%;height:12px;" widget="widgetBox" >'+
-        '<div class="widgetBoxResize"></div>'+
-        '<div class="widgetBoxResizeLeft"></div>'+
+    '<div class="widgetOutput" style="float:left;width:100%;height:20px;" widget="widgetBox" >'+
+        '<button type="button" class="widgetBoxResize"></button>'+
+        '<button type="button" class="widgetBoxResizeLeft"></button>'+
         '<div class="widgetBoxBorder">'+
             '<div class="nullWidget" style="width:100%;height:100px;"></div>'+
-            '<div class="clear"></div>'+
         '</div>'+
     '</div>';
     xInnerHtml(zonePageObj, xInnerHtml(zonePageObj)+tpl);
@@ -492,7 +476,7 @@ function doCheckWidget(e) {
         var widget = p_obj.getAttribute("widget");
         if(!widget) return;
         selectedWidget = p_obj;
-        if(widget == 'widgetContent') popopen(request_uri+"?module=widget&act=dispWidgetAdminAddContent&module_srl="+zoneModuleSrl+"&document_srl="+p_obj.getAttribute("document_srl")+'&mid='+current_mid, "addContent");
+        if(widget == 'widgetContent') popopen(request_uri+"?module=widget&act=dispWidgetAdminAddContent&module_srl="+zoneModuleSrl+"&document_srl="+p_obj.getAttribute("document_srl"), "addContent");
         else popopen(request_uri+"?module=widget&act=dispWidgetGenerateCodeInPage&selected_widget="+widget+"&widgetstyle="+widgetstyle,'GenerateCodeInPage');
         return;
 
@@ -651,21 +635,21 @@ function doShowWidgetSizeSetup(px, py, obj) {
 
 		width  : obj[0].style.width,
 		height : obj[0].style.height,
-		
+
 		padding_left   : _getInt(obj.attr('widget_padding_left')),
 		padding_right  : _getInt(obj.attr('widget_padding_right')),
 		padding_top    : _getInt(obj.attr('widget_padding_top')),
 		padding_bottom : _getInt(obj.attr('widget_padding_bottom')),
-		
+
 		margin_left    : _getInt(obj[0].style.marginLeft),
 		margin_right   : _getInt(obj[0].style.marginRight),
 		margin_top     : _getInt(obj[0].style.marginTop),
 		margin_bottom  : _getInt(obj[0].style.marginBottom),
-		
+
 		border_top_color : transRGB2Hex(obj[0].style.borderTopColor),
 		border_top_thick : obj[0].style.borderTopWidth.replace(/px$/i, ''),
 		border_top_type  : obj[0].style.borderTopStyle,
-		
+
 		border_bottom_color : transRGB2Hex(obj[0].style.borderBottomColor),
 		border_bottom_thick : obj[0].style.borderBottomWidth.replace(/px$/i, ''),
 		border_bottom_type  : obj[0].style.borderBottomStyle,
@@ -708,7 +692,7 @@ function doShowWidgetSizeSetup(px, py, obj) {
 		var el = form[0].elements[key];
 		if (el) el.value = val;
         if (el.tagName.toLowerCase() == "select")
-        { 
+        {
             if(el.selectedIndex == -1) {
                 el.selectedIndex = 0;
             }

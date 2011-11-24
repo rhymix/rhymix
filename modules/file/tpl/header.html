@@ -1,10 +1,8 @@
-<!--%import("js/file_admin.js")-->
-
-<h3 class="xeAdmin">{$lang->file} <span class="gray">{$lang->cmd_management}</span></h3>
-
-<div class="header4 gap1">
-    <ul class="localNavigation">
-        <li <!--@if($act=='dispFileAdminList')-->class="on"<!--@end-->><a href="{getUrl('act','dispFileAdminList')}">{$lang->file_list}</a></li>
-        <li <!--@if($act=='dispFileAdminConfig')-->class="on"<!--@end-->><a href="{getUrl('act','dispFileAdminConfig')}">{$lang->cmd_module_config}</a></li>
+<load target="js/file_admin.js" usecdn="true" />
+<h2 class="h2">{$lang->file} {$lang->cmd_management}</h2>
+<div class="cnb">
+    <ul>
+        <li <!--@if($act=='dispFileAdminList')-->class="active"<!--@end-->><a href="{getUrl('act','dispFileAdminList')}">{$lang->file_list}</a></li>
+        <li <!--@if($act=='dispFileAdminConfig')-->class="active"<!--@end-->><a href="{getUrl('act','dispFileAdminConfig')}">{$lang->cmd_module_config}</a></li>
     </ul>
 </div>

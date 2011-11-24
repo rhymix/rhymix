@@ -2,87 +2,70 @@
     /**
      * @class  point
      * @author NHN (developers@xpressengine.com)
-     * @brief  point모듈의 high class
+     * @brief The parent class of the point module
      **/
 
     class point extends ModuleObject {
 
         /**
-         * @brief 설치시 추가 작업이 필요할시 구현
+         * @brief Additional tasks required to accomplish during the installation
          **/
         function moduleInstall() {
-            // action forward에 등록 (관리자 모드에서 사용하기 위함)
+            // Registration in action forward (for using in the administrator mode)
             $oModuleController = &getController('module');
-
-            // 포인트 정보를 기록할 디렉토리 생성
+            // Create a directory to store points information
             FileHandler::makeDir('./files/member_extra_info/point');
 
             $oModuleController = &getController('module');
-
-            // 최고레벨
+            // The highest level
             $config->max_level = 30;
-
-            // 레벨별 점수
+            // Per-level score
             for($i=1;$i<=30;$i++) {
                 $config->level_step[$i] = pow($i,2)*90;
             }
-
-            // 회원가입
+            // Points for registration
             $config->signup_point = 10;
-
-            // 로그인 가입
+            // Login points
             $config->login_point = 5;
-
-            // 포인트 호칭
+            // Point's name
             $config->point_name = 'point';
-
-            // 레벨 아이콘 디렉토리
+            // Level icon directory
             $config->level_icon = "default";
-
-            // 점수가 없을때 다운로드 금지 기능
+            // Prevent downloads if there are no scores
             $config->disable_download = false;
 
             /**
-             * 모듈별 기본 점수 및 각 action 정의 (게시판,블로그외에 어떤 모듈이 생길지 모르니 act값을 명시한다
+             * Define the default points per module as well as all actions (as we do not know if it is forum or blogs, specify "act")
              **/
-
-            // 글작성
+            // Insert document
             $config->insert_document = 10;
 
             $config->insert_document_act = 'procBoardInsertDocument';
             $config->delete_document_act = 'procBoardDeleteDocument';
-
-            // 댓글작성
+            // Insert comment
             $config->insert_comment = 5;
 
             $config->insert_comment_act = 'procBoardInsertComment,procBlogInsertComment';
             $config->delete_comment_act = 'procBoardDeleteComment,procBlogDeleteComment';
-
-            // 업로드
+            // Upload
             $config->upload_file = 5;
 
             $config->upload_file_act = 'procFileUpload';
             $config->delete_file_act = 'procFileDelete';
-
-            // 다운로드
+            // Download
             $config->download_file = -5;
             $config->download_file_act = 'procFileDownload';
-
-            // 조회
+            // View
             $config->read_document = 0;
-
-            // 추천 / 비추천
+            // Vote up / Vote down
             $config->voted = 0;
             $config->blamed = 0;
-
-            // 설정 저장
+            // Save configurations
             $oModuleController->insertModuleConfig('point', $config);
-
-            // 빠른 실행을 위해서 act list를 캐싱
+            // Cash act list for faster execution
             $oPointController = &getAdminController('point');
             $oPointController->cacheActList();
-
-            // 가입/글작성/댓글작성/파일업로드/다운로드에 대한 트리거 추가
+            // Add a trigger for registration/insert document/insert comment/upload a file/download
             $oModuleController->insertTrigger('member.insertMember', 'point', 'controller', 'triggerInsertMember', 'after');
             $oModuleController->insertTrigger('document.insertDocument', 'point', 'controller', 'triggerInsertDocument', 'after');
             $oModuleController->insertTrigger('document.deleteDocument', 'point', 'controller', 'triggerBeforeDeleteDocument', 'before');
@@ -96,24 +79,21 @@
             $oModuleController->insertTrigger('member.doLogin', 'point', 'controller', 'triggerAfterLogin', 'after');
             $oModuleController->insertTrigger('module.dispAdditionSetup', 'point', 'view', 'triggerDispPointAdditionSetup', 'after');
             $oModuleController->insertTrigger('document.updateReadedCount', 'point', 'controller', 'triggerUpdateReadedCount', 'after');
-
-            // 추천 / 비추천에 대한 트리거 추가 2008.05.13 haneul
+            // Add a trigger for voting up and down 2008.05.13 haneul
             $oModuleController->insertTrigger('document.updateVotedCount', 'point', 'controller', 'triggerUpdateVotedCount', 'after');
-
-            // 임시저장글을 정상 저장시 포인트 지급하도록 트리거 추가 2009. 05. 19 zero
+            // Add a trigger for using points for permanent saving of a temporarily saved document 2009.05.19 zero
             $oModuleController->insertTrigger('document.updateDocument', 'point', 'controller', 'triggerUpdateDocument', 'before');
 
             return new Object();
         }
 
         /**
-         * @brief 설치가 이상이 없는지 체크하는 method
+         * @brief A method to check if the installation has been successful
          **/
         function checkUpdate() {
-            // point 모듈 정보 가져옴
+            // Get the information of the point module
             $oModuleModel = &getModel('module');
-
-            // 가입/글작성/댓글작성/파일업로드/다운로드에 대한 트리거 추가
+            // Add a trigger for registration/insert document/insert comment/upload a file/download
             if(!$oModuleModel->getTrigger('member.insertMember', 'point', 'controller', 'triggerInsertMember', 'after')) return true;
             if(!$oModuleModel->getTrigger('document.insertDocument', 'point', 'controller', 'triggerInsertDocument', 'after')) return true;
             if(!$oModuleModel->getTrigger('document.deleteDocument', 'point', 'controller', 'triggerBeforeDeleteDocument', 'before')) return true;
@@ -127,25 +107,22 @@
             if(!$oModuleModel->getTrigger('member.doLogin', 'point', 'controller', 'triggerAfterLogin', 'after')) return true;
             if(!$oModuleModel->getTrigger('module.dispAdditionSetup', 'point', 'view', 'triggerDispPointAdditionSetup', 'after')) return true;
             if(!$oModuleModel->getTrigger('document.updateReadedCount', 'point', 'controller', 'triggerUpdateReadedCount', 'after')) return true;
-
-            // 추천 / 비추천에 대한 트리거 추가 2008.05.13 haneul
+            // Add a trigger for voting up and down 2008.05.13 haneul
             if(!$oModuleModel->getTrigger('document.updateVotedCount', 'point', 'controller', 'triggerUpdateVotedCount', 'after')) return true;
-
-            // 임시저장글을 정상 저장시 포인트 지급하도록 트리거 추가 2009. 05. 19 zero
+            // Add a trigger for using points for permanent saving of a temporarily saved document 2009.05.19 zero
             if(!$oModuleModel->getTrigger('document.updateDocument', 'point', 'controller', 'triggerUpdateDocument', 'before')) return true;
 
             return false;
         }
 
         /**
-         * @brief 업데이트 실행
+         * @brief Execute update
          **/
         function moduleUpdate() {
-            // point 모듈 정보 가져옴
+            // Get the information of the point module
             $oModuleModel = &getModel('module');
             $oModuleController = &getController('module');
-
-            // 가입/글작성/댓글작성/파일업로드/다운로드에 대한 트리거 추가
+            // Add a trigger for registration/insert document/insert comment/upload a file/download
             if(!$oModuleModel->getTrigger('member.insertMember', 'point', 'controller', 'triggerInsertMember', 'after')) 
                 $oModuleController->insertTrigger('member.insertMember', 'point', 'controller', 'triggerInsertMember', 'after');
             if(!$oModuleModel->getTrigger('document.insertDocument', 'point', 'controller', 'triggerInsertDocument', 'after')) 
@@ -172,12 +149,10 @@
                 $oModuleController->insertTrigger('module.dispAdditionSetup', 'point', 'view', 'triggerDispPointAdditionSetup', 'after');
             if(!$oModuleModel->getTrigger('document.updateReadedCount', 'point', 'controller', 'triggerUpdateReadedCount', 'after')) 
                 $oModuleController->insertTrigger('document.updateReadedCount', 'point', 'controller', 'triggerUpdateReadedCount', 'after');
-
-            // 추천 / 비추천에 대한 트리거 추가 2008.05.13 haneul
+            // Add a trigger for voting up and down 2008.05.13 haneul
             if(!$oModuleModel->getTrigger('document.updateVotedCount', 'point', 'controller', 'triggerUpdateVotedCount', 'after'))
                 $oModuleController->insertTrigger('document.updateVotedCount', 'point', 'controller', 'triggerUpdateVotedCount', 'after');
-
-            // 임시저장글을 정상 저장시 포인트 지급하도록 트리거 추가 2009. 05. 19 zero
+            // Add a trigger for using points for permanent saving of a temporarily saved document 2009.05.19 zero
             if(!$oModuleModel->getTrigger('document.updateDocument', 'point', 'controller', 'triggerUpdateDocument', 'before')) 
                 $oModuleController->insertTrigger('document.updateDocument', 'point', 'controller', 'triggerUpdateDocument', 'before');
 
@@ -185,10 +160,10 @@
         }
 
         /**
-         * @brief 캐시 파일 재생성
+         * @brief Re-create the cache file
          **/
         function recompileCache() {
-            // point action 파일 재정의
+            // redefine point action file
             $oPointAdminController = &getAdminController('point');
             $oPointAdminController->cacheActList();
 

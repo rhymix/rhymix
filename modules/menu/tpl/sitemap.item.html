@@ -1,0 +1,18 @@
+	<li>
+		<input type="hidden" name="parent_key[]" value="{$item['parent_srl']}" class="_parent_key" />
+		<input type="hidden" name="item_key[]" value="{$item['node_srl']}" class="_item_key" />
+		<!--@if($item['href'])--><a href="{$item['href']}" class="ms" target="_blank">{$item['text']}</a><!--@else-->{$item['text']}<!--@end-->
+		<span class="side">
+			<block cond="$item['setup_index_act']"><a href="{getUrl('', 'module', 'admin', 'act', $item['setup_index_act'], 'module_srl', $item['module_srl'])}">{$lang->cmd_setup}</a> |</block>
+			<a href="#editMenu" class="modalAnchor _edit">{$lang->cmd_edit}</a> |
+			<a href="#delete" class="_delete">{$lang->cmd_delete}</a> |
+			<a href="#editMenu" class="modalAnchor _add _child">{$lang->add}</a>
+		</span>
+		<ul cond="count($item['list']>0)">
+		<block loop="$item['list']=>$idx,$val">
+		{@$item = $val}
+		<include target="sitemap.item.html" />
+		</block>
+		</ul>
+	</li>
+

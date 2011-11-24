@@ -2,25 +2,23 @@
     /**
      * @class  poll
      * @author NHN (developers@xpressengine.com)
-     * @brief  poll모듈의 high class
+     * @brief The parent class of the poll module
      **/
 
     class poll extends ModuleObject {
 
         /**
-         * @brief 설치시 추가 작업이 필요할시 구현
+         * @brief Additional tasks required to accomplish during the installation
          **/
         function moduleInstall() {
-            // action forward에 등록 (관리자 모드에서 사용하기 위함)
+            // Register in the action forward (to use in administrator mode)
             $oModuleController = &getController('module');
-
-            // 기본 스킨 설정
+            // Set the default skin
             $oModuleController = &getController('module');
             $config->skin = 'default';
             $config->colorset = 'normal';
             $oModuleController->insertModuleConfig('poll', $config);
-
-            // 2007. 10. 17 글/댓글의 삭제시 설문조사도 삭제
+            // 2007.10.17 When deleting posts/comments delete the poll as well
             $oModuleController->insertTrigger('document.insertDocument', 'poll', 'controller', 'triggerInsertDocumentPoll', 'after');
             $oModuleController->insertTrigger('comment.insertComment', 'poll', 'controller', 'triggerInsertCommentPoll', 'after');
             $oModuleController->insertTrigger('document.updateDocument', 'poll', 'controller', 'triggerUpdateDocumentPoll', 'after');
@@ -32,12 +30,11 @@
         }
 
         /**
-         * @brief 설치가 이상이 없는지 체크하는 method
+         * @brief A method to check if the installation has been successful
          **/
         function checkUpdate() {
             $oModuleModel = &getModel('module');
-
-            // 2007. 10. 17 글/댓글의 삭제시 설문조사도 삭제
+            // 2007.10.17 When deleting posts/comments delete the poll as well
             if(!$oModuleModel->getTrigger('document.insertDocument', 'poll', 'controller', 'triggerInsertDocumentPoll', 'after')) return true;
             if(!$oModuleModel->getTrigger('comment.insertComment', 'poll', 'controller', 'triggerInsertCommentPoll', 'after')) return true;
             if(!$oModuleModel->getTrigger('document.updateDocument', 'poll', 'controller', 'triggerUpdateDocumentPoll', 'after')) return true;
@@ -49,19 +46,17 @@
         }
 
         /**
-         * @brief 업데이트 실행
+         * @brief Execute update
          **/
         function moduleUpdate() {
             $oModuleModel = &getModel('module');
             $oModuleController = &getController('module');
-
-            // 2007. 10. 17 글/댓글의 삭제시 설문조사도 삭제
+            // 2007.10.17 When deleting posts/comments delete the poll as well
             if(!$oModuleModel->getTrigger('document.deleteDocument', 'poll', 'controller', 'triggerDeleteDocumentPoll', 'after'))
                 $oModuleController->insertTrigger('document.deleteDocument', 'poll', 'controller', 'triggerDeleteDocumentPoll', 'after');
             if(!$oModuleModel->getTrigger('comment.deleteComment', 'poll', 'controller', 'triggerDeleteCommentPoll', 'after'))
                 $oModuleController->insertTrigger('comment.deleteComment', 'poll', 'controller', 'triggerDeleteCommentPoll', 'after');
-
-            // 2008. 04. 22 글/댓글의 추가기 설문조사의 연결
+            // 2008.04.22 A poll connection to add posts/comments
             if(!$oModuleModel->getTrigger('document.insertDocument', 'poll', 'controller', 'triggerInsertDocumentPoll', 'after')) 
                 $oModuleController->insertTrigger('document.insertDocument', 'poll', 'controller', 'triggerInsertDocumentPoll', 'after');
             if(!$oModuleModel->getTrigger('comment.insertComment', 'poll', 'controller', 'triggerInsertCommentPoll', 'after')) 
@@ -75,7 +70,7 @@
         }
 
         /**
-         * @brief 캐시 파일 재생성
+         * @brief Re-generate the cache file
          **/
         function recompileCache() {
         }

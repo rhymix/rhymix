@@ -1,54 +1,50 @@
-<!--%import("js/communication_admin.js")-->
-<!--%import("../../editor/tpl/js/editor_module_config.js",optimized=false)-->
-<!--%import("filter/insert_config.xml")-->
-
-<h3 class="xeAdmin">{$lang->communication} <span class="gray">{$lang->cmd_management}</span></h3>
-
-<div class="infoText">{nl2br($lang->about_communication)}</div>
-
-<form action="./" method="get" onsubmit="return procFilter(this, insert_config)">
-
-    <table cellspacing="0" class="rowTable">
-    <tr>
-        <th scope="row"><div>{$lang->editor_skin}</div></th>
-        <td>
-            <select name="editor_skin" onchange="getEditorSkinColorList(this.value)">
-            <!--@foreach($editor_skin_list as $editor_skin)-->
-            <option value="{$editor_skin}" <!--@if($editor_skin==$communication_config->editor_skin)-->selected="selected"<!--@end-->>{$editor_skin}</option>
-            <!--@end-->
-            </select>
-            <select name="editor_colorset" id="sel_editor_colorset" style="display:none">
-            </select>
-            <script type="text/javascript">//<![CDATA[
-                getEditorSkinColorList('{$communication_config->editor_skin}','{$communication_config->editor_colorset}');
-            //]]></script>
-        </td>
-    </tr>
-
-    <tr>
-        <th scope="row"><div>{$lang->skin}</div></th>
-        <td>
-            <select name="skin" onchange="doGetSkinColorset(this.options[this.selectedIndex].value);return false;">
-            <!--@foreach($communication_skin_list as $key=>$val)-->
-            <option value="{$key}" <!--@if($key==$communication_config->skin)-->selected="selected"<!--@end-->>{$val->title}</option>
-            <!--@end-->
-            </select>
-        </td>
-    </tr>
-    <tr>
-        <th scope="row"><div>{$lang->colorset}</div></th>
-        <td><div id="communication_colorset"></div></td>
-    </tr>
-
-    <tr>
-        <th colspan="2" class="button">
-            <span class="button strong black"><input type="submit" value="{$lang->cmd_registration}" /></span>
-        </th>
-    </tr>
-    </table>
-
+<load target="js/communication_admin.js" usecdn="true" />
+<load target="../../editor/tpl/js/editor_module_config.js" usecdn="true" />
+<h1 class="h1">{$lang->communication} <em>{$lang->cmd_management}</em></h1>
+<p>{nl2br($lang->about_communication)}</p>
+<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
+<form ruleset="insertConfig" action="./" method="post" class="form">
+	<input type="hidden" name="module" value="communication" />
+	<input type="hidden" name="act" value="procCommunicationAdminInsertConfig">
+	<div class="table">
+		<table width="100%" border="1" cellspacing="0">
+			<tr>
+				<th scope="row">{$lang->editor_skin}</th>
+				<td>
+					<select name="editor_skin" onchange="getEditorSkinColorList(this.value)">
+					<!--@foreach($editor_skin_list as $editor_skin)-->
+					<option value="{$editor_skin}" <!--@if($editor_skin==$communication_config->editor_skin)-->selected="selected"<!--@end-->>{$editor_skin}</option>
+					<!--@end-->
+					</select>
+					<select name="editor_colorset" id="sel_editor_colorset" style="display:none">
+					</select>
+					<script type="text/javascript">//<![CDATA[
+						getEditorSkinColorList('{$communication_config->editor_skin}','{$communication_config->editor_colorset}');
+					//]]></script>
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">{$lang->skin}</th>
+				<td>
+					<select name="skin" onchange="doGetSkinColorset(this.options[this.selectedIndex].value);return false;">
+					<!--@foreach($communication_skin_list as $key=>$val)-->
+					<option value="{$key}" <!--@if($key==$communication_config->skin)-->selected="selected"<!--@end-->>{$val->title}</option>
+					<!--@end-->
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">{$lang->colorset}</th>
+				<td><div id="communication_colorset"></div></td>
+			</tr>
+		</table>
+	</div>
+	<div class="btnArea">
+		<span class="btn"><input type="submit" value="{$lang->cmd_registration}" /></span>
+	</div>
 </form>
-
 <script type="text/javascript">
     jQuery(function() { doGetSkinColorset("{$communication_config->skin}"); });
 </script>

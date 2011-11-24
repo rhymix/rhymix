@@ -2,20 +2,19 @@
     /**
      * @class  widget
      * @author NHN (developers@xpressengine.com)
-     * @brief  widget 모듈의 high class
+     * @brief widget module's high class
      **/
 
     class widget extends ModuleObject {
 
         /**
-         * @brief 설치시 추가 작업이 필요할시 구현
+         * @brief Implement if additional tasks are necessary when installing
          **/
         function moduleInstall() {
-            // widget 에서 사용할 cache디렉토리 생성
+            // Create cache directory used by widget
             FileHandler::makeDir('./files/cache/widget');
 			FileHandler::makeDir('./files/cache/widget_cache');
-
-            // widget compile을 위한 display.after 트리거 추가
+            // Add this widget compile the trigger for the display.after
             $oModuleController = &getController('module');
             $oModuleController->insertTrigger('display', 'widget', 'controller', 'triggerWidgetCompile', 'before');
 
@@ -23,25 +22,23 @@
         }
 
         /**
-         * @brief 설치가 이상이 없는지 체크하는 method
+         * @brief a method to check if successfully installed
          **/
         function checkUpdate() {
             $oModuleModel = &getModel('module');
-
-            // widget compile을 위한 display.after 트리거 추가 (2009. 04. 14)
+            // widget compile display.after trigger for further (04/14/2009)
             if(!$oModuleModel->getTrigger('display', 'widget', 'controller', 'triggerWidgetCompile', 'before')) return true;
 
             return false;
         }
 
         /**
-         * @brief 업데이트 실행
+         * @brief Execute update
          **/
         function moduleUpdate() {
             $oModuleModel = &getModel('module');
             $oModuleController = &getController('module');
-
-            // widget compile을 위한 display.after 트리거 추가 (2009. 04. 14)
+            // widget compile display.after trigger for further (04/14/2009)
             if(!$oModuleModel->getTrigger('display', 'widget', 'controller', 'triggerWidgetCompile', 'before')) {
                 $oModuleController->insertTrigger('display', 'widget', 'controller', 'triggerWidgetCompile', 'before');
             }
@@ -50,14 +47,9 @@
         }
 
         /**
-         * @brief 캐시 파일 재생성
+         * @brief Re-generate the cache file
          **/
         function recompileCache() {
-            // widget 정보를 담은 캐시 파일 삭제
-            FileHandler::removeFilesInDir("./files/cache/widget");
-
-            // widget 생성 캐시 파일 삭제
-            FileHandler::removeFilesInDir("./files/cache/widget_cache");
         }
 
     }

@@ -62,10 +62,13 @@
 
 	// insertPageModule
 	$page_args->layout_srl = $layout_srl;
+	$page_args->browser_title = 'welcome_page';
 	$page_args->module = 'page';
 	$page_args->mid = 'welcome_page';
 	$page_args->module_category_srl = 0;
 	$page_args->page_caching_interval = 0;
+	$page_args->page_type = 'ARTICLE';
+	$page_args->skin = 'default';
 	
 	$oModuleController = &getController('module');
 	$output = $oModuleController->insertModule($page_args);
@@ -82,7 +85,7 @@
 
 	$obj->module_srl = $module_srl;
 	Context::set('version', __ZBXE_VERSION__);
-	$obj->title = 'welcome_document';
+	$obj->title = 'Welcome XE';
 
 	$obj->content = $oTemplateHandler->compile('./modules/install/script/welcome_content', 'welcome_content_'.$lang);
 
@@ -94,8 +97,7 @@
 	// save PageWidget
 	$oModuleModel = &getModel('module');
 	$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
-	$module_info->content = '<img src="./common/tpl/images/widget_bg.jpg" class="zbxe_widget_output" widget="widgetContent" style="WIDTH: 100%; FLOAT: left" body="" document_srl="'.$document_srl.'" widget_padding_left="0" widget_padding_right="0" widget_padding_top="0" widget_padding_bottom="0"  />';
-
+	$module_info->document_srl = $document_srl;
 	$output = $oModuleController->updateModule($module_info);
 	if(!$output->toBool()) return $output;
 

@@ -1,8 +1,23 @@
+{@
+	$db_info   = Context::getDBInfo();
+	$lang_type = Context::getLangType();
+}
+<!--@if($db_info->use_html5=='Y')-->
+<!DOCTYPE html>
+<html lang="{$lang_type}">
+<!--@else-->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html lang="{Context::getLangType()}" xml:lang="{Context::getLangType()}" xmlns="http://www.w3.org/1999/xhtml">
+<html lang="{$lang_type}" xml:lang="{$lang_type}" xmlns="http://www.w3.org/1999/xhtml">
+<!--@end-->
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta name="Generator" content="XpressEngine {__ZBXE_VERSION__}" />
+    <meta name="Generator" content="XpressEngine" />
+	{@ $meta_tags = Context::getMetaTag() }
+	<block loop="$meta_tags=>$key,$meta_tag">
+	<meta http-equiv="{$meta_tag['name']}" content="{$meta_tag['content']}" cond="$meta_tag['is_http_equiv']" />
+	<meta name="{$meta_tag['name']}" content="{$meta_tag['content']}" cond="!$meta_tag['is_http_equiv']" />
+	</block>
+
 <!--@if($module_info->module)-->
     <meta name="module" content="{$module_info->module}" />
 <!--@end-->
@@ -21,24 +36,27 @@
     <title>{Context::getBrowserTitle()}</title>
 {@ $css_files = Context::getCssFile() }
 <!--@foreach($css_files as $key => $css_file)-->
-<!--@if($css_file['targetie'])-->
-    <!--[if {$css_file['targetie']}]>
-<!--@end-->
-    <link rel="stylesheet" href="{$css_file['file']}" type="text/css" charset="UTF-8" media="{$css_file['media']}" />
-<!--@if($css_file['targetie'])-->
-    <![endif]-->
-<!--@end-->
+	<!--@if($css_file['targetie'])-->
+		<!--[if {$css_file['targetie']}]>
+	<!--@end-->
+		<link rel="stylesheet" href="{$css_file['file']}" type="text/css" charset="UTF-8" media="{$css_file['media']}" />
+	<!--@if($css_file['targetie'])-->
+		<![endif]-->
+	<!--@end-->
 <!--@end-->
 {@ $js_files = Context::getJsFile() }
 <!--@foreach($js_files as $key => $js_file)-->
-<!--@if($js_file['targetie'])-->
-    <!--[if {$js_file['targetie']}]>
+	<!--@if($js_file['targetie'])-->
+		<!--[if {$js_file['targetie']}]>
+	<!--@end-->
+		<script type="text/javascript" src="{$js_file['file']}"></script>
+	<!--@if($js_file['targetie'])-->
+		<![endif]-->
+	<!--@end-->
 <!--@end-->
-    <script type="text/javascript" src="{$js_file['file']}"></script>
-<!--@if($js_file['targetie'])-->
-    <![endif]-->
-<!--@end-->
-<!--@end-->
+<!--[if lt IE 9]>
+<script type="text/javascript" src="../js/html5.js" cond="$db_info->use_html5=='Y'"></script>
+<![endif]-->
 <!--@if($rss_url)-->
     <link rel="alternate" type="application/rss+xml" title="RSS" href="{$rss_url}" />
     <link rel="alternate" type="application/atom+xml" title="Atom" href="{$atom_url}" />
@@ -47,6 +65,9 @@
     <link rel="alternate" type="application/rss+xml" title="Site RSS" href="{$general_rss_url}" />
     <link rel="alternate" type="application/atom+xml" title="Site Atom" href="{$general_atom_url}" />
 <!--@end-->
+
+<link cond="$favicon_url" rel="shortcut icon" href="{$favicon_url}" />
+<link cond="$mobicon_url" rel="apple-touch-icon" href="{$mobicon_url}" />
 
 {@ $ssl_actions = Context::getSSLActions() }
     <script type="text/javascript">//<![CDATA[
@@ -72,10 +93,8 @@
     {$content}
 
     {Context::getHtmlFooter()}
-
-    <div id="waitingforserverresponse"></div>
-
-{@ $js_body_files = Context::getJsFile('body') }
+<div class="wfsr"></div>
+{@ $js_body_files = Context::getJsFile('body') } 
 <!--@foreach($js_body_files as $key => $js_file)-->
 <!--@if($js_file['targetie'])-->
     <!--[if {$js_file['targetie']}]>

@@ -43,10 +43,9 @@ function completeInsertGroup(ret_obj) {
 function doUpdateGroup(group_srl, mode, message) {
     if(typeof(message)!='undefined'&&!confirm(message)) return;
 
-    var fo_obj = xGetElementById('fo_group_info');
+    var fo_obj = get_by_id('fo_group_info');
     fo_obj.group_srl.value = group_srl;
-    fo_obj.mode.value = mode;
-    procFilter(fo_obj, update_group);
+	fo_obj.submit();
 }
 
 function completeUpdateGroup(ret_obj) {
@@ -68,21 +67,11 @@ function completeInsertDeniedID(ret_obj) {
     location.href = url;
 }
 
-/* 금지아이디 관련 작업들 */
-function doUpdateDeniedID(user_id, mode, message) {
-    if(typeof(message)!='undefined'&&!confirm(message)) return;
-
-    var fo_obj = xGetElementById('fo_denied_id_info');
-    fo_obj.user_id.value = user_id;
-    fo_obj.mode.value = mode;
-    procFilter(fo_obj, update_denied_id);
-}
-
 /* 가입폼 관련 작업들 */
 function doUpdateJoinForm(member_join_form_srl, mode, message) {
     if(typeof(message)!='undefined'&&!confirm(message)) return;
 
-    var fo_obj = xGetElementById('fo_join_form_info');
+    var fo_obj = get_by_id('fo_join_form_info');
     fo_obj.member_join_form_srl.value = member_join_form_srl;
     fo_obj.mode.value = mode;
 
@@ -121,17 +110,17 @@ function doShowJoinFormValue(sel_obj) {
         case 'radio' :
         case 'checkbox' :
         case 'select' :
-                xGetElementById('zone_default_value').style.display = 'block';
+                get_by_id('zone_default_value').style.display = 'block';
             break;
         default :
-                xGetElementById('zone_default_value').style.display = 'none';
+                get_by_id('zone_default_value').style.display = 'none';
             break;
     }
 }
 
 function doEditDefaultValue(obj, cmd) {
-    var listup_obj = xGetElementById('default_value_listup');
-    var item_obj = xGetElementById('default_value_item');
+    var listup_obj = get_by_id('default_value_listup');
+    var item_obj = get_by_id('default_value_item');
     var idx = listup_obj.selectedIndex;
     var lng = listup_obj.options.length;
     var val = item_obj.value;
@@ -171,16 +160,16 @@ function doEditDefaultValue(obj, cmd) {
         value_list[value_list.length] = listup_obj.options[i].value;
     }
 
-    xGetElementById('fo_join_form').default_value.value = value_list.join('|@|');
+    get_by_id('fo_join_form').default_value.value = value_list.join('|@|');
 }
 
 /* 한국 우편 번호 관련 */
 function doHideKrZipList(column_name) {
-    var zone_list_obj = xGetElementById('zone_address_list_'+column_name);
-    var zone_search_obj = xGetElementById('zone_address_search_'+column_name);
-    var zone_addr1_obj = xGetElementById('zone_address_1_'+column_name);
-    var addr1_obj = xGetElementById('fo_insert_member')[column_name][0];
-    var field_obj = xGetElementById('fo_insert_member')['_tmp_address_search_'+column_name];
+    var zone_list_obj = get_by_id('zone_address_list_'+column_name);
+    var zone_search_obj = get_by_id('zone_address_search_'+column_name);
+    var zone_addr1_obj = get_by_id('zone_address_1_'+column_name);
+    var addr1_obj = get_by_id('fo_insert_member')[column_name][0];
+    var field_obj = get_by_id('fo_insert_member')['_tmp_address_search_'+column_name];
 
     zone_addr1_obj.style.display = 'none';
     zone_list_obj.style.display = 'none';
@@ -190,13 +179,13 @@ function doHideKrZipList(column_name) {
 }
 
 function doSelectKrZip(column_name) {
-    var zone_list_obj = xGetElementById('zone_address_list_'+column_name);
-    var zone_search_obj = xGetElementById('zone_address_search_'+column_name);
-    var zone_addr1_obj = xGetElementById('zone_address_1_'+column_name);
-    var sel_obj = xGetElementById('fo_insert_member')['_tmp_address_list_'+column_name];
+    var zone_list_obj = get_by_id('zone_address_list_'+column_name);
+    var zone_search_obj = get_by_id('zone_address_search_'+column_name);
+    var zone_addr1_obj = get_by_id('zone_address_1_'+column_name);
+    var sel_obj = get_by_id('fo_insert_member')['_tmp_address_list_'+column_name];
     var value = sel_obj.options[sel_obj.selectedIndex].value;
-    var addr1_obj = xGetElementById('fo_insert_member')[column_name][0];
-    var addr2_obj = xGetElementById('fo_insert_member')[column_name][1];
+    var addr1_obj = get_by_id('fo_insert_member')[column_name][0];
+    var addr2_obj = get_by_id('fo_insert_member')[column_name][1];
     addr1_obj.value = value;
     zone_search_obj.style.display = 'none';
     zone_list_obj.style.display = 'none';
@@ -205,7 +194,7 @@ function doSelectKrZip(column_name) {
 }
 
 function doSearchKrZip(column_name) {
-    var field_obj = xGetElementById('fo_insert_member')['_tmp_address_search_'+column_name];
+    var field_obj = get_by_id('fo_insert_member')['_tmp_address_search_'+column_name];
     var addr = field_obj.value;
     if(!addr) return;
 
@@ -225,10 +214,10 @@ function completeSearchKrZip(ret_obj, response_tags, callback_args) {
     var address_list = ret_obj['address_list'].split("\n");
     var column_name = callback_args['column_name'];
 
-    var zone_list_obj = xGetElementById('zone_address_list_'+column_name);
-    var zone_search_obj = xGetElementById('zone_address_search_'+column_name);
-    var zone_addr1_obj = xGetElementById('zone_address_1_'+column_name);
-    var sel_obj = xGetElementById('fo_insert_member')['_tmp_address_list_'+column_name];
+    var zone_list_obj = get_by_id('zone_address_list_'+column_name);
+    var zone_search_obj = get_by_id('zone_address_search_'+column_name);
+    var zone_addr1_obj = get_by_id('zone_address_1_'+column_name);
+    var sel_obj = get_by_id('fo_insert_member')['_tmp_address_list_'+column_name];
 
     for(var i=0;i<address_list.length;i++) {
             var opt = new Option(address_list[i],address_list[i],false,false);
@@ -249,44 +238,50 @@ function completeSearchKrZip(ret_obj, response_tags, callback_args) {
 
 /* 프로필 이미지, 이미지 이름, 마크 삭제 */
 function doDeleteProfileImage(member_srl) {
-    var fo_obj = xGetElementById("fo_image");
-    fo_obj.member_srl.value = member_srl;
-    procFilter(fo_obj, delete_profile_image);
+	if (!member_srl) return;
+
+	if (!confirm(xe.lang.deleteProfileImage)) return false;
+
+	exec_xml(
+		'member',
+		'procMemberDeleteProfileImage',
+		{member_srl:member_srl},
+		function(){jQuery('#profile_imagetag').remove()},
+		['error','message','tpl']
+	);
 }
 
 function doDeleteImageName(member_srl) {
-    var fo_obj = xGetElementById("fo_image");
-    fo_obj.member_srl.value = member_srl;
-    procFilter(fo_obj, delete_image_name);
+	if (!member_srl) return;
+
+	if (!confirm(xe.lang.deleteImageName)) return false;
+	exec_xml(
+		'member',
+		'procMemberDeleteImageName',
+		{member_srl:member_srl},
+		function(){jQuery('#image_nametag').remove()},
+		['error','message','tpl']
+	);
 }
 
 function doDeleteImageMark(member_srl) {
-    var fo_obj = xGetElementById("fo_image");
-    fo_obj.member_srl.value = member_srl;
-    procFilter(fo_obj, delete_image_mark);
+	if (!member_srl) return;
+
+	if (!confirm(xe.lang.deleteImageMark)) return false;
+	exec_xml(
+		'member',
+		'procMemberDeleteImageMark',
+		{member_srl:member_srl},
+		function(){jQuery('#image_marktag').remove()},
+		['error','message','tpl']
+	);
 }
 
 
-/* 멤버 스킨 컬러셋 구해옴 */
-function doGetSkinColorset(skin) {
-    var params = new Array();
-    params['skin'] = skin;
-
-    var response_tags = new Array('error','message','tpl');
-    exec_xml('member', 'getMemberAdminColorset', params, doDisplaySkinColorset, response_tags);
-}
-
-function doDisplaySkinColorset(ret_obj) {
-    var tpl = ret_obj["tpl"];
-    var old_height = xHeight("member_colorset");
-    xInnerHtml("member_colorset", tpl);
-    var new_height = xHeight("member_colorset");
-    if(typeof(fixAdminLayoutFooter)=="function") fixAdminLayoutFooter(new_height - old_height);
-}
 
 /* 그룹 일괄 변경 */
 function doManageMemberGroup() {
-    var fo_obj = xGetElementById("member_fo");
+    var fo_obj = get_by_id("member_fo");
     var member_srl = new Array();
 
     if(typeof(fo_obj.cart.length)=='undefined') {
@@ -314,21 +309,16 @@ function completeUpdateMemberGroup(ret_obj) {
 
 /* 일괄 삭제 */
 function doDeleteMembers() {
-    var fo_obj = xGetElementById("member_fo");
-    var member_srl = new Array();
+    var carts = get_by_id('member_fo').elements['cart'], member_srls = [], i, c, url;
 
-    if(typeof(fo_obj.cart.length)=='undefined') {
-        if(fo_obj.cart.checked) member_srl[member_srl.length] = fo_obj.cart.value;
-    } else {
-        var length = fo_obj.cart.length;
-        for(var i=0;i<length;i++) {
-            if(fo_obj.cart[i].checked) member_srl[member_srl.length] = fo_obj.cart[i].value;
-        }
-    }
+	if(!is_def(carts.length)) carts = [carts];
+	for(i=0,c=carts.length; i < c; i++) {
+		if(carts[i].checked) member_srls.push(carts[i].value);
+	}
+	if(member_srls.length < 1) return;
 
-    if(member_srl.length<1) return;
+	url = './?module=member&act=dispMemberAdminDeleteMembers&member_srls=' + member_srls.join(',');
 
-    var url = './?module=member&act=dispMemberAdminDeleteMembers&member_srls='+member_srl.join(',');
     winopen(url, 'deleteMembers','scrollbars=no,width=400,height=500,toolbars=no');
 }
 

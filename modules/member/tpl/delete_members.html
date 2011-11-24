@@ -1,34 +1,32 @@
 <!--%import("filter/delete_members.xml")-->
-<!--%import("js/member_admin.js")-->
+<load target="js/member_admin.js" usecdn="true" />
 
-<div id="popHeader" class="wide">
-    <h3 class="xeAdmin">{$lang->cmd_delete} ({$lang->target} : {count($member_list)})</h3>
-</div>
+<h1 class="h1">{$lang->cmd_delete} ({$lang->target} : {count($member_list)})</h1>
 
 <form action="./" method="get" id="fo_management" onsubmit="return procFilter(this, delete_members);">
-<input type="hidden" name="target_member_srls" value="{$member_srls}" />
+	<input type="hidden" name="target_member_srls" value="{$member_srls}" />
+	
+	<div class="table">
+		<table width="100%" border="1" cellspacing="0">
+		<tr>
+			<th scope="col">{$lang->user_id}</th>
+			<th scope="col">{$lang->nick_name}</th>
+			<th scope="col">{$lang->signup_date}</th>
+		</tr>
+		<!--@foreach($member_list as $key => $val)-->
+		<tr>
+			<td>{$val->user_id}</td>
+			<td><a href="#popup_menu_area" class="member_{$val->member_srl}">{$val->nick_name}</a></td>
+			<td>{zdate($val->regdate, "Y-m-d H:i")}</td>
+		</tr>
+		<!--@end-->
+		</table>
+	</div>
 
-<div id="popBody">
-    <table cellspacing="0" class="rowTable">
-    <tr>
-        <th scope="col" class="half_wide"><div>{$lang->user_id}</div></th>
-        <th scope="col" class="half_wide"><div>{$lang->nick_name}</div></th>
-        <th scope="col"><div>{$lang->signup_date}</div></th>
-    </tr>
-    <!--@foreach($member_list as $key => $val)-->
-    <tr>
-        <td>{$val->user_id}</td>
-        <td><div class="member_{$val->member_srl}">{$val->nick_name}</div></td>
-        <td class="date center nowrap">{zdate($val->regdate, "Y-m-d H:i")}</td>
-    </tr>
-    <!--@end-->
-    </table>
-</div>
-
-<!--@if(count($member_list))-->
-<div id="popFooter">
-        <span class="button black strong"><input type="submit" value="{$lang->cmd_delete}" /></span>
-</div>
-<!--@end-->
+	<!--@if(count($member_list))-->
+	<div class="btnArea">
+			<span class="btn"><input type="submit" value="{$lang->cmd_delete}" /></span>
+	</div>
+	<!--@end-->
 
 </form>

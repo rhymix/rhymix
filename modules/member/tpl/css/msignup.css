@@ -32,13 +32,16 @@ input[type=radio]{width:13px;height:13px;margin:0;padding:0}
 .ff ul{margin:0 10px 10px 10px;padding:10px 0 0 0;list-style:none}
 .ff li{margin:0 0 5px 0;padding:0}
 .ff li p{color:#666}
+.ff li>label:first-child{display:block;font-weight:bold}
 .ff label+input[type=text],
 .ff label+input[type=password],
 .ff label+textarea,
-.ff label+select{display:block;width:96%;font-size:14px;margin:0 0 5px 0}
+.ff label+select,
+.ff label+select+input[type=text]{display:block;width:96%;font-size:14px;margin:0 0 5px 0}
 .ff label+input[type=text],
 .ff label+input[type=password],
-.ff label+textarea{padding:5px}
+.ff label+textarea,
+.ff label+select+input[type=text]{padding:5px}
 /* Button Area */
 .bna{text-align:center;padding:0 10px;margin:10px 0}
 .bna:after{content:"";display:block;clear:both}

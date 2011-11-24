@@ -1,45 +1,142 @@
-<!--%import("js/importer_admin.js")-->
-<!--%import("css/importer.css")-->
+<include target="./header.html" />
+<load target="js/importer_admin.js" usecdn="true" />
 
-<h3 class="xeAdmin">{$lang->importer} <span class="gray">{$lang->cmd_management}</span></h3>
-
-<!-- 설명 -->
-<div class="infoText">{nl2br($lang->about_importer)}</div>
-
-<!--// step 1. import하려는 XML파일의 성격 및 대상 모듈을 지정 -->
-<div id="step1">
-    <form action="./" method="get">
-        <input type="hidden" name="module" value="{$module}" />
-        <input type="hidden" name="act" value="{$act}" />
-
-        <h4 class="xeAdmin">{$lang->import_step_title[1]} - {$lang->import_step_desc[1]}</h4>
-        <table cellspacing="0" class="rowTable">
-        <tr>
-            <th scope="col"><div><label for="source_type_module">1. {$lang->type_module}</label></div></th>
-            <td class="wide"><input type="radio" name="source_type" value="module" id="source_type_module" /> <label for="source_type_module">{$lang->about_type_module}</label></td>
-        </tr>
-        <tr>
-            <th scope="col"><div><label for="source_type_ttxml">2. {$lang->type_ttxml}</label></div></th>
-            <td><input type="radio" name="source_type" value="ttxml" id="source_type_ttxml" /> <label for="source_type_ttxml">{$lang->about_type_ttxml}</label></td>
-        </tr>
-        <tr>
-            <th scope="col"><div><label for="source_type_member">3. {$lang->type_member}</label></div></th>
-            <td><input type="radio" name="source_type" value="member" id="source_type_member" /> <label for="source_type_member">{$lang->about_type_member}</label></td>
-        </tr>
-        <tr>
-            <th scope="col"><div><label for="source_type_syncmember">4. {$lang->type_syncmember}</label></div></th>
-            <td><input type="radio" name="source_type" value="sync" id="source_type_syncmember" /> <label for="source_type_syncmember">{$lang->about_type_syncmember}</label></td>
-        </tr>
-        <tr>
-            <th scope="col"><div><label for="source_type_message">5. {$lang->type_message}</label></div></th>
-            <td><input type="radio" name="source_type" value="message" id="source_type_message" /> <label for="source_type_message">{$lang->about_type_message}</label></td>
-        </tr>
-        <tr>
-            <th colspan="2" class="button">
-                <span class="button black strong"><input type="submit" value="{$lang->cmd_next}" /></span>
-            </th>
-        </tr>
-        </table>
-    </form>
+<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 
+<form action="./" class="form" method="get" onsubmit="return doPreProcessing(this, 'documentForm')" id="documentForm">
+	<input type="hidden" name="act" value="" />
+	<input type="hidden" name="type" value="module" />
+	<input type="hidden" name="unit_count" value="10" />
+	<h2 class="h2">{$lang->type_module}</h2>
+	<ul>
+		<li>
+			<p class="q">{$lang->xml_path} {$lang->path_info}</p>
+			<p class="a checkxml">
+				<input type="text" name="xml_file" value="./" />
+				<button type="button">{$lang->cmd_check_path}</button>
+				<em class="desc"></em><!--//class="error|success"-->
+			</p>
+		</li>
+		<li class="xml ttxml modulefinder">
+		<p class="q">{$lang->data_destination} <br />{$lang->import_desc}</p>
+			<div class="a">
+				<input type="text" name="site_keyword" /> <a href="#suggestion1" class="tgAnchor findsite">{$lang->find_site}</a>
+				<div id="suggestion1" class="tgContent suggestion">
+					<ul></ul>
+				</div>
+			</div>
+			<p class="a">
+				<select class="moduleList" style="width:290px">
+					<option>{$lang->select_module}</option>
+				</select>
+			</p>
+			<p class="a">
+				<select class="moduleIdList" style="width:290px" name="target_module">
+					<option>{$lang->select_module_id}</option>
+				</select>
+			</p>
+		</li>
+		<li class="ttxml modulefinder">
+			<p class="q">{$lang->guestbook_destination}</p>
+			<div class="a">
+				<input type="text" name="site_keyword" /> <a href="#suggestion3" class="tgAnchor findsite">{$lang->find_site}</a>
+				<div id="suggestion3" class="tgContent suggestion">
+					<ul></ul>
+				</div>
+			</div>
+			<p class="a">
+				<select class="moduleList" style="width:290px">
+					<option>{$lang->select_module}</option>
+				</select>
+			</p>
+			<p class="a">
+				<select class="moduleIdList" style="width:290px" name="guestbook_target_module">
+					<option>{$lang->select_module_id}</option>
+				</select>
+			</p>
+		</li>
+		<li class="ttxml">
+			<p class="q">{$lang->about_ttxml_user_id}</p>
+			<p class="a"><input type="text" name="user_id" value="{$logged_info->user_id}" /></p>
+		</li>
+		<li class="syncmember">
+			<p class="q">{$lang->import_step_desc[3]}</p>
+			<p class="a"><input type="checkbox" name="isSync" value="Y" /> {$lang->type_syncmember}</p>
+		</li>
+	</ul>
+	<div class="btnArea">
+		<span class="btn"><input type="submit" value="{$lang->importer}" /></span>
+	</div>
+</form>
+<form action="./" class="form" method="get" onsubmit="return doPreProcessing(this, 'memberForm')" id="memberForm">
+	<input type="hidden" name="type" value="member" />
+	<input type="hidden" name="unit_count" value="100" />
+	<h2 class="h2">{$lang->type_member}</h2>
+	<ul>
+		<li>
+			<p class="q">{$lang->xml_path} {$lang->path_info}</p>
+			<p class="a checkxml">
+				<input type="text" name="xml_file" value="./" />
+				<button type="button">{$lang->cmd_check_path}</button>
+				<em class="desc">{$lang->msg_no_xml_file}</em>
+			</p>
+		</li>
+		<li class="syncmember">
+			<p class="q">{$lang->import_step_desc[3]}</p>
+			<p class="a"><input type="checkbox" name="isSync" value="Y" /> {$lang->type_syncmember}</p>
+		</li>
+	</ul>
+	<div class="btnArea">
+		<span class="btn"><input type="submit" value="{$lang->importer}" /></span>
+	</div>
+</form>
+<form action="./" class="form" method="get" onsubmit="return doPreProcessing(this)" id="fo_import">
+	<input type="hidden" name="type" value="message" />
+	<input type="hidden" name="unit_count" value="100" />
+	<h2 class="h2">{$lang->type_message}</h2>
+	<ul>
+		<li>
+			<p class="q">{$lang->xml_path} {$lang->path_info}</p>
+			<p class="a checkxml">
+				<input type="text" name="xml_file" value="./" />
+				<button type="button">{$lang->cmd_check_path}</button>
+				<em class="desc"></em><!--//class="error|success"-->
+			</p>
+		</li>
+	</ul>
+	<div class="btnArea">
+		<span class="btn"><input type="submit" value="{$lang->importer}" /></span>
+	</div>
+</form>
+<a href="#process" class="modalAnchor"></a>
+<div class="modal" id="process" style="display:none;">
+    <form action="./" method="get" onsubmit="return doImport()" id="fo_process" class="fg">
+        <input type="hidden" name="type" value="" />
+        <input type="hidden" name="total" value="" />
+        <input type="hidden" name="cur" value="" />
+        <input type="hidden" name="key" value="" />
+        <input type="hidden" name="target_module" value="" />
+        <input type="hidden" name="guestbook_target_module" value="" />
+        <input type="hidden" name="unit_count" value="100" />
+        <input type="hidden" name="user_id" value="" />
+		<p style="text-align:center">
+			<span class="prgrs prgrsMedium">
+				<strong id="preProgressMsg">{$lang->preprocessing}</strong>
+				<strong id="progressMsg" style="display:none;">{$lang->import_step_desc[99]}</strong>
+				<span class="pBar" style="width:300px;text-align:left">
+					<span class="pAction" id="progressBar" style="width:0%"><!-- Progress status --></span>
+					<span class="pNum"><span id="completeCount">0</span>/<span id="totalCount">0</span></span>
+				</span>
+				<strong id="progressPercent">0%</strong>
+			</span>
+		</p>
+    </form>
+</div>
+<script type="text/javascript">
+jQuery('a.modalAnchor')
+.bind('before-close.mw', function(event){
+		return false;
+		});
+</script>

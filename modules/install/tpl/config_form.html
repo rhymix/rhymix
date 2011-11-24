@@ -1,0 +1,46 @@
+<!--%import("js/install_admin.js")-->
+<!--#include("header.html")-->
+	<div id="body">
+<!--#include("progress_menu.html")-->
+		<span class="dummy"></span>
+		<div id="content">
+			<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+				<p>{$XE_VALIDATOR_MESSAGE}</p>
+			</div>
+			<form action="./" method="post">
+			<input type="hidden" name="act" value="procConfigSetting" />
+				<ul class="form formXe">
+					<li>
+						<input name="use_rewrite" value="Y" <!--@if(function_exists('apache_get_modules')&&in_array('mod_rewrite',apache_get_modules()))-->checked="checked"<!--@end--> type="checkbox" class="iCheck" id="rewrite" /> <label for="rewrite">{$lang->use_rewrite}</label>
+						<p>{$lang->about_rewrite}</p>
+					</li>
+					<li>
+						<div class="select open" style="width:540px;">
+							<span class="ctrl"><span class="arrow"></span></span>
+							<div class="myValue"></div>
+							<ul class="iList">
+								<!--@foreach($time_zone as $key => $val)-->
+								<li><input name="time_zone" id="{$key}" class="option" type="radio" value="{$key}" <!--@if($key==date('O'))-->checked="checked"<!--@end--> /><label for="{$key}">{$val}</label></li>
+								<!--@end-->
+							</ul>
+						</div>
+						<p>{$lang->about_time_zone}</p>
+					</li>
+				</ul>
+				<div class="ibtnArea">
+					<div class="fLeft">
+						<span class="ibtn icon"><span class="back"></span> <a href="#" onclick="document.backForm.submit();">{$lang->cmd_back}</a></span>
+					</div>
+					<div class="fRight">
+						<span class="ibtn icon"><span class="check"></span> <input name="" type="submit" value="{$lang->cmd_next}" /></span>
+					</div>
+				</div>
+			</form>
+			<form name="backForm" method="post" action="./">
+			<input type="hidden" name="module" value="{$module}" />
+			<input type="hidden" name="act" value="dispInstallDBForm" />
+			<input type="hidden" name="db_type" value="{$db_type}" />
+			</form>
+		</div>
+	</div>
+<!--#include("footer.html")-->

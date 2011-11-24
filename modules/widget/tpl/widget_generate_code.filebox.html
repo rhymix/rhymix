@@ -1,0 +1,35 @@
+<block cond="$use_filebox">
+	<script type="text/javascript">
+		xe.lang.cmd_delete = '{$lang->cmd_delete}';
+	</script>
+
+	<style type="text/css">
+		.filebox_item { border: 1px solid #ccc!important; padding: 5px; max-height: 200px; max-width: 200px; }
+	</style>
+
+	<div class="modal" id="modalFilebox">
+		<div class="fg portlet">
+			<h2 class="h2">FileBox</h2>
+			<div class="filebox_list"></div>
+			<h2 class="h2">Upload</h2>
+			<form id="filebox_upload" class="form" action="./" method="post" enctype="multipart/form-data">
+			<input type="hidden" name="module" value="module" />
+			<input type="hidden" name="act" value="procModuleFileBoxAdd" />
+			<input type="hidden" name="ajax" value="true" />
+				<ul>
+					<li>
+						<p class="q"><label for="comment">{$lang->description}</label></p>
+						<p class="a"><input type="text" name="comment" id="comment" value="" /></p>
+					</li>
+					<li>
+						<p class="q"><label for="addfile">{$lang->file}</label></p>
+						<p class="a"><input type="file" name="addfile" id="addfile" /></p>
+					</li>
+				</ul>
+				<div class="btnArea">
+					<span class="btn small"><input type="submit" value="{$lang->cmd_submit}" /></span>
+				</div>
+			</form>
+		</div>
+	</div>
+</block>

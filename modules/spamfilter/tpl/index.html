@@ -1,36 +1,79 @@
-<!--%import("filter/insert_config.xml")-->
-
-<!--#include("header.html")-->
-
-<form action="./" method="get" onsubmit="return procFilter(this, insert_config)">
-
-    <table cellspacing="0" class="rowTable">
-    <tr>
-        <th scope="col"><div>{$lang->interval}</div></th>
-        <td>
-            <input type="text" name="interval" value="{$config->interval}" class="inputTypeText" /> {$lang->unit_sec}
-            <p>{$lang->about_interval}</p>
-        </td>
-    </tr>
-    <tr class="row2">
-        <th scope="col"><div>{$lang->limit_count}</div></th>
-        <td>
-            <input type="text" name="limit_count" value="{$config->limit_count?$config->limit_count:5}" class="inputTypeText" />
-            <p>{$lang->about_limit_count}</p>
-        </td>
-    </tr>
-    <tr>
-        <th scope="col"><div>{$lang->check_trackback}</div></th>
-        <td>
-            <input type="checkbox" name="check_trackback" value="Y" <!--@if($config->check_trackback=='Y')-->checked="checked"<!--@end--> />
-            <p>{$lang->about_check_trackback}</p>
-        </td>
-    </tr>
-    <tr class="row2">
-        <th colspan="2" class="button">
-            <span class="button black strong"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
-        </th>
-    </tr>
-    </table>
-
+<script type="text/javascript">
+</script>
+<load target="js/spamfilter_admin.js" usecdn="true" />
+<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+    <p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
+<form id="spamfilterDelete" action="" method="post">
+	<input type="hidden" name="module" value="spamfilter" />
+	<input type="hidden" name="act" value="" />
+	<input type="hidden" name="ipaddress" value="" />
+	<input type="hidden" name="word" value="" />
+	<input type="hidden" name="ruleset" value="">
+</form>
+<form action="" id="spamfilterConfig" class="form" ruleset="@insertConfig">	
+	<input type="hidden" name="act" value="procSpamfilterAdminInsertConfig" />
+	<input type="hidden" name="module" value="spamfilter" />
+	<input type="hidden" name="ruleset" value="insertConfig" />
+	<h1 class="h1">{$lang->spamfilter}</h1>
+	<ul>
+		<li>
+			<p class="q">{$lang->cmd_interval}</p>
+			<p class="a">
+				<input type="radio" name="limits" id="spamCond1_yes" value="Y" <!--@if($config->limits=='Y' || $config->limits =='')-->checked="checked"<!--@end--> />
+				<label for="spamCond1_yes">{$lang->cmd_yes}</label>
+				<input type="radio" name="limits" id="spamCond1_no" value="N" <!--@if($config->limits!='Y' && $config->limits !='')--> checked="checked"<!--@end--> /> <label for="spamCond1_no">{$lang->cmd_no}</label>
+			</p>
+		</li>
+		<li>
+			<p class="q">{$lang->cmd_check_trackback}</p>
+			<p class="a">
+				<input type="radio" name="check_trackback" id="spamCond2_yes" value="Y" <!--@if($config->check_trackback=='Y' || $config->check_trackback=='')--> checked="checked"<!--@end--> />
+				<label for="spamCond2_yes">{$lang->cmd_yes}</label>
+				<input type="radio" name="check_trackback" id="spamCond2_yes" value="N" <!--@if($config->check_trackback!='Y' &&  $config->check_trackback!='')--> checked="checked"<!--@end--> / > <label for="spamCond2_yes">{$lang->cmd_no}</label>
+			</p>
+		</li>
+	</ul>
+	<div class="btnArea">
+		<span class="btn medium"><input type="submit" value="{$lang->cmd_save}" /></span>
+	</div>
+</form>
+<form action="" id="spamfilterInsert" class="form">
+	<input type="hidden" name="act" value="" />
+	<input type="hidden" name="module" value="spamfilter" />
+	<input type="hidden" name="ruleset" value="" />
+	<ul>
+		<li>
+			<p class="q">{$lang->cmd_denied_ip}</p>
+			<div class="a">
+				<ul class="textList">
+					<!--@foreach($ip_list as $ipListKey)-->
+					<li>{$ipListKey->ipaddress} <!--@if($ipListKey->description)-->// {$ipListKey->description} <!--@end-->
+						<a href="#" onclick="doDeleteDeniedIP('{$ipListKey->ipaddress}')" class="side">{$lang->cmd_delete}</a>
+					</li>
+					<!--@endforeach-->
+				</ul>
+			</div>
+			<p class="a">
+				<textarea rows="4" cols="42" name="ipaddressList" title="스팸 IP 추가"></textarea>
+				<span class="btn small"><button type="button" onclick="doInsertDeniedIP('{$lang->msg_invalid_format}')">{$lang->cmd_insert}</button></span>
+				<span class="desc">{$lang->about_denied_ip}</span>
+			</p>
+		</li>
+		<li>
+			<p class="q"><label for="spamKeyword">{$lang->cmd_denied_word}</label></p>
+			<div class="a">
+				<ul class="textList">
+					<!--@foreach($word_list as $wordListKey)-->
+					<li>{$wordListKey->word} <a href="#" onclick="doDeleteDeniedWord('{$wordListKey->word}')" class="side">{$lang->cmd_delete}</a></li>
+					<!--@end-->
+				</ul>
+			</div>
+			<p class="a">
+				<textarea rows="4" cols="42" name="wordList" title="스팸 키워드 추가"></textarea>
+				<span class="btn small"><button type="button" onclick="doInsertDeniedWord('{$lang->msg_invalid_format}')">{$lang->add}</button></span>
+				<span class="desc">{$lang->about_denied_word}</span>
+			</p>
+		</li>
+	</ul>
 </form>

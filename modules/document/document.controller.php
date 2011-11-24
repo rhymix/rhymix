@@ -2,18 +2,18 @@
 /**
  * @class  documentController
  * @author NHN (developers@xpressengine.com)
- * @brief  document 모듈의 controller 클래스
+ * @brief document the module's controller class
  **/
 class documentController extends document {
 
 	/**
-	 * @brief 초기화
+	 * @brief Initialization
 	 **/
 	function init() {
 	}
 
 	/**
-	 * @breif 게시글의 추천을 처리하는 action (Up)
+	 * @breif action to handle vote-up of the post (Up)
 	 **/
 	function procDocumentVoteUp() {
 		if(!Context::get('is_logged')) return new Object(-1, 'msg_invalid_request');
@@ -45,7 +45,7 @@ class documentController extends document {
 	}
 
 	/**
-	 * @breif 게시글의 추천을 처리하는 action (Down)
+	 * @breif action to handle vote-up of the post (Down)
 	 **/
 	function procDocumentVoteDown() {
 		if(!Context::get('is_logged')) return new Object(-1, 'msg_invalid_request');
@@ -67,7 +67,7 @@ class documentController extends document {
 	}
 
 	/**
-	 * @brief 게시글이 신고될 경우 호출되는 action
+	 * @brief Action called when the post is reported by other member
 	 **/
 	function procDocumentDeclare() {
 		if(!Context::get('is_logged')) return new Object(-1, 'msg_invalid_request');
@@ -100,23 +100,20 @@ class documentController extends document {
 	}
 
 	/**
-	 * @brief 모듈이 삭제될때 등록된 모든 글을 삭제하는 trigger
+	 * @brief A trigger to delete all posts together when the module is deleted
 	 **/
 	function triggerDeleteModuleDocuments(&$obj) {
 		$module_srl = $obj->module_srl;
 		if(!$module_srl) return new Object();
-
-		// document 삭제
+		// Delete the document
 		$oDocumentAdminController = &getAdminController('document');
 		$output = $oDocumentAdminController->deleteModuleDocument($module_srl);
 		if(!$output->toBool()) return $output;
-
-		// category 삭제
+		// Delete the category
 		$oDocumentController = &getController('document');
 		$output = $oDocumentController->deleteModuleCategory($module_srl);
 		if(!$output->toBool()) return $output;
-
-		// 확장변수 삭제
+		// Delete extra variable
 		$this->deleteDocumentExtraVars($module_srl);
 
 		// remove aliases
@@ -129,64 +126,57 @@ class documentController extends document {
 	}
 
 	/**
-	 * @brief 문서의 권한 부여
-	 * 세션값으로 현 접속상태에서만 사용 가능
+	 * @brief Grant a permisstion of the document
+	 * Available in the current connection with session value
 	 **/
 	function addGrant($document_srl) {
 		$_SESSION['own_document'][$document_srl] = true;
 	}
 
 	/**
-	 * @brief 문서 입력
+	 * @brief Insert the document
 	 **/
-	function insertDocument($obj, $manual_inserted = false) {
+	function insertDocument($obj, $manual_inserted = false, $isRestore = false) {
 		// begin transaction
 		$oDB = &DB::getInstance();
 		$oDB->begin();
-
-		// 기본 변수들 정리
-		if($obj->is_secret!='Y') $obj->is_secret = 'N';
-		if($obj->allow_comment!='Y') $obj->allow_comment = 'N';
-		if($obj->lock_comment!='Y') $obj->lock_comment = 'N';
+		// List variables
+		if($obj->comment_status) $obj->commentStatus = $obj->comment_status;
+		if(!$obj->commentStatus) $obj->commentStatus = 'DENY';
+		if($obj->commentStatus == 'DENY') $this->_checkCommentStatusForOldVersion($obj);
 		if($obj->allow_trackback!='Y') $obj->allow_trackback = 'N';
 		if($obj->homepage &&  !preg_match('/^[a-z]+:\/\//i',$obj->homepage)) $obj->homepage = 'http://'.$obj->homepage;
 		if($obj->notify_message != 'Y') $obj->notify_message = 'N';
-		$obj->ipaddress = $_SERVER['REMOTE_ADDR'];	//board에서 form key값으로 ipaddress를 사용하면 엄한 ip가 등록됨. 필터와는 상관없슴
+		if(!$isRestore) $obj->ipaddress = $_SERVER['REMOTE_ADDR'];	//board에서 form key값으로 ipaddress를 사용하면 엄한 ip가 등록됨. 필터와는 상관없슴
 
-		// $extra_vars를 serialize
-		$obj->extra_vars = serialize($obj->extra_vars);
-
-		// 자동저장용 필드 제거
+		// Serialize the $extra_vars, check the extra_vars type, because duplicate serialized avoid
+		if(!is_string($obj->extra_vars)) $obj->extra_vars = serialize($obj->extra_vars);
+		// Remove the columns for automatic saving
 		unset($obj->_saved_doc_srl);
 		unset($obj->_saved_doc_title);
 		unset($obj->_saved_doc_content);
 		unset($obj->_saved_doc_message);
-
-		// trigger 호출 (before)
+		// Call a trigger (before)
 		$output = ModuleHandler::triggerCall('document.insertDocument', 'before', $obj);
 		if(!$output->toBool()) return $output;
-
-		// 주어진 문서 번호가 없으면 문서 번호 등록
+		// Register it if no given document_srl exists
 		if(!$obj->document_srl) $obj->document_srl = getNextSequence();
 
 		$oDocumentModel = &getModel('document');
-
-		// 카테고리가 있나 검사하여 없는 카테고리면 0으로 세팅
+		// Set to 0 if the category_srl doesn't exist
 		if($obj->category_srl) {
 			$category_list = $oDocumentModel->getCategoryList($obj->module_srl);
 			if(!$category_list[$obj->category_srl]) $obj->category_srl = 0;
 		}
-
-		// 조회수, 등록순서 설정
+		// Set the read counts and update order.
 		if(!$obj->readed_count) $obj->readed_count = 0;
-		$obj->update_order = $obj->list_order = getNextSequence() * -1;
-
-		// 수동입력을 대비해서 비밀번호의 hash상태를 점검, 수동입력이 아니면 무조건 md5 hash
+		if(!$isRestore) $obj->update_order = $obj->list_order = getNextSequence() * -1;
+		else $obj->update_order = $obj->list_order;
+		// Check the status of password hash for manually inserting. Apply md5 hashing for otherwise.
 		if($obj->password && !$obj->password_is_hashed) $obj->password = md5($obj->password);
-
-		// 수동 등록이 아니고 로그인 된 회원일 경우 회원의 정보를 입력
-		if(Context::get('is_logged')&&!$manual_inserted) {
-			$logged_info = Context::get('logged_info');
+		// Insert member's information only if the member is logged-in and not manually registered.
+		$logged_info = Context::get('logged_info');
+		if(Context::get('is_logged') && !$manual_inserted && !$isRestore) {
 			$obj->member_srl = $logged_info->member_srl;
 			$obj->user_id = $logged_info->user_id;
 			$obj->user_name = $logged_info->user_name;
@@ -194,36 +184,31 @@ class documentController extends document {
 			$obj->email_address = $logged_info->email_address;
 			$obj->homepage = $logged_info->homepage;
 		}
-
-		// 제목이 없으면 내용에서 추출
+		// If the tile is empty, extract string from the contents.
 		settype($obj->title, "string");
 		if($obj->title == '') $obj->title = cut_str(strip_tags($obj->content),20,'...');
-		//그래도 없으면 Untitled
+		// If no tile extracted from the contents, leave it untitled.
 		if($obj->title == '') $obj->title = 'Untitled';
-
-		// 내용에서 XE만의 태그를 삭제
+		// Remove XE's own tags from the contents.
 		$obj->content = preg_replace('!<\!--(Before|After)(Document|Comment)\(([0-9]+),([0-9]+)\)-->!is', '', $obj->content);
 		if(Mobile::isFromMobilePhone())
 		{
 			$obj->content = nl2br(htmlspecialchars($obj->content));
 		}
-
-		// 세션에서 최고 관리자가 아니면 iframe, script 제거
+		// Remove iframe and script if not a top adminisrator in the session.
 		if($logged_info->is_admin != 'Y') $obj->content = removeHackTag($obj->content);
-
-		// 로그인정보가 없고 사용자 이름이 없으면 오류 표시
+		// An error appears if both log-in info and user name don't exist.
 		if(!$logged_info->member_srl && !$obj->nick_name) return new Object(-1,'msg_invalid_request');
 
 		$obj->lang_code = Context::getLangType();
-
-		// DB에 입력
+		// Insert data into the DB
+		if(!$obj->status) $this->_checkDocumentStatusForOldVersion($obj);
 		$output = executeQuery('document.insertDocument', $obj);
 		if(!$output->toBool()) {
 			$oDB->rollback();
 			return $output;
 		}
-
-		// 등록 성공시 확장 변수 등록
+		// Insert extra variables if the document successfully inserted.
 		$extra_keys = $oDocumentModel->getExtraKeys($obj->module_srl);
 		if(count($extra_keys)) {
 			foreach($extra_keys as $idx => $extra_item) {
@@ -234,11 +219,9 @@ class documentController extends document {
 				$this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, $idx, $value, $extra_item->eid);
 			}
 		}
-
-		// 성공하였을 경우 category_srl이 있으면 카테고리 update
+		// Update the category if the category_srl exists.
 		if($obj->category_srl) $this->updateCategoryCount($obj->module_srl, $obj->category_srl);
-
-		// trigger 호출 (after)
+		// Call a trigger (after)
 		if($output->toBool()) {
 			$trigger_output = ModuleHandler::triggerCall('document.insertDocument', 'after', $obj);
 			if(!$trigger_output->toBool()) {
@@ -254,16 +237,27 @@ class documentController extends document {
 		$this->addGrant($obj->document_srl);
 		$output->add('document_srl',$obj->document_srl);
 		$output->add('category_srl',$obj->category_srl);
+		//remove from cache
+        $oCacheHandler = &CacheHandler::getInstance('object');
+        if($oCacheHandler->isSupport())
+        {
+            $cache_key = 'object:'.$obj->document_srl;
+            $oCacheHandler->delete($cache_key);
+            $oCacheHandler->invalidateGroupKey('documentList');
+        }
+
 		return $output;
 	}
 
 	/**
-	 * @brief 문서 수정
+	 * @brief Update the document
 	 **/
 	function updateDocument($source_obj, $obj) {
 		if(!$source_obj->document_srl || !$obj->document_srl) return new Object(-1,'msg_invalied_request');
+		if(!$obj->status && $obj->is_secret == 'Y') $obj->status = 'SECRET';
+		if(!$obj->status) $obj->status = 'PUBLIC';
 
-		// trigger 호출 (before)
+		// Call a trigger (before)
 		$output = ModuleHandler::triggerCall('document.updateDocument', 'before', $obj);
 		if(!$output->toBool()) return $output;
 
@@ -293,39 +287,31 @@ class documentController extends document {
 		{
 			$obj->ipaddress = $source_obj->get('ipaddress');
 		}
-
-		// 기본 변수들 정리
-		if($obj->is_secret!='Y') $obj->is_secret = 'N';
-		if($obj->allow_comment!='Y') $obj->allow_comment = 'N';
-		if($obj->lock_comment!='Y') $obj->lock_comment = 'N';
+		// List variables
+		if(!$obj->commentStatus) $obj->commentStatus = 'DENY';
+		if($obj->commentStatus == 'DENY') $this->_checkCommentStatusForOldVersion($obj);
 		if($obj->allow_trackback!='Y') $obj->allow_trackback = 'N';
 		if($obj->homepage &&  !preg_match('/^[a-z]+:\/\//i',$obj->homepage)) $obj->homepage = 'http://'.$obj->homepage;
 		if($obj->notify_message != 'Y') $obj->notify_message = 'N';
-
-		// $extra_vars를 serialize
+		// Serialize the $extra_vars
 		$obj->extra_vars = serialize($obj->extra_vars);
-
-		// 자동저장용 필드 제거
+		// Remove the columns for automatic saving
 		unset($obj->_saved_doc_srl);
 		unset($obj->_saved_doc_title);
 		unset($obj->_saved_doc_content);
 		unset($obj->_saved_doc_message);
 
 		$oDocumentModel = &getModel('document');
-
-		// 카테고리가 변경되었으면 검사후 없는 카테고리면 0으로 세팅
+		// Set the category_srl to 0 if the changed category is not exsiting.
 		if($source_obj->get('category_srl')!=$obj->category_srl) {
 			$category_list = $oDocumentModel->getCategoryList($obj->module_srl);
 			if(!$category_list[$obj->category_srl]) $obj->category_srl = 0;
 		}
-
-		// 수정 순서를 조절
+		// Change the update order
 		$obj->update_order = getNextSequence() * -1;
-
-		// 비밀번호가 있으면 md5 hash
+		// Hash by md5 if the password exists
 		if($obj->password) $obj->password = md5($obj->password);
-
-		// 원본 작성인과 수정하려는 수정인이 동일할 시에 또는 History를 사용하면 로그인된 사용자 정보를 입력
+		// If an author is identical to the modifier or history is used, use the logged-in user's information.
 		if(Context::get('is_logged')) {
 			$logged_info = Context::get('logged_info');
 			if($source_obj->get('member_srl')==$logged_info->member_srl || $bUseHistory) {
@@ -336,8 +322,7 @@ class documentController extends document {
 				$obj->homepage = $logged_info->homepage;
 			}
 		}
-
-		// 로그인한 유저가 작성한 글인데 nick_name이 없을 경우
+		// For the document written by logged-in user however no nick_name exists
 		if($source_obj->get('member_srl')&& !$obj->nick_name) {
 			$obj->member_srl = $source_obj->get('member_srl');
 			$obj->user_name = $source_obj->get('user_name');
@@ -345,19 +330,16 @@ class documentController extends document {
 			$obj->email_address = $source_obj->get('email_address');
 			$obj->homepage = $source_obj->get('homepage');
 		}
-
-		// 제목이 없으면 내용에서 추출
+		// If the tile is empty, extract string from the contents.
 		settype($obj->title, "string");
 		if($obj->title == '') $obj->title = cut_str(strip_tags($obj->content),20,'...');
-		//그래도 없으면 Untitled
+		// If no tile extracted from the contents, leave it untitled.
 		if($obj->title == '') $obj->title = 'Untitled';
-
-		// 내용에서 XE만의 태그를 삭제
+		// Remove XE's own tags from the contents.
 		$obj->content = preg_replace('!<\!--(Before|After)(Document|Comment)\(([0-9]+),([0-9]+)\)-->!is', '', $obj->content);
-
-		// 글쓴이의 언어변수와 원문의 언어변수가 다르면 확장변수로 처리
+		// Change not extra vars but language code of the original document if document's lang_code is different from author's setting.
 		if($source_obj->get('lang_code') != Context::getLangType()) {
-			// 원문의 언어변수가 없을경우 확장변수가 아닌 원문의 언어변수를 변경
+			// Change not extra vars but language code of the original document if document's lang_code doesn't exist.
 			if(!$source_obj->get('lang_code')) {
 				$lang_code_args->document_srl = $source_obj->get('document_srl');
 				$lang_code_args->lang_code = Context::getLangType();
@@ -372,21 +354,20 @@ class documentController extends document {
 				$obj->content = $document_output->data->content;
 			}
 		}
-
-		// 세션에서 최고 관리자가 아니면 iframe, script 제거
+		// Remove iframe and script if not a top adminisrator in the session.
 		if($logged_info->is_admin != 'Y') $obj->content = removeHackTag($obj->content);
+		// if temporary document, regdate is now setting
+		if($source_obj->get('status') == $this->getConfigStatus('temp')) $obj->regdate = date('YmdHis');
 
-		// DB에 입력
+		// Insert data into the DB
 		$output = executeQuery('document.updateDocument', $obj);
 		if(!$output->toBool()) {
 			$oDB->rollback();
 			return $output;
 		}
-
-		// 모든 확장 변수 삭제
+		// Remove all extra variables
 		$this->deleteDocumentExtraVars($source_obj->get('module_srl'), $obj->document_srl, null, Context::getLangType());
-
-		// 등록 성공시 확장 변수 등록
+		// Insert extra variables if the document successfully inserted.
 		$extra_keys = $oDocumentModel->getExtraKeys($obj->module_srl);
 		if(count($extra_keys)) {
 			foreach($extra_keys as $idx => $extra_item) {
@@ -397,18 +378,15 @@ class documentController extends document {
 				$this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, $idx, $value, $extra_item->eid);
 			}
 		}
-
-		// 제목/내용의 다국어 확장변수 등록
+		// Inert extra vars for multi-language support of title and contents.
 		if($extra_content->title) $this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, -1, $extra_content->title, 'title_'.Context::getLangType());
 		if($extra_content->content) $this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, -2, $extra_content->content, 'content_'.Context::getLangType());
-
-		// 성공하였을 경우 category_srl이 있으면 카테고리 update
+		// Update the category if the category_srl exists.
 		if($source_obj->get('category_srl') != $obj->category_srl || $source_obj->get('module_srl') == $logged_info->member_srl) {
 			if($source_obj->get('category_srl') != $obj->category_srl) $this->updateCategoryCount($obj->module_srl, $source_obj->get('category_srl'));
 			if($obj->category_srl) $this->updateCategoryCount($obj->module_srl, $obj->category_srl);
 		}
-
-		// trigger 호출 (after)
+		// Call a trigger (after)
 		if($output->toBool()) {
 			$trigger_output = ModuleHandler::triggerCall('document.updateDocument', 'after', $obj);
 			if(!$trigger_output->toBool()) {
@@ -419,19 +397,30 @@ class documentController extends document {
 
 		// commit
 		$oDB->commit();
-
-		// 섬네일 파일 제거
+		// Remove the thumbnail file
 		FileHandler::removeDir(sprintf('files/cache/thumbnails/%s',getNumberingPath($obj->document_srl, 3)));
 
 		$output->add('document_srl',$obj->document_srl);
+		//remove from cache
+        $oCacheHandler = &CacheHandler::getInstance('object');
+        if($oCacheHandler->isSupport())
+        {
+            $cache_key = 'object:'.$obj->document_srl;
+            $oCacheHandler->delete($cache_key);
+            $oCacheHandler->invalidateGroupKey('documentList');
+            //remove document item from cache
+            $cache_key = 'object_document_item:'.$obj->document_srl;
+            $oCacheHandler->delete($cache_key);
+        }
+
 		return $output;
 	}
 
 	/**
-	 * @brief 문서 삭제
+	 * @brief Deleting Documents
 	 **/
-	function deleteDocument($document_srl, $is_admin = false) {
-		// trigger 호출 (before)
+	function deleteDocument($document_srl, $is_admin = false, $isEmptyTrash = false, $oDocument = null) {
+		// Call a trigger (before)
 		$trigger_obj->document_srl = $document_srl;
 		$output = ModuleHandler::triggerCall('document.deleteDocument', 'before', $trigger_obj);
 		if(!$output->toBool()) return $output;
@@ -440,38 +429,43 @@ class documentController extends document {
 		$oDB = &DB::getInstance();
 		$oDB->begin();
 
-		// document의 model 객체 생성
-		$oDocumentModel = &getModel('document');
+		if(!$isEmptyTrash)
+		{
+			// get model object of the document
+			$oDocumentModel = &getModel('document');
+			// Check if the documnet exists
+			$oDocument = $oDocumentModel->getDocument($document_srl, $is_admin);
+		}
+		else if($isEmptyTrash && $oDocument == null) return new Object(-1, 'document is not exists');
 
-		// 기존 문서가 있는지 확인
-		$oDocument = $oDocumentModel->getDocument($document_srl, $is_admin);
 		if(!$oDocument->isExists() || $oDocument->document_srl != $document_srl) return new Object(-1, 'msg_invalid_document');
-
-		// 권한이 있는지 확인
+		// Check if a permossion is granted
 		if(!$oDocument->isGranted()) return new Object(-1, 'msg_not_permitted');
 
-		// 글 삭제
+		//if empty trash, document already deleted, therefore document not delete
 		$args->document_srl = $document_srl;
-		$output = executeQuery('document.deleteDocument', $args);
-		if(!$output->toBool()) {
-			$oDB->rollback();
-			return $output;
+		if(!$isEmptyTrash)
+		{
+			// Delete the document
+			$output = executeQuery('document.deleteDocument', $args);
+			if(!$output->toBool()) {
+				$oDB->rollback();
+				return $output;
+			}
 		}
 
 		$this->deleteDocumentAliasByDocument($document_srl);
 
 		$this->deleteDocumentHistory(null, $document_srl, null);
-
-		// 카테고리가 있으면 카테고리 정보 변경
+		// Update category information if the category_srl exists.
 		if($oDocument->get('category_srl')) $this->updateCategoryCount($oDocument->get('module_srl'),$oDocument->get('category_srl'));
-
-		// 신고 삭제
+		// Delete a declared list
 		executeQuery('document.deleteDeclared', $args);
-
-		// 확장 변수 삭제
+		// Delete extra variable
 		$this->deleteDocumentExtraVars($oDocument->get('module_srl'), $oDocument->document_srl);
 
-		// trigger 호출 (after)
+		//this
+		// Call a trigger (after)
 		if($output->toBool()) {
 			$trigger_obj = $oDocument->getObjectVars();
 			$trigger_output = ModuleHandler::triggerCall('document.deleteDocument', 'after', $trigger_obj);
@@ -480,39 +474,81 @@ class documentController extends document {
 				return $trigger_output;
 			}
 		}
+		// declared document, log delete
+		$this->_deleteDeclaredDocuments($args);
+		$this->_deleteDocumentReadedLog($args);
+		$this->_deleteDocumentVotedLog($args);
 
-		// 섬네일 파일 제거
+		// Remove the thumbnail file
 		FileHandler::removeDir(sprintf('files/cache/thumbnails/%s',getNumberingPath($document_srl, 3)));
 
 		// commit
 		$oDB->commit();
 
+		//remove from cache
+		$oCacheHandler = &CacheHandler::getInstance('object');
+		if($oCacheHandler->isSupport())
+		{
+			$cache_key = 'object:'.$document_srl;
+			$oCacheHandler->delete($cache_key);
+                        $oCacheHandler->invalidateGroupKey('documentList');
+                        $cache_key = 'object_document_item:'.$document_srl;
+                        $oCacheHandler->delete($cache_key);
+               }
+
 		return $output;
 	}
 
 	/**
-	 * @brief 문서를 휴지통으로 옮김
+	 * @brief delete declared document, log
+	 * @param $documentSrls : srls string (ex: 1, 2,56, 88)
+	 * @return void
+	 **/
+	function _deleteDeclaredDocuments($documentSrls)
+	{
+		executeQuery('document.deleteDeclaredDocuments', $documentSrls);
+		executeQuery('document.deleteDocumentDeclaredLog', $documentSrls);
+	}
+
+	/**
+	 * @brief delete readed log
+	 * @param $documentSrls : srls string (ex: 1, 2,56, 88)
+	 * @return void
+	 **/
+	function _deleteDocumentReadedLog($documentSrls)
+	{
+		executeQuery('document.deleteDocumentReadedLog', $documentSrls);
+	}
+
+	/**
+	 * @brief delete voted log
+	 * @param $documentSrls : srls string (ex: 1, 2,56, 88)
+	 * @return void
+	 **/
+	function _deleteDocumentVotedLog($documentSrls)
+	{
+		executeQuery('document.deleteDocumentVotedLog', $documentSrls);
+	}
+
+	/**
+	 * @brief Move the doc into the trash
 	 **/
 	function moveDocumentToTrash($obj) {
-		// 주어진 trash_srl이 없으면 trash_srl 등록
+		// Get trash_srl if a given trash_srl doesn't exist
 		if(!$obj->trash_srl) $trash_args->trash_srl = getNextSequence();
 		else $trash_args->trash_srl = $obj->trash_srl;
-
-		// 해당 document가 속해 있는 module_srl을 구한다
+		// Get its module_srl which the document belongs to
 		$oDocumentModel = &getModel('document');
 		$oDocument = $oDocumentModel->getDocument($obj->document_srl);
 
 		$trash_args->module_srl = $oDocument->get('module_srl');
 		$obj->module_srl = $oDocument->get('module_srl');
-
-		// 휴지통 문서를 두번 휴지통에 버릴 수 없음.
+		// Cannot throw data from the trash to the trash
 		if($trash_args->module_srl == 0) return false;
-
-		// 데이터 설정
+		// Data setting
 		$trash_args->document_srl = $obj->document_srl;
 		$trash_args->description = $obj->description;
-
-		// 수동 등록이 아니고 로그인 된 회원일 경우 회원의 정보를 입력
+		// Insert member's information only if the member is logged-in and not manually registered.
 		if(Context::get('is_logged')&&!$manual_inserted) {
 			$logged_info = Context::get('logged_info');
 			$trash_args->member_srl = $logged_info->member_srl;
@@ -520,8 +556,7 @@ class documentController extends document {
 			$trash_args->user_name = $logged_info->user_name;
 			$trash_args->nick_name = $logged_info->nick_name;
 		}
-
-		// documents update를 위한 데이터 설정
+		// Date setting for updating documents
 		$document_args->module_srl = 0;
 		$document_args->document_srl = $obj->document_srl;
 
@@ -529,32 +564,52 @@ class documentController extends document {
 		$oDB = &DB::getInstance();
 		$oDB->begin();
 
-		$output = executeQuery('document.insertTrash', $trash_args);
+		/*$output = executeQuery('document.insertTrash', $trash_args);
+		if (!$output->toBool()) {
+			$oDB->rollback();
+			return $output;
+		}*/
+
+		// new trash module
+		require_once(_XE_PATH_.'modules/trash/model/TrashVO.php');
+		$oTrashVO = new TrashVO();
+		$oTrashVO->setTrashSrl(getNextSequence());
+		$oTrashVO->setTitle($oDocument->variables['title']);
+		$oTrashVO->setOriginModule('document');
+		$oTrashVO->setSerializedObject(serialize($oDocument->variables));
+		$oTrashVO->setDescription($obj->description);
+
+		$oTrashAdminController = &getAdminController('trash');
+		$output = $oTrashAdminController->insertTrash($oTrashVO);
 		if (!$output->toBool()) {
 			$oDB->rollback();
 			return $output;
 		}
 
-		$output = executeQuery('document.updateDocument', $document_args);
-		if (!$output->toBool()) {
+		$output = executeQuery('document.deleteDocument', $trash_args);
+		if(!$output->toBool()) {
 			$oDB->rollback();
 			return $output;
 		}
+
+		/*$output = executeQuery('document.updateDocument', $document_args);
+		if (!$output->toBool()) {
+			$oDB->rollback();
+			return $output;
+		}*/
 
 		// update category
 		if($oDocument->get('category_srl')) $this->updateCategoryCount($oDocument->get('module_srl'),$oDocument->get('category_srl'));
 
 		// remove thumbnails
 		FileHandler::removeDir(sprintf('files/cache/thumbnails/%s',getNumberingPath($obj->document_srl, 3)));
-
-		// 등록된 첨부파일의 상태를 무효로 지정
+		// Set the attachment to be invalid state
 		if($oDocument->hasUploadedFiles()) {
 			$args->upload_target_srl = $oDocument->document_srl;
 			$args->isvalid = 'N';
 			executeQuery('file.updateFileValid', $args);
 		}
-
-		// trigger 호출 (after)
+		// Call a trigger (after)
 		if($output->toBool()) {
 			$trigger_output = ModuleHandler::triggerCall('document.moveDocumentToTrash', 'after', $obj);
 			if(!$trigger_output->toBool()) {
@@ -563,48 +618,44 @@ class documentController extends document {
 			}
 		}
 
-	   // commit
+		// commit
 		$oDB->commit();
 
 		return $output;
 	}
 
 	/**
-	 * @brief 해당 document의 조회수 증가
+	 * @brief Update read counts of the document
 	 **/
 	function updateReadedCount(&$oDocument) {
 		$document_srl = $oDocument->document_srl;
 		$member_srl = $oDocument->get('member_srl');
 		$logged_info = Context::get('logged_info');
-
-		// 조회수 업데이트가 되면 trigger 호출 (after)
+		// Call a trigger when the read count is updated (after)
 		$output = ModuleHandler::triggerCall('document.updateReadedCount', 'after', $oDocument);
 		if(!$output->toBool()) return $output;
-		// session에 정보로 조회수를 증가하였다고 생각하면 패스
+		// Pass if read count is increaded on the session information
 		if($_SESSION['readed_document'][$document_srl]) return false;
 
-		// 글의 작성 ip와 현재 접속자의 ip가 동일하면 패스
+		// Pass if the author's IP address is as same as visitor's.
 		if($oDocument->get('ipaddress') == $_SERVER['REMOTE_ADDR']) {
 			$_SESSION['readed_document'][$document_srl] = true;
 			return false;
 		}
-
-		// document의 작성자가 회원일때 글쓴이와 현재 로그인 사용자의 정보가 일치하면 읽었다고 판단후 세션 등록하고 패스
+		// Pass ater registering sesscion if the author is a member and has same information as the currently logged-in user.
 		if($member_srl && $logged_info->member_srl == $member_srl) {
 			$_SESSION['readed_document'][$document_srl] = true;
 			return false;
 		}
-
-		// 조회수 업데이트
+		// Update read counts
 		$args->document_srl = $document_srl;
 		$output = executeQuery('document.updateReadedCount', $args);
-
-		// 세션 등록
+		// Register session
 		$_SESSION['readed_document'][$document_srl] = true;
 	}
 
 	/**
-	 * @breif documents 테이블의 확장 변수 등록
+	 * @breif Insert extra variables into the document table
 	 **/
 	function insertDocumentExtraKey($module_srl, $var_idx, $var_name, $var_type, $var_is_required = 'N', $var_search = 'N', $var_default = '', $var_desc = '', $eid) {
 		if(!$module_srl || !$var_idx || !$var_name || !$var_type || !$eid) return new Object(-1,'msg_invalid_request');
@@ -622,15 +673,14 @@ class documentController extends document {
 		$output = executeQuery('document.getDocumentExtraKeys', $obj);
 		if(!$output->data) return executeQuery('document.insertDocumentExtraKey', $obj);
 		$output = executeQuery('document.updateDocumentExtraKey', $obj);
-
-		// extra_vars에서 확장 변수 eid를 일괄 업데이트
+		// Update the extra var(eid)
 		$output = executeQuery('document.updateDocumentExtraVar', $obj);
 
 		return $output;
 	}
 
 	/**
-	 * @brief documents 확장변수 제거
+	 * @brief Remove the extra variables of the documents
 	 **/
 	function deleteDocumentExtraKeys($module_srl, $var_idx = null) {
 		if(!$module_srl) return new Object(-1,'msg_invalid_request');
@@ -643,7 +693,7 @@ class documentController extends document {
 	}
 
 	/**
-	 * @breif documents 테이블의 확장 변수 값 등록
+	 * @breif Insert extra vaiable to the documents table
 	 **/
 	function insertDocumentExtraVar($module_srl, $document_srl, $var_idx, $value, $eid = null, $lang_code = '') {
 		if(!$module_srl || !$document_srl || !$var_idx || !isset($value)) return new Object(-1,'msg_invalid_request');
@@ -660,7 +710,7 @@ class documentController extends document {
 	}
 
 	/**
-	 * @brief documents 확장변수 값 제거
+	 * @brief Remove values of extra variable from the document
 	 **/
 	function deleteDocumentExtraVars($module_srl, $document_srl = null, $var_idx = null, $lang_code = null, $eid = null) {
 		$obj->module_srl = $module_srl;
@@ -674,39 +724,33 @@ class documentController extends document {
 
 
 	/**
-	 * @brief 해당 document의 추천수 증가
+	 * @brief Increase the number of vote-up of the document
 	 **/
 	function updateVotedCount($document_srl, $point = 1) {
 		if($point > 0) $failed_voted = 'failed_voted';
 		else $failed_voted = 'failed_blamed';
-
-		// 세션 정보에 추천 정보가 있으면 중단
+		// Return fail if session already has information about votes
 		if($_SESSION['voted_document'][$document_srl]) return new Object(-1, $failed_voted);
-
-		// 문서 원본을 가져옴
+		// Get the original document
 		$oDocumentModel = &getModel('document');
 		$oDocument = $oDocumentModel->getDocument($document_srl, false, false);
-
-		// 글의 작성 ip와 현재 접속자의 ip가 동일하면 패스
+		// Pass if the author's IP address is as same as visitor's.
 		if($oDocument->get('ipaddress') == $_SERVER['REMOTE_ADDR']) {
 			$_SESSION['voted_document'][$document_srl] = true;
 			return new Object(-1, $failed_voted);
 		}
-
-		// document의 작성자가 회원일때 조사
+		// Check if document's author is a member.
 		if($oDocument->get('member_srl')) {
-			// member model 객체 생성
+			// Create a member model object
 			$oMemberModel = &getModel('member');
 			$member_srl = $oMemberModel->getLoggedMemberSrl();
-
-			// 글쓴이와 현재 로그인 사용자의 정보가 일치하면 읽었다고 생각하고 세션 등록후 패스
+			// Pass after registering a session if author's information is same as the currently logged-in user's.
 			if($member_srl && $member_srl == $oDocument->get('member_srl')) {
 				$_SESSION['voted_document'][$document_srl] = true;
 				return new Object(-1, $failed_voted);
 			}
 		}
-
-		// 로그인 사용자이면 member_srl, 비회원이면 ipaddress로 판단
+		// Use member_srl for logged-in members and IP address for non-members.
 		if($member_srl) {
 			$args->member_srl = $member_srl;
 		} else {
@@ -714,14 +758,12 @@ class documentController extends document {
 		}
 		$args->document_srl = $document_srl;
 		$output = executeQuery('document.getDocumentVotedLogInfo', $args);
-
-		// 로그 정보에 추천 로그가 있으면 세션 등록후 패스
+		// Pass after registering a session if log information has vote-up logs
 		if($output->data->count) {
 			$_SESSION['voted_document'][$document_srl] = true;
 			return new Object(-1, $failed_voted);
 		}
-
-		// 추천수 업데이트
+		// Update the voted count
 		if($point < 0)
 		{
 			$args->blamed_count = $oDocument->get('blamed_count') + $point;
@@ -733,13 +775,11 @@ class documentController extends document {
 			$output = executeQuery('document.updateVotedCount', $args);
 		}
 		if(!$output->toBool()) return $output;
-
-		// 로그 남기기
+		// Leave logs
 		$args->point = $point;
 		$output = executeQuery('document.insertDocumentVotedLog', $args);
 		if(!$output->toBool()) return $output;
-
-		// 세션 정보에 남김
+		// Leave in the session information
 		$_SESSION['voted_document'][$document_srl] = true;
 
 		$obj->member_srl = $oDocument->get('member_srl');
@@ -751,8 +791,7 @@ class documentController extends document {
 		$obj->after_point = ($point < 0) ? $args->blamed_count : $args->voted_count;
 		$output = ModuleHandler::triggerCall('document.updateVotedCount', 'after', $obj);
 		if(!$output->toBool()) return $output;
-
-		// 결과 리턴
+		// Return result
 		if($point > 0)
 		{
 			return new Object(0, 'success_voted');
@@ -764,42 +803,36 @@ class documentController extends document {
 	}
 
 	/**
-	 * @brief 게시글 신고
+	 * @brief Report posts
 	 **/
 	function declaredDocument($document_srl) {
-		// 세션 정보에 신고 정보가 있으면 중단
+		// Fail if session information already has a reported document
 		if($_SESSION['declared_document'][$document_srl]) return new Object(-1, 'failed_declared');
-
-		// 이미 신고되었는지 검사
+		// Check if previously reported
 		$args->document_srl = $document_srl;
 		$output = executeQuery('document.getDeclaredDocument', $args);
 		if(!$output->toBool()) return $output;
 		$declared_count = $output->data->declared_count;
-
-		// 문서 원본을 가져옴
+		// Get the original document
 		$oDocumentModel = &getModel('document');
 		$oDocument = $oDocumentModel->getDocument($document_srl, false, false);
-
-		// 글의 작성 ip와 현재 접속자의 ip가 동일하면 패스
-		if($oDocument->get('ipaddress') == $_SERVER['REMOTE_ADDR']) {
+		// Pass if the author's IP address is as same as visitor's.
+		/*if($oDocument->get('ipaddress') == $_SERVER['REMOTE_ADDR']) {
 			$_SESSION['declared_document'][$document_srl] = true;
 			return new Object(-1, 'failed_declared');
-		}
-
-		// document의 작성자가 회원일때 조사
+		}*/
+		// Check if document's author is a member.
 		if($oDocument->get('member_srl')) {
-			// member model 객체 생성
+			// Create a member model object
 			$oMemberModel = &getModel('member');
 			$member_srl = $oMemberModel->getLoggedMemberSrl();
-
-			// 글쓴이와 현재 로그인 사용자의 정보가 일치하면 읽었다고 생각하고 세션 등록후 패스
+			// Pass after registering a session if author's information is same as the currently logged-in user's.
 			if($member_srl && $member_srl == $oDocument->get('member_srl')) {
 				$_SESSION['declared_document'][$document_srl] = true;
 				return new Object(-1, 'failed_declared');
 			}
 		}
-
-		// 로그인 사용자이면 member_srl, 비회원이면 ipaddress로 판단
+		// Use member_srl for logged-in members and IP address for non-members.
 		if($member_srl) {
 			$args->member_srl = $member_srl;
 		} else {
@@ -807,30 +840,26 @@ class documentController extends document {
 		}
 		$args->document_srl = $document_srl;
 		$output = executeQuery('document.getDocumentDeclaredLogInfo', $args);
-
-		// 로그 정보에 신고 로그가 있으면 세션 등록후 패스
+		// Pass after registering a sesson if reported/declared documents are in the logs.
 		if($output->data->count) {
 			$_SESSION['declared_document'][$document_srl] = true;
 			return new Object(-1, 'failed_declared');
 		}
-
-		// 신고글 추가
+		// Add the declared document
 		if($declared_count > 0) $output = executeQuery('document.updateDeclaredDocument', $args);
 		else $output = executeQuery('document.insertDeclaredDocument', $args);
 		if(!$output->toBool()) return $output;
-
-		// 로그 남기기
+		// Leave logs
 		$output = executeQuery('document.insertDocumentDeclaredLog', $args);
-
-		// 세션 정보에 남김
+		// Leave in the session information
 		$_SESSION['declared_document'][$document_srl] = true;
 
 		$this->setMessage('success_declared');
 	}
 
 	/**
-	 * @brief 해당 document의 댓글 수 증가
-	 * 댓글수를 증가시키면서 수정 순서와 수정일, 수정자를 등록
+	 * @brief Increase the number of comments in the document
+	 * Update modified date, modifier, and order with increasing comment count
 	 **/
 	function updateCommentCount($document_srl, $comment_count, $last_updater, $comment_inserted = false) {
 		$args->document_srl = $document_srl;
@@ -841,11 +870,23 @@ class documentController extends document {
 			$args->last_updater = $last_updater;
 		}
 
+		//remove from cache
+                $oCacheHandler = &CacheHandler::getInstance('object');
+                if($oCacheHandler->isSupport())
+                {
+                    $cache_key = 'object:'.$document_srl;
+                    $oCacheHandler->delete($cache_key);
+                    $oCacheHandler->invalidateGroupKey('documentList');
+                    //remove document item from cache
+                    $cache_key = 'object_document_item:'.$document_srl;
+                    $oCacheHandler->delete($cache_key);
+                }
+
 		return executeQuery('document.updateCommentCount', $args);
 	}
 
 	/**
-	 * @brief 해당 document의 엮인글 수증가
+	 * @brief Increase trackback count of the document
 	 **/
 	function updateTrackbackCount($document_srl, $trackback_count) {
 		$args->document_srl = $document_srl;
@@ -855,12 +896,12 @@ class documentController extends document {
 	}
 
 	/**
-	 * @brief 카테고리 추가
+	 * @brief Add a category
 	 **/
 	function insertCategory($obj) {
-		// 특정 카테고리의 하단으로 추가시 정렬순서 재정렬
+		// Sort the order to display if a child category is added
 		if($obj->parent_srl) {
-			// 부모 카테고리 구함
+			// Get its parent category
 			$oDocumentModel = &getModel('document');
 			$parent_category = $oDocumentModel->getCategory($obj->parent_srl);
 			$obj->list_order = $parent_category->list_order;
@@ -880,7 +921,7 @@ class documentController extends document {
 	}
 
 	/**
-	 * @brief 특정 카테고리 부터 list_count 증가
+	 * @brief Increase list_count from a specific category
 	 **/
 	function updateCategoryListOrder($module_srl, $list_order) {
 		$args->module_srl = $module_srl;
@@ -889,10 +930,10 @@ class documentController extends document {
 	}
 
 	/**
-	 * @brief 카테고리에 문서의 숫자를 변경
+	 * @brief Update document_count in the category.
 	 **/
 	function updateCategoryCount($module_srl, $category_srl, $document_count = 0) {
-		// document model 객체 생성
+		// Create a document model object
 		$oDocumentModel = &getModel('document');
 		if(!$document_count) $document_count = $oDocumentModel->getCategoryDocumentCount($module_srl,$category_srl);
 
@@ -905,7 +946,7 @@ class documentController extends document {
 	}
 
 	/**
-	 * @brief 카테고리의 정보를 수정
+	 * @brief Update category information
 	 **/
 	function updateCategory($obj) {
 		$output = executeQuery('document.updateCategory', $obj);
@@ -915,25 +956,22 @@ class documentController extends document {
 
 	/**
 	/**
-	 * @brief 카테고리 삭제
+	 * @brief Delete a category
 	 **/
 	function deleteCategory($category_srl) {
 		$args->category_srl = $category_srl;
 		$oDocumentModel = &getModel('document');
 		$category_info = $oDocumentModel->getCategory($category_srl);
-
-		// 자식 카테고리가 있는지 체크하여 있으면 삭제 못한다는 에러 출력
+		// Display an error that the category cannot be deleted if it has a child
 		$output = executeQuery('document.getChildCategoryCount', $args);
 		if(!$output->toBool()) return $output;
 		if($output->data->count>0) return new Object(-1, 'msg_cannot_delete_for_child');
-
-		// 카테고리 정보를 삭제
+		// Delete a category information
 		$output = executeQuery('document.deleteCategory', $args);
 		if(!$output->toBool()) return $output;
 
 		$this->makeCategoryFile($category_info->module_srl);
-
-		// 현 카테고리 값을 가지는 문서들의 category_srl을 0 으로 세팅
+		// Update category_srl of the documents in the same category to 0
 		unset($args);
 
 		$args->target_category_srl = 0;
@@ -944,7 +982,7 @@ class documentController extends document {
 	}
 
 	/**
-	 * @brief 특정 모듈의 카테고리를 모두 삭제
+	 * @brief Delete all categories in a module
 	 **/
 	function deleteModuleCategory($module_srl) {
 		$args->module_srl = $module_srl;
@@ -953,20 +991,18 @@ class documentController extends document {
 	}
 
 	/**
-	 * @brief 카테고리를 상단으로 이동
+	 * @brief Move the category level to higher
 	 **/
 	function moveCategoryUp($category_srl) {
 		$oDocumentModel = &getModel('document');
-
-		// 선택된 카테고리의 정보를 구한다
+		// Get information of the selected category
 		$args->category_srl = $category_srl;
 		$output = executeQuery('document.getCategory', $args);
 
 		$category = $output->data;
 		$list_order = $category->list_order;
 		$module_srl = $category->module_srl;
-
-		// 전체 카테고리 목록을 구한다
+		// Seek a full list of categories
 		$category_list = $oDocumentModel->getCategoryList($module_srl);
 		$category_srl_list = array_keys($category_list);
 		if(count($category_srl_list)<2) return new Object();
@@ -976,20 +1012,16 @@ class documentController extends document {
 			if($key==$category_srl) break;
 			$prev_category = $val;
 		}
-
-		// 이전 카테고리가 없으면 그냥 return
+		// Return if the previous category doesn't exist
 		if(!$prev_category) return new Object(-1,Context::getLang('msg_category_not_moved'));
-
-		// 선택한 카테고리가 가장 위의 카테고리이면 그냥 return
+		// Return if the selected category is the top level
 		if($category_srl_list[0]==$category_srl) return new Object(-1,Context::getLang('msg_category_not_moved'));
-
-		// 선택한 카테고리의 정보
+		// Information of the selected category
 		$cur_args->category_srl = $category_srl;
 		$cur_args->list_order = $prev_category->list_order;
 		$cur_args->title = $category->title;
 		$this->updateCategory($cur_args);
-
-		// 대상 카테고리의 정보
+		// Category information
 		$prev_args->category_srl = $prev_category->category_srl;
 		$prev_args->list_order = $list_order;
 		$prev_args->title = $prev_category->title;
@@ -999,20 +1031,18 @@ class documentController extends document {
 	}
 
 	/**
-	 * @brief 카테고리를 아래로 이동
+	 * @brief Move the category down
 	 **/
 	function moveCategoryDown($category_srl) {
 		$oDocumentModel = &getModel('document');
-
-		// 선택된 카테고리의 정보를 구한다
+		// Get information of the selected category
 		$args->category_srl = $category_srl;
 		$output = executeQuery('document.getCategory', $args);
 
 		$category = $output->data;
 		$list_order = $category->list_order;
 		$module_srl = $category->module_srl;
-
-		// 전체 카테고리 목록을 구한다
+		// Seek a full list of categories
 		$category_list = $oDocumentModel->getCategoryList($module_srl);
 		$category_srl_list = array_keys($category_list);
 		if(count($category_srl_list)<2) return new Object();
@@ -1024,14 +1054,12 @@ class documentController extends document {
 		$next_category_srl = $category_srl_list[$i+1];
 		if(!$category_list[$next_category_srl]) return new Object(-1,Context::getLang('msg_category_not_moved'));
 		$next_category = $category_list[$next_category_srl];
-
-		// 선택한 카테고리의 정보
+		// Information of the selected category
 		$cur_args->category_srl = $category_srl;
 		$cur_args->list_order = $next_category->list_order;
 		$cur_args->title = $category->title;
 		$this->updateCategory($cur_args);
-
-		// 대상 카테고리의 정보
+		// Category information
 		$next_args->category_srl = $next_category->category_srl;
 		$next_args->list_order = $list_order;
 		$next_args->title = $next_category->title;
@@ -1041,7 +1069,7 @@ class documentController extends document {
 	}
 
 	/**
-	 * @brief 특정 module_srl에 해당하는 document_extra_keys type, required등의 값을 체크하여 header에 javascript 코드 추가
+	 * @brief Add javascript codes into the header by checking values of document_extra_keys type, required and others
 	 **/
 	function addXmlJsFilter($module_srl) {
 		$oDocumentModel = &getModel('document');
@@ -1051,17 +1079,17 @@ class documentController extends document {
 		$js_code = array();
 		$js_code[] = '<script type="text/javascript">//<![CDATA[';
 		$js_code[] = '(function($){';
-		$js_code[] = 'var validator = xe.getApp("validator")[0];';
-		$js_code[] = 'if(!validator) return false;';
+				$js_code[] = 'var validator = xe.getApp("validator")[0];';
+				$js_code[] = 'if(!validator) return false;';
 
-		$logged_info = Context::get('logged_info');
+				$logged_info = Context::get('logged_info');
 
-		foreach($extra_keys as $idx => $val) {
-			$js_code[] = sprintf('validator.cast("ADD_MESSAGE", ["extra_vars%s","%s"]);', $val->idx, $val->name);
-			if($val->is_required == 'Y' && $logged_info->is_admin != 'Y') $js_code[] = sprintf('validator.cast("ADD_EXTRA_FIELD", ["extra_vars%s", { required:true }]);', $val->idx);
-		}
+				foreach($extra_keys as $idx => $val) {
+				$js_code[] = sprintf('validator.cast("ADD_MESSAGE", ["extra_vars%s","%s"]);', $val->idx, $val->name);
+				if($val->is_required == 'Y' && $logged_info->is_admin != 'Y') $js_code[] = sprintf('validator.cast("ADD_EXTRA_FIELD", ["extra_vars%s", { required:true }]);', $val->idx);
+				}
 
-		$js_code[] = '})(jQuery);';
+				$js_code[] = '})(jQuery);';
 		$js_code[] = '//]]></script>';
 		$js_code   = implode("\n", $js_code);
 
@@ -1069,48 +1097,49 @@ class documentController extends document {
 	}
 
 	/**
-	 * @brief 카테고리 추가
+	 * @brief Add a category
 	 **/
 	function procDocumentInsertCategory($args = null) {
-		// 입력할 변수 정리
-		if(!$args) $args = Context::gets('module_srl','category_srl','parent_srl','title','expand','group_srls','color','mid');
+		// List variables
+		if(!$args) $args = Context::gets('module_srl','category_srl','parent_srl','category_title','category_description','expand','group_srls','category_color','mid');
+		$args->title = $args->category_title;
+		$args->description = $args->category_description;
+		$args->color = $args->category_color;
 
 		if(!$args->module_srl && $args->mid){
 			$mid = $args->mid;
 			unset($args->mid);
 			$args->module_srl = $this->module_srl;
 		}
-
-		// 권한 체크
+		// Check permissions
 		$oModuleModel = &getModel('module');
-		$module_info = $oModuleModel->getModuleInfoByModuleSrl($args->module_srl);
+		$columnList = array('module_srl', 'module');
+		$module_info = $oModuleModel->getModuleInfoByModuleSrl($args->module_srl, $columnList);
 		$grant = $oModuleModel->getGrant($module_info, Context::get('logged_info'));
 		if(!$grant->manager) return new Object(-1,'msg_not_permitted');
 
 		if($args->expand !="Y") $args->expand = "N";
-		$args->group_srls = str_replace('|@|',',',$args->group_srls);
+		if(!is_array($args->group_srls)) $args->group_srls = str_replace('|@|',',',$args->group_srls);
+		else $args->group_srls = implode(',', $args->group_srls);
 		$args->parent_srl = (int)$args->parent_srl;
 
 		$oDocumentModel = &getModel('document');
 
 		$oDB = &DB::getInstance();
 		$oDB->begin();
-
-		// 이미 존재하는지를 확인
+		// Check if already exists
 		if($args->category_srl) {
 			$category_info = $oDocumentModel->getCategory($args->category_srl);
 			if($category_info->category_srl != $args->category_srl) $args->category_srl = null;
 		}
-
-		// 존재하게 되면 update를 해준다
+		// Update if exists
 		if($args->category_srl) {
 			$output = $this->updateCategory($args);
 			if(!$output->toBool()) {
 				$oDB->rollback();
 				return $output;
 			}
-
-		// 존재하지 않으면 insert를 해준다
+			// Insert if not exist
 		} else {
 			$output = $this->insertCategory($args);
 			if(!$output->toBool()) {
@@ -1118,8 +1147,7 @@ class documentController extends document {
 				return $output;
 			}
 		}
-
-		// XML 파일을 갱신하고 위치을 넘겨 받음
+		// Update the xml file and get its location
 		$xml_file = $this->makeCategoryFile($args->module_srl);
 
 		$oDB->commit();
@@ -1128,28 +1156,31 @@ class documentController extends document {
 		$this->add('module_srl', $args->module_srl);
 		$this->add('category_srl', $args->category_srl);
 		$this->add('parent_srl', $args->parent_srl);
+
+		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : Context::get('error_return_url');
+			header('location:'.$returnUrl);
+			return;
+		}
 	}
 
 
 	function procDocumentMoveCategory() {
 		$source_category_srl = Context::get('source_srl');
-
-		// parent_srl 이 있으면 첫 자식으로 들어간다
+		// If parent_srl exists, be the first child
 		$parent_category_srl = Context::get('parent_srl');
-
-		// target_srl 이 있으면 target_srl 아래로 형제로 들어간다
+		// If target_srl exists, be a sibling
 		$target_category_srl = Context::get('target_srl');
 
 		$oDocumentModel = &getModel('document');
 		$source_category = $oDocumentModel->getCategory($source_category_srl);
-
-		// 권한 체크
+		// Check permissions
 		$oModuleModel = &getModel('module');
-		$module_info = $oModuleModel->getModuleInfoByModuleSrl($source_category->module_srl);
+		$columnList = array('module_srl', 'module');
+		$module_info = $oModuleModel->getModuleInfoByModuleSrl($source_category->module_srl, $columnList);
 		$grant = $oModuleModel->getGrant($module_info, Context::get('logged_info'));
 		if(!$grant->manager) return new Object(-1,'msg_not_permitted');
-
-		//parent_category_srl 의 첫 자식으로 넣자
+		// First child of the parent_category_srl
 		if($parent_category_srl > 0 || ($parent_category_srl == 0 && $target_category_srl == 0)){
 			$parent_category = $oDocumentModel->getCategory($parent_category_srl);
 
@@ -1168,13 +1199,10 @@ class documentController extends document {
 			$source_args->list_order = $args->list_order;
 			$output = $this->updateCategory($source_args);
 			if(!$output->toBool()) return $output;
-
-
-		// $target_category_srl의 아래동생으로
+			// Sibling of the $target_category_srl
 		}else if($target_category_srl > 0){
 			$target_category = $oDocumentModel->getCategory($target_category_srl);
-
-			//$target_category의 아래 동생을 모두 내린다
+			// Move all siblings of the $target_category down
 			$output = $this->updateCategoryListOrder($target_category->module_srl, $target_category->list_order+1);
 			if(!$output->toBool()) return $output;
 
@@ -1185,49 +1213,43 @@ class documentController extends document {
 			$output = $this->updateCategory($source_args);
 			if(!$output->toBool()) return $output;
 		}
-
-		// xml파일 재생성
+		// Re-generate the xml file
 		$xml_file = $this->makeCategoryFile($source_category->module_srl);
-
-		// return 변수 설정
+		// Variable settings
 		$this->add('xml_file', $xml_file);
 		$this->add('source_category_srl', $source_category_srl);
 
 	}
 
 	/**
-	 * @brief 카테고리 삭제
+	 * @brief Delete a category
 	 **/
 	function procDocumentDeleteCategory() {
-		// 변수 정리
+		// List variables
 		$args = Context::gets('module_srl','category_srl');
 
 		$oDB = &DB::getInstance();
 		$oDB->begin();
-
-		// 권한 체크
+		// Check permissions
 		$oModuleModel = &getModel('module');
-		$module_info = $oModuleModel->getModuleInfoByModuleSrl($args->module_srl);
+		$columnList = array('module_srl', 'module');
+		$module_info = $oModuleModel->getModuleInfoByModuleSrl($args->module_srl, $columnList);
 		$grant = $oModuleModel->getGrant($module_info, Context::get('logged_info'));
 		if(!$grant->manager) return new Object(-1,'msg_not_permitted');
 
 		$oDocumentModel = &getModel('document');
-
-		// 원정보를 가져옴
+		// Get original information
 		$category_info = $oDocumentModel->getCategory($args->category_srl);
 		if($category_info->parent_srl) $parent_srl = $category_info->parent_srl;
-
-		// 자식 노드가 있는지 체크하여 있으면 삭제 못한다는 에러 출력
+		// Display an error that the category cannot be deleted if it has a child node
 		if($oDocumentModel->getCategoryChlidCount($args->category_srl)) return new Object(-1, 'msg_cannot_delete_for_child');
-
-		// DB에서 삭제
+		// Remove from the DB
 		$output = $this->deleteCategory($args->category_srl);
 		if(!$output->toBool()) {
 			$oDB->rollback();
 			return $output;
 		}
-
-		// XML 파일을 갱신하고 위치을 넘겨 받음
+		// Update the xml file and get its location
 		$xml_file = $this->makeCategoryFile($args->module_srl);
 
 		$oDB->commit();
@@ -1238,46 +1260,43 @@ class documentController extends document {
 	}
 
 	/**
-	 * @brief xml 파일을 갱신
-	 * 관리자페이지에서 메뉴 구성 후 간혹 xml파일이 재생성 안되는 경우가 있는데\n
-	 * 이럴 경우 관리자의 수동 갱신 기능을 구현해줌\n
-	 * 개발 중간의 문제인 것 같고 현재는 문제가 생기지 않으나 굳이 없앨 필요 없는 기능
+	 * @brief xml files updated
+	 * Occasionally the xml file is not generated after menu is configued on the admin page \n
+	 * The administrator can manually update the file in this case \n
+	 * Although the issue is not currently reproduced, it is unnecessay to remove.
 	 **/
 	function procDocumentMakeXmlFile() {
-		// 입력값을 체크
+		// Check input values
 		$module_srl = Context::get('module_srl');
-
-		// 권한 체크
+		// Check permissions
 		$oModuleModel = &getModel('module');
-		$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+		$columnList = array('module_srl', 'module');
+		$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);
 		$grant = $oModuleModel->getGrant($module_info, Context::get('logged_info'));
 		if(!$grant->manager) return new Object(-1,'msg_not_permitted');
 
 		$xml_file = $this->makeCategoryFile($module_srl);
-
-		// return 값 설정
+		// Set return value
 		$this->add('xml_file',$xml_file);
 	}
 
 	/**
-	 * @brief 카테고리를 캐시 파일로 저장
+	 * @brief Save the category in a cache file
 	 **/
 	function makeCategoryFile($module_srl) {
-		// 캐시 파일 생성시 필요한 정보가 없으면 그냥 return
+		// Return if there is no information you need for creating a cache file
 		if(!$module_srl) return false;
-
-		// 모듈 정보를 가져옴 (mid를 구하기 위해)
+		// Get module information (to obtain mid)
 		$oModuleModel = &getModel('module');
-		$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+		$columnList = array('module_srl', 'mid', 'site_srl');
+		$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);
 		$mid = $module_info->mid;
 
 		if(!is_dir('./files/cache/document_category')) FileHandler::makeDir('./files/cache/document_category');
-
-		// 캐시 파일의 이름을 지정
+		// Cache file's name
 		$xml_file = sprintf("./files/cache/document_category/%s.xml.php", $module_srl);
 		$php_file = sprintf("./files/cache/document_category/%s.php", $module_srl);
-
-		// 카테고리 목록을 구함
+		// Get a category list
 		$args->module_srl = $module_srl;
 		$args->sort_index = 'list_order';
 		$output = executeQuery('document.getCategoryList', $args);
@@ -1297,106 +1316,99 @@ class documentController extends document {
 			if(!preg_match('/^[0-9,]+$/', $category_list[$i]->group_srls)) $category_list[$i]->group_srls = '';
 			$list[$category_srl] = $category_list[$i];
 		}
-
-		// 구해온 데이터가 없다면 노드데이터가 없는 xml 파일만 생성
+		// Create the xml file without node data if no data is obtained
 		if(!$list) {
 			$xml_buff = "<root />";
 			FileHandler::writeFile($xml_file, $xml_buff);
 			FileHandler::writeFile($php_file, '<?php if(!defined("__ZBXE__")) exit(); ?>');
 			return $xml_file;
 		}
-
-		// 구해온 데이터가 하나라면 array로 바꾸어줌
+		// Change to an array if only a single data is obtained
 		if(!is_array($list)) $list = array($list);
-
-		// 루프를 돌면서 tree 구성
+		// Create a tree for loop
 		foreach($list as $category_srl => $node) {
 			$node->mid = $mid;
 			$parent_srl = (int)$node->parent_srl;
 			$tree[$parent_srl][$category_srl] = $node;
 		}
-
-		// 캐시 파일의 권한과 그룹 설정을 위한 공통 헤더
+		// A common header to set permissions and groups of the cache file
 		$header_script =
 			'$lang_type = Context::getLangType(); '.
 			'$is_logged = Context::get(\'is_logged\'); '.
 			'$logged_info = Context::get(\'logged_info\'); '.
 			'if($is_logged) {'.
 				'if($logged_info->is_admin=="Y") $is_admin = true; '.
-				'else $is_admin = false; '.
-				'$group_srls = array_keys($logged_info->group_list); '.
-			'} else { '.
-				'$is_admin = false; '.
-				'$group_srsl = array(); '.
-			'} '."\n";
+					'else $is_admin = false; '.
+					'$group_srls = array_keys($logged_info->group_list); '.
+					'} else { '.
+						'$is_admin = false; '.
+							'$group_srsl = array(); '.
+							'} '."\n";
 
-		// xml 캐시 파일 생성 (xml캐시는 따로 동작하기에 session 지정을 해주어야 함)
+		// Create the xml cache file (a separate session is needed for xml cache)
 		$xml_header_buff = '';
 		$xml_body_buff = $this->getXmlTree($tree[0], $tree, $module_info->site_srl, $xml_header_buff);
 		$xml_buff = sprintf(
-			'<?php '.
-			'define(\'__ZBXE__\', true); '.
-			'require_once(\''.FileHandler::getRealPath('./config/config.inc.php').'\'); '.
-			'$oContext = &Context::getInstance(); '.
-			'$oContext->init(); '.
-			'header("Content-Type: text/xml; charset=UTF-8"); '.
-			'header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); '.
-			'header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT"); '.
-			'header("Cache-Control: no-store, no-cache, must-revalidate"); '.
-			'header("Cache-Control: post-check=0, pre-check=0", false); '.
-			'header("Pragma: no-cache"); '.
-			'%s'.
-			'%s '.
-			'$oContext->close();'.
-			'?>'.
-			'<root>%s</root>',
-			$header_script,
-			$xml_header_buff,
-			$xml_body_buff
-		);
-
-		// php 캐시 파일 생성
+				'<?php '.
+				'define(\'__ZBXE__\', true); '.
+				'require_once(\''.FileHandler::getRealPath('./config/config.inc.php').'\'); '.
+				'$oContext = &Context::getInstance(); '.
+				'$oContext->init(); '.
+				'header("Content-Type: text/xml; charset=UTF-8"); '.
+				'header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); '.
+				'header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT"); '.
+				'header("Cache-Control: no-store, no-cache, must-revalidate"); '.
+				'header("Cache-Control: post-check=0, pre-check=0", false); '.
+				'header("Pragma: no-cache"); '.
+				'%s'.
+				'%s '.
+				'$oContext->close();'.
+				'?>'.
+				'<root>%s</root>',
+				$header_script,
+				$xml_header_buff,
+				$xml_body_buff
+				);
+		// Create php cache file
 		$php_output = $this->getPhpCacheCode($tree[0], $tree, $module_info->site_srl, $php_header_buff);
 		$php_buff = sprintf(
-			'<?php '.
-			'if(!defined("__ZBXE__")) exit(); '.
-			'%s; '.
-			'%s; '.
-			'$menu->list = array(%s); '.
-			'?>',
-			$header_script,
-			$php_header_buff,
-			$php_output['buff']
-		);
-
-		// 파일 저장
+				'<?php '.
+				'if(!defined("__ZBXE__")) exit(); '.
+				'%s; '.
+				'%s; '.
+				'$menu->list = array(%s); '.
+				'?>',
+				$header_script,
+				$php_header_buff,
+				$php_output['buff']
+				);
+		// Save File
 		FileHandler::writeFile($xml_file, $xml_buff);
 		FileHandler::writeFile($php_file, $php_buff);
 		return $xml_file;
 	}
 
 	/**
-	 * @brief array로 정렬된 노드들을 parent_srl을 참조하면서 recursive하게 돌면서 xml 데이터 생성
-	 * 메뉴 xml파일은 node라는 tag가 중첩으로 사용되며 이 xml doc으로 관리자 페이지에서 메뉴를 구성해줌\n
-	 * (tree_menu.js 에서 xml파일을 바로 읽고 tree menu를 구현)
+	 * @brief Create the xml data recursively referring to parent_srl
+	 * In the menu xml file, node tag is nested and xml doc enables the admin page to have a menu\n
+	 * (tree menu is implemented by reading xml file from the tree_menu.js)
 	 **/
 	function getXmlTree($source_node, $tree, $site_srl, &$xml_header_buff) {
 		if(!$source_node) return;
 
 		foreach($source_node as $category_srl => $node) {
 			$child_buff = "";
-
-			// 자식 노드의 데이터 가져옴
+			// Get data of the child nodes
 			if($category_srl && $tree[$category_srl]) $child_buff = $this->getXmlTree($tree[$category_srl], $tree, $site_srl, $xml_header_buff);
-
-			// 변수 정리
+			// List variables
 			$expand = $node->expand;
 			$group_srls = $node->group_srls;
 			$mid = $node->mid;
 			$module_srl = $node->module_srl;
 			$parent_srl = $node->parent_srl;
 			$color = $node->color;
-			// node->group_srls값이 있으면
+			$description = $node->description;
+			// If node->group_srls value exists
 			if($group_srls) $group_check_code = sprintf('($is_admin==true||(is_array($group_srls)&&count(array_intersect($group_srls, array(%s)))))',$group_srls);
 			else $group_check_code = "true";
 
@@ -1405,8 +1417,11 @@ class documentController extends document {
 			$langs = $oModuleAdminModel->getLangCode($site_srl, $title);
 			if(count($langs)) foreach($langs as $key => $val) $xml_header_buff .= sprintf('$_titles[%d]["%s"] = "%s"; ', $category_srl, $key, str_replace('"','\\"',htmlspecialchars($val)));
 
+			$langx = $oModuleAdminModel->getLangCode($site_srl, $description);
+			if(count($langx)) foreach($langx as $key => $val) $xml_header_buff .= sprintf('$_descriptions[%d]["%s"] = "%s"; ', $category_srl, $key, str_replace('"','\\"',htmlspecialchars($val)));
+
 			$attribute = sprintf(
-					'mid="%s" module_srl="%d" node_srl="%d" parent_srl="%d" category_srl="%d" text="<?php echo (%s?($_titles[%d][$lang_type]):"")?>" url="%s" expand="%s" color="%s" document_count="%d" ',
+					'mid="%s" module_srl="%d" node_srl="%d" parent_srl="%d" category_srl="%d" text="<?php echo (%s?($_titles[%d][$lang_type]):"")?>" url="%s" expand="%s" color="%s" description="<?php echo (%s?($_descriptions[%d][$lang_type]):"")?>" document_count="%d" ',
 					$mid,
 					$module_srl,
 					$category_srl,
@@ -1417,8 +1432,10 @@ class documentController extends document {
 					getUrl('','mid',$node->mid,'category',$category_srl),
 					$expand,
 					$color,
+					$group_check_code,
+					$category_srl,
 					$node->document_count
-			);
+					);
 
 			if($child_buff) $buff .= sprintf('<node %s>%s</node>', $attribute, $child_buff);
 			else $buff .=  sprintf('<node %s />', $attribute);
@@ -1427,65 +1444,63 @@ class documentController extends document {
 	}
 
 	/**
-	 * @brief array로 정렬된 노드들을 php code로 변경하여 return
-	 * 메뉴에서 메뉴를 tpl에 사용시 xml데이터를 사용할 수도 있지만 별도의 javascript 사용이 필요하기에
-	 * php로 된 캐시파일을 만들어서 db이용없이 바로 메뉴 정보를 구할 수 있도록 한다
-	 * 이 캐시는 ModuleHandler::displayContent() 에서 include하여 Context::set() 한다
+	 * @brief change sorted nodes in an array to the php code and then return
+	 * when using menu on tpl, you can directly xml data. howver you may need javascrips additionally.
+	 * therefore, you can configure the menu info directly from php cache file, not through DB.
+	 * You may include the cache in the ModuleHandler::displayContent()
 	 **/
 	function getPhpCacheCode($source_node, $tree, $site_srl, &$php_header_buff) {
 		$output = array("buff"=>"", "category_srl_list"=>array());
 		if(!$source_node) return $output;
-
-		// 루프를 돌면서 1차 배열로 정리하고 include할 수 있는 php script 코드를 생성
+		// Set to an arraty for looping and then generate php script codes to be included
 		foreach($source_node as $category_srl => $node) {
-
-			// 자식 노드가 있으면 자식 노드의 데이터를 먼저 얻어옴
+			// Get data from child nodes first if exist.
 			if($category_srl&&$tree[$category_srl]) $child_output = $this->getPhpCacheCode($tree[$category_srl], $tree, $site_srl, $php_header_buff);
 			else $child_output = array("buff"=>"", "category_srl_list"=>array());
-
-			// 현재 노드의 url값이 공란이 아니라면 category_srl_list 배열값에 입력
+			// Set values into category_srl_list arrary if url of the current node is not empty
 			$child_output['category_srl_list'][] = $node->category_srl;
 			$output['category_srl_list'] = array_merge($output['category_srl_list'], $child_output['category_srl_list']);
-
-			// node->group_srls값이 있으면
+			// If node->group_srls value exists
 			if($node->group_srls) $group_check_code = sprintf('($is_admin==true||(is_array($group_srls)&&count(array_intersect($group_srls, array(%s)))))',$node->group_srls);
 			else $group_check_code = "true";
-
-			// 변수 정리
+			// List variables
 			$selected = '"'.implode('","',$child_output['category_srl_list']).'"';
 			$child_buff = $child_output['buff'];
 			$expand = $node->expand;
 
 			$title = $node->title;
+			$description= $node->description;
 			$oModuleAdminModel = &getAdminModel('module');
 			$langs = $oModuleAdminModel->getLangCode($site_srl, $title);
 			if(count($langs)) foreach($langs as $key => $val) $php_header_buff .= sprintf('$_titles[%d]["%s"] = "%s"; ', $category_srl, $key, str_replace('"','\\"',htmlspecialchars($val)));
-
-			// 속성을 생성한다 ( category_srl_list를 이용해서 선택된 메뉴의 노드에 속하는지를 검사한다. 꽁수지만 빠르고 강력하다고 생각;;)
+			$langx = $oModuleAdminModel->getLangCode($site_srl, $description);
+			if(count($langx)) foreach($langx as $key => $val) $php_header_buff .= sprintf('$_descriptions[%d]["%s"] = "%s"; ', $category_srl, $key, str_replace('"','\\"',htmlspecialchars($val)));
+			// Create attributes(Use the category_srl_list to check whether to belong to the menu's node. It seems to be tricky but fast fast and powerful;)
 			$attribute = sprintf(
-				'"mid" => "%s", "module_srl" => "%d","node_srl"=>"%s","category_srl"=>"%s","parent_srl"=>"%s","text"=>$_titles[%d][$lang_type],"selected"=>(in_array(Context::get("category"),array(%s))?1:0),"expand"=>"%s","color"=>"%s", "list"=>array(%s),"document_count"=>"%d","grant"=>%s?true:false',
-				$node->mid,
-				$node->module_srl,
-				$node->category_srl,
-				$node->category_srl,
-				$node->parent_srl,
-				$node->category_srl,
-				$selected,
-				$expand,
-				$node->color,
-				$child_buff,
-				$node->document_count,
-				$group_check_code
-			);
+					'"mid" => "%s", "module_srl" => "%d","node_srl"=>"%s","category_srl"=>"%s","parent_srl"=>"%s","text"=>$_titles[%d][$lang_type],"selected"=>(in_array(Context::get("category"),array(%s))?1:0),"expand"=>"%s","color"=>"%s","description"=>$_descriptions[%d][$lang_type],"list"=>array(%s),"document_count"=>"%d","grant"=>%s?true:false',
+					$node->mid,
+					$node->module_srl,
+					$node->category_srl,
+					$node->category_srl,
+					$node->parent_srl,
+					$node->category_srl,
+					$selected,
+					$expand,
+					$node->color,
+					$node->category_srl,
+					$child_buff,
+					$node->document_count,
+					$group_check_code
+					);
 
-			// buff 데이터를 생성한다
+			// Generate buff data
 			$output['buff'] .=  sprintf('%s=>array(%s),', $node->category_srl, $attribute);
 		}
 		return $output;
 	}
 
 	/**
-	 * @brief 게시물의 이 게시물을.. 클릭시 나타나는 팝업 메뉴를 추가하는 method
+	 * @brief A method to add a pop-up menu which appears when clicking
 	 **/
 	function addDocumentPopupMenu($url, $str, $icon = '', $target = 'self') {
 		$document_popup_menu_list = Context::get('document_popup_menu_list');
@@ -1501,12 +1516,11 @@ class documentController extends document {
 	}
 
 	/**
-	 * @brief 관리자가 글 선택시 세션에 담음
+	 * @brief Saved in the session when an administrator selects a post
 	 **/
 	function procDocumentAddCart() {
 		if(!Context::get('is_logged')) return new Object(-1, 'msg_not_permitted');
-
-		// 게시글 번호 구함
+		// Get document_srl
 		$srls = explode(',',Context::get('srls'));
 		for($i=0;$i<count($srls);$i++) {
 			$srl = trim($srls[$i]);
@@ -1514,8 +1528,7 @@ class documentController extends document {
 			$document_srls[] = $srl;
 		}
 		if(!count($document_srls)) return;
-
-		// 게시글들의 모듈 번호를 구함
+		// Get module_srl of the documents
 		$args->list_count = count($document_srls);
 		$args->document_srls = implode(',',$document_srls);
 		$args->order_type = 'asc';
@@ -1527,8 +1540,7 @@ class documentController extends document {
 			$document_srls[$val->module_srl][] = $val->document_srl;
 		}
 		if(!$document_srls || !count($document_srls)) return new Object();
-
-		// 각 문서들의 모듈 관리자 여부 확인, 최고 관리자는 모든 모듈의 문서에 수정 권한 가짐. (임시저장이나 휴지통 문서 포함.)
+		// Check if each of module administrators exists. Top-level administator will have a permission to modify every document of all modules.(Even to modify temporarily saved or trashed documents)
 		$oModuleModel = &getModel('module');
 		$module_srls = array_keys($document_srls);
 		for($i=0;$i<count($module_srls);$i++) {
@@ -1562,20 +1574,23 @@ class documentController extends document {
 	}
 
 	/**
-	 * @brief 세션에 담긴 선택글의 이동/ 삭제
+	 * @brief Move/ Delete the document in the seession
 	 **/
 	function procDocumentManageCheckedDocument() {
+		set_time_limit(50);
 		if(!Context::get('is_logged')) return new Object(-1,'msg_not_permitted');
 
 		$type = Context::get('type');
-		$module_srl = Context::get('target_module');
+		$target_module = Context::get('target_module');
+		$module_srl = Context::get('module_srl');
+		if($target_module && !$module_srl) $module_srl = $target_module;
 		$category_srl = Context::get('target_category');
 		$message_content = Context::get('message_content');
 		if($message_content) $message_content = nl2br($message_content);
 
 		$cart = Context::get('cart');
-		if($cart) $document_srl_list = explode('|@|', $cart);
-		else $document_srl_list = array();
+		if(!is_array($cart)) $document_srl_list = explode('|@|', $cart);
+		else $document_srl_list = $cart;
 
 		$document_srl_count = count($document_srl_list);
 
@@ -1587,7 +1602,7 @@ class documentController extends document {
 			if (!$oDocument->isGranted()) return $this->stop('msg_not_permitted');
 		}
 
-		// 쪽지 발송
+		// Send a message
 		if($message_content) {
 
 			$oCommunicationController = &getController('communication');
@@ -1607,12 +1622,11 @@ class documentController extends document {
 				$oCommunicationController->sendMessage($sender_member_srl, $oDocument->get('member_srl'), $title, $content, false);
 			}
 		}
-
-		// 스팸 처리가 되지 않도록 스팸필터 설정
+		// Set a spam-filer not to be filtered to spams
 		$oSpamController = &getController('spamfilter');
 		$oSpamController->setAvoidLog();
-		$oDocumentAdminController = &getAdminController('document');
 
+		$oDocumentAdminController = &getAdminController('document');
 		if($type == 'move') {
 			if(!$module_srl) return new Object(-1, 'fail_to_move');
 
@@ -1621,15 +1635,17 @@ class documentController extends document {
 
 			$msg_code = 'success_moved';
 
-		} elseif($type == 'copy') {
+		}
+		elseif($type == 'copy') {
 			if(!$module_srl) return new Object(-1, 'fail_to_move');
 
 			$output = $oDocumentAdminController->copyDocumentModule($document_srl_list, $module_srl, $category_srl);
 			if(!$output->toBool()) return new Object(-1, 'fail_to_move');
 
-			$msg_code = 'success_registed';
+			$msg_code = 'success_copy';
 
-		} elseif($type =='delete') {
+		}
+		elseif($type =='delete') {
 			$oDB = &DB::getInstance();
 			$oDB->begin();
 			for($i=0;$i<$document_srl_count;$i++) {
@@ -1639,7 +1655,8 @@ class documentController extends document {
 			}
 			$oDB->commit();
 			$msg_code = 'success_deleted';
-		} elseif($type == 'trash') {
+		}
+		elseif($type == 'trash') {
 			$args->description = $message_content;
 
 			$oDB = &DB::getInstance();
@@ -1652,10 +1669,19 @@ class documentController extends document {
 			$oDB->commit();
 			$msg_code = 'success_trashed';
 		}
+		elseif($type == 'cancelDeclare') {
+			$args->document_srl = $document_srl_list;
+			$output = executeQuery('document.deleteDeclaredDocuments', $args);
+		}
 
 		$_SESSION['document_management'] = array();
 
 		$this->setMessage($msg_code);
+		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList');
+			$this->setRedirectUrl($returnUrl);
+			return;
+		}
 	}
 
 	function procDocumentInsertModuleConfig()
@@ -1674,6 +1700,8 @@ class documentController extends document {
 		$document_config->use_vote_down = Context::get('use_vote_down');
 		if(!$document_config->use_vote_down) $document_config->use_vote_down = 'Y';
 
+		$document_config->use_status = Context::get('use_status');
+
 		$oModuleController = &getController('module');
 		for($i=0;$i<count($module_srl);$i++) {
 			$srl = trim($module_srl[$i]);
@@ -1681,7 +1709,106 @@ class documentController extends document {
 			$output = $oModuleController->insertModulePartConfig('document',$srl,$document_config);
 		}
 		$this->setError(-1);
-		$this->setMessage('success_updated');
+		$this->setMessage('success_updated', 'info');
+		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispBoardAdminContent');
+			$this->setRedirectUrl($returnUrl);
+			return;
+		}
+	}
+
+	/**
+	 * @brief
+	 **/
+	function procDocumentTempSave()
+	{
+		// Check login information
+		if(!Context::get('is_logged')) return new Object(-1, 'msg_not_logged');
+
+		$module_info = Context::get('module_info');
+		$logged_info = Context::get('logged_info');
+		// Get form information
+		$obj = Context::getRequestVars();
+		// Change the target module to log-in information
+		$obj->module_srl = $module_info->module_srl;
+		$obj->status = $this->getConfigStatus('temp');
+		unset($obj->is_notice);
+
+		// Extract from beginning part of contents in the guestbook
+		if(!$obj->title) {
+			$obj->title = cut_str(strip_tags($obj->content), 20, '...');
+		}
+
+		$oDocumentModel = &getModel('document');
+		$oDocumentController = &getController('document');
+		// Check if already exist geulinji
+		$oDocument = $oDocumentModel->getDocument($obj->document_srl, $this->grant->manager);
+		// Update if already exists
+		if($oDocument->isExists() && $oDocument->document_srl == $obj->document_srl) {
+			//if exist document status is already public, use temp status can point problem
+			$obj->status = $oDocument->get('status');
+			$output = $oDocumentController->updateDocument($oDocument, $obj);
+			$msg_code = 'success_updated';
+		// Otherwise, get a new
+		} else {
+			$output = $oDocumentController->insertDocument($obj);
+			$msg_code = 'success_registed';
+			$obj->document_srl = $output->get('document_srl');
+			$oDocument = $oDocumentModel->getDocument($obj->document_srl, $this->grant->manager);
+		}
+		// Set the attachment to be invalid state
+		if($oDocument->hasUploadedFiles()) {
+			$args->upload_target_srl = $oDocument->document_srl;
+			$args->isvalid = 'N';
+			executeQuery('file.updateFileValid', $args);
+		}
+
+		$this->setMessage('success_saved');
+		$this->add('document_srl', $obj->document_srl);
+	}
+
+	/**
+	 * @brief return Document List for exec_xml
+	 **/
+	function procDocumentGetList()
+	{
+		if(!Context::get('is_logged')) return new Object(-1,'msg_not_permitted');
+		$documentSrls = Context::get('document_srls');
+		if($documentSrls) $documentSrlList = explode(',', $documentSrls);
+
+		if(count($documentSrlList) > 0) {
+			$oDocumentModel = &getModel('document');
+			$columnList = array('document_srl', 'title', 'nick_name', 'status');
+			$documentList = $oDocumentModel->getDocuments($documentSrlList, $this->grant->is_admin, false, $columnList);
+		}
+		else
+		{
+			global $lang;
+			$documentList = array();
+			$this->setMessage($lang->no_documents);
+		}
+		$this->add('document_list', $documentList);
+	}
+
+	/**
+	 * @brief for old version, comment allow status check.
+	 **/
+	function _checkCommentStatusForOldVersion(&$obj)
+	{
+		if(!isset($obj->allow_comment)) $obj->allow_comment = 'N';
+		if(!isset($obj->lock_comment)) $obj->lock_comment = 'N';
+
+		if($obj->allow_comment == 'Y' && $obj->lock_comment == 'N') $obj->commentStatus = 'ALLOW';
+		else $obj->commentStatus = 'DENY';
+	}
+
+	/**
+	 * @brief for old version, document status check.
+	 **/
+	function _checkDocumentStatusForOldVersion(&$obj)
+	{
+		if(!$obj->status && $obj->is_secret == 'Y') $obj->status = $this->getConfigStatus('secret');
+		if(!$obj->status && $obj->is_secret != 'Y') $obj->status = $this->getConfigStatus('public');
 	}
 }
 ?>

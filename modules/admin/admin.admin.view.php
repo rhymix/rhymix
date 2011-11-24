@@ -7,12 +7,14 @@
 
     class adminAdminView extends admin {
 
+		var $layout_list;
+		var $easyinstallCheckFile = './files/env/easyinstall_last';
+
         /**
          * @brief Initilization
          * @return none
          **/
         function init() {
-
             // forbit access if the user is not an administrator
             $oMemberModel = &getModel('member');
             $logged_info = $oMemberModel->getLoggedInfo();
@@ -23,7 +25,7 @@
             $this->setLayoutPath($this->getTemplatePath());
             $this->setLayoutFile('layout.html');
 
-			$this->loadSideBar();
+			$this->makeGnbUrl();
 
             // Retrieve the list of installed modules
 
@@ -33,15 +35,121 @@
             Context::set('time_zone', $GLOBALS['_time_zone']);
             Context::set('use_rewrite', $db_info->use_rewrite=='Y'?'Y':'N');
             Context::set('use_sso', $db_info->use_sso=='Y'?'Y':'N');
-            Context::set('use_spaceremover', $db_info->use_spaceremover?$db_info->use_spaceremover:'Y');
+            Context::set('use_html5', $db_info->use_html5=='Y'?'Y':'N');
+            Context::set('use_spaceremover', $db_info->use_spaceremover?$db_info->use_spaceremover:'Y');//not use
             Context::set('qmail_compatibility', $db_info->qmail_compatibility=='Y'?'Y':'N');
             Context::set('use_db_session', $db_info->use_db_session=='N'?'N':'Y');
             Context::set('use_mobile_view', $db_info->use_mobile_view =='Y'?'Y':'N');
             Context::set('use_ssl', $db_info->use_ssl?$db_info->use_ssl:"none");
+			Context::set('use_cdn', $db_info->use_cdn?$db_info->use_cdn:"none");
             if($db_info->http_port) Context::set('http_port', $db_info->http_port);
             if($db_info->https_port) Context::set('https_port', $db_info->https_port);
 
+			$this->showSendEnv();
+			$this->checkEasyinstall();
         }
+
+		function checkEasyinstall()
+		{
+			$lastTime = (int)FileHandler::readFile($this->easyinstallCheckFile);
+			if ($lastTime > time() - 60*60*24*30) return;
+
+			$oAutoinstallModel = &getModel('autoinstall');
+			$params = array();
+			$params["act"] = "getResourceapiLastupdate";
+			$body = XmlGenerater::generate($params);
+			$buff = FileHandler::getRemoteResource(_XE_DOWNLOAD_SERVER_, $body, 3, "POST", "application/xml");
+			$xml_lUpdate = new XmlParser();
+			$lUpdateDoc = $xml_lUpdate->parse($buff);
+			$updateDate = $lUpdateDoc->response->updatedate->body;
+
+			if (!$updateDate)
+			{
+				$this->_markingCheckEasyinstall();
+				return;
+			}
+
+			$item = $oAutoinstallModel->getLatestPackage();
+			if(!$item || $item->updatedate < $updateDate)
+			{
+				$oController = &getAdminController('autoinstall');
+				$oController->_updateinfo();
+			}
+			$this->_markingCheckEasyinstall();
+		}
+
+		function _markingCheckEasyinstall()
+		{
+			$currentTime = time();
+			FileHandler::writeFile($this->easyinstallCheckFile, $currentTime);
+		}
+
+		function makeGnbUrl($module = 'admin')
+		{
+			global $lang;
+
+			$oAdminAdminModel   = &getAdminModel('admin');
+			$lang->menu_gnb_sub = $oAdminAdminModel->getAdminMenuLang();
+
+			$oMenuAdminModel = &getAdminModel('menu');
+			$menu_info = $oMenuAdminModel->getMenuByTitle('__XE_ADMIN__');
+			Context::set('admin_menu_srl', $menu_info->menu_srl);
+
+			if(!is_readable($menu_info->php_file)) return;
+
+			include $menu_info->php_file;
+
+            $oModuleModel = &getModel('module');
+			$moduleActionInfo = $oModuleModel->getModuleActionXml($module);
+
+			$currentAct   = Context::get('act');
+			$subMenuTitle = '';
+			foreach((array)$moduleActionInfo->menu as $key=>$value)
+			{
+				if(isset($value->acts) && is_array($value->acts) && in_array($currentAct, $value->acts))
+				{
+					$subMenuTitle = $value->title;
+					break;
+				}
+			}
+
+			$parentSrl = 0;
+			foreach((array)$menu->list as $parentKey=>$parentMenu)
+			{
+				if(!is_array($parentMenu['list']) || !count($parentMenu['list'])) continue;
+				if($parentMenu['href'] == '#' && count($parentMenu['list'])) {
+					$firstChild = current($parentMenu['list']);
+ 					$menu->list[$parentKey]['href'] = $firstChild['href'];
+				}
+
+				foreach($parentMenu['list'] as $childKey=>$childMenu)
+				{
+					if($subMenuTitle == $childMenu['text'])
+					{
+						$parentSrl = $childMenu['parent_srl'];
+						break;
+					}
+				}
+			}
+
+			// Admin logo, title setup
+			$objConfig = $oModuleModel->getModuleConfig('admin');
+			$gnbTitleInfo->adminTitle = $objConfig->adminTitle ? $objConfig->adminTitle:'XE Admin';
+			$gnbTitleInfo->adminLogo  = $objConfig->adminLogo ? $objConfig->adminLogo:'modules/admin/tpl/img/xe.h1.png';
+
+			$browserTitle = ($subMenuTitle ? $subMenuTitle : 'Dashboard').' - '.$gnbTitleInfo->adminTitle;
+
+			// Get list of favorite
+			$oAdminAdminModel = &getAdminModel('admin');
+			$output = $oAdminAdminModel->getFavoriteList(0, true);
+            Context::set('favorite_list', $output->get('favoriteList'));
+
+			Context::set('subMenuTitle', $subMenuTitle);
+			Context::set('gnbUrlList',   $menu->list);
+			Context::set('parentSrl',    $parentSrl);
+			Context::set('gnb_title_info', $gnbTitleInfo);
+            Context::setBrowserTitle($browserTitle);
+		}
 
 		function loadSideBar()
 		{
@@ -100,13 +208,76 @@
 		}
 
         /**
-         * @brief Display main administration page
+         * @brief Display Super Admin Dashboard
          * @return none
          **/
         function dispAdminIndex() {
+            // Get statistics
+            $args->date = date("Ymd000000", time()-60*60*24);
+            $today = date("Ymd");
+
+            // Member Status
+			$oMemberAdminModel = &getAdminModel('member');
+			$status->member->todayCount = $oMemberAdminModel->getMemberCountByDate($today);
+			$status->member->totalCount = $oMemberAdminModel->getMemberCountByDate();
+
+            // Document Status
+			$oDocumentAdminModel = &getAdminModel('document');
+			$statusList = array('PUBLIC', 'SECRET');
+			$status->document->todayCount = $oDocumentAdminModel->getDocumentCountByDate($today, array(), $statusList);
+			$status->document->totalCount = $oDocumentAdminModel->getDocumentCountByDate('', array(), $statusList);
+
+            // Comment Status
+			$oCommentModel = &getModel('comment');
+			$status->comment->todayCount = $oCommentModel->getCommentCountByDate($today);
+			$status->comment->totalCount = $oCommentModel->getCommentCountByDate();
+
+            // Trackback Status
+			$oTrackbackAdminModel = &getAdminModel('trackback');
+			$status->trackback->todayCount = $oTrackbackAdminModel->getTrackbackCountByDate($today);
+			$status->trackback->totalCount = $oTrackbackAdminModel->getTrackbackCountByDate();
+
+            // Attached files Status
+			$oFileAdminModel = &getAdminModel('file');
+			$status->file->todayCount = $oFileAdminModel->getFilesCountByDate($today);
+			$status->file->totalCount = $oFileAdminModel->getFilesCountByDate();
+
+            Context::set('status', $status);
+
+            // Latest Document
+			$oDocumentModel = &getModel('document');
+			$columnList = array('document_srl', 'module_srl', 'category_srl', 'title', 'nick_name', 'member_srl');
+			$args->list_count = 5;;
+			$output = $oDocumentModel->getDocumentList($args, false, false, $columnList);
+            Context::set('latestDocumentList', $output->data);
+			unset($args, $output, $columnList);
+
+			// Latest Comment
+			$oCommentModel = &getModel('comment');
+			$columnList = array('comment_srl', 'module_srl', 'document_srl', 'content', 'nick_name', 'member_srl');
+			$args->list_count = 5;
+			$output = $oCommentModel->getNewestCommentList($args, $columnList);
+			if(is_array($output))
+			{
+				foreach($output AS $key=>$value)
+				{
+					$value->content = strip_tags($value->content);
+				}
+			}
+            Context::set('latestCommentList', $output);
+			unset($args, $output, $columnList);
+
+			//Latest Trackback
+			$oTrackbackModel = &getModel('trackback');
+			$columnList = array();
+			$args->list_count = 5;
+			$output =$oTrackbackModel->getNewestTrackbackList($args);
+            Context::set('latestTrackbackList', $output->data);
+			unset($args, $output, $columnList);
+
             //Retrieve recent news and set them into context
-            $newest_news_url = sprintf("http://news.xpressengine.com/%s/news.php", Context::getLangType());
-            $cache_file = sprintf("%sfiles/cache/newest_news.%s.cache.php", _XE_PATH_,Context::getLangType());
+            $newest_news_url = sprintf("http://news.xpressengine.com/%s/news.php?version=%s&package=%s", _XE_LOCATION_, __ZBXE_VERSION__, _XE_PACKAGE_);
+            $cache_file = sprintf("%sfiles/cache/newest_news.%s.cache.php", _XE_PATH_, _XE_LOCATION_);
             if(!file_exists($cache_file) || filemtime($cache_file)+ 60*60 < time()) {
                 // Considering if data cannot be retrieved due to network problem, modify filemtime to prevent trying to reload again when refreshing administration page
                 // Ensure to access the administration page even though news cannot be displayed
@@ -135,195 +306,75 @@
                 Context::set('download_link', $buff->zbxe_news->attrs->download_link);
             }
 
-            // DB Information
-            $db_info = Context::getDBInfo();
-            Context::set('selected_lang', $db_info->lang_type);
-
-            // Current Version and Installed Path
-            Context::set('current_version', __ZBXE_VERSION__);
-            Context::set('installed_path', realpath('./'));
-
             // Get list of modules
             $oModuleModel = &getModel('module');
             $module_list = $oModuleModel->getModuleList();
+			if(is_array($module_list))
+			{
+				$isUpdated = false;
+				foreach($module_list AS $key=>$value)
+				{
+					if($value->need_install || $value->need_update)
+						$isUpdated = true;
+				}
+			}
             Context::set('module_list', $module_list);
+            Context::set('isUpdated', $isUpdated);
 
-            // Get list of addons
-            $oAddonModel = &getAdminModel('addon');
-            $addon_list = $oAddonModel->getAddonList();
-            Context::set('addon_list', $addon_list);
-
-            // 방문자수
-            $time = time();
-            $w = date("D");
-            while(date("D",$time) != "Sat") {
-                $time += 60*60*24;
-            }
-            $end_time = $time;
-            $end_date = date("Ymd",$time);
-            $time -= 60*60*24;
-            while(date("D",$time)!="Sun") {
-                $thisWeek[] = date("Ymd",$time);
-                $time -= 60*60*24;
-            }
-            $start_time = $time;
-            $start_date = date("Ymd",$time-60*60*24*7);
-
-            $args->start_date = $start_date;
-            $args->end_date = $end_date;
-            $output = executeQueryArray('admin.getVisitors', $args);
-            if(count($output->data)) {
-                foreach($output->data as $key => $val) {
-                    $visitors[$val->regdate] = $val->unique_visitor;
-                }
-            }
-            $output = executeQueryArray('admin.getSiteVisitors', $args);
-            if(count($output->data)) {
-                foreach($output->data as $key => $val) {
-                    $visitors[$val->regdate] += $val->unique_visitor;
-                }
-            }
-            $status->week_max = 0;
-            if(count($visitors)) {
-                foreach($visitors as $key => $val) {
-                    if($val>$status->week_max) $status->week_max = $val;
-                }
-            }
-
-            for($i=$start_time;$i<=$end_time;$i+=60*60*24) {
-				$status->thisWeekSum += $visitors[date("Ymd",$i)];
-                $status->week[date("Y.m.d",$i)]->this = (int)$visitors[date("Ymd",$i)];
-                $status->week[date("Y.m.d",$i)]->last = (int)$visitors[date("Ymd",$i-60*60*24*7)];
-            }
-
-            // 각종 통계 정보를 구함
-            $output = executeQuery('admin.getTotalVisitors');
-            $status->total_visitor = $output->data->count;
-            $output = executeQuery('admin.getTotalSiteVisitors');
-            $status->total_visitor += $output->data->count;
-            $status->visitor = $visitors[date("Ymd")];
-
-            // 오늘의 댓글 수
-            $args->regdate = date("Ymd");
-            $output = executeQuery('admin.getTodayCommentCount', $args);
-            $status->comment_count = $output->data->count;
-
-            // 오늘의 엮인글 수
-            $args->regdate = date("Ymd");
-            $output = executeQuery('admin.getTodayTrackbackCount', $args);
-            $status->trackback_count = $output->data->count;
-            Context::set('status', $status);
-
-            // Get statistics
-            $args->date = date("Ymd000000", time()-60*60*24);
-            $today = date("Ymd");
-
-            // Member Status
-            $output = executeQueryArray("admin.getMemberStatus", $args);
-            if($output->data) {
-                foreach($output->data as $var) {
-                    if($var->date == $today) {
-                        $status->member->today = $var->count;
-                    } else {
-                        $status->member->yesterday = $var->count;
-                    }
-                }
-            }
-            $output = executeQuery("admin.getMemberCount", $args);
-            $status->member->total = $output->data->count;
-
-            // Document Status
-            $output = executeQueryArray("admin.getDocumentStatus", $args);
-            if($output->data) {
-                foreach($output->data as $var) {
-                    if($var->date == $today) {
-                        $status->document->today = $var->count;
-                    } else {
-                        $status->document->yesterday = $var->count;
-                    }
-                }
-            }
-            $output = executeQuery("admin.getDocumentCount", $args);
-            $status->document->total = $output->data->count;
-
-            // Comment Status
-            $output = executeQueryArray("admin.getCommentStatus", $args);
-            if($output->data) {
-                foreach($output->data as $var) {
-                    if($var->date == $today) {
-                        $status->comment->today = $var->count;
-                    } else {
-                        $status->comment->yesterday = $var->count;
-                    }
-                }
-            }
-            $output = executeQuery("admin.getCommentCount", $args);
-            $status->comment->total = $output->data->count;
-
-            // Trackback Status
-            $output = executeQueryArray("admin.getTrackbackStatus", $args);
-            if($output->data) {
-                foreach($output->data as $var) {
-                    if($var->date == $today) {
-                        $status->trackback->today = $var->count;
-                    } else {
-                        $status->trackback->yesterday = $var->count;
-                    }
-                }
-            }
-            $output = executeQuery("admin.getTrackbackCount", $args);
-            $status->trackback->total = $output->data->count;
-
-            // Attached files Status
-            $output = executeQueryArray("admin.getFileStatus", $args);
-            if($output->data) {
-                foreach($output->data as $var) {
-                    if($var->date == $today) {
-                        $status->file->today = $var->count;
-                    } else {
-                        $status->file->yesterday = $var->count;
-                    }
-                }
-            }
-            $output = executeQuery("admin.getFileCount", $args);
-            $status->file->total = $output->data->count;
-
-            // Reported documents Status
-            $output = executeQueryArray("admin.getDocumentDeclaredStatus", $args);
-            if($output->data) {
-                foreach($output->data as $var) {
-                    if($var->date == $today) {
-                        $status->documentDeclared->today = $var->count;
-                    } else {
-                        $status->documentDeclared->yesterday = $var->count;
-                    }
-                }
-            }
-            $output = executeQuery("admin.getDocumentDeclaredCount", $args);
-            $status->documentDeclared->total = $output->data->count;
-
-            // Reported comments Status
-            $output = executeQueryArray("admin.getCommentDeclaredStatus", $args);
-            if($output->data) {
-                foreach($output->data as $var) {
-                    if($var->date == $today) {
-                        $status->commentDeclared->today = $var->count;
-                    } else {
-                        $status->commentDeclared->yesterday = $var->count;
-                    }
-                }
-            }
-            $output = executeQuery("admin.getCommentDeclaredCount", $args);
-            $status->commentDeclared->total = $output->data->count;
-
-            $site_args->site_srl = 0;
-            $output = executeQuery('module.getSiteInfo', $site_args);
-
-            Context::set('start_module', $output->data);
-
-            Context::set('status', $status);
+			// gathering enviroment check
+			$path = FileHandler::getRealPath('./files/env/'.__ZBXE_VERSION__);
+			$isEnviromentGatheringAgreement = false;
+			if(file_exists($path)) $isEnviromentGatheringAgreement = true;
+			Context::set('isEnviromentGatheringAgreement', $isEnviromentGatheringAgreement);
             Context::set('layout','none');
+
             $this->setTemplateFile('index');
+        }
+
+        /**
+         * @brief Display Configuration(settings) page
+         * @return none
+         **/
+        function dispAdminConfigGeneral() {
+		    Context::loadLang('modules/install/lang');
+
+            $db_info = Context::getDBInfo();
+
+			Context::set('sftp_support', function_exists(ssh2_sftp));
+
+            Context::set('selected_lang', $db_info->lang_type);
+
+			Context::set('default_url', $db_info->default_url);
+            Context::set('langs', Context::loadLangSupported());
+
+            Context::set('lang_selected', Context::loadLangSelected());
+
+			$admin_ip_list = preg_replace("/[,]+/","\r\n",$db_info->admin_ip_list);
+            Context::set('admin_ip_list', $admin_ip_list);
+
+			$oAdminModel = &getAdminModel('admin');
+			$favicon_url = $oAdminModel->getFaviconUrl();
+			$mobicon_url = $oAdminModel->getMobileIconUrl();
+            Context::set('favicon_url', $favicon_url);
+			Context::set('mobicon_url', $mobicon_url);
+
+			$oDocumentModel = &getModel('document');
+			$config = $oDocumentModel->getDocumentConfig();
+       		Context::set('thumbnail_type',$config->thumbnail_type);
+			
+			Context::set('IP',$_SERVER['REMOTE_ADDR']);
+			
+			$oModuleModel = &getModel('module');
+			$config = $oModuleModel->getModuleConfig('module');
+       		Context::set('htmlFooter',$config->htmlFooter);
+
+
+			$columnList = array('modules.mid', 'modules.browser_title', 'sites.index_module_srl');
+			$start_module = $oModuleModel->getSiteInfo(0, $columnList);
+            Context::set('start_module', $start_module);
+
+            Context::set('pwd',$pwd);
+            $this->setTemplateFile('config_general');
 
 			$security = new Security();
 			$security->encodeHTML('news..', 'released_version', 'download_link', 'selected_lang', 'module_list..', 'module_list..author..', 'addon_list..', 'addon_list..author..', 'start_module.');
@@ -333,31 +384,116 @@
          * @brief Display Configuration(settings) page
          * @return none
          **/
-        function dispAdminConfig() {
-            $db_info = Context::getDBInfo();
-
-            Context::set('sftp_support', function_exists(ssh2_sftp));
-
-            Context::set('selected_lang', $db_info->lang_type);
-
-            Context::set('default_url', $db_info->default_url);
-
-            Context::set('langs', Context::loadLangSupported());
-
-            Context::set('lang_selected', Context::loadLangSelected());
-
-			Context::set('use_mobile_view', $db_info->use_mobile_view=="Y"?'Y':'N');
+        function dispAdminConfigFtp() {
+		    Context::loadLang('modules/install/lang');
 
             $ftp_info = Context::getFTPInfo();
             Context::set('ftp_info', $ftp_info);
 
-            $site_args->site_srl = 0;
-            $output = executeQuery('module.getSiteInfo', $site_args);
-            Context::set('start_module', $output->data);
+            $this->setTemplateFile('config_ftp');
 
-            Context::set('pwd',$pwd);
-            Context::set('layout','none');
-            $this->setTemplateFile('config');
+//			$security = new Security();
+//			$security->encodeHTML('ftp_info..');
+
         }
+
+		/**
+         * @brief Display Admin Menu Configuration(settings) page
+         * @return none
+         **/
+		function dispAdminSetup()
+		{
+			$oModuleModel = &getModel('module');
+			$configObject = $oModuleModel->getModuleConfig('admin');
+
+			$oMenuAdminModel = &getAdminModel('menu');
+			$output = $oMenuAdminModel->getMenuByTitle('__XE_ADMIN__');
+
+			Context::set('menu_srl', $output->menu_srl);
+			Context::set('menu_title', $output->title);
+			Context::set('config_object', $configObject);
+            $this->setTemplateFile('admin_setup');
+		}
+
+
+		function showSendEnv() {
+			if(Context::getResponseMethod() != 'HTML') return;
+
+			$server = 'http://collect.xpressengine.com/env/img.php?';
+			$path = './files/env/';
+			$install_env = $path . 'install';
+
+			if(file_exists(FileHandler::getRealPath($install_env))) {
+				$oAdminAdminModel = &getAdminModel('admin');
+				$params = $oAdminAdminModel->getEnv('INSTALL');
+				$img = sprintf('<img src="%s" alt="" style="height:0px;width:0px" />', $server.$params);
+				Context::addHtmlFooter($img);
+
+				FileHandler::removeDir($path);
+				FileHandler::writeFile($path.__ZBXE_VERSION__,'1');
+
+			}
+			else if(isset($_SESSION['enviroment_gather']) && !file_exists(FileHandler::getRealPath($path.__ZBXE_VERSION__)))
+			{
+				if($_SESSION['enviroment_gather']=='Y')
+				{
+					$oAdminAdminModel = &getAdminModel('admin');
+					$params = $oAdminAdminModel->getEnv();
+					$img = sprintf('<img src="%s" alt="" style="height:0px;width:0px" />', $server.$params);
+					Context::addHtmlFooter($img);
+				}
+
+				FileHandler::removeDir($path);
+				FileHandler::writeFile($path.__ZBXE_VERSION__,'1');
+				unset($_SESSION['enviroment_gather']);
+			}
+		}
+
+		function dispAdminTheme(){
+			// choice theme file
+			$theme_file = _XE_PATH_.'files/theme/theme_info.php';
+			if(is_readable($theme_file)){
+				@include($theme_file);
+				Context::set('current_layout', $theme_info->layout);
+				Context::set('theme_info', $theme_info);
+			}
+			else{
+				$oModuleModel = &getModel('module');
+				$default_mid = $oModuleModel->getDefaultMid();
+				Context::set('current_layout', $default_mid->layout_srl);
+			}
+
+			// layout list
+			$oLayoutModel = &getModel('layout');
+			// theme 정보 읽기
+
+			$oAdminModel = &getAdminModel('admin');
+			$theme_list = $oAdminModel->getThemeList();
+			$layouts = $oLayoutModel->getLayoutList(0);
+			$layout_list = array();
+			if (is_array($layouts)){
+				foreach($layouts as $val){
+					unset($layout_info);
+					$layout_info = $oLayoutModel->getLayout($val->layout_srl);
+					if (!$layout_info) continue;
+					$layout_parse = explode('.', $layout_info->layout);
+					if (count($layout_parse) == 2){
+						$thumb_path = sprintf('./themes/%s/layout/%s/thumbnail.png', $layout_parse[0], $layout_parse[1]);
+					}
+					else{
+						$thumb_path = './layouts/'.$layout_info->layout.'/thumbnail.png';
+					}
+					$layout_info->thumbnail = (is_readable($thumb_path))?$thumb_path:null;
+					$layout_list[] = $layout_info;
+				}
+			}
+			Context::set('theme_list', $theme_list);
+			Context::set('layout_list', $layout_list);
+
+			// 설치된module 정보 가져오기
+			$module_list = $oAdminModel->getModulesSkinList();
+			Context::set('module_list', $module_list);
+
+			$this->setTemplateFile('theme');
+		}
     }
-?>

@@ -1,0 +1,38 @@
+<load target="css/default.css" usecdn="true" />
+<h1 class="h1">{$lang->cmd_view_saved_document}</h1>
+<!-- 목록 -->
+<div class="table">
+	<table width="100%" border="1" cellspacing="0">
+	<caption>Total : {number_format($total_count)}, Page {number_format($page)}/{number_format($total_page)}</caption>
+<thead>
+	<tr>
+		<th class="title">{$lang->date}</th>
+		<th class="title">{$lang->title}</th>
+		<th class="title">{$lang->cmd_select}</th>
+	</tr>
+</thead>
+<tbody>
+	<!--@foreach($document_list as $no => $val)-->
+	<tr>
+		<td>{$val->getRegdate("Y-m-d H:i:s")}</td>
+		<td > <a href="#" onclick="jQuery('#saved_document_{$val->document_srl}').toggle(); setFixedPopupSize(); return false;">{$val->getTitle()}</a>
+			<div id="saved_document_{$val->document_srl}" class="saved_content" style="display:none;">{$val->getContent(false)}</div>
+		</td>
+		<td><a href="#" onclick="doDocumentSelect('{$val->document_srl}'); return false;" class="buttonSet buttonActive"><span>{$lang->cmd_select}</span></a></td>
+	</tr>
+	<!--@end-->
+</tbody>
+</table>
+</div>
+<!-- 페이지 네비게이션 -->
+<div class="pagination">
+	<a href="{getUrl('page','','module_srl','')}" class="direction">&lsaquo; {$lang->first_page}</a>
+	<!--@while($page_no = $page_navigation->getNextPage())-->
+		<!--@if($page == $page_no)-->
+			<strong>{$page_no}</strong>
+		<!--@else-->
+			<a href="{getUrl('page',$page_no,'module_srl','')}">{$page_no}</a>
+		<!--@end-->
+	<!--@end-->
+	<a href="{getUrl('page',$page_navigation->last_page,'module_srl','')}" class="direction">{$lang->last_page} &rsaquo;</a>
+</div>

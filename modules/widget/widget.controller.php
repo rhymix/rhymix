@@ -2,27 +2,27 @@
     /**
      * @class  widgetController
      * @author NHN (developers@xpressengine.com)
-     * @brief  widget 모듈의 Controller class
+     * @brief Controller class for widget modules
      **/
 
     class widgetController extends widget {
 
-        // 위젯을 결과물이 아닌 수정/삭제등을 하기 위한 곳에서 사용하기 위한 flag 
-        // layout_javascript_mode 는 모든 결과물까지 포함하여 javascript mode로 변환시킴
+        // The results are not widget modify/delete and where to use the flag for
+        // layout_javascript_mode include all the results into the javascript mode Sikkim
         var $javascript_mode = false;
         var $layout_javascript_mode = false;
 
-        // 위젯 캐시 파일이 생성되는 곳
+        // Where the cache files are created widget
         var $cache_path = './files/cache/widget_cache/';
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
         }
 
         /**
-         * @brief 선택된 위젯 - 스킨의 컬러셋을 return
+         * @brief Selected photos - the return of the skin-color three
          **/
         function procWidgetGetColorsetList() {
             $widget = Context::get('selected_widget');
@@ -42,7 +42,7 @@
         }
 
         /**
-         * @brief 위젯의 생성된 코드를 return
+         * @brief Return the generated code of the widget
          **/
         function procWidgetGenerateCode() {
             $widget = Context::get('selected_widget');
@@ -52,13 +52,12 @@
             $attribute = $this->arrangeWidgetVars($widget, Context::getRequestVars(), $vars);
 
             $widget_code = sprintf('<img class="zbxe_widget_output" widget="%s" %s />', $widget, implode(' ',$attribute));
-
-            // 코드 출력
+            // Code output
             $this->add('widget_code', $widget_code);
         }
 
         /**
-         * @brief 페이지 수정시 위젯 코드의 생성 요청
+         * @brief Edit page request for the creation of the widget code
          **/
         function procWidgetGenerateCodeInPage() {
             $widget = Context::get('selected_widget');
@@ -67,15 +66,14 @@
             if(!in_array($widget,array('widgetBox','widgetContent')) && !Context::get('skin')) return new Object(-1,Context::getLang('msg_widget_skin_is_null'));
 
             $attribute = $this->arrangeWidgetVars($widget, Context::getRequestVars(), $vars);
-
-            // 결과물을 구함
+            // Wanted results
             $widget_code = $this->execute($widget, $vars, true, false);
 
             $this->add('widget_code', $widget_code);
         }
 
         /**
-         * @brief 위젯스타일에 이미지 업로드
+         * @brief Upload widget styles
          **/
         function procWidgetStyleExtraImageUpload(){
             $attribute = $this->arrangeWidgetVars($widget, Context::getRequestVars(), $vars);
@@ -87,11 +85,10 @@
         }
 
         /**
-         * @brief 컨텐츠 위젯 추가
+         * @brief Add content widget
          **/
         function procWidgetInsertDocument() {
-
-            // 변수 구함
+            // Variable Wanted
             $module_srl = Context::get('module_srl');
             $document_srl = Context::get('document_srl');
             $content = Context::get('content');
@@ -101,15 +98,14 @@
             $oLayoutModel = &getModel('layout');
             $layout_info = $oLayoutModel->getLayout($module_srl);
             if(!$layout_info || $layout_info->type != 'faceoff') $err++;
-
-            // 대상 페이지 모듈 정보 구함
+            // Destination Information Wanted page module
             $oModuleModel = &getModel('module');
-            $page_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+			$columnList = array('module_srl', 'module');
+            $page_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);
             if(!$page_info->module_srl || $page_info->module != 'page') $err++;
 
             if($err > 1) return new Object(-1,'msg_invalid_request');
-
-            // 권한 체크
+            // Check permissions
             $is_logged = Context::get('is_logged');
             $logged_info = Context::get('logged_info');
             $user_group = $logged_info->group_list;
@@ -121,9 +117,7 @@
                 }
             }
             if(!$is_admin && !$is_logged && $logged_info->is_admin != 'Y' && !$oModuleModel->isSiteAdmin($logged_info) && !(is_array($page_info->admin_id) && in_array($logged_infoi->user_id, $page_info->admin_id))) return new Object(-1,'msg_not_permitted');
-
-
-            // 글 입력
+            // Enter post
             $oDocumentModel = &getModel('document');
             $oDocumentController = &getController('document');
 
@@ -138,19 +132,17 @@
                 $output = $oDocumentController->insertDocument($obj);
                 $obj->document_srl = $output->get('document_srl');
             }
-
-            // 오류 발생시 멈춤
+            // Stop when an error occurs
             if(!$output->toBool()) return $output;
-
-            // 결과를 리턴
+            // Return results
             $this->add('document_srl', $obj->document_srl);
         }
 
         /**
-         * @brief 컨텐츠 위젯 복사
+         * @brief Copy the content widget
          **/
         function procWidgetCopyDocument() {
-            // 변수 구함
+            // Variable Wanted
             $document_srl = Context::get('document_srl');
 
             $oDocumentModel = &getModel('document');
@@ -160,13 +152,12 @@
             $oDocument = $oDocumentModel->getDocument($document_srl, true);
             if(!$oDocument->isExists()) return new Object(-1,'msg_invalid_request');
             $module_srl = $oDocument->get('module_srl');
-
-            // 대상 페이지 모듈 정보 구함
+            // Destination Information Wanted page module
             $oModuleModel = &getModel('module');
-            $page_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+			$columnList = array('module_srl', 'module');
+            $page_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);
             if(!$page_info->module_srl || $page_info->module != 'page') return new Object(-1,'msg_invalid_request');
-
-            // 권한 체크
+            // Check permissions
             $is_logged = Context::get('is_logged');
             $logged_info = Context::get('logged_info');
             $user_group = $logged_info->group_list;
@@ -181,17 +172,16 @@
 
             $output = $oDocumentAdminController->copyDocumentModule(array($oDocument->get('document_srl')), $oDocument->get('module_srl'),0);
             if(!$output->toBool()) return $output;
-
-            // 결과를 리턴
+            // Return results
             $copied_srls = $output->get('copied_srls');
             $this->add('document_srl', $copied_srls[$oDocument->get('document_srl')]);
         }
 
         /**
-         * @brief 위젯 삭제
+         * @brief Deleting widgets
          **/
         function procWidgetDeleteDocument() {
-            // 변수 구함
+            // Variable Wanted
             $document_srl = Context::get('document_srl');
 
             $oDocumentModel = &getModel('document');
@@ -200,13 +190,11 @@
             $oDocument = $oDocumentModel->getDocument($document_srl, true);
             if(!$oDocument->isExists()) return new Object();
             $module_srl = $oDocument->get('module_srl');
-
-            // 대상 페이지 모듈 정보 구함
+            // Destination Information Wanted page module
             $oModuleModel = &getModel('module');
             $page_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
             if(!$page_info->module_srl || $page_info->module != 'page') return new Object(-1,'msg_invalid_request');
-
-            // 권한 체크
+            // Check permissions
             $is_logged = Context::get('is_logged');
             $logged_info = Context::get('logged_info');
             $user_group = $logged_info->group_list;
@@ -224,15 +212,15 @@
         }
 
         /**
-         * @brief 위젯 코드를 Javascript로 수정/드래그등을 하기 위한 Javascript 수정 모드로 변환
+         * @brief Modify the code in Javascript widget/Javascript edit mode for dragging and converted to
          **/
         function setWidgetCodeInJavascriptMode() {
             $this->layout_javascript_mode = true;
         }
 
         /**
-         * @brief 위젯 코드를 컴파일하여 내용을 출력하는 trigger
-         * display::before 에서 호출됨
+         * @brief Widget code compiles and prints the information to trigger
+         * display:: before invoked in
          **/
         function triggerWidgetCompile(&$content) {
             if(Context::getResponseMethod()!='HTML') return new Object();
@@ -241,27 +229,24 @@
         }
 
         /**
-         * @breif 특정 content의 위젯 태그들을 변환하여 return
+         * @breif By converting the specific content of the widget tag return
          **/
         function transWidgetCode($content, $javascript_mode = false) {
-            // 사용자 정의 언어 변경
+            // Changing user-defined language
             $oModuleController = &getController('module');
             $oModuleController->replaceDefinedLangCode($content);
-
-            // 편집 정보 포함 여부 체크
+            // Check whether to include information about editing
             $this->javascript_mode = $javascript_mode;
-
-            // 박스 위젯 코드 변경
+            // Widget code box change
             $content = preg_replace_callback('!<div([^\>]*)widget=([^\>]*?)\><div><div>((<img.*?>)*)!is', array($this,'transWidgetBox'), $content);
-
-            // 내용 위젯 코드 벼경
+            // Widget code information byeogyeong
             $content = preg_replace_callback('!<img([^\>]*)widget=([^\>]*?)\>!is', array($this,'transWidget'), $content);
 
             return $content;
         }
 
         /**
-         * @brief 위젯 코드를 실제 코드로 변경
+         * @brief Widget code with the actual code changes
          **/
         function transWidget($matches) {
             $buff = trim($matches[0]);
@@ -280,7 +265,7 @@
         }
 
         /**
-         * @brief 위젯 박스를 실제 코드로 변경
+         * @brief Widget box with the actual code changes
          **/
         function transWidgetBox($matches) {
             $buff = preg_replace('/<div><div>(.*)$/i','</div>',$matches[0]);
@@ -297,14 +282,13 @@
         }
 
         /**
-         * @brief 특정 content내의 위젯을 다시 생성
-         * 페이지모듈등에서 위젯 캐시파일 재생성시 사용
+         * @brief Re-create specific content within a widget
+         * Widget on the page and create cache file in the module using
          **/
         function recompileWidget($content) {
-            // 언어 종류 가져옴
+            // Language in bringing
             $lang_list = Context::get('lang_supported');
-
-            // 위젯 캐시 sequence 를 가져옴
+            // Bringing widget cache sequence
             preg_match_all('!<img([^\>]*)widget=([^\>]*?)\>!is', $content, $matches);
 
             $oXmlParser = new XmlParser();
@@ -316,8 +300,7 @@
 
                 $args = $xml_doc->img->attrs;
                 if(!$args) continue;
-
-                // 캐싱하지 않을 경우 패스
+                // If you are not caching path
                 $widget = $args->widget;
                 $sequence = $args->widget_sequence;
                 $cache = $args->widget_cache;
@@ -326,8 +309,7 @@
                 if(count($args)) {
                     foreach($args as $k => $v) $args->{$k} = urldecode($v);
                 }
-
-                // 언어별로 위젯 캐시 파일이 있을 경우 재생성
+                // If the cache file for each language widget regeneration
                 foreach($lang_list as $lang_type => $val) {
                     $cache_file = sprintf('%s%d.%s.cache', $this->cache_path, $sequence, $lang_type);
                     if(!file_exists($cache_file)) continue;
@@ -337,18 +319,17 @@
         }
 
         /**
-         * @brief 위젯 캐시 처리
+         * @brief Widget cache handling
          **/
         function getCache($widget, $args, $lang_type = null, $ignore_cache = false) {
-            // 지정된 언어가 없으면 현재 언어 지정
+            // If the specified language specifies the current language
             if(!$lang_type) $lang_type = Context::getLangType();
-
-            // widget, 캐시 번호와 캐시값이 설정되어 있는지 확인
+            // widget, the cache number and cache values are set
             $widget_sequence = $args->widget_sequence;
             $widget_cache = $args->widget_cache;
 
             /**
-             * 캐시 번호와 캐시 값이 아예 없으면 바로 데이터를 추출해서 리턴
+             * Even if the cache number and value of the cache and return it to extract data
              **/
             if(!$ignore_cache && (!$widget_cache || !$widget_sequence)) {
                 $oWidget = $this->getWidgetObject($widget);
@@ -357,18 +338,15 @@
             }
 
             /**
-             * 캐시 번호와 캐시값이 설정되어 있으면 캐시 파일을 불러오도록 함
+             * Cache number and cache values are set so that the cache file should call
              **/
             if(!is_dir($this->cache_path)) FileHandler::makeDir($this->cache_path);
-
-            // 캐시파일명을 구함
+            // Wanted cache file
             $cache_file = sprintf('%s%d.%s.cache', $this->cache_path, $widget_sequence, $lang_type);
-
-            // 캐시 파일이 존재하면 해당 파일의 유효성 검사
+            // If the file exists in the cache, the file validation
             if(!$ignore_cache && file_exists($cache_file)) {
                 $filemtime = filemtime($cache_file);
-
-                // 수정 시간을 비교해서 캐싱중이어야 하거나 widget.controller.php 파일보다 나중에 만들어 졌다면 캐시값을 return
+                // Should be modified compared to the time of the cache or in the future if creating more than widget.controller.php file a return value of the cache
                 if($filemtime + $widget_cache * 60 > time() && $filemtime > filemtime(_XE_PATH_.'modules/widget/widget.controller.php')) {
 					$cache_body = FileHandler::readFile($cache_file);
 					$cache_body = preg_replace('@<\!--#Meta:@', '<!--Meta:', $cache_body);
@@ -376,8 +354,7 @@
                     return $cache_body;
                 }
             }
-
-            // cache 파일의 mtime 갱신하고 캐시 갱신
+            // cache update and cache renewal of the file mtime
             touch($cache_file);
 
             $oWidget = $this->getWidgetObject($widget);
@@ -390,16 +367,15 @@
         }
 
         /**
-         * @brief 위젯이름과 인자를 받아서 결과를 생성하고 결과 리턴
-         * 태그 사용 templateHandler에서 $this->execute()를 실행하는 코드로 대체하게 된다
+         * @brief Widget name and argument and produce a result and Return the results
+         * Tags used in templateHandler $this-&gt; execute() will be replaced by the code running
          *
-         * $javascript_mode가 true일 경우 페이지 수정시 위젯 핸들링을 위한 코드까지 포함함
+         * $Javascript_mode is true when editing your page by the code for handling Includes photos
          **/
         function execute($widget, $args, $javascript_mode = false, $escaped = true) {
-            // 디버그를 위한 위젯 실행 시간 저장
+            // Save for debug run-time widget
             if(__DEBUG__==3) $start = getMicroTime();
-
-            // args값에서 urldecode를 해줌
+            // urldecode the value of args haejum
             $object_vars = get_object_vars($args);
             if(count($object_vars)) {
                 foreach($object_vars as $key => $val) {
@@ -409,13 +385,12 @@
             }
 
             /**
-             * 위젯이 widgetContent/ widgetBox가 아니라면 내용을 구함
+             * Widgets widgetContent/widgetBox Wanted If you are not content
              **/
             $widget_content = '';
             if($widget != 'widgetContent' && $widget != 'widgetBox') {
                 if(!is_dir(sprintf(_XE_PATH_.'widgets/%s/',$widget))) return;
-
-                // 위젯의 내용을 담을 변수
+                // Hold the contents of the widget parameter
                 $widget_content = $this->getCache($widget, $args);
             }
 
@@ -424,13 +399,11 @@
             }
 
             /**
-             * 관리자가 지정한 위젯의 style을 구함
+             * Wanted specified by the administrator of the widget style
              **/
-
-            // 가끔 잘못된 코드인 background-image:url(none)이 들어 있을 수가 있는데 이럴 경우 none에 대한 url을 요청하므로 무조건 제거함
+            // Sometimes the wrong code, background-image: url (none) can be heard but none in this case, the request for the url so unconditionally Removed
             $style = preg_replace('/url\((.+)(\/?)none\)/is','', $args->style);
-
-            // 내부 여백을 둔 것을 구해서 style문으로 미리 변경해 놓음
+            // Find a style statement that based on the internal margin dropping pre-change
             $widget_padding_left = $args->widget_padding_left;
             $widget_padding_right = $args->widget_padding_right;
             $widget_padding_top = $args->widget_padding_top;
@@ -438,18 +411,17 @@
             $inner_style = sprintf("padding:%dpx %dpx %dpx %dpx !important; padding:none !important;", $widget_padding_top, $widget_padding_right, $widget_padding_bottom, $widget_padding_left);
 
             /**
-             * 위젯 출력물을 구함
+             * Wanted widget output
              **/
 
             $widget_content_header = '';
             $widget_content_body = '';
             $widget_content_footer = '';
-
-            // 일반 페이지 호출일 경우 지정된 스타일만 꾸면서 바로 return 함
+            // If general call is given on page styles should return immediately dreamin '
             if(!$javascript_mode) {
                 if($args->id) $args->id = ' id="'.$args->id.'" ';
                 switch($widget) {
-                    // 내용 직접 추가일 경우 
+                    // If a direct orthogonal addition information
                     case 'widgetContent' :
                             if($args->document_srl) {
                                 $oDocumentModel = &getModel('document');
@@ -458,8 +430,7 @@
                             } else {
                                 $body = base64_decode($args->body);
                             }
-
-                            // 에디터컴포넌트 변경
+                            // Change the editor component
                             $oEditorController = &getController('editor');
                             $body = $oEditorController->transComponent($body);
 
@@ -468,26 +439,23 @@
                             $widget_content_footer = '</div></div>';
 
                         break;
-
-                    // 위젯 박스일 경우
+                    // If the widget box; it could
                     case 'widgetBox' :
                             $widget_content_header = sprintf('<div %sstyle="overflow:hidden;%s;"><div style="%s"><div>', $args->id, $style,  $inner_style);
                             $widget_content_body = $widgetbox_content;
 
                         break;
-
-                    // 일반 위젯일 경우
+                    // If the General wijetil
                     default :
                             $widget_content_header = sprintf('<div %sstyle="overflow:hidden;%s">',$args->id,$style);
                             $widget_content_body = sprintf('<div style="*zoom:1;%s">%s</div>', $inner_style,$widget_content);
                             $widget_content_footer = '</div>';
                         break;
                 }
-
-            // 페이지 수정시에 호출되었을 경우 위젯 핸들링을 위한 코드 추가
+            // Edit page is called when a widget if you add the code for handling
             } else {
                 switch($widget) {
-                    // 내용 직접 추가일 경우 
+                    // If a direct orthogonal addition information
                     case 'widgetContent' :
                             if($args->document_srl) {
                                 $oDocumentModel = &getModel('document');
@@ -496,8 +464,7 @@
                             } else {
                                 $body = base64_decode($args->body);
                             }
-
-                            // args 정리
+                            // by args
                             $attribute = array();
                             if($args) {
                                 foreach($args as $key => $val) {
@@ -522,17 +489,15 @@
                                 $inner_style);
 
                             $widget_content_body = $body;
-                            $widget_content_footer = sprintf('</div><div class="clear"></div>'.
+                            $widget_content_footer = sprintf('</div>'.
                                     '</div>'.
                                     '<div class="widgetContent" style="display:none;width:1px;height:1px;overflow:hidden;">%s</div>'.
                                 '</div>',base64_encode($body));
 
                         break;
-
-                    // 위젯 박스일 경우
+                    // If the widget box; it could
                     case 'widgetBox' :
-
-                            // args 정리
+                            // by args
                             $attribute = array();
                             if($args) {
                                 foreach($args as $key => $val) {
@@ -552,10 +517,9 @@
                             $widget_content_body = $widgetbox_content;
 
                         break;
-
-                    // 일반 위젯일 경우
+                    // If the General wijetil
                     default :
-                            // args 정리
+                            // by args
                             $attribute = array();
                             if($args) {
 								$allowed_key = array('class','style','widget_padding_top','widget_padding_right','widget_padding_bottom','widget_padding_left','widget');
@@ -570,48 +534,42 @@
                             $widget_content_header = sprintf('<div class="widgetOutput" widgetstyle="%s" style="%s" widget_padding_top="%s" widget_padding_right="%s" widget_padding_bottom="%s" widget_padding_left="%s" widget="%s" %s >'.
                                         '<div class="widgetResize"></div>'.
                                         '<div class="widgetResizeLeft"></div>'.
-                                        '<div class="widgetBorder">',$args->widgetstyle,$style, 
-                                    $widget_padding_top, $widget_padding_right, $widget_padding_bottom, $widget_padding_left, 
+                                        '<div class="widgetBorder">',$args->widgetstyle,$style,
+                                    $widget_padding_top, $widget_padding_right, $widget_padding_bottom, $widget_padding_left,
                                     $widget, implode(' ',$attribute));
 
-                            $widget_content_body = sprintf('<div style="%s">%s</div><div class="clear"></div>',$inner_style, $widget_content);
+                            $widget_content_body = sprintf('<div style="%s">%s</div>',$inner_style, $widget_content);
 
                             $widget_content_footer = '</div></div>';
 
                         break;
                 }
             }
-
-
-            // 위젯 스타일을 컴파일 한다.
+            // Compile the widget style.
             if($args->widgetstyle) $widget_content_body = $this->compileWidgetStyle($args->widgetstyle,$widget, $widget_content_body, $args, $javascript_mode);
 
             $output = $widget_content_header . $widget_content_body . $widget_content_footer;
-
-            // 위젯 결과물 생성 시간을 debug 정보에 추가
+            // Debug widget creation time information added to the results
             if(__DEBUG__==3) $GLOBALS['__widget_excute_elapsed__'] += getMicroTime() - $start;
-
-            // 결과 return
+            // Return result
             return $output;
         }
 
         /**
-         * @brief 위젯 객체를 return
+         * @brief Return widget object
          **/
         function getWidgetObject($widget) {
             if(!$GLOBALS['_xe_loaded_widgets_'][$widget]) {
-                // 일단 위젯의 위치를 찾음
+                // Finding the location of a widget
                 $oWidgetModel = &getModel('widget');
                 $path = $oWidgetModel->getWidgetPath($widget);
-
-                // 위젯 클래스 파일을 찾고 없으면 에러 출력 (html output)
+                // If you do not find the class file error output widget (html output)
                 $class_file = sprintf('%s%s.class.php', $path, $widget);
                 if(!file_exists($class_file)) return sprintf(Context::getLang('msg_widget_is_not_exists'), $widget);
-
-                // 위젯 클래스를 include
+                // Widget classes include
                 require_once($class_file);
-            
-                // 객체 생성
+
+                // Creating Objects
 				$tmp_fn  = create_function('', "return new {$widget}();");
 				$oWidget = $tmp_fn();
                 if(!is_object($oWidget)) return sprintf(Context::getLang('msg_widget_object_is_null'), $widget);
@@ -630,8 +588,7 @@
             if(!$widgetStyle) return $widget_content_body;
 
             $oWidgetModel = &getModel('widget');
-
-            // 위젯 스타일의 extra_var를 가져와 묶는다
+            // Bring extra_var widget style tie
             $widgetstyle_info = $oWidgetModel->getWidgetStyleInfo($widgetStyle);
             if(!$widgetstyle_info) return $widget_content_body;
 
@@ -650,8 +607,7 @@
             }else{
                 Context::set('widget_content', $widget_content_body);
             }
-
-            // 컴파일
+            // Compilation
             $widgetstyle_path = $oWidgetModel->getWidgetStylePath($widgetStyle);
             $oTemplate = &TemplateHandler::getInstance();
             $tpl = $oTemplate->compile($widgetstyle_path, 'widgetstyle');
@@ -660,7 +616,7 @@
         }
 
         /**
-         * @brief request 변수와 위젯 정보를 통해 변수 정렬
+         * @brief request parameters and variables sort through the information widget
          **/
         function arrangeWidgetVars($widget, $request_vars, &$vars) {
             $oWidgetModel = &getModel('widget');
@@ -686,8 +642,7 @@
                     $vars->{$key} = trim($request_vars->{$key});
                 }
             }
-
-            // 위젯 스타일이 있는 경우
+            // If the widget style
             if($request_vars->widgetstyle){
                 $widgetStyle_info = $oWidgetModel->getWidgetStyleInfo($request_vars->widgetstyle);
                 if(count($widgetStyle_info->extra_var)) {

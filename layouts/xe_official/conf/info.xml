@@ -1,57 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <layout version="0.2">
-    <title xml:lang="ko">XE Official</title>
-    <title xml:lang="jp">XE Official</title>
-    <title xml:lang="en">XE Official</title>
-    <title xml:lang="ge">XE Official</title>
-    <title xml:lang="ru">XE Official</title>
-    <title xml:lang="es">XE Official</title>
-    <title xml:lang="zh-CN">XE Official</title>
-    <title xml:lang="zh-TW">XE Official</title>
-    <title xml:lang="vi">XE Official</title>
-    <title xml:lang="tr">XE Official</title>
+    <title xml:lang="ko">XE 공식 사이트 레이아웃</title>
+    <title xml:lang="jp">XE公式サイトレイアウト</title>
+    <title xml:lang="en">XE Official website layout</title>
+    <title xml:lang="ge">XE Offizielle Website-Layout</title>
+    <title xml:lang="ru">XE Официальный сайт макет</title>
+    <title xml:lang="es">Diseño oficial de la página web de XE</title>
+    <title xml:lang="zh-CN">XE 官方网站布局</title>
+    <title xml:lang="zh-TW">XE 官方網站版面</title>
+    <title xml:lang="vi">Giao diện chính thức của XE</title>
+    <title xml:lang="tr">XE Resmi Websitesi Yerleşim Düzeni</title>
     <description xml:lang="ko">
-        2007년 XE 공식 사이트 레이아웃. 2011년 코드 리펙토링.
+        XE 공식 사이트 레이아웃입니다.
         제작 : NHN
     </description>
     <description xml:lang="jp">
-        2007년 XE 공식 사이트 레이아웃. 2011년 코드 리펙토링.
+        XEの公式サイトのレイアウトです。
         제작 : NHN
     </description>
     <description xml:lang="en">
-        2007년 XE 공식 사이트 레이아웃. 2011년 코드 리펙토링.
+        This layout is the Official website layout for XE.
         제작 : NHN
     </description>
     <description xml:lang="ge">
-        2007년 XE 공식 사이트 레이아웃. 2011년 코드 리펙토링.
+        Dieses Layout ist das XE Offizielle Website-Layout.
         제작 : NHN
     </description>
     <description xml:lang="ru">
-        2007년 XE 공식 사이트 레이아웃. 2011년 코드 리펙토링.
+        Этот формат является XE Официальный сайт компоновку.
         제작 : NHN
     </description>
     <description xml:lang="es">
-        2007년 XE 공식 사이트 레이아웃. 2011년 코드 리펙토링.
+        Este diseño is el diseño oficial de la página web de Zerobard XE.
         제작 : NHN
     </description>
     <description xml:lang="zh-CN">
-        2007년 XE 공식 사이트 레이아웃. 2011년 코드 리펙토링.
+        XE官方网站布局。
         제작 : NHN
     </description>
     <description xml:lang="zh-TW">
-        2007년 XE 공식 사이트 레이아웃. 2011년 코드 리펙토링.
+        XE官方網站版面。
         제작 : NHN
     </description>
 	<description xml:lang="vi">
-        2007년 XE 공식 사이트 레이아웃. 2011년 코드 리펙토링.
+        Đây là giao diện chính thức của XE.
         제작 : NHN
     </description>
 	<description xml:lang="tr">
-        2007년 XE 공식 사이트 레이아웃. 2011년 코드 리펙토링.
+        Bu yerleşim düzeni, XE'nin resmi website yerleşim düzenidir.
         제작 : NHN
     </description>    
-    <version>1.0</version>
-    <date>2011-03-29</date>
+    <version>0.1</version>
+    <date>2007-08-01</date>
     <link>http://xpressengine.com/</link>
 
     <author email_address="developers@xpressengine.com" link="http://xpressengine.com/">
@@ -83,7 +83,7 @@
             <description xml:lang="jp">希望するカラーセットを選択して下さい。</description>
             <description xml:lang="zh-CN">请选择颜色。</description>
             <description xml:lang="zh-TW">請選擇顏色。</description>
-            <description xml:lang="en">Please select a colorset you want.</description>
+            <description xml:lang="en">Please select the colorset you want.</description>
             <description xml:lang="ge">Bitte wählen Sie ein colorset Sie wollen.</description>
             <description xml:lang="ru">Выберите colorset хотите.</description>
             <description xml:lang="es">Seleccione set de colores que desea.</description>
@@ -98,8 +98,8 @@
                 <title xml:lang="es">Básico</title>
                 <title xml:lang="zh-CN">默认</title>
                 <title xml:lang="zh-TW">預設</title>
-				<title xml:lang="vi">Cơ bản</title>
-				<title xml:lang="tr">Temel</title>
+		<title xml:lang="vi">Cơ bản</title>
+        <title xml:lang="tr">Temel</title>
             </options>
             <options value="black">
                 <title xml:lang="ko">검은색</title>
@@ -127,7 +127,7 @@
             </options>
         </var>
         <var name="logo_image" type="image">
-            <title xml:lang="ko">로고 이미지</title>
+            <title xml:lang="ko">로고이미지</title>
             <title xml:lang="jp">ロゴイメージ</title>
             <title xml:lang="zh-CN">LOGO图片</title>
             <title xml:lang="zh-TW">Logo圖片</title>
@@ -137,38 +137,16 @@
             <title xml:lang="es">Imagen del logotipo</title>
 	    	<title xml:lang="vi">Hình Logo</title>
             <title xml:lang="tr">Logo resmi</title>
-            <description xml:lang="ko">레이아웃의 상단에 표시될 로고 이미지를 입력하세요. (세로길이가 23px인 투명이미지가 가장 어울립니다)</description>
+            <description xml:lang="ko">레이아웃의 상단에 표시될 로고이미지를 입력하세요. (세로길이가 23px인 투명이미지가 가장 어울립니다)</description>
             <description xml:lang="jp">レイアウトの上段に表示されるロゴイメージを入力して下さい。 (縦幅が23pxである透明イメージをお勧めします。。)</description>
             <description xml:lang="zh-CN">请输入显示在布局顶部的LOGO图片(高度为23px的透明图片为适)。</description>
             <description xml:lang="zh-TW">請輸入要顯示在版面上端的 Logo 圖片。(適當高度為23px的透明圖片。)</description>
-            <description xml:lang="en">Please input a logo image which will be displayed on the top of layout. (Transparent image with height of 23px is recommended.)</description>
+            <description xml:lang="en">Please input a logo image which will be displayed on the top of the layout. (Transparent image with height of 23px is recommended.)</description>
             <description xml:lang="ge">Bitte geben Sie ein Logo das Bild wird auf dem oberen Layout. (Transparent Bild mit einer Höhe von 23px wird empfohlen).</description>
             <description xml:lang="ru">Введите логотип изображение, которое будет отображаться в верхней части формы. (Прозрачный изображение с высотой 23px рекомендуется.)</description>
             <description xml:lang="es">Ingresar una imagen para logotipo. ( Se recomienda una imagen de fondo transparente con una altura de 23px.</description>
 	    	<description xml:lang="vi">Hãy chọn Logo hiển thị phía trên cùng của giao diện. (Đề nghị: Hình ảnh có nền trong suốt và kích thước 23px.)</description>
             <description xml:lang="tr">Lütfen yerleşim düzeninin üst kısmında görüntülenecek bir resim girişi yapınız. (23px uzunluğunda net bir resim seçmeniz önerilir)</description>
-        </var>
-        <var name="logo_image_alt" type="text">
-            <title xml:lang="ko">로고 이미지 alt</title>
-            <title xml:lang="jp">ロゴイメージ alt</title>
-            <title xml:lang="zh-CN">LOGO图片 alt</title>
-            <title xml:lang="zh-TW">Logo圖片 alt</title>
-            <title xml:lang="en">Logo image alt</title>
-            <title xml:lang="ge">Logobildes alt</title>
-            <title xml:lang="ru">Изображения логотипа alt</title>
-            <title xml:lang="es">Imagen del logotipo alt</title>
-	    	<title xml:lang="vi">Hình Logo alt</title>
-            <title xml:lang="tr">Logo resmi alt</title>
-			<description xml:lang="ko">로고 이미지의 alt 텍스트. 로고 이미지를 표시하지 않는 경우 대체 텍스트를 표시합니다.</description>
-			<description xml:lang="jp">로고 이미지의 alt 텍스트. 로고 이미지를 표시하지 않는 경우 대체 텍스트를 표시합니다.</description>
-			<description xml:lang="zh-CN">로고 이미지의 alt 텍스트. 로고 이미지를 표시하지 않는 경우 대체 텍스트를 표시합니다.</description>
-			<description xml:lang="zh-TW">로고 이미지의 alt 텍스트. 로고 이미지를 표시하지 않는 경우 대체 텍스트를 표시합니다.</description>
-			<description xml:lang="en">로고 이미지의 alt 텍스트. 로고 이미지를 표시하지 않는 경우 대체 텍스트를 표시합니다.</description>
-			<description xml:lang="ge">로고 이미지의 alt 텍스트. 로고 이미지를 표시하지 않는 경우 대체 텍스트를 표시합니다.</description>
-			<description xml:lang="ru">로고 이미지의 alt 텍스트. 로고 이미지를 표시하지 않는 경우 대체 텍스트를 표시합니다.</description>
-			<description xml:lang="es">로고 이미지의 alt 텍스트. 로고 이미지를 표시하지 않는 경우 대체 텍스트를 표시합니다.</description>
-			<description xml:lang="vi">로고 이미지의 alt 텍스트. 로고 이미지를 표시하지 않는 경우 대체 텍스트를 표시합니다.</description>
-			<description xml:lang="tr">로고 이미지의 alt 텍스트. 로고 이미지를 표시하지 않는 경우 대체 텍스트를 표시합니다.</description>
         </var>
         <var name="index_url" type="text">
             <title xml:lang="ko">홈 페이지 URL</title>
@@ -185,7 +163,7 @@
             <description xml:lang="jp">ロゴをクリックした時に移動するホームページのURLを入力して下さい。</description>
             <description xml:lang="zh-CN">点击网站LOGO时要移动的页面URL。</description>
             <description xml:lang="zh-TW">請輸入當用戶按了網站 Logo 後，要前往的頁面網址。</description>
-            <description xml:lang="en">Please input the URL to redirect when user clicks the logo</description>
+            <description xml:lang="en">Please input the URL to redirect when user clicks the logo.</description>
             <description xml:lang="ge">Bitte geben Sie die URL umzuleiten, wenn Benutzer klickt das Logo</description>
             <description xml:lang="ru">Пожалуйста, введите URL для перенаправления, когда пользователь нажимает логотип</description>
             <description xml:lang="es">Ingresar el URL de la página web para redireccionar al pulsar el logotipo</description>
@@ -207,7 +185,7 @@
             <description xml:lang="jp">背景イメージを使う場合は、登録して下さい。</description>
             <description xml:lang="zh-CN">要想使用背景图片请在这里上传。</description>
             <description xml:lang="zh-TW">請在這裡上傳想要使用的背景圖片。</description>
-            <description xml:lang="en">Please input if you want to use background image.</description>
+            <description xml:lang="en">Please input if you want to use the background image.</description>
             <description xml:lang="ge">Bitte geben Sie, wenn Sie verwenden wollen Hintergrundbild.</description>
             <description xml:lang="ru">Введите, если вы хотите использовать фоновое изображение.</description>
             <description xml:lang="es">Ingresar imagen de fondo si desea usar.</description>
@@ -217,7 +195,7 @@
     </extra_vars>
 
     <menus>
-        <menu name="main_menu" maxdepth="2" default="true">
+        <menu name="main_menu" maxdepth="3" default="true">
             <title xml:lang="ko">상단 메뉴</title>
             <title xml:lang="jp">上段用メニュー</title>
             <title xml:lang="zh-CN">主菜单</title>

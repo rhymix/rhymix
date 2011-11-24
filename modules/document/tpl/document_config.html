@@ -1,26 +1,23 @@
 <!--#include("header.html")-->
-<!--%import("filter/insert_config.xml")-->
 
-<form action="./" method="get" onsubmit="return procFilter(this, insert_config)">
-    <table cellspacing="0" class="rowTable">
-    <tr>
-        <th scope="col"><div>{$lang->thumbnail_type}</div></th>
-    </tr>
-    <tr>
-        <td>
-            <input type="radio" name="thumbnail_type" value="crop" <!--@if($config->thumbnail_type != 'ratio')-->checked="checked"<!--@end-->/> {$lang->thumbnail_crop} <br />
-            <input type="radio" name="thumbnail_type" value="ratio" <!--@if($config->thumbnail_type == 'ratio')-->checked="checked"<!--@end-->/> {$lang->thumbnail_ratio}
-        </td>
-    </tr>
-    <tr>
-        <th class="button"><span class="button black strong"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span></th>
-    </tr>
-    </table>
-
-    <table cellspacing="0" class="rowTable">
-    <tr>
-        <th class="button"><span class="button black strong"><input type="button" value="{$lang->cmd_delete_all_thumbnail}" onclick="doDeleteAllThumbnail(); return false;"/></span></th>
-    </tr>
-    </table>
-
+<form action="./" method="post">
+	<input type="hidden" name="module" value="document" />
+	<input type="hidden" name="act" value="procDocumentAdminInsertConfig" />
+	<div class="table">
+		<table width="100%" border="1" cellspacing="0">
+		<tr>
+			<th scope="col">{$lang->thumbnail_type}</th>
+		</tr>
+		<tr>
+			<td>
+				<input type="radio" name="thumbnail_type" value="crop" <!--@if($config->thumbnail_type != 'ratio')-->checked="checked"<!--@end-->/> {$lang->thumbnail_crop} <br />
+				<input type="radio" name="thumbnail_type" value="ratio" <!--@if($config->thumbnail_type == 'ratio')-->checked="checked"<!--@end-->/> {$lang->thumbnail_ratio}
+			</td>
+		</tr>
+		</table>
+	</div>
+    <div class="btnArea">
+		<span class="btn"><input type="submit" value="{$lang->cmd_registration}" /></span>
+		<span class="btn"><input type="button" value="{$lang->cmd_delete_all_thumbnail}" onclick="doDeleteAllThumbnail(); return false;"/></span>
+	</div>
 </form>

@@ -1,12 +1,12 @@
 <?php
-    if(!defined("__ZBXE__")) exit();
+if(!defined('__XE__')) exit();
 
-    /**
-     * @file autolink.addon.php
-     * @author NHN (developers@xpressengine.com)
-     * @brief 자동 링크 애드온
-     **/
-    if($called_position == 'after_module_proc' && Context::getResponseMethod()!="XMLRPC") {
-        Context::addJsFile('./addons/autolink/autolink.js', false ,'', null, 'body');
-    }
+/**
+ * @file autolink.addon.php
+ * @author NHN (developers@xpressengine.com)
+ * @brief Automatic link add-on
+ **/
+if($called_position == 'after_module_proc' && Context::getResponseMethod()!="XMLRPC") {
+	Context::loadFile(array('./addons/autolink/autolink.js', 'body', '', null), true);
+}
 ?>

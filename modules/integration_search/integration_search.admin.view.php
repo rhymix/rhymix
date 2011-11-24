@@ -2,9 +2,9 @@
     /**
      * @class  integration_searchAdminView
      * @author NHN (developers@xpressengine.com)
-     * @brief  integration_search module의 admin view class
+     * @brief admin view class of the integration_search module
      *
-     * 통합검색 관리
+     * Search Management
      *
      **/
 
@@ -13,10 +13,10 @@
         var $config = null;
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
-            // 설정 정보를 받아옴 (module model 객체를 이용)
+            // Get configurations (using module model object)
             $oModuleModel = &getModel('module');
             $this->config = $oModuleModel->getModuleConfig('integration_search');
             Context::set('config',$this->config);
@@ -25,22 +25,21 @@
         }
 
         /**
-         * @brief 모듈 선정 및 스킨 설정
+         * @brief Module selection and skin set
          **/
         function dispIntegration_searchAdminContent() {
-            // 스킨 목록을 구해옴
+            // Get a list of skins(themes)
             $oModuleModel = &getModel('module');
             $skin_list = $oModuleModel->getSkins($this->module_path);
             Context::set('skin_list',$skin_list);
-
-            // 모듈 카테고리 목록을 구함
+            // Get a list of module categories
             $module_categories = $oModuleModel->getModuleCategories();
-
-            // 생성된 mid목록을 구함
+            // Generated mid Wanted list
             $obj->site_srl = 0;
-            $mid_list = $oModuleModel->getMidList($obj);
 
-            // module_category와 module의 조합
+			// Shown below as obsolete comments - modify by cherryfilter
+            /*$mid_list = $oModuleModel->getMidList($obj);
+            // module_category and module combination
             if($module_categories) {
                 foreach($mid_list as $module_srl => $module) {
                     $module_categories[$module->module_category_srl]->list[$module_srl] = $module; 
@@ -49,25 +48,25 @@
                 $module_categories[0]->list = $mid_list;
             }
 
-            Context::set('mid_list',$module_categories); //maybe not used
+            Context::set('mid_list',$module_categories);*/
+
 			$security = new Security();
 			$security->encodeHTML('skin_list..title');
-			
-            // 샘플코드
-            Context::set('sample_code', htmlspecialchars('<form action="{getUrl()}" method="get"><input type="hidden" name="vid" value="{$vid}" /><input type="hidden" name="mid" value="{$mid}" /><input type="hidden" name="act" value="IS" /><input type="text" name="is_keyword" class="inputTypeText" value="{$is_keyword}" /><span class="button"><input type="submit" value="{$lang->cmd_search}" /></span></form>') );
+
+            // Sample Code
+            Context::set('sample_code', htmlspecialchars('<form action="{getUrl()}" method="get"><input type="hidden" name="vid" value="{$vid}" /><input type="hidden" name="mid" value="{$mid}" /><input type="hidden" name="act" value="IS" /><input type="text" name="is_keyword"  value="{$is_keyword}" /><span class="btn"><input type="submit" value="{$lang->cmd_search}" /></span></form>') );
 
             $this->setTemplateFile("index");
         }
 
         /**
-         * @brief 스킨 설정
+         * @brief Skin Settings
          **/
         function dispIntegration_searchAdminSkinInfo() {
             $oModuleModel = &getModel('module');
             $skin_info = $oModuleModel->loadSkinInfo($this->module_path, $this->config->skin);
             $skin_vars = unserialize($this->config->skin_vars);
-
-            // skin_info에 extra_vars 값을 지정
+            // value for skin_info extra_vars
             if(count($skin_info->extra_vars)) {
                 foreach($skin_info->extra_vars as $key => $val) {
                     $name = $val->name;

@@ -1,0 +1,625 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<lang>
+	<item name="cmd_generate_code">
+		<value xml:lang="ko"><![CDATA[코드생성]]></value>
+		<value xml:lang="en"><![CDATA[Generate Code]]></value>
+		<value xml:lang="jp"><![CDATA[コード生成]]></value>
+		<value xml:lang="zh-CN"><![CDATA[生成代码]]></value>
+		<value xml:lang="zh-TW"><![CDATA[建立原始碼]]></value>
+		<value xml:lang="fr"><![CDATA[Générer le Code]]></value>
+		<value xml:lang="ru"><![CDATA[Генерировать код]]></value>
+		<value xml:lang="es"><![CDATA[Generar Código]]></value>
+		<value xml:lang="tr"><![CDATA[Kod Üret]]></value>
+		<value xml:lang="vi"><![CDATA[Tạo Code]]></value>
+	</item>
+	<item name="widget_name">
+		<value xml:lang="ko"><![CDATA[위젯 이름]]></value>
+		<value xml:lang="en"><![CDATA[Widget Name]]></value>
+		<value xml:lang="jp"><![CDATA[ウィジェット名]]></value>
+		<value xml:lang="zh-CN"><![CDATA[控件名称]]></value>
+		<value xml:lang="zh-TW"><![CDATA[Widget名稱]]></value>
+		<value xml:lang="fr"><![CDATA[Nom de Gadget]]></value>
+		<value xml:lang="ru"><![CDATA[Имя виджета]]></value>
+		<value xml:lang="es"><![CDATA[Nombre de Widget]]></value>
+		<value xml:lang="tr"><![CDATA[Widget Adı]]></value>
+		<value xml:lang="vi"><![CDATA[Tên Widget]]></value>
+	</item>
+	<item name="widget_maker">
+		<value xml:lang="ko"><![CDATA[위젯 제작자]]></value>
+		<value xml:lang="en"><![CDATA[Developer]]></value>
+		<value xml:lang="jp"><![CDATA[ウィジェット作者]]></value>
+		<value xml:lang="zh-CN"><![CDATA[控件作者]]></value>
+		<value xml:lang="zh-TW"><![CDATA[Widget作者]]></value>
+		<value xml:lang="fr"><![CDATA[Développeur]]></value>
+		<value xml:lang="ru"><![CDATA[Разработчик виджета]]></value>
+		<value xml:lang="es"><![CDATA[Desarrollador de Widget]]></value>
+		<value xml:lang="tr"><![CDATA[Geliştirici]]></value>
+		<value xml:lang="vi"><![CDATA[Người tạo]]></value>
+	</item>
+	<item name="widget_license">
+		<value xml:lang="ko"><![CDATA[라이선스]]></value>
+		<value xml:lang="en"><![CDATA[License]]></value>
+		<value xml:lang="jp"><![CDATA[ライセンス]]></value>
+		<value xml:lang="zh-CN"><![CDATA[版权]]></value>
+		<value xml:lang="zh-TW"><![CDATA[版權]]></value>
+		<value xml:lang="fr"><![CDATA[Licence]]></value>
+		<value xml:lang="tr"><![CDATA[Lisans]]></value>
+		<value xml:lang="vi"><![CDATA[Giấy phép]]></value>
+	</item>
+	<item name="widget_history">
+		<value xml:lang="ko"><![CDATA[변경 이력]]></value>
+		<value xml:lang="en"><![CDATA[Update History]]></value>
+		<value xml:lang="jp"><![CDATA[変更内容]]></value>
+		<value xml:lang="zh-CN"><![CDATA[更新事项]]></value>
+		<value xml:lang="zh-TW"><![CDATA[更新紀錄]]></value>
+		<value xml:lang="fr"><![CDATA[Histoire de Mise à jours]]></value>
+		<value xml:lang="ru"><![CDATA[История обновлений]]></value>
+		<value xml:lang="es"><![CDATA[Actualizar la historia]]></value>
+		<value xml:lang="tr"><![CDATA[Güncelleme Tarihi]]></value>
+		<value xml:lang="vi"><![CDATA[Lịch sử cập nhật]]></value>
+	</item>
+	<item name="widget_info">
+		<value xml:lang="ko"><![CDATA[위젯 정보]]></value>
+		<value xml:lang="en"><![CDATA[Widget Info]]></value>
+		<value xml:lang="jp"><![CDATA[ウィジェット情報]]></value>
+		<value xml:lang="zh-CN"><![CDATA[控件信息]]></value>
+		<value xml:lang="zh-TW"><![CDATA[Widget資料]]></value>
+		<value xml:lang="fr"><![CDATA[Information de Gadget]]></value>
+		<value xml:lang="ru"><![CDATA[Информация виджета]]></value>
+		<value xml:lang="es"><![CDATA[información de Widget]]></value>
+		<value xml:lang="tr"><![CDATA[Widget Bilgileri]]></value>
+		<value xml:lang="vi"><![CDATA[Thông tin Widget]]></value>
+	</item>
+	<item name="widget_code">
+		<value xml:lang="ko"><![CDATA[코드]]></value>
+		<value xml:lang="en"><![CDATA[Code]]></value>
+		<value xml:lang="jp"><![CDATA[コード]]></value>
+		<value xml:lang="zh-CN"><![CDATA[代码]]></value>
+		<value xml:lang="zh-TW"><![CDATA[原始碼]]></value>
+		<value xml:lang="ru"><![CDATA[Код]]></value>
+		<value xml:lang="es"><![CDATA[Código]]></value>
+		<value xml:lang="tr"><![CDATA[Kod]]></value>
+	</item>
+	<item name="widget_cache">
+		<value xml:lang="ko"><![CDATA[캐시]]></value>
+		<value xml:lang="en"><![CDATA[Cache]]></value>
+		<value xml:lang="jp"><![CDATA[キャッシュ]]></value>
+		<value xml:lang="zh-CN"><![CDATA[缓冲]]></value>
+		<value xml:lang="zh-TW"><![CDATA[暫存]]></value>
+		<value xml:lang="fr"><![CDATA[Antémémoire]]></value>
+		<value xml:lang="ru"><![CDATA[Кеш]]></value>
+		<value xml:lang="tr"><![CDATA[Önbellek]]></value>
+		<value xml:lang="vi"><![CDATA[Bộ nhớ đệm]]></value>
+	</item>
+	<item name="widget_fix_width">
+		<value xml:lang="ko"><![CDATA[크기 고정]]></value>
+		<value xml:lang="en"><![CDATA[Fix Width]]></value>
+		<value xml:lang="jp"><![CDATA[横幅固定]]></value>
+		<value xml:lang="zh-CN"><![CDATA[固定大小]]></value>
+		<value xml:lang="zh-TW"><![CDATA[固定大小]]></value>
+		<value xml:lang="fr"><![CDATA[Fixer Largeur]]></value>
+		<value xml:lang="ru"><![CDATA[Фиксированная ширина]]></value>
+		<value xml:lang="es"><![CDATA[Ancho permanente]]></value>
+		<value xml:lang="tr"><![CDATA[Düzeltme Genişliği]]></value>
+		<value xml:lang="vi"><![CDATA[Cố định chiều rộng]]></value>
+	</item>
+	<item name="widget_width">
+		<value xml:lang="ko"><![CDATA[가로 길이]]></value>
+		<value xml:lang="en"><![CDATA[Width]]></value>
+		<value xml:lang="jp"><![CDATA[縦幅サイズ]]></value>
+		<value xml:lang="zh-CN"><![CDATA[宽度]]></value>
+		<value xml:lang="zh-TW"><![CDATA[寬度]]></value>
+		<value xml:lang="fr"><![CDATA[Largeur]]></value>
+		<value xml:lang="ru"><![CDATA[Ширина]]></value>
+		<value xml:lang="es"><![CDATA[Ancho]]></value>
+		<value xml:lang="tr"><![CDATA[Genişlik]]></value>
+		<value xml:lang="vi"><![CDATA[Chiều rộng]]></value>
+	</item>
+	<item name="widget_position">
+		<value xml:lang="ko"><![CDATA[위치]]></value>
+		<value xml:lang="en"><![CDATA[Position]]></value>
+		<value xml:lang="jp"><![CDATA[ポジション]]></value>
+		<value xml:lang="zh-CN"><![CDATA[位置]]></value>
+		<value xml:lang="zh-TW"><![CDATA[位置]]></value>
+		<value xml:lang="ru"><![CDATA[Позиция]]></value>
+		<value xml:lang="es"><![CDATA[Posición]]></value>
+		<value xml:lang="tr"><![CDATA[Konum]]></value>
+		<value xml:lang="vi"><![CDATA[Vị trí]]></value>
+	</item>
+	<item name="widget_position_none">
+		<value xml:lang="ko"><![CDATA[줄 바꿈]]></value>
+		<value xml:lang="en"><![CDATA[Next Line]]></value>
+		<value xml:lang="jp"><![CDATA[改行]]></value>
+		<value xml:lang="zh-CN"><![CDATA[换行]]></value>
+		<value xml:lang="zh-TW"><![CDATA[換行]]></value>
+		<value xml:lang="fr"><![CDATA[Ligne suivante]]></value>
+		<value xml:lang="ru"><![CDATA[Следующая строка]]></value>
+		<value xml:lang="es"><![CDATA[Próxima línea]]></value>
+		<value xml:lang="tr"><![CDATA[Sonraki Hat]]></value>
+		<value xml:lang="vi"><![CDATA[Dòng tiếp theo]]></value>
+	</item>
+	<item name="widget_position_left">
+		<value xml:lang="ko"><![CDATA[왼쪽]]></value>
+		<value xml:lang="en"><![CDATA[Left]]></value>
+		<value xml:lang="jp"><![CDATA[左へ]]></value>
+		<value xml:lang="zh-CN"><![CDATA[左对齐]]></value>
+		<value xml:lang="zh-TW"><![CDATA[靠左對齊]]></value>
+		<value xml:lang="fr"><![CDATA[Gauche]]></value>
+		<value xml:lang="ru"><![CDATA[Лево]]></value>
+		<value xml:lang="es"><![CDATA[Izquierdo]]></value>
+		<value xml:lang="tr"><![CDATA[Sol]]></value>
+		<value xml:lang="vi"><![CDATA[Trái]]></value>
+	</item>
+	<item name="widget_position_right">
+		<value xml:lang="ko"><![CDATA[오른쪽]]></value>
+		<value xml:lang="en"><![CDATA[Right]]></value>
+		<value xml:lang="jp"><![CDATA[右へ]]></value>
+		<value xml:lang="zh-CN"><![CDATA[右对齐]]></value>
+		<value xml:lang="zh-TW"><![CDATA[靠右對齊]]></value>
+		<value xml:lang="fr"><![CDATA[Droite]]></value>
+		<value xml:lang="ru"><![CDATA[Право]]></value>
+		<value xml:lang="es"><![CDATA[Derecho]]></value>
+		<value xml:lang="tr"><![CDATA[Sağ]]></value>
+		<value xml:lang="vi"><![CDATA[Phải]]></value>
+	</item>
+	<item name="widget_margin">
+		<value xml:lang="ko"><![CDATA[외부 여백]]></value>
+		<value xml:lang="en"><![CDATA[Margin]]></value>
+		<value xml:lang="jp"><![CDATA[余白]]></value>
+		<value xml:lang="zh-CN"><![CDATA[边距]]></value>
+		<value xml:lang="zh-TW"><![CDATA[邊距]]></value>
+		<value xml:lang="fr"><![CDATA[Marge]]></value>
+		<value xml:lang="ru"><![CDATA[Поля]]></value>
+		<value xml:lang="es"><![CDATA[Márgen]]></value>
+		<value xml:lang="tr"><![CDATA[Kenar boşluğu]]></value>
+		<value xml:lang="vi"><![CDATA[Lề]]></value>
+	</item>
+	<item name="widget_margin_top">
+		<value xml:lang="ko"><![CDATA[위]]></value>
+		<value xml:lang="en"><![CDATA[Top Margin]]></value>
+		<value xml:lang="jp"><![CDATA[上]]></value>
+		<value xml:lang="zh-CN"><![CDATA[上]]></value>
+		<value xml:lang="zh-TW"><![CDATA[上]]></value>
+		<value xml:lang="fr"><![CDATA[Marge en tête]]></value>
+		<value xml:lang="ru"><![CDATA[Верхнее поле]]></value>
+		<value xml:lang="es"><![CDATA[Márgen superior]]></value>
+		<value xml:lang="tr"><![CDATA[Üst-Kenar Boşluğu]]></value>
+		<value xml:lang="vi"><![CDATA[Lề trên]]></value>
+	</item>
+	<item name="widget_margin_right">
+		<value xml:lang="ko"><![CDATA[오른쪽]]></value>
+		<value xml:lang="en"><![CDATA[Right Margin]]></value>
+		<value xml:lang="jp"><![CDATA[右]]></value>
+		<value xml:lang="zh-CN"><![CDATA[右]]></value>
+		<value xml:lang="zh-TW"><![CDATA[右]]></value>
+		<value xml:lang="fr"><![CDATA[Marge à droite]]></value>
+		<value xml:lang="ru"><![CDATA[Правое поле]]></value>
+		<value xml:lang="es"><![CDATA[Márgen derecho]]></value>
+		<value xml:lang="tr"><![CDATA[Sağ-Kenar Boşluğu]]></value>
+		<value xml:lang="vi"><![CDATA[Lề phải]]></value>
+	</item>
+	<item name="widget_margin_bottom">
+		<value xml:lang="ko"><![CDATA[아래 ]]></value>
+		<value xml:lang="en"><![CDATA[Bottom Margin]]></value>
+		<value xml:lang="jp"><![CDATA[下 ]]></value>
+		<value xml:lang="zh-CN"><![CDATA[下]]></value>
+		<value xml:lang="zh-TW"><![CDATA[下]]></value>
+		<value xml:lang="fr"><![CDATA[Marge en pied]]></value>
+		<value xml:lang="ru"><![CDATA[Шижнее поле]]></value>
+		<value xml:lang="es"><![CDATA[Márgen inferior]]></value>
+		<value xml:lang="tr"><![CDATA[Alt-Kenar Boşluğu]]></value>
+		<value xml:lang="vi"><![CDATA[Lề dưới]]></value>
+	</item>
+	<item name="widget_margin_left">
+		<value xml:lang="ko"><![CDATA[왼쪽]]></value>
+		<value xml:lang="en"><![CDATA[Left Margin]]></value>
+		<value xml:lang="jp"><![CDATA[左]]></value>
+		<value xml:lang="zh-CN"><![CDATA[左]]></value>
+		<value xml:lang="zh-TW"><![CDATA[左]]></value>
+		<value xml:lang="fr"><![CDATA[Marge à gauche]]></value>
+		<value xml:lang="ru"><![CDATA[Левое поле]]></value>
+		<value xml:lang="es"><![CDATA[Márgen izquierdo]]></value>
+		<value xml:lang="tr"><![CDATA[Sol-Kenar Boşluğu]]></value>
+		<value xml:lang="vi"><![CDATA[Lề trái]]></value>
+	</item>
+	<item name="about_widget_fix_width">
+		<value xml:lang="ko"><![CDATA[선택하시면 가로 길이가 고정됩니다.]]></value>
+		<value xml:lang="en"><![CDATA[Check this to fix the width.]]></value>
+		<value xml:lang="jp"><![CDATA[チェックを入れると横幅が固定されます。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[选择此项将固定控件显示宽度。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[選擇此項將固定Widget顯示寬度。]]></value>
+		<value xml:lang="fr"><![CDATA[Cochez pour fixer la largeur, S.V.P.]]></value>
+		<value xml:lang="ru"><![CDATA[Пожалуйста, установите для фиксирования ширины.]]></value>
+		<value xml:lang="es"><![CDATA[Si selecciona esta opción el ancho será permanente.]]></value>
+		<value xml:lang="tr"><![CDATA[Lütfen genişliği düzeltmeyi kontrol ediniz.]]></value>
+		<value xml:lang="vi"><![CDATA[Hãy kiểm tra để cố định chiều rộng.]]></value>
+	</item>
+	<item name="about_widget_width">
+		<value xml:lang="ko"><![CDATA[가로 길이를 입력해주세요.]]></value>
+		<value xml:lang="en"><![CDATA[Please set width for the widget.]]></value>
+		<value xml:lang="jp"><![CDATA[縦幅サイズを選択してください。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[请输入宽度大小。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[請輸入寬度大小。]]></value>
+		<value xml:lang="fr"><![CDATA[Configurez la largeur du gadget, S.V.P.]]></value>
+		<value xml:lang="ru"><![CDATA[Пожалуйста, установите ширину виджета.]]></value>
+		<value xml:lang="es"><![CDATA[Ingrese el ancho de Widget.]]></value>
+		<value xml:lang="tr"><![CDATA[Lütfen widgetın genişliğini ayarlayınız.]]></value>
+		<value xml:lang="vi"><![CDATA[Hãy đặt chiều rộng cho Widget.]]></value>
+	</item>
+	<item name="about_widget_position">
+		<value xml:lang="ko"><![CDATA[한 줄에 여러 개의 위젯을 나열하고 싶을 때는 위치를 선택해주세요.]]></value>
+		<value xml:lang="en"><![CDATA[Please select the position if you want to display many widgets on one line.]]></value>
+		<value xml:lang="jp"><![CDATA[一行に多数のウィジェットを並べたい場合は、ポジションを選択してください。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[想要横向显示多个控件时，请选择位置。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[想要橫向顯示多個Widget時，請選擇位置。]]></value>
+		<value xml:lang="fr"><![CDATA[Choisissez la position si vous voulez représenter plusieurs gadgets dans une ligne, S.V.P.]]></value>
+		<value xml:lang="ru"><![CDATA[Пожалуйста, выберите позицию виджета, если Вы хотите отобразить несколько виджетов в одной строке.]]></value>
+		<value xml:lang="es"><![CDATA[Selecciona la posición si desea mostra más widgets en una línea.]]></value>
+		<value xml:lang="tr"><![CDATA[Tek bir satırda birkaç widget görüntülemek istiyorsanız, lütfen konumlarını seçiniz.]]></value>
+		<value xml:lang="vi"><![CDATA[Hãy chọn vị trí nếu bạn muốn nhiều Widget cùng hiển thị.]]></value>
+	</item>
+	<item name="about_widget_margin">
+		<value xml:lang="ko"><![CDATA[지정된 위젯의 상하좌우 여백을 지정할 수 있습니다.]]></value>
+		<value xml:lang="en"><![CDATA[You may set the top, bottom, right or left margins for the widget.]]></value>
+		<value xml:lang="jp"><![CDATA[一行に多数のウィジェットを並べたい場合は、ポジションを選択してください。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[想要横向显示多个控件时，请设置边距。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[想要橫向顯示多個Widget時，請設置邊距。]]></value>
+		<value xml:lang="fr"><![CDATA[Vous pouvez désigner la marge de gadget 'de tête, en pied, à droite et à gauche.]]></value>
+		<value xml:lang="ru"><![CDATA[Вы можете установить поля виждета, т.е. его отступы со всех четырех сторон.]]></value>
+		<value xml:lang="es"><![CDATA[Uste puede ingresar el márgen de los widgets : superior, inferior, derecho e izquierdo.]]></value>
+		<value xml:lang="tr"><![CDATA[Widgetların üst, alt, sağ ve sol kenar boşluklarını belirleyebilirsiniz.]]></value>
+		<value xml:lang="vi"><![CDATA[Bạn có thể đặt lề của Widget: Trái, Phải, Trên, Dưới.]]></value>
+	</item>
+	<item name="about_widget_cache">
+		<value xml:lang="ko"><![CDATA[지정된 시간동안 캐시된 데이터를 이용할 수 있습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Cached data can be used during the time you have set.]]></value>
+		<value xml:lang="jp"><![CDATA[指定時間にキャッシュされたデータを利用できます。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[指定的时间内可以利用已缓冲的数据。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[指定的時間內可以利用已暫存的資料。]]></value>
+		<value xml:lang="fr"><![CDATA[Les données d'antémémoire peuvent être utilisées pendant le temps que vous désignez.]]></value>
+		<value xml:lang="ru"><![CDATA[Кешированные данные будут использоваться на указанный срок.]]></value>
+		<value xml:lang="es"><![CDATA[Se puede usar datos de caché creado durante el tiempo asignado.]]></value>
+		<value xml:lang="tr"><![CDATA[Önbelleğe alınmış veriler, ayarlamış olduğunuz süre içinde kullanılabilir.]]></value>
+		<value xml:lang="vi"><![CDATA[Bộ nhớ đệm của Data có thể được sử dụng nếu bạn đặt thời gian cho nó.]]></value>
+	</item>
+	<item name="generated_code">
+		<value xml:lang="ko"><![CDATA[생성된 코드]]></value>
+		<value xml:lang="en"><![CDATA[Generated Code]]></value>
+		<value xml:lang="jp"><![CDATA[生成コード]]></value>
+		<value xml:lang="zh-CN"><![CDATA[已生成的代码]]></value>
+		<value xml:lang="zh-TW"><![CDATA[已建立的原始碼]]></value>
+		<value xml:lang="fr"><![CDATA[Code généré]]></value>
+		<value xml:lang="ru"><![CDATA[Сгенерированный код]]></value>
+		<value xml:lang="es"><![CDATA[Generar códigos]]></value>
+		<value xml:lang="tr"><![CDATA[Üretilmiş Kod]]></value>
+		<value xml:lang="vi"><![CDATA[Đã tạo Code]]></value>
+	</item>
+	<item name="widgetstyle">
+		<value xml:lang="ko"><![CDATA[위젯스타일]]></value>
+		<value xml:lang="en"><![CDATA[Widget Style]]></value>
+		<value xml:lang="jp"><![CDATA[ウィジェットスタイル]]></value>
+		<value xml:lang="zh-CN"><![CDATA[控件样式]]></value>
+		<value xml:lang="zh-TW"><![CDATA[Widget樣式]]></value>
+		<value xml:lang="tr"><![CDATA[Widget Tarzı]]></value>
+		<value xml:lang="vi"><![CDATA[Kiểu dáng Widget]]></value>
+	</item>
+	<item name="msg_widget_is_not_exists">
+		<value xml:lang="ko"><![CDATA[%s 위젯을 찾을 수 없습니다.]]></value>
+		<value xml:lang="en"><![CDATA['%s' does not exist.]]></value>
+		<value xml:lang="jp"><![CDATA[%s ウィジェットが見つかりません。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[找不到%s控件！]]></value>
+		<value xml:lang="zh-TW"><![CDATA[找不到 %s Widget！]]></value>
+		<value xml:lang="fr"><![CDATA[Le Gadget de(d') '%s' n'existe pas.]]></value>
+		<value xml:lang="ru"><![CDATA[%s виджет не существует.]]></value>
+		<value xml:lang="es"><![CDATA[No existe widget %s .]]></value>
+		<value xml:lang="tr"><![CDATA['%s' bulunmuyot.]]></value>
+		<value xml:lang="vi"><![CDATA['%s' không tồn tại.]]></value>
+	</item>
+	<item name="msg_widget_object_is_null">
+		<value xml:lang="ko"><![CDATA[%s 위젯의 객체 생성을 할 수 없습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Object of '%s' could not be created.]]></value>
+		<value xml:lang="jp"><![CDATA[%s ウィジェットのオブジェクトが生成できません。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[无法生成%s控件对象！]]></value>
+		<value xml:lang="zh-TW"><![CDATA[無法建立 %s Widget目標！]]></value>
+		<value xml:lang="fr"><![CDATA[L'Objet de '%s' n'a pas pu être créé.]]></value>
+		<value xml:lang="ru"><![CDATA[%s объектов виджета не могут быть созданы.]]></value>
+		<value xml:lang="es"><![CDATA[No puede ser creado el objeto de widget %s.]]></value>
+		<value xml:lang="tr"><![CDATA[ '%s' nesnesi oluşturulamadı.]]></value>
+		<value xml:lang="vi"><![CDATA[Đối tượng của '%s' đã không được tạo.]]></value>
+	</item>
+	<item name="msg_widget_proc_is_null">
+		<value xml:lang="ko"><![CDATA[%s 위젯의 proc() 를 실행할 수 없습니다.]]></value>
+		<value xml:lang="en"><![CDATA[proc() of '%s' could not be executed.]]></value>
+		<value xml:lang="jp"><![CDATA[%s ウィジェットの proc()を実行できません。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[不能执行%s控件的 proc()！]]></value>
+		<value xml:lang="zh-TW"><![CDATA[無法執行 %s Widget的 proc()！]]></value>
+		<value xml:lang="fr"><![CDATA[proc() de '%s' n'a pas pu être exécuté.]]></value>
+		<value xml:lang="ru"><![CDATA[proc() %s виджета не может быть исполнена.]]></value>
+		<value xml:lang="es"><![CDATA[No puede ser ejecutado el proc() de widget %s.]]></value>
+		<value xml:lang="tr"><![CDATA[ '%s' işlemi tamamlanamadı.]]></value>
+		<value xml:lang="vi"><![CDATA[proc() của '%s' đã không được thực hiện.]]></value>
+	</item>
+	<item name="msg_widget_skin_is_null">
+		<value xml:lang="ko"><![CDATA[위젯의 스킨을 선택해 주셔야 정상적으로 동작할 수 있습니다.]]></value>
+		<value xml:lang="en"><![CDATA[You should select widget's skin.]]></value>
+		<value xml:lang="jp"><![CDATA[ウィジェットスキンを選択しないと正常に動作できません。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[请选择控件皮肤！]]></value>
+		<value xml:lang="zh-TW"><![CDATA[請選擇一個可正常使用的Widget面板]]></value>
+		<value xml:lang="fr"><![CDATA[위젯의 스킨을 선택해 주셔야 정상적으로 동작할 수 있습니다]]></value>
+		<value xml:lang="ru"><![CDATA[위젯의 스킨을 선택해 주셔야 정상적으로 동작할 수 있습니다]]></value>
+		<value xml:lang="es"><![CDATA[위젯의 스킨을 선택해 주셔야 정상적으로 동작할 수 있습니다]]></value>
+		<value xml:lang="tr"><![CDATA[Widgetın dış görünümünü belirlemelisiniz.]]></value>
+		<value xml:lang="vi"><![CDATA[Bạn cần phải chọn Skin cho Widget.]]></value>
+	</item>
+	<item name="about_widget_code">
+		<value xml:lang="ko"><![CDATA[선택하신 위젯에서 요구하는 아래 항목들의 값을 넣고 [코드생성]버튼을 누르시면 제일 아래 칸에 템플릿 파일에 적용할 수 있는 코드가 출력 됩니다.]]></value>
+		<value xml:lang="en"><![CDATA[Please input the required value first, and click [Generate Code] button to generate the code for adding to the template file.]]></value>
+		<value xml:lang="jp"><![CDATA[選択したウィジェットで要求する下記項目の値を入力し、「コード生成」ボタンをクリックすると、<br />一番下にテンプレートファイルに適用できるコードが出力されます。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[输入所选控件所需要的下列各项后，按『代码生成』按钮，即可在页面下方获得可以用在布局模版代码片断。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[輸入所選Widget所需要的各項資料後，按『建立原始碼』按鈕，即可在頁面下方獲得運用在版面設計中的部分原始碼。]]></value>
+		<value xml:lang="fr"><![CDATA[Entrez les valeurs qui sont requises par le gadget choisi, et puis cliquz le bouton [Générer le Code] pour générer le code. Le code à appliquer au fichier de modèl se présentera en bas.]]></value>
+		<value xml:lang="ru"><![CDATA[Пожалуйста, сначала введите требуемые значения, и затем щелкните кнопку [Генерировать Код] для генерации кода и добавления его в файл шаблона.]]></value>
+		<value xml:lang="es"><![CDATA[Ingrese primero los valores requeridos, luego presiona el botón "Generar códigos" para mostrar el código en el espacio inferior para ser añadido en el archivo de los temas.]]></value>
+		<value xml:lang="tr"><![CDATA[Kod üretip şablon dosyaya eklemek için lütfen ilk olarak gerekli değeri girin ve ardından [Kod Üret]e tıklayın.]]></value>
+		<value xml:lang="vi"><![CDATA[Hãy nhập các thông tin cần thiết, sau đó bấm nút [<b>Tạo Code</b>] để lấy Code thêm vào giao diện.]]></value>
+	</item>
+	<item name="about_widget_code_in_page">
+		<value xml:lang="ko"><![CDATA[아래 필요한 값들을 입력하신 후 추가 버튼을 누르시면 페이지 내에 위젯이 삽입됩니다.]]></value>
+		<value xml:lang="en"><![CDATA[After entering the required values, click the [Add] button to insert the widget code into the page.]]></value>
+		<value xml:lang="jp"><![CDATA[下記に必要な値を入力した後、追加ボタンをクリックするとページ内にウィジェットが挿入されます。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[输入下列各项必要值后，按『生成代码』按钮，即可把控件插入到页面当中。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[輸入下列各項必要資料後，按『建立原始碼』按鈕，即可把Widget插入到頁面當中。]]></value>
+		<value xml:lang="fr"><![CDATA[Après entrer les valeurs requies, cliquez le bouton [Ajouter] pour insérer le gadjet dans la page.]]></value>
+		<value xml:lang="ru"><![CDATA[После ввода требуемых значений, нажмите пнопку [Добавить], чтобы вставить код виджета в страницу.]]></value>
+		<value xml:lang="es"><![CDATA[Luego de ingresar los valores requeridos, presiona el botón "Añadir" para insertar el código de widget dentro de la página.]]></value>
+		<value xml:lang="tr"><![CDATA[Gerekli değerleri girdikten sonra widget kodunu sayfaya eklemek için [Ekle]ye tıklayın.]]></value>
+		<value xml:lang="vi"><![CDATA[Sau khi nhập những thông tin cần thiết, bấm nút [<b>Tạo Code</b>] để chèn Code của Widget vào giao diện.]]></value>
+	</item>
+	<item name="about_widget">
+		<value xml:lang="ko"><![CDATA[위젯은 레이아웃이나 페이지 모듈에서 사용되는 작은 구성요소입니다.
+위젯은 내부 모듈 또는 외부 open api와 연동될 수도 있고, 설정을 통해 다양하게 응용될 수 있습니다.
+XE의 페이지 모듈이나 레이아웃 모듈을 사용하지 않더라도 [코드생성] 기능을 통해 직접 위젯 추가도 할 수 있습니다.]]></value>
+		<value xml:lang="en"><![CDATA[A widget is a small free-standing application used in a layout or page module.
+ It can be linked with internal module or external Open API. Through its configuration setting, wide application is possible. 
+ You can directly add a widget by using the [Generate Code] function without using the XE page module or layout module.]]></value>
+		<value xml:lang="jp"><![CDATA[ウィジェット、またはページモジュールに用いられる単体の構成要素です。内部モジュールまたは外部のOPEN API と連動ができ、設定によって様々な応用が可能です。XEのページモジュールまたはレイアウトモジュールを使用しなくても、「コード生成」機能で直接ウィジェットも追加できます。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[控件是在布局或页面模块中使用的一种小部件。
+不仅可以关联内部模块或外部open api，而且通过设置可以用在多种用途。
+即使不使用XE的页面模块或布局模块，也可以通过『代码生成』功能直接可以添加相应控件。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[Widget是在版面或頁面模組中使用的一種元件。
+不僅可以連結內部模組或外部Open API，而且通過設置可以有許多種用途。
+即使不使用XE的頁面或版面設計模組，也可以通過『建立原始碼』功能直接新增相對應Widget。]]></value>
+		<value xml:lang="fr"><![CDATA[Un gadjet est un petit application indépendant qui est utilisé dans une Mise en Page ou dans une module de Page. Un gajet peut être lié avec un module intérieur ou avec un API extérieur ouvert. L'application divers est possible par la configuration. 
+Vous pouvez directement ajouter un gadget en utilisant la fonction [Générer le Code] sans utiliser un module de Page de XE ni un module de Mise en Page.]]></value>
+		<value xml:lang="es"><![CDATA[Un Widget es una pequena aplicación para ser usados en los diseños o en el módulo de páginas.
+ Puede ser enlazados con un módulo interno o con open api externo y con la configuración de ella puede utilizar en variadas aplicaciones.
+Sin la necesidad de utilizar los módulos de página o del diseño de XE, Usted puede directamente añadir un widget usando la función de [Generar Códigos].]]></value>
+		<value xml:lang="tr"><![CDATA[Widget, yerleşim düzeninde veya sayfa modülünde kullanılan küçük bir serbest uygulamadır.
+ Dahili modüle bağlanabileceği gibi, harici açık apilerle de bağlantı kurabilir. Yapılandırma ayarları yoluyla, geniş bir uygulama alanı vardır. 
+  [Kod Üret] fonksiyonunu kullanarak, XE sayfa modülüne veya yerleşim düzeni modülüne ihtiyaç duymadan widget ekleyebilirsiniz.]]></value>
+		<value xml:lang="vi"><![CDATA[Widget là một ứng dụng nhỏ có thể đặt ở bất kì vị trí nào do người dùng lựa chọn.<br />Nó có thể kết nối với những Module trong Website hay Open API bên ngoài và hiển thị nội dung của Module đó.<br />Thông qua sự thiết lập cấu hình, nó có thể là một ứng dụng rộng dãi.<br />Bạn có thể thêm một Widget bằng cách bấm nút [<b>Tạo Code</b>] để lấy Code thêm vào một Module hay trang nào đó.]]></value>
+	</item>
+	<item name="cmd_content_insert">
+		<value xml:lang="ko"><![CDATA[내용 직접 추가]]></value>
+		<value xml:lang="en"><![CDATA[Insert Content by Yourself]]></value>
+		<value xml:lang="jp"><![CDATA[内容追加]]></value>
+		<value xml:lang="zh-CN"><![CDATA[添加内容]]></value>
+		<value xml:lang="zh-TW"><![CDATA[新增內容]]></value>
+		<value xml:lang="fr"><![CDATA[Insérer le Contenu par vous-même]]></value>
+		<value xml:lang="es"><![CDATA[Introduzca contenido por ti mismo]]></value>
+		<value xml:lang="tr"><![CDATA[İçeriği kendiniz ekleyin.]]></value>
+		<value xml:lang="vi"><![CDATA[Chèn nội dung của bạn]]></value>
+	</item>
+	<item name="cmd_box_widget_insert">
+		<value xml:lang="ko"><![CDATA[상자 위젯 추가]]></value>
+		<value xml:lang="en"><![CDATA[Insert Box Widget]]></value>
+		<value xml:lang="jp"><![CDATA[ボックスウィジェット追加]]></value>
+		<value xml:lang="zh-CN"><![CDATA[添加控件盒]]></value>
+		<value xml:lang="zh-TW"><![CDATA[新增Widget Box]]></value>
+		<value xml:lang="fr"><![CDATA[Insérer le Gadget de Boîte]]></value>
+		<value xml:lang="es"><![CDATA[Insertar cuadro de widget]]></value>
+		<value xml:lang="tr"><![CDATA[Kutu widgetını ekleyin.]]></value>
+		<value xml:lang="vi"><![CDATA[Chèn khung Widget]]></value>
+	</item>
+	<item name="cmd_remove_all_widgets">
+		<value xml:lang="ko"><![CDATA[내용 모두 지우기]]></value>
+		<value xml:lang="en"><![CDATA[Remove All Widgets]]></value>
+		<value xml:lang="jp"><![CDATA[すべての内容削除]]></value>
+		<value xml:lang="zh-CN"><![CDATA[清空内容]]></value>
+		<value xml:lang="zh-TW"><![CDATA[全部清空]]></value>
+		<value xml:lang="fr"><![CDATA[Enlever Tous les Gadgets]]></value>
+		<value xml:lang="es"><![CDATA[Eliminar todos los reproductores]]></value>
+		<value xml:lang="tr"><![CDATA[Tüm widgetları kaldır.]]></value>
+		<value xml:lang="vi"><![CDATA[Xóa tất cả Widget]]></value>
+	</item>
+	<item name="cmd_widget_size">
+		<value xml:lang="ko"><![CDATA[위젯 크기]]></value>
+		<value xml:lang="en"><![CDATA[Widget Size]]></value>
+		<value xml:lang="jp"><![CDATA[ウィジェットの大きさ]]></value>
+		<value xml:lang="zh-CN"><![CDATA[大小]]></value>
+		<value xml:lang="zh-TW"><![CDATA[大小]]></value>
+		<value xml:lang="fr"><![CDATA[Taille du Gadget]]></value>
+		<value xml:lang="es"><![CDATA[Tamaño artilugio]]></value>
+		<value xml:lang="tr"><![CDATA[Widget Boyutu]]></value>
+		<value xml:lang="vi"><![CDATA[Kích thước]]></value>
+	</item>
+	<item name="cmd_widget_align">
+		<value xml:lang="ko"><![CDATA[위젯 정렬]]></value>
+		<value xml:lang="en"><![CDATA[Align Widget]]></value>
+		<value xml:lang="jp"><![CDATA[ウィジェット整列]]></value>
+		<value xml:lang="zh-CN"><![CDATA[对齐]]></value>
+		<value xml:lang="zh-TW"><![CDATA[對齊]]></value>
+		<value xml:lang="fr"><![CDATA[Alignement des Gadget]]></value>
+		<value xml:lang="es"><![CDATA[Alinear Widget]]></value>
+		<value xml:lang="tr"><![CDATA[Hizalama Widgetı]]></value>
+		<value xml:lang="vi"><![CDATA[Căn chỉnh]]></value>
+	</item>
+	<item name="cmd_widget_align_left">
+		<value xml:lang="ko"><![CDATA[왼쪽]]></value>
+		<value xml:lang="en"><![CDATA[Left]]></value>
+		<value xml:lang="jp"><![CDATA[左へ]]></value>
+		<value xml:lang="zh-CN"><![CDATA[左对齐]]></value>
+		<value xml:lang="zh-TW"><![CDATA[靠左]]></value>
+		<value xml:lang="fr"><![CDATA[Gauche]]></value>
+		<value xml:lang="es"><![CDATA[Izquierda]]></value>
+		<value xml:lang="tr"><![CDATA[Sol]]></value>
+		<value xml:lang="vi"><![CDATA[Trái]]></value>
+	</item>
+	<item name="cmd_widget_align_right">
+		<value xml:lang="ko"><![CDATA[오른쪽]]></value>
+		<value xml:lang="en"><![CDATA[Right]]></value>
+		<value xml:lang="jp"><![CDATA[右へ]]></value>
+		<value xml:lang="zh-CN"><![CDATA[右对齐]]></value>
+		<value xml:lang="zh-TW"><![CDATA[靠右]]></value>
+		<value xml:lang="fr"><![CDATA[Droite]]></value>
+		<value xml:lang="es"><![CDATA[Derecho]]></value>
+		<value xml:lang="tr"><![CDATA[Sağ]]></value>
+		<value xml:lang="vi"><![CDATA[Phải]]></value>
+	</item>
+	<item name="cmd_widget_margin">
+		<value xml:lang="ko"><![CDATA[외부 여백]]></value>
+		<value xml:lang="en"><![CDATA[Margin]]></value>
+		<value xml:lang="jp"><![CDATA[外部余白]]></value>
+		<value xml:lang="zh-CN"><![CDATA[外边距]]></value>
+		<value xml:lang="zh-TW"><![CDATA[邊距]]></value>
+		<value xml:lang="fr"><![CDATA[Marge]]></value>
+		<value xml:lang="es"><![CDATA[Margen]]></value>
+		<value xml:lang="tr"><![CDATA[Kenar Boşluğu]]></value>
+		<value xml:lang="vi"><![CDATA[Lề]]></value>
+	</item>
+	<item name="cmd_widget_padding">
+		<value xml:lang="ko"><![CDATA[내부 여백]]></value>
+		<value xml:lang="en"><![CDATA[Padding]]></value>
+		<value xml:lang="jp"><![CDATA[内部余白]]></value>
+		<value xml:lang="zh-CN"><![CDATA[内填充]]></value>
+		<value xml:lang="zh-TW"><![CDATA[內距]]></value>
+		<value xml:lang="fr"><![CDATA[Remplissage]]></value>
+		<value xml:lang="es"><![CDATA[Relleno]]></value>
+		<value xml:lang="tr"><![CDATA[Dolgu]]></value>
+		<value xml:lang="vi"><![CDATA[Đệm]]></value>
+	</item>
+	<item name="cmd_widget_border">
+		<value xml:lang="ko"><![CDATA[위젯 테두리]]></value>
+		<value xml:lang="en"><![CDATA[Border]]></value>
+		<value xml:lang="jp"><![CDATA[ウィジェットボーダー]]></value>
+		<value xml:lang="zh-CN"><![CDATA[边框]]></value>
+		<value xml:lang="zh-TW"><![CDATA[邊框]]></value>
+		<value xml:lang="fr"><![CDATA[Bordure]]></value>
+		<value xml:lang="es"><![CDATA[Frontera]]></value>
+		<value xml:lang="tr"><![CDATA[Sınır]]></value>
+		<value xml:lang="vi"><![CDATA[Viền]]></value>
+	</item>
+	<item name="cmd_widget_border_solid">
+		<value xml:lang="ko"><![CDATA[실선]]></value>
+		<value xml:lang="en"><![CDATA[Solid]]></value>
+		<value xml:lang="jp"><![CDATA[実線]]></value>
+		<value xml:lang="zh-CN"><![CDATA[实线]]></value>
+		<value xml:lang="zh-TW"><![CDATA[實線]]></value>
+		<value xml:lang="fr"><![CDATA[Solide]]></value>
+		<value xml:lang="es"><![CDATA[Sólidos]]></value>
+		<value xml:lang="tr"><![CDATA[Kesiksiz]]></value>
+		<value xml:lang="vi"><![CDATA[Viền liền]]></value>
+	</item>
+	<item name="cmd_widget_border_dotted">
+		<value xml:lang="ko"><![CDATA[점선]]></value>
+		<value xml:lang="en"><![CDATA[Dotted]]></value>
+		<value xml:lang="jp"><![CDATA[点線]]></value>
+		<value xml:lang="zh-CN"><![CDATA[点线]]></value>
+		<value xml:lang="zh-TW"><![CDATA[虛線]]></value>
+		<value xml:lang="fr"><![CDATA[Pointillé]]></value>
+		<value xml:lang="es"><![CDATA[Salpicando]]></value>
+		<value xml:lang="tr"><![CDATA[Noktalı]]></value>
+		<value xml:lang="vi"><![CDATA[Viền chấm]]></value>
+	</item>
+	<item name="cmd_widget_background_color">
+		<value xml:lang="ko"><![CDATA[배경색]]></value>
+		<value xml:lang="en"><![CDATA[Background Color]]></value>
+		<value xml:lang="jp"><![CDATA[背景色]]></value>
+		<value xml:lang="zh-CN"><![CDATA[背景色]]></value>
+		<value xml:lang="zh-TW"><![CDATA[背景顏色]]></value>
+		<value xml:lang="fr"><![CDATA[Couleur d'arrière-plan]]></value>
+		<value xml:lang="es"><![CDATA[Color de fondo]]></value>
+		<value xml:lang="tr"><![CDATA[Arkaplan Rengi]]></value>
+		<value xml:lang="vi"><![CDATA[Màu nền]]></value>
+	</item>
+	<item name="cmd_widget_background_image_url">
+		<value xml:lang="ko"><![CDATA[배경 이미지]]></value>
+		<value xml:lang="en"><![CDATA[Background Image]]></value>
+		<value xml:lang="jp"><![CDATA[背景イメージ]]></value>
+		<value xml:lang="zh-CN"><![CDATA[背景图片]]></value>
+		<value xml:lang="zh-TW"><![CDATA[背景圖片]]></value>
+		<value xml:lang="fr"><![CDATA[Image d'arrière-plan]]></value>
+		<value xml:lang="es"><![CDATA[Imagen de fondo]]></value>
+		<value xml:lang="tr"><![CDATA[Arkaplan Resmi]]></value>
+		<value xml:lang="vi"><![CDATA[Hình nền]]></value>
+	</item>
+	<item name="cmd_widget_background_image_repeat">
+		<value xml:lang="ko"><![CDATA[반복]]></value>
+		<value xml:lang="en"><![CDATA[Repeat]]></value>
+		<value xml:lang="jp"><![CDATA[繰り返す]]></value>
+		<value xml:lang="zh-CN"><![CDATA[平铺]]></value>
+		<value xml:lang="zh-TW"><![CDATA[重複]]></value>
+		<value xml:lang="fr"><![CDATA[Répéter]]></value>
+		<value xml:lang="es"><![CDATA[Repita]]></value>
+		<value xml:lang="tr"><![CDATA[Tekrar et]]></value>
+		<value xml:lang="vi"><![CDATA[Lặp lại]]></value>
+	</item>
+	<item name="cmd_widget_background_image_no_repeat">
+		<value xml:lang="ko"><![CDATA[고정]]></value>
+		<value xml:lang="en"><![CDATA[No Repeat]]></value>
+		<value xml:lang="jp"><![CDATA[固定]]></value>
+		<value xml:lang="zh-CN"><![CDATA[固定]]></value>
+		<value xml:lang="zh-TW"><![CDATA[不重複]]></value>
+		<value xml:lang="fr"><![CDATA[Ne pas répéter]]></value>
+		<value xml:lang="es"><![CDATA[No Repetir]]></value>
+		<value xml:lang="tr"><![CDATA[Tekrar yok.]]></value>
+		<value xml:lang="vi"><![CDATA[Không lặp]]></value>
+	</item>
+	<item name="cmd_widget_background_image_x_repeat">
+		<value xml:lang="ko"><![CDATA[가로 반복]]></value>
+		<value xml:lang="en"><![CDATA[X Repeat]]></value>
+		<value xml:lang="jp"><![CDATA[横の繰り返し]]></value>
+		<value xml:lang="zh-CN"><![CDATA[横向平铺]]></value>
+		<value xml:lang="zh-TW"><![CDATA[水平重複]]></value>
+		<value xml:lang="fr"><![CDATA[X Répéter]]></value>
+		<value xml:lang="es"><![CDATA[Repita X]]></value>
+		<value xml:lang="tr"><![CDATA[X Tekrar]]></value>
+		<value xml:lang="vi"><![CDATA[Lặp chiều X]]></value>
+	</item>
+	<item name="cmd_widget_background_image_y_repeat">
+		<value xml:lang="ko"><![CDATA[세로 반복]]></value>
+		<value xml:lang="en"><![CDATA[Y Repeat]]></value>
+		<value xml:lang="jp"><![CDATA[縦の繰り返し]]></value>
+		<value xml:lang="zh-CN"><![CDATA[纵向平铺]]></value>
+		<value xml:lang="zh-TW"><![CDATA[垂直重複]]></value>
+		<value xml:lang="fr"><![CDATA[Y Répéter]]></value>
+		<value xml:lang="es"><![CDATA[Repita Y]]></value>
+		<value xml:lang="tr"><![CDATA[Y Tekrar]]></value>
+		<value xml:lang="vi"><![CDATA[Lặp chiều Y]]></value>
+	</item>
+	<item name="cmd_widget_background_image_x">
+		<value xml:lang="ko"><![CDATA[가로 위치]]></value>
+		<value xml:lang="en"><![CDATA[X Position]]></value>
+		<value xml:lang="jp"><![CDATA[横の位置]]></value>
+		<value xml:lang="zh-CN"><![CDATA[水平位置]]></value>
+		<value xml:lang="zh-TW"><![CDATA[水平位置]]></value>
+		<value xml:lang="es"><![CDATA[Posición X]]></value>
+		<value xml:lang="tr"><![CDATA[X Konum]]></value>
+		<value xml:lang="vi"><![CDATA[Vị trí X]]></value>
+	</item>
+	<item name="cmd_widget_background_image_y">
+		<value xml:lang="ko"><![CDATA[세로 위치]]></value>
+		<value xml:lang="en"><![CDATA[Y Position]]></value>
+		<value xml:lang="jp"><![CDATA[縦の位置]]></value>
+		<value xml:lang="zh-CN"><![CDATA[垂直位置]]></value>
+		<value xml:lang="zh-TW"><![CDATA[垂直位置]]></value>
+		<value xml:lang="es"><![CDATA[Posición Y]]></value>
+		<value xml:lang="tr"><![CDATA[Y Konum]]></value>
+		<value xml:lang="vi"><![CDATA[Vị trí Y]]></value>
+	</item>
+	<item name="installed_widget">
+		<value xml:lang="ko"><![CDATA[설치된 위젯]]></value>
+		<value xml:lang="en"><![CDATA[Installed Widget]]></value>
+		<value xml:lang="jp"><![CDATA[インストールされたウィジェット]]></value>
+	</item>
+</lang>

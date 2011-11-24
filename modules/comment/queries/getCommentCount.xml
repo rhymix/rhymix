@@ -7,6 +7,7 @@
     </columns>
     <conditions>
 		<condition operation="equal" column="document_srl" var="document_srl" filter="number" />        
-		<condition operation="equal" column="module_srl" var="module_srl" filter="number" pipe="and" />
+		<condition operation="in" column="module_srl" var="module_srl" filter="number" pipe="and" />
+		<condition operation="like_prefix" column="regdate" var="regDate" pipe="and" />
     </conditions>
 </query>

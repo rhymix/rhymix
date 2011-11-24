@@ -1,6 +1,6 @@
 <?php
     /**
-     * @brief 메일 발송
+     * @brief Mailing
      * @author NHN (developers@xpressengine.com)
      **/
 

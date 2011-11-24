@@ -3,168 +3,247 @@
  * @author NHN (developers@xpressengine.com)
  * @brief  importer에서 사용하는 javascript
  **/
+jQuery(function($){
+
+// Note : Module finder is defined modules/admin/tpl/js/admin.js
+
+// Check whether the xml file exists
+$('.checkxml')
+	.find('input:text')
+		.change(function(){
+			$(this).closest('.checkxml').find('.desr').hide();
+		})
+	.end()
+	.find('button')
+		.click(function(){
+			var $this, $container, $input, $messages, $loading, $form, $syncmember, count;
+
+			$this      = $(this).prop('disabled', true);
+			$form      = $this.closest('form');
+			$container = $this.closest('.checkxml');
+			$input     = $container.find('input').prop('disabled', true).addClass('loading');
+			$message   = $container.find('.desc').hide();
+
+			function on_complete(data) {
+				var $ul, $ttxml, $xml;
+
+				$ul    = $this.closest('ul');
+				$xml   = $ul.find('>.xml');
+				$ttxml = $ul.find('>.ttxml');
+
+				$message.text(data.result_message);
+					
+				// when the file doesn't exists or any other error occurs
+				if(data.error || data.exists != 'true') {
+					$message.attr('class', 'desc error').fadeIn(300);
+					$ttxml = $ttxml.filter(':visible');
+					$ttxml.eq(-1).slideUp(100, function(){
+						$ttxml = $ttxml.slice(0,-1).eq(-1).slideUp(100,arguments.callee);
+					});
+					$form.find(':submit').attr('disabled','disabled');
+					return restore();
+				}
+
+				restore();
+				$message.attr('class', 'desc success').fadeIn(300);
+				$form.find(':submit').removeAttr('disabled');
+
+				$syncmember = $form.find('.syncmember:hidden');
+				
+				if(data.type == 'XML') {
+					$xml.not(':visible').add($syncmember).slideDown(300);
+				} else if(data.type == 'TTXML') {
+					$ttxml.not(':visible').add($syncmember).slideDown(300);
+					$form.find('input[name=type]').val('ttxml');
+				}
+			};
+
+			function restore() {
+				$input.prop('disabled', false).removeClass('loading');
+				$this.prop('disabled', false);
+				$form.find('.syncmember:visible').slideUp(100);
+				return false;
+			};
+
+			show_waiting_message = false;
+			$.exec_json('importer.procImporterAdminCheckXmlFile', {filename:$.trim($input.val())}, on_complete);
+		})
+	.end()
+	.find('.desc').hide().end()
+	.closest('ul').find('>li.ttxml').hide().end().end()
+	.closest('form').find(':submit').attr('disabled','disabled');
+
+// hide 'sync member' block
+$('.syncmember').hide();
+
+});
 
 /**
  * 회원정보와 게시글/댓글등의 동기화 요청 및 결과 처리 함수
  **/
 function doSync(fo_obj) {
-    exec_xml('importer','procImporterAdminSync', new Array(), completeSync);
+    exec_xml(
+		'importer',
+		'procImporterAdminSync', 
+		[],
+		function(ret){
+			alert(ret.message);
+			location.href = location.href;
+		}
+	);
     return false;
 }
-
-function completeSync(ret_obj) {
-    alert(ret_obj['message']);
-    location.href=location.href;
-}
-
 
 /**
  * xml파일을 DB입력전에 extract를 통해 분할 캐싱을 요청하는 함수
  **/
-var prepared = false;
-function doPreProcessing(fo_obj) {
-    var xml_file = fo_obj.xml_file.value;
+function doPreProcessing(form, formId) {
+	var xml_file, type, resp, prepared = false, $ = jQuery, $status, $process, $form;
+
+	xml_file = form.elements['xml_file'].value;
+	type     = form.elements['type'].value;
+
     if(!xml_file) return false;
 
-    var type = fo_obj.type.value;
+	// show modal window
+	$process = $('#process');
+	if(!$process.find('.bg').length) $process.prepend('<span class="bg" />').appendTo('body');
+	$('a[href="#process"].modalAnchor').trigger('open.mw');
 
-    jQuery('#importForm').hide();
-    jQuery('#process').show();
-    jQuery('#status').empty();
-    prepared = false;
-    setTimeout(doPrepareDot, 50);
+    exec_xml(
+		'importer', // module
+		'procImporterAdminPreProcessing', // action
+		{type:type, xml_file:xml_file}, // parameters
+		on_complete, // callback
+		resp=['error','message','type','total','cur','key','status'] // response tags
+	);
 
-    var params = new Array();
-    params['xml_file'] = xml_file;
-    params['type'] = type;
+	function on_complete(ret) {
+		var $reload, $cont, fo_proc, elems, i, c, key, to_copy;
 
-    var response_tags = new Array('error','message','type','total','cur','key','status');
-    exec_xml('importer','procImporterAdminPreProcessing', params, completePreProcessing, response_tags);
+		prepared = true;
+
+		// when fail prepare
+		if(ret.status == -1) {
+			return alert(ret.message);
+		}
+
+		fo_proc = get_by_id('fo_process');
+		elems   = fo_proc.elements;
+
+		for(i=0,c=resp.length; i < c; i++) {
+			key = resp[i];
+			elems[key]?elems[key].value=ret[key]:0;
+		}
+
+		fo_import = get_by_id(formId);
+		if(fo_import) {
+			to_copy = ['target_module','guestbook_target_module','user_id', 'unit_count'];
+			for(i=0,c=to_copy.length; i < c; i++) {
+				key = to_copy[i];
+				if(fo_import.elements[key]) fo_proc.elements[key].value = fo_import.elements[key].value;
+			}
+		}
+
+		jQuery('#preProgressMsg').hide();
+		jQuery('#progressMsg').show();
+		doImport(formId);
+	}
 
     return false;
 }
 
-/* 준비중일때 .(dot) 찍어주는.. */
-function doPrepareDot() {
-    if(prepared) return;
+/* @brief Start importing */
+function doImport(formId) {
+    var form = get_by_id('fo_process'), elems = form.elements, i, c, params={}, resp;
 
-    var str = jQuery('#status').html();
-    if(str.length < 1 || str.length - preProcessingMsg.length > 50) str = preProcessingMsg;
-    else str += ".";
+	for(i=0,c=elems.length; i < c; i++) {
+		params[elems[i].name] = elems[i].value;
+	}
 
-    jQuery('#status').html(str);
-    setTimeout(doPrepareDot, 50);
-}
+	function on_complete(ret, response_tags) {
+		var i, c, key;
+		
+		for(i=0,c=resp.length; i < c; i++) {
+			key = resp[i];
+			//elems[key]?elems[key].value=ret_obj[key]:0;
+			elems[key]?elems[key].value=ret[key]:0;
+		}
 
-/* 준비가 끝났을때 호출되는 함수 */
-function completePreProcessing(ret_obj, response_tags) {
-    prepared = true;
-    jQuery('#status').empty();
+		ret.total = parseInt(ret.total, 10) || 0;
+		ret.cur   = parseInt(ret.cur, 10) || 0;
+		percent = parseInt((ret.cur/ret.total)*100);
 
-    var status = ret_obj['status'];
-    var message = ret_obj['message'];
-    var type = ret_obj['type'];
-    var total = parseInt(ret_obj['total'],10);
-    var cur = parseInt(ret_obj['cur'],10);
-    var key = ret_obj['key'];
+		jQuery('#totalCount').text(ret.total);
+		jQuery('#completeCount').text(ret.cur);
+		jQuery('#progressBar').width(percent+'%');
+		jQuery('#progressPercent').html(percent + "%");
 
-    if(status == -1) {
-        xDisplay('importForm','block');
-        xDisplay('process','none');
-        xDisplay('btn_reload','block');
-        xDisplay('btn_continue','none');
-        alert(message);
-        return;
-    }
+		if(ret.total > ret.cur) {
+			doImport(formId);
+		} else {
+			function resultAlertMessage()
+			{
+				alert(ret.message);
+				jQuery('a[href="#process"].modalAnchor')
+					.unbind('before-close.mw')
+					.trigger('close.mw')
+					.find('#progressBar').width(1).end()
+					.find('#progressPercent').html('0%').end();
 
-    jQuery('#btn_reload').hide();
-    jQuery('#btn_continue').show();
+				try {
+					form.reset();
+					get_by_id(formId).reset();
+				} catch(e){ };
 
-    var fo_obj = jQuery('#fo_process').get(0);
-    fo_obj.type.value = type;
-    fo_obj.total.value = total;
-    fo_obj.cur.value = cur;
-    fo_obj.key.value = key;
+				jQuery('span.btn > input[type=submit]').attr('disabled','disabled');
+			}
 
-    var fo_import = jQuery('#fo_import').get(0);
-    if(fo_import && fo_import.target_module) fo_obj.target_module.value = fo_import.target_module.value;
-    if(fo_import && fo_import.guestbook_target_module) fo_obj.guestbook_target_module.value = fo_import.guestbook_target_module.value;
-    if(fo_import && fo_import.user_id) fo_obj.user_id.value = fo_import.user_id.value;
-
-    fo_obj.unit_count.value = fo_import.unit_count.options[fo_import.unit_count.selectedIndex].value;
-    
-    // extract된 파일을 이용해서 import
-    doImport();
-}
-
-/* @brief 임포트 시작 */
-function doImport() {
-    var fo_obj = jQuery('#fo_process').get(0);
-
-    var params = new Array();
-    params['type'] = fo_obj.type.value;
-    params['total'] = fo_obj.total.value;
-    params['cur'] = fo_obj.cur.value;
-    params['key'] = fo_obj.key.value;
-    params['target_module'] = fo_obj.target_module.value;
-    params['guestbook_target_module'] = fo_obj.guestbook_target_module.value;
-    params['unit_count'] = fo_obj.unit_count.value;
-    params['user_id'] = fo_obj.user_id.value;
-
-    displayProgress(params['total'], params['cur']);
-
-    var response_tags = new Array('error','message','type','total','cur','key');
+			fo_import = get_by_id(formId);
+			if(fo_import != null && fo_import.isSync.checked)
+			{
+				exec_xml(
+					'importer', // module
+					'procImporterAdminSync', // act
+					params,
+					function(ret){if(ret && (!ret.error || ret.error == '0'))resultAlertMessage()}, // callback
+					resp = ['error','message'] // response tags
+				);
+			}
+			else resultAlertMessage();
+		}
+	}
 
     show_waiting_message = false;
-    exec_xml('importer','procImporterAdminImport', params, completeImport, response_tags);
+    exec_xml(
+		'importer', // module
+		'procImporterAdminImport', // act
+		params,
+		on_complete, // callback
+		resp = ['error','message','type','total','cur','key'] // response tags
+	);
     show_waiting_message = true;
 
     return false;
 }
 
-
-/* import중 표시 */
-function completeImport(ret_obj, response_tags) {
-    var message = ret_obj['message'];
-    var type = ret_obj['type'];
-    var total = parseInt(ret_obj['total'], 10);
-    var cur = parseInt(ret_obj['cur'], 10);
-    var key = ret_obj['key'];
-
-    displayProgress(total, cur);
-
-    var fo_obj = jQuery('#fo_process').get(0);
-    fo_obj.type.value = type;
-    fo_obj.total.value = total;
-    fo_obj.cur.value = cur;
-    fo_obj.key.value = key;
-    
-    // extract된 파일을 이용해서 import
-    if(total > cur) doImport();
-    else {
-        alert(message);
-        fo_obj.reset();
-        jQuery('#process').hide();
-        jQuery('#importForm').show();
-        jQuery('#fo_import').get(0).reset();
-    }
-}
-
-/* 상태 표시 함수 */
+/* display progress */
 function displayProgress(total, cur) {
-    // 진행률 구함
-    var per = 0;
-    if(total > 0) per = Math.round(cur / total * 100);
-    else per = 100;
-    if(!per) per = 1;
+	var per, stat, $stat;
 
-    var status = '<div class="progressBox"><div class="progress1" style="width:'+per+'%;">'+per+'%&nbsp;</div>';
-    status += '<div class="progress2">'+cur+'/'+total+'</div>';
-    status += '<div class="clear"></div></div>';
-    jQuery('#status').html(status);
+	per = Math.max(total?Math.round(cur/total*100):100, 1);
+
+	$stat = jQuery('#status');
+	if(!$stat.find('div.progress1').length) {
+		$stat.html( '<div class="progressBox"><div class="progress1"></div><div class="progress2"></div></div>' );
+	}
+
+	$stat
+		.find('div.progress1')
+			.html(per+'&nbsp;')
+			.css('width', per+'%')
+		.end()
+		.find('div.progress2')
+			.text(cur+'/'+total);
 }
 
-function insertSelectedModule(id, module_srl, mid, browser_title) {
-    jQuery('#' + id).val(module_srl);
-    jQuery('#_' + id).val(browser_title+' ('+mid+')');
-}

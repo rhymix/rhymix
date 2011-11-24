@@ -1,0 +1,996 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<lang>	
+	<item name="msg_avail_install">
+		<value xml:lang="ko"><![CDATA[이 항목 설치가 가능합니다.]]></value>
+		<value xml:lang="en"><![CDATA[You can install this item.]]></value>
+		<value xml:lang="jp"><![CDATA[この項目のインストールが可能です。]]></value>
+    </item>
+	<item name="msg_avail_update">
+		<value xml:lang="ko"><![CDATA[이 항목 업데이트가 가능합니다.]]></value>
+		<value xml:lang="en"><![CDATA[You can update this item.]]></value>
+		<value xml:lang="jp"><![CDATA[この項目のアップデートが可能です。]]></value>
+    </item>
+	<item name="msg_avail_easy_update">
+		<value xml:lang="ko"><![CDATA[이 항목의 새로운 버전이 있습니다.]]></value>
+		<value xml:lang="en"><![CDATA[There is new version for this item.]]></value>
+		<value xml:lang="jp"><![CDATA[この項目の新しいバージョンがあります。]]></value>
+    </item>
+	<item name="msg_do_you_like_install">
+		<value xml:lang="ko"><![CDATA[설치하시겠습니까?]]></value>
+		<value xml:lang="en"><![CDATA[Would you like to install?]]></value>
+		<value xml:lang="jp"><![CDATA[インストールしますか?]]></value>
+	</item>
+	<item name="msg_do_you_like_update">
+		<value xml:lang="ko"><![CDATA[업데이트하시겠습니까?]]></value>
+		<value xml:lang="en"><![CDATA[Would you like to update?]]></value>
+		<value xml:lang="jp"><![CDATA[アップデートしますか?]]></value>
+	</item>
+	<item name="virtual_site">
+		<value xml:lang="ko"><![CDATA[가상 사이트]]></value>
+		<value xml:lang="en"><![CDATA[Virtual Site]]></value>
+		<value xml:lang="jp"><![CDATA[バーチャル（Virtual）サイト]]></value>
+		<value xml:lang="zh-CN"><![CDATA[站点]]></value>
+		<value xml:lang="zh-TW"><![CDATA[虛擬網站]]></value>
+		<value xml:lang="tr"><![CDATA[Sanal Siteler]]></value>
+		<value xml:lang="vi"><![CDATA[Site thực]]></value>
+	</item>
+	<item name="module_list">
+		<value xml:lang="ko"><![CDATA[모듈 목록]]></value>
+		<value xml:lang="en"><![CDATA[Modules List]]></value>
+		<value xml:lang="jp"><![CDATA[モジュールリスト]]></value>
+		<value xml:lang="zh-CN"><![CDATA[模块目录]]></value>
+		<value xml:lang="zh-TW"><![CDATA[模組列表]]></value>
+		<value xml:lang="fr"><![CDATA[Liste des Modules]]></value>
+		<value xml:lang="ru"><![CDATA[Список модулей]]></value>
+		<value xml:lang="es"><![CDATA[Lista de Módulos]]></value>
+		<value xml:lang="tr"><![CDATA[Modül Listesi]]></value>
+		<value xml:lang="vi"><![CDATA[Danh sách Module]]></value>
+	</item>
+	<item name="module_index">
+		<value xml:lang="ko"><![CDATA[모듈 목록]]></value>
+		<value xml:lang="en"><![CDATA[Modules List]]></value>
+		<value xml:lang="jp"><![CDATA[モジュールインデックス]]></value>
+		<value xml:lang="zh-CN"><![CDATA[模块列表]]></value>
+		<value xml:lang="zh-TW"><![CDATA[模組列表]]></value>
+		<value xml:lang="fr"><![CDATA[Liste des Modules]]></value>
+		<value xml:lang="ru"><![CDATA[Список модулей]]></value>
+		<value xml:lang="es"><![CDATA[Lista de Módulos]]></value>
+		<value xml:lang="tr"><![CDATA[Modül Listesi]]></value>
+		<value xml:lang="vi"><![CDATA[Danh sách Module]]></value>
+	</item>
+	<item name="module_category">
+		<value xml:lang="ko"><![CDATA[모듈 분류]]></value>
+		<value xml:lang="en"><![CDATA[Module Category]]></value>
+		<value xml:lang="jp"><![CDATA[モジュールカテゴリ]]></value>
+		<value xml:lang="zh-CN"><![CDATA[模块分类]]></value>
+		<value xml:lang="zh-TW"><![CDATA[模組分類]]></value>
+		<value xml:lang="fr"><![CDATA[Catégorie des Modules]]></value>
+		<value xml:lang="ru"><![CDATA[Категория модуля]]></value>
+		<value xml:lang="es"><![CDATA[Categoría de Módulos ]]></value>
+		<value xml:lang="tr"><![CDATA[Modül Kategorisi]]></value>
+		<value xml:lang="vi"><![CDATA[Thể loại]]></value>
+	</item>
+	<item name="module_info">
+		<value xml:lang="ko"><![CDATA[모듈 정보]]></value>
+		<value xml:lang="en"><![CDATA[Module Info]]></value>
+		<value xml:lang="jp"><![CDATA[詳細]]></value>
+		<value xml:lang="zh-CN"><![CDATA[模块信息]]></value>
+		<value xml:lang="zh-TW"><![CDATA[模組資料]]></value>
+		<value xml:lang="fr"><![CDATA[Information de Module]]></value>
+		<value xml:lang="ru"><![CDATA[Информация]]></value>
+		<value xml:lang="es"><![CDATA[Información]]></value>
+		<value xml:lang="tr"><![CDATA[Modül Bilgisi]]></value>
+		<value xml:lang="vi"><![CDATA[Thông tin Module]]></value>
+	</item>
+	<item name="add_shortcut">
+		<value xml:lang="ko"><![CDATA[관리자 메뉴에 추가]]></value>
+		<value xml:lang="en"><![CDATA[Add Shortcuts]]></value>
+		<value xml:lang="jp"><![CDATA[管理者メニューに追加する]]></value>
+		<value xml:lang="zh-CN"><![CDATA[添加到快捷菜单]]></value>
+		<value xml:lang="zh-TW"><![CDATA[新增到快捷選單]]></value>
+		<value xml:lang="fr"><![CDATA[Ajouter un raccourci dans le menu pour l'administrateur]]></value>
+		<value xml:lang="ru"><![CDATA[Добавить ярлыки]]></value>
+		<value xml:lang="es"><![CDATA[Añadir en el menú del administrador]]></value>
+		<value xml:lang="tr"><![CDATA[Kısayol Ekle]]></value>
+		<value xml:lang="vi"><![CDATA[Thêm phím tắt]]></value>
+	</item>
+	<item name="module_action">
+		<value xml:lang="ko"><![CDATA[동작]]></value>
+		<value xml:lang="en"><![CDATA[Actions]]></value>
+		<value xml:lang="jp"><![CDATA[動作]]></value>
+		<value xml:lang="zh-CN"><![CDATA[动作]]></value>
+		<value xml:lang="zh-TW"><![CDATA[動作]]></value>
+		<value xml:lang="ru"><![CDATA[Действия]]></value>
+		<value xml:lang="es"><![CDATA[Acción]]></value>
+		<value xml:lang="tr"><![CDATA[Eylemler]]></value>
+		<value xml:lang="vi"><![CDATA[Hoạt động]]></value>
+	</item>
+	<item name="module_maker">
+		<value xml:lang="ko"><![CDATA[모듈 제작자]]></value>
+		<value xml:lang="en"><![CDATA[Module Developer]]></value>
+		<value xml:lang="jp"><![CDATA[モジュール作者]]></value>
+		<value xml:lang="zh-CN"><![CDATA[模块作者]]></value>
+		<value xml:lang="zh-TW"><![CDATA[模組作者]]></value>
+		<value xml:lang="fr"><![CDATA[Développeur du Module]]></value>
+		<value xml:lang="ru"><![CDATA[Разработчик модуля]]></value>
+		<value xml:lang="es"><![CDATA[Módulo del desarrollador]]></value>
+		<value xml:lang="tr"><![CDATA[Modül Geliştirici]]></value>
+		<value xml:lang="vi"><![CDATA[Người thiết kế]]></value>
+	</item>
+	<item name="module_license">
+		<value xml:lang="ko"><![CDATA[라이선스]]></value>
+		<value xml:lang="en"><![CDATA[License]]></value>
+		<value xml:lang="jp"><![CDATA[ライセンス]]></value>
+		<value xml:lang="zh-CN"><![CDATA[版权]]></value>
+		<value xml:lang="zh-TW"><![CDATA[版權]]></value>
+		<value xml:lang="fr"><![CDATA[Licence]]></value>
+		<value xml:lang="ru"><![CDATA[Лицензия]]></value>
+		<value xml:lang="tr"><![CDATA[Lisans]]></value>
+		<value xml:lang="vi"><![CDATA[Giấy phép]]></value>
+	</item>
+	<item name="module_history">
+		<value xml:lang="ko"><![CDATA[변경 이력 ]]></value>
+		<value xml:lang="en"><![CDATA[Revision History]]></value>
+		<value xml:lang="jp"><![CDATA[変更履歴 ]]></value>
+		<value xml:lang="zh-CN"><![CDATA[更新事项 ]]></value>
+		<value xml:lang="zh-TW"><![CDATA[更新紀錄]]></value>
+		<value xml:lang="fr"><![CDATA[Histoire de Mise à Jour]]></value>
+		<value xml:lang="ru"><![CDATA[История обновлений]]></value>
+		<value xml:lang="es"><![CDATA[Historia de actualización]]></value>
+		<value xml:lang="tr"><![CDATA[Güncelleştirme Geçmişi]]></value>
+		<value xml:lang="vi"><![CDATA[Lịch sử cập nhật]]></value>
+	</item>
+	<item name="category_title">
+		<value xml:lang="ko"><![CDATA[분류명]]></value>
+		<value xml:lang="en"><![CDATA[Category Title]]></value>
+		<value xml:lang="jp"><![CDATA[カテゴリ名]]></value>
+		<value xml:lang="zh-CN"><![CDATA[分类名]]></value>
+		<value xml:lang="zh-TW"><![CDATA[分類名稱]]></value>
+		<value xml:lang="fr"><![CDATA[Titre de la Catégorie]]></value>
+		<value xml:lang="ru"><![CDATA[Название категории]]></value>
+		<value xml:lang="es"><![CDATA[Título de categoría]]></value>
+		<value xml:lang="tr"><![CDATA[Kategori Başlığı]]></value>
+		<value xml:lang="vi"><![CDATA[Tiêu đề phân loại]]></value>
+	</item>
+	<item name="header_text">
+		<value xml:lang="ko"><![CDATA[상단 내용]]></value>
+		<value xml:lang="en"><![CDATA[Header Text]]></value>
+		<value xml:lang="jp"><![CDATA[ヘッダー内容]]></value>
+		<value xml:lang="zh-CN"><![CDATA[头部修饰]]></value>
+		<value xml:lang="zh-TW"><![CDATA[頂端內容]]></value>
+		<value xml:lang="fr"><![CDATA[Texte en-tête]]></value>
+		<value xml:lang="ru"><![CDATA[Верхний колонтитул]]></value>
+		<value xml:lang="es"><![CDATA[Encabezado]]></value>
+		<value xml:lang="tr"><![CDATA[Başlık Metni]]></value>
+		<value xml:lang="vi"><![CDATA[Nội dung Header]]></value>
+	</item>
+	<item name="footer_text">
+		<value xml:lang="ko"><![CDATA[하단 내용]]></value>
+		<value xml:lang="en"><![CDATA[Footer Text]]></value>
+		<value xml:lang="jp"><![CDATA[フッター内容]]></value>
+		<value xml:lang="zh-CN"><![CDATA[尾部修饰]]></value>
+		<value xml:lang="zh-TW"><![CDATA[底端內容]]></value>
+		<value xml:lang="fr"><![CDATA[Text au bas de page]]></value>
+		<value xml:lang="ru"><![CDATA[Нижний колонтитул]]></value>
+		<value xml:lang="es"><![CDATA[Pie de página]]></value>
+		<value xml:lang="tr"><![CDATA[Sayfa Altlığı Metni]]></value>
+		<value xml:lang="vi"><![CDATA[Nội dung Footer]]></value>
+	</item>
+	<item name="use_category">
+		<value xml:lang="ko"><![CDATA[분류 사용]]></value>
+		<value xml:lang="en"><![CDATA[Enable Category]]></value>
+		<value xml:lang="jp"><![CDATA[カテゴリ使用]]></value>
+		<value xml:lang="zh-CN"><![CDATA[使用分类]]></value>
+		<value xml:lang="zh-TW"><![CDATA[使用分類]]></value>
+		<value xml:lang="fr"><![CDATA[Utiliser catégorie]]></value>
+		<value xml:lang="ru"><![CDATA[Включить категорию]]></value>
+		<value xml:lang="es"><![CDATA[Usar categoría]]></value>
+		<value xml:lang="tr"><![CDATA[Kategoriyi Etkinleştir]]></value>
+		<value xml:lang="vi"><![CDATA[Mở phân loại]]></value>
+	</item>
+	<item name="checked_count">
+		<value xml:lang="ko"><![CDATA[선택된 글 수]]></value>
+		<value xml:lang="en"><![CDATA[Number of Checked Articles]]></value>
+		<value xml:lang="jp"><![CDATA[選択された書き込み数]]></value>
+		<value xml:lang="zh-CN"><![CDATA[所选主题数]]></value>
+		<value xml:lang="zh-TW"><![CDATA[所選擇的主題數]]></value>
+		<value xml:lang="fr"><![CDATA[somme des Articles choisis]]></value>
+		<value xml:lang="ru"><![CDATA[Число выбранных статей]]></value>
+		<value xml:lang="es"><![CDATA[Múmero de los documentos selecionados]]></value>
+		<value xml:lang="tr"><![CDATA[Denetlenen Makale Sayısı]]></value>
+		<value xml:lang="vi"><![CDATA[Số bài viết đã chọn]]></value>
+	</item>
+	<item name="skin_default_info">
+		<value xml:lang="ko"><![CDATA[스킨 기본정보]]></value>
+		<value xml:lang="en"><![CDATA[Default Skin Info]]></value>
+		<value xml:lang="jp"><![CDATA[スキン基本情報]]></value>
+		<value xml:lang="zh-CN"><![CDATA[皮肤默认信息]]></value>
+		<value xml:lang="zh-TW"><![CDATA[預設面板資料]]></value>
+		<value xml:lang="fr"><![CDATA[Information fondamental de l'habillage]]></value>
+		<value xml:lang="ru"><![CDATA[Информация стандартного скина]]></value>
+		<value xml:lang="es"><![CDATA[información del tema predefinido]]></value>
+		<value xml:lang="tr"><![CDATA[Varsayılan Dış Görünüm Bilgisi]]></value>
+		<value xml:lang="vi"><![CDATA[Thông tin Skin mặc định]]></value>
+	</item>
+	<item name="skin_author">
+		<value xml:lang="ko"><![CDATA[스킨 제작자]]></value>
+		<value xml:lang="en"><![CDATA[Skin Developer]]></value>
+		<value xml:lang="jp"><![CDATA[スキン作者]]></value>
+		<value xml:lang="zh-CN"><![CDATA[皮肤作者]]></value>
+		<value xml:lang="zh-TW"><![CDATA[面板作者]]></value>
+		<value xml:lang="fr"><![CDATA[Developpeur de l'habillage]]></value>
+		<value xml:lang="ru"><![CDATA[Разработчик скина]]></value>
+		<value xml:lang="es"><![CDATA[Desarrollador de tema]]></value>
+		<value xml:lang="tr"><![CDATA[Dış Görünüm Geliştiricisi]]></value>
+		<value xml:lang="vi"><![CDATA[Thiết kế]]></value>
+	</item>
+	<item name="skin_license">
+		<value xml:lang="ko"><![CDATA[라이선스]]></value>
+		<value xml:lang="en"><![CDATA[License]]></value>
+		<value xml:lang="jp"><![CDATA[ライセンス]]></value>
+		<value xml:lang="zh-CN"><![CDATA[版权]]></value>
+		<value xml:lang="zh-TW"><![CDATA[版權]]></value>
+		<value xml:lang="fr"><![CDATA[Licence]]></value>
+		<value xml:lang="tr"><![CDATA[Lisans]]></value>
+		<value xml:lang="vi"><![CDATA[Giấy phép]]></value>
+	</item>
+	<item name="skin_history">
+		<value xml:lang="ko"><![CDATA[변경 이력]]></value>
+		<value xml:lang="en"><![CDATA[Revision History]]></value>
+		<value xml:lang="jp"><![CDATA[変更内容]]></value>
+		<value xml:lang="zh-CN"><![CDATA[更新日志]]></value>
+		<value xml:lang="zh-TW"><![CDATA[更新事項]]></value>
+		<value xml:lang="fr"><![CDATA[Histoire des Mises à jour]]></value>
+		<value xml:lang="ru"><![CDATA[История обновлений]]></value>
+		<value xml:lang="es"><![CDATA[Historia de actualización]]></value>
+		<value xml:lang="tr"><![CDATA[Güncelleştirme Geçmişi]]></value>
+		<value xml:lang="vi"><![CDATA[Lịch sử cập nhật]]></value>
+	</item>
+	<item name="module_copy">
+		<value xml:lang="ko"><![CDATA[모듈 복사]]></value>
+		<value xml:lang="en"><![CDATA[Duplicate Module]]></value>
+		<value xml:lang="jp"><![CDATA[モジュールコピー]]></value>
+		<value xml:lang="zh-CN"><![CDATA[模块复制]]></value>
+		<value xml:lang="zh-TW"><![CDATA[複製模組]]></value>
+		<value xml:lang="fr"><![CDATA[Copier un Module]]></value>
+		<value xml:lang="ru"><![CDATA[Копировать модуль]]></value>
+		<value xml:lang="es"><![CDATA[Copy Module]]></value>
+		<value xml:lang="tr"><![CDATA[Çoğaltma Modülü]]></value>
+		<value xml:lang="vi"><![CDATA[Nhân bản Module]]></value>
+	</item>
+	<item name="module_selector">
+		<value xml:lang="ko"><![CDATA[모듈 선택기]]></value>
+		<value xml:lang="en"><![CDATA[Module Selector]]></value>
+		<value xml:lang="jp"><![CDATA[モジュールセレクター]]></value>
+		<value xml:lang="zh-CN"><![CDATA[模块选择器]]></value>
+		<value xml:lang="zh-TW"><![CDATA[模組選擇器]]></value>
+		<value xml:lang="tr"><![CDATA[Modül Seçini]]></value>
+		<value xml:lang="vi"><![CDATA[Chọn lọc Module]]></value>
+	</item>
+	<item name="do_selected">
+		<value xml:lang="ko"><![CDATA[선택된 것들을...]]></value>
+		<value xml:lang="en"><![CDATA[I want to]]></value>
+		<value xml:lang="jp"><![CDATA[選択したものを...]]></value>
+		<value xml:lang="zh-CN"><![CDATA[把所选模块...]]></value>
+		<value xml:lang="zh-TW"><![CDATA[選擇項目...]]></value>
+		<value xml:lang="ru"><![CDATA[Выбранные...]]></value>
+		<value xml:lang="tr"><![CDATA[Şunu yap]]></value>
+		<value xml:lang="vi"><![CDATA[Bình chọn / Phê bình.]]></value>
+	</item>
+	<item name="bundle_setup">
+		<value xml:lang="ko"><![CDATA[일괄 기본 설정]]></value>
+		<value xml:lang="en"><![CDATA[Bundle Setup]]></value>
+		<value xml:lang="jp"><![CDATA[一括基本設定]]></value>
+		<value xml:lang="zh-CN"><![CDATA[批量设置-常规选项]]></value>
+		<value xml:lang="zh-TW"><![CDATA[批次設定-設置]]></value>
+		<value xml:lang="tr"><![CDATA[Toplu Ayar]]></value>
+		<value xml:lang="vi"><![CDATA[Gói cài đặt]]></value>
+	</item>
+	<item name="bundle_addition_setup">
+		<value xml:lang="ko"><![CDATA[일괄 추가 설정]]></value>
+		<value xml:lang="en"><![CDATA[Bundle Additional Setup]]></value>
+		<value xml:lang="jp"><![CDATA[一括追加設定]]></value>
+		<value xml:lang="zh-CN"><![CDATA[批量设置-高级选项]]></value>
+		<value xml:lang="zh-TW"><![CDATA[批次設定-延伸設置]]></value>
+		<value xml:lang="tr"><![CDATA[Toplu Ek Ayar]]></value>
+		<value xml:lang="vi"><![CDATA[Gói cài đặt bổ xung]]></value>
+	</item>
+	<item name="bundle_grant_setup">
+		<value xml:lang="ko"><![CDATA[일괄 권한 설정]]></value>
+		<value xml:lang="en"><![CDATA[Bundle Permission Setup]]></value>
+		<value xml:lang="jp"><![CDATA[一括権限設定]]></value>
+		<value xml:lang="zh-CN"><![CDATA[批量设置-权限]]></value>
+		<value xml:lang="zh-TW"><![CDATA[批次設定-權限管理]]></value>
+		<value xml:lang="tr"><![CDATA[Toplu Yetki Ayarı]]></value>
+		<value xml:lang="vi"><![CDATA[Gói cài đặt cho phép]]></value>
+	</item>
+	<item name="lang_code">
+		<value xml:lang="ko"><![CDATA[언어 코드]]></value>
+		<value xml:lang="en"><![CDATA[Language Code]]></value>
+		<value xml:lang="jp"><![CDATA[言語コード]]></value>
+		<value xml:lang="zh-CN"><![CDATA[语言变量]]></value>
+		<value xml:lang="zh-TW"><![CDATA[語言代碼]]></value>
+		<value xml:lang="ru"><![CDATA[Код языка]]></value>
+		<value xml:lang="tr"><![CDATA[Dil Kodu]]></value>
+		<value xml:lang="vi"><![CDATA[Mã ngôn ngữ]]></value>
+	</item>
+	<item name="filebox">
+		<value xml:lang="ko"><![CDATA[파일박스]]></value>
+		<value xml:lang="en"><![CDATA[FileBox]]></value>
+		<value xml:lang="jp"><![CDATA[ファイルボックス]]></value>
+		<value xml:lang="zh-CN"><![CDATA[文件管理]]></value>
+		<value xml:lang="zh-TW"><![CDATA[檔案管理]]></value>
+		<value xml:lang="ru"><![CDATA[Файлбокс]]></value>
+		<value xml:lang="tr"><![CDATA[Dosya Kutusu]]></value>
+	</item>
+	<item name="upload_file">
+		<value xml:lang="ko"><![CDATA[파일 올리기]]></value>
+		<value xml:lang="en"><![CDATA[Upload File]]></value>
+	</item>
+	<item name="access_type">
+		<value xml:lang="ko"><![CDATA[접속 방법]]></value>
+		<value xml:lang="en"><![CDATA[Access Type]]></value>
+		<value xml:lang="jp"><![CDATA[アクセスタイプ]]></value>
+		<value xml:lang="zh-CN"><![CDATA[访问方式]]></value>
+		<value xml:lang="zh-TW"><![CDATA[訪問類型]]></value>
+		<value xml:lang="ru"><![CDATA[Способ соединения]]></value>
+		<value xml:lang="tr"><![CDATA[Erişim Türü]]></value>
+		<value xml:lang="vi"><![CDATA[Kiểu truy cập]]></value>
+	</item>
+	<item name="access_domain">
+		<value xml:lang="ko"><![CDATA[Domain 접속]]></value>
+		<value xml:lang="en"><![CDATA[With Domain Name]]></value>
+		<value xml:lang="jp"><![CDATA[ドメインアクセス]]></value>
+		<value xml:lang="zh-CN"><![CDATA[域名]]></value>
+		<value xml:lang="zh-TW"><![CDATA[Domain]]></value>
+		<value xml:lang="ru"><![CDATA[Domain соединения]]></value>
+		<value xml:lang="tr"><![CDATA[Alan adıyla]]></value>
+		<value xml:lang="vi"><![CDATA[Với tên miền]]></value>
+	</item>
+	<item name="access_vid">
+		<value xml:lang="ko"><![CDATA[Site ID 접속]]></value>
+		<value xml:lang="en"><![CDATA[With Site ID]]></value>
+		<value xml:lang="jp"><![CDATA[Site IDアクセス]]></value>
+		<value xml:lang="zh-CN"><![CDATA[站点ID]]></value>
+		<value xml:lang="zh-TW"><![CDATA[Site ID]]></value>
+		<value xml:lang="ru"><![CDATA[Site ID соединение]]></value>
+		<value xml:lang="tr"><![CDATA[Site kimliğiyle]]></value>
+		<value xml:lang="vi"><![CDATA[Với ID Website]]></value>
+	</item>
+	<item name="about_domain">
+		<value xml:lang="ko"><![CDATA[1개 이상의 사이트를 만들기 위해서는 전용 도메인이 있어야 합니다.<br />독립 도메인이나 서브 도메인이 있으면 되고 XE가 설치된 경로까지 같이 넣어주세요.<br />예) www.xpressengine.com/xe]]></value>
+		<value xml:lang="en"><![CDATA[In order to create more than one virtual site, every club needs to have its own domain name.<br />A sub-domain (e.g., aaa.bbb.com of bbb.com) also can be used. Input the address including the path where XE is installed. <br /> ex) www.xpressengine.com/xe]]></value>
+		<value xml:lang="jp"><![CDATA[複数のホームページを作成するためには、「オリジナルドメイン」や「サブ ドメイン」のような専用のドメインが必要です。<br />また、 XEのインストールパスも一緒に記入してください。<br />ex) www.xpressengine.com/xe]]></value>
+		<value xml:lang="zh-CN"><![CDATA[要创建一个站点必须有一个专用域名。<br />一级域名或二级域名皆可。输入的时候请把XE安装路径也一起输入。<br />ex) www.xpressengine.com/xe]]></value>
+		<value xml:lang="zh-TW"><![CDATA[要建立網站必須要有個專屬域名。<br />頂級域名或次級域名都可以。輸入時，請將 XE 安裝路徑也一起輸入。<br />例) www.xpressengine.com/xe]]></value>
+		<value xml:lang="es"><![CDATA[Para crear un dominio privado de la site requiere. <br /> Independiente de dominio o subdominio, y XE está instalado, el camino que en su conjunto. <br /> Ej.) www.xpressengine.com / zbxe]]></value>
+		<value xml:lang="tr"><![CDATA[Birden fazla sanal website oluşturabilmek için, her birinin kendi alanadına ihtiyacı vardır.<br />Alt-alanadı (örn., aaa.bbb.com of bbb.com) da kullanılabilir. XE'nin de içinde kurulu olduğu yolun adresini giriniz. <br /> örn.) www.xpressengine.com/xe]]></value>
+		<value xml:lang="vi"><![CDATA[Để tạo nhiều Website nhỏ, các Website nhỏ này cần những tên miền riêng của mình.<br />Có thể sử dụng những Subdomain dạng aaa.bbb.com của bbb.com. Hãy nhập địa chỉ bao gồm cả Domain cài đặt XE. <br /> Ví dụ: www.vietxe.net/xe]]></value>
+	</item>
+	<item name="about_vid">
+		<value xml:lang="ko"><![CDATA[별도의 도메인이 아닌 http://XE주소/ID 로 접속할 수 있습니다. 모듈명(mid)과 중복될 수 없습니다.<br />첫 글자는 영문으로 시작해야 하고 영문과 숫자 그리고 _ 만 사용할 수 있습니다]]></value>
+		<value xml:lang="en"><![CDATA[Users can access via http://XEaddress/ID. You cannot use same site id as the existing module name(mid).<br />Site id should start with an alphabet character. Alphabet characters, numbers and underscore can be used for the site id.]]></value>
+		<value xml:lang="jp"><![CDATA[別途のドメインではなく、「http://XEアドレス/ID」へのアクセスが可能です。この際、モジュール名(mid)と重複しないように登録してください。<br />必ず、頭文字は半角英文字にし、「（すべて半角の）英数字・_ 」 だけの組み合わせで入力してください。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[直接以http://XE安装地址/ID的方式访问。<br />模块名(mid)不能重复。<br />模块名要以英文字母开头，且只允许使用英文字母，数字及"_"。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[直接以 http://程式安裝位址/ID 的方式訪問。模組名稱(mid)不能重複。<br />必須要以英文字母開頭，只允許使用底線、英文及數字。]]></value>
+		<value xml:lang="fr"><![CDATA[별도의 도메인이 아닌 http://XE주소/ID 로 접속할 수 있습니다. 모듈명(mid)와 중복될 수 없습니다.<br />첫글자는 영문으로 시작해야 하고 영문과 숫자 그리고 _ 만 사용할 수 있습니다]]></value>
+		<value xml:lang="ru"><![CDATA[별도의 도메인이 아닌 http://XE주소/ID 로 접속할 수 있습니다. 모듈명(mid)와 중복될 수 없습니다.<br />첫글자는 영문으로 시작해야 하고 영문과 숫자 그리고 _ 만 사용할 수 있습니다]]></value>
+		<value xml:lang="es"><![CDATA[별도의 도메인이 아닌 http://XE주소/ID 로 접속할 수 있습니다. 모듈명(mid)와 중복될 수 없습니다.<br />첫글자는 영문으로 시작해야 하고 영문과 숫자 그리고 _ 만 사용할 수 있습니다]]></value>
+		<value xml:lang="tr"><![CDATA[Kullanıcılar, http://XEaddress/ID adresiyle ulaşabilirler. Varolan bir modül adıyla(mid) aynı olan site kimliği kullanamazsınız .<br />Site kimliği bir harfle başlamaladır . Alfabetik karakterler, sayılar ve _ işareti site kimliği için kullanılabilir.]]></value>
+		<value xml:lang="vi"><![CDATA[Người sử dụng có thể truy cập qua http://XEaddress/ID. Bạn không thể sử dụng ID giống nhau và giống tên Module đã có.<br />Teen ID có dạng là các chữ cái, số và dấu gạch dưới (_).]]></value>
+	</item>
+	<item name="msg_already_registed_vid">
+		<value xml:lang="ko"><![CDATA[이미 등록된 사이트 ID 입니다. 게시판 등의 mid와도 중복이 되지 않습니다. 다른 ID를 입력해주세요.]]></value>
+		<value xml:lang="en"><![CDATA[Already registered site id. Please input another ID.]]></value>
+		<value xml:lang="jp"><![CDATA[既に登録されているサイトIDです。掲示板などのmidと重複は不可です。異なるIDを入力してください。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[重复的站点ID，请重新输入(注：站点ID不能重复，而且也不能与版面mid重复)。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[已註冊的 Site ID。不可與討論板的 mid 相同。請輸入其他 ID 名稱。]]></value>
+		<value xml:lang="fr"><![CDATA[이미 등록된 사이트 ID 입니다. 게시판등의 mid와도 중복이 되지 않습니다. 다른 ID를 입력해주세요.]]></value>
+		<value xml:lang="ru"><![CDATA[이미 등록된 사이트 ID 입니다. 게시판등의 mid와도 중복이 되지 않습니다. 다른 ID를 입력해주세요.]]></value>
+		<value xml:lang="es"><![CDATA[이미 등록된 사이트 ID 입니다. 게시판등의 mid와도 중복이 되지 않습니다. 다른 ID를 입력해주세요.]]></value>
+		<value xml:lang="tr"><![CDATA[Önceden kaydedilmiş site kimliği. Lütfen başka bir kimlik giriniz.]]></value>
+		<value xml:lang="vi"><![CDATA[Tên ID này đã được đăng kí. Xin hãy chọn tên khác.]]></value>
+	</item>
+	<item name="msg_already_registed_domain">
+		<value xml:lang="ko"><![CDATA[이미 등록된 도메인입니다. 다른 도메인을 사용해주세요.]]></value>
+		<value xml:lang="en"><![CDATA[Domain name has already been used. Please input another domain name.]]></value>
+		<value xml:lang="jp"><![CDATA[既に登録されているドメインです。異なるドメインを利用してください。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[对不起！已有相同的域名。请重新输入。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[已註冊的域名。請使用其他的網域。]]></value>
+		<value xml:lang="es"><![CDATA[Ya es de dominio registrado. Por favor, use un dominio diferente.]]></value>
+		<value xml:lang="tr"><![CDATA[Bu alanadı önceden kullanıldı. Lütfen farklı bir alanadı giriniz.]]></value>
+		<value xml:lang="vi"><![CDATA[Tên miền đã được sử dụng. Xin hãy chọn tên khác.]]></value>
+	</item>
+	<item name="header_script">
+		<value xml:lang="ko"><![CDATA[헤더 스크립트]]></value>
+		<value xml:lang="en"><![CDATA[Header Script]]></value>
+		<value xml:lang="jp"><![CDATA[ヘッダースクリプト]]></value>
+		<value xml:lang="zh-CN"><![CDATA[文件头部脚本]]></value>
+		<value xml:lang="fr"><![CDATA[Script en-tête]]></value>
+		<value xml:lang="ru"><![CDATA[Скрипт Header]]></value>
+		<value xml:lang="tr"><![CDATA[Başlık Betiği(script)]]></value>
+	</item>
+	<item name="about_header_script">
+		<value xml:lang="ko"><![CDATA[HTML &lt;head&gt;...&lt;/head&gt; 사이에 들어가는 코드를 직접 입력할 수 있습니다. 예) &lt;script&gt;, &lt;style&gt;, &lt;meta&gt; ...]]></value>
+		<value xml:lang="en"><![CDATA[You can input the html script between &lt;header&gt; and &lt;/header&gt; by yourself. You can use &lt;script&gt;, &lt;style&gt; or &lt;meta&gt; tags.]]></value>
+		<value xml:lang="jp"><![CDATA[HTMLの&lt;header&gt;と&lt;/header&gt;の間に入れるコードを直接入力できます。 &lt;script&gt;、&lt;style&gt;または&lt;meta&gt;タグなどを利用できます。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[可以直接输入插入到html中&lt;head&gt;区的代码。 可使用&lt;script&gt;, &lt;style&gt; 或 &lt;meta&gt; 等标签。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[可以直接輸入，並插入到 HTML 的&lt;head&gt;之間。 可使用&lt;script&gt;,&lt;style&gt;或&lt;meta&gt;等標籤。]]></value>
+		<value xml:lang="fr"><![CDATA[Vous pouvez entrer un script en html par vous-même entre &lt;header&gt; et &lt;/header&gt;. Vous pouvez utiliser &lt;script&gt;, &lt;style&gt; ou &lt;meta&gt; tag]]></value>
+		<value xml:lang="ru"><![CDATA[html의 &lt;header&gt;와 &lt;/header&gt; 사이에 들어가는 코드를 직접 입력할 수 있습니다. &lt;script&gt;, &lt;style&gt;, &lt;meta&gt; 태그등을 이용하실 수 있습니다]]></value>
+		<value xml:lang="es"><![CDATA[html의 &lt;header&gt;와 &lt;/header&gt; 사이에 들어가는 코드를 직접 입력할 수 있습니다. &lt;script&gt;, &lt;style&gt;, &lt;meta&gt; 태그등을 이용하실 수 있습니다]]></value>
+		<value xml:lang="tr"><![CDATA[Html betiğini(script) &lt;header&gt; ile &lt;/header&gt; arasına kendiniz ekleyebilirsiniz.  &lt;script&gt;, &lt;style&gt;, &lt;meta&gt; tag kullanabilirsiniz]]></value>
+		<value xml:lang="vi"><![CDATA[Bạn co thể nhập mã dang HTML vào giữa  &lt;header&gt; và &lt;/header&gt;. Bạn có thể sử dụng &lt;script&gt;, &lt;style&gt; hay &lt;meta&gt; tag]]></value>
+	</item>
+	<item name="grant_access">
+		<value xml:lang="ko"><![CDATA[접근 권한]]></value>
+		<value xml:lang="en"><![CDATA[Access]]></value>
+		<value xml:lang="jp"><![CDATA[アクセス権限]]></value>
+		<value xml:lang="zh-CN"><![CDATA[访问权限]]></value>
+		<value xml:lang="zh-TW"><![CDATA[訪問]]></value>
+		<value xml:lang="tr"><![CDATA[Yetki]]></value>
+		<value xml:lang="vi"><![CDATA[Truy cập]]></value>
+	</item>
+	<item name="grant_manager">
+		<value xml:lang="ko"><![CDATA[관리 권한]]></value>
+		<value xml:lang="en"><![CDATA[Management]]></value>
+		<value xml:lang="jp"><![CDATA[管理権限]]></value>
+		<value xml:lang="zh-CN"><![CDATA[管理权限]]></value>
+		<value xml:lang="zh-TW"><![CDATA[管理]]></value>
+		<value xml:lang="tr"><![CDATA[Yönetim]]></value>
+		<value xml:lang="vi"><![CDATA[Quản lý]]></value>
+	</item>
+	<item name="grant_to_all">
+		<value xml:lang="ko"><![CDATA[모든 사용자]]></value>
+		<value xml:lang="en"><![CDATA[All users]]></value>
+		<value xml:lang="jp"><![CDATA[すべてのユーザー]]></value>
+		<value xml:lang="zh-CN"><![CDATA[不限制]]></value>
+		<value xml:lang="zh-TW"><![CDATA[所有用戶]]></value>
+		<value xml:lang="tr"><![CDATA[Tüm kullanıcılar]]></value>
+		<value xml:lang="vi"><![CDATA[Tất cả]]></value>
+	</item>
+	<item name="grant_to_login_user">
+		<value xml:lang="ko"><![CDATA[로그인 사용자]]></value>
+		<value xml:lang="en"><![CDATA[Login users]]></value>
+		<value xml:lang="jp"><![CDATA[ログインユーザー]]></value>
+		<value xml:lang="zh-CN"><![CDATA[已登录用户]]></value>
+		<value xml:lang="zh-TW"><![CDATA[已登入用戶]]></value>
+		<value xml:lang="tr"><![CDATA[Oturum açmış kullanıcılar]]></value>
+		<value xml:lang="vi"><![CDATA[Đã đăng nhập]]></value>
+	</item>
+	<item name="grant_to_site_user">
+		<value xml:lang="ko"><![CDATA[가입한 사용자]]></value>
+		<value xml:lang="en"><![CDATA[Registered users]]></value>
+		<value xml:lang="jp"><![CDATA[登録ユーザー]]></value>
+		<value xml:lang="zh-CN"><![CDATA[子站会员]]></value>
+		<value xml:lang="zh-TW"><![CDATA[網站用戶]]></value>
+		<value xml:lang="fr"><![CDATA[Joined users]]></value>
+		<value xml:lang="ru"><![CDATA[Joined users]]></value>
+		<value xml:lang="es"><![CDATA[Joined users]]></value>
+		<value xml:lang="tr"><![CDATA[Kayıtlı kullanıcılar]]></value>
+		<value xml:lang="vi"><![CDATA[Đã đăng kí]]></value>
+	</item>
+	<item name="grant_to_group">
+		<value xml:lang="ko"><![CDATA[선택 그룹 사용자]]></value>
+		<value xml:lang="en"><![CDATA[Selected group users]]></value>
+		<value xml:lang="jp"><![CDATA[特定グループのユーザー]]></value>
+		<value xml:lang="zh-CN"><![CDATA[特定用户组]]></value>
+		<value xml:lang="zh-TW"><![CDATA[特定群組]]></value>
+		<value xml:lang="tr"><![CDATA[Belirli grup kullanıcıları]]></value>
+		<value xml:lang="vi"><![CDATA[Nhóm chỉ định]]></value>
+	</item>
+	<item name="cmd_add_shortcut">
+		<value xml:lang="ko"><![CDATA[바로가기 추가]]></value>
+		<value xml:lang="en"><![CDATA[Add Shortcut]]></value>
+		<value xml:lang="jp"><![CDATA[ショートカット追加]]></value>
+		<value xml:lang="zh-CN"><![CDATA[添加到快捷菜单]]></value>
+		<value xml:lang="zh-TW"><![CDATA[新增到快捷選單]]></value>
+		<value xml:lang="fr"><![CDATA[Ajouter un raccourci]]></value>
+		<value xml:lang="ru"><![CDATA[Добавить ярлык]]></value>
+		<value xml:lang="es"><![CDATA[añadir acceso directo]]></value>
+		<value xml:lang="tr"><![CDATA[Kısayol Ekle]]></value>
+		<value xml:lang="vi"><![CDATA[Thêm phím tắt]]></value>
+	</item>
+	<item name="cmd_install">
+		<value xml:lang="ko"><![CDATA[설치]]></value>
+		<value xml:lang="en"><![CDATA[Install]]></value>
+		<value xml:lang="jp"><![CDATA[インストール]]></value>
+		<value xml:lang="zh-CN"><![CDATA[安装]]></value>
+		<value xml:lang="zh-TW"><![CDATA[安裝]]></value>
+		<value xml:lang="fr"><![CDATA[Installer]]></value>
+		<value xml:lang="ru"><![CDATA[Установить]]></value>
+		<value xml:lang="es"><![CDATA[Instalar]]></value>
+		<value xml:lang="tr"><![CDATA[Kur]]></value>
+		<value xml:lang="vi"><![CDATA[Cài đặt]]></value>
+	</item>
+	<item name="cmd_update">
+		<value xml:lang="ko"><![CDATA[업데이트]]></value>
+		<value xml:lang="en"><![CDATA[Update]]></value>
+		<value xml:lang="jp"><![CDATA[アップデート]]></value>
+		<value xml:lang="zh-CN"><![CDATA[升级]]></value>
+		<value xml:lang="zh-TW"><![CDATA[升級]]></value>
+		<value xml:lang="fr"><![CDATA[Mettre à Jour]]></value>
+		<value xml:lang="ru"><![CDATA[Обновить]]></value>
+		<value xml:lang="es"><![CDATA[Actualizar]]></value>
+		<value xml:lang="tr"><![CDATA[Güncelleştir]]></value>
+		<value xml:lang="vi"><![CDATA[Cập nhật]]></value>
+	</item>
+	<item name="cmd_manage_category">
+		<value xml:lang="ko"><![CDATA[분류 관리]]></value>
+		<value xml:lang="en"><![CDATA[Manage Categories]]></value>
+		<value xml:lang="jp"><![CDATA[カテゴリ管理]]></value>
+		<value xml:lang="zh-CN"><![CDATA[分类管理]]></value>
+		<value xml:lang="zh-TW"><![CDATA[分類管理]]></value>
+		<value xml:lang="fr"><![CDATA[Administrer des Catégories]]></value>
+		<value xml:lang="ru"><![CDATA[Управление категориями]]></value>
+		<value xml:lang="es"><![CDATA[Manejo de categorías]]></value>
+		<value xml:lang="tr"><![CDATA[Kategorileri Yönet]]></value>
+		<value xml:lang="vi"><![CDATA[Quản lý thể loại]]></value>
+	</item>
+	<item name="cmd_manage_grant">
+		<value xml:lang="ko"><![CDATA[권한 관리]]></value>
+		<value xml:lang="en"><![CDATA[Manage Permission]]></value>
+		<value xml:lang="jp"><![CDATA[権限管理]]></value>
+		<value xml:lang="zh-CN"><![CDATA[权限管理]]></value>
+		<value xml:lang="zh-TW"><![CDATA[權限管理]]></value>
+		<value xml:lang="fr"><![CDATA[Administrer des Permissions]]></value>
+		<value xml:lang="ru"><![CDATA[Управление правами доступа]]></value>
+		<value xml:lang="es"><![CDATA[Manejo de atribuciones]]></value>
+		<value xml:lang="tr"><![CDATA[Yetkileri Yönet]]></value>
+		<value xml:lang="vi"><![CDATA[Quản lý quyền]]></value>
+	</item>
+	<item name="cmd_manage_skin">
+		<value xml:lang="ko"><![CDATA[스킨 관리]]></value>
+		<value xml:lang="en"><![CDATA[Manage Skins]]></value>
+		<value xml:lang="jp"><![CDATA[スキン管理]]></value>
+		<value xml:lang="zh-CN"><![CDATA[皮肤管理]]></value>
+		<value xml:lang="zh-TW"><![CDATA[面板管理]]></value>
+		<value xml:lang="fr"><![CDATA[Administrer des Habillages]]></value>
+		<value xml:lang="ru"><![CDATA[Управление скинами]]></value>
+		<value xml:lang="es"><![CDATA[Manejo de temas]]></value>
+		<value xml:lang="tr"><![CDATA[Dış Görünümleri Yönet]]></value>
+		<value xml:lang="vi"><![CDATA[Quản lý Skin]]></value>
+	</item>
+	<item name="cmd_manage_document">
+		<value xml:lang="ko"><![CDATA[게시글 관리]]></value>
+		<value xml:lang="en"><![CDATA[Manage Articles]]></value>
+		<value xml:lang="jp"><![CDATA[書き込み管理]]></value>
+		<value xml:lang="zh-CN"><![CDATA[主题管理]]></value>
+		<value xml:lang="zh-TW"><![CDATA[主題管理]]></value>
+		<value xml:lang="fr"><![CDATA[Administrer des Articles]]></value>
+		<value xml:lang="ru"><![CDATA[Управление статьями]]></value>
+		<value xml:lang="es"><![CDATA[Manejo de documentos]]></value>
+		<value xml:lang="tr"><![CDATA[Makaleleri Yönet]]></value>
+		<value xml:lang="vi"><![CDATA[Quản lý bài viết]]></value>
+	</item>
+	<item name="cmd_find_module">
+		<value xml:lang="ko"><![CDATA[모듈 찾기]]></value>
+		<value xml:lang="en"><![CDATA[Find Module]]></value>
+		<value xml:lang="jp"><![CDATA[モジュール検索]]></value>
+		<value xml:lang="zh-CN"><![CDATA[查找模块]]></value>
+		<value xml:lang="zh-TW"><![CDATA[搜尋模組]]></value>
+		<value xml:lang="ru"><![CDATA[Искать модуль]]></value>
+		<value xml:lang="tr"><![CDATA[Modül Bul]]></value>
+		<value xml:lang="vi"><![CDATA[Tìm Module]]></value>
+	</item>
+	<item name="cmd_find_langcode">
+		<value xml:lang="ko"><![CDATA[언어 코드 찾기]]></value>
+		<value xml:lang="en"><![CDATA[Find lang code]]></value>
+		<value xml:lang="jp"><![CDATA[言語コード検索]]></value>
+		<value xml:lang="zh-CN"><![CDATA[选择语言变量]]></value>
+		<value xml:lang="zh-TW"><![CDATA[搜尋語言代碼]]></value>
+		<value xml:lang="tr"><![CDATA[Dil kodu bul]]></value>
+		<value xml:lang="vi"><![CDATA[Tìm mã ngôn ngữ]]></value>
+	</item>
+	<item name="msg_new_module">
+		<value xml:lang="ko"><![CDATA[모듈 생성]]></value>
+		<value xml:lang="en"><![CDATA[Create new module]]></value>
+		<value xml:lang="jp"><![CDATA[モジュール作成]]></value>
+		<value xml:lang="zh-CN"><![CDATA[模块生成]]></value>
+		<value xml:lang="zh-TW"><![CDATA[建立模組]]></value>
+		<value xml:lang="fr"><![CDATA[Créer un module]]></value>
+		<value xml:lang="ru"><![CDATA[Создать новый модуль]]></value>
+		<value xml:lang="es"><![CDATA[Crear un nuevo módulo]]></value>
+		<value xml:lang="tr"><![CDATA[Yeni modül oluştur]]></value>
+		<value xml:lang="vi"><![CDATA[Tạo Module mới]]></value>
+	</item>
+	<item name="msg_update_module">
+		<value xml:lang="ko"><![CDATA[모듈 수정]]></value>
+		<value xml:lang="en"><![CDATA[Modify module]]></value>
+		<value xml:lang="jp"><![CDATA[モジュール修正]]></value>
+		<value xml:lang="zh-CN"><![CDATA[模块修改]]></value>
+		<value xml:lang="zh-TW"><![CDATA[修改模組]]></value>
+		<value xml:lang="fr"><![CDATA[Modifier un module]]></value>
+		<value xml:lang="ru"><![CDATA[Изменить модуль]]></value>
+		<value xml:lang="es"><![CDATA[Modificar el módulo]]></value>
+		<value xml:lang="tr"><![CDATA[Modül Düzelt]]></value>
+		<value xml:lang="vi"><![CDATA[Sửa Module]]></value>
+	</item>
+	<item name="msg_module_name_exists">
+		<value xml:lang="ko"><![CDATA[이미 존재하는 모듈 이름입니다. 다른 이름을 입력해주세요.]]></value>
+		<value xml:lang="en"><![CDATA[The name already exists. Please try another name.]]></value>
+		<value xml:lang="jp"><![CDATA[既に存在するモジュール名です。他の名前を入力してください。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[已存在的模块名称。请输入其他名称。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[已存在的模組名稱。請輸入其他名稱。]]></value>
+		<value xml:lang="fr"><![CDATA[Le nom existe déjà. Essayez un autre nom, S.V.P.]]></value>
+		<value xml:lang="ru"><![CDATA[Имя уже существует. Пожалуйста, попробуйте другое]]></value>
+		<value xml:lang="es"><![CDATA[El nombre ya existe. Por favor tratar con otro nombre.]]></value>
+		<value xml:lang="tr"><![CDATA[Bu isim önceden zaten alınmış. Lütfen başka bir tane deneyiniz.]]></value>
+		<value xml:lang="vi"><![CDATA[Tên này đã được sử dụng. Hãy thử lại với tên khác.]]></value>
+	</item>
+	<item name="msg_category_is_null">
+		<value xml:lang="ko"><![CDATA[등록된 분류가 없습니다.]]></value>
+		<value xml:lang="en"><![CDATA[There is no registered category.]]></value>
+		<value xml:lang="jp"><![CDATA[登録されているカテゴリがありません。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[没有登录的分类]]></value>
+		<value xml:lang="zh-TW"><![CDATA[沒有登錄的分類]]></value>
+		<value xml:lang="fr"><![CDATA[Il n'y a pas de catégorie enrégistrée.]]></value>
+		<value xml:lang="ru"><![CDATA[Зарегистрированной категории не существует.]]></value>
+		<value xml:lang="es"><![CDATA[No existe categoría registrada.]]></value>
+		<value xml:lang="tr"><![CDATA[Kayıtlı kategori yok.]]></value>
+		<value xml:lang="vi"><![CDATA[Không có phân loại nào được tạo.]]></value>
+	</item>
+	<item name="msg_grant_is_null">
+		<value xml:lang="ko"><![CDATA[등록된 권한 대상이 없습니다.]]></value>
+		<value xml:lang="en"><![CDATA[There is no permission list.]]></value>
+		<value xml:lang="jp"><![CDATA[登録されている権限がありません。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[没有登录的权限对象]]></value>
+		<value xml:lang="zh-TW"><![CDATA[沒有權限]]></value>
+		<value xml:lang="fr"><![CDATA[Il n'y a pas de liste de permission.]]></value>
+		<value xml:lang="ru"><![CDATA[Списка для управления правами доступа не существует.]]></value>
+		<value xml:lang="es"><![CDATA[No existe el objetivo de atribución registrado.]]></value>
+		<value xml:lang="tr"><![CDATA[Yetki listesi yok.]]></value>
+		<value xml:lang="vi"><![CDATA[Không có danh sách quyền nào.]]></value>
+	</item>
+	<item name="msg_no_checked_document">
+		<value xml:lang="ko"><![CDATA[선택된 게시물이 없습니다.]]></value>
+		<value xml:lang="en"><![CDATA[No checked articles exist.]]></value>
+		<value xml:lang="jp"><![CDATA[選択した書き込みがありません。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[没有被选择的主题]]></value>
+		<value xml:lang="zh-TW"><![CDATA[沒有被選擇的主題]]></value>
+		<value xml:lang="fr"><![CDATA[Pas un article est choisi.]]></value>
+		<value xml:lang="ru"><![CDATA[Нет выбранных статей.]]></value>
+		<value xml:lang="es"><![CDATA[No existe documento seleccionado.]]></value>
+		<value xml:lang="tr"><![CDATA[Denetlenmiş makaleler bulunmamakta.]]></value>
+		<value xml:lang="vi"><![CDATA[Không có bài viết nào được kiểm tra.]]></value>
+	</item>
+	<item name="msg_move_failed">
+		<value xml:lang="ko"><![CDATA[이동에 실패하였습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Failed to move.]]></value>
+		<value xml:lang="jp"><![CDATA[移動できませんでした。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[移动失败！]]></value>
+		<value xml:lang="zh-TW"><![CDATA[移動失敗！]]></value>
+		<value xml:lang="fr"><![CDATA[Echoué de bouger]]></value>
+		<value xml:lang="ru"><![CDATA[Невозможно переместить]]></value>
+		<value xml:lang="es"><![CDATA[No pudo moverse]]></value>
+		<value xml:lang="tr"><![CDATA[Taşıma hatası]]></value>
+		<value xml:lang="vi"><![CDATA[Không thể di chuyển]]></value>
+	</item>
+	<item name="msg_cannot_delete_for_child">
+		<value xml:lang="ko"><![CDATA[하부 분류가 있는 분류는 삭제하실 수 없습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Cannot delete a category which has child categories.]]></value>
+		<value xml:lang="jp"><![CDATA[下位カテゴリのあるカテゴリは削除できません。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[不能删除有下级分类的分类！]]></value>
+		<value xml:lang="zh-TW"><![CDATA[無法刪除有子分類的分類！]]></value>
+		<value xml:lang="fr"><![CDATA[On ne peut pas supprimer une catégorie qui a des catégories inférieures.]]></value>
+		<value xml:lang="ru"><![CDATA[Невозможно удалить категорию, имеющую дочерние категории.]]></value>
+		<value xml:lang="es"><![CDATA[No puede eliminar la categoría si posee subcategoría.]]></value>
+		<value xml:lang="tr"><![CDATA[Alt kategorileri olan kategoriler silinemez.]]></value>
+		<value xml:lang="vi"><![CDATA[Không thể xóa được phân loại khi có những phân loại con.]]></value>
+	</item>
+	<item name="msg_limit_mid">
+		<value xml:lang="ko"><![CDATA[모듈 이름은 영문+[영문+숫자+_] 만 가능합니다.]]></value>
+		<value xml:lang="en"><![CDATA[Only alphanumeric can be used in the module name.]]></value>
+		<value xml:lang="jp"><![CDATA[モジュール名は「 半角英小文字+[半角英小文字+半角数字+_] 」のみ可能です。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[模块名称只允许英文字母+[英文字母+数字]。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[模組名稱可由英文 + [ 英文，數字及底線 ]等非常多種組合。]]></value>
+		<value xml:lang="fr"><![CDATA[모듈이름은 영문+[영문+숫자+_] 만 가능합니다.]]></value>
+		<value xml:lang="ru"><![CDATA[모듈이름은 영문+[영문+숫자+_] 만 가능합니다.]]></value>
+		<value xml:lang="es"><![CDATA[모듈이름은 영문+[영문+숫자+_] 만 가능합니다.]]></value>
+		<value xml:lang="tr"><![CDATA[Sadece harfler+[harfler+sayılar+_] modül ismi olarak kullanılabilir.]]></value>
+		<value xml:lang="vi"><![CDATA[Tên Module chỉ hỗ trợ định dạng [Kí tự], [Kí tự+Số], [Kí tự+Số+_].]]></value>
+	</item>
+	<item name="msg_extra_name_exists">
+		<value xml:lang="ko"><![CDATA[이미 존재하는 확장 변수 이름입니다. 다른 이름을 입력해주세요.]]></value>
+		<value xml:lang="en"><![CDATA[Already registered extra variable name. Please input another name.]]></value>
+		<value xml:lang="jp"><![CDATA[既に存在する拡張変数名です。他の拡張変数名を入力してください。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[已有的扩展变量名称，请重新输入！]]></value>
+		<value xml:lang="zh-TW"><![CDATA[已存在的延伸變數名稱。請輸入其他名稱。]]></value>
+		<value xml:lang="fr"><![CDATA[이미 존재하는 확장변수 이름입니다. 다른 이름을 입력해주세요.]]></value>
+		<value xml:lang="ru"><![CDATA[이미 존재하는 확장변수 이름입니다. 다른 이름을 입력해주세요.]]></value>
+		<value xml:lang="es"><![CDATA[이미 존재하는 확장변수 이름입니다. 다른 이름을 입력해주세요.]]></value>
+		<value xml:lang="tr"><![CDATA[Önceden kayıtlı değişken isim. Lütfen başka bir tane giriniz.]]></value>
+		<value xml:lang="vi"><![CDATA[Tên biến đã được sử dụng. Xin hãy chọn tên khác.]]></value>
+	</item>
+	<item name="about_browser_title">
+		<value xml:lang="ko"><![CDATA[브라우저 제목에 나타나는 값입니다. RSS/Trackback에서도 사용됩니다.]]></value>
+		<value xml:lang="en"><![CDATA[It will be shown in the browser title. It will be also used in a RSS/Trackback.]]></value>
+		<value xml:lang="jp"><![CDATA[ブラウザのタイトルバーに表示される内容です。RSS/Trackbackでも使用します。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[显示在浏览器窗口的标题值。 在RSS/Trackback也可以使用。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[顯示在瀏覽器視窗的標題。在 RSS/Trackback 也可以使用。]]></value>
+		<value xml:lang="fr"><![CDATA[C'est la valeur qui se représentera dans le titre de navigateur Web. Ce sera encore utilisé dans RSS/Rétrolien.]]></value>
+		<value xml:lang="ru"><![CDATA[Это будет показано в заголовке браузера. Также, это будет использоваться в RSS/Трекбеке.]]></value>
+		<value xml:lang="es"><![CDATA[Esto es el valor que se mostrará en el título del navegador. También es usado en RSS/Trackback.]]></value>
+		<value xml:lang="tr"><![CDATA[Bu girdi tarayıcı başlığında gösterilecektir. Aynı zamanda RSS/Geri İzleme(trackback)'de de kullanılacaktır.]]></value>
+		<value xml:lang="vi"><![CDATA[Nó sẽ hiển thị trên tiêu đề của trình duyệt và trong RSS/Trackback.]]></value>
+	</item>
+	<item name="about_mid">
+		<value xml:lang="ko"><![CDATA[모듈 이름은 http://주소/?mid=모듈이름 처럼 직접 호출할 수 있는 값입니다. (영문+[영문+숫자+_] 만 가능. 최대 40 글자)]]></value>
+		<value xml:lang="en"><![CDATA[The module name will be used like http://address/?mid=ModuleName.
+(Only english alphabet letters, numbers and underscore can be used. The maximum length is 40.)]]></value>
+		<value xml:lang="jp"><![CDATA[モジュール名は「http://アドレス/?mid=モジュール名」のように直接呼び出せるパラメーター値です。<br />※英数の頭文字と[英数と_のみ]の組み合わせ （すべて半角、最大40文字） ]]></value>
+		<value xml:lang="zh-CN"><![CDATA[模块名称只允许使用英文，数字和下划线(最多不能超过40字节)。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[模組名稱只允許使用英文，數字和底線。最大長度 40 個字元。]]></value>
+		<value xml:lang="fr"><![CDATA[Le nom de module sera utilisé comme http://adresse/?mid=ModuleName.
+(alphabet anglais + [alphabet anglais, nombres, et soulignement(_)] sont seulement permis. The maximum length is 40.)]]></value>
+		<value xml:lang="ru"><![CDATA[Имя модуля будет использовано как http://address/?mid=Имя_модуля.
+(только латиница, цифры и символ подчеркивания(_) разрешены. The maximum length is 40.)]]></value>
+		<value xml:lang="es"><![CDATA[El nombre del módulo será usado como http://direccion/?mid=NombreMódulo.
+(sólo alfabeto español+[alfabeto español, números y el gión abajo(_)] son permitidos. The maximum length is 40.)]]></value>
+		<value xml:lang="tr"><![CDATA[Modül ismi, http://adres/?mid=Modulismi şeklinde kullanılacaktır.
+(Sadece ingilizce harflere + [ingilizce harflere, sayılara, ve altçizgiye (_)] izin verilmiştir. Azami uzunluk 40 karakterdir.)]]></value>
+		<value xml:lang="vi"><![CDATA[Tên Module được sử dụng dạng http://address/?mid=<b>ModuleName</b>.
+(Chỉ cho phép chữ cái tiếng Anh + [chữ cái tiếng Anh, số, và dấu gạch dưới (_)] và tối đa 40 kí tự.)]]></value>
+	</item>
+	<item name="about_default">
+		<value xml:lang="ko"><![CDATA[선택하시면 사이트에 mid값 없이 접속하였을 경우 기본으로 보여줍니다.]]></value>
+		<value xml:lang="en"><![CDATA[If checked, this module will be shown when users access the site without mid value (mid=NoValue).]]></value>
+		<value xml:lang="jp"><![CDATA[チェックを入れると、サイトに「mid値」なしでアクセスした場合、デフォルトで表示します。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[用没有mid值的网址访问网站时，将会显示默认。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[用沒有 mid 值的網址訪問網站時，將會顯示預設。]]></value>
+		<value xml:lang="fr"><![CDATA[Si c'est coché, on verra ce module quand on connecte ce site sans aucune valeur de mid(mid=Nulle Valeur).]]></value>
+		<value xml:lang="ru"><![CDATA[Если выбрано, этот модуль будет показан, когда пользователи входят на сайт без идентификатора модуля (mid=NoValue).]]></value>
+		<value xml:lang="es"><![CDATA[Si selecciona esta opción, se mostrará de manera predefinida sin el valor de mid.]]></value>
+		<value xml:lang="tr"><![CDATA[Eğer işaretlenmişse, kullanıcılar siteye modül kimlik değeri (mid=değer yok) olmadan erişirken bu modül görüntülenecektir .]]></value>
+		<value xml:lang="vi"><![CDATA[Nếu chọn, Sẽ hiển thị mặc định là (mid=NoValue) khi truy cập tên Module không đúng.]]></value>
+	</item>
+	<item name="about_module_category">
+		<value xml:lang="ko"><![CDATA[분류를 통한 관리를 할 수 있도록 합니다. 모듈 분류 관리는 <a href="./?module=admin&amp;act=dispModuleAdminCategory">모듈관리 > 모듈분류</a>에서 하실 수 있습니다.]]></value>
+		<value xml:lang="en"><![CDATA[It enables you to manage it through a module category.
+ The URL for the module manager is <a href="./?module=admin&amp;act=dispModuleAdminCategory">Manage module > Module category </a>.]]></value>
+		<value xml:lang="jp"><![CDATA[カテゴリで管理できるようにします。モジュールのカテゴリの管理は、「<a href="./?module=admin&amp;act=dispModuleAdminCategory">モジュール管理 &gt; モジュールカテゴリ</a>」にて行います。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[可以分类管理模块。 模块分类可以在 <a href="./?module=admin&amp;act=dispModuleAdminCategory">模块管理 > 模块分类 </a>中进行管理。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[可以分類管理模組。模組分類可以在<a href="./?module=admin&amp;act=dispModuleAdminCategory">模組管理 > 模組分類 </a>中進行管理。]]></value>
+		<value xml:lang="fr"><![CDATA[Ça vous permet d'administrer le module par la catégorie.
+On peut administrer la classification des modules à <a href="./?module=admin&amp;act=dispModuleAdminCategory">Administration des modules > Catégorie des Modules </a>.]]></value>
+		<value xml:lang="ru"><![CDATA[Это позволяет Вам управлять посредством категорий модулей.
+URL для менеджера модулей <a href="./?module=admin&amp;act=dispModuleAdminCategory">Manage module > Категория Модуля </a>.]]></value>
+		<value xml:lang="es"><![CDATA[Es posible manejar a traves de categoría.
+ EL URL para en manejo del módulo de categoría es <a href="./?module=admin&amp;act=dispModuleAdminCategory">Manejo de módulo > Módulo de categoría </a>.]]></value>
+		<value xml:lang="tr"><![CDATA[Size, modül kategorisi yoluyla yönetme imkanı sunar.
+ Modül Yöneticisi için URL: <a href="./?module=admin&amp;act=dispModuleAdminCategory">Manage module > Modül Kategorisi</a>dir.]]></value>
+		<value xml:lang="vi"><![CDATA[Nó cho phép bạn quản lý thông qua Module thể loại.
+ URL quản lý có dạng <a href="./?module=admin&amp;act=dispModuleAdminCategory">Quản lý Module > Module thể loại </a>.]]></value>
+	</item>
+	<item name="about_description">
+		<value xml:lang="ko"><![CDATA[관리용으로 사용되는 설명입니다.]]></value>
+		<value xml:lang="en"><![CDATA[This description is only for a manager.]]></value>
+		<value xml:lang="jp"><![CDATA[管理用として使用する説明です。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[管理用使用说明。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[管理使用說明。]]></value>
+		<value xml:lang="fr"><![CDATA[C'est la description pour la facilité à administrer.]]></value>
+		<value xml:lang="ru"><![CDATA[Это описание только для менеджера.]]></value>
+		<value xml:lang="es"><![CDATA[Descripción usada para la administración.]]></value>
+		<value xml:lang="tr"><![CDATA[Sadece yöneticilerin görebileceği açıklamadır.]]></value>
+		<value xml:lang="vi"><![CDATA[Mô tả cho một quản lý.]]></value>
+	</item>
+	<item name="about_header_text">
+		<value xml:lang="ko"><![CDATA[모듈 상단에 표시되는 내용입니다. (HTML 태그 사용 가능)]]></value>
+		<value xml:lang="en"><![CDATA[The contents will be shown on the top of the module. (html tags available)]]></value>
+		<value xml:lang="jp"><![CDATA[モジュールのヘッダーに表示される内容です。（HTMLタグの使用可能）]]></value>
+		<value xml:lang="zh-CN"><![CDATA[模块头部修饰内容。(可以使用HTML)]]></value>
+		<value xml:lang="zh-TW"><![CDATA[顯示在模組頂部的內容。(可使用 HTML)]]></value>
+		<value xml:lang="fr"><![CDATA[Ce contenu sera exposé en tête du module.(balise en html est disponible)]]></value>
+		<value xml:lang="ru"><![CDATA[Это содержимое будет показано сверху модуля. (HTML разрешен)]]></value>
+		<value xml:lang="es"><![CDATA[El contenido se mostrará en la parte superior del módulo.(tags de html permitido)]]></value>
+		<value xml:lang="tr"><![CDATA[Modülün üst kısmında gösterilecek içeriklerdir.(html etiketleri etkin)]]></value>
+		<value xml:lang="vi"><![CDATA[Nội dung sẽ hiển thị trên đầu Module.(sau http tag có sẵn)]]></value>
+	</item>
+	<item name="about_footer_text">
+		<value xml:lang="ko"><![CDATA[모듈 하단에 표시되는 내용입니다. (HTML 태그 사용 가능)]]></value>
+		<value xml:lang="en"><![CDATA[The contents will be shown on the bottom of the module. (html tags available)]]></value>
+		<value xml:lang="jp"><![CDATA[モジュールのフッターに表示される内容です。（HTMLタグの使用可能）]]></value>
+		<value xml:lang="zh-CN"><![CDATA[模块尾部修饰内容。(可以使用HTML)]]></value>
+		<value xml:lang="zh-TW"><![CDATA[顯示在模組底部的內容。(可使用 HTML)]]></value>
+		<value xml:lang="fr"><![CDATA[Ce contenu sera exposé en bas du module.(balise en html est disponible)]]></value>
+		<value xml:lang="ru"><![CDATA[Это содержимое будет показано снизу модуля. (HTML разрешен)]]></value>
+		<value xml:lang="es"><![CDATA[El contenido se mostrará en la parte inferior del módulo.(tags de html permitido)]]></value>
+		<value xml:lang="tr"><![CDATA[Modülün alt kısmında gösterilecek içeriklerdir.(html etiketleri etkin)]]></value>
+		<value xml:lang="vi"><![CDATA[Nội dung sẽ hiển thị phía dưới Module.(trước http tag có sẵn)]]></value>
+	</item>
+	<item name="about_skin">
+		<value xml:lang="ko"><![CDATA[모듈 스킨을 선택하실 수 있습니다.]]></value>
+		<value xml:lang="en"><![CDATA[You may choose a module skin.]]></value>
+		<value xml:lang="jp"><![CDATA[モジュールのスキンを選択します。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[可以选择模块皮肤。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[可以選擇模組面板。]]></value>
+		<value xml:lang="fr"><![CDATA[Vous pouvez choisir un habillage pour le module.]]></value>
+		<value xml:lang="ru"><![CDATA[Вы можете выбрать скин модуля.]]></value>
+		<value xml:lang="es"><![CDATA[Usted puede elegir un tema del módulo.]]></value>
+		<value xml:lang="tr"><![CDATA[Modül dış görünümünü seçebilirsiniz.]]></value>
+		<value xml:lang="vi"><![CDATA[Banj có thể chọn Skin cho Module.]]></value>
+	</item>
+	<item name="about_use_category">
+		<value xml:lang="ko"><![CDATA[선택하시면 분류 기능을 사용할 수 있습니다.]]></value>
+		<value xml:lang="en"><![CDATA[If checked, the category function will be enabled.]]></value>
+		<value xml:lang="jp"><![CDATA[チェックを入れるとカテゴリ機能を使用できます。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[选择此项可以使用分类功能。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[選擇此項可以使用分類功能。]]></value>
+		<value xml:lang="fr"><![CDATA[Cochez pour utiliser la fonction de catégorie, .]]></value>
+		<value xml:lang="ru"><![CDATA[Если выбрано, функция категорий будет включена.]]></value>
+		<value xml:lang="es"><![CDATA[Si selecciona esta opción, la función de categoría sera activada.]]></value>
+		<value xml:lang="tr"><![CDATA[İşaretlediğiniz taktirde, kategori özelliği etkinleştirilecektir.]]></value>
+		<value xml:lang="vi"><![CDATA[Nếu chon, chức năng thể loại sẽ hoạt động.]]></value>
+	</item>
+	<item name="about_list_count">
+		<value xml:lang="ko"><![CDATA[한 페이지에 표시될 글 수를 지정하실 수 있습니다. (기본 20개)]]></value>
+		<value xml:lang="en"><![CDATA[You can limit the number of article to show on one page. The default is 20.]]></value>
+		<value xml:lang="jp"><![CDATA[１ページ当たりに表示される書き込み数を指定できます（デフォルト20個）。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[可以指定每页显示的主题数。(默认为20个)]]></value>
+		<value xml:lang="zh-TW"><![CDATA[可以指定每頁顯示的主題數。(預設為 20 個)]]></value>
+		<value xml:lang="fr"><![CDATA[Vous pouvez configurer combien d'articles soient exposés dans une page.(20 par défaut)]]></value>
+		<value xml:lang="ru"><![CDATA[Вы можете установить лимит показа статей на страницу. (по умолчанию: 20)]]></value>
+		<value xml:lang="es"><![CDATA[Usted puede definir el número límite de los documentos a mostrar en una página.(Predefinido es 20)]]></value>
+		<value xml:lang="tr"><![CDATA[Sayfada gösterilecek makalelerin sayı üstsınırını ayarlayabilirsiniz.(varsayılan : 20)]]></value>
+		<value xml:lang="vi"><![CDATA[Bạn có thể giới hạn bài viết hiển thị trên một trang.(Mặc định là 20)]]></value>
+	</item>
+	<item name="about_search_list_count">
+		<value xml:lang="ko"><![CDATA[검색, 카테고리 선택 등을 할 경우 표시될 글 수를 지정하실 수 있습니다. (기본 20개)]]></value>
+		<value xml:lang="en"><![CDATA[You may set the number of articles to be exposed when you use search or category function. (default is 20)]]></value>
+		<value xml:lang="jp"><![CDATA[検索、カテゴリ選択などを行う場合に表示する書き込みの数を指定できます。（デフォルトは20件 ）]]></value>
+		<value xml:lang="zh-CN"><![CDATA[可以指定搜索或选择分类时每页要显示的帖子数(默认为20个)。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[可以指定搜尋或選擇分類時，每頁要顯示的文章數(預設為 20 個)。]]></value>
+		<value xml:lang="fr"><![CDATA[Vous pouvez configurer combien d'articles soient exposés quand vous utilisez la fonction de recherche ou de catégorie. (20 par défaut)]]></value>
+		<value xml:lang="ru"><![CDATA[검색 또는 카테고리 선택등을 할 경우 표시될 글의 수를 지정하실 수 있습니다. 기본(20개)]]></value>
+		<value xml:lang="es"><![CDATA[Usted puede configurar el número de artículos que se exponen cuando se utiliza la función de búsqueda o categoría. (Por defecto es 20)]]></value>
+		<value xml:lang="tr"><![CDATA[Kategori veya arama özelliğini kullanırken gösterilecek makalelerin sayısını ayarlayabilirsiniz. (varsayılan : 20)]]></value>
+		<value xml:lang="vi"><![CDATA[Bạn có thể đặt giới hạn số bài viết sẽ hiển thị khi tìm kiếm hay chọn thể loại. (Mặc định là 20)]]></value>
+	</item>
+	<item name="about_page_count">
+		<value xml:lang="ko"><![CDATA[목록 하단, 페이지를 이동하는 링크 수를 지정하실 수 있습니다. (기본 10개)]]></value>
+		<value xml:lang="en"><![CDATA[You can set the number of page links to move pages in a bottom of the page. (default is 10)]]></value>
+		<value xml:lang="jp"><![CDATA[リスト下部、ページ移動可能なリンク数を指定できます（デフォルト10個）。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[可以指定显示在目录下方的页面数(默认为10个)。 ]]></value>
+		<value xml:lang="zh-TW"><![CDATA[可以指定顯示在清單下方的頁面數(預設為 10 個)。 ]]></value>
+		<value xml:lang="fr"><![CDATA[Vous pouvez configurer combien de liens pour les Pages à Bouger en bas de chaque page.(10 par défaut)]]></value>
+		<value xml:lang="ru"><![CDATA[Вы можете установить число страниц внизу. (по умолчанию: 10)]]></value>
+		<value xml:lang="es"><![CDATA[Usted puede definir el número de página enlazada para mover páginas en un botón de la página.(Predefinido es 10)]]></value>
+		<value xml:lang="tr"><![CDATA[Sayfanın alt kısmında sayfa geçiş linklerinin sayısını ayarlayabilirsiniz.(varsayılan : 10)]]></value>
+		<value xml:lang="vi"><![CDATA[bạn có thể giới hạn số trang liên kết hiển thị phía dưới.(Mặc định là 10)]]></value>
+	</item>
+	<item name="about_admin_id">
+		<value xml:lang="ko"><![CDATA[해당 모듈에 대해 최고 권한을 가지는 관리자를 지정할 수 있습니다.]]></value>
+		<value xml:lang="en"><![CDATA[You can grant a manager to have all permissions to the module.]]></value>
+		<value xml:lang="jp"><![CDATA[該当モジュールに対して最高権限を持つ管理者を指定することができます。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[可以对该模块指定拥有最高管理权限的管理员。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[可以對該模組指定最高管理權限。]]></value>
+		<value xml:lang="fr"><![CDATA[Vous pouvez désigner un directeur qui aura tous les permissions sur le module.\nVous pouvez entrer plusieurs compte en utilisant.]]></value>
+		<value xml:lang="ru"><![CDATA[Вы можете разрешить менеджеру иметь полные права доступа к этому модулю.\nВы можете ввести несколько ID, используя ]]></value>
+		<value xml:lang="es"><![CDATA[Usted puede definir el administrador de atribuciones superiores al módulo.\n Usted puede asignar múltiples IDs.]]></value>
+		<value xml:lang="tr"><![CDATA[Modüle tam yetkisi olan bir yönetici atayabilirsiniz.]]></value>
+		<value xml:lang="vi"><![CDATA[Bạn có thể đặt quyền hạn cho người sử dụng khi truy cập tới Module.]]></value>
+	</item>
+	<item name="about_grant_deatil">
+		<value xml:lang="ko"><![CDATA[가입한 사용자는 cafeXE 등 분양형 가상 사이트에 가입을 한 로그인 사용자를 의미합니다.]]></value>
+		<value xml:lang="en"><![CDATA[Registered users mean users who signed-up to the virtual sites (e.g., cafeXE).]]></value>
+		<value xml:lang="jp"><![CDATA[登録ユーザーとは、cafeXEなど分譲型バーチャル(Virtual)サイトに登録した、ログインユーザーを意味します。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[子站会员是指注册到子站点已在线的用户.]]></value>
+		<value xml:lang="zh-TW"><![CDATA[已註冊的用戶是指在虛擬網站註冊的用戶]]></value>
+		<value xml:lang="fr"><![CDATA[가입한 사용자는 cafeXE등 분양형 가상 사이트에 가입을 한 로그인 사용자를 의미합니다]]></value>
+		<value xml:lang="ru"><![CDATA[가입한 사용자는 cafeXE등 분양형 가상 사이트에 가입을 한 로그인 사용자를 의미합니다]]></value>
+		<value xml:lang="es"><![CDATA[가입한 사용자는 cafeXE등 분양형 가상 사이트에 가입을 한 로그인 사용자를 의미합니다]]></value>
+		<value xml:lang="tr"><![CDATA[Kayıtlı kullanıcı, sanal sitelere (örn., cafeXE) kayıt olmuş kullanıcı demektir .]]></value>
+		<value xml:lang="vi"><![CDATA[Khi thành viên dăng kí tại trang chủ, nghĩa là họ cũng là thành viên của những trang khác (Ví dụ: cafeXE,...).]]></value>
+	</item>
+	<item name="about_module">
+		<value xml:lang="ko"><![CDATA[XE는 기본 라이브러리를 제외한 나머지는 모두 모듈로 구성되어 있습니다.
+모듈 관리 모듈은 설치된 모든 모듈을 보여주고 관리를 돕습니다.]]></value>
+		<value xml:lang="en"><![CDATA[XE consists of modules except the basic library.
+ [Module Manage] module will show all installed modules and help you to manage them.]]></value>
+		<value xml:lang="jp"><![CDATA[XEは、基本ライブラリの他は、すべてモジュールで構成されています。モジュール管理用のモジュールはインストールされたすべてを表示し、管理できるようにします。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[除基本library以外XE全部由模块组成。
+模块管理中列出所有已安装的模块，因此易于管理。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[除基本函式庫以外 XE 全部由模組組成。
+模組管理中列出所有已安裝的模組，因此易於管理。]]></value>
+		<value xml:lang="fr"><![CDATA[XE se compose des modules sauf la bibliothèque fondamental.
+Le module [Administration des Modules] montera tous les modules installés et vous aidera les administrer.]]></value>
+		<value xml:lang="ru"><![CDATA[XE состоит из модулей, за исключением базовой библиотеки.
+ Управление модулем покажет все установленные модули и поможет управлять ими.]]></value>
+		<value xml:lang="es"><![CDATA[XE consiste de módulos excepto la librería básica.
+ Módulo del Manejo del Módulo muestra todos los módulos instalados y ayuda el manejo de ellos.]]></value>
+		<value xml:lang="tr"><![CDATA[XE, temel kitaplık dışında, modüllerden oluşmaktadır.
+ [Modül Yönetimi] modülü, size kurulu tüm modülleri gösterecek ve onları yönetmenize yardımcı olacaktır.]]></value>
+		<value xml:lang="vi"><![CDATA[Khu vực Module trong XE ngoại trừ Library là tại [Module Manage]. Tất cả những Module đang có sẽ hiển thị, giúp bạn quản lý một cách dễ dàng.]]></value>
+	</item>
+	<item name="about_extra_vars_default_value">
+		<value xml:lang="ko"><![CDATA[다중/단일 선택 등 기본 값이 여러 개가 필요한 경우 , (콤마)로 연결하시면 됩니다.]]></value>
+		<value xml:lang="en"><![CDATA[If multiple default values are needed, you can link them with comma.]]></value>
+		<value xml:lang="jp"><![CDATA[多重・単一選択などのデフォルト値が、複数必要な場合は、「, （コンマ）」で区切って追加することができます。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[复选/单选缺省值需要多个时,用,(逗号)来分隔。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[當復選或單選的預設值需要很多個時，用逗號(,)區隔。]]></value>
+		<value xml:lang="fr"><![CDATA[Si plusieurs valeurs sont nécessaires, vous pouvez les connecter avec la virgule(,).]]></value>
+		<value xml:lang="ru"><![CDATA[Если нужно несколько значений по умолчанию, разделите их запятыми(,).]]></value>
+		<value xml:lang="es"><![CDATA[Si múltiples valores predefinidos son requeridos, usted puede enlazar con la coma(,).]]></value>
+		<value xml:lang="tr"><![CDATA[Eğer çoklu varsayılan değerler gerekiyorsa,	 onları virgülle(,) köprüleyebilirsiniz.]]></value>
+		<value xml:lang="vi"><![CDATA[Nếu cần nhiều giá trị mặc định, bạn có thể thêm dấu (,) và giữa các kết nối.]]></value>
+	</item>
+	<item name="about_search_virtual_site">
+		<value xml:lang="ko"><![CDATA[가상 사이트(예:cafeXE) 도메인을 입력하신 후 검색하세요.<br/>가상 사이트 이외의 모듈은 내용을 비우고 검색하시면 됩니다. (http:// 는 제외)]]></value>
+		<value xml:lang="en"><![CDATA[Enter domain of virtual sites.<br />To search modules of non-virtual site, search with blank]]></value>
+		<value xml:lang="jp"><![CDATA[バーチャル(Virtual)サイト（：cafeXEなど）のドメインを入力して検索してください。<br />バーチャル(Virtual)サイト以外のモジュールは内容を空にしてから検索します。（http://は省く）]]></value>
+		<value xml:lang="zh-CN"><![CDATA[请输入子站点域名后再进行搜索。<br/>子站点以外的模块可以留空搜索。(输入时http://除外)。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[請輸入網站域名後再搜尋。<br/>網站以外的模組可直接進行搜尋。(http://不用輸入)。]]></value>
+		<value xml:lang="fr"><![CDATA[가상 사이트(카페XE등)의 도메인을 입력하신 후 검색하세요.<br/>가상 사이트이외의 모듈은 내용을 비우고 검색하시면 됩니다.  (http:// 는 제외)]]></value>
+		<value xml:lang="ru"><![CDATA[가상 사이트(카페XE등)의 도메인을 입력하신 후 검색하세요.<br/>가상 사이트이외의 모듈은 내용을 비우고 검색하시면 됩니다.  (http:// 는 제외)]]></value>
+		<value xml:lang="es"><![CDATA[가상 사이트(카페XE등)의 도메인을 입력하신 후 검색하세요.<br/>가상 사이트이외의 모듈은 내용을 비우고 검색하시면 됩니다.  (http:// 는 제외)]]></value>
+		<value xml:lang="tr"><![CDATA[Sanal sitelerin alanadlarını giriniz.<br />Sanal olmayan sitelerin modüllerini aramak için, boş arama yapınız]]></value>
+		<value xml:lang="vi"><![CDATA[Hãy nhập tên miền thực tế của Website.<br />Để tìm kiếm những Module không thực tế của Website hãy để trống.]]></value>
+	</item>
+	<item name="about_extra_vars_eid_value">
+		<value xml:lang="ko"><![CDATA[확장 변수의 이름을 적어주세요. 영문, 숫자, _를 조합해서 사용할 수 있으며 첫 글자는 영문이어야 합니다.]]></value>
+		<value xml:lang="en"><![CDATA[Enter the name of extra var. You can use a combination of English alphabets, numbers and underscore(_), as long as it starts with an alphabet.]]></value>
+		<value xml:lang="jp"><![CDATA[拡張変数名を入力してください。　（英字+[英字+数字+_]のみ可能（すべて半角））]]></value>
+		<value xml:lang="zh-CN"><![CDATA[请输入扩展变量名称(只允许英文字母+[英文字母+数字+_])。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[請輸入延伸變數名稱。( 只允許使用英文 + [ 英文，數字及底線 ] )]]></value>
+	</item>
+	<item name="about_langcode">
+		<value xml:lang="ko"><![CDATA[언어별로 다르게 설정하고 싶으시면 언어 코드 찾기를 이용해주세요.]]></value>
+		<value xml:lang="en"><![CDATA[If you want to configure seperately, use 'find language code']]></value>
+		<value xml:lang="jp"><![CDATA[言語ごとに異なる設定をする場合、言語コード検索を利用してください。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[要想实现多国语言切换请点击[选择语言变量]按钮。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[想要實現多國語言功能，請按[語言代碼]按鈕。]]></value>
+		<value xml:lang="fr"><![CDATA[언어별로 다르게 설정하고 싶으시면 언어코드 찾기를 이용해주세요]]></value>
+		<value xml:lang="ru"><![CDATA[언어별로 다르게 설정하고 싶으시면 언어코드 찾기를 이용해주세요]]></value>
+		<value xml:lang="es"><![CDATA[언어별로 다르게 설정하고 싶으시면 언어코드 찾기를 이용해주세요]]></value>
+		<value xml:lang="tr"><![CDATA[Eğer tek tek yapılandırma yapmak istiyorsanız, 'dil kodu bul'' u kullanınız.]]></value>
+		<value xml:lang="vi"><![CDATA[Nếu bạn muốn sử dụng định hình riêng, hãy sử dụng 'Tìm kiếm mã ngôn ngữ']]></value>
+	</item>
+	<item name="about_file_extension">
+		<value xml:lang="ko"><![CDATA[%s 파일만 가능합니다.]]></value>
+		<value xml:lang="en"><![CDATA[Only %s extension(s) is available.]]></value>
+		<value xml:lang="jp"><![CDATA[%s ファイルのみ可能です。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[只允许%s文件。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[只允許 %s 檔案。]]></value>
+		<value xml:lang="tr"><![CDATA[Yalnızca %s uzantı(ları) mevucut.]]></value>
+		<value xml:lang="vi"><![CDATA[Chỉ cho phép những phần mở rộng là: %s.]]></value>
+	</item>
+	<item name="fail_module_regist">
+		<value xml:lang="ko"><![CDATA[모듈 등록에 실패하였습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Fail Regist Module]]></value>
+		<value xml:lang="jp"><![CDATA[モジュール登録に失敗しました。]]></value>
+	</item>
+	<item name="multilingual_desc">
+		<value xml:lang="ko"><![CDATA[현재 12 종류의 다국어 문자를 지원할 수 있습니다. 다른 종류의 다국어 지원을 원하는 경우 /common/lang/ 폴더의 다국어 가운데 하나의 세트를 번역해서 XE 개발자(contact@xpressengine.com)에게 보내주세요.]]></value>
+		<value xml:lang="en"><![CDATA[XE supports 12 languages currently. If you want to use another language, translate one set of languages in /common/lang/ folder into that language and send it to us (contact@xpressengine.com).]]></value>
+		<value xml:lang="jp"><![CDATA[XEは、12種類の多国語をサポートしています。他の種類の多国語のサポートを希望する場合は、/common/lang/フォルダの多国語のうち、ひとつのセットを翻訳してXE開発者(contact@xpressengine.com)までお送りください。]]></value>
+	</item>
+	<item name="add_word">
+		<value xml:lang="ko"><![CDATA[새로운 단어 또는 문장 추가...]]></value>
+		<value xml:lang="en"><![CDATA[Add New Word or Sentence...]]></value>
+		<value xml:lang="jp"><![CDATA[新しい単語、または文章追加...]]></value>
+	</item>
+	<item name="installed_module">
+		<value xml:lang="ko"><![CDATA[설치된 모듈]]></value>
+		<value xml:lang="en"><![CDATA[Installed Module]]></value>
+	</item>
+	<item name="cmd_show_hide">
+		<value xml:lang="ko"><![CDATA[보기/숨김]]></value>
+		<value xml:lang="en"><![CDATA[show/hide]]></value>
+	</item>
+	<item name="no_multi_lang">
+		<value xml:lang="ko"><![CDATA[아직 등록된 다국어가 없습니다.]]></value>
+		<value xml:lang="en"><![CDATA[There is no multi language.]]></value>
+	</item>
+	<item name="module_admin">
+		<value xml:lang="ko"><![CDATA[모듈 관리자]]></value>
+		<value xml:lang="en"><![CDATA[Module Administrator]]></value>
+	</item>
+	<item name="permission_setting">
+		<value xml:lang="ko"><![CDATA[권한 설정]]></value>
+		<value xml:lang="en"><![CDATA[Permission Setting]]></value>
+	</item>
+	<item name="msg_cannot_delete_startmodule">
+		<value xml:lang="ko"><![CDATA[시작 모듈은 삭제할 수 없습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Cannot delete a start module.]]></value>
+	</item>
+</lang>

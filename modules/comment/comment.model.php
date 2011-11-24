@@ -2,106 +2,99 @@
     /**
      * @class  commentModel
      * @author NHN (developers@xpressengine.com)
-     * @brief  comment 모듈의 model class
+     * @brief model class of the comment module
      **/
 
     class commentModel extends comment {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
         }
 
         /**
-         * @brief 선택된 게시물의 팝업메뉴 표시
+         * @brief display the pop-up menu of the post
          *
-         * 인쇄, 스크랩, 추천, 비추천, 신고 기능 추가
+         * Print, scrap, vote-up(recommen), vote-down(non-recommend), report features added
          **/
         function getCommentMenu() {
-
-            // 요청된 게시물 번호와 현재 로그인 정보 구함
+            // get the post's id number and the current login information
             $comment_srl = Context::get('target_srl');
             $mid = Context::get('cur_mid');
             $logged_info = Context::get('logged_info');
             $act = Context::get('cur_act');
-            
-            // menu_list 에 "표시할글,target,url" 을 배열로 넣는다
-            $menu_list = array();
 
-            // trigger 호출
+            // array values for menu_list, "comment post, target, url"
+            $menu_list = array();
+            // call a trigger
             ModuleHandler::triggerCall('comment.getCommentMenu', 'before', $menu_list);
 
             $oCommentController = &getController('comment');
-
-            // 회원이어야만 가능한 기능
+            // feature that only member can do
             if($logged_info->member_srl) {
 
 				$oCommentModel = &getModel('comment');
-				$oComment = $oCommentModel->getComment($comment_srl, false, false);
+				$columnList = array('comment_srl', 'module_srl', 'member_srl', 'ipaddress');
+				$oComment = $oCommentModel->getComment($comment_srl, false, $columnList);
 				$module_srl = $oComment->get('module_srl');
 				$member_srl = $oComment->get('member_srl');
 
 				$oModuleModel = &getModel('module');
 				$comment_config = $oModuleModel->getModulePartConfig('document',$module_srl);
 				if($comment_config->use_vote_up!='N' && $member_srl!=$logged_info->member_srl){
-					// 추천 버튼 추가
+					// Add a vote-up button for positive feedback
 					$url = sprintf("doCallModuleAction('comment','procCommentVoteUp','%s')", $comment_srl);
-					$oCommentController->addCommentPopupMenu($url,'cmd_vote','./modules/document/tpl/icons/vote_up.gif','javascript');
+					$oCommentController->addCommentPopupMenu($url,'cmd_vote','','javascript');
 				}
 				if($comment_config->use_vote_down!='N' && $member_srl!=$logged_info->member_srl){
-					// 비추천 버튼 추가
+					// Add a vote-down button for negative feedback
 					$url = sprintf("doCallModuleAction('comment','procCommentVoteDown','%s')", $comment_srl);
-					$oCommentController->addCommentPopupMenu($url,'cmd_vote_down','./modules/document/tpl/icons/vote_down.gif','javascript');
+					$oCommentController->addCommentPopupMenu($url,'cmd_vote_down','','javascript');
 				}
 
-                // 신고 기능 추가
+                // Add the report feature against abused posts
                 $url = sprintf("doCallModuleAction('comment','procCommentDeclare','%s')", $comment_srl);
-                $oCommentController->addCommentPopupMenu($url,'cmd_declare','./modules/document/tpl/icons/declare.gif','javascript');
+                $oCommentController->addCommentPopupMenu($url,'cmd_declare','','javascript');
             }
-
-            // trigger 호출 (after)
+            // call a trigger (after)
             ModuleHandler::triggerCall('comment.getCommentMenu', 'after', $menu_list);
-
-            // 관리자일 경우 ip로 글 찾기
+            // find a comment by IP matching if an administrator.
             if($logged_info->is_admin == 'Y') {
                 $oCommentModel = &getModel('comment');
                 $oComment = $oCommentModel->getComment($comment_srl);
 
                 if($oComment->isExists()) {
-                    // ip주소에 해당하는 글 찾기
-                    $url = getUrl('','module','admin','act','dispCommentAdminList','search_target','ipaddress','search_keyword',$oComment->get('ipaddress'));
-                    $icon_path = './modules/member/tpl/images/icon_management.gif';
+                    // Find a post of the corresponding ip address
+                    $url = getUrl('','module','admin','act','dispCommentAdminList','search_target','ipaddress','search_keyword',$oComment->getIpAddress());
                     $oCommentController->addCommentPopupMenu($url,'cmd_search_by_ipaddress',$icon_path,'TraceByIpaddress');
 
-                    $url = sprintf("var params = new Array(); params['ipaddress']='%s'; exec_xml('spamfilter', 'procSpamfilterAdminInsertDeniedIP', params, completeCallModuleAction)", $oComment-> getIpAddress());
-                    $oCommentController->addCommentPopupMenu($url,'cmd_add_ip_to_spamfilter','./modules/document/tpl/icons/declare.gif','javascript');
+                    $url = sprintf("var params = new Array(); params['ipaddress']='%s'; exec_xml('spamfilter', 'procSpamfilterAdminInsertDeniedIP', params, completeCallModuleAction)", $oComment->getIpAddress());
+                    $oCommentController->addCommentPopupMenu($url,'cmd_add_ip_to_spamfilter','','javascript');
                 }
             }
-
-            // 팝업메뉴의 언어 변경
+            // Changing a language of pop-up menu
             $menus = Context::get('comment_popup_menu_list');
             $menus_count = count($menus);
             for($i=0;$i<$menus_count;$i++) {
                 $menus[$i]->str = Context::getLang($menus[$i]->str);
             }
-
-            // 최종적으로 정리된 팝업메뉴 목록을 구함
+            // get a list of final organized pop-up menus
             $this->add('menus', $menus);
         }
 
 
         /**
-         * @brief comment_srl에 권한이 있는지 체크
+         * @brief check if you have a permission to comment_srl
          *
-         * 세션 정보만 이용
+         * use only session information
          **/
         function isGranted($comment_srl) {
             return $_SESSION['own_comment'][$comment_srl];
         }
 
         /**
-         * @brief 자식 답글의 갯수 리턴
+         * @brief Returns the number of child comments
          **/
         function getChildCommentCount($comment_srl) {
             $args->comment_srl = $comment_srl;
@@ -110,24 +103,23 @@
         }
 
         /**
-         * @brief 댓글 가져오기
+         * @brief get the comment
          **/
-        function getComment($comment_srl=0, $is_admin = false) {
-            $oComment = new commentItem($comment_srl);
+        function getComment($comment_srl=0, $is_admin = false, $columnList = array()) {
+            $oComment = new commentItem($comment_srl, $columnList);
             if($is_admin) $oComment->setGrant();
 
             return $oComment;
         }
 
         /**
-         * @brief 여러개의 댓글들을 가져옴 (페이징 아님)
+         * @brief get the multiple comments(not paginating)
          **/
-        function getComments($comment_srl_list) {
+        function getComments($comment_srl_list, $columnList = array()) {
             if(is_array($comment_srl_list)) $comment_srls = implode(',',$comment_srl_list);
-
-            // DB에서 가져옴
+            // fetch from a database
             $args->comment_srls = $comment_srls;
-            $output = executeQuery('comment.getComments', $args);
+            $output = executeQuery('comment.getComments', $args, $columnList);
             if(!$output->toBool()) return;
             $comment_list = $output->data;
             if(!$comment_list) return;
@@ -147,7 +139,7 @@
         }
 
         /**
-         * @brief document_srl 에 해당하는 댓글의 전체 갯수를 가져옴
+         * @brief get the total number of comments in corresponding with document_srl.
          **/
         function getCommentCount($document_srl) {
             $args->document_srl = $document_srl;
@@ -156,35 +148,56 @@
             return (int)$total_count;
         }
 
+        /**
+         * @brief get the total number of comments in corresponding with document_srl.
+         **/
+        function getCommentCountByDate($date = '', $moduleSrlList = array()) {
+			if($date) $args->regDate = date('Ymd', strtotime($date));
+			if(count($moduleSrlList)>0) $args->module_srl = $moduleSrlList;
+
+            $output = executeQuery('comment.getCommentCount', $args);
+			if(!$output->toBool()) return 0;
+
+			return $output->data->count;
+        }
 
         /**
-         * @brief module_srl 에 해당하는 댓글의 전체 갯수를 가져옴
+         * @brief get the total number of comments in corresponding with module_srl.
          **/
         function getCommentAllCount($module_srl) {
             $args->module_srl = $module_srl;
 			$output = executeQuery('comment.getCommentCount', $args);
 			$total_count = $output->data->count;
-			
+
             return (int)$total_count;
         }
 
 
-        /** 
-         * @brief mid 에 해당하는 댓글을 가져옴
+        /**
+         * @brief get the comment in corresponding with mid.
+         * TODO add commentItems to cache too
          **/
-        function getNewestCommentList($obj) {
+        function getNewestCommentList($obj, $columnList = array()) {
             if($obj->mid) {
                 $oModuleModel = &getModel('module');
                 $obj->module_srl = $oModuleModel->getModuleSrlByMid($obj->mid);
                 unset($obj->mid);
             }
-
-            // 넘어온 module_srl은 array일 수도 있기에 array인지를 체크 
+            // check if module_srl is an arrary.
             if(is_array($obj->module_srl)) $args->module_srl = implode(',', $obj->module_srl);
             else $args->module_srl = $obj->module_srl;
             $args->list_count = $obj->list_count;
-
-            $output = executeQuery('comment.getNewestCommentList', $args);
+        	// cache controll
+			$oCacheHandler = &CacheHandler::getInstance('object');
+			if($oCacheHandler->isSupport()){
+				$object_key = 'object_newest_comment_list:'.$obj->module_srl;
+                                $cache_key = $oCacheHandler->getGroupKey('newestCommentsList', $object_key);
+				$output = $oCacheHandler->get($cache_key);
+			}
+			if(!$output){
+            	$output = executeQuery('comment.getNewestCommentList', $args, $columnList);
+            	if($oCacheHandler->isSupport()) $oCacheHandler->put($cache_key,$output);
+			}
             if(!$output->toBool()) return $output;
 
             $comment_list = $output->data;
@@ -204,65 +217,71 @@
             return $result;
         }
 
-        /** 
-         * @brief document_srl에 해당하는 문서의 댓글 목록을 가져옴
+        /**
+         * @brief get a comment list of the doc in corresponding woth document_srl.
          **/
         function getCommentList($document_srl, $page = 0, $is_admin = false, $count = 0) {
-            // 해당 문서의 모듈에 해당하는 댓글 수를 구함
-            $oDocumentModel = &getModel('document');
-            $oDocument = $oDocumentModel->getDocument($document_srl);
+                if(!isset($document_srl)) return;
+        	// cache controll
+                $oCacheHandler = &CacheHandler::getInstance('object');
+                if($oCacheHandler->isSupport()){
+                        $object_key = 'object:'.$document_srl.'_'.$page.'_'.($is_admin ? 'Y' : 'N') .'_' . $count;
+                        $cache_key = $oCacheHandler->getGroupKey('commentList_' . $document_srl, $object_key);
+                        $output = $oCacheHandler->get($cache_key);
+                }
+        	if(!$output){
+                    // get the number of comments on the document module
+	            $oDocumentModel = &getModel('document');
+                    $columnList = array('document_srl', 'module_srl', 'comment_count');
+	            $oDocument = $oDocumentModel->getDocument($document_srl, false, true, $columnList);
+	            // return if no doc exists.
+	            if(!$oDocument->isExists()) return;
+	            // return if no comment exists
+	            if($oDocument->getCommentCount()<1) return;
+	            // get a list of comments
+	            $module_srl = $oDocument->get('module_srl');
 
-            // 문서가 존재하지 않으면 return~
-            if(!$oDocument->isExists()) return;
+	            if(!$count) {
+	                $comment_config = $this->getCommentConfig($module_srl);
+	                $comment_count = $comment_config->comment_count;
+	                if(!$comment_count) $comment_count = 50;
+	            } else {
+	                $comment_count = $count;
+	            }
+	            // get a very last page if no page exists
+	            if(!$page) $page = (int)( ($oDocument->getCommentCount()-1) / $comment_count) + 1;
+	            // get a list of comments
+	            $args->document_srl = $document_srl;
+	            $args->list_count = $comment_count;
+	            $args->page = $page;
+	            $args->page_count = 10;
+	            $output = executeQueryArray('comment.getCommentPageList', $args);
+	            // return if an error occurs in the query results
+	            if(!$output->toBool()) return;
+	            // insert data into CommentPageList table if the number of results is different from stored comments
+	            if(!$output->data) {
+	                $this->fixCommentList($oDocument->get('module_srl'), $document_srl);
+	                $output = executeQueryArray('comment.getCommentPageList', $args);
+	                if(!$output->toBool()) return;
+	            }
+	            //insert in cache
+	            if($oCacheHandler->isSupport()) $oCacheHandler->put($cache_key,$output);
 
-            // 댓글수가 없으면 return~
-            if($oDocument->getCommentCount()<1) return;
-
-            // 정해진 댓글수에 따른 댓글 목록 구함
-            $module_srl = $oDocument->get('module_srl');
-
-            if(!$count) {
-                $comment_config = $this->getCommentConfig($module_srl);
-                $comment_count = $comment_config->comment_count;
-                if(!$comment_count) $comment_count = 50;
-            } else {
-                $comment_count = $count;
-            }
-
-            // 페이지가 없으면 제일 뒤 페이지를 구함
-            if(!$page) $page = (int)( ($oDocument->getCommentCount()-1) / $comment_count) + 1;                
-
-            // 정해진 수에 따라 목록을 구해옴
-            $args->document_srl = $document_srl;
-            $args->list_count = $comment_count;
-            $args->page = $page;
-            $args->page_count = 10;
-            $output = executeQueryArray('comment.getCommentPageList', $args);
-
-            // 쿼리 결과에서 오류가 생기면 그냥 return
-            if(!$output->toBool()) return;
-
-            // 만약 구해온 결과값이 저장된 댓글수와 다르다면 기존의 데이터로 판단하고 댓글 목록 테이블에 데이터 입력
-            if(!$output->data) {
-                $this->fixCommentList($oDocument->get('module_srl'), $document_srl);
-                $output = executeQueryArray('comment.getCommentPageList', $args);
-                if(!$output->toBool()) return;
-            }
+        	}
 
             return $output;
         }
-            
+
         /**
-         * @brief document_srl에 해당하는 댓글 목록을 갱신
-         * 정식버전 이전에 사용되던 데이터를 위한 처리
+         * @brief update a list of comments in corresponding with document_srl
+         * take care of previously used data than GA version
          **/
         function fixCommentList($module_srl, $document_srl) {
-            // 일괄 작업이라서 lock 파일을 생성하여 중복 작업이 되지 않도록 한다
+            // create a lock file to prevent repeated work when performing a batch job
             $lock_file = "./files/cache/tmp/lock.".$document_srl;
             if(file_exists($lock_file) && filemtime($lock_file)+60*60*10<time()) return;
             FileHandler::writeFile($lock_file, '');
-
-            // 목록을 구함
+            // get a list
             $args->document_srl = $document_srl;
             $args->list_order = 'list_order';
             $output = executeQuery('comment.getCommentList', $args);
@@ -270,25 +289,20 @@
 
             $source_list = $output->data;
             if(!is_array($source_list)) $source_list = array($source_list);
-
-            // 댓글를 계층형 구조로 정렬
+            // Sort comments by the hierarchical structure
             $comment_count = count($source_list);
 
             $root = NULL;
             $list = NULL;
             $comment_list = array();
-
-            // 로그인 사용자의 경우 로그인 정보를 일단 구해 놓음
+            // get the log-in information for logged-in users
             $logged_info = Context::get('logged_info');
-
-
-            // loop를 돌면서 코멘트의 계층 구조 만듬 
+            // generate a hierarchical structure of comments for loop
             for($i=$comment_count-1;$i>=0;$i--) {
                 $comment_srl = $source_list[$i]->comment_srl;
                 $parent_srl = $source_list[$i]->parent_srl;
                 if(!$comment_srl) continue;
-
-                // 목록을 만듬
+                // generate a list
                 $list[$comment_srl] = $source_list[$i];
 
                 if($parent_srl) {
@@ -298,8 +312,7 @@
                 }
             }
             $this->_arrangeComment($comment_list, $root->child, 0, null);
-
-            // 구해진 값을 db에 입력함
+            // insert values to the database
             if(count($comment_list)) {
                 foreach($comment_list as $comment_srl => $item) {
                     $comment_args = null;
@@ -314,13 +327,12 @@
                     executeQuery('comment.insertCommentList', $comment_args);
                 }
             }
-
-            // 성공시 lock파일 제거
+            // remove the lock file if successful.
             FileHandler::removeFile($lock_file);
         }
 
         /**
-         * @brief 댓글을 계층형으로 재배치
+         * @brief relocate comments in the hierarchical structure
          **/
         function _arrangeComment(&$comment_list, $list, $depth, $parent = null) {
             if(!count($list)) return;
@@ -343,20 +355,18 @@
         }
 
         /**
-         * @brief 모든 댓글를 시간 역순으로 가져옴 (관리자용)
+         * @brief get all the comments in time decending order(for administrators)
          **/
-        function getTotalCommentList($obj) {
+        function getTotalCommentList($obj, $columnList = array()) {
             $query_id = 'comment.getTotalCommentList';
-
-            // 변수 설정
+            // Variables
             $args->sort_index = 'list_order';
             $args->page = $obj->page?$obj->page:1;
             $args->list_count = $obj->list_count?$obj->list_count:20;
             $args->page_count = $obj->page_count?$obj->page_count:10;
             $args->s_module_srl = $obj->module_srl;
             $args->exclude_module_srl = $obj->exclude_module_srl;
-
-            // 검색 옵션 정리
+            // Search options
             $search_target = $obj->search_target?$obj->search_target:trim(Context::get('search_target'));
             $search_keyword = $obj->search_keyword?$obj->search_keyword:trim(Context::get('search_keyword'));
             if($search_target && $search_keyword) {
@@ -396,16 +406,17 @@
                     case 'ipaddress' :
                             $args->s_ipaddress= $search_keyword;
                         break;
+                    case 'is_secret' :
+                            $args->s_is_secret= $search_keyword;
+                        break;
                     case 'member_srl' :
                             $args->{"s_".$search_target} = (int)$search_keyword;
                         break;
                 }
             }
-
-            // comment.getTotalCommentList 쿼리 실행
-            $output = executeQueryArray($query_id, $args);
-
-            // 결과가 없거나 오류 발생시 그냥 return
+            // comment.getTotalCommentList query execution
+            $output = executeQueryArray($query_id, $args, $columnList);
+            // return when no result or error occurance
             if(!$output->toBool()||!count($output->data)) return $output;
             foreach($output->data as $key => $val) {
                 unset($_oComment);
@@ -418,7 +429,69 @@
         }
 
         /**
-         * @brief 모듈별 댓글 설정을 return
+         * @brief get all the comment count in time decending order(for administrators)
+         **/
+        function getTotalCommentCount($obj) {
+            $query_id = 'comment.getTotalCommentCountByGroupStatus';
+            // Variables
+            $args->s_module_srl = $obj->module_srl;
+            $args->exclude_module_srl = $obj->exclude_module_srl;
+            // Search options
+            $search_target = $obj->search_target?$obj->search_target:trim(Context::get('search_target'));
+            $search_keyword = $obj->search_keyword?$obj->search_keyword:trim(Context::get('search_keyword'));
+            if($search_target && $search_keyword) {
+                switch($search_target) {
+                    case 'content' :
+                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
+                            $args->s_content = $search_keyword;
+                        break;
+                    case 'user_id' :
+                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
+                            $args->s_user_id = $search_keyword;
+                            $query_id = 'comment.getTotalCommentCountWithinMemberByGroupStatus';
+                        break;
+                    case 'user_name' :
+                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
+                            $args->s_user_name = $search_keyword;
+                        break;
+                    case 'nick_name' :
+                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
+                            $args->s_nick_name = $search_keyword;
+                        break;
+                    case 'email_address' :
+                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
+                            $args->s_email_address = $search_keyword;
+                        break;
+                    case 'homepage' :
+                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
+                            $args->s_homepage = $search_keyword;
+                        break;
+                    case 'regdate' :
+                            $args->s_regdate = $search_keyword;
+                        break;
+                    case 'last_update' :
+                            $args->s_last_upate = $search_keyword;
+                        break;
+                    case 'ipaddress' :
+                            $args->s_ipaddress= $search_keyword;
+                        break;
+                    case 'is_secret' :
+                            $args->s_is_secret= $search_keyword;
+                        break;
+                    case 'member_srl' :
+                            $args->{"s_".$search_target} = (int)$search_keyword;
+                        break;
+                }
+            }
+            $output = executeQueryArray($query_id, $args);
+            // return when no result or error occurance
+            if(!$output->toBool()||!count($output->data)) return $output;
+
+            return $output->data;
+        }
+
+        /**
+         * @brief return a configuration of comments for each module
          **/
         function getCommentConfig($module_srl) {
             $oModuleModel = &getModel('module');
@@ -463,6 +536,14 @@
 			}
 
 			$this->add('voted_member_list',$output->data);
+		}
+
+		function getSecretNameList()
+		{
+			global $lang;
+			if(!isset($lang->secret_name_list))
+				return array('Y'=>'Secret', 'N'=>'Public');
+			else return $lang->secret_name_list;
 		}
     }
 ?>

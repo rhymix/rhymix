@@ -2,46 +2,48 @@
     /**
      * @class  counterController
      * @author NHN (developers@xpressengine.com)
-     * @brief  counter 모듈의 controller class
+     * @brief counter module's controller class
      **/
 
     class counterController extends counter {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
         }
 
         /**
-         * @brief 카운터 기록
+         * @brief Counter logs
+		 * @deprecated, if want use below function, you can use 'counterExecute' function instead this function
          **/
         function procCounterExecute() {
+        }
+
+        /**
+         * @brief Counter logs
+         **/
+        function counterExecute() {
             $oDB = &DB::getInstance();
             $oDB->begin();
 
             $site_module_info = Context::get('site_module_info');
             $site_srl = (int)$site_module_info->site_srl;
-
-            // 로그를 검사
+            // Check the logs
             $oCounterModel = &getModel('counter');
-
-            // 오늘자 row가 있는지 체크하여 없으면 등록
+            // Register today's row if not exist
             if(!$oCounterModel->isInsertedTodayStatus($site_srl)) {
                 $this->insertTodayStatus(0,$site_srl);
-
-            // 기존 row가 있으면 사용자 체크 
+            // check user if the previous row exists
             } else {
-
-                // 등록되어 있지 않은 아이피일 경우
+                // If unregistered IP
                 if(!$oCounterModel->isLogged($site_srl)) {
-                    // 로그 등록
+                    // Leave logs
                     $this->insertLog($site_srl);
-
-                    // unique 및 pageview 등록
+                    // Register unique and pageview
                     $this->insertUniqueVisitor($site_srl);
                 } else {
-                    // pageview 등록
+                    //  Register pageview
                     $this->insertPageView($site_srl);
                 }
             }
@@ -50,7 +52,7 @@
         }
 
         /**
-         * @brief 로그 등록 
+         * @brief Leave logs
          **/
         function insertLog($site_srl=0) {
             $args->regdate = date("YmdHis");
@@ -60,7 +62,7 @@
         }
 
         /**
-         * @brief unique visitor 등록
+         * @brief Register the unique visitor
          **/
         function insertUniqueVisitor($site_srl=0) {
             if($site_srl) {
@@ -78,7 +80,7 @@
         }
 
         /**
-         * @brief pageview 등록
+         * @brief Register pageview
          **/
         function insertPageView($site_srl=0) {
             if($site_srl) { 
@@ -96,7 +98,7 @@
         }
 
         /**
-         * @brief 전체 카운터 status 추가
+         * @brief Add the total counter status
          **/
         function insertTotalStatus($site_srl=0) {
             $args->regdate = 0;
@@ -109,7 +111,7 @@
         }
 
         /**
-         * @brief 오늘자 카운터 status 추가
+         * @brief Add today's counter status
          **/
         function insertTodayStatus($regdate = 0, $site_srl=0) {
             if($regdate) $args->regdate = $regdate;
@@ -118,23 +120,21 @@
                 $args->site_srl = $site_srl;
                 $query_id = 'counter.insertSiteTodayStatus';
 
-                $u_args->site_srl = $site_srl; ///< 일별 row입력시 전체 row (regdate=0)도 같이 입력 시도
+                $u_args->site_srl = $site_srl; // /< when inserting a daily row, attempt to inser total rows(where regdate=0) together
                 executeQuery($query_id, $u_args);
             } else {
                 $query_id = 'counter.insertTodayStatus';
-                executeQuery($query_id); ///< 일별 row입력시 전체 row (regdate=0)도 같이 입력 시도
+                executeQuery($query_id); // /< when inserting a daily row, attempt to inser total rows(where regdate=0) together
             }
             $output = executeQuery($query_id, $args);
-
-            // 로그 등록
+            // Leave logs
             $this->insertLog($site_srl);
-
-            // unique 및 pageview 등록
+            // Register unique and pageview
             $this->insertUniqueVisitor($site_srl);
         }
 
         /**
-         * @brief 특정 가상 사이트의 카운터 로그 삭제
+         * @brief Delete counter logs of the specific virtual site
          **/
         function deleteSiteCounterLogs($site_srl) {
             $args->site_srl = $site_srl;

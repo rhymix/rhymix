@@ -6,7 +6,8 @@
         <column name="*" />
     </columns>
     <conditions>
-        <condition operation="like" column="title" var="s_title" />
+        <condition operation="in" column="poll_index_srl" var="pollIndexSrlList" filter="number" />
+        <condition operation="like" column="title" var="s_title" pipe="or"/>
         <condition operation="like_prefix" column="regdate" var="s_regdate" pipe="or" />
         <condition operation="like_prefix" column="ipaddress" var="s_ipaddress" pipe="or" />
     </conditions>

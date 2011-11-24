@@ -200,7 +200,7 @@
 
             // page_count 정리
             if($output->page_count) {
-                $buff .= sprintf('$output->page_count = array("var"=>"%s", "value"=>$args->%s?$args->%s:"%s");%s', $output->page_count->var, $output->page_count->var, $output->page_count->var, $output->list_count->default,"\n");
+                $buff .= sprintf('$output->page_count = array("var"=>"%s", "value"=>$args->%s?$args->%s:"%s");%s', $output->page_count->var, $output->page_count->var, $output->page_count->var, $output->page_count->default,"\n");
             }
 
             // page 정리

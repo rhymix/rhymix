@@ -1,211 +1,178 @@
 <!--%import("filter/insert_editor_module_config.xml")-->
-<!--%import("js/editor_module_config.js")-->
-
-<form action="./" method="post" onsubmit="return procFilter(this, insert_editor_module_config)">
-<input type="hidden" name="target_module_srl" value="{$module_info->module_srl?$module_info->module_srl:$module_srls}" />
-    <h4 class="xeAdmin">{$lang->editor}</h4>
-    <table cellspacing="0" class="crossTable">
-    <thead>
-    <tr>
-        <th scope="col"><div>&nbsp;</div></th>
-        <th scope="col" class="half_wide"><div>{$lang->document}</div></th>
-        <th scope="col" class="half_wide"><div>{$lang->comment}</div></th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-        <th rowspan="2"><div>{$lang->editor_skin}</div></th>
-        <td colspan="2"><p>{$lang->about_editor_skin}</p></td>
-    </tr>
-    <tr>
-        <td>
-            <select name="editor_skin" onchange="getEditorSkinColorList(this.value, null, 'document')">
-            <!--@foreach($editor_skin_list as $editor)-->
-            <option value="{$editor}" <!--@if($editor==$editor_config->editor_skin)-->selected="selected"<!--@end-->>{$editor}</option>
-            <!--@end-->
-            </select>
-            <br/>
-            <select name="sel_editor_colorset" id="sel_editor_colorset"<!--@if(!count($editor_colorset_list))--> style="display:none"<!--@end-->>
-                <!--@foreach($editor_colorset_list as $key => $val)-->
-                    <option value="{$val->name}" <!--@if($editor_config->sel_editor_colorset == $val->name)-->selected="selected"<!--@end-->>{$val->title}</option>
-                <!--@end-->
-            </select>
-        </td>
-        <td>
-            <select name="comment_editor_skin" onchange="getEditorSkinColorList(this.value, null, 'comment')">
-            <!--@foreach($editor_skin_list as $editor)-->
-            <option value="{$editor}" <!--@if($editor==$editor_config->comment_editor_skin)-->selected="selected"<!--@end-->>{$editor}</option>
-            <!--@end-->
-            </select>
-            <br/>
-            <select name="sel_comment_editor_colorset" id="sel_comment_editor_colorset"<!--@if(!count($editor_comment_colorset_list))--> style="display:none"<!--@end-->>
-                <!--@foreach($editor_comment_colorset_list as $key => $val)-->
-                    <option value="{$val->name}" <!--@if($editor_config->sel_comment_editor_colorset == $val->name)-->selected="selected"<!--@end-->>{$val->title}</option>
-                <!--@end-->
-            </select>
-        </td>
-    </tr>
-    <tr>
-        <th rowspan="2"><div>{$lang->content_style}</div></th>
-        <td colspan="2"><p>{$lang->about_content_style}</p></td>
-    </tr>
-    <tr>
-        <td>
-            <select name="content_style">
-            <!--@foreach($content_style_list as $key => $val)-->
-            <option value="{$key}" <!--@if($key==$editor_config->content_style||!$editor_config->content_style&&$key=='default')-->selected="selected"<!--@end-->>{$val->title}</option>
-            <!--@end-->
-            </select>
-        </td>
-        <td>
-            <select name="comment_content_style">
-            <!--@foreach($content_style_list as $key => $val)-->
-            <option value="{$key}" <!--@if($key==$editor_config->comment_content_style||!$editor_config->comment_content_style&&$key=='default')-->selected="selected"<!--@end-->>{$val->title}</option>
-            <!--@end-->
-            </select>
-        </td>
-    </tr>
-    <tr>
-        <th rowspan="2"><div>{$lang->content_font}</div></th>
-        <td colspan="2"><p>{$lang->about_content_font}</p></td>
-    </tr>
-    <tr>
-        <td colspan="2">
-            <input type="text" name="content_font" value="{str_replace(array('"','\''),'',$editor_config->content_font)}" class="inputTypeText w400" />
-        </td>
-    </tr>
-    <tr>
-        <th rowspan="2"><div>{$lang->content_font_size}</div></th>
-        <td colspan="2"><p>{$lang->about_content_font_size}</p></td>
-    </tr>
-    <tr>
-        <td colspan="2">
-            <input type="text" name="content_font_size" value="{$editor_config->content_font_size}" class="inputTypeText w80" />
-        </td>
-    </tr>
-    <tr>
-        <th rowspan="2"><div>{$lang->editor_height}</div></th>
-        <td colspan="2"><p>{$lang->about_editor_height}</p></td>
-    </tr>
-    <tr>
-        <td>
-            <input type="text" name="editor_height" value="{$editor_config->editor_height}" class="inputTypeText w80" />px
-        </td>
-        <td>
-            <input type="text" name="comment_editor_height" value="{$editor_config->comment_editor_height}" class="inputTypeText w80" />px
-        </td>
-    </tr>
-    <tr>
-        <th rowspan="2"><div>{$lang->enable_autosave}</div></th>
-        <td colspan="2"><p>{$lang->about_enable_autosave}</p></td>
-    </tr>
-    <tr>
-        <td colspan="2"><input type="checkbox" value="Y" name="enable_autosave" <!--@if($editor_config->enable_autosave=='Y')-->checked="checked"<!--@end-->/></td>
-    </tr>
-    <tr>
-        <th rowspan="2"><div>{$lang->enable_html_grant}</div></th>
-        <td colspan="2"><p>{$lang->about_enable_html_grant}</p></td>
-    </tr>
-    <tr>
-        <td>
-            <!--@foreach($group_list as $k => $v)-->
-            <input type="checkbox" name="enable_html_grant" value="{$k}" id="enable_html_{$k}" <!--@if(in_array($k, $editor_config->enable_html_grant))-->checked="checked"<!--@end-->/> <label for="enable_html_{$k}">{$v->title}</label>
-            <!--@end-->
-            <br/>
-            <span class="button small green"><input type="button" onclick="XE.checkboxToggleAll('enable_html_grant',{ checked:true});return false" value="{$lang->cmd_select_all}" /></span>
-            <span class="button small red"><input type="button" onclick="XE.checkboxToggleAll('enable_html_grant',{ checked:false});return false" value="{$lang->cmd_unselect_all}" /></span>
-        </td>
-        <td>
-            <!--@foreach($group_list as $k => $v)-->
-            <input type="checkbox" name="enable_comment_html_grant" value="{$k}" id="enable_comment_html_{$k}" <!--@if(in_array($k, $editor_config->enable_comment_html_grant))-->checked="checked"<!--@end-->/> <label for="enable_comment_html_{$k}">{$v->title}</label>
-            <!--@end-->
-            <br/>
-            <span class="button small green"><input type="button" onclick="XE.checkboxToggleAll('enable_comment_html_grant',{ checked:true});return false" value="{$lang->cmd_select_all}" /></span>
-            <span class="button small red"><input type="button" onclick="XE.checkboxToggleAll('enable_comment_html_grant',{ checked:false});return false" value="{$lang->cmd_unselect_all}" /></span>
-        </td>
-    </tr>
-    <tr>
-        <th rowspan="2"><div>{$lang->upload_file_grant}</div></th>
-        <td colspan="2"><p>{$lang->about_upload_file_grant}</p></td>
-    </tr>
-    <tr>
-        <td>
-            <!--@foreach($group_list as $k => $v)-->
-            <input type="checkbox" name="upload_file_grant" value="{$k}" id="fileupload_{$k}" <!--@if(in_array($k, $editor_config->upload_file_grant))-->checked="checked"<!--@end-->/> <label for="fileupload_{$k}">{$v->title}</label>
-            <!--@end-->
-            <br/>
-
-            <span class="button small green"><input type="button" onclick="XE.checkboxToggleAll('upload_file_grant',{ checked:true});return false" value="{$lang->cmd_select_all}" /></span>
-            <span class="button small red"><input type="button" onclick="XE.checkboxToggleAll('upload_file_grant',{ checked:false});return false" value="{$lang->cmd_unselect_all}" /></span>
-
-        </td>
-        <td>
-            <!--@foreach($group_list as $k => $v)-->
-            <input type="checkbox" name="comment_upload_file_grant" value="{$k}" id="comment_fileupload_{$k}" <!--@if(in_array($k, $editor_config->comment_upload_file_grant))-->checked="checked"<!--@end-->/> <label for="comment_fileupload_{$k}">{$v->title}</label>
-            <!--@end-->
-            <br/>
-
-            <span class="button small green"><input type="button" onclick="XE.checkboxToggleAll('comment_upload_file_grant',{ checked:true});return false" value="{$lang->cmd_select_all}" /></span>
-            <span class="button small red"><input type="button" onclick="XE.checkboxToggleAll('comment_upload_file_grant',{ checked:false});return false" value="{$lang->cmd_unselect_all}" /></span>
-
-        </td>
-    </tr>
-    <tr>
-        <th rowspan="2"><div>{$lang->enable_default_component_grant}</div></th>
-        <td colspan="2"><p>{$lang->about_default_component_grant}</p></td>
-    </tr>
-    <tr>
-        <td>
-            <!--@foreach($group_list as $k => $v)-->
-            <input type="checkbox" name="enable_default_component_grant" value="{$k}" id="default_componen_{$k}" <!--@if(in_array($k, $editor_config->enable_default_component_grant))-->checked="checked"<!--@end-->/> <label for="default_componen_{$k}">{$v->title}</label>
-            <!--@end-->
-            <br/>
-            <span class="button small green"><input type="button" onclick="XE.checkboxToggleAll('enable_default_component_grant',{ checked:true});return false" value="{$lang->cmd_select_all}" /></span>
-            <span class="button small red"><input type="button" onclick="XE.checkboxToggleAll('enable_default_component_grant',{ checked:false});return false" value="{$lang->cmd_unselect_all}" /></span>
-        </td>
-        <td>
-            <!--@foreach($group_list as $k => $v)-->
-            <input type="checkbox" name="enable_comment_default_component_grant" value="{$k}" id="comment_default_component_{$k}" <!--@if(in_array($k, $editor_config->enable_comment_default_component_grant))-->checked="checked"<!--@end-->/> <label for="comment_default_component_{$k}">{$v->title}</label>
-            <!--@end-->
-            <br/>
-
-            <span class="button small green"><input type="button" onclick="XE.checkboxToggleAll('enable_comment_default_component_grant',{ checked:true});return false" value="{$lang->cmd_select_all}" /></span>
-            <span class="button small red"><input type="button" onclick="XE.checkboxToggleAll('enable_comment_default_component_grant',{ checked:false});return false" value="{$lang->cmd_unselect_all}" /></span>
-
-        </td>
-    </tr>
-    <tr>
-        <th rowspan="2"><div>{$lang->enable_component_grant}</div></th>
-        <td colspan="2"><p>{$lang->about_component_grant}</p></td>
-    </tr>
-    <tr>
-        <td>
-            <!--@foreach($group_list as $k => $v)-->
-            <input type="checkbox" name="enable_component_grant" value="{$k}" id="componen_{$k}" <!--@if(in_array($k, $editor_config->enable_component_grant))-->checked="checked"<!--@end-->/> <label for="componen_{$k}">{$v->title}</label>
-            <!--@end-->
-            <br/>
-
-            <span class="button small green"><input type="button" onclick="XE.checkboxToggleAll('enable_component_grant',{ checked:true});return false" value="{$lang->cmd_select_all}" /></span>
-            <span class="button small red"><input type="button" onclick="XE.checkboxToggleAll('enable_component_grant',{ checked:false});return false" value="{$lang->cmd_unselect_all}" /></span>
-
-        </td>
-        <td>
-            <!--@foreach($group_list as $k => $v)-->
-            <input type="checkbox" name="enable_comment_component_grant" value="{$k}" id="comment_component_{$k}" <!--@if(in_array($k, $editor_config->enable_comment_component_grant))-->checked="checked"<!--@end-->/> <label for="comment_component_{$k}">{$v->title}</label>
-            <!--@end-->
-            <br/>
-
-            <span class="button small green"><input type="button" onclick="XE.checkboxToggleAll('enable_comment_component_grant',{ checked:true});return false" value="{$lang->cmd_select_all}" /></span>
-            <span class="button small red"><input type="button" onclick="XE.checkboxToggleAll('enable_comment_component_grant',{ checked:false});return false" value="{$lang->cmd_unselect_all}" /></span>
-
-        </td>
-    </tr>
-    <tr>
-        <th class="button" colspan="3">
-            <span class="button black strong"><input type="submit" value="{$lang->cmd_save}"/></span>
-        </th>
-    </tr>
-    </tbody>
-    </table>
-
+<load target="js/editor_module_config.js" usecdn="true" />
+<form action="./" method="post" class="form">
+	<input type="hidden" name="act" value="procEditorInsertModuleConfig" />
+	<input type="hidden" name="module" value="editor" />
+	<input type="hidden" name="target_module_srl" value="{$module_info->module_srl?$module_info->module_srl:$module_srls}" />
+	<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
+    <h3 class="h3">{$lang->editor}</h3>
+    <div class="table">
+		<table width="100%" border="1" cellspacing="0">
+			<thead>
+			<tr>
+				<th scope="col">&nbsp;</th>
+				<th scope="col">{$lang->document}</th>
+				<th scope="col">{$lang->comment}</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr>
+				<th rowspan="2" scope="row">{$lang->editor_skin}</th>
+				<td colspan="2">{$lang->about_editor_skin}</td>
+			</tr>
+			<tr>
+				<td>
+					<select name="editor_skin" onchange="getEditorSkinColorList(this.value, null, 'document')">
+					<!--@foreach($editor_skin_list as $editor)-->
+					<option value="{$editor}" <!--@if($editor==$editor_config->editor_skin)-->selected="selected"<!--@end-->>{$editor}</option>
+					<!--@end-->
+					</select>
+					<br/>
+					<select name="sel_editor_colorset" id="sel_editor_colorset"<!--@if(!count($editor_colorset_list))--> style="display:none"<!--@end-->>
+						<!--@foreach($editor_colorset_list as $key => $val)-->
+							<option value="{$val->name}" <!--@if($editor_config->sel_editor_colorset == $val->name)-->selected="selected"<!--@end-->>{$val->title}</option>
+						<!--@end-->
+					</select>
+				</td>
+				<td>
+					<select name="comment_editor_skin" onchange="getEditorSkinColorList(this.value, null, 'comment')">
+					<!--@foreach($editor_skin_list as $editor)-->
+					<option value="{$editor}" <!--@if($editor==$editor_config->comment_editor_skin)-->selected="selected"<!--@end-->>{$editor}</option>
+					<!--@end-->
+					</select>
+					<br/>
+					<select name="sel_comment_editor_colorset" id="sel_comment_editor_colorset"<!--@if(!count($editor_comment_colorset_list))--> style="display:none"<!--@end-->>
+						<!--@foreach($editor_comment_colorset_list as $key => $val)-->
+							<option value="{$val->name}" <!--@if($editor_config->sel_comment_editor_colorset == $val->name)-->selected="selected"<!--@end-->>{$val->title}</option>
+						<!--@end-->
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<th rowspan="2" scope="row">{$lang->content_style}</th>
+				<td colspan="2"><p>{$lang->about_content_style}</p></td>
+			</tr>
+			<tr>
+				<td>
+					<select name="content_style">
+					<!--@foreach($content_style_list as $key => $val)-->
+					<option value="{$key}" <!--@if($key==$editor_config->content_style||!$editor_config->content_style&&$key=='default')-->selected="selected"<!--@end-->>{$val->title}</option>
+					<!--@end-->
+					</select>
+				</td>
+				<td>
+					<select name="comment_content_style">
+					<!--@foreach($content_style_list as $key => $val)-->
+					<option value="{$key}" <!--@if($key==$editor_config->comment_content_style||!$editor_config->comment_content_style&&$key=='default')-->selected="selected"<!--@end-->>{$val->title}</option>
+					<!--@end-->
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<th rowspan="2" scope="row"><label for="content_font">{$lang->content_font}</label></th>
+				<td colspan="2">{$lang->about_content_font}</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<input type="text" name="content_font" id="content_font" value="{str_replace(array('"','\''),'',$editor_config->content_font)}" />
+				</td>
+			</tr>
+			<tr>
+				<th rowspan="2" scope="row"><label for="content_font_size">{$lang->content_font_size}</label></th>
+				<td colspan="2">{$lang->about_content_font_size}</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<input type="text" name="content_font_size" id="content_font_size" value="{$editor_config->content_font_size}" style="width:50px" />
+				</td>
+			</tr>
+			<tr>
+				<th rowspan="2" scope="row">{$lang->editor_height}</th>
+				<td colspan="2">{$lang->about_editor_height}</td>
+			</tr>
+			<tr>
+				<td>
+					<input type="text" name="editor_height" value="{$editor_config->editor_height}" style="width:30px" /> px
+				</td>
+				<td>
+					<input type="text" name="comment_editor_height" value="{$editor_config->comment_editor_height}" style="width:30px" /> px
+				</td>
+			</tr>
+			<tr>
+				<th rowspan="2" scope="row">{$lang->enable_autosave}</th>
+				<td colspan="2">{$lang->about_enable_autosave}</td>
+			</tr>
+			<tr>
+				<td colspan="2"><input type="checkbox" value="Y" name="enable_autosave" <!--@if($editor_config->enable_autosave=='Y')-->checked="checked"<!--@end-->/></td>
+			</tr>
+			<tr>
+				<th rowspan="2" scope="row">{$lang->enable_html_grant}</th>
+				<td colspan="2">{$lang->about_enable_html_grant}</td>
+			</tr>
+			<tr>
+				<td>
+					<!--@foreach($group_list as $k => $v)-->
+					<input type="checkbox" name="enable_html_grant" value="{$k}" id="enable_html_{$k}" <!--@if(in_array($k, $editor_config->enable_html_grant))-->checked="checked"<!--@end-->/> <label for="enable_html_{$k}">{$v->title}</label>
+					<!--@end-->
+				</td>
+				<td>
+					<!--@foreach($group_list as $k => $v)-->
+					<input type="checkbox" name="enable_comment_html_grant" value="{$k}" id="enable_comment_html_{$k}" <!--@if(in_array($k, $editor_config->enable_comment_html_grant))-->checked="checked"<!--@end-->/> <label for="enable_comment_html_{$k}">{$v->title}</label>
+					<!--@end-->
+				</td>
+			</tr>
+			<tr>
+				<th rowspan="2" scope="row">{$lang->upload_file_grant}</th>
+				<td colspan="2">{$lang->about_upload_file_grant}</td>
+			</tr>
+			<tr>
+				<td>
+					<!--@foreach($group_list as $k => $v)-->
+					<input type="checkbox" name="upload_file_grant" value="{$k}" id="fileupload_{$k}" <!--@if(in_array($k, $editor_config->upload_file_grant))-->checked="checked"<!--@end-->/> <label for="fileupload_{$k}">{$v->title}</label>
+					<!--@end-->
+				</td>
+				<td>
+					<!--@foreach($group_list as $k => $v)-->
+					<input type="checkbox" name="comment_upload_file_grant" value="{$k}" id="comment_fileupload_{$k}" <!--@if(in_array($k, $editor_config->comment_upload_file_grant))-->checked="checked"<!--@end-->/> <label for="comment_fileupload_{$k}">{$v->title}</label>
+					<!--@end-->
+				</td>
+			</tr>
+			<tr>
+				<th rowspan="2" scope="row">{$lang->enable_default_component_grant}</th>
+				<td colspan="2">{$lang->about_default_component_grant}</td>
+			</tr>
+			<tr>
+				<td>
+					<!--@foreach($group_list as $k => $v)-->
+					<input type="checkbox" name="enable_default_component_grant" value="{$k}" id="default_componen_{$k}" <!--@if(in_array($k, $editor_config->enable_default_component_grant))-->checked="checked"<!--@end-->/> <label for="default_componen_{$k}">{$v->title}</label>
+					<!--@end-->
+				</td>
+				<td>
+					<!--@foreach($group_list as $k => $v)-->
+					<input type="checkbox" name="enable_comment_default_component_grant" value="{$k}" id="comment_default_component_{$k}" <!--@if(in_array($k, $editor_config->enable_comment_default_component_grant))-->checked="checked"<!--@end-->/> <label for="comment_default_component_{$k}">{$v->title}</label>
+					<!--@end-->
+				</td>
+			</tr>
+			<tr>
+				<th rowspan="2" scope="row">{$lang->enable_component_grant}</th>
+				<td colspan="2">{$lang->about_component_grant}</td>
+			</tr>
+			<tr>
+				<td>
+					<!--@foreach($group_list as $k => $v)-->
+					<input type="checkbox" name="enable_component_grant" value="{$k}" id="componen_{$k}" <!--@if(in_array($k, $editor_config->enable_component_grant))-->checked="checked"<!--@end-->/> <label for="componen_{$k}">{$v->title}</label>
+					<!--@end-->
+				</td>
+				<td>
+					<!--@foreach($group_list as $k => $v)-->
+					<input type="checkbox" name="enable_comment_component_grant" value="{$k}" id="comment_component_{$k}" <!--@if(in_array($k, $editor_config->enable_comment_component_grant))-->checked="checked"<!--@end-->/> <label for="comment_component_{$k}">{$v->title}</label>
+					<!--@end-->
+				</td>
+			</tr>
+			</tbody>
+		</table>
+	</div>
+    <div class="btnArea">
+		<span class="btn"><input type="submit" value="{$lang->cmd_save}"/></span>
+	</div>
 </form>

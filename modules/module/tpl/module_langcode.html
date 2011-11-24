@@ -1,65 +1,95 @@
-<!--%import("./filter/insert_lang.xml")-->
-<!--%import("./js/module_admin.js")-->
-<!--%import("../../common/css/popup.css")-->
-
-<div id="popHeader">
-    <h3 class="xeAdmin">{$lang->lang_code}</h3>
+<load target="js/multilingual.js" usecdn="true" />
+<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
-
-<div id="popBody">
-    <table cellspacing="0" class="colTable">
-    <col width="50%"/>
-    <col width="50%"/>
-    <tr>
-        <td>
-            <table cellspacing="0" class="rowTable">
-            <tbody>
-            <!--@foreach($lang_list as $key => $val)-->
-            <tr>
-                <td>
-                    <div class="fl"><a href="#" onclick="doInsertLangCode('{$val->name}','{$target}'); return false;">{$val->name}</a></div>
-                    <div class="fr">
-                        <a href="{getUrl('name',$val->name)}" class="buttonSet buttonActive"><span>{$lang->cmd_select}</span></a>
-                        <a href="#" onclick="if(confirm('{$lang->confirm_delete}')) doDeleteLang('{$val->name}','{$target}'); return false;" class="buttonSet buttonDelete"><span>{$lang->cmd_select}</span></a>
-                    </div>
-                </td>
-            </tr>
-            <!--@end-->
-            </tbody>
-            </table>
-        </td>
-        <td>
-            <form action="./" method="post" onsubmit="return procFilter(this, insert_lang)" id="menu_fo">
-                <input type="hidden" name="target" value="{$target}" />
-                <table cellspacing="0" class="rowTable">
-                <tbody>
-                <tr>
-                    <th scope="row"><div>{$lang->lang_code}</div></th>
-                    <td>
-                        <input type="text" name="lang_code" value="{$name}" class="inputTypeText w200" />
-                    </td>
-                </tr>
-                <!--@foreach($lang_supported as $key => $val)-->
-                <tr>
-                    <th scope="row"><div>{$val}</div></th>
-                    <td>
-                        <textarea name="{$key}" class="inputTypeTextArea" style="height:40px; width:90%;">{$selected_lang[$key]}</textarea>
-                    </td>
-                </tr>
-                <!--@end-->
-                <tr>
-                    <th class="button" colspan="2">
-                        <span class="button black strong"><input type="submit" value="{$lang->cmd_save}"></span>
-                    </th>
-                </tr>
-                </tbody>
-                </table>
-            </form>
-        </td>
-    </tr>
-    </table>
+<h1 class="h1">{$lang->menu_gnb_sub['multilingual']}</h1>
+<p>{$lang->multilingual_desc}</p>
+<div class="mLangEdit ko form"><!-- class="mLangEdit LANGCODE" -->
+	<div class="btnArea">
+		<span class="btn"><a href="#addWord" class="modalAnchor">{$lang->add_word}</a></span>
+	</div>
+	<ul id="langList">
+		<li cond="!is_array($lang_code_list) || count($lang_code_list) < 1">
+			<p>{$lang->no_multi_lang}</p>
+		</li>
+		<li loop="$lang_code_list=>$key,$value">
+		{@$langName = $value->name}
+		<strong>{$value->value}</strong> <span class="side"><button type="button" class="text" cond="$module != 'admin'" onclick="doInsertLangCode('{$value->name}', '{$target}')">{$lang->cmd_apply}</button><button type="button" class="text _edit">{$lang->cmd_edit}</button></span>
+		<form action="./" method="post" id="langForm_{$langName}" >
+			<input type="hidden" name="module" value="{$module}" />
+			<input type="hidden" name="act" value="procModuleAdminInsertLang" />
+			<input type="hidden" name="lang_name" value="{$langName}" />
+			<ul>
+				{@
+					/* move current language to the top */
+					$a = array($lang_type=>$lang_supported[$lang_type]);
+					unset($lang_supported[$lang_type]);
+					$lang_supported = array_merge($a, $lang_supported);
+				}
+				<li class="{$key2}" loop="$lang_supported=>$key2,$value2"><label for="{$langName}_{$key2}">{$value2}</label> <textarea rows="1" cols="42" name="{$key2}" id="{$langName}_{$key2}"></textarea></li>
+			</ul>
+			<div class="btnArea">
+				<button type="submit" name="act" value="procModuleAdminInsertLang">{$lang->cmd_save}</button>
+				<button type="submit" name="act" value="procModuleAdminDeleteLang">{$lang->cmd_delete}</button>
+			</div>
+		</form>
+		</li>
+	</ul>
+	<div class="btnArea">
+		<span class="btn"><a href="#addWord" class="modalAnchor">{$lang->add_word}</a></span>
+	</div>
 </div>
+<div class="modal" id="addWord">
+	<form action="./" method="post" class="form mLangEdit fg" id="langForm_new" >
+	<input type="hidden" name="act" value="procModuleAdminInsertLang" />
+	<input type="hidden" name="module" value="{$module}" />
+	<input type="hidden" name="target" value="{$target}" />
+	<h2 class="h2">{$lang->add_word}</h2>
+	<ul>
+		<li class="{$key2}" loop="$lang_supported=>$key2,$value2"><label for="{$langName}_{$key2}">{$value2}</label> <textarea rows="1" cols="42" name="{$key2}" id="{$langName}_{$key2}"></textarea></li>
+	</ul>
+	<div class="btnArea">
+		<span class="btn small"><button type="submit">{$lang->cmd_save}</button></span>
+	</div>
+	</form>
+</div>
+<div class="search">
+	<form action="" class="pagination">
+	<input type="hidden" name="error_return_url" value="" />
+	<input type="hidden" name="module" value="{$module}" />
+	<input type="hidden" name="act" value="{$act}" />
+	<input cond="$search_keyword" type="hidden" name="search_keyword" value="{$search_keyword}" />
+	<input cond="$search_target" type="hidden" name="search_target" value="{$search_target}" />
 
-<script type="text/javascript">
-	jQuery(function(){ doFillLangName() });
-</script>
+	<a href="{getUrl('page', '')}" class="direction">&laquo; FIRST</a>
+	<block cond="$page_navigation->first_page + $page_navigation->page_count > $page_navigation->last_page && $page_navigation->page_count != $page_navigation->total_page">
+		{@$isGoTo = true}
+		<a href="{getUrl('page', '')}">1</a>
+		<a href="#goTo" class="tgAnchor" title="{$lang->cmd_go_to_page}">...</a>
+	</block>
+	<block loop="$page_no = $page_navigation->getNextPage()">
+		{@$last_page = $page_no}
+		<strong cond="$page_no == $page">{$page_no}</strong>
+		<a cond="$page_no != $page" href="{getUrl('page', $page_no)}">{$page_no}</a>
+	</block>
+	<block cond="$last_page != $page_navigation->last_page">
+		{@$isGoTo = true}
+		<a href="#goTo" class="tgAnchor" title="{$lang->cmd_go_to_page}">...</a>
+		<a href="{getUrl('page', $page_navigation->last_page)}">{$page_navigation->last_page}</a>
+	</block>
+	<a href="{getUrl('page', $page_navigation->last_page)}" class="direction">LAST &raquo;</a>
+	<span cond="$isGoTo" id="goTo" class="tgContent">
+		<input name="page" title="{$lang->cmd_go_to_page}" />
+		<button type="submit">Go</button>
+	</span>
+	</form>
+
+	<form action="./" method="get">
+	<input type="hidden" name="module" value="{$module}" />
+	<input type="hidden" name="act" value="{$act}" />
+	<input type="hidden" name="search_target" value="value" />
+	<input type="hidden" name="error_return_url" value="" />
+		<input title="search" name="search_keyword" value="{htmlspecialchars($search_keyword)}" />
+		<input type="submit" value="{$lang->cmd_search}" />
+	</form>
+</div>

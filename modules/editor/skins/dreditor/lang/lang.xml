@@ -1,0 +1,533 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<lang>
+	<item name="edit">
+		<item name="msg_dr_delete_confirm">
+			<value xml:lang="ko"><![CDATA[선택한 단락을 삭제하시겠습니까?]]></value>
+			<value xml:lang="en"><![CDATA[Do you want to remove the selected paragraph?]]></value>
+			<value xml:lang="jp"><![CDATA[選択した段落を削除しますか？]]></value>
+			<value xml:lang="zh-CN"><![CDATA[确定要删除所选锻炼吗？]]></value>
+			<value xml:lang="zh-TW"><![CDATA[想要移除所選擇的段落？]]></value>
+			<value xml:lang="tr"><![CDATA[Seçili paragrafı kaldırmak istiyor musunuz?]]></value>
+			<value xml:lang="vi"><![CDATA[Bạn có muốn xóa đoạn văn bản đã chọn?]]></value>
+		</item>
+		<item name="insert_dr_title">
+			<value xml:lang="ko"><![CDATA[단락의 제목을 입력해 주세요]]></value>
+			<value xml:lang="en"><![CDATA[Please enter the title.]]></value>
+			<value xml:lang="jp"><![CDATA[段落のタイトルを入力してください。]]></value>
+			<value xml:lang="zh-CN"><![CDATA[请输入段落标题。]]></value>
+			<value xml:lang="zh-TW"><![CDATA[請輸入標題]]></value>
+			<value xml:lang="tr"><![CDATA[Lütfen başlık girin]]></value>
+			<value xml:lang="vi"><![CDATA[Xin hãy nhập tiêu đề.]]></value>
+		</item>
+		<item name="richtext_area">
+			<value xml:lang="ko"><![CDATA[리치 텍스트 쓰기 영역]]></value>
+			<value xml:lang="en"><![CDATA[Richtext Area]]></value>
+			<value xml:lang="jp"><![CDATA[リッチテキストの入力スペース]]></value>
+			<value xml:lang="zh-CN"><![CDATA[富编辑器编辑区]]></value>
+			<value xml:lang="zh-TW"><![CDATA[所見及得區域]]></value>
+			<value xml:lang="tr"><![CDATA[Zengın metin alanı]]></value>
+			<value xml:lang="vi"><![CDATA[Định dạng khu vực viết văn bản]]></value>
+		</item>
+		<item name="insert_site_name">
+			<value xml:lang="ko"><![CDATA[사이트 이름을 입력할 수 있습니다]]></value>
+			<value xml:lang="en"><![CDATA[Please enter the name of the site.]]></value>
+			<value xml:lang="jp"><![CDATA[サイト名を入力します。]]></value>
+			<value xml:lang="zh-CN"><![CDATA[在此可以输入网站名称。]]></value>
+			<value xml:lang="zh-TW"><![CDATA[請輸入網站名稱]]></value>
+			<value xml:lang="tr"><![CDATA[Lütfen site adını girin]]></value>
+			<value xml:lang="vi"><![CDATA[Tên trang Web.]]></value>
+		</item>
+		<item name="insert_explain">
+			<value xml:lang="ko"><![CDATA[설명을 추가로 입력할 수 있습니다]]></value>
+			<value xml:lang="en"><![CDATA[Please enter the description.]]></value>
+			<value xml:lang="jp"><![CDATA[説明の追加入力ができます。]]></value>
+			<value xml:lang="zh-CN"><![CDATA[在此可以输入简单说明。]]></value>
+			<value xml:lang="zh-TW"><![CDATA[請輸入說明]]></value>
+			<value xml:lang="tr"><![CDATA[Lütfen tanım girin]]></value>
+			<value xml:lang="vi"><![CDATA[Mô tả cho trang Web.]]></value>
+		</item>
+		<item name="text">
+			<value xml:lang="ko"><![CDATA[텍스트]]></value>
+			<value xml:lang="en"><![CDATA[Text]]></value>
+			<value xml:lang="jp"><![CDATA[テキスト]]></value>
+			<value xml:lang="zh-CN"><![CDATA[文本]]></value>
+			<value xml:lang="zh-TW"><![CDATA[文字]]></value>
+			<value xml:lang="tr"><![CDATA[Metin]]></value>
+			<value xml:lang="vi"><![CDATA[Văn bản]]></value>
+		</item>
+		<item name="link">
+			<value xml:lang="ko"><![CDATA[링크]]></value>
+			<value xml:lang="en"><![CDATA[Link]]></value>
+			<value xml:lang="jp"><![CDATA[リンク]]></value>
+			<value xml:lang="zh-CN"><![CDATA[链接]]></value>
+			<value xml:lang="zh-TW"><![CDATA[連結]]></value>
+			<value xml:lang="tr"><![CDATA[Bağlantı]]></value>
+			<value xml:lang="vi"><![CDATA[Liên kết]]></value>
+		</item>
+		<item name="blockquote">
+			<value xml:lang="ko"><![CDATA[인용]]></value>
+			<value xml:lang="en"><![CDATA[Quote]]></value>
+			<value xml:lang="jp"><![CDATA[引用]]></value>
+			<value xml:lang="zh-CN"><![CDATA[引用]]></value>
+			<value xml:lang="zh-TW"><![CDATA[引用]]></value>
+			<value xml:lang="fr"><![CDATA[Blockquote]]></value>
+			<value xml:lang="ru"><![CDATA[Blockquote]]></value>
+			<value xml:lang="es"><![CDATA[Blockquote]]></value>
+			<value xml:lang="tr"><![CDATA[Alıntı]]></value>
+			<value xml:lang="vi"><![CDATA[Trích dẫn]]></value>
+		</item>
+		<item name="insert_blockquote">
+			<value xml:lang="ko"><![CDATA[인용 문구를 입력해 주세요]]></value>
+			<value xml:lang="en"><![CDATA[Please enter the quote.]]></value>
+			<value xml:lang="jp"><![CDATA[引用文を入力してください。]]></value>
+			<value xml:lang="zh-CN"><![CDATA[请输入要引用的内容。]]></value>
+			<value xml:lang="zh-TW"><![CDATA[請輸入引用]]></value>
+			<value xml:lang="tr"><![CDATA[Lütfen alıntıyı girin]]></value>
+			<value xml:lang="vi"><![CDATA[Hãy nhập văn bản trích dẫn.]]></value>
+		</item>
+		<item name="insert_cite">
+			<value xml:lang="ko"><![CDATA[출처를 입력할 수 있습니다 <a>, <strong>, <em> 태그를 쓸 수 있습니다]]></value>
+			<value xml:lang="en"><![CDATA[You can enter the original source, using <a>, <strong>, and <em> tags.]]></value>
+			<value xml:lang="jp"><![CDATA[コピー元を入力します。 <a>、<strong>、<em> タグの入力も可能です。]]></value>
+			<value xml:lang="zh-CN"><![CDATA[在此可以输入引用出处(可用HTML标签：<a>, <strong>, <em>)。]]></value>
+			<value xml:lang="zh-TW"><![CDATA[請輸入來源，可輸入 <a>, <strong>, <em> 等標籤。]]></value>
+			<value xml:lang="tr"><![CDATA[Orijinal kaynağı girebilirsiniz. <a>, <strong>, <em> etiketler mevcuttur.]]></value>
+			<value xml:lang="vi"><![CDATA[Bạn có thể sử dụng mã <a>, <strong>, <em> cho Tag.]]></value>
+		</item>
+		<item name="image">
+			<value xml:lang="ko"><![CDATA[이미지]]></value>
+			<value xml:lang="en"><![CDATA[Image]]></value>
+			<value xml:lang="jp"><![CDATA[画像]]></value>
+			<value xml:lang="zh-CN"><![CDATA[图片]]></value>
+			<value xml:lang="zh-TW"><![CDATA[圖片]]></value>
+			<value xml:lang="tr"><![CDATA[Resim]]></value>
+			<value xml:lang="vi"><![CDATA[Hình ảnh]]></value>
+		</item>
+		<item name="find_image">
+			<value xml:lang="ko"><![CDATA[이미지 찾아보기]]></value>
+			<value xml:lang="en"><![CDATA[Find Image]]></value>
+			<value xml:lang="jp"><![CDATA[画像選択]]></value>
+			<value xml:lang="zh-CN"><![CDATA[上传图片]]></value>
+			<value xml:lang="zh-TW"><![CDATA[選擇圖片]]></value>
+			<value xml:lang="tr"><![CDATA[Resim bul]]></value>
+			<value xml:lang="vi"><![CDATA[Tìm hình ảnh]]></value>
+		</item>
+		<item name="uploading">
+			<value xml:lang="ko"><![CDATA[업로드 중입니다]]></value>
+			<value xml:lang="en"><![CDATA[Uploading...]]></value>
+			<value xml:lang="jp"><![CDATA[アップロードしています。]]></value>
+			<value xml:lang="zh-CN"><![CDATA[正在上传图片…]]></value>
+			<value xml:lang="zh-TW"><![CDATA[上傳中...]]></value>
+			<value xml:lang="tr"><![CDATA[Yükleniyor...]]></value>
+			<value xml:lang="vi"><![CDATA[Đang Upload ...]]></value>
+		</item>
+		<item name="uploading_info">
+			<value xml:lang="ko"><![CDATA[%s MB까지 업로드할 수 있습니다]]></value>
+			<value xml:lang="en"><![CDATA[You can upload maximum %s MB.]]></value>
+			<value xml:lang="jp"><![CDATA[%sMBまでアップロードできます。]]></value>
+			<value xml:lang="zh-CN"><![CDATA[上传限制：%s MB]]></value>
+			<value xml:lang="zh-TW"><![CDATA[最大可上傳 %sMB]]></value>
+			<value xml:lang="tr"><![CDATA[En fazla %sMB yükleyebilirsiniz.]]></value>
+			<value xml:lang="vi"><![CDATA[Dung lượng tối đa %s MB]]></value>
+		</item>
+		<item name="uploaded_image">
+			<value xml:lang="ko"><![CDATA[사용자 업로드 이미지]]></value>
+			<value xml:lang="en"><![CDATA[User Uploaded Image]]></value>
+			<value xml:lang="jp"><![CDATA[ユーザーアップロード画像]]></value>
+			<value xml:lang="zh-CN"><![CDATA[用户上传的图片]]></value>
+			<value xml:lang="zh-TW"><![CDATA[已上傳的圖片]]></value>
+			<value xml:lang="tr"><![CDATA[Kullanıcı Tarafından Yüklenmiş Resim]]></value>
+			<value xml:lang="vi"><![CDATA[Người Upload]]></value>
+		</item>
+		<item name="image_width">
+			<value xml:lang="ko"><![CDATA[이미지 너비]]></value>
+			<value xml:lang="en"><![CDATA[Image Width]]></value>
+			<value xml:lang="jp"><![CDATA[画像幅]]></value>
+			<value xml:lang="zh-CN"><![CDATA[图片宽度]]></value>
+			<value xml:lang="zh-TW"><![CDATA[圖片寬度]]></value>
+			<value xml:lang="tr"><![CDATA[Resim Boyutu]]></value>
+			<value xml:lang="vi"><![CDATA[Độ rộng]]></value>
+		</item>
+		<item name="resize">
+			<value xml:lang="ko"><![CDATA[줄이기]]></value>
+			<value xml:lang="en"><![CDATA[Resize]]></value>
+			<value xml:lang="jp"><![CDATA[縮小する]]></value>
+			<value xml:lang="zh-CN"><![CDATA[缩小]]></value>
+			<value xml:lang="zh-TW"><![CDATA[圖片縮放]]></value>
+			<value xml:lang="tr"><![CDATA[Yeniden Boyutlandır]]></value>
+			<value xml:lang="vi"><![CDATA[Giảm kích thước]]></value>
+		</item>
+		<item name="resize_info">
+			<value xml:lang="ko"><![CDATA[지정한 크기의 사본을 만들며 원본은 유지됩니다]]></value>
+			<value xml:lang="en"><![CDATA[A copy of the specified size is created, and the original file still remains.]]></value>
+			<value xml:lang="jp"><![CDATA[指定したサイズのコピーを生成します。オリジナル画像は維持されます。]]></value>
+			<value xml:lang="zh-CN"><![CDATA[创建指定大小的复件并保留原图。]]></value>
+			<value xml:lang="zh-TW"><![CDATA[輸入要建立的圖片大小，原始圖片將會保留。]]></value>
+			<value xml:lang="tr"><![CDATA[Resmin, girilen boyutlarda yeni bir kopyası oluşturulacak. Orijinal resim ise saklanmaya devam edilecek.]]></value>
+			<value xml:lang="vi"><![CDATA[Có thể giảm kích thước cho phù hợp với giao diện.]]></value>
+		</item>
+		<item name="resize_error">
+			<value xml:lang="ko"><![CDATA[원본 이미지보다 작은 크기의 값을 입력하세요]]></value>
+			<value xml:lang="en"><![CDATA[Please enter a value smaller than the original image size.]]></value>
+			<value xml:lang="jp"><![CDATA[オリジナル画像より小さいサイズを入力してください。]]></value>
+			<value xml:lang="zh-CN"><![CDATA[请输入比原图宽度小的值。]]></value>
+			<value xml:lang="zh-TW"><![CDATA[請輸入比原始圖片要小的數值]]></value>
+			<value xml:lang="tr"><![CDATA[Lütfen orijinal resim boyutundan daha küçük bir boyut girin]]></value>
+			<value xml:lang="vi"><![CDATA[Hãy nhập kích thước nhỏ hơn kích thước ban đầu.]]></value>
+		</item>
+		<item name="insert_image_explain">
+			<value xml:lang="ko"><![CDATA[이미지의 설명을 입력할 수 있습니다. <a>, <strong>, <em> 태그를 쓸 수 있습니다.]]></value>
+			<value xml:lang="en"><![CDATA[Please enter the description of image, using <a>, <strong>, and <em> tags.]]></value>
+			<value xml:lang="jp"><![CDATA[画像の説明を入力します。 <a>, <strong>, <em> タグの入力も可能です。]]></value>
+			<value xml:lang="zh-CN"><![CDATA[在此可以输入简单图片说明(可用HTML标签：<a>, <strong>, <em>)。]]></value>
+			<value xml:lang="zh-TW"><![CDATA[請輸入圖片簡介。可使用 <a>, <strong>, <em> 等標籤。]]></value>
+			<value xml:lang="tr"><![CDATA[Lütfen tanım girin. <a>, <strong>, <em> etiketler mevcuttur.]]></value>
+			<value xml:lang="vi"><![CDATA[Hãy nhập mô tả cho hình ảnh. Bạn có thể sử dụng <a>, <strong>, <em> cho mô tả này.]]></value>
+		</item>
+		<item name="mov">
+			<value xml:lang="ko"><![CDATA[동영상]]></value>
+			<value xml:lang="en"><![CDATA[Video]]></value>
+			<value xml:lang="jp"><![CDATA[動画]]></value>
+			<value xml:lang="zh-CN"><![CDATA[视频]]></value>
+			<value xml:lang="zh-TW"><![CDATA[影片]]></value>
+			<value xml:lang="tr"><![CDATA[Film]]></value>
+			<value xml:lang="vi"><![CDATA[Video]]></value>
+		</item>
+		<item name="insert_mov">
+			<value xml:lang="ko"><![CDATA[<object> 또는 <embed>로 시작하는 멀티미디어 삽입 코드를 넣어주세요]]></value>
+			<value xml:lang="en"><![CDATA[Enter the multimedia insertion code which starts with <object> or <embed>.]]></value>
+			<value xml:lang="jp"><![CDATA[<object> または <embed>で始まるマルチメディアのコードを挿入してください。]]></value>
+			<value xml:lang="zh-CN"><![CDATA[请输入<object>或<embed>标签开头的视频代码。]]></value>
+			<value xml:lang="zh-TW"><![CDATA[請輸入 <object> 或 <embed> 開頭的影片原始碼。]]></value>
+			<value xml:lang="tr"><![CDATA[Lütfen <object> veya <embed> ile başlayan multimedya ekleme kodlarını girin.]]></value>
+			<value xml:lang="vi"><![CDATA[Hãy nhập mã <object> và <embed> cho Media muốn thêm vào bài viết của bạn.]]></value>
+		</item>
+		<item name="insert_mov_explain">
+			<value xml:lang="ko"><![CDATA[동영상의 설명을 입력할 수 있습니다. <a>, <strong>, <em> 태그를 쓸 수 있습니다.]]></value>
+			<value xml:lang="en"><![CDATA[Please enter the description of video, using <a>, <strong>, and <em> tags.]]></value>
+			<value xml:lang="jp"><![CDATA[動画の説明を入力します。 <a>, <strong>, <em> タグの入力も可能です。]]></value>
+			<value xml:lang="zh-CN"><![CDATA[在此可以输入简单视频描述(可用HTML标签：<a>, <strong>, <em>)。]]></value>
+			<value xml:lang="zh-TW"><![CDATA[請輸入影片簡介。可使用 <a>, <strong>, <em> 等標籤。]]></value>
+			<value xml:lang="tr"><![CDATA[Lütfen tanım girin. <a>, <strong>, <em> etiketler mecvuttur.]]></value>
+			<value xml:lang="vi"><![CDATA[Hãy nhập mô tả cho Media. Bạn có thể sử dụng <a>, <strong>, <em> cho mô tả này.]]></value>
+		</item>
+		<item name="file">
+			<value xml:lang="ko"><![CDATA[파일]]></value>
+			<value xml:lang="en"><![CDATA[File]]></value>
+			<value xml:lang="jp"><![CDATA[ファイル]]></value>
+			<value xml:lang="zh-CN"><![CDATA[附件]]></value>
+			<value xml:lang="zh-TW"><![CDATA[檔案]]></value>
+			<value xml:lang="tr"><![CDATA[Dosya]]></value>
+			<value xml:lang="vi"><![CDATA[Đính kèm]]></value>
+		</item>
+		<item name="file_select">
+			<value xml:lang="ko"><![CDATA[업로드할 파일을 선택해 주세요]]></value>
+			<value xml:lang="en"><![CDATA[Please select a file to upload.]]></value>
+			<value xml:lang="jp"><![CDATA[アップロードするファイルを選択してください。]]></value>
+			<value xml:lang="zh-CN"><![CDATA[选择上传附件]]></value>
+			<value xml:lang="zh-TW"><![CDATA[請選擇要上傳的檔案]]></value>
+			<value xml:lang="tr"><![CDATA[Lütfen yüklemek için bir dosya seçin.]]></value>
+			<value xml:lang="vi"><![CDATA[Chọn File muốn Upload]]></value>
+		</item>
+		<item name="file_uploadinfo">
+			<value xml:lang="ko"><![CDATA[개당 %sMB, 모두 합쳐 %sMB까지 업로드가 가능합니다]]></value>
+			<value xml:lang="en"><![CDATA[You can upload files of up to %s MB, up to a total of %s MB.]]></value>
+			<value xml:lang="jp"><![CDATA[１個当り %sMB、全体で%sMBまでアップロードできます。]]></value>
+			<value xml:lang="zh-CN"><![CDATA[每个附件限制大小：%sMB, 每次上传限制：%sMB]]></value>
+			<value xml:lang="zh-TW"><![CDATA[每個檔案上傳的大小 %s MB，總共 %s MB]]></value>
+			<value xml:lang="tr"><![CDATA[Toplamda %sMB olmak üzere her biri için en fazla %sMB yükleyebilirsiniz.]]></value>
+			<value xml:lang="vi"><![CDATA[Dung lượng tối đa %sMB/File, Tổng dung lượng được phép Upload %sMB.]]></value>
+		</item>
+		<item name="file_total">
+			<value xml:lang="ko"><![CDATA[총 <strong class="filecount">{total_filecount}</strong>개]]></value>
+			<value xml:lang="en"><![CDATA[Total <strong class="filecount">{total_filecount}</strong>file(s)]]></value>
+			<value xml:lang="jp"><![CDATA[トータル<strong class="filecount">{total_filecount}</strong>個]]></value>
+			<value xml:lang="zh-CN"><![CDATA[总计<strong class="filecount">{total_filecount}</strong>个]]></value>
+			<value xml:lang="zh-TW"><![CDATA[總共 <strong class="filecount">{total_filecount}</strong>個檔案]]></value>
+			<value xml:lang="vi"><![CDATA[Tổng số <strong class="filecount">{total_filecount}</strong> File]]></value>
+		</item>
+		<item name="insert_file_explain">
+			<value xml:lang="ko"><![CDATA[파일의 설명을 입력할 수 있습니다]]></value>
+			<value xml:lang="en"><![CDATA[Please enter the description of file.]]></value>
+			<value xml:lang="jp"><![CDATA[ファイルの説明を入力します。]]></value>
+			<value xml:lang="zh-CN"><![CDATA[在此可输入文件说明。]]></value>
+			<value xml:lang="zh-TW"><![CDATA[請輸入檔案簡介。]]></value>
+			<value xml:lang="tr"><![CDATA[Lütfen tanım girin]]></value>
+			<value xml:lang="vi"><![CDATA[Nhập mô tả cho File.]]></value>
+		</item>
+		<item name="hr">
+			<value xml:lang="ko"><![CDATA[분리선]]></value>
+			<value xml:lang="en"><![CDATA[HR]]></value>
+			<value xml:lang="jp"><![CDATA[区分線]]></value>
+			<value xml:lang="zh-CN"><![CDATA[分割线]]></value>
+			<value xml:lang="vi"><![CDATA[Tách đoạn]]></value>
+		</item>
+		<item name="hr_simple">
+			<value xml:lang="ko"><![CDATA[단순 가로선]]></value>
+			<value xml:lang="en"><![CDATA[Simple HR]]></value>
+			<value xml:lang="jp"><![CDATA[基本水平線]]></value>
+			<value xml:lang="zh-CN"><![CDATA[简单分割线]]></value>
+			<value xml:lang="tr"><![CDATA[Basit HR]]></value>
+			<value xml:lang="vi"><![CDATA[Đường kẻ đơn giản]]></value>
+		</item>
+		<item name="title_title">
+			<value xml:lang="ko"><![CDATA[소제목]]></value>
+			<value xml:lang="en"><![CDATA[Strapline]]></value>
+			<value xml:lang="jp"><![CDATA[サブタイトル]]></value>
+			<value xml:lang="zh-CN"><![CDATA[内标题]]></value>
+			<value xml:lang="tr"><![CDATA[Konu]]></value>
+			<value xml:lang="vi"><![CDATA[Tiêu đề]]></value>
+		</item>
+		<item name="title">
+			<value xml:lang="ko"><![CDATA[제목]]></value>
+			<value xml:lang="en"><![CDATA[Subject]]></value>
+			<value xml:lang="jp"><![CDATA[タイトル]]></value>
+			<value xml:lang="zh-CN"><![CDATA[标题]]></value>
+			<value xml:lang="tr"><![CDATA[Konu]]></value>
+			<value xml:lang="vi"><![CDATA[Tiêu đề]]></value>
+		</item>
+		<item name="title1">
+			<value xml:lang="ko"><![CDATA[큰제목]]></value>
+			<value xml:lang="en"><![CDATA[Heading 1]]></value>
+			<value xml:lang="jp"><![CDATA[サブタイトル（大）]]></value>
+			<value xml:lang="zh-CN"><![CDATA[大标题]]></value>
+			<value xml:lang="zh-TW"><![CDATA[大]]></value>
+			<value xml:lang="tr"><![CDATA[Büyük]]></value>
+			<value xml:lang="vi"><![CDATA[Tiêu đề lớn]]></value>
+		</item>
+		<item name="title2">
+			<value xml:lang="ko"><![CDATA[중간제목]]></value>
+			<value xml:lang="en"><![CDATA[Heading 2]]></value>
+			<value xml:lang="jp"><![CDATA[サブタイトル（中）]]></value>
+			<value xml:lang="zh-CN"><![CDATA[中标题]]></value>
+			<value xml:lang="zh-TW"><![CDATA[中]]></value>
+			<value xml:lang="tr"><![CDATA[Orta]]></value>
+			<value xml:lang="vi"><![CDATA[Tiêu đề trung bình]]></value>
+		</item>
+		<item name="title3">
+			<value xml:lang="ko"><![CDATA[작은제목]]></value>
+			<value xml:lang="en"><![CDATA[Heading 3]]></value>
+			<value xml:lang="jp"><![CDATA[サブタイトル（小）]]></value>
+			<value xml:lang="zh-CN"><![CDATA[小标题]]></value>
+			<value xml:lang="zh-TW"><![CDATA[小]]></value>
+			<value xml:lang="tr"><![CDATA[Küçük]]></value>
+			<value xml:lang="vi"><![CDATA[Tiêu đề nhỏ]]></value>
+		</item>
+		<item name="list">
+			<value xml:lang="ko"><![CDATA[목록]]></value>
+			<value xml:lang="en"><![CDATA[List]]></value>
+			<value xml:lang="jp"><![CDATA[リスト]]></value>
+			<value xml:lang="zh-CN"><![CDATA[列表]]></value>
+			<value xml:lang="zh-TW"><![CDATA[列表]]></value>
+			<value xml:lang="tr"><![CDATA[Liste]]></value>
+			<value xml:lang="vi"><![CDATA[Danh sách]]></value>
+		</item>
+		<item name="list_explain">
+			<value xml:lang="ko"><![CDATA[CTRL+방향키를 누르면 항목의 위치나 단계를 변경할 수 있습니다.]]></value>
+			<value xml:lang="en"><![CDATA[You can change the position or level of items by pressing CTRL+Arrow Keys.]]></value>
+			<value xml:lang="jp"><![CDATA[「CTRL+矢印」を押して、項目の位置や段階を変えることができます。]]></value>
+			<value xml:lang="zh-CN"><![CDATA[可利用CTRL+方向键改变项目循序及嵌套级别。]]></value>
+			<value xml:lang="tr"><![CDATA[CTRL+Arrow tuşlarına basarak öğelerin konumunu ve seviyelerini değiştirebilirsiniz.]]></value>
+			<value xml:lang="vi"><![CDATA[Nhấn tổ hợp phím Ctrl+Phím mũi tên, bạn có thể thay đổi vị trí của các mục.]]></value>
+		</item>
+		<item name="toc">
+			<value xml:lang="ko"><![CDATA[목차]]></value>
+			<value xml:lang="en"><![CDATA[Index]]></value>
+			<value xml:lang="jp"><![CDATA[目次]]></value>
+			<value xml:lang="zh-CN"><![CDATA[目录]]></value>
+			<value xml:lang="ru"><![CDATA[Оглавление]]></value>
+			<value xml:lang="tr"><![CDATA[İndeks]]></value>
+			<value xml:lang="vi"><![CDATA[Nội dung]]></value>
+		</item>
+		<item name="toc_explain">
+			<value xml:lang="ko"><![CDATA[문서 내의 소제목들을 모아 목차로 만들어주며, 자동으로 갱신됩니다.]]></value>
+			<value xml:lang="en"><![CDATA[It makes an index with created straplines, and will be renewed automatically.]]></value>
+			<value xml:lang="jp"><![CDATA[文書内のサブタイトルをまとめて、目次を生成し、自動的に更新します。]]></value>
+			<value xml:lang="zh-CN"><![CDATA[可以把日志文本内的小标题制成目录，并且每当添加一个内标题此目录就会自动更新。]]></value>
+			<value xml:lang="tr"><![CDATA[Oluşturulmuş bölüm başlıklarıyla bir indeks oluşturulur ve otomatik olarak yenilenir.]]></value>
+			<value xml:lang="vi"><![CDATA[Nếu tạo một nhóm các nội dung, tiêu đề của từng đoạn sẽ tự động được tạo.]]></value>
+		</item>
+		<item name="more">
+			<value xml:lang="ko"><![CDATA[더보기]]></value>
+			<value xml:lang="en"><![CDATA[More]]></value>
+			<value xml:lang="jp"><![CDATA[もっと見る]]></value>
+			<value xml:lang="zh-CN"><![CDATA[更多]]></value>
+			<value xml:lang="zh-TW"><![CDATA[更多]]></value>
+			<value xml:lang="tr"><![CDATA[Daha Fazla]]></value>
+			<value xml:lang="vi"><![CDATA[Xem thêm]]></value>
+		</item>
+		<item name="move_button">
+			<value xml:lang="ko"><![CDATA[버튼이동]]></value>
+			<value xml:lang="en"><![CDATA[Move Button]]></value>
+			<value xml:lang="jp"><![CDATA[ボタン移動]]></value>
+			<value xml:lang="zh-CN"><![CDATA[移动组件]]></value>
+			<value xml:lang="zh-TW"><![CDATA[移動]]></value>
+			<value xml:lang="tr"><![CDATA[Taşı Düğmesi]]></value>
+			<value xml:lang="vi"><![CDATA[Chuyển nút bấm]]></value>
+		</item>
+		<item name="material">
+			<value xml:lang="ko"><![CDATA[글감]]></value>
+			<value xml:lang="en"><![CDATA[Ingredients]]></value>
+			<value xml:lang="jp"><![CDATA[素材]]></value>
+			<value xml:lang="zh-TW"><![CDATA[素材]]></value>
+			<value xml:lang="tr"><![CDATA[Bileşenler]]></value>
+			<value xml:lang="vi"><![CDATA[Thành phần]]></value>
+		</item>
+		<item name="insert">
+			<value xml:lang="ko"><![CDATA[이 글감을 본문에 넣기]]></value>
+			<value xml:lang="en"><![CDATA[Insert the ingredient to content]]></value>
+			<value xml:lang="jp"><![CDATA[この素材を本文に挿入する]]></value>
+			<value xml:lang="zh-TW"><![CDATA[插入素材到內容中]]></value>
+			<value xml:lang="tr"><![CDATA[Bileşenleri içeriğe ekleyin.]]></value>
+			<value xml:lang="vi"><![CDATA[Chèn thành phần vào bài viết.]]></value>
+		</item>
+		<item name="close_materials">
+			<value xml:lang="ko"><![CDATA[글감 보관함 닫기]]></value>
+			<value xml:lang="en"><![CDATA[Close]]></value>
+			<value xml:lang="jp"><![CDATA[素材保存箱を閉じる]]></value>
+			<value xml:lang="zh-TW"><![CDATA[關閉]]></value>
+			<value xml:lang="tr"><![CDATA[Kapat]]></value>
+			<value xml:lang="vi"><![CDATA[Đóng]]></value>
+		</item>
+		<item name="no_materials">
+			<value xml:lang="ko"><![CDATA[보관된 글감이 없습니다.]]></value>
+			<value xml:lang="en"><![CDATA[There are no writting ingredients.]]></value>
+			<value xml:lang="jp"><![CDATA[保存されている素材はありません。]]></value>
+			<value xml:lang="zh-CN"><![CDATA[暂无保存的素材。]]></value>
+			<value xml:lang="zh-TW"><![CDATA[There is no writting ingredient.]]></value>
+			<value xml:lang="tr"><![CDATA[Yazı bileşeni bulunmamaktadır.]]></value>
+			<value xml:lang="vi"><![CDATA[Không có bài viết được lưu trữ.]]></value>
+		</item>
+		<item name="msg_no_selected_object">
+			<value xml:lang="ko"><![CDATA[선택된 개체가 없습니다.]]></value>
+			<value xml:lang="en"><![CDATA[There are no selected objects.]]></value>
+			<value xml:lang="jp"><![CDATA[選択されたオブジェクトがありません。]]></value>
+			<value xml:lang="zh-CN"><![CDATA[请选择对象。]]></value>
+			<value xml:lang="zh-TW"><![CDATA[There is no selected object.]]></value>
+			<value xml:lang="tr"><![CDATA[Seçili öğe bulunmamaktadır.]]></value>
+			<value xml:lang="vi"><![CDATA[Không có mục nào được chọn.]]></value>
+		</item>
+		<item name="msg_insert_value">
+			<value xml:lang="ko"><![CDATA[값을 입력해 주세요.]]></value>
+			<value xml:lang="en"><![CDATA[Please enter the value.]]></value>
+			<value xml:lang="jp"><![CDATA[値を入力してください。]]></value>
+			<value xml:lang="zh-CN"><![CDATA[请输入相应的值。]]></value>
+			<value xml:lang="zh-TW"><![CDATA[請輸入數值]]></value>
+			<value xml:lang="tr"><![CDATA[Lütfen değeri girin.]]></value>
+			<value xml:lang="vi"><![CDATA[Xin hãy nhập giá trị.]]></value>
+		</item>
+		<item name="help_first_title">
+			<value xml:lang="ko"><![CDATA[도움말]]></value>
+			<value xml:lang="en"><![CDATA[Help]]></value>
+			<value xml:lang="jp"><![CDATA[ヘルプ]]></value>
+			<value xml:lang="zh-TW"><![CDATA[使用說明]]></value>
+			<value xml:lang="vi"><![CDATA[HƯỚNG DẪN]]></value>
+		</item>
+		<item name="help_shortcut">
+			<value xml:lang="ko"><![CDATA[단축키]]></value>
+			<value xml:lang="en"><![CDATA[Shortcuts]]></value>
+			<value xml:lang="jp"><![CDATA[ショートカットキー]]></value>
+			<value xml:lang="zh-TW"><![CDATA[快速鍵]]></value>
+			<value xml:lang="vi"><![CDATA[Phím tắt]]></value>
+		</item>
+		<item name="help_bug_report">
+			<value xml:lang="ko"><![CDATA[글쓰기 오류신고]]></value>
+			<value xml:lang="en"><![CDATA[Article writing error report]]></value>
+			<value xml:lang="jp"><![CDATA[書き込みエラー報告]]></value>
+			<value xml:lang="zh-TW"><![CDATA[錯誤回報]]></value>
+			<value xml:lang="vi"><![CDATA[[BÁO LỖI]]]></value>
+		</item>
+		<item name="help_first_dt_1">
+			<value xml:lang="ko"><![CDATA[새 단락 쓰기(1~9, 0, `)]]></value>
+			<value xml:lang="en"><![CDATA[Write a new paragraph (1~9, 0, `)]]></value>
+			<value xml:lang="jp"><![CDATA[新しい段落を書く(1~9, 0, `)]]></value>
+			<value xml:lang="zh-TW"><![CDATA[快速鍵(1~9, 0, `)]]></value>
+			<value xml:lang="vi"><![CDATA[* Tạo văn bản mới (1~9, 0, `)]]></value>
+		</item>
+		<item name="help_first_dd_1">
+			<value xml:lang="ko"><![CDATA[도구모음 버튼을 클릭함으로써 새 단락 쓰기를 시작할 수 있습니다. 도구모음 버튼에는 배치된 순서대로 왼쪽으로부터 1~9까지 단축키가 할당되어 있습니다. 숫자키 '0' 또는 ESC키 바로 아래 위치한 [`] 그레이브(grave) 키를 누르시면 숨겨진 도구모음 버튼을 보거나 토글(toggle)할 수 있습니다.]]></value>
+			<value xml:lang="en"><![CDATA[To start writing a new paragraph click on the toolbar. The buttons on the toolbar have keyboard shortcuts starting from 1 to 9, 1 representing the first left button. To toggle the toolbar, press the numeric '0' or the grave key (`) under the Esc key.]]></value>
+			<value xml:lang="jp"><![CDATA[ツールバーボタンをクリックすることで、新しい段落を書くことができます。ツールバーボタンには、配置順にに、左から1~9までショートカットキーが割り当てられています。数字キー '0' または、Escキーの下の[`] グレーブキーを押下すると、隠れているツールバーを表示したり、トグルすることができます。]]></value>
+			<value xml:lang="zh-TW"><![CDATA[藉由點選工具列的按鈕可以編寫新的內容。 工具列的快速鍵是鍵盤的 1~9 數字鍵。 數字鍵 '0' 或是 ESC 鍵底下的 [`] 波浪鍵(grave) 可隱藏、顯示及切換(toggle)工具列。]]></value>
+			<value xml:lang="vi"><![CDATA[Bằng cách nhấn vào một nút trên thanh công cụ tương ứng với các số trên bàn phím bạn có thể bắt đầu viết một đoạn văn mới. Các phím tắt của thanh công cụ được đặt theo thứ tự [1 ~ 9] từ trái qua phải. Phím số [0] và phím [`] sẽ mở thêm và đóng lại những phím chức năng khác ẩn trong thanh công cụ, phím [ESC] sẽ đóng lại phiên làm việc hiện tại.]]></value>
+		</item>
+		<item name="help_first_dt_2">
+			<value xml:lang="ko"><![CDATA[단락 선택(Click, Ctrl+Click, Shift+Click)]]></value>
+			<value xml:lang="en"><![CDATA[Select a paragraph (Click, Ctrl+Click, Shift+Click)]]></value>
+			<value xml:lang="jp"><![CDATA[段落選択(Click, Ctrl+Click, Shift+Click)]]></value>
+			<value xml:lang="zh-TW"><![CDATA[段落選擇(Click, Ctrl+Click, Shift+Click)]]></value>
+			<value xml:lang="vi"><![CDATA[* Lựa chọn đoạn văn bản (Chuột trái, Ctrl+Chuột trái, Shift+Chuột trái)]]></value>
+		</item>
+		<item name="help_first_dd_2">
+			<value xml:lang="ko"><![CDATA[클릭 또는 클릭 후 방향키(&uarr;&darr;)를 조작함으로써 원하는 단락을 선택할 수 있습니다. 단일선택(Click)과 다중선택(Ctrl+Click, Shift+Click)이 가능합니다]]></value>
+			<value xml:lang="en"><![CDATA[You can press Up/Down keys (&uarr;&darr;) holding down the Ctrl key to manipulate the paragraphs. To select a single paragraph, just click on it, to select multiple paragraphs hold down the Ctrl or Shift keys, then click.]]></value>
+			<value xml:lang="jp"><![CDATA[クリック、またはクリック後の方向キー(&uarr;&darr;)を操作することで、段落を選択できます。ひとつだけ選択(Click)と複数選択(Ctrl+Click, Shift+Click)が可能です。]]></value>
+			<value xml:lang="zh-TW"><![CDATA[利用滑鼠選取或方向鍵(&uarr;&darr;)移動的方式選取想要的段落。 可單選(Click)或複選(Ctrl+Click, Shift+Click)段落。]]></value>
+			<value xml:lang="vi"><![CDATA[Bấm hoặc sau khi bấm chuột trái kết hợp với phím mũi tên (&uarr;&darr;) sẽ là chức năng chọn đoạn văn bản. Cho phép chọn một khu vực duy nhất (Chuột trái) và chọn toàn bộ (Ctrl+Chuột trái, Shift+Chuột trái).]]></value>
+		</item>
+		<item name="help_first_dt_3">
+			<value xml:lang="ko"><![CDATA[단락 편집 및 취소(Enter, Double Click, ESC)]]></value>
+			<value xml:lang="en"><![CDATA[Edit a paragraph or Cancel editing (Enter, Double Click, ESC)]]></value>
+			<value xml:lang="jp"><![CDATA[段落編集、および取り消し(Enter, Double Click, ESC)]]></value>
+			<value xml:lang="zh-TW"><![CDATA[段落編輯、取消(Enter, Double Click, ESC)]]></value>
+			<value xml:lang="vi"><![CDATA[* Sửa và loại bỏ (Enter, Hai lần Chuột trái, ESC)]]></value>
+		</item>
+		<item name="help_first_dd_3">
+			<value xml:lang="ko"><![CDATA[단락 선택 후 Enter 또는 더블클릭으로 편집할 수 있습니다. ESC키를 이용하여 편집을 취소할 수 있습니다.]]></value>
+			<value xml:lang="en"><![CDATA[To edit a paragraph, select it and press Enter or double click on it. To cancel editing, press Esc button]]></value>
+			<value xml:lang="jp"><![CDATA[段落を選択してから、Enterまたはダブルクリックで編集できます。ESCキーを利用して編集を取り消すことができます。]]></value>
+			<value xml:lang="zh-TW"><![CDATA[按 Enter 鍵或點兩下段落就可進行編輯。按 ESC 鍵可取消編輯動作。]]></value>
+			<value xml:lang="tr"><![CDATA[단락 선택 후 Enter또는 더블클릭으로 편집할 수 있습니다. ESC키를 이용하여 편집을 취소할 수 있습니다.]]></value>
+			<value xml:lang="vi"><![CDATA[Sau khi đã chọn xong đoạn văn bản, nhấn [ENTER] hoặc bấm hai lần chuột trái để sửa văn bản. Nhấn [ESC] để loại bỏ.]]></value>
+		</item>
+		<item name="help_first_dt_4">
+			<value xml:lang="ko"><![CDATA[단락 이동(Ctrl+&uarr;&darr;, Click-Drag-Drop)]]></value>
+			<value xml:lang="en"><![CDATA[Drag (Ctrl+&uarr;&darr;, Click-Drag-Drop)]]></value>
+			<value xml:lang="jp"><![CDATA[段落移動(Ctrl+&uarr;&darr;, Click-Drag-Drop)]]></value>
+			<value xml:lang="zh-TW"><![CDATA[段落移動(Ctrl+&uarr;&darr;, Click-Drag-Drop)]]></value>
+			<value xml:lang="vi"><![CDATA[* Di chuyển (Ctrl+&uarr;&darr;, Chuột trái-Kéo-Thả)]]></value>
+		</item>
+		<item name="help_first_dd_4">
+			<value xml:lang="ko"><![CDATA[단락 선택 후 Ctrl+방향키(&uarr;&darr;)를 조작하거나 '클릭-드래그-드롭'으로 이동할 수 있습니다.]]></value>
+			<value xml:lang="en"><![CDATA[To move a paragraph, press Ctrl key and move the paragraph around with up/down arrow keys (&uarr;&darr;) or press Ctrl key and drag the paragraph around with your mouse.]]></value>
+			<value xml:lang="jp"><![CDATA[段落を選択してからCtrl+方向キー(&uarr;&darr;）を操作したり、クリック-ドラッグ-ドロップで移動できます。]]></value>
+			<value xml:lang="zh-TW"><![CDATA[選取段落後按 Ctrl+方向鍵(&uarr;&darr;)可進行操作，或是用滑鼠拖曳的方式進行操作。]]></value>
+			<value xml:lang="vi"><![CDATA[Sau khi chọn xong đoạn văn bản, nhấn Ctrl+Phím mũi tên(&uarr;&darr;) hoặc 'Chuột trái-Kéo-Thả' để di chuyển đoạn văn bản.]]></value>
+		</item>
+		<item name="help_first_dt_5">
+			<value xml:lang="ko"><![CDATA[단락 저장 및 삭제(Ctrl+Enter, Del)]]></value>
+			<value xml:lang="en"><![CDATA[Save or delete a paragraph (Ctrl+Enter, Del)]]></value>
+			<value xml:lang="jp"><![CDATA[段落保存、および削除(Ctrl+Enter, Del)]]></value>
+			<value xml:lang="zh-TW"><![CDATA[段落儲存、刪除(Ctrl+Enter, Del)]]></value>
+			<value xml:lang="vi"><![CDATA[* Lưu và Xóa(Ctrl+Enter, Del)]]></value>
+		</item>
+		<item name="help_first_dd_5">
+			<value xml:lang="ko"><![CDATA['확인'버튼을 누르거나 Ctrl+Enter 명령으로 저장할 수 있습니다. Del키를 이용하여 선택된 단락을 삭제할 수 있습니다.]]></value>
+			<value xml:lang="en"><![CDATA[To save a paragraph press the 'Confirm' button or press Ctrl+Enter. Press Del key to delete the paragraph.]]></value>
+			<value xml:lang="jp"><![CDATA[「OK」ボタンを押下したり、 Ctrl+Enter で保存できます。Delキーを利用して選択された段落を削除できます。]]></value>
+			<value xml:lang="zh-TW"><![CDATA[按'確認'按鈕或是 Ctrl+Enter 可儲存內容。按 Del 鍵可刪除所選取的段落。]]></value>
+			<value xml:lang="vi"><![CDATA[Bấm chuột vào biểu tượng lưu [v] trên khung soạn thảo hoặc bấm tổ hợp 'Ctrl+Enter' để lưu văn bản. Bấm 'Loại bỏ' hoặc nhấn [Del] để xóa văn bản.]]></value>
+		</item>
+		<item name="drag_this">
+			<value xml:lang="ko"><![CDATA[단락을 드래그하여 이동하세요.]]></value>
+			<value xml:lang="en"><![CDATA[Please drag the paragraph.]]></value>
+			<value xml:lang="jp"><![CDATA[段落をドラッグして移動してください。]]></value>
+			<value xml:lang="zh-TW"><![CDATA[將段落移到]]></value>
+			<value xml:lang="vi"><![CDATA[Hãy kéo chuột để di chuyển đoạn văn bản.]]></value>
+		</item>
+		<item name="cmd_new_window">
+			<value xml:lang="ko"><![CDATA[새창]]></value>
+			<value xml:lang="en"><![CDATA[New window]]></value>
+			<value xml:lang="jp"><![CDATA[新規ウィンドウ]]></value>
+			<value xml:lang="zh-TW"><![CDATA[開新視窗]]></value>
+			<value xml:lang="vi"><![CDATA[Trang mới]]></value>
+		</item>
+		<item name="cmd_del">
+			<value xml:lang="ko"><![CDATA[삭제]]></value>
+			<value xml:lang="en"><![CDATA[Delete]]></value>
+			<value xml:lang="jp"><![CDATA[削除]]></value>
+			<value xml:lang="zh-TW"><![CDATA[刪除]]></value>
+			<value xml:lang="vi"><![CDATA[Xóa]]></value>
+		</item>
+	</item>
+</lang>

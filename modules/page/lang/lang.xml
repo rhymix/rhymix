@@ -1,0 +1,173 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<lang>
+	<item name="page">
+		<value xml:lang="ko"><![CDATA[페이지]]></value>
+		<value xml:lang="en"><![CDATA[Page]]></value>
+		<value xml:lang="jp"><![CDATA[ページ]]></value>
+		<value xml:lang="zh-CN"><![CDATA[页面]]></value>
+		<value xml:lang="zh-TW"><![CDATA[頁面]]></value>
+		<value xml:lang="ru"><![CDATA[Страница]]></value>
+		<value xml:lang="es"><![CDATA[Página]]></value>
+		<value xml:lang="tr"><![CDATA[Sayfa]]></value>
+		<value xml:lang="vi"><![CDATA[Trang]]></value>
+	</item>
+	<item name="about_page">
+		<value xml:lang="ko"><![CDATA[하나의 완성된 페이지를 제작할 수 있는 페이지 모듈입니다.
+최근게시물이나 기타 위젯을 이용해서 동적인 페이지 생성이 가능하고 에디터 컴포넌트를 통해서 다양한 모습으로 꾸밀 수 있습니다.
+접속 URL은 다른 모듈과 같이 mid=모듈이름 으로 접속 가능하며 기본으로 선택하면 접속 시 메인 페이지가 됩니다.]]></value>
+		<value xml:lang="en"><![CDATA[It is a blog module where you can create a complete page.
+Using latest or other widgets, you can create a dynamic page. Through the editor component, you can also create a great variety of pages.
+Its URL is same as other module's such as mid=module name.
+ If it is selected as a default, it will be the main page of the site.]]></value>
+		<value xml:lang="jp"><![CDATA[一枚のページを作成できるモジュールです。
+最新書き込みウィジェットや他のウィジェットを用いて動的なページが作成ができ、さらにエディターのコンポネントで様々なデザインもできます。
+接続URLは、他のモジュールと同様に、「mid=モジュール名」でアクセスし、デフォルトとして指定するとサイトにアクセスする際、メインページとして使われます。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[可制作完整页面的模块。
+利用最新主题列表或其他控件可以生成动态的页面，且通过网页编辑器做出形式多样的页面。
+连接页面URL同其他模块链接相同。即：mid=模块名称。选择默认选项此页面将变为首页。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[可製作完整頁面的模組。
+利用最新主題列表或其他 Widgets 可以建立動態的頁面，且通過網頁編輯器做出多樣化的頁面。
+連結頁面網址和其他模組連結的方式相同。即：mid=模組名稱。選擇預設選項時，此頁面將變為首頁。]]></value>
+		<value xml:lang="fr"><![CDATA[C'est un module qui peut créer une page complet.
+Vous pouvez créer une page dynamique en utilisant des gadgets des Documents derniers ou d'autres. Vous pouvez aussi créer une page avec variété par le composant d'editeur.
+L'URL d'accès est égal celui d'autre module comme mid=module.
+Si c'est choisi par défaut, ce sera la première page du site.]]></value>
+		<value xml:lang="ru"><![CDATA[Это модуль блога, который создает полную страницу.
+Используя последние и другие виджеты, Вы можете создавать динамические страницы. Посредством компонента редактора, Вы можете также создать различные вариации страницы.
+URL модуля следует тем же правилам, что и другие модули: mid=имя_модуля.
+ Если он выбран как модуль по умолчанию, то он будет главной страницей сайта.]]></value>
+		<value xml:lang="es"><![CDATA[Esto es un módulo de blog, lo cual usted puede crear una página completa.
+Usando los últimos u otros widgets, Usted puede crear una página dinámica. A través del componente del editor, también puede crear páginas de gran variedad.
+URL de conección es el mismo que de los otros módulos como mid=Nombre del módulo.
+ Si selcciona como predefinido esta página será la página principal del sitio.]]></value>
+		<value xml:lang="tr"><![CDATA[Eksiksiz sayfa oluşturabileceğiniz bir blog modülüdür.
+Enson veya diğer widgetları kullanarak, dinamik sayfa oluşturabilirsiniz. Editör bileşeni yoluyla, çok farklı sayıda sayfalar oluşturabilirsiniz.
+URL'si diğer modülleriyle aynıdır(mid=module name).
+ Varsayılan olarak seçilirse, sitenin anasayfası olacaktır.]]></value>
+		<value xml:lang="vi"><![CDATA[Là Module tạo ra một trang đầy đủ.
+Sử dụng Widget mới nhất hoặc những Widget khác giúp bạn có thể tạo một trang động. Thông qua trình bên tập Component, bạn có thể tạo ra sự phong phú cho những trang khác nhau.
+Địa chỉ của nó như một Module dạng '<b>mid=module name</b>'.
+Nếu chọn là mặc định, nó sẽ là trang chủ của Website.]]></value>
+	</item>
+	<item name="cmd_page_modify">
+		<value xml:lang="ko"><![CDATA[페이지 수정]]></value>
+		<value xml:lang="en"><![CDATA[Modify]]></value>
+		<value xml:lang="jp"><![CDATA[ページ修正]]></value>
+		<value xml:lang="zh-CN"><![CDATA[页面编辑]]></value>
+		<value xml:lang="zh-TW"><![CDATA[頁面編輯]]></value>
+		<value xml:lang="fr"><![CDATA[Modifier]]></value>
+		<value xml:lang="ru"><![CDATA[Изменить]]></value>
+		<value xml:lang="es"><![CDATA[Modificar]]></value>
+		<value xml:lang="tr"><![CDATA[Değiştir]]></value>
+		<value xml:lang="vi"><![CDATA[Sửa đổi]]></value>
+	</item>
+	<item name="cmd_page_create">
+		<value xml:lang="ko"><![CDATA[페이지 생성]]></value>
+		<value xml:lang="en"><![CDATA[Create a Page]]></value>
+		<value xml:lang="jp"><![CDATA[ページ作成]]></value>
+		<value xml:lang="zh-TW"><![CDATA[建立頁面]]></value>
+		<value xml:lang="tr"><![CDATA[Sayfa Oluştur]]></value>
+	</item>
+	<item name="cmd_page_article_create">
+		<value xml:lang="ko"><![CDATA[Article 생성]]></value>
+		<value xml:lang="en"><![CDATA[Create an Article]]></value>
+		<value xml:lang="jp"><![CDATA[Article作成]]></value>
+	</item>
+	<item name="page_caching_interval">
+		<value xml:lang="ko"><![CDATA[캐싱 시간 설정]]></value>
+		<value xml:lang="en"><![CDATA[Caching Time]]></value>
+		<value xml:lang="jp"><![CDATA[キャッシング時間設定]]></value>
+		<value xml:lang="zh-CN"><![CDATA[缓冲时间设置]]></value>
+		<value xml:lang="zh-TW"><![CDATA[暫存時間設置]]></value>
+		<value xml:lang="fr"><![CDATA[Temps de antémémoire]]></value>
+		<value xml:lang="ru"><![CDATA[Установить время кеширования]]></value>
+		<value xml:lang="es"><![CDATA[Establezca el tiempo de cache]]></value>
+		<value xml:lang="tr"><![CDATA[Önbelleğe Alma Zamanı]]></value>
+		<value xml:lang="vi"><![CDATA[Thời gian lưu trữ]]></value>
+	</item>
+	<item name="about_page_caching_interval">
+		<value xml:lang="ko"><![CDATA[분 단위이며 정해진 시간동안은 임시 저장한 데이터를 출력합니다.<br />다른 서버의 정보를 출력하거나, 데이터 출력하는데 많은 자원이 필요한 경우, 원하시는 분 단위 시간 간격으로 캐싱하는 것을 추천합니다.<br />0 으로 하시면 캐싱을 하지 않습니다.]]></value>
+		<value xml:lang="en"><![CDATA[The unit is minute, and it displays temporary saved data for assigned time.<br />It is recommended to cache for proper time if a lot of resources are needed when displaying other servers' data or information.<br />A value of 0 will not cache.]]></value>
+		<value xml:lang="jp"><![CDATA[分単位で指定でき、設定された時間の間は、一時保存されたデータを出力します。<br />他のサーバの情報を出力したり、データを出力する際、リソースが多く使われるため、数分単位でキャッシングすることをお勧めします。<br />「0」に指定するとキャッシングされません。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[单位为分。缓冲时间间隔内页面将输出临时储存的数据。<br />显示外链服务器信息或数据时，如消耗资源很大，尽量把缓冲时间设置为大一点的相应值。<br />0 表示无缓冲。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[單位為分。暫存時間內頁面將輸出臨時儲存的資料。<br />輸出外部主機訊息或資料時，如消耗資源很大，盡量把暫存時間設大一點。<br />『0』表示不暫存。]]></value>
+		<value xml:lang="fr"><![CDATA[L'unité est minute, et ça exposera des données conservées temporairement pendant le temps assigné.<br />Il est recommandé d'utiliser l'antémémoire pendant le temps convenable si beaucoup de ressource est nécessaire pour représenter les données ou l'information d'autre serveur.<br />La valeur 0 signifie de ne pas utiliser antémémoire.]]></value>
+		<value xml:lang="ru"><![CDATA[Единица измерения равна одной минуте. Это отображает временно сохраненные данные для присвоенного времени.<br />Рекомендуется устанавливать разумное время кеширования, если множество ресурсов нуждаются в показе данных с других серверов.<br />Значение 0 отключает кеширование.]]></value>
+		<value xml:lang="es"><![CDATA[La unidad es minuto, y se muestra temporal de los datos guardados por el tiempo asignado. <br /> Se recomienda a la cache para una buena vez si una gran cantidad de recursos se necesitan otros servidores cuando se muestran los datos o la informacion. <br /> Un valor de 0 no cache.]]></value>
+		<value xml:lang="tr"><![CDATA[Birim dakikadır ve belirlenen zaman için geçici olarak kaydedilmiş veriyi gösterir.<br />Diğer sunucuların veri veya bilgileri gösterilirken, eğer fazla sayıda kaynağın gösterilmesi gerekiyorsa, uygun zamanın önbelleğe alınması önerilmiştir.<br />0 değeri verilirse, önbelleğe alınmayacaktır.]]></value>
+		<value xml:lang="vi"><![CDATA[Đơn vị được tính bằng phút, nó sẽ là thời gian lưu trữ tạm thời.<br />Đó là khuyến cáo thời gian lưu trữ tạm thời thích hợp khi cần để hiển thị.<br />Nhập 0 nếu không sử dụng tính năng này.]]></value>
+	</item>
+	<item name="about_mcontent">
+		<value xml:lang="ko"><![CDATA[모바일에서 보여질 페이지입니다. 만약 작성하지 않으면 기본 페이지 데이터를 재정렬해서 보여줍니다.]]></value>
+		<value xml:lang="en"><![CDATA[This is the page you will see from mobile devices. If you have not set this page, rearranged default page will be displayed.]]></value>
+		<value xml:lang="jp"><![CDATA[モバイルスキン用のページです。作成しないとPC向けのページを再構成して表示します。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[此页为移动版页面，如您没有对此页面进行布局，它会自动将PC版页面数据重排序显示。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[此頁面為手機瀏覽頁面。如果沒有編輯此頁面，則會將預設頁面改編重新顯示。]]></value>
+		<value xml:lang="fr"><![CDATA[This is the page for the mobile view. If you do not write this page, the mobile view display reoragnized PC view's page.]]></value>
+		<value xml:lang="ru"><![CDATA[This is the page for the mobile view. If you do not write this page, the mobile view display reoragnized PC view's page.]]></value>
+		<value xml:lang="es"><![CDATA[This is the page for the mobile view. If you do not write this page, the mobile view display reoragnized PC view's page.]]></value>
+		<value xml:lang="tr"><![CDATA[Bu sayfa, sizin hareketli cihazlardan göreceğiniz sayfadır. Eğer bu sayfayı ayarlamadıysanız, düzenlenmiş varsayılan sayfa gösterilecektir.]]></value>
+		<value xml:lang="vi"><![CDATA[This is the page for the mobile view. If you do not write this page, the mobile view display reoragnized PC view's page.]]></value>
+	</item>
+	<item name="page_type">
+		<value xml:lang="ko"><![CDATA[페이지 타입]]></value>
+		<value xml:lang="en"><![CDATA[Page Type]]></value>
+		<value xml:lang="jp"><![CDATA[ページタイプ]]></value>
+	</item>
+	<item name="click_choice">
+		<value xml:lang="ko"><![CDATA[선택해 주세요.]]></value>
+		<value xml:lang="en"><![CDATA[Select]]></value>
+		<value xml:lang="jp"><![CDATA[選択してください。]]></value>
+	</item>
+	<item name="page_type_name" type="array">
+		<item name="ARTICLE">
+			<value xml:lang="ko"><![CDATA[문서 페이지]]></value>
+			<value xml:lang="en"><![CDATA[Article Page]]></value>
+			<value xml:lang="jp"><![CDATA[書き込み Page]]></value>
+		</item>
+		<item name="WIDGET">
+			<value xml:lang="ko"><![CDATA[위젯 페이지]]></value>
+			<value xml:lang="en"><![CDATA[Widget Page]]></value>
+			<value xml:lang="jp"><![CDATA[ウィジェット Page]]></value>
+		</item>
+		<item name="OUTSIDE">
+			<value xml:lang="ko"><![CDATA[외부 페이지]]></value>
+			<value xml:lang="en"><![CDATA[External Page]]></value>
+			<value xml:lang="jp"><![CDATA[外部ページ]]></value>
+		</item>
+	</item>
+	<item name="about_page_type">
+		<value xml:lang="ko"><![CDATA[페이지 타입을 선택하여 원하는 화면을 구성할 수 있습니다. <ol><li>위젯형 : 여러가지 위젯들을 생성하여 화면을 구성합니다.</li><li>문서형 : 제목, 내용, 태그를 갖는 문서를 제작하여 포스팅 형식의 페이지를 작성합니다. </li><li>외부페이지형 : 외부 HTML 또는 PHP 파일을 XE에서 사용할 수 있습니다.</li></ol>]]></value>
+		<value xml:lang="en"><![CDATA[Select Page Type to build a page. <ol><li>Widget: Create multiple widgets.</li><li>Article: Create articles with titles, contents and tags for posting page. </li><li>External Page: Use external HTML or PHP files in XE.</li></ol>]]></value>
+	　　<value xml:lang="jp"><![CDATA[ページタイプを選択して好きな画面を構成できます。<ol><li>ウィジェット型 : いろんなウィジェットを生成して画面を構成します。</li><li>ドキュメント型 : タイトル、内容、タグのあるドキュメントを製作して、投稿形式のページを作成します。</li><li>外部ページ型 : 外部HTML、またはPHPファイルをXEで使用できます。]]></value>
+	</item>
+	<item name="opage_path">
+		<value xml:lang="ko"><![CDATA[외부 문서 위치]]></value>
+		<value xml:lang="en"><![CDATA[Location of External Document]]></value>
+		<value xml:lang="jp"><![CDATA[外部ドキュメントの位置]]></value>
+	</item>
+	<item name="about_opage">
+		<value xml:lang="ko"><![CDATA[XE가 아닌 외부 HTML 또는 PHP파일을 XE에서 사용할 수 있도록 하는 모듈입니다.<br />절대경로, 상대경로를 이용할 수 있으며 http:// 로 시작할 경우 서버 외부의 페이지도 표시할 수 있습니다]]></value>
+		<value xml:lang="en"><![CDATA[This module enables to use external html or php files in XE.<br />It allows absolute or relative path, and if the url starts with 'http://' , it can display the external page of the server.]]></value>
+	　　<value xml:lang="jp"><![CDATA[XEではなく、外部HTML、またはPHPファイルをXEで使用できるようにするモジュールです。<br />絶対パス、相対パスを利用でき、http://で開始する場合にサーバー外部のページも表示できます。]]></value>
+	</item>
+	<item name="about_opage_path">
+		<value xml:lang="ko"><![CDATA[외부문서의 위치를 입력해주세요.<br />/path1/path2/sample.php 와 같이 절대경로나 ../path2/sample.php와 같은 상대경로 모두 사용가능합니다.<br />http://url/sample.php 와 같이 사용하면 해당 페이지를 웹으로 전송 받아 출력 하게 됩니다.<br />현재 XE가 설치된 절대경로는 다음과 같습니다.<br />]]></value>
+		<value xml:lang="en"><![CDATA[Please enter the location of external document.<br />Both absolute path such as '/path1/path2/sample.php' or relative path such as '../path2/sample.php' can be used.<br />If you input the path like 'http://url/sample.php', the result will be received and then displayed.<br />This is current XE's absolute path.<br />]]></value>
+	　　<value xml:lang="jp"><![CDATA[外部ドキュメントの位置を入力してください。<br />/path1/path2/sample.phpのような絶対パス、もしくは../path2/sample.phpのような相対パス両方とも使用できます。<br />http://url/sample.phpのように使用すると、該当ページをウェブへ転送し、出力します。<br />現在、XEがインストールされている絶対パスは、次のとおりです。<br />]]></value>
+	</item>
+	<item name="opage_mobile_path">
+		<value xml:lang="ko"><![CDATA[모바일용 외부 문서 위치]]></value>
+		<value xml:lang="en"><![CDATA[Location of External Document for Mobile View]]></value>
+		<value xml:lang="jp"><![CDATA[モバイル用外部ドキュメントの位置]]></value>
+	</item>
+	<item name="about_opage_mobile_path">
+		<value xml:lang="ko"><![CDATA[모바일용 외부문서의 위치를 입력해주세요. 입력하지 않으면 위에서 지정한 외부문서 위치의 페이지를 이용합니다. <br />/path1/path2/sample.php 와 같이 절대경로나 ../path2/sample.php와 같은 상대경로 모두 사용가능합니다.<br />http://url/sample.php 와 같이 사용하면 해당 페이지를 웹으로 전송 받아 출력 하게 됩니다.<br />현재 XE가 설치된 절대경로는 다음과 같습니다.<br />]]></value>
+		<value xml:lang="en"><![CDATA[Please enter the location of external document for mobile view. If not inputted, it uses the external document specified above.<br />Both absolute path such as '/path1/path2/sample.php' or relative path such as '../path2/sample.php' can be used.<br />If you input the path like 'http://url/sample.php', the result will be received and then displayed.<br />This is current XE's absolute path.<br />]]></value>
+	　　<value xml:lang="jp"><![CDATA[モバイル用外部ドキュメントの位置を入力してください。入力しないと上記で指定した外部ドキュメントの位置のページを利用します。<br />/path1/path2/sample.phpのように絶対パス、もしくは../path2/sample.phpのような相対パス両方とも使用できます。<br />http://url/sample.phpのように使用すると、該当ページをウェブへ転送し、出力します。<br />現在、XEのインストールされている絶対パスは、次のとおりです。<br />]]></value>
+	</item>
+	<item name="page_management">
+		<value xml:lang="ko"><![CDATA[페이지 관리]]></value>
+		<value xml:lang="en"><![CDATA[Manage of page]]></value>
+	</item>
+</lang>

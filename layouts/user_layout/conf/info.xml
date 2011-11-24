@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout version="0.2">
+    <title xml:lang="ko">테스트 레이아웃</title>
+    <title xml:lang="en">Test Layout</title>
+    <title xml:lang="jp">テストのレイアウト</title>
+    <description xml:lang="ko">디자인이 없는 테스트 레이아웃입니다. 새 스킨을 만들 때 이 레이아웃 사본을 사용하면 좋습니다.</description>
+    <description xml:lang="en">Is not designed for testing the layout. When you create a new skin, we recommend you copy the layout.</description>
+    <description xml:lang="jp">デザインがないテストレイアウトです。新しいスキンを作成するときに、レイアウトのコピーを使用してください。</description>
+    <version>1.0</version>
+    <date>2010-12-24</date>
+    <author email_address="user@user.com" link="http://user-define.com/">
+        <name xml:lang="ko">제작자 이름</name>
+        <name xml:lang="en">Maker Name</name>
+        <name xml:lang="jp">製作者名</name>
+    </author>
+    <menus>
+        <menu name="global_menu" maxdepth="2" default="true">
+            <title xml:lang="ko">전역 메뉴</title>
+            <title xml:lang="en">Global Menu</title>
+            <title xml:lang="jp">グローバルメニュー</title>
+        </menu>
+    </menus>
+</layout>

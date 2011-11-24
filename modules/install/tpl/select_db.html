@@ -1,28 +1,35 @@
+<!--%import("js/install_admin.js")-->
 <!--#include("header.html")-->
-
-<h2 class="xeAdmin">{$lang->select_db_type}</h2>
-
-    <form method="post" action="./">
-    <input type="hidden" name="module" value="{$module}" />
-    <input type="hidden" name="act" value="dispInstallForm" />
-
-    <table cellspacing="0" class="tableType6">
-    <col width="180" /><col />
-    <!--@foreach(DB::getSupportedList() as $key => $val)-->
-    <tr>
-        <th scope="row">
-            <input type="radio" name="db_type" value="{$val->db_type}" <!--@if(!$val->enable)-->disabled="disabled"<!--@end--> id="db_type_{$val->db_type}" <!--@if($val->db_type=="mysql")-->checked="checked"<!--@end-->/>
-            <label for="db_type_{$val->db_type}">{$val->db_type}</label>
-        </th>
-        <td>{$lang->db_desc[$val->db_type]}</td>
-    </tr>
-    <!--@end-->
-    </table>
-
-    <div class="buttonCenter">
-        <span class="button blue"><input type="submit" value="{$lang->cmd_install_next}" /></span>
-    </div>
-
-    </form>
-
+	<div id="body">
+<!--#include("progress_menu.html")-->
+		<span class="dummy"></span>
+		<div id="content">
+			<form method="post" action="./">
+			<input type="hidden" name="module" value="{$module}" />
+			<input type="hidden" name="act" value="dispInstallDBForm" />
+				<ul class="form formDbSelect">
+					<!--@foreach(DB::getEnableList() as $key => $val)-->
+					<li>
+						<input name="db_type" type="radio" value="{$val->db_type}" <!--@if(!$val->enable)-->disabled="disabled"<!--@end--> id="db_type_{$val->db_type}" <!--@if($val->db_type=="mysql")-->checked="checked"<!--@end--> class="iRadio" id="cubrid" /> <label for="db_type_{$val->db_type}">{$val->db_type}</label>
+						<p>{$lang->db_desc[$val->db_type]}</p>
+					</li>
+					<!--@end-->
+					<!--@foreach(DB::getDisableList() as $key => $val)-->
+					<li>
+						<input name="db_type" type="radio" value="{$val->db_type}" <!--@if(!$val->enable)-->disabled="disabled"<!--@end--> id="db_type_{$val->db_type}" <!--@if($val->db_type=="mysql")-->checked="checked"<!--@end--> class="iRadio" id="cubrid" /> <label for="db_type_{$val->db_type}">{$val->db_type}</label>
+						<p>{$lang->db_desc[$val->db_type]}</p>
+					</li>
+					<!--@end-->
+				</ul>
+				<div class="ibtnArea">
+					<div class="fLeft">
+						<span class="ibtn icon"><span class="back"></span> <a href="{getUrl('', 'act', 'dispInstallCheckEnv')}">{$lang->cmd_back}</a></span>
+					</div>
+					<div class="fRight">
+						<span class="ibtn icon"><span class="check"></span> <input name="" type="submit" value="{$lang->cmd_next}" /></span>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
 <!--#include("footer.html")-->

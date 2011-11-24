@@ -2,118 +2,148 @@
     /**
      * @class  moduleAdminView
      * @author NHN (developers@xpressengine.com)
-     * @brief  module 모듈의 admin view class
+     * @brief admin view class of the module module
      **/
 
     class moduleAdminView extends module {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
-            // template path 지정
+            // Set the template path
             $this->setTemplatePath($this->module_path.'tpl');
         }
 
         /**
-         * @brief 모듈 관리자 페이지
+         * @brief Module admin page
          **/
         function dispModuleAdminContent() {
             $this->dispModuleAdminList();
         }
 
         /**
-         * @brief 모듈 목록 출력
+         * @brief Display a lost of modules
          **/
         function dispModuleAdminList() {
-            // 모듈 목록을 구해서 
-            $oModuleModel = &getModel('module');
-            $module_list = $oModuleModel->getModuleList();
-            Context::set('module_list', $module_list);			
-						
-			$security = new Security();				
-			$security->encodeHTML('module_list....');			
+			// Obtain a list of modules
+            $oAdminModel = &getAdminModel('admin');
+			$oModuleModel = &getModel('module');
+			$oAutoinstallModel = &getModel('autoinstall');
 
-            // 템플릿 파일 지정
+			$module_list = $oModuleModel->getModuleList();
+			if(is_array($module_list))
+			{
+				foreach($module_list as $key => $val) {
+					$module_list[$key]->delete_url = $oAutoinstallModel->getRemoveUrlByPath($val->path);
+
+					// get easyinstall need update
+					$packageSrl = $oAutoinstallModel->getPackageSrlByPath($val->path);
+					$package = $oAutoinstallModel->getInstalledPackages($packageSrl);
+					$module_list[$key]->need_autoinstall_update = $package[$packageSrl]->need_update;
+
+					// get easyinstall update url
+					if ($module_list[$key]->need_autoinstall_update == 'Y')
+					{
+						$module_list[$key]->update_url = $oAutoinstallModel->getUpdateUrlByPackageSrl($packageSrl);
+					}
+				}
+			}
+
+			$output = $oAdminModel->getFavoriteList('0');
+
+			$favoriteList = $output->get('favoriteList');
+			$favoriteModuleList = array();
+			if ($favoriteList){
+				foreach($favoriteList as $favorite => $favorite_info){
+					$favoriteModuleList[] = $favorite_info->module;
+				}
+			}
+
+            Context::set('favoriteModuleList', $favoriteModuleList);
+			Context::set('module_list', $module_list);
+
+			$security = new Security();
+			$security->encodeHTML('module_list....');
+
+            // Set a template file
             $this->setTemplateFile('module_list');
+
         }
 
         /**
-         * @brief 모듈의 상세 정보(conf/info.xml)를 팝업 출력
+         * @brief Pop-up details of the module (conf/info.xml)
          **/
         function dispModuleAdminInfo() {
-            // 모듈 목록을 구해서 
+            // Obtain a list of modules
             $oModuleModel = &getModel('module');
             $module_info = $oModuleModel->getModuleInfoXml(Context::get('selected_module'));
             Context::set('module_info', $module_info);
-			
+
 			$security = new Security();				
 			$security->encodeHTML('module_info...');
 
-            // 레이아웃을 팝업으로 지정
+			// Set the layout to be pop-up
+			$this->setLayoutPath('./common/tpl');
             $this->setLayoutFile('popup_layout');
-
-            // 템플릿 파일 지정
+            // Set a template file
             $this->setTemplateFile('module_info');
         }
 
         /**
-         * @brief 모듈 카테고리 목록
+         * @brief Module Categories
          **/
         function dispModuleAdminCategory() {
             $module_category_srl = Context::get('module_category_srl');
-            
-            // 모듈 목록을 구해서 
-            $oModuleModel = &getModel('module');
 
-            // 선택된 카테고리가 있으면 해당 카테고리의 정보 수정 페이지로
+            // Obtain a list of modules
+            $oModuleModel = &getModel('module');
+            // Display the category page if a category is selected
 			//Security
 			$security = new Security();				
 			
             if($module_category_srl) {
                 $selected_category  = $oModuleModel->getModuleCategory($module_category_srl);
                 Context::set('selected_category', $selected_category);
-				
+
 				//Security
 				$security->encodeHTML('selected_category.title');				
 
-                // 템플릿 파일 지정
+				// Set a template file
                 $this->setTemplateFile('category_update_form');
-
-            // 아니면 전체 목록
+            // If not selected, display a list of categories
             } else {
                 $category_list = $oModuleModel->getModuleCategories();
                 Context::set('category_list', $category_list);
-				
+
 				//Security
 				$security->encodeHTML('category_list..title');
-				
-                // 템플릿 파일 지정
+
+				// Set a template file
                 $this->setTemplateFile('category_list');
             }
         }
 
         /**
-         * @brief 모듈 복사 기능
+         * @brief Feature to copy module
          **/
         function dispModuleAdminCopyModule() {
-            // 복사하려는 대상 모듈을 구함
+            // Get a target module to copy
             $module_srl = Context::get('module_srl');
-
-            // 해당 모듈의 정보를 구함
+            // Get information of the module
             $oModuleModel = &getModel('module');
-            $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+			$columnList = array('module_srl', 'module', 'mid', 'browser_title');
+            $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);
             Context::set('module_info', $module_info);
-
-            // 레이아웃을 팝업으로 지정
+            // Set the layout to be pop-up
+			$this->setLayoutPath('./common/tpl');
             $this->setLayoutFile('popup_layout');
-
-            // 템플릿 파일 지정
+            // Set a template file
             $this->setTemplateFile('copy_module');
         }
 
         /**
-         * @brief 모듈 기본 설정 일괄 적용
+         * @brief Applying the default settings to all modules
          **/
         function dispModuleAdminModuleSetup() {
             $module_srls = Context::get('module_srls');
@@ -122,60 +152,55 @@
             if(!count($modules)) if(!$module_srls) return new Object(-1,'msg_invalid_request');
 
             $oModuleModel = &getModel('module');
-            $module_info = $oModuleModel->getModuleInfoByModuleSrl($modules[0]);
-
-            // 모듈의 스킨 목록을 구함
+			$columnList = array('module_srl', 'module');
+            $module_info = $oModuleModel->getModuleInfoByModuleSrl($modules[0], $columnList);
+            // Get a skin list of the module
             $skin_list = $oModuleModel->getSkins('./modules/'.$module_info->module);
             Context::set('skin_list',$skin_list);
-
-            // 레이아웃 목록을 구해옴
+            // Get a layout list
             $oLayoutMode = &getModel('layout');
             $layout_list = $oLayoutMode->getLayoutList();
             Context::set('layout_list', $layout_list);
-			
-            // 모듈 카테고리 목록을 구함
+            // Get a list of module categories
             $module_category = $oModuleModel->getModuleCategories();
             Context::set('module_category', $module_category);
 
 			$security = new Security();				
 			$security->encodeHTML('layout_list..title','layout_list..layout');
 			$security->encodeHTML('skin_list....');
-			$security->encodeHTML('module_category...');			
-			
-            // 레이아웃을 팝업으로 지정
-            $this->setLayoutFile('popup_layout');
+			$security->encodeHTML('module_category...');
 
-            // 템플릿 파일 지정
+			// Set the layout to be pop-up
+			$this->setLayoutPath('./common/tpl');
+            $this->setLayoutFile('popup_layout');
+            // Set a template file
             $this->setTemplateFile('module_setup');
         }
 
         /**
-         * @brief 모듈 추가 설정 일괄 적용
+         * @brief Apply module addition settings to all modules
          **/
         function dispModuleAdminModuleAdditionSetup() {
             $module_srls = Context::get('module_srls');
 
             $modules = explode(',',$module_srls);
             if(!count($modules)) if(!$module_srls) return new Object(-1,'msg_invalid_request');
-
-            // content는 다른 모듈에서 call by reference로 받아오기에 미리 변수 선언만 해 놓음
+            // pre-define variables because you can get contents from other module (call by reference)
             $content = '';
-
-            // 추가 설정을 위한 트리거 호출 
-            // 게시판 모듈이지만 차후 다른 모듈에서의 사용도 고려하여 trigger 이름을 공용으로 사용할 수 있도록 하였음
+            // Call a trigger for additional settings
+            // Considering uses in the other modules, trigger name cen be publicly used
             $output = ModuleHandler::triggerCall('module.dispAdditionSetup', 'before', $content);
             $output = ModuleHandler::triggerCall('module.dispAdditionSetup', 'after', $content);
             Context::set('setup_content', $content);
-
-            // 레이아웃을 팝업으로 지정
+            // Set the layout to be pop-up
+			$this->setLayoutPath('./common/tpl');
             $this->setLayoutFile('popup_layout');
-
-            // 템플릿 파일 지정
+            // Set a template file
             $this->setTemplateFile('module_addition_setup');
         }
 
         /**
-         * @brief 모듈 권한 설정 일괄 적용
+         * @brief Applying module permission settings to all modules
          **/
         function dispModuleAdminModuleGrantSetup() {
             $module_srls = Context::get('module_srls');
@@ -184,11 +209,11 @@
             if(!count($modules)) if(!$module_srls) return new Object(-1,'msg_invalid_request');
 
             $oModuleModel = &getModel('module');
-            $module_info = $oModuleModel->getModuleInfoByModuleSrl($modules[0]);
+			$columnList = array('module_srl', 'module', 'site_srl');
+            $module_info = $oModuleModel->getModuleInfoByModuleSrl($modules[0], $columnList);
             $xml_info = $oModuleModel->getModuleActionXml($module_info->module);
             $source_grant_list = $xml_info->grant;
-
-            // access, manager 권한은 가상 권한으로 설정
+            // Grant virtual permissions for access and manager
             $grant_list->access->title = Context::getLang('grant_access');
             $grant_list->access->default = 'guest';
             if(count($source_grant_list)) {
@@ -201,47 +226,64 @@
             $grant_list->manager->title = Context::getLang('grant_manager');
             $grant_list->manager->default = 'manager';
             Context::set('grant_list', $grant_list);
-
-            // 그룹을 가져옴
+            // Get a list of groups
             $oMemberModel = &getModel('member');
             $group_list = $oMemberModel->getGroups($module_info->site_srl);
             Context::set('group_list', $group_list);
-			
 			$security = new Security();				
 			$security->encodeHTML('group_list..title');
 
-            // 레이아웃을 팝업으로 지정
+			// Set the layout to be pop-up
+			$this->setLayoutPath('./common/tpl');
             $this->setLayoutFile('popup_layout');
-
-            // 템플릿 파일 지정
+            // Set a template file
             $this->setTemplateFile('module_grant_setup');
         }
 
+
         /**
-         * @brief 언어 코드
+         * @brief Language codes
          **/
         function dispModuleAdminLangcode() {
-            // 현재 사이트의 언어파일 가져오기
+            // Get the language file of the current site
             $site_module_info = Context::get('site_module_info');
             $args->site_srl = (int)$site_module_info->site_srl;
+			$args->langCode = Context::get('lang_type');
+            $args->page = Context::get('page'); // /< Page
+            $args->list_count = 30; // /< the number of posts to display on a single page
+            $args->page_count = 5; // /< the number of pages that appear in the page navigation
             $args->sort_index = 'name';
             $args->order_type = 'asc';
-            $output = executeQueryArray('module.getLangList', $args);
-            Context::set('lang_list', $output->data);
+            $args->search_target = Context::get('search_target'); // /< search (title, contents ...)
+            $args->search_keyword = Context::get('search_keyword'); // /< keyword to search
 
-            // 현재 선택된 언어 가져오기
-            $name = Context::get('name');
-            if($name) {
-                $oModuleAdminModel = &getAdminModel('module');
-                Context::set('selected_lang', $oModuleAdminModel->getLangCode($args->site_srl,'$user_lang->'.$name));
-            }
+			$oModuleAdminModel = &getAdminModel('module');
+			$output = $oModuleAdminModel->getLangListByLangcode($args);
 
-            // 레이아웃을 팝업으로 지정
-            $this->setLayoutFile('popup_layout');
-
-            // 템플릿 파일 지정
+            Context::set('total_count', $output->total_count);
+            Context::set('total_page', $output->total_page);
+            Context::set('page', $output->page);
+            Context::set('lang_code_list', $output->data);
+            Context::set('page_navigation', $output->page_navigation);
+			
+			if(Context::get('module') != 'admin')
+			{
+				$this->setLayoutPath('./common/tpl');
+				$this->setLayoutFile('popup_layout');
+			}
+            // Set a template file
             $this->setTemplateFile('module_langcode');
         }
 
+		function dispModuleAdminFileBox(){
+            $oModuleModel = &getModel('module');
+            $output = $oModuleModel->getModuleFileBoxList();
+			$page = Context::get('page');
+			$page = $page?$page:1;
+            Context::set('filebox_list', $output->data);
+            Context::set('page_navigation', $output->page_navigation);
+            Context::set('page', $page);
+            $this->setTemplateFile('adminFileBox');
+		}
     }
 ?>

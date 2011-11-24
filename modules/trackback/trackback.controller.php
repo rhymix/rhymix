@@ -2,70 +2,108 @@
     /**
      * @class  trackbackController
      * @author NHN (developers@xpressengine.com)
-     * @brief  trackback모듈의 Controller class
+     * @brief trackback module's Controller class
      **/
 
     class trackbackController extends trackback {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
         }
 
         /**
-         * @brief 트랙백 발송
+         * @brief Trackbacks sent
          **/
         function procTrackbackSend() {
-            // 게시물 번호와 발송하려는 엮인글 주소를 구함
+            // Yeokingeul to post numbers and shipping addresses Wanted
             $document_srl = Context::get('target_srl');
             $trackback_url = Context::get('trackback_url');
             $charset = Context::get('charset');
             if(!$document_srl || !$trackback_url || !$charset) return new Object(-1, 'msg_invalid_request');
-
-            // 로그인 정보 구함
+            // Login Information Wanted
             $logged_info = Context::get('logged_info');
             if(!$logged_info->member_srl) return new Object(-1, 'msg_not_permitted');
-
-            // 게시물의 정보를 구해와서 있는지 여부와 권한을 체크
+            // Posts of the information obtained permission to come and check whether
             $oDocumentModel = &getModel('document');
             $oDocument = $oDocumentModel->getDocument($document_srl);
             if(!$oDocument->isExists()) return new Object(-1, 'msg_invalid_request');
             if($oDocument->getMemberSrl() != $logged_info->member_srl) return new Object(-1, 'msg_not_permitted');
-
-            // 현재 글이 있는 모듈의 타이틀 지정
+            // Specify the title of the module, the current article
             $oModuleModel = &getModel('module');
             $module_info = $oModuleModel->getModuleInfoByModuleSrl($oDocument->get('module_srl'));
             Context::setBrowserTitle($module_info->browser_title);
-
-            // 엮인글 발송
-            return $this->sendTrackback($oDocument, $trackback_url, $charset);
+            // Shipping yeokingeul
+            $output = $this->sendTrackback($oDocument, $trackback_url, $charset);
+			if($output->toBool() && !in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				global $lang;
+				htmlHeader();
+				alertScript($lang->success_registed);
+				reload(true);
+				closePopupScript();
+				htmlFooter();
+				Context::close();
+				exit;
+			}
+			return $output;
         }
 
         /**
-         * @brief 문서 팝업메뉴에서 엮인글을 발송하는 메뉴 추가
+         * @brief Trackback List
+         **/
+        function procTrackbackGetList()
+		{
+			if(!Context::get('is_logged')) return new Object(-1,'msg_not_permitted');
+			$trackbackSrls = Context::get('trackback_srls');
+			if($trackbackSrls) $trackbackSrlList = explode(',', $trackbackSrls);
+
+			global $lang;
+			if(count($trackbackSrlList) > 0) {
+				$oTrackbackAdminModel = &getAdminModel('trackback');
+				$args->trackbackSrlList = $trackbackSrlList;
+				$args->list_count = 100;
+				$output = $oTrackbackAdminModel->getTotalTrackbackList($args);
+
+				if(is_array($output->data)) $trackbackList = $output->data;
+				else
+				{
+					unset($_SESSION['trackback_management']);
+					$trackbackList = array();
+					$this->setMessage($lang->no_trackbacks);
+				}
+			}
+			else
+			{
+				$trackbackList = array();
+				$this->setMessage($lang->no_trackbacks);
+			}
+
+			$this->add('trackback_list', $trackbackList);
+        }
+
+        /**
+         * @brief Trackbacks send documents from the popup menu add a menu
          **/
         function triggerSendTrackback(&$menu_list) {
             $logged_info = Context::get('logged_info');
             if(!$logged_info->member_srl) return new Object();
-
-            // 요청된 게시물 번호와 현재 로그인 정보 구함
+            // Post number and the current login information requested Wanted
             $document_srl = Context::get('target_srl');
             $oDocumentModel = &getModel('document');
             $oDocument = $oDocumentModel->getDocument($document_srl);
             if(!$oDocument->isExists()) return new Object();
             if($oDocument->getMemberSrl() != $logged_info->member_srl) return new Object();
-
-            // 엮인글 발송 링크 추가
+            // Add a link sent yeokingeul
             $oDocumentController = &getController('document');
             $url = getUrl('','module','trackback','act','dispTrackbackSend','document_srl', $document_srl);
-            $oDocumentController->addDocumentPopupMenu($url,'cmd_send_trackback','./modules/document/tpl/icons/send_trackback.gif','popup');
+            $oDocumentController->addDocumentPopupMenu($url,'cmd_send_trackback','','popup');
 
             return new Object();
         }
 
         /**
-         * @brief document삭제시 해당 document의 엮인글을 삭제하는 trigger
+         * @brief delete document in the document to delete the trigger Trackbacks
          **/
         function triggerDeleteDocumentTrackbacks(&$obj) {
             $document_srl = $obj->document_srl;
@@ -75,7 +113,7 @@
         }
 
         /**
-         * @brief module 삭제시 해당 엮인글 모두 삭제하는 trigger
+         * @brief deletion module that deletes all the trigger yeokingeul
          **/
         function triggerDeleteModuleTrackbacks(&$obj) {
             $module_srl = $obj->module_srl;
@@ -86,23 +124,20 @@
         }
 
         /**
-         * @brief 엮인글 입력
+         * @brief Trackback inserted
          **/
         function trackback() {
-            // 출력을 XMLRPC로 설정
+            // Output is set to XMLRPC
             Context::setRequestMethod("XMLRPC");
-
-            // 엮인글 받을때 필요한 변수를 구함
+            // When receiving the necessary variables yeokingeul Wanted
             $obj = Context::gets('document_srl','blog_name','url','title','excerpt');
             if(!$obj->document_srl || !$obj->url || !$obj->title || !$obj->excerpt) return $this->stop('fail');
-
-            // 올바른 trackback url인지 검사
+            // Checks for correct trackback url
             $given_key = Context::get('key');
             $oTrackbackModel = &getModel('trackback');
             $key = $oTrackbackModel->getTrackbackKey($obj->document_srl);
             if($key != $given_key) return $this->stop('fail');
-
-            // 엮인글 모듈의 기본 설정을 받음
+            // Yeokingeul module out of the default settings
             $module_srl = Context::get('module_srl');
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModulePartConfig('trackback', $module_srl);
@@ -112,65 +147,54 @@
                 $enable_trackback = $config->enable_trackback;
             }
             
-            // 관리자가 금지하였을 경우에는 엮인글을 받지 않음
+            // If managers were banned does not Trackbacks
             if($enable_trackback == 'N') return $this->stop('fail');
 
             return $this->insertTrackback($obj);
         }
 
         function insertTrackback($obj, $manual_inserted = false) {
-            // 엮인글 정리
+            // List trackback
             $obj = Context::convertEncoding($obj);
             if(!$obj->blog_name) $obj->blog_name = $obj->title;
             $obj->excerpt = strip_tags($obj->excerpt);
-
-            // trigger 호출 (before)
+            // Call a trigger (before)
             $output = ModuleHandler::triggerCall('trackback.insertTrackback', 'before', $obj);
             if(!$output->toBool()) return $output;
-
-            // GET으로 넘어온 document_srl을 참조, 없으면 오류~
+            // Document_srl see passed in GET, if an error ~
             $document_srl = $obj->document_srl;
 
             if(!$manual_inserted) {
-                // document model 객체 생성후 원본글을 가져옴
+                // Imported document model object, it permits you to wonbongeul
                 $oDocumentModel = &getModel('document');
                 $oDocument = $oDocumentModel->getDocument($document_srl);
-
-                // 원본글이 없거나 트랙백 허용을 하지 않으면 오류 표시
+                // If you do not allow two or trackback wonbongeul error display
                 if(!$oDocument->isExists()) return $this->stop('fail');
                 if(!$oDocument->allowTrackback()) return new Object(-1,'fail');
 
                 $obj->module_srl = $oDocument->get('module_srl');
             }
-
-            // 엮인글을 입력
+            // Enter Trackbacks
             $obj->trackback_srl = getNextSequence();
             $obj->list_order = $obj->trackback_srl*-1;
             $output = executeQuery('trackback.insertTrackback', $obj);
             if(!$output->toBool()) return $output;
-
-            // 입력에 이상이 없으면 해당 글의 엮인글 수를 올림
+            // If there is more to enter the article number yeokingeul Rounds
             if(!$manual_inserted) {
-                // trackback model 객체 생성
+                // trackback model object creation
                 $oTrackbackModel = &getModel('trackback');
-
-                // 해당 글의 전체 엮인글 수를 구해옴
+                // All the article number yeokingeul guhaeom
                 $trackback_count = $oTrackbackModel->getTrackbackCount($document_srl);
-
-                // document controller 객체 생성
+                // document controller object creation
                 $oDocumentController = &getController('document');
-
-                // 해당글의 엮인글 수를 업데이트
+                // Update the number of posts that yeokingeul
                 $output = $oDocumentController->updateTrackbackCount($document_srl, $trackback_count);
-
-                // 결과 return
+                // Return result
                 if(!$output->toBool()) return $output;
             }
-
-            // 원본글에 알림(notify_message)가 설정되어 있으면 메세지 보냄
+            // Notify wonbongeul (notify_message) if there is a Send a message
             if(!$manual_inserted) $oDocument->notify(Context::getLang('trackback'), $obj->excerpt);
-
-            // trigger 호출 (after)
+            // Call a trigger (after)
             $output = ModuleHandler::triggerCall('trackback.insertTrackback', 'after', $obj);
             if(!$output->toBool()) return $output;
 
@@ -178,42 +202,34 @@
         }
 
         /**
-         * @brief 단일 엮인글 삭제
+         * @brief Deleting a single yeokingeul
          **/
         function deleteTrackback($trackback_srl, $is_admin = false) {
-            // trackback model 객체 생성
+            // trackback model object creation
             $oTrackbackModel = &getModel('trackback');
-
-            // 삭제하려는 엮인글이 있는지 확인
+            // Make sure that you want to delete Trackbacks
             $trackback = $oTrackbackModel->getTrackback($trackback_srl);
             if($trackback->data->trackback_srl != $trackback_srl) return new Object(-1, 'msg_invalid_request');
             $document_srl = $trackback->data->document_srl;
-
-            // trigger 호출 (before)
+            // Call a trigger (before)
             $output = ModuleHandler::triggerCall('trackback.deleteTrackback', 'before', $trackback);
             if(!$output->toBool()) return $output;
-
-            // document model 객체 생성
+            // Create a document model object
             $oDocumentModel = &getModel('document');
-
-            // 권한이 있는지 확인
+            // Check if a permossion is granted
             if(!$is_admin && !$oDocumentModel->isGranted($document_srl)) return new Object(-1, 'msg_not_permitted');
 
             $args->trackback_srl = $trackback_srl;
             $output = executeQuery('trackback.deleteTrackback', $args);
             if(!$output->toBool()) return new Object(-1, 'msg_error_occured');
-
-            // 엮인글 수를 구해서 업데이트
+            // Obtain the number of yeokingeul Update
             $trackback_count = $oTrackbackModel->getTrackbackCount($document_srl);
-
-            // document controller 객체 생성
+            // document controller object creation
             $oDocumentController = &getController('document','controller');
-
-            // 해당글의 엮인글 수를 업데이트
+            // Update the number of posts that yeokingeul
             $output = $oDocumentController->updateTrackbackCount($document_srl, $trackback_count);
             $output->add('document_srl', $document_srl);
-
-            // trigger 호출 (before)
+            // Call a trigger (before)
             $output = ModuleHandler::triggerCall('trackback.deleteTrackback', 'after', $trackback);
             if(!$output->toBool()) return $output;
 
@@ -221,10 +237,10 @@
         }
 
         /**
-         * @brief 글에 속한 모든 트랙백 삭제
+         * @brief Delete All RSS Trackback
          **/
         function deleteTrackbacks($document_srl) {
-            // 삭제
+            // Delete
             $args->document_srl = $document_srl;
             $output = executeQuery('trackback.deleteTrackbacks', $args);
 
@@ -232,29 +248,26 @@
         }
 
         /**
-         * @brief 엮인글을 발송
+         * @brief Trackbacks sent to
          *
-         * 발송 후 결과처리는 하지 않는 구조임
+         * After sending the results are not sticky and handling
          **/
         function sendTrackback($oDocument, $trackback_url, $charset) {
             $oModuleController = &getController('module');
-
-            // 발송할 정보를 정리
+            // Information sent by
             $http = parse_url($trackback_url);
             $obj->blog_name = str_replace(array('&lt;','&gt;','&amp;','&quot;'), array('<','>','&','"'), Context::getBrowserTitle());
             $oModuleController->replaceDefinedLangCode($obj->blog_name);
             $obj->title = $oDocument->getTitleText();
             $obj->excerpt = $oDocument->getSummary(200);
             $obj->url = getFullUrl('','document_srl',$oDocument->document_srl);
-
-            // blog_name, title, excerpt, url의 문자열을 요청된 charset으로 변경
+            // blog_name, title, excerpt, url charset of the string to the requested change
             if($charset && function_exists('iconv')) {
                 foreach($obj as $key=>$val) {
                     $obj->{$key} = iconv('UTF-8',$charset,$val);
                 }
             }
-
-            // socket으로 발송할 내용 작성
+            // written information sent to socket
             if($http['query']) $http['query'].="&";
             if(!$http['port']) $http['port'] = 80;
 
@@ -271,8 +284,7 @@
                 );
             if($http['query']) $content .= '&'.$http['query'];
             $content_length = strlen($content);
-
-            // header 정리
+            // header by
             $header =
             sprintf(
                 "POST %s HTTP/1.1\r\n".
@@ -287,15 +299,12 @@
                 $content
             );
             if(!$http['host']||!$http['port']) return new Object(-1,'msg_trackback_url_is_invalid');
-
-            // 발송하려는 대상 서버의 socket을 연다
+            // Opens a socket on the target server you want to send
             $fp = @fsockopen($http['host'], $http['port'], $errno, $errstr, 5);
             if(!$fp) return new Object(-1,'msg_trackback_url_is_invalid');
-
-            // 작성한 헤더 정보를 발송
+            // Header information sent by
             fputs($fp, $header);
-
-            // 결과를 기다림 (특정 서버의 경우 EOF가 떨어지지 않을 수가 있음
+            // Waiting for the results (in particular the server may not be falling EOF
             while(!feof($fp)) {
                 $line = trim(fgets($fp, 4096));
                 if(preg_match("/^<error>/i",$line)){
@@ -303,8 +312,7 @@
 					break;
 				}
             }
-
-            // socket 닫음
+            // Close socket
             fclose($fp);
 
 			if($error == "0") return new Object(0, 'msg_trackback_send_success');
@@ -313,7 +321,7 @@
         }
 
         /**
-         * @brief 특정 ipaddress의 특정 시간대 내의 엮인글을 모두 삭제
+         * @brief Within a specific time of a specific ipaddress Trackbacks delete all
          **/
         function deleteTrackbackSender($time, $ipaddress, $url, $blog_name, $title, $excerpt) {
             $obj->regdate = date("YmdHis",time()-$time);

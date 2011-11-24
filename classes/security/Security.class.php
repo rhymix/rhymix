@@ -47,19 +47,22 @@ class Security
 			$varName0 = array_shift($varName);
 			if($use_context) {
 				$var = Context::get($varName0);
-			} else {
+			} elseif($varName0) {
 				$var = $is_object ? $this->_targetVar->{$varName0} : $this->_targetVar[$varName0];
+			} else {
+				$var = $this->_targetVar;
 			}
 			$var = $this->_encodeHTML($var, $varName);
 
-			if($var !== false) {
-				if($use_context) {
-					Context::set($varName0, $var);
-				} elseif($is_object) {
-					$this->_targetVar->{$varName0} = $var;
-				} else {
-					$this->_targetVar[$varName0] = $var;
-				}
+			if($var === false) continue;
+
+			if($use_context) {
+				Context::set($varName0, $var);
+			} elseif($varName0) {
+				if($is_object) $this->_targetVar->{$varName0} = $var;
+				else $this->_targetVar[$varName0] = $var;
+			} else {
+				$this->_targetVar = $var;
 			}
 		}
 

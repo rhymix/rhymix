@@ -1,0 +1,9 @@
+<query id="deleteTrash" action="delete">
+    <tables>
+        <table name="trash" />
+    </tables>
+    <conditions>
+        <condition operation="equal" column="trash_srl" var="trashSrl" filter="number" />
+        <condition operation="in" column="trash_srl" var="trashSrls" filter="number" />
+    </conditions>
+</query>

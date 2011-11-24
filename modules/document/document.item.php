@@ -2,7 +2,7 @@
     /**
      * @class  documentItem
      * @author NHN (developers@xpressengine.com)
-     * @brief  document 객체
+     * @brief document object
      **/
 
     class documentItem extends Object {
@@ -11,9 +11,11 @@
         var $lang_code = null;
 
         var $allow_trackback_status = null;
+		var $columnList = array();
 
-        function documentItem($document_srl = 0, $load_extra_vars = true) {
+        function documentItem($document_srl = 0, $load_extra_vars = true, $columnList = array()) {
             $this->document_srl = $document_srl;
+			$this->columnList = $columnList;
 
             $this->_loadFromDB($load_extra_vars);
         }
@@ -23,12 +25,22 @@
             $this->_loadFromDB($load_extra_vars);
         }
 
-        function _loadFromDB($load_extra_vars=true) {
+        function _loadFromDB($load_extra_vars = true) {
             if(!$this->document_srl) return;
 
-            $args->document_srl = $this->document_srl;
-            $output = executeQuery('document.getDocument', $args);
-
+            // cache controll
+            $oCacheHandler = &CacheHandler::getInstance('object');
+            if($oCacheHandler->isSupport()){
+                    $cache_key = 'object_document_item:'.$this->document_srl;
+                    $output = $oCacheHandler->get($cache_key);
+            }
+            if(!$output) {
+                $args->document_srl = $this->document_srl;
+                $output = executeQuery('document.getDocument', $args, $this->columnList);
+                //insert in cache
+                if($output->data->document_srl && $oCacheHandler->isSupport())
+                   $oCacheHandler->put($cache_key,$output);
+            }
             $this->setAttribute($output->data,$load_extra_vars);
         }
 
@@ -40,8 +52,7 @@
             $this->document_srl = $attribute->document_srl;
             $this->lang_code = $attribute->lang_code;
             $this->adds($attribute);
-
-            // 태그 정리
+            // Tags
             if($this->get('tags')) {
                 $tags = explode(',',$this->get('tags'));
                 $tag_count = count($tags);
@@ -59,7 +70,7 @@
         }
 
         function isExists() {
-            return $this->document_srl ? true : false;
+			return $this->document_srl ? true : false;
         }
 
         function isGranted() {
@@ -90,21 +101,20 @@
         function allowComment() {
             if(!$this->isExists()) return true;
 
-            return $this->get('allow_comment') == 'Y' ? true : false;
+            return $this->get('comment_status') == 'ALLOW' ? true : false;
         }
 
         function allowTrackback() {
             static $allow_trackback_status = null;
             if(is_null($allow_trackback_status)) {
-                // 엮인글 관리 모듈의 사용금지 설정 상태이면 무조건 금지, 그렇지 않으면 개별 체크
+                // If the trackback module is configured to be disabled, do not allow. Otherwise, check the setting of each module.
                 $oModuleModel = &getModel('module');
                 $trackback_config = $oModuleModel->getModuleConfig('trackback');
                 if(!isset($trackback_config->enable_trackback)) $trackback_config->enable_trackback = 'Y';
                 if($trackback_config->enable_trackback != 'Y') $allow_trackback_status = false;
                 else {
                     $module_srl = $this->get('module_srl');
-
-                    // 모듈별 설정을 체크
+                    // Check settings of each module
                     $module_config = $oModuleModel->getModulePartConfig('trackback', $module_srl);
                     if($module_config->enable_trackback == 'N') $allow_trackback_status = false;
                     else if($this->get('allow_trackback')=='Y' || !$this->isExists()) $allow_trackback_status = true;
@@ -114,7 +124,9 @@
         }
 
         function isLocked() {
-            return $this->get('lock_comment') == 'Y'  ? true : false;
+			if(!$this->isExists()) return false;
+
+            return $this->get('comment_status') == 'ALLOW' ? false : true;
         }
 
         function isEditable() {
@@ -123,7 +135,8 @@
         }
 
         function isSecret() {
-            return $this->get('is_secret') == 'Y' ? true : false;
+			$oDocumentModel = &getModel('document');
+            return $this->get('status') == $oDocumentModel->getConfigStatus('secret') ? true : false;
         }
 
         function isNotice() {
@@ -154,25 +167,20 @@
 
         function notify($type, $content) {
             if(!$this->document_srl) return;
-
-            // useNotify가 아니면 return
+            // return if it is not useNotify
             if(!$this->useNotify()) return;
-
-            // 글쓴이가 로그인 유저가 아니면 패스~
+            // Pass if an author is not a logged-in user
             if(!$this->get('member_srl')) return;
-
-            // 현재 로그인한 사용자와 글을 쓴 사용자를 비교하여 동일하면 return
+            // Return if the currently logged-in user is an author
             $logged_info = Context::get('logged_info');
             if($logged_info->member_srl == $this->get('member_srl')) return;
-
-            // 변수 정리
+            // List variables
             if($type) $title = "[".$type."] ";
             $title .= cut_str(strip_tags($content), 10, '...');
             $content = sprintf('%s<br /><br />from : <a href="%s" target="_blank">%s</a>',$content, getFullUrl('','document_srl',$this->document_srl), getFullUrl('','document_srl',$this->document_srl));
             $receiver_srl = $this->get('member_srl');
             $sender_member_srl = $logged_info->member_srl;
-
-            // 쪽지 발송
+            // Send a message
             $oCommunicationController = &getController('communication');
             $oCommunicationController->sendMessage($sender_member_srl, $receiver_srl, $title, $content, false);
         }
@@ -181,7 +189,7 @@
             return $this->get('lang_code');
         }
 
-        function getIpaddress() {
+        function getIpAddress() {
             if($this->isGranted()) return $this->get('ipaddress');
             return preg_replace('/([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)/','*.$2.$3.$4', $this->get('ipaddress'));
 
@@ -245,7 +253,8 @@
 
             if($this->isSecret() && !$this->isGranted() && !$this->isAccessible()) return Context::getLang('msg_is_secret');
 
-            $_SESSION['accessible'][$this->document_srl] = true;
+			$result = $this->_checkAccessibleFromStatus();
+			if($result) $_SESSION['accessible'][$this->document_srl] = true;
 
             $content = $this->get('content');
 
@@ -259,18 +268,18 @@
 
             if($this->isSecret() && !$this->isGranted() && !$this->isAccessible()) return Context::getLang('msg_is_secret');
 
-            $_SESSION['accessible'][$this->document_srl] = true;
+			$result = $this->_checkAccessibleFromStatus();
+            if($result) $_SESSION['accessible'][$this->document_srl] = true;
 
             $content = $this->get('content');
             if(!$stripEmbedTagException) stripEmbedTagForAdmin($content, $this->get('member_srl'));
 
-            // rewrite모듈을 사용하면 링크 재정의
+            // Define a link if using a rewrite module
             $oContext = &Context::getInstance();
             if($oContext->allow_rewrite) {
                 $content = preg_replace('/<a([ \t]+)href=("|\')\.\/\?/i',"<a href=\\2". Context::getRequestUri() ."?", $content);
             }
-
-            // 이 게시글을... 팝업메뉴를 출력할 경우
+            // To display a pop-up menu
             if($add_popup_menu) {
                 $content = sprintf(
                         '%s<div class="document_popup_menu"><a href="#popup_menu_area" class="document_%d" onclick="return false">%s</a></div>',
@@ -278,8 +287,7 @@
                         $this->document_srl, Context::getLang('cmd_document_do')
                 );
             }
-
-            // 컨텐츠에 대한 조작이 가능한 추가 정보를 설정하였을 경우
+            // If additional content information is set
             if($add_content_info) {
                 $content = sprintf(
                         '<!--BeforeDocument(%d,%d)--><div class="document_%d_%d xe_content">%s</div><!--AfterDocument(%d,%d)-->',
@@ -289,12 +297,11 @@
                         $this->document_srl, $this->get('member_srl'),
                         $this->document_srl, $this->get('member_srl')
                 );
-            // 컨텐츠에 대한 조작이 필요하지 않더라도 xe_content라는 클래스명을 꼭 부여
+            // Add xe_content class although accessing content is not required
             } else {
                 if($add_xe_content_class) $content = sprintf('<div class="xe_content">%s</div>', $content);
             }
-
-            // resource_realpath가 true이면 내용내 이미지의 경로를 절대 경로로 변경
+            // Change the image path to a valid absolute path if resource_realpath is true
             if($resource_realpath) {
                 $content = preg_replace_callback('/<img([^>]+)>/i',array($this,'replaceResourceRealPath'), $content);
             }
@@ -303,7 +310,7 @@
         }
 
         /**
-         * 에디터 코드가 변환된 내용 반환
+         * Return transformed content by Editor codes
          **/
         function getTransContent($add_popup_menu = true, $add_content_info = true, $resource_realpath = false, $add_xe_content_class = true) {
             $oEditorController = &getController('editor');
@@ -317,25 +324,25 @@
         function getSummary($str_size = 50, $tail = '...') {
             $content = $this->getContent(false,false);
 
-            // 줄바꿈이 있을 때, 공백문자 삽입
+            // For a newlink, inert a whitespace
             $content = preg_replace('!(<br[\s]*/{0,1}>[\s]*)+!is', ' ', $content);
 
-            // </p>, </div>, </li> 등의 태그를 공백 문자로 치환
+            // Replace tags such as </p> , </div> , </li> and others to a whitespace
             $content = str_replace(array('</p>', '</div>', '</li>'), ' ', $content);
 
-            // 태그 제거
+            // Remove Tags
             $content = preg_replace('!<([^>]*?)>!is','', $content);
 
-            // < , > , " 를 치환
+            // Replace < , >, "
             $content = str_replace(array('&lt;','&gt;','&quot;','&nbsp;'), array('<','>','"',' '), $content);
 
-            // 연속된 공백문자 삭제
+            // Delete  a series of whitespaces
             $content = preg_replace('/ ( +)/is', ' ', $content);
 
-            // 문자열을 자름
+            // Truncate string
             $content = trim(cut_str($content, $str_size, $tail));
 
-            // >, <, "를 다시 복구
+            // Replace back < , <, "
             $content = str_replace(array('<','>','"'),array('&lt;','&gt;','&quot;'), $content);
 
             return $content;
@@ -384,8 +391,7 @@
 
         function getTrackbackUrl() {
             if(!$this->document_srl) return;
-
-            // 스팸을 막기 위한 key 생성
+            // Generate a key to prevent spams
             $oTrackbackModel = &getModel('trackback');
             return $oTrackbackModel->getTrackbackUrl($this->document_srl);
         }
@@ -429,10 +435,10 @@
 
         function getExtraEidValue($eid) {
             $extra_vars = $this->getExtraVars();
-			
+
 			if($extra_vars)
 			{
-				// eid 명칭으로 확장변수 처리
+				// Handle extra variable(eid)
 				foreach($extra_vars as $idx => $key) {
 					$extra_eid[$key->eid] = $key;
 				}
@@ -442,7 +448,7 @@
 
         function getExtraEidValueHTML($eid) {
             $extra_vars = $this->getExtraVars();
-            // eid 명칭으로 확장변수 처리
+            // Handle extra variable(eid)
             foreach($extra_vars as $idx => $key) {
                 $extra_eid[$key->eid] = $key;
             }
@@ -460,35 +466,29 @@
         }
 
         function getComments() {
-            if(!$this->allowComment() || !$this->getCommentCount()) return;
+            if(!$this->getCommentCount()) return;
             if(!$this->isGranted() && $this->isSecret()) return;
-
-            // cpage는 댓글페이지의 번호
+            // cpage is a number of comment pages
             $cpage = Context::get('cpage');
-
-            // 댓글 목록을 구해옴
+            // Get a list of comments
             $oCommentModel = &getModel('comment');
             $output = $oCommentModel->getCommentList($this->document_srl, $cpage, $is_admin);
             if(!$output->toBool() || !count($output->data)) return;
-
-            // 구해온 목록을 commentItem 객체로 만듬
-            // 계층구조에 따라 부모글에 관리권한이 있으면 자식글에는 보기 권한을 줌
+            // Create commentItem object from a comment list
+            // If admin priviledge is granted on parent posts, you can read its child posts.
             $accessible = array();
             foreach($output->data as $key => $val) {
                 $oCommentItem = new commentItem();
                 $oCommentItem->setAttribute($val);
-
-                // 권한이 있는 글에 대해 임시로 권한이 있음을 설정
+                // If permission is granted to the post, you can access it temporarily
                 if($oCommentItem->isGranted()) $accessible[$val->comment_srl] = true;
-
-                // 현재 댓글이 비밀글이고 부모글이 있는 답글이고 부모글에 대해 관리 권한이 있으면 보기 가능하도록 수정
+                // If the comment is set to private and it belongs child post, it is allowable to read the comment for who has a admin privilege on its parent post
                 if($val->parent_srl>0 && $val->is_secret == 'Y' && !$oCommentItem->isAccessible() && $accessible[$val->parent_srl]===true) {
                     $oCommentItem->setAccessible();
                 }
                 $comment_list[$val->comment_srl] = $oCommentItem;
             }
-
-            // 스킨에서 출력하기 위한 변수 설정
+            // Variable setting to be displayed on the skin
             Context::set('cpage', $output->page_navigation->cur_page);
             if($output->total_page>1) $this->comment_page_navigation = $output->page_navigation;
 
@@ -515,16 +515,13 @@
         }
 
         function getThumbnail($width = 80, $height = 0, $thumbnail_type = '') {
-            // 존재하지 않는 문서일 경우 return false
+            // Return false if the document doesn't exist
             if(!$this->document_srl) return;
-
-            // 높이 지정이 별도로 없으면 정사각형으로 생성
+            // If not specify its height, create a square
             if(!$height) $height = $width;
-
-            // 첨부파일이 없거나 내용중 이미지가 없으면 return false;
+            // Return false if neither attachement nor image files in the document
             if(!$this->get('uploaded_count') && !preg_match("!<img!is", $this->get('content'))) return;
-
-            // 문서 모듈의 기본 설정에서 Thumbnail의 생성 방법을 구함
+            // Get thumbnai_type information from document module's configuration
             if(!in_array($thumbnail_type, array('crop','ratio'))) {
                 $config = $GLOBALS['__document_config__'];
                 if(!$config) {
@@ -534,23 +531,19 @@
                 }
                 $thumbnail_type = $config->thumbnail_type;
             }
-
-            // 섬네일 정보 정의
+            // Define thumbnail information
             $thumbnail_path = sprintf('files/cache/thumbnails/%s',getNumberingPath($this->document_srl, 3));
             $thumbnail_file = sprintf('%s%dx%d.%s.jpg', $thumbnail_path, $width, $height, $thumbnail_type);
             $thumbnail_url  = Context::getRequestUri().$thumbnail_file;
-
-            // 섬네일 파일이 있을 경우 파일의 크기가 0 이면 return false 아니면 경로 return
+            // Return false if thumbnail file exists and its size is 0. Otherwise, return its path
             if(file_exists($thumbnail_file)) {
                 if(filesize($thumbnail_file)<1) return false;
                 else return $thumbnail_url;
             }
-
-            // 대상 파일
+            // Target File
             $source_file = null;
             $is_tmp_file = false;
-
-            // 첨부된 파일중 이미지 파일이 있으면 찾음
+            // Find an iamge file among attached files if exists
             if($this->get('uploaded_count')) {
                 $oFileModel = &getModel('file');
                 $file_list = $oFileModel->getFiles($this->document_srl);
@@ -565,8 +558,7 @@
                     }
                 }
             }
-
-            // 첨부된 파일이 없으면 내용중 이미지 파일을 구함
+            // If not exists, file an image file from the content
             if(!$source_file) {
                 $content = $this->get('content');
                 $target_src = null;
@@ -598,42 +590,39 @@
                 $output = FileHandler::createImageFile($source_file, $thumbnail_file, $width, $height, 'jpg', $thumbnail_type);
             }
             if($is_tmp_file) FileHandler::removeFile($source_file);
-
-            // 섬네일 생성 성공시 경로 return
+            // Return its path if a thumbnail is successfully genetated
             if($output) return $thumbnail_url;
-
-            // 차후 다시 섬네일 생성을 시도하지 않기 위해 빈 파일을 생성
+            // Create an empty file not to re-generate the thumbnail
             else FileHandler::writeFile($thumbnail_file, '','w');
 
             return;
         }
 
         /**
-         * @brief 새글, 최신 업데이트글, 비밀글, 이미지/동영상/첨부파일등의 아이콘 출력용 함수
-         * $time_interval 에 지정된 시간(초)로 새글/최신 업데이트글의 판별
+         * @brief Functions to display icons for new post, latest update, secret(private) post, image/video/attachment
+         * Determine new post and latest update by $time_interval
          **/
         function getExtraImages($time_interval = 43200) {
             if(!$this->document_srl) return;
-
-            // 아이콘 목록을 담을 변수 미리 설정
+            // variables for icon list
             $buffs = array();
 
             $check_files = false;
 
-            // 비밀글 체크
+            // Check if secret post is
             if($this->isSecret()) $buffs[] = "secret";
 
-            // 최신 시간 설정
+            // Set the latest time
             $time_check = date("YmdHis", time()-$time_interval);
 
-            // 새글 체크
+            // Check new post
             if($this->get('regdate')>$time_check) $buffs[] = "new";
             else if($this->get('last_update')>$time_check) $buffs[] = "update";
 
             /*
             $content = $this->get('content');
 
-            // 사진 이미지 체크
+            // Check image files
             preg_match_all('!<img([^>]*?)>!is', $content, $matches);
             $cnt = count($matches[0]);
             for($i=0;$i<$cnt;$i++) {
@@ -643,26 +632,31 @@
                 break;
             }
 
-            // 동영상 체크
+            // Check video files
             if(preg_match('!<embed([^>]*?)>!is', $content) || preg_match('/editor_component=("|\')*multimedia_link/i', $content) ) {
                 $buffs[] = "movie";
                 $check_files = true;
             }
             */
 
-            // 첨부파일 체크
+            // Check the attachment
             if($this->hasUploadedFiles()) $buffs[] = "file";
 
             return $buffs;
         }
 
+		function getStatus()
+		{
+			if(!$this->get('status')) return $this->getDefaultStatus();
+			return $this->get('status');
+		}
+
         /**
-         * @brief getExtraImages로 구한 값을 이미지 태그를 씌워서 리턴
+         * @brief Return the value obtained from getExtraImages with image tag
          **/
         function printExtraImages($time_check = 43200) {
             if(!$this->document_srl) return;
-
-            // 아이콘 디렉토리 구함
+            // Get the icon directory
             $path = sprintf('%s%s',getUrl(), 'modules/document/tpl/icons/');
 
             $buffs = $this->getExtraImages($time_check);
@@ -694,7 +688,7 @@
         }
 
         /**
-         * @brief 에디터 html을 구해서 return
+         * @brief Return Editor html
          **/
         function getEditor() {
             $module_srl = $this->get('module_srl');
@@ -705,18 +699,19 @@
         }
 
         /**
-         * @brief 댓글을 달 수 있는지에 대한 권한 체크
-         * 게시글의 댓글 권한과 또 다른 부분
+         * @brief Check whether to have a permission to write comment
+         * Authority to write a comment and to write a document is separated
          **/
         function isEnableComment() {
-            // 권한이 없고 비밀글 or 댓글금지 or 댓글허용금지이면 return false
-            if(!$this->isGranted() && ( $this->isSecret() || $this->isLocked() || !$this->allowComment() ) ) return false;
+            // Return false if not authorized, if a secret document, if the document is set not to allow any comment
+			if (!$this->allowComment()) return false;
+			if(!$this->isGranted() && $this->isSecret()) return false;
 
-            return true;
+			return true;
         }
 
         /**
-         * @brief 댓글 에디터 html을 구해서 return
+         * @brief Return comment editor's html
          **/
         function getCommentEditor() {
             if(!$this->isEnableComment()) return;
@@ -726,7 +721,7 @@
         }
 
         /**
-         * @brief 작성자의 프로필 이미지를 return
+         * @brief Return author's profile image
          **/
         function getProfileImage() {
             if(!$this->isExists() || !$this->get('member_srl')) return;
@@ -738,17 +733,15 @@
         }
 
         /**
-         * @brief 작성자의 서명을 return
+         * @brief Return author's signiture
          **/
         function getSignature() {
-            // 존재하지 않는 글이면 패스~
+            // Pass if a document doesn't exist
             if(!$this->isExists() || !$this->get('member_srl')) return;
-
-            // 서명정보를 구함
+            // Get signature information
             $oMemberModel = &getModel('member');
             $signature = $oMemberModel->getSignature($this->get('member_srl'));
-
-            // 회원모듈에서 서명 최고 높이 지정되었는지 검사
+            // Check if a maximum height of signiture is set in the member module
             if(!isset($GLOBALS['__member_signature_max_height'])) {
                $oModuleModel = &getModel('module');
                $member_config = $oModuleModel->getModuleConfig('member');
@@ -763,10 +756,31 @@
         }
 
         /**
-         * @brief 내용내의 이미지 경로를 절대 경로로 변경
+         * @brief Change an image path in the content to absolute path
          **/
         function replaceResourceRealPath($matches) {
             return preg_replace('/src=(["\']?)files/i','src=$1'.Context::getRequestUri().'files', $matches[0]);
         }
+
+		function _checkAccessibleFromStatus()
+		{
+            $logged_info = Context::get('logged_info');
+            if($logged_info->is_admin == 'Y') return true;
+
+			$status = $this->get('status');
+			if(empty($status)) return false;
+
+			$oDocumentModel = &getModel('document');
+			$configStatusList = $oDocumentModel->getStatusList();
+
+			if($status == $configStatusList['public'] || $status == $configStatusList['publish'])
+				return true;
+			else if($status == $configStatusList['private'] || $status == $configStatusList['secret'])
+			{
+				if($this->get('member_srl') == $logged_info->member_srl)
+					return true;
+			}
+			return false;
+		}
     }
 ?>

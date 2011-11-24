@@ -2,43 +2,39 @@
 /**
  * @class DBPostgreSQL
  * @author ioseph (ioseph@postgresql.kr) updated by yoonjong.joh@gmail.com
- * @brief MySQL DBMS를 이용하기 위한 class
+ * @brief Class to use PostgreSQL DBMS
  * @version 0.2
  *
  * postgresql handling class
- * 2009.02.10  update 와 delete query를 실행할때 table 이름에 alias 사용하는 것을 없앰. 지원 안함
- *             order by clause를 실행할때 함수를 실행 하는 부분을 column alias로 대체.
- * 2009.02.11  dropColumn() function이 추가  
- * 2009.02.13  addColumn() 함수 변경
+ * 2009.02.10 update and delete query for the table name at runtime, eliminating the alias to use. Not Supported
+ * when running order by clause column alias to run a function to replace parts.
+ * 2009.02.11 dropColumn() function added
+ * 2009.02.13 addColumn() function changes
  **/
 
 class DBPostgresql extends DB
 {
 
     /**
-     * @brief PostgreSQL DB에 접속하기 위한 정보
+     * @brief Connection information for PostgreSQL DB
      **/
-    var $hostname = '127.0.0.1'; ///< hostname
-    var $userid = null; ///< user id
-    var $password = null; ///< password
-    var $database = null; ///< database
-    var $prefix = 'xe'; ///< XE에서 사용할 테이블들의 prefix  (한 DB에서 여러개의 XE설치 가능)
-	var $comment_syntax = '/* %s */';
+    var $prefix = 'xe'; // / <prefix of a tablename (One or more XEs can be installed in a single DB)
+    var $comment_syntax = '/* %s */';
 
     /**
-     * @brief postgresql에서 사용될 column type
+     * @brief column type used in postgresql
      *
-     * column_type은 schema/query xml에서 공통 선언된 type을 이용하기 때문에
-     * 각 DBMS에 맞게 replace 해주어야 한다
+     * Becasue a common column type in schema/query xml is used for colum_type,
+     * it should be replaced properly for each DBMS
      **/
     var $column_type = array(
-        'bignumber' => 'bigint', 
+        'bignumber' => 'bigint',
         'number' => 'integer',
-        'varchar' => 'varchar', 
-        'char' => 'char', 
-        'text' => 'text', 
+        'varchar' => 'varchar',
+        'char' => 'char',
+        'text' => 'text',
         'bigtext' => 'text',
-        'date' => 'varchar(14)', 
+        'date' => 'varchar(14)',
         'float' => 'real',
     );
 
@@ -50,7 +46,7 @@ class DBPostgresql extends DB
         $this->_setDBInfo();
         $this->_connect();
     }
-	
+
 	/**
 	 * @brief create an instance of this class
 	 */
@@ -60,7 +56,7 @@ class DBPostgresql extends DB
 	}
 
     /**
-     * @brief 설치 가능 여부를 return
+     * @brief Return if it is installable
      **/
     function isSupported()
     {
@@ -70,66 +66,38 @@ class DBPostgresql extends DB
     }
 
     /**
-     * @brief DB정보 설정 및 connect/ close
+     * @brief DB Connection
      **/
-    function _setDBInfo()
+    function __connect($connection)
     {
-        $db_info = Context::getDBInfo();
-        $this->hostname = $db_info->db_hostname;
-        $this->port = $db_info->db_port;
-        $this->userid = $db_info->db_userid;
-        $this->password = $db_info->db_password;
-        $this->database = $db_info->db_database;
-        $this->prefix = $db_info->db_table_prefix;
-        if (!substr($this->prefix, -1) != '_')
-            $this->prefix .= '_';
-    }
-
-    /**
-     * @brief DB 접속
-     **/
-    function _connect()
-    {
-        // pg용 connection string
+        // the connection string for PG
         $conn_string = "";
+        // Create connection string
+        $conn_string .= ($connection["db_hostname"]) ? ' host='.$connection["db_hostname"] : "";
+        $conn_string .= ($connection["db_userid"]) ? " user=" . $connection["db_userid"] : "";
+        $conn_string .= ($connection["db_password"]) ? " password=" . $connection["db_password"] : "";
+        $conn_string .= ($connection["db_database"]) ? " dbname=" . $connection["db_database"] : "";
+        $conn_string .= ($connection["db_port"]) ? " port=" . $connection["db_port"] : "";
 
-        // db 정보가 없으면 무시
-        if (!$this->hostname || !$this->userid || !$this->database)
-            return;
-
-        // connection string 만들기
-        $conn_string .= ($this->hostname) ? " host=$this->hostname" : "";
-        $conn_string .= ($this->userid) ? " user=$this->userid" : "";
-        $conn_string .= ($this->password) ? " password=$this->password" : "";
-        $conn_string .= ($this->database) ? " dbname=$this->database" : "";
-        $conn_string .= ($this->port) ? " port=$this->port" : "";
-
-        // 접속시도
-        $this->fd = @pg_connect($conn_string);
-        if (!$this->fd || pg_connection_status($this->fd) != PGSQL_CONNECTION_OK) {
+        // Attempt to connect
+        $result = @pg_connect($conn_string);
+        if (!$result || pg_connection_status($result) != PGSQL_CONNECTION_OK) {
             $this->setError(-1, "CONNECTION FAILURE");
             return;
         }
-
-        // 접속체크
-        $this->is_connected = true;
-		$this->password = md5($this->password);
-        // utf8임을 지정
-        //$this ->_query('set client_encoding to uhc');
+        return $result;
     }
 
     /**
-     * @brief DB접속 해제
+     * @brief DB disconnection
      **/
-    function close()
+    function _close($connection)
     {
-        if (!$this->isConnected())
-            return;
-        @pg_close($this->fd);
+        @pg_close($connection);
     }
 
     /**
-     * @brief 쿼리에서 입력되는 문자열 변수들의 quotation 조절
+     * @brief Add quotes on the string variables in a query
      **/
     function addQuotes($string)
     {
@@ -141,48 +109,43 @@ class DBPostgresql extends DB
     }
 
     /**
-     * @brief 트랜잭션 시작
+     * @brief Begin transaction
      **/
-    function begin()
+    function _begin()
     {
-        if (!$this->isConnected() || $this->transaction_started == false)
-            return;
-        if ($this->_query($this->fd, 'BEGIN'))
-            $this->transaction_started = true;
+        $connection = $this->_getConnection('master');
+        if (!$this->_query('BEGIN')) return false;
+        return true;
     }
 
     /**
-     * @brief 롤백
+     * @brief Rollback
      **/
-    function rollback()
+    function _rollback()
     {
-        if (!$this->isConnected() || $this->transaction_started == false)
-            return;
-        if ($this->_query($this->fd, 'ROLLBACK'))
-            $this->transaction_started = false;
+        if (!$this->_query('ROLLBACK')) return false;
+        return true;
     }
 
     /**
-     * @brief 커밋
+     * @brief Commits
      **/
-    function commit()
+    function _commit()
     {
-        if (!$this->isConnected() || $this->transaction_started == false)
-            return;
-        if ($this->_query($this->fd, 'COMMIT'))
-            $this->transaction_started = false;
+        if (!$this->_query('COMMIT')) return false;
+        return true;
     }
 
     /**
-     * @brief : 쿼리문의 실행 및 결과의 fetch 처리
+     * @brief : Run a query and fetch the result
      *
-     * query : query문 실행하고 result return\n
-     * fetch : reutrn 된 값이 없으면 NULL\n
-     *         rows이면 array object\n
-     *         row이면 object\n
+     * query: run a query and return the result \n
+     * fetch: NULL if no value is returned \n
+     *        array object if rows are returned \n
+     *        object if a row is returned \n
      *         return\n
      **/
-    function _query($query)
+    function __query($query, $connection)
     {
         if (!$this->isConnected())
             return;
@@ -198,58 +161,53 @@ class DBPostgresql extends DB
         $query = implode(" ",$l_query_array);
         }
         }
-        else if ($l_query_array[0] = "delete") 
+        else if ($l_query_array[0] = "delete")
         {
         if (strtolower($l_query_array[3]) == "as")
         {
         $l_query_array[3] = "";
-        $l_query_array[4] = "";            
+        $l_query_array[4] = "";
         $query = implode(" ",$l_query_array);
         }
         }
         */
-
-        // 쿼리 시작을 알림
-        $this->actStart($query);
-        $arr = array('Hello', 'World!', 'Beautiful', 'Day!');
-
-
-        // 쿼리 문 실행
-        $result = @pg_query($this->fd, $query);
-
-        // 오류 체크
+        // Notify to start a query execution
+        // $arr = array('Hello', 'World!', 'Beautiful', 'Day!');
+        // Run the query statement
+        $result = @pg_query($connection, $query);
+        // Error Check
         if (!$result) {
             //              var_dump($l_query_array);
             //var_dump($query);
             //die("\nin query statement\n");
             //var_dump(debug_backtrace());
-            $this->setError(1, pg_last_error($this->fd));
+            $this->setError(1, pg_last_error($connection));
         }
-
-        // 쿼리 실행 종료를 알림
-        $this->actFinish();
-
-        // 결과 리턴
+        // Return result
         return $result;
     }
 
     /**
-     * @brief 결과를 fetch
+     * @brief Fetch results
      **/
-    function _fetch($result)
+    // TODO This is duplicate code - maybe we can find away to abastract the driver
+    function _fetch($result, $arrayIndexEndValue = NULL)
     {
         if (!$this->isConnected() || $this->isError() || !$result)
             return;
         while ($tmp = pg_fetch_object($result)) {
-            $output[] = $tmp;
+            if($arrayIndexEndValue) $output[$arrayIndexEndValue--] = $tmp;
+            else $output[] = $tmp;
         }
-        if (count($output) == 1)
-            return $output[0];
+        if(count($output)==1){
+          	if(isset($arrayIndexEndValue)) return $output;
+            else return $output[0];
+        }
         return $output;
     }
 
     /**
-     * @brief 1씩 증가되는 sequence값을 return (postgresql의 auto_increment는 sequence테이블에서만 사용)
+     * @brief Return sequence value incremented by 1(in postgresql, auto_increment is used in the sequence table only)
      **/
     function getNextSequence()
     {
@@ -260,7 +218,7 @@ class DBPostgresql extends DB
     }
 
     /**
-     * @brief 테이블 기생성 여부 return
+     * @brief Return if a table already exists
      **/
     function isTableExists($target_name)
     {
@@ -277,7 +235,7 @@ class DBPostgresql extends DB
     }
 
     /**
-     * @brief 특정 테이블에 특정 column 추가
+     * @brief Add a column to a table
      **/
     function addColumn($table_name, $column_name, $type = 'number', $size = '', $default =
         NULL, $notnull = false)
@@ -301,7 +259,7 @@ class DBPostgresql extends DB
         }
         if ($notnull) {
             $query = sprintf("update %s%s set %s  = %s ", $this->prefix, $table_name, $column_name, $default);
-            $this->_query($query);              
+            $this->_query($query);
             $query = sprintf("alter table %s%s alter %s  set not null ", $this->prefix, $table_name, $column_name);
             $this->_query($query);
         }
@@ -309,7 +267,7 @@ class DBPostgresql extends DB
 
 
     /**
-     * @brief 특정 테이블의 column의 정보를 return
+     * @brief Return column information of a table
      **/
     function isColumnExists($table_name, $column_name)
     {
@@ -329,7 +287,7 @@ class DBPostgresql extends DB
     }
 
     /**
-     * @brief 특정 테이블에 특정 인덱스 추가
+     * @brief Add an index to a table
      * $target_columns = array(col1, col2)
      * $is_unique? unique : none
      **/
@@ -340,8 +298,7 @@ class DBPostgresql extends DB
 
         if (strpos($table_name, $this->prefix) === false)
             $table_name = $this->prefix . $table_name;
-
-        // index_name의 경우 앞에 table이름을 붙여줘서 중복을 피함
+        // Use a tablename before an index name to avoid defining the same index
         $index_name = $table_name . $index_name;
 
         $query = sprintf("create %s index %s on %s (%s);", $is_unique ? 'unique' : '', $index_name,
@@ -350,7 +307,7 @@ class DBPostgresql extends DB
     }
 
     /**
-     * @brief 특정 테이블에 특정 column 제거
+     * @brief Delete a column from a table
      **/
     function dropColumn($table_name, $column_name)
     {
@@ -359,14 +316,13 @@ class DBPostgresql extends DB
     }
 
     /**
-     * @brief 특정 테이블의 특정 인덱스 삭제
+     * @brief Drop an index from a table
      **/
     function dropIndex($table_name, $index_name, $is_unique = false)
     {
         if (strpos($table_name, $this->prefix) === false)
             $table_name = $this->prefix . $table_name;
-
-        // index_name의 경우 앞에 table이름을 붙여줘서 중복을 피함
+        // Use a tablename before an index name to avoid defining the same index
         $index_name = $table_name . $index_name;
 
         $query = sprintf("drop index %s", $index_name);
@@ -375,14 +331,13 @@ class DBPostgresql extends DB
 
 
     /**
-     * @brief 특정 테이블의 index 정보를 return
+     * @brief Return index information of a table
      **/
     function isIndexExists($table_name, $index_name)
     {
         if (strpos($table_name, $this->prefix) === false)
             $table_name = $this->prefix . $table_name;
-
-        // index_name의 경우 앞에 table이름을 붙여줘서 중복을 피함
+        // Use a tablename before an index name to avoid defining the same index
         $index_name = $table_name . $index_name;
 
         //$query = sprintf("show indexes from %s%s where key_name = '%s' ", $this->prefix, $table_name, $index_name);
@@ -402,7 +357,7 @@ class DBPostgresql extends DB
     }
 
     /**
-     * @brief xml 을 받아서 테이블을 생성
+     * @brief Create a table by using xml file
      **/
     function createTableByXml($xml_doc)
     {
@@ -410,19 +365,19 @@ class DBPostgresql extends DB
     }
 
     /**
-     * @brief xml 을 받아서 테이블을 생성
+     * @brief Create a table by using xml file
      **/
     function createTableByXmlFile($file_name)
     {
         if (!file_exists($file_name))
             return;
-        // xml 파일을 읽음
+        // read xml file
         $buff = FileHandler::readFile($file_name);
         return $this->_createTable($buff);
     }
 
     /**
-     * @brief schema xml을 이용하여 create table query생성
+     * @brief generate a query statement to create a table by using schema xml
      *
      * type : number, varchar, text, char, date, \n
      * opt : notnull, default, size\n
@@ -433,8 +388,7 @@ class DBPostgresql extends DB
         // xml parsing
         $oXml = new XmlParser();
         $xml_obj = $oXml->parse($xml_doc);
-
-        // 테이블 생성 schema 작성
+        // Create a table schema
         $table_name = $xml_obj->table->attrs->name;
 
         if ($table_name == 'sequence') {
@@ -507,434 +461,140 @@ class DBPostgresql extends DB
 
     }
 
-    /**
-     * @brief 조건문 작성하여 return
-     **/
-    function getCondition($output)
-    {
-        if (!$output->conditions)
-            return;
-        $condition = $this->_getCondition($output->conditions, $output->column_type);
-        if ($condition)
-            $condition = ' where ' . $condition;
-        return $condition;
-    }
-
-    function getLeftCondition($conditions, $column_type)
-    {
-        return $this->_getCondition($conditions, $column_type);
-    }
-
-
-    function _getCondition($conditions, $column_type)
-    {
-        $condition = '';
-        foreach ($conditions as $val) {
-            $sub_condition = '';
-            foreach ($val['condition'] as $v) {
-                if (!isset($v['value']))
-                    continue;
-                if ($v['value'] === '')
-                    continue;
-                if(!in_array(gettype($v['value']), array('string', 'integer', 'double', 'array'))) continue;
-                    continue;
-
-                $name = $v['column'];
-                $operation = $v['operation'];
-                $value = $v['value'];
-                $type = $this->getColumnType($column_type, $name);
-                $pipe = $v['pipe'];
-
-                $value = $this->getConditionValue($name, $value, $operation, $type, $column_type);
-                if (!$value)
-                    $value = $v['value'];
-                $str = $this->getConditionPart($name, $value, $operation);
-                if ($sub_condition)
-                    $sub_condition .= ' ' . $pipe . ' ';
-                $sub_condition .= $str;
-            }
-            if ($sub_condition) {
-                if ($condition && $val['pipe'])
-                    $condition .= ' ' . $val['pipe'] . ' ';
-                $condition .= '(' . $sub_condition . ')';
-            }
-        }
-        return $condition;
-    }
-
 
     /**
-     * @brief insertAct 처리
+     * @brief Handle the insertAct
      **/
-    function _executeInsertAct($output)
+    function _executeInsertAct($queryObject)
     {
-        // 테이블 정리
-        foreach ($output->tables as $key => $val) {
-            $table_list[] = $this->prefix . $val;
-        }
-
-        // 컬럼 정리
-        foreach ($output->columns as $key => $val) {
-            $name = $val['name'];
-            $value = $val['value'];
-            if ($output->column_type[$name] != 'number') {
-                $value = "'" . $this->addQuotes($value) . "'";
-                if (!$value)
-                    $value = 'null';
-            }
-			// sql injection 문제로 xml 선언이 number인 경우이면서 넘어온 값이 숫자형이 아니면 숫자형으로 강제 형변환
-			// elseif (!$value || is_numeric($value)) $value = (int)$value;
-			else $this->_filterNumber(&$value);
-
-            $column_list[] = $name;
-            $value_list[] = $value;
-        }
-
-        $query = sprintf("insert into %s (%s) values (%s);", implode(',', $table_list),
-            implode(',', $column_list), implode(',', $value_list));
-        return $this->_query($query);
-    }
-
-    /**
-     * @brief updateAct 처리
-     **/
-    function _executeUpdateAct($output)
-    {
-        // 테이블 정리
-        foreach ($output->tables as $key => $val) {
-            //$table_list[] = $this->prefix.$val.' as '.$key;
-            $table_list[] = $this->prefix . $val;
-        }
-
-        // 컬럼 정리
-        foreach ($output->columns as $key => $val) {
-            if (!isset($val['value']))
-                continue;
-            $name = $val['name'];
-            $value = $val['value'];
-            if (strpos($name, '.') !== false && strpos($value, '.') !== false)
-                $column_list[] = $name . ' = ' . $value;
-            else {
-                if ($output->column_type[$name] != 'number')
-                    $value = "'" . $this->addQuotes($value) . "'";
-				// sql injection 문제로 xml 선언이 number인 경우이면서 넘어온 값이 숫자형이 아니면 숫자형으로 강제 형변환
-				else $this->_filterNumber(&$value);
-
-                $column_list[] = sprintf("%s = %s", $name, $value);
-            }
-        }
-
-        // 조건절 정리
-        $condition = $this->getCondition($output);
-
-        $query = sprintf("update %s set %s %s", implode(',', $table_list), implode(',',
-            $column_list), $condition);
+        $query = $this->getInsertSql($queryObject);
+        if(is_a($query, 'Object')) return;
 
         return $this->_query($query);
     }
 
     /**
-     * @brief deleteAct 처리
+     * @brief Handle updateAct
      **/
-    function _executeDeleteAct($output)
+    function _executeUpdateAct($queryObject)
     {
-        // 테이블 정리
-        foreach ($output->tables as $key => $val) {
-            $table_list[] = $this->prefix . $val;
-        }
-
-        // 조건절 정리
-        $condition = $this->getCondition($output);
-
-        $query = sprintf("delete from %s %s", implode(',', $table_list), $condition);
-
+        $query = $this->getUpdateSql($queryObject);
+        if(is_a($query, 'Object')) return;
         return $this->_query($query);
     }
 
     /**
-     * @brief selectAct 처리
+     * @brief Handle deleteAct
+     **/
+    function _executeDeleteAct($queryObject)
+    {
+        $query = $this->getDeleteSql($queryObject);
+
+      	if(is_a($query, 'Object')) return;
+        return $this->_query($query);
+    }
+
+    /**
      *
-     * select의 경우 특정 페이지의 목록을 가져오는 것을 편하게 하기 위해\n
-     * navigation이라는 method를 제공
+     * override
+     * @param $queryObject
+     */
+    function getSelectSql($query){
+		$select = $query->getSelectString();
+		if($select == '') return new Object(-1, "Invalid query");
+		$select = 'SELECT ' .$select;
+
+		$from = $query->getFromString();
+		if($from == '') return new Object(-1, "Invalid query");
+		$from = ' FROM '.$from;
+
+		$where = $query->getWhereString();
+		if($where != '') $where = ' WHERE ' . $where;
+
+		$groupBy = $query->getGroupByString();
+		if($groupBy != '') $groupBy = ' GROUP BY ' . $groupBy;
+
+		$orderBy = $query->getOrderByString();
+		if($orderBy != '') $orderBy = ' ORDER BY ' . $orderBy;
+
+	 	$limit = $query->getLimitString();
+                $limitObject = $query->getLimit();
+	 	if($limit != '') $limit = ' LIMIT ' . $limitObject->getLimit() . ' OFFSET ' . $limitObject->getOffset();
+
+	 	return $select . ' ' . $from . ' ' . $where . ' ' . $groupBy . ' ' . $orderBy . ' ' . $limit;
+    }
+
+    /**
+     * @brief Handle selectAct
+     *
+     * In order to get a list of pages easily when selecting \n
+     * it supports a method as navigation
      **/
-    function _executeSelectAct($output)
+    function _executeSelectAct($queryObject, $connection)
     {
-        // 테이블 정리
-        $table_list = array();
-        foreach ($output->tables as $key => $val) {
-            $table_list[] = $this->prefix . $val . ' as ' . $key;
-        }
+		$query = $this->getSelectSql($queryObject);
 
-        $left_join = array();
-        // why???
-        $left_tables = (array )$output->left_tables;
+			if(is_a($query, 'Object')) return;
 
-        foreach ($left_tables as $key => $val) {
-            $condition = $this->_getCondition($output->left_conditions[$key], $output->
-                column_type);
-            if ($condition) {
-                $left_join[] = $val . ' ' . $this->prefix . $output->_tables[$key] . ' as ' . $key .
-                    ' on (' . $condition . ')';
-            }
-        }
+			$query .= (__DEBUG_QUERY__&1 && $queryObject->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id):'';
 
-		$click_count = array();
-		if(!$output->columns){
-			$output->columns = array(array('name'=>'*'));
-		}
+            // TODO Add support for click count
+            // TODO Add code for pagination
 
-		$column_list = array();
-		foreach ($output->columns as $key => $val) {
-			$name = $val['name'];
-			$alias = $val['alias'];
-			if($val['click_count']) $click_count[] = $val['name'];
-
-			if (substr($name, -1) == '*') {
-				$column_list[] = $name;
-			} elseif (strpos($name, '.') === false && strpos($name, '(') === false) {
-				if ($alias)
-					$column_list[$alias] = sprintf('%s as %s', $name, $alias);
-				else
-					$column_list[] = sprintf('%s', $name);
-			} else {
-				if ($alias)
-					$column_list[$alias] = sprintf('%s as %s', $name, $alias);
-				else
-					$column_list[] = sprintf('%s', $name);
+			$result = $this->_query ($query, $connection);
+			if ($this->isError ()) {
+				if ($limit && $output->limit->isPageHandler()){
+					$buff = new Object ();
+					$buff->total_count = 0;
+					$buff->total_page = 0;
+					$buff->page = 1;
+					$buff->data = array ();
+					$buff->page_navigation = new PageHandler (/*$total_count*/0, /*$total_page*/1, /*$page*/1, /*$page_count*/10);//default page handler values
+					return $buff;
+				}else
+					return;
 			}
-		}
-		$columns = implode(',', $column_list);
 
-        $condition = $this->getCondition($output);
+                        $limit = $queryObject->getLimit();
+		 	if ($limit && $limit->isPageHandler()) {
+		 		// Total count
+				$temp_where = $queryObject->getWhereString(true, false);
+		 		$count_query = sprintf('select count(*) as "count" %s %s', 'FROM ' . $queryObject->getFromString(), ($temp_where === '' ? '' : ' WHERE '. $temp_where));
+				if ($queryObject->getGroupByString() != '') {
+					$count_query = sprintf('select count(*) as "count" from (%s) xet', $count_query);
+				}
 
-		$output->column_list = $column_list;
-        if ($output->list_count && $output->page)
-            return $this->_getNavigationData($table_list, $columns, $left_join, $condition,
-                $output);
+				$count_query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
+				$result_count = $this->_query($count_query, $connection);
+				$count_output = $this->_fetch($result_count);
+				$total_count = (int)$count_output->count;
 
-        // list_order, update_order 로 정렬시에 인덱스 사용을 위해 condition에 쿼리 추가
-        if ($output->order) {
-            $conditions = $this->getConditionList($output);
-            if (!in_array('list_order', $conditions) && !in_array('update_order', $conditions)) {
-                foreach ($output->order as $key => $val) {
-                    $col = $val[0];
-                    if (!in_array($col, array('list_order', 'update_order')))
-                        continue;
-                    if ($condition)
-                        $condition .= sprintf(' and %s < 2100000000 ', $col);
-                    else
-                        $condition = sprintf(' where %s < 2100000000 ', $col);
-                }
-            }
-        }
+				// Total pages
+				if ($total_count) {
+					$total_page = (int) (($total_count - 1) / $limit->list_count) + 1;
+				}	else	$total_page = 1;
 
 
-        if (count($output->groups)) {
-            /*
-            var_dump("= column output start = ");
-            var_dump(sizeof ($output->columns) . " = end length == ");
-            var_dump($output->columns);
-            var_dump("= column output end = " . "\n");
-            var_dump($output->groups);
-            var_dump("=== " . "\n");
-            var_dump(debug_backtrace());
-            
-            foreach($output->columns as $key => $val) {
-            $name = $val['name'];
-            $alias = $val['alias'];
-            } */
-            $group_list = array();
-            foreach ($output->groups as $gkey => $gval) {
-                foreach ($output->columns as $key => $val) {
-                    $name = $val['name'];
-                    $alias = $val['alias'];
-                    if (trim($name) == trim($gval)) {
-                        $group_list[] = $alias;
-                        break;
-                    }
-                }
+		 		$virtual_no = $total_count - ($limit->page - 1) * $limit->list_count;
+		 		$data = $this->_fetch($result, $virtual_no);
 
-				if($column_list[$gval]) $output->arg_columns[] = $column_list[$gval];
+		 		$buff = new Object ();
+				$buff->total_count = $total_count;
+				$buff->total_page = $total_page;
+				$buff->page = $limit->page->getValue();
+				$buff->data = $data;
+				$buff->page_navigation = new PageHandler($total_count, $total_page, $limit->page->getValue(), $limit->page_count);
+			}else{
+				$data = $this->_fetch($result);
+				$buff = new Object ();
+				$buff->data = $data;
+			}
 
-            }
-            $groupby_query = sprintf(' group by %s', implode(',', $group_list));
-            //             var_dump($query);
-        }
-
-        if ($output->order) {
-            foreach ($output->order as $key => $val) {
-                $index_list[] = sprintf('%s %s', $val[0], $val[1]);
-				if(count($output->arg_columns) && $column_list[$val[0]]) $output->arg_columns[] = $column_list[$val[0]];
-            }
-            if (count($index_list)) $orderby_query = ' order by ' . implode(',', $index_list);
-        }
-
-		if(count($output->arg_columns))
-		{
-			$columns = join(',',$output->arg_columns);
-		}
-
-        $query = sprintf("select %s from %s %s %s %s", $columns, implode(',', $table_list), implode(' ', $left_join), $condition, $groupby_query.$orderby_query);
-		$query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id):'';
-        $result = $this->_query($query);
-        if ($this->isError())
-            return;
-        
-        if(count($click_count)>0 && count($output->conditions)>0){
-            $_query = '';
-            foreach($click_count as $k => $c) $_query .= sprintf(',%s=%s+1 ',$c,$c);
-            $_query = sprintf('update %s set %s %s',implode(',',$table_list), substr($_query,1),  $condition);
-            $this->_query($_query);
-        }
-
-
-        $data = $this->_fetch($result);
-
-        $buff = new Object();
-        $buff->data = $data;
-        return $buff;
+			return $buff;
     }
 
-    /**
-     * @brief query xml에 navigation 정보가 있을 경우 페이징 관련 작업을 처리한다
-     *
-     * 그닥 좋지는 않은 구조이지만 편리하다.. -_-;
-     **/
-    function _getNavigationData($table_list, $columns, $left_join, $condition, $output)
-    {
-        require_once (_XE_PATH_ . 'classes/page/PageHandler.class.php');
-
-		$column_list = $output->column_list;
-        /*
-        // group by 절이 포함된 SELECT 쿼리의 전체 갯수를 구하기 위한 수정
-        // 정상적인 동작이 확인되면 주석으로 막아둔 부분으로 대체합니다.
-        //
-        $count_condition = count($output->groups) ? sprintf('%s group by %s', $condition, implode(', ', $output->groups)) : $condition;
-        $total_count = $this->getCountCache($output->tables, $count_condition);
-        if ($total_count === false) {
-            $count_query = sprintf('select count(*) as count from %s %s %s', implode(', ', $table_list), implode(' ', $left_join), $count_condition);
-            if (count($output->groups))
-                $count_query = sprintf('select count(*) as count from (%s) xet', $count_query);
-            $result = $this->_query($count_query);
-            $count_output = $this->_fetch($result);
-            $total_count = (int)$count_output->count;
-            $this->putCountCache($output->tables, $count_condition, $total_count);
-        }
-        */
-
-        // 전체 개수를 구함
-        $count_query = sprintf("select count(*) as count from %s %s %s", implode(',', $table_list), implode(' ', $left_join), $condition);
-		$count_query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id . ' count(*)'):'';
-		$result = $this->_query($count_query);
-		$count_output = $this->_fetch($result);
-		$total_count = (int)$count_output->count;
-
-        $list_count = $output->list_count['value'];
-        if (!$list_count) $list_count = 20;
-        $page_count = $output->page_count['value'];
-        if (!$page_count) $page_count = 10;
-        $page = $output->page['value'];
-        if (!$page)
-            $page = 1;
-
-        // 전체 페이지를 구함
-        if ($total_count) $total_page = (int)(($total_count - 1) / $list_count) + 1;
-        else $total_page = 1;
-
-        // 페이지 변수를 체크
-        if ($page > $total_page) $page = $total_page;
-        $start_count = ($page - 1) * $list_count;
-
-        // list_order, update_order 로 정렬시에 인덱스 사용을 위해 condition에 쿼리 추가
-        if ($output->order) {
-            $conditions = $this->getConditionList($output);
-            if (!in_array('list_order', $conditions) && !in_array('update_order', $conditions)) {
-                foreach ($output->order as $key => $val) {
-                    $col = $val[0];
-                    if (!in_array($col, array('list_order', 'update_order')))
-                        continue;
-                    if ($condition)
-                        $condition .= sprintf(' and %s < 2100000000 ', $col);
-                    else
-                        $condition = sprintf(' where %s < 2100000000 ', $col);
-                }
-            }
-        }
-
-        if (count($output->groups)) {
-            /*
-            var_dump("= column output start = ");
-            var_dump(sizeof ($output->columns) . " = end length == ");
-            var_dump($output->columns);
-            var_dump("= column output end = " . "\n");
-            var_dump($output->groups);
-            var_dump("=== " . "\n");
-            var_dump(debug_backtrace());
-            
-            foreach($output->columns as $key => $val) {
-            $name = $val['name'];
-            $alias = $val['alias'];
-            } */
-            $group_list = array();
-            foreach ($output->groups as $gkey => $gval) {
-                foreach ($output->columns as $key => $val) {
-                    $name = $val['name'];
-                    $alias = $val['alias'];
-                    if (trim($name) == trim($gval)) {
-                        $group_list[] = $alias;
-                        break;
-                    }
-                }
-
-				if($column_list[$gval]) $output->arg_columns[] = $column_list[$gval];
-
-            }
-            $groupby_query = sprintf(' group by %s', implode(',', $group_list));
-            //             var_dump($query);
-        }
-
-        if ($output->order) {
-            foreach ($output->order as $key => $val) {
-                $index_list[] = sprintf('%s %s', $val[0], $val[1]);
-				if(count($output->arg_columns) && $column_list[$val[0]]) $output->arg_columns[] = $column_list[$val[0]];
-            }
-            if (count($index_list)) $orderby_query = ' order by ' . implode(',', $index_list);
-        }
-
-		if(count($output->arg_columns))
-		{
-			$columns = join(',',$output->arg_columns);
-		}
-
-        $query = sprintf("select %s from %s %s %s", $columns, implode(',', $table_list), implode(' ', $left_join), $condition);
-        $query = sprintf('%s offset %d limit %d', $query, $start_count, $list_count);
-		$query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id):'';
-
-        $result = $this->_query($query);
-        if ($this->isError()) {
-            $buff = new Object();
-            $buff->total_count = 0;
-            $buff->total_page = 0;
-            $buff->page = 1;
-            $buff->data = array();
-
-            $buff->page_navigation = new PageHandler($total_count, $total_page, $page, $page_count);
-            return $buff;
-        }
-
-        $virtual_no = $total_count - ($page - 1) * $list_count;
-        while ($tmp = pg_fetch_object($result)) {
-            $data[$virtual_no--] = $tmp;
-        }
-
-        $buff = new Object();
-        $buff->total_count = $total_count;
-        $buff->total_page = $total_page;
-        $buff->page = $page;
-        $buff->data = $data;
-
-        $buff->page_navigation = new PageHandler($total_count, $total_page, $page, $page_count);
-        return $buff;
+    function getParser(){
+    	return new DBParser('"', '"', $this->prefix);
     }
 }
 

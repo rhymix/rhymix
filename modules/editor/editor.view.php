@@ -2,32 +2,30 @@
     /**
      * @class  editorView
      * @author NHN (developers@xpressengine.com)
-     * @brief  editor 모듈의 view 클래스
+     * @brief view class of the editor module
      **/
 
     class editorView extends editor {
 
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
         }
 
         /**
-         * @brief 컴포넌트의 팝업 출력을 요청을 받는 action
+         * @brief Action to get a request to display compoenet pop-up
          **/
         function dispEditorPopup() {
-            // css 파일 추가
-            Context::addCssFile($this->module_path."tpl/css/editor.css");
-
-            // 변수 정리
+            // add a css file
+            Context::loadFile($this->module_path."tpl/css/editor.css", true);
+            // List variables
             $editor_sequence = Context::get('editor_sequence');
             $component = Context::get('component');
 
             $site_module_info = Context::get('site_module_info');
             $site_srl = (int)$site_module_info->site_srl;
-
-            // component 객체를 받음
+            // Get compoenet object
             $oEditorModel = &getModel('editor');
             $oComponent = &$oEditorModel->getComponentObject($component, $editor_sequence, $site_srl);
             if(!$oComponent->toBool()) {
@@ -35,22 +33,19 @@
                 $this->setTemplatePath($this->module_path.'tpl');
                 $this->setTemplateFile('component_not_founded');
             } else {
-
-                // 컴포넌트의 popup url을 출력하는 method실행후 결과를 받음
+                // Get the result after executing a method to display popup url of the component
                 $popup_content = $oComponent->getPopupContent();
                 Context::set('popup_content', $popup_content);
-
-                // 레이아웃을 popup_layout으로 설정
+                // Set layout to popup_layout
                 $this->setLayoutFile('popup_layout');
-
-                // 템플릿 지정
+                // Set a template
                 $this->setTemplatePath($this->module_path.'tpl');
                 $this->setTemplateFile('popup');
             }
         }
 
         /**
-         * @brief 컴퍼넌트 정보 보기 
+         * @brief Get component information
          **/
         function dispEditorComponentInfo() {
             $component_name = Context::get('component_name');
@@ -68,28 +63,26 @@
         }
 
         /**
-         * @brief 모듈의 추가 설정에서 에디터 설정을 하는 form 추가
+         * @brief Add a form for editor addition setup
          **/
         function triggerDispEditorAdditionSetup(&$obj) {
             $current_module_srl = Context::get('module_srl');
             $current_module_srls = Context::get('module_srls');
 
             if(!$current_module_srl && !$current_module_srls) {
-                // 선택된 모듈의 정보를 가져옴
+                // Get information of the current module
                 $current_module_info = Context::get('current_module_info');
                 $current_module_srl = $current_module_info->module_srl;
                 if(!$current_module_srl) return new Object();
             }
-
-            // 에디터 설정을 구함
+            // Get editors settings
             $oEditorModel = &getModel('editor');
             $editor_config = $oEditorModel->getEditorConfig($current_module_srl);
 
             Context::set('editor_config', $editor_config);
 
             $oModuleModel = &getModel('module');
-
-            // 에디터 스킨 목록을 구함
+            // Get a list of editor skin
             $editor_skin_list = FileHandler::readDir(_XE_PATH_.'modules/editor/skins');
             Context::set('editor_skin_list', $editor_skin_list);
 
@@ -105,8 +98,7 @@
                 $content_style_list[$style]->title = $info->title;
             }			
             Context::set('content_style_list', $content_style_list);
-
-            // 그룹 목록을 구함
+            // Get a group list
             $oMemberModel = &getModel('member');
             $site_module_info = Context::get('site_module_info');
             $group_list = $oMemberModel->getGroups($site_module_info->site_srl);
@@ -118,8 +110,8 @@
 			$security->encodeHTML('group_list..description');
 			$security->encodeHTML('content_style_list..');
 			$security->encodeHTML('editor_comment_colorset_list..title');			
-			
-            // 템플릿 파일 지정
+
+			// Set a template file
             $oTemplate = &TemplateHandler::getInstance();
             $tpl = $oTemplate->compile($this->module_path.'tpl', 'editor_module_config');
             $obj .= $tpl;
@@ -138,7 +130,54 @@
             $oModuleModel = &getModel('module');
             $skin_info = $oModuleModel->loadSkinInfo($this->module_path,$skin);
             $colorset = $skin_info->colorset;
-            Context::set('colorset', $colorset);
+
+			Context::set('colorset', $colorset);
         }
+
+		function dispEditorConfigPreview() {
+			$oEditorModel = &getModel('editor');
+			$config = $oEditorModel->getEditorConfig();
+
+			$option->allow_fileupload = false;
+			$option->content_style = $config->content_style;
+			$option->content_font = $config->content_font;
+			$option->content_font_size = $config->content_font_size;
+			$option->enable_autosave = false;
+			$option->enable_default_component = true;
+			$option->enable_component = true;
+			$option->disable_html = false;
+			$option->height = $config->editor_height;
+			$option->skin = $config->editor_skin;
+			$option->content_key_name = 'dummy_content';
+			$option->primary_key_name = 'dummy_key';
+			$option->colorset = $config->sel_editor_colorset;
+			$editor = $oEditorModel->getEditor(0, $option);
+
+			Context::set('editor', $editor);
+
+			$option_com->allow_fileupload = false;
+			$option_com->content_style = $config->content_style;
+			$option_com->content_font = $config->content_font;
+			$option_com->content_font_size = $config->content_font_size;
+			$option_com->enable_autosave = false;
+			$option_com->enable_default_component = true;
+			$option_com->enable_component = true;
+			$option_com->disable_html = false;
+			$option_com->height = $config->comment_editor_height;
+			$option_com->skin = $config->comment_editor_skin;
+			$option_com->content_key_name = 'dummy_content2';
+			$option_com->primary_key_name = 'dummy_key2';
+			$option_com->content_style = $config->comment_content_style;
+			$option_com->colorset = $config->sel_comment_editor_colorset;
+
+			$editor_comment = $oEditorModel->getEditor(0, $option_com);
+
+			Context::set('editor_comment', $editor_comment);
+
+
+			$this->setTemplatePath($this->module_path.'tpl');
+			$this->setTemplateFile('config_preview');
+
+		}
     }
 ?>

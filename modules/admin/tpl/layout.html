@@ -1,19 +1,8 @@
-<!--#include("./_header.html")-->
-
-		<div class="content">
-            <!--@if($logged_info->is_admin == 'Y')-->
-            <p class="path">
-                <a href="{getUrl('','module','admin')}">{$lang->admin_index}</a> 
-                <!--@if($selected_module_info)-->
-                &gt; <a href="{getUrl('','mid',$mid,'module',$module,'act',$selected_module_info->admin_index_act)}">{$selected_module_info->title}</a>
-                <!--@end-->
-                <!--@if($module_info)-->
-                &gt; <a href="{getUrl('','mid',$mid,'module',$module,'act',$selected_module_info->admin_index_act)}">{$module_info->browser_title}</a>
-                [<a href="{getSiteUrl($module_info->domain,'','mid',$module_info->mid)}" onclick="window.open(this.href);return false;">{$lang->cmd_view}</a>]
-                <!--@end-->
-            </p>
-            <!--@end-->
-            {$content}
-        </div>
-
-<!--#include("./_footer.html")-->
+<!--#include("./_spHeader.html")-->
+<div class="content" id="content">
+	{$content}
+</div>
+<!--@if($parentSrl != 0)-->
+<!--#include("./_spLnb.content.html")-->
+<!--@end-->
+<!--#include("./_spFooter.html")-->

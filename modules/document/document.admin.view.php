@@ -2,105 +2,122 @@
     /**
      * @class  documentAdminView
      * @author NHN (developers@xpressengine.com)
-     * @brief  document 모듈의 admin view 클래스
+     * @brief document admin view of the module class
      **/
 
     class documentAdminView extends document {
-
         /**
-         * @brief 초기화
+         * @brief Initialization
          **/
         function init() {
+			// check current location in admin menu
+			$oModuleModel = &getModel('module');
+			$info = $oModuleModel->getModuleActionXml('document');
+			foreach($info->menu AS $key => $menu)
+			{
+				if(in_array($this->act, $menu->acts))
+				{
+					Context::set('currentMenu', $key);
+					break;
+				}
+			}
         }
 
         /**
-         * @brief 목록 출력 (관리자용)
+         * @brief Display a list(administrative)
          **/
         function dispDocumentAdminList() {
-            // 목록을 구하기 위한 옵션
-            $args->page = Context::get('page'); ///< 페이지
-            $args->list_count = 30; ///< 한페이지에 보여줄 글 수
-            $args->page_count = 10; ///< 페이지 네비게이션에 나타날 페이지의 수
+            // option to get a list
+            $args->page = Context::get('page'); // /< Page
+            $args->list_count = 30; // /< the number of posts to display on a single page
+            $args->page_count = 5; // /< the number of pages that appear in the page navigation
 
-            $args->search_target = Context::get('search_target'); ///< 검색 대상 (title, contents...)
-            $args->search_keyword = Context::get('search_keyword'); ///< 검색어
+            $args->search_target = Context::get('search_target'); // /< search (title, contents ...)
+            $args->search_keyword = Context::get('search_keyword'); // /< keyword to search
 
-            $args->sort_index = 'list_order'; ///< 소팅 값
+            $args->sort_index = 'list_order'; // /< sorting value
 
             $args->module_srl = Context::get('module_srl');
 
-            // 목록 구함, document->getDocumentList 에서 걍 알아서 다 해버리는 구조이다... (아.. 이거 나쁜 버릇인데.. ㅡ.ㅜ 어쩔수 없다)
+            // get a list
             $oDocumentModel = &getModel('document');
-            $output = $oDocumentModel->getDocumentList($args);
+			$columnList = array('document_srl', 'title', 'member_srl', 'nick_name', 'readed_count', 'voted_count', 'blamed_count', 'regdate', 'ipaddress', 'status');
+            $output = $oDocumentModel->getDocumentList($args, false, true, $columnList);
 
-            // 템플릿에 쓰기 위해서 document_model::getDocumentList() 의 return object에 있는 값들을 세팅
+			// get Status name list
+			$statusNameList = $oDocumentModel->getStatusNameList();
+
+            // Set values of document_model::getDocumentList() objects for a template
             Context::set('total_count', $output->total_count);
             Context::set('total_page', $output->total_page);
             Context::set('page', $output->page);
             Context::set('document_list', $output->data);
+            Context::set('status_name_list', $statusNameList);
             Context::set('page_navigation', $output->page_navigation);
 
-            // 템플릿에서 사용할 검색옵션 세팅
+            // set a search option used in the template
             $count_search_option = count($this->search_option);
             for($i=0;$i<$count_search_option;$i++) {
                 $search_option[$this->search_option[$i]] = Context::getLang($this->search_option[$i]);
             }
             Context::set('search_option', $search_option);
 
-            // 템플릿 지정
+            // Specify a template
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('document_list');
         }
 
         /**
-         * @brief 문서 모듈 설정 
+         * @brief Set a document module
          **/
         function dispDocumentAdminConfig() {
             $oDocumentModel = &getModel('document');
             $config = $oDocumentModel->getDocumentConfig();
             Context::set('config',$config);
 
-            // 템플릿 파일 지정
+            // Set the template file
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('document_config');
         }
 
         /**
-         * @brief 관리자 페이지의 신고 목록 보기
+         * @brief display a report list on the admin page
          **/
         function dispDocumentAdminDeclared() {
-            // 목록을 구하기 위한 옵션
-            $args->page = Context::get('page'); ///< 페이지
-            $args->list_count = 30; ///< 한페이지에 보여줄 글 수
-            $args->page_count = 10; ///< 페이지 네비게이션에 나타날 페이지의 수
+			// option for a list
+			$args->page = Context::get('page'); // /< Page
+			$args->list_count = 30; // /< the number of posts to display on a single page
+			$args->page_count = 10; // /< the number of pages that appear in the page navigation
 
-            $args->sort_index = 'document_declared.declared_count'; ///< 소팅 값
-            $args->order_type = 'desc'; ///< 소팅 정렬 값
+			$args->sort_index = 'document_declared.declared_count'; // /< sorting values
+			$args->order_type = 'desc'; // /< sorting values by order
 
-            // 목록을 구함
-            $declared_output = executeQuery('document.getDeclaredList', $args);
+			// get Status name list
+			$oDocumentModel = &getModel('document');
+			$statusNameList = $oDocumentModel->getStatusNameList();
 
-            if($declared_output->data && count($declared_output->data)) {
-                $document_list = array();
+			// get a list
+			$declared_output = executeQuery('document.getDeclaredList', $args);
+			if($declared_output->data && count($declared_output->data)) {
+				$document_list = array();
 
-                $oDocumentModel = &getModel('document');
-                foreach($declared_output->data as $key => $document) {
-                    $document_list[$key] = new documentItem();
-                    $document_list[$key]->setAttribute($document);
-                }
-                $declared_output->data = $document_list;
-            }
-        
-            // 템플릿에 쓰기 위해서 document_model::getDocumentList() 의 return object에 있는 값들을 세팅
-            Context::set('total_count', $declared_output->total_count);
-            Context::set('total_page', $declared_output->total_page);
-            Context::set('page', $declared_output->page);
-            Context::set('document_list', $declared_output->data);
-            Context::set('page_navigation', $declared_output->page_navigation);
+				foreach($declared_output->data as $key => $document) {
+					$document_list[$key] = new documentItem();
+					$document_list[$key]->setAttribute($document);
+				}
+				$declared_output->data = $document_list;
+			}
 
-            // 템플릿 지정
-            $this->setTemplatePath($this->module_path.'tpl');
-            $this->setTemplateFile('declared_list');
+			// Set values of document_model::getDocumentList() objects for a template
+			Context::set('total_count', $declared_output->total_count);
+			Context::set('total_page', $declared_output->total_page);
+			Context::set('page', $declared_output->page);
+			Context::set('document_list', $declared_output->data);
+			Context::set('page_navigation', $declared_output->page_navigation);
+            Context::set('status_name_list', $statusNameList);
+			// Set the template
+			$this->setTemplatePath($this->module_path.'tpl');
+			$this->setTemplateFile('declared_list');
         }
 
         function dispDocumentAdminAlias() {
@@ -129,28 +146,27 @@
         }
 
         function dispDocumentAdminTrashList() {
-            // 목록을 구하기 위한 옵션
-            $args->page = Context::get('page'); ///< 페이지
-            $args->list_count = 30; ///< 한페이지에 보여줄 글 수
-            $args->page_count = 10; ///< 페이지 네비게이션에 나타날 페이지의 수
+            // options for a list
+            $args->page = Context::get('page'); // /< Page
+            $args->list_count = 30; // /< the number of posts to display on a single page
+            $args->page_count = 10; // /< the number of pages that appear in the page navigation
 
-            $args->sort_index = 'list_order'; ///< 소팅 값
-            $args->order_type = 'desc'; ///< 소팅 정렬 값
+            $args->sort_index = 'list_order'; // /< sorting values
+            $args->order_type = 'desc'; // /< sorting values by order
 
             $args->module_srl = Context::get('module_srl');
 
-            // 목록을 구함
+            // get a list
             $oDocumentAdminModel = &getAdminModel('document');
             $output = $oDocumentAdminModel->getDocumentTrashList($args);
 
-            // 템플릿에 쓰기 위해서 document_admin_model::getDocumentTrashList() 의 return object에 있는 값들을 세팅
+            // Set values of document_admin_model::getDocumentTrashList() objects for a template
             Context::set('total_count', $output->total_count);
             Context::set('total_page', $output->total_page);
             Context::set('page', $output->page);
             Context::set('document_list', $output->data);
             Context::set('page_navigation', $output->page_navigation);
-
-            // 템플릿 지정
+            // set the template
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('document_trash_list');
         }

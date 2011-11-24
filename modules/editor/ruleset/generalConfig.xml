@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ruleset version="1.5.0">
+    <customrules>
+    </customrules>
+    <fields>
+		<field name="editor_height" required="true" rule="number" />
+		<field name="comment_editor_height" required="true" rule="number" />		
+    </fields>
+</ruleset>

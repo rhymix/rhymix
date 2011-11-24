@@ -1,56 +1,42 @@
 <!--%import("js/install_admin.js")-->
 <!--#include("header.html")-->
+	<div id="body">
+<!--#include("progress_menu.html")-->
+		<span class="dummy"></span>
 
-<form action="./" method="post" onsubmit="return doInstallFTPInfo(this);" id="ftp_form">
-
-<h2 class="xeAdmin">{$lang->ftp_form_title}</h2>
-
-<blockquote>{$lang->msg_safe_mode_ftp_needed}</blockquote>
-
-    <table cellspacing="0" class="tableType7">
-    <col width="100" />
-    <col width="160" />
-    <col />
-
-    <!-- FTP 정보 -->
-    <tr>
-        <th rowspan="6" scope="row" class="hr"><label for="radio2">{$lang->ftp}</label></th>
-        <th class="second" scope="row"><label for="textfield20">{$lang->ftp_host}</label></th>
-        <td><input type="text" id="textfield20" name="ftp_host" value="127.0.0.1" class="inputTypeText" /></td>
-    </tr>
-	<tr>
-        <th class="second" scope="row"><label for="textfield21">{$lang->user_id}</label></th>
-        <td><input type="text" id="textfield21" name="ftp_user" value="" class="inputTypeText" /></td>
-	</tr>
-    <tr>
-        <th class="second" scope="row"><label for="textfield22">{$lang->password}</label></th>
-        <td><input id="textfield22" type="password" name="ftp_password" class="inputTypeText" /></td>
-    </tr>
-    <tr>
-        <th class="second" scope="row"><label for="textfield24">{$lang->ftp_port}</label></th>
-        <td><input id="textfield24" type="text" name="ftp_port" value="21" class="inputTypeText" /></td>
-    </tr>
-    <tr>
-        <th class="second hr" scope="row" rowspan="2"><div>{$lang->msg_ftp_installed_ftp_realpath}<br /><br/>{$lang->msg_ftp_installed_realpath}:<br/> {_XE_PATH_}</div></th>
-        <td>
-            <input type="text" name="ftp_root_path" value="{$ftp_info->ftp_root_path}" class="inputTypeText w400" /> 
-        </td>
-    </tr>
-    <tr id="ftplist">
-        <td class="hr">
-            <div>
-					<span class="button blue strong"><input type="button" onclick="getFTPList(); return false;" value="{$lang->ftp_get_list}"></span>
-            </div>
-        </td>
-    </tr>
-    </table>
-
-    <div class="buttonCenter">
-        <span class="button green"><input type="button" value="{$lang->cmd_check_ftp_connect}" onclick="doCheckFTPInfo(); return false;"/></span>
-        <span class="button blue"><input type="submit" value="{$lang->cmd_ignore}" /></span>
-        <span class="button red"><input type="submit" value="{$lang->cmd_registration}" /></span>
-    </div>
-
-</form>
-
+		<div id="content">
+			<form action="./" method="post" onsubmit="return doInstallFTPInfo(this);" id="ftp_form">
+				<ul class="form formFtp">
+					<li><label for="ftphost">{$lang->ftp_host}</label><input name="ftp_host" value="10.25.80.77" type="text" id="ftphost" class="iText" /></li>
+					<li><label for="ftpid">{$lang->user_id}</label><input name="ftp_user" type="text" id="ftpid" class="iText" /></li>
+					<li><label for="ftppw">{$lang->password}</label><input name="ftp_password" type="password" id="ftppw" class="iText" /></li>
+					<li><label for="ftpport">{$lang->ftp_port}</label><input name="ftp_port" type="text" id="ftpport" class="iText" /></li>
+					<li><label for="ftppath">{$lang->msg_ftp_installed_ftp_realpath}</label><input name="ftp_root_path" value="{$ftp_info->ftp_root_path}" type="text" id="ftppath" class="iText" />
+					<div class="desc" style="margin:1em 0; position:relative;"><p style="margin:1em 0;">{$lang->msg_ftp_installed_realpath}:<br/> {_XE_PATH_}</p>
+					<span class="ibtn" style="position:absolute; top:1em; right:1em;"><button type="button" onclick="getFTPList(); return false;">{$lang->ftp_get_list}</button></span>
+					<ul id="ftplist">
+					</ul>
+					</div></li>
+				</ul>
+				<div class="desc">
+					<p>FTP 정보를 등록하는 이유.</p>
+					<ul>
+						<li>{$lang->msg_safe_mode_ftp_needed}</li>
+						<li>{$lang->msg_safe_mode_ftp_needed2}</li>
+					</ul>
+					<p>{$lang->msg_safe_mode_ftp_config}</p>
+				</div>
+				<div class="ibtnArea">
+					<div class="fLeft">
+						<span class="ibtn icon"><span class="back"></span> <a href="{getUrl('', 'act', 'dispInstallCheckEnv')}">{$lang->cmd_back}</a></span>
+					</div>
+					<div class="fRight">
+						<span class="ibtn"><input name="" type="submit" value="{$lang->cmd_pass_step}" /></span> 
+						<span class="ibtn icon"><span class="monitor"></span> <button type="button" onclick="doCheckFTPInfo(); return false;">{$lang->cmd_check_ftp_connect}</button></span> 
+						<span class="ibtn icon"><span class="check"></span> <input name="" type="submit" value="{$lang->cmd_next}" /></span>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
 <!--#include("footer.html")-->
