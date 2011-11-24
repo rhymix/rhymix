@@ -41,8 +41,8 @@
 					</td>
 					<td>{$addon->path}</td>
 					<td><a href="{getUrl('act', 'dispAddonAdminSetup', 'selected_addon', $addon->addon_name)}">{$lang->cmd_setup}</a></td>
-					<td><input type="checkbox" name="pc[]" title="PC" value="{htmlspecialchars($addon->addon_name)}" checked="checked"|cond="$addon->activated" /></td>
-					<td><input type="checkbox" name="mobile[]" title="Mobile" value="{htmlspecialchars($addon->addon_name)}" checked="checked"|cond="$addon->mactivated" /></td>
+					<td><input type="checkbox" name="pc_on[]" title="PC" value="{htmlspecialchars($addon->addon_name)}" checked="checked"|cond="$addon->activated" /></td>
+					<td><input type="checkbox" name="mobile_on[]" title="Mobile" value="{htmlspecialchars($addon->addon_name)}" checked="checked"|cond="$addon->mactivated" /></td>
 					<td><a cond="$addon->remove_url" href="{$addon->remove_url}&amp;return_url={urlencode(getRequestUriByServerEnviroment())}">{$lang->cmd_delete}</a></td>
 				</tr>
 			</tbody>
