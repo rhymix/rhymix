@@ -1658,9 +1658,6 @@
 			$args->homepage = htmlspecialchars($args->homepage);
 			$args->blog = htmlspecialchars($args->blog);
 
-			$args->nick_name = htmlspecialchars($args->nick_name);
-			$args->homepage = htmlspecialchars($args->homepage);
-			$args->blog = htmlspecialchars($args->blog);
             if($args->password && !$password_is_hashed) $args->password = md5($args->password);
             elseif(!$args->password) unset($args->password);
 
@@ -1828,9 +1825,6 @@
 			if(!$args->user_name) $args->user_name = $orgMemberInfo->user_name;
 			if(!$args->user_id) $args->user_id = $orgMemberInfo->user_id;
 			if(!$args->nick_name) $args->nick_name = $orgMemberInfo->nick_name;
-			$args->nick_name = htmlspecialchars($args->nick_name);
-			$args->homepage = htmlspecialchars($args->homepage);
-			$args->blog = htmlspecialchars($args->blog);
 
 			if(!$args->description) $args->description = '';
 

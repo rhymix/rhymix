@@ -74,10 +74,7 @@
 			
 			$security = new Security();
 			$security->encodeHTML('component_list....');
-			
-			$security = new Security();
-			$security->encodeHTML('component_list....');			
-			
+
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('admin_index');
         }
