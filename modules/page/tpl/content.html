@@ -6,10 +6,10 @@
         <span class="btn"><button type="button" onclick="doRemoveWidgetCache({$module_info->module_srl}); return false;">{$lang->cmd_remake_cache}</button></span>
         <!--@end-->
 		<!--@if($logged_info->is_admin=='Y')-->
-        <span class="btn"><a href="{getUrl('act','dispPageAdminInfo','module_srl',$module_info->module_srl)}">{$lang->cmd_setup}</a></span>
+        <span class="btn"><a href="{getUrl('act','dispPageAdminInfo','module_srl',$module_info->module_srl)}">{$lang->cmd_setup}...</a></span>
         <!--@end-->
 		<!--@if($module_info->page_type != 'OUTSIDE')-->
-        <span class="btn"><a href="{getUrl('act','dispPageAdminContentModify','document_srl','')}">{$lang->cmd_page_modify}</a></span>
+        <span class="btn"><a href="{getUrl('act','dispPageAdminContentModify','document_srl','')}">{$lang->cmd_page_modify}...</a></span>
         <!--@end-->
 		<!--@if($module_info->use_mobile =="Y")-->
         <span class="btn"><a href="{getUrl('act','dispPageAdminMobileContent','module_srl',$module_info->module_srl)}">Mobile</a></span>

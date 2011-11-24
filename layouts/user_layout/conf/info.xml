@@ -14,7 +14,7 @@
         <name xml:lang="jp">製作者名</name>
     </author>
     <menus>
-        <menu name="global_menu" maxdepth="2" default="true">
+        <menu name="global_menu" maxdepth="3" default="true">
             <title xml:lang="ko">전역 메뉴</title>
             <title xml:lang="en">Global Menu</title>
             <title xml:lang="jp">グローバルメニュー</title>

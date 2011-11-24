@@ -4,9 +4,9 @@
     <div class="btnArea">
         <span class="btn"><button type="button" onclick="doRemoveWidgetCache({$module_info->module_srl}); return false;">{$lang->cmd_remake_cache}</button></span>
         <!--@if($logged_info->is_admin=='Y')-->
-        <span class="btn"><a href="{getUrl('act','dispPageAdminInfo','module_srl',$module_info->module_srl)}">{$lang->cmd_setup}</a></span>
+        <span class="btn"><a href="{getUrl('act','dispPageAdminInfo','module_srl',$module_info->module_srl)}">{$lang->cmd_setup}...</a></span>
         <!--@end-->
-        <span class="btn"><a href="{getUrl('act','dispPageAdminMobileContentModify','document_srl','')}">{$lang->cmd_page_modify}</a></span>
+        <span class="btn"><a href="{getUrl('act','dispPageAdminMobileContentModify','document_srl','')}">{$lang->cmd_page_modify}...</a></span>
         <span class="btn"><a href="{getUrl('act','','module_srl',$module_info->module_srl)}">PC</a></span>
 		<p>{$lang->about_mcontent}</p>
     </div>
