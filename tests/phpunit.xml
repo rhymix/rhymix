@@ -10,6 +10,7 @@
 			<directory>.</directory>
 			<exclude>./classes/context/Context.mock.php</exclude>
 			<exclude>./classes/db/</exclude>
+			<exclude>./classes/frontendfile/FrontEndFileHandlerTest.php</exclude>
 		</testsuite>
 	</testsuites>
 	<logging>

@@ -8,28 +8,30 @@ if(!defined('MOCK_CONTEXT')) define('MOCK_CONTEXT', 1);
 class Context
 {
 	public static $mock_vars = array();
+	private static $useCdn = 'N';
+	private static $requestUrl = 'http://www.test.com';
 
 	public function gets() {
 		$args = func_get_args();
 		$output = new stdClass;
 
 		foreach($args as $name) {
-			$output->{$name} = Context::$mock_vars[$name];
+			$output->{$name} = self::$mock_vars[$name];
 		}
 
 		return $output;
 	}
 
 	public function get($name) {
-		return array_key_exists($name, Context::$mock_vars)?Context::$mock_vars[$name]:'';
+		return array_key_exists($name, self::$mock_vars)?self::$mock_vars[$name]:'';
 	}
 
 	public function getRequestVars() {
-		return Context::$mock_vars;
+		return self::$mock_vars;
 	}
 
 	public function set($name, $value) {
-		Context::$mock_vars[$name] = $value;
+		self::$mock_vars[$name] = $value;
 	}
 
 	public function getLangType() {
@@ -41,21 +43,29 @@ class Context
 	}
 
 	public function truncate() {
-		Context::$mock_vars = array();
+		self::$mock_vars = array();
 	}
 
-	public function getDBInfo() {
-		global $use_cdn;
+	public static function setUseCdn($useCdn)
+	{
+		self::$useCdn = $useCdn != 'Y' ? 'N':'Y';
+	}
 
-		$dbInfo = new stdClass;
-		$dbInfo->use_cdn = $use_cdn;
+	public static function getDBInfo() {
+		$dbInfo = new stdClass();
+		$dbInfo->use_cdn = self::$useCdn;
 
 		return $dbInfo;
 	}
 
-	public function getRequestUrl() {
-		global $request_url;
-		return $request_url;
+
+	public static function setRequestUrl($url)
+	{
+		self::$requestUrl= $url;
+	}
+
+	public static function getRequestUrl() {
+		return self::$requestUrl;
 	}
 }
 
