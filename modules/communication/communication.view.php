@@ -55,12 +55,16 @@
             // Extract a list
 			$columnList = array('message_srl', 'readed', 'title', 'member.member_srl', 'member.nick_name', 'message.regdate', 'readed_date');
             $output = $oCommunicationModel->getMessages($message_type, $columnList);
+
             // set a template file
             Context::set('total_count', $output->total_count);
             Context::set('total_page', $output->total_page);
             Context::set('page', $output->page);
             Context::set('message_list', $output->data);
             Context::set('page_navigation', $output->page_navigation);
+
+			$oSecurity = new Security();
+			$oSecurity->encodeHTML('message_list..nick_name');
 
             $this->setTemplateFile('messages');
         }

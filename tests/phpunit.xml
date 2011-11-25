@@ -1,4 +1,10 @@
 <phpunit bootstrap="./Bootstrap.php">
+	<php>
+		<var name="DB_DSN" value="mysql:dbname=v150;host=localhost" />
+		<var name="DB_USER" value="ovclas" />
+		<var name="DB_PASSWD" value="12345" />
+		<var name="DB_DBNAME" value="v150" />
+	</php>
 	<testsuites>
 		<testsuite name="XE Core Test Suite">
 			<directory>.</directory>
