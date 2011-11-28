@@ -85,6 +85,13 @@ $('form.siteMap')
 			htmlBuffer += '/> <label for="group_srls_'+groupObj.group_srl+'">'+groupObj.title+'</label>'
 		}
 		$('#groupList').html(htmlBuffer);
+
+		// reset label
+		var checked_labels = [];
+		editForm.find('label').css('font-weight', '');
+		editForm.find('input:checked').each(function(){
+			editForm.find('label[for='+this.id+']').css('font-weight', 'bold');
+		});
 	}
 
 	$('a._delete').click(function() {
@@ -116,11 +123,12 @@ $('form.siteMap')
 		editForm.find('input[name=parent_srl]').val(0);
 		editForm.find('input[name=menu_name]').val('');
 		editForm.find('input[name=cType]').attr('checked', false);
-		editForm.find('input=[name=create_menu_url]').val('');
-		editForm.find('input=[name=select_menu_url]').val('');
-		editForm.find('input=[name=menu_url]').val('');
-		editForm.find('input=[name=menu_open_window]')[0].checked = true;
-		editForm.find('input=[name=group_srls\\[\\]]').attr('checked', false);
+		editForm.find('input[name=create_menu_url]').val('');
+		editForm.find('input[name=select_menu_url]').val('');
+		editForm.find('input[name=menu_url]').val('');
+		editForm.find('input[name=menu_open_window]')[0].checked = true;
+		editForm.find('input[name=group_srls\\[\\]]').attr('checked', false);
+		editForm.find('label').css('font-weight', '');
 	}
 
 	$('a._add').click(function()
