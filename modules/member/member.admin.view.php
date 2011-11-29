@@ -142,7 +142,7 @@
 			
 			$security = new Security();
 			$security->encodeHTML('member_config..');
-			$security->encodeHTML('member_info.user_name','member_info.description','member_info.group_list..');			
+			$security->encodeHTML('memberInfo.user_name', 'memberInfo.nick_name', 'memberInfo.description','memberInfo.group_list..');			
 			$security->encodeHTML('extend_form_list...');
 			
             $this->setTemplateFile('member_info');

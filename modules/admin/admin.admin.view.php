@@ -250,6 +250,8 @@
 			$args->list_count = 5;;
 			$output = $oDocumentModel->getDocumentList($args, false, false, $columnList);
             Context::set('latestDocumentList', $output->data);
+			$security = new Security();
+			$security->encodeHTML('latestDocumentList..variables.nick_name');
 			unset($args, $output, $columnList);
 
 			// Latest Comment
