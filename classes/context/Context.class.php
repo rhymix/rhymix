@@ -721,6 +721,7 @@ class Context {
 	 **/
 	function _filterRequestVar($key, $val, $do_stripslashes = 1) {
 		if( ($key == 'page' || $key == 'cpage' || substr($key,-3)=='srl')) return !preg_match('/^[0-9,]+$/',$val)?(int)$val:$val;
+		if($key == 'mid' || $key == 'vid' || $key == 'search_keyword') return htmlspecialchars($val);
 		if(is_array($val) && count($val) ) {
 			foreach($val as $k => $v) {
 				if($do_stripslashes && version_compare(PHP_VERSION, '5.9.0', '<') && get_magic_quotes_gpc()) $v = stripslashes($v);
