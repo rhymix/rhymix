@@ -47,7 +47,7 @@
 .xm .form input[type=text],
 .xm .form input[type=password],
 .xm .form input[type=file],
-.xm .form textarea{position:relative;width:280px;margin:2px 0;border:1px solid #b7b7b7;border-right-color:#e1e1e1;border-bottom-color:#e1e1e1;background:transparent}
+.xm .form textarea{position:relative;width:280px;margin:2px 0;border:1px solid #b7b7b7;border-right-color:#e1e1e1;border-bottom-color:#e1e1e1;background:transparent;*background:transparent url(../../../../../common/img/blank.gif);_background:transparent;}
 .xm .form input[type=text],
 .xm .form input[type=password],
 .xm .form input[type=file]{height:22px;line-height:22px;vertical-align:middle;padding:0 4px}
