@@ -1089,8 +1089,8 @@
 		<value xml:lang="mn"><![CDATA[Нууц дугаар]]></value>
 	</item>
 	<item name="password1">
-		<value xml:lang="ko"><![CDATA[비밀번호]]></value>
-		<value xml:lang="en"><![CDATA[Password]]></value>
+		<value xml:lang="ko"><![CDATA[새 비밀번호]]></value>
+		<value xml:lang="en"><![CDATA[New Password]]></value>
 		<value xml:lang="jp"><![CDATA[パスワード]]></value>
 		<value xml:lang="zh-CN"><![CDATA[密码]]></value>
 		<value xml:lang="zh-TW"><![CDATA[新密碼]]></value>
@@ -1103,8 +1103,8 @@
 		<value xml:lang="mn"><![CDATA[Нууц дугаар]]></value>
 	</item>
 	<item name="password2">
-		<value xml:lang="ko"><![CDATA[비밀번호 확인]]></value>
-		<value xml:lang="en"><![CDATA[Retype Password]]></value>
+		<value xml:lang="ko"><![CDATA[새 비밀번호 확인]]></value>
+		<value xml:lang="en"><![CDATA[Retype New Password]]></value>
 		<value xml:lang="jp"><![CDATA[パスワード確認]]></value>
 		<value xml:lang="zh-CN"><![CDATA[确认密码]]></value>
 		<value xml:lang="zh-TW"><![CDATA[確認密碼]]></value>
