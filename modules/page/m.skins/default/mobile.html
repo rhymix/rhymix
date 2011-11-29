@@ -1,6 +1,6 @@
-<div class="title">제목 : {$oDocument->getTitle()}</div>
-<div class="content">내용 : {$oDocument->getContent()}</div>
-<div class="tag">태그 : <block cond="is_array($oDocument->get('tag_list'))">{implode(',', $oDocument->get('tag_list'))}</block></div>
+<div class="title">{$lang->title} : {$oDocument->getTitle()}</div>
+<div class="content">{$lang->content} : {$oDocument->getContent()}</div>
+<div class="tag">{$lang->tag} : <block cond="is_array($oDocument->get('tag_list'))">{implode(',', $oDocument->get('tag_list'))}</block></div>
 <!--@if($grant->manager)-->
     <!--%import("./js/page_admin.js")-->
     <div class="tRight gap1 clear">

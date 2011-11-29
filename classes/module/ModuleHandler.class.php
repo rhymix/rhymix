@@ -404,7 +404,7 @@
 			if($type == "view" && $this->module_info->use_mobile == "Y" && Mobile::isMobileCheckByAgent())
 			{
 				global $lang;
-				$footer = '<div style="margin:1em 0;padding:.5em;background:#333;border:1px solid #666;border-left:0;border-right:0"><p style="text-align:center;margin:1em 0"><a href="'.getUrl('m', '1').'" style="color:#ff0; font-weight:bold">'.$lang->msg_pc_to_mobile.'</a></p></div>';
+				$footer = '<div style="margin:1em 0;padding:.5em;background:#333;border:1px solid #666;border-left:0;border-right:0"><p style="text-align:center;margin:1em 0"><a href="'.getUrl('m', '1').'" style="color:#ff0;font-weight:bold;font-size:24px">'.$lang->msg_pc_to_mobile.'</a></p></div>';
 				Context::addHtmlFooter($footer);
 			}
 
