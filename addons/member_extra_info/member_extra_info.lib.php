@@ -6,13 +6,12 @@
         // If member_srl < 0, then return text only in the body
         $member_srl = $matches[3];
         if($member_srl<0) return $matches[5];
+		// If member_srl=o(not a member), return the entire body
+		if(!$member_srl) return $matches[0];
 
-        $site_module_info = Context::get('site_module_info');
         $oMemberModel = &getModel('member');
-        $group_image = $oMemberModel->getGroupImageMark($member_srl,$site_module_info->site_srl);
-        // If member_srl=o(not a member), return the entire body
         $nick_name = $matches[5];
-        if(!$member_srl) return $matches[0];
+
         // If pre-defined data in the global variablesm return it
         if(!$GLOBALS['_transImageNameList'][$member_srl]->cached) {
             $GLOBALS['_transImageNameList'][$member_srl]->cached = true;
@@ -22,7 +21,12 @@
             else $image_name_file = '';
             if(file_exists($image_mark_file)) $GLOBALS['_transImageNameList'][$member_srl]->image_mark_file = $image_mark_file;
             else $image_mark_file = '';
+
+        	$site_module_info = Context::get('site_module_info');
+        	$group_image = $oMemberModel->getGroupImageMark($member_srl,$site_module_info->site_srl);
+			$GLOBALS['_transImageNameList'][$member_srl]->group_image = $group_image;
         }  else {
+			$group_image = $GLOBALS['_transImageNameList'][$member_srl]->group_image;
             $image_name_file = $GLOBALS['_transImageNameList'][$member_srl]->image_name_file;
             $image_mark_file = $GLOBALS['_transImageNameList'][$member_srl]->image_mark_file;
         }
