@@ -34,9 +34,9 @@ jQuery(function($){
 	// Common
 	var select_root = $('div.select');
 	var select_value = $('.myValue');
-	var select_a = $('div.select>ul>li>a');
-	var select_input = $('div.select>ul>li>input[type=radio]');
-	var select_label = $('div.select>ul>li>label');
+	var select_a = $('div.select ul>li>a');
+	var select_input = $('div.select ul>li>input[type=radio]');
+	var select_label = $('div.select ul>li>label');
 	
 	// Radio Default Value
 	$('div.myValue').each(function(){
@@ -72,20 +72,19 @@ jQuery(function($){
 	// Set Input
 	function set_label(){
 		var v = $(this).next('label').text();
-		$(this).parents('ul:first').prev('.myValue').text('').append(v);
-		$(this).parents('ul:first').prev('.myValue').addClass('selected');
+		$(this).closest('.select').find('>.myValue').text(v).addClass('selected');
 	}
 	
 	// Set Anchor
 	function set_anchor(){
 		var v = $(this).text();
-		$(this).parents('ul:first').prev('.myValue').text('').append(v);
-		$(this).parents('ul:first').prev('.myValue').addClass('selected');
+		$(this).closest('.select').find('>.myValue').text(v).addClass('selected');
 	}
 
 	// Anchor Focus Out
-	$('*:not("div.select a")').focus(function(){
-		$('.aList').parent('.select').removeClass('open');
+	$(window).mousedown(function(evt){
+		if($(evt.target).closest('.select').length) return;
+		$('.aList,.iList').parent('.select').removeClass('open');
 	});
 			
 	select_value.click(show_option);
@@ -93,5 +92,4 @@ jQuery(function($){
 	select_a.click(set_anchor).click(hide_option).focus(i_hover).hover(i_hover);
 	select_input.change(set_label).focus(set_label);
 	select_label.hover(i_hover).click(hide_option);
-	
 });

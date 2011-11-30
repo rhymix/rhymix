@@ -75,11 +75,12 @@ html{height:100%;background:url(../img/bgHtml.gif) repeat-x 0 0}
 .select div.myValue{height:19px;text-indent:8px}
 .select .ctrl{position:absolute;top:0;right:0;width:18px;height:19px;border:1px solid #999;border-left:1px solid #999;background:#444}
 .select .arrow{position:absolute;width:0;height:0;top:9px;right:6px;line-height:0;font-size:0;border-top:3px solid #999;border-left:3px solid #444;border-right:3px solid #444}
-.select ul{position:absolute;top:20px;left:0;width:100%;list-style:none;border:0;border-top:1px solid #bababa;border-bottom:1px solid #bababa;background:#fff;overflow:auto;height:200px;}
-.select ul.aList{display:none}
-.select.open ul.aList{display:block}
-.select ul.iList{left:-2000%}
-.select.open ul.iList{left:0}
+.select div.aList,
+.select div.iList{display:none;position:absolute;top:20px;left:0;width:100%;border:0;border-top:1px solid #bababa;border-bottom:1px solid #bababa;background:#fff;overflow:auto;height:200px;}
+.select.open div.aList{display:block}
+.select ul{list-style:none}
+.select div.iList{display:none}
+.select.open div.iList{display:block}
 .select li{position:relative;overflow:hidden;white-space:nowrap;height:18px;margin:0 !important;border-left:1px solid #bababa;border-right:1px solid #bababa}
 .select li input.option{position:absolute;width:100%;height:20px;line-height:20px}
 .select li label{position:absolute;left:0;top:0;width:100%;text-indent:8px;*text-indent:6px;height:18px;line-height:18px;color:#eee;background:#555;font-weight:normal !important}

@@ -18,11 +18,13 @@
 						<div class="select open" style="width:540px;">
 							<span class="ctrl"><span class="arrow"></span></span>
 							<div class="myValue"></div>
-							<ul class="iList">
-								<!--@foreach($time_zone as $key => $val)-->
-								<li><input name="time_zone" id="{$key}" class="option" type="radio" value="{$key}" <!--@if($key==date('O'))-->checked="checked"<!--@end--> /><label for="{$key}">{$val}</label></li>
-								<!--@end-->
-							</ul>
+							<div class="iList">
+								<ul>
+									<!--@foreach($time_zone as $key => $val)-->
+									<li><input name="time_zone" id="{$key}" class="option" type="radio" value="{$key}" <!--@if($key==date('O'))-->checked="checked"<!--@end--> /><label for="{$key}">{$val}</label></li>
+									<!--@end-->
+								</ul>
+							</div>
 						</div>
 						<p>{$lang->about_time_zone}</p>
 					</li>
