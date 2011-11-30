@@ -20,8 +20,8 @@
 		 **/
 		function procAddonAdminSaveActivate()
 		{
-			$pc = Context::get('pc');
-			$mobile = Context::get('mobile');
+			$pcOnList = Context::get('pc_on');
+			$mobileOnList = Context::get('mobile_on');
 			$fixed = Context::get('fixed');
 			
 			$site_module_info = Context::get('site_module_info');
@@ -29,13 +29,13 @@
 			if($site_module_info->site_srl) $site_srl = $site_module_info->site_srl;
 			else $site_srl = 0;
 
-			if (!$pc) $pc = array();
-			if (!$mobile) $mobile = array();
+			if (!$pcOnList) $pcOnList = array();
+			if (!$mobileOnList) $mobileOnList = array();
 			if (!$fixed) $fixed = array();
 
-			if (!is_array($pc)) $pc = array($pc);
-			if (!is_array($mobile)) $pc = array($mobile);
-			if (!is_array($fixed)) $pc = array($fixed);
+			if (!is_array($pcOnList)) $pcOnList = array($pcOnList);
+			if (!is_array($mobileOnList)) $pcOnList = array($mobileOnList);
+			if (!is_array($fixed)) $pcOnList = array($fixed);
 
 			// get current addon info
 			$oModel = &getAdminModel('addon');
@@ -45,13 +45,13 @@
 			$updateList = array();
 			foreach($currentAddonList as $addon)
 			{
-				if ($addon->activated !== in_array($addon->addon_name, $pc))
+				if ($addon->activated !== in_array($addon->addon_name, $pcOnList))
 				{
 					$updateList[] = $addon->addon_name;
 					continue;
 				}
 
-				if ($addon->mactivated !== in_array($addon->addon_name, $mobile))
+				if ($addon->mactivated !== in_array($addon->addon_name, $mobileOnList))
 				{
 					$updateList[] = $addon->addon_name;
 					continue;
@@ -69,12 +69,12 @@
 			{
 				unset($args);
 
-				if (in_array($targetAddon, $pc))
+				if (in_array($targetAddon, $pcOnList))
 					$args->is_used = 'Y';
 				else
 					$args->is_used = 'N';
 
-				if (in_array($targetAddon, $mobile))
+				if (in_array($targetAddon, $mobileOnList))
 					$args->is_used_m = 'Y';
 				else
 					$args->is_used_m = 'N';
@@ -97,6 +97,7 @@
 				$this->makeCacheFile($site_srl, 'mobile', 'site');
 			}
 
+            $this->setMessage('success_updated', 'info');
 			if (Context::get('success_return_url'))
 			{
 				$this->setRedirectUrl(Context::get('success_return_url'));

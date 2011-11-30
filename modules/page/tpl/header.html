@@ -6,9 +6,9 @@
 <!--@if($module_info)-->
 <!--@if($module_info->mid)-->
 <h2 class="h2">
-	{$module_info->mid} <!--@if($module_info->is_default=='Y')-->({$lang->is_default})<!--@end--> 
+	{$module_info->mid}<block cond="$module_info->is_default=='Y'">({$lang->is_default})</block>
 	| 
-	<a href="{getSiteUrl($module_info->domain,'','mid',$module_info->mid)}">View</a>
+	<a href="{getSiteUrl($module_info->domain,'','mid',$module_info->mid)}">{$lang->view}</a>
 </h2>
 <!--@end-->
 <div class="cnb">

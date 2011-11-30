@@ -3,7 +3,7 @@
 <block cond="$grant->manager">
 	<load target="../../tpl/js/page_admin.js" />
 	<div class="btnArea">
-		<span class="btn"><a cond="$logged_info->is_admin=='Y'" href="{getUrl('act','dispPageAdminInfo','module_srl',$module_info->module_srl)}">{$lang->cmd_setup}</a></span>
-		<span class="btn"><a href="{getUrl('act','dispPageAdminContentModify','document_srl','')}">{$lang->cmd_page_modify}</a></span>
+		<span class="btn"><a cond="$logged_info->is_admin=='Y'" href="{getUrl('act','dispPageAdminInfo','module_srl',$module_info->module_srl)}">{$lang->cmd_setup}...</a></span>
+		<span class="btn"><a href="{getUrl('act','dispPageAdminContentModify','document_srl','')}">{$lang->cmd_page_modify}...</a></span>
 	</div>
 </block>

@@ -21,19 +21,19 @@
 {@$title = $extend_form_list[$formInfo->member_join_form_srl]->column_title}
 {@$orgValue = $extend_form_list[$formInfo->member_join_form_srl]->value}
 			<!--@if($formInfo->type=='tel')-->
-				{@$value = htmlspecialchars($orgValue[0])}
+				{@$value = $orgValue[0]}
 					<!--@if($orgValue[1])-->-<!--@end-->
-				{@$value .= htmlspecialchars($orgValue[1])}
+				{@$value .= $orgValue[1]}
 					<!--@if($orgValue[2])-->-<!--@end-->
-				{@$value .= htmlspecialchars($orgValue[2])}
+				{@$value .= $orgValue[2]}
 			<!--@elseif($formInfo->type=='kr_zip')-->
-				{@$value = htmlspecialchars($orgValue[0])}<!--@if($orgValue[1]&&$orgValue[0])--><br /><!--@end-->{@$value .= htmlspecialchars($orgValue[1])}
+				{@$value = $orgValue[0]}<!--@if($orgValue[1]&&$orgValue[0])--><br /><!--@end-->{@$value .= $orgValue[1]}
 			<!--@elseif($formInfo->type=='checkbox' && is_array($orgValue))-->
-				{@$value = htmlspecialchars(implode(", ",$orgValue))}
+				{@$value = implode(", ",$orgValue)}
 			<!--@elseif($formInfo->type=='date')-->
 				{@$value = zdate($orgValue, "Y-m-d")}
 			<!--@else-->
-				{@$value = nl2br(htmlspecialchars($orgValue))}
+				{@$value = nl2br($orgValue)}
 			<!--@end-->
 		<!--@end-->
 

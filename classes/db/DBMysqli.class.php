@@ -112,6 +112,10 @@
 		{
 			return mysqli_fetch_object($result);
 		}
+		
+		function db_free_result(&$result){
+			return mysqli_free_result($result);		
+		}		
     }
 
 return new DBMysqli;

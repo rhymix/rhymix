@@ -251,6 +251,10 @@
 
                 $content_items[0]->setFirstThumbnailIdx($first_thumbnail_idx);
             }
+
+			$oSecurity = new Security($content_items);
+			$oSecurity->encodeHTML('..variables.title', '..variables.content', '..variables.user_name', '..variables.nick_name');
+
             return $content_items;
         }
 

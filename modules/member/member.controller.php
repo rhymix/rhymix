@@ -1563,6 +1563,11 @@
                 if($admin_group->group_srl && in_array($admin_group->group_srl, $group_srl_list)) $_SESSION['is_admin'] = 'Y';
             }
             */
+
+			// XSS defence
+			$oSecurity = new Security($this->memberInfo);
+			$oSecurity->encodeHTML('user_name', 'nick_name', 'address.');
+
             // Information stored in the session login user
             Context::set('is_logged', true);
             Context::set('logged_info', $this->memberInfo);

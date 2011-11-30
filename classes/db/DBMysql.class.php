@@ -156,7 +156,7 @@
             	if(isset($arrayIndexEndValue)) return $output;
             	else return $output[0];
             }
-            mysql_free_result($result);
+            $this->db_free_result($result);
             return $output;
         }
 
@@ -439,6 +439,10 @@
         {
             return mysql_fetch_object($result);
         }
+		
+		function db_free_result(&$result){
+			return mysql_free_result($result);		
+		}
 
         function getParser(){
             return new DBParser('`', '`', $this->prefix);

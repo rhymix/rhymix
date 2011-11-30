@@ -5,16 +5,13 @@ if(!defined('__XE__')) require dirname(__FILE__).'/../../Bootstrap.php';
 require_once _XE_PATH_.'classes/handler/Handler.class.php';
 require_once _XE_PATH_.'classes/frontendfile/FrontEndFileHandler.class.php';
 
-$_SERVER['SCRIPT_NAME'] = '/xe/index.php';
 
 class FrontEndFileHandlerTest extends PHPUnit_Framework_TestCase
 {
 	public function testHandler()
 	{
-		global $request_url, $use_cdn;
-
-		$request_url = 'http://test.com';
-		$use_cdn = 'Y';
+		Context::setUseCdn('Y');
+		Context::setRequestUrl('http://test.com');
 
 		$handler = new FrontEndFileHandler();
 
@@ -176,7 +173,7 @@ class FrontEndFileHandlerTest extends PHPUnit_Framework_TestCase
 		// CDN(no cdn setting)
 		unset($handler);
 		unset($expected);
-		$use_cdn = 'N';
+		Context::setUseCdn('N');
 		$handler = new FrontEndFileHandler();
 
 		$handler->loadFile(array('./common/css/common.css'), true, 'http://static.xpressengine.com/core/', 'v');
@@ -187,8 +184,8 @@ class FrontEndFileHandlerTest extends PHPUnit_Framework_TestCase
 		// CDN(use ssl)
 		unset($handler);
 		unset($expected);
-		$use_cdn = 'Y';
-		$request_url = 'https://test.com';
+		Context::setUseCdn('Y');
+		Context::setRequestUrl('https://test.com');
 		$handler = new FrontEndFileHandler();
 
 		$handler->loadFile(array('./common/css/common.css'), true, 'http://static.xpressengine.com/core/', 'v');
@@ -199,8 +196,8 @@ class FrontEndFileHandlerTest extends PHPUnit_Framework_TestCase
 		// external file
 		unset($handler);
 		unset($expected);
-		$use_cdn = 'Y';
-		$request_url = 'http://test.com';
+		Context::setUseCdn('Y');
+		Context::setRequestUrl('http://test.com');
 		$handler = new FrontEndFileHandler();
 
 		$handler->loadFile(array('http://external.com/css/style2.css'));

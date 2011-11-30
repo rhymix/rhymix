@@ -5188,8 +5188,8 @@ xe.XE_XHTMLFormatter = $.Class({
 
 			return '<'+closing+tag+(attrs?' '+attrs:'')+'>';
 		});
-		/*
-		if (stack.length) {
+
+		if(stack.length) {
 			var t = '';
 
 			do {
@@ -5197,7 +5197,6 @@ xe.XE_XHTMLFormatter = $.Class({
 				if (t.state != 'deleted') sContent += '</'+t.tag+'>';
 			} while(stack.length);
 		}
-		*/
 
 		return sContent;
 	},

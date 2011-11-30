@@ -1029,6 +1029,7 @@ Lütfen son sürümü için indirme linkine tıklayınız.]]></value>
 	<item name="bug_report">
 		<value xml:lang="ko"><![CDATA[버그 리포트]]></value>
 		<value xml:lang="en"><![CDATA[Bug Report]]></value>
+		<value xml:lang="jp"><![CDATA[バグレポート]]></value>
 	</item>
 	<item name="theme_setting">
 		<value xml:lang="ko"><![CDATA[테마 설정]]></value>
@@ -1069,6 +1070,7 @@ Lütfen son sürümü için indirme linkine tıklayınız.]]></value>
 	<item name="cmd_admin_menu_reset">
 		<value xml:lang="ko"><![CDATA[관리자 메뉴 초기화]]></value>
 		<value xml:lang="en"><![CDATA[Reset admin menu]]></value> 
+		<value xml:lang="jp"><![CDATA[管理者メニューの初期化]]></value> 
 	</item>
 	<item name="confirm_reset_admin_menu">
 		<value xml:lang="ko"><![CDATA[관리자 메뉴를 초기화하시겠습니까?]]></value>

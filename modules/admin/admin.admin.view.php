@@ -250,6 +250,8 @@
 			$args->list_count = 5;;
 			$output = $oDocumentModel->getDocumentList($args, false, false, $columnList);
             Context::set('latestDocumentList', $output->data);
+			$security = new Security();
+			$security->encodeHTML('latestDocumentList..variables.nick_name');
 			unset($args, $output, $columnList);
 
 			// Latest Comment
@@ -478,7 +480,7 @@
 					if (!$layout_info) continue;
 					$layout_parse = explode('.', $layout_info->layout);
 					if (count($layout_parse) == 2){
-						$thumb_path = sprintf('./themes/%s/layout/%s/thumbnail.png', $layout_parse[0], $layout_parse[1]);
+						$thumb_path = sprintf('./themes/%s/layouts/%s/thumbnail.png', $layout_parse[0], $layout_parse[1]);
 					}
 					else{
 						$thumb_path = './layouts/'.$layout_info->layout.'/thumbnail.png';

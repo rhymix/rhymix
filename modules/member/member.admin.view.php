@@ -49,7 +49,8 @@
 			}
 			// retrieve list of groups for each member
             if($output->data) {
-                foreach($output->data as $key => $member) {
+                foreach($output->data as $key => $member)
+				{
                     $output->data[$key]->group_list = $oMemberModel->getMemberGroups($member->member_srl,0);
                 }
             }
@@ -73,8 +74,8 @@
             Context::set('usedIdentifiers', $usedIdentifiers);            
 			Context::set('page_navigation', $output->page_navigation);
 			
-			$security = new Security();			
-			$security->encodeHTML('member_list..user_name','member_list..group_list..');
+			$security = new Security();
+			$security->encodeHTML('member_list..user_name', 'member_list..nick_name', 'member_list..group_list..');
 			
 			$this->setTemplateFile('member_list');
         }
@@ -141,7 +142,7 @@
 			
 			$security = new Security();
 			$security->encodeHTML('member_config..');
-			$security->encodeHTML('member_info.user_name','member_info.description','member_info.group_list..');			
+			$security->encodeHTML('memberInfo.user_name', 'memberInfo.nick_name', 'memberInfo.description','memberInfo.group_list..');			
 			$security->encodeHTML('extend_form_list...');
 			
             $this->setTemplateFile('member_info');

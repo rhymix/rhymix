@@ -1998,7 +1998,7 @@ var ListWriter = xe.createPlugin('ListWriter', {
 			.focus(function(event){ return self.onfocus(seq, event) });
 	},
 	new_item : function(returnObj) {
-		var html = '<li><input type="name" /></li>';
+		var html = '<li><input type="text" /></li>';
 
 		return returnObj?$(html):html;
 	},

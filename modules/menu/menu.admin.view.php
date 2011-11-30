@@ -133,7 +133,7 @@
 					{
 						unset($menu);
 						unset($menuItems);
-						$value->xml_file = sprintf('./files/cache/menu/%s.xml.php',$value->menu_srl);
+						//$value->xml_file = sprintf('./files/cache/menu/%s.xml.php',$value->menu_srl);
 						$value->php_file = sprintf('./files/cache/menu/%s.php',$value->menu_srl);
 						if(file_exists($value->php_file)) @include($value->php_file);
 
