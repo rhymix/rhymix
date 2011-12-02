@@ -44,6 +44,7 @@
             $height = $xml_obj->attrs->height;
             $align = $xml_obj->attrs->align;
             $alt = $xml_obj->attrs->alt;
+            $title = $xml_obj->attrs->title;
             $border = (int)$xml_obj->attrs->border;
             $link_url = $xml_obj->attrs->link_url;
             $open_window = $xml_obj->attrs->open_window;
@@ -73,7 +74,9 @@
             $attr_output = array("src=\"".$src."\"");
             if($alt) {
                 $attr_output[] = "alt=\"".$alt."\"";
-                $attr_output[] = "title=\"".$alt."\"";
+            }
+            if($title) {
+                $attr_output[] = "title=\"".$title."\"";
             }
             if($margin) {
                 $style = trim(preg_replace('/margin[a-z\-]*[ ]*:[ ]*[0-9 a-z]+(;| )/i','', $style)).';';
