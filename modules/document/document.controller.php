@@ -621,6 +621,13 @@ class documentController extends document {
 		// commit
 		$oDB->commit();
 
+                // Clear cache
+                $oCacheHandler = &CacheHandler::getInstance('object');
+                if($oCacheHandler->isSupport())
+                {
+                    $oCacheHandler->invalidateGroupKey('documentList');
+                }
+                
 		return $output;
 	}
 
