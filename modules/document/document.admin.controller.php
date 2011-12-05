@@ -71,26 +71,30 @@
                     $oFileController = &getController('file');
 
                     $files = $oDocument->getUploadedFiles();
-                    foreach($files as $key => $val) {
-                        $file_info = array();
-                        $file_info['tmp_name'] = $val->uploaded_filename;
-                        $file_info['name'] = $val->source_filename;
-                        $inserted_file = $oFileController->insertFile($file_info, $module_srl, $obj->document_srl, $val->download_count, true);
-                        if($inserted_file && $inserted_file->toBool()) {
-                            // for image/video files
-                            if($val->direct_download == 'Y') {
-                                $source_filename = substr($val->uploaded_filename,2);
-                                $target_filename = substr($inserted_file->get('uploaded_filename'),2);
-                                $obj->content = str_replace($source_filename, $target_filename, $obj->content);
-                            // For binary files
-                            } else {
-                                $obj->content = str_replace('file_srl='.$val->file_srl, 'file_srl='.$inserted_file->get('file_srl'), $obj->content);
-                                $obj->content = str_replace('sid='.$val->sid, 'sid='.$inserted_file->get('sid'), $obj->content);
-                            }
-                        }
-                        // Delete an existing file
-                        $oFileController->deleteFile($val->file_srl);
-                    }
+					if(is_array($files))
+					{
+						foreach($files as $key => $val)
+						{
+							$file_info = array();
+							$file_info['tmp_name'] = $val->uploaded_filename;
+							$file_info['name'] = $val->source_filename;
+							$inserted_file = $oFileController->insertFile($file_info, $module_srl, $obj->document_srl, $val->download_count, true);
+							if($inserted_file && $inserted_file->toBool()) {
+								// for image/video files
+								if($val->direct_download == 'Y') {
+									$source_filename = substr($val->uploaded_filename,2);
+									$target_filename = substr($inserted_file->get('uploaded_filename'),2);
+									$obj->content = str_replace($source_filename, $target_filename, $obj->content);
+								// For binary files
+								} else {
+									$obj->content = str_replace('file_srl='.$val->file_srl, 'file_srl='.$inserted_file->get('file_srl'), $obj->content);
+									$obj->content = str_replace('sid='.$val->sid, 'sid='.$inserted_file->get('sid'), $obj->content);
+								}
+							}
+							// Delete an existing file
+							$oFileController->deleteFile($val->file_srl);
+						}
+					}
                     // Set the all files to be valid
                     $oFileController->setFilesValid($obj->document_srl);
                 }
