@@ -974,4 +974,11 @@ jQuery(function($){
 		// cancel default action
 		return false;
 	});
+
+	// date picker default settings
+	if($.datepicker) {
+		$.datepicker.setDefaults({
+			dateFormat : 'yy-mm-dd'
+		});
+	}
 });

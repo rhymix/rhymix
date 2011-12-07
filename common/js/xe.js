@@ -1258,6 +1258,13 @@ jQuery(function($){
 		// cancel default action
 		return false;
 	});
+
+	// date picker default settings
+	if($.datepicker) {
+		$.datepicker.setDefaults({
+			dateFormat : 'yy-mm-dd'
+		});
+	}
 });
 /**
  * @file   common/js/xml_handler.js
