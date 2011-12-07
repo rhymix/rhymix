@@ -4303,7 +4303,7 @@ xe.XE_SCharacter = $.Class({
 
 	$ON_MSG_APP_READY : function(){
 		var funcInsert = $.fnBind(this.oApp.exec, this.oApp, "INSERT_SCHARACTERS", [this.oTextField.value]);
-		$(this.oInsertButton).click(funcInsert, this);
+		$(this.oInsertButton).click(funcInsert);
 
 		this.oApp.exec("SET_SCHARACTER_LIST", [this.charSet]);
 
