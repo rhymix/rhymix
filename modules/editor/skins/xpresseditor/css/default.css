@@ -1,7 +1,7 @@
 @charset "utf-8";
 /* NHN (developers@xpressengine.com) */
 /* TextEditor */
-.xeTextEditor {overflow:hidden}
+.xeTextEditor {margin:0 12px 0 0}
 .xeTextEditor textarea {display:block;margin:0;padding:5px}
 .xeTextEditor.black textarea {color:#fff;background-color:#000}
 /* Type Selector */

@@ -24,7 +24,7 @@ function editorStart_xe(editor_sequence, primary_key, content_key, editor_height
 	}
 
 	// hide textarea
-	textarea.hide().css('width', '99%').before(iframe).after(htmlsrc);
+	textarea.hide().css('width', '100%').before(iframe).after(htmlsrc);
 
 	// create an editor
 	var oEditor		     = new xe.XpressCore();
