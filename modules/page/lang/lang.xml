@@ -170,4 +170,8 @@ Nếu chọn là mặc định, nó sẽ là trang chủ của Website.]]></valu
 		<value xml:lang="ko"><![CDATA[페이지 관리]]></value>
 		<value xml:lang="en"><![CDATA[Manage of page]]></value>
 	</item>
+	<item name="page_delete_warning">
+		<value xml:lang="ko"><![CDATA[페이지를 삭제할 때 파일도 함께 삭제합니다]]></value>
+		<value xml:lang="en"><![CDATA[If you delete a page, the files of the page will be removed also.]]></value>
+	</item>
 </lang>
