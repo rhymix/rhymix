@@ -194,6 +194,7 @@ $('form.siteMap')
 	{
 		var module = $('#kModule').val();
 		if(module == 'WIDGET' || module == 'ARTICLE' || module == 'OUTSIDE') module = 'page';
+		console.log(ret_obj);
 
 		var midList = ret_obj.module_list[module].list;
 		var htmlBuffer = "";
@@ -202,7 +203,7 @@ $('form.siteMap')
 			var midObject = midList[x];
 			htmlBuffer += '<option value="'+midObject.mid+'"';
 			if(menuUrl == midObject.mid) htmlBuffer += ' selected ';
-			htmlBuffer += '>'+midObject.browser_title+'</option>';
+			htmlBuffer += '>'+midObject.mid+'('+midObject.browser_title+')</option>';
 		}
 		selectModuleLayer.find('select').html(htmlBuffer);
 	}
