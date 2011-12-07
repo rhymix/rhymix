@@ -62,8 +62,8 @@ span.whiteBtn input						{display:inline-block;margin:0;;padding:0 12px 0 7px;he
 .col_table th.button_col					{padding:6px 0 8px 0;border-top:#EEE solid 1px;}
 
 #memberModule h3.signup_head			{color:#3c3d41;word-spacing:2px;letter-spacing:-1px;}
-#memberModule .signupTable				{width:958px;background:url(../images/table_bg_repeat.gif) repeat-y top left;}
-.signupTable caption					{width:958px;padding:0 !important;border:0 none;margin:0;height:12px;background:url(../images/table_bg_top.gif) no-repeat top left;}
+#memberModule .signupTable				{background:url(../images/table_bg_repeat.gif) repeat-y top left;}
+.signupTable caption					{padding:0 !important;border:0 none;margin:0;height:12px;background:url(../images/table_bg_top.gif) no-repeat top left;}
 .signupTable caption span				{visibility:hidden;}
 .signupTable th							{vertical-align:top;}
 .signupTable th	div						{text-align:left;padding-left:45px;}
