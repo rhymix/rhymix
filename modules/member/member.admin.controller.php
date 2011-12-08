@@ -236,7 +236,7 @@
  			}
 		}
 
-		function _createSignupRuleset($signupForm, $agreement){
+		function _createSignupRuleset($signupForm, $agreement = null){
 			$xml_file = './files/ruleset/insertMember.xml';
 			$admin_xml_file = './files/ruleset/insertAdmintMember.xml';
 			$buff = '<?xml version="1.0" encoding="utf-8"?>'
