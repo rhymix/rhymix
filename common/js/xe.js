@@ -1533,7 +1533,8 @@ $.exec_xml = window.exec_xml = function(module, act, params, callback_func, resp
 				return $.exec_xml.onerror(module, act, ret, callback_func, response_tags, callback_func_arg, fo_obj);
 			}
 
-			alert(ret['message'] || 'error!');
+			alert( (ret['message']||'An unknown error occured while loading ['+module+'.'+act+']').replace(/\\n/g, '\n') );
+
 			return null;
 		}
 
