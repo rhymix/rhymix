@@ -42,7 +42,7 @@ jQuery(function ($){
 		var group_srl = $(event.target).attr('href').substr(1); 
 		if(!confirm(xe.lang.groupDeleteMessage)) return;
 
-		if (group_srl.indexOf("new") > 0){
+		if (group_srl.indexOf("new") >= 0){
 			$target.remove();
 			return;
 		}
