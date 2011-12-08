@@ -153,16 +153,16 @@
 		<value xml:lang="vi"><![CDATA[Dung lượng file đính kèm]]></value>
 	</item>
 	<item name="allowed_filetypes">
-		<value xml:lang="ko"><![CDATA[허용 확장자]]></value>
-		<value xml:lang="en"><![CDATA[Allowed Extensions]]></value>
-		<value xml:lang="jp"><![CDATA[添付可能な拡張子]]></value>
-		<value xml:lang="zh-CN"><![CDATA[可用扩展名]]></value>
-		<value xml:lang="zh-TW"><![CDATA[允許檔案類型]]></value>
-		<value xml:lang="fr"><![CDATA[Extensions consentis]]></value>
-		<value xml:lang="ru"><![CDATA[Разрешенные расширения]]></value>
-		<value xml:lang="es"><![CDATA[Tipos de archivos permitidos]]></value>
-		<value xml:lang="tr"><![CDATA[İzin Verilmiş Uzantılar]]></value>
-		<value xml:lang="vi"><![CDATA[Những định dạng cho phép]]></value>
+		<value xml:lang="ko"><![CDATA[허용한 확장자만 첨부할 수 있습니다.(관리자는 제외)]]></value>
+		<value xml:lang="en"><![CDATA[Only allowed extentsions can be attached. (Exclude Administrators)]]></value>
+		<value xml:lang="jp"><![CDATA[ここで指定された種類のファイルのみ添付できます。（管理者は制限無し）]]></value>
+		<value xml:lang="zh-CN"><![CDATA[只允许上传指定的扩展名。 (管理员不受此限制)]]></value>
+		<value xml:lang="zh-TW"><![CDATA[設定允許上傳的檔案類型。 (管理員不受此限制)]]></value>
+		<value xml:lang="fr"><![CDATA[Extensions consentis seulement peuvent etre attaches.  (Exclure Administrateurs)]]></value>
+		<value xml:lang="ru"><![CDATA[Только файлы с разрешенными расширениями могут быть вложены. (Исключая администраторов)]]></value>
+		<value xml:lang="es"><![CDATA[Puede definir las extensiones de los archivos permitidos. (exceptuando el administrador)]]></value>
+		<value xml:lang="tr"><![CDATA[Sadece izin verilen uzantılar iliştirilebilir. (Yöneticilerin tercihleri sınırlandırılmaz)]]></value>
+		<value xml:lang="vi"><![CDATA[Chỉ được phép đính kèm những File có đuôi được liệt kê trong danh sách.  (Ngoại trừ Administrators)]]></value>
 	</item>
 	<item name="enable_download_group">
 		<value xml:lang="ko"><![CDATA[다운로드 가능 그룹]]></value>
@@ -232,16 +232,16 @@
 		<value xml:lang="vi"><![CDATA[Giới hạn dung lượng tối đa cho tất cả các File đính kèm trong một bài viết. (Ngoại trừ Administrators)]]></value>
 	</item>
 	<item name="about_allowed_filetypes">
-		<value xml:lang="ko"><![CDATA[허용한 확장자만 첨부할 수 있습니다. "*.확장자"로 지정할 수 있고 ";" 으로 여러 개 지정이 가능합니다. 예) *.* or *.jpg;*.gif; (관리자는 제외)]]></value>
-		<value xml:lang="en"><![CDATA[Only allowed extentsions can be attached. To allow an extension, use "*.[extention]". To allow multiple extensions, use ";" between each extension. ex) *.* or *.jpg;*.gif; (Exclude Administrators)]]></value>
-		<value xml:lang="jp"><![CDATA[ここで指定された種類のファイルのみ添付できます。"*.拡張子"で指定し、 ";"で区切って任意の拡張子を追加して指定できます。 （管理者は制限無し） ex) *.* or *.jpg;*.gif; ]]></value>
-		<value xml:lang="zh-CN"><![CDATA[只允许上传指定的扩展名。 可以用"*.扩展名"来指定或用 ";"来 区分多个扩展名 例) *.* or *.jpg;*.gif; (管理员不受此限制)]]></value>
-		<value xml:lang="zh-TW"><![CDATA[設定允許上傳的檔案類型。可以用"*.副檔名"來指定或用分號";"來區隔多個副檔名。 例) *.* or *.jpg; *.gif; (管理員不受此限制)]]></value>
-		<value xml:lang="fr"><![CDATA[Extensions consentis seulement peuvent etre attaches. Pour consentir une extension, utilisez "*.[extention]". Pour consentir plusieurs extensions, utilisez ";" entre chaque extension. ex) *.* ou *.jpg;*.gif; (Exclure Administrateurs)]]></value>
-		<value xml:lang="ru"><![CDATA[Только файлы с разрешенными расширениями могут быть вложены. Чтобы разрешить расширение, ипользуйте "*.расширение". Чтобы разрешить несколько расширений, используйте ";" между ними. например: *.* или *.jpg;*.gif; (Исключая администраторов)]]></value>
-		<value xml:lang="es"><![CDATA[Puede definir las extensiones de los archivos permitidos. Para permitir una extensión use "*.extensión". Para permitir más de una extensión use ";". ej) *.* o *.jpg;*.gif;etc. (exceptuando el administrador)]]></value>
-		<value xml:lang="tr"><![CDATA[Sadece izin verilen uzantılar iliştirilebilir. Bir uzantıya izin vermek için, "*.[uzantı]" komutunu kullanınız. Birden fazla eklentiye izin vermek için, her uzantının arasına ";" koyunuz. örn.) *.* veya *.jpg;*.gif; (Yöneticilerin tercihleri sınırlandırılmaz)]]></value>
-		<value xml:lang="vi"><![CDATA[Chỉ được phép đính kèm những File có đuôi được liệt kê trong danh sách. Để thêm những dạng File được phép đính kèm, bạn sử dụng "*.[đuôi]". Để cho phép nhiều dạng đuôi File hãy đặt dấu ";" vào giữa các dạng đuôi. Ví dụ: *.* (Cho phép tất cả) hay *.jpg;*.gif; (Ngoại trừ Administrators)]]></value>
+		<value xml:lang="ko"><![CDATA["*.확장자"로 지정할 수 있고 ";" 으로 여러 개 지정이 가능합니다. 예) *.* or *.jpg;*.gif;]]></value>
+		<value xml:lang="en"><![CDATA[To allow an extension, use "*.[extention]". To allow multiple extensions, use ";" between each extension. ex) *.* or *.jpg;*.gif; ]]></value>
+		<value xml:lang="jp"><![CDATA["*.拡張子"で指定し、 ";"で区切って任意の拡張子を追加して指定できます。ex) *.* or *.jpg;*.gif; ]]></value>
+		<value xml:lang="zh-CN"><![CDATA[可以用"*.扩展名"来指定或用 ";"来 区分多个扩展名 例) *.* or *.jpg;*.gif;]]></value>
+		<value xml:lang="zh-TW"><![CDATA[可以用"*.副檔名"來指定或用分號";"來區隔多個副檔名。 例) *.* or *.jpg; *.gif;]]></value>
+		<value xml:lang="fr"><![CDATA[Pour consentir une extension, utilisez "*.[extention]". Pour consentir plusieurs extensions, utilisez ";" entre chaque extension. ex) *.* ou *.jpg;*.gif;]]></value>
+		<value xml:lang="ru"><![CDATA[Чтобы разрешить расширение, ипользуйте "*.расширение". Чтобы разрешить несколько расширений, используйте ";" между ними. например: *.* или *.jpg;*.gif;]]></value>
+		<value xml:lang="es"><![CDATA[Para permitir una extensión use "*.extensión". Para permitir más de una extensión use ";". ej) *.* o *.jpg;*.gif;etc.]]></value>
+		<value xml:lang="tr"><![CDATA[Bir uzantıya izin vermek için, "*.[uzantı]" komutunu kullanınız. Birden fazla eklentiye izin vermek için, her uzantının arasına ";" koyunuz. örn.) *.* veya *.jpg;*.gif; ]]></value>
+		<value xml:lang="vi"><![CDATA[Để thêm những dạng File được phép đính kèm, bạn sử dụng "*.[đuôi]". Để cho phép nhiều dạng đuôi File hãy đặt dấu ";" vào giữa các dạng đuôi. Ví dụ: *.* (Cho phép tất cả) hay *.jpg;*.gif;]]></value>
 	</item>
 	<item name="cmd_delete_checked_file">
 		<value xml:lang="ko"><![CDATA[선택항목 삭제]]></value>
