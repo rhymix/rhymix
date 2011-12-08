@@ -222,7 +222,7 @@
 				$args->signupForm = $signupForm;
 
 				// create Ruleset
-				$this->_createSignupRuleset($signupForm);
+				$this->_createSignupRuleset($signupForm, $args->agreement);
 				$this->_createLoginRuleset($args->identifier);
 				$this->_createFindAccountByQuestion($args->identifier);
 			}
@@ -236,7 +236,7 @@
  			}
 		}
 
-		function _createSignupRuleset($signupForm){
+		function _createSignupRuleset($signupForm, $agreement){
 			$xml_file = './files/ruleset/insertMember.xml';
 			$admin_xml_file = './files/ruleset/insertAdmintMember.xml';
 			$buff = '<?xml version="1.0" encoding="utf-8"?>'
@@ -247,6 +247,10 @@
 					.'</ruleset>';
 
 			$fields = array();
+			
+			if ($agreement){
+				$fields[] = '<field name="accept_agreement" required="true" />';
+			}
 			foreach($signupForm as $formInfo){
 				if ($formInfo->required || $formInfo->mustRequired){
 					if($formInfo->type == 'tel' || $formInfo->type == 'kr_zip'){
