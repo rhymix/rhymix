@@ -34,8 +34,7 @@
 .xpress-editor a.skip:focus{position:relative;display:block;padding:5px;right:0;z-index:60;width:auto;height:auto;text-align:right;white-space:nowrap;color:#000;text-decoration:none;letter-spacing:-1px;_zoom:1}
 .xpress-editor .input_area{position:relative;margin:10px;z-index:30;*zoom:1;height:400px}
 .xpress-editor .input_area iframe,
-.xpress-editor .input_area textarea{display:block;width:100%;position:relative;height:100%;border:0;overflow:auto}
-.xpress-editor .input_area iframe{}
+.xpress-editor .input_area textarea{display:block;width:100% !important;position:relative;height:100%;border:0 !important;padding:0 !important;overflow:auto}
 .xpress-editor .input_area textarea{*margin:0 -10px;_margin-bottom:-2px}
 .xpress-editor .input_area textarea.blind{display:none}
 .xpress-editor .input_control{position:relative;display:block;width:100%;clear:both;text-align:center;background:#fbfbfb url(../img/btn_expand.gif) no-repeat center center;cursor:n-resize}
