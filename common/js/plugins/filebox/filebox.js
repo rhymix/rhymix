@@ -80,3 +80,66 @@
     $.extend(window.XE, {'filebox' : filebox});
 
 }) (jQuery);
+
+function addRow(tableID){
+	
+	var table = document.getElementById(tableID);
+    var rowCount = table.rows.length;
+    var initial = table.rows(0);
+    var text1 = initial.cells(0).children(0).innerHTML;
+    var text2 = initial.cells(1).children(0).innerHTML;
+    var addrow = table.rows(rowCount-2).cells(2).children(0);
+    var deleteLink = table.rows(rowCount-2).cells(3).children(0).cloneNode(true);
+    var row = table.insertRow(rowCount-1);
+    
+	//cell for attribute name
+    var cell0= row.insertCell(0)
+    var element0 = document.createElement("label");
+    element0.innerHTML = text1;
+    element0.htmlFor = "attribute_name"+rowCount;
+    cell0.appendChild(element0);
+    var element1 = document.createElement("input");
+    element1.type = "text";
+    element1.name="attribute_name"+rowCount;
+    element1.id="attribute_name"+rowCount;
+    cell0.appendChild(element1);
+    
+	//cell for attribute value
+    var cell1 = row.insertCell(1);
+    var element2 = document.createElement("label");
+    element2.innerHTML = text2;
+    element2.htmlFor = "attribute_value"+rowCount;
+    cell1.appendChild(element2);
+    var element3 = document.createElement("input");
+    element3.type = "text";
+    element3.id="attribute_value"+rowCount;
+    element3.name="attribute_value"+rowCount;
+    cell1.appendChild(element3);
+    
+    //cell for addrow link
+    var cell2 = row.insertCell(2);
+    cell2.appendChild(addrow);
+    
+    //cell for delete link
+    var cell3 = row.insertCell(3);
+    deleteLink.href = "javascript:clearRow('attributes',"+rowCount+")";
+    cell3.appendChild(deleteLink);
+}
+
+function clearRow(tableID,rowNumber){
+	var table = document.getElementById(tableID);
+	var text = "attribute_name"+rowNumber;
+	var rowCount = table.rows.length;
+	var sw = 0;
+	for(i=0;i<rowCount-2;i++){
+		if(table.rows(i).cells[0].children(1).id == text) {
+			table.deleteRow(i);
+			sw = 1;
+		}
+	}
+	if(!sw){
+		var addrow = table.rows(rowCount-2).cells(2).children(0);
+		table.rows(rowCount-3).cells(2).appendChild(addrow);
+		table.deleteRow(rowCount-2);
+	}
+}

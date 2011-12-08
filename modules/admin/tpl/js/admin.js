@@ -1099,9 +1099,19 @@ $('.filebox')
 
 			$list.find('.lined .select')
 				.bind('click', function(event){
-					var selectedImgSrc = $(this).parent().find('img.filebox_item').attr('src');
-					$this.trigger('filebox.selected', [selectedImgSrc]);
-					$this.trigger('close.mw');
+					var selectedImages = $('input.select_checkbox:checked');
+					if(selectedImages.length == 0) {
+						var selectedImgSrc = $(this).parent().find('img.filebox_item').attr('src');
+						if(!selectedImgSrc){
+							alert("None selected!");
+						}else{
+							$this.trigger('filebox.selected', [selectedImgSrc]);
+							$this.trigger('close.mw');
+						}
+					}else {
+						$this.trigger('filebox.selected', [selectedImages]);
+						$this.trigger('close.mw');
+					}
 					return false;
 				});
 

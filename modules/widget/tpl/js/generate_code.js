@@ -182,7 +182,8 @@ function doFillWidgetVars() {
 	jQuery('.filebox')
 		.each(function(){
 			var $this = jQuery(this);
-			var src = $this.siblings('input').eq(0).val();
+			var src = $this.siblings('input').eq(0).val().split(',');
+			
 			if (src) $this.trigger('filebox.selected', [src]);
 		})
 }
@@ -206,13 +207,47 @@ jQuery(document).ready(function($){
 				return this.nodeName.toLowerCase() != 'input';
 			})
 			.remove();
+		var htmlCode = "";
+		if(src instanceof Object ) {
+			for(var i=0;i<src.length;i++){
+				if(src[i].id) {
+					htmlCode += '<img src="'+src[i].id+'" alt="" style="border: 1px solid #ccc; padding: 5px; max-height: 200px; max-width: 200px;"><button class="filebox_del text" type="button">'+xe.lang.cmd_delete+'</button>';
+					if(i==0) $(this).siblings('input').val(src[i].id);
+					else {
+						var aux = $(this).siblings('input').val();
+						$(this).siblings('input').val(aux+","+src[i].id);
+					}
+				}
+				else {
+					if(src[i]){
+						htmlCode += '<img src="'+src[i]+'" alt="" style="border: 1px solid #ccc; padding: 5px; max-height: 200px; max-width: 200px;"><button class="filebox_del text" type="button">'+xe.lang.cmd_delete+'</button>';
+						if(i==0) $(this).siblings('input').val(src[i]);
+						else {
+							var aux = $(this).siblings('input').val();
+							$(this).siblings('input').val(aux+","+src[i]);
+						}
+					}
+				}
+			}
+		} else {
+			htmlCode = '<img src="'+src+'" alt="" style="border: 1px solid #ccc; padding: 5px; max-height: 200px; max-width: 200px;"> <button class="filebox_del text" type="button">'+xe.lang.cmd_delete+'</button>';
+			$(this).siblings('input').val(src);
+		}
+		$(this).before(htmlCode);
 
-		$(this).before('<img src="'+src+'" alt="" style="border: 1px solid #ccc; padding: 5px; max-height: 200px; max-width: 200px;"> <button class="filebox_del text" type="button">'+xe.lang.cmd_delete+'</button>');
-
-		$(this).siblings('input').val(src);
+		
 
 		$('.filebox_del').bind('click', function(){
-			$(this).siblings('input').val('');
+			var filename = $(this).prev('img').attr("src");
+			var files = $(this).siblings('input').val().split(",");
+			var newInput = "";
+			for(var i=0;i<files.length;i++){
+				if(files[i] != filename) {
+					if(!newInput.length) newInput = files[i];
+					else newInput += ","+files[i];
+				}
+			}
+			$(this).siblings('input').val(newInput);
 			$(this).prev('img').remove();
 			$(this).remove();
 		});

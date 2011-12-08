@@ -10,10 +10,23 @@
 				<h2>{$lang->upload_file}</h2>
 				<span class="more"><a href="#fileUp" class="tgAnchor" data-effect="slide" data-duration="200">{$lang->cmd_show_hide}</a></span>
 				<div class="tgContent" id="fileUp">
-					<p>
-						<label for="fileDescription">{$lang->description}</label> <input type="text" name="comment" id="fileDescription" /><br />
-						<label for="file">{$lang->file}</label> <input type="file" name="addfile" id="file"/>
-					</p>
+					<table cellspacing="0" id="attributes">
+						<tr>
+							<td>
+								<label for="attribute_name1">{$lang->attribute_name} </label><input type="text" name="attribute_name1" id="attribute_name1" />
+							</td>
+							<td>
+								<label for="attribute_value1">{$lang->attribute_value} </label><input type="text" name="attribute_value1" id="attribute_value1" />
+							</td>
+							<td><a href="javascript:addRow('attributes')">{$lang->add}</a></td>
+							<td><a href="javascript:clearRow('attributes',1)">{$lang->delete}</a></td>
+						</tr>
+						<tr>
+							<td>
+								<label for="file">{$lang->file}</label><input type="file" name="addfile" id="file"/>
+							</td>
+						</tr>
+					</table>
 					<div class="btnArea">
 						<span class="btn"><input type="submit" value="{$lang->cmd_save}" /></span>
 					</div>
@@ -22,7 +35,9 @@
 			<form action="" class="form">
 				<ul>
 					<li loop="$filebox_list=>$key,$val">
-						<p class="q">{$val->comment}</p>
+						<!--@foreach($val->attributes as $key => $value)-->
+						<p class="q">{$key} : {$value}</p>
+						<!--@end-->
 						<p class="a">
 							<!--@if($val->fileextension=='swf')-->
 

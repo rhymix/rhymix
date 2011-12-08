@@ -1436,16 +1436,47 @@
         }
 
         function getModuleFileBoxList(){
+        	$oModuleModel = &getModel('module');
+			
             $args->page = Context::get('page');
             $args->list_count = 5;
             $args->page_count = 5;
-            return executeQuery('module.getModuleFileBoxList', $args);
+            $output = executeQuery('module.getModuleFileBoxList', $args);
+            $output = $oModuleModel->unserializeAttributes($output);
+            return $output;
+        }
+        
+        function unserializeAttributes($module_filebox_list){
+        	foreach($module_filebox_list->data as $item){
+        		$attributes = explode(';', $item->comment);
+        		foreach($attributes as $attribute){
+        			$values = explode(':', $attribute);
+        			if((count($values) % 2) ==1) {
+        				for($i=2;$i<count($values);$i++){
+        					$values[1].=":".$values[$i];
+        				}
+        			}
+        			$atts[$values[0]]=$values[1];
+        		}
+        		$item->attributes = $atts;
+        		unset($atts);
+        	}
+        	return $module_filebox_list;
         }
 
 		function getFileBoxListHtml()
 		{
 			$logged_info = Context::get('logged_info');
 			if($logged_info->is_admin !='Y' && !$logged_info->is_site_admin) return new Object(-1, 'msg_not_permitted');
+			$link = parse_url($_SERVER["HTTP_REFERER"]);
+			$link_params = explode('&',$link['query']);
+			foreach ($link_params as $param){
+				$param = explode("=",$param);
+				if($param[0] == 'selected_widget') $selected_widget = $param[1];
+			}
+			$oWidgetModel = &getModel('widget');
+			if($selected_widget) $widget_info = $oWidgetModel->getWidgetInfo($selected_widget);
+			Context::set('allow_multiple', $widget_info->extra_var->images->allow_multiple);
 
 			$oModuleModel = &getModel('module');
 			$output = $oModuleModel->getModuleFileBoxList();
