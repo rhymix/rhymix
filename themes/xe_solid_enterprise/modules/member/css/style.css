@@ -65,8 +65,7 @@ span.whiteBtn input{display:inline-block;height:26px;margin:0;padding:1px 12px 0
 .signupTable caption span.cap_right{float:right;width:13px;background:url(../images/sng_tr.gif) no-repeat top left}
 
 .signupTable tbody{margin:0;padding:0}
-.signupTable th{background:transparent;vertical-align:top}
-.signupTable th	div{padding:10px 0 0 45px;text-align:left}
+.signupTable th{background:transparent;vertical-align:top;padding:10px 0 0 45px;text-align:left}
 .signupTable .title{height:30px;background:url(../images/sng_mr.gif) repeat-y top right;vertical-align:middle}
 
 .signupTable td input.iText{width:200px;height:20px;border:#C1C1C1 solid 1px}
@@ -75,10 +74,9 @@ span.whiteBtn input{display:inline-block;height:26px;margin:0;padding:1px 12px 0
 #memberModule .signupTable em.require{margin-left:5px;color:red}
 .signupTable .wide p{margin:10px 0 15px}
 .signupTable td{padding:10px 0;background:url(../images/sng_mr.gif) repeat-y top right}
-.signupTable tr.agreement{}
-.signupTable th.agreement{padding:5px 20px;background:url(../images/sng_mr.gif) repeat-y top right}
-.signupTable th.agreement p{margin:0;font-weight:normal;text-align:justify}
-.signupTable th.agreement div.agreementButton{margin:10px 0}
+.signupTable td.agreement{padding:5px 20px;background:url(../images/sng_mr.gif) repeat-y top right}
+.signupTable td.agreement .text{height:200px;overflow:auto;margin:1em 0}
+.signupTable td.agreement div.agreementButton{margin:10px 0}
 .signupTable .btnbar_vat{height:70px !important;padding-top:20px;vertical-align:top}
 .signupTable .btnbar_vat span.button{margin-top:20px}
 

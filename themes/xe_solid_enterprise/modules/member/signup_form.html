@@ -32,43 +32,43 @@
         <th colspan="2" class="title">{$lang->member_default_info}</th>
     </tr>
     <!--@if(!$is_logged && $member_config->agreement)-->
-	<tr class="agreement">
-		<th colspan="2" class="agreement">
-			{$member_config->agreement}
+	<tr>
+		<td colspan="2" class="agreement">
+			<div class="text">{$member_config->agreement}</div>
 			<div class="agreementButton">
 				<input type="checkbox" name="accept_agreement" value="Y" id="accept_agree" />
 				<label for="accept_agree">{$lang->about_accept_agreement}</label>
 			</div>
-		</th>
+		</td>
 	</tr>
     <!--@end-->
     <tr>
-        <th><div> {$identifierForm->title}<em class="require">*</em></div></th>
+        <th>{$identifierForm->title}<em class="require">*</em></th>
         <td class="wide">
         	<input type="text" name="{$identifierForm->name}" value="{$identifierForm->value}" class="iText" /> <p>{$lang->about_user_id}</p> </td>
     </tr>
     <tr>
-        <th><div> {$lang->password}<em class="require">*</em></div></th>
+        <th>{$lang->password}<em class="require">*</em></th>
         <td><input type="password" name="password" value="" class="iText"/><p>{$lang->about_password}</p></td>
     </tr>
     <tr>
-        <th><div> {$lang->password2}<em class="require">*</em></div></th>
+        <th> {$lang->password2}<em class="require">*</em></th>
         <td><input type="password" name="password2" value="" class="iText"/></td>
     </tr>
 	<tr loop="$formTags=>$formTag">
-		<th><div>{$formTag->title}</div></th>
+		<th>{$formTag->title}</th>
 		<td cond="$formTag->name != 'signature'">{$formTag->inputTag}</td>
 		<td cond="$formTag->name =='signature'">{$editor}</td>
 	</tr>
     <tr>
-        <th><div>{$lang->allow_mailing}</div></th>
+        <th>{$lang->allow_mailing}</th>
 		<td>
 			<input type="radio" name="allow_mailing" id="mailingYes" value="Y" checked="checked"|cond="$member_info->allow_mailing == 'Y'"> <label for="mailingYes">{$lang->cmd_yes}</label>
 			<input type="radio" name="allow_mailing" id="mailingNo" value="N" checked="checked"|cond="$member_info->allow_mailing != 'Y'" > <label for="mailingNo">{$lang->cmd_no}</label>
 		</td>
     </tr>
     <tr>
-        <th><div>{$lang->allow_message}</div></th>
+        <th>{$lang->allow_message}</th>
 		<td>
 			<block loop="$lang->allow_message_type=>$key,$val">
 				<input type="radio" name="allow_message" value="{$key}" checked="checked"|cond="$member_info->allow_message == $key" id="allow_{$key}" /> <label for="allow_{$key}">{$val}</label>
@@ -76,7 +76,7 @@
 		</td>
     </tr>
     <tr cond="class_exists('AddonCaptcha') && $oCaptcha && $oCaptcha->addon_info->apply_signup=='apply'">
-        <th><div>{$lang->captcha}</div></th>
+        <th>{$lang->captcha}</th>
 		<td>
 			{$oCaptcha->inlineDisplay()}
 		</td>
