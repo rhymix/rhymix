@@ -11,10 +11,25 @@
 
 	<form ruleset="@insertMember" id="fo_insert_member" class="form" action="./" method="post" enctype="multipart/form-data">
     <input type="hidden" name="act" value="procMemberInsert" />
-    <table cellspacing="0" class="signupTable">
-	<caption><span>Sign Up</span></caption>
+    <table cellspacing="0" cellpadding="0" class="signupTable">
+    <caption><span class="cap_left">Sign Up</span><span class="cap_right"></span></caption>
+    
+    <tfoot>
+    <tr class="button_tr">
+        <th class="button_col" colspan="2">
+            <!-- <span class="bl_bg"></span> -->
+            <div class="btm_bg">
+            <div class="br_bg">
+                <span class="grayBtn"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+                <a href="{getUrl('act','','member_srl','')}" class="whiteBtn"><span>{$lang->cmd_cancel}</span></a>
+            </div>
+            <div/>
+        </th>
+    </tr>
+    </tfoot>
+    <tbody>
     <tr>
-        <th colspan="2" class="title"><div>{$lang->member_default_info}</div></th>
+        <th colspan="2" class="title">{$lang->member_default_info}</th>
     </tr>
     <!--@if(!$is_logged && $member_config->agreement)-->
 	<tr class="agreement">
@@ -30,7 +45,7 @@
     <tr>
         <th><div> {$identifierForm->title}<em class="require">*</em></div></th>
         <td class="wide">
-        	<input type="text" name="{$identifierForm->name}" value="{$identifierForm->value}" /> <p>{$lang->about_user_id}</p> </td>
+        	<input type="text" name="{$identifierForm->name}" value="{$identifierForm->value}" class="iText" /> <p>{$lang->about_user_id}</p> </td>
     </tr>
     <tr>
         <th><div> {$lang->password}<em class="require">*</em></div></th>
@@ -66,12 +81,7 @@
 			{$oCaptcha->inlineDisplay()}
 		</td>
     </tr>
-    <tr>
-        <th class="button_col" colspan="2">
-            <span class="grayBtn"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
-            <a href="{getUrl('act','','member_srl','')}" class="whiteBtn"><span>{$lang->cmd_cancel}</span></a>
-        </th>
-    </tr>
+    </tbody>
     </table>
 </form>
 
