@@ -9,7 +9,7 @@ function completeGenerateCode(ret_obj) {
     var widget_code = ret_obj["widget_code"];
         widget_code = widget_code.replace(/&/g, "&amp;");
         widget_code = widget_code.replace(/\'/g, "&apos;");
-    var zone = xGetElementById("widget_code");
+    var zone = get_by_id("widget_code");
     zone.value = widget_code;
 }
 
@@ -29,13 +29,13 @@ function completeGenerateCodeInPage(ret_obj,response_tags,params,fo_obj) {
 function doDisplaySkinColorset(sel, colorset) {
     var skin = sel.options[sel.selectedIndex].value;
     if(!skin) {
-        xGetElementById("colorset_area").style.display = "none";
+        get_by_id("colorset_area").style.display = "none";
         setFixedPopupSize();
         return;
     }
 
     var params = new Array();
-    params["selected_widget"] = xGetElementById("fo_widget").selected_widget.value;
+    params["selected_widget"] = get_by_id("fo_widget").selected_widget.value;
     params["skin"] = skin;
     params["colorset"] = colorset;
 
@@ -75,8 +75,8 @@ function getWidgetVars() {
     if(!opener || !opener.selectedWidget || !opener.selectedWidget.getAttribute("widget")) return;
     selected_node = opener.selectedWidget;
 
-    if(!xGetElementById('fo_widget').widgetstyle.value) {
-        xGetElementById('fo_widget').widgetstyle.value = selected_node.getAttribute('widgetstyle');
+    if(!get_by_id('fo_widget').widgetstyle.value) {
+        get_by_id('fo_widget').widgetstyle.value = selected_node.getAttribute('widgetstyle');
     }
 
     doFillWidgetVars();
@@ -93,7 +93,7 @@ function doFillWidgetVars() {
     var widget_sequence = parseInt(selected_node.getAttribute("widget_sequence"),10);
 
     var fo_widget = jQuery("#fo_widget");
-    var fo_obj = xGetElementById("fo_widget");
+    var fo_obj = get_by_id("fo_widget");
     jQuery('#widget_skin').val(skin);
 
     // 위젯 스타일 유지를 위한 hidden input 추가하고 값을 저장
@@ -177,8 +177,8 @@ function doFillWidgetVars() {
 
 
     //  컬러셋 설정
-    if(skin && xGetElementById("widget_colorset") && xGetElementById("widget_colorset").options.length<1 && colorset) {
-        doDisplaySkinColorset(xGetElementById("widget_skin"), colorset);
+    if(skin && get_by_id("widget_colorset") && get_by_id("widget_colorset").options.length<1 && colorset) {
+        doDisplaySkinColorset(get_by_id("widget_skin"), colorset);
     }
 
     // widget sequence 설정
@@ -188,7 +188,7 @@ function doFillWidgetVars() {
 function checkFixType(obj) {
     var val = obj.options[obj.selectedIndex].value;
     if(val != "px") {
-        var fo_obj = xGetElementById("fo_widget");
+        var fo_obj = get_by_id("fo_widget");
         var width = fo_obj.widget_width.value;
         if(width>100) fo_obj.widget_width.value = 100;
     }
@@ -196,8 +196,8 @@ function checkFixType(obj) {
 
 // 위젯의 대상 모듈 입력기 (단일 선택)
 function insertSelectedModule(id, module_srl, mid, browser_title) {
-    var obj= xGetElementById('_'+id);
-    var sObj = xGetElementById(id);
+    var obj= get_by_id('_'+id);
+    var sObj = get_by_id(id);
     sObj.value = module_srl;
     obj.value = browser_title+' ('+mid+')';
 
@@ -215,7 +215,7 @@ function insertSelectedModules(id, module_srl, mid, browser_title) {
 }
 
 function midMoveUp(id) {
-    var sel_obj = xGetElementById('_'+id);
+    var sel_obj = get_by_id('_'+id);
     if(sel_obj.selectedIndex<0) return;
     var idx = sel_obj.selectedIndex;
 
@@ -235,7 +235,7 @@ function midMoveUp(id) {
 }
 
 function midMoveDown(id) {
-    var sel_obj = xGetElementById('_'+id);
+    var sel_obj = get_by_id('_'+id);
     if(sel_obj.selectedIndex<0) return;
     var idx = sel_obj.selectedIndex;
 
@@ -255,7 +255,7 @@ function midMoveDown(id) {
 }
 
 function midRemove(id) {
-    var sel_obj = xGetElementById('_'+id);
+    var sel_obj = get_by_id('_'+id);
     if(sel_obj.selectedIndex<0) return;
     var idx = sel_obj.selectedIndex;
     sel_obj.remove(idx);
@@ -305,7 +305,7 @@ function completeGetModuleSrlList(ret_obj, response_tags) {
 }
 
 function getModuleSrl(id) {
-    var obj = xGetElementById(id);
+    var obj = get_by_id(id);
     if(!obj.value) return;
     var value = obj.value;
     var params = new Array();
@@ -318,8 +318,8 @@ function getModuleSrl(id) {
 
 function completeGetModuleSrl(ret_obj, response_tags) {
     var id = ret_obj['id'];
-    var obj = xGetElementById('_'+id);
-    var sObj = xGetElementById(id);
+    var obj = get_by_id('_'+id);
+    var sObj = get_by_id(id);
     if(!sObj || !obj) return;
 
     var module_list = ret_obj['module_list'];

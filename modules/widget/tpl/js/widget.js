@@ -18,13 +18,10 @@ function getStyle(obj) {
 
 // float: 값을 구하는게 IE랑 그외가 다름
 function getFloat(obj) {
-    var cssFloat = xIE4Up?obj.style.styleFloat:obj.style.cssFloat;
-    if(!cssFloat) cssFloat = 'left';
-    return cssFloat;
+	return jQuery(obj).css('float');
 }
 function setFloat(obj, fl) {
-    if(xIE4Up) obj.style.styleFloat = fl;
-    else obj.style.cssFloat = fl;
+	jQuery(obj).css('float', fl);
 }
 
 // padding값을 구하는 함수 (없을 경우 0으로 세팅), zbxe의 위젯에서만 사용
@@ -39,7 +36,7 @@ function getPadding(obj, direct) {
 var zonePageObj = null;
 var zoneModuleSrl = 0;
 function doStartPageModify(zoneID, module_srl) {
-    zonePageObj = xGetElementById(zoneID);
+    zonePageObj = get_by_id(zoneID);
     zoneModuleSrl = module_srl;
 
     // 위젯 크기/여백 조절 레이어를 가장 밖으로 뺌
@@ -100,9 +97,9 @@ function getContentWidgetCode(childObj, widget) {
     var cobj = childObj.firstChild;
 
     var widgetContent = jQuery('div.widgetContent',childObj);
-    var body = '';
+    var body = '', attrs = '', code = '';
     var document_srl = 0;
-    var attrs ='';
+	var toIgnore = 'contenteditable,id,style,src,widget,body,class,widget_width,widget_width_type,xdpx,xdpy,height,document_srl,widget_padding_left,widget_padding_right,widget_padding_top,widget_padding_bottom,hascontent';
 
     if(widgetContent.size() > 0){
         document_srl = jQuery(childObj).attr('document_srl');
@@ -112,6 +109,7 @@ function getContentWidgetCode(childObj, widget) {
             body = widgetContent.html();
         }
 
+		var reIgnore = new RegExp('^('+toIgnore.replace(/,/g, '|')+')$','i');
 
         for(var i=0;i<childObj.attributes.length;i++) {
             if(!childObj.attributes[i].nodeName || !childObj.attributes[i].nodeValue) continue;
@@ -138,10 +136,13 @@ function getContentWidgetCode(childObj, widget) {
             if(!value) continue;
             attrs += name+'="'+escape(value)+'" ';
         }
+
         return '<img hasContent="true" class="zbxe_widget_output" widget="widgetContent" style="'+getStyle(childObj)+'" body="'+body+'" document_srl="'+document_srl+'" widget_padding_left="'+getPadding(childObj,'left')+'" widget_padding_right="'+getPadding(childObj, 'right')+'" widget_padding_top="'+getPadding(childObj, 'top')+'" widget_padding_bottom="'+getPadding(childObj,'bottom')+'" '+attrs+' />';
     }else{
         return '';
     }
+
+	return code;
 }
 
 // 위젯 박스 코드 구함
@@ -207,7 +208,7 @@ function doAddContent(mid) {
 function doSyncPageContent() {
     if(opener && opener.selectedWidget) {
 
-        var fo_obj = xGetElementById("content_fo");
+        var fo_obj = get_by_id("content_fo");
         var sel_obj = opener.selectedWidget;
         fo_obj.style.value = getStyle(opener.selectedWidget);
         fo_obj.widget_padding_left.value = getPadding(sel_obj, 'left');
@@ -222,7 +223,7 @@ function doSyncPageContent() {
                 try {
                     var content = Base64.decode(xInnerHtml(obj));
                     content = editorReplacePath(content);
-                    xGetElementById("content_fo").content.value = content;
+                    get_by_id("content_fo").content.value = content;
                     xe.Editors["1"].exec("SET_IR", [content]);
                 }
                 catch(e)
@@ -323,7 +324,7 @@ function doAddWidget(fo) {
 
 // widgetBorder에 height를 widgetOutput와 맞춰줌
 function doFitBorderSize() {
-    var obj_list = xGetElementsByClassName('widgetBorder', zonePageObj);
+    var obj_list = jQuery('.widgetBorer', zonePageObj).get();
     for(var i=0;i<obj_list.length;i++) {
         var obj = obj_list[i];
         var height = xHeight(obj.parentNode);
@@ -331,7 +332,7 @@ function doFitBorderSize() {
         xHeight(obj, height);
         obj.parentNode.style.clear = '';
     }
-    var obj_list = xGetElementsByClassName('widgetBoxBorder', zonePageObj);
+    var obj_list = jQuery('.widgetBoxBorder', zonePageObj).get();
     for(var i=0;i<obj_list.length;i++) {
         var obj = obj_list[i];
         xHeight(obj, xHeight(obj.parentNode));
@@ -436,7 +437,7 @@ function doAddWidgetCode(widget_code) {
         selectedWidget.parentNode.insertBefore(obj, selectedWidget);
         selectedWidget.parentNode.removeChild(selectedWidget);
     } else {
-        xGetElementById('zonePageContent').appendChild(obj);
+        get_by_id('zonePageContent').appendChild(obj);
     }
     checkDocumentWrite = false;
     selectedWidget = null;
@@ -449,7 +450,7 @@ function doAddWidgetCode(widget_code) {
     // 위젯 추가후 페이지 리로딩
     var tpl = getWidgetContent();
 
-    var fo_obj = xGetElementById('pageFo');
+    var fo_obj = get_by_id('pageFo');
     fo_obj.content.value = tpl;
     fo_obj.mid.value = current_mid;
     fo_obj.submit();
@@ -704,7 +705,7 @@ function doShowWidgetSizeSetup(px, py, obj) {
 
 function doHideWidgetSizeSetup() {
 	jQuery('#pageSizeLayer').hide();
-	//var layer = xGetElementById("pageSizeLayer");
+	//var layer = get_by_id("pageSizeLayer");
     //layer.style.visibility = "hidden";
     //layer.style.display = "none";
 }
@@ -855,7 +856,7 @@ function doApplyWidgetSize(fo_obj) {
         }
         params["style"] = getStyle(selectedWidget);
 		params["selected_widget"] = widget;
-        params["module_srl"] = xGetElementById("pageFo").module_srl.value;
+        params["module_srl"] = get_by_id("pageFo").module_srl.value;
 
         exec_xml('widget','procWidgetGenerateCodeInPage',params,function(ret_obj) { doAddWidgetCode(ret_obj["widget_code"]);  },new Array('error','message','widget_code','tpl','css_header'));
     }
@@ -864,14 +865,14 @@ function doApplyWidgetSize(fo_obj) {
 
 var hideElements = new Array();
 function restoreWidgetButtons() {
-    var widgetButton = xGetElementById('widgetButton');
-    var boxWidgetButton = xGetElementById('widgetBoxButton');
+    var widgetButton = get_by_id('widgetButton');
+    var boxWidgetButton = get_by_id('widgetBoxButton');
     if(!widgetButton || !boxWidgetButton) return;
 
     widgetButton.style.visibility = 'hidden';
-    xGetElementById("zonePageContent").parentNode.appendChild(widgetButton);
+    get_by_id("zonePageContent").parentNode.appendChild(widgetButton);
     boxWidgetButton.style.visibility = 'hidden';
-    xGetElementById("zonePageContent").parentNode.appendChild(boxWidgetButton);
+    get_by_id("zonePageContent").parentNode.appendChild(boxWidgetButton);
 
     for(var i=0;i<hideElements.length;i++) {
         var obj = hideElements[0];
@@ -881,7 +882,7 @@ function restoreWidgetButtons() {
 }
 
 function showWidgetButton(name, obj) {
-    var widgetButton = xGetElementById(name);
+    var widgetButton = get_by_id(name);
     if(!widgetButton) return;
     widgetButton.style.visibility = 'visible';
     obj.insertBefore(widgetButton, obj.firstChild);
@@ -1308,7 +1309,7 @@ function widgetDragMouseMove(e) {
 // 해당 object 에 더 이상 drag가 되지 않도록 설정
 function widgetDragDisable(id) {
     if (!widgetDragManager) return;
-    var obj = xGetElementById(id);
+    var obj = get_by_id(id);
     obj.draggable = false;
     obj.dragStart = null;
     obj.drag = null;
