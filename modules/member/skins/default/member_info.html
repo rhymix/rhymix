@@ -60,12 +60,9 @@
     </table>
 </div>
 <div class="btnArea" cond="$memberInfo['member_srl'] == $logged_info->member_srl">
+	<span class="btn" cond="$member_config->identifier == 'email_address'"><a href="{getUrl('act', 'dispMemberModifyEmailAddress')}">{$lang->cmd_modify_member_email_address}</a></span>
 	<span class="btn"><a href="{getUrl('act','dispMemberModifyInfo','member_srl','')}">{$lang->cmd_modify_member_info}</a></span>
-	<!--@if($logged_info->is_openid)-->
-	<span class="btn"><a href="{getUrl('act','dispMemberOpenIDLeave','member_srl','')}">{$lang->cmd_leave}</a></span>
-	<!--@else-->
 	<span class="btn"><a href="{getUrl('act','dispMemberModifyPassword','member_srl','')}">{$lang->cmd_modify_member_password}</a></span>
 	<span class="btn"><a href="{getUrl('act','dispMemberLeave','member_srl','')}">{$lang->cmd_leave}</a></span>
-	<!--@end-->
 </div>
 <include target="./common_footer.html" />

@@ -6,6 +6,7 @@
     <actions>
         <action name="dispMemberInfo" type="view" standalone="true" />
         <action name="dispMemberSignUpForm" type="view" standalone="true" />
+        <action name="dispMemberModifyEmailAddress" type="view" />
         <action name="dispMemberModifyInfo" type="view" standalone="true" />
         <action name="dispMemberModifyPassword" type="view" standalone="true" />
         <action name="dispMemberLoginForm" type="view" standalone="true" />
@@ -46,6 +47,7 @@
         <action name="procMemberLogout" type="controller" standalone="true" />
         <action name="procMemberCheckValue" type="controller" standalone="true" />
         <action name="procMemberInsert" type="controller" standalone="true" ruleset="@insertMember" />
+        <action name="procMemberModifyEmailAddress" type="controller" ruleset="modifyEmailAddress" />
         <action name="procMemberModifyInfo" type="controller" standalone="true" ruleset="@insertMember" />
         <action name="procMemberModifyPassword" type="controller" standalone="true" ruleset="modifyPassword" />
         <action name="procMemberLeave" type="controller" standalone="true" ruleset="leaveMember" />
@@ -67,6 +69,7 @@
         <action name="procMemberFindAccount" type="controller" standalone="true" />
         <action name="procMemberFindAccountByQuestion" type="controller" standalone="true" />
         <action name="procMemberAuthAccount" type="controller" standalone="true" />
+        <action name="procMemberAuthEmailAddress" type="controller" />
         <action name="procMemberUpdateAuthMail" type="controller" standalone="true" />
 		<action name="procMemberResendAuthMail" type="controller" standalone="true" ruleset="resendAuthMail" />
 

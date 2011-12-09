@@ -1,0 +1,13 @@
+<query id="updateMemberEmailAddress" action="update">
+    <tables>
+        <table name="member" />
+    </tables>
+    <columns>
+        <column name="email_address" var="email_address" notnull="notnull" />
+        <column name="email_id" var="email_id" notnull="notnull" />
+        <column name="email_host" var="email_host" notnull="notnull" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="member_srl" var="member_srl" notnull="notnull" filter="number" />
+    </conditions>
+</query>
