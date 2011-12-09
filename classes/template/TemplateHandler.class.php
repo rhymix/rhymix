@@ -301,7 +301,7 @@ class TemplateHandler {
 		$src = str_replace('/./', '/', $src);
 
 		// for backward compatibility
-		$src = preg_replace('@((?:[\w-]+/)+)\1@', '\1', $src);
+		$src = preg_replace('@/((?:[\w-]+/)+)\1@', '/\1', $src);
 
 		while(($tmp=preg_replace('@[^/]+/\.\./@', '', $src))!==$src) $src = $tmp;
 
