@@ -6,18 +6,27 @@
 <form action="./" method="post" onsubmit="return procFilter(this, resend_auth_mail)">
     <h3 class="pTitle">{$lang->cmd_resend_auth_mail}</h3>
     <table cellspacing="0" class="signupTable">
-	<caption><span>{$lang->cmd_resend_auth_mail}</span></caption>
-
+	<caption><span class="cap_left">{$lang->cmd_resend_auth_mail}</span><span class="cap_right"></span></caption>
+<tfoot>
+    <tr class="button_tr">
+        <th class="button_col" colspan="2">
+            <div class="btm_bg">
+                <div class="br_bg">
+                    <span class="button black"><input type="submit" value="{$lang->cmd_resend_auth_mail}" /></span>
+                </div>
+            </div>
+        </th>
+    </tr>
+    </tfoot>
+    <tbody>
         <tr>
             <th scope="row" class="w200">{$lang->email_address}</th>
             <td><input type="text" name="email_address" value="" class="iText" />
 				<p class="cap_iText">{$lang->about_resend_auth_mail}</p>
 			</td>
         </tr>
-        <tr class="btnbar_vat">
-            <th colspan="2" class="button_col"><span class="button black"><input type="submit" value="{$lang->cmd_resend_auth_mail}" /></span></th>
-        </tr>
-    
+        
+    </tbody>
     </table>
 
 </form>
