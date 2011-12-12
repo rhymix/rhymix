@@ -232,7 +232,7 @@
 				$args->site_srl = (int)$site_module_info->site_srl;
 				$args->layout_srl = getNextSequence();
 				$args->layout = $layout_info->name;
-				$args->title = $layout_info->name.'InTheme';
+				$args->title = $layout_info->name;
 				$args->layout_type = "P";
 				// Insert into the DB
 				$oLayoutAdminController = &getAdminController('layout');
