@@ -143,7 +143,6 @@ function getWidgetBoxCode(childObj, widget) {
         attrs += name+'="'+escape(value)+'" ';
     }
 
-
     var o;
 
     if(jQuery('.widget_inner',childObj).size()>0){
@@ -155,11 +154,7 @@ function getWidgetBoxCode(childObj, widget) {
 
     var body = getWidgetContent(o);
     return '<div widget="widgetBox" style="'+getStyle(childObj)+'" widget_padding_left="'+getPadding(childObj,'left')+'" widget_padding_right="'+getPadding(childObj,'right')+'" widget_padding_top="'+getPadding(childObj, 'top')+'" widget_padding_bottom="'+getPadding(childObj, 'bottom')+'" '+attrs+'><div><div>'+body+'</div></div></div>';
-
 }
-
-
-
 
 // 일반 위젯 컨텐츠 코드 구함
 function getWidgetCode(childObj, widget) {
