@@ -1945,7 +1945,7 @@ var FileWriter = xe.createPlugin('FileWriter', {
 	}
 
 });
-editor.registerPlugin(new FileWriter);
+if(window.reloadFileList) editor.registerPlugin(new FileWriter);
 
 // List Writer
 var ListWriter = xe.createPlugin('ListWriter', {
