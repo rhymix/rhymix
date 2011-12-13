@@ -13,6 +13,7 @@ function getStyle(obj) {
         style = obj.style;
     }
     if(typeof(style)=="object") style = style["cssText"];
+	style = style.replace(/\burl\s*\(\s*"(.*?)"\s*\)/i, "url('$1')");
     return style;
 }
 
