@@ -74,19 +74,19 @@ function getWidgetContent(obj) {
 
     var widget = null;
     jQuery('div.widgetOutput',obj).each(function(){
-    if(jQuery(this).parent().get(0) != obj) return;
+		if(jQuery(this).parent().get(0) != obj) return;
         widget = jQuery(this).attr('widget');
-            switch(widget) {
-                case 'widgetBox' :
-                        html += getWidgetBoxCode(this, widget);
-                    break;
-                case 'widgetContent' :
-                        html += getContentWidgetCode(this, widget);
-                    break;
-                default :
-                        html += getWidgetCode(this, widget);
-                    break;
-            }
+		switch(widget) {
+			case 'widgetBox' :
+				html += getWidgetBoxCode(this, widget);
+				break;
+			case 'widgetContent' :
+				html += getContentWidgetCode(this, widget);
+				break;
+			default :
+				html += getWidgetCode(this, widget);
+				break;
+		}
     });
 
     return html;
@@ -110,30 +110,13 @@ function getContentWidgetCode(childObj, widget) {
         }
 
 		var reIgnore = new RegExp('^('+toIgnore.replace(/,/g, '|')+')$','i');
+		var value;
 
         for(var i=0;i<childObj.attributes.length;i++) {
             if(!childObj.attributes[i].nodeName || !childObj.attributes[i].nodeValue) continue;
-            var name = childObj.attributes[i].nodeName.toLowerCase();
-            if(name == "contenteditable"
-                || name == "id"
-                || name=="style"
-                || name=="src"
-                || name=="widget"
-                || name == "body"
-                || name == "class"
-                || name == "widget_width"
-                || name == "widget_width_type"
-                || name == "xdpx"
-                || name == "xdpy"
-                || name == "height"
-                || name == "document_srl"
-                || name == "widget_padding_left"
-                || name == "widget_padding_right"
-                || name == "widget_padding_top"
-                || name == "widget_padding_bottom"
-				|| name == "hasContent") continue;
-            var value = childObj.attributes[i].nodeValue;
-            if(!value) continue;
+			if(reIgnore.test(childObj.attributes[i].nodeName)) continue;
+            if(!(value=childObj.attributes[i].nodeValue)) continue;
+
             attrs += name+'="'+escape(value)+'" ';
         }
 
@@ -246,52 +229,62 @@ function addContentWidget(fo_obj) {
     var module_srl = fo_obj.module_srl.value;
     var document_srl = fo_obj.document_srl.value;
     var content = editorGetContent(editor_sequence);
-    var response_tags = new Array('error','message','document_srl');
-    var params = new Array();
-    params['editor_sequence'] = editor_sequence;
-    params['content'] = content;
-    params['module_srl'] = module_srl;
-    params['document_srl'] = document_srl;
-    exec_xml('widget',"procWidgetInsertDocument",params,completeAddContent,response_tags,params,fo_obj);
+    var params = {
+		editor_sequence : editor_sequence,
+		content      : content,
+		module_srl   : module_srl,
+		document_srl : document_srl
+	};
+
+	// issue 979
+	if(/^\s*<p>.*<\/p>\s*$/i.test(params.content)) {
+		// get count of paragraphs
+		var lowerContent = params.content.toLowerCase();
+		var idx = lowerContent.indexOf('</p>');
+		var last_idx = lowerContent.lastIndexOf('</p>');
+
+		if(idx > 0 && last_idx > 0 && idx == last_idx) {
+			params.content = content = params.content.replace(/^\s*<p>|<\/p>\s*$/ig, '');
+		}
+	}
+
+	exec_xml(
+		'widget',
+		'procWidgetInsertDocument',
+		params,
+		function(ret_obj, response_tags) {
+			if(!ret_obj || ret_obj.error != '0') return;
+
+			var document_srl  = ret_obj.document_srl;
+			var contentWidget = opener.jQuery('div.widgetOutput[widget=widgetContent][document_srl='+document_srl+']'), attr = [];
+
+			if(contentWidget.size() > 0) {
+				attr = contentWidget.get(0).attributes;
+			}
+
+			var tpl = ''+
+				'<div class="widgetOutput" style="'+fo_obj.style.value+'" widget_padding_left="'+fo_obj.widget_padding_left.value+'" widget_padding_right="'+fo_obj.widget_padding_right.value+'" widget_padding_top="'+fo_obj.widget_padding_top.value+'" widget_padding_bottom="'+fo_obj.widget_padding_bottom.value+'" document_srl="'+document_srl+'" widget="widgetContent">'+
+				'<button type="button" class="widgetResize"></button>'+
+				'<button type="button" class="widgetResizeLeft"></button>'+
+				'<div class="widgetBorder">'+
+				'<div style="padding:'+fo_obj.widget_padding_top.value+'px '+fo_obj.widget_padding_right.value+'px'+fo_obj.widget_padding_bottom.value+'px'+fo_obj.widget_padding_left.value+'px"></div>'+content+
+				'</div>'+
+				'<div class="widgetContent" style="display:none;width:1px;height:1px;overflow:hidden;"></div>'+
+				'</div>';
+
+			var $tpl = jQuery(tpl);
+			for(var i=0,l=attr.length; i < l; i++) {
+				if(!$tpl.attr(attr[i].name)) $tpl.attr(attr[i].name, attr[i].value);
+			}
+			tpl = jQuery('<div>').append($tpl).html();
+			opener.doAddWidgetCode(tpl);
+			window.close();
+		},
+		'document_srl'.split(',') // response tags
+	);
+
     return false;
 
-}
-
-function completeAddContent(ret_obj, response_tags, params, fo_obj) {
-    var document_srl = ret_obj['document_srl'];
-
-    var contentWidget = opener.jQuery('div.widgetOutput[widget=widgetContent][document_srl='+document_srl+']');
-    var attr = null;
-    if(contentWidget.size()>0) {
-        attr = contentWidget.get(0).attributes;
-    }
-
-    var editor_sequence = params['editor_sequence'];
-    var content = editorGetContent(editor_sequence);
-
-    var tpl = ''+
-        '<div class="widgetOutput" style="'+fo_obj.style.value+'" widget_padding_left="'+fo_obj.widget_padding_left.value+'" widget_padding_right="'+fo_obj.widget_padding_right.value+'" widget_padding_top="'+fo_obj.widget_padding_top.value+'" widget_padding_bottom="'+fo_obj.widget_padding_bottom.value+'" document_srl="'+document_srl+'" widget="widgetContent">'+
-        '<button type="button" class="widgetResize"></button>'+
-        '<button type="button" class="widgetResizeLeft"></button>'+
-        '<div class="widgetBorder">'+
-        '<div style="padding:'+fo_obj.widget_padding_top.value+'px '+fo_obj.widget_padding_right.value+'px'+fo_obj.widget_padding_bottom.value+'px'+fo_obj.widget_padding_left.value+'px"></div>'+content+
-        '</div>'+
-        '<div class="widgetContent" style="display:none;width:1px;height:1px;overflow:hidden;"></div>'+
-        '</div>';
-
-    var oTpl = jQuery(tpl);
-    if(attr) {
-        jQuery.each(attr,function(i){
-            if(!oTpl.attr(attr[i].name)){
-                oTpl.attr(attr[i].name,attr[i].value);
-            }
-        });
-    }
-
-    oTpl = jQuery('<div>').append(oTpl);
-    tpl = oTpl.html();
-    opener.doAddWidgetCode(tpl);
-    window.close();
 }
 
 /* 박스 위젯 추가 */
@@ -304,7 +297,7 @@ function doAddWidgetBox() {
             '<div class="nullWidget" style="width:100%;height:100px;"></div>'+
         '</div>'+
     '</div>';
-    xInnerHtml(zonePageObj, xInnerHtml(zonePageObj)+tpl);
+	zonePageObj.innerHTML += tpl;
     doFitBorderSize();
 }
 
@@ -355,8 +348,7 @@ window.document.write = window.document.writeln = function(str){
     if ( !window.opera ) str = str.replace(/&(?![#a-z0-9]+;)/g, "&");
     str = str.replace(/(<[a-z]+)/g, "$1 xmlns='http://www.w3.org/1999/xhtml'");
 
-    var div = xCreateElement("DIV");
-    xInnerHtml(div, str);
+    var div = jQuery('<div>').html(str)[0];
 
     var pos;
     pos = document.getElementsByTagName("*");
