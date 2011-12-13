@@ -99,7 +99,7 @@
         }
 
         function allowComment() {
-            if(!$this->isExists()) return true;
+            if(!$this->isExists()) return false;
 
             return $this->get('comment_status') == 'ALLOW' ? true : false;
         }
