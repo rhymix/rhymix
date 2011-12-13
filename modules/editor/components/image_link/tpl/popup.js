@@ -86,7 +86,6 @@
         else if($form.find('#align_middle').attr('checked') == true) align = 'middle';
         else if($form.find('#align_right').attr('checked') == true) align = 'right';
 
-
         var width = $form.find('#width').val();
         var height = $form.find('#height').val();
 
@@ -126,13 +125,18 @@
         $component.find('img').attr(img_attrs);
         $component.find('img').css(img_style);
 
-        text = $component.html();
-
-        opener.editorFocus(opener.editorPrevSrl);
-
         var iframe_obj = opener.editorGetIFrame(opener.editorPrevSrl)
 
-        opener.editorReplaceHTML(iframe_obj, text);
+		try {
+			var prevNode = opener.editorPrevNode;
+			prevNode.parentNode.insertBefore($component.find('img').get(0), prevNode);
+			prevNode.parentNode.removeChild(prevNode);
+		}catch(e){
+			try {
+				text = $component.html();
+				opener.editorReplaceHTML(iframe_obj, text);
+			} catch(ee) { }
+		};
         opener.editorFocus(opener.editorPrevSrl);
 
         window.close();

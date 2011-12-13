@@ -165,7 +165,9 @@ function editorStart(editor_sequence, primary_key, content_key, editor_height, f
 
     // 위젯 감시를 위한 더블클릭 이벤트 걸기
     try {
-        xAddEventListener(iframe_obj.contentWindow.document,'dblclick',editorSearchComponent);
+		jQuery(iframe_obj.contentWindow.document)
+			.unbind('dblclick.widget')
+			.bind('dblclick.widget', editorSearchComponent);
     } catch(e) {
     }
 
