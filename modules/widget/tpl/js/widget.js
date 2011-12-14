@@ -98,7 +98,7 @@ function getContentWidgetCode(childObj, widget) {
     var cobj = childObj.firstChild;
 
     var widgetContent = jQuery('div.widgetContent',childObj);
-    var body = '', attrs = '', code = '';
+    var body = '', attrs = '', code = '', name;
     var document_srl = 0;
 	var toIgnore = 'contenteditable,id,style,src,widget,body,class,widget_width,widget_width_type,xdpx,xdpy,height,document_srl,widget_padding_left,widget_padding_right,widget_padding_top,widget_padding_bottom,hascontent';
 
@@ -114,11 +114,11 @@ function getContentWidgetCode(childObj, widget) {
 		var value;
 
         for(var i=0;i<childObj.attributes.length;i++) {
-            if(!childObj.attributes[i].nodeName || !childObj.attributes[i].nodeValue) continue;
-			if(reIgnore.test(childObj.attributes[i].nodeName)) continue;
+            if(!(name=childObj.attributes[i].nodeName) || !childObj.attributes[i].nodeValue) continue;
+			if(reIgnore.test(name)) continue;
             if(!(value=childObj.attributes[i].nodeValue)) continue;
 
-            attrs += name+'="'+escape(value)+'" ';
+            attrs += name+'="'+encodeURIComponent(value)+'" ';
         }
 
         return '<img hasContent="true" class="zbxe_widget_output" widget="widgetContent" style="'+getStyle(childObj)+'" body="'+body+'" document_srl="'+document_srl+'" widget_padding_left="'+getPadding(childObj,'left')+'" widget_padding_right="'+getPadding(childObj, 'right')+'" widget_padding_top="'+getPadding(childObj, 'top')+'" widget_padding_bottom="'+getPadding(childObj,'bottom')+'" '+attrs+' />';
@@ -140,7 +140,7 @@ function getWidgetBoxCode(childObj, widget) {
         if(name == "widget_padding_left" || name == "widget_padding_right" || name == "widget_padding_top" || name == "widget_padding_bottom" || name == "contenteditable" || name == "id" || name=="style" || name=="src" || name=="widget" || name == "body" || name == "class" || name == "widget_width" || name == "widget_width_type" || name == "xdpx" || name == "xdpy" || name == "height") continue;
         var value = childObj.attributes[i].nodeValue;
         if(!value || value == "Array") continue;
-        attrs += name+'="'+escape(value)+'" ';
+        attrs += name+'="'+encodeURIComponent(value)+'" ';
     }
 
     var o;
@@ -168,7 +168,7 @@ function getWidgetCode(childObj, widget) {
         var value = childObj.attributes[i].nodeValue;
         if(!value || value == "Array" || value == "null") continue;
 
-        attrs += name+'="'+escape(value)+'" ';
+        attrs += name+'="'+encdeURIComponent(value)+'" ';
     }
     var style = childObj.getAttribute("style");
     return '<img class="zbxe_widget_output" style="'+getStyle(childObj)+'" widget="'+widget+'" '+attrs+' />';
