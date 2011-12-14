@@ -5,6 +5,7 @@
 <form ruleset="modifyEmailAddress" class="form" action="./" method="post">
 	<input type="hidden" name="module" value="member" />
 	<input type="hidden" name="act" value="procMemberModifyEmailAddress" />
+	<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
 	<h1 class="h1">{$lang->cmd_modify_member_email_address}</h1>
     <p>{$lang->about_modify_member_email_address}</p>
 	<ul>

@@ -934,7 +934,7 @@
 		<value xml:lang="vi"><![CDATA[Xác nhận lại Email]]></value>
 	</item>
 	<item name="cmd_send_auth_new_emaill_address">
-		<value xml:lang="ko"><![CDATA[신규 이메일 인증 메일 발송]]></value>
+		<value xml:lang="ko"><![CDATA[신규 이메일로 인증 메일 발송]]></value>
 	</item>
 	<item name="cmd_member_list">
 		<value xml:lang="ko"><![CDATA[회원 목록]]></value>
