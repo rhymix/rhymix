@@ -2046,7 +2046,14 @@
             $tpl_path = sprintf('%sskins/%s', $this->module_path, $member_config->skin);
             if(!is_dir($tpl_path)) $tpl_path = sprintf('%sskins/%s', $this->module_path, 'default');
 
-			$memberInfo["$lang->email_address"] = $member_info->email_address;
+			global $lang;
+
+			$memberInfo[$lang->email_address] = $member_info->email_address;
+			$memberInfo[$lang->nick_name] = $member_info->nick_name;
+
+			Context::set('memberInfo', $memberInfo);
+
+			Context::set('newEmail', $newEmail);
 
             $auth_url = getFullUrl('','module','member','act','procMemberAuthEmailAddress','member_srl',$member_info->member_srl, 'auth_key',$auth_args->auth_key);
             Context::set('auth_url', $auth_url);

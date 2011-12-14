@@ -5,5 +5,5 @@
     <li loop="$memberInfo=>$name,$value">{$name} : {$value}</li>
 </ul>
 <hr noshade="noshade" />
-{$lang->msg_confirm_email_address_change}<br />
+{sprintf($lang->msg_confirm_email_address_change, $newEmail)}<br />
 <a href="{$auth_url}">{$auth_url}</a>
