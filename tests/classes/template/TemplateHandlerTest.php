@@ -227,6 +227,11 @@ class TemplateHandlerTest extends PHPUnit_Framework_TestCase
 				'<img src="../myxe/xe/img.png" />',
 				'<img src="/xe/tests/classes/myxe/xe/img.png" />'
 			),
+			// issue 696
+			array(
+				'{@ eval(\'$val = $document_srl;\')}',
+				'<?php  eval(\'$__Context->val = $__Context->document_srl;\') ?>'
+			),
 		);
 	}
 
