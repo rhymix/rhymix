@@ -117,17 +117,17 @@
 						<!--@foreach($mskin_list as $key=>$val)-->
 						<option value="{$key}" <!--@if($module_info->mskin==$key ||(!$module_info->mskin && $key=='default'))-->selected="selected"<!--@end-->>{$val->title}</option>
 						<!--@end-->
-						</select>
-					<p>{$lang->about_skin}</p>
-					</td>
-				</tr>
-			<tr>
+					</select>
+				<p>{$lang->about_skin}</p>
+				</td>
+			</tr>
+			<tr class="row optionnalData outsideType">
 				<th scope="row">{$lang->opage_path}</th>
 				<td class="text">
 					<input type="text" name="path" value="{htmlspecialchars($module_info->path)}"  />
 					<p>{$lang->about_opage_path}<b>{realpath("./")}</b></p>
-					</td>
-				</tr>
+				</td>
+			</tr>
 			<tr class="row optionnalData outsideType">
 				<th scope="row">{$lang->opage_mobile_path}</th>
 				<td class="text">
