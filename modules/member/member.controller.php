@@ -1995,6 +1995,7 @@
 			$pointModuleConfig = $oModuleModel->getModuleConfig('point');
 			$pointGroup = $pointModuleConfig->point_group;
 
+			$levelGroup = array();
 			if(is_array($pointGroup) && count($pointGroup)>0)
 			{
 				$levelGroup = array_flip($pointGroup);

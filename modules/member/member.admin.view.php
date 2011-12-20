@@ -222,7 +222,8 @@
 							$functionName = 'doDeleteImageMark';
 						}
 						if($target->src){
-							$inputTag = sprintf('<p class="a"><span id="%s"><img src="%s" alt="%s" /> <button type="button" class="text" onclick="%s(%d);return false;">%s</button></span></p>'
+							$inputTag = sprintf('<p class="a"><input type="hidden" name="__%s_exist" value="true" /><span id="%s"><img src="%s" alt="%s" /> <button type="button" class="text" onclick="%s(%d);return false;">%s</button></span></p>'
+												,$formInfo->name
 												,$formInfo->name.'tag'
 												,$target->src
 												,$formInfo->title
@@ -230,7 +231,8 @@
 												,$memberInfo['member_srl']
 												,$lang->cmd_delete);
 						}
-						$inputTag .= sprintf('<p class="a"><input type="file" name="%s" id="%s" value="" /> <span class="desc">%s : %dpx, %s : %dpx</span></p>'
+						$inputTag .= sprintf('<p class="a"><input type="hidden" name="__%s_exist" value="false" /><input type="file" name="%s" id="%s" value="" /> <span class="desc">%s : %dpx, %s : %dpx</span></p>'
+											 ,$formInfo->name
 											 ,$formInfo->name
 											 ,$formInfo->name
 											 ,$lang->{$formInfo->name.'_max_width'}

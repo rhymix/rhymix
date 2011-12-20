@@ -238,7 +238,6 @@
 
 		function _createSignupRuleset($signupForm, $agreement = null){
 			$xml_file = './files/ruleset/insertMember.xml';
-			$admin_xml_file = './files/ruleset/insertAdmintMember.xml';
 			$buff = '<?xml version="1.0" encoding="utf-8"?>'
 					.'<ruleset version="1.5.0">'
 				    .'<customrules>'
@@ -249,7 +248,7 @@
 			$fields = array();
 			
 			if ($agreement){
-				$fields[] = '<field name="accept_agreement" required="true" />';
+				$fields[] = '<field name="accept_agreement"><if test="$act == \'procMemberInsert\'" attr="required" value="true" /></field>';
 			}
 			foreach($signupForm as $formInfo){
 				if ($formInfo->required || $formInfo->mustRequired){
@@ -259,12 +258,14 @@
 						$fields[] = '<field name="password"><if test="$act == \'procMemberInsert\'" attr="required" value="true" /><if test="$act == \'procMemberInsert\'" attr="length" value="3:20" /></field>';
 						$fields[] = '<field name="password2"><if test="$act == \'procMemberInsert\'" attr="required" value="true" /><if test="$act == \'procMemberInsert\'" attr="equalto" value="password" /></field>';
 					}else if($formInfo->name == 'find_account_question'){
-						$fields[100] = '<field name="find_account_question" required="true" />';
-						$fields[101] = '<field name="find_account_answer" required="true" length=":250"/>';
+						$fields[] = '<field name="find_account_question"><if test="$act != \'procMemberAdminInsert\'" attr="required" value="true" /></field>';
+						$fields[] = '<field name="find_account_answer"><if test="$act != \'procMemberAdminInsert\'" attr="required" value="true" /><if test="$act != \'procMemberAdminInsert\'" attr="length" value=":250" /></field>';
 					}else if($formInfo->name == 'email_address'){
 						$fields[] = sprintf('<field name="%s" required="true" rule="email"/>', $formInfo->name);
 					}else if($formInfo->name == 'user_id'){
 						$fields[] = sprintf('<field name="%s" required="true" rule="userid" length="3:20" />', $formInfo->name);
+					}else if(strpos($formInfo->name, 'image') !== false){
+						$fields[] = sprintf('<field name="%s"><if test="$act != \'procMemberAdminInsert\' &amp;&amp; $__%s_exist != \'true\'" attr="required" value="true" /></field>', $formInfo->name, $formInfo->name);
 					}else{
 						$fields[] = sprintf('<field name="%s" required="true" />', $formInfo->name);
 					}
@@ -275,21 +276,9 @@
             FileHandler::writeFile($xml_file, $xml_buff);
 			unset($xml_buff);
 
-			$adminFields = $fields;
-			$adminFields[100] = '<field name="find_account_question" />';
-			$adminFields[101] = '<field name="find_account_answer" length=":250"/>';
-
-			$xml_buff = sprintf($buff, implode('', $adminFields));
-            FileHandler::writeFile($admin_xml_file, $xml_buff);
-			unset($xml_buff);
-
 			$validator   = new Validator($xml_file);
 			$validator->setCacheDir('files/cache');
 			$validator->getJsPath();
-
-			$adminValidator   = new Validator($admin_xml_file);
-			$adminValidator->setCacheDir('files/cache');
-			$adminValidator->getJsPath();
 		}
 
 		function _createLoginRuleset($identifier){
