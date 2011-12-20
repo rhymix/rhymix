@@ -230,9 +230,10 @@
 												,$functionName
 												,$memberInfo['member_srl']
 												,$lang->cmd_delete);
+						}else{
+							$inputTag = sprintf('<input type="hidden" name="__%s_exist" value="false" />', $formInfo->name);
 						}
-						$inputTag .= sprintf('<p class="a"><input type="hidden" name="__%s_exist" value="false" /><input type="file" name="%s" id="%s" value="" /> <span class="desc">%s : %dpx, %s : %dpx</span></p>'
-											 ,$formInfo->name
+						$inputTag .= sprintf('<p class="a"><input type="file" name="%s" id="%s" value="" /> <span class="desc">%s : %dpx, %s : %dpx</span></p>'
 											 ,$formInfo->name
 											 ,$formInfo->name
 											 ,$lang->{$formInfo->name.'_max_width'}
