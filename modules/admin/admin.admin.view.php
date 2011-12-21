@@ -342,8 +342,6 @@
 
             $db_info = Context::getDBInfo();
 
-			Context::set('sftp_support', function_exists(ssh2_sftp));
-
             Context::set('selected_lang', $db_info->lang_type);
 
 			Context::set('default_url', $db_info->default_url);
@@ -391,6 +389,7 @@
 
             $ftp_info = Context::getFTPInfo();
             Context::set('ftp_info', $ftp_info);
+			Context::set('sftp_support', function_exists(ssh2_sftp));
 
             $this->setTemplateFile('config_ftp');
 

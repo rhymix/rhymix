@@ -61,6 +61,10 @@
 
             if($ftp_info->sftp == 'Y')
             {
+				if(!function_exists(ssh2_sftp))
+				{
+                    return new Object(-1,'disable_sftp_support');
+				}
                 return $this->getSFTPList();
             }
 
