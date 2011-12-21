@@ -168,7 +168,7 @@ function getWidgetCode(childObj, widget) {
         var value = childObj.attributes[i].nodeValue;
         if(!value || value == "Array" || value == "null") continue;
 
-        attrs += name+'="'+encdeURIComponent(value)+'" ';
+        attrs += name+'="'+encodeURIComponent(value)+'" ';
     }
     var style = childObj.getAttribute("style");
     return '<img class="zbxe_widget_output" style="'+getStyle(childObj)+'" widget="'+widget+'" '+attrs+' />';
