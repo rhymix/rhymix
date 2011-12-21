@@ -138,10 +138,11 @@
                 $ftp_password = $_SESSION['ftp_password'];
             }
 
+			$isSftpSupported = function_exists(ssh2_sftp);
             foreach($packages as $package_srl)
             {
                 $package = $oModel->getPackage($package_srl);
-                if($ftp_info->sftp && $ftp_info->sftp == 'Y')
+                if($ftp_info->sftp && $ftp_info->sftp == 'Y' && $isSftpSupported)
                 {
                     $oModuleInstaller = new SFTPModuleInstaller($package);
                 }
@@ -243,7 +244,8 @@
             }
             $ftp_info =  Context::getFTPInfo();
 
-			if($ftp_info->sftp && $ftp_info->sftp == 'Y')
+			$isSftpSupported = function_exists(ssh2_sftp);
+			if($ftp_info->sftp && $ftp_info->sftp == 'Y' && $isSftpSupported)
 			{
 				$oModuleInstaller = new SFTPModuleInstaller($package);
 			}
