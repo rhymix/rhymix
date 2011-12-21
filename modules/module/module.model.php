@@ -1446,21 +1446,26 @@
             return $output;
         }
         
-        function unserializeAttributes($module_filebox_list){
-        	foreach($module_filebox_list->data as $item){
-        		$attributes = explode(';', $item->comment);
-        		foreach($attributes as $attribute){
-        			$values = explode(':', $attribute);
-        			if((count($values) % 2) ==1) {
-        				for($i=2;$i<count($values);$i++){
-        					$values[1].=":".$values[$i];
-        				}
-        			}
-        			$atts[$values[0]]=$values[1];
-        		}
-        		$item->attributes = $atts;
-        		unset($atts);
-        	}
+        function unserializeAttributes($module_filebox_list)
+		{
+			if(is_array($module_filebox_list))
+			{
+				foreach($module_filebox_list->data as $item)
+				{
+					$attributes = explode(';', $item->comment);
+					foreach($attributes as $attribute){
+						$values = explode(':', $attribute);
+						if((count($values) % 2) ==1) {
+							for($i=2;$i<count($values);$i++){
+								$values[1].=":".$values[$i];
+							}
+						}
+						$atts[$values[0]]=$values[1];
+					}
+					$item->attributes = $atts;
+					unset($atts);
+				}
+			}
         	return $module_filebox_list;
         }
 
