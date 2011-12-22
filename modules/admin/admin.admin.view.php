@@ -52,7 +52,7 @@
 		function checkEasyinstall()
 		{
 			$lastTime = (int)FileHandler::readFile($this->easyinstallCheckFile);
-			if ($lastTime > $_SERVER['REQUEST_TIME'] - 60*60*24*30) return;
+			if ($lastTime > time() - 60*60*24*30) return;
 
 			$oAutoinstallModel = &getModel('autoinstall');
 			$params = array();
@@ -80,7 +80,7 @@
 
 		function _markingCheckEasyinstall()
 		{
-			$currentTime = $_SERVER['REQUEST_TIME'];
+			$currentTime = time();
 			FileHandler::writeFile($this->easyinstallCheckFile, $currentTime);
 		}
 
@@ -213,7 +213,7 @@
          **/
         function dispAdminIndex() {
             // Get statistics
-            $args->date = date("Ymd000000", $_SERVER['REQUEST_TIME']-60*60*24);
+            $args->date = date("Ymd000000", time()-60*60*24);
             $today = date("Ymd");
 
             // Member Status
@@ -280,7 +280,7 @@
             //Retrieve recent news and set them into context
             $newest_news_url = sprintf("http://news.xpressengine.com/%s/news.php?version=%s&package=%s", _XE_LOCATION_, __ZBXE_VERSION__, _XE_PACKAGE_);
             $cache_file = sprintf("%sfiles/cache/newest_news.%s.cache.php", _XE_PATH_, _XE_LOCATION_);
-            if(!file_exists($cache_file) || filemtime($cache_file)+ 60*60 < $_SERVER['REQUEST_TIME']) {
+            if(!file_exists($cache_file) || filemtime($cache_file)+ 60*60 < time()) {
                 // Considering if data cannot be retrieved due to network problem, modify filemtime to prevent trying to reload again when refreshing administration page
                 // Ensure to access the administration page even though news cannot be displayed
                 FileHandler::writeFile($cache_file,'');
