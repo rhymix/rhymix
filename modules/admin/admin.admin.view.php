@@ -52,7 +52,7 @@
 		function checkEasyinstall()
 		{
 			$lastTime = (int)FileHandler::readFile($this->easyinstallCheckFile);
-			if ($lastTime > time() - 60*60*24*30) return;
+			if ($lastTime > $_SERVER['REQUEST_TIME'] - 60*60*24*30) return;
 
 			$oAutoinstallModel = &getModel('autoinstall');
 			$params = array();
@@ -80,7 +80,7 @@
 
 		function _markingCheckEasyinstall()
 		{
-			$currentTime = time();
+			$currentTime = $_SERVER['REQUEST_TIME'];
 			FileHandler::writeFile($this->easyinstallCheckFile, $currentTime);
 		}
 
@@ -213,7 +213,7 @@
          **/
         function dispAdminIndex() {
             // Get statistics
-            $args->date = date("Ymd000000", time()-60*60*24);
+            $args->date = date("Ymd000000", $_SERVER['REQUEST_TIME']-60*60*24);
             $today = date("Ymd");
 
             // Member Status
@@ -280,7 +280,7 @@
             //Retrieve recent news and set them into context
             $newest_news_url = sprintf("http://news.xpressengine.com/%s/news.php?version=%s&package=%s", _XE_LOCATION_, __ZBXE_VERSION__, _XE_PACKAGE_);
             $cache_file = sprintf("%sfiles/cache/newest_news.%s.cache.php", _XE_PATH_, _XE_LOCATION_);
-            if(!file_exists($cache_file) || filemtime($cache_file)+ 60*60 < time()) {
+            if(!file_exists($cache_file) || filemtime($cache_file)+ 60*60 < $_SERVER['REQUEST_TIME']) {
                 // Considering if data cannot be retrieved due to network problem, modify filemtime to prevent trying to reload again when refreshing administration page
                 // Ensure to access the administration page even though news cannot be displayed
                 FileHandler::writeFile($cache_file,'');
@@ -324,7 +324,8 @@
             Context::set('isUpdated', $isUpdated);
 
 			// gathering enviroment check
-			$path = FileHandler::getRealPath('./files/env/'.__ZBXE_VERSION__);
+			$mainVersion = join('.', array_slice(explode('.', __ZBXE_VERSION__), 0, 2));
+			$path = FileHandler::getRealPath('./files/env/'.$mainVersion);
 			$isEnviromentGatheringAgreement = false;
 			if(file_exists($path)) $isEnviromentGatheringAgreement = true;
 			Context::set('isEnviromentGatheringAgreement', $isEnviromentGatheringAgreement);
@@ -423,6 +424,7 @@
 			$server = 'http://collect.xpressengine.com/env/img.php?';
 			$path = './files/env/';
 			$install_env = $path . 'install';
+			$mainVersion = join('.', array_slice(explode('.', __ZBXE_VERSION__), 0, 2));
 
 			if(file_exists(FileHandler::getRealPath($install_env))) {
 				$oAdminAdminModel = &getAdminModel('admin');
@@ -431,10 +433,10 @@
 				Context::addHtmlFooter($img);
 
 				FileHandler::removeDir($path);
-				FileHandler::writeFile($path.__ZBXE_VERSION__,'1');
+				FileHandler::writeFile($path.$mainVersion,'1');
 
 			}
-			else if(isset($_SESSION['enviroment_gather']) && !file_exists(FileHandler::getRealPath($path.__ZBXE_VERSION__)))
+			else if(isset($_SESSION['enviroment_gather']) && !file_exists(FileHandler::getRealPath($path.$mainVersion)))
 			{
 				if($_SESSION['enviroment_gather']=='Y')
 				{
@@ -445,7 +447,7 @@
 				}
 
 				FileHandler::removeDir($path);
-				FileHandler::writeFile($path.__ZBXE_VERSION__,'1');
+				FileHandler::writeFile($path.$mainVersion,'1');
 				unset($_SESSION['enviroment_gather']);
 			}
 		}
