@@ -199,9 +199,9 @@
                 // Phone Number
                 case 'tel' :
                         $buff .=
-                            '<input type="text" name="'.$column_name.'" value="'.$value[0].'" size="4" class="tel" />'.
-                            '<input type="text" name="'.$column_name.'" value="'.$value[1].'" size="4" class="tel" />'.
-                            '<input type="text" name="'.$column_name.'" value="'.$value[2].'" size="4" class="tel" />';
+                            '<input type="text" name="'.$column_name.'[]" value="'.$value[0].'" size="4" class="tel" />'.
+                            '<input type="text" name="'.$column_name.'[]" value="'.$value[1].'" size="4" class="tel" />'.
+                            '<input type="text" name="'.$column_name.'[]" value="'.$value[2].'" size="4" class="tel" />';
                     break;
 
                 // textarea
@@ -218,7 +218,7 @@
 							// Temporary ID for labeling
 							$tmp_id = $column_name.'-'.$id_num++;
 
-                            $buff .='<li><input type="checkbox" name="'.$column_name.'" id="'.$tmp_id.'" value="'.htmlspecialchars($v).'" '.$checked.' /><label for="'.$tmp_id.'">'.$v.'</label></li>';
+                            $buff .='<li><input type="checkbox" name="'.$column_name.'[]" id="'.$tmp_id.'" value="'.htmlspecialchars($v).'" '.$checked.' /><label for="'.$tmp_id.'">'.$v.'</label></li>';
                         }
                         $buff .= '</ul>';
                     break;

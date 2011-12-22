@@ -213,9 +213,16 @@ class documentController extends document {
 		if(count($extra_keys)) {
 			foreach($extra_keys as $idx => $extra_item) {
 				$value = '';
-				if(isset($obj->{'extra_vars'.$idx})) $value = trim($obj->{'extra_vars'.$idx});
+				if(isset($obj->{'extra_vars'.$idx})){
+					$tmp = $obj->{'extra_vars'.$idx};
+					if (is_array($tmp))
+						$value = implode('|@|', $tmp);
+					else
+						$value = trim($tmp);
+				}
 				elseif(isset($obj->{$extra_item->name})) $value = trim($obj->{$extra_item->name});
 				if(!isset($value)) continue;
+
 				$this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, $idx, $value, $extra_item->eid);
 			}
 		}
@@ -372,7 +379,13 @@ class documentController extends document {
 		if(count($extra_keys)) {
 			foreach($extra_keys as $idx => $extra_item) {
 				$value = '';
-				if(isset($obj->{'extra_vars'.$idx})) $value = trim($obj->{'extra_vars'.$idx});
+				if(isset($obj->{'extra_vars'.$idx})){
+					$tmp = $obj->{'extra_vars'.$idx};
+					if (is_array($tmp))
+						$value = implode('|@|', $tmp);
+					else
+						$value = trim($tmp);
+				}
 				elseif(isset($obj->{$extra_item->name})) $value = trim($obj->{$extra_item->name});
 				if(!isset($value)) continue;
 				$this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, $idx, $value, $extra_item->eid);
