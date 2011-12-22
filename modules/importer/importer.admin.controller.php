@@ -137,7 +137,7 @@
         function procImporterAdminPreProcessing() {
             // Get the target xml file to import
             $xml_file = Context::get('xml_file');
-            // Get a type of the target 
+            // Get a type of the target
             $type = Context::get('type');
             // Extract and cache information from the xml file
             $oExtract = new extract();
@@ -172,7 +172,7 @@
                             $category_filename = sprintf('%s/%s', $oExtract->cache_path, 'category.xml');
                             FileHandler::writeFile($category_filename, $buff);
 
-                            
+
                             // Guestbook information
                             $output = $oExtract->set($xml_file, '', '', '', '');
                             if ($output->toBool()) {
@@ -291,12 +291,15 @@
             if(!$cur) $cur = 0;
             // Create the xmlParser object
             $oXmlParser = new XmlParser();
-            // Create objects for importing member information 
+            // Create objects for importing member information
             $this->oMemberController = &getController('member');
             $this->oMemberModel = &getModel('member');
             // Get a default member group
             $default_group = $this->oMemberModel->getDefaultGroup();
             $default_group_srl = $default_group->group_srl;
+            // Get information of the Webmaster
+            $oModuleModel = &getModel('module');
+            $member_config = $oModuleModel->getModuleConfig('member');
             // Open an index file
             $f = fopen($index_file,"r");
             // Pass if already read
@@ -351,6 +354,7 @@
                 if(!$obj->last_login) $obj->last_login = $obj->regdate;
                 // Get a member_srl
                 $obj->member_srl = getNextSequence();
+                $obj->list_order = -1 * $obj->member_srl;
                 // List extra vars
                 $extra_vars = $obj->extra_vars;
                 unset($obj->extra_vars);
@@ -362,6 +366,24 @@
                 if(!$nick_output->toBool()) $obj->nick_name .= '_'.$obj->member_srl;
                 // Add a member
                 $output = executeQuery('member.insertMember', $obj);
+
+                if($output->toBool() && !($obj->password)){
+                    // Send a mail telling the user to reset his password.
+                    $oMail = new Mail();
+                    $oMail->setTitle("Password update for your " . getFullSiteUrl() . " account");
+                    $webmaster_name = $member_config->webmaster_name?$member_config->webmaster_name:'Webmaster';
+                    $oMail->setContent("Dear $obj->user_name, <br /><br />
+                                            We recently migrated our phpBB forum to XpressEngine. Since you password was encrypted we could not migrate it too, so please reset it by following this link:
+                                            <a href='" . getFullSiteUrl() . "/?act=dispMemberFindAccount' >" . getFullSiteUrl() . "?act=dispMemberFindAccount</a>. You need to enter you email address and hit the 'Find account' button. You will then receive an email with a new, generated password that you can change after login. <br /><br />
+
+                                        Thank you for your understanding,<br />
+                                        {$webmaster_name}"
+                            );
+                    $oMail->setSender($webmaster_name, $member_config->webmaster_email);
+                    $oMail->setReceiptor( $obj->user_name, $obj->email);
+                    $oMail->send();
+                }
+
                 // add group join/image name-mark-signiture and so on if a new member successfully added
                 if($output->toBool()) {
                     // Join to the default group
@@ -438,12 +460,24 @@
                 $sender_args->user_id = $obj->sender;
                 $sender_output = executeQuery('member.getMemberInfo',$sender_args);
                 $sender_srl = $sender_output->data->member_srl;
+                if(!$sender_srl){
+                    unset($sender_args);
+                    $sender_args->email_address = $obj->sender;
+                    $sender_output = executeQuery('member.getMemberInfoByEmailAddress',$sender_args);
+                    $sender_srl = $sender_output->data->member_srl;
+                }
                 if(!$sender_srl) continue;
 
                 $receiver_args->user_id = $obj->receiver;
                 if(!$obj->receiver) continue;
                 $receiver_output = executeQuery('member.getMemberInfo',$receiver_args);
                 $receiver_srl = $receiver_output->data->member_srl;
+                if(!$receiver_srl){
+                    unset($receiver_args);
+                    $receiver_args->email_address = $obj->receiver;
+                    $receiver_output = executeQuery('member.getMemberInfoByEmailAddress',$receiver_args);
+                    $receiver_srl = $receiver_output->data->member_srl;
+                }
                 if(!$receiver_srl) continue;
                 // Message to save into sender's message box
                 $sender_args->sender_srl = $sender_srl;
@@ -497,7 +531,7 @@
             $category_file = preg_replace('/index$/i', 'category.xml', $index_file);
             if(file_exists($category_file)) {
                 $buff = FileHandler::readFile($category_file);
-               
+
                 // Create the xmlParser object
                 $xmlDoc = $this->oXmlParser->loadXmlFile($category_file);
 
@@ -514,7 +548,7 @@
 
                         $obj = null;
                         $obj->title = $category;
-                        $obj->module_srl = $module_srl; 
+                        $obj->module_srl = $module_srl;
                         if($parent) $obj->parent_srl = $match_sequence[$parent];
 
                         $output = $oDocumentController->insertCategory($obj);
@@ -535,7 +569,7 @@
             if($output->data) {
                 foreach($output->data as $key => $val) $extra_keys[$val->eid] = true;
             }
-           
+
             if(!$cur) $cur = 0;
             // Open an index file
             $f = fopen($index_file,"r");
@@ -589,7 +623,7 @@
                 }
 
                 $xmlDoc = $this->oXmlParser->parse($buff);
-                
+
                 $category = base64_decode($xmlDoc->post->category->body);
                 if($category_titles[$category]) $obj->category_srl = $category_titles[$category];
 
@@ -643,7 +677,7 @@
                         if(!$args->tag) continue;
                         $output = executeQuery('tag.insertTag', $args);
                     }
-                    
+
                 }
                 // Add extra variables
                 if(count($extra_vars)) {
@@ -864,7 +898,7 @@
                 }
 
                 if($started) $buff .= $str;
-                // If it ends with </attach>, handle attachements 
+                // If it ends with </attach>, handle attachements
                 if(trim($str) == '</attach>') {
                     $xmlDoc = $this->oXmlParser->parse($buff.$str);
 
@@ -923,12 +957,12 @@
                             $file_obj->sid = md5(rand(rand(1111111,4444444),rand(4444445,9999999)));
                             $file_obj->isvalid = 'Y';
                             $output = executeQuery('file.insertFile', $file_obj);
-                            
+
                             if($output->toBool()) {
                                 $uploaded_count++;
                                 $tmp_obj = null;
                                 $tmp_obj->source_filename = $file_obj->source_filename;
-                                if($file_obj->direct_download == 'Y') $files[$file_obj->source_filename] = $file_obj->uploaded_filename; 
+                                if($file_obj->direct_download == 'Y') $files[$file_obj->source_filename] = $file_obj->uploaded_filename;
                                 else $files[$file_obj->source_filename] = getUrl('','module','file','act','procFileDownload','file_srl',$file_obj->file_srl,'sid',$file_obj->sid);
                             }
                         }
