@@ -370,7 +370,7 @@
 			if(!empty($ruleset))
 			{
 				$rulesetModule = $forward->module ? $forward->module : $this->module;
-				$rulesetFile = $oModuleModel->getValidatorFilePath($rulesetModule, $ruleset);
+				$rulesetFile = $oModuleModel->getValidatorFilePath($rulesetModule, $ruleset, $this->mid);
 				if(!empty($rulesetFile))
 				{
 					$Validator = new Validator($rulesetFile);

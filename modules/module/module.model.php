@@ -1509,12 +1509,21 @@
          * @brief Return ruleset cache file path
 		 * @param module, act
          **/
-        function getValidatorFilePath($module, $ruleset) {
+        function getValidatorFilePath($module, $ruleset, $mid=null) {
 			// load dynamic ruleset xml file
 			if (strpos($ruleset, '@') !== false){
 				$rulsetFile = str_replace('@', '', $ruleset);
 				$xml_file = sprintf('./files/ruleset/%s.xml', $rulsetFile);
 				return FileHandler::getRealPath($xml_file);
+			}else if (strpos($ruleset, '#') !== false){
+				$rulsetFile = str_replace('#', '', $ruleset).'.'.$mid;
+				$xml_file = sprintf('./files/ruleset/%s.xml', $rulsetFile);
+				if (is_readable($xml_file))
+					return FileHandler::getRealPath($xml_file);
+				else{
+					$ruleset = str_replace('#', '', $ruleset);
+				}
+					
 			}
             // Get a path of the requested module. Return if not exists.
             $class_path = ModuleHandler::getModulePath($module);

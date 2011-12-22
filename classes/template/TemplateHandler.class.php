@@ -215,18 +215,30 @@ class TemplateHandler {
 			preg_match('/ruleset="([^"]*?)"/is', $matches[1], $m);
 			if($m[0])
 			{
-				$matches[1] = preg_replace('/'.$m[0].'/i', '', $matches[1]);
-				$matches[2] = '<input type="hidden" name="ruleset" value="'.$m[1].'" />'.$matches[2];
+				$matches[1] = preg_replace('/'.addcslashes($m[0], '?$').'/i', '', $matches[1]);
 
 				if (strpos($m[1],'@') !== false){
 					$path = str_replace('@', '', $m[1]);
 					$path = './files/ruleset/'.$path.'.xml';
+				}else if(strpos($m[1],'#') !== false){
+					$fileName = str_replace('#', '', $m[1]);
+					$fileName = str_replace('<?php echo ', '', $fileName);
+					$fileName = str_replace(' ?>', '', $fileName);
+					$path = '#./files/ruleset/'.$fileName.'.xml';
+
+					preg_match('@(?:^|\.?/)(modules/[\w-]+)@', $this->path, $mm);
+					$module_path = $mm[1];
+					list($rulsetFile) = explode('.', $fileName);  
+					$autoPath = $module_path.'/ruleset/'.$rulsetFile.'.xml';
+					$m[1] = $rulsetFile;
 				}else if(preg_match('@(?:^|\.?/)(modules/[\w-]+)@', $this->path, $mm)) {
 					$module_path = $mm[1];
 					$path = $module_path.'/ruleset/'.$m[1].'.xml';
 				}
+
+				$matches[2] = '<input type="hidden" name="ruleset" value="'.$m[1].'" />'.$matches[2];
 				//assign to addJsFile method for js dynamic recache
-				$matches[1]  = '<?php Context::addJsFile("'.$path.'", false, "", 0, "head", true) ?'.'>'.$matches[1];
+				$matches[1]  = '<?php Context::addJsFile("'.$path.'", false, "", 0, "head", true, "'.$autoPath.'") ?'.'>'.$matches[1];
 			}
 		}
 

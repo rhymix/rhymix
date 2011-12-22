@@ -167,6 +167,7 @@
 		require(_XE_PATH_.'classes/extravar/Extravar.class.php');
 		require(_XE_PATH_.'classes/handler/Handler.class.php');
 		require(_XE_PATH_.'classes/xml/XmlParser.class.php');
+		require(_XE_PATH_.'classes/xml/XmlGenerator.class.php');
 		require(_XE_PATH_.'classes/xml/XmlJsFilter.class.php');
 		require(_XE_PATH_.'classes/xml/XmlLangParser.class.php');
 		require(_XE_PATH_.'classes/cache/CacheHandler.class.php');
