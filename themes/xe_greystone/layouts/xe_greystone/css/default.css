@@ -1,7 +1,6 @@
 @charset "utf-8";
 /* NHN (developers@xpressengine.com) */
 body { margin:0;padding:0; font-size:.75em;}
-.iePngFix {behavior:url(../js/iePngFix.htc)}
 /* Default Skin - Start */
 #selectLang{margin:0;padding:0}
 #gnb{margin:0;padding:0}
