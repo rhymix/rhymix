@@ -13,8 +13,8 @@
 						<li>
 							<label for="attribute_name1" style="display: inline;">{$lang->attribute_name} </label> <input type="text" class="notmulti" name="attribute_name1" id="attribute_name1" />
 							<label for="attribute_value1" style="display: inline; font-weight:bold">{$lang->attribute_value} </label> <input type="text" class="notmulti" name="attribute_value1" id="attribute_value1" />
-							<a class="__addBtn" href="javascript:addRow('fileUp')">{$lang->cmd_add}</a>
-							<a class="__deleteBtn" href="javascript:clearRow('fileUp',1)">{$lang->cmd_delete}</a>
+							<button type="button" class="text __addBtn" onclick="addRow('fileUp');">{$lang->cmd_add}</button>
+							<button type="button" class="text __deleteBtn" onclick="clearRow(this);">{$lang->cmd_delete}</button>
 						</li>
 						<li>
 							<label for="file" style="display: inline">{$lang->file}</label> <input type="file" name="addfile" id="file"/>
