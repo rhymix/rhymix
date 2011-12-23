@@ -4,7 +4,7 @@ jQuery(function($){
 	var ESC_KEY = 27;
 
 	// Overlapping label
-	$('.form li').find('>input:text,>input:password,>textarea')
+	$('.form li').find('>input:text:not(".notmulti"),>input:password,>textarea')
  		.filter('input[value!=""],textarea:not(:empty)').prev('label').css('visibility','hidden').end().end()
 		.prev('label')
 			.addClass('overlap')

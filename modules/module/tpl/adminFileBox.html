@@ -8,25 +8,18 @@
 				<input type="hidden" name="filter" value="{$filter}" />
 				<input type="hidden" name="input" value="{$input}" />
 				<h2>{$lang->upload_file}</h2>
-				<span class="more"><a href="#fileUp" class="tgAnchor" data-effect="slide" data-duration="200">{$lang->cmd_show_hide}</a></span>
-				<div class="tgContent" id="fileUp">
-					<table cellspacing="0" id="attributes">
-						<tr>
-							<td>
-								<label for="attribute_name1">{$lang->attribute_name} </label><input type="text" name="attribute_name1" id="attribute_name1" />
-							</td>
-							<td>
-								<label for="attribute_value1">{$lang->attribute_value} </label><input type="text" name="attribute_value1" id="attribute_value1" />
-							</td>
-							<td><a href="javascript:addRow('attributes')">{$lang->add}</a></td>
-							<td><a href="javascript:clearRow('attributes',1)">{$lang->delete}</a></td>
-						</tr>
-						<tr>
-							<td>
-								<label for="file">{$lang->file}</label><input type="file" name="addfile" id="file"/>
-							</td>
-						</tr>
-					</table>
+				<div class="tgContent">
+					<ul id="fileUp">
+						<li>
+							<label for="attribute_name1" style="display: inline;">{$lang->attribute_name} </label> <input type="text" class="notmulti" name="attribute_name1" id="attribute_name1" />
+							<label for="attribute_value1" style="display: inline; font-weight:bold">{$lang->attribute_value} </label> <input type="text" class="notmulti" name="attribute_value1" id="attribute_value1" />
+							<a class="__addBtn" href="javascript:addRow('fileUp')">{$lang->cmd_add}</a>
+							<a class="__deleteBtn" href="javascript:clearRow('fileUp',1)">{$lang->cmd_delete}</a>
+						</li>
+						<li>
+							<label for="file" style="display: inline">{$lang->file}</label> <input type="file" name="addfile" id="file"/>
+						</li>
+					</ul>
 					<div class="btnArea">
 						<span class="btn"><input type="submit" value="{$lang->cmd_save}" /></span>
 					</div>
