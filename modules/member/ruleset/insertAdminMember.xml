@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ruleset version="1.5.0">
+    <customrules>
+    </customrules>
+    <fields>
+		<field name="email_address" required="true" rule="email" />
+		<field name="password">
+			<if test="!$member_srl" attr="required" value="true" />
+			<if test="!$member_srl" attr="length" value="3:20" />
+		</field>
+		<field name="nick_name" required="true" />
+    </fields>
+</ruleset>
