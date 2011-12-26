@@ -356,37 +356,52 @@
      * @param tail: tail to put in the end of the string after trimming
      * @return string
      **/
-    function cut_str($string,$cut_size=0,$tail = '...') {
-        if($cut_size<1 || !$string) return $string;
+	function cut_str($string, $cut_size = 0, $tail = '...')
+	{
+		if($cut_size < 1 || !$string) return $string;
 
-        $chars = Array(12, 4, 3, 5, 7, 7, 11, 8, 4, 5, 5, 6, 6, 4, 6, 4, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 4, 4, 8, 6, 8, 6, 10, 8, 8, 9, 8, 8, 7, 9, 8, 3, 6, 7, 7, 11, 8, 9, 8, 9, 8, 8, 7, 8, 8, 10, 8, 8, 8, 6, 11, 6, 6, 6, 4, 7, 7, 7, 7, 7, 3, 7, 7, 3, 3, 6, 3, 9, 7, 7, 7, 7, 4, 7, 3, 7, 6, 10, 6, 6, 7, 6, 6, 6, 9);
-        $max_width = $cut_size*$chars[0]/2;
-        $char_width = 0;
+		if($GLOBALS['use_mb_strimwidth'] || function_exists('mb_strimwidth'))
+		{
+			$GLOBALS['use_mb_strimwidth'] = TRUE; 
+			return mb_strimwidth($string, 0, $cut_size + 4, $tail, 'utf-8');
+		}
 
-        $string_length = strlen($string);
-        $char_count = 0;
+		$chars = array(12, 4, 3, 5, 7, 7, 11, 8, 4, 5, 5, 6, 6, 4, 6, 4, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 4, 4, 8, 6, 8, 6, 10, 8, 8, 9, 8, 8, 7, 9, 8, 3, 6, 7, 7, 11, 8, 9, 8, 9, 8, 8, 7, 8, 8, 10, 8, 8, 8, 6, 11, 6, 6, 6, 4, 7, 7, 7, 7, 7, 3, 7, 7, 3, 3, 6, 3, 9, 7, 7, 7, 7, 4, 7, 3, 7, 6, 10, 6, 6, 7, 6, 6, 6, 9);
+		$max_width = $cut_size*$chars[0]/2;
+		$char_width = 0;
 
-        $idx = 0;
-        while($idx < $string_length && $char_count < $cut_size && $char_width <= $max_width) {
-            $c = ord(substr($string, $idx,1));
-            $char_count++;
-            if($c<128) {
-                $char_width += (int)$chars[$c-32];
-                $idx++;
-            }
-            else if (191<$c && $c < 224) {
-			          $char_width += $chars[4];
-			          $idx += 2;
-		        }
-            else {
-                $char_width += $chars[0];
-                $idx += 3;
-            }
-        }
-        $output = substr($string,0,$idx);
-        if(strlen($output)<$string_length) $output .= $tail;
-        return $output;
-    }
+		$string_length = strlen($string);
+		$char_count = 0;
+
+		$idx = 0;
+		while($idx < $string_length && $char_count < $cut_size && $char_width <= $max_width) {
+			$c = ord(substr($string, $idx,1));
+			$char_count++;
+			if($c < 128) 
+			{
+				$char_width += (int)$chars[$c-32];
+				$idx++;
+			}
+			else if(191 < $c && $c < 224)
+			{
+				$char_width += $chars[4];
+				$idx += 2;
+			}
+			else
+			{
+				$char_width += $chars[0];
+				$idx += 3;
+			}
+		}
+
+		$output = substr($string, 0, $idx);
+		if(strlen($output) < $string_length)
+		{
+			$output .= $tail;
+		}
+
+		return $output;
+	}
 
     function zgap() {
         $time_zone = $GLOBALS['_time_zone'];
@@ -963,18 +978,17 @@ HTMLHEADER;
 	function alertScript($msg)
 	{
 		if(!$msg) return;
-		echo '<script  type="text/javascript">alert("'.$msg.'");</script>';
+		echo '<script type="text/javascript">alert("'.$msg.'");</script>';
 	}
 
 	function closePopupScript()
 	{
-		echo '<script  type="text/javascript">window.close();</script>';
+		echo '<script type="text/javascript">window.close();</script>';
 	}
 
 	function reload($isOpener = false)
 	{
 		$reloadScript = $isOpener ? 'window.opener.location.reload()' : 'document.location.reload()';
 
-		echo '<script  type="text/javascript">'.$reloadScript.'</script>';
+		echo '<script type="text/javascript">'.$reloadScript.'</script>';
 	}
-?>
