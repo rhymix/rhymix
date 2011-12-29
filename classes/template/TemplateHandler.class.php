@@ -427,7 +427,7 @@ class TemplateHandler {
 		{
 			$attr = array();
 			if($m[5]) {
-				if(preg_match_all('@,(\w+)="([^"]+)"@', $m[6], $mm)) {
+				if(preg_match_all('@,(?: +)?(\w+)="([^"]+)"@', $m[6], $mm)) {
 					foreach($mm[1] as $idx=>$name) {
 						$attr[$name] = $mm[2][$idx];
 					}
@@ -458,7 +458,15 @@ class TemplateHandler {
 					$plugin = $this->_replaceVar($m[5]);
 					if(strpos($plugin, '$__Context') === false) $plugin = "'{$plugin}'";
 
-					return "<?php Context::loadJavascriptPlugin({$plugin}); ?>";
+					if($attr['type'])
+					{
+						$type = "'{$attr['type']}'";
+						return "<?php Context::loadJavascriptPlugin({$plugin}, {$type}); ?>";
+					}
+					else
+					{
+						return "<?php Context::loadJavascriptPlugin({$plugin}); ?>";
+					}
 
 				// <load ...> or <unload ...> or <!--%import ...--> or <!--%unload ...-->
 				case 'import':

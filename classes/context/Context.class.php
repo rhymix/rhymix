@@ -1254,7 +1254,7 @@ class Context {
 	/**
 	 * @brief javascript plugin load
 	 **/
-	function loadJavascriptPlugin($plugin_name) {
+	function loadJavascriptPlugin($plugin_name, $type='body') {
 		static $loaded_plugins = array();
 
 		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
@@ -1273,7 +1273,7 @@ class Context {
 			if(!$filename) continue;
 
 			if(substr($filename,0,2)=='./') $filename = substr($filename,2);
-			if(preg_match('/\.js$/i',  $filename))     $self->loadFile(array($plugin_path.$filename, 'body', '', 0), true);
+			if(preg_match('/\.js$/i',  $filename))     $self->loadFile(array($plugin_path.$filename, $type, '', 0), true);
 			elseif(preg_match('/\.css$/i', $filename)) $self->loadFile(array($plugin_path.$filename, 'all', '', 0), true);
 		}
 
