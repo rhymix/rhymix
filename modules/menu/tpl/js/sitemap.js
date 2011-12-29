@@ -201,15 +201,20 @@ $('form.siteMap')
 		var module = $('#kModule').val();
 		if(module == 'WIDGET' || module == 'ARTICLE' || module == 'OUTSIDE') module = 'page';
 
-		var midList = ret_obj.module_list[module].list;
 		var htmlBuffer = "";
-		for(x in midList)
+		if(ret_obj.module_list[module] != undefined)
 		{
-			var midObject = midList[x];
-			htmlBuffer += '<option value="'+midObject.mid+'"';
-			if(menuUrl == midObject.mid) htmlBuffer += ' selected ';
-			htmlBuffer += '>'+midObject.mid+'('+midObject.browser_title+')</option>';
+			var midList = ret_obj.module_list[module].list;
+			for(x in midList)
+			{
+				var midObject = midList[x];
+				htmlBuffer += '<option value="'+midObject.mid+'"';
+				if(menuUrl == midObject.mid) htmlBuffer += ' selected ';
+				htmlBuffer += '>'+midObject.mid+'('+midObject.browser_title+')</option>';
+			}
 		}
+		else htmlBuffer = '';
+
 		selectModuleLayer.find('select').html(htmlBuffer);
 	}
 
