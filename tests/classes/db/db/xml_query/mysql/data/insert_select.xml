@@ -1,0 +1,23 @@
+<query id="QUERY_ID" action="insert-select">
+    <tables>
+            <table name="table1" />
+    </tables>
+    <columns>
+            <column name="column1" />
+            <column name="column2" />
+            <column name="column3" />
+    </columns>
+	<query>
+			<tables>
+					<table name="table2" />
+			</tables>
+			<columns>
+					<column name="column4" />
+					<column name="column5" />
+					<column name="column6" />
+			</columns>
+			<conditions>
+					<condition operation="more" column="column4" default="100" var="condition_value" />
+			</conditions>
+	</query>		
+</query>

@@ -21,6 +21,7 @@
 	require(_XE_PATH_.'classes/xml/xmlquery/tags/column/ColumnTag.class.php');
         require(_XE_PATH_.'classes/xml/xmlquery/tags/column/SelectColumnTag.class.php');
         require(_XE_PATH_.'classes/xml/xmlquery/tags/column/InsertColumnTag.class.php');
+		require(_XE_PATH_.'classes/xml/xmlquery/tags/column/InsertColumnTagWithoutArgument.class.php');
         require(_XE_PATH_.'classes/xml/xmlquery/tags/column/UpdateColumnTag.class.php');
         require(_XE_PATH_.'classes/xml/xmlquery/tags/column/SelectColumnsTag.class.php');
         require(_XE_PATH_.'classes/xml/xmlquery/tags/column/InsertColumnsTag.class.php');
