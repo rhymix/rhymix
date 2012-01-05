@@ -92,10 +92,6 @@
 
 			$this->tables = $tables;
 		}
-		
-		function setSubquery($subquery){
-			$this->subquery = $subquery;
-		}
 
 		function setConditions($conditions){
                     $this->conditions = array();
@@ -189,20 +185,6 @@
 
 		function getInsertString($with_values = true){
 			$columnsList = '';
-			if($this->subquery){ // means we have insert-select
-				
-				foreach($this->columns as $column){
-					$columnsList .= $column->getColumnName() . ', ';
-				}
-				$columnsList = substr($columnsList, 0, -2);
-				
-				$selectStatement = $this->subquery->toString($with_values);
-				$selectStatement = substr($selectStatement, 1, -1);
-				
-				return "($columnsList) \n $selectStatement";
-			}
-			
-			
 			$valuesList = '';
 			foreach($this->columns as $column){
 				if($column->show()){

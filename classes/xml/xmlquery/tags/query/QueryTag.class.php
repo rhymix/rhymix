@@ -10,7 +10,6 @@ class QueryTag {
 	//xml tags
 	var $columns;
 	var $tables;
-	var $subquery;
 	var $conditions;
 	var $groups;
 	var $navigation;
@@ -38,12 +37,9 @@ class QueryTag {
 		$this->getColumns();
 		$tables = $this->getTables();
 		$this->setTableColumnTypes($tables);
-		$this->getSubquery(); // Used for insert-select
 		$this->getConditions();
 		$this->getGroups();
 		$this->getNavigation();
-		
-		
 		$this->getPrebuff();
 		$this->getBuff();
 	}
@@ -82,7 +78,7 @@ class QueryTag {
 	function getColumns(){
 		if($this->action == 'select'){
 			return $this->columns =  new SelectColumnsTag($this->query->columns);
-		}else if($this->action == 'insert' || $this->action == 'insert-select'){
+		}else if($this->action == 'insert'){
 			return $this->columns =  new InsertColumnsTag($this->query->columns->column);
 		}else if($this->action == 'update') {
 			return $this->columns =  new UpdateColumnsTag($this->query->columns->column);
@@ -92,7 +88,6 @@ class QueryTag {
 	}
 
 	function getPrebuff(){
-		if($this->isSubQuery) return;
 		// TODO Check if this work with arguments in join clause
 		$arguments = $this->getArguments();
 
@@ -144,8 +139,6 @@ class QueryTag {
 			$buff .= '$query->setColumns(' . $this->columns->toString() . ');'.PHP_EOL;
 
         $buff .= '$query->setTables(' . $this->tables->toString() .');'.PHP_EOL;
-		if($this->action == 'insert-select')
-				$buff .= '$query->setSubquery(' . $this->subquery->toString() .');'.PHP_EOL;
         $buff .= '$query->setConditions('.$this->conditions->toString() .');'.PHP_EOL;
        	$buff .= '$query->setGroups(' . $this->groups->toString() . ');'.PHP_EOL;
        	$buff .= '$query->setOrder(' . $this->navigation->getOrderByString() .');'.PHP_EOL;
@@ -156,18 +149,12 @@ class QueryTag {
 	}
 
 	function getTables(){
-		if($this->query->index_hint->attrs->for == 'ALL' || Context::getDBType() == strtolower($this->query->index_hint->attrs->for))
-			return $this->tables = new TablesTag($this->query->tables, $this->query->index_hint);
-		else
-			return $this->tables = new TablesTag($this->query->tables);
+                if($this->query->index_hint->attrs->for == 'ALL' || Context::getDBType() == strtolower($this->query->index_hint->attrs->for))
+                    return $this->tables = new TablesTag($this->query->tables, $this->query->index_hint);
+                else
+                    return $this->tables = new TablesTag($this->query->tables);
 	}
 
-	function getSubquery(){
-		if($this->query->query){
-			$this->subquery = new QueryTag($this->query->query, true);
-		}
-	}
-	
 	function getConditions(){
 		return $this->conditions = new ConditionsTag($this->query->conditions);
 	}
@@ -196,13 +183,12 @@ class QueryTag {
 		return $this->buff;
 	}
 
+
 	function getArguments(){
 		$arguments = array();
 		if($this->columns)
 			$arguments = array_merge($arguments, $this->columns->getArguments());
-		if($this->action =='insert-select')
-			$arguments = array_merge($arguments, $this->subquery->getArguments());
-        $arguments = array_merge($arguments, $this->tables->getArguments());
+                $arguments = array_merge($arguments, $this->tables->getArguments());
 		$arguments = array_merge($arguments, $this->conditions->getArguments());
 		$arguments = array_merge($arguments, $this->navigation->getArguments());
 		return $arguments;
