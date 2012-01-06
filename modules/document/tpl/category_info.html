@@ -1,15 +1,15 @@
 
 <input type="hidden" name="category_srl" value="{$category_info->category_srl}" />
 <input type="hidden" name="parent_srl" value="{$category_info->parent_srl}" />
-<div class="layer">
-	<button type="button" class="layerClose" title="Close this layer." onclick="jQuery(this).closest('#category_info').hide();">X</button>
-	<h3 class="h3">{$lang->category}</h3>
-	<div class="table">
-		<table width="100%" border="1" cellspacing="0">
+<div class="layer" boxModelController" style="display:block">
+	<button type="button" class="xButton layerClose" title="Close this layer." onclick="jQuery(this).closest('#category_info').hide();">X</button>
+	<h4 class="xeAdmin h3">{$lang->category}</h4>
+	<div class="layerBody table">
+		<table cellspacing="0" class="rowTable">
 			<!--@if($category_info->parent_category_title)-->
 			<tr>
 				<th scope="row">{$lang->parent_category_title}</th>
-				<td >{$category_info->parent_category_title}</td>
+				<td class="wide">{$category_info->parent_category_title}</td>
 			</tr>
 			<!--@end-->
 			<tr>
@@ -36,13 +36,6 @@
 				</td>
 			</tr>
 			
-			<tr>
-				<th scope="row">{$lang->expand}</th>
-				<td>
-					<input type="checkbox" name="expand" value="Y" <!--@if($category_info->expand=="Y")-->checked="checked"<!--@end--> class="checkbox" />
-					<p>{$lang->about_expand}</p>
-				</td>
-			</tr>
 			<tr >
 				<th scope="row2">{$lang->category_group_srls}</th>
 				<td>
@@ -52,10 +45,20 @@
 					<p>{$lang->about_category_group_srls}</p>
 				</td>
 			</tr>
+			
+			<tr>
+				<th scope="row">{$lang->expand}</th>
+				<td>
+					<input type="checkbox" name="expand" value="Y" <!--@if($category_info->expand=="Y")-->checked="checked"<!--@end--> class="checkbox" />
+					<p>{$lang->about_expand}</p>
+				</td>
+			</tr>
+			<tr>
+	            <th scope="row" colspan="2" class="button">
+						<span class="buttonAction actionBlue"><input type="submit" value="{$lang->cmd_save}" /></span>
+				</th>
+	        </tr>
 		</table>
-	</div>
-	<div class="btnArea">
-		<span class="btn"><input type="submit" value="{$lang->cmd_save}" /></span>
 	</div>
 </div>
 <script type="text/javascript">
