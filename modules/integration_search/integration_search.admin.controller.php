@@ -106,9 +106,10 @@
             $oModuleController = &getController('module');
 			$output = $oModuleController->insertModuleConfig('integration_search',$args);
 
+            $this->setMessage('success_updated', 'info');
 			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
 				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispIntegration_searchAdminSkinInfo');
-				header('location:'.$returnUrl);
+				$this->setRedirectUrl($returnUrl);
 				return;
 			}
 			else $output;

@@ -324,7 +324,8 @@
             Context::set('isUpdated', $isUpdated);
 
 			// gathering enviroment check
-			$path = FileHandler::getRealPath('./files/env/'.__ZBXE_VERSION__);
+			$mainVersion = join('.', array_slice(explode('.', __ZBXE_VERSION__), 0, 2));
+			$path = FileHandler::getRealPath('./files/env/'.$mainVersion);
 			$isEnviromentGatheringAgreement = false;
 			if(file_exists($path)) $isEnviromentGatheringAgreement = true;
 			Context::set('isEnviromentGatheringAgreement', $isEnviromentGatheringAgreement);
@@ -341,8 +342,6 @@
 		    Context::loadLang('modules/install/lang');
 
             $db_info = Context::getDBInfo();
-
-			Context::set('sftp_support', function_exists(ssh2_sftp));
 
             Context::set('selected_lang', $db_info->lang_type);
 
@@ -391,6 +390,7 @@
 
             $ftp_info = Context::getFTPInfo();
             Context::set('ftp_info', $ftp_info);
+			Context::set('sftp_support', function_exists(ssh2_sftp));
 
             $this->setTemplateFile('config_ftp');
 
@@ -424,6 +424,7 @@
 			$server = 'http://collect.xpressengine.com/env/img.php?';
 			$path = './files/env/';
 			$install_env = $path . 'install';
+			$mainVersion = join('.', array_slice(explode('.', __ZBXE_VERSION__), 0, 2));
 
 			if(file_exists(FileHandler::getRealPath($install_env))) {
 				$oAdminAdminModel = &getAdminModel('admin');
@@ -432,10 +433,10 @@
 				Context::addHtmlFooter($img);
 
 				FileHandler::removeDir($path);
-				FileHandler::writeFile($path.__ZBXE_VERSION__,'1');
+				FileHandler::writeFile($path.$mainVersion,'1');
 
 			}
-			else if(isset($_SESSION['enviroment_gather']) && !file_exists(FileHandler::getRealPath($path.__ZBXE_VERSION__)))
+			else if(isset($_SESSION['enviroment_gather']) && !file_exists(FileHandler::getRealPath($path.$mainVersion)))
 			{
 				if($_SESSION['enviroment_gather']=='Y')
 				{
@@ -446,7 +447,7 @@
 				}
 
 				FileHandler::removeDir($path);
-				FileHandler::writeFile($path.__ZBXE_VERSION__,'1');
+				FileHandler::writeFile($path.$mainVersion,'1');
 				unset($_SESSION['enviroment_gather']);
 			}
 		}

@@ -112,6 +112,6 @@
 .xm input.text, 
 .xm button.text{border:0;overflow:visible;padding:0;margin:0 4px 0 0;color:#33a;background:none;text-decoration:underline}
 /* Agreement */
-.xm .agreement{ margin:1em 0}
-.xm .agreement .text{ margin:1em 0}
-.xm .agreement .confirm{ margin:1em 0}
+.xm .agreement{margin:1em 0}
+.xm .agreement .text{height:200px;overflow:auto;margin:1em 0}
+.xm .agreement .confirm{margin:1em 0}

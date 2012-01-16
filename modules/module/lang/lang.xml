@@ -993,4 +993,16 @@ Le module [Administration des Modules] montera tous les modules installés et vo
 		<value xml:lang="ko"><![CDATA[시작 모듈은 삭제할 수 없습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Cannot delete a start module.]]></value>
 	</item>
+	<item name="attribute_name">
+		<value xml:lang="ko"><![CDATA[변수명]]></value>
+		<value xml:lang="en"><![CDATA[Attribute name]]></value>
+	</item>
+	<item name="attribute_value">
+		<value xml:lang="ko"><![CDATA[값]]></value>
+		<value xml:lang="en"><![CDATA[Attribute value]]></value>
+	</item>
+	<item name="cmd_add">
+		<value xml:lang="ko"><![CDATA[추가]]></value>
+		<value xml:lang="en"><![CDATA[Add]]></value>
+	</item>
 </lang>

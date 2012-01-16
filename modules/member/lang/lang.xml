@@ -863,6 +863,14 @@
 		<value xml:lang="tr"><![CDATA[Kaydol]]></value>
 		<value xml:lang="vi"><![CDATA[Đăng kí]]></value>
 	</item>
+	<item name="cmd_modify_member_email_address">
+		<value xml:lang="ko"><![CDATA[이메일 주소 변경]]></value>
+		<value xml:lang="en"><![CDATA[Change Email Address]]></value>
+	</item>
+	<item name="about_modify_member_email_address">
+		<value xml:lang="ko"><![CDATA[사용하시는 이메일 주소를 변경할 수 있습니다.]]></value>
+		<value xml:lang="en"><![CDATA[You could change EmailAddress.]]></value>
+	</item>
 	<item name="cmd_modify_member_info">
 		<value xml:lang="ko"><![CDATA[회원정보 변경]]></value>
 		<value xml:lang="en"><![CDATA[Change Member Info]]></value>
@@ -924,6 +932,9 @@
 		<value xml:lang="ru"><![CDATA[Послать email для авторизации]]></value>
 		<value xml:lang="tr"><![CDATA[Etkinleştirme Maili Talebinde Bulun]]></value>
 		<value xml:lang="vi"><![CDATA[Xác nhận lại Email]]></value>
+	</item>
+	<item name="cmd_send_auth_new_emaill_address">
+		<value xml:lang="ko"><![CDATA[신규 이메일로 인증 메일 발송]]></value>
 	</item>
 	<item name="cmd_member_list">
 		<value xml:lang="ko"><![CDATA[회원 목록]]></value>
@@ -1170,6 +1181,9 @@
 		<value xml:lang="tr"><![CDATA[XE Hesap Etkinleştirmesi]]></value>
 		<value xml:lang="vi"><![CDATA[Thông tin đăng kí thành viên tại Website http://4all.kr]]></value>
 	</item>
+	<item name="title_modify_email_address">
+		<value xml:lang="ko"><![CDATA[이메일주소 변경 요청 확인 메일입니다.]]></value>
+	</item>
 	<item name="msg_confirm_account_info">
 		<value xml:lang="ko"><![CDATA[가입하신 계정 정보는 아래와 같습니다.]]></value>
 		<value xml:lang="en"><![CDATA[This is your account information:]]></value>
@@ -1193,6 +1207,9 @@
 		<value xml:lang="tr"><![CDATA[Hesabınızı etkinleştirmek için takip eden linke tıklayınız.]]></value>
 		<value xml:lang="vi"><![CDATA[Bấm vào đường Link này để hoàn tất việc đăng kí.]]></value>
 	</item>
+	<item name="msg_confirm_email_address_change">
+		<value xml:lang="ko"><![CDATA[아래 링크를 클릭하시면 이메일 주소가 %s으로 변경됩니다.]]></value>
+	</item>
 	<item name="msg_auth_mail_sent">
 		<value xml:lang="ko"><![CDATA[%s 메일로 인증 정보를 담은 메일이 발송되었습니다. 메일을 확인하세요.]]></value>
 		<value xml:lang="en"><![CDATA[The activation mail has been sent to %s. Please check your mail.]]></value>
@@ -1215,6 +1232,9 @@
 		<value xml:lang="ru"><![CDATA[Письмо для авторизации отправлено для %s. Пожалуйста, проверьте Вашу почту]]></value>
 		<value xml:lang="tr"><![CDATA[%s adresine etkinleştirme maili gönderdik. Lütfen mailinizi kontrol ediniz.]]></value>
 		<value xml:lang="vi"><![CDATA[Chúng tôi đã gửi Email xác nhận đến %s. Xin vui lòng bấm vào Link đi kèm trong Email để hoàn tất việc đăng kí!]]></value>
+	</item>
+	<item name="msg_invalid_modify_email_auth_key">
+		<value xml:lang="ko"><![CDATA[잘못된 이메일 변경 요청입니다.<br />이메일 변경요청을 다시 하시거나 사이트 관리자에게 문의해주세요.]]></value>
 	</item>
 	<item name="msg_invalid_auth_key">
 		<value xml:lang="ko"><![CDATA[잘못된 계정 인증 요청입니다.<br />아이디/비밀번호 찾기를 다시 하시거나 사이트 관리자에게 계정 정보를 문의해주세요.]]></value>
@@ -2394,5 +2414,8 @@ Bạn có thể quản lý thành viên bằng cách tạo những nhóm mới, 
 	<item name="cmd_member_config">
 		<value xml:lang="ko"><![CDATA[회원 설정]]></value>
 		<value xml:lang="en"><![CDATA[Member Configuration]]></value>
+	</item>
+	<item name="msg_success_modify_email_address">
+		<value xml:lang="ko"><![CDATA[이메일 주소가 정상적으로 변경되었습니다. 변경된 이메일 주소로 로그인 가능합니다.]]></value>
 	</item>
 </lang>

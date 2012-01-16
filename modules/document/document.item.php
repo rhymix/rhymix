@@ -98,7 +98,9 @@
             return $_SESSION['accessible'][$this->document_srl]==true?true:false;
         }
 
-        function allowComment() {
+        function allowComment()
+		{
+			// init write, document is not exists. so allow comment status is true
             if(!$this->isExists()) return true;
 
             return $this->get('comment_status') == 'ALLOW' ? true : false;

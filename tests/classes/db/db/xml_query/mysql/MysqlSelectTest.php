@@ -207,4 +207,26 @@
                                      limit 20';
 			$this->_test($xml_file, $argsString, $expected);
                 }
+
+               function test_homepage_getNewestComments(){
+                                $xml_file = _TEST_PATH_ . "db/xml_query/mysql/data/homepage.getNewestComments.xml";
+                                $argsString = ';';
+                                $expected = 'select `sites`.`domain` as `domain`
+                                                , `comments`.*
+                                             from `xe_homepages` as `homepages`
+                                             , `xe_sites` as `sites`
+                                             , `xe_comments` as `comments`
+                                             , `xe_modules` as `modules`
+                                                left join `xe_module_grants` as `module_grants`
+                                                    on `module_grants`.`module_srl` = `modules`.`module_srl`
+                                                        and `module_grants`.`name` = \'access\'
+                                                        and `module_grants`.`group_srl` not in (0,-1)
+                                                where (`homepages`.`site_srl` = `sites`.`site_srl`
+                                                    and `homepages`.`site_srl` = `modules`.`site_srl`
+                                                    and `comments`.`module_srl` = `modules`.`module_srl`
+                                                    and `module_grants`.`group_srl` is null)
+                                                    and `comments`.`list_order` <= 2100000000
+                                                order by `comments`.`list_order` asc limit 0, 5';
+                                $this->_test($xml_file, $argsString, $expected);
+                        }
 	}

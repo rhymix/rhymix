@@ -1995,6 +1995,7 @@
 			$pointModuleConfig = $oModuleModel->getModuleConfig('point');
 			$pointGroup = $pointModuleConfig->point_group;
 
+			$levelGroup = array();
 			if(is_array($pointGroup) && count($pointGroup)>0)
 			{
 				$levelGroup = array_flip($pointGroup);
@@ -2016,6 +2017,92 @@
 					$oPointController->setPoint($memberSrl, $pointModuleConfig->level_step[$maxLevel], 'update');
 				}
 			}
+		}
+		function procMemberModifyEmailAddress(){
+            if(!Context::get('is_logged')) return $this->stop('msg_not_logged');
+
+			$member_info = Context::get('logged_info');
+			$newEmail = Context::get('email_address');
+
+            if(!$newEmail) return $this->stop('msg_invalid_request');
+
+			$oMemberModel = &getModel('member');
+            $member_srl = $oMemberModel->getMemberSrlByEmailAddress($newEmail);
+            if($member_srl) return new Object(-1,'msg_exists_email_address');
+
+			$auth_args->user_id = $newEmail;
+			$auth_args->member_srl = $member_info->member_srl;
+			$auth_args->auth_key = md5(rand(0, 999999));
+			$auth_args->new_password = 'XE_change_emaill_address';
+
+			$output = executeQuery('member.insertAuthMail', $auth_args);
+			if (!$output->toBool()) {
+				$oDB->rollback();
+				return $output;
+			}
+			
+            $oModuleModel = &getModel('module');
+            $member_config = $oModuleModel->getModuleConfig('member');
+
+            $tpl_path = sprintf('%sskins/%s', $this->module_path, $member_config->skin);
+            if(!is_dir($tpl_path)) $tpl_path = sprintf('%sskins/%s', $this->module_path, 'default');
+
+			global $lang;
+
+			$memberInfo[$lang->email_address] = $member_info->email_address;
+			$memberInfo[$lang->nick_name] = $member_info->nick_name;
+
+			Context::set('memberInfo', $memberInfo);
+
+			Context::set('newEmail', $newEmail);
+
+            $auth_url = getFullUrl('','module','member','act','procMemberAuthEmailAddress','member_srl',$member_info->member_srl, 'auth_key',$auth_args->auth_key);
+            Context::set('auth_url', $auth_url);
+
+            $oTemplate = &TemplateHandler::getInstance();
+            $content = $oTemplate->compile($tpl_path, 'confirm_member_new_email');
+
+            $oMail = new Mail();
+            $oMail->setTitle( Context::getLang('title_modify_email_address') );
+            $oMail->setContent($content);
+            $oMail->setSender( $member_config->webmaster_name?$member_config->webmaster_name:'webmaster', $member_config->webmaster_email);
+            $oMail->setReceiptor( $member_info->nick_name, $newEmail );
+            $result = $oMail->send();
+
+            $msg = sprintf(Context::getLang('msg_confirm_mail_sent'), $newEmail);
+            $this->setMessage($msg);
+
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '');
+				header('location:'.$returnUrl);
+				return;
+			}
+		}
+
+		function procMemberAuthEmailAddress(){
+            $member_srl = Context::get('member_srl');
+            $auth_key = Context::get('auth_key');
+            if(!$member_srl || !$auth_key) return $this->stop('msg_invalid_request');
+
+            // Test logs for finding password by user_id and authkey
+            $args->member_srl = $member_srl;
+            $args->auth_key = $auth_key;
+            $output = executeQuery('member.getAuthMail', $args);
+            if(!$output->toBool() || $output->data->auth_key != $auth_key) return $this->stop('msg_invalid_modify_email_auth_key');
+
+			$newEmail = $output->data->user_id;
+			$args->email_address = $newEmail;
+            list($args->email_id, $args->email_host) = explode('@', $newEmail);
+
+            $output = executeQuery('member.updateMemberEmailAddress', $args);
+            if(!$output->toBool()) return $this->stop($output->getMessage());
+            
+			// Remove all values having the member_srl and new_password equal to 'XE_change_emaill_address' from authentication table
+            executeQuery('member.deleteAuthChangeEmailAddress',$args);
+
+            // Notify the result
+            $this->setTemplatePath($this->module_path.'tpl');
+            $this->setTemplateFile('msg_success_modify_email_address');
 		}
     }
 ?>

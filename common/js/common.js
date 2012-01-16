@@ -532,7 +532,9 @@ function doDocumentPreview(obj) {
         ).appendTo(document.body);
 
         dummy_obj = jQuery("#previewDocument")[0];
-    }
+    } else {
+		dummy_obj = dummy_obj[0];
+	}
 
     if(dummy_obj) {
         dummy_obj.content.value = content;
@@ -974,4 +976,11 @@ jQuery(function($){
 		// cancel default action
 		return false;
 	});
+
+	// date picker default settings
+	if($.datepicker) {
+		$.datepicker.setDefaults({
+			dateFormat : 'yy-mm-dd'
+		});
+	}
 });

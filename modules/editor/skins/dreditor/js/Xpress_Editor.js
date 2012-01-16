@@ -3131,42 +3131,46 @@ xe.XE_EditingArea_WYSIWYG = jQuery.Class({
 		this.getDocument().body.style.cursor = "text";
 
 		if(jQuery.browser.msie){
-			jQuery(this.doc).bind('keydown', jQuery.fnBind(
-				function(weEvent){
-					if(this.doc.selection.type.toLowerCase() == 'control' && weEvent.keyCode == 8)  {
-						this.oApp.exec("EXECCOMMAND", ['delete', false, false]);
-						weEvent.preventDefault(); weEvent.stopPropagation();
+			jQuery(this.doc)
+				.unbind('keydown.ea')
+				.bind('keydown.ea', jQuery.fnBind(
+					function(weEvent){
+						if(this.doc.selection.type.toLowerCase() == 'control' && weEvent.keyCode == 8)  {
+							this.oApp.exec("EXECCOMMAND", ['delete', false, false]);
+							weEvent.preventDefault(); weEvent.stopPropagation();
+						}
 					}
-				}
-			, this));
-			jQuery(this.doc.body).bind('mousedown', jQuery.fnBind(
-				function(weEvent){
-					this._oIERange = null;
-					this._bIERangeReset = true;
-				}
-			, this));
-			/*
-			jQuery(this.doc.body).bind('beforedeactivate', jQuery.fnBind(
-				function(weEvent){
-					// without this, cursor won't make it inside a table.
-					// mousedown(_oIERange gets reset) -> beforedeactivate(gets fired for table) -> RESTORE_IE_SELECTION
-					if(this._bIERangeReset) return;
+				, this));
+			jQuery(this.doc.body)
+				.unbind('mousedown.ea')
+				.bind('mousedown.ea', jQuery.fnBind(
+					function(weEvent){
+						this._oIERange = null;
+						this._bIERangeReset = true;
+					}
+				, this))
+				.unbind('beforedeactivate.ea')
+				.bind('beforedeactivate.ea', jQuery.fnBind(
+					function(weEvent){
+						// without this, cursor won't make it inside a table.
+						// mousedown(_oIERange gets reset) -> beforedeactivate(gets fired for table) -> RESTORE_IE_SELECTION
+						if(this._bIERangeReset) return;
 
-					var tmpRange = this.getDocument().selection.createRange(0);
-					// Control range does not have parentElement
-					if(tmpRange.parentElement && tmpRange.parentElement() && tmpRange.parentElement().tagName == "INPUT"){
-						this._oIERange = this._oPrevIERange;
-					}else{
-						this._oIERange = tmpRange;
+						var tmpRange = this.getDocument().selection.createRange(0);
+						// Control range does not have parentElement
+						if(tmpRange.parentElement && tmpRange.parentElement() && tmpRange.parentElement().tagName == "INPUT"){
+							this._oIERange = this._oPrevIERange;
+						}else{
+							this._oIERange = tmpRange;
+						}
 					}
-				}
-			, this));
-			*/
-			jQuery(this.doc.body).bind('mouseup', jQuery.fnBind(
-				function(weEvent){
-					this._bIERangeReset = false;
-				}
-			, this));
+				, this))
+				.unbind('mouseup.ea')
+				.bind('mouseup.ea', jQuery.fnBind(
+					function(weEvent){
+						this._bIERangeReset = false;
+					}
+				, this));
 		}
 	},
 
@@ -5572,124 +5576,6 @@ xe.XE_XHTMLFormatter = $.Class({
 // center, font, b, i, s, strike
 
 })(jQuery);
-/**
- * Support XE extensions
- * @author gony
- */
-xe.XE_Extension = jQuery.Class({
-	name  : "XE_Extension",
-	seq   : '',
-
-	$init : function(elAppContainer, editor_sequence) {
-		this.seq = editor_sequence;
-		this._assignHTMLObjects(elAppContainer);
-	},
-
-	_assignHTMLObjects : function(elAppContainer) {
-		this.elDropdownLayer = jQuery('DIV.xpress_xeditor_extension_layer', elAppContainer).get(0);
-	},
-
-	_removeAttrs : function(sContent) {
-		return sContent;
-	},
-
-	_addEvent : function() {
-		if (this.oApp.getEditingMode() != 'WYSIWYG') return;
-
-		var doc = this.oApp.getWYSIWYGDocument();
-		var seq = this.seq;
-		var fn  = function(){
-			var obj  = jQuery(this);
-			var comp = obj.attr('editor_component');
-			if (comp && jQuery.isFunction(openComponent)) {
-				editorPrevNode = obj.get(0);
-				openComponent(comp, seq);
-			}
-		};
-
-		jQuery('img,div[editor_component]', doc).each(function(){
-			var obj = jQuery(this);
-            if(this.nodeName == 'IMG' && !obj.attr('editor_component')) obj.attr('editor_component','image_link')
-            if(!obj.attr('xeHandled')) {
-                obj.attr('xeHandled','YES');
-                obj.dblclick(fn);
-            }
-		});
-	},
-
-	$ON_MSG_APP_READY : function() {
-		this.oApp.exec('REGISTER_UI_EVENT', ['extension', 'click', 'TOGGLE_EXTENSION_LAYER']);
-	},
-
-	$ON_TOGGLE_EXTENSION_LAYER : function() {
-		this.oApp.exec('TOGGLE_TOOLBAR_ACTIVE_LAYER', [this.elDropdownLayer]);
-	},
-
-	$ON_CHANGE_EDITING_MODE : function(mode) {
-		var self = this;
-		setTimeout(function(){ self._addEvent(); }, 100);
-	},
-
-	$ON_PASTE_HTML : function() {
-		var self = this;
-		setTimeout(function(){ self._addEvent(); }, 100);
-	},
-
-	$ON_LOAD_IR_FIELD : function() {
-		var self = this;
-		setTimeout(function(){ self._addEvent(); }, 100);
-	},
-
-	$ON_SET_IR : function() {
-		var self = this;
-		setTimeout(function(){ self._addEvent(); }, 100);
-	}
-});
-/**
- * Auto saving
- * @author gony
- */
-xe.XE_AutoSave = jQuery.Class({
-	name : "XE_AutoSave",
-	form : null,
-	textarea : null,
-
-	$init : function(oIRTextarea, elAppContainer) {
-		this.form = oIRTextarea.form;
-		this.textarea = oIRTextarea;
-
-		this._assignHTMLObjects(elAppContainer);
-	},
-
-	_assignHTMLObjects : function(elAppContainer) {
-		this.welMessageBox = jQuery('autosave_message');
-	},
-
-	$ON_MSG_APP_READY : function() {
-		var elTitle   = jQuery(this.form._saved_doc_title);
-		var elContent = jQuery(this.form._saved_doc_content);
-		var title   = jQuery.trim(elTitle.val());
-		var content = jQuery.trim(elContent.val());
-
-		if (title || content) {
-			if (confirm(this.form._saved_doc_message.value)) {
-				jQuery(this.form.title).val(title);
-				this.oApp.setIR(content);
-			} else {
-				editorRemoveSavedDoc();
-			}
-		}
-
-		editorEnableAutoSave(this.form, jQuery(this.form).attr("editor_sequence"));
-
-		// register hotkey
-		this.oApp.exec('REGISTER_HOTKEY', ['ctrl+shift+s','AUTO_SAVE']);
-	},
-
-	$ON_AUTO_SAVE : function() {
-		_editorAutoSave();
-	}
-});
 /**
  * Format Block plugin
  * @author gony

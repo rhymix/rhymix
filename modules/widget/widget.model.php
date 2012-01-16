@@ -228,6 +228,7 @@
                         $name = $var->name->body?$var->name->body:$var->title->body;
                         $type = $var->attrs->type?$var->attrs->type:$var->type->body;
                         if($type =='filebox') $buff .= sprintf('$widget_info->extra_var->%s->filter = "%s";', $id, $var->type->attrs->filter);
+                        if($type =='filebox') $buff .= sprintf('$widget_info->extra_var->%s->allow_multiple = "%s";', $id, $var->type->attrs->allow_multiple);
 
                         $buff .= sprintf('$widget_info->extra_var->%s->group = "%s";', $id, $group->title->body);
                         $buff .= sprintf('$widget_info->extra_var->%s->name = "%s";', $id, $name);
@@ -374,6 +375,7 @@
                         $buff .= sprintf('$widgetStyle_info->extra_var->%s->name = "%s";', $id, $name);
                         $buff .= sprintf('$widgetStyle_info->extra_var->%s->type = "%s";', $id, $type);
                         if($type =='filebox') $buff .= sprintf('$widgetStyle_info->extra_var->%s->filter = "%s";', $id, $var->attrs->filter);
+                        if($type =='filebox') $buff .= sprintf('$widgetStyle_info->extra_var->%s->allow_multiple = "%s";', $id, $var->attrs->allow_multiple);
                         $buff .= sprintf('$widgetStyle_info->extra_var->%s->value = $vars->%s;', $id, $id);
                         $buff .= sprintf('$widgetStyle_info->extra_var->%s->description = "%s";', $id, str_replace('"','\"',$var->description->body));
 

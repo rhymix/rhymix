@@ -2946,40 +2946,43 @@ xe.XE_EditingArea_WYSIWYG = $.Class({
 		// this.getDocument().body.style.cursor = "text";
 
 		if($.browser.msie){
-			$(this.doc).bind('keydown', $.fnBind(
-				function(weEvent){
-					if(this.doc.selection.type.toLowerCase() == 'control' && weEvent.keyCode == 8)  {
-						this.oApp.exec("EXECCOMMAND", ['delete', false, false]);
-						weEvent.preventDefault(); weEvent.stopPropagation();
+			$(this.doc)
+				.unbind('keydown.ea')
+				.bind('keydown.ea', $.fnBind(
+					function(weEvent){
+						if(this.doc.selection.type.toLowerCase() == 'control' && weEvent.keyCode == 8)  {
+							this.oApp.exec("EXECCOMMAND", ['delete', false, false]);
+							weEvent.preventDefault(); weEvent.stopPropagation();
+						}
 					}
-				}
-			, this));
-			$(this.doc.body).bind('mousedown', $.fnBind(
-				function(weEvent){
-					this._oIERange = null;
-					this._bIERangeReset = true;
-				}
-			, this));
-			$(this.doc.body).bind('beforedeactivate', $.fnBind(
-				function(weEvent){
-					// without this, cursor won't make it inside a table.
-					// mousedown(_oIERange gets reset) -> beforedeactivate(gets fired for table) -> RESTORE_IE_SELECTION
-					if(this._bIERangeReset) return;
+				, this));
 
-					var tmpRange = this.getDocument().selection.createRange(0);
-					// Control range does not have parentElement
-					if(tmpRange.parentElement && tmpRange.parentElement() && tmpRange.parentElement().tagName == "INPUT"){
-						this._oIERange = this._oPrevIERange;
-					}else{
-						this._oIERange = tmpRange;
+			$(this.doc.body)
+				.unbind('mousedown.ea')
+				.bind('mousedown.ea', $.fnBind(
+					function(weEvent){
+						this._oIERange = null;
+						this._bIERangeReset = true;
 					}
-				}
-			, this));
-			$(this.doc.body).bind('mouseup', $.fnBind(
-				function(weEvent){
-					this._bIERangeReset = false;
-				}
-			, this));
+				, this))
+				.unbind('beforedeactivate.ea')
+				.bind('beforedeactivate.ea', $.fnBind(
+					function(weEvent){
+						// without this, cursor won't make it inside a table.
+						// mousedown(_oIERange gets reset) -> beforedeactivate(gets fired for table) -> RESTORE_IE_SELECTION
+						if(this._bIERangeReset) return;
+
+						var tmpRange = this.getDocument().selection.createRange(0);
+						// Control range does not have parentElement
+						if(tmpRange.parentElement && tmpRange.parentElement() && tmpRange.parentElement().tagName == "INPUT"){
+							this._oIERange = this._oPrevIERange;
+						}else{
+							this._oIERange = tmpRange;
+						}
+					}
+				, this))
+				.unbind('mouseup.ea')
+				.bind('mouseup.ea', $.fnBind( function(weEvent){ this._bIERangeReset = false;}, this));
 		}
 	},
 
@@ -4303,7 +4306,7 @@ xe.XE_SCharacter = $.Class({
 
 	$ON_MSG_APP_READY : function(){
 		var funcInsert = $.fnBind(this.oApp.exec, this.oApp, "INSERT_SCHARACTERS", [this.oTextField.value]);
-		$(this.oInsertButton).click(funcInsert, this);
+		$(this.oInsertButton).click(funcInsert);
 
 		this.oApp.exec("SET_SCHARACTER_LIST", [this.charSet]);
 
@@ -5249,7 +5252,7 @@ xe.XE_Extension = $.Class({
 				obj.attr('editor_component','image_link');
 			}
 			if(this.last_doc != doc) {
-				obj.dblclick(fn);
+				obj.unbind('dblclick.widget').bind('dblclick.widget',fn);
 				this.last_doc = doc;
 			}
 		});
@@ -5787,7 +5790,7 @@ function editorStart_xe(editor_sequence, primary_key, content_key, editor_height
 	}
 
 	// hide textarea
-	textarea.hide().css('width', '99%').before(iframe).after(htmlsrc);
+	textarea.hide().css('width', '100%').before(iframe).after(htmlsrc);
 
 	// create an editor
 	var oEditor		     = new xe.XpressCore();
@@ -6039,43 +6042,3 @@ xe.XE_Preview = jQuery.Class({
 		// TODO : 버튼이 눌렸을 때의 동작 정의
 	}
 });
-function editorStartTextarea(editor_sequence, content_key, primary_key) {
-    var obj = xGetElementById('editor_'+editor_sequence);
-    var use_html = xGetElementById('htm_'+editor_sequence).value;
-    obj.form.setAttribute('editor_sequence', editor_sequence);
-
-    obj.style.width = '99%';
-
-    editorRelKeys[editor_sequence] = new Array();
-    editorRelKeys[editor_sequence]["primary"] = obj.form[primary_key];
-    editorRelKeys[editor_sequence]["content"] = obj.form[content_key];
-    editorRelKeys[editor_sequence]["func"] = editorGetContentTextarea;
-
-    var content = obj.form[content_key].value;
-    if(use_html) {
-        content = content.replace(/<br([^>]*)>/ig,"\n");
-        if(use_html!='br') {
-            content = content.replace(/&lt;/g, "<");
-            content = content.replace(/&gt;/g, ">");
-            content = content.replace(/&quot;/g, '"');
-            content = content.replace(/&amp;/g, "&");
-        }
-    }
-    obj.value = content;
-}
-
-function editorGetContentTextarea(editor_sequence) {
-    var obj = xGetElementById('editor_'+editor_sequence);
-    var use_html = xGetElementById('htm_'+editor_sequence).value;
-    var content = obj.value.trim();
-    if(use_html) {
-        if(use_html!='br') {
-            content = content.replace(/&/g, "&amp;");
-            content = content.replace(/</g, "&lt;");
-            content = content.replace(/>/g, "&gt;");
-            content = content.replace(/\"/g, "&quot;");
-        }
-        content = content.replace(/(\r\n|\n)/g, "<br />");
-    }
-    return content;
-}

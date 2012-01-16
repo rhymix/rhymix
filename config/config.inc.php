@@ -13,7 +13,7 @@
      * @brief display XE's full version
      * Even The file should be revised when releasing altough no change is made
      **/
-	define('__XE_VERSION__', '1.5.1');
+	define('__XE_VERSION__', '1.5.1.2');
     define('__ZBXE_VERSION__', __XE_VERSION__); // deprecated : __ZBXE_VERSION__ will be removed. Use __XE_VERSION__ instead.
 
     /**
@@ -167,6 +167,7 @@
 		require(_XE_PATH_.'classes/extravar/Extravar.class.php');
 		require(_XE_PATH_.'classes/handler/Handler.class.php');
 		require(_XE_PATH_.'classes/xml/XmlParser.class.php');
+		require(_XE_PATH_.'classes/xml/XmlGenerator.class.php');
 		require(_XE_PATH_.'classes/xml/XmlJsFilter.class.php');
 		require(_XE_PATH_.'classes/xml/XmlLangParser.class.php');
 		require(_XE_PATH_.'classes/cache/CacheHandler.class.php');

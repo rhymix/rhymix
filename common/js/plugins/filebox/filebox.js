@@ -80,3 +80,32 @@
     $.extend(window.XE, {'filebox' : filebox});
 
 }) (jQuery);
+
+function addRow(ulId){
+	var $ = jQuery;
+	var count = $('#'+ulId).children().length;
+	var clone = $('#'+ulId).find('li:last-child').prev().clone();
+	$('#'+ulId).find('li:last-child').prev().find('.__addBtn').hide();
+
+	clone.find('input[name^="attribute_name"]').attr("name", "attribute_name"+count).attr('value', '')
+		.attr("id", "attribute_name"+count)
+		.prev('label').attr('for', 'attribute_name'+count);
+	clone.find('input[name^="attribute_value"]').attr("name", "attribute_value"+count).attr('value', '')
+		.attr("id", "attribute_value"+count)
+		.prev('label').attr('for', 'attribute_value'+count);
+
+	$('#'+ulId).find('li:last-child').before(clone);
+}
+
+function clearRow(target){
+	var $ = jQuery;
+	var ulTag = $(target).closest('ul');
+	var count = ulTag.children().length - 1;
+	if (count <= 1){
+		ulTag.find('li:last-child').prev().find('.__addBtn').show();
+		return;
+	}
+
+	$(target).closest('li').remove();
+	ulTag.find('li:last-child').prev().find('.__addBtn').show();
+}

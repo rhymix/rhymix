@@ -7,7 +7,7 @@
 
 <form action="./" method="post" onsubmit="return procFilter(this, insert_grant)" id="fo_obj" class="form">
 	<input type="hidden" name="module_srl" value="{$module_srl}" />
-	<input type="hidden" name="admin_member" value="<!--@foreach($admin_member as $key => $val)-->{$val->user_id},<!--@end-->" />
+	<input type="hidden" name="admin_member" value="<!--@foreach($admin_member as $key => $val)--><!--@if($member_config->identifier == 'email_address')-->{$val->email_address},<!--@else-->{$val->user_id},<!--@end--><!--@end-->" />
 	
 	<h3 class="h3">{$lang->module_admin}</h3>
 	<p>{$lang->about_admin_id}</p>
@@ -23,7 +23,7 @@
 			<p class="a">
 				<select name="_admin_member" multiple="multiple" size="{count($admin_member)?count($admin_member):1}" style="width:290px">
 					<!--@foreach($admin_member as $key => $val)-->
-					<option value="{$val->user_id}">{$val->nick_name} (<!--@if($member_config->identifier=='email_address')-->{$val->email_address}<!--@else-->{$val->user_id}<!--@end-->)</option>
+					<option value="<!--@if($member_config->identifier=='email_address')-->{$val->email_address}<!--@else-->{$val->user_id}<!--@end-->">{$val->nick_name} (<!--@if($member_config->identifier=='email_address')-->{$val->email_address}<!--@else-->{$val->user_id}<!--@end-->)</option>
 					<!--@end-->
 				</select>
 				<br />

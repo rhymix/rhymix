@@ -366,5 +366,14 @@
 
             $this->setTemplateFile('resend_auth_mail');
         }
+
+        /**
+         * @brief 이메일 주소를 기본 로그인 계정 사용시 이메일 주소 변경을 위한 화면 추가
+         **/
+		function dispMemberModifyEmailAddress(){
+            if(!Context::get('is_logged')) return $this->stop('msg_not_logged');
+
+			$this->setTemplateFile('modify_email_address');
+		}
     }
 ?>

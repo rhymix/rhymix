@@ -2946,40 +2946,43 @@ xe.XE_EditingArea_WYSIWYG = $.Class({
 		// this.getDocument().body.style.cursor = "text";
 
 		if($.browser.msie){
-			$(this.doc).bind('keydown', $.fnBind(
-				function(weEvent){
-					if(this.doc.selection.type.toLowerCase() == 'control' && weEvent.keyCode == 8)  {
-						this.oApp.exec("EXECCOMMAND", ['delete', false, false]);
-						weEvent.preventDefault(); weEvent.stopPropagation();
+			$(this.doc)
+				.unbind('keydown.ea')
+				.bind('keydown.ea', $.fnBind(
+					function(weEvent){
+						if(this.doc.selection.type.toLowerCase() == 'control' && weEvent.keyCode == 8)  {
+							this.oApp.exec("EXECCOMMAND", ['delete', false, false]);
+							weEvent.preventDefault(); weEvent.stopPropagation();
+						}
 					}
-				}
-			, this));
-			$(this.doc.body).bind('mousedown', $.fnBind(
-				function(weEvent){
-					this._oIERange = null;
-					this._bIERangeReset = true;
-				}
-			, this));
-			$(this.doc.body).bind('beforedeactivate', $.fnBind(
-				function(weEvent){
-					// without this, cursor won't make it inside a table.
-					// mousedown(_oIERange gets reset) -> beforedeactivate(gets fired for table) -> RESTORE_IE_SELECTION
-					if(this._bIERangeReset) return;
+				, this));
 
-					var tmpRange = this.getDocument().selection.createRange(0);
-					// Control range does not have parentElement
-					if(tmpRange.parentElement && tmpRange.parentElement() && tmpRange.parentElement().tagName == "INPUT"){
-						this._oIERange = this._oPrevIERange;
-					}else{
-						this._oIERange = tmpRange;
+			$(this.doc.body)
+				.unbind('mousedown.ea')
+				.bind('mousedown.ea', $.fnBind(
+					function(weEvent){
+						this._oIERange = null;
+						this._bIERangeReset = true;
 					}
-				}
-			, this));
-			$(this.doc.body).bind('mouseup', $.fnBind(
-				function(weEvent){
-					this._bIERangeReset = false;
-				}
-			, this));
+				, this))
+				.unbind('beforedeactivate.ea')
+				.bind('beforedeactivate.ea', $.fnBind(
+					function(weEvent){
+						// without this, cursor won't make it inside a table.
+						// mousedown(_oIERange gets reset) -> beforedeactivate(gets fired for table) -> RESTORE_IE_SELECTION
+						if(this._bIERangeReset) return;
+
+						var tmpRange = this.getDocument().selection.createRange(0);
+						// Control range does not have parentElement
+						if(tmpRange.parentElement && tmpRange.parentElement() && tmpRange.parentElement().tagName == "INPUT"){
+							this._oIERange = this._oPrevIERange;
+						}else{
+							this._oIERange = tmpRange;
+						}
+					}
+				, this))
+				.unbind('mouseup.ea')
+				.bind('mouseup.ea', $.fnBind( function(weEvent){ this._bIERangeReset = false;}, this));
 		}
 	},
 
@@ -4303,7 +4306,7 @@ xe.XE_SCharacter = $.Class({
 
 	$ON_MSG_APP_READY : function(){
 		var funcInsert = $.fnBind(this.oApp.exec, this.oApp, "INSERT_SCHARACTERS", [this.oTextField.value]);
-		$(this.oInsertButton).click(funcInsert, this);
+		$(this.oInsertButton).click(funcInsert);
 
 		this.oApp.exec("SET_SCHARACTER_LIST", [this.charSet]);
 
@@ -5249,7 +5252,7 @@ xe.XE_Extension = $.Class({
 				obj.attr('editor_component','image_link');
 			}
 			if(this.last_doc != doc) {
-				obj.dblclick(fn);
+				obj.unbind('dblclick.widget').bind('dblclick.widget',fn);
 				this.last_doc = doc;
 			}
 		});

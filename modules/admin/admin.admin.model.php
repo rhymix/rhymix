@@ -61,6 +61,10 @@
 
             if($ftp_info->sftp == 'Y')
             {
+				if(!function_exists(ssh2_sftp))
+				{
+                    return new Object(-1,'disable_sftp_support');
+				}
                 return $this->getSFTPList();
             }
 
@@ -232,7 +236,7 @@
 				$args->site_srl = (int)$site_module_info->site_srl;
 				$args->layout_srl = getNextSequence();
 				$args->layout = $layout_info->name;
-				$args->title = $layout_info->name.'InTheme';
+				$args->title = $layout_info->name;
 				$args->layout_type = "P";
 				// Insert into the DB
 				$oLayoutAdminController = &getAdminController('layout');

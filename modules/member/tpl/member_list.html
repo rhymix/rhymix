@@ -30,8 +30,8 @@
 				<tr>
 					<th scope="col">{$lang->email}</th>
 					<th scope="col" loop="$usedIdentifiers=>$name,$title">{$title}</th>
-					<th scope="col">{$lang->signup_date}</th>
-					<th scope="col">{$lang->last_login}</th>
+					<th scope="col"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminList')}">{$lang->signup_date}</a></th>
+					<th scope="col"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminList', 'sort_index', 'last_login', 'sort_order', 'asc')}">{$lang->last_login}</a></th>
 					<th scope="col" class="text">{$lang->member_group}</th>
 					<th scope="col">{$lang->status}</th>
 					<th scope="col">{$lang->cmd_view}</th>
@@ -45,8 +45,8 @@
 				<tr>
 					<th scope="col">{$lang->email}</th>
 					<th scope="col" loop="$usedIdentifiers=>$name,$title">{$title}</th>
-					<th scope="col">{$lang->signup_date}</th>
-					<th scope="col">{$lang->last_login}</th>
+					<th scope="col"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminList')}">{$lang->signup_date}</a></th>
+					<th scope="col"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminList', 'sort_index', 'last_login', 'sort_order', 'asc')}">{$lang->last_login}</a></th>
 					<th scope="col" class="text">{$lang->member_group}</th>
 					<th scope="col">{$lang->status}</th>
 					<th scope="col">{$lang->cmd_view}</th>

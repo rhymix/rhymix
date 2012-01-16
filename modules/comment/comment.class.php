@@ -13,19 +13,8 @@
          * @brief implemented if additional tasks are required when installing
          **/
         function moduleInstall() {
-            $oDB = &DB::getInstance();
-
             // register the action forward (for using on the admin mode)
             $oModuleController = &getController('module');
-
-            $oDB->addIndex
-                (
-                    "comments",
-                    "idx_module_list_order",
-                    array("module_srl", "list_order"),
-                    true
-                );
-
             // 2007. 10. 17 add a trigger to delete comments together with posting deleted
             $oModuleController->insertTrigger('document.deleteDocument', 'comment', 'controller', 'triggerDeleteDocumentComments', 'after');
             // 2007. 10. 17 add a trigger to delete all of comments together with module deleted
@@ -54,9 +43,6 @@
             // 2008. 05. 14 add a column for blamed count
             if(!$oDB->isColumnExists("comments", "blamed_count")) return true;
             if(!$oDB->isColumnExists("comment_voted_log", "point")) return true;
-
-            if (!$oDB->isIndexExists("comments", "idx_module_list_order"))
-                    return true;
 
             return false;
         }
@@ -93,15 +79,6 @@
             }
             if(!$oDB->isColumnExists("comment_voted_log", "point"))
                 $oDB->addColumn('comment_voted_log', 'point', 'number', 11, 0, true); 
-
-            if (!$oDB->isIndexExists("comments", "idx_module_list_order"))
-                $oDB->addIndex
-                    (
-                        "comments",
-                        "idx_module_list_order",
-                        array("module_srl", "list_order"),
-                        true
-                    );
 
             return new Object(0, 'success_updated');
         }

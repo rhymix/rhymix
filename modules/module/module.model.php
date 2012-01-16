@@ -1436,16 +1436,52 @@
         }
 
         function getModuleFileBoxList(){
+        	$oModuleModel = &getModel('module');
+			
             $args->page = Context::get('page');
             $args->list_count = 5;
             $args->page_count = 5;
-            return executeQuery('module.getModuleFileBoxList', $args);
+            $output = executeQuery('module.getModuleFileBoxList', $args);
+            $output = $oModuleModel->unserializeAttributes($output);
+            return $output;
+        }
+        
+        function unserializeAttributes($module_filebox_list)
+		{
+			if(is_array($module_filebox_list))
+			{
+				foreach($module_filebox_list->data as $item)
+				{
+					$attributes = explode(';', $item->comment);
+					foreach($attributes as $attribute){
+						$values = explode(':', $attribute);
+						if((count($values) % 2) ==1) {
+							for($i=2;$i<count($values);$i++){
+								$values[1].=":".$values[$i];
+							}
+						}
+						$atts[$values[0]]=$values[1];
+					}
+					$item->attributes = $atts;
+					unset($atts);
+				}
+			}
+        	return $module_filebox_list;
         }
 
 		function getFileBoxListHtml()
 		{
 			$logged_info = Context::get('logged_info');
 			if($logged_info->is_admin !='Y' && !$logged_info->is_site_admin) return new Object(-1, 'msg_not_permitted');
+			$link = parse_url($_SERVER["HTTP_REFERER"]);
+			$link_params = explode('&',$link['query']);
+			foreach ($link_params as $param){
+				$param = explode("=",$param);
+				if($param[0] == 'selected_widget') $selected_widget = $param[1];
+			}
+			$oWidgetModel = &getModel('widget');
+			if($selected_widget) $widget_info = $oWidgetModel->getWidgetInfo($selected_widget);
+			Context::set('allow_multiple', $widget_info->extra_var->images->allow_multiple);
 
 			$oModuleModel = &getModel('module');
 			$output = $oModuleModel->getModuleFileBoxList();
@@ -1473,12 +1509,21 @@
          * @brief Return ruleset cache file path
 		 * @param module, act
          **/
-        function getValidatorFilePath($module, $ruleset) {
+        function getValidatorFilePath($module, $ruleset, $mid=null) {
 			// load dynamic ruleset xml file
 			if (strpos($ruleset, '@') !== false){
 				$rulsetFile = str_replace('@', '', $ruleset);
 				$xml_file = sprintf('./files/ruleset/%s.xml', $rulsetFile);
 				return FileHandler::getRealPath($xml_file);
+			}else if (strpos($ruleset, '#') !== false){
+				$rulsetFile = str_replace('#', '', $ruleset).'.'.$mid;
+				$xml_file = sprintf('./files/ruleset/%s.xml', $rulsetFile);
+				if (is_readable($xml_file))
+					return FileHandler::getRealPath($xml_file);
+				else{
+					$ruleset = str_replace('#', '', $ruleset);
+				}
+					
 			}
             // Get a path of the requested module. Return if not exists.
             $class_path = ModuleHandler::getModulePath($module);

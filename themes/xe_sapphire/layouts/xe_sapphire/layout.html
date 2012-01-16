@@ -5,7 +5,7 @@
 <!--%import("css/default.css")-->
 <!--@if($layout_info->background_image)-->
 <style type="text/css">
-    body {  background:#FFFFFF url({getUrl()}{$layout_info->background_image}) repeat-x left top; }
+    body {  background:#FFFFFF url({$layout_info->background_image}) repeat-x left top; }
 </style>
 <!--@end-->
 <!--@if(!$layout_info->colorset)-->
@@ -13,7 +13,7 @@
 <!--@end-->
 <div id="bodyWrap">
     <div id="header">
-        <h1><a href="{$layout_info->index_url}"><!--@if($layout_info->logo_image)--><img src="{$layout_info->logo_image}" alt="{$layout_info->logo_text}"|cond="$layout_info->logo_text" alt="logo"|cond="!$layout_info->logo_text" border="0" class="iePngFix" /><!--@elseif($layout_info->logo_text)-->{$layout_info->logo_text}<!--@else-->Global XE<!--@end--></a></h1>
+        <h1><a href="{$layout_info->index_url}"><!--@if($layout_info->logo_image)--><img src="{$layout_info->logo_image}" alt="{$layout_info->logo_text}"|cond="$layout_info->logo_text" alt="logo"|cond="!$layout_info->logo_text" border="0" /><!--@elseif($layout_info->logo_text)-->{$layout_info->logo_text}<!--@else-->Global XE<!--@end--></a></h1>
 		<!-- top_area -->
 		<div class="top_area">
         <dl id="language">

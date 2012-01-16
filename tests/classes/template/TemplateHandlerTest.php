@@ -222,6 +222,16 @@ class TemplateHandlerTest extends PHPUnit_Framework_TestCase
 				"<li <!--@if(in_array(\$act, array(\n'dispNmsAdminGroupList',\n'dispNmsAdminInsertGroup',\n'dispNmsAdminGroupInfo',\n'dispNmsAdminDeleteGroup')))-->class=\"on\"<!--@endif-->>",
 				"<li <?php if(in_array(\$__Context->act, array(\n'dispNmsAdminGroupList',\n'dispNmsAdminInsertGroup',\n'dispNmsAdminGroupInfo',\n'dispNmsAdminDeleteGroup'))){ ?>class=\"on\"<?php } ?>>"
 			),
+			// issue 746
+			array(
+				'<img src="../myxe/xe/img.png" />',
+				'<img src="/xe/tests/classes/myxe/xe/img.png" />'
+			),
+			// issue 696
+			array(
+				'{@ eval(\'$val = $document_srl;\')}',
+				'<?php  eval(\'$__Context->val = $__Context->document_srl;\') ?>'
+			),
 		);
 	}
 

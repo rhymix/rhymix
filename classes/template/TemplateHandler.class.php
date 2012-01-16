@@ -187,7 +187,7 @@ class TemplateHandler {
 		$buff = $this->_parseInline($buff);
 
 		// include, unload/load, import
-		$buff = preg_replace_callback('/{(@[\s\S]+?|(?=\$\w+|_{1,2}[A-Z]+|[!\(+-]|\w+(?:\(|::)|\d+|[\'"].*?[\'"]).+?)}|<(!--[#%])?(include|import|(un)?load(?(4)|(?:_js_plugin)?))(?(2)\("([^"]+)")(.*?)(?(2)\)--|\/)>|<!--(@[a-z@]+)([\s\S]*?)-->(\s*)/', array($this, '_parseResource'), $buff);
+		$buff = preg_replace_callback('/{(@[\s\S]+?|(?=\$\w+|_{1,2}[A-Z]+|[!\(+-]|\w+(?:\(|::)|\d+|[\'"].*?[\'"]).+?)}|<(!--[#%])?(include|import|(un)?load(?(4)|(?:_js_plugin)?))(?(2)\("([^"]+)")(.*?)(?(2)\)--|\/)>|<!--(@[a-z@]*)([\s\S]*?)-->(\s*)/', array($this, '_parseResource'), $buff);
 
 		// remove block which is a virtual tag and remove comments
 		$buff = preg_replace('@</?block\s*>|\s?<!--//(.*?)-->@is','',$buff);
@@ -215,18 +215,30 @@ class TemplateHandler {
 			preg_match('/ruleset="([^"]*?)"/is', $matches[1], $m);
 			if($m[0])
 			{
-				$matches[1] = preg_replace('/'.$m[0].'/i', '', $matches[1]);
-				$matches[2] = '<input type="hidden" name="ruleset" value="'.$m[1].'" />'.$matches[2];
+				$matches[1] = preg_replace('/'.addcslashes($m[0], '?$').'/i', '', $matches[1]);
 
 				if (strpos($m[1],'@') !== false){
 					$path = str_replace('@', '', $m[1]);
 					$path = './files/ruleset/'.$path.'.xml';
+				}else if(strpos($m[1],'#') !== false){
+					$fileName = str_replace('#', '', $m[1]);
+					$fileName = str_replace('<?php echo ', '', $fileName);
+					$fileName = str_replace(' ?>', '', $fileName);
+					$path = '#./files/ruleset/'.$fileName.'.xml';
+
+					preg_match('@(?:^|\.?/)(modules/[\w-]+)@', $this->path, $mm);
+					$module_path = $mm[1];
+					list($rulsetFile) = explode('.', $fileName);  
+					$autoPath = $module_path.'/ruleset/'.$rulsetFile.'.xml';
+					$m[1] = $rulsetFile;
 				}else if(preg_match('@(?:^|\.?/)(modules/[\w-]+)@', $this->path, $mm)) {
 					$module_path = $mm[1];
 					$path = $module_path.'/ruleset/'.$m[1].'.xml';
 				}
+
+				$matches[2] = '<input type="hidden" name="ruleset" value="'.$m[1].'" />'.$matches[2];
 				//assign to addJsFile method for js dynamic recache
-				$matches[1]  = '<?php Context::addJsFile("'.$path.'", false, "", 0, "head", true) ?'.'>'.$matches[1];
+				$matches[1]  = '<?php Context::addJsFile("'.$path.'", false, "", 0, "head", true, "'.$autoPath.'") ?'.'>'.$matches[1];
 			}
 		}
 
@@ -245,10 +257,14 @@ class TemplateHandler {
 		}
 
 		// return url generate
-		if (!preg_match('/no-error-return-url="true"/i', $matches[1]))
+		if(!preg_match('/no-error-return-url="true"/i', $matches[1]))
 		{
 			preg_match('/<input[^>]*name="error_return_url"[^>]*>/is', $matches[2], $m3);
 			if(!$m3[0]) $matches[2] = '<input type="hidden" name="error_return_url" value="<?php echo getRequestUriByServerEnviroment() ?>" />'.$matches[2];
+		}
+		else
+		{
+			$matches[1] = preg_replace('/no-error-return-url="true"/i', '', $matches[1]);
 		}
 
 		$matches[0] = '';
@@ -297,7 +313,7 @@ class TemplateHandler {
 		$src = str_replace('/./', '/', $src);
 
 		// for backward compatibility
-		$src = preg_replace('@((?:[\w-]+/)+)\1@', '\1', $src);
+		$src = preg_replace('@/((?:[\w-]+/)+)\1@', '/\1', $src);
 
 		while(($tmp=preg_replace('@[^/]+/\.\./@', '', $src))!==$src) $src = $tmp;
 
@@ -506,6 +522,7 @@ class TemplateHandler {
 		if($m[7])
 		{
 			$m[7] = substr($m[7],1);
+			if(!$m[7]) return '<?php '.$this->_replaceVar($m[8]).'{ ?>'.$m[9];
 			if(!preg_match('/^(?:((?:end)?(?:if|switch|for(?:each)?|while)|end)|(else(?:if)?)|(break@)?(case|default)|(break))$/', $m[7], $mm)) return '';
 			if($mm[1]) {
 				if($mm[1]{0} == 'e') return '<?php } ?>'.$m[9];
@@ -560,7 +577,7 @@ class TemplateHandler {
 	 **/
 	function _replaceVar($php) {
 		if(!strlen($php)) return '';
-		return preg_replace('@(?<!::|\\\\|\')\$([a-z]|_[a-z0-9])@i', '\$__Context->$1', $php);
+		return preg_replace('@(?<!::|\\\\|(?<!eval\()\')\$([a-z]|_[a-z0-9])@i', '\$__Context->$1', $php);
 	}
 }
 

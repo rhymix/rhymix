@@ -1151,9 +1151,13 @@ class Context {
 	 * @brief Add the js file
 	 * @deprecated
 	 **/
-	function addJsFile($file, $optimized = false, $targetie = '',$index=0, $type='head', $isRuleset = false) {
+	function addJsFile($file, $optimized = false, $targetie = '',$index=0, $type='head', $isRuleset = false, $autoPath = null) {
 		if($isRuleset)
 		{
+			if (strpos($file, '#') !== false){
+				$file = str_replace('#', '', $file);
+				if (!is_readable($file)) $file = $autoPath;
+			}
 			$validator   = new Validator($file);
 			$validator->setCacheDir('files/cache');
 			$file = $validator->getJsPath();

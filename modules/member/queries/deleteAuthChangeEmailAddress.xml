@@ -1,0 +1,9 @@
+<query id="deleteAuthChangeEmailAddress" action="delete">
+    <tables>
+        <table name="member_auth_mail" />
+    </tables>
+    <conditions>
+        <condition operation="equal" column="member_srl" var="member_srl" notnull="notnull" />
+        <condition operation="equal" column="new_password" default="XE_change_emaill_address" notnull="notnull" pipe="and" />
+    </conditions>
+</query>

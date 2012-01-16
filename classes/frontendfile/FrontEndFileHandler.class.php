@@ -206,7 +206,8 @@
 					}
 					else
 					{
-						$fullFilePath = $file->filePath . '/' . $file->fileName;
+						$noneCache = (is_readable($file->cdnPath.'/'.$file->fileName))?'?'.date('YmdHis', filemtime($file->cdnPath.'/'.$file->fileName)):'';
+						$fullFilePath = $file->filePath . '/' . $file->fileName.$noneCache;
 					}
 					$result[] = array('file' => $fullFilePath, 'targetie' => $file->targetIe);
 				}

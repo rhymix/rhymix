@@ -1238,7 +1238,7 @@ var ImageWriter = xe.createPlugin('ImageWriter', {
 			var callback_id = ''+(new Date).getTime()+Math.ceil(Math.random()*1000);
 			window[callback_id] = function(fileObj){ self.onfileuploaded(seq, callback_id, fileObj); }
 			
-			var filesrl = _image.attr('class').match(/(?:^|\s)xe_filesrl_(\d+)(?:\s|$)/);
+			var filesrl = (_image.attr('class')||'').match(/(?:^|\s)xe_filesrl_(\d+)(?:\s|$)/);
 			filesrl = (filesrl && filesrl[1])? filesrl[1] : '';
 
 			// upload file
@@ -1945,7 +1945,7 @@ var FileWriter = xe.createPlugin('FileWriter', {
 	}
 
 });
-editor.registerPlugin(new FileWriter);
+if(window.reloadFileList) editor.registerPlugin(new FileWriter);
 
 // List Writer
 var ListWriter = xe.createPlugin('ListWriter', {

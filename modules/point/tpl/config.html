@@ -91,9 +91,9 @@
 				<caption>
 					{$lang->about_point_link_group}
 					<span class="side">
-						<input type="radio" name="group_reset" id="group_reset_y" checked="checked"|cond="$config->group_reset != 'N'" /> 
+						<input type="radio" name="group_reset" id="group_reset_y" value="Y" checked="checked"|cond="$config->group_reset != 'N'" /> 
 						<label for="group_reset_y">{$lang->point_group_reset_and_add}</label>
-						<input type="radio" name="group_reset" id="group_reset_n" checked="checked"|cond="$config->group_reset == 'N'" /> 
+						<input type="radio" name="group_reset" id="group_reset_n" value="N" checked="checked"|cond="$config->group_reset == 'N'" /> 
 						<label for="group_reset_n">{$lang->point_group_add_only}</label>
 					</span>
 				</caption>

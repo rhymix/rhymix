@@ -556,4 +556,20 @@ Menu không phải là người quản lý, nhiệm vụ của nó chỉ là li�
 		<value xml:lang="tr"><![CDATA[Sadece resim dosyaları kaydedilebilir.]]></value>
 		<value xml:lang="vi"><![CDATA[Chỉ được phép sử dụng File hình ảnh.]]></value>
 	</item>
+	<item name="cType">
+		<value xml:lang="ko"><![CDATA[모듈 또는 URL]]></value>
+		<value xml:lang="en"><![CDATA[Module or URL]]></value>
+	</item>
+	<item name="module_type">
+		<value xml:lang="ko"><![CDATA[모듈 선택]]></value>
+		<value xml:lang="en"><![CDATA[Select Module]]></value>
+	</item>
+	<item name="create_menu_url">
+		<value xml:lang="ko"><![CDATA[모듈 아이디 생성]]></value>
+		<value xml:lang="en"><![CDATA[Create Module ID]]></value>
+	</item>
+	<item name="select_menu_url">
+		<value xml:lang="ko"><![CDATA[모듈 아이디 선택]]></value>
+		<value xml:lang="en"><![CDATA[Select Module ID]]></value>
+	</item>
 </lang>

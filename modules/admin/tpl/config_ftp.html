@@ -37,9 +37,9 @@
 				</p>
 			</li>
 			<li>
-				<p class="q"><label for="sftp">{$lang->about_use_sftp_support}</label></p>
+				<p class="q"><label for="sftp">{$lang->about_use_sftp_support}</label><span cond="!$sftp_support"><label for="sftp"> ({$lang->disable_sftp_support})</label></span></p>
 				<p class="a">
-					<input type="radio" name="sftp" id="sftp_y" value="Y" <!--@if($ftp_info->sftp == 'Y')-->checked="checked" <!--@end-->/> <label for="sftp_y">{$lang->cmd_yes}</label>
+					<input type="radio" name="sftp" id="sftp_y" value="Y" <!--@if($ftp_info->sftp == 'Y')-->checked="checked" <!--@end--> <!--@if(!$sftp_support)-->disabled<!--@end-->/> <label for="sftp_y">{$lang->cmd_yes}</label>
 					<input type="radio" name="sftp" id="sftp_n" value="N" <!--@if($ftp_info->sftp != 'Y')-->checked="checked" <!--@end-->/> <label for="sftp_n">{$lang->cmd_no}</label>
 				</p>
 			</li>

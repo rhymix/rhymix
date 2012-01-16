@@ -443,27 +443,7 @@
 
         </div>
 
-        <!--@if($allow_fileupload)-->
-            <!--%import("../../tpl/js/uploader.js")-->
-            <!--%import("../../tpl/js/swfupload.js")-->
-            <script type="text/javascript">//<![CDATA[
-            editorUploadInit(
-                {
-                    "editorSequence" : {$editor_sequence},
-                    "sessionName" : "{session_name()}",
-                    "allowedFileSize" : "{$file_config->allowed_filesize}",
-                    "allowedFileTypes" : "{$file_config->allowed_filetypes}",
-                    "allowedFileTypesDescription" : "{$file_config->allowed_filetypes}",
-                    "insertedFiles" : {(int)$files_count},
-                    "replaceButtonID" : "swfUploadButton{$editor_sequence}",
-                    "fileListAreaID" : "uploaded_file_list_{$editor_sequence}",
-                    "previewAreaID" : "preview_uploaded_{$editor_sequence}",
-                    "uploaderStatusID" : "uploader_status_{$editor_sequence}"
-                }
-            );
-        //]]></script>
-        <!-- 파일 업로드 영역 -->
-        <div id="fileUploader_{$editor_sequence}" class="fileUploader">
+		<div id="fileUploader_{$editor_sequence}" class="fileUploader" cond="$allow_fileupload"><!--File upload zone-->
             <div class="preview {$btn_class}" id="preview_uploaded_{$editor_sequence}"></div>
             <div class="fileListArea {$btn_class}">
                 <select id="uploaded_file_list_{$editor_sequence}" multiple="multiple" class="fileList" title="Attached File List"><option></option></select>
@@ -475,13 +455,32 @@
             </div>
             <div class="file_attach_info" id="uploader_status_{$editor_sequence}">{$upload_status}</div>
         </div>
-        <!--@end-->
     </div>
     <!-- 에디터 활성화 -->
     <script type="text/javascript">//<![CDATA[
         var editor_path = "{$editor_path}";
         var auto_saved_msg = "{$lang->msg_auto_saved}";
-        var oEditor = editorStart_xe("{$editor_sequence}", "{$editor_primary_key_name}", "{$editor_content_key_name}", "{$editor_height}", "{$colorset}", "{$content_style}",'{$content_font}','{$content_font_size}');
+		var oEditor;
+		jQuery(function(){
+			oEditor = editorStart_xe("{$editor_sequence}", "{$editor_primary_key_name}", "{$editor_content_key_name}", "{$editor_height}", "{$colorset}", "{$content_style}",'{$content_font}','{$content_font_size}');
+
+			<!--@if($allow_fileupload)-->
+			<load target="../../tpl/js/uploader.js" />
+			<load target="../../tpl/js/swfupload.js" />
+			editorUploadInit({
+                    "editorSequence" : {$editor_sequence},
+                    "sessionName" : "{session_name()}",
+                    "allowedFileSize" : "{$file_config->allowed_filesize}",
+                    "allowedFileTypes" : "{$file_config->allowed_filetypes}",
+                    "allowedFileTypesDescription" : "{$file_config->allowed_filetypes}",
+                    "insertedFiles" : {(int)$files_count},
+                    "replaceButtonID" : "swfUploadButton{$editor_sequence}",
+                    "fileListAreaID" : "uploaded_file_list_{$editor_sequence}",
+                    "previewAreaID" : "preview_uploaded_{$editor_sequence}",
+                    "uploaderStatusID" : "uploader_status_{$editor_sequence}"
+			});
+			<!--@end-->
+		});
     //]]></script>
 
 <!--@end-->

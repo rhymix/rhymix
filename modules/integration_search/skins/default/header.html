@@ -14,7 +14,7 @@
     <!--%import("is.js")-->
 
     <div id="spot">
-        <form action="{getUrl()}" method="post" class="search" id="fo_is">
+        <form action="{getUrl()}" method="post" class="search" id="fo_is" no-error-return-url="true" >
             <input type="hidden" name="mid" value="{$mid}" />
             <input type="hidden" name="act" value="IS" />
             <input type="hidden" name="where" value="{$where}" />

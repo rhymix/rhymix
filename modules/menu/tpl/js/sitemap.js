@@ -1,6 +1,12 @@
 /* NHN (developers@xpressengine.com) */
 jQuery(function($){
 
+// get add/edit menu title
+var $lang = $('#editMenu h2:first span');
+xe.lang.add_menu  = $lang.eq(0).text();
+xe.lang.edit_menu = $lang.eq(1).text();
+$lang.empty();
+
 $('form.siteMap')
 	.delegate('li:not(.placeholder)', 'dropped.st', function() {
 		var $this = $(this), $pkey, $mkey, is_child;
@@ -13,7 +19,7 @@ $('form.siteMap')
 		} else {
 			$pkey.val('0');
 		}
-	})
+	});
 
 	var editForm = $('#editForm');
 	var menuSrl = null;
@@ -40,7 +46,7 @@ $('form.siteMap')
 	{
 		var menuItem = obj.menu_item;
 		menuUrl = menuItem.url;
-		editForm.find('.h2').html('Edit Menu');
+		editForm.find('.h2').text(xe.lang.edit_menu);
 		editForm.find('input[name=menu_srl]').val(menuItem.menu_srl);
 		editForm.find('input[name=menu_item_srl]').val(menuItem.menu_item_srl);
 		editForm.find('input[name=parent_srl]').val(menuItem.parent_srl);
@@ -137,7 +143,7 @@ $('form.siteMap')
 
 		resetEditForm();
 		
-		editForm.find('.h2').html('Add Menu');
+		editForm.find('.h2').text(xe.lang.add_menu);
 		editForm.find('input[name=menu_srl]').val($this.closest('form').find('input[name=menu_srl]:first').val());
 		editForm.find('input[name=parent_srl]').val($this.parent().prevAll('input._item_key').val());
 	});
@@ -195,15 +201,20 @@ $('form.siteMap')
 		var module = $('#kModule').val();
 		if(module == 'WIDGET' || module == 'ARTICLE' || module == 'OUTSIDE') module = 'page';
 
-		var midList = ret_obj.module_list[module].list;
 		var htmlBuffer = "";
-		for(x in midList)
+		if(ret_obj.module_list[module] != undefined)
 		{
-			var midObject = midList[x];
-			htmlBuffer += '<option value="'+midObject.mid+'"';
-			if(menuUrl == midObject.mid) htmlBuffer += ' selected ';
-			htmlBuffer += '>'+midObject.browser_title+'</option>';
+			var midList = ret_obj.module_list[module].list;
+			for(x in midList)
+			{
+				var midObject = midList[x];
+				htmlBuffer += '<option value="'+midObject.mid+'"';
+				if(menuUrl == midObject.mid) htmlBuffer += ' selected ';
+				htmlBuffer += '>'+midObject.mid+'('+midObject.browser_title+')</option>';
+			}
 		}
+		else htmlBuffer = '';
+
 		selectModuleLayer.find('select').html(htmlBuffer);
 	}
 

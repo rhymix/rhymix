@@ -20,7 +20,7 @@
 <!--@end-->
 
 {@$cookie_tool=explode(',', $_COOKIE['DrEditorToolbar'])}
-{@$default_tool=explode(',', 'hx,txt,material,link,list,quote,img,movie,file,hr,index')}
+{@$default_tool=explode(',', 'hx,txt,'.($material_exists?'material,':'').'link,list,quote,img,movie,file,hr,index');}
 {@$external_components=array_keys($drComponentList)}
 {@$enable_tool=array_unique(array_merge($cookie_tool, $default_tool, (array)$external_components))}
 
@@ -479,7 +479,7 @@
 				</fieldset>
 			</div>
 
-			<div class="wArea mArea material">
+			<div class="wArea mArea material" cond="$material_exists">
 			<!-- class="mArea" | class="mArea open" -->
 				<fieldset>
 					<legend>{$lang->edit->materials}</legend>

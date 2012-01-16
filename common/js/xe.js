@@ -816,7 +816,9 @@ function doDocumentPreview(obj) {
         ).appendTo(document.body);
 
         dummy_obj = jQuery("#previewDocument")[0];
-    }
+    } else {
+		dummy_obj = dummy_obj[0];
+	}
 
     if(dummy_obj) {
         dummy_obj.content.value = content;
@@ -1258,6 +1260,13 @@ jQuery(function($){
 		// cancel default action
 		return false;
 	});
+
+	// date picker default settings
+	if($.datepicker) {
+		$.datepicker.setDefaults({
+			dateFormat : 'yy-mm-dd'
+		});
+	}
 });
 /**
  * @file   common/js/xml_handler.js
@@ -1526,7 +1535,8 @@ $.exec_xml = window.exec_xml = function(module, act, params, callback_func, resp
 				return $.exec_xml.onerror(module, act, ret, callback_func, response_tags, callback_func_arg, fo_obj);
 			}
 
-			alert(ret['message'] || 'error!');
+			alert( (ret['message']||'An unknown error occured while loading ['+module+'.'+act+']').replace(/\\n/g, '\n') );
+
 			return null;
 		}
 

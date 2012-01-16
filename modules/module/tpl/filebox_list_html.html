@@ -1,9 +1,13 @@
-<p cond="!$filebox_list">등록된 파일이 없습니다.</p>
+<p cond="!$filebox_list">Not a registered file.</p>
 <ul cond="$filebox_list" class="lined">
 	<li loop="$filebox_list=>$key,$fileInfo">
-		<a href="#" class="select"><img class="filebox_item" src="{$fileInfo->filename}" title="{$fileInfo->comment}" /></a>
-		<span>{$fileInfo->comment}</span>
+		<!--@if(!$allow_multiple)--><a href="#" class="select"><!--@end--><img class="filebox_item" src="{$fileInfo->filename}" /><!--@if(!$allow_multiple)--></a><!--@end-->
+		<!--@if($allow_multiple)--><input class="select_checkbox" type="checkbox" name="{$fileInfo->filename}" id="{$fileInfo->filename}"><!--@end-->
+		<!--@foreach($fileInfo->attributes as $key => $value)-->
+		<p class="q">{$key} : {$value}</p>
+		<!--@end-->
 	</li>
+	<!--@if($allow_multiple)--><li><a href="#" class="select">Select</a></li><!--@end-->
 </ul>
 <div class="pagination" cond="$page_navigation">
 	<a href="#" class="direction" page="1">&laquo; FIRST</a>

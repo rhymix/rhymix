@@ -39,6 +39,7 @@ function getFTPList(pwd)
 	params['ftp_host'] = jQuery("#ftp_host").val();
 	params['ftp_port'] = jQuery("#ftp_port").val();
 	params['ftp_root_path'] = jQuery("#ftp_root_path").val();
+	params['sftp'] = jQuery("input[name=sftp]:checked").val();
 
     exec_xml('admin', 'getAdminFTPList', params, completeGetFtpInfo, ['list', 'error', 'message'], params, form);
 }

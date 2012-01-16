@@ -3,7 +3,7 @@ function editorStartTextarea(editor_sequence, content_key, primary_key) {
     var use_html = xGetElementById('htm_'+editor_sequence).value;
     obj.form.setAttribute('editor_sequence', editor_sequence);
 
-    obj.style.width = '99%';
+    obj.style.width = '100%';
 
     editorRelKeys[editor_sequence] = new Array();
     editorRelKeys[editor_sequence]["primary"] = obj.form[primary_key];

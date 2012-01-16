@@ -421,6 +421,8 @@ class Validator
 
 		if(preg_match('@(^|/)files/ruleset/\w+\.xml$@i', $this->_xml_path)) $ruleset = '@'.$ruleset;
 
+		list($ruleset) = explode('.', $ruleset);
+
 		// current language
 		$lang_type = class_exists('Context')?Context::getLangType():'en';
 

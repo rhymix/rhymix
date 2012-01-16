@@ -1909,6 +1909,10 @@
 		<value xml:lang="vi"><![CDATA[Lượt bình chọn]]></value>
 		<value xml:lang="mn"><![CDATA[vote]]></value>
 	</item>
+	<item name="blamed_count">
+		<value xml:lang="ko"><![CDATA[비추천 수]]></value>
+		<value xml:lang="en"><![CDATA[Blames]]></value>
+	</item>
 	<item name="comment_count">
 		<value xml:lang="ko"><![CDATA[댓글 수]]></value>
 		<value xml:lang="en"><![CDATA[Comments]]></value>

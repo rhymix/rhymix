@@ -32,7 +32,7 @@ body{background:#fff}
 .iSearch .iText:focus{border:1px solid #8E8E8D;background-color:#fff}
 .iSearch .submit{vertical-align:middle;_position:relative;_top:-1px}
 /* Site Layout - Content Body */
-.body{position:relative;padding-bottom:30px;overflow:hidden;background:url(../images/white/bgContentBody.gif) repeat-y left top;border-bottom:1px solid #ddd;zoom:1}
+.body{position:relative;z-index:1;padding-bottom:30px;overflow:hidden;background:url(../images/white/bgContentBody.gif) repeat-y left top;border-bottom:1px solid #ddd;zoom:1}
 .body:after{content:"";display:block;clear:both}
 /* Site Layout - Column Left */
 .lnb{position:relative;width:201px;float:left}
