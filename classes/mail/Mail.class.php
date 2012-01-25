@@ -18,8 +18,8 @@ class Mail extends PHPMailer
 	var $messageId = NULL;
 	var $replyTo = NULL;
 	var $bcc = NULL;
-	var $attachments = array(); 
-	var $cidAttachments  = array(); 
+	var $attachments = array();
+	var $cidAttachments  = array();
 	var $mainMailPart = NULL;
 	var $body = '';
 	var $header = '';
@@ -32,22 +32,22 @@ class Mail extends PHPMailer
 	* @brief Constructor function
 	* @access public
 	* @developer NHN (developers@xpressengine.com)
-	* 
+	*
 	* @return void
 	*/
-	function Mail() 
+	function Mail()
 	{
-		
+
 	}
-	
+
 	/**
 	* @brief Set parameters for using Gmail
 	* @access public
 	* @developer NHN (developers@xpressengine.com)
-	* 
+	*
 	* @param $account_name password
 	* @param $account_passwd secure method ('ssl','tls')
-	* 
+	*
 	* @return void
 	*/
 	function useGmailAccount($account_name, $account_passwd)
@@ -72,17 +72,17 @@ class Mail extends PHPMailer
 	* @brief Set parameters for using SMTP protocol
 	* @access public
 	* @developer NHN (developers@xpressengine.com)
-	*  
+	*
 	* @param $auth SMTP authentication
 	* @param $host
 	* @param $user
 	* @param $password
 	* @param $secure method ('ssl','tls')
 	* @param $port
-	* 
+	*
 	* @return boolean TRUE if SMTP is set correct, otherwise return FALSE
 	*/
-	public function useSMTP($auth = NULL, $host = NULL, $user = NULL, $pass = NULL, $secure = NULL, $port = 25)
+	function useSMTP($auth = NULL, $host = NULL, $user = NULL, $pass = NULL, $secure = NULL, $port = 25)
 	{
 		$this->SMTPAuth = $auth;
 		$this->Host	= $host;
@@ -90,7 +90,7 @@ class Mail extends PHPMailer
 		$this->Password = $pass;
 		$this->Port	= $port;
 
-		if($secure == 'ssl' || $secure == 'tls') 
+		if($secure == 'ssl' || $secure == 'tls')
 		{
 			$this->SMTPSecure = $secure;
 		}
@@ -112,7 +112,7 @@ class Mail extends PHPMailer
 	* @brief Set additional parameters
 	* @access public
 	* @developer NHN (developers@xpressengine.com)
-	* 
+	*
 	* @param $additional_params
 	* @return void
 	*/
@@ -125,7 +125,7 @@ class Mail extends PHPMailer
 	* @brief Add file attachment
 	* @access public
 	* @developer NHN (developers@xpressengine.com)
-	* 
+	*
 	* @param $filename
 	* @param $orgfilename (real path to file)
 	* @return void
@@ -139,7 +139,7 @@ class Mail extends PHPMailer
 	* @brief Add content attachment
 	* @access public
 	* @developer NHN (developers@xpressengine.com)
-	* 
+	*
 	* @param $filename
 	* @param $cid
 	* @return void
@@ -153,12 +153,12 @@ class Mail extends PHPMailer
 	* @brief Set Sender (From:)
 	* @access public
 	* @developer NHN (developers@xpressengine.com)
-	* 
+	*
 	* @param $name
 	* @param $email
 	* @return void
 	*/
-	function setSender($name, $email) 
+	function setSender($name, $email)
 	{
 		if($this->Mailer == "mail")
 		{
@@ -175,13 +175,13 @@ class Mail extends PHPMailer
 	* @brief Get Sender (From:)
 	* @access public
 	* @developer NHN (developers@xpressengine.com)
-	* 
+	*
 	* @return string
 	*/
-	function getSender() 
+	function getSender()
 	{
 		if(!stristr(PHP_OS, 'win') && $this->sender_name)
-		{ 
+		{
 			return sprintf("%s <%s>", '=?utf-8?b?' . base64_encode($this->sender_name) . '?=', $this->sender_email);
 		}
 		return $this->sender_email;
@@ -191,12 +191,12 @@ class Mail extends PHPMailer
 	* @brief Set Receiptor (TO:)
 	* @access public
 	* @developer NHN (developers@xpressengine.com)
-	* 
+	*
 	* @param $name
 	* @param $email
 	* @return void
 	*/
-	function setReceiptor($name, $email) 
+	function setReceiptor($name, $email)
 	{
 		if($this->Mailer == "mail")
 		{
@@ -213,10 +213,10 @@ class Mail extends PHPMailer
 	* @brief Get Receiptor (TO:)
 	* @access public
 	* @developer NHN (developers@xpressengine.com)
-	* 
+	*
 	* @return string
 	*/
-	function getReceiptor() 
+	function getReceiptor()
 	{
 		if(!stristr(PHP_OS, 'win') && $this->receiptor_name && $this->receiptor_name != $this->receiptor_email)
 		{
@@ -229,11 +229,11 @@ class Mail extends PHPMailer
 	* @brief Set Email's Title
 	* @access public
 	* @developer NHN (developers@xpressengine.com)
-	* 
+	*
 	* @param $title
 	* @return void
 	*/
-	function setTitle($title) 
+	function setTitle($title)
 	{
 		if($this->Mailer == "mail")
 		{
@@ -249,10 +249,10 @@ class Mail extends PHPMailer
 	* @brief Get Email's Title
 	* @access public
 	* @developer NHN (developers@xpressengine.com)
-	* 
+	*
 	* @return string
 	*/
-	function getTitle() 
+	function getTitle()
 	{
 		return '=?utf-8?b?' . base64_encode($this->title) . '?=';
 	}
@@ -261,7 +261,7 @@ class Mail extends PHPMailer
 	* @brief Set BCC
 	* @access public
 	* @developer NHN (developers@xpressengine.com)
-	* 
+	*
 	* @param $bcc
 	* @return void
 	*/
@@ -281,11 +281,11 @@ class Mail extends PHPMailer
 	* @brief Set Message ID
 	* @access public
 	* @developer NHN (developers@xpressengine.com)
-	* 
+	*
 	* @param $messageId
 	* @return void
 	*/
-	function setMessageID($messageId) 
+	function setMessageID($messageId)
 	{
 		$this->messageId = $messageId;
 	}
@@ -294,11 +294,11 @@ class Mail extends PHPMailer
 	* @brief Set references
 	* @access public
 	* @developer NHN (developers@xpressengine.com)
-	* 
+	*
 	* @param $references
 	* @return void
 	*/
-	function setReferences($references) 
+	function setReferences($references)
 	{
 		$this->references = $references;
 	}
@@ -307,7 +307,7 @@ class Mail extends PHPMailer
 	* @brief Set ReplyTo param
 	* @access public
 	* @developer NHN (developers@xpressengine.com)
-	* 
+	*
 	* @param $replyTo
 	* @return void
 	*/
@@ -324,14 +324,14 @@ class Mail extends PHPMailer
 	}
 
 	/**
-	* @brief Set message content 
+	* @brief Set message content
 	* @access public
 	* @developer NHN (developers@xpressengine.com)
-	* 
+	*
 	* @param $content
 	* @return void
 	*/
-	function setContent($content) 
+	function setContent($content)
 	{
 		$content = preg_replace_callback('/<img([^>]+)>/i', array($this, 'replaceResourceRealPath'), $content);
 		if($this->Mailer == "mail")
@@ -348,9 +348,9 @@ class Mail extends PHPMailer
 	* @brief Replace resourse path of the files
 	* @access public
 	* @developer NHN (developers@xpressengine.com)
-	* 
+	*
 	* @param $matches
-	* 
+	*
 	* @return string
 	*/
 	function replaceResourceRealPath($matches)
@@ -362,10 +362,10 @@ class Mail extends PHPMailer
 	* @brief Get the Plain content of body message
 	* @access public
 	* @developer NHN (developers@xpressengine.com)
-	* 
+	*
 	* @return string
 	*/
-	function getPlainContent() 
+	function getPlainContent()
 	{
 		return chunk_split(base64_encode(str_replace(array("<", ">", "&"), array("&lt;", "&gt;", "&amp;"), $this->content)));
 	}
@@ -374,10 +374,10 @@ class Mail extends PHPMailer
 	* @brief Get the HTML content of body message
 	* @access public
 	* @developer NHN (developers@xpressengine.com)
-	* 
+	*
 	* @return string
 	*/
-	function getHTMLContent() 
+	function getHTMLContent()
 	{
 		return chunk_split(base64_encode($this->content_type != 'html' ? nl2br($this->content):$this->content));
 	}
@@ -386,7 +386,7 @@ class Mail extends PHPMailer
 	* @brief Set the type of body's content
 	* @access public
 	* @developer NHN (developers@xpressengine.com)
-	* 
+	*
 	* @param $mode
 	* @return void
 	*/
@@ -399,7 +399,7 @@ class Mail extends PHPMailer
 	* @brief Process the images from attachments
 	* @access public
 	* @developer NHN (developers@xpressengine.com)
-	* 
+	*
 	* @return void
 	*/
 	function procAttachments()
@@ -419,7 +419,7 @@ class Mail extends PHPMailer
 					$type = $this->returnMIMEType($filename);
 					$file_handler = new FileHandler();
 					$file_str = $file_handler->readFile($attachment);
-					$chunks = chunk_split(base64_encode($file_str)); 
+					$chunks = chunk_split(base64_encode($file_str));
 					$tempBody = sprintf(
 						"--" . $boundary . $this->eol .
 						"Content-Type: %s;" . $this->eol .
@@ -456,7 +456,7 @@ class Mail extends PHPMailer
 	* @brief Process the images from body content. This functions is used if Mailer is set as mail not as SMTP
 	* @access public
 	* @developer NHN (developers@xpressengine.com)
-	* 
+	*
 	* @return void
 	*/
 	function procCidAttachments()
@@ -474,7 +474,7 @@ class Mail extends PHPMailer
 				$filename = basename($attachment);
 				$type = $this->returnMIMEType(FileHandler::getRealPath($attachment));
 				$file_str = FileHandler::readFile($attachment);
-				$chunks = chunk_split(base64_encode($file_str)); 
+				$chunks = chunk_split(base64_encode($file_str));
 				$tempBody = sprintf(
 					"--" . $boundary . $this->eol .
 					"Content-Type: %s;" . $this->eol .
@@ -501,10 +501,10 @@ class Mail extends PHPMailer
 	* @brief Send email
 	* @access public
 	* @developer NHN (developers@xpressengine.com)
-	* 
+	*
 	* @return boolean TRUE in case of success, FALSE if sending fails
 	*/
-	function send() 
+	function send()
 	{
 		if($this->Mailer == "mail")
 		{
@@ -563,22 +563,22 @@ class Mail extends PHPMailer
 	* @brief Check if DNS of param is real or fake
 	* @access public
 	* @developer NHN (developers@xpressengine.com)
-	* 
+	*
 	* @param $email_address
-	* 
+	*
 	* @return boolean TRUE if param is valid DNS otherwise FALSE
 	*/
-	function checkMailMX($email_address) 
+	function checkMailMX($email_address)
 	{
 		if(!Mail::isVaildMailAddress($email_address))
-		{ 
+		{
 			return FALSE;
 		}
 		list($user, $host) = explode("@", $email_address);
-		if(function_exists('checkdnsrr')) 
+		if(function_exists('checkdnsrr'))
 		{
 			if(checkdnsrr($host, "MX") || checkdnsrr($host, "A"))
-			{ 
+			{
 				return TRUE;
 			}
 			else
@@ -593,12 +593,12 @@ class Mail extends PHPMailer
 	* @brief Check if param is a valid email or not
 	* @access public
 	* @developer NHN (developers@xpressengine.com)
-	* 
+	*
 	* @param $email_address
-	* 
+	*
 	* @return string email address if param is valid email address otherwise blank string
 	*/
-	function isVaildMailAddress($email_address) 
+	function isVaildMailAddress($email_address)
 	{
 		if(preg_match("/([a-z0-9\_\-\.]+)@([a-z0-9\_\-\.]+)/i", $email_address))
 		{
@@ -614,9 +614,9 @@ class Mail extends PHPMailer
 	* @brief Gets the MIME type of param
 	* @access public
 	* @developer NHN (developers@xpressengine.com)
-	* 
+	*
 	* @param $filename filename
-	* 
+	*
 	* @return string MIME type of ext
 	*/
 	function returnMIMEType($filename)
