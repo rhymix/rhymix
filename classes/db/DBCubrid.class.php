@@ -3,11 +3,9 @@
 	 * @class DBCubrid
 	 * @author NHN (developers@xpressengine.com)
 	 * @brief Cubrid DBMS to use the class
-	 * @version 0.1p1
+	 * @version 1.0
 	 *
-	 * Modified to work with CUBRID2008 R1.3 verion by Prototype (prototype@cubrid.com)/09.02.23
-	 * Test completed for CUBRID 7.3 ~ 2008 R1.3 versions.
-	 * Only basic query used so query tunning and optimization needed
+	 * Works with CUBRID up to 8.4.0
 	 **/
 
 	class DBCubrid extends DB

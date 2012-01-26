@@ -529,5 +529,60 @@
 			<value xml:lang="zh-TW"><![CDATA[刪除]]></value>
 			<value xml:lang="vi"><![CDATA[Xóa]]></value>
 		</item>
+		<item name="image_align">
+			<value xml:lang="ko"><![CDATA[정렬 방법]]></value>
+			<value xml:lang="en"><![CDATA[Alignment]]></value>
+			<value xml:lang="jp"><![CDATA[アライン位置]]></value>
+			<value xml:lang="zh-CN"><![CDATA[对齐方式]]></value>
+			<value xml:lang="zh-TW"><![CDATA[對齊方式]]></value>
+			<value xml:lang="ru"><![CDATA[Стиль выравнивания]]></value>
+			<value xml:lang="es"><![CDATA[Alinear Estilo]]></value>
+			<value xml:lang="tr"><![CDATA[Hizalama Tarzı]]></value>
+			<value xml:lang="vi"><![CDATA[Căn chỉnh]]></value>
+		</item>
+		<item name="align_normal">
+			<value xml:lang="ko"><![CDATA[한 문단을 차지]]></value>
+			<value xml:lang="en"><![CDATA[Occupy a Paragraph]]></value>
+			<value xml:lang="jp"><![CDATA[一段落占め]]></value>
+			<value xml:lang="zh-CN"><![CDATA[占一个段落]]></value>
+			<value xml:lang="zh-TW"><![CDATA[段落]]></value>
+			<value xml:lang="ru"><![CDATA[Занять параграф]]></value>
+			<value xml:lang="es"><![CDATA[Occupy un parrafo]]></value>
+			<value xml:lang="tr"><![CDATA[Paragraf Atla]]></value>
+			<value xml:lang="vi"><![CDATA[Một khoảng bài viết]]></value>
+		</item>
+		<item name="align_left">
+			<value xml:lang="ko"><![CDATA[글의 왼쪽으로]]></value>
+			<value xml:lang="en"><![CDATA[Left]]></value>
+			<value xml:lang="jp"><![CDATA[左揃え]]></value>
+			<value xml:lang="zh-CN"><![CDATA[内容左侧]]></value>
+			<value xml:lang="zh-TW"><![CDATA[靠左]]></value>
+			<value xml:lang="ru"><![CDATA[Лево]]></value>
+			<value xml:lang="es"><![CDATA[Izquierda del articulo]]></value>
+			<value xml:lang="tr"><![CDATA[Makalenin Solunda]]></value>
+			<value xml:lang="vi"><![CDATA[Bên trái bài viết]]></value>
+		</item>
+		<item name="align_center">
+			<value xml:lang="ko"><![CDATA[가운데]]></value>
+			<value xml:lang="en"><![CDATA[Center]]></value>
+			<value xml:lang="jp"><![CDATA[中央揃え]]></value>
+			<value xml:lang="zh-CN"><![CDATA[居中]]></value>
+			<value xml:lang="zh-TW"><![CDATA[置中]]></value>
+			<value xml:lang="ru"><![CDATA[Центр]]></value>
+			<value xml:lang="es"><![CDATA[Centro]]></value>
+			<value xml:lang="tr"><![CDATA[Ortalı]]></value>
+			<value xml:lang="vi"><![CDATA[Giữa]]></value>
+		</item>
+		<item name="align_right">
+			<value xml:lang="ko"><![CDATA[글의 우측으로]]></value>
+			<value xml:lang="en"><![CDATA[Right]]></value>
+			<value xml:lang="jp"><![CDATA[右揃え]]></value>
+			<value xml:lang="zh-CN"><![CDATA[内容右侧]]></value>
+			<value xml:lang="zh-TW"><![CDATA[靠右]]></value>
+			<value xml:lang="ru"><![CDATA[Право]]></value>
+			<value xml:lang="es"><![CDATA[Derecho de articulo]]></value>
+			<value xml:lang="tr"><![CDATA[Makalenin Sağında]]></value>
+			<value xml:lang="vi"><![CDATA[Bên phải bài viết]]></value>
+		</item>
 	</item>
 </lang>

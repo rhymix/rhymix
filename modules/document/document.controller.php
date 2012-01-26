@@ -295,6 +295,7 @@ class documentController extends document {
 			$obj->ipaddress = $source_obj->get('ipaddress');
 		}
 		// List variables
+		if($obj->comment_status) $obj->commentStatus = $obj->comment_status;
 		if(!$obj->commentStatus) $obj->commentStatus = 'DENY';
 		if($obj->commentStatus == 'DENY') $this->_checkCommentStatusForOldVersion($obj);
 		if($obj->allow_trackback!='Y') $obj->allow_trackback = 'N';

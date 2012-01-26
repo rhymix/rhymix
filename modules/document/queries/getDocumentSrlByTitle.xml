@@ -1,0 +1,14 @@
+<query id="getDocumentSrlByAlias" action="select">
+    <tables>
+        <table name="documents" />
+        <table name="modules" />
+    </tables>
+    <columns>
+        <column name="document_srl" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="title" var="title" notnull="notnull" />
+		<condition operation="equal" column="modules.module_srl" var="module_srl" notnull="notnull" pipe="and" />
+        <condition operation="equal" column="modules.module_srl" var="documents.module_srl" filter="number" notnull="notnull" pipe="and" />
+    </conditions>
+</query>

@@ -901,6 +901,16 @@
             else return $output->data->document_srl;
         }
 
+        function getDocumentSrlByTitle($module_srl, $title)
+        {
+            if(!$module_srl || !$title) return null;
+			$args->module_srl = $module_srl;
+			$args->title = $title;
+            $output = executeQuery('document.getDocumentSrlByTitle', $args);
+            if(!$output->data) return null;
+            else return $output->data->document_srl;
+        }		
+		
 		function getAlias($document_srl){
 			if(!$document_srl) return null;
 			$args->document_srl = $document_srl;
