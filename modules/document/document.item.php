@@ -259,11 +259,49 @@
 			if($result) $_SESSION['accessible'][$this->document_srl] = true;
 
             $content = $this->get('content');
+			$content = preg_replace_callback('@[\w\W]*(<[\s]*object[^>]*>)+[\w\W]*(<[\s]*/[\s]*object[\s]*>)+[\w\W]*@ixs', array($this, '_checkAllowScriptAccess'), $content);
 
             if($strlen) return cut_str(strip_tags($content),$strlen,'...');
 
             return htmlspecialchars($content);
         }
+
+		function _checkAllowScriptAccess($m)
+		{
+			//first, object element check.
+			preg_match('/[\w\W]*(name[\s]*=[\s]*(?:\'|")[\s]*allowscriptaccess[\s]*(?:\'|"))+[\s]+(value[\s]*=[\s]*(?:\'|")[\s]*(?:always|samedomain)[\s]*(?:\'|"))*[\w\W]*/ixs', $m[0], $m2);
+
+			if($m2[2])
+			{
+				$m[0] = preg_replace('/'.$m2[2].'/i', 'value="never"', $m[0]);
+			}
+			else
+			{
+				$m[0] = preg_replace('/<object[^>]*>/i', '$0<param name="allowscriptaccess" value="never" />', $m[0]);
+			}
+
+			//second, embed's property check.
+			preg_match('/[\w\W]*(allowscriptaccess[\s]*=[\s]*(?:\'|")[\s]*(?:always|samedomain)[\s]*(?:\'|"))+[\w\W]*/ixs', $m[0], $m3);
+			if($m3[1])
+			{
+				$m[0] = preg_replace('/'.$m3[1].'/i', 'allowscriptaccess="never"', $m[0]);
+			}
+			else
+			{
+				$m[0] = preg_replace('/<embed[\s>]*/i', '$0 allowscriptaccess="never" ', $m[0]);
+			}
+
+			return $m[0];
+		}
+
+		/*function _checkAllowScriptAccess2($m)
+		{
+			if($m[1])
+			{
+				$m[0] = preg_replace('/'.$m[1].'/i', 'value="never"', $m[0]);
+			}
+			return $m[0];
+		}*/
 
         function getContent($add_popup_menu = true, $add_content_info = true, $resource_realpath = false, $add_xe_content_class = true, $stripEmbedTagException = false) {
             if(!$this->document_srl) return;

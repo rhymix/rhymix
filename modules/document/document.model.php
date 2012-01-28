@@ -153,7 +153,7 @@
          **/
         function getDocumentList($obj, $except_notice = false, $load_extra_vars=true, $columnList = array()) {
             $sort_check = $this->_setSortIndex($obj, $load_extra_vars);
-            $obj->sort_index = $sort_check->sort_index; 
+            $obj->sort_index = $sort_check->sort_index;
         	// cache controll
 			$oCacheHandler = &CacheHandler::getInstance('object');
 			if($oCacheHandler->isSupport()){
@@ -909,8 +909,8 @@
             $output = executeQuery('document.getDocumentSrlByTitle', $args);
             if(!$output->data) return null;
             else return $output->data->document_srl;
-        }		
-		
+        }
+
 		function getAlias($document_srl){
 			if(!$document_srl) return null;
 			$args->document_srl = $document_srl;
