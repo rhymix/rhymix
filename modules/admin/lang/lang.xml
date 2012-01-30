@@ -20,20 +20,30 @@
 		<value xml:lang="en"><![CDATA[Current state]]></value>
 		<value xml:lang="jp"><![CDATA[現況]]></value>
 	</item>
-	<item name="latest_document">
+	<item name="latest_documents">
 		<value xml:lang="ko"><![CDATA[최근 글]]></value>
-		<value xml:lang="en"><![CDATA[Latest Document]]></value>
+		<value xml:lang="en"><![CDATA[Latest Documents]]></value>
 		<value xml:lang="jp"><![CDATA[最新記事]]></value>
 	</item>
-	<item name="latest_comment">
+	<item name="latest_comments">
 		<value xml:lang="ko"><![CDATA[최근 댓글]]></value>
-		<value xml:lang="en"><![CDATA[Latest Comment]]></value>
+		<value xml:lang="en"><![CDATA[Latest Comments]]></value>
 		<value xml:lang="jp"><![CDATA[最新のコメント]]></value>
 	</item>
-	<item name="latest_trackback">
+	<item name="latest_trackbacks">
 		<value xml:lang="ko"><![CDATA[최근 엮인글]]></value>
-		<value xml:lang="en"><![CDATA[Latest Trackback]]></value>
+		<value xml:lang="en"><![CDATA[Latest Trackbacks]]></value>
 		<value xml:lang="jp"><![CDATA[最新のトラックバック]]></value>
+	</item>
+	<item name="notices">
+		<value xml:lang="ko"><![CDATA[공지]]></value>
+		<value xml:lang="en"><![CDATA[Notices]]></value>
+		<value xml:lang="jp"><![CDATA[お知らせ]]></value>
+	</item>
+	<item name="favorites">
+		<value xml:lang="ko"><![CDATA[즐겨찾기]]></value>
+		<value xml:lang="en"><![CDATA[Favorites]]></value>
+		<value xml:lang="jp"><![CDATA[お気に入り]]></value>
 	</item>
 	<item name="admin_info">
 		<value xml:lang="ko"><![CDATA[관리자 정보]]></value>
@@ -207,9 +217,9 @@
 			<value xml:lang="en"><![CDATA[Dashboard]]></value>
 			<value xml:lang="jp"><![CDATA[ダッシュボード]]></value>
 		</item>
-		<item name="site">
+		<item name="menu">
 			<value xml:lang="ko"><![CDATA[사이트]]></value>
-			<value xml:lang="en"><![CDATA[Site]]></value>
+			<value xml:lang="en"><![CDATA[Menu]]></value>
 			<value xml:lang="jp"><![CDATA[サイト]]></value>
 		</item>
 		<item name="user">

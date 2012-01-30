@@ -80,9 +80,9 @@
 		<value xml:lang="tr"><![CDATA[Eklentiler, HTML sonuçlarını göstermek yerine sitenizde gerçekleştirilen birçok eylemi kontrol ederler, .<br />Kullanışlı işlevleri, AÇIK/KAPALI anahtarını değiştirerek, kolayca kontrol edebilirsiniz.]]></value>
 		<value xml:lang="vi"><![CDATA[Addon có nhiệm vụ hiển thị và kiểm soát kết quả HTML.<br />Bạn có thể mở hoặc tắt bất cứ Addon nào bạn muốn.]]></value>
 	</item>
-	<item name="installed_addon">
+	<item name="installed_addons">
 		<value xml:lang="ko"><![CDATA[설치된 애드온]]></value>
-		<value xml:lang="en"><![CDATA[Installed Addon]]></value>
+		<value xml:lang="en"><![CDATA[Installed Add-ons]]></value>
 		<value xml:lang="jp"><![CDATA[インストールされているアドオン]]></value>
 	</item>
 	<item name="about_installed_addon">

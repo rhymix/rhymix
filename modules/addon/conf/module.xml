@@ -14,17 +14,17 @@
     </actions>
 	<menus>
 		<menu name="installedAddon">
-			<title xml:lang="en">Installed Addon</title>
+			<title xml:lang="en">Add-ons</title>
 			<title xml:lang="ko">설치된 애드온</title>
-			<title xml:lang="zh-CN">Installed Addon</title>
-			<title xml:lang="jp">Installed Addon</title>
-			<title xml:lang="es">Installed Addon</title>
-			<title xml:lang="ru">Installed Addon</title>
-			<title xml:lang="fr">Installed Addon</title>
-			<title xml:lang="zh-TW">Installed Addon</title>
-			<title xml:lang="vi">Installed Addon</title>
-			<title xml:lang="mn">Installed Addon</title>
-			<title xml:lang="tr">Installed Addon</title>
+			<title xml:lang="zh-CN">Add-ons</title>
+			<title xml:lang="jp">Add-ons</title>
+			<title xml:lang="es">Add-ons</title>
+			<title xml:lang="ru">Add-ons</title>
+			<title xml:lang="fr">Add-ons</title>
+			<title xml:lang="zh-TW">Add-ons</title>
+			<title xml:lang="vi">Add-ons</title>
+			<title xml:lang="mn">Add-ons</title>
+			<title xml:lang="tr">Add-ons</title>
 		</menu>
 	</menus>
 </module>

@@ -75,7 +75,7 @@
 			unset($args);
 
 			// gnb item create
-			$gnbList = array('dashboard', 'site', 'user', 'content', 'theme', 'extensions', 'configuration');
+			$gnbList = array('dashboard', 'menu', 'user', 'content', 'theme', 'extensions', 'configuration');
 			foreach($gnbList AS $key=>$value)
 			{
 				//insert menu item
@@ -239,7 +239,7 @@
 		{
 			switch($menuName) {
 				case 'siteMap':
-					return 'site';
+					return 'menu';
 					break;
 				case 'userList':
 				case 'userSetting':

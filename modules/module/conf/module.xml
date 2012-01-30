@@ -50,17 +50,17 @@
     </actions>
 	<menus>
 		<menu name="installedModule">
-			<title xml:lang="en">Installed Module</title>
+			<title xml:lang="en">Modules</title>
 			<title xml:lang="ko">설치된 모듈</title>
-			<title xml:lang="zh-CN">Installed Module</title>
-			<title xml:lang="jp">Installed Module</title>
-			<title xml:lang="es">Installed Module</title>
-			<title xml:lang="ru">Installed Module</title>
-			<title xml:lang="fr">Installed Module</title>
-			<title xml:lang="zh-TW">Installed Module</title>
-			<title xml:lang="vi">Installed Module</title>
-			<title xml:lang="mn">Installed Module</title>
-			<title xml:lang="tr">Installed Module</title>
+			<title xml:lang="zh-CN">Modules</title>
+			<title xml:lang="jp">Modules</title>
+			<title xml:lang="es">Modules</title>
+			<title xml:lang="ru">Modules</title>
+			<title xml:lang="fr">Modules</title>
+			<title xml:lang="zh-TW">Modules</title>
+			<title xml:lang="vi">Modules</title>
+			<title xml:lang="mn">Modules</title>
+			<title xml:lang="tr">Modules</title>
 		</menu>
 		<menu name="multilingual">
 			<title xml:lang="en">Multilingual</title>

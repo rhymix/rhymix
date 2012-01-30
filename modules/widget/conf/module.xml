@@ -27,17 +27,17 @@
     </actions>
 	<menus>
 		<menu name="installedWidget">
-			<title xml:lang="en">Installed Widget</title>
+			<title xml:lang="en">Widgets</title>
 			<title xml:lang="ko">설치된 위젯</title>
-			<title xml:lang="zh-CN">Installed Widget</title>
-			<title xml:lang="jp">Installed Widget</title>
-			<title xml:lang="es">Installed Widget</title>
-			<title xml:lang="ru">Installed Widget</title>
-			<title xml:lang="fr">Installed Widget</title>
-			<title xml:lang="zh-TW">Installed Widget</title>
-			<title xml:lang="vi">Installed Widget</title>
-			<title xml:lang="mn">Installed Widget</title>
-			<title xml:lang="tr">Installed Widget</title>
+			<title xml:lang="zh-CN">Widgets</title>
+			<title xml:lang="jp">Widgets</title>
+			<title xml:lang="es">Widgets</title>
+			<title xml:lang="ru">Widgets</title>
+			<title xml:lang="fr">Widgets</title>
+			<title xml:lang="zh-TW">Widgets</title>
+			<title xml:lang="vi">Widgets</title>
+			<title xml:lang="mn">Widgets</title>
+			<title xml:lang="tr">Widgets</title>
 		</menu>
 	</menus>
 </module>
