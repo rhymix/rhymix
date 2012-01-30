@@ -12,6 +12,8 @@
 
         var $allow_trackback_status = null;
 		var $columnList = array();
+		var $allowscriptaccessList = array();
+		var $allowscriptaccessKey = 0;
 
         function documentItem($document_srl = 0, $load_extra_vars = true, $columnList = array()) {
             $this->document_srl = $document_srl;
@@ -259,49 +261,56 @@
 			if($result) $_SESSION['accessible'][$this->document_srl] = true;
 
             $content = $this->get('content');
-			$content = preg_replace_callback('@[\w\W]*(<[\s]*object[^>]*>)+[\w\W]*(<[\s]*/[\s]*object[\s]*>)+[\w\W]*@ixs', array($this, '_checkAllowScriptAccess'), $content);
+			$content = preg_replace_callback('/<(object|param|embed)[^>]*/is', array($this, '_checkAllowScriptAccess'), $content);
+			$content = preg_replace_callback('/<object[^>]*>/is', array($this, '_addAllowScriptAccess'), $content);
 
             if($strlen) return cut_str(strip_tags($content),$strlen,'...');
 
             return htmlspecialchars($content);
         }
 
-		function _checkAllowScriptAccess($m)
+		function _addAllowScriptAccess($m)
 		{
-			//first, object element check.
-			preg_match('/[\w\W]*(name[\s]*=[\s]*(?:\'|")[\s]*allowscriptaccess[\s]*(?:\'|"))+[\s]+(value[\s]*=[\s]*(?:\'|")[\s]*(?:always|samedomain)[\s]*(?:\'|"))*[\w\W]*/ixs', $m[0], $m2);
-
-			if($m2[2])
+			if($this->allowscriptaccessList[$this->allowscriptaccessKey] == 1)
 			{
-				$m[0] = preg_replace('/'.$m2[2].'/i', 'value="never"', $m[0]);
+				$m[0] = $m[0].'<param name="allowscriptaccess" value="never"></param>';
 			}
-			else
-			{
-				$m[0] = preg_replace('/<object[^>]*>/i', '$0<param name="allowscriptaccess" value="never" />', $m[0]);
-			}
-
-			//second, embed's property check.
-			preg_match('/[\w\W]*(allowscriptaccess[\s]*=[\s]*(?:\'|")[\s]*(?:always|samedomain)[\s]*(?:\'|"))+[\w\W]*/ixs', $m[0], $m3);
-			if($m3[1])
-			{
-				$m[0] = preg_replace('/'.$m3[1].'/i', 'allowscriptaccess="never"', $m[0]);
-			}
-			else
-			{
-				$m[0] = preg_replace('/<embed[\s>]*/i', '$0 allowscriptaccess="never" ', $m[0]);
-			}
-
+			$this->allowscriptaccessKey++;
 			return $m[0];
 		}
 
-		/*function _checkAllowScriptAccess2($m)
+		function _checkAllowScriptAccess($m)
 		{
-			if($m[1])
+			if($m[1] == 'object')
 			{
-				$m[0] = preg_replace('/'.$m[1].'/i', 'value="never"', $m[0]);
+				$this->allowscriptaccessList[] = 1;
+			}
+
+			if($m[1] == 'param')
+			{
+				if(stripos($m[0], 'allowscriptaccess'))
+				{
+					$m[0] = '<param name="allowscriptaccess" value="never"';
+					if(substr($m[0], -1) == '/')
+					{
+						$m[0] .= '/';
+					}
+					$this->allowscriptaccessList[count($this->allowscriptaccessList)-1]--;
+				}
+			}
+			else if($m[1] == 'embed')
+			{
+				if(stripos($m[0], 'allowscriptaccess'))
+				{
+					$m[0] = str_ireplace(array('always', 'samedomain'), 'never', $m[0]);
+				}
+				else
+				{
+					$m[0] = str_ireplace('<embed', '<embed allowscriptaccess="never"', $m[0]);
+				}
 			}
 			return $m[0];
-		}*/
+		}
 
         function getContent($add_popup_menu = true, $add_content_info = true, $resource_realpath = false, $add_xe_content_class = true, $stripEmbedTagException = false) {
             if(!$this->document_srl) return;
