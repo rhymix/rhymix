@@ -5,7 +5,7 @@
 	 * @brief Cubrid DBMS to use the class
 	 * @version 1.0
 	 *
-	 * Works with CUBRID up to 8.4.0
+	 * Works with CUBRID up to 8.4.1
 	 **/
 
 	class DBCubrid extends DB
@@ -67,7 +67,7 @@
 		 **/
 		function __connect($connection)
 		{
-                        // attempts to connect
+            // attempts to connect
 			$result = @cubrid_connect($connection["db_hostname"], $connection["db_port"], $connection["db_database"], $connection["db_userid"], $connection["db_password"]);
 
 			// check connections
@@ -75,7 +75,15 @@
 				$this->setError (-1, 'database connect fail');
 				return;
 			}
-                        return $result;
+			
+			if(!defined('__CUBRID_VERSION__')) {
+				$cubrid_version = cubrid_get_server_info($result);
+				$cubrid_version_elem = explode('.', $cubrid_version);
+				$cubrid_version = $cubrid_version_elem[0] . '.' . $cubrid_version_elem[1] . '.' . $cubrid_version_elem[2];
+				define('__CUBRID_VERSION__', $cubrid_version);
+			}
+            
+			return $result;
 		}
 
 		/**

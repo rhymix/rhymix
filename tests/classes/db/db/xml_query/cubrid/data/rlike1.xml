@@ -1,0 +1,11 @@
+<query id="testRlike1" action="select">
+    <tables>
+        <table name="modules" />
+    </tables>
+    <columns>
+        <column name="*" />
+    </columns>
+    <conditions>
+        <condition operation="like" column="title" var="title" />
+    </conditions>
+</query>

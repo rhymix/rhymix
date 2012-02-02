@@ -23,13 +23,27 @@
 
                         switch($operation) {
                             case 'like_prefix' :
-                                    $this->value =  $value.'%';
+									if(defined('__CUBRID_VERSION__') 
+											&& __CUBRID_VERSION__ >= '8.4.1') {
+										$this->value = '^' . str_replace('%', '(.*)', preg_quote($value));
+											}
+                                    else 
+										$this->value =  $value.'%';
                                 break;
                             case 'like_tail' :
-                                    $this->value = '%'.$value;
+									if(defined('__CUBRID_VERSION__') 
+											&& __CUBRID_VERSION__ >= '8.4.1') 
+										$this->value = str_replace('%', '(.*)', preg_quote($value)) . '$';
+                                    else								
+										$this->value = '%'.$value;
                                 break;
                             case 'like' :
-                                    $this->value = '%'.$value.'%';
+									if(defined('__CUBRID_VERSION__') 
+											&& __CUBRID_VERSION__ >= '8.4.1') {
+										$this->value = str_replace('%', '(.*)', preg_quote($value));								
+											}
+                                    else								
+										$this->value = '%'.$value.'%';
                                 break;
                             case 'notlike' :
                                     $this->value = '%'.$value.'%';
