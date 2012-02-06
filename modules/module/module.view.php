@@ -105,6 +105,10 @@
             Context::set('selected_module', $selected_module);
             Context::set('selected_mids', $mid_list[$selected_module]->list);
             Context::set('module_category_exists', $module_category_exists);
+
+			$security = new Security();
+			$security->encodeHTML('id', 'type');
+
             // Set the layout to be pop-up
             $this->setLayoutFile('popup_layout');
             // Set a template file
