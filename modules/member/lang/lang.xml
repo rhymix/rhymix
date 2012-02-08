@@ -2409,7 +2409,7 @@ Bạn có thể quản lý thành viên bằng cách tạo những nhóm mới, 
 	</item>
 	<item name="msg_groups_exist">
 		<value xml:lang="ko"><![CDATA[개 그룹이 존재합니다.]]></value>
-		<value xml:lang="en"><![CDATA[groups are exist.]]></value>
+		<value xml:lang="en"><![CDATA[groups exist.]]></value>
 	</item>
 	<item name="cmd_member_config">
 		<value xml:lang="ko"><![CDATA[회원 설정]]></value>
