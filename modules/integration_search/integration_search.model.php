@@ -34,6 +34,7 @@
             $args->search_keyword = $search_keyword;
             $args->sort_index = 'list_order'; 
             $args->order_type = 'asc';
+			$args->statusList = array('PUBLIC');
             if(!$args->module_srl) unset($args->module_srl);
             // Get a list of documents
             $oDocumentModel = &getModel('document');
