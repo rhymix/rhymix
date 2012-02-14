@@ -235,13 +235,21 @@
          **/
         function procLayoutAdminCodeUpdate() {
 			$mode = Context::get('mode');
-			if ($mode == 'reset') return $this->procLayoutAdminCodeReset();
+			if ($mode == 'reset')
+			{
+				return $this->procLayoutAdminCodeReset();
+			}
 
             $layout_srl = Context::get('layout_srl');
             $code = Context::get('code');
             $code_css   = Context::get('code_css');
 			$is_post    = (Context::getRequestMethod() == 'POST');
-            if(!$layout_srl || !$code) return new Object(-1, 'msg_invalid_request');
+            if(!$layout_srl || !$code || !$is_post)
+			{
+				return new Object(-1, 'msg_invalid_request');
+			}
+
+			$code = preg_replace('/<\?.*(\?>)?/sm', '', $code);
 
             $oLayoutModel = &getModel('layout');
             $layout_file = $oLayoutModel->getUserLayoutHtml($layout_srl);
