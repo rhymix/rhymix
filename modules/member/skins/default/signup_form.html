@@ -8,10 +8,8 @@
 		<p>{$XE_VALIDATOR_MESSAGE}</p>
 	</div>
     <form ruleset="@insertMember" id="fo_insert_member" class="form" action="./" method="post" enctype="multipart/form-data">
-		<input type="hidden" name="module" value="member" />
 		<input type="hidden" name="act" value="procMemberInsert" />
-		<!--@if(!$is_logged && $member_config->agreement)-->
-		<div class="agreement">
+		<div class="agreement" cond="$member_config->agreement">
 			<div class="text">
 				{$member_config->agreement}
 			</div>
@@ -20,7 +18,6 @@
 				<label for="accept_agree">{$lang->about_accept_agreement}</label>
 			</div>
 		</div>
-		<!--@end-->
 		<ul>
 			<li>
 				<p class="q">{$identifierForm->title} <em style="color:red">*</em></p>

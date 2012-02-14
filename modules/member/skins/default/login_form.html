@@ -6,6 +6,7 @@
 <h1 class="h1">{$lang->cmd_login}</h1>
 <form ruleset="@login" action="./" method="post" id="fo_member_login" class="form">
 	<input type="hidden" name="success_return_url" value="{getUrl('act', '')}" />
+	<input type="hidden" name="act" value="procMemberLogin" />
 	<ul>
 		<li>
 			<p class="q"><label for="uid">{$lang->user_id}</label></p>
