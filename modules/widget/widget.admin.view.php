@@ -59,13 +59,15 @@
             $oDocument = $oDocumentModel->getDocument($document_srl);
             Context::set('oDocument', $oDocument);
 
+			if (!isset($document_srl)) $document_srl = getNextSequence();
+
             $oModuleModel = &getModel('module');
 			$columnList = array('module_srl', 'mid');
             $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);
             Context::set('module_info', $module_info);
             // Editors settings of the module by calling getEditor
             $oEditorModel = &getModel('editor');
-            $editor = $oEditorModel->getModuleEditor('document',$module_srl, $module_srl,'module_srl','content');
+            $editor = $oEditorModel->getModuleEditor('document',$module_srl, $document_srl,'document_srl','content');
             Context::set('editor', $editor);
 
 			$security = new Security();

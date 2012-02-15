@@ -426,6 +426,37 @@
             $output = $oDocumentController->insertDocumentExtraKey($module_srl, $var_idx, $name, $type, $is_required, $search, $default, $desc, $eid);
             if(!$output->toBool()) return $output;
 
+			// update ruleset
+			$oModuleModel = &getModel('module');
+			$moduleInfo = $oModuleModel->getModuleInfoByModuleSrl($obj->module_srl);
+			$rulesetFileName = './files/ruleset/insertDocument.'.$moduleInfo->mid.'.xml';
+
+			$oDocumentModel = &getModel('document');
+			$extra_keys = $oDocumentModel->getExtraKeys($obj->module_srl);
+
+			if (count($extra_keys)){
+				$defaultRulsetFile = $oModuleModel->getValidatorFilePath($moduleInfo->module, 'insertDocument');
+				$parser = new XmlParser();
+				$xml = $parser->loadXmlFile($defaultRulsetFile);
+
+				$generator = new XmlGenerator();
+
+				foreach($extra_keys as $idx => $extra_item){
+					if ($extra_item->is_required == 'Y'){
+						unset($node);
+						$node->node_name = 'field';
+						$node->attrs->name = 'extra_vars'.$idx;
+						$node->attrs->required = 'true';
+						$xml->ruleset->fields->field[] = $node;
+					}
+				}
+				$buff = $generator->obj2xml($xml);
+				FileHandler::writeFile($rulesetFileName, $buff);
+			}else{
+				FileHandler::removeFile($rulesetFileName);
+			}
+
+
             $this->setMessage('success_registed');
 			if($output->toBool() && !in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
 				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispDocumentAdminAlias', 'document_srl', $args->document_srl);
