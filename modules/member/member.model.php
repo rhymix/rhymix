@@ -643,21 +643,21 @@
 				if(count($member_group) > 0 && is_array($member_group))
 				{
 					$memberGroups = array_keys($member_group);
-				}
 
-				foreach($groups_info as $group_srl=>$group_info)
-				{
-					if(in_array($group_srl, $memberGroups))
+					foreach($groups_info as $group_srl=>$group_info)
 					{
-						if($group_info->image_mark)
+						if(in_array($group_srl, $memberGroups))
 						{
-							$info->title = $group_info->title;
-							$info->description = $group_info->description;
-							$info->src = $group_info->image_mark;
-							$GLOBALS['__member_info__']['group_image_mark'][$member_srl] = $info;
-							break;
-						}
-					}		
+							if($group_info->image_mark)
+							{
+								$info->title = $group_info->title;
+								$info->description = $group_info->description;
+								$info->src = $group_info->image_mark;
+								$GLOBALS['__member_info__']['group_image_mark'][$member_srl] = $info;
+								break;
+							}
+						}		
+					}
 				}
 				if (!$info) $GLOBALS['__member_info__']['group_image_mark'][$member_srl] == 'N';
 			}
