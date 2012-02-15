@@ -63,7 +63,7 @@ function doStartPageModify(zoneID, module_srl) {
 function removeAllWidget() {
     if(!confirm(confirm_delete_msg)) return;
 	restoreWidgetButtons();
-	jQuery(zonePageObj).html('');
+	xInnerHtml(zonePageObj,'');
 }
 
 /**
