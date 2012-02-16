@@ -106,6 +106,8 @@ function doFillWidgetVars() {
         var node = obj_list[j];
         if(node.name.indexOf('_')==0) continue;
         if(node.name == 'widgetstyle') continue;
+        if(node.type == 'button') continue;
+        if(node.name == '') continue;
 
         var length = node.length;
         var type = node.type;
