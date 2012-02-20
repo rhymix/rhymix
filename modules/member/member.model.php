@@ -250,6 +250,18 @@
                     }
                 }
 
+				// XSS defence
+				$oSecurity = new Security($info);
+				$oSecurity->encodeHTML('user_name', 'nick_name', 'address.');
+
+                if($extra_vars)
+				{
+                    foreach($extra_vars as $key => $val)
+					{
+						$oSecurity->encodeHTML($key);
+                    }
+                }
+
                 $GLOBALS['__member_info__'][$info->member_srl] = $info;
             }
 

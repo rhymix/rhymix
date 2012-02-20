@@ -1564,10 +1564,6 @@
             }
             */
 
-			// XSS defence
-			$oSecurity = new Security($this->memberInfo);
-			$oSecurity->encodeHTML('user_name', 'nick_name', 'address.');
-
             // Information stored in the session login user
             Context::set('is_logged', true);
             Context::set('logged_info', $this->memberInfo);

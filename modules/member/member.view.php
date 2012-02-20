@@ -65,6 +65,13 @@
             unset($member_info->email_id);
             unset($member_info->email_host);
 
+			if($logged_info->is_admin != 'Y' && ($member_info->member_srl != $logged_info->member_srl))
+			{
+				$start = strpos($member_info->email_address, '@')+1;
+				$replaceStr = str_repeat('*', (strlen($member_info->email_address) - $start));
+				$member_info->email_address = substr_replace($member_info->email_address, $replaceStr, $start);
+			}
+
             if(!$member_info->member_srl) return $this->dispMemberSignUpForm();
 			
 			Context::set('memberInfo', get_object_vars($member_info));
