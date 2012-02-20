@@ -559,9 +559,7 @@
             }
             // Log-in
             if ($config->enable_confirm != 'Y') $this->doLogin($args->user_id);
-            //get redirect url from cookie and invalidate cookie
-            $config->redirect_url = $_COOKIE["XE_REDIRECT_URL"];
-            setcookie("XE_REDIRECT_URL", '', 1);
+
             // Results
             $this->add('member_srl', $args->member_srl);
             if($config->redirect_url) $this->add('redirect_url', $config->redirect_url);
@@ -574,9 +572,18 @@
             $trigger_output = ModuleHandler::triggerCall('member.procMemberInsert', 'after', $config);
             if(!$trigger_output->toBool()) return $trigger_output;
 
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '');
-				header('location:'.$returnUrl);
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON')))
+			{
+				if($config->redirect_url)
+				{
+					$returnUrl = $config->redirect_url;
+				}
+				else
+				{
+					$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '');
+				}
+
+				$this->setRedirectUrl = $returnUrl;
 				return;
 			}
         }
