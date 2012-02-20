@@ -7,7 +7,7 @@
         <action name="dispEditorComponentInfo" type="view" standalone="true" />
 
         <action name="dispEditorAdminIndex" type="view" standalone="true" menu_name="editor" menu_index="true" admin_index="true" />
-        <action name="dispEditorAdminSetupComponent" type="view" standalone="true" />
+        <action name="dispEditorAdminSetupComponent" type="view" menu_name="editor" />
         <action name="dispEditorAdminSkinColorset" type="view" standalone="true" />
 		<action name="dispEditorConfigPreview" type="view" />
         <action name="dispEditorPreview" type="view" />

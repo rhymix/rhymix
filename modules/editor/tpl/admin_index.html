@@ -123,6 +123,7 @@
 						<th scope="col">{$lang->author}</th>
 						<th scope="col">{$lang->path}</th>
 						<th scope="col">{$lang->use}</th>
+						<th scope="col">{$lang->cmd_setup}</th>
 						<th scope="col">{$lang->cmd_delete}</th>
 					</tr>
 				</thead>
@@ -146,9 +147,10 @@
 						</td>
 						<td>{$xml_info->path}</td>
 						<td><input type="checkbox" name="enables[]" id="enable" value="{$xml_info->component_name}" title="Use this component " <!--@if($xml_info->enabled=='Y')--> checked="checked"<!--@end--> /></td>
+						<td><a href="{getUrl('', 'module', 'admin', 'act', 'dispEditorAdminSetupComponent', 'component_name', $xml_info->component_name)}">{$lang->cmd_setup}</a>
 						<td>
 							<!--@if($xml_info->version && $xml_info->delete_url)-->
-							<a href="{$xml_info->delete_url}">Delete</a>
+							<a href="{$xml_info->delete_url}">{$lang->cmd_delete}</a>
 							<!--@end-->
 						</td>
 					</tr>
