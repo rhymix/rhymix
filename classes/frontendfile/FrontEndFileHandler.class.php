@@ -105,6 +105,11 @@
 
 			if ($fileExtension == 'css')
 			{
+				if(empty($media))
+				{
+					$media = 'all';
+				}
+
 				$key .= "\t" . $media;
 				if (isset($this->cssMapIndex[$key]))
 				{
