@@ -129,7 +129,7 @@
 	<div class="btnArea">
 		<span class="btn"><input type="submit" value="{$lang->cmd_save}" /></span>
 		<!--@if($module_info->page_type != 'OUTSIDE')-->
-		<span class="btn"><a href="{getUrl('','module','page','act','dispPageAdminContentModify','module_srl',$module_info->module_srl)}" onclick="window.open(this.href,'PageEdit','width=850,height=650,scrollbars=yes,resizable=yes,toolbars=no');return false;">{$lang->cmd_page_modify}...</a></span>
+		<span class="btn"><a href="{getUrl('','module','page','act','dispPageAdminContentModify','module_srl',$module_info->module_srl)}" target="_blank">{$lang->cmd_page_modify}...</a></span>
 		<!--@end-->
 		<!--@if($module=="admin")-->
 		<span class="btn"><a href="{getUrl('act','dispPageAdminContent','module_srl','')}">{$lang->cmd_list}</a></span>
