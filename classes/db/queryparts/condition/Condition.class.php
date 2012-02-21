@@ -108,7 +108,11 @@
                             case 'like_tail' :
                             case 'like_prefix' :
                             case 'like' :
-                                    return $name.' like '.$value;
+									if(defined('__CUBRID_VERSION__') 
+											&& __CUBRID_VERSION__ >= '8.4.1') 
+										return $name.' rlike '.$value;
+                                    else
+										return $name.' like '.$value;
                                 break;
                             case 'notlike_tail' :
                             case 'notlike_prefix' :

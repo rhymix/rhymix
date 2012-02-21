@@ -392,5 +392,13 @@
                                         where "expired" <= \'' . date("YmdHis") . '\'';
                     $this->_test($xml_file, $argsString, $expected);
                 }
+				
+                function test_rlike_1(){
+                    $xml_file = _TEST_PATH_ . "db/xml_query/cubrid/data/rlike1.xml";
+                    $argsString = '$args->title = "aaa";';
+                    $expected = 'select * from "xe_modules" as "modules" where "title" rlike \'aaa\'';
+					define('__CUBRID_VERSION__', '8.4.1');
+                    $this->_test($xml_file, $argsString, $expected);
+                }				
 
 	}

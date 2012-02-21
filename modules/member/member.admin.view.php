@@ -139,10 +139,10 @@
 			
 			$disableColumns = array('password', 'find_account_question');			
 			Context::set('disableColumns', $disableColumns);			
-			
+
 			$security = new Security();
 			$security->encodeHTML('member_config..');
-			$security->encodeHTML('memberInfo.user_name', 'memberInfo.nick_name', 'memberInfo.description','memberInfo.group_list..');			
+			$security->encodeHTML('memberInfo.user_name', 'memberInfo.nick_name', 'memberInfo.find_account_answer', 'memberInfo.description','memberInfo.group_list..');			
 			$security->encodeHTML('extend_form_list...');
 			
             $this->setTemplateFile('member_info');

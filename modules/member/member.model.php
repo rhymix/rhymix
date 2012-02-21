@@ -629,8 +629,10 @@
         /**
          * @brief Get the image mark of the group
          **/
-        function getGroupImageMark($member_srl,$site_srl=0) {
-            if(!isset($GLOBALS['__member_info__']['group_image_mark'][$member_srl])) {
+        function getGroupImageMark($member_srl,$site_srl=0) 
+		{
+            if(!isset($GLOBALS['__member_info__']['group_image_mark'][$member_srl])) 
+			{
 				$oModuleModel = &getModel('module');
 				$config = $oModuleModel->getModuleConfig('member');
 				if($config->group_image_mark!='Y'){
@@ -638,20 +640,23 @@
 				}
 				$member_group = $this->getMemberGroups($member_srl,$site_srl);
 				$groups_info = $this->getGroups($site_srl);
-				$image_mark_info = null;
-				if(count($member_group) > 0 && is_array($member_group)){
-					$group_srl = array_keys($member_group);
-				}
+				if(count($member_group) > 0 && is_array($member_group))
+				{
+					$memberGroups = array_keys($member_group);
 
-				$i = 0;
-				while($i < count($group_srl)){
-					$target = $groups_info[$group_srl[$i++]];
-					if ($target->image_mark)
+					foreach($groups_info as $group_srl=>$group_info)
 					{
-						$info->title = $target->title;
-						$info->description = $target->description;
-						$info->src = $target->image_mark;
-						$GLOBALS['__member_info__']['group_image_mark'][$member_srl] = $info;
+						if(in_array($group_srl, $memberGroups))
+						{
+							if($group_info->image_mark)
+							{
+								$info->title = $group_info->title;
+								$info->description = $group_info->description;
+								$info->src = $group_info->image_mark;
+								$GLOBALS['__member_info__']['group_image_mark'][$member_srl] = $info;
+								break;
+							}
+						}		
 					}
 				}
 				if (!$info) $GLOBALS['__member_info__']['group_image_mark'][$member_srl] == 'N';

@@ -1003,7 +1003,7 @@
 	</item>
 	<item name="installed_layout">
 		<value xml:lang="ko"><![CDATA[설치된 레이아웃]]></value>
-		<value xml:lang="en"><![CDATA[Installed Layout]]></value>
+		<value xml:lang="en"><![CDATA[Layouts]]></value>
 		<value xml:lang="jp"><![CDATA[インストールされているレイアウト]]></value>
 	</item>
 	<item name="faceoff_export">

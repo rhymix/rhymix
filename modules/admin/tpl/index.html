@@ -41,7 +41,7 @@
 			</ul>
 		</div>
 		<div class="portlet">
-			<h2 class="h2">{$lang->latest_document}</h2>
+			<h2 class="h2">{$lang->latest_documents}</h2>
 			<ul class="lined">
 				<!--@foreach($latestDocumentList AS $key=>$value)-->
 				{@$document = $value->variables}
@@ -63,7 +63,7 @@
 			</ul>
 		</div>
 		<div class="portlet">
-			<h2 class="h2">{$lang->latest_comment}</h2>
+			<h2 class="h2">{$lang->latest_comments}</h2>
 			<ul class="lined">
 				<!--@foreach($latestCommentList AS $key=>$value)-->
 				<li>
@@ -84,7 +84,7 @@
 			</ul>
 		</div>
 		<div class="portlet">
-			<h2 class="h2">{$lang->latest_trackback}</h2>
+			<h2 class="h2">{$lang->latest_trackbacks}</h2>
 			<ul class="lined">
 				<!--@foreach($latestTrackbackList AS $key=>$value)-->
 				<li>
@@ -104,7 +104,7 @@
 			</ul>
 		</div>
 		<div class="portlet">
-			<h2 class="h2">{$lang->notice}</h2>
+			<h2 class="h2">{$lang->notices}</h2>
 			<ul class="lined">
 				<!--@foreach($news AS $key=>$value)-->
 				<li><a href="{$value->url}" target="_blank">{$value->title}</a> <span class="side">{zdate($value->date, 'Y-m-d')}</span></li>
@@ -113,7 +113,7 @@
 			</ul>
 		</div>
 		<div class="portlet">
-			<h2 class="h2">{$lang->favorite}</h2>
+			<h2 class="h2">{$lang->favorites}</h2>
 			<ul class="lined">
 				<li loop="$favorite_list => $favorite">
 					<a href="{getUrl('act', $favorite->admin_index_act)}">{$favorite->title}</a>

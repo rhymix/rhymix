@@ -1681,12 +1681,16 @@
             if(!$args->group_srl_list) {
 				$columnList = array('site_srl', 'group_srl');
                 $default_group = $oMemberModel->getDefaultGroup(0, $columnList);
-                // Add to the default group
-                $output = $this->addMemberToGroup($args->member_srl,$default_group->group_srl);
-                if(!$output->toBool()) {
-                    $oDB->rollback();
-                    return $output;
-                }
+				if ($default_group)
+				{
+					 // Add to the default group
+					$output = $this->addMemberToGroup($args->member_srl,$default_group->group_srl);
+					if(!$output->toBool()) 
+					{
+						$oDB->rollback();
+						return $output;
+					}
+				}
             // If the value is the value of the group entered the group registration
             } else {
                 for($i=0;$i<count($group_srl_list);$i++) {

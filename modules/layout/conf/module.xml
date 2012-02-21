@@ -36,17 +36,17 @@
     </actions>
 	<menus>
 		<menu name="installedLayout">
-			<title xml:lang="en">Installed Layout</title>
+			<title xml:lang="en">Layouts</title>
 			<title xml:lang="ko">설치된 레이아웃</title>
-			<title xml:lang="zh-CN">Installed Layout</title>
-			<title xml:lang="jp">Installed Layout</title>
-			<title xml:lang="es">Installed Layout</title>
-			<title xml:lang="ru">Installed Layout</title>
-			<title xml:lang="fr">Installed Layout</title>
-			<title xml:lang="zh-TW">Installed Layout</title>
-			<title xml:lang="vi">Installed Layout</title>
-			<title xml:lang="mn">Installed Layout</title>
-			<title xml:lang="tr">Installed Layout</title>
+			<title xml:lang="zh-CN">Layouts</title>
+			<title xml:lang="jp">Layouts</title>
+			<title xml:lang="es">Layouts</title>
+			<title xml:lang="ru">Layouts</title>
+			<title xml:lang="fr">Layouts</title>
+			<title xml:lang="zh-TW">Layouts</title>
+			<title xml:lang="vi">Layouts</title>
+			<title xml:lang="mn">Layouts</title>
+			<title xml:lang="tr">Layouts</title>
 		</menu>
 	</menus>
 </module>
