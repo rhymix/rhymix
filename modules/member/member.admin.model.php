@@ -86,11 +86,19 @@
             // Change the query id if selected_group_srl exists (for table join)
             $sort_order = Context::get('sort_order');
             $sort_index = Context::get('sort_index');
-            if($sort_index != 'last_login') {
+            if(!$sort_index) {
                 $sort_index = "list_order";
-            }else{
-                $sort_order = 'desc';
             }
+
+			if(!$sort_order) {
+				$sort_order = 'desc';
+			}
+
+            if($sort_order != 'desc')
+			{
+				$sort_order = 'asc';
+			}
+
             if($args->selected_group_srl) {
                 $query_id = 'member.getMemberListWithinGroup';
                 $args->sort_index = "member.".$sort_index;
@@ -98,7 +106,7 @@
                 $query_id = 'member.getMemberList';
                 $args->sort_index = $sort_index; 
             }
-            if($sort_order != "desc") $sort_order = "asc";
+
             $args->sort_order = $sort_order;
             Context::set('sort_order', $sort_order);
             // Other variables

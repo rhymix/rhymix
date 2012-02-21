@@ -30,8 +30,8 @@
 				<tr>
 					<th scope="col">{$lang->email}</th>
 					<th scope="col" loop="$usedIdentifiers=>$name,$title">{$title}</th>
-					<th scope="col"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminList')}">{$lang->signup_date}</a></th>
-					<th scope="col"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminList', 'sort_index', 'last_login', 'sort_order', 'asc')}">{$lang->last_login}</a></th>
+					<th scope="col"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminList', 'sort_index', 'regdate', 'sort_order', ($sort_order == 'asc') ? 'desc' : 'asc')}">{$lang->signup_date}<block cond="$sort_index == 'regdate'"> <em cond="$sort_order=='asc'">▲</em><em cond="$sort_order != 'asc'">▼</em></block></a></th>
+					<th scope="col"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminList', 'sort_index', 'last_login', 'sort_order',  ($sort_order == 'asc') ? 'desc' : 'asc')}">{$lang->last_login}<block cond="$sort_index == 'last_login'"> <em cond="$sort_order=='asc'">▲</em><em cond="$sort_order != 'asc'">▼</em></block></a></th>
 					<th scope="col" class="text">{$lang->member_group}</th>
 					<th scope="col">{$lang->status}</th>
 					<th scope="col">{$lang->cmd_view}</th>
@@ -45,8 +45,8 @@
 				<tr>
 					<th scope="col">{$lang->email}</th>
 					<th scope="col" loop="$usedIdentifiers=>$name,$title">{$title}</th>
-					<th scope="col"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminList')}">{$lang->signup_date}</a></th>
-					<th scope="col"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminList', 'sort_index', 'last_login', 'sort_order', 'asc')}">{$lang->last_login}</a></th>
+					<th scope="col"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminList', 'sort_index', 'regdate', 'sort_order', ($sort_order == 'asc') ? 'desc' : 'asc')}">{$lang->signup_date}<block cond="$sort_index == 'regdate'"> <em cond="$sort_order=='asc'">▲</em><em cond="$sort_order != 'asc'">▼</em></block></a></th>
+					<th scope="col"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminList', 'sort_index', 'last_login', 'sort_order',  ($sort_order == 'asc') ? 'desc' : 'asc')}">{$lang->last_login}<block cond="$sort_index == 'last_login'"> <em cond="$sort_order=='asc'">▲</em><em cond="$sort_order != 'asc'">▼</em></block></a></th>
 					<th scope="col" class="text">{$lang->member_group}</th>
 					<th scope="col">{$lang->status}</th>
 					<th scope="col">{$lang->cmd_view}</th>
