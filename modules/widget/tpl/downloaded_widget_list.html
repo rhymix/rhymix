@@ -1,8 +1,11 @@
 <include target="header.html" />
 
-<div class="table even easyList">
+<div class="table even easyList dsTg">
 	<table width="100%" border="1" cellspacing="0">
-		<caption>All({$tCount})</caption>
+		<caption>
+			All({$tCount})
+			<span class="side"><button type="button" class="text"><span class="hide">{$lang->simple_view}</span><span class="show">{$lang->detail_view}</span></button></span>
+		</caption>
 		<thead>
 			<tr>
 				<th scope="col" class="title">{$lang->widget_name}</th>

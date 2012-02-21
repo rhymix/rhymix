@@ -8,9 +8,12 @@
 	<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 		<p>{$XE_VALIDATOR_MESSAGE}</p>
 	</div>
-	<div class="table even easyList">
+	<div class="table even easyList dsTg">
 		<table width="100%" border="1" cellspacing="0">
-			<caption>All({$addon_count})</caption>
+			<caption>
+				All({$addon_count})
+				<span class="side"><button type="button" class="text"><span class="hide">{$lang->simple_view}</span><span class="show">{$lang->detail_view}</span></button></span>
+			</caption>
 			<thead>
 				<tr>
 					<th scope="col" class="title">{$lang->addon_name}</th>

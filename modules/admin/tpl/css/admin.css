@@ -496,7 +496,10 @@ body.modalContainer{_height:100%;_width:100%} /* IE6 only */
 .x .easyNav h2{font-size:16px}
 .x .easyNav .category{width:30%;float:left;margin:0 2em;display:inline}
 .x .easyNav .filter{position:absolute;top:0;right:0;margin:1em 2em;text-align:right}
-.x .easyList td p{margin-top:0}
+.x .easyList caption .side .text .hide,
+.x .easyList caption .side .details .show{display:none}
+.x .easyList caption .side .details .hide{display:inline}
+.x .easyList td p:first-child{margin:0}
 .x .easyList td p.update{background:#ffc;padding:.5em 1em;border:1px solid #fc9;border-left:0;border-right:0;text-align:center}
 /* Font Preview */
 .x .fontPreview{width:96%;border:1px solid #e9e9e9;zoom:1;padding:1em 2em;margin:.5em 0}

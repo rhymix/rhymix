@@ -3698,4 +3698,12 @@ Xin vui lòng kiểm tra lại thông tin Database.]]></value>
 		<value xml:lang="tr"><![CDATA[Hareketli görünümü, mobil cihazlarla giriş yapılırken, mobil cihazlara uygun en iyi yerleşim düzenini göstermek içindir.]]></value>
 		<value xml:lang="vi"><![CDATA[Nếu truy cập bằng thiết bị di động, nội dung sẽ được bố trí theo từng loại thiết bị.]]></value>
 	</item>
+	<item name="simple_view">
+		<value xml:lang="ko"><![CDATA[간단보기]]></value>
+		<value xml:lang="en"><![CDATA[Simple View]]></value>
+	</item>
+	<item name="detail_view">
+		<value xml:lang="ko"><![CDATA[상세보기]]></value>
+		<value xml:lang="en"><![CDATA[Detail View]]></value>
+	</item>
 </lang>

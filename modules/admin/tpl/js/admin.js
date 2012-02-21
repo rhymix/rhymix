@@ -1190,3 +1190,13 @@ jQuery(function($){
 		$('.x>.body>.content').addClass('single'); // Add class single
 	}
 });
+/* Details toggle in admin table */
+jQuery(function($){
+	var details = $('.x .dsTg>table>tbody>tr>td.title>p:not(:first-child)');
+	var viewBtn = $('.x .dsTg>table>caption>span.side>button.text');
+	details.hide();
+	viewBtn.click(function(){
+		details.slideToggle(200);
+		viewBtn.toggleClass('details');
+	});
+});
