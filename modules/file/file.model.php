@@ -139,11 +139,15 @@
 			else
 			{
 				$fileList = array();
-				foreach($output->data AS $key=>$value)
+				
+				if(is_array($output->data))
 				{
-					$file = $value;
-					$file->download_url = $this->getDownloadUrl($file->file_srl, $file->sid);
-					array_push($fileList, $file);
+					foreach($output->data as $key=>$value)
+					{
+						$file = $value;
+						$file->download_url = $this->getDownloadUrl($file->file_srl, $file->sid);
+						array_push($fileList, $file);
+					}
 				}
 				return $fileList;
 			}
