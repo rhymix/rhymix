@@ -89,7 +89,11 @@
         /**
          * @brief Display member join form
          **/
-        function dispMemberSignUpForm() {
+        function dispMemberSignUpForm() 
+		{
+			//setcookie for redirect url in case of going to member sign up
+			setcookie("XE_REDIRECT_URL", $_SERVER['HTTP_REFERER']);
+
             $oMemberModel = &getModel('member');
             // Get the member information if logged-in
             if($oMemberModel->isLogged()) return $this->stop('msg_already_logged');
@@ -111,6 +115,7 @@
 			$identifierForm->name = $member_config->identifier;
 			$identifierForm->value = $member_info->{$member_config->identifier};
 			Context::set('identifierForm', $identifierForm);
+
             // Set a template file
             $this->setTemplateFile('signup_form');
         }

@@ -490,7 +490,7 @@
 			$getVars = array();
 			if ($config->signupForm){
 				foreach($config->signupForm as $formInfo){
-					if($formInfo->isDefaultForm && $formInfo->isUse && ($formInfo->required || $formInfo->mustRequired)){
+					if($formInfo->isDefaultForm && ($formInfo->isUse || $formInfo->required || $formInfo->mustRequired)){
 						$getVars[] = $formInfo->name;
 					}
 				}
@@ -558,7 +558,17 @@
 
             }
             // Log-in
-            if ($config->enable_confirm != 'Y') $this->doLogin($args->user_id);
+            if ($config->enable_confirm != 'Y')
+			{
+				if($config->identifier == 'email_address')
+				{
+					$this->doLogin($args->email_address);
+				}
+				else
+				{
+					$this->doLogin($args->user_id);
+				}
+			}
 
             // Results
             $this->add('member_srl', $args->member_srl);
@@ -580,10 +590,18 @@
 				}
 				else
 				{
-					$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '');
+					if(Context::get('success_return_url'))
+					{
+						$returnUrl = Context::get('success_return_url');
+					}
+					else if($_COOKIE['XE_REDIRECT_URL'])
+					{
+						$returnUrl = $_COOKIE['XE_REDIRECT_URL'];
+						setcookie("XE_REDIRECT_URL", '', 1);
+					}
 				}
 
-				$this->setRedirectUrl = $returnUrl;
+				header('location:' . $returnUrl);
 				return;
 			}
         }
