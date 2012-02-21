@@ -266,6 +266,8 @@
 						$fields[] = sprintf('<field name="%s" required="true" rule="userid" length="3:20" />', $formInfo->name);
 					}else if(strpos($formInfo->name, 'image') !== false){
 						$fields[] = sprintf('<field name="%s"><if test="$act != \'procMemberAdminInsert\' &amp;&amp; $__%s_exist != \'true\'" attr="required" value="true" /></field>', $formInfo->name, $formInfo->name);
+					}else if($formInfo->name == 'signature'){
+						$fields[] = '<field name="signature"><if test="$member_srl" attr="required" value="true" /></field>';
 					}else{
 						$fields[] = sprintf('<field name="%s" required="true" />', $formInfo->name);
 					}
