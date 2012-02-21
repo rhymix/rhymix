@@ -79,12 +79,16 @@ class Object {
 	 * @brief method to set multiple key/value pairs as an additional variables
 	 * @param[in] $object either object or array containg key/value pairs to be added
 	 **/
-	function adds($object) {
-		if(is_object($object)) {
-			$vars = get_object_vars($object);
-			foreach($vars as $key => $val) $this->add($key, $val);
-		} elseif(is_array($object)) {
-			foreach($object as $key => $val) $this->add($key, $val);
+	function adds($object)
+	{
+		if(is_object($object))
+		{
+			$object = get_object_vars($object);
+		} 
+
+		if(is_array($object))
+		{
+			foreach($object as $key => $val) $this->variables[$key] = $val;
 		}
 	}
 
