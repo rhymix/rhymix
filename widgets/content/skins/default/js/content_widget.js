@@ -9,7 +9,7 @@ function content_widget_next(obj,list_per_page){
     var total_page = parseInt((list.size()-1) / list_per_page,10)+1;
     list.each(function(i){
         if(jQuery(this).css('display') !='none'){
-            page = parseInt((i+1)/list_per_page,10)+1;
+            page = parseInt(i/list_per_page,10) + 1;
             return false;
         }
     });
@@ -34,7 +34,7 @@ function content_widget_prev(obj,list_per_page){
     var total_page = parseInt((list.size()-1) / list_per_page,10)+1;
     list.each(function(i){
         if(jQuery(this).css('display') !='none'){
-            page = parseInt((i+1)/list_per_page,10)+1;
+            page = parseInt(i/list_per_page,10)+1;
             return false;
         }
     });
