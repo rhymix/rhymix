@@ -174,6 +174,7 @@ function xml2json(xml, tab, ignoreAttrib) {
    }
 }
 
+var filterWait = new Array();
 (function($){
 /**
  * @brief exec_xml
@@ -280,6 +281,20 @@ $.exec_xml = window.exec_xml = function(module, act, params, callback_func, resp
 
 	// 모든 xml데이터는 POST방식으로 전송. try-catch문으로 오류 발생시 대처
 	try {
+		if(fo_obj)
+		{
+			if(!fo_obj.id)
+			{
+				fo_obj.id = new Date().getTime();
+			}
+
+			if(filterWait[fo_obj.id])
+			{
+				return false;
+			}
+			filterWait[fo_obj.id] = true;
+		}
+
 		$.ajax({
 			url         : xml_path,
 			type        : 'POST',
@@ -289,6 +304,7 @@ $.exec_xml = window.exec_xml = function(module, act, params, callback_func, resp
 			beforeSend  : function(xhr){ _xhr = xhr; },
 			success     : onsuccess,
 			error       : function(xhr, textStatus) {
+				filterWait[fo_obj.id] = '';
 				waiting_obj.css('display', 'none');
 
 				var msg = '';
