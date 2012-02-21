@@ -17,7 +17,7 @@
 .xpress-editor li{list-style:none}
 /* Layout Selector */
 .xpress-editor{position:relative;background:transparent}
-.xpress-editor #smart_content{position:relative;clear:both;margin:0 0 10px 0;border:1px solid #c2c2c2;*zoom:1;z-index:5;background:#fff}
+.xpress-editor #smart_content{position:relative;clear:both;margin:0 0 10px 0;border:1px solid #c2c2c2;*zoom:1;z-index:1;background:#fff}
 .xpress-editor.black #smart_content {background:transparent}
 .xpress-editor #smart_footer{position:relative;text-align:center;padding:10px 0}
 /* Footer */
