@@ -1374,12 +1374,12 @@ xe.XpressRange = $.Class({
 				// do quick checks before trying indexOf() because indexOf() function is very slow
 				oTmpNode = this._getVeryFirstRealChild(oParentNode);
 				if(oTmpNode == oNode) iSIdx = 1;
-				else iSIdx = arAllBottmNodes.indexOf(oTmpNode);
+				else iSIdx = (typeof(arAllBottmNodes) =="String") ? arAllBottmNodes.indexOf(oTmpNode) : arAllBottmNodes.html().indexOf(oTmpNode);
 
 				if(iSIdx != -1){
 					oTmpNode = this._getVeryLastRealChild(oParentNode);
 					if(oTmpNode == oNode) iEIdx = 1;
-					else iEIdx = arAllBottmNodes.indexOf(oTmpNode);
+					else iEIdx = (typeof(arAllBottmNodes) =="String") ? arAllBottmNodes.indexOf(oTmpNode) : arAllBottmNodes.html().indexOf(oTmpNode);
 				}
 
 				if(iSIdx != -1 && iEIdx != -1){
