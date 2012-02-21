@@ -22,6 +22,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 					<th scope="col">{$lang->poll_join_count}</th>
 					<th scope="col">{$lang->author}</th>
 					<th scope="col">{$lang->regdate}</th>
+					<th scope="col">{$lang->poll_stop_date}</th>
 					<th scope="col"><input type="checkbox" data-name="cart"title="Check All" /></th>
 				</tr>
 			</thead>
@@ -32,6 +33,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 					<th scope="col">{$lang->poll_join_count}</th>
 					<th scope="col">{$lang->author}</th>
 					<th scope="col">{$lang->regdate}</th>
+					<th scope="col">{$lang->poll_stop_date}</th>
 					<th scope="col"><input type="checkbox" data-name="cart" title="Check All" /></th>
 				</tr>
 			</tfoot>
@@ -42,7 +44,8 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 					<td><!--@if($val->checkcount == 1)-->{$lang->single_check}<!--@else-->{$lang->multi_check}<!--@end--></td>
 					<td>{$val->poll_count}</td>
 					<td><a href="#popup_menu_area" class="member_{$val->member_srl}">{$val->nick_name}</a></td>
-					<td>{zdate($val->regdate,"Y-m-d H:i")}</td>
+					<td>{zdate($val->poll_regdate,"Y-m-d H:i")}</td>
+					<td>{zdate($val->poll_stop_date,"Y-m-d")}</td>
 					<td>
 						<input type="checkbox" name="cart" value="{$val->poll_index_srl}" />
 					</td>

@@ -1,14 +1,26 @@
-<query id="getPollList" action="select">
+<query id="getPollListWithMember" action="select">
     <tables>
         <table name="poll_title" alias="P" />
+        <table name="poll" alias="P2" />
         <table name="member" alias="M" />
     </tables>
     <columns>
-        <column name="*" />
+        <column name="P.poll_srl" alias="poll_srl" />
+        <column name="P.poll_index_srl" alias="poll_index_srl" />
+        <column name="P.title" alias="title" />
+        <column name="P.checkcount" alias="checkcount" />
+        <column name="P.poll_count" alias="poll_count" />
+        <column name="P.upload_target_srl" alias="upload_target_srl" />
+        <column name="P.ipaddress" alias="ipaddress" />
+        <column name="P.regdate" alias="poll_regdate" />
+        <column name="P2.stop_date" alias="poll_stop_date" />
+        <column name="M.*" />
     </columns>
     <conditions>
 		<group pipe="and">
 			<condition operation="equal" column="P.member_srl" var="M.member_srl" notnull="notnull" />
+			<condition operation="equal" column="P2.member_srl" var="M.member_srl" notnull="notnull" pipe="and" />
+			<condition operation="equal" column="P2.poll_srl" var="P.poll_srl" notnull="notnull" pipe="and" />
 			<condition operation="in" column="poll_index_srl" var="pollIndexSrlList" filter="number" pipe="and" />
 		</group>
         <condition operation="like" column="P.title" var="s_title" pipe="or"/>
