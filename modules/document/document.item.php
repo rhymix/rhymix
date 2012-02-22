@@ -474,7 +474,7 @@
 
         function getExtraValueHTML($idx) {
             $extra_vars = $this->getExtraVars();
-            if(array_key_exists($idx,$extra_vars)){
+            if(is_array($extra_vars) && array_key_exists($idx,$extra_vars)){
                 return $extra_vars[$idx]->getValueHTML();
             }else{
                 return '';
