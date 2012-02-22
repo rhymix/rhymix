@@ -455,6 +455,8 @@
             if($oCacheHandler->isSupport()){
             	$cache_key = 'object_module_info:'.$args->module_srl;
             	$oCacheHandler->delete($cache_key);
+            	$cache_key = 'object:module_extra_vars_'.$args->module_srl;
+                $oCacheHandler->delete($cache_key);
             }
             return $output;
         }

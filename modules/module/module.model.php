@@ -183,7 +183,7 @@
             $args->module_srl = $module_srl;
         	$oCacheHandler = &CacheHandler::getInstance('object');
 			if($oCacheHandler->isSupport()){
-				$cache_key = 'object:'.$module_srl;
+				$cache_key = 'object_module_info:'.$module_srl;
 				$output = $oCacheHandler->get($cache_key);
 			}
 			if(!$output){
