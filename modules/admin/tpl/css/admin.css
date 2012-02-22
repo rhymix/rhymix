@@ -58,8 +58,8 @@ header,footer,section,article,aside,nav,hgroup,details,menu,figure,figcaption{di
 .x .table caption strong{color:#e00}
 .x .table caption .side{float:right;font-weight:normal;margin-left:1em}
 .x .table th,
-.x .table td{border:0;padding:8px;vertical-align:top;text-align:left;border-bottom:1px solid #ddd;white-space:nowrap}
-.x .table th{background:#f8f8f8}
+.x .table td{border:0;padding:8px;vertical-align:top;text-align:left;border-bottom:1px solid #ddd}
+.x .table th{background:#f8f8f8;white-space:nowrap}
 .x .table thead th{border-bottom:1px solid #999}
 .x .table tfoot td{font-weight:bold;background:#f8f8f8}
 .x .table.even tbody tr:nth-of-type(even) td{background-color:#fafafa}
@@ -70,7 +70,6 @@ header,footer,section,article,aside,nav,hgroup,details,menu,figure,figcaption{di
 .x .table td.title,
 .x .table th.text,
 .x .table td.text{white-space:normal;width:100%}
-.x .table td[colspan]{white-space:normal}
 /* Form */
 .x .form{margin:1em 0;padding:0}
 .x .form fieldset{margin:0 0 2em 0;padding:0;border:0}
