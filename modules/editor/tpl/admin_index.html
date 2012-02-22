@@ -80,7 +80,7 @@
 				<p class="q">{$lang->guide_choose_text_formatting}</p>
 				<p class="a">
 					<!--@foreach($content_style_list as $key => $val)-->
-					<input type="radio" name="content_style" value="{$key}" id="style_{$key}" <!--@if($key==$editor_config->content_style||!$editor_config->content_style&&$key=='default')-->checked="checked"<!--@end-->><label for="style_{$key}">{$key}</label>
+					<input type="radio" name="content_style" value="{$key}" id="style_{$key}" checked="checked"|cond="$key==$editor_config->content_style||!$editor_config->content_style && $key=='default'"> <label for="style_{$key}">{$key}</label>
 					<!--@end-->
 				</p>
 			</li>
