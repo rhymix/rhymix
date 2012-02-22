@@ -34,9 +34,6 @@
 			Context::set('tCount', count($widget_list));
 
             $this->setTemplateFile('downloaded_widget_list');
-
-			$security = new Security();
-			$security->encodeHTML('widget_list..', 'widget_list..author..');
         }
 
 		function dispWidgetAdminGenerateCode()

@@ -1,4 +1,5 @@
 <?php
+	require_once(_XE_PATH_.'libs/ftp.class.php');
 
     class ModuleInstaller {
         var $package = null;
@@ -450,8 +451,6 @@
 
 		function _copyDir(&$file_list){
             if(!$this->ftp_password) return new Object(-1,'msg_ftp_password_input');
-
-            require_once(_XE_PATH_.'libs/ftp.class.php');
 
 			$output = $this->_connect();
 			if(!$output->toBool()) return $output;
