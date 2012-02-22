@@ -1170,14 +1170,14 @@
 		<value xml:lang="vi"><![CDATA[Mật khẩu sẽ thay đổi khi bạn bấm vào đường Link này.<br />Xin vui lòng thay đổi mật khẩu sau khi đăng nhập!]]></value>
 	</item>
 	<item name="msg_confirm_account_title">
-		<value xml:lang="ko"><![CDATA[가입 인증 메일 입니다.]]></value>
+		<value xml:lang="ko"><![CDATA[가입 인증 메일입니다.]]></value>
 		<value xml:lang="en"><![CDATA[XE Account Activation]]></value>
 		<value xml:lang="jp"><![CDATA[確認メールです。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[会员注册]]></value>
 		<value xml:lang="zh-TW"><![CDATA[會員註冊]]></value>
 		<value xml:lang="fr"><![CDATA[Mél à confirmer l'Authentification]]></value>
 		<value xml:lang="ru"><![CDATA[Письмо, подтверждающее регистрацию]]></value>
-		<value xml:lang="es"><![CDATA[가입 인증 메일 입니다]]></value>
+		<value xml:lang="es"><![CDATA[가입 인증 메일입니다]]></value>
 		<value xml:lang="tr"><![CDATA[XE Hesap Etkinleştirmesi]]></value>
 		<value xml:lang="vi"><![CDATA[Thông tin đăng kí thành viên tại Website http://4all.kr]]></value>
 	</item>
