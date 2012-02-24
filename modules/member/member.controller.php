@@ -18,6 +18,12 @@
          * @brief Log-in by checking user_id and password
          **/
         function procMemberLogin($user_id = null, $password = null, $keep_signed = null) {
+			if(!$user_id && !$password && Context::getRequestMethod() == 'GET')
+			{
+				$this->setRedirectUrl(getNotEncodedUrl(''));
+				return new Object(-1, 'null_user_id');
+			}
+
 			// Variables
 			if(!$user_id) $user_id = Context::get('user_id');
 			$user_id = trim($user_id);
