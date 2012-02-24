@@ -148,7 +148,12 @@ class FileHandler {
 	 */
 	function moveFile($source, $target) {
 		$source = FileHandler::getRealPath($source);
-		return (file_exists($source) && FileHandler::removeFile($target) && FileHandler::rename($source, $target));
+		if(!file_exists($source))
+		{
+			return FALSE;
+		}
+		FileHandler::removeFile($target);
+		return FileHandler::rename($source, $target));
 	}
 
 	/**
