@@ -153,7 +153,7 @@ class FileHandler {
 			return FALSE;
 		}
 		FileHandler::removeFile($target);
-		return FileHandler::rename($source, $target));
+		return FileHandler::rename($source, $target);
 	}
 
 	/**
