@@ -681,5 +681,5 @@ class FileHandler {
 	}
 }
 
-/* End of file FileObject.class.php */
-/* Location: ./classes/file/FileObject.class.php */
+/* End of file FileHandler.class.php */
+/* Location: ./classes/file/FileHandler.class.php */
