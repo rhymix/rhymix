@@ -34,6 +34,11 @@
             // Error appears if not logged-in
             if(!Context::get('is_logged')) return $this->stop('msg_not_logged');
             $logged_info = Context::get('logged_info');
+			if(!array_key_exists('dispCommunicationMessages', $logged_info->menu_list))
+			{
+				return $this->stop('msg_invalid_request');
+			}
+
             // Set the variables
             $message_srl = Context::get('message_srl');
             $message_type = Context::get('message_type');
