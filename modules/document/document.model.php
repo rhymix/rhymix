@@ -60,6 +60,7 @@
                 // Expand the variable processing
                 if(count($extra_keys)) {
                 foreach($extra_keys as $idx => $key) {
+						$extra_keys[$idx] = clone($key);
                         $val = $vars[$idx];
                         if(isset($val[$user_lang_code])) $v = $val[$user_lang_code];
                         else if(isset($val[$document_lang_code])) $v = $val[$document_lang_code];
