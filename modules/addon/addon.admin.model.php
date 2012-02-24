@@ -273,7 +273,7 @@
                             // 'Select'type obtained from the option list.
                             if($val->options && !is_array($val->options))
 							{
-								$val->options = array($val->options)
+								$val->options = array($val->options);
 							}
 
 							for($i = 0, $c = count($val->options); $i < $c; $i++) {
