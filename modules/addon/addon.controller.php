@@ -137,10 +137,10 @@
                     $extra_vars = base64_encode($val->extra_vars);
                 }
 
-                $buff .= sprintf(' $_ml = unserialize(base64_decode("%s")); if(file_exists("%saddons/%s/%s.addon.php") && (!is_array($_ml) || in_array($_m, $_ml))) { unset($addon_info); $addon_info = unserialize(base64_decode("%s")); $addon_path = "%saddons/%s/"; @include("%saddons/%s/%s.addon.php"); }', $mid_list, _XE_PATH_, $addon, $addon, $extra_vars, _XE_PATH_, $addon, _XE_PATH_, $addon, $addon);
+				$buff .= sprintf(' $_ml = unserialize(base64_decode("%s")); $addon_path = "%saddons/%s/"; $addon_file = "%s.addon.php"; if(file_exists($addon_path.$addon_file) && (!is_array($_ml) || in_array($_m, $_ml))) { unset($addon_info); $addon_info = unserialize(base64_decode("%s")); @include($addon_path.$addon_file); }', $mid_list, './', $addon, $addon, $extra_vars);
             }
 
-            $buff = sprintf('<?php if(!defined("__ZBXE__")) exit(); $_m = Context::get(\'mid\'); %s ?>', $buff);
+			$buff = sprintf('<?php if(!defined("__XE__")) exit(); $_m = Context::get(\'mid\'); %s ?>', $buff);
 
             $addon_path = _XE_PATH_.'files/cache/addons/';
             if(!is_dir($addon_path)) FileHandler::makeDir($addon_path);
