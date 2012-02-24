@@ -32,6 +32,7 @@
             <condition operation="equal" column="d.member_srl" var="s_member_srl" pipe="or" />
             <condition operation="more" column="d.readed_count" var="s_readed_count" pipe="or" />
             <condition operation="more" column="d.voted_count" var="s_voted_count" pipe="or" />
+            <condition operation="less" column="d.blamed_count" var="s_blamed_count" pipe="or" />
             <condition operation="more" column="d.comment_count" var="s_comment_count" pipe="or" />
             <condition operation="more" column="d.trackback_count" var="s_trackback_count" pipe="or" />
             <condition operation="more" column="d.uploaded_count" var="s_uploaded_count" pipe="or" />

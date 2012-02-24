@@ -12,6 +12,8 @@
         <condition operation="less" column="comment_count" var="rev_comment_count" filter="number" pipe="and" />
         <condition operation="more" column="voted_count" var="voted_count" filter="number" pipe="and" />
         <condition operation="less" column="voted_count" var="rev_voted_count" filter="number" pipe="and" />
+        <condition operation="less" column="blamed_count" var="blamed_count" filter="number" pipe="and" />
+        <condition operation="more" column="blamed_count" var="rev_blamed_count" filter="number" pipe="and" />
         <condition operation="more" column="readed_count" var="readed_count" filter="number" pipe="and" />
         <condition operation="less" column="readed_count" var="rev_readed_count" filter="number" pipe="and" />
         <condition operation="less" column="list_order" var="list_order" filter="number" pipe="and" />
@@ -35,6 +37,7 @@
             <condition operation="equal" column="member_srl" var="s_member_srl" pipe="or" />
             <condition operation="more" column="readed_count" var="s_readed_count" pipe="or" />
             <condition operation="more" column="voted_count" var="s_voted_count" pipe="or" />
+            <condition operation="less" column="blamed_count" var="s_blamed_count" pipe="or" />
             <condition operation="more" column="comment_count" var="s_comment_count" pipe="or" />
             <condition operation="more" column="trackback_count" var="s_trackback_count" pipe="or" />
             <condition operation="more" column="uploaded_count" var="s_uploaded_count" pipe="or" />

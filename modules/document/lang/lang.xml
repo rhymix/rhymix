@@ -489,6 +489,9 @@
 			<value xml:lang="tr"><![CDATA[Oylama Sayısı (over)]]></value>
 			<value xml:lang="vi"><![CDATA[Lượt bình chọn]]></value>
 		</item>
+		<item name="blamed_count">
+			<value xml:lang="ko"><![CDATA[비추천 수 (이상)]]></value>
+		</item>
 		<item name="comment_count ">
 			<value xml:lang="ko"><![CDATA[댓글 수 (이상)]]></value>
 			<value xml:lang="en"><![CDATA[Number of Comments (over)]]></value>

@@ -330,7 +330,6 @@
 				}
 				// Return if no result or an error occurs
 				if(!$output->toBool()||!count($output->data)) return $output;
-
 				$idx = 0;
 				$data = $output->data;
 				unset($output->data);
@@ -573,6 +572,7 @@
                         else $args->regdate = $oDocument->get('regdate');
                     break;
                 case 'voted_count' :
+                case 'blamed_count' :
                 case 'readed_count' :
                 case 'comment_count' :
                 case 'title' :
@@ -1012,6 +1012,7 @@
                     case 'member_srl' :
                     case 'readed_count' :
                     case 'voted_count' :
+                    case 'blamed_count' :
                     case 'comment_count' :
                     case 'trackback_count' :
                     case 'uploaded_count' :
@@ -1094,7 +1095,7 @@
 		{
 			$sortIndex = $obj->sort_index;
 			$isExtraVars = false;
-            if(!in_array($sortIndex, array('list_order','regdate','last_update','update_order','readed_count','voted_count','comment_count','trackback_count','uploaded_count','title','category_srl')))
+            if(!in_array($sortIndex, array('list_order','regdate','last_update','update_order','readed_count','voted_count','blamed_count','comment_count','trackback_count','uploaded_count','title','category_srl')))
 			{
 				// get module_srl extra_vars list
 				if ($load_extra_vars)
@@ -1174,6 +1175,9 @@
                     case 'uploaded_count' :
                             $args->{"s_".$search_target} = (int)$search_keyword;
                         break;
+                    case 'blamed_count' :
+                            $args->{"s_".$search_target} = (int)$search_keyword * -1;
+						break;
                     case 'regdate' :
                     case 'last_update' :
                     case 'ipaddress' :
