@@ -586,6 +586,34 @@
             $args->sort_index = $opt->sort_index;
             $args->order_type = $opt->order_type;
 
+			if($opt->statusList) $args->statusList = $opt->statusList;
+			else
+			{
+				$logged_info = Context::get('logged_info');
+				if($logged_info->is_admin == 'Y' && !$args->module_srl)
+				{
+					$args->statusList = array($this->getConfigStatus('secret'), $this->getConfigStatus('public'), $this->getConfigStatus('temp'));
+				}
+				else
+				{
+					$args->statusList = array($this->getConfigStatus('secret'), $this->getConfigStatus('public'));
+				}
+			}
+
+			// Category is selected, further sub-categories until all conditions
+			if($opt->category_srl)
+			{
+				$categoryList = $this->getCategoryList($opt->module_srl);
+
+				if(array_key_exists($opt->category_srl, $categoryList))
+				{
+					$categoryInfo = $categoryList[$opt->category_srl];
+
+					$args->categorySrlList = $categoryInfo->childs;
+					array_push($args->categorySrlList, $opt->category_srl);
+				}
+			}
+
             // Guhanhu total number of the article search page
             $output = executeQuery('document.getDocumentPage', $args);
             $count = $output->data->count;
