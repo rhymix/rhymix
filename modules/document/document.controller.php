@@ -1831,5 +1831,26 @@ class documentController extends document {
 		if(!$obj->status && $obj->is_secret == 'Y') $obj->status = $this->getConfigStatus('secret');
 		if(!$obj->status && $obj->is_secret != 'Y') $obj->status = $this->getConfigStatus('public');
 	}
+
+	/**
+	 * @brief copy extra keys when module copied
+	 **/
+	function triggerCopyModuleExtraKeys(&$obj)
+	{
+		$oDocumentModel = &getModel('document');
+		$documentExtraKeys = $oDocumentModel->getExtraKeys($obj->originModuleSrl);
+
+		if(is_array($documentExtraKeys) && is_array($obj->moduleSrlList))
+		{
+			$oDocumentController=&getController('document');
+			foreach($obj->moduleSrlList AS $key=>$value)
+			{
+				foreach($documentExtraKeys AS $extraItem)
+				{
+					$oDocumentController->insertDocumentExtraKey($value, $extraItem->idx, $extraItem->name, $extraItem->type, $extraItem->is_required , $extraItem->search , $extraItem->default , $extraItem->desc, $extraItem->eid) ;
+				}
+			}
+		}
+	}
 }
 ?>

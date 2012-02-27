@@ -123,6 +123,8 @@
             $oDB = &DB::getInstance();
             $oDB->begin();
             // Copy a module
+			$triggerObj->originModuleSrl = $module_srl;
+			$triggerObj->moduleSrlList = array();
             foreach($clones as $mid => $browser_title) {
                 $clone_args = null;
                 $clone_args = clone($module_info);
@@ -138,7 +140,10 @@
                 if(count($grant)) $oModuleController->insertModuleGrants($module_srl, $grant);
 				if ($extra_vars) $oModuleController->insertModuleExtraVars($module_srl, $extra_vars);
 
+				array_push($triggerObj->moduleSrlList, $module_srl);
             }
+
+            $output = ModuleHandler::triggerCall('module.procModuleAdminCopyModule', 'after', $triggerObj);
 
             $oDB->commit();
             $this->setMessage('success_registed');
