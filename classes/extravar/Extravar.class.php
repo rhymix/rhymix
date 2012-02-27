@@ -254,7 +254,7 @@
 
                         $buff .=
                             '<input type="hidden" name="'.$column_name.'" value="'.$value.'" />'.
-                            '<input type="text" id="date_'.$column_name.'" value="'.zdate($value,'Y-m-d').'" class="date" />'."\n".
+                            '<input type="text" id="date_'.$column_name.'" value="'.zdate($value,'Y-m-d').'" class="date" /> <input type="button" value="' . Context::getLang('cmd_delete') . '" id="dateRemover_' . $column_name . '" />'."\n".
                             '<script type="text/javascript">'."\n".
                             '(function($){'."\n".
                             '    $(function(){'."\n".
@@ -263,6 +263,10 @@
                             '        };'."\n".
                             '        $.extend(option,$.datepicker.regional[\''.Context::getLangType().'\']);'."\n".
                             '        $("#date_'.$column_name.'").datepicker(option);'."\n".
+							'		$("#dateRemover_' . $column_name . '").click(function(){' . "\n" .
+							'			$(this).siblings("input").val("");' . "\n" .
+							'			return false;' . "\n" .
+							'		})' . "\n" .
                             '    });'."\n".
                             '})(jQuery);'."\n".
                             '</script>';
