@@ -71,8 +71,8 @@ function completeGetTrashList(ret_obj, response_tags)
 
 			htmlListBuffer += '<tr>' +
 								'<td class="title">'+ title +'</td>' +
-								'<td>'+ objTrash.nickName +'</td>' +
-								'<td>'+ objTrash.ipaddress +'</td>' +
+								'<td class="nowr">'+ objTrash.nickName +'</td>' +
+								'<td class="nowr">'+ objTrash.ipaddress +'</td>' +
 							'</tr>' +
 							'<input type="hidden" name="cart[]" value="'+objTrash.trashSrl+'" />';
 		}

@@ -32,22 +32,22 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 			<thead>
 				<tr>
 					<th scope="col" class="text">{$lang->comment}</th>
-					<th scope="col">{$lang->writer}</th>
-					<th scope="col">{$lang->cmd_vote}(+/-)</th>
-					<th scope="col">{$lang->date}</th>
-					<th scope="col">{$lang->ipaddress}</th>
-					<th scope="col">{$lang->status}</th>
+					<th scope="col" class="nowr">{$lang->writer}</th>
+					<th scope="col" class="nowr">{$lang->cmd_vote}(+/-)</th>
+					<th scope="col" class="nowr">{$lang->date}</th>
+					<th scope="col" class="nowr">{$lang->ipaddress}</th>
+					<th scope="col" class="nowr">{$lang->status}</th>
 					<th scope="col"><input type="checkbox" data-name="cart" title="Check All" /></th>
 				</tr>
 			</thead>
 			<tfoot>
 				<tr>
 					<th scope="col" class="text">{$lang->comment}</th>
-					<th scope="col">{$lang->writer}</th>
-					<th scope="col">{$lang->cmd_vote}(+/-)</th>
-					<th scope="col">{$lang->date}</th>
-					<th scope="col">{$lang->ipaddress}</th>
-					<th scope="col">{$lang->status}</th>
+					<th scope="col" class="nowr">{$lang->writer}</th>
+					<th scope="col" class="nowr">{$lang->cmd_vote}(+/-)</th>
+					<th scope="col" class="nowr">{$lang->date}</th>
+					<th scope="col" class="nowr">{$lang->ipaddress}</th>
+					<th scope="col" class="nowr">{$lang->status}</th>
 					<th scope="col"><input type="checkbox" data-name="cart" title="Check All" /></th>
 				</tr>
 			</tfoot>
@@ -56,11 +56,11 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 				{@ $comment = cut_str(trim(strip_tags($val->content)), 200, '...')}
 				<tr>
 					<td class="text"><a href="{getUrl('','document_srl',$val->document_srl)}#comment_{$val->comment_srl}" target="_blank"><!--@if(strlen($comment))-->{$comment}<!--@else--><em>{$lang->no_text_comment}</em><!--@end--></a></td>
-					<td><a href="#popup_menu_area" class="member_{$val->member_srl}">{$val->nick_name}</a></td>
-					<td>0/0</td>
-					<td>{(zdate($val->regdate,"Y-m-d\nH:i:s"))}</td>
-					<td><a href="{getUrl('search_target','ipaddress','search_keyword',$val->ipaddress)}">{$val->ipaddress}</a></td>
-					<td><!--@if($val->isSecret())-->{$secret_name_list['Y']}<!--@else-->{$secret_name_list['N']}<!--@end--></td>
+					<td class="nowr"><a href="#popup_menu_area" class="member_{$val->member_srl}">{$val->nick_name}</a></td>
+					<td class="nowr">0/0</td>
+					<td class="nowr">{(zdate($val->regdate,"Y-m-d\nH:i:s"))}</td>
+					<td class="nowr"><a href="{getUrl('search_target','ipaddress','search_keyword',$val->ipaddress)}">{$val->ipaddress}</a></td>
+					<td class="nowr"><!--@if($val->isSecret())-->{$secret_name_list['Y']}<!--@else-->{$secret_name_list['N']}<!--@end--></td>
 					<td><input type="checkbox" name="cart" value="{$val->comment_srl}" /></td>
 				</tr>
 				<!--@end-->
@@ -88,8 +88,8 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 				<thead>
 					<tr>
 						<th scope="col" class="title">{$lang->comment}</th>
-						<th scope="col">{$lang->writer}</th>
-						<th scope="col">{$lang->status}</th>
+						<th scope="col" class="nowr">{$lang->writer}</th>
+						<th scope="col" class="nowr">{$lang->status}</th>
 					</tr>
 				</thead>
 				<tbody>

@@ -31,18 +31,18 @@
 		</caption>
 		<thead>
 			<tr>
-				<th scope="col">{$lang->category}</th>
+				<th scope="col" class="nowr">{$lang->category}</th>
 				<th scope="col">{$lang->thumbnail}</th>
 				<th scope="col" class="title">{$lang->name}</th>
-				<th scope="col">{$lang->distribute_version}</th>
-				<th scope="col">{$lang->current_version}</th>
-				<th scope="col">{$lang->run}</th>
+				<th scope="col" class="nowr">{$lang->distribute_version}</th>
+				<th scope="col" class="nowr">{$lang->current_version}</th>
+				<th scope="col" class="nowr">{$lang->run}</th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr loop="$item_list => $key, $item">
 				{@ $target_url = $original_site."?mid=download&package_srl=".$item->package_srl; }
-				<td>{$item->category}</td>
+				<td class="nowr">{$item->category}</td>
 				<td><img src="{str_replace('./', $uri, $item->item_screenshot_url)}" alt="" width="100" height="100" /></td>
 				<td class="title">
 					<p><a href="{$target_url}">{htmlspecialchars($item->title)}</a></p>
@@ -64,9 +64,9 @@
 						<li loop="$item->deps => $package_srl">{$installed[$package_srl]->title}</li>
 					</ul>
 				</td>
-				<td>{htmlspecialchars($item->item_version)}</td>
-				<td>{htmlspecialchars($item->current_version)}</td>
-				<td>
+				<td class="nowr">{htmlspecialchars($item->item_version)}</td>
+				<td class="nowr">{htmlspecialchars($item->current_version)}</td>
+				<td class="nowr">
 					<a cond="!$item->current_version" href="{getUrl('act','dispAutoinstallAdminInstall','package_srl',$item->package_srl)}">{$lang->install}</a>
 					<a cond="!$show_ftp_note && $item->current_version && $item->avail_remove" href="{getUrl('act','dispAutoinstallAdminUninstall','package_srl',$item->package_srl)}">{$lang->cmd_delete}</a>
 					<a cond="$item->current_version && $item->need_update == 'Y'" href="{getUrl('act','dispAutoinstallAdminInstall','package_srl',$item->package_srl)}">{$lang->update}</a>

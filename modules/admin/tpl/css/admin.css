@@ -62,7 +62,8 @@ header,footer,section,article,aside,nav,hgroup,details,menu,figure,figcaption{di
 .x .table th{background:#f8f8f8;white-space:nowrap}
 .x .table thead th{border-bottom:1px solid #999}
 .x .table tfoot td{font-weight:bold;background:#f8f8f8}
-.x .table.even tbody tr:nth-of-type(even) td{background-color:#fafafa}
+.x .table.even tbody tr:nth-of-type(even){background-color:#fafafa}
+.x .table tbody tr:hover{background:#ffd !important}
 .x .table td>input[type=text]{margin:-1px 0 !important;vertical-align:middle}
 .x .table img{vertical-align:middle}
 .x .table em{font-style:normal;font-weight:normal;color:#e00}
@@ -85,6 +86,7 @@ header,footer,section,article,aside,nav,hgroup,details,menu,figure,figcaption{di
 .x .form input[type=file]{cursor:pointer}
 .x .form ul{position:relative;margin:1em 0;padding:0;list-style:none;border-top:2px solid #ccc;border-bottom:1px solid #ccc;zoom:1}
 .x .form li{list-style:none;border:1px solid #ddd;border-left:0;border-right:0;margin:-1px 0;padding:8px 0;vertical-align:top;zoom:1}
+.x .form li:hover{background:#ffd}
 .x .form li:first-child{border-top:0}
 .x .form li>label:first-child{display:block;font-weight:bold}
 .x .form li label em{font-weight:normal}

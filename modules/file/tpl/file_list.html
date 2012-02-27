@@ -30,24 +30,24 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 			<thead>
 				<tr>
 					<th scope="col" class="text">{$lang->file}</th>
-					<th scope="col">{$lang->file_size}</th>
-					<th scope="col">{$lang->cmd_download}</th>
-					<th scope="col">{$lang->author}</th>
-					<th scope="col">{$lang->date}</th>
-					<th scope="col">{$lang->ipaddress}</th>
-					<th scope="col">{$lang->status}</th>
+					<th scope="col" class="nowr">{$lang->file_size}</th>
+					<th scope="col" class="nowr">{$lang->cmd_download}</th>
+					<th scope="col" class="nowr">{$lang->author}</th>
+					<th scope="col" class="nowr">{$lang->date}</th>
+					<th scope="col" class="nowr">{$lang->ipaddress}</th>
+					<th scope="col" class="nowr">{$lang->status}</th>
 					<th scope="col"><input type="checkbox" data-name="cart" title="Check All" /></th>
 				</tr>
 			</thead>
 			<tfoot>
 				<tr>
 					<th scope="col" class="text">{$lang->file}</th>
-					<th scope="col">{$lang->file_size}</th>
-					<th scope="col">{$lang->cmd_download}</th>
-					<th scope="col">{$lang->author}</th>
-					<th scope="col">{$lang->date}</th>
-					<th scope="col">{$lang->ipaddress}</th>
-					<th scope="col">{$lang->status}</th>
+					<th scope="col" class="nowr">{$lang->file_size}</th>
+					<th scope="col" class="nowr">{$lang->cmd_download}</th>
+					<th scope="col" class="nowr">{$lang->author}</th>
+					<th scope="col" class="nowr">{$lang->date}</th>
+					<th scope="col" class="nowr">{$lang->ipaddress}</th>
+					<th scope="col" class="nowr">{$lang->status}</th>
 					<th scope="col"><input type="checkbox" data-name="cart" title="Check All" /></th>
 				</tr>
 			</tfoot>
@@ -88,18 +88,18 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 					<!-- one document end -->
 				<tr>
 					<td class="text"><a href="{$val->download_url}">{htmlspecialchars($val->source_filename)}</a></td>
-					<td>{FileHandler::filesize($val->file_size)}</td>
-					<td>{$val->download_count}</td>
-					<td>
+					<td class="nowr">{FileHandler::filesize($val->file_size)}</td>
+					<td class="nowr">{$val->download_count}</td>
+					<td class="nowr">
 						<!--@if($val->upload_target_type == 'doc' && $document_list[$document_srl])-->
 						<a href="#popup_menu_area" class="member_{$document_list[$document_srl]->get('member_srl')}">{$document_list[$document_srl]->getNickName()}</a>
 						<!--@elseif($val->upload_target_type == 'com' && $comment_list[$val->upload_target_srl])-->
 						<a href="#popup_menu_area" class="member_{$comment_list[$val->upload_target_srl]->get('member_srl')}">{$comment_list[$val->upload_target_srl]->getNickName()}</a>
 						<!--@end-->
 					</td>
-					<td>{zdate($val->regdate,"Y-m-d H:i")}</td>
-					<td><a href="{getUrl('search_target','ipaddress','search_keyword',$val->ipaddress)}">{$val->ipaddress}</a></td>
-					<td><!--@if($val->isvalid=='Y')-->{$lang->is_valid}<!--@else-->{$lang->is_stand_by}<!--@end--></td>
+					<td class="nowr">{zdate($val->regdate,"Y-m-d H:i")}</td>
+					<td class="nowr"><a href="{getUrl('search_target','ipaddress','search_keyword',$val->ipaddress)}">{$val->ipaddress}</a></td>
+					<td class="nowr"><!--@if($val->isvalid=='Y')-->{$lang->is_valid}<!--@else-->{$lang->is_stand_by}<!--@end--></td>
 					<td>
 						<input type="checkbox" name="cart" value="{$val->file_srl}" />
 					</td>
@@ -124,9 +124,8 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 				<thead>
 					<tr>
 						<th scope="col" class="text">{$lang->file}</th>
-						<th scope="col">{$lang->file_size}</th>
-						<th scope="col">{$lang->nick_name}</th>
-						<th scope="col">{$lang->status}</th>
+						<th scope="col" class="nowr">{$lang->file_size}</th>
+						<th scope="col" class="nowr">{$lang->status}</th>
 					</tr>
 				</thead>
 				<tbody>

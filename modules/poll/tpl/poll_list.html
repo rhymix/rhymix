@@ -18,22 +18,22 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 			<thead>
 				<tr>
 					<th scope="col" class="text">{$lang->title}</th>
-					<th scope="col">{$lang->poll_checkcount}</th>
-					<th scope="col">{$lang->poll_join_count}</th>
-					<th scope="col">{$lang->author}</th>
-					<th scope="col">{$lang->regdate}</th>
-					<th scope="col">{$lang->poll_stop_date}</th>
+					<th scope="col" class="nowr">{$lang->poll_checkcount}</th>
+					<th scope="col" class="nowr">{$lang->poll_join_count}</th>
+					<th scope="col" class="nowr">{$lang->author}</th>
+					<th scope="col" class="nowr">{$lang->regdate}</th>
+					<th scope="col" class="nowr">{$lang->poll_stop_date}</th>
 					<th scope="col"><input type="checkbox" data-name="cart"title="Check All" /></th>
 				</tr>
 			</thead>
 			<tfoot>
 				<tr>
 					<th scope="col" class="text">{$lang->title}</th>
-					<th scope="col">{$lang->poll_checkcount}</th>
-					<th scope="col">{$lang->poll_join_count}</th>
-					<th scope="col">{$lang->author}</th>
-					<th scope="col">{$lang->regdate}</th>
-					<th scope="col">{$lang->poll_stop_date}</th>
+					<th scope="col" class="nowr">{$lang->poll_checkcount}</th>
+					<th scope="col" class="nowr">{$lang->poll_join_count}</th>
+					<th scope="col" class="nowr">{$lang->author}</th>
+					<th scope="col" class="nowr">{$lang->regdate}</th>
+					<th scope="col" class="nowr">{$lang->poll_stop_date}</th>
 					<th scope="col"><input type="checkbox" data-name="cart" title="Check All" /></th>
 				</tr>
 			</tfoot>
@@ -41,11 +41,11 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 				<!--@foreach($poll_list as $no => $val)-->
 				<tr>
 					<td class="title"><a href="<!--@if($val->document_srl)-->{getUrl('')}?document_srl={$val->document_srl}<!--@end--><!--@if($val->comment_srl)-->#comment_{$val->comment_srl}<!--@end-->" target="_blank">{$val->title}</a></td>
-					<td><!--@if($val->checkcount == 1)-->{$lang->single_check}<!--@else-->{$lang->multi_check}<!--@end--></td>
-					<td>{$val->poll_count}</td>
-					<td><a href="#popup_menu_area" class="member_{$val->member_srl}">{$val->nick_name}</a></td>
-					<td>{zdate($val->poll_regdate,"Y-m-d H:i")}</td>
-					<td>{zdate($val->poll_stop_date,"Y-m-d")}</td>
+					<td class="nowr"><!--@if($val->checkcount == 1)-->{$lang->single_check}<!--@else-->{$lang->multi_check}<!--@end--></td>
+					<td class="nowr">{$val->poll_count}</td>
+					<td class="nowr"><a href="#popup_menu_area" class="member_{$val->member_srl}">{$val->nick_name}</a></td>
+					<td class="nowr">{zdate($val->poll_regdate,"Y-m-d H:i")}</td>
+					<td class="nowr">{zdate($val->poll_stop_date,"Y-m-d")}</td>
 					<td>
 						<input type="checkbox" name="cart" value="{$val->poll_index_srl}" />
 					</td>

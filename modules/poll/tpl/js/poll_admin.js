@@ -89,8 +89,8 @@ function completeGetPollList(ret_obj, response_tags)
 			var objPoll = poll_list[x];
 			htmlListBuffer += '<tr>' +
 								'<td class="title">'+objPoll.title+'</td>' +
-								'<td>'+objPoll.poll_count+'</td>' +
-								'<td>'+objPoll.nick_name+'</td>' +
+								'<td class="nowr">'+objPoll.poll_count+'</td>' +
+								'<td class="nowr">'+objPoll.nick_name+'</td>' +
 							'</tr>' +
 							'<input type="hidden" name="cart[]" value="'+objPoll.poll_index_srl+'" />';
 		}

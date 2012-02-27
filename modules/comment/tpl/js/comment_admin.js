@@ -56,8 +56,8 @@ function completeGetCommentList(ret_obj, response_tags)
 			var objComment = comment_list[x];
 			htmlListBuffer += '<tr>' +
 								'<td class="title">'+ objComment.content +'</td>' +
-								'<td>'+ objComment.nick_name +'</td>' +
-								'<td>'+ statusNameList[objComment.is_secret] +'</td>' +
+								'<td class="nowr">'+ objComment.nick_name +'</td>' +
+								'<td class="nowr">'+ statusNameList[objComment.is_secret] +'</td>' +
 							'</tr>' +
 							'<input type="hidden" name="cart[]" value="'+objComment.comment_srl+'" />';
 		}
