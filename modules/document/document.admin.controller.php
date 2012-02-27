@@ -190,6 +190,17 @@
 
                 $obj = null;
                 $obj = $oDocument->getObjectVars();
+				if($module_srl == $obj->module_srl)
+				{
+					$extraVars = $oDocument->getExtraVars();
+					if(is_array($extraVars))
+					{
+						foreach($extraVars as $extraItem)
+						{
+							$obj->{'extra_vars'.$extraItem->idx} = $extraItem->value;
+						}
+					}
+				}
                 $obj->module_srl = $module_srl;
                 $obj->document_srl = getNextSequence();
                 $obj->category_srl = $category_srl;
