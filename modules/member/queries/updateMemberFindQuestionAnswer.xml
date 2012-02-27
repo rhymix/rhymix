@@ -1,0 +1,12 @@
+<query id="updateMemberFindQuesionAnswer" action="update">
+    <tables>
+        <table name="member" />
+    </tables>
+    <columns>
+        <column name="find_account_question" var="find_account_question" />
+        <column name="find_account_answer" var="find_account_answer" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="member_srl" var="member_srl" notnull="notnull" filter="number" />
+    </conditions>
+</query>
