@@ -530,7 +530,7 @@
 		<value xml:lang="vi"><![CDATA[Đã kết thúc việc tính toán lại điểm.]]></value>
 	</item>
 	<item name="point_update_desc">
-		<value xml:lang="ko"><![CDATA[포인트를 증가시키려면 +를 감소시키려면 -를 숫자앞에 표기한 후 업데이트 해 주세요. + 또는 - 표시가 없으면 입력한 값으로 설정됩니다.]]></value>
+		<value xml:lang="ko"><![CDATA[포인트를 증가시키려면 +를 감소시키려면 -를 숫자앞에 표기한 후 업데이트해 주세요. + 또는 - 표시가 없으면 입력한 값으로 설정됩니다.]]></value>
 		<value xml:lang="en"><![CDATA[Insert + in front of the number to increase the point or - to decrease, and update the point. If you don't insert + or -, the point will be set as the value you entered.]]></value>
 	　　<value xml:lang="jp"><![CDATA[ポイントを増加させるには+を、減少させるには-を、数字の前に表記した後、アップデートしてください。+、または-表示がなければ入力した値が設定されます。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[Insert + in front of the number to increase the point or - to decrease, and update the point. If you don't insert + or -, the point will be set as the value you entered.]]></value>
