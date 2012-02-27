@@ -66,10 +66,12 @@ header,footer,section,article,aside,nav,hgroup,details,menu,figure,figcaption{di
 .x .table td>input[type=text]{margin:-1px 0 !important;vertical-align:middle}
 .x .table img{vertical-align:middle}
 .x .table em{font-style:normal;font-weight:normal;color:#e00}
+.x .table th.nowr,
+.x .table td.nowr{white-space:nowrap}
 .x .table th.title,
 .x .table td.title,
 .x .table th.text,
-.x .table td.text{white-space:normal;width:100%}
+.x .table td.text{width:100%}
 /* Form */
 .x .form{margin:1em 0;padding:0}
 .x .form fieldset{margin:0 0 2em 0;padding:0;border:0}
