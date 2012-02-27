@@ -14,6 +14,7 @@
 		var $columnList = array();
 		var $allowscriptaccessList = array();
 		var $allowscriptaccessKey = 0;
+		var $uploadedFiles = array();
 
         function documentItem($document_srl = 0, $load_extra_vars = true, $columnList = array()) {
             $this->document_srl = $document_srl;
@@ -725,16 +726,21 @@
             return $this->get('uploaded_count')? true : false;
         }
 
-        function getUploadedFiles() {
-            if(!$this->document_srl) return;
+		function getUploadedFiles($sortIndex = 'file_srl')
+		{
+			if(!$this->document_srl) return;
 
-            if($this->isSecret() && !$this->isGranted()) return;
-            if(!$this->get('uploaded_count')) return;
+			if($this->isSecret() && !$this->isGranted()) return;
+			if(!$this->get('uploaded_count')) return;
 
-            $oFileModel = &getModel('file');
-            $file_list = $oFileModel->getFiles($this->document_srl, $is_admin);
-            return $file_list;
-        }
+			if(!$this->uploadedFiles[$sortIndex])
+			{
+				$oFileModel = &getModel('file');
+				$this->uploadedFiles[$sortIndex] = $oFileModel->getFiles($this->document_srl, array(), $sortIndex);
+			}
+
+			return $this->uploadedFiles[$sortIndex];
+		}
 
         /**
          * @brief Return Editor html

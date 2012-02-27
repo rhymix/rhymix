@@ -156,9 +156,9 @@
         /**
          * @brief Return all files which belong to a specific document
          **/
-        function getFiles($upload_target_srl, $columnList = array()) {
+        function getFiles($upload_target_srl, $columnList = array(), $sortIndex = 'file_srl') {
             $args->upload_target_srl = $upload_target_srl;
-            $args->sort_index = 'file_srl';
+            $args->sort_index = $sortIndex;
             $output = executeQuery('file.getFiles', $args, $columnList);
             if(!$output->data) return;
 
