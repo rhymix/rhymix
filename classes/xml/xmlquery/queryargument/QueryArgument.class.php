@@ -55,7 +55,7 @@
 		function toString(){
                     if($this->isConditionArgument()){
                             // Instantiation
-                            $arg = sprintf("\n$%s_argument = new ConditionArgument('%s', %s, '%s');\n"
+                            $arg = sprintf("\n" . '${\'%s_argument\'} = new ConditionArgument(\'%s\', %s, \'%s\');' . "\n"
                                                     , $this->argument_name
                                                     , $this->variable_name
                                                     , '$args->'.$this->variable_name
@@ -65,25 +65,25 @@
                             $arg .= $this->argument_validator->toString();
 
                             // Prepare condition string
-                            $arg .= sprintf("$%s_argument->createConditionValue();\n"
+                            $arg .= sprintf('${\'%s_argument\'}->createConditionValue();' . "\n"
                                     , $this->argument_name
                                     );
 
                             // Check that argument passed validation, else return
-                            $arg .= sprintf("if(!$%s_argument->isValid()) return $%s_argument->getErrorMessage();\n"
+                            $arg .= sprintf('if(!${\'%s_argument\'}->isValid()) return ${\'%s_argument\'}->getErrorMessage();' . "\n"
                                             , $this->argument_name
                                             , $this->argument_name
                                             );
                     }
                     else {
-                            $arg = sprintf("\n$%s_argument = new Argument('%s', %s);\n"
+                            $arg = sprintf("\n" . '${\'%s_argument\'} = new Argument(\'%s\', %s);' . "\n"
                                                     , $this->argument_name
                                                     , $this->variable_name
                                                     , $this->ignore_value ? 'null' : '$args->'.$this->variable_name);
 
                             $arg .= $this->argument_validator->toString();
 
-                            $arg .= sprintf("if(!$%s_argument->isValid()) return $%s_argument->getErrorMessage();\n"
+                            $arg .= sprintf('if(!${\'%s_argument\'}->isValid()) return ${\'%s_argument\'}->getErrorMessage();' . "\n"
                                             , $this->argument_name
                                             , $this->argument_name
                                             );
@@ -93,7 +93,7 @@
                     if($this->argument_validator->isIgnorable()){
                         $arg = sprintf("if(isset(%s)) {", '$args->'.$this->variable_name)
                                 . $arg
-                                . sprintf("} else \n$%s_argument = null;", $this->argument_name);
+                                . sprintf("} else\n" . '${\'%s_argument\'} = null;', $this->argument_name);
                     }
 
                     return $arg;

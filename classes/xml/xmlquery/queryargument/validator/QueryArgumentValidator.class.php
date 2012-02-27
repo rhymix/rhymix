@@ -30,19 +30,19 @@
 		function toString(){
 			$validator = '';
 			if($this->filter){
-				$validator .= sprintf("$%s_argument->checkFilter('%s');\n"
+				$validator .= sprintf('${\'%s_argument\'}->checkFilter(\'%s\');' . "\n"
 					, $this->argument_name
 					, $this->filter
 					);
 			}
 			if($this->min_length){
-				$validator .= sprintf("$%s_argument->checkMinLength(%s);\n"
+				$validator .= sprintf('${\'%s_argument\'}->checkMinLength(%s);' . "\n"
 					, $this->argument_name
 					, $this->min_length
 					);
 			}
 			if($this->max_length){
-				$validator .= sprintf("$%s_argument->checkMaxLength(%s);\n"
+				$validator .= sprintf('${\'%s_argument\'}->checkMaxLength(%s);'. "\n"
 					, $this->argument_name
 					, $this->max_length
 					);
@@ -52,17 +52,17 @@
                                 if($this->default_value->isSequence())
                                         $validator .= '$db = &DB::getInstance(); $sequence = $db->getNextSequence(); ';
                                 if($this->default_value->isOperation())
-                                        $validator .= sprintf("$%s_argument->setColumnOperation('%s');\n"
+                                        $validator .= sprintf('${\'%s_argument\'}->setColumnOperation(\'%s\');' . "\n"
                                                 , $this->argument_name
                                                 , $this->default_value->getOperation()
                                                 );
-                                $validator .= sprintf("$%s_argument->ensureDefaultValue(%s);\n"
+                                $validator .= sprintf('${\'%s_argument\'}->ensureDefaultValue(%s);' . "\n"
                                         , $this->argument_name
                                         , $this->default_value->toString()
                                         );
 			}
 			if($this->notnull){
-				$validator .= sprintf("$%s_argument->checkNotNull();\n"
+				$validator .= sprintf('${\'%s_argument\'}->checkNotNull();' . "\n"
 					, $this->argument_name
 					);
 			}

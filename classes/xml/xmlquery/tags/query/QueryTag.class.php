@@ -99,7 +99,7 @@ class QueryTag {
                             $prebuff .= $argument->toString();
                             $column_type = $this->column_type[$this->getQueryId()][$argument->getColumnName()];
                             if(isset($column_type))
-                                $prebuff .= sprintf("if($%s_argument !== null) $%s_argument->setColumnType('%s');\n"
+                                $prebuff .= sprintf('if(${\'%s_argument\'} !== null) ${\'%s_argument\'}->setColumnType(\'%s\');' . "\n"
                                         , $arg_name
                                         , $arg_name
                                         , $column_type );

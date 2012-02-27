@@ -19,8 +19,8 @@
 		}
 
 		function toString(){
-			if ($this->page)return sprintf("new Limit(\$%s_argument, \$%s_argument, \$%s_argument)", $this->list_count->getArgumentName(), $this->page->getArgumentName(),  $this->page_count->getArgumentName());
-			else return sprintf("new Limit(\$%s_argument)", $this->list_count->getArgumentName());
+			if ($this->page)return sprintf('new Limit(${\'%s_argument\'}, ${\'%s_argument\'}, ${\'%s_argument\'})', $this->list_count->getArgumentName(), $this->page->getArgumentName(),  $this->page_count->getArgumentName());
+			else return sprintf('new Limit(${\'%s_argument\'})', $this->list_count->getArgumentName());
 		}
 
 		function getArguments(){
