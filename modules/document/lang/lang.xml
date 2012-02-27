@@ -5,7 +5,7 @@
 		<value xml:lang="en"><![CDATA[Documents List]]></value>
 		<value xml:lang="jp"><![CDATA[ドキュメントリスト]]></value>
 		<value xml:lang="zh-CN"><![CDATA[主题列表]]></value>
-		<value xml:lang="zh-TW"><![CDATA[主題列表]]></value>
+		<value xml:lang="zh-TW"><![CDATA[文章列表]]></value>
 		<value xml:lang="fr"><![CDATA[Liste des Documents]]></value>
 		<value xml:lang="ru"><![CDATA[Список документов]]></value>
 		<value xml:lang="es"><![CDATA[Document list]]></value>
@@ -28,7 +28,7 @@
 		<value xml:lang="en"><![CDATA[Crop (to a specific size)]]></value>
 		<value xml:lang="jp"><![CDATA[トリミングする]]></value>
 		<value xml:lang="zh-CN"><![CDATA[裁减(按指定大小裁剪图片)]]></value>
-		<value xml:lang="zh-TW"><![CDATA[裁減]]></value>
+		<value xml:lang="zh-TW"><![CDATA[裁切]]></value>
 		<value xml:lang="fr"><![CDATA[Rogner]]></value>
 		<value xml:lang="ru"><![CDATA[Обрезать]]></value>
 		<value xml:lang="tr"><![CDATA[Kırpılmış]]></value>
@@ -248,7 +248,7 @@
 		<value xml:lang="en"><![CDATA[Invert Selection]]></value>
 		<value xml:lang="jp"><![CDATA[選択項目反転]]></value>
 		<value xml:lang="zh-CN"><![CDATA[反选]]></value>
-		<value xml:lang="zh-TW"><![CDATA[反選]]></value>
+		<value xml:lang="zh-TW"><![CDATA[反向選擇]]></value>
 		<value xml:lang="fr"><![CDATA[Renverser les choisis]]></value>
 		<value xml:lang="ru"><![CDATA[Перевернуть выбранные объекты]]></value>
 		<value xml:lang="es"><![CDATA[Invertir los elementos seleccionados]]></value>
@@ -272,7 +272,7 @@
 		<value xml:lang="en"><![CDATA[I want to]]></value>
 		<value xml:lang="jp"><![CDATA[この書き込みを..]]></value>
 		<value xml:lang="zh-CN"><![CDATA[将把此主题..]]></value>
-		<value xml:lang="zh-TW"><![CDATA[將此主題..]]></value>
+		<value xml:lang="zh-TW"><![CDATA[將此文章..]]></value>
 		<value xml:lang="fr"><![CDATA[Vous voudriez..]]></value>
 		<value xml:lang="ru"><![CDATA[Эту запись...]]></value>
 		<value xml:lang="es"><![CDATA[Usted ..]]></value>
@@ -320,7 +320,7 @@
 		<value xml:lang="en"><![CDATA[%d article(s) was(were) deleted.]]></value>
 		<value xml:lang="jp"><![CDATA[%d個の書き込みが削除されました。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[删除了%d个文章。]]></value>
-		<value xml:lang="zh-TW"><![CDATA[刪除%d個文章。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[刪除 %d 個文章。]]></value>
 		<value xml:lang="fr"><![CDATA[%d article(s) est(sont) supprimé(s)]]></value>
 		<value xml:lang="ru"><![CDATA[%d записей удалено]]></value>
 		<value xml:lang="es"><![CDATA[Total de %d documentos han sido eliminados]]></value>
@@ -497,7 +497,7 @@
 			<value xml:lang="en"><![CDATA[Number of Comments (over)]]></value>
 			<value xml:lang="jp"><![CDATA[コメント数（以上）]]></value>
 			<value xml:lang="zh-CN"><![CDATA[评论数（以上）]]></value>
-			<value xml:lang="zh-TW"><![CDATA[評論數(以上)]]></value>
+			<value xml:lang="zh-TW"><![CDATA[回覆數(以上)]]></value>
 			<value xml:lang="fr"><![CDATA[Commentaires (surplus)]]></value>
 			<value xml:lang="ru"><![CDATA[Количество записей (свыше)]]></value>
 			<value xml:lang="es"><![CDATA[Número de comentarios (sobre)]]></value>
@@ -557,7 +557,7 @@
 			<value xml:lang="en"><![CDATA[IP Address]]></value>
 			<value xml:lang="jp"><![CDATA[IPアドレス]]></value>
 			<value xml:lang="zh-CN"><![CDATA[IP 地址]]></value>
-			<value xml:lang="zh-TW"><![CDATA[IP位址]]></value>
+			<value xml:lang="zh-TW"><![CDATA[IP 位址]]></value>
 			<value xml:lang="fr"><![CDATA[Adresse IP]]></value>
 			<value xml:lang="ru"><![CDATA[IP-Адрес]]></value>
 			<value xml:lang="es"><![CDATA[Dirección IP]]></value>
@@ -569,6 +569,7 @@
 		<value xml:lang="ko"><![CDATA[별칭(Alias)]]></value>
 		<value xml:lang="en"><![CDATA[Alias]]></value>
 		<value xml:lang="jp"><![CDATA[アリアス（Alias）]]></value>
+		<value xml:lang="zh-TW"><![CDATA[別名]]></value>
 		<value xml:lang="tr"><![CDATA[Diğer Adıyla]]></value>
 		<value xml:lang="vi"><![CDATA[Bí danh]]></value>
 	</item>
@@ -607,7 +608,7 @@
 		<value xml:lang="en"><![CDATA[Recycle Bin]]></value>
 		<value xml:lang="jp"><![CDATA[ゴミ箱]]></value>
 		<value xml:lang="zh-CN"><![CDATA[回收箱]]></value>
-		<value xml:lang="zh-TW"><![CDATA[垃圾桶]]></value>
+		<value xml:lang="zh-TW"><![CDATA[回收桶]]></value>
 		<value xml:lang="ru"><![CDATA[Корзина]]></value>
 		<value xml:lang="tr"><![CDATA[Çöp Kutusu]]></value>
 		<value xml:lang="vi"><![CDATA[Thùng rác]]></value>
@@ -637,7 +638,7 @@
 		<value xml:lang="en"><![CDATA[Recycle Bin]]></value>
 		<value xml:lang="jp"><![CDATA[ゴミ箱]]></value>
 		<value xml:lang="zh-CN"><![CDATA[回收箱]]></value>
-		<value xml:lang="zh-TW"><![CDATA[垃圾桶]]></value>
+		<value xml:lang="zh-TW"><![CDATA[回收桶]]></value>
 		<value xml:lang="ru"><![CDATA[Корзина]]></value>
 		<value xml:lang="tr"><![CDATA[Çöp Kutusu]]></value>
 		<value xml:lang="vi"><![CDATA[Thùng rác]]></value>
@@ -781,7 +782,7 @@
 		<value xml:lang="en"><![CDATA[Successfully moved to Recycle Bin.]]></value>
 		<value xml:lang="jp"><![CDATA[ごみ箱に移動しました。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[已成功移除到回收箱。]]></value>
-		<value xml:lang="zh-TW"><![CDATA[成功地移到垃圾桶]]></value>
+		<value xml:lang="zh-TW"><![CDATA[成功地移到回收桶]]></value>
 		<value xml:lang="tr"><![CDATA[Başarıyla silindi]]></value>
 		<value xml:lang="vi"><![CDATA[Đã chuyển tới thùng rác thành công.]]></value>
 	</item>
@@ -789,72 +790,85 @@
 		<value xml:lang="ko"><![CDATA[선택된 문서가 없습니다.]]></value>
 		<value xml:lang="en"><![CDATA[There are no selected articles.]]></value>
 		<value xml:lang="jp"><![CDATA[選択された書き込みがありません。]]></value>
-		<value xml:lang="zh-TW"><![CDATA[尚未選擇主題]]></value>
+		<value xml:lang="zh-TW"><![CDATA[尚未選擇文章]]></value>
 		<value xml:lang="tr"><![CDATA[Hiçbir makale seçilmedi.]]></value>
 	</item>
 	<item name="status">
 		<value xml:lang="ko"><![CDATA[상태]]></value>
 		<value xml:lang="en"><![CDATA[Status]]></value>
 		<value xml:lang="jp"><![CDATA[状態]]></value>
+		<value xml:lang="zh-TW"><![CDATA[狀態]]></value>
 	</item>
 	<item name="status_name_list" type="array">
 		<item name="PRIVATE">
 			<value xml:lang="ko"><![CDATA[비공개]]></value>
 			<value xml:lang="en"><![CDATA[Private]]></value>
 			<value xml:lang="jp"><![CDATA[非公開]]></value>
+			<value xml:lang="zh-TW"><![CDATA[不公開]]></value>
 		</item>
 		<item name="PUBLIC">
 			<value xml:lang="ko"><![CDATA[공개]]></value>
 			<value xml:lang="en"><![CDATA[Public]]></value>
 			<value xml:lang="jp"><![CDATA[公開]]></value>
+			<value xml:lang="zh-TW"><![CDATA[公開]]></value>
 		</item>
 		<item name="SECRET">
 			<value xml:lang="ko"><![CDATA[비밀]]></value>
 			<value xml:lang="en"><![CDATA[Secret]]></value>
 			<value xml:lang="jp"><![CDATA[非公開]]></value>
+			<value xml:lang="zh-TW"><![CDATA[秘密]]></value>
 		</item>
 		<item name="TEMP">
 			<value xml:lang="ko"><![CDATA[임시]]></value>
 			<value xml:lang="en"><![CDATA[Temporary]]></value>
 			<value xml:lang="jp"><![CDATA[テンポラリ]]></value>
+			<value xml:lang="zh-TW"><![CDATA[暫存]]></value>
 		</item>
 	</item>
 	<item name="document_manager">
 		<value xml:lang="ko"><![CDATA[선택한 글 관리]]></value>
 		<value xml:lang="en"><![CDATA[Manage selected articles]]></value>
 		<value xml:lang="jp"><![CDATA[選択した書き込みを管理]]></value>
+		<value xml:lang="zh-TW"><![CDATA[管理所選主題]]></value>
 	</item>
 	<item name="selected_document">
 		<value xml:lang="ko"><![CDATA[선택한 글]]></value>
 		<value xml:lang="en"><![CDATA[Selected articles]]></value>
 		<value xml:lang="jp"><![CDATA[選択した書き込み]]></value>
+		<value xml:lang="zh-TW"><![CDATA[已選文章數]]></value>
 	</item>
 	<item name="selected_document_move">
 		<value xml:lang="ko"><![CDATA[선택한 글을 다음 위치로 옮기거나 복사할 수 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[You can move or copy the selected articles to the following position.]]></value>
 		<value xml:lang="jp"><![CDATA[選択した書き込みを次の位置へ移動したり、コピーしたりできます。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[可移動或複製所選擇的文章到下列位置。]]></value>
 	</item>
 	<item name="select_module">
 		<value xml:lang="ko"><![CDATA[모듈을 선택하세요.]]></value>
 		<value xml:lang="en"><![CDATA[Select a module.]]></value>
 		<value xml:lang="jp"><![CDATA[モジュールを選択してください。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[選擇模組]]></value>
 	</item>
 	<item name="select_module_id">
 		<value xml:lang="ko"><![CDATA[모듈 아이디를 선택하세요.]]></value>
 		<value xml:lang="en"><![CDATA[Select a module ID.]]></value>
 		<value xml:lang="jp"><![CDATA[モジュールIDを選択してください。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[選擇模組 ID.]]></value>
 	</item>
 	<item name="select_category">
 		<value xml:lang="ko"><![CDATA[분류를 선택하세요.]]></value>
 		<value xml:lang="en"><![CDATA[Select a category.]]></value>
 		<value xml:lang="jp"><![CDATA[カテゴリを選択してください。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[選擇分類]]></value>
 	</item>
 	<item name="category_description">
 		<value xml:lang="ko"><![CDATA[카테고리 설명]]></value>
 		<value xml:lang="en"><![CDATA[Category Description]]></value>
+		<value xml:lang="zh-TW"><![CDATA[分類說明]]></value>
 	</item>
 	<item name="no_title_document">
 		<value xml:lang="ko"><![CDATA[제목이 없는 문서입니다.]]></value>
 		<value xml:lang="en"><![CDATA[No title in this document.]]></value>
+		<value xml:lang="zh-TW"><![CDATA[此文章無標題。]]></value>
 	</item>
 </lang>

@@ -16,7 +16,7 @@
     <description xml:lang="en">Module for managing trackbacks.</description>
     <description xml:lang="es">Módulo para el manejo de trackbacks.</description>
     <description xml:lang="ru">Модуль для управления трекбеками.</description>
-    <description xml:lang="zh-TW">管理引用的模組。</description>
+    <description xml:lang="zh-TW">引用管理模組。</description>
     <description xml:lang="en">Module for managing trackbacks.</description>
     <description xml:lang="tr">Geri izlemeleri yönetme modülü.</description>
     <version>0.1</version>

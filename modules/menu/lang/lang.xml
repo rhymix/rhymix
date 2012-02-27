@@ -29,7 +29,7 @@
 		<value xml:lang="en"><![CDATA[No. of menus]]></value>
 		<value xml:lang="jp"><![CDATA[メニュー数]]></value>
 		<value xml:lang="zh-CN"><![CDATA[菜单数]]></value>
-		<value xml:lang="zh-TW"><![CDATA[選單數]]></value>
+		<value xml:lang="zh-TW"><![CDATA[選單數量]]></value>
 		<value xml:lang="fr"><![CDATA[Somme de menu]]></value>
 		<value xml:lang="ru"><![CDATA[Меню No.]]></value>
 		<value xml:lang="es"><![CDATA[Número del menú]]></value>
@@ -52,51 +52,61 @@
 		<value xml:lang="ko"><![CDATA[접기]]></value>
 		<value xml:lang="en"><![CDATA[Collapse]]></value>
 		<value xml:lang="jp"><![CDATA[畳む]]></value>
+		<value xml:lang="zh-TW"><![CDATA[關閉]]></value>
 	</item>
 	<item name="expanding">
 		<value xml:lang="ko"><![CDATA[펼치기]]></value>
 		<value xml:lang="en"><![CDATA[Expand]]></value>
 		<value xml:lang="jp"><![CDATA[展開]]></value>
+		<value xml:lang="zh-TW"><![CDATA[展開]]></value>
 	</item>
 	<item name="add_menu">
 		<value xml:lang="ko"><![CDATA[메뉴 추가]]></value>
 		<value xml:lang="en"><![CDATA[Add Menu Item]]></value>
 		<value xml:lang="jp"><![CDATA[メニュー追加]]></value>
+		<value xml:lang="zh-TW"><![CDATA[追加選單]]></value>
 	</item>
 	<item name="edit_menu">
 		<value xml:lang="ko"><![CDATA[메뉴 편집]]></value>
 		<value xml:lang="en"><![CDATA[Edit Menu]]></value>
 		<value xml:lang="jp"><![CDATA[メニューの編集]]></value>
+		<value xml:lang="zh-TW"><![CDATA[編輯選單]]></value>
 	</item>
 	<item name="add_new_sitemap">
 		<value xml:lang="ko"><![CDATA[새 사이트맵 추가]]></value>
 		<value xml:lang="en"><![CDATA[Add New Menu]]></value>
 		<value xml:lang="jp"><![CDATA[新しいサイトマップ追加]]></value>
+		<value xml:lang="zh-TW"><![CDATA[新增選單]]></value>
 	</item>
 	<item name="module_or_url">
 		<value xml:lang="ko"><![CDATA[모듈 또는 URL]]></value>
 		<value xml:lang="en"><![CDATA[Module or URL]]></value>
 		<value xml:lang="jp"><![CDATA[モジュール、またはURL]]></value>
+		<value xml:lang="zh-TW"><![CDATA[模組或連結]]></value>
 	</item>
 	<item name="create_module_in_menu">
 		<value xml:lang="ko"><![CDATA[모듈 생성]]></value>
 		<value xml:lang="en"><![CDATA[Create Module]]></value>
 		<value xml:lang="jp"><![CDATA[モジュール生成]]></value>
+		<value xml:lang="zh-TW"><![CDATA[建立模組]]></value>
 	</item>
 	<item name="select_module_in_menu">
 		<value xml:lang="ko"><![CDATA[모듈 선택]]></value>
 		<value xml:lang="en"><![CDATA[Select Module]]></value>
 		<value xml:lang="jp"><![CDATA[モジュール選択]]></value>
+		<value xml:lang="zh-TW"><![CDATA[選擇模組]]></value>
 	</item>
 	<item name="create_mid_in_menu">
 		<value xml:lang="ko"><![CDATA[모듈 아이디 생성]]></value>
 		<value xml:lang="en"><![CDATA[Create Module ID]]></value>
 		<value xml:lang="jp"><![CDATA[モジュールID生成]]></value>
+		<value xml:lang="zh-TW"><![CDATA[建立模組 ID]]></value>
 	</item>
 	<item name="select_mid_in_menu">
 		<value xml:lang="ko"><![CDATA[모듈 아이디 선택]]></value>
 		<value xml:lang="en"><![CDATA[Select Module ID]]></value>
 		<value xml:lang="jp"><![CDATA[モジュールID選択]]></value>
+		<value xml:lang="zh-TW"><![CDATA[選擇模組 ID]]></value>
 	</item>
 	<item name="depth">
 		<value xml:lang="ko"><![CDATA[단계]]></value>
@@ -184,6 +194,7 @@
 		<value xml:lang="ko"><![CDATA[현재창 열기]]></value>
 		<value xml:lang="en"><![CDATA[Open a self window]]></value>
 		<value xml:lang="jp"><![CDATA[現在のウィンドウで開く]]></value>
+		<value xml:lang="zh-TW"><![CDATA[目前視窗開啟]]></value>
 	</item>
 	<item name="menu_expand">
 		<value xml:lang="ko"><![CDATA[펼침]]></value>
@@ -390,6 +401,7 @@
 		<value xml:lang="ko"><![CDATA[최상위 메뉴는 삭제할 수 없습니다.]]></value>
 		<value xml:lang="en"><![CDATA[A top menu cannot be deleted]]></value>
 		<value xml:lang="jp"><![CDATA[最上位メニューは、削除できません。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[主選單無法刪除。]]></value>
 	</item>
 	<item name="about_title">
 		<value xml:lang="ko"><![CDATA[모듈에 연결할 때, 쉽게 구분할 수 있는 제목을 입력해주세요.]]></value>
@@ -515,7 +527,7 @@ Nếu Menu không hiển thị một cách bình thường, hãy làm mới thô
 		<value xml:lang="en"><![CDATA[If you select a group, only the group members can see the menu. (if xml file is directly opened, it will be visible to anyone who opens it.)]]></value>
 		<value xml:lang="jp"><![CDATA[グループを選択すると該当するグループのユーザーにのみメニューが表示されます（XMLファイルを直接開くと情報が表示されます）。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[如选择用户组，只有所属组用户才能看到此菜单。 —（xml文件中不能隐藏）]]></value>
-		<value xml:lang="zh-TW"><![CDATA[如果選擇群組，只有所屬群組才能看到此選單。(如果可直接連結xml檔案，內容將無法隱藏)]]></value>
+		<value xml:lang="zh-TW"><![CDATA[如果選擇群組，只有所屬群組才能看到此選單。(如果可直接連結 xml 檔案，內容將無法隱藏)]]></value>
 		<value xml:lang="fr"><![CDATA[Si vous choisissez un groupe, les membres de ce groupe seulement peuvent voir le menu. (Si l'on ouvre un fichier xml, le fichier sera exposé.)]]></value>
 		<value xml:lang="ru"><![CDATA[Если Вы выберите группу, то только ее члены могут видеть это меню. (если XML файл открыт напрямую, оно будет показано.)]]></value>
 		<value xml:lang="es"><![CDATA[Si tu selecciona el grupo, sólo los usuarios del grupo pueden ver el menú. (Si el archivo xml es abierto directamente, lo mostrará.)]]></value>
@@ -559,17 +571,21 @@ Menu không phải là người quản lý, nhiệm vụ của nó chỉ là li�
 	<item name="cType">
 		<value xml:lang="ko"><![CDATA[모듈 또는 URL]]></value>
 		<value xml:lang="en"><![CDATA[Module or URL]]></value>
+		<value xml:lang="zh-TW"><![CDATA[模組或連結]]></value>
 	</item>
 	<item name="module_type">
 		<value xml:lang="ko"><![CDATA[모듈 선택]]></value>
 		<value xml:lang="en"><![CDATA[Select Module]]></value>
+		<value xml:lang="zh-TW"><![CDATA[選擇模組]]></value>
 	</item>
 	<item name="create_menu_url">
 		<value xml:lang="ko"><![CDATA[모듈 아이디 생성]]></value>
 		<value xml:lang="en"><![CDATA[Create Module ID]]></value>
+		<value xml:lang="zh-TW"><![CDATA[建立模組 ID]]></value>
 	</item>
 	<item name="select_menu_url">
 		<value xml:lang="ko"><![CDATA[모듈 아이디 선택]]></value>
 		<value xml:lang="en"><![CDATA[Select Module ID]]></value>
+		<value xml:lang="zh-TW"><![CDATA[選擇模組 ID]]></value>
 	</item>
 </lang>

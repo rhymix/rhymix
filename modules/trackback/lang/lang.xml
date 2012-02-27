@@ -5,7 +5,7 @@
 		<value xml:lang="en"><![CDATA[Invert Selection]]></value>
 		<value xml:lang="jp"><![CDATA[選択トラックバック反転]]></value>
 		<value xml:lang="zh-CN"><![CDATA[反选]]></value>
-		<value xml:lang="zh-TW"><![CDATA[反選]]></value>
+		<value xml:lang="zh-TW"><![CDATA[反向選擇]]></value>
 		<value xml:lang="fr"><![CDATA[Renverser les rétroliens choisis]]></value>
 		<value xml:lang="ru"><![CDATA[Reverse selected trackback(s)]]></value>
 		<value xml:lang="es"><![CDATA[Reverse selected trackback(s)]]></value>
@@ -29,7 +29,7 @@
 		<value xml:lang="en"><![CDATA[Please select a trackback to delete.]]></value>
 		<value xml:lang="jp"><![CDATA[削除する書き込みを選択してください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[请选择要删除的文章]]></value>
-		<value xml:lang="zh-TW"><![CDATA[請選擇要刪除的文章]]></value>
+		<value xml:lang="zh-TW"><![CDATA[請選擇要刪除的引用]]></value>
 		<value xml:lang="fr"><![CDATA[Choisissez un rétrolien à supprimer, S.V.P.]]></value>
 		<value xml:lang="ru"><![CDATA[Пожалуйста, выберите трекбек для удаления.]]></value>
 		<value xml:lang="es"><![CDATA[Seleccione un trackback para ser eliminado.]]></value>
@@ -41,7 +41,7 @@
 		<value xml:lang="en"><![CDATA[%d trackback(s) deleted.]]></value>
 		<value xml:lang="jp"><![CDATA[%d個のトラックバックが削除されました。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[已删除%d个引用]]></value>
-		<value xml:lang="zh-TW"><![CDATA[已刪除%d個引用]]></value>
+		<value xml:lang="zh-TW"><![CDATA[已刪除 %d 個引用]]></value>
 		<value xml:lang="fr"><![CDATA[%d rétrolien(s) est(sont) supprimé(s).]]></value>
 		<value xml:lang="ru"><![CDATA[%d трекбеков удалено.]]></value>
 		<value xml:lang="es"><![CDATA[%d trackback(s) eliminado.]]></value>
@@ -144,7 +144,7 @@
 			<value xml:lang="en"><![CDATA[IP Address]]></value>
 			<value xml:lang="jp"><![CDATA[IPアドレス]]></value>
 			<value xml:lang="zh-CN"><![CDATA[IP地址]]></value>
-			<value xml:lang="zh-TW"><![CDATA[IP位址]]></value>
+			<value xml:lang="zh-TW"><![CDATA[IP 位址]]></value>
 			<value xml:lang="fr"><![CDATA[Adresse IP]]></value>
 			<value xml:lang="ru"><![CDATA[IP-адрес]]></value>
 			<value xml:lang="es"><![CDATA[Dirección IP]]></value>
@@ -157,7 +157,7 @@
 		<value xml:lang="en"><![CDATA[Allow Trackback]]></value>
 		<value xml:lang="jp"><![CDATA[トラックバックを可能にする]]></value>
 		<value xml:lang="zh-CN"><![CDATA[使用引用]]></value>
-		<value xml:lang="zh-TW"><![CDATA[使用引用]]></value>
+		<value xml:lang="zh-TW"><![CDATA[允許引用]]></value>
 		<value xml:lang="fr"><![CDATA[Utiliser le Rétrolien]]></value>
 		<value xml:lang="ru"><![CDATA[Включить трекбек]]></value>
 		<value xml:lang="es"><![CDATA[Usar trackback]]></value>
@@ -180,20 +180,24 @@
 		<value xml:lang="ko"><![CDATA[엮인글이 없습니다.]]></value>
 		<value xml:lang="en"><![CDATA[No Trackbacks]]></value>
 		<value xml:lang="jp"><![CDATA[トラックバックがありません。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[沒有引用]]></value>
 	</item>
 	<item name="trackback_manager">
 		<value xml:lang="ko"><![CDATA[선택한 엮인글 관리]]></value>
 		<value xml:lang="en"><![CDATA[Manage selected trackbacks]]></value>
 		<value xml:lang="jp"><![CDATA[選択したトラックバック管理]]></value>
+		<value xml:lang="zh-TW"><![CDATA[管理所選引用]]></value>
 	</item>
 	<item name="selected_trackback">
 		<value xml:lang="ko"><![CDATA[선택한 엮인글]]></value>
 		<value xml:lang="en"><![CDATA[Selected trackbacks]]></value>
 		<value xml:lang="jp"><![CDATA[選択したトラックバック]]></value>
+		<value xml:lang="zh-TW"><![CDATA[已選擇的引用]]></value>
 	</item>
 	<item name="site">
 		<value xml:lang="ko"><![CDATA[사이트]]></value>
 		<value xml:lang="en"><![CDATA[Site]]></value>
 		<value xml:lang="jp"><![CDATA[サイト]]></value>
+		<value xml:lang="zh-TW"><![CDATA[網站]]></value>
 	</item>
 </lang>

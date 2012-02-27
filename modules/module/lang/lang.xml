@@ -4,26 +4,31 @@
 		<value xml:lang="ko"><![CDATA[이 항목 설치가 가능합니다.]]></value>
 		<value xml:lang="en"><![CDATA[You can install this item.]]></value>
 		<value xml:lang="jp"><![CDATA[この項目のインストールが可能です。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[可安裝此項目]]></value>
     </item>
 	<item name="msg_avail_update">
 		<value xml:lang="ko"><![CDATA[이 항목 업데이트가 가능합니다.]]></value>
 		<value xml:lang="en"><![CDATA[You can update this item.]]></value>
 		<value xml:lang="jp"><![CDATA[この項目のアップデートが可能です。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[可更新此項目]]></value>
     </item>
 	<item name="msg_avail_easy_update">
 		<value xml:lang="ko"><![CDATA[이 항목의 새로운 버전이 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[There is new version for this item.]]></value>
 		<value xml:lang="jp"><![CDATA[この項目の新しいバージョンがあります。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[此項目有新版本]]></value>
     </item>
 	<item name="msg_do_you_like_install">
 		<value xml:lang="ko"><![CDATA[설치하시겠습니까?]]></value>
 		<value xml:lang="en"><![CDATA[Would you like to install?]]></value>
 		<value xml:lang="jp"><![CDATA[インストールしますか?]]></value>
+		<value xml:lang="zh-TW"><![CDATA[想要安裝嗎?]]></value>
 	</item>
 	<item name="msg_do_you_like_update">
 		<value xml:lang="ko"><![CDATA[업데이트하시겠습니까?]]></value>
 		<value xml:lang="en"><![CDATA[Would you like to update?]]></value>
 		<value xml:lang="jp"><![CDATA[アップデートしますか?]]></value>
+		<value xml:lang="zh-TW"><![CDATA[想要更新嗎?]]></value>
 	</item>
 	<item name="virtual_site">
 		<value xml:lang="ko"><![CDATA[가상 사이트]]></value>
@@ -87,7 +92,7 @@
 		<value xml:lang="en"><![CDATA[Add Shortcuts]]></value>
 		<value xml:lang="jp"><![CDATA[管理者メニューに追加する]]></value>
 		<value xml:lang="zh-CN"><![CDATA[添加到快捷菜单]]></value>
-		<value xml:lang="zh-TW"><![CDATA[新增到快捷選單]]></value>
+		<value xml:lang="zh-TW"><![CDATA[新增到快速選單]]></value>
 		<value xml:lang="fr"><![CDATA[Ajouter un raccourci dans le menu pour l'administrateur]]></value>
 		<value xml:lang="ru"><![CDATA[Добавить ярлыки]]></value>
 		<value xml:lang="es"><![CDATA[Añadir en el menú del administrador]]></value>
@@ -326,6 +331,7 @@
 	<item name="upload_file">
 		<value xml:lang="ko"><![CDATA[파일 올리기]]></value>
 		<value xml:lang="en"><![CDATA[Upload File]]></value>
+		<value xml:lang="zh-TW"><![CDATA[上傳檔案]]></value>
 	</item>
 	<item name="access_type">
 		<value xml:lang="ko"><![CDATA[접속 방법]]></value>
@@ -406,6 +412,7 @@
 		<value xml:lang="en"><![CDATA[Header Script]]></value>
 		<value xml:lang="jp"><![CDATA[ヘッダースクリプト]]></value>
 		<value xml:lang="zh-CN"><![CDATA[文件头部脚本]]></value>
+		<value xml:lang="zh-TW"><![CDATA[Header Script]]></value>
 		<value xml:lang="fr"><![CDATA[Script en-tête]]></value>
 		<value xml:lang="ru"><![CDATA[Скрипт Header]]></value>
 		<value xml:lang="tr"><![CDATA[Başlık Betiği(script)]]></value>
@@ -484,7 +491,7 @@
 		<value xml:lang="en"><![CDATA[Add Shortcut]]></value>
 		<value xml:lang="jp"><![CDATA[ショートカット追加]]></value>
 		<value xml:lang="zh-CN"><![CDATA[添加到快捷菜单]]></value>
-		<value xml:lang="zh-TW"><![CDATA[新增到快捷選單]]></value>
+		<value xml:lang="zh-TW"><![CDATA[新增到快速選單]]></value>
 		<value xml:lang="fr"><![CDATA[Ajouter un raccourci]]></value>
 		<value xml:lang="ru"><![CDATA[Добавить ярлык]]></value>
 		<value xml:lang="es"><![CDATA[añadir acceso directo]]></value>
@@ -508,7 +515,7 @@
 		<value xml:lang="en"><![CDATA[Update]]></value>
 		<value xml:lang="jp"><![CDATA[アップデート]]></value>
 		<value xml:lang="zh-CN"><![CDATA[升级]]></value>
-		<value xml:lang="zh-TW"><![CDATA[升級]]></value>
+		<value xml:lang="zh-TW"><![CDATA[更新]]></value>
 		<value xml:lang="fr"><![CDATA[Mettre à Jour]]></value>
 		<value xml:lang="ru"><![CDATA[Обновить]]></value>
 		<value xml:lang="es"><![CDATA[Actualizar]]></value>
@@ -623,7 +630,7 @@
 		<value xml:lang="en"><![CDATA[There is no registered category.]]></value>
 		<value xml:lang="jp"><![CDATA[登録されているカテゴリがありません。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[没有登录的分类]]></value>
-		<value xml:lang="zh-TW"><![CDATA[沒有登錄的分類]]></value>
+		<value xml:lang="zh-TW"><![CDATA[尚未登錄的分類]]></value>
 		<value xml:lang="fr"><![CDATA[Il n'y a pas de catégorie enrégistrée.]]></value>
 		<value xml:lang="ru"><![CDATA[Зарегистрированной категории не существует.]]></value>
 		<value xml:lang="es"><![CDATA[No existe categoría registrada.]]></value>
@@ -883,22 +890,18 @@ URL для менеджера модулей <a href="./?module=admin&amp;act=di
 		<value xml:lang="vi"><![CDATA[Khi thành viên dăng kí tại trang chủ, nghĩa là họ cũng là thành viên của những trang khác (Ví dụ: cafeXE,...).]]></value>
 	</item>
 	<item name="about_module">
-		<value xml:lang="ko"><![CDATA[XE는 기본 라이브러리를 제외한 나머지는 모두 모듈로 구성되어 있습니다.
-모듈 관리 모듈은 설치된 모든 모듈을 보여주고 관리를 돕습니다.]]></value>
-		<value xml:lang="en"><![CDATA[XE consists of modules except the basic library.
- [Module Manage] module will show all installed modules and help you to manage them.]]></value>
+		<value xml:lang="ko"><![CDATA[XE는 기본 라이브러리를 제외한 나머지는 모두 모듈로 구성되어 있습니다. 모듈 관리 모듈은 설치된 모든 모듈을 보여주고 관리를 돕습니다.]]></value>
+		<value xml:lang="en"><![CDATA[XE consists of modules except the basic library. [Module Manage] module will show all installed modules and help you to manage them.]]></value>
 		<value xml:lang="jp"><![CDATA[XEは、基本ライブラリの他は、すべてモジュールで構成されています。モジュール管理用のモジュールはインストールされたすべてを表示し、管理できるようにします。]]></value>
-		<value xml:lang="zh-CN"><![CDATA[除基本library以外XE全部由模块组成。
-模块管理中列出所有已安装的模块，因此易于管理。]]></value>
-		<value xml:lang="zh-TW"><![CDATA[除基本函式庫以外 XE 全部由模組組成。
-模組管理中列出所有已安裝的模組，因此易於管理。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[除基本library以外XE全部由模块组成。 模块管理中列出所有已安装的模块，因此易于管理。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[除基本函式庫以外 XE 全部由模組組成。 模組管理中列出所有已安裝的模組，因此易於管理。]]></value>
 		<value xml:lang="fr"><![CDATA[XE se compose des modules sauf la bibliothèque fondamental.
 Le module [Administration des Modules] montera tous les modules installés et vous aidera les administrer.]]></value>
 		<value xml:lang="ru"><![CDATA[XE состоит из модулей, за исключением базовой библиотеки.
  Управление модулем покажет все установленные модули и поможет управлять ими.]]></value>
 		<value xml:lang="es"><![CDATA[XE consiste de módulos excepto la librería básica.
  Módulo del Manejo del Módulo muestra todos los módulos instalados y ayuda el manejo de ellos.]]></value>
-		<value xml:lang="tr"><![CDATA[XE, temel kitaplık dışında, modüllerden oluşmaktadır.
+		<value xml:lang="tr"><![CDATA[XE, temel kitaplık dışında, modüllerden oluşmaktadır. 
  [Modül Yönetimi] modülü, size kurulu tüm modülleri gösterecek ve onları yönetmenize yardımcı olacaktır.]]></value>
 		<value xml:lang="vi"><![CDATA[Khu vực Module trong XE ngoại trừ Library là tại [Module Manage]. Tất cả những Module đang có sẽ hiển thị, giúp bạn quản lý một cách dễ dàng.]]></value>
 	</item>
@@ -958,51 +961,63 @@ Le module [Administration des Modules] montera tous les modules installés et vo
 		<value xml:lang="ko"><![CDATA[모듈 등록에 실패하였습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Fail Regist Module]]></value>
 		<value xml:lang="jp"><![CDATA[モジュール登録に失敗しました。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[模組登錄失敗]]></value>
 	</item>
 	<item name="multilingual_desc">
 		<value xml:lang="ko"><![CDATA[현재 12 종류의 다국어 문자를 지원할 수 있습니다. 다른 종류의 다국어 지원을 원하는 경우 /common/lang/ 폴더의 다국어 가운데 하나의 세트를 번역해서 XE 개발자(contact@xpressengine.com)에게 보내주세요.]]></value>
 		<value xml:lang="en"><![CDATA[XE supports 12 languages currently. If you want to use another language, translate one set of languages in /common/lang/ folder into that language and send it to us (contact@xpressengine.com).]]></value>
 		<value xml:lang="jp"><![CDATA[XEは、12種類の多国語をサポートしています。他の種類の多国語のサポートを希望する場合は、/common/lang/フォルダの多国語のうち、ひとつのセットを翻訳してXE開発者(contact@xpressengine.com)までお送りください。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[XE 目前支援 12 種國際語言。 想添加其他語言，請將 /common/lang/ 目錄的檔案新增翻譯後，寄至 XE 開發團隊(contact@xpressengine.com)]]></value>
 	</item>
 	<item name="add_word">
 		<value xml:lang="ko"><![CDATA[새로운 단어 또는 문장 추가...]]></value>
 		<value xml:lang="en"><![CDATA[Add New Word or Sentence...]]></value>
 		<value xml:lang="jp"><![CDATA[新しい単語、または文章追加...]]></value>
+		<value xml:lang="zh-TW"><![CDATA[新增文字或字句...]]></value>
 	</item>
 	<item name="installed_modules">
 		<value xml:lang="ko"><![CDATA[설치된 모듈]]></value>
 		<value xml:lang="en"><![CDATA[Installed Modules]]></value>
+		<value xml:lang="zh-TW"><![CDATA[已安裝模組]]></value>
 	</item>
 	<item name="cmd_show_hide">
 		<value xml:lang="ko"><![CDATA[보기/숨김]]></value>
 		<value xml:lang="en"><![CDATA[show/hide]]></value>
+		<value xml:lang="zh-TW"><![CDATA[顯示/隱藏]]></value>
 	</item>
 	<item name="no_multi_lang">
 		<value xml:lang="ko"><![CDATA[아직 등록된 다국어가 없습니다.]]></value>
 		<value xml:lang="en"><![CDATA[There is no multi language.]]></value>
+		<value xml:lang="zh-TW"><![CDATA[尚未登錄多國語言]]></value>
 	</item>
 	<item name="module_admin">
 		<value xml:lang="ko"><![CDATA[모듈 관리자]]></value>
 		<value xml:lang="en"><![CDATA[Module Administrator]]></value>
+		<value xml:lang="zh-TW"><![CDATA[模組管理員]]></value>
 	</item>
 	<item name="permission_setting">
 		<value xml:lang="ko"><![CDATA[권한 설정]]></value>
 		<value xml:lang="en"><![CDATA[Permission Setting]]></value>
+		<value xml:lang="zh-TW"><![CDATA[權限設定]]></value>
 	</item>
 	<item name="msg_cannot_delete_startmodule">
 		<value xml:lang="ko"><![CDATA[시작 모듈은 삭제할 수 없습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Cannot delete a start module.]]></value>
+		<value xml:lang="zh-TW"><![CDATA[無法刪除預設模組]]></value>
 	</item>
 	<item name="attribute_name">
 		<value xml:lang="ko"><![CDATA[변수명]]></value>
 		<value xml:lang="en"><![CDATA[Attribute name]]></value>
+		<value xml:lang="zh-TW"><![CDATA[變數名稱]]></value>
 	</item>
 	<item name="attribute_value">
 		<value xml:lang="ko"><![CDATA[값]]></value>
 		<value xml:lang="en"><![CDATA[Attribute value]]></value>
+		<value xml:lang="zh-TW"><![CDATA[變數值]]></value>
 	</item>
 	<item name="cmd_add">
 		<value xml:lang="ko"><![CDATA[추가]]></value>
 		<value xml:lang="en"><![CDATA[Add]]></value>
+		<value xml:lang="zh-TW"><![CDATA[新增]]></value>
 	</item>
 </lang>

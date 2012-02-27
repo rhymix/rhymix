@@ -127,7 +127,7 @@
 		<value xml:lang="en"><![CDATA[If checked, RSS will be disabled.]]></value>
 		<value xml:lang="jp"><![CDATA[チェックを入れるとRSSの出力を行いません。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[选此项不显示RSS。]]></value>
-		<value xml:lang="zh-TW"><![CDATA[隱藏 RSS Feed。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[隱藏 RSS Feed]]></value>
 		<value xml:lang="fr"><![CDATA[Si vous cochez, RSS sera invalidé.]]></value>
 		<value xml:lang="ru"><![CDATA[Если выбрано, RSS будет отключен.]]></value>
 		<value xml:lang="es"><![CDATA[Si selecciona esta opción, RSS será desactivado.]]></value>

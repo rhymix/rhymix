@@ -236,7 +236,7 @@
 		<value xml:lang="en"><![CDATA[To allow an extension, use "*.[extention]". To allow multiple extensions, use ";" between each extension. ex) *.* or *.jpg;*.gif; ]]></value>
 		<value xml:lang="jp"><![CDATA["*.拡張子"で指定し、 ";"で区切って任意の拡張子を追加して指定できます。ex) *.* or *.jpg;*.gif; ]]></value>
 		<value xml:lang="zh-CN"><![CDATA[可以用"*.扩展名"来指定或用 ";"来 区分多个扩展名 例) *.* or *.jpg;*.gif;]]></value>
-		<value xml:lang="zh-TW"><![CDATA[可以用"*.副檔名"來指定或用分號";"來區隔多個副檔名。 例) *.* or *.jpg; *.gif;]]></value>
+		<value xml:lang="zh-TW"><![CDATA[可以用 "*.副檔名" 來指定或用分號 ";" 來區隔多個副檔名。 例) *.* or *.jpg; *.gif;]]></value>
 		<value xml:lang="fr"><![CDATA[Pour consentir une extension, utilisez "*.[extention]". Pour consentir plusieurs extensions, utilisez ";" entre chaque extension. ex) *.* ou *.jpg;*.gif;]]></value>
 		<value xml:lang="ru"><![CDATA[Чтобы разрешить расширение, ипользуйте "*.расширение". Чтобы разрешить несколько расширений, используйте ";" между ними. например: *.* или *.jpg;*.gif;]]></value>
 		<value xml:lang="es"><![CDATA[Para permitir una extensión use "*.extensión". Para permitir más de una extensión use ";". ej) *.* o *.jpg;*.gif;etc.]]></value>
@@ -294,8 +294,8 @@
 		<value xml:lang="ko"><![CDATA[삭제할 파일을 선택해주세요.]]></value>
 		<value xml:lang="en"><![CDATA[Please select a file(s) to delete.]]></value>
 		<value xml:lang="jp"><![CDATA[削除するファイルを選択してください]]></value>
-		<value xml:lang="zh-CN"><![CDATA[ 请选择要删除的文件。]]></value>
-		<value xml:lang="zh-TW"><![CDATA[ 請選擇要刪除的檔案。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[请选择要删除的文件。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[請選擇要刪除的檔案。]]></value>
 		<value xml:lang="fr"><![CDATA[Choisissez un(des) fichier(s) a supprimer]]></value>
 		<value xml:lang="ru"><![CDATA[Выберите файл, который Вы хотите удалить]]></value>
 		<value xml:lang="es"><![CDATA[Seleccione el archivo a eliminar]]></value>
@@ -458,7 +458,7 @@
 			<value xml:lang="en"><![CDATA[IP Address]]></value>
 			<value xml:lang="jp"><![CDATA[IPアドレス]]></value>
 			<value xml:lang="zh-CN"><![CDATA[IP地址]]></value>
-			<value xml:lang="zh-TW"><![CDATA[IP位址]]></value>
+			<value xml:lang="zh-TW"><![CDATA[IP 位址]]></value>
 			<value xml:lang="fr"><![CDATA[Adresse IP]]></value>
 			<value xml:lang="ru"><![CDATA[IP-Адрес]]></value>
 			<value xml:lang="es"><![CDATA[Dirección IP]]></value>
@@ -469,6 +469,7 @@
 			<value xml:lang="ko"><![CDATA[상태]]></value>
 			<value xml:lang="en"><![CDATA[Status]]></value>
 			<value xml:lang="jp"><![CDATA[状態]]></value>
+			<value xml:lang="zh-TW"><![CDATA[狀態]]></value>
 		</item>
 	</item>
 	<item name="msg_not_allowed_outlink">
@@ -488,6 +489,7 @@
 		<value xml:lang="en"><![CDATA[Failed to create a file or directory.]]></value>
 		<value xml:lang="jp"><![CDATA[ファイルまたはディレクトリを生成できません。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[无法生成文件或文件夹。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[無法建立檔案或目錄。]]></value>
 		<value xml:lang="tr"><![CDATA[Dosya veya dizin oluşturma hatası.]]></value>
 	</item>
 	<item name="msg_file_upload_error">
@@ -495,21 +497,25 @@
 		<value xml:lang="en"><![CDATA[An error has occurred during uploading.]]></value>
 		<value xml:lang="jp"><![CDATA[ファイルのアップロードに失敗しました。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[上传文件发生出错。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[檔案上傳失敗。]]></value>
 		<value xml:lang="tr"><![CDATA[Karşıya yükleme esnasında bir hata oluştu.]]></value>
 	</item>
 	<item name="no_files">
 		<value xml:lang="ko"><![CDATA[파일이 없습니다.]]></value>
 		<value xml:lang="en"><![CDATA[No Files]]></value>
 		<value xml:lang="jp"><![CDATA[ファイルがありません。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[無任何附檔。]]></value>
 	</item>
 	<item name="file_manager">
 		<value xml:lang="ko"><![CDATA[선택한 파일 관리]]></value>
 		<value xml:lang="en"><![CDATA[Manage selected files]]></value>
 		<value xml:lang="jp"><![CDATA[選択ファイル管理]]></value>
+		<value xml:lang="zh-TW"><![CDATA[管理所選附檔]]></value>
 	</item>
 	<item name="selected_file">
 		<value xml:lang="ko"><![CDATA[선택한 파일]]></value>
 		<value xml:lang="en"><![CDATA[Selected files]]></value>
 		<value xml:lang="jp"><![CDATA[選択ファイル]]></value>
+		<value xml:lang="zh-TW"><![CDATA[所選擇的附檔]]></value>
 	</item>
 </lang>
