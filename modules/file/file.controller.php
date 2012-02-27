@@ -512,6 +512,9 @@
             $args->member_srl = $member_srl;
             $args->sid = md5(rand(rand(1111111,4444444),rand(4444445,9999999)));
 
+			$security = new Security($args->source_filename);
+			$args->source_filename = $security->encodeHTML();
+
             $output = executeQuery('file.insertFile', $args);
             if(!$output->toBool()) return $output;
             // Call a trigger (after)
