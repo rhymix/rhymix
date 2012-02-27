@@ -111,13 +111,8 @@
             if(!Context::get('is_logged')) return $this->stop('msg_not_logged');
             $logged_info = Context::get('logged_info');
             // get receipient's information 
-
-			// check inalid request
             $receiver_srl = Context::get('receiver_srl');
-            if(!$receiver_srl) return $this->stop('msg_invalid_request');
-
-			// check receiver and sender are same
-            if($logged_info->member_srl == $receiver_srl) return $this->stop('msg_cannot_send_to_yourself');
+            if(!$receiver_srl || $logged_info->member_srl == $receiver_srl) return $this->stop('msg_not_logged');
             // get message_srl of the original message if it is a reply
             $message_srl = Context::get('message_srl');
             if($message_srl) {
