@@ -113,8 +113,8 @@ class documentController extends document {
 		$oDocumentController = &getController('document');
 		$output = $oDocumentController->deleteModuleCategory($module_srl);
 		if(!$output->toBool()) return $output;
-		// Delete extra variable
-		$this->deleteDocumentExtraVars($module_srl);
+		// Delete extra key and variable, because module deleted
+		$this->deleteDocumentExtraKeys($module_srl);
 
 		// remove aliases
 		$this->deleteDocumentAliasByModule($module_srl);
