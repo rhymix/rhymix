@@ -159,8 +159,8 @@ class TemplateHandlerTest extends PHPUnit_Framework_TestCase
 			),
 			// error case
 			array(
-				'<a href="{$layout_info->index_url}" cond="$layout_info->logo_image"><img src="{$layout_info->logo_image}" alt="logo" border="0" class="iePngFix" /></a>',
-				'<?php if($__Context->layout_info->logo_image){ ?><a href="<?php echo $__Context->layout_info->index_url ?>"><img src="<?php echo $__Context->layout_info->logo_image ?>" alt="logo" border="0" class="iePngFix" /></a><?php } ?>'
+				'<a href="{$layout_info->index_url}" cond="$layout_info->logo_image"><img src="{$layout_info->logo_image}" alt="logo" border="0" /></a>',
+				'<?php if($__Context->layout_info->logo_image){ ?><a href="<?php echo $__Context->layout_info->index_url ?>"><img src="<?php echo $__Context->layout_info->logo_image ?>" alt="logo" border="0" /></a><?php } ?>'
 			),
 			// error case - ignore stylesheets
 			array(
