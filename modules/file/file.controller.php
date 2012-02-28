@@ -121,7 +121,7 @@
             $sid = Context::get('sid');
             $logged_info = Context::get('logged_info');
             // Get file information from the DB
-			$columnList = array('file_srl', 'sid', 'isvalid', 'source_filename', 'module_srl', 'uploaded_filename', 'file_size', 'member_srl', 'upload_target_srl');
+			$columnList = array('file_srl', 'sid', 'isvalid', 'source_filename', 'module_srl', 'uploaded_filename', 'file_size', 'member_srl', 'upload_target_srl', 'upload_target_type');
             $file_obj = $oFileModel->getFile($file_srl, $columnList);
             // If the requested file information is incorrect, an error that file cannot be found appears
             if($file_obj->file_srl!=$file_srl || $file_obj->sid!=$sid) return $this->stop('msg_file_not_found');
