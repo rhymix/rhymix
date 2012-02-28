@@ -909,7 +909,6 @@
             // tpl template file directly compile and will return a variable and puts it on.
             $oTemplate = &TemplateHandler::getInstance();
             $tpl = $oTemplate->compile('./modules/document/tpl', 'category_info');
-            $tpl = str_replace("\n",'',$tpl);
             // Changing user-defined language
             $oModuleController = &getController('module');
             $oModuleController->replaceDefinedLangCode($tpl);
