@@ -1,6 +1,6 @@
 @charset "utf-8";
 /* NHN (developers@xpressengine.com) */
-.xe_content{color:#fff;font-size:12px}
+.xe_content{color:#fff;font-size:12px;word-break:break-all}
 .xe_content blockquote.q1,
 .xe_content blockquote.q2,
 .xe_content blockquote.q3,
