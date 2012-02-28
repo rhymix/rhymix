@@ -4,6 +4,7 @@
         <table name="member_autologin" alias="member_autologin" />
     </tables>
     <columns>
+        <column name="member.email_address" alias="email_address" />
         <column name="member.user_id" alias="user_id" />
         <column name="member.password" alias="password" />
         <column name="member_autologin.autologin_key" alias="autologin_key" />

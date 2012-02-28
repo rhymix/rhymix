@@ -1446,14 +1446,19 @@
                 return;
             }
 
-            $user_id = $output->data->user_id;
+			$oMemberModel = &getModel('member');
+			$config = $oMemberModel->getMemberConfig();
+
+			$user_id = ($config->identifier == 'user_id') ? $output->data->user_id : $output->data->email_address;
             $password = $output->data->password;
-            if(!$user_id || !$password) {
+            
+			if(!$user_id || !$password) {
                 setCookie('xeak',null,time()+60*60*24*365, '/');
                 return;
             }
 
             $do_auto_login = false;
+
 
             // Compare key values based on the information
             $key = md5($user_id . $password . $_SERVER['HTTP_USER_AGENT']);
