@@ -1020,6 +1020,11 @@ class Context {
 		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
 		$self->context->{$key} = $val;
 		if($set_to_get_vars === false) return;
+		if(empty($val))
+		{
+			unset($self->get_vars->{$key});
+			return;
+		}
 		if($set_to_get_vars || $self->get_vars->{$key}) $self->get_vars->{$key} = $val;
 	}
 
