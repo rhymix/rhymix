@@ -28,7 +28,7 @@
             // Posts of the information obtained permission to come and check whether
             $oDocumentModel = &getModel('document');
             $oDocument = $oDocumentModel->getDocument($document_srl);
-            if(!$oDocument->isExists()) return new Object(-1, 'msg_invalid_request');
+            if(!$oDocument->isExists() || !$oDocument->getSummary()) return new Object(-1, 'msg_invalid_request');
             if($oDocument->getMemberSrl() != $logged_info->member_srl) return new Object(-1, 'msg_not_permitted');
             // Specify the title of the module, the current article
             $oModuleModel = &getModel('module');
@@ -92,7 +92,7 @@
             $document_srl = Context::get('target_srl');
             $oDocumentModel = &getModel('document');
             $oDocument = $oDocumentModel->getDocument($document_srl);
-            if(!$oDocument->isExists()) return new Object();
+            if(!$oDocument->isExists() || !$oDocument->getSummary()) return new Object();
             if($oDocument->getMemberSrl() != $logged_info->member_srl) return new Object();
             // Add a link sent yeokingeul
             $oDocumentController = &getController('document');
