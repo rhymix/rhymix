@@ -212,7 +212,7 @@
                 case 'checkbox' :
                         $buff .= '<ul>';
                         foreach($default as $v) {
-                            if($value && in_array($v, $value)) $checked = ' checked="checked"';
+                            if($value && in_array(trim($v), $value)) $checked = ' checked="checked"';
                             else $checked = '';
 
 							// Temporary ID for labeling
