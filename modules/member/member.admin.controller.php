@@ -239,10 +239,10 @@
 		function _createSignupRuleset($signupForm, $agreement = null){
 			$xml_file = './files/ruleset/insertMember.xml';
 			$buff = '<?xml version="1.0" encoding="utf-8"?>' . PHP_EOL
-					.'<ruleset version="1.5.0">'
-				    .'<customrules>'
-					.'</customrules>'
-					.'<fields>%s</fields>'						
+					.'<ruleset version="1.5.0">' . PHP_EOL
+				    .'<customrules>' . PHP_EOL
+					.'</customrules>' . PHP_EOL
+					.'<fields>' . PHP_EOL . '%s' . PHP_EOL . '</fields>' . PHP_EOL
 					.'</ruleset>';
 
 			$fields = array();
@@ -258,8 +258,8 @@
 						$fields[] = '<field name="password"><if test="$act == \'procMemberInsert\'" attr="required" value="true" /><if test="$act == \'procMemberInsert\'" attr="length" value="3:20" /></field>';
 						$fields[] = '<field name="password2"><if test="$act == \'procMemberInsert\'" attr="required" value="true" /><if test="$act == \'procMemberInsert\'" attr="equalto" value="password" /></field>';
 					}else if($formInfo->name == 'find_account_question'){
-						$fields[] = '<field name="find_account_question"><if test="$act != \'procMemberAdminInsert\'" attr="required" value="true" /></field>';
-						$fields[] = '<field name="find_account_answer"><if test="$act != \'procMemberAdminInsert\'" attr="required" value="true" /><if test="$act != \'procMemberAdminInsert\'" attr="length" value=":250" /></field>';
+						$fields[] = '<field name="find_account_question" required="true" />';
+						$fields[] = '<field name="find_account_answer" required="true" length=":250" />';
 					}else if($formInfo->name == 'email_address'){
 						$fields[] = sprintf('<field name="%s" required="true" rule="email"/>', $formInfo->name);
 					}else if($formInfo->name == 'user_id'){
@@ -274,7 +274,7 @@
 				}
 			}
 
-			$xml_buff = sprintf($buff, implode('', $fields));
+			$xml_buff = sprintf($buff, implode(PHP_EOL, $fields));
             FileHandler::writeFile($xml_file, $xml_buff);
 			unset($xml_buff);
 
