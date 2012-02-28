@@ -264,6 +264,13 @@
                     }
                 }
 
+				// Check format.
+				$oValidator = new Validator();
+				if(!$oValidator->applyRule('url', $info->homepage))
+				{
+					$info->homepage = '';
+				}
+
                 $GLOBALS['__member_info__'][$info->member_srl] = $info;
             }
 
