@@ -12,7 +12,7 @@ xe.lang.confirm_delete = "{$lang->confirm_delete}";
 
 <block loop="$menu_list=>$key,$value">
 {@$menuSrl = $value->menuSrl}
-<form class="portlet siteMap" id="menu_{$menuSrl}" method="post">
+<form class="portlet siteMap" id="menu_{$menuSrl}" method="post" action="#menu_{$menuSrl}">
 <input type="hidden" name="module" value="{$module}" />
 <input type="hidden" name="act" value="procMenuAdminArrangeItem" />
 <input type="hidden" name="menu_srl" value="{$menuSrl}" />

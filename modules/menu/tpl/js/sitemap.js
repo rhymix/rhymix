@@ -217,7 +217,12 @@ $('form.siteMap')
 
 		selectModuleLayer.find('select').html(htmlBuffer);
 	}
-
+	
+	function tgMapBtn(){
+		$('.x .siteMap>ul:visible').next('.btnArea').slideDown(50);
+		$('.x .siteMap>ul:hidden').next('.btnArea').slideUp(50);
+	}
+	tgMapBtn();
 	$('a.tgMap').click(function() {
 		var $this = $(this);
 		var curToggleStatus = getCookie('sitemap_toggle_'+$this.attr('href'));
@@ -226,7 +231,8 @@ $('form.siteMap')
 		$($this.attr('href')).slideToggle('fast');
 		$this.closest('.siteMap').toggleClass('fold');
 		setCookie('sitemap_toggle_'+$this.attr('href'), toggleStatus);
-
+		setTimeout(function(){ tgMapBtn(); }, 250);
+		
 		return false;
 	});
 });

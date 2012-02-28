@@ -338,7 +338,9 @@ body.modalContainer{_height:100%;_width:100%} /* IE6 only */
 .x .search form{float:right;margin:1em 0}
 .x .search form *{vertical-align:middle}
 /* Site Map */
-.x .siteMap h2 input{font-size:14px;font-weight:bold;padding:0 .5em}
+.x .siteMap h2 input{font-size:14px;font-weight:bold;padding:3px 4px;margin:0;border:0;background:transparent}
+.x .siteMap h2:hover input,
+.x .siteMap h2 input:focus{background:#ff0;border:1px dashed #ccc;margin:-1px}
 .x .siteMap label{cursor:text}
 .x .siteMap .lined ul{padding:0;margin:0;border-top:1px solid #eee;zoom:1}
 .x .siteMap .lined li{position:relative;padding:0;margin:0;cursor:all-scroll;list-style:none;zoom:1}
