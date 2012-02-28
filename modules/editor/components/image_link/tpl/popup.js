@@ -81,10 +81,10 @@
         var border = parseInt($form.find('#image_border').val(), 10);
         var margin = parseInt($form.find('#image_margin').val(), 10);
 
-        if($form.find('#align_normal').attr('checked') == true) align = '';
-        else if($form.find('#align_left').attr('checked') == true) align = 'left';
-        else if($form.find('#align_middle').attr('checked') == true) align = 'middle';
-        else if($form.find('#align_right').attr('checked') == true) align = 'right';
+        if($form.find('#align_normal').attr('checked') == 'checked') align = '';
+        else if($form.find('#align_left').attr('checked') == 'checked') align = 'left';
+        else if($form.find('#align_middle').attr('checked') == 'checked') align = 'middle';
+        else if($form.find('#align_right').attr('checked') == 'checked') align = 'right';
 
         var width = $form.find('#width').val();
         var height = $form.find('#height').val();
