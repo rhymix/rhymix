@@ -76,11 +76,15 @@ var Validator = xe.createApp('Validator', {
 					this.onsubmit = null;
 				}
 			})
-			.submit(function(){
+			.submit(function(e){
 				var legacyFn = this['xe:onsubmit'];		
 				var hasLegacyFn = $.isFunction(legacyFn);
 				var bResult = hasLegacyFn?legacyFn.apply(this):self.run(this);
 
+				if(!bResult)
+				{
+					e.stopImmediatePropagation();
+				}
 				return bResult;
 			});
 	},

@@ -160,7 +160,7 @@ class HTMLDisplayHandler {
 		switch($type){
 			case 'text':
 			case 'hidden':
-				$str = preg_replace('@\svalue="[^"]*?"@', ' ', $str).' value="'.$INPUT_ERROR[$match[3]].'"';
+				$str = preg_replace('@\svalue="[^"]*?"@', ' ', $str).' value="'.htmlspecialchars($INPUT_ERROR[$match[3]]).'"';
 				break;
 			case 'password':
 				$str = preg_replace('@\svalue="[^"]*?"@', ' ', $str);

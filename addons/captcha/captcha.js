@@ -7,6 +7,55 @@ var calledArgs = null;
         var captchaXE = null;
 
         function xeCaptcha() {
+			$('form').each(function(i)
+			{
+				var isSubmitHook = false;
+				if (!$(this).attr('onsubmit') ||  $(this).attr('onsubmit').indexOf('procFilter') < 0)
+				{
+					var act = $(this).find('input[name=act]').val()
+					for(var i = 0; i<captchaTargetAct.length; i++)
+					{
+						if(captchaTargetAct[i] == act)
+						{
+							isSubmitHook = true;
+							break;
+						}
+					}
+					
+				}
+
+				if (isSubmitHook)
+				{
+					$(this).append('<input type="hidden" name="captchaType" value="inline" />');
+					if(!$(this).find('input[name=error_return_url]'))
+						$(this).append('<input type="hidden" name="error_return_url" value="'+current_url+'" />');
+					$(this).submit(function(event){
+						if ($(this).find('input[name=secret_text]').val())
+						{
+							return true;
+						}
+
+						event.preventDefault();
+						var self = this;
+
+						$('#captcha_layer form')
+						.submit(function(e){
+							e.preventDefault();
+							if(!$('#secret_text').val()){
+								$(this).find('input[type=text]').val('').focus();
+								return false;
+							}
+
+							$(self).append('<input type="hidden" name="secret_text" value="'+ $('#secret_text').val() +'" />');
+							$(self).submit();
+						});
+                        var params = new Array();
+                        params['captcha_action'] = 'setCaptchaSession';
+                        params['mid'] = current_mid;
+                        oldExecXml('', '', params, captchaXE.show,new Array('error','message','about_captcha','captcha_reload','captcha_play','cmd_input','cmd_cancel'));
+					});
+				}
+			});
             var body    = $(document.body);
             var captchaIma;
 			
@@ -47,15 +96,6 @@ var calledArgs = null;
 								'</form>'+_object_ +
 							'</div>').appendTo(captchaXE);
 
-				  $div.find('form')
-					.submit(function(){
-						if(!$('#secret_text').val()){
-							$div.find('input[type=text]').val('').focus();
-							return false;
-						}
-						captchaXE.compare(); return false; 
-					});
-
 	              $div.find('button.cancel')
 					.click(function(){ $('#captcha_layer').hide(); });
 			   
@@ -83,6 +123,16 @@ var calledArgs = null;
 					$.each(captchaTargetAct || {}, function(key,val){ if (val == act){ doCheck = true; return false; } }); 
 
 					if (doCheck) { /* captcha 를 사용하는 경우 */
+
+						$('#captcha_layer form')
+						.submit(function(e){
+							e.preventDefault();
+							if(!$('#secret_text').val()){
+								$(this).find('input[type=text]').val('').focus();
+								return false;
+							}
+							captchaXE.compare(); return false; 
+						});
                         calledArgs = {'module':module,'act':act,'params':params,'callback_func':callback_func,'response_tags':response_tags,'callback_func_arg':callback_func_arg,'fo_obj':fo_obj};
                         var params = new Array();
                         params['captcha_action'] = 'setCaptchaSession';

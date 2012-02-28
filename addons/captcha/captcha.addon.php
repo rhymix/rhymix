@@ -43,7 +43,15 @@
 				if(Context::getRequestMethod()!='XMLRPC' && Context::getRequestMethod()!=='JSON')
 				{
 					if($type == 'inline') {
-						$this->compareCaptcha();
+						if(!$this->compareCaptcha())
+						{
+							Context::loadLang('./addons/captcha/lang');
+							$_SESSION['XE_VALIDATOR_ERROR'] = -1;
+							$_SESSION['XE_VALIDATOR_MESSAGE'] = Context::getLang('captcha_denied');;
+							$_SESSION['XE_VALIDATOR_MESSAGE_TYPE'] = 'error';
+							$_SESSION['XE_VALIDATOR_RETURN_URL'] = Context::get('error_return_url');
+							$ModuleHandler->_setInputValueToSession();
+						}
 					}  else {
 						Context::addHtmlHeader('<script type="text/javascript"> var captchaTargetAct = new Array("'.implode('","',$target_acts).'"); </script>');
 						Context::loadFile(array('./addons/captcha/captcha.js', 'body', '', null), true);
@@ -255,7 +263,10 @@
 
 			function before_module_init_captchaCompare()
 			{
-				if(!$this->compareCaptcha()) return false;
+				if(!$this->compareCaptcha())
+				{
+					return false;
+				}
 
                 header("Content-Type: text/xml; charset=UTF-8");
                 header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
@@ -314,13 +325,19 @@ EOD;
 
 	if(method_exists($oAddonCaptcha, $called_position))
 	{
-		if(!call_user_func_array(array(&$oAddonCaptcha, $called_position), array(&$this))) return false;
+		if(!call_user_func_array(array(&$oAddonCaptcha, $called_position), array(&$this)))
+		{
+			return false;
+		}
 	}
 
 	$addon_act = Context::get('captcha_action');
 	if($addon_act && method_exists($oAddonCaptcha, $called_position.'_'.$addon_act))
 	{
-		if(!call_user_func_array(array(&$oAddonCaptcha, $called_position.'_'.$addon_act), array(&$this))) return false;
+		if(!call_user_func_array(array(&$oAddonCaptcha, $called_position.'_'.$addon_act), array(&$this)))
+		{
+			return false;
+		}
 	}
 
 ?>
