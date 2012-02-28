@@ -240,6 +240,7 @@ $.exec_xml = window.exec_xml = function(module, act, params, callback_func, resp
 
 		if(!resp_xml) {
 			alert(_xhr.responseText);
+			filterWait[fo_obj.id] = '';
 			return null;
 		}
 
@@ -267,6 +268,7 @@ $.exec_xml = window.exec_xml = function(module, act, params, callback_func, resp
 			}
 
 			alert( (ret['message']||'An unknown error occured while loading ['+module+'.'+act+']').replace(/\\n/g, '\n') );
+			filterWait[fo_obj.id] = '';
 
 			return null;
 		}
