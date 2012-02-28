@@ -874,11 +874,6 @@ Lütfen son sürümü için indirme linkine tıklayınız.]]></value>
 		<value xml:lang="en"><![CDATA[Ratio(Keep Aspect)]]></value>
 		<value xml:lang="jp"><![CDATA[Ratio(縦横の比率をキープ)]]></value>
 	</item>
-	<item name="ratio">
-		<value xml:lang="ko"><![CDATA[Ratio(비율 맞추기)]]></value>
-		<value xml:lang="en"><![CDATA[Ratio(Keep Aspect)]]></value>
-		<value xml:lang="jp"><![CDATA[Ratio(縦横の比率をキープ)]]></value>
-	</item>
 	<item name="about_admin_ip_limit">
 		<value xml:lang="ko"><![CDATA[관리자 페이지로 접근가능한 IP대역을 지정합니다.]]></value>
 		<value xml:lang="en"><![CDATA[Sepcify IP address band that can access the admin page.]]></value>
