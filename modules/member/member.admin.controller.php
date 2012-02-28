@@ -238,7 +238,7 @@
 
 		function _createSignupRuleset($signupForm, $agreement = null){
 			$xml_file = './files/ruleset/insertMember.xml';
-			$buff = '<?xml version="1.0" encoding="utf-8"?>'
+			$buff = '<?xml version="1.0" encoding="utf-8"?>' . PHP_EOL
 					.'<ruleset version="1.5.0">'
 				    .'<customrules>'
 					.'</customrules>'

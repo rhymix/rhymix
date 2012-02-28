@@ -1109,19 +1109,7 @@
             // Display a message if no answer is entered
             if (!$member_info->find_account_question || !$member_info->find_account_answer) return new Object(-1, 'msg_question_not_exists');
 
-			$member_info->find_account_answer = trim($member_info->find_account_answer);
-            if(trim($member_info->find_account_question) != $find_account_question || $member_info->find_account_answer != $find_account_answer || $member_info->find_account_answer != md5($find_account_answer))
-			{
-				return new Object(-1, 'msg_answer_not_matches');
-			}
-
-			// change to md5
-			if($member_info->find_account_answer == $find_account_answer)
-			{
-				$args->member_srl = $member_srl;
-				$args->find_account_answer = md5($member_info->find_account_answer);
-				executeQuery('member.updateMemberFindQuesionAnswer', $args);
-			}
+			if(trim($member_info->find_account_question) != $find_account_question || trim($member_info->find_account_answer) != $find_account_answer) return new Object(-1, 'msg_answer_not_matches');
 
 			if ($config->identifier == 'email_address'){
 				$user_id = $email_address;
