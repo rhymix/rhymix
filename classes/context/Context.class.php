@@ -758,6 +758,7 @@ class Context {
 		foreach($_FILES as $key => $val) {
 			$tmp_name = $val['tmp_name'];
 			if(!$tmp_name || !is_uploaded_file($tmp_name)) continue;
+			$val['name'] = htmlspecialchars($val['name']);
 			$this->set($key, $val, true);
 			$this->is_uploaded = true;
 		}
