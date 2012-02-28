@@ -94,6 +94,7 @@ header,footer,section,article,aside,nav,hgroup,details,menu,figure,figcaption{di
 .x .form input[type=text],
 .x .form input[type=password],
 .x .form input[type=file],
+.x .form select[size],
 .x .form textarea{position:relative;width:280px;margin:2px 0;border:1px solid #b7b7b7;border-right-color:#e1e1e1;border-bottom-color:#e1e1e1;background:transparent}
 .x .form input[type=text],
 .x .form input[type=password],

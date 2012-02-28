@@ -4,7 +4,7 @@
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
-<form ruleset="insertConfig" action="./" method="post">
+<form ruleset="insertConfig" action="./" method="post" class="form">
 	<input type="hidden" name="act" value="procIntegration_searchAdminInsertConfig" />
 	<input type="hidden" name="module" value="admin" />
 	<input type="hidden" name="target_module_srl" id="target_module_srl" value="{$config->target_module_srl}" />
@@ -13,7 +13,7 @@
 			<tr>
 			<th scope="row">{$lang->sample_code}</th>
 			<td >
-				<textarea readonly="readonly">{$sample_code}</textarea>
+				<textarea readonly="readonly" rows="4" cols="42">{$sample_code}</textarea>
 				<p>{$lang->about_sample_code}</p>
 			</td>
 		</tr>
