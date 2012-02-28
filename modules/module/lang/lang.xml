@@ -805,6 +805,12 @@ URL для менеджера модулей <a href="./?module=admin&amp;act=di
 		<value xml:lang="tr"><![CDATA[Modülün alt kısmında gösterilecek içeriklerdir.(html etiketleri etkin)]]></value>
 		<value xml:lang="vi"><![CDATA[Nội dung sẽ hiển thị phía dưới Module.(trước http tag có sẵn)]]></value>
 	</item>
+	<item name="skin_fix">
+		<value xml:lang="ko"><![CDATA[스킨 고정]]></value>
+	</item>
+	<item name="about_skin_fix">
+		<value xml:lang="ko"><![CDATA[테마 설정과 상관없이 스킨을 고정시킵니다. 사용하면 테마의 일괄 스킨 설정 대상에서 제외됩니다.]]></value>
+	</item>
 	<item name="about_skin">
 		<value xml:lang="ko"><![CDATA[모듈 스킨을 선택하실 수 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[You may choose a module skin.]]></value>

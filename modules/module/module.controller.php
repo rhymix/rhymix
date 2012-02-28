@@ -288,6 +288,7 @@
             unset($extra_vars->menu_srl);
             unset($extra_vars->site_srl);
             unset($extra_vars->mid);
+            unset($extra_vars->is_skin_fix);
             unset($extra_vars->skin);
 			unset($extra_vars->mskin);
             unset($extra_vars->browser_title);
@@ -323,6 +324,10 @@
             $skin_vars->colorset = $skin_info->colorset[0]->name;
             // Arrange variables and then execute a query
             if(!$args->module_srl) $args->module_srl = getNextSequence();
+
+			// default value
+			$args->is_skin_fix = (!$args->is_skin_fix) ? 'N' : 'Y';
+
             // Insert a module
             $output = executeQuery('module.insertModule', $args);
             if(!$output->toBool()) {
@@ -365,6 +370,9 @@
                 $oDB->rollback();
                 return new Object(-1, 'msg_module_name_exists');
             }
+
+			// default value
+			$args->is_skin_fix = (!$args->is_skin_fix) ? 'N' : 'Y';
 
             $output = executeQuery('module.updateModule', $args);
             if(!$output->toBool()) {
