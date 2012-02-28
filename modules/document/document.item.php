@@ -519,7 +519,14 @@
             if(!$this->getCommentCount()) return;
             if(!$this->isGranted() && $this->isSecret()) return;
             // cpage is a number of comment pages
-            $cpage = Context::get('cpage');
+			$cpageStr = sprintf('%d_cpage', $this->document_srl);
+			$cpage = Context::get($cpageStr);
+			
+			if(!$cpage)
+			{
+            	$cpage = Context::get('cpage');
+			}
+
             // Get a list of comments
             $oCommentModel = &getModel('comment');
             $output = $oCommentModel->getCommentList($this->document_srl, $cpage, $is_admin);
@@ -539,6 +546,7 @@
                 $comment_list[$val->comment_srl] = $oCommentItem;
             }
             // Variable setting to be displayed on the skin
+            Context::set($cpageStr, $output->page_navigation->cur_page);
             Context::set('cpage', $output->page_navigation->cur_page);
             if($output->total_page>1) $this->comment_page_navigation = $output->page_navigation;
 
