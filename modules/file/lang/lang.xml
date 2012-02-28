@@ -153,16 +153,16 @@
 		<value xml:lang="vi"><![CDATA[Dung lượng file đính kèm]]></value>
 	</item>
 	<item name="allowed_filetypes">
-		<value xml:lang="ko"><![CDATA[허용한 확장자만 첨부할 수 있습니다.(관리자는 제외)]]></value>
-		<value xml:lang="en"><![CDATA[Only allowed extentsions can be attached. (Exclude Administrators)]]></value>
-		<value xml:lang="jp"><![CDATA[ここで指定された種類のファイルのみ添付できます。（管理者は制限無し）]]></value>
-		<value xml:lang="zh-CN"><![CDATA[只允许上传指定的扩展名。 (管理员不受此限制)]]></value>
-		<value xml:lang="zh-TW"><![CDATA[設定允許上傳的檔案類型。 (管理員不受此限制)]]></value>
-		<value xml:lang="fr"><![CDATA[Extensions consentis seulement peuvent etre attaches.  (Exclure Administrateurs)]]></value>
-		<value xml:lang="ru"><![CDATA[Только файлы с разрешенными расширениями могут быть вложены. (Исключая администраторов)]]></value>
-		<value xml:lang="es"><![CDATA[Puede definir las extensiones de los archivos permitidos. (exceptuando el administrador)]]></value>
-		<value xml:lang="tr"><![CDATA[Sadece izin verilen uzantılar iliştirilebilir. (Yöneticilerin tercihleri sınırlandırılmaz)]]></value>
-		<value xml:lang="vi"><![CDATA[Chỉ được phép đính kèm những File có đuôi được liệt kê trong danh sách.  (Ngoại trừ Administrators)]]></value>
+		<value xml:lang="ko"><![CDATA[허용 확장자]]></value>
+		<value xml:lang="en"><![CDATA[Allowed extentsions]]></value>
+		<value xml:lang="jp"><![CDATA[ここで指定された種類のファイルのみ添付できます。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[只允许上传指定的扩展名。></value>
+		<value xml:lang="zh-TW"><![CDATA[設定允許上傳的檔案類型。]]></value>
+		<value xml:lang="fr"><![CDATA[Extensions consentis seulement peuvent etre attaches.]]></value>
+		<value xml:lang="ru"><![CDATA[Только файлы с разрешенными расширениями могут быть вложены.]]></value>
+		<value xml:lang="es"><![CDATA[Puede definir las extensiones de los archivos permitidos.]]></value>
+		<value xml:lang="tr"><![CDATA[Sadece izin verilen uzantılar iliştirilebilir.]]></value>
+		<value xml:lang="vi"><![CDATA[Chỉ được phép đính kèm những File có đuôi được liệt kê trong danh sách.]]></value>
 	</item>
 	<item name="enable_download_group">
 		<value xml:lang="ko"><![CDATA[다운로드 가능 그룹]]></value>
