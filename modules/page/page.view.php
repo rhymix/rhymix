@@ -157,8 +157,7 @@
                 @include($path);
                 $content = ob_get_clean();
                 // Replace relative path to the absolute path 
-                $path_info = pathinfo($path);
-                $this->path = str_replace('\\', '/', realpath($path_info['dirname'])).'/';
+                $this->path = str_replace('\\', '/', realpath(dirname($path))) . '/';
                 $content = preg_replace_callback('/(target=|src=|href=|url\()("|\')?([^"\'\)]+)("|\'\))?/is',array($this,'_replacePath'),$content);
                 $content = preg_replace_callback('/(<!--%import\()(\")([^"]+)(\")/is',array($this,'_replacePath'),$content);
 
@@ -186,7 +185,7 @@
             $val = trim($matches[3]);
             // Pass if the path is external or starts with /, #, { characters
 			// /=absolute path, #=hash in a page, {=Template syntax
-            if(preg_match('@^((?:http|https|ftp|telnet|mms)://|(?:mailto|javascript):|[/#{])@i',$val)) {
+            if(strpos($val, '.') === FALSE || preg_match('@^((?:http|https|ftp|telnet|mms)://|(?:mailto|javascript):|[/#{])@i',$val)) {
 				return $matches[0];
             // In case of  .. , get a path
             } elseif(preg_match('/^\.\./i',$val)) {
