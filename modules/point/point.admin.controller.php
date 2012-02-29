@@ -190,6 +190,18 @@
             $module_config = $oModuleModel->getModulePartConfigs('point');
             // A variable to store member's points
             $member = array();
+			
+			// Get member infomation
+			$output = executeQueryArray('point.getMemberCount');
+			if(!$output->toBool()) return $output;
+			
+			if($output->data) {
+				foreach($output->data as $key => $val) {
+					if(!$val->member_srl) continue;
+					$member[$val->member_srl] = 0;
+				}
+			}
+
             // Get post information
             $output = executeQueryArray('point.getDocumentPoint');
             if(!$output->toBool()) return $output;
@@ -202,9 +214,10 @@
                     if(!$val->member_srl) continue;
                     $point = $insert_point * $val->count;
                     $member[$val->member_srl] += $point;
-                }
-            }
-            $output = null;
+				}
+			}
+
+			$output = null;
             // Get comments information
             $output = executeQueryArray('point.getCommentPoint');
             if(!$output->toBool()) return $output;
