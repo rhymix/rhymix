@@ -288,7 +288,7 @@
 
 			if($m[1] == 'param')
 			{
-				if(stripos($m[0], 'allowscriptaccess'))
+				if(strpos(strtolower($m[0]), 'allowscriptaccess'))
 				{
 					$m[0] = '<param name="allowscriptaccess" value="never"';
 					if(substr($m[0], -1) == '/')
@@ -300,13 +300,13 @@
 			}
 			else if($m[1] == 'embed')
 			{
-				if(stripos($m[0], 'allowscriptaccess'))
+				if(strpos(strtolower($m[0]), 'allowscriptaccess'))
 				{
-					$m[0] = str_ireplace(array('always', 'samedomain'), 'never', $m[0]);
+					$m[0] = preg_replace('/always|samedomain/i', 'never', $m[0]);
 				}
 				else
 				{
-					$m[0] = str_ireplace('<embed', '<embed allowscriptaccess="never"', $m[0]);
+					$m[0] = preg_replace('/\<embed/i', '<embed allowscriptaccess="never"', $m[0]);
 				}
 			}
 			return $m[0];
