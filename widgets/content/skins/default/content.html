@@ -1,7 +1,7 @@
 <load target="./js/content_widget.js" cond="$widget_info->page_count || count($widget_info->tab)" />
 <load target="./css/widget.css" cond="$colorset == 'black' || $colorset == 'white'" />
 
-<div class="widgetContainer<!--@if($colorset=="black")--> black<!--@end-->">
+<div class="wgContainer<!--@if($colorset=="black")--> black<!--@end-->">
     <!--@if($widget_info->tab_type  == "tab_left")-->
         <!--#include("./_tab_left.html")-->
     <!--@elseif($widget_info->tab_type == "tab_top")-->

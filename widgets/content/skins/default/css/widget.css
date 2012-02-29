@@ -5,15 +5,15 @@
 .clearLeft{ clear:left;}
 .clearRight{ clear:right;}
 
-.widgetContainer .open{ display:block !important;} 
-.widgetContainer a{ text-decoration:none;}
-.widgetContainer a:hover,
-.widgetContainer a:active,
-.widgetContainer a:focus{ text-decoration:underline;}
-.widgetContainer img{ border:0;}
-.widgetContainer em{ position:relative; line-height:1; display:inline-block; margin:-5px 0; *padding:0 1px; font-style:normal;}
-.widgetContainer form{ margin:0; padding:0;}
-.widgetContainer fieldset{ border:0; margin:0; padding:0;}
+.wgContainer .open{ display:block !important;} 
+.wgContainer a{ text-decoration:none;}
+.wgContainer a:hover,
+.wgContainer a:active,
+.wgContainer a:focus{ text-decoration:underline;}
+.wgContainer img{ border:0;}
+.wgContainer em{ position:relative; line-height:1; display:inline-block; margin:-5px 0; *padding:0 1px; font-style:normal;}
+.wgContainer form{ margin:0; padding:0;}
+.wgContainer fieldset{ border:0; margin:0; padding:0;}
 
 .widgetTabA{ position:relative; margin:0 0 10px 0; padding:0; *zoom:1; border-bottom:2px solid;}
 .widgetTabA:after{ content:""; display:block; clear:both;} 
@@ -149,45 +149,45 @@ dl.widgetDivider dd{ display:none; margin:0;}
 .widgetZineA li .hour{ color:#888;}
 .widgetZineA li .text{ color:#888;}
 
-.widgetContainer.black .widgetTabC{ border-color:#7f7f7f;}
-.widgetContainer.black .widgetTabC li{ border-color:#7f7f7f; background:#222;}
-.widgetContainer.black .widgetTabC li a{ color:#999;}
-.widgetContainer.black .widgetTabC li a:hover,
-.widgetContainer.black .widgetTabC li a:active,
-.widgetContainer.black .widgetTabC li a:focus{ background:#333;}
-.widgetContainer.black .widgetTabA{ border-color:#999;}
-.widgetContainer.black .widgetTabA li, 
-.widgetContainer.black .widgetTabA li a{ background-image:url(../img/black/buttonWidgetTab.gif);}
-.widgetContainer.black .widgetTabA li a{ color:#999;}
+.wgContainer.black .widgetTabC{ border-color:#7f7f7f;}
+.wgContainer.black .widgetTabC li{ border-color:#7f7f7f; background:#222;}
+.wgContainer.black .widgetTabC li a{ color:#999;}
+.wgContainer.black .widgetTabC li a:hover,
+.wgContainer.black .widgetTabC li a:active,
+.wgContainer.black .widgetTabC li a:focus{ background:#333;}
+.wgContainer.black .widgetTabA{ border-color:#999;}
+.wgContainer.black .widgetTabA li, 
+.wgContainer.black .widgetTabA li a{ background-image:url(../img/black/buttonWidgetTab.gif);}
+.wgContainer.black .widgetTabA li a{ color:#999;}
 
-.widgetContainer.black .widgetTableA td.title a{ color:#999;}
-.widgetContainer.black .widgetTableA td .board{ color:#999; background:url(../img/black/lineTextDiv.gif) no-repeat right center;}
-.widgetContainer.black .widgetTableA td .notice{ color:#ff1a1a; background:url(../img/black/lineTextDiv.gif) no-repeat right center;}
-.widgetContainer.black .widgetTableA td .category{ color:#999; background:url(../img/black/lineTextDiv.gif) no-repeat right center;}
-.widgetContainer.black .widgetTableA td .replyNum{ color:#ff1a1a;}
-.widgetContainer.black .widgetTableA td .trackbackNum{ color:#66c;}
-.widgetContainer.black .widgetTableA td .author { color:#999;}
-.widgetContainer.black .widgetTableA td .date{ color:#999;}
-.widgetContainer.black .widgetTableA td .hour{ color:#888;}
+.wgContainer.black .widgetTableA td.title a{ color:#999;}
+.wgContainer.black .widgetTableA td .board{ color:#999; background:url(../img/black/lineTextDiv.gif) no-repeat right center;}
+.wgContainer.black .widgetTableA td .notice{ color:#ff1a1a; background:url(../img/black/lineTextDiv.gif) no-repeat right center;}
+.wgContainer.black .widgetTableA td .category{ color:#999; background:url(../img/black/lineTextDiv.gif) no-repeat right center;}
+.wgContainer.black .widgetTableA td .replyNum{ color:#ff1a1a;}
+.wgContainer.black .widgetTableA td .trackbackNum{ color:#66c;}
+.wgContainer.black .widgetTableA td .author { color:#999;}
+.wgContainer.black .widgetTableA td .date{ color:#999;}
+.wgContainer.black .widgetTableA td .hour{ color:#888;}
 
-.widgetContainer.black .widgetGalleryA li .title{ color:#999;}
-.widgetContainer.black .widgetGalleryA li .replyNum a{ color:#ff1a1a;}
-.widgetContainer.black .widgetGalleryA li .trackbackNum a{ color:#66c;}
-.widgetContainer.black .widgetGalleryA li .author{ color:#999;}
-.widgetContainer.black .widgetGalleryA li .date{ color:#999;}
-.widgetContainer.black .widgetGalleryA li .hour{ color:#888;}
+.wgContainer.black .widgetGalleryA li .title{ color:#999;}
+.wgContainer.black .widgetGalleryA li .replyNum a{ color:#ff1a1a;}
+.wgContainer.black .widgetGalleryA li .trackbackNum a{ color:#66c;}
+.wgContainer.black .widgetGalleryA li .author{ color:#999;}
+.wgContainer.black .widgetGalleryA li .date{ color:#999;}
+.wgContainer.black .widgetGalleryA li .hour{ color:#888;}
 
-.widgetContainer.black .widgetThumb{ color:#999;}
-.widgetContainer.black .widgetThumb a{ color:#999;}
-.widgetContainer.black .widgetThumb .hour{ color:#888;}
+.wgContainer.black .widgetThumb{ color:#999;}
+.wgContainer.black .widgetThumb a{ color:#999;}
+.wgContainer.black .widgetThumb .hour{ color:#888;}
 
-.widgetContainer.black .widgetZineA li .board{ color:#999; background:url(../img/black/lineTextDiv.gif) no-repeat right center;}
-.widgetContainer.black .widgetZineA li .title{ color:#999;}
-.widgetContainer.black .widgetZineA li .replyNum a{ color:#ff1a1a;}
-.widgetContainer.black .widgetZineA li .trackbackNum a{ color:#66c;}
-.widgetContainer.black .widgetZineA li .author{ color:#999;}
-.widgetContainer.black .widgetZineA li .category{ color:#999; background:url(../img/black/lineTextDiv.gif) no-repeat right center;}
-.widgetContainer.black .widgetZineA li .date{ color:#999;}
-.widgetContainer.black .widgetZineA li .hour{ color:#888;}
-.widgetContainer.black .widgetZineA li .text{ color:#888;}
+.wgContainer.black .widgetZineA li .board{ color:#999; background:url(../img/black/lineTextDiv.gif) no-repeat right center;}
+.wgContainer.black .widgetZineA li .title{ color:#999;}
+.wgContainer.black .widgetZineA li .replyNum a{ color:#ff1a1a;}
+.wgContainer.black .widgetZineA li .trackbackNum a{ color:#66c;}
+.wgContainer.black .widgetZineA li .author{ color:#999;}
+.wgContainer.black .widgetZineA li .category{ color:#999; background:url(../img/black/lineTextDiv.gif) no-repeat right center;}
+.wgContainer.black .widgetZineA li .date{ color:#999;}
+.wgContainer.black .widgetZineA li .hour{ color:#888;}
+.wgContainer.black .widgetZineA li .text{ color:#888;}
 

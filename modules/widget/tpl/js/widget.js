@@ -17,14 +17,6 @@ function getStyle(obj) {
     return style;
 }
 
-// float: 값을 구하는게 IE랑 그외가 다름
-function getFloat(obj) {
-	return jQuery(obj).css('float');
-}
-function setFloat(obj, fl) {
-	jQuery(obj).css('float', fl);
-}
-
 // padding값을 구하는 함수 (없을 경우 0으로 세팅), zbxe의 위젯에서만 사용
 function getPadding(obj, direct) {
     var padding = obj.getAttribute("widget_padding_"+direct);
@@ -41,17 +33,13 @@ function doStartPageModify(zoneID, module_srl) {
     zoneModuleSrl = module_srl;
 
     // 위젯 크기/여백 조절 레이어를 가장 밖으로 뺌
-	jQuery('#tmpPageSizeLayer')
-		.attr('id', 'pageSizeLayer')
+	jQuery('#wgCSS')
 		.css({position:'absolute',left:0,top:0})
 		.hide()
 		.appendTo('body')
 		.find('>form')
 		.submit(function(){ doApplyWidgetSize(this); return false; });
-
-    // 모든 위젯들의 크기를 정해진 크기로 맞춤
-    doFitBorderSize();
-
+		
     // 드래그와 리사이즈와 관련된 이벤트 리스너 생성
     xAddEventListener(document,"click",doCheckWidget);
     xAddEventListener(document,"mousedown",doCheckWidgetDrag);
@@ -62,7 +50,7 @@ function doStartPageModify(zoneID, module_srl) {
 // 내용 모두 삭제
 function removeAllWidget() {
     if(!confirm(confirm_delete_msg)) return;
-	restoreWidgetButtons();
+	restoreWgBtn();
 	jQuery(zonePageObj).html('');
 }
 
@@ -74,7 +62,7 @@ function getWidgetContent(obj) {
     if(typeof(obj)=='undefined' || !obj) obj = zonePageObj;
 
     var widget = null;
-    jQuery('div.widgetOutput',obj).each(function(){
+    jQuery('div.wgWrap',obj).each(function(){
 		if(jQuery(this).parent().get(0) != obj) return;
         widget = jQuery(this).attr('widget');
 		switch(widget) {
@@ -213,9 +201,6 @@ function doSyncPageContent() {
     }
 
     if(typeof(editorStart)!='undefined') editorStart(1, "module_srl", "content", false, 400 );
-    //editor_upload_start(1);
-
-    //setFixedPopupSize();
 }
 
 // 부모창에 위젯을 추가
@@ -252,20 +237,19 @@ function addContentWidget(fo_obj) {
 			if(!ret_obj || ret_obj.error != '0') return;
 
 			var document_srl  = ret_obj.document_srl;
-			var contentWidget = opener.jQuery('div.widgetOutput[widget=widgetContent][document_srl='+document_srl+']'), attr = [];
+			var contentWidget = opener.jQuery('div.wgWrap[widget=widgetContent][document_srl='+document_srl+']'), attr = [];
 
 			if(contentWidget.size() > 0) {
 				attr = contentWidget.get(0).attributes;
 			}
 
 			var tpl = ''+
-				'<div class="widgetOutput" style="'+fo_obj.style.value+'" widget_padding_left="'+fo_obj.widget_padding_left.value+'" widget_padding_right="'+fo_obj.widget_padding_right.value+'" widget_padding_top="'+fo_obj.widget_padding_top.value+'" widget_padding_bottom="'+fo_obj.widget_padding_bottom.value+'" document_srl="'+document_srl+'" widget="widgetContent">'+
-				'<button type="button" class="widgetResize"></button>'+
-				'<button type="button" class="widgetResizeLeft"></button>'+
-				'<div class="widgetBorder">'+
+				'<div class="wgWrap" style="width:100px;height:100px;'+fo_obj.style.value+'" widget_padding_left="'+fo_obj.widget_padding_left.value+'" widget_padding_right="'+fo_obj.widget_padding_right.value+'" widget_padding_top="'+fo_obj.widget_padding_top.value+'" widget_padding_bottom="'+fo_obj.widget_padding_bottom.value+'" document_srl="'+document_srl+'" widget="widgetContent">'+
+				'<button type="button" class="wgRight"></button>'+
+				'<div class="wgBorder">'+
 				'<div style="padding:'+fo_obj.widget_padding_top.value+'px '+fo_obj.widget_padding_right.value+'px'+fo_obj.widget_padding_bottom.value+'px'+fo_obj.widget_padding_left.value+'px"></div>'+content+
 				'</div>'+
-				'<div class="widgetContent" style="display:none;width:1px;height:1px;overflow:hidden;"></div>'+
+				'<div class="widgetContent" style="display:none"></div>'+
 				'</div>';
 
 			var $tpl = jQuery(tpl);
@@ -286,15 +270,13 @@ function addContentWidget(fo_obj) {
 /* 박스 위젯 추가 */
 function doAddWidgetBox() {
     var tpl = ''+
-    '<div class="widgetOutput" style="float:left;width:100%;height:20px;" widget="widgetBox" >'+
-        '<button type="button" class="widgetBoxResize"></button>'+
-        '<button type="button" class="widgetBoxResizeLeft"></button>'+
-        '<div class="widgetBoxBorder">'+
-            '<div class="nullWidget" style="width:100%;height:100px;"></div>'+
+    '<div class="wgWrap" widget="widgetBox" style="width:100px;height:100px">'+
+        '<button type="button" class="wgBoxRight"></button>'+
+        '<div class="wgBoxBorder">'+
+            '<div class="nullWidget"></div>'+
         '</div>'+
     '</div>';
 	zonePageObj.innerHTML += tpl;
-    doFitBorderSize();
 }
 
 
@@ -307,26 +289,6 @@ function doAddWidget(fo) {
 
     var url = request_uri.setQuery('module','widget').setQuery('act','dispWidgetGenerateCodeInPage').setQuery('selected_widget', val).setQuery('module_srl', module_srl);
     popopen(url,'GenerateWidgetCode');
-}
-
-
-
-// widgetBorder에 height를 widgetOutput와 맞춰줌
-function doFitBorderSize() {
-    var obj_list = jQuery('.widgetBorer', zonePageObj).get();
-    for(var i=0;i<obj_list.length;i++) {
-        var obj = obj_list[i];
-        var height = xHeight(obj.parentNode);
-        if(height<3) height = 20;
-        xHeight(obj, height);
-        obj.parentNode.style.clear = '';
-    }
-    var obj_list = jQuery('.widgetBoxBorder', zonePageObj).get();
-    for(var i=0;i<obj_list.length;i++) {
-        var obj = obj_list[i];
-        xHeight(obj, xHeight(obj.parentNode));
-        obj.parentNode.style.clear = '';
-    }
 }
 
 var selectedWidget = null;
@@ -357,7 +319,7 @@ window.document.write = window.document.writeln = function(str){
 
 // 위젯 추가
 function doAddWidgetCode(widget_code) {
-    restoreWidgetButtons();
+    restoreWgBtn();
 
     // css 추가
     var tmp = widget_code;
@@ -425,24 +387,11 @@ function doAddWidgetCode(widget_code) {
         selectedWidget.parentNode.insertBefore(obj, selectedWidget);
         selectedWidget.parentNode.removeChild(selectedWidget);
     } else {
-        get_by_id('zonePageContent').appendChild(obj);
+        get_by_id('wgArea').appendChild(obj);
     }
     checkDocumentWrite = false;
     selectedWidget = null;
 
-    /*
-    //zoneObj.style.visibility = 'hidden';
-    zoneObj.style.opacity = 0.2;
-    zoneObj.style.filter = "alpha(opacity=20)";
-
-    // 위젯 추가후 페이지 리로딩
-    var tpl = getWidgetContent();
-
-    var fo_obj = get_by_id('pageFo');
-    fo_obj.content.value = tpl;
-    fo_obj.mid.value = current_mid;
-    fo_obj.submit();
-    */
 }
 
 // 클릭 이벤트시 위젯의 수정/제거/이벤트 무효화 처리
@@ -454,13 +403,13 @@ function doCheckWidget(e) {
 
     var pObj = obj.parentNode;
     while(pObj) {
-        if(pObj.id == "pageSizeLayer") return;
+        if(pObj.id == "wgCSS") return;
         pObj = pObj.parentNode;
     }
 
     doHideWidgetSizeSetup();
     // 위젯 설정
-    if(obj.className == 'widgetSetup') {
+    if(obj.className == 'wgSetup') {
         var p_obj = obj.parentNode.parentNode;
         var widget = p_obj.getAttribute("widget");
         if(!widget) return;
@@ -470,7 +419,7 @@ function doCheckWidget(e) {
         return;
 
     // 위젯 스타일
-    } else if(obj.className == 'widgetStyle') {
+    } else if(obj.className == 'wgStyle') {
         var p_obj = obj.parentNode.parentNode;
         var widget = p_obj.getAttribute("widget");
         var widgetstyle = p_obj.getAttribute("widgetstyle");
@@ -480,9 +429,9 @@ function doCheckWidget(e) {
         return;
 
     // 위젯 복사
-    } else if(obj.className == 'widgetCopy' && obj.parentNode.parentNode.className == 'widgetOutput') {
+    } else if(obj.className == 'wgCopy' && obj.parentNode.parentNode.className == 'wgWrap') {
         p_obj = obj.parentNode.parentNode;
-        restoreWidgetButtons();
+        restoreWgBtn();
 
         if(p_obj.getAttribute('widget')=='widgetContent' && p_obj.getAttribute('document_srl') ) {
             var response_tags = new Array('error','message','document_srl');
@@ -495,7 +444,7 @@ function doCheckWidget(e) {
             xInnerHtml(dummy,xInnerHtml(p_obj));
 
             dummy.widget_sequence = '';
-            dummy.className = "widgetOutput";
+            dummy.className = "wgWrap";
             for(var i=0;i<p_obj.attributes.length;i++) {
                 if(!p_obj.attributes[i].nodeName || !p_obj.attributes[i].nodeValue) continue;
                 var name = p_obj.attributes[i].nodeName.toLowerCase();
@@ -514,7 +463,7 @@ function doCheckWidget(e) {
         return;
 
     // 위젯 사이트/ 여백 조절
-    } else if(obj.className == 'widgetSize' || obj.className == 'widgetBoxSize') {
+    } else if(obj.className == 'wgSize' || obj.className == 'wgBoxSize') {
         var p_obj = obj.parentNode.parentNode;
         var widget = p_obj.getAttribute("widget");
         if(!widget) return;
@@ -523,11 +472,11 @@ function doCheckWidget(e) {
         return;
 
     // 위젯 제거
-    } else if(obj.className == 'widgetRemove' || obj.className == 'widgetBoxRemove') {
+    } else if(obj.className == 'wgRemove' || obj.className == 'wgBoxRemove') {
         var p_obj = obj.parentNode.parentNode;
         var widget = p_obj.getAttribute("widget");
         if(confirm(confirm_delete_msg)) {
-            restoreWidgetButtons();
+            restoreWgBtn();
 			p_obj.parentNode.removeChild(p_obj);
         }
         return;
@@ -536,7 +485,7 @@ function doCheckWidget(e) {
     // 내용 클릭 무효화
     var p_obj = obj;
     while(p_obj) {
-        if(p_obj.className == 'widgetOutput') {
+        if(p_obj.className == 'wgWrap') {
             evt.cancelBubble = true;
             evt.returnValue = false;
             xPreventDefault(e);
@@ -555,7 +504,7 @@ function completeCopyWidgetContent(ret_obj, response_tags, params, p_obj) {
 
 
     dummy.widget_sequence = '';
-    dummy.className = "widgetOutput";
+    dummy.className = "wgWrap";
     for(var i=0;i<p_obj.attributes.length;i++) {
         if(!p_obj.attributes[i].nodeName || !p_obj.attributes[i].nodeValue) continue;
         var name = p_obj.attributes[i].nodeName.toLowerCase();
@@ -575,7 +524,7 @@ function completeCopyWidgetContent(ret_obj, response_tags, params, p_obj) {
 
 // content widget 제거
 function completeDeleteWidgetContent(ret_obj, response_tags, params, p_obj) {
-    restoreWidgetButtons();
+    restoreWgBtn();
     p_obj.parentNode.removeChild(p_obj);
 }
 
@@ -585,15 +534,15 @@ function doCheckWidgetDrag(e) {
     var evt = new xEvent(e); if(!evt.target) return;
     var obj = evt.target;
 
-    if(jQuery(obj).parents('#pageSizeLayer').size() > 0) return;
+    if(jQuery(obj).parents('#wgCSS').size() > 0) return;
 
     doHideWidgetSizeSetup();
 
-    if(obj.className == 'widgetSetup' || obj.className == 'widgetStyle' || obj.className == 'widgetCopy' || obj.className == 'widgetBoxCopy' || obj.className == 'widgetSize' || obj.className == 'widgetBoxSize' || obj.className == 'widgetRemove' || obj.className == 'widgetBoxRemove') return;
+    if(obj.className == 'wgSetup' || obj.className == 'wgStyle' || obj.className == 'wgCopy' || obj.className == 'wgBoxCopy' || obj.className == 'wgSize' || obj.className == 'wgBoxSize' || obj.className == 'wgRemove' || obj.className == 'wgBoxRemove') return;
 
     p_obj = obj;
     while(p_obj) {
-        if(p_obj.className == 'widgetOutput' || p_obj.className == 'widgetResize' || p_obj.className == 'widgetResizeLeft' || p_obj.className == 'widgetBoxResize' || p_obj.className == 'widgetBoxResizeLeft') {
+        if(p_obj.className == 'wgWrap' || p_obj.className == 'wgRight' || p_obj.className == 'wgBoxRight') {
             widgetDragEnable(p_obj, widgetDragStart, widgetDrag, widgetDragEnd);
             widgetMouseDown(e);
             return;
@@ -611,7 +560,7 @@ function _getInt(val) {
 // 위젯 크기 조절 레이어를 보여줌
 var selectedSizeWidget = null;
 function doShowWidgetSizeSetup(px, py, obj) {
-    var layer = jQuery('#pageSizeLayer');
+    var layer = jQuery('#wgCSS');
     var form  = layer.find('>form:first');
 	var obj   = jQuery(obj);
 
@@ -620,8 +569,6 @@ function doShowWidgetSizeSetup(px, py, obj) {
 	selectedSizeWidget = obj[0];
 
 	var opts = {
-		widget_align : obj.css('float'),
-
 		width  : obj[0].style.width,
 		height : obj[0].style.height,
 
@@ -692,10 +639,7 @@ function doShowWidgetSizeSetup(px, py, obj) {
 }
 
 function doHideWidgetSizeSetup() {
-	jQuery('#pageSizeLayer').hide();
-	//var layer = get_by_id("pageSizeLayer");
-    //layer.style.visibility = "hidden";
-    //layer.style.display = "none";
+	jQuery('#wgCSS').hide();
 }
 
 function _getSize(value) {
@@ -732,9 +676,6 @@ function _getBGColorStyle(fld_color) {
 
 function doApplyWidgetSize(fo_obj) {
     if(selectedSizeWidget) {
-        if(fo_obj.widget_align.selectedIndex == 1) setFloat(selectedSizeWidget, 'right');
-        else setFloat(selectedSizeWidget, 'left');
-
         var width = _getSize(fo_obj.width.value);
         if(width) selectedSizeWidget.style.width = width;
 
@@ -742,9 +683,9 @@ function doApplyWidgetSize(fo_obj) {
         if(height && height != "100%") selectedSizeWidget.style.height = height;
         else {
             selectedSizeWidget.style.height = '';
-            var widgetBorder = xGetElementsByClassName('widgetBorder',selectedSizeWidget);
-            for(var i=0;i<widgetBorder.length;i++) {
-                var obj = widgetBorder[i];
+            var wgBorder = xGetElementsByClassName('wgBorder',selectedSizeWidget);
+            for(var i=0;i<wgBorder.length;i++) {
+                var obj = wgBorder[i];
                 obj.style.height = '';
             }
         }
@@ -777,7 +718,7 @@ function doApplyWidgetSize(fo_obj) {
 
         var borderObj = selectedSizeWidget.firstChild;
         while(borderObj) {
-            if(borderObj.nodeName == "DIV" && (borderObj.className == "widgetBorder" || borderObj.className == "widgetBoxBorder")) {
+            if(borderObj.nodeName == "DIV" && (borderObj.className == "wgBorder" || borderObj.className == "wgBoxBorder")) {
                 var contentObj = borderObj.firstChild;
                 while(contentObj) {
                     if(contentObj.nodeName == "DIV") {
@@ -852,15 +793,15 @@ function doApplyWidgetSize(fo_obj) {
 }
 
 var hideElements = new Array();
-function restoreWidgetButtons() {
-    var widgetButton = get_by_id('widgetButton');
-    var boxWidgetButton = get_by_id('widgetBoxButton');
-    if(!widgetButton || !boxWidgetButton) return;
+function restoreWgBtn() {
+    var wgBtnArea = get_by_id('wgBtnArea');
+    var wgBoxBtnArea = get_by_id('wgBoxBtnArea');
+    if(!wgBtnArea || !wgBoxBtnArea) return;
 
-    widgetButton.style.visibility = 'hidden';
-    get_by_id("zonePageContent").parentNode.appendChild(widgetButton);
-    boxWidgetButton.style.visibility = 'hidden';
-    get_by_id("zonePageContent").parentNode.appendChild(boxWidgetButton);
+    wgBtnArea.style.visibility = 'hidden';
+    get_by_id("wgArea").parentNode.appendChild(wgBtnArea);
+    wgBoxBtnArea.style.visibility = 'hidden';
+    get_by_id("wgArea").parentNode.appendChild(wgBoxBtnArea);
 
     for(var i=0;i<hideElements.length;i++) {
         var obj = hideElements[0];
@@ -869,57 +810,39 @@ function restoreWidgetButtons() {
     hideElements = new Array();
 }
 
-function showWidgetButton(name, obj) {
-    var widgetButton = get_by_id(name);
-    if(!widgetButton) return;
-    widgetButton.style.visibility = 'visible';
-    obj.insertBefore(widgetButton, obj.firstChild);
-    /*
-    var cobj = obj.firstChild;
-    while(cobj) {
-        cobj = cobj.nextSibling;
-    }
-
-    obj.appendChild(widgetButton);
-    */
+function showWgBtn(name, obj) {
+    var wgBtnArea = get_by_id(name);
+    if(!wgBtnArea) return;
+    wgBtnArea.style.visibility = 'visible';
+    obj.insertBefore(wgBtnArea, obj.firstChild);
 }
 
 function widgetSetup(evt) {
     var e = new xEvent(evt);
     var obj = e.target;
 
-    if(jQuery(obj).is('.widgetButtons') || jQuery(obj).parents('.widgetButtons').size() > 0) return;
-    if(jQuery(obj).is('.buttonBox') || jQuery(obj).parents('.buttonBox').size() > 0) return;
-
-
-    var o = jQuery(obj).parents('.widgetOutput');
+    var o = jQuery(obj).parents('.wgWrap');
     if(o.size() == 0){
-        restoreWidgetButtons();
+        restoreWgBtn();
         return;
     }
-    /*
-    if(!obj || typeof(obj.className)=='undefined' || obj.className != 'widgetOutput') {
-        restoreWidgetButtons();
-        return;
-    }
-*/
 
     obj = o.get(0);
     var widget = o.attr('widget');
     if(!widget) return;
 
     if(widget == 'widgetBox') {
-        restoreWidgetButtons();
-        showWidgetButton('widgetBoxButton', obj);
+        restoreWgBtn();
+        showWgBtn('wgBoxBtnArea', obj);
     } else {
-        restoreWidgetButtons();
-        showWidgetButton('widgetButton', obj);
+        restoreWgBtn();
+        showWgBtn('wgBtnArea', obj);
 
         var p_obj = obj.parentNode;
         if(p_obj) {
             while(p_obj) {
                 if(p_obj.nodeName == 'DIV' && p_obj.getAttribute('widget')=='widgetBox') {
-                    showWidgetButton('widgetBoxButton', p_obj);
+                    showWgBtn('wgBoxBtnArea', p_obj);
                     break;
                 }
                 p_obj = p_obj.parentNode;
@@ -985,7 +908,7 @@ function widgetDragEnable(obj, funcDragStart, funcDrag, funcDragEnd) {
 
 // 드래그를 시작할때 호출되는 함수 (이동되는 형태를 보여주기 위한 작업을 함)
 function widgetDragStart(tobj, px, py) {
-    if(tobj.className == 'widgetResize' || tobj.className == 'widgetResizeLeft' || tobj.className == 'widgetBoxResize' || tobj.className == 'widgetBoxResizeLeft') return;
+    if(tobj.className == 'wgRight' || tobj.className == 'wgBoxRight') return;
     var obj = widgetGetTmpObject(tobj);
 
     xInnerHtml(obj, xInnerHtml(tobj));
@@ -1015,15 +938,10 @@ function widgetDrag(tobj, dx, dy) {
 
     var pWidth = xWidth(tobj.parentNode);
 
-    var cssFloat = getFloat(tobj.parentNode);
-    if(!cssFloat) cssFloat = 'left';
-
     // 위젯 리사이즈 (우측)
-    if(tobj.className == 'widgetResize' || tobj.className == 'widgetBoxResize') {
+    if(tobj.className == 'wgRight' || tobj.className == 'wgBoxRight') {
         if(nx < sx+minWidth) nx = sx+minWidth;
         if(nx > zoneRight) nx = zoneRight;
-
-        if(cssFloat == 'right') nx = sx + pWidth;
 
         var new_width = nx  - sx;
         if(new_width < minWidth) new_width = minWidth;
@@ -1040,27 +958,6 @@ function widgetDrag(tobj, dx, dy) {
         xWidth(tobj.parentNode, new_width);
         xHeight(tobj.parentNode, new_height);
 
-    // 위젯 리사이즈 (좌측)
-    } else if(tobj.className == 'widgetResizeLeft' || tobj.className == 'widgetBoxResizeLeft') {
-
-        if(nx < zoneLeft) nx = zoneLeft;
-
-        if(cssFloat == 'left') nx = sx;
-
-        var new_width = pWidth + (sx - nx);
-        if(new_width < minWidth) new_width = minWidth;
-
-        var new_height = ny - sy;
-        if(new_height < minHeight) new_height = minHeight;
-
-        // 위젯의 크기 조절
-        xWidth(tobj.nextSibling, new_width);
-        xHeight(tobj.nextSibling, new_height);
-
-        xWidth(tobj.parentNode, new_width);
-        xHeight(tobj.parentNode, new_height);
-
-    // 위젯 드래그
     } else {
         var obj = widgetGetTmpObject(tobj);
 
@@ -1070,7 +967,7 @@ function widgetDrag(tobj, dx, dy) {
         // 박스 안에 있을 경우에는 박스내의 위젯하고 자리를 바꾸고 그 외의 경우에는 박스를 빠져 나간다
         if(tobj.parentNode != zonePageObj) {
             // 박스내에 있는 위젯들을 구함
-            var widgetList = xGetElementsByClassName("widgetOutput",tobj.parentNode);
+            var widgetList = xGetElementsByClassName("wgWrap",tobj.parentNode);
 
             for(var i=0;i<widgetList.length;i++) {
                 var target_obj = widgetList[i];
@@ -1093,7 +990,6 @@ function widgetDrag(tobj, dx, dy) {
 
                     if(next1) next1.parentNode.insertBefore(tobj, next1);
                     if(next2) next2.parentNode.insertBefore(target_obj, next2);
-                    doFitBorderSize();
                     widgetList = null;
                     return;
                 }
@@ -1107,11 +1003,7 @@ function widgetDrag(tobj, dx, dy) {
             var ll =  parseInt(l,10) + parseInt(xWidth(p_tobj),10);
             var tt =  parseInt(t,10) + parseInt(xHeight(p_tobj),10);
             if( (tobj.xDPX < l || tobj.xDPX > ll) || (tobj.xDPY < t || tobj.xDPY > tt) ) {
-
-//                zonePageObj.insertBefore(tobj, tobj.parentNode.parentNode.parentNode);
-                zonePageObj.insertBefore(tobj, jQuery(tobj).parents('div.widgetOutput[widget=widgetBox]').get(0));
-
-                doFitBorderSize();
+                zonePageObj.insertBefore(tobj, jQuery(tobj).parents('div.wgWrap[widget=widgetBox]').get(0));
                 return;
             }
 
@@ -1149,8 +1041,6 @@ function widgetDrag(tobj, dx, dy) {
 
                             // 이동을 멈춤
                             widgetManualEnd();
-
-                            doFitBorderSize();
                             boxList = null;
                             return;
                         }
@@ -1160,7 +1050,7 @@ function widgetDrag(tobj, dx, dy) {
             }
 
             // 다른 위젯들을 구해서 자리를 바꿈
-            var widgetList = xGetElementsByClassName("widgetOutput",zonePageObj);
+            var widgetList = xGetElementsByClassName("wgWrap",zonePageObj);
             for(var i=0;i<widgetList.length;i++) {
                 var target_obj = widgetList[i];
                 var widget = target_obj.getAttribute("widget");
@@ -1185,7 +1075,6 @@ function widgetDrag(tobj, dx, dy) {
 
                     if(next1) next1.parentNode.insertBefore(tobj, next1);
                     if(next2) next2.parentNode.insertBefore(target_obj, next2);
-                    doFitBorderSize();
                     widgetList = null;
                     return;
                 }
@@ -1210,33 +1099,6 @@ function widgetDisapearObject(obj, tobj) {
     obj.parentNode.removeChild(obj);
     widgetTmpObject[tobj.id] = null;
     return;
-
-    /*
-    var it = 5;
-    var ib = 1;
-
-    var x = parseInt(xPageX(obj),10);
-    var y = parseInt(xPageY(obj),10);
-    var ldt = (x - parseInt(xPageX(tobj),10)) / ib;
-    var tdt = (y - parseInt(xPageY(tobj),10)) / ib;
-
-    return setInterval(function() {
-        if(ib < 1) {
-            clearInterval(widgetDisapear);
-            xInnerHtml(tobj,xInnerHtml(obj));
-            xInnerHtml(obj,'');
-            xDisplay(obj, 'none');
-            obj.parentNode.removeChild(obj);
-            widgetTmpObject[tobj.id] = null;
-            return;
-        }
-        ib -= 5;
-        x-=ldt;
-        y-=tdt;
-        xLeft(obj, x);
-        xTop(obj, y);
-    }, it/ib);
-    */
 }
 
 // 마우스다운 이벤트 발생시 호출됨
@@ -1302,8 +1164,6 @@ function widgetDragDisable(id) {
     obj.dragStart = null;
     obj.drag = null;
     obj.dragEnd = null;
-    //obj.style.backgroundColor = obj.getAttribute('source_color');
-
     xRemoveEventListener(obj, 'mousedown', widgetMouseDown, false);
 
     return;

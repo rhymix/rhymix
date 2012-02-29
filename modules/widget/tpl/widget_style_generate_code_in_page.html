@@ -28,7 +28,7 @@
 		<input type="hidden" name="widgetstyle" value="{$widgetstyle}" />
 		<input type="hidden" name="selected_widget" value="{$selected_widget}" />
 
-		<a href="{getUrl('widgetstyle','none')}" class="widgetStyle"><img src="images/widgetstyle_none.gif" title="{$lang->notuse}" /></a>
+		<a href="{getUrl('widgetstyle','none')}" class="wgStyle"><img src="images/widgetstyle_none.gif" title="{$lang->notuse}" /></a>
 		<a loop="$widgetStyle_list => $key, $widgetStyle" cond="$widgetStyle->preview" href="{getUrl('widgetstyle',$widgetStyle->widgetStyle)}" class="widgetStyle <!--@if($widgetStyle->widgetStyle==$widgetstyle)-->selected<!--@end-->"><img src="{getUrl()}{$widgetStyle->preview}" title="{$widgetStyle->title}" /><span>{$widgetStyle->title}</span></a>
 		<block cond="$widgetstyle_info">
 
