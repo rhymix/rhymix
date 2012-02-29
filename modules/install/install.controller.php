@@ -483,6 +483,7 @@
 
         function _getDBConfigFileContents($db_info){
             $buff = '<?php if(!defined("__ZBXE__")) exit();'."\n";
+			$db_info = get_object_vars($db_info);
             foreach($db_info as $key => $val) {
                 if($key == 'master_db'){
                     $buff .= $this->_getDbConnText($key, $val);
