@@ -57,7 +57,16 @@
 
             if (!$oDB->isIndexExists("comments", "idx_module_list_order"))
                     return true;
-
+			//2012. 02. 24 add comment published status column and index
+			if(!$oDB->isColumnExists("comments", "status"))
+			{
+               return true;
+            }
+			if (!$oDB->isIndexExists("comments", "idx_status"))
+			{
+                return true;
+			}
+			
             return false;
         }
 
@@ -93,7 +102,7 @@
             }
             if(!$oDB->isColumnExists("comment_voted_log", "point"))
                 $oDB->addColumn('comment_voted_log', 'point', 'number', 11, 0, true); 
-
+			
             if (!$oDB->isIndexExists("comments", "idx_module_list_order"))
                 $oDB->addIndex
                     (
@@ -103,6 +112,19 @@
                         true
                     );
 
+			//2012. 02. 24 add comment published status column and index
+			if(!$oDB->isColumnExists("comments", "status")) {
+                $oDB->addColumn("comments", "status", "number", 1, 1, true);
+            }
+			if (!$oDB->isIndexExists("comments", "idx_status"))
+                $oDB->addIndex
+                    (
+                        "comments",
+                        "idx_status",
+                        array("status", "comment_srl", "module_srl", "document_srl"),
+                        true
+                    );
+			
             return new Object(0, 'success_updated');
         }
 

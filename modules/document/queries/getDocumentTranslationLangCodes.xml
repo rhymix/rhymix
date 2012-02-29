@@ -1,0 +1,12 @@
+<query id="getDocumentTranslationLangCodes" action="select">
+    <tables>
+        <table name="document_extra_vars" />
+    </tables>
+    <columns>
+        <column name="DISTINCT(lang_code)" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="document_srl" var="document_srl" notnull="notnull" />
+        <condition operation="equal" column="var_idx" var="var_idx" default="-2" notnull="notnull" pipe="and" />
+    </conditions>
+</query>

@@ -248,6 +248,14 @@
 			<value xml:lang="zh-TW"><![CDATA[公開]]></value>
 		</item>
 	</item>
+	<item name="published_name_list" type="array">
+		<item name="Y">
+			<value xml:lang="en"><![CDATA[Published]]></value>
+		</item>
+		<item name="N">
+			<value xml:lang="en"><![CDATA[Unpublished]]></value>
+		</item>
+	</item>
 	<item name="comment_manager">
 		<value xml:lang="ko"><![CDATA[선택한 댓글 관리]]></value>
 		<value xml:lang="en"><![CDATA[Manage Selected Comment]]></value>
@@ -259,5 +267,20 @@
 		<value xml:lang="en"><![CDATA[Selected Comment]]></value>
 		<value xml:lang="jp"><![CDATA[選択したコメント]]></value>
 		<value xml:lang="zh-TW"><![CDATA[已選回覆]]></value>		
+	</item>
+	<item name="cmd_comment_validation">
+		<value xml:lang="en"><![CDATA[Use comment validation]]></value>
+	</item>
+	<item name="about_comment_validation">
+		<value xml:lang="en"><![CDATA[If you want to use comment validation before displaying on your module frontend select USE, otherwise select NOT USE.]]></value>
+	</item>
+	<item name="published">
+		<value xml:lang="en"><![CDATA[Publish status]]></value>
+	</item>
+	<item name="cmd_publish">
+		<value xml:lang="en"><![CDATA[Publish]]></value>
+	</item>
+	<item name="cmd_unpublish">
+		<value xml:lang="en"><![CDATA[Unpublish]]></value>
 	</item>
 </lang>

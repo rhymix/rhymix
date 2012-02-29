@@ -40,7 +40,7 @@ function completeGetCommentList(ret_obj, response_tags)
 {
 	var htmlListBuffer = '';
 	var statusNameList = {"N":"Public", "Y":"Secret"};
-
+	var publishedStatusList = {0:'Unpublished', 1:'Published'};
 	if(ret_obj['comment_list'] == null)
 	{
 		htmlListBuffer = '<tr>' +
@@ -58,12 +58,23 @@ function completeGetCommentList(ret_obj, response_tags)
 								'<td class="title">'+ objComment.content +'</td>' +
 								'<td class="nowr">'+ objComment.nick_name +'</td>' +
 								'<td class="nowr">'+ statusNameList[objComment.is_secret] +'</td>' +
+								'<td>'+ publishedStatusList[objComment.status] +'</td>' +
 							'</tr>' +
 							'<input type="hidden" name="cart[]" value="'+objComment.comment_srl+'" />';
 		}
 		jQuery('#selectedCommentCount').html(comment_list.length);
 	}
 	jQuery('#commentManageListTable>tbody').html(htmlListBuffer);
+}
+
+function doChangePublishedStatus(new_status)
+{
+	container_div = jQuery("#listManager");
+	var act = container_div.find("input[name=act]");
+	var will_publish = container_div.find("input[name=will_publish]");
+	var action = "procCommentAdminChangePublishedStatusChecked";
+	will_publish.val(new_status);
+	act.val(action);
 }
 
 function checkSearch(form)

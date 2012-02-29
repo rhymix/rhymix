@@ -3,7 +3,8 @@
 		<table name="comments" />
 		<table name="documents" type="left outer join" >
 			<conditions>
-				<condition operation="equal" column="comments.document_srl" default="documents.document_srl" />
+				<condition operation="equal" column="comments.status" default="1" pipe="and" />
+				<condition operation="equal" column="comments.document_srl" default="documents.document_srl" pipe="and" />
 			</conditions>
 		</table>
 	</tables>

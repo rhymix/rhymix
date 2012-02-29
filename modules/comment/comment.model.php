@@ -119,7 +119,7 @@
             if(is_array($comment_srl_list)) $comment_srls = implode(',',$comment_srl_list);
             // fetch from a database
             $args->comment_srls = $comment_srls;
-            $output = executeQuery('comment.getComments', $args, $columnList);
+			$output = executeQuery('comment.getComments', $args, $columnList);
             if(!$output->toBool()) return;
             $comment_list = $output->data;
             if(!$comment_list) return;
@@ -143,6 +143,15 @@
          **/
         function getCommentCount($document_srl) {
             $args->document_srl = $document_srl;
+			
+			//check if module is using validation system
+			$oCommentController = &getController('comment');
+			$using_validation = $oCommentController->isModuleUsingPublishValidation($document_srl);
+			if($using_validation)
+			{
+				$args->status = 1;
+			}
+
             $output = executeQuery('comment.getCommentCount', $args);
             $total_count = $output->data->count;
             return (int)$total_count;
@@ -164,14 +173,49 @@
         /**
          * @brief get the total number of comments in corresponding with module_srl.
          **/
-        function getCommentAllCount($module_srl) {
+        function getCommentAllCount($module_srl,$published=null) {
             $args->module_srl = $module_srl;
+			
+			if(is_null($published))
+			{
+				// check if module is using comment validation system
+				$oCommentController = &getController("comment");
+				$is_using_validation = $oCommentController->isModuleUsingPublishValidation(null,$module_srl);
+				if($is_using_validation)
+				{
+					$args->status = 1;
+				}
+			}
+			else
+			{
+				if ($published)
+				{
+					$args->status = 1;
+				}
+				else
+				{
+					$args->status = 0;
+				}
+			}
 			$output = executeQuery('comment.getCommentCount', $args);
 			$total_count = $output->data->count;
 
             return (int)$total_count;
         }
 
+		function getDistinctModules()
+		{
+			$output = executeQuery('comment.getDistinctModules');
+			$module_srls = $output->data;
+			$oModuleModel = &getModel('module');
+			$result = array();
+			foreach($module_srls as $module)
+			{
+				$module_info = $oModuleModel->getModuleInfoByModuleSrl($module->module_srl);
+				$result[$module->module_srl] = $module_info->mid;
+			}
+			return $result;
+		}
 
         /**
          * @brief get the comment in corresponding with mid.
@@ -195,6 +239,17 @@
 				$output = $oCacheHandler->get($cache_key);
 			}
 			if(!$output){
+				
+				if(strpos($args->module_srl,",")===false)
+				{
+					// check if module is using comment validation system
+					$oCommentController = &getController("comment");
+					$is_using_validation = $oCommentController->isModuleUsingPublishValidation(null,$obj->module_srl);
+					if($is_using_validation)
+					{
+						$args->status = 1;
+					}
+				}
             	$output = executeQuery('comment.getNewestCommentList', $args, $columnList);
             	if($oCacheHandler->isSupport()) $oCacheHandler->put($cache_key,$output);
 			}
@@ -255,6 +310,16 @@
 	            $args->list_count = $comment_count;
 	            $args->page = $page;
 	            $args->page_count = 10;
+				
+				//check if module is using validation system
+				$oCommentController = &getController('comment');
+				$using_validation = $oCommentController->isModuleUsingPublishValidation($document_srl);
+				if($using_validation)
+				{
+					$args->status = 1;
+				}
+				
+				
 	            $output = executeQueryArray('comment.getCommentPageList', $args);
 	            // return if an error occurs in the query results
 	            if(!$output->toBool()) return;
@@ -366,6 +431,15 @@
             $args->page_count = $obj->page_count?$obj->page_count:10;
             $args->s_module_srl = $obj->module_srl;
             $args->exclude_module_srl = $obj->exclude_module_srl;
+			
+			// check if module is using comment validation system
+			$oCommentController = &getController("comment");
+			$is_using_validation = $oCommentController->isModuleUsingPublishValidation(null,$obj->module_srl);
+			if ($is_using_validation)
+			{
+				$args->s_is_published = 1;
+			}
+			
             // Search options
             $search_target = $obj->search_target?$obj->search_target:trim(Context::get('search_target'));
             $search_keyword = $obj->search_keyword?$obj->search_keyword:trim(Context::get('search_keyword'));
@@ -408,7 +482,20 @@
                         break;
                     case 'is_secret' :
                             $args->s_is_secret= $search_keyword;
+						break;
+                    case 'is_published' :
+							if($search_keyword == 'Y')
+							{
+								$args->s_is_published = 1;
+							}
+							if($search_keyword == 'N')
+							{
+								$args->s_is_published = 0;
+							}
                         break;
+					case 'module': 
+						$args->s_module_srl = (int)$search_keyword;
+						break;
                     case 'member_srl' :
                             $args->{"s_".$search_target} = (int)$search_keyword;
                         break;

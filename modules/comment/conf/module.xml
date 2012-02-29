@@ -15,7 +15,9 @@
         <action name="getCommentVotedMemberList" type="model" standalone="true" />
         <action name="procCommentInsertModuleConfig" type="controller" standalone="true" ruleset="insertCommentModuleConfig" />
         <action name="procCommentAdminDeleteChecked" type="controller" standalone="true" ruleset="deleteChecked" />
-        <action name="procCommentAdminCancelDeclare" type="controller" standalone="true" />
+        <action name="procCommentAdminChangePublishedStatusChecked" type="controller" standalone="true" />
+        <action name="isModuleUsingPublishValidation" type="controller" standalone="true" />
+		<action name="procCommentAdminCancelDeclare" type="controller" standalone="true" />
         <action name="procCommentAdminAddCart" type="controller" standalone="true" />
         <action name="procCommentGetList" type="controller" standalone="true" />
     </actions>

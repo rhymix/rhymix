@@ -20,4 +20,5 @@
     <column name="last_update" type="date" index="idx_last_update" />
     <column name="ipaddress" type="varchar" size="128" notnull="notnull" index="idx_ipaddress" />
     <column name="list_order" type="number" size="11" notnull="notnull" index="idx_list_order" />
+    <column name="status" type="number" size="1" default="1" notnull="notnull" index="idx_status" />
 </table>

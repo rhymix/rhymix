@@ -98,11 +98,62 @@
             $_SESSION['own_comment'][$comment_srl] = true;
         }
 
+		/**
+		*@brief Check if module is using comment validation system
+		* @param number $document_srl
+		* @return boolean
+		*/
+		function isModuleUsingPublishValidation($document_srl=null, $module_srl=null)
+		{
+			$oModuleModel = &getModel('module');
+			if(!is_null($document_srl))
+			{
+				$module_info = $oModuleModel->getModuleInfoByDocumentSrl($document_srl);
+			}
+			if(!is_null($module_srl))
+			{
+				$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+			}
+			$module_part_config = $oModuleModel->getModulePartConfig('comment',$module_info->module_srl);
+			$use_validation = false;
+			if (isset($module_part_config->use_comment_validation) && $module_part_config->use_comment_validation == "Y")
+			{
+				$use_validation = true;
+			}
+			return $use_validation;
+		}
+		
         /**
          * @brief Enter comments
          **/
         function insertComment($obj, $manual_inserted = false) {
-            $obj->__isupdate = false;
+
+			// check if comment's module is using comment validation and set the publish status to 0 (false)
+			// for inserting query, otherwhise default is 1 (true - means comment is published)
+			$using_validation = $this->isModuleUsingPublishValidation($obj->document_srl);
+			if(Context::get('is_logged')) 
+			{
+				$logged_info = Context::get('logged_info');
+				if ($logged_info->is_admin == 'Y')
+				{
+					$is_admin = true;
+				}
+				else
+				{
+					$is_admin = false;
+				}
+			}
+			
+			if (!$using_validation || $is_admin)
+			{
+				$obj->status = 1;
+			}
+			else
+			{
+				$obj->status = 0;
+			}
+			
+			$obj->__isupdate = false;
             // call a trigger (before)
             $output = ModuleHandler::triggerCall('comment.insertComment', 'before', $obj);
             if(!$output->toBool()) return $output;
@@ -195,7 +246,7 @@
 
                 }
             }
-
+			
             $output = executeQuery('comment.insertCommentList', $list_args);
             if(!$output->toBool()) return $output;
             // insert comment
@@ -211,7 +262,10 @@
             // create the controller object of the document
             $oDocumentController = &getController('document');
             // Update the number of comments in the post
-            $output = $oDocumentController->updateCommentCount($document_srl, $comment_count, $obj->nick_name, true);
+			if (!$using_validation || $is_admin)
+			{
+				$output = $oDocumentController->updateCommentCount($document_srl, $comment_count, $obj->nick_name, true);
+			}
             // grant autority of the comment
             $this->addGrant($obj->comment_srl);
             // call a trigger(after)
@@ -636,7 +690,10 @@
 
             $comment_config->use_vote_down = Context::get('use_vote_down');
             if(!$comment_config->use_vote_down) $comment_config->use_vote_down = 'Y';
-
+			
+			$comment_config->use_comment_validation = Context::get('use_comment_validation');
+            if(!$comment_config->use_comment_validation) $comment_config->use_comment_validation = 'N';
+			
             for($i=0;$i<count($module_srl);$i++) {
                 $srl = trim($module_srl[$i]);
                 if(!$srl) continue;

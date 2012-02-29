@@ -13,6 +13,88 @@
         function init() {
         }
 
+		function procCommentAdminChangePublishedStatusChecked()
+		{
+			$will_publish = Context::get('will_publish');
+			
+			// Error display if none is selected
+            $cart = Context::get('cart');
+            if(!$cart)
+			{
+				return $this->stop('msg_cart_is_null');
+			}
+            if(!is_array($cart))
+			{
+				$comment_srl_list= explode('|@|', $cart);
+			}
+			else
+			{
+				$comment_srl_list = $cart;
+			}
+			$comment_count = count($comment_srl_list);
+			// begin transaction
+			
+			// for message send - start
+			$message_content = Context::get('message_content');
+			if($message_content) $message_content = nl2br($message_content);
+
+			if($message_content) {
+				$oCommunicationController = &getController('communication');
+				$oCommentModel = &getModel('comment');
+
+				$logged_info = Context::get('logged_info');
+
+				$title = cut_str($message_content,10,'...');
+				$sender_member_srl = $logged_info->member_srl;
+
+				for($i=0;$i<$comment_count;$i++) {
+					$comment_srl = $comment_srl_list[$i];
+					$oComment = $oCommentModel->getComment($comment_srl, true);
+
+					if(!$oComment->get('member_srl') || $oComment->get('member_srl')==$sender_member_srl) continue;
+
+					$content = sprintf("<div>%s</div><hr /><div style=\"font-weight:bold\">%s</div>",$message_content, $oComment->getContentText(20));
+
+					$oCommunicationController->sendMessage($sender_member_srl, $oComment->get('member_srl'), $title, $content, false);
+				}
+			}
+			// for message send - end
+			
+			$args->status = $will_publish;
+			$args->comment_srls_list = $comment_srl_list;
+			$output = executeQuery('comment.updatePublishedStatus', $args);
+            if(!$output->toBool()) return $output;
+			
+			//update comment count for document
+			$updated_documents_arr = array();
+			// create the controller object of the document
+			$oDocumentController = &getController('document');
+			// create the comment model object
+			$oCommentModel = &getModel('comment');
+			for($i=0;$i<$comment_count;$i++)
+			{
+				$comment_srl = $comment_srl_list[$i];
+				// check if comment already exists
+				$comment = $oCommentModel->getComment($comment_srl);
+				if($comment->comment_srl != $comment_srl) return new Object(-1, 'msg_invalid_request');
+				$document_srl = $comment->document_srl;
+				if (!in_array($document_srl,$updated_documents_arr))
+				{
+					$updated_documents_arr[] = $document_srl;
+					// update the number of comments
+					$comment_count = $oCommentModel->getCommentCount($document_srl);
+					// update comment count of the article posting
+					$output = $oDocumentController->updateCommentCount($document_srl, $comment_count, null, false);
+				}
+			}				
+				
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispCommentAdminList', 'search_keyword', '');
+				header('location:'.$returnUrl);
+				return;
+			}
+		}
+		
         /**
          * @brief Delete the selected comment from the administrator page
          **/

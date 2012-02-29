@@ -25,18 +25,35 @@
             $args->sort_index = 'list_order'; // /< Sorting values
 
             $args->module_srl = Context::get('module_srl');
-
+			/*
+			$search_target = Context::get('search_target');
+			$search_keyword = Context::get('search_keyword');
+			if ($search_target == 'is_published' && $search_keyword == 'Y')
+			{
+				$args->status = 1;
+			}
+			if ($search_target == 'is_published' && $search_keyword == 'N')
+			{
+				$args->status = 0;
+			}
+			*/
+				
             // get a list by using comment->getCommentList. 
             $oCommentModel = &getModel('comment');
 			$secretNameList = $oCommentModel->getSecretNameList();
-			$columnList = array('comment_srl', 'document_srl', 'is_secret', 'content', 'comments.member_srl', 'comments.nick_name', 'comments.regdate', 'ipaddress');
+			$columnList = array('comment_srl', 'document_srl', 'is_secret', 'status', 'content', 'comments.member_srl', 'comments.nick_name', 'comments.regdate', 'ipaddress');
             $output = $oCommentModel->getTotalCommentList($args, $columnList);
-
+			
+			$oCommentModel = &getModel("comment");
+			$modules = $oCommentModel->getDistinctModules();
+			$modules_list = $modules;
+			
             // set values in the return object of comment_model:: getTotalCommentList() in order to use a template.
             Context::set('total_count', $output->total_count);
             Context::set('total_page', $output->total_page);
             Context::set('page', $output->page);
             Context::set('comment_list', $output->data);
+            Context::set('modules_list', $modules_list);
             Context::set('page_navigation', $output->page_navigation);
             Context::set('secret_name_list', $secretNameList);
             // set the template 
