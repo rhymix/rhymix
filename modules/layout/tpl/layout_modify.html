@@ -103,7 +103,7 @@
 							<div cond= style="float:left;text-align:{$_talign};margin-bottom:1em;width:{$_width}px;height:{$_height}px;margin-right:10px;">
 						</block>
 						<label>
-							<input type="radio" name="{$name}" value="{$key}" />{$val->val}
+							<input type="radio" name="{$name}" value="{$key}" checked="checked"|cond="$key == $var->value"/>{$val->val}
 							<block cond="$val->thumbnail">
 								<br />
 								<img src="../../../{$val->thumbnail}" alt="{$val->val}" style="border:1px solid #888888;padding:2px;margin:2px;"/>
