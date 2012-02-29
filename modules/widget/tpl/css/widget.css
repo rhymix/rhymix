@@ -6,7 +6,7 @@
 #colorset_area .header{float:left;margin-right:.5em;padding-top:.2em}
 #colorset_area .footer{float:left}
 .pageAddContent{width:700px}
-.wgWrap{_display:inline;_zoom:1;display:inline-block;vertical-align:top;cursor:move;z-index:99;position:relative}
+.wgWrap{display:inline-block;*display:inline;*zoom:1;vertical-align:top;cursor:move;z-index:99;position:relative}
 .wgWrap .wgRight,
 .wgWrap .wgBoxRight {border:0;background:transparent url("../images/btn_resize.gif") no-repeat left bottom;width:12px;height:12px;position:absolute;bottom:1px;right:1px;cursor:pointer;z-index:99}
 .wgWrap .wgBorder,
