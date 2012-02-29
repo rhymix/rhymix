@@ -254,7 +254,7 @@
 
 				// XSS defence
 				$oSecurity = new Security($info);
-				$oSecurity->encodeHTML('user_name', 'nick_name', 'address.');
+				$oSecurity->encodeHTML('user_name', 'nick_name', 'address.', 'group_list.');
 
                 if($extra_vars)
 				{
