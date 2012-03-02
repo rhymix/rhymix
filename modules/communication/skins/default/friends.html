@@ -24,7 +24,7 @@
 			<option value="{$val->friend_group_srl}" <!--@if($val->friend_group_srl == $friend_group_srl)-->selected="selected"<!--@end--> >{$val->title}</option>
 			<!--@end-->
 		</select>
-		<button type="button" onclick="doRenameFriendGroup();return false;">{$lang->cmd_modify}</button>
+		<button type="button" onclick="doRenameFriendGroup();return false;">{$lang->cmd_modify}...</button>
 		<button type="button" onclick="doDeleteFriendGroup();return false;">{$lang->cmd_delete}</button>
 		<a href="{getUrl('','module','communication','act','dispCommunicationAddFriendGroup')}" onclick="popopen(this.href);return false;">{$lang->cmd_add_friend_group}</a>
 	</div>

@@ -44,7 +44,7 @@
 			<li>
 				<p class="q"><label for="description">{$lang->description}</label></p>
 				<p class="a">
-					<textarea name="description" id="description" rows="4" cols="45">{htmlspecialchars($module_info->description)}</textarea>
+					<textarea name="description" id="description" rows="8" cols="42">{htmlspecialchars($module_info->description)}</textarea>
 				</p>
 				<p class="desc">{$lang->about_description}</p>
 			</li>
@@ -53,7 +53,7 @@
 				<p class="a multiLangEdit">
 					{@$use_multilang_textarea=true}
 					<input type="hidden" name="header_text" class="vLang" />
-					<textarea id="header_text" rows="4" cols="45" class="vLang"></textarea>
+					<textarea id="header_text" rows="8" cols="42" class="vLang"></textarea>
 					<span class="desc"><a href="#langEditTextarea" class="editUserLang tgAnchor">{$lang->cmd_set_multilingual}</a></span>
 				</p>
 				<p class="desc">{$lang->about_header_text}</p>
@@ -62,7 +62,7 @@
 				<p class="q"><label for="footer_text">{$lang->footer_text}</label></p>
 				<p class="a multiLangEdit">
 					<input type="hidden" name="footer_text" class="vLang" />
-					<textarea id="footer_text" rows="4" cols="45" class="vLang"></textarea>
+					<textarea id="footer_text" rows="8" cols="42" class="vLang"></textarea>
 					<span class="desc"><a href="#langEditTextarea" class="editUserLang tgAnchor">{$lang->cmd_set_multilingual}</a></span>
 				</p>
 				<p class="desc">{$lang->about_footer_text}</p>

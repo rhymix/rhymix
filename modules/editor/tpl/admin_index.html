@@ -86,7 +86,7 @@
 			</li>
 			<li>
 				<p class="q">{$lang->guide_choose_font_body}</p>
-				<textarea rows="3" cols="42" class="fontPreview" title="Font Preview">{$lang->font_preview}</textarea>
+				<textarea rows="8" cols="42" class="fontPreview" title="Font Preview">{$lang->font_preview}</textarea>
 				<p class="answer fontSelector">
 					<input type="radio" name="content_font" id="font_noFont" value="" <!--@if(!$editor_config->content_font)-->checked="checked" <!--@end-->/> <label for="font_noFont" style="font-family:''">none(inherit)</label><br />
 					<!--@foreach($lang->edit->fontlist as $name => $detail)-->
@@ -96,7 +96,7 @@
 			</li>
 			<li>
 				<p class="q"><label for="fontSize">{$lang->guide_choose_font_size_body}</label></p>
-				<textarea rows="3" cols="42" class="fontPreview" title="Font Preview">{$lang->font_preview}</textarea>
+				<textarea rows="8" cols="42" class="fontPreview" title="Font Preview">{$lang->font_preview}</textarea>
 				<p class="a"><input type="text" id="fontSize" name="content_font_size" value="<!--@if($editor_config->content_font_size)-->{str_replace('px','',$editor_config->content_font_size)}<!--@else-->{str_replace('px','',$editor_config_default['content_font_size'])}<!--@end-->" style="width:30px" /> px</p>
 			</li>
 		</ul>

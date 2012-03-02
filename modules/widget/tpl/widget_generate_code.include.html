@@ -57,7 +57,7 @@
 			<div cond="$var->type == 'textarea'" class="multiLangEdit">
 				{@$use_multilang_textarea = true}
 				<input type="hidden" name="{$id}" value="" class="vLang" />
-				<textarea cond="$var->type == 'textarea'" id="{$id}" class="vLang"></textarea>
+				<textarea cond="$var->type == 'textarea'" id="{$id}" class="vLang" rows="8" cols="42"></textarea>
 				<span class="desc"><a href="#langEditTextarea" class="editUserLang tgAnchor">{$lang->cmd_set_multilingual}</a></span>
 				<script type="text/javascript">
 					xe.registerApp(new xe.MultiLangManager('{$id}'));

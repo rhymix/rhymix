@@ -109,7 +109,7 @@ header,footer,section,article,aside,nav,hgroup,details,menu,figure,figcaption{di
 .x .form input[type=checkbox][disabled=disabled],
 .x .form select[disabled=disabled],
 .x .form textarea[disabled=disabled]{background:#ddd;text-shadow:1px 1px 0 #fff}
-.x .form textarea{padding:3px 4px;vertical-align:top}
+.x .form textarea{padding:3px 4px;vertical-align:top;resize:both}
 .x .form span.desc, 
 .x .form em.desc{line-height:22px;vertical-align:middle;margin:0 10px}
 .x .form p.desc{margin:.25em 0;line-height:1.4}

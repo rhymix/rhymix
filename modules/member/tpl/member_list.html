@@ -35,7 +35,7 @@
 					<th scope="col">{$lang->member_group}</th>
 					<th scope="col" class="nowr">{$lang->status}</th>
 					<th scope="col" class="nowr">{$lang->cmd_view}</th>
-					<th scope="col" class="nowr">{$lang->cmd_modify}</th>
+					<th scope="col" class="nowr">{$lang->cmd_modify}...</th>
 					<th scope="col">
 						<input type="checkbox" title="Check All" data-name="user" />
 					</th>
@@ -50,7 +50,7 @@
 					<th scope="col">{$lang->member_group}</th>
 					<th scope="col" class="nowr">{$lang->status}</th>
 					<th scope="col class="nowr"">{$lang->cmd_view}</th>
-					<th scope="col" class="nowr">{$lang->cmd_modify}</th>
+					<th scope="col" class="nowr">{$lang->cmd_modify}...</th>
 					<th scope="col">
 						<input type="checkbox" title="Check All" data-name="user" />
 					</th>
@@ -73,7 +73,7 @@
 					<td class="nowr">
 						<a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminInfo', 'member_srl', $member_info['member_srl'])}">{$lang->cmd_view}</a>
 					</td>
-					<td class="nowr"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminInsert', 'member_srl', $member_info['member_srl'])}">{$lang->cmd_modify}</a></td>
+					<td class="nowr"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminInsert', 'member_srl', $member_info['member_srl'])}">{$lang->cmd_modify}...</a></td>
 					{@$used_values = ''}
 					<!--@foreach($usedIdentifiers as $name=>$title)-->
 						{@$used_values .= "\t".$member_info[$name]}
@@ -123,10 +123,10 @@
 		</p>
 		<p class="q"><label for="message">{$lang->about_send_message}</label></p>
 		<p>
-			<textarea cols="42" rows="3" id="message" style="width:98%" name="message" ></textarea>
+			<textarea rows="8" cols="42" id="message" style="width:98%" name="message" ></textarea>
 		</p>
 		<div class="btnArea">
-			<span class="btn"><button type="submit" name="type" value="modify">{$lang->cmd_modify}</button></span>
+			<span class="btn"><button type="submit" name="type" value="modify">{$lang->cmd_modify}...</button></span>
 			<span class="btn"><button type="submit" name="type" value="delete">{$lang->cmd_delete}</button></span>
 		</div>
 	</form>

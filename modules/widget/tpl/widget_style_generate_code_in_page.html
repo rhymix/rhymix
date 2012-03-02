@@ -69,7 +69,7 @@
 
 						<input cond="$var->type == 'color'" type="text" name="{$id}" class="color-indicator" />
 
-						<textarea cond="$var->type == 'textarea'" name="{$id}"></textarea>
+						<textarea cond="$var->type == 'textarea'" name="{$id}" rows="8" cols="42"></textarea>
 
 						<select cond="$var->type == 'select'" name="{$id}">
 							<option loop="$var->options => $key, $val" value="{$key}">{$val}</option>

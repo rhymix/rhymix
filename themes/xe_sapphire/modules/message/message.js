@@ -11,7 +11,7 @@ function completeMessageOpenIDLogin(ret_obj, response_tags) {
 }
 
 function doLogin(o,filter){
-	jQuery('input.inputText',o).each(function(){
+	jQuery('input.iText',o).each(function(){
 		var t = jQuery(this);
 		if(t.attr('title').length>0 && t.attr('title') == t.val()) t.val('');
 	});
@@ -22,7 +22,7 @@ function doLogin(o,filter){
 
 
 function initLoginTitleMsg(){
-	jQuery('.gLogin, .mLogin').find('input.inputText').focus(function(){
+	jQuery('.gLogin, .mLogin').find('input.iText').focus(function(){
 		var t = jQuery(this);
 		if(t.attr('title').length>0 && t.attr('title')==t.val()) t.val('');
 	}).blur(function(){

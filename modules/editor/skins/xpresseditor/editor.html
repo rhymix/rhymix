@@ -16,7 +16,7 @@
 
     <div class="xeTextEditor {$editor_class}">
         <input type="hidden" id="htm_{$editor_sequence}" value="<!--@if($colorset == "white_text_nohtml" || $colorset == "black_text_nohtml")-->n<!--@end--><!--@if($colorset == "white_texteditor" || $colorset == "white_texteditor")-->br<!--@end-->" />
-        <textarea id="editor_{$editor_sequence}" style="height:{$editor_height}px;" cols="50" rows="5" class="inputTextarea"></textarea>
+        <textarea id="editor_{$editor_sequence}" style="height:{$editor_height}px;" rows="8" cols="42" class="iTextArea"></textarea>
     </div>
     <script type="text/javascript">//<![CDATA[
         editorStartTextarea({$editor_sequence}, "{$editor_content_key_name}", "{$editor_primary_key_name}");
@@ -431,7 +431,7 @@
 
         <!-- 에디터 출력 -->
         <div id="xe-editor-container-{$editor_sequence}" class="input_area xpress_xeditor_editing_area_container">
-            <textarea id="xpress-editor-{$editor_sequence}" cols="10" rows="10"></textarea>
+            <textarea id="xpress-editor-{$editor_sequence}" rows="8" cols="42"></textarea>
         </div>
 
         <!--@if($enable_autosave)-->

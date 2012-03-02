@@ -31,7 +31,7 @@
 				<td class="title">{$val->title}</td>
 				<td class="nowr">{zdate($val->regdate,"Y-m-d")}</td>
 				<td class="nowr">
-					<a href="{getUrl('module_category_srl',$val->module_category_srl)}">{$lang->cmd_modify}</a>
+					<a href="{getUrl('module_category_srl',$val->module_category_srl)}">{$lang->cmd_modify}...</a>
 					<button type="button" class="text" onclick="doUpdateCategory('{$val->module_category_srl}','{$lang->confirm_delete}');return false;">{$lang->cmd_delete}</button>
 				</td>
 			</tr>

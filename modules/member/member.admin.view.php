@@ -278,7 +278,7 @@
 												  'tel_2' => $extendForm->value[2]);
 						$template = '<input type="text" name="%column_name%[]" value="%tel_0%" size="4" />-<input type="text" name="%column_name%[]" value="%tel_1%" size="4" />-<input type="text" name="%column_name%[]" value="%tel_2%" size="4" />';
 					}elseif($extendForm->column_type == 'textarea'){
-						$template = '<textarea name="%column_name%">%value%</textarea>';
+						$template = '<textarea name="%column_name%" rows="8" cols="42">%value%</textarea>';
 					}elseif($extendForm->column_type == 'checkbox'){
 						$template = '';
 						if($extendForm->default_value){

@@ -50,11 +50,11 @@ html{background:#fff url(../images/default/bg_body.gif) repeat-x 0 0;font-family
 #isSearch ul li label.on{background:#455a5b}
 #isSearch ul li label:hover,
 #isSearch ul li label:focus{background:#455a5b}
-#isSearch .inputText{width:130px;height:23px;padding:0 10px 0 20px;border:1px solid #c9c7c7;background:#fff url(../images/default/ico_search.gif) no-repeat 6px 50%;line-height:23px;zoom:1;border-radius:4px}
+#isSearch .iText{width:130px;height:23px;padding:0 10px 0 20px;border:1px solid #c9c7c7;background:#fff url(../images/default/ico_search.gif) no-repeat 6px 50%;line-height:23px;zoom:1;border-radius:4px}
 #isSearch .searchOrder{display:none}
-#isSearch .inputText:hover,
-#isSearch .inputText:focus{}
-*:first-child+html body#default #isSearch .inputText{position:relative;top:-1px}
+#isSearch .iText:hover,
+#isSearch .iText:focus{}
+*:first-child+html body#default #isSearch .iText{position:relative;top:-1px}
 #isSearch .submit{_position:relative;_top:-1px;vertical-align:middle}
 *:first-child+html body#default #isSearch .submit{position:relative;top:-1px}
 /* Site Layout - Content Body */

@@ -9,9 +9,9 @@
 #loginAccess .idpw{ margin:0 41px 15px 36px;}
 #loginAccess .oid{ margin:0 28px 20px 28px;}
 #loginAccess .idpw li{ margin:0 0 5px 0;}
-#loginAccess .inputText{ font-size:12px; color:#c4c4c4; font-weight:bold; border:1px solid #c5c5c5}
-#loginAccess .idpw .inputText{ width:243px; padding:2px 0 2px 7px;}
-#loginAccess .oid .inputText{ width:252px; padding:8px 0 0 35px;}
+#loginAccess .iText{ font-size:12px; color:#c4c4c4; font-weight:bold; border:1px solid #c5c5c5}
+#loginAccess .idpw .iText{ width:243px; padding:2px 0 2px 7px;}
+#loginAccess .oid .iText{ width:252px; padding:8px 0 0 35px;}
 #loginAccess .inputCheck{ width:13px; height:13px; margin:0; padding:0; vertical-align:middle;}
 #loginAccess label{ vertical-align: middle; color:#3a3a3a}
 #loginAccess #warning{ display:none; margin:0 0 20px 0;}

@@ -206,7 +206,7 @@
 
                 // textarea
                 case 'textarea' :
-                        $buff .= '<textarea name="'.$column_name.'" class="textarea">'.$value.'</textarea>';
+                        $buff .= '<textarea name="'.$column_name.'" rows="8" cols="42">'.$value.'</textarea>';
                     break;
                 // multiple choice
                 case 'checkbox' :

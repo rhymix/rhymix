@@ -99,7 +99,7 @@
 					<td rowspan="3">
 						<!--@if($val->idx>1)--><a href="#" onclick="moveVar('up','{$module_srl}','{$val->idx}'); return false;" class="buttonSet buttonUp"><span>{$lang->cmd_move_up}</span></a><!--@end-->
 						<a cond="count($extra_keys) > $val->idx" href="#" onclick="moveVar('down','{$module_srl}','{$val->idx}');return false;" class="buttonSet buttonDown">{$lang->cmd_move_down}</a>
-						<a href="{getUrl('selected_var_idx',$val->idx)}" class="buttonSet buttonSetting"><span>{$lang->cmd_modify}</span></a>
+						<a href="{getUrl('selected_var_idx',$val->idx)}" class="buttonSet buttonSetting"><span>{$lang->cmd_modify}...</span></a>
 						<a href="#" onclick="return doDeleteExtraKey('{$module_srl}','{$val->idx}');" class="buttonSet buttonDelete"><span>{$lang->cmd_delete}</span></a>
 					</td>
 				</tr>

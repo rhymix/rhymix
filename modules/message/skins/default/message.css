@@ -7,8 +7,8 @@
 #loginAccess ul{margin:0;padding:0;list-style:none}
 #loginAccess .idpw{margin:0 28px 20px 28px}
 #loginAccess .idpw li{margin:0 0 5px 0}
-#loginAccess .inputText{font-size:12px;height:22px;color:#767676;font-weight:bold;border:1px solid #b7b7b7;border-right-color:#e1e1e1;border-bottom-color:#e1e1e1}
-#loginAccess .idpw .inputText{width:316px;padding:8px 0 0 10px}
+#loginAccess .iText{font-size:12px;height:22px;color:#767676;font-weight:bold;border:1px solid #b7b7b7;border-right-color:#e1e1e1;border-bottom-color:#e1e1e1}
+#loginAccess .idpw .iText{width:316px;padding:8px 0 0 10px}
 #loginAccess .inputCheck{width:13px;height:13px;margin:0;padding:0;vertical-align:middle}
 #loginAccess label{vertical-align:middle}
 #loginAccess #warning{display:none;margin:0 0 20px 0}

@@ -16,7 +16,7 @@
                 <option value="{$val->friend_group_srl}" <!--@if($val->friend_group_srl == $friend_group_srl)-->selected="selected"<!--@end--> >{$val->title}</option>
                 <!--@end-->
             </select>
-            <a href="#" onclick="doRenameFriendGroup();return false;" class="button small blue"><span>{$lang->cmd_modify}</span></a>
+            <a href="#" onclick="doRenameFriendGroup();return false;" class="button small blue"><span>{$lang->cmd_modify}...</span></a>
             <a href="#" onclick="doDeleteFriendGroup();return false;" class="button small red"><span>{$lang->cmd_delete}</span></a>
             <a href="{getUrl('','module','communication','act','dispCommunicationAddFriendGroup')}" onclick="popopen(this.href);return false;" class="button small black strong"><span>{$lang->cmd_add_friend_group}</span></a>
         </div>
@@ -41,7 +41,7 @@
 				<tr>
 				<th scope="col" class="chk">{$lang->friend_group}</th>
 				<th scope="col" class="subject"><div><input name="check_all" type="checkbox" onclick="XE.checkboxToggleAll('friend_srl_list', { wrap:'fo_friend_list' }); return false;" /> {$lang->nick_name}<div></th>
-				<th scope="col" class="th_right w300"><div>{$lang->regdate}<div></th>
+				<th scope="col" class="th_right"><div>{$lang->regdate}<div></th>
 				</tr>
 			</thead>
 			<tbody>

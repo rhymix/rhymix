@@ -32,7 +32,7 @@
 				<p class="q"><label for="{$var->name}">{$var->title}</label></p>
 				<p class="a">
 					<input cond="$var->type == 'text'" type="text" name="{$var->name}" id="{$var->name}" value="{htmlspecialchars($var->value)}" class="lang_code">
-					<textarea cond="$var->type == 'textarea'" name="{$var->name}" id="{$var->name}" class="lang_code">{htmlspecialchars($var->value)}</textarea>
+					<textarea cond="$var->type == 'textarea'" name="{$var->name}" id="{$var->name}" class="lang_code" rows="8" cols="42">{htmlspecialchars($var->value)}</textarea>
 					<select cond="$var->type == 'select'" name="{$var->name}" id="{$var->name}">
 						<option loop="$var->options => $option" value="{$option->value}" selected="selected"|cond="$var->value == $option->value">{$option->title}</option>
 					</select>
