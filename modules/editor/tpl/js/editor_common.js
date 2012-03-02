@@ -253,7 +253,7 @@ function editorSearchComponent(evt) {
     // editor_component를 찾지 못했을 경우에 이미지/텍스트/링크의 경우 기본 컴포넌트와 연결
     if(!editor_component) {
         // 이미지일 경우
-        if(obj.nodeName == "IMG") {
+        if(obj.nodeName == "IMG" && !obj.getAttribute("widget")) {
             editor_component = "image_link";
             editorPrevNode = obj;
         }

@@ -5248,7 +5248,7 @@ xe.XE_Extension = $.Class({
 
 		$(doc).find('img,div[editor_component]').each(function(){
 			var obj = $(this);
-			if(this.nodeName == 'IMG' && !obj.attr('editor_component')) {
+			if(this.nodeName == 'IMG' && !obj.attr('editor_component') && !obj.attr('widget') ) {
 				obj.attr('editor_component','image_link');
 			}
 			if(this.last_doc != doc) {
