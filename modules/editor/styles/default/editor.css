@@ -2,7 +2,7 @@
 html,body{height:100%}
 body{margin:0;padding:0}
 /* NHN (developers@xpressengine.com) */
-.xe_content{color:#000;font-size:12px;line-height:1.5;word-break:break-all}
+.xe_content{color:#000;font-size:12px;line-height:1.5}
 .xe_content blockquote.q1,
 .xe_content blockquote.q2,
 .xe_content blockquote.q3,
@@ -17,5 +17,5 @@ body{margin:0;padding:0}
 .xe_content blockquote.q5{border:2px solid #707070}
 .xe_content blockquote.q6{border:1px dashed #707070}
 .xe_content blockquote.q7{border:1px dashed #707070;background:#fbfbfb}
-.xe_content table .xe_selected_cell{background-color: #d6e9ff}
+.xe_content table .xe_selected_cell{background-color:#d6e9ff}
 .xe_content p{margin:0}

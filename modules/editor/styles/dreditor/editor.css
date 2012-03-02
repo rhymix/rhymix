@@ -1,7 +1,7 @@
 @charset "utf-8";
 /* NHN (developers@xpressengine.com) */
 html, body{height:100%;background-color:transparent;padding:0;margin:0}
-.xe_content{color:#000;font-size:12px;line-height:1.5;word-break:break-all}
+.xe_content{color:#000;font-size:12px;line-height:1.5}
 .xe_content blockquote.q1,
 .xe_content blockquote.q2,
 .xe_content blockquote.q3,
