@@ -37,7 +37,6 @@ function completeSearchKrZip(ret_obj, response_tags, callback_args, fo_obj) {
 
 	$zone_search.hide();
 	$zone_list.show();
-	filterWait[fo_obj.id] = '';
 }
 
 function doHideKrZipList(form, column_name) {
