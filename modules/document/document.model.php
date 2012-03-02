@@ -417,6 +417,51 @@
                 $obj->sort_index = 'var_idx';
                 $obj->order = 'asc';
                 $output = executeQueryArray('document.getDocumentExtraKeys', $obj);
+				
+				// correcting index order
+				$isFixed = FALSE;
+				if(is_array($output->data))
+				{
+					$prevIdx = 0;
+					foreach($output->data as $no => $value)
+					{
+						// case first
+						if($prevIdx == 0 && $value->idx != 1)
+						{
+							$args = new stdClass();
+							$args->module_srl = $module_srl;
+							$args->var_idx = $value->idx;
+							$args->new_idx = 1;
+							executeQuery('document.updateDocumentExtraKeyIdx', $args);
+							executeQuery('document.updateDocumentExtraVarIdx', $args);
+							$prevIdx = 1;
+							$isFixed = TRUE;
+							continue;
+						}
+
+						// case others
+						if($prevIdx > 0 && $prevIdx + 1 != $value->idx)
+						{
+							$args = new stdClass();
+							$args->module_srl = $module_srl;
+							$args->var_idx = $value->idx;
+							$args->new_idx = $prevIdx + 1;
+							executeQuery('document.updateDocumentExtraKeyIdx', $args);
+							executeQuery('document.updateDocumentExtraVarIdx', $args);
+							$prevIdx += 1;
+							$isFixed = TRUE;
+							continue;
+						}
+
+						$prevIdx = $value->idx;
+					}
+				}
+
+				if($isFixed)
+				{
+					$output = executeQueryArray('document.getDocumentExtraKeys', $obj);
+				}
+
                 $oExtraVar->setExtraVarKeys($output->data);
                 $keys = $oExtraVar->getExtraVars();
                 if(!$keys) $keys = array();

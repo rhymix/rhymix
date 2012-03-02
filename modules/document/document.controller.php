@@ -707,10 +707,41 @@ class documentController extends document {
 		if(!$module_srl) return new Object(-1,'msg_invalid_request');
 		$obj->module_srl = $module_srl;
 		if(!is_null($var_idx)) $obj->var_idx = $var_idx;
-		$output = executeQuery('document.deleteDocumentExtraKeys', $obj);
-		if(!$output->toBool()) return $output;
 
-		return executeQuery('document.deleteDocumentExtraVars', $obj);
+		$oDB = DB::getInstance();
+		$oDB->begin();
+
+		$output = $oDB->executeQuery('document.deleteDocumentExtraKeys', $obj);
+		if(!$output->toBool())
+		{
+			$oDB->rollback();
+			return $output;
+		}
+
+		$output = $oDB->executeQuery('document.updateDocumentExtraKeyIdxOrder', $obj);
+		if(!$output->toBool())
+		{
+			$oDB->rollback();
+			return $output;
+		}
+
+		$output =  executeQuery('document.deleteDocumentExtraVars', $obj);
+		if(!$output->toBool())
+		{
+			$oDB->rollback();
+			return $output;
+		}
+
+		$output = $oDB->executeQuery('document.updateDocumentExtraVarIdxOrder', $obj);
+		if(!$output->toBool())
+		{
+			$oDB->rollback();
+			return $output;
+		}
+
+		$oDB->commit();
+
+		return new Object();
 	}
 
 	/**
