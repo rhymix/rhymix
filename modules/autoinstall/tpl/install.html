@@ -20,7 +20,7 @@
 
 <block cond="!$package->installed || $package->need_update">
 	<block cond="$show_ftp_note">
-		<p>{$lang->description_download}. (<a href="{getUrl('', 'module', 'admin', 'act', 'dispAdminConfig')}#ftpSetup">FTP Setup</a>)</p>
+		<p>{$lang->description_download}. (<a href="{getUrl('', 'module', 'admin', 'act', 'dispAdminConfigFtp')}">FTP Setup</a>)</p>
 		<p>{$lang->path}: {$package->path}</p>
 		<p><a href="{_XE_DOWNLOAD_SERVER_}?module=resourceapi&act=procResourceapiDownload&package_srl={$package->package_srl}">{$lang->cmd_download}</a>
 	</block>
