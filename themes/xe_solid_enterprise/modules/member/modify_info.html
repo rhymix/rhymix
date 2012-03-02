@@ -51,13 +51,11 @@
 			</block>
 		</td>
     </tr>
-    <tr>
-        <th class="button_col" colspan="2">
-            <span class="grayBtn"><input type="submit" value="{$lang->cmd_registration}" /></span>
-            <a href="{getUrl('act','dispMemberInfo','member_srl','')}" class="whiteBtn"><span>{$lang->cmd_cancel}</span></a>
-        </th>
-    </tr>
     </table>
+	<div class="btnArea">
+		<span class="btn"><input type="submit" value="{$lang->cmd_registration}" /></span>
+		<span class="btn"><a href="{getUrl('act','dispMemberInfo','member_srl','')}">{$lang->cmd_cancel}</a></span>
+	</div>
 </form>
 <script type="text/javascript">
 (function($){

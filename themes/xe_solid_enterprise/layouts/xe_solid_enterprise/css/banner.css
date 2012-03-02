@@ -42,6 +42,6 @@ ul.paging{width:75px;height:10px;margin:0 auto !important;text-align:center}
 #shadow{left: 15px;margin-top: -105px;position: absolute;z-index: -10}
 .slide_widget .mask{width:958px !important}
 #slides,.slides_container,.slides_container div {width:958px !important;height:431px !important;display:block}
-.buttonBox{z-index:201}
+.btnBox{z-index:201}
 .section div{z-index:200}
 .slide_widget ul{position:relative;bottom:18px;z-index:150}

@@ -26,7 +26,7 @@
                         <div><a href="#" onclick="jQuery('#saved_document_{$val->document_srl}').toggle(); setFixedPopupSize(); return false;">{$val->getTitle()}</a></div>
                         <div id="saved_document_{$val->document_srl}" class="saved_content" style="display:none;">{$val->getContent(false)}</div>
                     </td>
-                    <td><a href="#" onclick="doDocumentSelect('{$val->document_srl}'); return false;" class="buttonSet buttonActive"><span>{$lang->cmd_select}</span></a></td>
+                    <td><button type="button" onclick="doDocumentSelect('{$val->document_srl}')" class="text">{$lang->cmd_select}</button></td>
                 </tr>
                 <!--@end-->
             </tbody>

@@ -29,7 +29,7 @@
 				<tr>
 					<th>{$lang->column_name}</th>
 					<td >
-						<input type="text" name="name" value="{$selected_var->name}" id="name" /><a href="{getUrl('','module','module','act','dispModuleAdminLangcode','target','name')}" onclick="popopen(this.href);return false;" class="buttonSet buttonSetting"><span>{$lang->cmd_find_langcode}</span></a> 
+						<input type="text" name="name" value="{$selected_var->name}" id="name" /><a href="{getUrl('','module','module','act','dispModuleAdminLangcode','target','name')}" onclick="popopen(this.href);return false;">{$lang->cmd_find_langcode}</a> 
 					</td>
 				</tr>
 				<tr>
@@ -54,7 +54,7 @@
 				</tr>
 				<tr>
 					<th>{$lang->description}</th>
-					<td><input type="text" name="desc" value="{$selected_var->desc}" id="desc" /><a href="{getUrl('','module','module','act','dispModuleAdminLangcode','target','desc')}" onclick="popopen(this.href);return false;" class="buttonSet buttonSetting"><span>{$lang->cmd_find_langcode}</span></a></td>
+					<td><input type="text" name="desc" value="{$selected_var->desc}" id="desc" /><a href="{getUrl('','module','module','act','dispModuleAdminLangcode','target','desc')}" onclick="popopen(this.href);return false;">{$lang->cmd_find_langcode}</a></td>
 				</tr>
 				<tr>
 					<th>{$lang->cmd_search}</th>
@@ -64,9 +64,9 @@
 		</div>
 		<div class="btnArea">
 			<!--@if($selected_var)-->
-			<span class="btn"><input type="submit" value="{$lang->cmd_modify}" /></span>
+			<span class="btn"><input type="submit" value="{$lang->cmd_modify}..." /></span>
 			<!--@else-->
-			<span class="btn"><input type="submit" value="{$lang->cmd_insert}" /></span>
+			<span class="btn"><input type="submit" value="{$lang->cmd_insert}..." /></span>
 			<!--@end-->
 			<span class="btn"><a href="{getUrl('type','','selected_var_idx','')}">{$lang->cmd_back}</a></span>
 		</div>
@@ -97,10 +97,10 @@
 					<td rowspan="3"><!--@if($val->is_required=='Y')--><b>{$lang->is_required}</b><!--@else-->N<!--@end--></td>
 					<td rowspan="3"><!--@if($val->search=='Y')--><b>{$lang->search_target}</b><!--@else-->N<!--@end--></td>
 					<td rowspan="3">
-						<!--@if($val->idx>1)--><a href="#" onclick="moveVar('up','{$module_srl}','{$val->idx}'); return false;" class="buttonSet buttonUp"><span>{$lang->cmd_move_up}</span></a><!--@end-->
-						<a cond="count($extra_keys) > $val->idx" href="#" onclick="moveVar('down','{$module_srl}','{$val->idx}');return false;" class="buttonSet buttonDown">{$lang->cmd_move_down}</a>
-						<a href="{getUrl('selected_var_idx',$val->idx)}" class="buttonSet buttonSetting"><span>{$lang->cmd_modify}...</span></a>
-						<a href="#" onclick="return doDeleteExtraKey('{$module_srl}','{$val->idx}');" class="buttonSet buttonDelete"><span>{$lang->cmd_delete}</span></a>
+						<!--@if($val->idx>1)--><button type="button" onclick="moveVar('up','{$module_srl}','{$val->idx}')" class="text">{$lang->cmd_move_up}</button><!--@end-->
+						<button type="button" cond="count($extra_keys) > $val->idx" onclick="moveVar('down','{$module_srl}','{$val->idx}')" class="text">{$lang->cmd_move_down}</button>
+						<a href="{getUrl('selected_var_idx',$val->idx)}">{$lang->cmd_modify}...</a>
+						<button type="button" onclick="return doDeleteExtraKey('{$module_srl}','{$val->idx}')" class="text">{$lang->cmd_delete}</button>
 					</td>
 				</tr>
 				<tr>

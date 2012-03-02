@@ -11,8 +11,8 @@
         <fieldset>
 			{$lang->mid} <input type="text" name="s_mid" value="{htmlspecialchars($s_mid)}"  />
 			{$lang->browser_title} <input type="text" name="s_browser_title" value="{htmlspecialchars($s_browser_title)}"  />
-            <span class="button blue"><input type="submit" value="{$lang->cmd_search}" /></span>
-            <a href="{getUrl('s_mid','','s_browser_title','','page','')}" class="button black"><span>{$lang->cmd_cancel}</span></a>
+            <span class="btn"><input type="submit" value="{$lang->cmd_search}" /></span>
+            <span class="btn"><a href="{getUrl('s_mid','','s_browser_title','','page','')}">{$lang->cmd_cancel}</a></span>
         </fieldset>
 </form>
 
@@ -81,10 +81,10 @@
 <!-- 버튼 -->
 <div class="btnArea">
     <div class="etc">
-        <a href="{getUrl('','module','module','act','dispModuleAdminModuleSetup')}" onclick="doCartSetup(this.href); return false;" class="button green"><span>{$lang->cmd_setup}</span></a>
-        <a href="{getUrl('','module','module','act','dispModuleAdminModuleGrantSetup')}" onclick="doCartSetup(this.href); return false;" class="button blue"><span>{$lang->cmd_manage_grant}</span></a>
+        <span class="btn"><a href="{getUrl('','module','module','act','dispModuleAdminModuleSetup')}" onclick="doCartSetup(this.href); return false;">{$lang->cmd_setup}</a></span>
+        <span class="btn"><a href="{getUrl('','module','module','act','dispModuleAdminModuleGrantSetup')}" onclick="doCartSetup(this.href); return false;">{$lang->cmd_manage_grant}</a></span>
     </div>
-	<a href="{getUrl('act','dispPageAdminInsert','module_srl','')}" class="button black strong"><span>{$lang->cmd_make}</span></a>
+	<a href="{getUrl('act','dispPageAdminInsert','module_srl','')}" class="btn"><span>{$lang->cmd_make}</span></a>
 </div>
 
 </form>

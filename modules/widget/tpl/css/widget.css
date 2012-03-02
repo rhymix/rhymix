@@ -28,7 +28,7 @@
 #wgCSS table td{padding:4px 10px 4px 10px;background-color:#EFEFEF}
 #wgCSS table td div{margin-bottom:5px}
 #wgCSS table td.line{border-top:1px dotted #999}
-#wgCSS table td.buttonBox{background-color:#fff;white-space:nowrap;overflow:hidden;vertical-align:top;text-align:center;border-top:1px solid #888;color:#ddd}
+#wgCSS table td.btnBox{background-color:#fff;white-space:nowrap;overflow:hidden;vertical-align:top;text-align:center;border-top:1px solid #888;color:#ddd}
 #wgCSS .input{background:#fff;border:1px solid #aaa;padding:1px;font:8pt verdana;width:60px}
 #wgCSS .full_input{background:#fff;border:1px solid #aaa;padding:1px;font:8pt verdana;width:90%}
 #wgCSS .small_input{background:#fff;border:1px solid #aaa;padding:1px;font:8pt verdana;width:20px}

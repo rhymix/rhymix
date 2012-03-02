@@ -38,8 +38,8 @@
 	
 				<select name="_target_module_srl" id="_target_module_srl" size="8" style="display:block;margin:10px 0;"></select>
 	
-				<a href="{getUrl('','module','module','act','dispModuleSelectList','id','target_module_srl')}" onclick="popopen(this.href, 'ModuleSelect');return false;" class="button blue"><span>{$lang->cmd_insert}</span></a>
-				<a href="#" onclick="midRemove('target_module_srl');return false;" class="button red"><span>{$lang->cmd_delete}</span></a>
+				<a href="{getUrl('','module','module','act','dispModuleSelectList','id','target_module_srl')}" onclick="popopen(this.href, 'ModuleSelect');return false;">{$lang->cmd_insert}</a>
+				<button type="button" onclick="midRemove('target_module_srl')" class="text">{$lang->cmd_delete}</button>
 	
 				<script type="text/javascript">
 					jQuery( function() { getModuleSrlList('target_module_srl'); } );

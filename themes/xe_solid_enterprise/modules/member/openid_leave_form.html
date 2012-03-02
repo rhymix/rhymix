@@ -16,13 +16,10 @@
             <p>{$lang->about_openid_leave}</p>
         </td>
     </tr>
-    <tr>
-        <th class="button_col" colspan="2">
-            <span class="grayBtn"><input type="submit" value="{$lang->cmd_leave}" /></span>
-            <a href="{getUrl('act','dispMemberInfo','member_srl','')}" class="whiteBtn"><span>{$lang->cmd_back}</span></a>
-        </th>
-    </tr>
     </table>
-
+	<div class="btnArea">
+		<span class="btn"><input type="submit" value="{$lang->cmd_leave}" /></span>
+		<span class="btn"><a href="{getUrl('act','dispMemberInfo','member_srl','')}">{$lang->cmd_back}</a></span>
+	</div>
 </form>
 <!--#include("./common_footer.html")-->

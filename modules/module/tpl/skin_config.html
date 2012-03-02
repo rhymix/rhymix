@@ -85,11 +85,11 @@
 				<td >
 					<!--@if($val->type=="text")-->
 					<input type="text" name="{$val->name}" value="{$val->value}" id="target{$val->name}" />
-					<a href="{getUrl('','module','module','act','dispModuleAdminLangcode','target','target'.$val->name)}" onclick="popopen(this.href);return false;" class="buttonSet buttonSetting"><span>{$lang->cmd_find_langcode}</span></a>
+					<a href="{getUrl('','module','module','act','dispModuleAdminLangcode','target','target'.$val->name)}" onclick="popopen(this.href);return false">{$lang->cmd_find_langcode}</a>
 					
 					<!--@elseif($val->type=="textarea")-->
 					<textarea name="{$val->name}" id="target{$val->name}" rows="8" cols="42">{$val->value}</textarea>
-					<a href="{getUrl('','module','module','act','dispModuleAdminLangcode','target','target'.$val->name)}" onclick="popopen(this.href);return false;" class="buttonSet buttonSetting"><span>{$lang->cmd_find_langcode}</span></a>
+					<a href="{getUrl('','module','module','act','dispModuleAdminLangcode','target','target'.$val->name)}" onclick="popopen(this.href);return false">{$lang->cmd_find_langcode}</a>
 					
 					<!--@elseif($val->type=="select")-->
 					<select name="{$val->name}">

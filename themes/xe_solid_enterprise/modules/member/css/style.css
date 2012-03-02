@@ -47,7 +47,6 @@ span.whiteBtn input{display:inline-block;height:26px;margin:0;padding:1px 12px 0
 .col_table .savedContent{padding:10px}
 .col_table .doc_title{}
 .col_table .doc_title a{font-weight:bold;color:#333;text-decoration:none}
-.col_table th.button_col{padding:6px 0 8px;border-top:#EEE solid 1px}
 #memberModule h3.signup_head{color:#3c3d41;letter-spacing:-1px;word-spacing:2px}
 #memberModule .signupTable{width:100%;border-collapse:collapse;background:url(../images/sng_ml.gif) repeat-y top left;border-spacing:0}
 .signupTable caption{height:12px;margin:0;padding:0 !important;border:none;background:url(../images/sng_tc.gif) repeat-x top left transparent}
@@ -67,11 +66,7 @@ span.whiteBtn input{display:inline-block;height:26px;margin:0;padding:1px 12px 0
 .signupTable td.agreement .text{height:200px;overflow:auto;margin:1em 0}
 .signupTable td.agreement div.agreementButton{margin:10px 0}
 .signupTable .btnbar_vat{height:70px !important;padding-top:20px;vertical-align:top}
-.signupTable .btnbar_vat span.button{margin-top:20px}
-.signupTable tr.button_tr{background:url() repeat-x bottom left}
-.signupTable th.button_col{height:93px;height:93px;padding:0;background:transparent url(../images/sng_bc.gif) repeat-x 12px 100%;text-align:left}
-.signupTable th.button_col div.btm_bg{height:93px;padding:0;background:url(../images/sng_bl_tfoot.gif) no-repeat top left}
-.signupTable th.button_col div.br_bg{height:73px;padding:20px 0 0;background:transparent url(../images/sng_br.gif) no-repeat top right;text-align:center}
+.signupTable .btnbar_vat span.btn{margin-top:20px}
 #memberModule .find_account{height:482px;padding-left:11px;background:url(../images/find_bg_left.png) no-repeat top left}
 #memberModule p.tDesc{margin:0 0 10px;padding:0}
 #memberModule .findTable{width:100%;height:482px;background:url(../images/find_bg_right.png) no-repeat top right}

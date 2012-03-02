@@ -30,16 +30,16 @@
                 <label for="keepid_opt">{$lang->keep_signed}</label>
             </p>
 			
-			<div class="buttonArea">
-				<span class="button black strong"><input type="submit" value="{$lang->cmd_login}" /></span>
+			<div class="btnArea">
+				<span class="btn"><input type="submit" value="{$lang->cmd_login}" /></span>
 			</div>
 
         </fieldset>
     </form>
 
-    <div class="help tCenter">
-        <a href="{getUrl('act','dispMemberFindAccount')}"><span>{$lang->cmd_find_member_account}</span></a> |
-        <a href="{getUrl('act','dispMemberSignUpForm')}"><span>{$lang->cmd_signup}</span></a>
+    <div class="help">
+        <a href="{getUrl('act','dispMemberFindAccount')}">{$lang->cmd_find_member_account}</a> |
+        <a href="{getUrl('act','dispMemberSignUpForm')}">{$lang->cmd_signup}</a>
     </div>
 </div>
 
@@ -55,7 +55,7 @@
                 <dt><label for="open_uid">{$lang->user_id}</label></dt>
                 <dd><input type="text" name="openid" id="open_uid" value="" class="openid_user_id" /></dd>
             </dl>
-            <span class="button black strong"><input type="submit" value="{$lang->cmd_login}" /></span>
+            <span class="btn"><input type="submit" value="{$lang->cmd_login}" /></span>
 
         </fieldset>
         <input type="hidden" name="referer_url" value="{$referer_url}" />

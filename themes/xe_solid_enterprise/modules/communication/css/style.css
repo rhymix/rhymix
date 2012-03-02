@@ -38,7 +38,6 @@ span.grayBtn input{display:inline-block;padding:0 12px 0 7px;height:26px;white-s
 .col_table input{margin:0;padding:0}
 .col_table th,
 .col_table td{text-align:left;padding-left:20px}
-.col_table th.button_col{text-align:right;padding:5px 0}
 .col_table .subject{text-align:left;padding-left:20px}
 .col_table .subject a{text-decoration:none;color:#333;font-weight:bold}
 .col_table .subject em{font-size:10px;font-style:italic}
@@ -51,7 +50,6 @@ span.grayBtn input{display:inline-block;padding:0 12px 0 7px;height:26px;white-s
 .col_table .savedContent{padding:10px}
 .col_table .doc_title{padding:7px 5px 0 0}
 .col_table .doc_title a{text-decoration:none;color:#333;font-weight:bold}
-.col_table th.button{padding:6px 0 10px 0;border-top:#EEE solid 1px}
 .msg_table tbody tr{height:30px}
 #cm .find_account{padding-left:11px;height:482px;background:url(../images/find_bg_left.png) no-repeat top left}
 #cm p.tDesc{margin:0 0 10px 0;padding:0}

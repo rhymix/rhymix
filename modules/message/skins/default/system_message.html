@@ -17,7 +17,7 @@
 					<li><input type="text" name="user_id" id="uid" value="" class="iText" title="{$lang->user_id}" /></li>
 					<li><input type="password" name="password" id="upw" value="" class="iText" title="{$lang->password}" /></li>
 				</ul>
-				<div class="buttonArea">
+				<div class="btnArea">
 					<p class="keeping">
 						<input type="checkbox" name="keep_signed" id="keepid" class="inputCheck" value="Y" onclick="jQuery('#warning')[(jQuery('#keepid:checked').size()>0?'addClass':'removeClass')]('open');" />						
 						<label for="keepid">{$lang->keep_signed}</label>
@@ -25,7 +25,7 @@
 					<div id="warning" class="">
 						<p>{$lang->about_keep_warning}</p>
 					</div>
-					<span class="buttonAccount"><input type="submit" value="{$lang->cmd_login}" /></span>
+					<span class="btnAccount"><input type="submit" value="{$lang->cmd_login}" /></span>
 				</div>
 			</fieldset>
 		</form>
@@ -35,9 +35,9 @@
 		</ul>
 	</div>
 	<div class="logOut" cond="$is_logged && $module == 'admin'">
-		<span class="buttonAccount"><a href="{getUrl('act','dispMemberLogout','module','')}">{$lang->cmd_logout}</a></span>
+		<span class="btnAccount"><a href="{getUrl('act','dispMemberLogout','module','')}">{$lang->cmd_logout}</a></span>
 	</div>
 	<div class="logOut" cond="!$is_logged && $module != 'admin'">
-		<span class="buttonAccount"><a href="{getUrl('act','dispMemberLoginForm','module','', 'mid', '')}">{$lang->cmd_login}...</a></span>
+		<span class="btnAccount"><a href="{getUrl('act','dispMemberLoginForm','module','', 'mid', '')}">{$lang->cmd_login}...</a></span>
 	</div>
 </div>

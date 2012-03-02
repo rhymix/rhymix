@@ -17,16 +17,16 @@
 #loginAccess #warning{display:none;margin:0 0 20px 0}
 #loginAccess #warning.open{display:block}
 #loginAccess #warning p{margin:0;color:#fafafa}
-#loginAccess .buttonArea{position:relative;margin:0 50px 0 39px;padding:0;color:#767676;zoom:1}
-#loginAccess .buttonArea .keeping{position:relative;margin:0 0 20px 0;height:32px;line-height:32px}
-#loginAccess #gLogin .buttonArea .buttonAccount{position:absolute;top:0;right:0}
-#loginAccess #oLogin .buttonArea{text-align:center;margin-bottom:20px}
-#loginAccess .buttonAccount,
-#loginAccess .buttonAccount a,
-#loginAccess .buttonAccount input{position:relative;display:inline-block;margin:0;padding:0;overflow:visible;height:32px;line-height:32px;font-size:12px;font-weight:bold;color:#ffffff;vertical-align:middle;cursor:pointer;border:0;text-decoration:none !important;background: url(./images/buttonAction.gif) no-repeat;font-family:Arial}
-#loginAccess .buttonAccount{margin:0 4px 0 0;background-position:left top}
-#loginAccess .buttonAccount a,
-#loginAccess .buttonAccount input{left:14px;background-position:right top;*vertical-align:top;padding:0 30px 0 15px}
+#loginAccess .btnArea{position:relative;margin:0 50px 0 39px;padding:0;color:#767676;zoom:1}
+#loginAccess .btnArea .keeping{position:relative;margin:0 0 20px 0;height:32px;line-height:32px}
+#loginAccess #gLogin .btnArea .btnAccount{position:absolute;top:0;right:0}
+#loginAccess #oLogin .btnArea{text-align:center;margin-bottom:20px}
+#loginAccess .btnAccount,
+#loginAccess .btnAccount a,
+#loginAccess .btnAccount input{position:relative;display:inline-block;margin:0;padding:0;overflow:visible;height:32px;line-height:32px;font-size:12px;font-weight:bold;color:#ffffff;vertical-align:middle;cursor:pointer;border:0;text-decoration:none !important;background: url(./images/buttonAction.gif) no-repeat;font-family:Arial}
+#loginAccess .btnAccount{margin:0 4px 0 0;background-position:left top}
+#loginAccess .btnAccount a,
+#loginAccess .btnAccount input{left:14px;background-position:right top;*vertical-align:top;padding:0 30px 0 15px}
 #loginAccess .help{position:relative;padding:22px 0 44px 0;text-align:center;background:url(images/bg_help.gif) no-repeat}
 #loginAccess .help li{display:inline;border-left:1px solid #ababab;padding:0 0 0 7px;margin:0 4px 0 0;line-height:1}
 #loginAccess .help li.first{border:0;padding:0}

@@ -335,7 +335,7 @@
 .xpress-editor .fileUploader .fileListArea.black select{background-color:#000;border:1px solid #666}
 .xpress-editor .fileUploader .fileListArea.black select option{color:#aaa}
 .xpress-editor .fileUploader .fileUploadControl{clear:right}
-.xpress-editor .fileUploader .fileUploadControl .button{margin-bottom:5px}
+.xpress-editor .fileUploader .fileUploadControl .btn{margin-bottom:5px}
 .xpress-editor .fileUploader .file_attach_info{clear:right;margin:5px 0;font-size:11px;color:#333}
 /* Auto Save */
 .xpress-editor .autosave_message{display:none;background: #f6ffdb;padding:6px 10px;margin:0;line-height:1}

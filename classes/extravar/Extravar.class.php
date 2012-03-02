@@ -279,18 +279,18 @@
                         $buff .=
                             '<div id="addr_searched_'.$column_name.'" style="display:'.($value[0]?'block':'none').';">'.
                                 '<input type="text" readonly="readonly" name="'.$column_name.'" value="'.$value[0].'" class="address" />'.
-                                '<a href="#" onclick="doShowKrZipSearch(this, \''.$column_name.'\'); return false;" class="button red"><span>'.Context::getLang('cmd_cancel').'</span></a>'.
+                                '<span class="btn"><button type="button" onclick="doShowKrZipSearch(this, \''.$column_name.'\')">'.Context::getLang('cmd_cancel').'</button></span>'.
                             '</div>'.
 
                             '<div id="addr_list_'.$column_name.'" style="display:none;">'.
                                 '<select name="addr_list_'.$column_name.'"></select>'.
-                                '<a href="#" onclick="doSelectKrZip(this, \''.$column_name.'\'); return false;" class="button blue"><span>'.Context::getLang('cmd_select').'</span></a>'.
-                                '<a href="#" onclick="doHideKrZipList(this, \''.$column_name.'\'); return false;" class="button red"><span>'.Context::getLang('cmd_cancel').'</span></a>'.
+                                '<span class="btn"><button type="button" onclick="doSelectKrZip(this, \''.$column_name.'\')">'.Context::getLang('cmd_select').'</button></span>'.
+                                '<span class="btn"><button type="button" onclick="doHideKrZipList(this, \''.$column_name.'\')">'.Context::getLang('cmd_cancel').'</button></span>'.
                             '</div>'.
 
                             '<div id="addr_search_'.$column_name.'" style="display:'.($value[0]?'none':'block').'">'.
                                 '<input type="text" name="addr_search_'.$column_name.'" class="address" value="" />'.
-                                '<a href="#" onclick="doSearchKrZip(this, \''.$column_name.'\'); return false;" class="button green"><span>'.Context::getLang('cmd_search').'</span></a>'.
+                                '<span class="btn"><button type="button" onclick="doSearchKrZip(this, \''.$column_name.'\')">'.Context::getLang('cmd_search').'</button></span>'.
                             '</div>'.
 
                             '<input type="text" name="'.$column_name.'" value="'.htmlspecialchars($value[1]).'" class="address" />'.

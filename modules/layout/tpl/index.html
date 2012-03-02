@@ -33,13 +33,13 @@
 				<td>{zdate($val->regdate,"Y-m-d")}</td>
 				<td>
 					<!--@if(!$val->module_srl)-->
-					<a href="{getUrl('act','dispLayoutAdminModify','layout_srl',$val->layout_srl)}" title="{htmlspecialchars($lang->cmd_layout_management)}" class="buttonSet buttonSetting"><span>{$lang->cmd_layout_management}</span></a>
+					<a href="{getUrl('act','dispLayoutAdminModify','layout_srl',$val->layout_srl)}" title="{htmlspecialchars($lang->cmd_layout_management)}">{$lang->cmd_layout_management}</a>
 					<!--@else-->
 					&nbsp;
 					<!--@end-->
 				</td>
-				<td><a href="{getUrl('act','dispLayoutAdminEdit','layout_srl',$val->layout_srl)}" title="{htmlspecialchars($lang->cmd_layout_edit)}" class="buttonSet buttonLayoutEditor"><span>{$lang->cmd_layout_edit}</span></a></td>
-				<td><a href="#" onclick="doDeleteLayout('{$val->layout_srl}');return false;" title="{htmlspecialchars($lang->cmd_delete)}" class="buttonSet buttonDelete"><span>{$lang->cmd_delete}</span></a></td>
+				<td><a href="{getUrl('act','dispLayoutAdminEdit','layout_srl',$val->layout_srl)}" title="{htmlspecialchars($lang->cmd_layout_edit)}">{$lang->cmd_layout_edit}</a></td>
+				<td><a href="#" onclick="doDeleteLayout('{$val->layout_srl}');return false;" title="{htmlspecialchars($lang->cmd_delete)}">{$lang->cmd_delete}</a></td>
 			</tr>
 			<!--@end-->
 		</tbody>
