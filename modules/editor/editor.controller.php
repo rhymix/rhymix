@@ -170,7 +170,7 @@
                     $buff = '<style type="text/css"> .xe_content { ';
                     if($content_font) $buff .= 'font-family:'.$content_font.';';
                     if($content_font_size) $buff .= 'font-size:'.$content_font_size.';';
-                    $buff .= ' }; </style>';
+                    $buff .= ' }</style>';
                     Context::addHtmlHeader($buff);
                 }
             }
