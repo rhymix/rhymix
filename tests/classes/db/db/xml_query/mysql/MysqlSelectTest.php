@@ -229,4 +229,15 @@
                                                 order by `comments`.`list_order` asc limit 0, 5';
                                 $this->_test($xml_file, $argsString, $expected);
                         }
+						
+
+               function test_distinct_outer_join(){
+                                $xml_file = _TEST_PATH_ . "db/xml_query/mysql/data/distinct_outer_join.xml";
+                                $argsString = '$args->site_srl = 0;';
+                                $expected = 'select distinct `modules`.`module_srl` as `module_site_srl` 
+												from `xe_sites` as `sites` 
+													left join `xe_modules` as `modules` on `modules`.`module_srl` = `sites`.`index_module_srl` 
+												where `sites`.`site_srl` = 0';
+                                $this->_test($xml_file, $argsString, $expected);
+                        }						
 	}

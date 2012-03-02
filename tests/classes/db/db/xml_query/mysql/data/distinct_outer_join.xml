@@ -1,0 +1,16 @@
+<query id="getSiteInfo" action="select">
+    <tables>
+        <table name="sites" alias="sites" />
+        <table name="modules" alias="modules" type="left join">
+            <conditions>
+                <condition operation="equal" column="modules.module_srl" default="sites.index_module_srl" notnull="notnull" pipe="and" />
+            </conditions>
+        </table>
+    </tables>
+    <columns>
+        <column name="DISTINCT modules.module_srl" alias="module_site_srl" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="sites.site_srl" var="site_srl" notnull="notnull" />
+    </conditions>
+</query>

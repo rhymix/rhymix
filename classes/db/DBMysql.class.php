@@ -467,7 +467,16 @@
             // Total count
             $temp_where = $queryObject->getWhereString(true, false);
             $count_query = sprintf('select count(*) as "count" %s %s', 'FROM ' . $queryObject->getFromString(), ($temp_where === '' ? '' : ' WHERE '. $temp_where));
-            if ($queryObject->getGroupByString() != '') {
+			
+			// Check for distinct query and if found update count query structure
+            $temp_select = $queryObject->getSelectString();
+			if(strpos(strtolower($temp_select), "distinct") !== false) {
+					$count_query = sprintf('select %s %s %s', 'FROM ' . $queryObject->getFromString(), $temp_select, ($temp_where === '' ? '' : ' WHERE '. $temp_where));
+					$uses_distinct = true;
+			}
+			
+			// If query uses grouping or distinct, count from original select
+			if ($queryObject->getGroupByString() != '' || $uses_distinct) {
                     $count_query = sprintf('select count(*) as "count" from (%s) xet', $count_query);
             }
 
