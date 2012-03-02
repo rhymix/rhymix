@@ -339,13 +339,18 @@
             }
             // If additional content information is set
             if($add_content_info) {
+				$memberSrl = $this->get('member_srl');
+				if($memberSrl < 0)
+				{
+					$memberSrl = 0;
+				}
                 $content = sprintf(
                         '<!--BeforeDocument(%d,%d)--><div class="document_%d_%d xe_content">%s</div><!--AfterDocument(%d,%d)-->',
-                        $this->document_srl, $this->get('member_srl'),
-                        $this->document_srl, $this->get('member_srl'),
+                        $this->document_srl, $memberSrl,
+                        $this->document_srl, $memberSrl,
                         $content,
-                        $this->document_srl, $this->get('member_srl'),
-                        $this->document_srl, $this->get('member_srl')
+                        $this->document_srl, $memberSrl,
+                        $this->document_srl, $memberSrl
                 );
             // Add xe_content class although accessing content is not required
             } else {

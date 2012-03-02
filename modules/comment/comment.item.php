@@ -183,12 +183,17 @@
             }
             // if additional information which can access contents is set
             if($add_content_info) {
+				$memberSrl = $this->get('member_srl');
+				if($memberSrl < 0)
+				{
+					$memberSrl = 0;
+				}
                 $content = sprintf(
                         '<!--BeforeComment(%d,%d)--><div class="comment_%d_%d xe_content">%s</div><!--AfterComment(%d,%d)-->',
-                        $this->comment_srl, $this->get('member_srl'),
-                        $this->comment_srl, $this->get('member_srl'),
+                        $this->comment_srl, $memberSrl,
+                        $this->comment_srl, $memberSrl,
                         $content,
-                        $this->comment_srl, $this->get('member_srl')
+                        $this->comment_srl, $memberSrl
                 );
             // xe_content class name should be specified although content access is not necessary.
             } else {
