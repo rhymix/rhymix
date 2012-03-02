@@ -91,6 +91,10 @@
                     if(strpos($v,'d') === 0 || strpos($v, '<DIR>')) $list[] = substr(strrchr($v,' '),1) . '/';
                 }
             }
+			else
+			{
+				return new Object(-1,'msg_ftp_no_directory');
+			}
             $this->add('list', $list);
         }
 

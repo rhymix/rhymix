@@ -1180,6 +1180,20 @@ Lütfen son sürümü için indirme linkine tıklayınız.]]></value>
 		<value xml:lang="zh-TW"><![CDATA[此資料會儲存在 <strong>files/config/ftp.config.php</strong> 檔案中。 安裝後可在設定頁面中新增、更改或刪除此資訊。]]></value>
 		<value xml:lang="de"><![CDATA[Die Angabe wird unter <strong>files/config/ftp.config.php</strong> gespeichert. Nach der Installation ist es auch möglich, dass die Angabe von Administrator modifiziert oder gelöscht werden kann.]]></value>
 	</item>
+	<item name="msg_ftp_no_directory">
+		<value xml:lang="ko"><![CDATA[FTP 접속에 성공했으나, 디렉토리 정보를 읽어올 수 없습니다. 서버 설정을 확인해주세요.]]></value>
+		<value xml:lang="en"><![CDATA[Succeed to connect to the host via FTP. However, can not read any directory list informaiton. Check the server configurations.]]></value>
+		<value xml:lang="jp"><![CDATA[Succeed to connect to the host via FTP. However, can not read any directory list informaiton. Check the server configurations.]]></value>
+		<value xml:lang="zh-CN"><![CDATA[Succeed to connect to the host via FTP. However, can not read any directory list informaiton. Check the server configurations.]]></value>
+		<value xml:lang="zh-TW"><![CDATA[Succeed to connect to the host via FTP. However, can not read any directory list informaiton. Check the server configurations.]]></value>
+		<value xml:lang="fr"><![CDATA[Succeed to connect to the host via FTP. However, can not read any directory list informaiton. Check the server configurations.]]></value>
+		<value xml:lang="de"><![CDATA[Succeed to connect to the host via FTP. However, can not read any directory list informaiton. Check the server configurations.]]></value>
+		<value xml:lang="ru"><![CDATA[Succeed to connect to the host via FTP. However, can not read any directory list informaiton. Check the server configurations.]]></value>
+		<value xml:lang="es"><![CDATA[Succeed to connect to the host via FTP. However, can not read any directory list informaiton. Check the server configurations.]]></value>
+		<value xml:lang="tr"><![CDATA[Succeed to connect to the host via FTP. However, can not read any directory list informaiton. Check the server configurations.]]></value>
+		<value xml:lang="vi"><![CDATA[Succeed to connect to the host via FTP. However, can not read any directory list informaiton. Check the server configurations.]]></value>
+		<value xml:lang="mn"><![CDATA[Succeed to connect to the host via FTP. However, can not read any directory list informaiton. Check the server configurations.]]></value>
+	</item>
 	<item name="msg_ftp_mkdir_fail">
 		<value xml:lang="ko"><![CDATA[FTP를 이용한 디렉토리 생성 명령에 실패했습니다. FTP 서버의 설정을 확인해주세요.]]></value>
 		<value xml:lang="en"><![CDATA[Failed to create a directory using FTP. Please check the permission of FTP account.]]></value>
