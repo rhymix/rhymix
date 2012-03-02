@@ -913,7 +913,7 @@ Le module [Administration des Modules] montera tous les modules installés et vo
 	</item>
 	<item name="about_extra_vars_default_value">
 		<value xml:lang="ko"><![CDATA[다중/단일 선택 등 기본 값이 여러 개가 필요한 경우 , (콤마)로 연결하시면 됩니다.]]></value>
-		<value xml:lang="en"><![CDATA[If multiple default values are needed, you can link them with comma.]]></value>
+		<value xml:lang="en"><![CDATA[This is only for select,checkbox and radio button. If multiple default values are needed, you can link them with comma.]]></value>
 		<value xml:lang="jp"><![CDATA[多重・単一選択などのデフォルト値が、複数必要な場合は、「, （コンマ）」で区切って追加することができます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[复选/单选缺省值需要多个时,用,(逗号)来分隔。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[當復選或單選的預設值需要很多個時，用逗號(,)區隔。]]></value>
