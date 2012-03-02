@@ -89,6 +89,8 @@
                     if($this->mid != $module_info->mid) {
                         $this->mid = $module_info->mid;
                         Context::set('mid', $module_info->mid, true);
+						header('location:' . getNotEncodedSiteUrl($site_info->domain, 'mid', $this->mid, 'document_srl', $this->document_srl));
+						return false;
                     }
                 }
                 // if requested module is different from one of the document, remove the module information retrieved based on the document number
