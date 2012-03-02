@@ -40,6 +40,7 @@
 
         function getAdminFTPList()
         {
+			Context::loadLang('./modules/autoinstall/lang');
             set_time_limit(5);
             require_once(_XE_PATH_.'libs/ftp.class.php');
             $ftp_info =  Context::getRequestVars();

@@ -1180,33 +1180,6 @@ Lütfen son sürümü için indirme linkine tıklayınız.]]></value>
 		<value xml:lang="zh-TW"><![CDATA[此資料會儲存在 <strong>files/config/ftp.config.php</strong> 檔案中。 安裝後可在設定頁面中新增、更改或刪除此資訊。]]></value>
 		<value xml:lang="de"><![CDATA[Die Angabe wird unter <strong>files/config/ftp.config.php</strong> gespeichert. Nach der Installation ist es auch möglich, dass die Angabe von Administrator modifiziert oder gelöscht werden kann.]]></value>
 	</item>
-	<item name="msg_ftp_not_connected">
-		<value xml:lang="ko"><![CDATA[localhost로의 FTP 접속 오류가 발생했습니다. FTP 포트 번호를 확인해주시거나 FTP 서비스가 가능한지 확인해주세요.]]></value>
-		<value xml:lang="en"><![CDATA[Connection to the localhost via FTP failed. Please check the port number and whether the FTP service is available.]]></value>
-		<value xml:lang="jp"><![CDATA[localhostへのFTP接続エラーが発生しました。FTPポート(port)番号をはじめ、FTPサービスが可能であるかを確認してください。]]></value>
-		<value xml:lang="zh-CN"><![CDATA[发生本地(localhost)FTP连接错误。请确认ftp端口号及支持ftp服务与否。]]></value>
-		<value xml:lang="zh-TW"><![CDATA[本地(localhost) FTP連線錯誤。請檢查 FTP 埠口並確認是否支援 FTP 功能。]]></value>
-		<value xml:lang="fr"><![CDATA[localhost로의 FTP 접속 오류가 발생하였습니다. ftp 포트 번호를 확인해주시거나 ftp 서비스가 가능한지 확인해주세요]]></value>
-		<value xml:lang="de"><![CDATA[Ein Verbindungsfehler des FTPs an localhost ist aufgetreten. Bitte FTP_Port checken, oder ob FTP_Service möglich ist.]]></value>
-		<value xml:lang="ru"><![CDATA[Connection to localhost via FTP failed. Please check the port number and if FTP service is available.]]></value>
-		<value xml:lang="es"><![CDATA[Ha ocurrico un error de conexión al FTP del localhost. Verifique el puerto del FTP y/o el funcionamiento del servicio FTP.]]></value>
-		<value xml:lang="tr"><![CDATA[Yerel web alanına FTP bağlantısı sağlanamadı. Lütfen port numarasını ve FTP servisinin mevcut olup-olmadığını kontrol ediniz .]]></value>
-		<value xml:lang="vi"><![CDATA[Kết nối bằng FTP không thành công. Xin vui lòng kiểm tra lại thông tin tài khoản và cổng kết nối!]]></value>
-		<value xml:lang="mn"><![CDATA[localhost-ын FTP холболт амжилтгvй боллоо. FTP дугаараа шалгах буюу эсвэл FTP vйлчилгээг ашиглах боломжтой эсэхээ шалгана уу.]]></value>
-	</item>
-	<item name="msg_ftp_invalid_auth_info">
-		<value xml:lang="ko"><![CDATA[입력하신 FTP 정보로 로그인을 하지 못했습니다. FTP정보를 확인해주세요.]]></value>
-		<value xml:lang="en"><![CDATA[Authentication failed. Please check the username and password.]]></value>
-		<value xml:lang="jp"><![CDATA[ログインに失敗しました。FTPアクセス情報を再度確認してください。]]></value>
-		<value xml:lang="zh-CN"><![CDATA[FTP登录失败。请确认输入的FTP信息。]]></value>
-		<value xml:lang="zh-TW"><![CDATA[FTP登入失敗。請確認輸入的 FTP 資訊。]]></value>
-		<value xml:lang="fr"><![CDATA[입력하신 FTP 정보로 로그인을 하지 못했습니다. FTP정보를 확인해주세요]]></value>
-		<value xml:lang="de"><![CDATA[Anmeldungsfehler mit der Angabe des FTPs Bitte die Angabe des FTPs festlegen.]]></value>
-		<value xml:lang="es"><![CDATA[Los datos de login para el FTP no son correctos. Veriféquelos.]]></value>
-		<value xml:lang="tr"><![CDATA[Kimlik doğrulama başarısız oldu. Lütfen kullanıcı adını ve şifreyi kontrol ediniz.]]></value>
-		<value xml:lang="vi"><![CDATA[Xác nhận thất bại. Xin vui lòng kiểm tra lại tên sử dụng và mật khẩu.]]></value>
-		<value xml:lang="mn"><![CDATA[Таны оруулсан FTP мэдээллээр нэвтэрч чадсангvй. FTPмэдээллээ шалгана уу.]]></value>
-	</item>
 	<item name="msg_ftp_mkdir_fail">
 		<value xml:lang="ko"><![CDATA[FTP를 이용한 디렉토리 생성 명령에 실패했습니다. FTP 서버의 설정을 확인해주세요.]]></value>
 		<value xml:lang="en"><![CDATA[Failed to create a directory using FTP. Please check the permission of FTP account.]]></value>

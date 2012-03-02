@@ -218,7 +218,7 @@
 
 			if(!@ssh2_sftp_unlink($this->sftp, $target_path))
 			{
-				return new Object(-1, "failed to delete file ".$path);
+				return new Object(-1, sprintf(Context::getLang('msg_delete_file_failed'), $path));
 			}
 			return new Object();
 		}
@@ -230,7 +230,7 @@
 
 			if(!@ssh2_sftp_rmdir($this->sftp, $target_path))
 			{
-				return new Object(-1, "failed to delete directory ".$path);
+				return new Object(-1, sprintf(Context::getLang('msg_delete_dir_failed'), $path));
 			}
 			return new Object();
 		}
@@ -428,7 +428,7 @@
 
 			if(!$this->oFtp->ftp_delete($target_path))
 			{
-				return new Object(-1, "failed to delete file ".$path);
+				return new Object(-1, sprintf(Context::getLang('msg_delete_file_failed'), $path));
 			}
 			return new Object();
 		}
@@ -440,7 +440,7 @@
 
 			if(!$this->oFtp->ftp_rmdir($target_path))
 			{
-				return new Object(-1, "failed to delete directory ".$path);
+				return new Object(-1, sprintf(Context::getLang('msg_delete_dir_failed'), $path));
 			}
 			return new Object();
 		}
