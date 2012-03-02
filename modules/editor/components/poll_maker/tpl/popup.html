@@ -1,11 +1,22 @@
+<style type="text/css">
+.display_date{cursor:pointer;width:80px;float:left;border:1px solid;border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6;height:1em;padding:3px;font-family:tahoma}
+.adminTable{margin-bottom:0 !important}
+.pollButton{clear:both;overflow:hidden;border:1px solid #E3E3E2;border-top:none;background-color:#FAF8F4;padding:4px}
+.pollButton .fl{padding:5px 0 0 10px;color:#AAAAAA}
+.pollButton .fl label{vertical-align:middle;color:#888888}
+.pollButton .fr{padding:5px 10px 0 0;color:#AAAAAA}
+.pollButton .fr a{color:#444444;text-decoration:none;font-weight:bold;}
+.pollButton .fr a.delPoll{color:red;font-weight:normal;}
+li{list-style:none;margin-right:5px;float:left;color:#666666}
+li a{text-decoration:none;color:#666666;}
+#popFooter .fl{margin-left:10px}
+#popFooter .fr{margin-right:10px}
+.poll_box{margin-bottom:15px}
+</style>
 <!--%import("popup.js")-->
-<!--%import("popup.css")-->
 <!--%import("filter/insert_poll.xml")-->
 <!--%import("../lang")-->
-
-<!--// datepicker javascript plugin load -->
 <!--%load_js_plugin("ui.datepicker")-->
-
 <script type="text/javascript">
     var msg_poll_cannot_modify = "{$lang->msg_poll_cannot_modify}";
 </script>
@@ -89,6 +100,6 @@
 	<div class="btnArea">
 		<span class="btn"><input type="submit" value="{$lang->cmd_submit}" /></span>
 		<span class="btn"><button type="button" id="add_poll">{$lang->cmd_add_poll}</button></span>
-		<span class="btn"><a href="./?module=editor&amp;act=dispEditorComponentInfo&amp;component_name={$component_info->component_name}" target="_blank">{$lang->about_component}</a></span>
+		<span class="btn"><a href="./?module=editor&amp;act=dispEditorComponentInfo&amp;component_name={$component_info->component_name}" target="_blank" onclick="window.open(this.href,'ComponentInfo','width=10,height=10');return false;">{$lang->about_component}</a></span>
     </div>
 </form>

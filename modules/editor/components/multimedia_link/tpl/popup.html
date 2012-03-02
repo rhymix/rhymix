@@ -1,9 +1,7 @@
 <!--%import("../lang")-->
 <!--@if(__DEBUG__)-->
-	<load target="popup.css" />
 	<load target="popup.js" />
 <!--@else-->
-	<load target="popup.min.css" />
 	<load target="popup.min.js" />
 <!--@end-->
 <h1 class="h1">{$component_info->title} ver. {$component_info->version}</h1>
@@ -46,7 +44,7 @@
     </div>
     <div class="btnArea">
         <span class="btn"><button type="button">{$lang->cmd_insert}</button></span>
-        <span class="btn"><a href="./?module=editor&amp;act=dispEditorComponentInfo&amp;component_name={$component_info->component_name}" target="_blank">{$lang->about_component}</a></span>
+        <span class="btn"><a href="./?module=editor&amp;act=dispEditorComponentInfo&amp;component_name={$component_info->component_name}" target="_blank" onclick="window.open(this.href,'ComponentInfo','width=10,height=10');return false;">{$lang->about_component}</a></span>
     </div>
 
 </form>

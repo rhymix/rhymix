@@ -1,6 +1,14 @@
-<!--%import("popup.js")-->
-<!--%import("popup.css")-->
 <!--%import("../lang")-->
+<!--%import("popup.js")-->
+<style type="text/css">
+li{float:left;list-style:none;margin-right:5px}
+img.bg_preview_color{width:30px;height:16px;border:1px solid #000000;background-color:#FFFFFF}
+img.border_preview_color{width:30px;height:16px;border:1px solid #EEEEEE;background-color:#000000}
+img.color_icon{width:14px;height:14px;border:1px solid #FFFFFF}
+img.color_icon_over{width:14px;height:14px;border:1px solid #000000;cursor:pointer}
+.editor_color_box{clear:both;height:65px;width:400px;border:1px solid #DDDDDD;padding:2px}
+.image_list{width:100%;border:1px solid #EEEEEE;height:200px !important}
+</style>
 <h1 class="h1">{$component_info->title} ver. {$component_info->version}</h1>
 <form action="./" method="get" onSubmit="return false" id="fo">
 	<input type="hidden" name="editor_sequence" value="{$editor_sequence}" />
@@ -75,6 +83,6 @@
     </div>
     <div class="btnArea">
         <span class="btn"><button type="button" onclick="insertSlideShow()">{$lang->cmd_insert}</button></span>
-        <span class="btn"><a href="./?module=editor&amp;act=dispEditorComponentInfo&amp;component_name={$component_info->component_name}" target="_blank" onclick="window.open('this.href','ComponentInfo','width=10,height=10');return false;">{$lang->about_component}</a></span>
+        <span class="btn"><a href="./?module=editor&amp;act=dispEditorComponentInfo&amp;component_name={$component_info->component_name}" target="_blank" onclick="window.open(this.href,'ComponentInfo','width=10,height=10');return false;">{$lang->about_component}</a></span>
     </div>
 </form>

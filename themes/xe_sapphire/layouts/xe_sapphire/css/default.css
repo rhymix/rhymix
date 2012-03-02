@@ -1,12 +1,12 @@
 @charset "utf-8";
 /* NHN (developers@xpressengine.com) */
-body { margin:0;padding:0; font-size:.75em;}
+body {margin:0;padding:0;font-size:.75em}
 /* Default Skin - Start */
 #selectLang{display:none;margin:0;padding:0}
 #gnb{margin:0;padding:0}
 #lnb_Global{margin:0;padding:0}
 #lnb_Global ul{margin:0;padding:0}
-.lnb_Global li.active a{font-weight:bold;color:#fff;}
+.lnb_Global li.active a{font-weight:bold;color:#fff}
 /* Site Layout - Body Wrap */
 html{background:#fafafa url(../images/default/bg_body.gif) repeat-x 0 0;font-family:Arial}
 #bodyWrap{position:relative;width:960px;margin:0 auto}
@@ -19,10 +19,10 @@ html{background:#fafafa url(../images/default/bg_body.gif) repeat-x 0 0;font-fam
 #language dt{float:left;margin-right:5px;padding:0 9px 0 0;background:url(../images/default/line_language.gif) no-repeat 100% 12px;color:#fff}
 #language dd{float:left;position:relative;width:69px;margin:0 3px 0 0}
 #language dd a{display:block;padding:0 0 0 2px;background:url(../images/default/ico_arw.gif) no-repeat 95% 50%;color:#fff;font-size:12px;text-decoration:none}
-#language ul{position:absolute;top:30px;left:-1px;z-index:300;width:69px;background:#020202;border-radius:0 0 5px 5px; padding:0 0 5px 0}
+#language ul{position:absolute;top:30px;left:-1px;z-index:300;width:69px;background:#020202;border-radius:0 0 5px 5px;padding:0 0 5px 0}
 #language ul li{height:18px;line-height:18px;list-style:none}
-#language ul li a{display:block;padding-left:5px;background:none;color:#fff;font:11px Tahoma;text-align:left;text-decoration:none;height:18px;line-height:18px;}
-#language ul li a:hover{ background:#6c6c6c}
+#language ul li a{display:block;padding-left:5px;background:none;color:#fff;font:11px Tahoma;text-align:left;text-decoration:none;height:18px;line-height:18px}
+#language ul li a:hover{background:#6c6c6c}
 #header .search{float:left}
 #it_search_form{position:absolute;top:50px;right:15px}
 #it_search_form .input{width:120px;height:17px;border:1px solid #bc4032;color:#888;font-size:.9em}
@@ -31,20 +31,18 @@ html{background:#fafafa url(../images/default/bg_body.gif) repeat-x 0 0;font-fam
 .gnb{position:absolute;top:71px;left:0;width:960px;height:34px;height:37px;height:37px;margin:0;padding:0;background:url(../images/default/bg_gnb.gif) no-repeat 0 0;white-space:nowrap}
 .gnb ul{margin:0;padding:0}
 .gnb ul li{float:left;position:relative;height:34px;padding-left:2px;background:url(../images/default/bgGnbVr.gif) no-repeat 0 50%;line-height:34px;list-style:none}
-.gnb ul li.home{ padding-left:0; background:none}
-.gnb ul li.home_on{background:url(../images/default/bg_gnb_home.gif) no-repeat 0 0; padding-left:0}
+.gnb ul li.home{padding-left:0;background:none}
+.gnb ul li.home_on{background:url(../images/default/bg_gnb_home.gif) no-repeat 0 0;padding-left:0}
 .gnb ul li.home_on a:hover{background:none}
-.gnb ul li.home a:hover{background:url(../images/default/bg_gnb_home.gif) no-repeat 0 0;}
+.gnb ul li.home a:hover{background:url(../images/default/bg_gnb_home.gif) no-repeat 0 0}
 .gnb ul li.on a,
 .gnb ul li a:hover{background:url(../images/default/bg_gnb4.gif) repeat-x;color:#3f4140;font-weight:bold}
 .gnb ul li a{display:block;padding:0 33px;color:#3f4140;font-size:14px;font-weight:bold;text-decoration:none}
 .gnb ul li .sub{display:none;position:absolute;top:33px;left:0;z-index:300;margin:0;padding:0;border:1px solid #bbb;background:#fff;border-radius:0 0 5px 5px}
-.gnb ul li .sub li{clear:both;height:31px;margin:0;padding:0;background:none;line-height:33px;text-align:center;*zoom:1}
-.gnb ul li .sub li a{background:none;color:#9fa09f; height:31px;line-height:31px}
+.gnb ul li .sub li{clear:both;height:31px;margin:0;padding:0;background:none;line-height:33px;text-align:center;zoom:1}
+.gnb ul li .sub li a{background:none;color:#9fa09f;height:31px;line-height:31px}
 .gnb ul li .sub li a:hover,
 .gnb ul li .sub li a.subon{background:url(../images/default/bg_gnb3.gif) repeat-x;color:#fff!important;text-decoration:none}
-.gnb li.last{}
-#isSearch{}
 #isSearch .searchOrder{display:none}
 #isSearch .checked{display:block;position:absolute;top:0;left:0;width:64px;height:14px;padding:5px 0 0 5px;background:url(../images/default/bgSearchTerm.gif) no-repeat;color:#fff;font:11px '돋움', Dotum, '굴림', Gulim, AppleGothic, Sans-serif;line-height:normal;text-align:left}
 *:first-child+html #isSearch .checked{top:1px}
@@ -61,13 +59,13 @@ html{background:#fafafa url(../images/default/bg_body.gif) repeat-x 0 0;font-fam
 #isSearch .submit{_position:relative;_top:-1px;vertical-align:middle}
 *:first-child+html body#default #isSearch .submit{position:relative;top:-1px}
 /* Site Layout - Content Body */
-#contentBody{ overflow:hidden;position:relative;width:960px;margin-top:32px;margin-bottom:72px;background:url(../images/default/bg_contentBody.gif) repeat-y;*zoom:1}
+#contentBody{overflow:hidden;position:relative;width:960px;margin-top:32px;margin-bottom:72px;background:url(../images/default/bg_contentBody.gif) repeat-y;zoom:1}
 #contentBody:after{display:block;clear:both;content:''}
 /* Site Layout - Column Left */
-#columnLeft{float:left;width:195px;}
+#columnLeft{float:left;width:195px}
 #columnLeft .mask{display:block;clear:both;width:201px;height:5px;background:#fff}
 /* Site Layout - Column Right */
-#columnRight{float:right;width:730px; overflow:hidden}
+#columnRight{float:right;width:730px;overflow:hidden}
 #columnRight:after{display:block;clear:both;content:''}
 #visualArea{position:relative;left:-15px;width:770px;height:200px;margin-right:-15px;margin-bottom:2.5em;background:#f5f5f5}
 #content{overflow:hidden;width:100%}
@@ -77,24 +75,22 @@ html{background:#fafafa url(../images/default/bg_body.gif) repeat-x 0 0;font-fam
 #columnLeft .lnb_Global h2{margin:0;background:#e5e4e4 url(../images/default/ico_arw2.gif) no-repeat 92% 6px}
 #columnLeft .lnb_Global h2 a{margin:0;padding-left:22px;color:#546d82;font-size:14px;line-height:28px;text-decoration:none}
 #columnLeft .lnb_Global .list{margin:0;padding:12px 0}
-#columnLeft .lnb_Global .list li{margin:0;padding:0;line-height:22px;list-style:none;}
-#columnLeft .lnb_Global .list li a{display:block;padding-left:22px;color:#3a3a3a;text-decoration:none;*zoom:1;border-bottom:1px solid #fafafa;border-top:1px solid #fafafa;}
+#columnLeft .lnb_Global .list li{margin:0;padding:0;line-height:22px;list-style:none}
+#columnLeft .lnb_Global .list li a{display:block;padding-left:22px;color:#3a3a3a;text-decoration:none;zoom:1;border-bottom:1px solid #fafafa;border-top:1px solid #fafafa}
 #columnLeft .lnb_Global .list li a:hover,
 #columnLeft .lnb_Global .list li.on{border-bottom:1px solid #d4d4d4;border-top:1px solid #d4d4d4;background:#e5e4e4 url(../images/default/ico_arw2.gif) no-repeat 92% 5px}
-#columnLeft .lnb_Global .list li ul{ padding:0; margin:0}
-#columnLeft .lnb_Global .list li ul li{ padding-left:15px}
-
+#columnLeft .lnb_Global .list li ul{padding:0;margin:0}
+#columnLeft .lnb_Global .list li ul li{padding-left:15px}
 /* sitemap */
-.sitemap{margin:0 0 28px 0; overflow:hidden; clear:both}
-.sitemap ul{padding:0; margin:0}
-.sitemap li{ list-style:none;padding:0 28px 0 0; width:190px; display:inline-block;*display:inline;*zoom:1; vertical-align:top; overflow:hidden;  margin:0 28px 20px 0 ; border-right:1px solid #d2d2d2}
-.sitemap li.last{ border-right:0; margin:0; padding:0}
+.sitemap{margin:0 0 28px 0;overflow:hidden;clear:both}
+.sitemap ul{padding:0;margin:0}
+.sitemap li{list-style:none;padding:0 28px 0 0;width:190px;display:inline-block;*display:inline;zoom:1;vertical-align:top;overflow:hidden; margin:0 28px 20px 0 ;border-right:1px solid #d2d2d2}
+.sitemap li.last{border-right:0;margin:0;padding:0}
 .sitemap .list{margin:0;padding:0}
-.sitemap .list dt{ font-weight:bold; font-size:14px; margin-bottom:19px;}
-.sitemap .list dt a{ color:#3a3a3a; text-decoration:none}
-.sitemap .list dd{ margin:0; padding:0; background:url(../images/default/bu_v1.gif) no-repeat 0 50%; padding-left:10px; line-height:20px}
-.sitemap .list dd a{ color:#3a3a3a; text-decoration:none}
-
+.sitemap .list dt{font-weight:bold;font-size:14px;margin-bottom:19px}
+.sitemap .list dt a{color:#3a3a3a;text-decoration:none}
+.sitemap .list dd{margin:0;padding:0;background:url(../images/default/bu_v1.gif) no-repeat 0 50%;padding-left:10px;line-height:20px}
+.sitemap .list dd a{color:#3a3a3a;text-decoration:none}
 /* Site Layout - Footer */
 #footer{clear:both;margin:0;padding:11px 0 46px;border-top:1px solid #dbdbdb;text-align:left}
 #footer li.first-child{background:none}

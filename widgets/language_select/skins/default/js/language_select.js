@@ -1,5 +1,5 @@
 jQuery(function(){
-    jQuery('.language_selector','div.widgetLanguage').click(function(){
+    jQuery('.language_selector','div.wgLanguage').click(function(){
         var c = jQuery(this).parent();
         var langList = c.next('ul.langList');
         langList.toggle();

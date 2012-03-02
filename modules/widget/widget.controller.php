@@ -434,20 +434,20 @@
                             $oEditorController = &getController('editor');
                             $body = $oEditorController->transComponent($body);
 
-                            $widget_content_header = sprintf('%s<div class="wgWrap" style="display:inline-block;*display:inline;*zoom:1;vertical-align:top;%s">', $args->id, $style,  $inner_style);
+                            $widget_content_header = sprintf('%s<div class="wgWrap" style="display:inline-block;*display:inline;zoom:1;vertical-align:top;%s">', $args->id, $style,  $inner_style);
                             $widget_content_body = $body;
                             $widget_content_footer = '</div>';
 
                         break;
                     // If the widget box; it could
                     case 'widgetBox' :
-                            $widget_content_header = sprintf('%s<div class="wgWrap" style="display:inline-block;*display:inline;*zoom:1;vertical-align:top;%s"><div class="deprecated"><div class="deprecated">', $args->id, $style,  $inner_style);
+                            $widget_content_header = sprintf('%s<div class="wgWrap" style="display:inline-block;*display:inline;zoom:1;vertical-align:top;%s"><div class="deprecated"><div class="deprecated">', $args->id, $style,  $inner_style);
                             $widget_content_body = $widgetbox_content;
 
                         break;
                     // If the General wijetil
                     default :
-                            $widget_content_header = sprintf('%s<div class="wgWrap" style="display:inline-block;*display:inline;*zoom:1;vertical-align:top;%s">',$args->id,$style);
+                            $widget_content_header = sprintf('%s<div class="wgWrap" style="display:inline-block;*display:inline;zoom:1;vertical-align:top;%s">',$args->id,$style);
                             $widget_content_body = sprintf('%s<div class="deprecated">%s</div>', $inner_style,$widget_content);
                             $widget_content_footer = '</div>';
                         break;

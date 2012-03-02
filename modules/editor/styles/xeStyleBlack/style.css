@@ -21,13 +21,13 @@
 .xe_content h4,
 .xe_content h5,
 .xe_content h6{line-height:1.2;clear:both}
-.xe_content h1{font-size:22px;border-bottom:4px solid #666;background-color:#000;*border-bottom:1px solid #999;*zoom:1;*filter:progid:DXImageTransform.Microsoft.dropshadow(OffX='0', OffY='4', Color='#666666', positive='true')}
+.xe_content h1{font-size:22px;border-bottom:4px solid #666;background-color:#000;*border-bottom:1px solid #999;zoom:1;*filter:progid:DXImageTransform.Microsoft.dropshadow(OffX='0', OffY='4', Color='#666666', positive='true')}
 .xe_content h1:after{content:"";display:block;font-size:0;line-height:0;overflow:hidden;height:1px;background:#999}
-.xe_content h2{font-size:20px;border-bottom:3px solid #666;background-color:#000;*border-bottom:1px solid #999;*zoom:1;*filter:progid:DXImageTransform.Microsoft.dropshadow(OffX='0', OffY='3', Color='#666666', positive='true')}
+.xe_content h2{font-size:20px;border-bottom:3px solid #666;background-color:#000;*border-bottom:1px solid #999;zoom:1;*filter:progid:DXImageTransform.Microsoft.dropshadow(OffX='0', OffY='3', Color='#666666', positive='true')}
 .xe_content h2:after{content:"";display:block;font-size:0;line-height:0;overflow:hidden;height:1px;background:#999}
-.xe_content h3{font-size:18px;border-bottom:2px solid #666;background-color:#000;*border-bottom:1px solid #999;*zoom:1;*filter:progid:DXImageTransform.Microsoft.dropshadow(OffX='0', OffY='2', Color='#666666', positive='true')}
+.xe_content h3{font-size:18px;border-bottom:2px solid #666;background-color:#000;*border-bottom:1px solid #999;zoom:1;*filter:progid:DXImageTransform.Microsoft.dropshadow(OffX='0', OffY='2', Color='#666666', positive='true')}
 .xe_content h3:after{content:"";display:block;font-size:0;line-height:0;overflow:hidden;height:1px;background:#999}
-.xe_content h4{font-size:16px;border-bottom:1px solid #666;background-color:#000;*border-bottom:1px solid #999;*zoom:1;*filter:progid:DXImageTransform.Microsoft.dropshadow(OffX='0', OffY='1', Color='#666666', positive='true')}
+.xe_content h4{font-size:16px;border-bottom:1px solid #666;background-color:#000;*border-bottom:1px solid #999;zoom:1;*filter:progid:DXImageTransform.Microsoft.dropshadow(OffX='0', OffY='1', Color='#666666', positive='true')}
 .xe_content h4:after{content:"";display:block;font-size:0;line-height:0;overflow:hidden;height:1px;background:#999}
 .xe_content h5{font-size:14px;border-bottom:1px solid #666}
 .xe_content h6{font-size:12px;border-bottom:1px dotted #666}

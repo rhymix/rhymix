@@ -14,7 +14,7 @@
 #loginAccess #warning{display:none;margin:0 0 20px 0}
 #loginAccess #warning.open{display:block}
 #loginAccess #warning p{margin:0}
-#loginAccess .buttonArea{position:relative;margin:0 28px;padding:0;color:#767676;*zoom:1}
+#loginAccess .buttonArea{position:relative;margin:0 28px;padding:0;color:#767676;zoom:1}
 #loginAccess .buttonArea .keeping{position:relative;margin:0 0 20px 0;height:32px;line-height:32px}
 #loginAccess #gLogin .buttonArea .buttonAccount{position:absolute;top:0;right:0}
 #loginAccess .buttonAccount,

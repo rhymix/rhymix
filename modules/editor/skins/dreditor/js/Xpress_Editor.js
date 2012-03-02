@@ -5871,7 +5871,7 @@ xe.XE_Table = jQuery.Class({
 		this._startSel = null;
 		this._endSel   = null;
 
-		if (!sel.length || !this._isLeftClicked(event.button)) return;
+		if (!sel.length || !this._isLeftClicked(event.btn)) return;
 
 		function delayed(){
 			sel = app.getSelection().cloneRange();
@@ -5906,7 +5906,7 @@ xe.XE_Table = jQuery.Class({
 		var self = this;
 
 		// 마우스 왼쪽 버튼이 눌리지 않았으면 종료
-		if (!cell.length || !this._isLeftClicked(event.button)) return;
+		if (!cell.length || !this._isLeftClicked(event.btn)) return;
 		if (!this._endSel && cell.get(0) == this._startSel.get(0)) return;
 		if (this._endSel && cell.get(0) == this._endSel.get(0)) return;
 

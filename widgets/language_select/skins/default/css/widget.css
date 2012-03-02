@@ -1,18 +1,16 @@
 @charset "utf-8";
-
-/* widgetLanguage */
-.widgetLanguage p{ float:right; margin:0;}
-.widgetLanguage .langList { display:none; position:absolute; margin:0; padding:0; z-index:999;}
-.widgetLanguage .langList  li{ list-style:none;}
-.widgetLanguage .langList  li a{ font-size:12px; display:block; padding:2px 5px;}
-.widgetLanguage p a{ color:#b3b3b3;}
-.widgetLanguage .langList { background:#fff; border:1px solid #ccc;}
-.widgetLanguage .langList  a{ color:#333;}
-
-.wgContainer.black .widgetLanguage p{ float:right; margin:0;}
-.wgContainer.black .widgetLanguage .langList { display:none; position:absolute; margin:0; padding:0; z-index:999;}
-.wgContainer.black .widgetLanguage .langList  li{ list-style:none;}
-.wgContainer.black .widgetLanguage .langList  li a{ font-size:12px; display:block; padding:2px 5px;}
-.wgContainer.black .widgetLanguage p a{ color:#b3b3b3;}
-.wgContainer.black .widgetLanguage .langList { background:#fff; border:1px solid #ccc;}
-.wgContainer.black .widgetLanguage .langList  a{ color:#333;}
+/* wgLanguage */
+.wgLanguage p{float:right;margin:0}
+.wgLanguage .langList {display:none;position:absolute;margin:0;padding:0;z-index:999}
+.wgLanguage .langList  li{list-style:none}
+.wgLanguage .langList  li a{font-size:12px;display:block;padding:2px 5px}
+.wgLanguage p a{color:#b3b3b3}
+.wgLanguage .langList {background:#fff;border:1px solid #ccc}
+.wgLanguage .langList  a{color:#333}
+.wgContainer.black .wgLanguage p{float:right;margin:0}
+.wgContainer.black .wgLanguage .langList {display:none;position:absolute;margin:0;padding:0;z-index:999}
+.wgContainer.black .wgLanguage .langList  li{list-style:none}
+.wgContainer.black .wgLanguage .langList  li a{font-size:12px;display:block;padding:2px 5px}
+.wgContainer.black .wgLanguage p a{color:#b3b3b3}
+.wgContainer.black .wgLanguage .langList {background:#fff;border:1px solid #ccc}
+.wgContainer.black .wgLanguage .langList  a{color:#333}

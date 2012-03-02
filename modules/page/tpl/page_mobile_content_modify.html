@@ -1,36 +1,32 @@
 <!--%import("filter/insert_mpage_content.xml")-->
 <load target="js/page_admin.js" usecdn="true" />
-<load target="css/page.css" usecdn="true" />
-
 <load target="../../widget/tpl/js/widget.js" usecdn="true" />
 <load target="../../widget/tpl/css/widget.css" usecdn="true" />
 
 <div id="wgArea">{$page_content}</div>
-<div class="adminLayer">
-    <form action="./" method="post" id="pageFo" onsubmit="return doSubmitMPageContent(this);">
-        <input type="hidden" name="mid" value="{$module_info->mid}" />
-        <input type="hidden" name="module" value="page" />
-        <input type="hidden" name="act" value="dispPageAdminContentModify" />
-        <input type="hidden" name="module_srl" value="{$module_info->module_srl}" />
-        <input type="hidden" name="content" value="{htmlspecialchars($content)}" />
-		<input type="hidden" name="type" value="mobile" />
+<form action="./" method="post" id="pageFo" onsubmit="return doSubmitMPageContent(this);">
+	<input type="hidden" name="mid" value="{$module_info->mid}" />
+	<input type="hidden" name="module" value="page" />
+	<input type="hidden" name="act" value="dispPageAdminContentModify" />
+	<input type="hidden" name="module_srl" value="{$module_info->module_srl}" />
+	<input type="hidden" name="content" value="{htmlspecialchars($content)}" />
+	<input type="hidden" name="type" value="mobile" />
 
-        <div class="btnArea">
-            <div class="etc">
-                <span class="btn"><input type="button" value="{$lang->cmd_box_widget_insert}" onclick="doAddWidgetBox(); return false;" /></span>
-                <span class="btn"><input type="button" value="{$lang->cmd_content_insert}" onclick="doAddContent('{$module_info->mid}'); return false;" /></span>
-                <select name="widget_list">
-                    <!--@foreach($widget_list as $widget)-->
-                    <option value="{$widget->widget}" <!--@if($widget->widget=='content')-->selected="selected"<!--@end-->>{$widget->title}</option>
-                    <!--@end-->
-                </select>
-                <span class="btn"><input type="button" value="{$lang->cmd_insert}" onclick="doAddWidget(this.form); return false;"/></span>
-            </div>
-			<span class="btn"><input type="submit" value="{$lang->cmd_save}"/></span>
-			<span class="btn"><input type="button" value="{$lang->cmd_remove_all_widgets}" onclick="removeAllWidget();return false;"/></span>
-    </form>
-</div>
-
+	<div class="btnArea">
+		<div class="etc">
+			<span class="btn"><input type="button" value="{$lang->cmd_box_widget_insert}" onclick="doAddWidgetBox(); return false;" /></span>
+			<span class="btn"><input type="button" value="{$lang->cmd_content_insert}" onclick="doAddContent('{$module_info->mid}'); return false;" /></span>
+			<select name="widget_list">
+				<!--@foreach($widget_list as $widget)-->
+				<option value="{$widget->widget}" <!--@if($widget->widget=='content')-->selected="selected"<!--@end-->>{$widget->title}</option>
+				<!--@end-->
+			</select>
+			<span class="btn"><input type="button" value="{$lang->cmd_insert}" onclick="doAddWidget(this.form); return false;"/></span>
+		</div>
+		<span class="btn"><input type="submit" value="{$lang->cmd_save}"/></span>
+		<span class="btn"><input type="button" value="{$lang->cmd_remove_all_widgets}" onclick="removeAllWidget();return false;"/></span>
+</form>
+	
 <div id="wgBtnArea" class="wgBtnArea">
     <button type="button" class="wgStyle" title="Style"></button>
     <button type="button" class="wgSetup" title="Setup"></button>
