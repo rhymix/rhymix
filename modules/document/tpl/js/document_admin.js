@@ -22,7 +22,7 @@ function doManageDocument(type) {
 /* 선택된 글의 삭제 또는 이동 후 */
 function completeManageDocument(ret_obj) {
     if(opener) { 
-        opener.window.location.href = opener.window.current_url.setQuery('document_srl','');
+        opener.window.location.href = opener.window.current_url;
     }
     alert(ret_obj['message']);
     window.close();
