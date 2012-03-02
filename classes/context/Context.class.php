@@ -781,9 +781,13 @@ class Context {
 		static $url = null;
 		if(is_null($url)) {
 			$url = Context::getRequestUri();
-			if(count($_GET)) {
-				foreach($_GET as $key => $val) $vars[] = $key.'='.urlencode(Context::convertEncodingStr($val));
-				$url .= '?'.implode('&',$vars);
+			if(count($_GET))
+			{
+				foreach($_GET as $key => $val)
+				{
+					$vars[] = $key . '=' . ($val ? urlencode(Context::convertEncodingStr($val)) : '');
+				}
+				$url .= '?' . join('&', $vars);
 			}
 		}
 		return $url;
@@ -1458,4 +1462,3 @@ class Context {
 		$map[$key] = $content;
 	}
 }
-?>
