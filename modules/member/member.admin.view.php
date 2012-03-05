@@ -177,7 +177,7 @@
 			$security->encodeHTML('extend_form_list..');
 			$security->encodeHTML('extend_form_list..default_value.');			
 			
-			$formTags = $this->_getMemberInputTag($memberInfo);			
+			$formTags = $this->_getMemberInputTag($memberInfo, true);			
 			Context::set('formTags', $formTags);			
 			$member_config = $oMemberModel->getMemberConfig();			
 			
@@ -189,7 +189,7 @@
 			$this->setTemplateFile('insert_member');
         }
 
-		function _getMemberInputTag($memberInfo){
+		function _getMemberInputTag($memberInfo, $isAdmin = false){
             $oMemberModel = &getModel('member');
             $extend_form_list = $oMemberModel->getCombineJoinForm($memberInfo);
 			
@@ -205,7 +205,14 @@
 				unset($formTag);
 				$inputTag = '';
 				$formTag->title = $formInfo->title;
-				if ($formInfo->required || $formInfo->mustRequired && $formInfo->name != 'password') $formTag->title = $formTag->title.' <em style="color:red">*</em>';
+				if($isAdmin)
+				{
+					if($formInfo->mustRequired) $formTag->title = $formTag->title.' <em style="color:red">*</em>';
+				}
+				else
+				{
+					if ($formInfo->required && $formInfo->name != 'password') $formTag->title = $formTag->title.' <em style="color:red">*</em>';
+				}
 				$formTag->name = $formInfo->name;
 
 				if($formInfo->isDefaultForm){
