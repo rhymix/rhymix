@@ -158,37 +158,34 @@ $.fn.xeMenu = function(){
 		.attr('role', 'navigation') // WAI-ARIA role
 		.find('li')
 			.attr('role', 'menuitem') // WAI-ARIA role
-			.find('>ul').hide().end()
+			.find('>ul').css('height','0').end()
 			.filter(':has(>ul)')
 				.attr('aria-haspopup', 'true') // WAI-ARIA
 			.end()
 		.end()
-		.delegate('li', {
-			mouseover : function(){
-				$(this)
-					.addClass('active')
-					.find('>ul').show().end()
-					.parentsUntil('.gnb')
-						.filter('li').addClass('active').end()
-					.end()
-			},
-			mouseleave : function(){
-				$(this)
-					.removeClass('active')
-					.find('>ul').hide();
-			},
-			focusout : function(){
-				var $this = $(this);
-				setTimeout(function(){
-					if(!$this.find(':focus').length) {
-						$this.removeClass('active').find('>ul').hide();
-					}
-				}, 1);
-			}
+		.mouseover(function(){
+			$(this)
+				.addClass('active')
+				.find('>ul>li>ul').css('height','auto').end()
+				.find('>.bmk>.tgContent').show();
+		})
+		.mouseleave(function(){
+			$(this)
+				.removeClass('active')
+				.find('>ul>li>ul').css('height','0').end()
+				.find('>.bmk>.tgContent').hide();
+		})
+		.focusout(function(){
+			var $this = $(this);
+			setTimeout(function(){
+				if(!$this.find(':focus').length) {
+					$this.removeClass('active').find('>ul>li>ul').css('height','0');
+				}
+			}, 1);
 		})
 		.delegate('a', {
 			focus : function(){
-				$(this).parent('li').mouseover();
+				$(this).mouseover();
 			}
 		});
 };
@@ -196,6 +193,7 @@ $.fn.xeMenu = function(){
 $('div.gnb').xeMenu();
 
 });
+
 
 // Modal Window
 jQuery(function($){

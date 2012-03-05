@@ -118,22 +118,26 @@ header,footer,section,article,aside,nav,hgroup,details,menu,figure,figcaption{di
 .x .form .tgForm{margin-right:1em}
 /* Global Navigation Bar */
 .x .gnb{position:relative;clear:both;border:1px solid #c1c1c1;border-left:0;border-right:0;background-color:#efefef;background:#efefef -webkit-gradient(linear, 0% 0%, 0% 100%, from(#efefef), to(#dcdcdc));background:#efefef -moz-linear-gradient(top, #efefef, #dcdcdc);filter:progid:DXImageTransform.Microsoft.gradient(startColorStr=#efefef, endColorStr=#dcdcdc);zoom:1}
-.x .gnb ul{margin:0;padding:0 0 0 20px;list-style:none;border:1px solid #fff;border-left:0;border-right:0;zoom:1}
-.x .gnb ul ul{position:absolute;top:30px;left:0;border:1px solid #ccc;border-top:0;padding:1px 0 0 0;background:#fff}
+.x .gnb.active{border-bottom:0;border-radius:0 0 5px 5px}
+.x .gnb ul{position:relative;display:inline-block;*display:inline;zoom:1;margin:0 0 0 20px;padding:1px;list-style:none}
+.x .gnb ul ul{_position:absolute;display:block;_display:inline;zoom:1;clear:both;margin:0;padding:0;border:0;overflow:hidden}
+.x .gnb.active ul{box-shadow:0 0 10px #999;padding:1px 5px 5px 5px;margin:0 -5px 0 15px;border:1px solid #ccc;border-top:0;border-bottom:0;background:#fff}
+.x .gnb.active ul ul{_position:relative;box-shadow:none;display:block;_display:inline;clear:both;padding:0;margin:0;border:0}
 .x .gnb ul:after{content:"";display:block;clear:both}
-.x .gnb li{position:relative;float:left;border:1px solid #fff;border-top:0;border-bottom:0;margin:0 -1px 0 0}
-.x .gnb li li{float:none;clear:both;overflow:hidden;border:0;border-top:1px dotted #ccc;margin:0;padding:2px}
+.x .gnb li{position:relative;display:inline-block;*display:inline;zoom:1;vertical-align:top;overflow:hidden;margin:0 -1px 0 0;*margin:0 -5px 0 0}
+.x .gnb li.activeOn{z-index:10}
+.x .gnb li.activeOn>a{border:1px solid #ccc}
+.x .gnb li li{display:block;_float:left;clear:both;overflow:hidden;border:0;margin:0}
 .x .gnb li li:first-child{border:0}
-.x .gnb li a{float:left;font-weight:bold;color:#333;font-size:12px;height:14px;padding:8px 18px;white-space:nowrap;text-decoration:none;text-shadow:0 1px 0 #fff;zoom:1}
+.x .gnb li a{display:block;_float:left;font-weight:bold;color:#333;font-size:12px;height:14px;padding:9px 15px;white-space:nowrap;text-decoration:none;text-shadow:0 1px 0 #fff;zoom:1;border:1px solid #fff;border-top:0;border-bottom:0;*border:0}
 .x .gnb li a:hover,
 .x .gnb li a:active,
-.x .gnb li a:focus,
-.x .gnb li.active a{background:#f4f4f4;border:1px solid #ccc;border-bottom:0;padding:7px 17px 8px 17px}
-.x .gnb li.activeOn a{background:#fff;border:1px solid #ccc;border-bottom:0;padding:7px 17px 8px 17px}
-.x .gnb li.active li a{display:block;float:none;color:#555;background:#fff;padding:5px 15px !important;font-weight:normal !important;border:0 !important}
-.x .gnb li.active li a:hover,
-.x .gnb li.active li a:active,
-.x .gnb li.active li a:focus{border:0;background:#eee}
+.x .gnb li a:focus{background:#f4f4f4}
+.x .gnb li.activeOn>a{background:#fff;padding:8px 15px}
+.x .gnb li li a{color:#555;background:#fff;padding:5px 15px !important;font-weight:normal !important;border:0 !important}
+.x .gnb li li a:hover,
+.x .gnb li li a:active,
+.x .gnb li li a:focus{border:0;background:#eee}
 .x .gnb .setting{position:absolute;top:8px;right:2em;width:16px;height:0;padding:16px 0 0 0;overflow:hidden;background:url(../img/iconSetting.gif) no-repeat center}
 .x .gnb.jx ul{display:block;position:static;padding:0}
 .x .gnb.jx li{float:none;clear:both;border-top:1px solid #ccc}
@@ -160,10 +164,11 @@ header,footer,section,article,aside,nav,hgroup,details,menu,figure,figcaption{di
 .x .gnb li.activeOn>a{background:#ddd}
 }
 /* Favorite */
-.x .bmk{position:absolute;right:20px;bottom:10px;padding:0 0 0 20px;background:url(../img/iconFavorite.gif) no-repeat 0 -16px}
+.x .bmk{position:absolute;right:20px;top:10px;padding:0 0 0 20px;background:url(../img/iconFavorite.gif) no-repeat 0 -16px}
 .x .bmk>a{text-shadow:0 1px 0 #fff}
-.x .bmk ul{position:absolute;top:140%;right:0;list-style:none;margin:0;padding:5px 10px;border:1px solid #aaa;border-radius:5px;background:#fff;box-shadow:1px 1px 3px #aaa}
-.x .bmk li{position:relative;padding:3px 30px 3px 0;white-space:nowrap}
+.x .bmk ul{position:absolute;top:24px;right:0;list-style:none;margin:0 !important;padding:5px 10px !important;border:1px solid #aaa;border-radius:5px;background:#fff;box-shadow:1px 1px 3px #aaa}
+.x .bmk li{display:block;position:relative;padding:3px 20px 3px 0 !important;white-space:nowrap}
+.x .bmk li a{padding:0;background:none !important;font-weight:normal}
 .x .bmk li .action{position:absolute;top:0;right:0}
 .x .bmk li .action .text{text-decoration:none;width:16px;text-align:center;margin:0}
 @media only all and (max-width:640px){
@@ -266,19 +271,19 @@ body.modalContainer{_height:100%;_width:100%} /* IE6 only */
 .x .h2Anchor{position:absolute;right:0;border:0;background:none;color:#00f;text-decoration:underline}
 /* Skip Navigation */
 .x .skipNav{margin:0;text-align:center}
-.x .skipNav a{position:absolute;width:1px;height:1px;display:block;font-weight:bold;padding:10px 0}
+.x .skipNav a{position:absolute;width:1px;height:1px;display:block;font-weight:bold;overflow:hidden}
 .x .skipNav a:hover,
 .x .skipNav a:active,
-.x .skipNav a:focus{position:relative;width:auto;height:auto}
+.x .skipNav a:focus{position:relative;width:auto;height:auto;padding:10px 0}
 /* Header */
-.x .header{position:relative;z-index:2;padding:30px 0 0 0;background:#4c4c4c;box-shadow:0 0 10px #aaa;zoom:1;border-radius:5px 5px 0 0}
+.x .header{position:relative;z-index:2;padding:30px 0 0 0;background:#4c4c4c;box-shadow:0 0 10px #aaa;zoom:1;border-radius:6px}
 .x .header:after{content:"";display:block;clear:both}
 .x .header a{text-decoration:none}
-.x .header h1{margin:0 15px 10px 20px;font-size:24px;line-height:32px;display:inline-block;zoom:1}
+.x .header h1{margin:0 15px 10px 20px;font-size:24px;line-height:32px;display:inline-block;*display:inline;zoom:1;vertical-align:middle}
 .x .header h1 *{vertical-align:middle}
 .x .header h1 a{color:#fff;text-shadow:1px 1px 0 #000;filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=1, OffY=1, Color=#000000, Positive=true);zoom:1}
 .x .header h1 .url{font-size:12px;font-weight:normal}
-.x .header .site{margin:0;display:inline-block;zoom:1}
+.x .header .site{margin:0;display:inline-block;*display:inline;zoom:1}
 .x .header .site a{color:#fff;text-decoration:underline}
 .x .header #moveSiteList{padding:10px 1em 5px 1em;margin:0}
 .x .header #moveSiteList ul{list-style:none;margin:0;padding:0}
