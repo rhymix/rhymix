@@ -1820,13 +1820,13 @@
 		<value xml:lang="vi"><![CDATA[Cho phép thành viên đăng kí.]]></value>
 	</item>
 	<item name="about_enable_confirm">
-		<value xml:lang="ko"><![CDATA[입력된 메일 주소로 인증 메일을 보내 회원 가입을 확인 합니다.]]></value>
+		<value xml:lang="ko"><![CDATA[입력된 메일 주소로 인증 메일을 보내 회원 가입을 확인합니다.]]></value>
 		<value xml:lang="en"><![CDATA[Please check if you want new members to activate their accounts via their emails.]]></value>
 		<value xml:lang="jp"><![CDATA[登録されたメールアドレスに確認メールを送信し、会員登録を確認します。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[为激活会员注册信息，将向会员输入的邮件地址发送注册认证邮件。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[為確認會員註冊資料，會向會員輸入的郵件地址發送註冊認證郵件。]]></value>
 		<value xml:lang="fr"><![CDATA[Envoyer mél de confirmation pour compléter l'inscription.]]></value>
-		<value xml:lang="es"><![CDATA[입력된 메일 주소로 인증 메일을 보내 회원 가입을 확인 합니다]]></value>
+		<value xml:lang="es"><![CDATA[입력된 메일 주소로 인증 메일을 보내 회원 가입을 확인합니다]]></value>
 		<value xml:lang="tr"><![CDATA[Yeni üyelerin hesaplarını e-posta yoluyla etkinleştirmelerini istiyorsanız lütfen işaretleyiniz.]]></value>
 		<value xml:lang="vi"><![CDATA[Gửi Email xác nhận sau khi đăng kí.]]></value>
 	</item>
