@@ -1,0 +1,48 @@
+<include target="header.html" />
+<load target="js/waiting.js" usecdn="true" />
+
+<h2 class="h2">{$package->title} ver. {$package->version}</h2>
+<p cond="$package->installed">{$lang->current_version}: {$package->cur_version} <block cond="$package->need_update">({$lang->require_update})</block></p>
+<p cond="!$package->installed">{$lang->require_installation}</p>
+<block cond="$package->depends">
+	<p>{$lang->about_depending_programs}</p>
+	<ul>
+	<li loop="$package->depends => $dep">
+		{$dep->title} ver. {$dep->version} -
+		<block cond="$dep->installed">{$lang->current_version}: {$dep->cur_version} <block cond="$dep->need_update">({$lang->require_update})</block></block>
+		<block cond="!$dep->installed">{$lang->require_installation}</block>
+		<block cond="$show_ftp_note && ($dep->need_update || !$dep->installed)">
+			<a href="{_XE_DOWNLOAD_SERVER_}?module=resourceapi&act=procResourceapiDownload&package_srl={$dep->package_srl}">{$lang->cmd_download}</a> ({$lang->path}: {$dep->path})
+		</block>
+	</li>
+	</ul>
+</block>
+
+<block cond="!$package->installed || $package->need_update">
+	<block cond="$show_ftp_note">
+		<p>{$lang->description_download}. (<a href="{getUrl('', 'module', 'admin', 'act', 'dispAdminConfigFtp')}">FTP Setup</a>)</p>
+		<p>{$lang->path}: {$package->path}</p>
+		<p><a href="{_XE_DOWNLOAD_SERVER_}?module=resourceapi&act=procResourceapiDownload&package_srl={$package->package_srl}">{$lang->cmd_download}</a>
+	</block>
+	<block cond="!$show_ftp_note">
+		<p>{$lang->description_install}</p>
+		<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+			<p>{$XE_VALIDATOR_MESSAGE}</p>
+		</div>
+		<form action="./" class="form" method="post" ruleset="ftp">
+			<input type="hidden" name="module" value="autoinstall" />
+			<input type="hidden" name="act" value="procAutoinstallAdminPackageinstall" />
+			<input type="hidden" name="package_srl" value="{$package->package_srl}" />
+			<input type="hidden" name="return_url" value="{$return_url}" />
+			<input cond="!$need_password" type="hidden" name="ftp_password" value="dummy" />
+
+			<block cond="$need_password">
+				<p class="q"><label for="ftp_password">FTP {$lang->password}</label></p>
+				<p class="a"><input type="password" name="ftp_password" id="ftp_password" value="" /> <span class="desc">{$lang->about_ftp_password}</span></p>
+			</block>
+			<div class="btnArea">
+				<span class="btn medium"><input type="submit" value="{$package->installed?$lang->update:$lang->install}" /></span>
+			</div>
+		</form>
+	</block>
+</block>

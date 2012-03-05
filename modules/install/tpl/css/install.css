@@ -2,13 +2,13 @@
 /* NHN (developers@xpressengine.com) */
 /* Element Reset */
 html, body{margin:0}
-body, input, textarea, select, table, button{font-family:Tahoma, Geneva, sans-serif;font-size:12px}
-img, fieldset{border:0}
-form, fieldset{margin:0;padding:0}
-em, address{font-style:normal}
+body, input, textarea, select, table, button {font-family:Tahoma, Geneva, sans-serif;font-size:12px}
+img, fieldset {border:0}
+form, fieldset {margin:0;padding:0}
+em, address {font-style:normal}
 button{margin:0;padding:0;overflow:visible;cursor:pointer}
-a{text-decoration:none}
-a:hover, a:active, a:focus{text-decoration:underline}
+a {text-decoration:none}
+a:hover, a:active, a:focus {text-decoration:underline}
 /* Common Class */
 .iText{border:1px solid #b7b7b7;border-right-color:#e1e1e1;border-bottom-color:#e1e1e1;background:transparent}
 .iCheck, .iRadio{width:13px;height:13px;margin:0;padding:0;vertical-align:middle}
@@ -20,19 +20,19 @@ html{height:100%;background:url(../img/bgHtml.gif) repeat-x 0 0}
 #xei #header h1{margin:0}
 #xei #header em{position:absolute;top:10px;right:20px;font-weight:bold;font-size:14px;color:#eee}
 #xei #header em strong{font-size:20px;color:#F60}
-#xei #body{width:580px;padding:0 0 0 220px;position:relative;overflow:hidden;zoom:1}
+#xei #body{width:580px;padding:0 0 0 220px;position:relative;overflow:hidden;*zoom:1}
 #xei #body:after{content:"";display:block;clear:both}
-#xei #body .dummy{position:absolute;left:0;top:287px;display:block;width:219px;height:1000px;background:#484848;zoom:1}
+#xei #body .dummy{position:absolute;left:0;top:287px;display:block;width:219px;height:1000px;background:#484848;*zoom:1}
 #xei #progress{position:absolute;left:0;top:0;width:219px}
 #xei #progress ul{list-style:none;margin:0;padding:0}
-#xei #progress li{position:relative;margin:0 0 1px 0;vertical-align:top;line-height:40px;color:#999;text-indent:30px;background-color:#555;background-image:url(../img/icoStatus.gif);background-repeat:no-repeat;background-position:10px 0;zoom:1}
+#xei #progress li{position:relative;margin:0 0 1px 0;vertical-align:top;line-height:40px;color:#999;text-indent:30px;background-color:#555;background-image:url(../img/icoStatus.gif);background-repeat:no-repeat;background-position:10px 0;*zoom:1}
 #xei #progress li.done{background-position:10px -40px}
 #xei #progress li.active{background-color:#666;background-position:10px -80px;font-weight:bold;color:#fff;margin-right:-1px}
 #xei #content{position:relative;width:580px;min-height:328px;_height:328px;padding:20px 0 60px 0;background:#666}
 /* Button */
 .ibtn,
 .ibtn *{position:relative;margin:0;padding:0;display:inline-block;height:30px;line-height:30px;text-decoration:none !important;border:0;font-size:12px;font-family:Tahoma, Sans-serif;white-space:nowrap;background:url(../img/btnPack.gif) no-repeat;vertical-align:top;overflow:visible;color:#eee}
-.ibtn{margin-right:4px;background-position:left -30px}
+.ibtn {margin-right:4px;background-position:left -30px}
 .ibtn *{left:4px;cursor:pointer;_cursor:hand;padding:0 10px 0 6px;background-position:right -30px}
 .ibtn *:hover,
 .ibtn *:active,
@@ -44,7 +44,7 @@ html{height:100%;background:url(../img/bgHtml.gif) repeat-x 0 0}
 .ibtn .back{background-position:-14px -146px}
 .ibtn .monitor{background-position:-37px -147px}
 /* Button Area */
-.ibtnArea{position:absolute;bottom:0;right:0;width:540px;margin:0;padding:15px 20px;text-align:center;zoom:1;color:#fff;border-top:1px solid #444;background:#555}
+.ibtnArea{position:absolute;bottom:0;right:0;width:540px;margin:0;padding:15px 20px;text-align:center;*zoom:1;color:#fff;border-top:1px solid #444;background:#555}
 .ibtnArea:after{content:"";display:block;clear:both}
 .ibtnArea .fLeft{float:left}
 .ibtnArea .fRight{float:right}
@@ -58,14 +58,14 @@ html{height:100%;background:url(../img/bgHtml.gif) repeat-x 0 0}
 .table td{border:0;padding:8px 15px;vertical-align:top;text-align:left}
 .table th{color:#eee}
 .table td{color:#eee}
-.table td strong{color:#f60}
+.table td strong {color:#f60}
 .table thead th{border-bottom:1px solid #484848;background:#f8f8f8}
 .table tbody th{border-bottom:1px solid #484848;background:#555;white-space:nowrap}
 .table tfoot th{border-bottom:1px solid #484848}
 .table tbody td{border-bottom:1px solid #484848}
 .table tfoot td{border-bottom:1px solid #484848;font-weight:bold;color:#333}
 /* Select */
-.select{position:relative;line-height:normal;display:inline-block;*display:inline;vertical-align:middle;background:#555;text-align:left;zoom:1}
+.select{position:relative;line-height:normal;display:inline-block;*display:inline;vertical-align:middle;background:#555;text-align:left;*zoom:1}
 .select *{margin:0;padding:0;cursor:pointer;font-size:12px;font-family:Tahoma, Sans-serif}
 .select .myValue{position:relative;z-index:2;left:0;top:0;border:1px solid #999;color:#eee;line-height:19px;_line-height:normal;text-align:left;overflow:visible;background:transparent}
 .select .myValue.selected{font-weight:bold}

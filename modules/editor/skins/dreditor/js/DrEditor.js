@@ -512,7 +512,7 @@ var DrEditor = xe.createApp('DrEditor', {
 		var type   = (params[2]||'').toUpperCase();
 
 		// save and cancel button
-		var _buttons = editor.find('div.btnArea button');
+		var _buttons = editor.find('div.buttonArea button');
 		_buttons.eq(0).click(function(){ self.cast('CLOSE_EDITOR', [seq, true, type]); }); // save button
 		_buttons.eq(1).click(function(){ self.cast('CLOSE_EDITOR', [seq, false, type]); }); // cancel button
 
@@ -1591,7 +1591,7 @@ var MaterialWriter = xe.createPlugin('MaterialWriter', {
 				tpl.addClass('xe_dr_'+this.type);
 				tpl.find('dt').text(this.regdate.substring(0,4)+'.'+this.regdate.substring(4,6)+'.'+this.regdate.substring(6,8)+' '+this.regdate.substring(8,10)+':'+this.regdate.substring(10,12));
 				tpl.find('dd > div.eArea').html(this.content);
-				tpl.find('dd > span.btnDrEditor > button').click(function(event){
+				tpl.find('dd > span.buttonDrEditor > button').click(function(event){
 					var t = $(event.target);
 					var o = t.parent().prev('div.eArea').eq(0).clone();
 
@@ -1695,7 +1695,7 @@ var FileWriter = xe.createPlugin('FileWriter', {
 		tpl.find('>strong').text(fileObj.name);
 		tpl.find('>em').text(this.formatsize(fileObj.size));
 		tpl.addClass('filesrl_-'+(orderedFiles.length+cfg.queue_idx));
-		tpl.find('button.btnDelete').click(function(){ self.ondelete(seq, $(this)) }).hide();
+		tpl.find('button.buttonDelete').click(function(){ self.ondelete(seq, $(this)) }).hide();
 		tpl.appendTo(cfg.files);
 
 		cfg.files.show().append(tpl);
@@ -1731,7 +1731,7 @@ var FileWriter = xe.createPlugin('FileWriter', {
 				dd.removeClass(cls).addClass('filesrl_'+fileObj.file_srl);
 
 				// 삭제버튼 보여주기
-				dd.find('button.btnDelete').show();
+				dd.find('button.buttonDelete').show();
 			}
 		});
 	},
@@ -1833,7 +1833,7 @@ var FileWriter = xe.createPlugin('FileWriter', {
 				tpl.addClass('filesrl_'+srl);
 				tpl.find('>strong').text(dd.find('>a').text());
 				tpl.find('>em').text(dd.find('>span').text());
-				tpl.find('button.btnDelete').click(function(){ self.ondelete(seq, $(this)) });
+				tpl.find('button.buttonDelete').click(function(){ self.ondelete(seq, $(this)) });
 
 				cfg.n_count++;
 				cfg.n_size += parseInt(uploadedFiles[srl].file_size) || 0
@@ -2589,7 +2589,7 @@ function translate_cite(str) {
 
 function is_left_click(event) {
 	var ie = $.browser.msie; 
-	return (typeof(event.btn)=='undefined' || (ie && event.btn == 1) || (!ie && event.btn == 0));
+	return (typeof(event.button)=='undefined' || (ie && event.button == 1) || (!ie && event.button == 0));
 }
 
 editor.translate = translate;

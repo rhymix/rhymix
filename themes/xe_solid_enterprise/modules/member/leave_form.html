@@ -10,17 +10,19 @@
 
     <table cellspacing="0" class="rowTable" title="{$lang->msg_leave_member}">
     <tr>
-        <th scope="row">{$lang->user_id}</th>
+        <th scope="row"><div>{$lang->user_id}</div></th>
         <td class="wide">{$member_info->user_id}</td>
     </tr>
     <tr>
-        <th scope="row"><label for="cpw">{$lang->password}</label></th>
+        <th scope="row"><div><label for="cpw">{$lang->password}</label></div></th>
         <td><input type="password" name="password" id="cpw" class="txt" /></td>
     </tr>
+    <tr>
+        <th class="button_col" colspan="2">
+            <span class="grayBtn"><input type="submit" value="{$lang->cmd_leave}" /></span>
+            <a href="{getUrl('act','dispMemberInfo','member_srl','')}" class="whiteBtn"><span>{$lang->cmd_back}</span></a>
+        </th>
+    </tr>
     </table>
-	<div class="btnArea">
-		<span class="btn"><input type="submit" value="{$lang->cmd_leave}" /></span>
-		<span class="btn"><a href="{getUrl('act','dispMemberInfo','member_srl','')}">{$lang->cmd_back}</a></span>
-	</div>
 </form>
 <!--#include("./common_footer.html")-->

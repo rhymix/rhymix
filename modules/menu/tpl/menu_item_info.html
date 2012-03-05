@@ -5,7 +5,7 @@
 <input type="hidden" name="active_btn" value="{$item_info->active_btn}" />
 <div class="layer" style="display:block;">
 	<h3 class="h3">{$lang->menu}</h3>
-	<button type="button" onclick="hideCategoryInfo()" >{$lang->cmd_close}</button>
+	<button type="button" onclick="hideCategoryInfo();return false" >{$lang->cmd_close}</button>
 	<div class="layerBody">
 		<div class="table">
 		<table width="100%" border="1" cellspacing="0">
@@ -20,13 +20,13 @@
 				<th scope="row">{$lang->menu_name}</th>
 				<td>
 					<input type="text" name="menu_name" id="menu_name" value="{$item_info->name}" />
-					<a href="{getUrl('','module','module','act','dispModuleAdminLangcode','target','menu_name')}" onclick="popopen(this.href);return false;">{$lang->cmd_find_langcode}</a> </td>
+					<a href="{getUrl('','module','module','act','dispModuleAdminLangcode','target','menu_name')}" onclick="popopen(this.href);return false;" class="buttonSet buttonSetting"><span>{$lang->cmd_find_langcode}</span></a> </td>
 			</tr>
 			<tr>
 				<th scope="row">{$lang->menu_url}</th>
 				<td>
 					<input type="text" name="menu_url" value="{$item_info->url}"  />
-					<a href="{getUrl('module','menu','act','dispMenuAdminMidList')}" onclick="popopen(this.href);return false;">{$lang->cmd_search_mid}</a>
+					<a href="{getUrl('module','menu','act','dispMenuAdminMidList')}" onclick="popopen(this.href);return false;" class="button black"><span>{$lang->cmd_search_mid}</span> </a>
 					<p>{$lang->about_menu_url}</p>
 				</td>
 			</tr>

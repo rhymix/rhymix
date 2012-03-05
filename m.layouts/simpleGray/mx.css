@@ -1,5 +1,4 @@
 @charset "utf-8";
-/* NHN (developers@xpressengine.com) */
 /* Mobile XE */
 body{margin:0;background:#fff;color:#000;word-wrap:break-word}
 body,input,textarea,select,button,table{font-family:Tahoma, Geneva, sans-serif}
@@ -8,7 +7,7 @@ body,input,textarea,select,button,table{font-family:Tahoma, Geneva, sans-serif}
 .fr{float:right}
 .cb{clear:both}
 /* Edge = Header/Footer */
-.eg{position:relative;background:#666;zoom:1}
+.eg{position:relative;background:#666;*zoom:1}
 .eg:after{content:"";display:block;clear:both}
 .eg a{text-decoration:none}
 /* Header */

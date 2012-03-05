@@ -5,41 +5,46 @@
 #colorset_area{margin-top:.5em}
 #colorset_area .header{float:left;margin-right:.5em;padding-top:.2em}
 #colorset_area .footer{float:left}
+#zonePageContent{overflow:hidden;width:100%;padding:none !important;margin:none !important}
 .pageAddContent{width:700px}
-.wgWrap{display:inline-block;*display:inline;zoom:1;vertical-align:top;cursor:move;z-index:99;position:relative}
-.wgWrap .wgRight,
-.wgWrap .wgBoxRight{border:0;background:transparent url("../images/btn_resize.gif") no-repeat left bottom;width:12px;height:12px;position:absolute;bottom:1px;right:1px;cursor:pointer;z-index:99}
-.wgWrap .wgBorder,
-.wgWrap .wgBoxBorder{border:1px dotted #ccc;margin:0 0 -1px -1px;height:100%}
-.wgBtnArea{z-index:99;overflow:hidden;zoom:1;padding:3px;position:absolute;visibility:hidden;background-color:#D2E9C7;left:0;top:0}
-.wgBtnArea button{border:0;margin:0;padding:0;width:14px;height:14px;cursor:pointer;z-index:99;background-color:transparent;background-repeat:no-repeat;background-position:1px 1px}
-.wgBtnArea .wgStyle{background-image:url("../images/widgetstyle_setup.gif")}
-.wgBtnArea .wgSetup{background-image:url("../images/widget_setup.gif")}
-.wgBtnArea .wgCopy{background-image:url("../images/widget_copy.gif")}
-.wgBtnArea .wgSize{background-image:url("../images/widget_size.gif")}
-.wgBtnArea .wgRemove{background-image:url("../images/widget_remove.gif")}
-.wgBtnArea .wgBoxCopy{background-image:url("../images/widget_copy.gif")}
-.wgBtnArea .wgBoxSize{background-image:url("../images/widget_size.gif")}
-.wgBtnArea .wgBoxRemove{background-image:url("../images/widget_remove.gif")}
-#wgCSS{width:500px;overflow:hidden;border:1px solid #888;background:#fff;z-index:99;position:absolute}
-#wgCSS table{border:0;width:100%;table-layout:fixed}
-#wgCSS table th{padding:4px 0 4px 0;background-color:#DEDEDE;text-align:center;color:#888}
-#wgCSS table th.line{border-top:1px dotted #eee}
-#wgCSS table td{padding:4px 10px 4px 10px;background-color:#EFEFEF}
-#wgCSS table td div{margin-bottom:5px}
-#wgCSS table td.line{border-top:1px dotted #999}
-#wgCSS table td.btnBox{background-color:#fff;white-space:nowrap;overflow:hidden;vertical-align:top;text-align:center;border-top:1px solid #888;color:#ddd}
-#wgCSS .input{background:#fff;border:1px solid #aaa;padding:1px;font:8pt verdana;width:60px}
-#wgCSS .full_input{background:#fff;border:1px solid #aaa;padding:1px;font:8pt verdana;width:90%}
-#wgCSS .small_input{background:#fff;border:1px solid #aaa;padding:1px;font:8pt verdana;width:20px}
-#wgCSS .color_input{background:#fff;border:1px solid #aaa;padding:1px;font:8pt verdana;width:44px}
-#wgCSS .submit{width:90%;border:1px solid #DEDEDE;background-color:#fff}
+.widgetOutput{float:left;cursor:move;z-index:998;overflow:hidden;position:relative;width:100%}
+.widgetOutput .widgetBorder{border:1px dashed #ccc;z-index:999}
+.widgetOutput .widgetBoxBorder{border:1px dashed #ccc;z-index:999}
+.widgetOutput .widgetResize {border:0;background:transparent url("../images/btn_resize.gif") no-repeat left bottom;width:12px;height:12px;position:absolute;bottom:1px;right:1px;cursor:pointer;z-index:1000}
+.widgetOutput .widgetResizeLeft {border:0;background:transparent url("../images/btn_resize_left.gif") no-repeat left bottom;width:12px;height:12px;position:absolute;bottom:0;left:1px;cursor:pointer;z-index:1000}
+.widgetOutput .widgetBoxResize {border:0;background:transparent url("../images/btn_resize.gif") no-repeat left bottom;width:12px;height:12px;position:absolute;bottom:1px;right:1px;cursor:pointer;z-index:1000}
+.widgetOutput .widgetBoxResizeLeft{border:0;background:transparent url("../images/btn_resize_left.gif") no-repeat left bottom;width:12px;height:12px;position:absolute;bottom:0;left:1px;cursor:pointer;z-index:1000}
+.widgetButtons{z-index:9999;overflow:hidden;*zoom:1;float:left;padding:3px;position:absolute;visibility:hidden}
+#widgetButton{background-color:#C7DBE9;left:0;top:0}
+#widgetBoxButton{background-color:#D2E9C7;right:0;top:0}
+.widgetButtons div{float:left}
+.widgetButtons .widgetStyle{background:transparent url("../images/widgetstyle_setup.gif") no-repeat 1px 1px;width:14px;height:14px; cursor:pointer;z-index:1000}
+.widgetButtons .widgetSetup{background:transparent url("../images/widget_setup.gif") no-repeat 1px 1px;width:14px;height:14px; cursor:pointer;z-index:1000}
+.widgetButtons .widgetCopy{background:transparent url("../images/widget_copy.gif") no-repeat 1px 1px;width:14px;height:14px; cursor:pointer;z-index:1000}
+.widgetButtons .widgetSize{background:transparent url("../images/widget_size.gif") no-repeat 1px 1px;width:14px;height:14px; cursor:pointer;z-index:1000}
+.widgetButtons .widgetRemove{background:transparent url("../images/widget_remove.gif") no-repeat 1px 1px;width:14px;height:14px; cursor:pointer;z-index:1000}
+.widgetButtons .widgetBoxCopy{background:transparent url("../images/widget_copy.gif") no-repeat 1px 1px;width:14px;height:14px;cursor:pointer;z-index:1000}
+.widgetButtons .widgetBoxSize{background:transparent url("../images/widget_size.gif") no-repeat 1px 1px;width:14px;height:14px;cursor:pointer;z-index:1000}
+.widgetButtons .widgetBoxRemove{background:transparent url("../images/widget_remove.gif") no-repeat 1px 1px;width:14px;height:14px;cursor:pointer;z-index:1000}
+#pageSizeLayer{width:500px;overflow:hidden;border:1px solid #888;background:#fff;z-index:2000;position:absolute}
+#pageSizeLayer table{border:0;width:100%;table-layout:fixed}
+#pageSizeLayer table th{padding:4px 0 4px 0;background-color:#DEDEDE;text-align:center;color:#888}
+#pageSizeLayer table th.line {border-top:1px dotted #eee}
+#pageSizeLayer table td{padding:4px 10px 4px 10px;background-color:#EFEFEF}
+#pageSizeLayer table td div{margin-bottom:5px}
+#pageSizeLayer table td.line {border-top:1px dotted #999}
+#pageSizeLayer table td.buttonBox{background-color:#fff;white-space:nowrap;overflow:hidden;vertical-align:top;text-align:center;border-top:1px solid #888;color:#ddd}
+#pageSizeLayer .input{background:#fff;border:1px solid #aaa;padding:1px;font:8pt verdana;width:60px}
+#pageSizeLayer .full_input{background:#fff;border:1px solid #aaa;padding:1px;font:8pt verdana;width:90%}
+#pageSizeLayer .small_input{background:#fff;border:1px solid #aaa;padding:1px;font:8pt verdana;width:20px}
+#pageSizeLayer .color_input{background:#fff;border:1px solid #aaa;padding:1px;font:8pt verdana;width:44px}
+#pageSizeLayer .submit{width:90%;border:1px solid #DEDEDE;background-color:#fff}
 .help{padding:5px 0;background-color:#EFEFEF;border-top:1px solid #ccc}
-ul.midCommand{float:left;margin:0 0 0 10px;;padding:0;zoom:1}
+ul.midCommand{float:left;margin:0 0 0 10px;;padding:0;*zoom:1}
 ul.midCommand li{display:block;margin-bottom:5px;list-style:none}
-a.wgStyle{display:inline-block;margin:0 10px 10px 0;border:1px solid #fff;overflow:hidden;zoom:1;width:96px;height:96px;position:relative;text-decoration:none}
-a.wgStyle:hover{border:1px dashed #ccc}
-a.wgStyle:hover span{display:none}
-a.wgStyle.selected{border:1px dashed #999}
-a.wgStyle img{width:96px;height:96px;margin:1px}
-a.wgStyle span{position:absolute;left:0;bottom:0;display:block;width:96px;background-color:#888;color:#fff;padding:4px 3px 3px 3px;opacity:.8;filter:alpha(opacity=80);text-align:center;font-family:tahoma}
+a.widgetStyle{display:inline-block;margin:0 10px 10px 0;border:1px solid #fff;overflow:hidden;*zoom:1; width:96px;height:96px;position:relative;text-decoration:none}
+a.widgetStyle:hover{border:1px dashed #ccc}
+a.widgetStyle:hover span{display:none}
+a.widgetStyle.selected{border:1px dashed #999}
+a.widgetStyle img {width:96px;height:96px;margin:1px}
+a.widgetStyle span{position:absolute;left:0;bottom:0;display:block;width:96px;background-color:#888;color:#fff;padding:4px 3px 3px 3px;opacity:.8;filter:alpha(opacity=80);text-align:center;font-family:tahoma}

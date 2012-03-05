@@ -266,10 +266,10 @@ body.modalContainer{_height:100%;_width:100%} /* IE6 only */
 .x .h2Anchor{position:absolute;right:0;border:0;background:none;color:#00f;text-decoration:underline}
 /* Skip Navigation */
 .x .skipNav{margin:0;text-align:center}
-.x .skipNav a{position:absolute;width:1px;height:1px;display:block;font-weight:bold;overflow:hidden}
+.x .skipNav a{position:absolute;width:1px;height:1px;display:block;font-weight:bold;padding:10px 0}
 .x .skipNav a:hover,
 .x .skipNav a:active,
-.x .skipNav a:focus{position:relative;width:auto;height:auto;padding:10px 0}
+.x .skipNav a:focus{position:relative;width:auto;height:auto}
 /* Header */
 .x .header{position:relative;z-index:2;padding:30px 0 0 0;background:#4c4c4c;box-shadow:0 0 10px #aaa;zoom:1;border-radius:5px 5px 0 0}
 .x .header:after{content:"";display:block;clear:both}

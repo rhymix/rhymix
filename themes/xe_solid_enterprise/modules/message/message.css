@@ -1,30 +1,30 @@
 @charset "utf-8";
 
-.sys_message{width:318px;text-align:left;margin:20px auto 2px auto;font-weight:bold;font-size:14px;color:#555}
-fieldset{margin:0;padding:0;border:0 none}
-.signPanel{width:318px;height:191px;margin:10px auto;background: url(images/login_panel_bg.gif) no-repeat top left}
-.signPanel .left{width:192px;height:138px;padding:18px 0 0 23px;_padding-top:28px;_height:128px;float:left}
-.signPanel .right{width:100px;height:111px;padding-top:45px;float:right}
-.signPanel .left .tInBox{width:185px;height:18px;padding:0 0 0 4px;background:url(images/signPanel_input_bg.gif) no-repeat top left}
-.signPanel .left .tInBox img{padding-top:3px}
-.signPanel .left .tInBox input{width:160px;padding-left:5px;height:18px;border:0 none;background:none;font-size:12px}
-.signPanel .left label{display:block;margin:10px 0 1px 0;font-size: 0.75em}
-.signPanel .left label input{margin:0 7px 0 0;padding:0;vertical-align: middle}
-.signPanel .left .lb_chk{margin-top:15px;_margin:0;padding:0}
-.signPanel .bottom_bar{width:245px;text-align:center;padding:9px 0 0 73px;float:left;border-top:#e1e1e1 solid 1px}
-.signPanel .bottom_bar a{dispaly:block;padding-left:10px;float:left;text-decoration:none;color:#757575}
-.signPanel .bottom_bar a.vr{padding-right:10px;border-right:#a8a8a8 solid 1px}
+.sys_message							{width:318px;text-align:left;margin:20px auto 2px auto;font-weight:bold;font-size:14px;color:#555;}
+fieldset								{margin:0;padding:0;border:0 none;}
+.signPanel								{width:318px; height:191px; margin:10px auto; background: url(images/login_panel_bg.gif) no-repeat top left;}
+.signPanel .left						{width:192px;height:138px;padding:18px 0 0 23px; _padding-top:28px;_height:128px;float:left;}
+.signPanel .right						{width:100px;height:111px;padding-top:45px;float:right;}
+.signPanel .left .tInBox				{width:185px;height:18px;padding:0 0 0 4px;background:url(images/signPanel_input_bg.gif) no-repeat top left;}
+.signPanel .left .tInBox img			{padding-top:3px;}
+.signPanel .left .tInBox input			{width:160px;padding-left:5px;height:18px;border:0 none;background:none;font-size:12px;}
+.signPanel .left label					{display:block;margin:10px 0 1px 0;font-size: 0.75em;}
+.signPanel .left label input			{margin:0 7px 0 0;padding:0;vertical-align: middle;}
+.signPanel .left .lb_chk				{margin-top:15px;_margin:0;padding:0;}
+.signPanel .bottom_bar					{width:245px;text-align:center;padding:9px 0 0 73px;float:left;border-top:#e1e1e1 solid 1px;}
+.signPanel .bottom_bar a				{dispaly:block;padding-left:10px;float:left;text-decoration:none;color:#757575;}
+.signPanel .bottom_bar a.vr				{padding-right:10px;border-right:#a8a8a8 solid 1px;}
 
-.oSignPanel .openLeft{width:192px;height:126px;padding:30px 0 0 12px;float:left}
-.oSignPanel .openLeft .tInBox{width:185px;height:18px;padding:0 0 0 4px;margin-top:30px;background:url(images/signPanel_input_bg.gif) no-repeat top left}
-.oSignPanel .openLeft .tInBox img{padding-top:3px}
-.oSignPanel .openLeft .tInBox input{width:160px;padding-left:5px;height:18px;border:0 none;background:none}
-.oSignPanel .openLeft label{display:block;margin:10px 0 3px 0}
-.oSignPanel .openLeft label input{margin:0 7px 0 0;padding:0}
-.oSignPanel .openLeft .lb_chk{margin-top:10px;_margin:0;padding:0}
+.oSignPanel .openLeft					{width:192px;height:126px;padding:30px 0 0 12px;float:left;}
+.oSignPanel .openLeft .tInBox			{width:185px;height:18px;padding:0 0 0 4px;margin-top:30px;background:url(images/signPanel_input_bg.gif) no-repeat top left;}
+.oSignPanel .openLeft .tInBox img		{padding-top:3px;}
+.oSignPanel .openLeft .tInBox input		{width:160px;padding-left:5px;height:18px;border:0 none;background:none;}
+.oSignPanel .openLeft label				{display:block;margin:10px 0 3px 0;}
+.oSignPanel .openLeft label input		{margin:0 7px 0 0;padding:0;}
+.oSignPanel .openLeft .lb_chk			{margin-top:10px;_margin:0;padding:0;}
 
-.oSignPanel {width:318px;height:191px;margin:10px auto;background: url(images/login_panel_bg.gif) no-repeat top left}
-.oSignPanel  .right{width:100px;height:111px;padding-top:45px;float:right}
-.oSignPanel  .bottom_bar{width:245px;text-align:center;padding:9px 0 0 73px;float:left;border-top:#e1e1e1 solid 1px}
-.oSignPanel  .bottom_bar a{dispaly:block;padding-left:10px;float:left;text-decoration:none;color:#757575}
-.oSignPanel  .bottom_bar a.vr{padding-right:10px;border-right:#a8a8a8 solid 1px}
+.oSignPanel 							{width:318px; height:191px; margin:10px auto; background: url(images/login_panel_bg.gif) no-repeat top left;}
+.oSignPanel  .right						{width:100px;height:111px;padding-top:45px;float:right;}
+.oSignPanel  .bottom_bar				{width:245px;text-align:center;padding:9px 0 0 73px;float:left;border-top:#e1e1e1 solid 1px;}
+.oSignPanel  .bottom_bar a				{dispaly:block;padding-left:10px;float:left;text-decoration:none;color:#757575;}
+.oSignPanel  .bottom_bar a.vr			{padding-right:10px;border-right:#a8a8a8 solid 1px;}

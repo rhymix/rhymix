@@ -1,12 +1,17 @@
 <!--%import("js/communication.js")-->
 <!--%import("css/style.css")-->
-<div id="cm">
+
+
+<div id="communicationModule">
+
     <!--@if($is_logged && $logged_info->menu_list && (!$member_srl || $member_srl == $logged_info->member_srl) )-->
     <ul class="localNavigation">
 		<li class="mLeft"><img src="images/title_bg_left.gif" width="3" height="31" alt="" /></li>
         <!--@foreach($logged_info->menu_list as $key => $val)-->
+
 		<li class="item <!--@if($key == $act)-->l_on<!--@end-->"><!--@if($key == $act)--><span class="l_on_left"></span><!--@end--><a href="{getUrl('act',$key)}">{Context::getLang($val)}</a></li>
         <!--@end-->
+		
         <li class="mRight"><img src="images/title_bg_right.gif" width="5" height="31" alt="" /></li>
     </ul>
     <!--@end-->

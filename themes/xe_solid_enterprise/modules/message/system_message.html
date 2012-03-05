@@ -10,30 +10,32 @@
 	<!--%import("./message.js")-->
 	<div class="mLogin" id="gLogin">
 		<form action="./" method="post" ruleset="@login" id="gForm">
-			<input type="hidden" name="act" value="procMemberLogin" />
-			<fieldset>
-			<div class="signPanel">
-				<div class="left">
-					<label for="">{$lang->user_id}</label>    	
-					<div class="tInBox"><img src="images/bullet_input_id.gif" width="10" height="12" alt="" /><input type="text" id="uid" name="user_id" title="{$lang->user_id}" /></div>
-					<label for="">{$lang->password}</label>
-					<div class="tInBox"><img src="images/bullet_input_pw.gif" width="10" height="12" alt="" /><input type="password" id="upw" name="password" title="{$lang->password}" /></div>
-					<label class="lb_chk"><input type="checkbox" name="keep_signed" id="keepid"  value="Y" onclick="jQuery('#warning')[(jQuery('#keepid:checked').size()>0?'addClass':'removeClass')]('open');" />{$lang->keep_signed}</label>
-				</div><!-- //left -->
-				<div class="right">
-					<input type="image" src="images/btn_signin.gif" width="70px" height="65px"/>
-				</div>
-				<div class="bottom_bar">
-					<a href="{getUrl('','act','dispMemberFindAccount')}" class="vr">{$lang->cmd_find_member_account}</a>
-					<a href="{getUrl('','act','dispMemberSignUpForm')}" >{$lang->cmd_signup}</a>
-					
-					<!--@if($member_config->enable_openid=='Y')-->
-					<a href="#oLogin" onclick="jQuery('#loginAccess').removeClass('gLogin'); jQuery('#loginAccess').addClass('oLogin'); return false;">Open ID</a>
-					<!--@end-->
-				</div>
-			</div><!-- //signPanel -->
-			</fieldset>
+		<input type="hidden" name="act" value="procMemberLogin" />
+		<fieldset>
+		<div class="signPanel">
+			<div class="left">
+				<label for="">{$lang->user_id}</label>    	
+				<div class="tInBox"><img src="images/bullet_input_id.gif" width="10" height="12" alt="" /><input type="text" id="uid" name="user_id" title="{$lang->user_id}" /></div>
+				<label for="">{$lang->password}</label>
+				<div class="tInBox"><img src="images/bullet_input_pw.gif" width="10" height="12" alt="" /><input type="password" id="upw" name="password" title="{$lang->password}" /></div>
+				<label class="lb_chk"><input type="checkbox" name="keep_signed" id="keepid"  value="Y" onclick="jQuery('#warning')[(jQuery('#keepid:checked').size()>0?'addClass':'removeClass')]('open');" />{$lang->keep_signed}</label>
+			</div><!-- //left -->
+			<div class="right">
+				<input type="image" src="images/btn_signin.gif" width="70px" height="65px"/>
+			</div>
+			<div class="bottom_bar">
+				<a href="{getUrl('','act','dispMemberFindAccount')}" class="vr">{$lang->cmd_find_member_account}</a>
+				<a href="{getUrl('','act','dispMemberSignUpForm')}" >{$lang->cmd_signup}</a>
+				
+				<!--@if($member_config->enable_openid=='Y')-->
+				<a href="#oLogin" onclick="jQuery('#loginAccess').removeClass('gLogin'); jQuery('#loginAccess').addClass('oLogin'); return false;">Open ID</a>
+				<!--@end-->
+			</div>
+		</div><!-- //signPanel -->
+		</fieldset>
 		</form>
+		
+		
 	</div>
 	
 	<!-- OpenID -->
@@ -42,10 +44,11 @@
 		<form action="{getUrl('module','member','act','procMemberOpenIDLogin')}" method="post" onsubmit="return doLogin(this, openid_login)" id="oForm">
 			<fieldset>	
 				<div class="openLeft">
-					<div class="tInBox"><img src="images/bullet_input_id.gif" width="10" height="12" alt="" /><input type="text" name="openid" class="iText" title="Open ID" value="" /></div>
+				<div class="tInBox"><img src="images/bullet_input_id.gif" width="10" height="12" alt="" /><input type="text" name="openid" class="iText" title="Open ID" value="" /></div>
 				</div>
 				<div class="right">
-					<input type="image" src="images/btn_signin.gif" width="70px" height="65px"/>
+					
+				<input type="image" src="images/btn_signin.gif" width="70px" height="65px"/>
 				</div>
 			</fieldset>
 		</form>
@@ -55,7 +58,7 @@
 	<!--@end-->
 	<!--@if($is_logged)-->
 	<div class="logOut">
-		<span class="btnAccount"><a href="{getUrl('act','dispMemberLogout','module','')}">{$lang->cmd_logout}</a></span>
+		<span class="buttonAccount"><a href="{getUrl('act','dispMemberLogout','module','')}">{$lang->cmd_logout}</a></span>
 	</div>
 	<!--@end-->
 </div>

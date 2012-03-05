@@ -16,9 +16,9 @@
                 <option value="{$val->friend_group_srl}" <!--@if($val->friend_group_srl == $friend_group_srl)-->selected="selected"<!--@end--> >{$val->title}</option>
                 <!--@end-->
             </select>
-            <span class="btn"><button type="button" onclick="doRenameFriendGroup()">{$lang->cmd_modify}...</button></span>
-            <span class="btn"><button type="button" onclick="doDeleteFriendGroup()">{$lang->cmd_delete}</button></span>
-            <span class="btn"><a href="{getUrl('','module','communication','act','dispCommunicationAddFriendGroup')}" onclick="popopen(this.href);return false;">{$lang->cmd_add_friend_group}</a></span>
+            <a href="#" onclick="doRenameFriendGroup();return false;" class="button small blue"><span>{$lang->cmd_modify}...</span></a>
+            <a href="#" onclick="doDeleteFriendGroup();return false;" class="button small red"><span>{$lang->cmd_delete}</span></a>
+            <a href="{getUrl('','module','communication','act','dispCommunicationAddFriendGroup')}" onclick="popopen(this.href);return false;" class="button small black strong"><span>{$lang->cmd_add_friend_group}</span></a>
         </div>
 
         <div class="jumpMenu">
@@ -45,25 +45,32 @@
 				</tr>
 			</thead>
 			<tbody>
+
+
+
+
             <!--@foreach($friend_list as $no => $val)-->
 			<tr>
-				<td>{$val->group_title?$val->group_title:"&nbsp;"}</td>
-				<td class="subject"><input type="checkbox" name="friend_srl_list" value="{$val->friend_srl}" /><span class="member_{$val->target_srl}">{$val->nick_name}</span></td>
-				<td class="td_tc"><span class="regdate">{zdate($val->regdate,"Y-m-d")}</span></td>
+			<td>{$val->group_title?$val->group_title:"&nbsp;"}</td>
+			<td class="subject"><input type="checkbox" name="friend_srl_list" value="{$val->friend_srl}" /><span class="member_{$val->target_srl}">{$val->nick_name}</span></td>
+			<td class="td_tc"><span class="regdate">{zdate($val->regdate,"Y-m-d")}</span></td>
 			</tr>
             <!--@end-->
+            <tr>
+                <th class="button_col" colspan="3">
+                    <select name="target_friend_group_srl">
+                        <!--@foreach($friend_group_list as $key => $val)-->
+                        <option value="{$val->friend_group_srl}">{$val->title}</option>
+                        <!--@end-->
+                    </select>
+                    <a href="#" onclick="doMoveFriend();return false;" class="small button blue"><span>{$lang->cmd_move}</span></a>
+                    <span class="small button red"><input type="submit" value="{$lang->cmd_delete}" /></span>
+                    <a href="{getUrl('act','','message_type','','friend_gruop_srl','')}" class="small button"><span>{$lang->cmd_back}</span></a>
+                </th>
+            </tr>
 			</tbody>
 		</table>
-		<div class="btnArea">
-			<select name="target_friend_group_srl">
-				<!--@foreach($friend_group_list as $key => $val)-->
-				<option value="{$val->friend_group_srl}">{$val->title}</option>
-				<!--@end-->
-			</select>
-			<span class="btn"><button type="button" onclick="doMoveFriend()">{$lang->cmd_move}</button></span>
-			<span class="btn"><input type="submit" value="{$lang->cmd_delete}" /></span>
-			<span class="btn"><a href="{getUrl('act','','message_type','','friend_gruop_srl','')}">{$lang->cmd_back}</a></span>
-		</div>
+
 
 
         <!-- 페이지 네비게이션 -->

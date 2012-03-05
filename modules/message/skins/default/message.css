@@ -14,15 +14,15 @@
 #loginAccess #warning{display:none;margin:0 0 20px 0}
 #loginAccess #warning.open{display:block}
 #loginAccess #warning p{margin:0}
-#loginAccess .btnArea{position:relative;margin:0 28px;padding:0;color:#767676;zoom:1}
-#loginAccess .btnArea .keeping{position:relative;margin:0 0 20px 0;height:32px;line-height:32px}
-#loginAccess #gLogin .btnArea .btnAccount{position:absolute;top:0;right:0}
-#loginAccess .btnAccount,
-#loginAccess .btnAccount a,
-#loginAccess .btnAccount input{position:relative;display:inline-block;margin:0;padding:0;overflow:visible;height:32px;line-height:32px;font-size:12px;font-weight:bold;color:#fff;vertical-align:middle;cursor:pointer;border:0;text-decoration:none !important;background:transparent url(./images/buttonAction.gif) no-repeat}
-#loginAccess .btnAccount{margin:0 4px 0 0;background-position:left top}
-#loginAccess .btnAccount a,
-#loginAccess .btnAccount input{left:4px;background-position:right top;vertical-align:top;padding:0 24px 0 36px}
+#loginAccess .buttonArea{position:relative;margin:0 28px;padding:0;color:#767676;*zoom:1}
+#loginAccess .buttonArea .keeping{position:relative;margin:0 0 20px 0;height:32px;line-height:32px}
+#loginAccess #gLogin .buttonArea .buttonAccount{position:absolute;top:0;right:0}
+#loginAccess .buttonAccount,
+#loginAccess .buttonAccount a,
+#loginAccess .buttonAccount input{position:relative;display:inline-block;margin:0;padding:0;overflow:visible;height:32px;line-height:32px;font-size:12px;font-weight:bold;color:#fff;vertical-align:middle;cursor:pointer;border:0;text-decoration:none !important;background:transparent url(./images/buttonAction.gif) no-repeat}
+#loginAccess .buttonAccount{margin:0 4px 0 0;background-position:left top}
+#loginAccess .buttonAccount a,
+#loginAccess .buttonAccount input{left:4px;background-position:right top;vertical-align:top;padding:0 24px 0 36px}
 #loginAccess .help{position:relative;padding:15px 0;background:#fafafa;border-top:1px solid #d9d9d9;text-align:center;border-radius:0 0 5px 5px}
 #loginAccess .help li{display:inline;border-left:1px solid #c3c3c3;padding:0 0 0 10px;margin:0 6px 0 0;line-height:1}
 #loginAccess .help li.first{border:0;padding:0}

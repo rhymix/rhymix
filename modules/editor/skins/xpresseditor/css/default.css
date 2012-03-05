@@ -1,9 +1,9 @@
 @charset "utf-8";
 /* NHN (developers@xpressengine.com) */
 /* TextEditor */
-.xeTextEditor{margin:0 12px 0 0}
-.xeTextEditor textarea{display:block;margin:0;padding:5px}
-.xeTextEditor.black textarea{color:#fff;background-color:#000}
+.xeTextEditor {margin:0 12px 0 0}
+.xeTextEditor textarea {display:block;margin:0;padding:5px}
+.xeTextEditor.black textarea {color:#fff;background-color:#000}
 /* Type Selector */
 .xpress-editor *{margin:0;padding:0;font-style:normal;font-size:12px}
 .xpress-editor img,
@@ -17,8 +17,8 @@
 .xpress-editor li{list-style:none}
 /* Layout Selector */
 .xpress-editor{position:relative;background:transparent}
-.xpress-editor #smart_content{position:relative;clear:both;margin:0 0 10px 0;border:1px solid #c2c2c2;zoom:1;z-index:1;background:#fff}
-.xpress-editor.black #smart_content{background:transparent}
+.xpress-editor #smart_content{position:relative;clear:both;margin:0 0 10px 0;border:1px solid #c2c2c2;*zoom:1;z-index:1;background:#fff}
+.xpress-editor.black #smart_content {background:transparent}
 .xpress-editor #smart_footer{position:relative;text-align:center;padding:10px 0}
 /* Footer */
 .xpress-editor #smart_footer *{vertical-align:top}
@@ -32,17 +32,17 @@
 .xpress-editor a.skip:hover,
 .xpress-editor a.skip:active,
 .xpress-editor a.skip:focus{position:relative;display:block;padding:5px;right:0;z-index:60;width:auto;height:auto;text-align:right;white-space:nowrap;color:#000;text-decoration:none;letter-spacing:-1px;_zoom:1}
-.xpress-editor .input_area{position:relative;margin:10px;z-index:30;zoom:1;height:400px}
+.xpress-editor .input_area{position:relative;margin:10px;z-index:30;*zoom:1;height:400px}
 .xpress-editor .input_area iframe,
 .xpress-editor .input_area textarea{display:block;width:100% !important;position:relative;height:100%;border:0 !important;padding:0 !important;overflow:auto}
 .xpress-editor .input_area textarea{*margin:0 -10px;_margin-bottom:-2px}
 .xpress-editor .input_area textarea.blind{display:none}
 .xpress-editor .input_control{position:relative;display:block;width:100%;clear:both;text-align:center;background:#fbfbfb url(../img/btn_expand.gif) no-repeat center center;cursor:n-resize}
 .xpress-editor .input_control span{display:block;height:10px;visibility:hidden;overflow:visible;font-size:0;line-height:200%;white-space:nowrap;color:#fff}
-.xpress-editor.black .input_control{background:#111 url(../img/btn_expand.black.gif) no-repeat center center}
+.xpress-editor.black .input_control {background:#111 url(../img/btn_expand.black.gif) no-repeat center center}
 .xpress-editor.black .input_control span{border-top:1px solid #333; color:#000}
-.xpress-editor .tool{position:relative;overflow:visible;padding:5px 10px 6px 10px;*padding:5px 10px 8px 10px;z-index:40;clear:both;background:#f8f8f8 url(../img/bg_tool.gif) repeat-x left bottom;border:0;zoom:1}
-.xpress-editor .tool.disable{display:none}
+.xpress-editor .tool{position:relative;overflow:visible;padding:5px 10px 6px 10px;*padding:5px 10px 8px 10px;z-index:40;clear:both;background:#f8f8f8 url(../img/bg_tool.gif) repeat-x left bottom;border:0;*zoom:1}
+.xpress-editor .tool.disable {display:none}
 .xpress-editor.black .tool{background:#111 url(../img/bg_tool.black.gif) repeat-x left bottom}
 .xpress-editor .tool:after{content:"";display:block;clear:both}
 .xpress-editor .tool ul{position:relative;overflow:visible;float:left;margin:0 5px 2px 0 !important;z-index:2;border:0 !important}
@@ -216,7 +216,7 @@
 .xpress-editor .tool .layer button,
 .xpress-editor.black .tool .layer button{margin:0 !important;width:auto;height:auto;background:none}
 .xpress-editor .tool .layer button span{position:absolute;width:0;height:0;font-size:0;line-height:0;overflow:hidden;visibility:hidden}
-.xpress-editor .tool .btn_area{position:relative;clear:both;text-align:center !important;padding:7px 0 12px 0;width:100%;white-space:nowrap;zoom:1}
+.xpress-editor .tool .btn_area{position:relative;clear:both;text-align:center !important;padding:7px 0 12px 0;width:100%;white-space:nowrap;*zoom:1}
 .xpress-editor .tool .btn_area *{vertical-align:top}
 .xpress-editor .tool button.close{position:absolute;top:4px;right:3px;width:21px;height:20px;background:url(../img/btn_layer_close.gif) no-repeat center center !important}
 .xpress-editor .tool button.close span{position:absolute;width:0;height:0;overflow:hidden;visibility:hidden}
@@ -227,7 +227,7 @@
 .xpress-editor .tool .layer .palette{width:210px;position:relative;left:7px;padding:8px 0 7px 0;margin:0}
 .xpress-editor .tool .layer .palette li{float:left;margin:0 1px 1px 0;font-size:0;line-height:0}
 .xpress-editor .tool .layer .palette button{position:relative;overflow:hidden;width:11px !important;height:11px !important}
-.xpress-editor .tool li.bcolor .layer{width:218px;overflow:hidden}
+.xpress-editor .tool li.bcolor .layer {width:218px;overflow:hidden}
 .xpress-editor .tool .layer .background{width:210px;position:relative;left:7px;margin:0 0 -2px 0;padding:8px 0 0 0;*padding-bottom:8px;_padding-bottom:4px}
 .xpress-editor .tool .layer .background li{float:left;margin:0 5px 2px 0}
 .xpress-editor .tool .layer .background button{position:relative;overflow:hidden;width:65px;height:19px;text-align:left;padding:4px}
@@ -243,7 +243,7 @@
 .xpress-editor .tool li.style .layer li.p button span{padding:3px 0 1px 4px;height:11px;_height /**/:15px;font-size:12px;color:#5d5d5d}
 .xpress-editor .tool li.style .layer li button.hover{background:#c1f471;*height:1%}
 .xpress-editor .tool li.blockquote .layer{padding:6px 5px 6px 7px;left:0;width:288px}
-.xpress-editor .tool li.blockquote .layer ul{zoom:1;margin:0}
+.xpress-editor .tool li.blockquote .layer ul{*zoom:1;margin:0}
 .xpress-editor .tool li.blockquote .layer ul:after{content:"";display:block;clear:both}
 .xpress-editor .tool li.blockquote .layer li{position:relative;float:left;overflow:hidden;width:32px;height:34px;margin:0 2px 0 0;border:1px solid #cdcecc;background-image:url(../img/btn_qmark.gif);background-repeat:no-repeat}
 .xpress-editor .tool li.blockquote .layer li.q1{background-position:0 0}
@@ -321,23 +321,23 @@
 .xpress-editor .tool li.character .layer p button span{position:absolute;width:0;height:0;overflow:hidden;visibility:hidden}
 .xpress-editor .tool li.extensions .layer{width:auto;white-space:nowrap;padding:5px 10px}
 .xpress-editor .tool li.extensions .layer li{margin:2px 0}
-.xpress-editor .tool li.extensions .layer li a{color:#000;text-decoration:none}
-.xpress-editor .tool li.extensions .layer li a:hover{text-decoration:underline}
+.xpress-editor .tool li.extensions .layer li a {color:#000;text-decoration:none}
+.xpress-editor .tool li.extensions .layer li a:hover {text-decoration:underline}
 /* File Uploader */
 .xpress-editor .fileUploader{clear:both;padding-top:5px;margin-bottom:10px}
 .xpress-editor .fileUploader:after{content:"";display:block;clear:both}
 .xpress-editor .fileUploader .preview{float:left;width:64px;height:64px;border:1px solid #ccc;;padding:2px;margin:0 10px 5px 0}
-.xpress-editor .fileUploader .preview.black{background-color:#000;border:1px solid #666}
+.xpress-editor .fileUploader .preview.black {background-color:#000;border:1px solid #666}
 .xpress-editor .fileUploader .preview img{display:block;width:64px;height:64px}
 .xpress-editor .fileUploader .fileListArea{float:left;width:260px;margin:0 10px 5px 0}
 .xpress-editor .fileUploader .fileListArea select{width:100%;height:70px;overflow:auto;margin:0;padding:0;float:none}
 .xpress-editor .fileUploader .fileListArea select option{font-size:11px}
-.xpress-editor .fileUploader .fileListArea.black select{background-color:#000;border:1px solid #666}
-.xpress-editor .fileUploader .fileListArea.black select option{color:#aaa}
+.xpress-editor .fileUploader .fileListArea.black select {background-color:#000;border:1px solid #666}
+.xpress-editor .fileUploader .fileListArea.black select option {color:#aaa}
 .xpress-editor .fileUploader .fileUploadControl{clear:right}
-.xpress-editor .fileUploader .fileUploadControl .btn{margin-bottom:5px}
+.xpress-editor .fileUploader .fileUploadControl .button{margin-bottom:5px}
 .xpress-editor .fileUploader .file_attach_info{clear:right;margin:5px 0;font-size:11px;color:#333}
 /* Auto Save */
-.xpress-editor .autosave_message{display:none;background: #f6ffdb;padding:6px 10px;margin:0;line-height:1}
-.xpress-editor.black .autosave_message{display:none;background:#222;padding:6px 10px;margin:0;line-height:1;color:#fff}
-.xpress-editor .input_syntax.black{background:transparent;color:#fff}
+.xpress-editor .autosave_message {display:none;background: #f6ffdb;padding:6px 10px;margin:0;line-height:1}
+.xpress-editor.black .autosave_message {display:none;background:#222;padding:6px 10px;margin:0;line-height:1;color:#fff}
+.xpress-editor .input_syntax.black {background:transparent;color:#fff}

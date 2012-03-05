@@ -21,13 +21,13 @@
 .xe_content h4,
 .xe_content h5,
 .xe_content h6{line-height:1.2;clear:both}
-.xe_content h1{font-size:22px;border-bottom:4px solid #f4f4f4;background-color:#fff;*border-bottom:1px solid #ccc;zoom:1;*filter:progid:DXImageTransform.Microsoft.dropshadow(OffX='0', OffY='4', Color='#f4f4f4', positive='true')}
+.xe_content h1{font-size:22px;border-bottom:4px solid #f4f4f4;background-color:#fff;*border-bottom:1px solid #ccc;*zoom:1;*filter:progid:DXImageTransform.Microsoft.dropshadow(OffX='0', OffY='4', Color='#f4f4f4', positive='true')}
 .xe_content h1:after{content:"";display:block;font-size:0;line-height:0;overflow:hidden;height:1px;background:#ccc}
-.xe_content h2{font-size:20px;border-bottom:3px solid #f4f4f4;background-color:#fff;*border-bottom:1px solid #ccc;zoom:1;*filter:progid:DXImageTransform.Microsoft.dropshadow(OffX='0', OffY='3', Color='#f4f4f4', positive='true')}
+.xe_content h2{font-size:20px;border-bottom:3px solid #f4f4f4;background-color:#fff;*border-bottom:1px solid #ccc;*zoom:1;*filter:progid:DXImageTransform.Microsoft.dropshadow(OffX='0', OffY='3', Color='#f4f4f4', positive='true')}
 .xe_content h2:after{content:"";display:block;font-size:0;line-height:0;overflow:hidden;height:1px;background:#ccc}
-.xe_content h3{font-size:18px;border-bottom:2px solid #f4f4f4;background-color:#fff;*border-bottom:1px solid #ccc;zoom:1;*filter:progid:DXImageTransform.Microsoft.dropshadow(OffX='0', OffY='2', Color='#f4f4f4', positive='true')}
+.xe_content h3{font-size:18px;border-bottom:2px solid #f4f4f4;background-color:#fff;*border-bottom:1px solid #ccc;*zoom:1;*filter:progid:DXImageTransform.Microsoft.dropshadow(OffX='0', OffY='2', Color='#f4f4f4', positive='true')}
 .xe_content h3:after{content:"";display:block;font-size:0;line-height:0;overflow:hidden;height:1px;background:#ccc}
-.xe_content h4{font-size:16px;border-bottom:1px solid #f4f4f4;background-color:#fff;*border-bottom:1px solid #ccc;zoom:1;*filter:progid:DXImageTransform.Microsoft.dropshadow(OffX='0', OffY='1', Color='#f4f4f4', positive='true')}
+.xe_content h4{font-size:16px;border-bottom:1px solid #f4f4f4;background-color:#fff;*border-bottom:1px solid #ccc;*zoom:1;*filter:progid:DXImageTransform.Microsoft.dropshadow(OffX='0', OffY='1', Color='#f4f4f4', positive='true')}
 .xe_content h4:after{content:"";display:block;font-size:0;line-height:0;overflow:hidden;height:1px;background:#ccc}
 .xe_content h5{font-size:14px;border-bottom:1px solid #ccc}
 .xe_content h6{font-size:12px;border-bottom:1px dotted #ccc}

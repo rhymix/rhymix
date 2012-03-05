@@ -24,12 +24,12 @@
 </div>
 
 <div id="popFooter">
-    <span class="btn"><button type="button" onclick="location.href=location.href">{$lang->cmd_next}</button></span>
+    <a href="#" onclick="location.href=location.href;return false;" class="button black strong"><span>{$lang->cmd_next}</span></a>
     <!--@if($message->member_srl != $logged_info->member_srl)-->
-	<span class="btn"><button type="button" onclick="doSendMessage('{$message->sender_srl}','{$message->message_srl}')">{$lang->cmd_reply_message}</button></span>
+        <a href="#" onclick="doSendMessage('{$message->sender_srl}','{$message->message_srl}');return false;" class="button"><span>{$lang->cmd_reply_message}</span></a>
     <!--@end-->
-    <span class="btn"><button type="button" onclick="doStoreMessage('{$message->message_srl}')">{$lang->cmd_store}</button></span>
-    <span class="btn"><button type="button" onclick="doDeleteMessage('{$message->message_srl}')">{$lang->cmd_delete}</button></span>
+    <a href="#" onclick="doStoreMessage('{$message->message_srl}');return false;" class="button blue"><span>{$lang->cmd_store}</span></a>
+    <a href="#" onclick="doDeleteMessage('{$message->message_srl}');return false;" class="button red"><span>{$lang->cmd_delete}</span></a>
 </div>
 
 <!--@else-->

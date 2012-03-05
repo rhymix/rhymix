@@ -31,7 +31,7 @@ input[type=radio]{width:13px;height:13px;margin:0;padding:0}
 /* Body */
 .bd{background:#f8f8f8;padding:1px 0}
 .co{margin:10px;line-height:1.4;font-size:14px;color:#333}
-.co:after{content:"";display:block;clear:both;zoom:1}
+.co:after{content:"";display:block;clear:both;*zoom:1}
 /* Form Field */
 .ff{margin:0;padding:0}
 .ff ul{margin:0;padding:0;list-style:none}

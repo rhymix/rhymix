@@ -1,40 +1,40 @@
 @charset "utf-8";
 /* NHN | dece24@nhncorp.com */
-#loginAccess{position:relative;width:333px;margin:30px auto; font-size:12px;font-family:Tahoma;line-height:normal;background:url(./images/bg_gLogin.gif) no-repeat 0 0}
-#loginAccess form{margin:0;padding:0}
-#loginAccess fieldset{border:0;margin:0;padding:0}
-#loginAccess h1{font-size:12px;color:#3f4140;margin:0;font-weight:normal;padding:27px 0 18px 18px}
-#loginAccess ul{margin:0;padding:0;list-style:none}
-#loginAccess .mLogin{display:none}
-#loginAccess .idpw{margin:0 41px 15px 36px}
-#loginAccess .oid{margin:0 28px 20px 28px}
-#loginAccess .idpw li{margin:0 0 5px 0}
-#loginAccess .iText{font-size:12px;color:#c4c4c4;font-weight:bold;border:1px solid #c5c5c5}
-#loginAccess .idpw .iText{width:243px;padding:2px 0 2px 7px}
-#loginAccess .oid .iText{width:252px;padding:8px 0 0 35px}
-#loginAccess .inputCheck{width:13px;height:13px;margin:0;padding:0;vertical-align:middle}
-#loginAccess label{vertical-align: middle;color:#3a3a3a}
-#loginAccess #warning{display:none;margin:0 0 20px 0}
-#loginAccess #warning.open{display:block}
-#loginAccess #warning p{margin:0;color:#fafafa}
-#loginAccess .btnArea{position:relative;margin:0 50px 0 39px;padding:0;color:#767676;zoom:1}
-#loginAccess .btnArea .keeping{position:relative;margin:0 0 20px 0;height:32px;line-height:32px}
-#loginAccess #gLogin .btnArea .btnAccount{position:absolute;top:0;right:0}
-#loginAccess #oLogin .btnArea{text-align:center;margin-bottom:20px}
-#loginAccess .btnAccount,
-#loginAccess .btnAccount a,
-#loginAccess .btnAccount input{position:relative;display:inline-block;margin:0;padding:0;overflow:visible;height:32px;line-height:32px;font-size:12px;font-weight:bold;color:#ffffff;vertical-align:middle;cursor:pointer;border:0;text-decoration:none !important;background: url(./images/buttonAction.gif) no-repeat;font-family:Arial}
-#loginAccess .btnAccount{margin:0 4px 0 0;background-position:left top}
-#loginAccess .btnAccount a,
-#loginAccess .btnAccount input{left:14px;background-position:right top;*vertical-align:top;padding:0 30px 0 15px}
-#loginAccess .help{position:relative;padding:22px 0 44px 0;text-align:center;background:url(images/bg_help.gif) no-repeat}
-#loginAccess .help li{display:inline;border-left:1px solid #ababab;padding:0 0 0 7px;margin:0 4px 0 0;line-height:1}
-#loginAccess .help li.first{border:0;padding:0}
-#loginAccess .help a{text-decoration:none;color:#828282}
+#loginAccess{ position:relative; width:333px; margin:30px auto;  font-size:12px; font-family:Tahoma; line-height:normal; background:url(./images/bg_gLogin.gif) no-repeat 0 0}
+#loginAccess form{ margin:0; padding:0;}
+#loginAccess fieldset{ border:0; margin:0; padding:0;}
+#loginAccess h1{font-size:12px; color:#3f4140; margin:0; font-weight:normal; padding:27px 0 18px 18px}
+#loginAccess ul{ margin:0; padding:0; list-style:none;}
+#loginAccess .mLogin{ display:none;}
+#loginAccess .idpw{ margin:0 41px 15px 36px;}
+#loginAccess .oid{ margin:0 28px 20px 28px;}
+#loginAccess .idpw li{ margin:0 0 5px 0;}
+#loginAccess .iText{ font-size:12px; color:#c4c4c4; font-weight:bold; border:1px solid #c5c5c5}
+#loginAccess .idpw .iText{ width:243px; padding:2px 0 2px 7px;}
+#loginAccess .oid .iText{ width:252px; padding:8px 0 0 35px;}
+#loginAccess .inputCheck{ width:13px; height:13px; margin:0; padding:0; vertical-align:middle;}
+#loginAccess label{ vertical-align: middle; color:#3a3a3a}
+#loginAccess #warning{ display:none; margin:0 0 20px 0;}
+#loginAccess #warning.open{ display:block;}
+#loginAccess #warning p{ margin:0; color:#fafafa}
+#loginAccess .buttonArea{ position:relative; margin:0 50px 0 39px; padding:0; color:#767676; *zoom:1;}
+#loginAccess .buttonArea .keeping{ position:relative; margin:0 0 20px 0; height:32px; line-height:32px;}
+#loginAccess #gLogin .buttonArea .buttonAccount{ position:absolute; top:0; right:0;}
+#loginAccess #oLogin .buttonArea{ text-align:center; margin-bottom:20px;}
+#loginAccess .buttonAccount,
+#loginAccess .buttonAccount a,
+#loginAccess .buttonAccount input{ position:relative; display:inline-block; margin:0; padding:0; overflow:visible; height:32px; line-height:32px; font-size:12px; font-weight:bold; color:#ffffff; vertical-align:middle; cursor:pointer; border:0; text-decoration:none !important; background: url(./images/buttonAction.gif) no-repeat;font-family:Arial}
+#loginAccess .buttonAccount{ margin:0 4px 0 0; background-position:left top;}
+#loginAccess .buttonAccount a,
+#loginAccess .buttonAccount input{ left:14px; background-position:right top; *vertical-align:top; padding:0 30px 0 15px;}
+#loginAccess .help{ position:relative; padding:22px 0 44px 0;text-align:center; background:url(images/bg_help.gif) no-repeat}
+#loginAccess .help li{ display:inline; border-left:1px solid #ababab; padding:0 0 0 7px; margin:0 4px 0 0; line-height:1;}
+#loginAccess .help li.first{ border:0; padding:0;}
+#loginAccess .help a{ text-decoration:none; color:#828282;}
 #loginAccess .help a:hover,
 #loginAccess .help a:active,
-#loginAccess .help a:focus{text-decoration:underline}
-#loginAccess .logOut{text-align:left;padding:0 0 20px 55px;background:url(images/line_logOut.gif) no-repeat 0 100%}
+#loginAccess .help a:focus{ text-decoration:underline;}
+#loginAccess .logOut{ text-align:left;padding:0 0 20px 55px; background:url(images/line_logOut.gif) no-repeat 0 100%;}
 .gLogin #gLogin,
-.oLogin #oLogin{display:block}
+.oLogin #oLogin{ display:block;}
 .logOut_h{padding:27px 0 23px 63px!important}

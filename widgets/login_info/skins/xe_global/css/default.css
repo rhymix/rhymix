@@ -24,7 +24,7 @@ form .login_default ul.help li.first-child { padding-left:0; margin-bottom:3px; 
 form .login_default ul.help li a {color:#54564b; font:.9em; white-space:nowrap; text-decoration:none; padding-left:9px; }
 form .login_default ul.help li.first-child a { color:#54564b; text-decoration:none;}
 form .login_default ul.help li a:hover { text-decoration:underline; }
-form .login_default .userName { position:relative;overflow:hidden; padding:0 0 6px 0; margin-top:-5px;zoom:1}
+form .login_default .userName { position:relative;overflow:hidden; padding:0 0 6px 0; margin-top:-5px; *zoom:1}
 form .login_default .userName strong { color:#282828; margin:7px 0 0 2px; font:bold .9em Tahoma; display:inline-block}
 form .login_default .userName a { position:relative; right:0px;}
 form .login_default .userName img { border:none; }

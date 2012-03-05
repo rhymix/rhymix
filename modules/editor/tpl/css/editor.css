@@ -1,8 +1,8 @@
 @charset "utf-8";
 .xeEditor .optionABC{clear:both;width:100%;border-bottom:1px solid #c2c2c2;overflow:hidden;background:#ffffff url(../images/bgBoardEditorOption.gif) no-repeat -3px bottom}
 .xeEditor .optionABC .selectGroup{white-space:nowrap;display:block;height:21px;margin:0 .5em 0 0;padding-left:1em;float:left}
-.xeEditor .optionABC .btnGroup{white-space:nowrap;position:relative;display:block;margin:0 .5em 0 0;float:left;height:21px;overflow:hidden;padding-left:2px}
-.xeEditor .optionABC .btnGroup img{float:left;display:block;margin-left:-1px;cursor:pointer}
+.xeEditor .optionABC .buttonGroup{white-space:nowrap;position:relative;display:block;margin:0 .5em 0 0;float:left;height:21px;overflow:hidden;padding-left:2px}
+.xeEditor .optionABC .buttonGroup img{float:left;display:block;margin-left:-1px;cursor:pointer}
 .xeEditor .optionA,
 .xeEditor .optionB,
 .xeEditor .optionC{float:left;background:#ffffff url(../images/bgBoardEditorOption.gif) no-repeat left bottom;padding:.5em 0 .5em .7em;overflow:hidden}
@@ -12,7 +12,7 @@
 .xeEditor .optionA{background-position:-3px bottom;padding-left:0}
 .xeEditor .optionA select option{font-size:.9em}
 .xeEditor .optionDE{width:100%;clear:both;overflow:hidden;background:#f8f8f8;border-bottom:1px solid #e1e1e1;height:29px}
-.xeEditor .optionDE .btnGroup{white-space:nowrap;position:relative;display:block;float:left;height:21px;overflow:hidden;padding-left:2px}
+.xeEditor .optionDE .buttonGroup{white-space:nowrap;position:relative;display:block;float:left;height:21px;overflow:hidden;padding-left:2px}
 .xeEditor .optionDE img{float:left;display:block;margin-right:.5em;cursor:pointer}
 .xeEditor .optionD{padding:.5em 0 .5em .8em;overflow:hidden;float:left;border-right:1px solid #e0e0e0}
 .xeEditor .optionE{padding:4px 0 0 8px;overflow:hidden;border-left:1px solid #ffffff;float:left}

@@ -25,7 +25,7 @@
 		<th scope="row">{$lang->move_target_module}</th>
 		<td>
 			<input type="hidden" name="target_module" id="target_module" value="{$module_srl}" />
-			<input type="text" name="_target_module" id="_target_module" value="{$mid} ({$browser_title})" readonly="readonly" /><a href="{getUrl('','module','module','act','dispModuleSelectList','id','target_module','type','single')}" onclick="popopen(this.href,'ModuleSelect');return false;">{$lang->cmd_select}</a>
+			<input type="text" name="_target_module" id="_target_module" value="{$mid} ({$browser_title})" readonly="readonly" /><a href="{getUrl('','module','module','act','dispModuleSelectList','id','target_module','type','single')}" onclick="popopen(this.href,'ModuleSelect');return false;" class="button green"><span>{$lang->cmd_select}</span></a>
 		</td>
 	</tr>
 	<tr>

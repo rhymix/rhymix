@@ -1,0 +1,59 @@
+@charset "utf-8";
+/* NHN (developers@xpressengine.com) */
+.install{ border-top:1px solid #ddd; *zoom:1;}
+.install:after{ content:""; display:block; clear:both;}
+
+.aside { width:180px; float:left; margin-right:30px; padding-bottom:30px; }
+
+.aside .categoryBox { background-color:#F8F8F8; padding:10px; width:160px; overflow:hidden; }
+.aside .categoryBox h3 { padding:0 0 10px 0; margin:0 0 10px 0; white-space:nowrap; overflow:hidden; color:#48494E; font-size:11px; font-weight:normal;}
+.aside .categoryBox .bottomLine {background:transparent url(../img/hrE1.gif) repeat-x scroll left bottom;}
+.aside .categoryBox .topLine {background:transparent url(../img/hrE1.gif) repeat-x scroll left top;}
+.aside .categoryBox h3 a { color:#48494E; font-size:12px; font-weight:bold; text-decoration:none; }
+.aside .categoryBox ul.category { margin:10px 0 0 0; padding:0; list-style:none; }
+.aside .categoryBox ul.category li { margin:0 0 10px 10px; }
+.aside .categoryBox ul.category li a.selected { font-weight:bold; color:#2893BB; }
+.aside .categoryBox ul.category li a { text-decoration:none; color:#7B7575; }
+.aside .categoryBox ul.category li span { font-family:verdana; font-size:10px; color:#999; }
+
+.aside .categoryBox ul.resourceManage { margin:0; padding:10px 0 0 0; list-style:none; background:transparent url(../img/hrE1.gif) repeat-x scroll left top; }
+.aside .categoryBox ul.resourceManage li { background:url(../img/btnManage.gif) no-repeat 2px 2px; padding-left:14px; white-space:nowrap; overflow:hidden; margin-bottom:10px; }
+.aside .categoryBox ul.resourceManage li a { text-decoration:none; color:#747474; }
+.aside .categoryBox ul.resourceManage li a.selected { font-weight:bold; }
+
+.aside .searchBox { padding:10px 0; text-align:center; } 
+.aside .searchBox input.input { border:1px solid #ddd; width:120px; height:16px;}
+.aside .searchBox input.submit { vertical-align:middle; }
+
+.install .content { position:relative; *zoom:1; overflow:hidden; width:auto; float:none; margin:0;}
+
+.updateList,
+.updateList th,
+.updateList td{ border:0; vertical-align:top; text-align:left; padding:10px 0;}
+.updateList {width:100%; height:100px; table-layout:fixed;}
+.updateList th,
+.updateList td{ border-bottom:1px dotted #ddd;}
+.updateList  th img { border:1px solid #ccc; padding:2px; overflow:hidden; *zoom:1; }
+.updateList  td { padding:10px 0 0 0;}
+.updateList  td .title{ position:relative;}
+.updateList  td .title h3 { padding:0; margin:0 0 5px 0; font-size:12px;}
+.updateList  td .title a {text-decoration:none; color:#333 !important; }
+.updateList  td .title .buttons{ position:absolute; top:0; right:0;}
+.updateList  td .info p{ margin:0 0 5px 0; line-height:1.5;}
+.updateList  td .info p.desc{ margin:0 100px 10px 0;}
+.updateList  td .info p.meta{ font-size:11px;}
+.updateList  td .info p.meta span{ display:inline-block; line-height:1; padding:0 5px 0 9px;}
+.updateList  td .info p.meta .reputation{ padding:0 5px 0 0;}
+.updateList  td .info p.meta .reputation img{ float:left; margin:-1px 0 0 0;}
+.updateList  td .info p.meta .reputation span{ padding:0 0 0 5px;}
+.updateList  td .info p.meta .lastUpdate{ border-left:1px solid #ddd;}
+.updateList  td .info p.meta .download{ border-left:1px solid #ddd;}
+
+ul.listOrder { position:relative; overflow:hidden; margin:0; padding:10px 0; text-align:left; background:transparent url(../img/hrE1.gif) repeat-x scroll left bottom;}
+ul.listOrder.asc li.arrow { background:url(../img/arrUp.gif) no-repeat right 2px; padding-right:10px; }
+ul.listOrder.desc li.arrow { background:url(../img/arrDown.gif) no-repeat right 2px; padding-right:10px; }
+ul.listOrder li { position:relative; left:-1px; display:inline; margin:0; padding:0 5px 0 9px; border-left:1px solid #ddd;}
+ul.listOrder li.arrow a { text-decoration:none; font-weight:bold; color:#2893BB; }
+ul.listOrder li a { text-decoration:none; color:#7B7575; }
+
+p.caution strong { font-size: 1.2em; font-weight: bold; color: red; } 

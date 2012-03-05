@@ -408,7 +408,7 @@
             $widget_padding_right = $args->widget_padding_right;
             $widget_padding_top = $args->widget_padding_top;
             $widget_padding_bottom = $args->widget_padding_bottom;
-            $inner_style = sprintf($widget_padding_top, $widget_padding_right, $widget_padding_bottom, $widget_padding_left);
+            $inner_style = sprintf("padding:%dpx %dpx %dpx %dpx !important; padding:none !important;", $widget_padding_top, $widget_padding_right, $widget_padding_bottom, $widget_padding_left);
 
             /**
              * Wanted widget output
@@ -434,21 +434,21 @@
                             $oEditorController = &getController('editor');
                             $body = $oEditorController->transComponent($body);
 
-                            $widget_content_header = sprintf('%s<div class="wgWrap" style="display:inline-block;*display:inline;zoom:1;vertical-align:top;%s">', $args->id, $style,  $inner_style);
+                            $widget_content_header = sprintf('<div %sstyle="overflow:hidden;%s"><div style="%s">', $args->id, $style,  $inner_style);
                             $widget_content_body = $body;
-                            $widget_content_footer = '</div>';
+                            $widget_content_footer = '</div></div>';
 
                         break;
                     // If the widget box; it could
                     case 'widgetBox' :
-                            $widget_content_header = sprintf('%s<div class="wgWrap" style="display:inline-block;*display:inline;zoom:1;vertical-align:top;%s"><div class="deprecated"><div class="deprecated">', $args->id, $style,  $inner_style);
+                            $widget_content_header = sprintf('<div %sstyle="overflow:hidden;%s;"><div style="%s"><div>', $args->id, $style,  $inner_style);
                             $widget_content_body = $widgetbox_content;
 
                         break;
                     // If the General wijetil
                     default :
-                            $widget_content_header = sprintf('%s<div class="wgWrap" style="display:inline-block;*display:inline;zoom:1;vertical-align:top;%s">',$args->id,$style);
-                            $widget_content_body = sprintf('%s<div class="deprecated">%s</div>', $inner_style,$widget_content);
+                            $widget_content_header = sprintf('<div %sstyle="overflow:hidden;%s">',$args->id,$style);
+                            $widget_content_body = sprintf('<div style="*zoom:1;%s">%s</div>', $inner_style,$widget_content);
                             $widget_content_footer = '</div>';
                         break;
                 }
@@ -477,9 +477,10 @@
                             $oWidgetController = &getController('widget');
 
                             $widget_content_header = sprintf(
-                                '<div class="wgWrap" widgetstyle="%s" style="%s" widget_padding_left="%s" widget_padding_right="%s" widget_padding_top="%s" widget_padding_bottom="%s" widget="widgetContent" document_srl="%d" %s>'.
-                                    '<button type="button" class="wgRight"></button>'.
-                                    '<div class="wgBorder">'.
+                                '<div class="widgetOutput" widgetstyle="%s" style="%s" widget_padding_left="%s" widget_padding_right="%s" widget_padding_top="%s" widget_padding_bottom="%s" widget="widgetContent" document_srl="%d" %s>'.
+                                    '<div class="widgetResize"></div>'.
+                                    '<div class="widgetResizeLeft"></div>'.
+                                    '<div class="widgetBorder">'.
                                         '<div style="%s">',$args->widgetstyle,
                                 $style,
                                 $args->widget_padding_left, $args->widget_padding_right, $args->widget_padding_top, $args->widget_padding_bottom,
@@ -490,7 +491,7 @@
                             $widget_content_body = $body;
                             $widget_content_footer = sprintf('</div>'.
                                     '</div>'.
-                                    '<div class="widgetContent" style="display:none">%s</div>'.
+                                    '<div class="widgetContent" style="display:none;width:1px;height:1px;overflow:hidden;">%s</div>'.
                                 '</div>',base64_encode($body));
 
                         break;
@@ -508,9 +509,10 @@
                             }
 
                             $widget_content_header = sprintf(
-                                '<div class="wgWrap" widgetstyle="%s" widget="widgetBox" style="%s" widget_padding_top="%s" widget_padding_right="%s" widget_padding_bottom="%s" widget_padding_left="%s" %s >'.
-                                    '<button type="button" class="wgBoxRight"></button>'.
-                                    '<div class="wgBoxBorder"><div class="nullWidget">',$args->widgetstyle,$style, $widget_padding_top, $widget_padding_right, $widget_padding_bottom, $widget_padding_left,implode(' ',$attribute),$inner_style);
+                                '<div class="widgetOutput" widgetstyle="%s" widget="widgetBox" style="%s;" widget_padding_top="%s" widget_padding_right="%s" widget_padding_bottom="%s" widget_padding_left="%s" %s >'.
+                                    '<div class="widgetBoxResize"></div>'.
+                                    '<div class="widgetBoxResizeLeft"></div>'.
+                                    '<div class="widgetBoxBorder"><div class="nullWidget" style="%s">',$args->widgetstyle,$style, $widget_padding_top, $widget_padding_right, $widget_padding_bottom, $widget_padding_left,implode(' ',$attribute),$inner_style);
 
                             $widget_content_body = $widgetbox_content;
 
@@ -529,9 +531,10 @@
                                 }
                             }
 
-                            $widget_content_header = sprintf('<div class="wgWrap" widgetstyle="%s" style="%s" widget_padding_top="%s" widget_padding_right="%s" widget_padding_bottom="%s" widget_padding_left="%s" widget="%s" %s >'.
-                                        '<button type="button" class="wgRight"></button>'.
-                                        '<div class="wgBorder">',$args->widgetstyle,$style,
+                            $widget_content_header = sprintf('<div class="widgetOutput" widgetstyle="%s" style="%s" widget_padding_top="%s" widget_padding_right="%s" widget_padding_bottom="%s" widget_padding_left="%s" widget="%s" %s >'.
+                                        '<div class="widgetResize"></div>'.
+                                        '<div class="widgetResizeLeft"></div>'.
+                                        '<div class="widgetBorder">',$args->widgetstyle,$style,
                                     $widget_padding_top, $widget_padding_right, $widget_padding_bottom, $widget_padding_left,
                                     $widget, implode(' ',$attribute));
 

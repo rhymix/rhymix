@@ -1,8 +1,8 @@
 
 <input type="hidden" name="category_srl" value="{$category_info->category_srl}" />
 <input type="hidden" name="parent_srl" value="{$category_info->parent_srl}" />
-<div class="layer" style="display:block">
-	<button type="button" class="xButton layerClose" title="Close this layer" onclick="jQuery(this).closest('#category_info').hide();">X</button>
+<div class="layer" boxModelController" style="display:block">
+	<button type="button" class="xButton layerClose" title="Close this layer." onclick="jQuery(this).closest('#category_info').hide();">X</button>
 	<h4 class="xeAdmin h3">{$lang->category}</h4>
 	<div class="layerBody table">
 		<table cellspacing="0" class="rowTable">
@@ -15,8 +15,8 @@
 			<tr>
 				<th scope="row">{$lang->category_title}</th>
 				<td>
-					<input type="text" name="category_title" id="category_name" value="{$category_info->title}" />
-					<a href="{getUrl('','module','module','act','dispModuleAdminLangcode','target','category_name')}" onclick="popopen(this.href);return false;">{$lang->cmd_find_langcode}</a>
+					<input type="text" name="category_title" id="category_name" value="{$category_info->title}"  />
+					<a href="{getUrl('','module','module','act','dispModuleAdminLangcode','target','category_name')}" onclick="popopen(this.href);return false;" class="buttonSet buttonSetting"><span>{$lang->cmd_find_langcode}</span></a>
 				</td>
 			</tr>
 			<tr>
@@ -31,12 +31,12 @@
 				<th scope="row">{$lang->category_description}</th>
 				<td >
 					<textarea name="category_description" id="category_description" rows="8" cols="42">{htmlspecialchars($category_info->description)}</textarea>
-					<a href="{getUrl('','module','module','act','dispModuleAdminLangcode','target','category_description')}" onclick="popopen(this.href);return false;">{$lang->cmd_find_langcode}</a>
+					<a href="{getUrl('','module','module','act','dispModuleAdminLangcode','target','category_description')}" onclick="popopen(this.href);return false;" class="buttonSet buttonSetting"><span>{$lang->cmd_find_langcode}</span></a>
 					<p>{$lang->about_category_description}</p>				
 				</td>
 			</tr>
 			
-			<tr>
+			<tr >
 				<th scope="row2">{$lang->category_group_srls}</th>
 				<td>
 					<!--@foreach($group_list as $key=>$val)-->
@@ -53,9 +53,13 @@
 					<p>{$lang->about_expand}</p>
 				</td>
 			</tr>
+			<tr>
+	            <th scope="row" colspan="2" class="button">
+						<span class="buttonAction actionBlue"><input type="submit" value="{$lang->cmd_save}" /></span>
+				</th>
+	        </tr>
 		</table>
 	</div>
-	<div class="btnArea"><input type="submit" value="{$lang->cmd_save}" /></div>
 </div>
 <script type="text/javascript">
 jQuery(function(){
