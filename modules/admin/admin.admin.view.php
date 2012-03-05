@@ -313,15 +313,24 @@
             $module_list = $oModuleModel->getModuleList();
 			if(is_array($module_list))
 			{
-				$isUpdated = false;
+				$needUpdate = false;
+				$addTables = false;
 				foreach($module_list AS $key=>$value)
 				{
-					if($value->need_install || $value->need_update)
-						$isUpdated = true;
+					if($value->need_install)
+					{
+						$addTables = true;
+					}
+					if($value->need_update)
+					{
+						$needUpdate = true;
+					}
 				}
 			}
             Context::set('module_list', $module_list);
-            Context::set('isUpdated', $isUpdated);
+            Context::set('needUpdate', $isUpdated);
+            Context::set('addTables', $addTables);
+            Context::set('needUpdate', $needUpdate);
 
 			// gathering enviroment check
 			$mainVersion = join('.', array_slice(explode('.', __ZBXE_VERSION__), 0, 2));

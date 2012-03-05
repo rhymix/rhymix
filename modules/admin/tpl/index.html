@@ -15,15 +15,17 @@
 		</div>
 	</form>
 	<!--@end-->
-	<!--@if($isUpdated)-->
+	<!--@if($addTables || $needUpdate)-->
 	<div class="message update">
-		<h2>{$lang->update_available}</h2>
+		<h2 cond="$needUpdate && $addTables">{$lang->need_update_and_table}</h2>
+		<h2 cond="$needUpdate && !$addTables">{$lang->need_update}</h2>
+		<h2 cond="!$needUpdate && $addTables">{$lang->need_table}</h2>
 		<ul>
 		<!--@foreach($module_list AS $key => $value)-->
 			<!--@if($value->need_install)-->
-			<li><a href="{getUrl('','module','admin','act',$val->admin_index_act)}">{$value->module}</a> - <a href="#" onclick="doInstallModule('{$value->module}');return false;">{$lang->cmd_install}</a></li>
+			<li style="margin:0 0 4px 0;">{$value->module} - <span class="btn"><a href="#" onclick="doInstallModule('{$value->module}');return false;">{$lang->cmd_create_db_table}</a></span></li>
 			<!--@else if($value->need_update)-->
-			<li><a href="{getUrl('','module','admin','act',$val->admin_index_act)}">{$value->module}</a> - <a href="#" onclick="doUpdateModule('{$value->module}')">{$lang->cmd_update}</a></li>
+			<li style="margin:0 0 4px 0;">{$value->module} - <span class="btn"><a href="#" onclick="doUpdateModule('{$value->module}')">{$lang->cmd_module_update}</a></li>
 			<!--@end-->
 		<!--@end-->
 		</ul>
