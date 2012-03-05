@@ -166,6 +166,10 @@ class documentController extends document {
 		// Set to 0 if the category_srl doesn't exist
 		if($obj->category_srl) {
 			$category_list = $oDocumentModel->getCategoryList($obj->module_srl);
+			if(!$category_list[$obj->category_srl]->grant)
+			{
+				return new Object(-1, 'msg_not_permitted');
+			}
 			if(!$category_list[$obj->category_srl]) $obj->category_srl = 0;
 		}
 		// Set the read counts and update order.
