@@ -24,6 +24,8 @@
             $args = Context::getRequestVars();
             $args->module = 'page';
             $args->mid = $args->page_name;	//because if mid is empty in context, set start page mid
+			$args->path = (!$args->path) ? '' : $args->path;
+			$args->mpath = (!$args->mpath) ? '' : $args->mpath;
             unset($args->page_name);
 
 			if($args->use_mobile != 'Y') $args->use_mobile = '';
