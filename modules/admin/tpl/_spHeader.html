@@ -17,9 +17,9 @@
 		</div>
 		<div class="gnb jx">
 			<ul>
-				<li loop="$gnbUrlList=>$key,$value" class="activeOn"|cond="$parentSrl==$key"><a href="{$value['href']}">{$value['text']}</a>
+				<li loop="$gnbUrlList=>$key,$value" class="activeOn"|cond="$parentSrl==$key"><a href="{getFullUrl('')}{$value['href']}">{$value['text']}</a>
 					<ul cond="count($value['list'])">
-						<li loop="$value['list']=>$key2,$value2"><a href="{$value2['href']}">{$value2['text']}</a></li>
+						<li loop="$value['list']=>$key2,$value2"><a href="{getFullUrl('')}{$value2['href']}">{$value2['text']}</a></li>
 					</ul>
 				</li>
 			</ul>

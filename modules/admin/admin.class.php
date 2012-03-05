@@ -82,7 +82,10 @@
 				$args->menu_srl = $menuSrl;
 				$args->menu_item_srl = getNextSequence();
 				$args->name = '{$lang->menu_gnb[\''.$value.'\']}';
-				if($value == 'dashboard') $args->url = getUrl('', 'module', 'admin');
+				if($value == 'dashboard')
+				{
+					$args->url = 'index.php?module=admin';
+				}
 				else $args->url = '#';
 				$args->listorder = -1*$args->menu_item_srl;
                 $output = executeQuery('menu.insertMenuItem', $args);
