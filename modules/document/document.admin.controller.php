@@ -194,8 +194,6 @@
 						$extraVarsListByDocumentSrl[$value->document_srl] = array();
 					}
 
-					//$extraVarsListByDocumentSrl[$value->document_srl]['var_idx'] = $value->var_idx;
-					//$extraVarsListByDocumentSrl[$value->document_srl]['value'] = $value->value;
 					array_push($extraVarsListByDocumentSrl[$value->document_srl], $value);
 				}
 			}
@@ -207,10 +205,10 @@
 
                 $obj = null;
                 $obj = $oDocument->getObjectVars();
+
+				$extraVars = $extraVarsListByDocumentSrl[$document_srl];
 				if($module_srl == $obj->module_srl)
 				{
-					//$extraVars = $oDocument->getExtraVars();
-					$extraVars = $extraVarsListByDocumentSrl[$document_srl];
 					if(is_array($extraVars))
 					{
 						foreach($extraVars as $extraItem)
@@ -259,7 +257,12 @@
 				{
 					foreach($extraVars AS $key=>$value)
 					{
-						if($value->var_idx < 0)
+						if($value->idx >= 0 && $value->lang_code == Context::getLangType())
+						{
+							continue;
+						}
+
+						if( $value->var_idx < 0 || ($module_srl == $value->module_srl && $value->var_idx >= 0) )
 						{
 							$oDocumentController->insertDocumentExtraVar($value->module_srl, $obj->document_srl, $value->var_idx, $value->value, $value->eid, $value->lang_code);
 						}
