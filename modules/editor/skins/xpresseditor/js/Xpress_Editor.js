@@ -5047,6 +5047,44 @@ xe.XE_EditingModeToggler = $.Class({
 		}
 	}
 });
+
+xe.XE_Editorresize = $.Class({
+	name : "XE_Editorresize",
+	$init : function(elAppContainer, oWYSIWYGIFrame){
+		this.inputArea = $('.xpress_xeditor_editing_area_container', elAppContainer).get(0);
+		this.oVerticalResizer = $('.xpress_xeditor_editingArea_verticalResizer', elAppContainer).get(0);
+		this.oCheckBox = $('#editorresize', elAppContainer).get(0);
+		this.oIframe = oWYSIWYGIFrame;
+		var self = this;
+		$(oWYSIWYGIFrame).load(function(){
+			self.oIframeBody = $(oWYSIWYGIFrame).contents().find('body');
+			});
+	},
+
+	$ON_MSG_APP_READY : function(){
+		this.oApp.registerBrowserEvent(this.oCheckBox, 'change', 'XE_TOGGLE_EDITOR_RESIZE');
+	},
+	$ON_XE_TOGGLE_EDITOR_RESIZE : function(){
+		if(this.oCheckBox.checked == true){
+			if(this._prevHeight == undefined)
+				this._prevHeight = this.inputArea.style.height;
+			
+			this.oVerticalResizer.style.display = 'none';
+			this.oApp.registerBrowserEvent(this.oIframeBody, 'keydown', 'XE_EDITOR_RESIZE');
+
+			this.inputArea.style.height = this.oIframe.style.height = this.oIframeBody[0].scrollHeight + 'px';
+		}else{
+			$(this.oIframeBody).unbind('keydown');
+
+			this.oVerticalResizer.style.display = 'block';
+			this.inputArea.style.height = this._prevHeight;
+			this.oIframe.style.height = this._prevHeight;
+		}
+	},
+	$ON_XE_EDITOR_RESIZE : function(){
+		this.inputArea.style.height = this.oIframe.style.height = this.oIframeBody[0].scrollHeight + 'px';
+	}
+});
 //}
 /**
  * @fileOverview This file contains a message mapping(Korean), which is used to map the message code to the actual message

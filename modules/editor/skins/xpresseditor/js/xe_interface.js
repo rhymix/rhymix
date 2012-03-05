@@ -101,7 +101,9 @@ function editorStart_xe(editor_sequence, primary_key, content_key, editor_height
 		oEditor.registerPlugin(new xe.XE_EditingModeToggler(elAppContainer));
 	}
 
-
+	if(jQuery("#editorresize").length) {
+		oEditor.registerPlugin(new xe.XE_Editorresize(elAppContainer, oWYSIWYGIFrame));
+	}
 	//oEditor.registerPlugin(new xe.XE_Preview(elAppContainer));
 
 	if (!jQuery.browser.msie && !jQuery.browser.opera) {
