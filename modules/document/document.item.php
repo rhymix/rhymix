@@ -852,7 +852,7 @@
 			return false;
 		}
 		
-		public function getTranslationLangCodes()
+		function getTranslationLangCodes()
         {
             $obj->document_srl = $this->document_srl;
             // -2 is an index for content. We are interested if content has other translations.
