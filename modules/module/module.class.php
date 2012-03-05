@@ -78,7 +78,7 @@
 			if(!$oDB->isColumnExists("module_config", "site_srl")) return true;
 
 			if(!is_dir('./files/ruleset')) return true;
-return true;
+
             return false;
         }
 
