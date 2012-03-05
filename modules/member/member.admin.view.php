@@ -204,7 +204,7 @@
 				if ($formInfo->name == $member_config->identifier || $formInfo->name == 'password') continue;
 				unset($formTag);
 				$inputTag = '';
-				$formTag->title = $formInfo->title;
+				$formTag->title = ($formInfo->isDefaultForm) ? $lang->{$formInfo->name} : $formInfo->title;
 				if($isAdmin)
 				{
 					if($formInfo->mustRequired) $formTag->title = $formTag->title.' <em style="color:red">*</em>';

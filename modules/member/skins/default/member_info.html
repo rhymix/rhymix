@@ -5,7 +5,7 @@
 		<!--@foreach($member_config->signupForm as $no=>$formInfo)-->
 		<!--@if($formInfo->isUse && ($formInfo->name != 'password' && $formInfo->name != 'find_account_question'))-->
 		<!--@if($formInfo->isDefaultForm)-->
-{@$title = $formInfo->title}
+{@$title = Context::getLang($formInfo->name)}
 {@$value = $memberInfo[$formInfo->name]}
 			<!--@if($formInfo->name == 'profile_image' && $memberInfo['profile_image'])-->
 {@$target = $memberInfo['profile_image']}
