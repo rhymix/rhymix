@@ -209,10 +209,13 @@
 			$module_srls = $output->data;
 			$oModuleModel = &getModel('module');
 			$result = array();
-			foreach($module_srls as $module)
+			if($module_srls)
 			{
-				$module_info = $oModuleModel->getModuleInfoByModuleSrl($module->module_srl);
-				$result[$module->module_srl] = $module_info->mid;
+				foreach($module_srls as $module)
+				{
+					$module_info = $oModuleModel->getModuleInfoByModuleSrl($module->module_srl);
+					$result[$module->module_srl] = $module_info->mid;
+				}
 			}
 			return $result;
 		}
