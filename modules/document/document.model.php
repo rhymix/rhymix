@@ -19,6 +19,18 @@
             return $_SESSION['own_document'][$document_srl];
         }
 
+		function getDocumentExtraVarsFromDB($documentSrls)
+		{
+			if(!is_array($documentSrls) || count($documentSrls) == 0)
+			{
+				return new Object(-1, 'msg_invalid_request');
+			}
+
+			$args->document_srl = $documentSrls;
+            $output = executeQueryArray('document.getDocumentExtraVars', $args);
+			return $output;
+		}
+
         /**
          * @brief extra variables for each article will not be processed bulk select and apply the macro city
          **/
@@ -36,8 +48,8 @@
             // If the document number, return detected
             if(!count($document_srls)) return;
             // Expand variables mijijeongdoen article about a current visitor to the extension of the language code, the search variable
-            $obj->document_srl = implode(',',$document_srls);
-            $output = executeQueryArray('document.getDocumentExtraVars', $obj);
+            //$obj->document_srl = implode(',',$document_srls);
+            $output = $this->getDocumentExtraVarsFromDB($document_srls);
             if($output->toBool() && $output->data) {
                 foreach($output->data as $key => $val) {
                     if(!isset($val->value)) continue;

@@ -183,6 +183,23 @@
             $oDB = &DB::getInstance();
             $oDB->begin();
 
+			$extraVarsList = $oDocumentModel->getDocumentExtraVarsFromDB($document_srl_list);
+			$extraVarsListByDocumentSrl = array();
+			if(is_array($extraVarsList->data))
+			{
+				foreach($extraVarsList->data AS $key=>$value)
+				{
+					if(!isset($extraVarsListByDocumentSrl[$value->document_srl]))
+					{
+						$extraVarsListByDocumentSrl[$value->document_srl] = array();
+					}
+
+					//$extraVarsListByDocumentSrl[$value->document_srl]['var_idx'] = $value->var_idx;
+					//$extraVarsListByDocumentSrl[$value->document_srl]['value'] = $value->value;
+					array_push($extraVarsListByDocumentSrl[$value->document_srl], $value);
+				}
+			}
+
             for($i=count($document_srl_list)-1;$i>=0;$i--) {
                 $document_srl = $document_srl_list[$i];
                 $oDocument = $oDocumentModel->getDocument($document_srl);
@@ -192,12 +209,13 @@
                 $obj = $oDocument->getObjectVars();
 				if($module_srl == $obj->module_srl)
 				{
-					$extraVars = $oDocument->getExtraVars();
+					//$extraVars = $oDocument->getExtraVars();
+					$extraVars = $extraVarsListByDocumentSrl[$document_srl];
 					if(is_array($extraVars))
 					{
 						foreach($extraVars as $extraItem)
 						{
-							$obj->{'extra_vars'.$extraItem->idx} = $extraItem->value;
+							if($extraItem->var_idx >= 0) $obj->{'extra_vars'.$extraItem->var_idx} = $extraItem->value;
 						}
 					}
 				}
@@ -235,6 +253,19 @@
                     $oDB->rollback();
                     return $output;
                 }
+
+				// copy multi language contents
+				if(is_array($extraVars))
+				{
+					foreach($extraVars AS $key=>$value)
+					{
+						if($value->var_idx < 0)
+						{
+							$oDocumentController->insertDocumentExtraVar($value->module_srl, $obj->document_srl, $value->var_idx, $value->value, $value->eid, $value->lang_code);
+						}
+					}
+				}
+
                 // Move the comments
                 if($oDocument->getCommentCount()) {
                     $oCommentModel = &getModel('comment');
