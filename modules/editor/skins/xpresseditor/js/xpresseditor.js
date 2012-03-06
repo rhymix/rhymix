@@ -5867,7 +5867,7 @@ function editorStart_xe(editor_sequence, primary_key, content_key, editor_height
 
 	oEditor.registerPlugin(new xe.XE_PreservTemplate(jQuery("#xpress-editor-"+editor_sequence).val()));
 	oEditor.registerPlugin(new xe.StringConverterManager());
-	oEditor.registerPlugin(new xe.XE_EditingAreaManager("WYSIWYG", oIRTextarea, {nHeight:parseInt(editor_height), nMinHeight:205}, null, elAppContainer));
+	oEditor.registerPlugin(new xe.XE_EditingAreaManager("WYSIWYG", oIRTextarea, {nHeight:parseInt(editor_height), nMinHeight:100}, null, elAppContainer));
 	oEditor.registerPlugin(new xe.XE_EditingArea_HTMLSrc(oHTMLSrcTextarea));
 	oEditor.registerPlugin(new xe.XE_EditingAreaVerticalResizer(elAppContainer));
 	oEditor.registerPlugin(new xe.Utils());
@@ -6081,4 +6081,17 @@ xe.XE_Preview = jQuery.Class({
 	$ON_EVENT_PREVIEW : function() {
 		// TODO : 버튼이 눌렸을 때의 동작 정의
 	}
+});
+
+// Auto Resize Checkbox Toggle Class
+jQuery(function($){
+	$('.input_auto>input').change(function(){
+		setTimeout(function(){
+			if($('.input_control').is(':hidden')){
+				$('.input_auto').addClass('line');
+			} else {
+				$('.input_auto').removeClass('line');
+			}
+		},1);
+	});
 });
