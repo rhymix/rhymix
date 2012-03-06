@@ -6,7 +6,6 @@
      **/
 
     @error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED);
-	@ini_set('session.cookie_httponly', 1);
 
     if(!defined('__ZBXE__')) exit();
 
