@@ -298,7 +298,7 @@
                     break;
                 // General text
                 default :
-                        $buff .=' <input type="text" name="'.$column_name.'" value="'.$value.'" class="text" />';
+                        $buff .=' <input type="text" name="'.$column_name.'" value="'.($value ? $value : $default).'" class="text" />';
                     break;
             }
             if($this->desc) $buff .= '<p>'.$this->desc.'</p>';
