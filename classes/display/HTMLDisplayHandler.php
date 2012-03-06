@@ -117,6 +117,7 @@ class HTMLDisplayHandler {
 			$keys = '('.implode('|', $keys).')';
 
 			$output = preg_replace_callback('@(<input)([^>]*?)\sname="'.$keys.'"([^>]*?)/?>@is', array(&$this, '_preserveValue'), $output);
+			$output = preg_replace_callback('@<select[^>]*\sname="'.$keys.'".+</select>@isU', array(&$this, '_preserveSelectValue'), $output);
 		}
 
 		if(__DEBUG__==3) $GLOBALS['__trans_content_elapsed__'] = getMicroTime()-$start;
@@ -177,6 +178,25 @@ class HTMLDisplayHandler {
 		}
 
 		return $str.' />';
+	}
+
+	function _preserveSelectValue($match)
+	{
+		$INPUT_ERROR = Context::get('INPUT_ERROR');
+		preg_replace('@\sselected(="[^"]*?")?@', ' ', $match[0]);
+		preg_match('@<select.*?>@is', $match[0], $mm);
+
+		preg_match_all('@<option[^>]*\svalue="([^"]*)".+</option>@isU', $match[0], $m);
+
+		$key = array_search($INPUT_ERROR[$match[1]], $m[1]);
+		if($key === FALSE)
+		{
+			return $match[0];
+		}
+			
+		$m[0][$key] = preg_replace('@(\svalue=".*?")@is', '$1 selected="selected"', $m[0][$key]);
+
+		return $mm[0].implode('', $m[0]).'</select>';
 	}
 
 	/**
