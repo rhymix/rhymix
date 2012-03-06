@@ -18,10 +18,12 @@ class HTMLDisplayHandler {
 		if(Context::get('module')!='admin' && strpos(Context::get('act'),'Admin') === false){
 			if ($skin && is_string($skin)){
 				$theme_skin = explode('.', $skin);
-				if (count($theme_skin) == 2)
-					$template_path = sprintf('./themes/%s/modules/%s/', $theme_skin[0], $theme_skin[1]);
-				else
-					$template_path = $oModule->getTemplatePath();
+				$template_path = $oModule->getTemplatePath();
+				if (count($theme_skin) == 2) {
+					$theme_path = sprintf('./themes/%s',$theme_skin[0]);
+					if(substr($theme_path,0,strlen($theme_path)) != $theme_path)
+						$template_path = sprintf('%s/modules/%s/', $theme_path, $theme_skin[1]);
+				}	
 			}else{
 				$template_path = $oModule->getTemplatePath();
 			}
