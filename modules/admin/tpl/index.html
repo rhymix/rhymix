@@ -1,4 +1,7 @@
 <!--#include("./_spHeader.html")-->
+
+
+
 <div class="content dashboard" id="content">
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 <p>{$XE_VALIDATOR_MESSAGE}</p>
@@ -43,7 +46,7 @@
 			</ul>
 		</div>
 		<div class="portlet">
-			<h2 class="h2">{$lang->latest_documents}</h2>
+			<h2 class="h2"><a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList')}">{$lang->latest_documents}</a></h2>
 			<ul class="lined">
 				<!--@foreach($latestDocumentList AS $key=>$value)-->
 				{@$document = $value->variables}
@@ -65,7 +68,7 @@
 			</ul>
 		</div>
 		<div class="portlet">
-			<h2 class="h2">{$lang->latest_comments}</h2>
+			<h2 class="h2"><a href="{getUrl('', 'module', 'admin', 'act', 'dispCommentAdminList')}">{$lang->latest_comments}</a></h2>
 			<ul class="lined">
 				<!--@foreach($latestCommentList AS $key=>$value)-->
 				<li>
@@ -86,7 +89,7 @@
 			</ul>
 		</div>
 		<div class="portlet">
-			<h2 class="h2">{$lang->latest_trackbacks}</h2>
+			<h2 class="h2"><a href="{getUrl('', 'module', 'admin', 'act', 'dispTrackbackAdminList')}">{$lang->latest_trackbacks}</a></h2>
 			<ul class="lined">
 				<!--@foreach($latestTrackbackList AS $key=>$value)-->
 				<li>
