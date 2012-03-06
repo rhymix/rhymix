@@ -1,7 +1,7 @@
 @charset "utf-8";
 /* NHN (developers@xpressengine.com) */
 html, body{height:100%;background-color:transparent;padding:0;margin:0}
-.xe_content.editable{margin-right:8px}
+.xe_content.editable{margin-right:8px;word-break:break-all;word-wrap:break-word}
 .xe_content.editable h1,
 .xe_content.editable h2,
 .xe_content.editable h3,

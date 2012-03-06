@@ -77,7 +77,7 @@
 .xpress-editor .tool li.html span button,
 .xpress-editor .tool li.preview span button{left:2px;height:21px;background-position:right top;font:11px/21px Tahoma, Sans-serif;padding:0 4px;*overflow:visible;*line-height:20px}
 .xpress-editor .tool ul.type li{float:none;display:inline;*top:1px}
-.xpress-editor .tool ul.type li select{height:21px;width:62px}
+.xpress-editor .tool ul.type li select{height:21px;width:62px;white-space:nowrap}
 .xpress-editor.black .tool ul.type li select{color:#fff;background-color:#000}
 /* Content > Tool > Button Default */
 .xpress-editor .tool li.undo button{width:22px;background-position:0 0}
