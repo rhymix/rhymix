@@ -140,10 +140,13 @@
 
 			$_files = $oTar->files;
             $file_list = array();
-            foreach($_files as $key => $info) {
-                FileHandler::writeFile($this->download_path."/".$info['name'], $info['file']);
-                $file_list[] = $info['name'];
-            }
+			if(is_array($_files))
+			{
+				foreach($_files as $key => $info) {
+					FileHandler::writeFile($this->download_path."/".$info['name'], $info['file']);
+					$file_list[] = $info['name'];
+				}
+			}
             return $file_list;
 		}
 
