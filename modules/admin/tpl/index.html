@@ -114,23 +114,6 @@
 				<li cond="!is_array($news) || count($news) < 1">{$lang->no_data}</li>
 			</ul>
 		</div>
-		<div class="portlet">
-			<h2 class="h2">{$lang->favorites}</h2>
-			<ul class="lined">
-				<li loop="$favorite_list => $favorite">
-					<a href="{getUrl('act', $favorite->admin_index_act)}">{$favorite->title}</a>
-					<form class="action" action="">
-						<input type="hidden" name="module" value="admin" />
-						<input type="hidden" name="act" value="procAdminToggleFavorite" />
-						<input type="hidden" name="site_srl" value="0" />
-						<input type="hidden" name="module_name" value="{$favorite->module}" />
-						<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin')}" />
-						<button type="submit" class="text">{$lang->cmd_delete}</button>
-					</form>
-				</li>
-				<li cond="!is_array($favorite_list) || count($favorite_list) < 1">{$lang->no_data}</li>
-			</UL>
-		</div>
 	</div>
 </div>
 <!--#include("./_spFooter.html")-->
