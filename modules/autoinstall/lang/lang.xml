@@ -80,7 +80,7 @@
 		<value xml:lang="zh-TW"><![CDATA[FTP 設定]]></value>
 	</item>
 	<item name="description_update">
-		<value xml:lang="ko"><![CDATA[쉬운설치 사용전 %s를 해주세요.]]></value>
+		<value xml:lang="ko"><![CDATA[쉬운 설치 사용전 %s를 해주세요.]]></value>
 		<value xml:lang="en"><![CDATA[Click %s before using EasyInstall.]]></value>
 		<value xml:lang="jp"><![CDATA[新しくインストールしたモジュールバージョン情報などは%sを押すと反映されます。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[使用自動安裝前請先點擊%s]]></value>

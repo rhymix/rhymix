@@ -12,7 +12,7 @@
 	<menus>
 		<menu name="easyInstall">
 			<title xml:lang="en">Easy Install</title>
-			<title xml:lang="ko">쉬운설치</title>
+			<title xml:lang="ko">쉬운 설치</title>
 			<title xml:lang="zh-CN">Easy Install</title>
 			<title xml:lang="jp">Easy Install</title>
 			<title xml:lang="es">Easy Install</title>
