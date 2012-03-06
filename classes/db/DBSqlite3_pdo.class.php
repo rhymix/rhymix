@@ -517,7 +517,16 @@
                 $total_page = 1;
 
             // check the page variables
-            if ($page > $total_page) $page = $total_page;
+            if ($page > $total_page) {
+				// If requested page is bigger than total number of pages, return empty list
+				
+				$buff = new Object ();		
+				$buff->total_count = $total_count;
+				$buff->total_page = $total_page;
+				$buff->page = $page;
+				$buff->data = array();
+				$buff->page_navigation = new PageHandler($total_count, $total_page, $page, $page_count);				
+			}
             $start_count = ($page - 1) * $list_count;
 
             $this->_prepare($this->getSelectPageSql($queryObject, true, $start_count, $list_count));
