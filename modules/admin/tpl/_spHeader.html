@@ -15,17 +15,25 @@
 				</li>
 			</ul>
 		</div>
-		<div class="gnb jx">
-			<ul>
-				<li loop="$gnbUrlList=>$key,$value" class="activeOn"|cond="$parentSrl==$key"><a href="{getFullUrl('')}{$value['href']}">{$value['text']}</a>
+		<div class="gnb">
+			<ul class="nav">
+				<li loop="$gnbUrlList=>$key,$value" class="activeOn"|cond="$parentSrl==$key"><a href="{getFullUrl('')}{$value['href']}"><span>{$value['text']}</span></a>
 					<ul cond="count($value['list'])">
 						<li loop="$value['list']=>$key2,$value2"><a href="{getFullUrl('')}{$value2['href']}">{$value2['text']}</a></li>
 					</ul>
 				</li>
 			</ul>
-			<div class="bmk">
-				<a href="#bmk" class="tgAnchor" data-effect="fade" data-duration="200">{$lang->favorite}</a>
-				<ul id="bmk" class="tgContent">
+			<select class="mnv">
+			<block loop="$gnbUrlList=>$key,$value">
+				<optgroup label="{$value['text']}" cond="count($value['list']) > 0">
+					<option loop="$value['list']=>$key2,$value2" value="{getFullUrl('')}{$value2['href']}" selected="selected"|cond="$value2['text'] == $subMenuTitle">{$value2['text']}</option>
+				</optgroup>
+				<option cond="count($value['list']) == 0" value="{getFullUrl('')}{$value['href']}" selected="selected"|cond="!$subMenuTitle">{$value['text']}</option>
+			</block>
+			</select>
+			<div class="bmk active">
+				<a href="#bmk" class="bmAnchor" data-effect="fade" data-duration="200">{$lang->favorite}</a>
+				<ul id="bmk" class="bmContent">
 					<li loop="$favorite_list => $favorite">
 						<a href="{getUrl('', 'module', 'admin', 'act', $favorite->admin_index_act)}">{$favorite->title}</a>
 						<form class="action" action="">
@@ -40,6 +48,10 @@
 					<li cond="!is_array($favorite_list) || count($favorite_list) < 1">{$lang->no_data}</li>
 				</ul>
 			</div>
+			<select class="mnv">
+				<option disabled="disabled">{$lang->favorite}</option>
+				<option loop="$favorite_list => $favorite" value="{getUrl('', 'module', 'admin', 'act', $favorite->admin_index_act)}">{$favorite->title}</option>
+			</select>
 		</div>
 	</div>
-	<div class="body">
+	<div class="body"> 

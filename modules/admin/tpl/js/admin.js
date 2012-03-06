@@ -152,45 +152,69 @@ jQuery(function($){
 // Global Navigation Bar
 jQuery(function($){
 
-$.fn.xeMenu = function(){
-	this
-		.removeClass('jx')
-		.attr('role', 'navigation') // WAI-ARIA role
-		.find('li')
-			.attr('role', 'menuitem') // WAI-ARIA role
-			.find('>ul').css('height','0').end()
-			.filter(':has(>ul)')
-				.attr('aria-haspopup', 'true') // WAI-ARIA
+	$.fn.xeMenu = function(){
+		this
+			.attr('role', 'navigation') // WAI-ARIA role
+			.find('>.nav>li')
+				.attr('role', 'menuitem') // WAI-ARIA role
+				.find('>ul').css('height','0').end()
+				.filter(':has(>ul)')
+					.attr('aria-haspopup', 'true') // WAI-ARIA
+				.end()
 			.end()
-		.end()
-		.mouseover(function(){
-			$(this)
-				.addClass('active')
-				.find('>ul>li>ul').css('height','auto').end()
-				.find('>.bmk>.tgContent').show();
-		})
-		.mouseleave(function(){
-			$(this)
-				.removeClass('active')
-				.find('>ul>li>ul').css('height','0').end()
-				.find('>.bmk>.tgContent').hide();
-		})
-		.focusout(function(){
-			var $this = $(this);
-			setTimeout(function(){
-				if(!$this.find(':focus').length) {
-					$this.removeClass('active').find('>ul>li>ul').css('height','0');
+			.find('>.nav')
+			.mouseover(function(){
+				$(this)
+					.parent('.gnb').addClass('active').end()
+					.find('>li>ul').css('height','auto').end()
+			})
+			.mouseleave(function(){
+				$(this)
+					.parent('.gnb').removeClass('active').end()
+					.find('>li>ul').css('height','0').end()
+			})
+			.focusout(function(){
+				var $this = $(this);
+				setTimeout(function(){
+					if(!$this.find(':focus').length) {
+						$this.mouseleave();
+					}
+				}, 1);
+			})
+			.delegate('a', {
+				focus : function(){
+					$(this).mouseover();
 				}
-			}, 1);
-		})
-		.delegate('a', {
-			focus : function(){
-				$(this).mouseover();
-			}
-		});
-};
+			});
+		this
+			.find('>.bmk')
+			.removeClass('active')
+			.mouseover(function(){
+				$(this).addClass('active')
+			})
+			.mouseleave(function(){
+				$(this).removeClass('active')
+			})
+			.focusout(function(){
+				var $this = $(this);
+				setTimeout(function(){
+					if(!$this.find(':focus').length) {
+						$this.mouseleave();
+					}
+				}, 1);
+			})
+			.delegate('a', {
+				focus : function(){
+					$(this).mouseover();
+				}
+			});
+	};
+	
+	$('div.gnb').xeMenu();
 
-$('div.gnb').xeMenu();
+	$('.gnb>.mnv').change(function(){
+		window.location.href=$(this).find('option:selected').val();
+	});
 
 });
 
