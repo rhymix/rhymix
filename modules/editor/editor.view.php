@@ -130,7 +130,6 @@
             $oModuleModel = &getModel('module');
             $skin_info = $oModuleModel->loadSkinInfo($this->module_path,$skin);
             $colorset = $skin_info->colorset;
-
 			Context::set('colorset', $colorset);
         }
 
