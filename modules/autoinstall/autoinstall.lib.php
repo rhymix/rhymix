@@ -188,6 +188,11 @@
         }
 
 		function _connect() {
+			if(!function_exists('ssh2_connect'))
+			{
+				return new Object(-1, 'msg_sftp_not_supported');
+			}
+
             if(!$this->ftp_info->ftp_user || !$this->ftp_info->sftp || $this->ftp_info->sftp != 'Y') return new Object(-1,'msg_ftp_invalid_auth_info');
 
             if($this->ftp_info->ftp_host)

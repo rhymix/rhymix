@@ -310,6 +310,9 @@
 		<value xml:lang="ko"><![CDATA[디렉터리 삭제가 실패했습니다. %s]]></value>
 	</item>
 	<item name="msg_ftp_password_input">
-		<value xml:lang="ko"><![CDATA['입력된 비밀번호가 없습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[입력된 비밀번호가 없습니다.]]></value>
+	</item>
+	<item name="msg_sftp_not_supported">
+		<value xml:lang="ko"><![CDATA[SFTP 지원이 되지 않는 환경입니다.]]></value>
 	</item>
 </lang>
