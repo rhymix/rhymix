@@ -1142,7 +1142,7 @@ class documentController extends document {
 
 				foreach($extra_keys as $idx => $val) {
 				$js_code[] = sprintf('validator.cast("ADD_MESSAGE", ["extra_vars%s","%s"]);', $val->idx, $val->name);
-				if($val->is_required == 'Y' && $logged_info->is_admin != 'Y') $js_code[] = sprintf('validator.cast("ADD_EXTRA_FIELD", ["extra_vars%s", { required:true }]);', $val->idx);
+				if($val->is_required == 'Y') $js_code[] = sprintf('validator.cast("ADD_EXTRA_FIELD", ["extra_vars%s", { required:true }]);', $val->idx);
 				}
 
 				$js_code[] = '})(jQuery);';
