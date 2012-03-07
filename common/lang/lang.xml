@@ -1116,6 +1116,10 @@
 		<value xml:lang="vi"><![CDATA[Nhập lại mật khẩu]]></value>
 		<value xml:lang="mn"><![CDATA[Нууц дугаар шалгах]]></value>
 	</item>
+	<item name="password3">
+		<value xml:lang="ko"><![CDATA[비밀번호 확인]]></value>
+		<value xml:lang="en"><![CDATA[Retype Password]]></value>
+	</item>
 	<item name="admin_id">
 		<value xml:lang="ko"><![CDATA[관리자ID]]></value>
 		<value xml:lang="en"><![CDATA[Admin ID]]></value>
