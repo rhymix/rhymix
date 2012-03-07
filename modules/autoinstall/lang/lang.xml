@@ -315,4 +315,7 @@
 	<item name="msg_sftp_not_supported">
 		<value xml:lang="ko"><![CDATA[SFTP 지원이 되지 않는 환경입니다.]]></value>
 	</item>
+	<item name="msg_does_not_support_delete">
+		<value xml:lang="ko"><![CDATA[이 패키지가 삭제를 지원하지 않습니다(모듈 클래스에 moduleUninstall()이 없음).]]></value>
+	</item>
 </lang>

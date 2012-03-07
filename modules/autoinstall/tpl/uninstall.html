@@ -31,7 +31,8 @@
 </block>
 <block cond="!$package->avail_remove">
 	<div class="message error">
-		<p>{$lang->msg_dependency_package}</p>
+		<p cond="$package->deps">{$lang->msg_dependency_package}</p>
+		<p cond="!$package->deps">{$lang->msg_does_not_support_delete}</p>
 	</div>
 	<p cond="$package->deps">{$lang->dependant_list}:</p>
 	<ul cond="$package->deps">
