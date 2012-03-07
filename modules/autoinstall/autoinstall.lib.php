@@ -293,7 +293,10 @@
             }
 
             $this->connection = ftp_connect($ftp_host, $this->ftp_info->ftp_port);
-            if(!$this->connection) return new Object(-1, 'msg_ftp_not_connected');
+            if(!$this->connection)
+			{
+				return new Object(-1, sprintf(Context::getLang('msg_ftp_not_connected'), $ftp_host));
+			}
 
             $login_result = @ftp_login($this->connection, $this->ftp_info->ftp_user, $this->ftp_password);
             if(!$login_result)
@@ -420,7 +423,10 @@
             }
 
             $this->oFtp = new ftp();
-            if(!$this->oFtp->ftp_connect($ftp_host, $this->ftp_info->ftp_port)) return new Object(-1,'msg_ftp_not_connected');
+            if(!$this->oFtp->ftp_connect($ftp_host, $this->ftp_info->ftp_port))
+			{
+				return new Object(-1, sprintf(Context::getLang('msg_ftp_not_connected'), $ftp_host));
+			}
             if(!$this->oFtp->ftp_login($this->ftp_info->ftp_user, $this->ftp_password)) {
 				$this->_close();
                 return new Object(-1,'msg_ftp_invalid_auth_info');
