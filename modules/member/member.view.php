@@ -264,10 +264,13 @@
         /**
          * @brief Change the user password
          **/
-        function dispMemberModifyPassword() {
+        function dispMemberModifyPassword() 
+		{
             $oMemberModel = &getModel('member');
             // A message appears if the user is not logged-in
             if(!$oMemberModel->isLogged()) return $this->stop('msg_not_logged');
+
+			$memberConfig = $oMemberModel->getMemberConfig();
 
             $logged_info = Context::get('logged_info');
             $member_srl = $logged_info->member_srl;
@@ -275,6 +278,17 @@
 			$columnList = array('member_srl', 'user_id');
             $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl, 0, $columnList);
             Context::set('member_info',$member_info);
+
+			if($memberConfig->identifier == 'user_id')
+			{
+				Context::set('identifier', 'user_id');
+				Context::set('formValue', $member_info->user_id);
+			}
+			else
+			{
+				Context::set('identifier', 'email_address');
+				Context::set('formValue', $member_info->email_address);
+			}
             // Set a template file
             $this->setTemplateFile('modify_password');
         }
