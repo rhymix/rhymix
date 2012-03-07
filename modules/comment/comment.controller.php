@@ -98,53 +98,52 @@
             $_SESSION['own_comment'][$comment_srl] = true;
         }
 
-		/**
-		*@brief Check if module is using comment validation system
-		* @param number $document_srl
-		* @return boolean
-		*/
-		function isModuleUsingPublishValidation($document_srl=null, $module_srl=null)
+	/**
+	*@brief Check if module is using comment validation system
+	* @param number $document_srl
+	* @return boolean
+	*/
+	function isModuleUsingPublishValidation($document_srl=null, $module_srl=null)
+	{
+		$oModuleModel = &getModel('module');
+		$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+		$module_part_config = $oModuleModel->getModulePartConfig('comment',$module_info->module_srl);
+		$use_validation = false;
+		if (isset($module_part_config->use_comment_validation) && $module_part_config->use_comment_validation == "Y")
 		{
-			$oModuleModel = &getModel('module');
-			if(!is_null($document_srl))
-			{
-				$module_info = $oModuleModel->getModuleInfoByDocumentSrl($document_srl);
-			}
-			if(!is_null($module_srl))
-			{
-				$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
-			}
-			$module_part_config = $oModuleModel->getModulePartConfig('comment',$module_info->module_srl);
-			$use_validation = false;
-			if (isset($module_part_config->use_comment_validation) && $module_part_config->use_comment_validation == "Y")
-			{
-				$use_validation = true;
-			}
-			return $use_validation;
+			$use_validation = true;
 		}
+		return $use_validation;
+	}
 		
         /**
          * @brief Enter comments
          **/
         function insertComment($obj, $manual_inserted = false) {
 
-			// check if comment's module is using comment validation and set the publish status to 0 (false)
-			// for inserting query, otherwhise default is 1 (true - means comment is published)
-			$using_validation = $this->isModuleUsingPublishValidation($obj->document_srl);
-			if(Context::get('is_logged')) 
+		// check if comment's module is using comment validation and set the publish status to 0 (false)
+		// for inserting query, otherwhise default is 1 (true - means comment is published)
+		$using_validation = $this->isModuleUsingPublishValidation($obj->module_srl);
+		if(Context::get('is_logged')) 
+		{
+			$logged_info = Context::get('logged_info');
+			if ($logged_info->is_admin == 'Y')
 			{
-				$logged_info = Context::get('logged_info');
-				if ($logged_info->is_admin == 'Y')
-				{
-					$is_admin = true;
-				}
-				else
-				{
-					$is_admin = false;
-				}
+				$is_admin = true;
 			}
-			
-			if (!$using_validation || $is_admin)
+			else
+			{
+				$is_admin = false;
+			}
+		}
+
+		if (!$using_validation)
+		{
+			$obj->status = 1;
+		}
+		else
+		{
+			if ($is_admin)
 			{
 				$obj->status = 1;
 			}
@@ -152,8 +151,9 @@
 			{
 				$obj->status = 0;
 			}
-			
-			$obj->__isupdate = false;
+		}
+
+		$obj->__isupdate = false;
             // call a trigger (before)
             $output = ModuleHandler::triggerCall('comment.insertComment', 'before', $obj);
             if(!$output->toBool()) return $output;
@@ -262,9 +262,16 @@
             // create the controller object of the document
             $oDocumentController = &getController('document');
             // Update the number of comments in the post
-			if (!$using_validation || $is_admin)
+			if (!$using_validation)
 			{
 				$output = $oDocumentController->updateCommentCount($document_srl, $comment_count, $obj->nick_name, true);
+			}
+			else
+			{
+				if ($is_admin)
+				{
+					$output = $oDocumentController->updateCommentCount($document_srl, $comment_count, $obj->nick_name, true);
+				}
 			}
             // grant autority of the comment
             $this->addGrant($obj->comment_srl);
@@ -292,6 +299,8 @@
                 }
             }
 
+	  $this->sendEmailToAdminAfterInsertComment($obj);
+
 
             $output->add('comment_srl', $obj->comment_srl);
 			//remove from cache
@@ -303,7 +312,128 @@
             }
             return $output;
         }
+		
+	/**
+	* @brief	Send email to module's admins after a new comment was interted successfully
+	*		if Comments Approval System is used 
+	* @param type $obj 
+	*/
+	function sendEmailToAdminAfterInsertComment($obj)
+	{
+		$using_validation = $this->isModuleUsingPublishValidation($obj->module_srl);
+		
+		$oDocumentModel = &getModel('document');
+		$oDocument = $oDocumentModel->getDocument($obj->document_srl);
 
+		$oMemberModel = &getModel("member");
+		if (isset($obj->member_srl) && !is_null($obj->member_srl))
+		{
+			$member_info = $oMemberModel->getMemberInfoByMemberSrl($obj->member_srl);
+		}
+		else
+		{
+			$member_info->is_admin = "N";
+			$member_info->nick_name = $obj->nick_name;
+			$member_info->user_name = $obj->user_name;
+			$member_info->email_address = $obj->email_address;
+		}
+		
+		$oCommentModel = &getModel("comment");
+		$nr_comments_not_approved = $oCommentModel->getCommentAllCount(null,false);
+		$oModuleModel = &getModel("module");
+		$module_info = $oModuleModel->getModuleInfoByDocumentSrl($obj->document_srl);
+		// If there is no problem to register comment then send an email to all admin were set in module admin panel
+		if($module_info->admin_mail && $member_info->is_admin != 'Y') 
+		{
+			$oMail = new Mail();
+			$oMail->setSender($obj->email_address, $obj->email_address);
+			$mail_title = "[XE - ".Context::get('mid')."] A new comment was posted on document: \"".$oDocument->getTitleText()."\"";
+			$oMail->setTitle($mail_title);
+			if ($using_validation)
+			{
+				$url_approve = getFullUrl('','module','comment','act','procCommentAdminChangePublishedStatusChecked','cart[]',$obj->comment_srl,'will_publish','1','search_target','is_published','search_keyword','N');
+				$url_trash = getFullUrl('','module','comment','act','procCommentAdminDeleteChecked','cart[]',$obj->comment_srl,'search_target','is_trash','search_keyword','true');
+				$mail_content = "
+					A new comment on the document \"".$oDocument->getTitleText()."\" is waiting for your approval.
+					<br />
+					<br />
+					Author: ".$member_info->nick_name."
+					<br />Author e-mail: ".$member_info->email_address."
+					<br />Comment:
+					<br />\"".$obj->content."\"
+					<br />
+					<br />
+					Approve it: <a href=\"".$url_approve."\">".$url_approve."</a>
+					<br />Trash it: <a href=\"".$url_trash."\">".$url_trash."</a>
+					<br />Currently ".$nr_comments_not_approved." comments on \"".Context::get('mid')."\" module are waiting for approval. Please visit the moderation panel:
+					<br /><a href=\"".getFullUrl('','module','admin','act','dispCommentAdminList','search_target','module','search_keyword',$obj->module_srl)."\">".getFullUrl('','module','admin','act','dispCommentAdminList','search_target','module','search_keyword',$obj->module_srl)."</a>
+				";
+				$oMail->setContent($mail_content);
+			}
+			else
+			{
+				$mail_content = "
+					Author: ".$member_info->nick_name."
+					<br />Author e-mail: ".$member_info->email_address."
+					<br />Comment:
+					<br />\"".$obj->content."\"
+				";
+				$oMail->setContent($mail_content);
+				// get email of thread's author
+				$document_author_email = $oDocument->variables['email_address'];
+				//get admin info
+				$logged_info = Context::get('logged_info');
+				
+				//mail to author of thread - START
+				if($document_author_email != $obj->email_address && $logged_info->email_address != $document_author_email) {
+						$oMail->setReceiptor($document_author_email, $document_author_email);
+						$oMail->send();
+				}
+				// mail to author of thread - STOP
+			}
+			
+			// get all admins emails
+			$admins_emails = $module_info->admin_mail;
+			$target_mail = explode(',',$admins_emails);
+			
+			// send email to all admins - START
+			for($i=0;$i<count($target_mail);$i++)
+			{
+				$email_address = trim($target_mail[$i]);
+				if(!$email_address) continue;
+				$oMail->setReceiptor($email_address, $email_address);
+				$oMail->send();
+			}
+			//  send email to all admins - STOP
+		}
+		
+		$comment_srl_list = array(0 => $obj->comment_srl);
+		// call a trigger for calling "send mail to subscribers" (for moment just for forum)
+		ModuleHandler::triggerCall("comment.sendEmailToAdminAfterInsertComment","after",$comment_srl_list);
+		
+		/*
+		// send email to author - START
+		$oMail = new Mail();
+		$mail_title = "[XE - ".Context::get('mid')."] your comment on document: \"".$oDocument->getTitleText()."\" have to be approved";
+		$oMail->setTitle($mail_title);
+		//$mail_content = sprintf("From : <a href=\"%s?document_srl=%s&comment_srl=%s#comment_%d\">%s?document_srl=%s&comment_srl=%s#comment_%d</a><br/>\r\n%s  ", getFullUrl(''),$comment->document_srl,$comment->comment_srl,$comment->comment_srl, getFullUrl(''),$comment->document_srl,$comment->comment_srl,$comment->comment_srl,$comment>content);
+		$mail_content = "
+			Your comment #".$obj->comment_srl." on document \"".$oDocument->getTitleText()."\" have to be approved by admin of <strong><i>".  strtoupper($module_info->mid)."</i></strong> module before to be publish.
+			<br />
+			<br />Comment content:
+			".$obj->content."
+			<br />
+		";
+		$oMail->setContent($mail_content);
+		$oMail->setSender($obj->email_address, $obj->email_address);
+		$oMail->setReceiptor($obj->email_address, $obj->email_address);
+		$oMail->send();
+		// send email to author - START
+		*/
+		return;
+	}
+		
+		
         /**
          * @brief fix the comment
          **/
@@ -457,15 +587,15 @@
             return $output;
         }
 
-        /**
-         * @brief remove all comment relation log
-         **/
-		function deleteCommentLog()
-		{
-			$this->_deleteDeclaredComments($args);
-			$this->_deleteVotedComments($args);
-			return new Object(0, 'success');
-		}
+	/**
+	* @brief remove all comment relation log
+	**/
+	function deleteCommentLog()
+	{
+		$this->_deleteDeclaredComments($args);
+		$this->_deleteVotedComments($args);
+		return new Object(0, 'success');
+	}
 
         /**
          * @brief remove all comments of the article
@@ -715,35 +845,35 @@
             return new Object();
 		}
 
-        /**
-         * @brief get comment all list
-         **/
-		function procCommentGetList()
-		{
-			if(!Context::get('is_logged')) return new Object(-1,'msg_not_permitted');
-			$commentSrls = Context::get('comment_srls');
-			if($commentSrls) $commentSrlList = explode(',', $commentSrls);
+	/**
+	* @brief get comment all list
+	**/
+	function procCommentGetList()
+	{
+		if(!Context::get('is_logged')) return new Object(-1,'msg_not_permitted');
+		$commentSrls = Context::get('comment_srls');
+		if($commentSrls) $commentSrlList = explode(',', $commentSrls);
 
-			if(count($commentSrlList) > 0) {
-				$oCommentModel = &getModel('comment');
-				$commentList = $oCommentModel->getComments($commentSrlList);
+		if(count($commentSrlList) > 0) {
+			$oCommentModel = &getModel('comment');
+			$commentList = $oCommentModel->getComments($commentSrlList);
 
-				if(is_array($commentList))
+			if(is_array($commentList))
+			{
+				foreach($commentList AS $key=>$value)
 				{
-					foreach($commentList AS $key=>$value)
-					{
-						$value->content = strip_tags($value->content);
-					}
+					$value->content = strip_tags($value->content);
 				}
 			}
-			else
-			{
-				global $lang;
-				$commentList = array();
-				$this->setMessage($lang->no_documents);
-			}
-
-			$this->add('comment_list', $commentList);
 		}
+		else
+		{
+			global $lang;
+			$commentList = array();
+			$this->setMessage($lang->no_documents);
+		}
+
+		$this->add('comment_list', $commentList);
+	}
     }
 ?>

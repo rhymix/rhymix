@@ -143,14 +143,22 @@
          **/
         function getCommentCount($document_srl) {
             $args->document_srl = $document_srl;
-			
-			//check if module is using validation system
-			$oCommentController = &getController('comment');
-			$using_validation = $oCommentController->isModuleUsingPublishValidation($document_srl);
-			if($using_validation)
-			{
-				$args->status = 1;
-			}
+		
+		// get the number of comments on the document module
+		$oDocumentModel = &getModel('document');
+		$columnList = array('document_srl', 'module_srl');
+		$oDocument = $oDocumentModel->getDocument($document_srl, false, true, $columnList);
+		// return if no doc exists.
+		if(!$oDocument->isExists()) return;
+		// get a list of comments
+		$module_srl = $oDocument->get('module_srl');
+		//check if module is using validation system
+		$oCommentController = &getController('comment');
+		$using_validation = $oCommentController->isModuleUsingPublishValidation($module_srl);
+		if($using_validation)
+		{
+			$args->status = 1;
+		}
 
             $output = executeQuery('comment.getCommentCount', $args);
             $total_count = $output->data->count;
@@ -180,7 +188,7 @@
 			{
 				// check if module is using comment validation system
 				$oCommentController = &getController("comment");
-				$is_using_validation = $oCommentController->isModuleUsingPublishValidation(null,$module_srl);
+				$is_using_validation = $oCommentController->isModuleUsingPublishValidation($module_srl);
 				if($is_using_validation)
 				{
 					$args->status = 1;
@@ -247,7 +255,7 @@
 				{
 					// check if module is using comment validation system
 					$oCommentController = &getController("comment");
-					$is_using_validation = $oCommentController->isModuleUsingPublishValidation(null,$obj->module_srl);
+					$is_using_validation = $oCommentController->isModuleUsingPublishValidation($obj->module_srl);
 					if($is_using_validation)
 					{
 						$args->status = 1;
@@ -316,7 +324,7 @@
 				
 				//check if module is using validation system
 				$oCommentController = &getController('comment');
-				$using_validation = $oCommentController->isModuleUsingPublishValidation($document_srl);
+				$using_validation = $oCommentController->isModuleUsingPublishValidation($module_srl);
 				if($using_validation)
 				{
 					$args->status = 1;
@@ -437,7 +445,7 @@
 			
 			// check if module is using comment validation system
 			$oCommentController = &getController("comment");
-			$is_using_validation = $oCommentController->isModuleUsingPublishValidation(null,$obj->module_srl);
+			$is_using_validation = $oCommentController->isModuleUsingPublishValidation($obj->module_srl);
 			if ($is_using_validation)
 			{
 				$args->s_is_published = 1;

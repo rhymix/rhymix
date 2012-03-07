@@ -2809,6 +2809,9 @@ Xin vui lòng kiểm tra lại thông tin Database.]]></value>
 		<value xml:lang="en"><![CDATA[Cannot find the Keyword.]]></value>
 		<value xml:lang="en"><![CDATA[搜尋不到關鍵字]]></value>
 	</item>
+	<item name="comment_to_be_approved">
+		<value xml:lang="en"><![CDATA[Your comment must be approved by admin before being published.]]></value>
+	</item>
 	<item name="success_registed">
 		<value xml:lang="ko"><![CDATA[등록했습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Registered successfully.]]></value>

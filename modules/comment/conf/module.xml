@@ -1,26 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module>
-    <grants />
-    <permissions>
+	<grants />
+	<permissions>
 		<permission action="procCommentAdminAddCart" target="manager" />
 		<permission action="procCommentGetList" target="manager" />
-    </permissions>
-    <actions>
-        <action name="getCommentMenu" type="model" standalone="true" />
-        <action name="dispCommentAdminList" type="view" admin_index="true" standalone="true" menu_name="comment" menu_index="true" />
-        <action name="dispCommentAdminDeclared" type="view" standalone="true" menu_name="comment" />
-        <action name="procCommentVoteUp" type="controller" standalone="true" />
-        <action name="procCommentVoteDown" type="controller" standalone="true" />
-        <action name="procCommentDeclare" type="controller" standalone="true" />
-        <action name="getCommentVotedMemberList" type="model" standalone="true" />
-        <action name="procCommentInsertModuleConfig" type="controller" standalone="true" ruleset="insertCommentModuleConfig" />
-        <action name="procCommentAdminDeleteChecked" type="controller" standalone="true" ruleset="deleteChecked" />
-        <action name="procCommentAdminChangePublishedStatusChecked" type="controller" standalone="true" />
-        <action name="isModuleUsingPublishValidation" type="controller" standalone="true" />
+	</permissions>
+	<actions>
+		<action name="getCommentMenu" type="model" standalone="true" />
+		<action name="dispCommentAdminList" type="view" admin_index="true" standalone="true" menu_name="comment" menu_index="true" />
+		<action name="dispCommentAdminDeclared" type="view" standalone="true" menu_name="comment" />
+		<action name="procCommentVoteUp" type="controller" standalone="true" />
+		<action name="procCommentVoteDown" type="controller" standalone="true" />
+		<action name="procCommentDeclare" type="controller" standalone="true" />
+		<action name="getCommentVotedMemberList" type="model" standalone="true" />
+		<action name="procCommentInsertModuleConfig" type="controller" standalone="true" ruleset="insertCommentModuleConfig" />
+		<action name="procCommentAdminDeleteChecked" type="controller" standalone="true" ruleset="deleteChecked" />
+		<action name="procCommentAdminChangeStatus" type="controller" standalone="true"/>
+		<action name="procCommentAdminChangePublishedStatusChecked" type="controller" standalone="true" />
+		<action name="isModuleUsingPublishValidation" type="controller" standalone="true" />
 		<action name="procCommentAdminCancelDeclare" type="controller" standalone="true" />
-        <action name="procCommentAdminAddCart" type="controller" standalone="true" />
-        <action name="procCommentGetList" type="controller" standalone="true" />
-    </actions>
+		<action name="procCommentAdminAddCart" type="controller" standalone="true" />
+		<action name="procCommentGetList" type="controller" standalone="true" />
+	</actions>
 	<menus>
 		<menu name="comment">
 			<title xml:lang="en">Comment</title>

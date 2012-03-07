@@ -79,7 +79,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 					<td class="nowr">{(zdate($val->regdate,"Y-m-d\nH:i:s"))}</td>
 					<td class="nowr"><a href="{getUrl('search_target','ipaddress','search_keyword',$val->ipaddress)}">{$val->ipaddress}</a></td>
 					<td class="nowr"><!--@if($val->isSecret())-->{$secret_name_list['Y']}<!--@else-->{$secret_name_list['N']}<!--@end--></td>
-					<td><!--@if($val->status)-->{$lang->published_name_list['Y']}<!--@else-->{$lang->published_name_list['N']}<!--@end--></td>
+					<td class="nowr"><!--@if($val->status)-->{$lang->published_name_list['Y']}<!--@else-->{$lang->published_name_list['N']}<!--@end--></td>
 					<td><input type="checkbox" name="cart" value="{$val->comment_srl}" /></td>
 				</tr>
 				<!--@end-->
