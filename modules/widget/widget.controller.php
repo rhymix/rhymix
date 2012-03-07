@@ -68,7 +68,6 @@
             $attribute = $this->arrangeWidgetVars($widget, Context::getRequestVars(), $vars);
             // Wanted results
             $widget_code = $this->execute($widget, $vars, true, false);
-
             $this->add('widget_code', $widget_code);
         }
 
@@ -334,7 +333,11 @@
             if(!$ignore_cache && (!$widget_cache || !$widget_sequence)) {
                 $oWidget = $this->getWidgetObject($widget);
                 if(!$oWidget || !method_exists($oWidget, 'proc')) return;
-                return $oWidget->proc($args);
+
+				$widget_content = $oWidget->proc($args);
+				$oModuleController = &getController('module');
+				$oModuleController->replaceDefinedLangCode($widget_content);
+                return $widget_content;
             }
 
             /**
@@ -361,6 +364,8 @@
             if(!$oWidget || !method_exists($oWidget,'proc')) return;
 
             $widget_content = $oWidget->proc($args);
+			$oModuleController = &getController('module');
+			$oModuleController->replaceDefinedLangCode($widget_content);
             FileHandler::writeFile($cache_file, $widget_content);
 
             return $widget_content;
