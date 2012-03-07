@@ -78,6 +78,7 @@
 						<block cond="$var->type == 'filebox'">
 							<input type="hidden" name="{$id}" />
 							<a href="#modalFilebox" class="modalAnchor filebox">{$lang->cmd_select}</a>
+							{@$use_filebox = TRUE}
 						</block>
 					</p>
 					<p class="desc">{$var->description}</p>
