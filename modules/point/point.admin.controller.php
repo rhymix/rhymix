@@ -47,14 +47,20 @@
             // Check if reading a document is not allowed
             if($args->disable_read_document == 'Y') $config->disable_read_document = 'Y';
             else $config->disable_read_document = 'N';
+
             // Per-level group configurations
-            foreach($args as $key => $val) {
-                if(substr($key, 0, strlen('point_group_')) != 'point_group_') continue;
-                $group_srl = substr($key, strlen('point_group_'));
-                $level = $val;
-                if(!$level) unset($config->point_group[$group_srl]);
-                else $config->point_group[$group_srl] = $level;
-            }
+			foreach($config->point_group as $group_srl=>$level)
+			{
+				if($args->{'point_group_'.$group_srl})
+				{
+					$config->point_group[$group_srl] = $args->{'point_group_'.$group_srl};
+				}
+				else
+				{
+					unset($config->point_group[$group_srl]);
+				}
+			}
+
             $config->group_reset = $args->group_reset;
             // Per-level point configurations
             unset($config->level_step);
