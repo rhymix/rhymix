@@ -534,24 +534,24 @@ class FileHandler {
 		switch($type) {
 			case 'gif' :
 					if(!function_exists('imagecreatefromgif')) return false;
-					$source = imagecreatefromgif($source_file);
+					$source = @imagecreatefromgif($source_file);
 				break;
 			// jpg
 			case 'jpeg' :
 			case 'jpg' :
 					if(!function_exists('imagecreatefromjpeg')) return false;
-					$source = imagecreatefromjpeg($source_file);
+					$source = @imagecreatefromjpeg($source_file);
 				break;
 			// png
 			case 'png' :
 					if(!function_exists('imagecreatefrompng')) return false;
-					$source = imagecreatefrompng($source_file);
+					$source = @imagecreatefrompng($source_file);
 				break;
 			// bmp
 			case 'wbmp' :
 			case 'bmp' :
 					if(!function_exists('imagecreatefromwbmp')) return false;
-					$source = imagecreatefromwbmp($source_file);
+					$source = @imagecreatefromwbmp($source_file);
 				break;
 			default :
 				return;
