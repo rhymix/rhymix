@@ -66,12 +66,14 @@
 		}
 
 		function escapeValue($value){
-                        if($this->getType() == 'column_name'){
+			$column_type = $this->getType();
+			if($column_type == 'column_name'){
 				$dbParser = DB::getParser();
 				return $dbParser->parseExpression($value);
-                        }
-                        if(!isset($value)) return null;
-			if(in_array($this->getType(), array('date', 'varchar', 'char','text', 'bigtext'))){
+			}
+			if(!isset($value)) return null;
+			
+			if(in_array($column_type, array('date', 'varchar', 'char','text', 'bigtext'))){
 				if(!is_array($value))
 					$value = $this->_escapeStringValue ($value);
 				else {
@@ -81,6 +83,9 @@
 						//$value[$i] = '\''.$value[$i].'\'';
 				}
 			}
+			if($column_type == 'number')
+				$value = (int)$value;
+			
 			return $value;
 		}
 

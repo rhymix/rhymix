@@ -1,0 +1,9 @@
+<query id="insertMember" action="insert">
+    <tables>
+        <table name="member" />
+    </tables>
+    <columns>
+        <column name="member_srl" var="member_srl" filter="number" notnull="notnull" />
+        <column name="find_account_question" var="find_account_question" />
+    </columns>
+</query>
