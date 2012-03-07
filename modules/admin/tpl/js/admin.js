@@ -966,7 +966,7 @@ function initLayer($layer) {
 		.bind('multilang-reset', function(){
 			$layer
 				.data('multilang-current-name', '')
-				.find('.langInput li').find('>input:text,>textarea').val(' ').prev('label').css('visibility','visible');
+				.find('.langInput li').find('>input:text,>textarea').val('').prev('label').css('visibility','visible');
 
 			mode = MODE_SAVE;
 			setTitleText();
