@@ -43,15 +43,6 @@
 {Context::getHtmlHeader()}
 </head>
 <body{Context::getBodyClass()}>
-
-	{Context::getBodyHeader()}
-
-	{$content}
-
-	{Context::getHtmlFooter()}
-<!-- ETC -->
-	<div class="wfsr"></div>
-{@$ssl_actions=Context::getSSLActions()}
 	<script type="text/javascript"|cond="$db_info->use_html5!='Y'">
 	//<![CDATA[
 	var current_url = "{$current_url}";
@@ -66,6 +57,15 @@
 <block cond="Context::get('_use_ssl') && Context::get('_use_ssl') == 'always'">var enforce_ssl = true;</block>
 	//]]>
 	</script>
+
+	{Context::getBodyHeader()}
+
+	{$content}
+
+	{Context::getHtmlFooter()}
+<!-- ETC -->
+	<div class="wfsr"></div>
+{@$ssl_actions=Context::getSSLActions()}
 {@ $js_body_files = Context::getJsFile('body') }
 <block loop="$js_body_files => $key, $js_file">
 	<block cond="$js_file['targetie']"><!--[if {$js_file['targetie']}]></block><script type="text/javascript"|cond="$db_info->use_html5!='Y'" src="{$js_file['file']}"></script><block cond="$js_file['targetie']"><![endif]--></block>
