@@ -183,6 +183,16 @@
             $oDB = &DB::getInstance();
             $oDB->begin();
 
+            $triggerObj->document_srls = implode(',',$document_srl_list);
+            $triggerObj->module_srl = $module_srl;
+            $triggerObj->category_srl = $category_srl;
+            // Call a trigger (before)
+            $output = ModuleHandler::triggerCall('document.copyDocumentModule', 'before', $triggerObj);
+            if(!$output->toBool()) {
+                $oDB->rollback();
+                return $output;
+            }
+
 			$extraVarsList = $oDocumentModel->getDocumentExtraVarsFromDB($document_srl_list);
 			$extraVarsListByDocumentSrl = array();
 			if(is_array($extraVarsList->data))
@@ -338,6 +348,14 @@
 
                 $copied_srls[$document_srl] = $obj->document_srl;
             }
+
+            // Call a trigger (before)
+            $output = ModuleHandler::triggerCall('document.copyDocumentModule', 'after', $triggerObj);
+            if(!$output->toBool()) {
+                $oDB->rollback();
+                return $output;
+            }
+
             $oDB->commit();
 
             $output = new Object();
