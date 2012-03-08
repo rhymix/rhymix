@@ -524,6 +524,7 @@
 					$buff->page = $page;
 					$buff->data = array();
 					$buff->page_navigation = new PageHandler($total_count, $total_page, $page, $page_count);				
+					return $buff;
 				}
 				$start_count = ($page - 1) * $list_count;
 
