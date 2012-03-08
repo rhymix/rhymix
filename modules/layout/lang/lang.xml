@@ -208,33 +208,33 @@
 	<item name="about_layout_code">
 		<value xml:lang="ko"><![CDATA[아래 레이아웃의 코드를 직접 수정 후 저장하시면 서비스에 반영이 됩니다.
         꼭 미리보기를 하신 후에 저장을 하세요.
-        XE의 템플릿 문법은 <a href="#" onclick="winopen('http://xe.xpressengine.net/18180861');return false;">XE 템플릿</a> 을 참고하시면 됩니다.]]></value>
+        XE의 템플릿 문법은 <a href="#" onclick="winopen('http://code.google.com/p/xe-core/wiki/TemplateSyntax');return false;">XE 템플릿</a> 을 참고하시면 됩니다.]]></value>
 		<value xml:lang="en"><![CDATA[It will be applied to the service when you save the layout code after editing it.
         Please first preview your code and then save it.
-        You can refer grammar of XE's template from <a href="#" onclick="winopen('http://trac.zeroboard.com/trac/wiki/TemplateHandler');return false;">XE Template</a>.]]></value>
+        You can refer grammar of XE's template from <a href="#" onclick="winopen('http://code.google.com/p/xe-core/wiki/TemplateSyntax');return false;">XE Template</a>.]]></value>
 		<value xml:lang="jp"><![CDATA[下のレイアウトコードを修正し、保存するとサービスに反映されます。
         必ずプレビューで確認してから保存してください。
-        XEのテンプレート文法は<a href="#" onclick="winopen('http://xe.xpressengine.net/18180861');return false;">XEテンプレート</a>を参考してください。]]></value>
+        XEのテンプレート文法は<a href="#" onclick="winopen('http://code.google.com/p/xe-core/wiki/TemplateSyntax');return false;">XEテンプレート</a>を参考してください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[修改的布局代码保存后即可生效。
 	保存之前请必须先预览后再保存。
-        XE布局语法请参考<strong><a href="#" onclick="winopen('http://trac.zeroboard.com/trac/wiki/TemplateHandler');return false;">XE模板</a></strong>。]]></value>
+        XE布局语法请参考<strong><a href="#" onclick="winopen('http://code.google.com/p/xe-core/wiki/TemplateSyntax');return false;">XE模板</a></strong>。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[儲存修改後的版面，即可生效。 儲存之前，請先預覽後再儲存。
-        XE 版面設計語法，請參考 <a href="#" onclick="winopen('http://xe.xpressengine.net/18180861');return false;">XE 樣版</a>。]]></value>
+        XE 版面設計語法，請參考 <a href="#" onclick="winopen('http://code.google.com/p/xe-core/wiki/TemplateSyntax');return false;">XE 樣版</a>。]]></value>
 		<value xml:lang="fr"><![CDATA[Vous conservez la code de Mise en Page après l'éditer, la code sera appliquée sur le service.
         Utilisez [Avant-première] avant conserver la code S.V.P.
-        Vous pouvez référer la grammaire de modèle de XE sur <a href="#" onclick="winopen('http://trac.zeroboard.com/trac/wiki/TemplateHandler');return false;">Modèle du XE</a>.]]></value>
+        Vous pouvez référer la grammaire de modèle de XE sur <a href="#" onclick="winopen('http://code.google.com/p/xe-core/wiki/TemplateSyntax');return false;">Modèle du XE</a>.]]></value>
 		<value xml:lang="ru"><![CDATA[Применения к службе будут проиведены, когда Вы сохраните код лейаут после редактирование.
         Пожалуйста, сначала используйте предпросмотр кода и затем сохраните его.
-        Вы можете обратиться к грамматике шаблонов XE с <a href="#" onclick="winopen('http://trac.zeroboard.com/trac/wiki/TemplateHandler');return false;">XE Template</a>.]]></value>
+        Вы можете обратиться к грамматике шаблонов XE с <a href="#" onclick="winopen('http://code.google.com/p/xe-core/wiki/TemplateSyntax');return false;">XE Template</a>.]]></value>
 		<value xml:lang="es"><![CDATA[El diseño sera aplicado al servicio cuando usted guarda el código del diseño luego de haber editado.
 		Primero visualiza previamente tus códigos y luego guardalos
-        Referente al código de planillas de XE dirijirse a<a href="#" onclick="winopen('http://trac.zeroboard.com/trac/wiki/TemplateHandler');return false;">XE Pamphlet(Ingles)</a> ]]></value>
+        Referente al código de planillas de XE dirijirse a<a href="#" onclick="winopen('http://code.google.com/p/xe-core/wiki/TemplateSyntax');return false;">XE Pamphlet(Ingles)</a> ]]></value>
 		<value xml:lang="tr"><![CDATA[Yerleşim düzeni kodunu düzenledikten sonra kaydettiğinizde, hizmete girecektir.
         Lütfen önce kodunuzun önizlemesini yapın ve sonra kaydedin.
-        XE'nin şablolunu örnek alabilirsiniz : <a href="#" onclick="winopen('http://trac.zeroboard.com/trac/wiki/TemplateHandler');return false;">XE Template</a>.]]></value>
+        XE'nin şablolunu örnek alabilirsiniz : <a href="#" onclick="winopen('http://code.google.com/p/xe-core/wiki/TemplateSyntax');return false;">XE Template</a>.]]></value>
 		<value xml:lang="vi"><![CDATA[Nó sẽ được áp dụng vào Website ngay khi bạn bấm '<b>Lưu</b>' sau khi sửa đổi.
         Hãy bấm '<b>Xem trước</b>' trước khi bấm '<b>Lưu</b>'.
-        Bạn có thể tham khảo cách sửa giao diện tại <a href="#" onclick="winopen('http://trac.zeroboard.com/trac/wiki/TemplateHandler');return false;"><b>XE Template</b></a>.]]></value>
+        Bạn có thể tham khảo cách sửa giao diện tại <a href="#" onclick="winopen('http://code.google.com/p/xe-core/wiki/TemplateSyntax');return false;"><b>XE Template</b></a>.]]></value>
 	</item>
 	<item name="layout_export">
 		<value xml:lang="ko"><![CDATA[내보내기]]></value>
