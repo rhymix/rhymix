@@ -5247,6 +5247,10 @@ xe.XE_XHTMLFormatter = $.Class({
 
 		}
 
+		// add new line after </p>
+		regex = /<\/p>[ \t]*(\n)?/ig;
+		sContent = sContent.replace(regex, "</p>\n");
+
 		return sContent;
 	},
 
@@ -5834,7 +5838,7 @@ function editorStart_xe(editor_sequence, primary_key, content_key, editor_height
 	var target_src = request_uri+'modules/editor/styles/'+content_style+'/editor.html';
 
 	var textarea = jQuery("#xpress-editor-"+editor_sequence);
-	var iframe   = jQuery('<iframe id="editor_iframe_'+editor_sequence+'" allowTransparency="true" frameborder="0" src="'+target_src+'" scrolling="yes" style="width:100%;height:'+editor_height+'px">');
+	var iframe   = jQuery('<iframe id="editor_iframe_'+editor_sequence+'" allowTransparency="true" frameborder="0" src="'+target_src+'" scrolling="yes" style="width:100%;height:'+editor_height+'px"></iframe>');
 	var htmlsrc  = jQuery('<textarea rows="8" cols="42" class="input_syntax '+colorset+'" style="display:none"></textarea>');
 	var form	 = textarea.get(0).form;
 	form.setAttribute('editor_sequence', editor_sequence);
@@ -5944,6 +5948,7 @@ function editorStart_xe(editor_sequence, primary_key, content_key, editor_height
 			if (doc.location == 'about:blank') throw 'blank';
 
 			// get innerHTML
+			doc.body.innerHTML = doc.body.innerHTML.trim();
 			str = doc.body.innerHTML;
 
 			// register plugin

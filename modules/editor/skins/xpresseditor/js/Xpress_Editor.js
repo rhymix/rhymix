@@ -5247,6 +5247,10 @@ xe.XE_XHTMLFormatter = $.Class({
 
 		}
 
+		// add new line after </p>
+		regex = /<\/p>[ \t]*(\n)?/ig;
+		sContent = sContent.replace(regex, "</p>\n");
+
 		return sContent;
 	},
 
