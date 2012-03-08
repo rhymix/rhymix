@@ -44,16 +44,18 @@ $('.checkxml')
 					return restore();
 				}
 
-				restore();
 				$message.attr('class', 'desc success').fadeIn(300);
 				$form.find(':submit').removeAttr('disabled');
 
 				$syncmember = $form.find('.syncmember:hidden');
 				
+				$input.prop('disabled', false).removeClass('loading');
+				$this.prop('disabled', false);
+				
 				if(data.type == 'XML') {
-					$xml.not(':visible').add($syncmember).slideDown(300);
+					$xml.not(':visible').add($syncmember).slideUp(300);
 				} else if(data.type == 'TTXML') {
-					$ttxml.not(':visible').add($syncmember).slideDown(300);
+					$ttxml.not(':visible').add($syncmember).slideUp(300);
 					$form.find('input[name=type]').val('ttxml');
 				}
 			};
