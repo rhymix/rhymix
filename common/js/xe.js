@@ -1830,8 +1830,13 @@ var Validator = xe.createApp('Validator', {
 
 			f   = filter[name];
 			el  = elems[name];
+			if(!el)
+			{
+				el = elems[name + '[]'];
+			}
 			val = el?$.trim(get_value($(el))):'';
 			mod = (f.modifier||'')+',';
+
 
 			if(!el || el.disabled) continue;
 
