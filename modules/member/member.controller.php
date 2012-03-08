@@ -51,6 +51,7 @@
 				//$member_info = $oMemberModel->getMemberInfoByUserID($user_id, $columnList);
 				if ($this->memberInfo->change_password_date < date ('YmdHis', strtotime ('-' . $limit_date . ' day'))) {
 					$this->setRedirectUrl(getNotEncodedUrl('','vid',Context::get('vid'),'mid',Context::get('mid'),'act','dispMemberModifyPassword'));
+					return;
 				}
 			}
 
@@ -1474,7 +1475,15 @@
                 if($limit_date > 0) {
                     $oMemberModel = &getModel('member');
 					$columnList = array('member_srl', 'change_password_date');
-                    $member_info = $oMemberModel->getMemberInfoByUserID($user_id, $columnList);
+
+					if($config->identifier == 'user_id')
+					{
+                    	$member_info = $oMemberModel->getMemberInfoByUserID($user_id, $columnList);
+					}
+					else
+					{
+						$member_info = $oMemberModel->getMemberInfoByEmailAddress($user_id, $columnList);
+					}
 
                     if($member_info->change_password_date >= date('YmdHis', strtotime('-'.$limit_date.' day')) ){
                         $do_auto_login = true;
