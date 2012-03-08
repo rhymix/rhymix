@@ -9,7 +9,7 @@
         <condition operation="equal" column="documents.member_srl" var="member.member_srl" notnull="notnull" pipe="and" />
         <condition operation="equal" column="documents.module_srl" var="module_srl" filter="number" pipe="and" />
         <condition operation="equal" column="documents.category_srl" var="category_srl" pipe="and" />
-        <condition operation="in" column="status" var="statusList" pipe="and" />
+        <condition operation="in" column="documents.status" var="statusList" pipe="and" />
         <group pipe="and">
             <condition operation="like" column="documents.title" var="s_title" />
             <condition operation="like" column="documents.content" var="s_content" pipe="or" />

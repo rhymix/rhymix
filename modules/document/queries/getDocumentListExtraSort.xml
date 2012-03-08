@@ -1,4 +1,4 @@
-<query id="getDocumentList" action="select">
+<query id="getDocumentListExtraSort" action="select">
     <tables>
         <table name="documents" alias="d" />
         <table name="document_extra_vars" alias="ev" />
@@ -15,6 +15,7 @@
         <condition operation="in" column="d.category_srl" var="category_srl" pipe="and" />
         <condition operation="equal" column="d.is_notice" var="s_is_notice" pipe="and" />
         <condition operation="equal" column="d.member_srl" var="member_srl" filter="number" pipe="and" />
+        <condition operation="in" column="d.status" var="statusList" pipe="and" />
         <group pipe="and">
             <condition operation="more" column="d.list_order" var="division" pipe="and" />
             <condition operation="below" column="d.list_order" var="last_division" pipe="and" />
