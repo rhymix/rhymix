@@ -5143,7 +5143,6 @@ xe.XE_XHTMLFormatter = $.Class({
 
 	TO_IR : function(sContent) {
 		var stack = [];
-
 		// remove xeHandled attrs
 		/*
 		sContent = sContent.replace(/xeHandled="YES"/ig,'');
@@ -5210,19 +5209,26 @@ xe.XE_XHTMLFormatter = $.Class({
 
 					return '<'+tag+' '+$.trim(attrs)+'>';
 				} else {
-					stack[stack.length] = {tag:tag, state:state};
+					stack.push({tag:tag, state:state});
 				}
 			} else {
 				var tags = [], t = '';
 
 				// remove unnecessary closing tag
-				if (!stack.length) return '';
+				if (!stack.length){
+					return '';
+				}
 
 				do {
-					t = stack.pop();
-					if (t.tag != tag) continue;
-					if (t.state != 'deleted') tags.push('</'+t.tag+'>');
-				} while(stack.length && t.tag != tag);
+					t = stack[stack.length-1];
+					if (t.tag != tag){
+						continue;
+					}
+					if (t.state != 'deleted'){
+						tags.push('</'+t.tag+'>');
+					}
+					stack.pop();
+				} while(stack.length && t.tag == tag);
 
 				return tags.join('');
 			}
@@ -5237,6 +5243,7 @@ xe.XE_XHTMLFormatter = $.Class({
 				t = stack.pop();
 				if (t.state != 'deleted') sContent += '</'+t.tag+'>';
 			} while(stack.length);
+
 		}
 
 		return sContent;
