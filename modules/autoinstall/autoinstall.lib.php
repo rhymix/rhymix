@@ -373,7 +373,7 @@
                             return new Object(-1, "msg_make_directory_failed");
                         }
 
-                        if(!stristr(PHP_OS, 'win'))
+						if(strtoupper(substr(PHP_OS, 0, 3)) !== 'WIN')
                         {
                             if (function_exists('ftp_chmod')) {
                                 if(!ftp_chmod($this->connection, 0755, $ftp_path))
