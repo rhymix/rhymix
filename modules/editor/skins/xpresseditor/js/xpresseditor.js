@@ -1370,16 +1370,17 @@ xe.XpressRange = $.Class({
 			oParentNode = xe.DOMFix.parentNode(oNode);
 
 			if(oParentNode.tagName == "SPAN"){
+				var parentText = $(oParentNode).html();
 				// check if the SPAN element is fully contained
 				// do quick checks before trying indexOf() because indexOf() function is very slow
 				oTmpNode = this._getVeryFirstRealChild(oParentNode);
 				if(oTmpNode == oNode) iSIdx = 1;
-				else iSIdx = (typeof(arAllBottmNodes) =="String") ? arAllBottmNodes.indexOf(oTmpNode) : arAllBottmNodes.html().indexOf(oTmpNode);
-
+				else iSIdx = parentText.indexOf(oTmpNode);
+				
 				if(iSIdx != -1){
 					oTmpNode = this._getVeryLastRealChild(oParentNode);
 					if(oTmpNode == oNode) iEIdx = 1;
-					else iEIdx = (typeof(arAllBottmNodes) =="String") ? arAllBottmNodes.indexOf(oTmpNode) : arAllBottmNodes.html().indexOf(oTmpNode);
+					else iEIdx = parentText.indexOf(oTmpNode);
 				}
 
 				if(iSIdx != -1 && iEIdx != -1){
