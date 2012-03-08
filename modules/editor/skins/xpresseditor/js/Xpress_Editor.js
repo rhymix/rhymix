@@ -5801,4 +5801,15 @@ xe.XE_Table = $.Class({
 	}
 }).extend(xe.XE_Table);
 
+// Auto Resize Checkbox Toggle Class
+$('.input_auto>input').change(function(){
+	setTimeout(function(){
+		if($('.input_control').is(':hidden')){
+			$('.input_auto').addClass('line');
+		} else {
+			$('.input_auto').removeClass('line');
+		}
+	},1);
+});
+
 })(jQuery);

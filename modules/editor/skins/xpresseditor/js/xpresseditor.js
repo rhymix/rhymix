@@ -5286,7 +5286,7 @@ xe.XE_Extension = $.Class({
 
 		$(doc).find('img,div[editor_component]').each(function(){
 			var obj = $(this);
-			if(this.nodeName == 'IMG' && !obj.attr('editor_component') && !obj.attr('widget') ) {
+			if(this.nodeName == 'IMG' && !obj.attr('editor_component') && !obj.attr('widget')) {
 				obj.attr('editor_component','image_link');
 			}
 			if(this.last_doc != doc) {
@@ -5801,6 +5801,17 @@ xe.XE_Table = $.Class({
 	}
 }).extend(xe.XE_Table);
 
+// Auto Resize Checkbox Toggle Class
+$('.input_auto>input').change(function(){
+	setTimeout(function(){
+		if($('.input_control').is(':hidden')){
+			$('.input_auto').addClass('line');
+		} else {
+			$('.input_auto').removeClass('line');
+		}
+	},1);
+});
+
 })(jQuery);
 if (!window.xe) xe = {};
 
@@ -6081,17 +6092,4 @@ xe.XE_Preview = jQuery.Class({
 	$ON_EVENT_PREVIEW : function() {
 		// TODO : 버튼이 눌렸을 때의 동작 정의
 	}
-});
-
-// Auto Resize Checkbox Toggle Class
-jQuery(function($){
-	$('.input_auto>input').change(function(){
-		setTimeout(function(){
-			if($('.input_control').is(':hidden')){
-				$('.input_auto').addClass('line');
-			} else {
-				$('.input_auto').removeClass('line');
-			}
-		},1);
-	});
 });
