@@ -84,7 +84,19 @@
 				}
 			}
 			if($column_type == 'number')
-				$value = (int)$value;
+			{
+				if(is_array($value))
+				{
+					foreach($value AS $key=>$val)
+					{
+						$value[$key] = (int)$val;
+					}
+				}
+				else
+				{
+					$value = (int)$value;
+				}
+			}
 			
 			return $value;
 		}
