@@ -151,62 +151,6 @@
             Context::setBrowserTitle($browserTitle);
 		}
 
-		function loadSideBar()
-		{
-            $oModuleModel = &getModel('module');
-            $installed_module_list = $oModuleModel->getModulesXmlInfo();
-
-            $installed_modules = $package_modules = array();
-            $package_idx = 0;
-            foreach($installed_module_list as $key => $val) {
-				if($val->category == 'migration') $val->category = 'system';
-				if($val->category == 'interlock') $val->category = 'accessory';
-				if($val->category == 'statistics') $val->category = 'accessory';
-
-                if($val->module == 'admin' || !$val->admin_index_act) continue;
-                // get action information
-                $action_spec = $oModuleModel->getModuleActionXml($val->module);
-                $actions = array();
-                if($action_spec->default_index_act) $actions[] = $action_spec->default_index_act;
-                if($action_spec->admin_index_act) $actions[] = $action_spec->admin_index_act;
-                if($action_spec->action) foreach($action_spec->action as $k => $v) $actions[] = $k;
-
-                $obj = null;
-                $obj->category = $val->category;
-                $obj->title = $val->title;
-                $obj->description = $val->description;
-                $obj->index_act = $val->admin_index_act;
-                if(in_array(Context::get('act'), $actions)) $obj->selected = true;
-
-                // Packages
-                if($val->category == 'package') {
-                    if($package_idx == 0) $obj->position = "first";
-                    else $obj->position = "mid";
-                    $package_modules[] = $obj;
-                    $package_idx ++;
-                    if($obj->selected) Context::set('package_selected',true);
-                // Modules
-                } else {
-                    $installed_modules[] = $obj;
-                }
-                if($obj->selected) {
-                    Context::set('selected_module_category', $val->category);
-                    Context::set('selected_module_info', $val);
-                }
-            }
-            if(count($package_modules)) $package_modules[count($package_modules)-1]->position = 'end';
-            Context::set('package_modules', $package_modules);
-            Context::set('installed_modules', $installed_modules);
-            Context::setBrowserTitle("XE Admin Page");
-
-			// add javascript tooltip plugin - gony
-			Context::loadJavascriptPlugin('qtip');
-			Context::loadJavascriptPlugin('watchinput');
-
-			$security = new Security();
-			$security->encodeHTML('selected_module_info.', 'selected_module_info.author..', 'package_modules..', 'installed_modules..');
-		}
-
         /**
          * @brief Display Super Admin Dashboard
          * @return none
