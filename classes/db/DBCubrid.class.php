@@ -179,7 +179,8 @@
 		 **/
 		function _fetch($result, $arrayIndexEndValue = NULL)
 		{
-			if (!$this->isConnected() || $this->isError() || !$result) return;
+			$output = array();
+			if (!$this->isConnected() || $this->isError() || !$result) return array();
 
 			// TODO Improve this piece of code
 			// This code trims values from char type columns

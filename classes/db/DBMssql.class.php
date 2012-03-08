@@ -170,11 +170,11 @@
          * @brief Fetch results
          **/
         function _fetch($result, $arrayIndexEndValue = NULL) {
-			if(!$this->isConnected() || $this->isError() || !$result) return;
+			$output = array();
+			if(!$this->isConnected() || $this->isError() || !$result) return $output;
 
 			$c = sqlsrv_num_fields($result);
 			$m = null;
-			$output = array();
 
 			while(sqlsrv_fetch($result)){
 				if(!$m) $m = sqlsrv_field_metadata($result);

@@ -147,7 +147,8 @@
          * @brief Fetch results
          **/
         function _fetch($result, $arrayIndexEndValue = NULL) {
-            if(!$this->isConnected() || $this->isError() || !$result) return;
+			$output = array();
+            if(!$this->isConnected() || $this->isError() || !$result) return $output;
             while($tmp = $this->db_fetch_object($result)) {
             	if($arrayIndexEndValue) $output[$arrayIndexEndValue--] = $tmp;
                 else $output[] = $tmp;
