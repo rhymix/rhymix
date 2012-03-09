@@ -1226,7 +1226,7 @@ jQuery(function($){
 	var h = lnb.offset().top;
 	function fixedLnb()
 	{
-		if(lnb.css('float') == 'none')
+		if(lnb.css('width') != '210px')
 		{
 			lnb.css('position', 'relative');
 			return;
