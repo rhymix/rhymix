@@ -1221,4 +1221,26 @@ jQuery(function($){
 		details.slideToggle(200);
 		viewBtn.toggleClass('details');
 	});
+
+	var lnb = $('div.lnb');
+	var h = lnb.offset().top;
+	function fixedLnb()
+	{
+		if(lnb.css('float') == 'none')
+		{
+			lnb.css('position', 'relative');
+			return;
+		}
+
+		if($(document).scrollTop() >= h-20)
+		{
+			lnb.css({'position':'fixed', 'top':'0px'});
+		}
+		else
+		{
+			lnb.css('position', 'relative');
+		}
+		setTimeout(fixedLnb, 100);
+	}
+	fixedLnb();
 });
