@@ -699,6 +699,8 @@
         }
         function _replaceLangCode($matches) {
             static $lang = null;
+
+
             if(is_null($lang)) {
                 $site_module_info = Context::get('site_module_info');
 				if(!$site_module_info){
@@ -712,7 +714,18 @@
                     $oModuleAdminController->makeCacheDefinedLangCode($site_module_info->site_srl);
                 }
 
-                if(file_exists($cache_file)) require_once($cache_file);
+                if(file_exists($cache_file))
+				{
+					$moduleAdminControllerMtime = filemtime(_XE_PATH_ . 'modules/module/module.admin.controller.php');
+					$cacheFileMtime = filemtime($cache_file);
+					if($cacheFileMtime < $moduleAdminControllerMtime)
+					{
+						$oModuleAdminController = &getAdminController('module');
+						$oModuleAdminController->makeCacheDefinedLangCode($site_module_info->site_srl);
+					}
+
+					require_once($cache_file);
+				}
             }
             if(!Context::get($matches[1]) && $lang[$matches[1]]) return $lang[$matches[1]];
 

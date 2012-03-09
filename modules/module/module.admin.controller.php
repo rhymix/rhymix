@@ -598,21 +598,55 @@
             $cache_path = _XE_PATH_.'files/cache/lang_defined/';
             if(!is_dir($cache_path)) FileHandler::makeDir($cache_path);
 
-            $lang_supported = Context::get('lang_supported');
-            foreach($lang_supported as $key => $val) {
-                $fp[$key] = fopen( sprintf('%s/%d.%s.php', $cache_path, $args->site_srl, $key), 'w' );
-                if(!$fp[$key]) return;
-                fwrite($fp[$key],"<?php if(!defined('__ZBXE__')) exit(); \r\n");
-            }
-
+			$langMap = array();
             foreach($output->data as $key => $val) {
-                if($fp[$val->lang_code]) fwrite($fp[$val->lang_code], sprintf('$lang["%s"] = "%s";'."\r\n", $val->name, str_replace('"','\\"',$val->value)));
+				$langMap[$val->lang_code][$val->name] = $val->value;
             }
 
-            foreach($lang_supported as $key => $val) {
-                if(!$fp[$key]) continue;
-                fwrite($fp[$key],"?>");
-                fclose($fp[$key]);
+            $lang_supported = Context::get('lang_supported');
+			$dbInfo = Context::getDBInfo();
+			$defaultLang = $dbInfo->lang_type;
+			
+			if(!is_array($langMap[$defaultLang]))
+			{
+				$langMap[$defaultLang] = array();
+			}
+
+            foreach($lang_supported as $langCode => $langName) {
+				if(!is_array($langMap[$langCode]))
+				{
+					$langMap[$langCode] = array();
+				}
+
+				$langMap[$langCode] += $langMap[$defaultLang];
+				foreach($lang_supported as $targetLangCode => $targetLangName)
+				{
+					if($langCode == $targetLangCode || $langCode == $defaultLang)
+					{
+						continue;
+					}
+
+					if(!is_array($langMap[$targetLangCode]))
+					{
+						$langMap[$targetLangCode] = array();
+					}
+
+					$langMap[$langCode] += $langMap[$targetLangCode];
+				}
+
+                $fp = fopen(sprintf('%s/%d.%s.php', $cache_path, $args->site_srl, $langCode), 'w');
+                if(!$fp)
+				{
+					return;
+				}
+                fwrite($fp, "<?php if(!defined('__XE__')) exit(); \r\n");
+
+				foreach($langMap[$langCode] as $code => $value)
+				{
+					fwrite($fp, sprintf('$lang[\'%s\'] = \'%s\';', $code, addcslashes($value, "'")));
+				}
+
+				fwrite($fp, '?>');
             }
         }
 
