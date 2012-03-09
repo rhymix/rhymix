@@ -49,7 +49,7 @@
 				</ul>
 			</div>
 			<select class="mnv">
-				<option disabled="disabled">{$lang->favorite}</option>
+				<option>{$lang->favorite}</option>
 				<option loop="$favorite_list => $favorite" value="{getUrl('', 'module', 'admin', 'act', $favorite->admin_index_act)}">{$favorite->title}</option>
 			</select>
 		</div>

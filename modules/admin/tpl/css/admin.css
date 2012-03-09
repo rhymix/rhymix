@@ -299,6 +299,7 @@ body.modalContainer{_height:100%;_width:100%} /* IE6 only */
 .x .footer p{margin:0}
 .x .footer .power{float:left}
 .x .footer .cache{float:right}
+.x .footer .vr{color:#ccc}
 /* Body */
 .x .body{position:relative;z-index:1;padding:1em 20px 1em 260px;zoom:1}
 .x .body:after{content:"";display:block;clear:both}
