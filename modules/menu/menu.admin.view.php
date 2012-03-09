@@ -118,6 +118,7 @@
          **/
 		function dispMenuAdminSiteMap()
 		{
+			Context::loadLang(_XE_PATH_.'modules/document/lang/');
 			$oMenuAdminModel = &getAdminModel('menu');
 			$menuListFromDB = $oMenuAdminModel->getMenus();
 			if(is_array($menuListFromDB)) $output = array_reverse($menuListFromDB);

@@ -154,6 +154,12 @@ xe.lang.confirm_delete = "{$lang->confirm_delete}";
 						<block loop="$group_list=>$key,$value"><input type="checkbox" name="group_srls[]" id="group_srls_{$value->group_srl}" value="{$value->group_srl}" /> <label for="group_srls_{$value->group_srl}">{$value->title}</label></block>
 					</p>
 				</li>
+				<li>
+					<p class="q">{$lang->expand}</p>
+					<p class="a" id="expand">
+						<input type="checkbox" name="menu_expand" value="Y" /> {$lang->about_expand}
+					</p>
+				</li>
 			</ul>
 			<div class="btnArea">
 				<span class="btn"><input type="submit" value="{$lang->cmd_save}" /></span>

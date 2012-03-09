@@ -60,7 +60,6 @@
 				}
 			}
 
-			debugPrint($module_list);
             Context::set('favoriteModuleList', $favoriteModuleList);
 			Context::set('module_list', $module_list);
 

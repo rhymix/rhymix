@@ -78,6 +78,11 @@ $('form.siteMap')
 		if(openWindow == 'Y') openWindowForm[1].checked = true;
 		else openWindowForm[0].checked = true;
 
+		var expand = menuItem.expand;
+		var expandForm = editForm.find('input=[name=menu_expand]');
+		if(expand == 'Y') expandForm[0].checked = true;
+		else expandForm[0].checked = false;
+
 		// button image
 		if(menuItem.normal_btn) $('#normal_btn_preview').html('<img src="'+menuItem.normal_btn+'" /><input type="checkbox" name="isNormalDelete" value="Y"> Delete');
 		if(menuItem.hover_btn) $('#hover_btn_preview').html('<img src="'+menuItem.hover_btn+'" /><input type="checkbox" name="isHoverDelete" value="Y"> Delete');
