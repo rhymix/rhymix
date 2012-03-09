@@ -17,13 +17,13 @@
 		<value xml:lang="zh-TW"><![CDATA[此項目有新版本]]></value>
     </item>
 	<item name="msg_do_you_like_install">
-		<value xml:lang="ko"><![CDATA[생성하시겠습니까?]]></value>
+		<value xml:lang="ko"><![CDATA[생성 하시겠습니까?]]></value>
 		<value xml:lang="en"><![CDATA[Would you like to create?]]></value>
 		<value xml:lang="jp"><![CDATA[インストールしますか?]]></value>
 		<value xml:lang="zh-TW"><![CDATA[想要安裝嗎?]]></value>
 	</item>
 	<item name="msg_do_you_like_update">
-		<value xml:lang="ko"><![CDATA[업데이트하시겠습니까?]]></value>
+		<value xml:lang="ko"><![CDATA[업데이트 하시겠습니까?]]></value>
 		<value xml:lang="en"><![CDATA[Would you like to update?]]></value>
 		<value xml:lang="jp"><![CDATA[アップデートしますか?]]></value>
 		<value xml:lang="zh-TW"><![CDATA[想要更新嗎?]]></value>

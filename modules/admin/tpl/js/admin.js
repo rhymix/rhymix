@@ -1214,33 +1214,19 @@ jQuery(function($){
 });
 /* Details toggle in admin table */
 jQuery(function($){
-	var details = $('.x .dsTg>table>tbody>tr>td.title>p:not(:first-child)');
-	var viewBtn = $('.x .dsTg>table>caption>span.side>button.text');
-	details.hide();
-	viewBtn.click(function(){
-		details.slideToggle(200);
-		viewBtn.toggleClass('details');
+	var viewBtn = $('.x .dsTg span.side>button.text');
+	var tdTitle = $('.x .dsTg td.title');
+	tdTitle.each(function(){
+		var $t = $(this)
+		if($t.find('p.update').length==0){
+			$t.addClass('tg').find('>p:not(:first-child)').hide();
+		} else {
+			$t.addClass('up');
+		}
 	});
-
-	var lnb = $('div.lnb');
-	var h = lnb.offset().top;
-	function fixedLnb()
-	{
-		if(lnb.css('width') != '210px')
-		{
-			lnb.css('position', 'relative');
-			return;
-		}
-
-		if($(document).scrollTop() >= h-20)
-		{
-			lnb.css({'position':'fixed', 'top':'0px'});
-		}
-		else
-		{
-			lnb.css('position', 'relative');
-		}
-		setTimeout(fixedLnb, 100);
-	}
-	fixedLnb();
+	var details = $('.x .dsTg td.tg>p:not(:first-child)');
+	viewBtn.click(function(){
+		viewBtn.toggleClass('details');
+		details.slideToggle(200);
+	});
 });
