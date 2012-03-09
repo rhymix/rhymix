@@ -1566,8 +1566,9 @@
         /**
          * @brief already instance created module list
          **/
-		function getModuleListByInstance($columnList = array())
+		function getModuleListByInstance($site_srl = 0, $columnList = array())
 		{
+			$args->site_srl = $site_srl;
 			$output = executeQueryArray('module.getModuleListByInstance', $args, $columnList);
 			return $output;
 		}

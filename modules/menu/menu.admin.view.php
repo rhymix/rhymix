@@ -119,6 +119,15 @@
 		function dispMenuAdminSiteMap()
 		{
 			Context::loadLang(_XE_PATH_.'modules/document/lang/');
+            $site_srl = Context::get('site_srl');
+			$site_module_info = Context::get('site_module_info');
+
+			if(!$site_srl)
+			{
+				if($logged_info->is_admin == 'Y' && !$site_keyword) $site_srl = 0;
+				else $site_srl = (int)$site_module_info->site_srl;
+			}
+
 			$oMenuAdminModel = &getAdminModel('menu');
 			$menuListFromDB = $oMenuAdminModel->getMenus();
 			if(is_array($menuListFromDB)) $output = array_reverse($menuListFromDB);
@@ -158,7 +167,7 @@
 
 			// get installed module list
 			$oPageController = &getController('page');	//for lang
-			$resultModuleList = $oMenuAdminModel->getModuleListInSitemap();
+			$resultModuleList = $oMenuAdminModel->getModuleListInSitemap($site_srl);
             Context::set('module_list', $resultModuleList);
 
 			// get default group list
