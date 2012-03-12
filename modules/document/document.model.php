@@ -104,9 +104,11 @@
         function getDocument($document_srl=0, $is_admin = false, $load_extra_vars=true, $columnList = array()) {
             if(!$document_srl) return new documentItem();
 
-			$oDocument = new documentItem($document_srl, $load_extra_vars, $columnList);
-			$GLOBALS['XE_DOCUMENT_LIST'][$document_srl] = $oDocument;
-			if($load_extra_vars && !$GLOBALS['XE_EXTRA_VARS'][$document_srl]) $this->setToAllDocumentExtraVars();
+            if(!isset($GLOBALS['XE_DOCUMENT_LIST'][$document_srl])) {
+                $oDocument = new documentItem($document_srl, $load_extra_vars, $columnList);
+                $GLOBALS['XE_DOCUMENT_LIST'][$document_srl] = $oDocument;
+                if($load_extra_vars) $this->setToAllDocumentExtraVars();
+            }
             if($is_admin) $GLOBALS['XE_DOCUMENT_LIST'][$document_srl]->setGrant();
 
             return $GLOBALS['XE_DOCUMENT_LIST'][$document_srl];
