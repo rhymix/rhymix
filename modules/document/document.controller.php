@@ -1633,7 +1633,7 @@ class documentController extends document {
 	 * @brief Move/ Delete the document in the seession
 	 **/
 	function procDocumentManageCheckedDocument() {
-		set_time_limit(50);
+		set_time_limit(0);
 		if(!Context::get('is_logged')) return new Object(-1,'msg_not_permitted');
 
 		$type = Context::get('type');
