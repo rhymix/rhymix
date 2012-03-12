@@ -89,12 +89,18 @@
 				{
 					foreach($value AS $key=>$val)
 					{
-						$value[$key] = (int)$val;
+						if(isset($val))
+						{
+							$value[$key] = (int)$val;
+						}
 					}
 				}
 				else
 				{
-					$value = (int)$value;
+					if(isset($val))
+					{
+						$value = (int)$value;
+					}
 				}
 			}
 			
