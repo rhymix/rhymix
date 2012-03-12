@@ -3,8 +3,8 @@
 		<p class="power">
 			Powered by <strong><a href="{_XE_LOCATION_SITE_}" target="_blank">XE</a></strong>. <span class="vr">|</span>  
 			<strong>Your version</strong>: {__XE_VERSION__} <span class="vr">|</span> 
-			<!--@foreach($news AS $key=>$value)--><!--@end-->
-			<strong>Latest version</strong>: <a href="{$value->url}" target="_blank" title="{zdate($value->date, 'Y-m-d')}">{$value->title}</a>
+			{@$latestVersion = array_shift($news)}
+			<!--@if(isset($latestVersion))--><strong>Latest version</strong>: <a href="{$latestVersion->url}" target="_blank" title="{zdate($latestVersion->date, 'Y-m-d')}">{$latestVersion->title}</a><!--@end-->
 		</p>
 		<p class="cache">
 			<button type="button" class="text" onclick="doResetAdminMenu();">{$lang->cmd_admin_menu_reset}</button> <span class="vr">|</span>  
