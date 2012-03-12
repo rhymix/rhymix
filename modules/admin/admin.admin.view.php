@@ -144,6 +144,39 @@
 			$output = $oAdminAdminModel->getFavoriteList(0, true);
             Context::set('favorite_list', $output->get('favoriteList'));
 
+			// Retrieve recent news and set them into context,
+			// move from index method, because use in admin footer
+			$newest_news_url = sprintf("http://news.xpressengine.com/%s/news.php?version=%s&package=%s", _XE_LOCATION_, __ZBXE_VERSION__, _XE_PACKAGE_);
+			$cache_file = sprintf("%sfiles/cache/newest_news.%s.cache.php", _XE_PATH_, _XE_LOCATION_);
+			if(!file_exists($cache_file) || filemtime($cache_file)+ 60*60 < time()) {
+				// Considering if data cannot be retrieved due to network problem, modify filemtime to prevent trying to reload again when refreshing administration page
+				// Ensure to access the administration page even though news cannot be displayed
+				FileHandler::writeFile($cache_file,'');
+				FileHandler::getRemoteFile($newest_news_url, $cache_file, null, 1, 'GET', 'text/html', array('REQUESTURL'=>getFullUrl('')));
+			}
+
+			if(file_exists($cache_file)) {
+				$oXml = new XmlParser();
+				$buff = $oXml->parse(FileHandler::readFile($cache_file));
+
+				$item = $buff->zbxe_news->item;
+				if($item) {
+					if(!is_array($item)) $item = array($item);
+
+					foreach($item as $key => $val) {
+						$obj = null;
+						$obj->title = $val->body;
+						$obj->date = $val->attrs->date;
+						$obj->url = $val->attrs->url;
+						$news[] = $obj;
+					}
+					Context::set('news', $news);
+				}
+				Context::set('released_version', $buff->zbxe_news->attrs->released_version);
+				Context::set('download_link', $buff->zbxe_news->attrs->download_link);
+			}
+
+
 			Context::set('subMenuTitle', $subMenuTitle);
 			Context::set('gnbUrlList',   $menu->list);
 			Context::set('parentSrl',    $parentSrl);
@@ -220,37 +253,6 @@
 			$output =$oTrackbackModel->getNewestTrackbackList($args);
             Context::set('latestTrackbackList', $output->data);
 			unset($args, $output, $columnList);
-
-            //Retrieve recent news and set them into context
-            $newest_news_url = sprintf("http://news.xpressengine.com/%s/news.php?version=%s&package=%s", _XE_LOCATION_, __ZBXE_VERSION__, _XE_PACKAGE_);
-            $cache_file = sprintf("%sfiles/cache/newest_news.%s.cache.php", _XE_PATH_, _XE_LOCATION_);
-            if(!file_exists($cache_file) || filemtime($cache_file)+ 60*60 < time()) {
-                // Considering if data cannot be retrieved due to network problem, modify filemtime to prevent trying to reload again when refreshing administration page
-                // Ensure to access the administration page even though news cannot be displayed
-                FileHandler::writeFile($cache_file,'');
-                FileHandler::getRemoteFile($newest_news_url, $cache_file, null, 1, 'GET', 'text/html', array('REQUESTURL'=>getFullUrl('')));
-            }
-
-            if(file_exists($cache_file)) {
-                $oXml = new XmlParser();
-                $buff = $oXml->parse(FileHandler::readFile($cache_file));
-
-                $item = $buff->zbxe_news->item;
-                if($item) {
-                    if(!is_array($item)) $item = array($item);
-
-                    foreach($item as $key => $val) {
-                        $obj = null;
-                        $obj->title = $val->body;
-                        $obj->date = $val->attrs->date;
-                        $obj->url = $val->attrs->url;
-                        $news[] = $obj;
-                    }
-                    Context::set('news', $news);
-                }
-                Context::set('released_version', $buff->zbxe_news->attrs->released_version);
-                Context::set('download_link', $buff->zbxe_news->attrs->download_link);
-            }
 
             // Get list of modules
             $oModuleModel = &getModel('module');
