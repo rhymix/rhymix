@@ -4,7 +4,7 @@
     </tables>
     <columns>
         <column name="title" var="title" />
-        <column name="description" var="description" />
+        <column name="description" var="description" default=""/>
         <column name="list_order" var="list_order" />
         <column name="last_update" var="last_update" default="curdate()" />
         <column name="expand" var="expand" />
