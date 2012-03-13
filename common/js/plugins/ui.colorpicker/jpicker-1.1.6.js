@@ -1685,8 +1685,8 @@
                   container.mousedown(
                     function()
                     {
-                      $(document.body).children('div.jPicker.Container').css({zIndex:10});
-                      container.css({zIndex:20});
+                      $(document.body).children('div.jPicker.Container').css({zIndex:999});
+                      container.css({zIndex:999});
                     });
                   container.css( // positions must be set and display set to absolute before source code injection or IE will size the container to fit the window
                     {
