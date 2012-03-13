@@ -15,7 +15,7 @@
         <input type="hidden" name="content" value="{htmlspecialchars($content)}" />
 		<input type="hidden" name="type" value="mobile" />
 
-        <div class="btnArea">
+        <div class="btnArea" id="pageBtnArea" style="display: none;">
             <div class="etc">
                 <span class="btn"><input type="button" value="{$lang->cmd_box_widget_insert}" onclick="doAddWidgetBox(); return false;" /></span>
                 <span class="btn"><input type="button" value="{$lang->cmd_content_insert}" onclick="doAddContent('{$module_info->mid}'); return false;" /></span>

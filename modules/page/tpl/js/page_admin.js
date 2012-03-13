@@ -124,3 +124,6 @@ function doCartSetup(url) {
     popopen(url,'modulesSetup');
 }
 
+jQuery(function($){
+	$('#pageBtnArea').delay(1000).show(1);
+});
