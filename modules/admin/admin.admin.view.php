@@ -171,6 +171,10 @@
 						$news[] = $obj;
 					}
 					Context::set('news', $news);
+					if(isset($news) && is_array($news))
+					{
+						Context::set('latestVersion', array_shift($news));
+					}
 				}
 				Context::set('released_version', $buff->zbxe_news->attrs->released_version);
 				Context::set('download_link', $buff->zbxe_news->attrs->download_link);
