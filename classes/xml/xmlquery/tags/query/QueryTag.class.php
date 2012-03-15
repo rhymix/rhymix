@@ -68,8 +68,9 @@ class QueryTag {
 			foreach ($table_tags as $table_tag) {
 				if (is_a($table_tag, 'TableTag')) {
 					$table_name = $table_tag->getTableName();
+					$table_alias = $table_tag->getTableAlias();
 					$tag_column_type = QueryParser::getTableInfo($query_id, $table_name);
-					$column_type[$table_name] = $tag_column_type;
+					$column_type[$table_alias] = $tag_column_type;
 				}
 			}
 			$this->column_type[$query_id] = $column_type;
@@ -100,10 +101,10 @@ class QueryTag {
 					unset($column_type);
 					$prebuff .= $argument->toString();
 					
-					$table_name = $argument->getTableName();
-					if(isset($table_name))
+					$table_alias = $argument->getTableName();
+					if(isset($table_alias))
 					{
-						$column_type = $this->column_type[$this->getQueryId()][$table_name][$argument->getColumnName()];	
+						$column_type = $this->column_type[$this->getQueryId()][$table_alias][$argument->getColumnName()];	
 					}
 					else 
 					{

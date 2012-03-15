@@ -200,11 +200,13 @@ class MysqlSelectTest extends MysqlTest {
                                      from `xe_modules` as `modules`
                                         , `xe_documents` as `documents`
                                      where (
-                                        `documents`.`module_srl` in (566036,3777868)
+										`documents`.`module_srl` not in (0) 
+                                        and `documents`.`module_srl` in (566036,3777868)
                                         and `modules`.`module_srl` = `documents`.`module_srl`)
                                         and `documents`.`list_order` <= 2100000000
                                      order by `documents`.`list_order` asc
                                      limit 20';
+
 		$this->_test($xml_file, $argsString, $expected);
 	}
 
@@ -253,7 +255,7 @@ class MysqlSelectTest extends MysqlTest {
 													and `documents`.`document_srl` = `comments`.`document_srl` 
 													and `documents`.`status` in (\'public\',\'secret\') 
 													and `comments`.`content` like \'%dfsds%\') 
-													and comments.list_order <= 2100000000 
+													and `comments`.`list_order` <= 2100000000 
 										group by `documents`.`document_srl` 
 										order by `comments`.`list_order` asc 
 										limit 0, 20';
