@@ -690,7 +690,7 @@
             // Get user_id information
             $this->memberInfo = $oMemberModel->getMemberInfoByMemberSrl($args->member_srl);
             // Call a trigger after successfully log-in (after)
-            $trigger_output = ModuleHandler::triggerCall('member.doLogin', 'after', $this->memberInfo);
+            $trigger_output = ModuleHandler::triggerCall('member.procMemberModifyInfo', 'after', $this->memberInfo);
             if(!$trigger_output->toBool()) return $trigger_output;
 
             $this->setSessionInfo();
