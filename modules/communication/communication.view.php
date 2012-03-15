@@ -130,6 +130,11 @@
             }
 
             $receiver_info = $oMemberModel->getMemberInfoByMemberSrl($receiver_srl);
+			if(!$receiver_info)
+			{
+				return $this->stop('msg_invalid_request');
+			}
+
             Context::set('receiver_info', $receiver_info);
             // set a signiture by calling getEditor of the editor module
             $oEditorModel = &getModel('editor');
