@@ -122,7 +122,7 @@
         function insertComment($obj, $manual_inserted = false) {
 
 		// check if comment's module is using comment validation and set the publish status to 0 (false)
-		// for inserting query, otherwhise default is 1 (true - means comment is published)
+		// for inserting query, otherwise default is 1 (true - means comment is published)
 		$using_validation = $this->isModuleUsingPublishValidation($obj->module_srl);
 		if(Context::get('is_logged')) 
 		{
