@@ -14,7 +14,7 @@
         }
 		
 	/**
-	* @brief Modify comment(s) status to piublish/unpublish if calling module is using Comment Approval System
+	* @brief Modify comment(s) status to publish/unpublish if calling module is using Comment Approval System
 	* @return Object 
 	*/
 	function procCommentAdminChangePublishedStatusChecked()
