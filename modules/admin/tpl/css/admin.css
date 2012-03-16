@@ -226,7 +226,7 @@ header,footer,section,article,aside,nav,hgroup,details,menu,figure,figcaption{di
 .x .prgrs.prgrsLarge .pAction,
 .x .prgrs.prgrsLarge .pNum{height:34px;line-height:34px;font-size:14px}
 /* Modal Window */
-.modal{position:absolute;top:0;left:0;width:100%;_height:100%;min-height:100%;z-index:100}
+.modal{position:absolute;top:0;left:0;width:100%;_height:100%;min-height:100%;z-index:99}
 .modal .bg{position:absolute;background:#000;_background:none;width:100%;height:100%;opacity:.5;z-index:2;filter:progid:DXImageTransform.Microsoft.Alpha(opacity=50);zoom:1}
 .modal .fg{position:relative;width:80%;margin:5em auto;background:#fff;padding:0 1em;*padding:1em;border:8px solid #ddd;z-index:3;zoom:1;border-radius:5px;box-shadow:0 0 6px #000}
 .modal ul, 
