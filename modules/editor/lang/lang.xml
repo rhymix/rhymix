@@ -1910,13 +1910,8 @@ Bài viết tự động lưu sẽ tự động hủy sau khi bạn hoàn thành
 		</item>
 		<item name="edit_height_auto">
 			<value xml:lang="ko"><![CDATA[입력창 크기 자동조절]]></value>
-			<value xml:lang="en"><![CDATA[Auto Resize]]></value>
-			<value xml:lang="jp"><![CDATA[Auto Resize]]></value>
-			<value xml:lang="zh-CN"><![CDATA[Auto Resize]]></value>
-			<value xml:lang="zh-TW"><![CDATA[Auto Resize]]></value>
-			<value xml:lang="ru"><![CDATA[Auto Resize]]></value>
-			<value xml:lang="tr"><![CDATA[Auto Resize]]></value>
-			<value xml:lang="vi"><![CDATA[Auto Resize]]></value>
+			<value xml:lang="en"><![CDATA[Auto-resize editor]]></value>
+			<value xml:lang="jp"><![CDATA[入力ボックスサイズの自動調節]]></value>
 		</item>
 		<item name="merge_cells">
 			<value xml:lang="ko"><![CDATA[셀 병합]]></value>

@@ -278,12 +278,11 @@
 	</item>
 	<item name="msg_ftp_invalid_auth_info">
 		<value xml:lang="ko"><![CDATA[입력하신 FTP 정보로 로그인을 하지 못했습니다. FTP정보를 확인해주세요.]]></value>
-		<value xml:lang="en"><![CDATA[Authentication failed. Please check the username and password.]]></value>
-		<value xml:lang="jp"><![CDATA[ログインに失敗しました。FTPアクセス情報を再度確認してください。]]></value>
+		<value xml:lang="en"><![CDATA[Cannot log in with the FTP password you entered. Please check if it is correct.]]></value>
+		<value xml:lang="jp"><![CDATA[このFTP情報ではログインできません。FTP情報を確認してください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[FTP登录失败。请确认输入的FTP信息。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[FTP登入失敗。請確認輸入的 FTP 資訊。]]></value>
-		<value xml:lang="fr"><![CDATA[입력하신 FTP 정보로 로그인을 하지 못했습니다. FTP정보를 확인해주세요]]></value>
-		<value xml:lang="de"><![CDATA[Anmeldungsfehler mit der Angabe des FTPs Bitte die Angabe des FTPs festlegen.]]></value>
+		<value xml:lang="fr"><![CDATA[입력하신 FTP 정보로 로그인을 하지 못했습니다. FTP정보를 확인해주세요]]></valuevalue xml:lang="de"><![CDATA[Anmeldungsfehler mit der Angabe des FTPs Bitte die Angabe des FTPs festlegen.]]></value>
 		<value xml:lang="es"><![CDATA[Los datos de login para el FTP no son correctos. Veriféquelos.]]></value>
 		<value xml:lang="tr"><![CDATA[Kimlik doğrulama başarısız oldu. Lütfen kullanıcı adını ve şifreyi kontrol ediniz.]]></value>
 		<value xml:lang="vi"><![CDATA[Xác nhận thất bại. Xin vui lòng kiểm tra lại tên sử dụng và mật khẩu.]]></value>
@@ -304,18 +303,28 @@
 		<value xml:lang="mn"><![CDATA[%s-ын FTP холболт амжилтгvй боллоо. FTP дугаараа шалгах буюу эсвэл FTP vйлчилгээг ашиглах боломжтой эсэхээ шалгана уу.]]></value>
 	</item>
 	<item name="msg_delete_file_failed">
-		<value xml:lang="ko"><![CDATA[파일 삭제가 실패했습니다. %s]]></value>
+		<value xml:lang="ko"><![CDATA[파일 삭제가 실패했습니다. %s.]]></value>
+		<value xml:lang="en"><![CDATA[Failed to delete the file. %s.]]></value>
+		<value xml:lang="jp"><![CDATA[ファイルを削除できませんでした。]]></value>
 	</item>
 	<item name="msg_delete_dir_failed">
 		<value xml:lang="ko"><![CDATA[디렉터리 삭제가 실패했습니다. %s]]></value>
+		<value xml:lang="en"><![CDATA[Failed to delete the directory. %s]]></value>
+		<value xml:lang="jp"><![CDATA[ディレクトリを削除できませんでした。]]></value>
 	</item>
 	<item name="msg_ftp_password_input">
 		<value xml:lang="ko"><![CDATA[입력된 비밀번호가 없습니다.]]></value>
+		<value xml:lang="en"><![CDATA[No password entered.]]></value>
+		<value xml:lang="jp"><![CDATA[パスワードを入力してください。]]></value>
 	</item>
 	<item name="msg_sftp_not_supported">
 		<value xml:lang="ko"><![CDATA[SFTP 지원이 되지 않는 환경입니다.]]></value>
+		<value xml:lang="en"><![CDATA[SFTP is not supported.]]></value>
+		<value xml:lang="jp"><![CDATA[SFTP非対応環境です。]]></value>
 	</item>
 	<item name="msg_does_not_support_delete">
 		<value xml:lang="ko"><![CDATA[이 패키지가 삭제를 지원하지 않습니다(모듈 클래스에 moduleUninstall()이 없음).]]></value>
+		<value xml:lang="en"><![CDATA[Cannot delete this package (no moduleUninstall() in the module class).]]></value>
+		<value xml:lang="jp"><![CDATA[このパッケージは、削除をサポートしません(モジュールクラスにmoduleUninstall()がありません)。]]></value>
 	</item>
 </lang>

@@ -279,15 +279,8 @@
 	</item>
 	<item name="msg_cannot_send_to_yourself">
 		<value xml:lang="ko"><![CDATA[자기 자신에게 쪽지를 보낼 수 없습니다.]]></value>
-		<value xml:lang="en"><![CDATA[You can't send a message to yourself.]]></value>
-		<value xml:lang="jp"><![CDATA[You can't send a message to yourself.]]></value>
-		<value xml:lang="zh-CN"><![CDATA[You can't send a message to yourself.]]></value>
-		<value xml:lang="zh-TW"><![CDATA[You can't send a message to yourself.]]></value>
-		<value xml:lang="fr"><![CDATA[You can't send a message to yourself.]]></value>
-		<value xml:lang="ru"><![CDATA[You can't send a message to yourself.]]></value>
-		<value xml:lang="es"><![CDATA[You can't send a message to yourself.]]></value>
-		<value xml:lang="tr"><![CDATA[You can't send a message to yourself.]]></value>
-		<value xml:lang="vi"><![CDATA[You can't send a message to yourself.]]></value>
+		<value xml:lang="en"><![CDATA[Cannot send a message to yourself.]]></value>
+		<value xml:lang="jp"><![CDATA[自分自身へのメッセージ送信はできません。]]></value>
 	</item> 
 	<item name="message_received">
 		<value xml:lang="ko"><![CDATA[쪽지가 왔습니다.]]></value>

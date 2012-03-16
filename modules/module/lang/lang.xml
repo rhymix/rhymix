@@ -511,10 +511,12 @@
 	<item name="cmd_create_db_table">
 		<value xml:lang="ko"><![CDATA[DB Table 생성하기]]></value>
 		<value xml:lang="en"><![CDATA[Create DB Table]]></value>
+		<value xml:lang="jp"><![CDATA[DBテーブル生成]]></value>
 	</item>
 	<item name="cmd_module_update">
 		<value xml:lang="ko"><![CDATA[모듈 업데이트하기]]></value>
 		<value xml:lang="en"><![CDATA[Update Module]]></value>
+		<value xml:lang="jp"><![CDATA[モジュール更新]]></value>
 	</item>
 
 	<item name="cmd_update">
@@ -814,9 +816,13 @@ URL для менеджера модулей <a href="./?module=admin&amp;act=di
 	</item>
 	<item name="skin_fix">
 		<value xml:lang="ko"><![CDATA[스킨 고정]]></value>
+		<value xml:lang="en"><![CDATA[Fix skin]]></value>
+		<value xml:lang="jp"><![CDATA[スキン固定]]></value>
 	</item>
 	<item name="about_skin_fix">
 		<value xml:lang="ko"><![CDATA[테마 설정과 상관없이 스킨을 고정시킵니다. 사용하면 테마의 일괄 스킨 설정 대상에서 제외됩니다.]]></value>
+		<value xml:lang="en"><![CDATA[Check this to fix the skin regardless of theme setting.]]></value>
+		<value xml:lang="jp"><![CDATA[テーマ設定に関係なくスキンを固定させます。使用すると、テーマの一括スキン設定対象から外されます。]]></value>
 	</item>
 	<item name="about_skin">
 		<value xml:lang="ko"><![CDATA[모듈 스킨을 선택하실 수 있습니다.]]></value>

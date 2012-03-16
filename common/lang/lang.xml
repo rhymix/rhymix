@@ -1119,6 +1119,7 @@
 	<item name="password3">
 		<value xml:lang="ko"><![CDATA[비밀번호 확인]]></value>
 		<value xml:lang="en"><![CDATA[Retype Password]]></value>
+		<value xml:lang="jp"><![CDATA[パスワード確認]]></value>
 	</item>
 	<item name="admin_id">
 		<value xml:lang="ko"><![CDATA[관리자ID]]></value>
@@ -3711,9 +3712,11 @@ Xin vui lòng kiểm tra lại thông tin Database.]]></value>
 	<item name="simple_view">
 		<value xml:lang="ko"><![CDATA[간단보기]]></value>
 		<value xml:lang="en"><![CDATA[Simple View]]></value>
+		<value xml:lang="jp"><![CDATA[シンプルビュー]]></value>
 	</item>
 	<item name="detail_view">
 		<value xml:lang="ko"><![CDATA[상세보기]]></value>
 		<value xml:lang="en"><![CDATA[Detail View]]></value>
+		<value xml:lang="jp"><![CDATA[詳細ビュー]]></value>
 	</item>
 </lang>

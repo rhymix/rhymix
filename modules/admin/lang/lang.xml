@@ -1071,14 +1071,17 @@ Lütfen son sürümü için indirme linkine tıklayınız.]]></value>
 	<item name="need_update_and_table">
 		<value xml:lang="ko"><![CDATA[DB Table 생성과 모듈 업데이트 필요]]></value>
 		<value xml:lang="en"><![CDATA[Need to Create DB Table and Update Module]]></value>
+		<value xml:lang="jp"><![CDATA[DBテーブルの生成とモジュールの更新が必要]]></value>
 	</item> 
 	<item name="need_update">
 		<value xml:lang="ko"><![CDATA[모듈 업데이트 필요]]></value>
 		<value xml:lang="en"><![CDATA[Need to Update Module]]></value>
+		<value xml:lang="jp"><![CDATA[モジュールの更新が必要]]></value>
 	</item> 
 	<item name="need_table">
 		<value xml:lang="ko"><![CDATA[DB Table 생성 필요]]></value>
 		<value xml:lang="en"><![CDATA[Need to Create DB Table]]></value>
+		<value xml:lang="jp"><![CDATA[DBテーブルの生成が必要]]></value>
 	</item> 
 	<item name="admin_menu_setup">
 		<value xml:lang="ko"><![CDATA[관리자 메뉴 설정]]></value>
