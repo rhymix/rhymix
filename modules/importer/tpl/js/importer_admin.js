@@ -53,9 +53,9 @@ $('.checkxml')
 				$this.prop('disabled', false);
 				
 				if(data.type == 'XML') {
-					$xml.not(':visible').add($syncmember).slideUp(300);
+					$xml.not(':visible').add($syncmember).slideDown(300);
 				} else if(data.type == 'TTXML') {
-					$ttxml.not(':visible').add($syncmember).slideUp(300);
+					$ttxml.not(':visible').add($syncmember).slideDown(300);
 					$form.find('input[name=type]').val('ttxml');
 				}
 			};
