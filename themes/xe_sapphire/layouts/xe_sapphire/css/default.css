@@ -55,11 +55,9 @@ body{background:#fafafa url(../images/default/bg_body.gif) repeat-x 0 0;font-fam
 #isSearch ul li label.on{background:#455a5b}
 #isSearch ul li label:hover,
 #isSearch ul li label:focus{background:#455a5b}
-#isSearch .inputText{width:110px;height:15px;margin-top:5px;*margin-top:4px;padding-left:20px;border:1px solid #c9c7c7;background:#f1f1f1 url(../images/default/ico_search.gif) no-repeat 5px 2px;line-height:15px;zoom:1;border-radius:4px}
+#isSearch .iText{width:110px;height:15px;margin-top:5px;*margin-top:4px;padding-left:20px;border:1px solid #c9c7c7;background:#f1f1f1 url(../images/default/ico_search.gif) no-repeat 5px 2px;line-height:15px;zoom:1;border-radius:4px}
 #isSearch .searchOrder{display:none}
-#isSearch .inputText:hover,
-#isSearch .inputText:focus{}
-*:first-child+html body#default #isSearch .inputText{position:relative;top:-1px}
+*:first-child+html body#default #isSearch .iText{position:relative;top:-1px}
 #isSearch .submit{_position:relative;_top:-1px;vertical-align:middle}
 *:first-child+html body#default #isSearch .submit{position:relative;top:-1px}
 /* Site Layout - Content Body */

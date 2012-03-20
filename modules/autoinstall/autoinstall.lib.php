@@ -1,4 +1,5 @@
 <?php
+	require_once(_XE_PATH_.'libs/ftp.class.php');
 
     class ModuleInstaller {
         var $package = null;
@@ -139,10 +140,13 @@
 
 			$_files = $oTar->files;
             $file_list = array();
-            foreach($_files as $key => $info) {
-                FileHandler::writeFile($this->download_path."/".$info['name'], $info['file']);
-                $file_list[] = $info['name'];
-            }
+			if(is_array($_files))
+			{
+				foreach($_files as $key => $info) {
+					FileHandler::writeFile($this->download_path."/".$info['name'], $info['file']);
+					$file_list[] = $info['name'];
+				}
+			}
             return $file_list;
 		}
 
@@ -187,6 +191,11 @@
         }
 
 		function _connect() {
+			if(!function_exists('ssh2_connect'))
+			{
+				return new Object(-1, 'msg_sftp_not_supported');
+			}
+
             if(!$this->ftp_info->ftp_user || !$this->ftp_info->sftp || $this->ftp_info->sftp != 'Y') return new Object(-1,'msg_ftp_invalid_auth_info');
 
             if($this->ftp_info->ftp_host)
@@ -217,7 +226,7 @@
 
 			if(!@ssh2_sftp_unlink($this->sftp, $target_path))
 			{
-				return new Object(-1, "failed to delete file ".$path);
+				return new Object(-1, sprintf(Context::getLang('msg_delete_file_failed'), $path));
 			}
 			return new Object();
 		}
@@ -229,7 +238,7 @@
 
 			if(!@ssh2_sftp_rmdir($this->sftp, $target_path))
 			{
-				return new Object(-1, "failed to delete directory ".$path);
+				return new Object(-1, sprintf(Context::getLang('msg_delete_dir_failed'), $path));
 			}
 			return new Object();
 		}
@@ -284,7 +293,10 @@
             }
 
             $this->connection = ftp_connect($ftp_host, $this->ftp_info->ftp_port);
-            if(!$this->connection) return new Object(-1, 'msg_ftp_not_connected');
+            if(!$this->connection)
+			{
+				return new Object(-1, sprintf(Context::getLang('msg_ftp_not_connected'), $ftp_host));
+			}
 
             $login_result = @ftp_login($this->connection, $this->ftp_info->ftp_user, $this->ftp_password);
             if(!$login_result)
@@ -361,7 +373,7 @@
                             return new Object(-1, "msg_make_directory_failed");
                         }
 
-                        if(!stristr(PHP_OS, 'win'))
+						if(strtoupper(substr(PHP_OS, 0, 3)) !== 'WIN')
                         {
                             if (function_exists('ftp_chmod')) {
                                 if(!ftp_chmod($this->connection, 0755, $ftp_path))
@@ -411,7 +423,10 @@
             }
 
             $this->oFtp = new ftp();
-            if(!$this->oFtp->ftp_connect($ftp_host, $this->ftp_info->ftp_port)) return new Object(-1,'msg_ftp_not_connected');
+            if(!$this->oFtp->ftp_connect($ftp_host, $this->ftp_info->ftp_port))
+			{
+				return new Object(-1, sprintf(Context::getLang('msg_ftp_not_connected'), $ftp_host));
+			}
             if(!$this->oFtp->ftp_login($this->ftp_info->ftp_user, $this->ftp_password)) {
 				$this->_close();
                 return new Object(-1,'msg_ftp_invalid_auth_info');
@@ -427,7 +442,7 @@
 
 			if(!$this->oFtp->ftp_delete($target_path))
 			{
-				return new Object(-1, "failed to delete file ".$path);
+				return new Object(-1, sprintf(Context::getLang('msg_delete_file_failed'), $path));
 			}
 			return new Object();
 		}
@@ -439,7 +454,7 @@
 
 			if(!$this->oFtp->ftp_rmdir($target_path))
 			{
-				return new Object(-1, "failed to delete directory ".$path);
+				return new Object(-1, sprintf(Context::getLang('msg_delete_dir_failed'), $path));
 			}
 			return new Object();
 		}
@@ -450,8 +465,6 @@
 
 		function _copyDir(&$file_list){
             if(!$this->ftp_password) return new Object(-1,'msg_ftp_password_input');
-
-            require_once(_XE_PATH_.'libs/ftp.class.php');
 
 			$output = $this->_connect();
 			if(!$output->toBool()) return $output;

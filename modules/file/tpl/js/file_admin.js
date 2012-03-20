@@ -34,9 +34,8 @@ function completeGetFileList(ret_obj, response_tags)
 			var objFile = file_list[x];
 			htmlListBuffer += '<tr>' +
 							'<td class="text">'+objFile.source_filename+'</td>' +
-							'<td>'+objFile.human_file_size+'</td>' +
-							'<td></td>' +
-							'<td>'+objFile.validName+'</td>' +
+							'<td class="nowr">'+objFile.human_file_size+'</td>' +
+							'<td class="nowr">'+objFile.validName+'</td>' +
 						'</tr>' +
 						'<input type="hidden" name="cart[]" value="'+objFile.file_srl+'" />';
 		}

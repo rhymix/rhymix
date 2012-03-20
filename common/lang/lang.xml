@@ -88,7 +88,7 @@
 		<value xml:lang="ko"><![CDATA[전체]]></value>
 		<value xml:lang="en"><![CDATA[All]]></value>
 		<value xml:lang="jp"><![CDATA[すべて]]></value>
-		<value xml:lang="zh-TW"><![CDATA[All全部]]></value>
+		<value xml:lang="zh-TW"><![CDATA[全部]]></value>
 	</item>
 	<item name="cmd_view_all">
 		<value xml:lang="ko"><![CDATA[전체 보기]]></value>
@@ -193,7 +193,7 @@
 		<value xml:lang="en"><![CDATA[Add Comment]]></value>
 		<value xml:lang="jp"><![CDATA[コメント登録]]></value>
 		<value xml:lang="zh-CN"><![CDATA[提交评论]]></value>
-		<value xml:lang="zh-TW"><![CDATA[送出評論]]></value>
+		<value xml:lang="zh-TW"><![CDATA[回覆]]></value>
 		<value xml:lang="fr"><![CDATA[Ajouter un Commentaire]]></value>
 		<value xml:lang="de"><![CDATA[Kommentar hinzufügen]]></value>
 		<value xml:lang="ru"><![CDATA[Добавить запись]]></value>
@@ -577,7 +577,7 @@
 		<value xml:lang="en"><![CDATA[Close All]]></value>
 		<value xml:lang="jp"><![CDATA[すべて閉じる]]></value>
 		<value xml:lang="zh-CN"><![CDATA[全部折叠]]></value>
-		<value xml:lang="zh-TW"><![CDATA[全部收合]]></value>
+		<value xml:lang="zh-TW"><![CDATA[全部關閉]]></value>
 		<value xml:lang="fr"><![CDATA[Fermer Tout]]></value>
 		<value xml:lang="de"><![CDATA[Alle schließen]]></value>
 		<value xml:lang="ru"><![CDATA[Закрыть все]]></value>
@@ -1116,6 +1116,11 @@
 		<value xml:lang="vi"><![CDATA[Nhập lại mật khẩu]]></value>
 		<value xml:lang="mn"><![CDATA[Нууц дугаар шалгах]]></value>
 	</item>
+	<item name="password3">
+		<value xml:lang="ko"><![CDATA[비밀번호 확인]]></value>
+		<value xml:lang="en"><![CDATA[Retype Password]]></value>
+		<value xml:lang="jp"><![CDATA[パスワード確認]]></value>
+	</item>
 	<item name="admin_id">
 		<value xml:lang="ko"><![CDATA[관리자ID]]></value>
 		<value xml:lang="en"><![CDATA[Admin ID]]></value>
@@ -1337,7 +1342,7 @@
 		<value xml:lang="en"><![CDATA[Comment]]></value>
 		<value xml:lang="jp"><![CDATA[コメント]]></value>
 		<value xml:lang="zh-CN"><![CDATA[评论]]></value>
-		<value xml:lang="zh-TW"><![CDATA[評論]]></value>
+		<value xml:lang="zh-TW"><![CDATA[回覆]]></value>
 		<value xml:lang="fr"><![CDATA[Commentaire]]></value>
 		<value xml:lang="de"><![CDATA[Kommentar]]></value>
 		<value xml:lang="ru"><![CDATA[Комментарии]]></value>
@@ -1472,7 +1477,7 @@
 		<value xml:lang="en"><![CDATA[Total]]></value>
 		<value xml:lang="jp"><![CDATA[すべて]]></value>
 		<value xml:lang="zh-CN"><![CDATA[全部]]></value>
-		<value xml:lang="zh-TW"><![CDATA[全部]]></value>
+		<value xml:lang="zh-TW"><![CDATA[總共]]></value>
 		<value xml:lang="de"><![CDATA[Gesamt]]></value>
 		<value xml:lang="ru"><![CDATA[Всего]]></value>
 		<value xml:lang="tr"><![CDATA[Toplam]]></value>
@@ -1498,7 +1503,7 @@
 		<value xml:lang="en"><![CDATA[IP Address]]></value>
 		<value xml:lang="jp"><![CDATA[IPアドレス]]></value>
 		<value xml:lang="zh-CN"><![CDATA[IP地址]]></value>
-		<value xml:lang="zh-TW"><![CDATA[IP位址]]></value>
+		<value xml:lang="zh-TW"><![CDATA[IP 位址]]></value>
 		<value xml:lang="fr"><![CDATA[Addresse IP]]></value>
 		<value xml:lang="de"><![CDATA[IP-Adresse]]></value>
 		<value xml:lang="ru"><![CDATA[IP адрес]]></value>
@@ -1912,6 +1917,7 @@
 	<item name="blamed_count">
 		<value xml:lang="ko"><![CDATA[비추천 수]]></value>
 		<value xml:lang="en"><![CDATA[Blames]]></value>
+		<value xml:lang="zh-TW"><![CDATA[Blames]]></value>
 	</item>
 	<item name="comment_count">
 		<value xml:lang="ko"><![CDATA[댓글 수]]></value>
@@ -2797,10 +2803,15 @@ Xin vui lòng kiểm tra lại thông tin Database.]]></value>
 	<item name="msg_empty_search_target">
 		<value xml:lang="ko"><![CDATA[검색대상이 없습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Cannot find the Search target.]]></value>
+		<value xml:lang="zh-TW"><![CDATA[搜尋不到目標]]></value>
 	</item>
 	<item name="msg_empty_search_keyword">
 		<value xml:lang="ko"><![CDATA[검색어가 없습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Cannot find the Keyword.]]></value>
+		<value xml:lang="en"><![CDATA[搜尋不到關鍵字]]></value>
+	</item>
+	<item name="comment_to_be_approved">
+		<value xml:lang="en"><![CDATA[Your comment must be approved by admin before being published.]]></value>
 	</item>
 	<item name="success_registed">
 		<value xml:lang="ko"><![CDATA[등록했습니다.]]></value>
@@ -3672,7 +3683,7 @@ Xin vui lòng kiểm tra lại thông tin Database.]]></value>
 	<item name="use_and_display">
 		<value xml:lang="ko"><![CDATA[사용+노출]]></value>
 		<value xml:lang="en"><![CDATA[Use+Display]]></value>
-		<value xml:lang="zh-TW"><![CDATA[Use+Display]]></value>
+		<value xml:lang="zh-TW"><![CDATA[使用+顯示]]></value>
 	</item>
 	<item name="mobile_view">
 		<value xml:lang="ko"><![CDATA[모바일 뷰 사용]]></value>
@@ -3697,5 +3708,15 @@ Xin vui lòng kiểm tra lại thông tin Database.]]></value>
 		<value xml:lang="es"><![CDATA[If accessing with a smartphone, display content with mobile layout.]]></value>
 		<value xml:lang="tr"><![CDATA[Hareketli görünümü, mobil cihazlarla giriş yapılırken, mobil cihazlara uygun en iyi yerleşim düzenini göstermek içindir.]]></value>
 		<value xml:lang="vi"><![CDATA[Nếu truy cập bằng thiết bị di động, nội dung sẽ được bố trí theo từng loại thiết bị.]]></value>
+	</item>
+	<item name="simple_view">
+		<value xml:lang="ko"><![CDATA[간단보기]]></value>
+		<value xml:lang="en"><![CDATA[Simple View]]></value>
+		<value xml:lang="jp"><![CDATA[シンプルビュー]]></value>
+	</item>
+	<item name="detail_view">
+		<value xml:lang="ko"><![CDATA[상세보기]]></value>
+		<value xml:lang="en"><![CDATA[Detail View]]></value>
+		<value xml:lang="jp"><![CDATA[詳細ビュー]]></value>
 	</item>
 </lang>

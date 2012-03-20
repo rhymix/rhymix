@@ -22,7 +22,7 @@
 			<tr>
 				<th scope="row">{$lang->category_color}</th>
 				<td>
-					<input type="text" name="category_color" value="{htmlspecialchars($category_info->color)}" class="color-indicator inputTypeText" />
+					<input type="text" name="category_color" value="{htmlspecialchars($category_info->color)}" class="color-indicator" />
 					<p>{$lang->about_category_color}</p>
 				</td>
 			</tr>
@@ -30,7 +30,7 @@
 			<tr>
 				<th scope="row">{$lang->category_description}</th>
 				<td >
-					<textarea name="category_description" id="category_description" >{htmlspecialchars($category_info->description)}</textarea>
+					<textarea name="category_description" id="category_description" rows="8" cols="42">{htmlspecialchars($category_info->description)}</textarea>
 					<a href="{getUrl('','module','module','act','dispModuleAdminLangcode','target','category_description')}" onclick="popopen(this.href);return false;" class="buttonSet buttonSetting"><span>{$lang->cmd_find_langcode}</span></a>
 					<p>{$lang->about_category_description}</p>				
 				</td>

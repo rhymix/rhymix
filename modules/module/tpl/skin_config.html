@@ -15,36 +15,34 @@
 			</tr>
 			<tr>
 				<th scope="row">{$lang->skin_author}</th>
-				<td>
-					<!--@foreach($skin_info->author as $author)-->
-					{$author->name} <!--@if($author->homepage || $author->email_address)-->(<!--@if($author->homepage)--><a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->homepage}</a><!--@end--><!--@if($author->homepage && $author->email_address)-->, <!--@end--><!--@if($author->email_address)--><a href="mailto:{$author->email_address}">{$author->email_address}</a><!--@end-->)<!--@end--><br />
-					<!--@endforeach-->
+				<td loop="$skin_info->author=>$author">
+					{$author->name}
+					<block cond="$author->homepage || $author->email_address">
+						(<a href="{$author->homepage}" onclick="window.open(this.href);return false;" cond="$author->homepage">{$author->homepage}</a>
+						<block cond="$author->homepage && $author->email_address">, </block>
+						<a href="mailto:{$author->email_address}" cond="$author->email_address">{$author->email_address}</a>)
+					</block><br />
 				</td>
 			</tr>
-	<!--@if($skin_info->homepage)-->
-			<tr>
+			<tr cond="$skin_info->homepage">
 				<th scope="row">{$lang->homepage}</th>
 				<td><a href="{$skin_info->homepage}" onclick="window.open(this.href);return false;">{$skin_info->homepage}</a></td>
-			</tr><!--@end-->
+			</tr>
 			<tr>
 				<th scope="row">{$lang->date}</th>
 				<td>{zdate($skin_info->date, 'Y-m-d')}&nbsp;</td>
 			</tr>
-	<!--@if($skin_info->license || $skin_info->license_link)-->
-			<tr>
+			<tr cond="$skin_info->license || $skin_info->license_link">
 				<th scope="row">{$lang->skin_license}</th>
 				<td>
 					{nl2br(trim($skin_info->license))}
-					<!--@if($skin_info->license_link)-->
-					<p><a href="{$skin_info->license_link}" onclick="window.close(); return false;">{$skin_info->license_link}</a></p>
-					<!--@end-->
+					<p cond="$skin_info->license_link"><a href="{$skin_info->license_link}" onclick="window.close(); return false;">{$skin_info->license_link}</a></p>
 				</td>
-			</tr><!--@end-->
-	<!--@if($skin_info->description)-->
-			<tr>
+			</tr>
+			<tr cond="$skin_info->description">
 				<th scope="row">{$lang->description}</th>
 				<td>{nl2br(trim($skin_info->description))}</td>
-			</tr><!--@end-->
+			</tr>
 		</table>
 	</div>
 
@@ -90,20 +88,20 @@
 					<a href="{getUrl('','module','module','act','dispModuleAdminLangcode','target','target'.$val->name)}" onclick="popopen(this.href);return false;" class="buttonSet buttonSetting"><span>{$lang->cmd_find_langcode}</span></a>
 					
 					<!--@elseif($val->type=="textarea")-->
-					<textarea name="{$val->name}" id="target{$val->name}" rows="5" cols="42">{$val->value}</textarea>
+					<textarea name="{$val->name}" id="target{$val->name}" rows="8" cols="42">{$val->value}</textarea>
 					<a href="{getUrl('','module','module','act','dispModuleAdminLangcode','target','target'.$val->name)}" onclick="popopen(this.href);return false;" class="buttonSet buttonSetting"><span>{$lang->cmd_find_langcode}</span></a>
 					
 					<!--@elseif($val->type=="select")-->
 					<select name="{$val->name}">
 						<!--@foreach($val->options as $k=>$v)-->
-						<option value="{$v->value}" <!--@if($v->value == $val->value)-->selected="selected"<!--@end-->>{$v->title}</option>
+						<option value="{$v->value}" selected="selected"|cond="$v->value == $val->value">{$v->title}</option>
 						<!--@end-->
 					</select>
 					
 					<!--@elseif($val->type=="checkbox")-->
 					<!--@foreach($val->options as $k=>$v)-->
 					<span>
-						<input type="checkbox" name="{$val->name}[]" value="{$v->value}" id="ch_{$key}_{$k}" <!--@if(in_array($v->value, $val->value))-->checked="checked"<!--@end--> class="checkbox" /> 
+						<input type="checkbox" name="{$val->name}[]" value="{$v->value}" id="ch_{$key}_{$k}" checked="checked"|cond="in_array($v->value, $val->value)" class="checkbox" /> 
 						<label for="ch_{$key}_{$k}">{$v->title}</label>
 					</span>
 					<!--@end-->
@@ -111,7 +109,7 @@
 					<!--@elseif($val->type=="radio")-->
 					<!--@foreach($val->options as $k=>$v)-->
 					<span>
-						<input type="radio" name="{$val->name}" value="{$v->value}" id="ch_{$key}_{$k}" <!--@if($v->value==$val->value)-->checked="checked"<!--@end-->/> 
+						<input type="radio" name="{$val->name}" value="{$v->value}" id="ch_{$key}_{$k}" checked="checked"|cond="$v->value==$val->value" /> 
 						<label for="ch_{$key}_{$k}">{$v->title}</label>
 					</span>
 					<!--@end-->
@@ -134,10 +132,8 @@
 				</td>
 			</tr>
 			<!--@end-->
-			<!--@if(!$group)-->
 		</table>
 	</div>
-    <!--@end-->
     <div class="btnArea">
 		<span class="btn"><input type="submit" value="{$lang->cmd_registration}" /></span>
 	</div>

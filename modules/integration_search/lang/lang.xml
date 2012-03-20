@@ -65,7 +65,7 @@
 		<value xml:lang="en"><![CDATA[Click 'Search Next' button to keep searching.]]></value>
 		<value xml:lang="jp"><![CDATA[継続サーチボタンを選択すると、まだ検索結果として引っかからなかった箇所を引き続き検索を行います。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[利用'继续搜索'按钮可以进一步搜索。]]></value>
-		<value xml:lang="zh-TW"><![CDATA[계속 검색 버튼을 선택하시면 아직 검색하지 않은 부분까지 계속 검색 하실 수 있습니다]]></value>
+		<value xml:lang="zh-TW"><![CDATA[按"繼續尋找"按鈕繼續搜尋。]]></value>
 		<value xml:lang="ru"><![CDATA['Искать дальше' Если выберете эту кнопку, то продолжится поиск]]></value>
 	</item>
 	<item name="is_result_text">
@@ -95,7 +95,7 @@
 		<value xml:lang="en"><![CDATA[Search for selected modules]]></value>
 		<value xml:lang="jp"><![CDATA[選択された対象のみ]]></value>
 		<value xml:lang="zh-CN"><![CDATA[只搜索所选对象]]></value>
-		<value xml:lang="zh-TW"><![CDATA[只有在選定的目標]]></value>
+		<value xml:lang="zh-TW"><![CDATA[尋找所選模組]]></value>
 		<value xml:lang="fr"><![CDATA[Seulement dans certaines cibles ]]></value>
 		<value xml:lang="ru"><![CDATA[Поиск только для выбранных модулей]]></value>
 		<value xml:lang="es"><![CDATA[Sólo en determinados ]]></value>
@@ -106,7 +106,7 @@
 		<value xml:lang="en"><![CDATA[Exclude selected modules from search]]></value>
 		<value xml:lang="jp"><![CDATA[選択した対象を検索から除外]]></value>
 		<value xml:lang="zh-CN"><![CDATA[所选对象从搜索中排除]]></value>
-		<value xml:lang="zh-TW"><![CDATA[搜索選定目的地從]]></value>
+		<value xml:lang="zh-TW"><![CDATA[排除所選模組]]></value>
 		<value xml:lang="fr"><![CDATA[Recherche de la destination sélectionnée à partir de]]></value>
 		<value xml:lang="ru"><![CDATA[Исключить выбранные модули из поиска]]></value>
 		<value xml:lang="es"><![CDATA[Búsqueda para el destino de]]></value>

@@ -195,6 +195,10 @@
              * Editor's default options
              **/
             // Option setting to allow file upload
+			if($upload_target_srl)
+			{
+				$option->editor_sequence = $upload_target_srl;
+			}
             if(!$option->allow_fileupload) $allow_fileupload = false;
             else $allow_fileupload = true;
             // content_style setting
@@ -248,8 +252,8 @@
              **/
             if($option->editor_sequence) $editor_sequence = $option->editor_sequence;
             else {
-                if(!$GLOBALS['_editor_sequence_']) $GLOBALS['_editor_sequence_'] = 1;
-                $editor_sequence = $GLOBALS['_editor_sequence_'] ++;
+                if(!$_SESSION['_editor_sequence_']) $_SESSION['_editor_sequence_'] = 1;
+                $editor_sequence = $_SESSION['_editor_sequence_'] ++;
             }
 
             /**

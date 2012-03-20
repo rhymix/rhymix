@@ -11,8 +11,8 @@ function editorStart_xe(editor_sequence, primary_key, content_key, editor_height
 	var target_src = request_uri+'modules/editor/styles/'+content_style+'/editor.html';
 
 	var textarea = jQuery("#xpress-editor-"+editor_sequence);
-	var iframe   = jQuery('<iframe id="editor_iframe_'+editor_sequence+'" allowTransparency="true" frameborder="0" src="'+target_src+'" scrolling="yes" style="width:100%;height:'+editor_height+'px">');
-	var htmlsrc  = jQuery('<textarea rows="10" cols="20" class="input_syntax '+colorset+'" style="display:none"></textarea>');
+	var iframe   = jQuery('<iframe id="editor_iframe_'+editor_sequence+'" allowTransparency="true" frameborder="0" src="'+target_src+'" scrolling="yes" style="width:100%;height:'+editor_height+'px"></iframe>');
+	var htmlsrc  = jQuery('<textarea rows="8" cols="42" class="input_syntax '+colorset+'" style="display:none"></textarea>');
 	var form	 = textarea.get(0).form;
 	form.setAttribute('editor_sequence', editor_sequence);
 	textarea.css("display","none");
@@ -63,7 +63,7 @@ function editorStart_xe(editor_sequence, primary_key, content_key, editor_height
 
 	oEditor.registerPlugin(new xe.XE_PreservTemplate(jQuery("#xpress-editor-"+editor_sequence).val()));
 	oEditor.registerPlugin(new xe.StringConverterManager());
-	oEditor.registerPlugin(new xe.XE_EditingAreaManager("WYSIWYG", oIRTextarea, {nHeight:parseInt(editor_height), nMinHeight:205}, null, elAppContainer));
+	oEditor.registerPlugin(new xe.XE_EditingAreaManager("WYSIWYG", oIRTextarea, {nHeight:parseInt(editor_height), nMinHeight:100}, null, elAppContainer));
 	oEditor.registerPlugin(new xe.XE_EditingArea_HTMLSrc(oHTMLSrcTextarea));
 	oEditor.registerPlugin(new xe.XE_EditingAreaVerticalResizer(elAppContainer));
 	oEditor.registerPlugin(new xe.Utils());
@@ -101,7 +101,9 @@ function editorStart_xe(editor_sequence, primary_key, content_key, editor_height
 		oEditor.registerPlugin(new xe.XE_EditingModeToggler(elAppContainer));
 	}
 
-
+	if(jQuery("#editorresize").length) {
+		oEditor.registerPlugin(new xe.XE_Editorresize(elAppContainer, oWYSIWYGIFrame));
+	}
 	//oEditor.registerPlugin(new xe.XE_Preview(elAppContainer));
 
 	if (!jQuery.browser.msie && !jQuery.browser.opera) {
@@ -119,6 +121,7 @@ function editorStart_xe(editor_sequence, primary_key, content_key, editor_height
 			if (doc.location == 'about:blank') throw 'blank';
 
 			// get innerHTML
+			doc.body.innerHTML = doc.body.innerHTML.trim();
 			str = doc.body.innerHTML;
 
 			// register plugin

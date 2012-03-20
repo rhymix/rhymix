@@ -289,6 +289,7 @@
             unset($extra_vars->menu_srl);
             unset($extra_vars->site_srl);
             unset($extra_vars->mid);
+            unset($extra_vars->is_skin_fix);
             unset($extra_vars->skin);
 			unset($extra_vars->mskin);
             unset($extra_vars->browser_title);
@@ -324,6 +325,10 @@
             $skin_vars->colorset = $skin_info->colorset[0]->name;
             // Arrange variables and then execute a query
             if(!$args->module_srl) $args->module_srl = getNextSequence();
+
+			// default value
+			$args->is_skin_fix = (!$args->is_skin_fix) ? 'N' : 'Y';
+
             // Insert a module
             $output = executeQuery('module.insertModule', $args);
             if(!$output->toBool()) {
@@ -366,6 +371,9 @@
                 $oDB->rollback();
                 return new Object(-1, 'msg_module_name_exists');
             }
+
+			// default value
+			$args->is_skin_fix = (!$args->is_skin_fix) ? 'N' : 'Y';
 
             $output = executeQuery('module.updateModule', $args);
             if(!$output->toBool()) {
@@ -456,6 +464,8 @@
             if($oCacheHandler->isSupport()){
             	$cache_key = 'object_module_info:'.$args->module_srl;
             	$oCacheHandler->delete($cache_key);
+            	$cache_key = 'object:module_extra_vars_'.$args->module_srl;
+                $oCacheHandler->delete($cache_key);
             }
             return $output;
         }
@@ -690,6 +700,8 @@
         }
         function _replaceLangCode($matches) {
             static $lang = null;
+
+
             if(is_null($lang)) {
                 $site_module_info = Context::get('site_module_info');
 				if(!$site_module_info){
@@ -703,7 +715,18 @@
                     $oModuleAdminController->makeCacheDefinedLangCode($site_module_info->site_srl);
                 }
 
-                if(file_exists($cache_file)) require_once($cache_file);
+                if(file_exists($cache_file))
+				{
+					$moduleAdminControllerMtime = filemtime(_XE_PATH_ . 'modules/module/module.admin.controller.php');
+					$cacheFileMtime = filemtime($cache_file);
+					if($cacheFileMtime < $moduleAdminControllerMtime)
+					{
+						$oModuleAdminController = &getAdminController('module');
+						$oModuleAdminController->makeCacheDefinedLangCode($site_module_info->site_srl);
+					}
+
+					require_once($cache_file);
+				}
             }
             if(!Context::get($matches[1]) && $lang[$matches[1]]) return $lang[$matches[1]];
 

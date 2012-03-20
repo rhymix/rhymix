@@ -63,7 +63,7 @@
             if($logged_info->is_admin != 'Y') {
                 if($receiver_member_info->allow_message == 'F') {
                     if(!$oCommunicationModel->isFriend($receiver_member_info->member_srl)) return new object(-1, 'msg_allow_message_to_friend');
-                } elseif($receiver_member_info->allow_messge == 'N') {
+                } elseif($receiver_member_info->allow_message == 'N') {
                     return new object(-1, 'msg_disallow_message');
                 }
             }

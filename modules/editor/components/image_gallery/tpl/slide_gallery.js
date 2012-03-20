@@ -110,6 +110,13 @@ var slideShow = xe.createPlugin('slideShow', {
 		w1 = im.$obj.prop('width');
 		h1 = im.$obj.prop('height');
 
+		if (w1 == 0){
+			w1 = im.$obj.attr('width');
+		}
+		if(h1 ==0){
+			h1 = im.$obj.attr('height');
+		}
+
 		if(w1 > iwidth - 20) {
 			w2 = iwidth - 20;
 			scale = w2 / w1;

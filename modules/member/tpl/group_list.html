@@ -9,7 +9,7 @@
 	._imageMarkButton img { max-height:16px }
 	.filebox_item { border: 1px solid #ccc!important; padding: 2px; max-height: 16px; }
 	.x .multiLangEdit input.vLang { width:120px }
-	.x .multiLangEdit input.vLang.loading { padding-right:24px;width:100px;background:transparent url(../../admin/tpl/img/preLoader16.gif) no-repeat 96px center }
+	.x .multiLangEdit input.vLang.loading { padding-right:24px;width:100px;background:transparent url(./modules/admin/tpl/img/preLoader16.gif) no-repeat 96px center }
 </style>
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
@@ -64,7 +64,7 @@
 					<td><input type="radio" name="defaultGroup" value="{$group_info->group_srl}" title="Default" checked="checked"|cond="$group_info->is_default=='Y'" /></td>
 					<td class="_imageMarkButton"><input type="hidden" name="image_marks[]" value="{$group_info->image_mark}" class="_imgMarkHidden" />
 						<img src="{$group_info->image_mark}" alt="{$group_info->title}" cond="$config->group_image_mark == 'Y' && $group_info->image_mark" />
-						<a href="#imageMark" class="modalAnchor _imageMark filebox">{$lang->cmd_modify}</a></td>
+						<a href="#imageMark" class="modalAnchor _imageMark filebox">{$lang->cmd_modify}...</a></td>
 					<td><div class="_deleteTD" style="display:none"|cond="$group_info->is_default == 'Y'"><a href="#{$group_srl}" class="_deleteGroup">{$lang->cmd_delete}</a></div></td>
 				</tr>
 				<tr style="display:none" class="_template">
@@ -78,7 +78,7 @@
 					<td><input type="text" name="descriptions[]" value="" style="width:240px" disabled="disabled" /></td>
 					<td><input type="radio" name="defaultGroup" value="" title="Default" disabled="disabled" /></td>
 					<td class="_imageMarkButton"><input type="hidden" name="image_marks[]" value="" class="_imgMarkHidden" disabled="disabled" />
-						<a href="#imageMark" class="modalAnchor _imageMark">{$lang->cmd_modify}</a></td>
+						<a href="#imageMark" class="modalAnchor _imageMark">{$lang->cmd_modify}...</a></td>
 					<td><div class="_deleteTD"><a href="#new" class="_deleteGroup">{$lang->cmd_delete}</a></div></td>
 				</tr>
 
@@ -93,7 +93,7 @@
 	<div id="langEdit" class="langEdit tgContent">
 		<ul class="langList"></ul>
 		<div class="langInput">
-			<h2>{$lang->cmd_multilingual} <strong>{$lang->cmd_modify}</strong> | <a href="#langEdit">{$lang->cmd_insert}</a></h2>
+			<h2>{$lang->cmd_multilingual} <strong>{$lang->cmd_modify}...</strong> | <a href="#langEdit">{$lang->cmd_insert}</a></h2>
 			<ul>
 				{@
 					/* move current language to the top */

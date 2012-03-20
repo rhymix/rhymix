@@ -112,6 +112,9 @@
             // 2011. 10. 25 status index check
             if(!$oDB->isIndexExists("documents", "idx_module_status")) return true;
 
+			// 2012. 02. 27 Add a trigger to copy extra keys when the module is copied 
+			if(!$oModuleModel->getTrigger('module.procModuleAdminCopyModule', 'document', 'controller', 'triggerCopyModuleExtraKeys', 'after')) return true;
+
             return false;
         }
 
@@ -292,6 +295,12 @@
 
             if(!$oDB->isIndexExists("documents", "idx_module_status"))
                 $oDB->addIndex("documents", "idx_module_status", array("module_srl","status"));
+
+			// 2012. 02. 27 Add a trigger to copy extra keys when the module is copied 
+			if(!$oModuleModel->getTrigger('module.procModuleAdminCopyModule', 'document', 'controller', 'triggerCopyModuleExtraKeys', 'after'))
+			{
+				$oModuleController->insertTrigger('module.procModuleAdminCopyModule', 'document', 'controller', 'triggerCopyModuleExtraKeys', 'after');
+			}
 
             return new Object(0,'success_updated');
         }

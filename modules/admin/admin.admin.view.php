@@ -144,67 +144,48 @@
 			$output = $oAdminAdminModel->getFavoriteList(0, true);
             Context::set('favorite_list', $output->get('favoriteList'));
 
+			// Retrieve recent news and set them into context,
+			// move from index method, because use in admin footer
+			$newest_news_url = sprintf("http://news.xpressengine.com/%s/news.php?version=%s&package=%s", _XE_LOCATION_, __ZBXE_VERSION__, _XE_PACKAGE_);
+			$cache_file = sprintf("%sfiles/cache/newest_news.%s.cache.php", _XE_PATH_, _XE_LOCATION_);
+			if(!file_exists($cache_file) || filemtime($cache_file)+ 60*60 < time()) {
+				// Considering if data cannot be retrieved due to network problem, modify filemtime to prevent trying to reload again when refreshing administration page
+				// Ensure to access the administration page even though news cannot be displayed
+				FileHandler::writeFile($cache_file,'');
+				FileHandler::getRemoteFile($newest_news_url, $cache_file, null, 1, 'GET', 'text/html', array('REQUESTURL'=>getFullUrl('')));
+			}
+
+			if(file_exists($cache_file)) {
+				$oXml = new XmlParser();
+				$buff = $oXml->parse(FileHandler::readFile($cache_file));
+
+				$item = $buff->zbxe_news->item;
+				if($item) {
+					if(!is_array($item)) $item = array($item);
+
+					foreach($item as $key => $val) {
+						$obj = null;
+						$obj->title = $val->body;
+						$obj->date = $val->attrs->date;
+						$obj->url = $val->attrs->url;
+						$news[] = $obj;
+					}
+					Context::set('news', $news);
+					if(isset($news) && is_array($news))
+					{
+						Context::set('latestVersion', array_shift($news));
+					}
+				}
+				Context::set('released_version', $buff->zbxe_news->attrs->released_version);
+				Context::set('download_link', $buff->zbxe_news->attrs->download_link);
+			}
+
+
 			Context::set('subMenuTitle', $subMenuTitle);
 			Context::set('gnbUrlList',   $menu->list);
 			Context::set('parentSrl',    $parentSrl);
 			Context::set('gnb_title_info', $gnbTitleInfo);
             Context::setBrowserTitle($browserTitle);
-		}
-
-		function loadSideBar()
-		{
-            $oModuleModel = &getModel('module');
-            $installed_module_list = $oModuleModel->getModulesXmlInfo();
-
-            $installed_modules = $package_modules = array();
-            $package_idx = 0;
-            foreach($installed_module_list as $key => $val) {
-				if($val->category == 'migration') $val->category = 'system';
-				if($val->category == 'interlock') $val->category = 'accessory';
-				if($val->category == 'statistics') $val->category = 'accessory';
-
-                if($val->module == 'admin' || !$val->admin_index_act) continue;
-                // get action information
-                $action_spec = $oModuleModel->getModuleActionXml($val->module);
-                $actions = array();
-                if($action_spec->default_index_act) $actions[] = $action_spec->default_index_act;
-                if($action_spec->admin_index_act) $actions[] = $action_spec->admin_index_act;
-                if($action_spec->action) foreach($action_spec->action as $k => $v) $actions[] = $k;
-
-                $obj = null;
-                $obj->category = $val->category;
-                $obj->title = $val->title;
-                $obj->description = $val->description;
-                $obj->index_act = $val->admin_index_act;
-                if(in_array(Context::get('act'), $actions)) $obj->selected = true;
-
-                // Packages
-                if($val->category == 'package') {
-                    if($package_idx == 0) $obj->position = "first";
-                    else $obj->position = "mid";
-                    $package_modules[] = $obj;
-                    $package_idx ++;
-                    if($obj->selected) Context::set('package_selected',true);
-                // Modules
-                } else {
-                    $installed_modules[] = $obj;
-                }
-                if($obj->selected) {
-                    Context::set('selected_module_category', $val->category);
-                    Context::set('selected_module_info', $val);
-                }
-            }
-            if(count($package_modules)) $package_modules[count($package_modules)-1]->position = 'end';
-            Context::set('package_modules', $package_modules);
-            Context::set('installed_modules', $installed_modules);
-            Context::setBrowserTitle("XE Admin Page");
-
-			// add javascript tooltip plugin - gony
-			Context::loadJavascriptPlugin('qtip');
-			Context::loadJavascriptPlugin('watchinput');
-
-			$security = new Security();
-			$security->encodeHTML('selected_module_info.', 'selected_module_info.author..', 'package_modules..', 'installed_modules..');
 		}
 
         /**
@@ -277,51 +258,29 @@
             Context::set('latestTrackbackList', $output->data);
 			unset($args, $output, $columnList);
 
-            //Retrieve recent news and set them into context
-            $newest_news_url = sprintf("http://news.xpressengine.com/%s/news.php?version=%s&package=%s", _XE_LOCATION_, __ZBXE_VERSION__, _XE_PACKAGE_);
-            $cache_file = sprintf("%sfiles/cache/newest_news.%s.cache.php", _XE_PATH_, _XE_LOCATION_);
-            if(!file_exists($cache_file) || filemtime($cache_file)+ 60*60 < time()) {
-                // Considering if data cannot be retrieved due to network problem, modify filemtime to prevent trying to reload again when refreshing administration page
-                // Ensure to access the administration page even though news cannot be displayed
-                FileHandler::writeFile($cache_file,'');
-                FileHandler::getRemoteFile($newest_news_url, $cache_file, null, 1, 'GET', 'text/html', array('REQUESTURL'=>getFullUrl('')));
-            }
-
-            if(file_exists($cache_file)) {
-                $oXml = new XmlParser();
-                $buff = $oXml->parse(FileHandler::readFile($cache_file));
-
-                $item = $buff->zbxe_news->item;
-                if($item) {
-                    if(!is_array($item)) $item = array($item);
-
-                    foreach($item as $key => $val) {
-                        $obj = null;
-                        $obj->title = $val->body;
-                        $obj->date = $val->attrs->date;
-                        $obj->url = $val->attrs->url;
-                        $news[] = $obj;
-                    }
-                    Context::set('news', $news);
-                }
-                Context::set('released_version', $buff->zbxe_news->attrs->released_version);
-                Context::set('download_link', $buff->zbxe_news->attrs->download_link);
-            }
-
             // Get list of modules
             $oModuleModel = &getModel('module');
             $module_list = $oModuleModel->getModuleList();
 			if(is_array($module_list))
 			{
-				$isUpdated = false;
+				$needUpdate = false;
+				$addTables = false;
 				foreach($module_list AS $key=>$value)
 				{
-					if($value->need_install || $value->need_update)
-						$isUpdated = true;
+					if($value->need_install)
+					{
+						$addTables = true;
+					}
+					if($value->need_update)
+					{
+						$needUpdate = true;
+					}
 				}
 			}
             Context::set('module_list', $module_list);
-            Context::set('isUpdated', $isUpdated);
+            Context::set('needUpdate', $isUpdated);
+            Context::set('addTables', $addTables);
+            Context::set('needUpdate', $needUpdate);
 
 			// gathering enviroment check
 			$mainVersion = join('.', array_slice(explode('.', __ZBXE_VERSION__), 0, 2));

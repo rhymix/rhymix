@@ -44,11 +44,13 @@ $('.checkxml')
 					return restore();
 				}
 
-				restore();
 				$message.attr('class', 'desc success').fadeIn(300);
 				$form.find(':submit').removeAttr('disabled');
 
 				$syncmember = $form.find('.syncmember:hidden');
+				
+				$input.prop('disabled', false).removeClass('loading');
+				$this.prop('disabled', false);
 				
 				if(data.type == 'XML') {
 					$xml.not(':visible').add($syncmember).slideDown(300);
@@ -119,7 +121,7 @@ function doPreProcessing(form, formId) {
 	);
 
 	function on_complete(ret) {
-		var $reload, $cont, fo_proc, elems, i, c, key, to_copy;
+		var $reload, $cont, fo_proc, elems, i, c, key, to_copy, fo_import;
 
 		prepared = true;
 
@@ -162,7 +164,7 @@ function doImport(formId) {
 	}
 
 	function on_complete(ret, response_tags) {
-		var i, c, key;
+		var i, c, key, fo_import;
 		
 		for(i=0,c=resp.length; i < c; i++) {
 			key = resp[i];

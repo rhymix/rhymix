@@ -1370,16 +1370,17 @@ xe.XpressRange = $.Class({
 			oParentNode = xe.DOMFix.parentNode(oNode);
 
 			if(oParentNode.tagName == "SPAN"){
+				var parentText = $(oParentNode).html();
 				// check if the SPAN element is fully contained
 				// do quick checks before trying indexOf() because indexOf() function is very slow
 				oTmpNode = this._getVeryFirstRealChild(oParentNode);
 				if(oTmpNode == oNode) iSIdx = 1;
-				else iSIdx = arAllBottmNodes.indexOf(oTmpNode);
-
+				else iSIdx = parentText.indexOf(oTmpNode);
+				
 				if(iSIdx != -1){
 					oTmpNode = this._getVeryLastRealChild(oParentNode);
 					if(oTmpNode == oNode) iEIdx = 1;
-					else iEIdx = arAllBottmNodes.indexOf(oTmpNode);
+					else iEIdx = parentText.indexOf(oTmpNode);
 				}
 
 				if(iSIdx != -1 && iEIdx != -1){
@@ -5047,6 +5048,44 @@ xe.XE_EditingModeToggler = $.Class({
 		}
 	}
 });
+
+xe.XE_Editorresize = $.Class({
+	name : "XE_Editorresize",
+	$init : function(elAppContainer, oWYSIWYGIFrame){
+		this.inputArea = $('.xpress_xeditor_editing_area_container', elAppContainer).get(0);
+		this.oVerticalResizer = $('.xpress_xeditor_editingArea_verticalResizer', elAppContainer).get(0);
+		this.oCheckBox = $('#editorresize', elAppContainer).get(0);
+		this.oIframe = oWYSIWYGIFrame;
+		var self = this;
+		$(oWYSIWYGIFrame).load(function(){
+			self.oIframeBody = $(oWYSIWYGIFrame).contents().find('body');
+			});
+	},
+
+	$ON_MSG_APP_READY : function(){
+		this.oApp.registerBrowserEvent(this.oCheckBox, 'change', 'XE_TOGGLE_EDITOR_RESIZE');
+	},
+	$ON_XE_TOGGLE_EDITOR_RESIZE : function(){
+		if(this.oCheckBox.checked == true){
+			if(this._prevHeight == undefined)
+				this._prevHeight = this.inputArea.style.height;
+			
+			this.oVerticalResizer.style.display = 'none';
+			this.oApp.registerBrowserEvent(this.oIframeBody, 'keydown', 'XE_EDITOR_RESIZE');
+
+			this.inputArea.style.height = this.oIframe.style.height = this.oIframeBody[0].scrollHeight + 'px';
+		}else{
+			$(this.oIframeBody).unbind('keydown');
+
+			this.oVerticalResizer.style.display = 'block';
+			this.inputArea.style.height = this._prevHeight;
+			this.oIframe.style.height = this._prevHeight;
+		}
+	},
+	$ON_XE_EDITOR_RESIZE : function(){
+		this.inputArea.style.height = this.oIframe.style.height = this.oIframeBody[0].scrollHeight + 'px';
+	}
+});
 //}
 /**
  * @fileOverview This file contains a message mapping(Korean), which is used to map the message code to the actual message
@@ -5105,7 +5144,6 @@ xe.XE_XHTMLFormatter = $.Class({
 
 	TO_IR : function(sContent) {
 		var stack = [];
-
 		// remove xeHandled attrs
 		/*
 		sContent = sContent.replace(/xeHandled="YES"/ig,'');
@@ -5172,19 +5210,26 @@ xe.XE_XHTMLFormatter = $.Class({
 
 					return '<'+tag+' '+$.trim(attrs)+'>';
 				} else {
-					stack[stack.length] = {tag:tag, state:state};
+					stack.push({tag:tag, state:state});
 				}
 			} else {
 				var tags = [], t = '';
 
 				// remove unnecessary closing tag
-				if (!stack.length) return '';
+				if (!stack.length){
+					return '';
+				}
 
 				do {
-					t = stack.pop();
-					if (t.tag != tag) continue;
-					if (t.state != 'deleted') tags.push('</'+t.tag+'>');
-				} while(stack.length && t.tag != tag);
+					t = stack[stack.length-1];
+					if (t.tag != tag){
+						continue;
+					}
+					if (t.state != 'deleted'){
+						tags.push('</'+t.tag+'>');
+					}
+					stack.pop();
+				} while(stack.length && t.tag == tag);
 
 				return tags.join('');
 			}
@@ -5199,7 +5244,12 @@ xe.XE_XHTMLFormatter = $.Class({
 				t = stack.pop();
 				if (t.state != 'deleted') sContent += '</'+t.tag+'>';
 			} while(stack.length);
+
 		}
+
+		// add new line after </p>
+		regex = /<\/p>[ \t]*(\n)?/ig;
+		sContent = sContent.replace(regex, "</p>\n");
 
 		return sContent;
 	},
@@ -5248,7 +5298,7 @@ xe.XE_Extension = $.Class({
 
 		$(doc).find('img,div[editor_component]').each(function(){
 			var obj = $(this);
-			if(this.nodeName == 'IMG' && !obj.attr('editor_component')) {
+			if(this.nodeName == 'IMG' && !obj.attr('editor_component') && !obj.attr('widget')) {
 				obj.attr('editor_component','image_link');
 			}
 			if(this.last_doc != doc) {
@@ -5762,5 +5812,16 @@ xe.XE_Table = $.Class({
 		return isNaN(span)?1:span;
 	}
 }).extend(xe.XE_Table);
+
+// Auto Resize Checkbox Toggle Class
+$('.input_auto>input').change(function(){
+	setTimeout(function(){
+		if($('.input_control').is(':hidden')){
+			$('.input_auto').addClass('line');
+		} else {
+			$('.input_auto').removeClass('line');
+		}
+	},1);
+});
 
 })(jQuery);

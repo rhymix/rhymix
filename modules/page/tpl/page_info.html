@@ -1,9 +1,8 @@
 <!--#include("header.html")-->
-
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
-<form ruleset="updatePage" action="./" method="post" enctype="multipart/form-data">
+<form ruleset="updatePage" action="./" method="post" enctype="multipart/form-data" class="form">
 	<input type="hidden" name="module" value="page" />
 	<input type="hidden" name="act" value="procPageAdminUpdate" />
 	<input type="hidden" name="page" value="{$page}" />
@@ -38,9 +37,10 @@
 			</tr>
 			<tr>
 				<th scope="row">{$lang->browser_title}</th>
-				<td class="text">
-					<input type="text" name="browser_title" value="{$module_info->browser_title}"  id="browser_title"/>
-					<a href="{getUrl('','module','module','act','dispModuleAdminLangcode','target','browser_title')}" onclick="popopen(this.href);return false;" class="buttonSet buttonSetting"><span>{$lang->cmd_find_langcode}</span></a>
+				<td class="text multiLangEdit">
+					<input type="hidden" name="browser_title" value="{htmlspecialchars($module_info->browser_title)}" class="vLang" />
+					<input type="text" value="{$module_info->browser_title}" class="vLang" />
+					<span class="desc"><a href="#langEdit" class="tgAnchor editUserLang" data-effect="slide">{$lang->cmd_set_multilingual}</a></span>
 					<p>{$lang->about_browser_title}</p>
 				</td>
 			</tr>
@@ -134,5 +134,27 @@
 		<!--@if($module=="admin")-->
 		<span class="btn"><a href="{getUrl('act','dispPageAdminContent','module_srl','')}">{$lang->cmd_list}</a></span>
 		<!--@end-->
+	</div>
+	<!-- Multilingual -->
+	<div id="langEdit" class="langEdit tgContent">
+		<ul class="langList"></ul>
+		<div class="langInput">
+			<h2>{$lang->cmd_multilingual} <strong>{$lang->cmd_modify}...</strong> | <a href="#langEdit">{$lang->cmd_insert}</a></h2>
+			<ul>
+				{@
+					/* move current language to the top */
+					$a = array($lang_type=>$lang_supported[$lang_type]);
+					unset($lang_supported[$lang_type]);
+					$lang_supported = array_merge($a, $lang_supported);
+				}
+				<li loop="$lang_supported=>$code,$name" class="{$code}"><label for="{$code}_var1">{$name}</label> <input type="text" value="" id="{$code}_var1" /></li>
+			</ul>
+			<div class="action">
+				<div class="btnArea">
+					<span class="btn small"><input type="submit" value="{$lang->use}|{$lang->use_after_save}" /></span>
+				</div>
+				<p><a href="{getUrl('act','dispModuleAdminLangcode')}">{$lang->multilingual_manager}</a></p>
+			</div>
+		</div>
 	</div>
 </form>

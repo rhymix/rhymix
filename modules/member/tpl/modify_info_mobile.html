@@ -94,7 +94,7 @@
 
 			<li><label for="mailing" class="db fb al">{$lang->allow_mailing}</label><input id="mailing" type="checkbox" name="allow_mailing" value="Y" class="checkbox" <!--@if($member_info->allow_mailing!='N')-->checked="checked"<!--@end--> /> <p style="color:#666">{$lang->about_allow_mailing}</p></li>
 			<!--@if($member_config->signature != 'N')-->
-				<li><label for="signature" class="db fb al">{$lang->signature}</label><textarea name="signature" class="itxx" value=""></textarea></li>
+				<li><label for="signature" class="db fb al">{$lang->signature}</label><textarea name="signature" rows="8" cols="42" class="itxx" value=""></textarea></li>
 			<!--@end-->
 		</ul>
 	</fieldset>
@@ -120,7 +120,7 @@
 					<input type="text" name="{$val->column_name}" value="{htmlspecialchars($val->value[2])}" size="4"/>
 				<!--// textarea -->
 				<!--@elseif($val->column_type == 'textarea')-->
-					<textarea name="{$val->column_name}" class="itxx">{htmlspecialchars($val->value)}</textarea>
+					<textarea name="{$val->column_name}" rows="8" cols="42" class="itxx">{htmlspecialchars($val->value)}</textarea>
 				<!--// 다중 선택 -->
 				<!--@elseif($val->column_type == 'checkbox')-->
 					<!--@if($val->default_value)-->
@@ -172,7 +172,7 @@
 				<!--// 날짜 입력 -->
 				<!--@elseif($val->column_type == 'date')-->
 					<input type="hidden" name="{$val->column_name}" id="date_{$val->column_name}" value="{$val->value}" />
-					<input type="text" class="inputDate inputTypeText" value="" />
+					<input type="text" class="inputDate" value="" />
 				<!--@end-->
 				<p style="color:#666">{$val->description}</p>
 				<!--// 공개 필드 css확인 필요 -->
@@ -198,7 +198,7 @@
 	</fieldset>
 	<!--@end-->
 	<div class="cm">
-		<input type="submit" value="{$lang->cmd_registration}" accesskey="s" class="bn"/>
+		<input type="submit" value="{$lang->cmd_registration}" class="bn"/>
 		<a href="{getUrl('act','dispMemberInfo','member_srl','')}" class="bn"><span>{$lang->cmd_cancel}</span></a>
 	</div>
 	</form>

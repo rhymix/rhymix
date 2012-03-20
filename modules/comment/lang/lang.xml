@@ -5,7 +5,7 @@
 		<value xml:lang="en"><![CDATA[I want to]]></value>
 		<value xml:lang="jp"><![CDATA[このコメントを…]]></value>
 		<value xml:lang="zh-CN"><![CDATA[将把此评论..]]></value>
-		<value xml:lang="zh-TW"><![CDATA[將此評論..]]></value>
+		<value xml:lang="zh-TW"><![CDATA[將此回覆..]]></value>
 		<value xml:lang="fr"><![CDATA[Vous voudriez...]]></value>
 		<value xml:lang="ru"><![CDATA[Эту запись...]]></value>
 		<value xml:lang="es"><![CDATA[Usted ...]]></value>
@@ -17,7 +17,7 @@
 		<value xml:lang="en"><![CDATA[Comments List]]></value>
 		<value xml:lang="jp"><![CDATA[コメントリスト]]></value>
 		<value xml:lang="zh-CN"><![CDATA[评论列表]]></value>
-		<value xml:lang="zh-TW"><![CDATA[評論列表]]></value>
+		<value xml:lang="zh-TW"><![CDATA[回覆列表]]></value>
 		<value xml:lang="fr"><![CDATA[Liste des Commentaires]]></value>
 		<value xml:lang="ru"><![CDATA[Список записей]]></value>
 		<value xml:lang="es"><![CDATA[Comentarios Lista]]></value>
@@ -29,7 +29,7 @@
 		<value xml:lang="en"><![CDATA[Invert Selection]]></value>
 		<value xml:lang="jp"><![CDATA[選択項目の反転]]></value>
 		<value xml:lang="zh-CN"><![CDATA[反选]]></value>
-		<value xml:lang="zh-TW"><![CDATA[反選]]></value>
+		<value xml:lang="zh-TW"><![CDATA[反向選擇]]></value>
 		<value xml:lang="fr"><![CDATA[Renverser les choisis]]></value>
 		<value xml:lang="ru"><![CDATA[Изменить выбранное]]></value>
 	</item>
@@ -49,18 +49,20 @@
 		<value xml:lang="ko"><![CDATA[휴지통]]></value>
 		<value xml:lang="en"><![CDATA[Recycle Bin]]></value>
 		<value xml:lang="jp"><![CDATA[ゴミ箱]]></value>
+		<value xml:lang="zh-TW"><![CDATA[回收桶]]></value>
 	</item>
 	<item name="cmd_trash">
 		<value xml:lang="ko"><![CDATA[휴지통으로 이동]]></value>
 		<value xml:lang="en"><![CDATA[Move to Recycle Bin]]></value>
 		<value xml:lang="jp"><![CDATA[ゴミ箱へ移動]]></value>
+		<value xml:lang="zh-TW"><![CDATA[移至回收桶]]></value>
 	</item>
 	<item name="comment_count">
 		<value xml:lang="ko"><![CDATA[댓글 수]]></value>
 		<value xml:lang="en"><![CDATA[Number of Comments]]></value>
 		<value xml:lang="jp"><![CDATA[コメント数]]></value>
 		<value xml:lang="zh-CN"><![CDATA[每页评论数]]></value>
-		<value xml:lang="zh-TW"><![CDATA[每頁評論數]]></value>
+		<value xml:lang="zh-TW"><![CDATA[每頁回覆數]]></value>
 		<value xml:lang="fr"><![CDATA[Limite de Commentaires]]></value>
 		<value xml:lang="de"><![CDATA[Kommentare]]></value>
 		<value xml:lang="ru"><![CDATA[Количество ответов]]></value>
@@ -73,7 +75,7 @@
 		<value xml:lang="en"><![CDATA[Display comments and if the number of them is over a specified number, move to the comment list.]]></value>
 		<value xml:lang="jp"><![CDATA[コメントを指定した数だけ表示し、それ以上はリスト化します。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[可以指定要显示的每页评论数。]]></value>
-		<value xml:lang="zh-TW"><![CDATA[可以指定要顯示的每頁評論數。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[可以指定要顯示的每頁回覆數。]]></value>
 		<value xml:lang="fr"><![CDATA[Quand il y a plus de commentaires, ils seront bougés sur le liste.]]></value>
 		<value xml:lang="ru"><![CDATA[Отображается указанное количество ответов, после превышения этого количества производится переход к списку.]]></value>
 		<value xml:lang="tr"><![CDATA[Yorumları, kullanıcının girdiği rakam kadar gösterin. Eğer yorum sayısı belirlenen sayıyı aşarsa, yorum Liste'ye taşınır.]]></value>
@@ -84,7 +86,7 @@
 		<value xml:lang="en"><![CDATA[Please select an article to delete.]]></value>
 		<value xml:lang="jp"><![CDATA[削除するコメントを選択してください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[请选择要删除的评论。]]></value>
-		<value xml:lang="zh-TW"><![CDATA[請選擇要刪除的評論。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[請選擇要刪除的回覆。]]></value>
 		<value xml:lang="fr"><![CDATA[Choisissez un article à supprimer, S.V.P.]]></value>
 		<value xml:lang="ru"><![CDATA[Пожалуйста, выберите записи для удаления.]]></value>
 		<value xml:lang="es"><![CDATA[Selecciona el commentario que desea eliminar]]></value>
@@ -96,7 +98,7 @@
 		<value xml:lang="en"><![CDATA[%d comment(s) is(are) successfully deleted.]]></value>
 		<value xml:lang="jp"><![CDATA[%d個のコメントを削除しました。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[已删除%d个评论。]]></value>
-		<value xml:lang="zh-TW"><![CDATA[已刪除%d個評論。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[已刪除 %d 個回覆。]]></value>
 		<value xml:lang="fr"><![CDATA[%d commentaire(s) est(sont) supprimé(s) avec succés.]]></value>
 		<value xml:lang="ru"><![CDATA[%d записьуспешно удалена]]></value>
 		<value xml:lang="es"><![CDATA[%d comentario eliminado correctamente.]]></value>
@@ -211,7 +213,7 @@
 			<value xml:lang="en"><![CDATA[IP Address]]></value>
 			<value xml:lang="jp"><![CDATA[IPアドレス]]></value>
 			<value xml:lang="zh-CN"><![CDATA[IP 地址]]></value>
-			<value xml:lang="zh-TW"><![CDATA[IP位址]]></value>
+			<value xml:lang="zh-TW"><![CDATA[IP 位址]]></value>
 			<value xml:lang="fr"><![CDATA[Adresse IP]]></value>
 			<value xml:lang="ru"><![CDATA[IP-адрес]]></value>
 			<value xml:lang="es"><![CDATA[Dirección IP]]></value>
@@ -222,12 +224,14 @@
 			<value xml:lang="ko"><![CDATA[상태]]></value>
 			<value xml:lang="en"><![CDATA[Status]]></value>
 			<value xml:lang="jp"><![CDATA[状態]]></value>
+			<value xml:lang="zh-TW"><![CDATA[狀態]]></value>
 		</item>
 	</item>
 	<item name="no_text_comment">
 		<value xml:lang="ko"><![CDATA[글자가 없는 댓글입니다.]]></value>
 		<value xml:lang="en"><![CDATA[No text in this comment.]]></value>
 		<value xml:lang="jp"><![CDATA[テキストのないコメントです。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[此回覆無內容。]]></value>
 		<value xml:lang="tr"><![CDATA[Bu yorumda herhangi bir metin yok.]]></value>
 	</item>
 	<item name="secret_name_list" type="array">
@@ -235,21 +239,48 @@
 			<value xml:lang="ko"><![CDATA[비밀]]></value>
 			<value xml:lang="en"><![CDATA[Secret]]></value>
 			<value xml:lang="jp"><![CDATA[非公開]]></value>
+			<value xml:lang="zh-TW"><![CDATA[秘密]]></value>
 		</item>
 		<item name="N">
 			<value xml:lang="ko"><![CDATA[공개]]></value>
 			<value xml:lang="en"><![CDATA[Public]]></value>
 			<value xml:lang="jp"><![CDATA[公開]]></value>
+			<value xml:lang="zh-TW"><![CDATA[公開]]></value>
+		</item>
+	</item>
+	<item name="published_name_list" type="array">
+		<item name="Y">
+			<value xml:lang="en"><![CDATA[Published]]></value>
+		</item>
+		<item name="N">
+			<value xml:lang="en"><![CDATA[Unpublished]]></value>
 		</item>
 	</item>
 	<item name="comment_manager">
 		<value xml:lang="ko"><![CDATA[선택한 댓글 관리]]></value>
 		<value xml:lang="en"><![CDATA[Manage Selected Comment]]></value>
 		<value xml:lang="jp"><![CDATA[選択コメントを管理]]></value>
+		<value xml:lang="zh-TW"><![CDATA[管理所選回覆]]></value>
 	</item>
 	<item name="selected_comment">
 		<value xml:lang="ko"><![CDATA[선택한 댓글]]></value>
 		<value xml:lang="en"><![CDATA[Selected Comment]]></value>
 		<value xml:lang="jp"><![CDATA[選択したコメント]]></value>
+		<value xml:lang="zh-TW"><![CDATA[已選回覆]]></value>		
+	</item>
+	<item name="cmd_comment_validation">
+		<value xml:lang="en"><![CDATA[Use comment validation]]></value>
+	</item>
+	<item name="about_comment_validation">
+		<value xml:lang="en"><![CDATA[If you want to use comment validation before displaying on your module frontend select USE, otherwise select NOT USE.]]></value>
+	</item>
+	<item name="published">
+		<value xml:lang="en"><![CDATA[Publish status]]></value>
+	</item>
+	<item name="cmd_publish">
+		<value xml:lang="en"><![CDATA[Publish]]></value>
+	</item>
+	<item name="cmd_unpublish">
+		<value xml:lang="en"><![CDATA[Unpublish]]></value>
 	</item>
 </lang>

@@ -48,3 +48,4 @@ a.widgetStyle:hover span{display:none}
 a.widgetStyle.selected{border:1px dashed #999}
 a.widgetStyle img {width:96px;height:96px;margin:1px}
 a.widgetStyle span{position:absolute;left:0;bottom:0;display:block;width:96px;background-color:#888;color:#fff;padding:4px 3px 3px 3px;opacity:.8;filter:alpha(opacity=80);text-align:center;font-family:tahoma}
+#zonePageContent .widgetContainer { min-height: 20px; }

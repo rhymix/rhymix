@@ -9,17 +9,16 @@ xe.lang.confirm_delete = "{$lang->confirm_delete}";
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <h1 class="h1">{$lang->menu_gnb_sub['siteMap']}</h1>
-
 <block loop="$menu_list=>$key,$value">
 {@$menuSrl = $value->menuSrl}
-<form class="portlet siteMap" id="menu_{$menuSrl}" method="post">
+<form class="portlet siteMap" id="menu_{$menuSrl}" method="post" action="#menu_{$menuSrl}">
 <input type="hidden" name="module" value="{$module}" />
 <input type="hidden" name="act" value="procMenuAdminArrangeItem" />
 <input type="hidden" name="menu_srl" value="{$menuSrl}" />
 <input type="hidden" name="menu_item_srl" value="" />
-<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin', 'act', 'dispMenuAdminSiteMap')}" />
+<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin', 'act', 'dispMenuAdminSiteMap')}#menuTop_{$menuSrl}" />
 
-	<h2 class="h2"><input name="title" value="{$value->title}" /></h2>
+	<h2 class="h2" id="menuTop_{$menuSrl}"><input name="title" value="{$value->title}" /></h2>
 	<a href="#nav_{$key}" class="tgMap">{$lang->collapsing}/{$lang->expanding}</a>
 	<ul class="lined" id="nav_{$key}" cond="count($value->menuItems->list > 0)" <!--@if($_COOKIE['sitemap_toggle_#nav_'.$key])-->style="display:none;"<!--@end-->>
 	<block loop="$value->menuItems->list=>$key2,$value2">
@@ -28,7 +27,7 @@ xe.lang.confirm_delete = "{$lang->confirm_delete}";
 	</block>
 	</ul>
 	<p class="btnArea">
-		<span class="btn"><a href="#editMenu" class="modalAnchor _add">{$lang->add_menu}</a></span>
+		<span class="btn"><a href="#editMenu" class="modalAnchor _add">{$lang->add_menu}...</a></span>
 		<span class="btn"><button value="procMenuAdminArrangeItem" name="act" type="submit">{$lang->cmd_save}</button></span>
 		<span class="etc">
 			<span class="btn"><button value="procMenuAdminDelete" name="act" type="submit" onclick="return confirmDelete();">{$lang->cmd_delete}</button></span>
@@ -55,6 +54,7 @@ xe.lang.confirm_delete = "{$lang->confirm_delete}";
 		<input type="hidden" name="menu_srl" value="" />
 		<input type="hidden" name="menu_item_srl" value="{$menu_info->menu_srl}" />
 		<input type="hidden" name="parent_srl" value="{$menu_info->menu_srl}" />
+		<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin', 'act', 'dispMenuAdminSiteMap')}#menuTop_" />
 		<h2 class="h2"><span>{$lang->add_menu}</span><span>{$lang->edit_menu}</span></h2>
 			<ul>
 				<li>
@@ -66,7 +66,7 @@ xe.lang.confirm_delete = "{$lang->confirm_delete}";
 						<div id="langEdit" class="langEdit tgContent">
 							<ul class="langList"></ul>
 							<div class="langInput">
-								<h2>{$lang->multilingual} <strong>{$lang->cmd_modify}</strong> | <a href="#langEdit">{$lang->cmd_insert}</a></h2>
+								<h2>{$lang->multilingual} <strong>{$lang->cmd_modify}...</strong> | <a href="#langEdit">{$lang->cmd_insert}</a></h2>
 								<ul>
 									{@
 										/* move current language to the top */
@@ -152,6 +152,12 @@ xe.lang.confirm_delete = "{$lang->confirm_delete}";
 					<p class="q">{$lang->menu_group_srls}</p>
 					<p class="a" id="groupList">
 						<block loop="$group_list=>$key,$value"><input type="checkbox" name="group_srls[]" id="group_srls_{$value->group_srl}" value="{$value->group_srl}" /> <label for="group_srls_{$value->group_srl}">{$value->title}</label></block>
+					</p>
+				</li>
+				<li>
+					<p class="q">{$lang->expand}</p>
+					<p class="a" id="expand">
+						<input type="checkbox" name="menu_expand" value="Y" /> {$lang->about_expand}
 					</p>
 				</li>
 			</ul>

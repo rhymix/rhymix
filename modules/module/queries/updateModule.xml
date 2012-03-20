@@ -7,6 +7,7 @@
         <column name="module_category_srl" var="module_category_srl" />
         <column name="layout_srl" var="layout_srl" />
         <column name="skin" var="skin" minlength="0" maxlength="250" />
+        <column name="is_skin_fix" var="is_skin_fix" default="Y" />
         <column name="mskin" var="mskin" />
         <column name="menu_srl" var="menu_srl" filter="number" />
         <column name="mid" var="mid" notnull="notnull" minlength="1" maxlength="40" />

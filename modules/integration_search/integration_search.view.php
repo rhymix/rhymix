@@ -92,6 +92,7 @@
                             $output['multimedia'] = $oIS->getImages($target, $module_srl_list, $is_keyword, $page, 5);
                             $output['file'] = $oIS->getFiles($target, $module_srl_list, $is_keyword, $page, 5);
                             Context::set('search_result', $output);
+							Context::set('search_target', 'title');
                             $this->setTemplateFile("index", $page);
                         break;
                 }

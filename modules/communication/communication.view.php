@@ -34,6 +34,11 @@
             // Error appears if not logged-in
             if(!Context::get('is_logged')) return $this->stop('msg_not_logged');
             $logged_info = Context::get('logged_info');
+			if(!array_key_exists('dispCommunicationMessages', $logged_info->menu_list))
+			{
+				return $this->stop('msg_invalid_request');
+			}
+
             // Set the variables
             $message_srl = Context::get('message_srl');
             $message_type = Context::get('message_type');
@@ -106,8 +111,13 @@
             if(!Context::get('is_logged')) return $this->stop('msg_not_logged');
             $logged_info = Context::get('logged_info');
             // get receipient's information 
+
+			// check inalid request
             $receiver_srl = Context::get('receiver_srl');
-            if(!$receiver_srl || $logged_info->member_srl == $receiver_srl) return $this->stop('msg_not_logged');
+            if(!$receiver_srl) return $this->stop('msg_invalid_request');
+
+			// check receiver and sender are same
+            if($logged_info->member_srl == $receiver_srl) return $this->stop('msg_cannot_send_to_yourself');
             // get message_srl of the original message if it is a reply
             $message_srl = Context::get('message_srl');
             if($message_srl) {
@@ -120,6 +130,11 @@
             }
 
             $receiver_info = $oMemberModel->getMemberInfoByMemberSrl($receiver_srl);
+			if(!$receiver_info)
+			{
+				return $this->stop('msg_invalid_request');
+			}
+
             Context::set('receiver_info', $receiver_info);
             // set a signiture by calling getEditor of the editor module
             $oEditorModel = &getModel('editor');

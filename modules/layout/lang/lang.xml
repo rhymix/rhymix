@@ -208,34 +208,33 @@
 	<item name="about_layout_code">
 		<value xml:lang="ko"><![CDATA[아래 레이아웃의 코드를 직접 수정 후 저장하시면 서비스에 반영이 됩니다.
         꼭 미리보기를 하신 후에 저장을 하세요.
-        XE의 템플릿 문법은 <a href="#" onclick="winopen('http://xe.xpressengine.net/18180861');return false;">XE 템플릿</a> 을 참고하시면 됩니다.]]></value>
+        XE의 템플릿 문법은 <a href="#" onclick="winopen('http://code.google.com/p/xe-core/wiki/TemplateSyntax');return false;">XE 템플릿</a> 을 참고하시면 됩니다.]]></value>
 		<value xml:lang="en"><![CDATA[It will be applied to the service when you save the layout code after editing it.
         Please first preview your code and then save it.
-        You can refer grammar of XE's template from <a href="#" onclick="winopen('http://trac.zeroboard.com/trac/wiki/TemplateHandler');return false;">XE Template</a>.]]></value>
+        You can refer grammar of XE's template from <a href="#" onclick="winopen('http://code.google.com/p/xe-core/wiki/TemplateSyntax');return false;">XE Template</a>.]]></value>
 		<value xml:lang="jp"><![CDATA[下のレイアウトコードを修正し、保存するとサービスに反映されます。
         必ずプレビューで確認してから保存してください。
-        XEのテンプレート文法は<a href="#" onclick="winopen('http://xe.xpressengine.net/18180861');return false;">XEテンプレート</a>を参考してください。]]></value>
+        XEのテンプレート文法は<a href="#" onclick="winopen('http://code.google.com/p/xe-core/wiki/TemplateSyntax');return false;">XEテンプレート</a>を参考してください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[修改的布局代码保存后即可生效。
 	保存之前请必须先预览后再保存。
-        XE布局语法请参考<strong><a href="#" onclick="winopen('http://trac.zeroboard.com/trac/wiki/TemplateHandler');return false;">XE模板</a></strong>。]]></value>
-		<value xml:lang="zh-TW"><![CDATA[儲存修改後的版面，即可生效。
-	     儲存之前，請先預覽後再儲存。
-        XE 版面設計語法，請參考<a href="#" onclick="winopen('http://trac.zeroboard.com/trac/wiki/TemplateHandler');return false;">XE 樣版</a>。]]></value>
+        XE布局语法请参考<strong><a href="#" onclick="winopen('http://code.google.com/p/xe-core/wiki/TemplateSyntax');return false;">XE模板</a></strong>。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[儲存修改後的版面，即可生效。 儲存之前，請先預覽後再儲存。
+        XE 版面設計語法，請參考 <a href="#" onclick="winopen('http://code.google.com/p/xe-core/wiki/TemplateSyntax');return false;">XE 樣版</a>。]]></value>
 		<value xml:lang="fr"><![CDATA[Vous conservez la code de Mise en Page après l'éditer, la code sera appliquée sur le service.
         Utilisez [Avant-première] avant conserver la code S.V.P.
-        Vous pouvez référer la grammaire de modèle de XE sur <a href="#" onclick="winopen('http://trac.zeroboard.com/trac/wiki/TemplateHandler');return false;">Modèle du XE</a>.]]></value>
+        Vous pouvez référer la grammaire de modèle de XE sur <a href="#" onclick="winopen('http://code.google.com/p/xe-core/wiki/TemplateSyntax');return false;">Modèle du XE</a>.]]></value>
 		<value xml:lang="ru"><![CDATA[Применения к службе будут проиведены, когда Вы сохраните код лейаут после редактирование.
         Пожалуйста, сначала используйте предпросмотр кода и затем сохраните его.
-        Вы можете обратиться к грамматике шаблонов XE с <a href="#" onclick="winopen('http://trac.zeroboard.com/trac/wiki/TemplateHandler');return false;">XE Template</a>.]]></value>
+        Вы можете обратиться к грамматике шаблонов XE с <a href="#" onclick="winopen('http://code.google.com/p/xe-core/wiki/TemplateSyntax');return false;">XE Template</a>.]]></value>
 		<value xml:lang="es"><![CDATA[El diseño sera aplicado al servicio cuando usted guarda el código del diseño luego de haber editado.
 		Primero visualiza previamente tus códigos y luego guardalos
-        Referente al código de planillas de XE dirijirse a<a href="#" onclick="winopen('http://trac.zeroboard.com/trac/wiki/TemplateHandler');return false;">XE Pamphlet(Ingles)</a> ]]></value>
+        Referente al código de planillas de XE dirijirse a<a href="#" onclick="winopen('http://code.google.com/p/xe-core/wiki/TemplateSyntax');return false;">XE Pamphlet(Ingles)</a> ]]></value>
 		<value xml:lang="tr"><![CDATA[Yerleşim düzeni kodunu düzenledikten sonra kaydettiğinizde, hizmete girecektir.
         Lütfen önce kodunuzun önizlemesini yapın ve sonra kaydedin.
-        XE'nin şablolunu örnek alabilirsiniz : <a href="#" onclick="winopen('http://trac.zeroboard.com/trac/wiki/TemplateHandler');return false;">XE Template</a>.]]></value>
+        XE'nin şablolunu örnek alabilirsiniz : <a href="#" onclick="winopen('http://code.google.com/p/xe-core/wiki/TemplateSyntax');return false;">XE Template</a>.]]></value>
 		<value xml:lang="vi"><![CDATA[Nó sẽ được áp dụng vào Website ngay khi bạn bấm '<b>Lưu</b>' sau khi sửa đổi.
         Hãy bấm '<b>Xem trước</b>' trước khi bấm '<b>Lưu</b>'.
-        Bạn có thể tham khảo cách sửa giao diện tại <a href="#" onclick="winopen('http://trac.zeroboard.com/trac/wiki/TemplateHandler');return false;"><b>XE Template</b></a>.]]></value>
+        Bạn có thể tham khảo cách sửa giao diện tại <a href="#" onclick="winopen('http://code.google.com/p/xe-core/wiki/TemplateSyntax');return false;"><b>XE Template</b></a>.]]></value>
 	</item>
 	<item name="layout_export">
 		<value xml:lang="ko"><![CDATA[내보내기]]></value>
@@ -279,8 +278,7 @@
 		<value xml:lang="en"><![CDATA[Previously modified layout will be deleted when you import a new one. Please export the current layout for a backup before importing a new one.]]></value>
 		<value xml:lang="jp"><![CDATA[インポートする場合、既存の修正されたレイアウトを上書きします。インポート前にエクスポートでバックアップすることをお勧めします。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[导入之前请利用<strong>导出功能</strong>备份好当前的布局及设置，因为导入会删除当前的布局及设置。]]></value>
-		<value xml:lang="zh-TW"><![CDATA[版面匯入時，將會刪除目前的版面設置。
-    版面匯入前，請先匯出備份目前的版面設置。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[版面匯入時，將會刪除目前的版面設置。 版面匯入前，請先匯出備份目前的版面設置。]]></value>
 		<value xml:lang="fr"><![CDATA[가져오기를 할 경우 기존 수정된 레이아웃을 삭제가 됩니다. 가져오기를 하기전에 내보내기를 통해 백업을 하시기 바랍니다.]]></value>
 		<value xml:lang="ru"><![CDATA[Original layout will be deleted when you import. Please export current layout before importing.]]></value>
 		<value xml:lang="es"><![CDATA[가져오기를 할 경우 기존 수정된 레이아웃을 삭제가 됩니다. 가져오기를 하기전에 내보내기를 통해 백업을 하시기 바랍니다.]]></value>
@@ -512,7 +510,7 @@
 			<value xml:lang="en"><![CDATA[Add Widget]]></value>
 			<value xml:lang="jp"><![CDATA[ウィジェット追加]]></value>
 			<value xml:lang="zh-CN"><![CDATA[添加控件]]></value>
-			<value xml:lang="zh-TW"><![CDATA[新增Widget]]></value>
+			<value xml:lang="zh-TW"><![CDATA[新增 Widget]]></value>
 			<value xml:lang="tr"><![CDATA[Widget ekle]]></value>
 			<value xml:lang="vi"><![CDATA[Thêm Widget]]></value>
 
@@ -542,7 +540,7 @@
 			<value xml:lang="en"><![CDATA[Widget Style]]></value>
 			<value xml:lang="jp"><![CDATA[ウィジェットスタイル]]></value>
 			<value xml:lang="zh-CN"><![CDATA[控件样式]]></value>
-			<value xml:lang="zh-TW"><![CDATA[Widget樣式]]></value>
+			<value xml:lang="zh-TW"><![CDATA[Widget 樣式]]></value>
 			<value xml:lang="tr"><![CDATA[Widget Tarzı]]></value>
 			<value xml:lang="vi"><![CDATA[Kiểu dáng Widget]]></value>
 
@@ -886,8 +884,7 @@
 (まだ、faceOffレイアウトのみエクスポート/インポートが可能です。)]]></value>
 		<value xml:lang="zh-CN"><![CDATA[可以把已修改好的布局导出为tar文件或把已有的tar文件直接导入。
 (目前此功能只能在faceOff布局中使用)]]></value>
-		<value xml:lang="zh-TW"><![CDATA[可將修改過的版面匯出成 tar 檔案或是直接匯入現有的 tar 檔案。
-(此功能目前只能用於 faceOff 版面中]]></value>
+		<value xml:lang="zh-TW"><![CDATA[可將修改過的版面匯出成 tar 檔案或是直接匯入現有的 tar 檔案。 (此功能目前只能用於 faceOff 版面中]]></value>
 		<value xml:lang="fr"><![CDATA[수정된 레이아웃을 tar 파일로 내보내거나 tar 파일로 저장된 것을 불러올 수 있습니다
 (아직은 faceOff레이아웃만 내보내기/들이기가 됩니다]]></value>
 		<value xml:lang="ru"><![CDATA[You can export or import editted layout as tar file
@@ -987,6 +984,7 @@
 		<value xml:lang="en"><![CDATA[Apply Mobile View]]></value>
 		<value xml:lang="jp"><![CDATA[モバイルスキン使用]]></value>
 		<value xml:lang="zh-CN"><![CDATA[移动版布局共享]]></value>
+		<value xml:lang="zh-TW"><![CDATA[使用手機面板]]></value>
 		<value xml:lang="tr"><![CDATA[Hareketli Görünümü Uygula]]></value>
 	</item>
 	<item name="about_apply_mobile_view">
@@ -1005,53 +1003,63 @@
 		<value xml:lang="ko"><![CDATA[설치된 레이아웃]]></value>
 		<value xml:lang="en"><![CDATA[Layouts]]></value>
 		<value xml:lang="jp"><![CDATA[インストールされているレイアウト]]></value>
+		<value xml:lang="zh-TW"><![CDATA[已安裝版面]]></value>
+
 	</item>
 	<item name="faceoff_export">
 		<value xml:lang="ko"><![CDATA[FaceOff 레이아웃 내보내기]]></value>
 		<value xml:lang="en"><![CDATA[Export FaceOff layout]]></value>
 		<value xml:lang="jp"><![CDATA[Faceoffレイアウトをエクスポートする]]></value>
+		<value xml:lang="zh-TW"><![CDATA[匯出 FaceOff 版面]]></value>
 	</item>
 	<item name="about_faceoff_export">
 		<value xml:lang="ko"><![CDATA[FaceOff 레이아웃을 tar 파일로 내보낼 수 있습니다. 백업 받은 FaceOff 레이아웃을 일반 레이아웃으로 변경하세요.]]></value>
 		<value xml:lang="en"><![CDATA[You can download current edited layout. Use this, you can change FaceOff layout to general layout.]]></value>
 		<value xml:lang="jp"><![CDATA[FaceOffレイアウトをtarファイルでエクスポートすることができます。バックアップしたFaceOffレイアウトを一般レイアウトに変更してください。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[可將 FaceOff 版面匯出成 tar 檔案。 備份 FaceOff 版面後再變更為一般版面。]]></value>
 	</item>
 	<item name="faceoff_migration" type="array">
 		<item name="0">
 			<value xml:lang="ko"><![CDATA[FaceOff 레이아웃은 지원이 중단될 예정입니다. 반드시 안내에 따라 FaceOff 레이아웃을 일반 레이아웃으로 변경하여 주시기 바랍니다.]]></value>
 			<value xml:lang="en"><![CDATA[FaceOff layout will deprecated. You must change faceoff layout to general layout.]]></value>
 			<value xml:lang="jp"><![CDATA[FaceOffレイアウトは、サポートが中断される予定です。必ず案内に従って、FaceOffレイアウトを一般レイアウトに変更してください。]]></value>
-			
+			<value xml:lang="zh-TW"><![CDATA[將不在支援 FaceOff 版面。 必須將 FaceOff 版面變更一般版面。]]></value>
 		</item>
 		<item name="1">
 			<value xml:lang="ko"><![CDATA[FaceOff 레이아웃 변경 안내]]></value>
 			<value xml:lang="en"><![CDATA[Instruction of change FaceOff layout to general layout]]></value>
 			<value xml:lang="jp"><![CDATA[FaceOffレイアウト変更案内]]></value>
+			<value xml:lang="zh-TW"><![CDATA[FaceOff 版面變更說明]]></value>
 		</item>
 		<item name="2">
 			<value xml:lang="ko"><![CDATA[사용 중인 FaceOff 레이아웃의 내보내기를 통해 레이아웃을 백업 받습니다.]]></value>
 			<value xml:lang="en"><![CDATA[Export FaceOff layout.]]></value>
 			<value xml:lang="jp"><![CDATA[使用中のFaceOffレイアウトのエクスポートを通じてレイアウトをバックアップします。]]></value>
+			<value xml:lang="zh-TW"><![CDATA[先備份使用中的 FaceOff 版面後再匯出。]]></value>
 		</item>
 		<item name="3">
 			<value xml:lang="ko"><![CDATA[내려받은 tar 파일의 압축을 해제합니다.]]></value>
 			<value xml:lang="en"><![CDATA[Untar downloaded tar file.]]></value>
 			<value xml:lang="jp"><![CDATA[ダウンロードしたtarファイルの圧縮を解凍します。]]></value>
+			<value xml:lang="zh-TW"><![CDATA[解壓縮下載的 tar 檔案]]></value>
 		</item>
 		<item name="4">
 			<value xml:lang="ko"><![CDATA[폴더명을 임의의 이름으로 변경합니다.]]></value>
 			<value xml:lang="en"><![CDATA[Change folder name to any name.]]></value>
 			<value xml:lang="jp"><![CDATA[フォルダ名を任意の名前に変更します。]]></value>
+			<value xml:lang="zh-TW"><![CDATA[變更目錄名稱]]></value>
 		</item>
 		<item name="5">
 			<value xml:lang="ko"><![CDATA[FTP를 통해 ./layouts에 업로드합니다.]]></value>
 			<value xml:lang="en"><![CDATA[Upload to ./layouts through FTP.]]></value>
 			<value xml:lang="jp"><![CDATA[FTPを通じて ./layoutsにアップロードします。]]></value>
+			<value xml:lang="zh-TW"><![CDATA[透過 FTP 上傳檔案至 ./layouts]]></value>
 		</item>
 		<item name="6">
 			<value xml:lang="ko"><![CDATA[레이아웃 목록에서 업로드한 레이아웃을 이용하여 레이아웃을 생성합니다. 이때 레이아웃 경로가 업로드한 경로가 맞는지 확인하세요. 로고 이미지 등 레이아웃 설정은 다시 하셔야 합니다.]]></value>
 			<value xml:lang="en"><![CDATA[Insert new layout from installed layout. Make sure to check if the path of layout is the same as the uploaded path. You need to set the layout including logo images.]]></value>
 		　　<value xml:lang="jp"><![CDATA[レイアウトリストでアップロードしたレイアウトを利用してレイアウトを生成します。このとき、レイアウトのパスが、アップロードしたパスであるか確認してください。ロゴイメージはなどレイアウトの設定は、改めて行ってください。]]></value>
+			<value xml:lang="zh-TW"><![CDATA[從"已安裝版面"中建立新版面。 確認版面路徑是否上傳正確及修改版面相關設定。]]></value>
 		</item>
 	</item>
 </lang>

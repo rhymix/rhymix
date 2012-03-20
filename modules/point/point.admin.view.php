@@ -88,7 +88,12 @@
             $args->list_count = 20;
             $args->page = Context::get('page');
 
-			$columnList = array('member.member_srl', 'member.user_id', 'member.user_name', 'member.nick_name', 'point.point');
+			$oMemberModel = &getModel('member');
+			$memberConfig = $oMemberModel->getMemberConfig();
+
+			Context::set('identifier', $memberConfig->identifier);
+
+			$columnList = array('member.member_srl', 'member.user_id', 'member.email_address', 'member.nick_name', 'point.point');
             $output = $oPointModel->getMemberList($args, $columnList);
             // context::set for writing into a template 
             Context::set('total_count', $output->total_count);

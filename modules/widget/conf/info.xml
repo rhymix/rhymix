@@ -16,7 +16,7 @@
     <description xml:lang="vi">Module dành cho quản lý Widget.</description>
     <description xml:lang="es">Módulo para el manejo de widgets.</description>
     <description xml:lang="ru">Модуль для управления виджетами.</description>
-    <description xml:lang="zh-TW">Widget管理模組。</description>
+    <description xml:lang="zh-TW">Widget 管理模組。</description>
     <description xml:lang="tr">Widgetları yönetmek için kullanılan modüldür.</description>
     <version>0.1</version>
     <date>2007-02-28</date>

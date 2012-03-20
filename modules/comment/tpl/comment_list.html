@@ -1,3 +1,4 @@
+<!--#include("header.html")-->
 <script type="text/javascript">
 xe.lang.msg_empty_search_target = '{$lang->msg_empty_search_target}';
 xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
@@ -10,9 +11,21 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 	<h1 class="h1">{$lang->comment}</h1>
 	<div class="table even">
 		<div class="cnb">
-			<a href="{getUrl('','act','dispCommentAdminList', 'Y')}" <!--@if($search_keyword == '')-->class="active"<!--@end-->>{$lang->all}</a>
+			<a href="{getUrl('search_keyword','','act','dispCommentAdminList', 'Y')}" <!--@if($search_keyword == '')-->class="active"<!--@end-->>{$lang->all}</a>
 			| <a href="{getUrl('search_target','is_secret','search_keyword', 'N')}" <!--@if($search_target == 'is_secret' && $search_keyword == 'N')-->class="active"<!--@end-->>{$secret_name_list['N']}</a>
 			| <a href="{getUrl('search_target','is_secret','search_keyword', 'Y')}" <!--@if($search_target == 'is_secret' && $search_keyword == 'Y')-->class="active"<!--@end-->>{$secret_name_list['Y']}</a>
+			| <a href="{getUrl('search_target','is_published','search_keyword', 'N')}" <!--@if($search_target == 'is_published' && $search_keyword == 'N')-->class="active"<!--@end-->>{$lang->published_name_list['N']}</a>
+			| <a href="{getUrl('search_target','is_published','search_keyword', 'Y')}" <!--@if($search_target == 'is_published' && $search_keyword == 'Y')-->class="active"<!--@end-->>{$lang->published_name_list['Y']}</a>
+
+			<block cond="$modules_list">
+			| <label for="comment_modules" <!--@if($search_target == 'module')-->class="active"<!--@end-->>Select Module:
+			<select id="comment_modules" name="comment_modules" onchange="location.href='{getUrl('search_target','module','search_keyword','')}&search_keyword='+this.value">
+				<option></option>
+				<!--@foreach($modules_list as $key => $node)-->
+				<option value="{$key}"<!--@if($key==$search_keyword)-->selected<!--@end-->>{$node}</option>
+				<!--@end-->
+			</select></label>
+			</block>
 		</div>
 		<table width="100%" border="1" cellspacing="0" id="commentListTable">
 			<caption>
@@ -22,6 +35,10 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 				{$secret_name_list['N']}
 				<!--@elseif($search_target == 'is_secret' && $search_keyword == 'Y')-->
 				{$secret_name_list['Y']}
+				<!--@elseif($search_target == 'is_published' && $search_keyword == 'N')-->
+				{$published_name_list['N']}
+				<!--@elseif($search_target == 'is_published' && $search_keyword == 'Y')-->
+				{$published_name_list['Y']}
 				<!--@end-->
 				({number_format($total_count)})
 				<div class="side">
@@ -31,22 +48,24 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 			<thead>
 				<tr>
 					<th scope="col" class="text">{$lang->comment}</th>
-					<th scope="col">{$lang->writer}</th>
-					<th scope="col">{$lang->cmd_vote}(+/-)</th>
-					<th scope="col">{$lang->date}</th>
-					<th scope="col">{$lang->ipaddress}</th>
-					<th scope="col">{$lang->status}</th>
+					<th scope="col" class="nowr">{$lang->writer}</th>
+					<th scope="col" class="nowr">{$lang->cmd_vote}(+/-)</th>
+					<th scope="col" class="nowr">{$lang->date}</th>
+					<th scope="col" class="nowr">{$lang->ipaddress}</th>
+					<th scope="col" class="nowr">{$lang->status}</th>
+					<th scope="col">{$lang->published}</th>
 					<th scope="col"><input type="checkbox" data-name="cart" title="Check All" /></th>
 				</tr>
 			</thead>
 			<tfoot>
 				<tr>
 					<th scope="col" class="text">{$lang->comment}</th>
-					<th scope="col">{$lang->writer}</th>
-					<th scope="col">{$lang->cmd_vote}(+/-)</th>
-					<th scope="col">{$lang->date}</th>
-					<th scope="col">{$lang->ipaddress}</th>
-					<th scope="col">{$lang->status}</th>
+					<th scope="col" class="nowr">{$lang->writer}</th>
+					<th scope="col" class="nowr">{$lang->cmd_vote}(+/-)</th>
+					<th scope="col" class="nowr">{$lang->date}</th>
+					<th scope="col" class="nowr">{$lang->ipaddress}</th>
+					<th scope="col" class="nowr">{$lang->status}</th>
+					<th scope="col">{$lang->published}</th>
 					<th scope="col"><input type="checkbox" data-name="cart" title="Check All" /></th>
 				</tr>
 			</tfoot>
@@ -55,11 +74,12 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 				{@ $comment = cut_str(trim(strip_tags($val->content)), 200, '...')}
 				<tr>
 					<td class="text"><a href="{getUrl('','document_srl',$val->document_srl)}#comment_{$val->comment_srl}" target="_blank"><!--@if(strlen($comment))-->{$comment}<!--@else--><em>{$lang->no_text_comment}</em><!--@end--></a></td>
-					<td><a href="#popup_menu_area" class="member_{$val->member_srl}">{$val->nick_name}</a></td>
-					<td>0/0</td>
-					<td>{(zdate($val->regdate,"Y-m-d\nH:i:s"))}</td>
-					<td><a href="{getUrl('search_target','ipaddress','search_keyword',$val->ipaddress)}">{$val->ipaddress}</a></td>
-					<td><!--@if($val->isSecret())-->{$secret_name_list['Y']}<!--@else-->{$secret_name_list['N']}<!--@end--></td>
+					<td class="nowr"><a href="#popup_menu_area" class="member_{$val->member_srl}">{$val->nick_name}</a></td>
+					<td class="nowr">0/0</td>
+					<td class="nowr">{(zdate($val->regdate,"Y-m-d\nH:i:s"))}</td>
+					<td class="nowr"><a href="{getUrl('search_target','ipaddress','search_keyword',$val->ipaddress)}">{$val->ipaddress}</a></td>
+					<td class="nowr"><!--@if($val->isSecret())-->{$secret_name_list['Y']}<!--@else-->{$secret_name_list['N']}<!--@end--></td>
+					<td class="nowr"><!--@if($val->status)-->{$lang->published_name_list['Y']}<!--@else-->{$lang->published_name_list['N']}<!--@end--></td>
 					<td><input type="checkbox" name="cart" value="{$val->comment_srl}" /></td>
 				</tr>
 				<!--@end-->
@@ -76,6 +96,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 	<input type="hidden" name="act" value="procCommentAdminDeleteChecked" />
 	<input type="hidden" name="page" value="{$page}" />
 	<input type="hidden" name="is_trash" value="false" />
+	<input type="hidden" name="will_publish" value="0" />
 	<input type="hidden" name="search_target" value="{$search_target}" />
 	<input type="hidden" name="search_keyword" value="{$search_keyword}" />
 		<h2 class="h2">{$lang->comment_manager}</h2>
@@ -87,8 +108,9 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 				<thead>
 					<tr>
 						<th scope="col" class="title">{$lang->comment}</th>
-						<th scope="col">{$lang->writer}</th>
-						<th scope="col">{$lang->status}</th>
+						<th scope="col" class="nowr">{$lang->writer}</th>
+						<th scope="col" class="nowr">{$lang->status}</th>
+						<th scope="col">{$lang->published}</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -97,9 +119,17 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 		</div>
 		<p class="q"><label for="message">{$lang->message_notice}</label></p>
 		<p>
-			<textarea cols="42" rows="3" name="message_content" id="message" style="width:98%"></textarea>
+			<textarea rows="8" cols="42" name="message_content" id="message" style="width:98%"></textarea>
 		</p>
 		<div class="btnArea">
+			<!--@if ($search_target=='is_published' && $search_keyword=="N")-->
+				<span class="btn"><button type="submit" name="will_publish" value="1" onclick="doChangePublishedStatus(this.value);">{$lang->cmd_publish}</button></span>
+			<!--@elseif ($search_target=='is_published' && $search_keyword=="Y")-->
+				<span class="btn"><button type="submit" name="will_publish" value="0" onclick="doChangePublishedStatus(this.value);">{$lang->cmd_unpublish}</button></span>
+			<!--@else-->
+				<span class="btn"><button type="submit" name="will_publish" value="1" onclick="doChangePublishedStatus(this.value);">{$lang->cmd_publish}</button></span>
+				<span class="btn"><button type="submit" name="will_publish" value="0" onclick="doChangePublishedStatus(this.value);">{$lang->cmd_unpublish}</button></span>
+			<!--@end-->
 			<span class="btn"><button type="submit" name="is_trash" value="true">{$lang->cmd_trash}</button></span>
 			<span class="btn"><button type="submit" name="is_trash" value="false">{$lang->cmd_delete}</button></span>
 		</div>

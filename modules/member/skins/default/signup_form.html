@@ -30,9 +30,10 @@
 				<p class="a">
 					<input type="password" name="password" value=""/>
 				</p>
+				<p class="desc">{$lang->about_password}</p>
 			</li>
 			<li>
-				<p class="q">{$lang->password2} <em style="color:red">*</em></p>
+				<p class="q">{$lang->password3} <em style="color:red">*</em></p>
 				<p class="a">
 					<input type="password" name="password2" value=""/>
 				</p>
@@ -54,12 +55,6 @@
 					<block loop="$lang->allow_message_type=>$key,$val">
 						<input type="radio" name="allow_message" value="{$key}" checked="checked"|cond="$member_info->allow_message == $key || (!$member_info && $key == 'Y')" id="allow_{$key}" /> <label for="allow_{$key}">{$val}</label>
 					</block>
-				</p>
-			</li>
-			<li cond="class_exists('AddonCaptcha') && $oCaptcha && $oCaptcha->addon_info->apply_signup=='apply'">
-				<p class="q">{$lang->captcha}</p>
-				<p class="a">
-					{$oCaptcha->inlineDisplay()}
 				</p>
 			</li>
 		</ul>

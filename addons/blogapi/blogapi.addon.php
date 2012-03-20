@@ -234,13 +234,15 @@ if($called_position == 'before_module_proc') {
 						for($i=0;$i<$file_count;$i++) {
 							$file_info['tmp_name'] = sprintf('%s%s', $tmp_uploaded_path, $file_list[$i]);
 							$file_info['name'] = $file_list[$i];
-							$oFileController->insertFile($file_info, $this->module_srl, $document_srl, 0, true);
+							$fileOutput = $oFileController->insertFile($file_info, $this->module_srl, $document_srl, 0, true);
+							$uploaded_filename = $fileOutput->get('uploaded_filename');
+							$source_filename = $fileOutput->get('source_filename');
+							$obj->content = str_replace($uploaded_target_path . $source_filename, sprintf('/files/attach/images/%s/%s%s', $this->module_srl, getNumberingPath($document_srl,3), $uploaded_filename), $obj->content);
 						}
 						$obj->uploaded_count = $file_count;
 					}
 				}
 
-				$obj->content = str_replace($uploaded_target_path,sprintf('/files/attach/images/%s/%s%s', $this->module_srl, getNumberingPath($document_srl,3), $filename), $obj->content);
 
 				$oDocumentController = &getController('document');
 				$obj->commentStatus = 'ALLOW';
@@ -329,13 +331,14 @@ if($called_position == 'before_module_proc') {
 							$moved_filename = sprintf('./files/attach/images/%s/%s/%s', $this->module_srl, $document_srl, $file_info['name']);
 							if(file_exists($moved_filename)) continue;
 
-							$oFileController->insertFile($file_info, $this->module_srl, $document_srl, 0, true);
+							$fileOutput = $oFileController->insertFile($file_info, $this->module_srl, $document_srl, 0, true);
+							$uploaded_filename = $fileOutput->get('uploaded_filename');
+							$source_filename = $fileOutput->get('source_filename');
+							$obj->content = str_replace($uploaded_target_path . $source_filename, sprintf('/files/attach/images/%s/%s%s', $this->module_srl, getNumberingPath($document_srl,3), $uploaded_filename), $obj->content);
 						}
 						$obj->uploaded_count += $file_count;
 					}
 				}
-
-				$obj->content = str_replace($uploaded_target_path,sprintf('/files/attach/images/%s/%s%s', $this->module_srl, getNumberingPath($document_srl,3), $filename), $obj->content);
 
 				$oDocumentController = &getController('document');
 				$output = $oDocumentController->updateDocument($oDocument,$obj);

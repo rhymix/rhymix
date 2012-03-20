@@ -23,9 +23,9 @@ var no_text_comment = '{$lang->no_text_comment}';
 				<thead>
 					<tr>
 						<th scope="col" class="title">{$lang->document}({$lang->origin_module_type})</th>
-						<th scope="col">{$lang->trash_nick_name}</th>
-						<th scope="col">{$lang->trash_date}</th>
-						<th scope="col">{$lang->ipaddress}</th>
+						<th scope="col" class="nowr">{$lang->trash_nick_name}</th>
+						<th scope="col" class="nowr">{$lang->trash_date}</th>
+						<th scope="col" class="nowr">{$lang->ipaddress}</th>
 						<th scope="col" class="title">{$lang->trash_description}</th>
 						<th scope="col"><input type="checkbox" title="Check All" data-name="cart" /></th>
 					</tr>
@@ -33,9 +33,9 @@ var no_text_comment = '{$lang->no_text_comment}';
 				<tfoot>
 					<tr>
 						<th scope="col" class="title">{$lang->document}({$lang->origin_module_type})</th>
-						<th scope="col">{$lang->trash_nick_name}</th>
-						<th scope="col">{$lang->trash_date}</th>
-						<th scope="col">{$lang->ipaddress}</th>
+						<th scope="col" class="nowr">{$lang->trash_nick_name}</th>
+						<th scope="col" class="nowr">{$lang->trash_date}</th>
+						<th scope="col" class="nowr">{$lang->ipaddress}</th>
 						<th scope="col" class="title">{$lang->trash_description}</th>
 						<th scope="col"><input type="checkbox" title="Check All" data-name="cart" /></th>
 					</tr>
@@ -44,9 +44,9 @@ var no_text_comment = '{$lang->no_text_comment}';
     				<!--@foreach($trash_list as $no => $oTrashVO)-->
 					<tr>
 						<td class="title"><!--@if(!trim($oTrashVO->getTitle()) && $oTrashVO->getOriginModule() == 'comment')--><strong>{$lang->no_text_comment}</strong><!--@else-->{$oTrashVO->getTitle()}<!--@end--> (<!--@if($oTrashVO->getOriginModule() == 'document')-->{$lang->document}<!--@else-->{$lang->comment}<!--@end-->)</td>
-						<td><span class="member_{$oTrashVO->getRemoverSrl()}">{htmlspecialchars($oTrashVO->getNickName())}</span></td>
-						<td>{zdate($oTrashVO->getRegdate(), "Y-m-d H:i:s")}</td>
-						<td>{$oTrashVO->getIpaddress()}</td>
+						<td class="nowr"><span class="member_{$oTrashVO->getRemoverSrl()}">{htmlspecialchars($oTrashVO->getNickName())}</span></td>
+						<td class="nowr">{zdate($oTrashVO->getRegdate(), "Y-m-d H:i:s")}</td>
+						<td class="nowr">{$oTrashVO->getIpaddress()}</td>
 						<td class="title">{$oTrashVO->getDescription()}</td>
 						<td><input type="checkbox" name="cart" value="{$oTrashVO->getTrashSrl()}" /></td>
 					</tr>
@@ -73,8 +73,8 @@ var no_text_comment = '{$lang->no_text_comment}';
 					<thead>
 						<tr>
 							<th scope="col" class="title">{$lang->document}</th>
-							<th scope="col">{$lang->trash_nick_name}</th>
-							<th scope="col">{$lang->ipaddress}</th>
+							<th scope="col" class="nowr">{$lang->trash_nick_name}</th>
+							<th scope="col" class="nowr">{$lang->ipaddress}</th>
 						</tr>
 					</thead>
 					<tbody>

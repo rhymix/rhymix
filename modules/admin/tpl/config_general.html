@@ -76,7 +76,7 @@ jQuery(function($){
 			<li>
 				<p class="q"><label for="time_zone">{$lang->about_timezone}</label></p>
 				<p class="a">
-					<select name="time_zone" id="time_zone" class="fullWidth">
+					<select name="time_zone" id="time_zone">
 						<!--@foreach($time_zone_list as $key => $val)-->
 						<option value="{$key}" <!--@if($time_zone==$key)-->selected="selected"<!--@end-->>{$val}</option>
 						<!--@endforeach-->
@@ -105,7 +105,7 @@ jQuery(function($){
 					<p>{$lang->detail_input_footer_script}</p>
 				</div>	
 				<p class="a">
-					<textarea name="htmlFooter" id="htmlFooter" rows="4" cols="42">{$htmlFooter}</textarea>
+					<textarea name="htmlFooter" id="htmlFooter" rows="8" cols="42">{$htmlFooter}</textarea>
 				</p>
 			</li>
 			<li>
@@ -137,7 +137,7 @@ jQuery(function($){
 					<p>{$lang->detail_about_admin_ip_limit}</p>
 				</div>
 				<p class="a">
-					<textarea name="admin_ip_list" id="admin_ip_list" rows="4" cols="42">{$admin_ip_list}</textarea>
+					<textarea name="admin_ip_list" id="admin_ip_list" rows="8" cols="42">{$admin_ip_list}</textarea>
 					{$lang->local_ip_address} : {$IP}</p>
 			</li>
 			<li>

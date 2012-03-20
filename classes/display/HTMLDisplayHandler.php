@@ -18,10 +18,12 @@ class HTMLDisplayHandler {
 		if(Context::get('module')!='admin' && strpos(Context::get('act'),'Admin') === false){
 			if ($skin && is_string($skin)){
 				$theme_skin = explode('.', $skin);
-				if (count($theme_skin) == 2)
-					$template_path = sprintf('./themes/%s/modules/%s/', $theme_skin[0], $theme_skin[1]);
-				else
-					$template_path = $oModule->getTemplatePath();
+				$template_path = $oModule->getTemplatePath();
+				if (count($theme_skin) == 2) {
+					$theme_path = sprintf('./themes/%s',$theme_skin[0]);
+					if(substr($theme_path,0,strlen($theme_path)) != $theme_path)
+						$template_path = sprintf('%s/modules/%s/', $theme_path, $theme_skin[1]);
+				}	
 			}else{
 				$template_path = $oModule->getTemplatePath();
 			}
@@ -115,6 +117,8 @@ class HTMLDisplayHandler {
 			$keys = '('.implode('|', $keys).')';
 
 			$output = preg_replace_callback('@(<input)([^>]*?)\sname="'.$keys.'"([^>]*?)/?>@is', array(&$this, '_preserveValue'), $output);
+			$output = preg_replace_callback('@<select[^>]*\sname="'.$keys.'".+</select>@isU', array(&$this, '_preserveSelectValue'), $output);
+			$output = preg_replace_callback('@<textarea[^>]*\sname="'.$keys.'".+</textarea>@isU', array(&$this, '_preserveTextAreaValue'), $output);
 		}
 
 		if(__DEBUG__==3) $GLOBALS['__trans_content_elapsed__'] = getMicroTime()-$start;
@@ -160,7 +164,7 @@ class HTMLDisplayHandler {
 		switch($type){
 			case 'text':
 			case 'hidden':
-				$str = preg_replace('@\svalue="[^"]*?"@', ' ', $str).' value="'.$INPUT_ERROR[$match[3]].'"';
+				$str = preg_replace('@\svalue="[^"]*?"@', ' ', $str).' value="'.htmlspecialchars($INPUT_ERROR[$match[3]]).'"';
 				break;
 			case 'password':
 				$str = preg_replace('@\svalue="[^"]*?"@', ' ', $str);
@@ -175,6 +179,32 @@ class HTMLDisplayHandler {
 		}
 
 		return $str.' />';
+	}
+
+	function _preserveSelectValue($matches)
+	{
+		$INPUT_ERROR = Context::get('INPUT_ERROR');
+		preg_replace('@\sselected(="[^"]*?")?@', ' ', $matches[0]);
+		preg_match('@<select.*?>@is', $matches[0], $mm);
+
+		preg_match_all('@<option[^>]*\svalue="([^"]*)".+</option>@isU', $matches[0], $m);
+
+		$key = array_search($INPUT_ERROR[$matches[1]], $m[1]);
+		if($key === FALSE)
+		{
+			return $matches[0];
+		}
+			
+		$m[0][$key] = preg_replace('@(\svalue=".*?")@is', '$1 selected="selected"', $m[0][$key]);
+
+		return $mm[0].implode('', $m[0]).'</select>';
+	}
+
+	function _preserveTextAreaValue($matches)
+	{
+		$INPUT_ERROR = Context::get('INPUT_ERROR');
+		preg_match('@<textarea.*?>@is', $matches[0], $mm);
+		return $mm[0].$INPUT_ERROR[$matches[1]].'</textarea>';
 	}
 
 	/**

@@ -6,7 +6,7 @@
      **/
 
     @set_time_limit(0);
-    @require_once('./modules/importer/extract.class.php');
+    require_once('./modules/importer/extract.class.php');
 
     class importerAdminController extends importer {
 
@@ -925,7 +925,7 @@
 
 							$path = sprintf("./files/attach/images/%s/%s", $module_srl, getNumberingPath($upload_target_srl, 3));
 
-							$ext = substr(strrchr($file_info['name'],'.'),1);
+							$ext = substr(strrchr($file_obj->source_filename,'.'),1);
 							$_filename = md5(crypt(rand(1000000, 900000), rand(0, 100))).'.'.$ext;
 							$filename  = $path.$_filename;
 

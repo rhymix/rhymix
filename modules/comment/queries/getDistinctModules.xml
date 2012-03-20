@@ -1,0 +1,8 @@
+<query id="getDistinctModules" action="select">
+    <tables>
+        <table name="comments" />
+    </tables>
+    <columns>
+        <column name="DISTINCT(module_srl)" />
+    </columns>
+</query>

@@ -69,7 +69,7 @@
 
 						<input cond="$var->type == 'color'" type="text" name="{$id}" class="color-indicator" />
 
-						<textarea cond="$var->type == 'textarea'" name="{$id}"></textarea>
+						<textarea cond="$var->type == 'textarea'" name="{$id}" rows="8" cols="42"></textarea>
 
 						<select cond="$var->type == 'select'" name="{$id}">
 							<option loop="$var->options => $key, $val" value="{$key}">{$val}</option>
@@ -78,6 +78,7 @@
 						<block cond="$var->type == 'filebox'">
 							<input type="hidden" name="{$id}" />
 							<a href="#modalFilebox" class="modalAnchor filebox">{$lang->cmd_select}</a>
+							{@$use_filebox = TRUE}
 						</block>
 					</p>
 					<p class="desc">{$var->description}</p>

@@ -38,28 +38,28 @@
 				$args->password = Context::get('reset_password');
 			else unset($args->password);
 
-            // Remove some unnecessary variables from all the vars
-            $all_args = Context::getRequestVars();
-            unset($all_args->module);
-            unset($all_args->act);
-            unset($all_args->mid);
-            unset($all_args->error_return_url);
-            unset($all_args->success_return_url);
-            unset($all_args->ruleset);
-            if(!isset($args->limit_date)) $args->limit_date = "";
-            // Add extra vars after excluding necessary information from all the requested arguments
-            $extra_vars = delObjectVars($all_args, $args);
-            $args->extra_vars = serialize($extra_vars);
-            // Check if an original member exists having the member_srl
-            if($args->member_srl) {
-                // Create a member model object
-                $oMemberModel = &getModel('member');
-                // Get memebr profile
+			// Remove some unnecessary variables from all the vars
+			$all_args = Context::getRequestVars();
+			unset($all_args->module);
+			unset($all_args->act);
+			unset($all_args->mid);
+			unset($all_args->error_return_url);
+			unset($all_args->success_return_url);
+			unset($all_args->ruleset);
+			if(!isset($args->limit_date)) $args->limit_date = "";
+			// Add extra vars after excluding necessary information from all the requested arguments
+			$extra_vars = delObjectVars($all_args, $args);
+			$args->extra_vars = serialize($extra_vars);
+			// Check if an original member exists having the member_srl
+			if($args->member_srl) {
+				// Create a member model object
+				$oMemberModel = &getModel('member');
+				// Get memebr profile
 				$columnList = array('member_srl');
-                $member_info = $oMemberModel->getMemberInfoByMemberSrl($args->member_srl, 0, $columnList);
-                // If no original member exists, make a new one
-                if($member_info->member_srl != $args->member_srl) unset($args->member_srl);
-            }
+				$member_info = $oMemberModel->getMemberInfoByMemberSrl($args->member_srl, 0, $columnList);
+				// If no original member exists, make a new one
+				if($member_info->member_srl != $args->member_srl) unset($args->member_srl);
+			}
 
 			// remove whitespace
 			$checkInfos = array('user_id', 'nick_name', 'email_address');
@@ -70,24 +70,24 @@
 				}
 			}
 
-            $oMemberController = &getController('member');
-            // Execute insert or update depending on the value of member_srl
-            if(!$args->member_srl) {
+			$oMemberController = &getController('member');
+			// Execute insert or update depending on the value of member_srl
+			if(!$args->member_srl) {
 				$args->password = Context::get('password');
-                $output = $oMemberController->insertMember($args);
-                $msg_code = 'success_registed';
-            } else {
-                $output = $oMemberController->updateMember($args);
-                $msg_code = 'success_updated';
-            }
+				$output = $oMemberController->insertMember($args);
+				$msg_code = 'success_registed';
+			} else {
+				$output = $oMemberController->updateMember($args);
+				$msg_code = 'success_updated';
+			}
 
-            if(!$output->toBool()) return $output;
-            // Save Signature
-            $signature = Context::get('signature');
-            $oMemberController->putSignature($args->member_srl, $signature);
-            // Return result
-            $this->add('member_srl', $args->member_srl);
-            $this->setMessage($msg_code);
+			if(!$output->toBool()) return $output;
+			// Save Signature
+			$signature = Context::get('signature');
+			$oMemberController->putSignature($args->member_srl, $signature);
+			// Return result
+			$this->add('member_srl', $args->member_srl);
+			$this->setMessage($msg_code);
 
 			$profile_image = $_FILES['profile_image'];
 			if (is_uploaded_file($profile_image['tmp_name'])){
@@ -227,22 +227,24 @@
 				$this->_createFindAccountByQuestion($args->identifier);
 			}
 			$output = $oModuleController->updateModuleConfig('member', $args);
-			// default setting end
 
- 			if($output->toBool() && !in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+			// default setting end
+			$this->setMessage('success_updated');
+
+			if($output->toBool() && !in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
 				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMemberAdminConfig');
 				$this->setRedirectUrl($returnUrl);
 				return;
- 			}
+			}
 		}
 
 		function _createSignupRuleset($signupForm, $agreement = null){
 			$xml_file = './files/ruleset/insertMember.xml';
-			$buff = '<?xml version="1.0" encoding="utf-8"?>'
-					.'<ruleset version="1.5.0">'
-				    .'<customrules>'
-					.'</customrules>'
-					.'<fields>%s</fields>'						
+			$buff = '<?xml version="1.0" encoding="utf-8"?>' . PHP_EOL
+					.'<ruleset version="1.5.0">' . PHP_EOL
+				    .'<customrules>' . PHP_EOL
+					.'</customrules>' . PHP_EOL
+					.'<fields>' . PHP_EOL . '%s' . PHP_EOL . '</fields>' . PHP_EOL
 					.'</ruleset>';
 
 			$fields = array();
@@ -258,21 +260,23 @@
 						$fields[] = '<field name="password"><if test="$act == \'procMemberInsert\'" attr="required" value="true" /><if test="$act == \'procMemberInsert\'" attr="length" value="3:20" /></field>';
 						$fields[] = '<field name="password2"><if test="$act == \'procMemberInsert\'" attr="required" value="true" /><if test="$act == \'procMemberInsert\'" attr="equalto" value="password" /></field>';
 					}else if($formInfo->name == 'find_account_question'){
-						$fields[] = '<field name="find_account_question"><if test="$act != \'procMemberAdminInsert\'" attr="required" value="true" /></field>';
-						$fields[] = '<field name="find_account_answer"><if test="$act != \'procMemberAdminInsert\'" attr="required" value="true" /><if test="$act != \'procMemberAdminInsert\'" attr="length" value=":250" /></field>';
+						$fields[] = '<field name="find_account_question" required="true" />';
+						$fields[] = '<field name="find_account_answer" required="true" length=":250" />';
 					}else if($formInfo->name == 'email_address'){
 						$fields[] = sprintf('<field name="%s" required="true" rule="email"/>', $formInfo->name);
 					}else if($formInfo->name == 'user_id'){
 						$fields[] = sprintf('<field name="%s" required="true" rule="userid" length="3:20" />', $formInfo->name);
 					}else if(strpos($formInfo->name, 'image') !== false){
 						$fields[] = sprintf('<field name="%s"><if test="$act != \'procMemberAdminInsert\' &amp;&amp; $__%s_exist != \'true\'" attr="required" value="true" /></field>', $formInfo->name, $formInfo->name);
+					}else if($formInfo->name == 'signature'){
+						$fields[] = '<field name="signature"><if test="$member_srl" attr="required" value="true" /></field>';
 					}else{
 						$fields[] = sprintf('<field name="%s" required="true" />', $formInfo->name);
 					}
 				}
 			}
 
-			$xml_buff = sprintf($buff, implode('', $fields));
+			$xml_buff = sprintf($buff, implode(PHP_EOL, $fields));
             FileHandler::writeFile($xml_file, $xml_buff);
 			unset($xml_buff);
 
@@ -805,6 +809,8 @@
 				}else
 					$output = $this->insertGroup($update_args);
 			}
+
+			$this->setMessage('success_updated');
 
 			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
 				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMemberAdminGroupList');

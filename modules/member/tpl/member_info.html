@@ -3,7 +3,7 @@
 	<table width="100%" border="1" cellspacing="0">
 		<!--@foreach($member_config->signupForm as $no=>$formInfo)-->
 		<!--@if($formInfo->isDefaultForm)-->
-{@$title = $formInfo->title}
+{@$title = Context::getLang($formInfo->name)}
 {@$value = $memberInfo[$formInfo->name]}
 			<!--@if($formInfo->name == 'find_account_question')-->
 {@$value = $lang->find_account_question_items[$value].' : '.$memberInfo['find_account_answer']}

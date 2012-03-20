@@ -237,13 +237,13 @@
          * @brief when menu add in sitemap, select module list
 		 * this menu showing with trigger
          **/
-		function getModuleListInSitemap()
+		function getModuleListInSitemap($site_srl = 0)
 		{
 			$oModuleModel = &getModel('module');
 			$columnList = array('module');
 			$moduleList = array('page');
 
-			$output = $oModuleModel->getModuleListByInstance($columnList);
+			$output = $oModuleModel->getModuleListByInstance($site_srl, $columnList);
 			if(is_array($output->data))
 			{
 				foreach($output->data AS $key=>$value)

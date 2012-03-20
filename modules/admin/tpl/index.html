@@ -1,4 +1,7 @@
 <!--#include("./_spHeader.html")-->
+
+
+
 <div class="content dashboard" id="content">
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 <p>{$XE_VALIDATOR_MESSAGE}</p>
@@ -15,15 +18,17 @@
 		</div>
 	</form>
 	<!--@end-->
-	<!--@if($isUpdated)-->
+	<!--@if($addTables || $needUpdate)-->
 	<div class="message update">
-		<h2>{$lang->update_available}</h2>
+		<h2 cond="$needUpdate && $addTables">{$lang->need_update_and_table}</h2>
+		<h2 cond="$needUpdate && !$addTables">{$lang->need_update}</h2>
+		<h2 cond="!$needUpdate && $addTables">{$lang->need_table}</h2>
 		<ul>
 		<!--@foreach($module_list AS $key => $value)-->
 			<!--@if($value->need_install)-->
-			<li><a href="{getUrl('','module','admin','act',$val->admin_index_act)}">{$value->module}</a> - <a href="#" onclick="doInstallModule('{$value->module}');return false;">{$lang->cmd_install}</a></li>
+			<li style="margin:0 0 4px 0;">{$value->module} - <span class="btn"><button type="button" onclick="doInstallModule('{$value->module}')">{$lang->cmd_create_db_table}</button></span></li>
 			<!--@else if($value->need_update)-->
-			<li><a href="{getUrl('','module','admin','act',$val->admin_index_act)}">{$value->module}</a> - <a href="#" onclick="doUpdateModule('{$value->module}')">{$lang->cmd_update}</a></li>
+			<li style="margin:0 0 4px 0;">{$value->module} - <span class="btn"><button type="button" onclick="doUpdateModule('{$value->module}')">{$lang->cmd_module_update}</button></li>
 			<!--@end-->
 		<!--@end-->
 		</ul>
@@ -41,7 +46,7 @@
 			</ul>
 		</div>
 		<div class="portlet">
-			<h2 class="h2">{$lang->latest_documents}</h2>
+			<h2 class="h2"><a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList')}">{$lang->latest_documents}</a></h2>
 			<ul class="lined">
 				<!--@foreach($latestDocumentList AS $key=>$value)-->
 				{@$document = $value->variables}
@@ -63,7 +68,7 @@
 			</ul>
 		</div>
 		<div class="portlet">
-			<h2 class="h2">{$lang->latest_comments}</h2>
+			<h2 class="h2"><a href="{getUrl('', 'module', 'admin', 'act', 'dispCommentAdminList')}">{$lang->latest_comments}</a></h2>
 			<ul class="lined">
 				<!--@foreach($latestCommentList AS $key=>$value)-->
 				<li>
@@ -84,7 +89,7 @@
 			</ul>
 		</div>
 		<div class="portlet">
-			<h2 class="h2">{$lang->latest_trackbacks}</h2>
+			<h2 class="h2"><a href="{getUrl('', 'module', 'admin', 'act', 'dispTrackbackAdminList')}">{$lang->latest_trackbacks}</a></h2>
 			<ul class="lined">
 				<!--@foreach($latestTrackbackList AS $key=>$value)-->
 				<li>
@@ -102,32 +107,6 @@
 				<!--@end-->
 				<li cond="!is_array($latestTrackbackList) || count($latestTrackbackList) < 1">{$lang->no_data}</li>
 			</ul>
-		</div>
-		<div class="portlet">
-			<h2 class="h2">{$lang->notices}</h2>
-			<ul class="lined">
-				<!--@foreach($news AS $key=>$value)-->
-				<li><a href="{$value->url}" target="_blank">{$value->title}</a> <span class="side">{zdate($value->date, 'Y-m-d')}</span></li>
-				<!--@end-->
-				<li cond="!is_array($news) || count($news) < 1">{$lang->no_data}</li>
-			</ul>
-		</div>
-		<div class="portlet">
-			<h2 class="h2">{$lang->favorites}</h2>
-			<ul class="lined">
-				<li loop="$favorite_list => $favorite">
-					<a href="{getUrl('act', $favorite->admin_index_act)}">{$favorite->title}</a>
-					<form class="action" action="">
-						<input type="hidden" name="module" value="admin" />
-						<input type="hidden" name="act" value="procAdminToggleFavorite" />
-						<input type="hidden" name="site_srl" value="0" />
-						<input type="hidden" name="module_name" value="{$favorite->module}" />
-						<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin')}" />
-						<button type="submit" class="text">{$lang->cmd_delete}</button>
-					</form>
-				</li>
-				<li cond="!is_array($favorite_list) || count($favorite_list) < 1">{$lang->no_data}</li>
-			</UL>
 		</div>
 	</div>
 </div>

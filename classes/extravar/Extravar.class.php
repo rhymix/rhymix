@@ -206,13 +206,13 @@
 
                 // textarea
                 case 'textarea' :
-                        $buff .= '<textarea name="'.$column_name.'" class="textarea">'.$value.'</textarea>';
+                        $buff .= '<textarea name="'.$column_name.'" rows="8" cols="42">'.$value.'</textarea>';
                     break;
                 // multiple choice
                 case 'checkbox' :
                         $buff .= '<ul>';
                         foreach($default as $v) {
-                            if($value && in_array($v, $value)) $checked = ' checked="checked"';
+                            if($value && in_array(trim($v), $value)) $checked = ' checked="checked"';
                             else $checked = '';
 
 							// Temporary ID for labeling
@@ -254,7 +254,7 @@
 
                         $buff .=
                             '<input type="hidden" name="'.$column_name.'" value="'.$value.'" />'.
-                            '<input type="text" id="date_'.$column_name.'" value="'.zdate($value,'Y-m-d').'" class="date" />'."\n".
+                            '<input type="text" id="date_'.$column_name.'" value="'.zdate($value,'Y-m-d').'" class="date" /> <input type="button" value="' . Context::getLang('cmd_delete') . '" id="dateRemover_' . $column_name . '" />'."\n".
                             '<script type="text/javascript">'."\n".
                             '(function($){'."\n".
                             '    $(function(){'."\n".
@@ -263,6 +263,10 @@
                             '        };'."\n".
                             '        $.extend(option,$.datepicker.regional[\''.Context::getLangType().'\']);'."\n".
                             '        $("#date_'.$column_name.'").datepicker(option);'."\n".
+							'		$("#dateRemover_' . $column_name . '").click(function(){' . "\n" .
+							'			$(this).siblings("input").val("");' . "\n" .
+							'			return false;' . "\n" .
+							'		})' . "\n" .
                             '    });'."\n".
                             '})(jQuery);'."\n".
                             '</script>';
@@ -294,7 +298,7 @@
                     break;
                 // General text
                 default :
-                        $buff .=' <input type="text" name="'.$column_name.'" value="'.$value.'" class="text" />';
+                        $buff .=' <input type="text" name="'.$column_name.'" value="'.($value ? $value : $default).'" class="text" />';
                     break;
             }
             if($this->desc) $buff .= '<p>'.$this->desc.'</p>';

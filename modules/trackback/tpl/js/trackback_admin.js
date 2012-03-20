@@ -52,7 +52,7 @@ function completeGetTrackbackList(ret_obj, response_tags)
 								'<td class="text"> <strong>'+ objTrackback.title +'</strong>' +
 									'<p>'+ objTrackback.excerpt +'</p>' +
 								'</td>' +
-								'<td>'+ objTrackback.blog_name +'</td>' +
+								'<td class="nowr">'+ objTrackback.blog_name +'</td>' +
 							'</tr>' +
 							'<input type="hidden" name="cart[]" value="'+objTrackback.trackback_srl+'" />';
 		}

@@ -89,9 +89,9 @@
 .wArea .buttonArea .info{ display:inline; padding:0 0 0 15px; color:#777;}
 .wArea .inputTitle{ width:98%; border:1px solid #ddd; background:#fff url(../img/bgInputText.gif) no-repeat; color:#767676; padding:6px 0 0 10px; height:21px; font-size:14px; margin-bottom:10px;}
 .wArea .inputLink{ width:98%; border:1px solid #ddd; background:#fff url(../img/bgInputText.gif) no-repeat; color:#767676; padding:6px 0 0 10px; height:21px; font-size:11px; margin-bottom:10px;}
-.wArea .inputText{ width:98%; border:1px solid #ddd; background:#fff url(../img/bgInputText.gif) no-repeat; color:#767676; padding:6px 0 0 10px; height:21px; font-size:12px; margin-bottom:10px;}
+.wArea .iText{ width:98%; border:1px solid #ddd; background:#fff url(../img/bgInputText.gif) no-repeat; color:#767676; padding:6px 0 0 10px; height:21px; font-size:12px; margin-bottom:10px;}
 .wArea .inputFile{ width:100%; border:1px solid #ddd; background:#fff url(../img/bgInputText.gif) no-repeat; color:#767676; padding:6px 0 0 10px; height:29px; font-size:12px; margin-bottom:10px;}
-.wArea .inputTextarea{ width:98%; border:1px solid #ddd; background:#fff url(../img/bgInputText.gif) no-repeat; color:#767676; padding:10px 0 0 10px; height:150px; font-size:12px; line-height:1.5; margin-bottom:10px;}
+.wArea .iTextArea{ width:98%; border:1px solid #ddd; background:#fff url(../img/bgInputText.gif) no-repeat; color:#767676; padding:10px 0 0 10px; height:150px; font-size:12px; line-height:1.5; margin-bottom:10px;}
 .wArea .inputRadio{ width:13px; height:13px; vertical-align:middle;}
 .wArea .hr{ border-top:1px solid #e6e6e6; border-bottom:1px solid #fff; font-size:0; line-height:0; overflow:hidden; height:0; margin:15px -20px;}
 

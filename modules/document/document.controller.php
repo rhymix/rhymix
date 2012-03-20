@@ -113,8 +113,8 @@ class documentController extends document {
 		$oDocumentController = &getController('document');
 		$output = $oDocumentController->deleteModuleCategory($module_srl);
 		if(!$output->toBool()) return $output;
-		// Delete extra variable
-		$this->deleteDocumentExtraVars($module_srl);
+		// Delete extra key and variable, because module deleted
+		$this->deleteDocumentExtraKeys($module_srl);
 
 		// remove aliases
 		$this->deleteDocumentAliasByModule($module_srl);
@@ -166,6 +166,10 @@ class documentController extends document {
 		// Set to 0 if the category_srl doesn't exist
 		if($obj->category_srl) {
 			$category_list = $oDocumentModel->getCategoryList($obj->module_srl);
+			if(!$category_list[$obj->category_srl]->grant)
+			{
+				return new Object(-1, 'msg_not_permitted');
+			}
 			if(!$category_list[$obj->category_srl]) $obj->category_srl = 0;
 		}
 		// Set the read counts and update order.
@@ -707,10 +711,41 @@ class documentController extends document {
 		if(!$module_srl) return new Object(-1,'msg_invalid_request');
 		$obj->module_srl = $module_srl;
 		if(!is_null($var_idx)) $obj->var_idx = $var_idx;
-		$output = executeQuery('document.deleteDocumentExtraKeys', $obj);
-		if(!$output->toBool()) return $output;
 
-		return executeQuery('document.deleteDocumentExtraVars', $obj);
+		$oDB = DB::getInstance();
+		$oDB->begin();
+
+		$output = $oDB->executeQuery('document.deleteDocumentExtraKeys', $obj);
+		if(!$output->toBool())
+		{
+			$oDB->rollback();
+			return $output;
+		}
+
+		$output = $oDB->executeQuery('document.updateDocumentExtraKeyIdxOrder', $obj);
+		if(!$output->toBool())
+		{
+			$oDB->rollback();
+			return $output;
+		}
+
+		$output =  executeQuery('document.deleteDocumentExtraVars', $obj);
+		if(!$output->toBool())
+		{
+			$oDB->rollback();
+			return $output;
+		}
+
+		$output = $oDB->executeQuery('document.updateDocumentExtraVarIdxOrder', $obj);
+		if(!$output->toBool())
+		{
+			$oDB->rollback();
+			return $output;
+		}
+
+		$oDB->commit();
+
+		return new Object();
 	}
 
 	/**
@@ -1107,7 +1142,7 @@ class documentController extends document {
 
 				foreach($extra_keys as $idx => $val) {
 				$js_code[] = sprintf('validator.cast("ADD_MESSAGE", ["extra_vars%s","%s"]);', $val->idx, $val->name);
-				if($val->is_required == 'Y' && $logged_info->is_admin != 'Y') $js_code[] = sprintf('validator.cast("ADD_EXTRA_FIELD", ["extra_vars%s", { required:true }]);', $val->idx);
+				if($val->is_required == 'Y') $js_code[] = sprintf('validator.cast("ADD_EXTRA_FIELD", ["extra_vars%s", { required:true }]);', $val->idx);
 				}
 
 				$js_code[] = '})(jQuery);';
@@ -1598,7 +1633,7 @@ class documentController extends document {
 	 * @brief Move/ Delete the document in the seession
 	 **/
 	function procDocumentManageCheckedDocument() {
-		set_time_limit(50);
+		set_time_limit(0);
 		if(!Context::get('is_logged')) return new Object(-1,'msg_not_permitted');
 
 		$type = Context::get('type');
@@ -1830,6 +1865,27 @@ class documentController extends document {
 	{
 		if(!$obj->status && $obj->is_secret == 'Y') $obj->status = $this->getConfigStatus('secret');
 		if(!$obj->status && $obj->is_secret != 'Y') $obj->status = $this->getConfigStatus('public');
+	}
+
+	/**
+	 * @brief copy extra keys when module copied
+	 **/
+	function triggerCopyModuleExtraKeys(&$obj)
+	{
+		$oDocumentModel = &getModel('document');
+		$documentExtraKeys = $oDocumentModel->getExtraKeys($obj->originModuleSrl);
+
+		if(is_array($documentExtraKeys) && is_array($obj->moduleSrlList))
+		{
+			$oDocumentController=&getController('document');
+			foreach($obj->moduleSrlList AS $key=>$value)
+			{
+				foreach($documentExtraKeys AS $extraItem)
+				{
+					$oDocumentController->insertDocumentExtraKey($value, $extraItem->idx, $extraItem->name, $extraItem->type, $extraItem->is_required , $extraItem->search , $extraItem->default , $extraItem->desc, $extraItem->eid) ;
+				}
+			}
+		}
 	}
 }
 ?>

@@ -152,50 +152,72 @@ jQuery(function($){
 // Global Navigation Bar
 jQuery(function($){
 
-$.fn.xeMenu = function(){
-	this
-		.removeClass('jx')
-		.attr('role', 'navigation') // WAI-ARIA role
-		.find('li')
-			.attr('role', 'menuitem') // WAI-ARIA role
-			.find('>ul').hide().end()
-			.filter(':has(>ul)')
-				.attr('aria-haspopup', 'true') // WAI-ARIA
+	$.fn.xeMenu = function(){
+		this
+			.attr('role', 'navigation') // WAI-ARIA role
+			.find('>.nav>li')
+				.attr('role', 'menuitem') // WAI-ARIA role
+				.find('>ul').css('height','0').end()
+				.filter(':has(>ul)')
+					.attr('aria-haspopup', 'true') // WAI-ARIA
+				.end()
 			.end()
-		.end()
-		.delegate('li', {
-			mouseover : function(){
+			.find('>.nav')
+			.mouseover(function(){
 				$(this)
-					.addClass('active')
-					.find('>ul').show().end()
-					.parentsUntil('.gnb')
-						.filter('li').addClass('active').end()
-					.end()
-			},
-			mouseleave : function(){
+					.parent('.gnb').addClass('active').end()
+					.find('>li>ul').css('height','auto').end()
+			})
+			.mouseleave(function(){
 				$(this)
-					.removeClass('active')
-					.find('>ul').hide();
-			},
-			focusout : function(){
+					.parent('.gnb').removeClass('active').end()
+					.find('>li>ul').css('height','0').end()
+			})
+			.focusout(function(){
 				var $this = $(this);
 				setTimeout(function(){
 					if(!$this.find(':focus').length) {
-						$this.removeClass('active').find('>ul').hide();
+						$this.mouseleave();
 					}
 				}, 1);
-			}
-		})
-		.delegate('a', {
-			focus : function(){
-				$(this).parent('li').mouseover();
-			}
-		});
-};
+			})
+			.delegate('a', {
+				focus : function(){
+					$(this).mouseover();
+				}
+			});
+		this
+			.find('>.bmk')
+			.removeClass('active')
+			.mouseover(function(){
+				$(this).addClass('active')
+			})
+			.mouseleave(function(){
+				$(this).removeClass('active')
+			})
+			.focusout(function(){
+				var $this = $(this);
+				setTimeout(function(){
+					if(!$this.find(':focus').length) {
+						$this.mouseleave();
+					}
+				}, 1);
+			})
+			.delegate('a', {
+				focus : function(){
+					$(this).mouseover();
+				}
+			});
+	};
+	
+	$('div.gnb').xeMenu();
 
-$('div.gnb').xeMenu();
+	$('.gnb>.mnv').change(function(){
+		window.location.href=$(this).find('option:selected').val();
+	});
 
 });
+
 
 // Modal Window
 jQuery(function($){
@@ -944,7 +966,7 @@ function initLayer($layer) {
 		.bind('multilang-reset', function(){
 			$layer
 				.data('multilang-current-name', '')
-				.find('.langInput li').find('>input:text,>textarea').val(' ').prev('label').css('visibility','visible');
+				.find('.langInput li').find('>input:text,>textarea').val('').prev('label').css('visibility','visible');
 
 			mode = MODE_SAVE;
 			setTitleText();
@@ -1189,4 +1211,22 @@ jQuery(function($){
 	if($('.x>.body>.lnb').length == 0){ // When it have no lnb
 		$('.x>.body>.content').addClass('single'); // Add class single
 	}
+});
+/* Details toggle in admin table */
+jQuery(function($){
+	var viewBtn = $('.x .dsTg span.side>button.text');
+	var tdTitle = $('.x .dsTg td.title');
+	tdTitle.each(function(){
+		var $t = $(this)
+		if($t.find('p.update').length==0){
+			$t.addClass('tg').find('>p:not(:first-child)').hide();
+		} else {
+			$t.addClass('up');
+		}
+	});
+	var details = $('.x .dsTg td.tg>p:not(:first-child)');
+	viewBtn.click(function(){
+		viewBtn.toggleClass('details');
+		details.slideToggle(200);
+	});
 });

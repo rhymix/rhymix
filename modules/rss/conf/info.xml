@@ -16,7 +16,7 @@
     <description xml:lang="vi">Module này dành cho in ấn RSS.</description>
     <description xml:lang="es">Este módulo es para imprimir RSS.</description>
     <description xml:lang="ru">Этот модуль служит для печати RSS.</description>
-    <description xml:lang="zh-TW">負責輸出RSS的模組。</description>
+    <description xml:lang="zh-TW">負責輸出 RSS 的模組。</description>
     <description xml:lang="tr">Bu modül RSS çıktısı almak içindir.</description>
     <version>0.1</version>
     <date>2007-02-28</date>

@@ -139,11 +139,15 @@
 			else
 			{
 				$fileList = array();
-				foreach($output->data AS $key=>$value)
+				
+				if(is_array($output->data))
 				{
-					$file = $value;
-					$file->download_url = $this->getDownloadUrl($file->file_srl, $file->sid);
-					array_push($fileList, $file);
+					foreach($output->data as $key=>$value)
+					{
+						$file = $value;
+						$file->download_url = $this->getDownloadUrl($file->file_srl, $file->sid);
+						array_push($fileList, $file);
+					}
 				}
 				return $fileList;
 			}
@@ -152,9 +156,9 @@
         /**
          * @brief Return all files which belong to a specific document
          **/
-        function getFiles($upload_target_srl, $columnList = array()) {
+        function getFiles($upload_target_srl, $columnList = array(), $sortIndex = 'file_srl') {
             $args->upload_target_srl = $upload_target_srl;
-            $args->sort_index = 'file_srl';
+            $args->sort_index = $sortIndex;
             $output = executeQuery('file.getFiles', $args, $columnList);
             if(!$output->data) return;
 

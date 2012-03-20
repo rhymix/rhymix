@@ -148,6 +148,12 @@
 	    	<description xml:lang="vi">Hãy chọn Logo hiển thị phía trên cùng của giao diện. (Đề nghị: Hình ảnh có nền trong suốt và kích thước 23px.)</description>
             <description xml:lang="tr">Lütfen yerleşim düzeninin üst kısmında görüntülenecek bir resim girişi yapınız. (23px uzunluğunda net bir resim seçmeniz önerilir)</description>
         </var>
+        <var name="logo_image_alt" type="text">
+            <title xml:lang="ko">로고이미지 대체문자</title>
+            <title xml:lang="en">Logo image alt text</title>
+            <description xml:lang="ko">레이아웃의 상단에 표시될 로고이미지 대체문자를 입력하세요.</description>
+            <description xml:lang="en">Please input a logo image alternative text which will be displayed on the top of the layout.</description>
+        </var>
         <var name="index_url" type="text">
             <title xml:lang="ko">홈 페이지 URL</title>
             <title xml:lang="jp">ホームページURL</title>

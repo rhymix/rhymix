@@ -753,13 +753,24 @@
             if ($total_count)   $total_page = (int) (($total_count - 1) / $list_count) + 1;
             else    $total_page = 1;
 
-            if($page > $total_page) $page = $total_page;
+            // check the page variables
+            if ($page > $total_page) {
+				// If requested page is bigger than total number of pages, return empty list
+				
+				$buff = new Object ();		
+				$buff->total_count = $total_count;
+				$buff->total_page = $total_page;
+				$buff->page = $page;
+				$buff->data = array();
+				$buff->page_navigation = new PageHandler($total_count, $total_page, $page, $page_count);				
+				return $buff;
+			}
             $start_count = ($page-1)*$list_count;
 
             $query = $this->getSelectSql($queryObject, true, $start_count);
-	    if(strpos($query, "substr")) {
-			    $query = str_replace ("substr", "substring", $query);
-			    $query = $this->replaceSubstrFormat($query);
+			if(strpos($query, "substr")) {
+					$query = str_replace ("substr", "substring", $query);
+					$query = $this->replaceSubstrFormat($query);
 	    }
             $query .= (__DEBUG_QUERY__&1 && $queryObject->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
             $result = $this->_query ($query, null, $connection);

@@ -24,6 +24,8 @@
             $args = Context::getRequestVars();
             $args->module = 'page';
             $args->mid = $args->page_name;	//because if mid is empty in context, set start page mid
+			$args->path = (!$args->path) ? '' : $args->path;
+			$args->mpath = (!$args->mpath) ? '' : $args->mpath;
             unset($args->page_name);
 
 			if($args->use_mobile != 'Y') $args->use_mobile = '';
@@ -244,9 +246,17 @@
             $oWidgetController->recompileWidget($content);
         }
 
-		function procPageAdminArticleDocumentInsert(){
+		function procPageAdminArticleDocumentInsert()
+		{
             $logged_info = Context::get('logged_info');
-			if ($logged_info->is_admin != 'Y')return new Object(-1, 'msg_not_permitted');
+
+			$oModuleModel = &getModel('module');
+			$grant = $oModuleModel->getGrant($this->module_info, $logged_info);
+
+			if (!$grant->manager)
+			{
+				return new Object(-1, 'msg_not_permitted');
+			}
 
             $obj = Context::getRequestVars();
             $obj->module_srl = $this->module_info->module_srl;

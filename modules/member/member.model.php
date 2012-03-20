@@ -250,6 +250,25 @@
                     }
                 }
 
+				// XSS defence
+				$oSecurity = new Security($info);
+				$oSecurity->encodeHTML('user_name', 'nick_name', 'find_account_answer', 'description', 'address.', 'group_list..');
+
+                if($extra_vars)
+				{
+                    foreach($extra_vars as $key => $val)
+					{
+						$oSecurity->encodeHTML($key);
+                    }
+                }
+
+				// Check format.
+				$oValidator = new Validator();
+				if(!$oValidator->applyRule('url', $info->homepage))
+				{
+					$info->homepage = '';
+				}
+
                 $GLOBALS['__member_info__'][$info->member_srl] = $info;
             }
 

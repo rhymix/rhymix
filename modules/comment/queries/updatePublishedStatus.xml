@@ -1,0 +1,12 @@
+<query id="updatePublishedStatus" action="update">
+    <tables>
+        <table name="comments" />
+    </tables>
+    <columns>
+        <column name="status" var="status" notnull="notnull" />
+    </columns>
+    <conditions>
+        <condition operation="in" column="comment_srl" var="comment_srls_list" notnull="notnull" pipe="or" />
+        <condition operation="in" column="parent_srl" var="comment_srls_list" notnull="notnull" pipe="or" />
+    </conditions>
+</query>

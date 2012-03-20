@@ -19,7 +19,7 @@
 
 <form action="./" method="post" ruleset="@login" id="fo_login_widget" class="fo_login_widget">
 	<fieldset id="login" class="login_{$colorset}">
-	<legend>{$lang->cmd_login}</legend>
+	<legend>{$lang->cmd_login}...</legend>
 	<input type="hidden" name="act" value="procMemberLogin" />
 	<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
 	<h2>Login</h2>
@@ -55,7 +55,7 @@
 <!--@if($member_config->enable_openid=='Y')-->
 <form action="{getUrl('module','member','act','procMemberOpenIDLogin')}" method="post" onsubmit="return procFilter(this, openid_login)" >
 <fieldset id="openid_login" class="openid_login_{$colorset}" style="display:none;">
-<legend>{$lang->cmd_login}</legend>
+<legend>{$lang->cmd_login}...</legend>
       <div class="idpwWrap">
         <div class="idpw">
           <p>{$lang->openid}</p>

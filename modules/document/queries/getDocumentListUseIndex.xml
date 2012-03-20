@@ -1,4 +1,4 @@
-<query id="getDocumentList" action="select">
+<query id="getDocumentListUseIndex" action="select">
     <tables>
         <table name="documents" />
     </tables>
@@ -12,6 +12,7 @@
         <condition operation="in" column="category_srl" var="category_srl" pipe="and" />
         <condition operation="equal" column="is_notice" var="s_is_notice" pipe="and" />
         <condition operation="equal" column="member_srl" var="member_srl" filter="number" pipe="and" />
+        <condition operation="in" column="status" var="statusList" pipe="and" />
         <group pipe="and">
             <condition operation="more" column="list_order" var="division" pipe="and" />
             <condition operation="below" column="list_order" var="last_division" pipe="and" />
@@ -28,6 +29,7 @@
             <condition operation="equal" column="member_srl" var="s_member_srl" pipe="or" />
             <condition operation="more" column="readed_count" var="s_readed_count" pipe="or" />
             <condition operation="more" column="voted_count" var="s_voted_count" pipe="or" />
+            <condition operation="less" column="blamed_count" var="s_blamed_count" pipe="or" />
             <condition operation="more" column="comment_count" var="s_comment_count" pipe="or" />
             <condition operation="more" column="trackback_count" var="s_trackback_count" pipe="or" />
             <condition operation="more" column="uploaded_count" var="s_uploaded_count" pipe="or" />

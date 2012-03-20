@@ -98,6 +98,7 @@ class Context {
 
 			$this->db_info->lang_type = $site_module_info->default_language;
 			if(!$this->db_info->lang_type) $this->db_info->lang_type = 'en';
+			if(!$this->db_info->use_db_session) $this->db_info->use_db_session = 'N';
 		}
 
 		// Load Language File
@@ -127,7 +128,7 @@ class Context {
 		$this->loadLang(_XE_PATH_.'modules/module/lang');
 
 		// set session handler
-		if(Context::isInstalled() && $this->db_info->use_db_session != 'N') {
+		if(Context::isInstalled() && $this->db_info->use_db_session == 'Y') {
 			$oSessionModel = &getModel('session');
 			$oSessionController = &getController('session');
 			session_set_save_handler(
@@ -245,6 +246,7 @@ class Context {
 		if($db_info->qmail_compatibility != 'Y') $db_info->qmail_compatibility = 'N';
 		$GLOBALS['_qmail_compatibility'] = $db_info->qmail_compatibility;
 
+		if(!$db_info->use_db_session) $db_info->use_db_session = 'N';
 		if(!$db_info->use_ssl) $db_info->use_ssl = 'none';
 		$this->set('_use_ssl', $db_info->use_ssl);
 
@@ -779,9 +781,13 @@ class Context {
 		static $url = null;
 		if(is_null($url)) {
 			$url = Context::getRequestUri();
-			if(count($_GET)) {
-				foreach($_GET as $key => $val) $vars[] = $key.'='.urlencode(Context::convertEncodingStr($val));
-				$url .= '?'.implode('&',$vars);
+			if(count($_GET))
+			{
+				foreach($_GET as $key => $val)
+				{
+					$vars[] = $key . '=' . ($val ? urlencode(Context::convertEncodingStr($val)) : '');
+				}
+				$url .= '?' . join('&', $vars);
 			}
 		}
 		return $url;
@@ -1018,6 +1024,11 @@ class Context {
 		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
 		$self->context->{$key} = $val;
 		if($set_to_get_vars === false) return;
+		if($val === NULL || $val === '')
+		{
+			unset($self->get_vars->{$key});
+			return;
+		}
 		if($set_to_get_vars || $self->get_vars->{$key}) $self->get_vars->{$key} = $val;
 	}
 
@@ -1451,4 +1462,3 @@ class Context {
 		$map[$key] = $content;
 	}
 }
-?>

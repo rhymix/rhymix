@@ -50,32 +50,32 @@
     <div class="table">
     	<table width="100%" border="1" cellspacing="0">
     	<tr valign="top">
-        <th scope="row">{$lang->colorset}</th>
-        <td >
-            <!--@foreach($skin_info->colorset as $key => $val)-->
-                <!--@if($val->screenshot)-->
-                    {@ $_img_info = getImageSize($val->screenshot); $_height = $_img_info[1]+40; $_width = $_img_info[0]+20; $_talign = "center"; }
-                <!--@else-->
-                    {@ $_width = 200; $_height = 20; $_talign = "left"; }
-                <!--@end-->
-            <div style="float:left;text-align:{$_talign};margin-bottom:1em;width:{$_width}px;height:{$_height}px;margin-right:10px;">
-                <input type="radio" name="colorset" value="{$val->name}" id="colorset_{$key}" <!--@if($module_info->colorset==$val->name)-->checked="checked"<!--@end-->/>  
-                <label for="colorset_{$key}">{$val->title}</label>
-                <!--@if($val->screenshot)-->
-                <br />
-                <img src="{$val->screenshot}" alt="{$val->title}" style="border:1px solid #888888;padding:2px;margin:2px;"/>
-                <!--@end-->
-            </div>
-            <!--@end-->
-        </td>
-    </tr>
+			<th scope="row">{$lang->colorset}</th>
+			<td>
+				<!--@foreach($skin_info->colorset as $key => $val)-->
+					<!--@if($val->screenshot)-->
+						{@ $_img_info = getImageSize($val->screenshot); $_height = $_img_info[1]+40; $_width = $_img_info[0]+20; $_talign = "center"; }
+					<!--@else-->
+						{@ $_width = 200; $_height = 20; $_talign = "left"; }
+					<!--@end-->
+				<div style="float:left;text-align:{$_talign};margin-bottom:1em;width:{$_width}px;height:{$_height}px;margin-right:10px;">
+					<input type="radio" name="colorset" value="{$val->name}" id="colorset_{$key}" <!--@if($module_info->colorset==$val->name)-->checked="checked"<!--@end-->/>  
+					<label for="colorset_{$key}">{$val->title}</label>
+					<!--@if($val->screenshot)-->
+					<br />
+					<img src="{$val->screenshot}" alt="{$val->title}" style="border:1px solid #888888;padding:2px;margin:2px;"/>
+					<!--@end-->
+				</div>
+				<!--@end-->
+			</td>
+    	</tr>
+    	</table>
+	</div>
 
     <!--@foreach($skin_info->extra_vars as $key => $val)-->
 
     <!--@if($val->group && ((!$group) || $group != $val->group))-->
     {@$group = $val->group}
-    </table>
-	</div>
     <div class="table">
 		<table width="100%" border="1" cellspacing="0">
 			<caption>{$group}</caption>
@@ -89,7 +89,7 @@
 					<input type="text" name="{$val->name}" value="{$val->value}" />
 	
 				<!--@elseif($val->type=="textarea")-->
-					<textarea name="{$val->name}">{$val->value}</textarea>
+					<textarea name="{$val->name}" rows="8" cols="42">{$val->value}</textarea>
 	
 				<!--@elseif($val->type=="select")-->
 					<select name="{$val->name}">

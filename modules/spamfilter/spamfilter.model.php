@@ -44,15 +44,10 @@
             if(!count($ip_list)) return new Object();
 
             $count = count($ip_list);
-            $patterns = array();
             for($i=0;$i<$count;$i++) {
-                $ip = str_replace('*','',$ip_list[$i]->ipaddress);
-                $patterns[] = preg_quote($ip);
+                $ip = str_replace('.', '\.', str_replace('*','(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)',$ip_list[$i]->ipaddress));
+            	if(preg_match('/^'.$ip.'$/', $ipaddress, $matches)) return new Object(-1,'msg_alert_registered_denied_ip');
             }
-
-            $pattern = '/^('.implode($patterns,'|').')/';
-
-            if(preg_match($pattern, $ipaddress, $matches)) return new Object(-1,'msg_alert_registered_denied_ip');
              
             return new Object();
         }

@@ -28,22 +28,22 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 				<thead>
 					<tr>
 						<th scope="col" class="title">{$lang->title}</th>
-						<th scope="col">{$lang->writer}</th>
-						<th scope="col">{$lang->cmd_declare}</th>
-						<th scope="col">{$lang->readed_count}</th>
-						<th scope="col">{$lang->cmd_vote}(+/-)</th>
-						<th scope="col">{$lang->date}</th>
+						<th scope="col" class="nowr">{$lang->writer}</th>
+						<th scope="col" class="nowr">{$lang->cmd_declare}</th>
+						<th scope="col" class="nowr">{$lang->readed_count}</th>
+						<th scope="col" class="nowr">{$lang->cmd_vote}(+/-)</th>
+						<th scope="col" class="nowr">{$lang->date}</th>
 						<th scope="col"><input type="checkbox" data-name="cart" title="Check All" /></th>
 					</tr>
 				</thead>
 				<tfoot>
 					<tr>
 						<th scope="col" class="title">{$lang->title}</th>
-						<th scope="col">{$lang->writer}</th>
-						<th scope="col">{$lang->cmd_declare}</th>
-						<th scope="col">{$lang->readed_count}</th>
-						<th scope="col">{$lang->cmd_vote}(+/-)</th>
-						<th scope="col">{$lang->date}</th>
+						<th scope="col" class="nowr">{$lang->writer}</th>
+						<th scope="col" class="nowr">{$lang->cmd_declare}</th>
+						<th scope="col" class="nowr">{$lang->readed_count}</th>
+						<th scope="col" class="nowr">{$lang->cmd_vote}(+/-)</th>
+						<th scope="col" class="nowr">{$lang->date}</th>
 						<th scope="col"><input type="checkbox" data-name="cart" title="Check All" /></th>
 					</tr>
 				</tfoot>
@@ -51,11 +51,11 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
     				<!--@foreach($document_list as $no => $oDocument)-->
 					<tr>
 						<td class="title"><a href="{getUrl('','document_srl',$oDocument->document_srl)}" target="_blank">{$oDocument->getTitle()}</a></td>
-						<td><a href="#popup_menu_area" class="member_{$oDocument->get('member_srl')}">{$oDocument->getNickName()}</a></td>
-						<td>{$oDocument->get('declared_count')}</td>
-						<td>{$oDocument->get('readed_count')}</td>
-						<td>{$oDocument->get('voted_count')}/{$oDocument->get('blamed_count')}</td>
-						<td>{$oDocument->getRegdate("Y-m-d H:i")}</td>
+						<td class="nowr"><a href="#popup_menu_area" class="member_{$oDocument->get('member_srl')}">{$oDocument->getNickName()}</a></td>
+						<td class="nowr">{$oDocument->get('declared_count')}</td>
+						<td class="nowr">{$oDocument->get('readed_count')}</td>
+						<td class="nowr">{$oDocument->get('voted_count')}/{$oDocument->get('blamed_count')}</td>
+						<td class="nowr">{$oDocument->getRegdate("Y-m-d H:i")}</td>
 						<td><input type="checkbox" name="cart" value="{$oDocument->document_srl}" /></td>
 					</tr>
 					<!--@end-->
@@ -79,8 +79,8 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 					<thead>
 						<tr>
 							<th scope="col" class="title">{$lang->title}</th>
-							<th scope="col">{$lang->writer}</th>
-							<th scope="col">{$lang->status}</th>
+							<th scope="col" class="nowr">{$lang->writer}</th>
+							<th scope="col" class="nowr">{$lang->status}</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -109,7 +109,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 			</div>
 			<p class="q"><label for="message">{$lang->message_notice}</label></p>
 			<p>
-				<textarea cols="42" rows="3" name="message_content" id="message" style="width:98%"></textarea>
+				<textarea rows="8" cols="42" name="message_content" id="message" style="width:98%"></textarea>
 			</p>
 			<div class="btnArea">
 				<span class="btn"><button type="submit" name="type" value="trash">{$lang->cmd_trash}</button></span>

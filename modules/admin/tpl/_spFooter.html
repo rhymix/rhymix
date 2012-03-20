@@ -1,10 +1,14 @@
 	</div>
 	<div class="footer">
-		<p class="power">Powered by <strong><a href="{_XE_LOCATION_SITE_}" target="_blank">XE</a></strong> (ver. {__XE_VERSION__}).</p>
+		<p class="power">
+			Powered by <strong><a href="{_XE_LOCATION_SITE_}" target="_blank">XE</a></strong>. <span class="vr">|</span>  
+			<strong>Your version</strong>: {__XE_VERSION__} <span class="vr">|</span> 
+			<!--@if(isset($latestVersion))--><strong>Latest version</strong>: <a href="{$latestVersion->url}" target="_blank" title="{zdate($latestVersion->date, 'Y-m-d')}">{$latestVersion->title}</a><!--@end-->
+		</p>
 		<p class="cache">
-			<button type="button" class="text" onclick="doResetAdminMenu();">{$lang->cmd_admin_menu_reset}</button>
-			<button type="button" class="text" onclick="doRecompileCacheFile();">{$lang->cmd_remake_cache}</button>
-			<button type="button" class="text" onclick="doClearSession();">{$lang->cmd_clear_session}</button>
+			<button type="button" class="text" onclick="doResetAdminMenu();">{$lang->cmd_admin_menu_reset}</button> <span class="vr">|</span>  
+			<button type="button" class="text" onclick="doRecompileCacheFile();">{$lang->cmd_remake_cache}</button> <span class="vr">|</span> 
+			<button type="button" class="text" onclick="doClearSession();">{$lang->cmd_clear_session}</button> <span class="vr">|</span> 
 			<a href="http://code.google.com/p/xe-core/issues/entry" target="_blank">{$lang->bug_report}</a>
 		</p>
 	</div>

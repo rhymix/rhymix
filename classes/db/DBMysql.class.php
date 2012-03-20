@@ -147,7 +147,8 @@
          * @brief Fetch results
          **/
         function _fetch($result, $arrayIndexEndValue = NULL) {
-            if(!$this->isConnected() || $this->isError() || !$result) return;
+			$output = array();
+            if(!$this->isConnected() || $this->isError() || !$result) return $output;
             while($tmp = $this->db_fetch_object($result)) {
             	if($arrayIndexEndValue) $output[$arrayIndexEndValue--] = $tmp;
                 else $output[] = $tmp;
@@ -467,7 +468,16 @@
             // Total count
             $temp_where = $queryObject->getWhereString(true, false);
             $count_query = sprintf('select count(*) as "count" %s %s', 'FROM ' . $queryObject->getFromString(), ($temp_where === '' ? '' : ' WHERE '. $temp_where));
-            if ($queryObject->getGroupByString() != '') {
+			
+			// Check for distinct query and if found update count query structure
+            $temp_select = $queryObject->getSelectString();
+			if(strpos(strtolower($temp_select), "distinct") !== false) {
+					$count_query = sprintf('select %s %s %s', 'FROM ' . $queryObject->getFromString(), $temp_select, ($temp_where === '' ? '' : ' WHERE '. $temp_where));
+					$uses_distinct = true;
+			}
+			
+			// If query uses grouping or distinct, count from original select
+			if ($queryObject->getGroupByString() != '' || $uses_distinct) {
                     $count_query = sprintf('select count(*) as "count" from (%s) xet', $count_query);
             }
 
@@ -490,7 +500,16 @@
                     $total_page = 1;
 
             // check the page variables
-            if ($page > $total_page) $page = $total_page;
+            if ($page > $total_page) {
+				// If requested page is bigger than total number of pages, return empty list
+				$buff = new Object ();		
+				$buff->total_count = $total_count;
+				$buff->total_page = $total_page;
+				$buff->page = $page;
+				$buff->data = array();
+				$buff->page_navigation = new PageHandler($total_count, $total_page, $page, $page_count);				
+				return $buff;
+			}
             $start_count = ($page - 1) * $list_count;
 
             $query = $this->getSelectPageSql($queryObject, true, $start_count, $list_count);

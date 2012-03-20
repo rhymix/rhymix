@@ -16,7 +16,7 @@
 
     <div class="xeTextEditor {$editor_class}">
         <input type="hidden" id="htm_{$editor_sequence}" value="<!--@if($colorset == "white_text_nohtml" || $colorset == "black_text_nohtml")-->n<!--@end--><!--@if($colorset == "white_texteditor" || $colorset == "white_texteditor")-->br<!--@end-->" />
-        <textarea id="editor_{$editor_sequence}" style="height:{$editor_height}px;" cols="50" rows="5" class="inputTextarea"></textarea>
+        <textarea id="editor_{$editor_sequence}" style="height:{$editor_height}px;" rows="8" cols="42" class="iTextArea"></textarea>
     </div>
     <script type="text/javascript">//<![CDATA[
         editorStartTextarea({$editor_sequence}, "{$editor_content_key_name}", "{$editor_primary_key_name}");
@@ -422,8 +422,6 @@
                 <li class="html"><span><button class="xpress_xeditor_mode_toggle_button" type="button" title="{$lang->edit->html_editor}">{$lang->edit->html_editor}</button></span></li>
                 <!--// li class="preview"><span><button type="button" class="xpress_xeditor_preview_button" title="{$lang->cmd_preview}">{$lang->cmd_preview}</button></span></li-->
             </ul>
-            
-
         </div>
         <!--@else-->
             <div class="tool off disable"></div>
@@ -431,7 +429,7 @@
 
         <!-- 에디터 출력 -->
         <div id="xe-editor-container-{$editor_sequence}" class="input_area xpress_xeditor_editing_area_container">
-            <textarea id="xpress-editor-{$editor_sequence}" cols="10" rows="10"></textarea>
+            <textarea id="xpress-editor-{$editor_sequence}" rows="8" cols="42"></textarea>
         </div>
 
         <!--@if($enable_autosave)-->
@@ -440,7 +438,7 @@
 
         <!-- /입력 -->
         <button type="button" class="input_control xpress_xeditor_editingArea_verticalResizer" title="{$lang->edit->edit_height_control}"><span>{$lang->edit->edit_height_control}</span></button>
-
+		<span class="input_auto xpress_xeditor_ui_editorresize"><input type="checkbox" id="editorresize"><label for="editorresize">{$lang->edit->edit_height_auto}</label></span>
         </div>
 
 		<div id="fileUploader_{$editor_sequence}" class="fileUploader" cond="$allow_fileupload"><!--File upload zone-->

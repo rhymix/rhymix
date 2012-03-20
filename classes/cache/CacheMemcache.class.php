@@ -88,8 +88,7 @@ class CacheMemcache extends CacheBase {
 	}
 
 	function truncate() {
-		// not supported on memcached
-		return false;
+		return $this->Memcache->flush();
 	}
 }
 

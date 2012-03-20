@@ -103,6 +103,7 @@
 			if($this->isStarFunction($column_name)){
 				return $column_name;
 			}
+			if(strpos(strtolower($column_name), 'distinct') !== false) return $column_name;
 			return $this->escapeColumn($column_name);			
 		}				
 	}

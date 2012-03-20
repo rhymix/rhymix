@@ -17,7 +17,7 @@
 .xpress-editor li{list-style:none}
 /* Layout Selector */
 .xpress-editor{position:relative;background:transparent}
-.xpress-editor #smart_content{position:relative;clear:both;margin:0 0 10px 0;border:1px solid #c2c2c2;*zoom:1;z-index:5;background:#fff}
+.xpress-editor #smart_content{position:relative;clear:both;margin:0 0 10px 0;border:1px solid #c2c2c2;*zoom:1;z-index:1;background:#fff}
 .xpress-editor.black #smart_content {background:transparent}
 .xpress-editor #smart_footer{position:relative;text-align:center;padding:10px 0}
 /* Footer */
@@ -28,7 +28,7 @@
 .xpress-editor #smart_footer input{margin:0}
 .xpress-editor #smart_footer input.reset{width:67px;height:25px;border:0;background:url(../img/btn_cancel.gif) no-repeat;cursor:pointer;margin-left:5px}
 /* Content > Input Area */
-.xpress-editor a.skip{position:relative;display:block;top:0;right:0;width:0;height:0;overflow:hidden;clear:both;zoom:1}
+.xpress-editor a.skip{position:absolute;display:block;top:0;right:0;width:1px;height:1px;overflow:hidden;clear:both;zoom:1}
 .xpress-editor a.skip:hover,
 .xpress-editor a.skip:active,
 .xpress-editor a.skip:focus{position:relative;display:block;padding:5px;right:0;z-index:60;width:auto;height:auto;text-align:right;white-space:nowrap;color:#000;text-decoration:none;letter-spacing:-1px;_zoom:1}
@@ -37,8 +37,12 @@
 .xpress-editor .input_area textarea{display:block;width:100% !important;position:relative;height:100%;border:0 !important;padding:0 !important;overflow:auto}
 .xpress-editor .input_area textarea{*margin:0 -10px;_margin-bottom:-2px}
 .xpress-editor .input_area textarea.blind{display:none}
-.xpress-editor .input_control{position:relative;display:block;width:100%;clear:both;text-align:center;background:#fbfbfb url(../img/btn_expand.gif) no-repeat center center;cursor:n-resize}
-.xpress-editor .input_control span{display:block;height:10px;visibility:hidden;overflow:visible;font-size:0;line-height:200%;white-space:nowrap;color:#fff}
+.xpress-editor .input_control{position:relative;display:block;width:100%;clear:both;text-align:center;border-top:1px solid #ccc;background:#f8f8f8 url(../img/btn_expand.gif) no-repeat center center;cursor:n-resize}
+.xpress-editor .input_control span{display:block;height:21px;visibility:hidden;overflow:visible;font-size:0;line-height:200%;white-space:nowrap;color:#fff}
+.xpress-editor .input_auto{position:relative;z-index:2;display:inline-block;margin:-20px 0 0 0;padding:3px 0 0 8px;zoom:1}
+.xpress-editor .input_auto.line{height:17px;margin:0;display:block;border-top:1px solid #ccc;padding:4px 0 0 8px;background:#f8f8f8}
+.xpress-editor .input_auto input{margin:0;padding:0;width:13px;height:13px;vertical-align:middle;margin:0 4px 0 0}
+.xpress-editor .input_auto label{font-size:11px;vertical-align:middle;line-height:13px;color:#666}
 .xpress-editor.black .input_control {background:#111 url(../img/btn_expand.black.gif) no-repeat center center}
 .xpress-editor.black .input_control span{border-top:1px solid #333; color:#000}
 .xpress-editor .tool{position:relative;overflow:visible;padding:5px 10px 6px 10px;*padding:5px 10px 8px 10px;z-index:40;clear:both;background:#f8f8f8 url(../img/bg_tool.gif) repeat-x left bottom;border:0;*zoom:1}
@@ -56,7 +60,7 @@
 .xpress-editor .tool ul.extra3{float:left;width:auto;z-index:1;margin-right:1px}
 .xpress-editor .tool ul.extra3 li{margin-right:4px}
 .xpress-editor .tool li{position:relative;float:left;margin:0 !important;padding:0 !important;border:0 !important}
-.xpress-editor .tool li button{width:21px;height:21px;background:url(../img/btn_set.gif) no-repeat 0 0;vertical-align:top}
+.xpress-editor .tool li button{width:21px;height:21px;background:url(../img/btn_set.gif) no-repeat 0 0;vertical-align:top;float:left}
 .xpress-editor.black .tool li button{width:21px;height:21px;background:url(../img/btn_set.black.gif) no-repeat 0 0;vertical-align:top}
 .xpress-editor .tool li button span{position:absolute;top:0;left:0;width:0;height:0;overflow:hidden;visibility:hidden}
 .xpress-editor .tool li.extensions span.exButton,
@@ -77,7 +81,8 @@
 .xpress-editor .tool li.html span button,
 .xpress-editor .tool li.preview span button{left:2px;height:21px;background-position:right top;font:11px/21px Tahoma, Sans-serif;padding:0 4px;*overflow:visible;*line-height:20px}
 .xpress-editor .tool ul.type li{float:none;display:inline;*top:1px}
-.xpress-editor .tool ul.type li select{height:21px;width:62px}
+.xpress-editor .tool ul.type li select{height:21px;width:64px;white-space:nowrap}
+.xpress-editor .tool ul.type li option{white-space:nowrap}
 .xpress-editor.black .tool ul.type li select{color:#fff;background-color:#000}
 /* Content > Tool > Button Default */
 .xpress-editor .tool li.undo button{width:22px;background-position:0 0}
@@ -214,7 +219,7 @@
 .xpress-editor .tool .layer{display:none;position:absolute;left:0;top:20px;background-color:#fbfbfb;border:1px solid #c5c5c5;border-right:1px solid #9f9f9f;border-bottom:1px solid #9f9f9f}
 .xpress-editor .tool .layer li{float:none;left:0}
 .xpress-editor .tool .layer button,
-.xpress-editor.black .tool .layer button{margin:0 !important;width:auto;height:auto;background:none}
+.xpress-editor.black .tool .layer button{margin:0 !important;width:auto;height:auto;background:none;float:none}
 .xpress-editor .tool .layer button span{position:absolute;width:0;height:0;font-size:0;line-height:0;overflow:hidden;visibility:hidden}
 .xpress-editor .tool .btn_area{position:relative;clear:both;text-align:center !important;padding:7px 0 12px 0;width:100%;white-space:nowrap;*zoom:1}
 .xpress-editor .tool .btn_area *{vertical-align:top}
@@ -225,27 +230,27 @@
 .xpress-editor .tool .layer .btn_area button.cancel{width:38px;height:21px;background:url(../img/btn_layer_cancel.gif) no-repeat}
 .xpress-editor .tool li.fcolor .layer{width:218px !important;height:auto !important;background-image:none !important;overflow:hidden}
 .xpress-editor .tool .layer .palette{width:210px;position:relative;left:7px;padding:8px 0 7px 0;margin:0}
-.xpress-editor .tool .layer .palette li{float:left;margin:0 1px 1px 0;font-size:0;line-height:0}
+.xpress-editor .tool .layer .palette li{float:left;margin:0 1px 1px 0 !important;font-size:0;line-height:0}
 .xpress-editor .tool .layer .palette button{position:relative;overflow:hidden;width:11px !important;height:11px !important}
 .xpress-editor .tool li.bcolor .layer {width:218px;overflow:hidden}
 .xpress-editor .tool .layer .background{width:210px;position:relative;left:7px;margin:0 0 -2px 0;padding:8px 0 0 0;*padding-bottom:8px;_padding-bottom:4px}
-.xpress-editor .tool .layer .background li{float:left;margin:0 5px 2px 0}
+.xpress-editor .tool .layer .background li{float:left;margin:0 5px 2px 0 !important}
 .xpress-editor .tool .layer .background button{position:relative;overflow:hidden;width:65px;height:19px;text-align:left;padding:4px}
 .xpress-editor .tool .layer .background button span{position:relative;visibility:visible;font-size:12px;line-height:normal;width:auto;height:auto}
 .xpress-editor .tool li.style .layer{padding:4px 2px;_overflow:hidden;filter:progid:DXImageTransform.Microsoft.Shadow(color=#dddddd,direction=135,strength=2)}
 .xpress-editor .tool li.style .layer li{position:relative;background:#fbfbfb}
 .xpress-editor .tool li.style .layer li button{display:block;width:134px;position:relative}
 .xpress-editor .tool li.style .layer li button span{display:block;width:130px;text-align:left;letter-spacing:normal}
-.xpress-editor .tool li.style .layer li.h3 button span{padding:3px 0 1px 4px;height:15px;_height /**/:19px;font-size:16px;font-weight:bold}
-.xpress-editor .tool li.style .layer li.h4 button span{padding:3px 0 2px 4px;height:13px;_height /**/:18px;font-size:14px;font-weight:bold}
-.xpress-editor .tool li.style .layer li.h5 button span{padding:3px 0 1px 4px;height:11px;_height /**/:15px;font-size:12px;font-weight:bold}
-.xpress-editor .tool li.style .layer li.h6 button span{padding:3px 0 1px 4px;height:11px;_height /**/:15px;font-size:12px}
-.xpress-editor .tool li.style .layer li.p button span{padding:3px 0 1px 4px;height:11px;_height /**/:15px;font-size:12px;color:#5d5d5d}
+.xpress-editor .tool li.style .layer li.h3 button span{padding:3px 0 1px 4px;height:15px;font-size:16px;font-weight:bold}
+.xpress-editor .tool li.style .layer li.h4 button span{padding:3px 0 2px 4px;height:13px;font-size:14px;font-weight:bold}
+.xpress-editor .tool li.style .layer li.h5 button span{padding:3px 0 1px 4px;height:11px;font-size:12px;font-weight:bold}
+.xpress-editor .tool li.style .layer li.h6 button span{padding:3px 0 1px 4px;height:11px;font-size:12px}
+.xpress-editor .tool li.style .layer li.p button span{padding:3px 0 1px 4px;height:11px;font-size:12px;color:#5d5d5d}
 .xpress-editor .tool li.style .layer li button.hover{background:#c1f471;*height:1%}
-.xpress-editor .tool li.blockquote .layer{padding:6px 5px 6px 7px;left:0;width:288px}
+.xpress-editor .tool li.blockquote .layer{padding:6px 0 6px 7px;left:0;width:294px}
 .xpress-editor .tool li.blockquote .layer ul{*zoom:1;margin:0}
 .xpress-editor .tool li.blockquote .layer ul:after{content:"";display:block;clear:both}
-.xpress-editor .tool li.blockquote .layer li{position:relative;float:left;overflow:hidden;width:32px;height:34px;margin:0 2px 0 0;border:1px solid #cdcecc;background-image:url(../img/btn_qmark.gif);background-repeat:no-repeat}
+.xpress-editor .tool li.blockquote .layer li{position:relative;float:left;overflow:hidden;width:32px;height:34px;margin:0 2px 0 0 !important;border:1px solid #cdcecc !important;background-image:url(../img/btn_qmark.gif);background-repeat:no-repeat}
 .xpress-editor .tool li.blockquote .layer li.q1{background-position:0 0}
 .xpress-editor .tool li.blockquote .layer li.q2{background-position:-32px 0}
 .xpress-editor .tool li.blockquote .layer li.q3{background-position:-64px 0}
@@ -302,14 +307,14 @@
 .xpress-editor .tool li.character .layer ul{margin:0}
 .xpress-editor .tool li.character .layer h3{position:absolute;width:0;height:0;overflow:hidden;visibility:hidden}
 .xpress-editor .tool li.character .layer .nav{position:absolute;top:11px;left:-1px;overflow:hidden;white-space:nowrap}
-.xpress-editor .tool li.character .layer .nav li{display:inline;margin:0 -4px 0 0;padding:0 8px;background:url(../img/vr_layer_character.gif) no-repeat 0 0}
+.xpress-editor .tool li.character .layer .nav li{display:inline;margin:0 -4px 0 0;padding:0 8px !important;background:url(../img/vr_layer_character.gif) no-repeat 0 0}
 .xpress-editor .tool li.character .layer .nav li a{color:#444;text-decoration:none;letter-spacing:-1px}
 .xpress-editor .tool li.character .layer .nav li a:hover,
 .xpress-editor .tool li.character .layer .nav li a:active,
 .xpress-editor .tool li.character .layer .nav li a:focus{text-decoration:underline}
 .xpress-editor .tool li.character .layer .nav li a.on{font-weight:bold;color:#004790;display:inline}
 .xpress-editor .tool li.character .layer .list{position:absolute;left:7px;top:30px;width:421px;height:172px;background:url(../img/bx_character.gif) no-repeat}
-.xpress-editor .tool li.character .layer .list li{position:relative;top:1px;left:1px;float:left;width:20px;height:18px;margin:0 1px 1px 0}
+.xpress-editor .tool li.character .layer .list li{position:relative;top:1px;left:1px;float:left;width:20px;height:18px;margin:0 1px 1px 0 !important}
 .xpress-editor .tool li.character .layer .list li button{width:20px;height:18px}
 .xpress-editor .tool li.character .layer .list li button.hover{border:2px solid #27c11a}
 .xpress-editor .tool li.character .layer .list li button span{overflow:visible;font-size:12px;width:auto;height:auto;position:relative;visibility:visible;line-height:normal}

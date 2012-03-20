@@ -6,6 +6,6 @@
         <column name="*" />
     </columns>
     <conditions>
-        <condition operation="in" column="member_srl" var="member_srl" />
+        <condition operation="equal" column="member_srl" var="member_srl" />
     </conditions>
 </query>

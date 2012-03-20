@@ -157,7 +157,6 @@
          **/
         function triggerEditorComponentCompile(&$content) {
             if(Context::getResponseMethod()!='HTML') return new Object();
-			if(Mobile::isFromMobilePhone()) return new Object(); 
 
             $module_info = Context::get('module_info');
             $module_srl = $module_info->module_srl;
@@ -183,7 +182,7 @@
                     $buff = '<style type="text/css"> .xe_content { ';
                     if($content_font) $buff .= 'font-family:'.$content_font.';';
                     if($content_font_size) $buff .= 'font-size:'.$content_font_size.';';
-                    $buff .= ' }; </style>';
+                    $buff .= ' }</style>';
                     Context::addHtmlHeader($buff);
                 }
             }

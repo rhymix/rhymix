@@ -7,7 +7,7 @@
 	<input type="hidden" name="act" value="procAutoinstallAdminUpdateinfo" />
 	<p>
 		<block cond="$show_ftp_note">
-			{@$ftp_link = sprintf('<a href="%s#ftpSetup">%s</a>', getUrl('', 'module', 'admin', 'act', 'dispAdminConfig'), $lang->ftp_setup)}
+			{@$ftp_link = sprintf('<a href="%s">%s</a>', getUrl('', 'module', 'admin', 'act', 'dispAdminConfigFtp'), $lang->ftp_setup)}
 			{sprintf($lang->description_ftp_note, $ftp_link)}
 		</block>
 		{@$btnUpdate = sprintf('<input type="submit" value="%s" class="text" />', $lang->status_update)}

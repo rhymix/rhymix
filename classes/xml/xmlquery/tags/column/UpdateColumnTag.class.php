@@ -44,7 +44,7 @@
 
 		function getExpressionString(){
                     if($this->argument)
-			return sprintf('new UpdateExpression(\'%s\', $%s_argument)'
+			return sprintf('new UpdateExpression(\'%s\', ${\'%s_argument\'})'
 						, $this->name
 						, $this->argument->argument_name);
                     else {

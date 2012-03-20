@@ -32,6 +32,16 @@
 						<option value="N" selected="selected"|cond="$comment_config->use_vote_down=='N'">{$lang->notuse}</option>
 					</select>
 				</td>
+			</tr>	
+			<tr>
+				<th scope="row"><label for="use_comment_validation">{$lang->cmd_comment_validation}</label></th>
+				<td>
+					<select name="use_comment_validation">
+						<option value="N" selected="selected"|cond="$comment_config->use_comment_validation=='N'">{$lang->notuse}</option>
+						<option value="Y" selected="selected"|cond="$comment_config->use_comment_validation=='Y'">{$lang->use}</option>
+					</select>
+					<p>{$lang->about_comment_validation}</p>
+				</td>
 			</tr>
 		</table>
 	</div>

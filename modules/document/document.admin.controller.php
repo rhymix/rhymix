@@ -183,6 +183,31 @@
             $oDB = &DB::getInstance();
             $oDB->begin();
 
+            $triggerObj->document_srls = implode(',',$document_srl_list);
+            $triggerObj->module_srl = $module_srl;
+            $triggerObj->category_srl = $category_srl;
+            // Call a trigger (before)
+            $output = ModuleHandler::triggerCall('document.copyDocumentModule', 'before', $triggerObj);
+            if(!$output->toBool()) {
+                $oDB->rollback();
+                return $output;
+            }
+
+			$extraVarsList = $oDocumentModel->getDocumentExtraVarsFromDB($document_srl_list);
+			$extraVarsListByDocumentSrl = array();
+			if(is_array($extraVarsList->data))
+			{
+				foreach($extraVarsList->data AS $key=>$value)
+				{
+					if(!isset($extraVarsListByDocumentSrl[$value->document_srl]))
+					{
+						$extraVarsListByDocumentSrl[$value->document_srl] = array();
+					}
+
+					array_push($extraVarsListByDocumentSrl[$value->document_srl], $value);
+				}
+			}
+
             for($i=count($document_srl_list)-1;$i>=0;$i--) {
                 $document_srl = $document_srl_list[$i];
                 $oDocument = $oDocumentModel->getDocument($document_srl);
@@ -190,6 +215,18 @@
 
                 $obj = null;
                 $obj = $oDocument->getObjectVars();
+
+				$extraVars = $extraVarsListByDocumentSrl[$document_srl];
+				if($module_srl == $obj->module_srl)
+				{
+					if(is_array($extraVars))
+					{
+						foreach($extraVars as $extraItem)
+						{
+							if($extraItem->var_idx >= 0) $obj->{'extra_vars'.$extraItem->var_idx} = $extraItem->value;
+						}
+					}
+				}
                 $obj->module_srl = $module_srl;
                 $obj->document_srl = getNextSequence();
                 $obj->category_srl = $category_srl;
@@ -224,6 +261,24 @@
                     $oDB->rollback();
                     return $output;
                 }
+
+				// copy multi language contents
+				if(is_array($extraVars))
+				{
+					foreach($extraVars AS $key=>$value)
+					{
+						if($value->idx >= 0 && $value->lang_code == Context::getLangType())
+						{
+							continue;
+						}
+
+						if( $value->var_idx < 0 || ($module_srl == $value->module_srl && $value->var_idx >= 0) )
+						{
+							$oDocumentController->insertDocumentExtraVar($value->module_srl, $obj->document_srl, $value->var_idx, $value->value, $value->eid, $value->lang_code);
+						}
+					}
+				}
+
                 // Move the comments
                 if($oDocument->getCommentCount()) {
                     $oCommentModel = &getModel('comment');
@@ -293,6 +348,14 @@
 
                 $copied_srls[$document_srl] = $obj->document_srl;
             }
+
+            // Call a trigger (before)
+            $output = ModuleHandler::triggerCall('document.copyDocumentModule', 'after', $triggerObj);
+            if(!$output->toBool()) {
+                $oDB->rollback();
+                return $output;
+            }
+
             $oDB->commit();
 
             $output = new Object();

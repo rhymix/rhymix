@@ -9,5 +9,7 @@
 			<if test="!$member_srl" attr="length" value="3:20" />
 		</field>
 		<field name="nick_name" required="true" />
+		<field name="find_account_question" required="true" />
+		<field name="find_account_answer" required="true" length=":250" />
     </fields>
 </ruleset>

@@ -6,9 +6,11 @@
         <column name="*" />
     </columns>
     <conditions>
-        <condition operation="in" column="module_srl" var="module_srl" filter="number" />
+        <condition operation="equal" column="status" var="status" pipe="and" />
+        <condition operation="in" column="module_srl" var="module_srl" filter="number" pipe="and" />
     </conditions>
     <navigation>
+        <index var="sort_index" default="status" order="desc" />
         <index var="sort_index" default="list_order" order="asc" />
         <list_count var="list_count" default="20" />
     </navigation>

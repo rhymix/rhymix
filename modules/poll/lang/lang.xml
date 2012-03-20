@@ -135,7 +135,7 @@
 		<value xml:lang="en"><![CDATA[%d poll(s) are deleted.]]></value>
 		<value xml:lang="jp"><![CDATA[%d個のアンケートが削除されました。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[已删除%d个问卷。]]></value>
-		<value xml:lang="zh-TW"><![CDATA[已刪除%d個問卷。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[已刪除 %d 個問卷。]]></value>
 		<value xml:lang="fr"><![CDATA[%d Enquête(s) est(sont) supprimée(s).]]></value>
 		<value xml:lang="ru"><![CDATA[%d опросов удалено.]]></value>
 		<value xml:lang="es"><![CDATA[%d encuestas son eliminados.]]></value>
@@ -167,15 +167,11 @@
 		<value xml:lang="vi"><![CDATA[Thăm dò đã chọn không tồn tại.]]></value>
 	</item>
 	<item name="cmd_null_item">
-		<value xml:lang="ko"><![CDATA[설문조사로 등록할 값이 없습니다.
-다시 설정해주세요.]]></value>
+		<value xml:lang="ko"><![CDATA[설문조사로 등록할 값이 없습니다. 다시 설정해주세요.]]></value>
 		<value xml:lang="en"><![CDATA[No item value exists to post a poll. Please re-try.]]></value>
-		<value xml:lang="jp"><![CDATA[アンケート調査に登録する項目がありません。
-もう一度設定してください。]]></value>
-		<value xml:lang="zh-CN"><![CDATA[没有要登录为投票调查的值。
-请重新设置。]]></value>
-		<value xml:lang="zh-TW"><![CDATA[沒有要登錄為投票調查的值。
-請重新設置。]]></value>
+		<value xml:lang="jp"><![CDATA[アンケート調査に登録する項目がありません。 もう一度設定してください。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[没有要登录为投票调查的值。 请重新设置。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[沒有要登錄為投票調查的值。 請重新設置。]]></value>
 		<value xml:lang="fr"><![CDATA[Aucune valeur à enrégistrer comme enquête n'existe pas. Essayez encore une fois, S.V.P.]]></value>
 		<value xml:lang="ru"><![CDATA[Не выбран ответ для голосования. Пожалуйста, попробуйте еще.]]></value>
 		<value xml:lang="es"><![CDATA[No existe ningún valor para la encuesta. Por favor trate nuevamente.]]></value>
@@ -224,7 +220,7 @@
 			<value xml:lang="en"><![CDATA[IP Address]]></value>
 			<value xml:lang="jp"><![CDATA[IPアドレス]]></value>
 			<value xml:lang="zh-CN"><![CDATA[IP 地址]]></value>
-			<value xml:lang="zh-TW"><![CDATA[IP位址]]></value>
+			<value xml:lang="zh-TW"><![CDATA[IP 位址]]></value>
 			<value xml:lang="fr"><![CDATA[Adresse IP]]></value>
 			<value xml:lang="ru"><![CDATA[IP-адрес]]></value>
 			<value xml:lang="es"><![CDATA[Dirección IP]]></value>
@@ -236,20 +232,24 @@
 		<value xml:lang="ko"><![CDATA[단일 선택]]></value>
 		<value xml:lang="en"><![CDATA[Single Check]]></value>
 		<value xml:lang="jp"><![CDATA[ひとつだけ選択]]></value>
+		<value xml:lang="zh-TW"><![CDATA[單選]]></value>
 	</item>
 	<item name="multi_check">
 		<value xml:lang="ko"><![CDATA[다중 선택]]></value>
 		<value xml:lang="en"><![CDATA[Multi Check]]></value>
 		<value xml:lang="jp"><![CDATA[複数選択]]></value>
+		<value xml:lang="zh-TW"><![CDATA[複選]]></value>
 	</item>
 	<item name="poll_manager">
 		<value xml:lang="ko"><![CDATA[선택한 설문 관리]]></value>
 		<value xml:lang="en"><![CDATA[Manage selected poll]]></value>
 		<value xml:lang="jp"><![CDATA[選択したアンケートの管理]]></value>
+		<value xml:lang="zh-TW"><![CDATA[管理所選投票]]></value>
 	</item>
 	<item name="selected_poll">
 		<value xml:lang="ko"><![CDATA[선택한 설문]]></value>
 		<value xml:lang="en"><![CDATA[Selected poll]]></value>
 		<value xml:lang="jp"><![CDATA[選択したアンケート]]></value>
+		<value xml:lang="zh-TW"><![CDATA[已選擇的投票]]></value>
 	</item>
 </lang>

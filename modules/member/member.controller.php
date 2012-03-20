@@ -18,6 +18,12 @@
          * @brief Log-in by checking user_id and password
          **/
         function procMemberLogin($user_id = null, $password = null, $keep_signed = null) {
+			if(!$user_id && !$password && Context::getRequestMethod() == 'GET')
+			{
+				$this->setRedirectUrl(getNotEncodedUrl(''));
+				return new Object(-1, 'null_user_id');
+			}
+
 			// Variables
 			if(!$user_id) $user_id = Context::get('user_id');
 			$user_id = trim($user_id);
@@ -45,6 +51,7 @@
 				//$member_info = $oMemberModel->getMemberInfoByUserID($user_id, $columnList);
 				if ($this->memberInfo->change_password_date < date ('YmdHis', strtotime ('-' . $limit_date . ' day'))) {
 					$this->setRedirectUrl(getNotEncodedUrl('','vid',Context::get('vid'),'mid',Context::get('mid'),'act','dispMemberModifyPassword'));
+					return;
 				}
 			}
 
@@ -658,7 +665,7 @@
             // Get user_id information
             $this->memberInfo = $oMemberModel->getMemberInfoByMemberSrl($args->member_srl);
             // Call a trigger after successfully log-in (after)
-            $trigger_output = ModuleHandler::triggerCall('member.doLogin', 'after', $this->memberInfo);
+            $trigger_output = ModuleHandler::triggerCall('member.procMemberModifyInfo', 'after', $this->memberInfo);
             if(!$trigger_output->toBool()) return $trigger_output;
 
             $this->setSessionInfo();
@@ -1078,7 +1085,7 @@
             // Display a message if no answer is entered
             if (!$member_info->find_account_question || !$member_info->find_account_answer) return new Object(-1, 'msg_question_not_exists');
 
-            if(trim($member_info->find_account_question) != $find_account_question || trim($member_info->find_account_answer) != $find_account_answer) return new Object(-1, 'msg_answer_not_matches');
+			if(trim($member_info->find_account_question) != $find_account_question || trim($member_info->find_account_answer) != $find_account_answer) return new Object(-1, 'msg_answer_not_matches');
 
 			if ($config->identifier == 'email_address'){
 				$user_id = $email_address;
@@ -1415,17 +1422,22 @@
                 return;
             }
 
-            $user_id = $output->data->user_id;
+			$oMemberModel = &getModel('member');
+			$config = $oMemberModel->getMemberConfig();
+
+			$user_id = ($config->identifier == 'user_id') ? $output->data->user_id : $output->data->email_address;
             $password = $output->data->password;
-            if(!$user_id || !$password) {
+            
+			if(!$user_id || !$password) {
                 setCookie('xeak',null,time()+60*60*24*365, '/');
                 return;
             }
 
             $do_auto_login = false;
 
+
             // Compare key values based on the information
-            $key = md5($user_id.$password.$_SERVER['REMOTE_ADDR']);
+            $key = md5($user_id . $password . $_SERVER['HTTP_USER_AGENT']);
 
             if($key == $args->autologin_key) {
 
@@ -1438,7 +1450,15 @@
                 if($limit_date > 0) {
                     $oMemberModel = &getModel('member');
 					$columnList = array('member_srl', 'change_password_date');
-                    $member_info = $oMemberModel->getMemberInfoByUserID($user_id, $columnList);
+
+					if($config->identifier == 'user_id')
+					{
+                    	$member_info = $oMemberModel->getMemberInfoByUserID($user_id, $columnList);
+					}
+					else
+					{
+						$member_info = $oMemberModel->getMemberInfoByEmailAddress($user_id, $columnList);
+					}
 
                     if($member_info->change_password_date >= date('YmdHis', strtotime('-'.$limit_date.' day')) ){
                         $do_auto_login = true;
@@ -1505,7 +1525,7 @@
             // When user checked to use auto-login
             if($keep_signed) {
                 // Key generate for auto login
-                $autologin_args->autologin_key = md5(strtolower($user_id).$this->memberInfo->password.$_SERVER['REMOTE_ADDR']);
+                $autologin_args->autologin_key = md5(strtolower($user_id).$this->memberInfo->password.$_SERVER['HTTP_USER_AGENT']);
                 $autologin_args->member_srl = $this->memberInfo->member_srl;
                 executeQuery('member.deleteAutologin', $autologin_args);
                 $autologin_output = executeQuery('member.insertAutologin', $autologin_args);
@@ -1668,6 +1688,11 @@
 
 			if (!$args->user_id) $args->user_id = 't'.$args->member_srl;
 			if (!$args->user_name) $args->user_name = $args->member_srl;
+
+			if(trim($args->find_account_answer))
+			{
+				$args->find_account_answer = md5($args->find_account_answer);
+			}
 
             $output = executeQuery('member.insertMember', $args);
             if(!$output->toBool()) {

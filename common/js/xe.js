@@ -1764,11 +1764,15 @@ var Validator = xe.createApp('Validator', {
 					this.onsubmit = null;
 				}
 			})
-			.submit(function(){
+			.submit(function(e){
 				var legacyFn = this['xe:onsubmit'];		
 				var hasLegacyFn = $.isFunction(legacyFn);
 				var bResult = hasLegacyFn?legacyFn.apply(this):self.run(this);
 
+				if(!bResult)
+				{
+					e.stopImmediatePropagation();
+				}
 				return bResult;
 			});
 	},
@@ -1826,8 +1830,13 @@ var Validator = xe.createApp('Validator', {
 
 			f   = filter[name];
 			el  = elems[name];
+			if(!el)
+			{
+				el = elems[name + '[]'];
+			}
 			val = el?$.trim(get_value($(el))):'';
 			mod = (f.modifier||'')+',';
+
 
 			if(!el || el.disabled) continue;
 

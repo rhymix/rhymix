@@ -178,17 +178,15 @@
                             if($obj->type == 'mid_list' && !is_array($obj->value)) { $obj->value = array($obj->value); }
 
                             // 'Select'type obtained from the option list.
-                            if(is_array($val->options)) {
-                                $option_count = count($val->options);
+                            if($val->options && !is_array($val->options))
+							{
+								$val->options = array($val->options);
+							}
 
-                                for($i = 0; $i < $option_count; $i++) {
-                                    $obj->options[$i]->title = $val->options[$i]->title->body;
-                                    $obj->options[$i]->value = $val->options[$i]->attrs->value;
-                                }
-                            } else {
-                                $obj->options[0]->title = $val->options[0]->title->body;
-                                $obj->options[0]->value = $val->options[0]->attrs->value;
-                            }
+							for($i = 0, $c = count($val->options); $i < $c; $i++) {
+								$obj->options[$i]->title = $val->options[$i]->title->body;
+								$obj->options[$i]->value = $val->options[$i]->attrs->value;
+							}
 
                             $addon_info->extra_vars[] = $obj;
                         }
@@ -273,14 +271,15 @@
                             if(strpos($obj->value, '|@|') != false) { $obj->value = explode('|@|', $obj->value); }
                             if($obj->type == 'mid_list' && !is_array($obj->value)) { $obj->value = array($obj->value); }
                             // 'Select'type obtained from the option list.
-                            if(is_array($val->options)) {
-                                $option_count = count($val->options);
+                            if($val->options && !is_array($val->options))
+							{
+								$val->options = array($val->options);
+							}
 
-                                for($i = 0; $i < $option_count; $i++) {
-                                    $obj->options[$i]->title = $val->options[$i]->title->body;
-                                    $obj->options[$i]->value = $val->options[$i]->value->body;
-                                }
-                            }
+							for($i = 0, $c = count($val->options); $i < $c; $i++) {
+								$obj->options[$i]->title = $val->options[$i]->title->body;
+								$obj->options[$i]->value = $val->options[$i]->value->body;
+							}
 
                             $addon_info->extra_vars[] = $obj;
                         }

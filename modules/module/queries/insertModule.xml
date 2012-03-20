@@ -8,6 +8,7 @@
         <column name="module_category_srl" var="module_category_srl" default="0" />
         <column name="mid" var="mid" notnull="notnull" minlength="1" maxlength="40" />
         <column name="skin" var="skin" minlength="1" maxlength="250" />
+        <column name="is_skin_fix" var="is_skin_fix" default="Y" />
         <column name="mskin" var="mskin"  />
         <column name="browser_title" var="browser_title" notnull="notnull" minlength="1" maxlength="250" />
         <column name="layout_srl" var="layout_srl" />

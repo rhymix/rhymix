@@ -14,8 +14,8 @@
 		<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
 			<fieldset>
 				<ul class="idpw">
-					<li><input type="text" name="user_id" id="uid" value="" class="inputText" title="{$lang->user_id}" /></li>
-					<li><input type="password" name="password" id="upw" value="" class="inputText" title="{$lang->password}" /></li>
+					<li><input type="text" name="user_id" id="uid" value="" class="iText" title="{$lang->user_id}" /></li>
+					<li><input type="password" name="password" id="upw" value="" class="iText" title="{$lang->password}" /></li>
 				</ul>
 				<div class="buttonArea">
 					<p class="keeping">
@@ -38,6 +38,6 @@
 		<span class="buttonAccount"><a href="{getUrl('act','dispMemberLogout','module','')}">{$lang->cmd_logout}</a></span>
 	</div>
 	<div class="logOut" cond="!$is_logged && $module != 'admin'">
-		<span class="buttonAccount"><a href="{getUrl('act','dispMemberLoginForm','module','', 'mid', '')}">{$lang->cmd_login}</a></span>
+		<span class="buttonAccount"><a href="{getUrl('act','dispMemberLoginForm','module','', 'mid', '')}">{$lang->cmd_login}...</a></span>
 	</div>
 </div>

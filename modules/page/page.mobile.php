@@ -81,7 +81,7 @@ class pageMobile extends pageView {
 			Context::set('document_srl', $document_srl);
 		}
 		Context::set('oDocument', $oDocument);
-		$this->setTemplatePath(sprintf($this->module_path.'m.skins/%s', $this->module_info->skin));
+		$this->setTemplatePath(sprintf($this->module_path.'m.skins/%s', $this->module_info->mskin));
 	}
 
 	function _getOutsideContent(){

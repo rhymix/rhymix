@@ -170,11 +170,11 @@
          * @brief Fetch results
          **/
         function _fetch($result, $arrayIndexEndValue = NULL) {
-			if(!$this->isConnected() || $this->isError() || !$result) return;
+			$output = array();
+			if(!$this->isConnected() || $this->isError() || !$result) return $output;
 
 			$c = sqlsrv_num_fields($result);
 			$m = null;
-			$output = array();
 
 			while(sqlsrv_fetch($result)){
 				if(!$m) $m = sqlsrv_field_metadata($result);
@@ -514,14 +514,24 @@
 					$total_page = (int) (($total_count - 1) / $list_count) + 1;
 				}	else	$total_page = 1;
 
-                                // check the page variables
-                                if ($page > $total_page) $page = $total_page;
-                                $start_count = ($page - 1) * $list_count;
+				// check the page variables
+				if ($page > $total_page) {
+					// If requested page is bigger than total number of pages, return empty list
 
-                                $query .= (__DEBUG_QUERY__&1 && $queryObject->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
-                                $result = $this->_query ($query, $connection);
-                                if ($this->isError ())
-                                    return $this->queryError($queryObject);
+					$buff = new Object ();		
+					$buff->total_count = $total_count;
+					$buff->total_page = $total_page;
+					$buff->page = $page;
+					$buff->data = array();
+					$buff->page_navigation = new PageHandler($total_count, $total_page, $page, $page_count);				
+					return $buff;
+				}
+				$start_count = ($page - 1) * $list_count;
+
+				$query .= (__DEBUG_QUERY__&1 && $queryObject->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
+				$result = $this->_query ($query, $connection);
+				if ($this->isError ())
+					return $this->queryError($queryObject);
 
 		 		$virtual_no = $total_count - ($page - 1) * $list_count;
 		 		$data = $this->_fetch($result, $virtual_no);

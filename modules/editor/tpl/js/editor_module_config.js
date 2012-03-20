@@ -9,22 +9,25 @@ function getEditorSkinColorList(skin_name,selected_colorset,type,testid){
 function resultGetEditorSkinColorList(ret_obj,response_tags, params) {
     var selectbox = null;
 	jQuery(function($){
-		selectbox = jQuery("#"+params.testid).next('label').next('select');
+		if(params.testid){
+			selectbox = $("#"+params.testid).next('label').next('select');
+		}else{
+			selectbox = (params.type == 'document') ? $('select[name=sel_editor_colorset]') : $('select[name=sel_comment_editor_colorset]');
+		}
 		selectbox.html('');
-		
+
 		if(params.type == 'document'){
-			$("select[name=sel_editor_colorset]").css('display','none');				
-			$("select[name=sel_editor_colorset]").removeAttr('name');			
+			$("select[name=sel_editor_colorset]").hide()
+				.removeAttr('name');
 			selectbox.attr('name','sel_editor_colorset');			
 		}else{
-			$("select[name=sel_comment_editor_colorset]").css('display','none');				
-			$("select[name=sel_comment_editor_colorset]").removeAttr('name');			
+			$("select[name=sel_comment_editor_colorset]").hide()
+				.removeAttr('name');			
 			selectbox.attr('name','sel_comment_editor_colorset');			
 		}	
 
 		if(ret_obj['error'] == 0 && ret_obj.colorset){	
 			var it = new Array();
-			
 			var items = ret_obj['colorset']['item'];	
 			if(typeof(items[0]) == 'undefined'){
 				it[0] = items;
@@ -35,10 +38,10 @@ function resultGetEditorSkinColorList(ret_obj,response_tags, params) {
 			for(var i=0;i<it.length;i++){
 				selectbox.append($('<option value="'+it[i].name+'" >'+it[i].title+'</option>'));				
 			}
-			selectbox.css('display','');
+			selectbox.show();
 		}else{
-			selectbox.css('display','none');
-			selectbox.innerHTML="";
+			selectbox.hide();
+			selectbox.html('');
 		}
 	});
 }

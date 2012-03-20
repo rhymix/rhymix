@@ -12,7 +12,7 @@ var keep_signed_msg = "{$lang->about_keep_signed}";
 
 <form action="./" method="post" ruleset="@login" id="fo_login_widget">
 <fieldset id="login">
-<legend>{$lang->cmd_login}</legend>
+<legend>{$lang->cmd_login}...</legend>
 <input type="hidden" name="act" value="procMemberLogin" />
 <input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
 <div id="sign_box">
@@ -40,7 +40,7 @@ var keep_signed_msg = "{$lang->about_keep_signed}";
 				<a href="{getUrl('act','dispMemberResendAuthMail')}"><img src="images/icon_help.gif" alt="" title="{$lang->cmd_resend_auth_mail}"/></a>
 			</div>
 		</div><!-- //body -->
-		<span class="tail"><img src="images/signin_bg_tail.png" width="219" height="3" alt="" class="iePngFix" /></span>
+		<span class="tail"><img src="images/signin_bg_tail.png" width="219" height="3" alt="" /></span>
 	</div><!-- //signin_window -->
 </div>
 </fieldset>

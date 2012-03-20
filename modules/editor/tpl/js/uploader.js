@@ -71,7 +71,7 @@ function start(cfg) {
 
 		// Button settings
 		button_window_mode : 'transparent',
-		button_placeholder : $span.get(0),
+		button_placeholder_id : $span.attr('id'),
 		button_text : null,
 		button_image_url : request_uri+'common/img/blank.gif',
 		button_width  : width,

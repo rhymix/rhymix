@@ -1,5 +1,5 @@
 <include target="header.html" />
-<div class="table even easyList">
+<div class="table even easyList dsTg">
 	<table width="100%" border="1" cellspacing="0">
 		<caption>
 				<a cond="$act != 'dispLayoutAdminInstalledList'" href="{getUrl('act', 'dispLayoutAdminInstalledList')}">PC({$pcLayoutCount})</a>
@@ -7,14 +7,15 @@
 				|
 				<a cond="$act != 'dispLayoutAdminInstalledMobileList'" href="{getUrl('act', 'dispLayoutAdminInstalledMobileList')}">Mobile({$mobileLayoutCount})</a>
 				<block cond="$act == 'dispLayoutAdminInstalledMobileList'">Mobile({$mobileLayoutCount})</block>
+				<span class="side"><button type="button" class="text"><span class="hide">{$lang->simple_view}</span><span class="show">{$lang->detail_view}</span></button></span>
 		</caption>
 		<thead>
 			<tr>
 				<th scope="col" class="title">{$lang->layout_name}</th>
-				<th scope="col">{$lang->version}</th>
-				<th scope="col">{$lang->author}</th>
-				<th scope="col">{$lang->path}</th>
-				<th scope="col">{$lang->cmd_delete}</th>
+				<th scope="col" class="nowr">{$lang->version}</th>
+				<th scope="col" class="nowr">{$lang->author}</th>
+				<th scope="col" class="nowr">{$lang->path}</th>
+				<th scope="col" class="nowr">{$lang->cmd_delete}</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -28,15 +29,15 @@
 							{$lang->msg_avail_easy_update} <a href="{$layout->update_url}&amp;return_url={urlencode(getRequestUriByServerEnviroment())}">{$lang->msg_do_you_like_update}</a>
 						</p>
 					</td>
-					<td>{$layout->version}</td>
-					<td>
+					<td class="nowr">{$layout->version}</td>
+					<td class="nowr">
 						<block loop="$layout->author => $author">
 							<a cond="$author->homepage" href="{$author->homepage}" target="_blank">{$author->name}</a>
 							<block cond="!$author->homepage">{$author->name}</block>
 						</block>
 					</td>
-					<td>{$layout->path}</td>
-					<td><a cond="$layout->remove_url" href="{$layout->remove_url}&amp;return_url={urlencode(getRequestUriByServerEnviroment())}">{$lang->cmd_delete}</a></td>
+					<td class="nowr">{$layout->path}</td>
+					<td class="nowr"><a cond="$layout->remove_url" href="{$layout->remove_url}&amp;return_url={urlencode(getRequestUriByServerEnviroment())}">{$lang->cmd_delete}</a></td>
 				</block>
 				<block cond="!$layout->title">
 					<td class="title">
@@ -45,10 +46,10 @@
 							{$lang->msg_avail_easy_update} <a href="{$layout->update_url}&amp;return_url={urlencode(getRequestUriByServerEnviroment())}">{$lang->msg_do_you_like_update}</a>
 						</p>
 					</td>
-					<td>-</td>
-					<td>-</td>
-					<td>{$layout->path}</td>
-					<td><a cond="$layout->remove_url" href="{$layout->remove_url}&amp;return_url={urlencodegetRequestUriByServerEnviroment()}">{$lang->cmd_delete}</a></td>
+					<td class="nowr">-</td>
+					<td class="nowr">-</td>
+					<td class="nowr">{$layout->path}</td>
+					<td class="nowr"><a cond="$layout->remove_url" href="{$layout->remove_url}&amp;return_url={urlencodegetRequestUriByServerEnviroment()}">{$lang->cmd_delete}</a></td>
 				</block>
 			</tr>
 			</block>

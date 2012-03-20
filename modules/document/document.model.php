@@ -19,6 +19,18 @@
             return $_SESSION['own_document'][$document_srl];
         }
 
+		function getDocumentExtraVarsFromDB($documentSrls)
+		{
+			if(!is_array($documentSrls) || count($documentSrls) == 0)
+			{
+				return new Object(-1, 'msg_invalid_request');
+			}
+
+			$args->document_srl = $documentSrls;
+            $output = executeQueryArray('document.getDocumentExtraVars', $args);
+			return $output;
+		}
+
         /**
          * @brief extra variables for each article will not be processed bulk select and apply the macro city
          **/
@@ -36,8 +48,8 @@
             // If the document number, return detected
             if(!count($document_srls)) return;
             // Expand variables mijijeongdoen article about a current visitor to the extension of the language code, the search variable
-            $obj->document_srl = implode(',',$document_srls);
-            $output = executeQueryArray('document.getDocumentExtraVars', $obj);
+            //$obj->document_srl = implode(',',$document_srls);
+            $output = $this->getDocumentExtraVarsFromDB($document_srls);
             if($output->toBool() && $output->data) {
                 foreach($output->data as $key => $val) {
                     if(!isset($val->value)) continue;
@@ -60,6 +72,7 @@
                 // Expand the variable processing
                 if(count($extra_keys)) {
                 foreach($extra_keys as $idx => $key) {
+						$extra_keys[$idx] = clone($key);
                         $val = $vars[$idx];
                         if(isset($val[$user_lang_code])) $v = $val[$user_lang_code];
                         else if(isset($val[$document_lang_code])) $v = $val[$document_lang_code];
@@ -329,7 +342,6 @@
 				}
 				// Return if no result or an error occurs
 				if(!$output->toBool()||!count($output->data)) return $output;
-
 				$idx = 0;
 				$data = $output->data;
 				unset($output->data);
@@ -417,6 +429,51 @@
                 $obj->sort_index = 'var_idx';
                 $obj->order = 'asc';
                 $output = executeQueryArray('document.getDocumentExtraKeys', $obj);
+				
+				// correcting index order
+				$isFixed = FALSE;
+				if(is_array($output->data))
+				{
+					$prevIdx = 0;
+					foreach($output->data as $no => $value)
+					{
+						// case first
+						if($prevIdx == 0 && $value->idx != 1)
+						{
+							$args = new stdClass();
+							$args->module_srl = $module_srl;
+							$args->var_idx = $value->idx;
+							$args->new_idx = 1;
+							executeQuery('document.updateDocumentExtraKeyIdx', $args);
+							executeQuery('document.updateDocumentExtraVarIdx', $args);
+							$prevIdx = 1;
+							$isFixed = TRUE;
+							continue;
+						}
+
+						// case others
+						if($prevIdx > 0 && $prevIdx + 1 != $value->idx)
+						{
+							$args = new stdClass();
+							$args->module_srl = $module_srl;
+							$args->var_idx = $value->idx;
+							$args->new_idx = $prevIdx + 1;
+							executeQuery('document.updateDocumentExtraKeyIdx', $args);
+							executeQuery('document.updateDocumentExtraVarIdx', $args);
+							$prevIdx += 1;
+							$isFixed = TRUE;
+							continue;
+						}
+
+						$prevIdx = $value->idx;
+					}
+				}
+
+				if($isFixed)
+				{
+					$output = executeQueryArray('document.getDocumentExtraKeys', $obj);
+				}
+
                 $oExtraVar->setExtraVarKeys($output->data);
                 $keys = $oExtraVar->getExtraVars();
                 if(!$keys) $keys = array();
@@ -572,6 +629,7 @@
                         else $args->regdate = $oDocument->get('regdate');
                     break;
                 case 'voted_count' :
+                case 'blamed_count' :
                 case 'readed_count' :
                 case 'comment_count' :
                 case 'title' :
@@ -585,6 +643,34 @@
             $args->module_srl = $oDocument->get('module_srl');
             $args->sort_index = $opt->sort_index;
             $args->order_type = $opt->order_type;
+
+			if($opt->statusList) $args->statusList = $opt->statusList;
+			else
+			{
+				$logged_info = Context::get('logged_info');
+				if($logged_info->is_admin == 'Y' && !$args->module_srl)
+				{
+					$args->statusList = array($this->getConfigStatus('secret'), $this->getConfigStatus('public'), $this->getConfigStatus('temp'));
+				}
+				else
+				{
+					$args->statusList = array($this->getConfigStatus('secret'), $this->getConfigStatus('public'));
+				}
+			}
+
+			// Category is selected, further sub-categories until all conditions
+			if($opt->category_srl)
+			{
+				$categoryList = $this->getCategoryList($opt->module_srl);
+
+				if(array_key_exists($opt->category_srl, $categoryList))
+				{
+					$categoryInfo = $categoryList[$opt->category_srl];
+
+					$args->categorySrlList = $categoryInfo->childs;
+					array_push($args->categorySrlList, $opt->category_srl);
+				}
+			}
 
             // Guhanhu total number of the article search page
             $output = executeQuery('document.getDocumentPage', $args);
@@ -816,7 +902,7 @@
             $extra_keys = $this->getExtraKeys($module_srl);
             Context::set('extra_keys', $extra_keys);
 			$security = new Security();
-			$security->encodeHTML('extra_keys..name','extra_keys..eid');
+			$security->encodeHTML('extra_keys..eid');
 
 			// Get information of module_grants
             $oTemplate = &TemplateHandler::getInstance();
@@ -880,7 +966,6 @@
             // tpl template file directly compile and will return a variable and puts it on.
             $oTemplate = &TemplateHandler::getInstance();
             $tpl = $oTemplate->compile('./modules/document/tpl', 'category_info');
-            $tpl = str_replace("\n",'',$tpl);
             // Changing user-defined language
             $oModuleController = &getController('module');
             $oModuleController->replaceDefinedLangCode($tpl);
@@ -983,6 +1068,7 @@
                     case 'member_srl' :
                     case 'readed_count' :
                     case 'voted_count' :
+                    case 'blamed_count' :
                     case 'comment_count' :
                     case 'trackback_count' :
                     case 'uploaded_count' :
@@ -1065,7 +1151,7 @@
 		{
 			$sortIndex = $obj->sort_index;
 			$isExtraVars = false;
-            if(!in_array($sortIndex, array('list_order','regdate','last_update','update_order','readed_count','voted_count','comment_count','trackback_count','uploaded_count','title','category_srl')))
+            if(!in_array($sortIndex, array('list_order','regdate','last_update','update_order','readed_count','voted_count','blamed_count','comment_count','trackback_count','uploaded_count','title','category_srl')))
 			{
 				// get module_srl extra_vars list
 				if ($load_extra_vars)
@@ -1145,6 +1231,9 @@
                     case 'uploaded_count' :
                             $args->{"s_".$search_target} = (int)$search_keyword;
                         break;
+                    case 'blamed_count' :
+                            $args->{"s_".$search_target} = (int)$search_keyword * -1;
+						break;
                     case 'regdate' :
                     case 'last_update' :
                     case 'ipaddress' :

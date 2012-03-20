@@ -1,6 +1,6 @@
 @charset "utf-8";
-/* CSS Document */#memberModule{font-family:Arial,Helvetica,sans-serif}
-.fr{float:right}
+/* CSS Document */
+#memberModule{font-family:Arial,Helvetica,sans-serif}
 #memberModule caption{padding-bottom:5px;font-size:11px;font-family:Tahoma;color:#888;text-align:left}
 
 /* Button */
@@ -31,7 +31,6 @@ span.whiteBtn input{display:inline-block;height:26px;margin:0;padding:1px 12px 0
 #memberModule h3.pTitle1{height:23px;margin:20px 0 12px;padding:8px 0 0 37px;border-bottom:#9b989a solid 1px;background:url(../images/icon_member_info.gif) no-repeat 13px 6px;font-size:12px;font-family:Arial,Helvetica,sans-serif;color:#3f3f3f}
 #memberModule h3.pTitle2{}
 #memberModule h3.pTitle3{}
-#memberModule .gap1{margin-bottom:10px}
 #memberModule .rowTable{width:100%;border-bottom:#c3c1c2 solid 1px}
 .rowTable th{width:10%;padding:13px 11px;border-bottom:#E5E5E5 solid 1px;text-align:left;vertical-align:top}
 .rowTable th div{color:#5a5a5a;white-space:nowrap}

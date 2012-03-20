@@ -38,7 +38,7 @@
 		<li>
 			<p class="q">{$lang->header_script}</p>
 			<p class="a">
-				<textarea name="header_script" cols="42" rows="5">{$selected_layout->header_script}</textarea>
+				<textarea name="header_script" rows="8" cols="42">{$selected_layout->header_script}</textarea>
 			</p>
 			<p class="desc">{$lang->about_header_script}</p>
 		</li>
@@ -66,7 +66,7 @@
 				<div cond="$var->type == 'textarea'" class="multiLangEdit">
 					{@$use_multilang_textarea = true}
 					<input type="hidden" name="{$name}" value="<!--@if(strpos($var->value, "$user_lang->") !== false)-->{htmlspecialchars($var->value)}<!--@else-->{$var->value}<!--@end-->" class="vLang" />
-					<textarea id="{$name}" cols="42" rows="5" class="vLang">{$var->value}</textarea>
+					<textarea id="{$name}" rows="8" cols="42" class="vLang">{$var->value}</textarea>
 					<span class="desc"><a href="#langEditTextarea" class="editUserLang tgAnchor">{$lang->cmd_set_multilingual}</a></span>
 				</div>
 
@@ -103,7 +103,7 @@
 							<div cond= style="float:left;text-align:{$_talign};margin-bottom:1em;width:{$_width}px;height:{$_height}px;margin-right:10px;">
 						</block>
 						<label>
-							<input type="radio" name="{$name}" value="{$key}" />{$val->val}
+							<input type="radio" name="{$name}" value="{$key}" checked="checked"|cond="$key == $var->value"/>{$val->val}
 							<block cond="$val->thumbnail">
 								<br />
 								<img src="../../../{$val->thumbnail}" alt="{$val->val}" style="border:1px solid #888888;padding:2px;margin:2px;"/>

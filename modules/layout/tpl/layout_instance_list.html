@@ -10,22 +10,22 @@
 	<table width="100%" border="1" cellspacing="0">
 		<thead>
 			<tr>
-				<th scope="col">{$lang->no}</th>
+				<th scope="col" class="nowr">{$lang->no}</th>
 				<th scope="col" class="title">{$lang->title}</th>
-				<th scope="col">{$lang->regdate}</th>
-				<th scope="col">{$lang->cmd_layout_management}</th>
-				<th scope="col">{$lang->cmd_layout_edit}</th>
-				<th scope="col">{$lang->cmd_delete}</th>
+				<th scope="col" class="nowr">{$lang->regdate}</th>
+				<th scope="col" class="nowr">{$lang->cmd_layout_management}</th>
+				<th scope="col" class="nowr">{$lang->cmd_layout_edit}</th>
+				<th scope="col" class="nowr">{$lang->cmd_delete}</th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr loop="$layout_list => $no, $layout">
-				<td>{$no+1}</td>
+				<td class="nowr">{$no+1}</td>
 				<td class="title">{$layout->title}</td>
-				<td>{zdate($layout->regdate, "Y-m-d")}</td>
-				<td><a href="{getUrl('act', 'dispLayoutAdminModify', 'layout_srl', $layout->layout_srl)}">{$lang->cmd_layout_management}</a></td>
-				<td><a href="{getUrl('act', 'dispLayoutAdminEdit', 'layout_srl', $layout->layout_srl)}">{$lang->cmd_layout_edit}</a></td>
-				<td>
+				<td class="nowr">{zdate($layout->regdate, "Y-m-d")}</td>
+				<td class="nowr"><a href="{getUrl('act', 'dispLayoutAdminModify', 'layout_srl', $layout->layout_srl)}">{$lang->cmd_layout_management}</a></td>
+				<td class="nowr"><a href="{getUrl('act', 'dispLayoutAdminEdit', 'layout_srl', $layout->layout_srl)}">{$lang->cmd_layout_edit}</a></td>
+				<td class="nowr">
 					<form class="layout_delete_form" ruleset="deleteLayout" action="./" method="post">
 						<input type="hidden" name="module" value="layout" />
 						<input type="hidden" name="act" value="procLayoutAdminDelete" />

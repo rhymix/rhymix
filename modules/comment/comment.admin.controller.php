@@ -12,7 +12,143 @@
          **/
         function init() {
         }
+		
+	/**
+	* @brief Modify comment(s) status to publish/unpublish if calling module is using Comment Approval System
+	* @return Object 
+	*/
+	function procCommentAdminChangePublishedStatusChecked()
+	{	// Error display if none is selected
+		$cart = Context::get('cart');
+		if(!is_array($cart))
+		{
+			$comment_srl_list= explode('|@|', $cart);
+		}
+		else
+		{
+			$comment_srl_list = $cart;
+		}
+		
+		$this->procCommentAdminChangeStatus();
+		
+		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispCommentAdminList', 'search_keyword', '');
+			header('location:'.$returnUrl);
+			return;
+		}
+	}
+	
+	function procCommentAdminChangeStatus()
+	{
+		$will_publish = Context::get('will_publish');
 
+		// Error display if none is selected
+		$cart = Context::get('cart');
+		if(!$cart)
+		{
+			return $this->stop('msg_cart_is_null');
+		}
+		if(!is_array($cart))
+		{
+			$comment_srl_list= explode('|@|', $cart);
+		}
+		else
+		{
+			$comment_srl_list = $cart;
+		}
+
+		$args->status = $will_publish;
+		$args->comment_srls_list = $comment_srl_list;
+		$output = executeQuery('comment.updatePublishedStatus', $args);
+		if(!$output->toBool())
+		{
+			return $output;
+		}
+		else 
+		{
+			//update comment count for document
+			$updated_documents_arr = array();
+			// create the controller object of the document
+			$oDocumentController = &getController('document');
+			// create the model object of the document
+			$oDocumentModel = &getModel('document');
+			// create the comment model object
+			$oCommentModel = &getModel('comment');
+			//get admin info
+			$logged_info = Context::get('logged_info');
+			//$oMemberModule = &getModel("member");
+			//$logged_info = $oMemberModule->getMemberInfoByMemberSrl($logged_member_srl);
+			$new_status = ($will_publish) ? "published" : "unpublished";
+			foreach($comment_srl_list as $comment_srl)
+			{
+				// check if comment already exists
+				$comment = $oCommentModel->getComment($comment_srl);
+				if($comment->comment_srl != $comment_srl) return new Object(-1, 'msg_invalid_request');
+				$document_srl = $comment->document_srl;
+				if (!in_array($document_srl,$updated_documents_arr))
+				{
+					$updated_documents_arr[] = $document_srl;
+					// update the number of comments
+					$comment_count = $oCommentModel->getCommentCount($document_srl);
+					// update comment count of the article posting
+					$output = $oDocumentController->updateCommentCount($document_srl, $comment_count, null, false);
+
+					$oDocument = $oDocumentModel->getDocument($document_srl);
+					$author_email=$oDocument->variables['email_address'];
+
+					$oModuleModel = &getModel("module");
+					$module_info = $oModuleModel->getModuleInfoByModuleSrl($comment->module_srl);
+					$already_sent = array();
+
+					// send email to comment's author, all admins and thread(document) subscribers - START
+					// -------------------------------------------------------
+					$oMail = new Mail();
+					$mail_title = "[XE - ".$module_info->mid."] comment(s) status changed to ".$new_status." on document: \"".$oDocument->getTitleText()."\"";
+					$oMail->setTitle($mail_title);
+					$mail_content = "
+						The comment #".$comment_srl." on document \"".$oDocument->getTitleText()."\" has been ".$new_status." by admin of <strong><i>".  strtoupper($module_info->mid)."</i></strong> module.
+						<br />
+						<br />Comment content:
+						".$comment->content."
+						<br />
+					";
+					$oMail->setContent($mail_content);
+					$oMail->setSender($logged_info->user_name, $logged_info->email_address);
+
+					$document_author_email = $oDocument->variables['email_address'];
+
+					//mail to author of thread - START
+					if($document_author_email != $comment->email_address && $logged_info->email_address != $document_author_email) {
+							$oMail->setReceiptor($document_author_email, $document_author_email);
+							$oMail->send();
+							$already_sent[] = $document_author_email;
+					}
+					//mail to author of thread - STOP
+
+					//mail to all emails set for administrators - START
+					if($module_info->admin_mail)
+					{
+						$target_mail = explode(',',$module_info->admin_mail);
+						for($i=0;$i<count($target_mail);$i++) {
+							$email_address = trim($target_mail[$i]);
+							if(!$email_address) continue;
+							if($author_email != $email_address) {
+								$oMail->setReceiptor($email_address, $email_address);
+								$oMail->send();
+							}
+						}
+					}
+					//mail to all emails set for administrators - STOP
+				}
+				// ----------------------------------------------------------
+				// send email to comment's author, all admins and thread(document) subscribers - STOP
+			}
+			// call a trigger for calling "send mail to subscribers" (for moment just for forum)
+			ModuleHandler::triggerCall("comment.procCommentAdminChangeStatus","after",$comment_srl_list);
+		}
+		
+	}
+	
         /**
          * @brief Delete the selected comment from the administrator page
          **/
