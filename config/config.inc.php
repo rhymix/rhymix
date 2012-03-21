@@ -51,7 +51,7 @@
      * define('__ENABLE_PHPUNIT_TEST__', 0);
      * define('__PROXY_SERVER__', 'http://domain:port/path');
 	 * define('__XE_CDN_PREFIX__', 'http://yourCdnDomain.com/path/');
-	 * define('__XE_CDN_VERSION__', 'yourCndVersion');
+	 * define('__XE_CDN_VERSION__', 'yourCdnVersion');
      */
     if(file_exists(_XE_PATH_.'config/config.user.inc.php')) {
         require _XE_PATH_.'config/config.user.inc.php';
