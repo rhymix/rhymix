@@ -282,7 +282,8 @@
 		<value xml:lang="jp"><![CDATA[このFTP情報ではログインできません。FTP情報を確認してください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[FTP登录失败。请确认输入的FTP信息。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[FTP登入失敗。請確認輸入的 FTP 資訊。]]></value>
-		<value xml:lang="fr"><![CDATA[입력하신 FTP 정보로 로그인을 하지 못했습니다. FTP정보를 확인해주세요]]></valuevalue xml:lang="de"><![CDATA[Anmeldungsfehler mit der Angabe des FTPs Bitte die Angabe des FTPs festlegen.]]></value>
+		<value xml:lang="fr"><![CDATA[입력하신 FTP 정보로 로그인을 하지 못했습니다. FTP정보를 확인해주세요]]></value>
+		<value xml:lang="de"><![CDATA[Anmeldungsfehler mit der Angabe des FTPs Bitte die Angabe des FTPs festlegen.]]></value>
 		<value xml:lang="es"><![CDATA[Los datos de login para el FTP no son correctos. Veriféquelos.]]></value>
 		<value xml:lang="tr"><![CDATA[Kimlik doğrulama başarısız oldu. Lütfen kullanıcı adını ve şifreyi kontrol ediniz.]]></value>
 		<value xml:lang="vi"><![CDATA[Xác nhận thất bại. Xin vui lòng kiểm tra lại tên sử dụng và mật khẩu.]]></value>
