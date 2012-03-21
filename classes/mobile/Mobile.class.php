@@ -55,7 +55,7 @@ class Mobile {
 
 	function isMobileCheckByAgent()
 	{
-		$mobildAgent = array('iPod','iPhone','iPad','Android','BlackBerry','SymbianOS','Bada','Kindle','Wii','SCH-','SPH-','CANU-','Windows Phone','Windows CE','POLARIS','Palm','webOS','Dorothy Browser','IEMobile','MobileSafari','Opera Mobi','Opera Mini','MobileExplorer','Minimo','AvantGo','NetFront','Googlebot-Mobile','Nokia','LGPlayer','SonyEricsson','HTC','hp-tablet','SKT','lgtelecom','Vodafone');
+		$mobildAgent = array('iPod','iPhone','Android','BlackBerry','SymbianOS','Bada','Kindle','Wii','SCH-','SPH-','CANU-','Windows Phone','Windows CE','POLARIS','Palm','webOS','Dorothy Browser','IEMobile','MobileSafari','Opera Mobi','Opera Mini','MobileExplorer','Minimo','AvantGo','NetFront','Googlebot-Mobile','Nokia','LGPlayer','SonyEricsson','HTC','hp-tablet','SKT','lgtelecom','Vodafone');
 
 		foreach($mobildAgent as $agent)
 		{
