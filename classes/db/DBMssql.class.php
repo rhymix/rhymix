@@ -403,6 +403,27 @@
             return $this->_query($query);
         }
 
+    	function getUpdateSql($query, $with_values = true, $with_priority = false){
+			$columnsList = $query->getUpdateString($with_values);
+			if($columnsList == '') return new Object(-1, "Invalid query");
+
+			$from = $query->getFromString($with_values);
+			if($from == '') return new Object(-1, "Invalid query");
+
+			$tables = $query->getTables();
+			$alias_list = '';
+			foreach($tables as $table)
+				$alias_list .= $table->getAlias();
+			join(',', split(' ', $alias_list));
+			
+			$where = $query->getWhereString($with_values);
+			if($where != '') $where = ' WHERE ' . $where;
+
+			$priority = $with_priority?$query->getPriority():'';
+
+			return "UPDATE $priority $alias_list SET $columnsList FROM ".$from.$where;
+		}		
+		
         /**
          * @brief Handle deleteAct
          **/
