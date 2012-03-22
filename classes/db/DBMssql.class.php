@@ -348,20 +348,25 @@
                     $default = $column->attrs->default;
                     $auto_increment = $column->attrs->auto_increment;
 
-                    $column_schema[] = sprintf('[%s] %s%s %s %s %s %s',
+                    $column_schema[] = sprintf('[%s] %s%s %s %s %s',
                     $name,
                     $this->column_type[$type],
                     !in_array($type,array('number','text'))&&$size?'('.$size.')':'',
-                    $primary_key?'primary key':'',
                     isset($default)?"default '".$default."'":'',
                     $notnull?'not null':'null',
                     $auto_increment?'identity(1,1)':''
                     );
 
-                    if($unique) $unique_list[$unique][] = $name;
+					if($primary_key) $primary_list[] = $name;
+                    else if($unique) $unique_list[$unique][] = $name;
                     else if($index) $index_list[$index][] = $name;
                 }
 
+				if(count($primary_list)) 
+				{
+					$column_schema[] = sprintf("primary key (%s)", '"'.implode($primary_list,'","').'"');
+				}				
+				
                 $schema = sprintf('create table [%s] (xe_seq int identity(1,1),%s%s)', $this->addQuotes($table_name), "\n", implode($column_schema,",\n"));
                 $output = $this->_query($schema);
                 if(!$output) return false;
