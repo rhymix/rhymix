@@ -367,7 +367,7 @@
 					$column_schema[] = sprintf("primary key (%s)", '"'.implode($primary_list,'","').'"');
 				}				
 				
-                $schema = sprintf('create table [%s] (xe_seq int identity(1,1),%s%s)', $this->addQuotes($table_name), "\n", implode($column_schema,",\n"));
+                $schema = sprintf('create table [%s] (%s%s)', $this->addQuotes($table_name), "\n", implode($column_schema,",\n"));
                 $output = $this->_query($schema);
                 if(!$output) return false;
 
