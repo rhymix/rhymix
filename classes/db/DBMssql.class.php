@@ -525,6 +525,7 @@
 				}
 
 				$count_query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
+				$this->param = $queryObject->getArguments();
 				$result_count = $this->_query($count_query, $connection);
 				$count_output = $this->_fetch($result_count);
 				$total_count = (int)$count_output->count;
@@ -555,6 +556,7 @@
 				$start_count = ($page - 1) * $list_count;
 
 				$query .= (__DEBUG_QUERY__&1 && $queryObject->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
+				$this->param = $queryObject->getArguments();
 				$result = $this->_query ($query, $connection);
 				if ($this->isError ())
 					return $this->queryError($queryObject);
