@@ -1162,7 +1162,7 @@
             // Back up the value of $Output->data->is_register
             $is_register = $output->data->is_register;
 
-            $output = $this->updateMemberPassword($args);
+            $output = executeQuery('member.updateMemberPassword', $args);
             if(!$output->toBool()) return $this->stop($output->getMessage());
             // Remove all values having the member_srl from authentication table
             executeQuery('member.deleteAuthMail',$args);
