@@ -9,7 +9,7 @@
 	<input type="hidden" name="module_srl" value="{$module_srl}" />
 	<input type="hidden" name="admin_member" value="<!--@foreach($admin_member as $key => $val)--><!--@if($member_config->identifier == 'email_address')-->{$val->email_address},<!--@else-->{$val->user_id},<!--@end--><!--@end-->" />
 	
-	<h3 class="h3">{$lang->module_admin}</h3>
+	<h2 class="h2">{$lang->module_admin}</h2>
 	<p>{$lang->about_admin_id}</p>
 	<ul>
 		<li>
@@ -33,7 +33,7 @@
 			</p>
 		</li>
 	</ul>
-	<h3 class="h3">{$lang->permission_setting}</h3>
+	<h2 class="h2">{$lang->permission_setting}</h2>
 	<p>{$lang->about_grant_deatil}</p>
 	<div class="table">
 		<table width="100%" border="1" cellspacing="0">

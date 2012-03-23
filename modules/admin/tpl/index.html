@@ -1,7 +1,4 @@
-<!--#include("./_spHeader.html")-->
-
-
-
+<include target="./_spHeader.html" />
 <div class="content dashboard" id="content">
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 <p>{$XE_VALIDATOR_MESSAGE}</p>
@@ -28,7 +25,7 @@
 			<!--@if($value->need_install)-->
 			<li style="margin:0 0 4px 0;">{$value->module} - <span class="btn"><button type="button" onclick="doInstallModule('{$value->module}')">{$lang->cmd_create_db_table}</button></span></li>
 			<!--@else if($value->need_update)-->
-			<li style="margin:0 0 4px 0;">{$value->module} - <span class="btn"><button type="button" onclick="doUpdateModule('{$value->module}')">{$lang->cmd_module_update}</button></li>
+			<li style="margin:0 0 4px 0;">{$value->module} - <span class="btn"><button type="button" onclick="doUpdateModule('{$value->module}')">{$lang->cmd_module_update}</button></span></li>
 			<!--@end-->
 		<!--@end-->
 		</ul>
@@ -52,16 +49,14 @@
 				{@$document = $value->variables}
 				<li>
 					<a href="{getUrl('', 'document_srl', $document['document_srl'])}" target="_blank"><!--@if(trim($value->getTitle()))-->{$value->getTitle()}<!--@else--><strong>{$lang->no_title_document}</strong><!--@end--></a> <span class="side">{$document['nick_name']}</span>
-					<span class="action">
-						<form>
+					<form class="action">
 						<input type="hidden" name="module" value="admin" />
 						<input type="hidden" name="act" value="procDocumentManageCheckedDocument" />
 						<input type="hidden" name="cart[]" value="{$document['document_srl']}" />
 						<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin')}" />
 						<button type="submit" name="type" value="trash" class="text">{$lang->cmd_trash}</button>
 						<button type="submit" name="type" value="delete" class="text">{$lang->cmd_delete}</button>
-						</form>
-					</span>
+					</form>
 				</li>
 				<!--@end-->
 				<li cond="!is_array($latestDocumentList) || count($latestDocumentList) < 1">{$lang->no_data}</li>
@@ -73,16 +68,14 @@
 				<!--@foreach($latestCommentList AS $key=>$value)-->
 				<li>
 					<a href="{getUrl('', 'document_srl', $value->document_srl)}#comment_{$value->comment_srl}" target="_blank"><!--@if(trim($value->content))-->{$value->getSummary()}<!--@else--><strong>{$lang->no_text_comment}</strong><!--@end--></a> <span class="side">{$value->nick_name}</span> 
-					<span class="action">
-						<form>
+					<form class="action">
 						<input type="hidden" name="module" value="admin" />
 						<input type="hidden" name="act" value="procCommentAdminDeleteChecked" />
 						<input type="hidden" name="cart[]" value="{$value->comment_srl}" />
 						<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin')}" />
 						<button type="submit" name="is_trash" value="true" class="text">{$lang->cmd_trash}</button>
 						<button type="submit" name="is_trash" value="false" class="text">{$lang->cmd_delete}</button>
-						</form>
-					</span>
+					</form>
 				</li>
 				<!--@end-->
 				<li cond="!is_array($latestCommentList) || count($latestCommentList) < 1">{$lang->no_data}</li>
@@ -94,15 +87,13 @@
 				<!--@foreach($latestTrackbackList AS $key=>$value)-->
 				<li>
 					<a href="{$value->url}" target="_blank">{$value->title}</a> <span class="side">{$value->blog_name}</span>
-					<span class="action">
-						<form>
+					<form class="action">
 						<input type="hidden" name="module" value="admin" />
 						<input type="hidden" name="act" value="procTrackbackAdminDeleteChecked" />
 						<input type="hidden" name="cart[]" value="{$value->trackback_srl}" />
 						<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin')}" />
 						<button type="submit" class="text">{$lang->cmd_delete}</button>
-						</form>
-					</span>
+					</form>
 				</li>
 				<!--@end-->
 				<li cond="!is_array($latestTrackbackList) || count($latestTrackbackList) < 1">{$lang->no_data}</li>
@@ -110,4 +101,4 @@
 		</div>
 	</div>
 </div>
-<!--#include("./_spFooter.html")-->
+<include target="./_spFooter.html" />

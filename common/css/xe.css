@@ -1,39 +1,25 @@
 @charset "utf-8";
+/* NHN (developers@xpressengine.com) */
 /* Element Reset */
 body,table,input,textarea,select,button{font-family:Tahoma,Geneva,sans-serif;font-size:12px}
 body{word-break:break-all;word-wrap:break-word}
-img{border:0}
+img{border:0;max-width:100%;height:auto}
+/* Button Area */
+.btnArea{margin:1em 0;text-align:right;zoom:1;clear:both}
+.btnArea:after{content:"";display:block;clear:both}
+.btnArea .etc{float:left}
 /* Button */
 .btn{position:relative;display:inline-block;vertical-align:middle}
 .btn *{display:inline-block;padding:0 8px;font-size:12px;height:24px;line-height:22px;margin:0;font-weight:bold !important;color:#fff;text-decoration:none !important;border:1px solid;cursor:pointer;overflow:visible;border-radius:3px;box-shadow:inset 0 0 1px #fff;background-color:#666;text-shadow:0 -1px 0 #333;zoom:1}
-.btn *[type=submit][disabled=disabled],
-.btn *[type=button][disabled=disabled]{opacity:.5;*filter:alpha(opacity=50)}
+.btn *[disabled=disabled]{opacity:.5;*filter:alpha(opacity=50)}
 .btn a, 
-.btn input[type=button],
-.btn button[type=button]{border-color:#ccc;color:#333 !important;background:#eee -webkit-gradient(linear,0% 0%,0% 100%,from(#fff),to(#ddd));background:#eee -moz-linear-gradient(top,#fff,#ddd);background-color:#eee;text-shadow:1px 1px 0 #fff;filter:progid:DXImageTransform.Microsoft.gradient(startColorStr=#ffffff, endColorStr=#dddddd)}
-.btn input[type=submit], 
-.btn button[type=submit]{border-color:#666;background:#333 -webkit-gradient(linear,0% 0%,0% 100%,from(#777),to(#777),color-stop(0.5,#333),color-stop(0.5,#000)) !important;background:#333 -moz-linear-gradient(top,#777,#000) !important;background-color:#333 !important;color:#ffc !important;filter:progid:DXImageTransform.Microsoft.gradient(startColorStr=#777777, endColorStr=#333333)}
+.btn *[type=button]{border-color:#ccc;color:#333 !important;background:#eee -webkit-gradient(linear,0% 0%,0% 100%,from(#fff),to(#ddd));background:#eee -moz-linear-gradient(top,#fff,#ddd);background-color:#eee;text-shadow:1px 1px 0 #fff;filter:progid:DXImageTransform.Microsoft.gradient(startColorStr=#ffffff, endColorStr=#dddddd)}
+.btn *[type=submit]{border-color:#666;background:#333 -webkit-gradient(linear,0% 0%,0% 100%,from(#777),to(#777),color-stop(0.5,#333),color-stop(0.5,#000)) !important;background:#333 -moz-linear-gradient(top,#777,#000) !important;background-color:#333 !important;color:#ffc !important;filter:progid:DXImageTransform.Microsoft.gradient(startColorStr=#777777, endColorStr=#333333)}
 .btn a{height:22px}
 .btn.medium *{padding:0 12px;font-size:16px;height:30px;line-height:28px}
 .btn.medium a{height:28px}
 .btn.large *{padding:0 18px;font-size:22px;height:36px;line-height:34px}
 .btn.large a{height:34px}
-/* Button - Regucy */
-span.button,
-a.button{position:relative;display:inline-block;vertical-align:top}
-span.button *,
-a.button *{display:inline-block;padding:0 8px;font-size:12px;height:24px;line-height:22px;margin:0;font-weight:bold !important;color:#fff;text-decoration:none !important;border:1px solid;cursor:pointer;overflow:visible;border-radius:3px;box-shadow:inset 0 0 1px #fff;background-color:#666;text-shadow:0 -1px 0 #333;zoom:1}
-span.button *[type=submit][disabled=disabled],
-span.button *[type=button][disabled=disabled]{opacity:.5;*filter:alpha(opacity=50)}
-a.button span, 
-span.button button[type=button]{border-color:#ccc;color:#333 !important;background:#eee -webkit-gradient(linear,0% 0%,0% 100%,from(#fff),to(#ddd));background:#eee -moz-linear-gradient(top,#fff,#ddd);background-color:#eee;text-shadow:1px 1px 0 #fff;filter:progid:DXImageTransform.Microsoft.gradient(startColorStr=#ffffff, endColorStr=#dddddd)}
-span.button input, 
-span.button button[type=submit]{border-color:#666;background:#333 -webkit-gradient(linear,0% 0%,0% 100%,from(#777),to(#777),color-stop(0.5,#333),color-stop(0.5,#000));background:#333 -moz-linear-gradient(top,#777,#000);background-color:#333;color:#ffc !important;filter:progid:DXImageTransform.Microsoft.gradient(startColorStr=#777777, endColorStr=#333333)}
-a.button span{height:22px}
-/* Button Area */
-.btnArea{margin:1em 0;text-align:right;zoom:1}
-.btnArea:after{content:"";display:block;clear:both}
-.btnArea .etc{float:left}
 /* Text Button */
 input[type=submit].text,
 input[type=button].text, 
@@ -49,7 +35,6 @@ button[type=button].text{border:0;overflow:visible;padding:0;margin:0 4px 0 0;co
 #popup_menu_area a:focus{text-decoration:underline}
 /* Message */
 .message{border:1px solid #ddd;background:#f8f8f8;margin:1em 0;padding:0 1em;border-radius:5px;line-height:1.4;font-size:12px}
-body>.message{margin:1em}
 .message p{margin:1em 0 !important}
 .message em{font-style:normal;color:#e00}
 .message.info,

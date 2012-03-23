@@ -348,21 +348,26 @@
                     $default = $column->attrs->default;
                     $auto_increment = $column->attrs->auto_increment;
 
-                    $column_schema[] = sprintf('[%s] %s%s %s %s %s %s',
+                    $column_schema[] = sprintf('[%s] %s%s %s %s %s',
                     $name,
                     $this->column_type[$type],
                     !in_array($type,array('number','text'))&&$size?'('.$size.')':'',
-                    $primary_key?'primary key':'',
                     isset($default)?"default '".$default."'":'',
                     $notnull?'not null':'null',
                     $auto_increment?'identity(1,1)':''
                     );
 
-                    if($unique) $unique_list[$unique][] = $name;
+					if($primary_key) $primary_list[] = $name;
+                    else if($unique) $unique_list[$unique][] = $name;
                     else if($index) $index_list[$index][] = $name;
                 }
 
-                $schema = sprintf('create table [%s] (xe_seq int identity(1,1),%s%s)', $this->addQuotes($table_name), "\n", implode($column_schema,",\n"));
+				if(count($primary_list)) 
+				{
+					$column_schema[] = sprintf("primary key (%s)", '"'.implode($primary_list,'","').'"');
+				}				
+				
+                $schema = sprintf('create table [%s] (%s%s)', $this->addQuotes($table_name), "\n", implode($column_schema,",\n"));
                 $output = $this->_query($schema);
                 if(!$output) return false;
 
@@ -403,6 +408,27 @@
             return $this->_query($query);
         }
 
+    	function getUpdateSql($query, $with_values = true, $with_priority = false){
+			$columnsList = $query->getUpdateString($with_values);
+			if($columnsList == '') return new Object(-1, "Invalid query");
+
+			$from = $query->getFromString($with_values);
+			if($from == '') return new Object(-1, "Invalid query");
+
+			$tables = $query->getTables();
+			$alias_list = '';
+			foreach($tables as $table)
+				$alias_list .= $table->getAlias();
+			join(',', split(' ', $alias_list));
+			
+			$where = $query->getWhereString($with_values);
+			if($where != '') $where = ' WHERE ' . $where;
+
+			$priority = $with_priority?$query->getPriority():'';
+
+			return "UPDATE $priority $alias_list SET $columnsList FROM ".$from.$where;
+		}		
+		
         /**
          * @brief Handle deleteAct
          **/
@@ -499,6 +525,7 @@
 				}
 
 				$count_query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
+				$this->param = $queryObject->getArguments();
 				$result_count = $this->_query($count_query, $connection);
 				$count_output = $this->_fetch($result_count);
 				$total_count = (int)$count_output->count;
@@ -529,6 +556,7 @@
 				$start_count = ($page - 1) * $list_count;
 
 				$query .= (__DEBUG_QUERY__&1 && $queryObject->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
+				$this->param = $queryObject->getArguments();
 				$result = $this->_query ($query, $connection);
 				if ($this->isError ())
 					return $this->queryError($queryObject);
