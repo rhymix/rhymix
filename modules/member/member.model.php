@@ -252,6 +252,11 @@
                     }
                 }
 
+				if(strlen($info->find_account_answer) == 32 && preg_match('/[a-zA-Z0-9]+/', $info->find_account_answer))
+				{
+					$info->find_account_answer = null;
+				}
+
 				// XSS defence
 				$oSecurity = new Security($info);
 				$oSecurity->encodeHTML('user_name', 'nick_name', 'find_account_answer', 'description', 'address.', 'group_list..');

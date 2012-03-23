@@ -1710,11 +1710,6 @@
 			if (!$args->user_id) $args->user_id = 't'.$args->member_srl;
 			if (!$args->user_name) $args->user_name = $args->member_srl;
 
-			if(trim($args->find_account_answer))
-			{
-				$args->find_account_answer = md5($args->find_account_answer);
-			}
-
             $output = executeQuery('member.insertMember', $args);
             if(!$output->toBool()) {
                 $oDB->rollback();
