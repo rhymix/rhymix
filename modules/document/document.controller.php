@@ -170,7 +170,7 @@ class documentController extends document {
 			{
 				return new Object(-1, 'msg_not_permitted');
 			}
-			if(!$category_list[$obj->category_srl]) $obj->category_srl = 0;
+			if(count($category_list) > 0 && !$category_list[$obj->category_srl]) $obj->category_srl = 0;
 		}
 		// Set the read counts and update order.
 		if(!$obj->readed_count) $obj->readed_count = 0;
