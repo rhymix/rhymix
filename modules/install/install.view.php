@@ -34,7 +34,11 @@
 			if(file_exists($install_config_file)){
 				include $install_config_file;
 				if(is_array($install_config)){
-					foreach($install_config as $k => $v) Context::set($k,$v,true);
+					foreach($install_config as $k => $v) 
+					{
+						$v = ($k == 'db_table_prefix') ? $v.'_' : $v;
+						Context::set($k,$v,true);
+					}
 					unset($GLOBALS['__DB__']);
 					Context::set('install_config', true, true);
 					$oInstallController = &getController('install');
