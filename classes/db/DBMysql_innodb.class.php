@@ -8,6 +8,8 @@
      * @version 0.1
      *
      * mysql innodb handling class
+	 * 
+	 * Does not use prepared statements since the mysql driver does not support them
      **/
 
     class DBMysql_innodb extends DBMysql {

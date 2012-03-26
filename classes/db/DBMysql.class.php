@@ -6,6 +6,8 @@
      * @version 0.1
      *
      * mysql handling class
+	 * 
+	 * Does not use prepared statements, since mysql driver does not support them
      **/
 
     class DBMysql extends DB {
