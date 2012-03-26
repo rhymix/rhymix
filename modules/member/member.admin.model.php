@@ -91,12 +91,12 @@
             }
 
 			if(!$sort_order) {
-				$sort_order = 'desc';
+				$sort_order = 'asc';
 			}
 
-            if($sort_order != 'desc')
+            if($sort_order != 'asc')
 			{
-				$sort_order = 'asc';
+				$sort_order = 'desc';
 			}
 
             if($args->selected_group_srl) {
