@@ -1,13 +1,13 @@
 function getEditorSkinColorList(skin_name,selected_colorset,type,testid){
-    if(skin_name.length>0){
-        type = type || 'document';
-        var response_tags = new Array('error','message','colorset');
-        exec_xml('editor','dispEditorSkinColorset',{skin:skin_name},resultGetEditorSkinColorList,response_tags,{'selected_colorset':selected_colorset,'type':type,'testid':testid});
-    }
+	if(skin_name.length>0){
+		type = type || 'document';
+		var response_tags = new Array('error','message','colorset');
+		exec_xml('editor','dispEditorSkinColorset',{skin:skin_name},resultGetEditorSkinColorList,response_tags,{'selected_colorset':selected_colorset,'type':type,'testid':testid});
+	}
 }
 
 function resultGetEditorSkinColorList(ret_obj,response_tags, params) {
-    var selectbox = null;
+	var selectbox = null;
 	jQuery(function($){
 		if(params.testid){
 			selectbox = $("#"+params.testid).next('label').next('select');

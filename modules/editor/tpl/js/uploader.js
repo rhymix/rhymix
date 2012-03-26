@@ -21,7 +21,7 @@ var defaultHandlers;
 
 function init(cfg, exe) {
 	var seq = cfg.editorSequence;
-	
+
 	if(!is_def(seq)) return;
 
 	cfg = $.extend({
@@ -33,7 +33,7 @@ function init(cfg, exe) {
 		insertedFiles   : 0
 	}, cfg);
 
-    uploadSettingObj[seq] = cfg;
+	uploadSettingObj[seq] = cfg;
 	$(function(){ start(cfg) });
 
 }
@@ -50,7 +50,6 @@ function start(cfg) {
 
 	settings = {
 		flash_url   : request_uri + 'modules/editor/tpl/images/SWFUpload.swf',
-		upload_url  : request_uri.replace(/^https/i, 'http')+'index.php',
 		post_params : {
 			mid : current_mid,
 			act : 'procFileUpload',
@@ -87,6 +86,14 @@ function start(cfg) {
 		previewAreaID    : cfg.previewAreaID,
 		uploaderStatusID : cfg.uploaderStatusID
 	};
+	if(typeof(enforce_ssl) != "undefined" && enforce_ssl == TRUE)
+	{
+		settings.upload_url = request_uri+'index.php';
+	}
+	else
+	{
+		settings.upload_url = request_uri.replace(/^https/i, 'http')+'index.php';
+	}
 
 	// preview
 	$('#'+cfg.fileListAreaID).click(previewFiles);
@@ -347,7 +354,7 @@ function previewFiles(event, file_srl) {
 	if(fileinfo.direct_download != 'Y' || !match) {
 		html = '<img src="'+request_uri+'modules/editor/tpl/images/files.gif" border="0" width="100%" height="100%" />';
 	} else if(match[1]) { // flash video file
-        html = '<embed src="'+request_uri+'common/img/flvplayer.swf?autoStart=false&file='+uploaded_filename+'" width="100%" height="100%" type="application/x-shockwave-flash" />';
+		html = '<embed src="'+request_uri+'common/img/flvplayer.swf?autoStart=false&file='+uploaded_filename+'" width="100%" height="100%" type="application/x-shockwave-flash" />';
 	} else if(match[2]) { // shockwave flash file
 		html = '<embed src="'+request_uri+filename+'" width="100%" height="100%" type="application/x-shockwave-flash"  />';
 	} else if(match[3]) { // movie file
@@ -387,57 +394,57 @@ function removeUploadedFile(editorSequence) {
 
 function insertUploadedFile(editorSequence) {
 
-    var settings = uploaderSettings[editorSequence];
-    var fileListAreaID = settings["fileListAreaID"];
-    var fileListObj = get_by_id(fileListAreaID);
-    if(!fileListObj) return;
+	var settings = uploaderSettings[editorSequence];
+	var fileListAreaID = settings["fileListAreaID"];
+	var fileListObj = get_by_id(fileListAreaID);
+	if(!fileListObj) return;
 
-    if(editorMode[editorSequence]=='preview') return;
+	if(editorMode[editorSequence]=='preview') return;
 
-    var text = new Array();
-    for(var i=0;i<fileListObj.options.length;i++) {
-        if(!fileListObj.options[i].selected) continue;
-        var file_srl = fileListObj.options[i].value;
-        if(!file_srl) continue;
+	var text = new Array();
+	for(var i=0;i<fileListObj.options.length;i++) {
+		if(!fileListObj.options[i].selected) continue;
+		var file_srl = fileListObj.options[i].value;
+		if(!file_srl) continue;
 
-        var file = uploadedFiles[file_srl];
-        editorFocus(editorSequence);
+		var file = uploadedFiles[file_srl];
+		editorFocus(editorSequence);
 
-        // 바로 링크 가능한 파일의 경우 (이미지, 플래쉬, 동영상 등..)
-        if(file.direct_download == 'Y') {
-            // 이미지 파일의 경우 image_link 컴포넌트 열결
-            if(/\.(jpg|jpeg|png|gif)$/i.test(file.download_url)) {
-                if(loaded_images[file_srl]) {
-                    var obj = loaded_images[file_srl];
-                }
-                else {
-                    var obj = new Image();
-                    obj.src = file.download_url;
-                }
-                temp_code = '';
-                temp_code += "<img src=\""+file.download_url+"\" alt=\""+file.source_filename+"\"";
-                if(obj.complete == true) { temp_code += " width=\""+obj.width+"\" height=\""+obj.height+"\""; }
-                temp_code += " />\r\n";
-                text.push(temp_code);
-            // 이미지외의 경우는 multimedia_link 컴포넌트 연결
-            } else {
-                text.push("<img src=\"common/img/blank.gif\" editor_component=\"multimedia_link\" multimedia_src=\""+file.download_url+"\" width=\"400\" height=\"320\" style=\"display:block;width:400px;height:320px;border:2px dotted #4371B9;background:url(./modules/editor/components/multimedia_link/tpl/multimedia_link_component.gif) no-repeat center;\" auto_start=\"false\" alt=\"\" />");
-            }
+		// 바로 링크 가능한 파일의 경우 (이미지, 플래쉬, 동영상 등..)
+		if(file.direct_download == 'Y') {
+			// 이미지 파일의 경우 image_link 컴포넌트 열결
+			if(/\.(jpg|jpeg|png|gif)$/i.test(file.download_url)) {
+				if(loaded_images[file_srl]) {
+					var obj = loaded_images[file_srl];
+				}
+				else {
+					var obj = new Image();
+					obj.src = file.download_url;
+				}
+				temp_code = '';
+				temp_code += "<img src=\""+file.download_url+"\" alt=\""+file.source_filename+"\"";
+				if(obj.complete == true) { temp_code += " width=\""+obj.width+"\" height=\""+obj.height+"\""; }
+				temp_code += " />\r\n";
+				text.push(temp_code);
+			// 이미지외의 경우는 multimedia_link 컴포넌트 연결
+			} else {
+				text.push("<img src=\"common/img/blank.gif\" editor_component=\"multimedia_link\" multimedia_src=\""+file.download_url+"\" width=\"400\" height=\"320\" style=\"display:block;width:400px;height:320px;border:2px dotted #4371B9;background:url(./modules/editor/components/multimedia_link/tpl/multimedia_link_component.gif) no-repeat center;\" auto_start=\"false\" alt=\"\" />");
+			}
 
-        // binary파일의 경우 url_link 컴포넌트 연결
-        } else {
-            text.push("<a href=\""+file.download_url+"\">"+file.source_filename+"</a>\n");
-        }
-    }
+		// binary파일의 경우 url_link 컴포넌트 연결
+		} else {
+			text.push("<a href=\""+file.download_url+"\">"+file.source_filename+"</a>\n");
+		}
+	}
 
-    // html 모드
-    if(editorMode[editorSequence]=='html'){
-        if(text.length>0) get_by_id('editor_textarea_'+editorSequence).value += text.join('');
+	// html 모드
+	if(editorMode[editorSequence]=='html'){
+		if(text.length>0) get_by_id('editor_textarea_'+editorSequence).value += text.join('');
 
-    // 위지윅 모드
-    }else{
-        var iframe_obj = editorGetIFrame(editorSequence);
-        if(!iframe_obj) return;
-        if(text.length>0) editorReplaceHTML(iframe_obj, text.join(''));
-    }
+	// 위지윅 모드
+	}else{
+		var iframe_obj = editorGetIFrame(editorSequence);
+		if(!iframe_obj) return;
+		if(text.length>0) editorReplaceHTML(iframe_obj, text.join(''));
+	}
 }
