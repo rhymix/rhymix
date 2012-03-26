@@ -294,6 +294,19 @@
 			if(!isset($this->arguments)){
 				$this->arguments = array();
 
+				// Join table arguments
+				if(count($this->tables) > 0)
+				{
+					foreach($this->tables as $table)
+					{
+						if($table->isJoinTable())
+						{
+							$args = $table->getArguments();
+							if($args) $this->arguments = array_merge($this->arguments, $args);
+						}
+					}
+				}
+				
 				// Column arguments
 				if(count($this->columns) > 0){ // The if is for delete statements, all others must have columns
 					foreach($this->columns as $column){
