@@ -1,46 +1,46 @@
 {'<?xml version="1.0" encoding="UTF-8" ?>'}
 
 <rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:slash="http://purl.org/rss/1.0/modules/slash/">
-    <channel>
-        <title>{$info->title}</title>
-        <link>{$info->link}</link>
-        <description>{$info->description}</description>
-        <language>{$info->language}</language>
-        <pubDate>{$info->date}</pubDate>
-        <lastBuildDate>{$info->date}</lastBuildDate>
-        <generator>XpressEngine</generator>
-        <!--@if($info->feed_copyright)-->
-        <copyright>{$info->feed_copyright}</copyright>
-        <!--@end-->
-        <!--@if($info->image)-->
-        <image>
-            <url>{$info->image}</url>
-            <title>{$info->title}</title>
-            <link>{$info->link}</link>
-        </image>
-        <!--@end-->
-        <!--@foreach($document_list as $oDocument)-->
-        <item>
-            <title>{str_replace('\'', '&apos;',htmlspecialchars($oDocument->getTitleText()))}</title>
-            <dc:creator>{str_replace('\'', '&apos;',$oDocument->getNickName())}</dc:creator>
-            <link>{$oDocument->getPermanentUrl()}</link>
-            <guid isPermaLink="true">{$oDocument->getPermanentUrl()}</guid>
-            <!--@if($oDocument->allowComment()) -->
-            <comments>{$oDocument->getPermanentUrl()}#comment</comments>
-            <!--@end-->
-            <!--@if($open_rss_config[$oDocument->get('module_srl')]=='Y')-->
-            <description>{str_replace('\'', '&apos;', htmlspecialchars($oDocument->getTransContent(false,false,true)))}</description>
-            <!--@else-->
-            <description>{str_replace('\'', '&apos;', htmlspecialchars($oDocument->getContentText(100)))}</description>
-            <!--@end-->
-            <pubDate>{$oDocument->getRegdateGM()}</pubDate>
-            <!--@foreach($oDocument->get('tag_list') as $tag)-->
-            <category>{str_replace('\'', '&apos;', htmlspecialchars($tag))}</category>
-            <!--@end-->
-            <!--@if($oDocument->getCommentcount()>0)-->
-            <slash:comments>{$oDocument->getCommentcount()}</slash:comments>
-            <!--@end-->
-        </item>
-        <!--@end-->
-    </channel>
+	<channel>
+		<title>{$info->title}</title>
+		<link>{$info->link}</link>
+		<description>{$info->description}</description>
+		<language>{$info->language}</language>
+		<pubDate>{$info->date}</pubDate>
+		<lastBuildDate>{$info->date}</lastBuildDate>
+		<generator>XpressEngine</generator>
+		<!--@if($info->feed_copyright)-->
+		<copyright>{$info->feed_copyright}</copyright>
+		<!--@end-->
+		<!--@if($info->image)-->
+		<image>
+			<url>{$info->image}</url>
+			<title>{$info->title}</title>
+			<link>{$info->link}</link>
+		</image>
+		<!--@end-->
+		<!--@foreach($document_list as $oDocument)-->
+		<item>
+			<title>{str_replace('\'', '&apos;',htmlspecialchars($oDocument->getTitleText()))}</title>
+			<dc:creator>{str_replace('\'', '&apos;',$oDocument->getNickName())}</dc:creator>
+			<link>{$oDocument->getPermanentUrl()}</link>
+			<guid isPermaLink="true">{$oDocument->getPermanentUrl()}</guid>
+			<!--@if($oDocument->allowComment()) -->
+			<comments>{$oDocument->getPermanentUrl()}#comment</comments>
+			<!--@end-->
+			<!--@if($open_rss_config[$oDocument->get('module_srl')]=='Y')-->
+			<description>{str_replace('\'', '&apos;', htmlspecialchars($oDocument->getTransContent(false,false,true)))}</description>
+			<!--@else-->
+			<description>{str_replace('\'', '&apos;', htmlspecialchars($oDocument->getContentText(100)))}</description>
+			<!--@end-->
+			<pubDate>{$oDocument->getRegdateGM()}</pubDate>
+			<!--@foreach($oDocument->get('tag_list') as $tag)-->
+			<category>{str_replace('\'', '&apos;', htmlspecialchars($tag))}</category>
+			<!--@end-->
+			<!--@if($oDocument->getCommentcount()>0)-->
+			<slash:comments>{$oDocument->getCommentcount()}</slash:comments>
+			<!--@end-->
+		</item>
+		<!--@end-->
+	</channel>
 </rss>
