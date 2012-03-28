@@ -1,0 +1,51 @@
+<load target="css/Blue/layout.css" cond="$layout_info->colorset=='blue' || !$layout_info->colorset" />
+<load target="css/Gray/layout.css" cond="$layout_info->colorset=='gray'" />
+<load target="css/Red/layout.css" cond="$layout_info->colorset=='red'" />
+<load target="css/Orange/layout.css" cond="$layout_info->colorset=='orange'" />
+<load target="css/nGreenA/layout.css" cond="$layout_info->colorset=='ngreena'" />
+<load target="css/nGreenB/layout.css" cond="$layout_info->colorset=='ngreenb'" />
+<load target="../../common/js/jquery.min.js" index="-1" />
+<load target="js/jquery.ba-resize.min.js" />
+<load target="js/layout.js" />
+<div class="skip"><a href="#ct">Skip to Content</a></div>
+<header class="lo_head">
+    <a href="{$layout_info->index_url}" class="btn_home">Home</a>
+
+<!--@if($layout_info->menu->main_menu->menu_srl)-->
+    <!--@if($act=='dispMenuMenu')-->
+    <a class="btn_menu" href="#" onclick="history.back(); return false;" title="돌아가기"><span class="b">Back</span></a>
+    <!--@else-->
+    <a class="btn_menu" href="{getUrl('act','dispMenuMenu','menu_srl',$layout_info->menu->main_menu->menu_srl)}" title="메뉴"><span class="m">Menu</span></a>
+    <!--@end-->
+<!--@end-->
+    <h1 cond="$layout_info->logo_image" class="title"><a href="{$layout_info->index_url}" class="img"><img src="img/@xe_logo.png"></a></h1>
+    <h1 cond="$layout_info->index_title" class="title"><a href="{$layout_info->index_url}" class="txt">{$layout_info->index_title}</a></h1>
+
+</header>
+<hr class="head_hr" />
+<section id="ct" class="ct">
+{$content}
+</section>
+<footer class="lo_foot">
+    <ul class="link">
+    <!--@if($is_logged)-->
+    <li><a href="{getUrl('act','dispMemberLogout')}">{$lang->cmd_logout}</a></li>
+    <!--@elseif($act!='dispMemberLoginForm')-->
+    <li><a href="{getUrl('act','dispMemberLoginForm')}" >{$lang->cmd_login}</a></li>
+    <!--@end-->
+    <li><a href="{getUrl('m',0)}">PC</a></li>
+    <li class="lang off">
+        <a href="#" onclick="return false;" title="{$lang_type}">{$lang_supported[$lang_type]} <i class="icon_arr_draw"></i></a>
+        <ul class="lang_lst">
+        <!--@foreach($lang_supported as $key=>$val)-->
+               
+                <li cond="$key != $lang_type"><a href="{getUrl('act',$oldact,'l',$key)}">{$val}</a></li>
+                
+        <!--@end-->
+        </ul>
+    </li>
+    </ul>
+    <p class="cr">{$layout_info->footer_title}</p>
+</footer>
+</body>
+</html>

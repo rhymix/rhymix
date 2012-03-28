@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout version="0.2">
+    <title xml:lang="ko">XE Color Code 모바일 레이아웃</title>
+    <title xml:lang="en">XE Color Code Mobile layout</title>
+    <title xml:lang="jp">XE Color Code レイアウト</title>
+    <title xml:lang="zh-CN">XE Color Code 移动布局</title>
+    <title xml:lang="zh-TW">XE Color Code 移动布局</title>
+    <description xml:lang="ko">
+        XE Color Code 모바일 레이아웃입니다.
+        NHN (developers@xpressengine.com) 
+    </description>
+    <description xml:lang="jp">
+        XEの Color Code レイアウトです。
+        제작 : NHN
+    </description>
+    <description xml:lang="en">
+        This layout is the XE Color Code Mobile layout for XE.
+        NHN (developers@xpressengine.com) 
+    </description>
+    <description xml:lang="zh-CN">
+        XE Color Code 移动布局
+        NHN (developers@xpressengine.com) 
+    </description>
+    <description xml:lang="zh-TW">
+        XE Color Code 官方網站版面。
+        NHN (developers@xpressengine.com) 
+    </description>
+    <version>0.1</version>
+    <date>2012-03-14</date>
+    <link>http://xpressengine.com/</link>
+
+    <author email_address="developers@xpressengine.com" link="http://xpressengine.com/">
+        <name xml:lang="ko">NHN</name>
+        <name xml:lang="en">NHN</name>
+        <name xml:lang="zh-CN">NHN</name>
+        <name xml:lang="zh-TW">NHN</name>
+    </author>
+    <extra_vars>
+        <var name="index_title" type="text">
+            <title xml:lang="ko">홈페이지 Title</title>
+            <title xml:lang="en">Homepage Title</title>
+            <title xml:lang="jp">ホームページタイトル</title>
+            <title xml:lang="zh-CN">网站标题</title>
+            <title xml:lang="zh-TW">首頁標題</title>
+        </var>
+
+        <var name="footer_title" type="text">
+            <title xml:lang="ko">하단 텍스트</title>
+            <title xml:lang="jp">下端 Text</title>
+            <title xml:lang="en">Footer Text</title>
+            <title xml:lang="zh-CN">底部文本</title>
+            <title xml:lang="zh-TW">底部文本</title>
+        </var>
+
+        <var name="colorset" type="select">
+            <title xml:lang="ko">컬러셋</title>
+            <title xml:lang="jp">カラーセット</title>
+            <title xml:lang="zh-CN">颜色</title>
+            <title xml:lang="zh-TW">顏色設定</title>
+            <title xml:lang="en">Colorset</title>
+            <description xml:lang="ko">원하시는 컬러셋을 선택해주세요.</description>
+            <description xml:lang="jp">希望するカラーセットを選択して下さい。</description>
+            <description xml:lang="zh-CN">请选择颜色。</description>
+            <description xml:lang="zh-TW">請選擇顏色。</description>
+            <description xml:lang="en">Please select the colorset you want.</description>
+            <options value="blue">
+                <title xml:lang="ko">블루</title>
+                <title xml:lang="jp">ブルー[青]</title>
+                <title xml:lang="en">Blue</title>
+                <title xml:lang="zh-CN">蓝色</title>
+                <title xml:lang="zh-TW">藍色</title>
+            </options>
+            <options value="gray">
+                <title xml:lang="ko">그레이</title>
+                <title xml:lang="jp">グレー[灰色]</title>
+                <title xml:lang="en">Gray</title>
+                <title xml:lang="zh-CN">灰色</title>
+                <title xml:lang="zh-TW">灰色</title>
+            </options>
+            <options value="red">
+                <title xml:lang="ko">빨간색</title>
+                <title xml:lang="jp">レッド[赤]</title>
+                <title xml:lang="en">Red</title>
+                <title xml:lang="zh-CN">红色</title>
+                <title xml:lang="zh-TW">红色</title>
+            </options>
+            <options value="orange">
+                <title xml:lang="ko">오렌지</title>
+                <title xml:lang="jp">オレンジ</title>
+                <title xml:lang="en">Orange</title>
+                <title xml:lang="zh-CN">橙色</title>
+                <title xml:lang="zh-TW">橙色</title>
+            </options>
+            <options value="ngreena">
+                <title xml:lang="ko">네이버 그린 A</title>
+                <title xml:lang="jp">NAVER グリーン A</title>
+                <title xml:lang="en">nGreenA</title>
+                <title xml:lang="zh-CN">NAVER绿 A</title>
+                <title xml:lang="zh-TW">NAVER綠 A</title>
+            </options>
+            <options value="ngreenb">
+                <title xml:lang="ko">네이버 그린 B</title>
+                <title xml:lang="jp">NAVER グリーン B</title>
+                <title xml:lang="en">nGreenB</title>
+                <title xml:lang="zh-CN">NAVER绿 B</title>
+                <title xml:lang="zh-TW">NAVER綠 B</title>
+            </options>
+        </var>
+        <var name="logo_image" type="image">
+            <title xml:lang="ko">로고이미지</title>
+            <title xml:lang="jp">ロゴイメージ</title>
+            <title xml:lang="zh-CN">LOGO图片</title>
+            <title xml:lang="zh-TW">Logo圖片</title>
+            <title xml:lang="en">Logo image</title>
+            <description xml:lang="ko">레이아웃의 상단에 표시될 로고이미지를 입력하세요. (세로길이가 28px인 투명 이미지가 가장 어울립니다)</description>
+            <description xml:lang="jp">レイアウトの上段に表示されるロゴイメージを入力して下さい。 (縦幅が28pxである透明イメージをお勧めします。。)</description>
+            <description xml:lang="zh-CN">请输入显示在布局顶部的LOGO图片(高度为28px的透明图片为适)。</description>
+            <description xml:lang="zh-TW">請輸入要顯示在版面上端的 Logo 圖片。(適當高度為 28px 的透明圖片。)</description>
+            <description xml:lang="en">Please input a logo image which will be displayed on the top of the layout. (A transparent image with height of 28px is recommended.)</description>
+        </var>
+        <var name="index_url" type="text">
+            <title xml:lang="ko">홈 페이지 URL</title>
+            <title xml:lang="jp">ホームページURL</title>
+            <title xml:lang="zh-CN">主页地址</title>
+            <title xml:lang="zh-TW">主頁網址</title>
+            <title xml:lang="en">Homepage URL</title>
+            <description xml:lang="ko">로고를 클릭시에 이동할 홈 페이지 URL을 입력해 주세요.</description>
+            <description xml:lang="jp">ロゴをクリックした時に移動するホームページのURLを入力して下さい。</description>
+            <description xml:lang="zh-CN">点击网站LOGO时要移动的页面URL。</description>
+            <description xml:lang="zh-TW">請輸入當用戶按了網站 Logo 後，要前往的頁面網址。</description>
+            <description xml:lang="en">Please input the URL to redirect when user clicks the logo</description>
+        </var>
+    </extra_vars>
+    <menus>
+        <menu name="main_menu" maxdepth="3" default="true">
+            <title xml:lang="ko">상단 메뉴</title>
+            <title xml:lang="jp">上段用メニュー</title>
+            <title xml:lang="zh-CN">主菜单</title>
+            <title xml:lang="zh-TW">主選單</title>
+            <title xml:lang="en">Top menu</title>
+        </menu>
+    </menus>
+</layout>
