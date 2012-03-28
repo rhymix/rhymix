@@ -164,6 +164,53 @@
 		 **/
 		function __query($query, $connection)
 		{
+			if($this->use_prepared_statements == 'Y')
+			{
+				$req = @cubrid_prepare($connection, $query);
+				$position = 0;
+				if($this->param)
+				{
+					foreach($this->param as $param)
+					{
+						$value = $param->getUnescapedValue();
+						$type = $param->getType();
+
+						switch($type)
+							{
+								case 'number' : 
+												$bind_type = 'numeric'; 
+												break;
+								case 'varchar' : 
+												$bind_type = 'string'; 
+												break;
+								default: 
+												$bind_type = 'string';
+							}		
+
+						if(is_array($value)){
+							foreach($value as $v)
+							{
+								cubrid_bind($req, ++$position, $v, $bind_type);		
+							}
+						}
+						else
+						{
+							cubrid_bind($req, ++$position, $value, $bind_type);
+						}
+					}
+				}
+				
+				$result = @cubrid_execute($req);
+				if(!$result)
+				{
+					$code = cubrid_error_code ();
+					$msg = cubrid_error_msg ();
+
+					$this->setError ($code, $msg);
+				}
+				return $req;
+				
+			}
 			// Execute the query
 			$result = @cubrid_execute ($connection, $query);
 			// error check
@@ -185,6 +232,11 @@
 			$output = array();
 			if (!$this->isConnected() || $this->isError() || !$result) return array();
 
+			if($this->use_prepared_statements == 'Y')
+			{
+				
+			}
+			
 			// TODO Improve this piece of code
 			// This code trims values from char type columns
 			$col_types = cubrid_column_types ($result);
@@ -542,9 +594,14 @@
 		/**
 		 * @brief handles insertAct
 		 **/
-		function _executeInsertAct($queryObject)
+		function _executeInsertAct($queryObject, $with_values = true)
 		{
-			$query = $this->getInsertSql($queryObject);
+			if($this->use_prepared_statements == 'Y')
+			{
+				$this->param = $queryObject->getArguments();
+				$with_values = false;		
+			}
+			$query = $this->getInsertSql($queryObject, $with_values);
 			if(is_a($query, 'Object')) return;
 
 			$query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
@@ -553,22 +610,27 @@
 			if ($result && !$this->transaction_started) {
 				$this->_commit();
 			}
-
+			unset($this->param);
 			return $result;
 		}
 
 		/**
 		 * @brief handles updateAct
 		 **/
-		function _executeUpdateAct($queryObject)
+		function _executeUpdateAct($queryObject, $with_values = true)
 		{
-			$query = $this->getUpdateSql($queryObject);
+			if($this->use_prepared_statements == 'Y')
+			{
+				$this->param = $queryObject->getArguments();
+				$with_values = false;					
+			}
+			$query = $this->getUpdateSql($queryObject, $with_values);
 			if(is_a($query, 'Object')) return;
 
 			$result = $this->_query($query);
 
 			if ($result && !$this->transaction_started) $this->_commit();
-
+			unset($this->param);
 			return $result;
 		}
 
@@ -576,15 +638,21 @@
 		/**
 		 * @brief handles deleteAct
 		 **/
-		function _executeDeleteAct($queryObject)
+		function _executeDeleteAct($queryObject, $with_values = true)
 		{
-			$query =  $this->getDeleteSql($queryObject);
+			if($this->use_prepared_statements == 'Y')
+			{
+				$this->param = $queryObject->getArguments();
+				$with_values = false;					
+			}			
+			$query =  $this->getDeleteSql($queryObject, $with_values);
 			if(is_a($query, 'Object')) return;
 
 			$result = $this->_query ($query);
 
 			if ($result && !$this->transaction_started) $this->_commit();
-
+			
+			unset($this->param);
 			return $result;
 		}
 
@@ -594,25 +662,32 @@
 		 * to get a specific page list easily in select statement,\n
 		 * a method, navigation, is used
 		 **/
-		 function _executeSelectAct($queryObject, $connection = null){
-                        $limit = $queryObject->getLimit();
-        		if ($limit && $limit->isPageHandler())
-                                return $this->queryPageLimit($queryObject, $result, $connection);
-                        else {
-                            $query = $this->getSelectSql($queryObject);
-                            if(is_a($query, 'Object')) return;
+	   function _executeSelectAct($queryObject, $connection = null, $with_values = true) {
+			if ($this->use_prepared_statements == 'Y') {
+				$this->param = $queryObject->getArguments();
+				$with_values = false;
+			}
+			$limit = $queryObject->getLimit();
+			if ($limit && $limit->isPageHandler())
+				return $this->queryPageLimit($queryObject, $connection, $with_values);
+			else {
+				$query = $this->getSelectSql($queryObject, $with_values);
+				if (is_a($query, 'Object'))
+					return;
 
-                            $query .= (__DEBUG_QUERY__&1 && $queryObject->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
-                            $result = $this->_query ($query, $connection);
+				$query .= (__DEBUG_QUERY__ & 1 && $queryObject->query_id) ? sprintf(' ' . $this->comment_syntax, $this->query_id) : '';
+				$result = $this->_query($query, $connection);
 
-                            if ($this->isError ())
-                                    return $this->queryError($queryObject);
+				if ($this->isError())
+					return $this->queryError($queryObject);
 
-                            $data = $this->_fetch($result);
-                            $buff = new Object ();
-                            $buff->data = $data;
-                            return $buff;
-                        }
+				$data = $this->_fetch($result);
+				$buff = new Object ();
+				$buff->data = $data;
+				
+				unset($this->param);
+				return $buff;
+			}
 		}
 
 		function queryError($queryObject){
@@ -629,11 +704,11 @@
 					return;
 		}
 
-		function queryPageLimit($queryObject, $result, $connection){
-                        $limit = $queryObject->getLimit();
+		function queryPageLimit($queryObject, $connection, $with_values){
+            $limit = $queryObject->getLimit();
 		 	// Total count
-			$temp_where = $queryObject->getWhereString(true, false);
-		 	$count_query = sprintf('select count(*) as "count" %s %s', 'FROM ' . $queryObject->getFromString(), ($temp_where === '' ? '' : ' WHERE '. $temp_where));
+			$temp_where = $queryObject->getWhereString($with_values, false);
+		 	$count_query = sprintf('select count(*) as "count" %s %s', 'FROM ' . $queryObject->getFromString($with_values), ($temp_where === '' ? '' : ' WHERE '. $temp_where));
 			if ($queryObject->getGroupByString() != '') {
 				$count_query = sprintf('select count(*) as "count" from (%s) xet', $count_query);
 			}
@@ -672,11 +747,11 @@
 			}
 			$start_count = ($page - 1) * $list_count;
 
-                        $query = $this->getSelectPageSql($queryObject, true, $start_count, $list_count);
-                        $query .= (__DEBUG_QUERY__&1 && $queryObject->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
+			$query = $this->getSelectPageSql($queryObject, $with_values, $start_count, $list_count);
+			$query .= (__DEBUG_QUERY__&1 && $queryObject->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
 			$result = $this->_query ($query, $connection);
-                        if ($this->isError ())
-                            return $this->queryError($queryObject);
+			if ($this->isError ())
+				return $this->queryError($queryObject);
 
 	 		$virtual_no = $total_count - ($page - 1) * $list_count;
 	 		$data = $this->_fetch($result, $virtual_no);
@@ -687,11 +762,12 @@
 			$buff->page = $page;
 			$buff->data = $data;
 			$buff->page_navigation = new PageHandler($total_count, $total_page, $page, $page_count);
+			unset($this->param);
 			return $buff;
 		}
 
 		function getParser(){
-                    return new DBParser('"', '"', $this->prefix);
+			return new DBParser('"', '"', $this->prefix);
 		}
 
                 function getSelectPageSql($query, $with_values = true, $start_count = 0, $list_count = 0) {
