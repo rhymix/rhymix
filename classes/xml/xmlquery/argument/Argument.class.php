@@ -92,7 +92,7 @@ class Argument {
 		if ($column_type == 'number') {
 			if (is_array($value)) {
 				foreach ($value AS $key => $val) {
-					if (isset($val)) {
+					if (isset($val) && $val !== '') {
 						$value[$key] = (int) $val;
 					}
 				}
