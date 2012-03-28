@@ -152,19 +152,58 @@
 
             // Run the query statement
 			$result = false;
-			if(count($_param)){
-				$result = @sqlsrv_query($connection, $query, $_param);
+			if(count($_param)){		
+				$args = $this->_getParametersByReference($_param);
+				$stmt = sqlsrv_prepare($connection, $query, $args);
 			}else{
-				$result = @sqlsrv_query($connection, $query);
+				$stmt = sqlsrv_prepare($connection, $query);
 			}
+			
+			if(!$stmt) 
+			{
+				$result = false;
+			}
+			else 
+			{
+				$result = sqlsrv_execute($stmt);
+			}
+			
             // Error Check
-
-			if(!$result) $this->setError(print_r(sqlsrv_errors(),true));
+			if(!$result) 
+				$this->setError(print_r(sqlsrv_errors(),true));
 
             $this->param = array();
 
-            return $result;
+            return $stmt;
         }
+		
+		/**
+		 * Parameters to sqlsrv_prepare need to be references, and not literals
+		 * Parameters are sent as an array, where each parameter can be:
+		 *	- a PHP variable (by reference)
+		 *	- a PHP array (containng param value, type and direction) -> also needs to be sent by reference
+		 */
+		function _getParametersByReference($_param) 
+		{
+			$copy = array(); $args = array(); $i = 0;
+			foreach($_param as $key => $value) {
+				if(is_array($value))
+				{
+					$value_copy = $value;
+					$value_arg = array();
+					$value_arg[] = &$value_copy[0];
+					$value_arg[] = $value_copy[1];
+					$value_arg[] = $value_copy[2];
+				}
+				else 
+				{
+					$value_arg = $value;
+				}
+				$copy[$key] = $value_arg;
+				$args[$i++] = &$copy[$key];
+			}
+			return $args;
+		}
 
         /**
          * @brief Fetch results
@@ -439,7 +478,7 @@
         }
 
         function getSelectSql($query){
-       		$with_value = false;
+       		$with_values = false;
 
        		//$limitOffset = $query->getLimit()->getOffset();
        		//if($limitOffset)
@@ -482,18 +521,18 @@
          * it supports a method as navigation
          **/
         function _executeSelectAct($queryObject, $connection = null) {
-        	$query = $this->getSelectSql($queryObject);
+			$query = $this->getSelectSql($queryObject);
 
-                if(strpos($query, "substr")) $query = str_replace ("substr", "substring", $query);
+			if(strpos($query, "substr")) $query = str_replace ("substr", "substring", $query);
 
-        	// TODO Decide if we continue to pass parameters like this
-        	$this->param = $queryObject->getArguments();
+			// TODO Decide if we continue to pass parameters like this
+			$this->param = $queryObject->getArguments();
 
-		$query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id):'';
-                $result = $this->_query($query, $connection);
+			$query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id):'';
+			$result = $this->_query($query, $connection);
 
-                if ($this->isError ()) return $this->queryError($queryObject);
-                else return $this->queryPageLimit($queryObject, $result, $connection);
+			if ($this->isError ()) return $this->queryError($queryObject);
+			else return $this->queryPageLimit($queryObject, $result, $connection);
         }
 
         function getParser(){
@@ -514,63 +553,63 @@
 					return;
 		}
 
-		function queryPageLimit($queryObject, $result, $connection){
-                    $limit = $queryObject->getLimit();
-			 	if ($limit && $limit->isPageHandler()) {
-		 		// Total count
+		function queryPageLimit($queryObject, $result, $connection) {
+			$limit = $queryObject->getLimit();
+			if ($limit && $limit->isPageHandler()) {
+				// Total count
 				$temp_where = $queryObject->getWhereString(true, false);
-		 		$count_query = sprintf('select count(*) as "count" %s %s', 'FROM ' . $queryObject->getFromString(), ($temp_where === '' ? '' : ' WHERE '. $temp_where));
+				$count_query = sprintf('select count(*) as "count" %s %s', 'FROM ' . $queryObject->getFromString(), ($temp_where === '' ? '' : ' WHERE ' . $temp_where));
 				if ($queryObject->getGroupByString() != '') {
 					$count_query = sprintf('select count(*) as "count" from (%s) xet', $count_query);
 				}
 
-				$count_query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
+				$count_query .= (__DEBUG_QUERY__ & 1 && $output->query_id) ? sprintf(' ' . $this->comment_syntax, $this->query_id) : '';
 				$this->param = $queryObject->getArguments();
 				$result_count = $this->_query($count_query, $connection);
 				$count_output = $this->_fetch($result_count);
-				$total_count = (int)$count_output->count;
+				$total_count = (int) $count_output->count;
 
-                                $list_count = $limit->list_count->getValue();
-                                if (!$list_count) $list_count = 20;
-                                $page_count = $limit->page_count->getValue();
-                                if (!$page_count) $page_count = 10;
-                                $page = $limit->page->getValue();
-                                if (!$page) $page = 1;
+				$list_count = $limit->list_count->getValue();
+				if (!$list_count)
+					$list_count = 20;
+				$page_count = $limit->page_count->getValue();
+				if (!$page_count)
+					$page_count = 10;
+				$page = $limit->page->getValue();
+				if (!$page)
+					$page = 1;
 				// Total pages
 				if ($total_count) {
 					$total_page = (int) (($total_count - 1) / $list_count) + 1;
-				}	else	$total_page = 1;
+				} else
+					$total_page = 1;
 
 				// check the page variables
 				if ($page > $total_page) {
 					// If requested page is bigger than total number of pages, return empty list
 
-					$buff = new Object ();		
+					$buff = new Object ();
 					$buff->total_count = $total_count;
 					$buff->total_page = $total_page;
 					$buff->page = $page;
 					$buff->data = array();
-					$buff->page_navigation = new PageHandler($total_count, $total_page, $page, $page_count);				
+					$buff->page_navigation = new PageHandler($total_count, $total_page, $page, $page_count);
 					return $buff;
 				}
 				$start_count = ($page - 1) * $list_count;
 
-				$query .= (__DEBUG_QUERY__&1 && $queryObject->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
+				$query .= (__DEBUG_QUERY__ & 1 && $queryObject->query_id) ? sprintf(' ' . $this->comment_syntax, $this->query_id) : '';
 				$this->param = $queryObject->getArguments();
-				$result = $this->_query ($query, $connection);
-				if ($this->isError ())
-					return $this->queryError($queryObject);
+				$virtual_no = $total_count - ($page - 1) * $list_count;
+				$data = $this->_fetch($result, $virtual_no);
 
-		 		$virtual_no = $total_count - ($page - 1) * $list_count;
-		 		$data = $this->_fetch($result, $virtual_no);
-
-		 		$buff = new Object ();
+				$buff = new Object ();
 				$buff->total_count = $total_count;
 				$buff->total_page = $total_page;
 				$buff->page = $page;
 				$buff->data = $data;
 				$buff->page_navigation = new PageHandler($total_count, $total_page, $page, $page_count);
-			}else{
+			}else {
 				$data = $this->_fetch($result);
 				$buff = new Object ();
 				$buff->data = $data;
