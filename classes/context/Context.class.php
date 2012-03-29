@@ -219,26 +219,26 @@ class Context {
 		$config_file = $self->getConfigFile();
 		if(is_readable($config_file)) @include($config_file);
 
-                // If master_db information does not exist, the config file needs to be updated
-                if(!isset($db_info->master_db)) {
-                    $db_info->master_db = array();
-                    $db_info->master_db["db_type"] = $db_info->db_type; unset($db_info->db_type);
-                    $db_info->master_db["db_port"] = $db_info->db_port; unset($db_info->db_port);
-                    $db_info->master_db["db_hostname"] = $db_info->db_hostname; unset($db_info->db_hostname);
-                    $db_info->master_db["db_password"] = $db_info->db_password; unset($db_info->db_password);
-                    $db_info->master_db["db_database"] = $db_info->db_database; unset($db_info->db_database);
-                    $db_info->master_db["db_userid"] = $db_info->db_userid; unset($db_info->db_userid);
-                    $db_info->master_db["db_table_prefix"] = $db_info->db_table_prefix; unset($db_info->db_table_prefix);
-                    if(substr($db_info->master_db["db_table_prefix"],-1)!='_') $db_info->master_db["db_table_prefix"] .= '_';
+				// If master_db information does not exist, the config file needs to be updated
+				if(!isset($db_info->master_db)) {
+					$db_info->master_db = array();
+					$db_info->master_db["db_type"] = $db_info->db_type; unset($db_info->db_type);
+					$db_info->master_db["db_port"] = $db_info->db_port; unset($db_info->db_port);
+					$db_info->master_db["db_hostname"] = $db_info->db_hostname; unset($db_info->db_hostname);
+					$db_info->master_db["db_password"] = $db_info->db_password; unset($db_info->db_password);
+					$db_info->master_db["db_database"] = $db_info->db_database; unset($db_info->db_database);
+					$db_info->master_db["db_userid"] = $db_info->db_userid; unset($db_info->db_userid);
+					$db_info->master_db["db_table_prefix"] = $db_info->db_table_prefix; unset($db_info->db_table_prefix);
+					if(substr($db_info->master_db["db_table_prefix"],-1)!='_') $db_info->master_db["db_table_prefix"] .= '_';
 
-                    $slave_db = $db_info->master_db;
-                    $db_info->slave_db = array($slave_db);
+					$slave_db = $db_info->master_db;
+					$db_info->slave_db = array($slave_db);
 					
-                    $self->setDBInfo($db_info);
+					$self->setDBInfo($db_info);
 
-                    $oInstallController = &getController('install');
-                    $oInstallController->makeConfigFile();
-                }
+					$oInstallController = &getController('install');
+					$oInstallController->makeConfigFile();
+				}
 		
 		if(!$db_info->use_prepared_statements) 
 		{
@@ -1048,9 +1048,9 @@ class Context {
 	}
 
 	/**
-    * @brief get a specified var in object
-    *
-    * get one more vars in object vars with given arguments(key1, key2, key3,...)
+	* @brief get a specified var in object
+	*
+	* get one more vars in object vars with given arguments(key1, key2, key3,...)
 	 **/
 	function gets() {
 		$num_args = func_num_args();
@@ -1082,8 +1082,8 @@ class Context {
 	}
 
 	/**
-    * @brief Register if actions is to be encrypted by SSL
-    * Those actions are sent to https in common/js/xml_handler.js
+	* @brief Register if actions is to be encrypted by SSL
+	* Those actions are sent to https in common/js/xml_handler.js
 	 **/
 	function addSSLAction($action) {
 		is_a($this,'Context')?$self=&$this:$self=&Context::getInstance();
