@@ -19,7 +19,7 @@
 		<value xml:lang="vi"><![CDATA[Cập nhật]]></value>
 	</item>
 	<item name="package_downloaded_count">
-		<value xml:lang="ko"><![CDATA[전체 다운로드]]></value>
+		<value xml:lang="ko"><![CDATA[전체 다운로드 수]]></value>
 		<value xml:lang="en"><![CDATA[Download Count]]></value>
 		<value xml:lang="jp"><![CDATA[全体ダウンロード]]></value>
 		<value xml:lang="zh-CN"><![CDATA[总下载]]></value>
@@ -57,7 +57,7 @@
 		<value xml:lang="tr"><![CDATA[İndirme]]></value>
 	</item>
 	<item name="success_installed">
-		<value xml:lang="ko"><![CDATA[설치가 성공하였습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[설치에 성공하였습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Successfully Installed]]></value>
 		<value xml:lang="jp"><![CDATA[インストールが成功しました。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[安装成功！]]></value>
@@ -67,7 +67,7 @@
 		<value xml:lang="vi"><![CDATA[Đã cài đặt thành công.]]></value>
 	</item>
 	<item name="description_ftp_note">
-		<value xml:lang="ko"><![CDATA[%s이 되어 있지 않으면 설치 및 업데이트가 진행되지 않습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[%s이 되어 있지 않으면 설치 및 업데이트를 진행할 수 없습니다.]]></value>
 		<value xml:lang="en"><![CDATA[If the %s is not set, the installation or update will not work. Pleas configure the FTP information.]]></value>
 		<value xml:lang="jp"><![CDATA[%sが完了されないと、イージーインストールが動作しません。 FTP設定を確認してください。]]></value>
 		<value xml:lang="ru"><![CDATA[If %s is not set, installation would not work. Please configure FTP information]]></value>
@@ -80,7 +80,7 @@
 		<value xml:lang="zh-TW"><![CDATA[FTP 設定]]></value>
 	</item>
 	<item name="description_update">
-		<value xml:lang="ko"><![CDATA[쉬운 설치 사용전 %s를 해주세요.]]></value>
+		<value xml:lang="ko"><![CDATA[쉬운 설치 사용전 %s 해주세요.]]></value>
 		<value xml:lang="en"><![CDATA[Click %s before using EasyInstall.]]></value>
 		<value xml:lang="jp"><![CDATA[新しくインストールしたモジュールバージョン情報などは%sを押すと反映されます。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[使用自動安裝前請先點擊%s]]></value>
@@ -144,7 +144,7 @@
 		<value xml:lang="vi"><![CDATA[Yêu cầu cài đặt.]]></value>
 	</item>
 	<item name="description_install">
-		<value xml:lang="ko"><![CDATA[설치를 진행하면, 이 프로그램이 의존하고 있는 모든 프로그램을 업데이트/설치 합니다.]]></value>
+		<value xml:lang="ko"><![CDATA[설치를 진행하면, 이 프로그램이 의존하는 모든 프로그램을 업데이트/설치 합니다.]]></value>
 		<value xml:lang="en"><![CDATA[EasyInstall will also install/update all other programs which this program depends on.]]></value>
 		<value xml:lang="jp"><![CDATA[インストールに進みますと、このプログラムが依存しているすべてのプログラムをアップデート/インストールします。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[安装时，与其联动的插件/控件也会同时被安装(更新)。]]></value>
@@ -154,7 +154,7 @@
 		<value xml:lang="vi"><![CDATA[Quá trình Cài đặt / Cập nhật này phụ thuộc vào ]]></value>
 	</item>
 	<item name="description_download">
-		<value xml:lang="ko"><![CDATA[FTP를 이용할 수 없는 경우, 직접 다운로드 하여 해당 path에 설치하셔야 합니다. (한칸 상위에서 압축을 푸시면 됩니다. ./modules/board의 경우 ./modules에서 tar를 푸세요)]]></value>
+		<value xml:lang="ko"><![CDATA[FTP를 이용할 수 없는 경우, 직접 다운로드 하여 해당 경로(path)에 설치하셔야 합니다. (한 단계 상위에서 압축을 푸시면 됩니다. ./modules/board의 경우 ./modules에서 묶음(tar)을 푸세요)]]></value>
 		<value xml:lang="en"><![CDATA[If FTP is unavailable, you should manually download and extract it into the target path. (If the target path is ./modules/board, extract it to ./modules)]]></value>
 		<value xml:lang="jp"><![CDATA[FTPの利用ができない場合は、直接ダウンロードし、サーバー上の該当パスにてインストールしてください。 (一つ上の階層にて解凍します。　./modules/board　の場合 ./modulesに tarを解凍してください。)]]></value>
 		<value xml:lang="zh-CN"><![CDATA[无法使用FTP时，需得自行下载安装到指定路径。]]></value>
@@ -238,7 +238,7 @@
 		<value xml:lang="zh-TW"><![CDATA[FTP 密碼]]></value>
 	</item>
 	<item name="msg_dependency_package">
-		<value xml:lang="ko"><![CDATA[이 패키지를 의존하고 있는 다른 패키지가 있기 때문에 삭제할 수 없습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[이 패키지에 의존하는 다른 패키지가 있기 때문에 삭제할 수 없습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Cannot remove this package because there exists another packages dependent on this.]]></value>
 		<value xml:lang="jp"><![CDATA[このパッケージに依存している他のパッケージがあるため、削除できません。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[無法刪除此 package，因為有其他 package用到。]]></value>
@@ -277,12 +277,12 @@
 		<value xml:lang="zh-TW"><![CDATA[主機設定不正確。]]></value>
 	</item>
 	<item name="msg_ftp_invalid_auth_info">
-		<value xml:lang="ko"><![CDATA[입력하신 FTP 정보로 로그인을 하지 못했습니다. FTP정보를 확인해주세요.]]></value>
+		<value xml:lang="ko"><![CDATA[입력하신 FTP 정보로 로그인을 하지 못했습니다. FTP 정보를 확인해주세요.]]></value>
 		<value xml:lang="en"><![CDATA[Cannot log in with the FTP password you entered. Please check if it is correct.]]></value>
 		<value xml:lang="jp"><![CDATA[このFTP情報ではログインできません。FTP情報を確認してください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[FTP登录失败。请确认输入的FTP信息。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[FTP登入失敗。請確認輸入的 FTP 資訊。]]></value>
-		<value xml:lang="fr"><![CDATA[입력하신 FTP 정보로 로그인을 하지 못했습니다. FTP정보를 확인해주세요]]></value>
+		<value xml:lang="fr"><![CDATA[Cannot log in with the FTP password you entered. Please check if it is correct.]]></value>
 		<value xml:lang="de"><![CDATA[Anmeldungsfehler mit der Angabe des FTPs Bitte die Angabe des FTPs festlegen.]]></value>
 		<value xml:lang="es"><![CDATA[Los datos de login para el FTP no son correctos. Veriféquelos.]]></value>
 		<value xml:lang="tr"><![CDATA[Kimlik doğrulama başarısız oldu. Lütfen kullanıcı adını ve şifreyi kontrol ediniz.]]></value>
@@ -295,7 +295,7 @@
 		<value xml:lang="jp"><![CDATA[%sへのFTP接続エラーが発生しました。FTPポート(port)番号をはじめ、FTPサービスが可能であるかを確認してください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[发生本地(%s)FTP连接错误。请确认ftp端口号及支持ftp服务与否。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[本地(%s) FTP連線錯誤。請檢查 FTP 埠口並確認是否支援 FTP 功能。]]></value>
-		<value xml:lang="fr"><![CDATA[%s로의 FTP 접속 오류가 발생하였습니다. ftp 포트 번호를 확인해주시거나 ftp 서비스가 가능한지 확인해주세요]]></value>
+		<value xml:lang="fr"><![CDATA[Connection to the %s via FTP failed. Please check the port number and whether the FTP service is available.]]></value>
 		<value xml:lang="de"><![CDATA[Ein Verbindungsfehler des FTPs an %s ist aufgetreten. Bitte FTP_Port checken, oder ob FTP_Service möglich ist.]]></value>
 		<value xml:lang="ru"><![CDATA[Connection to %s via FTP failed. Please check the port number and if FTP service is available.]]></value>
 		<value xml:lang="es"><![CDATA[Ha ocurrico un error de conexión al FTP del %s. Verifique el puerto del FTP y/o el funcionamiento del servicio FTP.]]></value>
@@ -304,12 +304,12 @@
 		<value xml:lang="mn"><![CDATA[%s-ын FTP холболт амжилтгvй боллоо. FTP дугаараа шалгах буюу эсвэл FTP vйлчилгээг ашиглах боломжтой эсэхээ шалгана уу.]]></value>
 	</item>
 	<item name="msg_delete_file_failed">
-		<value xml:lang="ko"><![CDATA[파일 삭제가 실패했습니다. %s.]]></value>
+		<value xml:lang="ko"><![CDATA[파일 삭제에 실패했습니다. %s.]]></value>
 		<value xml:lang="en"><![CDATA[Failed to delete the file. %s.]]></value>
 		<value xml:lang="jp"><![CDATA[ファイルを削除できませんでした。]]></value>
 	</item>
 	<item name="msg_delete_dir_failed">
-		<value xml:lang="ko"><![CDATA[디렉터리 삭제가 실패했습니다. %s]]></value>
+		<value xml:lang="ko"><![CDATA[디렉터리 삭제에 실패했습니다. %s]]></value>
 		<value xml:lang="en"><![CDATA[Failed to delete the directory. %s]]></value>
 		<value xml:lang="jp"><![CDATA[ディレクトリを削除できませんでした。]]></value>
 	</item>
@@ -319,7 +319,7 @@
 		<value xml:lang="jp"><![CDATA[パスワードを入力してください。]]></value>
 	</item>
 	<item name="msg_sftp_not_supported">
-		<value xml:lang="ko"><![CDATA[SFTP 지원이 되지 않는 환경입니다.]]></value>
+		<value xml:lang="ko"><![CDATA[SFTP를 지원하지 않는 환경입니다.]]></value>
 		<value xml:lang="en"><![CDATA[SFTP is not supported.]]></value>
 		<value xml:lang="jp"><![CDATA[SFTP非対応環境です。]]></value>
 	</item>

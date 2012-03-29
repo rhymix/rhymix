@@ -144,7 +144,7 @@
 		<value xml:lang="vi"><![CDATA[Xin vui lòng nhập mật khẩu]]></value>
 	</item>
 	<item name="invalid_authorization">
-		<value xml:lang="ko"><![CDATA[인증이 되지 않았습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[인증이 필요한 계정입니다.]]></value>
 		<value xml:lang="en"><![CDATA[The account is not activated.]]></value>
 		<value xml:lang="jp"><![CDATA[認証できませんでした。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[还没有认证！]]></value>
@@ -199,7 +199,7 @@
 		<value xml:lang="vi"><![CDATA[Đồng ý nhận Email]]></value>
 	</item>
 	<item name="is_admin">
-		<value xml:lang="ko"><![CDATA[최고관리 권한]]></value>
+		<value xml:lang="ko"><![CDATA[최고 관리 권한]]></value>
 		<value xml:lang="en"><![CDATA[Superadmin Permission]]></value>
 		<value xml:lang="jp"><![CDATA[最高管理権限]]></value>
 		<value xml:lang="zh-CN"><![CDATA[最高管理权限]]></value>
@@ -223,7 +223,7 @@
 		<value xml:lang="vi"><![CDATA[Phân nhóm]]></value>
 	</item>
 	<item name="group_title">
-		<value xml:lang="ko"><![CDATA[그룹제목]]></value>
+		<value xml:lang="ko"><![CDATA[그룹 제목]]></value>
 		<value xml:lang="en"><![CDATA[Group Name]]></value>
 		<value xml:lang="jp"><![CDATA[グループ名]]></value>
 		<value xml:lang="zh-CN"><![CDATA[用户组标题]]></value>
@@ -235,7 +235,7 @@
 		<value xml:lang="vi"><![CDATA[Tên nhóm]]></value>
 	</item>
 	<item name="group_srl">
-		<value xml:lang="ko"><![CDATA[그룹번호]]></value>
+		<value xml:lang="ko"><![CDATA[그룹 번호]]></value>
 		<value xml:lang="en"><![CDATA[Group Number]]></value>
 		<value xml:lang="jp"><![CDATA[グループ番号]]></value>
 		<value xml:lang="zh-CN"><![CDATA[用户组编号]]></value>
@@ -501,7 +501,7 @@
 		<value xml:lang="vi"><![CDATA[Ngày giới hạn]]></value>
 	</item>
 	<item name="after_login_url">
-		<value xml:lang="ko"><![CDATA[로그인 후 이동할 URL]]></value>
+		<value xml:lang="ko"><![CDATA[로그인 후 이동할 주소(URL)]]></value>
 		<value xml:lang="en"><![CDATA[URL to redirect after Sign in]]></value>
 		<value xml:lang="jp"><![CDATA[ログイン後、表示するページのURL]]></value>
 		<value xml:lang="zh-CN"><![CDATA[登录后页面转向]]></value>
@@ -513,7 +513,7 @@
 		<value xml:lang="vi"><![CDATA[URL sau khi đăng nhập]]></value>
 	</item>
 	<item name="after_logout_url">
-		<value xml:lang="ko"><![CDATA[로그아웃 후 이동할 URL]]></value>
+		<value xml:lang="ko"><![CDATA[로그아웃 후 이동할 주소(URL)]]></value>
 		<value xml:lang="en"><![CDATA[URL to redirect after Sign out]]></value>
 		<value xml:lang="jp"><![CDATA[ログアウト後、表示するページのURL]]></value>
 		<value xml:lang="zh-CN"><![CDATA[退出后页面转向]]></value>
@@ -941,6 +941,7 @@
 	</item>
 	<item name="cmd_send_auth_new_emaill_address">
 		<value xml:lang="ko"><![CDATA[신규 이메일로 인증 메일 발송]]></value>
+		<value xml:lang="en"><![CDATA[Request for activation mail to new email]]></value>
 		<value xml:lang="zh-TW"><![CDATA[發送新的電子認證郵件]]></value>
 	</item>
 	<item name="cmd_member_list">
@@ -1259,7 +1260,7 @@
 		<value xml:lang="vi"><![CDATA[Xác nhận không hợp lệ.<br />Xin vui lòng kiểm tra lại hoặc liên hệ với Webmaster để được hỗ trợ!]]></value>
 	</item>
 	<item name="msg_success_authed">
-		<value xml:lang="ko"><![CDATA[인증이 정상적으로 되어 로그인 처리가 되었습니다.\n꼭 인증 메일에 표시된 비밀번호를 이용하여 원하시는 비밀번호로 변경하세요.]]></value>
+		<value xml:lang="ko"><![CDATA[인증이 정상적으로 되어 로그인 되었습니다.\n꼭 인증 메일에 표시된 비밀번호를 이용하여 원하시는 비밀번호로 변경하세요.]]></value>
 		<value xml:lang="en"><![CDATA[Your account has been successfully activated and logged on.\n Please modify the password to your own one with the password in the mail.]]></value>
 		<value xml:lang="jp"><![CDATA[認証が正常に行われ、ログインできました。\n必ず確認メールに記載されたパスワードを利用してお好みのパスワードに変更してください。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[新的注册信息已得到认证。请用邮件中的新密码修改您要想使用的密码。]]></value>
@@ -1520,7 +1521,7 @@
 		<value xml:lang="vi"><![CDATA[Bạn phải đồng ý với điều khoản sử dụng của chúng tôi.]]></value>
 	</item>
 	<item name="msg_user_denied">
-		<value xml:lang="ko"><![CDATA[입력하신 아이디의 사용이 중지되셨습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[입력하신 아이디의 사용이 중지 되었습니다.]]></value>
 		<value xml:lang="en"><![CDATA[You have entered a prohibited ID.]]></value>
 		<value xml:lang="jp"><![CDATA[利用が中止されているユーザIDです。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[您输入的用户名已禁止使用！]]></value>
@@ -1556,7 +1557,7 @@
 		<value xml:lang="vi"><![CDATA[Bạn được phép sử dụng đến ngày %s]]></value>
 	</item>
 	<item name="about_user_id">
-		<value xml:lang="ko"><![CDATA[회원 ID는 3~20자 사이의 영문+숫자로 이루어져야 하며 영문으로 시작되어야 합니다.]]></value>
+		<value xml:lang="ko"><![CDATA[회원 ID는 3~20자 사이의 영문+숫자로 이루어져야 하며 영문으로 시작해야 합니다.]]></value>
 		<value xml:lang="en"><![CDATA[User ID should be 3~20 characters long, consist of alphanumeric and start with a letter.]]></value>
 		<value xml:lang="jp"><![CDATA[ユーザーIDは、3~20字までの英数文字にしてください。先頭文字は英字でなければなりません。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[用户名长度必须由 3 ~20 字以内的英文+数字组成，且首个字母必须是英文字母。]]></value>
@@ -1604,7 +1605,7 @@
 		<value xml:lang="vi"><![CDATA[Độ dài của Nickname từ 2 đến 20 kí tự.]]></value>
 	</item>
 	<item name="about_email_address">
-		<value xml:lang="ko"><![CDATA[메일주소는 메일인증 후 비밀번호 변경이나 찾기 등에 사용됩니다.]]></value>
+		<value xml:lang="ko"><![CDATA[메일 주소는 메일 인증 후 비밀번호 변경이나 찾기 등에 사용됩니다.]]></value>
 		<value xml:lang="en"><![CDATA[Email address will be used to modify/find password after email verification.]]></value>
 		<value xml:lang="jp"><![CDATA[メールアドレスはメール認証後に、パスワード変更または検索などに使われます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[电子邮件地址除邮件认证外，在修改密码或找回密码时使用。]]></value>
@@ -1831,7 +1832,7 @@
 		<value xml:lang="vi"><![CDATA[Gửi Email xác nhận sau khi đăng kí.]]></value>
 	</item>
 	<item name="about_enable_ssl">
-		<value xml:lang="ko"><![CDATA[서버에서 SSL지원이 될 경우 회원가입, 정보수정, 로그인 등의 개인정보가 서버로 보내질 때 SSL(https)를 이용하도록 할 수 있습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[서버에서 보안접속(SSL) 지원이 될 경우 회원가입, 정보수정, 로그인 등의 개인정보가 서버로 보내질 때 SSL(https)를 이용하도록 할 수 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Personal information from Sign up/Modify Member Info/Sign in can be sent as SSL(https) mode if server provides SSL service.]]></value>
 		<value xml:lang="jp"><![CDATA[サーバーでSSLが可能な場合、会員登録/情報変更/ログイン等の個人情報はSSL(https)経由でサーバーにより安全に送信されます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[如服务器提供SSL协议服务，新会员注册/修改会员信息/登录等信息的传送将使用SSL(https)协议。]]></value>
@@ -1961,7 +1962,7 @@
 		<value xml:lang="vi"><![CDATA[Cho phép thành viên sử dụng thông tin cá nhân bằng hình ảnh.]]></value>
 	</item>
 	<item name="about_signature_max_height">
-		<value xml:lang="ko"><![CDATA[서명란의 높이를 제한할 수 있습니다. (0 또는 비워두면 제한하지 않습니다.)]]></value>
+		<value xml:lang="ko"><![CDATA[서명란의 최대 높이를 제한할 수 있습니다. (0 또는 비워두면 제한하지 않습니다.)]]></value>
 		<value xml:lang="en"><![CDATA[You can limit the signature max height. Set this as 0 or leave it blank not to limit it.]]></value>
 		<value xml:lang="jp"><![CDATA[署名欄の高さのサイズを制限します。 (0 もしくは空の場合は制限なし。)]]></value>
 		<value xml:lang="zh-CN"><![CDATA[可以限制签名栏高度(0或留空为不限制)。]]></value>
@@ -2055,7 +2056,7 @@ Vous pouvez administrer membres par création un nouveau groupe, ou gagner les i
 Bạn có thể quản lý thành viên bằng cách tạo những nhóm mới, và thêm những thông tin trong Form đăng kí.]]></value>
 	</item>
 	<item name="about_ssl_port">
-		<value xml:lang="ko"><![CDATA[기본 포트 이외의 SSL 포트를 사용하는 경우 포트번호를 입력해주세요.]]></value>
+		<value xml:lang="ko"><![CDATA[기본 포트 이외의 보안접속(SSL) 포트를 사용하는 경우 포트번호를 입력해주세요.]]></value>
 		<value xml:lang="en"><![CDATA[Please enter if you are using non-default SSL port]]></value>
 		<value xml:lang="jp"><![CDATA[基本ポート以外のSSLポートを利用する場合、入力してください。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[請輸入想要使用 SSL 預設埠口以外的埠口。]]></value>
@@ -2110,7 +2111,7 @@ Bạn có thể quản lý thành viên bằng cách tạo những nhóm mới, 
 		<value xml:lang="jp"><![CDATA[秘密質問の答え]]></value>
 	</item>
 	<item name="about_find_account_question">
-		<value xml:lang="ko"><![CDATA[가입 시 아이디와 이메일, 질문/답변으로 임시 비밀번호를 발급 받을 수 있습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[회원 정보에 입력한 아이디와 이메일, 질문/답변으로 임시 비밀번호를 발급 받을 수 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[You can get a temporary password by your ID, email address, and the answer for the question you have set.]]></value>
 		<value xml:lang="jp"><![CDATA[登録した時、入力したIDとメールアドレス、秘密質問の答えで仮のパスワードをもらえる事ができます。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[可透過帳號、電子郵件和設定提示問答來獲得臨時密碼。]]></value>
