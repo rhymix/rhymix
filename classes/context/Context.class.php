@@ -921,7 +921,7 @@ class Context {
 					if(is_array($val) && count($val)) {
 						foreach($val as $k => $v) $queries[] = $key.'['.$k.']='.urlencode($v);
 					} else {
-						$queries[] = $key.'='.urlencode($val);
+						if(settype($val,'string')) $queries[] = $key.'='.urlencode($val);
 					}
 				}
 				if(count($queries)) $query = 'index.php?'.implode('&', $queries);
