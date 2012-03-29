@@ -722,11 +722,14 @@ class documentController extends document {
 			return $output;
 		}
 
-		$output = $oDB->executeQuery('document.updateDocumentExtraKeyIdxOrder', $obj);
-		if(!$output->toBool())
+		if($var_idx != NULL)
 		{
-			$oDB->rollback();
-			return $output;
+			$output = $oDB->executeQuery('document.updateDocumentExtraKeyIdxOrder', $obj);
+			if(!$output->toBool())
+			{
+				$oDB->rollback();
+				return $output;
+			}
 		}
 
 		$output =  executeQuery('document.deleteDocumentExtraVars', $obj);
@@ -736,11 +739,14 @@ class documentController extends document {
 			return $output;
 		}
 
-		$output = $oDB->executeQuery('document.updateDocumentExtraVarIdxOrder', $obj);
-		if(!$output->toBool())
+		if($var_idx != NULL)
 		{
-			$oDB->rollback();
-			return $output;
+			$output = $oDB->executeQuery('document.updateDocumentExtraVarIdxOrder', $obj);
+			if(!$output->toBool())
+			{
+				$oDB->rollback();
+				return $output;
+			}
 		}
 
 		$oDB->commit();
