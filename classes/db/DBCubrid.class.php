@@ -83,8 +83,8 @@
 				define('__CUBRID_VERSION__', $cubrid_version);
 			}
 			
-			if(__CUBRID_VERSION__ >= '8.4.1')
-				cubrid_set_autocommit($result, CUBRID_AUTOCOMMIT_FALSE);			
+			if(__CUBRID_VERSION__ >= '8.4.0')
+				cubrid_set_autocommit($result, CUBRID_AUTOCOMMIT_TRUE);			
             
 			return $result;
 		}
@@ -130,7 +130,12 @@
 		 **/
 		function _begin()
 		{
-                    return true;
+			if(__CUBRID_VERSION__ >= '8.4.0')
+			{
+				$connection = $this->_getConnection('master');
+				cubrid_set_autocommit($connection, CUBRID_AUTOCOMMIT_FALSE);						
+			}
+			return true;
 		}
 
 		/**
@@ -148,9 +153,9 @@
 		 **/
 		function _commit()
 		{
-                        $connection = $this->_getConnection('master');
+			$connection = $this->_getConnection('master');
 			@cubrid_commit($connection);
-                        return true;
+			return true;
 		}
 
 		/**
