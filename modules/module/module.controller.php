@@ -150,13 +150,6 @@
 			}
 
 			return $this->insertModuleConfig($module, $origin_config, $site_srl);
-                        //remove from cache
-                        $oCacheHandler = &CacheHandler::getInstance('object');
-                        if($oCacheHandler->isSupport())
-                        {
-                            $cache_key = 'object:module_config:module_'.$module.'_site_srl_'.$site_srl;
-                            $oCacheHandler->delete($cache_key);
-                        }
 		}
 
         /**
@@ -172,6 +165,14 @@
             if(!$output->toBool()) return $output;
 
             $output = executeQuery('module.insertModuleConfig', $args);
+			
+			//remove from cache
+			$oCacheHandler = &CacheHandler::getInstance('object');
+			if($oCacheHandler->isSupport())
+			{
+				$cache_key = 'object:module_config:module_'.$module.'_site_srl_'.$site_srl;
+				$oCacheHandler->delete($cache_key);
+			}			
             return $output;
         }
 
