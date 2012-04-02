@@ -179,6 +179,8 @@
 					{
 						$value = $param->getUnescapedValue();
 						$type = $param->getType();
+						
+						if($param->isColumnName()) continue;
 
 						switch($type)
 							{

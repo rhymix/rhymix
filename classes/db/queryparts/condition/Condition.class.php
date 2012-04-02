@@ -24,13 +24,21 @@
 		}
 
 		function toString($withValue = true){
-                    if(!isset($this->_value_to_string)){
-                        if(!$this->show()) { $this->_value_to_string = ''; }
-			else if($withValue)
-				$this->_value_to_string = $this->toStringWithValue();
-			else $this->_value_to_string = $this->toStringWithoutValue();
-                    }
-                    return $this->_value_to_string;
+			if (!isset($this->_value_to_string)) {
+				if (!$this->show()) 
+				{
+					$this->_value_to_string = '';
+				}
+				else if ($withValue)
+				{
+					$this->_value_to_string = $this->toStringWithValue();
+				}
+				else
+				{
+					$this->_value_to_string = $this->toStringWithoutValue();
+				}
+			}
+			return $this->_value_to_string;
 		}
 
 		function toStringWithoutValue(){

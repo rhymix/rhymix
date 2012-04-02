@@ -135,18 +135,19 @@
 
             if(count($this->param)){
                     foreach($this->param as $k => $o){
-                            if($o->getType() == 'number'){
-                                    $value = $o->getUnescapedValue();
-                                    if(is_array($value)) $_param = array_merge($_param, $value);
-                                    else $_param[] = $o->getUnescapedValue();
-                            }else{
-                                    $value = $o->getUnescapedValue();
-                                    if(is_array($value)) {
-                                        foreach($value as $v)
-                                            $_param[] = array($v, SQLSRV_PARAM_IN, SQLSRV_PHPTYPE_STRING('utf-8'));
-                                    }
-                                    else $_param[] = array($value, SQLSRV_PARAM_IN, SQLSRV_PHPTYPE_STRING('utf-8'));
-                            }
+						if($o->isColumnName()) continue;
+						if($o->getType() == 'number'){
+								$value = $o->getUnescapedValue();
+								if(is_array($value)) $_param = array_merge($_param, $value);
+								else $_param[] = $o->getUnescapedValue();
+						}else{
+								$value = $o->getUnescapedValue();
+								if(is_array($value)) {
+									foreach($value as $v)
+										$_param[] = array($v, SQLSRV_PARAM_IN, SQLSRV_PHPTYPE_STRING('utf-8'));
+								}
+								else $_param[] = array($value, SQLSRV_PARAM_IN, SQLSRV_PHPTYPE_STRING('utf-8'));
+						}
                     }
             }
 

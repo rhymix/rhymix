@@ -63,22 +63,33 @@
                         }
 		}
 
-                /**
-                 * Since ConditionArgument is used in WHERE clause,
-                 * where the argument value is compared to a table column,
-                 * it is assumed that all arguments have type. There are cases though
-                 * where the column does not have any type - if it was removed from
-                 * the XML schema for example - see the is_secret column in xe_documents table.
-                 * In this case, the column type is retrieved according to argument
-                 * value type (using the PHP function is_numeric).
-                 *
-                 * @return type string
-                 */
-                function getType(){
-			return $this->type ? $this->type : (!is_numeric($this->value) ? "varchar" : "");
+		/**
+			* Since ConditionArgument is used in WHERE clause,
+			* where the argument value is compared to a table column,
+			* it is assumed that all arguments have type. There are cases though
+			* where the column does not have any type - if it was removed from
+			* the XML schema for example - see the is_secret column in xe_documents table.
+			* In this case, the column type is retrieved according to argument
+			* value type (using the PHP function is_numeric).
+			*
+			* @return type string
+			*/
+		function getType(){
+			if($this->type)
+			{				
+				return $this->type;
+			}
+			else if(!is_numeric($this->value))
+			{
+				return 'varchar';
+			}
+			else 
+			{
+				return '';
+			}
 		}
 
-                function setColumnType($column_type){
+		function setColumnType($column_type){
 			if(!isset($this->value)) return;
 			if($column_type === '') return;
 

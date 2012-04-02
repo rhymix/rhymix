@@ -112,14 +112,16 @@
 						}
 
 						// 2. Bind parameters
-						call_user_func_array('mysqli_stmt_bind_param',$args);   
+						$status = call_user_func_array('mysqli_stmt_bind_param',$args);   
+						if(!$status)
+							$this->setError(-1, "Invalid arguments: $query" . mysqli_error($connection) . PHP_EOL . print_r($args, true));						
 					}
 					
 					// 3. Execute query
 					$status = mysqli_stmt_execute($stmt);
 					
 					if(!$status)
-						$this->setError(-1, "Prepared statement failed: $query");
+						$this->setError(-1, "Prepared statement failed: $query" . mysqli_error($connection) . PHP_EOL . print_r($args, true));
 					
 					// Return stmt for other processing - like retrieving resultset (_fetch)
 					return $stmt;
@@ -146,6 +148,10 @@
 			foreach($this->param as $k => $o){
 				$value = $o->getUnescapedValue();
 				$type = $o->getType();
+				
+				// Skip column names -> this should be concatenated to query string
+				if($o->isColumnName()) continue;
+				
 				switch($type)
 				{
 					case 'number' : 

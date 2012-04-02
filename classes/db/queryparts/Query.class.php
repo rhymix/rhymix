@@ -223,34 +223,36 @@
 
 		function getWhereString($with_values = true, $with_optimization = true){
 			$where = '';
-                        $condition_count = 0;
-			
-                        foreach($this->conditions as $conditionGroup){
-                                if($condition_count === 0){
-                                    $conditionGroup->setPipe("");
-                                }
-                                $condition_string = $conditionGroup->toString($with_values);
-                                $where .= $condition_string;
-                                $condition_count++;
-                        }
-			
-			if($with_optimization && 
-				(strstr($this->getOrderByString(), 'list_order') || strstr($this->getOrderByString(), 'update_order'))){
-			    
-			    if($condition_count !== 0) $where = '(' . $where .') ';
-			    
-			    foreach($this->orderby as $order){
-				$colName = $order->getColumnName();
-				if(strstr($colName, 'list_order') || strstr($colName, 'update_order')){
-				    $opt_condition = new ConditionWithoutArgument($colName, 2100000000, 'less', 'and');
-				    if ($condition_count === 0) $opt_condition->setPipe("");
-				    $where .= $opt_condition->toString($with_values).' ';
-				    $condition_count++;
+			$condition_count = 0;
+
+			foreach ($this->conditions as $conditionGroup) {
+				if ($condition_count === 0) {
+					$conditionGroup->setPipe("");
 				}
-			    }
+				$condition_string = $conditionGroup->toString($with_values);
+				$where .= $condition_string;
+				$condition_count++;
 			}
-			
-                    return trim($where);
+
+			if ($with_optimization &&
+					(strstr($this->getOrderByString(), 'list_order') || strstr($this->getOrderByString(), 'update_order'))) {
+
+				if ($condition_count !== 0)
+					$where = '(' . $where . ') ';
+
+				foreach ($this->orderby as $order) {
+					$colName = $order->getColumnName();
+					if (strstr($colName, 'list_order') || strstr($colName, 'update_order')) {
+						$opt_condition = new ConditionWithoutArgument($colName, 2100000000, 'less', 'and');
+						if ($condition_count === 0)
+							$opt_condition->setPipe("");
+						$where .= $opt_condition->toString($with_values) . ' ';
+						$condition_count++;
+					}
+				}
+			}
+
+			return trim($where);
 		}
 
 		function getGroupByString(){
