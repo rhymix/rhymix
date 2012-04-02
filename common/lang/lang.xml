@@ -462,7 +462,7 @@
 		<value xml:lang="mn"><![CDATA[Доош]]></value>
 	</item>
 	<item name="cmd_add_indent">
-		<value xml:lang="ko"><![CDATA[들이기]]></value>
+		<value xml:lang="ko"><![CDATA[들여쓰기]]></value>
 		<value xml:lang="en"><![CDATA[Indent]]></value>
 		<value xml:lang="jp"><![CDATA[インデント]]></value>
 		<value xml:lang="zh-CN"><![CDATA[拉长]]></value>
@@ -476,7 +476,7 @@
 		<value xml:lang="mn"><![CDATA[Нэмж оруулах]]></value>
 	</item>
 	<item name="cmd_remove_indent">
-		<value xml:lang="ko"><![CDATA[빼내기]]></value>
+		<value xml:lang="ko"><![CDATA[내어쓰기]]></value>
 		<value xml:lang="en"><![CDATA[Outdent]]></value>
 		<value xml:lang="jp"><![CDATA[逆インデント]]></value>
 		<value xml:lang="zh-CN"><![CDATA[缩短]]></value>
@@ -1679,7 +1679,7 @@
 		<value xml:lang="tr"><![CDATA[Hareketli Yerleşim düzeni]]></value>
 	</item>
 	<item name="widget">
-		<value xml:lang="ko"><![CDATA[위젯 ]]></value>
+		<value xml:lang="ko"><![CDATA[위젯]]></value>
 		<value xml:lang="en"><![CDATA[Widget]]></value>
 		<value xml:lang="jp"><![CDATA[ウィジェット]]></value>
 		<value xml:lang="zh-CN"><![CDATA[控件 ]]></value>
@@ -2769,7 +2769,7 @@ Xin vui lòng kiểm tra lại thông tin Database.]]></value>
 		<value xml:lang="mn"><![CDATA[Хүсэлт гаргасан үйлдлийг хэрэгжүүлэх эрх байхгүй.]]></value>
 	</item>
 	<item name="msg_module_is_not_exists">
-		<value xml:lang="ko"><![CDATA[요청하신 모듈을 찾을 수 없습니다.  사이트 관리자에게 모듈 점검 요청 바랍니다]]></value>
+		<value xml:lang="ko"><![CDATA[요청하신 모듈을 찾을 수 없습니다. 사이트 관리자에게 모듈 점검 요청 바랍니다]]></value>
 		<value xml:lang="en"><![CDATA[Cannot find the module you requested. Ask your Site Admin to check the module.]]></value>
 		<value xml:lang="jp"><![CDATA[モジュールが見つかりません。 サイトマネージャへモジュールの点検をお問い合わせください。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[找不到所登錄的模組。 請詢問網站管理員檢查模組。]]></value>
@@ -2811,6 +2811,7 @@ Xin vui lòng kiểm tra lại thông tin Database.]]></value>
 		<value xml:lang="en"><![CDATA[搜尋不到關鍵字]]></value>
 	</item>
 	<item name="comment_to_be_approved">
+		<value xml:lang="ko"><![CDATA[관리자의 확인이 필요한 댓글입니다.]]></value>
 		<value xml:lang="en"><![CDATA[Your comment must be approved by admin before being published.]]></value>
 	</item>
 	<item name="success_registed">

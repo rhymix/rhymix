@@ -541,7 +541,7 @@ body.modalContainer{_height:100%;_width:100%} /* IE6 only */
 .x #skin .showAll.hideAll{background-position:right 0}
 /* Favorite On | Off */
 .x .fvOff,
-.x .fvOn{display:inline-block;width:16px;height:16px;overflow:hidden;text-indent:16px;background:url(../img/iconFavorite.gif) no-repeat}
+.x .fvOn{display:inline-block;width:16px;height:16px;overflow:hidden;text-indent:16px;background:transparent url(../img/iconFavorite.gif) no-repeat;border:0}
 .x .fvOn{background-position:0 -16px}
 /* Up-Down Dragable */
 .x .uDrag .wrap{position:relative;padding-left:20px}

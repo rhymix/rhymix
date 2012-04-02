@@ -21,9 +21,9 @@
 			<tr>
 				<td class="nowr">
 					<!--@if(in_array($val->module,$favoriteModuleList))-->
-					<a href="#" class="fvOn" onclick="doToggleFavoriteModule(this, '{$val->module}'); return false;">{$lang->favorite}({$lang->on})</a>
+					<button type="button" class="fvOn" onclick="doToggleFavoriteModule(this, '{$val->module}'); return false;">{$lang->favorite}({$lang->on})</button>
 					<!--@else-->
-					<a href="#" class="fvOff" onclick="doToggleFavoriteModule(this, '{$val->module}'); return false;">{$lang->favorite}({$lang->off})</a>
+					<button type="button" class="fvOff" onclick="doToggleFavoriteModule(this, '{$val->module}'); return false;">{$lang->favorite}({$lang->off})</button>
 					<!--@end-->
 				</td>
 				<td class="title">

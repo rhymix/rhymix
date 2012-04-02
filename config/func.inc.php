@@ -692,7 +692,7 @@
          * Remove codes to abuse the admin session in src by tags of imaages and video postings
          * - Issue reported by Sangwon Kim
          **/
-		$content = preg_replace_callback('@<(/?)([a-z]+[0-9]?)((?>"[^"]*"|\'[^\']*\'|[^>])*?\b(?:on[a-z]+|data|style|background|href|(?:dyn|low)?src)\s*=[\s\S]*?)(/?)>@i', 'removeSrcHack', $content);
+		$content = preg_replace_callback('@<(/?)([a-z]+[0-9]?)((?>"[^"]*"|\'[^\']*\'|[^>])*?\b(?:on[a-z]+|data|style|background|href|(?:dyn|low)?src)\s*=[\s\S]*?)(/?)($|>|<)@i', 'removeSrcHack', $content);
 
 		// xmp tag 확인 및 추가
 		$content = checkXmpTag($content);

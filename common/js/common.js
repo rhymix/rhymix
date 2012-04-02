@@ -192,19 +192,26 @@ jQuery(function($) {
 
 });
 
+(function(){ // String extension methods
+
+function isSameUrl(a,b) {
+	return (a.replace(/#.*$/, '') === b.replace(/#.*$/, ''));
+}
+
+var isArray = Array.isArray || function(obj){ return Object.prototype.toString.call(obj)=='[object Array]' };
 
 /**
  * @brief location.href에서 특정 key의 값을 return
  **/
 String.prototype.getQuery = function(key) {
-    var idx = this.indexOf('?');
+	var loc = isSameUrl(this, window.location.href) ? current_url : this;
+    var idx = loc.indexOf('?');
     if(idx == -1) return null;
-    var query_string = this.substr(idx+1, this.length);
-    var args = {};
+    var query_string = loc.substr(idx+1, this.length), args = {};
     query_string.replace(/([^=]+)=([^&]*)(&|$)/g, function() { args[arguments[1]] = arguments[2]; });
 
     var q = args[key];
-    if(typeof(q)=="undefined") q = "";
+    if(typeof(q)=='undefined') q = '';
 
     return q;
 }
@@ -213,67 +220,58 @@ String.prototype.getQuery = function(key) {
  * @brief location.href에서 특정 key의 값을 return
  **/
 String.prototype.setQuery = function(key, val) {
-    var idx = this.indexOf('?');
-    var uri = this.replace(/#$/, '');
+	var loc = isSameUrl(this, window.location.href) ? current_url : this;
+    var idx = loc.indexOf('?');
+    var uri = loc.replace(/#$/, '');
+	var act, re, v;
 
-    if(idx != -1) {
-        var query_string = uri.substr(idx+1, this.length), args = {}, q_list = [];
-		uri = this.substr(0, idx);
+	if (typeof(val)=='undefined') val = '';
+
+    if (idx != -1) {
+        var query_string = uri.substr(idx+1, loc.length), args = {}, q_list = [];
+		uri = loc.substr(0, idx);
         query_string.replace(/([^=]+)=([^&]*)(&|$)/g, function(all,key,val) { args[key] = val; });
 
         args[key] = val;
 
-		jQuery.each(args, function(key,val){
-			if (!jQuery.trim(val)) return;
-			q_list.push(key+'='+decodeURI(val));
-		});
+		for (var prop in args) {
+			if (!args.hasOwnProperty(prop)) continue;
+			if (!(v = String(args[prop]).trim())) continue;
+			q_list.push(prop+'='+decodeURI(v));
+		}
 
 		query_string = q_list.join('&');
 		uri = uri+(query_string?'?'+query_string:'');
     } else {
-        if(val.toString().trim()) uri = uri+"?"+key+"="+val;
+        if (String(val).trim()) uri = uri+'?'+key+'='+val;
     }
 
-    var re = /https:\/\/([^:\/]+)(:\d+|)/i;
-    var check = re.exec(uri);
-    if(check)
-    {
-        var toReplace = "http://"+check[1];
-        if(typeof(http_port)!='undefined' && http_port != 80)
-        {
-            toReplace += ":" + http_port;
-        }
-        uri = uri.replace(re,toReplace);
+	re = /^https:\/\/([^:\/]+)(:\d+|)/i;
+    if (re.test(uri)) {
+        var toReplace = 'http://'+RegExp.$1;
+        if (window.http_port && http_port != 80) toReplace += ':' + http_port;
+        uri = uri.replace(re, toReplace);
     }
-    var bUseSSL = false;
-    if(typeof(enforce_ssl)!='undefined' && enforce_ssl)
-    {
-        bUseSSL = true;
-    }
-    else if(typeof(ssl_actions)!='undefined' && typeof(ssl_actions.length)!='undefined' && uri.getQuery('act')) {
-        var act = uri.getQuery('act');
-        for(i=0;i<ssl_actions.length;i++) {
-            if(ssl_actions[i]==act) {
+
+    var bUseSSL = !!window.enforce_ssl;
+	if (!bUseSSL && isArray(window.ssl_actions) && (act=uri.getQuery('act'))) {
+        for (var i=0,c=ssl_actions.length; i < c; i++) {
+            if (ssl_actions[i] === act) {
                 bUseSSL = true;
                 break;
             }
         }
     }
 
-    if(bUseSSL)
-    {
-        var re = /http:\/\/([^:\/]+)(:\d+|)/i;
-        var check = re.exec(uri);
-        if(check)
-        {
-            var toReplace = "https://"+check[1];
-            if(typeof(https_port)!='undefined' && https_port != 443)
-            {
-                toReplace += ":" + https_port;
-            }
-            uri = uri.replace(re,toReplace);
-        }
-    }
+	re = /http:\/\/([^:\/]+)(:\d+|)/i;
+	if (bUseSSL && re.test(uri)) {
+		var toReplace = 'https://'+RegExp.$1
+		if (window.https_port && https_port != 443) toReplace += ':' + https_port;
+		uri = uri.replace(re, toReplace);
+	}
+
+	// insert index.php if it isn't included
+	uri = uri.replace(/\/(index\.php)?\?/, '/index.php?');
 
     return encodeURI(uri);
 }
@@ -284,6 +282,8 @@ String.prototype.setQuery = function(key, val) {
 String.prototype.trim = function() {
     return this.replace(/(^\s*)|(\s*$)/g, "");
 }
+
+})();
 
 /**
  * @brief xSleep(micro time)
