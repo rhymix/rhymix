@@ -11,30 +11,30 @@
 {@ $css_files = Context::getCssFile() }
 <!--@foreach($css_files as $key => $css_file)-->
 <!--@if($css_file['targetie'])-->
-	<!--[if {$css_file['targetie']}]>
+    <!--[if {$css_file['targetie']}]>
 <!--@end-->
-	<link rel="stylesheet" href="{$css_file['file']}" type="text/css" charset="UTF-8" media="{$css_file['media']}" />
+    <link rel="stylesheet" href="{$css_file['file']}" type="text/css" charset="UTF-8" media="{$css_file['media']}" />
 <!--@if($css_file['targetie'])-->
-	<![endif]-->
+    <![endif]-->
 <!--@end-->
 <!--@end-->
 {@ $js_files = Context::getJsFile() }
 <!--@foreach($js_files as $key => $js_file)-->
 <!--@if($js_file['targetie'])-->
-	<!--[if {$js_file['targetie']}]>
+    <!--[if {$js_file['targetie']}]>
 <!--@end-->
-	<script type="text/javascript" src="{$js_file['file']}"></script>
+    <script type="text/javascript" src="{$js_file['file']}"></script>
 <!--@if($js_file['targetie'])-->
-	<![endif]-->
+    <![endif]-->
 <!--@end-->
 <!--@end-->
 <!--@if($rss_url)-->
-	<link rel="alternate" type="application/rss+xml" title="RSS" href="{$rss_url}" />
-	<link rel="alternate" type="application/atom+xml" title="Atom" href="{$atom_url}" />
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="{$rss_url}" />
+    <link rel="alternate" type="application/atom+xml" title="Atom" href="{$atom_url}" />
 <!--@end-->
 <!--@if($general_rss_url)-->
-	<link rel="alternate" type="application/rss+xml" title="Site RSS" href="{$general_rss_url}" />
-	<link rel="alternate" type="application/atom+xml" title="Site Atom" href="{$general_atom_url}" />
+    <link rel="alternate" type="application/rss+xml" title="Site RSS" href="{$general_rss_url}" />
+    <link rel="alternate" type="application/atom+xml" title="Site Atom" href="{$general_atom_url}" />
 <!--@end-->
 
 <link cond="$favicon_url" rel="shortcut icon" href="{$favicon_url}" />
@@ -43,35 +43,35 @@
 <script type="text/javascript" src="../js/html5.js" cond="$db_info->use_html5=='Y'"></script>
 <![endif]-->
 {@ $ssl_actions = Context::getSSLActions() }
-	<script type="text/javascript">//<![CDATA[
-		var current_url = "{$current_url}";
-		var request_uri = "{$request_uri}";
+    <script type="text/javascript">//<![CDATA[
+        var current_url = "{$current_url}";
+        var request_uri = "{$request_uri}";
 <!--@if($vid)-->var xeVid = "{$vid}";<!--@end-->
-		var current_mid = "{$mid}";
-		var waiting_message = "{$lang->msg_call_server}";
-		var ssl_actions = new Array(<!--@if(count($ssl_actions))-->"{implode('","',$ssl_actions)}"<!--@end-->);
-		var default_url = "{Context::getDefaultUrl()}";
-		<!--@if(Context::get("_http_port"))-->var http_port = {Context::get("_http_port")};<!--@end-->
-		<!--@if(Context::get("_https_port"))-->var https_port = {Context::get("_https_port")};<!--@end-->
-		<!--@if(Context::get("_use_ssl") && Context::get("_use_ssl") == "always")-->var enforce_ssl = true;<!--@end-->
-	//]]></script>
-	{Context::getHtmlHeader()}
+        var current_mid = "{$mid}";
+        var waiting_message = "{$lang->msg_call_server}";
+        var ssl_actions = new Array(<!--@if(count($ssl_actions))-->"{implode('","',$ssl_actions)}"<!--@end-->);
+        var default_url = "{Context::getDefaultUrl()}";
+        <!--@if(Context::get("_http_port"))-->var http_port = {Context::get("_http_port")};<!--@end-->
+        <!--@if(Context::get("_https_port"))-->var https_port = {Context::get("_https_port")};<!--@end-->
+        <!--@if(Context::get("_use_ssl") && Context::get("_use_ssl") == "always")-->var enforce_ssl = true;<!--@end-->
+    //]]></script>
+    {Context::getHtmlHeader()}
 </head>
 <body{Context::getBodyClass()}>
-	{Context::getBodyHeader()}
+    {Context::getBodyHeader()}
 
-	{$content}
+    {$content}
 
-	{Context::getHtmlFooter()}
+    {Context::getHtmlFooter()}
 
 {@ $js_body_files = Context::getJsFile('body') }
 <!--@foreach($js_body_files as $key => $js_file)-->
 <!--@if($js_file['targetie'])-->
-	<!--[if {$js_file['targetie']}]>
+    <!--[if {$js_file['targetie']}]>
 <!--@end-->
-	<script type="text/javascript" src="{$js_file['file']}"></script>
+    <script type="text/javascript" src="{$js_file['file']}"></script>
 <!--@if($js_file['targetie'])-->
-	<![endif]-->
+    <![endif]-->
 <!--@end-->
 <!--@end-->
 </body>
