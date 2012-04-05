@@ -32,6 +32,15 @@
 		function isJoinTable(){
 			return true;
 		}
+		
+		function getArguments()
+		{
+			$args = array();
+			foreach($this->conditions as $conditionGroup)
+				$args = array_merge($args, $conditionGroup->getArguments());			
+			return $args;
+		}
+		
 	}
 
 ?>

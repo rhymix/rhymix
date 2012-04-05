@@ -239,7 +239,12 @@ class Context {
                     $oInstallController = &getController('install');
                     $oInstallController->makeConfigFile();
                 }
-
+		
+		if(!$db_info->use_prepared_statements) 
+		{
+			$db_info->use_prepared_statements = 'Y';
+		}
+				
 		if(!$db_info->time_zone) $db_info->time_zone = date('O');
 		$GLOBALS['_time_zone'] = $db_info->time_zone;
 

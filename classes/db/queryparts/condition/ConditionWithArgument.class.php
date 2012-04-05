@@ -14,16 +14,27 @@
 		}
 
 		function toStringWithoutValue(){
-                    $value = $this->argument->getUnescapedValue();
+			$value = $this->argument->getUnescapedValue();
 
-                    if(is_array($value)){
-                        $q = '';
-                        foreach ($value as $v) $q .= '?,';
-                        if($q !== '') $q = substr($q, 0, -1);
-                        $q = '(' . $q . ')';
-                    }
-                    else $q = '?';
-                    return $this->pipe . ' ' . $this->getConditionPart($q);
+			if(is_array($value)){
+				$q = '';
+				foreach ($value as $v) $q .= '?,';
+				if($q !== '') $q = substr($q, 0, -1);
+				$q = '(' . $q . ')';
+			}
+			else 
+			{
+				// Prepared statements: column names should not be sent as query arguments, but instead concatenated to query string
+				if($this->argument->isColumnName())
+				{
+					$q = $value;
+				}
+				else
+				{
+					$q = '?';
+				}
+			}
+			return $this->pipe . ' ' . $this->getConditionPart($q);
 		}
 
 		function show(){

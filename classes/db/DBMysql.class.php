@@ -6,6 +6,8 @@
      * @version 0.1
      *
      * mysql handling class
+	 * 
+	 * Does not use prepared statements, since mysql driver does not support them
      **/
 
     class DBMysql extends DB {
@@ -365,13 +367,8 @@
         /**
          * @brief Handle the insertAct
          **/
-        function _executeInsertAct($queryObject) {
-            // TODO See what priority does
-			//priority setting
-			//$priority = '';
-			//if($output->priority) $priority = $output->priority['type'].'_priority';
-
-            $query = $this->getInsertSql($queryObject, true, true);
+        function _executeInsertAct($queryObject, $with_values = true) {
+            $query = $this->getInsertSql($queryObject, $with_values, true);
             if(is_a($query, 'Object')) return;
             return $this->_query($query);
         }
@@ -379,13 +376,8 @@
         /**
          * @brief Handle updateAct
          **/
-        function _executeUpdateAct($queryObject) {
-            // TODO See what proiority does
-			//priority setting
-			//$priority = '';
-			//if($output->priority) $priority = $output->priority['type'].'_priority';
-
-            $query = $this->getUpdateSql($queryObject, true, true);
+        function _executeUpdateAct($queryObject, $with_values = true) {
+            $query = $this->getUpdateSql($queryObject, $with_values, true);
             if(is_a($query, 'Object')) return;
             return $this->_query($query);
         }
@@ -393,15 +385,9 @@
         /**
          * @brief Handle deleteAct
          **/
-        function _executeDeleteAct($queryObject) {
-        	$query = $this->getDeleteSql($queryObject, true, true);
-
+        function _executeDeleteAct($queryObject, $with_values = true) {
+        	$query = $this->getDeleteSql($queryObject, $with_values, true);
         	if(is_a($query, 'Object')) return;
-
-        	//priority setting
-			// TODO Check what priority does
-			//$priority = '';
-			//if($output->priority) $priority = $output->priority['type'].'_priority';
             return $this->_query($query);
         }
 
@@ -411,24 +397,26 @@
          * In order to get a list of pages easily when selecting \n
          * it supports a method as navigation
          **/
-        function _executeSelectAct($queryObject, $connection = null) {
-            $limit = $queryObject->getLimit();
-            if ($limit && $limit->isPageHandler())
-                    return $this->queryPageLimit($queryObject, $result, $connection);
-            else {
-                $query = $this->getSelectSql($queryObject);
-		if(is_a($query, 'Object')) return;
-                    $query .= (__DEBUG_QUERY__&1 && $queryObject->query_id)?sprintf(' '.$this->comment_syntax,$this->query_id):'';
+        function _executeSelectAct($queryObject, $connection = null, $with_values = true) {
+			$limit = $queryObject->getLimit();
+			if ($limit && $limit->isPageHandler())
+				return $this->queryPageLimit($queryObject, $result, $connection, $with_values);
+			else {
+				$query = $this->getSelectSql($queryObject, $with_values);
+				if (is_a($query, 'Object'))
+					return;
+				$query .= (__DEBUG_QUERY__ & 1 && $queryObject->query_id) ? sprintf(' ' . $this->comment_syntax, $this->query_id) : '';
 
-		$result = $this->_query ($query, $connection);
-		if ($this->isError ()) return $this->queryError($queryObject);
+				$result = $this->_query($query, $connection);
+				if ($this->isError())
+					return $this->queryError($queryObject);
 
-                $data = $this->_fetch($result);
-                $buff = new Object ();
-                $buff->data = $data;
-                return $buff;
-            }
-        }
+				$data = $this->_fetch($result);
+				$buff = new Object ();
+				$buff->data = $data;
+				return $buff;
+			}
+		}
 
         function db_insert_id()
         {
@@ -463,16 +451,16 @@
                             return;
         }
 
-        function queryPageLimit($queryObject, $result, $connection){
+        function queryPageLimit($queryObject, $result, $connection, $with_values = true){
             $limit = $queryObject->getLimit();
             // Total count
-            $temp_where = $queryObject->getWhereString(true, false);
-            $count_query = sprintf('select count(*) as "count" %s %s', 'FROM ' . $queryObject->getFromString(), ($temp_where === '' ? '' : ' WHERE '. $temp_where));
+            $temp_where = $queryObject->getWhereString($with_values, false);
+            $count_query = sprintf('select count(*) as "count" %s %s', 'FROM ' . $queryObject->getFromString($with_values), ($temp_where === '' ? '' : ' WHERE '. $temp_where));
 			
 			// Check for distinct query and if found update count query structure
-            $temp_select = $queryObject->getSelectString();
+            $temp_select = $queryObject->getSelectString($with_values);
 			if(strpos(strtolower($temp_select), "distinct") !== false) {
-					$count_query = sprintf('select %s %s %s', 'FROM ' . $queryObject->getFromString(), $temp_select, ($temp_where === '' ? '' : ' WHERE '. $temp_where));
+					$count_query = sprintf('select %s %s %s', 'FROM ' . $queryObject->getFromString($with_values), $temp_select, ($temp_where === '' ? '' : ' WHERE '. $temp_where));
 					$uses_distinct = true;
 			}
 			
@@ -512,7 +500,7 @@
 			}
             $start_count = ($page - 1) * $list_count;
 
-            $query = $this->getSelectPageSql($queryObject, true, $start_count, $list_count);
+            $query = $this->getSelectPageSql($queryObject, $with_values, $start_count, $list_count);
 
             $query .= (__DEBUG_QUERY__&1 && $queryObject->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
             $result = $this->_query ($query, $connection);

@@ -82,6 +82,8 @@
 
 		var $db_type; ///< stores database type: 'mysql','cubrid','mssql' etc. or 'db' when database is not yet set
 
+		var $use_prepared_statements; ///< flag to decide if class prepared statements or not (when supported); can be changed from db.config.info
+		
         /**
          * @brief returns instance of certain db type
          * @param[in] $db_type type of db
@@ -762,6 +764,7 @@
             else
                     $this->slave_db = $db_info->slave_db;
             $this->prefix = $db_info->master_db["db_table_prefix"];
+			$this->use_prepared_statements = $db_info->use_prepared_statements;
         }
 
         function __connect(){

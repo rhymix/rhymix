@@ -20,7 +20,9 @@ class Argument {
 
 	function getType() {
 		if (isset($this->type))
+		{
 			return $this->type;
+		}
 		if (is_string($this->value))
 			return 'column_name';
 		return 'number';
@@ -29,7 +31,7 @@ class Argument {
 	function setColumnType($value) {
 		$this->type = $value;
 	}
-
+	
 	function setColumnOperation($operation) {
 		$this->column_operation = $operation;
 	}
@@ -92,7 +94,7 @@ class Argument {
 		if ($column_type == 'number') {
 			if (is_array($value)) {
 				foreach ($value AS $key => $val) {
-					if (isset($val)) {
+					if (isset($val) && $val !== '') {
 						$value[$key] = (int) $val;
 					}
 				}
@@ -112,6 +114,13 @@ class Argument {
 
 	function isValid() {
 		return $this->isValid;
+	}
+	
+	function isColumnName(){
+		$type = $this->getType();
+		if($type == 'column_name') return true;
+		if($type == 'number' && !is_numeric($this->value) && $this->uses_default_value) return true;
+		return false;
 	}
 
 	function getErrorMessage() {
