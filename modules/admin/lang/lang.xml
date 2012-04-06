@@ -537,16 +537,16 @@ Lütfen son sürümü için indirme linkine tıklayınız.]]></value>
 		<value xml:lang="vi"><![CDATA[Để hiển thị ngôn ngữ đã chọn là mặc định. Hãy bấm [Lưu] phía dưới để lưu lại.]]></value>
 	</item>
 	<item name="xe_license">
-		<value xml:lang="ko"><![CDATA[XE는 GPL을 따릅니다.]]></value>
-		<value xml:lang="en"><![CDATA[XE complies with the GPL.]]></value>
-		<value xml:lang="jp"><![CDATA[XEのライセンスはGPLです。]]></value>
-		<value xml:lang="zh-CN"><![CDATA[XE遵循 GPL协议]]></value>
-		<value xml:lang="zh-TW"><![CDATA[XE遵循 GPL協議]]></value>
-		<value xml:lang="fr"><![CDATA[XE s'applique la GPL]]></value>
-		<value xml:lang="ru"><![CDATA[XE подчиняется Стандартной Общественной Лицензии GPL]]></value>
-		<value xml:lang="es"><![CDATA[XE está bajo la Licencia de GPL]]></value>
-		<value xml:lang="tr"><![CDATA[XE GPL ile uyumludur]]></value>
-		<value xml:lang="vi"><![CDATA[XE sử dụng giấy phép GPL]]></value>
+		<value xml:lang="ko"><![CDATA[XE는 LGPL을 따릅니다.]]></value>
+		<value xml:lang="en"><![CDATA[XE complies with the LGPL.]]></value>
+		<value xml:lang="jp"><![CDATA[XEのライセンスはLGPLです。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[XE遵循 LGPL协议]]></value>
+		<value xml:lang="zh-TW"><![CDATA[XE遵循 LGPL協議]]></value>
+		<value xml:lang="fr"><![CDATA[XE s'applique la LGPL]]></value>
+		<value xml:lang="ru"><![CDATA[XE подчиняется Стандартной Общественной Лицензии LGPL]]></value>
+		<value xml:lang="es"><![CDATA[XE está bajo la Licencia de LGPL]]></value>
+		<value xml:lang="tr"><![CDATA[XE LGPL ile uyumludur]]></value>
+		<value xml:lang="vi"><![CDATA[XE sử dụng giấy phép LGPL]]></value>
 	</item>
 	<item name="about_shortcut">
 		<value xml:lang="ko"><![CDATA[자주 사용하는 모듈에 등록된 모듈의 바로가기를 삭제할 수 있습니다.]]></value>
@@ -580,7 +580,7 @@ Lütfen son sürümü için indirme linkine tıklayınız.]]></value>
 	</item>
 	<item name="about_lang_select">
 		<value xml:lang="ko"><![CDATA[지원할 언어를 설정하세요.]]></value>
-		<value xml:lang="en"><![CDATA[Select a language.]]></value>
+		<value xml:lang="en"><![CDATA[Select the supporting language(s).]]></value>
 		<value xml:lang="jp"><![CDATA[サポート言語を選択してください。]]></value>
 	</item>
 	<item name="about_default_lang">
@@ -597,7 +597,7 @@ Lütfen son sürümü için indirme linkine tıklayınız.]]></value>
 		<value xml:lang="en"><![CDATA[It may take a long time. Do you want to run?]]></value>
 	</item>
 	<item name="use_ssl">
-		<value xml:lang="ko"><![CDATA[SSL(Secure Sockets Layer)을 사용하시겠습니까?]]></value>
+		<value xml:lang="ko"><![CDATA[SSL(Secure Sockets Layer, 보안접속)을 사용하시겠습니까?]]></value>
 		<value xml:lang="en"><![CDATA[Do you want to use Secure Sockets Layer (SSL)?]]></value>
 		<value xml:lang="jp"><![CDATA[SSL(Secure Sockets Layer)を使用しますか?]]></value>
 	</item>
@@ -640,7 +640,7 @@ Lütfen son sürümü için indirme linkine tıklayınız.]]></value>
 		</item>
 	</item>
 	<item name="about_use_ssl">
-		<value xml:lang="ko"><![CDATA['선택적으로'는 회원가입, 정보수정 등의 지정된 action에서 SSL을 사용합니다.<br /> '항상 사용'은 모든 서비스에 SSL을 사용 합니다.]]></value>
+		<value xml:lang="ko"><![CDATA['선택적으로'는 회원가입, 정보수정 등의 지정된 동작(action)에서 보안접속(SSL)을 사용합니다.<br /> '항상 사용'은 모든 서비스에 SSL을 사용 합니다.]]></value>
 		<value xml:lang="en"><![CDATA[Select 'Optional' to use SSL for the specified actions such as signing up and changing information.<br /> 'Always' to use SSL for all services.]]></value>
 		<value xml:lang="jp"><![CDATA[「部分的に使う」は、「会員登録/会員情報変更」など指定のアクションでSSLを利用する場合。「常に使う」は、すべてのサービスにSSLを使う場合に選択します。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[选择性使用选项应用于新用户注册/修改用户信息等已指定的action当中，使用选项应用于所有服务。]]></value>
@@ -652,7 +652,7 @@ Lütfen son sürümü için indirme linkine tıklayınız.]]></value>
 		<value xml:lang="vi"><![CDATA[Nếu bạn chọn 'Tùy chỉnh', SSL sẽ sử dụng và những công việc như đăng kí, sửa thông tin thành viên, .<br />Chỉ chọn 'Luôn luôn' khi Website của bạn đang chạy trên Server có hỗ trợ https.]]></value>
 	</item>
 	<item name="server_ports">
-		<value xml:lang="ko"><![CDATA[서버포트지정]]></value>
+		<value xml:lang="ko"><![CDATA[서버 포트 지정]]></value>
 		<value xml:lang="en"><![CDATA[Server Port]]></value>
 		<value xml:lang="jp"><![CDATA[サーバーポート指定]]></value>
 		<value xml:lang="zh-CN"><![CDATA[指定服务器端口]]></value>
@@ -683,19 +683,19 @@ Lütfen son sürümü için indirme linkine tıklayınız.]]></value>
 		<value xml:lang="vi"><![CDATA[Xác nhận Database]]></value>
 	</item>
 	<item name="about_db_session">
-		<value xml:lang="ko"><![CDATA[인증 시 사용되는 PHP 세션을 DB로 사용하는 기능입니다.<br/>웹서버의 사용률이 낮은 사이트에서는 비활성화시 사이트 응답 속도가 향상될 수 있습니다.<br/>단 현재 접속자를 구할 수 없어 관련된 기능을 사용할 수 없게 됩니다.]]></value>
+		<value xml:lang="ko"><![CDATA[인증 시 사용되는 PHP 세션을 DB로 사용하는 기능입니다.<br/>웹서버의 사용률이 낮은 사이트에서는 비활성화시 사이트 응답 속도가 향상될 수 있습니다.<br/>단, 현재 접속자를 구할 수 없어 관련된 기능을 사용할 수 없게 됩니다.]]></value>
 		<value xml:lang="en"><![CDATA[This setting will use PHP session used for authentication as DB.<br/>For the Websites which do not use web server frequently, you can uncheck this setting to improve response time.<br/>However, session DB will make it difficult to get current users, so you cannot use related functions.]]></value>
 		<value xml:lang="jp"><![CDATA[認証の際に使われるPHPセッションをDBで使う機能です。<br />ウェブサーバーの負荷が低いサイトではこの機能をオフにすることでむしろサイトのレスポンスが向上されることもあります。<br />ただし、この機能をオンにすると、「現在ログイン中の会員」の機能を利用できなくなります。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[用DB储存认证时的PHP会话。<br/>服务器使用率较少的网站建议不要勾选此项(可提高网站访问速度)。<br/>只是无法统计在线会员。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[使用 PHP session進行 DB認證。<br/>關閉此功能對於負荷較低的網站可提高效率。<br/>使用此功能會無法統計線上人數。]]></value>
-		<value xml:lang="fr"><![CDATA[인증시 사용되는 PHP 세션을 DB로 사용하는 기능입니다.<br/>웹서버의 사용율이 낮은 사이트에서는 비활성화시 사이트 응답 속도가 향상될 수 있습니다<br/>단 현재 접속자를 구할 수 없어 관련된 기능을 사용할 수 없게 됩니다.]]></value>
+		<value xml:lang="fr"><![CDATA[This setting will use PHP session used for authentication as DB.<br/>For the Websites which do not use web server frequently, you can uncheck this setting to improve response time.<br/>However, session DB will make it difficult to get current users, so you cannot use related functions.]]></value>
 		<value xml:lang="ru"><![CDATA[It will use php session with DB when authenticating.<br/>Websites with infrequent usage of web server may expect faster response when this function is disabled.<br/>However session DB will make it unable to get current users, so you cannot use related functions]]></value>
-		<value xml:lang="es"><![CDATA[인증시 사용되는 PHP 세션을 DB로 사용하는 기능입니다.<br/>웹서버의 사용율이 낮은 사이트에서는 비활성화시 사이트 응답 속도가 향상될 수 있습니다<br/>단 현재 접속자를 구할 수 없어 관련된 기능을 사용할 수 없게 됩니다.]]></value>
+		<value xml:lang="es"><![CDATA[This setting will use PHP session used for authentication as DB.<br/>For the Websites which do not use web server frequently, you can uncheck this setting to improve response time.<br/>However, session DB will make it difficult to get current users, so you cannot use related functions.]]></value>
 		<value xml:lang="tr"><![CDATA[Yetersiz web sunucusu kullanımı olan websiteleri için, bu özellik devredışı bırakıldığı zaman daha hızlı bir tepki beklenebilir.<br/>Ancak oturum veritabanı, mevcut kullanıcılar için veritabanını erişilemez hâle getirecektir ve ilgili işler kullanılamaz hale gelecektir.]]></value>
 		<value xml:lang="vi"><![CDATA[PHP sẽ xác nhận với Database. Có thể cải thiện được tốc độ của Website.]]></value>
 	</item>
 	<item name="qmail_compatibility">
-        	<value xml:lang="ko"><![CDATA[Qmail 사용]]></value>
+        	<value xml:lang="ko"><![CDATA[큐메일(Qmail) 사용]]></value>
 	        <value xml:lang="en"><![CDATA[Enable Qmail]]></value>
 			<value xml:lang="jp"><![CDATA[Qmail使用]]></value>
 	</item>
@@ -728,7 +728,7 @@ Lütfen son sürümü için indirme linkine tıklayınız.]]></value>
 		<value xml:lang="vi"><![CDATA[Xóa thông tin FTP.]]></value>
 	</item>
 	<item name="msg_ftp_invalid_path">
-		<value xml:lang="ko"><![CDATA[FTP Path를 읽을 수 없습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[FTP 경로(Path)를 읽을 수 없습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Failed to read the specified FTP Path.]]></value>
 		<value xml:lang="jp"><![CDATA[指定されたFTPパスへのアクセスに失敗しました。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[无法读取FTP路径。]]></value>
@@ -829,7 +829,7 @@ Lütfen son sürümü için indirme linkine tıklayınız.]]></value>
 		<value xml:lang="jp"><![CDATA[現地の標準時間を設定してください。]]></value>
 	</item>
 	<item name="about_html_dtd">
-		<value xml:lang="ko"><![CDATA[HTML DTD를 설정하세요.]]></value>
+		<value xml:lang="ko"><![CDATA[HTML 규격(DTD)을 선택하세요.]]></value>
 		<value xml:lang="en"><![CDATA[Set HTML DTD.]]></value>
 		<value xml:lang="jp"><![CDATA[HTML DTDを設定してください。]]></value>
 	</item>
@@ -840,11 +840,6 @@ Lütfen son sürümü için indirme linkine tıklayınız.]]></value>
 	<item name="xhtml_transitional">
 		<value xml:lang="ko"><![CDATA[XHTML 1.0 Transitional]]></value>
 		<value xml:lang="en"><![CDATA[XHTML 1.0 Transitional]]></value>
-	</item>
-	<item name="about_html_dtd">
-		<value xml:lang="ko"><![CDATA[HTML DTD를 설정하세요.]]></value>
-		<value xml:lang="en"><![CDATA[Set HTML DTD.]]></value>
-		<value xml:lang="jp"><![CDATA[HTML DTDを設定してください。]]></value>
 	</item>
 	<item name="about_question_mobile_view">
 		<value xml:lang="ko"><![CDATA[모바일 기기에서 접속할 때 모바일 페이지를 보여줄까요?]]></value>
@@ -857,7 +852,7 @@ Lütfen son sürümü için indirme linkine tıklayınız.]]></value>
 		<value xml:lang="jp"><![CDATA[サムネイルの生成方式を選択してください。]]></value>
 	</item>
 	<item name="input_footer_script">
-		<value xml:lang="ko"><![CDATA[풋터 스크립트 삽입]]></value>
+		<value xml:lang="ko"><![CDATA[하단(footer) 스크립트 삽입]]></value>
 		<value xml:lang="en"><![CDATA[Input footer script]]></value>
 	</item>
 	<item name="detail_input_footer_script">
