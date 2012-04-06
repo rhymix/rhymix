@@ -7,7 +7,7 @@
 		var $list_count;
 
 		function LimitTag($index){
-			if($index->page->attrs && $index->page_count->attrs){
+			if($index->page && $index->page->attrs && $index->page_count && $index->page_count->attrs){
 				$this->page = new QueryArgument($index->page);
 				$this->page_count = new QueryArgument($index->page_count);
 				$this->arguments[] = $this->page;

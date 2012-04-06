@@ -4,6 +4,9 @@
 		var $columns;
 
 		function SelectColumnsTag($xml_columns_tag){
+			if (!$xml_columns_tag)
+			    $xml_columns_tag = new Xml_Node_();
+
 			$xml_columns = $xml_columns_tag->column;
 			$xml_queries = $xml_columns_tag->query;
 

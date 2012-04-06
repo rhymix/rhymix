@@ -525,6 +525,10 @@
 
 			$query = sprintf ("alter class \"%s\" add attribute ", $table_name);
 
+			$primary_list = array();
+			$unique_list = array();
+			$index_list = array();
+
 			foreach ($columns as $column) {
 				$name = $column->attrs->name;
 				$type = $column->attrs->type;
@@ -723,7 +727,7 @@
 			$count_query .= (__DEBUG_QUERY__&1 && $queryObject->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
 			$result = $this->_query($count_query, $connection);
 			$count_output = $this->_fetch($result);
-			$total_count = (int)$count_output->count;
+			$total_count = (int)(isset($count_output->output) ? $count_output->count : NULL);
 
 			$list_count = $limit->list_count->getValue();
 			if (!$list_count) $list_count = 20;
@@ -773,8 +777,9 @@
 			return $buff;
 		}
 
-		function getParser(){
-			return new DBParser('"', '"', $this->prefix);
+		function &getParser($force = FALSE){
+			$dbParser = new DBParser('"', '"', $this->prefix);
+			return $dbParser;
 		}
 
                 function getSelectPageSql($query, $with_values = true, $start_count = 0, $list_count = 0) {

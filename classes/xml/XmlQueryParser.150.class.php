@@ -57,7 +57,7 @@
             return $theInstance;
     	}
 
-        function parse($query_id, $xml_file, $cache_file) {
+        function parse($query_id = NULL, $xml_file = NULL, $cache_file = NULL) {
 
             // Read xml file
             $xml_obj = $this->getXmlFileContent($xml_file);
@@ -67,12 +67,11 @@
             if(!$action) return;
 
             $parser = new QueryParser($xml_obj->query);
-
-            FileHandler::writeFile($cache_file, $parser->toString());
+			FileHandler::writeFile($cache_file, $parser->toString());
         }
 
         function getXmlFileContent($xml_file){
-            $buff = FileHandler::readFile($xml_file);
+			$buff = FileHandler::readFile($xml_file);
             $xml_obj = parent::parse($buff);
             if(!$xml_obj) return;
             unset($buff);

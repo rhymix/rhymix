@@ -377,6 +377,10 @@
                 if(!is_array($xml_obj->table->column)) $columns[] = $xml_obj->table->column;
                 else $columns = $xml_obj->table->column;
 
+		$primary_list = array();
+		$unique_list = array();
+		$index_list = array();
+
                 foreach($columns as $column) {
                     $name = $column->attrs->name;
                     $type = $column->attrs->type;
@@ -459,7 +463,7 @@
 			$alias_list = '';
 			foreach($tables as $table)
 				$alias_list .= $table->getAlias();
-			join(',', split(' ', $alias_list));
+			implode(',', explode(' ', $alias_list));
 			
 			$where = $query->getWhereString($with_values);
 			if($where != '') $where = ' WHERE ' . $where;
@@ -478,7 +482,7 @@
             return $this->_query($query);
         }
 
-        function getSelectSql($query){
+        function getSelectSql($query, $with_values = TRUE){
        		$with_values = false;
 
        		//$limitOffset = $query->getLimit()->getOffset();
@@ -536,8 +540,9 @@
 			else return $this->queryPageLimit($queryObject, $result, $connection);
         }
 
-        function getParser(){
-        	return new DBParser("[", "]", $this->prefix);
+        function &getParser($force = FALSE){
+		$dbParser = new DBParser("[", "]", $this->prefix);
+        	return $dbParser;
         }
 
     	function queryError($queryObject){
@@ -597,11 +602,10 @@
 					$buff->page_navigation = new PageHandler($total_count, $total_page, $page, $page_count);
 					return $buff;
 				}
+				
 				$start_count = ($page - 1) * $list_count;
-
-				$query .= (__DEBUG_QUERY__ & 1 && $queryObject->query_id) ? sprintf(' ' . $this->comment_syntax, $this->query_id) : '';
 				$this->param = $queryObject->getArguments();
-				$virtual_no = $total_count - ($page - 1) * $list_count;
+				$virtual_no = $total_count - $start_count;
 				$data = $this->_fetch($result, $virtual_no);
 
 				$buff = new Object ();

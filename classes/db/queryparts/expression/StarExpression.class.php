@@ -16,5 +16,10 @@
 		function getArgument(){
 			return null;
 		}
+
+		function getArguments(){
+		    // StarExpression has no arguments
+			return array();
+		}
 	}
 ?>

@@ -12,15 +12,20 @@
 		var $click_count;
 		
 		function SelectColumnTag($column){
-			parent::ColumnTag($column->attrs->name);
-			if(!$this->name) $this->name = "*";			
-			if($this->name != "*") {
-				$dbParser = DB::getParser();
-				$this->name = $dbParser->parseExpression($this->name);
+			if ($column == "*" || $column->attrs->name == '*')
+			{
+				parent::ColumnTag(NULL);
+				$this->name = "*";
 			}
+			else
+			{
+				parent::ColumnTag($column->attrs->name);
+				$dbParser = new DB(); $dbParser = &$dbParser->getParser();
+				$this->name = $dbParser->parseExpression($this->name);
 				
-			$this->alias = $column->attrs->alias;
-			$this->click_count = $column->attrs->click_count;
+				$this->alias = $column->attrs->alias;
+				$this->click_count = $column->attrs->click_count;
+			}
 		}
 		
 		function getExpressionString(){
@@ -31,4 +36,3 @@
 			return sprintf('new SelectExpression(\'%s\'%s)', $this->name, $this->alias ? ', \''.$dbParser->escape($this->alias) .'\'': '');	
 		}
 	}
-?>

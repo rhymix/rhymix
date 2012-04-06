@@ -30,6 +30,7 @@
 
                 function toString($with_values = true){
                     $oDB = &DB::getInstance();
+
                     return '(' .$oDB->getSelectSql($this, $with_values) . ')';
 
                 }
@@ -38,5 +39,3 @@
                     return true;
                 }
 	}
-
-?>

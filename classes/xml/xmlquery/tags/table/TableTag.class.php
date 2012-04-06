@@ -68,6 +68,7 @@
                  */
 		function getTableString(){
 			$dbParser = DB::getParser();
+
 			if($this->isJoinTable()){
 				return sprintf('new JoinTable(\'%s\', \'%s\', "%s", %s)'
 								, $dbParser->escape($this->name)

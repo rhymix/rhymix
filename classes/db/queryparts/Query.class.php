@@ -25,7 +25,8 @@
 			, $conditions = null
 			, $groups = null
 			, $orderby = null
-			, $limit = null){
+			, $limit = null
+			, $priority = null){
 			$this->queryID = $queryID;
 			$this->action = $action;
 			$this->priority = $priority;
@@ -313,8 +314,8 @@
 				if(count($this->columns) > 0){ // The if is for delete statements, all others must have columns
 					foreach($this->columns as $column){
 						if($column->show()){
-							$arg = $column->getArgument();
-							if($arg) $this->arguments[] = $arg;
+							$args = $column->getArguments();
+							if($args) $this->arguments = array_merge($this->arguments, $args);
 						}
 					}
 				}

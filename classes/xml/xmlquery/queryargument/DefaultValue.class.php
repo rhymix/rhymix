@@ -58,7 +58,7 @@
                         //if($str_pos===false) return $this->value;
 
                         $func_name = substr($this->value, 0, $str_pos);
-                        $args = substr($this->value, $str_pos+1, strlen($value)-1);
+                        $args = substr($this->value, $str_pos+1, -1);
 
 			switch($func_name) {
 				case 'ipaddress' :
@@ -106,5 +106,3 @@
                         return $this->value;
 		}
 	}
-
-?>

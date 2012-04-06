@@ -4,8 +4,9 @@
 
         var $queryTag;
 
-        function QueryParser($query, $isSubQuery = false) {
-            $this->queryTag = new QueryTag($query, $isSubQuery);
+        function QueryParser($query = NULL, $isSubQuery = false) {
+	    if ($query)
+		$this->queryTag = new QueryTag($query, $isSubQuery);
         }
 
         function getTableInfo($query_id, $table_name) {
@@ -22,7 +23,9 @@
                     return;
                 $module = $id_args[1];
                 $id = $id_args[2];
-            }
+            } else {
+		return $column_type;
+	    }
 
             // get column properties from the table
             $table_file = sprintf('%s%s/%s/schemas/%s.xml', _XE_PATH_, 'modules', $module, $table_name);

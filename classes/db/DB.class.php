@@ -214,9 +214,8 @@
          * @param[in] $db_type type of db to check
          * @return true: is supported, false: is not supported
          **/
-        function isSupported($db_type) {
-            $supported_list = DB::getSupportedList();
-            return in_array($db_type, $supported_list);
+        function isSupported() {
+			return FALSE;
         }
 
         /**
@@ -634,7 +633,7 @@
         }
 
         function _getConnection($type = 'master', $indx = NULL){
-            if($type == master){
+            if($type == 'master'){
                 if(!$this->master_db['is_connected'])
                         $this->_connect($type);
                 $this->connection = 'Master ' . $this->master_db['db_hostname'];
@@ -767,7 +766,7 @@
 			$this->use_prepared_statements = $db_info->use_prepared_statements;
         }
 
-        function __connect(){
+        function __connect($connection){
 
         }
 

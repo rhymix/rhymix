@@ -240,7 +240,7 @@
             foreach($ftp_info as $key => $val) {
                 $buff .= sprintf("\$ftp_info->%s = '%s';\n", $key, str_replace("'","\\'",$val));
             }
-            $buff .= "?>";
+            $buff .= "?".">";
             // If safe_mode
             if(ini_get('safe_mode')) {
                 if(!$ftp_info->ftp_user || !$ftp_info->ftp_password) return new Object(-1,'msg_safe_mode_ftp_needed');

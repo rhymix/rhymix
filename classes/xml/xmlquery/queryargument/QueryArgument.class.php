@@ -90,7 +90,7 @@ class QueryArgument {
 			$arg = sprintf("\n" . '${\'%s_argument\'} = new Argument(\'%s\', %s);' . "\n"
 					, $this->argument_name
 					, $this->variable_name
-					, $this->ignore_value ? 'null' : '$args->' . $this->variable_name);
+					, $this->ignore_value ? 'null' : '$args->{\'' . $this->variable_name . '\'}');
 
 			$arg .= $this->argument_validator->toString();
 

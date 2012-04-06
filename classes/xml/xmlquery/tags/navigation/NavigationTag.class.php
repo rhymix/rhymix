@@ -15,19 +15,19 @@
                     foreach($order as $order_info) {
                         $this->order[] = new IndexTag($order_info);
                     }
-                }
 
-                if($xml_navigation->page->attrs || $xml_navigation->list_count->attrs)
+                if($xml_navigation->page && $xml_navigation->page->attrs || $xml_navigation->list_count && $xml_navigation->list_count->attrs)
                 	$this->limit = new LimitTag($xml_navigation);
 
-                $list_count = $xml_navigation->list_count->attrs;
-                $this->list_count = $list_count;
+                if ($xml_navigation->list_count)
+		    $this->list_count = $xml_navigation->list_count->attrs;
 
-                $page_count = $xml_navigation->page_count->attrs;
-                $this->page_count = $page_count;
+                if ($xml_navigation->page_count)
+		    $this->page_count = $xml_navigation->page_count->attrs;
 
-                $page = $xml_navigation->page->attrs;
-                $this->page = $page ;
+                if ($xml_navigation->page)
+		    $this->page = $xml_navigation->page->attrs;
+                }
             }
 		}
 
