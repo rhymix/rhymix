@@ -96,8 +96,8 @@ class Mobile {
 
 	function isMobileCheckByAgent()
 	{
-		static $UACheck = NULL;
-		if($UACheck !== NULL) return $UACheck;
+		static $UACheck;
+		if(isset($UACheck)) return $UACheck;
 
 		$oMobile =& Mobile::getInstance();
 		$mobileAgent = array('iPod','iPhone','Android','BlackBerry','SymbianOS','Bada','Kindle','Wii','SCH-','SPH-','CANU-','Windows Phone','Windows CE','POLARIS','Palm','Dorothy Browser','IEMobile','Opera Mobi','Opera Mini','MobileExplorer','Minimo','AvantGo','NetFront','Googlebot-Mobile','Nokia','LGPlayer','SonyEricsson','HTC','SKT','lgtelecom','Vodafone');
@@ -126,6 +126,8 @@ class Mobile {
 	*/
 	function isMobilePadCheckByAgent()
 	{
+		static $UACheck;
+		if(isset($UACheck)) return $UACheck;
 		$padAgent = array('iPad','Android','webOS','hp-tablet','PlayBook');
 
 		// Android with 'Mobile' string is not a tablet-like device, and 'Andoroid' without 'Mobile' string is a tablet-like device.
@@ -137,15 +139,18 @@ class Mobile {
 			{
 				if(!isset($exceptionAgent[$agent]))
 				{
+					$UACheck = TRUE;
 					return TRUE;
 				}
 				elseif(strpos($_SERVER['HTTP_USER_AGENT'], $exceptionAgent[$agent]) === FALSE)
 				{
+					$UACheck = TRUE;
 					return TRUE;
 				}
 			}
 		}
 
+		$UACheck = FALSE;
 		return FALSE;
 	}
 
