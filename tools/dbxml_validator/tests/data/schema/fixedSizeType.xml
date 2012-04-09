@@ -1,0 +1,6 @@
+<table name="tbl">
+    <column name="col_name" type="text" />
+    <!-- only FLOAT, CHAR and VARCHAR have size -->
+    <column name="col_name2" type="number" size="5" />
+</table>
+

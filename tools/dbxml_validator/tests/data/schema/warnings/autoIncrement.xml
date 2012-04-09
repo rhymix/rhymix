@@ -1,0 +1,6 @@
+<table name="tbl">
+    <column name="col_name" type="text" />
+    <!-- 'auto_increment' only supported by mysql, MSSql -->
+    <column name="col_name2" type="number" auto_increment="auto_increment" />
+</table>
+
