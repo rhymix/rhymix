@@ -1,432 +1,972 @@
 <?php
 /** @file
+	vi: ts=4
 
-    Extends XE db classes to allow parsing methods to work in the absence of
-    a real db connection for the db type.
+	Extends XE db classes to allow parsing methods to work in the absence of
+	a real db connection for the db type.
 
-    Included by XML Query/Schema Language validator
+	Included by XML Query/Schema Language validator
 */
 
+/**
+  @brief
+  @developer
+  */
 class DBMysqlConnectWrapper extends DBMysql
 {
-    public $queries = '';
+	public $queries = '';
 
-    public function __construct()
-    {
-	$this->db_type = 'mysql';
-	$this->_setDBInfo();	// Context::get() should indicate a mysql db
-    }
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		*/
+	public function __construct()
+	{
+		$this->db_type = 'mysql';
+		$this->_setDBInfo();	// Context::get() should indicate a mysql db
+	}
 
-    public function create()
-    {
-	return new DBMysqlConnectWrapper();
-    }
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		*/
+	public function create()
+	{
+		return new DBMysqlConnectWrapper();
+	}
 
-    public function actDBClassStart()
-    {
-    }
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		*/
+	public function actDBClassStart()
+	{
+	}
 
-    public function actStart($query)
-    {
-    }
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		@param $query
+		*/
+	public function actStart($query)
+	{
+	}
 
-    public function actFinish()
-    {
-    }
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		*/
+	public function actFinish()
+	{
+	}
 
-    public function actDBClassFinish()
-    {
-    }
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		*/
+	public function actDBClassFinish()
+	{
+	}
 
-    public function isSupported()
-    {
-	// No need to actually check for 'mysql_connect' function
-	return TRUE;
-    }
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		*/
+	public function isSupported()
+	{
+		// No need to actually check for 'mysql_connect' function
+		return TRUE;
+	}
 
-    public function __connect($connection)
-    {
-	return TRUE;
-    }
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		@param $connection
+		*/
+	public function __connect($connection)
+	{
+		return TRUE;
+	}
 
-    public function _afterConnect($connection)
-    {
-    }
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		@param $connection
+		*/
+	public function _afterConnect($connection)
+	{
+	}
 
-    public function _close($connection)
-    {
-    }
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		@param $connection
+		*/
+	public function _close($connection)
+	{
+	}
 
-    public function close($type = 'master', $indx = NULL)
-    {
-    }
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		@param $type
+		@param $indx
+		*/
+	public function close($type = 'master', $indx = NULL)
+	{
+	}
 
-    public function _begin()
-    {
-	return TRUE;
-    }
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		*/
+	public function _begin()
+	{
+		return TRUE;
+	}
 
-    public function _rollback()
-    {
-	return TRUE;
-    }
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		*/
+	public function _rollback()
+	{
+		return TRUE;
+	}
 
-    public function _commit()
-    {
-	return TRUE;
-    }
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		*/
+	public function _commit()
+	{
+		return TRUE;
+	}
 
-    public function __query($query, $connection)
-    {
-	$this->queries .= "\n" . $query;
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		@param $query
+		@param $connection
+		*/
+	public function __query($query, $connection)
+	{
+		$this->queries .= "\n" . $query;
 
-	return TRUE;
-    }
+		return TRUE;
+	}
 
-    public function _fetch($result, $arrayIndexEndValue = NULL)
-    {
-	return new any_prop_obj_base();
-    }
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		@param $result
+		@param $arrayIndexEndValue
+		*/
+	public function _fetch($result, $arrayIndexEndValue = NULL)
+	{
+		return new Any_prop_obj_base();
+	}
 
-    public function isTableExists($target_name)
-    {
-	parent::isTableExists($target_name);
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		@param $target_name
+		*/
+	public function isTableExists($target_name)
+	{
+		parent::isTableExists($target_name);
 
-	return FALSE;
-    }
+		return FALSE;
+	}
 
-    public function db_insert_id()
-    {
-	return NULL;
-    }
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		*/
+	public function db_insert_id()
+	{
+		return NULL;
+	}
 
-    public function db_fetch_object(&$result)
-    {
-	return new any_prop_obj_base();
-    }
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		@param $result
+		*/
+	public function db_fetch_object(&$result)
+	{
+		return new Any_prop_obj_base();
+	}
 }
 
+/**
+  @brief
+  @developer
+  */
 class DBMysqliConnectWrapper extends DBMysqli
 {
-    public $queries = '';
+	public $queries = '';
 
-    public function __construct()
-    {
-	$this->db_type = 'mysqli';
-	$this->_setDBInfo();	// Context::get() should indicate a mysqli db
-    }
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		*/
+	public function __construct()
+	{
+		$this->db_type = 'mysqli';
+		$this->_setDBInfo();	// Context::get() should indicate a mysqli db
+	}
 
-    public function create()
-    {
-	return new DBMysqlConnectWrapper();
-    }
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		*/
+	public function create()
+	{
+		return new DBMysqlConnectWrapper();
+	}
 
-    public function actDBClassStart()
-    {
-    }
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		*/
+	public function actDBClassStart()
+	{
+	}
 
-    public function actStart($query)
-    {
-    }
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		@param $query
+		*/
+	public function actStart($query)
+	{
+	}
 
-    public function actFinish()
-    {
-    }
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		*/
+	public function actFinish()
+	{
+	}
 
-    public function actDBClassFinish()
-    {
-    }
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		*/
+	public function actDBClassFinish()
+	{
+	}
 
-    public function isSupported()
-    {
-	// No need to actually check for 'mysql_connect' function
-	return TRUE;
-    }
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		*/
+	public function isSupported()
+	{
+		// No need to actually check for 'mysql_connect' function
+		return TRUE;
+	}
 
-    public function isTableExists($target_name)
-    {
-	parent::isTableExists($target_name);
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		@param $target_name
+		*/
+	public function isTableExists($target_name)
+	{
+		parent::isTableExists($target_name);
 
-	return FALSE;
-    }
+		return FALSE;
+	}
 
-    // use old mysql escape function, since the mysqli one uses
-    // the connection resource (to get the current character set)
-    public function addQuotes($string)
-    {
-	if (version_compare(PHP_VERSION, "5.9.0", "<") && get_magic_quotes_gpc())
-	    $string = stripslashes(str_replace("\\","\\\\",$string));
+	// use old mysql escape function, since the mysqli one uses
+	// the connection resource (to get the current character set)
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		@param $string
+		*/
+	public function addQuotes($string)
+	{
+		if(version_compare(PHP_VERSION, "5.9.0", "<") && get_magic_quotes_gpc())
+		{
+			$string = stripslashes(str_replace("\\", "\\\\", $string));
+		}
 
-	if (!is_numeric($string))
-	    $string = @mysql_real_escape_string($string);
+		if(!is_numeric($string))
+		{
+			$string = @mysql_real_escape_string($string);
+		}
 
-	return $string;
-    }
-    public function __connect($connection)
-    {
-	return TRUE;
-    }
+		return $string;
+	}
 
-    public function _afterConnect($connection)
-    {
-    }
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		@param $connection
+		*/
+	public function __connect($connection)
+	{
+		return TRUE;
+	}
 
-    public function _close($connection)
-    {
-    }
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		@param $connection
+		*/
+	public function _afterConnect($connection)
+	{
+	}
 
-    public function close($type = 'master', $indx = NULL)
-    {
-    }
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		@param $connection
+		*/
+	public function _close($connection)
+	{
+	}
 
-    public function _begin()
-    {
-	return TRUE;
-    }
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		@param $type
+		@param $indx
+		*/
+	public function close($type = 'master', $indx = NULL)
+	{
+	}
 
-    public function _rollback()
-    {
-	return TRUE;
-    }
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		*/
+	public function _begin()
+	{
+		return TRUE;
+	}
 
-    public function _commit()
-    {
-	return TRUE;
-    }
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		*/
+	public function _rollback()
+	{
+		return TRUE;
+	}
 
-    public function __query($query, $connection)
-    {
-	$this->queries .= "\n" . $query;
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		*/
+	public function _commit()
+	{
+		return TRUE;
+	}
 
-	return TRUE;
-    }
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		@param $query
+		@param $connection
+		*/
+	public function __query($query, $connection)
+	{
+		$this->queries .= "\n" . $query;
 
-    public function _fetch($result, $arrayIndexEndValue = NULL)
-    {
-	return new any_prop_obj_base();
-    }
+		return TRUE;
+	}
 
-    public function db_insert_id()
-    {
-	return NULL;
-    }
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		@param $result
+		@param $arrayIndexEndValue
+		*/
+	public function _fetch($result, $arrayIndexEndValue = NULL)
+	{
+		return new Any_prop_obj_base();
+	}
 
-    public function db_fetch_object(&$result)
-    {
-	return new any_prop_obj_base();
-    }
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		*/
+	public function db_insert_id()
+	{
+		return NULL;
+	}
+
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		@param $result
+		*/
+	public function db_fetch_object(&$result)
+	{
+		return new Any_prop_obj_base();
+	}
 }
 
+/**
+  @brief
+  @developer
+  */
 class DBCubridConnectWrapper extends DBCubrid
 {
-    public $queries = '';
+	public $queries = '';
 
-    public function __construct()
-    {
-	$this->db_type = 'cubrid';
-	$this->_setDBInfo();	// Context::get() should indicate a CUBRID db
-    }
-
-    public function create()
-    {
-	return new DBMysqlConnectWrapper();
-    }
-
-    public function actDBClassStart()
-    {
-    }
-
-    public function actStart($query)
-    {
-    }
-
-    public function _makeSequence()
-    {
-	return TRUE;
-    }
-
-    public function actFinish()
-    {
-    }
-
-    public function actDBClassFinish()
-    {
-    }
-
-    public function isSupported()
-    {
-	// No need to actually check for 'cubrid_connect' function
-	return TRUE;
-    }
-
-    public function isTableExists($target_name)
-    {
-	try
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		*/
+	public function __construct()
 	{
-	    parent::isTableExists($target_name);
+		$this->db_type = 'cubrid';
+		$this->_setDBInfo();	// Context::get() should indicate a CUBRID db
 	}
-	catch (Exception $ex)
+
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		*/
+	public function create()
+	{
+		return new DBMysqlConnectWrapper();
+	}
+
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		*/
+	public function actDBClassStart()
 	{
 	}
 
-	return FALSE;
-    }
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		@param $query
+		*/
+	public function actStart($query)
+	{
+	}
 
-    public function __connect($connection)
-    {
-	return TRUE;
-    }
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		*/
+	public function _makeSequence()
+	{
+		return TRUE;
+	}
 
-    public function _afterConnect($connection)
-    {
-    }
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		*/
+	public function actFinish()
+	{
+	}
 
-    public function _close($connection)
-    {
-    }
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		*/
+	public function actDBClassFinish()
+	{
+	}
 
-    public function close($type = 'master', $indx = NULL)
-    {
-    }
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		*/
+	public function isSupported()
+	{
+		// No need to actually check for 'cubrid_connect' function
+		return TRUE;
+	}
 
-    public function _begin()
-    {
-	return TRUE;
-    }
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		@param $target_name
+		*/
+	public function isTableExists($target_name)
+	{
+		try
+		{
+			parent::isTableExists($target_name);
+		}
+		catch (Exception $ex)
+		{
+		}
 
-    public function _rollback()
-    {
-	return TRUE;
-    }
+		return FALSE;
+	}
 
-    public function _commit()
-    {
-	return TRUE;
-    }
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		@param $connection
+		*/
+	public function __connect($connection)
+	{
+		return TRUE;
+	}
 
-    public function __query($query, $connection)
-    {
-	$this->queries .= "\n" . $query;
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		@param $connection
+		*/
+	public function _afterConnect($connection)
+	{
+	}
 
-	return TRUE;
-    }
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		@param $connection
+		*/
+	public function _close($connection)
+	{
+	}
 
-    public function _fetch($result, $arrayIndexEndValue = NULL)
-    {
-	return new any_prop_obj_base();
-    }
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		@param $type
+		@param $indx
+		*/
+	public function close($type = 'master', $indx = NULL)
+	{
+	}
 
-    public function db_insert_id()
-    {
-	return NULL;
-    }
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		*/
+	public function _begin()
+	{
+		return TRUE;
+	}
 
-    public function &db_fetch_object()
-    {
-	return new any_prop_obj_base();
-    }
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		*/
+	public function _rollback()
+	{
+		return TRUE;
+	}
+
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		*/
+	public function _commit()
+	{
+		return TRUE;
+	}
+
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		@param $query
+		@param $connection
+		*/
+	public function __query($query, $connection)
+	{
+		$this->queries .= "\n" . $query;
+
+		return TRUE;
+	}
+
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		@param $result
+		@param $arrayIndexEndValue
+		*/
+	public function _fetch($result, $arrayIndexEndValue = NULL)
+	{
+		return new Any_prop_obj_base();
+	}
+
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		*/
+	public function db_insert_id()
+	{
+		return NULL;
+	}
+
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		*/
+	public function &db_fetch_object()
+	{
+		return new Any_prop_obj_base();
+	}
 }
 
+/**
+  @brief
+  @developer
+  */
 class DBMssqlConnectWrapper extends DBMssql
 {
-    public $queries = '';
+	public $queries = '';
 
-    public function __construct()
-    {
-	$this->db_type = 'mssql';
-	$this->_setDBInfo();	// Context::get() should indicate a MS Sql db
-    }
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		*/
+	public function __construct()
+	{
+		$this->db_type = 'mssql';
+		$this->_setDBInfo();	// Context::get() should indicate a MS Sql db
+	}
 
-    public function create()
-    {
-	return new DBMssqlConnectWrapper();
-    }
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		*/
+	public function create()
+	{
+		return new DBMssqlConnectWrapper();
+	}
 
-    public function actDBClassStart()
-    {
-    }
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		*/
+	public function actDBClassStart()
+	{
+	}
 
-    public function actStart($query)
-    {
-    }
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		@param $query
+		*/
+	public function actStart($query)
+	{
+	}
 
-    public function actFinish()
-    {
-    }
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		*/
+	public function actFinish()
+	{
+	}
 
-    public function actDBClassFinish()
-    {
-    }
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		*/
+	public function actDBClassFinish()
+	{
+	}
 
-    public function isSupported()
-    {
-	// No need to actually check for 'mssql_connect' function
-	return TRUE;
-    }
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		*/
+	public function isSupported()
+	{
+		// No need to actually check for 'mssql_connect' function
+		return TRUE;
+	}
 
-    public function isTableExists($target_name)
-    {
-	parent::isTableExists($target_name);
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		@param $target_name
+		*/
+	public function isTableExists($target_name)
+	{
+		parent::isTableExists($target_name);
 
-	return FALSE;
-    }
+		return FALSE;
+	}
 
-    public function __connect($connection)
-    {
-	return TRUE;
-    }
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		@param $connection
+		*/
+	public function __connect($connection)
+	{
+		return TRUE;
+	}
 
-    public function _afterConnect($connection)
-    {
-    }
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		@param $connection
+		*/
+	public function _afterConnect($connection)
+	{
+	}
 
-    public function _close($connection)
-    {
-    }
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		@param $connection
+		*/
+	public function _close($connection)
+	{
+	}
 
-    public function close($type = 'master', $indx = NULL)
-    {
-    }
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		@param $type
+		@param $indx
+		*/
+	public function close($type = 'master', $indx = NULL)
+	{
+	}
 
-    public function _begin()
-    {
-	return TRUE;
-    }
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		*/
+	public function _begin()
+	{
+		return TRUE;
+	}
 
-    public function _rollback()
-    {
-	return TRUE;
-    }
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		*/
+	public function _rollback()
+	{
+		return TRUE;
+	}
 
-    public function _commit()
-    {
-	return TRUE;
-    }
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		*/
+	public function _commit()
+	{
+		return TRUE;
+	}
 
-    public function __query($query, $connection)
-    {
-	if ($this->queries)
-	    $this->queries .= ";\n";
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		@param $query
+		@param $connection
+		*/
+	public function __query($query, $connection)
+	{
+		if($this->queries)
+		{
+			$this->queries .= ";\n";
+		}
 
-	$this->queries .= $query;
+		$this->queries .= $query;
 
-	return TRUE;
-    }
+		return TRUE;
+	}
 
-    public function _fetch($result, $arrayIndexEndValue = NULL)
-    {
-	return new any_prop_obj_base();
-    }
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		@param $result
+		@param $arrayIndexEndValue
+		*/
+	public function _fetch($result, $arrayIndexEndValue = NULL)
+	{
+		return new Any_prop_obj_base();
+	}
 
-    public function db_insert_id()
-    {
-	return NULL;
-    }
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		*/
+	public function db_insert_id()
+	{
+		return NULL;
+	}
 
-    public function &db_fetch_object()
-    {
-	return new any_prop_obj_base();
-    }
+	/**
+		@brief
+		@developer
+		@return
+		@access
+		*/
+	public function &db_fetch_object()
+	{
+		return new Any_prop_obj_base();
+	}
 }
 
-?>
+/* End of file connect_wrapper.php */
+/* Location: tools/dbxml_validator/connect_wrapper.php */
