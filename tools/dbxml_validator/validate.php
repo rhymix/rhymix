@@ -23,8 +23,7 @@
 		validate.php schema-definition.xsd query-file.xml ...
  */
 
-// Turn on error reporting
-error_reporting(E_ALL);
+error_reporting(E_PARSE | E_ERROR | E_CORE_ERROR | E_COMPILE_ERROR);
 ini_set('display_errors', 'stderr');
 
 /**
