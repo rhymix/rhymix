@@ -28,8 +28,8 @@ background:linear-gradient(top,#8b0b0b,#5f0000);}
 .btn_home{left:5px;text-indent:-999em;background:url('../../img/Red/btn_home_fda.png') no-repeat left top;background-size:51px 38px;}
 .btn_menu{right:5px;text-indent:-999em;background:url('../../img/Red/btn_menu_fda.png') no-repeat left top;background-size:51px 38px;}
 h1.title{font-size:25px;padding:0 60px;line-height:25px;text-align:center;color:rgba(255,255,255,1);text-shadow:0px 1px 1px rgba(20,20,20,.75);}
+h1.title span.txt{display:block;width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .head_hr{height:0;position: relative;border:none;border-top:1px solid black}
-
 .lo_foot{width:100%;height:69px;position:relative;border-top:1px solid #581616;border-bottom:1px solid #202020;
 background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#880d0e), to(#670607));
 background:-webkit-linear-gradient(top,#880d0e,#670607);
@@ -52,8 +52,6 @@ ul.link .lang.off>a{background:url('../../img/Red/btn_lang_off_tp.png') no-repea
 ul.link .lang.on>a{background:url('../../img/Red/btn_lang_on.png') no-repeat left top;background-size:90px 25px}
 ul.link .lang_lst{display:none;position:absolute;left:0px;bottom:24px;}
 .icon_arr_draw{display:inline-block;position:absolute;top:5px;right:6px;width:0px;height:0px;margin-left:2px;border-width:5px;border-style:solid;border-color:transparent transparent #cdcdcd transparent;}
-
-
 ul.link .lang_lst:before{display:block;width:90px;height:4px;background:url('../../img/Red/bg_lang_t.png') no-repeat left top;background-size:90px 4px;content:''}
 ul.link .lang_lst li{width:90px;padding-left:1px;background:url('../../img/Red/bg_lang_body.png') repeat-y top left;background-size:90px 1px;}
 .lang_lst li a{display:block;width:88px;height:18px;padding-top:5px;border-top:1px solid #710f0f;border-bottom:1px solid #b82d2d;font-size:13px;line-height:13px;color:#efefef;}
