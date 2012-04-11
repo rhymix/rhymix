@@ -1,7 +1,7 @@
 #!/bin/env php
 <?php
 /**
-	vi:set ts=4
+	vi:set ts=4:
 	@file
 
 	Script to validate a query or a SQL statement written in the 
@@ -1225,6 +1225,7 @@ try
 
 
 	$retcode = new ReturnCode(ReturnCode::RETCODE_SUCCESS);
+	$auto_schema = NULL;
 	$schema_language = NULL;
 	$skip_query_id = NULL;
 	$xe_path = NULL;
@@ -1257,6 +1258,8 @@ try
 				$schema_language = TRUE;
 
 				break;
+			case '--auto-schema':
+				$auto_schema = TRUE;
 
 			case '--skip-query-id':
 				$skip_query_id = TRUE;
@@ -1862,6 +1865,7 @@ try
 		{
 			$document_schema = $schema_file;
 			$success = FALSE;
+			$use_schema_language = $schema_language;
 
 			$retcode->push(ReturnCode::RETCODE_GENERIC_XML_SYNTAX);
 			if($domDocument->load($argv[$i]))
@@ -1870,7 +1874,15 @@ try
 
 				$queryElement = $domDocument->documentElement;
 
-				if(!$schema_file && !$schema_language
+				if (!$schema_language && $auto_schema)
+				{
+					if ($queryElement->tagName == 'table')
+					{
+						$use_schema_language = TRUE;
+					}
+				}
+
+				if(!$schema_file && !$use_schema_language
 							&&
 						(
 							$queryElement->tagName != 'query'
@@ -1890,7 +1902,7 @@ try
 							);
 				}
 
-				if(!$schema_file && !$schema_language && !$skip_query_id
+				if(!$schema_file && !$use_schema_language && !$skip_query_id
 							&&
 						!validate_query_id($argv[$i], $queryElement->getAttribute('id')))
 				{
@@ -1903,7 +1915,7 @@ try
 						);
 				}
 
-				if($schema_language)
+				if($use_schema_language)
 				{
 					$document_schema = $table_schema;
 				}
@@ -1920,7 +1932,7 @@ try
 				{
 					$retcode->pop();
 
-					if($schema_language)
+					if($use_schema_language)
 					{
 						validate_schema_doc($argv[$i], $domDocument->documentElement);
 					}
@@ -1978,7 +1990,7 @@ try
 					{
 						Context::$set_info_method(); // calls setMysqlDBInfo()/setCubridDBInfo()/...
 
-						if($schema_language)
+						if($use_schema_language)
 						{
 							$GLOBALS['__DB__'][$db_type]->queries = '';
 							$GLOBALS['__DB__'][$db_type]->createTableByXmlFile($argv[$i]);
@@ -1996,13 +2008,14 @@ try
 
 							// copied from classes/db/DB.class.php
 							$oParser = new XmlQueryParser();
-							$args_array = array();
-							$oParser->parse
-								(
-									pathinfo($argv[$i], PATHINFO_FILENAME), // query id
-									$argv[$i],								// xml file
-									$unlink_tmpfile->file_name				// cache file
-								);
+							$args_array =
+								$oParser->parse_xml_query
+									(
+										pathinfo($argv[$i], PATHINFO_FILENAME), // query id
+										$argv[$i],								// xml file
+										$unlink_tmpfile->file_name				// cache file
+									);
+							$args_array = $args_array->queryTag->getArguments();
 
 							$GLOBALS['__DB__'][$db_type]->queries = '';
 							$k = 1;
