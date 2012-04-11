@@ -81,7 +81,7 @@ class FileHandler {
 		$filesize = filesize($file_name);
 		if($filesize<1) return;
 
-		if(function_exists('file_get_contents')) return file_get_contents($file_name);
+		if(function_exists('file_get_contents')) return @file_get_contents($file_name);
 
 		$fp = fopen($file_name, "r");
 		$buff = '';

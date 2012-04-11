@@ -25,13 +25,13 @@ class CacheHandler extends Handler {
 				else if(substr($info->use_object_cache,0,8)=='memcache'){
 					$type = 'memcache';
 					$url = $info->use_object_cache;
-				}
+				} else if($info->use_object_cache == 'wincache') $type = 'wincache';
 			}else if($target == 'template'){
 				if($info->use_template_cache =='apc') $type = 'apc';
 				else if(substr($info->use_template_cache,0,8)=='memcache'){
 					$type = 'memcache';
 					$url = $info->use_template_cache;
-				}
+				} else if($info->use_template_cache == 'wincache') $type = 'wincache';
 			}
 
 			if($type){
