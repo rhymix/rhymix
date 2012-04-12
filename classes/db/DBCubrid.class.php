@@ -680,7 +680,9 @@
 			}
 			$limit = $queryObject->getLimit();
 			if ($limit && $limit->isPageHandler())
+			{
 				return $this->queryPageLimit($queryObject, $connection, $with_values);
+			}
 			else {
 				$query = $this->getSelectSql($queryObject, $with_values);
 				if (is_a($query, 'Object'))
@@ -723,11 +725,11 @@
 			if ($queryObject->getGroupByString() != '') {
 				$count_query = sprintf('select count(*) as "count" from (%s) xet', $count_query);
 			}
-
+			
 			$count_query .= (__DEBUG_QUERY__&1 && $queryObject->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
 			$result = $this->_query($count_query, $connection);
 			$count_output = $this->_fetch($result);
-			$total_count = (int)(isset($count_output->output) ? $count_output->count : NULL);
+			$total_count = (int)(isset($count_output->count) ? $count_output->count : NULL);
 
 			$list_count = $limit->list_count->getValue();
 			if (!$list_count) $list_count = 20;
