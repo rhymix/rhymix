@@ -10,14 +10,15 @@ class CacheHandler extends Handler {
 	var $handler = null;
 	var $keyGroupVersions = null;
 
-	function &getInstance($target = 'object') {
-		if(!$GLOBALS['__XE_CACHE_HANDLER__'][$target]) {
-			$GLOBALS['__XE_CACHE_HANDLER__'][$target] = new CacheHandler($target);
+	function &getInstance($target = 'object', $info = null, $always_use_file = false) {
+		$cache_handler_key = $target . ($always_use_file ? '_file' : '');
+		if(!$GLOBALS['__XE_CACHE_HANDLER__'][$cache_handler_key]) {
+			$GLOBALS['__XE_CACHE_HANDLER__'][$cache_handler_key] = new CacheHandler($target, $info, $always_use_file);
 		}
-		return $GLOBALS['__XE_CACHE_HANDLER__'][$target];
+		return $GLOBALS['__XE_CACHE_HANDLER__'][$cache_handler_key];
 	}
 
-	function CacheHandler($target, $info = null) {
+	function CacheHandler($target, $info = null, $always_use_file = false) {
 		if(!$info) $info = Context::getDBInfo();
 		if($info){
 			if($target == 'object'){
@@ -26,6 +27,8 @@ class CacheHandler extends Handler {
 					$type = 'memcache';
 					$url = $info->use_object_cache;
 				} else if($info->use_object_cache == 'wincache') $type = 'wincache';
+				else if($info->use_object_cache =='file') $type = 'file';
+				else if($always_use_file) $type = 'file';
 			}else if($target == 'template'){
 				if($info->use_template_cache =='apc') $type = 'apc';
 				else if(substr($info->use_template_cache,0,8)=='memcache'){
