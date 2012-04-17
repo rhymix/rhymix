@@ -714,7 +714,7 @@
             // False if no password in entered
             if(!$password_text) return false;
 
-			$isSha1 = ($useSha1 && function_exists('sha1'));
+			$isSha1 = ($this->useSha1 && function_exists('sha1'));
 
             // Return true if the user input is equal to md5 hash value
             if($hashed_password == md5($password_text)){
