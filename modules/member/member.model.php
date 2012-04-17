@@ -710,18 +710,55 @@
         /**
          * @brief Compare plain text password to the password saved in DB
          **/
-        function isValidPassword($hashed_password, $password_text) {
+        function isValidPassword($hashed_password, $password_text, $member_srl=null) {
             // False if no password in entered
             if(!$password_text) return false;
+
+			$isSha1 = ($useSha1 && function_exists('sha1'));
+
             // Return true if the user input is equal to md5 hash value
-            if($hashed_password == md5($password_text)) return true;
+            if($hashed_password == md5($password_text)){
+				if($isSha1 && $member_srl > 0)
+				{
+					$args = new stdClass();
+					$args->member_srl = $member_srl;
+					$args->hashed_password = md5(sha1(md5($password_text)));
+					$oMemberController = &getController('member');
+					$oMemberController->updateMemberPassword($args);
+				}
+				return true;
+			}
+
             // Return true if the user input is equal to the value of mysql_pre4_hash_password
-            if(mysql_pre4_hash_password($password_text) == $hashed_password) return true;
+            if(mysql_pre4_hash_password($password_text) == $hashed_password){
+				if($isSha1 && $member_srl > 0)
+				{
+					$args = new stdClass();
+					$args->member_srl = $member_srl;
+					$args->hashed_password = md5(sha1(md5($password_text)));
+					$oMemberController = &getController('member');
+					$oMemberController->updateMemberPassword($args);
+				}
+				return true;
+			}
+				
             // Verify the password by using old_password if the current db is MySQL. If correct, return true.
             if(substr(Context::getDBType(),0,5)=='mysql') {
                 $oDB = &DB::getInstance();
-                if($oDB->isValidOldPassword($password_text, $hashed_password)) return true;
+                if($oDB->isValidOldPassword($password_text, $hashed_password)){
+					if($isSha1 && $member_srl > 0)
+					{
+						$args = new stdClass();
+						$args->member_srl = $member_srl;
+						$args->hashed_password = md5(sha1(md5($password_text)));
+						$oMemberController = &getController('member');
+						$oMemberController->updateMemberPassword($args);
+					}
+					return true;
+				}
             }
+
+			if($isSha1 && $hashed_password == md5(sha1(md5($password_text)))) return true;
 
             return false;
         }

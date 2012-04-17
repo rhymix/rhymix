@@ -6,6 +6,8 @@
      **/
     class member extends ModuleObject {
 
+		var $useSha1 = false;
+
         /**
          * @brief constructor
          **/
