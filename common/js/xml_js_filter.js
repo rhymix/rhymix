@@ -91,7 +91,6 @@ var Validator = xe.createApp('Validator', {
 	API_VALIDATE : function(sender, params) {
 		var result = true, form = params[0], elems = form.elements, filter, filter_to_add, ruleset, callback;
 		var fields, names, name, el, val, mod, len, lenb, max, min, maxb, minb, rules, e_el, e_val, i, c, r, if_, fn;
-
 		if(elems['ruleset']) filter = form.elements['ruleset'].value;
 		else if(elems['_filter']) filter = form.elements['_filter'].value;
 		if(!filter) return true;
@@ -156,8 +155,11 @@ var Validator = xe.createApp('Validator', {
 				if(!$.isArray(f['if'])) f['if'] = [f['if']];
 				for(i=0;i<f['if'].length;i++) {
 					if_ = f['if'][i];
-					fn  = new Function('el', 'return !!(' + (if_.test.replace(/\$(\w+)/g, 'el["$1"].value')) +')');
+					fn  = new Function('el', 'return !!(' + (if_.test.replace(/\$(\w+)/g, '(jQuery(\'[name=$1]\').is(\':radio, :checkbox\') ? jQuery(\'[name=$1]:checked\').val() : jQuery(\'[name=$1]\').val())')) +')');
+					//fn  = new Function('el', 'return !!(' + (if_.test.replace(/\$(\w+)/g, 'el["$1"].value')) +')');
 					if(fn(elems)) f[if_.attr] = if_.value;
+					else delete f[if_.attr];
+
 				}
 			}
 
