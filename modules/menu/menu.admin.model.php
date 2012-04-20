@@ -98,6 +98,7 @@
             $args->menu_item_srl = $menu_item_srl;
             $output = executeQuery('menu.getMenuItem', $args);
             $node = $output->data;
+			settype($node,'object');
             if($node->group_srls) $node->group_srls = explode(',',$node->group_srls);
             else $node->group_srls = array();
 
