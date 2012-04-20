@@ -697,7 +697,16 @@
 		// xmp tag 확인 및 추가
 		$content = checkXmpTag($content);
 
-        return $content;
+		// purifier setting
+		require_once _XE_PATH_.'classes/security/htmlpurifier/library/HTMLPurifier.auto.php';
+		require_once 'HTMLPurifier.func.php';
+
+		$config = HTMLPurifier_Config::createDefault();
+		$config->set('HTML.TidyLevel', 'light');
+		$config->set('HTML.SafeObject', true);
+		$purifier = new HTMLPurifier($config);
+		$content = $purifier->purify($content);
+		return $content;
     }
 
     /**
