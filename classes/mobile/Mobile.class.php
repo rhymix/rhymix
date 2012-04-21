@@ -100,7 +100,7 @@ class Mobile {
 		if(isset($UACheck)) return $UACheck;
 
 		$oMobile =& Mobile::getInstance();
-		$mobileAgent = array('iPod','iPhone','Android','BlackBerry','SymbianOS','Bada','Kindle','Wii','SCH-','SPH-','CANU-','Windows Phone','Windows CE','POLARIS','Palm','Dorothy Browser','IEMobile','Opera Mobi','Opera Mini','MobileExplorer','Minimo','AvantGo','NetFront','Googlebot-Mobile','Nokia','LGPlayer','SonyEricsson','HTC','SKT','lgtelecom','Vodafone');
+		$mobileAgent = array('iPod','iPhone','Android','BlackBerry','SymbianOS','Bada','Kindle','Wii','SCH-','SPH-','CANU-','Windows Phone','Windows CE','POLARIS','Palm','Dorothy Browser','Mobile','Opera Mobi','Opera Mini','Minimo','AvantGo','NetFront','Nokia','LGPlayer','SonyEricsson','HTC','SKT','lgtelecom','Vodafone','DoCoMo');
 
 		if($oMobile->isMobilePadCheckByAgent())
 		{
@@ -110,7 +110,7 @@ class Mobile {
 
 		foreach($mobileAgent as $agent)
 		{
-			if(strpos($_SERVER['HTTP_USER_AGENT'], $agent) !== FALSE)
+			if(stripos($_SERVER['HTTP_USER_AGENT'], $agent) !== FALSE)
 			{
 				$UACheck = TRUE;
 				return TRUE;
