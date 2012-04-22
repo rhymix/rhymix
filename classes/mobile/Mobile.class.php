@@ -131,7 +131,8 @@ class Mobile {
 		$padAgent = array('iPad','Android','webOS','hp-tablet','PlayBook');
 
 		// Android with 'Mobile' string is not a tablet-like device, and 'Andoroid' without 'Mobile' string is a tablet-like device.
-		$exceptionAgent = array(0 =>'Opera Mini','Android' => 'Mobile');
+		// $exceptionAgent[0] contains exception agents for all exceptions.
+		$exceptionAgent = array(0 => array('Opera Mini','Opera Mobi'),'Android' => 'Mobile');
 
 		foreach($padAgent as $agent)
 		{
@@ -144,12 +145,17 @@ class Mobile {
 				}
 				elseif(strpos($_SERVER['HTTP_USER_AGENT'], $exceptionAgent[$agent]) === FALSE)
 				{
-					// Agent is the Android Opera Mini, it does not have 'Mobile' string.
-					if(strpos($_SERVER['HTTP_USER_AGENT'], $exceptionAgent[0]) === FALSE)
+					// If the agent is the Android, that can be either tablet and mobile phone.
+					foreach($exceptionAgent[0] as $val)
 					{
-						$UACheck = TRUE;
-						return TRUE;
+						if(strpos($_SERVER['HTTP_USER_AGENT'], $val) !== FALSE)
+						{
+							$UACheck = FALSE;
+							return FALSE;
+						}
 					}
+					$UACheck = TRUE;
+					return TRUE;
 				}
 			}
 		}
