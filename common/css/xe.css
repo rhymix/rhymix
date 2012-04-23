@@ -3,7 +3,7 @@
 /* Element Reset */
 body,table,input,textarea,select,button{font-family:Tahoma,Geneva,sans-serif;font-size:12px}
 body{word-break:break-all;word-wrap:break-word}
-img{border:0;max-width:100%;height:auto}
+.xe_content img{border:0;max-width:100%;width:auto;height:auto}
 /* Button Area */
 .btnArea{margin:1em 0;text-align:right;zoom:1;clear:both}
 .btnArea:after{content:"";display:block;clear:both}
