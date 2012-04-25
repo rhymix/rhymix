@@ -754,10 +754,10 @@
 
 		$attr = array();
 		foreach($attrs as $name=>$val) {
-			if($tag == 'object' || $tag == 'embed')
+			if($tag == 'object' || $tag == 'embed' || $tag == 'a')
 			{
 				$attribute = strtolower(trim($name));
-				if($attribute == 'data' || $attribute == 'src')
+				if($attribute == 'data' || $attribute == 'src' || $attribute == 'href')
 				{
 					if(strpos(strtolower($val), 'data:') === 0)
 					{
