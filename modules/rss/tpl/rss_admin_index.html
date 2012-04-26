@@ -69,20 +69,20 @@
 				<input type="hidden" name="success_return_url" value="{getUrl('', 'module', $module, 'act', 'dispRssAdminIndex')}" />
 				<input type="hidden" name="target_module_srl" value="{$key}" />
 				<tr>
-					<th scope="row"><!--@if($value['url'])--><a href="{$value['url']}" target="_blank"><!--@endif-->{$value['mid']}<!--@if($value['url'])--></a><!--@endif--></th>
+					<th scope="row" class="nowr"><!--@if($value['url'])--><a href="{$value['url']}" target="_blank"><!--@endif-->{$value['mid']}<!--@if($value['url'])--></a><!--@endif--></th>
 					<td class="title">{$value['feed_description']}</td>
-					<td>
+					<td class="nowr">
 						<!--@foreach($lang->open_rss_types as $key2=>$value2)-->
 						<input type="radio" name="open_rss" value="{$key2}" id="feed_open_{$key2}" <!--@if($key2 == $value['open_feed'])-->checked="checked"<!--@end--> /><label for="feed_open_{$key2}">{$value2}</label>
 						<!--@end-->
 					</td>
-					<td>
+					<td class="nowr">
 						<input type="radio" name="open_total_feed" value="N" id="open_total_feed_N" <!--@if($value['open_total_feed'] == 'N')-->checked="checked"<!--@end--> />
 						<label for="open_total_feed_N">{$lang->use}</label>
 						<input type="radio" name="open_total_feed" value="T_N" id="open_total_feed_T_N" <!--@if($value['open_total_feed'] == 'T_N')-->checked="checked"<!--@end--> />
 						<label for="open_total_feed_T_N">{$lang->notuse}</label>
 					</td>
-					<td><input type="submit" value="{$lang->cmd_save}" class="text" /></td>
+					<td class="nowr"><input type="submit" value="{$lang->cmd_save}" class="text" /></td>
 				</tr>
 				</form>
 				<!--@end-->

@@ -31,6 +31,14 @@
 		function getArgument(){
 			return $this->argument;
 		}
+
+		function getArguments()
+		{
+			if ($this->argument)
+			    return array($this->argument);
+			else
+			    return array();
+		}
 	}
 
 ?>

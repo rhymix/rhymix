@@ -11,7 +11,7 @@
 			$this->argument_name = $index->attrs->var;
 
                         // Sort index - column by which to sort
-			//$dbParser = DB::getParser();
+			//$dbParser = new DB(); $dbParser = &$dbParser->getParser();
 			//$index->attrs->default = $dbParser->parseExpression($index->attrs->default);
 			$this->default = $index->attrs->default;
 			$this->argument = new QueryArgument($index);
@@ -19,6 +19,8 @@
                         // Sort order - asc / desc
 			$this->sort_order = $index->attrs->order;
 			if(!in_array($this->sort_order, array("asc", "desc"))){
+				$arg = new Xml_Node_();
+				$arg->attrs = new Xml_Node_();
 				$arg->attrs->var = $this->sort_order;
 				$arg->attrs->default = 'asc';
 				$this->sort_order_argument = new SortQueryArgument($arg);

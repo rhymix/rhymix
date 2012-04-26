@@ -104,7 +104,8 @@ class QueryTag {
 					$table_alias = $argument->getTableName();
 					if(isset($table_alias))
 					{
-						$column_type = $this->column_type[$this->getQueryId()][$table_alias][$argument->getColumnName()];	
+						if (isset($this->column_type[$this->getQueryId()][$table_alias][$argument->getColumnName()]))
+						    $column_type = $this->column_type[$this->getQueryId()][$table_alias][$argument->getColumnName()];	
 					}
 					else 
 					{
@@ -112,7 +113,7 @@ class QueryTag {
 						$column_name = $argument->getColumnName();
 						foreach($current_tables as $current_table)
 						{
-							if($current_table[$column_name]) 
+							if(isset($current_table[$column_name]))
 								$column_type = $current_table[$column_name];
 						}
 					}
@@ -169,7 +170,7 @@ class QueryTag {
 	}
 
 	function getTables() {
-		if ($this->query->index_hint->attrs->for == 'ALL' || Context::getDBType() == strtolower($this->query->index_hint->attrs->for))
+		if($this->query->index_hint && ($this->query->index_hint->attrs->for == 'ALL' || Context::getDBType() == strtolower($this->query->index_hint->attrs->for)))
 			return $this->tables = new TablesTag($this->query->tables, $this->query->index_hint);
 		else
 			return $this->tables = new TablesTag($this->query->tables);
@@ -180,7 +181,10 @@ class QueryTag {
 	}
 
 	function getGroups() {
-		return $this->groups = new GroupsTag($this->query->groups->group);
+		if ($this->query->groups)
+		    return $this->groups = new GroupsTag($this->query->groups->group);
+		else
+		    return $this->groups = new GroupsTag(NULL);
 	}
 
 	function getNavigation() {

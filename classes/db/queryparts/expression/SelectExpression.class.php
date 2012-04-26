@@ -33,6 +33,11 @@
 			return null;
 		}
 
+		function getArguments()
+		{
+		    return array();
+		}
+
                 function isSubquery(){
                     return false;
                 }

@@ -18,6 +18,9 @@
          * @brief Main/Virtual-specific add-on file, the location of the cache Wanted
          **/
         function getCacheFilePath($type = "pc") {
+			static $addon_file;
+			if(isset($addon_file)) return $addon_file;
+
             $site_module_info = Context::get('site_module_info');
             $site_srl = $site_module_info->site_srl;
 

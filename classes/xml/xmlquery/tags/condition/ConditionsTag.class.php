@@ -4,6 +4,8 @@
 
 		function ConditionsTag($xml_conditions){
 			$this->condition_groups = array();
+			if (!$xml_conditions)
+			    return;
 
                         $xml_condition_list = array();
                         if($xml_conditions->condition)

@@ -317,6 +317,10 @@
             if(!is_array($xml_obj->table->column)) $columns[] = $xml_obj->table->column;
             else $columns = $xml_obj->table->column;
 
+	    $primary_list = array();
+	    $unique_list = array();
+	    $index_list = array();
+
             foreach($columns as $column) {
                 $name = $column->attrs->name;
                 $type = $column->attrs->type;
@@ -399,6 +403,7 @@
          **/
         function _executeSelectAct($queryObject, $connection = null, $with_values = true) {
 			$limit = $queryObject->getLimit();
+			$result = NULL;
 			if ($limit && $limit->isPageHandler())
 				return $this->queryPageLimit($queryObject, $result, $connection, $with_values);
 			else {
@@ -433,8 +438,9 @@
 			return mysql_free_result($result);		
 		}
 
-        function getParser(){
-            return new DBParser('`', '`', $this->prefix);
+        function &getParser($force = FALSE){
+	    $dbParser = new DBParser('`', '`', $this->prefix);
+            return $dbParser;
         }
 
         function queryError($queryObject){
@@ -459,6 +465,7 @@
 			
 			// Check for distinct query and if found update count query structure
             $temp_select = $queryObject->getSelectString($with_values);
+	    $uses_distinct = false;
 			if(strpos(strtolower($temp_select), "distinct") !== false) {
 					$count_query = sprintf('select %s %s %s', 'FROM ' . $queryObject->getFromString($with_values), $temp_select, ($temp_where === '' ? '' : ' WHERE '. $temp_where));
 					$uses_distinct = true;
@@ -472,7 +479,7 @@
             $count_query .= (__DEBUG_QUERY__&1 && $queryObject->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
             $result_count = $this->_query($count_query, $connection);
             $count_output = $this->_fetch($result_count);
-            $total_count = (int)$count_output->count;
+            $total_count = (int)(isset($count_output->count) ? $count_output->count : NULL);
 
             $list_count = $limit->list_count->getValue();
             if (!$list_count) $list_count = 20;

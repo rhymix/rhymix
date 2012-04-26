@@ -18,9 +18,11 @@
     <a class="btn_menu" href="{getUrl('act','dispMenuMenu','menu_srl',$layout_info->menu->main_menu->menu_srl)}" title="메뉴"><span class="m">Menu</span></a>
     <!--@end-->
 <!--@end-->
-    <h1 cond="$layout_info->logo_image" class="title"><a href="{$layout_info->index_url}" class="img"><img src="img/@xe_logo.png"></a></h1>
-    <h1 cond="$layout_info->index_title" class="title"><a href="{$layout_info->index_url}" class="txt">{$layout_info->index_title}</a></h1>
-
+<!--@if($layout_info->logo_image)-->
+    <h1 class="title"><a href="{$layout_info->index_url}" class="img"><img src="{$layout_info->logo_image}" alt="{$layout_info->index_title}" /></a></h1>
+<!--@elseif($layout_info->index_title)-->
+    <h1 class="title"><span class="txt">{$layout_info->index_title}</span></h1>
+<!--@end-->
 </header>
 <hr class="head_hr" />
 <section id="ct" class="ct">

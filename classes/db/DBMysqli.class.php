@@ -247,46 +247,46 @@
             return $output;
         }		
 		
-		function _executeInsertAct($queryObject){
+		function _executeInsertAct($queryObject, $with_values = false){
 			if($this->use_prepared_statements != 'Y')
 			{
 				return parent::_executeInsertAct($queryObject);
 			}
 			$this->param = $queryObject->getArguments();
-			$result = parent::_executeInsertAct($queryObject, false);
+			$result = parent::_executeInsertAct($queryObject, $with_values);
 			unset($this->param);
 			return $result;
 		}
 		
-		function _executeUpdateAct($queryObject) {
+		function _executeUpdateAct($queryObject, $with_values = false) {
 			if($this->use_prepared_statements != 'Y')
 			{
 				return parent::_executeUpdateAct($queryObject);
 			}			
 			$this->param = $queryObject->getArguments();
-			$result = parent::_executeUpdateAct($queryObject, false);
+			$result = parent::_executeUpdateAct($queryObject, $with_values);
 			unset($this->param);
 			return $result;
 		}
 		
-		function _executeDeleteAct($queryObject) {
+		function _executeDeleteAct($queryObject, $with_values = false) {
 			if($this->use_prepared_statements != 'Y')
 			{
 				return parent::_executeDeleteAct($queryObject);
 			}				
 			$this->param = $queryObject->getArguments();
-			$result = parent::_executeDeleteAct($queryObject, false);
+			$result = parent::_executeDeleteAct($queryObject, $with_values);
 			unset($this->param);
 			return $result;
 		}		
 		
-		function _executeSelectAct($queryObject, $connection = null) {
+		function _executeSelectAct($queryObject, $connection = null, $with_values = false) {
 			if($this->use_prepared_statements != 'Y')
 			{
 				return parent::_executeSelectAct($queryObject, $connection);
 			}				
 			$this->param = $queryObject->getArguments();
-			$result = parent::_executeSelectAct($queryObject, $connection, false);		
+			$result = parent::_executeSelectAct($queryObject, $connection, $with_values);		
 			unset($this->param);
 			return $result;
 		}

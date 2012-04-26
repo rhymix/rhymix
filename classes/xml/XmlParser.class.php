@@ -1,4 +1,18 @@
 <?php
+
+    /* Element node or attribute node. */
+    class Xml_Node_
+    {
+	/** In PHP5 this will silence E_STRICT warnings
+	 * for undeclared properties.
+	 * No effect in PHP4
+	 */
+	function __get($name)
+	{
+	    return NULL;
+	}
+    }
+
     /**
      * @class XmlParser 
      * @author NHN (developers@xpressengine.com)
@@ -39,7 +53,7 @@
          * @param[in] a data buffer containing xml data
          * @return Returns a resultant data object or NULL in case of error
          **/
-        function parse($input = '') {
+        function parse($input = '', $arg1 = NULL, $arg2 = NULL) {
             // Save the compile starting time for debugging
             if(__DEBUG__==3) $start = getMicroTime();
 
@@ -92,8 +106,9 @@
         * @param[in] $attrs attributes to be set
         */
         function _tagOpen($parser, $node_name, $attrs) {
+	    $obj = new Xml_Node_();
             $obj->node_name = strtolower($node_name);
-            $obj->attrs = $this->_arrToObj($attrs);
+            $obj->attrs = $this->_arrToAttrsObj($attrs);
 
             array_push($this->output, $obj);
         }
@@ -133,6 +148,9 @@
                     array_push($parent_obj->{$node_name}, $cur_obj);
                 }
             } else {
+		if (!is_object($parent_obj))
+		    $parent_obj = (object)$parent_obj;
+
                 $parent_obj->{$node_name} = $cur_obj;
             }
         }
@@ -141,8 +159,8 @@
         * @brief method to transfer values in an array to a data object       
         * @param[in] $arr data array 
         **/
-        function _arrToObj($arr) {
-            if(!count($arr)) return;
+        function _arrToAttrsObj($arr) {
+	    $output = new Xml_Node_();
             foreach($arr as $key => $val) {
                 $key = strtolower($key);
                 $output->{$key} = $val;

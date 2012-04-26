@@ -696,7 +696,7 @@
 			$columnList = array('member_srl', 'password');
             $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl, 0, $columnList);
             // Verify the cuttent password
-            if(!$oMemberModel->isValidPassword($member_info->password, $current_password)) return new Object(-1, 'invalid_password');
+            if(!$oMemberModel->isValidPassword($member_info->password, $current_password, $member_srl)) return new Object(-1, 'invalid_password');
 
             // Check if a new password is as same as the previous password
             if ($current_password == $password) return new Object(-1, 'invalid_new_password');
@@ -1506,7 +1506,7 @@
 		    if(!$user_id || strtolower($this->memberInfo->user_id) != strtolower($user_id)) return new Object(-1, 'invalid_user_id');
 	    }
             // Password Check
-            if($password && !$oMemberModel->isValidPassword($this->memberInfo->password, $password)) return new Object(-1, 'invalid_password');
+            if($password && !$oMemberModel->isValidPassword($this->memberInfo->password, $password, $this->memberInfo->member_srl)) return new Object(-1, 'invalid_password');
             // If denied == 'Y', notify
             if($this->memberInfo->denied == 'Y') {
                 $args->member_srl = $this->memberInfo->member_srl;
@@ -1923,7 +1923,23 @@
             	$cache_key = 'object:'.$args->member_srl;
             	$oCacheHandler->delete($cache_key);
             }
-            $args->password = md5($args->password);
+
+			if($args->password)
+			{
+				if($this->useSha1 && function_exists('sha1'))
+				{
+					$args->password = md5(sha1(md5($args->password)));
+				}
+				else
+				{
+					$args->password = md5($args->password);
+				}
+			}
+			else if($args->hashed_password)
+			{
+				$args->password = $args->hashed_password;
+			}
+
             return executeQuery('member.updateMemberPassword', $args);
         }
 

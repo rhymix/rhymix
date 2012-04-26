@@ -1,0 +1,6 @@
+<query id="noQueryId" action="select">
+    <columns />
+    <tables>
+	<table name="source_tbl" />
+    </tables>
+</query>

@@ -17,7 +17,6 @@
 		function createConditionValue(){
 			if(!isset($this->value)) return;
 
-                        $name = $this->column_name;
                         $operation = $this->operation;
                         $value = $this->value;
 

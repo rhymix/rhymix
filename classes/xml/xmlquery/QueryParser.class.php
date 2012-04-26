@@ -4,13 +4,15 @@
 
         var $queryTag;
 
-        function QueryParser($query, $isSubQuery = false) {
-            $this->queryTag = new QueryTag($query, $isSubQuery);
+        function QueryParser($query = NULL, $isSubQuery = false) {
+	    if ($query)
+		$this->queryTag = new QueryTag($query, $isSubQuery);
         }
 
         function getTableInfo($query_id, $table_name) {
             $column_type = array();
-
+			$module = '';
+			
             $id_args = explode('.', $query_id);
             if (count($id_args) == 2) {
                 $target = 'modules';
@@ -22,7 +24,7 @@
                     return;
                 $module = $id_args[1];
                 $id = $id_args[2];
-            }
+            } 
 
             // get column properties from the table
             $table_file = sprintf('%s%s/%s/schemas/%s.xml', _XE_PATH_, 'modules', $module, $table_name);
