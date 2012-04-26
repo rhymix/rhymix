@@ -39,10 +39,10 @@
             $selected_group_list = array();
             if(count($group_list)) {
                 foreach($group_list as $key => $val) {
-                    if($val->is_admin == 'Y' || $val->is_default == 'Y') continue;    
+                    if($val->is_admin == 'Y' || $val->is_default == 'Y') continue;
                     $selected_group_list[$key] = $val;
                 }
-            }			
+            }
             Context::set('group_list', $selected_group_list);
 			//Security
 			$security = new Security();			

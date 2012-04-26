@@ -54,6 +54,9 @@
             // Per-level group configurations
 			foreach($group_list as $group)
 			{
+				// Admin group should not be connected to point.
+				if($group->is_admin == 'Y' || $group->is_default == 'Y') continue;
+
 				$group_srl = $group->group_srl;
 				if($args->{'point_group_'.$group_srl})
 				{
