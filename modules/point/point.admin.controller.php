@@ -48,9 +48,13 @@
             if($args->disable_read_document == 'Y') $config->disable_read_document = 'Y';
             else $config->disable_read_document = 'N';
 
+			$oMemberModel = &getModel('member');
+			$group_list = $oMemberModel->getGroups();
+
             // Per-level group configurations
-			foreach($config->point_group as $group_srl=>$level)
+			foreach($group_list as $group)
 			{
+				$group_srl = $group->group_srl;
 				if($args->{'point_group_'.$group_srl})
 				{
 					$config->point_group[$group_srl] = $args->{'point_group_'.$group_srl};
