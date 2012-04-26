@@ -17,5 +17,5 @@ if($called_position != "before_display_content" || Context::get('act')=='dispPag
 // Include a file having functions to replace member image name/mark
 require_once('./addons/member_extra_info/member_extra_info.lib.php');
 // 1. Find a part <div class="member_MemberSerialNumber"> content </div> in the output document, change it to image name/mark by using MemberController::transImageName()
-$output = preg_replace_callback('!<(div|span|a)([^\>]*)member_([0-9]+)([^\>]*)>(.*?)\<\/(div|span|a)\>!is', 'memberTransImageName', $output);
+$output = preg_replace_callback('!<(div|span|a)([^\>]*)member_([0-9]+)([^\>]*)>([^\<]*)\<\/(div|span|a)\>!is', 'memberTransImageName', $output);
 ?>
