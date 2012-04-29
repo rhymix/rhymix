@@ -97,7 +97,7 @@ if(jQuery) jQuery.noConflict();
 
                             var styleText = "";
                             var click_str = "";
-                            if(icon) styleText = " style=\"background-image:url('"+icon+"')\" ";
+                            /* if(icon) styleText = " style=\"background-image:url('"+icon+"')\" "; */
                             switch(target) {
                                 case "popup" :
                                         click_str = " onclick=\"popopen(this.href,'"+target+"'); return false;\"";
