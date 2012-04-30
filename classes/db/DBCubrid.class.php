@@ -464,6 +464,48 @@
 			return true;
 		}
 
+        function deleteDuplicateIndexes()
+        {
+            $query = sprintf("
+                        select \"class_name\"
+                                , case
+                                when substr(\"index_name\", 0, %d) = '%s'
+                                    then substr(\"index_name\", %d)
+                                else \"index_name\" end as unprefixed_index_name
+                                , \"is_unique\"
+                          from \"db_index\"
+                          where \"class_name\" like %s
+                          group by \"class_name\"
+                                  , case
+                                      when substr(\"index_name\", 0, %d) = '%s'
+                                         then substr(\"index_name\", %d)
+                                      else \"index_name\"
+                                    end
+                          having count(*) > 1
+                        ", strlen($this->prefix)
+                        , $this->prefix
+                        , strlen($this->prefix) + 1
+                        , "'" . $this->prefix . '%' . "'"
+                        , strlen($this->prefix)
+                        , $this->prefix
+                        , strlen($this->prefix) + 1
+                        );
+            $result = $this->_query ($query);
+
+            if ($this->isError ()) return false;
+
+            $output = $this->_fetch ($result);
+            if (!$output) return false;
+
+            $indexes_to_be_deleted = $output->data;
+            foreach($indexes_to_be_deleted as $index)
+            {
+                $this->dropIndex($index->class_name, $index->unprefixed_index_name, $index->is_unique == 'YES' ? true : false);
+            }
+
+            return true;
+        }
+
 		/**
 		 * @brief creates a table by using xml file
 		 **/
