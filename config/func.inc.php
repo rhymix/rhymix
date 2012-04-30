@@ -696,26 +696,6 @@
 
 		// xmp tag 확인 및 추가
 		$content = checkXmpTag($content);
-
-		if(version_compare(PHP_VERSION, "5.3.0") >= 0)
-		{
-			$path = _XE_PATH_.'files/cache/htmlpurifier';
-			if(!file_exists($path))
-			{
-				FileHandler::makeDir($path);
-			}
-
-			// purifier setting
-			require_once _XE_PATH_.'classes/security/htmlpurifier/library/HTMLPurifier.auto.php';
-			require_once 'HTMLPurifier.func.php';
-
-			$config = HTMLPurifier_Config::createDefault();
-			$config->set('HTML.TidyLevel', 'light');
-			$config->set('HTML.SafeObject', true);
-			$config->set('Cache.SerializerPath', $path);
-			$purifier = new HTMLPurifier($config);
-			$content = $purifier->purify($content);
-		}
 		return $content;
     }
 
