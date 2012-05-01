@@ -101,7 +101,7 @@ class Mobile {
 
 		$oMobile =& Mobile::getInstance();
 		// stripos is only for PHP5.
-		$mobileAgent = unserialize(strtolower(serialize(array('iPod','iPhone','Android','BlackBerry','SymbianOS','Bada','Kindle','Wii','SCH-','SPH-','CANU-','Windows Phone','Windows CE','POLARIS','Palm','Dorothy Browser','Mobile','Opera Mobi','Opera Mini','Minimo','AvantGo','NetFront','Nokia','LGPlayer','SonyEricsson','HTC','SKT','lgtelecom','Vodafone','DoCoMo'))));
+		$mobileAgent = unserialize(strtolower(serialize(array('iPod','iPhone','Android','BlackBerry','SymbianOS','Bada','Kindle','Wii','SCH-','SPH-','CANU-','Windows Phone','Windows CE','POLARIS','Palm','Dorothy Browser','Mobile','Opera Mobi','Opera Mini','Minimo','AvantGo','NetFront','Nokia','LGPlayer','SonyEricsson','HTC'))));
 
 		if($oMobile->isMobilePadCheckByAgent())
 		{
