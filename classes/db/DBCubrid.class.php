@@ -657,7 +657,7 @@
 			$query = $this->getInsertSql($queryObject, $with_values);
 			if(is_a($query, 'Object')) return;
 
-			$query .= (__DEBUG_QUERY__&1 && $output->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
+			$query .= (__DEBUG_QUERY__&1 && $queryObject->queryID)?sprintf (' '.$this->comment_syntax, $queryObject->queryID):'';
 
 			$result = $this->_query ($query);
 			if ($result && !$this->transaction_started) {
@@ -730,7 +730,7 @@
 				if (is_a($query, 'Object'))
 					return;
 
-				$query .= (__DEBUG_QUERY__ & 1 && $queryObject->query_id) ? sprintf(' ' . $this->comment_syntax, $this->query_id) : '';
+				$query .= (__DEBUG_QUERY__ & 1 && $queryObject->queryID) ? sprintf(' ' . $this->comment_syntax, $queryObject->queryID) : '';
 				$result = $this->_query($query, $connection);
 
 				if ($this->isError())
@@ -764,11 +764,24 @@
 		 	// Total count
 			$temp_where = $queryObject->getWhereString($with_values, false);
 		 	$count_query = sprintf('select count(*) as "count" %s %s', 'FROM ' . $queryObject->getFromString($with_values), ($temp_where === '' ? '' : ' WHERE '. $temp_where));
-			if ($queryObject->getGroupByString() != '') {
-				$count_query = sprintf('select count(*) as "count" from (%s) xet', $count_query);
-			}
-			
-			$count_query .= (__DEBUG_QUERY__&1 && $queryObject->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
+
+            // Check for distinct query and if found update count query structure
+            $temp_select = $queryObject->getSelectString($with_values);
+            $uses_distinct = strpos(strtolower($temp_select), "distinct") !== false;
+            $uses_groupby = $queryObject->getGroupByString() != '';
+            if($uses_distinct || $uses_groupby) {
+                $count_query = sprintf('select %s %s %s %s'
+                    , $temp_select
+                    , 'FROM ' . $queryObject->getFromString($with_values)
+                    , ($temp_where === '' ? '' : ' WHERE '. $temp_where)
+                    , ($uses_groupby ? ' GROUP BY ' . $queryObject->getGroupByString() : '')
+                );
+
+                // If query uses grouping or distinct, count from original select
+                $count_query = sprintf('select count(*) as "count" from (%s) xet', $count_query);
+            }
+
+			$count_query .= (__DEBUG_QUERY__&1 && $queryObject->queryID)?sprintf (' '.$this->comment_syntax, $queryObject->queryID):'';
 			$result = $this->_query($count_query, $connection);
 			$count_output = $this->_fetch($result);
 			$total_count = (int)(isset($count_output->count) ? $count_output->count : NULL);
