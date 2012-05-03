@@ -406,7 +406,9 @@
 			if($type == "view" && $this->module_info->use_mobile == "Y" && Mobile::isMobileCheckByAgent())
 			{
 				global $lang;
-				$footer = '<div style="margin:1em 0;padding:.5em;background:#333;border:1px solid #666;border-left:0;border-right:0"><p style="text-align:center;margin:1em 0"><a href="'.getUrl('m', '1').'" style="color:#ff0;font-weight:bold;font-size:24px">'.$lang->msg_pc_to_mobile.'</a></p></div>';
+				$header = '<style type="text/css">div.xe_mobile{opacity:0.7;margin:1em 0;padding:.5em;background:#333;border:1px solid #666;border-left:0;border-right:0}p.xe_mobile{text-align:center;margin:1em 0}a.xe_mobile{color:#ff0;font-weight:bold;font-size:24px}@media only screen and (min-width:500px){a.xe_mobile{font-size:15px}}</style>';
+				$footer = '<div class="xe_mobile"><p class="xe_mobile"><a class="xe_mobile" href="'.getUrl('m', '1').'">'.$lang->msg_pc_to_mobile.'</a></p></div>';
+				Context::addHtmlHeader($header);
 				Context::addHtmlFooter($footer);
 			}
 

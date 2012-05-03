@@ -81,6 +81,14 @@
 				}
 			}
 
+            // remove duplicate indexes (only for CUBRID)
+            $db_type = &Context::getDBType();
+            if($db_type == 'cubrid')
+            {
+                $db = &DB::getInstance();
+                $db->deleteDuplicateIndexes();
+            }
+
             $this->setMessage('success_updated');
         }
 
