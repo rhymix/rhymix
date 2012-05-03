@@ -4,55 +4,46 @@
 		<value xml:lang="ko"><![CDATA[기본]]></value>
 		<value xml:lang="en"><![CDATA[Primary]]></value>
 		<value xml:lang="jp"><![CDATA[基本]]></value>
-		<value xml:lang="zh-CN"><![CDATA[基本]]></value>
 	</item>
 	<item name="subtitle_advanced">
 		<value xml:lang="ko"><![CDATA[고급]]></value>
 		<value xml:lang="en"><![CDATA[Advanced]]></value>
 		<value xml:lang="jp"><![CDATA[上級]]></value>
-		<value xml:lang="zh-CN"><![CDATA[高级]]></value>
 	</item>
 	<item name="subtitle_etc">
 		<value xml:lang="ko"><![CDATA[기타]]></value>
 		<value xml:lang="en"><![CDATA[Others]]></value>
 		<value xml:lang="jp"><![CDATA[その他]]></value>
-		<value xml:lang="zh-CN"><![CDATA[其他]]></value>
 	</item>
 	<item name="current_state">
 		<value xml:lang="ko"><![CDATA[현황]]></value>
 		<value xml:lang="en"><![CDATA[Current state]]></value>
 		<value xml:lang="jp"><![CDATA[現況]]></value>
-		<value xml:lang="zh-CN"><![CDATA[当前]]></value>
 	</item>
 	<item name="latest_documents">
 		<value xml:lang="ko"><![CDATA[최근 글]]></value>
 		<value xml:lang="en"><![CDATA[Latest Documents]]></value>
 		<value xml:lang="jp"><![CDATA[最新記事]]></value>
-		<value xml:lang="zh-CN"><![CDATA[最新文档]]></value>
 	</item>
 	<item name="latest_comments">
 		<value xml:lang="ko"><![CDATA[최근 댓글]]></value>
 		<value xml:lang="en"><![CDATA[Latest Comments]]></value>
 		<value xml:lang="jp"><![CDATA[最新のコメント]]></value>
-		<value xml:lang="zh-CN"><![CDATA[最新回复]]></value>
 	</item>
 	<item name="latest_trackbacks">
 		<value xml:lang="ko"><![CDATA[최근 엮인글]]></value>
 		<value xml:lang="en"><![CDATA[Latest Trackbacks]]></value>
 		<value xml:lang="jp"><![CDATA[最新のトラックバック]]></value>
-		<value xml:lang="zh-CN"><![CDATA[最新引用]]></value>
 	</item>
 	<item name="notices">
 		<value xml:lang="ko"><![CDATA[공지]]></value>
 		<value xml:lang="en"><![CDATA[Notices]]></value>
 		<value xml:lang="jp"><![CDATA[お知らせ]]></value>
-		<value xml:lang="zh-CN"><![CDATA[通知]]></value>
 	</item>
 	<item name="favorites">
 		<value xml:lang="ko"><![CDATA[즐겨찾기]]></value>
 		<value xml:lang="en"><![CDATA[Favorites]]></value>
 		<value xml:lang="jp"><![CDATA[お気に入り]]></value>
-		<value xml:lang="zh-CN"><![CDATA[收藏]]></value>
 	</item>
 	<item name="admin_info">
 		<value xml:lang="ko"><![CDATA[관리자 정보]]></value>
@@ -225,43 +216,36 @@
 			<value xml:lang="ko"><![CDATA[제어판]]></value>
 			<value xml:lang="en"><![CDATA[Dashboard]]></value>
 			<value xml:lang="jp"><![CDATA[ダッシュボード]]></value>
-			<value xml:lang="zh-CN"><![CDATA[控制面板]]></value>
 		</item>
 		<item name="menu">
 			<value xml:lang="ko"><![CDATA[사이트]]></value>
 			<value xml:lang="en"><![CDATA[Menu]]></value>
 			<value xml:lang="jp"><![CDATA[サイト]]></value>
-			<value xml:lang="zh-CN"><![CDATA[目录]]></value>
 		</item>
 		<item name="user">
 			<value xml:lang="ko"><![CDATA[회원]]></value>
 			<value xml:lang="en"><![CDATA[Member]]></value>
 			<value xml:lang="jp"><![CDATA[会員]]></value>
-			<value xml:lang="zh-CN"><![CDATA[会员]]></value>
 		</item>
 		<item name="content">
 			<value xml:lang="ko"><![CDATA[콘텐츠]]></value>
 			<value xml:lang="en"><![CDATA[Content]]></value>
 			<value xml:lang="jp"><![CDATA[コンテンツ]]></value>
-			<value xml:lang="zh-CN"><![CDATA[内容]]></value>
 		</item>
 		<item name="theme">
 			<value xml:lang="ko"><![CDATA[테마]]></value>
 			<value xml:lang="en"><![CDATA[Theme]]></value>
 			<value xml:lang="jp"><![CDATA[テーマ]]></value>
-			<value xml:lang="zh-CN"><![CDATA[主题]]></value>
 		</item>
 		<item name="extensions">
 			<value xml:lang="ko"><![CDATA[확장기능]]></value>
 			<value xml:lang="en"><![CDATA[Extensions]]></value>
 			<value xml:lang="jp"><![CDATA[拡張機能]]></value>
-			<value xml:lang="zh-CN"><![CDATA[扩展]]></value>
 		</item>
 		<item name="configuration">
 			<value xml:lang="ko"><![CDATA[설정]]></value>
 			<value xml:lang="en"><![CDATA[Settings]]></value>
 			<value xml:lang="jp"><![CDATA[設定]]></value>
-			<value xml:lang="zh-CN"><![CDATA[设置]]></value>
 		</item>
 	</item>
 	<item name="newest_news">
@@ -580,7 +564,6 @@ Lütfen son sürümü için indirme linkine tıklayınız.]]></value>
 		<value xml:lang="ko"><![CDATA[어제]]></value>
 		<value xml:lang="en"><![CDATA[Yesterday]]></value>
 		<value xml:lang="jp"><![CDATA[昨日]]></value>
-		<value xml:lang="zh-CN"><![CDATA[昨日]]></value>
 		<value xml:lang="zh-TW"><![CDATA[昨天]]></value>
 		<value xml:lang="ru"><![CDATA[Вчера]]></value>
 		<value xml:lang="tr"><![CDATA[Dün]]></value>
@@ -590,7 +573,6 @@ Lütfen son sürümü için indirme linkine tıklayınız.]]></value>
 		<value xml:lang="ko"><![CDATA[오늘]]></value>
 		<value xml:lang="en"><![CDATA[Today]]></value>
 		<value xml:lang="jp"><![CDATA[今日]]></value>
-		<value xml:lang="zh-CN"><![CDATA[今日]]></value>
 		<value xml:lang="zh-TW"><![CDATA[今天]]></value>
 		<value xml:lang="ru"><![CDATA[Сегодня]]></value>
 		<value xml:lang="tr"><![CDATA[Bugün]]></value>
@@ -600,29 +582,24 @@ Lütfen son sürümü için indirme linkine tıklayınız.]]></value>
 		<value xml:lang="ko"><![CDATA[지원할 언어를 설정하세요.]]></value>
 		<value xml:lang="en"><![CDATA[Select the supporting language(s).]]></value>
 		<value xml:lang="jp"><![CDATA[サポート言語を選択してください。]]></value>
-		<value xml:lang="zh-CN"><![CDATA[选择语言]]></value>
 	</item>
 	<item name="about_default_lang">
 		<value xml:lang="ko"><![CDATA[기본 언어를 선택하세요.]]></value>
 		<value xml:lang="en"><![CDATA[Select default language.]]></value>
-		<value xml:lang="zh-CN"><![CDATA[默认语言]]></value>
 	</item>
 	<item name="about_recompile_cache">
 		<value xml:lang="ko"><![CDATA[쓸모 없어졌거나 잘못된 캐시파일들을 지우시겠습니까?]]></value>
 		<value xml:lang="en"><![CDATA[Delete useless or invalid cache files?]]></value>
 		<value xml:lang="jp"><![CDATA[必要なくなったり、無効なキャッシュファイルを削除しますか？]]></value>
-		<value xml:lang="zh-CN"><![CDATA[清空cache缓存?]]></value>
 	</item>
 	<item name="confirm_run">
 		<value xml:lang="ko"><![CDATA[오랜 시간이 걸릴 수 있습니다. 실행하시겠습니까?]]></value>
 		<value xml:lang="en"><![CDATA[It may take a long time. Do you want to run?]]></value>
-		<value xml:lang="zh-CN"><![CDATA[此过程可能需要耗费一段时间，是否继续?]]></value>
 	</item>
 	<item name="use_ssl">
 		<value xml:lang="ko"><![CDATA[SSL(Secure Sockets Layer, 보안접속)을 사용하시겠습니까?]]></value>
 		<value xml:lang="en"><![CDATA[Do you want to use Secure Sockets Layer (SSL)?]]></value>
 		<value xml:lang="jp"><![CDATA[SSL(Secure Sockets Layer)を使用しますか?]]></value>
-		<value xml:lang="zh-CN"><![CDATA[是否使用SSL安全连接?]]></value>
 	</item>
 	<item name="ssl_options" type="array">
 		<item name="none">
@@ -721,7 +698,6 @@ Lütfen son sürümü için indirme linkine tıklayınız.]]></value>
         	<value xml:lang="ko"><![CDATA[큐메일(Qmail) 사용]]></value>
 	        <value xml:lang="en"><![CDATA[Enable Qmail]]></value>
 			<value xml:lang="jp"><![CDATA[Qmail使用]]></value>
-			<value xml:lang="zh-CN"><![CDATA[启用Qmail]]></value>
 	</item>
 	<item name="sftp">
 		<value xml:lang="ko"><![CDATA[SFTP 사용]]></value>
@@ -764,17 +740,14 @@ Lütfen son sürümü için indirme linkine tıklayınız.]]></value>
 		<value xml:lang="ko"><![CDATA[Passive 모드를 사용하시겠습니까?]]></value>
 		<value xml:lang="en"><![CDATA[Use FTP Passive Mode?]]></value>
 		<value xml:lang="jp"><![CDATA[Passiveモードを使用しますか?]]></value>
-		<value xml:lang="zh-CN"><![CDATA[使用FTP被动模式?]]></value>
 	</item>
 	<item name="about_use_sftp_support">
 		<value xml:lang="ko"><![CDATA[SFTP 를 사용하시겠습니까?]]></value>
 		<value xml:lang="en"><![CDATA[Use SFTP?]]></value>
-		<value xml:lang="zh-CN"><![CDATA[使用SFTP?]]></value>
 	</item>	
 	<item name="disable_sftp_support">
 		<value xml:lang="ko"><![CDATA[SFTP를 사용할 수 있는 환경이 아닙니다.]]></value>
 		<value xml:lang="en"><![CDATA[Does Not Use SFTP]]></value>
-		<value xml:lang="zh-CN"><![CDATA[关闭SFTP]]></value>
 	</item>	
 	<item name="msg_self_restart_cache_engine">
 		<value xml:lang="ko"><![CDATA[Memcached 또는 캐쉬데몬을 재시작 해주세요.]]></value>
@@ -798,7 +771,6 @@ Lütfen son sürümü için indirme linkine tıklayınız.]]></value>
 		<value xml:lang="ko"><![CDATA[지난 주]]></value>
 		<value xml:lang="en"><![CDATA[Last week]]></value>
 		<value xml:lang="jp"><![CDATA[先週]]></value>
-		<value xml:lang="zh-CN"><![CDATA[上周]]></value>
 		<value xml:lang="zh-TW"><![CDATA[上週]]></value>
 		<value xml:lang="tr"><![CDATA[Geçen Hafta]]></value>
 	</item>
@@ -806,7 +778,6 @@ Lütfen son sürümü için indirme linkine tıklayınız.]]></value>
 		<value xml:lang="ko"><![CDATA[이번 주]]></value>
 		<value xml:lang="en"><![CDATA[This week]]></value>
 		<value xml:lang="jp"><![CDATA[今週]]></value>
-		<value xml:lang="zh-CN"><![CDATA[本周]]></value>
 		<value xml:lang="zh-TW"><![CDATA[本週]]></value>
 		<value xml:lang="tr"><![CDATA[Bu Hafta]]></value>
 	</item>
@@ -826,110 +797,91 @@ Lütfen son sürümü için indirme linkine tıklayınız.]]></value>
 		<value xml:lang="ko"><![CDATA[신고]]></value>
 		<value xml:lang="en"><![CDATA[Report]]></value>
 		<value xml:lang="jp"><![CDATA[通報]]></value>
-		<value xml:lang="zh-CN"><![CDATA[报告]]></value>
 	</item>
 	<item name="status">
 		<value xml:lang="ko"><![CDATA[상태]]></value>
 		<value xml:lang="en"><![CDATA[Status]]></value>
 		<value xml:lang="jp"><![CDATA[状態]]></value>
-		<value xml:lang="zh-CN"><![CDATA[状态]]></value>
 	</item>
 	<item name="action">
 		<value xml:lang="ko"><![CDATA[실행]]></value>
 		<value xml:lang="en"><![CDATA[Execute]]></value>
 		<value xml:lang="jp"><![CDATA[実行]]></value>
-		<value xml:lang="zh-CN"><![CDATA[执行]]></value>
 	</item>
 	<item name="select_module_id">
 		<value xml:lang="ko"><![CDATA[모듈 아이디를 선택하세요.]]></value>
 		<value xml:lang="en"><![CDATA[Select a module ID.]]></value>
 		<value xml:lang="jp"><![CDATA[モジュールIDを選択してください。]]></value>
-		<value xml:lang="zh-CN"><![CDATA[选择Module ID]]></value>
 	</item>
 	<item name="use_cdn">
 		<value xml:lang="ko"><![CDATA[CDN 사용]]></value>
 		<value xml:lang="en"><![CDATA[Use CDN]]></value>
 		<value xml:lang="jp"><![CDATA[CDN使用]]></value>
-		<value xml:lang="zh-CN"><![CDATA[开启CDN]]></value>
 	</item>
 	<item name="about_use_rewrite">
 		<value xml:lang="ko"><![CDATA[짧은 주소를 사용하시겠습니까?]]></value>
 		<value xml:lang="en"><![CDATA[Do you want to use Rewrite Mod?]]></value>
 		<value xml:lang="jp"><![CDATA[短縮アドレスを使用しますか？]]></value>
-		<value xml:lang="zh-CN"><![CDATA[是否开启伪静态?]]></value>
 	</item>
 	<item name="about_timezone">
 		<value xml:lang="ko"><![CDATA[현지 표준시를 설정하세요.]]></value>
 		<value xml:lang="en"><![CDATA[Set the local standard time.]]></value>
 		<value xml:lang="jp"><![CDATA[現地の標準時間を設定してください。]]></value>
-		<value xml:lang="zh-CN"><![CDATA[设置本地时间.]]></value>
 	</item>
 	<item name="about_html_dtd">
 		<value xml:lang="ko"><![CDATA[HTML 규격(DTD)을 선택하세요.]]></value>
 		<value xml:lang="en"><![CDATA[Set HTML DTD.]]></value>
 		<value xml:lang="jp"><![CDATA[HTML DTDを設定してください。]]></value>
-		<value xml:lang="zh-CN"><![CDATA[设置HTML DTD标签头.]]></value>
 	</item>
 	<item name="html5">
 		<value xml:lang="ko"><![CDATA[HTML5]]></value>
 		<value xml:lang="en"><![CDATA[HTML5]]></value>
-		<value xml:lang="zh-CN"><![CDATA[HTML5]]></value>
 	</item>
 	<item name="xhtml_transitional">
 		<value xml:lang="ko"><![CDATA[XHTML 1.0 Transitional]]></value>
 		<value xml:lang="en"><![CDATA[XHTML 1.0 Transitional]]></value>
-		<value xml:lang="zh-CN"><![CDATA[XHTML 1.0 Transitional]]></value>
 	</item>
 	<item name="about_question_mobile_view">
 		<value xml:lang="ko"><![CDATA[모바일 기기에서 접속할 때 모바일 페이지를 보여줄까요?]]></value>
 		<value xml:lang="en"><![CDATA[Do you want to show the mobile page when users access the website with their mobile phone?]]></value>
 		<value xml:lang="jp"><![CDATA[モバイル機器で接続した際にモバイルページを表示しますか？]]></value>
-		<value xml:lang="zh-CN"><![CDATA[当用户使用移动终端访问页面的时候是否使用移动版?]]></value>
 	</item>
 	<item name="about_thumbnail_type">
 		<value xml:lang="ko"><![CDATA[썸네일 생성 방식을 선택하세요.]]></value>
 		<value xml:lang="en"><![CDATA[Select thumbnail type.]]></value>
 		<value xml:lang="jp"><![CDATA[サムネイルの生成方式を選択してください。]]></value>
-		<value xml:lang="zh-CN"><![CDATA[选择缩略图生成方式]]></value>
 	</item>
 	<item name="input_footer_script">
 		<value xml:lang="ko"><![CDATA[하단(footer) 스크립트 삽입]]></value>
 		<value xml:lang="en"><![CDATA[Input footer script]]></value>
-		<value xml:lang="zh-CN"><![CDATA[输入页脚脚本]]></value>
 	</item>
 	<item name="detail_input_footer_script">
 		<value xml:lang="ko"><![CDATA[최하단에 코드를 삽입합니다. <br />관리자 페이지에서는 수행되지 않습니다.]]></value>
 		<value xml:lang="en"><![CDATA[The script is inserted into the bottom of body. <br /> Manager page does not work.]]></value>
-		<value xml:lang="zh-CN"><![CDATA[该脚本将被插入到页面的底部.<br />页面管理将无效.]]></value>
 	</item>
 	<item name="corp">
 		<value xml:lang="ko"><![CDATA[Crop(잘라내기)]]></value>
 		<value xml:lang="en"><![CDATA[Crop(Cut)]]></value>
 		<value xml:lang="jp"><![CDATA[切り取り]]></value>
-		<value xml:lang="zh-CN"><![CDATA[裁剪]]></value>
 	</item>
 	<item name="ratio">
 		<value xml:lang="ko"><![CDATA[Ratio(비율 맞추기)]]></value>
 		<value xml:lang="en"><![CDATA[Ratio(Keep Aspect)]]></value>
 		<value xml:lang="jp"><![CDATA[Ratio(縦横の比率をキープ)]]></value>
-		<value xml:lang="zh-CN"><![CDATA[缩放]]></value>
 	</item>
 	<item name="about_admin_ip_limit">
 		<value xml:lang="ko"><![CDATA[관리자 페이지로 접근가능한 IP대역을 지정합니다.]]></value>
 		<value xml:lang="en"><![CDATA[Sepcify IP address band that can access the admin page.]]></value>
 		<value xml:lang="jp"><![CDATA[管理者ページへアクセス可能なIP帯域を指定します。]]></value>
-		<value xml:lang="zh-CN"><![CDATA[后台IP绑定]]></value>
 	</item>
 	<item name="local_ip_address">
 		<value xml:lang="ko"><![CDATA[로컬 IP 주소]]></value>
 		<value xml:lang="en"><![CDATA[Local IP address]]></value>
-		<value xml:lang="zh-CN"><![CDATA[本地IP地址]]></value>	
 	</item>
 	<item name="detail_about_admin_ip_limit">
 		<value xml:lang="ko"><![CDATA[해당 IP에 대해서만 관리자 페이지로 접근이 가능하므로 주의해주시기 바랍니다.<br /> IP대역 정보는 /files/config/db.config.php 파일에 저장됩니다.<br />여러개의 항목은 줄을 바꾸어 입력하세요.]]></value>
 		<value xml:lang="en"><![CDATA[Please note that only the specified IP addresses can access the admin page.<br /> The information on IP address band is stored in  /files/config/db.config.php.<br />Change the line to multiple IP.]]></value>
 	　　<value xml:lang="jp"><![CDATA[該当IPについてのみ管理者ページへアクセスできるため、注意してください。<br />IP帯域情報は、/files/config/db.config.php ファイルに保存されます。<br />Change the line to multiple IP.]]></value>
-		<value xml:lang="zh-CN"><![CDATA[请注意，只有绑定的IP才能访问后台。<br />IP信息将保存在 /files/config/db.config.php.<br />每行一个IP。]]></value>
 	</item>
 	<item name="detail_about_ftp_info">
 		<value xml:lang="ko"><![CDATA[
@@ -942,249 +894,206 @@ Lütfen son sürümü için indirme linkine tıklayınız.]]></value>
 	The information on FTP is stored in files/config/ftp.config.php.<br />
 	If you are unable to easy install, PHP's 'safe_mode' must be changed 'On'
 ]]></value>
-		<value xml:lang="zh-CN"><![CDATA[当设定FTP信息来启用快捷安装。<br />FTP的信息保存在 /files/config/ftp.config.php.<br />如果不启用快捷安装，请务必将开启PHP安全模式]]></value>
 	</item>
 	<item name="allow_use_favicon">
 		<value xml:lang="ko"><![CDATA[파비콘을 사용할까요?]]></value>
 		<value xml:lang="en"><![CDATA[Do you want to use favicon?]]></value>
 		<value xml:lang="jp"><![CDATA[ファビコンを使用しますか?]]></value>
-		<value xml:lang="zh-CN"><![CDATA[是否启用自定义favicon?]]></value>
 	</item>
 	<item name="about_use_favicon">
 		<value xml:lang="ko"><![CDATA[16 x 16 크기의 <em>*.ico</em> 파일만 업로드 가능.]]></value>
 		<value xml:lang="en"><![CDATA[You can upload 16x16 size <em>*.ico</em> file only.]]></value>
 		<value xml:lang="jp"><![CDATA[16 x 16 サイズの<em>*.ico</em> ファイルのみ登録できます。]]></value>
-		<value xml:lang="zh-CN"><![CDATA[请上传16*16像素的<em>*.ico</em>文件.]]></value>
 	</item>
 	<item name="allow_use_mobile_icon">
 		<value xml:lang="ko"><![CDATA[모바일 홈 화면 아이콘을 사용할까요?]]></value>
 		<value xml:lang="en"><![CDATA[Do you want to use the mobile home screen icon?]]></value>
 		<value xml:lang="jp"><![CDATA[モバイル待ち受け画面のアイコンを使用しますか?]]></value>
-		<value xml:lang="zh-CN"><![CDATA[是否启用移动版屏幕图标?]]></value>
 	</item>
 	<item name="detail_use_mobile_icon">
 		<value xml:lang="ko"><![CDATA[57 x 57 또는 114 x 114 크기의 <em>*.png</em> 파일만 업로드 가능.]]></value>
 		<value xml:lang="en"><![CDATA[You can upload 57x57 or 114x114 size <em>*.png</em> file only.]]></value>
 		<value xml:lang="jp"><![CDATA[57 x 57 、または114 x 114 サイズの<em>*.png</em> ファイルのみ登録できます。]]></value>
-		<value xml:lang="zh-CN"><![CDATA[请上传57*57像素或者114*114像素的<em>*.png</em>文件.]]></value>
 	</item>
 	<item name="about_use_sso">
 		<value xml:lang="ko"><![CDATA[SSO(Single Sign On)를 사용하시겠습니까?]]></value>
 		<value xml:lang="en"><![CDATA[Do you want to use Single Sign On (SSO)?]]></value>
 		<value xml:lang="jp"><![CDATA[SSO(Single Sign On)を使用しますか?]]></value>
-		<value xml:lang="zh-CN"><![CDATA[是否启用通行证（SSO）?]]></value>
 	</item>
 	<item name="about_cdn">
 		<value xml:lang="ko"><![CDATA[XE core의 css, js 파일을 CDN으로부터 제공받으려면 체크하세요.]]></value>
 		<value xml:lang="en"><![CDATA[Check this to get css and js files of XE core from CDN.]]></value>
 		<value xml:lang="jp"><![CDATA[XE coreのcss、jsファイルをCDNより取得するには、チェックしてください。]]></value>
-		<value xml:lang="zh-CN"><![CDATA[确认从CDN上获取XE core的css和js文件.]]></value>
 	</item>
 	<item name="about_arrange_session">
 		<value xml:lang="ko"><![CDATA[세션을 정리하시겠습니까?]]></value>
 		<value xml:lang="en"><![CDATA[Do you want to clean up session?]]></value>
 		<value xml:lang="jp"><![CDATA[セッションを整理しますか？]]></value>
-		<value xml:lang="zh-CN"><![CDATA[你想要整理session吗？]]></value>
 	</item>
 	<item name="cmd_clear_session">
 		<value xml:lang="ko"><![CDATA[세션 정리]]></value>
 		<value xml:lang="en"><![CDATA[Clean up session]]></value>
 		<value xml:lang="jp"><![CDATA[セッション整理]]></value>
-		<value xml:lang="zh-CN"><![CDATA[整理sessioon]]></value>
 	</item>
 	<item name="msg_not_correct_iconname">
 		<value xml:lang="ko"><![CDATA[아이콘 형식이 바르지 않습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Invalid icon type]]></value>
 		<value xml:lang="jp"><![CDATA[アイコン形式が正しくありません。]]></value>
-		<value xml:lang="zh-CN"><![CDATA[无效的icon格式]]></value>	
 	</item>
 	<item name="msg_possible_only_file">
 		<value xml:lang="ko"><![CDATA[파일만 업로드 가능합니다.]]></value>
 		<value xml:lang="en"><![CDATA[You can upload files only.]]></value>
 		<value xml:lang="jp"><![CDATA[ファイルのみアップロード可能です。]]></value>
-		<value xml:lang="zh-CN"><![CDATA[请上传文件.]]></value>
 	</item>
 	<item name="save">
 		<value xml:lang="ko"><![CDATA[저장]]></value>
 		<value xml:lang="en"><![CDATA[Save]]></value>
 		<value xml:lang="jp"><![CDATA[保存]]></value>
-		<value xml:lang="zh-CN"><![CDATA[保存]]></value>
 	</item>
 	<item name="view">
 		<value xml:lang="ko"><![CDATA[보기]]></value>
 		<value xml:lang="en"><![CDATA[View]]></value>
 		<value xml:lang="jp"><![CDATA[表示]]></value>
-		<value xml:lang="zh-CN"><![CDATA[查看]]></value>
 	</item>
 	<item name="select">
 		<value xml:lang="ko"><![CDATA[선택]]></value>
 		<value xml:lang="en"><![CDATA[Select]]></value>
 		<value xml:lang="jp"><![CDATA[選択]]></value>
-		<value xml:lang="zh-CN"><![CDATA[选择]]></value>
 	</item>
 	<item name="delete">
 		<value xml:lang="ko"><![CDATA[삭제]]></value>
 		<value xml:lang="en"><![CDATA[Delete]]></value>
 		<value xml:lang="jp"><![CDATA[削除]]></value>
-		<value xml:lang="zh-CN"><![CDATA[删除]]></value>
 	</item>
 	<item name="add">
 		<value xml:lang="ko"><![CDATA[추가]]></value>
 		<value xml:lang="en"><![CDATA[Add]]></value>
 		<value xml:lang="jp"><![CDATA[追加]]></value>
-		<value xml:lang="zh-CN"><![CDATA[添加]]></value>
 	</item>
 	<item name="theme_desc">
 		<value xml:lang="ko"><![CDATA[테마는 레이아웃을 포함하여 현재 설치된 모듈의 스킨을 묶은 개념입니다. 테마를 선택하면 'Skin Setting' 항목을 알아서 선택합니다. 테마 일부가 마음에 들지 않으면 'Skin Setting'에서 테마 일부를 다시 설정 할 수 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Theme is a set of skins for modules currently installed including layouts. When you select Theme, 'Skin Setting' is automatically selected. If you don't like some of the theme, you can edit it on 'Skin Setting'.]]></value>
 		<value xml:lang="jp"><![CDATA[テーマは、レイアウトを含み現在インストールされているモジュールのスキンをまとめたものです。テーマを選択すると、「スキン設定」項目が自動的に選択されます。テーマの一部が気に入らない場合は、「スキン設定」でテーマの一部を再設定できます。]]></value>
-		<value xml:lang="zh-CN"><![CDATA[主题是包含布局等一系列正确安装的模块的皮肤集.当选用此主题.'皮肤设置'将会被自动选用,如果你不喜欢某些主题,你可以在皮肤设定里面编辑.]]></value>
 	</item>
 	<item name="selected_theme">
 		<value xml:lang="ko"><![CDATA[선택한 테마]]></value>
 		<value xml:lang="en"><![CDATA[Selected Theme]]></value>
 		<value xml:lang="jp"><![CDATA[選択したテーマ]]></value>
-		<value xml:lang="zh-CN"><![CDATA[已选择的主题]]></value>
 	</item>
 	<item name="no_selected_theme_desc">
 		<value xml:lang="ko"><![CDATA[관리자가 설정한 테마입니다. 테마를 설정하지 않은 경우 디폴트로 노출됩니다.]]></value>
 		<value xml:lang="en"><![CDATA[This is a defult theme specified by the administrator. If you don't specify one, this theme will be shown by default.]]></value>
 		<value xml:lang="jp"><![CDATA[管理者が設定したテーマです。テーマを設定しない場合、デフォルト表示されます。]]></value>
-		<value xml:lang="zh-CN"><![CDATA[这是管理员设定的默认主题.此主题将会默认显示.]]></value>
 	</item>
 	<item name="user_define_skin_select_desc">
 		<value xml:lang="ko"><![CDATA[테마의 일부가 마음에 들지 않으면 스킨을 직접 선택하세요. 스킨을 직접 선택하면 'Theme Setting' 설정은 'User Defined'로 설정됩니다.]]></value>
 		<value xml:lang="en"><![CDATA[If you don't like some of the theme, select a skin for yourself. When you select your own skin, 'Theme Setting' is set to 'User Defined'.]]></value>
-　　<value xml:lang="jp"><![CDATA[テーマの一部が気に入らなかった場合、スキンを選択してください。スキンを選択すると、「テーマ設定」は、「ユーザー定義」に設定されます。]]></value>
-		<value xml:lang="zh-CN"><![CDATA[如果你不喜欢某些主题，请自己选择一个皮肤。当你自定义一个皮肤后，'主题设置'将关联在'用户设置'下]]></value>
-	</item>
+　　　　<value xml:lang="jp"><![CDATA[テーマの一部が気に入らなかった場合、スキンを選択してください。スキンを選択すると、「テーマ設定」は、「ユーザー定義」に設定されます。]]></value>
+		</item>
 	<item name="selected_layout">
 		<value xml:lang="ko"><![CDATA[선택한 레이아웃]]></value>
 		<value xml:lang="en"><![CDATA[Selected Layout]]></value>
 		<value xml:lang="jp"><![CDATA[選択したレイアウト]]></value>
-		<value xml:lang="zh-CN"><![CDATA[已选择的布局]]></value>
 	</item>
 	<item name="selected_skin">
 		<value xml:lang="ko"><![CDATA[선택한 %s 스킨]]></value>
 		<value xml:lang="en"><![CDATA[Selected %s Skin]]></value>
 		<value xml:lang="jp"><![CDATA[選択した%sスキン]]></value>
-		<value xml:lang="zh-CN"><![CDATA[选择了 %s 皮肤]]></value>
 	</item>
 	<item name="no_selected_skin">
 		<value xml:lang="ko"><![CDATA[선택한 %s 스킨 없음]]></value>
 		<value xml:lang="en"><![CDATA[No Selected %s Skin]]></value>
 		<value xml:lang="jp"><![CDATA[選択した%sスキンなし]]></value>
-		<value xml:lang="zh-CN"><![CDATA[未选择 %s 皮肤]]></value>
 	</item>
 	<item name="no_selected_skin_desc">
 		<value xml:lang="ko"><![CDATA[선택한 테마에는 이 항목에 대한 스킨 정보가 없습니다. 스킨을 직접 선택하세요.]]></value>
 		<value xml:lang="en"><![CDATA[The selected theme has no skin information for this item. Select a skin.]]></value>
 		<value xml:lang="jp"><![CDATA[選択したテーマには、この項目についてのスキン情報がありません。スキンを直接選択してください。]]></value>
-		<value xml:lang="zh-CN"><![CDATA[已选择的主体没有相关的皮肤信息。请直接选择皮肤。]]></value>
 	</item>
 	<item name="no_select">
 		<value xml:lang="ko"><![CDATA[선택안함]]></value>
 		<value xml:lang="en"><![CDATA[No Select]]></value>
 		<value xml:lang="jp"><![CDATA[選択しない]]></value>
-		<value xml:lang="zh-CN"><![CDATA[未选择]]></value>	
 	</item>
 	<item name="admin_logo">
 		<value xml:lang="ko"><![CDATA[관리자 페이지 로고]]></value>
 		<value xml:lang="en"><![CDATA[Admin Page Logo]]></value>
 		<value xml:lang="jp"><![CDATA[管理者ページロゴ]]></value>
-		<value xml:lang="zh-CN"><![CDATA[后台页面Logo]]></value>
 	</item>
 	<item name="admin_title">
 		<value xml:lang="ko"><![CDATA[관리자 페이지 제목]]></value>
 		<value xml:lang="en"><![CDATA[Admin Page Title]]></value>
 		<value xml:lang="jp"><![CDATA[管理者ページタイトル]]></value>
-		<value xml:lang="zh-CN"><![CDATA[后台页面标题]]></value>
 	</item>
 	<item name="admin_menu_add">
 		<value xml:lang="ko"><![CDATA[관리자 메뉴 추가]]></value>
 		<value xml:lang="en"><![CDATA[Add Admin Menu]]></value>
 		<value xml:lang="jp"><![CDATA[管理者メニュー追加]]></value>
-		<value xml:lang="zh-CN"><![CDATA[添加后台菜单]]></value>
 	</item>
 	<item name="bug_report">
 		<value xml:lang="ko"><![CDATA[버그 리포트]]></value>
 		<value xml:lang="en"><![CDATA[Bug Report]]></value>
 		<value xml:lang="jp"><![CDATA[バグレポート]]></value>
-		<value xml:lang="zh-CN"><![CDATA[Bug反馈]]></value>
 	</item>
 	<item name="theme_setting">
 		<value xml:lang="ko"><![CDATA[테마 설정]]></value>
 		<value xml:lang="en"><![CDATA[Theme Setting]]></value>
-		<value xml:lang="zh-CN"><![CDATA[主题设置]]></value>
 	</item>
 	<item name="skin_setting">
 		<value xml:lang="ko"><![CDATA[스킨 설정]]></value>
 		<value xml:lang="en"><![CDATA[Skin Setting]]></value>
-		<value xml:lang="zh-CN"><![CDATA[皮肤设置]]></value>
 	</item> 
 	<item name="msg_thumbnail_not_exist">
 		<value xml:lang="ko"><![CDATA[썸네일이 없습니다]]></value>
 		<value xml:lang="en"><![CDATA[Thumbnail does not exist]]></value>
-		<value xml:lang="zh-CN"><![CDATA[缩略图不存在]]></value>
 	</item>
 	<item name="user_theme">
 		<value xml:lang="ko"><![CDATA[사용자 테마]]></value>
 		<value xml:lang="en"><![CDATA[User Theme]]></value>
-		<value xml:lang="zh-CN"><![CDATA[用户主题]]></value>
 	</item>
 	<item name="user_define">
 		<value xml:lang="ko"><![CDATA[사용자 정의 테마]]></value>
 		<value xml:lang="en"><![CDATA[User Defined]]></value>
-		<value xml:lang="zh-CN"><![CDATA[用户设置]]></value>
 	</item>
 	<item name="by_you"> 
 		<value xml:lang="ko"><![CDATA[사용자 설정]]></value>
 		<value xml:lang="en"><![CDATA[By You]]></value>
-		<value xml:lang="zh-CN"><![CDATA[By You]]></value>
 	</item>
 	<item name="update_available">
 		<value xml:lang="ko"><![CDATA[업데이트 가능]]></value>
 		<value xml:lang="en"><![CDATA[Update Available]]></value>
-		<value xml:lang="zh-CN"><![CDATA[有可用的升级]]></value>
 	</item> 
 	<item name="need_update_and_table">
 		<value xml:lang="ko"><![CDATA[DB Table 생성과 모듈 업데이트 필요]]></value>
 		<value xml:lang="en"><![CDATA[Need to Create DB Table and Update Module]]></value>
 		<value xml:lang="jp"><![CDATA[DBテーブルの生成とモジュールの更新が必要]]></value>
-		<value xml:lang="zh-CN"><![CDATA[请建立数据表和升级模块]]></value>
 	</item> 
 	<item name="need_update">
 		<value xml:lang="ko"><![CDATA[모듈 업데이트 필요]]></value>
 		<value xml:lang="en"><![CDATA[Need to Update Module]]></value>
 		<value xml:lang="jp"><![CDATA[モジュールの更新が必要]]></value>
-		<value xml:lang="zh-CN"><![CDATA[请升级模块]]></value>
 	</item> 
 	<item name="need_table">
 		<value xml:lang="ko"><![CDATA[DB Table 생성 필요]]></value>
 		<value xml:lang="en"><![CDATA[Need to Create DB Table]]></value>
 		<value xml:lang="jp"><![CDATA[DBテーブルの生成が必要]]></value>
-		<value xml:lang="zh-CN"><![CDATA[请生成数据表]]></value>
 	</item> 
 	<item name="admin_menu_setup">
 		<value xml:lang="ko"><![CDATA[관리자 메뉴 설정]]></value>
-		<value xml:lang="en"><![CDATA[Admin Menu Setup]]></value>
-		<value xml:lang="zh-CN"><![CDATA[后台菜单设置]]></value>
+		<value xml:lang="en"><![CDATA[Admin Menu Setup]]></value> 
 	</item>
 	<item name="no_data">
 		<value xml:lang="ko"><![CDATA[등록된 데이터가 없습니다.]]></value>
-		<value xml:lang="en"><![CDATA[There is no data.]]></value>
-		<value xml:lang="zh-CN"><![CDATA[没有相关信息。]]></value>
+		<value xml:lang="en"><![CDATA[There is no data.]]></value> 
 	</item>
 	<item name="cmd_admin_menu_reset">
 		<value xml:lang="ko"><![CDATA[관리자 메뉴 초기화]]></value>
 		<value xml:lang="en"><![CDATA[Reset admin menu]]></value> 
-		<value xml:lang="jp"><![CDATA[管理者メニューの初期化]]></value>
-		<value xml:lang="zh-CN"><![CDATA[重置后台菜单]]></value>
+		<value xml:lang="jp"><![CDATA[管理者メニューの初期化]]></value> 
 	</item>
 	<item name="confirm_reset_admin_menu">
 		<value xml:lang="ko"><![CDATA[관리자 메뉴를 초기화하시겠습니까?]]></value>
-		<value xml:lang="en"><![CDATA[Are you sure you want to initialize the admin menu?]]></value>
-		<value xml:lang="zh-CN"><![CDATA[请确认是否初始化后台菜单]]></value>
+		<value xml:lang="en"><![CDATA[Are you sure you want to initialize the admin menu?]]></value> 
 	</item>
 	<item name="ftp_form_title">
 		<value xml:lang="ko"><![CDATA[FTP 계정 정보 입력]]></value>
@@ -1273,13 +1182,11 @@ Lütfen son sürümü için indirme linkine tıklayınız.]]></value>
 		<value xml:lang="ko"><![CDATA[모듈의 쉬운 설치 또는 업데이트가 가능해 집니다.]]></value>
 		<value xml:lang="en"><![CDATA[Easy installation or update of module is enabled.]]></value>
 		<value xml:lang="jp"><![CDATA[モジュールのイージーインストール、または更新が可能になります。]]></value>
-		<value xml:lang="zh-CN"><![CDATA[可用的安装或更新。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[可用的安裝或更新。]]></value>
 	</item>
 	<item name="msg_safe_mode_ftp_config">
 		<value xml:lang="ko"><![CDATA[이 정보는 <strong>files/config/ftp.config.php</strong> 파일에 저장 됩니다. 설치 후 환경설정 페이지에서도 등록, 변경, 제거 할 수 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[This information is stored in <strong>files/config/ftp.config.php</strong>. You can add, change or delete this on the Settings page after the installation.]]></value>
-		<value xml:lang="zh-CN"><![CDATA[该信息将会保存在<strong>files/config/ftp.config.php</strong>里面。你可以安装后在设置页面里面增加、修改或者删除该信息。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[此資料會儲存在 <strong>files/config/ftp.config.php</strong> 檔案中。 安裝後可在設定頁面中新增、更改或刪除此資訊。]]></value>
 		<value xml:lang="de"><![CDATA[Die Angabe wird unter <strong>files/config/ftp.config.php</strong> gespeichert. Nach der Installation ist es auch möglich, dass die Angabe von Administrator modifiziert oder gelöscht werden kann.]]></value>
 	</item>
@@ -1287,7 +1194,7 @@ Lütfen son sürümü için indirme linkine tıklayınız.]]></value>
 		<value xml:lang="ko"><![CDATA[FTP 접속에 성공했으나, 디렉토리 정보를 읽어올 수 없습니다. 서버 설정을 확인해주세요.]]></value>
 		<value xml:lang="en"><![CDATA[Succeed to connect to the host via FTP. However, can not read any directory list informaiton. Check the server configurations.]]></value>
 		<value xml:lang="jp"><![CDATA[Succeed to connect to the host via FTP. However, can not read any directory list informaiton. Check the server configurations.]]></value>
-		<value xml:lang="zh-CN"><![CDATA[FTP成功连接主机。但是无法获取目录列表。请检查服务器配置。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[Succeed to connect to the host via FTP. However, can not read any directory list informaiton. Check the server configurations.]]></value>
 		<value xml:lang="zh-TW"><![CDATA[Succeed to connect to the host via FTP. However, can not read any directory list informaiton. Check the server configurations.]]></value>
 		<value xml:lang="fr"><![CDATA[Succeed to connect to the host via FTP. However, can not read any directory list informaiton. Check the server configurations.]]></value>
 		<value xml:lang="de"><![CDATA[Succeed to connect to the host via FTP. However, can not read any directory list informaiton. Check the server configurations.]]></value>
@@ -1372,6 +1279,5 @@ Lütfen son sürümü için indirme linkine tıklayınız.]]></value>
 	<item name="admin_setup">
 		<value xml:lang="ko"><![CDATA[관리자 설정]]></value>
 		<value xml:lang="en"><![CDATA[Admin Setup]]></value>
-		<value xml:lang="zh-CN"><![CDATA[管理设置]]></value>
 	</item>
 </lang>
