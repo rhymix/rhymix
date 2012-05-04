@@ -84,30 +84,35 @@
 		<value xml:lang="ko"><![CDATA[설치된 애드온]]></value>
 		<value xml:lang="en"><![CDATA[Installed Add-ons]]></value>
 		<value xml:lang="jp"><![CDATA[インストールされているアドオン]]></value>
+		<value xml:lang="zh-CN"><![CDATA[已安装插件]]></value>
 		<value xml:lang="zh-TW"><![CDATA[已安裝附加元件]]></value>
 	</item>
 	<item name="about_installed_addon">
 		<value xml:lang="ko"><![CDATA[PC, Mobile에 체크하면 애드온을 켤 수 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Check PC and Mobile to switch on the addon.]]></value>
 		<value xml:lang="jp"><![CDATA[PC、Mobileを選択するとアドオンを使用できます。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[选择PC和Mobile的可使用的插件]]></value>
 		<value xml:lang="zh-TW"><![CDATA[可選擇切換 PC 和 Mobile 的附加元件。]]></value>
 	</item>
 	<item name="fixed">
 		<value xml:lang="ko"><![CDATA[고정]]></value>
 		<value xml:lang="en"><![CDATA[Fixed]]></value>
 		<value xml:lang="jp"><![CDATA[固定]]></value>
+		<value xml:lang="zh-CN"><![CDATA[固定]]></value>
 		<value xml:lang="zh-TW"><![CDATA[固定]]></value>
 	</item>
 	<item name="about_fixed">
 		<value xml:lang="ko"><![CDATA[체크하면 사이트 관리자가 이 설정을 변경할 수 없음.]]></value>
 		<value xml:lang="en"><![CDATA[Check this, and the site administrator cannot change this setting.]]></value>
 		<value xml:lang="jp"><![CDATA[選択すると、サイトマネージャーがこの設定を変更することができません。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[选择此项后，网站管理员将无法更改设置。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[選擇此項後，網站管理員將無法變更設定。]]></value>
 	</item>
 	<item name="msg_not_exist_option">
 		<value xml:lang="ko"><![CDATA[이 애드온은 설정이 존재하지 않습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Configuration for this addon does not exist.]]></value>		
 		<value xml:lang="jp"><![CDATA[このアドオンは、設定がありません。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[此插件不存在设置。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[此附加元件的設定不存在。]]></value>
 	</item>
 </lang>
