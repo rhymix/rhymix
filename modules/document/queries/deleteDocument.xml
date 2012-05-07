@@ -1,8 +1,7 @@
-<query id="deleteDocument" action="delete">
+<query id="deleteDocument" action="delete" priority="LOW">
     <tables>
         <table name="documents" />
     </tables>
-	<priority type="low" />
     <conditions>
         <condition operation="equal" column="document_srl" var="document_srl" filter="number" notnull="notnull" />
     </conditions>

@@ -5,7 +5,9 @@
     <columns>
         <column name="*" />
     </columns>
-	<index_hint name="idx_list_order" type="use" />
+	<index_hint for="MYSQL">
+		<index table="documents" name="idx_list_order" type="USE" />
+	</index_hint>
     <conditions>
         <condition operation="in" column="module_srl" var="module_srl" filter="number" />
         <condition operation="notin" column="module_srl" var="exclude_module_srl" filter="number" pipe="and" />

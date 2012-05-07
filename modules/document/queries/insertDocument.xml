@@ -1,8 +1,7 @@
-<query id="insertDocument" action="insert">
+<query id="insertDocument" action="insert" priority="LOW">
     <tables>
         <table name="documents" />
     </tables>
-	<priority type="low" />
     <columns>
         <column name="document_srl" var="document_srl" filter="number" notnull="notnull" />
         <column name="module_srl" var="module_srl" filter="number" default="0" />
