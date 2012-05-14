@@ -356,7 +356,7 @@ class Validator
 				return in_array($value, $rule['test']);
 			case 'expr':
 				if(!$rule['func_test']) {
-					$rule['func_test'] = create_function('$a', 'return ('.preg_replace('/\$\$/', '$a', $rule['test']).');');
+					$rule['func_test'] = create_function('$a', 'return ('.preg_replace('/\$\$/', '$a', html_entity_decode($rule['test'])).');');
 				}
 				return $rule['func_test']($value);
 		}
