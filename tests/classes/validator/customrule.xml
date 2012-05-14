@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ruleset version="1.5.0">
+	<customrules>
+		<rule name="regex_rule" type="regex" test="/^[a-z]+$/" />
+		<rule name="enum_rule" type="enum" test="a,b,c" />
+		<rule name="enum_rule2" type="enum" test="a@b@c" delim="@" />
+		<rule name="expr_rule" type="expr" test="$$ &lt; 10" />
+	</customrules>
+	<fields>
+		<field name="regex_field" rule="regex_rule" />
+		<field name="enum_field" rule="enum_rule" />
+		<field name="enum_field2" rule="enum_rule2" />
+		<field name="expr_field" rule="expr_rule" />
+	</fields>
+</ruleset>

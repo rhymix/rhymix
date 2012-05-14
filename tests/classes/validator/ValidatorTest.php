@@ -117,7 +117,7 @@ class ValidatorTest extends PHPUnit_Framework_TestCase
 		// regex
 		$vd = new Validator();
 		$customRules['regex_rule']['type'] = 'regex';
-		$customRules['regex_rule']['test'] = '/[a-z]+/';
+		$customRules['regex_rule']['test'] = '/^[a-z]+$/';
 		$vd->addRule($customRules);
 		$vd->addFilter('regex_field', array('rule' => 'regex_rule'));
 
@@ -151,6 +151,23 @@ class ValidatorTest extends PHPUnit_Framework_TestCase
 		$customRules['expr_rule']['test'] = '$$ &lt; 10';
 		$vd->addRule($customRules);
 		$vd->addFilter('expr_field', array('rule' => 'expr_rule'));
+
+		$this->assertTrue($vd->validate(array('expr_field' => '5')));
+		$this->assertFalse($vd->validate(array('expr_field' => '15')));
+	}
+
+	public function testCustomRuleXml()
+	{
+		$vd = new Validator(dirname(__FILE__).'/customrule.xml');
+
+		$this->assertTrue($vd->validate(array('regex_field' => 'abc')));
+		$this->assertFalse($vd->validate(array('regex_field' => 'ABC')));
+
+		$this->assertTrue($vd->validate(array('enum_field' => 'a')));
+		$this->assertFalse($vd->validate(array('enum_field' => 'd')));
+
+		$this->assertTrue($vd->validate(array('enum_field2' => 'a')));
+		$this->assertFalse($vd->validate(array('enum_field2' => 'd')));
 
 		$this->assertTrue($vd->validate(array('expr_field' => '5')));
 		$this->assertFalse($vd->validate(array('expr_field' => '15')));
