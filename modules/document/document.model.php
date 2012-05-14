@@ -252,7 +252,7 @@
 						$division = (int)Context::get('division');
 
 						// order by list_order and (module_srl===0 or module_srl many count), therefore case table full scan
-						if($args->sort_index == 'list_order' && ((int)$args->exclude_module_srl === 0 || count($args->module_srl) > 10))
+						if($args->sort_index == 'list_order' && ($args->exclude_module_srl === '0' || count(explode(',', $args->module_srl)) > 5))
 						{
 							$listSqlID = 'document.getDocumentListUseIndex';
 							$divisionSqlID = 'document.getDocumentDivisionUseIndex';

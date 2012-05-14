@@ -4,6 +4,7 @@
 		<value xml:lang="ko"><![CDATA[현재 언어]]></value>
 		<value xml:lang="en"><![CDATA[Selected Language]]></value>
 		<value xml:lang="jp"><![CDATA[現在言語]]></value>
+		<value xml:lang="zh-CN"><![CDATA[已选择语言]]></value>
 		<value xml:lang="zh-TW"><![CDATA[已選擇語言]]></value>
 		<value xml:lang="ru"><![CDATA[Дейсвующй язык]]></value>
 		<value xml:lang="vi"><![CDATA[Chọn ngôn ngữ]]></value>
@@ -12,6 +13,7 @@
 		<value xml:lang="ko"><![CDATA[언어 선택]]></value>
 		<value xml:lang="en"><![CDATA[Select Language]]></value>
 		<value xml:lang="jp"><![CDATA[言語選択]]></value>
+		<value xml:lang="zh-CN"><![CDATA[选择语言]]></value>
 		<value xml:lang="zh-TW"><![CDATA[選擇語言]]></value>
 		<value xml:lang="ru"><![CDATA[Выбор языка]]></value>
 		<value xml:lang="vi"><![CDATA[Chọn ngôn ngữ]]></value>
@@ -20,6 +22,7 @@
 		<value xml:lang="ko"><![CDATA[돌아가기]]></value>
 		<value xml:lang="en"><![CDATA[Go Back]]></value>
 		<value xml:lang="jp"><![CDATA[戻る]]></value>
+		<value xml:lang="zh-CN"><![CDATA[返回]]></value>
 		<value xml:lang="zh-TW"><![CDATA[返回]]></value>
 		<value xml:lang="ru"><![CDATA[Вернуться]]></value>
 		<value xml:lang="vi"><![CDATA[Trở lại]]></value>

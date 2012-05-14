@@ -2,10 +2,14 @@
 <addon version="0.2">
     <title xml:lang="ko">어드민 메뉴 접근 로깅</title>
     <title xml:lang="en">admin menu access logging</title>
+	<title xml:lang="zh-CN">后台访问日志</title>
     <title xml:lang="zh-TW">管理選單訪問日誌</title>
     <description xml:lang="ko">
 		admin menu에 접근한 기록을 로깅하는 애드온입니다.
     </description>
+	<description xml:lang="zh-CN">
+		后台访问以及登陆日志。
+	</description>
     <description xml:lang="zh-TW">
 		管理選單訪問紀錄及登入日誌。
     </description>
