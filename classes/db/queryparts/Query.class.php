@@ -302,7 +302,7 @@
 				{
 					foreach($this->tables as $table)
 					{
-						if($table->isJoinTable())
+						if($table->isJoinTable() || is_a($table, 'Subquery'))
 						{
 							$args = $table->getArguments();
 							if($args) $this->arguments = array_merge($this->arguments, $args);
