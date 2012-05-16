@@ -35,7 +35,7 @@
 		function getArgument(){
 			return null;
 		}
-		
+	
 		function getArguments(){
 			return array();
 		}
