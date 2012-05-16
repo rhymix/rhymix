@@ -177,6 +177,12 @@
          * @return list of supported db
          **/
         function _getSupportedList() {
+			static $get_supported_list = '';
+			if(is_array($get_supported_list)) {
+				$this->supported_list = $get_supported_list;
+				return $this->supported_list;
+			}
+			$get_supported_list = array();
             $db_classes_path = _XE_PATH_."classes/db/";
             $filter = "/^DB([^\.]+)\.class\.php/i";
             $supported_list = FileHandler::readDir($db_classes_path, $filter, true);
@@ -203,9 +209,9 @@
                 $obj->db_type = $db_type;
                 $obj->enable = $oDB->isSupported() ? true : false;
 
-                $this->supported_list[] = $obj;
+                $get_supported_list[] = $obj;
             }
-
+			$this->supported_list = $get_supported_list;
             return $this->supported_list;
         }
 
@@ -332,6 +338,7 @@
          * @remarks this function finds xml file or cache file of $query_id, compiles it and then execute it
          **/
         function executeQuery($query_id, $args = NULL, $arg_columns = NULL) {
+			static $cache_file = array();
             if(!$query_id) return new Object(-1, 'msg_invalid_queryid');
 			if(!$this->db_type) return;
 
@@ -339,38 +346,40 @@
 
 			$this->query_id = $query_id;
 
-            $id_args = explode('.', $query_id);
-            if(count($id_args) == 2) {
-                $target = 'modules';
-                $module = $id_args[0];
-                $id = $id_args[1];
-            } elseif(count($id_args) == 3) {
-                $target = $id_args[0];
-                if(!in_array($target, array('addons','widgets'))){
-		    $this->actDBClassFinish();
-		    return;
-		}
-                $module = $id_args[1];
-                $id = $id_args[2];
-            }
-            if(!$target || !$module || !$id){
-		$this->actDBClassFinish();
-		return new Object(-1, 'msg_invalid_queryid');
-	    }
+			if(!isset($cache_file[$query_id])) {
+				$id_args = explode('.', $query_id);
+				if(count($id_args) == 2) {
+					$target = 'modules';
+					$module = $id_args[0];
+					$id = $id_args[1];
+				} elseif(count($id_args) == 3) {
+					$target = $id_args[0];
+					if(!in_array($target, array('addons','widgets'))){
+						$this->actDBClassFinish();
+						return;
+					}
+					$module = $id_args[1];
+					$id = $id_args[2];
+				}
+				if(!$target || !$module || !$id){
+					$this->actDBClassFinish();
+					return new Object(-1, 'msg_invalid_queryid');
+				}
 
-            $xml_file = sprintf('%s%s/%s/queries/%s.xml', _XE_PATH_, $target, $module, $id);
-            if(!file_exists($xml_file)){
-		$this->actDBClassFinish();
-		return new Object(-1, 'msg_invalid_queryid');
-	    }
+				$xml_file = sprintf('%s%s/%s/queries/%s.xml', _XE_PATH_, $target, $module, $id);
+				if(!file_exists($xml_file)){
+					$this->actDBClassFinish();
+					return new Object(-1, 'msg_invalid_queryid');
+				}
 
-            // look for cache file
-            $cache_file = $this->checkQueryCacheFile($query_id, $xml_file);
-	    $result = $this->_executeQuery($cache_file, $args, $query_id, $arg_columns);
+				// look for cache file
+				$cache_file[$query_id] = $this->checkQueryCacheFile($query_id, $xml_file);
+			}
+			$result = $this->_executeQuery($cache_file[$query_id], $args, $query_id, $arg_columns);
 
-	    $this->actDBClassFinish();
-            // execute query
-            return $result;
+			$this->actDBClassFinish();
+			// execute query
+			return $result;
         }
 
 
@@ -381,7 +390,6 @@
          * @return cache file
          **/
         function checkQueryCacheFile($query_id,$xml_file){
-
             // first try finding cache file
             $cache_file = sprintf('%s%s%s.%s.%s.cache.php', _XE_PATH_, $this->cache_file, $query_id, __ZBXE_VERSION__, $this->db_type);
 
