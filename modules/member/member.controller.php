@@ -1842,7 +1842,7 @@
                 unset($args->denied);
             }
 
-			// check mamber identifier form
+			// check member identifier form
 			$config = $oMemberModel->getMemberConfig();
 
 			$output = executeQuery('member.getMemberInfoByMemberSrl', $args);
@@ -1855,7 +1855,7 @@
 				$args->email_address = $orgMemberInfo->email_address;
 			}else{
 				$member_srl = $oMemberModel->getMemberSrlByUserID($args->user_id);
-				if($member_srl&&$args->member_srl!=$member_srl) return new Object(-1,'msg_exists_email_address');
+				if($member_srl&&$args->member_srl!=$member_srl) return new Object(-1,'msg_exists_user_id');
 
 				$args->user_id = $orgMemberInfo->user_id;
 			}
