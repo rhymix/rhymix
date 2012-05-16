@@ -25,6 +25,8 @@
             // 2009. 02. 11 menu added to the table site_srl
             if(!$oDB->isColumnExists('menu', 'site_srl')) return true;
 
+			// 2012. 02. 01 title index check
+			if(!$oDB->isIndexExists("menu", "idx_title")) return true;
             return false;
         }
 
@@ -36,6 +38,11 @@
             // 2009. 02. 11 menu added to the table site_srl
             if(!$oDB->isColumnExists('menu', 'site_srl')) {
                 $oDB->addColumn('menu','site_srl','number',11,0,true);
+            }
+
+			// 2012. 02. 01 title index check
+			if(!$oDB->isIndexExists("menu","idx_title")) {
+                $oDB->addIndex('menu', 'idx_title', array('title'));
             }
 
             return new Object(0, 'success_updated');
