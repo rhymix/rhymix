@@ -83,7 +83,8 @@
                 $oMemberController->addMemberPopupMenu($url,'cmd_view_member_info',$icon_path,'self');
             }
             // When click other's nickname
-            if($member_srl != $logged_info->member_srl) {
+            if($member_srl != $logged_info->member_srl && $logged_info->member_srl)
+			{
                 // Send an email
                 if($member_info->email_address) {
                     $url = 'mailto:'.htmlspecialchars($member_info->email_address);
