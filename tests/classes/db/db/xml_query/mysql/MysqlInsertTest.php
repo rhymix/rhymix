@@ -21,18 +21,23 @@ class MysqlInsertTest extends MysqlTest
 	{
 		$this->_testQuery($xml_file, $argsString, $expected, 'getInsertSql', $columnList);
 	}
-	
-	function testInsertIntoNumericColumnConvertsValue()
+
+	/**
+	 * @brief testInsertSelectStatement - checks that when query action is 'insert-selct' an 'INSERT INTO .. SELECT ...' statement is properly generated
+	 * @developer Corina Udrescu (xe_dev@arnia.ro)
+	 * @access public
+	 * @return void
+	 */
+	function testInsertSelectStatement()
 	{
-		$xml_file = _TEST_PATH_ . "db/xml_query/mysql/data/member_insert_injection.xml";
-		$argsString = '$args->member_srl = 7;
-						$args->find_account_question = "1\'";
-			';
-		$expected = 'insert into `xe_member` (`member_srl`, `find_account_question`) values (7, 1)';
+		$xml_file = _TEST_PATH_ . "db/xml_query/mysql/data/insert_select.xml";
+		$argsString = '$args->condition_value = 7;';
+		$expected = 'insert into `xe_table1` (`column1`, `column2`, `column3`) 
+						select `column4`, `column5`, `column6` 
+							from `xe_table2` as `table2` 
+							where `column4` >= 7';
 		$this->_test($xml_file, $argsString, $expected);
 	}
-
-
 }
 
 /* End of file MysqlInsertTest.php */
