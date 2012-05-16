@@ -428,6 +428,7 @@
             // execute appropriate query
             switch($output->getAction()) {
                 case 'insert' :
+                case 'insert-select' :
                         $this->resetCountCache($output->tables);
                         $output = $this->_executeInsertAct($output);
                     break;
