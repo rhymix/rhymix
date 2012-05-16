@@ -993,7 +993,10 @@
 			$args->title = $title;
             $output = executeQuery('document.getDocumentSrlByTitle', $args);
             if(!$output->data) return null;
-            else return $output->data->document_srl;
+            else {
+				if(is_array($output->data)) return $output->data[0]->document_srl;
+				return $output->data->document_srl;
+			}
         }
 
 		function getAlias($document_srl){
