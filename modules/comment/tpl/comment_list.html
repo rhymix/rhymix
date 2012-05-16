@@ -11,7 +11,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 	<h1 class="h1">{$lang->comment}</h1>
 	<div class="table even">
 		<div class="cnb">
-			<a href="{getUrl('search_keyword','','act','dispCommentAdminList', 'Y')}" <!--@if($search_keyword == '')-->class="active"<!--@end-->>{$lang->all}</a>
+			<a href="{getUrl('act','dispCommentAdminList', 'search_target','', 'search_keyword', '')}" <!--@if($search_keyword == '')-->class="active"<!--@end-->>{$lang->all}</a>
 			| <a href="{getUrl('search_target','is_secret','search_keyword', 'N')}" <!--@if($search_target == 'is_secret' && $search_keyword == 'N')-->class="active"<!--@end-->>{$secret_name_list['N']}</a>
 			| <a href="{getUrl('search_target','is_secret','search_keyword', 'Y')}" <!--@if($search_target == 'is_secret' && $search_keyword == 'Y')-->class="active"<!--@end-->>{$secret_name_list['Y']}</a>
 			| <a href="{getUrl('search_target','is_published','search_keyword', 'N')}" <!--@if($search_target == 'is_published' && $search_keyword == 'N')-->class="active"<!--@end-->>{$lang->published_name_list['N']}</a>
