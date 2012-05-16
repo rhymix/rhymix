@@ -6,13 +6,19 @@ window.xeNotifyMessage = function(text, count){
 		$bar = $('<div class="message info" />')
 			.hide()
 			.prependTo(document.body);
+			.css({
+				'position'   : 'absolute',
+				'z-index' : '100',
+			})
+			.appendTo(document.body);
 	}
 	text = text.replace('%d', count);
 	h = $bar.html('<p><a href="'+current_url.setQuery('act','dispCommunicationMessages')+'">'+text+'</a></p>').height();
-	$bar.show().animate({top:0});
+	$bar.css('top', -h-4).show().animate({top:0});
+
 	// hide after 10 seconds
 	setTimeout(function(){
 		$bar.slideUp();
-	}, 10000);
+	}, 5000);
 };
 })(jQuery);
