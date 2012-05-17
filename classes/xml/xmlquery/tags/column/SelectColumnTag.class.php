@@ -12,15 +12,15 @@
 		var $click_count;
 		
 		function SelectColumnTag($column){
-			if ($column == "*" || $column->attrs->name == '*')
-			{
-				parent::ColumnTag(NULL);
-				$this->name = "*";
+			parent::ColumnTag($column->attrs->name);
+			if(!$this->name) {
+				if($column->attrs->var)
+					$this->name = '$' . $column->attrs->var;
+				else
+					$this->name = "*";			
 			}
-			else
-			{
-				parent::ColumnTag($column->attrs->name);
-				$dbParser = new DB(); $dbParser = &$dbParser->getParser();
+			if($this->name != "*" && substr($this->name, 0, 1) != '$') {
+				$dbParser = DB::getParser();
 				$this->name = $dbParser->parseExpression($this->name);
 				
 				$this->alias = $column->attrs->alias;
@@ -32,6 +32,8 @@
 			if($this->name == '*') return "new StarExpression()";
 			if($this->click_count)
 				return sprintf('new ClickCountExpression(%s, %s, $args->%s)', $this->name, $this->alias,$this->click_count);
+			if(strpos($this->name, '$') === 0)
+					return sprintf('new SelectExpression($args->%s)', substr($this->name, 1));
 			$dbParser = DB::getParser();
 			return sprintf('new SelectExpression(\'%s\'%s)', $this->name, $this->alias ? ', \''.$dbParser->escape($this->alias) .'\'': '');	
 		}

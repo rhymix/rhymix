@@ -15,7 +15,6 @@
 		}
 
 		function getExpressionString(){
-			var_dump($this->name);
 			return sprintf('new Expression(\'%s\')', $this->name);
 		}
 
