@@ -1399,6 +1399,12 @@
             $output = executeQuery('member.addMemberToGroup',$args);
             $output2 = ModuleHandler::triggerCall('member.addMemberToGroup', 'after', $args);
 
+			$oCacheHandler = &CacheHandler::getInstance('object');
+			if($oCacheHandler->isSupport()){
+            	$cache_key = 'object_member_groups:'.$member_srl.'_'.$site_srl;
+            	$oCacheHandler->delete($cache_key);
+            }
+			
             return $output;
         }
 
@@ -1429,6 +1435,13 @@
                 $output = executeQuery('member.addMemberToGroup', $obj);
                 if(!$output->toBool()) return $output;
             }
+
+			$oCacheHandler = &CacheHandler::getInstance('object');
+			if($oCacheHandler->isSupport()){
+            	$cache_key = 'object_member_groups:'.$member_srl.'_'.$site_srl;
+            	$oCacheHandler->delete($cache_key);
+            }
+
             return new Object();
         }
 
@@ -1842,7 +1855,7 @@
                 unset($args->denied);
             }
 
-			// check mamber identifier form
+			// check member identifier form
 			$config = $oMemberModel->getMemberConfig();
 
 			$output = executeQuery('member.getMemberInfoByMemberSrl', $args);
@@ -1855,7 +1868,7 @@
 				$args->email_address = $orgMemberInfo->email_address;
 			}else{
 				$member_srl = $oMemberModel->getMemberSrlByUserID($args->user_id);
-				if($member_srl&&$args->member_srl!=$member_srl) return new Object(-1,'msg_exists_email_address');
+				if($member_srl&&$args->member_srl!=$member_srl) return new Object(-1,'msg_exists_user_id');
 
 				$args->user_id = $orgMemberInfo->user_id;
 			}

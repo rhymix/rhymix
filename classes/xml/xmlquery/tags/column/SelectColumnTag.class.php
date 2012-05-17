@@ -32,6 +32,8 @@
 			if($this->name == '*') return "new StarExpression()";
 			if($this->click_count)
 				return sprintf('new ClickCountExpression(%s, %s, $args->%s)', $this->name, $this->alias,$this->click_count);
+			if(strpos($this->name, '$') === 0)
+					return sprintf('new SelectExpression($args->%s)', substr($this->name, 1));
 			$dbParser = DB::getParser();
 			return sprintf('new SelectExpression(\'%s\'%s)', $this->name, $this->alias ? ', \''.$dbParser->escape($this->alias) .'\'': '');	
 		}

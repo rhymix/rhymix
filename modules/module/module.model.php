@@ -630,8 +630,10 @@
 								$info->menu->{$action->attrs->menu_name}->index = $name;
                         		$buff .= sprintf('$info->menu->%s->index=\'%s\';', $action->attrs->menu_name, $name);
 							}
-							array_push($info->menu->{$action->attrs->menu_name}->acts, $name);
-							$currentKey = array_search($name, $info->menu->{$action->attrs->menu_name}->acts);
+							if(is_array($info->menu->{$action->attrs->menu_name}->acts)) {
+								array_push($info->menu->{$action->attrs->menu_name}->acts, $name);
+								$currentKey = array_search($name, $info->menu->{$action->attrs->menu_name}->acts);
+							}
 
                         	$buff .= sprintf('$info->menu->%s->acts[%d]=\'%s\';', $action->attrs->menu_name, $currentKey, $name);
 							$i++;

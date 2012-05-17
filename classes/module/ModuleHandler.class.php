@@ -622,14 +622,14 @@
 
 			$key = $module.'.'.($kind!='admin'?'':'admin').'.'.$type;
 
-			if(is_array($GLOBALS['__MODULE_EXTEND__']) && array_key_exists($key, $GLOBALS['__MODULE_EXTEND__'])) {
+			if(is_array($GLOBALS['__MODULE_EXTEND__']) && array_key_exists($key, $GLOBALS['__MODULE_EXTEND__']))
+			{
 				$module = $extend_module = $GLOBALS['__MODULE_EXTEND__'][$key];
-			}else{
-				unset($parent_module);
 			}
 
             // if there is no instance of the module in global variable, create a new one
-            if(!$GLOBALS['_loaded_module'][$module][$type][$kind]) {
+			if(!isset($GLOBALS['_loaded_module'][$module][$type][$kind]))
+			{
 				$parent_module = $module;
 
 				$class_path = ModuleHandler::getModulePath($module);

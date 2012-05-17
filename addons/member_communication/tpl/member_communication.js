@@ -5,6 +5,10 @@ window.xeNotifyMessage = function(text, count){
 	if(!$bar.length) {
 		$bar = $('<div class="message info" />')
 			.hide()
+			.css({
+				'position'   : 'absolute',
+				'z-index' : '100',
+			})
 			.prependTo(document.body);
 	}
 	text = text.replace('%d', count);
@@ -13,6 +17,6 @@ window.xeNotifyMessage = function(text, count){
 	// hide after 10 seconds
 	setTimeout(function(){
 		$bar.slideUp();
-	}, 10000);
+	}, 5000);
 };
 })(jQuery);
