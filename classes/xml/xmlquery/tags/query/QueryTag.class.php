@@ -176,7 +176,7 @@ class QueryTag {
 		return $this->buff;
 	}
 
-	function getTables() {
+	function getTables(){
 		if($this->query->index_hint && ($this->query->index_hint->attrs->for == 'ALL' || Context::getDBType() == strtolower($this->query->index_hint->attrs->for)))
 			return $this->tables = new TablesTag($this->query->tables, $this->query->index_hint);
 		else

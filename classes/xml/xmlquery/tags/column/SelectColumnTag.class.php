@@ -12,19 +12,20 @@
 		var $click_count;
 		
 		function SelectColumnTag($column){
-			parent::ColumnTag($column->attrs->name);
-			if(!$this->name) {
-				if($column->attrs->var)
-					$this->name = '$' . $column->attrs->var;
-				else
-					$this->name = "*";			
+			if ($column == "*" || $column->attrs->name == '*')
+			{
+				parent::ColumnTag(NULL);
+				$this->name = "*";
 			}
-			if($this->name != "*" && substr($this->name, 0, 1) != '$') {
+			else
+			{
+			parent::ColumnTag($column->attrs->name);
 				$dbParser = DB::getParser();
 				$this->name = $dbParser->parseExpression($this->name);
 				
 				$this->alias = $column->attrs->alias;
 				$this->click_count = $column->attrs->click_count;
+			}
 			}
 		}
 		
