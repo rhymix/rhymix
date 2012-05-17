@@ -26,6 +26,7 @@
 				$this->alias = $column->attrs->alias;
 				$this->click_count = $column->attrs->click_count;
 			}
+			}
 		}
 		
 		function getExpressionString(){

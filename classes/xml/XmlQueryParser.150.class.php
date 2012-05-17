@@ -76,7 +76,7 @@
 
         function parse($query_id = NULL, $xml_file = NULL, $cache_file = NULL)
 	{
-	    $query_parser = &$this->parse_xml_query($query_id, $xml_file, $cache_file);
+	    $this->parse_xml_query($query_id, $xml_file, $cache_file);
 	}
 
         function getXmlFileContent($xml_file){
