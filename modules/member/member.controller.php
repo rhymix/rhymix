@@ -1399,6 +1399,12 @@
             $output = executeQuery('member.addMemberToGroup',$args);
             $output2 = ModuleHandler::triggerCall('member.addMemberToGroup', 'after', $args);
 
+			$oCacheHandler = &CacheHandler::getInstance('object');
+			if($oCacheHandler->isSupport()){
+            	$cache_key = 'object_member_groups:'.$member_srl.'_'.$site_srl;
+            	$oCacheHandler->delete($cache_key);
+            }
+			
             return $output;
         }
 
@@ -1429,6 +1435,13 @@
                 $output = executeQuery('member.addMemberToGroup', $obj);
                 if(!$output->toBool()) return $output;
             }
+
+			$oCacheHandler = &CacheHandler::getInstance('object');
+			if($oCacheHandler->isSupport()){
+            	$cache_key = 'object_member_groups:'.$member_srl.'_'.$site_srl;
+            	$oCacheHandler->delete($cache_key);
+            }
+
             return new Object();
         }
 
