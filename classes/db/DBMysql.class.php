@@ -317,20 +317,9 @@ class DBMysql extends DB {
         if(!is_array($xml_obj->table->column)) $columns[] = $xml_obj->table->column;
         else $columns = $xml_obj->table->column;
 
-	    $primary_list = array();
-	    $unique_list = array();
-	    $index_list = array();
-
-            foreach($columns as $column) {
-                $name = $column->attrs->name;
-                $type = $column->attrs->type;
-                $size = $column->attrs->size;
-                $notnull = $column->attrs->notnull;
-                $primary_key = $column->attrs->primary_key;
-                $index = $column->attrs->index;
-                $unique = $column->attrs->unique;
-                $default = $column->attrs->default;
-                $auto_increment = $column->attrs->auto_increment;
+        $primary_list = array();
+        $unique_list = array();
+        $index_list = array();
 
         foreach($columns as $column) {
             $name = $column->attrs->name;
@@ -379,22 +368,14 @@ class DBMysql extends DB {
         if(!$output) return false;
     }
 
-        /**
-         * @brief Handle selectAct
-         *
-         * In order to get a list of pages easily when selecting \n
-         * it supports a method as navigation
-         **/
-        function _executeSelectAct($queryObject, $connection = null, $with_values = true) {
-			$limit = $queryObject->getLimit();
-			$result = NULL;
-			if ($limit && $limit->isPageHandler())
-				return $this->queryPageLimit($queryObject, $result, $connection, $with_values);
-			else {
-				$query = $this->getSelectSql($queryObject, $with_values);
-				if (is_a($query, 'Object'))
-					return;
-				$query .= (__DEBUG_QUERY__ & 1 && $queryObject->query_id) ? sprintf(' ' . $this->comment_syntax, $this->query_id) : '';
+    /**
+     * @brief Handle the insertAct
+     **/
+    function _executeInsertAct($queryObject, $with_values = true) {
+        $query = $this->getInsertSql($queryObject, $with_values, true);
+        if(is_a($query, 'Object')) return;
+        return $this->_query($query);
+    }
 
     /**
      * @brief Handle updateAct
@@ -448,41 +429,33 @@ class DBMysql extends DB {
         return mysql_insert_id($connection);
     }
 
-        function getParser($force = FALSE){
-            return new DBParser('`', '`', $this->prefix);
-        }
-		function db_fetch_object(&$result)
-		{
-			return mysql_fetch_object($result);
-		}
+    function db_fetch_object(&$result)
+    {
+        return mysql_fetch_object($result);
+    }
 
     function db_free_result(&$result){
         return mysql_free_result($result);
     }
 
-        function queryPageLimit($queryObject, $result, $connection, $with_values = true){
-            $limit = $queryObject->getLimit();
-            // Total count
-            $temp_where = $queryObject->getWhereString($with_values, false);
-            $count_query = sprintf('select count(*) as "count" %s %s', 'FROM ' . $queryObject->getFromString($with_values), ($temp_where === '' ? '' : ' WHERE '. $temp_where));
-			
-			// Check for distinct query and if found update count query structure
-            $temp_select = $queryObject->getSelectString($with_values);
-	    $uses_distinct = false;
-			if(strpos(strtolower($temp_select), "distinct") !== false) {
-					$count_query = sprintf('select %s %s %s', 'FROM ' . $queryObject->getFromString($with_values), $temp_select, ($temp_where === '' ? '' : ' WHERE '. $temp_where));
-					$uses_distinct = true;
-			}
-			
-			// If query uses grouping or distinct, count from original select
-			if ($queryObject->getGroupByString() != '' || $uses_distinct) {
-                    $count_query = sprintf('select count(*) as "count" from (%s) xet', $count_query);
-            }
+    function &getParser($force = FALSE){
+        $dbParser = new DBParser('`', '`', $this->prefix);
+        return $dbParser;
+    }
 
-            $count_query .= (__DEBUG_QUERY__&1 && $queryObject->query_id)?sprintf (' '.$this->comment_syntax, $this->query_id):'';
-            $result_count = $this->_query($count_query, $connection);
-            $count_output = $this->_fetch($result_count);
-            $total_count = (int)(isset($count_output->count) ? $count_output->count : NULL);
+    function queryError($queryObject){
+        $limit = $queryObject->getLimit();
+        if ($limit && $limit->isPageHandler()){
+            $buff = new Object ();
+            $buff->total_count = 0;
+            $buff->total_page = 0;
+            $buff->page = 1;
+            $buff->data = array ();
+            $buff->page_navigation = new PageHandler (/*$total_count*/0, /*$total_page*/1, /*$page*/1, /*$page_count*/10);//default page handler values
+            return $buff;
+        }else
+            return;
+    }
 
     function queryPageLimit($queryObject, $result, $connection, $with_values = true){
         $limit = $queryObject->getLimit();

@@ -3002,10 +3002,6 @@ Xin vui lòng kiểm tra lại thông tin Database.]]></value>
 		<value xml:lang="zh-TW"><![CDATA[註冊失敗。]]></value>
 		<value xml:lang="de"><![CDATA[Misserfolg der Registrierung]]></value>
 	</item>
-	<item name="fail_to_update">
-		<value xml:lang="ko"><![CDATA[수정하지 못했습니다.]]></value>
-		<value xml:lang="en"><![CDATA[Fail to update.]]></value>
-	</item>
 	<item name="fail_to_delete">
 		<value xml:lang="ko"><![CDATA[삭제 실패했습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Failed to delete.]]></value>

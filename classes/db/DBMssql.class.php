@@ -540,8 +540,9 @@
 			else return $this->queryPageLimit($queryObject, $result, $connection);
         }
 
-        function getParser($force = FALSE){
-        	return new DBParser("[", "]", $this->prefix);
+        function &getParser($force = FALSE){
+		$dbParser = new DBParser("[", "]", $this->prefix);
+        	return $dbParser;
         }
 
     	function queryError($queryObject){
@@ -614,7 +615,7 @@
 					$buff->page_navigation = new PageHandler($total_count, $total_page, $page, $page_count);
 					return $buff;
 				}
-
+				
 				$start_count = ($page - 1) * $list_count;
 				$this->param = $queryObject->getArguments();
 				$virtual_no = $total_count - $start_count;

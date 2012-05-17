@@ -396,7 +396,7 @@ class TemplateHandler {
 			}
 
 			if(strpos($node, '|cond="') !== false) {
-				$node = preg_replace('@(\s[-\w:]+="[^"]+?")\|cond="(.+?)"@s', '<?php if($2){ ?>$1<?php } ?>', $node);
+				$node = preg_replace('@(\s[\w:\-]+="[^"]+?")\|cond="(.+?)"@s', '<?php if($2){ ?>$1<?php } ?>', $node);
 				$node = $this->_replaceVar($node);
 			}
 

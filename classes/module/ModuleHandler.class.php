@@ -617,21 +617,10 @@
 			$kind = strtolower($kind);
 			$type = strtolower($type);
 
-		$kinds = explode(' ', 'svc admin');
-		if(!in_array($kind, $kinds)) $kind = $kinds[0];
+			$kinds = explode(' ', 'svc admin');
+			if(!in_array($kind, $kinds)) $kind = $kinds[0];
 
-		$key = $module.'.'.($kind!='admin'?'':'admin').'.'.$type;
-
-		if(is_array($GLOBALS['__MODULE_EXTEND__']) && array_key_exists($key, $GLOBALS['__MODULE_EXTEND__']))
-		{
-			$module = $extend_module = $GLOBALS['__MODULE_EXTEND__'][$key];
-		}
-
-
-		// if there is no instance of the module in global variable, create a new one
-		if(!isset($GLOBALS['_loaded_module'][$module][$type][$kind]))
-		{
-			$parent_module = $module;
+			$key = $module.'.'.($kind!='admin'?'':'admin').'.'.$type;
 
 			if(is_array($GLOBALS['__MODULE_EXTEND__']) && array_key_exists($key, $GLOBALS['__MODULE_EXTEND__'])) {
 				$module = $extend_module = $GLOBALS['__MODULE_EXTEND__'][$key];

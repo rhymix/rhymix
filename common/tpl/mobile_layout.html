@@ -1,37 +1,33 @@
-{@
-	$db_info   = Context::getDBInfo();
-	$lang_type = Context::getLangType();
-}
 <!--@if($db_info->use_html5=='Y')-->
 <!DOCTYPE html>
 <!--@else-->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <!--@end-->
-<html lang="{$lang_type}" xmlns="http://www.w3.org/1999/xhtml"|cond="$db_info->use_html5!='Y'">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="{Context::getLangType()}" xml:lang="{Context::getLangType()}">
 <head>
-{@$css_files=Context::getCssFile()}
-{@$js_files=Context::getJsFile()}
-<!-- META -->
-<meta charset="UTF-8" cond="$db_info->use_html5=='Y'"/>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" cond="$db_info->use_html5!='Y'" />
-
-<meta name="Generator" content="XpressEngine" />
-<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=2, user-scalable=yes, target-densitydpi=medium-dpi" />
-<!-- TITLE -->
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=yes, target-densitydpi=medium-dpi" />
 <title>{Context::getBrowserTitle()}</title>
-<!-- CSS -->
-<block loop="$css_files=>$key,$css_file">
-<block cond="$css_file['targetie']"><!--[if {$css_file['targetie']}]></block>
-	<link rel="stylesheet" href="{$css_file['file']}" type="text/css"|cond="$db_info->use_html5!='Y'" media="{$css_file['media']}" />
-<block cond="$css_file['targetie']"><![endif]--></block>
-</block>
-<!-- JS -->
-<block loop="$js_files=>$key,$js_file">
-<block cond="$js_file['targetie']"><!--[if {$js_file['targetie']}]></block>
-	<script type="text/javascript"|cond="$db_info->use_html5!='Y'" src="{$js_file['file']}"></script>
-<block cond="$js_file['targetie']"><![endif]--></block>
-</block>
-<!-- RSS -->
+{@ $css_files = Context::getCssFile() }
+<!--@foreach($css_files as $key => $css_file)-->
+<!--@if($css_file['targetie'])-->
+    <!--[if {$css_file['targetie']}]>
+<!--@end-->
+    <link rel="stylesheet" href="{$css_file['file']}" type="text/css" charset="UTF-8" media="{$css_file['media']}" />
+<!--@if($css_file['targetie'])-->
+    <![endif]-->
+<!--@end-->
+<!--@end-->
+{@ $js_files = Context::getJsFile() }
+<!--@foreach($js_files as $key => $js_file)-->
+<!--@if($js_file['targetie'])-->
+    <!--[if {$js_file['targetie']}]>
+<!--@end-->
+    <script type="text/javascript" src="{$js_file['file']}"></script>
+<!--@if($js_file['targetie'])-->
+    <![endif]-->
+<!--@end-->
+<!--@end-->
 <!--@if($rss_url)-->
     <link rel="alternate" type="application/rss+xml" title="RSS" href="{$rss_url}" />
     <link rel="alternate" type="application/atom+xml" title="Atom" href="{$atom_url}" />
@@ -40,22 +36,25 @@
     <link rel="alternate" type="application/rss+xml" title="Site RSS" href="{$general_rss_url}" />
     <link rel="alternate" type="application/atom+xml" title="Site Atom" href="{$general_atom_url}" />
 <!--@end-->
-<!-- ICON -->
+
 <link cond="$favicon_url" rel="shortcut icon" href="{$favicon_url}" />
 <link cond="$mobicon_url" rel="apple-touch-icon" href="{$mobicon_url}" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="../js/html5.js" cond="$db_info->use_html5=='Y'"></script>
+<![endif]-->
 {@ $ssl_actions = Context::getSSLActions() }
-<script type="text/javascript"|cond="$db_info->use_html5!='Y'">//<![CDATA[
-	var current_url = "{$current_url}";
-	var request_uri = "{$request_uri}";
+    <script type="text/javascript">//<![CDATA[
+        var current_url = "{$current_url}";
+        var request_uri = "{$request_uri}";
 <!--@if($vid)-->var xeVid = "{$vid}";<!--@end-->
-	var current_mid = "{$mid}";
-	var waiting_message = "{$lang->msg_call_server}";
-	var ssl_actions = new Array(<!--@if(count($ssl_actions))-->"{implode('","',$ssl_actions)}"<!--@end-->);
-	var default_url = "{Context::getDefaultUrl()}";
-	<!--@if(Context::get("_http_port"))-->var http_port = {Context::get("_http_port")};<!--@end-->
-	<!--@if(Context::get("_https_port"))-->var https_port = {Context::get("_https_port")};<!--@end-->
-	<!--@if(Context::get("_use_ssl") && Context::get("_use_ssl") == "always")-->var enforce_ssl = true;<!--@end-->
-//]]></script>
+        var current_mid = "{$mid}";
+        var waiting_message = "{$lang->msg_call_server}";
+        var ssl_actions = new Array(<!--@if(count($ssl_actions))-->"{implode('","',$ssl_actions)}"<!--@end-->);
+        var default_url = "{Context::getDefaultUrl()}";
+        <!--@if(Context::get("_http_port"))-->var http_port = {Context::get("_http_port")};<!--@end-->
+        <!--@if(Context::get("_https_port"))-->var https_port = {Context::get("_https_port")};<!--@end-->
+        <!--@if(Context::get("_use_ssl") && Context::get("_use_ssl") == "always")-->var enforce_ssl = true;<!--@end-->
+    //]]></script>
     {Context::getHtmlHeader()}
 </head>
 <body{Context::getBodyClass()}>
@@ -66,11 +65,14 @@
     {Context::getHtmlFooter()}
 
 {@ $js_body_files = Context::getJsFile('body') }
-<block loop="$js_body_files => $key, $js_file">
-	<block cond="$js_file['targetie']"><!--[if {$js_file['targetie']}]></block>
-	<script type="text/javascript"|cond="$db_info->use_html5!='Y'" src="{$js_file['file']}"></script>
-	<block cond="$js_file['targetie']"><![endif]--></block>
-
-</block>
+<!--@foreach($js_body_files as $key => $js_file)-->
+<!--@if($js_file['targetie'])-->
+    <!--[if {$js_file['targetie']}]>
+<!--@end-->
+    <script type="text/javascript" src="{$js_file['file']}"></script>
+<!--@if($js_file['targetie'])-->
+    <![endif]-->
+<!--@end-->
+<!--@end-->
 </body>
 </html>

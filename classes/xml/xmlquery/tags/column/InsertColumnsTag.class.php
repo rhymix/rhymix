@@ -19,7 +19,6 @@
 
 			foreach($xml_columns as $column){
 				if($column->name === 'query') $this->columns[] = new QueryTag($column, true);
-				else if(!isset($column->attrs->var) && !isset($column->attrs->default)) $this->columns[] = new InsertColumnTagWithoutArgument($column);
 				else $this->columns[] = new InsertColumnTag($column);
 			}
 		}

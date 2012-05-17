@@ -325,12 +325,10 @@
             $logged_info = Context::get('logged_info');
             $member_srl = $logged_info->member_srl;
             // Check variables
-            $friend_srl_list = Context::get('friend_srl_list');
+            $friend_srl_list = trim(Context::get('friend_srl_list'));
+            if(!$friend_srl_list) return new Object(-1, 'msg_cart_is_null');
 
-			if(!is_array($friend_srl_list))
-			{
-				$friend_srl_list = explode('|@|', $friend_srl_list);
-			}
+            $friend_srl_list = explode('|@|', $friend_srl_list);
             if(!count($friend_srl_list)) return new Object(-1, 'msg_cart_is_null');
 
             $friend_count = count($friend_srl_list);

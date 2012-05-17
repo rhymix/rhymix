@@ -42,7 +42,7 @@
                             $this->tables[] = new QueryTag($tag, true);
                         }
                         else {
-                            if(isset($indexes[$tag->attrs->name]) && $indexes[$tag->attrs->name])
+                            if(isset($indexes) && $indexes && isset($indexes[$tag->attrs->name]))
                                 $this->tables[] = new HintTableTag($tag, $indexes[$tag->attrs->name]);
                             else
                                 $this->tables[] = new TableTag($tag);

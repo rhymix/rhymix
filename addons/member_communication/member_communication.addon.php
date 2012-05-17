@@ -4,7 +4,7 @@ if(!defined('__XE__')) exit();
 /**
  * @file member_communication.addon.php
  * @author NHN (developers@xpressengine.com)
- * @brief Promote user communication
+ * @brief Promote user communication 
  *
  * - Pop-up the message if new message comes in
  * - When calling MemberModel::getMemberMenu, feature to send a message is added
@@ -46,7 +46,7 @@ if($called_position == 'before_module_init' && $this->module != 'member') {
 	$mid = Context::get('cur_mid');
 	// Creates communication model object
 	$oCommunicationModel = &getModel('communication');
-	// Add a feature to display own message box.
+	// Add a feature to display own message box. 
 	if($logged_info->member_srl == $member_srl) {
 		// Add your own viewing Note Template
 		$oMemberController->addMemberPopupMenu(getUrl('','mid',$mid,'act','dispCommunicationMessages'), 'cmd_view_message_box', '', 'self');
@@ -55,7 +55,7 @@ if($called_position == 'before_module_init' && $this->module != 'member') {
 	// If not, Add menus to send message and to add friends
 	} else {
 		// Get member information
-		$oMemberModel = &getModel('member');
+		$oMemberModel = &getModel('member'); 
 		$target_member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
 		if(!$target_member_info->member_srl) return;
 		// Get logged-in user information

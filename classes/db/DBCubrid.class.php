@@ -834,8 +834,9 @@
 			return $buff;
 		}
 
-		function getParser($force = FALSE){
-			return new DBParser('"', '"', $this->prefix);
+		function &getParser($force = FALSE){
+			$dbParser = new DBParser('"', '"', $this->prefix);
+			return $dbParser;
 		}
 
                 function getSelectPageSql($query, $with_values = true, $start_count = 0, $list_count = 0) {

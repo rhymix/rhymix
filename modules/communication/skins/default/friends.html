@@ -37,7 +37,7 @@
 					<th>{$lang->friend_group}</th>
 					<th>{$lang->nick_name}</th>
 					<th>{$lang->regdate}</th>
-					<th><input name="check_all" type="checkbox" onclick="XE.checkboxToggleAll('friend_srl_list[]', { wrap:'fo_friend_list' });" /></th>
+					<th><input name="check_all" type="checkbox" onclick="XE.checkboxToggleAll('friend_srl_list', { wrap:'fo_friend_list' });" /></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -45,7 +45,7 @@
 					<td>{$val->group_title?$val->group_title:"&nbsp;"}</td>
 					<td><a href="#popup_menu_area" class="member_{$val->target_srl}">{$val->nick_name}</a></td>
 					<td>{zdate($val->regdate,"Y-m-d")}</td>
-					<td><input type="checkbox" name="friend_srl_list[]" value="{$val->friend_srl}" /></td>
+					<td><input type="checkbox" name="friend_srl_list" value="{$val->friend_srl}" /></td>
 				</tr>
 			</tbody>
 		</table>

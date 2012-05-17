@@ -230,10 +230,10 @@
         /**
          * @breif By converting the specific content of the widget tag return
          **/
-        function transWidgetCode($content, $javascript_mode = false, $isReplaceLangCode = true) {
+        function transWidgetCode($content, $javascript_mode = false) {
             // Changing user-defined language
             $oModuleController = &getController('module');
-            $oModuleController->replaceDefinedLangCode($content, $isReplaceLangCode);
+            $oModuleController->replaceDefinedLangCode($content);
             // Check whether to include information about editing
             $this->javascript_mode = $javascript_mode;
             // Widget code box change

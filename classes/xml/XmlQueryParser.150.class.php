@@ -21,7 +21,6 @@
 	require(_XE_PATH_.'classes/xml/xmlquery/tags/column/ColumnTag.class.php');
         require(_XE_PATH_.'classes/xml/xmlquery/tags/column/SelectColumnTag.class.php');
         require(_XE_PATH_.'classes/xml/xmlquery/tags/column/InsertColumnTag.class.php');
-		require(_XE_PATH_.'classes/xml/xmlquery/tags/column/InsertColumnTagWithoutArgument.class.php');
         require(_XE_PATH_.'classes/xml/xmlquery/tags/column/UpdateColumnTag.class.php');
         require(_XE_PATH_.'classes/xml/xmlquery/tags/column/SelectColumnsTag.class.php');
         require(_XE_PATH_.'classes/xml/xmlquery/tags/column/InsertColumnsTag.class.php');
@@ -69,14 +68,14 @@
 
 	    // Write query cache file
             $parser = new QueryParser($xml_obj->query);
-            FileHandler::writeFile($cache_file, $parser->toString());
+	    FileHandler::writeFile($cache_file, $parser->toString());
 
 	    return $parser;
         }
 
         function parse($query_id = NULL, $xml_file = NULL, $cache_file = NULL)
 	{
-	    $this->parse_xml_query($query_id, $xml_file, $cache_file);
+	    $query_parser = &$this->parse_xml_query($query_id, $xml_file, $cache_file);
 	}
 
         function getXmlFileContent($xml_file){
