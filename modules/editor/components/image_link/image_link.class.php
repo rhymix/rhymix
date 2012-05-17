@@ -51,15 +51,9 @@
             $style = $xml_obj->attrs->style;
             $margin = (int)$xml_obj->attrs->margin;
 
-            if(!$alt) {
-                $tmp_arr = explode('/',$src);
-                $alt = array_pop($tmp_arr);
-            }
-
             $src = str_replace(array('&','"'), array('&amp;','&qout;'), $src);
             $src = str_replace('&amp;amp;', '&amp;', $src);
 
-            if(!$alt) $alt = $src;
             // Image containing the address to the address conversion request uri (rss output, etc. purposes)
             $temp_src = explode('/', $src);
             if(substr($src, 0,2)=='./') $src = Context::getRequestUri().substr($src, 2);
@@ -72,9 +66,8 @@
 
             $attr_output = array();
             $attr_output = array("src=\"".$src."\"");
-            if($alt) {
-                $attr_output[] = "alt=\"".$alt."\"";
-            }
+            $attr_output[] = "alt=\"".$alt."\"";
+
             if($title) {
                 $attr_output[] = "title=\"".$title."\"";
             }

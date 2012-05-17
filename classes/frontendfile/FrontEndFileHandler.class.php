@@ -70,6 +70,8 @@
 				$map = &$this->cssMap;
 				$mapIndex = &$this->cssMapIndex;
 				$key = $file->filePath . $file->fileName . "\t" . $file->targetIe . "\t" . $file->media;
+
+				$this->_arrangeCssIndex($pathInfo['dirname'], $file);
 			}
 			else if ($file->fileExtension == 'js')
 			{
@@ -264,5 +266,19 @@
 			}
 
 			return $path;
+		}
+
+		private function _arrangeCssIndex($dirName, $file)
+		{
+			if($file->index !== 0)
+			{
+				return;
+			}
+
+			$dirName = str_replace('./', '', $dirName);
+			$tmp = explode('/', $dirName);
+
+			$cssSortList = array('common'=>-100000, 'layouts'=>-90000, 'modules'=>-80000, 'widgets'=>-70000, 'addons'=>-60000);
+			$file->index = $cssSortList[$tmp[0]];
 		}
 	}
