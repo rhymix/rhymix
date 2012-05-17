@@ -38,6 +38,22 @@ class MysqlInsertTest extends MysqlTest
 							where `column4` >= 7';
 		$this->_test($xml_file, $argsString, $expected);
 	}
+	
+	function testInsertSelectStatement2()
+	{
+		$xml_file = _XE_PATH_ . "modules/wiki/queries/insertLinkedDocuments.xml";
+		$argsString = '$args->document_srl = 7;
+						$args->module_srl = 10;
+						$args->alias_list = array("unu", "doi");
+			';
+		$expected = 'insert into `xe_wiki_links` 
+							(`cur_doc_srl`, `link_doc_srl`) 
+						select 7, `document_srl` 
+							from `xe_document_aliases` as `document_aliases` 
+							where `module_srl` = 10 
+								and `alias_title` in (\'unu\',\'doi\')';
+		$this->_test($xml_file, $argsString, $expected);
+	}	
 }
 
 /* End of file MysqlInsertTest.php */
