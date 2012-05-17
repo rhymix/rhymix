@@ -784,7 +784,7 @@
 			$count_query .= (__DEBUG_QUERY__&1 && $queryObject->queryID)?sprintf (' '.$this->comment_syntax, $queryObject->queryID):'';
 			$result = $this->_query($count_query, $connection);
 			$count_output = $this->_fetch($result);
-			$total_count = (int)(isset($count_output->output) ? $count_output->count : NULL);
+			$total_count = (int)(isset($count_output->count) ? $count_output->count : NULL);
 
 			$list_count = $limit->list_count->getValue();
 			if (!$list_count) $list_count = 20;
