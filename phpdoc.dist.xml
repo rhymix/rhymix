@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<phpdoc>
+	<title><![CDATA[XpressEngine]]></title>
+	<parser>
+		<default-package-name>XE</default-package-name>
+		<target>phpDoc</target>
+	</parser>
+	<transformer>
+		<target>phpDoc</target>
+	</transformer>
+	<files>
+		<file>index.php</file>
+		<directory>classes</directory>
+		<directory>config</directory>
+		<directory>modules</directory>
+		<ignore>classes/security/htmlpurifier/*</ignore>
+		<ignore>modules/member/php-openid-1.2.3/*</ignore>
+	</files>
+</phpdoc>
