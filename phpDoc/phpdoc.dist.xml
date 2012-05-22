@@ -3,16 +3,19 @@
 	<title><![CDATA[XpressEngine]]></title>
 	<parser>
 		<default-package-name>XE</default-package-name>
-		<target>phpDoc</target>
+		<target>.</target>
 	</parser>
 	<transformer>
-		<target>phpDoc</target>
+		<target>output</target>
 	</transformer>
+	<transformations>
+		<template name="new-black" />
+	</transformations>
 	<files>
-		<file>index.php</file>
-		<directory>classes</directory>
-		<directory>config</directory>
-		<directory>modules</directory>
+		<file>../index.php</file>
+		<directory>../classes</directory>
+		<directory>../config</directory>
+		<directory>../modules</directory>
 		<ignore>classes/security/htmlpurifier/*</ignore>
 		<ignore>modules/member/php-openid-1.2.3/*</ignore>
 	</files>
