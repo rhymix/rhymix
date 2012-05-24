@@ -47,7 +47,7 @@ class CacheFile extends CacheBase {
 	 * @param string $key The key that will be associated with the item.
 	 * @return string Returns cache file path
 	 */
-	private function getCacheFileName($key){
+	function getCacheFileName($key){
 		return $this->cache_dir . str_replace(':', '_', $key);
 	}
 	
