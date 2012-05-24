@@ -869,5 +869,42 @@
 
             return $output->data;
         }
+
+
+		/**
+		 * @brief Returns the document's mid in order to construct SEO friendly URLs
+		 */
+		function getDocumentMid() {
+			$model = &getModel('module');
+			$module = $model->getModuleInfoByModuleSrl( this->get('module_srl'));
+			return $module->mid;
+		}
+
+		/**
+		 * @brief Returns the document's type (document/page/wiki/board/etc)
+		 */
+		function getDocumentType() {
+			$model = &getModel('module');
+			$module = $model->getModuleInfoByModuleSrl( this->get('module_srl'));
+			return $module->module;
+		}
+
+		/**
+		 * @brief Returns the document's alias
+		 */
+		function getDocumentAlias() {
+			$oDocumentModel = &getModel('document');
+			return $oDocumentModel->getAlias($this->document_srl);
+		}
+
+		/**
+		 * @brief Returns the document's actual title (browser_title)
+		 */
+		function getModuleName() {
+			$model = &getModel('module');
+			$module = $model->getModuleInfoByModuleSrl($this->get('module_srl'));
+			return $module->browser_title;
+		}
+
     }
 ?>
