@@ -1,18 +1,51 @@
 <?php
 	/**
-	 * @class FrontEndFileHandler
+	 * Handle front end files
 	 * @author NHN (developers@xpressengine.com)
 	 **/
-
 	class FrontEndFileHandler extends Handler
 	{
+		/**
+		 * Map for css
+		 * @var array
+		 */
 		var $cssMap = array();
+
+		/**
+		 * Map for Javascript at head
+		 * @var array
+		 */
 		var $jsHeadMap = array();
+
+		/**
+		 * Map for Javascript at body
+		 * @var array
+		 */
 		var $jsBodyMap = array();
+
+		/**
+		 * Index for css
+		 * @var array
+		 */
 		var $cssMapIndex = array();
+
+		/**
+		 * Index for javascript at head
+		 * @var array
+		 */
 		var $jsHeadMapIndex = array();
+
+		/**
+		 * Index for javascript at body
+		 * @var array
+		 */
 		var $jsBodyMapIndex = array();
 
+		/**
+		 * Check SSL
+		 *
+		 * @return bool If using ssl returns true, otherwise returns false.
+		 */
 		function isSsl()
 		{
 			if ($GLOBAL['__XE_IS_SSL__']) return $GLOBAL['__XE_IS_SSL__'];
@@ -27,8 +60,11 @@
 		}
 
 		/**
-		 * @brief load front end file
-		 * @params $args array
+		 * Load front end file
+		 *
+		 * The $args is use as below. File type(js, css) is detected by file extension.
+		 *
+		 * <pre>
 		 * case js
 		 *		$args[0]: file name
 		 *		$args[1]: type (head | body)
@@ -39,6 +75,22 @@
 		 *		$args[1]: media
 		 *		$args[2]: target IE
 		 *		$args[3]: index
+		 * </pre>
+		 *
+		 * If $useCdn set true, use CDN instead local file.
+		 * CDN path = $cdnPrefix . $cdnVersion . $args[0]<br />
+		 *<br />
+		 * i.e.<br />
+		 * $cdnPrefix = 'http://static.xpressengine.com/core/';<br />
+		 * $cdnVersion = 'ardent1';<br />
+		 * $args[0] = './common/js/xe.js';<br />
+		 * The CDN path is http://static.xprssengine.com/core/ardent1/common/js/xe.js.<br />
+		 *
+		 * @param array $args Arguments
+		 * @param bool $useCdn If set true, use cdn instead local file
+		 * @param string $cdnPrefix CDN url prefix. (http://static.xpressengine.com/core/)
+		 * @param string $cdnVersion CDN version string (ardent1)
+		 * @return void
 		 **/
 		function loadFile($args, $useCdn = false, $cdnPrefix = '', $cdnVersion = '')
 		{
@@ -97,6 +149,14 @@
 			}
 		}
 
+		/**
+		 * Unload front end file
+		 *
+		 * @param string $fileName The file name to unload
+		 * @param string $targetIe Target IE of file to unload
+		 * @param string $media Media of file to unload. Only use when file is css.
+		 * @return void
+		 */
 		function unloadFile($fileName, $targetIe = '', $media = 'all')
 		{
 			$pathInfo = pathinfo($fileName);
@@ -137,6 +197,12 @@
 			}
 		}
 
+		/**
+		 * Unload all front end file
+		 *
+		 * @param string $type Type to unload. all, css, js
+		 * @return void
+		 */
 		function unloadAllFiles($type = 'all')
 		{
 			if ($type == 'css' || $type == 'all')
@@ -154,6 +220,11 @@
 			}
 		}
 
+		/**
+		 * Get css file list
+		 *
+		 * @return array Returns css file list. Array contains file, media, targetie.
+		 */
 		function getCssFileList()
 		{
 			$map = &$this->cssMap;
@@ -184,6 +255,12 @@
 			return $result;
 		}
 
+		/**
+		 * Get javascript file list
+		 *
+		 * @param string $type Type of javascript. head, body
+		 * @return array Returns javascript file list. Array contains file, targetie.
+		 */
 		function getJsFileList($type = 'head')
 		{
 			if ($type == 'head')
@@ -223,11 +300,24 @@
 			return $result;
 		}
 
+		/**
+		 * Sort a map
+		 *
+		 * @param array $map Array to sort
+		 * @param array $index Not used
+		 * @return void
+		 */
 		function _sortMap(&$map, &$index)
 		{
 			ksort($map);
 		}
 
+		/**
+		 * Normalize File path
+		 *
+		 * @param string $path Path to normalize
+		 * @return string Normalized path
+		 */
 		function _normalizeFilePath($path)
 		{
 			if (strpos($path, '://') === false && $path{0} != '/' && $path{0} != '.')
@@ -245,6 +335,12 @@
 			return $path;
 		}
 
+		/**
+		 * Get absolute file url
+		 *
+		 * @param string $path Path to get absolute url
+		 * @return string Absolute url
+		 */
 		function _getAbsFileUrl($path)
 		{
 			$path = $this->_normalizeFilePath($path);
@@ -268,7 +364,14 @@
 			return $path;
 		}
 
-		private function _arrangeCssIndex($dirName, $file)
+		/**
+		 * Arrage css index
+		 *
+		 * @param string $dirName First directory  name of css path
+		 * @param array $file file info.
+		 * @return void
+		 */
+		function _arrangeCssIndex($dirName, &$file)
 		{
 			if($file->index !== 0)
 			{
@@ -282,3 +385,6 @@
 			$file->index = $cssSortList[$tmp[0]];
 		}
 	}
+
+/* End of file FrontEndFileHandler.class.php */
+/* Location: ./classes/frontendfile/FrontEndFileHandler.class.php */
