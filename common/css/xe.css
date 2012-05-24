@@ -2,8 +2,8 @@
 /* NHN (developers@xpressengine.com) */
 /* Element Reset */
 body,table,input,textarea,select,button{font-family:Tahoma,Geneva,sans-serif;font-size:12px}
-img{border:0}
-.xe_content{word-break:break-all;word-wrap:break-word}
+body{word-wrap:break-word}
+a img{border:0}
 .xe_content img{max-width:100%;height:auto}
 @media \0screen{.xe_content img{max-width:none}}
 /* Button Area */
