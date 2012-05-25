@@ -1,18 +1,4 @@
 <?php
-    /**
-     * @class DB
-     * @author NHN (developers@xpressengine.com)
-     * @brief  base class of db* classes
-     * @version 0.1
-     *
-     * usage of db in XE is via xml
-     * there are 2 types of xml - query xml, schema xml
-     * in case of query xml, DB::executeQuery() method compiles xml file into php code and then execute it
-     * query xml has unique query id, and will be created in module
-     *
-     * queryid = module_name.query_name
-     **/
-
     if(!defined('__XE_LOADED_DB_CLASS__')){
         define('__XE_LOADED_DB_CLASS__', 1);
 
@@ -45,11 +31,31 @@
         require(_XE_PATH_.'classes/db/queryparts/Subquery.class.php');
     }
 
+	/**
+	 * - DB parent class
+	 * - usage of db in XE is via xml
+	 * - there are 2 types of xml - query xml, schema xml
+	 * - in case of query xml, DB::executeQuery() method compiles xml file into php code and then execute it
+	 * - query xml has unique query id, and will be created in module
+	 * - queryid = module_name.query_name
+	 *
+	 * @author NHN (developers@xpressengine.com)
+	 * @package /classes/db
+	 * @version 0.1
+	 */
     class DB {
 
+		/**
+		 * count cache path
+		 * @var string
+		 */
         var $count_cache_path = 'files/cache/db';
 
-        var $cond_operation = array( ///< operations for condition
+		/**
+		 * operations for condition
+		 * @var array
+		 */
+        var $cond_operation = array(
             'equal' => '=',
             'more' => '>=',
             'excess' => '>',
@@ -60,35 +66,84 @@
             'null' => 'is null',
         );
 
-        var $master_db = NULL; // master database connection string
-        var $slave_db = NULL; // array of slave databases connection strings
+		/**
+		 * master database connection string
+		 * @var array
+		 */
+        var $master_db = NULL;
+		/**
+		 * array of slave databases connection strings
+		 * @var array
+		 */
+        var $slave_db = NULL;
 
-        var $result = NULL; ///< result
+        var $result = NULL;
 
-        var $errno = 0; ///< error code (0 means no error)
-        var $errstr = ''; ///< error message
-        var $query = ''; ///< query string of latest executed query
+		/**
+		 * error code (0 means no error)
+		 * @var int
+		 */
+        var $errno = 0;
+		/**
+		 * error message
+		 * @var string
+		 */
+        var $errstr = '';
+		/**
+		 * query string of latest executed query
+		 * @var string
+		 */
+        var $query = '';
         var $connection = '';
-        var $elapsed_time = 0; ///< elapsed time of latest executed query
-        var $elapsed_dbclass_time = 0; ///< elapsed time of latest executed query
+		/**
+		 * elapsed time of latest executed query
+		 * @var int
+		 */
+        var $elapsed_time = 0;
+		/**
+		 * elapsed time of latest executed DB class
+		 * @var int
+		 */
+        var $elapsed_dbclass_time = 0;
 
-        var $transaction_started = false; ///< transaction flag
+		/**
+		 * transaction flag
+		 * @var boolean
+		 */
+        var $transaction_started = false;
 
-        var $is_connected = false; ///< is db connected
+        var $is_connected = false;
 
-        var $supported_list = array(); ///< list of supported db, (will be written by classes/DB/DB***.class.php)
+		/**
+         * returns enable list in supported dbms list
+		 * will be written by classes/DB/DB***.class.php
+		 * @var array
+		 */
+        var $supported_list = array();
 
-        var $cache_file = 'files/cache/queries/'; ///< location of query cache
+		/**
+		 * location of query cache
+		 * @var string
+		 */
+        var $cache_file = 'files/cache/queries/';
 
-		var $db_type; ///< stores database type: 'mysql','cubrid','mssql' etc. or 'db' when database is not yet set
+		/**
+		 * stores database type: 'mysql','cubrid','mssql' etc. or 'db' when database is not yet set
+		 * @var string
+		 */
+		var $db_type;
 
-		var $use_prepared_statements; ///< flag to decide if class prepared statements or not (when supported); can be changed from db.config.info
+		/**
+		 * flag to decide if class prepared statements or not (when supported); can be changed from db.config.info
+		 * @var string
+		 */
+		var $use_prepared_statements;
 		
-        /**
-         * @brief returns instance of certain db type
-         * @param[in] $db_type type of db
-         * @return instance
-         **/
+		/**
+		 * returns instance of certain db type
+		 * @param string $db_type type of db
+		 * @return DB return DB object instance
+		 */
         function &getInstance($db_type = NULL) {
             if(!$db_type) $db_type = Context::getDBType();
             if(!$db_type && Context::isInstalled()) return new Object(-1, 'msg_db_not_setted');
@@ -108,32 +163,39 @@
             return $GLOBALS['__DB__'][$db_type];
         }
 
+		/**
+		 * returns instance of db
+		 * @return DB return DB object instance
+		 */
 		function create() {
 			return new DB;
 		}
 
         /**
-         * @brief constructor
-         * @return none
-         **/
+         * constructor
+         * @return void
+         */
         function DB() {
             $this->count_cache_path = _XE_PATH_.$this->count_cache_path;
             $this->cache_file = _XE_PATH_.$this->cache_file;
         }
 
         /**
-         * @brief returns list of supported db
-         * @return list of supported db
-         **/
+         * returns list of supported dbms list
+		 * this list return by directory list
+		 * check by instance can creatable
+         * @return array return supported DBMS list
+         */
         function getSupportedList() {
             $oDB = new DB();
             return $oDB->_getSupportedList();
         }
 
         /**
-         * @brief returns list of enable in supported db
-         * @return list of enable in supported db
-         **/
+         * returns enable list in supported dbms list
+		 * this list return by child class
+         * @return array return enable DBMS list in supported dbms list
+         */
         function getEnableList()
         {
                 if(!$this->supported_list)
@@ -152,9 +214,10 @@
         }
 
         /**
-         * @brief returns list of disable in supported db
-         * @return list of disable in supported db
-         **/
+         * returns list of disable in supported dbms list
+		 * this list return by child class
+         * @return array return disable DBMS list in supported dbms list
+         */
         function getDisableList()
         {
                 if(!$this->supported_list)
@@ -173,9 +236,10 @@
         }
 
         /**
-         * @brief returns list of supported db
-         * @return list of supported db
-         **/
+         * returns list of supported dbms list
+		 * this method is private
+         * @return array return supported DBMS list
+         */
         function _getSupportedList() {
 			static $get_supported_list = '';
 			if(is_array($get_supported_list)) {
@@ -216,27 +280,30 @@
         }
 
         /**
-         * @brief check if the db_type is supported
-         * @param[in] $db_type type of db to check
-         * @return true: is supported, false: is not supported
-         **/
+         * Return dbms supportable status
+		 * The value is set in the child class
+         * @return boolean true: is supported, false: is not supported
+         */
         function isSupported() {
 			return FALSE;
         }
 
         /**
-         * @brief check if is connected
-         * @return true: connected, false: not connected
-         **/
+         * Return connected status
+		 * @param string $type master or slave
+		 * @param int $indx key of server list
+         * @return boolean true: connected, false: not connected
+         */
         function isConnected($type = 'master', $indx = 0) {
             if($type == 'master') return $this->master_db["is_connected"] ? true : false;
             else return $this->slave_db[$indx]["is_connected"] ? true : false;
         }
 
         /**
-         * @brief start recording log
-         * @return none
-         **/
+         * start recording log
+		 * @param string $query query string
+         * @return void
+         */
         function actStart($query) {
             $this->setError(0, 'success');
             $this->query = $query;
@@ -245,9 +312,9 @@
         }
 
         /**
-         * @brief finish recording log
-         * @return none
-         **/
+         * finish recording log
+         * @return void
+         */
         function actFinish() {
             if(!$this->query) return;
             $this->act_finish = getMicroTime();
@@ -303,40 +370,41 @@
         }
 
         /**
-         * @brief set error
-         * @param[in] $errno error code
-         * @param[in] $errstr error message
-         * @return none
-         **/
+         * set error
+         * @param int $errno error code
+         * @param string $errstr error message
+         * @return void
+         */
         function setError($errno = 0, $errstr = 'success') {
             $this->errno = $errno;
             $this->errstr = $errstr;
         }
 
         /**
-         * @brief check if an error occured
-         * @return true: error, false: no error
-         **/
+         * Return error status
+         * @return boolean true: error, false: no error
+         */
         function isError() {
             return $this->errno === 0 ? false : true;
         }
 
         /**
-         * @brief returns object of error info
-         * @return object of error
-         **/
+         * Returns object of error info
+         * @return object object of error
+         */
         function getError() {
             $this->errstr = Context::convertEncodingStr($this->errstr);
             return new Object($this->errno, $this->errstr);
         }
 
         /**
-         * @brief Run the result of the query xml file
-         * @param[in] $query_id query id (module.queryname
-         * @param[in] $args arguments for query
-         * @return result of query
-         * @remarks this function finds xml file or cache file of $query_id, compiles it and then execute it
-         **/
+         * Execute Query that result of the query xml file
+         * This function finds xml file or cache file of $query_id, compiles it and then execute it
+         * @param string $query_id query id (module.queryname)
+         * @param array|object $args arguments for query
+         * @param array $arg_columns column list. if you want get specific colums from executed result, add column list to $arg_columns
+         * @return object result of query
+         */
         function executeQuery($query_id, $args = NULL, $arg_columns = NULL) {
 			static $cache_file = array();
             if(!$query_id) return new Object(-1, 'msg_invalid_queryid');
@@ -384,11 +452,11 @@
 
 
         /**
-         * @brief look for cache file
-         * @param[in] $query_id query id for finding
-         * @param[in] $xml_file original xml query file
-         * @return cache file
-         **/
+         * Look for query cache file
+         * @param string $query_id query id for finding
+         * @param string $xml_file original xml query file
+         * @return string cache file
+         */
         function checkQueryCacheFile($query_id,$xml_file){
             // first try finding cache file
             $cache_file = sprintf('%s%s%s.%s.%s.cache.php', _XE_PATH_, $this->cache_file, $query_id, __ZBXE_VERSION__, $this->db_type);
@@ -408,12 +476,13 @@
 
 
         /**
-         * @brief execute query and return the result
-         * @param[in] $cache_file cache file of query
-         * @param[in] $source_args arguments for query
-         * @param[in] $query_id query id
-         * @return result of query
-         **/
+         * Execute query and return the result
+         * @param string $cache_file cache file of query
+         * @param array|object $source_args arguments for query
+         * @param string $query_id query id
+         * @param array $arg_columns column list. if you want get specific colums from executed result, add column list to $arg_columns
+         * @return object result of query
+         */
         function _executeQuery($cache_file, $source_args, $query_id, $arg_columns) {
             global $lang;
 
@@ -458,11 +527,11 @@
 
 
         /**
-         * @brief returns counter cache data
-         * @param[in] $tables tables to get data
-         * @param[in] $condition condition to get data
-         * @return count of cache data
-         **/
+         * Returns counter cache data
+         * @param array|string $tables tables to get data
+         * @param string $condition condition to get data
+         * @return int count of cache data
+         */
         function getCountCache($tables, $condition) {
             return false;
             if(!$tables) return false;
@@ -492,12 +561,12 @@
         }
 
         /**
-         * @brief save counter cache data
-         * @param[in] $tables tables to save data
-         * @param[in] $condition condition to save data
-         * @param[in] $count count of cache data to save
-         * @return none
-         **/
+         * Save counter cache data
+         * @param array|string $tables tables to save data
+         * @param string $condition condition to save data
+         * @param int $count count of cache data to save
+         * @return void
+         */
         function putCountCache($tables, $condition, $count = 0) {
             return false;
             if(!$tables) return false;
@@ -517,10 +586,10 @@
         }
 
         /**
-         * @brief reset counter cache data
-         * @param[in] $tables tables to reset cache data
-         * @return true: success, false: failed
-         **/
+         * Reset counter cache data
+         * @param array|string $tables tables to reset cache data
+         * @return boolean true: success, false: failed
+         */
         function resetCountCache($tables) {
             return false;
             if(!$tables) return false;
@@ -537,9 +606,9 @@
         }
 
         /**
-         * @brief returns supported database list
-         * @return list of supported database
-         **/
+         * Returns supported database list
+         * @return array list of supported database
+         */
         function getSupportedDatabase(){
             $result = array();
 
@@ -554,12 +623,23 @@
             return $result;
         }
 
+		/**
+		 * Drop tables
+		 * @param string $table_name
+		 * @return void
+		 */
         function dropTable($table_name){
             if(!$table_name) return;
             $query = sprintf("drop table %s%s", $this->prefix, $table_name);
             $this->_query($query);
         }
 
+		/**
+		 * Return select query string
+		 * @param object $query
+		 * @param boolean $with_values
+		 * @return string
+		 */
     	function getSelectSql($query, $with_values = true){
 			$select = $query->getSelectString($with_values);
 			if($select == '') return new Object(-1, "Invalid query");
@@ -594,6 +674,13 @@
 		 	return $select . ' ' . $from . ' ' . $where . ' ' . $index_hint_list . ' ' . $groupBy . ' ' . $orderBy . ' ' . $limit;
 		}
 
+		/**
+		 * Return delete query string
+		 * @param object $query
+		 * @param boolean $with_values
+		 * @param boolean $with_priority
+		 * @return string
+		 */
    		function getDeleteSql($query, $with_values = true, $with_priority = false){
 			$sql = 'DELETE ';
 
@@ -612,6 +699,13 @@
 			return $sql;
 		}
 
+		/**
+		 * Return update query string
+		 * @param object $query
+		 * @param boolean $with_values
+		 * @param boolean $with_priority
+		 * @return string
+		 */
     	function getUpdateSql($query, $with_values = true, $with_priority = false){
 			$columnsList = $query->getUpdateString($with_values);
 			if($columnsList == '') return new Object(-1, "Invalid query");
@@ -627,6 +721,13 @@
 			return "UPDATE $priority $tables SET $columnsList ".$where;
 		}
 
+		/**
+		 * Return insert query string
+		 * @param object $query
+		 * @param boolean $with_values
+		 * @param boolean $with_priority
+		 * @return string
+		 */
     	function getInsertSql($query, $with_values = true, $with_priority = false){
 			$tableName = $query->getFirstTableName();
 			$values = $query->getInsertString($with_values);
@@ -635,12 +736,22 @@
 			return "INSERT $priority INTO $tableName \n $values";
 		}
 
+		/**
+		 * Return index from slave server list
+		 * @return int
+		 */
         function _getSlaveConnectionStringIndex() {
             $max = count($this->slave_db);
             $indx = rand(0, $max - 1);
             return $indx;
         }
 
+		/**
+		 * Return connection resource
+		 * @param string $type use 'master' or 'slave'. default value is 'master'
+		 * @param int $indx if indx value is NULL, return rand number in slave server list
+		 * @return resource
+		 */
         function _getConnection($type = 'master', $indx = NULL){
             if($type == 'master'){
                 if(!$this->master_db['is_connected'])
@@ -659,6 +770,10 @@
             return $this->slave_db[$indx]["resource"];
         }
 
+		/**
+		 * check db information exists
+		 * @return boolean
+		 */
         function _dbInfoExists() {
             if (!$this->master_db)
                 return false;
@@ -667,13 +782,22 @@
             return true;
         }
 
+		/**
+		 * DB disconnection
+		 * this method is protected
+		 * @param resource $connection
+		 * @return void
+		 */
         function _close($connection){
 
         }
 
-        /**
-         * @brief DB disconnection
-         * */
+		/**
+		 * DB disconnection
+		 * @param string $type 'master' or 'slave'
+		 * @param int $indx number in slave dbms server list
+		 * @return void
+		 */
         function close($type = 'master', $indx = 0) {
             if (!$this->isConnected($type, $indx))
                 return;
@@ -688,12 +812,19 @@
             $connection["is_connected"] = false;
         }
 
+		/**
+		 * DB transaction start
+		 * this method is protected
+		 * @return boolean
+		 */
         function _begin(){
             return true;
         }
-        /**
-         * @brief Begin transaction
-         * */
+
+		/**
+		 * DB transaction start
+		 * @return void
+		 */
         function begin() {
             if (!$this->isConnected() || $this->transaction_started)
                 return;
@@ -702,13 +833,19 @@
                  $this->transaction_started = true;
         }
 
+		/**
+		 * DB transaction rollback
+		 * this method is protected
+		 * @return boolean
+		 */
         function _rollback(){
             return true;
         }
 
-        /**
-         * @brief Rollback
-         * */
+		/**
+		 * DB transaction rollback
+		 * @return void
+		 */
         function rollback() {
             if (!$this->isConnected() || !$this->transaction_started)
                 return;
@@ -716,12 +853,20 @@
                 $this->transaction_started = false;
         }
 
+		/**
+		 * DB transaction commit
+		 * this method is protected
+		 * @return boolean
+		 */
         function _commit(){
             return true;
         }
-        /**
-         * @brief Commits
-         * */
+
+		/**
+		 * DB transaction commit
+		 * @param boolean $force regardless transaction start status or connect status, forced to commit
+		 * @return void
+		 */
         function commit($force = false) {
             if (!$force && (!$this->isConnected() || !$this->transaction_started))
                 return;
@@ -729,18 +874,24 @@
                 $this->transaction_started = false;
         }
 
+		/**
+		 * Execute the query
+		 * this method is protected
+		 * @param string $query
+		 * @param resource $connection
+		 * @return void
+		 */
         function __query($query, $connection){
 
         }
-        /**
-         * @brief : Run a query and fetch the result
-         *
-         * query: run a query and return the result \n
-         * fetch: NULL if no value is returned \n
-         *        array object if rows are returned \n
-         *        object if a row is returned \n
-         *         return\n
-         * */
+
+		/**
+		 * Execute the query
+		 * this method is protected
+		 * @param string $query
+		 * @param resource $connection
+		 * @return resource
+		 */
         function _query($query, $connection = null) {
             if($connection == null)
                 $connection = $this->_getConnection('master');
@@ -756,9 +907,11 @@
             return $result;
         }
 
-        /**
-         * @brief DB settings and connect/close
-         * */
+		/**
+		 * DB info settings
+		 * this method is protected
+		 * @return void
+		 */
         function _setDBInfo(){
             $db_info = Context::getDBInfo();
             $this->master_db = $db_info->master_db;
@@ -775,16 +928,33 @@
 			$this->use_prepared_statements = $db_info->use_prepared_statements;
         }
 
+		/**
+		 * DB Connect
+		 * this method is protected
+		 * @param array $connection
+		 * @return void
+		 */
         function __connect($connection){
 
         }
 
+		/**
+		 * If have a task after connection, add a taks in this method
+		 * this method is protected
+		 * @param resource $connection
+		 * @return void
+		 */
         function _afterConnect($connection){
 
         }
-        /**
-         * @brief DB Connection
-         * */
+
+		/**
+		 * DB Connect
+		 * this method is protected
+		 * @param string $type 'master' or 'slave'
+		 * @param int $indx number in slave dbms server list
+		 * @return void
+		 */
         function _connect($type = 'master', $indx = 0) {
             if ($this->isConnected($type, $indx))
                 return;
@@ -813,20 +983,21 @@
 
             $this->_afterConnect($result);
         }
-	/**
-         * @brief start recording DBClass log
-         * @return none
-         **/
+
+		/**
+		 * Start recording DBClass log
+		 * @return void
+		 */
         function actDBClassStart() {
             $this->setError(0, 'success');
             $this->act_dbclass_start = getMicroTime();
             $this->elapsed_dbclass_time = 0;
         }
 
-        /**
-         * @brief finish recording DBClass log
-         * @return none
-         **/
+		/**
+		 * Finish recording DBClass log
+		 * @return void
+		 */
         function actDBClassFinish() {
             if(!$this->query) return;
             $this->act_dbclass_finish = getMicroTime();
@@ -835,14 +1006,16 @@
             $GLOBALS['__dbclass_elapsed_time__'] += $elapsed_dbclass_time;
         }
 
-        /**
-         * Returns a database specific parser class
-         * used for escaping expressions and table/column identifiers
-         *
-         * Requires an implementation of the DB class (won't work if database is not set)
-         *
-         * @remarks singleton
-         */
+		/**
+		 * Returns a database specific parser instance
+		 * used for escaping expressions and table/column identifiers
+		 *
+		 * Requires an implementation of the DB class (won't work if database is not set)
+         * this method is singleton
+		 *
+		 * @param boolean $force force load DBParser instance
+		 * @return DBParser
+		 */
        function &getParser($force = false){
             static $dbParser = null;
             if(!$dbParser || $force) {

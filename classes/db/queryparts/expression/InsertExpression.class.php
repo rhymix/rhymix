@@ -1,15 +1,24 @@
 <?php
-
 	/**
-	 * @class InsertExpression
-	 * @author Arnia Software
-	 * @brief
+	 * InsertExpression
 	 *
+	 * @author Arnia Software
+	 * @package /classes/db/queryparts/expression
+	 * @version 0.1
 	 */
-
 	class InsertExpression extends Expression {
+		/**
+		 * argument
+		 * @var object
+		 */
 		var $argument;
 
+		/**
+		 * constructor
+		 * @param string $column_name
+		 * @param object $argument
+		 * @return void
+		 */
 		function InsertExpression($column_name, $argument){
 			parent::Expression($column_name);
 			$this->argument = $argument;

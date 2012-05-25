@@ -1,15 +1,42 @@
 <?php
-
+	/**
+	 * @author NHN (developers@xpressengine.com)
+	 * @package /classes/db/queryparts/table
+	 * @version 0.1
+	 */
 	class CubridTableWithHint extends Table {
+		/**
+		 * table name
+		 * @var string
+		 */
 		var $name;
+		/**
+		 * table alias
+		 * @var string
+		 */
 		var $alias;
+		/**
+		 * index hint list
+		 * @var array
+		 */
                 var $index_hints_list;
 
+		/**
+		 * constructor
+		 * @param string $name
+		 * @param string $alias
+		 * @param array $index_hints_list
+		 * @return void
+		 */
 		function CubridTableWithHint($name, $alias = NULL, $index_hints_list){
                     parent::Table($name, $alias);
                     $this->index_hints_list = $index_hints_list;
 		}
 
+		/**
+		 * Return index hint string
+		 * @return string
+		 */
 		function getIndexHintString(){
                     $result = '';
 

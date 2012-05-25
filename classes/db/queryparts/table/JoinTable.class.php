@@ -1,19 +1,32 @@
 <?php 
-
 	/**
-	 * @class JoinTable
-	 * @author Arnia Software
-	 * @brief 
-	 * 
-	 * @remarks
+	 * class JoinTable
 	 * 		$conditions in an array of Condition objects 
-	 *
+	 * 
+	 * @author Arnia Software
+	 * @package /classes/db/queryparts/table
+	 * @version 0.1
 	 */
-
 	class JoinTable extends Table {
+		/**
+		 * join type
+		 * @var string
+		 */
 		var $join_type;
+		/**
+		 * condition list
+		 * @var array
+		 */
 		var $conditions;
 		
+		/**
+		 * constructor
+		 * @param string $name
+		 * @param string $alias
+		 * @param string $join_type
+		 * @param array $conditions
+		 * @return void
+		 */
 		function JoinTable($name, $alias, $join_type, $conditions){
 			parent::Table($name, $alias);
 			$this->join_type = $join_type;

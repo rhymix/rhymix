@@ -1,8 +1,27 @@
 <?php 
+	/**
+	 * @author NHN (developers@xpressengine.com)
+	 * @package /classes/db/queryparts/order
+	 * @version 0.1
+	 */
 	class OrderByColumn {
+		/**
+		 * column name
+		 * @var string
+		 */
 		var $column_name;
+		/**
+		 * sort order
+		 * @var string
+		 */
 		var $sort_order;
 		
+		/**
+		 * constructor
+		 * @param string $column_name
+		 * @param string $sort_order
+		 * @return void
+		 */
 		function OrderByColumn($column_name, $sort_order){
 			$this->column_name = $column_name;
 			$this->sort_order = $sort_order;

@@ -1,44 +1,52 @@
 <?php
 	require_once('DBMysql.class.php');
-    /**
-     * @class DBMysqli
-     * @author NHN (developers@xpressengine.com)
-     * @brief Class to use MySQL DBMS as mysqli_*
-     * @version 0.1
-     *
-     * mysql handling class
-     **/
 
-
+	/**
+	 * Class to use MySQLi DBMS as mysqli_*
+	 * mysql handling class
+	 *
+	 * Does not use prepared statements, since mysql driver does not support them
+	 *
+	 * @author NHN (developers@xpressengine.com)
+	 * @package /classes/db
+	 * @version 0.1
+	 **/
     class DBMysqli extends DBMysql {
 
-        /**
-         * @brief constructor
-         **/
+		/**
+		 * Constructor
+		 * @return void
+		 **/
         function DBMysqli() {
             $this->_setDBInfo();
             $this->_connect();
         }
 
-        /**
-         * @brief Return if it is installable
-         **/
+		/**
+		 * Return if supportable
+		 * Check 'mysqli_connect' function exists.
+		 * @return boolean
+		 */
         function isSupported() {
             if(!function_exists('mysqli_connect')) return false;
             return true;
         }
 
 		/**
-		 * @brief create an instance of this class
+		 * Create an instance of this class
+		 * @return DBMysqli return DBMysqli object instance
 		 */
 		function create()
 		{
 			return new DBMysqli;
 		}
 
-        /**
-         * @brief DB Connection
-         **/
+		/**
+		 * DB Connect
+		 * this method is private
+		 * @param array $connection connection's value is db_hostname, db_port, db_database, db_userid, db_password
+		 * @return resource
+		 */
         function __connect($connection) {
             // Attempt to connect
             if ($connection["db_port"]) {
@@ -62,16 +70,21 @@
             return $result;
         }
 
-        /**
-         * @brief DB disconnection
-         **/
+		/**
+		 * DB disconnection
+		 * this method is private
+		 * @param resource $connection
+		 * @return void
+		 */
         function _close($connection) {
             mysqli_close($connection);
         }
 
-        /**
-         * @brief Add quotes on the string variables in a query
-         **/
+		/**
+		 * Handles quatation of the string variables from the query
+		 * @param string $string
+		 * @return string
+		 */
         function addQuotes($string) {
             if(version_compare(PHP_VERSION, "5.9.0", "<") && get_magic_quotes_gpc()) $string = stripslashes(str_replace("\\","\\\\",$string));
             if(!is_numeric($string)){
@@ -81,15 +94,13 @@
             return $string;
         }
 
-        /**
-         * @brief : Run a query and fetch the result
-         *
-         * query: run a query and return the result \n
-         * fetch: NULL if no value is returned \n
-         *        array object if rows are returned \n
-         *        object if a row is returned \n
-         *         return\n
-         **/
+		/**
+		 * Execute the query
+		 * this method is private
+		 * @param string $query
+		 * @param resource $connection
+		 * @return resource
+		 */
         function __query($query, $connection) {
 			if($this->use_prepared_statements == 'Y')
 			{			
@@ -140,6 +151,13 @@
             return $result;
         }
 		
+		/**
+		 * Before execute query, prepare statement
+		 * this method is private
+		 * @param string $types
+		 * @param array $params
+		 * @return void
+		 */
 		function _prepareQueryParameters(&$types, &$params){
 			$types = '';
 			$params = array();
@@ -182,9 +200,12 @@
 			}			
 		}
 		
-       /**
-         * @brief Fetch results
-         **/
+		/**
+		 * Fetch the result
+		 * @param resource $result
+		 * @param int|NULL $arrayIndexEndValue
+		 * @return array
+		 */
         function _fetch($result, $arrayIndexEndValue = NULL) {
 			if($this->use_prepared_statements != 'Y'){
 				return parent::_fetch($result, $arrayIndexEndValue);
@@ -247,6 +268,12 @@
             return $output;
         }		
 		
+		/**
+		 * Handles insertAct
+		 * @param Object $queryObject
+		 * @param boolean $with_values
+		 * @return resource
+		 */
 		function _executeInsertAct($queryObject, $with_values = false){
 			if($this->use_prepared_statements != 'Y')
 			{
@@ -258,6 +285,12 @@
 			return $result;
 		}
 		
+		/**
+		 * Handles updateAct
+		 * @param Object $queryObject
+		 * @param boolean $with_values
+		 * @return resource
+		 */
 		function _executeUpdateAct($queryObject, $with_values = false) {
 			if($this->use_prepared_statements != 'Y')
 			{
@@ -269,6 +302,12 @@
 			return $result;
 		}
 		
+		/**
+		 * Handles deleteAct
+		 * @param Object $queryObject
+		 * @param boolean $with_values
+		 * @return resource
+		 */
 		function _executeDeleteAct($queryObject, $with_values = false) {
 			if($this->use_prepared_statements != 'Y')
 			{
@@ -280,6 +319,15 @@
 			return $result;
 		}		
 		
+		/**
+		 * Handle selectAct
+		 * In order to get a list of pages easily when selecting \n
+		 * it supports a method as navigation
+		 * @param Object $queryObject
+		 * @param resource $connection
+		 * @param boolean $with_values
+		 * @return Object
+		 */
 		function _executeSelectAct($queryObject, $connection = null, $with_values = false) {
 			if($this->use_prepared_statements != 'Y')
 			{
@@ -291,17 +339,33 @@
 			return $result;
 		}
 
+		/**
+		 * Get the ID generated in the last query
+		 * Return next sequence from sequence table
+		 * This method use only mysql
+		 * @return int
+		 */
 		function db_insert_id()
 		{
             $connection = $this->_getConnection('master');
             return  mysqli_insert_id($connection);
 		}
 
+		/**
+		 * Fetch a result row as an object
+		 * @param resource $result
+		 * @return object
+		 */
 		function db_fetch_object(&$result)
 		{
 			return mysqli_fetch_object($result);
 		}
 		
+		/**
+		 * Free result memory
+		 * @param resource $result
+		 * @return boolean Returns TRUE on success or FALSE on failure.
+		 */
 		function db_free_result(&$result){
 			return mysqli_free_result($result);		
 		}		

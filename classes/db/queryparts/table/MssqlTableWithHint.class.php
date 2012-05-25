@@ -1,10 +1,33 @@
 <?php
-
+	/**
+	 * @author NHN (developers@xpressengine.com)
+	 * @package /classes/db/queryparts/table
+	 * @version 0.1
+	 */
 	class MssqlTableWithHint extends Table {
+		/**
+		 * table name
+		 * @var string
+		 */
 		var $name;
+		/**
+		 * table alias
+		 * @var string
+		 */
 		var $alias;
+		/**
+		 * index hint type, ex) IGNORE, FORCE, USE...
+		 * @var array
+		 */
                 var $index_hints_list;
 
+		/**
+		 * constructor
+		 * @param string $name
+		 * @param string $alias
+		 * @param string $index_hints_list
+		 * @return void
+		 */
 		function MssqlTableWithHint($name, $alias = NULL, $index_hints_list){
                     parent::Table($name, $alias);
                     $this->index_hints_list = $index_hints_list;

@@ -1,14 +1,17 @@
 <?php 
-
 	/**
-	 * @class StarExpression
-	 * @author Corina
-	 * @brief Represents the * in 'select * from ...' statements 
+	 * StarExpression
+	 * Represents the * in 'select * from ...' statements 
 	 *
+	 * @author Corina
+	 * @package /classes/db/queryparts/expression
+	 * @version 0.1
 	 */
-
 	class StarExpression extends SelectExpression {
-		
+		/**
+		 * constructor, set the column to asterisk
+		 * @return void
+		 */
 		function StarExpression(){
 			parent::SelectExpression("*");
 		}

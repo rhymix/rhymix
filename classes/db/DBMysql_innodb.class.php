@@ -1,79 +1,87 @@
 <?php
 	require_once('DBMysql.class.php');
 
-    /**
-     * @class DBMysql_innodb
-     * @author NHN (developers@xpressengine.com)
-     * @brief class to use MySQL DBMS
-     * @version 0.1
-     *
-     * mysql innodb handling class
-	 * 
-	 * Does not use prepared statements since the mysql driver does not support them
-     **/
-
+	/**
+	 * Class to use MySQL innoDB DBMS
+	 * mysql innodb handling class
+	 *
+	 * Does not use prepared statements, since mysql driver does not support them
+	 *
+	 * @author NHN (developers@xpressengine.com)
+	 * @package /classes/db
+	 * @version 0.1
+	 **/
     class DBMysql_innodb extends DBMysql {
 
-        /**
-         * @brief constructor
-         **/
+		/**
+		 * Constructor
+		 * @return void
+		 **/
         function DBMysql_innodb() {
             $this->_setDBInfo();
             $this->_connect();
         }
 
 		/**
-		 * @brief create an instance of this class
+		 * Create an instance of this class
+		 * @return DBMysql_innodb return DBMysql_innodb object instance
 		 */
 		function create()
 		{
 			return new DBMysql_innodb;
 		}
 
-        /**
-         * @brief DB disconnection
-         **/
+		/**
+		 * DB disconnection
+		 * this method is private
+		 * @param resource $connection
+		 * @return void
+		 */
         function _close($connection) {
             $this->_query("commit", $connection);
             @mysql_close($connection);
         }
 
-        /**
-         * @brief Begin transaction
-         **/
+		/**
+		 * DB transaction start
+		 * this method is private
+		 * @return boolean
+		 */
         function _begin() {
             $connection = $this->_getConnection('master');
             $this->_query("begin", $connection);
             return true;
         }
 
-        /**
-         * @brief Rollback
-         **/
+		/**
+		 * DB transaction rollback
+		 * this method is private
+		 * @return boolean
+		 */
         function _rollback() {
             $connection = $this->_getConnection('master');
             $this->_query("rollback", $connection);
             return true;
         }
 
-        /**
-         * @brief Commits
-         **/
+		/**
+		 * DB transaction commit
+		 * this method is private
+		 * @return boolean
+		 */
         function _commit() {
             $connection = $this->_getConnection('master');
             $this->_query("commit", $connection);
             return true;
         }
 
-        /**
-         * @brief : Run a query and fetch the result
-         *
-         * query: run a query and return the result \n
-         * fetch: NULL if no value is returned \n
-         *        array object if rows are returned \n
-         *        object if a row is returned \n
-         *         return\n
-         **/
+		/**
+		 * Execute the query
+		 * this method is private
+		 * @param string $query
+		 * @param resource $connection
+		 * @return resource
+		 */
         function __query($query, $connection) {
             // Run the query statement
             $result = @mysql_query($query, $connection);
@@ -83,13 +91,15 @@
             return $result;
         }
 
-        /**
-         * @brief generate a query statement to create a table by using schema xml
-         *
-         * type : number, varchar, text, char, date, \n
-         * opt : notnull, default, size\n
-         * index : primary key, index, unique\n
-         **/
+		/**
+		 * Create table by using the schema xml
+		 *
+		 * type : number, varchar, tinytext, text, bigtext, char, date, \n
+		 * opt : notnull, default, size\n
+		 * index : primary key, index, unique\n
+		 * @param string $xml_doc xml schema contents
+		 * @return void|object
+		 */
         function _createTable($xml_doc) {
             // xml parsing
             $oXml = new XmlParser();

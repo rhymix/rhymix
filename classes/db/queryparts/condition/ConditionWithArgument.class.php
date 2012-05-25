@@ -1,7 +1,19 @@
 <?php
-
+	/**
+	 * @author NHN (developers@xpressengine.com)
+	 * @package /classes/db/queryparts/condition
+	 * @version 0.1
+	 */
 	class ConditionWithArgument extends Condition {
 
+		/**
+		 * constructor
+		 * @param string $column_name
+		 * @param mixed $argument
+		 * @param string $operation
+		 * @param string $pipe
+		 * @return void
+		 */
             function ConditionWithArgument($column_name, $argument, $operation, $pipe = ""){
                     if($argument === null) { $this->_show = false; return; }
                         parent::Condition($column_name, $argument, $operation, $pipe);
@@ -13,6 +25,10 @@
                     return $this->argument;
 		}
 
+		/**
+		 * change string without value
+		 * @return string
+		 */
 		function toStringWithoutValue(){
 			$value = $this->argument->getUnescapedValue();
 
@@ -37,6 +53,9 @@
 			return $this->pipe . ' ' . $this->getConditionPart($q);
 		}
 
+		/**
+		 * @return boolean
+		 */
 		function show(){
                     if(!isset($this->_show)){
                         if(!$this->argument->isValid()) $this->_show = false;

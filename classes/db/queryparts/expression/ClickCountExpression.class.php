@@ -1,15 +1,24 @@
 <?php 
-
 	/**
-	 * @class ClickCountExpression
+	 * ClickCountExpression
 	 * @author Arnia Software
-	 * @brief 
-	 *
+	 * @package /classes/db/queryparts/expression
+	 * @version 0.1
 	 */
-
 	class ClickCountExpression extends SelectExpression {
+		/**
+		 * click count
+		 * @var boolean
+		 */
 		var $click_count;
 	
+		/**
+		 * constructor
+		 * @param string $column_name
+		 * @param string $alias
+		 * @param boolean $click_count
+		 * @return void
+		 */
 		function ClickCountExpression($column_name, $alias = NULL, $click_count = false){
 			parent::SelectExpression($column_name, $alias);
 			
@@ -25,6 +34,10 @@
 			return $this->click_count;
 		}
 		
+		/**
+		 * Return column expression, ex) column = column + 1
+		 * @return string
+		 */
 		function getExpression(){
 			return "$this->column_name = $this->column_name + 1";
 		}

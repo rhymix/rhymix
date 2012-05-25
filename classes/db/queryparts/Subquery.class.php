@@ -1,9 +1,33 @@
 <?php
-
+	/**
+	 * @author NHN (developers@xpressengine.com)
+	 * @package /classes/db/queryparts
+	 * @version 0.1
+	 */
 	class Subquery extends Query {
+		/**
+		 * table alias
+		 * @var string
+		 */
 		var $alias;
+		/**
+		 * join type
+		 * @var string
+		 */
 		var $join_type;
 
+		/**
+		 * constructor
+		 * @param string $alias
+		 * @param string|array $columns
+		 * @param string|array $tables
+		 * @param string|array $conditions
+		 * @param string|array $groups
+		 * @param string|array $orderby
+		 * @param int $limit
+		 * @param string $join_type
+		 * @return void
+		 */
 		function Subquery($alias, $columns, $tables, $conditions, $groups, $orderby, $limit, $join_type = null){
 			$this->alias = $alias;
 

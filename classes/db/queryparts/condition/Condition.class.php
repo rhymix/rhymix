@@ -1,9 +1,26 @@
 <?php
-
+	/**
+	 * @author NHN (developers@xpressengine.com)
+	 * @package /classes/db/queryparts/condition
+	 * @version 0.1
+	 */
 	class Condition {
+		/**
+		 * column name
+		 * @var string
+		 */
 		var $column_name;
 		var $argument;
+		/**
+		 * operation can use 'equal', 'more', 'excess', 'less', 'below', 'like_tail', 'like_prefix', 'like', 'notlike_tail',
+		 * 'notlike_prefix', 'notlike', 'in', 'notin', 'and', 'or', 'xor', 'not', 'notequal', 'between'
+		 * @var string
+		 */
 		var $operation;
+		/**
+		 * pipe can use 'and', 'or'...
+		 * @var string
+		 */
 		var $pipe;
 
 		var $_value;
@@ -11,6 +28,14 @@
                 var $_show;
                 var $_value_to_string;
 
+		/**
+		 * constructor
+		 * @param string $column_name
+		 * @param mixed $argument
+		 * @param string $operation
+		 * @param string $pipe
+		 * @return void
+		 */
 		function Condition($column_name, $argument, $operation, $pipe){
 			$this->column_name = $column_name;
 			$this->argument = $argument;
@@ -23,6 +48,11 @@
 			return null;
 		}
 
+		/**
+		 * value to string
+		 * @param boolean $withValue
+		 * @return string
+		 */
 		function toString($withValue = true){
 			if (!isset($this->_value_to_string)) {
 				if (!$this->show()) 
@@ -41,10 +71,18 @@
 			return $this->_value_to_string;
 		}
 
+		/**
+		 * change string without value
+		 * @return string
+		 */
 		function toStringWithoutValue(){
                     return $this->pipe . ' ' . $this->getConditionPart($this->_value);
 		}
 
+		/**
+		 * change string with value
+		 * @return string
+		 */
 		function toStringWithValue(){
                     return $this->pipe . ' ' . $this->getConditionPart($this->_value);
 		}
@@ -53,6 +91,9 @@
 			$this->pipe = $pipe;
 		}
 
+		/**
+		 * @return boolean
+		 */
 		function show(){
                     if(!isset($this->_show)){
                         if(is_array($this->_value) && count($this->_value) === 1 && $this->_value[0] === '') {
@@ -93,6 +134,11 @@
                     return $this->_show;
 		}
 
+		/**
+		 * Return condition string
+		 * @param int|string|array $value
+		 * @return string
+		 */
 		function getConditionPart($value) {
                     $name = $this->column_name;
                     $operation = $this->operation;
