@@ -876,7 +876,7 @@
 		 */
 		function getDocumentMid() {
 			$model = &getModel('module');
-			$module = $model->getModuleInfoByModuleSrl( this->get('module_srl'));
+			$module = $model->getModuleInfoByModuleSrl($this->get('module_srl'));
 			return $module->mid;
 		}
 
@@ -885,7 +885,7 @@
 		 */
 		function getDocumentType() {
 			$model = &getModel('module');
-			$module = $model->getModuleInfoByModuleSrl( this->get('module_srl'));
+			$module = $model->getModuleInfoByModuleSrl($this->get('module_srl'));
 			return $module->module;
 		}
 
