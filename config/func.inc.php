@@ -1,15 +1,13 @@
 <?php
     /**
-     * @file   config/func.inc.php
+     * function library files for convenience
+	 *
      * @author NHN (developers@xpressengine.com)
-     * @brief function library files for convenience
     **/
 
     if(!defined('__XE__') && !defined('__ZBXE__')) exit();
 
-    /**
-     * @brief define clone for php5
-     **/
+    // define clone for php5
     if (version_compare(phpversion(), '5.0') < 0) {
         eval('
             function clone($object) {
@@ -18,9 +16,7 @@
         ');
     }
 
-    /**
-     * @brief define an empty function to avoid errors when iconv function doesn't exist
-     **/
+    // define an empty function to avoid errors when iconv function doesn't exist
     if(!function_exists('iconv')) {
         eval('
             function iconv($in_charset, $out_charset, $str) {
@@ -31,13 +27,22 @@
 
 	if ( !function_exists('htmlspecialchars_decode') )
 	{
+		/**
+		 * Decode html special characters
+		 *
+		 * @param string $text
+		 * @return string
+		 */
 		function htmlspecialchars_decode($text)
 		{
 			return strtr($text, array_flip(get_html_translation_table(HTML_SPECIALCHARS)));
 		}
 	}
 
-    // time zone
+    /**
+	 * Time zone
+	 * @var array
+	 */
     $time_zone = array(
         '-1200' => '[GMT -12:00] Baker Island Time',
         '-1100' => '[GMT -11:00] Niue Time, Samoa Standard Time',
@@ -81,111 +86,125 @@
     ) ;
 
     /**
-     * @brief define a function to use ModuleHandler::getModuleObject ($module_name, $type)
-     * @param module_name
-     * @param type disp, proc, controller, class
-     * @param kind admin, null
-     * @return module instance
-     **/
+     * Define a function to use {@see ModuleHandler::getModuleObject()} ($module_name, $type)
+	 *
+     * @param string $module_name The module name to get a instance
+     * @param string $type disp, proc, controller, class
+     * @param string $kind admin, null
+     * @return mixed Module instance
+     */
     function &getModule($module_name, $type = 'view', $kind = '') {
         return ModuleHandler::getModuleInstance($module_name, $type, $kind);
     }
 
     /**
-     * @brief create a controller instance of the module
-     * @param module_name
-     * @return module controller instance
-     **/
+     * Create a controller instance of the module
+	 *
+     * @param string $module_name The module name to get a controller instance
+     * @return mixed Module controller instance
+     */
     function &getController($module_name) {
         return getModule($module_name, 'controller');
     }
 
     /**
-     * @brief create a controller instance of the module
-     * @param module_name
-     * @return module admin controller instance
+     * Create a admin controller instance of the module
+	 *
+     * @param string $module_name The module name to get a admin controller instance
+     * @return mixed Module admin controller instance
      **/
     function &getAdminController($module_name) {
         return getModule($module_name, 'controller','admin');
     }
 
     /**
-     * @brief create a view instance of the module
-     * @param module_name
-     * @return module view instance
+     * Create a view instance of the module
+	 *
+     * @param string $module_name The module name to get a view instance
+     * @return mixed Module view instance
      **/
     function &getView($module_name) {
         return getModule($module_name, 'view');
     }
 
     /**
-     * @brief create a view instance of the module
-     * @param module_name
-     * @return module mobile instance
+     * Create a mobile instance of the module
+	 *
+     * @param string $module_name The module name to get a mobile instance
+     * @return mixed Module mobile instance
      **/
     function &getMobile($module_name) {
         return getModule($module_name, 'mobile');
     }
 
     /**
-     * @brief module의 admin view 객체 생성용
-     * @param module_name 모듈이름
-     * @return module admin view instance
+     * Create a admin view instance of the module
+	 *
+     * @param string $module_name The module name to get a admin view instance
+     * @return mixed Module admin view instance
      **/
     function &getAdminView($module_name) {
         return getModule($module_name, 'view','admin');
     }
 
     /**
-     * @brief create a model instance of the module
-     * @param module_name
-     * @return module model instance
+     * Create a model instance of the module
+	 *
+     * @param string $module_name The module name to get a model instance
+     * @return mixed Module model instance
      **/
     function &getModel($module_name) {
         return getModule($module_name, 'model');
     }
 
     /**
-     * @brief create an admin model instance of the module
-     * @param module_name
-     * @return module admin model instance
+     * Create an admin model instance of the module
+	 *
+     * @param string $module_name The module name to get a admin model instance
+     * @return mixed Module admin model instance
      **/
     function &getAdminModel($module_name) {
         return getModule($module_name, 'model','admin');
     }
 
     /**
-     * @brief create an api instance of the module
-     * @param module_name
-     * @return module api class instance
+     * Create an api instance of the module
+	 *
+     * @param string $module_name The module name to get a api instance
+     * @return mixed Module api class instance
      **/
     function &getAPI($module_name) {
         return getModule($module_name, 'api');
     }
 
     /**
-     * @brief create a wap instance of the module
-     * @param module_name
-     * @return module wap class instance
+     * Create a wap instance of the module
+	 *
+     * @param string $module_name The module name to get a wap instance
+     * @return mixed Module wap class instance
      **/
     function &getWAP($module_name) {
         return getModule($module_name, 'wap');
     }
 
     /**
-     * @brief create a class instance of the module
-     * @param module_name
-     * @return module class instance
+     * Create a class instance of the module
+	 *
+     * @param string $module_name The module name to get a class instance
+     * @return mixed Module class instance
      **/
     function &getClass($module_name) {
         return getModule($module_name, 'class');
     }
 
     /**
-     * @brief the alias of DB::executeQuery() 
-     * @param query_id (module name.query XML file)
-     * @param argument values of args object
-     * @return results
+     * The alias of DB::executeQuery()
+	 *
+	 * @see DB::executeQuery()
+     * @param string $query_id (module name.query XML file)
+     * @param object $args values of args object
+	 * @param string[] $arg_columns Column list
+     * @return object Query result data
      **/
     function executeQuery($query_id, $args = null, $arg_columns = null) {
         $oDB = &DB::getInstance();
@@ -193,10 +212,14 @@
     }
 
     /**
-     * @brief function to handle the result of DB::executeQuery() as an array
-     * @param query_id(module name.query XML file)
-     * @param argument values of args object
-     * @return results
+     * Function to handle the result of DB::executeQuery() as an array
+	 *
+	 * @see DB::executeQuery()
+	 * @see executeQuery()
+     * @param string $query_id (module name.query XML file)
+     * @param object $args values of args object
+	 * @param string[] $arg_columns Column list
+     * @return object Query result data
      **/
     function executeQueryArray($query_id, $args = null, $arg_columns = null) {
         $oDB = &DB::getInstance();
@@ -208,8 +231,10 @@
     }
 
     /**
-     * @brief DB:: alias of getNextSequence() 
-     * @return big int
+     * Alias of DB::getNextSequence()
+	 *
+	 * @see DB::getNextSequence()
+     * @return int
      **/
     function getNextSequence() {
         $oDB = &DB::getInstance();
@@ -217,14 +242,17 @@
     }
 
     /**
-     * @brief define a function to use Context::getUrl()
+     * Get a encoded url. Define a function to use Context::getUrl()
+	 *
+     * getUrl() returns the URL transformed from given arguments of RequestURI
+	 * <ol>
+     *  <li>argument format follows as (key, value).
+     * ex) getUrl('key1', 'val1', 'key2',''): transform key1 and key2 to val1 and '' respectively</li>
+     * <li>returns URL without the argument if no argument is given.</li>
+     * <li>URL made of args_list added to RequestUri if the first argument value is ''.</li>
+	 * </ol>
+	 *
      * @return string
-     *
-     * getUrl() returns the URL transformed from given arguments of RequestURI\n
-     * 1. argument format follows as (key, value).\.
-     * ex) getUrl('key1', 'val1', 'key2',''): transform key1 and key2 to val1 and '' respectively\n
-     * 2. returns URL without the argument if no argument is given.
-     * 3. URL made of args_list added to RequestUri if the first argument value is ''.
      **/
     function getUrl() {
         $num_args  = func_num_args();
@@ -236,6 +264,12 @@
 		return preg_replace('@\berror_return_url=[^&]*|\w+=(?:&|$)@', '', $url);
     }
 
+	/**
+	 * Get a not encoded(html entity) url
+	 *
+	 * @see getUrl()
+	 * @return string
+	 */
     function getNotEncodedUrl() {
         $num_args = func_num_args();
         $args_list = func_get_args();
@@ -246,6 +280,12 @@
 		return preg_replace('@\berror_return_url=[^&]*|\w+=(?:&|$)@', '', $url);
     }
 
+	/**
+	 * Get a encoded url. If url is encoded, not encode. Otherwise html encode the url.
+	 *
+	 * @see getUrl()
+	 * @return string
+	 */
     function getAutoEncodedUrl() {
         $num_args = func_num_args();
         $args_list = func_get_args();
@@ -255,9 +295,11 @@
 
 		return preg_replace('@\berror_return_url=[^&]*|\w+=(?:&|$)@', '', $url);
     }
+
     /**
-     * @brief return the value adding request uri to getUrl()
-     * to get the full url
+     * Return the value adding request uri to getUrl() to get the full url
+	 *
+	 * @return string
      **/
     function getFullUrl() {
         $num_args = func_num_args();
@@ -273,6 +315,11 @@
         return $url;
     }
 
+    /**
+     * Return the value adding request uri to getUrl() to get the not encoded full url
+	 *
+	 * @return string
+     **/
     function getNotEncodedFullUrl() {
         $num_args = func_num_args();
         $args_list = func_get_args();
@@ -289,12 +336,10 @@
     }
 
     /**
-     * @brief Context:: getUrl() function is declared as easier to write
-     * @return string
-     *
-     * getSiteUrl() returns the URL by transforming the given argument value of domain\n
+     * getSiteUrl() returns the URL by transforming the given argument value of domain
      * The first argument should consist of domain("http://" not included) and path
      * 
+     * @return string
      **/
     function getSiteUrl() {
         $num_args = func_num_args();
@@ -308,6 +353,12 @@
         return Context::getUrl($num_args, $args_list, $domain);
     }
 
+    /**
+     * getSiteUrl() returns the not encoded URL by transforming the given argument value of domain
+     * The first argument should consist of domain("http://" not included) and path
+     * 
+     * @return string
+     **/
     function getNotEncodedSiteUrl() {
         $num_args = func_num_args();
         $args_list = func_get_args();
@@ -321,8 +372,9 @@
     }
 
     /**
-     * @brief return the value adding request uri to the getSiteUrl()
-     * To get the full url
+     * Return the value adding request uri to the getSiteUrl() To get the full url
+     *
+	 * @return string
      **/
     function getFullSiteUrl() {
         $num_args = func_num_args();
@@ -343,17 +395,21 @@
     }
 
     /**
-     * @brief return if domain of the virtual site is url type or id type
+     * Return if domain of the virtual site is url type or id type
+	 *
+	 * @param string $domain
+	 * @return bool
      **/
     function isSiteID($domain) {
         return preg_match('/^([a-z0-9\_]+)$/i', $domain);
     }
 
     /**
-     * @brief put a given tail after trimming string to the specified size
-     * @param the original string to trim
-     * @param cut_size: the size to be
-     * @param tail: tail to put in the end of the string after trimming
+     * Put a given tail after trimming string to the specified size
+	 *
+     * @param string $string The original string to trim
+     * @param int $cut_size The size to be
+     * @param string $tail Tail to put in the end of the string after trimming
      * @return string
      **/
 	function cut_str($string, $cut_size = 0, $tail = '...')
@@ -403,6 +459,11 @@
 		return $output;
 	}
 
+	/**
+	 * Get a time gap between server's timezone and XE's timezone
+	 *
+	 * @return int
+	 */
     function zgap() {
         $time_zone = $GLOBALS['_time_zone'];
         if($time_zone < 0) $to = -1; else $to = 1;
@@ -422,8 +483,9 @@
     }
 
     /**
-     * @brief YYYYMMDDHHIISS format changed to unix time value
-     * @param str: time value in format of YYYYMMDDHHIISS
+     * YYYYMMDDHHIISS format changed to unix time value
+	 *
+     * @param string $str Time value in format of YYYYMMDDHHIISS
      * @return int
      **/
     function ztime($str) {
@@ -444,7 +506,11 @@
     }
 
     /**
-     * @brief If the recent post within a day, output format of YmdHis is "min/hours ago from now". If not within a day, it return format string.
+     * If the recent post within a day, output format of YmdHis is "min/hours ago from now". If not within a day, it return format string.
+	 *
+	 * @param string $date Time value in format of YYYYMMDDHHIISS
+	 * @param string $format If gap is within a day, returns this format.
+	 * @return string
      **/
     function getTimeGap($date, $format = 'Y.m.d') {
         $gap = time() + zgap() - ztime($date);
@@ -459,7 +525,11 @@
     }
 
     /**
-     * @brief Name of the month return
+     * Name of the month return
+	 *
+	 * @param int $month Month
+	 * @param boot $short If set, returns short string
+	 * @return string
      **/
     function getMonthName($month, $short = true) {
         $short_month = array('','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec');
@@ -468,10 +538,11 @@
     }
 
     /**
-     * @brief change the time format YYYYMMDDHHIISS to the user defined format
-     * @param string|int str is YYYYMMDDHHIISS format time values
-     * @param string format is time format of php date() function
-     * @param bool conversion means whether to convert automatically according to the language
+     * Change the time format YYYYMMDDHHIISS to the user defined format
+	 *
+     * @param string|int $str YYYYMMDDHHIISS format time values
+     * @param string $format Time format of php date() function
+     * @param bool $conversion Means whether to convert automatically according to the language
      * @return string
      **/
     function zdate($str, $format = 'Y-m-d H:i:s', $conversion=true) {
@@ -537,6 +608,12 @@
         return $string;
     }
 
+	/**
+	 * Returns encoded value of given email address for email scraping
+	 *
+	 * @param string $email The email
+	 * @return string
+	 */
 	function getEncodeEmailAddress($email) {
 	    $return = '';
 		for ($i=0,$c=strlen($email);$i<$c;$i++) {
@@ -546,13 +623,15 @@
 	}
 
     /**
-     * @brief prints debug messages 
-     * @param debug_output target object to be printed
-     * @param display_line boolean flag whether to print seperator (default:true)
-     * @return none
-     *
+     * Prints debug messages 
+	 *
      * Display $buff contents into the file ./files/_debug_message.php.
      * You can see the file on your prompt by command: tail-f./files/_debug_message.php
+	 *
+     * @param mixed $debug_output Target object to be printed
+     * @param bool $display_option boolean Flag whether to print seperator (default:true)
+	 * @param string $file Target file name
+     * @return void
      **/
     function debugPrint($debug_output = null, $display_option = true, $file = '_debug_message.php') {
         if(!(__DEBUG__ & 1)) return;
@@ -608,7 +687,8 @@
 
 
     /**
-     * @brief microtime() return
+     * microtime() return
+	 *
      * @return float
      **/
     function getMicroTime() {
@@ -617,9 +697,10 @@
     }
 
     /**
-     * @brief Delete the second object vars from the first argument
-     * @param target_obj is an original object
-     * @param del_obj is object vars to delete from the original object
+     * Delete the second object vars from the first argument
+	 *
+     * @param object $target_obj An original object
+     * @param object $del_obj Object vars to delete from the original object
      * @return object
      **/
     function delObjectVars($target_obj, $del_obj) {
@@ -645,11 +726,13 @@
     }
 
     /**
-     * @brief change error_handing to debugPrint on php5 higher 
-     * @param errno
-     * @param errstr
-     * @return file
-     * @return line
+     * Change error_handing to debugPrint on php5 higher 
+	 *
+     * @param int $errno
+     * @param string $errstr
+     * @param string $file
+     * @param int $line
+	 * @return void
      **/
     function handleError($errno, $errstr, $file, $line) {
         if(!__DEBUG__) return;
@@ -663,9 +746,10 @@
     }
 
     /**
-     * @brief Trim a given number to a fiven size recursively
-     * @param no : a given number
-     * @param size : a given digits
+     * Trim a given number to a fiven size recursively
+	 *
+     * @param int $no A given number
+     * @param int $size A given digits
      **/
     function getNumberingPath($no, $size=3) {
         $mod = pow(10, $size);
@@ -675,14 +759,20 @@
     }
 
     /**
-     * @brief decode the URL in Korean
+     * Decode the URL in Korean
+	 *
+	 * @param string $str The url
+	 * @return string
      **/
     function url_decode($str) {
         return preg_replace('/%u([[:alnum:]]{4})/', '&#x\\1;',$str);
     }
 
     /**
-     * @brief Pre-block the codes which may be hacking attempts
+     * Pre-block the codes which may be hacking attempts
+	 *
+	 * @param string $content Taget content
+	 * @return string
      **/
     function removeHackTag($content) {
         // change the specific tags to the common texts
@@ -700,7 +790,10 @@
     }
 
     /**
-     * @brief xmp tag 확인 및 닫히지 않은 경우 추가
+     * Check xmp tag, close it.
+	 *
+	 * @param string $content Target content
+	 * @return string
      **/
 	function checkXmpTag($content) {
 		$content = preg_replace('@<(/?)xmp.*?>@i', '<\1xmp>', $content);
@@ -713,6 +806,12 @@
 		return $content;
 	}
 
+	/**
+	 * Remove src hack(preg_replace_callback)
+	 *
+	 * @param array $match
+	 * @return string
+	 */
     function removeSrcHack($match) {
         $tag = strtolower($match[2]);
 
@@ -762,6 +861,12 @@
 
     // convert hexa value to RGB
     if(!function_exists('hexrgb')) {
+		/**
+		 * Convert hexa value to RGB
+		 *
+		 * @param string $hexstr
+		 * @return array
+		 */
         function hexrgb($hexstr) {
           $int = hexdec($hexstr);
 
@@ -772,9 +877,12 @@
     }
 
     /**
-     * @brief php function for mysql old_password()
+     * Php function for mysql old_password()
      * provides backward compatibility for zero board4 which uses old_password() of mysql 4.1 earlier versions. 
      * the function implemented by referring to the source codes of password.c file in mysql
+	 *
+	 * @param string $password
+	 * @return string
      **/
     function mysql_pre4_hash_password($password) {
         $nr = 1345345333;
@@ -800,7 +908,9 @@
     }
 
     /**
-     * return the requested script path
+     * Return the requested script path
+	 *
+	 * @return string
      **/
     function getScriptPath() {
         static $url = null;
@@ -809,7 +919,9 @@
     }
 
     /**
-     * return the requested script path
+     * Return the requested script path
+	 *
+	 * @return string
      **/
 	function getRequestUriByServerEnviroment()
 	{
@@ -817,9 +929,12 @@
 	}
 
     /**
-     * php unescape function of javascript's escape
+     * PHP unescape function of javascript's escape
      * Function converts an Javascript escaped string back into a string with specified charset (default is UTF-8).
      * Modified function from http://pure-essence.net/stuff/code/utf8RawUrlDecode.phps
+	 *
+	 * @param string $source
+	 * @return string
      **/
     function utf8RawUrlDecode ($source) {
         $decodedStr = '';
@@ -852,6 +967,12 @@
         return $decodedStr;
     }
 
+	/**
+	 * Returns utf-8 string of given code
+	 *
+	 * @param int $num
+	 * @return string
+	 */
     function _code2utf($num){
         if($num<128)return chr($num);
         if($num<2048)return chr(($num>>6)+192).chr(($num&63)+128);
@@ -860,7 +981,14 @@
         return '';
     }
 
-
+	/**
+	 * Get whether utf8 or not given string
+	 *
+	 * @param string $string
+	 * @param bool $return_convert If set, returns converted string
+	 * @param bool $urldecode
+	 * @return bool|string
+	 */
     function detectUTF8($string, $return_convert = false, $urldecode = true) {
         if($urldecode) $string = urldecode($string);
 
@@ -874,7 +1002,12 @@
         return $is_utf8;
     }
 
-
+	/**
+	 * get json encoded string of data
+	 *
+	 * @param mixed $data
+	 * @return string
+	 */
     function json_encode2($data) {
         switch (gettype($data)) {
             case 'boolean':
@@ -907,7 +1040,12 @@
         }
     }
 
-
+	/**
+	 * Get is current user crawler
+	 *
+	 * @param string $agent if set, use this value instead HTTP_USER_AGENT
+	 * @return bool
+	 */
     function isCrawler($agent = null) {
         if(!$agent) $agent = $_SERVER['HTTP_USER_AGENT'];
         $check_agent = array('bot', 'spider', 'google', 'yahoo', 'daum', 'teoma', 'fish', 'hanrss', 'facebook');
@@ -929,6 +1067,13 @@
         return false;
     }
 
+	/**
+	 * Remove embed media for admin
+	 *
+	 * @param string $content
+	 * @param int $writer_member_srl
+	 * @return void
+	 */
 	function stripEmbedTagForAdmin(&$content, $writer_member_srl)
 	{
 		if(!Context::get('is_logged')) return;
@@ -955,6 +1100,11 @@
 		return;
 	}
 
+	/**
+	 * Require pear
+	 *
+	 * @return void
+	 */
 	function requirePear()
 	{
 		if(version_compare(PHP_VERSION, "5.3.0") < 0)
@@ -968,6 +1118,11 @@
 		}
 	}
 
+	/**
+	 * Print raw html header
+	 *
+	 * @return void
+	 */
 	function htmlHeader()
 	{
 		echo <<<HTMLHEADER
@@ -980,22 +1135,44 @@
 HTMLHEADER;
 	}
 
+	/**
+	 * Print raw html footer
+	 *
+	 * @return void
+	 */
 	function htmlFooter()
 	{
 		echo '</body></html>';
 	}
 
+	/**
+	 * Print raw alert message script
+	 *
+	 * @param string $msg
+	 * @return void
+	 */
 	function alertScript($msg)
 	{
 		if(!$msg) return;
 		echo '<script type="text/javascript">alert("'.$msg.'");</script>';
 	}
 
+	/**
+	 * Print raw close window script
+	 *
+	 * @return void
+	 */
 	function closePopupScript()
 	{
 		echo '<script type="text/javascript">window.close();</script>';
 	}
 
+	/**
+	 * Print raw reload script
+	 *
+	 * @param bool $isOpener
+	 * @return void
+	 */
 	function reload($isOpener = false)
 	{
 		$reloadScript = $isOpener ? 'window.opener.location.reload()' : 'document.location.reload()';
