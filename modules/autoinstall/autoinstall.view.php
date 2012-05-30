@@ -1,19 +1,24 @@
 <?php
 
     /**
-     * @class  autoinstallView
+     * View class of the autoinstall module
      * @author NHN (developers@xpressengine.com)
-     * @brief View class of the autoinstall module
      **/
-
     class autoinstallView extends autoinstall {
 
         /**
-         * @brief Initialization
+         * Initialization
+		 *
+		 * @return void
          **/
         function init() {
 		}
 
+		/**
+		 * Test
+		 *
+		 * @return Object
+		 */
 		function dispAutoinstallTest(){
 			$file = "modules.test.tar";
             $checksum = '549989037bd8401d39b83ca2393d8131';

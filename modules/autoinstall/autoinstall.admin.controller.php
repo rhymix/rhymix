@@ -1,29 +1,47 @@
 <?php
-    /**
-     * @class  autoinstallAdminController
-     * @author NHN (developers@xpressengine.com)
-     * @brief autoinstall module admin controller class
-     **/
 
     require_once(_XE_PATH_.'modules/autoinstall/autoinstall.lib.php');
 
+    /**
+     * autoinstall module admin controller class
+	 *
+     * @author NHN (developers@xpressengine.com)
+     **/
     class autoinstallAdminController extends autoinstall {
 
         /**
-         * @brief Initialization
+         * Initialization
          **/
         function init() {
         }
 
+		/**
+		 * Check file checksum is equal
+		 *
+		 * @param string $file local file path
+		 * @param string $checksum Recieved checksum from server
+		 * @return bool Returns true on equal local checksum and recieved checksum, otherwise false.
+		 */
         function checkFileCheckSum($file, $checksum){
             $local_checksum = md5_file(FileHandler::getRealPath($file));
             return ($local_checksum === $checksum);
         }
 
+		/**
+		 * Clean download file
+		 *
+		 * @param object $obj
+		 * @return void
+		 */
         function _cleanDownloaded($obj){
             FileHandler::removeDir($obj->download_path);
         }
 
+		/**
+		 * Update easy install information
+		 *
+		 * @return Object
+		 */
         function procAutoinstallAdminUpdateinfo()
         {
 			$this->_updateinfo();
@@ -31,6 +49,11 @@
 			$this->setRedirectUrl(Context::get('error_return_url'));
         }
 
+		/**
+		 * Update easy install information
+		 *
+		 * @return void
+		 */
 		function _updateinfo(){
             $oModel = &getModel('autoinstall');
             $item = $oModel->getLatestPackage();
@@ -49,6 +72,11 @@
             $this->checkInstalled();
 		}
 
+		/**
+		 * Update installed package information
+		 *
+		 * @return void
+		 */
         function checkInstalled()
         {
             executeQuery("autoinstall.deleteInstalledPackage");
@@ -122,6 +150,11 @@
             }
         }
 
+		/**
+		 * Install package
+		 *
+		 * @return Object
+		 */
         function procAutoinstallAdminPackageinstall()
         {
             @set_time_limit(0);
@@ -175,6 +208,12 @@
 			}
         }
 
+		/**
+		 * Update package informations using recieved data from server
+		 *
+		 * @param object $xmlDoc Recieved data
+		 * @return void
+		 */
         function updatePackages(&$xmlDoc)
         {
             $oModel =& getModel('autoinstall');
@@ -207,6 +246,12 @@
             }
         }
 
+		/**
+		 * Update category using recived data from server.
+		 *
+		 * @param object $xmlDoc Recived data
+		 * @return void
+		 */
         function updateCategory(&$xmlDoc)
         {
             executeQuery("autoinstall.deleteCategory");
@@ -227,6 +272,11 @@
             }
         }
 
+		/**
+		 * Uninstall package
+		 *
+		 * @return Object
+		 */
 		function procAutoinstallAdminUninstallPackage()
 		{
 			$package_srl = Context::get('package_srl');

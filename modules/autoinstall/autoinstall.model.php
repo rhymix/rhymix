@@ -1,12 +1,16 @@
 <?php
     /**
-     * @class  autoinstallModel
+     * Model class of the autoinstall module
      * @author NHN (developers@xpressengine.com)
-     * @brief Model class of the autoinstall module
      **/
-
     class autoinstallModel extends autoinstall {
 
+		/**
+		 * Get category information
+		 *
+		 * @param int $category_srl The sequence of category to get information
+		 * @return object
+		 */
         function getCategory($category_srl)
         {
             $args->category_srl = $category_srl;
@@ -15,6 +19,11 @@
             return array_shift($output->data);
         }
 
+		/**
+		 * Get packages information
+		 *
+		 * @return array
+		 */
         function getPackages()
         {
             $output = executeQueryArray("autoinstall.getPackages");
@@ -22,6 +31,12 @@
             return $output->data;
         }
 
+		/**
+		 * Get installed packages information
+		 *
+		 * @param int $package_srl The sequence of package to get information
+		 * @return object
+		 */
         function getInstalledPackage($package_srl)
         {
             $args->package_srl = $package_srl;
@@ -30,6 +45,12 @@
             return array_shift($output->data);
         }
 
+		/**
+		 * Get one package information
+		 *
+		 * @param int $package_srl The sequence of package to get information
+		 * @return object
+		 */
         function getPackage($package_srl)
         {
             $args->package_srl = $package_srl;
@@ -38,6 +59,11 @@
             return array_shift($output->data);
         }
 
+		/**
+		 * Get category list
+		 *
+		 * @return array
+		 */
         function getCategoryList()
         {
             $output = executeQueryArray("autoinstall.getCategories");
@@ -70,6 +96,12 @@
             return $resultList;
         }
 
+		/**
+		 * Get pcakge count in category
+		 *
+		 * @param int $category_srl The sequence of category to get count
+		 * @return int
+		 */
         function getPackageCount($category_srl)
         {
             $args->category_srl = $category_srl;
@@ -78,6 +110,11 @@
             return $output->data->count;
         }
 
+		/**
+		 * Get installed package count
+		 *
+		 * @return int
+		 */
         function getInstalledPackageCount()
         {
             $output = executeQuery("autoinstall.getInstalledPackageCount", $args);
@@ -85,6 +122,15 @@
             return $output->data->count;
         }
 
+		/**
+		 * Set depth, children list and package count of category
+		 *
+		 * @param object $item Category information
+		 * @param int $depth Depth of category
+		 * @param array $list Category list
+		 * @param array $resultList Final result list
+		 * @return string $siblingList Comma seperated list
+		 */
         function setDepth(&$item, $depth, &$list, &$resultList)
         {
             $resultList[$item->category_srl] =& $item;
@@ -102,12 +148,23 @@
             return $siblingList;
         }
 
+		/**
+		 * Get lastest package information
+		 *
+		 * @return object Returns lastest package information. If no result returns null.
+		 */
         function getLatestPackage() {
             $output = executeQueryArray("autoinstall.getLatestPackage");
             if(!$output->data) return null;
             return array_shift($output->data);
         }
 
+		/**
+		 * Get installed package informations
+		 *
+		 * @param array $package_list Package sequence list to get information
+		 * @return array Returns array contains pacakge information. If no result returns empty array.
+		 */
         function getInstalledPackages($package_list) {
             $args->package_list = $package_list;
             $output = executeQueryArray("autoinstall.getInstalledPackages", $args);
@@ -120,6 +177,12 @@
             return $result;
         }
 
+		/**
+		 * Get installed package list
+		 *
+		 * @param int $page
+		 * @return Object
+		 */
         function getInstalledPackageList($page)
         {
             $args->page = $page;
@@ -138,6 +201,12 @@
             return $output;
         }
 
+		/**
+		 * Get type using path
+		 *
+		 * @param string $path Path to get type
+		 * @return string
+		 */
 		function getTypeFromPath($path)
 		{
 			if(!$path) return null;
@@ -148,6 +217,12 @@
 			return $type;
 		}
 
+		/**
+		 * Get config file path by type
+		 *
+		 * @param string $type Type to get config file path
+		 * @return string
+		 */
 		function getConfigFilePath($type)
 		{
 			$config_file = null;
@@ -176,6 +251,12 @@
 			return $config_file;
 		}
 
+		/**
+		 * Returns target is removable
+		 *
+		 * @param string $path Path
+		 * @return bool
+		 */
 		function checkRemovable($path)
 		{
 			$path_array = explode("/", $path);
@@ -186,6 +267,12 @@
 			else return false;
 		}
 
+		/**
+		 * Get sequence of package by path
+		 *
+		 * @param string $path Path to get sequence
+		 * @return int
+		 */
 		function getPackageSrlByPath($path)
 		{
 			if (!$path) return;
@@ -203,6 +290,12 @@
 			return $GLOBLAS['XE_AUTOINSTALL_PACKAGE_SRL_BY_PATH'][$path];
 		}
 
+		/**
+		 * Get remove url by package srl
+		 *
+		 * @param int $packageSrl Sequence of pakcage to get url
+		 * @return string
+		 */
 		function getRemoveUrlByPackageSrl($packageSrl)
 		{
             $ftp_info =  Context::getFTPInfo();
@@ -213,6 +306,12 @@
 			return getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAutoinstallAdminUninstall', 'package_srl', $packageSrl);
 		}
 
+		/**
+		 * Get remove url by path
+		 *
+		 * @param string $path Path to get url
+		 * @return string
+		 */
 		function getRemoveUrlByPath($path)
 		{
 			if (!$path) return;
@@ -226,6 +325,12 @@
 			return getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAutoinstallAdminUninstall', 'package_srl', $packageSrl);
 		}
 
+		/**
+		 * Get update url by package srl
+		 *
+		 * @param int $packageSrl Sequence to get url
+		 * @return string
+		 */
 		function getUpdateUrlByPackageSrl($packageSrl)
 		{
 			if (!$packageSrl) return;
@@ -233,6 +338,12 @@
 			return getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAutoinstallAdminInstall', 'package_srl', $packageSrl);
 		}
 
+		/**
+		 * Get update url by path
+		 *
+		 * @param string $path Path to get url
+		 * @return string
+		 */
 		function getUpdateUrlByPath($path)
 		{
 			if (!$path) return;
