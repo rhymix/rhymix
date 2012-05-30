@@ -1,14 +1,14 @@
 <?php
     /**
-     * @class  addon
+     * High class of addon modules
      * @author NHN (developers@xpressengine.com)
-     * @brief high class of addon modules
      **/
-
     class addon extends ModuleObject {
 
         /**
-         * @brief Implement if additional tasks are necessary when installing
+         * Implement if additional tasks are necessary when installing
+		 *
+		 * @return Object
          **/
         function moduleInstall() {
             // Register to add a few
@@ -28,7 +28,9 @@
         }
 
         /**
-         * @brief a method to check if successfully installed
+         * A method to check if successfully installed
+		 *
+		 * @return bool
          **/
         function checkUpdate() {
             $oDB = &DB::getInstance();
@@ -42,7 +44,9 @@
         }
 
         /**
-         * @brief Execute update
+         * Execute update
+		 *
+		 * @return Object
          **/
         function moduleUpdate() {
             $oDB = &DB::getInstance();
@@ -78,7 +82,9 @@
         }
 
         /**
-         * @brief Re-generate the cache file
+         * Re-generate the cache file
+		 *
+		 * @return Object
          **/
         function recompileCache() {
         }

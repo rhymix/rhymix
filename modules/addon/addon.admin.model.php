@@ -1,20 +1,23 @@
 <?php
     /**
-     * @class  addonAdminModel
+     * Admin model class of addon module
      * @author NHN (developers@xpressengine.com)
-     * @brief admin model class of addon modules
      **/
-
     class addonAdminModel extends addon {
 
         /**
-         * @brief Initialization
+         * Initialization
+		 *
+		 * @return void
          **/
         function init() {
         }
 
         /**
-         * @brief Wanted to add the path to
+         * Returns a path of addon
+		 *
+		 * @param string $addon_name Name to get path
+		 * @return string Returns a path
          **/
         function getAddonPath($addon_name) {
             $class_path = sprintf('./addons/%s/', $addon_name);
@@ -23,7 +26,9 @@
         }
 
 		/**
-		 * @brief Get addon list for super admin
+		 * Get addon list for super admin
+		 *
+		 * @return Object
 		 **/
 		function getAddonListForSuperAdmin()
 		{
@@ -51,7 +56,11 @@
 		}
 
         /**
-         * @brief Wanted to add the kind of information and
+         * Returns addon list
+		 *
+		 * @param int $site_srl Site srl
+		 * @param string $gtype site or global
+		 * @return array Returns addon list
          **/
         function getAddonList($site_srl = 0, $gtype = 'site') {
             // Wanted to add a list of activated
@@ -96,7 +105,12 @@
         }
 
         /**
-         * @brief Modules conf/info.xml wanted to read the information
+         * Returns a information of addon
+		 *
+		 * @param string $addon Name to get information
+		 * @param int $site_srl Site srl
+		 * @param string $gtype site or global
+		 * @return object Returns a information
          **/
         function getAddonInfoXml($addon, $site_srl = 0, $gtype = 'site') {
             // Get a path of the requested module. Return if not exists.
@@ -294,7 +308,11 @@
         }
 
         /**
-         * @brief Add to the list of active guhaeom
+         * Returns activated addon list
+		 *
+		 * @param int $site_srl Site srl
+		 * @param string $gtype site or global
+		 * @return array Returns list
          **/
         function getInsertedAddons($site_srl = 0, $gtype = 'site') {
             $args->list_order = 'addon';
@@ -315,7 +333,13 @@
         }
 
         /**
-         * @brief Add-on is enabled, check whether
+         * Returns whether to activate
+		 *
+		 * @param string $addon Name to check
+		 * @param int $site_srl Site srl
+		 * @param string $type pc or mobile
+		 * @param string $gtype site or global
+		 * @return bool If addon is activated returns true. Otherwise returns false.
          **/
         function isActivatedAddon($addon, $site_srl = 0, $type = "pc", $gtype = 'site') {
             $args->addon = $addon;
