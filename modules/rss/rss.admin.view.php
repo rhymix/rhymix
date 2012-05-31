@@ -1,13 +1,15 @@
 <?php
     /**
-     * @class  rssAdminView
-     * @author misol (misol@korea.ac.kr)
-     * @brief The admin view class of the rss module
+     * The admin view class of the rss module
+	 *
+     * @author NHN (developers@xpressengine.com)
      **/
 
 	class rssAdminView extends rss {
 		/**
-		 * @brief Initialization
+		 * Initialization
+		 *
+		 * @return void
 		 **/
 		function init() {
 			//Set template path
@@ -16,7 +18,9 @@
 
 
 		/**
-		 * @brief In case an administrator page has been initialized
+		 * In case an administrator page has been initialized
+		 *
+		 * @return Object
 		 **/
 		function dispRssAdminIndex() {
 			$oModuleModel = &getModel('module');

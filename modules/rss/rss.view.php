@@ -1,24 +1,27 @@
 <?php
     /**
-     * @class  rssView
-     * @author NHN (developers@xpressengine.com)
-     * @brief The view class of the rss module
-     *
-     * Feed the document output
-     *
+     * The view class of the rss module
+	 *
+	 * @author NHN (developers@xpressengine.com)
      **/
 
     class rssView extends rss {
 
         /**
-         * @brief Initialization
+         * Initialization
+		 *
+		 * @return void
          **/
         function init() {
         }
 
         /**
-         * @brief Feed output
+         * Feed output.
          * When trying to directly print out the RSS, the results variable can be directly specified through $oRssView->rss($document_list)
+		 *
+		 * @param Object $document_list Document list 
+		 * @param string $rss_title Rss title
+		 * @param string $add_description Add description
          **/
         function rss($document_list = null, $rss_title = null, $add_description = null) {
             $oDocumentModel = &getModel('document');
@@ -181,7 +184,9 @@
             $this->setTemplateFile('display');
         }
         /**
-         * @brief ATOM output
+         * ATOM output
+		 *
+		 * @return Object
          **/
         function atom() {
             Context::set('format', 'atom');
@@ -189,7 +194,9 @@
         }
 
         /**
-         * @brief Error output
+         * Error output
+		 *
+		 * @return Object
          **/
         function dispError() {
             // Prepare the output message
@@ -197,8 +204,11 @@
         }
 
         /**
-         * @brief Additional configurations for a service module
+         * Additional configurations for a service module
          * Receive the form for the form used by rss
+		 *
+		 * @param string $obj Will be inserted content in template
+		 * @return Object
          **/
         function triggerDispRssAdditionSetup(&$obj) {
             $current_module_srl = Context::get('module_srl');

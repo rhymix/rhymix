@@ -1,23 +1,24 @@
 <?php
     /**
-     * @class  rssAdminController
+     * The admin controller class of the rss module
+	 *
      * @author NHN (developers@xpressengine.com)
-     * @brief The admin controller class of the rss module
-     *
-     * RSS 2.0 format document output
-     *
      **/
 
     class rssAdminController extends rss {
 
         /**
-         * @brief Initialization
+         * Initialization
+		 *
+		 * @return void
          **/
         function init() {
         }
 
         /**
-         * @brief All RSS feeds configurations
+         * All RSS feeds configurations
+		 *
+		 * @return void
          **/
         function procRssAdminInsertConfig() {
             $oModuleModel = &getModel('module');
@@ -83,7 +84,9 @@
 
 
         /**
-         * @brief RSS Module configurations
+         * RSS Module configurations
+		 *
+		 * @return void
          **/
         function procRssAdminInsertModuleConfig() {
             // Get the object
@@ -121,7 +124,9 @@
 
 
         /**
-         * @brief All Feeds with or without change
+         * All Feeds with or without change
+		 *
+		 * @return Object
          **/
         function procRssAdminToggleActivate() {
             $oRssModel = &getModel('rss');
@@ -144,7 +149,10 @@
 
 
         /**
-         * @brief A funciton to configure all Feeds of the RSS module
+         * A funciton to configure all Feeds of the RSS module
+		 *
+		 * @param Object $config RSS all feeds config list
+		 * @return Object
          **/
         function setFeedConfig($config) {
             $oModuleController = &getController('module');
@@ -154,7 +162,14 @@
 
 
         /**
-         * @brief A function t configure the RSS module
+         * A function t configure the RSS module
+		 *
+		 * @param integer $module_srl Module_srl
+		 * @param string $open_rss Choose open rss type. Y : Open all, H : Open summary, N : Not open
+		 * @param string $open_total_feed N : use open total feed, T_N : not use open total feed
+		 * @param string $feed_description Default value is 'N'
+		 * @param string $feed_copyright Default value is 'N'
+		 * @return Object
          **/
         function setRssModuleConfig($module_srl, $open_rss, $open_total_feed = 'N', $feed_description = 'N', $feed_copyright = 'N') {
             $oModuleController = &getController('module');
