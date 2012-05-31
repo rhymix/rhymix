@@ -1,11 +1,8 @@
 <?php
     /**
-     * @class  integration_searchAdminView
+     * The admin view class of the integration_search module
+	 *
      * @author NHN (developers@xpressengine.com)
-     * @brief admin view class of the integration_search module
-     *
-     * Search Management
-     *
      **/
 
     class integration_searchAdminView extends integration_search {
@@ -13,7 +10,9 @@
         var $config = null;
 
         /**
-         * @brief Initialization
+         * Initialization
+		 *
+		 * @return void
          **/
         function init() {
             // Get configurations (using module model object)
@@ -25,7 +24,9 @@
         }
 
         /**
-         * @brief Module selection and skin set
+         * Module selection and skin set
+		 *
+		 * @return Object
          **/
         function dispIntegration_searchAdminContent() {
             // Get a list of skins(themes)
@@ -60,7 +61,9 @@
         }
 
         /**
-         * @brief Skin Settings
+         * Skin Settings
+		 *
+		 * @return Object
          **/
         function dispIntegration_searchAdminSkinInfo() {
             $oModuleModel = &getModel('module');

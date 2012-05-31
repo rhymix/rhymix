@@ -1,21 +1,24 @@
 <?php
     /**
-     * @class  integration_searchAdminController
-     * @author NHN (developers@xpressengine.com)
-     * @brief admin view class of the integration_search module
-     *
-     * Search Management
-     *
+     * The admin view class of the integration_search module
+	 *
+	 * @author NHN (developers@xpressengine.com)
      **/
 
     class integration_searchAdminController extends integration_search {
         /**
-         * @brief Initialization
+         * Initialization
+		 *
+		 * @return void
          **/
-        function init() {}
+        function init()
+		{
+		}
 
         /**
-         * @brief Save Settings
+         * Save Settings
+		 *
+		 * @return mixed
          **/
         function procIntegration_searchAdminInsertConfig() {
             // Get configurations (using module model object)
@@ -40,7 +43,9 @@
         }
 
         /**
-         * @brief Save the skin information
+         * Save the skin information
+		 *
+		 * @return mixed
          **/
         function procIntegration_searchAdminInsertSkin() {
             // Get configurations (using module model object)

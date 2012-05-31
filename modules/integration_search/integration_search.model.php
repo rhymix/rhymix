@@ -1,19 +1,30 @@
 <?php
     /**
-     * @class  integrationModel
+     * The model class of integration module
+	 *
      * @author NHN (developers@xpressengine.com)
-     * @brief Model class of integration module
      **/
 
     class integration_searchModel extends module {
         /**
-         * @brief Initialization
+         * Initialization
+		 *
+		 * @return void
          **/
         function init() {
         }
 
         /**
-         * @brief Search documents
+         * Search documents
+		 *
+		 * @param string $target choose target. exclude or include for $module_srls_list
+		 * @param string $module_srls_list module_srl list to string type. ef - 102842,59392,102038
+		 * @param string $search_target Target
+		 * @param string $search_keyword Keyword
+		 * @param integer $page page of page navigation
+		 * @param integer $list_count list count of page navigation
+		 *
+		 * @return Object output document list
          **/
         function getDocuments($target, $module_srls_list, $search_target, $search_keyword, $page=1, $list_count = 20) {
             if(is_array($module_srls_list)) $module_srls_list = implode(',',$module_srls_list);
@@ -43,7 +54,15 @@
         }
 
         /**
-         * @brief Comment Search
+         * Search comment
+		 *
+		 * @param string $target choose target. exclude or include for $module_srls_list
+		 * @param string $module_srls_list module_srl list to string type. ef - 102842,59392,102038
+		 * @param string $search_keyword Keyword
+		 * @param integer $page page of page navigation
+		 * @param integer $list_count list count of page navigation
+		 *
+		 * @return Object output comment list
          **/
         function getComments($target, $module_srls_list, $search_keyword, $page=1, $list_count = 20) {
             if(is_array($module_srls_list)){
@@ -71,7 +90,16 @@
         }
 
         /**
-         * @brief Search trackbacks
+         * Search trackbacks
+		 *
+		 * @param string $target choose target. exclude or include for $module_srls_list
+		 * @param string $module_srls_list module_srl list to string type. ef - 102842,59392,102038
+		 * @param string $search_target Target
+		 * @param string $search_keyword Keyword
+		 * @param integer $page page of page navigation
+		 * @param integer $list_count list count of page navigation
+		 *
+		 * @return Object output trackback list
          **/
         function getTrackbacks($target, $module_srls_list, $search_target = "title", $search_keyword, $page=1, $list_count = 20) {
             if(is_array($module_srls_list)) $module_srls = implode(',',$module_srls_list);
@@ -93,7 +121,16 @@
         }
 
         /**
-         * @brief File Search
+         * Search file
+		 *
+		 * @param string $target choose target. exclude or include for $module_srls_list
+		 * @param string $module_srls_list module_srl list to string type. ef - 102842,59392,102038
+		 * @param string $search_keyword Keyword
+		 * @param integer $page page of page navigation
+		 * @param integer $list_count list count of page navigation
+		 * @param string $direct_download Y or N
+		 *
+		 * @return Object output file list
          **/
         function _getFiles($target, $module_srls_list, $search_keyword, $page, $list_count, $direct_download = 'Y') {
             if(is_array($module_srls_list)) $module_srls = implode(',',$module_srls_list);
@@ -176,14 +213,30 @@
         }
 
         /**
-         * @brief Multimedia Search
+         * Search Multimedia. call function _getFiles().
+		 *
+		 * @param string $target choose target. exclude or include for $module_srls_list
+		 * @param string $module_srls_list module_srl list to string type. ef - 102842,59392,102038
+		 * @param string $search_keyword Keyword
+		 * @param integer $page page of page navigation
+		 * @param integer $list_count list count of page navigation
+		 *
+		 * @return Object
          **/
         function getImages($target, $module_srls_list, $search_keyword, $page=1, $list_count = 20) {
             return $this->_getFiles($target, $module_srls_list, $search_keyword, $page, $list_count);
         }
 
         /**
-         * @brief Search for attachments
+         * Search for attachments. call function _getFiles().
+		 *
+		 * @param string $target choose target. exclude or include for $module_srls_list
+		 * @param string $module_srls_list module_srl list to string type. ef - 102842,59392,102038
+		 * @param string $search_keyword Keyword
+		 * @param integer $page page of page navigation
+		 * @param integer $list_count list count of page navigation
+		 *
+		 * @return Object
          **/
         function getFiles($target, $module_srls_list, $search_keyword, $page=1, $list_count = 20) {
             return $this->_getFiles($target, $module_srls_list, $search_keyword, $page, $list_count, 'N');

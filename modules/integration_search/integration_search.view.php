@@ -1,11 +1,8 @@
 <?php
     /**
-     * @class  integration_searchView
+     * The view class of the integration_search module
+	 *
      * @author NHN (developers@xpressengine.com)
-     * @brief view class of the integration_search module
-     *
-     * Search Output
-     *
      **/
 
     class integration_searchView extends integration_search {
@@ -14,13 +11,17 @@
         var $skin = 'default';
 
         /**
-         * @brief Initialization
+         * Initialization
+		 *
+		 * @return void
          **/
         function init() {
         }
 
         /**
-         * @brief Search Result
+         * Search Result
+		 *
+		 * @return Object
          **/
         function IS() {
             $oFile = &getClass('file');
