@@ -1,8 +1,8 @@
 <?php
     /**
-     * @class  Handler
+     * An abstract class of (*)Handler 
+	 *
      * @author NHN (developers@xpressengine.com)
-     * @brief  an abstract class of (*)Handler 
      **/
 
     class Handler {
