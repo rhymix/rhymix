@@ -1,27 +1,33 @@
 <?php
     /**
-     * @class  counterController
-     * @author NHN (developers@xpressengine.com)
-     * @brief counter module's controller class
+     * Counter module's controller class
+	 *
+	 * @author NHN (developers@xpressengine.com)
      **/
 
     class counterController extends counter {
 
         /**
-         * @brief Initialization
+         * Initialization
+		 *
+		 * @return void
          **/
         function init() {
         }
 
         /**
-         * @brief Counter logs
-		 * @deprecated, if want use below function, you can use 'counterExecute' function instead this function
+         * Counter logs.
+		 * If want use below function, you can use 'counterExecute' function instead this function
+		 *
+		 * @return void
          **/
         function procCounterExecute() {
         }
 
         /**
-         * @brief Counter logs
+         * Counter logs
+		 *
+		 * @return void
          **/
         function counterExecute() {
             $oDB = &DB::getInstance();
@@ -52,7 +58,10 @@
         }
 
         /**
-         * @brief Leave logs
+         * Leave logs
+		 *
+		 * @param integer $site_srl
+		 * @return Object result of count query
          **/
         function insertLog($site_srl=0) {
             $args->regdate = date("YmdHis");
@@ -62,7 +71,10 @@
         }
 
         /**
-         * @brief Register the unique visitor
+         * Register the unique visitor
+		 *
+		 * @param integer $site_srl
+		 * @return void
          **/
         function insertUniqueVisitor($site_srl=0) {
             if($site_srl) {
@@ -80,7 +92,10 @@
         }
 
         /**
-         * @brief Register pageview
+         * Register pageview
+		 *
+		 * @param integer $site_srl
+		 * @return void
          **/
         function insertPageView($site_srl=0) {
             if($site_srl) { 
@@ -98,7 +113,10 @@
         }
 
         /**
-         * @brief Add the total counter status
+         * Add the total counter status
+		 *
+		 * @param integer $site_srl
+		 * @return void
          **/
         function insertTotalStatus($site_srl=0) {
             $args->regdate = 0;
@@ -111,7 +129,11 @@
         }
 
         /**
-         * @brief Add today's counter status
+         * Add today's counter status
+		 *
+		 * @param integer $regdate date(YYYYMMDD) type
+		 * @param integer $site_srl
+		 * @return void
          **/
         function insertTodayStatus($regdate = 0, $site_srl=0) {
             if($regdate) $args->regdate = $regdate;
@@ -134,7 +156,10 @@
         }
 
         /**
-         * @brief Delete counter logs of the specific virtual site
+         * Delete counter logs of the specific virtual site
+		 *
+		 * @param integer $site_srl
+		 * @return void
          **/
         function deleteSiteCounterLogs($site_srl) {
             $args->site_srl = $site_srl;

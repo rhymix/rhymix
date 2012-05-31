@@ -1,14 +1,15 @@
 <?php
     /**
-     * @class  counter
+     * High class of counter module
+	 *
      * @author NHN (developers@xpressengine.com)
-     * @brief high class of counter module
      **/
 
     class counter extends ModuleObject {
 
         /**
-         * @brief Implement if additional tasks are necessary when installing
+         * Implement if additional tasks are necessary when installing
+		 * @return Object
          **/
         function moduleInstall() {
             $oCounterController = &getController('counter');
@@ -21,7 +22,9 @@
         }
 
         /**
-         * @brief method if successfully installed
+         * method if successfully installed
+		 *
+		 * @return bool
          **/
         function checkUpdate() {
             // Add site_srl to the counter
@@ -33,7 +36,9 @@
         }
 
         /**
-         * @brief Update
+         * Module update
+		 *
+		 * @return Object
          **/
         function moduleUpdate() {
             // Add site_srl to the counter
@@ -45,7 +50,9 @@
         }
 
         /**
-         * @brief re-generate the cache file
+         * re-generate the cache file
+		 *
+		 * @return Object
          **/
         function recompileCache() {
         }
