@@ -2,7 +2,7 @@
     /**
      * @class PageHandler
      * @author NHN (developers@xpressengine.com)
-     * @brief handles page navigation
+     * handles page navigation
      * @version 0.1
      *
      * @remarks Getting total counts, number of pages, current page number, number of items per page, 
@@ -20,11 +20,12 @@
         var $point = 0; ///< increments per getNextPage() 
 
         /**
-         * @brief constructor
-         * @param[in] $total_count number of total items
-         * @param[in] $total_page number of total pages
-         * @param[in] $cur_page current page number
-         * @param[in] $page_count number of page links displayed at one time 
+         * constructor
+         * @param int $total_count number of total items
+         * @param int $total_page number of total pages
+         * @param int $cur_page current page number
+         * @param int $page_count number of page links displayed at one time 
+		 * @return void
          **/
         function PageHandler($total_count, $total_page, $cur_page, $page_count = 10) {
             $this->total_count = $total_count;
@@ -45,8 +46,8 @@
         }
 
         /**
-         * @brief request next page
-         * @return next page number
+         * request next page
+         * @return int next page number
          **/
         function getNextPage() {
             $page = $this->first_page+$this->point++;
@@ -54,6 +55,11 @@
             return $page;
         }
 		
+        /**
+         * return number of page that added offset.
+		 * @param int $offset
+         * @return int
+         **/
 		function getPage($offset) 
 		{
 			return max(min($this->cur_page + $offset, $this->total_page), '');

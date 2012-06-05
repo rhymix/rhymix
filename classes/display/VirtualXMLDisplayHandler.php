@@ -2,8 +2,9 @@
 
 class VirtualXMLDisplayHandler {
 	/**
-	 * @brief Produce virtualXML compliant content given a module object.\n
-	 * @param[in] $oModule the module object
+	 * Produce virtualXML compliant content given a module object.\n
+	 * @param ModuleObject $oModule the module object
+	 * @return string
 	 **/
 
 	function toDoc(&$oModule)

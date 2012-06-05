@@ -2,7 +2,7 @@
     /**
     * @class DisplayHandler
     * @author NHN (developers@xpressengine.com)
-    * @brief DisplayHandler is responsible for displaying the execution result. \n
+    *  DisplayHandler is responsible for displaying the execution result. \n
     *  Depending on the request type, it can display either HTML or XML content.\n
     *  Xml content is simple xml presentation of variables in oModule while html content
     *   is the combination of the variables of oModue and template files/.
@@ -16,11 +16,11 @@
 		var $handler = null;
 
         /**
-         * @brief print either html or xml content given oModule object
-         * @remark addon execution and the trigger execution are included within this method, which
-         * might create inflexibility for the fine grained caching
-        * @param[in] $oModule the module object
-        **/
+         * print either html or xml content given oModule object
+         * @remark addon execution and the trigger execution are included within this method, which might create inflexibility for the fine grained caching
+         * @param ModuleObject $oModule the module object
+		 * @return void
+         **/
         function printContent(&$oModule) {
             // Check if the gzip encoding supported
             if(
@@ -82,9 +82,10 @@
 
 
         /**
-         * @brief Print debugging message to designated output source depending on the value set to __DEBUG_OUTPUT_. \n
-         *  This method only functions when __DEBUG__ variable is set to 1.
-         *  __DEBUG_OUTPUT__ == 0, messages are written in ./files/_debug_message.php
+         * Print debugging message to designated output source depending on the value set to __DEBUG_OUTPUT_. \n
+         * This method only functions when __DEBUG__ variable is set to 1.
+         * __DEBUG_OUTPUT__ == 0, messages are written in ./files/_debug_message.php
+		 * @return void
          **/
         function _debugOutput() {
             if(!__DEBUG__) return;
@@ -221,7 +222,8 @@
         }
 
 		/**
-		 * @brief print a HTTP HEADER for XML, which is encoded in UTF-8
+		 * print a HTTP HEADER for XML, which is encoded in UTF-8
+		 * @return void
 		 **/
 		function _printXMLHeader() {
 			header("Content-Type: text/xml; charset=UTF-8");
@@ -234,7 +236,8 @@
 
 
 		/**
-		 * @brief print a HTTP HEADER for HTML, which is encoded in UTF-8
+		 * print a HTTP HEADER for HTML, which is encoded in UTF-8
+		 * @return void
 		 **/
 		function _printHTMLHeader() {
 			header("Content-Type: text/html; charset=UTF-8");
@@ -247,7 +250,8 @@
 
 
 		/**
-		 * @brief print a HTTP HEADER for JSON, which is encoded in UTF-8
+		 * print a HTTP HEADER for JSON, which is encoded in UTF-8
+		 * @return void
 		 **/
 		function _printJSONHeader() {
 			header("Content-Type: text/html; charset=UTF-8");
@@ -260,7 +264,8 @@
 
 
 		/**
-		 * @brief print a HTTP HEADER for HTML, which is encoded in UTF-8
+		 * print a HTTP HEADER for HTML, which is encoded in UTF-8
+		 * @return void
 		 **/
 		function _printHttpStatusCode($code) {
 			$statusMessage = Context::get('http_status_message');

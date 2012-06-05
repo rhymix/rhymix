@@ -2,8 +2,9 @@
 
 class HTMLDisplayHandler {
 	/**
-	 * @brief Produce HTML compliant content given a module object.\n
-	 * @param[in] $oModule the module object
+	 * Produce HTML compliant content given a module object.\n
+	 * @param ModuleObject $oModule the module object
+	 * @return string compiled template string
 	 **/
 	function toDoc(&$oModule)
 	{
@@ -79,6 +80,11 @@ class HTMLDisplayHandler {
 		return $output;
 	}
 
+	/**
+	 * when display mode is HTML, prepare code before print.
+	 * @param string $output compiled template string
+	 * @return void
+	 **/
 	function prepareToPrint(&$output) {
 		if(Context::getResponseMethod() != 'HTML') return;
 
@@ -151,6 +157,11 @@ class HTMLDisplayHandler {
 		$oModuleController->replaceDefinedLangCode($output);
 	}
 
+	/**
+	 * when display mode is HTML, prepare code before print about <input> tag value.
+	 * @param array $match input value.
+	 * @return string input value.
+	 **/
 	function _preserveValue($match)
 	{
 		$INPUT_ERROR = Context::get('INPUT_ERROR');
@@ -181,6 +192,11 @@ class HTMLDisplayHandler {
 		return $str.' />';
 	}
 
+	/**
+	 * when display mode is HTML, prepare code before print about <select> tag value.
+	 * @param array $matches select tag.
+	 * @return string select tag.
+	 **/
 	function _preserveSelectValue($matches)
 	{
 		$INPUT_ERROR = Context::get('INPUT_ERROR');
@@ -200,6 +216,11 @@ class HTMLDisplayHandler {
 		return $mm[0].implode('', $m[0]).'</select>';
 	}
 
+	/**
+	 * when display mode is HTML, prepare code before print about <textarea> tag value.
+	 * @param array $matches textarea tag information.
+	 * @return string textarea tag
+	 **/
 	function _preserveTextAreaValue($matches)
 	{
 		$INPUT_ERROR = Context::get('INPUT_ERROR');
@@ -208,23 +229,29 @@ class HTMLDisplayHandler {
 	}
 
 	/**
-	 * @brief add html style code extracted from html body to Context, which will be
+	 * add html style code extracted from html body to Context, which will be
 	 * printed inside <header></header> later.
-	 * @param[in] $oModule the module object
+	 * @param array $matches
+	 * @return void
 	 **/
 	function _moveStyleToHeader($matches) {
 		Context::addHtmlHeader($matches[0]);
 	}
 
 	/**
-	 * @brief add given .css or .js file names in widget code to Context
-	 * @param[in] $oModule the module object
+	 * add given .css or .js file names in widget code to Context
+	 * @param array $matches
+	 * @return void
 	 **/
 	function _transMeta($matches) {
 		if($matches[1]) return '';
 		Context::loadFile($matches[2]);
 	}
 
+	/**
+	 * import basic .js files.
+	 * @return void
+	 **/
 	function _loadJSCSS()
 	{
 		$oContext  =& Context::getInstance();
@@ -260,6 +287,10 @@ class HTMLDisplayHandler {
 		}
 	}
 
+	/**
+	 * add meta tag.
+	 * @return void
+	 **/
 	function _addMetaTag()
 	{
 		$oContext =& Context::getInstance();

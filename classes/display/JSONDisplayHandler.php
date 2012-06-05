@@ -1,6 +1,11 @@
 <?php
 
 class JSONDisplayHandler {
+	/**
+	 * Produce JSON compliant content given a module object.\n
+	 * @param ModuleObject $oModule the module object
+	 * @return string
+	 **/
 	function toDoc(&$oModule)
 	{
 		$variables = $oModule->getVariables();

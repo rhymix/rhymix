@@ -2,7 +2,7 @@
     /**
     * @class ModuleHandler
     * @author NHN (developers@xpressengine.com)
-    * @brief Handling modules
+    * Handling modules
     *
     * @remarks This class is to excute actions of modules.
     *          Constructing an instance without any parameterconstructor, it finds the target module based on Context.
@@ -23,8 +23,13 @@
         var $httpStatusCode = NULL; ///< http status code.
 
         /**
-         * @brief constructor
-         * @remarks it prepares variables to use in moduleHandler
+         * prepares variables to use in moduleHandler
+		 * @param string $module name of module
+		 * @param string $act name of action
+		 * @param int $mid
+		 * @param int $document_srl
+		 * @param int $module_srl
+		 * @return void
          **/
         function ModuleHandler($module = '', $act = '', $mid = '', $document_srl = '', $module_srl = '') {
             // If XE has not installed yet, set module as install
@@ -63,8 +68,8 @@
         }
 
         /**
-         * @brief Initialization. It finds the target module based on module, mid, document_srl, and prepares to execute an action
-         * @return true: OK, false: redirected
+         * Initialization. It finds the target module based on module, mid, document_srl, and prepares to execute an action
+         * @return boolean true: OK, false: redirected
          **/
         function init() {
 			$oModuleModel = &getModel('module');
@@ -172,8 +177,8 @@
         }
 
         /**
-         * @brief get a module instance and execute an action
-         * @return executed module instance
+         * get a module instance and execute an action
+         * @return ModuleObject executed module instance
          **/
         function procModule() {
             $oModuleModel = &getModel('module');
@@ -458,6 +463,10 @@
             return $oModule;
         }
 
+        /**
+         * set error message to Session.
+         * @return void
+         **/
 		function _setInputErrorToContext()
 		{
 			if($_SESSION['XE_VALIDATOR_ERROR'] && !Context::get('XE_VALIDATOR_ERROR')) Context::set('XE_VALIDATOR_ERROR', $_SESSION['XE_VALIDATOR_ERROR']);
@@ -468,6 +477,10 @@
 			$this->_clearErrorSession();
 		}
 
+        /**
+         * clear error message to Session.
+         * @return void
+         **/
 		function _clearErrorSession()
 		{
 			$_SESSION['XE_VALIDATOR_ERROR'] = '';
@@ -476,6 +489,10 @@
 			$_SESSION['XE_VALIDATOR_RETURN_URL'] = '';
 		}
 
+        /**
+         * occured error when, set input values to session.
+         * @return void
+         **/
 		function _setInputValueToSession()
 		{
 			$requestVars = Context::getRequestVars();
@@ -484,9 +501,9 @@
 		}
 
         /**
-         * @brief display contents from executed module
-         * @param[in] $oModule module instance
-         * @return none
+         * display contents from executed module
+         * @param ModuleObject $oModule module instance
+         * @return void
          **/
         function displayContent($oModule = NULL) {
             // If the module is not set or not an object, set error
@@ -594,20 +611,20 @@
         }
 
         /**
-         * @brief returns module's path
-         * @param[in] $module module name
-         * @return path of the module
+         * returns module's path
+         * @param string $module module name
+         * @return string path of the module
          **/
         function getModulePath($module) {
             return sprintf('./modules/%s/', $module);
         }
 
         /**
-         * @brief It creates a module instance
-         * @param[in] $module module name
-         * @param[in] $type instance type, (e.g., view, controller, model)
-         * @param[in] $kind admin or svc
-         * @return module instance (if failed it returns null)
+         * It creates a module instance
+         * @param string $module module name
+         * @param string $type instance type, (e.g., view, controller, model)
+         * @param string $kind admin or svc
+         * @return ModuleObject module instance (if failed it returns null)
          * @remarks if there exists a module instance created before, returns it.
          **/
         function &getModuleInstance($module, $type = 'view', $kind = '') {
@@ -696,10 +713,10 @@
         }
 
         /**
-         * @brief call a trigger
-         * @param[in] $trigger_name trigger's name to call
-         * @param[in] $called_position called position
-         * @param[in] $obj an object as a parameter to trigger
+         * call a trigger
+         * @param string $trigger_name trigger's name to call
+         * @param string $called_position called position
+         * @param object $obj an object as a parameter to trigger
          * @return Object
          **/
         function triggerCall($trigger_name, $called_position, &$obj) {
@@ -728,7 +745,9 @@
         }
 
 		/**
-		 * @brief get http status message by http status code
+		 * get http status message by http status code
+		 * @param string $code
+		 * @return string
 		 **/
 		function _setHttpStatusMessage($code) {
 			$statusMessageList = array(

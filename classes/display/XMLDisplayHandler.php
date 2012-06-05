@@ -2,8 +2,9 @@
 
 class XMLDisplayHandler {
 	/**
-	 * @brief Produce XML compliant content given a module object.\n
-	 * @param[in] $oModule the module object
+	 * Produce XML compliant content given a module object.\n
+	 * @param ModuleObject $oModule the module object
+	 * @return string
 	 **/
 	function toDoc(&$oModule)
 	{
@@ -21,8 +22,9 @@ class XMLDisplayHandler {
 	}
 
 	/**
-	 * @brief produce XML code given variable object\n
-	 * @param[in] $oModule the module object
+	 * produce XML code given variable object\n
+	 * @param object $obj 
+	 * @return string
 	 **/
 	function _makeXmlDoc($obj) {
 		if(!count($obj)) return;
