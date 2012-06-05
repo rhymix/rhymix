@@ -2,19 +2,20 @@
     /**
      * @class  communicationController
      * @author NHN (developers@xpressengine.com)
-     * @brief communication module of the Controller class
+     * communication module of the Controller class
      **/
 
     class communicationController extends communication {
 
         /**
-         * @brief Initialization
+         * Initialization
          **/
         function init() {
         }
 
         /**
-         * @brief change the settings of message box
+         * change the settings of message box
+		 * @return void|Object (success : void, fail : Object)
          **/
         function procCommunicationUpdateAllowMessage() {
             if(!Context::get('is_logged')) return new Object(-1, 'msg_not_logged');
@@ -36,7 +37,8 @@
         }
 
         /**
-         * @brief Send a message
+         * Send a message
+		 * @return Object
          **/
         function procCommunicationSendMessage() {
             // Check login information
@@ -93,6 +95,15 @@
             return $output;
         }
 
+        /**
+         * Send a message (DB controll)
+		 * @param int $sender_srl member_srl of sender
+		 * @param int $receiver_srl member_srl of receiver_srl
+		 * @param string $title
+		 * @param string $content
+		 * @param boolean $sender_log (default true)
+		 * @return Object
+         **/
         function sendMessage($sender_srl, $receiver_srl, $title, $content, $sender_log = true) {
             $content = removeHackTag($content); 
 			$title = htmlspecialchars($title);
@@ -149,7 +160,8 @@
         }
 
         /**
-         * @brief store a specific message into the archive
+         * store a specific message into the archive
+		 * @return void|Object (success : void, fail : Object)
          **/
         function procCommunicationStoreMessage() {
             // Check login information
@@ -172,7 +184,8 @@
         }
 
         /**
-         * @brief Delete a message
+         * Delete a message
+		 * @return void|Object (success : void, fail : Object)
          **/
         function procCommunicationDeleteMessage() {
             // Check login information
@@ -201,7 +214,8 @@
         }
 
         /**
-         * @brief Delete the multiple messages
+         * Delete the multiple messages
+		 * @return void|Object (success : void, fail : Object)
          **/
         function procCommunicationDeleteMessages() {
             // Check login information
@@ -246,7 +260,8 @@
         }
 
         /**
-         * @brief Add a friend
+         * Add a friend
+		 * @return void|Object (success : void, fail : Object)
          **/
         function procCommunicationAddFriend() {
             // Check login information
@@ -279,7 +294,8 @@
         }
 
         /**
-         * @brief Move a group of the friend
+         * Move a group of the friend
+		 * @return void|Object (success : void, fail : Object)
          **/
         function procCommunicationMoveFriend() {
             // Check login information
@@ -317,7 +333,8 @@
         }
 
         /**
-         * @brief Delete a friend 
+         * Delete a friend 
+		 * @return void|Object (success : void, fail : Object)
          **/
         function procCommunicationDeleteFriend() {
             // Check login information
@@ -356,7 +373,8 @@
         }
 
         /**
-         * @brief Add a group of friends
+         * Add a group of friends
+		 * @return void|Object (success : void, fail : Object)
          **/
         function procCommunicationAddFriendGroup() {
             // Check login information
@@ -408,7 +426,8 @@
         }
 
         /**
-         * @brief change a name of friend group
+         * change a name of friend group
+		 * @return void|Object (success : void, fail : Object)
          **/
         function procCommunicationRenameFriendGroup() {
             // Check login information
@@ -428,7 +447,8 @@
         }
 
         /**
-         * @brief Delete a group of friends
+         * Delete a group of friends
+		 * @return void|Object (success : void, fail : Object)
          **/
         function procCommunicationDeleteFriendGroup() {
             // Check login information
@@ -444,7 +464,9 @@
         }
 
         /**
-         * @brief set a message status to be 'already read'
+         * set a message status to be 'already read'
+		 * @param int $message_srl 
+		 * @return Object
          **/
         function setMessageReaded($message_srl) {
             $args->message_srl = $message_srl;

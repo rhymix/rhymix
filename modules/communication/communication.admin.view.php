@@ -2,19 +2,20 @@
     /**
      * @class  communicationAdminView
      * @author NHN (developers@xpressengine.com)
-     * @brief communication module of the admin view class
+     * communication module of the admin view class
      **/
 
     class communicationAdminView extends communication {
 
         /**
-         * @brief Initialization
+         * Initialization
          **/
         function init() {
         }
 
         /**
-         * @brief configuration to manage messages and friends
+         * configuration to manage messages and friends
+		 * @return void
          **/
         function dispCommunicationAdminConfig() {
             // Creating an object

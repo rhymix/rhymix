@@ -8,13 +8,14 @@
     class communicationAdminController extends communication {
 
         /**
-         * @brief Initialization
+         * Initialization
          **/
         function init() {
         }
 
         /**
-         * @brief save configurations of the communication module
+         * save configurations of the communication module
+		 * @return void|Object (success : void, fail : Object)
          **/
         function procCommunicationAdminInsertConfig() {
             // get the default information

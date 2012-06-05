@@ -2,19 +2,21 @@
     /**
      * @class  communicationModel
      * @author NHN (developers@xpressengine.com)
-     * @brief communication module of the Model class
+     * communication module of the Model class
      **/
 
     class communicationModel extends communication {
 
         /**
-         * @brief Initialization
+         * Initialization
+		 * @return void
          **/
         function init() {
         }
 
         /**
-         * @brief get the configuration
+         * get the configuration
+		 * @return object config of communication module
          **/
         function getConfig() {
             $oModuleModel = &getModel('module');
@@ -28,7 +30,10 @@
         }
 
         /**
-         * @brief get the message contents
+         * get the message contents
+		 * @param int $message_srl
+		 * @param array $columnList
+		 * @return object message information
          **/
         function getSelectedMessage($message_srl, $columnList = array()) {
             $logged_info = Context::get('logged_info');
@@ -54,12 +59,13 @@
                 $oCommunicationController->setMessageReaded($message_srl);
             }
 
-
             return $message;
         }
 
         /**
-         * @brief get a new message
+         * get a new message
+		 * @param array $columnList
+		 * @return object message information
          **/
         function getNewMessage($columnList = array()) {
             $logged_info = Context::get('logged_info');
@@ -77,10 +83,10 @@
         }
 
         /**
-         * @brief get a message list
-         * type = R: Received Message 
-         * type = S: Sent Message
-         * type = T: Archive
+         * get a message list
+         * @param string $message_type (R: Received Message, S: Sent Message, T: Archive)
+		 * @param array $columnList
+		 * @return Object
          **/
         function getMessages($message_type = "R", $columnList = array()) {
             $logged_info = Context::get('logged_info');
@@ -112,7 +118,10 @@
         }
 
         /**
-         * @brief Get a list of friends
+         * Get a list of friends
+		 * @param int $friend_group_srl (default 0)
+		 * @param array $columnList
+		 * @return Object
          **/
         function getFriends($friend_group_srl = 0, $columnList = array()) {
             $logged_info = Context::get('logged_info');
@@ -129,7 +138,9 @@
         }
 
         /**
-         * @brief check if a friend is already added
+         * check if a friend is already added
+		 * @param int $member_srl
+		 * @return int
          **/
         function isAddedFriend($member_srl) {
             $logged_info = Context::get('logged_info');
@@ -141,7 +152,9 @@
         }
 
         /**
-         * @brief Get a group of friends
+         * Get a group of friends
+		 * @param int $friend_group_srl
+		 * @return object
          **/
         function getFriendGroupInfo($friend_group_srl) {
             $logged_info = Context::get('logged_info');
@@ -154,22 +167,23 @@
         }
 
         /**
-         * @brief Get a list of groups
+         * Get a list of groups
+		 * @return array
          **/
         function getFriendGroups() {
             $logged_info = Context::get('logged_info');
             $args->member_srl = $logged_info->member_srl;
 
-            $output = executeQuery('communication.getFriendGroups', $args);
+            $output = executeQueryArray('communication.getFriendGroups', $args);
             $group_list = $output->data;
             if(!$group_list) return;
-
-            if(!is_array($group_list)) $group_list = array($group_list);
             return $group_list;
         }
 
         /**
-         * @brief check whether to be added in the friend list
+         * check whether to be added in the friend list
+		 * @param int $target_srl 
+		 * @return boolean (true : friend, false : not friend) 
          **/
         function isFriend($target_srl) {
             $logged_info = Context::get('logged_info');
