@@ -2,21 +2,23 @@
     /**
      * @class  layoutAdminController
      * @author NHN (developers@xpressengine.com)
-     * @brief admin controller class of the layout module
+     * admin controller class of the layout module
      **/
 
     class layoutAdminController extends layout {
 
         /**
-         * @brief Initialization
+         * Initialization
+		 * @return void
          **/
         function init() {
         }
 
-		// deprecated
         /**
-         * @brief Create a new layout
+         * Create a new layout
          * Insert a title into "layouts" table in order to create a layout
+		 * @deprecated 
+		 * @return void|Object (void : success, Object : fail)
          **/
         function procLayoutAdminInsert() {
 			if(Context::get('layout') == 'faceoff') return $this->stop('not supported');
@@ -45,13 +47,22 @@
 			$this->setRedirectUrl(Context::get('success_return_url'));
         }
 
-        // Insert layout information into the DB
+        /**
+         * Insert layout information into the DB
+		 * @param object $args layout information
+		 * @return Object
+         **/
         function insertLayout($args) {
             $output = executeQuery("layout.insertLayout", $args);
             return $output;
         }
 
-        // Initiate if it is faceoff layout
+        /**
+         * Initiate if it is faceoff layout
+		 * @param int $layout_srl
+		 * @param string $layout_name
+		 * @return void 
+         **/
         function initLayout($layout_srl, $layout_name){
             $oLayoutModel = &getModel('layout');
             // Import a sample layout if it is faceoff
@@ -64,8 +75,9 @@
         }
 
         /**
-         * @brief Update layout information
+         * Update layout information
          * Apply a title of the new layout and extra vars
+		 * @return Object
          **/
         function procLayoutAdminUpdate() {
             // Consider the rest of items as extra vars, except module, act, layout_srl, layout, and title  .. Some gurida ..
@@ -180,6 +192,11 @@
 			return new Object();
         }
 
+        /**
+         * Update layout information into the DB
+		 * @param object $args
+		 * @return Object
+         **/
         function updateLayout($args) {
             $output = executeQuery('layout.updateLayout', $args);
             if($output->toBool()) {
@@ -198,8 +215,9 @@
         }
 
         /**
-         * @brief Delete Layout
+         * Delete Layout
          * Delete xml cache file too when deleting a layout
+		 * @return Object
          **/
         function procLayoutAdminDelete() {
             $layout_srl = Context::get('layout_srl');
@@ -207,6 +225,11 @@
             return $this->deleteLayout($layout_srl);
         }
 
+        /**
+         * Delete layout xml cache file
+		 * @param int $layout_srl
+		 * @return Object
+         **/
         function deleteLayout($layout_srl) {
             $oLayoutModel = &getModel('layout');
 
@@ -231,7 +254,8 @@
         }
 
         /**
-         * @brief Adding Layout Code
+         * Adding Layout Code
+		 * @return void|Object (void : success, Object : fail)
          **/
         function procLayoutAdminCodeUpdate() {
 			$mode = Context::get('mode');
@@ -264,7 +288,8 @@
         }
 
         /**
-         * @brief Reset layout code
+         * Reset layout code
+		 * @return void|Object (void : success, Object : fail)
          **/
         function procLayoutAdminCodeReset() {
             $layout_srl = Context::get('layout_srl');
@@ -291,8 +316,8 @@
 
 
         /**
-         * @brief Layout setting page -> Upload an image
-         *
+         * Layout setting page -> Upload an image
+		 * @return void
          **/
         function procLayoutAdminUserImageUpload(){
             if(!Context::isUploaded()) exit();
@@ -309,8 +334,10 @@
         }
 
         /**
-         * @brief Layout setting page -> Upload an image
-         *
+         * insert image into user layout
+		 * @param int $layout_srl
+         * @param object $source file data
+		 * @return boolean (true : success, false : fail)
          **/
         function insertUserLayoutImage($layout_srl,$source){
             $oLayoutModel = &getModel('layout');
@@ -328,20 +355,9 @@
             return true;
         }
 
-
         /**
-         * @brief Layout setting page -> Delete an image
-         *
-         **/
-        function removeUserLayoutImage($layout_srl,$filename){
-            $oLayoutModel = &getModel('layout');
-            $path = $oLayoutModel->getUserLayoutImagePath($layout_srl);
-            @unlink($path . $filename);
-        }
-
-        /**
-         * @brief Layout setting page -> Delete an image
-         *
+         * Layout setting page -> Delete an image
+		 * @return void
          **/
         function procLayoutAdminUserImageDelete(){
             $filename = Context::get('filename');
@@ -351,10 +367,24 @@
 			$this->setRedirectUrl(Context::get('error_return_url'));
         }
 
+        /**
+         * delete image into user layout
+		 * @param int $layout_srl
+         * @param string $filename
+		 * @return void
+         **/
+        function removeUserLayoutImage($layout_srl,$filename){
+            $oLayoutModel = &getModel('layout');
+            $path = $oLayoutModel->getUserLayoutImagePath($layout_srl);
+            @unlink($path . $filename);
+        }
+
 		// deprecated
         /**
-         * @brief Save layout configuration
+         * Save layout configuration
          * save in "ini" format for faceoff
+		 * @deprecated
+		 * @return void|Object (void : success, Object : fail)
          **/
         function procLayoutAdminUserValueInsert(){
             $oModuleModel = &getModel('module');
@@ -404,8 +434,10 @@
         }
 
         /**
-         * @brief Layout setting, save "ini"
-         *
+         * Layout setting, save "ini"
+		 * @param int $layout_srl
+		 * @param object $arr layout ini
+		 * @return void
          **/
         function insertUserLayoutValue($layout_srl,$arr){
             $oLayoutModel = &getModel('layout');
@@ -413,13 +445,12 @@
             FileHandler::writeIniFile($file, $arr);
         }
 
-        function writeUserLayoutCss(){
-
-        }
-
         /**
-         * @brief Add the widget code for faceoff into user layout file
-         *
+         * Add the widget code for faceoff into user layout file
+		 * @param int $layout_srl
+		 * @param object $arg
+		 * @param string $content
+		 * @return string
          **/
         function addExtension($layout_srl,$arg,$content){
             $oLayoutModel = &getModel('layout');
@@ -443,8 +474,9 @@
 
 
         /**
-         * @brief Delete temp files for faceoff
-         *
+         * Delete temp files for faceoff
+		 * @param int $layout_srl
+         * @return void
          **/
          function deleteUserLayoutTempFile($layout_srl){
              $oLayoutModel = &getModel('layout');
@@ -455,8 +487,8 @@
          }
 
         /**
-         * @brief faceoff export
-         *
+         * export user layout
+         * @return void
          **/
          function procLayoutAdminUserLayoutExport(){
             $layout_srl = Context::get('layout_srl');
@@ -548,10 +580,10 @@
             exit();
          }
 
-		// deprecated
         /**
-         * @brief faceoff import
-         *
+         * faceoff import
+		 * @deprecated
+         * @return void
          **/
          function procLayoutAdminUserLayoutImport(){
 			return $this->stop('not supported');
@@ -574,6 +606,12 @@
 			$this->setRedirectUrl(Context::get('error_return_url'));
         }
 
+        /**
+         * import layout
+		 * @param int $layout_srl
+		 * @param string $source_file path of imported file
+         * @return void
+         **/
         function importLayout($layout_srl, $source_file) {
             $oLayoutModel = &getModel('layout');
             $user_layout_path = FileHandler::getRealPath($oLayoutModel->getUserLayoutPath($layout_srl));
