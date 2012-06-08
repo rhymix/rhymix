@@ -1,24 +1,23 @@
 <?php
     /**
-     * @class  fileView
+     * The view class file module
      * @author NHN (developers@xpressengine.com)
-     * @brief The view class file module
-     *
-     *
-     *
      **/
-
     class fileView extends file {
 
         /**
-         * @brief Initialization
+         * Initialization
+		 * @return void
          **/
         function init() {
         }
 
         /**
-         * @brief This is for additional configuration for service module
+         * This is for additional configuration for service module
          * It only receives file configurations
+		 *
+		 * @param string $obj The html string of page of addition setup of module
+		 * @return Object
          **/
         function triggerDispFileAdditionSetup(&$obj) {
             $current_module_srl = Context::get('module_srl');

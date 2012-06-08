@@ -1,22 +1,24 @@
 <?php
     /**
-     * @class  fileModel
+     * Model class of the file module
      * @author NHN (developers@xpressengine.com)
-     * @brief model class of the file module
      **/
-
     class fileModel extends file {
 
         /**
-         * @brief Initialization
+         * Initialization
+		 * @return void
          **/
         function init() {
         }
 
         /**
-         * @brief Return a file list attached in the document
+         * Return a file list attached in the document
+		 *
          * It is used when a file list of the upload_target_srl is requested for creating/updating a document.
          * Attempt to replace with sever-side session if upload_target_srl is not yet determined
+		 *
+		 * @return void
          **/
         function getFileList() {
             $oModuleModel = &getModel('module');
@@ -66,7 +68,10 @@
         }
 
         /**
-         * @brief Return number of attachments which belongs to a specific document
+         * Return number of attachments which belongs to a specific document
+		 *
+		 * @param int $upload_target_srl The sequence to get a number of files
+		 * @return int Returns a number of files
          **/
         function getFilesCount($upload_target_srl) {
             $args->upload_target_srl = $upload_target_srl;
@@ -75,14 +80,21 @@
         }
 
         /**
-         * @brief Get a download path
+         * Get a download path
+		 *
+		 * @param int $file_srl The sequence of file to get url
+		 * @param string $sid
+		 * @return string Returns a url
          **/
         function getDownloadUrl($file_srl, $sid) {
             return sprintf('?module=%s&amp;act=%s&amp;file_srl=%s&amp;sid=%s', 'file', 'procFileDownload', $file_srl, $sid);
         }
 
         /**
-         * @brief Get file cinfigurations
+         * Get file configurations
+		 *
+		 * @param int $module_srl If set this, returns specific module's configuration. Otherwise returns global configuration.
+		 * @return object Returns configuration.
          **/
         function getFileConfig($module_srl = null) {
             // Get configurations (using module model object)
@@ -121,7 +133,11 @@
         }
 
         /**
-         * @brief Get file information
+         * Get file information
+		 *
+		 * @param int $file_srl The sequence of file to get information
+		 * @param array $columnList The list of columns to get from DB
+		 * @return Object|object|array If error returns an instance of Object. If result set is one returns a object that contins file information. If result set is more than one returns array of object.
          **/
         function getFile($file_srl, $columnList = array()) {
             $args->file_srl = $file_srl;
@@ -154,7 +170,12 @@
         }
 
         /**
-         * @brief Return all files which belong to a specific document
+         * Return all files which belong to a specific document
+		 *
+		 * @param int $upload_target_srl The sequence of target to get file list
+		 * @param array $columnList The list of columns to get from DB
+		 * @param string $sortIndex The column that used as sort index
+		 * @return array Returns array of object that contains file information. If no result returns null.
          **/
         function getFiles($upload_target_srl, $columnList = array(), $sortIndex = 'file_srl') {
             $args->upload_target_srl = $upload_target_srl;
@@ -178,7 +199,9 @@
         }
 
         /**
-         * @brief Return configurations of the attachement (it automatically checks if an administrator is)
+         * Return configurations of the attachement (it automatically checks if an administrator is)
+		 *
+		 * @return object Returns a file configuration of current module. If user is admin, returns PHP's max file size and allow all file types.
          **/
         function getUploadConfig() {
             $logged_info = Context::get('logged_info');
@@ -199,7 +222,10 @@
         }
 
         /**
-         * @brief Return messages for file upload and it depends whether an admin is or not
+         * Return messages for file upload and it depends whether an admin is or not
+		 *
+		 * @param int $attached_size
+		 * @return string
          **/
         function getUploadStatus($attached_size = 0) {
             $file_config = $this->getUploadConfig();
@@ -218,12 +244,22 @@
         }
 
         /**
-         * @brief Return file configuration of the module
+         * Return file configuration of the module
+		 *
+		 * @param int $module_srl The sequence of module to get configuration
+		 * @return object
          **/
         function getFileModuleConfig($module_srl) {
             return $this->getFileConfig($module_srl);
         }
 
+		/**
+		 * Returns a grant of file
+		 *
+		 * @param object $file_info The file information to get grant
+		 * @param object $member_info The member information to get grant
+		 * @return object Returns a grant of file
+		 */
 		function getFileGrant($file_info, $member_info){
 			if (!$file_info) return null;
 
