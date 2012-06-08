@@ -562,16 +562,16 @@
 		<value xml:lang="tr"><![CDATA[Veritabanı Şifresi]]></value>
 		<value xml:lang="vi"><![CDATA[Mật khẩu]]></value>
 	</item>
-	<item name="db_database">
-		<value xml:lang="ko"><![CDATA[DB 데이터베이스]]></value>
-		<value xml:lang="en"><![CDATA[DB Database]]></value>
-		<value xml:lang="jp"><![CDATA[データベース名]]></value>
-		<value xml:lang="zh-CN"><![CDATA[数据库名]]></value>
-		<value xml:lang="zh-TW"><![CDATA[資料庫名稱]]></value>
-		<value xml:lang="fr"><![CDATA[Nom de Base de Données]]></value>
-		<value xml:lang="ru"><![CDATA[Имя базы данных]]></value>
-		<value xml:lang="es"><![CDATA[Base de datos BD]]></value>
-		<value xml:lang="vi"><![CDATA[Tên Database]]></value>
+	<item name="db_name">
+		<value xml:lang="ko"><![CDATA[DB 이름]]></value>
+		<value xml:lang="en"><![CDATA[DB Name]]></value>
+		<value xml:lang="jp"><![CDATA[DB 名前]]></value>
+		<value xml:lang="zh-CN"><![CDATA[DB 姓名]]></value>
+		<value xml:lang="zh-TW"><![CDATA[DB 姓名]]></value>
+		<value xml:lang="fr"><![CDATA[DB Nom]]></value>
+		<value xml:lang="ru"><![CDATA[DB Имя]]></value>
+		<value xml:lang="es"><![CDATA[DB Nombre]]></value>
+		<value xml:lang="vi"><![CDATA[DB Tên]]></value>
 	</item>
 	<item name="db_database_file">
 		<value xml:lang="ko"><![CDATA[DB 데이터베이스 파일]]></value>
