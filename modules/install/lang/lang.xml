@@ -11,21 +11,20 @@
 		<value xml:lang="es"><![CDATA[Instalación de XE ]]></value>
 		<value xml:lang="vi"><![CDATA[Cài đặt XE]]></value>
 	</item>
-	<item name="lgpl_agree">
-		<value xml:lang="ko"><![CDATA[GNU 약소 일반 공중 사용 허가서(LGPL v2) 동의]]></value>
-		<value xml:lang="en"><![CDATA[GNU Lesser General Public License(LGPL v2) Agreement]]></value>
-		<value xml:lang="jp"><![CDATA[GNU LGPL v2への同意]]></value>
-	</item>
 	<item name="enviroment_gather">
 		<value xml:lang="ko"><![CDATA[설치 환경 수집 동의]]></value>
 		<value xml:lang="en"><![CDATA[Agreement on gathering installation environment information]]></value>
 		<value xml:lang="jp"><![CDATA[インストール環境収集に同意する]]></value>
 	</item>
 	<item name="install_progress_menu" type="array">
-		<item name="agree">
-			<value xml:lang="ko"><![CDATA[라이선스 동의]]></value>
-			<value xml:lang="en"><![CDATA[Acceptance of terms]]></value>
-			<value xml:lang="jp"><![CDATA[ライセンスに同意]]></value>
+		<item name="language">
+			<value xml:lang="ko"><![CDATA[설치 언어 선택]]></value>
+			<value xml:lang="en"><![CDATA[Select language]]></value>
+			<value xml:lang="jp"><![CDATA[セットアップ言語の選択]]></value>
+			<value xml:lang="zh-CN"><![CDATA[选择安装语言]]></value>
+			<value xml:lang="zh-TW"><![CDATA[選擇安裝語言]]></value>
+			<value xml:lang="tr"><![CDATA[Yükleme dilini seçin]]></value>
+			<value xml:lang="vi"><![CDATA[Chọn ngôn ngữ cài đặt]]></value>
 		</item>
 		<item name="condition">
 			<value xml:lang="ko"><![CDATA[설치 조건 확인]]></value>
@@ -140,13 +139,6 @@
 		<item name="db">
 			<value xml:lang="ko"><![CDATA[DB]]></value>
 			<value xml:lang="en"><![CDATA[DB]]></value>
-		</item>
-	</item>
-	<item name="install_license_desc" type="array">
-		<item name="lgpl">
-			<value xml:lang="ko"><![CDATA[GNU 약소 일반 공중 사용 허가서(LGPL v2)에 동의해야 합니다.]]></value>
-			<value xml:lang="en"><![CDATA[You have to agree to the GNU Lesser General Public License(LGPL v2).]]></value>
-			<value xml:lang="jp"><![CDATA[GNU LGPL v2に同意しなければなりません。]]></value>
 		</item>
 	</item>
 	<item name="install_checklist_desc" type="array">
@@ -311,18 +303,6 @@
 		<value xml:lang="ko"><![CDATA[모든 항목을 반드시 작성해야 합니다. 모든 항목을 관리자 환경에서 수정할 수 있습니다.]]></value>
 		<value xml:lang="en"><![CDATA[All form must be filled, but you can modify all of settings after finish the installation.]]></value>
 		<value xml:lang="jp"><![CDATA[すべての項目を必ず作成してください。すべての項目を管理者環境にて修正できます。]]></value>
-	</item>
-	<item name="cmd_agree_license">
-		<value xml:lang="ko"><![CDATA[라이선스에 동의합니다.]]></value>
-		<value xml:lang="en"><![CDATA[I agree with the license]]></value>
-		<value xml:lang="jp"><![CDATA[ライセンスに同意します。]]></value>
-		<value xml:lang="zh-CN"><![CDATA[同意]]></value>
-		<value xml:lang="zh-TW"><![CDATA[同意使用條款]]></value>
-		<value xml:lang="fr"><![CDATA[Je suis d'accord avec la licence]]></value>
-		<value xml:lang="ru"><![CDATA[Я согласен с данной лицензией]]></value>
-		<value xml:lang="es"><![CDATA[Yo accepto la licencia]]></value>
-		<value xml:lang="tr"><![CDATA[Lisansı kabul ediyorum]]></value>
-		<value xml:lang="vi"><![CDATA[Tôi đã đọc và đồng ý với giấy phép này.]]></value>
 	</item>
 	<item name="cmd_install_fix_checklist">
 		<value xml:lang="ko"><![CDATA[필수 설치조건을 설정하였습니다.]]></value>
@@ -791,70 +771,40 @@
 		<value xml:lang="vi"><![CDATA[Một phiên bản nào đó của XE đã được cài đặt từ trước.<br />Xin hãy kiểm tra lại!]]></value>
 	</item>
 	<item name="msg_dbconnect_failed">
-		<value xml:lang="ko"><![CDATA[DB접속 오류가 발생하였습니다.
-DB정보를 다시 확인해주세요.]]></value>
-		<value xml:lang="en"><![CDATA[An error has occurred while connecting to DB.
-Please check DB information again.]]></value>
-		<value xml:lang="jp"><![CDATA[データベースアクセスにエラーが発生しました。
-データベースの情報をもう一度確認してください。]]></value>
-		<value xml:lang="zh-CN"><![CDATA[连接DB时发生错误。
-请重新确认DB信息。]]></value>
-		<value xml:lang="zh-TW"><![CDATA[連接資料庫時發生錯誤。
-請重新確認資料庫資訊。]]></value>
-		<value xml:lang="fr"><![CDATA[Erreur a lieu en essayant connecter à la Base de Données.
-Vérifiez encore une fois les informations sur la Base de Données, S.V.P.]]></value>
-		<value xml:lang="ru"><![CDATA[Произошла ошибка подключения к базе данных.
-Пожалуйста, проверьте иформацию базы данных еще раз]]></value>
-		<value xml:lang="es"><![CDATA[Ha ocurrido un error en la conección de BD.
- Por favor chequee la información de BD nuevamente]]></value>
-		<value xml:lang="tr"><![CDATA[VT'ye ulaşırken bir hata oluştu.
-Lütfen VT bilgisini tekrar kontrol ediniz]]></value>
-		<value xml:lang="vi"><![CDATA[Đã có lỗi xảy ra khi kết nối tới Database.
-Xin vui lòng kiểm tra lại thông tin!]]></value>
+		<value xml:lang="ko"><![CDATA[DB접속 오류가 발생하였습니다. DB정보를 다시 확인해주세요.]]></value>
+		<value xml:lang="en"><![CDATA[An error has occurred while connecting to DB. Please check DB information again.]]></value>
+		<value xml:lang="jp"><![CDATA[データベースアクセスにエラーが発生しました。 データベースの情報をもう一度確認してください。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[连接DB时发生错误。 请重新确认DB信息。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[連接資料庫時發生錯誤。 請重新確認資料庫資訊。]]></value>
+		<value xml:lang="fr"><![CDATA[Erreur a lieu en essayant connecter à la Base de Données. Vérifiez encore une fois les informations sur la Base de Données, S.V.P.]]></value>
+		<value xml:lang="ru"><![CDATA[Произошла ошибка подключения к базе данных. Пожалуйста, проверьте иформацию базы данных еще раз]]></value>
+		<value xml:lang="es"><![CDATA[Ha ocurrido un error en la conección de BD.  Por favor chequee la información de BD nuevamente]]></value>
+		<value xml:lang="tr"><![CDATA[VT'ye ulaşırken bir hata oluştu. Lütfen VT bilgisini tekrar kontrol ediniz]]></value>
+		<value xml:lang="vi"><![CDATA[Đã có lỗi xảy ra khi kết nối tới Database. Xin vui lòng kiểm tra lại thông tin!]]></value>
 	</item>
 	<item name="msg_table_is_exists">
-		<value xml:lang="ko"><![CDATA[이미 DB에 테이블이 생성되어 있습니다.
-config 파일을 재생성하였습니다.]]></value>
-		<value xml:lang="en"><![CDATA[Table is already created in the DB.
-Config file is recreated.]]></value>
-		<value xml:lang="jp"><![CDATA[既にデータベースにデーブルが作成されています。
-configファイルを再作成しました。]]></value>
-		<value xml:lang="zh-CN"><![CDATA[已生成数据表。
-重新生成了config文件。]]></value>
-		<value xml:lang="zh-TW"><![CDATA[已建立資料表。
-重新建立 config 檔案。]]></value>
-		<value xml:lang="fr"><![CDATA[La Table est déjà créée dans la Base de Données.
-Le fichier de Configuration est recréé.]]></value>
-		<value xml:lang="ru"><![CDATA[Таблица существует в базе данных.
-Файл конфигурации создан заново]]></value>
-		<value xml:lang="es"><![CDATA[La tabla ya ha sido creado en BD.
- Creado nuevamente el archivo de configuración.]]></value>
-		<value xml:lang="tr"><![CDATA[Tablo zaten VT'da oluşturuldu.
-Yapılandırma dosyası yeniden oluşturuldu]]></value>
-		<value xml:lang="vi"><![CDATA[Table đã có sẵn trên Database.
-File Config đã đuwọc thiết lập lại.]]></value>
+		<value xml:lang="ko"><![CDATA[이미 DB에 테이블이 생성되어 있습니다. config 파일을 재생성하였습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Table is already created in the DB. Config file is recreated.]]></value>
+		<value xml:lang="jp"><![CDATA[既にデータベースにデーブルが作成されています。 configファイルを再作成しました。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[已生成数据表。 重新生成了config文件。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[已建立資料表。 重新建立 config 檔案。]]></value>
+		<value xml:lang="fr"><![CDATA[La Table est déjà créée dans la Base de Données. Le fichier de Configuration est recréé.]]></value>
+		<value xml:lang="ru"><![CDATA[Таблица существует в базе данных. Файл конфигурации создан заново]]></value>
+		<value xml:lang="es"><![CDATA[La tabla ya ha sido creado en BD.  Creado nuevamente el archivo de configuración.]]></value>
+		<value xml:lang="tr"><![CDATA[Tablo zaten VT'da oluşturuldu. Yapılandırma dosyası yeniden oluşturuldu]]></value>
+		<value xml:lang="vi"><![CDATA[Table đã có sẵn trên Database. File Config đã đuwọc thiết lập lại.]]></value>
 	</item>
 	<item name="msg_install_completed">
-		<value xml:lang="ko"><![CDATA[설치가 완료되었습니다.
-감사합니다.]]></value>
-		<value xml:lang="en"><![CDATA[Installation has been completed.
-Thank you for choosing XE]]></value>
-		<value xml:lang="jp"><![CDATA[インストールが完了しました。
-ありがとうございました。]]></value>
-		<value xml:lang="zh-CN"><![CDATA[安装完成。
-非常感谢。]]></value>
-		<value xml:lang="zh-TW"><![CDATA[安裝完成。
-非常感謝。]]></value>
-		<value xml:lang="fr"><![CDATA[Installation a complété.
-Merci pour choisir XE]]></value>
-		<value xml:lang="ru"><![CDATA[Установка завершена.
-Спасибо Вам за выбор XE]]></value>
-		<value xml:lang="es"><![CDATA[Instalación finalizada.
- Muchas gracias.]]></value>
-		<value xml:lang="tr"><![CDATA[Kurulum tamamlandı.
-XE'yi seçtiğiniz için teşekkür ederiz]]></value>
-		<value xml:lang="vi"><![CDATA[Đã cài đặt XE thành công!.
-Xin cảm ơn đã sử dụng XE!]]></value>
+		<value xml:lang="ko"><![CDATA[설치가 완료되었습니다. 감사합니다.]]></value>
+		<value xml:lang="en"><![CDATA[Installation has been completed. Thank you for choosing XE]]></value>
+		<value xml:lang="jp"><![CDATA[インストールが完了しました。 ありがとうございました。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[安装完成。 非常感谢。]]></value>
+		<value xml:lang="zh-TW"><![CDATA[安裝完成。 非常感謝。]]></value>
+		<value xml:lang="fr"><![CDATA[Installation a complété. Merci pour choisir XE]]></value>
+		<value xml:lang="ru"><![CDATA[Установка завершена. Спасибо Вам за выбор XE]]></value>
+		<value xml:lang="es"><![CDATA[Instalación finalizada.  Muchas gracias.]]></value>
+		<value xml:lang="tr"><![CDATA[Kurulum tamamlandı. XE'yi seçtiğiniz için teşekkür ederiz]]></value>
+		<value xml:lang="vi"><![CDATA[Đã cài đặt XE thành công!. Xin cảm ơn đã sử dụng XE!]]></value>
 	</item>
 	<item name="msg_install_failed">
 		<value xml:lang="ko"><![CDATA[설치 파일 생성 시에 오류가 발생하였습니다.]]></value>
@@ -876,35 +826,5 @@ Xin cảm ơn đã sử dụng XE!]]></value>
 		<value xml:lang="zh-TW"><![CDATA[取得列表]]></value>
 		<value xml:lang="tr"><![CDATA[Liste Al]]></value>
 		<value xml:lang="vi"><![CDATA[Nhận danh sách]]></value>
-	</item>
-	<item name="read_all">
-		<value xml:lang="ko"><![CDATA[전문 읽기]]></value>
-		<value xml:lang="en"><![CDATA[Read Full Text]]></value>
-		<value xml:lang="jp"><![CDATA[フルテキスト読み込み]]></value>
-	</item>
-	<item name="license_agreement_desc">
-		<value xml:lang="ko"><![CDATA[XE를 사용하려면 <em>이 항목에 반드시 동의해야 합니다</em>.]]></value>
-		<value xml:lang="en"><![CDATA[To use XE, <em>you have to agree to this</em>.]]></value>
-		<value xml:lang="jp"><![CDATA[XEを使用するには、<em>この項目に必ず同意しなければなりません。</em>]]></value>
-	</item>
-	<item name="license_agreement_alert">
-		<value xml:lang="ko"><![CDATA[XE를 사용하려면 'GNU 약소 일반 공중 사용 허가서(LGPL v2)'에 반드시 동의해야 합니다.]]></value>
-		<value xml:lang="en"><![CDATA[To use XE, <em>you have to agree to the GNU Lesser General Public License(LGPL v2)</em>.]]></value>
-		<value xml:lang="jp"><![CDATA[XEを使用するには、LGPL v2に必ず同意しなければなりません。]]></value>
-	</item>
-	<item name="install_env_agreement">
-		<value xml:lang="ko"><![CDATA[설치 환경 수집 동의]]></value>
-		<value xml:lang="en"><![CDATA[Agreement on gathering installation environment information]]></value>
-		<value xml:lang="jp"><![CDATA[インストール環境収集に同意する]]></value>
-	</item>
-	<item name="install_env_agreement_desc">
-		<value xml:lang="ko"><![CDATA['<em>웹 서버, DBMS, PHP 버전 및 Extension, XE 모듈 및 애드온</em>' 정보가 XE 통계 수집 서버로 전송됩니다. 더 나은 SW를 제작하기 위한 목적으로 활용합니다. 익명으로 수집되며 이 정보를 외부에 공개하지 않습니다. <em>이 항목에 동의하지 않아도 됩니다.</em>]]></value>
-		<value xml:lang="en"><![CDATA[Information on '<em>web server, DBMS, PHP version and extension, XE modules and addons</em>' is sent to the XE statistics collection server. This information is collected anonymously and used to improve our software only.<em> You don't have to agree to this.</em>]]></value>
-	　　<value xml:lang="jp"><![CDATA['<em>ウェブサーバー、DBMS、PHPバージョンおよびExtension、XEモジュール、およびアドオン</em>'情報が、XE統計収集サーバーへ転送されます。より良いソフトウェアを製作するための目的で活用されます。情報は、匿名で収集され、外部へ公開することはありません。<em>この項目は、同意しなくても構いません。</em>]]></value>
-	</item>
-	<item name="lgpl_license_url">
-		<value xml:lang="ko"><![CDATA[http://korea.gnu.org/people/chsong/copyleft/lgpl.ko.html]]></value>
-		<value xml:lang="en"><![CDATA[http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html]]></value>
-		<value xml:lang="jp"><![CDATA[http://www.gnu.org/licenses/old-licenses/lgpl-2.1.ja.html]]></value>
 	</item>
 </lang>

@@ -1,14 +1,4 @@
 jQuery(function($){
-	// Agreement
-	var agree = $('.agreement');
-	agree.submit(function(){
-		if($('#lgpl:checked').length==0){
-			alert($('#agree_license_text').val());
-			$('#lgpl').focus();
-			return false;
-		}
-	});
-	
 	// Input Clear
 	var iText = $('.item>.iLabel').next('.iText');
 	$('.item>.iLabel').css('position','absolute');
