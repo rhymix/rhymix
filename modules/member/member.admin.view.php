@@ -239,7 +239,7 @@
 						}else{
 							$inputTag = sprintf('<input type="hidden" name="__%s_exist" value="false" />', $formInfo->name);
 						}
-						$inputTag .= sprintf('<p class="a"><input type="file" name="%s" id="%s" value="" /> <span class="desc">%s : %dpx, %s : %dpx</span></p>'
+						$inputTag .= sprintf('<p class="a"><input type="file" name="%s" id="%s" value="" /></p><p><span class="desc">%s : %dpx, %s : %dpx</span></p>'
 											 ,$formInfo->name
 											 ,$formInfo->name
 											 ,$lang->{$formInfo->name.'_max_width'}
@@ -264,9 +264,9 @@
 													,$val);
 						}
 						$inputTag = sprintf($inputTag, implode('', $optionTag));
-						$inputTag .= '<input type="text" name="find_account_answer" value="'.$memberInfo['find_account_answer'].'" />';
+						$inputTag .= '<br /><input type="text" name="find_account_answer" value="'.$memberInfo['find_account_answer'].'" class="inputText long tall" />';
 					}else{
-						$inputTag = sprintf('<input type="text" name="%s" value="%s" />'
+						$inputTag = sprintf('<input type="text" name="%s" value="%s" class="inputText long tall" />'
 									,$formInfo->name
 									,$memberInfo[$formInfo->name]);
 					}

@@ -2019,7 +2019,7 @@
 	</item>
 	<item name="about_find_member_account">
 		<value xml:lang="ko"><![CDATA[아이디/ 비밀번호는 가입시 등록한 메일 주소로 알려드립니다.<br />가입할 때 등록하신 메일 주소를 입력하시고 "아이디/비밀번호 찾기" 버튼을 클릭해주세요.<br />]]></value>
-		<value xml:lang="en"><![CDATA[Your account info will be sent to this email address.<br />Please input the email address you have entered during the registration, then press "Find Account Info" button.<br />]]></value>
+		<value xml:lang="en"><![CDATA[lease input the email address you have entered during the registration and we will send your account info to this email address.]]></value>
 		<value xml:lang="jp"><![CDATA[ID/パスワードは登録時に登録されたメールにてお知らせします。<br />登録時に登録したメールアドレスを入力して「IDとパスワードのリマインダー」ボタンをクリックしてください。<br />]]></value>
 		<value xml:lang="zh-CN"><![CDATA[用户名/密码将发送到您注册时所输入的电子邮件当中。<br />输入注册时的电子邮件地址后，请点击“查找用户名/密码”按钮。<br />]]></value>
 		<value xml:lang="zh-TW"><![CDATA[帳號/密碼將發送到您註冊時，所輸入的電子郵件當中。<br />輸入註冊時的電子郵件地址後，請按「查詢帳號/密碼」按鈕。<br />]]></value>
@@ -2465,5 +2465,11 @@ Bạn có thể quản lý thành viên bằng cách tạo những nhóm mới, 
 	</item>
 	<item name="msg_success_modify_email_address">
 		<value xml:lang="ko"><![CDATA[이메일 주소가 정상적으로 변경되었습니다. 변경된 이메일 주소로 로그인 가능합니다.]]></value>
+	</item>
+	<item name="group">
+		<value xml:lang="en"><![CDATA[Group]]></value>
+	</item>
+	<item name="retrieve_password">
+		<value xml:lang="en"><![CDATA[Retrieve password]]></value>
 	</item>
 </lang>
