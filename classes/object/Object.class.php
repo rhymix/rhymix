@@ -3,7 +3,7 @@
  * Every modules inherits from Object class. It includes error, message, and other variables for communicatin purpose.
  *
  * @author NHN (developers@xpressengine.com)
- **/
+ */
 
 class Object {
 
@@ -38,7 +38,7 @@ class Object {
 	 * @param int $error Error code
 	 * @param string $message Error message
 	 * @return void
-	 **/
+	 */
 	function Object($error = 0, $message = 'success') {
 		$this->setError($error);
 		$this->setMessage($message);
@@ -50,7 +50,7 @@ class Object {
 	 *
 	 * @param int $error error code
 	 * @return void
-	 **/
+	 */
 	function setError($error = 0) {
 		$this->error = $error;
 	}
@@ -59,7 +59,7 @@ class Object {
 	 * Getter to retrieve error code
 	 *
 	 * @return int Returns an error code
-	 **/
+	 */
 	function getError() {
 		return $this->error;
 	}
@@ -90,7 +90,7 @@ class Object {
 	 *
 	 * @param string $message Error message
 	 * @return bool Alaways returns true.
-	 **/
+	 */
 	function setMessage($message = 'success') {
 		if(Context::getLang($message)) $message = Context::getLang($message);
 		$this->message = $message;
@@ -103,7 +103,7 @@ class Object {
 	 * Getter to retrieve an error message
 	 *
 	 * @return string Returns message
-	 **/
+	 */
 	function getMessage() {
 		return $this->message;
 	}
@@ -114,7 +114,7 @@ class Object {
 	 * @param string $key A variable name
 	 * @param mixed $val A value for the variable
 	 * @return void
-	 **/
+	 */
 	function add($key, $val) {
 		$this->variables[$key] = $val;
 	}
@@ -124,7 +124,7 @@ class Object {
 	 *
 	 * @param Object|array $object Either object or array containg key/value pairs to be added
 	 * @return void
-	 **/
+	 */
 	function adds($object)
 	{
 		if(is_object($object))
@@ -143,7 +143,7 @@ class Object {
 	 *
 	 * @param string $key
 	 * @return string Returns value to a given key
-	 **/
+	 */
 	function get($key) {
 		return $this->variables[$key];
 	}
@@ -153,7 +153,7 @@ class Object {
 	 * Method to retrieve an object containing a key/value paris
 	 *
 	 * @return Object Returns an object containing key/value pairs
-	**/
+	 */
 	function gets() {
 		$num_args = func_num_args();
 		$args_list = func_get_args();
@@ -168,7 +168,7 @@ class Object {
 	 * Method to retrieve an array of key/value pairs
 	 *
 	 * @return array
-	 **/
+	 */
 	function getVariables() {
 		return $this->variables;
 	}
@@ -177,7 +177,7 @@ class Object {
 	 * Method to retrieve an object of key/value pairs
 	 *
 	 * @return Object
-	 **/
+	 */
 	function getObjectVars() {
 		foreach($this->variables as $key => $val) $output->{$key} = $val;
 		return $output;
@@ -187,7 +187,7 @@ class Object {
 	 * Method to return either true or false depnding on the value in a 'error' variable
 	 *
 	 * @return bool Retruns true : error isn't 0 or false : otherwise.
-	 **/
+	 */
 	function toBool() {
 		// TODO This method is misleading in that it returns true if error is 0, which should be true in boolean representation.
 		return $this->error==0?true:false;
@@ -198,7 +198,7 @@ class Object {
 	 * Method to return either true or false depnding on the value in a 'error' variable
 	 *
 	 * @return bool
-	 **/
+	 */
 	function toBoolean() {
 	return $this->toBool();
 	}
