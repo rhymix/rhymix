@@ -116,7 +116,6 @@ class CacheApc extends CacheBase {
 	 * @return void
 	 */
 	function delete($key) {
-		$_key = md5(_XE_PATH_.$key);
 		$this->_delete($_key);
 	}
 
