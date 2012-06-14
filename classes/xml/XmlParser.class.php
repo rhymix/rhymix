@@ -1,6 +1,11 @@
 <?php
-
-    /* Element node or attribute node. */
+	/**
+	 * Xml_Node_ class
+     * Element node or attribute node.
+	 * @author NHN (developers@xpressengine.com)
+	 * @package /classes/xml
+	 * @version 0.1
+	 */
     class Xml_Node_
     {
 	/** In PHP5 this will silence E_STRICT warnings
@@ -13,33 +18,46 @@
 	}
     }
 
-    /**
-     * @class XmlParser 
-     * @author NHN (developers@xpressengine.com)
-     * @brief class parsing a given xmlrpc request and creating a data object
-     * @version 0.1
-     *
-     * @remarks { 
-     * This class may drops unsupported xml lanuage attributes when multiple language attributes are given.
-     * For example, if 'xml:lang='ko, en, ch, jp..' is given in a xml file, only ko will be left ignoring all other language
-     * attributes when kor is only supported language. It seems to work fine now but we did not scrutinze any potential side effects,
-     * }
-     **/
-
+	/**
+	 * XmlParser class
+	 * Class parsing a given xmlrpc request and creating a data object
+	 * @remarks <pre>{ 
+	 * This class may drops unsupported xml lanuage attributes when multiple language attributes are given.
+	 * For example, if 'xml:lang='ko, en, ch, jp..' is given in a xml file, only ko will be left ignoring all other language
+	 * attributes when kor is only supported language. It seems to work fine now but we did not scrutinze any potential side effects,
+	 * }</pre>
+	 *
+	 * @author NHN (developers@xpressengine.com)
+	 * @package /classes/xml
+	 * @version 0.1
+	 */
     class XmlParser {
+		/**
+		 * Xml parser
+		 * @var resource
+		 */
+        var $oParser = NULL;
+		/**
+		 * Input xml
+		 * @var string
+		 */
+        var $input = NULL;
+		/**
+		 * Output object in array
+		 * @var array
+		 */
+        var $output = array();
+		/**
+		 * The default language type
+		 * @var string
+		 */
+        var $lang = "en";
 
-        var $oParser = NULL; ///< xml parser
-
-        var $input = NULL; ///< input xml
-        var $output = array(); ///< output object
-
-        var $lang = "en"; // /< The default language type
-
-        /**
-         * @brief load a xml file specified by a filename and parse it to Return the resultant data object
-         * @param[in] $filename a file path of file
-         * @return Returns a data object containing data extracted from a xml file or NULL if a specified file does not exist
-         **/
+		/**
+		 * Load a xml file specified by a filename and parse it to Return the resultant data object
+		 * @param string $filename a file path of file
+		 * @return array Returns a data object containing data extracted from a xml file or NULL if a specified file does not exist
+		 */
         function loadXmlFile($filename) {
             if(!file_exists($filename)) return;
             $buff = FileHandler::readFile($filename);
@@ -48,11 +66,13 @@
             return $oXmlParser->parse($buff);
         }
 
-        /**
-         * @brief parse xml data to extract values from it and construct data object
-         * @param[in] a data buffer containing xml data
-         * @return Returns a resultant data object or NULL in case of error
-         **/
+		/**
+		 * Parse xml data to extract values from it and construct data object
+		 * @param string $input a data buffer containing xml data
+		 * @param mixed $arg1 ???
+		 * @param mixed $arg2 ???
+		 * @return array Returns a resultant data object or NULL in case of error
+		 */
         function parse($input = '', $arg1 = NULL, $arg2 = NULL) {
             // Save the compile starting time for debugging
             if(__DEBUG__==3) $start = getMicroTime();
@@ -99,12 +119,13 @@
         }
 
 
-       /**
-        * @brief start element handler.
-        * @param[in] $parse an instance of parser
-        * @param[in] $node_name a name of node
-        * @param[in] $attrs attributes to be set
-        */
+		/**
+		* Start element handler.
+		* @param resource $parse an instance of parser
+		* @param string $node_name a name of node
+		* @param array $attrs attributes to be set
+		* @return array
+		*/
         function _tagOpen($parser, $node_name, $attrs) {
 	    $obj = new Xml_Node_();
             $obj->node_name = strtolower($node_name);
@@ -114,23 +135,24 @@
         }
 
 
-       /**
-        * @brief character data handler
-        *  variable in the last element of this->output
-        * @param[in] $parse an instance of parser
-        * @param[in] $body a data to be added
-        * @remark the first parameter, $parser ought to be remove since it is not used.
-        */
+		/**
+		* Character data handler
+		* Variable in the last element of this->output
+		* @param resource $parse an instance of parser
+		* @param string $body a data to be added
+		* @return void
+		*/
         function _tagBody($parser, $body) {
             //if(!trim($body)) return;
             $this->output[count($this->output)-1]->body .= $body;
         }
 
-       /**
-        * @brief end element handler
-        * @param[in] $parse an instance of parser
-        * @param[in] $node_name name of xml node
-        */
+		/**
+		* End element handler
+		* @param resource $parse an instance of parser
+		* @param string $node_name name of xml node
+		* @return void
+		*/
         function _tagClosed($parser, $node_name) {
             $node_name = strtolower($node_name);
             $cur_obj = array_pop($this->output);
@@ -155,10 +177,11 @@
             }
         }
 
-        /**
-        * @brief method to transfer values in an array to a data object       
-        * @param[in] $arr data array 
-        **/
+		/**
+		* Method to transfer values in an array to a data object       
+		* @param array $arr data array 
+		* @return Xml_Node_ object
+		**/
         function _arrToAttrsObj($arr) {
 	    $output = new Xml_Node_();
             foreach($arr as $key => $val) {

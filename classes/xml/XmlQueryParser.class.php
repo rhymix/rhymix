@@ -1,13 +1,12 @@
 <?php
     /**
-     * @class XmlQueryParser
-     * @author NHN (developers@xpressengine.com)
-     * @brief case to parse XE xml query 
-     * @version 0.1
+     * XmlQueryParser
+     * Case to parse XE xml query 
      *
+     * @author NHN (developers@xpressengine.com)
+     * @version 0.1
      * @todo need to support extend query such as subquery, union
-     **/
-
+     */
     class XmlQueryParser extends XmlParser {
 
         var $default_list = array();
@@ -15,13 +14,13 @@
         var $filter_list = array();
 
         /**
-         * @brief parse a xml query file and save the result as a new file specified by cache_file
-         * @param[in] $query_id name of query
-         * @param[in] $xml_file file path of a xml query file to be loaded
-         * @param[in] $cache_file file path of a cache file to store resultant php code after parsing xml query
-         * @return Nothing is requred.
-         * @remarks {there should be a way to report an error}
-         **/
+         * Parse a xml query file and save the result as a new file specified by cache_file
+         * {there should be a way to report an error}
+         * @param string $query_id name of query
+         * @param string $xml_file file path of a xml query file to be loaded
+         * @param string $cache_file file path of a cache file to store resultant php code after parsing xml query
+         * @return void Nothing is requred.
+         */
         function parse($query_id, $xml_file, $cache_file) {
             // query xml 파일을 찾아서 파싱, 결과가 없으면 return
             $buff = FileHandler::readFile($xml_file);
@@ -260,11 +259,10 @@
         }
 
         /**
-        * @brief transfer given column information to object->columns
-        * @param[in] column information
-        * @result Returns $object 
+        * Transfer given column information to object->columns
+        * @param array $columns column information
+        * @return object
         */
-
         function _setColumn($columns){
             if(!$columns) {
                 $output->column[] = array("*" => "*");
@@ -296,9 +294,9 @@
         }
 
         /**
-        * @brief transfer condition information to $object->conditions
-        * @param[in] SQL condition information
-        * @result Returns $output
+        * Transfer condition information to $object->conditions
+        * @param object @condition SQL condition information
+        * @retrun object
         */
         function _setConditions($conditions){
             // 조건절 정리
@@ -339,9 +337,9 @@
         }
 
         /**
-        * @brief transfer condition information to $object->groups
-        * @param[in] SQL group information
-        * @result Returns $output
+        * Transfer condition information to $object->groups
+        * @param array $group_list SQL group information
+        * @return object
         */
         function _setGroup($group_list){
             // group 정리
@@ -361,9 +359,9 @@
 
 
         /**
-        * @brief transfer pagnation information to $output
-        * @param[in] $xml_obj xml object containing Navigation information
-        * @result Returns $output
+        * Transfer pagnation information to $output
+        * @param object $xml_obj xml object containing Navigation information
+        * @return object
         */
         function _setNavigation($xml_obj){
             $navigation = $xml_obj->query->navigation;
@@ -389,10 +387,10 @@
         }
 
         /**
-        * @brief retrieve column information from $output->colums to generate corresponding php code 
-        * @param[in] $column 
-        * @remarks the name of this method is misleading.
-        * @result Returns string buffer containing php code
+        * Retrieve column information from $output->colums to generate corresponding php code <br />
+        * The name of this method is misleading.
+        * @param array $columns
+        * @return string buffer containing php code
         */
         function _getColumn($columns){
             $buff = '';
@@ -439,10 +437,10 @@
         }
 
         /**
-        * @brief retrieve condition information from $output->condition to generate corresponding php code 
-        * @param[in] $conditions array containing Query conditions
-        * @remarks the name of this method is misleading.
-        * @return Returns string buffer containing php code
+        * Retrieve condition information from $output->condition to generate corresponding php code 
+        * The name of this method is misleading.
+        * @param array $conditions array containing Query conditions
+        * @return string buffer containing php code
         */
         function _getConditions($conditions){
             $buff = '';
@@ -472,21 +470,30 @@
             return $buff;
         }
 
+        /**
+        * Add argument to $this->args
+        * @param mixed $args_name argument value
+        * @return void
+        */
 		function addArguments($args_name)
 		{
 			$this->args[] = $args_name;
 		}
 		
+        /**
+        * Get argument from $this->args
+        * @return mixed
+        */
 		function getArguments()
 		{
 			return $this->args;
 		}
 
         /**
-        * @brief returns predefined default values correspoding to given parameters 
-        * @param[in] $name 
-        * @param[in] $value
-        * @return Returns a default value for specified field
+        * Returns predefined default values correspoding to given parameters 
+        * @param string $name 
+        * @param mixed $value
+        * @return mixed Returns a default value for specified field
         */
         function getDefault($name, $value) {
             $db_info = Context::getDBInfo ();

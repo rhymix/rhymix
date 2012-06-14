@@ -1,14 +1,4 @@
 <?php
-    /**
-     * @class NewXmlQueryParser
-     * @author NHN (developers@xpressengine.com)
-     * @brief case to parse XE xml query
-     * @version 0.1
-     *
-     * @todo need to support extend query such as subquery, union
-     * @todo include info about column types for parsing user input
-     **/
-
     if(!defined('__XE_LOADED_XML_CLASS__')){
         define('__XE_LOADED_XML_CLASS__', 1);
 
@@ -44,12 +34,27 @@
         require(_XE_PATH_.'classes/xml/xmlquery/queryargument/DefaultValue.class.php');
     }
 
-
+	/**
+	 * New XmlQueryParser class
+	 * @author NHN (developers@xpressengine.com)
+	 * @brief case to parse XE xml query
+	 * @version 0.1
+	 *
+	 * @todo need to support extend query such as subquery, union
+	 * @todo include info about column types for parsing user input
+	 */
     class XmlQueryParser extends XmlParser {
-
+		/**
+		 * constructor
+		 * @return void
+		 */
         function XmlQueryParser(){
     	}
 
+		/**
+		 * Create XmlQueryParser instance for Singleton
+		 * @return XmlQueryParser object
+		 */
     	function &getInstance(){
             static $theInstance = null;
             if(!isset($theInstance)){
@@ -58,6 +63,12 @@
             return $theInstance;
     	}
 
+		/**
+		 * 1. Read xml file<br />
+		 * 2. Check the action<br />
+		 * 3. Parsing and write a cache file<br />
+		 * @return QueryParser object
+		 */
         function &parse_xml_query($query_id, $xml_file, $cache_file)
 	{
             // Read xml file
@@ -74,11 +85,19 @@
 	    return $parser;
         }
 
+		/**
+		 * Query XML file parsing
+		 * @return QueryParser object
+		 */
         function parse($query_id = NULL, $xml_file = NULL, $cache_file = NULL)
 	{
 	    $this->parse_xml_query($query_id, $xml_file, $cache_file);
 	}
 
+		/**
+		 * Return XML file content
+		 * @return array|NULL Returns a resultant data object or NULL in case of error
+		 */
         function getXmlFileContent($xml_file){
 			$buff = FileHandler::readFile($xml_file);
             $xml_obj = parent::parse($buff);

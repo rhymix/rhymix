@@ -1,20 +1,23 @@
 <?php
 /**
- * @class Security
- * @brief This class helps to solve security problems.
+ * - Security class
+ * - This class helps to solve security problems.
  * @author NHN (developers@xpressengine.com)
- **/
+ * @package /classes/security
+ * @version 0.1
+ */
 class Security
 {
 	/**
-	 * @brief Action target variable. If this value is null, the method will use Context variables
-	 * @protected
+	 * Action target variable. If this value is null, the method will use Context variables
+	 * @var mixed
 	 **/
 	var $_targetVar = null;
 
 	/**
 	 * @constructor
-	 * @param $var Target context
+	 * @param mixed $var Target context
+	 * @return void
 	 */
 	function Security($var = null)
 	{
@@ -22,13 +25,11 @@ class Security
 	}
 
 	/**
-	 * @brief Convert special characters to HTML entities for the target variables.
-	 *        The results of conversion are equivalent to the results of htmlspecialchars() which is a native function of PHP.
-	 * @params string $varName
-	 *         A variable's name to convert
-	 *         To process properties of an object or elements of an array,
-	 *         separate the owner(object or array) and the item(property or element) using a dot(.)
-	 * @public
+	 * - Convert special characters to HTML entities for the target variables.
+	 * - The results of conversion are equivalent to the results of htmlspecialchars() which is a native function of PHP.
+	 * @params string $varName. A variable's name to convert to process properties of an object or elements of an array,
+	 * separate the owner(object or array) and the item(property or element) using a dot(.)
+	 * @return mixed
 	 */
 	function encodeHTML(/*, $varName1, $varName2, ... */)
 	{
@@ -70,7 +71,10 @@ class Security
 	}
 
 	/**
-	 * @protected
+	 * Convert special characters to HTML entities for the target variables.
+	 * @param mixed $var
+	 * @param array $name
+	 * @return mixed
 	 */
 	function _encodeHTML($var, $name=array())
 	{

@@ -2,25 +2,66 @@
 /**
  * Validator class
  * @author NHN (developers@xpressengine.com)
+ * @package /classes/validator
+ * @version 0.1
  */
 class Validator
 {
+	/**
+	 * cache directory
+	 * @var string
+	 */
 	var $_cache_dir = '';
+	/**
+	 * last error
+	 * @var array
+	 */
 	var $_last_error;
+	/**
+	 * xml ruleset object
+	 * @var Xml_Node_ object
+	 */
 	var $_xml_ruleset = null;
+	/**
+	 * rule list
+	 * @var array
+	 */
 	var $_rules;
+	/**
+	 * filter list
+	 * @var array
+	 */
 	var $_filters;
+	/**
+	 * Can usable status for multibyte string function
+	 * @var boolean
+	 */
 	var $_has_mb_func;
+	/**
+	 * validator version
+	 * @var string
+	 */
 	var $_version = '1.0';
+	/**
+	 * ruleset xml file path
+	 * @var string
+	 */
 	var $_xml_path = '';
 
 	/**
 	 * @constructor
+	 * @param string $xml_path
+	 * @return void
 	 */
 	function Validator($xml_path='') {
 		$this->__construct($xml_path);
 	}
 
+	/**
+	 * @constructor
+	 * @param string $xml_path
+	 * @return void
+	 */
 	function __construct($xml_path='') {
 		$this->_rules   = array();
 		$this->_filters = array();
@@ -42,6 +83,10 @@ class Validator
 		$this->setCacheDir('./files/cache');
 	}
 
+	/**
+	 * @destructor
+	 * @return void
+	 */
 	function __destruct() {
 		$this->_rules   = null;
 		$this->_filters = null;
@@ -49,7 +94,8 @@ class Validator
 
 	/**
 	 * Load a xml file
-	 * @param[in] string $xml_path A file name to be loaded
+	 * @param string $xml_path A file name to be loaded
+	 * @return boolean
 	 */
 	function load($xml_path) {
 		$this->_xml_ruleset = null;
@@ -116,7 +162,8 @@ class Validator
 
 	/**
 	 * Set root cache directory
-	 * @param[in] string $cache_dir Root cache directory
+	 * @param string $cache_dir Root cache directory
+	 * @return void
 	 */
 	function setCacheDir($cache_dir){
 		if(is_dir($cache_dir)) {
@@ -126,8 +173,8 @@ class Validator
 
 	/**
 	 * Validate the fields. If the fields aren't passed, validation will be execute on the Context variables.
-	 * @param[in] (optional) array $fields Target fields. The keys of the array represents field's name, its values represents field's value.
-	 * @return bool True if it is valid, FALSE otherwise.
+	 * @param array $fields Target fields. The keys of the array represents field's name, its values represents field's value.
+	 * @return boolean TRUE if it is valid, FALSE otherwise.
 	 */
 	function validate($fields_=null) {
 		if(is_array($fields_)) {
@@ -245,6 +292,8 @@ class Validator
 
 	/**
 	 * apply trim recursive
+	 * @param string|array $array
+	 * @return string|array
 	 */
 	function arrayTrim($array)
 	{
@@ -260,8 +309,8 @@ class Validator
 
 	/**
 	 * Log an error
-	 * @param[in] $msg error message
-	 * @return always false
+	 * @param $msg error message
+	 * @return boolean always false
 	 */
 	function error($field, $msg){
 		$lang_filter = Context::getLang('filter');
@@ -283,8 +332,9 @@ class Validator
 
 	/**
 	 * Add a new rule
-	 * @param[in] string $name rule name
-	 * @param[in] mixed $rule
+	 * @param string $name rule name
+	 * @param mixed $rule
+	 * @return void
 	 */
 	function addRule($name, $rule=''){
 		if(is_array($name)) $args = $name;
@@ -305,12 +355,19 @@ class Validator
 
 	/**
 	 * Remove a rule
-	 * @param[in] string $name rule name
+	 * @param string $name rule name
+	 * @return void
 	 */
 	function removeRule($name){
 		unset($this->_rules[$name]);
 	}
 
+	/**
+	 * add filter to filter list
+	 * @param string $name rule name
+	 * @param string $filter filter
+	 * @return void
+	 */
 	function addFilter($name, $filter='') {
 		if(is_array($name)) $args = $name;
 		else $args = array($name=>$filter);
@@ -331,15 +388,20 @@ class Validator
 		}
 	}
 
+	/**
+	 * remove filter from filter list
+	 * @param string $name rule name
+	 * @return void
+	 */
 	function removeFilter($name) {
 		unset($this->_filters[$name]);
 	}
 
 	/**
 	 * Find whether the field is valid with the rule
-	 * @param[in] string $name rule name
-	 * @param[in] string $value a value to be validated
-	 * @return bool TRUE if the field is valid, FALSE otherwise.
+	 * @param string $name rule name
+	 * @param string $value a value to be validated
+	 * @return boolean TRUE if the field is valid, FALSE otherwise.
 	 */
 	function applyRule($name, $value){
 		$rule = $this->_rules[$name];
@@ -365,7 +427,9 @@ class Validator
 	}
 
 	/**
-	 * Return
+	 * if not supported 'mb_strlen' function, this method can use.
+	 * @param string $str
+	 * @return int
 	 */
 	function mbStrLen($str){
 		$arr = count_chars($str);
@@ -411,7 +475,7 @@ class Validator
 
 	/**
 	 * Compile a ruleset to a javascript file
-	 * @private
+	 * @return string
 	 */
 	function _compile2js() {
 		global $lang;

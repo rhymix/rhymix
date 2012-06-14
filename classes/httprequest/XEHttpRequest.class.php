@@ -1,21 +1,32 @@
 <?php
 /**
- * @class HttpRequest
+ * - HttpRequest class
+ * - a class that is designed to be used for sending out HTTP request to an external server and retrieving response
+ * - Connection: keep-alive is not supported
  * @author NHN (developers@xpressengine.com)
+ * @package /classes/httprequest
  * @version 0.1
- * @brief a class that is designed to be used for sending out HTTP request to an external server and retrieving response
- * @remarks  Connection: keep-alive is not supported
  */
 class XEHttpRequest {
-	/// target host
+	/**
+	 * target host
+	 * @var string
+	 */
 	var $m_host;
-	/// target Port
+	/**
+	 * target Port
+	 * @var int
+	 */
 	var $m_port;
-	/// header array 
+	/**
+	 * target header
+	 * @var array
+	 */
 	var $m_headers;
 
 	/**
-	 * @brief Constructor 
+	 * constructor
+	 * @return void
 	 */
 	function XEHttpRequest($host, $port)
 	{
@@ -25,9 +36,10 @@ class XEHttpRequest {
 	}
 
 	/**
-	 * @brief mether to add key/value pair to the HTTP request header
-     * @param[in] key HTTP header element
-     * @param[in] value value string for HTTP header element
+	 * Mether to add key/value pair to the HTTP request header
+	 * @param int|string $key HTTP header element
+	 * @param string $value value string for HTTP header element
+	 * @return void
 	 */
 	function addToHeader($key, $value)
 	{
@@ -35,12 +47,12 @@ class XEHttpRequest {
 	}
 
 	/**
-	 * @brief send HTTP message to the host
-     * @param[in] target ip or url of the external server
-     * @param[in] method HTTP method such as GET and POST
-     * @param[in] timeout time out value for HTTP request expiration
-	 * @param[in] post variables to send
-	 * @return Returns an object containing HTTP Response body and HTTP response code 
+	 * Send HTTP message to the host
+	 * @param string $target ip or url of the external server
+	 * @param string $method HTTP method such as GET and POST
+	 * @param int $timeout time out value for HTTP request expiration
+	 * @param array $post_vars variables to send
+	 * @return object Returns an object containing HTTP Response body and HTTP response code
 	 */
 	function send($target='/', $method='GET', $timeout=3, $post_vars=null)
 	{
@@ -67,8 +79,12 @@ class XEHttpRequest {
 	}
 
 	/**
-	 * @brief Send a request with the file socket
-	 * @private
+	 * Send a request with the file socket
+	 * @param string $target ip or url of the external server
+	 * @param string $method HTTP method such as GET and POST
+	 * @param int $timeout time out value for HTTP request expiration
+	 * @param array $post_vars variables to send
+	 * @return object Returns an object containing HTTP Response body and HTTP response code
 	 */
 	function sendWithSock($target, $method, $timeout, $post_vars)
 	{
@@ -131,8 +147,12 @@ class XEHttpRequest {
 	}
 
 	/**
-	 * @brief Send a request with the curl library
-	 * @private
+	 * Send a request with the curl library
+	 * @param string $target ip or url of the external server
+	 * @param string $method HTTP method such as GET and POST
+	 * @param int $timeout time out value for HTTP request expiration
+	 * @param array $post_vars variables to send
+	 * @return object Returns an object containing HTTP Response body and HTTP response code
 	 */
 	function sendWithCurl($target, $method, $timeout, $post_vars)
 	{

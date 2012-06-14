@@ -1,22 +1,50 @@
 <?php
 	/**
-	 * @class XmlLangParser
+	 * XmlLangParser class
+	 * Change to lang php file from xml.
 	 * @author NHN (developers@xpressengine.com)
-	 * @brief change to lang php file from xml.
-     * @version 0.1
+	 * @package /classes/xml
+	 * @version 0.1
 	 **/
-
 	class XmlLangParser extends XmlParser {
+		/**
+		 * compiled language cache path
+		 * @var string
+		 */
 		var $compiled_path = './files/cache/lang/'; // / directory path for compiled cache file
-		var $xml_file = NULL; // / Target xml file
-		var $php_file = NULL; // / Target php file
+		/**
+		 * Target xml file
+		 * @var string
+		 */
+		var $xml_file = NULL;
+		/**
+		 * Target php file
+		 * @var string
+		 */
+		var $php_file = NULL;
+		/**
+		 * result source code
+		 * @var string
+		 */
 		var $code;
+		/**
+		 * language list, for example ko, en...
+		 * @var array
+		 */
 		var $lang_types;
+		/**
+		 * language type
+		 * @see _XE_PATH_.'/common/lang/lang.info'
+		 * @var string
+		 */
 		var $lang_type;
 
 		/**
-		 * @brief constructor
-		 **/
+		 * constructor
+		 * @param string $xml_file
+		 * @param string $lang_type
+		 * @return void
+		 */
 		function XmlLangParser($xml_file, $lang_type) {
 			$this->lang_type = $lang_type;
 			$this->xml_file = $xml_file;
@@ -24,9 +52,9 @@
 		}
 
 		/**
-		 * @brief compile a xml_file only when a corresponding php lang file does not exists or is outdated
-         * @return Returns compiled php file.
-         **/
+		 * compile a xml_file only when a corresponding php lang file does not exists or is outdated
+		 * @return string|bool Returns compiled php file.
+		 */
 		function compile() {
 			if(!file_exists($this->xml_file)) return false;
 			if(!file_exists($this->php_file)){
@@ -36,9 +64,13 @@
 				else return $this->php_file;
 			}
 
-			return $this->_writefile() ? $this->php_file : false;
+			return $this->_writeFile() ? $this->php_file : false;
 		}
 
+		/**
+		 * Return compiled content
+		 * @return string Returns compiled lang source code 
+		 */
 		function getCompileContent() {
 			if(!file_exists($this->xml_file)) return false;
 			$this->_compile();
@@ -47,8 +79,9 @@
 		}
 
 		/**
-		 * @brief compile a xml_file
-		 **/
+		 * Compile a xml_file
+		 * @return void
+		 */
 		function _compile() {
 			$lang_selected = Context::loadLangSelected();
 			$this->lang_types = array_keys($lang_selected);
@@ -68,8 +101,9 @@
 		}
 
 		/**
-		 * @brief writing cache file
-		 **/
+		 * Writing cache file
+		 * @return void|bool
+		 */
 		function _writeFile(){
 			if(!$this->code) return;
 			FileHandler::writeFile($this->php_file, "<?php\n".$this->code);
@@ -77,8 +111,11 @@
 		}
 
 		/**
-		 * @brief Parsing item node
-		 **/
+		 * Parsing item node, set content to '$this->code'
+		 * @param object $item
+		 * @param string $var
+		 * @return void
+		 */
 		function _parseItem($item, $var){
 			$name = $item->attrs->name;
 			$value = $item->value;
@@ -108,8 +145,11 @@
 		}
 
 		/**
-		 * @brief Parsing value nodes
-		 **/
+		 * Parsing value nodes
+		 * @param array $nodes
+		 * @param string $var
+		 * @return array|string
+		 */
 		function _parseValues($nodes, $var) {
 			if(!is_array($nodes)) $nodes = array($nodes);
 
@@ -132,8 +172,11 @@
 		}
 
 		/**
-		 * @brief Parsing value node
-		 **/
+		 * Parsing value node
+		 * @param object $node
+		 * @param string $var
+		 * @return array|bool
+		 */
 		function _parseValue($node, $var) {
 			$lang_type = $node->attrs->xml_lang;
 			$value = $node->body;
@@ -144,8 +187,11 @@
 		}
 
 		/**
-		 * @brief get cache file name
-		 **/
+		 * Get cache file name
+		 * @param string $lang_type
+		 * @param string $type
+		 * @return string
+		 */
 		function _getCompiledFileName($lang_type, $type='php') {
 			return sprintf('%s%s.%s.php',$this->compiled_path, md5($this->xml_file), $lang_type);
 		}
