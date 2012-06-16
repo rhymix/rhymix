@@ -204,6 +204,9 @@ class TemplateHandler {
 		// prevent from calling directly before writing into file
 		$buff = '<?php if(!defined("__XE__"))exit;?>'.$buff;
 
+		// remove php script reopening
+		$buff = preg_replace(array('/(\n|\r\n)+/','/(;)?( )*\?\>([\n\t ]+)?\<\?php([\n\t ]+)?/'),array("\n",";\n"),$buff);
+
 		return $buff;
 	}
 
@@ -532,7 +535,7 @@ class TemplateHandler {
 					}
 
 					$result = "<?php {$result} ?>";
-					if($metafile) $result = "<!--#Meta:{$metafile}-->".$result;
+					if(__DEBUG__) if($metafile) $result = "<!--#Meta:{$metafile}-->".$result;
 
 					return $result;
 			}
