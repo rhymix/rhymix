@@ -195,8 +195,8 @@ class TemplateHandler {
 		// include, unload/load, import
 		$buff = preg_replace_callback('/{(@[\s\S]+?|(?=\$\w+|_{1,2}[A-Z]+|[!\(+-]|\w+(?:\(|::)|\d+|[\'"].*?[\'"]).+?)}|<(!--[#%])?(include|import|(un)?load(?(4)|(?:_js_plugin)?))(?(2)\(["\']([^"\']+)["\'])(.*?)(?(2)\)--|\/)>|<!--(@[a-z@]*)([\s\S]*?)-->(\s*)/', array($this, '_parseResource'), $buff);
 
-		// remove block which is a virtual tag and remove comments
-		$buff = preg_replace('@</?block\s*>|\s?<!--//(.*?)-->@is','',$buff);
+		// remove block which is a virtual tag
+		$buff = preg_replace('@</?block\s*>@is','',$buff);
 
 		// form auto generation
 		$buff = preg_replace_callback('/(<form(?:<\?php.+?\?>|[^<>]+)*?>)(.*?)(<\/form>)/is', array($this, '_compileFormAuthGeneration'), $buff);
