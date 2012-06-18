@@ -15,7 +15,7 @@
 		 */
 		function ConditionWithoutArgument($column_name, $argument, $operation, $pipe = ""){
                     parent::Condition($column_name, $argument, $operation, $pipe);
-                    if(in_array($operation, array('in', 'notin'))){
+                    if(in_array($operation, array('in', 'notin', 'not_in'))){
                         if(is_array($argument)) $argument = implode($argument, ',');
                         $this->_value = '('. $argument .')';
                     }

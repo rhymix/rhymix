@@ -13,7 +13,7 @@
 		var $argument;
 		/**
 		 * operation can use 'equal', 'more', 'excess', 'less', 'below', 'like_tail', 'like_prefix', 'like', 'notlike_tail',
-		 * 'notlike_prefix', 'notlike', 'in', 'notin', 'and', 'or', 'xor', 'not', 'notequal', 'between'
+		 * 'notlike_prefix', 'notlike', 'in', 'notin', 'not_in', 'and', 'or', 'xor', 'not', 'notequal', 'between'
 		 * @var string
 		 */
 		var $operation;
@@ -115,6 +115,7 @@
                                 case 'notlike' :
                                 case 'in' :
                                 case 'notin' :
+								case 'not_in' :
                                 case 'and':
                                 case 'or':
                                 case 'xor':
@@ -177,6 +178,7 @@
                                     return $name.' in '.$value;
                                 break;
                             case 'notin' :
+							case 'not_in' :
                                     return $name.' not in '.$value;
                                 break;
                             case 'notequal' :

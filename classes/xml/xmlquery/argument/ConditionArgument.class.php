@@ -5,7 +5,7 @@
 
 
 		function ConditionArgument($name, $value, $operation){
-			if(isset($value) && in_array($operation, array('in', 'notin', 'between')) && !is_array($value) && $value != ''){
+			if(isset($value) && in_array($operation, array('in', 'notin','not_in', 'between')) && !is_array($value) && $value != ''){
 				$value = str_replace(' ', '', $value);
 				$value = str_replace('\'', '', $value);
 				$value = explode(',', $value);
@@ -57,6 +57,7 @@
                                     if(!is_array($value)) $this->value = array($value);
                                 break;
                             case 'notin':
+							case 'not_in':
                                     if(!is_array($value)) $this->value = array($value);
                                 break;
                         }
