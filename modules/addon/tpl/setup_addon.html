@@ -9,6 +9,7 @@
 		</block>
 	</li>
 	<li cond="$addon_info->homepage">{$lang->homepage}: <a href="{$addon_info->homepage}" target="_blank">{$addon_info->homepage}</a></li>
+	<li cond="$addon_info->license">{$lang->addon_license}: <a href="{$addon_info->license_link}"|cond="$addon_info->license_link" target="_blank">{$addon_info->license}</a></li>
 </ul>
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
