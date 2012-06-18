@@ -129,6 +129,9 @@
                                 case 'between' :
                                         if(!is_array($this->_value)) { $this->_show = false; break;}
                                         if(count($this->_value)!=2) {$this->_show = false; break;}
+								default:
+									// If operation is not one of the above, means the condition is invalid
+									$this->_show = false;
                             }
                         }
                     }
