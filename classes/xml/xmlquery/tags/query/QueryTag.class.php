@@ -1,26 +1,104 @@
 <?php
-
+/**
+ * QueryTag class
+ *
+ * @author Arnia Software
+ * @package /classes/xml/xmlquery/tags/query
+ * @version 0.1
+ */
 class QueryTag {
-
+	/**
+	 * Action for example, 'select', 'insert', 'delete'...
+	 * @var string
+	 */
 	var $action;
+	/**
+	 * Query id
+	 * @var string
+	 */
 	var $query_id;
+	/**
+	 * Priority
+	 * @var string
+	 */
 	var $priority;
+	/**
+	 * column type list
+	 * @var array
+	 */
 	var $column_type;
+	/**
+	 * Query stdClass object
+	 * @var object
+	 */
 	var $query;
-	//xml tags
+	/**
+	 * Columns in xml tags
+	 * @var object
+	 */
 	var $columns;
+	/**
+	 * Tables in xml tags
+	 * @var object
+	 */
 	var $tables;
+	/**
+	 * Subquery in xml tags
+	 * @var object
+	 */
 	var $subquery;
+	/**
+	 * Conditions in xml tags
+	 * @var object
+	 */
 	var $conditions;
+	/**
+	 * Groups in xml tags
+	 * @var object
+	 */
 	var $groups;
+	/**
+	 * Navigation in xml tags
+	 * @var object
+	 */
 	var $navigation;
+	/**
+	 * Arguments in xml tags
+	 * @var object
+	 */
 	var $arguments;
+	/**
+	 * PreBuff
+	 * @var string
+	 */
 	var $preBuff;
+	/**
+	 * Buff
+	 * @var string
+	 */
 	var $buff;
+	/**
+	 * Subquery status
+	 * @var bool
+	 */
 	var $isSubQuery;
+	/**
+	 * Join type
+	 * @var string
+	 */
 	var $join_type;
+	/**
+	 * alias
+	 * @var string
+	 */
 	var $alias;
 
+	/**
+	 * constructor
+	 * @param object $query
+	 * @param bool $isSubQuery
+	 * @return void
+	 */
 	function QueryTag($query, $isSubQuery = false) {
 		$this->action = $query->attrs->action;
 		$this->query_id = $query->attrs->id;

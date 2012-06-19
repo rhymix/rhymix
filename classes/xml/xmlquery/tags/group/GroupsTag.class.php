@@ -1,8 +1,23 @@
 <?php 
-
+	/**
+	 * GroupsTag class
+	 *
+	 * @author Arnia Software
+	 * @package /classes/xml/xmlquery/tags/group
+	 * @version 0.1
+	 */
 	class GroupsTag {
+		/**
+		 * column list
+		 * @var array
+		 */
 		var $groups;
 		
+		/**
+		 * constructor
+		 * @param array|string $xml_groups
+		 * @return void
+		 */
 		function GroupsTag($xml_groups){			
 			$this->groups = array();
 			

@@ -1,9 +1,29 @@
 <?php
-
+	/**
+	 * ConditionGroupTag class
+	 *
+	 * @author Arnia Software
+	 * @package /classes/xml/xmlquery/tags/condition
+	 * @version 0.1
+	 */
 	class ConditionGroupTag {
+		/**
+		 * condition list
+		 * @var string|array value is ConditionTag object
+		 */
 		var $conditions;
+		/**
+		 * pipe
+		 * @var string
+		 */
 		var $pipe;
 
+		/**
+		 * constructor
+		 * @param string|array $conditions
+		 * @param string $pipe
+		 * @return void
+		 */
 		function ConditionGroupTag($conditions, $pipe = ""){
 			$this->pipe = $pipe;
 
@@ -19,6 +39,10 @@
 			return $this->conditions;
 		}
 
+		/**
+		 * ConditionTag object to string
+		 * @return string
+		 */
 		function getConditionGroupString(){
 			$conditions_string = 'array('.PHP_EOL;
 			foreach($this->conditions as $condition){

@@ -1,16 +1,29 @@
 <?php
-
-    /**
-     * @class SelectColumnTag
-     * @author Arnia Software
-     * @brief Models the <column> tag inside an XML Query file whose action is 'select'
-     *
-     **/
-
+	/**
+	 * SelectColumnTag
+	 * Models the <column> tag inside an XML Query file whose action is 'select'
+	 *
+	 * @author Arnia Software
+	 * @package /classes/xml/xmlquery/tags/column
+	 * @version 0.1
+	 */
 	class SelectColumnTag extends ColumnTag{
+		/**
+		 * alias
+		 * @var string
+		 */
 		var $alias;
+		/**
+		 * click count status
+		 * @var bool
+		 */
 		var $click_count;
 		
+		/**
+		 * constructor
+		 * @param string|object $column
+		 * @return void
+		 */
 		function SelectColumnTag($column){
 			if ($column == "*" || $column->attrs->name == '*')
 			{

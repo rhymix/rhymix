@@ -8,7 +8,7 @@
 	class ClickCountExpression extends SelectExpression {
 		/**
 		 * click count
-		 * @var boolean
+		 * @var bool
 		 */
 		var $click_count;
 	
@@ -16,7 +16,7 @@
 		 * constructor
 		 * @param string $column_name
 		 * @param string $alias
-		 * @param boolean $click_count
+		 * @param bool $click_count
 		 * @return void
 		 */
 		function ClickCountExpression($column_name, $alias = NULL, $click_count = false){

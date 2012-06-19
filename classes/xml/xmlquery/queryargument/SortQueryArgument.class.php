@@ -1,6 +1,15 @@
 <?php
-
+	/**
+	 * SortQueryArgument class
+	 * @author NHN (developers@xpressengine.com)
+	 * @package /classes/xml/xmlquery/queryargument
+	 * @version 0.1
+	 */
 	class SortQueryArgument extends QueryArgument{
+			/**
+			 * Change SortQueryArgument object to string
+			 * @return string
+			 */
             function toString(){
                 $arg = sprintf("\n" . '${\'%s_argument\'} = new SortArgument(\'%s\', %s);' . "\n"
                                         , $this->argument_name

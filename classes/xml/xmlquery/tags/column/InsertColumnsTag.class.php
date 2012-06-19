@@ -1,14 +1,24 @@
 <?php
-    /**
-     * @class InsertColumnsTag
-     * @author Arnia Software
-     * @brief Models the <column> tag inside an XML Query file whose action is 'insert'
-     *
-     **/
-
+	/**
+	 * InsertColumnsTag class
+	 * Models the <column> tag inside an XML Query file whose action is 'insert'
+	 *
+	 * @author Arnia Software
+	 * @package /classes/xml/xmlquery/tags/column
+	 * @version 0.1
+	 */
 	class InsertColumnsTag{
+		/**
+		 * Column list
+		 * @var array value is InsertColumnTag object
+		 */
 		var $columns;
 
+		/**
+		 * constructor
+		 * @param array|string $xml_columns
+		 * @return void
+		 */
 		function InsertColumnsTag($xml_columns) {
 			$this->columns = array();
 
@@ -24,6 +34,10 @@
 			}
 		}
 
+		/**
+		 * InsertColumnTag object to string
+		 * @return string
+		 */
 		function toString(){
 			$output_columns = 'array(' . PHP_EOL;
 			foreach($this->columns as $column){
@@ -34,6 +48,10 @@
 			return $output_columns;
 		}
 
+		/**
+		 * Return argument list
+		 * @return array
+		 */
 		function getArguments(){
 			$arguments = array();
 			foreach($this->columns as $column){

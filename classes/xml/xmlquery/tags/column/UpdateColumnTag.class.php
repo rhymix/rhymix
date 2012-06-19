@@ -1,18 +1,29 @@
 <?php
-
-    /**
-     * @class UpdateColumnTag
-     * @author Arnia Software
-     * @brief Models the <column> tag inside an XML Query file whose action is 'update'
-     *
-     **/
-
-
-
+	/**
+	 * UpdateColumnTag
+	 * Models the <column> tag inside an XML Query file whose action is 'update'
+	 *
+	 * @author Arnia Software
+	 * @package /classes/xml/xmlquery/tags/column
+	 * @version 0.1
+	 */
 	class UpdateColumnTag extends ColumnTag {
+		/**
+		 * argument
+		 * @var QueryArgument object
+		 */
 		var $argument;
+		/**
+		 * default value
+		 * @var string
+		 */
                 var $default_value;
 
+		/**
+		 * constructor
+		 * @param object $column
+		 * @return void
+		 */
 		function UpdateColumnTag($column) {
 			parent::ColumnTag($column->attrs->name);
 			$dbParser = DB::getParser();

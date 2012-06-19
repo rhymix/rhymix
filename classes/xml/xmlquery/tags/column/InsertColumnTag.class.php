@@ -1,15 +1,24 @@
 <?php
-    /**
-     * @class InsertColumnTag
-     * @author Arnia Software
-     * @brief Models the <column> tag inside an XML Query file whose action is 'insert'
-     *
-     **/
-
-
+	/**
+	 * InsertColumnTag
+	 * Models the <column> tag inside an XML Query file whose action is 'insert'
+	 *
+	 * @author Arnia Software
+	 * @package /classes/xml/xmlquery/tags/column
+	 * @version 0.1
+	 */
 	class InsertColumnTag extends ColumnTag {
+		/**
+		 * argument
+		 * @var QueryArgument object
+		 */
 		var $argument;
 
+		/**
+		 * constructor
+		 * @param object $column
+		 * @return void
+		 */
 		function InsertColumnTag($column) {
 			parent::ColumnTag($column->attrs->name);
 			$dbParser = DB::getParser();

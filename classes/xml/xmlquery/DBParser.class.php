@@ -4,7 +4,7 @@
 	 * @author NHN (developers@xpressengine.com)
 	 * @package /classes/xml/xmlquery
 	 * @version 0.1
-	 **/
+	 */
 	class DBParser {
 		/**
 		 * Character for escape target value on the left
@@ -154,6 +154,11 @@
 			return implode('', $functions);				
 		}
 		
+		/*
+		 * Checks argument is asterisk
+		 * @param string $column_name
+		 * @return bool
+		 */
 		function isStar($column_name){
 			if(substr($column_name,-1) == '*') return true;
 			return false;
