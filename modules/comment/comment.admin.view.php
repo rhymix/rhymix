@@ -1,21 +1,24 @@
 <?php
-    /**
-     * @class  commentAdminView
-     * @author NHN (developers@xpressengine.com)
-     * @brief admin view class of the comment module
-     **/
-
+	/**
+	 * commentAdminView class
+	 * admin view class of the comment module
+	 *
+	 * @author NHN (developers@xpressengine.com)
+	 * @package /modules/comment
+	 * @version 0.1
+	 */
     class commentAdminView extends comment {
-
-        /**
-         * @brief Initialization
-         **/
+		/**
+		 * Initialization
+		 * @return void
+		 */
         function init() {
         }
 
-        /**
-         * @brief Display the list(for administrators)
-         **/
+		/**
+		 * Display the list(for administrators)
+		 * @return void
+		 */
         function dispCommentAdminList() {
             // option to get a list
             $args->page = Context::get('page'); // /< Page
@@ -61,9 +64,10 @@
             $this->setTemplateFile('comment_list');
         }
 
-        /**
-         * @brief show the blacklist of comments in the admin page
-         **/
+		/**
+		 * Show the blacklist of comments in the admin page
+		 * @return void
+		 */
         function dispCommentAdminDeclared() {
             // option to get a blacklist
             $args->page = Context::get('page'); // /< Page

@@ -1,23 +1,25 @@
 <?php
-    /**
-     * @class  commentModel
-     * @author NHN (developers@xpressengine.com)
-     * @brief model class of the comment module
-     **/
-
+	/**
+	 * commentModel class
+	 * model class of the comment module
+	 *
+	 * @author NHN (developers@xpressengine.com)
+	 * @package /modules/comment
+	 * @version 0.1
+	 */
     class commentModel extends comment {
-
-        /**
-         * @brief Initialization
-         **/
+		/**
+		 * Initialization
+		 * @return void
+		 */
         function init() {
         }
 
-        /**
-         * @brief display the pop-up menu of the post
-         *
-         * Print, scrap, vote-up(recommen), vote-down(non-recommend), report features added
-         **/
+		/**
+		 * display the pop-up menu of the post
+		 * Print, scrap, vote-up(recommen), vote-down(non-recommend), report features added
+		 * @return void
+		 */
         function getCommentMenu() {
             // get the post's id number and the current login information
             $comment_srl = Context::get('target_srl');
@@ -84,27 +86,34 @@
         }
 
 
-        /**
-         * @brief check if you have a permission to comment_srl
-         *
-         * use only session information
-         **/
+		/**
+		 * Check if you have a permission to comment_srl
+		 * use only session information
+		 * @param int $comment_srl
+		 * @return bool
+		 */
         function isGranted($comment_srl) {
             return $_SESSION['own_comment'][$comment_srl];
         }
 
-        /**
-         * @brief Returns the number of child comments
-         **/
+		/**
+		 * Returns the number of child comments
+		 * @param int $comment_srl
+		 * @return int
+		 */
         function getChildCommentCount($comment_srl) {
             $args->comment_srl = $comment_srl;
             $output = executeQuery('comment.getChildCommentCount', $args);
             return (int)$output->data->count;
         }
 
-        /**
-         * @brief get the comment
-         **/
+		/**
+		 * Get the comment
+		 * @param int $comment_srl
+		 * @param bool $is_admin
+		 * @param array $columnList
+		 * @return commentItem
+		 */
         function getComment($comment_srl=0, $is_admin = false, $columnList = array()) {
             $oComment = new commentItem($comment_srl, $columnList);
             if($is_admin) $oComment->setGrant();
@@ -112,9 +121,12 @@
             return $oComment;
         }
 
-        /**
-         * @brief get the multiple comments(not paginating)
-         **/
+		/**
+		 * Get the comment list(not paginating)
+		 * @param string|array $comment_srl_list
+		 * @param array $columnList
+		 * @return array
+		 */
         function getComments($comment_srl_list, $columnList = array()) {
             if(is_array($comment_srl_list)) $comment_srls = implode(',',$comment_srl_list);
             // fetch from a database
@@ -138,9 +150,11 @@
             return $result;
         }
 
-        /**
-         * @brief get the total number of comments in corresponding with document_srl.
-         **/
+		/**
+		 * Get the total number of comments in corresponding with document_srl.
+		 * @param int $document_srl
+		 * @return int
+		 */
         function getCommentCount($document_srl) {
             $args->document_srl = $document_srl;
 		
@@ -165,9 +179,12 @@
             return (int)$total_count;
         }
 
-        /**
-         * @brief get the total number of comments in corresponding with document_srl.
-         **/
+		/**
+		 * Get the total number of comments in corresponding with document_srl.
+		 * @param string $date
+		 * @param array $moduleSrlList
+		 * @return int
+		 */
         function getCommentCountByDate($date = '', $moduleSrlList = array()) {
 			if($date) $args->regDate = date('Ymd', strtotime($date));
 			if(count($moduleSrlList)>0) $args->module_srl = $moduleSrlList;
@@ -178,9 +195,12 @@
 			return $output->data->count;
         }
 
-        /**
-         * @brief get the total number of comments in corresponding with module_srl.
-         **/
+		/**
+		 * Get the total number of comments in corresponding with module_srl.
+		 * @param int $module_srl
+		 * @param bool $published
+		 * @return int
+		 */
         function getCommentAllCount($module_srl,$published=null) {
             $args->module_srl = $module_srl;
 			
@@ -211,6 +231,10 @@
             return (int)$total_count;
         }
 
+		/**
+		 * Get the module info without duplication
+		 * @return array
+		 */
 		function getDistinctModules()
 		{
 			$output = executeQuery('comment.getDistinctModules');
@@ -228,10 +252,13 @@
 			return $result;
 		}
 
-        /**
-         * @brief get the comment in corresponding with mid.
-         * TODO add commentItems to cache too
-         **/
+		/**
+		 * Get the comment in corresponding with mid.
+		 * @todo add commentItems to cache too
+		 * @param object $obj
+		 * @param array $columnList
+		 * @return array
+		 */
         function getNewestCommentList($obj, $columnList = array()) {
             if($obj->mid) {
                 $oModuleModel = &getModel('module');
@@ -283,9 +310,14 @@
             return $result;
         }
 
-        /**
-         * @brief get a comment list of the doc in corresponding woth document_srl.
-         **/
+		/**
+		 * Get a comment list of the doc in corresponding woth document_srl.
+		 * @param int $document_srl
+		 * @param int $page
+		 * @param bool $is_admin
+		 * @param int $count
+		 * @return object
+		 */
         function getCommentList($document_srl, $page = 0, $is_admin = false, $count = 0) {
                 if(!isset($document_srl)) return;
         	// cache controll
@@ -348,10 +380,13 @@
             return $output;
         }
 
-        /**
-         * @brief update a list of comments in corresponding with document_srl
-         * take care of previously used data than GA version
-         **/
+		/**
+		 * Update a list of comments in corresponding with document_srl
+		 * Take care of previously used data than GA version
+		 * @param int $module_srl
+		 * @param int $document_srl
+		 * @return void
+		 */
         function fixCommentList($module_srl, $document_srl) {
             // create a lock file to prevent repeated work when performing a batch job
             $lock_file = "./files/cache/tmp/lock.".$document_srl;
@@ -407,9 +442,14 @@
             FileHandler::removeFile($lock_file);
         }
 
-        /**
-         * @brief relocate comments in the hierarchical structure
-         **/
+		/**
+		 * Relocate comments in the hierarchical structure
+		 * @param array $comment_list
+		 * @param array $list
+		 * @param int $depth
+		 * @param object $parent
+		 * @return void
+		 */
         function _arrangeComment(&$comment_list, $list, $depth, $parent = null) {
             if(!count($list)) return;
             foreach($list as $key => $val) {
@@ -430,9 +470,12 @@
             }
         }
 
-        /**
-         * @brief get all the comments in time decending order(for administrators)
-         **/
+		/**
+		 * Get all the comments in time decending order(for administrators)
+		 * @param object $obj
+		 * @param array $columnList
+		 * @return object
+		 */
         function getTotalCommentList($obj, $columnList = array()) {
             $query_id = 'comment.getTotalCommentList';
             // Variables
@@ -526,9 +569,11 @@
             return $output;
         }
 
-        /**
-         * @brief get all the comment count in time decending order(for administrators)
-         **/
+		/**
+		 * Get all the comment count in time decending order(for administrators)
+		 * @param object $obj
+		 * @return int
+		 */
         function getTotalCommentCount($obj) {
             $query_id = 'comment.getTotalCommentCountByGroupStatus';
             // Variables
@@ -588,9 +633,11 @@
             return $output->data;
         }
 
-        /**
-         * @brief return a configuration of comments for each module
-         **/
+		/**
+		 * Return a configuration of comments for each module
+		 * @param int $module_srl
+		 * @return object
+		 */
         function getCommentConfig($module_srl) {
             $oModuleModel = &getModel('module');
             $comment_config = $oModuleModel->getModulePartConfig('comment', $module_srl);
@@ -598,6 +645,10 @@
             return $comment_config;
         }
 
+		/**
+		 * Return a list of voting member
+		 * @return void
+		 */
 		function getCommentVotedMemberList()
 		{
 			$comment_srl = Context::get('comment_srl');
@@ -636,6 +687,10 @@
 			$this->add('voted_member_list',$output->data);
 		}
 
+		/**
+		 * Return a secret status by secret field
+		 * @return array
+		 */
 		function getSecretNameList()
 		{
 			global $lang;

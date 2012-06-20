@@ -1,21 +1,24 @@
 <?php
-    /**
-     * @class  commentController
-     * @author NHN (developers@xpressengine.com)
-     * @brief controller class of the comment module
-     **/
-
+	/**
+	 * commentController class
+	 * controller class of the comment module
+	 *
+	 * @author NHN (developers@xpressengine.com)
+	 * @package /modules/comment
+	 * @version 0.1
+	 */
     class commentController extends comment {
-
-        /**
-         * @brief Initialization
-         **/
+		/**
+		 * Initialization
+		 * @return void
+		 */
         function init() {
         }
 
-        /**
-         * @brief action to handle recommendation votes on comments (Up)
-         **/
+		/**
+		 * Action to handle recommendation votes on comments (Up)
+		 * @return Object
+		 */
         function procCommentVoteUp() {
             if(!Context::get('is_logged')) return new Object(-1, 'msg_invalid_request');
 
@@ -35,9 +38,10 @@
             return $this->updateVotedCount($comment_srl, $point);
         }
 
-        /**
-         * @brief action to handle recommendation votes on comments (Down)
-         **/
+		/**
+		 * Action to handle recommendation votes on comments (Down)
+		 * @return Object
+		 */
         function procCommentVoteDown() {
             if(!Context::get('is_logged')) return new Object(-1, 'msg_invalid_request');
 
@@ -57,9 +61,10 @@
             return $this->updateVotedCount($comment_srl, $point);
         }
 
-        /**
-         * @brief action to be called when a comment posting is reported
-         **/
+		/**
+		 * Action to be called when a comment posting is reported
+		 * @return void|Object
+		 */
         function procCommentDeclare() {
             if(!Context::get('is_logged')) return new Object(-1, 'msg_invalid_request');
 
@@ -69,9 +74,10 @@
             return $this->declaredComment($comment_srl);
         }
 
-        /**
-         * @brief trigger to delete its comments together with document deleted
-         **/
+		/**
+		 * Trigger to delete its comments together with document deleted
+		 * @return Object
+		 */
         function triggerDeleteDocumentComments(&$obj) {
             $document_srl = $obj->document_srl;
             if(!$document_srl) return new Object();
@@ -79,9 +85,10 @@
             return $this->deleteComments($document_srl, true);
         }
 
-        /**
-         * @brief trigger to delete corresponding comments when deleting a module
-         **/
+		/**
+		 * Trigger to delete corresponding comments when deleting a module
+		 * @return object
+		 */
         function triggerDeleteModuleComments(&$obj) {
             $module_srl = $obj->module_srl;
             if(!$module_srl) return new Object();
@@ -90,18 +97,20 @@
             return $oCommentController->deleteModuleComments($module_srl);
         }
 
-        /**
-         * @brief Authorization of the comments
-         * available only in the current connection of the session value
-         **/
+		/**
+		 * Authorization of the comments
+		 * available only in the current connection of the session value
+		 * @return void
+		 */
         function addGrant($comment_srl) {
             $_SESSION['own_comment'][$comment_srl] = true;
         }
 
 	/**
-	*@brief Check if module is using comment validation system
-	* @param number $document_srl
-	* @return boolean
+	* Check if module is using comment validation system
+	* @param int $document_srl
+	* @param int $module_srl
+	* @return bool
 	*/
 	function isModuleUsingPublishValidation($document_srl=null, $module_srl=null)
 	{
@@ -116,9 +125,12 @@
 		return $use_validation;
 	}
 		
-        /**
-         * @brief Enter comments
-         **/
+		/**
+		 * Enter comments
+		 * @param object $obj
+		 * @param bool $manual_inserted
+		 * @return object
+		 */
         function insertComment($obj, $manual_inserted = false) {
 
 		// check if comment's module is using comment validation and set the publish status to 0 (false)
@@ -314,9 +326,10 @@
         }
 		
 	/**
-	* @brief	Send email to module's admins after a new comment was interted successfully
-	*		if Comments Approval System is used 
-	* @param type $obj 
+	* Send email to module's admins after a new comment was interted successfully
+	* if Comments Approval System is used 
+	* @param object $obj 
+	* @return void
 	*/
 	function sendEmailToAdminAfterInsertComment($obj)
 	{
@@ -434,9 +447,12 @@
 	}
 		
 		
-        /**
-         * @brief fix the comment
-         **/
+		/**
+		 * Fix the comment
+		 * @param object $obj
+		 * @param bool $is_admin
+		 * @return object
+		 */
         function updateComment($obj, $is_admin = false) {
             $obj->__isupdate = true;
             // call a trigger (before)
@@ -517,9 +533,13 @@
             return $output;
         }
 
-        /**
-         * @brief Delete comment
-         **/
+		/**
+		 * Delete comment
+		 * @param int $comment_srl
+		 * @param bool $is_admin
+		 * @param bool $isMoveToTrash
+		 * @return object
+		 */
         function deleteComment($comment_srl, $is_admin = false, $isMoveToTrash = false) {
             // create the comment model object
             $oCommentModel = &getModel('comment');
@@ -588,8 +608,9 @@
         }
 
 	/**
-	* @brief remove all comment relation log
-	**/
+	* Remove all comment relation log
+	* @return Object
+	*/
 	function deleteCommentLog()
 	{
 		$this->_deleteDeclaredComments($args);
@@ -597,9 +618,11 @@
 		return new Object(0, 'success');
 	}
 
-        /**
-         * @brief remove all comments of the article
-         **/
+		/**
+		 * Remove all comments of the article
+		 * @param int $document_srl
+		 * @return object
+		 */
         function deleteComments($document_srl) {
             // create the document model object
             $oDocumentModel = &getModel('document');
@@ -649,10 +672,10 @@
         }
 
 		/**
-		 * @brief delete declared comment, log
-		 * @param $commentSrls : srls string (ex: 1, 2,56, 88)
+		 * delete declared comment, log
+		 * @param array|string $commentSrls : srls string (ex: 1, 2,56, 88)
 		 * @return void
-		 **/
+		 */
 		function _deleteDeclaredComments($commentSrls)
 		{
 			executeQuery('comment.deleteDeclaredComments', $commentSrls);
@@ -660,18 +683,21 @@
 		}
 
 		/**
-		 * @brief delete voted comment log
-		 * @param $commentSrls : srls string (ex: 1, 2,56, 88)
+		 * delete voted comment log
+		 * @param array|string $commentSrls : srls string (ex: 1, 2,56, 88)
 		 * @return void
-		 **/
+		 */
 		function _deleteVotedComments($commentSrls)
 		{
 			executeQuery('comment.deleteCommentVotedLog', $commentSrls);
 		}
 
-        /**
-         * @brief Increase vote-up counts of the comment
-         **/
+		/**
+		 * Increase vote-up counts of the comment
+		 * @param int $comment_srl
+		 * @param int $point
+		 * @return Object
+		 */
         function updateVotedCount($comment_srl, $point = 1) {
             if($point > 0) {
                 $failed_voted = 'failed_voted';
@@ -734,9 +760,11 @@
             return new Object(0, $success_message);
         }
 
-        /**
-         * @brief report a blamed comment
-         **/
+		/**
+		 * Report a blamed comment
+		 * @param $comment_srl
+		 * @return void
+		 */
         function declaredComment($comment_srl) {
             // Fail if session information already has a reported document
             if($_SESSION['declared_comment'][$comment_srl]) return new Object(-1, 'failed_declared');
@@ -788,9 +816,14 @@
             $this->setMessage('success_declared');
         }
 
-        /**
-         * @brief method to add a pop-up menu when clicking for displaying child comments
-         **/
+		/**
+		 * Method to add a pop-up menu when clicking for displaying child comments
+		 * @param string $url
+		 * @param string $str
+		 * @param strgin $icon
+		 * @param strgin $target
+		 * @return void
+		 */
         function addCommentPopupMenu($url, $str, $icon = '', $target = 'self') {
             $comment_popup_menu_list = Context::get('comment_popup_menu_list');
             if(!is_array($comment_popup_menu_list)) $comment_popup_menu_list = array();
@@ -804,9 +837,10 @@
             Context::set('comment_popup_menu_list', $comment_popup_menu_list);
         }
 
-        /**
-         * @brief save the comment extension form for each module
-         **/
+		/**
+		 * Save the comment extension form for each module
+		 * @return void
+		 */
         function procCommentInsertModuleConfig() {
             $module_srl = Context::get('target_module_srl');
             if(preg_match('/^([0-9,]+)$/',$module_srl)) $module_srl = explode(',',$module_srl);
@@ -839,6 +873,12 @@
 			}
         }
 
+		/**
+		* Comment module config setting
+		* @param int $srl
+		* @param object $comment_config
+		* @return Object
+		*/
 		function setCommentModuleConfig($srl, $comment_config){
             $oModuleController = &getController('module');
 			$oModuleController->insertModulePartConfig('comment',$srl,$comment_config);
@@ -846,8 +886,9 @@
 		}
 
 	/**
-	* @brief get comment all list
-	**/
+	* Get comment all list
+	* @return void
+	*/
 	function procCommentGetList()
 	{
 		if(!Context::get('is_logged')) return new Object(-1,'msg_not_permitted');
