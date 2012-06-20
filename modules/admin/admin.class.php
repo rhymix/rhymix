@@ -1,23 +1,25 @@
 <?php
-    /**
-     * @class  admin
-     * @author NHN (developers@xpressengine.com)
-     * @brief  base class of admin module
-     **/
-
+	/**
+	 * admin class
+	 * @brief  base class of admin module
+	 *
+	 * @author NHN (developers@xpressengine.com)
+	 * @package /modules/admin
+	 * @version 0.1
+	 */
     class admin extends ModuleObject {
-
-        /**
-         * @brief install admin module
-         * @return new Object
-         **/
+		/**
+		 * Install admin module
+		 * @return Object
+		 */
         function moduleInstall() {
             return new Object();
         }
 
-        /**
-         * @brief if update is necessary it returns true
-         **/
+		/**
+		 * If update is necessary it returns true
+		 * @return bool
+		 */
         function checkUpdate() {
             $oDB = &DB::getInstance();
             if(!$oDB->isColumnExists("admin_favorite", "type")) return true;
@@ -25,10 +27,10 @@
             return false;
         }
 
-        /**
-         * @brief update module
-         * @return new Object
-         **/
+		/**
+		 * Update module
+		 * @return Object
+		 */
         function moduleUpdate() {
             $oDB = &DB::getInstance();
             if(!$oDB->isColumnExists("admin_favorite", "type"))
@@ -53,17 +55,17 @@
             return new Object();
         }
 
-        /**
-         * @brief regenerate cache file
-         * @return none
-         **/
+		/**
+		 * Regenerate cache file
+		 * @return void
+		 */
         function recompileCache() {
         }
 
-        /**
-         * @brief regenerate xe admin default menu
-         * @return none
-         **/
+		/**
+		 * Regenerate xe admin default menu
+		 * @return void
+		 */
 		function createXeAdminMenu()
 		{
 			//insert menu
@@ -238,6 +240,10 @@
 			$oMenuAdminConroller->makeXmlFile($menuSrl);
 		}
 
+		/**
+		 * Return parent menu key by child menu
+		 * @return string
+		 */
 		function _getGnbKey($menuName)
 		{
 			switch($menuName) {

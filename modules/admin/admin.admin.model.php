@@ -1,10 +1,28 @@
 <?php
-
+	/**
+	 * adminAdminModel class
+	 * admin model class of admin module
+	 * @author NHN (developers@xpressengine.com)
+	 * @package /modules/admin
+	 * @version 0.1
+	 */
     class adminAdminModel extends admin
     {
+		/**
+		 * Ftp root path
+		 * @var string
+		 */
         var $pwd;
+		/**
+		 * Buffer for Admin GNB menu
+		 * @var string
+		 */
 		var $gnbLangBuffer;
 
+		/**
+		 * Add file list to Object after sftp connect
+		 * @return void|Object
+		 */
         function getSFTPList()
         {
             $ftp_info =  Context::getRequestVars();
@@ -38,6 +56,10 @@
             $this->add('list', $list);
         }
 
+		/**
+		 * Add file list to Object after ftp connect
+		 * @return void|Object
+		 */
         function getAdminFTPList()
         {
 			Context::loadLang('./modules/autoinstall/lang');
@@ -98,6 +120,11 @@
             $this->add('list', $list);
         }
 
+		/**
+		 * Parameter arrange for send to XE collect server
+		 * @param string $type 'WORKING', 'INSTALL'
+		 * @return string
+		 */
 		function getEnv($type='WORKING') {
 
 			 $skip = array(
@@ -156,6 +183,10 @@
 			return $param;
 		}
 
+		/**
+		 * Return theme info list by theme directory list
+		 * @return array
+		 */
 		function getThemeList(){
 			$path = _XE_PATH_.'themes';
 			$list = FileHandler::readDir($path);
@@ -170,6 +201,12 @@
 			return $theme_info;
 		}
 
+		/**
+		 * Return theme info
+		 * @param string $theme_name
+		 * @param array $layout_list
+		 * @return object
+		 */
 		function getThemeInfo($theme_name, $layout_list = null){
 			if ($GLOBALS['__ThemeInfo__'][$theme_name]) return $GLOBALS['__ThemeInfo__'][$theme_name];
 
@@ -294,6 +331,10 @@
 			return $theme_info;
 		}
 
+		/**
+		 * Return theme module skin list
+		 * @return array
+		 */
 		function getModulesSkinList(){
 			if ($GLOBALS['__ThemeModuleSkin__']['__IS_PARSE__']) return $GLOBALS['__ThemeModuleSkin__'];
             $searched_list = FileHandler::readDir('./modules');
@@ -323,6 +364,10 @@
 			return $GLOBALS['__ThemeModuleSkin__'];
 		}
 
+		/**
+		 * Return admin menu language
+		 * @return array
+		 */
 		function getAdminMenuLang()
 		{
 			$currentLang = Context::getLangType();
@@ -356,8 +401,11 @@
 		}
 
 		/**
-		 * @brief Get admin favorite list
-		 **/
+		 * Get admin favorite list
+		 * @param int $siteSrl if default site, siteSrl is zero
+		 * @param bool $isGetModuleInfo
+		 * @return object
+		 */
 		function getFavoriteList($siteSrl = 0, $isGetModuleInfo = false)
 		{
 			$args->site_srl = $siteSrl;
@@ -382,8 +430,11 @@
 		}
 
 		/**
-		 * @brief Check available insert favorite
-		 **/
+		 * Check available insert favorite
+		 * @param int $siteSrl if default site, siteSrl is zero
+		 * @param string $module
+		 * @return object
+		 */
 		function isExistsFavorite($siteSrl, $module)
 		{
 			$args->site_srl = $siteSrl;
@@ -406,8 +457,9 @@
 		}
 
         /**
-         * @brief Return site list
-         **/
+         * Return site list
+		 * @return void
+         */
 		function getSiteAllList()
 		{
 			if(Context::get('domain')) $args->domain = Context::get('domain');
@@ -421,8 +473,10 @@
 		}
 
         /**
-         * @brief Return site count
-         **/
+         * Return site count
+		 * @param string $date
+		 * @return int
+         */
 		function getSiteCountByDate($date = '')
 		{
 			if($date) $args->regDate = date('Ymd', strtotime($date));
