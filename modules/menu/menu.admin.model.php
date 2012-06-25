@@ -1,22 +1,25 @@
 <?php
-    /**
-     * @class  menuAdminModel
-     * @author NHN (developers@xpressengine.com)
-     * @version 0.1
-     * @brief admin model class of the menu module
-     **/
-
+	/**
+	 * @class  menuAdminModel
+	 * @brief admin model class of the menu module
+	 *
+	 * @author NHN (developers@xpressengine.com)
+	 * @package /modules/menu
+	 * @version 0.1
+	 */
     class menuAdminModel extends menu {
-
-        /**
-         * @brief Initialization
-         **/
+		/**
+		 * Initialization
+		 * @return void
+		 */
         function init() {
         }
 
-        /**
-         * @brief Get a list of all menus
-         **/
+		/**
+		 * Get a list of all menus
+		 * @param object $obj
+		 * @return object
+		 */
         function getMenuList($obj) {
             if(!$obj->site_srl) {
                 $site_module_info = Context::get('site_module_info');
@@ -35,9 +38,11 @@
             return $output;
         }
 
-        /**
-         * @brief Return all menus
-         **/
+		/**
+		 * Return all menus
+		 * @param int $site_srl
+		 * @return array
+		 */
         function getMenus($site_srl = null) {
             if(!isset($site_srl)) {
                 $site_module_info = Context::get('site_module_info');
@@ -52,10 +57,12 @@
             return $menus;
         }
 
-        /**
-         * @brief Get information of a new menu from the DB
-         * Return DB and XML information of the menu
-         **/
+		/**
+		 * Get information of a new menu from the DB
+		 * Return DB and XML information of the menu
+		 * @param int $menu_srl
+		 * @return object
+		 */
         function getMenu($menu_srl) {
             // Get information from the DB
             $args->menu_srl = $menu_srl;
@@ -68,10 +75,12 @@
             return $menu_info;
         }
 
-        /**
-         * @brief Get information of a new menu from the DB, search condition is menu title
-         * Return DB and XML information of the menu
-         **/
+		/**
+		 * Get information of a new menu from the DB, search condition is menu title
+		 * Return DB and XML information of the menu
+		 * @param string $title
+		 * @return object
+		 */
         function getMenuByTitle($title) {
             // Get information from the DB
             $args->title = $title;
@@ -89,10 +98,12 @@
             return $menu_info;
         }
 
-        /**
-         * @brief Return item information of the menu_srl
-         * group_srls uses a seperator with comma(,) and converts to an array by explode
-         **/
+		/**
+		 * Return item information of the menu_srl
+		 * group_srls uses a seperator with comma(,) and converts to an array by explode
+		 * @param int $menu_item_srl
+		 * @return object
+		 */
         function getMenuItemInfo($menu_item_srl) {
             // Get the menu information if menu_item_srl exists
             $args->menu_item_srl = $menu_item_srl;
@@ -112,9 +123,10 @@
             return $node;
         }
 
-        /**
-         * @brief Return item information of the menu_srl
-         **/
+		/**
+		 * Return item information of the menu_srl
+		 * @return void
+		 */
         function getMenuAdminItemInfo()
 		{
 			$menuItemSrl = Context::get('menu_item_srl');
@@ -169,6 +181,13 @@
 			$this->add('menu_item', $menuItem);
         }
 
+		/**
+		 * Return menu item list by menu number
+		 * @param int $menu_srl
+		 * @param int $parent_srl
+		 * @param array $columnList
+		 * @return object
+		 */
 		function getMenuItems($menu_srl, $parent_srl = null, $columnList = array())
 		{
 			$args->menu_srl = $menu_srl;
@@ -178,9 +197,12 @@
 			return $output;
 		}
 
-        /**
-         * @brief Return menu name in each language to support multi-language
-         */
+		/**
+		 * Return menu name in each language to support multi-language
+		 * @param string $source_name
+		 * @param int $site_srl
+		 * @return array
+		 */
         function getMenuItemNames($source_name, $site_srl = null) {
             if(!$site_srl) {
                 $site_module_info = Context::get('site_module_info');
@@ -191,10 +213,11 @@
             return $oModuleAdminModel->getLangCode($site_srl, $source_name);
         }
 
-        /**
-         * @brief Get a template by using the menu_srl and retrun.
-         * Return html after compiling tpl on the server in order to add menu information on the admin page
-         **/
+		/**
+		 * Get a template by using the menu_srl and retrun.
+		 * Return html after compiling tpl on the server in order to add menu information on the admin page
+		 * @return void
+		 */
         function getMenuAdminTplInfo() {
             // Get information on the menu for the parameter settings
             $menu_item_srl = Context::get('menu_item_srl');
@@ -234,10 +257,12 @@
             $this->add('tpl', str_replace("\n"," ",$tpl));
         }
 
-        /**
-         * @brief when menu add in sitemap, select module list
+		/**
+		 * @brief when menu add in sitemap, select module list
 		 * this menu showing with trigger
-         **/
+		 * @param int $site_srl
+		 * @return array
+		 */
 		function getModuleListInSitemap($site_srl = 0)
 		{
 			$oModuleModel = &getModel('module');

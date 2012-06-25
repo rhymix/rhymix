@@ -1,8 +1,23 @@
 <?php
-
+/**
+ * menuMobile class
+ * mobile class of the menu module
+ *
+ * @author NHN (developers@xpressengine.com)
+ * @package /modules/menu
+ * @version 0.1
+ */
 class menuMobile extends moduleObject {
+	/**
+	 * Result data list
+	 * @var array
+	 */
 	var $result = array();
 
+	/**
+	 * Menu depth arrange
+	 * @return void
+	 */
 	function straightenMenu($menu_item, $depth)
 	{
 		if(!$menu_item['link']) return;
@@ -17,6 +32,10 @@ class menuMobile extends moduleObject {
 		}
 	}
 
+	/**
+	 * Display menu
+	 * @return void
+	 */
 	function dispMenuMenu() {
 		$menu_srl = Context::get('menu_srl');
 		$oAdminModel =& getAdminModel('menu');

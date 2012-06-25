@@ -1,25 +1,45 @@
 <?php
-    /**
-     * @class  menuAdminController
-     * @author NHN (developers@xpressengine.com)
-     * @brief  admin controller class of the menu module
-     **/
-
+	/**
+	 * menuAdminController class
+	 * admin controller class of the menu module
+	 *
+	 * @author NHN (developers@xpressengine.com)
+	 * @package /modules/menu
+	 * @version 0.1
+	 */
     class menuAdminController extends menu {
+		/**
+		 * menu number
+		 * @var int
+		 */
 		var $menuSrl = null;
+		/**
+		 * item key list
+		 * @var array
+		 */
 		var $itemKeyList = array();
+		/**
+		 * map
+		 * @var array
+		 */
 		var $map = array();
+		/**
+		 * checked
+		 * @var array
+		 */
 		var $checked = array();
 
-        /**
-         * @brief Initialization
-         **/
+		/**
+		 * Initialization
+		 * @return void
+		 */
         function init() {
         }
 
-        /**
-         * @brief Add a menu
-         **/
+		/**
+		 * Add a menu
+		 * @return void|object
+		 */
         function procMenuAdminInsert() {
             // List variables
             $site_module_info = Context::get('site_module_info');
@@ -41,9 +61,10 @@
 			}
         }
 
-        /**
-         * @brief Change the menu title
-         **/
+		/**
+		 * Change the menu title
+		 * @return void|object
+		 */
         function procMenuAdminUpdate() {
             // List variables
             $args->title = Context::get('title');
@@ -60,10 +81,10 @@
 			}
         }
 
-        /**
-         * @brief Delete menu
-         * Delete menu_item and xml cache files
-         **/
+		/**
+		 * Delete menu process method
+		 * @return void|Object
+		 */
         function procMenuAdminDelete() {
             $menu_srl = Context::get('menu_srl');
 
@@ -83,6 +104,11 @@
 			}
         }
 
+		/**
+		 * Delete menu
+		 * Delete menu_item and xml cache files
+		 * @return Object
+		 */
         function deleteMenu($menu_srl) {
             // Delete cache files
             $cache_list = FileHandler::readDir("./files/cache/menu","",false,true);
@@ -107,9 +133,10 @@
             return new Object(0,'success_deleted');
         }
 
-        /**
-         * @brief Add an item to the menu
-         **/
+		/**
+		 * Add an item to the menu
+		 * @return void
+		 */
         function procMenuAdminInsertItem() {
             // List variables to insert
             $source_args = Context::getRequestVars();
@@ -233,9 +260,10 @@
 			}
         }
 
-        /**
-         * @brief Delete menu item(menu of the menu)
-         **/
+		/**
+		 * Delete menu item(menu of the menu)
+		 * @return void|Object
+		 */
         function procMenuAdminDeleteItem() {
             // List variables
             $args = Context::gets('menu_srl','menu_item_srl');
@@ -278,9 +306,10 @@
 			}
         }
 
-        /**
-         * @brief Move menu items
-         **/
+		/**
+		 * Move menu items
+		 * @return void
+		 */
         function procMenuAdminMoveItem() {
             $menu_srl = Context::get('menu_srl');
             $mode = Context::get('mode');
@@ -292,9 +321,10 @@
             $this->moveMenuItem($menu_srl,$parent_srl,$source_srl,$target_srl,$mode);
         }
 
-        /**
-         * @brief Arrange menu items
-         **/
+		/**
+		 * Arrange menu items
+		 * @return void|object
+		 */
 		function procMenuAdminArrangeItem()
 		{
 			$this->menuSrl = Context::get('menu_srl');
@@ -356,6 +386,13 @@
 			}
 		}
 
+		/**
+		 * Set parent number to child
+		 * @param int $parent_srl
+		 * @param int $child_index
+		 * @param object $target
+		 * @return void
+		 */
 		function _setParent($parent_srl, $child_index, &$target)
 		{
 			$child_srl = $this->itemKeyList[$child_index];
@@ -372,6 +409,11 @@
 			//return $target;
 		}
 
+		/**
+		 * move item with sub directory(recursive)
+		 * @param object $result
+		 * @return void
+		 */
 		function _recursiveMoveMenuItem($result)
 		{
 			$i = 0;
@@ -386,6 +428,15 @@
 			}
 		}
 
+		/**
+		 * move menu item
+		 * @param int $menu_srl
+		 * @param int $parent_srl
+		 * @param int $source_srl
+		 * @param int $target_srl
+		 * @param string $mode 'move' or 'insert'
+		 * @return void
+		 */
         function moveMenuItem($menu_srl,$parent_srl,$source_srl,$target_srl,$mode){
             // Get the original menus
             $oMenuAdminModel = &getAdminModel('menu');
@@ -428,12 +479,13 @@
             return $xml_file;
         }
 
-        /**
-         * @brief Update xml file
-         * XML file is not often generated after setting menus on the admin page\n
-         * For this occasional cases, manually update was implemented. \n
-         * It looks unnecessary at this moment however no need to eliminate the feature. Just leave it.
-         **/
+		/**
+		 * Update xml file
+		 * XML file is not often generated after setting menus on the admin page\n
+		 * For this occasional cases, manually update was implemented. \n
+		 * It looks unnecessary at this moment however no need to eliminate the feature. Just leave it.
+		 * @return void
+		 */
         function procMenuAdminMakeXmlFile() {
             // Check input value
             $menu_srl = Context::get('menu_srl');
@@ -448,9 +500,10 @@
             $this->add('xml_file',$xml_file);
         }
 
-        /**
-         * @brief Register a menu image button
-         **/
+		/**
+		 * Register a menu image button
+		 * @return void
+		 */
         function procMenuAdminUploadButton() {
             $menu_srl = Context::get('menu_srl');
             $menu_item_srl = Context::get('menu_item_srl');
@@ -478,9 +531,10 @@
             $this->setTemplateFile('menu_file_uploaded');
         }
 
-        /**
-         * @brief Remove the menu image button
-         **/
+		/**
+		 * Remove the menu image button
+		 * @return void
+		 */
         function procMenuAdminDeleteButton() {
             $menu_srl = Context::get('menu_srl');
             $menu_item_srl = Context::get('menu_item_srl');
@@ -491,9 +545,10 @@
             $this->add('target', $target);
         }
 
-        /**
-         * @brief get all act list for admin menu
-         **/
+		/**
+		 * Get all act list for admin menu
+		 * @return void
+		 */
         function procMenuAdminAllActList() {
             $oModuleModel = &getModel('module');
             $installed_module_list = $oModuleModel->getModulesXmlInfo();
@@ -511,9 +566,10 @@
             $this->add('menuList', $menuList);
         }
 
-        /**
-         * @brief get all act list for admin menu
-         **/
+		/**
+		 * Get all act list for admin menu
+		 * @return void|object
+		 */
 		function procMenuAdminInsertItemForAdminMenu()
 		{
             $requestArgs = Context::getRequestVars();
@@ -578,9 +634,11 @@
 			}
 		}
 
-        /**
-         * @brief Generate XML file for menu and return its location
-         **/
+		/**
+		 * Generate XML file for menu and return its location
+		 * @param int $menu_srl
+		 * @return string
+		 */
         function makeXmlFile($menu_srl) {
             // Return if there is no information when creating the xml file
             if(!$menu_srl) return;
@@ -686,11 +744,16 @@
             return $xml_file;
         }
 
-        /**
-         * @brief Create xml data recursively looping for array nodes by referencing to parent_srl
-         * menu xml file uses a tag named "node" and this XML configures menus on admin page.
-         * (Implement tree menu by reading the xml file in tree_menu.js)
-         **/
+		/**
+		 * Create xml data recursively looping for array nodes by referencing to parent_srl
+		 * menu xml file uses a tag named "node" and this XML configures menus on admin page.
+		 * (Implement tree menu by reading the xml file in tree_menu.js)
+		 * @param array $source_node
+		 * @param array $tree
+		 * @param int $site_srl
+		 * @param string $domain
+		 * @return string
+		 */
         function getXmlTree($source_node, $tree, $site_srl, $domain) {
             if(!$source_node) return;
 
@@ -765,12 +828,17 @@
             return $buff;
         }
 
-        /**
-         * @brief Return php code converted from nodes in an array
-         * Although xml data can be used for tpl, menu to menu, it needs to use javascript separately
-         * By creating cache file in php and then you can get menu information without DB
-         * This cache includes in ModuleHandler::displayContent() and then Context::set()
-         **/
+		/**
+		 * Return php code converted from nodes in an array
+		 * Although xml data can be used for tpl, menu to menu, it needs to use javascript separately
+		 * By creating cache file in php and then you can get menu information without DB
+		 * This cache includes in ModuleHandler::displayContent() and then Context::set()
+		 * @param array $source_node
+		 * @param array $tree
+		 * @param int $site_srl
+		 * @param string $domain
+		 * @return array
+		 */
         function getPhpCacheCode($source_node, $tree, $site_srl, $domain) {
             $output = array("buff"=>"", "url_list"=>array());
             if(!$source_node) return $output;
@@ -867,10 +935,12 @@
             return $output;
         }
 
-        /**
-         * @brief Mapping menu and layout
-         * When setting menu on the layout, map the default layout
-         **/
+		/**
+		 * Mapping menu and layout
+		 * When setting menu on the layout, map the default layout
+		 * @param int $layout_srl
+		 * @param array $menu_srl_list
+		 */
         function updateMenuLayout($layout_srl, $menu_srl_list) {
             if(!count($menu_srl_list)) return;
             // Delete the value of menu_srls
@@ -887,9 +957,11 @@
             }
         }
 
-        /**
-         * @brief Register a menu image button
-         **/
+		/**
+		 * Register a menu image button
+		 * @param object $args
+		 * @return array
+		 */
         function _uploadButton($args)
 		{
 			// path setting
