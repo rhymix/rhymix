@@ -430,7 +430,7 @@
 
             $procResult = $oModule->proc();
 
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON')))
+			if(!$oModule->stop_proc && !in_array(Context::getRequestMethod(),array('XMLRPC','JSON')))
 			{
 				$error = $oModule->getError();
 				$message = $oModule->getMessage();
