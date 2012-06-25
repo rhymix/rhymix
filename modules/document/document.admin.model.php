@@ -1,22 +1,25 @@
 <?php
-    /**
-     * @class  documentAdminModel
-     * @author NHN (developers@xpressengine.com)
-     * @version 0.1
-     * @brief document the module's admin model class
-     **/
-
+	/**
+	 * documentAdminModel class
+	 * Document the module's admin model class
+	 *
+	 * @author NHN (developers@xpressengine.com)
+	 * @package /modules/document
+	 * @version 0.1
+	 */
     class documentAdminModel extends document {
-
-        /**
-         * @brief Initialization
-         **/
+		/**
+		 * Initialization
+		 * @return void
+		 */
         function init() {
         }
 
-        /**
-          * @brief get a document list from the trash
-          **/
+		/**
+		 * Get a document list from the trash
+		 * @param object $obj
+		 * @return object
+		 */
         function getDocumentTrashList($obj) {
             // check a list and its order
             if (!in_array($obj->sort_index, array('list_order','delete_date','title'))) $obj->sort_index = 'list_order';
@@ -64,9 +67,11 @@
             return $output;
         }
 
-        /**
-          * @brief get the doc which has trash_srl from the trash can
-          **/
+		/**
+		 * Get the doc which has trash_srl from the trash can
+		 * @param int $trash_srl
+		 * @return object
+		 */
         function getDocumentTrash($trash_srl) {
             $args->trash_srl = $trash_srl;
             $output = executeQuery('document.getTrash', $args);
@@ -77,9 +82,13 @@
             return $node;
         }
 
-        /**
-         * @brief Return document count with date
-         **/
+		/**
+		 * Return document count with date
+		 * @param string $date
+		 * @parpam array $moduleSrlList
+		 * @param array $statusList
+		 * @return int
+		 */
         function getDocumentCountByDate($date = '', $moduleSrlList = array(), $statusList = array()) {
 			if($date) $args->regDate = date('Ymd', strtotime($date));
 			if(count($moduleSrlList)>0) $args->moduleSrlList = $moduleSrlList;

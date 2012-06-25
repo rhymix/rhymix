@@ -2,19 +2,30 @@
 require_once(_XE_PATH_.'modules/document/document.item.php');
 
 /**
- * @class  document
- * @author NHN (developers@xpressengine.com)
+ * document class
  * @brief document the module's high class
  * {@internal Silently adds one extra Foo to compensate for lack of Foo }
+ *
+ * @author NHN (developers@xpressengine.com)
+ * @package /modules/document
+ * @version 0.1
  */
 class document extends ModuleObject
 {
-	// search option to use in admin page
+	/**
+	 * Search option to use in admin page
+	 * @var array
+	 */
 	var $search_option = array('title','content','title_content','user_name',); // /< Search options
+	/**
+	 * Status list
+	 * @var array
+	 */
 	var $statusList = array('private'=>'PRIVATE', 'public'=>'PUBLIC', 'secret'=>'SECRET', 'temp'=>'TEMP');
 
 	/**
-	 * @brief Implement if additional tasks are necessary when installing
+	 * Implement if additional tasks are necessary when installing
+	 * @return Object
 	 */
 	function moduleInstall()
 	{
@@ -41,20 +52,17 @@ class document extends ModuleObject
 	}
 
 	/**
-	 * @brief a method to check if successfully installed
-	 **/
+	 * A method to check if successfully installed
+	 * @return bool
+	 */
 	function checkUpdate() {
 		$oDB = &DB::getInstance();
 		$oModuleModel = &getModel('module');
 
-		/**
-		 * 2007. 7. 25: Add a column(notify_message) for notification
-		 **/
+		// 2007. 7. 25: Add a column(notify_message) for notification
 		if(!$oDB->isColumnExists("documents","notify_message")) return true;
 
-		/**
-		 * 2007. 8. 23: create a clustered index in the document table
-		 **/
+		// 2007. 8. 23: create a clustered index in the document table
 		if(!$oDB->isIndexExists("documents","idx_module_list_order")) return true;
 		if(!$oDB->isIndexExists("documents","idx_module_update_order")) return true;
 		if(!$oDB->isIndexExists("documents","idx_module_readed_count")) return true;
@@ -70,9 +78,7 @@ class document extends ModuleObject
 		// 2008. 02. 18 create a composite index on the columns(module_srl + document_srl) (checked by Manian))
 		if(!$oDB->isIndexExists("documents","idx_module_document_srl")) return true;
 
-		/**
-		 * 2007. 12. 03: Add if the colume(extra_vars) doesn't exist
-		 **/
+		// 2007. 12. 03: Add if the colume(extra_vars) doesn't exist
 		if(!$oDB->isColumnExists("documents","extra_vars")) return true;
 		// 2008. 04. 23 Add a column(blamed_count)
 		if(!$oDB->isColumnExists("documents", "blamed_count")) return true;
@@ -83,7 +89,7 @@ class document extends ModuleObject
 
 		/**
 		 * 2009. 01. 29: Add a column(lang_code) if not exist in the document_extra_vars table
-		 **/
+		 */
 		if(!$oDB->isColumnExists("document_extra_vars","lang_code")) return true;
 
 		if(!$oModuleModel->getTrigger('module.dispAdditionSetup', 'document', 'view', 'triggerDispDocumentAdditionSetup', 'before')) return true;
@@ -92,9 +98,7 @@ class document extends ModuleObject
 		// 2009. 03. 11 check the index in the document_extra_vars table
 		if(!$oDB->isIndexExists("document_extra_vars", "unique_extra_vars")) return true;
 
-		/**
-		 * 2009. 03. 19: Add a column(eid) if not exist in the table
-		 **/
+		// 2009. 03. 19: Add a column(eid) if not exist in the table
 		if(!$oDB->isColumnExists("document_extra_keys","eid")) return true;
 		if(!$oDB->isColumnExists("document_extra_vars","eid")) return true;
 
@@ -120,23 +124,20 @@ class document extends ModuleObject
 	}
 
 	/**
-	 * @brief Execute update
-	 **/
+	 * Execute update
+	 * @return Object
+	 */
 	function moduleUpdate() {
 		$oDB = &DB::getInstance();
 		$oModuleModel = &getModel('module');
 		$oModuleController = &getController('module');
 
-		/**
-		 * 2007. 7. 25: Add a column(notify_message) for notification
-		 **/
+		// 2007. 7. 25: Add a column(notify_message) for notification
 		if(!$oDB->isColumnExists("documents","notify_message")) {
 			$oDB->addColumn('documents',"notify_message","char",1);
 		}
 
-		/**
-		 * 2007. 8. 23: create a clustered index in the document table
-		 **/
+		// 2007. 8. 23: create a clustered index in the document table
 		if(!$oDB->isIndexExists("documents","idx_module_list_order")) {
 			$oDB->addIndex("documents","idx_module_list_order", array("module_srl","list_order"));
 		}
@@ -162,14 +163,10 @@ class document extends ModuleObject
 		// 2007. 11. 20 create a composite index on the columns(module_srl + is_notice)
 		if(!$oDB->isIndexExists("documents","idx_module_notice")) $oDB->addIndex("documents","idx_module_notice", array("module_srl","is_notice"));
 
-		/**
-		 * 2007. 12. 03: Add if the colume(extra_vars) doesn't exist
-		 **/
+		// 2007. 12. 03: Add if the colume(extra_vars) doesn't exist
 		if(!$oDB->isColumnExists("documents","extra_vars")) $oDB->addColumn('documents','extra_vars','text');
 
-		/**
-		 * 2008. 02. 18 create a composite index on the columns(module_srl + document_srl) (checked by Manian))
-		 **/
+		// 2008. 02. 18 create a composite index on the columns(module_srl + document_srl) (checked by Manian))
 		if(!$oDB->isIndexExists("documents","idx_module_document_srl")) $oDB->addIndex("documents","idx_module_document_srl", array("module_srl","document_srl"));
 		// 2008. 04. 23 Add a column(blamed count)
 		if(!$oDB->isColumnExists("documents", "blamed_count")) {
@@ -187,9 +184,7 @@ class document extends ModuleObject
 
 		if(!$oDB->isColumnExists("document_categories","color")) $oDB->addColumn('document_categories',"color","char",7);
 
-		/**
-		 * 2009. 01. 29: Add a column(lang_code) if not exist in the document_extra_vars table
-		 **/
+		// 2009. 01. 29: Add a column(lang_code) if not exist in the document_extra_vars table
 		if(!$oDB->isColumnExists("document_extra_vars","lang_code")) $oDB->addColumn('document_extra_vars',"lang_code","varchar",10);
 
 		// 2009. 01. 29 Added a trigger for additional setup
@@ -211,10 +206,8 @@ class document extends ModuleObject
 			$oDB->dropIndex("document_extra_vars", "unique_module_vars", true);
 		}
 
-		/**
-		 * 2009. 03. 19: Add a column(eid)
-		 * 2009. 04. 12: Fixed the issue(#17922959) that changes another column values when adding eid column
-		 **/
+		// 2009. 03. 19: Add a column(eid)
+		// 2009. 04. 12: Fixed the issue(#17922959) that changes another column values when adding eid column
 		if(!$oDB->isColumnExists("document_extra_keys","eid")) {
 			$oDB->addColumn("document_extra_keys","eid","varchar",40);
 
@@ -307,24 +300,34 @@ class document extends ModuleObject
 	}
 
 	/**
-	 * @brief Re-generate the cache file
-	 **/
+	 * Re-generate the cache file
+	 * @return void
+	 */
 	function recompileCache() {
 	}
 
 	/**
-	 * @brief Document Status List
-	 **/
+	 * Document Status List
+	 * @return array
+	 */
 	function getStatusList()
 	{
 		return $this->statusList;
 	}
 
+	/**
+	 * Return default status
+	 * @return string
+	 */
 	function getDefaultStatus()
 	{
 		return $this->statusList['public'];
 	}
 
+	/**
+	 * Return status by key
+	 * @return string
+	 */
 	function getConfigStatus($key)
 	{
 		if(array_key_exists(strtolower($key), $this->statusList)) return $this->statusList[$key];

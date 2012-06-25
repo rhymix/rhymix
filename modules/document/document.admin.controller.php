@@ -1,21 +1,24 @@
 <?php
-    /**
-     * @class  documentAdminController
-     * @author NHN (developers@xpressengine.com)
-     * @brief document the module's admin controller class
-     **/
-
+	/**
+	 * documentAdminController class
+	 * Document the module's admin controller class
+	 *
+	 * @author NHN (developers@xpressengine.com)
+	 * @package /modules/document
+	 * @version 0.1
+	 */
     class documentAdminController extends document {
-
-        /**
-         * @brief Initialization
-         **/
+		/**
+		 * Initialization
+		 * @return void
+		 */
         function init() {
         }
 
-        /**
-         * @brief Remove the selected docs from admin page
-         **/
+		/**
+		 * Remove the selected docs from admin page
+		 * @return void
+		 */
         function procDocumentAdminDeleteChecked() {
             // error appears if no doc is selected
             $cart = Context::get('cart');
@@ -35,9 +38,13 @@
             $this->setMessage( sprintf(Context::getLang('msg_checked_document_is_deleted'), $document_count) );
         }
 
-        /**
-         * @brief change the module to move a specific article
-         **/
+		/**
+		 * Change the module to move a specific article
+		 * @param array $document_srl_list
+		 * @param int $module_srl
+		 * @param int $category_srl
+		 * @return Object
+		 */
         function moveDocumentModule($document_srl_list, $module_srl, $category_srl) {
             if(!count($document_srl_list)) return;
 
@@ -169,9 +176,13 @@
             return new Object();
         }
 
-        /**
-         * @brief Copy the post
-         **/
+		/**
+		 * Copy the post
+		 * @param array $document_srl_list
+		 * @param int $module_srl
+		 * @param int $category_srl
+		 * @return object
+		 */
         function copyDocumentModule($document_srl_list, $module_srl, $category_srl) {
             if(!count($document_srl_list)) return;
 
@@ -363,9 +374,11 @@
             return $output;
         }
 
-        /**
-         * @brief Delete all documents of the module
-         **/
+		/**
+		 * Delete all documents of the module
+		 * @param int $module_srl
+		 * @return object
+		 */
         function deleteModuleDocument($module_srl) {
             $args->module_srl = $module_srl;
 			$oDocumentModel = &getModel('document');
@@ -395,9 +408,10 @@
             return $output;
         }
 
-        /**
-         * @brief Save the default settings of the document module
-         **/
+		/**
+		 * Save the default settings of the document module
+		 * @return object
+		 */
         function procDocumentAdminInsertConfig() {
             // Get the basic information
             $config = Context::gets('thumbnail_type');
@@ -413,9 +427,10 @@
             return $output;
         }
 
-        /**
-         * @brief Revoke declaration of the blacklisted posts
-         **/
+		/**
+		 * Revoke declaration of the blacklisted posts
+		 * @return object
+		 */
         function procDocumentAdminCancelDeclare() {
             $document_srl = trim(Context::get('document_srl'));
 
@@ -426,9 +441,10 @@
             }
         }
 
-        /**
-         * @brief Delete all thumbnails
-         **/
+		/**
+		 * Delete all thumbnails
+		 * @return void
+		 */
         function procDocumentAdminDeleteAllThumbnail() {
             // delete all of thumbnail_ *. jpg files from files/attaches/images/ directory (prior versions to 1.0.4)
             $this->deleteThumbnailFile('./files/attach/images');
@@ -438,6 +454,10 @@
             $this->setMessage('success_deleted');
         }
 
+		/**
+		 * Delete thumbnails with subdirectory
+		 * @return void
+		 */
         function deleteThumbnailFile($path) {
             $directory = dir($path);
             while($entry = $directory->read()) {
@@ -453,9 +473,10 @@
             $directory->close();
         }
 
-        /**
-         * @brief Add or modify extra variables of the module
-         **/
+		/**
+		 * Add or modify extra variables of the module
+		 * @return void|object
+		 */
         function procDocumentAdminInsertExtraVar() {
             $module_srl = Context::get('module_srl');
             $var_idx = Context::get('var_idx');
@@ -497,9 +518,10 @@
 			}
         }
 
-        /**
-         * @brief delete extra variables of the module
-         **/
+		/**
+		 * Delete extra variables of the module
+		 * @return void|object
+		 */
         function procDocumentAdminDeleteExtraVar() {
             $module_srl = Context::get('module_srl');
             $var_idx = Context::get('var_idx');
@@ -512,9 +534,10 @@
             $this->setMessage('success_deleted');
         }
 
-        /**
-         * @brief control the order of extra variables
-         **/
+		/**
+		 * Control the order of extra variables
+		 * @return void|object
+		 */
         function procDocumentAdminMoveExtraVar() {
             $type = Context::get('type');
             $module_srl = Context::get('module_srl');
@@ -576,6 +599,10 @@
             }
         }
 
+		/**
+		 * Insert alias for document
+		 * @return void|object
+		 */
         function procDocumentAdminInsertAlias() {
             $args = Context::gets('module_srl','document_srl', 'alias_title');
             $alias_srl = Context::get('alias_srl');
@@ -599,6 +626,10 @@
 			return $output;
         }
 
+		/**
+		 * Delete alias for document
+		 * @return void|object
+		 */
         function procDocumentAdminDeleteAlias() {
 			$document_srl = Context::get('document_srl');
             $alias_srl = Context::get('target_srl');
@@ -613,6 +644,10 @@
 			return $output;
         }
 
+		/**
+		 * Restor document from trash
+		 * @return void|object
+		 */
         function procDocumentAdminRestoreTrash() {
             $trash_srl = Context::get('trash_srl');
 			$this->restoreTrash($trash_srl);
@@ -671,10 +706,12 @@
 			return $output;
 		}*/
 
-        /**
-         * @brief restore document from trash module, called by trash module
-		 * this method is passived
-         **/
+		/**
+		 * Restore document from trash module, called by trash module
+		 * This method is passived
+		 * @param object|array $originObject
+		 * @return object
+		 */
 		function restoreTrash($originObject)
 		{
 			if(is_array($originObject)) $originObject = (object)$originObject;
@@ -712,10 +749,12 @@
 			return new Object(0, 'success');
 		}
 
-        /**
-         * @brief empty document in trash, called by trash module
-		 * this method is passived
-         **/
+		/**
+		 * Empty document in trash, called by trash module
+		 * This method is passived
+		 * @param string $originObject string is serialized object
+		 * @return object
+		 */
 		function emptyTrash($originObject)
 		{
 			$originObject = unserialize($originObject);

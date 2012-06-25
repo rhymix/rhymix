@@ -1,24 +1,34 @@
 <?php
-    /**
-     * @class  documentModel
-     * @author NHN (developers@xpressengine.com)
-     * @brief model class of the module document
-     **/
-
+	/**
+	 * documentModel class
+	 * model class of the module document
+	 *
+	 * @author NHN (developers@xpressengine.com)
+	 * @package /modules/document
+	 * @version 0.1
+	 */
     class documentModel extends document {
-        /**
-         * @brief Initialization
-         **/
+		/**
+		 * Initialization
+		 * @return void
+		 */
         function init() {
         }
 
-        /**
-         * @brief document checked the permissions on the session values
-         **/
+		/**
+		 * document checked the permissions on the session values
+		 * @param int $document_srl
+		 * @return void
+		 */
         function isGranted($document_srl) {
             return $_SESSION['own_document'][$document_srl];
         }
 
+		/**
+		 * Return document extra information from database
+		 * @param array $documentSrls
+		 * @return object
+		 */
 		function getDocumentExtraVarsFromDB($documentSrls)
 		{
 			if(!is_array($documentSrls) || count($documentSrls) == 0)
@@ -31,9 +41,10 @@
 			return $output;
 		}
 
-        /**
-         * @brief extra variables for each article will not be processed bulk select and apply the macro city
-         **/
+		/**
+		 * Extra variables for each article will not be processed bulk select and apply the macro city
+		 * @return void
+		 */
         function setToAllDocumentExtraVars() {
             static $checked_documents = array();
             // XE XE_DOCUMENT_LIST all documents that the object referred to the global variable settings
@@ -98,9 +109,14 @@
             }
         }
 
-        /**
-         * @brief Import Document
-         **/
+		/**
+		 * Import Document
+		 * @param int $document_srl
+		 * @param bool $is_admin
+		 * @param bool $load_extra_vars
+		 * @param array $columnList
+		 * @return documentItem
+		 */
         function getDocument($document_srl=0, $is_admin = false, $load_extra_vars=true, $columnList = array()) {
             if(!$document_srl) return new documentItem();
 
@@ -115,9 +131,14 @@
             return $GLOBALS['XE_DOCUMENT_LIST'][$document_srl];
         }
 
-        /**
-         * @brief Bringing multiple documents (or paging)
-         **/
+		/**
+		 * Bringing multiple documents (or paging)
+		 * @param array|string $document_srls
+		 * @param bool $is_admin
+		 * @param bool $load_extra_vars
+		 * @param array $columnList
+		 * @return array value type is documentItem
+		 */
         function getDocuments($document_srls, $is_admin = false, $load_extra_vars=true, $columnList = array()) {
             if(is_array($document_srls)) {
                 $list_count = count($document_srls);
@@ -162,9 +183,14 @@
             return $output;
         }
 
-        /**
-         * @brief module_srl value, bringing the list of documents
-         **/
+		/**
+		 * Module_srl value, bringing the list of documents
+		 * @param object $obj
+		 * @param bool $except_notice
+		 * @param bool $load_extra_vars
+		 * @param array $columnList
+		 * @return Object
+		 */
         function getDocumentList($obj, $except_notice = false, $load_extra_vars=true, $columnList = array()) {
             $sort_check = $this->_setSortIndex($obj, $load_extra_vars);
             $obj->sort_index = $sort_check->sort_index;
@@ -242,12 +268,12 @@
 				{
 					/**
 					 * list_order asc sort of division that can be used only when
-					 **/
+					 */
 					if($args->sort_index != 'list_order' || $args->order_type != 'asc') $use_division = false;
 
 					/**
 					 * If it is true, use_division changed to use the document division
-					 **/
+					 */
 					if($use_division) {
 						// Division begins
 						$division = (int)Context::get('division');
@@ -389,9 +415,12 @@
             return $output;
         }
 
-        /**
-         * @brief module_srl value, bringing the document's gongjisa Port
-         **/
+		/**
+		 * Module_srl value, bringing the document's gongjisa Port
+		 * @param object $obj
+		 * @param array $columnList
+		 * @return object|void
+		 */
         function getNoticeList($obj, $columnList = array()) {
             $args->module_srl = $obj->module_srl;
             $args->category_srl= $obj->category_srl;
@@ -419,10 +448,12 @@
             return $result;
         }
 
-        /**
-         * @brief function to retrieve the key values of the extended variable document
-         * $Form_include: writing articles whether to add the necessary extensions of the variable input form
-         **/
+		/**
+		 * Function to retrieve the key values of the extended variable document
+		 * $Form_include: writing articles whether to add the necessary extensions of the variable input form
+		 * @param int $module_srl
+		 * @return array
+		 */
         function getExtraKeys($module_srl) {
             if(is_null($GLOBALS['XE_EXTRA_KEYS'][$module_srl])) {
                 $oExtraVar = &ExtraVar::getInstance($module_srl);
@@ -484,9 +515,12 @@
             return $GLOBALS['XE_EXTRA_KEYS'][$module_srl];
         }
 
-        /**
-         * @brief A particular document to get the value of the extra variable function
-         **/
+		/**
+		 * A particular document to get the value of the extra variable function
+		 * @param int $module_srl
+		 * @param int $document_srl
+		 * @return array
+		 */
         function getExtraVars($module_srl, $document_srl) {
             if(!isset($GLOBALS['XE_EXTRA_VARS'][$document_srl])) {
                 // Extended to extract the values of variables set
@@ -498,11 +532,11 @@
             return $GLOBALS['XE_EXTRA_VARS'][$document_srl];
         }
 
-        /**
-         * @brief Show pop-up menu of the selected posts
-         *
-         * Printing, scrap, recommendations and negative, reported the Add Features
-         **/
+		/**
+		 * Show pop-up menu of the selected posts
+		 * Printing, scrap, recommendations and negative, reported the Add Features
+		 * @return void
+		 */
         function getDocumentMenu() {
             // Post number and the current login information requested Wanted
             $document_srl = Context::get('target_srl');
@@ -576,9 +610,12 @@
             $this->add('menus', $menus);
         }
 
-        /**
-         * @brief module_srl the total number of documents that are bringing
-         **/
+		/**
+		 * The total number of documents that are bringing
+		 * @param int $module_srl
+		 * @param object $search_obj
+		 * @return int
+		 */
         function getDocumentCount($module_srl, $search_obj = NULL) {
             // Additional search options
             $args->module_srl = $module_srl;
@@ -596,9 +633,11 @@
             return (int)$total_count;
         }
 
-        /**
-         * @brief module_srl the total number of documents that are bringing
-         **/
+		/**
+		 * the total number of documents that are bringing
+		 * @param object $search_obj
+		 * @return array
+		 */
         function getDocumentCountByGroupStatus($search_obj = NULL) {
             // Additional search options
             $args->module_srl = $search_obj->module_srl;
@@ -615,9 +654,12 @@
 
 			return $output->data;
         }
-        /**
-         * @brief Import page of the document, module_srl Without throughout ..
-         **/
+		/**
+		 * Import page of the document, module_srl Without throughout ..
+		 * @param documentItem $oDocument
+		 * @param object $opt
+		 * @return int
+		 */
         function getDocumentPage($oDocument, $opt) {
             // Sort type changes depending on the query args
             switch($opt->sort_index) {
@@ -680,9 +722,12 @@
             return $page;
         }
 
-        /**
-         * @brief Imported Category of information
-         **/
+		/**
+		 * Imported Category of information
+		 * @param int $category_srl
+		 * @param array $columnList
+		 * @return object
+		 */
         function getCategory($category_srl, $columnList = array()) {
             $args->category_srl = $category_srl;
             $output = executeQuery('document.getCategory', $args, $columnList);
@@ -701,9 +746,11 @@
             return $node;
         }
 
-        /**
-         * @brief Check whether the child has a specific category
-         **/
+		/**
+		 * Check whether the child has a specific category
+		 * @param int $category_srl
+		 * @return bool
+		 */
         function getCategoryChlidCount($category_srl) {
             $args->category_srl = $category_srl;
             $output = executeQuery('document.getChildCategoryCount',$args);
@@ -711,10 +758,13 @@
             return false;
         }
 
-        /**
-         * @brief Bringing the Categories list the specific module
-         * Speed and variety of categories, considering the situation created by the php script to include a list of the must, in principle, to use
-         **/
+		/**
+		 * Bringing the Categories list the specific module
+		 * Speed and variety of categories, considering the situation created by the php script to include a list of the must, in principle, to use
+		 * @param int $module_srl
+		 * @param array $columnList
+		 * @return array
+		 */
         function getCategoryList($module_srl, $columnList = array()) {
             // Category of the target module file swollen
             $filename = sprintf("./files/cache/document_category/%s.php", $module_srl);
@@ -731,9 +781,13 @@
             return $document_category;
         }
 
-        /**
-         * @brief Category within a primary method to change the array type
-         **/
+		/**
+		 * Category within a primary method to change the array type
+		 * @param array $document_category
+		 * @param array $list
+		 * @param int $depth
+		 * @return void
+		 */
         function _arrangeCategory(&$document_category, $list, $depth) {
             if(!count($list)) return;
             $idx = 0;
@@ -786,9 +840,12 @@
             $document_category[$list_order[count($list_order)-1]]->last = true;
         }
 
-        /**
-         * @brief Wanted number of documents belonging to category
-         **/
+		/**
+		 * Wanted number of documents belonging to category
+		 * @param int $module_srl
+		 * @param int $category_srl
+		 * @return int
+		 */
         function getCategoryDocumentCount($module_srl, $category_srl) {
             $args->module_srl = $module_srl;
             $args->category_srl = $category_srl;
@@ -796,9 +853,11 @@
             return (int)$output->data->count;
         }
 
-        /**
-         * @brief Xml cache file of the document category return information
-         **/
+		/**
+		 * Xml cache file of the document category return information
+		 * @param int $module_srl
+		 * @return string
+		 */
         function getCategoryXmlFile($module_srl) {
             $xml_file = sprintf('files/cache/document_category/%s.xml.php',$module_srl);
             if(!file_exists($xml_file)) {
@@ -808,9 +867,11 @@
             return $xml_file;
         }
 
-        /**
-         * @brief Php cache files in the document category return information
-         **/
+		/**
+		 * Php cache files in the document category return information
+		 * @param int $module_srl
+		 * @return string
+		 */
         function getCategoryPhpFile($module_srl) {
             $php_file = sprintf('files/cache/document_category/%s.php',$module_srl);
             if(!file_exists($php_file)) {
@@ -820,9 +881,11 @@
             return $php_file;
         }
 
-        /**
-         * @brief Imported post monthly archive status
-         **/
+		/**
+		 * Imported post monthly archive status
+		 * @param object $obj
+		 * @return object
+		 */
         function getMonthlyArchivedList($obj) {
             if($obj->mid) {
                 $oModuleModel = &getModel('module');
@@ -841,9 +904,11 @@
             return $output;
         }
 
-        /**
-         * @brief Bringing a month on the status of the daily posts
-         **/
+		/**
+		 * Bringing a month on the status of the daily posts
+		 * @param object $obj
+		 * @return object
+		 */
         function getDailyArchivedList($obj) {
             if($obj->mid) {
                 $oModuleModel = &getModel('module');
@@ -863,9 +928,10 @@
             return $output;
         }
 
-        /**
-         * @brief Get a list for a particular module
-         **/
+		/**
+		 * Get a list for a particular module
+		 * @return void|Object
+		 */
         function getDocumentCategories() {
             if(!Context::get('is_logged')) return new Object(-1,'msg_not_permitted');
             $module_srl = Context::get('module_srl');
@@ -881,9 +947,10 @@
             $this->add('categories', $output);
         }
 
-        /**
-         * @brief Wanted to set document information
-         **/
+		/**
+		 * Wanted to set document information
+		 * @return object
+		 */
         function getDocumentConfig() {
             if(!$GLOBALS['__document_config__']) {
                 $oModuleModel = &getModel('module');
@@ -894,10 +961,12 @@
             return $GLOBALS['__document_config__'];
         }
 
-        /**
-         * @brief Common:: Module extensions of variable management
-         * Expansion parameter management module in the document module instance, when using all the modules available
-         **/
+		/**
+		 * Common:: Module extensions of variable management
+		 * Expansion parameter management module in the document module instance, when using all the modules available
+		 * @param int $module_srl
+		 * @return string
+		 */
         function getExtraVarsHTML($module_srl) {
             // Bringing existing extra_keys
             $extra_keys = $this->getExtraKeys($module_srl);
@@ -910,9 +979,11 @@
             return $oTemplate->compile($this->module_path.'tpl', 'extra_keys');
         }
 
-        /**
-         * @brief Common:: Category parameter management module
-         **/
+		/**
+		 * Common:: Category parameter management module
+		 * @param int $module_srl
+		 * @return string
+		 */
         function getCategoryHTML($module_srl) {
             $category_xml_file = $this->getCategoryXmlFile($module_srl);
 
@@ -924,10 +995,11 @@
             return $oTemplate->compile($this->module_path.'tpl', 'category_list');
         }
 
-        /**
-         * @brief Certain categories of information, return the template guhanhu
-         * Manager on the page to add information about a particular menu from the server after compiling tpl compiled a direct return html
-         **/
+		/**
+		 * Certain categories of information, return the template guhanhu
+		 * Manager on the page to add information about a particular menu from the server after compiling tpl compiled a direct return html
+		 * @return void|Object
+		 */
         function getDocumentCategoryTplInfo() {
             $oModuleModel = &getModel('module');
             $oMemberModel = &getModel('member');
@@ -974,7 +1046,12 @@
             $this->add('tpl', $tpl);
         }
 
-
+		/**
+		 * Return docuent data by alias
+		 * @param string $mid
+		 * @param string $alias
+		 * @return int|void
+		 */
         function getDocumentSrlByAlias($mid, $alias)
         {
             if(!$mid || !$alias) return null;
@@ -987,6 +1064,12 @@
             else return $output->data->document_srl;
         }
 
+		/**
+		 * Return docuent number by document title
+		 * @param int $module_srl
+		 * @param string $title
+		 * @return int|void
+		 */
         function getDocumentSrlByTitle($module_srl, $title)
         {
             if(!$module_srl || !$title) return null;
@@ -1000,6 +1083,11 @@
 			}
         }
 
+		/**
+		 * Return docuent's alias
+		 * @param int $document_srl
+		 * @return string|void
+		 */
 		function getAlias($document_srl){
 			if(!$document_srl) return null;
 			$args->document_srl = $document_srl;
@@ -1009,6 +1097,13 @@
 			else return $output->data[0]->alias_title;
 		}
 
+		/**
+		 * Return document's history list
+		 * @param int $document_srl
+		 * @param int $list_count
+		 * @param int $page
+		 * @return object
+		 */
         function getHistories($document_srl, $list_count, $page)
         {
             $args->list_count = $list_count;
@@ -1018,6 +1113,11 @@
             return $output;
         }
 
+		/**
+		 * Return document's history
+		 * @param int $history_srl
+		 * @return object
+		 */
         function getHistory($history_srl)
         {
             $args->history_srl = $history_srl;
@@ -1025,9 +1125,11 @@
             return $output->data;
         }
 
-        /**
-         * @brief module_srl value, bringing the list of documents
-         **/
+		/**
+		 * Module_srl value, bringing the list of documents
+		 * @param object $obj
+		 * @return object
+		 */
         function getTrashList($obj) {
             // Variable check
             $args->category_srl = $obj->category_srl?$obj->category_srl:null;
@@ -1100,9 +1202,10 @@
             return $output;
         }
 
-        /**
-         * @brief vote up, vote down member list in Document View page
-         **/
+		/**
+		 * vote up, vote down member list in Document View page
+		 * @return void|Object
+		 */
 		function getDocumentVotedMemberList()
 		{
 			$document_srl = Context::get('document_srl');
@@ -1143,6 +1246,10 @@
 			$this->add('voted_member_list',$output->data);
 		}
 
+		/**
+		 * Return status name list
+		 * @return array
+		 */
 		function getStatusNameList()
 		{
 			global $lang;
@@ -1151,6 +1258,12 @@
 			else return $lang->status_name_list;
 		}
 
+		/**
+		 * Setting sort index
+		 * @param object $obj
+		 * @param bool $load_extra_vars
+		 * @return object
+		 */
 		function _setSortIndex($obj, $load_extra_vars)
 		{
 			$sortIndex = $obj->sort_index;
@@ -1186,10 +1299,15 @@
 		}
 
         /**
-         * @brief 게시물 목록의 검색 옵션을 Setting함(2011.03.08 - cherryfilter)
+         * 게시물 목록의 검색 옵션을 Setting함(2011.03.08 - cherryfilter)
 		 * page변수가 없는 상태에서 page 값을 알아오는 method(getDocumentPage)는 검색하지 않은 값을 return해서 검색한 값을 가져오도록 검색옵션이 추가 됨.
 		 * 검색옵션의 중복으로 인해 private method로 별도 분리
-         **/
+		 * @param object $searchOpt
+		 * @param object $args
+		 * @param string $query_id
+		 * @param bool $use_division
+		 * @return void
+         */
 		function _setSearchOption($searchOpt, &$args, &$query_id, &$use_division)
 		{
 			$search_target = $searchOpt->search_target;

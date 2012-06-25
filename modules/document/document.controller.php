@@ -1,20 +1,24 @@
 <?php
 /**
- * @class  documentController
+ * documentController class
+ * document the module's controller class
+ *
  * @author NHN (developers@xpressengine.com)
- * @brief document the module's controller class
- **/
+ * @package /modules/document
+ * @version 0.1
+ */
 class documentController extends document {
-
 	/**
-	 * @brief Initialization
-	 **/
+	 * Initialization
+	 * @return void
+	 */
 	function init() {
 	}
 
 	/**
-	 * @breif action to handle vote-up of the post (Up)
-	 **/
+	 * Action to handle vote-up of the post (Up)
+	 * @return Object
+	 */
 	function procDocumentVoteUp() {
 		if(!Context::get('is_logged')) return new Object(-1, 'msg_invalid_request');
 
@@ -34,6 +38,13 @@ class documentController extends document {
 		return $this->updateVotedCount($document_srl, $point);
 	}
 
+	/**
+	 * insert alias
+	 * @param int $module_srl
+	 * @param int $document_srl
+	 * @param string $alias_title
+	 * @return object
+	 */
 	function insertAlias($module_srl, $document_srl, $alias_title) {
 		$args->alias_srl = getNextSequence();
 		$args->module_srl = $module_srl;
@@ -45,8 +56,9 @@ class documentController extends document {
 	}
 
 	/**
-	 * @breif action to handle vote-up of the post (Down)
-	 **/
+	 * Action to handle vote-up of the post (Down)
+	 * @return Object
+	 */
 	function procDocumentVoteDown() {
 		if(!Context::get('is_logged')) return new Object(-1, 'msg_invalid_request');
 
@@ -67,8 +79,9 @@ class documentController extends document {
 	}
 
 	/**
-	 * @brief Action called when the post is reported by other member
-	 **/
+	 * Action called when the post is reported by other member
+	 * @return void|Object
+	 */
 	function procDocumentDeclare() {
 		if(!Context::get('is_logged')) return new Object(-1, 'msg_invalid_request');
 
@@ -78,18 +91,35 @@ class documentController extends document {
 		return $this->declaredDocument($document_srl);
 	}
 
+	/**
+	 * Delete alias when module deleted
+	 * @param int $module_srl
+	 * @return void
+	 */
 	function deleteDocumentAliasByModule($module_srl)
 	{
 		$args->module_srl = $module_srl;
 		executeQuery("document.deleteAlias", $args);
 	}
 
+	/**
+	 * Delete alias when document deleted
+	 * @param int $document_srl
+	 * @return void
+	 */
 	function deleteDocumentAliasByDocument($document_srl)
 	{
 		$args->document_srl = $document_srl;
 		executeQuery("document.deleteAlias", $args);
 	}
 
+	/**
+	 * Delete document history
+	 * @param int $history_srl
+	 * @param int $document_srl
+	 * @param int $module_srl
+	 * @return void
+	 */
 	function deleteDocumentHistory($history_srl, $document_srl, $module_srl)
 	{
 		$args->history_srl = $history_srl;
@@ -100,8 +130,10 @@ class documentController extends document {
 	}
 
 	/**
-	 * @brief A trigger to delete all posts together when the module is deleted
-	 **/
+	 * A trigger to delete all posts together when the module is deleted
+	 * @param object $obj
+	 * @return Object
+	 */
 	function triggerDeleteModuleDocuments(&$obj) {
 		$module_srl = $obj->module_srl;
 		if(!$module_srl) return new Object();
@@ -126,16 +158,22 @@ class documentController extends document {
 	}
 
 	/**
-	 * @brief Grant a permisstion of the document
+	 * Grant a permisstion of the document
 	 * Available in the current connection with session value
-	 **/
+	 * @param int $document_srl
+	 * @return void
+	 */
 	function addGrant($document_srl) {
 		$_SESSION['own_document'][$document_srl] = true;
 	}
 
 	/**
-	 * @brief Insert the document
-	 **/
+	 * Insert the document
+	 * @param object $obj
+	 * @param bool $manual_inserted
+	 * @param bool $isRestore
+	 * @return object
+	 */
 	function insertDocument($obj, $manual_inserted = false, $isRestore = false) {
 		// begin transaction
 		$oDB = &DB::getInstance();
@@ -261,8 +299,11 @@ class documentController extends document {
 	}
 
 	/**
-	 * @brief Update the document
-	 **/
+	 * Update the document
+	 * @param object $source_obj
+	 * @param object $obj
+	 * @return object
+	 */
 	function updateDocument($source_obj, $obj) {
 		if(!$source_obj->document_srl || !$obj->document_srl) return new Object(-1,'msg_invalied_request');
 		if(!$obj->status && $obj->is_secret == 'Y') $obj->status = 'SECRET';
@@ -435,8 +476,13 @@ class documentController extends document {
 	}
 
 	/**
-	 * @brief Deleting Documents
-	 **/
+	 * Deleting Documents
+	 * @param int $document_srl
+	 * @param bool $is_admin
+	 * @param bool $isEmptyTrash
+	 * @param documentItem $oDocument
+	 * @return object
+	 */
 	function deleteDocument($document_srl, $is_admin = false, $isEmptyTrash = false, $oDocument = null) {
 		// Call a trigger (before)
 		$trigger_obj->document_srl = $document_srl;
@@ -518,10 +564,10 @@ class documentController extends document {
 	}
 
 	/**
-	 * @brief delete declared document, log
-	 * @param $documentSrls : srls string (ex: 1, 2,56, 88)
+	 * Delete declared document, log
+	 * @param string $documentSrls (ex: 1, 2,56, 88)
 	 * @return void
-	 **/
+	 */
 	function _deleteDeclaredDocuments($documentSrls)
 	{
 		executeQuery('document.deleteDeclaredDocuments', $documentSrls);
@@ -529,28 +575,30 @@ class documentController extends document {
 	}
 
 	/**
-	 * @brief delete readed log
-	 * @param $documentSrls : srls string (ex: 1, 2,56, 88)
+	 * Delete readed log
+	 * @param string $documentSrls (ex: 1, 2,56, 88)
 	 * @return void
-	 **/
+	 */
 	function _deleteDocumentReadedLog($documentSrls)
 	{
 		executeQuery('document.deleteDocumentReadedLog', $documentSrls);
 	}
 
 	/**
-	 * @brief delete voted log
-	 * @param $documentSrls : srls string (ex: 1, 2,56, 88)
+	 * Delete voted log
+	 * @param string $documentSrls (ex: 1, 2,56, 88)
 	 * @return void
-	 **/
+	 */
 	function _deleteDocumentVotedLog($documentSrls)
 	{
 		executeQuery('document.deleteDocumentVotedLog', $documentSrls);
 	}
 
 	/**
-	 * @brief Move the doc into the trash
-	 **/
+	 * Move the doc into the trash
+	 * @param object $obj
+	 * @return object
+	 */
 	function moveDocumentToTrash($obj) {
 		// Get trash_srl if a given trash_srl doesn't exist
 		if(!$obj->trash_srl) $trash_args->trash_srl = getNextSequence();
@@ -650,8 +698,10 @@ class documentController extends document {
 	}
 
 	/**
-	 * @brief Update read counts of the document
-	 **/
+	 * Update read counts of the document
+	 * @param documentItem $oDocument
+	 * @return bool|void
+	 */
 	function updateReadedCount(&$oDocument) {
 		$document_srl = $oDocument->document_srl;
 		$member_srl = $oDocument->get('member_srl');
@@ -680,8 +730,18 @@ class documentController extends document {
 	}
 
 	/**
-	 * @breif Insert extra variables into the document table
-	 **/
+	 * Insert extra variables into the document table
+	 * @param int $module_srl
+	 * @param int $var_idx
+	 * @param string $var_name
+	 * @param string $var_type
+	 * @param string $var_is_required
+	 * @param string $var_search
+	 * @param string $var_default
+	 * @param string $var_desc
+	 * @param int $eid
+	 * @return object
+	 */
 	function insertDocumentExtraKey($module_srl, $var_idx, $var_name, $var_type, $var_is_required = 'N', $var_search = 'N', $var_default = '', $var_desc = '', $eid) {
 		if(!$module_srl || !$var_idx || !$var_name || !$var_type || !$eid) return new Object(-1,'msg_invalid_request');
 
@@ -705,8 +765,11 @@ class documentController extends document {
 	}
 
 	/**
-	 * @brief Remove the extra variables of the documents
-	 **/
+	 * Remove the extra variables of the documents
+	 * @param int $module_srl
+	 * @param int $var_idx
+	 * @return Object
+	 */
 	function deleteDocumentExtraKeys($module_srl, $var_idx = null) {
 		if(!$module_srl) return new Object(-1,'msg_invalid_request');
 		$obj->module_srl = $module_srl;
@@ -755,8 +818,15 @@ class documentController extends document {
 	}
 
 	/**
-	 * @breif Insert extra vaiable to the documents table
-	 **/
+	 * Insert extra vaiable to the documents table
+	 * @param int $module_srl
+	 * @param int $document_srl
+	 * @param int $var_idx
+	 * @param mixed $value
+	 * @param int $eid
+	 * @param string $lang_code
+	 * @return Object|void
+	 */
 	function insertDocumentExtraVar($module_srl, $document_srl, $var_idx, $value, $eid = null, $lang_code = '') {
 		if(!$module_srl || !$document_srl || !$var_idx || !isset($value)) return new Object(-1,'msg_invalid_request');
 		if(!$lang_code) $lang_code = Context::getLangType();
@@ -772,8 +842,14 @@ class documentController extends document {
 	}
 
 	/**
-	 * @brief Remove values of extra variable from the document
-	 **/
+	 * Remove values of extra variable from the document
+	 * @param int $module_srl
+	 * @param int $document_srl
+	 * @param int $var_idx
+	 * @param string $lang_code
+	 * @param int $eid
+	 * @return $output
+	 */
 	function deleteDocumentExtraVars($module_srl, $document_srl = null, $var_idx = null, $lang_code = null, $eid = null) {
 		$obj->module_srl = $module_srl;
 		if(!is_null($document_srl)) $obj->document_srl = $document_srl;
@@ -786,8 +862,11 @@ class documentController extends document {
 
 
 	/**
-	 * @brief Increase the number of vote-up of the document
-	 **/
+	 * Increase the number of vote-up of the document
+	 * @param int $document_srl
+	 * @param int $point
+	 * @return Object
+	 */
 	function updateVotedCount($document_srl, $point = 1) {
 		if($point > 0) $failed_voted = 'failed_voted';
 		else $failed_voted = 'failed_blamed';
@@ -865,8 +944,10 @@ class documentController extends document {
 	}
 
 	/**
-	 * @brief Report posts
-	 **/
+	 * Report posts
+	 * @param int $document_srl
+	 * @return void|Object
+	 */
 	function declaredDocument($document_srl) {
 		// Fail if session information already has a reported document
 		if($_SESSION['declared_document'][$document_srl]) return new Object(-1, 'failed_declared');
@@ -920,9 +1001,14 @@ class documentController extends document {
 	}
 
 	/**
-	 * @brief Increase the number of comments in the document
+	 * Increase the number of comments in the document
 	 * Update modified date, modifier, and order with increasing comment count
-	 **/
+	 * @param int $document_srl
+	 * @param int $comment_count
+	 * @param string $last_updater
+	 * @param bool $comment_inserted
+	 * @return object
+	 */
 	function updateCommentCount($document_srl, $comment_count, $last_updater, $comment_inserted = false) {
 		$args->document_srl = $document_srl;
 		$args->comment_count = $comment_count;
@@ -948,8 +1034,11 @@ class documentController extends document {
 	}
 
 	/**
-	 * @brief Increase trackback count of the document
-	 **/
+	 * Increase trackback count of the document
+	 * @param int $document_srl
+	 * @param int $trackback_count
+	 * @return object
+	 */
 	function updateTrackbackCount($document_srl, $trackback_count) {
 		$args->document_srl = $document_srl;
 		$args->trackback_count = $trackback_count;
@@ -958,8 +1047,10 @@ class documentController extends document {
 	}
 
 	/**
-	 * @brief Add a category
-	 **/
+	 * Add a category
+	 * @param object $obj
+	 * @return object
+	 */
 	function insertCategory($obj) {
 		// Sort the order to display if a child category is added
 		if($obj->parent_srl) {
@@ -983,8 +1074,11 @@ class documentController extends document {
 	}
 
 	/**
-	 * @brief Increase list_count from a specific category
-	 **/
+	 * Increase list_count from a specific category
+	 * @param int $module_srl
+	 * @param int $list_order
+	 * @return object
+	 */
 	function updateCategoryListOrder($module_srl, $list_order) {
 		$args->module_srl = $module_srl;
 		$args->list_order = $list_order;
@@ -992,8 +1086,12 @@ class documentController extends document {
 	}
 
 	/**
-	 * @brief Update document_count in the category.
-	 **/
+	 * Update document_count in the category.
+	 * @param int $module_srl
+	 * @param int $category_srl
+	 * @param int $document_count
+	 * @return object
+	 */
 	function updateCategoryCount($module_srl, $category_srl, $document_count = 0) {
 		// Create a document model object
 		$oDocumentModel = &getModel('document');
@@ -1008,8 +1106,10 @@ class documentController extends document {
 	}
 
 	/**
-	 * @brief Update category information
-	 **/
+	 * Update category information
+	 * @param object $obj
+	 * @return object
+	 */
 	function updateCategory($obj) {
 		$output = executeQuery('document.updateCategory', $obj);
 		if($output->toBool()) $this->makeCategoryFile($obj->module_srl);
@@ -1017,9 +1117,10 @@ class documentController extends document {
 	}
 
 	/**
-	/**
-	 * @brief Delete a category
-	 **/
+	 * Delete a category
+	 * @param int $category_srl
+	 * @return object
+	 */
 	function deleteCategory($category_srl) {
 		$args->category_srl = $category_srl;
 		$oDocumentModel = &getModel('document');
@@ -1044,8 +1145,10 @@ class documentController extends document {
 	}
 
 	/**
-	 * @brief Delete all categories in a module
-	 **/
+	 * Delete all categories in a module
+	 * @param int $module_srl
+	 * @return object
+	 */
 	function deleteModuleCategory($module_srl) {
 		$args->module_srl = $module_srl;
 		$output = executeQuery('document.deleteModuleCategory', $args);
@@ -1053,8 +1156,10 @@ class documentController extends document {
 	}
 
 	/**
-	 * @brief Move the category level to higher
-	 **/
+	 * Move the category level to higher
+	 * @param int $category_srl
+	 * @return Object
+	 */
 	function moveCategoryUp($category_srl) {
 		$oDocumentModel = &getModel('document');
 		// Get information of the selected category
@@ -1093,8 +1198,10 @@ class documentController extends document {
 	}
 
 	/**
-	 * @brief Move the category down
-	 **/
+	 * Move the category down
+	 * @param int $category_srl
+	 * @return Object
+	 */
 	function moveCategoryDown($category_srl) {
 		$oDocumentModel = &getModel('document');
 		// Get information of the selected category
@@ -1131,8 +1238,10 @@ class documentController extends document {
 	}
 
 	/**
-	 * @brief Add javascript codes into the header by checking values of document_extra_keys type, required and others
-	 **/
+	 * Add javascript codes into the header by checking values of document_extra_keys type, required and others
+	 * @param int $module_srl
+	 * @return void
+	 */
 	function addXmlJsFilter($module_srl) {
 		$oDocumentModel = &getModel('document');
 		$extra_keys = $oDocumentModel->getExtraKeys($module_srl);
@@ -1159,8 +1268,10 @@ class documentController extends document {
 	}
 
 	/**
-	 * @brief Add a category
-	 **/
+	 * Add a category
+	 * @param object $args
+	 * @return void
+	 */
 	function procDocumentInsertCategory($args = null) {
 		// List variables
 		if(!$args) $args = Context::gets('module_srl','category_srl','parent_srl','category_title','category_description','expand','group_srls','category_color','mid');
@@ -1226,7 +1337,10 @@ class documentController extends document {
 		}
 	}
 
-
+	/**
+	 * Move a category
+	 * @return void
+	 */
 	function procDocumentMoveCategory() {
 		$source_category_srl = Context::get('source_srl');
 		// If parent_srl exists, be the first child
@@ -1284,8 +1398,9 @@ class documentController extends document {
 	}
 
 	/**
-	 * @brief Delete a category
-	 **/
+	 * Delete a category
+	 * @return void
+	 */
 	function procDocumentDeleteCategory() {
 		// List variables
 		$args = Context::gets('module_srl','category_srl');
@@ -1322,11 +1437,12 @@ class documentController extends document {
 	}
 
 	/**
-	 * @brief xml files updated
+	 * Xml files updated
 	 * Occasionally the xml file is not generated after menu is configued on the admin page \n
 	 * The administrator can manually update the file in this case \n
 	 * Although the issue is not currently reproduced, it is unnecessay to remove.
-	 **/
+	 * @return void
+	 */
 	function procDocumentMakeXmlFile() {
 		// Check input values
 		$module_srl = Context::get('module_srl');
@@ -1343,8 +1459,10 @@ class documentController extends document {
 	}
 
 	/**
-	 * @brief Save the category in a cache file
-	 **/
+	 * Save the category in a cache file
+	 * @param int $module_srl
+	 * @return string
+	 */
 	function makeCategoryFile($module_srl) {
 		// Return if there is no information you need for creating a cache file
 		if(!$module_srl) return false;
@@ -1451,10 +1569,15 @@ class documentController extends document {
 	}
 
 	/**
-	 * @brief Create the xml data recursively referring to parent_srl
+	 * Create the xml data recursively referring to parent_srl
 	 * In the menu xml file, node tag is nested and xml doc enables the admin page to have a menu\n
 	 * (tree menu is implemented by reading xml file from the tree_menu.js)
-	 **/
+	 * @param array $source_node
+	 * @param array $tree
+	 * @param int $site_srl
+	 * @param string $xml_header_buff
+	 * @return string
+	 */
 	function getXmlTree($source_node, $tree, $site_srl, &$xml_header_buff) {
 		if(!$source_node) return;
 
@@ -1506,11 +1629,16 @@ class documentController extends document {
 	}
 
 	/**
-	 * @brief change sorted nodes in an array to the php code and then return
-	 * when using menu on tpl, you can directly xml data. howver you may need javascrips additionally.
-	 * therefore, you can configure the menu info directly from php cache file, not through DB.
+	 * Change sorted nodes in an array to the php code and then return
+	 * When using menu on tpl, you can directly xml data. howver you may need javascrips additionally.
+	 * Therefore, you can configure the menu info directly from php cache file, not through DB.
 	 * You may include the cache in the ModuleHandler::displayContent()
-	 **/
+	 * @param array $source_node
+	 * @param array $tree
+	 * @param int $site_srl
+	 * @param string $php_header_buff
+	 * @return array
+	 */
 	function getPhpCacheCode($source_node, $tree, $site_srl, &$php_header_buff) {
 		$output = array("buff"=>"", "category_srl_list"=>array());
 		if(!$source_node) return $output;
@@ -1562,8 +1690,13 @@ class documentController extends document {
 	}
 
 	/**
-	 * @brief A method to add a pop-up menu which appears when clicking
-	 **/
+	 * A method to add a pop-up menu which appears when clicking
+	 * @param string $url
+	 * @param string $str
+	 * @param string $icon
+	 * @param string $target
+	 * @return void
+	 */
 	function addDocumentPopupMenu($url, $str, $icon = '', $target = 'self') {
 		$document_popup_menu_list = Context::get('document_popup_menu_list');
 		if(!is_array($document_popup_menu_list)) $document_popup_menu_list = array();
@@ -1578,8 +1711,9 @@ class documentController extends document {
 	}
 
 	/**
-	 * @brief Saved in the session when an administrator selects a post
-	 **/
+	 * Saved in the session when an administrator selects a post
+	 * @return void|Object
+	 */
 	function procDocumentAddCart() {
 		if(!Context::get('is_logged')) return new Object(-1, 'msg_not_permitted');
 		// Get document_srl
@@ -1636,8 +1770,9 @@ class documentController extends document {
 	}
 
 	/**
-	 * @brief Move/ Delete the document in the seession
-	 **/
+	 * Move/ Delete the document in the seession
+	 * @return void|Object
+	 */
 	function procDocumentManageCheckedDocument() {
 		set_time_limit(0);
 		if(!Context::get('is_logged')) return new Object(-1,'msg_not_permitted');
@@ -1746,6 +1881,10 @@ class documentController extends document {
 		}
 	}
 
+	/**
+	 * Insert document module config
+	 * @return void
+	 */
 	function procDocumentInsertModuleConfig()
 	{
 		$module_srl = Context::get('target_module_srl');
@@ -1780,8 +1919,9 @@ class documentController extends document {
 	}
 
 	/**
-	 * @brief
-	 **/
+	 * Document temporary save
+	 * @return void|Object
+	 */
 	function procDocumentTempSave()
 	{
 		// Check login information
@@ -1830,8 +1970,9 @@ class documentController extends document {
 	}
 
 	/**
-	 * @brief return Document List for exec_xml
-	 **/
+	 * Return Document List for exec_xml
+	 * @return void|Object
+	 */
 	function procDocumentGetList()
 	{
 		if(!Context::get('is_logged')) return new Object(-1,'msg_not_permitted');
@@ -1853,8 +1994,10 @@ class documentController extends document {
 	}
 
 	/**
-	 * @brief for old version, comment allow status check.
-	 **/
+	 * For old version, comment allow status check.
+	 * @param object $obj
+	 * @return void
+	 */
 	function _checkCommentStatusForOldVersion(&$obj)
 	{
 		if(!isset($obj->allow_comment)) $obj->allow_comment = 'N';
@@ -1865,8 +2008,10 @@ class documentController extends document {
 	}
 
 	/**
-	 * @brief for old version, document status check.
-	 **/
+	 * For old version, document status check.
+	 * @param object $obj
+	 * @return void
+	 */
 	function _checkDocumentStatusForOldVersion(&$obj)
 	{
 		if(!$obj->status && $obj->is_secret == 'Y') $obj->status = $this->getConfigStatus('secret');
@@ -1874,8 +2019,10 @@ class documentController extends document {
 	}
 
 	/**
-	 * @brief copy extra keys when module copied
-	 **/
+	 * Copy extra keys when module copied
+	 * @param object $obj
+	 * @return void
+	 */
 	function triggerCopyModuleExtraKeys(&$obj)
 	{
 		$oDocumentModel = &getModel('document');

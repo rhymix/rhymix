@@ -1,22 +1,25 @@
 <?php
-    /**
-     * @class  documentView
-     * @author NHN (developers@xpressengine.com)
-     * @brief View class of the module document
-     **/
-
+	/**
+	 * documentView class
+	 * View class of the module document
+	 *
+	 * @author NHN (developers@xpressengine.com)
+	 * @package /modules/document
+	 * @version 0.1
+	 */
     class documentView extends document {
-
-        /**
-         * @brief Initialization
-         **/
+		/**
+		 * Initialization
+		 * @return void
+		 */
         function init() {
         }
 
-        /**
-         * @brief Document printing
-         * I make it out to find the geulman;;
-         **/
+		/**
+		 * Document printing
+		 * I make it out to find the geulman;;
+		 * @return void|Object
+		 */
         function dispDocumentPrint() {
             // Bring a list of variables needed to implement
             $document_srl = Context::get('document_srl');
@@ -43,9 +46,10 @@
             $this->setTemplateFile('print_page');
         }
 
-        /**
-         * @brief Preview
-         **/
+		/**
+		 * Preview
+		 * @return void
+		 */
         function dispDocumentPreview() {
             Context::set('layout','none');
 
@@ -54,9 +58,10 @@
             $this->setTemplateFile('preview_page');
         }
 
-        /**
-         * @brief Selected by the administrator for the document management
-         **/
+		/**
+		 * Selected by the administrator for the document management
+		 * @return void|Object
+		 */
         function dispDocumentManageDocument() {
             if(!Context::get('is_logged')) return new Object(-1,'msg_not_permitted');
             // Taken from a list of selected sessions
@@ -93,6 +98,12 @@
             $this->setTemplateFile('checked_list');
         }
 
+		/**
+		 * Trigger method.
+		 * Additional information realte to document setting
+		 * @param string $obj
+		 * @return Object
+		 */
         function triggerDispDocumentAdditionSetup(&$obj) {
             $current_module_srl = Context::get('module_srl');
             $current_module_srls = Context::get('module_srls');
@@ -119,6 +130,10 @@
             return new Object();
         }
 
+		/**
+		 * Document temp saved list
+		 * @return void
+		 */
 		function dispTempSavedList()
 		{
             $this->setLayoutFile('popup_layout');
