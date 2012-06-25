@@ -31,6 +31,7 @@
 				$logged_info = Context::get('logged_info');
 				if($logged_info->is_admin == 'Y' || $logged_info->is_site_admin) return false;
 				if($this->addon_info->target != 'all' && Context::get('is_logged')) return false;
+				if($_SESSION['XE_VALIDATOR_ERROR'] == -1) $_SESSION['captcha_authed'] = false;
 				if($_SESSION['captcha_authed']) return false;
 
 				$type = Context::get('captchaType');
