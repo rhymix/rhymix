@@ -1,20 +1,34 @@
 <?php
-    /**
-     * @class ttimport 
-     * @author NHN (developers@xpressengine.com)
-     * @brief  ttxml import class
-     **/
-
     @set_time_limit(0);
     @require_once('./modules/importer/extract.class.php');
 
+	/**
+	 * ttimport class
+	 * ttxml import class
+	 *
+	 * @author NHN (developers@xpressengine.com)
+	 * @package /modules/importer
+	 * @version 0.1
+	 */
     class ttimport {
-
+		/**
+		 * Xml Parse
+		 * @var XmlParser
+		 */
         var $oXmlParser = null;
 
-        /**
-         * @brief import data in module.xml format
-         **/
+		/**
+		 * Import data in module.xml format
+		 * @param int $key
+		 * @param int $cur
+		 * @param string $index_file
+		 * @param int $unit_count
+		 * @param int $module_srl
+		 * @param int $guestbook_module_srl
+		 * @param string $user_id
+		 * @param string $module_name
+		 * @return int
+		 */
         function importModule($key, $cur, $index_file, $unit_count, $module_srl, $guestbook_module_srl, $user_id, $module_name=null) {
             // Pre-create the objects needed
             $this->oXmlParser = new XmlParser();
@@ -330,7 +344,16 @@
             return $idx-1;
         }
 
-
+		/**
+		 * Insert textyle guest book
+		 * @param object $val
+		 * @param int $module_srl
+		 * @param object $member_info
+		 * @param int $textyle_guestbook_srl
+		 * @param int $parent_srl
+		 * @param int $author_xml_id
+		 * @return int|bool
+		 */
 		function insertTextyleGuestbookItem($val, $module_srl, $member_info, $textyle_guestbook_srl,$parent_srl = 0, $author_xml_id=null) {
             $tobj = null;
             if($textyle_guestbook_srl>0){
@@ -372,9 +395,15 @@
 		}
 
 
-        /**
-         * @brief Attachment
-         **/
+		/**
+		 * Attachment
+		 * @param resource $fp
+		 * @param int $module_srl
+		 * @param int $upload_target_srl
+		 * @param array $files
+		 * @param string $buff
+		 * @return bool
+		 */
         function importAttaches($fp, $module_srl, $upload_target_srl, &$files, $buff) {
             $uploaded_count = 0;
 
@@ -441,9 +470,10 @@
             return false;
         }
 
-        /**
-         * @biref Return a filename to temporarily use
-         **/
+		/**
+		 * Return a filename to temporarily use
+		 * @return string
+		 */
         function getTmpFilename() {
             $path = "./files/cache/importer";
             if(!is_dir($path)) FileHandler::makeDir($path);
@@ -452,9 +482,12 @@
             return $filename;
         }
 
-        /**
-         * @brief Read buff until key value comes out from a specific file point
-         **/
+		/**
+		 * Read buff until key value comes out from a specific file point
+		 * @param resource $fp
+		 * @param string $buff
+		 * @return string
+		 */
         function saveTemporaryFile($fp, $buff) {
             $temp_filename = $this->getTmpFilename();
             $buff = substr($buff, 9);
@@ -473,9 +506,11 @@
             return $temp_filename;
         }
 
-        /**
-         * @brief Replace img tag in the ttxml
-         **/
+		/**
+		 * Replace img tag in the ttxml
+		 * @param array $matches
+		 * @return string
+		 */
         function _replaceTTAttach($matches) {
             $name = $matches[2];
             if(!$name) return $matches[0];
@@ -496,9 +531,10 @@
             }
         }
 
-        /**
-         * @brief Convert the video file
-         **/
+		/**
+		 * Convert the video file
+		 * @return string
+		 */
         function _replaceTTMovie($matches) {
             $key = $matches[1];
             if(!$key) return $matches[0];
@@ -513,9 +549,16 @@
                     '</object>';
         }
 
-        /**
-         * @brief Comment
-         **/
+		/**
+		 * Comment
+		 * @param object $val
+		 * @param int $module_srl
+		 * @param int $document_srl
+		 * @param object $member_info
+		 * @param int $parent_srl
+		 * @param int $author_xml_id
+		 * @return bool|int|object
+		 */
         function insertComment($val, $module_srl, $document_srl, $member_info, $parent_srl = 0, $author_xml_id) {
             $tobj = null;
             $tobj->comment_srl = getNextSequence();
@@ -580,7 +623,15 @@
             }
             return false;
         }
-        // List category
+
+		/**
+		 * List category
+		 * @param object $obj
+		 * @param array $category
+		 * @param int $idx
+		 * @param int $parent
+		 * @return void
+		 */
         function arrangeCategory($obj, &$category, &$idx, $parent = 0) {
             if(!$obj->category) return;
             if(!is_array($obj->category)) $c = array($obj->category);

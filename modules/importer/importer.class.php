@@ -1,36 +1,41 @@
 <?php
-    /**
-     * @class  importer
-     * @author NHN (developers@xpressengine.com)
-     * @brief high class of importer module
-     **/
-
+	/**
+	 * importer
+	 * high class of importer module
+	 *
+	 * @author NHN (developers@xpressengine.com)
+	 * @package /modules/importer
+	 * @version 0.1
+	 */
     class importer extends ModuleObject {
-
-        /**
-         * @brief Implement if additional tasks are necessary when installing
-         **/
+		/**
+		 * Implement if additional tasks are necessary when installing
+		 * @return Object
+		 */
         function moduleInstall() {
             return new Object();
         }
 
-        /**
-         * @brief a method to check if successfully installed
-         **/
+		/**
+		 * A method to check if successfully installed
+		 * @return bool
+		 */
         function checkUpdate() {
             return false;
         }
 
-        /**
-         * @brief Execute update
-         **/
+		/**
+		 * Execute update
+		 * @return Object
+		 */
         function moduleUpdate() {
             return new Object();
         }
 
-        /**
-         * @brief Re-generate the cache file
-         **/
+		/**
+		 * Re-generate the cache file
+		 * @return void
+		 */
         function recompileCache() {
         }
     }

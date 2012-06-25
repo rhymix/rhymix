@@ -1,26 +1,37 @@
 <?php
-    /**
-     * @class  importerAdminController
-     * @author NHN (developers@xpressengine.com)
-     * @brief admin controller class of importer module
-     **/
-
     @set_time_limit(0);
     require_once('./modules/importer/extract.class.php');
 
+	/**
+	 * importerAdminController class
+	 * admin controller class of importer module
+	 *
+	 * @author NHN (developers@xpressengine.com)
+	 * @package /modules/importer
+	 * @version 0.1
+	 */
     class importerAdminController extends importer {
-
+		/**
+		 * Unit count
+		 * @var int
+		 */
         var $unit_count = 300;
+		/**
+		 * Xml parser
+		 * @var XmlParser
+		 */
         var $oXmlParser = null;
 
-        /**
-         * @brief Initialization
-         **/
+		/**
+		 * Initialization
+		 * @return void
+		 */
         function init() {
         }
 
 		/**
-		 * @brief Check whether the passing filename exists or not. Detect the file type, too.
+		 * Check whether the passing filename exists or not. Detect the file type, too.
+		 * @return void
 		 */
 		function procImporterAdminCheckXmlFile() {
 			global $lang;
@@ -77,9 +88,10 @@
 			$this->add('result_message', $resultMessage);
 		}
 
-        /**
-         * @brief sync member information with document information
-         **/
+		/**
+		 * Sync member information with document information
+		 * @return void
+		 */
         function procImporterAdminSync() {
 			/* DBMS가 CUBRID인 경우 MySQL과 동일한 방법으로는 문서 및 댓글에 대한 사용자 정보를 동기화 할 수 없으므로 예외 처리 합니다.
 			  CUBRID를 사용하지 않는 경우에만 보편적인 기존 질의문을 사용합니다. */
@@ -131,9 +143,10 @@
             $this->setMessage('msg_sync_completed');
         }
 
-        /**
-         * @brief Pre-analyze the xml file and cache it
-         **/
+		/**
+		 * Pre-analyze the xml file and cache it
+		 * @return void
+		 */
         function procImporterAdminPreProcessing() {
             // Get the target xml file to import
             $xml_file = Context::get('xml_file');
@@ -230,9 +243,10 @@
             $this->add('status',0);
         }
 
-        /**
-         * @brief Migrate data after completing xml file extraction
-         **/
+		/**
+		 * Migrate data after completing xml file extraction
+		 * @return void
+		 */
         function procImporterAdminImport() {
             // Variable setting
             $type = Context::get('type');
@@ -284,9 +298,13 @@
             } else $this->setMessage( sprintf(Context::getLang('msg_importing'), $total, $cur) );
         }
 
-        /**
-         * @brief Import member information
-         **/
+		/**
+		 * Import member information
+		 * @param int $key
+		 * @param int $cur
+		 * @param string $index_file
+		 * @return int
+		 */
         function importMember($key, $cur, $index_file) {
             if(!$cur) $cur = 0;
             // Create the xmlParser object
@@ -426,9 +444,13 @@
             return $idx-1;
         }
 
-        /**
-         * @brief Import message information parsed from a given xml file
-         **/
+		/**
+		 * Import message information parsed from a given xml file
+		 * @param int $key
+		 * @param int $cur
+		 * @param string $index_file
+		 * @return int
+		 */
         function importMessage($key, $cur, $index_file) {
             if(!$cur) $cur = 0;
             // Create the xmlParser object
@@ -515,9 +537,14 @@
             return $idx-1;
         }
 
-        /**
-         * @brief Import data in module.xml format
-         **/
+		/**
+		 * Import data in module.xml format
+		 * @param int $key
+		 * @param int $cur
+		 * @param string $index_file
+		 * @param int $module_srl
+		 * @return int
+		 */
         function importModule($key, $cur, $index_file, $module_srl) {
             // Pre-create the objects needed
             $this->oXmlParser = new XmlParser();
@@ -720,9 +747,13 @@
             return $idx-1;
         }
 
-        /**
-         * @brief Trackbacks
-         **/
+		/**
+		 * Trackbacks
+		 * @param resource $fp
+		 * @param int $module_srl
+		 * @param int $document_srl
+		 * @return int
+		 */
         function importTrackbacks($fp, $module_srl, $document_srl) {
             $started = false;
             $buff = null;
@@ -761,9 +792,13 @@
             return $cnt;
         }
 
-        /**
-         * @brief Comments
-         **/
+		/**
+		 * Comments
+		 * @param resource $fp
+		 * @param int $module_srl
+		 * @param int $document_srl
+		 * @return int
+		 */
         function importComments($fp, $module_srl, $document_srl) {
             $started = false;
             $buff = null;
@@ -870,9 +905,14 @@
             return $cnt;
         }
 
-        /**
-         * @brief Import attachment
-         **/
+		/**
+		 * Import attachment
+		 * @param resource $fp
+		 * @param int $module_srl
+		 * @param int $upload_target_srl
+		 * @param array $files
+		 * @return int
+		 */
         function importAttaches($fp, $module_srl, $upload_target_srl, &$files) {
             $uploaded_count = 0;
 
@@ -973,9 +1013,10 @@
             return $uploaded_count;
         }
 
-        /**
-         * @biref Return a filename to temporarily use
-         **/
+		/**
+		 * Return a filename to temporarily use
+		 * @return string
+		 */
         function getTmpFilename() {
             $path = "./files/cache/importer";
             if(!is_dir($path)) FileHandler::makeDir($path);
@@ -984,9 +1025,11 @@
             return $filename;
         }
 
-        /**
-         * @brief Read buff until key value comes out from a specific file point
-         **/
+		/**
+		 * Read buff until key value comes out from a specific file point
+		 * @param resource $fp
+		 * @return string
+		 */
         function saveTemporaryFile($fp) {
             $temp_filename = $this->getTmpFilename();
             $f = fopen($temp_filename, "w");
@@ -1008,9 +1051,11 @@
         }
 
 
-        /**
-         * @brief Set extra variables
-         **/
+		/**
+		 * Set extra variables
+		 * @param resource $fp
+		 * @return array
+		 */
         function importExtraVars($fp) {
             $buff = null;
             while(!feof($fp)) {
