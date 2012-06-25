@@ -1516,47 +1516,111 @@
             }
         }
 
-        /**
-         * @brief Log-in
-         **/
-        function doLogin($user_id, $password = '', $keep_signed = false) {
-            $user_id = strtolower($user_id);
-            // Call a trigger before log-in (before)
-            $trigger_obj->user_id = $user_id;
-            $trigger_obj->password = $password;
-            $trigger_output = ModuleHandler::triggerCall('member.doLogin', 'before', $trigger_obj);
-            if(!$trigger_output->toBool()) return $trigger_output;
-            // Create a member model object
-            $oMemberModel = &getModel('member');
+		/**
+		* @brief Log-in
+		**/
+		function doLogin($user_id, $password = '', $keep_signed = false) {
+			$user_id = strtolower($user_id);
+			if(!$user_id) return new Object(-1, 'null_user_id');
+			// Call a trigger before log-in (before)
+			$trigger_obj->user_id = $user_id;
+			$trigger_obj->password = $password;
+			$trigger_output = ModuleHandler::triggerCall('member.doLogin', 'before', $trigger_obj);
+			if(!$trigger_output->toBool()) return $trigger_output;
+			// Create a member model object
+			$oMemberModel = &getModel('member');
 
-	    // check identifier
-	    $config = $oMemberModel->getMemberConfig();
-	    if ($config->identifier == 'email_address'){
-		    // Get user_id information
-		    $this->memberInfo = $oMemberModel->getMemberInfoByEmailAddress($user_id);
-		    // Set an invalid user if no value returned
-		    if(!$user_id || strtolower($this->memberInfo->email_address) != strtolower($user_id)) return new Object(-1, 'invalid_email_address');
+			// check IP access count.
+			$config = $oMemberModel->getMemberConfig();
+			$args->ipaddress = $_SERVER['REMOTE_ADDR'];
+			$output = executeQuery('member.getLoginCountByIp', $args);
+			$count = (int)$output->data->count;
+			if($config->max_error_count < $count)
+			{
+				$last_update = $output->data->last_update;
+				$year = substr($last_update,0,4);
+				$month = substr($last_update,4,2);
+				$day = substr($last_update,6,2);
+				$hour = substr($last_update,8,2);
+				$min = substr($last_update,10,2);
+				$sec = substr($last_update,12,2);
+				$last_update = mktime($hour,$min,$sec,$month,$day,$year);
+				$term = intval(time()-$last_update);
+				if($term < $config->max_error_count_time)
+				{
+					$term = $config->max_error_count_time - $term;
+					if($term < 60) $term = intval($term).Context::getLang('unit_sec');
+					elseif(60 <= $term && $term < 3600) $term = intval($term/60).Context::getLang('unit_min');
+					elseif(3600 <= $term && $term < 86400) $term = intval($term/3600).Context::getLang('unit_hour');
+					else $term = intval($term/86400).Context::getLang('unit_day');
+					return new Object(-1, sprintf(Context::getLang('excess_ip_access_count'),$term));
+				}
+				else
+				{
+					$args->ipaddress = $_SERVER['REMOTE_ADDR'];
+					$output = executeQuery('member.deleteLoginCountByIp', $args);
+				}
+			}
 
-	    }else{
-		    // Get user_id information
-		    $this->memberInfo = $oMemberModel->getMemberInfoByUserID($user_id);
-		    // Set an invalid user if no value returned
-		    if(!$user_id || strtolower($this->memberInfo->user_id) != strtolower($user_id)) return new Object(-1, 'invalid_user_id');
-	    }
-            // Password Check
-            if($password && !$oMemberModel->isValidPassword($this->memberInfo->password, $password, $this->memberInfo->member_srl)) return new Object(-1, 'invalid_password');
-            // If denied == 'Y', notify
-            if($this->memberInfo->denied == 'Y') {
-                $args->member_srl = $this->memberInfo->member_srl;
-                $output = executeQuery('member.chkAuthMail', $args);
-                if ($output->toBool() && $output->data->count != '0') return new Object(-1,'msg_user_not_confirmed');
-                return new Object(-1,'msg_user_denied');
-            }
-            // Notify if denied_date is less than the current time
-            if($this->memberInfo->limit_date && substr($this->memberInfo->limit_date,0,8) >= date("Ymd")) return new Object(-1,sprintf(Context::getLang('msg_user_limited'),zdate($this->memberInfo->limit_date,"Y-m-d")));
+			// check identifier
+			if ($config->identifier == 'email_address'){
+				// Get user_id information
+				$this->memberInfo = $oMemberModel->getMemberInfoByEmailAddress($user_id);
+				// Set an invalid user if no value returned
+				if(!$user_id || strtolower($this->memberInfo->email_address) != strtolower($user_id)) return $this->recordLoginError(-1, 'invalid_email_address');
+
+			}else{
+				// Get user_id information
+				$this->memberInfo = $oMemberModel->getMemberInfoByUserID($user_id);
+				// Set an invalid user if no value returned
+				if(!$user_id || strtolower($this->memberInfo->user_id) != strtolower($user_id)) return $this->recordLoginError(-1, 'invalid_user_id');
+			}
+			// Password Check
+			if($password && !$oMemberModel->isValidPassword($this->memberInfo->password, $password, $this->memberInfo->member_srl)) return $this->recordMemberLoginError(-1, 'invalid_password',$this->memberInfo);
+			// If denied == 'Y', notify
+			if($this->memberInfo->denied == 'Y') {
+				$args->member_srl = $this->memberInfo->member_srl;
+				$output = executeQuery('member.chkAuthMail', $args);
+				if ($output->toBool() && $output->data->count != '0') return new Object(-1,'msg_user_not_confirmed');
+				return new Object(-1,'msg_user_denied');
+			}
+			// Notify if denied_date is less than the current time
+			if($this->memberInfo->limit_date && substr($this->memberInfo->limit_date,0,8) >= date("Ymd")) return new Object(-1,sprintf(Context::getLang('msg_user_limited'),zdate($this->memberInfo->limit_date,"Y-m-d")));
             // Update the latest login time
             $args->member_srl = $this->memberInfo->member_srl;
             $output = executeQuery('member.updateLastLogin', $args);
+			// check if there is login fail records.
+			$output = executeQuery('member.getLoginCountHistoryByMemberSrl', $args);
+			if($output->data && $output->data->content)
+			{
+				$title = Context::getLang('login_fail_report');
+				$message = '<ul>';
+				$content = unserialize($output->data->content);
+				foreach($content as $val)
+				{
+					$message .= '<li>'.date('Y-m-d H:i:s P',$val[2]).'<br /> Access IP: '.$val[0].'<br /> Message: '.$val[1].'</li>';
+				}
+				$message .= '</ul>';
+				$content = sprintf(Context::getLang('login_fail_report_contents'),$message,date('Y-m-d H:i:s P'));
+
+				//send message
+				$oCommunicationController = &getController('communication');
+				$oCommunicationController->sendMessage($args->member_srl, $args->member_srl, $title, $content, true);
+				
+				if($this->memberInfo->email_address && $this->memberInfo->allow_mailing == 'Y')
+				{
+					$view_url = Context::getRequestUri();
+					$title = sprintf("%s @ %s",$title,$view_url);
+					$content = sprintf("%s<hr /><p>From: <a href=\"%s\" target=\"_blank\">%s</a><br />To: %s(%s)</p>",$content, $view_url, $view_url, $this->memberInfo->nick_name, $this->memberInfo->email_id);
+					$oMail = new Mail();
+					$oMail->setTitle($title);
+					$oMail->setContent($content);
+					$oMail->setSender($this->memberInfo->email_id.'('.$this->memberInfo->nick_name.')', $this->memberInfo->email_address);
+					$oMail->setReceiptor($this->memberInfo->email_id.'('.$this->memberInfo->nick_name.')', $this->memberInfo->email_address);
+					$oMail->send();
+				}
+				$output = executeQuery('member.deleteLoginCountHistoryByMemberSrl', $args);
+			}
             // Call a trigger after successfully log-in (after)
             $trigger_output = ModuleHandler::triggerCall('member.doLogin', 'after', $this->memberInfo);
             if(!$trigger_output->toBool()) return $trigger_output;
@@ -1567,7 +1631,7 @@
                 $autologin_args->member_srl = $this->memberInfo->member_srl;
                 executeQuery('member.deleteAutologin', $autologin_args);
                 $autologin_output = executeQuery('member.insertAutologin', $autologin_args);
-                if($autologin_output->toBool()) setCookie('xeak',$autologin_args->autologin_key, time()+60*60*24*365, '/');
+                if($autologin_output->toBool()) setCookie('xeak',$autologin_args->autologin_key, time()+31536000, '/');
             }
 			if($this->memberInfo->is_admin == 'Y') {
 				 $oMemberAdminModel = &getAdminModel('member');

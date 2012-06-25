@@ -337,5 +337,56 @@
             $store = new Auth_OpenID_XEStore();
             $store->reset();
         }
-    }
+
+		/**
+		 * @brief Record login error and return the error, about IPaddress.
+		**/
+		function recordLoginError($error = 0, $message = 'success')
+		{
+			if($error == 0) return new Object($error, $message);
+
+			$args->ipaddress = $_SERVER['REMOTE_ADDR'];
+
+			$output = executeQuery('member.getLoginCountByIp', $args);
+			if($output->data && $output->data->count)
+			{
+				//update
+				$args->count = $output->data->count + 1;
+				$output = executeQuery('member.updateLoginCountByIp', $args);
+			}
+			else
+			{
+				//insert
+				$args->count = 1;
+				$output = executeQuery('member.insertLoginCountByIp', $args);
+			}
+			return new Object($error, $message);
+		}
+
+		/**
+		 * @brief Record login error and return the error, about MemberSrl.
+		**/
+		function recordMemberLoginError($error = 0, $message = 'success', $args = NULL)
+		{
+			if($error == 0 || !$args->member_srl) return new Object($error, $message);
+
+			$output = executeQuery('member.getLoginCountHistoryByMemberSrl', $args);
+			if($output->data && $output->data->content)
+			{
+				//update
+				$content = unserialize($output->data->content);
+				$content[] = array($_SERVER['REMOTE_ADDR'],Context::getLang($message),time());
+				$args->content = serialize($content);
+				$output = executeQuery('member.updateLoginCountHistoryByMemberSrl', $args);
+			}
+			else
+			{
+				//insert
+				$content[0] = array($_SERVER['REMOTE_ADDR'],Context::getLang($message),time());
+				$args->content = serialize($content);
+				$output = executeQuery('member.insertLoginCountHistoryByMemberSrl', $args);
+			}
+			return $this->recordLoginError($error, $message);
+		}
+	}
 ?>

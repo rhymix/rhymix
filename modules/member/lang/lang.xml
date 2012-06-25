@@ -155,6 +155,10 @@
 		<value xml:lang="tr"><![CDATA[Hesap etkinleştirilmemiş.]]></value>
 		<value xml:lang="vi"><![CDATA[Tài khoản đăng nhập không đúng.]]></value>
 	</item>
+	<item name="invalid_email_address">
+		<value xml:lang="ko"><![CDATA[이메일 주소와 일치하는 회원이 없습니다.]]></value>
+		<value xml:lang="en"><![CDATA[You have entered an invalid email address. There is no member who has the email, entered.]]></value>
+	</item>
 	<item name="invalid_user_id">
 		<value xml:lang="ko"><![CDATA[존재하지 않는 회원 아이디입니다.]]></value>
 		<value xml:lang="en"><![CDATA[You have entered an invalid ID.]]></value>
@@ -2234,6 +2238,22 @@ Bạn có thể quản lý thành viên bằng cách tạo những nhóm mới, 
 		<value xml:lang="zh-TW"><![CDATA[可設定密碼更新週期，將會定期通知更換密碼。 (設為零則不使用)]]></value>
 		<value xml:lang="tr"><![CDATA[Eğer buna bir değer biçerseniz, şifrenizi belirli aralıklarla değiştirmeniz konusunda bildirim alacaksanız (eğer 0 olarak ayarlandıysa, devredışıdır)]]></value>
 	</item>
+	<item name="login_trial_limit1">
+		<value xml:lang="ko"><![CDATA[로그인 시도 횟수 제한 횟수]]></value>
+		<value xml:lang="en"><![CDATA[Sign in trial limit]]></value>
+	</item>
+	<item name="login_trial_limit2">
+		<value xml:lang="ko"><![CDATA[로그인 시도 횟수 제한 시간]]></value>
+		<value xml:lang="en"><![CDATA[Sign in trial limit]]></value>
+	</item>
+	<item name="about_login_trial_limit1">
+		<value xml:lang="ko"><![CDATA[정해진 시간 안에 허용되는 로그인 횟수를 입력하십시오. 짧은 시간 동안 하나의 아이피(IP)에서 시도할 수 있는 로그인 횟수에 제한을 둡니다.]]></value>
+		<value xml:lang="en"><![CDATA[Set the number of trial limit. Limit the number of trial to sign in from a IP address.]]></value>
+	</item>
+	<item name="about_login_trial_limit2">
+		<value xml:lang="ko"><![CDATA[지정된 횟수의 로그인을 허용하는 시간을 정하십시오. 짧은 시간 동안 하나의 아이피(IP)에서 시도할 수 있는 로그인 횟수에 제한을 둡니다.]]></value>
+		<value xml:lang="en"><![CDATA[Set the time limit to try the written times of sign in. Limit the number of trial to sign in during the span of time, from a IP address.]]></value>
+	</item>
 	<item name="msg_kr_address">
 		<value xml:lang="ko"><![CDATA[읍, 면, 동 이름으로 검색하세요.]]></value>
 		<value xml:lang="en"><![CDATA[Search for the name of eup, myeon or dong of your address.]]></value>
@@ -2467,9 +2487,22 @@ Bạn có thể quản lý thành viên bằng cách tạo những nhóm mới, 
 		<value xml:lang="ko"><![CDATA[이메일 주소가 정상적으로 변경되었습니다. 변경된 이메일 주소로 로그인 가능합니다.]]></value>
 	</item>
 	<item name="group">
+		<value xml:lang="en"><![CDATA[그룹]]></value>
 		<value xml:lang="en"><![CDATA[Group]]></value>
 	</item>
 	<item name="retrieve_password">
 		<value xml:lang="en"><![CDATA[Retrieve password]]></value>
+	</item>
+	<item name="excess_ip_access_count">
+		<value xml:lang="ko"><![CDATA[로그인 가능 횟수를 초과하셨습니다. %s 간 로그인 하실 수 없습니다.]]></value>
+		<value xml:lang="en"><![CDATA[There was too much sign in trial from your devices in a short time. You can not sign in for %s.]]></value>
+	</item>
+	<item name="login_fail_report">
+		<value xml:lang="ko"><![CDATA[로그인 실패 기록 보고 입니다.]]></value>
+		<value xml:lang="en"><![CDATA[Sign in failure report.]]></value>
+	</item>
+	<item name="login_fail_report_contents">
+		<value xml:lang="ko"><![CDATA[<h2>확인하지 않은 로그인 실패 기록이 있습니다.</h2><div>%1$s</div><p>* 이 알림은 한번만 보입니다.<br />* 이 메시지는 쪽지와 이메일로 발송됩니다.<br />* 이 메시지는 로그인이 성공한 순간, 로그인 성공 이전 실패 기록을 모아서 발송합니다.<br />발송 시각: %2$s</p>]]></value>
+		<value xml:lang="en"><![CDATA[<h2>There is unfolded sign in failure report</h2><div>%1$s</div><p>* This notification is shown once.<br />* This message will be send to your email and message.<br />* This message contains sign in failure records, before a ID sign in success.<br />Sending: %2$s</p>]]></value>
 	</item>
 </lang>

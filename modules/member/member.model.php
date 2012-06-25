@@ -51,6 +51,9 @@
 
 			if (!$config->identifier) $config->identifier = 'user_id';
 
+			if (!$config->max_error_count) $config->max_error_count = 10;
+			if (!$config->max_error_count_time) $config->max_error_count_time = 300;
+
             return $config;
         }
 
