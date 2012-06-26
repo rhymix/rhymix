@@ -1,15 +1,17 @@
 <?php
 /**
- * @class  trashView
+ * trashAdminView class
+ * Admin view class of the trash module
+ *
  * @author NHN (developers@xpressengine.com)
- * @brief View class of the module trash
- **/
-
+ * @package /modules/trash
+ * @version 0.1
+ */
 class trashAdminView extends trash {
-
 	/**
-	 * @brief Initialization
-	 **/
+	 * Initialization
+	 * @return void
+	 */
 	function init() {
 		// 템플릿 경로 지정 (board의 경우 tpl에 관리자용 템플릿 모아놓음)
 		$template_path = sprintf("%stpl/",$this->module_path);
@@ -17,8 +19,9 @@ class trashAdminView extends trash {
 	}
 
 	/**
-	 * @brief trash list
-	 **/
+	 * Trash list
+	 * @return void
+	 */
 	function dispTrashAdminList() {
 		$args->page = Context::get('page'); // /< Page
 		$args->list_count = 30; // /< the number of posts to display on a single page

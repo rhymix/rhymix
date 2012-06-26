@@ -1,10 +1,20 @@
 <?php
-
+/**
+ * trashModel class
+ * trash the module's model class
+ *
+ * @author NHN (developers@xpressengine.com)
+ * @package /modules/trash
+ * @version 0.1
+ */
 class trashModel extends trash
 {
 	/**
-	 * @brief get one trash object
-	 **/
+	 * Get one trash object
+	 * @param int $trashSrl
+	 * @pram array $columnList
+	 * @return TrashVO
+	 */
 	function getTrash($trashSrl, $columnList = array())
 	{
 		$oTrashVO = new TrashVO();
@@ -20,8 +30,11 @@ class trashModel extends trash
 	}
 
 	/**
-	 * @brief get trash object list
-	 **/
+	 * Get TrashVO list
+	 * @param object $args
+	 * @param array $columnList
+	 * @return object
+	 */
 	function getTrashList($args, $columnList = array())
 	{
 		$output = executeQueryArray('trash.getTrashList', $args, $columnList);
@@ -39,8 +52,11 @@ class trashModel extends trash
 	}
 
 	/**
-	 * @brief set trash object from std object
-	 **/
+	 * Set trash object from std object
+	 * @param TrashVO $oTrashVO
+	 * @param object $stdObject
+	 * @return void
+	 */
 	function _setTrashObject(&$oTrashVO, $stdObject)
 	{
 		$oTrashVO->setTrashSrl($stdObject->trash_srl);

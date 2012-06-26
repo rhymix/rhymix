@@ -1,15 +1,19 @@
 <?php
 /**
- * @class  documentController
+ * trashAdminController class
+ * trash admin the module's controller class
+ *
  * @author NHN (developers@xpressengine.com)
- * @brief document the module's controller class
- **/
+ * @package /modules/trash
+ * @version 0.1
+ */
 class trashAdminController extends trash
 {
 	/**
-	 * @brief object insert to trash
-	 * @param $obj : TrashVO type object
-	 **/
+	 * object insert to trash
+	 * @param TrashVO $obj
+	 * @return Object
+	 */
 	function insertTrash($obj)
 	{
 		if(Context::get('is_logged'))
@@ -32,9 +36,10 @@ class trashAdminController extends trash
 	}
 
 	/**
-	 * @brief empty trash
-	 * @param trashSrls : trash_srl in array
-	 **/
+	 * Empty trash
+	 * @param array trashSrls
+	 * @return Object
+	 */
 	function procTrashAdminEmptyTrash()
 	{
 		global $lang;
@@ -60,8 +65,11 @@ class trashAdminController extends trash
 	}
 
 	/**
-	 * @brief empty trash - private method
-	 **/
+	 * Empty trash - private method
+	 * @param string $isAll
+	 * @param array trashSrls
+	 * @return Object
+	 */
 	function _relationDataDelete($isAll, &$trashSrls)
 	{
 		if($isAll == 'true') $trashSrls = array();
@@ -95,8 +103,9 @@ class trashAdminController extends trash
 	}
 
 	/**
-	 * @brief restore content object
-	 **/
+	 * Restore content object
+	 * @return void|Object
+	 */
 	function procTrashAdminRestore()
 	{
 		global $lang;
@@ -150,6 +159,10 @@ class trashAdminController extends trash
 		}
 	}
 
+	/**
+	 * Set trash list to Context
+	 * @return void|Object
+	 */
 	function procTrashAdminGetList()
 	{
 		if(!Context::get('is_logged')) return new Object(-1,'msg_not_permitted');
@@ -173,9 +186,10 @@ class trashAdminController extends trash
 	}
 
 	/**
-	 * @brief empty trash
-	 * @param trashSrls : trash_srl in array
-	 **/
+	 * empty trash
+	 * @param array trashSrls
+	 * @return bool
+	 */
 	function _emptyTrash($trashSrls)
 	{
 		if(!is_array($trashSrls)) return false;

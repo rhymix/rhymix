@@ -1,15 +1,17 @@
 <?php
 /**
- * @class  trashView
+ * trashView class
+ * View class of the module trash
+ *
  * @author NHN (developers@xpressengine.com)
- * @brief View class of the module trash
- **/
-
+ * @package /modules/trash
+ * @version 0.1
+ */
 class trashView extends trash {
-
 	/**
-	 * @brief Initialization
-	 **/
+	 * Initialization
+	 * @return void
+	 */
 	function init() {
 	}
 }
