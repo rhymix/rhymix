@@ -727,6 +727,17 @@ class documentController extends document {
 		$output = executeQuery('document.updateReadedCount', $args);
 		// Register session
 		$_SESSION['readed_document'][$document_srl] = true;
+		//remove from cache
+        $oCacheHandler = &CacheHandler::getInstance('object');
+        if($oCacheHandler->isSupport())
+        {
+            $cache_key = 'object:'.$document_srl;
+            $oCacheHandler->delete($cache_key);
+            $oCacheHandler->invalidateGroupKey('documentList');
+            //remove document item from cache
+            $cache_key = 'object_document_item:'.$document_srl;
+            $oCacheHandler->delete($cache_key);
+        }
 	}
 
 	/**

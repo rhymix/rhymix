@@ -73,7 +73,7 @@
 
             // cache controll
             $oCacheHandler = &CacheHandler::getInstance('object');
-            if($oCacheHandler->isSupport()){
+            if($oCacheHandler->isSupport() && !count($this->columnList)){
                     $cache_key = 'object_document_item:'.$this->document_srl;
                     $output = $oCacheHandler->get($cache_key);
             }
