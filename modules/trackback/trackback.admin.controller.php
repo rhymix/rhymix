@@ -1,21 +1,24 @@
 <?php
-    /**
-     * @class  trackbackAdminController
-     * @author NHN (developers@xpressengine.com)
-     * @brief trackback module admin controller class
-     **/
-
+	/**
+	 * trackbackAdminController class
+	 * trackback module admin controller class
+	 *
+	 * @author NHN (developers@xpressengine.com)
+	 * @package /modules/trackback
+	 * @version 0.1
+	 */
     class trackbackAdminController extends trackback {
-
-        /**
-         * @brief Initialization
-         **/
+		/**
+		 * Initialization
+		 * @return void
+		 */
         function init() {
         }
 
-        /**
-         * @brief Trackbacks delete selected in admin page
-         **/
+		/**
+		 * Trackbacks delete selected in admin page
+		 * @return void|Object
+		 */
         function procTrackbackAdminDeleteChecked() {
             // An error appears if no document is selected
             $cart = Context::get('cart');
@@ -42,9 +45,10 @@
 			}
         }
 
-        /**
-         * @brief Save Settings
-         **/
+		/**
+		 * Save Settings
+		 * @return object
+		 */
         function procTrackbackAdminInsertConfig() {
             $config->enable_trackback = Context::get('enable_trackback');
             if($config->enable_trackback != 'Y') $config->enable_trackback = 'N';
@@ -59,9 +63,10 @@
             return $output;
         }
 
-        /**
-         * @brief Trackback Module Settings
-         **/
+		/**
+		 * Trackback Module Settings
+		 * @return void|Object
+		 */
         function procTrackbackAdminInsertModuleConfig() {
             // Get variables
             $module_srl = Context::get('target_module_srl');
@@ -88,9 +93,10 @@
 			}
         }
 
-        /**
-         * @brief Trackback Module Settings
-         **/
+		/**
+		 * Trackback Module Settings
+		 * @return void
+		 */
         function procTrackbackAdminAddCart()
 		{
 			$trackback_srl = (int)Context::get('trackback_srl');
@@ -111,9 +117,12 @@
 			}
         }
 
-        /**
-         * @brief Trackback modular set function
-         **/
+		/**
+		 * Trackback modular set function
+		 * @param int $module_srl
+		 * @param string $enable_trackback 'Y' or 'N'
+		 * @return Object
+		 */
         function setTrackbackModuleConfig($module_srl, $enable_trackback) {
             $config->enable_trackback = $enable_trackback;
 
@@ -122,9 +131,11 @@
             return new Object();
         }
 
-        /**
-         * @brief Modules belonging to remove all trackbacks
-         **/
+		/**
+		 * Modules belonging to remove all trackbacks
+		 * @param int $module_srl
+		 * @return object
+		 */
         function deleteModuleTrackbacks($module_srl) {
             // Delete
             $args->module_srl = $module_srl;

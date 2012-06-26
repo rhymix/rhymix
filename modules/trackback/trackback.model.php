@@ -1,30 +1,37 @@
 <?php
-    /**
-     * @class  trackbackModel
-     * @author NHN (developers@xpressengine.com)
-     * @brief trackback module model class
-     **/
-
+	/**
+	 * trackbackModel class
+	 * trackback module model class
+	 *
+	 * @author NHN (developers@xpressengine.com)
+	 * @package /modules/trackback
+	 * @version 0.1
+	 */
     class trackbackModel extends trackback {
-
-        /**
-         * @brief Initialization
-         **/
+		/**
+		 * Initialization
+		 * @return void
+		 */
         function init() {
         }
 
-        /**
-         * @brief Wanted a trackback information
-         **/
+		/**
+		 * Wanted a trackback information
+		 * @param int $trackback_srl
+		 * @param array $columnList
+		 * @return object
+		 */
         function getTrackback($trackback_srl, $columnList = array()) {
             $args->trackback_srl = $trackback_srl;
             $output = executeQuery('trackback.getTrackback', $args, $columnList);
             return $output;
         }
 
-        /**
-         * @brief Trackbacks document_srl corresponding to the bringing of the total number of
-         **/
+		/**
+		 * Trackbacks document_srl corresponding to the bringing of the total number of
+		 * @param int $document_srl
+		 * @return int
+		 */
         function getTrackbackCount($document_srl) {
             $args->document_srl = $document_srl;
             $output = executeQuery('trackback.getTrackbackCount', $args);
@@ -34,9 +41,11 @@
         }
 
 
-        /**
-         * @brief Trackbacks module_srl corresponding to the bringing of the total number of
-         **/
+		/**
+		 * Trackbacks module_srl corresponding to the bringing of the total number of
+		 * @param int $module_srl
+		 * @return int
+		 */
         function getTrackbackAllCount($module_srl) {
             $args->module_srl = $module_srl;
             $output = executeQuery('trackback.getTrackbackCount', $args);
@@ -46,10 +55,13 @@
         }
 
 
-        /**
-         * @brief For a particular document to a specific ip number of trackbacks recorded
-         * Im spamfilter method used in
-         **/
+		/**
+		 * For a particular document to a specific ip number of trackbacks recorded
+		 * Im spamfilter method used in
+		 * @param int $document_srl
+		 * @param string $ipaddress
+		 * @return int
+		 */
         function getTrackbackCountByIPAddress($document_srl, $ipaddress) {
             $args->document_srl = $document_srl;
             $args->ipaddress = $ipaddress;
@@ -59,9 +71,11 @@
             return (int)$total_count;
         }
 
-        /**
-         * @brief Trackbacks certain documents belonging to the bringing of the list
-         **/
+		/**
+		 * Trackbacks certain documents belonging to the bringing of the list
+		 * @param int $document_srl
+		 * @return array
+		 */
         function getTrackbackList($document_srl) {
             $args->document_srl = $document_srl;
             $args->list_order = 'list_order';
@@ -76,9 +90,11 @@
             return $trackback_list;
         }
 
-        /** 
-         * @brief Bringing a mid Trackbacks
-         **/
+		/** 
+		 * Bringing a mid Trackbacks
+		 * @param object $obj
+		 * @return object
+		 */
         function getNewestTrackbackList($obj) {
             if($obj->mid) {
                 $oModuleModel = &getModel('module');
@@ -98,9 +114,11 @@
             return $output;
         }
         
-        /**
-         * @brief Return to a specific set of modules trackback
-         **/
+		/**
+		 * Return to a specific set of modules trackback
+		 * @param int $module_srl
+		 * @return object
+		 */
         function getTrackbackModuleConfig($module_srl) {
             // Bringing trackback module config
             $oModuleModel = &getModel('module');
@@ -113,9 +131,16 @@
             return $module_trackback_config;
         }
 
-        /**
-         * @brief Fixed in time for the entire yeokingeul Wanted to Register
-         **/
+		/**
+		 * Fixed in time for the entire yeokingeul Wanted to Register
+		 * @param int $time
+		 * @param string $ipaddress
+		 * @param string $url
+		 * @param string $blog_name
+		 * @param string $title
+		 * @param string excerpt
+		 * @return int
+		 */
         function getRegistedTrackback($time, $ipaddress, $url, $blog_name, $title, $excerpt) {
             $obj->regdate = date("YmdHis",time()-$time);
             $obj->ipaddress = $ipaddress;
@@ -127,20 +152,24 @@
             return $output->data->count;
         }
 
-        /**
-         * @brief return by creating a trackback url
-         * Adds the key value in the trackback url.
-         **/
+		/**
+		 * Return by creating a trackback url
+		 * Adds the key value in the trackback url.
+		 * @param int $document_srl
+		 * @return string
+		 */
         function getTrackbackUrl($document_srl) {
             $url = getFullUrl('','document_srl',$document_srl,'act','trackback','key',$this->getTrackbackKey($document_srl));
             return $url;
         }
 
-        /**
-         * @brief Return keys by generating
-         * db key value information, plus a 10 minute off-duty time together and hash values and deal with the results
-         * So was extended only url, 1, 10, 20-digit combination of letters only, one return
-         **/
+		/**
+		 * Return keys by generating
+		 * db key value information, plus a 10 minute off-duty time together and hash values and deal with the results
+		 * So was extended only url, 1, 10, 20-digit combination of letters only, one return
+		 * @param int $document_srl
+		 * @return string
+		 */
         function getTrackbackKey($document_srl) {
             $time = (int) (time()/(60*10));
             $db_info = Context::getDBInfo();
