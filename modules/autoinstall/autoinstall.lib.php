@@ -542,9 +542,16 @@
 
             $output = $this->_connect();
 			if(!$output->toBool()) return $output;
+
+			if(!$this->target_path) $this->target_path = '.';
+			if(substr($this->download_path, -1) == '/')
+			{
+				$this->download_path = substr($this->download_path, 0, -1);
+			}
             $target_dir = $this->ftp_info->ftp_root_path.$this->target_path;
 
             foreach($file_list as $k => $file){
+				if(!$file) continue;
                 $org_file = $file;
                 if($this->package->path == ".")
                 {
@@ -586,15 +593,11 @@
                         }
                     }
                 }
-				if(is_file(FileHandler::getRealPath($this->download_path."/".$org_file)))
+				if(!ftp_put($this->connection, $target_dir .'/'. $file, FileHandler::getRealPath($this->download_path."/".$org_file), FTP_BINARY))
 				{
-					if(!ftp_put($this->connection, $target_dir .'/'. $file, FileHandler::getRealPath($this->download_path."/".$org_file), FTP_BINARY))
-					{
-						return new Object(-1, "msg_ftp_upload_failed");
-					}
+					return new Object(-1, "msg_ftp_upload_failed");
 				}
             }
-
 			$this->_close();
             return new Object();
         }
