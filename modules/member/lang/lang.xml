@@ -2487,7 +2487,7 @@ Bạn có thể quản lý thành viên bằng cách tạo những nhóm mới, 
 		<value xml:lang="ko"><![CDATA[이메일 주소가 정상적으로 변경되었습니다. 변경된 이메일 주소로 로그인 가능합니다.]]></value>
 	</item>
 	<item name="group">
-		<value xml:lang="en"><![CDATA[그룹]]></value>
+		<value xml:lang="ko"><![CDATA[그룹]]></value>
 		<value xml:lang="en"><![CDATA[Group]]></value>
 	</item>
 	<item name="retrieve_password">
