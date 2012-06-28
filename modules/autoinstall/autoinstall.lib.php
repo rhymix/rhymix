@@ -588,7 +588,6 @@
                 }
 				if(is_file(FileHandler::getRealPath($this->download_path."/".$org_file)))
 				{
-					echo FileHandler::getRealPath($this->download_path."/".$org_file);
 					if(!ftp_put($this->connection, $target_dir .'/'. $file, FileHandler::getRealPath($this->download_path."/".$org_file), FTP_BINARY))
 					{
 						return new Object(-1, "msg_ftp_upload_failed");
