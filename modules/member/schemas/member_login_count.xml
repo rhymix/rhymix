@@ -1,0 +1,6 @@
+<table name="member_login_count">
+	<column name="ipaddress" type="varchar" size="128" notnull="notnull" index="idx_ipaddress" />
+	<column name="count" type="number" size="11" notnull="notnull" />
+	<column name="regdate" type="date" index="idx_regdate" />
+	<column name="last_update" type="date" index="idx_last_update" />
+</table>

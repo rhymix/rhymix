@@ -1,0 +1,10 @@
+<query id="insertLoginCountHistoryByMemberSrl" action="insert">
+	<tables>
+		<table name="member_count_history" />
+	</tables>
+	<columns>
+		<column name="member_srl" var="member_srl" notnull="notnull" />
+		<column name="content" var="content" notnull="notnull" />
+		<column name="last_update" default="curdate()" />
+	</columns>
+</query>

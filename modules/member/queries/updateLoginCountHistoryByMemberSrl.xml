@@ -1,0 +1,12 @@
+<query id="updateLoginCountHistoryByMemberSrl" action="update">
+	<tables>
+		<table name="member_count_history" />
+	</tables>
+	<columns>
+		<column name="content" var="content" notnull="notnull" />
+		<column name="last_update" var="last_update" notnull="notnull" default="curdate()" />
+	</columns>
+	<conditions>
+		<condition operation="equal" column="member_srl" var="member_srl" notnull="notnull" />
+	</conditions>
+</query>
