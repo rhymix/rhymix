@@ -32,7 +32,7 @@ input[type=radio]{width:13px;height:13px;margin:0;padding:0}
 .ff label+input[type=password],
 .ff label+textarea{padding:5px}
 /* Help */
-.hp{background:#eee;border-top:1px solid #ddd;padding:12px 10px !important;margin:10px -10px !important;}
+.hp{background:#eee;border-top:1px solid #ddd;padding:12px 10px !important;margin:10px 0px !important;}
 .hp li{margin:0;display:inline;border-left:1px solid #ccc;padding:0 4px 0 8px;}
 .hp li:first-child{border:0;}
 .hp a{color:#333;text-decoration:none}

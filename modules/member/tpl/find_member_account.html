@@ -4,7 +4,7 @@
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
-<h2 class="hx h2">{$lang->cmd_find_member_account_with_email}</h2>
+<div class="hx h2"><h2>{$lang->cmd_find_member_account_with_email}</h2></div>
 <form action="./" ruleset="findAccount" method="post" class="ff">
 	<input type="hidden" name="module" value="member" />
 	<input type="hidden" name="act" value="procMemberFindAccount" />
@@ -24,8 +24,8 @@
 </form>
 
 <!--@if(count($lang->find_account_question_items)>1)-->
-<h2 class="hx h2">{$lang->cmd_find_member_account_with_email_question}</h2>
-<p>{$lang->about_find_account_question}</p>
+<div class="hx h2"><h2>{$lang->cmd_find_member_account_with_email_question}</h2></div>
+<p style="margin:3px 10px;color:#666">{$lang->about_find_account_question}</p>
 <form action="./" method="post" class="ff" ruleset="@find_member_account_by_question">
 	<input type="hidden" name="module" value="member" />
     <input type="hidden" name="mid" value="{$mid}" />
