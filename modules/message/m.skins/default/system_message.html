@@ -3,6 +3,9 @@
 	<div class="hx h2">
 		<h2>{$system_message}</h2>
 	</div>
+	<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+		<p>{$XE_VALIDATOR_MESSAGE}</p>
+	</div>
 	<div class="co">
 		<!--@if(!$is_logged)-->
         {@ Context::addJsFile("./common/js/jquery.js", true, '', -100000) }
@@ -18,13 +21,16 @@
 			<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
 				<fieldset>
 					<ul>
-						<li><label for="uid">{$lang->user_id}</label><input type="text" name="user_id" id="uid" value="" /></li>
+						<li><label for="uid"><!--@if($member_config->identifier == 'user_id')-->{$lang->user_id}<!--@else-->{$lang->email_address}<!--@end--></label><input type="text" name="user_id" id="uid" value="" /></li>
 						<li><label for="upw">{$lang->password}</label><input type="password" name="password" id="upw" value="" /></li>
 					</ul>
 					<p>
-						<input type="checkbox" name="keep_signed" id="keepid" value="Y" />						
+						<input type="checkbox" name="keep_signed" id="keepid" value="Y" />
 						<label for="keepid">{$lang->keep_signed}</label>
 					</p>
+					<div class="message info" id="keep_msg" style="display:none;">
+						<p>{$lang->about_keep_warning}</p>
+					</div>
 					<input type="submit" value="{$lang->cmd_login}" class="bn dark" />
 					<ul class="hp">
 						<li><a href="{getUrl('','act','dispMemberFindAccount')}"><span>{$lang->cmd_find_member_account}</span></a></li>
@@ -62,3 +68,17 @@
 		<!--@end-->
 	</div>
 </div>
+
+<script type="text/javascript">
+jQuery(function($){
+	var keep_msg = $('#keep_msg');
+	keep_msg.hide();
+	$('#keepid').change(function(){
+		if($(this).is(':checked')){
+			keep_msg.slideDown(200);
+		} else {
+			keep_msg.slideUp(200);
+		}
+	});
+});
+</script>

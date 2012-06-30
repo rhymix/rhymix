@@ -1,3 +1,4 @@
+<load target="./../../../common/js/jquery.min.js" usecdn="true" index="-1000000" />
 <load target="css/mlogin.css" usecdn="true" />
 <div class="bd">
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
@@ -14,9 +15,30 @@
 			<li><label for="id"><!--@if($identifier == 'user_id')-->{$lang->user_id}<!--@else-->{$lang->email_address}<!--@end--></label><input name="user_id" type="text" id="id" value="" /></li>
 			<li><label for="pw">{$lang->password}</label><input name="password" type="password" id="pw" value="" /></li>
 		</ul>
+		<div class="message info" id="keep_msg" style="display:none;">
+			<p>{$lang->about_keep_warning}</p>
+		</div>
 		<div class="bna">
 			<div class="fl"><input name="keep_signed" type="checkbox" value="Y" id="autoLogin" /> <label for="autoLogin">{$lang->keep_signed}</label></div>
 			<div class="fr"><button type="submit" class="bn dark">{$lang->cmd_login}</button></div>
 		</div>
+		<ul class="hp">
+			<li><a href="{getUrl('','act','dispMemberFindAccount')}"><span>{$lang->cmd_find_member_account}</span></a></li>
+			<li><a href="{getUrl('','act','dispMemberSignUpForm')}"><span>{$lang->cmd_signup}</span></a></li>
+		</ul>
 	</form>
 </div>
+
+<script type="text/javascript">
+jQuery(function($){
+	var keep_msg = $('#keep_msg');
+	keep_msg.hide();
+	$('#autoLogin').change(function(){
+		if($(this).is(':checked')){
+			keep_msg.slideDown(200);
+		} else {
+			keep_msg.slideUp(200);
+		}
+	});
+});
+</script>

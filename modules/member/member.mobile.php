@@ -99,6 +99,39 @@ class memberMobile extends member
         $this->setTemplateFile('member_info_mobile');
     }
 
+		/**
+		* @brief Find user ID and password
+		**/
+		function dispMemberFindAccount() {
+			if(Context::get('is_logged')) return $this->stop('already_logged');
+
+			$oMemberModel = &getModel('member');
+			$config = $oMemberModel->getMemberConfig();
+			Context::set('identifier', $config->identifier);
+
+			$this->setTemplateFile('find_member_account');
+		}
+
+		/**
+		 * @brief Generate a temporary password
+		 **/
+		function dispMemberGetTempPassword() {
+			if(Context::get('is_logged')) return $this->stop('already_logged');
+
+			$oMemberModel = &getModel('member');
+			$config = $oMemberModel->getMemberConfig();
+			Context::set('identifier', $config->identifier);
+
+			$user_id = Context::get('user_id');
+			$temp_password = $_SESSION['xe_temp_password_'.$user_id];
+			unset($_SESSION['xe_temp_password_'.$user_id]);
+
+			if(!$user_id||!$temp_password) return new Object(-1,'msg_invaild_request');
+			Context::set('temp_password', $temp_password);
+
+			$this->setTemplateFile('find_temp_password');
+		}
+
     /**
      * @brief Edit member profile
      **/
@@ -152,6 +185,9 @@ class memberMobile extends member
 
         // A message appears if the user is not logged-in
         if(!$oMemberModel->isLogged()) return $this->stop('msg_not_logged');
+
+		$config = $oMemberModel->getMemberConfig();
+		Context::set('identifier', $config->identifier);
 
         $logged_info = Context::get('logged_info');
         $member_srl = $logged_info->member_srl;

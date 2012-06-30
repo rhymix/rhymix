@@ -253,7 +253,7 @@
 								,zdate($memberInfo['birthday'], 'Y-m-d', false)
 								,$lang->cmd_delete);
 					}elseif($formInfo->name == 'find_account_question'){
-						$inputTag = '<select name="find_account_question" style="width:290px">%s</select><br />';
+						$inputTag = '<select name="find_account_question" style="width:290px; display:block;">%s</select>';
 						$optionTag = array();
 						foreach($lang->find_account_question_items as $key=>$val){
 							if($key == $memberInfo['find_account_question']) $selected = 'selected="selected"';
@@ -264,7 +264,7 @@
 													,$val);
 						}
 						$inputTag = sprintf($inputTag, implode('', $optionTag));
-						$inputTag .= '<br /><input type="text" name="find_account_answer" value="'.$memberInfo['find_account_answer'].'" class="inputText long tall" />';
+						$inputTag .= '<input type="text" name="find_account_answer" title="'.Context::getLang('find_account_answer').'" value="'.$memberInfo['find_account_answer'].'" class="inputText long tall" />';
 					}else{
 						$inputTag = sprintf('<input type="text" name="%s" value="%s" class="inputText long tall" />'
 									,$formInfo->name

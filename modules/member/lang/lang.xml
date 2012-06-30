@@ -933,6 +933,14 @@
 		<value xml:lang="tr"><![CDATA[Hesap Bilgisi Bul]]></value>
 		<value xml:lang="vi"><![CDATA[Lấy lại thông tin]]></value>
 	</item>
+	<item name="cmd_find_member_account_with_email">
+		<value xml:lang="ko"><![CDATA[이메일 주소로 계정 찾기]]></value>
+		<value xml:lang="en"><![CDATA[Find Account with Email address]]></value>
+	</item>
+	<item name="cmd_find_member_account_with_email_question">
+		<value xml:lang="ko"><![CDATA[질문/답변으로 계정 찾기]]></value>
+		<value xml:lang="en"><![CDATA[Find Account with Q&amp;A]]></value>
+	</item>
 	<item name="cmd_resend_auth_mail">
 		<value xml:lang="ko"><![CDATA[인증 메일 재발송]]></value>
 		<value xml:lang="en"><![CDATA[Request for Activation Mail]]></value>

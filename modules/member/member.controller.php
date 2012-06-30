@@ -1081,7 +1081,11 @@
             $oMail->send();
             // Return message
             $msg = sprintf(Context::getLang('msg_auth_mail_sent'), $member_info->email_address);
-            return new Object(0,$msg);
+			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '');
+				$this->setRedirectUrl($returnUrl.'&user_id='.$user_id);
+			}
+			return new Object(0,$msg);
         }
 
 

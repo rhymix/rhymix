@@ -1,6 +1,6 @@
 <include target="./common_header.html" />
 <load target="filter/find_member_account.xml" />
-<h1 class="h1">{$lang->cmd_find_member_account}</h1>
+<h2 class="h2">{$lang->cmd_find_member_account_with_email}</h2>
 <p>{$lang->about_find_member_account}</p>
 <form action="./" method="get" class="form" onsubmit="return procFilter(this, find_member_account)">
     <input type="hidden" name="mid" value="{$mid}" />
@@ -17,7 +17,7 @@
 	</div>
 </form>
 <!--@if(count($lang->find_account_question_items)>1)-->
-<h1 class="h1">{$lang->cmd_find_member_account}</h1>
+<h2 class="h2">{$lang->cmd_find_member_account_with_email_question}</h2>
 <p>{$lang->about_find_account_question}</p>
 <form action="./" method="get" class="form" ruleset="@find_member_account_by_question">
 	<input type="hidden" name="module" value="member" />
