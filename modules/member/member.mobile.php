@@ -31,8 +31,12 @@ class memberMobile extends member
             return;
         }
 
-        // Set a template file
+		// get member module configuration.
+		$oMemberModel = &getModel('member');
+		$config = $oMemberModel->getMemberConfig();
+		Context::set('identifier', $config->identifier);
 
+        // Set a template file
         Context::set('referer_url', $_SERVER['HTTP_REFERER']);
         $this->setTemplateFile('login_form');
     }

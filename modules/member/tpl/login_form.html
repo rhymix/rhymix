@@ -8,7 +8,7 @@
 		<input type="hidden" name="act" value="procMemberLogin" />
 		<input type="hidden" name="redirect_url" value="{getUrl('act','')}" />
 		<ul>
-			<li><label for="id">{$lang->user_id}</label><input name="user_id" type="text" id="id" value="" /></li>
+			<li><label for="id"><!--@if($identifier == 'user_id')-->{$lang->user_id}<!--@else-->{$lang->email_address}<!--@end--></label><input name="user_id" type="text" id="id" value="" /></li>
 			<li><label for="pw">{$lang->password}</label><input name="password" type="password" id="pw" value="" /></li>
 		</ul>
 		<div class="bna">

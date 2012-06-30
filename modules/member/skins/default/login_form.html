@@ -9,7 +9,7 @@
 	<input type="hidden" name="act" value="procMemberLogin" />
 	<ul>
 		<li>
-			<p class="q"><label for="uid">{$lang->user_id}</label></p>
+			<p class="q"><label for="uid"><!--@if($identifier == 'user_id')-->{$lang->user_id}<!--@else-->{$lang->email_address}<!--@end--></label></p>
 			<p class="a"><input type="text" name="user_id" id="uid" value="" /></p>
 		</li>
 		<li>

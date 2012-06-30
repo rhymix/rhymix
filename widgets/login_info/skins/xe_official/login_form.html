@@ -20,8 +20,8 @@
 		<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
 		<div class="idpwWrap">
 			<div class="idpw">
-				<input name="user_id" type="text" title="user id" />
-				<input name="password" type="password" title="password" />
+				<input name="user_id" type="text" title="<!--@if($member_config->identifier != 'email_address')-->{$lang->user_id}<!--@else-->{$lang->email_address}<!--@end-->" />
+				<input name="password" type="password" title="{$lang->password}" />
 				<p class="keep">
 					<input type="checkbox" name="keep_signed" id="keep_signed" value="Y" />
 					<label for="keep_signed">{$lang->keep_signed}</label>

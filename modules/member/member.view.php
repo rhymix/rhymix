@@ -255,6 +255,12 @@
                 $this->setTemplateFile('redirect.html');
                 return;
             }
+
+			// get member module configuration.
+			$oMemberModel = &getModel('member');
+			$config = $oMemberModel->getMemberConfig();
+			Context::set('identifier', $config->identifier);
+
             // Set a template file
             Context::set('referer_url', $_SERVER['HTTP_REFERER']);
 			Context::set('act', 'procMemberLogin');
