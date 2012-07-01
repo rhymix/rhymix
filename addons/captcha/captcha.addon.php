@@ -10,8 +10,9 @@
 
 	if(!class_exists('AddonCaptcha'))
 	{
-	// On the mobile mode, XE Core does not load jquery as normal.
+	// On the mobile mode, XE Core does not load jquery and xe.js as normal.
 	Context::loadFile(array('./common/js/jquery.min.js','head', NULL,-100000),true);
+	Context::loadFile(array('./common/js/xe.min.js','head', NULL,-100000),true);
 		class AddonCaptcha
 		{
 			var $addon_info;
