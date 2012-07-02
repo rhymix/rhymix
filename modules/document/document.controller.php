@@ -1786,9 +1786,9 @@ class documentController extends document {
 	{
 		// Check login information
 		if(!Context::get('is_logged')) return new Object(-1, 'msg_not_logged');
-
 		$module_info = Context::get('module_info');
 		$logged_info = Context::get('logged_info');
+
 		// Get form information
 		$obj = Context::getRequestVars();
 		// Change the target module to log-in information
@@ -1805,8 +1805,17 @@ class documentController extends document {
 		$oDocumentController = &getController('document');
 		// Check if already exist geulinji
 		$oDocument = $oDocumentModel->getDocument($obj->document_srl, $this->grant->manager);
+
 		// Update if already exists
 		if($oDocument->isExists() && $oDocument->document_srl == $obj->document_srl) {
+			if($oDocument->get('module_srl') != $obj->module_srl)
+			{
+				return new Object(-1, 'msg_invalid_request');
+			}
+			if(!$oDocument->isGranted())
+			{
+				return new Object(-1, 'msg_invalid_request');
+			}
 			//if exist document status is already public, use temp status can point problem
 			$obj->status = $oDocument->get('status');
 			$output = $oDocumentController->updateDocument($oDocument, $obj);
