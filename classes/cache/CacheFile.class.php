@@ -22,7 +22,7 @@ class CacheFile extends CacheBase {
 		if(!is_dir($this->cache_dir)) FileHandler::makeDir($this->cache_dir);
 	}
 
-	private function getCacheFileName($key){
+	function getCacheFileName($key){
 		return $this->cache_dir . str_replace(':', '_', $key);
 	}
 	
