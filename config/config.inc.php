@@ -14,7 +14,7 @@
      * Display XE's full version
      * Even The file should be revised when releasing altough no change is made
      */
-	define('__XE_VERSION__', '1.5.2.6');
+	define('__XE_VERSION__', '1.5.2.7');
 
 	/**
 	 * @deprecated __ZBXE_VERSION__ will be removed. Use __XE_VERSION__ instead.
