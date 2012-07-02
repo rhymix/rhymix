@@ -1937,15 +1937,8 @@ class documentController extends document {
 	{
 		// Check login information
 		if(!Context::get('is_logged')) return new Object(-1, 'msg_not_logged');
-
 		$module_info = Context::get('module_info');
 		$logged_info = Context::get('logged_info');
-
-		// Check whether the member can write document on the mid or vid. (2012-06-30 by CMD)
-		$oModuleModel = &getModel('module');
-		$module_info = $oModuleModel->getModuleInfoByMid(Context::get('mid'));
-		$module_grant = $oModuleModel->getGrant($module_info, $logged_info->member_srl);
-		if(!$module_grant->write_document) return new Object(-1, 'msg_not_permitted');
 
 		// Get form information
 		$obj = Context::getRequestVars();
@@ -1963,10 +1956,17 @@ class documentController extends document {
 		$oDocumentController = &getController('document');
 		// Check if already exist geulinji
 		$oDocument = $oDocumentModel->getDocument($obj->document_srl, $this->grant->manager);
+
 		// Update if already exists
 		if($oDocument->isExists() && $oDocument->document_srl == $obj->document_srl) {
-			// Check whether the member can modify. (2012-06-30 by CMD)
-			if(!$oDocument->isGranted()) return new Object(-1,'msg_not_permitted');
+			if($oDocument->get('module_srl') != $obj->module_srl)
+			{
+				return new Object(-1, 'msg_invalid_request');
+			}
+			if(!$oDocument->isGranted())
+			{
+				return new Object(-1, 'msg_invalid_request');
+			}
 			//if exist document status is already public, use temp status can point problem
 			$obj->status = $oDocument->get('status');
 			$output = $oDocumentController->updateDocument($oDocument, $obj);
