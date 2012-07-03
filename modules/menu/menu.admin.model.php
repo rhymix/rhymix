@@ -146,6 +146,7 @@
 					if($moduleInfo->mid == $menuItem->url) {
 						$menuItem->moduleType = $moduleInfo->module;
 						$menuItem->pageType = $moduleInfo->page_type;
+						$menuItem->layoutSrl = $moduleInfo->layout_srl;
 					}
 				}
 			}

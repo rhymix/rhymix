@@ -127,6 +127,7 @@
 		function dispMenuAdminSiteMap()
 		{
 			Context::loadLang(_XE_PATH_.'modules/document/lang/');
+			Context::loadLang(_XE_PATH_.'modules/layout/lang/');
             $site_srl = Context::get('site_srl');
 			$site_module_info = Context::get('site_module_info');
 
@@ -178,6 +179,10 @@
 			$resultModuleList = $oMenuAdminModel->getModuleListInSitemap($site_srl);
             Context::set('module_list', $resultModuleList);
 
+			$oLayoutModel = &getModel('layout');
+			$layoutList = $oLayoutModel->getLayoutList();
+            Context::set('layout_list', $layoutList);
+
 			// get default group list
 			$oMemberModel = &getModel('member');
 			$output = $oMemberModel->getGroups();
@@ -214,6 +219,8 @@
 					$menu['module_srl'] = $midInfo->module_srl;
 					$menu['setup_index_act'] = $moduleInfo->setup_index_act;
 				}
+				// setting layout srl for layout management
+				$menu['layout_srl'] = $midInfo->layout_srl;
 			}
 			if(count($menu['list']) > 0)
 			{

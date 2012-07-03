@@ -560,6 +560,7 @@
 
                     $obj = null;
                     $obj->module_srl = $val->module_srl;
+                    $obj->layout_srl = $val->layout_srl;
                     $obj->browser_title = $val->browser_title;
                     $obj->mid = $val->mid;
                     $mid_list[$module]->list[$val->mid] = $obj;

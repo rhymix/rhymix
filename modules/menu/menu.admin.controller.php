@@ -140,6 +140,7 @@
         function procMenuAdminInsertItem() {
             // List variables to insert
             $source_args = Context::getRequestVars();
+
             unset($source_args->module);
             unset($source_args->act);
             if($source_args->menu_open_window!="Y") $source_args->menu_open_window = "N";
@@ -175,12 +176,16 @@
             $args->group_srls = $source_args->group_srls;
 
 			// if cType is CREATE, create module
-			if($source_args->cType == 'CREATE')
+			if($source_args->cType == 'CREATE' || $source_args->cType == 'SELECT')
 			{
 				$site_module_info = Context::get('site_module_info');
 				$cmArgs->site_srl = (int)$site_module_info->site_srl;
-				$cmArgs->mid = $source_args->create_menu_url;
 				$cmArgs->browser_title = $args->name;
+				$cmArgs->menu_srl = $source_args->menu_srl;
+				if($source_args->layout_srl)
+				{
+					$cmArgs->layout_srl = $source_args->layout_srl;
+				}
 
 				switch ($source_args->module_type){
 					case 'WIDGET' :
@@ -194,9 +199,26 @@
 						unset($cmArgs->page_type);
 				}
 
-				$cmArgs->menu_srl = $source_args->menu_srl;
                 $oModuleController = &getController('module');
-				$output = $oModuleController->insertModule($cmArgs);
+				if($source_args->cType == 'CREATE')
+				{
+					$cmArgs->mid = $source_args->create_menu_url;
+					$output = $oModuleController->insertModule($cmArgs);
+				}
+				else
+				{
+					$oModuleModel = &getModel('module');
+					$module_info = $oModuleModel->getModuleInfoByModuleSrl($source_args->module_srl);
+					if($cmArgs->layout_srl)
+					{
+						$module_info->layout_srl = $cmArgs->layout_srl;
+					}
+					$cmArgs = $module_info;
+
+					$cmArgs->mid = $source_args->select_menu_url;
+					$cmArgs->module_srl = $source_args->module_srl;
+					$output = $oModuleController->updateModule($cmArgs);
+				}
 				if(!$output->toBool()) return new Object(-1, $output->message);
 			}
 

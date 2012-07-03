@@ -54,6 +54,7 @@ xe.lang.confirm_delete = "{$lang->confirm_delete}";
 		<input type="hidden" name="menu_srl" value="" />
 		<input type="hidden" name="menu_item_srl" value="{$menu_info->menu_srl}" />
 		<input type="hidden" name="parent_srl" value="{$menu_info->menu_srl}" />
+		<input type="hidden" name="module_srl" value="" />
 		<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin', 'act', 'dispMenuAdminSiteMap')}#menuTop_" />
 		<h2 class="h2"><span>{$lang->add_menu}</span><span>{$lang->edit_menu}</span></h2>
 			<ul>
@@ -109,6 +110,8 @@ xe.lang.confirm_delete = "{$lang->confirm_delete}";
 							<option value="{$key}" cond="$key!='page'">{$value->title}</option>
 							</block>
 						</select>
+						<select style="width:290px" id="sModule_id" name="select_menu_url">
+						</select>
 					</p>
 				</li>
 				<li id="createModule">
@@ -117,17 +120,19 @@ xe.lang.confirm_delete = "{$lang->confirm_delete}";
 						<input type="text" id="cModule_id" name="create_menu_url" />
 					</div>
 				</li>
-				<li id="selectModule">
-					<p class="q"><label for="sModule_id">{$lang->select_mid_in_menu} <em>*</em></label></p>
-					<p class="a">
-						<select style="width:290px" id="sModule_id" name="select_menu_url">
-						</select>
-					</p>
-				</li>
 				<li id="insertUrl">
 					<p class="q"><label for="link_url">{$lang->menu_url} <em>*</em></label></p>
 					<div class="a">
 						<input type="text" id="link_url" name="menu_url" value="http://" />
+					</div>
+				</li>
+				<li id="selectLayout">
+					<p class="q"><label for="layout_list">{$lang->layout} <em>*</em></label></p>
+					<div class="a">
+						<select name="layout_srl" id="layoutSrl">
+							<option value="0">{$lang->notuse}</option>
+							<option loop="$layout_list => $key, $val" value="{$val->layout_srl}">{$val->title} ({$val->layout})</option>
+						</select>
 					</div>
 				</li>
 				<li>
