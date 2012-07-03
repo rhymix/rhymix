@@ -8,7 +8,7 @@
  * @author NHN (developers@xpressengine.com)
  * @package /classes/db
  * @version 0.1
- **/
+ */
 class DBMysql extends DB {
 
     /**
@@ -39,7 +39,7 @@ class DBMysql extends DB {
     /**
      * Constructor
 	 * @return void
-     **/
+     */
     function DBMysql() {
         $this->_setDBInfo();
         $this->_connect();
