@@ -98,7 +98,6 @@ jQuery(function($){
 	});
 	$(window).resize();
 
-
 	// Popup list : 'Move to site' and 'Site map'
 	$('.header>.siteTool>a.i')
 		.bind('before-open.tc', function(){
@@ -1167,7 +1166,7 @@ $('.filebox')
 
 });
 
-/* insert fog layer */
+// insert fog layer
 function showWaitingFogLayer() {
 	var $bg = jQuery('<span class="bg"></span>');
 	$bg.height(jQuery(window).height());
@@ -1181,7 +1180,8 @@ function hideWaitingFogLayer() {
 	jQuery('.wfsr').unwrap();
 }
 
-/* install module */
+
+// install module
 function doInstallModule(module) {
     var params = new Array();
     params['module_name'] = module;
@@ -1189,7 +1189,7 @@ function doInstallModule(module) {
 	showWaitingFogLayer();
 }
 
-/* upgrade module */
+// upgrade module
 function doUpdateModule(module) {
     var params = new Array();
     params['module_name'] = module;
@@ -1202,17 +1202,18 @@ function completeInstallModule(ret_obj) {
     location.reload();
 }
 
-jQuery(document).ready(function($){
+jQuery(function($){
 	$('body').ajaxComplete(function(){ hideWaitingFogLayer() });
 });
 
-/* admin single column layout */
+// admin single column layout
 jQuery(function($){
 	if($('.x>.body>.lnb').length == 0){ // When it have no lnb
 		$('.x>.body>.content').addClass('single'); // Add class single
 	}
 });
-/* Details toggle in admin table */
+
+// Details toggle in admin table
 jQuery(function($){
 	var viewBtn = $('.x .dsTg span.side>button.text');
 	var tdTitle = $('.x .dsTg td.title');
@@ -1228,5 +1229,21 @@ jQuery(function($){
 	viewBtn.click(function(){
 		viewBtn.toggleClass('details');
 		details.slideToggle(200);
+	});
+});
+
+// Toggle Content
+jQuery(function($){
+	$('.x .content:not(".dashboard") .h2').each(function(){
+		var $sTog = $('<button type="button" class="sTog" title="Open/Close"><i class="icon-chevron-up"></i></button>');
+		$(this).after($sTog);
+		$sTog.click(function(){
+			var $t = $(this);
+			if($t.next().is(':hidden')){
+				$t.find('i').attr('class','icon-chevron-up').parent().next().slideDown(200).next('.btnArea').slideDown(200);
+			} else {
+				$t.find('i').attr('class','icon-chevron-down').parent().next().slideUp(200).next('.btnArea').slideUp(200);
+			}
+		});
 	});
 });
