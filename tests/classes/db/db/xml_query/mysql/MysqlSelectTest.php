@@ -2,7 +2,7 @@
 
 class MysqlSelectTest extends MysqlTest {
 
-	function _test($xml_file, $argsString, $expected, $columnList = null) {
+	function _test($xml_file, $argsString, $expected, $columnList = NULL) {
 		$this->_testQuery($xml_file, $argsString, $expected, 'getSelectSql', $columnList);
 	}
 
@@ -289,6 +289,44 @@ class MysqlSelectTest extends MysqlTest {
 										$args->list_count = 10;
 										';
 		$expected = 'select `modules`.`site_srl` as `site_srl`, `modules`.`mid` as `mid`, `documents`.* from `xe_modules` as `modules`, `xe_documents` as `documents` where (`documents`.`module_srl` in (345709,345710,345711,345728,345707,345670,345667,49113,16551,345679,50394,350665,345680,381846,381852,381917,345708,349028,345666,17173,49117,345671,345714,345665,349893,345696,345713,351967,330919,345685,16754,349027,348787,345672,350239,345697,345674,291882,345678,345729,345675,345721,345676,381867,294605,381864,345673,355113,353624,345681,345683,345668,345677,12424,158716,47498,101835,273679,142558,13818,12311,8723,78670,18919,365075,13833,14293,15891,27823,14291,177818,81000,11788,18918,13859,14102,14136,255783,134367,385619,317170,330312) and `modules`.`module_srl` = `documents`.`module_srl`) and `documents`.`list_order` <= 2100000000 order by `documents`.`list_order` asc limit 10';
+		$this->_test($xml_file, $argsString, $expected);
+	}
+
+	/**
+	 * Issue 2114
+	 * 'Null' operation is ignored
+	 */
+	function test_null()
+	{
+		$xml_file = _TEST_PATH_ . "db/xml_query/mysql/data/page.pageTypeNullCheck.xml";
+		$argsString = '	';
+		$expected = 'select `m`.`module_srl`, `m`.`mid`, `ev`.`value`
+						from `xe_modules` as `m`
+							left join `xe_module_extra_vars` as `ev`
+											on `ev`.`name` = \'page_type\'
+											and `m`.`module_srl` = `ev`.`module_srl`
+						where `m`.`module` = \'page\'
+							and `ev`.`value` is null
+						';
+		$this->_test($xml_file, $argsString, $expected);
+	}
+
+	/**
+	 * Issue 2114
+	 * 'Notnull' operation is ignored
+	 */
+	function test_notnull()
+	{
+		$xml_file = _TEST_PATH_ . "db/xml_query/mysql/data/page.pageTypeNotNullCheck.xml";
+		$argsString = '	';
+		$expected = 'select `m`.`module_srl`, `m`.`mid`, `ev`.`value`
+						from `xe_modules` as `m`
+							left join `xe_module_extra_vars` as `ev`
+											on `ev`.`name` = \'page_type\'
+											and `m`.`module_srl` = `ev`.`module_srl`
+						where `m`.`module` = \'page\'
+							and `ev`.`value` is not null
+						';
 		$this->_test($xml_file, $argsString, $expected);
 	}
 }

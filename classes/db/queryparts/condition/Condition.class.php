@@ -14,6 +14,7 @@
 		/**
 		 * operation can use 'equal', 'more', 'excess', 'less', 'below', 'like_tail', 'like_prefix', 'like', 'notlike_tail',
 		 * 'notlike_prefix', 'notlike', 'in', 'notin', 'not_in', 'and', 'or', 'xor', 'not', 'notequal', 'between'
+		 * 'null', 'notnull'
 		 * @var string
 		 */
 		var $operation;
@@ -129,6 +130,9 @@
                                 case 'between' :
                                         if(!is_array($this->_value)) { $this->_show = false; break;}
                                         if(count($this->_value)!=2) {$this->_show = false; break;}
+								case 'null':
+								case 'notnull':
+									break;
 								default:
 									// If operation is not one of the above, means the condition is invalid
 									$this->_show = false;
