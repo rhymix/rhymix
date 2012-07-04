@@ -156,7 +156,7 @@
             $this->makeCacheFile($site_module_info->site_srl, "pc", 'site');
             $this->makeCacheFile($site_module_info->site_srl, "mobile", 'site');
 
-			$this->setRedirectUrl(getNotEncodedUrl('', 'module', $module, 'act', 'dispAddonAdminSetup', 'selected_addon', $addon_name));
+			$this->setRedirectUrl(getNotEncodedUrl('', 'module', $module, 'act', 'dispAddonAdminSetup', 'selected_addon', $addon_name), $output);
         }
 
 

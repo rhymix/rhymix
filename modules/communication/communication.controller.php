@@ -28,12 +28,8 @@
 
             $output = executeQuery('communication.updateAllowMessage', $args);
 
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispCommunicationMessages', 'message_type', Context::get('message_type'));
-				header('location:'.$returnUrl);
-				return;
-			}
-            return $output;
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispCommunicationMessages', 'message_type', Context::get('message_type'));
+			return $this->setRedirectUrl($returnUrl, $output);
         }
 
         /**
@@ -252,11 +248,8 @@
 
             $this->setMessage('success_deleted');
 
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispCommunicationMessages', 'message_type', Context::get('message_type'));
-				header('location:'.$returnUrl);
-				return;
-			}
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispCommunicationMessages', 'message_type', Context::get('message_type'));
+			$this->setRedirectUrl($returnUrl);
         }
 
         /**
@@ -325,11 +318,9 @@
             if(!$output->toBool()) return $output;
 
             $this->setMessage('success_moved');
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispCommunicationFriend');
-				header('location:'.$returnUrl);
-				return;
-			}
+
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispCommunicationFriend');
+			$this->setRedirectUrl($returnUrl);
         }
 
         /**
@@ -365,11 +356,9 @@
             if(!$output->toBool()) return $output;
 
             $this->setMessage('success_deleted');
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispCommunicationFriend');
-				header('location:'.$returnUrl);
-				return;
-			}
+
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispCommunicationFriend');
+			$this->setRedirectUrl($returnUrl);
         }
 
         /**

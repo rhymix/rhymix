@@ -27,12 +27,8 @@
        	    $moduleConfigOutput = $oModuleController->insertModuleConfig('spamfilter',$argsConfig);
 			if(!$moduleConfigOutput->toBool()) return $moduleConfigOutput;
 
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispSpamfilterAdminSetting');
-				header('location:'.$returnUrl);
-				return;
-			}
-            return false;
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispSpamfilterAdminSetting');
+			$this->setRedirectUrl($returnUrl);
 		}
 
 		function procSpamfilterAdminInsertDeniedIP(){
@@ -43,13 +39,9 @@
             	$insertIPOutput = $oSpamfilterController->insertIP($ipaddressList);
 				if(!$insertIPOutput->toBool()) return $insertIPOutput;
 			}
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispSpamfilterAdminSetting');
-				header('location:'.$returnUrl);
-				return;
-			}
-            return false;
 
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispSpamfilterAdminSetting');
+			$this->setRedirectUrl($returnUrl);
 		}
 		function procSpamfilterAdminInsertDeniedWord(){
 			//스팸 키워드 추가
@@ -58,12 +50,9 @@
 				$insertWordOutput = $this->insertWord($wordList);
 				if(!$insertWordOutput->toBool()) return $insertWordOutput;
 			}
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispSpamfilterAdminSetting');
-				header('location:'.$returnUrl);
-				return;
-			}
-            return false;
+
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispSpamfilterAdminSetting');
+			$this->setRedirectUrl($returnUrl);
 		}
         
         /**
@@ -72,12 +61,9 @@
         function procSpamfilterAdminDeleteDeniedIP() {
             $ipaddress = Context::get('ipaddress');
             $output = $this->deleteIP($ipaddress);
-			if($output->toBool() && !in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispSpamfilterAdminSetting');
-				header('location:'.$returnUrl);
-				return;
-			}
-			return $output;
+
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispSpamfilterAdminSetting');
+			return $this->setRedirectUrl($returnUrl, $output);
         }
         
         /**
@@ -88,12 +74,8 @@
             //$word = base64_decode(Context::get('word'));
             $output = $this->deleteWord($word);
 			
-			if($output->toBool() && !in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispSpamfilterAdminSetting');
-				header('location:'.$returnUrl);
-				return;
-			}
-			return $output;
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispSpamfilterAdminSetting');
+			return $this->setRedirectUrl($returnUrl, $output);
         }
 
         /**

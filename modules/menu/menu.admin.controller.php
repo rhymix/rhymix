@@ -54,11 +54,8 @@
             $this->add('menu_srl', $args->menu_srl);
             $this->setMessage('success_registed');
 
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMenuAdminContent');
-				$this->setRedirectUrl($returnUrl);
-				return;
-			}
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMenuAdminContent');
+			$this->setRedirectUrl($returnUrl);
         }
 
 		/**
@@ -74,11 +71,9 @@
             if(!$output->toBool()) return $output;
 
             $this->setMessage('success_registed');
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMenuAdminManagement', 'menu_srl', $args->menu_srl);
-				header('location:'.$returnUrl);
-				return;
-			}
+
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMenuAdminManagement', 'menu_srl', $args->menu_srl);
+			$this->setRedirectUrl($returnUrl);
         }
 
 		/**
@@ -97,11 +92,9 @@
             $this->deleteMenu($menu_srl);
 
 			$this->setMessage('success_deleted', 'info');
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMenuAdminSiteMap');
-				$this->setRedirectUrl($returnUrl);
-				return;
-			}
+
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMenuAdminSiteMap');
+			$this->setRedirectUrl($returnUrl);
         }
 
 		/**
@@ -275,11 +268,9 @@
             $this->add('parent_srl', $args->parent_srl);
 
 			$this->setMessage($message, 'info');
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMenuAdminSiteMap', 'menu_srl', $args->menu_srl);
-				$this->setRedirectUrl($returnUrl);
-				return;
-			}
+
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMenuAdminSiteMap', 'menu_srl', $args->menu_srl);
+			$this->setRedirectUrl($returnUrl);
         }
 
 		/**
@@ -321,11 +312,8 @@
             $this->add('menu_item_srl', $parent_srl);
             $this->setMessage('success_deleted');
 
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMenuAdminManagement', 'menu_srl', $args->menu_srl);
-				$this->setRedirectUrl($returnUrl);
-				return;
-			}
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMenuAdminManagement', 'menu_srl', $args->menu_srl);
+			$this->setRedirectUrl($returnUrl);
         }
 
 		/**
@@ -401,11 +389,9 @@
 			}
 
             $this->setMessage('success_updated', 'info');
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMenuAdminManagement', 'menu_srl', $args->menu_srl);
-				$this->setRedirectUrl($returnUrl);
-				return;
-			}
+
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMenuAdminManagement', 'menu_srl', $args->menu_srl);
+			$this->setRedirectUrl($returnUrl);
 		}
 
 		/**
@@ -649,11 +635,8 @@
             // Update the xml file and get its location
             $xml_file = $this->makeXmlFile($args->menu_srl);
 
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminSetup');
-				$this->setRedirectUrl($returnUrl);
-				return;
-			}
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminSetup');
+			$this->setRedirectUrl($returnUrl);
 		}
 
 		/**

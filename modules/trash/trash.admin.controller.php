@@ -56,12 +56,9 @@ class trashAdminController extends trash
 		if(!$this->_emptyTrash($trashSrls)) return new Object(-1, $lang->fail_empty);
 
 		$this->setMessage('success_deleted', 'info');
-		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispTrashAdminList', 'origin_module', $originModule);
-			$this->setRedirectUrl($returnUrl);
-			return;
-		}
-		return new Object(0, $lang->success_empty);
+
+		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispTrashAdminList', 'origin_module', $originModule);
+		return $this->setRedirectUrl($returnUrl, $output);
 	}
 
 	/**
@@ -152,11 +149,9 @@ class trashAdminController extends trash
 		}
 
 		$this->setMessage('success_restore', 'info');
-		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispTrashAdminList');
-			$this->setRedirectUrl($returnUrl);
-			return;
-		}
+
+		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispTrashAdminList');
+		$this->setRedirectUrl($returnUrl);
 	}
 
 	/**

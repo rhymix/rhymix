@@ -169,12 +169,8 @@
             // Save File
             FileHandler::writeFile($theme_file, $theme_buff);
 
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-                $returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminTheme');
-                header('location:'.$returnUrl);
-                return;
-            }
-            else return $output;
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminTheme');
+			return $this->setRedirectUrl($returnUrl, $output);
 		}
 
 		/**
@@ -209,7 +205,8 @@
 			if (!$output->toBool()) return $output;
 
 			$this->add('result', $result);
-			$this->setRedirectUrl(Context::get('error_return_url'));
+
+			return $this->setRedirectUrl(Context::get('error_return_url'), $output);
 		}
 
 		/**
@@ -264,11 +261,9 @@
 			}
 
 			$this->setMessage('success_updated', 'info');
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-                $returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminSetup');
-				$this->setRedirectUrl($returnUrl);
-                return;
-            }
+
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminSetup');
+			$this->setRedirectUrl($returnUrl);
 		}
 
 		/**
@@ -287,11 +282,9 @@
 			$oModuleController->insertModuleConfig('admin', $oAdminConfig);
 
 			$this->setMessage('success_deleted', 'info');
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-                $returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminSetup');
-				$this->setRedirectUrl($returnUrl);
-                return;
-            }
+
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminSetup');
+			$this->setRedirectUrl($returnUrl);
 		}
 
 		/**

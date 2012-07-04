@@ -34,11 +34,8 @@
 		
 		$this->procCommentAdminChangeStatus();
 		
-		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispCommentAdminList', 'search_keyword', '');
-			header('location:'.$returnUrl);
-			return;
-		}
+		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispCommentAdminList', 'search_keyword', '');
+		$this->setRedirectUrl($returnUrl);
 	}
 	
 	/**
@@ -229,11 +226,8 @@
             //$this->setMessage( sprintf(Context::getLang('msg_checked_comment_is_deleted'), $deleted_count) );
             $this->setMessage($msgCode, 'info');
 
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispCommentAdminList', 'search_keyword', $search_keyword, 'search_target', $search_target);
-				header('location:'.$returnUrl);
-				return;
-			}
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispCommentAdminList', 'search_keyword', $search_keyword, 'search_target', $search_target);
+			$this->setRedirectUrl($returnUrl);
         }
 
 		/**

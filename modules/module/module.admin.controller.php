@@ -22,11 +22,9 @@
             if(!$output->toBool()) return $output;
 
             $this->setMessage("success_registed");
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispModuleAdminCategory');
-				header('location:'.$returnUrl);
-				return;
-			}
+
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispModuleAdminCategory');
+			$this->setRedirectUrl($returnUrl);
         }
 
         /**
@@ -37,11 +35,9 @@
             if(!$output->toBool()) return $output;
 
             $this->setMessage('success_updated');
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispModuleAdminCategory');
-				header('location:'.$returnUrl);
-				return;
-			}
+
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispModuleAdminCategory');
+			$this->setRedirectUrl($returnUrl);
         }
 
         /**
@@ -52,11 +48,9 @@
             if(!$output->toBool()) return $output;
 
             $this->setMessage('success_deleted');
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispModuleAdminCategory');
-				header('location:'.$returnUrl);
-				return;
-			}
+
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispModuleAdminCategory');
+			$this->setRedirectUrl($returnUrl);
         }
 
         /**
@@ -492,11 +486,9 @@
 
             $this->add('name', $args->name);
             $this->setMessage("success_saved", 'info');
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', $module, 'target', $target, 'act', 'dispModuleAdminLangcode');
-				$this->setRedirectUrl($returnUrl);
-				return;
-			}
+
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', $module, 'target', $target, 'act', 'dispModuleAdminLangcode');
+			$this->setRedirectUrl($returnUrl);
         }
 
         /**
@@ -516,11 +508,9 @@
             $this->makeCacheDefinedLangCode($args->site_srl);
 
             $this->setMessage("success_deleted", 'info');
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispModuleAdminLangcode');
-				$this->setRedirectUrl($returnUrl);
-				return;
-			}
+
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispModuleAdminLangcode');
+			$this->setRedirectUrl($returnUrl);
         }
 
 		function procModuleAdminGetList()

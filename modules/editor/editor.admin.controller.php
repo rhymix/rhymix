@@ -119,9 +119,7 @@
             $oEditorController->removeCache($args->site_srl);
 
             $this->setMessage('success_updated');
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$this->setRedirectUrl(Context::get('error_return_url'));
-			}
+			$this->setRedirectUrl(Context::get('error_return_url'));
         }
 		
 		/**

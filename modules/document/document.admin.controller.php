@@ -419,12 +419,8 @@
             $oModuleController = &getController('module');
             $output = $oModuleController->insertModuleConfig('document',$config);
 
-			if($output->toBool() && !in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispDocumentAdminConfig');
-				header('location:'.$returnUrl);
-				return;
-			}
-            return $output;
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispDocumentAdminConfig');
+			return $this->setRedirectUrl($returnUrl, $output);
         }
 
 		/**
@@ -511,11 +507,9 @@
             if(!$output->toBool()) return $output;
 
             $this->setMessage('success_registed');
-			if($output->toBool() && !in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispDocumentAdminAlias', 'document_srl', $args->document_srl);
-				$this->setRedirectUrl($returnUrl);
-				return;
-			}
+
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispDocumentAdminAlias', 'document_srl', $args->document_srl);
+			$this->setRedirectUrl($returnUrl);
         }
 
 		/**
@@ -618,12 +612,8 @@
             }
             $output = executeQuery($query, $args);
 
-			if($output->toBool() && !in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispDocumentAdminAlias', 'document_srl', $args->document_srl);
-				header('location:'.$returnUrl);
-				return;
-			}
-			return $output;
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispDocumentAdminAlias', 'document_srl', $args->document_srl);
+			return $this->setRedirectUrl($returnUrl, $output);
         }
 
 		/**
@@ -636,12 +626,8 @@
             $args->alias_srl = $alias_srl;
             $output = executeQuery("document.deleteAlias", $args);
 
-			if($output->toBool() && !in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispDocumentAdminAlias', 'document_srl', $document_srl);
-				header('location:'.$returnUrl);
-				return;
-			}
-			return $output;
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispDocumentAdminAlias', 'document_srl', $document_srl);
+			return $this->setRedirectUrl($returnUrl, $output);
         }
 
 		/**

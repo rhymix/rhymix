@@ -55,19 +55,15 @@
 				}
 			}
 
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				
-				if(!$config->after_login_url) {
-					$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '');
-				} else {
-					$returnUrl = $config->after_login_url;
-				}
-
-				$this->setRedirectUrl($returnUrl);
-				return;
+			if(!$config->after_login_url)
+			{
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '');
 			}
-
-			return $output;
+			else
+			{
+				$returnUrl = $config->after_login_url;
+			}
+			return $this->setRedirectUrl($returnUrl, $output);
         }
 
         /**
@@ -109,8 +105,8 @@
             $ApprovedURL = Context::getRequestUri(RELEASE_SSL) . "?module=member&act=" . $validator. "&goto=" . $goto;
             $redirect_url = $auth_request->redirectURL($trust_root, $ApprovedURL);
             $this->add("redirect_url", $redirect_url);
-            if (Context::getRequestMethod() == 'POST')
-                header("location:" . $redirect_url);
+
+			$this->setRedirectUrl($redirect_url);
         }
 
         function getLegacyUserIDsFromOpenID($openid_identity) {
@@ -421,10 +417,10 @@
 
         /**
          * @brief Save posts
-		 * @Deplicated - instead Document Controller - procDocumentTempSave method use
+		 * @Deprecated - instead Document Controller - procDocumentTempSave method use
          **/
         function procMemberSaveDocument() {
-			return new Object(0, 'Deplicated method');
+			return new Object(0, 'Deprecated method');
         }
 
         /**
@@ -589,28 +585,24 @@
             $trigger_output = ModuleHandler::triggerCall('member.procMemberInsert', 'after', $config);
             if(!$trigger_output->toBool()) return $trigger_output;
 
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON')))
+			if($config->redirect_url)
 			{
-				if($config->redirect_url)
-				{
-					$returnUrl = $config->redirect_url;
-				}
-				else
-				{
-					if(Context::get('success_return_url'))
-					{
-						$returnUrl = Context::get('success_return_url');
-					}
-					else if($_COOKIE['XE_REDIRECT_URL'])
-					{
-						$returnUrl = $_COOKIE['XE_REDIRECT_URL'];
-						setcookie("XE_REDIRECT_URL", '', 1);
-					}
-				}
-
-				header('location:' . $returnUrl);
-				return;
+				$returnUrl = $config->redirect_url;
 			}
+			else
+			{
+				if(Context::get('success_return_url'))
+				{
+					$returnUrl = Context::get('success_return_url');
+				}
+				else if($_COOKIE['XE_REDIRECT_URL'])
+				{
+					$returnUrl = $_COOKIE['XE_REDIRECT_URL'];
+					setcookie("XE_REDIRECT_URL", '', 1);
+				}
+			}
+
+			$this->setRedirectUrl($returnUrl);
         }
 
         /**
@@ -697,11 +689,9 @@
             // Return result
             $this->add('member_srl', $args->member_srl);
             $this->setMessage('success_updated');
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispMemberInfo');
-				header('location:'.$returnUrl);
-				return;
-			}
+
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispMemberInfo');
+			$this->setRedirectUrl($returnUrl);
         }
 
         /**
@@ -734,11 +724,9 @@
 
             $this->add('member_srl', $args->member_srl);
             $this->setMessage('success_updated');
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispMemberInfo');
-				header('location:'.$returnUrl);
-				return;
-			}
+
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispMemberInfo');
+			$this->setRedirectUrl($returnUrl);
         }
 
         /**
@@ -769,11 +757,9 @@
             $this->destroySessionInfo();
             // Return success message
             $this->setMessage('success_leaved');
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '');
-				header('location:'.$returnUrl);
-				return;
-			}
+
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '');
+			$this->setRedirectUrl($returnUrl);
         }
 
         /**
@@ -817,11 +803,9 @@
             $this->insertProfileImage($member_srl, $file['tmp_name']);
             // Page refresh
             //$this->setRefreshPage();
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispMemberModifyInfo');
-				header('location:'.$returnUrl);
-				return;
-			}
+
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispMemberModifyInfo');
+			$this->setRedirectUrl($returnUrl);
         }
 
         function insertProfileImage($member_srl, $target_file) {
@@ -868,11 +852,9 @@
             $this->insertImageName($member_srl, $file['tmp_name']);
             // Page refresh
             //$this->setRefreshPage();
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispMemberModifyInfo');
-				header('location:'.$returnUrl);
-				return;
-			}
+
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispMemberModifyInfo');
+			$this->setRedirectUrl($returnUrl);
         }
 
         function insertImageName($member_srl, $target_file) {
@@ -962,11 +944,9 @@
             $this->insertImageMark($member_srl, $file['tmp_name']);
             // Page refresh
             //$this->setRefreshPage();
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispMemberModifyInfo');
-				header('location:'.$returnUrl);
-				return;
-			}
+
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispMemberModifyInfo');
+			$this->setRedirectUrl($returnUrl);
         }
 
         function insertImageMark($member_srl, $target_file) {
@@ -1134,11 +1114,8 @@
 
             $this->add('user_id',$user_id);
 
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '');
-				$this->setRedirectUrl($returnUrl.'&user_id='.$user_id);
-				return;
-			}
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '');
+			$this->setRedirectUrl($returnUrl.'&user_id='.$user_id);
         }
 
         /**
@@ -1293,11 +1270,9 @@
 
             $msg = sprintf(Context::getLang('msg_confirm_mail_sent'), $args->email_address);
             $this->setMessage($msg);
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '');
-				header('location:'.$returnUrl);
-				return;
-			}
+
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '');
+			$this->setRedirectUrl($returnUrl);
         }
 
         /**
@@ -2214,11 +2189,8 @@
             $msg = sprintf(Context::getLang('msg_confirm_mail_sent'), $newEmail);
             $this->setMessage($msg);
 
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '');
-				header('location:'.$returnUrl);
-				return;
-			}
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '');
+			$this->setRedirectUrl($returnUrl);
 		}
 
 		function procMemberAuthEmailAddress(){

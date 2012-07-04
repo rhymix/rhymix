@@ -783,7 +783,7 @@
 			if (!$ajax)
 			{
 				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispModuleAdminFileBox');
-				header('location:'.$returnUrl);
+				$this->setRedirectUrl($returnUrl);
 				return;
 			}
 			else

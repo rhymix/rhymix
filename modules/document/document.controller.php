@@ -1341,11 +1341,8 @@ class documentController extends document {
 		$this->add('category_srl', $args->category_srl);
 		$this->add('parent_srl', $args->parent_srl);
 
-		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : Context::get('error_return_url');
-			header('location:'.$returnUrl);
-			return;
-		}
+		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : Context::get('error_return_url');
+		$this->setRedirectUrl($returnUrl);
 	}
 
 	/**
@@ -1885,11 +1882,9 @@ class documentController extends document {
 		$_SESSION['document_management'] = array();
 
 		$this->setMessage($msg_code);
-		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList');
-			$this->setRedirectUrl($returnUrl);
-			return;
-		}
+
+		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList');
+		$this->setRedirectUrl($returnUrl);
 	}
 
 	/**
@@ -1922,11 +1917,9 @@ class documentController extends document {
 		}
 		$this->setError(-1);
 		$this->setMessage('success_updated', 'info');
-		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispBoardAdminContent');
-			$this->setRedirectUrl($returnUrl);
-			return;
-		}
+
+		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispBoardAdminContent');
+		$this->setRedirectUrl($returnUrl);
 	}
 
 	/**

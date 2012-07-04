@@ -44,7 +44,7 @@
 			$output = $this->procLayoutAdminUpdate();
 			if (!$output->toBool()) return $output;
 
-			$this->setRedirectUrl(Context::get('success_return_url'));
+			return $this->setRedirectUrl(Context::get('success_return_url'), $output);
         }
 
         /**
@@ -188,8 +188,7 @@
             $output = $this->updateLayout($args);
             if(!$output->toBool()) return $output;
 
-			$this->setRedirectUrl(Context::get('error_return_url'));
-			return new Object();
+			return $this->setRedirectUrl(Context::get('error_return_url'), $output);
         }
 
         /**

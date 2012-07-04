@@ -75,11 +75,9 @@
             //$this->setLayoutFile('default_layout.html');
             //$this->setTemplatePath($this->module_path.'tpl');
             //$this->setTemplateFile("top_refresh.html");
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispRssAdminIndex');
-				header('location:'.$returnUrl);
-				return;
-			}
+
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispRssAdminIndex');
+			$this->setRedirectUrl($returnUrl);
         }
 
 
@@ -115,11 +113,9 @@
 
             //$this->setError(0);
             $this->setMessage('success_updated', 'info');
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispBoardAdminContent');
-				header('location:'.$returnUrl);
-				return;
-			}
+
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispBoardAdminContent');
+			$this->setRedirectUrl($returnUrl);
         }
 
 

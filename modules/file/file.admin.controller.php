@@ -72,11 +72,9 @@
             }
 
             $this->setMessage( sprintf(Context::getLang('msg_checked_file_is_deleted'), $file_count) );
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispFileAdminList');
-				header('location:'.$returnUrl);
-				return;
-			}
+
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispFileAdminList');
+			$this->setRedirectUrl($returnUrl);
         }
 
         /**
@@ -95,12 +93,9 @@
             // Create module Controller object
             $oModuleController = &getController('module');
             $output = $oModuleController->insertModuleConfig('file',$config);
-			if($output->toBool() && !in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispFileAdminConfig');
-				header('location:'.$returnUrl);
-				return;
-			}
-            return $output;
+
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispFileAdminConfig');
+			return $this->setRedirectUrl($returnUrl, $output);
         }
 
         /**
@@ -146,11 +141,9 @@
 
             $this->setError(-1);
             $this->setMessage('success_updated', 'info');
-			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispBoardAdminContent');
-				header('location:'.$returnUrl);
-				return;
-			}
+
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispBoardAdminContent');
+			$this->setRedirectUrl($returnUrl);
         }
 
         /**
