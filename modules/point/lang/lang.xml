@@ -540,4 +540,124 @@
 		<value xml:lang="en"><![CDATA[Give the point]]></value>
 		<value xml:lang="zh-TW"><![CDATA[給予點數]]></value>
 	</item>
+	<item name="search_target_list" type="array">
+		<item name="email_address">
+			<value xml:lang="ko"><![CDATA[이메일]]></value>
+			<value xml:lang="en"><![CDATA[Email Address]]></value>
+			<value xml:lang="jp"><![CDATA[メールアドレス]]></value>
+			<value xml:lang="zh-CN"><![CDATA[邮箱地址]]></value>
+			<value xml:lang="zh-TW"><![CDATA[電子郵件]]></value>
+			<value xml:lang="fr"><![CDATA[Mél]]></value>
+			<value xml:lang="ru"><![CDATA[Email]]></value>
+			<value xml:lang="es"><![CDATA[Dirección de Email]]></value>
+			<value xml:lang="tr"><![CDATA[E-posta Adresi]]></value>
+			<value xml:lang="vi"><![CDATA[Địa chỉ Email]]></value>
+		</item>
+		<item name="nick_name">
+			<value xml:lang="ko"><![CDATA[닉네임]]></value>
+			<value xml:lang="en"><![CDATA[Nick Name]]></value>
+			<value xml:lang="jp"><![CDATA[ニックネーム]]></value>
+			<value xml:lang="zh-CN"><![CDATA[昵称]]></value>
+			<value xml:lang="zh-TW"><![CDATA[暱稱]]></value>
+			<value xml:lang="fr"><![CDATA[Surnom]]></value>
+			<value xml:lang="de"><![CDATA[Spitzname]]></value>
+			<value xml:lang="ru"><![CDATA[Ник]]></value>
+			<value xml:lang="es"><![CDATA[Apodo]]></value>
+			<value xml:lang="tr"><![CDATA[Takma Ad]]></value>
+			<value xml:lang="vi"><![CDATA[NickName]]></value>
+			<value xml:lang="mn"><![CDATA[Ник]]></value>
+		</item>
+		<item name="user_name">
+			<value xml:lang="ko"><![CDATA[이름]]></value>
+			<value xml:lang="en"><![CDATA[User Name]]></value>
+			<value xml:lang="jp"><![CDATA[名前]]></value>
+			<value xml:lang="zh-CN"><![CDATA[姓名]]></value>
+			<value xml:lang="zh-TW"><![CDATA[姓名]]></value>
+			<value xml:lang="fr"><![CDATA[Nom]]></value>
+			<value xml:lang="de"><![CDATA[Benutzername]]></value>
+			<value xml:lang="ru"><![CDATA[Имя пользователя]]></value>
+			<value xml:lang="es"><![CDATA[Nombre del Usuario]]></value>
+			<value xml:lang="tr"><![CDATA[Kullanıcı Adı]]></value>
+			<value xml:lang="vi"><![CDATA[Tên thật]]></value>
+			<value xml:lang="mn"><![CDATA[Нэр]]></value>
+		</item>
+		<item name="regdate">
+			<value xml:lang="ko"><![CDATA[가입일시]]></value>
+			<value xml:lang="en"><![CDATA[Sign up Date]]></value>
+			<value xml:lang="jp"><![CDATA[登録日]]></value>
+			<value xml:lang="zh-CN"><![CDATA[注册日期]]></value>
+			<value xml:lang="zh-TW"><![CDATA[註冊日期]]></value>
+			<value xml:lang="fr"><![CDATA[Jour d'Inscription]]></value>
+			<value xml:lang="ru"><![CDATA[Дата регистрации]]></value>
+			<value xml:lang="es"><![CDATA[Fecha del registro]]></value>
+			<value xml:lang="tr"><![CDATA[Kayıt Tarihi]]></value>
+			<value xml:lang="vi"><![CDATA[Ngày đăng kí]]></value>
+		</item>
+		<item name="regdate_more">
+			<value xml:lang="ko"><![CDATA[가입일시(이상)]]></value>
+			<value xml:lang="en"><![CDATA[Sign up Date (more)]]></value>
+			<value xml:lang="jp"><![CDATA[登録日(以上)]]></value>
+			<value xml:lang="zh-CN"><![CDATA[注册日期(以上)]]></value>
+			<value xml:lang="zh-TW"><![CDATA[註冊日期(以上)]]></value>
+			<value xml:lang="ru"><![CDATA[Дата регистрации(more)]]></value>
+			<value xml:lang="tr"><![CDATA[Kayıt Tarihi (detaylı)]]></value>
+			<value xml:lang="vi"><![CDATA[Ngày đăng kí nhiều nhất]]></value>
+		</item>
+		<item name="regdate_less">
+			<value xml:lang="ko"><![CDATA[가입일시(이하)]]></value>
+			<value xml:lang="en"><![CDATA[Sign up Date (less)]]></value>
+			<value xml:lang="jp"><![CDATA[登録日(以下)]]></value>
+			<value xml:lang="zh-CN"><![CDATA[注册日期(以下)]]></value>
+			<value xml:lang="zh-TW"><![CDATA[註冊日期(以下)]]></value>
+			<value xml:lang="ru"><![CDATA[Дата регистрации(less)]]></value>
+			<value xml:lang="tr"><![CDATA[Kayıt Tarihi (basit)]]></value>
+			<value xml:lang="vi"><![CDATA[Ngày đăng kí ít nhất]]></value>
+		</item>
+		<item name="last_login">
+			<value xml:lang="ko"><![CDATA[최근 로그인 일시]]></value>
+			<value xml:lang="en"><![CDATA[Last Sign in Date]]></value>
+			<value xml:lang="jp"><![CDATA[最終ログイン]]></value>
+			<value xml:lang="zh-CN"><![CDATA[最后登录]]></value>
+			<value xml:lang="zh-TW"><![CDATA[最近登入]]></value>
+			<value xml:lang="fr"><![CDATA[Jour de la connexion dernière]]></value>
+			<value xml:lang="ru"><![CDATA[Дата последнего входа]]></value>
+			<value xml:lang="es"><![CDATA[Fecha de su última conección]]></value>
+			<value xml:lang="tr"><![CDATA[Son Giriş Tarihi]]></value>
+			<value xml:lang="vi"><![CDATA[Lần cuối đăng nhập]]></value>
+		</item>
+		<item name="last_login_more">
+			<value xml:lang="ko"><![CDATA[최근 로그인 일시(이상)]]></value>
+			<value xml:lang="en"><![CDATA[Last Sign in Date (more)]]></value>
+			<value xml:lang="jp"><![CDATA[最終ログイン日(以上)]]></value>
+			<value xml:lang="zh-CN"><![CDATA[最后登录(以上)]]></value>
+			<value xml:lang="zh-TW"><![CDATA[最近登入(以上)]]></value>
+			<value xml:lang="fr"><![CDATA[최근로그인일시(이상)]]></value>
+			<value xml:lang="es"><![CDATA[최근로그인일시(이상)]]></value>
+			<value xml:lang="tr"><![CDATA[Son Giriş Tarihi (detaylı)]]></value>
+			<value xml:lang="vi"><![CDATA[Đăng nhập nhiều nhất]]></value>
+		</item>
+		<item name="last_login_less">
+			<value xml:lang="ko"><![CDATA[최근 로그인 일시(이하)]]></value>
+			<value xml:lang="en"><![CDATA[Last Sign in Date (less)]]></value>
+			<value xml:lang="jp"><![CDATA[最終ログイン日(以下)]]></value>
+			<value xml:lang="zh-CN"><![CDATA[最后登录(以下)]]></value>
+			<value xml:lang="zh-TW"><![CDATA[最近登入(以下)]]></value>
+			<value xml:lang="fr"><![CDATA[최근로그인일시(이하)]]></value>
+			<value xml:lang="es"><![CDATA[최근로그인일시(이하)]]></value>
+			<value xml:lang="tr"><![CDATA[Son Giriş Tarihi (basit)]]></value>
+			<value xml:lang="vi"><![CDATA[Đăng nhập ít nhất]]></value>
+		</item>
+		<item name="extra_vars">
+			<value xml:lang="ko"><![CDATA[확장변수]]></value>
+			<value xml:lang="en"><![CDATA[Extra Vars]]></value>
+			<value xml:lang="jp"><![CDATA[拡張変数]]></value>
+			<value xml:lang="zh-CN"><![CDATA[扩展信息]]></value>
+			<value xml:lang="zh-TW"><![CDATA[延伸變數]]></value>
+			<value xml:lang="fr"><![CDATA[Variables additionnels ]]></value>
+			<value xml:lang="ru"><![CDATA[Экстра перем.]]></value>
+			<value xml:lang="es"><![CDATA[Variables Extra]]></value>
+			<value xml:lang="tr"><![CDATA[Fazladan Çeş.]]></value>
+			<value xml:lang="vi"><![CDATA[Thông tin bổ xung]]></value>
+		</item>
+	</item>
 </lang>
