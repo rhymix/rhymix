@@ -59,7 +59,7 @@
 			$ajaxRequestMethod = array_flip($this->ajaxRequestMethod);
 			if(!isset($ajaxRequestMethod[Context::getRequestMethod()]))
 			{
-            	$this->add('redirect_url', $url);
+				$this->add('redirect_url', $url);
 			}
 			else
 			{
