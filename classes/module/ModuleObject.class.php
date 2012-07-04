@@ -28,6 +28,7 @@
         var $stop_proc = false; ///< a flag to indicating whether to stop the execution of code.
 
 		var $module_config = NULL;
+		var $ajaxRequestMethod = array('XMLRPC', 'JSON');
 
         /**
          * setter to set the name of module
@@ -54,8 +55,19 @@
          * @remark redirect_url is used only for ajax requests
 		 * @return void
          **/
-        function setRedirectUrl($url='./') {
-            $this->add('redirect_url', $url);
+        function setRedirectUrl($url='./', $output = NULL) {
+			$ajaxRequestMethod = array_flip($this->ajaxRequestMethod);
+			if(!isset($ajaxRequestMethod[Context::getRequestMethod()]))
+			{
+            	$this->add('redirect_url', $url);
+			}
+			else
+			{
+				if($output !== NULL && is_object($output))
+				{
+					return $output;
+				}
+			}
         }
 
 		/**
