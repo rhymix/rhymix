@@ -396,9 +396,12 @@
                 } else {
                     $group_srls = Context::get($grant_name);
                     if($group_srls) {
-                        if(strpos($group_srls,'|@|')!==false) $group_srls = explode('|@|',$group_srls);
-                        elseif(strpos($group_srls,',')!==false) $group_srls = explode(',',$group_srls);
-                        else $group_srls = array($group_srls);
+						if(!is_array($group_srls))
+						{
+							if(strpos($group_srls,'|@|')!==false) $group_srls = explode('|@|',$group_srls);
+							elseif(strpos($group_srls,',')!==false) $group_srls = explode(',',$group_srls);
+							else $group_srls = array($group_srls);
+						}
                         $grant->{$grant_name} = $group_srls;
                     }
                     continue;
