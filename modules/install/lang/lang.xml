@@ -827,4 +827,14 @@
 		<value xml:lang="tr"><![CDATA[Liste Al]]></value>
 		<value xml:lang="vi"><![CDATA[Nhận danh sách]]></value>
 	</item>
+	<item name="install_env_agreement">		
+		<value xml:lang="ko"><![CDATA[설치 환경 수집 동의]]></value>		
+		<value xml:lang="en"><![CDATA[Agreement on gathering installation environment information]]></value>		
+		<value xml:lang="jp"><![CDATA[インストール環境収集に同意する]]></value>		
+	</item>		
+	<item name="install_env_agreement_desc">		
+		<value xml:lang="ko"><![CDATA['<em>웹 서버, DBMS, PHP 버전 및 Extension, XE 모듈 및 애드온</em>' 정보가 XE 통계 수집 서버로 전송됩니다. 더 나은 SW를 제작하기 위한 목적으로 활용합니다. 익명으로 수집되며 이 정보를 외부에 공개하지 않습니다. <em>이 항목에 동의하지 않아도 됩니다.</em>]]></value>		
+		<value xml:lang="en"><![CDATA[Information on '<em>web server, DBMS, PHP version and extension, XE modules and addons</em>' is sent to the XE statistics collection server. This information is collected anonymously and used to improve our software only.<em> You don't have to agree to this.</em>]]></value>		
+		<value xml:lang="jp"><![CDATA['<em>ウェブサーバー、DBMS、PHPバージョンおよびExtension、XEモジュール、およびアドオン</em>'情報が、XE統計収集サーバーへ転送されます。より良いソフトウェアを製作するための目的で活用されます。情報は、匿名で収集され、外部へ公開することはありません。<em>この項目は、同意しなくても構いません。</em>]]></value>		
+	</item>
 </lang>
