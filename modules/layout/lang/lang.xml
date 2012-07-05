@@ -1004,6 +1004,12 @@
 		<value xml:lang="en"><![CDATA[Layouts]]></value>
 		<value xml:lang="jp"><![CDATA[インストールされているレイアウト]]></value>
 		<value xml:lang="zh-TW"><![CDATA[已安裝版面]]></value>
+	</item>
+	<item name="instance_layout">
+		<value xml:lang="ko"><![CDATA[생성된 레이아웃]]></value>
+		<value xml:lang="en"><![CDATA[Instance of layout]]></value>
+		<value xml:lang="jp"><![CDATA[インストールされているレイアウト]]></value>
+		<value xml:lang="zh-TW"><![CDATA[已安裝版面]]></value>
 
 	</item>
 	<item name="faceoff_export">

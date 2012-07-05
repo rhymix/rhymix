@@ -20,25 +20,30 @@
 		 * @return void
 		 **/
 		function dispLayoutAdminInstalledList() {
+			$type = Context::get('type');
+			$type = ($type != 'M') ? 'P' : 'M';
+
 			// Set a layout list
 			$oLayoutModel = &getModel('layout');
-			$layout_list = $oLayoutModel->getDownloadedLayoutList('P', true);
+			$layout_list = $oLayoutModel->getDownloadedLayoutList($type, true);
 			if(!is_array($layout_list))
 			{
 				$layout_list = array();
 			}
 			
-			// get Theme layout
-			$oAdminModel = &getAdminModel('admin');
-			$themeList = $oAdminModel->getThemeList();
-			$themeLayoutList = array();
-			foreach($themeList as $themeInfo){
-				if(strpos($themeInfo->layout_info->name, '.') === false) continue;
-				$themeLayoutList[] = $oLayoutModel->getLayoutInfo($themeInfo->layout_info->name, null, 'P');
+			if($type == 'P')
+			{
+				// get Theme layout
+				$oAdminModel = &getAdminModel('admin');
+				$themeList = $oAdminModel->getThemeList();
+				$themeLayoutList = array();
+				foreach($themeList as $themeInfo){
+					if(strpos($themeInfo->layout_info->name, '.') === false) continue;
+					$themeLayoutList[] = $oLayoutModel->getLayoutInfo($themeInfo->layout_info->name, null, 'P');
+				}
+				$layout_list = array_merge($layout_list, $themeLayoutList);
+				$layout_list[] = $oLayoutModel->getLayoutInfo('faceoff', null, 'P');
 			}
-			$layout_list = array_merge($layout_list, $themeLayoutList);
-			$layout_list[] = $oLayoutModel->getLayoutInfo('faceoff', null, 'P');
-			Context::set('type', 'P');
 
 			$pcLayoutCount = $oLayoutModel->getInstalledLayoutCount('P');
 			$mobileLayoutCount = $oLayoutModel->getInstalledLayoutCount('M');
@@ -61,29 +66,47 @@
 		}
 
 		/**
-		 * Display a installed mobile layout list
-		 * @return void
+		 * Display list of pc layout all instance
+		 * @return void|Object (void : success, Object : fail)
 		 */
-		function dispLayoutAdminInstalledMobileList() {
-			// Set a layout list
-			$oLayoutModel = &getModel('layout');
-			$layout_list = $oLayoutModel->getDownloadedLayoutList('M', true);
-			Context::set('type', 'M');
+		function dispLayoutAdminAllInstanceList()
+		{
+			$type = Context::get('type');
 
+			if (!in_array($type, array('P', 'M'))) $type = 'P';
+
+			$oLayoutModel = &getModel('layout');
+			
 			$pcLayoutCount = $oLayoutModel->getInstalledLayoutCount('P');
 			$mobileLayoutCount = $oLayoutModel->getInstalledLayoutCount('M');
 			Context::set('pcLayoutCount', $pcLayoutCount);
 			Context::set('mobileLayoutCount', $mobileLayoutCount);
-			$this->setTemplateFile('installed_layout_list');
 
-			$security = new Security($layout_list);
-			$layout_info = $security->encodeHTML('..', '..author..');
+			$columnList = array('layout_srl', 'layout', 'module_srl', 'title', 'regdate');
+			$_layout_list = $oLayoutModel->getLayoutInstanceList(0, $type, null, $columnList);
 
-			foreach($layout_list as $no => $layout_info)
+			$layout_list = array();
+			foreach($_layout_list as $item)
 			{
-				$layout_list[$no]->description = nl2br(trim($layout_info->description));
+				if(!$layout_list[$item->layout])
+				{
+					$layout_list[$item->layout] = array();
+					$layout_info = $oLayoutModel->getLayoutInfo($item->layout, null, $type);
+					if ($layout_info)
+					{
+						$layout_list[$item->layout]['title'] = $layout_info->title; 
+					}
+				}
+
+				$layout_list[$item->layout][] = $item;
 			}
+
 			Context::set('layout_list', $layout_list);
+
+			$this->setTemplateFile('layout_all_instance_list');
+
+			$security = new Security();
+			$security->encodeHTML('layout_list..');
 		}
 
 		/**

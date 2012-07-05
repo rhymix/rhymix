@@ -1,0 +1,46 @@
+<include target="header.html" />
+<load target="js/adminList.js" usecdn="true" />
+
+<script type="text/javascript">
+	xe.lang.confirm_delete = '{$lang->confirm_delete}';
+</script>
+<div class="table even easyList">
+	<table width="100%" border="1" cellspacing="0">
+	<include target="caption.html" />
+		<thead>
+			<tr>
+				<th scope="col" class="nowr">{$lang->number}</th>
+				<th scope="col" class="nowr">{$lang->layout_name}</th>
+				<th scope="col" class="title">{$lang->title}</th>
+				<th scope="col" class="nowr">{$lang->regdate}</th>
+				<th scope="col" class="nowr">{$lang->cmd_layout_management}</th>
+				<th scope="col" class="nowr">{$lang->cmd_layout_edit}</th>
+				<th scope="col" class="nowr">{$lang->cmd_delete}</th>
+			</tr>
+		</thead>
+		<tbody>
+{@$count=1}
+			<!--@foreach($layout_list as $layout)-->
+{@$layout_name = $layout['title']}
+{@unset($layout['title'])}
+			<tr loop="$layout => $no, $item">
+				<td class="nowr" rowspan="{count($layout)}" cond="$no === 0" >{$count++}</td>
+				<td class="nowr" rowspan="{count($layout)}" cond="$no === 0" >{$layout_name}</td>
+				<td class="title">{$item->title}</td>
+				<td class="nowr">{zdate($item->regdate, "Y-m-d")}</td>
+				<td class="nowr"><a href="{getUrl('act', 'dispLayoutAdminModify', 'layout_srl', $item->layout_srl)}">{$lang->cmd_layout_management}</a></td>
+				<td class="nowr"><a href="{getUrl('act', 'dispLayoutAdminEdit', 'layout_srl', $item->layout_srl)}">{$lang->cmd_layout_edit}</a></td>
+				<td class="nowr">
+					<form class="layout_delete_form" ruleset="deleteLayout" action="./" method="post">
+						<input type="hidden" name="module" value="layout" />
+						<input type="hidden" name="act" value="procLayoutAdminDelete" />
+						<input type="hidden" name="layout_srl" value="{$item->layout_srl}" />
+
+						<input class="text" type="submit" value="{$lang->cmd_delete}" />
+					</form>
+				</td>
+			</tr>
+			<!--@end-->
+		</tbody>
+	</table>
+</div>
